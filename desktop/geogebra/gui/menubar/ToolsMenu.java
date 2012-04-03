@@ -4,6 +4,7 @@ import geogebra.common.main.AbstractApplication;
 import geogebra.gui.dialog.ToolCreationDialog;
 import geogebra.gui.dialog.ToolManagerDialog;
 import geogebra.gui.toolbar.Toolbar;
+import geogebra.gui.toolbar.ToolbarItem;
 import geogebra.main.Application;
 
 import java.awt.event.ActionEvent;
@@ -68,16 +69,16 @@ class ToolsMenu extends BaseMenu {
 		}
 
 		Toolbar toolbar = new Toolbar(app);
-		Vector<Object> modes = Toolbar.parseToolbarString(toolbar
+		Vector<ToolbarItem> modes = Toolbar.parseToolbarString(toolbar
 				.getDefaultToolbarString());
 
 		int menuIndex = 0;
 
-		for (Iterator<Object> iter = modes.iterator(); iter.hasNext();) {
-			Object next = iter.next();
-			if (next instanceof Vector) {
-				for (Iterator iter2 = ((Vector) next).iterator(); iter2
-						.hasNext();) {
+		for (Iterator<ToolbarItem> iter = modes.iterator(); iter.hasNext();) {
+			ToolbarItem next = iter.next();
+			if (next.getMenu() != null) {
+				Iterator<Integer> iter2 = next.getMenu().iterator();
+				while ( iter2.hasNext()) {
 					Object next2 = iter2.next();
 
 					if (next2 instanceof Integer) {

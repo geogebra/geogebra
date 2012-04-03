@@ -60,7 +60,7 @@ public class Toolbar extends JToolBar {
 	/**
 	 * Creates general toolbar.
 	 * 
-	 * @param app
+	 * @param app application
 	 */
 	public Toolbar(Application app) {
 		this(app, null);
@@ -70,8 +70,8 @@ public class Toolbar extends JToolBar {
 	 * Creates toolbar for a specific dock panel. Call buildGui() to actually
 	 * create the GUI of this toolbar.
 	 * 
-	 * @param app
-	 * @param dockPanel
+	 * @param app application
+	 * @param dockPanel dock panel
 	 */
 	public Toolbar(Application app, DockPanel dockPanel) {
 		this.app = app;
@@ -103,26 +103,25 @@ public class Toolbar extends JToolBar {
 
 	/**
 	 * Sets toolbar mode. This will change the selected toolbar icon.
-	 * @param mode see EuclidianConstants for mode numbers
+	 * @param newMode see EuclidianConstants for mode numbers
 	 * 
-	 * @param int mode Mode to set
 	 * 
 	 * @return actual mode number selected (might be different if it's not available)
 	 */
-	public int setMode(int mode) {
+	public int setMode(int newMode) {
 		boolean success = false;
-
+		int tmpMode = newMode;
 		// there is no special icon/button for the selection listener mode, use
 		// the
 		// move mode button instead
-		if (mode == EuclidianConstants.MODE_SELECTION_LISTENER) {
-			mode = EuclidianConstants.MODE_MOVE;
+		if (tmpMode == EuclidianConstants.MODE_SELECTION_LISTENER) {
+			tmpMode = EuclidianConstants.MODE_MOVE;
 		}
 
 		if (modeToggleMenus != null) {
 			for (int i = 0; i < modeToggleMenus.size(); i++) {
 				ModeToggleMenu mtm = modeToggleMenus.get(i);
-				if (mtm.selectMode(mode)) {
+				if (mtm.selectMode(tmpMode)) {
 					success = true;
 					break;
 				}
@@ -134,17 +133,23 @@ public class Toolbar extends JToolBar {
 				
 			}
 			
-			this.mode = mode;
+			this.mode = tmpMode;
 
 		}
 
-		return mode;
+		return tmpMode;
 	}
 
+	/**
+	 * @return currently selected mode
+	 */
 	public int getSelectedMode() {
 		return mode;
 	}
 
+	/**
+	 * @return first mode in this toolbar
+	 */
 	public int getFirstMode() {
 		if (modeToggleMenus == null || modeToggleMenus.size() == 0) {
 			return -1;
@@ -163,9 +168,8 @@ public class Toolbar extends JToolBar {
 	 * @param tb
 	 * @param bg
 	 */
-	@SuppressWarnings("unchecked")
 	private void addCustomModesToToolbar(ModeToggleButtonGroup bg) {
-		Vector<Object> toolbarVec;
+		Vector<ToolbarItem> toolbarVec;
 		try {
 			if (dockPanel != null) {
 				toolbarVec = parseToolbarString(dockPanel.getToolbarString());
@@ -187,30 +191,30 @@ public class Toolbar extends JToolBar {
 		// set toolbar
 		boolean firstButton = true;
 		for (int i = 0; i < toolbarVec.size(); i++) {
-			Object ob = toolbarVec.get(i);
+			ToolbarItem ob = toolbarVec.get(i);
 
 			// separator between menus
-			if (ob instanceof Integer) {
+			if (ob.getMode() == Toolbar.SEPARATOR) {
 				addSeparator();
 				continue;
 			}
 
 			// new menu
-			Vector<Integer> menu = (Vector<Integer>) ob;
+			Vector<Integer> menu = ob.getMenu();
 			ModeToggleMenu tm = new ModeToggleMenu(app, this, bg);
 			modeToggleMenus.add(tm);
 
 			for (int k = 0; k < menu.size(); k++) {
 				// separator
-				int mode = menu.get(k).intValue();
-				if (mode < 0) {
+				int addMode = menu.get(k).intValue();
+				if (addMode < 0) {
 					// separator within menu:
 					tm.addSeparator();
 				} else { // standard case: add mode
 
 					// check mode
-					if (!"".equals(app.getToolName(mode))) {
-						tm.addMode(mode);
+					if (!"".equals(app.getToolName(addMode))) {
+						tm.addMode(addMode);
 						if (firstButton) {
 							tm.getJToggleButton().setSelected(true);
 							firstButton = false;
@@ -264,25 +268,25 @@ public class Toolbar extends JToolBar {
 	 * @return toolbar as nested Vector objects with Integers for the modes.
 	 *         Note: separators have negative values.
 	 */
-	public static Vector<Object> parseToolbarString(String toolbarString) {
+	public static Vector<ToolbarItem> parseToolbarString(String toolbarString) {
 		String[] tokens = toolbarString.split(" ");
-		Vector<Object> toolbar = new Vector<Object>();
+		Vector<ToolbarItem> toolbar = new Vector<ToolbarItem>();
 		Vector<Integer> menu = new Vector<Integer>();
 
 		for (int i = 0; i < tokens.length; i++) {
 			if (tokens[i].equals("|")) { // start new menu
 				if (menu.size() > 0)
-					toolbar.add(menu);
+					toolbar.add(new ToolbarItem(menu));
 				menu = new Vector<Integer>();
 			} else if (tokens[i].equals("||")) { // separator between menus
 				if (menu.size() > 0)
-					toolbar.add(menu);
+					toolbar.add(new ToolbarItem(menu));
 
 				// add separator between two menus
 				// menu = new Vector();
 				// menu.add(SEPARATOR);
 				// toolbar.add(menu);
-				toolbar.add(SEPARATOR);
+				toolbar.add(new ToolbarItem(Toolbar.SEPARATOR));
 
 				// start next menu
 				menu = new Vector<Integer>();
@@ -303,7 +307,7 @@ public class Toolbar extends JToolBar {
 
 		// add last menu to toolbar
 		if (menu.size() > 0)
-			toolbar.add(menu);
+			toolbar.add(new ToolbarItem(menu));
 		return toolbar;
 	}
 
@@ -318,7 +322,7 @@ public class Toolbar extends JToolBar {
 	}
 
 	/**
-	 * @param app
+	 * @param app application
 	 * @return All tools as a toolbar definition string
 	 */
 	public static String getAllTools(Application app) {
@@ -343,11 +347,9 @@ public class Toolbar extends JToolBar {
 
 		if (macroNumber > 0 && at_least_one_shown) {
 			sb.append(" || ");
-			int count = 0;
 			for (int i = 0; i < macroNumber; i++) {
 				Macro macro = kernel.getMacro(i);
 				if (macro.isShowInToolBar()) {
-					count++;
 					sb.append(i + EuclidianConstants.MACRO_MODE_ID_OFFSET);
 					sb.append(" ");
 				}

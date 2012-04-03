@@ -39,7 +39,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 	/**
 	 * Application instance.
 	 */
-	private Application app;
+	Application app;
 
 	/**
 	 * True if this is the main toolbar which also contains the undo buttons.
@@ -54,7 +54,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 	/**
 	 * Label in the help panel showing the current mode name.
 	 */
-	private JLabel modeNameLabel;
+	JLabel modeNameLabel;
 
 	/**
 	 * Panel which contains all toolbars.
@@ -74,7 +74,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 	/**
 	 * Create a new toolbar container.
 	 * 
-	 * @param app
+	 * @param app application
 	 * @param isMain If this container is used in the main panel, where additional
 	 * 		functions are added to the toolbar (undo buttons)
 	 */
@@ -185,7 +185,8 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 	/**
 	 * Select a mode.
 	 * 
-	 * @param mode
+	 * @param mode new mode
+	 * @return mode that was actually selected
 	 */
 	public int setMode(int mode) {
 		int ret = -1;
@@ -206,7 +207,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 	/**
 	 * Marks the passed toolbar as active and makes it visible.
 	 * 
-	 * @param toolbar
+	 * @param toolbar toolbar
 	 */
 	public void setActiveToolbar(Toolbar toolbar) {
 		setActiveToolbar(getViewId(toolbar));
@@ -251,7 +252,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 	 * Adds a toolbar to this container. Use updateToolbarPanel() to update the GUI after 
 	 * all toolbar changes were made. 
 	 * 
-	 * @param toolbar
+	 * @param toolbar toolbar to be added
 	 */
 	public void addToolbar(Toolbar toolbar) {
 		toolbars.add(toolbar);
@@ -263,7 +264,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 	 * the active toolbar is changed to the general (but again, {@link #updateToolbarPanel()}
 	 * has to be called for a visible effect).
 	 * 
-	 * @param toolbar
+	 * @param toolbar toolbar to be removed
 	 */
 	public void removeToolbar(Toolbar toolbar) {
 		toolbars.remove(toolbar);
@@ -276,8 +277,8 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 	/**
 	 * Get toolbar associated to passed view ID.
 
-	 * @param viewId
-	 * @return
+	 * @param viewId view ID
+	 * @return toolbar for given view
 	 */
 	public Toolbar getToolbar(int viewId) {
 		for(Toolbar toolbar : toolbars) {
@@ -487,9 +488,9 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 	public Toolbar getFirstToolbar() {
 		if(toolbars.size() > 0) {
 			return toolbars.get(0);
-		} else {
+		} 
 			return null;
-		}
+		
 	}
 
 	/**
@@ -500,18 +501,18 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 	}
 
 	/**
-	 * @param showHelp
+	 * @param showHelp true to enable tool help (in the right part)
 	 */
 	public static void setShowHelp(boolean showHelp) {
 		ToolbarContainer.showHelp = showHelp; 
 	}
 
 	// Component listener methods
-	public void componentShown(ComponentEvent e) { }
+	public void componentShown(ComponentEvent e) { /* do nothing*/ }
 
-	public void componentHidden(ComponentEvent e) { }
+	public void componentHidden(ComponentEvent e) {/* do nothing*/ }
 
-	public void componentMoved(ComponentEvent e) { }
+	public void componentMoved(ComponentEvent e) { /* do nothing*/}
 
 	/**
 	 * Simple panel which displays a single component at a time. Just use
@@ -530,7 +531,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 
 		/**
 		 * Shows the component with the given name
-		 * @param name
+		 * @param name view ID as string
 		 */
 		public void show(String name) {			
 			for(int i = 0; i < getComponentCount(); ++i) {
@@ -550,8 +551,8 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 
 		/**
 		 * Adds a component and hide it automatically.
-		 * @param comp
-		 * @param name
+		 * @param comp component to be added
+		 * @param name name for the component
 		 */
 		public void add(java.awt.Component comp, String name) {
 			super.add(comp);

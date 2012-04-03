@@ -27,7 +27,12 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
-
+/**
+ * Toolbar configuration dialog.
+ *  
+ * @author Markus Hohenwarter
+ *
+ */
 public class ToolbarConfigDialog extends JDialog implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
@@ -35,6 +40,10 @@ public class ToolbarConfigDialog extends JDialog implements ActionListener {
 	private Application app;	
 	public ToolbarConfigPanel confPanel;
 
+	/**
+	 * Creates new dialog
+	 * @param app application
+	 */
 	public ToolbarConfigDialog(Application app) {
 		super(app.getFrame(), false);
 		this.app = app;
@@ -68,7 +77,10 @@ public class ToolbarConfigDialog extends JDialog implements ActionListener {
 		setLocationRelativeTo(app.getFrame());
 	}
 		
-	private void apply() {				
+	/**
+	 * Applies changes to the toolbar
+	 */
+	void apply() {				
 		confPanel.apply();
 		app.updateToolBar();
 		app.setUnsaved();

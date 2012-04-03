@@ -22,6 +22,10 @@ import javax.swing.ListCellRenderer;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 
+/**
+ * Renderer for tools tree
+ *
+ */
 public class ModeCellRenderer extends DefaultTreeCellRenderer
 implements ListCellRenderer {
 	
@@ -29,6 +33,10 @@ implements ListCellRenderer {
 	
 	private Application app;
 	
+	/**
+	 * Creates new cell renderer
+	 * @param app application
+	 */
 	public ModeCellRenderer(Application app) {
 		setOpaque(true);
 		setBackgroundNonSelectionColor(Color.white);
@@ -39,11 +47,11 @@ implements ListCellRenderer {
 	public Component getTreeCellRendererComponent(
 			JTree tree,
 			Object value,
-			boolean selected,
+			boolean componentSelected,
 			boolean expanded,
 			boolean leaf,
 			int row,
-			boolean hasFocus) {		
+			boolean componentHasFocus) {		
 				
 		DefaultMutableTreeNode node = (DefaultMutableTreeNode) value;			
 		
@@ -70,7 +78,7 @@ implements ListCellRenderer {
 			}
 		}
 		
-		handleSelection(selected);		
+		handleSelection(componentSelected);		
 		
 		return this;
 	}
@@ -106,8 +114,8 @@ implements ListCellRenderer {
 		}						
 	}
 	
-	private void handleSelection(boolean selected) {
-		if (selected) {
+	private void handleSelection(boolean select) {
+		if (select) {
 			setBackground(Application.COLOR_SELECTION);
 		} else {				
 			setBackground(getBackgroundNonSelectionColor());				
