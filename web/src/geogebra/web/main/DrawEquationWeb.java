@@ -26,12 +26,14 @@ import com.google.gwt.user.client.DOM;
 
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.ArrayList;
 
 public class DrawEquationWeb implements DrawEquationInterface {
 	
 	private static boolean scriptloaded = false;
 
 	private static HashMap<String, SpanElement> equations = new HashMap<String, SpanElement>();
+	private static HashMap<String, Integer> equationAges = new HashMap<String, Integer>();
 	private boolean needToDrawEquation = false;
 	private AbstractApplication app;
 	
@@ -80,9 +82,27 @@ public class DrawEquationWeb implements DrawEquationInterface {
 	 * @param ev: latexes of only this EuclidianView - TODO: implement
 	 */
 	public static void clearLaTeXes(EuclidianView ev) {
-		Iterator<SpanElement> eei = equations.values().iterator();
-		while(eei.hasNext())
-			eei.next().getStyle().setDisplay(Style.Display.NONE);
+		Iterator<String> eei = equations.keySet().iterator();
+		ArrayList<String> eeii = new ArrayList<String>();
+		while(eei.hasNext()) {
+			String eein = eei.next();
+			Integer age = equationAges.get(eein);
+			if (age == null)
+				age = 0;
+			if (age > 5) {// clearLaTeXes can be called this much until redraw
+				Element toclear = equations.get(eein);
+				Element tcparent = toclear.getParentElement();
+				tcparent.removeChild(toclear);
+				eeii.add(eein);// avoid concurrent modification exception
+			} else {
+				equationAges.put(eein, ++age);
+				equations.get(eein).getStyle().setDisplay(Style.Display.NONE);
+			}
+		}
+		for (int i = eeii.size() - 1; i >= 0; i--) {
+			equations.remove(eeii.get(i));
+			equationAges.remove(eeii.get(i));
+		}
 	}
 
 	/**
@@ -92,9 +112,13 @@ public class DrawEquationWeb implements DrawEquationInterface {
 	 */
 	public static void deleteLaTeXes(EuclidianView ev) {
 		Iterator<SpanElement> eei = equations.values().iterator();
-		while(eei.hasNext())
-			eei.next().removeFromParent();
+		while(eei.hasNext()) {
+			Element toclear = eei.next();
+			Element tcparent = toclear.getParentElement();
+			tcparent.removeChild(toclear);
+		}
 		equations.clear();
+		equationAges.clear();
 	}
 
 	public Dimension drawEquation(AbstractApplication app, GeoElement geo,
@@ -103,7 +127,7 @@ public class DrawEquationWeb implements DrawEquationInterface {
 
 		if (true) { // the new way to draw an Equation (latex)
 			// no scriptloaded things yet
-			// no remove of unused equations yet
+			// no EuclidianView 1,2 yet
 			// no setcolor yet
 			AbstractApplication.debug(eqstring);
 
@@ -113,11 +137,10 @@ public class DrawEquationWeb implements DrawEquationInterface {
 			while (eqstring.endsWith("$")) eqstring = eqstring.substring(0, eqstring.length() - 1).trim();
 
 			SpanElement ih = equations.get(eqstring);
+			equationAges.put(eqstring, 0);
 			if (ih == null) {
 				ih = DOM.createSpan().cast();
-				drawEquationMathQuill(
-					ih,
-					eqstring,
+				drawEquationMathQuill(ih, eqstring,
 					((Application)app).getCanvas().getCanvasElement());
 				equations.put(eqstring, ih);
 			} else {
