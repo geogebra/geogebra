@@ -385,7 +385,6 @@ public class Application extends AbstractApplication implements
 	private boolean showAlgebraInput = true;
 	private boolean showInputTop = false;
 	private boolean showInputHelpToggle = true;
-	protected boolean showToolBar = true;
 	private boolean showToolBarTop = true;
 	
 	protected boolean showConsProtNavigation = false;
@@ -2779,9 +2778,6 @@ public class Application extends AbstractApplication implements
 		}
 	}
 
-	public void setShowToolBarNoUpdate(boolean toolbar) {
-		showToolBar = toolbar;
-	}
 
 	public void setShowToolBar(boolean toolbar, boolean help) {
 		showToolBar = toolbar;

@@ -2118,6 +2118,12 @@ public abstract class AbstractApplication {
 	public final ArrayList<GeoElement> getSelectedGeos() {
 		return selectedGeos;
 	}
+	
+	protected boolean showToolBar = true;
+	
+	public void setShowToolBarNoUpdate(boolean toolbar) {
+		showToolBar = toolbar;
+	}
 
 	public final void addSelectedGeo(GeoElement geo) {
 		addSelectedGeo(geo, true);

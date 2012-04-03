@@ -152,4 +152,12 @@ public class GeoGebraAppFrame extends Composite {
 		return ggwSplitLayoutPanel.getSplitLayoutPanel();
 	}
 
+	
+	/**
+	 * @return GGWToolbar the Toolbar container
+	 */
+	public GGWToolBar getGGWToolbar() {
+	    return ggwToolBar;
+    }
+
 }

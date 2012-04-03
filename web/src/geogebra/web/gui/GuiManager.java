@@ -12,6 +12,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.main.AbstractApplication;
 import geogebra.web.euclidian.EuclidianView;
+import geogebra.web.gui.app.GGWToolBar;
 import geogebra.web.gui.layout.Layout;
 import geogebra.web.main.Application;
 
@@ -258,6 +259,27 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 
 	public Layout getLayout() {
 		return layout;
+	}
+	
+	private GGWToolBar toolbarPanel = null;
+	
+	public GGWToolBar getToolbarPanel() {
+		if (toolbarPanel == null) {
+			toolbarPanel = ((Application)app).getAppFrame().getGGWToolbar();
+		}
+
+		return toolbarPanel;
+	}
+	
+	public void updateToolbar() {
+		if (toolbarPanel != null) {
+			toolbarPanel.buildGui();
+		}
+
+		if (layout != null) {
+			//AGlayout.getDockManager().updateToolbars();
+			toolbarPanel.updateToolbarPanel();
+		}
 	}
 	
 	

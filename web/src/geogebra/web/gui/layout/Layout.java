@@ -2,6 +2,7 @@ package geogebra.web.gui.layout;
 
 import java.util.ArrayList;
 
+import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.io.layout.Perspective;
 import geogebra.common.main.settings.AbstractSettings;
 import geogebra.common.main.settings.SettingListener;
@@ -24,11 +25,50 @@ public class Layout extends geogebra.common.gui.Layout implements SettingListene
 		// TODO Auto-generated method stub
 
 	}
-
+	
+	/*Many of this not implemented yet, later we can make it togehter*/
 	@Override
     protected void applyPerspective(Perspective perspective) {
-	    // TODO Auto-generated method stub
-	    
+		// ignore axes & grid settings for the document perspective
+				if(!perspective.getId().equals("tmp")) {
+					EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
+
+					if (app.getEuclidianView1() == ev)
+						app.getSettings().getEuclidian(1).setShowAxes(perspective.getShowAxes(), perspective.getShowAxes());
+					else if (!app.hasEuclidianView2EitherShowingOrNot())
+						ev.setShowAxes(perspective.getShowAxes(), false);
+					else if (app.getEuclidianView2() == ev)
+						app.getSettings().getEuclidian(2).setShowAxes(perspective.getShowAxes(), perspective.getShowAxes());
+					else
+						ev.setShowAxes(perspective.getShowAxes(), false);
+
+					if (app.getEuclidianView1() == ev)
+						app.getSettings().getEuclidian(1).showGrid(perspective.getShowGrid());
+					else if (!app.hasEuclidianView2EitherShowingOrNot())
+						ev.showGrid(perspective.getShowGrid());
+					else if (app.getEuclidianView2() == ev)
+						app.getSettings().getEuclidian(2).showGrid(perspective.getShowGrid());
+					else
+						ev.showGrid(perspective.getShowGrid());
+
+					//ev.setUnitAxesRatio(perspective.isUnitAxesRatio());
+				}
+				
+				app.getGuiManager().setToolBarDefinition(perspective.getToolbarDefinition());
+				
+				app.setShowToolBarNoUpdate(perspective.getShowToolBar());
+				//AGapp.setShowAlgebraInput(perspective.getShowInputPanel(), false);
+				//AGapp.setShowInputTop(perspective.getShowInputPanelOnTop(), false);
+				
+				// change the dock panel layout
+				//AGdockManager.applyPerspective(perspective.getSplitPaneData(), perspective.getDockPanelData());
+				
+				if(!app.isIniting()) {
+					app.updateToolBar();
+					app.updateMenubar();
+					//AGapp.updateContentPane();
+				}
+	   
     }
 
 }

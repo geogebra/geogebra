@@ -63,6 +63,8 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
+import javax.swing.SwingUtilities;
+
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.canvas.dom.client.Context2d.TextAlign;
@@ -1422,5 +1424,19 @@ public class Application extends AbstractApplication {
 			$wnd.console.log(string);
 		}
 	}-*/;
+	
+	public void updateToolBar() {
+		if (!showToolBar || isIniting()) {
+			return;
+		}
+
+		getGuiManager().updateToolbar();
+
+		setMoveMode();
+	}
+	
+	public GeoGebraAppFrame getAppFrame() {
+		return appFrame;
+	}
 
 }
