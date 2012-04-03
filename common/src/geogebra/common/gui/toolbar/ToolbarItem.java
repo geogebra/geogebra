@@ -1,4 +1,4 @@
-package geogebra.gui.toolbar;
+package geogebra.common.gui.toolbar;
 
 import java.util.Vector;
 

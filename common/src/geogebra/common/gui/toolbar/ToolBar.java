@@ -1,5 +1,7 @@
 package geogebra.common.gui.toolbar;
 
+import java.util.Vector;
+
 import geogebra.common.euclidian.EuclidianConstants;
 
 /**
@@ -8,6 +10,11 @@ import geogebra.common.euclidian.EuclidianConstants;
  * This class is not a superclass of ToolBar, only  common method stack
  */
 public class ToolBar {
+	
+	/**
+	 * Integer used to indicate a separator in the toolbar.
+	 */
+	public static final Integer SEPARATOR = new Integer(-1);
 
 	/**
 	 * @return The default definition of the general tool bar without macros.
@@ -397,5 +404,60 @@ public class ToolBar {
 				+ EuclidianConstants.MODE_ZOOM_OUT + " | "
 				+ EuclidianConstants.MODE_VIEW_IN_FRONT_OF;
 	}
+	
+	/**
+	 * Parses a toolbar definition string like "0 , 1 2 | 3 4 5 || 7 8 9" where
+	 * the int values are mode numbers, "," adds a separator within a menu, "|"
+	 * starts a new menu and "||" adds a separator before starting a new menu.
+	 * 
+	 * @param toolbarString
+	 *            toolbar definition string
+	 * 
+	 * @return toolbar as nested Vector objects with Integers for the modes.
+	 *         Note: separators have negative values.
+	 */
+	public static Vector<ToolbarItem> parseToolbarString(String toolbarString) {
+		String[] tokens = toolbarString.split(" ");
+		Vector<ToolbarItem> toolbar = new Vector<ToolbarItem>();
+		Vector<Integer> menu = new Vector<Integer>();
+
+		for (int i = 0; i < tokens.length; i++) {
+			if (tokens[i].equals("|")) { // start new menu
+				if (menu.size() > 0)
+					toolbar.add(new ToolbarItem(menu));
+				menu = new Vector<Integer>();
+			} else if (tokens[i].equals("||")) { // separator between menus
+				if (menu.size() > 0)
+					toolbar.add(new ToolbarItem(menu));
+
+				// add separator between two menus
+				// menu = new Vector();
+				// menu.add(SEPARATOR);
+				// toolbar.add(menu);
+				toolbar.add(new ToolbarItem(SEPARATOR));
+
+				// start next menu
+				menu = new Vector<Integer>();
+			} else if (tokens[i].equals(",")) { // separator within menu
+				menu.add(SEPARATOR);
+			} else { // add mode to menu
+				try {
+					if (tokens[i].length() > 0) {
+						int mode = Integer.parseInt(tokens[i]);
+						menu.add(new Integer(mode));
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+					return null;
+				}
+			}
+		}
+
+		// add last menu to toolbar
+		if (menu.size() > 0)
+			toolbar.add(new ToolbarItem(menu));
+		return toolbar;
+	}
+
 
 }

@@ -1,10 +1,10 @@
 package geogebra.gui.menubar;
 
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.gui.toolbar.ToolBar;
+import geogebra.common.gui.toolbar.ToolbarItem;
 import geogebra.gui.dialog.ToolCreationDialog;
 import geogebra.gui.dialog.ToolManagerDialog;
 import geogebra.gui.toolbar.Toolbar;
-import geogebra.gui.toolbar.ToolbarItem;
 import geogebra.main.Application;
 
 import java.awt.event.ActionEvent;
@@ -28,6 +28,10 @@ class ToolsMenu extends BaseMenu {
 		modeChangeAction
 	;
 	
+	/**
+	 * Creates tools menu
+	 * @param app application
+	 */
 	public ToolsMenu(Application app) {
 		super(app, app.getMenu("Tools"));
 		
@@ -69,7 +73,7 @@ class ToolsMenu extends BaseMenu {
 		}
 
 		Toolbar toolbar = new Toolbar(app);
-		Vector<ToolbarItem> modes = Toolbar.parseToolbarString(toolbar
+		Vector<ToolbarItem> modes = ToolBar.parseToolbarString(toolbar
 				.getDefaultToolbarString());
 
 		int menuIndex = 0;
@@ -79,10 +83,9 @@ class ToolsMenu extends BaseMenu {
 			if (next.getMenu() != null) {
 				Iterator<Integer> iter2 = next.getMenu().iterator();
 				while ( iter2.hasNext()) {
-					Object next2 = iter2.next();
 
-					if (next2 instanceof Integer) {
-						int mode = ((Integer) next2).intValue();
+					
+						int mode = iter2.next().intValue();
 
 						if (mode < 0)
 							modeMenus[menuIndex].addSeparator();
@@ -98,11 +101,8 @@ class ToolsMenu extends BaseMenu {
 							app.clearTooltipFlag();
 							
 							modeMenus[menuIndex].add(item);
-						}
-					} else {
-						AbstractApplication
-								.debug("Nested default toolbar not supported");
 					}
+					
 				}
 
 				++menuIndex;
@@ -133,7 +133,12 @@ class ToolsMenu extends BaseMenu {
 			public static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
-				app.setMode(Integer.parseInt(e.getActionCommand()));
+				int mode = Integer.parseInt(e.getActionCommand());
+				if(!app.getGuiManager().getGeneralToolbar().containsMode(mode)){
+					app.getGuiManager().addToToolbarDefinition(mode);
+					app.updateToolBar();
+				}
+				
 			}
 		};
 

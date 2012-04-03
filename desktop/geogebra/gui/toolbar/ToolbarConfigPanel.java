@@ -11,6 +11,8 @@ the Free Software Foundation.
 */
 
 package geogebra.gui.toolbar;
+import geogebra.common.gui.toolbar.ToolBar;
+import geogebra.common.gui.toolbar.ToolbarItem;
 import geogebra.gui.layout.DockPanel;
 import geogebra.main.Application;
 
@@ -328,7 +330,7 @@ public class ToolbarConfigPanel extends javax.swing.JPanel implements java.awt.e
 		this.dockPanel = dockPanel;
 		
 		// create new tree model
-		Vector<ToolbarItem> toolVec = Toolbar.parseToolbarString(toolbarDefinition);		
+		Vector<ToolbarItem> toolVec = ToolBar.parseToolbarString(toolbarDefinition);		
 		DefaultTreeModel model = new DefaultTreeModel(generateRootNode(toolVec));
 		tree.setModel(model);		
 		collapseAllRows();	
@@ -338,7 +340,7 @@ public class ToolbarConfigPanel extends javax.swing.JPanel implements java.awt.e
 		Vector<Integer> usedTools = generateToolsVector(toolbarDefinition);
 		
 		toolListModel.clear();
-		toolListModel.addElement(Toolbar.SEPARATOR); // always display the separator in the tools list
+		toolListModel.addElement(ToolBar.SEPARATOR); // always display the separator in the tools list
 		
 		for(Iterator<Integer> iter = allTools.iterator(); iter.hasNext();) {
 			Integer next = iter.next();
@@ -420,10 +422,10 @@ public class ToolbarConfigPanel extends javax.swing.JPanel implements java.awt.e
 	public Vector<Integer> generateToolsVector(String toolbarDefinition) {				
 		Vector<Integer> vector = new Vector<Integer>();		
 		// separator
-		vector.add(Toolbar.SEPARATOR);
+		vector.add(ToolBar.SEPARATOR);
 				
 		// get default toolbar as nested vectors
-		Vector<ToolbarItem> defTools = Toolbar.parseToolbarString(toolbarDefinition);				
+		Vector<ToolbarItem> defTools = ToolBar.parseToolbarString(toolbarDefinition);				
 		for (int i=0; i < defTools.size(); i++) {
 			ToolbarItem element = defTools.get(i);
 			

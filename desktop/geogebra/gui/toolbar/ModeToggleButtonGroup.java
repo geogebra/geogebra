@@ -14,6 +14,9 @@ package geogebra.gui.toolbar;
 import javax.swing.ButtonGroup;
 import javax.swing.JPopupMenu;
 
+/**
+ * Group of buttons for mode groups
+ */
 public class ModeToggleButtonGroup extends ButtonGroup {
 	
 	/**
@@ -23,10 +26,18 @@ public class ModeToggleButtonGroup extends ButtonGroup {
 	private JPopupMenu activePopMenu;
 	
 	
+	/**
+	 * Activates given mode group
+	 * @param popMenu popup menu that should become active
+	 */
 	public void setActivePopupMenu(JPopupMenu popMenu) {
 		activePopMenu = popMenu;			
 	}	
 	
+	/**
+	 * Returns active mode group
+	 * @return active popup menu
+	 */
 	public JPopupMenu getActivePopupMenu() {
 		return activePopMenu;
 	}

@@ -14,6 +14,7 @@ package geogebra.gui.toolbar;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.gui.toolbar.ToolBar;
+import geogebra.common.gui.toolbar.ToolbarItem;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Macro;
 import geogebra.common.main.AbstractApplication;
@@ -33,10 +34,7 @@ import javax.swing.JToolBar;
 public class Toolbar extends JToolBar {
 	private static final long serialVersionUID = 1L;
 
-	/**
-	 * Integer used to indicate a separator in the toolbar.
-	 */
-	public static final Integer SEPARATOR = new Integer(-1);
+	
 
 	/**
 	 * Instance of the application.
@@ -172,9 +170,9 @@ public class Toolbar extends JToolBar {
 		Vector<ToolbarItem> toolbarVec;
 		try {
 			if (dockPanel != null) {
-				toolbarVec = parseToolbarString(dockPanel.getToolbarString());
+				toolbarVec = ToolBar.parseToolbarString(dockPanel.getToolbarString());
 			} else {
-				toolbarVec = parseToolbarString(app.getGuiManager()
+				toolbarVec = ToolBar.parseToolbarString(app.getGuiManager()
 						.getToolbarDefinition());
 			}
 		} catch (Exception e) {
@@ -185,7 +183,7 @@ public class Toolbar extends JToolBar {
 				AbstractApplication.debug("invalid toolbar string: "
 						+ app.getGuiManager().getToolbarDefinition());
 			}
-			toolbarVec = parseToolbarString(getDefaultToolbarString());
+			toolbarVec = ToolBar.parseToolbarString(getDefaultToolbarString());
 		}
 
 		// set toolbar
@@ -194,7 +192,7 @@ public class Toolbar extends JToolBar {
 			ToolbarItem ob = toolbarVec.get(i);
 
 			// separator between menus
-			if (ob.getMode() == Toolbar.SEPARATOR) {
+			if (ob.getMode() == ToolBar.SEPARATOR) {
 				addSeparator();
 				continue;
 			}
@@ -229,6 +227,30 @@ public class Toolbar extends JToolBar {
 	}
 
 	/**
+	 * @param findMode mode to be found
+	 * @return true if given mode is present in this toolbar
+	 */
+	public boolean containsMode(int findMode){
+		Vector<ToolbarItem> toolbarVec;
+		if (dockPanel != null) {
+			toolbarVec = ToolBar.parseToolbarString(dockPanel.getToolbarString());
+		} else {
+			toolbarVec = ToolBar.parseToolbarString(app.getGuiManager()
+					.getToolbarDefinition());
+		}
+		for(int i=0;i<toolbarVec.size();i++){
+			ToolbarItem item = toolbarVec.get(i);
+			if(item.getMode()!=null && item.getMode()==findMode)
+				return true;
+			if(item.getMenu()!=null){
+				for(Integer m:item.getMenu()){
+					if(m==findMode) return true;
+				}
+			}
+		}
+		return false;
+	}
+	/**
 	 * @return The dock panel associated with this toolbar or null if this is
 	 *         the general toolbar.
 	 */
@@ -257,60 +279,7 @@ public class Toolbar extends JToolBar {
 		return app.getMainComponent();
 	}
 
-	/**
-	 * Parses a toolbar definition string like "0 , 1 2 | 3 4 5 || 7 8 9" where
-	 * the int values are mode numbers, "," adds a separator within a menu, "|"
-	 * starts a new menu and "||" adds a separator before starting a new menu.
-	 * 
-	 * @param toolbarString
-	 *            toolbar definition string
-	 * 
-	 * @return toolbar as nested Vector objects with Integers for the modes.
-	 *         Note: separators have negative values.
-	 */
-	public static Vector<ToolbarItem> parseToolbarString(String toolbarString) {
-		String[] tokens = toolbarString.split(" ");
-		Vector<ToolbarItem> toolbar = new Vector<ToolbarItem>();
-		Vector<Integer> menu = new Vector<Integer>();
-
-		for (int i = 0; i < tokens.length; i++) {
-			if (tokens[i].equals("|")) { // start new menu
-				if (menu.size() > 0)
-					toolbar.add(new ToolbarItem(menu));
-				menu = new Vector<Integer>();
-			} else if (tokens[i].equals("||")) { // separator between menus
-				if (menu.size() > 0)
-					toolbar.add(new ToolbarItem(menu));
-
-				// add separator between two menus
-				// menu = new Vector();
-				// menu.add(SEPARATOR);
-				// toolbar.add(menu);
-				toolbar.add(new ToolbarItem(Toolbar.SEPARATOR));
-
-				// start next menu
-				menu = new Vector<Integer>();
-			} else if (tokens[i].equals(",")) { // separator within menu
-				menu.add(SEPARATOR);
-			} else { // add mode to menu
-				try {
-					if (tokens[i].length() > 0) {
-						int mode = Integer.parseInt(tokens[i]);
-						menu.add(new Integer(mode));
-					}
-				} catch (Exception e) {
-					e.printStackTrace();
-					return null;
-				}
-			}
-		}
-
-		// add last menu to toolbar
-		if (menu.size() > 0)
-			toolbar.add(new ToolbarItem(menu));
-		return toolbar;
-	}
-
+	
 	/**
 	 * @return The default definition of this toolbar with macros.
 	 */
