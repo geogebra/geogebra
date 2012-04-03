@@ -18,6 +18,9 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.algos;
 
+import java.math.BigInteger;
+import java.util.HashSet;
+
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
@@ -26,6 +29,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoVec3D;
+import geogebra.common.kernel.prover.FreeVariable;
 
 
 /**
@@ -33,7 +37,7 @@ import geogebra.common.kernel.geos.GeoVec3D;
  * @author  Markus
  * @version 
  */
-public class AlgoIntersectLines extends AlgoIntersectAbstract {
+public class AlgoIntersectLines extends AlgoIntersectAbstract implements SymbolicParametersAlgo{
 
     private GeoLine g, h; // input
     private GeoPoint2 S; // output       
@@ -113,4 +117,36 @@ public class AlgoIntersectLines extends AlgoIntersectAbstract {
         return app.getPlain("IntersectionPointOfAB",g.getLabel(tpl),h.getLabel(tpl));
 
     }
+
+	public SymbolicParameters getSymbolicParameters() {
+		return new SymbolicParameters(this);
+	}
+
+	public void getFreeVariablesAndDegrees(HashSet<FreeVariable> freeVariables,
+			int[] degrees) {
+		if (input[0] != null && input[1] != null && (input[0] instanceof SymbolicParametersAlgo) && (input[1] instanceof SymbolicParametersAlgo)){
+			int[] degree1=null, degree2=null;
+			((SymbolicParametersAlgo)input[0]).getFreeVariablesAndDegrees(freeVariables, degree1);
+			((SymbolicParametersAlgo)input[1]).getFreeVariablesAndDegrees(freeVariables, degree2);
+			degrees=SymbolicParameters.addDegree(degree1, degree2);
+		} else {
+			degrees=null;
+			freeVariables=null;
+		}
+	}
+
+	public BigInteger[] getExactCoordinates() {
+		if (input[0] != null && input[1] != null
+				&& input[0] instanceof SymbolicParametersAlgo
+				&& input[1] instanceof SymbolicParametersAlgo) {
+			BigInteger[] coords1 = ((SymbolicParametersAlgo) input[0])
+					.getExactCoordinates();
+			BigInteger[] coords2 = ((SymbolicParametersAlgo) input[1])
+					.getExactCoordinates();
+			if (coords1 != null && coords2 != null) {
+				return SymbolicParameters.crossProduct(coords1, coords2);
+			}
+		}
+		return null;
+	}
 }

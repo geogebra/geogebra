@@ -52,6 +52,7 @@ import geogebra.common.kernel.arithmetic.VectorValue;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.kernel.prover.FreeVariable;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.plugin.GeoClass;
@@ -60,6 +61,7 @@ import geogebra.common.util.MyMath;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashSet;
@@ -101,6 +103,7 @@ final public class GeoPoint2 extends GeoVec3D implements VectorValue,
 	public double inhomY;
 	private boolean isInfinite, isDefined;
 	private boolean showUndefinedInAlgebraView = true;
+	private FreeVariable variableCoordinate1=null, variableCoordinate2=null;
 
 	// list of Locateables (GeoElements) that this point is start point of
 	// if this point is removed, the Locateables have to be notified
@@ -2003,9 +2006,59 @@ final public class GeoPoint2 extends GeoVec3D implements VectorValue,
 	}
 
 	public SymbolicParameters getSymbolicParameters() {
-		if (algoParent != null && algoParent instanceof SymbolicParametersAlgo)
+		if (algoParent == null) {
+			return new SymbolicParameters(this);
+		}
+		if (algoParent instanceof SymbolicParametersAlgo) {
 			return ((SymbolicParametersAlgo) algoParent)
 					.getSymbolicParameters();
+		}
 		return null;
 	}
+
+	public void getFreeVariablesAndDegrees(HashSet<FreeVariable> freeVariables,
+			int[] degrees) {
+
+		// if this is a free point
+		if (algoParent == null) {
+			if (variableCoordinate1 == null) {
+				variableCoordinate1 = new FreeVariable();
+			}
+			if (variableCoordinate2 == null) {
+				variableCoordinate2 = new FreeVariable();
+			}
+			freeVariables.add(variableCoordinate1);
+			freeVariables.add(variableCoordinate2);
+			degrees = new int[3];
+			degrees[0] = 1;
+			degrees[1] = 1;
+			degrees[2] = 0;
+		}
+		if (algoParent != null && algoParent instanceof SymbolicParametersAlgo) {
+			((SymbolicParametersAlgo) algoParent).getFreeVariablesAndDegrees(
+					freeVariables, degrees);
+		} else {
+			freeVariables = null;
+			degrees = null;
+		}
+	}
+
+	public BigInteger[] getExactCoordinates() {
+		if (algoParent == null) {
+		BigInteger[] result=new BigInteger[3];
+		result[0]=variableCoordinate1.getValue();
+		result[1]=variableCoordinate2.getValue();
+		result[2]=BigInteger.ONE;
+		if (result[0]==null || result[1]==null){
+			return null;
+		}
+		return result;
+		}
+		//algoParent != null
+		if (algoParent instanceof SymbolicParametersAlgo){
+			return ((SymbolicParametersAlgo)algoParent).getExactCoordinates();
+		}
+		return null;
+	}
+
 }

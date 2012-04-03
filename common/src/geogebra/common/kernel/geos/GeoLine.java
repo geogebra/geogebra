@@ -31,6 +31,8 @@ import geogebra.common.kernel.Matrix.CoordMatrixUtil;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoAsymptoteInterface;
 import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.algos.SymbolicParameters;
+import geogebra.common.kernel.algos.SymbolicParametersAlgo;
 import geogebra.common.kernel.algos.TangentAlgo;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.Function;
@@ -40,11 +42,14 @@ import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.kernel.prover.FreeVariable;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.plugin.Operation;
 import geogebra.common.util.MyMath;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 /**
  * Geometrical representation of line
@@ -54,7 +59,8 @@ import java.util.ArrayList;
  */
 public class GeoLine extends GeoVec3D implements Path, Translateable,
 		PointRotateable, Mirrorable, Dilateable, LineProperties, GeoLineND,
-		MatrixTransformable, GeoFunctionable, Transformable, Functional {
+		MatrixTransformable, GeoFunctionable, Transformable, Functional,
+		SymbolicParametersAlgo {
 
 	// modes
 	/** implicit equation */
@@ -1443,5 +1449,33 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 
 	public GeoFunction getGeoDerivative(int order) {
 		return getGeoFunction().getGeoDerivative(order);
+	}
+
+	public SymbolicParameters getSymbolicParameters() {
+		if (algoParent != null
+				&& (algoParent instanceof SymbolicParametersAlgo)) {
+			return new SymbolicParameters((SymbolicParametersAlgo) algoParent);
+		}
+		return null;
+	}
+
+	public void getFreeVariablesAndDegrees(HashSet<FreeVariable> freeVariables,
+			int[] degrees) {
+		if (algoParent != null
+				&& (algoParent instanceof SymbolicParametersAlgo)) {
+			((SymbolicParametersAlgo) algoParent).getFreeVariablesAndDegrees(freeVariables, degrees);
+		} else {
+			freeVariables=null;
+			degrees=null;
+		}
+
+	}
+
+	public BigInteger[] getExactCoordinates() {
+		if (algoParent != null
+				&& (algoParent instanceof SymbolicParametersAlgo)) {
+			return ((SymbolicParametersAlgo) algoParent).getExactCoordinates();
+		}
+		return null;
 	}
 }
