@@ -2,6 +2,7 @@ package geogebra.web.gui.layout;
 
 import java.util.ArrayList;
 
+
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.io.layout.Perspective;
 import geogebra.common.main.settings.AbstractSettings;
@@ -15,9 +16,11 @@ public class Layout extends geogebra.common.gui.Layout implements SettingListene
 	private Application app;
 	
 	/**
-	 * instantiates layot for Web
+	 * instantiates layout for Web
 	 */
 	public Layout() {
+		initializeDefaultPerspectives();
+		
 		this.perspectives = new ArrayList<Perspective>(defaultPerspectives.length);
 	}
 
