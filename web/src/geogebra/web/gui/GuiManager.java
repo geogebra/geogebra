@@ -248,6 +248,8 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 	 * Initializes GuiManager for web
 	 */
 	public void initialize() {
+		
+		layout.initialize(app);
 		//do nothing yet
 	    // TODO Auto-generated method stub
 	    
@@ -278,7 +280,7 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 
 		if (layout != null) {
 			//AGlayout.getDockManager().updateToolbars();
-			toolbarPanel.updateToolbarPanel();
+			getToolbarPanel().updateToolbarPanel();
 		}
 	}
 	

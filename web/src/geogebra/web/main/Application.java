@@ -177,14 +177,16 @@ public class Application extends AbstractApplication {
 		dbg = new DebugPrinterWeb();
 		initCommonObjects();
 		
-		initGuiManager();
 		
-		getGuiManager().getLayout().setPerspectives(tmpPerspectives);
 		
 		this.canvas = appFrame.getEuclidianView1Canvas();
 		this.euclidianViewPanel = appFrame.getEuclidianView1Panel();
 		
 		initCoreObjects(undoActive, this);
+		
+		initGuiManager();		
+		getGuiManager().getLayout().setPerspectives(tmpPerspectives);
+		
 		getSettings().getEuclidian(1).setPreferredSize(geogebra.common.factories.AwtFactory.prototype
 		.newDimension(appCanvasWidth, appCanvasHeight));
 		getEuclidianView1().setDisableRepaint(false);

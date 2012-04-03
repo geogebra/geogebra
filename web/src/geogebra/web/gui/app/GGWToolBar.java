@@ -17,7 +17,7 @@ public class GGWToolBar extends Composite {
 	interface GGWToolBarUiBinder extends UiBinder<Widget, GGWToolBar> {
 	}
 
-	private VerticalPanel toolbarPanel;
+	private VerticalPanel toolbarPanel = new VerticalPanel(); //just dummy!
 	private VerticalPanel toolbars;
 
 	public GGWToolBar() {
