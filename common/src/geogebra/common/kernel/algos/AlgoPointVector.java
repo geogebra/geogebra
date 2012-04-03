@@ -20,7 +20,7 @@ import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoVector;
 
 
-public class AlgoPointVector extends AlgoElement implements SymbolicParametersAlgo {
+public class AlgoPointVector extends AlgoElement {
 
     private GeoPoint2 P;  // input
     private GeoVector v; // input
@@ -75,19 +75,4 @@ public class AlgoPointVector extends AlgoElement implements SymbolicParametersAl
         return app.getPlain("PointAplusB",input[0].getLabel(tpl),input[1].getLabel(tpl));
 
     }
-
-	public SymbolicParameters getSymbolicParameters() {
-		if (input[0] != null && input[1] != null
-				&& input[0] instanceof SymbolicParametersAlgo
-				&& input[1] instanceof SymbolicParametersAlgo) {
-			SymbolicParameters sp1 = ((SymbolicParametersAlgo) input[0])
-					.getSymbolicParameters();
-			SymbolicParameters sp2 = ((SymbolicParametersAlgo) input[1])
-					.getSymbolicParameters();
-			return new SymbolicParameters(SymbolicParameters.getMaxDegree(
-					sp1.getDegree(), sp2.getDegree()));
-		}
-		return null;
-	}
-    
 }
