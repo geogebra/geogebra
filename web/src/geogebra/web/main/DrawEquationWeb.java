@@ -126,9 +126,8 @@ public class DrawEquationWeb implements DrawEquationInterface {
             Color fgColor, Color bgColor, boolean useCache) {
 
 		if (true) { // the new way to draw an Equation (latex)
-			// no scriptloaded things yet
+			// no scriptloaded check yet (is it necessary?)
 			// no EuclidianView 1,2 yet
-			// no setcolor yet
 			AbstractApplication.debug(eqstring);
 
 			// remove $s
@@ -148,6 +147,8 @@ public class DrawEquationWeb implements DrawEquationInterface {
 			}
 			ih.getStyle().setLeft(x, Style.Unit.PX);
 			ih.getStyle().setTop(y, Style.Unit.PX);
+			ih.getStyle().setBackgroundColor(Color.getColorString(bgColor));
+			ih.getStyle().setColor(Color.getColorString(fgColor));
 			return new geogebra.web.awt.Dimension(ih.getOffsetWidth(), ih.getOffsetHeight());
 		}
 
