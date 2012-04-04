@@ -32,8 +32,7 @@ import java.util.HashSet;
  * 
  * @author Markus Hohenwarter + mathieu
  */
-public class FunctionNVar extends ValidExpression implements ReplaceableValue,
-		FunctionalNVar, VarString {
+public class FunctionNVar extends ValidExpression implements FunctionalNVar, VarString {
 
 	/** function expression */
 	protected ExpressionNode expression;
@@ -886,24 +885,14 @@ public class FunctionNVar extends ValidExpression implements ReplaceableValue,
 		this.initIneqs(expression, this);
 	}
 
-	public ExpressionValue replace(ExpressionValue oldOb, ExpressionValue newOb) {
-		expression = expression.replaceAndWrap(oldOb, newOb);
-		return this;
-	}
-	/**
-	 * We don't want to do any replacement here as replacing GeoDummyVariables in
-	 * ExpressionNode(f,FUNCTION_NVAR,(x,y,z)) would change the function
-	 */
-	public boolean replaceGeoDummyVariables(String var, ExpressionValue newOb) {
-		return false;
-	}
-
-	public boolean replacePowersRoots(boolean toRoot) {
-		return expression.replacePowersRoots(toRoot);
-	}
-
-	public ExpressionValue replaceArbConsts(MyArbitraryConstant tpl) {
-		expression.replaceArbConsts(tpl);
+	@Override
+	public ExpressionValue traverse(Traversing t) {
+		if(t instanceof Traversing.GeoDummyReplacer)
+			return this;
+		ExpressionValue ev = t.process(this);
+		if(ev!=this)
+			return ev;
+		expression = expression.traverseAndWrap(t);
 		return this;
 	}
 

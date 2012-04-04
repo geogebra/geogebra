@@ -14,6 +14,7 @@ package geogebra.common.kernel.arithmetic;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.arithmetic.Traversing.GeoDummyReplacer;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.plugin.Operation;
@@ -26,7 +27,7 @@ import java.util.Set;
  * stores left and right hand side of an equation as
  * Exprssions
  */
-public class Equation extends ValidExpression implements ReplaceableValue {
+public class Equation extends ValidExpression {
 
     private ExpressionNode lhs;
     private ExpressionNode rhs;
@@ -197,9 +198,9 @@ public class Equation extends ValidExpression implements ReplaceableValue {
     	
 
     	// replace GeoDummyVariables for "x", "y", "z" which may be coming from CAS view
-    	replaceGeoDummyVariables("x", new Polynomial(kernel, "x"));
-		replaceGeoDummyVariables("y", new Polynomial(kernel, "y"));
-		replaceGeoDummyVariables("z", new Polynomial(kernel, "z"));
+    	traverse(GeoDummyReplacer.getReplacer("x", new Polynomial(kernel, "x")));
+    	traverse(GeoDummyReplacer.getReplacer("y", new Polynomial(kernel, "y")));
+    	traverse(GeoDummyReplacer.getReplacer("z", new Polynomial(kernel, "z")));
            
         // resolve variables in lhs         
         if (lhs.isLeaf() && lhs.getLeft().isVariable()) {
@@ -514,40 +515,19 @@ public class Equation extends ValidExpression implements ReplaceableValue {
 	public String toOutputValueString(StringTemplate tpl) {
 		return toValueString(tpl);
 	}
-
-	public ExpressionValue replace(ExpressionValue oldOb, ExpressionValue newOb) {
-		lhs = lhs.replaceAndWrap(oldOb, newOb);
-		rhs = rhs.replaceAndWrap(oldOb, newOb);
-        return this;
-    }
-	
-	/**
-	 * Looks for GeoDummyVariable objects that hold String var in the tree and replaces
-	 * them by their newOb.
-	 * @param var variable name
-	 * @param newOb replacement object
-	 * @return whether replacement was done
-	 */
-	public boolean replaceGeoDummyVariables(String var, ExpressionValue newOb) {
-		boolean didReplacement = lhs.replaceGeoDummyVariables(var, newOb);
-		didReplacement = rhs.replaceGeoDummyVariables(var, newOb) || didReplacement;
-		return didReplacement;
-	}
-	
-	public boolean replacePowersRoots(boolean toRoot) {
-		boolean didReplacement = lhs.replacePowersRoots(toRoot);
-		didReplacement = rhs.replacePowersRoots(toRoot) || didReplacement;
-		return didReplacement;
-	}
 	
 	public Kernel getKernel() {
 		return kernel;
 	}
 
-	public ExpressionValue replaceArbConsts(MyArbitraryConstant tpl) {
-		lhs.replaceArbConsts(tpl);
-		rhs.replaceArbConsts(tpl);
-		return this;
+
+	
+	@Override
+	public ExpressionValue traverse(Traversing t) {
+		ExpressionValue v = t.process(this);
+		lhs = lhs.traverseAndWrap(t);
+		rhs = rhs.traverseAndWrap(t);
+		return v;
 	}
  
 } // end of class Equation

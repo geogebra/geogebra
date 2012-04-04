@@ -45,6 +45,7 @@ import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.arithmetic.Traversing;
 import geogebra.common.kernel.cas.CASGenericInterface;
 import geogebra.common.kernel.cas.GeoGebraCasInterface;
 import geogebra.common.kernel.commands.AlgebraProcessor;
@@ -7028,6 +7029,10 @@ public abstract class GeoElement extends ConstructionElement implements
 	@Override
 	public String toString(StringTemplate tpl) {
 		return label;
+	}
+	
+	public final ExpressionValue traverse(Traversing t){
+		return t.process(this);
 	}
 
 }

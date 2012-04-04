@@ -146,5 +146,14 @@ public interface ExpressionValue {
 	 * @return string representation of value of this object
 	 */
 	public String toValueString(StringTemplate tpl);
+	
+	/**
+	 * Lets the traversing object go through the structure of this ExpressionValue
+	 * and return changed value. This method may change content of this value, so
+	 * you might need to use copy first.
+	 * @param t traversing object
+	 * @return changed value
+	 */
+	public ExpressionValue traverse(Traversing t);
 }
 

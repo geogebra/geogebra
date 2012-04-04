@@ -11,7 +11,8 @@ import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.FunctionNVar;
 import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
-import geogebra.common.kernel.arithmetic.ReplaceableValue;
+import geogebra.common.kernel.arithmetic.Traversing.ArbconstReplacer;
+import geogebra.common.kernel.arithmetic.Traversing.PowerRootReplacer;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
@@ -242,13 +243,13 @@ public abstract class AbstractCASmpreduce extends CASgeneric {
 		ExpressionValue ve = casParser.parseMPReduce(mpreduceString);
 		// replace rational exponents by roots or vice versa
 		
-		if(ve instanceof ReplaceableValue){
+		if(ve != null){
 			boolean toRoot = ve.getKernel().getApplication().getSettings().getCasSettings()
 					.getShowExpAsRoots();
-				((ReplaceableValue)ve).replacePowersRoots(toRoot);
+				ve.traverse(PowerRootReplacer.getReplacer(toRoot));
 			if(tpl!=null){
 				tpl.reset();
-				ve = ((ReplaceableValue)ve).replaceArbConsts(tpl);
+				ve.traverse(ArbconstReplacer.getReplacer(tpl));
 			}
 		}
 		

@@ -20,7 +20,6 @@ package geogebra.common.kernel.arithmetic;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
-import geogebra.common.kernel.geos.GeoDummyVariable;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoVec2D;
 import geogebra.common.main.MyParseError;
@@ -31,8 +30,7 @@ import java.util.HashSet;
  * 
  * @author Markus
  */
-public class MyVecNode extends ValidExpression implements VectorValue,
-		ReplaceableValue {
+public class MyVecNode extends ValidExpression implements VectorValue {
 
 	/**
 	 * x coordinate
@@ -85,22 +83,6 @@ public class MyVecNode extends ValidExpression implements VectorValue,
 	 */
 	public ExpressionValue getY() {
 		return y;
-	}
-
-	public ExpressionValue replace(ExpressionValue oldOb, ExpressionValue newOb) {
-		if (x == oldOb) {
-			x = newOb;
-		} else if (x instanceof ReplaceableValue) {
-			x = ((ReplaceableValue) x).replace(oldOb, newOb);
-		}
-
-		if (y == oldOb) {
-			y = newOb;
-		} else if (y instanceof ReplaceableValue) {
-			y = ((ReplaceableValue) y).replace(oldOb, newOb);
-		}
-
-		return this;
 	}
 
 	/**
@@ -310,45 +292,16 @@ public class MyVecNode extends ValidExpression implements VectorValue,
 		return kernel;
 	}
 
-	public boolean replaceGeoDummyVariables(String var, ExpressionValue newOb) {
-		boolean didReplacement = false;
-		if(x instanceof GeoDummyVariable && 
-				var.equals(((GeoDummyVariable) x).toString(StringTemplate.defaultTemplate)))
-			x= newOb;
-		else 
-		if(x instanceof ReplaceableValue){
-			didReplacement |= ((ReplaceableValue)x).replaceGeoDummyVariables(var, newOb);
-		}
-		if(y instanceof GeoDummyVariable && 
-				var.equals(((GeoDummyVariable) y).toString(StringTemplate.defaultTemplate)))
-			y= newOb;
-		else 
-		if(y instanceof ReplaceableValue){
-			didReplacement |= ((ReplaceableValue)y).replaceGeoDummyVariables(var, newOb);
-		}
-		return didReplacement;
-	}
-
-	public boolean replacePowersRoots(boolean toRoot) {
-		boolean didReplacement = false;
-		if(x instanceof ReplaceableValue){
-			didReplacement |= ((ReplaceableValue)x).replacePowersRoots(toRoot);
-		}
-		 
-		if(y instanceof ReplaceableValue){
-			didReplacement |= ((ReplaceableValue)y).replacePowersRoots(toRoot);
-		}
-		return didReplacement;
-	}
 	
-	public ExpressionValue replaceArbConsts(MyArbitraryConstant arbconst) {
-		if(x instanceof ReplaceableValue){
-			((ReplaceableValue)x).replaceArbConsts(arbconst);
-		}
-		 
-		if(y instanceof ReplaceableValue){
-			((ReplaceableValue)y).replaceArbConsts(arbconst);
-		}
+	
+	
+	@Override
+	public ExpressionValue traverse(Traversing t) {
+		ExpressionValue v = t.process(this);
+		if(v!=this)
+			return v;
+		x = x.traverse(t);
+		y = y.traverse(t);
 		return this;
 	}
 	

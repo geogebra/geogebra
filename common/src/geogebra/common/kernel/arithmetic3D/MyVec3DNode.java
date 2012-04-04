@@ -21,11 +21,9 @@ package geogebra.common.kernel.arithmetic3D;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
-import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import geogebra.common.kernel.arithmetic.NumberValue;
-import geogebra.common.kernel.arithmetic.ReplaceableValue;
+import geogebra.common.kernel.arithmetic.Traversing;
 import geogebra.common.kernel.arithmetic.ValidExpression;
-import geogebra.common.kernel.geos.GeoDummyVariable;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.Geo3DVec;
 import geogebra.common.main.MyParseError;
@@ -36,8 +34,7 @@ import java.util.HashSet;
  * 
  * @author Markus + ggb3D
  */
-public class MyVec3DNode extends ValidExpression implements Vector3DValue,
-		ReplaceableValue {
+public class MyVec3DNode extends ValidExpression implements Vector3DValue {
 
 	private ExpressionValue x, y, z;
 	// private int mode = Kernel.COORD_CARTESIAN;
@@ -250,78 +247,14 @@ public class MyVec3DNode extends ValidExpression implements Vector3DValue,
 		return toValueString(tpl);
 	}
 
-	public ExpressionValue replace(ExpressionValue oldOb, ExpressionValue newOb) {
-		if (x == oldOb) {
-			x = newOb;
-		} else if (x instanceof ReplaceableValue) {
-			x = ((ReplaceableValue) x).replace(oldOb, newOb);
-		}
-
-		if (y == oldOb) {
-			y = newOb;
-		} else if (y instanceof ReplaceableValue) {
-			y = ((ReplaceableValue) y).replace(oldOb, newOb);
-		}
-
-		if (z == oldOb) {
-			z = newOb;
-		} else if (z instanceof ReplaceableValue) {
-			z = ((ReplaceableValue) z).replace(oldOb, newOb);
-		}
-
-		return this;
-	}
-	
-	public boolean replaceGeoDummyVariables(String var, ExpressionValue newOb) {
-		boolean didReplacement = false;
-		if(x instanceof GeoDummyVariable && 
-				var.equals(((GeoDummyVariable) x).toString(StringTemplate.defaultTemplate)))
-			x = newOb;
-		else if(x instanceof ReplaceableValue){
-			didReplacement |= ((ReplaceableValue)x).replaceGeoDummyVariables(var, newOb);
-		}
-		if(y instanceof GeoDummyVariable && 
-				var.equals(((GeoDummyVariable) z).toString(StringTemplate.defaultTemplate)))
-			y = newOb;
-		else if(y instanceof ReplaceableValue){
-			didReplacement |= ((ReplaceableValue)y).replaceGeoDummyVariables(var, newOb);
-		}
-		if(z instanceof GeoDummyVariable && 
-				var.equals(((GeoDummyVariable) z).toString(StringTemplate.defaultTemplate)))
-			z = newOb;
-		else 
-		if(z instanceof ReplaceableValue){
-			didReplacement |= ((ReplaceableValue)z).replaceGeoDummyVariables(var, newOb);
-		}
-		return didReplacement;
-	}
-	
-	public boolean replacePowersRoots(boolean toRoot) {
-		boolean didReplacement = false;
-		if(x instanceof ReplaceableValue){
-			didReplacement |= ((ReplaceableValue)x).replacePowersRoots(toRoot);
-		}
-		 
-		if(y instanceof ReplaceableValue){
-			didReplacement |= ((ReplaceableValue)y).replacePowersRoots(toRoot);
-		}
-		if(z instanceof ReplaceableValue){
-			didReplacement |= ((ReplaceableValue)z).replacePowersRoots(toRoot);
-		}
-		return didReplacement;
-	}
-
-	public ExpressionValue replaceArbConsts(MyArbitraryConstant arbconst) {
-		if(x instanceof ReplaceableValue){
-			x=((ReplaceableValue)x).replaceArbConsts(arbconst);
-		}
-		 
-		if(y instanceof ReplaceableValue){
-			y=((ReplaceableValue)y).replaceArbConsts(arbconst);
-		}
-		if(z instanceof ReplaceableValue){
-			z=((ReplaceableValue)z).replaceArbConsts(arbconst);
-		}
+	@Override
+	public ExpressionValue traverse(Traversing t) {
+		ExpressionValue ev = t.process(this);
+		if(ev!=this)
+			return ev;
+		x = x.traverse(t);
+		y = y.traverse(t);
+		z = z.traverse(t);
 		return this;
 	}
 

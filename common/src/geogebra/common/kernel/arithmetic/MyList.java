@@ -21,7 +21,6 @@ package geogebra.common.kernel.arithmetic;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
-import geogebra.common.kernel.geos.GeoDummyVariable;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.plugin.Operation;
@@ -40,7 +39,7 @@ import java.util.HashSet;
  * @author Markus Hohenwarter
  */
 public class MyList extends ValidExpression implements ListValue,
-		ReplaceableValue, ReplaceChildrenByValues {
+		ReplaceChildrenByValues {
 
 	private Kernel kernel;
 	private int matrixRows = -1; // -1 means not calculated, 0 means not a
@@ -965,30 +964,7 @@ public class MyList extends ValidExpression implements ListValue,
 		return toValueString(tpl);
 	}
 
-	public ExpressionValue replace(ExpressionValue oldOb, ExpressionValue newOb) {
-		for (int i = 0; i < listElements.size(); i++) {
-			ExpressionValue ev = listElements.get(i);
-			if (ev instanceof ReplaceableValue) {
-				ev = ((ReplaceableValue) ev).replace(oldOb, newOb);
-				listElements.set(i, ev);
-			}
-		}
-		return this;
-	}
 	
-	public boolean replaceGeoDummyVariables(String var, ExpressionValue newOb) {
-		boolean didReplacement = false;
-		for (int i = 0; i < listElements.size(); i++) {
-			ExpressionValue ev = listElements.get(i);
-			if (ev instanceof ReplaceableValue) {
-				didReplacement |= ((ReplaceableValue) ev).replaceGeoDummyVariables(var, newOb);
-			}
-			else if(ev instanceof GeoDummyVariable && var.equals(((GeoDummyVariable) ev).toString(StringTemplate.defaultTemplate)))
-				listElements.set(i, newOb);
-		}
-		return didReplacement;
-	}
-
 	/**
 	 * Computes vector product of this and other list,
 	 * the result is stored in this list
@@ -1071,23 +1047,14 @@ public class MyList extends ValidExpression implements ListValue,
 		return ret;
 	}
 
-	public boolean replacePowersRoots(boolean toRoot) {
-		boolean success = false;
+	@Override
+	public ExpressionValue traverse(Traversing t){
+		ExpressionValue v = t.process(this);
 		for(int i=0;i<size();i++){
 			ExpressionValue insert = getListElement(i);
-			if(insert instanceof ReplaceableValue)
-				success |= ((ReplaceableValue)insert).replacePowersRoots(toRoot);
+			listElements.set(i,insert.traverse(t));
 		}
-		return success;
-	}
-
-	public ExpressionValue replaceArbConsts(MyArbitraryConstant tpl) {
-		for(int i=0;i<size();i++){
-			ExpressionValue insert = getListElement(i);
-			if(insert instanceof ReplaceableValue)
-				listElements.set(i,((ReplaceableValue)insert).replaceArbConsts(tpl));
-		}
-		return this;
+		return v;
 	}
 
 }

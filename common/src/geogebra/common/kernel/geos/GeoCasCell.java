@@ -11,6 +11,7 @@ import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import geogebra.common.kernel.arithmetic.FunctionNVar;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
+import geogebra.common.kernel.arithmetic.Traversing.GeoDummyReplacer;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.util.StringUtil;
@@ -944,13 +945,15 @@ public class GeoCasCell extends GeoElement {
 		if (inputGeos != null) {
 			for (GeoElement inGeo : inputGeos) {
 				// replacement uses default template
-				boolean success = node.replaceGeoDummyVariables(
+				GeoDummyReplacer ge = GeoDummyReplacer.getReplacer(
 						inGeo.getLabel(StringTemplate.defaultTemplate), inGeo);
-				if (!success) {
+				node.traverse(ge);
+				if (!ge.didReplacement()) {
 					// try $ row reference
-					node.replaceGeoDummyVariables(
-							ExpressionNodeConstants.CAS_ROW_REFERENCE_PREFIX,
+					ge = GeoDummyReplacer.getReplacer(ExpressionNodeConstants.CAS_ROW_REFERENCE_PREFIX,
 							inGeo);
+					node.traverse(ge);
+							
 				}
 			}
 		}
@@ -999,7 +1002,8 @@ public class GeoCasCell extends GeoElement {
 			if (geo != null) {
 				// look for GeoDummyVariable objects with name of function
 				// variable and replace them
-				fun.getExpression().replaceGeoDummyVariables(varLabel, geo);
+				GeoDummyReplacer ge = GeoDummyReplacer.getReplacer(varLabel, geo);
+				fun.getExpression().traverse(ge);
 			}
 		}
 	}

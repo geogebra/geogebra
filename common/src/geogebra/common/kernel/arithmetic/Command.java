@@ -35,8 +35,7 @@ import java.util.Set;
  * 
  * @author Markus
  */
-public class Command extends ValidExpression implements ReplaceableValue,
-	ReplaceChildrenByValues{
+public class Command extends ValidExpression implements ReplaceChildrenByValues{
 
 	// list of arguments
 	private ArrayList<ExpressionNode> args = new ArrayList<ExpressionNode>();
@@ -340,25 +339,6 @@ public class Command extends ValidExpression implements ReplaceableValue,
 		}
 	}
 
-	/**
-	 * Looks for GeoDummyVariable objects that hold String var in the tree and
-	 * replaces them by their newOb.
-	 * @param var variable name
-	 * @param newOb object to be used as replacement
-	 * 
-	 * @return whether replacement was done
-	 */
-	
-	public boolean replaceGeoDummyVariables(String var, ExpressionValue newOb) {
-		int size = args.size();
-		boolean didReplacement = false;
-		for (int i = 0; i < size; i++) {
-			didReplacement = args.get(i).replaceGeoDummyVariables(var, newOb)
-					|| didReplacement;
-		}
-		return didReplacement;
-	}
-
 	public HashSet<GeoElement> getVariables() {
 		HashSet<GeoElement> set = new HashSet<GeoElement>();
 		int size = args.size();
@@ -427,31 +407,15 @@ public class Command extends ValidExpression implements ReplaceableValue,
 		return toValueString(tpl);
 	}
 
-	public ExpressionValue replace(ExpressionValue oldOb, ExpressionValue newOb) {
+	@Override
+	public ExpressionValue traverse(Traversing t) {
+		ExpressionValue v = t.process(this);
+		if(v!=this)
+			return v;
 		for (int i = 0; i < args.size(); i++) {
-			ExpressionNode en = args.get(i);
-			en = en.replaceAndWrap(oldOb, newOb);
+			ExpressionNode en = args.get(i).traverseAndWrap(t);
 			args.set(i, en);
 		}
 		return this;
 	}
-
-	public boolean replacePowersRoots(boolean toRoot) {
-			int size = args.size();
-			boolean didReplacement = false;
-			for (int i = 0; i < size; i++) {
-				didReplacement = args.get(i).replacePowersRoots(toRoot)
-						|| didReplacement;
-			}
-			return didReplacement;
-	}
-
-	public ExpressionValue replaceArbConsts(MyArbitraryConstant tpl) {
-		int size = args.size();
-		for (int i = 0; i < size; i++) {
-			args.get(i).replaceArbConsts(tpl);
-		}
-		return this;
-	}
-
 }

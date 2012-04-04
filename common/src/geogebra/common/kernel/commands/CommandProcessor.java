@@ -21,6 +21,7 @@ import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.MySpecialDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.arithmetic.Traversing.Replacer;
 import geogebra.common.kernel.arithmetic.Variable;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
@@ -139,7 +140,7 @@ public abstract class CommandProcessor {
 			// variable "i"object
 			localVarName = "i";
 			Variable localVar = new Variable(kernelA, localVarName);
-			c.replace(kernelA.getImaginaryUnit(), localVar);
+			c.traverse(Replacer.getReplacer(kernelA.getImaginaryUnit(), localVar));
 		}
 		// Euler constant as local variable name
 		else if (localVarName.equals(Unicode.EULER_STRING)) {
@@ -147,7 +148,7 @@ public abstract class CommandProcessor {
 			// variable "i"object
 			localVarName = "e";
 			Variable localVar = new Variable(kernelA, localVarName);
-			c.replace(MySpecialDouble.getEulerConstant(kernelA), localVar);
+			c.traverse(Replacer.getReplacer(MySpecialDouble.getEulerConstant(kernelA), localVar));
 		}
 
 		// add local variable name to construction

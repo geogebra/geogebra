@@ -6,6 +6,7 @@ import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.FunctionNVar;
 import geogebra.common.kernel.arithmetic.FunctionalNVar;
 import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
+import geogebra.common.kernel.arithmetic.Traversing.DerivativeCollector;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.cas.AsynchronousCommand;
 import geogebra.common.kernel.cas.CASGenericInterface;
@@ -16,8 +17,8 @@ import geogebra.common.main.settings.AbstractSettings;
 import geogebra.common.main.settings.CASSettings;
 import geogebra.common.main.settings.SettingListener;
 
-import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -165,9 +166,10 @@ public abstract class CASgeneric implements CASGenericInterface,
 			else tmp = ((ExpressionNode)ve);
 			String body = tmp.getCASstring(casStringType,
 					true);
-			ArrayList<GeoFunction> derivativeFunctions= new ArrayList<GeoFunction>();
-			ArrayList<Integer> derivativeDegrees= new ArrayList<Integer>();
-			tmp.collectDerivatives(derivativeFunctions,derivativeDegrees);
+			DerivativeCollector col = DerivativeCollector.getCollector();
+			tmp.traverse(col);
+			List<GeoFunction> derivativeFunctions= col.getFunctions();
+			List<Integer> derivativeDegrees= col.getDegrees();
 			StringTemplate casTpl = StringTemplate.casTemplate;
 			for(int i=0;i<derivativeDegrees.size();i++){
 				GeoFunction f = derivativeFunctions.get(i);

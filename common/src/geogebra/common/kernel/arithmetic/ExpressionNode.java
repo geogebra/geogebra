@@ -22,6 +22,7 @@ package geogebra.common.kernel.arithmetic;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.arithmetic.Traversing.Replacer;
 import geogebra.common.kernel.arithmetic3D.Vector3DValue;
 import geogebra.common.kernel.geos.CasEvaluableFunction;
 import geogebra.common.kernel.geos.GeoDummyVariable;
@@ -36,7 +37,6 @@ import geogebra.common.plugin.Operation;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
@@ -48,7 +48,7 @@ import java.util.TreeSet;
  * @author Markus
  */
 public class ExpressionNode extends ValidExpression implements
-		ReplaceableValue, ExpressionNodeConstants, ReplaceChildrenByValues {
+		ExpressionNodeConstants, ReplaceChildrenByValues {
 
 	private AbstractApplication app;
 	private Kernel kernel;
@@ -497,20 +497,6 @@ public class ExpressionNode extends ValidExpression implements
 	}
 
 	/**
-	 * Looks for GeoDummyVariable objects that hold String var in the tree and
-	 * replaces them by their newOb.
-	 * @param var variable name
-	 * @param newOb replacement object
-	 * 
-	 * @return whether replacement was done
-	 */
-	public boolean replaceGeoDummyVariables(String var, ExpressionValue newOb) {
-		return 	// left wing
-		doReplaceGeoDummyVars(left,var,newOb) ||
-		doReplaceGeoDummyVars(right,var,newOb);
-	}
-
-	/**
 	 * look for GeoFunction objects in the tree and replace them by FUNCTION
 	 * ExpressionNodes. This makes operations like f + g possible by changing
 	 * this to f(x) + g(x)
@@ -529,22 +515,6 @@ public class ExpressionNode extends ValidExpression implements
 	 * right, ExpressionNode.FUNCTION, polyX); } } }
 	 */
 
-	private boolean doReplaceGeoDummyVars(ExpressionValue subtree, String var,
-			ExpressionValue newOb) {
-		if(subtree == null)
-			return false;
-		boolean didReplacement = false;
-		if (subtree instanceof GeoDummyVariable) {
-			if (var.equals(((GeoDummyVariable) subtree).toString(StringTemplate.defaultTemplate))) {
-				if(subtree == left) {left = newOb;} else {right = newOb;}
-				didReplacement = true;
-			}
-		} else if (subtree instanceof ReplaceableValue) {
-			didReplacement = ((ReplaceableValue) subtree).replaceGeoDummyVariables(
-					var, newOb);
-		}
-		return didReplacement;
-	}
 
 	/**
 	 * @return true if there is at least one Polynomial in the tree
@@ -847,30 +817,26 @@ public class ExpressionNode extends ValidExpression implements
 		return new ExpressionNode(kernel, ev);
 	}
 
+
+	@Override
+	public ExpressionValue traverse(Traversing t) {
+		ExpressionValue ev = t.process(this);
+		left = left.traverse(t);
+		if(right!=null)
+			right = right.traverse(t);
+		return ev;
+	}
+	
 	/**
-	 * Replaces every oldOb by newOb in expression.
-	 * 
+	 * Traverse + wrap if necessary
+	 * @param t traversing object
 	 * @return resulting expression
 	 */
-	public ExpressionValue replace(ExpressionValue oldOb, ExpressionValue newOb) {
-		if (this == oldOb) {
-			return newOb;
-		}
-
-		// left tree
-		if (left == oldOb) {
-			left = newOb;
-		} else if (left instanceof ReplaceableValue) {
-			left = ((ReplaceableValue) left).replace(oldOb, newOb);
-		}
-
-		// right tree
-		if (right == oldOb) {
-			right = newOb;
-		} else if (right instanceof ReplaceableValue) {
-			right = ((ReplaceableValue) right).replace(oldOb, newOb);
-		}
-		return this;
+	public ExpressionNode traverseAndWrap(Traversing t) {
+		ExpressionValue ev = traverse(t);
+		if(ev.isExpressionNode())
+			return (ExpressionNode)ev;
+		return new ExpressionNode(kernel,ev);
 	}
 
 	public void replaceChildrenByValues(GeoElement geo) {
@@ -4565,15 +4531,12 @@ public class ExpressionNode extends ValidExpression implements
 		}
 	}
 
+	/**
+	 * @param toRoot true to replace powers by roots
+	 * @return this node with replaced powers / roots
+	 */
 	public boolean replacePowersRoots(boolean toRoot) {
 		boolean didReplacement = false;
-		
-		if(left instanceof ReplaceableValue){
-			didReplacement |= ((ReplaceableValue)left).replacePowersRoots(toRoot);
-		}
-		if(right instanceof ReplaceableValue){
-			didReplacement |= ((ReplaceableValue)right).replacePowersRoots(toRoot);
-		}
 		
 		if(toRoot && getOperation()==Operation.POWER && getRight().isExpressionNode()){
 			boolean hit = false;
@@ -4623,32 +4586,13 @@ public class ExpressionNode extends ValidExpression implements
 		return didReplacement;
 	}
 
-	public ExpressionValue replaceArbConsts(MyArbitraryConstant arbconst) {
-		if(getOperation()==Operation.ARBCONST)
-			return arbconst.nextConst();
-		if(getOperation()==Operation.ARBINT)
-			return arbconst.nextInt();
-		if(getOperation()==Operation.ARBCOMPLEX)
-			return arbconst.nextComplex();
-		if(left instanceof ReplaceableValue)
-			left = ((ReplaceableValue)left).replaceArbConsts(arbconst);
-		if(right instanceof ReplaceableValue)
-			right = ((ReplaceableValue)right).replaceArbConsts(arbconst);
-		return this;
-	}
-	public void collectDerivatives(ArrayList<GeoFunction> derivativeFunctions,
-			ArrayList<Integer> derivativeDegrees) {
-		if(operation ==Operation.DERIVATIVE){
-			derivativeFunctions.add((GeoFunction)left);
-			if(right instanceof NumberValue)
-				derivativeDegrees.add((int)((NumberValue)right).getDouble());
-			else
-				derivativeDegrees.add(1);
-		}
-		if(left instanceof ExpressionNode)
-			((ExpressionNode)left).collectDerivatives(derivativeFunctions, derivativeDegrees);
-		if(right instanceof ExpressionNode)
-			((ExpressionNode)right).collectDerivatives(derivativeFunctions, derivativeDegrees);
-		
+	/**
+	 * Replaces one object with another
+	 * @param oldObj object to be replaced
+	 * @param newObj replacement
+	 * @return this node with replaced objects
+	 */
+	public ExpressionValue replace(ExpressionValue oldObj, ExpressionValue newObj) {
+		return traverse(Replacer.getReplacer(oldObj, newObj));
 	}
 }

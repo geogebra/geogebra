@@ -7,6 +7,7 @@ import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.Equation;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
+import geogebra.common.kernel.arithmetic.Traversing.Replacer;
 import geogebra.common.kernel.geos.GeoDummyVariable;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -77,9 +78,9 @@ public class AlgoTriangleCurve extends AlgoElement implements ExpressionNodeCons
 		}
 		
 		eq = new Equation(kernel, lhs, rhs);
-		eq.replace(a, abcExp[0]);
-		eq.replace(b, abcExp[1]);
-		eq.replace(c, abcExp[2]);
+		eq.traverse(Replacer.getReplacer(a, abcExp[0]));
+		eq.traverse(Replacer.getReplacer(b, abcExp[1]));
+		eq.traverse(Replacer.getReplacer(c, abcExp[2]));
 		
 		eq.setForceImplicitPoly();
 		eq.initEquation();
