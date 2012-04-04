@@ -36,8 +36,7 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 public class AutoCompleteTextField extends MathTextField implements
-    AutoComplete, GeoElementSelectionListener, TextObject,
-    geogebra.common.gui.inputfield.AutoCompleteTextField {
+    AutoComplete, geogebra.common.gui.inputfield.AutoCompleteTextField {
 
   private static final long serialVersionUID = 1L;
 

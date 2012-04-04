@@ -12,22 +12,25 @@ import geogebra.web.main.Application;
 
 import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseUpHandler;
+import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.TextBox;
 
-public class AutoCompleteTextField extends TextBox implements geogebra.common.gui.inputfield.AutoCompleteTextField{
+public class AutoCompleteTextField extends SuggestBox implements geogebra.common.gui.inputfield.AutoCompleteTextField{
 	
 	public AutoCompleteTextField(int length, AbstractApplication application,
             Drawable drawTextField) {
+		//here should come the dictionary of suggestions
 	    super();
-	    setVisibleLength(length);
+	    //Find out later something setVisibleLength(length);
 	    init();
     }
 	
 	private void init(){
-		addMouseUpHandler(new MouseUpHandler(){
+		getTextBox().addMouseUpHandler(new MouseUpHandler(){
 			public void onMouseUp(MouseUpEvent event) {
-				AutoCompleteTextField tf = ((AutoCompleteTextField)event.getSource()); 
-	            tf.setFocus(true);
+				//AG I dont understand thisAutoCompleteTextField tf = ((AutoCompleteTextField)event.getSource()); 
+	            //AG tf.setFocus(true);
+				setFocus(true);
             }
 		});
 	}
@@ -114,11 +117,8 @@ public class AutoCompleteTextField extends TextBox implements geogebra.common.gu
     }
 
 	public void addFocusListener(FocusListener listener) {
-		//super.addFocusListener((geogebra.web.euclidian.event.FocusListener) listener);
-		super.addFocusHandler((geogebra.web.euclidian.event.FocusListener) listener);
-		super.addBlurHandler((geogebra.web.euclidian.event.FocusListener) listener);
-		
-	    
+		super.getTextBox().addFocusHandler((geogebra.web.euclidian.event.FocusListener) listener);
+		super.getTextBox().addBlurHandler((geogebra.web.euclidian.event.FocusListener) listener);	    
     }
 
 	public void addKeyListener(geogebra.common.euclidian.event.KeyListener listener) {
