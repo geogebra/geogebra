@@ -174,19 +174,28 @@ public abstract class CASgeneric implements CASGenericInterface,
 			for(int i=0;i<derivativeDegrees.size();i++){
 				GeoFunction f = derivativeFunctions.get(i);
 				StringBuilder sb = new StringBuilder(80);
+				//procedure f'(ggbcasvarx); return sub(locvarx=ggbcasvarx,df(f(locvarx),locvarx,1);
+				sb.append("<<procedure ");
 				sb.append(f.getLabel(casTpl));
 				int deg = derivativeDegrees.get(i);
 				for(int j=0;j<deg;j++)
 					sb.append("'");
 				sb.append("(");
 				sb.append(f.getVarString(casTpl));
-				sb.append("):=df(");
-				sb.append(f.getAssignmentLHS(casTpl));
-				sb.append(",");
+				sb.append("); sub(");
+				sb.append(f.getVarString(casTpl).replace("ggbcas", "loc"));
+				sb.append("=");
 				sb.append(f.getVarString(casTpl));
+				sb.append(",df(");
+				sb.append(f.getLabel(casTpl));
+				sb.append("(");
+				sb.append(f.getVarString(casTpl).replace("ggbcas", "loc"));
+				sb.append(")");
+				sb.append(",");
+				sb.append(f.getVarString(casTpl).replaceAll("ggbcas", "loc"));
 				sb.append(",");
 				sb.append(deg);
-				sb.append(")");
+				sb.append("));>>");
 				try{
 					this.evaluateRaw(sb.toString());
 				}catch(Throwable t){
