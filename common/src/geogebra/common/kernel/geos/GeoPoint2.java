@@ -53,6 +53,7 @@ import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.prover.FreeVariable;
+import geogebra.common.kernel.prover.NoSymbolicParametersException;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.plugin.GeoClass;
@@ -2016,8 +2017,7 @@ final public class GeoPoint2 extends GeoVec3D implements VectorValue,
 		return null;
 	}
 
-	public void getFreeVariablesAndDegrees(HashSet<FreeVariable> freeVariables,
-			int[] degrees) {
+	public int[] getFreeVariablesAndDegrees(HashSet<FreeVariable> freeVariables) throws NoSymbolicParametersException {
 
 		// if this is a free point
 		if (algoParent == null) {
@@ -2029,18 +2029,17 @@ final public class GeoPoint2 extends GeoVec3D implements VectorValue,
 			}
 			freeVariables.add(variableCoordinate1);
 			freeVariables.add(variableCoordinate2);
-			degrees = new int[3];
+			int[] degrees = new int[3];
 			degrees[0] = 1;
 			degrees[1] = 1;
 			degrees[2] = 0;
+			return degrees;
 		}
 		if (algoParent != null && algoParent instanceof SymbolicParametersAlgo) {
-			((SymbolicParametersAlgo) algoParent).getFreeVariablesAndDegrees(
-					freeVariables, degrees);
-		} else {
-			freeVariables = null;
-			degrees = null;
+			return ((SymbolicParametersAlgo) algoParent).getFreeVariablesAndDegrees(
+					freeVariables);
 		}
+		throw new NoSymbolicParametersException();
 	}
 
 	public BigInteger[] getExactCoordinates() {

@@ -4,6 +4,7 @@ import java.math.BigInteger;
 import java.util.HashSet;
 
 import geogebra.common.kernel.prover.FreeVariable;
+import geogebra.common.kernel.prover.NoSymbolicParametersException;
 
 /**
  * This class provides all symbolic information necessary for the provers.
@@ -20,7 +21,8 @@ public class SymbolicParameters {
 	private SymbolicParametersAlgo spa;
 
 	/**
-	 * @param spa
+	 * 
+	 * @param spa The algorithm which calculates the objects
 	 */
 	public SymbolicParameters(final SymbolicParametersAlgo spa) {
 		this.spa=spa;
@@ -30,8 +32,9 @@ public class SymbolicParameters {
 	 * Getter for the degrees
 	 * 
 	 * @return the degrees of the polynomial
+	 * @throws NoSymbolicParametersException if no symbolic parameters can be obtained
 	 */
-	public int[] getDegrees() {
+	public int[] getDegrees() throws NoSymbolicParametersException {
 		if (freeVariables == null) {
 			initDegrees();
 		}
@@ -78,7 +81,14 @@ public class SymbolicParameters {
 		return addDegree;
 	}
 	
-	public static BigInteger[] crossProduct(BigInteger[] a, BigInteger[] b){
+	/**
+	 * 
+	 * Calculates the cross product of two vectors of dimension three.
+	 * @param a the first vector
+	 * @param b the second vector
+	 * @return the cross product of the two vectors
+	 */
+	public static BigInteger[] crossProduct(final BigInteger[] a, final BigInteger[] b){
 		BigInteger[] result=new BigInteger[3];
 		result[0]=(a[1].multiply(b[2])).subtract(a[2].multiply(b[1]));
 		result[1]=(a[2].multiply(b[0])).subtract(a[0].multiply(b[2]));
@@ -86,30 +96,44 @@ public class SymbolicParameters {
 		return result;
 	}
 
-	public int getDimension() {
+	/**
+	 * Returns the number of free variables of the polynomial describing the object
+	 * @return the number of free variables
+	 * @throws NoSymbolicParametersException if no symbolic parameters can be obtained
+	 */
+	public int getDimension() throws NoSymbolicParametersException {
 		if (freeVariables == null) {
 			initDegrees();
 		}
 		return freeVariables.size();
 	}
 	
-	public HashSet<FreeVariable> getFreeVariables(){
+	/**
+	 * Returns a set of all free variables of the polynomial describing the object
+	 * @return the set of all free variables
+	 * @throws NoSymbolicParametersException if no symbolic parameters can be obtained
+	 */
+	public HashSet<FreeVariable> getFreeVariables() throws NoSymbolicParametersException{
 		if (freeVariables == null) {
 			initDegrees();
 		}
 		return freeVariables;
 	}
 	
+	/**
+	 * Calculates the homogeneous coordinates of the object when substituting the variables by its values.
+	 * @return the coordinates
+	 */
 	public BigInteger[] getExactCoordinates(){
 		return spa.getExactCoordinates();
 	}
 
 	/**
 	 * Calculates Degrees and FreeVariables
+	 * @throws NoSymbolicParametersException 
 	 */
-	private void initDegrees() {
+	private void initDegrees() throws NoSymbolicParametersException {
 		freeVariables = new HashSet<FreeVariable>();
-		degree = new int[3];
-		spa.getFreeVariablesAndDegrees(freeVariables, degree);
+		degree=spa.getFreeVariablesAndDegrees(freeVariables);
 	}
 }

@@ -5,6 +5,7 @@ import java.math.BigInteger;
 import java.util.HashSet;
 
 import geogebra.common.kernel.prover.FreeVariable;
+import geogebra.common.kernel.prover.NoSymbolicParametersException;
 
 /**
  * This interface describes the symbolic parameters of algorithms
@@ -20,12 +21,17 @@ public interface SymbolicParametersAlgo {
 	public SymbolicParameters getSymbolicParameters();
 	
 	/**
-	 * Returns the set of free variables and the maximum degrees.
+	 * Calculates the set of free variables and the maximum degrees.
+	 * @param freeVariables all free variables used
+	 * @return the degrees of the coordinates
+	 * @throws NoSymbolicParametersException thrown if no symbolic parameters are available.
 	 * 
-	 * @param freeVariables needs to be initialized
-	 * @param degrees should be null when the function is called
 	 */
-	public void getFreeVariablesAndDegrees(HashSet<FreeVariable> freeVariables, int[] degrees);
+	public int[] getFreeVariablesAndDegrees(HashSet<FreeVariable> freeVariables) throws NoSymbolicParametersException;
 	
+	/**
+	 * Calculates the homogeneous coordinates of the object when substituting the variables by its values.
+	 * @return the coordinates
+	 */
 	public BigInteger[] getExactCoordinates();
 }

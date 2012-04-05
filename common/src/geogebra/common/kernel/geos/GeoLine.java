@@ -43,6 +43,7 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.prover.FreeVariable;
+import geogebra.common.kernel.prover.NoSymbolicParametersException;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.plugin.Operation;
 import geogebra.common.util.MyMath;
@@ -1459,21 +1460,19 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 		return null;
 	}
 
-	public void getFreeVariablesAndDegrees(HashSet<FreeVariable> freeVariables,
-			int[] degrees) {
+	public int[] getFreeVariablesAndDegrees(HashSet<FreeVariable> freeVariables)
+			throws NoSymbolicParametersException {
 		if (algoParent != null
 				&& (algoParent instanceof SymbolicParametersAlgo)) {
-			((SymbolicParametersAlgo) algoParent).getFreeVariablesAndDegrees(freeVariables, degrees);
-		} else {
-			freeVariables=null;
-			degrees=null;
+			return ((SymbolicParametersAlgo) algoParent)
+					.getFreeVariablesAndDegrees(freeVariables);
 		}
-
+		throw new NoSymbolicParametersException();
 	}
 
 	public BigInteger[] getExactCoordinates() {
 		if (algoParent != null
-				&& (algoParent instanceof SymbolicParametersAlgo)) {
+	&& (algoParent instanceof SymbolicParametersAlgo)) {
 			return ((SymbolicParametersAlgo) algoParent).getExactCoordinates();
 		}
 		return null;
