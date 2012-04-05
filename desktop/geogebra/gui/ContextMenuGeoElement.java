@@ -55,36 +55,38 @@ import javax.swing.KeyStroke;
 /**
  * Context menu for GeoElement objects.
  * @author  Markus Hohenwarter
- * @version 
  */
 public class ContextMenuGeoElement extends JPopupMenu {
 
 	private static final long serialVersionUID = 1L;
+	/** background color*/
 	final static Color bgColor = Color.white;
+	/** foreground color*/
 	final static Color fgColor = Color.black;
-
-	private ArrayList<GeoElement> geos;
-	private GeoElement geo;
-	private GeoPoint2 point;
-	private GeoLine line;
-	private GeoVector vector;
-	private GeoConic conic;
-	private GeoCoordSys2D plane;
-	//private GeoNumeric numeric;
-	//private Point location;
+	/** selected elements*/
+	ArrayList<GeoElement> geos;
+	/** current element */
+	GeoElement geo;
+	/** application */
 	protected Application app;
-
+	/**
+	 * Creates new context menu
+	 * @param app application
+	 */
 	ContextMenuGeoElement(Application app) {
 		this.app = app;     
 		setBackground(bgColor);
 	}
 
-	/** Creates new MyPopupMenu for GeoElement*/
+	/** Creates new MyPopupMenu for GeoElement
+	 * @param app application
+	 * @param geos selected elements
+	 * @param location screen position
+	 */
 	public ContextMenuGeoElement(Application app, ArrayList<GeoElement> geos, Point location) {
 		this(app);
 		this.geos = geos;
 		geo = geos.get(0);
-		//this.location = location;                               
 
 		String title;
 		
@@ -124,7 +126,7 @@ public class ContextMenuGeoElement extends JPopupMenu {
 	private void addPointItems() {
 		if (!(geo instanceof GeoPoint2))
 			return;
-		point = (GeoPoint2) geo;
+		GeoPoint2 point = (GeoPoint2) geo;
 		int mode = point.getMode();
 		AbstractAction action;
 
@@ -137,11 +139,11 @@ public class ContextMenuGeoElement extends JPopupMenu {
 
 				public void actionPerformed(ActionEvent e) {
 					for (int i = geos.size() - 1 ; i >= 0 ; i--) {
-						GeoElement geo = geos.get(i);
-						if (geo instanceof GeoPoint2) {
-							point = (GeoPoint2)geo;
-							point.setMode(Kernel.COORD_CARTESIAN);
-							point.updateRepaint();
+						GeoElement geo1 = geos.get(i);
+						if (geo1 instanceof GeoPoint2) {
+							GeoPoint2 point1 = (GeoPoint2)geo1;
+							point1.setMode(Kernel.COORD_CARTESIAN);
+							point1.updateRepaint();
 						}
 					}
 					app.storeUndoInfo();
@@ -159,11 +161,11 @@ public class ContextMenuGeoElement extends JPopupMenu {
 
 				public void actionPerformed(ActionEvent e) {
 					for (int i = geos.size() - 1 ; i >= 0 ; i--) {
-						GeoElement geo = geos.get(i);
-						if (geo instanceof GeoPoint2) {
-							point = (GeoPoint2)geo;
-							point.setMode(Kernel.COORD_POLAR);
-							point.updateRepaint();
+						GeoElement geo1 = geos.get(i);
+						if (geo1 instanceof GeoPoint2) {
+							GeoPoint2 point1 = (GeoPoint2)geo1;
+							point1.setMode(Kernel.COORD_POLAR);
+							point1.updateRepaint();
 						}
 					}
 					app.storeUndoInfo();
@@ -196,7 +198,7 @@ public class ContextMenuGeoElement extends JPopupMenu {
 		if (geo instanceof GeoSegment)
 			return;        
 
-		line = (GeoLine) geo;
+		GeoLine line = (GeoLine) geo;
 		int mode = line.getMode();
 		AbstractAction action;
 		StringBuilder sb = new StringBuilder();
@@ -214,11 +216,11 @@ public class ContextMenuGeoElement extends JPopupMenu {
 
 				public void actionPerformed(ActionEvent e) {
 					for (int i = geos.size() - 1 ; i >= 0 ; i--) {
-						GeoElement geo = geos.get(i);
-						if (geo instanceof GeoLine && !(geo instanceof GeoSegment)) {
-							line = (GeoLine)geo;
-							line.setMode(GeoLine.EQUATION_IMPLICIT);
-							line.updateRepaint();
+						GeoElement geo1 = geos.get(i);
+						if (geo1 instanceof GeoLine && !(geo1 instanceof GeoSegment)) {
+							GeoLine line1 = (GeoLine)geo1;
+							line1.setMode(GeoLine.EQUATION_IMPLICIT);
+							line1.updateRepaint();
 						}
 					}
 					app.storeUndoInfo();
@@ -240,11 +242,11 @@ public class ContextMenuGeoElement extends JPopupMenu {
 
 				public void actionPerformed(ActionEvent e) {
 					for (int i = geos.size() - 1 ; i >= 0 ; i--) {
-						GeoElement geo = geos.get(i);
-						if (geo instanceof GeoLine && !(geo instanceof GeoSegment)) {
-							line = (GeoLine)geo;
-							line.setMode(GeoLine.EQUATION_EXPLICIT);
-							line.updateRepaint();
+						GeoElement geo1 = geos.get(i);
+						if (geo1 instanceof GeoLine && !(geo1 instanceof GeoSegment)) {
+							GeoLine line1 = (GeoLine)geo1;
+							line1.setMode(GeoLine.EQUATION_EXPLICIT);
+							line1.updateRepaint();
 						}
 					}
 					app.storeUndoInfo();
@@ -262,11 +264,11 @@ public class ContextMenuGeoElement extends JPopupMenu {
 
 				public void actionPerformed(ActionEvent e) {
 					for (int i = geos.size() - 1 ; i >= 0 ; i--) {
-						GeoElement geo = geos.get(i);
-						if (geo instanceof GeoLine && !(geo instanceof GeoSegment)) {
-							line = (GeoLine)geo;
-							line.setMode(GeoLine.PARAMETRIC);
-							line.updateRepaint();
+						GeoElement geo1 = geos.get(i);
+						if (geo1 instanceof GeoLine && !(geo1 instanceof GeoSegment)) {
+							GeoLine line1 = (GeoLine)geo1;
+							line1.setMode(GeoLine.PARAMETRIC);
+							line1.updateRepaint();
 						}
 					}
 					app.storeUndoInfo();
@@ -280,7 +282,7 @@ public class ContextMenuGeoElement extends JPopupMenu {
 	private void addVectorItems() {
 		if (!(geo instanceof GeoVector))
 			return;
-		vector = (GeoVector) geo;
+		GeoVector vector = (GeoVector) geo;
 		int mode = vector.getMode();
 		AbstractAction action;
 
@@ -293,11 +295,11 @@ public class ContextMenuGeoElement extends JPopupMenu {
 
 				public void actionPerformed(ActionEvent e) {
 					for (int i = geos.size() - 1 ; i >= 0 ; i--) {
-						GeoElement geo = geos.get(i);
-						if (geo instanceof GeoVector) {
-							vector = (GeoVector)geo;
-							vector.setMode(Kernel.COORD_CARTESIAN);
-							vector.updateRepaint();
+						GeoElement geo1 = geos.get(i);
+						if (geo1 instanceof GeoVector) {
+							GeoVector vector1 = (GeoVector)geo1;
+							vector1.setMode(Kernel.COORD_CARTESIAN);
+							vector1.updateRepaint();
 						}
 					}
 					app.storeUndoInfo();
@@ -315,11 +317,11 @@ public class ContextMenuGeoElement extends JPopupMenu {
 
 				public void actionPerformed(ActionEvent e) {
 					for (int i = geos.size() - 1 ; i >= 0 ; i--) {
-						GeoElement geo = geos.get(i);
-						if (geo instanceof GeoVector) {
-							vector = (GeoVector)geo;
-							vector.setMode(Kernel.COORD_POLAR);
-							vector.updateRepaint();
+						GeoElement geo1 = geos.get(i);
+						if (geo1 instanceof GeoVector) {
+							GeoVector vector1 = (GeoVector)geo1;
+							vector1.setMode(Kernel.COORD_POLAR);
+							vector1.updateRepaint();
 						}
 					}
 					app.storeUndoInfo();
@@ -346,7 +348,7 @@ public class ContextMenuGeoElement extends JPopupMenu {
 	private void addConicItems() {
 		if (geo.getClass() != GeoConic.class)
 			return;
-		conic = (GeoConic) geo;
+		GeoConic conic = (GeoConic) geo;
 
 		// there's no need to show implicit equation
 		// if you can't select the specific equation
@@ -371,11 +373,11 @@ public class ContextMenuGeoElement extends JPopupMenu {
 
 				public void actionPerformed(ActionEvent e) {
 					for (int i = geos.size() - 1 ; i >= 0 ; i--) {
-						GeoElement geo = geos.get(i);
-						if (geo.getClass() == GeoConic.class) {
-							conic = (GeoConic)geo;
-							conic.setToImplicit();
-							conic.updateRepaint();
+						GeoElement geo1 = geos.get(i);
+						if (geo1.getClass() == GeoConic.class) {
+							GeoConic conic1 = (GeoConic)geo1;
+							conic1.setToImplicit();
+							conic1.updateRepaint();
 						}
 					}
 					app.storeUndoInfo();
@@ -400,11 +402,11 @@ public class ContextMenuGeoElement extends JPopupMenu {
 
 					public void actionPerformed(ActionEvent e) {
 						for (int i = geos.size() - 1 ; i >= 0 ; i--) {
-							GeoElement geo = geos.get(i);
-							if (geo.getClass() == GeoConic.class) {
-								conic = (GeoConic)geo;
-								conic.setToSpecific();
-								conic.updateRepaint();
+							GeoElement geo1 = geos.get(i);
+							if (geo1.getClass() == GeoConic.class) {
+								GeoConic conic1 = (GeoConic)geo1;
+								conic1.setToSpecific();
+								conic1.updateRepaint();
 							}
 						}
 						app.storeUndoInfo();
@@ -427,11 +429,11 @@ public class ContextMenuGeoElement extends JPopupMenu {
 
 				public void actionPerformed(ActionEvent e) {
 					for (int i = geos.size() - 1 ; i >= 0 ; i--) {
-						GeoElement geo = geos.get(i);
-						if (geo.getClass() == GeoConic.class) {
-							conic = (GeoConic)geo;
-							conic.setToExplicit();
-							conic.updateRepaint();
+						GeoElement geo1 = geos.get(i);
+						if (geo1.getClass() == GeoConic.class) {
+							GeoConic conic1 = (GeoConic)geo1;
+							conic1.setToExplicit();
+							conic1.updateRepaint();
 						}
 					}
 					app.storeUndoInfo();
@@ -475,6 +477,7 @@ public class ContextMenuGeoElement extends JPopupMenu {
 	}
 
 	private void addNumberItems() {
+		//no items
 	}
 
 	private void addTextItems() {
@@ -487,9 +490,9 @@ public class ContextMenuGeoElement extends JPopupMenu {
 			cbItem.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					for (int i = geos.size() - 1 ; i >= 0 ; i--) {
-						GeoElement geo = geos.get(i);
-						if (geo.isGeoText()) {
-							GeoText geoText = (GeoText)geo;
+						GeoElement geo1 = geos.get(i);
+						if (geo1.isGeoText()) {
+							GeoText geoText = (GeoText)geo1;
 							boolean flag = !geoText.isAbsoluteScreenLocActive();
 							if (flag) {
 								// convert real world to screen coords
@@ -517,7 +520,7 @@ public class ContextMenuGeoElement extends JPopupMenu {
 	private void addPlaneItems() {
 		if (!(geo instanceof GeoCoordSys2D))
 			return;
-		plane = (GeoCoordSys2D) geo;
+		final GeoCoordSys2D plane = (GeoCoordSys2D) geo;
 
 		AbstractAction action;
 
@@ -590,7 +593,7 @@ public class ContextMenuGeoElement extends JPopupMenu {
 		// SHOW, HIDE
 		
 		//G.Sturr 2010-5-14: allow menu to show spreadsheet trace for non-drawables
-        if (geo.isDrawable() || (geo.isSpreadsheetTraceable() && app.getGuiManager().showView(Application.VIEW_SPREADSHEET))) {  			JCheckBoxMenuItem cbItem;
+        if (geo.isDrawable() || (geo.isSpreadsheetTraceable() && app.getGuiManager().showView(AbstractApplication.VIEW_SPREADSHEET))) {  			JCheckBoxMenuItem cbItem;
 
 			// show object
 			if (geo.isEuclidianShowable() && geo.getShowObjectCondition() == null && (!geo.isGeoBoolean() || geo.isIndependent())) {
@@ -600,9 +603,9 @@ public class ContextMenuGeoElement extends JPopupMenu {
 				cbItem.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						for (int i = geos.size() - 1 ; i >= 0 ; i--) {
-							GeoElement geo = geos.get(i);
-							geo.setEuclidianVisible(!geo.isSetEuclidianVisible());
-							geo.updateRepaint();
+							GeoElement geo1 = geos.get(i);
+							geo1.setEuclidianVisible(!geo1.isSetEuclidianVisible());
+							geo1.updateRepaint();
 							
 						}
 						app.storeUndoInfo();
@@ -619,9 +622,9 @@ public class ContextMenuGeoElement extends JPopupMenu {
 				cbItem.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						for (int i = geos.size() - 1 ; i >= 0 ; i--) {
-							GeoElement geo = geos.get(i);
-							geo.setLabelVisible(!geo.isLabelVisible());
-							geo.updateRepaint();
+							GeoElement geo1 = geos.get(i);
+							geo1.setLabelVisible(!geo1.isLabelVisible());
+							geo1.updateRepaint();
 							
 						}
 						app.storeUndoInfo();
@@ -638,10 +641,10 @@ public class ContextMenuGeoElement extends JPopupMenu {
 				cbItem.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						for (int i = geos.size() - 1 ; i >= 0 ; i--) {
-							GeoElement geo = geos.get(i);
-							if (geo.isTraceable()) {
-								((Traceable) geo).setTrace(!((Traceable) geo).getTrace());
-								geo.updateRepaint();
+							GeoElement geo1 = geos.get(i);
+							if (geo1.isTraceable()) {
+								((Traceable) geo1).setTrace(!((Traceable) geo1).getTrace());
+								geo1.updateRepaint();
 							}
 							
 						}
@@ -695,10 +698,11 @@ public class ContextMenuGeoElement extends JPopupMenu {
 				cbItem.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						for (int i = geos.size() - 1 ; i >= 0 ; i--) {
-							GeoElement geo = geos.get(i);
-							if (geo.isAnimatable()) {
-		                		geo.setAnimating(!(geo.isAnimating() && app.getKernel().getAnimatonManager().isRunning()));
-								geo.updateRepaint();
+							GeoElement geo1 = geos.get(i);
+							if (geo1.isAnimatable()) {
+		                		geo1.setAnimating(!(geo1.isAnimating() && 
+		                				app.getKernel().getAnimatonManager().isRunning()));
+								geo1.updateRepaint();
 							}
 							
 						}
@@ -725,10 +729,10 @@ public class ContextMenuGeoElement extends JPopupMenu {
 				cbItem.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						for (int i = geos.size() - 1 ; i >= 0 ; i--) {
-							GeoElement geo = geos.get(i);
-							if (geo.isAlgebraShowable()) {
-								geo.setAuxiliaryObject(!geo.isAuxiliaryObject());
-								geo.updateRepaint();
+							GeoElement geo1 = geos.get(i);
+							if (geo1.isAlgebraShowable()) {
+								geo1.setAuxiliaryObject(!geo1.isAuxiliaryObject());
+								geo1.updateRepaint();
 							}
 							
 						}
@@ -747,14 +751,14 @@ public class ContextMenuGeoElement extends JPopupMenu {
 				cbItem.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						for (int i = geos.size() - 1 ; i >= 0 ; i--) {
-							GeoElement geo = geos.get(i);
-							if (geo.isGeoNumeric()) {
-								((GeoNumeric)geo).setSliderFixed(!geo.isFixed());
-								geo.updateRepaint();
+							GeoElement geo1 = geos.get(i);
+							if (geo1.isGeoNumeric()) {
+								((GeoNumeric)geo1).setSliderFixed(!geo1.isFixed());
+								geo1.updateRepaint();
 							} else {
-								if (geo.isFixable()) {
-									geo.setFixed(!geo.isFixed());
-									geo.updateRepaint();
+								if (geo1.isFixable()) {
+									geo1.setFixed(!geo1.isFixed());
+									geo1.updateRepaint();
 								}
 							}
 							
@@ -775,12 +779,12 @@ public class ContextMenuGeoElement extends JPopupMenu {
 					cbItem.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent e) {
 							for (int i = geos.size() - 1 ; i >= 0 ; i--) {
-								GeoElement geo = geos.get(i);
-								if (geo.isGeoNumeric()) {
-									((GeoNumeric)geo).setSliderFixed(!num.isSliderFixed());
-									geo.updateRepaint();
+								GeoElement geo1 = geos.get(i);
+								if (geo1.isGeoNumeric()) {
+									((GeoNumeric)geo1).setSliderFixed(!num.isSliderFixed());
+									geo1.updateRepaint();
 								} else {
-									geo.setFixed(!num.isSliderFixed());
+									geo1.setFixed(!num.isSliderFixed());
 								}
 								
 							}
@@ -892,8 +896,8 @@ public class ContextMenuGeoElement extends JPopupMenu {
 				public void actionPerformed(ActionEvent e) {
 					//geo.remove();
 					for (int i = geos.size() - 1 ; i >= 0 ; i--) {
-						GeoElement geo = geos.get(i);
-						geo.removeOrSetUndefinedIfHasFixedDescendent();
+						GeoElement geo1 = geos.get(i);
+						geo1.removeOrSetUndefinedIfHasFixedDescendent();
 					}
 					app.storeUndoInfo();
 				}
@@ -919,16 +923,28 @@ public class ContextMenuGeoElement extends JPopupMenu {
 	}
 	//private ArrayList tempArrayList = new ArrayList();
 
+	/**
+	 * Adds given action to this menu
+	 * @param ac action
+	 */
 	void addAction(Action ac) {
 		JMenuItem mi = this.add(ac);
 		mi.setBackground(bgColor);              
 	}
 
+	/**
+	 * Adds given item to this menu
+	 * @param mi item
+	 */
 	void addItem(JMenuItem mi) {        
 		mi.setBackground(bgColor);
 		add(mi);
 	}
 
+	/**
+	 * Sts title of this menu; e.g. "Point A" or "Selection"
+	 * @param str title of this menu
+	 */
 	protected void setTitle(String str) {
 		JLabel title = new JLabel(str);
 		title.setFont(app.getBoldFont());                      
@@ -948,6 +964,11 @@ public class ContextMenuGeoElement extends JPopupMenu {
 		});
 	}
 	
+	/**
+	 * Adds keyboard shortcut to given itemof this menu
+	 * @param mi item
+	 * @param acc accelerator
+	 */
 	protected void setMenuShortCutAccelerator(JMenuItem mi, char acc) {
 		KeyStroke ks = KeyStroke.getKeyStroke(acc, Toolkit.getDefaultToolkit()
 				.getMenuShortcutKeyMask());
