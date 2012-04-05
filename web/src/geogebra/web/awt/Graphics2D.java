@@ -1,7 +1,6 @@
 package geogebra.web.awt;
 
 import geogebra.common.awt.AffineTransform;
-import geogebra.common.awt.AlphaComposite;
 import geogebra.common.awt.AttributedCharacterIterator;
 import geogebra.common.awt.BasicStroke;
 import geogebra.common.awt.BufferedImageOp;
@@ -15,7 +14,6 @@ import geogebra.common.awt.Image;
 import geogebra.common.awt.ImageObserver;
 import geogebra.common.awt.Key;
 import geogebra.common.awt.Paint;
-import geogebra.common.awt.Rectangle;
 import geogebra.common.awt.RenderableImage;
 import geogebra.common.awt.RenderedImage;
 import geogebra.common.awt.RenderingHints;
@@ -32,12 +30,9 @@ import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.CanvasPattern;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.canvas.dom.client.Context2d.Repetition;
-import com.google.gwt.canvas.dom.client.FillStrokeStyle;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArrayNumber;
-import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.user.client.Element;
-import com.ibm.icu.impl.TextTrieMap;
 
 public class Graphics2D extends geogebra.common.awt.Graphics2D {
 	

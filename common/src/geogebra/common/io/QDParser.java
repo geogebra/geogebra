@@ -251,7 +251,7 @@ public class QDParser {
 					// Could parse hex entities if we wanted to
 					else if (cent.startsWith("#x"))
 						sb.append((char) Integer.parseInt(cent.substring(2), 16));
-					else if (cent.startsWith("#"))
+					else if (cent.charAt(0)=='#')
 						sb.append((char) Integer.parseInt(cent.substring(1)));
 					// Insert custom entity definitions here
 					else

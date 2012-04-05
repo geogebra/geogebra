@@ -96,7 +96,7 @@ public final class UnmodifiableBidiMap <K,V> extends AbstractBidiMapDecorator<K,
 
     public Set<V> values() {
         Set<V> coll = super.values();
-        return (Set<V>) UnmodifiableSet.decorate(coll);
+        return UnmodifiableSet.decorate(coll);
     }
 
     //-----------------------------------------------------------------------

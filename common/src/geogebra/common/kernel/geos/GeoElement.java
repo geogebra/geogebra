@@ -6894,7 +6894,6 @@ public abstract class GeoElement extends ConstructionElement implements
 	 */
 	public void randomizeForProbabilisticChecking() {
 		// overode by subclasses
-		return;
 	}
 
 	/**

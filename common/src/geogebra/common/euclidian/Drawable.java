@@ -170,7 +170,7 @@ public abstract class Drawable extends DrawableND {
 		Font oldFont = null;
 
 		// allow LaTeX caption surrounded by $ $
-		if (label.startsWith("$") && label.endsWith("$")) {
+		if ((label.charAt(0)=='$') && label.endsWith("$")) {
 			boolean serif = true; // nice "x"s
 			if (geo.isGeoText())
 				serif = ((GeoText) geo).isSerifFont();
@@ -188,7 +188,7 @@ public abstract class Drawable extends DrawableND {
 		}
 
 		// label changed: check for bold or italic tags in caption
-		if (oldLabelDesc != labelDesc || labelDesc.startsWith("<")) {
+		if (oldLabelDesc != labelDesc || (labelDesc.charAt(0)=='<')) {
 			boolean italic = false;
 
 			// support for bold and italic tags in captions

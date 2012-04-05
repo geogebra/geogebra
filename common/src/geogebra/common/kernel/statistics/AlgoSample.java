@@ -63,7 +63,7 @@ public class AlgoSample extends AlgoElement {
 	protected void setInputOutput(){
         input = new GeoElement[replacement == null ? 2 : 3];
         input[0] = inputList;
-        input[1] = (GeoElement)num.toGeoElement();
+        input[1] = num.toGeoElement();
         if (replacement != null) input[2] = replacement;
 
         setOutputLength(1);

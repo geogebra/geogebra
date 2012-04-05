@@ -472,9 +472,9 @@ public class AlgoLocus extends AlgoElement {
 						finishedRun = true;
 					} else {
 						// decrease step until another step is possible
-						while (!pathMover.hasNext() && pathMover.smallerStep())
-							;
-
+						while (!pathMover.hasNext() && pathMover.smallerStep()){
+							//do nothing
+						}
 						// no smaller step possible: run finished
 						if (!pathMover.hasNext())
 							finishedRun = true;

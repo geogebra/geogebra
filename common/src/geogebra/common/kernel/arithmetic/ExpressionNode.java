@@ -2202,7 +2202,7 @@ public class ExpressionNode extends ValidExpression implements
 									.isDigit(lastLeft)
 									&& (Character.isDigit(firstRight)
 									// 3*E23AB can't be written 3E23AB
-									|| (rightStr.startsWith("E")));
+									|| (rightStr.charAt(0)== 'E'));
 							// check if we need a multiplication space:
 							multiplicationSpaceNeeded = showMultiplicationSign;
 							if (!multiplicationSpaceNeeded) {
@@ -2305,7 +2305,7 @@ public class ExpressionNode extends ValidExpression implements
 				mathml(sb, "<divide/>", leftStr, rightStr);
 				break;
 			case LATEX:
-				if(leftStr.startsWith("-") && (left.isConstant()||
+				if((leftStr.charAt(0)=='-') && (left.isConstant()||
 						(left instanceof ExpressionNode && isMultiplyOrDivide((ExpressionNode)left))
 						)){
 					sb.append("-\\frac{");

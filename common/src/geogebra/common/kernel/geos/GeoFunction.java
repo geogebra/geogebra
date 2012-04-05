@@ -1729,7 +1729,7 @@ public class GeoFunction extends GeoElement implements VarString,
 			return true; // undefined/NaN
 		// if (str.indexOf("%i") > -1 ) return true; // complex answer
 		str1 = app.toLowerCase(str1);
-		if (str1.startsWith("'"))
+		if (str1.charAt(0)== '\'')
 			return true; // maxima error eg 'diff(
 		if (!allowInfinity && str1.indexOf(Unicode.Infinity) > -1)
 			return true;

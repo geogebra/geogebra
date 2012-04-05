@@ -306,7 +306,6 @@ public class AlgoIntersectImplicitpolys extends AlgoSimpleRootsPolynomial {
 			int r=0;
 			double glc=-1; //greatest leading coefficient
 			for (int i=k;i<n;i++){
-				mat[i][k]=mat[i][k];
 				double lc=mat[i][k].getCoeffDouble(mat[i][k].degree());//PolynomialUtils.getDegree(mat[i][k]));
 				if (!mat[i][k].isZeroPolynomial()){
 					if (Math.abs(lc)>glc){

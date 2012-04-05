@@ -409,7 +409,7 @@ public class BeanMap extends AbstractMap<String, Object> implements Cloneable {
      *         property exists
      */
     public Class getType(String name) {
-        return (Class) types.get(name);
+        return types.get(name);
     }
 
     /**
@@ -512,7 +512,7 @@ public class BeanMap extends AbstractMap<String, Object> implements Cloneable {
      * @return the mutator method for the property, or null
      */
     public Method getWriteMethod(String name) {
-        return (Method) writeMethods.get(name);
+        return writeMethods.get(name);
     }
 
 

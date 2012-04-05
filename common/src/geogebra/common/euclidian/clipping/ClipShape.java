@@ -120,7 +120,7 @@ public class ClipShape {
 		public void lineTo(double x,double y) {
 			
 			if(uncommittedPoints.size()>0) {
-				double[] last = (double[])uncommittedPoints.peek();
+				double[] last = uncommittedPoints.peek();
 				//are we adding the same point?
 				if(Math.abs(last[0]-x)<TOLERANCE && Math.abs(last[1]-y)<TOLERANCE)
 					return;
@@ -143,24 +143,24 @@ public class ClipShape {
 		public void flush() {
 			while(uncommittedPoints.size()>0) {
 				identifyLines : while(uncommittedPoints.size()>=3) {
-					double[] first = (double[])uncommittedPoints.get(0);
-					double[] middle = (double[])uncommittedPoints.get(1);
-					double[] last = (double[])uncommittedPoints.get(2);
+					double[] first = uncommittedPoints.get(0);
+					double[] middle = uncommittedPoints.get(1);
+					double[] last = uncommittedPoints.get(2);
 					
 					if(Math.abs(first[0]-middle[0])<TOLERANCE && Math.abs(first[0]-last[0])<TOLERANCE) {
 						//everything has the same x, so we have a vertical line
-						double[] array = (double[])uncommittedPoints.remove(1);
+						double[] array = uncommittedPoints.remove(1);
 						doubleFactory.putArray(array);
 					} else if(Math.abs(first[1]-middle[1])<TOLERANCE && Math.abs(first[1]-last[1])<TOLERANCE) {
 						//everything has the same y, so we have a horizontal line
-						double[] array = (double[])uncommittedPoints.remove(1);
+						double[] array = uncommittedPoints.remove(1);
 						doubleFactory.putArray(array);
 					} else {
 						break identifyLines;
 					}
 				}
 			
-				double[] point = (double[])uncommittedPoints.remove(0);
+				double[] point = uncommittedPoints.remove(0);
 				g.lineTo( (float)point[0], (float)point[1]);
 				doubleFactory.putArray(point);
 			}

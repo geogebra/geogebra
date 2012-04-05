@@ -139,7 +139,7 @@ public class VoronoiAlgorithm {
                         prevnode ,
                         currnode ,
                         nextnode ,
-                        (int)circleevent.getX(), (int)circleevent.getCenterY()
+                        (int)circleevent.getX(), circleevent.getCenterY()
                         );
                 
                 // Remove any circle events, before removing node

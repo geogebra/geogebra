@@ -102,7 +102,7 @@ public class AlgoSimplifyText extends AlgoElement {
      	ret = ret.replaceAll("([^ ])\\=([^ ])","$1 = $2");
    	
      	// remove + and 1 at the start
-    	if (ret.startsWith("+")) ret = ret.substring(1);
+    	if (ret.charAt(0)== '+') ret = ret.substring(1);
     	if (ret.startsWith("1x")) ret = ret.substring(1);
     	
     	// replace "-" with unicode minus

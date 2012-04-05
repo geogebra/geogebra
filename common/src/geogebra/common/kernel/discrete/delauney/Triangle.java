@@ -141,7 +141,7 @@ public class Triangle extends ArraySet<Pnt> {
 
     @Override
     public int hashCode () {
-        return (int)(idNumber^(idNumber>>>32));
+        return idNumber^(idNumber>>>32);
     }
 
     @Override

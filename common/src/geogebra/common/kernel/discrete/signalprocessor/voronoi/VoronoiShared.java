@@ -32,8 +32,8 @@ public class VoronoiShared {
             double b2 = (v.getX() - w.getX())*(v.getX() + w.getX()) + (v.getY() - w.getY())*(v.getY() + w.getY());
             
             VCircleEvent centerpoint = new VCircleEvent();
-            double x             = ( b1*(double)(v.getY() - w.getY()) - b2*(double)(u.getY() - v.getY()) ) / ( 2.0 * a );
-            double center_y      = ( b2*(double)(u.getX() - v.getX()) - b1*(double)(v.getX() - w.getX()) ) / ( 2.0 * a );
+            double x             = ( b1*(v.getY() - w.getY()) - b2*(u.getY() - v.getY()) ) / ( 2.0 * a );
+            double center_y      = ( b2*(u.getX() - v.getX()) - b1*(v.getX() - w.getX()) ) / ( 2.0 * a );
             centerpoint.setX(       (int) x  );
             centerpoint.setY(       (int)( center_y + Math.sqrt( (x-u.getX())*(x-u.getX()) + (center_y-u.getY())*(center_y-u.getY()) ) ) );
             centerpoint.setCenterY( (int) center_y );

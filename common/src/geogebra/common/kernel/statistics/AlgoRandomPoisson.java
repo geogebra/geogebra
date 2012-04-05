@@ -50,7 +50,7 @@ public class AlgoRandomPoisson extends AlgoElement implements SetRandomValue {
   @Override
 protected void setInputOutput() {
       input =  new GeoElement[1];
-      input[0] = (GeoElement)a.toGeoElement();
+      input[0] = a.toGeoElement();
       
       output = new GeoElement[1];        
       output[0] = num;        

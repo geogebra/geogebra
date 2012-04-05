@@ -810,7 +810,7 @@ public class RelativeCopy {
 		}
 
 		// remove leading equal sign, e.g. "= A1 + A2"
-		if (text.startsWith("=")) {
+		if (text.charAt(0)== '=') {
 			text = text.substring(1);
 		}
 		text = text.trim();
@@ -898,7 +898,7 @@ public class RelativeCopy {
 	private static GeoElement updateOldValue(Kernel kernel,
 			GeoElement oldValue, String name, String text) throws Exception {
 		String text0 = text;
-		if (text.startsWith("=")) {
+		if (text.charAt(0)== '=') {
 			text = text.substring(1);
 		}
 		GeoElement newValue = null;
@@ -999,7 +999,7 @@ public class RelativeCopy {
 		// This will force the cell to become GeoText.
 		if (app.getSettings().getSpreadsheet().equalsRequired() && text != null) {
 
-				if (!(text.startsWith("=") || isNumber(text))) {
+				if (!((text.charAt(0)=='=') || isNumber(text))) {
 					text = "\"" + text + "\"";
 				}
 		}
