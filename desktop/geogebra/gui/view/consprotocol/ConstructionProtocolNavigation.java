@@ -51,22 +51,29 @@ public class ConstructionProtocolNavigation extends JPanel implements ActionList
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private JButton btFirst, btPrev, btPlay, btNext, btLast, btOpenWindow;
+	private JButton btFirst, btPrev, btNext, btLast, btOpenWindow;
+	/** Button for starting/stopping animation*/
+	JButton btPlay;
 	private JLabel lbSteps;
-	private JSpinner spDelay;
-	private double playDelay = 2; // in seconds	 
+	/** Delay spinner */
+	JSpinner spDelay;
+	/** Delay in seconds */
+	double playDelay = 2;	 
 	private JPanel playPanel;
-	
-	private Application app;
-	private ConstructionProtocolView prot;
+	/** Application */
+	Application app;
+	/** Construction protocol view */
+	ConstructionProtocolView prot;
 	private boolean showPlayButton = true, 
 					showConsProtButton = true;
 	
 	private AutomaticPlayer player;
-	private boolean isPlaying;
+	/** Indicates whether animation is on or off */
+	boolean isPlaying;
 	
 	/**
 	 * Creates a new navigation bar to step through the construction protocol.
+	 * @param prot construction protocol view
 	 */
 	public ConstructionProtocolNavigation(ConstructionProtocolView prot) {
 		this.prot = prot;			
@@ -94,19 +101,31 @@ public class ConstructionProtocolNavigation extends JPanel implements ActionList
 		*/
 	}
 		
+	/**
+	 * @return whether play button is visible
+	 */
 	public boolean isPlayButtonVisible() {
 		return showPlayButton;
 	}
 	
+	/**
+	 * @param flag true to make play button visible
+	 */
 	public void setPlayButtonVisible(boolean flag) {
 		showPlayButton = flag;	
 		playPanel.setVisible(flag);
 	}
 	
+	/**
+	 * @return whether button to show construction protocol is visible
+	 */
 	public boolean isConsProtButtonVisible() {
 		return showConsProtButton;
 	}	
 	
+	/**
+	 * @param flag whether button to show construction protocol should be visible
+	 */
 	public void setConsProtButtonVisible(boolean flag) {		
 		showConsProtButton = flag;	
 		btOpenWindow.setVisible(flag);
@@ -115,12 +134,15 @@ public class ConstructionProtocolNavigation extends JPanel implements ActionList
 	/**
 	 * Returns delay between frames of automatic construction protocol
 	 * playing in seconds.
-	 * @return
+	 * @return delay in seconds
 	 */
 	public double getPlayDelay() {
 		return playDelay;
 	}
-	
+	/**
+	 * Changes animation delay
+	 * @param delay delay in seconds
+	 */
 	public void setPlayDelay(double delay) {
 		playDelay = delay;
 		
@@ -131,7 +153,9 @@ public class ConstructionProtocolNavigation extends JPanel implements ActionList
 			
 		}
 	}	
-	
+	/**
+	 * Initializes all components, sets labels
+	 */
 	public void initGUI() {
 		removeAll();	
 					
@@ -260,8 +284,11 @@ public class ConstructionProtocolNavigation extends JPanel implements ActionList
 				
 		setCursor(Cursor.getDefaultCursor());		
 	}
-	
-	private void setComponentsEnabled(boolean flag) {
+	/**
+	 * Make all components enabled / disabled
+	 * @param flag whether components should be enabled
+	 */
+	void setComponentsEnabled(boolean flag) {
 		Component comps[] = getComponents();
 		for (int i=0; i < comps.length; i++) {
 			comps[i].setEnabled(flag);

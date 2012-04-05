@@ -95,10 +95,10 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 	private static Color COLOR_DRAG_HIGHLIGHT = new Color(250, 250, 200);
 	private static Color COLOR_DROP_HIGHLIGHT = Color.lightGray;
 
-	private JTable table;
-	private ConstructionTableData data;
-	private Application app;
-	private Kernel kernel;
+	JTable table;
+	ConstructionTableData data;
+	Application app;
+	Kernel kernel;
 
 	private TableColumn[] tableColumns;
 
@@ -468,12 +468,12 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 									/*interactive*/ true /*,*/ 
 									/*service*/ /*null*/);
 							// service must be omitted for Java version 1.5.0
-						} catch (HeadlessException e) {
+						} catch (HeadlessException ex) {
 							// TODO Auto-generated catch block
-							e.printStackTrace();
-						} catch (PrinterException e) {
+							ex.printStackTrace();
+						} catch (PrinterException ex) {
 							// TODO Auto-generated catch block
-							e.printStackTrace();
+							ex.printStackTrace();
 						}
 
 					}
@@ -585,7 +585,7 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 							// update only current row
 							rd.updateAll();
 
-							if (kernel.showOnlyBreakpoints() && !newVal) {
+							if (kernel.getConstruction().showOnlyBreakpoints() && !newVal) {
 								data.remove(geo);
 							}
 
@@ -718,7 +718,7 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 
 				// show breakPointColumn => show all lines
 				if (isBreakPointColumn) {
-					kernel.setShowOnlyBreakpoints(false);
+					kernel.getConstruction().setShowOnlyBreakpoints(false);
 					//cbShowOnlyBreakpoints.setSelected(false);
 				}
 			} else {
@@ -805,7 +805,7 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 			RowData rd = data.getRow(row);
 			int index = rd.geo.getConstructionIndex();
 			if (useColors)
-				comp.setForeground(geogebra.awt.Color.getAwtColor((geogebra.awt.Color) ((GeoElement)rd.geo).getObjectColor()));
+				comp.setForeground(geogebra.awt.Color.getAwtColor(rd.geo.getObjectColor()));
 			else
 				comp.setForeground(Color.black);
 
@@ -1409,7 +1409,7 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 
 		public void add(GeoElement geo) {
 			if (!geo.isLabelSet()
-					|| (kernel.showOnlyBreakpoints() && !geo
+					|| (kernel.getConstruction().showOnlyBreakpoints() && !geo
 							.isConsProtocolBreakpoint()))
 				return;
 
@@ -1548,7 +1548,7 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 				// are shown and this is no longer a breakpoint (while loading a
 				// construction)
 				if (!geo.isConsProtocolBreakpoint()
-						&& kernel.showOnlyBreakpoints())
+						&& kernel.getConstruction().showOnlyBreakpoints())
 					remove(geo);
 				else {
 					row.updateAlgebraAndName();
@@ -1559,7 +1559,7 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 				// missing row: should be added if only breakpoints
 				// are shown and this became a breakpoint (while loading a
 				// construction)
-				if (kernel.showOnlyBreakpoints()
+				if (kernel.getConstruction().showOnlyBreakpoints()
 						&& geo.isConsProtocolBreakpoint())
 					add(geo);
 			}
@@ -1940,7 +1940,7 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 		sb.append(addIcons);
 		sb.append("\"");
 		sb.append(" showOnlyBreakpoints=\"");
-		sb.append(kernel.showOnlyBreakpoints());
+		sb.append(kernel.getConstruction().showOnlyBreakpoints());
 		sb.append("\"");
 		sb.append("/>\n");
 
@@ -1992,7 +1992,7 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 */
 
 	public void actionPerformed(ActionEvent e) {
-		kernel.setShowOnlyBreakpoints(!kernel.showOnlyBreakpoints());
+		kernel.getConstruction().setShowOnlyBreakpoints(!kernel.getConstruction().showOnlyBreakpoints());
 		getData().initView();
 		repaint();
 	}

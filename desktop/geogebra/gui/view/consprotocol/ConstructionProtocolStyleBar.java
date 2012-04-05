@@ -1,3 +1,15 @@
+/* 
+GeoGebra - Dynamic Mathematics for Everyone
+http://www.geogebra.org
+
+This file is part of GeoGebra.
+
+This program is free software; you can redistribute it and/or modify it 
+under the terms of the GNU General Public License as published by 
+the Free Software Foundation.
+
+*/
+
 package geogebra.gui.view.consprotocol;
 
 import geogebra.gui.util.PopupMenuButton;
@@ -12,7 +24,9 @@ import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JToolBar;
 import javax.swing.table.TableColumn;
 
-
+/**
+ * Stylebar for construction protocol view
+ */
 public class ConstructionProtocolStyleBar extends JToolBar implements ActionListener {
 	
 	private static final long serialVersionUID = 1L;
@@ -26,16 +40,21 @@ public class ConstructionProtocolStyleBar extends JToolBar implements ActionList
 	 * Instance of the application.
 	 */
 	protected Application app;
-	
-	PopupMenuButton btnColumns, btnOptions;
-	JButton btnExport, btnPrint, btnHelp;
-	JCheckBoxMenuItem miShowOnlyBreakpoints, miColorfulConstructionProtocol;
+	/** Columns button*/
+	PopupMenuButton btnColumns;
+	/** Options button*/
+	PopupMenuButton btnOptions;
+	private JButton btnExport, btnPrint, btnHelp;
+	/** Item for Show only breakpoints option */ 
+	JCheckBoxMenuItem miShowOnlyBreakpoints;
+	/** Item for Colorful protocol option */
+	JCheckBoxMenuItem miColorfulConstructionProtocol;
 	
 	
 	/**
 	 * Helper bar.
-	 * @param cpView
-	 * @param app
+	 * @param cpView construction protocol view
+	 * @param app application
 	 */
 	public ConstructionProtocolStyleBar(ConstructionProtocolView cpView, Application app) {
 		this.cpView = cpView;
@@ -93,7 +112,7 @@ public class ConstructionProtocolStyleBar extends JToolBar implements ActionList
 
 			@Override
 			public boolean prepareToShowPopup(){
-				miShowOnlyBreakpoints.setSelected(app.getKernel().showOnlyBreakpoints());
+				miShowOnlyBreakpoints.setSelected(app.getKernel().getConstruction().showOnlyBreakpoints());
 				miColorfulConstructionProtocol.setSelected(cpView.getUseColors());
 				return true;
 			}
@@ -103,10 +122,10 @@ public class ConstructionProtocolStyleBar extends JToolBar implements ActionList
 		btnOptions.setIcon(app.getImageIcon("document-properties.png"));
 		
 		miShowOnlyBreakpoints = new JCheckBoxMenuItem(app.getPlain("ShowOnlyBreakpoints"));
-		miShowOnlyBreakpoints.setSelected(app.getKernel().showOnlyBreakpoints());
+		miShowOnlyBreakpoints.setSelected(app.getKernel().getConstruction().showOnlyBreakpoints());
 		miShowOnlyBreakpoints.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
-				app.getKernel().setShowOnlyBreakpoints(!app.getKernel().showOnlyBreakpoints());
+				app.getKernel().getConstruction().setShowOnlyBreakpoints(!app.getKernel().getConstruction().showOnlyBreakpoints());
 				cpView.getData().initView();
 				cpView.repaint();
 			}
@@ -190,7 +209,7 @@ public class ConstructionProtocolStyleBar extends JToolBar implements ActionList
 		
 		if(e.getSource()==btnOptions){
 			if(btnOptions.getSelectedIndex()==0){
-				app.getKernel().setShowOnlyBreakpoints(!app.getKernel().showOnlyBreakpoints());
+				app.getKernel().getConstruction().setShowOnlyBreakpoints(!app.getKernel().getConstruction().showOnlyBreakpoints());
 				cpView.getData().initView();
 				cpView.repaint();
 			}

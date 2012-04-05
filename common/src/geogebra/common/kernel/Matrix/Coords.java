@@ -77,7 +77,6 @@ public class Coords extends CoordMatrix {
 	 * @param x
 	 * @param y
 	 * @param z
-	 * @param w
 	 */
 	public Coords(double x, double y, double z) {
 		super(3, 1);

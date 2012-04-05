@@ -1,6 +1,17 @@
+/* 
+GeoGebra - Dynamic Mathematics for Everyone
+http://www.geogebra.org
+
+This file is part of GeoGebra.
+
+This program is free software; you can redistribute it and/or modify it 
+under the terms of the GNU General Public License as published by 
+the Free Software Foundation.
+
+*/
 package geogebra.gui.view.consprotocol;
 
-import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.Construction;
 import geogebra.gui.view.consprotocol.ConstructionProtocolView.ColumnKeeper;
 import geogebra.main.Application;
 
@@ -17,18 +28,27 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.table.TableColumn;
-
+/**
+ * Context menu for construction protocol
+ * 
+ *
+ */
 public class ConstructionProtocolContextMenu extends JPopupMenu {
 	
 	private static final long serialVersionUID = 1L;
+	/** Application */
+	Application app;
+	private Construction cons;
+	/** Construction protocol view associated with this menu */
+	ConstructionProtocolView constprotView;
 	
-	private Application app;
-	private Kernel kernel;
-	private ConstructionProtocolView constprotView;
-	
+	/**
+	 * Creates new context menu
+	 * @param app application
+	 */
 	public ConstructionProtocolContextMenu(Application app){
 		this.app = app;
-		this.kernel = app.getKernel();
+		this.cons = app.getKernel().getConstruction();
 		constprotView = app.getGuiManager().getConstructionProtocolView();
 		initItems();
 	}
@@ -81,7 +101,7 @@ public class ConstructionProtocolContextMenu extends JPopupMenu {
 		//"Options" menu
 		JCheckBoxMenuItem cbShowOnlyBreakpoints = new JCheckBoxMenuItem(
 				app.getPlain("ShowOnlyBreakpoints"));
-		cbShowOnlyBreakpoints.setSelected(kernel.showOnlyBreakpoints());
+		cbShowOnlyBreakpoints.setSelected(cons.showOnlyBreakpoints());
 		
 		cbShowOnlyBreakpoints.addActionListener(constprotView);
 		optionsMenu.add(cbShowOnlyBreakpoints);

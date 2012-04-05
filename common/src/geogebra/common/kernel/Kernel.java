@@ -223,18 +223,28 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.TreeSet;
 
+/**
+ * Provides methods for computation
+ * @author Markus
+ */
 public class Kernel {
 
-	// if these are increased above 32000, you need to change traceRow to an
-	// int[]
+	/**
+	 * Maximal number of spreadsheet columns
+	 *  if these are increased above 32000, you need to change traceRow to an int[]
+	 */
 	public static int MAX_SPREADSHEET_COLUMNS = 9999;
+	/** Maximal number of spreadsheet rows*/
 	public static int MAX_SPREADSHEET_ROWS = 9999;
 	// G.Sturr 2009-10-18
 	// algebra style
+	/** Algebra view style: value */
 	final public static int ALGEBRA_STYLE_VALUE = 0;
+	/** Algebra view style: definition */
 	final public static int ALGEBRA_STYLE_DEFINITION = 1;
+	/** Algebra view style: command */
 	final public static int ALGEBRA_STYLE_COMMAND = 2;
-	protected int algebraStyle = Kernel.ALGEBRA_STYLE_VALUE;// private
+	private int algebraStyle = Kernel.ALGEBRA_STYLE_VALUE;
 	// end G.Sturr
 	private MacroManager macroManager;
 	private RegressionMath regMath;
@@ -247,33 +257,20 @@ public class Kernel {
 	// angle unit: degree, radians
 	// private int angleUnit = Kernel.ANGLE_DEGREE;
 
-	protected boolean viewReiniting = false;// private
-	protected boolean undoActive = false;// private
-	/*
-	 * Significant figures
-	 * 
-	 * How to do:
-	 * 
-	 * private ScientificFormat sf; sf = new ScientificFormat(5, 20, false);
-	 * String s = sf.format(double)
-	 * 
-	 * need to address:
-	 * 
-	 * PRINT_PRECISION setPrintDecimals() getPrintDecimals()
-	 * getMaximumFractionDigits() setMaximumFractionDigits()
-	 * 
-	 * how to determine whether to use nf or sf
-	 */
-
+	private boolean viewReiniting = false;
+	private boolean undoActive = false;
+	
 	// Views may register to be informed about
 	// changes to the Kernel
 	// (add, remove, update)
 	// TODO why exactly 20 views?
+	/** List of attached views*/
 	protected View[] views = new View[20];
+	/** Number of attached views*/
 	protected int viewCnt = 0;
-
+	/** Construction */
 	protected Construction cons;
-
+	/** Algebra processor*/
 	protected AlgebraProcessor algProcessor;
 	/** Evaluator for ExpressionNode */
 	protected ExpressionNodeEvaluator expressionNodeEvaluator;
@@ -287,15 +284,25 @@ public class Kernel {
 	private final int kernelID;
 	private final String casVariablePrefix;
 	private GeoGebraCasInterface ggbCAS;
+	/** Angle type: radians */
 	final public static int ANGLE_RADIANT = 1;
+	/** Angle type: degrees */
 	final public static int ANGLE_DEGREE = 2;
+	/** Coord system: cartesian */
 	final public static int COORD_CARTESIAN = 3;
+	/** Coord system: polar */
 	final public static int COORD_POLAR = 4;
+	/** Coord system: complex numbers */
 	final public static int COORD_COMPLEX = 5;
+	/** 2*Pi */
 	final public static double PI_2 = 2.0 * Math.PI;
+	/** Pi/2 */
 	final public static double PI_HALF = Math.PI / 2.0;
+	/** sqrt(1/2) */
 	final public static double SQRT_2_HALF = Math.sqrt(2.0) / 2.0;
+	/** One degree (Pi/180) */
 	final public static double PI_180 = Math.PI / 180;
+	/** Radian to degree ratio (180/Pi)*/
 	final public static double CONST_180_PI = 180 / Math.PI;
 
 	/** maximum precision of double numbers */
@@ -303,7 +310,7 @@ public class Kernel {
 	/** reciprocal of maximum precision of double numbers */
 	public final static double INV_MAX_DOUBLE_PRECISION = 1E15;
 
-	// maximum CAS results cached
+	/** maximum CAS results cached*/
 	public static int GEOGEBRA_CAS_CACHE_SIZE = 500;
 
 	// print precision
@@ -324,6 +331,7 @@ public class Kernel {
 
 	/** standard precision */
 	public final static double STANDARD_PRECISION = 1E-8;
+	/** square root of standard precision */
 	public final static double STANDARD_PRECISION_SQRT = 1E-4;
 
 	/** minimum precision */
@@ -335,6 +343,7 @@ public class Kernel {
 
 	/** current working precision */
 	public static double EPSILON = STANDARD_PRECISION;
+	/** square root of current precision */
 	public static double EPSILON_SQRT = STANDARD_PRECISION_SQRT;
 
 	// rounding hack, see format()
@@ -375,17 +384,21 @@ public class Kernel {
 
 	private final StringBuilder sbBuildExplicitLineEquation = new StringBuilder(
 			50);
-
+	/** Application */
 	protected AbstractApplication app;
 
 	private EquationSolver eqnSolver;
 	private SystemOfEquationsSolver sysEqSolv;
 	private ExtremumFinder extrFinder;
+	/** Parser */
 	protected Parser parser;
 
 	/** 3D manager */
 	private Manager3DInterface manager3D;
 
+	/**
+	 * @param app Application
+	 */
 	public Kernel(AbstractApplication app) {
 		this();
 		this.app = app;
@@ -396,7 +409,10 @@ public class Kernel {
 		setManager3D(newManager3D(this));
 	}
 
-	public Kernel() {
+	/**
+	 * Creates kernel and initializes number formats and CAS prefix
+	 */
+	protected Kernel() {
 		kernelInstances++;
 		kernelID = kernelInstances;
 		casVariablePrefix = GGBCAS_VARIABLE_PREFIX + kernelID;
@@ -418,7 +434,7 @@ public class Kernel {
 	}
 
 	/**
-	 * @param kernel
+	 * @param kernel kernel
 	 * @return a new algebra processor (used for 3D)
 	 */
 	public AlgebraProcessor newAlgebraProcessor(Kernel kernel) {
@@ -426,7 +442,7 @@ public class Kernel {
 	}
 
 	/**
-	 * @param kernel
+	 * @param kernel kernel
 	 * @return a new 3D manager TODO: reduce visibility after refactoring
 	 */
 	public Manager3DInterface newManager3D(Kernel kernel) {
@@ -467,7 +483,7 @@ public class Kernel {
 	/**
 	 * creates a new MyXMLHandler (used for 3D)
 	 * 
-	 * @param cons
+	 * @param cons1
 	 *            construction used in MyXMLHandler constructor
 	 * @return a new MyXMLHandler
 	 */
@@ -478,8 +494,8 @@ public class Kernel {
 	/**
 	 * creates a new MyXMLHandler (used for 3D)
 	 * 
-	 * @param kernel
-	 * @param cons
+	 * @param kernel kernel
+	 * @param cons1 construction
 	 * @return a new MyXMLHandler
 	 */
 	public MyXMLHandler newMyXMLHandler(Kernel kernel, Construction cons1) {
@@ -640,11 +656,16 @@ public class Kernel {
 
 	/**
 	 * Returns the ConstructionElement for the given construction index.
+	 * @param index construction index
+	 * @return corresponding element
 	 */
 	public ConstructionElement getConstructionElement(int index) {
 		return cons.getConstructionElement(index);
 	}
 
+	/**
+	 * @param step new construction step
+	 */
 	public void setConstructionStep(int step) {
 		if (cons.getStep() != step) {
 			cons.setStep(step);
@@ -652,18 +673,16 @@ public class Kernel {
 		}
 	}
 
-	public void setShowOnlyBreakpoints(boolean flag) {
-		cons.setShowOnlyBreakpoints(flag);
-	}
-
-	final public boolean showOnlyBreakpoints() {
-		return cons.showOnlyBreakpoints();
-	}
-
+	/**
+	 * @return construction step being done now
+	 */
 	public int getConstructionStep() {
 		return cons.getStep();
 	}
 
+	/**
+	 * @return
+	 */
 	public int getLastConstructionStep() {
 		return cons.steps() - 1;
 	}
@@ -675,7 +694,7 @@ public class Kernel {
 	public void firstStep() {
 		int step = 0;
 
-		if (showOnlyBreakpoints()) {
+		if (cons.showOnlyBreakpoints()) {
 			setConstructionStep(getNextBreakpoint(step));
 		} else {
 			setConstructionStep(step);
@@ -689,7 +708,7 @@ public class Kernel {
 	public void lastStep() {
 		int step = getLastConstructionStep();
 
-		if (showOnlyBreakpoints()) {
+		if (cons.showOnlyBreakpoints()) {
 			setConstructionStep(getPreviousBreakpoint(step));
 		} else {
 			setConstructionStep(step);
@@ -703,7 +722,7 @@ public class Kernel {
 	public void nextStep() {
 		int step = cons.getStep() + 1;
 
-		if (showOnlyBreakpoints()) {
+		if (cons.showOnlyBreakpoints()) {
 			setConstructionStep(getNextBreakpoint(step));
 		} else {
 			setConstructionStep(step);
@@ -732,7 +751,7 @@ public class Kernel {
 	public void previousStep() {
 		int step = cons.getStep() - 1;
 
-		if (showOnlyBreakpoints()) {
+		if (cons.showOnlyBreakpoints()) {
 			cons.setStep(getPreviousBreakpoint(step));
 		} else {
 			cons.setStep(step);
@@ -753,15 +772,24 @@ public class Kernel {
 
 	/**
 	 * Move object at position from to position to in current construction.
+	 * @param from original position
+	 * @param to target position
+	 * @return true if succesful
 	 */
 	public boolean moveInConstructionList(int from, int to) {
 		return cons.moveInConstructionList(from, to);
 	}
 
+	/**
+	 * @param flag switches on or off putting scripts into XML
+	 */
 	public void setSaveScriptsToXML(boolean flag) {
 		saveScriptsToXML = flag;
 	}
-
+	/**
+	 * 
+	 * @return whether scripts should be put into XML or not
+	 */
 	public boolean getSaveScriptsToXML() {
 		return saveScriptsToXML;
 	}
@@ -776,6 +804,7 @@ public class Kernel {
 
 	/**
 	 * States whether the continuity heuristic is active.
+	 * @returns whether continuous mode is on
 	 */
 	final public boolean isContinuous() {
 		return continuous;
@@ -809,17 +838,26 @@ public class Kernel {
 	// loading mode: true when a ggb file is being loaded. Devised for backward
 	// compatibility.
 	private boolean loadingMode;
-
+	/** 
+	 * 
+	 * @param b true to indicate that file is being loaded
+	 */
 	public void setLoadingMode(boolean b) {
 		loadingMode = b;
 	}
-
+	/**
+	 * @return whether file is being loaded
+	 */
 	public boolean getLoadingMode() {
 		return loadingMode;
 	}
-
+	/** 
+	 * Default CAS type
+	 */
 	public static CasType DEFAULT_CAS = CasType.MPREDUCE; // default
-
+	/**
+	 * @return current CAS type
+	 */
 	final public CasType getCurrentCAS() {
 		return getGeoGebraCAS().getCurrentCASType();
 	}
@@ -984,8 +1022,10 @@ public class Kernel {
 
 	/**
 	 * Formats the value of x using the currently set NumberFormat or
-	 * ScientificFormat. This method also takes
-	 * getStringTemplate().getStringType() into account.
+	 * ScientificFormat.
+	 * @param number number
+	 * @param tpl string template
+	 * @return formated number as string
 	 */
 	final public String formatRaw(double number, StringTemplate tpl) {
 		double x = number;
@@ -1085,10 +1125,12 @@ public class Kernel {
 
 	/**
 	 * Formats the value of x using the currently set NumberFormat or
-	 * ScientificFormat. This method also takes
-	 * getStringTemplate().getStringType() into account.
+	 * ScientificFormat. 
 	 * 
 	 * converts to localised digits if appropriate
+	 * @param x number
+	 * @param tpl string template
+	 * @return formated string
 	 */
 
 	final public String format(double x, StringTemplate tpl) {
@@ -1155,6 +1197,10 @@ public class Kernel {
 
 	/**
 	 * calls formatPiERaw() and converts to localised digits if appropriate
+	 * @param x number
+	 * @param numF number format
+	 * @param tpl string template
+	 * @return formated number with e's and pi's replaced by suitable symbols
 	 */
 	final public String formatPiE(double x, NumberFormatAdapter numF,
 			StringTemplate tpl) {
@@ -1169,21 +1215,30 @@ public class Kernel {
 
 	private final StringBuilder sbBuildImplicitEquation = new StringBuilder(80);
 
-	// copy array a to array b
+	/** copy array a to array b 
+	 * @param a input array
+	 * @param b output array */
 	final static void copy(double[] a, double[] b) {
 		for (int i = 0; i < a.length; i++) {
 			b[i] = a[i];
 		}
 	}
 
-	// change signs of double array values, write result to array b
+	/**
+	 *  change signs of double array values, write result to array b
+	 * @param a input array
+	 * @param b output array
+	 */
 	final static void negative(double[] a, double[] b) {
 		for (int i = 0; i < a.length; i++) {
 			b[i] = -a[i];
 		}
 	}
 
-	// c[] = a[] / b
+	/** Computes c[] = a[] / b 
+	 * @param a array of dividends
+	 * @param b divisor
+	 * @param c array for results*/
 	final static void divide(double[] a, double b, double[] c) {
 		for (int i = 0; i < a.length; i++) {
 			c[i] = a[i] / b;
@@ -1192,6 +1247,9 @@ public class Kernel {
 
 	/**
 	 * greatest common divisor
+	 * @param m firs number
+	 * @param n second number
+	 * @return GCD of given numbers
 	 */
 	final public static long gcd(long m, long n) {
 		// Return the GCD of positive integers m and n.
@@ -1211,6 +1269,8 @@ public class Kernel {
 	/**
 	 * Compute greatest common divisor of given doubles. Note: all double values
 	 * are cast to long.
+	 * @param numbers array of numbers
+	 * @return GCD of given numbers
 	 */
 	final public static double gcd(double[] numbers) {
 		long gcd = (long) numbers[0];
@@ -1224,6 +1284,9 @@ public class Kernel {
 	 * Round a double to the given scale e.g. roundToScale(5.32, 1) = 5.0,
 	 * roundToScale(5.32, 0.5) = 5.5, roundToScale(5.32, 0.25) = 5.25,
 	 * roundToScale(5.32, 0.1) = 5.3
+	 * @param x number
+	 * @param scale rounding step
+	 * @return rounded number
 	 */
 	final public static double roundToScale(double x, double scale) {
 		if (scale == 1.0) {
@@ -1232,8 +1295,11 @@ public class Kernel {
 		return Math.round(x / scale) * scale;
 	}
 
-	// compares double arrays:
-	// yields true if (isEqual(a[i], b[i]) == true) for all i
+	/** compares double arrays:
+	 * @param a first array
+	 * @param b second array
+	* @return true if (isEqual(a[i], b[i]) == true) for all i
+	*/
 	final static boolean isEqual(double[] a, double[] b) {
 		for (int i = 0; i < a.length; ++i) {
 			if (!isEqual(a[i], b[i])) {
@@ -1250,7 +1316,10 @@ public class Kernel {
 	 * Math.PI; else return Double.NaN; }
 	 */
 
-	/** returns max of abs(a[i]) */
+	/** Computes max of abs(a[i])
+	 * @param a array of numbers
+	 * @return max of abs(a[i]) 
+	 */
 	final static double maxAbs(double[] a) {
 		double temp, max = Math.abs(a[0]);
 		for (int i = 1; i < a.length; i++) {
@@ -1264,6 +1333,7 @@ public class Kernel {
 
 	/**
 	 * Removes the given variableName from ther underlying CAS.
+	 * @param variableName variable name
 	 */
 	public void unbindVariableInGeoGebraCAS(String variableName) {
 		if (ggbCAS != null) {
@@ -1271,7 +1341,15 @@ public class Kernel {
 		}
 	}
 
-	// lhs of lhs = 0
+	/**
+	 * Builds lhs of lhs = 0
+	 * @param numbers coefficients
+	 * @param vars variable names
+	 * @param KEEP_LEADING_SIGN true to keep leading sign
+	 * @param CANCEL_DOWN true to allow canceling 2x+4y -> x+2y
+	 * @param tpl string template
+	 * @return string representing LHS
+	 */
 	final public StringBuilder buildLHS(double[] numbers, String[] vars,
 			boolean KEEP_LEADING_SIGN, boolean CANCEL_DOWN, StringTemplate tpl) {
 		sbBuildLHS.setLength(0);
@@ -1603,6 +1681,10 @@ public class Kernel {
 		return (-EPSILON < x) && (x < EPSILON);
 	}
 
+	/**
+	 * @param a array of numbers
+	 * @return whether all given numbers are zero within current precision 
+	 */
 	final static boolean isZero(double[] a) {
 		for (int i = 0; i < a.length; i++) {
 			if (!isZero(a[i])) {
@@ -1612,6 +1694,10 @@ public class Kernel {
 		return true;
 	}
 
+	/**
+	 * @param x number
+	 * @return whether fractional part of the number is zero within current precision
+	 */
 	final public static boolean isInteger(double x) {
 		if (x > 1E17) {
 			return true;
@@ -1647,6 +1733,10 @@ public class Kernel {
 
 	/**
 	 * Returns whether x is greater than y
+	 * @param x x
+	 * @param y y
+	 * @param eps tolerance 
+	 * @return true if x > y + eps
 	 */
 	final public static boolean isGreater(double x, double y, double eps) {
 		return x > (y + eps);
@@ -1685,6 +1775,10 @@ public class Kernel {
 	 * Checks if x is close (Kernel.MIN_PRECISION) to a decimal fraction, eg
 	 * 2.800000000000001. If it is, the decimal fraction eg 2.8 is returned,
 	 * otherwise x is returned.
+	 * @param x input number
+	 * @param precision specifies how many decimals digits are accepted in results -- e.g. 0.001 to allow three digits
+	 * @return input number; rounded with given precision if the rounding error is less than this
+	 * kernel's minimal precision
 	 */
 
 	final public static double checkDecimalFraction(double x, double precision) {
@@ -1720,6 +1814,12 @@ public class Kernel {
 		return x;
 	}
 
+	/**
+	 * Returns formated angle (in degrees if necessary)
+	 * @param phi angle in radians
+	 * @param tpl string template
+	 * @return formated angle
+	 */
 	final public StringBuilder formatAngle(double phi, StringTemplate tpl) {
 		// STANDARD_PRECISION * 10 as we need a little leeway as we've converted
 		// from radians
@@ -1729,6 +1829,9 @@ public class Kernel {
 	/**
 	 * Converts 5.1E-20 to 5.1*10^(-20) or 5.1 \cdot 10^{-20} depending on
 	 * current print form
+	 * @param scientificStr string in scientific notation
+	 * @param tpl string template for output
+	 * @return formated string in scientific notation
 	 */
 	public String convertScientificNotation(String scientificStr,
 			StringTemplate tpl) {
@@ -1831,23 +1934,26 @@ public class Kernel {
 		}
 
 	}
-
+	/** default global JavaScript */
 	final public static String defaultLibraryJavaScript = "function ggbOnInit() {}";
+	/** default global Python script*/
 	final public static String defaultLibraryPythonScript = "";
+	/** default global Logo script */
 	final public static String defaultLibraryLogoScript = "";
 	
-	String libraryJavaScript = defaultLibraryJavaScript;
-	String libraryPythonScript = defaultLibraryPythonScript;
-	String libraryLogoScript = defaultLibraryLogoScript;
-
+	private String libraryJavaScript = defaultLibraryJavaScript;
+	private String libraryPythonScript = defaultLibraryPythonScript;
+	private String libraryLogoScript = defaultLibraryLogoScript;
+	/** Resets global JavaSrcript to default value */
 	public void resetLibraryJavaScript() {
 		setLibraryJavaScript(defaultLibraryJavaScript);
 	}
-
+	/** Resets global Python script to default value */
 	public void resetLibraryPythonScript() {
 		setLibraryPythonScript(defaultLibraryPythonScript);
 	}
-
+	/** Sets global Python script
+	 * @param script new Python script */
 	public void setLibraryPythonScript(String script) {
 		libraryPythonScript = script;
 	}
@@ -1992,12 +2098,12 @@ public class Kernel {
 	}
 
 	/**
-	 * Retuns variable label depending on isUseTempVariablePrefix() and
-	 * kernel.getStringTemplate().getStringType(). A label may be prefixed here
-	 * by ExpressionNode.TMP_VARIABLE_PREFIX or
+	 * Returns variable label depending on tpl. A label may be prefixed here
+	 * by ExpressionNode.TMP_VARIABLE_PREFIX or Kernel's casVarPrefix
 	 * 
-	 * @param label
-	 * @return
+	 * @param label original label
+	 * @param tpl string template
+	 * @return prefixed label
 	 */
 	public String printVariableName(String label, StringTemplate tpl) {
 		if (tpl.isUseTempVariablePrefix()) {
@@ -2012,8 +2118,9 @@ public class Kernel {
 	 * overwrite variable names there, so we add the prefix
 	 * ExpressionNodeConstants.GGBCAS_VARIABLE_PREFIX.
 	 * 
-	 * @param printForm
-	 * @return label depending on kernel.getStringTemplate().getStringType()
+	 * @param printForm string type
+	 * @param label raw label without prefixes
+	 * @return label depending on given string type
 	 */
 	final public String printVariableName(StringType printForm, String label) {
 		switch (printForm) {
@@ -2064,6 +2171,10 @@ public class Kernel {
 		return sb.toString();
 	}
 
+	/**
+	 * @param str string, possibly containing CAS prefix several times
+	 * @return string without CAS prefixes
+	 */
 	final public String removeCASVariablePrefix(String str) {
 		return removeCASVariablePrefix(str, "");
 	}
@@ -2328,11 +2439,17 @@ public class Kernel {
 		}
 	}
 
-	// G.Sturr 2009-10-18
+	/**
+	 * G.Sturr 2009-10-18
+	 * @param style Algebra style, see ALGEBRA_STYLE_*
+	 */
 	final public void setAlgebraStyle(int style) {
 		algebraStyle = style;
 	}
 
+	/**
+	 * @return algebra style, one of ALGEBRA_STYLE_*
+	 */
 	final public int getAlgebraStyle() {
 		return algebraStyle;
 	}
@@ -2366,6 +2483,13 @@ public class Kernel {
 	 * Tells this kernel about the bounds and the scales for x-Axis and y-Axis
 	 * used in EudlidianView. The scale is the number of pixels per unit.
 	 * (useful for some algorithms like findminimum). All
+	 * @param view view
+	 * @param xmin left x-coord
+	 * @param xmax right x-coord
+	 * @param ymin bottom y-coord
+	 * @param ymax top y-coord
+	 * @param xscale x scale (pixels per unit)
+	 * @param yscale y scale (pixels per unit)
 	 */
 	final public void setEuclidianViewBounds(int view, double xmin,
 			double xmax, double ymin, double ymax, double xscale, double yscale) {
@@ -2399,21 +2523,34 @@ public class Kernel {
 	 * {@linkplain #getViewBoundsForGeo}
 	 * 
 	 * @see #getViewBoundsForGeo
-	 * @param geo
-	 * @return
+	 * @param geo geo
+	 * @return minimal x-bound of all views displaying geo
 	 */
 	public double getViewsXMin(GeoElement geo) {
 		return getViewBoundsForGeo(geo)[0];
 	}
-
+	/**
+	 * @see #getViewBoundsForGeo
+	 * @param geo geo
+	 * @return maximal x-bound of all views displaying geo
+	 */
 	public double getViewsXMax(GeoElement geo) {
 		return getViewBoundsForGeo(geo)[1];
 	}
 
+	/**
+	 * @see #getViewBoundsForGeo
+	 * @param geo geo
+	 * @return minimal y-bound of all views displaying geo
+	 */
 	public double getViewsYMin(GeoElement geo) {
 		return getViewBoundsForGeo(geo)[2];
 	}
-
+	/**
+	 * @see #getViewBoundsForGeo
+	 * @param geo geo
+	 * @return maximal y-bound of all views displaying geo
+	 */
 	public double getViewsYMax(GeoElement geo) {
 		return getViewBoundsForGeo(geo)[3];
 	}
@@ -4652,7 +4789,7 @@ public class Kernel {
 		sb.append("\"/>\n");
 
 		sb.append("\t<usePathAndRegionParameters val=\"");
-		sb.append(usePathAndRegionParameters);
+		sb.append(usePathAndRegionParameters.getXML());
 		sb.append("\"/>\n");
 		
 

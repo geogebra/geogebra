@@ -1818,7 +1818,7 @@ public class MyXMLHandler implements DocHandler {
 
 			boolean showOnlyBreakpoints = parseBoolean(attrs
 					.get("showOnlyBreakpoints"));
-			kernel.setShowOnlyBreakpoints(showOnlyBreakpoints);
+			kernel.getConstruction().setShowOnlyBreakpoints(showOnlyBreakpoints);
 
 			return true;
 		} catch (Exception e) {
