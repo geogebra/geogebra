@@ -85,7 +85,13 @@ public class AutoCompleteTextField extends MathTextField implements
     this(columns, (Application) app, true);
   }
 
-  public AutoCompleteTextField(int columns, Application app,
+  /**
+ * @param columns width
+ * @param app Application
+ * @param handleEscapeKey how to handle escape key
+ * @param dict dictionary
+ */
+public AutoCompleteTextField(int columns, Application app,
       boolean handleEscapeKey, AutoCompleteDictionary dict) {
     super(app);
     // allow dynamic width with columns = -1

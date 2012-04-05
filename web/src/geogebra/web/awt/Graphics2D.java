@@ -23,6 +23,7 @@ import geogebra.common.factories.AwtFactory;
 import geogebra.common.main.AbstractApplication;
 import geogebra.web.kernel.gawt.BufferedImage;
 import geogebra.web.openjdk.awt.geom.PathIterator;
+import geogebra.web.openjdk.awt.geom.Polygon;
 import geogebra.web.openjdk.awt.geom.Shape;
 
 import java.util.Map;
@@ -736,6 +737,11 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 		roundRect(x,y,width,height,arcHeight);
 	    context.fill();
 	    
+    }
+
+
+	public void fillPolygon(Polygon p) {
+	   fill(p);
     }
 
 }

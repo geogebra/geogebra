@@ -6,6 +6,7 @@ import geogebra.common.euclidian.event.FocusListener;
 import geogebra.common.euclidian.event.KeyListener;
 import geogebra.common.javax.swing.JLabel;
 import geogebra.common.main.GeoElementSelectionListener;
+import geogebra.common.util.AutoCompleteDictionary;
 import geogebra.common.util.TextObject;
 
 public interface AutoCompleteTextField extends GeoElementSelectionListener, TextObject{
@@ -52,5 +53,9 @@ public interface AutoCompleteTextField extends GeoElementSelectionListener, Text
 	int getCaretPosition();
 
 	void setCaretPosition(int caretPos);
+	
+	void setDictionary(AutoCompleteDictionary dict);
+	
+	AutoCompleteDictionary getDictionary();
 
 }
