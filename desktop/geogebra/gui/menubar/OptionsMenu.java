@@ -35,7 +35,7 @@ class OptionsMenu extends BaseMenu implements ActionListener {
 		menuAlgebraStyle
 	;
 	
-	public OptionsMenu(Application app, Layout layout) {
+	public OptionsMenu(Application app) {
 		super(app, app.getMenu("Options"));
 		
 		kernel = app.getKernel();

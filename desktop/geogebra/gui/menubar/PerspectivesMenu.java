@@ -43,7 +43,7 @@ class PerspectivesMenu extends BaseMenu {
 	 */
 	private void initItems()
 	{
-		Perspective[] defaultPerspectives = Layout.defaultPerspectives;
+		Perspective[] defaultPerspectives = geogebra.common.gui.Layout.defaultPerspectives;
 
 		for (int i = 0; i < defaultPerspectives.length; ++i) {
 			JMenuItem tmpItem = new JMenuItem(changePerspectiveAction);
@@ -108,7 +108,7 @@ class PerspectivesMenu extends BaseMenu {
 				if (e.getActionCommand().startsWith("d")) {
 					int index = Integer.parseInt(e.getActionCommand()
 							.substring(1));
-					layout.applyPerspective(Layout.defaultPerspectives[index]);
+					layout.applyPerspective(geogebra.common.gui.Layout.defaultPerspectives[index]);
 				} else {
 					int index = Integer.parseInt(e.getActionCommand());
 					layout.applyPerspective(layout.getPerspective(index));

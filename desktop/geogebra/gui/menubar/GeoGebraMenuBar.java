@@ -90,7 +90,7 @@ public class GeoGebraMenuBar extends JMenuBar {
 		}
 		
 		// "Options"
-		optionsMenu = new OptionsMenu(app, layout);
+		optionsMenu = new OptionsMenu(app);
 		add(optionsMenu);
 		
 		// "Tools"
