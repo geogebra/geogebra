@@ -478,7 +478,7 @@ public class EpsGraphics extends java.awt.Graphics2D {
 	 * Draws a GlyphVector at (x,y)
 	 */
 	public void drawGlyphVector(GlyphVector g, float x, float y) {
-		Shape shape = g.getOutline((float) x, (float) y);
+		Shape shape = g.getOutline(x, y);
 		draw(shape, "fill");
 	}
 
@@ -862,7 +862,7 @@ public class EpsGraphics extends java.awt.Graphics2D {
 		_font = font;
 		if (!getAccurateTextMode()) {
 			append("/" + _font.getPSName() + " findfont "
-					+ ((int) _font.getSize()) + " scalefont setfont");
+					+ _font.getSize() + " scalefont setfont");
 		}
 	}
 

@@ -1309,7 +1309,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 		StringBuilder sb=new StringBuilder(name);
 		// If the expression starts with minus -
 		// Insert a "0" (Bug from TikZ /PGF)
-		if (name.startsWith("-")) sb.insert(0,"0");
+		if (name.length() > 0 && name.charAt(0) == '-') sb.insert(0,"0");
 		int i=0;
 		while(i<sb.length()){
 			char before='1';

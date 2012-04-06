@@ -939,7 +939,7 @@ public class WorksheetExportDialog extends JDialog {
 		int size = ggbInstances.size();
 
 		for (int i = 0; i < size; i++) {
-			GeoGebraFrame ggb = (GeoGebraFrame) ggbInstances.get(i);
+			GeoGebraFrame ggb = ggbInstances.get(i);
 			Application application = ggb.getApplication();
 
 			appendWithLineBreak(sb, "<div class=\"tabbertab\">");
@@ -1039,7 +1039,7 @@ public class WorksheetExportDialog extends JDialog {
 		StringBuilder prev = new StringBuilder();
 
 		for (int i = 0; i < size; i++) {
-			GeoGebraFrame ggb = (GeoGebraFrame) ggbInstances.get(i);
+			GeoGebraFrame ggb = ggbInstances.get(i);
 			Application application = ggb.getApplication();
 
 			htmlFile = new File(fileBase + (i + 1) + ".html");

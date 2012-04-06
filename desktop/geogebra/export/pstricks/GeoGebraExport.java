@@ -1,6 +1,5 @@
 package geogebra.export.pstricks;
 
-import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.euclidian.DrawAngle;
 import geogebra.common.euclidian.DrawLine;
 import geogebra.common.euclidian.DrawPoint;

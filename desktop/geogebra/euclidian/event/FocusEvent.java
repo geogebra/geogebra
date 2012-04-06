@@ -3,7 +3,6 @@ package geogebra.euclidian.event;
 import java.util.LinkedList;
 
 import geogebra.common.main.AbstractApplication;
-import geogebra.euclidian.event.FocusEvent;
 
 public class FocusEvent extends geogebra.common.euclidian.event.FocusEvent{
 

@@ -245,19 +245,19 @@ public class PrintPreview extends JDialog {
 						String selItem = m_cbView.getSelectedItem().toString();
 						
 						//change view
-						if(selItem == app.getPlain("AlgebraWindow")){
-							m_target = new PrintGridable((Gridable)app.getGuiManager().getAlgebraView());
-						} else if (selItem == app.getPlain("CAS")){
-							m_target = new PrintGridable((Gridable)app.getGuiManager().getCasView());
-						} else if (selItem == app.getPlain("Spreadsheet")){
-							m_target = new PrintGridable((Gridable)app.getGuiManager().getSpreadsheetView());
-						} else if (selItem == app.getPlain("DrawingPad")){
+						if(selItem.equals(app.getPlain("AlgebraWindow"))){
+							m_target = new PrintGridable(app.getGuiManager().getAlgebraView());
+						} else if (selItem.equals(app.getPlain("CAS"))){
+							m_target = new PrintGridable(app.getGuiManager().getCasView());
+						} else if (selItem.equals(app.getPlain("Spreadsheet"))){
+							m_target = new PrintGridable(app.getGuiManager().getSpreadsheetView());
+						} else if (selItem.equals(app.getPlain("DrawingPad"))){
 							m_target = app.getEuclidianView1();
-						} else if (selItem == app.getPlain("DrawingPad2")){
+						} else if (selItem.equals(app.getPlain("DrawingPad2"))){
 							m_target = app.getGuiManager().getEuclidianView2();
-						} else if (selItem == app.getPlain("ConstructionProtocol")){
+						} else if (selItem.equals(app.getPlain("ConstructionProtocol"))){
 							m_target = app.getGuiManager().getConstructionProtocolView();
-						} else if (selItem == app.getPlain("AllViews")){
+						} else if (selItem.equals(app.getPlain("AllViews"))){
 							m_target = (Printable) app.getMainComponent();
 						}	
 						

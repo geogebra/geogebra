@@ -81,7 +81,7 @@ public abstract class EuclidianViewND extends AbstractEuclidianView implements E
 	
 	
 	public void setCursor(Cursor cursor) {
-		((JPanel)evjpanel).setCursor(cursor);
+		evjpanel.setCursor(cursor);
 	}
 
 	public boolean hasFocus() {

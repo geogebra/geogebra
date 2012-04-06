@@ -13,7 +13,6 @@
 package geogebra.euclidian;
 
 import geogebra.common.euclidian.AbstractEuclidianView;
-import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.kernel.Kernel;
@@ -24,16 +23,13 @@ import geogebra.common.main.AbstractApplication;
 import geogebra.euclidianND.EuclidianViewND;
 import geogebra.main.Application;
 
-import java.awt.Color;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
-import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
-import java.util.ArrayList;
 
 import javax.swing.ToolTipManager;
 
@@ -217,7 +213,7 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 	@Override
 	public GeoElement[] createCircle2ForPoints3D(GeoPointND p0, GeoPointND p1) {
 		return new GeoElement[] { kernel.getManager3D().Circle3D(null, p0, p1,
-				((AbstractEuclidianView) view).getDirection()) };
+				view.getDirection()) };
 	}
 
 	public void componentResized(ComponentEvent e) {

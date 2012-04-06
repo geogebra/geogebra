@@ -57,7 +57,7 @@ public class EuclidianStatic extends geogebra.common.euclidian.EuclidianStatic{
 						elements[i], font, ((GeoText) geo).isSerifFont(),
 						fgColor, bgColor, false);
 
-				int height = (int) dim.getHeight();
+				int height = dim.getHeight();
 
 				// depth += dim.depth;
 

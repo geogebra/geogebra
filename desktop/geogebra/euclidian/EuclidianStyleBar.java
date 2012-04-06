@@ -7,7 +7,6 @@ import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoTableText;
-import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoButton;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoImage;
@@ -130,7 +129,7 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener, geoge
 
 		this.ev = ev;
 		ec = ev.getEuclidianController();
-		app = (Application) ev.getApplication();
+		app = ev.getApplication();
 		cons = app.getKernel().getConstruction();
 
 		// init handling of default geos
