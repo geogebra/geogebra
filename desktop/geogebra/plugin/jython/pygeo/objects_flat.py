@@ -1029,7 +1029,7 @@ class Turtle(Element):
 class TurtleDriver(object):
     def __init__(self, frequency=20):
         self.frequency = frequency
-        self.sleep_time = 1/frequency
+        self.sleep_time = 1.0/frequency
         self.turtles = []
         self.run()
     def add_turtle(self, turtle):
