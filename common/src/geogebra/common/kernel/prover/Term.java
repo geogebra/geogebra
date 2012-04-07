@@ -128,7 +128,7 @@ public class Term implements Comparable<Term> {
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		Iterator<FreeVariable> it = variables.descendingKeySet().iterator();
+		Iterator<FreeVariable> it = variables.keySet().iterator();
 		while (it.hasNext()) {
 			FreeVariable fv = it.next();
 			sb.append(fv);

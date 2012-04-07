@@ -210,8 +210,8 @@ public class Polynomial implements Comparable<Polynomial> {
 	public int compareTo(Polynomial p) {
 		int comp1 = terms.lastKey().compareTo(p.getTerms().lastKey());
 		if (comp1 == 0) {
-			return terms.lastEntry().getValue()
-					.compareTo(p.getTerms().lastEntry().getValue());
+			return terms.get(terms.lastKey())
+					.compareTo(p.getTerms().get(p.getTerms().lastKey()));
 		}
 		return comp1;
 	}
@@ -219,7 +219,7 @@ public class Polynomial implements Comparable<Polynomial> {
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		Iterator<Term> it = terms.descendingKeySet().iterator();
+		Iterator<Term> it = terms.keySet().iterator();
 		if (!it.hasNext()) {
 			return "0";
 		}
