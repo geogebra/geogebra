@@ -9,3 +9,4 @@ scoring
 shortestpath
 transformation
 util
+*.class 
