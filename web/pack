@@ -24,7 +24,8 @@ test -r war/web/web.nocache.js || {
  }
 
 # 3. Creating index.html
-./ggb2html -v -i war/GeoGebraWeb.ggb -o indexhtml
+echo '<meta http-equiv="refresh" content="0; url=http://wiki.geogebra.org/en/Tutorial:Creating_HTML5_documents_with_GeoGebraWeb"' > indexhtml
+# ./ggb2html -v -i war/GeoGebraWeb.ggb -o indexhtml
 
 # 4. Copying files to the ZIPDIR directory
 REVISION=`svn info | grep ^Revision: | awk '{print $2}'`
@@ -37,8 +38,10 @@ cp -a war $ZIPDIR
 
 # 4. Removing unnecessary files
 cd $ZIPDIR || exit 41
+cp README.txt READMEtxt
 rm *.ggb *.txt *.html
 mv indexhtml index.html
+mv READMEtxt README.txt
 rm -fR ggbloadworker WEB-INF
 find -name .svn -or -name svnignore.txt | xargs rm -fR
 rm web/web.devmode.js web/statictexts/defaultbase64.img
@@ -50,7 +53,7 @@ find -name 'Symbola.svg' -or -name 'Symbola.ttf' -or -name 'Symbola.woff' \
 find -name mathquill.css | xargs rm
 
 # 5. Adding license file and version
-cp $WEBDIR/../desktop/geogebra/gui/_license.txt .
+cp $WEBDIR/../desktop/geogebra/gui/_license.txt LICENSE.txt
 echo $VERSION > version.txt
 echo $REVISION > revision.txt
 
