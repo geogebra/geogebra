@@ -878,10 +878,9 @@ public class WorksheetExportDialog extends JDialog {
 									URL src = new URL(GeoGebraConstants.GEOGEBRAWEB_ZIP_URL);
 									File dest = new File(zfn);
 									try {
-										// TODO: This should be cached (like usetimestamp in ant).
-										// Until then, it would be important to pop a window up
+										// TODO: It would be important to pop a window up
 										// for giving some information for the user to be
-										// patient.
+										// patient (when no data in the cache exists yet).
 										DownloadManager.copyURLToFile(src, dest);
 										
 									} catch (Exception e) {

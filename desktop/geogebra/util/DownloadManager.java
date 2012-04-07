@@ -12,6 +12,8 @@ the Free Software Foundation.
 
 package geogebra.util;
 
+import geogebra.main.Application;
+
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -32,6 +34,17 @@ public class DownloadManager {
 		try {			
 			// open input stream to src URL
 			URLConnection srcConnection = src.openConnection();
+			// Application.debug(srcConnection.getLastModified() + " " + dest.lastModified() + " " +
+			//		srcConnection.getContentLength() + " " + dest.length());
+				
+			// Check if this file has already been downloaded:
+			if (srcConnection.getLastModified() <= dest.lastModified() &&
+				srcConnection.getContentLength() == dest.length()) {
+				// Yes. No extra download is required. :-)
+				Application.debug("GeoGebraWeb has already been downloaded");
+				return;
+			}
+			
 			in = new BufferedInputStream(srcConnection.getInputStream());
 			if (in == null)
 				throw new NullPointerException("URL not found: " + src);
