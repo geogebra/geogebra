@@ -655,7 +655,8 @@ public class WorksheetExportDialog extends JDialog {
 		cbIncludeHTML5 = new JCheckBox(app.getMenu("HTML5Only"));
 		if (GeoGebraConstants.IS_PRE_RELEASE) filePanelWest.add(cbIncludeHTML5);
 
-		// download jar files
+		// download jar files or download GeoGebraWeb.zip
+		// for offline use
 		cbOfflineUse = new JCheckBox(app.getPlain("AllowOfflineUse"));
 		filePanelWest.add(cbOfflineUse);
 
@@ -861,8 +862,8 @@ public class WorksheetExportDialog extends JDialog {
 				public void run() {
 					try {
 
-						// copy jar to same directory as ggbFile
-						if (cbOfflineUse.isSelected()) {
+						// copy jar to same directory as ggbFile (if not HTML5Only)
+						if (cbOfflineUse.isSelected() && !cbIncludeHTML5.isSelected()) {
 							// copy all jar files
 							copyJarsTo(getAppletCodebase(), HTMLfile.getParent());
 						}
