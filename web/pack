@@ -24,7 +24,7 @@ test -r war/web/web.nocache.js || {
  }
 
 # 3. Creating index.html
-echo '<meta http-equiv="refresh" content="0; url=http://wiki.geogebra.org/en/Tutorial:Creating_HTML5_documents_with_GeoGebraWeb"' > indexhtml
+echo '<meta http-equiv="refresh" content="0; url=http://wiki.geogebra.org/en/Tutorial:Creating_HTML5_documents_with_GeoGebraWeb"/>' > war/indexhtml
 # ./ggb2html -v -i war/GeoGebraWeb.ggb -o indexhtml
 
 # 4. Copying files to the ZIPDIR directory
