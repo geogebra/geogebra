@@ -41,16 +41,23 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.TreeSet;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -863,9 +870,54 @@ public class WorksheetExportDialog extends JDialog {
 					try {
 
 						// copy jar to same directory as ggbFile (if not HTML5Only)
-						if (cbOfflineUse.isSelected() && !cbIncludeHTML5.isSelected()) {
-							// copy all jar files
-							copyJarsTo(getAppletCodebase(), HTMLfile.getParent());
+						if (cbOfflineUse.isSelected()) {
+							if (cbIncludeHTML5.isSelected()) {
+								String zfn = DownloadManager.getTempDir() + 
+										GeoGebraConstants.GEOGEBRAWEB_ZIP_LOCAL;
+								try {
+									URL src = new URL(GeoGebraConstants.GEOGEBRAWEB_ZIP_URL);
+									File dest = new File(zfn);
+									try {
+										// TODO: This should be cached (like usetimestamp in ant).
+										// Until then, it would be important to pop a window up
+										// for giving some information for the user to be
+										// patient.
+										DownloadManager.copyURLToFile(src, dest);
+										
+									} catch (Exception e) {
+										// Unsuccessful download, TODO
+										e.printStackTrace();
+									}
+								} catch (MalformedURLException e) {
+									// URL is malformed, TODO
+									e.printStackTrace();
+								}
+								
+								// Unzipping. TODO: Put this code into util.
+								ZipFile zf = new ZipFile(zfn);
+								String targetDir = HTMLfile.getParent() + File.separator;
+								Enumeration<? extends ZipEntry> entries = zf.entries();
+								while (entries.hasMoreElements()) {
+									ZipEntry entry = entries.nextElement();
+									String filename = entry.getName();
+									// Trimming the leading directory:
+									filename = filename.substring(filename.indexOf("/") + 1);
+									if (entry.isDirectory()) {
+										(new File(targetDir + filename)).mkdir();
+										continue;
+										}
+									// Normal file, but not an HTML:
+									if (!filename.endsWith(".html")) {
+										copyInputStream(zf.getInputStream(entry),
+												new BufferedOutputStream(new FileOutputStream(
+												targetDir + filename)));
+									}
+								}
+								zf.close();
+							} else {
+								// copy all jar files
+								copyJarsTo(getAppletCodebase(), HTMLfile.getParent());
+							}
 						}
 
 						// open html file in browser
@@ -884,6 +936,19 @@ public class WorksheetExportDialog extends JDialog {
 		}
 	}
 
+	/** This method has been copied from http://www.devx.com/getHelpOn/10MinuteSolution/20447,
+	 *  for unzipping.  
+	 */
+	static final void copyInputStream(InputStream in, OutputStream out)
+			throws IOException {
+		byte[] buffer = new byte[1024];
+		int len;
+		while ((len = in.read(buffer)) >= 0)
+			out.write(buffer, 0, len);
+		in.close();
+		out.close();
+	}
+	
 	/**
 	 * Exports all open ggb files as one html files with Tabs to choose
 	 * 
@@ -1564,7 +1629,11 @@ public class WorksheetExportDialog extends JDialog {
 		// GeoGebraWeb (JavaScript/HTML5) for non-Java devices eg Android, iPhone
 		if (includeHTML5) {
 			appendWithLineBreak(sb,	"<script type=\"text/javascript\" language=\"javascript\" src=\"");
-			sb.append(GeoGebraConstants.GEOGEBRA_HTML5_BASE);
+			if (cbOfflineUse.isSelected()) {
+				sb.append(GeoGebraConstants.GEOGEBRA_HTML5_BASE_OFFLINE);
+			} else {
+				sb.append(GeoGebraConstants.GEOGEBRA_HTML5_BASE);
+			}
 			sb.append("\"></script>");
 			appendWithLineBreak(sb,	"<article class=\"geogebraweb\" data-param-width=\""+width+"\" data-param-height=\""+height+"\" ");
 			appendGgbAppletParameters(sb, TYPE_GEOGEBRAWEB);

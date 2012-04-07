@@ -37,8 +37,15 @@ public interface GeoGebraConstants {
 	/** XSD for ggt (macro) files */
 	public static final String GGT_XSD_FILENAME = "ggt.xsd";
 	// URLs
-	/** URL of GeoGebraWeb main js file*/
-	public static final String GEOGEBRA_HTML5_BASE = "http://www.geogebra.org/web/4.2/web/web.nocache.js";
+	/** URL of GeoGebraWeb main js file */
+	public static final String GEOGEBRA_HTML5_BASE = "http://www.geogebra.org/web/" + SHORT_VERSION_STRING +
+			"/web/web.nocache.js";
+	/** URL of GeoGebraWeb zip file */
+	public static final String GEOGEBRAWEB_ZIP_URL = "http://dev.geogebra.org/download/web/GeoGebraWeb-latest.zip";
+	/** Destination filename for GeoGebraWeb zip file */
+	public static final String GEOGEBRAWEB_ZIP_LOCAL = "GeoGebraWeb-latest.zip";
+	/** URL of GeoGebraWeb main js file (offline version) */
+	public static final String GEOGEBRA_HTML5_BASE_OFFLINE = "web/web.nocache.js"; 
 	/** URL of GeoGebra jars */
 	public final static String GEOGEBRA_ONLINE_ARCHIVE_BASE = "http://jars.geogebra.org/webstart/"
 			+ SHORT_VERSION_STRING + "/";
@@ -68,7 +75,6 @@ public interface GeoGebraConstants {
 	/** relative path to mathml*/
 	public static final String MATHML_URL = "js/mathml_concat.js";
 	/** Splash timeout in miliseconds */
-	public static final int SPLASH_DIALOG_DELAY = 1000; 
-	
+	public static final int SPLASH_DIALOG_DELAY = 1000;
 
 }
