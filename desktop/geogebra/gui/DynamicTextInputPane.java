@@ -58,16 +58,23 @@ public class DynamicTextInputPane extends JTextPane {
 	/**
 	 * Inserts dynamic text field at the current caret position and returns the text
 	 * field's document
+	 * @param text text to put in the dynamic field
+	 * @param inputDialog input dialog
+	 * @return dynamic text field
 	 */
-	public Document insertDynamicText(String text, TextInputDialog inputDialog) {
+	public DynamicTextField insertDynamicText(String text, TextInputDialog inputDialog) {
 		return insertDynamicText(text, this.getCaretPosition(), inputDialog);
 	}
 
 	/**
 	 * Inserts dynamic text field at a specified position and returns the text
 	 * field's document
+	 * @param text text to put in the dynamic field
+	 * @param pos position of the dynamic text field
+	 * @param inputDialog input dialog
+	 * @return dynamic text field
 	 */
-	public Document insertDynamicText(String text, int pos, TextInputDialog inputDialog) {
+	public DynamicTextField insertDynamicText(String text, int pos, TextInputDialog inputDialog) {
 
 		if (pos == -1) pos = getDocument().getLength(); // insert at end
 
@@ -102,7 +109,6 @@ public class DynamicTextInputPane extends JTextPane {
 		}
 
 		DynamicTextField tf = new DynamicTextField(app, inputDialog); 
-		Document tfDoc = tf.getDocument();
 		tf.setText(text);
 		tf.setMode(mode);
 
@@ -110,7 +116,7 @@ public class DynamicTextInputPane extends JTextPane {
 		setCaretPosition(pos);
 		insertComponent(tf);
 
-		return tfDoc;
+		return tf;
 	}
 
 	StringBuilder sb = new StringBuilder();
@@ -214,8 +220,8 @@ public class DynamicTextInputPane extends JTextPane {
 		if (en.isLeaf()) { 
 
 			if (left.isGeoElement()) {
-				Document d = insertDynamicText(((GeoElement) left).getLabel(tpl), -1, id);
-				d.addDocumentListener(id);
+				DynamicTextField d = insertDynamicText(((GeoElement) left).getLabel(tpl), -1, id);
+				d.getDocument().addDocumentListener(id);
 			}
 			else if (left.isExpressionNode())
 				splitString((ExpressionNode) left, id);
@@ -240,8 +246,8 @@ public class DynamicTextInputPane extends JTextPane {
 			
 			// expression node
 			if (left.isGeoElement()) {
-				Document d = insertDynamicText(((GeoElement) left).getLabel(tpl), -1, id);
-				d.addDocumentListener(id);
+				DynamicTextField d = insertDynamicText(((GeoElement) left).getLabel(tpl), -1, id);
+				d.getDocument().addDocumentListener(id);
 			}
 			else if (left.isExpressionNode())
 				this.splitString((ExpressionNode)left, id);
@@ -253,8 +259,8 @@ public class DynamicTextInputPane extends JTextPane {
 
 			if (right != null) {
 				if (right.isGeoElement()) {
-					Document d = insertDynamicText(((GeoElement) right).getLabel(tpl), -1, id);
-					d.addDocumentListener(id);
+					DynamicTextField d = insertDynamicText(((GeoElement) right).getLabel(tpl), -1, id);
+					d.getDocument().addDocumentListener(id);
 				}
 				else if (right.isExpressionNode())
 					this.splitString((ExpressionNode)right, id);
@@ -312,7 +318,7 @@ public class DynamicTextInputPane extends JTextPane {
 	 * Class for the dynamic text container.
 	 * 
 	 */
-	private class DynamicTextField extends MyTextField{
+	public class DynamicTextField extends MyTextField{
 
 		private static final long serialVersionUID = 1L;
 		

@@ -22,6 +22,7 @@ import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.common.main.MyError;
 import geogebra.gui.DynamicTextInputPane;
+import geogebra.gui.DynamicTextInputPane.DynamicTextField;
 import geogebra.gui.GuiManager;
 import geogebra.gui.InputHandler;
 import geogebra.gui.util.GeoGebraIcon;
@@ -63,6 +64,7 @@ import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.text.Document;
+import javax.swing.text.Element;
 
 /**
  * Input dialog for GeoText objects with additional option to set a
@@ -398,6 +400,11 @@ public class TextInputDialog extends InputDialog implements DocumentListener {
 		TreeSet<GeoElement> ts = app.getKernel().getConstruction()
 				.getGeoSetLabelOrder();
 		ArrayList<String> list = new ArrayList<String>();
+		
+		//first possibility : create empty box
+		list.add(app.getPlain("(emptyBox)"));
+		
+		//add all geos
 		Iterator<GeoElement> iter = ts.iterator();
 		while (iter.hasNext()) {
 			GeoElement g = iter.next();
@@ -429,7 +436,11 @@ public class TextInputDialog extends InputDialog implements DocumentListener {
 					public void valueChanged(ListSelectionEvent e) {
 						if (!e.getValueIsAdjusting()) {
 							String label = (String) geoList.getSelectedValue();
-							insertGeoElement(app.getKernel().lookupLabel(label));
+							if (label!=null && label.startsWith("(")){
+								insertEmptyDynamicText();
+							}else{
+								insertGeoElement(app.getKernel().lookupLabel(label));
+							}
 							btInsertGeo.handlePopupActionEvent();
 							geoList.getSelectionModel().clearSelection();
 						}
@@ -693,6 +704,15 @@ public class TextInputDialog extends InputDialog implements DocumentListener {
 				if (isLaTeX)
 					inputPanel.insertString("\\:");
 			}
+			
+			if ((e.isAltDown() || Application.isAltDown(e))){
+				switch(e.getKeyCode()){
+				case KeyEvent.VK_LEFT:
+					break;
+				case KeyEvent.VK_RIGHT:
+					break;
+				}
+			}
 		}
 	}
 
@@ -739,15 +759,36 @@ public class TextInputDialog extends InputDialog implements DocumentListener {
 	}
 
 	@Override
-	public void insertGeoElement(GeoElement geo) {
-		if (geo == null)
+	public void insertGeoElement(GeoElement geo1) {
+		if (geo1 == null)
 			return;
-
-		Document d = editor.insertDynamicText(geo.getLabel(StringTemplate.defaultTemplate), this);
-		d.addDocumentListener(this);
+		
+		insertDynamicText(geo1.getLabel(StringTemplate.defaultTemplate));
+		
 		editor.requestFocus();
-		return;
 	}
+
+	/**
+	 * insert dynamic text with string s in it
+	 */
+	public void insertEmptyDynamicText() {
+		DynamicTextField d = insertDynamicText("  ");
+		d.requestFocus();
+		d.setCaretPosition(1);
+	}
+	
+	
+	/**
+	 * insert dynamic text with string s in it
+	 * @param s string in the dynamic text
+	 * @return dynamic text field
+	 */
+	public DynamicTextField insertDynamicText(String s) {
+		DynamicTextField d = editor.insertDynamicText(s, this);
+		d.getDocument().addDocumentListener(this);
+		return d;
+	}
+
 
 	// =============================================================
 	// TextInputHandler
