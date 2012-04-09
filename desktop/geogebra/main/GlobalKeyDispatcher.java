@@ -117,18 +117,20 @@ public class GlobalKeyDispatcher extends geogebra.common.main.GlobalKeyDispatche
 			return false;
 		}
 
+		GeoElement geo;
+		if (app.selectedGeosSize() == 1) {
+			// selected geo
+			geo = app.getSelectedGeos().get(0);
+		} else {
+			// last created geo
+			geo = app.getLastCreatedGeoElement();
+		}
+
 		// show RENAME dialog when a letter is typed
+		// or edit Textfield for any keypress
 		char ch = event.getKeyChar();
-		if (Character.isLetter(ch) && !event.isMetaDown() && !event.isAltDown()
-				&& !event.isControlDown()) {
-			GeoElement geo;
-			if (app.selectedGeosSize() == 1) {
-				// selected geo
-				geo = app.getSelectedGeos().get(0);
-			} else {
-				// last created geo
-				geo = app.getLastCreatedGeoElement();
-			}
+		if ((Character.isLetter(ch) && !event.isMetaDown() && !event.isAltDown()
+				&& !event.isControlDown()) || geo instanceof GeoTextField) {
 
 			// open rename dialog
 			if (geo != null) {
