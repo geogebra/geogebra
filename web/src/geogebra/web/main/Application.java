@@ -1441,4 +1441,9 @@ public class Application extends AbstractApplication {
 		return appFrame;
 	}
 
+	@Override
+    public void updateTopBottomPanels() {
+	    AbstractApplication.debug("Implementation needed...");
+    }
+
 }

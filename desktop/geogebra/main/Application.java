@@ -383,7 +383,6 @@ public class Application extends AbstractApplication implements
 	 */
 	public boolean showAuxiliaryObjects = false;
 	private boolean showAlgebraInput = true;
-	private boolean showInputTop = false;
 	private boolean showInputHelpToggle = true;
 	private boolean showToolBarTop = true;
 	
@@ -2688,22 +2687,9 @@ public class Application extends AbstractApplication implements
 		}
 	}
 
-	public boolean showInputTop() {
-		return showInputTop;
-	}
+	
 
-	public void setShowInputTop(boolean flag, boolean update) {
-		if (flag == showInputTop) {
-			return;
-		}
-
-		showInputTop = flag;
-
-		if (update && !isIniting()) {
-			updateTopBottomPanels();
-		}
-	}
-
+	
 	public boolean showInputHelpToggle() {
 		return showInputHelpToggle;
 	}

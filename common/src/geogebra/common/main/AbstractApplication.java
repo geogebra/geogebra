@@ -200,6 +200,8 @@ public abstract class AbstractApplication {
 	// (more for points, see DrawPoint)
 	public int capturingThreshold = 3;
 	
+	protected boolean showInputTop = false;
+	
 	private static String CASVersionString = "";
 
 	public static void setCASVersionString(String string) {
@@ -2845,4 +2847,23 @@ public abstract class AbstractApplication {
 	public Image getInternalImageAdapter(String filename) {
 		return null;
 	}
+	
+	public boolean showInputTop() {
+		return showInputTop;
+	}
+	
+	public void setShowInputTop(boolean flag, boolean update) {
+		if (flag == showInputTop) {
+			return;
+		}
+
+		showInputTop = flag;
+
+		if (update && !isIniting()) {
+			updateTopBottomPanels();
+		}
+	}
+
+	
+	public abstract void updateTopBottomPanels();
 }

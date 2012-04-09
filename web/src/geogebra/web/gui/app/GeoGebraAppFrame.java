@@ -90,6 +90,7 @@ public class GeoGebraAppFrame extends Composite {
 		ch = (Window.getClientHeight() - (GGWToolBar_HEIGHT + GGWCommandLine_HEIGHT));
 		app = createApplication(article,this);
 		ggwSplitLayoutPanel.attachApp(app);
+		ggwCommandLine.attachApp(app);
     }
 	
 	/**
