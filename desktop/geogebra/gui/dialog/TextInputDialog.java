@@ -45,6 +45,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.TreeSet;
 
+import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.JButton;
@@ -57,14 +58,20 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JToolBar;
+import javax.swing.KeyStroke;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.event.UndoableEditEvent;
+import javax.swing.event.UndoableEditListener;
 import javax.swing.text.Document;
 import javax.swing.text.Element;
+import javax.swing.undo.CannotRedoException;
+import javax.swing.undo.CannotUndoException;
+import javax.swing.undo.UndoManager;
 
 /**
  * Input dialog for GeoText objects with additional option to set a
@@ -102,6 +109,8 @@ public class TextInputDialog extends InputDialog implements DocumentListener {
 	private JList geoList;
 
 	boolean isIniting;
+	UndoManager undo = null; 
+	Document doc = null;
 
 	/**
 	 * Input Dialog for a GeoText object
@@ -116,7 +125,7 @@ public class TextInputDialog extends InputDialog implements DocumentListener {
 	 */
 	public TextInputDialog(Application app, String title, GeoText editGeo,
 			GeoPointND startPoint, int cols, int rows, boolean isTextMode) {
-
+		
 		super(app.getFrame(), false);
 		this.app = app;
 		this.startPoint = startPoint;
@@ -124,7 +133,6 @@ public class TextInputDialog extends InputDialog implements DocumentListener {
 		this.editGeo = editGeo;
 		textInputDialog = this;
 		inputHandler = new TextInputHandler();
-
 		isIniting = true;
 
 		// build input dialog GUI
@@ -150,6 +158,41 @@ public class TextInputDialog extends InputDialog implements DocumentListener {
 
 		isIniting = false;
 		setLabels(title);
+		undo = new UndoManager();
+		doc = editor.getDocument();
+		doc.addUndoableEditListener(new UndoableEditListener(){
+			public void undoableEditHappened(UndoableEditEvent e) {
+				undo.addEdit(e.getEdit());
+			}
+		});
+		
+		editor.getActionMap().put("Undo", new AbstractAction("Undo"){
+			public void actionPerformed(ActionEvent e) {
+				try{
+					if(undo.canUndo()){
+						undo.undo();
+					}
+				}catch(CannotUndoException e1){
+					AbstractApplication.debug("Cannot Undo");
+				}
+			}
+		});
+		
+		editor.getInputMap().put(KeyStroke.getKeyStroke("control Z"), "Undo");
+		
+		editor.getActionMap().put("Redo", new AbstractAction("Redo"){
+			public void actionPerformed(ActionEvent e) {
+				try{
+					if(undo.canRedo()){
+						undo.redo();
+					}
+				}catch(CannotRedoException e2){
+					AbstractApplication.debug("Cannot Redo");
+				}
+			}
+		});
+		
+		editor.getInputMap().put(KeyStroke.getKeyStroke("control Y"), "Redo");
 
 		this.pack();
 	}
