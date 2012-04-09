@@ -28,6 +28,7 @@ import java.awt.event.WindowListener;
 import java.util.Comparator;
 
 import javax.swing.BorderFactory;
+import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -35,6 +36,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
+import javax.swing.border.Border;
 import javax.swing.plaf.basic.BasicButtonUI;
 
 /**
@@ -102,6 +104,12 @@ public abstract class DockPanel extends JPanel implements ActionListener, Window
 	private JComponent styleBar;
 	
 	/**
+	 * Panel to contain a toggle button within the stylebar panel.
+	 */
+	private JPanel styleBarButtonPanel;
+	
+	
+	/**
 	 * If the style bar is visible.
 	 */
 	private boolean showStyleBar = false;
@@ -149,9 +157,21 @@ public abstract class DockPanel extends JPanel implements ActionListener, Window
 	private JButton unwindowButton;
 	
 	/**
-	 * Button used to show / hide the style bar.
+	 * Button used to show / hide the style bar in the titlePanel.
 	 */
 	private JButton toggleStyleBarButton;
+	
+	/**
+	 * Button used to show / hide the style bar when title panel is invisible.
+	 */
+	private JButton toggleStyleBarButton2;
+	
+	
+	/**
+	 * Button to maximize/unmaximize a panel.
+	 */
+	private JButton maximizeButton;
+
 	
 	/**
 	 * Panel for the styling bar if one is available.
@@ -310,7 +330,14 @@ public abstract class DockPanel extends JPanel implements ActionListener, Window
 		titleLabel = new JLabel(app.getPlain(title));
 		titleLabel.setFont(app.getPlainFont());
 		titleLabel.setForeground(Color.darkGray);
-		return titleLabel;
+			
+		JPanel p = new JPanel(new FlowLayout(FlowLayout.LEFT,2,1));
+		if(this.hasStyleBar){
+			p.add(this.toggleStyleBarButton);
+		}
+		p.add(Box.createHorizontalStrut(2));
+		p.add(titleLabel);
+		return p;
 	}
 	
 	/**
@@ -322,115 +349,117 @@ public abstract class DockPanel extends JPanel implements ActionListener, Window
 	public void register(DockManager dockManager) {
 		this.dockManager = dockManager;
 		this.app = dockManager.getLayout().getApplication();
-		
-		// the meta panel holds both title and style bar panel
-		JPanel metaPanel = new JPanel(new BorderLayout());
-		
-		// Construct title bar and all elements
-		titlePanel = new JPanel();
-		titlePanel.setBorder(
-			BorderFactory.createCompoundBorder(
-				BorderFactory.createMatteBorder(0, 0, 1, 0, SystemColor.controlShadow),
-				BorderFactory.createEmptyBorder(0, 2, 0, 2)));
-		titlePanel.setLayout(new BorderLayout());
-		
-		titlePanel.add(createFocusPanel(), BorderLayout.WEST);
 
+		// create buttons for the panels
+		createButtons();
+		
+		// create button panel
 		buttonPanel = new JPanel();
-		buttonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, 0, 0));
-		titlePanel.add(buttonPanel, BorderLayout.EAST);
-		
-		// Show / hide styling bar if one exists
-		if(hasStyleBar) {
-			toggleStyleBarButton = new JButton(app.getImageIcon("triangle-down.png"));
-			toggleStyleBarButton.setBorder(BorderFactory.createEmptyBorder(0,2,0,2));
-			toggleStyleBarButton.addActionListener(this);
-			
-			if(Application.MAC_OS) {
-				toggleStyleBarButton.setUI(new TitleBarButtonUI());
-			} else {
-				toggleStyleBarButton.setFocusPainted(false);
-			}
-			
-			toggleStyleBarButton.setPreferredSize(new Dimension(16,16));
-			buttonPanel.add(toggleStyleBarButton);
-		}
-		
-		// Insert the view in the main window
-		unwindowButton = new JButton(app.getImageIcon("view-unwindow.png"));
-		unwindowButton.setBorder(BorderFactory.createEmptyBorder(0,2,0,2));
-		unwindowButton.addActionListener(this);
-
-		if(Application.MAC_OS) {
-			unwindowButton.setUI(new TitleBarButtonUI());
-		} else {
-			unwindowButton.setFocusPainted(false);
-		}
-		
-		unwindowButton.setPreferredSize(new Dimension(16,16));
+		buttonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, 0, 1));
+		buttonPanel.add(maximizeButton);
+		buttonPanel.add(Box.createHorizontalStrut(2));
 		buttonPanel.add(unwindowButton);
-		
-		// Display the view in a separate window
-		windowButton = new JButton(app.getImageIcon("view-window.png"));
-		windowButton.setBorder(BorderFactory.createEmptyBorder(0,2,0,2));
-		windowButton.addActionListener(this);
-
-		if(Application.MAC_OS) {
-			windowButton.setUI(new TitleBarButtonUI());
-		} else {
-			windowButton.setFocusPainted(false);
-		}
-		
-		windowButton.setPreferredSize(new Dimension(16,16));
 		buttonPanel.add(windowButton);
-		
-		// Close the title bar
-		closeButton = new JButton(app.getImageIcon("view-close.png"));
-		closeButton.setBorder(BorderFactory.createEmptyBorder(0,2,0,2));
-		closeButton.addActionListener(this);
-
-		if(Application.MAC_OS) {
-			closeButton.setUI(new TitleBarButtonUI());
-		} else {
-			closeButton.setFocusPainted(false);
-		}
-		
-		closeButton.setPreferredSize(new Dimension(16,16));
+		buttonPanel.add(Box.createHorizontalStrut(2));
 		buttonPanel.add(closeButton);
-		
-		metaPanel.add(titlePanel, BorderLayout.NORTH);
-		
-		// Style bar panel
-		if(hasStyleBar) {
-			styleBarPanel = new JPanel(new BorderLayout());
 
-			styleBarPanel.setBorder(
-				BorderFactory.createCompoundBorder(
-					BorderFactory.createMatteBorder(0, 0, 1, 0, SystemColor.controlShadow),
-					BorderFactory.createEmptyBorder(0, 2, 0, 2)));
-			
-			metaPanel.add(styleBarPanel, BorderLayout.SOUTH);
-		}
+		// Custom border for the major panels (title, stylebar and toolbar)
+		Border panelBorder = BorderFactory.createCompoundBorder(BorderFactory
+				.createMatteBorder(0, 0, 1, 0, SystemColor.controlShadow),
+				BorderFactory.createEmptyBorder(0, 2, 0, 2));	
 		
-		// toolbar panel
-		if(hasToolbar()) {
+		// create style bar panel
+		styleBarPanel = new JPanel(new BorderLayout(1, 2));
+		styleBarPanel.setBorder(panelBorder);
+		styleBarPanel.addMouseListener(this);
+
+		styleBarButtonPanel = new JPanel(new BorderLayout());
+		JPanel p = new JPanel(new FlowLayout(0, 0, FlowLayout.LEFT));
+		p.add(toggleStyleBarButton2);
+		p.add(Box.createHorizontalStrut(4));
+		styleBarButtonPanel.add(p, BorderLayout.NORTH);
+		styleBarPanel.add(styleBarButtonPanel, BorderLayout.WEST);
+		
+		// construct the title bar and add all elements
+		titlePanel = new JPanel();
+		titlePanel.setBorder(panelBorder);
+		titlePanel.setLayout(new BorderLayout());
+
+		titlePanel.add(createFocusPanel(), BorderLayout.WEST);
+		titlePanel.add(buttonPanel, BorderLayout.EAST);
+		titlePanel.addMouseListener(this); // drags and double-click for stylebar
+		
+		// create toolbar panel
+		if (hasToolbar()) {
 			toolbarPanel = new JPanel(new BorderLayout());
-
-			toolbarPanel.setBorder(
-				BorderFactory.createCompoundBorder(
-					BorderFactory.createMatteBorder(0, 0, 1, 0, SystemColor.controlShadow),
-					BorderFactory.createEmptyBorder(0, 2, 0, 2)));
-			
-			metaPanel.add(toolbarPanel, BorderLayout.CENTER);
+			toolbarPanel.setBorder(panelBorder);
 		}
 
-	   	// make titlebar visible if necessary
-		updatePanel();
 		
+						
+		// construct a meta panel to hold the title, tool bar and style bar panels
+
+		JPanel titleBar = new JPanel(new BorderLayout());
+		titleBar.add(titlePanel, BorderLayout.NORTH);
+		if (hasStyleBar)
+			titleBar.add(styleBarPanel, BorderLayout.SOUTH);
+
+		JPanel metaPanel = new JPanel(new BorderLayout());
+		metaPanel.add(titleBar, BorderLayout.SOUTH);
+		if (hasToolbar())
+			metaPanel.add(toolbarPanel, BorderLayout.CENTER);
+
+		// make titlebar visible if necessary
+		updatePanel();
+
 		add(metaPanel, BorderLayout.NORTH);
 	}
 	
+	
+	private void createButtons() {
+		
+		// button to show/hide styling bar and the title panel buttons
+		toggleStyleBarButton = new JButton(
+				app.getImageIcon("triangle-down.png"));
+		toggleStyleBarButton.addActionListener(this);
+		toggleStyleBarButton.setFocusPainted(false);
+	//	toggleStyleBarButton.setBorderPainted(false);
+		toggleStyleBarButton.setPreferredSize(new Dimension(12, 12));
 
+		// button to show/hide styling bar if the title panel is invisible
+		toggleStyleBarButton2 = new JButton(
+				app.getImageIcon("triangle-down.png"));
+		toggleStyleBarButton2.setFocusPainted(false);
+	//	toggleStyleBarButton2.setBorderPainted(false);
+		toggleStyleBarButton2.setPreferredSize(new Dimension(12, 12));
+		toggleStyleBarButton2.addActionListener(this);
+
+		// button to insert the view in the main window
+		unwindowButton = new JButton(app.getImageIcon("view-unwindow.png"));
+		unwindowButton.addActionListener(this);
+		unwindowButton.setFocusPainted(false);
+		unwindowButton.setPreferredSize(new Dimension(16, 16));
+
+		// button to display the view in a separate window
+		windowButton = new JButton(app.getImageIcon("view-window.png"));
+		windowButton.addActionListener(this);
+		windowButton.setFocusPainted(false);
+		windowButton.setPreferredSize(new Dimension(16, 16));
+
+		// button to close the view
+		closeButton = new JButton(app.getImageIcon("view-close.png"));
+		closeButton.addActionListener(this);
+		closeButton.setFocusPainted(false);
+		closeButton.setPreferredSize(new Dimension(16, 16));
+
+		// button to toggle maximize/normal state
+		maximizeButton = new JButton(app.getImageIcon("view-maximize.png"));
+		maximizeButton.addActionListener(this);
+		maximizeButton.setFocusPainted(false);
+		maximizeButton.setPreferredSize(new Dimension(16, 16));
+
+	}
+	
 	
 	/**
 	 * 
@@ -509,25 +538,28 @@ public abstract class DockPanel extends JPanel implements ActionListener, Window
 	 */
 	public void updateTitleBar() {
 		// The view is in the main window
-		if(frame == null) {
-			closeButton.setVisible(true);
-			windowButton.setVisible(true);
-			titleLabel.setVisible(true);
+		if (frame == null) {
+			closeButton.setVisible(showStyleBar && !isMaximized());
+			windowButton.setVisible(showStyleBar && !isMaximized());
 			unwindowButton.setVisible(false);
-			
-			if(titlePanel.getMouseListeners().length == 0) {
-				titlePanel.addMouseListener(this);
-			}
+			maximizeButton.setVisible(showStyleBar || isMaximized());
+			titleLabel.setVisible(true);
+
 		} else {
-			closeButton.setVisible(true);
+			closeButton.setVisible(false);
 			unwindowButton.setVisible(true);
-			
 			windowButton.setVisible(false);
+			maximizeButton.setVisible(false);
 			titleLabel.setVisible(false);
-			
-			titlePanel.removeMouseListener(this);
+
 		}
-		
+
+		if (isMaximized()) {
+			maximizeButton.setIcon(app.getImageIcon("view-unmaximize.png"));
+		} else {
+			maximizeButton.setIcon(app.getImageIcon("view-maximize.png"));
+		}
+
 		updateLabels();
 	}
 	
@@ -599,9 +631,6 @@ public abstract class DockPanel extends JPanel implements ActionListener, Window
 					styleBar = loadStyleBar();
 					styleBarPanel.add(styleBar, BorderLayout.CENTER);
 				}
-				
-				styleBarPanel.setVisible(isStyleBarVisible());
-				toggleStyleBarButton.setVisible(app.getSettings().getLayout().isAllowingStyleBar());
 			} 
 			
 			// display toolbar panel if the dock panel is open in a frame
@@ -612,7 +641,17 @@ public abstract class DockPanel extends JPanel implements ActionListener, Window
 		
 		// if this is the last dock panel don't display the title bar, otherwise
 		// take the user's configuration into consideration
-		titlePanel.setVisible(!isAlone && !app.isApplet() && app.getSettings().getLayout().showTitleBar());
+		titlePanel.setVisible(!(isAlone && !isMaximized()) && !app.isApplet()
+				&& app.getSettings().getLayout().showTitleBar());
+	
+		if (styleBarPanel != null) {
+			styleBarPanel.setVisible(isStyleBarVisible());
+		}
+		
+		if(styleBarButtonPanel != null){
+			styleBarButtonPanel.setVisible(!titlePanel.isVisible());
+		}
+		
 		
 		// update the title bar if necessary
 		if(titlePanel.isVisible()) {
@@ -719,7 +758,7 @@ public abstract class DockPanel extends JPanel implements ActionListener, Window
 		dockManager.hide(this);
 		dockManager.getLayout().getApplication().updateMenubar();
 
-		app.openDockBar();
+		//app.openDockBar();
 		
 		if(dockManager.getFocusedPanel() == this) {
 			dockManager.setFocusedPanel(null);
@@ -777,17 +816,23 @@ public abstract class DockPanel extends JPanel implements ActionListener, Window
 	public void toggleStyleBar() {
 		if(!this.hasStyleBar) return;
 		
-		if(!showStyleBar && styleBar == null) {
+		setShowStyleBar(!showStyleBar);
+		
+		if(showStyleBar && styleBar == null) {
 			styleBar = loadStyleBar();
+			styleBar.addMouseListener(this);
 			styleBarPanel.add(styleBar, BorderLayout.CENTER);
 		}
+				
+		styleBar.setVisible(showStyleBar);
+		styleBarButtonPanel.setVisible(!titlePanel.isVisible());
+		styleBarPanel.setVisible(isStyleBarVisible());
 		
-		styleBarPanel.setVisible(!showStyleBar);
-		setShowStyleBar(!showStyleBar);
+		updateTitleBar();
 	}
 
 	/**
-	 * One of the buttons were pressed.
+	 * One of the buttons was pressed.
 	 */
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == closeButton) {
@@ -796,8 +841,12 @@ public abstract class DockPanel extends JPanel implements ActionListener, Window
 			windowPanel();
 		} else if(e.getSource() == unwindowButton) {
 			unwindowPanel();
-		} else if(e.getSource() == toggleStyleBarButton) {
+		} else if (e.getSource() == toggleStyleBarButton
+				|| e.getSource() == toggleStyleBarButton2) {
 			toggleStyleBar();
+			
+		} else if (e.getSource() == maximizeButton) {
+			toggleMaximize();
 		}
 	}
 
@@ -810,14 +859,22 @@ public abstract class DockPanel extends JPanel implements ActionListener, Window
 	}
 	
 	/**
-	 * Start dragging if the mouse was pressed while it was on the
-	 * title panel.
+	 * Start dragging if the mouse was pressed while it was on the title panel.
+	 * Or toggle the stylebar on double-click.
 	 */
 	public void mousePressed(MouseEvent arg0) {
-		if(arg0.getClickCount()==2)
+		
+		// double-click opens the stylebar and shows the button panel
+		if (arg0.getClickCount() == 2) {
 			toggleStyleBar();
-		else
-			dockManager.drag(this);
+		}
+		
+		// otherwise start drag if the view is in the main window
+		else {
+			if (frame == null) {
+				dockManager.drag(this);
+			}
+		}
 	}
 	
 	/**
@@ -928,13 +985,20 @@ public abstract class DockPanel extends JPanel implements ActionListener, Window
 				toggleStyleBarButton.setIcon(app.getImageIcon("triangle-down.png"));
 			}
 		}
+		if (toggleStyleBarButton2 != null) {
+			toggleStyleBarButton2.setIcon(toggleStyleBarButton.getIcon());
+		}
+		
 	}
 	
 	/**
 	 * @return If the style bar should be visible.
 	 */
 	private boolean isStyleBarVisible() {
-		return (isAlone || showStyleBar)  && app.getSettings().getLayout().isAllowingStyleBar();
+		if (!app.getSettings().getLayout().isAllowingStyleBar()){
+			return false;
+		}
+		return (showStyleBar || !titlePanel.isVisible());
 	}
 	
 	public void setFrameBounds(Rectangle frameBounds) {
@@ -1193,7 +1257,7 @@ public abstract class DockPanel extends JPanel implements ActionListener, Window
 	
 	/**
 	 * UI for the buttons in the title panel. Used for Mac as the normal
-	 * buttons are not displayed correclty as they are too small.
+	 * buttons are not displayed correctly as they are too small.
 	 * 
 	 * @author Florian Sonner
 	 */
@@ -1208,4 +1272,27 @@ public abstract class DockPanel extends JPanel implements ActionListener, Window
 			super.paint(g, component);
 		}
 	}
+	
+	
+	
+	/**
+	 * @return true if the layout has been maximized
+	 */
+	public boolean isMaximized() {
+		return dockManager.isMaximized();
+	}
+
+	/**
+	 * Toggles the panel between maximized and normal state
+	 */
+	public void toggleMaximize() {
+
+		if (isMaximized())
+			dockManager.undoMaximize(true);
+		else
+			dockManager.maximize(this);
+
+		updatePanel();
+	}
+	
 }
