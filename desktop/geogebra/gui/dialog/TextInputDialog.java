@@ -402,7 +402,7 @@ public class TextInputDialog extends InputDialog implements DocumentListener {
 		ArrayList<String> list = new ArrayList<String>();
 		
 		//first possibility : create empty box
-		list.add(app.getPlain("(emptyBox)"));
+		list.add(app.getPlain("EmptyBox"));
 		
 		//add all geos
 		Iterator<GeoElement> iter = ts.iterator();
