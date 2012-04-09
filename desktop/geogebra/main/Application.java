@@ -1279,7 +1279,8 @@ public class Application extends AbstractApplication implements
 
 						if (success && !isMacroFile) {
 							if (!isUsingFullGui()) {
-								if (!isJustEuclidianVisible()) {
+								if (showConsProtNavigation
+										|| !isJustEuclidianVisible()) {
 									useFullGui = true;
 								}
 							}
