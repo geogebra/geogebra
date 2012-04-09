@@ -436,9 +436,9 @@ public class TextInputDialog extends InputDialog implements DocumentListener {
 					public void valueChanged(ListSelectionEvent e) {
 						if (!e.getValueIsAdjusting()) {
 							String label = (String) geoList.getSelectedValue();
-							if (label!=null && label.startsWith("(")){
+							if (label != null && e.getFirstIndex() == 0){
 								insertEmptyDynamicText();
-							}else{
+							} else {
 								insertGeoElement(app.getKernel().lookupLabel(label));
 							}
 							btInsertGeo.handlePopupActionEvent();
