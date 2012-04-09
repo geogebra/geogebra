@@ -124,10 +124,18 @@ public class DrawEquationWeb implements DrawEquationInterface {
 	public Dimension drawEquation(AbstractApplication app, GeoElement geo,
             Graphics2D g2, int x, int y, String eqstring, Font font, boolean serif,
             Color fgColor, Color bgColor, boolean useCache) {
+		
 
 		if (true) { // the new way to draw an Equation (latex)
 			// no scriptloaded check yet (is it necessary?)
 			// no EuclidianView 1,2 yet
+			
+			// make sure eg FractionText[] works (surrounds with {} which doesn't draw well in MathQuill)
+			if (eqstring.startsWith("{") && eqstring.endsWith("}")) {
+				eqstring = eqstring.substring(1, eqstring.length() - 1);
+			}
+
+			
 			AbstractApplication.debug(eqstring);
 
 			// remove $s
