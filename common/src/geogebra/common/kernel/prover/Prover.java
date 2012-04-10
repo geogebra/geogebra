@@ -169,11 +169,10 @@ public class Prover {
 	 * @return The simplified XML 
 	 */
 	// TODO: Cut even more unneeded parts to reduce unneeded traffic between OGP and GeoGebra.
-	// Maybe a third party XML library would be nice for this -- xstream?
 	private static String simplifiedXML(Construction cons) {
 		StringBuilder sb = new StringBuilder();
 		cons.getConstructionElementsXML(sb);
-		return sb.toString();
+		return "<construction>\n" + sb.toString() + "</construction>";
 	}
 
 }
