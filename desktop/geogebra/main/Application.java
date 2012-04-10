@@ -512,7 +512,7 @@ public class Application extends AbstractApplication implements
 		if (!isApplet) {
 			pythonBridge = new PythonBridge(this);
 		}
-		else pythonBridge = new AppletPythonBridge();
+		else pythonBridge = new AppletPythonBridge(this);
 		
 		// load file on startup and set fonts
 		// set flag to avoid multiple calls of setLabels() and

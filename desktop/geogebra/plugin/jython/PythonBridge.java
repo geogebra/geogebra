@@ -45,6 +45,13 @@ public class PythonBridge extends geogebra.common.plugin.jython.PythonBridge imp
 	 * Initialise PythonBridge
 	 */
 	public synchronized void init() {
+		forceInit();
+	}
+	
+	/**
+	 * called directly 
+	 */
+	public synchronized void forceInit() {
 		if (!ready) {
 			AbstractApplication.debug("Initialising Python interpreter...");
 			System.setProperty("python.cachedir.skip", "true");
@@ -70,6 +77,10 @@ public class PythonBridge extends geogebra.common.plugin.jython.PythonBridge imp
 	 * Open / close the Python window
 	 */
 	public void toggleWindow() {
+		
+		// for applets
+		forceInit();
+		
 		pyInterface.toggleWindow();
 	}
 	
