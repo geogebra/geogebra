@@ -202,6 +202,9 @@ public abstract class AbstractApplication {
 	
 	protected boolean showInputTop = false;
 	
+	protected boolean showAlgebraInput = true;
+	protected boolean showInputHelpToggle = true;
+	
 	private static String CASVersionString = "";
 
 	public static void setCASVersionString(String string) {
@@ -2862,6 +2865,20 @@ public abstract class AbstractApplication {
 		if (update && !isIniting()) {
 			updateTopBottomPanels();
 		}
+	}
+	
+	public boolean showInputHelpToggle() {
+		return showInputHelpToggle;
+	}
+	
+	public void setShowInputHelpToggle(boolean flag) {
+		if (showInputHelpToggle == flag) {
+			return;
+		}
+
+		showInputHelpToggle = flag;
+		getGuiManager().updateAlgebraInput();
+		updateMenubar();
 	}
 
 	

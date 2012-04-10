@@ -13,6 +13,7 @@ import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.main.AbstractApplication;
 import geogebra.web.euclidian.EuclidianView;
 import geogebra.web.gui.app.GGWToolBar;
+import geogebra.web.gui.inputbar.InputBarHelpPanel;
 import geogebra.web.gui.layout.Layout;
 import geogebra.web.main.Application;
 
@@ -264,6 +265,8 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 	}
 	
 	private GGWToolBar toolbarPanel = null;
+
+	private InputBarHelpPanel inputHelpPanel;
 	
 	public GGWToolBar getToolbarPanel() {
 		if (toolbarPanel == null) {
@@ -283,6 +286,19 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 			getToolbarPanel().updateToolbarPanel();
 		}
 	}
+
+	@Override
+    public void updateAlgebraInput() {
+	   AbstractApplication.debug("Implementation needed...");
+    }
+	
+	
+
+	public InputBarHelpPanel getInputHelpPanel() {
+		if (inputHelpPanel == null)
+			inputHelpPanel = new InputBarHelpPanel(app);
+		return inputHelpPanel;
+    }
 	
 	
 }

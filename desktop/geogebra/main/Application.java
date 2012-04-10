@@ -382,8 +382,7 @@ public class Application extends AbstractApplication implements
 	 * creating an AV (compatibility with 3.2)
 	 */
 	public boolean showAuxiliaryObjects = false;
-	private boolean showAlgebraInput = true;
-	private boolean showInputHelpToggle = true;
+	
 	private boolean showToolBarTop = true;
 	
 	protected boolean showConsProtNavigation = false;
@@ -2690,9 +2689,7 @@ public class Application extends AbstractApplication implements
 	
 
 	
-	public boolean showInputHelpToggle() {
-		return showInputHelpToggle;
-	}
+	
 
 	public boolean showToolBarTop() {
 		return showToolBarTop;
@@ -4417,15 +4414,6 @@ public class Application extends AbstractApplication implements
 
 	private DialogManager dialogManager;
 	
-	public void setShowInputHelpToggle(boolean flag) {
-		if (showInputHelpToggle == flag) {
-			return;
-		}
-
-		showInputHelpToggle = flag;
-		getGuiManager().updateAlgebraInput();
-		updateMenubar();
-	}
 
 	@Override
 	public void callAppletJavaScript(String string, Object[] args) {

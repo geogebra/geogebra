@@ -58,6 +58,7 @@ import geogebra.web.util.DebugPrinterWeb;
 import geogebra.web.util.ImageManager;
 
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.HashMap;
@@ -349,6 +350,36 @@ public class Application extends AbstractApplication {
 		initTranslatedCommands();
 
 		return commandConstants.getString(crossReferencingPropertiesKeys(key));
+	}
+	
+	final public String getReverseCommand(String command) {
+		initTranslatedCommands();
+
+		String key = toLowerCase(command);
+		try {
+
+			Enumeration<String> enume = null /*AG Rana it waits for you :-))rbcommand.getKeys()*/;
+			AbstractApplication.debug("i18n needed");
+
+			while (enume.hasMoreElements()) {
+				String s = enume.nextElement();
+
+				// check internal commands
+				if (toLowerCase(s).equals(key)) {
+					return s;
+				}
+
+				// check localized commands
+				if (toLowerCase(/*AG Rana it ...rbcommand.getString(s))*/"").equals(key)) {
+					AbstractApplication.debug("i18n needed");
+					return s;
+				}
+			}
+
+			return null;
+		} catch (Exception e) {
+			return null;
+		}
 	}
 
 	@Override
@@ -1444,6 +1475,10 @@ public class Application extends AbstractApplication {
 	@Override
     public void updateTopBottomPanels() {
 	    AbstractApplication.debug("Implementation needed...");
+    }
+
+	public void setShowInputHelpPanel(boolean b) {
+		 AbstractApplication.debug("Implementation needed...");
     }
 
 }

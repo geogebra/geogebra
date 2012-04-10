@@ -9,8 +9,10 @@ import geogebra.common.euclidian.DrawTextField;
 import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.event.FocusListener;
 import geogebra.common.javax.swing.JLabel;
+import geogebra.common.kernel.commands.MyException;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.MyError;
 import geogebra.common.util.AutoCompleteDictionary;
 import geogebra.web.gui.inputfield.BorderButton;
 import geogebra.web.gui.util.GeoGebraIcon;
@@ -252,6 +254,14 @@ public class AutoCompleteTextField extends TextBox implements geogebra.common.gu
 	public void setColumns(int length) {
 	   setVisibleLength(length);
     }
+	
+	 public String getCurrentWord() {
+		    return curWord.toString();
+	 }
+
+	public int getCurrentWordStart() {
+		    return curWordStart;
+	}
 
 	public void addFocusListener(FocusListener listener) {
 		super.addFocusHandler((geogebra.web.euclidian.event.FocusListener) listener);
@@ -284,5 +294,95 @@ public class AutoCompleteTextField extends TextBox implements geogebra.common.gu
 	public AutoCompleteDictionary getDictionary() {
 	    return dict;
     }
+	
+	 private static boolean isLetterOrDigit(char character) {
+		    switch (character) {
+		      case '_': // allow underscore as a valid letter in an autocompletion word
+		        return true;
+
+		      default:
+		        return Character.isLetterOrDigit(character);
+		    }
+		  }
+	
+	 /**
+	   * Updates curWord to word at current caret position.
+	   * curWordStart, curWordEnd are set to this word's start and end position
+	   */
+	  public void updateCurrentWord(boolean searchRight) {
+	    String text = getText();
+	    if (text == null)
+	      return;
+	    int caretPos = getCaretPosition();
+
+	    if (searchRight) {
+	      // search to right first to see if we are inside [ ]
+	      boolean insideBrackets = false;
+	      curWordStart = caretPos;
+
+	      while (curWordStart < text.length()) {
+	        char c = text.charAt(curWordStart);
+	        if (c == '[')
+	          break;
+	        if (c == ']')
+	          insideBrackets = true;
+	        curWordStart++;
+	      }
+
+	      // found [, so go back until we get a ]
+	      if (insideBrackets) {
+	        while (caretPos > 0 && text.charAt(caretPos) != '[')
+	          caretPos--;
+	      }
+	    }
+
+	    // search to the left
+	    curWordStart = caretPos - 1;
+	    while (curWordStart >= 0 &&
+	    // isLetterOrDigitOrOpenBracket so that F1 works
+	        isLetterOrDigit(text.charAt(curWordStart))) {
+	      --curWordStart;
+	    }
+	    curWordStart++;
+	    // search to the right
+	    int curWordEnd = caretPos;
+	    int length = text.length();
+	    while (curWordEnd < length && isLetterOrDigit(text.charAt(curWordEnd)))
+	      ++curWordEnd;
+
+	    curWord.setLength(0);
+	    curWord.append(text.substring(curWordStart, curWordEnd));
+
+	    // remove '[' at end
+	    if (curWord.toString().endsWith("[")) {
+	      curWord.setLength(curWord.length() - 1);
+	    }
+	  }
+
+	public void showError(Exception e) {
+		 if (e instanceof MyException) {
+		      updateCurrentWord(true);
+		      int err = ((MyException) e).getErrorType();
+		      if (err == MyException.INVALID_INPUT) {
+		        String command = app.getReverseCommand(getCurrentWord());
+		        if (command != null) {
+
+		          app.showError(new MyError(app, app.getError("InvalidInput") + "\n\n"
+		              + app.getPlain("Syntax") + ":\n" + app.getCommandSyntax(command),
+		              getCurrentWord()));
+		          return;
+		        }
+		      }
+		    }
+		    // can't work out anything better, just show "Invalid Input"
+		    app.showError(e.getLocalizedMessage());
+    }
+	
+	 /*
+	   * just show syntax error (already correctly formulated by CommandProcessor.argErr())
+	   */
+	  public void showError(MyError e) {
+	    app.showError(e);
+	  }
 
 }

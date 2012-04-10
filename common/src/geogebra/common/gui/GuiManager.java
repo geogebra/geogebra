@@ -122,4 +122,6 @@ public abstract class GuiManager {
 		
 	}
 
+	public abstract void updateAlgebraInput();
+
 }
