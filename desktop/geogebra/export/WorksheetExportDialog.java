@@ -26,6 +26,7 @@ import geogebra.gui.inputfield.MyTextField;
 import geogebra.gui.util.HelpAction;
 import geogebra.gui.util.IconTabbedPane;
 import geogebra.gui.view.algebra.InputPanel;
+import geogebra.gui.view.algebra.InputPanel.DialogType;
 import geogebra.main.Application;
 import geogebra.main.GeoGebraPreferences;
 import geogebra.util.DownloadManager;
@@ -494,7 +495,7 @@ public class WorksheetExportDialog extends JDialog {
 		// text areas
 		JPanel centerPanel = new JPanel(new BorderLayout(5, 5));
 		JLabel label = new JLabel(app.getPlain("TextBeforeConstruction") + ":");
-		textAboveUpload = new InputPanel(null, app, 5, 40, true);
+		textAboveUpload = new InputPanel(null, app, 5, 40, true, DialogType.TextArea);
 		// JScrollPane scrollPane = new JScrollPane(textAbove);
 
 		p = new JPanel(new BorderLayout());
@@ -503,7 +504,7 @@ public class WorksheetExportDialog extends JDialog {
 		centerPanel.add(p, BorderLayout.CENTER);
 
 		label = new JLabel(app.getPlain("TextAfterConstruction") + ":");
-		textBelowUpload = new InputPanel(null, app, 8, 40, true);
+		textBelowUpload = new InputPanel(null, app, 8, 40, true, DialogType.TextArea);
 		
 		p = new JPanel(new BorderLayout());
 		p.add(label, BorderLayout.NORTH);
@@ -525,7 +526,7 @@ public class WorksheetExportDialog extends JDialog {
 		// text areas
 		JPanel centerPanel = new JPanel(new BorderLayout(5, 5));
 		JLabel label = new JLabel(app.getPlain("TextBeforeConstruction") + ":");
-		textAbove = new InputPanel(null, app, 5, 40, true);
+		textAbove = new InputPanel(null, app, 5, 40, true, DialogType.TextArea);
 		// JScrollPane scrollPane = new JScrollPane(textAbove);
 
 		JPanel p = new JPanel(new BorderLayout());
@@ -534,7 +535,7 @@ public class WorksheetExportDialog extends JDialog {
 		centerPanel.add(p, BorderLayout.NORTH);
 
 		label = new JLabel(app.getPlain("TextAfterConstruction") + ":");
-		textBelow = new InputPanel(null, app, 8, 40, true);
+		textBelow = new InputPanel(null, app, 8, 40, true, DialogType.TextArea);
 		// scrollPane = new JScrollPane(textBelow);
 		p = new JPanel(new BorderLayout());
 		p.add(label, BorderLayout.NORTH);

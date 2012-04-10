@@ -1,6 +1,7 @@
 package geogebra.gui.view.spreadsheet;
 
 import geogebra.gui.dialog.InputDialog;
+import geogebra.gui.view.algebra.InputPanel.DialogType;
 import geogebra.main.Application;
 
 import java.awt.BorderLayout;
@@ -27,7 +28,7 @@ public class InputDialogOpenDataFolderURL extends InputDialog{
 		String title = app.getMenu("OpenFromWebpage");
 		String message =  app.getMenu("EnterWebAddress"); 
 		boolean showApply = false;
-		createGUI(title, message, false, DEFAULT_COLUMNS, 1, false, false, true, false, false, showApply, false);
+		createGUI(title, message, false, DEFAULT_COLUMNS, 1, false, false, true, false, false, showApply, DialogType.TextArea);
 		optionPane.add(inputPanel, BorderLayout.CENTER);		
 		centerOnScreen();
 		

@@ -52,26 +52,28 @@ public class InputPanel extends JPanel implements FocusListener, VirtualKeyboard
 	//Constructors
 	
 	public InputPanel(String initText, Application app, int columns, boolean autoComplete) {
-		this(initText, app, 1, columns, true, true, null, false);
+		this(initText, app, 1, columns, true, true, null, DialogType.GeoGebraEditor);
 		AutoCompleteTextField atf = (AutoCompleteTextField) textComponent;
 		atf.setAutoComplete(autoComplete);
 	}		
 
 
 	public InputPanel(String initText, Application app, int rows, int columns, boolean showSymbolPopupIcon) {
-		this(initText, app, rows, columns, showSymbolPopupIcon, false, null, false);
+		this(initText, app, rows, columns, showSymbolPopupIcon, false, null, DialogType.GeoGebraEditor);
 		if (textComponent instanceof AutoCompleteTextField) {
 			AutoCompleteTextField atf = (AutoCompleteTextField) textComponent;
 			atf.setAutoComplete(false);
 		}
 	}
 	
-	public InputPanel(String initText, Application app, int rows, int columns, boolean showSymbolPopupIcon, boolean dynamic) {
-		this(initText, app, rows, columns, showSymbolPopupIcon, false, null, dynamic);
+	public InputPanel(String initText, Application app, int rows, int columns, boolean showSymbolPopupIcon, DialogType type) {
+		this(initText, app, rows, columns, showSymbolPopupIcon, false, null, type);
 	}
 	
+	public enum DialogType  { TextArea, DynamicText, GeoGebraEditor }; 
+	
 	public InputPanel(String initText, Application app, int rows, int columns, boolean showSymbolPopupIcon,
-						boolean showSymbolButtons, KeyListener keyListener, boolean dynamic) {
+						boolean showSymbolButtons, KeyListener keyListener, DialogType type) {
 		
 		this.app = app;
 		this.showSymbolPopup = showSymbolPopupIcon;
@@ -80,17 +82,19 @@ public class InputPanel extends JPanel implements FocusListener, VirtualKeyboard
 		// either a textArea, textfield or HTML textpane
 		if (rows > 1) {
 			
-			if (!dynamic) {
-				
+			switch (type) {
+			case TextArea :
 				textComponent = new JTextArea(rows, columns);
+				break;
+			case DynamicText :
+				textComponent = new DynamicTextInputPane(app);
+				break;
+			case GeoGebraEditor:
 				textComponent = new GeoGebraEditorPane(app, rows, columns);
 				((GeoGebraEditorPane) textComponent).setEditorKit("geogebra");
-				
-			} else {
-				
-				textComponent = new DynamicTextInputPane(app);
+				break;
 			}
-			
+						
 			
 		} else{
 			

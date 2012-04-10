@@ -6,6 +6,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.gui.InputHandler;
 import geogebra.gui.dialog.handler.NumberInputHandler;
+import geogebra.gui.view.algebra.InputPanel.DialogType;
 import geogebra.main.Application;
 
 import java.awt.BorderLayout;
@@ -32,7 +33,7 @@ public class InputDialogDilate extends InputDialog {
 		this.selGeos = selGeos;
 		this.kernel = kernel;
 
-		createGUI(title, app.getPlain("Numeric"), false, DEFAULT_COLUMNS, 1, true, true, false, false, false, false, false);		
+		createGUI(title, app.getPlain("Numeric"), false, DEFAULT_COLUMNS, 1, true, true, false, false, false, false, DialogType.GeoGebraEditor);		
 		JPanel centerPanel = new JPanel(new BorderLayout());
 		centerPanel.add(inputPanel, BorderLayout.CENTER);								
 		getContentPane().add(centerPanel, BorderLayout.CENTER);		

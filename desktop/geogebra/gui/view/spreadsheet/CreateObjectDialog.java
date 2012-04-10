@@ -8,6 +8,7 @@ import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.gui.dialog.InputDialog;
 import geogebra.gui.inputfield.MyTextField;
+import geogebra.gui.view.algebra.InputPanel.DialogType;
 import geogebra.main.Application;
 
 import java.awt.BorderLayout;
@@ -109,7 +110,7 @@ public class CreateObjectDialog extends InputDialog implements
 		boolean showApply = false;
 
 		createGUI(title, "", false, 16, 1, false, false, false, false, false,
-				showApply, false);
+				showApply, DialogType.GeoGebraEditor);
 
 		// this.btCancel.setVisible(false);
 

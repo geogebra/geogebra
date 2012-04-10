@@ -21,6 +21,7 @@ import geogebra.gui.VirtualKeyboardListener;
 import geogebra.gui.inputfield.AutoCompleteTextField;
 import geogebra.gui.util.HelpAction;
 import geogebra.gui.view.algebra.InputPanel;
+import geogebra.gui.view.algebra.InputPanel.DialogType;
 import geogebra.gui.virtualkeyboard.VirtualKeyboard;
 import geogebra.main.Application;
 
@@ -93,11 +94,11 @@ public class InputDialog extends JDialog implements ActionListener,
 	
 	public InputDialog(Application app,  String message, String title, String initString,
 			boolean autoComplete, InputHandler handler, boolean modal, boolean selectInitText, GeoElement geo) {
-		this(app, message, title, initString, autoComplete, handler, modal, selectInitText, geo, null, false);
+		this(app, message, title, initString, autoComplete, handler, modal, selectInitText, geo, null, DialogType.GeoGebraEditor);
 	}
 	
 	public InputDialog(Application app,  String message, String title, String initString,
-			boolean autoComplete, InputHandler handler, boolean modal, boolean selectInitText, GeoElement geo, JCheckBox checkBox, boolean dynamic) {
+			boolean autoComplete, InputHandler handler, boolean modal, boolean selectInitText, GeoElement geo, JCheckBox checkBox, DialogType type) {
 		this(app.getFrame(), modal);
 		this.app = app;	
 		this.geo = geo;
@@ -105,7 +106,7 @@ public class InputDialog extends JDialog implements ActionListener,
 		this.initString = initString;	
 		this.checkBox=checkBox;
 
-		createGUI(title, message, autoComplete, DEFAULT_COLUMNS, 1, true, true, selectInitText, false, geo!=null, geo!=null, dynamic);
+		createGUI(title, message, autoComplete, DEFAULT_COLUMNS, 1, true, true, selectInitText, false, geo!=null, geo!=null, type);
 		
 		// wrap inputPanel in a BorderLayout.NORTH component so keeps a single row height when resizing the dialog
 		JPanel p = new JPanel(new BorderLayout());
@@ -141,11 +142,11 @@ public class InputDialog extends JDialog implements ActionListener,
 	
 	protected void createGUI(String title, String message, boolean autoComplete, int columns, int rows,
 			boolean specialChars, boolean greekLetters, boolean selectInitText, boolean showDisplayChars,
-			boolean showProperties, boolean showApply, boolean dynamic) {
+			boolean showProperties, boolean showApply, DialogType type) {
 		setResizable(true);		
 		
 		//Create components to be displayed
-		inputPanel = new InputPanel(initString, app, rows, columns, greekLetters, dynamic);	
+		inputPanel = new InputPanel(initString, app, rows, columns, greekLetters, type);	
 				
 		sl = new GeoElementSelectionListener() {
 			public void geoElementSelected(GeoElement geo, boolean addToSelection) {

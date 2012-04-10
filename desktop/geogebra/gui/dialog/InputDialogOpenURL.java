@@ -1,5 +1,6 @@
 package geogebra.gui.dialog;
 
+import geogebra.gui.view.algebra.InputPanel.DialogType;
 import geogebra.main.Application;
 
 import java.awt.BorderLayout;
@@ -21,7 +22,7 @@ public class InputDialogOpenURL extends InputDialog{
 		if (clipboardString != null && (clipboardString.startsWith("http://") || clipboardString.startsWith("https://") || clipboardString.startsWith("www")))
 			initString = clipboardString;
 
-		createGUI(app.getMenu("OpenWebpage"), app.getMenu("EnterAppletAddress"), false, DEFAULT_COLUMNS, 1, false, false, true, false, false, false, true);
+		createGUI(app.getMenu("OpenWebpage"), app.getMenu("EnterAppletAddress"), false, DEFAULT_COLUMNS, 1, false, false, true, false, false, false, DialogType.TextArea);
 		optionPane.add(inputPanel, BorderLayout.CENTER);		
 		centerOnScreen();
 		

@@ -31,6 +31,7 @@ import geogebra.gui.util.PopupMenuButton;
 import geogebra.gui.util.SelectionTable;
 import geogebra.gui.util.TableSymbols;
 import geogebra.gui.util.TableSymbolsLaTeX;
+import geogebra.gui.view.algebra.InputPanel.DialogType;
 import geogebra.main.Application;
 
 import java.awt.BorderLayout;
@@ -137,7 +138,7 @@ public class TextInputDialog extends InputDialog implements DocumentListener {
 
 		// build input dialog GUI
 		createGUI(title, "", false, cols, rows, false, false, false, false,
-				false, false, true);
+				false, false, DialogType.DynamicText);
 		addHelpButton(AbstractApplication.WIKI_TEXT_TOOL);
 		editor = (DynamicTextInputPane) inputPanel.getTextComponent();
 		textPreviewer = new TextPreviewPanel(app.getKernel());

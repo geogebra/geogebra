@@ -18,6 +18,7 @@ import geogebra.common.kernel.geos.GeoElement.ScriptType;
 import geogebra.common.main.AbstractApplication;
 import geogebra.gui.InputHandler;
 import geogebra.gui.editor.GeoGebraEditorPane;
+import geogebra.gui.view.algebra.InputPanel.DialogType;
 import geogebra.main.Application;
 
 import java.awt.BorderLayout;
@@ -65,7 +66,7 @@ public class ScriptInputDialog extends InputDialog {
 		inputHandler = new TextInputHandler();
 				
 				
-		createGUI(title, "", false, cols, rows, true, true, false, true, false, false, false);		
+		createGUI(title, "", false, cols, rows, true, true, false, true, false, false, DialogType.GeoGebraEditor);		
 		
 		// init dialog using text
 		

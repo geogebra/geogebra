@@ -60,6 +60,7 @@ import geogebra.gui.util.PopupMenuButton;
 import geogebra.gui.util.SelectionTable;
 import geogebra.gui.util.SpecialNumberFormat;
 import geogebra.gui.util.SpecialNumberFormatInterface;
+import geogebra.gui.view.algebra.InputPanel.DialogType;
 import geogebra.gui.view.spreadsheet.SpreadsheetView;
 import geogebra.main.Application;
 
@@ -191,7 +192,7 @@ KeyListener, ActionListener, SpecialNumberFormatInterface {
 		// setup InputDialog GUI
 		isIniting = true;
 		String title = app.getMenu("FunctionInspector");
-		createGUI(title, "", false, 16, 1, false, false, false, false, false, showApply, false);
+		createGUI(title, "", false, 16, 1, false, false, false, false, false, showApply, DialogType.TextArea);
 		this.btOK.setVisible(false);
 		this.btCancel.setVisible(false);
 
