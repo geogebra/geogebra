@@ -178,6 +178,8 @@ public class Application extends AbstractApplication implements
 			"jlatexmath.jar", // LaTeX
 			"jlm_greek.jar", // Greek Unicode codeblock (for LaTeX texts)
 			"jlm_cyrillic.jar", // Cyrillic Unicode codeblock (for LaTeX texts)
+			"geogebra_usb.jar",
+			"jython.jar",
 			"geogebra_properties.jar" };
 
 	// supported GUI languages (from properties files)
