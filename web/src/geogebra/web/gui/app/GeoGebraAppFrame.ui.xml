@@ -5,6 +5,7 @@
   
    <ui:style>
 	  .debugborder { border:1px solid black;}
+	  .commandLine { width:100%;}
   </ui:style>
 
   <g:DockLayoutPanel addStyleNames="{style.debugborder}" unit='PX'>
@@ -13,7 +14,7 @@
     </g:north>
     
     <g:south size='50'>
-          <web:GGWCommandLine addStyleNames="{style.debugborder}" ui:field='ggwCommandLine' />
+          <web:GGWCommandLine addStyleNames="{style.commandLine}" ui:field='ggwCommandLine' />
     </g:south>
   </g:DockLayoutPanel>
 

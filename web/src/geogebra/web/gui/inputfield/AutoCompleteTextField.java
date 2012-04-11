@@ -93,8 +93,10 @@ public class AutoCompleteTextField extends TextBox implements geogebra.common.gu
 		      boolean handleEscapeKey, AutoCompleteDictionary dict) {
 		    //AG not MathTextField and Mytextfield exists yet super(app);
 		    // allow dynamic width with columns = -1
-		    if (columns > 0)
+		  super();
+		    if (columns > 0) {
 		      setColumns(columns);
+		    }
 
 		    this.app = app;
 		    setAutoComplete(true);

@@ -18,10 +18,14 @@ public class InputPanel extends HorizontalPanel {
 	private AutoCompleteTextField textComponent;
 
 	public InputPanel(String initText, Application app, int columns, boolean autoComplete) {
+	   super();
 	   this.app = app;
 	   this.autoComplete = autoComplete;
+	   setHorizontalAlignment(ALIGN_CENTER);
+	   setVerticalAlignment(ALIGN_MIDDLE);
 	   
 	   textComponent = new AutoCompleteTextField(columns, app);
+	   add(textComponent);
     }
 	
 	public AutoCompleteTextField getTextComponent() {
