@@ -52,6 +52,7 @@ import geogebra.web.kernel.AnimationManager;
 import geogebra.web.kernel.UndoManager;
 import geogebra.web.properties.ColorsConstants;
 import geogebra.web.properties.CommandConstants;
+import geogebra.web.properties.ErrorConstants;
 import geogebra.web.properties.PlainConstants;
 import geogebra.web.util.DebugPrinter;
 import geogebra.web.util.DebugPrinterWeb;
@@ -114,6 +115,7 @@ public class Application extends AbstractApplication {
 	private ColorsConstants colorConstants;
 	private PlainConstants plainConstants;
 	private CommandConstants commandConstants, commandConstantsOld = null;
+	private ErrorConstants errorConstants;
 
 	private AbsolutePanel euclidianViewPanel;
 	private Canvas canvas;
@@ -215,6 +217,10 @@ public class Application extends AbstractApplication {
 	
 	private void initCommandConstants() {
 		commandConstants = GWT.create(CommandConstants.class);
+	}
+	
+	private void initErrorConstants() {
+		errorConstants = GWT.create(ErrorConstants.class);
 	}
 
 
@@ -428,9 +434,13 @@ public class Application extends AbstractApplication {
 	}
 
 	@Override
-	public String getError(String cmdName) {
-		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-		return cmdName;
+	public String getError(String key) {
+		
+		if (errorConstants == null) {
+			initErrorConstants();
+		}
+
+		return errorConstants.getString(key);
 	}
 
 	@Override
@@ -1233,7 +1243,23 @@ public class Application extends AbstractApplication {
 
 	@Override
 	public String getPlainTooltip(String string) {
-		// TODO Auto-generated method stub
+		
+		//TODO by Rana
+		
+//		if (tooltipLocale == null) {
+//			return getPlain(key);
+//		}
+
+//		if (rbplainTT == null) {
+//			initPlainTTResourceBundle();
+//		}
+//
+//		try {
+//			return rbplainTT.getString(key);
+//		} catch (Exception e) {
+//			return key;
+//		}
+		
 		return null;
 	}
 
