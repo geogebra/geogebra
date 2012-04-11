@@ -351,7 +351,9 @@ class MyJToggleButton extends JToggleButton implements MouseListener,
 	}
 
 	public void mouseClicked(MouseEvent e) {
-
+		if (!menu.isPopupShowing() && e.getClickCount()==2) {
+			menu.setPopupVisible(true);
+		}
 	}
 
 	public void mouseEntered(MouseEvent arg0) {
