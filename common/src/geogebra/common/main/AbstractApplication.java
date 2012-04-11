@@ -566,6 +566,8 @@ public abstract class AbstractApplication {
 	public abstract String getMenu(String cmdName);
 
 	public abstract String getError(String cmdName);
+	
+	public abstract String getSymbol(int key);
 
 
 

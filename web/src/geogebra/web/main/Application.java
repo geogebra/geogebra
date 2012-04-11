@@ -55,6 +55,7 @@ import geogebra.web.properties.CommandConstants;
 import geogebra.web.properties.ErrorConstants;
 import geogebra.web.properties.MenuConstants;
 import geogebra.web.properties.PlainConstants;
+import geogebra.web.properties.SymbolsConstants;
 import geogebra.web.util.DebugPrinter;
 import geogebra.web.util.DebugPrinterWeb;
 import geogebra.web.util.ImageManager;
@@ -118,6 +119,7 @@ public class Application extends AbstractApplication {
 	private CommandConstants commandConstants, commandConstantsOld = null;
 	private ErrorConstants errorConstants;
 	private MenuConstants menuConstants;
+	private SymbolsConstants symbolConstants;
 
 	private AbsolutePanel euclidianViewPanel;
 	private Canvas canvas;
@@ -227,6 +229,10 @@ public class Application extends AbstractApplication {
 	
 	private void initMenuConstants() {
 		menuConstants = GWT.create(MenuConstants.class);
+	}
+	
+	private void initSymbolConstants() {
+		symbolConstants = GWT.create(SymbolsConstants.class);
 	}
 
 
@@ -1277,7 +1283,24 @@ public class Application extends AbstractApplication {
 		
 		return null;
 	}
+	
+	@Override
+	final public String getSymbol(int key) {
+		
+		if (symbolConstants == null) {
+			initSymbolConstants();
+		}
 
+		String ret = null;
+
+		ret = symbolConstants.getString("S_" + key);
+
+		if (ret.isEmpty()) {
+			return null;
+		}
+		return ret;
+	}
+	
 	@Override
 	public GeoElementSelectionListener getCurrentSelectionListener() {
 		// TODO Auto-generated method stub

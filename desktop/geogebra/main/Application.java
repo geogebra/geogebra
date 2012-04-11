@@ -2000,6 +2000,7 @@ public class Application extends AbstractApplication implements
 		}
 	}
 
+	@Override
 	final public String getSymbol(int key) {
 		if (rbsymbol == null) {
 			initSymbolResourceBundle();

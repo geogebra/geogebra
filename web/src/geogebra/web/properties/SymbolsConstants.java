@@ -11,79 +11,121 @@ import com.google.gwt.i18n.client.ConstantsWithLookup;
  */
 public interface SymbolsConstants extends ConstantsWithLookup {
 	
-	String T_1();
 
-	String T_8();
-
+	@DefaultStringValue("")
+	String S_1();
+	
+	@DefaultStringValue("")
+	String S_2();
+	
+	@DefaultStringValue("")
+	String S_3();
+	
+	@DefaultStringValue("")
+	String S_4();
+	
+	@DefaultStringValue("")
+	String S_5();
+	
+	@DefaultStringValue("")
+	String S_6();
+	
+	@DefaultStringValue("")
+	String S_7();
+	
+	@DefaultStringValue("")
+	String S_8();
+	
+	@DefaultStringValue("")
+	String S_9();
+	
+	@DefaultStringValue("")
+	String S_10();
+	
+	@DefaultStringValue("")
+	String S_11();
+	
+	@DefaultStringValue("")
 	String S_12();
-
-	String T_9();
-
+	
+	@DefaultStringValue("")
 	String S_13();
-
-	String T_6();
-
+	
+	@DefaultStringValue("")
 	String S_14();
-
+	
+	@DefaultStringValue("")
+	String S_15();
+	
+	@DefaultStringValue("")
+	String S_16();
+	
+	@DefaultStringValue("")
+	String S_17();
+	
+	@DefaultStringValue("")
+	String S_18();
+	
+	@DefaultStringValue("")
+	String S_19();
+	
+	
+	
+	@DefaultStringValue("")
+	String T_1();
+	
+	@DefaultStringValue("")
+	String T_2();
+	
+	@DefaultStringValue("")
+	String T_3();
+	
+	@DefaultStringValue("")
+	String T_4();
+	
+	@DefaultStringValue("")
+	String T_5();
+	
+	@DefaultStringValue("")
+	String T_6();
+	
+	@DefaultStringValue("")
 	String T_7();
 
-	String S_15();
+	@DefaultStringValue("")
+	String T_8();
 
-	String T_4();
-
-	String T_5();
-
-	String T_2();
-
-	String S_10();
-
-	String T_3();
-
-	String S_11();
-
-	String S_8();
-
-	String S_7();
-
-	String S_9();
-
-	String S_4();
-
-	String S_19();
-
-	String S_3();
-
-	String S_18();
-
-	String S_6();
-
-	String S_17();
-
-	String S_5();
-
-	String S_16();
-
-	String T_11();
-
-	String T_19();
-
-	String T_12();
-
-	String S_2();
-
-	String T_17();
-
-	String S_1();
-
+	@DefaultStringValue("")
+	String T_9();
+	
+	@DefaultStringValue("")
 	String T_10();
-
-	String T_18();
-
-	String T_15();
-
-	String T_16();
-
+	
+	@DefaultStringValue("")
+	String T_11();
+	
+	@DefaultStringValue("")
+	String T_12();
+	
+	@DefaultStringValue("")
 	String T_13();
-
+	
+	@DefaultStringValue("")
 	String T_14();
+	
+	@DefaultStringValue("")
+	String T_15();
+	
+	@DefaultStringValue("")
+	String T_16();
+	
+	@DefaultStringValue("")
+	String T_17();
+	
+	@DefaultStringValue("")
+	String T_18();
+	
+	@DefaultStringValue("")
+	String T_19();
+	
 }
