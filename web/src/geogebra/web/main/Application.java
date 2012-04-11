@@ -53,6 +53,7 @@ import geogebra.web.kernel.UndoManager;
 import geogebra.web.properties.ColorsConstants;
 import geogebra.web.properties.CommandConstants;
 import geogebra.web.properties.ErrorConstants;
+import geogebra.web.properties.MenuConstants;
 import geogebra.web.properties.PlainConstants;
 import geogebra.web.util.DebugPrinter;
 import geogebra.web.util.DebugPrinterWeb;
@@ -116,6 +117,7 @@ public class Application extends AbstractApplication {
 	private PlainConstants plainConstants;
 	private CommandConstants commandConstants, commandConstantsOld = null;
 	private ErrorConstants errorConstants;
+	private MenuConstants menuConstants;
 
 	private AbsolutePanel euclidianViewPanel;
 	private Canvas canvas;
@@ -221,6 +223,10 @@ public class Application extends AbstractApplication {
 	
 	private void initErrorConstants() {
 		errorConstants = GWT.create(ErrorConstants.class);
+	}
+	
+	private void initMenuConstants() {
+		menuConstants = GWT.create(MenuConstants.class);
 	}
 
 
@@ -428,9 +434,18 @@ public class Application extends AbstractApplication {
 	
 	
 	@Override
-	public String getMenu(String cmdName) {
-		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-		return cmdName;
+	public String getMenu(String key) {
+		
+		if (tooltipFlag) {
+			//TODO by Rana
+			//return getMenuTooltip(key);
+		}
+
+		if (menuConstants == null) {
+			initMenuConstants();
+		}
+
+		return menuConstants.getString(crossReferencingPropertiesKeys(key));
 	}
 
 	@Override
