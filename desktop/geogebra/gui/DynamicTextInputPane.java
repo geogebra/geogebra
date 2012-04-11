@@ -18,6 +18,8 @@ import java.awt.FontMetrics;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -329,12 +331,40 @@ public class DynamicTextInputPane extends JTextPane {
 		private TextInputDialog id;
 
 		private JPopupMenu contextMenu;
+		
+
+		private class MyKeyListener extends KeyAdapter {
+			
+			private DynamicTextField tf;
+			
+			public MyKeyListener(DynamicTextField tf) { 
+				this.tf = tf;
+			}
+
+			@Override
+			public void keyPressed(KeyEvent e) {		
+				if ((e.isAltDown() || Application.isAltDown(e))){
+					switch(e.getKeyCode()){
+					case KeyEvent.VK_LEFT:
+						id.exitTextField(tf,true);
+						break;
+					case KeyEvent.VK_RIGHT:	
+						id.exitTextField(tf,false);
+						break;
+					}
+				}
+			}
+		}
+
 
 		public DynamicTextField(Application app, TextInputDialog id) {
 			super(app);
 			this.id = id;
 			// see ticket #1339
 			this.enableColoring(false);
+			
+			// handle alt+arrow to exit the field
+			addKeyListener(new MyKeyListener(this));
 
 			// add a mouse listener to trigger the context menu
 			addMouseListener(new MouseAdapter() {
