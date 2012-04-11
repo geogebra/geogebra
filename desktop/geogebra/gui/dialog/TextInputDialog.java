@@ -70,6 +70,7 @@ import javax.swing.event.UndoableEditEvent;
 import javax.swing.event.UndoableEditListener;
 import javax.swing.text.Document;
 import javax.swing.text.Element;
+import javax.swing.text.StyleConstants;
 import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.CannotUndoException;
 import javax.swing.undo.UndoManager;
@@ -646,7 +647,7 @@ public class TextInputDialog extends InputDialog implements DocumentListener {
 	public JPanel getInputPanel() {
 		return inputPanel;
 	}
-
+	
 	/**
 	 * @return preview panel
 	 */
@@ -752,12 +753,70 @@ public class TextInputDialog extends InputDialog implements DocumentListener {
 			if ((e.isAltDown() || Application.isAltDown(e))){
 				switch(e.getKeyCode()){
 				case KeyEvent.VK_LEFT:
+					Element elem;
+					int i;
+					for(i = editor.getCaretPosition()-1; i >=0 ; i--){
+						elem = editor.doc.getCharacterElement(i);
+						//give focus to first dynamic text field
+						if (elem.getName().equals("component")){
+							DynamicTextField tf = (DynamicTextField) StyleConstants.getComponent(elem.getAttributes());
+							tf.requestFocus();
+							tf.setCaretPosition(tf.getText().length());
+							break;
+						}
+					}
+					//set caret: most left position before next component
+					editor.setCaretPosition(i+1); 
 					break;
-				case KeyEvent.VK_RIGHT:
+				case KeyEvent.VK_RIGHT:	
+					for(i = editor.getCaretPosition();i < editor.doc.getLength();i++){
+						elem = editor.doc.getCharacterElement(i);
+						//give focus to first dynamic text field
+						if (elem.getName().equals("component")){
+							DynamicTextField tf = (DynamicTextField) StyleConstants.getComponent(elem.getAttributes());
+							tf.requestFocus();
+							tf.setCaretPosition(0);
+							break;
+						}
+					}
+					
+					//set caret: most right position before next component
+					editor.setCaretPosition(i); 
+					break;
+					
+				case KeyEvent.VK_ENTER:	
+				case KeyEvent.VK_UP:	
+				case KeyEvent.VK_DOWN:	
+					insertEmptyDynamicText();
 					break;
 				}
 			}
 		}
+	}
+	
+	/**
+	 * exit the text field, ie set the caret just before/after the text field
+	 * @param tf the text field
+	 * @param isLeft before if true, after if false
+	 */
+	public void exitTextField(DynamicTextField tf, boolean isLeft){
+		Element elem;
+		int i;
+		for(i = 0;i < editor.doc.getLength();i++){
+			elem = editor.doc.getCharacterElement(i);
+			//find elem corresponding the text field
+			if (elem.getName().equals("component")){
+				if( tf == (DynamicTextField) StyleConstants.getComponent(elem.getAttributes()))
+					break;
+			}
+		}
+		
+		if (isLeft)
+			editor.setCaretPosition(i); //set caret: just before field
+		else
+			editor.setCaretPosition(i+1); //set caret: just after field
+		
+		editor.requestFocus();
 	}
 
 	public void updateFonts() {
