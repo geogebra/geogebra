@@ -46,7 +46,7 @@ public class AlgebraInput extends HorizontalPanel implements KeyUpHandler, Focus
 	public void init(Application app) {
 		this.app = app;
 		//AG I dont think we need this app.removeTraversableKeys(this);
-		
+		addStyleName("AlgebraInput");
 		initGUI();
 	}
 
@@ -57,6 +57,8 @@ public class AlgebraInput extends HorizontalPanel implements KeyUpHandler, Focus
 	    
 	    inputField = inputPanel.getTextComponent();
 	    
+	    inputField.addStyleName("AlgebraInput");
+	    
 	    inputField.addKeyUpHandler(this);
 	    inputField.addFocusHandler(this);
 	    
@@ -65,7 +67,7 @@ public class AlgebraInput extends HorizontalPanel implements KeyUpHandler, Focus
 	    //AG updateFonts()
 	    
 	    btnHelpToggle = new ToggleButton();
-	    btnHelpToggle.addStyleName("btnhelptoogle");
+	    btnHelpToggle.addStyleName("btnHelpToggle");
 	    
 	    btnHelpToggle.addClickHandler(this);
 	    
@@ -91,7 +93,7 @@ public class AlgebraInput extends HorizontalPanel implements KeyUpHandler, Focus
 	    setCellHorizontalAlignment(inputPanel, ALIGN_LEFT);
 	    setCellVerticalAlignment(inputPanel, ALIGN_MIDDLE);
 	    add(eastPanel);
-	    setCellHorizontalAlignment(eastPanel, ALIGN_RIGHT);
+	    setCellHorizontalAlignment(eastPanel, ALIGN_LEFT);
 	    setCellVerticalAlignment(eastPanel, ALIGN_MIDDLE);
 	    
 	    setLabels();

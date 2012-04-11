@@ -12,60 +12,6 @@
  *    }
  */
  
- .cursor_wait {
- 	cursor:wait;
- }
- 
- .cursor_default {
- 	cursor:crosshair;
- }
- 
- .cursor_hit {
- 	cursor:default;
- }
- 
- .cursor_drag {
- 	cursor:pointer;
- 	cursor:hand;
- }
- 
- .cursor_resizeXAxis {
- 	cursor:e-resize;
- }
- 
- .cursor_resizeYAxis {
- 	cursor:n-resize;
- }
- 
- .cursor_move {
- 	cursor:move;
- }
- 
- .geogebraweb {
-	display:inline-block;
-  }
-
- .geogebraweb .jsloaded {
- 	border:1px solid black;
- 	position:relative;
-  }
-  
- .geogebraweb .splash {
-  	position:absolute;
-  }
- 
-/*not let user select the canvas*/
-.geogebraweb canvas {
-	-webkit-touch-callout: none;
-	-webkit-user-select: none;
-	-khtml-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	-o-user-select: none;
-	user-select: none;
-} 
- 
- 
 /**
  * The reference theme can be used to determine when this style sheet has
  * loaded.  Create a hidden div element with absolute position, assign the style
@@ -1285,3 +1231,84 @@ td.datePickerMonth {
   background: #e7e7e7 url(images/thumb_horz.png) center center no-repeat;
   cursor: row-resize;
 }
+
+/*GeoGebraWeb styles from here*/
+
+ .cursor_wait {
+ 	cursor:wait;
+ }
+ 
+ .cursor_default {
+ 	cursor:crosshair;
+ }
+ 
+ .cursor_hit {
+ 	cursor:default;
+ }
+ 
+ .cursor_drag {
+ 	cursor:pointer;
+ 	cursor:hand;
+ }
+ 
+ .cursor_resizeXAxis {
+ 	cursor:e-resize;
+ }
+ 
+ .cursor_resizeYAxis {
+ 	cursor:n-resize;
+ }
+ 
+ .cursor_move {
+ 	cursor:move;
+ }
+ 
+ .geogebraweb {
+	display:inline-block;
+  }
+
+ .geogebraweb .jsloaded {
+ 	border:1px solid black;
+ 	position:relative;
+  }
+  
+ .geogebraweb .splash {
+  	position:absolute;
+  }
+ 
+/*not let user select the canvas*/
+.geogebraweb canvas {
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	-o-user-select: none;
+	user-select: none;
+} 
+
+/* AlgebraInput styles */
+.AlgebraInput .btnHelpToggle {
+    width:18px;
+    height:18px;
+}
+
+.AlgebraInput .btnHelpToggle.gwt-ToggleButton-up, .AlgebraInput .btnHelpToggle.gwt-ToggleButton-up-hovering {
+    background:url("images/inputhelp_left_18x18.png") no-repeat center center;
+}
+
+.AlgebraInput .btnHelpToggle.gwt-ToggleButton-down, .AlgebraInput .btnHelpToggle.gwt-ToggleButton-down-hovering {
+    background:url("images/inputhelp_right_18x18.png") no-repeat center center;
+}
+
+
+.InputPanel {
+    width:99%;
+    overflow:auto;
+}
+
+.InputPanel input.AlgebraInput {
+    display:block;
+    width:95%;
+}
+ 

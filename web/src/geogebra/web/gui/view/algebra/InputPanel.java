@@ -23,6 +23,7 @@ public class InputPanel extends HorizontalPanel {
 	   this.autoComplete = autoComplete;
 	   setHorizontalAlignment(ALIGN_CENTER);
 	   setVerticalAlignment(ALIGN_MIDDLE);
+	   addStyleName("InputPanel");
 	   
 	   textComponent = new AutoCompleteTextField(columns, app);
 	   add(textComponent);
