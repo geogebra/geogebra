@@ -43,6 +43,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.TreeSet;
 
@@ -113,6 +114,9 @@ public class TextInputDialog extends InputDialog implements DocumentListener {
 	boolean isIniting;
 	UndoManager undo = null; 
 	Document doc = null;
+
+	// map to hold LatexButton menu titles
+	private HashMap<String, JMenuItem> laTexButtonTitleMap;
 
 	/**
 	 * Input Dialog for a GeoText object
@@ -369,62 +373,75 @@ public class TextInputDialog extends InputDialog implements DocumentListener {
 		btInsertLaTeX.setText("LaTeX");
 		btInsertLaTeX.setEnabled(false);
 
+		laTexButtonTitleMap = new HashMap<String, JMenuItem>();
+		
 		JMenu menu;
-		menu = new JMenu(app.getMenu("RootsAndFractions"));
+		menu = new JMenu();
+		laTexButtonTitleMap.put("RootsAndFractions", menu);
 		menu.add(new LatexTable(app, this, btInsertLaTeX,
 				TableSymbolsLaTeX.roots_fractions, 1, -1,
 				SelectionTable.MODE_LATEX));
 		btInsertLaTeX.addPopupMenuItem(menu);
 
-		menu = new JMenu(app.getMenu("SumsAndIntegrals"));
+		menu = new JMenu();
+		laTexButtonTitleMap.put("SumsAndIntegrals", menu);
 		LatexTable table = new LatexTable(app, this, btInsertLaTeX,
 				TableSymbolsLaTeX.sums, 1, -1, SelectionTable.MODE_LATEX);
 		// table.setCaretPosition(-3);
 		menu.add(table);
 		btInsertLaTeX.addPopupMenuItem(menu);
 
-		menu = new JMenu(app.getMenu("Accents"));
+		menu = new JMenu();
+		laTexButtonTitleMap.put("Accents", menu);
 		menu.add(new LatexTable(app, this, btInsertLaTeX,
 				TableSymbolsLaTeX.accents, 2, -1, SelectionTable.MODE_LATEX));
 		btInsertLaTeX.addPopupMenuItem(menu);
 
-		menu = new JMenu(app.getMenu("AccentsExt"));
+		menu = new JMenu();
+		laTexButtonTitleMap.put("AccentsExt", menu);
 		menu.add(new LatexTable(app, this, btInsertLaTeX,
 				TableSymbolsLaTeX.accentsExtended, 2, -1,
 				SelectionTable.MODE_LATEX));
 		btInsertLaTeX.addPopupMenuItem(menu);
 
-		menu = new JMenu(app.getMenu("Brackets"));
+		menu = new JMenu();
+		laTexButtonTitleMap.put("Brackets", menu);
 		menu.add(new LatexTable(app, this, btInsertLaTeX,
 				TableSymbolsLaTeX.brackets, 2, -1, SelectionTable.MODE_LATEX));
 		btInsertLaTeX.addPopupMenuItem(menu);
 
-		menu = new JMenu(app.getMenu("Matrices"));
+		menu = new JMenu();
+		laTexButtonTitleMap.put("Matrices", menu);
 		menu.add(new LatexTable(app, this, btInsertLaTeX,
 				TableSymbolsLaTeX.matrices, 1, -1, SelectionTable.MODE_LATEX));
 		btInsertLaTeX.addPopupMenuItem(menu);
 
-		menu = new JMenu(app.getMenu("FrakturLetters"));
+		menu = new JMenu();
+		laTexButtonTitleMap.put("FrakturLetters", menu);
 		menu.add(new LatexTable(app, this, btInsertLaTeX, TableSymbolsLaTeX
 				.mathfrak(), 4, -1, SelectionTable.MODE_LATEX));
 		btInsertLaTeX.addPopupMenuItem(menu);
 
-		menu = new JMenu(app.getMenu("CalligraphicLetters"));
+		menu = new JMenu();
+		laTexButtonTitleMap.put("CalligraphicLetters", menu);
 		menu.add(new LatexTable(app, this, btInsertLaTeX, TableSymbolsLaTeX
 				.mathcal(), 2, -1, SelectionTable.MODE_LATEX));
 		btInsertLaTeX.addPopupMenuItem(menu);
 
-		menu = new JMenu(app.getMenu("BlackboardLetters"));
+		menu = new JMenu();
+		laTexButtonTitleMap.put("BlackboardLetters", menu);
 		menu.add(new LatexTable(app, this, btInsertLaTeX, TableSymbolsLaTeX
 				.mathbb(), 2, -1, SelectionTable.MODE_LATEX));
 		btInsertLaTeX.addPopupMenuItem(menu);
 
-		menu = new JMenu(app.getMenu("CursiveLetters"));
+		menu = new JMenu();
+		laTexButtonTitleMap.put("CursiveLetters", menu);
 		menu.add(new LatexTable(app, this, btInsertLaTeX, TableSymbolsLaTeX
 				.mathscr(), 2, -1, SelectionTable.MODE_LATEX));
 		btInsertLaTeX.addPopupMenuItem(menu);
 
-		JMenuItem menuItem = new JMenuItem(app.getMenu("Space"));
+		JMenuItem menuItem = new JMenuItem();
+		laTexButtonTitleMap.put("Space", menuItem);
 		menuItem.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent arg0) {
@@ -433,7 +450,16 @@ public class TextInputDialog extends InputDialog implements DocumentListener {
 
 		});
 		btInsertLaTeX.addPopupMenuItem(menuItem);
+		
+		updateInsertLaTeXButtonLabels();
 
+	}
+	
+
+	public void updateInsertLaTeXButtonLabels(){
+		for(String text:laTexButtonTitleMap.keySet()){
+			laTexButtonTitleMap.get(text).setText(app.getMenu(text));
+		}
 	}
 
 	/**
@@ -586,7 +612,7 @@ public class TextInputDialog extends InputDialog implements DocumentListener {
 
 		// rebuild the symbol tables to catch localized symbols
 		buildInsertUnicodeButton();
-		buildInsertLaTeXButton();
+		updateInsertLaTeXButtonLabels();
 
 		btInsertLaTeX.setText(app.getPlain("LaTeXFormula"));
 		btInsertUnicode.setText(app.getMenu("Symbols"));
@@ -822,7 +848,7 @@ public class TextInputDialog extends InputDialog implements DocumentListener {
 	public void updateFonts() {
 		GuiManager.setFontRecursive(this, app.getPlainFont());
 		buildInsertGeoButton();
-		buildInsertLaTeXButton();
+		updateInsertLaTeXButtonLabels();
 		buildInsertUnicodeButton();
 		textPreviewer.updateFonts();
 		pack();
