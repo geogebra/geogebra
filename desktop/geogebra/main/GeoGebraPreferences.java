@@ -42,6 +42,18 @@ public class GeoGebraPreferences {
 	
 	public static final String VERSION = "version";
 	public static final String VERSION_LAST_CHECK = "version_last_check";
+	/**
+	 * false: switch off the check for each new launch of geogebra
+	 * true: switch it on
+	 * default: not set
+	 */
+	public static final String VERSION_CHECK_UPDATE = "version_check_update";
+	/**
+	 * false: switch check off for this launch
+     * true: switch it on for this launch
+     * default: not set
+	 */
+	public static final String VERSION_CHECK_UPDATE_NOW = "version_check_update_now";
 	
 	// worksheet export dialog
 	public static final String EXPORT_WS_RIGHT_CLICK = "export_ws_right_click";
@@ -153,20 +165,20 @@ public class GeoGebraPreferences {
     
     /**
      * Returns the default image path
+     * @return the image path
      */
     public  File getDefaultImagePath() {      	
     	// image path
 		String pathName = ggbPrefs.get(APP_CURRENT_IMAGE_PATH, null);
 		if (pathName != null)
 			return new File(pathName);
-		else
-			return null;
+		return null;
     }
     
     /**
      * Saves the currently set locale.
      */
-    public  void saveDefaultImagePath(File imgPath) {    
+    public void saveDefaultImagePath(File imgPath) {    
     	try {
     		if (imgPath != null)
     			ggbPrefs.put(APP_CURRENT_IMAGE_PATH, imgPath.getCanonicalPath());
@@ -177,20 +189,20 @@ public class GeoGebraPreferences {
     
     /**
      * Returns the default locale
+     * @return the locale
      */
-    public  Locale getDefaultLocale() {      	
+    public Locale getDefaultLocale() {      	
     	// language
     	String strLocale = ggbPrefs.get(APP_LOCALE, null);
     	if (strLocale != null) 
     		return Application.getLocale(strLocale);
-    	else
-    		return null;    	
+		return null;    	
     }
     
     /**
      * Saves the currently set locale.
      */
-    public  void saveDefaultLocale(Locale locale) {    
+    public void saveDefaultLocale(Locale locale) {    
     	// save locale (language)
     	ggbPrefs.put(APP_LOCALE, locale.toString());
     }
@@ -354,35 +366,31 @@ public class GeoGebraPreferences {
     	if (ret != null) {
     		// no parts: return byte array
     		return ret;
-    	} 
-    	// we had parts, get them and glue them together
-    	else {    		    		    
-    		try {
-    			ByteArrayOutputStream bos = new ByteArrayOutputStream();
-	    		int partCount = 1;
-	    		while (true) {
-	    			ret = ggbPrefs.getByteArray(key + partCount, null);
-	    			if (ret != null) {
-	    	    		bos.write(ret);
-	    				partCount++;
-	    			} else {
-	    				break;
-	    			}
-	    		}		    		
-	    		bos.flush();
-	    		if (bos.size() > 0)
-		        	ret = bos.toByteArray();
-    		} 
-    		catch (Exception e) {
-    			e.printStackTrace();
-    			ret = null;
-    		}    	
-    		    
-    		if (ret != null)
-	        	return ret;
-    		else
-    			return def;
     	}
+		try {
+			ByteArrayOutputStream bos = new ByteArrayOutputStream();
+			int partCount = 1;
+			while (true) {
+				ret = ggbPrefs.getByteArray(key + partCount, null);
+				if (ret != null) {
+		    		bos.write(ret);
+					partCount++;
+				} else {
+					break;
+				}
+			}		    		
+			bos.flush();
+			if (bos.size() > 0)
+		    	ret = bos.toByteArray();
+		} 
+		catch (Exception e) {
+			e.printStackTrace();
+			ret = null;
+		}    	
+		    
+		if (ret != null)
+			return ret;
+		return def;
     }
     
     public String getXMLPreferences() {
