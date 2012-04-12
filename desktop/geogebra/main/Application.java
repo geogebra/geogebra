@@ -48,7 +48,6 @@ import geogebra.common.main.MyError;
 import geogebra.common.main.settings.ConstructionProtocolSettings;
 import geogebra.common.main.settings.Settings;
 import geogebra.common.plugin.EuclidianStyleConstants;
-import geogebra.common.util.DebugPrinter;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
 import geogebra.euclidian.DrawEquation;
@@ -644,7 +643,7 @@ public class Application extends AbstractApplication implements
 							+ "  --resetSettings\treset current settings\n"
 							+ "  --antiAliasing=BOOLEAN\tturn anti-aliasing on/off\n"
 							+ "  --regressionFile=FILENAME\texport textual representations of dependent objects, then exit\n"
-							+ "  --versionCheckAllow=SETTING\tallow version check (on/off or true/false for single launch)");
+							+ "  --versionCheckAllow=SETTING\tallow version check (on/off or true/false for single launch)\n");
 			System.exit(0);
 		}
 		// help debug applets
