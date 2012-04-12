@@ -1295,11 +1295,27 @@ public class Application extends AbstractApplication {
 
 		ret = symbolConstants.getString("S_" + key);
 
-		if (ret.isEmpty()) {
+		if (ret != null && ret.isEmpty()) {
 			return null;
 		}
 		return ret;
 	}
+	
+	@Override
+	final public String getSymbolTooltip(int key) {
+		if (symbolConstants == null) {
+			initSymbolConstants();
+		}
+
+		String ret = null;
+		ret = symbolConstants.getString("T_" + key);
+		if (ret != null && ret.isEmpty()) {
+			return null;
+		}
+		
+		return ret;
+	}
+
 	
 	@Override
 	public GeoElementSelectionListener getCurrentSelectionListener() {

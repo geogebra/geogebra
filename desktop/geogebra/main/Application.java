@@ -2020,6 +2020,7 @@ public class Application extends AbstractApplication implements
 		return ret;
 	}
 
+	@Override
 	final public String getSymbolTooltip(int key) {
 		if (rbsymbol == null) {
 			initSymbolResourceBundle();
