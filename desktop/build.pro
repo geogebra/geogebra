@@ -18,7 +18,8 @@
 -outjars build/temp
 
 # libraries
--libraryjars ../java150-rt.jar
+# This is no longer required since we are not sure if we use Sun Java for compilation and obfuscation:
+# -libraryjars ../java150-rt.jar
 -libraryjars lib/build/lib_jsobject.jar
 -libraryjars lib/build/lib_mac_extensions.jar
 -libraryjars lib/build/jogl1/jar/jogl.jar

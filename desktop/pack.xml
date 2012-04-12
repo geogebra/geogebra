@@ -150,19 +150,20 @@ office@geogebra.org
 	<!-- Obfuscate jar files without signing -->
 	<target name="obfuscate" depends="ggb-jar-files">
 		<!-- check if java150-rt.jar file present -->
-		<condition property="java150-rt.present">
+		<!--condition property="java150-rt.present">
 			<available file="${workspace.dir}/java150-rt.jar"/>
-		</condition>
+		</condition-->
 		<antcall target="doObfuscate"/>
 	</target>
 	<target name="obfuscate3D" depends="ggb-jar-files3D">
 		<!-- check if java150-rt.jar file present -->
-		<condition property="java150-rt.present">
+		<!--condition property="java150-rt.present">
 			<available file="${workspace.dir}/java150-rt.jar"/>
-		</condition>
+		</condition-->
 		<antcall target="doObfuscate"/>
 	</target>
-	<target name="doObfuscate" if="java150-rt.present" description="obfuscate jar files">
+	<!--target name="doObfuscate" if="java150-rt.present" description="obfuscate jar files"-->
+	<target name="doObfuscate" description="obfuscate jar files">
 		<proguard configuration="build.pro"/>
 		<move todir="${build.dir}">
 			<fileset dir="${temp.dir}">
