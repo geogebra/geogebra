@@ -53,7 +53,7 @@
   <extend-property name='locale' values='el' />
   <extend-property name='locale' values='en_AU' />
   <extend-property name='locale' values='en_GB' />
-  <extend-property name='locale' values='en' />
+  
   <extend-property name='locale' values='es' />
   <extend-property name='locale' values='et' />
   <extend-property name='locale' values='eu' />
@@ -109,9 +109,8 @@
   <extend-property name='locale' values='zh' />
   -->
   <!-- default internationalization language -->
-  <!--
+  <extend-property name='locale' values='en' />
   <set-property-fallback name="locale" value="en"/>
-  -->
   
   <!-- Images, js-es will be copied from here.
   You can reference them by GWT.getModuleBaseUrl()+"js/file.js" -->
