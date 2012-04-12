@@ -28,7 +28,7 @@ your workstation.
 	<target name="web">
 	<mkdir dir="download"/>
 	<get
-	    src="http://dev.geogebra.org/download/web/GeoGebraWeb-latest.zip"
+	    src="http://dev.geogebra.org/download/web/GeoGebraWeb-safari-latest.zip"
 	    dest="download/GeoGebraWeb-latest.zip" usetimestamp="true"/>
 	<unzip src="download/GeoGebraWeb-latest.zip" dest=".">
 	    <patternset>
