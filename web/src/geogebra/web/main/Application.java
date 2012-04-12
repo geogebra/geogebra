@@ -7,7 +7,6 @@ import geogebra.common.euclidian.AbstractEuclidianController;
 import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.euclidian.DrawEquationInterface;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
-import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.gui.view.algebra.AlgebraView;
 import geogebra.common.gui.view.spreadsheet.AbstractSpreadsheetTableModel;
 import geogebra.common.gui.view.spreadsheet.SpreadsheetTraceManager;
@@ -22,9 +21,7 @@ import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
-import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoList;
-import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.AbstractFontManager;
@@ -42,7 +39,6 @@ import geogebra.web.euclidian.EuclidianView;
 import geogebra.web.gui.DialogManagerWeb;
 import geogebra.web.gui.GuiManager;
 import geogebra.web.gui.SplashDialog;
-import geogebra.web.gui.app.EuclidianPanel;
 import geogebra.web.gui.app.GeoGebraAppFrame;
 import geogebra.web.gui.applet.GeoGebraFrame;
 import geogebra.web.html5.ArticleElement;
@@ -62,12 +58,10 @@ import geogebra.web.util.ImageManager;
 
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
-import java.util.HashMap;
 import java.util.Map.Entry;
-
-import javax.swing.SwingUtilities;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
@@ -75,12 +69,9 @@ import com.google.gwt.canvas.dom.client.Context2d.TextAlign;
 import com.google.gwt.canvas.dom.client.Context2d.TextBaseline;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
-import com.google.gwt.core.client.JsArrayInteger;
 import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.dom.client.CanvasElement;
 import com.google.gwt.dom.client.ImageElement;
-import com.google.gwt.dom.client.NativeEvent;
-import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -88,8 +79,6 @@ import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.HTMLPanel;
-import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -158,6 +147,7 @@ public class Application extends AbstractApplication {
 		canvas.setCoordinateSpaceHeight(1);
 		canvas.setCoordinateSpaceWidth(1);
 		final Application this_app = this;
+		initing = true;
 		
 		//try to async loading of kernel, maybe we got quicker...
 		GWT.runAsync(new RunAsyncCallback() {
@@ -200,6 +190,7 @@ public class Application extends AbstractApplication {
 		getEuclidianView1().synCanvasSize();
 		getEuclidianView1().repaintView();
 		appFrame.finishAsyncLoading(article, geoGebraAppFrame, this);
+		initing = true;
     }
 
 
@@ -1094,12 +1085,6 @@ public class Application extends AbstractApplication {
 	public AbstractSpreadsheetTableModel getSpreadsheetTableModel() {
 		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 		return null;
-	}
-
-	@Override
-	public boolean isIniting() {
-		// this has no function in GeoGebraWeb currently
-		return false;
 	}
 
 	@Override

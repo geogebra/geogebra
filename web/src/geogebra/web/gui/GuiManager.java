@@ -5,6 +5,7 @@ import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.gui.dialog.DialogManager;
 import geogebra.common.gui.toolbar.ToolBar;
+import geogebra.common.io.layout.Perspective;
 import geogebra.common.javax.swing.JTextComponent;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.View;
@@ -271,6 +272,7 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 	public GGWToolBar getToolbarPanel() {
 		if (toolbarPanel == null) {
 			toolbarPanel = ((Application)app).getAppFrame().getGGWToolbar();
+			toolbarPanel.init((Application)app);
 		}
 
 		return toolbarPanel;

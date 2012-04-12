@@ -3,12 +3,10 @@
  */
 package geogebra.web.gui.app;
 
-import java.util.ArrayList;
 import java.util.Date;
 
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.main.AbstractApplication;
-import geogebra.web.Web;
 import geogebra.web.html5.ArticleElement;
 import geogebra.web.html5.Dom;
 import geogebra.web.html5.View;
@@ -17,18 +15,14 @@ import geogebra.web.presenter.LoadFilePresenter;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
-import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.SplitLayoutPanel;
-import com.google.gwt.user.client.ui.Widget;
 
 /**
  * @author gabor

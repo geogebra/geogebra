@@ -1,10 +1,14 @@
 package geogebra.web.gui.app;
 
+import geogebra.common.io.layout.Perspective;
 import geogebra.common.main.AbstractApplication;
+import geogebra.web.main.Application;
+import geogebra.web.gui.inputbar.AlgebraInput;
 import geogebra.web.gui.toolbar.ToolBar;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
+import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -19,31 +23,59 @@ public class GGWToolBar extends Composite {
 
 	private VerticalPanel toolbarPanel = new VerticalPanel(); //just dummy!
 	private VerticalPanel toolbars;
+	private AbstractApplication app;
+	@UiField ToolBar toolBar;
+	
 
 	public GGWToolBar() {
 		initWidget(uiBinder.createAndBindUi(this));
 	}
 
+	/**
+	 * Initialisation of the GGWToolbar.
+	 * 
+	 * @param app
+	 */
+	public void init(AbstractApplication app){
+		this.app = app;
+		toolbars = new VerticalPanel();
+		toolBar = new ToolBar();
+		toolBar.setApp((geogebra.web.main.Application) app);
+		addToolbar(toolBar);
+		buildGui();
+	}
+	
 	public void buildGui() {
 	    // TODO Auto-generated method stub
+
+		toolbarPanel = new VerticalPanel();
+	    updateToolbarPanel();
 	    
+	    
+	    //setActiveToolbar(activeToolbar);
     }
 	
 	/**
 	 * Update toolbars.
 	 */
 	public void updateToolbarPanel() {
+		AbstractApplication.debug("Implementation needed - just finishing");
+	
 		toolbarPanel.clear();
-
-		/*AGfor(ToolBar toolbar : toolbars) {
+		
+		for(Widget toolbar : toolbars) {
 			if(toolbar != null) {
-				toolbar.buildGui();
-				toolbarPanel.add(toolbar, Integer.toString(getViewId(toolbar)));
+				((ToolBar)toolbar).buildGui();
+				//TODO
+				//toolbarPanel.add(toolbar, Integer.toString(getViewId(toolbar)));
+				toolbarPanel.add(toolbar);
 			}
 		}
-
-		toolbarPanel.show(Integer.toString(activeToolbar));*/
-		AbstractApplication.debug("Implementation needed");
+		
+		//TODO
+		//toolbarPanel.show(Integer.toString(activeToolbar));
+		toolbarPanel.setVisible(true);
+		
 	}
 
 	/**

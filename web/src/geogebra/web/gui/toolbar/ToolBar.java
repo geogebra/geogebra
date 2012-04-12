@@ -28,7 +28,15 @@ public class ToolBar extends MenuBar {
 	private Application app;
 	private int mode;
 
-	public ToolBar(Application app) {
+//	public ToolBar(Application app) {
+//		this.app = app;
+//	}
+	
+	public ToolBar() {
+		
+	}
+	
+	public void setApp(Application app){
 		this.app = app;
 	}
 	

@@ -1,8 +1,9 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
-	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:web="urn:import:geogebra.web.gui.inputbar">
+	xmlns:g="urn:import:com.google.gwt.user.client.ui"
+	xmlns:web="urn:import:geogebra.web.gui.toolbar">
 	<ui:style>
 		
 	</ui:style>
-	<web:AlgebraInput></web:AlgebraInput>
+	<web:ToolBar ui:field="toolBar"></web:ToolBar>
 </ui:UiBinder> 
