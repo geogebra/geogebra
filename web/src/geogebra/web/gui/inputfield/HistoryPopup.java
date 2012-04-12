@@ -16,4 +16,9 @@ public class HistoryPopup {
 		 AbstractApplication.debug("implementation needed"); //TODO Auto-generated
     }
 
+	public boolean isDownPopup() {
+		 AbstractApplication.debug("implementation needed"); //TODO Auto-generated
+	    return false;
+    }
+
 }

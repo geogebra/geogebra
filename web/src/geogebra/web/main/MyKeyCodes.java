@@ -193,6 +193,8 @@ public interface MyKeyCodes {
 	  public static final int KEY_EQUALS = 187;
 	  	  
 	  public static final int KEY_BACK_QUOTE = 223;
+
+	public static final int KEY_LEFT_PARENTHESIS = 221;
 	  
 	  
 	  

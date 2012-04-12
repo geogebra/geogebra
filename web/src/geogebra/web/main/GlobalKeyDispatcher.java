@@ -74,7 +74,7 @@ public class GlobalKeyDispatcher extends
 		return false;
     }
 
-	private boolean handleGeneralKeys(KeyUpEvent event) {
+	public boolean handleGeneralKeys(KeyUpEvent event) {
 		boolean consumed = false;
 		
 		//AbstractApplication.debug("key: "+event.getNativeKeyCode());

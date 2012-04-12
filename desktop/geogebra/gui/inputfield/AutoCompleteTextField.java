@@ -5,6 +5,7 @@ import geogebra.common.awt.Font;
 import geogebra.common.euclidian.DrawTextField;
 import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.event.FocusListener;
+import geogebra.common.gui.inputfield.AutoComplete;
 import geogebra.common.javax.swing.JLabel;
 import geogebra.common.kernel.Macro;
 import geogebra.common.kernel.StringTemplate;

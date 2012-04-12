@@ -301,6 +301,14 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 			inputHelpPanel = new InputBarHelpPanel(app);
 		return inputHelpPanel;
     }
+
+	public void openCommandHelp(String command) {
+	   AbstractApplication.debug("Implementation needed...");
+    }
+
+	public void openHelp(String wikiManual) {
+		AbstractApplication.debug("Implementation needed...");
+    }
 	
 	
 }

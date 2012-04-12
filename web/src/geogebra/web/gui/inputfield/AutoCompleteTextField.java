@@ -8,6 +8,7 @@ import geogebra.common.awt.Font;
 import geogebra.common.euclidian.DrawTextField;
 import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.event.FocusListener;
+import geogebra.common.gui.inputfield.AutoComplete;
 import geogebra.common.javax.swing.JLabel;
 import geogebra.common.kernel.commands.MyException;
 import geogebra.common.kernel.geos.GeoElement;
@@ -20,17 +21,25 @@ import geogebra.web.gui.autocompletion.CommandCompletionListCellRenderer;
 import geogebra.web.gui.autocompletion.CompletionsPopup;
 import geogebra.web.gui.inputfield.HistoryPopup;
 import geogebra.web.main.Application;
+import geogebra.web.main.MyKeyCodes;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.KeyDownEvent;
+import com.google.gwt.event.dom.client.KeyDownHandler;
+import com.google.gwt.event.dom.client.KeyPressEvent;
+import com.google.gwt.event.dom.client.KeyPressHandler;
+import com.google.gwt.event.dom.client.KeyUpEvent;
+import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseUpHandler;
+import com.google.gwt.regexp.shared.MatchResult;
 import com.google.gwt.regexp.shared.RegExp;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.TextBox;
 
-public class AutoCompleteTextField extends TextBox implements geogebra.common.gui.inputfield.AutoCompleteTextField{
+public class AutoCompleteTextField extends TextBox implements AutoComplete, geogebra.common.gui.inputfield.AutoCompleteTextField, KeyDownHandler, KeyUpHandler, KeyPressHandler{
 	
 	  private Application app;
 	  private StringBuilder curWord;
@@ -110,7 +119,10 @@ public class AutoCompleteTextField extends TextBox implements geogebra.common.gu
 
 		    CommandCompletionListCellRenderer cellRenderer = new CommandCompletionListCellRenderer();
 		    completionsPopup = new CompletionsPopup(this, cellRenderer, 6);
-		    // addKeyListener(this); now in MathTextField
+		    // addKeyListener(this); now in MathTextField <==AG not mathtexfield exist yet
+		    addKeyDownHandler(this);
+		    addKeyUpHandler(this);
+		    addKeyPressHandler(this);
 		    setDictionary(dict);
 		    init();
 	}
@@ -297,6 +309,27 @@ public class AutoCompleteTextField extends TextBox implements geogebra.common.gu
 	    return dict;
     }
 	
+	// returns the word at position pos in text
+	  public static String getWordAtPos(String text, int pos) {
+	    // search to the left
+	    int wordStart = pos - 1;
+	    while (wordStart >= 0 && isLetterOrDigit(text.charAt(wordStart)))
+	      --wordStart;
+	    wordStart++;
+
+	    // search to the right
+	    int wordEnd = pos;
+	    int length = text.length();
+	    while (wordEnd < length && isLetterOrDigit(text.charAt(wordEnd)))
+	      ++wordEnd;
+
+	    if (wordStart >= 0 && wordEnd <= length) {
+	      return text.substring(wordStart, wordEnd);
+	    } else {
+	      return null;
+	    }
+	  }
+	
 	 private static boolean isLetterOrDigit(char character) {
 		    switch (character) {
 		      case '_': // allow underscore as a valid letter in an autocompletion word
@@ -306,6 +339,24 @@ public class AutoCompleteTextField extends TextBox implements geogebra.common.gu
 		        return Character.isLetterOrDigit(character);
 		    }
 		  }
+	 
+	 /**
+	   * shows dialog with syntax info
+	   * 
+	   * @param cmd
+	   *          is the internal command name
+	   */
+	  private void showCommandHelp(String cmd) {
+	    // show help for current command (current word)
+	    String help = app.getCommandSyntax(cmd);
+
+	    // show help if available
+	    if (help != null) {
+	      app.showError(new MyError(app, app.getPlain("Syntax") + ":\n" + help, cmd));
+	    } else {
+	      app.getGuiManager().openCommandHelp(null);
+	    }
+	  }
 	
 	 /**
 	   * Updates curWord to word at current caret position.
@@ -386,5 +437,226 @@ public class AutoCompleteTextField extends TextBox implements geogebra.common.gu
 	  public void showError(MyError e) {
 	    app.showError(e);
 	  }
+
+	public boolean getAutoComplete() {
+		 return autoComplete && app.isAutoCompletePossible();
+    }
+	
+	/**
+	   * @return previous input from input textfield's history
+	   */
+	  private String getPreviousInput() {
+	    if (history.size() == 0)
+	      return null;
+	    if (historyIndex > 0)
+	      --historyIndex;
+	    return history.get(historyIndex);
+	  }
+	  
+	  /**
+	   * @return next input from input textfield's history
+	   */
+	  private String getNextInput() {
+	    if (historyIndex < history.size())
+	      ++historyIndex;
+	    if (historyIndex == history.size())
+	      return null;
+	    else
+	      return history.get(historyIndex);
+	  }
+	  
+	  private boolean moveToNextArgument(boolean find) {
+		    String text = getText();
+		    int caretPos = getCaretPosition();
+
+		    // make sure it works if caret is just after [
+		    // if (caretPos > 0 && text.charAt(caretPos - 1) == '[') caretPos--;
+
+		    MatchResult argMatcher = syntaxArgPattern.exec(text);
+		    //AG: don't have a faintest idea that is it good or not
+		    boolean hasNextArgument = argMatcher.getGroup(caretPos) != null || !argMatcher.getGroup(caretPos).equals("");
+		    if (find && !hasNextArgument) {
+		      hasNextArgument = argMatcher.getGroupCount() > 0;
+		    }
+		    if (hasNextArgument && (find || argMatcher.getIndex() == caretPos)) {
+		      //AGsetCaretPosition(argMatcher.getIndex());
+		      setSelectionRange(argMatcher.getIndex(), argMatcher.getGroupCount()+1);
+		      //AGmoveCaretPosition(argMatcher.getGroupCount() + 1);
+		      return true;
+		    } else {
+		      return false;
+		    }
+		  }
+	
+
+	  // ----------------------------------------------------------------------------
+	  // Protected methods ..why? :-)
+	  // ----------------------------------------------------------------------------
+
+	boolean ctrlC = false;
+
+
+	public void onKeyPress(KeyPressEvent event) {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+	public void onKeyDown(KeyDownEvent event) {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+	public void onKeyUp(KeyUpEvent e) {
+		  int keyCode = e.getNativeKeyCode();
+
+		    // we don't want to trap AltGr
+		    // as it is used eg for entering {[}] is some locales
+		    // NB e.isAltGraphDown() doesn't work
+		    if (e.isAltKeyDown() && e.isControlKeyDown())
+		      return;
+
+		    // swallow eg ctrl-a ctrl-b ctrl-p on Mac
+		   /*AG if (Application.MAC_OS && e.isControlKeyDown()) {
+		      e.consume();
+		    }*/
+
+		    ctrlC = false;
+
+		    switch (keyCode) {
+
+		      case MyKeyCodes.KEY_Z:
+		      case MyKeyCodes.KEY_Y:
+		        if (e.isControlKeyDown()) {
+		          app.getGlobalKeyDispatcher().handleGeneralKeys(e);
+		          e.stopPropagation();
+		        }
+		        break;
+		      case MyKeyCodes.KEY_C:
+		        if (e.isControlKeyDown()) // workaround for MAC_OS
+		        {
+		          ctrlC = true;
+		        }
+		        break;
+
+		      case MyKeyCodes.KEY_0:
+		      case MyKeyCodes.KEY_1:
+		      case MyKeyCodes.KEY_2:
+		      case MyKeyCodes.KEY_3:
+		      case MyKeyCodes.KEY_4:
+		      case MyKeyCodes.KEY_5:
+		      case MyKeyCodes.KEY_6:
+		      case MyKeyCodes.KEY_7:
+		      case MyKeyCodes.KEY_8:
+		      case MyKeyCodes.KEY_9:
+		        if (e.isControlKeyDown() && e.isShiftKeyDown())
+		          app.getGlobalKeyDispatcher().handleGeneralKeys(e);
+		        break;
+
+		      // process input
+
+		      case MyKeyCodes.KEY_ESCAPE:
+		        if (!handleEscapeKey) {
+		          break;
+		        }
+
+		        /*AG do this if we will have windows Component comp = SwingUtilities.getRoot(this);
+		        if (comp instanceof JDialog) {
+		          ((JDialog) comp).setVisible(false);
+		          return;
+		        }*/
+		        AbstractApplication.debug("Implementation needed if some kind of Dialog open");
+		        setText(null);
+		        break;
+
+		      case MyKeyCodes.KEY_LEFT_PARENTHESIS:
+		    	AbstractApplication.debug("Implementation needed...MyKeyCodes_left_parenthesis not sure is good...");
+		        break;
+
+		      case MyKeyCodes.KEY_UP:
+		        if (!handleEscapeKey) {
+		          break;
+		        }
+		        if (historyPopup == null) {
+		          String text = getPreviousInput();
+		          if (text != null)
+		            setText(text);
+		        } else if (!historyPopup.isDownPopup()) {
+		          historyPopup.showPopup();
+		        }
+		        break;
+
+		      case MyKeyCodes.KEY_DOWN:
+		        if (!handleEscapeKey) {
+		          break;
+		        }
+		        if (historyPopup != null && historyPopup.isDownPopup()) {
+		          historyPopup.showPopup();
+		        } else {
+		          // Fix for Ticket #463
+		          if (getNextInput() != null) {
+		            setText(getNextInput());
+		          }
+		        }
+		        break;
+
+		      case MyKeyCodes.KEY_F9:
+		        // needed for applets
+		        if (app.isApplet())
+		          app.getGlobalKeyDispatcher().handleGeneralKeys(e);
+		        break;
+
+		      case MyKeyCodes.KEY_RIGHT:
+		        if (moveToNextArgument(false)) {
+		          e.stopPropagation();
+		        }
+		        break;
+
+		      case MyKeyCodes.KEY_TAB:
+		        if (moveToNextArgument(true)) {
+		          e.stopPropagation();
+		        }
+		        break;
+
+		      case MyKeyCodes.KEY_F1:
+
+		        if (autoComplete) {
+		          if (getText().equals("")) {
+
+		            Object[] options = { app.getPlain("OK"),
+		                app.getPlain("ShowOnlineHelp") };
+		           /*AG not yet... int n = JOptionPane.showOptionDialog(app.getMainComponent(),
+		                app.getPlain("InputFieldHelp"), app.getPlain("ApplicationName")
+		                    + " - " + app.getMenu("Help"), JOptionPane.YES_NO_OPTION,
+		                JOptionPane.QUESTION_MESSAGE, null, // do not use a custom Icon
+		                options, // the titles of buttons
+		                options[0]); // default button title
+                   
+		            if (n == 1)
+		              app.getGuiManager().openHelp(AbstractApplication.WIKI_MANUAL);
+                   */
+		          } else {
+		            int pos = getCaretPosition();
+		            while (pos > 0 && getText().charAt(pos - 1) == '[') {
+		              pos--;
+		            }
+		            String word = getWordAtPos(getText(), pos);
+		            String lowerCurWord = word.toLowerCase();
+		            String closest = dict.lookup(lowerCurWord);
+
+		            if (closest != null)// && lowerCurWord.equals(closest.toLowerCase()))
+		              showCommandHelp(app.getInternalCommand(closest));
+		            else
+		              app.getGuiManager().openHelp(AbstractApplication.WIKI_MANUAL);
+
+		          }
+		        } else
+		          app.getGuiManager().openHelp(AbstractApplication.WIKI_MANUAL);
+
+		        e.stopPropagation();
+		        break;
+		      default:
+		    }
+	    
+    }
 
 }
