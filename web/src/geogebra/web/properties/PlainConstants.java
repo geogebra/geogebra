@@ -4,7 +4,7 @@ import com.google.gwt.i18n.client.ConstantsWithLookup;
 
 @SuppressWarnings("javadoc")
 /**
- * ErrorConstants and interface that represents the Plain properties file
+ * PlainConstants and interface that represents the Plain properties file
  * @author Rana
  *
  */

@@ -5,7 +5,7 @@ import com.google.gwt.i18n.client.ConstantsWithLookup;
 
 @SuppressWarnings("javadoc")
 /**
- * ErrorConstants and interface that represents the Command properties file
+ * CommandConstants and interface that represents the Command properties file
  * @author Rana
  *
  */

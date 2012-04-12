@@ -4,7 +4,7 @@ import com.google.gwt.i18n.client.ConstantsWithLookup;
 
 @SuppressWarnings("javadoc")
 /**
- * Colors interface
+ * Symbols and Symbols Tooltips interface
  * GWT implementation of Symbols' internationalization.
  * @author Rana
  *
