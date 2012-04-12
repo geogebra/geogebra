@@ -5669,7 +5669,7 @@ public abstract class AbstractEuclidianController {
 					// hits = view.getTopHits(mouseLoc);
 					if (!hits.isEmpty()) {
 						GeoElement hit = hits.get(0);
-						if ((hit != null) && hit.isGeoButton()) {
+						if ((hit != null) && hit.isGeoButton() && !(hit.isGeoTextField())) {
 							app.removeSelectedGeo(hit);
 						}
 						else if ((hit != null) && hit.isGeoBoolean()) {
@@ -6933,6 +6933,7 @@ public abstract class AbstractEuclidianController {
 	
 			if (!selGeos.contains(geo)) {
 				app.clearSelectedGeos();
+				AbstractApplication.debug("addSelectedGeo következik");
 				app.addSelectedGeo(geo);
 				// app.geoElementSelected(geo, false); // copy definiton to
 				// input bar
