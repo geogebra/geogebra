@@ -48,6 +48,7 @@ import geogebra.common.main.MyError;
 import geogebra.common.main.settings.ConstructionProtocolSettings;
 import geogebra.common.main.settings.Settings;
 import geogebra.common.plugin.EuclidianStyleConstants;
+import geogebra.common.util.DebugPrinter;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
 import geogebra.euclidian.DrawEquation;
@@ -642,7 +643,8 @@ public class Application extends AbstractApplication implements
 							+ "  --settingsFile=PATH|FILENAME\tload/save settings from/in a local file\n"
 							+ "  --resetSettings\treset current settings\n"
 							+ "  --antiAliasing=BOOLEAN\tturn anti-aliasing on/off\n"
-							+ "  --regressionFile=FILENAME\texport textual representations of dependent objects, then exit\n");
+							+ "  --regressionFile=FILENAME\texport textual representations of dependent objects, then exit\n"
+							+ "  --versionCheckAllow=SETTING\tallow version check (on/off or true/false for single launch)");
 			System.exit(0);
 		}
 		// help debug applets
@@ -1045,10 +1047,13 @@ public class Application extends AbstractApplication implements
 		topPanel.revalidate();
 	}
 
-
-
 	private String regressionFileName = null;
 
+	/**
+	 * Creates the regression file for the current GGB file with
+	 * the textual content of the algebra window, then exits.
+	 * @throws IOException if the file is not writable
+	 */
 	public void createRegressionFile() throws IOException {
 		if (regressionFileName == null) {
 			return;
@@ -1061,7 +1066,8 @@ public class Application extends AbstractApplication implements
 		System.exit(0);
 	}
 
-
+	private String versionCheckAllow = null;
+	private static boolean versionCheckAllowed = true;
 
 	/**
 	 * Adds a macro from XML
@@ -1194,6 +1200,51 @@ public class Application extends AbstractApplication implements
 			this.getEuclidianView1().setAntialiasing(antiAliasing);
 			this.getEuclidianView2().setAntialiasing(antiAliasing);
 		}
+		
+		versionCheckAllow = args.getStringValue("versionCheckAllow");
+		setVersionCheckAllowed();
+	}
+	
+	private void setVersionCheckAllowed() {
+		if (versionCheckAllow != null) {
+			if (versionCheckAllow.equals("off")) {
+				GeoGebraPreferences.getPref().savePreference(
+						GeoGebraPortablePreferences.VERSION_CHECK_ALLOW, "false");
+				versionCheckAllowed = false;
+				return;
+			}
+			if (versionCheckAllow.equals("on")) {
+				GeoGebraPreferences.getPref().savePreference(
+						GeoGebraPortablePreferences.VERSION_CHECK_ALLOW, "true");
+				versionCheckAllowed = true;
+				return;
+			}
+			if (versionCheckAllow.equals("false")) {
+				versionCheckAllowed = false;
+				return;
+			}
+			if (versionCheckAllow.equals("true")) {
+				versionCheckAllowed = true;
+				return;
+			}
+			// TODO: Throw a warning message here that the option is not recognized.
+			// Now everything is silently accepted.
+		}
+		
+		versionCheckAllowed = Boolean.valueOf(GeoGebraPreferences.getPref()
+				.loadPreference(GeoGebraPreferences.VERSION_CHECK_ALLOW, "true"));
+	}
+	
+	/**
+	 * Reports if GeoGebra version check is allowed. The version_check_allowed preference
+	 * is read to decide this, which can be set by the command line option
+	 * --versionCheckAllow (off/on). For changing the behavior for a single
+	 * run, the same command line option must be used with false/true parameters.
+	 * @return if the check is allowed
+	 * @author Zoltan Kovacs <zoltan@geogebra.org>
+	 */
+	public static boolean getVersionCheckAllowed() {
+		return versionCheckAllowed;
 	}
 
 	private void handleOptionArgsEarly(CommandLineArguments args) {

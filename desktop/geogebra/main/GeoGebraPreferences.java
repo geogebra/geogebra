@@ -43,17 +43,9 @@ public class GeoGebraPreferences {
 	public static final String VERSION = "version";
 	public static final String VERSION_LAST_CHECK = "version_last_check";
 	/**
-	 * false: switch off the check for each new launch of geogebra
-	 * true: switch it on
-	 * default: not set
+	 * Allow checking of availability of a newer version
 	 */
-	public static final String VERSION_CHECK_UPDATE = "version_check_update";
-	/**
-	 * false: switch check off for this launch
-     * true: switch it on for this launch
-     * default: not set
-	 */
-	public static final String VERSION_CHECK_UPDATE_NOW = "version_check_update_now";
+	public static final String VERSION_CHECK_ALLOW = "version_check_allow";
 	
 	// worksheet export dialog
 	public static final String EXPORT_WS_RIGHT_CLICK = "export_ws_right_click";

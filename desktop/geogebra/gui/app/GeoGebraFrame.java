@@ -462,30 +462,9 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 		 * days).
 		 */
 		private void checkVersion() {
-			/*
-			 * Allowing check denial for system administrator's request via prefs.xml.
-			 */
-			String strVersionCheckUpdate = GeoGebraPreferences.getPref().
-					loadPreference(GeoGebraPreferences.VERSION_CHECK_UPDATE, "");
-			String strVersionCheckUpdateNow = GeoGebraPreferences.getPref().
-					loadPreference(GeoGebraPreferences.VERSION_CHECK_UPDATE_NOW, "");
-			Boolean versionCheckUpdate = null; // default
-			Boolean versionCheckUpdateNow = null; // default
-			if (!("".equals(strVersionCheckUpdate))) {
-				versionCheckUpdate = Boolean.valueOf(strVersionCheckUpdate);
-			}
-			if (!("".equals(strVersionCheckUpdateNow))) {
-				versionCheckUpdateNow = Boolean.valueOf(strVersionCheckUpdateNow);
-			}
-			if (versionCheckUpdateNow == null) {
-				if (versionCheckUpdate != null && !versionCheckUpdate.booleanValue())
-					return; // no check allowed by preference "version_check_update = false"
-			}
-			else {
-				if (!versionCheckUpdateNow.booleanValue())
-					return; // no check allowed by preference "version_check_update_now = false"
-			}
-
+			if (!Application.getVersionCheckAllowed())
+				return;
+			
 			String lastVersionCheck = GeoGebraPreferences.getPref()
 					.loadPreference(GeoGebraPreferences.VERSION_LAST_CHECK, "");
 			Long nowL = new Date().getTime();
