@@ -371,6 +371,10 @@ public class Application extends AbstractApplication {
 		return commandConstants.getString(crossReferencingPropertiesKeys(key));
 	}
 	
+	/*
+	 * This method maybe deprecated in the future
+	 * It is currently not functional  
+	 */
 	final public String getReverseCommand(String command) {
 		initTranslatedCommands();
 
@@ -380,7 +384,7 @@ public class Application extends AbstractApplication {
 			Enumeration<String> enume = null /*AG Rana it waits for you :-))rbcommand.getKeys()*/;
 			AbstractApplication.debug("i18n needed");
 
-			while (enume.hasMoreElements()) {
+			while (enume != null && enume.hasMoreElements()) {
 				String s = enume.nextElement();
 
 				// check internal commands
@@ -839,9 +843,13 @@ public class Application extends AbstractApplication {
 		return imageManager;
 	}
 
+	/*
+	 * This method maybe deprecated in the future
+	 * It is currently not functional: low priority
+	 */
 	@Override
 	public String reverseGetColor(String colorName) {
-		AbstractApplication.debug("implementation needed"); // TODO Low priority implementation
+		AbstractApplication.debug("implementation needed"); // TODO
 		return null;
 	}
 
