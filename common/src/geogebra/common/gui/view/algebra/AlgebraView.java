@@ -11,8 +11,6 @@ the Free Software Foundation.
 */
 package geogebra.common.gui.view.algebra;
 
-import javax.swing.JTree;
-
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoElement;
 
