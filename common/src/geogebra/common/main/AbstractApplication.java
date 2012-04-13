@@ -2347,7 +2347,7 @@ public abstract class AbstractApplication {
 
 	protected boolean shiftDragZoomEnabled = true;
 
-	// used when a secondary language is being used for tooltips 
+	// used when a secondary language is being used for tooltips.
 	protected boolean tooltipFlag = false;
 
 	public void setPropertiesView(PropertiesView propertiesView) {

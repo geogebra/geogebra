@@ -359,14 +359,15 @@ public class Application extends AbstractApplication {
 
 	@Override
 	public String getCommand(String key) {
-
-		//TODO Implement tooltip internationalization and need to solve the initTranslatedCommands() and getCommandResourceBundle()
-//		if (tooltipFlag) {
-//			return getCommandTooltip(key);
-//		}
 		
-		initTranslatedCommands();
-
+		if(key == null) {
+			return "";
+		}
+		
+		if(commandConstants == null) {
+			initTranslatedCommands();
+		}
+		
 		return commandConstants.getString(crossReferencingPropertiesKeys(key));
 	}
 	
@@ -442,15 +443,13 @@ public class Application extends AbstractApplication {
 		return aStr.replace(A_DOT, AN_UNDERSCORE);
 	}
 	
-	
+	/**
+	 * @author Rana
+	 * This method should work for both menu and menu tooltips items
+	 */
 	@Override
 	public String getMenu(String key) {
 		
-		if (tooltipFlag) {
-			//TODO by Rana
-			//return getMenuTooltip(key);
-		}
-
 		if (menuConstants == null) {
 			initMenuConstants();
 		}
@@ -468,10 +467,14 @@ public class Application extends AbstractApplication {
 		return errorConstants.getString(key);
 	}
 
+	/**
+	 * @author Rana
+	 * Since we are not implementing at this stage a secondary language for tooltips
+	 * The default behavior of setTooltipFlag() will be to set the member variable tooltipFlag to true
+	 */
 	@Override
 	public void setTooltipFlag() {
-		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-
+		tooltipFlag = true;
 	}
 
 	@Override
@@ -1268,23 +1271,11 @@ public class Application extends AbstractApplication {
 	}
 
 	@Override
-	public String getPlainTooltip(String string) {
+	public String getPlainTooltip(String key) {
 		
-		//TODO by Rana
-		
-//		if (tooltipLocale == null) {
-//			return getPlain(key);
-//		}
-
-//		if (rbplainTT == null) {
-//			initPlainTTResourceBundle();
-//		}
-//
-//		try {
-//			return rbplainTT.getString(key);
-//		} catch (Exception e) {
-//			return key;
-//		}
+		if(tooltipFlag) {
+			return getPlain(key);
+		}
 		
 		return null;
 	}
