@@ -1692,7 +1692,21 @@ public abstract class AbstractApplication {
 
 	public abstract BufferedImage getExternalImageAdapter(String filename);
 
-	public abstract String getCommandSyntax(String cmd);
+	protected abstract String getSyntaxString();
+	
+	public String getCommandSyntax(String key) {
+
+		String command = getCommand(key);
+		
+		String syntaxStr = getSyntaxString();
+		
+		String syntax = getCommand(key + syntaxStr);
+
+		syntax = syntax.replace("[", command + '[');
+
+		return syntax;
+	}
+
 
 	final public void clearSelectedGeos() {
 		clearSelectedGeos(true);

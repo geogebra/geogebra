@@ -2300,16 +2300,10 @@ public class Application extends AbstractApplication implements
 	}
 
 	@Override
-	public String getCommandSyntax(String key) {
-
-		String command = getCommand(key);
-		String syntax = getCommand(key + syntaxStr);
-
-		syntax = syntax.replace("[", command + '[');
-
-		return syntax;
+	protected String getSyntaxString() {
+		return syntaxStr;
 	}
-
+	
 	public String getCommandSyntaxCAS(String key) {
 
 		String command = getCommand(key);

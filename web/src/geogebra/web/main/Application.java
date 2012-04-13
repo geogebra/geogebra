@@ -93,6 +93,8 @@ public class Application extends AbstractApplication {
 	public final static String A_DOT = ".";
 	public final static String AN_UNDERSCORE = "_";
 
+	public final static String syntaxStr = "_Syntax";
+	
 	private FontManager fontManager;
 
 	private boolean[] showAxes = { true, true };
@@ -379,8 +381,7 @@ public class Application extends AbstractApplication {
 				}
 
 				// check localized commands
-				if (toLowerCase(/*AG Rana it ...rbcommand.getString(s))*/"").equals(key)) {
-					AbstractApplication.debug("i18n needed");
+				if (toLowerCase(commandConstants.getString(s)).equals(key)) {
 					return s;
 				}
 			}
@@ -410,6 +411,11 @@ public class Application extends AbstractApplication {
 	 * @author Rana
 	 * Cross-Referencing properties keys: from old system of properties keys' 
 		naming convention to new GWt compatible system
+		The old naming convention used dots in the syntax of keys in the properties files. 
+		Since dots are not allowed in syntaxes of methods (refer to GWT Constants and ConstantsWithLookup interfaces), 
+		the new naming convention uses underscore instead of dots. And since we are still using the old naming convention
+		in passing the key, we need to cross-reference.
+		
 	 */
 	private static String crossReferencingPropertiesKeys(String key) {
 		
@@ -825,7 +831,7 @@ public class Application extends AbstractApplication {
 
 	@Override
 	public String reverseGetColor(String colorName) {
-		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
+		AbstractApplication.debug("implementation needed"); // TODO Low priority implementation
 		return null;
 	}
 
@@ -868,11 +874,10 @@ public class Application extends AbstractApplication {
 	}
 
 	@Override
-	public String getCommandSyntax(String cmd) {
-		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-		return null;
+	protected String getSyntaxString() {
+		return syntaxStr;
 	}
-
+	
 	@Override
 	public void showRelation(GeoElement a, GeoElement b) {
 		//TODO: implement it better for GeoGebraWebGUI
