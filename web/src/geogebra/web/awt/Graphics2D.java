@@ -31,6 +31,7 @@ import com.google.gwt.canvas.dom.client.CanvasPattern;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.canvas.dom.client.Context2d.Repetition;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArrayNumber;
 import com.google.gwt.user.client.Element;
 
@@ -46,6 +47,7 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 	private float [] dash_array = null;
 
 	Paint currentPaint = new geogebra.web.awt.Color(255,255,255,255);
+	private JsArrayNumber jsarrn;
 
 	/**
 	 * @param canvas
@@ -105,15 +107,27 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 			switch (cu) {
 			case PathIterator.SEG_MOVETO:
 				context.moveTo(coords[0], coords[1]);
+				setLastCoords(coords[0], coords[1]);
 				break;
 			case PathIterator.SEG_LINETO:
-				context.lineTo(coords[0], coords[1]);
+				if (dash_array == null) {
+					context.lineTo(coords[0], coords[1]);
+				} else {
+					if (nativeDashUsed) {
+						context.lineTo(coords[0], coords[1]);
+					} else {
+						drawDashedLine(pathLastX,pathLastY,coords[0], coords[1],jsarrn, context);
+					}
+				}
+				setLastCoords(coords[0], coords[1]);
 				break;
 			case PathIterator.SEG_CUBICTO: 
 				context.bezierCurveTo(coords[0], coords[1], coords[2], coords[3], coords[4], coords[5]);
+				setLastCoords(coords[4], coords[5]);
 				break;
 			case PathIterator.SEG_QUADTO:			
 				context.quadraticCurveTo(coords[0], coords[1], coords[2], coords[3]);
+				setLastCoords(coords[2], coords[3]);
 				break;
 			case PathIterator.SEG_CLOSE:
 				context.closePath();
@@ -125,7 +139,15 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 		//this.closePath();
 	}
 
+	private double pathLastX;
+	private double pathLastY;
 	
+	private void setLastCoords(double x, double y) {
+	    pathLastX = x;
+	    pathLastY = y;  
+    }
+
+
 	@Override
     public boolean drawImage(Image img, AffineTransform xform, ImageObserver obs) {
 		AbstractApplication.debug("implementation needed for beauty"); // TODO Auto-generated
@@ -254,7 +276,7 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 
 			float [] dasharr = ((geogebra.web.awt.BasicStroke)stroke).getDashArray();
 			if (dasharr != null) {
-				JsArrayNumber jsarrn = JsArrayNumber.createArray().cast();
+				jsarrn = JavaScriptObject.createArray().cast();
 				jsarrn.setLength(dasharr.length);
 				for (int i = 0; i < dasharr.length; i++)
 					jsarrn.set(i, dasharr[i]);
@@ -265,12 +287,17 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 			dash_array = dasharr;
 		}
 	}
+	
+	private boolean nativeDashUsed = false;
 
 	public native void setStrokeDash(Context2d ctx, JsArrayNumber dasharray) /*-{
 		if (typeof ctx.mozDash != 'undefined') {
 			ctx.mozDash = dasharray;
+			this.@geogebra.web.awt.Graphics2D::nativeDashUsed = true;
+			
 		} else if (typeof ctx.webkitLineDash != 'undefined') {
 			ctx.webkitLineDash = dasharray;
+			this.@geogebra.web.awt.Graphics2D::nativeDashUsed = true;
 		}
 	}-*/;
 
@@ -614,7 +641,6 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
     	context.lineTo(x2, y2);
     	context.closePath();
     	context.stroke();
-
     	
     }
 
@@ -738,5 +764,49 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 	public void fillPolygon(Polygon p) {
 	   fill(p);
     }
+	
+	private native void drawDashedLine(double fromX, double fromY, double toX, double toY, JsArrayNumber pattern,Context2d ctx) /*-{
+		  // Our growth rate for our line can be one of the following:
+		  //   (+,+), (+,-), (-,+), (-,-)
+		  // Because of this, our algorithm needs to understand if the x-coord and
+		  // y-coord should be getting smaller or larger and properly cap the values
+		  // based on (x,y).
+		  var lt = function (a, b) { return a <= b; };
+		  var gt = function (a, b) { return a >= b; };
+		  var capmin = function (a, b) { return $wnd.Math.min(a, b); };
+		  var capmax = function (a, b) { return $wnd.Math.max(a, b); };
+		
+		  var checkX = { thereYet: gt, cap: capmin };
+		  var checkY = { thereYet: gt, cap: capmin };
+		
+		  if (fromY - toY > 0) {
+		    checkY.thereYet = lt;
+		    checkY.cap = capmax;
+		  }
+		  if (fromX - toX > 0) {
+		    checkX.thereYet = lt;
+		    checkX.cap = capmax;
+		  }
+		
+		  ctx.moveTo(fromX, fromY);
+		  var offsetX = fromX;
+		  var offsetY = fromY;
+		  var idx = 0, dash = true;
+		  while (!(checkX.thereYet(offsetX, toX) && checkY.thereYet(offsetY, toY))) {
+		    var ang = $wnd.Math.atan2(toY - fromY, toX - fromX);
+		    var len = pattern[idx];
+		
+		    offsetX = checkX.cap(toX, offsetX + ($wnd.Math.cos(ang) * len));
+		    offsetY = checkY.cap(toY, offsetY + ($wnd.Math.sin(ang) * len));
+		
+		    if (dash) ctx.lineTo(offsetX, offsetY);
+		    else ctx.moveTo(offsetX, offsetY);
+		
+		    idx = (idx + 1) % pattern.length;
+		    dash = !dash;
+		  }
+		
+		
+	}-*/;
 
 }
