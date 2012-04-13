@@ -11,7 +11,11 @@ the Free Software Foundation.
 */
 package geogebra.common.gui.view.algebra;
 
+import javax.swing.JTree;
+
 import geogebra.common.kernel.View;
+import geogebra.common.kernel.geos.GeoElement;
+
 /**
  * Algebra view -- shows algebraic representation of the objects either as value,
  * definition or command
@@ -22,4 +26,14 @@ public interface AlgebraView extends View{
 	 * @return whether this view is currently visible
 	 */
 	public boolean isVisible();
+
+	public GeoElement getGeoElementForPath(Object tp);//Object=TreePath
+	public GeoElement getGeoElementForLocation(Object tree, int x, int y);//Object=JTree
+
+	public void startEditing(GeoElement geo, boolean shiftDown);
+	public void cancelEditing();
+	public boolean isEditing();
+
+	public Object getPathForLocation(int x, int y);//Object=TreePath
+	public Object getPathBounds(Object tp);//Object=Rectangle;Object=TreePath
 }

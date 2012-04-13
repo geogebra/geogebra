@@ -1209,4 +1209,19 @@ public class AlgebraView extends JTree implements LayerView, Gridable, SetLabels
 	 * sb.append("/>\n"); sb.append("</algebraView>\n"); }
 	 */
 
+
+	// temporary proxies for the temporary implementation of AlgebraController in common
+	public GeoElement getGeoElementForPath(Object tp) {
+		return getGeoElementForPath((TreePath)tp);
+	}
+
+	public GeoElement getGeoElementForLocation(Object tree, int x, int y) {
+		return getGeoElementForLocation((JTree)tree, x, y);
+	}
+
+	public Object getPathBounds(Object tp) {
+		return getPathBounds((TreePath)tp);
+	}
+	// temporary proxies end
+
 } // AlgebraView
