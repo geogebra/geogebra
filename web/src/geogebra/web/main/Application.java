@@ -92,6 +92,13 @@ public class Application extends AbstractApplication {
 	public final static String DEFAULT_LOCALE = "default";
 	public final static String A_DOT = ".";
 	public final static String AN_UNDERSCORE = "_";
+	/*
+	 * The representation of no_NO_NY (Norwegian Nynorsk) is illegal in a BCP47 language tag: 
+	 * it should actually use "nn" (Norwegian Nynorsk) for the language field
+	 * @Ref: https://sites.google.com/site/openjdklocale/design-specification#TOC-Norwegian
+	 */
+	public final static String LANGUAGE_NORWEGIAN_NYNORSK = "no_NO_NY"; //Nynorsk Norwegian language Java Locale
+	public final static String LANGUAGE_NORWEGIAN_NYNORSK_BCP47 = "nn"; //Nynorsk Norwegian language BCP47
 
 	public final static String syntaxStr = "_Syntax";
 	
@@ -1170,8 +1177,16 @@ public class Application extends AbstractApplication {
 
 	@Override
 	public String getTooltipLanguageString() {
-		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-		return null;
+		
+		String localeName = LocaleInfo.getCurrentLocale().getLocaleName();
+		if(localeName != null && !localeName.isEmpty()) {
+			if(localeName.equals(LANGUAGE_NORWEGIAN_NYNORSK_BCP47)) {
+				return LANGUAGE_NORWEGIAN_NYNORSK;
+			}
+			return localeName;
+		}
+		return DEFAULT_LANGUAGE; 
+		
 	}
 
 	@Override
