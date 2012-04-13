@@ -12,6 +12,9 @@
 GAEDIR=../appengine-java-sdk-1.6.3.1
 GAEEMAIL=apps@geogebra.org
 GAEAPP=geogebraweb
+DOWNLOADDIR=$HOME/download/web
+WWW_SERVER_LOGIN=zoltan@www.geogebra.org
+GGBWEBDIR=/Library/WebServer/GeoGebra/web/4.2
 
 test -r autobuild.conf && . ./autobuild.conf && echo "* Using autobuild.conf for overriding defaults"
 
@@ -45,10 +48,26 @@ GAEDIR=`cd $GAEDIR; pwd` # Making it absolute path
 
 echo "* GAE SDK directory is set to $GAEDIR"
 
-# 5. Uploading
+# 5. Deploying
+
+# 5/1. Updating GeoGebraWeb-latest.zip (for GeoGebraWeb offline documents in the desktop application)
+echo "Updating GeoGebraWeb-latest.zip"
+cp GeoGebraWeb-$VERSION.zip $DOWNLOADDIR
+cd $DOWNLOADDIR
+rm GeoGebraWeb-latest.zip
+ln -s GeoGebraWeb-$VERSION.zip GeoGebraWeb-latest.zip
+
+# 5/2. Updating war/web to www.geogebra.org/web/4.2/web
+echo "Updating war/web to www.geogebra.org/web/4.2/web"
+rsync -avPO --rsh=ssh war/web $WWW_SERVER_LOGIN:$GGBWEBDIR 2>&1 | grep -v failed | grep -v "were not transferred"
+
+# 5/3. Uploading to Google App Engine
+echo "Uploading to Google App Engine"
 cd $GAEDIR/bin
 sh ./appcfg.sh --email=$GAEEMAIL -A $GAEAPP update $WEBDIR/war
 
+# 5/4. Uploading to Google Code
+echo "Uploading to Google Code"
 cd $WEBDIR
 ../desktop/scripts/autobuild/googlecode_upload.py -s "GeoGebraWeb $VERSION (platform-independent)" \
  -p geogebra -u $GC_USER -w "$GC_PASS" -l Test GeoGebraWeb-$VERSION.zip
@@ -58,6 +77,8 @@ rm -f GeoGebraWeb-$VERSION.zip
 rm -fR GeoGebraWeb-$VERSION
 
 # 7. Finished
-echo "Now you might want to check this upload
-by pointing your web browser to http://$GAEAPP.appspot.com
-and also http://geogebra.googlecode.com/files/GeoGebraWeb-$VERSION.zip"
+echo "Now you might want to check this deplyoment by pointing your web browser to
+* http://www.geogebra.org/web
+* http://dev.geogebra.org/download/web/GeoGebraWeb-latest.zip
+* http://$GAEAPP.appspot.com
+* http://geogebra.googlecode.com/files/GeoGebraWeb-$VERSION.zip"
