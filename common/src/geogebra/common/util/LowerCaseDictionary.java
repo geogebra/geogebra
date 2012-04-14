@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+
 /**
  * A default implementation of the autocomplete dictionary. This implementation
  * is based upon the TreeSet collection class to provide quick lookups and
@@ -19,18 +20,71 @@ public class LowerCaseDictionary extends HashMap<String, String> implements Auto
 
   private TreeSet<String> treeSet = new TreeSet<String>();
   
+  
+  //Normalizers : if Java >= 1.6, can also remove accents
+  private MyNormalizer normalizer;
+  
+  private abstract class MyNormalizer{
+	  public MyNormalizer() { }
+	  /**
+	   * 
+	   * @param s string
+	   * @return s in lower case and without accents (if Java >= 1.6)
+	   */
+	  public abstract String transform(String s);
+  }
+
+  private class MyNormalizer6 extends MyNormalizer{
+	  public MyNormalizer6() {
+		  super();
+	  }
+
+	  @Override
+	public String transform(String s){
+		  String ret = s.toLowerCase();	 
+		  //remove accents
+		  return java.text.Normalizer.normalize(ret, java.text.Normalizer.Form.NFD).replaceAll("[\u0300-\u036F]", "");
+	  }
+  }
+  
+  private class MyNormalizer5 extends MyNormalizer{
+	  public MyNormalizer5() {
+		  super();
+	  }
+
+	  @Override
+	public String transform(String s){
+		  return s.toLowerCase();	
+	  }
+  }
+
+
+  /**
+   * constructor
+   */
+  public LowerCaseDictionary(){
+	  
+	  try{ //if java.text.Normalizer exists, use it to remove accents
+		  java.text.Normalizer.normalize("test", java.text.Normalizer.Form.NFD).replaceAll("[\u0300-\u036F]", "");
+		  normalizer = new MyNormalizer6();
+	  }catch(Exception e){ //if not, only lower case is achieved
+		  normalizer = new MyNormalizer5();
+	  }
+  }
+  
   /**
    * Adds an entry to the dictionary.
    *
    * @param s The string to add to the dictionary.
    */
   public void addEntry(String s) {
-  	String lowerCase = s.toLowerCase();
+  	String lowerCase = normalizer.transform(s);
   	put(lowerCase, s);
   	
   	// store lowerCase in tree
   	treeSet.add(lowerCase);
   }
+  
 
   /**
    * Removes an entry from the dictionary.
@@ -94,7 +148,7 @@ public class LowerCaseDictionary extends HashMap<String, String> implements Auto
 		if (curr == null || "".equals(curr))
 			return null;
 
-		String currLowerCase = curr.toLowerCase();
+		String currLowerCase = normalizer.transform(curr);
 		try {
 			SortedSet<String> tailSet = treeSet.tailSet(currLowerCase);
 			ArrayList<String> completions = new ArrayList<String>();
