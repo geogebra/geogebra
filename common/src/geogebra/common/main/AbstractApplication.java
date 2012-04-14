@@ -323,6 +323,10 @@ public abstract class AbstractApplication {
 	protected abstract void setCommandChanged(boolean b);
 	protected abstract boolean isCommandNull();
 	
+	protected LowerCaseDictionary newLowerCaseDictionary(){
+		return new LowerCaseDictionary();
+	}
+	
 	public void fillCasCommandDict() {
 		// this method might get called during initialization, when we're not
 		// yet
@@ -340,7 +344,7 @@ public abstract class AbstractApplication {
 
 		setCommandChanged(false);
 
-		commandDictCAS = new LowerCaseDictionary();
+		commandDictCAS = newLowerCaseDictionary();
 		subCommandDict[CommandsConstants.TABLE_CAS].clear();
 		// iterate through all available CAS commands, add them (translated if
 		// available, otherwise untranslated)
@@ -425,7 +429,7 @@ public abstract class AbstractApplication {
 		// so change English -> French -> English doesn't work in the input bar
 		// see AutoCompleteTextfield.lookup()
 		// if (commandDict == null)
-		commandDict = new LowerCaseDictionary();
+		commandDict = newLowerCaseDictionary();
 		// else commandDict.clear();
 
 		translateCommandTable.clear();
@@ -440,7 +444,7 @@ public abstract class AbstractApplication {
 		if (subCommandDict == null) {
 			subCommandDict = new LowerCaseDictionary[CommandDispatcher.tableCount];
 			for (int i = 0; i < subCommandDict.length; i++) {
-				subCommandDict[i] = new LowerCaseDictionary();
+				subCommandDict[i] = newLowerCaseDictionary();
 			}
 		}
 		for (int i = 0; i < subCommandDict.length; i++) {

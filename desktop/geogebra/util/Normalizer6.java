@@ -1,4 +1,4 @@
-package geogebra.common.util;
+package geogebra.util;
 
 import java.lang.reflect.Method;
 

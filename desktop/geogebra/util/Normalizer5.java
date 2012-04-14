@@ -1,4 +1,4 @@
-package geogebra.common.util;
+package geogebra.util;
 
 /**
  * Normalizer to get string to lower case and without accents (if Java >= 1.6)

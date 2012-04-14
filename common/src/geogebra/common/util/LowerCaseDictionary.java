@@ -20,14 +20,14 @@ public class LowerCaseDictionary extends HashMap<String, String> implements Auto
 
   private TreeSet<String> treeSet = new TreeSet<String>();
   
-  private Normalizer normalizer;
+  private NormalizerMinimal normalizer;
 
 
   /**
    * constructor
    */
   public LowerCaseDictionary(){
-	  normalizer = Normalizer.getInstance();
+	  normalizer = NormalizerMinimal.getInstance();
   }
   
   /**
