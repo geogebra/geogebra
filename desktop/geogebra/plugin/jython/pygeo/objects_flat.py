@@ -191,6 +191,11 @@ class Element:
         return API.Geo.isDefined(self.geo)
     defined = property(_getdefined)
 
+    # property: infinite
+    def _getinfinite(self):
+        return API.Geo.isInfinite(self.geo)
+    infinite = property(_getinfinite)
+    
     # property: free
     def _getfree(self):
         return API.Geo.isFree(self.geo)

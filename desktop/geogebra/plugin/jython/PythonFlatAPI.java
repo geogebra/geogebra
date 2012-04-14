@@ -237,6 +237,15 @@ public class PythonFlatAPI {
 		}
 		
 		/**
+		 * Check whether an element is infinite
+		 * @param geo the geo element
+		 * @return true if it is infinite
+		 */
+		public static boolean isInfinite(GeoElement geo) {
+			return geo.isInfinite();
+		}
+		
+		/**
 		 * tells whether a GeoElement is dependent on others or not
 		 * @param geo the GeoElement
 		 * @return true if the GeoElement is free (does not depend on others)
