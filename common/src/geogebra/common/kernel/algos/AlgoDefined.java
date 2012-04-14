@@ -70,7 +70,7 @@ public class AlgoDefined extends AlgoElement {
     		outputBoolean.setValue(inputGeo.isDefined() && !p.isInfinite());
     		return;
     	}
-    	else if (inputGeo.isGeoPoint()) {
+    	else if (inputGeo.isGeoVector()) {
     		GeoVector v = (GeoVector)inputGeo;
     		outputBoolean.setValue(inputGeo.isDefined() && !v.isInfinite());
     		return;
