@@ -20,56 +20,14 @@ public class LowerCaseDictionary extends HashMap<String, String> implements Auto
 
   private TreeSet<String> treeSet = new TreeSet<String>();
   
-  
-  //Normalizers : if Java >= 1.6, can also remove accents
-  private MyNormalizer normalizer;
-  
-  private abstract class MyNormalizer{
-	  public MyNormalizer() { }
-	  /**
-	   * 
-	   * @param s string
-	   * @return s in lower case and without accents (if Java >= 1.6)
-	   */
-	  public abstract String transform(String s);
-  }
-
-  private class MyNormalizer6 extends MyNormalizer{
-	  public MyNormalizer6() {
-		  super();
-	  }
-
-	  @Override
-	public String transform(String s){
-		  String ret = s.toLowerCase();	 
-		  //remove accents
-		  return java.text.Normalizer.normalize(ret, java.text.Normalizer.Form.NFD).replaceAll("[\u0300-\u036F]", "");
-	  }
-  }
-  
-  private class MyNormalizer5 extends MyNormalizer{
-	  public MyNormalizer5() {
-		  super();
-	  }
-
-	  @Override
-	public String transform(String s){
-		  return s.toLowerCase();	
-	  }
-  }
+  private Normalizer normalizer;
 
 
   /**
    * constructor
    */
   public LowerCaseDictionary(){
-	  
-	  try{ //if java.text.Normalizer exists, use it to remove accents
-		  java.text.Normalizer.normalize("test", java.text.Normalizer.Form.NFD).replaceAll("[\u0300-\u036F]", "");
-		  normalizer = new MyNormalizer6();
-	  }catch(Error e){ //if not, only lower case is achieved
-		  normalizer = new MyNormalizer5();
-	  }
+	  normalizer = Normalizer.getInstance();
   }
   
   /**
