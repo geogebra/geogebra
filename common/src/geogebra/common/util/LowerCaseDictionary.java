@@ -67,7 +67,7 @@ public class LowerCaseDictionary extends HashMap<String, String> implements Auto
 	  try{ //if java.text.Normalizer exists, use it to remove accents
 		  java.text.Normalizer.normalize("test", java.text.Normalizer.Form.NFD).replaceAll("[\u0300-\u036F]", "");
 		  normalizer = new MyNormalizer6();
-	  }catch(Exception e){ //if not, only lower case is achieved
+	  }catch(Error e){ //if not, only lower case is achieved
 		  normalizer = new MyNormalizer5();
 	  }
   }
