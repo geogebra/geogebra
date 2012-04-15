@@ -86,6 +86,7 @@ import geogebra.util.Util;
 
 import java.awt.AWTKeyStroke;
 import java.awt.BorderLayout;
+import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
@@ -405,7 +406,7 @@ public class Application extends AbstractApplication implements
 	// private int axesFontSize;
 	// private int euclidianFontSize;
 
-	protected JPanel centerPanel, topPanel, bottomPanel;
+	protected JPanel centerPanel, topPanel, bottomPanel, backPanel, mainCardPanel;
 
 	
 
@@ -916,6 +917,13 @@ public class Application extends AbstractApplication implements
 		centerPanel.setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0,
 				SystemColor.controlShadow));
 		updateCenterPanel(true);
+		
+		
+		// backPanel
+		if (backPanel == null) {
+			backPanel = new JPanel(new BorderLayout());
+		}
+
 
 		// full GUI => use layout manager, add other GUI elements as requested
 		if (isUsingFullGui()) {
@@ -946,13 +954,21 @@ public class Application extends AbstractApplication implements
 				dockBar = new DockBar(this);
 			}
 
-			JPanel subPanel = new JPanel(new BorderLayout());
+			JPanel mainPanel = new JPanel(new BorderLayout());
 
-			subPanel.add(topPanel, BorderLayout.NORTH);
-			subPanel.add(applicationSplitPane, BorderLayout.CENTER);
-			subPanel.add(bottomPanel, BorderLayout.SOUTH);
+			mainPanel.add(topPanel, BorderLayout.NORTH);
+			mainPanel.add(applicationSplitPane, BorderLayout.CENTER);
+			mainPanel.add(bottomPanel, BorderLayout.SOUTH);
 
-			panel.add(subPanel, BorderLayout.CENTER);
+			
+			
+			mainCardPanel = new JPanel(new CardLayout());
+			mainCardPanel.add(mainPanel, "mainPanel");
+			mainCardPanel.add(backPanel, "backPanel");
+			isMainPanelShowing = true;
+			dockBar.setVisible(true);
+			
+			panel.add(mainCardPanel, BorderLayout.CENTER);
 			panel.add(dockBar, BorderLayout.WEST);
 
 			// init labels
@@ -979,6 +995,49 @@ public class Application extends AbstractApplication implements
 		
 	}
 
+	//==================================================
+	// Handle back panel
+	//==================================================
+
+	private boolean isMainPanelShowing = true;
+
+	public boolean isMainPanelShowing(){
+		return isMainPanelShowing;
+	}
+	
+	public void toggleBackPanel(){
+		
+		CardLayout cl = (CardLayout) mainCardPanel.getLayout();
+		if(isMainPanelShowing)
+			showBackPanel();
+		else
+			showMainPanel();
+	}
+	
+	public void showMainPanel(){
+		CardLayout cl = (CardLayout) mainCardPanel.getLayout();
+		cl.show(mainCardPanel, "mainPanel");
+		dockBar.setVisible(true);
+		isMainPanelShowing = true;
+	}
+	
+	public void showBackPanel(){
+		CardLayout cl = (CardLayout) mainCardPanel.getLayout();
+		cl.show(mainCardPanel, "backPanel");
+		dockBar.setVisible(false);
+		isMainPanelShowing = false;
+	}
+	
+	public void setBackPanel(JComponent comp){
+		backPanel.removeAll();
+		backPanel.add(comp);
+	}
+	
+	
+	// ==================================================
+	// Handle side bar help panel
+	// ==================================================
+	
 	/**
 	 * Open/close the sidebar help panel for the input bar
 	 */
