@@ -8,7 +8,7 @@ import geogebra.common.util.NormalizerMinimal;
  * @author matthieu
  *
  */
-public abstract class Normalizer extends NormalizerMinimal {
+public class Normalizer extends NormalizerMinimal {
 
 
 	/**
