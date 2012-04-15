@@ -10,6 +10,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
@@ -90,5 +91,10 @@ public class EuclidianDockPanel extends EuclidianDockPanelAbstract {
 	@Override
 	public EuclidianViewND getEuclidianView() {
 		return app.getEuclidianView1();
+	}
+	
+	@Override
+	public ImageIcon getIcon() { 
+			return app.getImageIcon("view-graphics24.png");
 	}
 }

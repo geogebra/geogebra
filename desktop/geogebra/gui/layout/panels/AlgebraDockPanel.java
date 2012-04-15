@@ -7,6 +7,7 @@ import geogebra.main.Application;
 import java.awt.Color;
 
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JScrollPane;
 
@@ -56,4 +57,10 @@ public class AlgebraDockPanel extends DockPanel {
 			app.getGuiManager().getToolbarPanel().setActiveToolbar(dockManager.getFocusedEuclidianPanel().getToolbar());
 		}
 	}
+	
+	@Override
+	public ImageIcon getIcon() { 
+			return app.getImageIcon("view-algebra24.png");
+	}
+	
 }

@@ -6,6 +6,7 @@ import geogebra.gui.layout.DockPanel;
 import geogebra.gui.view.spreadsheet.SpreadsheetView;
 import geogebra.main.Application;
 
+import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 
 /**
@@ -87,4 +88,12 @@ public class SpreadsheetDockPanel extends DockPanel {
 
 		return sb.toString();
 	}
+	
+	@Override
+	public ImageIcon getIcon() { 
+			return app.getImageIcon("view-spreadsheet24.png");
+	}
+	
+	
+	
 }
