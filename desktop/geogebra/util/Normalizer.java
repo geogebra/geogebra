@@ -1,12 +1,14 @@
 package geogebra.util;
 
+import geogebra.common.util.NormalizerMinimal;
+
 /**
- * Normalizer to get string to lower case and without accents (if Java >= 1.6)
+ * Normalizer to get string to lower case (and without accents if Java >= 1.6)
  * 
  * @author matthieu
  *
  */
-public abstract class Normalizer {
+public abstract class Normalizer extends NormalizerMinimal {
 
 
 	/**
@@ -17,13 +19,6 @@ public abstract class Normalizer {
 		return INSTANCE;
 	}
 	
-
-	/**
-	 * transform the string to lower case and without accents (if Java >= 1.6)
-	 * @param s the string
-	 * @return the string to lower case and without accents (if Java >= 1.6)
-	 */
-	abstract public String transform(final String s);
 
 	private static final Normalizer INSTANCE;
 	
@@ -39,9 +34,9 @@ public abstract class Normalizer {
 	private static String getNormalizerClass() {
 		try {
 			Class.forName("java.text.Normalizer");
-			return "geogebra.common.util.Normalizer6";
+			return "geogebra.util.Normalizer6";
 		} catch (final Exception e) {
-			return "geogebra.common.util.Normalizer5";
+			return "geogebra.util.Normalizer";
 		}
 	}
 }

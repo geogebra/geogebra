@@ -3,7 +3,7 @@ package geogebra.util;
 import java.lang.reflect.Method;
 
 /**
- * Normalizer to get string to lower case and without accents (if Java >= 1.6)
+ * Normalizer to get string to lower case (and without accents if Java >= 1.6)
  * 
  * @author matthieu
  *

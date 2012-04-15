@@ -47,6 +47,7 @@ import geogebra.common.sound.SoundManager;
 import geogebra.common.util.AbstractImageManager;
 import geogebra.common.util.DebugPrinter;
 import geogebra.common.util.LowerCaseDictionary;
+import geogebra.common.util.NormalizerMinimal;
 import geogebra.common.util.Unicode;
 
 import java.util.ArrayList;
@@ -324,7 +325,7 @@ public abstract class AbstractApplication {
 	protected abstract boolean isCommandNull();
 	
 	protected LowerCaseDictionary newLowerCaseDictionary(){
-		return new LowerCaseDictionary();
+		return new LowerCaseDictionary(new NormalizerMinimal());
 	}
 	
 	public void fillCasCommandDict() {

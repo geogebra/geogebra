@@ -25,9 +25,10 @@ public class LowerCaseDictionary extends HashMap<String, String> implements Auto
 
   /**
    * constructor
+   * @param normalizer normalizer used for dict entries
    */
-  public LowerCaseDictionary(){
-	  normalizer = NormalizerMinimal.getInstance();
+  public LowerCaseDictionary(NormalizerMinimal normalizer){
+	  this.normalizer = normalizer; 
   }
   
   /**

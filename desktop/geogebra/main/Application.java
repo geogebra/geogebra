@@ -48,6 +48,7 @@ import geogebra.common.main.MyError;
 import geogebra.common.main.settings.ConstructionProtocolSettings;
 import geogebra.common.main.settings.Settings;
 import geogebra.common.plugin.EuclidianStyleConstants;
+import geogebra.common.util.LowerCaseDictionary;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
 import geogebra.euclidian.DrawEquation;
@@ -80,6 +81,7 @@ import geogebra.sound.SoundManager;
 import geogebra.util.DebugPrinterDesktop;
 import geogebra.util.DownloadManager;
 import geogebra.util.ImageManager;
+import geogebra.util.Normalizer;
 import geogebra.util.Util;
 
 import java.awt.AWTKeyStroke;
@@ -4765,6 +4767,12 @@ public class Application extends AbstractApplication implements
 	public void uploadToGeoGebraTube() {
  		GeoGebraTubeExportDesktop ggbtube = new GeoGebraTubeExportDesktop(this);
  		ggbtube.uploadWorksheet();
+	}
+	
+	
+	@Override
+	protected LowerCaseDictionary newLowerCaseDictionary(){
+		return new LowerCaseDictionary(Normalizer.getInstance());
 	}
 
 }
