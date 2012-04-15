@@ -1,12 +1,12 @@
 package geogebra.gui.layout;
 
-
 import geogebra.common.kernel.algos.AlgoTurtle;
 import geogebra.common.kernel.geos.GeoTurtle;
 import geogebra.common.main.AbstractApplication;
-import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.gui.dialog.TurtleDriverPanel;
-import geogebra.gui.util.GeoGebraIcon;
+import geogebra.gui.dialog.options.OptionsDialog;
+import geogebra.gui.menubar.OptionsMenu;
+import geogebra.gui.menubar.ViewMenu;
 import geogebra.main.Application;
 
 import java.awt.BorderLayout;
@@ -19,16 +19,24 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import javax.swing.AbstractAction;
+import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JToolBar;
 import javax.swing.SwingConstants;
 import javax.swing.border.BevelBorder;
@@ -40,24 +48,27 @@ import javax.swing.border.Border;
  * @author G. Sturr
  * 
  */
-public class DockBar extends JPanel implements ActionListener {
+public class DockBar extends JPanel implements ActionListener, MouseListener {
 
 	private static final long serialVersionUID = 1L;
 
-	private static final int btnSize = 36;
-	private static final int iconSize = btnSize - 10;
-
 	private Application app;
 	private Layout layout;
+
+	private ConfigurationPanel configPanel;
 
 	private JToolBar viewToolBar, menuToolBar, inputToolBar;
 	private JPanel mainPanel, minimumPanel;
 
 	private ArrayList<ViewButton> viewButtons;
-	private JButton btnToggleMenu, btnToggleInputBar, btnMinimize, btnKeyboard,
-			btnTurtle;
+	private JButton btnSettings, btnGeoGebra, btnView, btnOptions;
 
-	private boolean isMinimized = true;
+	private JButton btnTurtle;
+
+	/**
+	 * flag to determine if the dockbar is in a minimized state
+	 */
+	protected boolean isMinimized = true;
 
 	/*******************************************************
 	 * Constructs a DockBar
@@ -95,7 +106,7 @@ public class DockBar extends JPanel implements ActionListener {
 	 * Updates the layout to either show the dockbar and its components or show
 	 * the minimized panel.
 	 */
-	private void updateLayout() {
+	protected void updateLayout() {
 		this.removeAll();
 		if (isMinimized)
 			this.add(getMinimizedPanel(), BorderLayout.CENTER);
@@ -105,15 +116,34 @@ public class DockBar extends JPanel implements ActionListener {
 		this.revalidate();
 		this.repaint();
 	}
+	
+	public void update(){
+		
+	//	btnSettings.setSelected(!app.isMainPanelShowing());
+		
+	//	btnView.setVisible(app.isMainPanelShowing());
+	//	btnOptions.setVisible(app.isMainPanelShowing());
+		
+	}
 
 	private void initGUI() {
 
 		initToolBars();
 
-		mainPanel = new JPanel(new BorderLayout());
-		mainPanel.add(menuToolBar, BorderLayout.NORTH);
-		mainPanel.add(inputToolBar, BorderLayout.SOUTH);
-		mainPanel.add(viewToolBar, BorderLayout.CENTER);
+		mainPanel = new JPanel();
+		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+		mainPanel.add(Box.createVerticalStrut(15));
+		mainPanel.add(btnSettings);
+		mainPanel.add(Box.createVerticalStrut(35));
+		mainPanel.add(btnView);
+		mainPanel.add(btnOptions);
+		
+		
+		//mainPanel.add(menuToolBar, BorderLayout.NORTH);
+		//mainPanel.add(inputToolBar, BorderLayout.SOUTH);
+		//mainPanel.add(viewToolBar, BorderLayout.CENTER);
+		
+		
 		Border outsideBorder = BorderFactory.createMatteBorder(1, 0, 0, 1,
 				SystemColor.controlShadow);
 		Border insideBorder = BorderFactory.createMatteBorder(0, 0, 0, 1,
@@ -125,50 +155,46 @@ public class DockBar extends JPanel implements ActionListener {
 
 	private void initButtons() {
 
-		btnToggleMenu = new JButton();
-		btnToggleMenu.setIcon(GeoGebraIcon.ensureIconSize(app
-				.getImageIcon("triangle-up.png"), new Dimension(iconSize,
-				iconSize)));
-		btnToggleMenu.setIcon(app.getImageIcon("triangle-up.png"));
-		btnToggleMenu.addActionListener(this);
-		// btnToggleMenu.setBorderPainted(false);
-		btnToggleMenu.setPreferredSize(new Dimension(btnSize, 20));
+		btnGeoGebra = new JButton();
+		btnGeoGebra.setIcon(app.getImageIcon("geogebra32.png"));
+		btnGeoGebra.addActionListener(this);
+		btnGeoGebra.setFocusPainted(false);
+		
 
-		btnMinimize = new JButton();
-		final Dimension iconDim = new Dimension(iconSize, iconSize);
-		btnMinimize.setIcon(GeoGebraIcon.createPointStyleIcon(
-				EuclidianStyleConstants.POINT_STYLE_TRIANGLE_WEST, 3, iconDim,
-				Color.DARK_GRAY, null));
-		// btnMinimize.setRolloverEnabled(true);
-		// btnMinimize.setRolloverIcon(GeoGebraIcon.createPointStyleIcon(EuclidianStyleConstants.POINT_STYLE_TRIANGLE_WEST,
-		// 3, iconSize, Color.BLACK, null));
-		btnMinimize.addActionListener(this);
-		btnMinimize.setBorderPainted(false);
-		btnMinimize.setPreferredSize(new Dimension(btnSize, btnSize));
+		btnSettings = new JButton();
+		btnSettings.setIcon(app.getImageIcon("tool_32.png"));
+		//btnSettings.setSelectedIcon(app.getImageIcon("go-previous24.png"));
+		btnSettings.addActionListener(this);
+		btnSettings.setFocusPainted(false);
+		btnSettings.setBorderPainted(false);
+		btnSettings.setContentAreaFilled(false);
+		
 
-		btnToggleInputBar = new JButton();
-		btnToggleInputBar.setIcon(app.getImageIcon("triangle-up.png"));
-		btnToggleInputBar.addActionListener(this);
-		// btnToggleInputBar.setBorderPainted(false);
-		btnToggleInputBar.setPreferredSize(new Dimension(btnSize, 20));
+		btnView = new JButton();
+		btnView.setIcon(app.getImageIcon("view_btn.png"));
+		btnView.addActionListener(this);
+		btnView.setFocusPainted(false);
+	//	btnView.setBorderPainted(false);
+	//	btnView.setContentAreaFilled(false);
 
-		btnKeyboard = new JButton();
-		btnKeyboard.setIcon(GeoGebraIcon.ensureIconSize(app
-				.getImageIcon("spreadsheet_grid.png"), new Dimension(iconSize,
-				iconSize)));
-
-		btnKeyboard.addActionListener(this);
-		btnKeyboard.setPreferredSize(new Dimension(btnSize, btnSize));
+		btnOptions = new JButton();
+		btnOptions.setIcon(app.getImageIcon("options_btn.png"));
+		btnOptions.addActionListener(this);
+		btnOptions.setFocusPainted(false);
+	//	btnOptions.setBorderPainted(false);
+	//	btnOptions.setContentAreaFilled(false);
+		
+		
+		//btnOptions.addMouseListener(this);
+		//btnOptions.setComponentPopupMenu(optionsPopupMenu);
+		
 
 		btnTurtle = new JButton("T");
-		// btnTurtle.setIcon(app.getImageIcon("triangle-up.png"));
 		btnTurtle.addActionListener(this);
-		btnTurtle.setPreferredSize(new Dimension(btnSize, 20));
-
+		
 		// view toggle buttons
 		getViewButtonList();
 		updateViewButtons();
-
 	}
 
 	private void initToolBars() {
@@ -182,7 +208,7 @@ public class DockBar extends JPanel implements ActionListener {
 		menuToolBar.setFloatable(false);
 		menuToolBar.setOrientation(SwingConstants.VERTICAL);
 		Border outsideBorder = menuToolBar.getBorder();
-		Border insideBorder = BorderFactory.createEmptyBorder(10, 0, 10, 0);
+		Border insideBorder = BorderFactory.createEmptyBorder(2, 0, 2, 0);
 		menuToolBar.setBorder(BorderFactory.createCompoundBorder(outsideBorder,
 				insideBorder));
 
@@ -197,10 +223,13 @@ public class DockBar extends JPanel implements ActionListener {
 
 		// add buttons
 		initButtons();
-		menuToolBar.add(btnToggleMenu);
-		menuToolBar.add(btnToggleInputBar);
-		menuToolBar.add(btnTurtle);
-		// inputToolBar.add(btnMinimize);
+		//menuToolBar.add(btnGeoGebra);
+		menuToolBar.add(btnSettings);
+		
+		
+		viewToolBar.add(btnView);
+		viewToolBar.add(btnOptions);
+
 
 	}
 
@@ -238,8 +267,8 @@ public class DockBar extends JPanel implements ActionListener {
 				// btn.setText("" + panel.getViewId());
 				setButtonIcon(btn, panel);
 
-				btn.setPreferredSize(new Dimension(btnSize, btnSize));
-				btn.setMaximumSize(btn.getPreferredSize());
+				// btn.setPreferredSize(new Dimension(btnSize, btnSize));
+				// btn.setMaximumSize(btn.getPreferredSize());
 				// btn.setBorderPainted(false);
 
 				action = new AbstractAction(app.getPlain(panel.getViewTitle())) {
@@ -256,12 +285,12 @@ public class DockBar extends JPanel implements ActionListener {
 				btn.addActionListener(action);
 				btn.setViewID(viewID);
 
-				viewButtons.add(btn);
+				//viewButtons.add(btn);
 			}
 		}
 	}
 
-	private void setButtonIcon(JButton btn, DockPanel panel) {
+	private void setButtonIcon(AbstractButton btn, DockPanel panel) {
 
 		ImageIcon icon;
 
@@ -270,18 +299,18 @@ public class DockBar extends JPanel implements ActionListener {
 		else if (panel.getViewId() == AbstractApplication.VIEW_EUCLIDIAN2)
 			icon = app.getImageIcon("euclidian.png");
 		else if (panel.getViewId() == AbstractApplication.VIEW_CAS)
-			icon = app.getImageIcon("xy_table.png");
+			icon = app.getImageIcon("panel_cas.png");
 		else if (panel.getViewId() == AbstractApplication.VIEW_SPREADSHEET)
-			icon = app.getImageIcon("spreadsheet.png");
+			icon = app.getImageIcon("panel_spreadsheet.png");
 		else if (panel.getViewId() == AbstractApplication.VIEW_ALGEBRA)
-			icon = app.getImageIcon("font.png");
+			icon = app.getImageIcon("panel_algebra.png");
 		else if (panel.getViewId() == AbstractApplication.VIEW_PROPERTIES)
 			icon = app.getImageIcon("document-properties.png");
 		else
 			icon = app.getImageIcon("tool.png");
 
-		icon = GeoGebraIcon.ensureIconSize(icon, new Dimension(iconSize,
-				iconSize));
+		// icon = GeoGebraIcon.ensureIconSize(icon, new Dimension(iconSize,
+		// iconSize));
 		btn.setIcon(icon);
 
 		// icon = GeoGebraIcon.joinIcons(GeoGebraIcon.createColorSwatchIcon(1f,
@@ -295,18 +324,18 @@ public class DockBar extends JPanel implements ActionListener {
 		DockPanel[] dockPanels = layout.getDockManager().getPanels();
 		Arrays.sort(dockPanels, new DockPanel.MenuOrderComparator());
 
-		viewToolBar.removeAll();
+	//	viewToolBar.removeAll();
 
 		for (ViewButton btn : viewButtons) {
 
-			viewToolBar.add(btn);
+			//viewToolBar.add(btn);
 
-			// btn.setVisible(!app.getGuiManager().showView(btn.getViewID()));
+			btn.setVisible(!app.getGuiManager().showView(btn.getViewID()));
 			btn.setSelected(app.getGuiManager().showView(btn.getViewID()));
 
 		}
 
-		viewToolBar.add(btnKeyboard);
+		// viewToolBar.add(btnKeyboard);
 	}
 
 	class ViewButton extends JButton {
@@ -314,6 +343,16 @@ public class DockBar extends JPanel implements ActionListener {
 		private static final long serialVersionUID = 1L;
 
 		private int viewID;
+
+		@Override
+		public void setBorderPainted(boolean setBorderPainted) {
+			super.setBorderPainted(false);
+		}
+
+		@Override
+		public void setContentAreaFilled(boolean setContentAreaFilled) {
+			super.setContentAreaFilled(false);
+		}
 
 		public int getViewID() {
 			return viewID;
@@ -327,40 +366,40 @@ public class DockBar extends JPanel implements ActionListener {
 
 	public void actionPerformed(ActionEvent e) {
 		Object source = e.getSource();
-		if (source == btnToggleMenu) {
-			app.setShowToolBar(!app.showToolBar());
-		}
 
-		if (source == btnToggleInputBar) {
-			app.setShowAlgebraInput(!app.showAlgebraInput(), true);
-		}
-		if (source == btnMinimize) {
-			isMinimized = true;
-			updateLayout();
-		}
-		if (source == btnKeyboard) {
-			if (Application.isVirtualKeyboardActive()
-					&& !app.getGuiManager().showVirtualKeyboard()) {
+		if (source == btnSettings) {
 
-				// if keyboard is active but hidden, just show it
-				app.getGuiManager().toggleKeyboard(true);
-				// update();
-
-			} else {
-
-				Application.setVirtualKeyboardActive(!Application
-						.isVirtualKeyboardActive());
-				app.getGuiManager().toggleKeyboard(
-						Application.isVirtualKeyboardActive());
-				// update();
+			if (configPanel == null) {
+				configPanel = new ConfigurationPanel(app, this);
+				app.setBackPanel(configPanel);
 			}
+			//app.setBackPanel(configPanel);
+			app.showBackPanel();
+			
+			
 		}
+
+		if (source == btnOptions) {
+			
+			showOptionsPopup(btnOptions);
+		}
+
+		if (source == btnView) {
+			showViewPopup(btnView);
+		}
+
+		if (source == btnGeoGebra) {
+			app.showMainPanel();
+		}
+
 		if (source == btnTurtle) {
 			if ((e.getModifiers() & ActionEvent.SHIFT_MASK) == ActionEvent.SHIFT_MASK)
 				createTurtle(1);
 			else
 				createTurtle(2);
 		}
+		
+		update();
 
 	}
 
@@ -416,18 +455,16 @@ public class DockBar extends JPanel implements ActionListener {
 	// Turtle demo code
 	//
 	// =============================================================
-	
-	
-	
-	public class MyDialog extends JDialog{
-		public MyDialog(TurtleDriverPanel turtlePanel){
+
+	public class MyDialog extends JDialog {
+		public MyDialog(TurtleDriverPanel turtlePanel) {
 			super(app.getFrame(), "Turtle Driver", false);
 			getContentPane().add(turtlePanel, "Center");
 			setSize(300, 300);
 			pack();
 		}
 	}
-	
+
 	private void createTurtle(int demo) {
 
 		AlgoTurtle algo = new AlgoTurtle(app.getKernel().getConstruction(),
@@ -436,47 +473,34 @@ public class DockBar extends JPanel implements ActionListener {
 		geo.setEuclidianVisible(true);
 
 		TurtleDriverPanel turtlePanel = new TurtleDriverPanel(geo);
-		
+
 		MyDialog dlg = new MyDialog(turtlePanel);
 		dlg.setVisible(true);
 
-		
-		
 		/*
-		geo.turn(45);
-		geo.forward(2);
-		geo.turn(20);
-		geo.update();
-		
-		demo = 3;
-		if (demo == 1) {
-			geo.setPenColor(geogebra.awt.Color.green);
-			randomWalk(geo);
-			geo.setPenColor(geogebra.awt.Color.blue);
-			randomWalk(geo);
-			geo.setPenColor(geogebra.awt.Color.yellow);
-			randomWalk(geo);
-
-		}
-
-		if (demo == 2) {
-			geo.setPenColor(geogebra.awt.Color.red);
-			drawDragonCurves(geo);
-			geo.update();
-		}
-		*/
+		 * geo.turn(45); geo.forward(2); geo.turn(20); geo.update();
+		 * 
+		 * demo = 3; if (demo == 1) { geo.setPenColor(geogebra.awt.Color.green);
+		 * randomWalk(geo); geo.setPenColor(geogebra.awt.Color.blue);
+		 * randomWalk(geo); geo.setPenColor(geogebra.awt.Color.yellow);
+		 * randomWalk(geo);
+		 * 
+		 * }
+		 * 
+		 * if (demo == 2) { geo.setPenColor(geogebra.awt.Color.red);
+		 * drawDragonCurves(geo); geo.update(); }
+		 */
 
 	}
-	
-	public static BufferedImage imageToBufferedImage(Image im) {
-	     BufferedImage bi = new BufferedImage
-	        (im.getWidth(null),im.getHeight(null),BufferedImage.TYPE_INT_RGB);
-	     Graphics bg = bi.getGraphics();
-	     bg.drawImage(im, 0, 0, null);
-	     bg.dispose();
-	     return bi;
-	  }
 
+	public static BufferedImage imageToBufferedImage(Image im) {
+		BufferedImage bi = new BufferedImage(im.getWidth(null),
+				im.getHeight(null), BufferedImage.TYPE_INT_RGB);
+		Graphics bg = bi.getGraphics();
+		bg.drawImage(im, 0, 0, null);
+		bg.dispose();
+		return bi;
+	}
 
 	private void randomWalk(GeoTurtle t) {
 		t.setPenDown(false);
@@ -507,6 +531,139 @@ public class DockBar extends JPanel implements ActionListener {
 		dragon(turtle, n, 90, d);
 		dragon(turtle, n, 90, d);
 		dragon(turtle, n, 90, d);
+	}
+
+	OptionsDialog optionsDialog;
+	/**
+	 * Object which provides an option dialog if requested. Used because
+	 * different option dialogs are needed for GeoGebra 4 and 5.
+	 */
+	private OptionsDialog.Factory optionsDialogFactory;
+
+	private JPanel optionsPanel;
+
+	public void setOptionsPanel(int tabIndex) {
+
+		if (optionsPanel == null) {
+			initOptionsPanel();
+		}
+
+		optionsDialog.updateGUI();
+		if (tabIndex > -1)
+			optionsDialog.showTab(tabIndex);
+		app.setBackPanel(optionsPanel);
+		optionsDialog.getTabbedPane().repaint();
+		optionsDialog.pack();
+	}
+
+	public void initOptionsPanel() {
+
+		if (optionsPanel == null) {
+			optionsPanel = new JPanel(new BorderLayout());
+
+			JLabel title = new JLabel(app.getMenu("Settings"));
+			title.setHorizontalAlignment(SwingConstants.CENTER);
+			title.setBorder(BorderFactory.createCompoundBorder(
+					BorderFactory.createMatteBorder(0, 0, 1, 0,
+							SystemColor.controlDkShadow), BorderFactory
+							.createEmptyBorder(10, 0, 5, 0)));
+			optionsPanel.add(title, BorderLayout.NORTH);
+		}
+
+		if (optionsDialogFactory == null) {
+			optionsDialogFactory = new OptionsDialog.Factory();
+		}
+
+		if (optionsDialog == null)
+			optionsDialog = optionsDialogFactory.create(((Application) app));
+
+		int n = optionsDialog.getTabbedPane().getTabCount();
+		for (int i = 0; i < n; i++) {
+			// optionsDialog.getTabbedPane().setIconAt(i, null);
+		}
+
+		// optionsDialog.getTabbedPane().setTabPlacement(JTabbedPane.TOP);
+
+		optionsPanel.add(optionsDialog.getContentPane(), BorderLayout.CENTER);
+
+		optionsPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 40, 10));
+
+		// optionsDialog.setVisible(tabIndex != -2);
+	}
+
+	PerspectivePanel perspectivePanel;
+
+	public void setPerspectivePanel() {
+		if (perspectivePanel == null) {
+			perspectivePanel = new PerspectivePanel(app, this);
+		}
+
+		app.setBackPanel(perspectivePanel);
+
+	}
+
+	JPopupMenu viewPopupMenu;
+
+	private void showViewPopup(JComponent comp) {
+		if (viewPopupMenu == null) {
+			ViewMenu viewMenu = new ViewMenu(app, layout);
+			//viewPopupMenu = new ViewPopupMenu(app, app.getGuiManager()
+				//	.getLayout());
+			viewPopupMenu = viewMenu.getPopupMenu();
+		}
+		viewPopupMenu.show(comp, comp.getWidth(), 0);
+	}
+
+	JPopupMenu optionsPopupMenu;
+
+	private void showOptionsPopup(JComponent comp) {
+		
+		if (optionsPopupMenu == null) {
+			OptionsMenu optionsMenu = new OptionsMenu(app);
+			optionsPopupMenu = optionsMenu.getPopupMenu();
+		}
+		
+		optionsPopupMenu.show(comp, comp.getWidth(), 0);
+	}
+	
+	
+	private class ViewPopupMenu extends JPopupMenu {
+		private static final long serialVersionUID = 1L;
+		JMenuItem menuItem;
+
+		public ViewPopupMenu(Application app, Layout layout) {
+			this.setOpaque(true);
+			setFont(app.getPlainFont());
+
+			ViewMenu viewMenu = new ViewMenu(app, layout);
+			add(viewMenu.getComponentPopupMenu());
+			add(new OptionsMenu(app));
+		}
+	}
+
+	public void mouseClicked(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void mouseEntered(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void mouseExited(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void mousePressed(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void mouseReleased(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

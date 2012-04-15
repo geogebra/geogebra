@@ -136,6 +136,11 @@ public class OptionsDialog extends JDialog implements WindowListener, SetLabels 
 		updateGUI();
 	}
 
+	public JTabbedPane getTabbedPane(){
+		return tabbedPane;
+	}
+	
+	
 	/**
 	 * Update the GUI.
 	 */

@@ -25,7 +25,7 @@ import javax.swing.SwingUtilities;
 /**
  * The "View" menu.
  */
-class ViewMenu extends BaseMenu {
+public class ViewMenu extends BaseMenu {
 	private static final long serialVersionUID = 1L;
 	private final Layout layout;
 
@@ -83,13 +83,13 @@ class ViewMenu extends BaseMenu {
 		// menuViews = new JMenu(app.getMenu("Views")+" ...");
 		cbShowAxes = new JCheckBoxMenuItem(app.getGuiManager()
 				.getShowAxesAction());
-		add(cbShowAxes);
+	//	add(cbShowAxes);
 
 		cbShowGrid = new JCheckBoxMenuItem(app.getGuiManager()
 				.getShowGridAction());
-		add(cbShowGrid);
+	//	add(cbShowGrid);
 		updateItems();
-		addSeparator();
+	//	addSeparator();
 
 		initViewItems(this);
 		add(this);

@@ -19,7 +19,7 @@ import javax.swing.JRadioButtonMenuItem;
 /**
  * The "Options" menu.
  */
-class OptionsMenu extends BaseMenu implements ActionListener {
+public class OptionsMenu extends BaseMenu implements ActionListener {
 	private static final long serialVersionUID = -8032696074032177289L;
 	
 	private Kernel kernel;
