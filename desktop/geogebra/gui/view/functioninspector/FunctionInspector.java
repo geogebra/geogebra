@@ -184,7 +184,7 @@ KeyListener, ActionListener, SpecialNumberFormatInterface {
 
 		boolean showApply = false;
 		this.selectedGeo = selectedGeo;
-		activeEV = (AbstractEuclidianView) app.getActiveEuclidianView();	
+		activeEV = app.getActiveEuclidianView();	
 
 		extraColumnList = new ArrayList<Integer>();
 
@@ -768,7 +768,7 @@ KeyListener, ActionListener, SpecialNumberFormatInterface {
 		isChangingValue = true;
 
 		//String lbl = selectedGeo.getLabel();
-		GeoFunction f = (GeoFunction) selectedGeo;
+		GeoFunction f = selectedGeo;
 
 		// init the copy array 
 		xyTableCopyList.clear();
@@ -1121,7 +1121,7 @@ KeyListener, ActionListener, SpecialNumberFormatInterface {
 			return;
 		}
 
-		activeEV = (AbstractEuclidianView) app.getActiveEuclidianView();	
+		activeEV = app.getActiveEuclidianView();	
 		selectedGeo = (GeoFunction)geo;
 
 		lblGeoName.setText(getTitleString());
@@ -1138,11 +1138,11 @@ KeyListener, ActionListener, SpecialNumberFormatInterface {
 		defineDisplayGeos();
 
 		double x = initialX - 4*step; 
-		double y = ((GeoFunction)selectedGeo).evaluate(x); 
+		double y = selectedGeo.evaluate(x); 
 		lowPoint.setCoords(x, y, 1);
 
 		x = initialX + 4*step; 
-		y = ((GeoFunction)selectedGeo).evaluate(x); 
+		y = selectedGeo.evaluate(x); 
 		highPoint.setCoords(x, y, 1);
 
 		lowPoint.updateCascade();
@@ -1214,12 +1214,12 @@ KeyListener, ActionListener, SpecialNumberFormatInterface {
 		// remove all geos
 		clearGeoList();
 
-		GeoFunction f = (GeoFunction)selectedGeo;
+		GeoFunction f = selectedGeo;
 
 		// create XY table geos
 		//========================================
 		// test point
-		AlgoPointOnPath pAlgo = new AlgoPointOnPath(cons, (Path)f, (activeEV.getXmin() + activeEV.getXmax()) / 2, 0);
+		AlgoPointOnPath pAlgo = new AlgoPointOnPath(cons, f, (activeEV.getXmin() + activeEV.getXmax()) / 2, 0);
 		cons.removeFromConstructionList(pAlgo);
 		testPoint = (GeoPoint2) pAlgo.getGeoElements()[0];
 		testPoint.setObjColor(new geogebra.awt.Color(DISPLAY_GEO_COLOR));
@@ -1238,7 +1238,7 @@ KeyListener, ActionListener, SpecialNumberFormatInterface {
 
 		AlgoJoinPointsSegment seg1 = new AlgoJoinPointsSegment(cons, testPoint, (GeoPoint2)pointAlgo.getGeoElements()[0], null);
 		cons.removeFromConstructionList(seg1);	
-		xSegment = (GeoSegment)seg1.getGeoElements()[0];
+		xSegment = seg1.getGeoElements()[0];
 		xSegment.setObjColor(new geogebra.awt.Color(DISPLAY_GEO_COLOR));
 		xSegment.setLineThickness(3);
 		xSegment.setLineType(EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT);
@@ -1258,7 +1258,7 @@ KeyListener, ActionListener, SpecialNumberFormatInterface {
 		AlgoJoinPointsSegment seg2 = new AlgoJoinPointsSegment(cons, testPoint, (GeoPoint2)pointAlgoy.getGeoElements()[0], null);
 		cons.removeFromConstructionList(seg2);
 
-		ySegment = (GeoSegment)seg2.getGeoElements()[0];
+		ySegment = seg2.getGeoElements()[0];
 		ySegment.setObjColor(new geogebra.awt.Color(DISPLAY_GEO_COLOR));
 		ySegment.setLineThickness(3);
 		ySegment.setLineType(EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT);
@@ -1317,7 +1317,7 @@ KeyListener, ActionListener, SpecialNumberFormatInterface {
 		//================================================
 
 		// interval points
-		AlgoPointOnPath pxAlgo = new AlgoPointOnPath(cons, (Path)f, (2 * activeEV.getXmin() + activeEV.getXmax()) / 3, 0);
+		AlgoPointOnPath pxAlgo = new AlgoPointOnPath(cons, f, (2 * activeEV.getXmin() + activeEV.getXmax()) / 3, 0);
 		cons.removeFromConstructionList(pxAlgo);
 		lowPoint = (GeoPoint2) pxAlgo.getGeoElements()[0];
 		lowPoint.setEuclidianVisible(false);
@@ -1327,7 +1327,7 @@ KeyListener, ActionListener, SpecialNumberFormatInterface {
 		intervalTabGeoList.add(lowPoint);
 
 
-		AlgoPointOnPath pyAlgo = new AlgoPointOnPath(cons, (Path)f, (activeEV.getXmin() + 2 * activeEV.getXmax()) / 3, 0);
+		AlgoPointOnPath pyAlgo = new AlgoPointOnPath(cons, f, (activeEV.getXmin() + 2 * activeEV.getXmax()) / 3, 0);
 		cons.removeFromConstructionList(pyAlgo);
 		highPoint = (GeoPoint2) pyAlgo.getGeoElements()[0];
 		highPoint.setEuclidianVisible(false);
@@ -1432,7 +1432,7 @@ KeyListener, ActionListener, SpecialNumberFormatInterface {
 		int row = tableXY.getSelectedRow();
 		if (row >= 0){
 			double x = Double.parseDouble((String) modelXY.getValueAt(row, 0));
-			double y = ((GeoFunction)selectedGeo).evaluate(x); 
+			double y = selectedGeo.evaluate(x); 
 			testPoint.setCoords(x, y, 1);
 			testPoint.updateRepaint();	
 		}
@@ -1579,7 +1579,7 @@ KeyListener, ActionListener, SpecialNumberFormatInterface {
 
 	private void doCopyToSpreadsheet(){
 
-		SpreadsheetView sp = (SpreadsheetView) app.getGuiManager().getSpreadsheetView();
+		SpreadsheetView sp = app.getGuiManager().getSpreadsheetView();
 		if(sp == null) return;
 
 		Construction cons = app.getKernel().getConstruction();

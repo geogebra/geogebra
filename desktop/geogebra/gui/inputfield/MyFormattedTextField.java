@@ -31,7 +31,7 @@ public class MyFormattedTextField extends JFormattedTextField implements FocusLi
 	}
 
 	public void focusGained(FocusEvent e) {
-		guiManager.setCurrentTextfield((VirtualKeyboardListener)this, false);
+		guiManager.setCurrentTextfield(this, false);
 	}
 
 	public void focusLost(FocusEvent e) {

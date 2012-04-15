@@ -70,7 +70,7 @@ public class InputPanel extends JPanel implements FocusListener, VirtualKeyboard
 		this(initText, app, rows, columns, showSymbolPopupIcon, false, null, type);
 	}
 	
-	public enum DialogType  { TextArea, DynamicText, GeoGebraEditor }; 
+	public enum DialogType  { TextArea, DynamicText, GeoGebraEditor }
 	
 	public InputPanel(String initText, Application app, int rows, int columns, boolean showSymbolPopupIcon,
 						boolean showSymbolButtons, KeyListener keyListener, DialogType type) {

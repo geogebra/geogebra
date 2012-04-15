@@ -1180,14 +1180,15 @@ public abstract class AbstractEuclidianController {
 				int ret = 0;
 				if (selectionList.contains(geo)) { // remove from selection
 					selectionList.remove(geo);
-					if (selectionList != selectedGeos) {
+					if (!selectionList.equals(selectedGeos)
+							) {
 						selectedGeos.remove(geo);
 					}
 					ret = -1;
 				} else { // new element: add to selection
 					if (selectionList.size() < max) {
 						selectionList.add(geo);
-						if (selectionList != selectedGeos) {
+						if (!selectionList.equals(selectedGeos)) {
 							selectedGeos.add(geo);
 						}
 						ret = 1;
@@ -4446,7 +4447,7 @@ public abstract class AbstractEuclidianController {
 			app.getDialogManager()
 					.showNumberInputDialogCirclePointRadius(
 							app.getMenu(getKernel().getModeText(mode)),
-							getSelectedPointsND()[0],  view);
+							getSelectedPointsND()[0]);
 			return true;
 		}
 		return false;

@@ -114,7 +114,7 @@ public class StatDialogController {
 				}
 
 				if(success)
-					dataSource = (ArrayList<CellRange>) rangeList.clone();	
+					dataSource = rangeList.clone();	
 			}
 
 		} catch (Exception e) {
@@ -136,7 +136,7 @@ public class StatDialogController {
 
 		// TODO handle case of GeoList data source
 		if(dataSource instanceof GeoList){
-			return geo.equals(((GeoList)dataSource));
+			return geo.equals(dataSource);
 		}else{
 
 			Point location = geo.getSpreadsheetCoords();
@@ -419,7 +419,7 @@ public class StatDialogController {
 			geoRegression.remove();
 		}
 
-		geoRegression = (GeoElement)statGeo.createRegressionPlot(dataSelected, sd.getRegressionMode(), sd.getRegressionOrder(), false);
+		geoRegression = statGeo.createRegressionPlot(dataSelected, sd.getRegressionMode(), sd.getRegressionOrder(), false);
 		
 		updateAllStatPanels(true);
 	}

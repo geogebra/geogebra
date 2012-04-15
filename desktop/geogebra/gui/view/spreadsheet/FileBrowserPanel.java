@@ -744,21 +744,21 @@ public class FileBrowserPanel extends JPanel implements ActionListener, TreeSele
 		throws Exception {
 
 			if (tag.equals("root")) {
-				currentNode = new DefaultMutableTreeNode((String) h.get("name"));
+				currentNode = new DefaultMutableTreeNode(h.get("name"));
 			}
 
 			if (tag.equals("directory")) {
 				previousNode = currentNode;
-				currentNode = new DefaultMutableTreeNode((String) h.get("name"));
+				currentNode = new DefaultMutableTreeNode(h.get("name"));
 				previousNode.add(currentNode);
 			}
 
 			if (tag.equals("file")) {
-				if (((String) h.get("name")).equals("null")) {
+				if (h.get("name").equals("null")) {
 					DefaultMutableTreeNode newFileNode = new DefaultMutableTreeNode();
 					currentNode.add(newFileNode);
 				} else {
-					DefaultMutableTreeNode newFileNode = new DefaultMutableTreeNode((String) h.get("name"));
+					DefaultMutableTreeNode newFileNode = new DefaultMutableTreeNode(h.get("name"));
 					currentNode.add(newFileNode);
 				}
 			}

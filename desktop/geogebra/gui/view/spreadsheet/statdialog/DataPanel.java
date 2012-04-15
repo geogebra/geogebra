@@ -509,17 +509,6 @@ public class DataPanel extends JPanel implements ActionListener, StatPanelInterf
 			}
 		}
 
-
-		class MySelectionListener implements ListSelectionListener{
-			public void valueChanged(ListSelectionEvent e) {
-				if (e.getValueIsAdjusting() == false) {
-					if (rowHeader.getSelectedIndex() != -1) {
-						;
-					}
-				}
-			}
-		}
-
 		public void mouseClicked(MouseEvent e) {}
 		public void mouseEntered(MouseEvent arg0) {}
 		public void mouseExited(MouseEvent arg0) {}

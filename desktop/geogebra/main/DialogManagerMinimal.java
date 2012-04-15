@@ -88,7 +88,7 @@ public class DialogManagerMinimal extends DialogManager {
 
 	@Override
 	public void showNumberInputDialogCirclePointRadius(String menu,
-			GeoPointND geoPointND, AbstractEuclidianView view) {
+			GeoPointND geoPointND) {
 		// TODO Auto-generated method stub
 		
 	}

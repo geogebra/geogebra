@@ -80,7 +80,7 @@ public class OptionsMenu extends BaseMenu implements ActionListener {
 				"FixedToGrid", "off" };
 		String[] strPointCapturingAC = { "3 PointCapturing",
 				"1 PointCapturing", "2 PointCapturing", "0 PointCapturing" };
-		addRadioButtonMenuItems(menuPointCapturing, (ActionListener) this,
+		addRadioButtonMenuItems(menuPointCapturing, this,
 				strPointCapturing, strPointCapturingAC, 0);
 		add(menuPointCapturing);
 		updateMenuPointCapturing();
@@ -96,7 +96,7 @@ public class OptionsMenu extends BaseMenu implements ActionListener {
 		 */
 		String[] strDecimalSpaces = app.getRoundingMenu();
 
-		addRadioButtonMenuItems(menuDecimalPlaces, (ActionListener) this,
+		addRadioButtonMenuItems(menuDecimalPlaces, this,
 				strDecimalSpaces, Application.strDecimalSpacesAC, 0);
 		add(menuDecimalPlaces);
 		updateMenuDecimalPlaces();
@@ -110,7 +110,7 @@ public class OptionsMenu extends BaseMenu implements ActionListener {
 				"Labeling.pointsOnly" };
 		String[] lastr = { "0_labeling", "1_labeling", "2_labeling",
 				"3_labeling" };
-		addRadioButtonMenuItems(menuLabeling, (ActionListener) this, lstr,
+		addRadioButtonMenuItems(menuLabeling, this, lstr,
 				lastr, 0);
 		add(menuLabeling);
 		updateMenuLabeling();
@@ -148,7 +148,7 @@ public class OptionsMenu extends BaseMenu implements ActionListener {
 			fontActionCommands[i]=MyXMLHandler.menuFontSizes[i] + " pt";
 		}
 
-		addRadioButtonMenuItems(submenu, (ActionListener) this, fsfi, fontActionCommands, pos);
+		addRadioButtonMenuItems(submenu, this, fsfi, fontActionCommands, pos);
 		add(submenu);
 
 		/*
@@ -229,13 +229,13 @@ public class OptionsMenu extends BaseMenu implements ActionListener {
 		menu.add(submenu4);
 
 		for (int i = 0; i < Application.supportedLocales.size(); i++) {
-			Locale loc = (Locale) Application.supportedLocales.get(i);
+			Locale loc = Application.supportedLocales.get(i);
 			ggbLangCode = loc.getLanguage() + loc.getCountry()
 					+ loc.getVariant();
 
 			// enforce to show specialLanguageNames first
 			// because here getDisplayLanguage doesn't return a good result
-			String text = (String) Application.specialLanguageNames
+			String text = Application.specialLanguageNames
 					.get(ggbLangCode);
 			if (text == null)
 				text = loc.getDisplayLanguage(Locale.ENGLISH);

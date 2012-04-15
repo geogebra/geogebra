@@ -171,7 +171,7 @@ public class MyTextField extends JTextField implements ActionListener,
 
 		if (app.getGuiManager() != null)
 			app.getGuiManager().setCurrentTextfield(
-					(VirtualKeyboardListener) this, false);
+					this, false);
 	}
 
 	public void focusLost(FocusEvent e) {

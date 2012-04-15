@@ -932,7 +932,7 @@ public class VirtualKeyboard extends JFrame implements ActionListener, SettingLi
 		if (i == 3 && j == 13) Buttons[i][j].setVisible(KEYBOARD_MODE == KEYBOARD_MATH);
 		if (i == 2 && j == 13 && KEYBOARD_MODE != KEYBOARD_MATH) height *= 2;
 
-		Buttons[i][j].setBounds(new Rectangle((int)(0.5 + buttonSizeX * (double)j), (int)(0.5 + buttonSizeY * (double)(ii - 1)), (int)buttonSizeX, height));
+		Buttons[i][j].setBounds(new Rectangle((int)(0.5 + buttonSizeX * j), (int)(0.5 + buttonSizeY * (ii - 1)), (int)buttonSizeX, height));
 		
 
 		String text = Buttons[i][j].getText();
@@ -1081,7 +1081,7 @@ public class VirtualKeyboard extends JFrame implements ActionListener, SettingLi
 		Enumeration<String> keys = rbKeyboard.getKeys();
 
 		while (keys.hasMoreElements()) {
-			String keyU = (String) keys.nextElement();
+			String keyU = keys.nextElement();
 
 			if (keyU.endsWith("U")) {
 				keys keyItem = new keys();
@@ -1159,7 +1159,7 @@ public class VirtualKeyboard extends JFrame implements ActionListener, SettingLi
 	private String timerInsertStr = "";
 
 	final private void startAutoRepeat(String str) {
-		if (timer == null) timer = new Timer(1000, (ActionListener) this);	
+		if (timer == null) timer = new Timer(1000, this);	
 		timer.stop();
 		timer.setDelay(1000);
 		timer.start();

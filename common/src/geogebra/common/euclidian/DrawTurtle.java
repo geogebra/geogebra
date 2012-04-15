@@ -302,11 +302,7 @@ public class DrawTurtle extends Drawable {
 	// TODO: handle images when Common supports loading internal images
 	// ===================================================
 
-	private static geogebra.common.awt.Line2D line = geogebra.common.factories.AwtFactory.prototype
-			.newLine2D();
 	private static geogebra.common.awt.Ellipse2DDouble ellipse = geogebra.common.factories.AwtFactory.prototype
-			.newEllipse2DDouble();
-	private geogebra.common.awt.Ellipse2DDouble turtleCircle2 = geogebra.common.factories.AwtFactory.prototype
 			.newEllipse2DDouble();
 	private static geogebra.common.awt.BasicStroke stroke1 = geogebra.common.factories.AwtFactory.prototype
 			.newBasicStroke(1f);

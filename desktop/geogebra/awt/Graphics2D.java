@@ -311,7 +311,7 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D{
 		if (shape == null){
 			impl.setClip(null);
 		} else if (shape instanceof geogebra.awt.Shape){
-			impl.setClip(geogebra.awt.GenericShape.getAwtShape((geogebra.awt.Shape)shape));
+			impl.setClip(geogebra.awt.GenericShape.getAwtShape(shape));
 		}
 	}
 

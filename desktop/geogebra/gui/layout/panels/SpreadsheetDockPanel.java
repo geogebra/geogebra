@@ -34,7 +34,7 @@ public class SpreadsheetDockPanel extends DockPanel {
 
 	@Override
 	protected JComponent loadStyleBar() {
-		return ((SpreadsheetView)app.getGuiManager().getSpreadsheetView()).getSpreadsheetStyleBar();
+		return app.getGuiManager().getSpreadsheetView().getSpreadsheetStyleBar();
 	}
 	
 	@Override

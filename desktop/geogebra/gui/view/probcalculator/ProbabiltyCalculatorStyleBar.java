@@ -154,7 +154,7 @@ public class ProbabiltyCalculatorStyleBar extends JToolBar implements ActionList
 		JPopupMenu menu = new JPopupMenu();
 		String[] strDecimalSpaces = app.getRoundingMenu();
 
-		addRadioButtonMenuItems(menu, (ActionListener) this,
+		addRadioButtonMenuItems(menu, this,
 				strDecimalSpaces, Application.strDecimalSpacesAC, 0);
 
 		return menu;

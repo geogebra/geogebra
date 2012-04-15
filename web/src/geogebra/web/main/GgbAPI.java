@@ -198,7 +198,7 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI implements JavaScript
 			}
 		}
     	return nativeEntry;
-    };
+    }
     
     public native void pushIntoNativeEntry(String key, String value, JavaScriptObject ne) /*-{
     	if (typeof ne["archive"] === "undefined") { //needed because gwt gives an __objectId key :-(
