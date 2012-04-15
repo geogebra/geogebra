@@ -3976,7 +3976,7 @@ public class MarchingCubes {
 	 * generates the first few segments
 	 */
 	private void init() {
-		double d = (double) (2 * rad / INITIAL_ELEMENTS);
+		double d = (2 * rad / INITIAL_ELEMENTS);
 		double[][] c = new double[3][2];
 		double x, y, z;
 		double r = rad;
@@ -3987,7 +3987,7 @@ public class MarchingCubes {
 		for (int xi = 0; xi <= INITIAL_ELEMENTS; xi++, x += d) {
 			y = -r;
 			for (int yi = 0; yi <= INITIAL_ELEMENTS; yi++, x += d)
-				bottom[xi][yi][0] = (double) f.evaluate(x, y, -r);
+				bottom[xi][yi][0] = f.evaluate(x, y, -r);
 		}
 
 		// calculate the initial division of squares

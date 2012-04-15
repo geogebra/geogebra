@@ -5372,10 +5372,8 @@ public final int yylength() {
               {
                 return JavascriptLexerConstants.EOF;
               }
-          } 
-          else {
-            zzScanError(ZZ_NO_MATCH);
           }
+		zzScanError(ZZ_NO_MATCH);
       }
     }
   }

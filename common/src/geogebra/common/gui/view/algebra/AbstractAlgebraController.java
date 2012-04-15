@@ -12,23 +12,15 @@ the Free Software Foundation.
 
 package geogebra.common.gui.view.algebra;
 
+import geogebra.common.awt.Rectangle;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
-//import geogebra.common.gui.util.GeoGebraIcon;
 import geogebra.common.main.AbstractApplication;
 
-import geogebra.common.awt.Color;
-import geogebra.common.awt.Point;
-import geogebra.common.awt.Rectangle;
-//import java.awt.event.MouseEvent;
-//import java.awt.event.MouseListener;
-//import java.awt.event.MouseMotionListener;
-
-import java.util.ArrayList;
 import java.util.Iterator;
 
 public class AbstractAlgebraController {
@@ -118,8 +110,9 @@ public class AbstractAlgebraController {
 		int mode = ev.getMode();
 		if (!skipSelection && (mode == EuclidianConstants.MODE_MOVE || mode == EuclidianConstants.MODE_RECORD_TO_SPREADSHEET) ) {
 			// update selection	
-			if (geo == null)
+			if (geo == null){
 				app.clearSelectedGeos();
+			}
 			else {					
 				// handle selecting geo
 				if (e.isControlDown()) {
@@ -133,7 +126,7 @@ public class AbstractAlgebraController {
 					boolean aux2 = lastSelectedGeo.isAuxiliaryObject();
 					boolean ind2 = lastSelectedGeo.isIndependent();
 
-					if ((aux == aux2 && aux == true) || (aux == aux2 && ind == ind2)) {
+					if ((aux == aux2 && aux) || (aux == aux2 && ind == ind2)) {
 
 						Iterator<GeoElement> it = kernel.getConstruction().getGeoSetLabelOrder().iterator();
 
@@ -142,19 +135,19 @@ public class AbstractAlgebraController {
 
 						while (it.hasNext()) {
 							GeoElement geo2 = it.next();
-							if ((geo2.isAuxiliaryObject() == aux && aux == true)
+							if ((geo2.isAuxiliaryObject() == aux && aux)
 									|| (geo2.isAuxiliaryObject() == aux && geo2.isIndependent() == ind)) {
 
-								if (direction && geo2 == lastSelectedGeo) selecting = !selecting;
-								if (!direction && geo2 == geo) selecting = !selecting;
+								if (direction && geo2.equals(lastSelectedGeo)) selecting = !selecting;
+								if (!direction && geo2.equals(geo)) selecting = !selecting;
 
 								if (selecting) {
 									app.toggleSelectedGeo(geo2);
 									nowSelecting = app.getSelectedGeos().contains(geo2);
 								}
 
-								if (!direction && geo2 == lastSelectedGeo) selecting = !selecting;
-								if (direction && geo2 == geo) selecting = !selecting;
+								if (!direction && geo2.equals(lastSelectedGeo)) selecting = !selecting;
+								if (direction && geo2.equals(geo)) selecting = !selecting;
 							}
 						}
 					}
@@ -196,7 +189,7 @@ public class AbstractAlgebraController {
 	public void mousePressed(AbstractEvent e) {
 		view.cancelEditing();
 		
-		geogebra.common.awt.Point mouseCoords = new geogebra.common.awt.Point(e.getPoint().x,e.getPoint().y);
+		new geogebra.common.awt.Point(e.getPoint().x,e.getPoint().y);
 
 		boolean rightClick = app.isRightClickEnabled() && e.isRightClick();
 
@@ -308,9 +301,6 @@ public class AbstractAlgebraController {
 	public void dragExit(AbstractEvent e) {}
 	public void dragOver(AbstractEvent e) {}
 	public void dropActionChanged(AbstractEvent e) {}
-
-	
-	private ArrayList<String> geoLabelList;
 
 	/*
 	public void dragGestureRecognized(AbstractEvent dge) {

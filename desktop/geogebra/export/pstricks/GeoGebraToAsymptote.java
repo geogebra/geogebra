@@ -48,6 +48,7 @@ import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
 import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.main.AbstractApplication;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
@@ -109,14 +110,16 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
     public GeoGebraToAsymptote(final Application app) {
         super(app);
     }
-    protected void createFrame(){
+    @Override
+	protected void createFrame(){
         frame = new AsymptoteFrame(this);
     }
     
     /**
      * generateAllCode: generate Asymptote output by assembling snippets and sanitizing
      */
-    public void generateAllCode() {
+    @Override
+	public void generateAllCode() {
     	
         
         // reset global variables
@@ -279,7 +282,8 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
         frame.write(code);
     }   
     
-    protected void drawLocus(GeoLocus geo){
+    @Override
+	protected void drawLocus(GeoLocus geo){
         ArrayList<MyPoint> ll = geo.getPoints();
         Iterator<MyPoint> it = ll.iterator();
         boolean first = true, first2 = true;  // whether to write join operators afterwards
@@ -311,7 +315,8 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
         endDraw(geo);
     }
 
-    protected void drawBoxPlot(GeoNumeric geo){
+    @Override
+	protected void drawBoxPlot(GeoNumeric geo){
         AlgoBoxPlot algo = ((AlgoBoxPlot) geo.getParentAlgorithm());
         double y = algo.getA().getDouble();
         double height = algo.getB().getDouble();
@@ -343,7 +348,8 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
         endTransparentFill(geo, codeFilledObject);
     }
 
-    protected void drawHistogram(GeoNumeric geo){
+    @Override
+	protected void drawHistogram(GeoNumeric geo){
         AlgoFunctionAreaSums algo = (AlgoFunctionAreaSums)geo.getParentAlgorithm();
         double[] y = algo.getValues();
         double[] x = algo.getLeftBorder();
@@ -361,7 +367,8 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
         }       
     }
     
-    protected void drawSumTrapezoidal(GeoNumeric geo){
+    @Override
+	protected void drawSumTrapezoidal(GeoNumeric geo){
         AlgoFunctionAreaSums algo = (AlgoFunctionAreaSums) geo.getParentAlgorithm();
         int n = algo.getIntervals();
         double[] y = algo.getValues();
@@ -385,7 +392,8 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
         }       
     }
     
-    protected void drawSumUpperLower(GeoNumeric geo){
+    @Override
+	protected void drawSumUpperLower(GeoNumeric geo){
         AlgoFunctionAreaSums algo = (AlgoFunctionAreaSums)geo.getParentAlgorithm();
         int n = algo.getIntervals();
         double step = algo.getStep();
@@ -405,7 +413,8 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
         }
     }
     
-    protected void drawIntegralFunctions(GeoNumeric geo){
+    @Override
+	protected void drawIntegralFunctions(GeoNumeric geo){
         importpackage.add("graph");
         
         AlgoIntegralFunctions algo = (AlgoIntegralFunctions) geo.getParentAlgorithm();      
@@ -472,7 +481,8 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
         endTransparentFill(geo, codeFilledObject);
     }
 
-    protected void drawIntegral(GeoNumeric geo){
+    @Override
+	protected void drawIntegral(GeoNumeric geo){
         importpackage.add("graph");
         
         AlgoIntegralDefinite algo = (AlgoIntegralDefinite) geo.getParentAlgorithm();
@@ -521,7 +531,8 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
         endTransparentFill(geo,codeFilledObject);
     }
 
-    protected void drawSlope(GeoNumeric geo){ // TODO: label bug? 
+    @Override
+	protected void drawSlope(GeoNumeric geo){ // TODO: label bug? 
         int slopeTriangleSize = geo.getSlopeTriangleSize();
         double rwHeight = geo.getValue() * slopeTriangleSize;
         double height = euclidianView.getYscale() * rwHeight;
@@ -567,7 +578,8 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
         codePoint.append("); "); 
     }
 
-    protected void drawAngle(GeoAngle geo){
+    @Override
+	protected void drawAngle(GeoAngle geo){
         int arcSize = geo.getArcSize();
         AlgoElement algo = geo.getParentAlgorithm();
         GeoPointND vertex, point;
@@ -733,7 +745,8 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
         }
     }
     
-    protected void drawArrowArc(GeoAngle geo,double[] vertex,double angSt,double angEnd,double r,boolean anticlockwise){
+    @Override
+	protected void drawArrowArc(GeoAngle geo,double[] vertex,double angSt,double angEnd,double r,boolean anticlockwise){
         // The arrow head goes away from the line.
         // Arrow Winset=0.25, see PStricks spec for arrows
         double arrowHeight = (geo.lineThickness*0.8+3)*1.4*3/4;
@@ -760,7 +773,8 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
     }
     
     // angSt, angEnd in degrees. r = radius.
-    protected void drawArc(GeoAngle geo,double[] vertex, double angSt, double angEnd, double r){
+    @Override
+	protected void drawArc(GeoAngle geo,double[] vertex, double angSt, double angEnd, double r){
         startDraw();
         code.append("arc(");
         addPoint(format(vertex[0]),format(vertex[1]),code);
@@ -774,7 +788,8 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
         endDraw(geo);
     }
     
-    protected void drawTick(GeoAngle geo,double[] vertex,double angle){
+    @Override
+	protected void drawTick(GeoAngle geo,double[] vertex,double angle){
         angle = -angle;
         double radius = geo.getArcSize();
         double diff = 2.5 + geo.lineThickness / 4d;
@@ -790,7 +805,8 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
         endDraw(geo);
     }
     
-    protected void drawSlider(GeoNumeric geo){
+    @Override
+	protected void drawSlider(GeoNumeric geo){
         boolean horizontal = geo.isSliderHorizontal();
         double max = geo.getIntervalMax();
         double min = geo.getIntervalMin();
@@ -843,7 +859,8 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
         endDraw(geo);
     }
     
-    protected void drawPolygon(GeoPolygon geo){
+    @Override
+	protected void drawPolygon(GeoPolygon geo){
         GeoPointND[] points = geo.getPoints();
         // StringBuilder tempsb = new StringBuilder();
         
@@ -861,7 +878,8 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
         endTransparentFill(geo,codeFilledObject);
     }
     
-    protected void drawText(GeoText geo){
+    @Override
+	protected void drawText(GeoText geo){
         boolean isLatex = geo.isLaTeX();
         String st = geo.getTextString();
         if(isLatex)
@@ -981,7 +999,8 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
         }
     }
     
-    protected void drawGeoConicPart(GeoConicPart geo){
+    @Override
+	protected void drawGeoConicPart(GeoConicPart geo){
         StringBuilder tempsb = new StringBuilder();
         double r1 = geo.getHalfAxes()[0],
                r2 = geo.getHalfAxes()[1];
@@ -1085,7 +1104,8 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
             code.append(tempsb);
     }
     
-    protected void drawCurveCartesian (GeoCurveCartesian geo){
+    @Override
+	protected void drawCurveCartesian (GeoCurveCartesian geo){
         importpackage.add("graph");
         
         double start = geo.getMinParameter(),
@@ -1139,7 +1159,8 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
         endDraw(geo);
     }
     
-    protected void drawFunction(GeoFunction geo){
+    @Override
+	protected void drawFunction(GeoFunction geo){
         importpackage.add("graph");
         
         Function f = geo.getFunction();
@@ -1244,7 +1265,8 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
         return b;
     }
     // draw vector with EndArrow(6)
-    protected void drawGeoVector(GeoVector geo){
+    @Override
+	protected void drawGeoVector(GeoVector geo){
         GeoPoint2 pointStart = geo.getStartPoint();
         String x1, y1;
         if (pointStart == null){
@@ -1348,7 +1370,8 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
             codeFilledObject.append(tempsb);
     }
     
-    protected void drawGeoConic(GeoConic geo){  
+    @Override
+	protected void drawGeoConic(GeoConic geo){  
         switch(geo.getType()){
         // if conic is a circle
             case GeoConicNDConstants.CONIC_CIRCLE:
@@ -1534,7 +1557,8 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
         }   
     }
     // draws dot
-    protected void drawGeoPoint(GeoPoint2 gp){
+    @Override
+	protected void drawGeoPoint(GeoPoint2 gp){
         if (frame.getExportPointSymbol()){
             double x = gp.getX(),
                    y = gp.getY(),
@@ -1684,7 +1708,8 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
             code.append("/* special point */");
     }
     // draws line
-    protected void drawGeoLine(GeoLine geo){
+    @Override
+	protected void drawGeoLine(GeoLine geo){
         double x = geo.getX(),
                y = geo.getY(),
                z = geo.getZ();
@@ -1731,7 +1756,8 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
             code.append("/* line */");
     }
     // draws segment
-    protected void drawGeoSegment(GeoSegment geo){
+    @Override
+	protected void drawGeoSegment(GeoSegment geo){
         double[] A = new double[2],
                  B = new double[2];
         GeoPoint2 pointStart = geo.getStartPoint();
@@ -1758,7 +1784,8 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
         if (deco != GeoElement.DECORATION_NONE) mark(A,B,deco,geo);
     }
     
-    protected void drawLine(double x1,double y1,double x2,double y2,GeoElement geo){
+    @Override
+	protected void drawLine(double x1,double y1,double x2,double y2,GeoElement geo){
         String sx1 = format(x1);
         String sy1 = format(y1);
         String sx2 = format(x2);
@@ -1771,7 +1798,8 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
         endDraw(geo);
     }
     
-    protected void drawGeoRay(GeoRay geo){
+    @Override
+	protected void drawGeoRay(GeoRay geo){
         GeoPoint2 pointStart = geo.getStartPoint();
         double x1 = pointStart.getX();
         double z1 = pointStart.getZ();
@@ -2053,7 +2081,8 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
     }
     
     // if label is visible, draw it
-    protected void drawLabel(GeoElement geo,DrawableND drawGeo){
+    @Override
+	protected void drawLabel(GeoElement geo,DrawableND drawGeo){
         try{
             if (geo.isLabelVisible()){
                 String name;
@@ -2130,7 +2159,9 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
         }
         // For GeoElement that don't have a Label
         // For example (created with geoList)
-        catch(NullPointerException e){}
+        catch(NullPointerException e){
+        	AbstractApplication.debug(e);
+        }
     }   
     
     /** Returns whether or not c1 and c2 are equivalent colors, when rounded to the nearest hexadecimal integer.
@@ -2643,7 +2674,8 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
     }
     
     // Append the name color to StringBuilder sb 
-    protected void ColorCode(geogebra.common.awt.Color c, StringBuilder sb){
+    @Override
+	protected void ColorCode(geogebra.common.awt.Color c, StringBuilder sb){
         int red = c.getRed(),
           green = c.getGreen(),
            blue = c.getBlue();
@@ -3369,7 +3401,8 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
         return new String(sb);
     }    
     
-    protected StringTemplate getStringTemplate(){
+    @Override
+	protected StringTemplate getStringTemplate(){
     	return StringTemplate.get(StringType.PSTRICKS);
     }
 }
