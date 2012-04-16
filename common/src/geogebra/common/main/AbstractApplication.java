@@ -45,7 +45,7 @@ import geogebra.common.plugin.ScriptManagerCommon;
 import geogebra.common.plugin.jython.PythonBridge;
 import geogebra.common.sound.SoundManager;
 import geogebra.common.util.AbstractImageManager;
-import geogebra.common.util.DebugPrinter;
+import geogebra.common.util.GeoGebraLogger;
 import geogebra.common.util.LowerCaseDictionary;
 import geogebra.common.util.NormalizerMinimal;
 import geogebra.common.util.Unicode;
@@ -1455,6 +1455,7 @@ public abstract class AbstractApplication {
 
 	
 	public AbstractEuclidianView getEuclidianView1(){
+		notice("AbstrEuclView");
 		return euclidianView;
 	}
 	
@@ -1487,60 +1488,51 @@ public abstract class AbstractApplication {
 	// Michael Borcherds 2008-06-22
 	public static void printStacktrace(String message) {
 		try {
-
 			throw new Exception(message);
-
 		} catch (Exception e) {
-
 			e.printStackTrace();
-
 		}
-
 	}
 
 	public static void debug(Object s) {
 		if (s == null) {
-			doDebug("<null>", false, false, 0);
+			debug("<null>");
 		} else {
-			doDebug(s.toString(), false, false, 0);
+			debug(s.toString());
 		}
 	}
 
-	public static void debug(double[] s) {
-		String ret="";
-		for(int i=0;i<s.length;i++)
-			ret = ret+(i==0?"":",")+s[i];
-		debug(ret, 0);
-	}
-
-	static StringBuilder debugSb = null;
-
-	public static void debug(Object[] s, int level) {
-		if (debugSb == null) {
-			debugSb = new StringBuilder();
-		} else {
-			debugSb.setLength(0);
+	public static void debug(String message) {
+		if (logger != null) {
+			logger.log(logger.DEBUG, message);
 		}
-
-		for (int i = 0; i < s.length; i++) {
-			debugSb.append(s[i].toString());
-			debugSb.append('\n');
-		}
-
-		debug(debugSb, level);
 	}
 
-	public static void debug(Object s, int level) {
-		doDebug(s.toString(), false, false, level);
+	public static void notice(String message) {
+		if (logger != null) {
+			logger.log(logger.NOTICE, message);
+			}
 	}
 
-	public static void debug(Object s, boolean showTime, boolean showMemory,
-			int level) {
-		doDebug(s.toString(), showTime, showMemory, level);
+	public static void info(String message) {
+		if (logger != null) {
+			logger.log(logger.INFO, message);
+			}
 	}
 
-	public static DebugPrinter dbg;
-	
+	public static void error(String message) {
+		if (logger != null) {
+			logger.log(logger.ERROR, message);
+			}
+	}
+
+	public static void warn(String message) {
+		if (logger != null) {
+			logger.log(logger.WARN, message);
+			}
+	}
+
+	public static GeoGebraLogger logger;
 
 	public boolean isMacOS() {
 		return false;
@@ -1557,10 +1549,21 @@ public abstract class AbstractApplication {
 
 	private static boolean miniPropertiesActive = true;
 	// Michael Borcherds 2008-06-22
-	private static void doDebug(String s, boolean showTime, boolean showMemory,
-			int level) {
-		if(dbg!=null)
-			dbg.debug(s, showMemory, showTime, level);
+	private static void doDebug(String s, boolean showTime, boolean showMemory, int level) {
+		String memInfo = "";
+		String timeInfo = "";
+		boolean timeShown = logger.isTimeShown();
+		if (showTime) {
+			// Setting time temporarily
+			logger.setTimeShown(true);
+		}
+		if (showMemory) {
+			memInfo = logger.getMemoryInfo();
+			if (memInfo != "") {
+				memInfo = "\n" + memInfo;
+			}
+		}
+		debug(s + memInfo);
 	}
 	/**
 	 * @return the scriptingLanguage

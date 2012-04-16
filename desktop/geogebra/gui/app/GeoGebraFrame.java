@@ -24,6 +24,7 @@ import geogebra.common.cas.singularws.SingularWebService;
 import geogebra.common.factories.UtilFactory;
 import geogebra.common.kernel.Macro;
 import geogebra.common.main.AbstractApplication;
+import geogebra.common.util.GeoGebraLogger;
 import geogebra.common.util.HttpRequest;
 import geogebra.gui.FileDropTargetListener;
 import geogebra.main.Application;
@@ -45,6 +46,7 @@ import java.awt.print.PageFormat;
 import java.awt.print.Printable;
 import java.awt.print.PrinterException;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
@@ -462,8 +464,11 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 		 * days).
 		 */
 		private void checkVersion() {
-			if (!Application.getVersionCheckAllowed())
+			AbstractApplication.debug("Checking version");
+			if (!Application.getVersionCheckAllowed()) {
+				AbstractApplication.debug("Version check is not allowed");
 				return;
+			}
 			
 			String lastVersionCheck = GeoGebraPreferences.getPref()
 					.loadPreference(GeoGebraPreferences.VERSION_LAST_CHECK, "");
@@ -474,8 +479,7 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 						
 			if (lastVersionCheck == null || lastVersionCheck.equals("")) {
 				checkNeeded = true;
-				AbstractApplication
-						.debug("version check needed: no check was done yet");
+				AbstractApplication.debug("version check needed: no check was done yet");
 			}
 
 			else {
@@ -524,7 +528,7 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 						}
 					}
 				} catch (Exception ex) {
-					System.err.println(ex);
+					AbstractApplication.error(ex.toString());
 				}
 			}
 		}

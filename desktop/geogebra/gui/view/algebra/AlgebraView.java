@@ -150,7 +150,7 @@ public class AlgebraView extends JTree implements LayerView, Gridable, SetLabels
 	/** Creates new AlgebraView */
 	public AlgebraView(AlgebraController algCtrl) {
 
-		AbstractApplication.debug("XXX creating Algebra View XXX", 1);
+		AbstractApplication.debug("creating Algebra View");
 
 		app = algCtrl.getApplication();
 		kernel = algCtrl.getKernel();

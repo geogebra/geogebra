@@ -2379,9 +2379,6 @@ public class Kernel {
 			result = getCasCache().get(exp);
 			if (result != null) {
 				// caching worked
-				// TODO: remove
-				System.out
-						.println("used ggbCasCache: " + exp + " -> " + result);
 				return result;
 			}
 		}
@@ -2402,9 +2399,6 @@ public class Kernel {
 			result = getCasCache().get(exp);
 			if (result != null) {
 				// caching worked
-				// TODO: remove
-				System.out
-						.println("used ggbCasCache: " + exp + " -> " + result);
 				c.handleCASoutput(result, exp.hashCode());
 				return;
 			}
@@ -3304,23 +3298,9 @@ public class Kernel {
 			views[viewCnt++] = view;
 		}
 
-		// TODO: remove
-		System.out.print("  current views:\n");
-		for (int i = 0; i < viewCnt; i++) {
-			System.out.print(views[i] + "\n");
-		}
-		System.out.print("\n");
-		// Application.debug();
-
 		if (!notifyViewsActive) {
 			oldViewCnt = viewCnt;
 			viewCnt = 0;
-		}
-		if(AbstractApplication.dbg!=null){
-		System.err.println("XXXXXXXXX Number of registered views = " + viewCnt);
-		for (int i = 0; i < viewCnt; i++) {
-			System.out.println(views[i].getClass());
-		}
 		}
 	}
 
@@ -3361,9 +3341,9 @@ public class Kernel {
 			viewCnt = 0;
 		}
 
-		System.err.println("XXXXXXXXX Number of registered views = " + viewCnt);
+		AbstractApplication.info("Number of registered views = " + viewCnt);
 		for (int i = 0; i < viewCnt; i++) {
-			System.out.println(views[i].getClass());
+			AbstractApplication.info((i+1) + ". " + views[i].getClass().toString());
 		}
 
 	}

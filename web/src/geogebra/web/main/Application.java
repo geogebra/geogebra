@@ -32,6 +32,7 @@ import geogebra.common.plugin.ScriptManagerCommon;
 import geogebra.common.plugin.jython.PythonBridge;
 import geogebra.common.sound.SoundManager;
 import geogebra.common.util.AbstractImageManager;
+import geogebra.common.util.GeoGebraLogger.LogDestination;
 import geogebra.common.util.Unicode;
 import geogebra.web.css.GuiResources;
 import geogebra.web.euclidian.EuclidianController;
@@ -52,8 +53,7 @@ import geogebra.web.properties.ErrorConstants;
 import geogebra.web.properties.MenuConstants;
 import geogebra.web.properties.PlainConstants;
 import geogebra.web.properties.SymbolsConstants;
-import geogebra.web.util.DebugPrinter;
-import geogebra.web.util.DebugPrinterWeb;
+import geogebra.web.util.GeoGebraLogger;
 import geogebra.web.util.ImageManager;
 
 import java.util.ArrayList;
@@ -144,7 +144,8 @@ public class Application extends AbstractApplication {
 		this.frame = gf;
 		createSplash();
 		this.useFullGui = ae.getDataParamGui();
-		dbg = new DebugPrinter();
+		logger = new GeoGebraLogger();
+		logger.setLogDestination(LogDestination.CONSOLES);
 		initCommonObjects();
 		
 		this.canvas = Canvas.createIfSupported();
@@ -180,10 +181,7 @@ public class Application extends AbstractApplication {
 		this.useFullAppGui  = true;
 		appCanvasHeight = appFrame.getCanvasCountedHeight();
 		appCanvasWidth = appFrame.getCanvasCountedWidth();
-		dbg = new DebugPrinterWeb();
 		initCommonObjects();
-		
-		
 		
 		this.canvas = appFrame.getEuclidianView1Canvas();
 		this.euclidianViewPanel = appFrame.getEuclidianView1Panel();
@@ -668,13 +666,12 @@ public class Application extends AbstractApplication {
     
 		// initialize SingularWS
 		SingularWebService sws = new SingularWebService();
-		DebugPrinter dp = new DebugPrinter();
 		sws.enable();
 		if (sws.isAvailable()) {
-			dp.print("SingularWS is available at " + sws.getConnectionSite());
-			dp.print(sws.directCommand("ring r=0,(x,y),dp;ideal I=x^2,x;groebner(I);"));
+			debug("SingularWS is available at " + sws.getConnectionSite());
+			debug(sws.directCommand("ring r=0,(x,y),dp;ideal I=x^2,x;groebner(I);"));
 		} else {
-			dp.print("No SingularWS is available at " + sws.getConnectionSite());
+			debug("No SingularWS is available at " + sws.getConnectionSite());
 			}
 	}
 
@@ -892,7 +889,7 @@ public class Application extends AbstractApplication {
 	}
 
 	@Override
-	protected String getSyntaxString() {
+    protected String getSyntaxString() {
 		return syntaxStr;
 	}
 	

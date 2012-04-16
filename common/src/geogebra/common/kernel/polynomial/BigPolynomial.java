@@ -436,7 +436,7 @@ public class BigPolynomial implements Cloneable {
 			x = x.subtract(dx, mc);
 
 		}
-		AbstractApplication.debug("Max Iterations exceeded", 1);
+		AbstractApplication.warn("Max Iterations exceeded");
 		return x;
 	}
 

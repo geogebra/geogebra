@@ -51,6 +51,7 @@ import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.util.LowerCaseDictionary;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
+import geogebra.common.util.GeoGebraLogger.LogDestination;
 import geogebra.euclidian.DrawEquation;
 import geogebra.euclidian.EuclidianController;
 import geogebra.euclidian.EuclidianView;
@@ -78,8 +79,8 @@ import geogebra.plugin.ScriptManager;
 import geogebra.plugin.jython.AppletPythonBridge;
 import geogebra.plugin.jython.PythonBridge;
 import geogebra.sound.SoundManager;
-import geogebra.util.DebugPrinterDesktop;
 import geogebra.util.DownloadManager;
+import geogebra.util.GeoGebraLogger;
 import geogebra.util.ImageManager;
 import geogebra.util.Normalizer;
 import geogebra.util.Util;
@@ -442,9 +443,10 @@ public class Application extends AbstractApplication implements
 
 	protected Application(CommandLineArguments args, JFrame frame,
 			AppletImplementation appletImpl, Container comp, boolean undoActive) {
-		if(args!= null && !args.containsArg("silent"))
-			AbstractApplication.dbg = new DebugPrinterDesktop();
-		
+		if(args!= null && !args.containsArg("silent")) {
+			AbstractApplication.logger = new GeoGebraLogger();
+			logger.setLogDestination(LogDestination.CONSOLE);
+		}
 
 		setFileVersion(GeoGebraConstants.VERSION_STRING);
 		
@@ -644,7 +646,7 @@ public class Application extends AbstractApplication implements
 			System.exit(0);
 		}
 		// help debug applets
-		System.out.println("GeoGebra " + GeoGebraConstants.VERSION_STRING + " "
+		info("GeoGebra " + GeoGebraConstants.VERSION_STRING + " "
 				+ GeoGebraConstants.BUILD_DATE + " Java "
 				+ System.getProperty("java.version"));
 		if (args.containsArg("v")) {
@@ -4273,22 +4275,82 @@ public class Application extends AbstractApplication implements
 
 	}
 
-	LogManager logManager;
-	// String logFile = DownloadManager.getTempDir()+"GeoGebraLog.txt";
-	// public String logFile = "c:\\GeoGebraLog.txt";
-	public StringBuilder logFile = null;
+    LogManager logManager;
+    // String logFile = DownloadManager.getTempDir()+"GeoGebraLog.txt";
+    // public String logFile = "c:\\GeoGebraLog.txt";
+    public StringBuilder logFile = null;
 
-	/*
-	 * code from
-	 * http://blogs.sun.com/nickstephen/entry/java_redirecting_system_out_and
-	 */
-	private void setUpLogging() {
+    /*
+     * code from
+     * http://blogs.sun.com/nickstephen/entry/java_redirecting_system_out_and
+     */
+    private void setUpLogging() {
+
+            // initialize logging to go to rolling log file
+            logManager = LogManager.getLogManager();
+            logManager.reset();
+
+            logFile = new StringBuilder(30);
+
+            logFile.append(DownloadManager.getTempDir());
+            logFile.append("GeoGebraLog_");
+            // randomize filename
+            for (int i = 0; i < 10; i++) {
+                    logFile.append((char) ('a' + Math.round(Math.random() * 25)));
+            }
+            logFile.append(".txt");
+
+            AbstractApplication.debug(logFile.toString());
+
+            // log file max size 10K, 1 file, append-on-open
+            Handler fileHandler;
+            try {
+                    fileHandler = new FileHandler(logFile.toString(), 10000, 1, false);
+            } catch (Exception e) {
+                    logFile = null;
+                    return;
+
+            }
+            fileHandler.setFormatter(new SimpleFormatter());
+            Logger.getLogger("").addHandler(fileHandler);
+
+            // preserve old stdout/stderr streams in case they might be useful
+            // PrintStream stdout = System.out;
+            // PrintStream stderr = System.err;
+
+            // now rebind stdout/stderr to logger
+            Logger logger;
+            LoggingOutputStream los;
+
+            logger = Logger.getLogger("stdout");
+            los = new LoggingOutputStream(logger, StdOutErrLevel.STDOUT);
+            System.setOut(new PrintStream(los, true));
+
+            logger = Logger.getLogger("stderr");
+            los = new LoggingOutputStream(logger, StdOutErrLevel.STDERR);
+            System.setErr(new PrintStream(los, true));
+            // show stdout going to logger
+            // System.out.println("Hello world!");
+
+            // now log a message using a normal logger
+            // logger = Logger.getLogger("test");
+            // logger.info("This is a test log message");
+
+            // now show stderr stack trace going to logger
+            // try {
+            // throw new RuntimeException("Test");
+            // } catch (Exception e) {
+            // e.printStackTrace();
+            // }
+
+            // and output on the original stdout
+            // stdout.println("Hello on old stdout");
+    }
+	
+	private void setUpFileLogging() {
 
 		// initialize logging to go to rolling log file
-		logManager = LogManager.getLogManager();
-		logManager.reset();
-
-		logFile = new StringBuilder(30);
+		StringBuilder logFile = new StringBuilder(30);
 
 		logFile.append(DownloadManager.getTempDir());
 		logFile.append("GeoGebraLog_");
@@ -4298,51 +4360,9 @@ public class Application extends AbstractApplication implements
 		}
 		logFile.append(".txt");
 
+		logger.setLogDestination(LogDestination.FILE);
+		logger.setLogFile(logFile.toString());
 		AbstractApplication.debug(logFile.toString());
-
-		// log file max size 10K, 1 file, append-on-open
-		Handler fileHandler;
-		try {
-			fileHandler = new FileHandler(logFile.toString(), 10000, 1, false);
-		} catch (Exception e) {
-			logFile = null;
-			return;
-
-		}
-		fileHandler.setFormatter(new SimpleFormatter());
-		Logger.getLogger("").addHandler(fileHandler);
-
-		// preserve old stdout/stderr streams in case they might be useful
-		// PrintStream stdout = System.out;
-		// PrintStream stderr = System.err;
-
-		// now rebind stdout/stderr to logger
-		Logger logger;
-		LoggingOutputStream los;
-
-		logger = Logger.getLogger("stdout");
-		los = new LoggingOutputStream(logger, StdOutErrLevel.STDOUT);
-		System.setOut(new PrintStream(los, true));
-
-		logger = Logger.getLogger("stderr");
-		los = new LoggingOutputStream(logger, StdOutErrLevel.STDERR);
-		System.setErr(new PrintStream(los, true));
-		// show stdout going to logger
-		// System.out.println("Hello world!");
-
-		// now log a message using a normal logger
-		// logger = Logger.getLogger("test");
-		// logger.info("This is a test log message");
-
-		// now show stderr stack trace going to logger
-		// try {
-		// throw new RuntimeException("Test");
-		// } catch (Exception e) {
-		// e.printStackTrace();
-		// }
-
-		// and output on the original stdout
-		// stdout.println("Hello on old stdout");
 	}
 
 	/*
@@ -4426,14 +4446,6 @@ public class Application extends AbstractApplication implements
 		return soundManager;
 	}
 
-
-
-	
-	
-
-
-	
-	
 	public void checkCommands(HashMap<String, CommandProcessor> map) {
 		initTranslatedCommands();
 
@@ -4452,7 +4464,7 @@ public class Application extends AbstractApplication implements
 					write = false;
 				}
 				if (write) {
-					System.out.println(s);
+					debug("checkCommands: " + s);
 				}
 			}
 		}

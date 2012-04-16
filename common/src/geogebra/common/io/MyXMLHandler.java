@@ -1626,11 +1626,11 @@ public class MyXMLHandler implements DocHandler {
 			break;
 
 		default:
-			System.err.println("unknown tag in <gui>: " + eName);
+			AbstractApplication.error("unknown tag in <gui>: " + eName);
 		}
 
 		if (!ok)
-			System.err.println("error in <gui>: " + eName);
+			AbstractApplication.error("error in <gui>: " + eName);
 	}
 
 	/**
@@ -4462,8 +4462,8 @@ public class MyXMLHandler implements DocHandler {
 	private boolean handleCoefficients(LinkedHashMap<String, String> attrs) {
 		// Application.debug(attrs.toString());
 		if (!(geo.isGeoImplicitPoly())) {
-			AbstractApplication.debug("wrong element type for <coefficients>: "
-					+ geo.getClass(), 1);
+			AbstractApplication.warn("wrong element type for <coefficients>: "
+					+ geo.getClass());
 			return false;
 		}
 		try {
@@ -4516,8 +4516,8 @@ public class MyXMLHandler implements DocHandler {
 	private boolean handleUserInput(LinkedHashMap<String, String> attrs) {
 		// Application.debug(attrs.toString());
 		if (!(geo instanceof GeoUserInputElement)) {
-			AbstractApplication.debug("wrong element type for <userinput>: "
-					+ geo.getClass(), 1);
+			AbstractApplication.warn("wrong element type for <userinput>: "
+					+ geo.getClass());
 			return false;
 		}
 		try {

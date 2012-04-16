@@ -547,8 +547,7 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 		if (euclidianView2 == null) {
 			boolean[] showAxis = { true, true };
 			boolean showGrid = false;
-			AbstractApplication.debug(
-					"XXXXX Creating 2nd Euclidian View XXXXX", 1);
+			AbstractApplication.debug("Creating 2nd Euclidian View");
 			euclidianView2 = newEuclidianView(showAxis, showGrid, 2);
 			// euclidianView2.setEuclidianViewNo(2);
 			euclidianView2.setAntialiasing(true);

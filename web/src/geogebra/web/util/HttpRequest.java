@@ -1,5 +1,7 @@
 package geogebra.web.util;
 
+import geogebra.common.main.AbstractApplication;
+
 import com.google.gwt.http.client.*;
 
 /**
@@ -14,11 +16,10 @@ public class HttpRequest extends geogebra.common.util.HttpRequest {
 	@Override
     public void sendRequest(String url) {
 		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, URL.encode(url));
-		DebugPrinter dp = new DebugPrinter();
 
 		try {
 			builder.setTimeoutMillis(timeout * 1000);
-			dp.print("Sending request " + url + " until timeout " + timeout);
+			AbstractApplication.debug("Sending request " + url + " until timeout " + timeout);
 			Request request = builder.sendRequest(null, new RequestCallback() {
 				public void onError(Request request, Throwable exception) {
 					// Couldn't connect to server (could be timeout, SOP violation, etc.)
@@ -49,8 +50,7 @@ public class HttpRequest extends geogebra.common.util.HttpRequest {
 
 	@Override
     public String sendRequestGetResponseSync(String url) {
-		DebugPrinter dp = new DebugPrinter();
-		dp.print("Not implemented");
+		AbstractApplication.warn("not available");
 	    return null;
     }
 }

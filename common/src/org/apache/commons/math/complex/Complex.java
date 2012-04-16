@@ -628,7 +628,7 @@ public class Complex implements FieldElement<Complex>, Serializable  {
      * <p>
      * Implements the formula: <pre>
      * <code> log(a + bi) = ln(|a + bi|) + arg(a + bi)i</code></pre>
-     * where ln on the right hand side is {@link java.lang.Math#log},
+     * where ln on the right hand side is {@link java.lang.Math#logger},
      * <code>|a + bi|</code> is the modulus, {@link Complex#abs},  and
      * <code>arg(a + bi) = {@link java.lang.Math#atan2}(b, a)</code></p>
      * <p>
@@ -665,7 +665,7 @@ public class Complex implements FieldElement<Complex>, Serializable  {
      * Implements the formula: <pre>
      * <code> y<sup>x</sup> = exp(x&middot;log(y))</code></pre>
      * where <code>exp</code> and <code>log</code> are {@link #exp} and
-     * {@link #log}, respectively.</p>
+     * {@link #logger}, respectively.</p>
      * <p>
      * Returns {@link Complex#NaN} if either real or imaginary part of the
      * input argument is <code>NaN</code> or infinite, or if <code>y</code>

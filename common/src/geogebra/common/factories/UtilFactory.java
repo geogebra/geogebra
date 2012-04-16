@@ -1,8 +1,8 @@
 package geogebra.common.factories;
 
+import geogebra.common.util.GeoGebraLogger;
 import geogebra.common.util.HttpRequest;
 import geogebra.common.util.URLEncoder;
-import geogebra.common.util.DebugPrinter;
 
 /**
  * @author Zoltan Kovacs <zoltan@geogebra.org>
@@ -25,8 +25,8 @@ public abstract class UtilFactory {
 	 */
 	public abstract URLEncoder newURLEncoder();
 	/**
-	 * @return DebugPrinter
-	 * Creates a DebugPrinter object
+	 * @return GeoGebraLogger
+	 * Creates a GeoGebraLogger object
 	 */
-	public abstract DebugPrinter newDebugPrinter();
+	public abstract GeoGebraLogger newGeoGebraLogger();
 }

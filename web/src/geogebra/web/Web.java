@@ -12,7 +12,6 @@ import geogebra.web.gui.app.GeoGebraAppFrame;
 import geogebra.web.helper.JavaScriptInjector;
 import geogebra.web.html5.ArticleElement;
 import geogebra.web.html5.Dom;
-import geogebra.web.util.DebugPrinterWeb;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
@@ -47,9 +46,6 @@ public class Web implements EntryPoint {
 	public static boolean loadedAsApp = false;
 
 	public void onModuleLoad() {
-		//for debug
-		DebugPrinterWeb.DEBUG_IN_PRODUCTION = true;
-		
 		//do we have an app?
 		Web.loadedAsApp = checkIfNeedToLoadAsApp();
 		
@@ -60,7 +56,7 @@ public class Web implements EntryPoint {
 		JavaScriptInjector.inject(GuiResources.INSTANCE.zipJs().getText());
 		JavaScriptInjector.inject(GuiResources.INSTANCE.jQueryJs().getText());
 		JavaScriptInjector.inject(GuiResources.INSTANCE.mathquillJs().getText());
-		Web.webWorkerSupported = chekcWorkerSupport(GWT.getModuleBaseURL());
+		Web.webWorkerSupported = checkWorkerSupport(GWT.getModuleBaseURL());
 		if (!webWorkerSupported) {
 			JavaScriptInjector.inject(GuiResources.INSTANCE.deflateJs().getText());
 			JavaScriptInjector.inject(GuiResources.INSTANCE.inflateJs().getText());
@@ -129,20 +125,22 @@ public class Web implements EntryPoint {
 	private static native boolean checkIfFallbackSetExplicitlyInArrayBufferJs() /*-{
 		if ($wnd.zip.useWebWorkers === false) {
 			//we set this explicitly in arraybuffer.js
-			$wnd.console.log("workers maybe supported, but fallback set explicitly in arraybuffer.js");
+			$wnd.console.log("INIT: workers maybe supported, but fallback set explicitly in arraybuffer.js");
 			return true;;
 		}
 		return false;
 	}-*/;
 	
-	private static native boolean chekcWorkerSupport(String workerpath) /*-{
+	private static native boolean checkWorkerSupport(String workerpath) /*-{
 	    try {
 	    	var worker = new $wnd.Worker(workerpath+"js/workercheck.js");
 	    } catch (e) {
-	    	$wnd.console.log("worker not supported, fallback for simple js");
+	    	$wnd.console.log("INIT: worker not supported, fallback for simple js");
+	    	
 	    	return false;
 	    }
-	    $wnd.console.log("workers are supported");
+	    $wnd.console.log("INIT: workers are supported");
+	    	
 	    worker.terminate();
 	    return true;
     }-*/;

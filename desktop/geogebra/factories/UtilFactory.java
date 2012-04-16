@@ -1,6 +1,6 @@
 package geogebra.factories;
 
-import geogebra.common.util.DebugPrinter;
+import geogebra.common.util.GeoGebraLogger;
 import geogebra.common.util.HttpRequest;
 import geogebra.common.util.URLEncoder;
 
@@ -21,8 +21,8 @@ public class UtilFactory extends geogebra.common.factories.UtilFactory {
 	}
 
 	@Override
-	public DebugPrinter newDebugPrinter() {
-		return new geogebra.util.DebugPrinter();
+	public GeoGebraLogger newGeoGebraLogger() {
+		return new geogebra.util.GeoGebraLogger();
 	}
 
 }

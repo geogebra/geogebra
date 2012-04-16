@@ -118,7 +118,7 @@ public class USBFunctions {
 				if (sDataProducer != null) {
 		            SwingUtilities.invokeLater( new Runnable(){ public void
 		            	run() { 					
-			            	AbstractApplication.debug("stopping logging",1);
+			            	AbstractApplication.debug("stopping logging");
 							sDataProducer.stop();
 		            	} });
 				}

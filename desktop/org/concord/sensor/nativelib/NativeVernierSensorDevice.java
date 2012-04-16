@@ -32,6 +32,7 @@
 */
 package org.concord.sensor.nativelib;
 
+import geogebra.common.main.AbstractApplication;
 import geogebra.main.Application;
 
 import org.concord.sensor.ExperimentRequest;
@@ -149,10 +150,10 @@ public class NativeVernierSensorDevice
 	{
 		if(!open) return false;
 		
-		Application.debug(deviceHandle.toString(),1);
+		AbstractApplication.warn(deviceHandle.toString());
 
 		int result = NativeBridge.SensDev_isAttached(deviceHandle);
-		Application.debug("result="+result,1);
+		AbstractApplication.warn("result="+result);
 		return result == 1;
 	}
 

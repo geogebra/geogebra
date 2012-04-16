@@ -313,7 +313,6 @@ public class GeoGebraMenuBar extends JMenuBar {
 				systemInfo.append(Application.getCASVersionString());
 				systemInfo.append("\n\n");
 				
-				
 				// copy log file to systemInfo
 				if (app.logFile != null) {
 				    String NL = System.getProperty("line.separator");

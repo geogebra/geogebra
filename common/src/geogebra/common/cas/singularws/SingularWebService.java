@@ -1,7 +1,7 @@
 package geogebra.common.cas.singularws;
 
 import geogebra.common.factories.UtilFactory;
-import geogebra.common.util.DebugPrinter;
+import geogebra.common.main.AbstractApplication;
 import geogebra.common.util.HttpRequest;
 import geogebra.common.util.URLEncoder;
 
@@ -102,8 +102,7 @@ public class SingularWebService {
 	 * If the test connection is working, then set the webservice "available".
 	 */
 	public void enable() {
-		DebugPrinter dp = UtilFactory.prototype.newDebugPrinter();
-		dp.print("Trying to enable SingularWS connection");
+		AbstractApplication.debug("Trying to enable SingularWS connection");
 		Boolean tc = testConnection();
 		if (tc != null && tc) {
 			this.available = true;
