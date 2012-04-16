@@ -59,8 +59,8 @@ public class AlgebraInput extends HorizontalPanel implements KeyUpHandler, Focus
 	    
 	    inputField.addStyleName("AlgebraInput");
 	    
-	    inputField.addKeyUpHandler(this);
-	    inputField.addFocusHandler(this);
+	    inputField.getTextBox().addKeyUpHandler(this);
+	    inputField.getTextBox().addFocusHandler(this);
 	    
 	    inputField.addHistoryPopup(app.showInputTop());
 	    

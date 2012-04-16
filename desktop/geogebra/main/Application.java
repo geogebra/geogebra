@@ -1991,9 +1991,7 @@ public class Application extends AbstractApplication implements
 	 * MyResourceBundle.createBundle(RB_COLORS, currentLocale); } //
 	 */
 
-	public final static String syntaxCAS = ".SyntaxCAS";
-	public final static String syntax3D = ".Syntax3D";
-	public final static String syntaxStr = ".Syntax";
+	
 
 	
 	

@@ -561,9 +561,23 @@ public class Application extends AbstractApplication {
 	}
 
 	@Override
-	public String getInternalCommand(String s) {
-		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-		return null;
+	public String getInternalCommand(String cmd) {
+		initTranslatedCommands();
+		/*AGEnumeration<String> enume;
+		String s;
+		enume = rbcommand.getKeys();
+		while (enume.hasMoreElements()) {
+			s = enume.nextElement();
+			// check isn't .Syntax, .SyntaxCAS, .Syntax3D
+			if (s.indexOf(syntaxStr) == -1) {
+				// make sure that when si[] is typed in script, it's changed to
+				// Si[] etc
+				if (getCommand(s).toLowerCase().equals(cmd.toLowerCase())) {
+					return s;
+				}
+			}
+		}*/
+		return commandConstants.getString(cmd);
 	}
 
 	public void showErrorDialog(final String msg) {
@@ -1563,6 +1577,15 @@ public class Application extends AbstractApplication {
 
 	public void setShowInputHelpPanel(boolean b) {
 		 AbstractApplication.debug("Implementation needed...");
+    }
+
+	public String getCommandSyntaxCAS(String key) {
+		String command = getCommand(key);
+		String syntax = getCommand(key + syntaxCAS);
+
+		syntax = syntax.replace("[", command + '[');
+
+		return syntax;
     }
 
 }

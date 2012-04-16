@@ -330,6 +330,10 @@ public abstract class AbstractApplication {
 	protected abstract void setCommandChanged(boolean b);
 	protected abstract boolean isCommandNull();
 	
+	public final static String syntaxCAS = ".SyntaxCAS";
+	public final static String syntax3D = ".Syntax3D";
+	public final static String syntaxStr = ".Syntax";
+	
 	protected LowerCaseDictionary newLowerCaseDictionary(){
 		return new LowerCaseDictionary(new NormalizerMinimal());
 	}

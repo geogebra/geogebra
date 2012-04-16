@@ -1,7 +1,9 @@
 package geogebra.web.gui.inputfield;
 
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
 
 import geogebra.common.awt.Color;
 import geogebra.common.awt.Font;
@@ -10,11 +12,13 @@ import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.event.FocusListener;
 import geogebra.common.gui.inputfield.AutoComplete;
 import geogebra.common.javax.swing.JLabel;
+import geogebra.common.kernel.Macro;
 import geogebra.common.kernel.commands.MyException;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
 import geogebra.common.util.AutoCompleteDictionary;
+import geogebra.common.util.Korean;
 import geogebra.web.gui.inputfield.BorderButton;
 import geogebra.web.gui.util.GeoGebraIcon;
 import geogebra.web.gui.autocompletion.CommandCompletionListCellRenderer;
@@ -39,7 +43,7 @@ import com.google.gwt.regexp.shared.RegExp;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.TextBox;
 
-public class AutoCompleteTextField extends TextBox implements AutoComplete, geogebra.common.gui.inputfield.AutoCompleteTextField, KeyDownHandler, KeyUpHandler, KeyPressHandler{
+public class AutoCompleteTextField extends SuggestBox implements AutoComplete, geogebra.common.gui.inputfield.AutoCompleteTextField, KeyDownHandler, KeyUpHandler, KeyPressHandler{
 	
 	  private Application app;
 	  private StringBuilder curWord;
@@ -128,7 +132,7 @@ public class AutoCompleteTextField extends TextBox implements AutoComplete, geog
 	}
 	
 	private void init(){
-		addMouseUpHandler(new MouseUpHandler(){
+		getTextBox().addMouseUpHandler(new MouseUpHandler(){
 			public void onMouseUp(MouseUpEvent event) {
 				//AG I dont understand thisAutoCompleteTextField tf = ((AutoCompleteTextField)event.getSource()); 
 	            //AG tf.setFocus(true);
@@ -214,6 +218,85 @@ public class AutoCompleteTextField extends TextBox implements AutoComplete, geog
 	      app.initTranslatedCommands();
 
 	  }
+	  
+	  private List<String> resetCompletions() {
+		    String text = getText();
+		    updateCurrentWord(false);
+		    completions = null;
+		    if (isEqualsRequired && !text.startsWith("="))
+		      return null;
+
+		    boolean korean = false; //AG app.getLocale().getLanguage().equals("ko");
+
+		    // start autocompletion only for words with at least two characters
+		    if (korean) {
+		      if (Korean.flattenKorean(curWord.toString()).length() < 2) {
+		        completions = null;
+		        return null;
+		      }
+		    } else if (curWord.length() < 2) {
+		      completions = null;
+		      return null;
+		    }
+		    cmdPrefix = curWord.toString();
+
+		    if (korean)
+		      completions = dict.getCompletionsKorean(cmdPrefix);
+		    else
+		      completions = dict.getCompletions(cmdPrefix);
+
+		    completions = getSyntaxes(completions);
+		    return completions;
+		  }
+
+		  /*
+		   * Take a list of commands and return all possible syntaxes
+		   * for these commands
+		   */
+		  private List<String> getSyntaxes(List<String> commands) {
+		    if (commands == null) {
+		      return null;
+		    }
+		    ArrayList<String> syntaxes = new ArrayList<String>();
+		    for (String cmd : commands) {
+
+		      String cmdInt = app.getInternalCommand(cmd);
+
+		      String syntaxString;
+		      if (isCASInput) {
+		        syntaxString = app.getCommandSyntaxCAS(cmdInt);
+		      } else {
+		        syntaxString = app.getCommandSyntax(cmdInt);
+		      }
+		      if (syntaxString.endsWith(isCASInput ? Application.syntaxCAS
+		          : Application.syntaxStr)) {
+
+		        // command not found, check for macros
+		        Macro macro = isCASInput ? null : app.getKernel().getMacro(cmd);
+		        if (macro != null) {
+		          syntaxes.add(macro.toString());
+		        } else {
+		          // syntaxes.add(cmdInt + "[]");
+		          AbstractApplication.debug("Can't find syntax for: " + cmd);
+		        }
+
+		        continue;
+		      }
+		      for (String syntax : syntaxString.split("\\n")) {
+		        syntaxes.add(syntax);
+		      }
+		    }
+		    return syntaxes;
+		  }
+	  
+	  public void startAutoCompletion() {
+		    resetCompletions();
+		    completionsPopup.showCompletions();
+		  }
+
+	public void cancelAutoCompletion() {
+		    completions = null;
+	}
 
 	public void enableColoring(boolean b) {
 	    AbstractApplication.debug("implementation needed"); //TODO Auto-generated
@@ -266,20 +349,25 @@ public class AutoCompleteTextField extends TextBox implements AutoComplete, geog
     }
 
 	public void setColumns(int length) {
-	   setVisibleLength(length);
+	  //AG getTextBox().setWidth(length+"px");
+		AbstractApplication.debug("AutoCompleteTextField.setColumns called");
     }
 	
 	 public String getCurrentWord() {
 		    return curWord.toString();
 	 }
+	 
+	 public List<String> getCompletions() {
+		    return completions;
+	}
 
 	public int getCurrentWordStart() {
 		    return curWordStart;
 	}
 
 	public void addFocusListener(FocusListener listener) {
-		super.addFocusHandler((geogebra.web.euclidian.event.FocusListener) listener);
-		super.addBlurHandler((geogebra.web.euclidian.event.FocusListener) listener);	    
+		getTextBox().addFocusHandler((geogebra.web.euclidian.event.FocusListener) listener);
+		getTextBox().addBlurHandler((geogebra.web.euclidian.event.FocusListener) listener);	    
     }
 
 	public void addKeyListener(geogebra.common.euclidian.event.KeyListener listener) {
@@ -292,8 +380,7 @@ public class AutoCompleteTextField extends TextBox implements AutoComplete, geog
     }
 
 	public int getCaretPosition() {
-		AbstractApplication.debug("implementation needed"); //TODO Auto-generated
-	    return 0;
+		return getTextBox().getCursorPos();
     }
 
 	public void setCaretPosition(int caretPos) {
@@ -357,6 +444,22 @@ public class AutoCompleteTextField extends TextBox implements AutoComplete, geog
 	      app.getGuiManager().openCommandHelp(null);
 	    }
 	  }
+	  
+	  private void clearSelection() {
+		    int start = getText().indexOf(getTextBox().getSelectedText());
+		    int end = start + getTextBox().getSelectionLength();
+		    // clear selection if there is one
+		    if (start != end) {
+		      int pos = getCaretPosition();
+		      String oldText = getText();
+		      StringBuilder sb = new StringBuilder();
+		      sb.append(oldText.substring(0, start));
+		      sb.append(oldText.substring(end));
+		      setText(sb.toString());
+		      if (pos < sb.length())
+		        setCaretPosition(pos);
+		    }
+		  }
 	
 	 /**
 	   * Updates curWord to word at current caret position.
@@ -465,27 +568,41 @@ public class AutoCompleteTextField extends TextBox implements AutoComplete, geog
 	      return history.get(historyIndex);
 	  }
 	  
+	  public void mergeKoreanDoubles() {
+		    // avoid shift on Korean keyboards
+		    /*AG dont do that yet if (app.getLocale().getLanguage().equals("ko")) {
+		      String text = getText();
+		      int caretPos = getCaretPosition();
+		      String mergeText = Korean.mergeDoubleCharacters(text);
+		      int decrease = text.length() - mergeText.length();
+		      if (decrease > 0) {
+		        setText(mergeText);
+		        setCaretPosition(caretPos - decrease);
+		      }
+		    }*/
+		  AbstractApplication.debug("KoreanDoubles may be needed in AutocompleteTextField");
+		  }
+	  
 	  private boolean moveToNextArgument(boolean find) {
-		    String text = getText();
+		  return false;
+		  	/*AGString text = getText();
 		    int caretPos = getCaretPosition();
 
 		    // make sure it works if caret is just after [
 		    // if (caretPos > 0 && text.charAt(caretPos - 1) == '[') caretPos--;
 
-		    MatchResult argMatcher = syntaxArgPattern.exec(text);
-		    //AG: don't have a faintest idea that is it good or not
-		    boolean hasNextArgument = argMatcher.getGroup(caretPos) != null || !argMatcher.getGroup(caretPos).equals("");
+		    Matcher argMatcher = syntaxArgPattern.matcher(text);
+		    boolean hasNextArgument = argMatcher.find(caretPos);
 		    if (find && !hasNextArgument) {
-		      hasNextArgument = argMatcher.getGroupCount() > 0;
+		      hasNextArgument = argMatcher.find();
 		    }
-		    if (hasNextArgument && (find || argMatcher.getIndex() == caretPos)) {
-		      //AGsetCaretPosition(argMatcher.getIndex());
-		      setSelectionRange(argMatcher.getIndex(), argMatcher.getGroupCount()+1);
-		      //AGmoveCaretPosition(argMatcher.getGroupCount() + 1);
+		    if (hasNextArgument && (find || argMatcher.start() == caretPos)) {
+		      setCaretPosition(argMatcher.end());
+		      moveCaretPosition(argMatcher.start() + 1);
 		      return true;
 		    } else {
 		      return false;
-		    }
+		    }*/
 		  }
 	
 
@@ -655,6 +772,36 @@ public class AutoCompleteTextField extends TextBox implements AutoComplete, geog
 		        e.stopPropagation();
 		        break;
 		      default:
+		    	  /*Try handling here that is originaly in keyup
+		    	   * 
+		    	   */
+		    	  boolean modifierKeyPressed = e.isControlKeyDown() || e
+		    		        .isAltKeyDown();
+
+		    		    // we don't want to act when AltGr is down
+		    		    // as it is used eg for entering {[}] is some locales
+		    		    // NB e.isAltGraphDown() doesn't work
+		    		    if (e.isAltKeyDown() && e.isControlKeyDown())
+		    		      modifierKeyPressed = false;
+
+		    		    char charPressed = Character.valueOf((char) e.getNativeKeyCode());
+
+		    		    if ((isLetterOrDigit(charPressed) || modifierKeyPressed)
+		    		        && !(ctrlC)
+		    		        && !(e.getNativeKeyCode() == MyKeyCodes.KEY_A)) {
+		    		      clearSelection();
+		    		    }
+
+		    		    // handle alt-p etc
+		    		    //super.keyReleased(e);
+
+		    		    mergeKoreanDoubles();
+
+		    		    if (getAutoComplete()) {
+		    		      updateCurrentWord(false);
+		    		      startAutoCompletion();
+		    		    }
+		    	  
 		    }
 	    
     }

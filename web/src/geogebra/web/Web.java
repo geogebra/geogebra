@@ -125,7 +125,7 @@ public class Web implements EntryPoint {
 	private static native boolean checkIfFallbackSetExplicitlyInArrayBufferJs() /*-{
 		if ($wnd.zip.useWebWorkers === false) {
 			//we set this explicitly in arraybuffer.js
-			$wnd.console.log("INIT: workers maybe supported, but fallback set explicitly in arraybuffer.js");
+			@geogebra.web.main.Application::debug(Ljava/lang/String;)("INIT: workers maybe supported, but fallback set explicitly in arraybuffer.js");
 			return true;;
 		}
 		return false;
