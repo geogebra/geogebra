@@ -86,6 +86,33 @@ public abstract class GeoGebraLogger {
 	public void setLogLevel(Level logLevel) {
 		this.logLevel = logLevel;
 	}
+
+	/**
+	 * Sets the current logging level
+	 * @param logLevel the logging level to set
+	 */
+	public void setLogLevel(String logLevel) {
+		if (logLevel == null)
+			return;
+		if ("ALERT".equals(logLevel))
+			this.logLevel = ALERT;
+		if ("EMERGENCY".equals(logLevel))
+			this.logLevel = EMERGENCY;
+		if ("CRITICAL".equals(logLevel))
+			this.logLevel = CRITICAL;
+		if ("ERROR".equals(logLevel))
+			this.logLevel = ERROR;
+		if ("WARN".equals(logLevel))
+			this.logLevel = WARN;
+		if ("INFO".equals(logLevel))
+			this.logLevel = INFO;
+		if ("NOTICE".equals(logLevel))
+			this.logLevel = NOTICE;
+		if ("DEBUG".equals(logLevel))
+			this.logLevel = DEBUG;
+		if ("TRACE".equals(logLevel))
+			this.logLevel = TRACE;
+	}
 	
 	/**
 	 * Returns the current logging level
@@ -165,7 +192,11 @@ public abstract class GeoGebraLogger {
 					}
 				caller += ": ";
 				}
-			String logEntry = getTimeInfo() + level.text + ": " + caller + message;
+			String timeInfo = "";
+			if (timeShown) {
+				timeInfo = getTimeInfo() + " ";
+			}
+			String logEntry = timeInfo + level.text + ": " + caller + message;
 			print(logEntry, level);
 		}
 	}
@@ -187,8 +218,7 @@ public abstract class GeoGebraLogger {
 	}
 	
 	/**
-	 * Returns the current time in human readable format (for debugging),
-	 * appended by a space character if non-empty
+	 * Returns the current time in human readable format (for debugging)
 	 * @return the timestamp
 	 */
 	protected String getTimeInfo() {

@@ -6,11 +6,18 @@ import java.io.IOException;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
+/**
+ * @author Zoltan Kovacs <zoltan@geogebra.org>
+ * Web implementation for the GeoGebraLogger 
+ */
 public class GeoGebraLogger extends geogebra.common.util.GeoGebraLogger {
 
 	private File logFile = null; // default
-	protected FileWriter logFileWriter = null;
+	private FileWriter logFileWriter = null;
 	
+	/**
+	 * Constructor
+	 */
 	public GeoGebraLogger() {
 	}
 
@@ -26,7 +33,7 @@ public class GeoGebraLogger extends geogebra.common.util.GeoGebraLogger {
 		if (msec < 10) {
 			msecS = "0" + msecS;
 		}
-		return calendar.get(Calendar.HOUR_OF_DAY) + ":" + minS + ":" + secS + "." + msecS + " ";
+		return calendar.get(Calendar.HOUR_OF_DAY) + ":" + minS + ":" + secS + "." + msecS;
 	}
 	
 	@Override

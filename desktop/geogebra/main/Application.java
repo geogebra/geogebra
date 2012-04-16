@@ -446,6 +446,10 @@ public class Application extends AbstractApplication implements
 		if(args!= null && !args.containsArg("silent")) {
 			AbstractApplication.logger = new GeoGebraLogger();
 			logger.setLogDestination(LogDestination.CONSOLE);
+			if (args.containsArg("logLevel")) {
+				logger.setLogLevel(args.getStringValue("logLevel"));
+			}
+				
 		}
 
 		setFileVersion(GeoGebraConstants.VERSION_STRING);
@@ -642,7 +646,9 @@ public class Application extends AbstractApplication implements
 							+ "  --resetSettings\treset current settings\n"
 							+ "  --antiAliasing=BOOLEAN\tturn anti-aliasing on/off\n"
 							+ "  --regressionFile=FILENAME\texport textual representations of dependent objects, then exit\n"
-							+ "  --versionCheckAllow=SETTING\tallow version check (on/off or true/false for single launch)\n");
+							+ "  --versionCheckAllow=SETTING\tallow version check (on/off or true/false for single launch)\n"
+							+ "  --logLevel=LEVEL\tset logging level (EMERGENCY|ALERT|CRITICAL|ERROR|WARN|NOTICE|INFO|DEBUG|TRACE)\n"
+							+ "  --silent\tCompletely mute logging");
 			System.exit(0);
 		}
 		// help debug applets

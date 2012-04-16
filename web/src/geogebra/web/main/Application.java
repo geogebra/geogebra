@@ -146,6 +146,7 @@ public class Application extends AbstractApplication {
 		this.useFullGui = ae.getDataParamGui();
 		logger = new GeoGebraLogger();
 		logger.setLogDestination(LogDestination.CONSOLES);
+		// logger.setLogLevel(com.google.gwt.user.client.Window.Location.getParameter("logLevel"));
 		initCommonObjects();
 		
 		this.canvas = Canvas.createIfSupported();
