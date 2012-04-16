@@ -27,13 +27,13 @@ class Interface(PythonScriptInterface):
         factory = self.factory = objects.ElementFactory(api)
         functions = Functions(api, factory)
         self.geo = objects.GeoNamespace(self.factory)
-        #selection = self.selection = objects.Selection()
+        selection = self.selection = objects.Selection(self.factory)
         self.namespace = {
             'Color': Color,
             # Below we must assume that the GgbApi is already created.
             'ggbApplet': APIProxy(raw_api.getGgbApi()),
             'geo': self.geo,
-            #'selection': self.selection,
+            'selection': self.selection,
             #'interactive': interactive,
             'input': functions.input,
             'debug': functions.debug,

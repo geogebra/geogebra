@@ -1178,6 +1178,7 @@ class Selection(object):
     def vectors(self):
         return self.filter(Vector)
 
+
 __objects__ = [
     Vector, Point,
     Numeric, Angle, Boolean,
