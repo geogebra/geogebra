@@ -1548,23 +1548,6 @@ public abstract class AbstractApplication {
 				
 
 	private static boolean miniPropertiesActive = true;
-	// Michael Borcherds 2008-06-22
-	private static void doDebug(String s, boolean showTime, boolean showMemory, int level) {
-		String memInfo = "";
-		String timeInfo = "";
-		boolean timeShown = logger.isTimeShown();
-		if (showTime) {
-			// Setting time temporarily
-			logger.setTimeShown(true);
-		}
-		if (showMemory) {
-			memInfo = logger.getMemoryInfo();
-			if (memInfo != "") {
-				memInfo = "\n" + memInfo;
-			}
-		}
-		debug(s + memInfo);
-	}
 	/**
 	 * @return the scriptingLanguage
 	 */
