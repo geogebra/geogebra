@@ -486,6 +486,24 @@ public class PythonFlatAPI {
 			return geo.keepsType();
 		}
 		
+		/**
+		 * Get the layer of a Geo
+		 * @param geo the geo
+		 * @return the geo's layer
+		 */
+		public static int getLayer(GeoElement geo) {
+			return geo.getLayer();
+		}
+		
+		/**
+		 * Set the layer of a geo
+		 * @param geo the geo
+		 * @param layer the new layer for the geo
+		 */
+		public static void setLayer(GeoElement geo, int layer) {
+			geo.setLayer(layer);
+		}
+		
 		/* Scripting */
 		
 		/**

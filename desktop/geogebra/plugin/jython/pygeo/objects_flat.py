@@ -299,6 +299,13 @@ class Element:
         API.Geo.updateRepaint(self.geo)
     trace = property(_gettrace, _settrace)
 
+    # property: layer
+    def _getlayer(self):
+        return API.Geo.getLayer(self.geo)
+    def _setlayer(self, value):
+        API.Geo.setLayer(self.geo, value)
+    layer = property(_getlayer, _setlayer)
+    
     def __geo__(self):
         return self.geo
 
