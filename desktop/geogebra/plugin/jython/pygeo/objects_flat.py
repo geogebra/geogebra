@@ -723,10 +723,21 @@ class Poly(ExpressionElement, NumberExpression):
 
 
 class Polygon(Poly):
+
+    def init(self, *points):
+        if len(points) == 1:
+            points = points[0]
+        el = self._factory.element
+        self.geo = self._api.geoPolygon([el(p).geo for p in points])
     
     def __len__(self):
         return API.Geo.getPolygonSize(self.geo)
 
+    @property
+    def edges(self):
+        return map(self._factory.get_element,
+                   API.Geo.getPolygonEdges(self.geo))
+    
     @property
     def area(self):
         return self.value
@@ -1107,7 +1118,8 @@ class Intersect(object):
 class List(Element):
     
     def init(self, *args):
-        self.geo = self._api.geoList([arg.geo for arg in args])
+        el = self._factory.element
+        self.geo = self._api.geoList([el(arg).geo for arg in args])
 
     def __getitem__(self, index):
         if index < 0:

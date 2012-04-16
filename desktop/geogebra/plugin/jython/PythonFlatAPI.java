@@ -52,6 +52,7 @@ import geogebra.common.kernel.implicit.GeoImplicitPoly;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.plugin.GgbAPI;
@@ -741,6 +742,20 @@ public class PythonFlatAPI {
 			return poly.getAreaWithSign();
 		}
 		
+		/**
+		 * Return the edges of a polygon
+		 * @param poly the polygon
+		 * @return and array with all the edges of the polygon
+		 */
+		public static GeoSegment[] getPolygonEdges(GeoPolygon poly) {
+			GeoSegmentND[] nd_edges = poly.getSegments();
+			GeoSegment[] edges = new GeoSegment[nd_edges.length];
+			for (int i = 0; i < nd_edges.length; i++) {
+				edges[i] = (GeoSegment) nd_edges[i];
+			}
+			return edges;
+		}
+		
 		/* Functions */
 		
 		/**
@@ -1253,6 +1268,16 @@ public class PythonFlatAPI {
 		return geo;
 	}
 	
+	/* Polygons */
+	
+	/**
+	 * Create new polygon
+	 * @param points the vertices of the polygon
+	 * @return new polygon
+	 */
+	public GeoPolygon geoPolygon(GeoPointND[] points) {
+		return (GeoPolygon) kernel.Polygon(null, points)[0];
+	}
 	/*
 	 * Creating expressions
 	 */
