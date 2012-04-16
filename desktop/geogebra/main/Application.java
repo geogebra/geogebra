@@ -4300,7 +4300,8 @@ public class Application extends AbstractApplication implements
             }
             logFile.append(".txt");
 
-            AbstractApplication.debug(logFile.toString());
+            AbstractApplication.debug("Logging is redirected to " + logFile.toString());
+            AbstractApplication.logger.setTimeShown(false); // do not print the time twice
 
             // log file max size 10K, 1 file, append-on-open
             Handler fileHandler;

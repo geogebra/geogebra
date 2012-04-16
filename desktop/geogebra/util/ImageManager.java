@@ -159,7 +159,7 @@ public class ImageManager extends AbstractImageManager{
 		Image img = getImageResource("/geogebra"+name);
 		
 		if (img == null) {
-			Application.debug("Image " + name + " not found");			
+			AbstractApplication.error("Image " + name + " not found");			
 		}
 		
 		return img;
@@ -180,12 +180,12 @@ public class ImageManager extends AbstractImageManager{
 				try {
 				   tracker.waitForAll();
 				} catch (InterruptedException e) {
-				   Application.debug("Interrupted while loading Image: " + name);
+				   AbstractApplication.debug("Interrupted while loading Image: " + name);
 				}
 				tracker.removeImage(img);
 			}			   
 		 } catch (Exception e) {
-		 	Application.debug(e.toString());
+		 	AbstractApplication.debug(e.toString());
 		 }
 
 		 return img;
