@@ -1278,6 +1278,15 @@ public class PythonFlatAPI {
 	public GeoPolygon geoPolygon(GeoPointND[] points) {
 		return (GeoPolygon) kernel.Polygon(null, points)[0];
 	}
+	
+	/**
+	 * Create new polyline
+	 * @param points the vertices of the polyline
+	 * @return new polyline
+	 */
+	public GeoPolyLine geoPolyLine(GeoPointND[] points) {
+		return (GeoPolyLine) kernel.PolyLine(null, points)[0];
+	}
 	/*
 	 * Creating expressions
 	 */

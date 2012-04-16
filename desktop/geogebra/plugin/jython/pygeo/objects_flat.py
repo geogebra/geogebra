@@ -748,7 +748,12 @@ class Polygon(Poly):
     
 
 class PolyLine(Poly):
-    pass
+
+        def init(self, *points):
+            if len(points) == 1:
+                points = points[0]
+            el = self._factory.element
+            self.geo = self._api.geoPolyLine([el(p).geo for p in points])
 
 
 class Text(Element):
