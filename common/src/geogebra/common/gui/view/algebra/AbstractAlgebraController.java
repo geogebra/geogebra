@@ -44,15 +44,15 @@ public class AbstractAlgebraController {
 		app = kernel.getApplication();		
 	}
 
-	void setView(AlgebraView view) {
+	public void setView(AlgebraView view) {
 		this.view = view;
 	}
 
-	AbstractApplication getApplication() {
+	public AbstractApplication getApplication() {
 		return app;
 	}
 
-	Kernel getKernel() {
+	public Kernel getKernel() {
 		return kernel;
 	}
 
