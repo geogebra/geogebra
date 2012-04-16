@@ -205,7 +205,13 @@ public abstract class AbstractApplication {
 	
 	protected boolean showAlgebraInput = true;
 	protected boolean showInputHelpToggle = true;
-	
+
+	/*
+	 * stored here rather than in algebra view so that it can be set without
+	 * creating an AV (compatibility with 3.2)
+	 */
+	public boolean showAuxiliaryObjects = false;
+
 	private static String CASVersionString = "";
 
 	public static void setCASVersionString(String string) {
@@ -1126,7 +1132,11 @@ public abstract class AbstractApplication {
 		kernel.notifyRepaint();
 		updateSelection();
 	}
-	
+
+	public boolean showAuxiliaryObjects() {
+		return showAuxiliaryObjects;
+	}
+
 	final public void selectAllDescendants() {
 
 		for (int i = 0; i < selectedGeos.size(); i++) {
@@ -1977,7 +1987,12 @@ public abstract class AbstractApplication {
 	 */
 	public void setShowAuxiliaryObjects(boolean auxiliaryObjects) {
 		// TODO Auto-generated method stub
-		
+		showAuxiliaryObjects = auxiliaryObjects;
+
+		if (getGuiManager() != null) {
+			getGuiManager().setShowAuxiliaryObjects(auxiliaryObjects);
+			//updateMenubar();
+		}
 	}
 
 	/**

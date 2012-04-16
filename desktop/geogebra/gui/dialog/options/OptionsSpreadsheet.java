@@ -12,8 +12,8 @@ the Free Software Foundation.
 
 package geogebra.gui.dialog.options;
 
+import geogebra.common.gui.SetLabels;
 import geogebra.common.main.settings.SpreadsheetSettings;
-import geogebra.gui.SetLabels;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.gui.view.spreadsheet.FileBrowserPanel;
 import geogebra.gui.view.spreadsheet.SpreadsheetView;

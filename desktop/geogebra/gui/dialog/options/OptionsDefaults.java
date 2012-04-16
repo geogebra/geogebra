@@ -1,8 +1,8 @@
 package geogebra.gui.dialog.options;
 
+import geogebra.common.gui.SetLabels;
 import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.gui.GuiManager;
-import geogebra.gui.SetLabels;
 import geogebra.gui.color.GeoGebraColorChooser;
 import geogebra.gui.dialog.PropertiesPanel;
 import geogebra.main.Application;

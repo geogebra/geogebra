@@ -18,13 +18,13 @@ the Free Software Foundation.
 
 package geogebra.gui.view.algebra;
 
+import geogebra.common.gui.SetLabels;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.LayerView;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
 import geogebra.euclidian.EuclidianView;
-import geogebra.gui.SetLabels;
 import geogebra.gui.inputfield.MathTextField;
 import geogebra.gui.view.Gridable;
 import geogebra.main.Application;

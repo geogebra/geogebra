@@ -309,6 +309,12 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 	public void openHelp(String wikiManual) {
 		AbstractApplication.debug("Implementation needed...");
     }
-	
-	
+
+	public void setShowAuxiliaryObjects(boolean flag) {
+		// TODO: auto-generated method stub
+		if (!hasAlgebraView())
+			return;
+		//getAlgebraView();
+		//algebraView.setShowAuxiliaryObjects(flag);
+	}
 }

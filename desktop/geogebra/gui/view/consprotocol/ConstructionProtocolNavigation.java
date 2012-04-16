@@ -11,11 +11,11 @@ the Free Software Foundation.
 */
 package geogebra.gui.view.consprotocol;
 
+import geogebra.common.gui.SetLabels;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.settings.AbstractSettings;
 import geogebra.common.main.settings.ConstructionProtocolSettings;
 import geogebra.common.main.settings.SettingListener;
-import geogebra.gui.SetLabels;
 import geogebra.main.Application;
 
 import java.awt.Component;

@@ -14,6 +14,7 @@ package geogebra.gui.dialog;
 
 import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
+import geogebra.common.gui.SetLabels;
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Locateable;
@@ -53,7 +54,6 @@ import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.plugin.GeoClass;
 import geogebra.euclidian.EuclidianView;
-import geogebra.gui.SetLabels;
 import geogebra.gui.color.GeoGebraColorChooser;
 import geogebra.gui.dialog.handler.RedefineInputHandler;
 import geogebra.gui.dialog.handler.RenameInputHandler;

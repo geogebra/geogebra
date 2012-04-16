@@ -1,6 +1,6 @@
 package geogebra.gui.dialog.options;
 
-import geogebra.gui.SetLabels;
+import geogebra.common.gui.SetLabels;
 import geogebra.gui.TitleLabel;
 import geogebra.gui.util.SpringUtilities;
 import geogebra.main.Application;

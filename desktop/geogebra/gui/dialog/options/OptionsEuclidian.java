@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.gui.dialog.options;
 
 import geogebra.common.euclidian.AbstractEuclidianView;
+import geogebra.common.gui.SetLabels;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.NumberValue;
@@ -21,7 +22,6 @@ import geogebra.common.util.Unicode;
 import geogebra.euclidian.EuclidianView;
 import geogebra.euclidianND.EuclidianViewND;
 import geogebra.gui.NumberComboBox;
-import geogebra.gui.SetLabels;
 import geogebra.gui.dialog.DashListRenderer;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.gui.util.TableSymbols;

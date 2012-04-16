@@ -1,7 +1,7 @@
 package geogebra.gui.dialog;
 
+import geogebra.common.gui.SetLabels;
 import geogebra.common.kernel.geos.GeoTurtle;
-import geogebra.gui.SetLabels;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;

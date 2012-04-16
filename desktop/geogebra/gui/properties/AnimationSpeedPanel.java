@@ -1,5 +1,6 @@
 package geogebra.gui.properties;
 
+import geogebra.common.gui.SetLabels;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
@@ -7,7 +8,6 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoButton;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.gui.SetLabels;
 import geogebra.gui.dialog.PropertiesDialog;
 import geogebra.main.Application;
 

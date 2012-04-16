@@ -1,5 +1,7 @@
 package geogebra.gui;
 
+import geogebra.common.gui.SetLabels;
+
 import javax.swing.JPanel;
 
 public abstract class MyPanel extends JPanel implements SetLabels{

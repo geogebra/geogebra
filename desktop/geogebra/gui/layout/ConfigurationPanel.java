@@ -1,6 +1,6 @@
 package geogebra.gui.layout;
 
-import geogebra.gui.SetLabels;
+import geogebra.common.gui.SetLabels;
 import geogebra.main.Application;
 
 import java.awt.BorderLayout;
