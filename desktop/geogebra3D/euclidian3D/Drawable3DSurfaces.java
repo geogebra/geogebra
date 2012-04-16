@@ -1,6 +1,7 @@
 package geogebra3D.euclidian3D;
 
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.main.Application;
 import geogebra3D.euclidian3D.opengl.Renderer;
 
 /**
@@ -39,7 +40,9 @@ public abstract class Drawable3DSurfaces extends Drawable3D {
 	abstract void drawGeometryHiding(Renderer renderer);
 
 
+	@Override
 	public void drawHiding(Renderer renderer){
+		
 		if(!isVisible())
 			return;
 
@@ -57,6 +60,7 @@ public abstract class Drawable3DSurfaces extends Drawable3D {
 	
 
 
+	@Override
 	public void drawTransp(Renderer renderer){
 		if(!isVisible()){
 			return;
@@ -78,10 +82,12 @@ public abstract class Drawable3DSurfaces extends Drawable3D {
 	}
 	
 	
+	@Override
 	public void drawOutline(Renderer renderer) {}
 	
 	
 	// method used only if surface is not transparent
+	@Override
 	public void drawNotTransparentSurface(Renderer renderer){
 		
 		if(!isVisible()){
@@ -98,9 +104,11 @@ public abstract class Drawable3DSurfaces extends Drawable3D {
 		
 	}
 	
+	@Override
 	public void drawHidden(Renderer renderer){} 	
 	
 	
+	@Override
 	protected void updateColors(){
 		//update alpha value
 		updateAlpha();
@@ -116,6 +124,7 @@ public abstract class Drawable3DSurfaces extends Drawable3D {
 	}
 	*/
 	
+	@Override
 	protected void updateForView(){
 		
 	}
@@ -131,6 +140,7 @@ public abstract class Drawable3DSurfaces extends Drawable3D {
 	
 
 
+	@Override
 	public boolean isTransparent() {
 		return true;
 	}
@@ -139,15 +149,18 @@ public abstract class Drawable3DSurfaces extends Drawable3D {
 
 	
 
+	@Override
 	public void addToDrawable3DLists(Drawable3DLists lists){
 		addToDrawable3DLists(lists,DRAW_TYPE_SURFACES);
 	}
     
-    public void removeFromDrawable3DLists(Drawable3DLists lists){
+    @Override
+	public void removeFromDrawable3DLists(Drawable3DLists lists){
     	removeFromDrawable3DLists(lists,DRAW_TYPE_SURFACES);
     }
 	
 
+	@Override
 	protected double getColorShift(){
 		return 0.2;
 	}

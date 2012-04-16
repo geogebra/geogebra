@@ -59,8 +59,7 @@ import javax.swing.JPanel;
  * @author matthieu
  *
  */
-public class EuclidianController3D extends EuclidianControllerFor3D 
-implements MouseListener, MouseMotionListener, MouseWheelListener{
+public class EuclidianController3D extends EuclidianControllerFor3D {
 
 
 
@@ -466,6 +465,22 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 		return hits.getHits(Test.REGION3D, tempArrayList);
 	}
 	
+	/**
+	 * 
+	 * @param point cursor
+	 * @return free point from cursor coords
+	 */
+	private GeoPoint3D getNewPointFree(GeoPointND point){
+		GeoPoint3D point3D = (GeoPoint3D) kernel.getManager3D().Point3D(null, 0,0,0);
+		point3D.setCoords(point);
+		point3D.updateCoords();
+		view3D.setCursor3DType(EuclidianView3D.PREVIEW_POINT_ALREADY);
+		view3D.updateMatrixForCursor3D();
+		view3D.getCursor3D().setMoveMode(point3D.getMoveMode());
+		if (mode==EuclidianConstants.MODE_POINT || mode==EuclidianConstants.MODE_POINT_ON_OBJECT)
+			freePointJustCreated = true;
+		return point3D;
+	}
 	
 	/**
 	 * return a copy of the preview point if one
@@ -484,6 +499,7 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 		
 		switch(view3D.getCursor3DType()){		
 		case EuclidianView3D.PREVIEW_POINT_FREE:
+			/*
 			point3D = (GeoPoint3D) kernel.getManager3D().Point3D(null, 0,0,0);
 			point3D.setCoords((GeoPointND) point);
 			point3D.updateCoords();
@@ -493,6 +509,9 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 			view3D.getCursor3D().setMoveMode(point3D.getMoveMode());
 			if (mode==EuclidianConstants.MODE_POINT || mode==EuclidianConstants.MODE_POINT_ON_OBJECT)
 				freePointJustCreated = true;
+				*/
+			point3D = getNewPointFree(point);
+			ret = point3D;
 			break;
 
 		case EuclidianView3D.PREVIEW_POINT_PATH:
@@ -520,7 +539,11 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 			//Application.printStacktrace("");
 			if (inRegionPossible){
 				Region region = point.getRegion();
-				if (((GeoElement) region).isGeoElement3D()){
+				if (region == view3D.getxOyPlane()){
+					Application.debug("ici");
+					point3D = getNewPointFree(point);
+					ret = point3D;
+				}else if (((GeoElement) region).isGeoElement3D()){
 					Coords coords = point.getCoords();
 					point3D = (GeoPoint3D) getKernel().getManager3D().Point3DIn(null,region,coords,true);			
 					//point3D.setWillingCoords(point.getCoords());
@@ -630,8 +653,7 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 			//if there's "no" 3D cursor, no point is created
 			if (view3D.getCursor3DType()==EuclidianView3D.PREVIEW_POINT_NONE)
 				return null;
-			else
-				point3D = (GeoPoint3D) kernel.getManager3D().Point3D(null, 0,0,0);
+			point3D = (GeoPoint3D) kernel.getManager3D().Point3D(null, 0,0,0);
 		}else{
 			point3D = (GeoPoint3D) createNewPoint(true, view3D.getxOyPlane(), complex);
 			if (point3D==null)
@@ -721,7 +743,7 @@ implements MouseListener, MouseMotionListener, MouseWheelListener{
 			//ret.setRegion(region);
 			ret.doRegion();
 			
-			Application.debug("ici");
+			//Application.debug("ici");
 			
 
 			return ret;

@@ -390,6 +390,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 		xOyPlane.setEuclidianVisible(true);
 		xOyPlane.setGridVisible(true);
 		xOyPlane.setPlateVisible(false);
+		//xOyPlane.setFading(0);
 		xOyPlaneDrawable = (DrawPlane3D) createDrawable(xOyPlane);		
 
 	}
@@ -2581,13 +2582,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	 * @param renderer
 	 */
 	public void drawHiding(Renderer renderer){
-		
-		
-		if (xOyPlane.isPlateVisible())
-			xOyPlaneDrawable.drawHiding(renderer);
-				
-				
-		
+		xOyPlaneDrawable.drawHiding(renderer);
 	}
 	
 	/** draw not hidden parts of view's drawables (axis)

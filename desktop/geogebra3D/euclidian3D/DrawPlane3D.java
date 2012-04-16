@@ -55,35 +55,50 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 	
 	
 
+	@Override
 	public void drawGeometry(Renderer renderer) {
 
-		if (!((GeoPlane3D)getGeoElement()).isPlateVisible())
-			return;
+		if (((GeoPlane3D)getGeoElement()).isPlateVisible())
+			drawPlate(renderer);
 
+		
+	}
+	
+	private void drawPlate(Renderer renderer){
 		renderer.setLayer(getGeoElement().getLayer()-1f); //-1f for z-fighting with planes
 		renderer.getGeometryManager().draw(getGeometryIndex());	
 		renderer.setLayer(0);
-		
-
-		
 	}
 	
 	
+	@Override
 	public void drawGeometryHiding(Renderer renderer) {
-		drawGeometry(renderer);
+		GeoPlane3D plane = (GeoPlane3D) getGeoElement();
+		if (plane.isPlateVisible()){// || plane.isGridVisible())
+			drawPlate(renderer);
+			/*
+			renderer.setLayer(getGeoElement().getLayer()-1f); //-1f for z-fighting with planes
+			renderer.getGeometryManager().draw(getGeometryIndex());	
+			renderer.getGeometryManager().draw(hidingIndex);	
+			renderer.setLayer(0);
+			*/
+		}
 	}
 	
 	
 	
+	@Override
 	public void drawGeometryPicked(Renderer renderer){}
 	
 
+	@Override
 	public void drawHidden(Renderer renderer){
 		//renderer.setMatrix(getMatrix());
 		//setHighlightingColor(1f);
 		drawGeometryHidden(renderer);
 	}
 
+	@Override
 	public void drawGeometryHidden(Renderer renderer){ 
 		
 		if(!isVisible())
@@ -101,6 +116,15 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 		
 	}
 	
+	/*
+	@Override
+	protected void drawGeometryForPicking(Renderer renderer){
+		drawGeometry(renderer);
+		renderer.getGeometryManager().draw(gridIndex);
+		renderer.getGeometryManager().draw(gridOutlineIndex);
+	}
+	*/
+	
 	/**
 	 * 
 	 * @return true if grid is visible
@@ -112,15 +136,21 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 	
 	
 	
+	@Override
 	protected boolean updateForItSelf(){
-		return updateForItSelf(true);
+		((GeoPlane3D) getGeoElement()).setGridCorners(minmaxXFinal[0], minmaxYFinal[0], minmaxXFinal[1], minmaxYFinal[1]);
+		return updateGeometry();
 	}
 
 	
-	protected boolean updateForItSelf(boolean checkTime){
+	//private int hidingIndex = -1;
+	
+	/**
+	 * update the geometry
+	 * @return true
+	 */
+	protected boolean updateGeometry(){
 		
-		
-		//super.updateForItSelf();
 
 		Renderer renderer = getView3D().getRenderer();
 		GeoPlane3D geo = (GeoPlane3D) getGeoElement();
@@ -128,34 +158,52 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 		
 		
 		
-		if (checkTime)
-			setMinMaxToGeo();
-		
-		float xmin = (float) geo.getXmin(), xmax = (float) geo.getXmax(), xdelta = xmax-xmin; 
-		float ymin = (float) geo.getYmin(), ymax = (float) geo.getYmax(), ydelta = ymax-ymin; 
+		float xmin1 = (float) geo.getXmin(), xmax1 = (float) geo.getXmax(), xdelta1 = xmax1-xmin1; 
+		float ymin1 = (float) geo.getYmin(), ymax1 = (float) geo.getYmax(), ydelta1 = ymax1-ymin1; 
+
+		/*
+		float xmin2 = (float) geo.getXPlateMin(), xmax2 = (float) geo.getXPlateMax(), xdelta2 = xmax2-xmin2; 
+		float ymin2 = (float) geo.getYPlateMin(), ymax2 = (float) geo.getYPlateMax(), ydelta2 = ymax2-ymin2; 
+		*/
 		
 		// plane	
 		PlotterSurface surface = renderer.getGeometryManager().getSurface();
 		
 		surface.start(geo);
 		
-		surface.setU(xmin,xmax);surface.setNbU(2);
-		surface.setV(ymin,ymax);surface.setNbV(2);
+		surface.setU(xmin1,xmax1);surface.setNbU(2);
+		surface.setV(ymin1,ymax1);surface.setNbV(2);
 
 		if (!getView3D().useClippingCube()){
 			float fading;
-			fading = xdelta * geo.getFading();
+			fading = xdelta1 * geo.getFading();
 			surface.setUFading(fading, fading);
-			fading = ydelta * geo.getFading();
+			fading = ydelta1 * geo.getFading();
 			surface.setVFading(fading, fading);
 		}
 		surface.draw();
 		setGeometryIndex(surface.end());
 		
-		
-		
+		/*
+		//hiding borders
+		surface.start(geo);	
+		surface.setU(xmax1,xmax);surface.setNbU(1);
+		surface.setV(ymin,ymax);surface.setNbV(1);
+		surface.draw();
+		surface.setU(xmin,xmin1);surface.setNbU(1);
+		surface.setV(ymin,ymax);surface.setNbV(1);
+		surface.draw();
+		surface.setU(xmin1,xmax1);surface.setNbU(1);
+		surface.setV(ymin,ymin1);surface.setNbV(1);
+		surface.draw();
+		surface.setU(xmin1,xmax1);surface.setNbU(1);
+		surface.setV(ymax1,ymax);surface.setNbV(1);
+		surface.draw();
+		hidingIndex=surface.end();
+		*/
 		
 		// grid
+		
 		removeGeometryIndex(gridIndex);
 		removeGeometryIndex(gridOutlineIndex);
 		
@@ -185,24 +233,24 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 		if (!viewDirectionIsParallel){
 			//along x axis
 			brush.setAffineTexture(
-					(0f-xmin)/ydelta,
+					(0f-xmin1)/ydelta1,
 					0.25f);
-			int i0 = (int) (ymin/dy);
-			if (ymin>0)
+			int i0 = (int) (ymin1/dy);
+			if (ymin1>0)
 				i0++;
-			for(int i=i0;i<=ymax/dy;i++)
-				brush.segment(coordsys.getPointForDrawing(xmin,i*dy), 
-						coordsys.getPointForDrawing(xmax,i*dy));	
+			for(int i=i0;i<=ymax1/dy;i++)
+				brush.segment(coordsys.getPointForDrawing(xmin1,i*dy), 
+						coordsys.getPointForDrawing(xmax1,i*dy));	
 			//along y axis
 			brush.setAffineTexture(
-					(0f-ymin)/xdelta,
+					(0f-ymin1)/xdelta1,
 					0.25f);
-			i0 = (int) (xmin/dx);
-			if (xmin>0)
+			i0 = (int) (xmin1/dx);
+			if (xmin1>0)
 				i0++;
-			for(int i=i0;i<=xmax/dx;i++)
-				brush.segment(coordsys.getPointForDrawing(i*dx, ymin), 
-						coordsys.getPointForDrawing(i*dx, ymax));
+			for(int i=i0;i<=xmax1/dx;i++)
+				brush.segment(coordsys.getPointForDrawing(i*dx, ymin1), 
+						coordsys.getPointForDrawing(i*dx, ymax1));
 		}
 		
 		gridIndex = brush.end();
@@ -214,31 +262,29 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 			//draws the rectangle outline
 			if (showClippingCube){
 				brush.setAffineTexture(
-						(0f-xmin)/ydelta,
+						(0f-xmin1)/ydelta1,
 						0.25f);
 			}else
 				brush.setPlainTexture();
-			brush.segment(coordsys.getPointForDrawing(xmin,ymax-thickness), 
-					coordsys.getPointForDrawing(xmax,ymax-thickness));
-			brush.segment(coordsys.getPointForDrawing(xmin,ymin+thickness), 
-					coordsys.getPointForDrawing(xmax,ymin+thickness));	
+			brush.segment(coordsys.getPointForDrawing(xmin1,ymax1-thickness), 
+					coordsys.getPointForDrawing(xmax1,ymax1-thickness));
+			brush.segment(coordsys.getPointForDrawing(xmin1,ymin1+thickness), 
+					coordsys.getPointForDrawing(xmax1,ymin1+thickness));	
 			
 			if (showClippingCube){
 				brush.setAffineTexture(
-						(0f-ymin)/xdelta,
+						(0f-ymin1)/xdelta1,
 						0.25f);
 			}			
-			brush.segment(coordsys.getPointForDrawing(xmin+thickness,ymin), 
-					coordsys.getPointForDrawing(xmin+thickness,ymax));
-			brush.segment(coordsys.getPointForDrawing(xmax-thickness,ymin), 
-					coordsys.getPointForDrawing(xmax-thickness,ymax));	
+			brush.segment(coordsys.getPointForDrawing(xmin1+thickness,ymin1), 
+					coordsys.getPointForDrawing(xmin1+thickness,ymax1));
+			brush.segment(coordsys.getPointForDrawing(xmax1-thickness,ymin1), 
+					coordsys.getPointForDrawing(xmax1-thickness,ymax1));	
 								
 		}
 		
 		gridOutlineIndex = brush.end();
 		
-		if (checkTime)
-			return timesUpForUpdate();
 
 		return true;
 	}
@@ -262,135 +308,97 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 		setMinMax();
 	}
 	
-	/*
-	private void updateMinMax(Coords v){
-		double x = v.getX(), y = v.getY();
-		if (x<minmaxXFinal[0])
-			minmaxXFinal[0]=x;
-		if (x>minmaxXFinal[1])
-			minmaxXFinal[1]=x;
-		if (y<minmaxYFinal[0])
-			minmaxYFinal[0]=y;
-		if (y>minmaxYFinal[1])
-			minmaxYFinal[1]=y;		
-	}
-	*/
 	
+	/**
+	 * set x-y min/max values
+	 */
 	protected void setMinMax(){
+		setMinMax(getView3D().getClippingVertex(0), getView3D().getClippingVertex(1), getView3D().getClippingVertex(2), getView3D().getClippingVertex(4));
+	}
+	
 
-		//if (getView3D().useClippingCube()){
+
+	/**
+	 * sets the min/max regarding a clipping box
+	 * @param origin center of the clipping box
+	 * @param vx first edge
+	 * @param vy second edge
+	 * @param vz third edge
+	 */
+	private void setMinMax(Coords origin, Coords vx, Coords vy, Coords vz){
+
+		GeoPlane3D geo = (GeoPlane3D) getGeoElement();
+
+		CoordMatrix m = geo.getCoordSys().getDrawingMatrix();
+		Coords o = origin.projectPlane(m)[1];
+		minmaxXFinal[0]=o.getX();
+		minmaxYFinal[0]=o.getY();
+		minmaxXFinal[1]=o.getX();
+		minmaxYFinal[1]=o.getY();
+		Coords[] v = new Coords[3];
+		v[0] = vx.projectPlane(m)[1].sub(o);
+		v[1] = vy.projectPlane(m)[1].sub(o);
+		v[2] = vz.projectPlane(m)[1].sub(o);
+		for (int i=0; i<3; i++){
+			double x = v[i].getX();
+			if (x<0)
+				minmaxXFinal[0]+=x; //sub from xmin
+			else
+				minmaxXFinal[1]+=x; //add to xmax
+			double y = v[i].getY();
+			if (y<0)
+				minmaxYFinal[0]+=y; //sub from ymin
+			else
+				minmaxYFinal[1]+=y; //add to ymax
 			
 
-			GeoPlane3D geo = (GeoPlane3D) getGeoElement();
-			CoordMatrix m = geo.getCoordSys().getDrawingMatrix();
-			Coords o = getView3D().getClippingVertex(0).projectPlane(m)[1];
-			minmaxXFinal[0]=o.getX();
-			minmaxYFinal[0]=o.getY();
-			minmaxXFinal[1]=o.getX();
-			minmaxYFinal[1]=o.getY();
-			Coords[] v = new Coords[3];
-			v[0] = getView3D().getClippingVertex(1).projectPlane(m)[1].sub(o);
-			v[1] = getView3D().getClippingVertex(2).projectPlane(m)[1].sub(o);
-			v[2] = getView3D().getClippingVertex(4).projectPlane(m)[1].sub(o);
-			for (int i=0; i<3; i++){
-				double x = v[i].getX();
-				if (x<0)
-					minmaxXFinal[0]+=x; //sub from xmin
-				else
-					minmaxXFinal[1]+=x; //add to xmax
-				double y = v[i].getY();
-				if (y<0)
-					minmaxYFinal[0]+=y; //sub from ymin
-				else
-					minmaxYFinal[1]+=y; //add to ymax
-				
-			}
-		
-		/*
-		}else{
-			GeoPlane3D geo = (GeoPlane3D) getGeoElement();
-
-			//record old values
-			xmin=geo.getXmin();
-			xmax=geo.getXmax();
-			ymin=geo.getYmin();
-			ymax=geo.getYmax();
-
-			//calc new values
-			Coords origin = geo.evaluatePoint(0, 0);
-			Coords vx = geo.evaluatePoint(1, 0).sub(origin);
-			Coords vy = geo.evaluatePoint(0, 1).sub(origin);
-
-			Coords screenOrigin = getView3D().getToSceneMatrix().getOrigin();
-			Coords[] project = geo.getCoordSys().getNormalProjectionForDrawing(screenOrigin);
-
-
-			//Coords o = getView3D().getToScreenMatrix().mul(origin);
-			Coords o = getView3D().getToScreenMatrix().mul(project[0]);
-
-			//Application.debug("screenOrigin=\n"+screenOrigin+"\nproject[0]=\n"+project[0]+"\nScreenMatrix()=\n"+getView3D().getToScreenMatrix()+"\no=\n"+o);
-
-			minmaxXFinal = getView3D().getRenderer().getIntervalInFrustum(
-					new double[] {Double.NEGATIVE_INFINITY,Double.POSITIVE_INFINITY},
-					o, getView3D().getToScreenMatrix().mul(vx), false);	
-
-			minmaxYFinal = getView3D().getRenderer().getIntervalInFrustum(
-					new double[] {Double.NEGATIVE_INFINITY,Double.POSITIVE_INFINITY},
-					o, getView3D().getToScreenMatrix().mul(vy), false);		
-
-
-			for (int i=0;i<2;i++){
-				minmaxXFinal[i]+=project[1].getX();
-				minmaxYFinal[i]+=project[1].getY();
-			}
-
-
-
-			setTime();
-			reduceBounds(minmaxXFinal);
-			reduceBounds(minmaxYFinal);
-		}*/
+		}
 	}
 	
+	/*
+	 * sets the min/max when the plate is visible
+	 *
+	protected void setMinMaxWhenPlateVisible(){
+		setMinMax(getView3D().getClippingVertex(0), getView3D().getClippingVertex(1), getView3D().getClippingVertex(2), getView3D().getClippingVertex(4));
+	}
+
+	/**
+	 * sets the min/max when only the grid is visible
+	 *
+	protected void setMinMaxWhenOnlyGridVisible(){
+		
+		
+		//Application.debug(getView3D().getToScreenMatrix());
+		
+		Coords origin = getView3D().getToSceneMatrix().getOrigin();
+		Coords vx = getView3D().getToSceneMatrix().getVx();
+		Coords vy = getView3D().getToSceneMatrix().getVy();
+		Coords vz = getView3D().getToSceneMatrix().getVz();
+		float x1 = getView3D().getRenderer().getLeft();
+		float x2 = getView3D().getRenderer().getRight();
+		float y1 = getView3D().getRenderer().getBottom();
+		float y2 = getView3D().getRenderer().getTop();
+		float z1 = getView3D().getRenderer().getFront(true);
+		float z2 = getView3D().getRenderer().getBack(true);
+		
+		Coords origin2 = origin.add(vx.mul(x1)).add(vy.mul(y1)).add(vz.mul(z1));
+		
+		setMinMax(origin2,
+				origin2.add(vx.mul(x2-x1)),origin2.add(vy.mul(y2-y1)),origin2.add(vz.mul(z2-z1))
+				);
+
+
+	}
+	*/
+
 	private static final double REDUCE_BOUNDS_FACTOR = 0.975;
 	
-	private void reduceBounds(double[] minmax){
-		double min = minmax[0];
-		double max = minmax[1];
-		
-		
-		minmax[0] = min*REDUCE_BOUNDS_FACTOR+max*(1-REDUCE_BOUNDS_FACTOR);
-		minmax[1] = min*(1-REDUCE_BOUNDS_FACTOR)+max*REDUCE_BOUNDS_FACTOR;
-	}
-
-	protected void setMinMaxToGeo(){
-		long deltaT = getDeltaT();
-		
-		//Application.debug("deltaT="+deltaT+"\nSystem.currentTimeMillis()="+System.currentTimeMillis());
-		GeoPlane3D geo = (GeoPlane3D) getGeoElement();
-		
-		if (deltaT>0){
-			if (deltaT>TIME_DURATION){				
-				geo.setGridCorners(minmaxXFinal[0], minmaxYFinal[0], minmaxXFinal[1], minmaxYFinal[1]);
-			}else{
-				double[] minmax = new double[4];
-				double dt = (double) deltaT*TIME_FACTOR;
-				minmax[0]=minmaxXFinal[0]*dt+xmin*(1-dt);
-				minmax[1]=minmaxYFinal[0]*dt+ymin*(1-dt);
-				minmax[2]=minmaxXFinal[1]*dt+xmax*(1-dt);
-				minmax[3]=minmaxYFinal[1]*dt+ymax*(1-dt);
-				geo.setGridCorners(minmax[0], minmax[1], minmax[2], minmax[3]);
-
-			}
-		}else
-			geo.setGridCorners(xmin, ymin, xmax, ymax);
-	}
 	
 	
 	
 	
 	
-	
+	@Override
 	public int getPickOrder(){
 		return DRAW_PICK_ORDER_2D;
 	}		
@@ -403,12 +411,14 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 	}
 	
 	
+	@Override
 	public void addToDrawable3DLists(Drawable3DLists lists){
 		addToDrawable3DLists(lists,DRAW_TYPE_CURVES);
 		super.addToDrawable3DLists(lists);
 	}
     
-    public void removeFromDrawable3DLists(Drawable3DLists lists){
+    @Override
+	public void removeFromDrawable3DLists(Drawable3DLists lists){
     	removeFromDrawable3DLists(lists,DRAW_TYPE_CURVES);
     	super.removeFromDrawable3DLists(lists);
     }

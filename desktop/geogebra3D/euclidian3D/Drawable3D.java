@@ -552,6 +552,16 @@ public abstract class Drawable3D extends DrawableND {
 		return ret;
 	}
 	
+	
+	/**
+	 * draws the geometry for picking (in most case, draws the default geometry)
+	 * @param renderer renderer
+	 */
+	protected void drawGeometryForPicking(Renderer renderer){
+		drawGeometry(renderer);
+	}
+	
+	
 	/** draws the label (if any)
      * @param renderer 3D renderer
      * */

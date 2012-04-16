@@ -3,18 +3,7 @@ package geogebra3D.euclidian3D;
 
 
 
-import geogebra.common.kernel.Matrix.CoordMatrix4x4;
-import geogebra.common.kernel.Matrix.CoordSys;
-import geogebra.common.kernel.Matrix.Coords;
-import geogebra3D.euclidian3D.opengl.PlotterBrush;
-import geogebra3D.euclidian3D.opengl.PlotterSurface;
-import geogebra3D.euclidian3D.opengl.Renderer;
-import geogebra3D.euclidian3D.opengl.Textures;
 import geogebra3D.kernel3D.GeoPlane3D;
-
-import java.awt.Color;
-
-import javax.sql.XAConnection;
 
 
 
@@ -31,8 +20,10 @@ public class DrawPlaneConstant3D extends DrawPlane3D {
 	
 	/**
 	 * Common constructor
-	 * @param a_view3D
-	 * @param a_plane3D
+	 * @param a_view3D view
+	 * @param a_plane3D plane
+	 * @param xAxis x axis
+	 * @param yAxis y axis
 	 */
 	public DrawPlaneConstant3D(EuclidianView3D a_view3D, GeoPlane3D a_plane3D,
 			DrawAxis3D xAxis, DrawAxis3D yAxis){
@@ -50,29 +41,32 @@ public class DrawPlaneConstant3D extends DrawPlane3D {
 		double[] xMinMax = xAxis.getDrawMinMax();
 		double[] yMinMax = yAxis.getDrawMinMax();
 		
-		((GeoPlane3D) getGeoElement()).setGridCorners(
+		GeoPlane3D geo = (GeoPlane3D) getGeoElement();
+		
+		geo.setGridCorners(
 				xMinMax[0],yMinMax[0],
 				xMinMax[1],yMinMax[1]
 				);
 		
-		((GeoPlane3D) getGeoElement()).setGridDistances(
+		geo.setGridDistances(
 				xAxis.getNumbersDistance(), 
 				yAxis.getNumbersDistance()
 				);
 		
-		super.updateForItSelf(false);
+		
+		super.updateGeometry();
 		
 		return !(xAxis.waitForUpdate() || yAxis.waitForUpdate());
 	}
 	
 	@Override
 	protected void updateForView(){
-		
+		//follow the view
 	}
 	
 	@Override
 	protected void setMinMax(){
-		
+		//follow axes values
 	}
 	
 	@Override

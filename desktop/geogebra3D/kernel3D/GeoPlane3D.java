@@ -26,7 +26,8 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 
 	private static boolean KEEP_LEADING_SIGN = true;
 
-	double xmin, xmax, ymin, ymax; // for drawing
+	double xmin, xmax, ymin, ymax; // values for grid and interactions
+	double xPlateMin, xPlateMax, yPlateMin, yPlateMax; //values for plate
 
 	// grid and plate
 	boolean gridVisible = false;
@@ -156,6 +157,24 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 
 	// /////////////////////////////////
 	// GRID AND PLATE
+	
+	/** sets corners of the plate */
+	public void setPlateCorners(double x1, double y1, double x2, double y2) {
+		if (x1 < x2) {
+			this.xPlateMin = x1;
+			this.xPlateMax = x2;
+		} else {
+			this.xPlateMin = x2;
+			this.xPlateMax = x1;
+		}
+		if (y1 < y2) {
+			this.yPlateMin = y1;
+			this.yPlateMax = y2;
+		} else {
+			this.yPlateMin = y2;
+			this.yPlateMax = y1;
+		}
+	}
 
 	/** sets corners of the grid */
 	public void setGridCorners(double x1, double y1, double x2, double y2) {
@@ -173,9 +192,6 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 			this.ymin = y2;
 			this.ymax = y1;
 		}
-
-		// Application.printStacktrace(xmin+","+xmax+"\n"+ymin+","+ymax);
-
 	}
 
 	/**
@@ -189,22 +205,26 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 		this.dy = dy;
 	}
 
-	/** returns min/max on x/y */
-	public double getXmin() {
-		return xmin;
-	}
-
-	public double getYmin() {
-		return ymin;
-	}
-
-	public double getXmax() {
-		return xmax;
-	}
-
-	public double getYmax() {
-		return ymax;
-	}
+	/** @return x min  */
+	public double getXmin() { return xmin; }
+	/** @return y min  */
+	public double getYmin() { return ymin; }
+	/** @return x max  */
+	public double getXmax() { return xmax; }
+	/** @return y max  */
+	public double getYmax() { return ymax; }
+	
+	
+	/** @return plate x min  */
+	public double getXPlateMin() { return xPlateMin; }
+	/** @return plate y min  */
+	public double getYPlateMin() { return yPlateMin; }
+	/** @return plate x max  */
+	public double getXPlateMax() { return xPlateMax; }
+	/** @return plate y max  */
+	public double getYPlateMax() { return yPlateMax; }
+	
+	
 
 	/** returns if there is a grid to plot or not */
 	public boolean isGridVisible() {

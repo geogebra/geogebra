@@ -1590,7 +1590,10 @@ public class Renderer implements GLEventListener {
 		} else {
 			return back;	
 		}
-	}			
+	}	
+	public float getDepth(){
+		return back-front;
+	}
 	
 	/** for a line described by (o,v), return the min and max parameters to draw the line
 	 * @param minmax initial interval
