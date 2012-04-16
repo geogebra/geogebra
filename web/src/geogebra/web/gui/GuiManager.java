@@ -12,12 +12,15 @@ import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.main.AbstractApplication;
+import geogebra.web.gui.view.algebra.AlgebraController;
+import geogebra.web.gui.view.algebra.AlgebraView;
 import geogebra.web.euclidian.EuclidianView;
 import geogebra.web.gui.app.GGWToolBar;
 import geogebra.web.gui.inputbar.InputBarHelpPanel;
 import geogebra.web.gui.layout.Layout;
 import geogebra.web.main.Application;
 
+import java.awt.dnd.DropTarget;
 import java.util.ArrayList;
 
 import com.google.gwt.core.client.GWT;
@@ -29,6 +32,9 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 
 	public AbstractApplication app;
 	protected Kernel kernel;
+
+	private AlgebraController algebraController;
+	private AlgebraView algebraView;
 
 	private AbsolutePanel main;
 
@@ -250,6 +256,7 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 	 * Initializes GuiManager for web
 	 */
 	public void initialize() {
+		initAlgebraController(); // ? needed for keyboard input in EuclidianView in Desktop
 		
 		layout.initialize(app);
 		//do nothing yet
@@ -316,5 +323,47 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 			return;
 		//getAlgebraView();
 		//algebraView.setShowAuxiliaryObjects(flag);
+	}
+
+	public AlgebraView getAlgebraView() {
+		if (algebraView == null) {
+			initAlgebraController();
+			algebraView = newAlgebraView(algebraController);
+			//if (!app.isApplet()) {
+				// allow drag & drop of files on algebraView
+			//	algebraView.setDropTarget(new DropTarget(algebraView,
+			//			new FileDropTargetListener(app)));
+			//}
+		}
+
+		return algebraView;
+	}
+
+	private void initAlgebraController() {
+		if (algebraController == null) {
+			algebraController = new AlgebraController(app.getKernel());
+		}
+	}
+
+	/**
+	 * 
+	 * @param algc
+	 * @return new algebra view
+	 */
+	protected AlgebraView newAlgebraView(AlgebraController algc) {
+		//if (USE_COMPRESSED_VIEW) {
+		//	return new CompressedAlgebraView(algc, CV_UPDATES_PER_SECOND);
+		//}
+		return new AlgebraView(algc);
+	}
+
+	public void attachAlgebraView() {
+		getAlgebraView();
+		algebraView.attachView();
+	}
+
+	public void detachAlgebraView() {
+		if (algebraView != null)
+			algebraView.detachView();
 	}
 }

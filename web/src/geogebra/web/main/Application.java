@@ -596,8 +596,10 @@ public class Application extends AbstractApplication {
 
 	@Override
 	public AlgebraView getAlgebraView() {
-		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-		return null;
+		if (guiManager == null) {
+			return null;
+		}
+		return guiManager.getAlgebraView();
 	}
 
 	@Override
