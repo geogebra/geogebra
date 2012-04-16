@@ -79,6 +79,7 @@ INSTALLDIR=""
 STYLE=OBFUSCATED
 OTHEROPTS=""
 JAVAC_CLEANUP=""
+LOCALES=1
 
 trap "cleanup" EXIT 2 9 15
 
@@ -97,6 +98,7 @@ while [ $# -gt 0 ]; do
    echo "  -s [style]          Compilation style: OBFUSCATED, PRETTY or DETAILED ($STYLE)"
    echo "  -g [directory]      Use GWT SDK from the given directory ($GWTDIR)"
    echo "  -X [path]           Use XMLStarlet from the given path ($XML)"
+   echo "  -nl, --no-locales   Remove locales (speeds up compilation)"
    echo "  -v, --verbose       Be verbose whenever possible (see the -H option as well)"
    echo "  -- [options]        Forward the rest options directly to the GWT Compiler"
    echo "  -H                  Show extra options for the GWT Compiler"
@@ -132,6 +134,10 @@ while [ $# -gt 0 ]; do
   -g)
    shift
    GWTDIR="$1"
+   ;;
+
+  -nl | --no-locales)
+   LOCALES=0
    ;;
 
   -v | --verbose)
@@ -205,8 +211,14 @@ cp $GWTXML $GWTXML.orig
 
 cat $GWTXML | \
  $XML ed -u "/module/set-property[@name='user.agent']/@value" -v "$USERAGENTS" > $GWTXML-b
-
-mv $GWTXML-b $GWTXML
+ 
+if [ "$LOCALES" = 0 ]; then
+ cat $GWTXML-b |\
+  $XML ed -d "/module/extend-property[@name='locale']" |\
+  $XML ed -d "/module/set-property-fallback[@name='locale']" > $GWTXML
+else
+ mv $GWTXML-b $GWTXML
+ fi
 
 # 8. Compiling web with GWT Compiler
 classpath
