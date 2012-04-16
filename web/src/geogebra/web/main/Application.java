@@ -175,6 +175,7 @@ public class Application extends AbstractApplication {
 		
 	}
 
+	// I guess this is called for the full GUI based GeoGebraWeb --- Zoltan
 	public Application(ArticleElement article, GeoGebraAppFrame geoGebraAppFrame, boolean undoActive) {
 		this.articleElement = article;
 		this.appFrame = geoGebraAppFrame;
@@ -182,6 +183,8 @@ public class Application extends AbstractApplication {
 		this.useFullAppGui  = true;
 		appCanvasHeight = appFrame.getCanvasCountedHeight();
 		appCanvasWidth = appFrame.getCanvasCountedWidth();
+		logger = new GeoGebraLogger();
+		logger.setLogDestination(LogDestination.CONSOLES);
 		initCommonObjects();
 		
 		this.canvas = appFrame.getEuclidianView1Canvas();
