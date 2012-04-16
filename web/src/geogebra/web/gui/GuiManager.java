@@ -20,7 +20,6 @@ import geogebra.web.gui.inputbar.InputBarHelpPanel;
 import geogebra.web.gui.layout.Layout;
 import geogebra.web.main.Application;
 
-import java.awt.dnd.DropTarget;
 import java.util.ArrayList;
 
 import com.google.gwt.core.client.GWT;
