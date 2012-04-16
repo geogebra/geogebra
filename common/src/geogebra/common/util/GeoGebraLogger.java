@@ -194,8 +194,11 @@ public abstract class GeoGebraLogger {
 				}
 			String timeInfo = "";
 			if (timeShown) {
-				timeInfo = getTimeInfo() + " ";
-			}
+				timeInfo = getTimeInfo();
+				if (timeInfo != "") {
+					timeInfo += " ";
+					}
+				}
 			String logEntry = timeInfo + level.text + ": " + caller + message;
 			print(logEntry, level);
 		}
