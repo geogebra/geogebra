@@ -107,27 +107,27 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 			switch (cu) {
 			case PathIterator.SEG_MOVETO:
 				context.moveTo(coords[0], coords[1]);
-				setLastCoords(coords[0], coords[1]);
+				//setLastCoords(coords[0], coords[1]);
 				break;
 			case PathIterator.SEG_LINETO:
-				if (dash_array == null) {
+				//if (dash_array == null) {
 					context.lineTo(coords[0], coords[1]);
-				} else {
-					if (nativeDashUsed) {
-						context.lineTo(coords[0], coords[1]);
-					} else {
-						drawDashedLine(pathLastX,pathLastY,coords[0], coords[1],jsarrn, context);
-					}
-				}
-				setLastCoords(coords[0], coords[1]);
+				//} else {
+				//	if (nativeDashUsed) {
+				//		context.lineTo(coords[0], coords[1]);
+				//	} else {
+				//		drawDashedLine(pathLastX,pathLastY,coords[0], coords[1],jsarrn, context);
+				//	}
+				//}
+				//setLastCoords(coords[0], coords[1]);
 				break;
 			case PathIterator.SEG_CUBICTO: 
 				context.bezierCurveTo(coords[0], coords[1], coords[2], coords[3], coords[4], coords[5]);
-				setLastCoords(coords[4], coords[5]);
+				//setLastCoords(coords[4], coords[5]);
 				break;
 			case PathIterator.SEG_QUADTO:			
 				context.quadraticCurveTo(coords[0], coords[1], coords[2], coords[3]);
-				setLastCoords(coords[2], coords[3]);
+				//setLastCoords(coords[2], coords[3]);
 				break;
 			case PathIterator.SEG_CLOSE:
 				context.closePath();
@@ -788,7 +788,7 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 		    checkX.cap = capmax;
 		  }
 		
-		  ctx.moveTo(fromX, fromY);
+		  //ctx.moveTo(fromX, fromY);
 		  var offsetX = fromX;
 		  var offsetY = fromY;
 		  var idx = 0, dash = true;
