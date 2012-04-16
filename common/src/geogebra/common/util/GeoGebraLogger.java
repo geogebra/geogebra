@@ -245,17 +245,32 @@ public abstract class GeoGebraLogger {
 	public String getCaller() {
 		String callerMethodName = null;
 		String callerClassName = null;
+		int callerLineNumber;
+
 		try {
 			Throwable t = new Throwable();
 			StackTraceElement[] elements = t.getStackTrace();
-
 			// String calleeMethod = elements[0].getMethodName();
 			callerMethodName = elements[3].getMethodName();
 			callerClassName = elements[3].getClassName();
+			callerLineNumber = elements[3].getLineNumber();
+			if (callerClassName.equals("Unknown")) {
+				// Web production mode
+				if (callerMethodName.equals("$fillInStackTrace")) {
+					// PRETTY style
+					if (elements.length < 10) {
+						return "?"; 
+						}
+					return elements[9].getMethodName(); 
+					}
+				// OBFUSCATED style
+				return callerMethodName;
+				}
+			
 			} catch (Throwable t) {
 				// do nothing here; we are probably running Web in Opera
 				return "?";
 		}
-		return callerClassName + "." + callerMethodName;
+		return callerClassName + "." + callerMethodName + "[" + callerLineNumber + "]";
 	}
 }
