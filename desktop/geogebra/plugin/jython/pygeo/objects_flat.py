@@ -303,7 +303,8 @@ class Element:
     def _getlayer(self):
         return API.Geo.getLayer(self.geo)
     def _setlayer(self, value):
-        API.Geo.setLayer(self.geo, value)
+        API.Geo.setLayer(self.geo, int(value))
+        self.update()
     layer = property(_getlayer, _setlayer)
     
     def __geo__(self):
@@ -593,6 +594,14 @@ class Point(VectorOrPoint):
     @sign(Number, Number)
     def initfromnumbercoords(self, x, y):
         self.geo = self._api.geoPoint(float(x), float(y))
+
+    # property: point_size
+    def _get_point_size(self):
+        return API.Geo.getPointSize(self.geo)
+    def _set_point_size(self, size):
+        API.Geo.setPointSize(self.geo, int(size))
+        self.update()
+    point_size = property(_get_point_size, _set_point_size)
 
 
 @Vector.init.spec

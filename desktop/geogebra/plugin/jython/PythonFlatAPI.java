@@ -538,6 +538,26 @@ public class PythonFlatAPI {
 			geo.setUpdateScript(script, false);
 		}
 		
+		/* GeoPoint methods */
+		
+		/**
+		 * Get the size of a point
+		 * @param geo the point
+		 * @return the size of the point
+		 */
+		public static int getPointSize(GeoPoint2 geo) {
+			return geo.getPointSize();
+		}
+		
+		/**
+		 * Set the size of a point
+		 * @param geo the point
+		 * @param size the new size for the point
+		 */
+		public static void setPointSize(GeoPoint2 geo, int size) {
+			geo.setPointSize(size);
+		}
+		
 		/* GeoVec3D methods */
 
 		/**
