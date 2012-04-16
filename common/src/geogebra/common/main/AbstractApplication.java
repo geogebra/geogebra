@@ -1532,6 +1532,30 @@ public abstract class AbstractApplication {
 			}
 	}
 
+	public static void emergency(String message) {
+		if (logger != null) {
+			logger.log(logger.EMERGENCY, message);
+			}
+	}
+
+	public static void alert(String message) {
+		if (logger != null) {
+			logger.log(logger.ALERT, message);
+			}
+	}
+
+	public static void trace(String message) {
+		if (logger != null) {
+			logger.log(logger.TRACE, message);
+			}
+	}
+
+	public static void critical(String message) {
+		if (logger != null) {
+			logger.log(logger.CRITICAL, message);
+			}
+	}
+	
 	public static GeoGebraLogger logger;
 
 	public boolean isMacOS() {
