@@ -25,6 +25,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.gui.util.GeoGebraIcon;
+import geogebra.gui.GuiManager;
 import geogebra.main.Application;
 
 import java.awt.Color;
@@ -51,47 +52,24 @@ import java.util.Iterator;
 import javax.swing.ImageIcon;
 import javax.swing.tree.TreePath;
 
-public class AlgebraController
+public class AlgebraController extends geogebra.common.gui.view.algebra.AbstractAlgebraController
 implements MouseListener, MouseMotionListener, DragGestureListener, DragSourceListener {
-	private Kernel kernel;
-	private Application app;
-
-	private AlgebraView view;
-
-	//private GeoVector tempVec;
-	//private boolean kernelChanged;
 
 	private DragSource ds;
 
 	/** Creates new CommandProcessor */
 	public AlgebraController(Kernel kernel) {
-		this.kernel = kernel;
-		app = (Application)kernel.getApplication();		
-	}
-
-	void setView(AlgebraView view) {
-		this.view = view;
-	}
-
-	Application getApplication() {
-		return app;
-	}
-
-	Kernel getKernel() {
-		return kernel;
+		super(kernel);
 	}
 
 	protected void enableDnD(){
 		ds = new DragSource();
-		DragGestureRecognizer dgr = ds.createDefaultDragGestureRecognizer(view, DnDConstants.ACTION_COPY_OR_MOVE, this);
+		DragGestureRecognizer dgr = ds.createDefaultDragGestureRecognizer((AlgebraView)view, DnDConstants.ACTION_COPY_OR_MOVE, this);
 	}
 
 	/*
 	 * MouseListener implementation for popup menus
 	 */
-
-	private GeoElement lastSelectedGeo = null;
-	private boolean skipSelection;
 
 	public void mouseClicked(java.awt.event.MouseEvent e) {	
 		// right click is consumed in mousePressed, but in GeoGebra 3D,
@@ -102,12 +80,12 @@ implements MouseListener, MouseMotionListener, DragGestureListener, DragSourceLi
 		}
 
 		// get GeoElement at mouse location		
-		TreePath tp = view.getPathForLocation(e.getX(), e.getY());
+		TreePath tp = (TreePath)view.getPathForLocation(e.getX(), e.getY());
 		GeoElement geo = AlgebraView.getGeoElementForPath(tp);	
 
 		// check if we clicked on the 16x16 show/hide icon
 		if (geo != null) {
-			Rectangle rect = view.getPathBounds(tp);		
+			Rectangle rect = (Rectangle)view.getPathBounds(tp);		
 			boolean iconClicked = rect != null && e.getX() - rect.x < 16; // distance from left border				
 			if (iconClicked) {
 				// icon clicked: toggle show/hide
@@ -222,7 +200,7 @@ implements MouseListener, MouseMotionListener, DragGestureListener, DragSourceLi
 			e.consume();
 
 			// get GeoElement at mouse location		
-			TreePath tp = view.getPathForLocation(e.getX(), e.getY());
+			TreePath tp = (TreePath)view.getPathForLocation(e.getX(), e.getY());
 			GeoElement geo = AlgebraView.getGeoElementForPath(tp);
 
 			if (geo != null && !app.containsSelectedGeo(geo)) {
@@ -232,18 +210,18 @@ implements MouseListener, MouseMotionListener, DragGestureListener, DragSourceLi
 			// single selection: popup menu
 			if (app.selectedGeosSize() < 2) {				
 				if(geo == null) {
-					AlgebraContextMenu contextMenu = new AlgebraContextMenu(app);
-					contextMenu.show(view, e.getPoint().x, e.getPoint().y);
+					AlgebraContextMenu contextMenu = new AlgebraContextMenu((Application)app);
+					contextMenu.show((AlgebraView)view, e.getPoint().x, e.getPoint().y);
 				} else {
 					ArrayList<GeoElement> temp = new ArrayList<GeoElement>();
 					temp.add(geo);
-					app.getGuiManager().showPopupMenu(temp, view, mouseCoords);
-				}			
+					((GuiManager)app.getGuiManager()).showPopupMenu(temp, (AlgebraView)view, mouseCoords);
+				}
 			} 
 			// multiple selection: popup menu (several geos)
 			else {
 				if(geo != null) {
-					app.getGuiManager().showPopupMenu(app.getSelectedGeos(), view, mouseCoords);
+					((GuiManager)app.getGuiManager()).showPopupMenu(app.getSelectedGeos(), (AlgebraView)view, mouseCoords);
 				}
 			}	
 
@@ -260,7 +238,7 @@ implements MouseListener, MouseMotionListener, DragGestureListener, DragSourceLi
 
 			skipSelection = false; // flag to prevent duplicate selection in MouseClicked
 
-			TreePath tp = view.getPathForLocation(e.getX(), e.getY());
+			TreePath tp = (TreePath)view.getPathForLocation(e.getX(), e.getY());
 			GeoElement geo = AlgebraView.getGeoElementForPath(tp);	
 			EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
 			int mode = ev.getMode();
@@ -298,7 +276,7 @@ implements MouseListener, MouseMotionListener, DragGestureListener, DragSourceLi
 		int x = e.getX();
 		int y = e.getY();
 
-		GeoElement geo = AlgebraView.getGeoElementForLocation(view, x, y);
+		GeoElement geo = view.getGeoElementForLocation(view, x, y);
 
 		// tell EuclidianView to handle mouse over
 		//EuclidianView ev = app.getEuclidianView();
@@ -307,10 +285,10 @@ implements MouseListener, MouseMotionListener, DragGestureListener, DragSourceLi
 
 		if (geo != null) {
 			app.setTooltipFlag();
-			view.setToolTipText(geo.getLongDescriptionHTML(true, true));
+			((AlgebraView)view).setToolTipText(geo.getLongDescriptionHTML(true, true));
 			app.clearTooltipFlag();
 		} else
-			view.setToolTipText(null);						
+			((AlgebraView)view).setToolTipText(null);						
 	}
 	
 
@@ -349,7 +327,7 @@ implements MouseListener, MouseMotionListener, DragGestureListener, DragSourceLi
 				sb.append("\\\\");
 			}
 			sb.append("\\end{array}}");
-			ImageIcon ic  = GeoGebraIcon.createLatexIcon(app, sb.toString(), app.getPlainFont(), false, Color.DARK_GRAY, null);
+			ImageIcon ic  = GeoGebraIcon.createLatexIcon((Application)app, sb.toString(), ((Application)app).getPlainFont(), false, Color.DARK_GRAY, null);
 			
 			// start drag
 			ds.startDrag(dge, DragSource.DefaultCopyDrop, ic.getImage(), 
