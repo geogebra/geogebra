@@ -136,6 +136,7 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 		public void focusLost(FocusEvent e) {
 			view.getEuclidianController().textfieldHasFocus(false);	
 			geoTextField.textObjectUpdated(textField);
+			geoTextField.textSubmitted();
 	
 		}
 	}
@@ -163,7 +164,7 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 			if (e.getKeyChar() == '\n') {
 				//view.getEuclidianController().textfieldHasFocus(false);
 				//geoTextField.textObjectUpdated(textField);
-				geoTextField.textSubmitted();
+				//geoTextField.textSubmitted();
 				view.requestFocusInWindow();
 			} else {
 				GeoElement linkedGeo = ((GeoTextField) geo).getLinkedGeo();
