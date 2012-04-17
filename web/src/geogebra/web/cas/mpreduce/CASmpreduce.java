@@ -66,6 +66,7 @@ public class CASmpreduce extends AbstractCASmpreduce implements geogebra.common.
 	public CASmpreduce(CASparser casParser, CasParserTools parserTools,Kernel kernel) {
 		super(casParser,kernel.getCasVariablePrefix());
 		this.parserTools = parserTools;
+		this.kernel=kernel;
     }
 	
 	@Override
