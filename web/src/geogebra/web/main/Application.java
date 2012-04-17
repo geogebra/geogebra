@@ -133,9 +133,13 @@ public class Application extends AbstractApplication {
 		this(ae, gf, true);
 	}
 
+	private static void startLogger() {
+		logger = new GeoGebraLogger();
+		logger.setLogDestination(LogDestination.CONSOLES);
+		logger.setLogLevel(com.google.gwt.user.client.Window.Location.getParameter("logLevel"));
+	}
+	
 	/**
-	 * @param useFullGui
-	 *          if false only one EuclidianView
 	 * @param undoActive
 	 *          if true you can undo by CTRL+Z and redo by CTRL+Y
 	 */
@@ -144,9 +148,7 @@ public class Application extends AbstractApplication {
 		this.frame = gf;
 		createSplash();
 		this.useFullGui = ae.getDataParamGui();
-		logger = new GeoGebraLogger();
-		logger.setLogDestination(LogDestination.CONSOLES);
-		logger.setLogLevel(com.google.gwt.user.client.Window.Location.getParameter("logLevel"));
+		startLogger();
 		initCommonObjects();
 		
 		this.canvas = Canvas.createIfSupported();
@@ -172,10 +174,9 @@ public class Application extends AbstractApplication {
 				AbstractApplication.debug(reason);
 			}
 		});
-		
 	}
 
-	// I guess this is called for the full GUI based GeoGebraWeb --- Zoltan
+	// This is called for the full GUI based GeoGebraWeb --- Zoltan
 	public Application(ArticleElement article, GeoGebraAppFrame geoGebraAppFrame, boolean undoActive) {
 		this.articleElement = article;
 		this.appFrame = geoGebraAppFrame;
@@ -183,8 +184,7 @@ public class Application extends AbstractApplication {
 		this.useFullAppGui  = true;
 		appCanvasHeight = appFrame.getCanvasCountedHeight();
 		appCanvasWidth = appFrame.getCanvasCountedWidth();
-		logger = new GeoGebraLogger();
-		logger.setLogDestination(LogDestination.CONSOLES);
+		startLogger();
 		initCommonObjects();
 		
 		this.canvas = appFrame.getEuclidianView1Canvas();
