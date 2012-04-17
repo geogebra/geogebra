@@ -1,6 +1,12 @@
 package geogebra.web.gui.inputbar;
 
+import geogebra.common.euclidian.AbstractEuclidianView;
+import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
+import geogebra.common.kernel.CircularDefinitionException;
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.MyError;
 import geogebra.web.gui.inputfield.AutoCompleteTextField;
 import geogebra.web.gui.view.algebra.InputPanel;
@@ -197,7 +203,37 @@ public class AlgebraInput extends HorizontalPanel implements KeyUpHandler, Focus
 					inputField.showError(ee);
 					return;
 				 }
-			}
+					
+					// create texts in the middle of the visible view
+					// we must check that size of geos is not 0 (ZoomIn, ZoomOut, ...)
+					if (geos.length > 0 && geos[0] != null && geos[0].isGeoText()) {
+						GeoText text = (GeoText)geos[0];
+						if (!text.isTextCommand() && text.getStartPoint() == null) {
+
+							Construction cons = text.getConstruction();
+							EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
+
+							boolean oldSuppressLabelsStatus = cons.isSuppressLabelsActive();
+							cons.setSuppressLabelCreation(true);
+							GeoPoint2 p = new GeoPoint2(text.getConstruction(), null, ( ev.getXmin() + ev.getXmax() ) / 2, ( ev.getYmin() + ev.getYmax() ) / 2, 1.0);
+							cons.setSuppressLabelCreation(oldSuppressLabelsStatus);
+
+							try {
+								text.setStartPoint(p);
+								text.update();
+							} catch (CircularDefinitionException e1) {
+								e1.printStackTrace();
+							}
+						}
+					}
+
+					app.setScrollToShow(false);
+
+											   
+					inputField.addToHistory(input);
+					inputField.setText(null);  							  			   
+								  
+				} else app.getGlobalKeyDispatcher().handleGeneralKeys(event); // handle eg ctrl-tab
     }
 
 	public void onClick(ClickEvent event) {

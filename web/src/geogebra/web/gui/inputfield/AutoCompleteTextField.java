@@ -59,7 +59,7 @@ public class AutoCompleteTextField extends SuggestBox implements AutoComplete, g
 
 	  private List<String> completions;
 	  private String cmdPrefix;
-	  private CompletionsPopup completionsPopup;
+	  private static CompletionsPopup completionsPopup;
 
 	  private HistoryPopup historyPopup;
 
@@ -106,7 +106,7 @@ public class AutoCompleteTextField extends SuggestBox implements AutoComplete, g
 		      boolean handleEscapeKey, AutoCompleteDictionary dict) {
 		    //AG not MathTextField and Mytextfield exists yet super(app);
 		    // allow dynamic width with columns = -1
-		  super();
+		  super(completionsPopup = new CompletionsPopup());
 		    if (columns > 0) {
 		      setColumns(columns);
 		    }
@@ -121,8 +121,9 @@ public class AutoCompleteTextField extends SuggestBox implements AutoComplete, g
 
 		    completions = null;
 
-		    CommandCompletionListCellRenderer cellRenderer = new CommandCompletionListCellRenderer();
-		    completionsPopup = new CompletionsPopup(this, cellRenderer, 6);
+		    //CommandCompletionListCellRenderer cellRenderer = new CommandCompletionListCellRenderer();
+		    completionsPopup.addTextField(this);
+		    
 		    // addKeyListener(this); now in MathTextField <==AG not mathtexfield exist yet
 		    addKeyDownHandler(this);
 		    addKeyUpHandler(this);
@@ -804,6 +805,10 @@ public class AutoCompleteTextField extends SuggestBox implements AutoComplete, g
 		    	  
 		    }
 	    
+    }
+
+	public void addToHistory(String input) {
+	  AbstractApplication.debug("Implementation needed AutocompleteTextfield.addToHistory");
     }
 
 }

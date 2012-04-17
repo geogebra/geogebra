@@ -15,13 +15,10 @@ public class CompletionsPopup extends MultiWordSuggestOracle {
 
 	private AutoCompleteTextField textField;
 	private VerticalPanel list;
-	
 
-	public CompletionsPopup(AutoCompleteTextField textField,
-            CommandCompletionListCellRenderer cellRenderer, int i) {
-		super();
-		clear();
-		this.textField = textField;
+	public CompletionsPopup() {
+	   super();
+	   clear();
     }
 
 	private void registerListeners() {
@@ -38,6 +35,10 @@ public class CompletionsPopup extends MultiWordSuggestOracle {
 			clear();
 			addAll(completions);
 		}
+    }
+
+	public void addTextField(AutoCompleteTextField autoCompleteTextField) {
+	  this.textField = autoCompleteTextField;
     }
 
 }

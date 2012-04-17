@@ -136,7 +136,7 @@ public class Application extends AbstractApplication {
 	private static void startLogger() {
 		logger = new GeoGebraLogger();
 		logger.setLogDestination(LogDestination.CONSOLES);
-		logger.setLogLevel(com.google.gwt.user.client.Window.Location.getParameter("logLevel"));
+		logger.setLogLevel(Window.Location.getParameter("logLevel"));
 	}
 	
 	/**

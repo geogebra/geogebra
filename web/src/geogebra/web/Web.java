@@ -135,11 +135,11 @@ public class Web implements EntryPoint {
 	    try {
 	    	var worker = new $wnd.Worker(workerpath+"js/workercheck.js");
 	    } catch (e) {
-	    	$wnd.console.log("INIT: worker not supported, fallback for simple js");
+	    	@geogebra.web.main.Application::debug(Ljava/lang/String;)("INIT: worker not supported, fallback for simple js");
 	    	
 	    	return false;
 	    }
-	    $wnd.console.log("INIT: workers are supported");
+	    @geogebra.web.main.Application::debug(Ljava/lang/String;)("INIT: workers are supported");
 	    	
 	    worker.terminate();
 	    return true;
