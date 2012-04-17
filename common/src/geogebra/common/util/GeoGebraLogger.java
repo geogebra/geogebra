@@ -255,14 +255,29 @@ public abstract class GeoGebraLogger {
 			callerClassName = elements[3].getClassName();
 			callerLineNumber = elements[3].getLineNumber();
 			if (callerClassName.equals("Unknown")) {
-				// Web production mode
+				/* In web production mode the GWT compile rewrites the
+				 * code very thoroughly. We are doing some intuitive
+				 * hacking here to explode the method name; since
+				 * other information (class name, line number) is unavailable.
+				 */
+				
+				// PRETTY style
+				// safari:
 				if (callerMethodName.equals("$fillInStackTrace")) {
-					// PRETTY style
 					if (elements.length < 10) {
 						return "?"; 
 						}
 					return elements[9].getMethodName(); 
 					}
+				// gecko1_8
+				if (callerMethodName.equals("fillInStackTrace")) {
+					if (elements.length < 11) {
+						return "?"; 
+						}
+					return elements[10].getMethodName(); 
+				}
+				// TODO: Maybe other user agents could be supported.
+				
 				// OBFUSCATED style
 				return callerMethodName;
 				}
