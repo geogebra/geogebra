@@ -17,6 +17,7 @@ package geogebra.common.kernel.prover;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.main.AbstractApplication;
 
 /**
  * Prover package for GeoGebra.
@@ -117,14 +118,14 @@ public class Prover {
 		if (statement != null) {
 
 			String c = simplifiedXML(construction);
-			System.out.println("Construction: " + c);
+			AbstractApplication.debug("Construction: " + c);
 			// getCASString may also be used 
 			String cd = statement.getCommandDescription(StringTemplate.ogpTemplate);
-			System.out.println("Statement to prove: " + cd);
+			AbstractApplication.debug("Statement to prove: " + cd);
 
 		}
 		else {
-			System.err.println("No statement to prove");
+			AbstractApplication.error("No statement to prove");
 		}
 
 		result = Prover.ProofResult.UNKNOWN;
