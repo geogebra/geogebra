@@ -13,11 +13,12 @@ WEB_BUILDDIR=war
 REVISION=`svn info | grep Revision: | awk '{print $2}'`
 mkdir -p $REVDIR/$REVISION
 cd $WEB_AUTOBUILDDIR
-./build -s PRETTY -c -nl -i $REVDIR/$REVISION/war > .buildlog 2>&1 || {
+./build -s OBFUSCATED -c -nl -i $REVDIR/$REVISION/war > .buildlog 2>&1 || {
  RESULT=$?
  cp .buildlog $REVDIR/$REVISION/weberrors
  exit $RESULT
  }
+./build -s PRETTY -nl -i $REVDIR/$REVISION/war-debug
 
 echo $REVISION > $REVDIR/$REVISION/war/web/version.txt
 
