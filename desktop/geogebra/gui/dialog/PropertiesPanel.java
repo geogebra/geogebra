@@ -4549,7 +4549,13 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 			imgFileNameList.add(imagePath + "go-up.png");
 			imgFileNameList.add(imagePath + "go-previous.png");
 			imgFileNameList.add(imagePath + "go-next.png");
-					
+			imgFileNameList.add(imagePath + "nav_fastforward.png");
+			imgFileNameList.add(imagePath + "nav_rewind.png");
+			imgFileNameList.add(imagePath + "nav_skipback.png");
+			imgFileNameList.add(imagePath + "nav_skipforward.png");
+			imgFileNameList.add("/geogebra/main/nav_play.png");
+			imgFileNameList.add("/geogebra/main/nav_pause.png");
+			
 			imgFileNameList.add(imagePath + "exit.png");
 			
 			
