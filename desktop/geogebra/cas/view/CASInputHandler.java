@@ -190,12 +190,12 @@ public class CASInputHandler {
 			boolean isKeepInput = ggbcmd.equals("KeepInput");
 
 			// assignments are processed immediately, the ggbcmd creates a new
-			// row
-			// below
+			// row below
 			if (isAssignment) {
 				// tell row that KeepInput was used
-				if (isKeepInput)
+				if (isKeepInput) {
 					cellValue.setEvalCommand("KeepInput");
+				}
 
 				// evaluate assignment row
 				boolean needInsertRow = !isEvaluate && !isKeepInput;
