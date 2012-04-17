@@ -2577,7 +2577,7 @@ public class GeoGebraCasIntegrationTest {
 	@Test
 	public void UnitPerpendicularVector_1() {
 		t("UnitPerpendicularVector[(a, b)]",
-				"((-b) / sqrt(a^(2) + b^(2)), -b / sqrt(a^(2) + b^(2)))");
+				"((-b) / sqrt(a^(2) + b^(2)), a / sqrt(a^(2) + b^(2)))");
 	}
 
 	/* UnitVector */
