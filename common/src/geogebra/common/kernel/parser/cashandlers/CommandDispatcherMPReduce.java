@@ -29,6 +29,12 @@ public class CommandDispatcherMPReduce {
 		arbint(Operation.ARBINT),
 		/** derivative*/
 		df(Operation.DERIVATIVE),
+		/** internal addition -- need to parse that if we used keepinput*/
+		addition (Operation.PLUS),
+		/** internal multiplication -- need to parse that if we used keepinput*/
+		multiplication (Operation.MULTIPLY),
+		/** internal subtraction -- need to parse that if we used keepinput*/
+		subtraction (Operation.MINUS),
 		/** logb */
 		logb(Operation.LOGB),
 		/** sine integral */
@@ -74,26 +80,24 @@ public class CommandDispatcherMPReduce {
 								args.getListElement(0));
 				break;
 			case arbcomplex:
-				
-
 			case arbconst:
-				
-
 			case arbint:
-				
-			
-				
 			case ci:
-				
 			case si:
-				
 			case ei:
 				// e.g. logb[x,3] becomes log(3,x)
 				ret = new ExpressionNode(kernel,
 						 args.getListElement(0),commands.valueOf(cmdName).getOperation(),
 								null);
 				break;
-
+			case multiplication:
+			case subtraction:
+			case addition:
+				// e.g. addition[x,3] becomes x + 3
+				ret = new ExpressionNode(kernel,
+						 args.getListElement(0),commands.valueOf(cmdName).getOperation(),
+						 args.getListElement(1));
+				break;
 			case df:
 				// e.g. df(f(var),var) from MPReduce becomes f'(var)
 				// see http://www.geogebra.org/trac/ticket/1420
