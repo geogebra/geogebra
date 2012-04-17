@@ -3,6 +3,7 @@ package geogebra.euclidian;
 import geogebra.common.awt.Point;
 import geogebra.common.euclidian.Hits;
 import geogebra.common.euclidian.event.AbstractEvent;
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.algos.AlgoCircleThreePoints;
 import geogebra.common.kernel.algos.AlgoJoinPointsSegment;
@@ -550,40 +551,45 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 				recognizer_queue_length = 0;
 				AbstractApplication.debug("Arrow Recognized");
 			}
+			if(this.try_closed_polygon(3))
+			{
+				recognizer_queue_length = 0;
+				AbstractApplication.debug("Triangle Recognized");
+			}
+			if(this.try_closed_polygon(4))
+			{
+				recognizer_queue_length = 0;
+				AbstractApplication.debug("Quadrilateral Recognized");
+			}
 			if(n==1)//then stroke is a line
 			{
 				AbstractApplication.debug("Current stroke is a line");
-				double xcenter,ycenter,x1,y1,x2,y2,x,y,z,angle;
-				xcenter=a.sx/a.mass;
-				ycenter=a.sy/a.mass;
-				x=this.I_xx(a);
-				y=this.I_xy(a);
-				z=this.I_yy(a);
-				angle=Math.atan2(2*y, x-z)/2;
-				if(Math.abs(angle)<SLANT_TOLERANCE)
+				if(Math.abs(rs.angle) < SLANT_TOLERANCE)
 				{
-					angle=0;
-					y1=ycenter;
-					y2=ycenter;
+					rs.angle = 0;
+					rs.y1 = rs.y2 = rs.ycenter;
 				}
-				if(Math.abs(angle)>Math.PI/2-SLANT_TOLERANCE)
+				if(Math.abs(rs.angle) > Math.PI/2 - SLANT_TOLERANCE)
 				{
-					x1=xcenter;
-					x2=xcenter;
+					rs.angle = (rs.angle > 0) ? (Math.PI/2):(-Math.PI/2);
+					rs.x1 = rs.x2 = rs.xcenter;
 				}
 				//	line1=new Line2D();
 				//System.out.println(penOffsetX);
-				double x_first=view.toRealWorldCoordX(penPoints.get(0).x + penOffsetX);
-				double y_first=view.toRealWorldCoordY(penPoints.get(0).y + penOffsetY);
-				double x_last=view.toRealWorldCoordX(penPoints.get(penPoints.size()-1).x + penOffsetX);
-				double y_last=view.toRealWorldCoordY(penPoints.get(penPoints.size()-1).y + penOffsetY);
+				double x_first=view.toRealWorldCoordX(rs.x1 + penOffsetX);
+				double y_first=view.toRealWorldCoordY(rs.y1 + penOffsetY);
+				double x_last=view.toRealWorldCoordX(rs.x2 + penOffsetX);
+				double y_last=view.toRealWorldCoordY(rs.y2 + penOffsetY);
+				AlgoJoinPointsSegment algo = null;
+				//	line1=new Line2D();
+				//System.out.println(penOffsetX);
 				if(x_first==x_last)
 				{
 					//equation="x" + "=" + (x_first);
 					//AbstractApplication.debug(equation);
 					GeoPoint2 p = new GeoPoint2(app.getKernel().getConstruction(), x_first, y_first, 1.0);
 					GeoPoint2 q = new GeoPoint2(app.getKernel().getConstruction(), x_last, y_last, 1.0);
-					AlgoJoinPointsSegment algo = new AlgoJoinPointsSegment(app.getKernel().getConstruction(), null, p, q);
+					algo = new AlgoJoinPointsSegment(app.getKernel().getConstruction(), null, p, q);
 				}
 				else if(y_last==y_first)
 				{
@@ -591,7 +597,7 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 					//AbstractApplication.debug(equation);
 					GeoPoint2 p = new GeoPoint2(app.getKernel().getConstruction(), x_first, y_first, 1.0);
 					GeoPoint2 q = new GeoPoint2(app.getKernel().getConstruction(), x_last, y_last, 1.0);
-					AlgoJoinPointsSegment algo = new AlgoJoinPointsSegment(app.getKernel().getConstruction(), null, p, q);
+					algo = new AlgoJoinPointsSegment(app.getKernel().getConstruction(), null, p, q);
 				}
 				else
 				{
@@ -609,8 +615,14 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 					}
 					GeoPoint2 p = new GeoPoint2(app.getKernel().getConstruction(), x_first, y_first, 1.0);
 					GeoPoint2 q = new GeoPoint2(app.getKernel().getConstruction(), x_last, y_last, 1.0);
-					AlgoJoinPointsSegment algo = new AlgoJoinPointsSegment(app.getKernel().getConstruction(), null, p, q);
-				}		
+					algo = new AlgoJoinPointsSegment(app.getKernel().getConstruction(), null, p, q);
+				}	
+				GeoElement line = algo.getGeoElements()[0];
+				line.setLineThickness(penSize * 2);
+				line.setLineType(penLineStyle);
+				line.setObjColor(new geogebra.awt.Color(penColor));
+				line.setLayer(1);
+				line.updateRepaint();
 			}
 		}
 		if(this.I_det(s) > CIRCLE_MIN_DET)
@@ -681,7 +693,6 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 			g2d.setColor(penColor);
 		}
 		g2d.draw(pb.gp);
-
 		EuclidianViewND ev = app.getActiveEuclidianView();
 
 		app.refreshViews(); // clear trace
@@ -1457,6 +1468,17 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
     	RecoSegment r2 = null;
     	int i;
     	double dist, avg_angle=0;
+    	double pt[] = new double[2];
+    	Construction cons = app.getKernel().getConstruction();
+    	GeoPoint2 p = null;
+    	GeoPoint2 q = null;
+    	AlgoJoinPointsSegment algo = null;
+    	double x_first = 0;
+    	double y_first = 0;
+    	double x_last = 0;
+    	double y_last = 0;
+    	double points[] = new double[10];
+
     	if(recognizer_queue_length < 4)
     		return false;
     	if(recognizer_queue_length-4 == 0)
@@ -1535,6 +1557,64 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
     		avg_angle = 0;
     	if(Math.abs(avg_angle) > Math.PI/2-SLANT_TOLERANCE)
     		avg_angle = Math.PI/2;
+    	for(i=0; i<=3; ++i)
+    	{
+    		if(recognizer_queue_length-4+i==0)
+    			r1 = reco_queue_a;
+    		if(recognizer_queue_length-4+i==1)
+    			r1 = reco_queue_b;
+    		if(recognizer_queue_length-4+i==2)
+    			r1 = reco_queue_c;
+    		if(recognizer_queue_length-4+i==3)
+    			r1 = reco_queue_d;
+    		if(recognizer_queue_length-4+i==4)
+    			r1 = reco_queue_e;
+    		r1.angle = avg_angle + i*Math.PI/2;
+    	}
+    	for(i=0; i<=3; ++i)
+    	{
+    		if(recognizer_queue_length-4+i == 0)
+    			r1 = reco_queue_a;
+    		if(recognizer_queue_length-4+i == 1)
+    			r1 = reco_queue_b;
+    		if(recognizer_queue_length-4+i == 2)
+    			r1 = reco_queue_c;
+    		if(recognizer_queue_length-4+i == 3)
+    			r1 = reco_queue_d;
+    		if(recognizer_queue_length-4+i == 4)
+    			r1 = reco_queue_e;
+    		if(recognizer_queue_length-4+(i+1)%4 == 0)
+    			r2 = reco_queue_a;
+    		if(recognizer_queue_length-4+(i+1)%4 == 1)
+    			r2 = reco_queue_b;
+    		if(recognizer_queue_length-4+(i+1)%4 == 2)
+    			r2 = reco_queue_c;
+    		if(recognizer_queue_length-4+(i+1)%4 == 3)
+    			r2 = reco_queue_d;
+    		if(recognizer_queue_length-4+(i+1)%4 == 4)
+    			r2 = reco_queue_e;
+    		this.calc_edge_isect(r1, r2, pt);
+    		points[2*i+2] = pt[0];
+    		points[2*i+3] = pt[1];
+    	}
+    	points[0] = points[8];
+    	points[1] = points[9];
+    	for(i=0; i<4; ++i)
+    	{
+    		x_first = view.toRealWorldCoordX(points[2*i] + penOffsetX);
+    		y_first = view.toRealWorldCoordY(points[2*i + 1] + penOffsetY);
+    		x_last = view.toRealWorldCoordX(points[2*i + 2] + penOffsetX);
+    		y_last = view.toRealWorldCoordY(points[2*i + 3] + penOffsetY);
+    		p =new GeoPoint2(cons, x_first, y_first, 1.0);
+    		q =new GeoPoint2(cons, x_last, y_last, 1.0);
+    		algo = new AlgoJoinPointsSegment(cons, null, p, q);
+    		GeoElement line = algo.getGeoElements()[0];
+			line.setLineThickness(penSize * 2);
+			line.setLineType(penLineStyle);
+			line.setObjColor(new geogebra.awt.Color(penColor));
+			line.setLayer(1);
+			line.updateRepaint();
+    	}
     	return true;
     }
     boolean try_arrow()
@@ -1548,6 +1628,14 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
     	double dist, tmp, delta;
     	double x1, y1, x2, y2, angle;
     	boolean rev[] = new boolean[3];
+    	Construction cons = app.getKernel().getConstruction();
+    	GeoPoint2 p = null;
+    	GeoPoint2 q = null;
+    	AlgoJoinPointsSegment algo = null;
+    	double x_first = 0;
+    	double y_first = 0;
+    	double x_last = 0;
+    	double y_last = 0;
     	if (recognizer_queue_length<3) 
     		return false;
     	if(recognizer_queue_length-3 == 0)
@@ -1710,7 +1798,174 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 		    angle = angle - (rs.angle+Math.PI/2);
 		    x1 = x2 = rs.xcenter;
 		}
+		delta = Math.abs(alpha[1] - alpha[2])/2;
+		dist = (Math.hypot(temp.x1 - temp.x2, temp.y1 - temp.y2) + Math.hypot(temp2.x1 - temp2.x2, temp2.y1 - temp2.y2))/2;
+		x_first = view.toRealWorldCoordX(x1 + penOffsetX);
+		y_first = view.toRealWorldCoordY(y1 + penOffsetY);
+		x_last = view.toRealWorldCoordX(x2 + penOffsetX);
+		y_last = view.toRealWorldCoordY(y2 + penOffsetY);
+		p = new GeoPoint2(cons, x_first, y_first, 1.0);
+		q = new GeoPoint2(cons, x_last, y_last, 1.0);
+		algo = new AlgoJoinPointsSegment(cons, null, p, q);
+		GeoElement line = algo.getGeoElements()[0];
+		line.setLineThickness(penSize * 2);
+		line.setLineType(penLineStyle);
+		line.setObjColor(new geogebra.awt.Color(penColor));
+		line.setLayer(1);
+		line.updateRepaint();
+		
+		x_first = view.toRealWorldCoordX((x2 - dist*Math.cos(angle + delta)) + penOffsetX);
+		y_first = view.toRealWorldCoordY((y2 - dist*Math.sin(angle + delta)) + penOffsetY);
+		p = new GeoPoint2(cons, x_first, y_first, 1.0);
+		algo = new AlgoJoinPointsSegment(cons, null, p, q);
+		line = algo.getGeoElements()[0];
+		line.setLineThickness(penSize * 2);
+		line.setLineType(penLineStyle);
+		line.setObjColor(new geogebra.awt.Color(penColor));
+		line.setLayer(1);
+		line.updateRepaint();
+		
+		x_first = view.toRealWorldCoordX((x2 - dist*Math.cos(angle - delta)) + penOffsetX);
+		y_first = view.toRealWorldCoordY((y2 - dist*Math.sin(angle - delta)) + penOffsetY);
+		p = new GeoPoint2(cons, x_first, y_first, 1.0);
+		algo = new AlgoJoinPointsSegment(cons, null, p, q);
+		line = algo.getGeoElements()[0];
+		line.setLineThickness(penSize * 2);
+		line.setLineType(penLineStyle);
+		line.setObjColor(new geogebra.awt.Color(penColor));
+		line.setLayer(1);
+		line.updateRepaint();
 		return true;
+    }
+    boolean try_closed_polygon(int nsides)
+    {
+    	RecoSegment rs = null;
+    	RecoSegment r1 = null;
+    	RecoSegment r2 = null;
+    	int i;
+    	double dist = 0;
+    	double pt[] = new double[2];
+    	Construction cons = app.getKernel().getConstruction();
+    	GeoPoint2 p = null;
+    	GeoPoint2 q = null;
+    	AlgoJoinPointsSegment algo = null;
+    	double x_first = 0;
+    	double y_first = 0;
+    	double x_last = 0;
+    	double y_last = 0;
+    	double points[] = new double[nsides*2 + 2];
+    	
+    	if(recognizer_queue_length < nsides)
+    		return false;
+    	if(recognizer_queue_length-nsides == 0)
+    		rs = reco_queue_a;
+    	if(recognizer_queue_length-nsides == 1)
+    		rs = reco_queue_b;
+    	if(recognizer_queue_length-nsides == 2)
+    		rs = reco_queue_c;
+    	if(recognizer_queue_length-nsides == 3)
+    		rs = reco_queue_d;
+    	if(recognizer_queue_length-nsides == 4)
+    		rs = reco_queue_e;
+    	if(rs.startpt != 0)
+    		return false;
+    	for(i=0 ; i<nsides; ++i)
+    	{
+    		if(recognizer_queue_length-nsides+i == 0)
+        		r1 = reco_queue_a;
+        	if(recognizer_queue_length-nsides+i == 1)
+        		r1 = reco_queue_b;
+        	if(recognizer_queue_length-nsides+i == 2)
+        		r1 = reco_queue_c;
+        	if(recognizer_queue_length-nsides+i == 3)
+        		r1 = reco_queue_d;
+        	if(recognizer_queue_length-nsides+i == 4)
+        		r1 = reco_queue_e;
+        	if(recognizer_queue_length-nsides+(i+1)%nsides == 0)
+        		r2 = reco_queue_a;
+        	if(recognizer_queue_length-nsides+(i+1)%nsides == 1)
+        		r2 = reco_queue_b;
+        	if(recognizer_queue_length-nsides+(i+1)%nsides == 2)
+        		r2 = reco_queue_c;
+        	if(recognizer_queue_length-nsides+(i+1)%nsides == 3)
+        		r2 = reco_queue_d;
+        	if(recognizer_queue_length-nsides+(i+1)%nsides == 4)
+        		r2 = reco_queue_e;
+        	this.calc_edge_isect(r1, r2, pt);
+        	r1.reversed = (Math.hypot(pt[0] - r1.x1, pt[1] - r1.y1)) < (Math.hypot(pt[0] - r1.x2, pt[1] - r1.y2));
+    	}
+    	for(i=0; i<nsides; ++i)
+    	{
+    		if(recognizer_queue_length-nsides+i == 0)
+        		r1 = reco_queue_a;
+        	if(recognizer_queue_length-nsides+i == 1)
+        		r1 = reco_queue_b;
+        	if(recognizer_queue_length-nsides+i == 2)
+        		r1 = reco_queue_c;
+        	if(recognizer_queue_length-nsides+i == 3)
+        		r1 = reco_queue_d;
+        	if(recognizer_queue_length-nsides+i == 4)
+        		r1 = reco_queue_e;
+        	if(recognizer_queue_length-nsides+(i+1)%nsides == 0)
+        		r2 = reco_queue_a;
+        	if(recognizer_queue_length-nsides+(i+1)%nsides == 1)
+        		r2 = reco_queue_b;
+        	if(recognizer_queue_length-nsides+(i+1)%nsides == 2)
+        		r2 = reco_queue_c;
+        	if(recognizer_queue_length-nsides+(i+1)%nsides == 3)
+        		r2 = reco_queue_d;
+        	if(recognizer_queue_length-nsides+(i+1)%nsides == 4)
+        		r2 = reco_queue_e;
+        	this.calc_edge_isect(r1, r2, pt);
+        	dist = Math.hypot((r1.reversed ? r1.x1:r1.x2) - pt[0], (r1.reversed? r1.y1:r1.y2) - pt[1]) + Math.hypot((r2.reversed? r2.x2:r2.x1) - pt[0], (r2.reversed? r2.y2:r2.y1) - pt[1]);
+        	if(dist > POLYGON_LINEAR_TOLERANCE*(r1.radius + r2.radius))
+        		return false;
+    	}
+    	for(i=0; i<nsides; ++i)
+    	{
+    		if(recognizer_queue_length-nsides+i == 0)
+        		r1 = reco_queue_a;
+        	if(recognizer_queue_length-nsides+i == 1)
+        		r1 = reco_queue_b;
+        	if(recognizer_queue_length-nsides+i == 2)
+        		r1 = reco_queue_c;
+        	if(recognizer_queue_length-nsides+i == 3)
+        		r1 = reco_queue_d;
+        	if(recognizer_queue_length-nsides+i == 4)
+        		r1 = reco_queue_e;
+        	if(recognizer_queue_length-nsides+(i+1)%nsides == 0)
+        		r2 = reco_queue_a;
+        	if(recognizer_queue_length-nsides+(i+1)%nsides == 1)
+        		r2 = reco_queue_b;
+        	if(recognizer_queue_length-nsides+(i+1)%nsides == 2)
+        		r2 = reco_queue_c;
+        	if(recognizer_queue_length-nsides+(i+1)%nsides == 3)
+        		r2 = reco_queue_d;
+        	if(recognizer_queue_length-nsides+(i+1)%nsides == 4)
+        		r2 = reco_queue_e;
+        	this.calc_edge_isect(r1, r2, pt);
+        	points[2*i + 2] = pt[0];
+        	points[2*i + 3] = pt[1];
+    	}
+    	points[0] = points[2*nsides];
+    	points[1] = points[2*nsides + 1];
+    	for(i=0; i<nsides; ++i)
+    	{
+    		x_first = view.toRealWorldCoordX(points[2*i] + penOffsetX);
+    		y_first = view.toRealWorldCoordY(points[2*i + 1] + penOffsetY);
+    		x_last = view.toRealWorldCoordX(points[2*i + 2] + penOffsetX);
+    		y_last = view.toRealWorldCoordY(points[2*i + 3] + penOffsetY);
+    		p =new GeoPoint2(cons, x_first, y_first, 1.0);
+    		q =new GeoPoint2(cons, x_last, y_last, 1.0);
+    		algo = new AlgoJoinPointsSegment(cons, null, p, q);
+    		GeoElement line = algo.getGeoElements()[0];
+			line.setLineThickness(penSize * 2);
+			line.setLineType(penLineStyle);
+			line.setObjColor(new geogebra.awt.Color(penColor));
+			line.setLayer(1);
+			line.updateRepaint();
+    	}
+    	return true;
     }
     void calc_edge_isect(RecoSegment r1, RecoSegment r2, double pt[])
     {
