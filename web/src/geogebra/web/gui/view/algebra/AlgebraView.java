@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package geogebra.web.gui.view.algebra;
 
+import geogebra.common.awt.Color;
 import geogebra.common.awt.Font;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.LayerView;
@@ -1224,12 +1225,14 @@ public class AlgebraView extends Tree implements LayerView, SetLabels, geogebra.
 
 	public static void setUserObject(TreeItem ti, Object ob) {
 		ti.setUserObject(ob);
-		if (ob instanceof String)
-			ti.setText((String)ob);
-		else if (ob instanceof GeoElement)
+		if (ob instanceof GeoElement) {
 			ti.setText(ob.toString());
-		else if (ob instanceof Integer)
+			ti.getElement().getStyle().setColor(
+				Color.getColorString(
+					((GeoElement)ob).getLabelColor()  )  );
+		} else {
 			ti.setText(ob.toString());
+		}
 	}
 
 } // AlgebraView
