@@ -16,6 +16,8 @@ package geogebra.common.kernel.prover;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.algos.SymbolicParameters;
+import geogebra.common.kernel.algos.SymbolicParametersAlgo;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
 
@@ -126,8 +128,22 @@ public class Prover {
 		}
 		else {
 			AbstractApplication.error("No statement to prove");
+			result = Prover.ProofResult.UNKNOWN;
+			return;
 		}
 
+		if (statement instanceof SymbolicParametersAlgo){
+			SymbolicParametersAlgo statementSymbolic = (SymbolicParametersAlgo) statement;
+			SymbolicParameters parameters = statementSymbolic.getSymbolicParameters();
+			try {
+				parameters.getFreeVariables();
+				//TODO: write here tomas prover
+			} catch (NoSymbolicParametersException e) {
+				AbstractApplication.warn("This prover cannot give an answer, try another one");
+				// TODO: to implement this correctly
+			}
+		}
+		
 		result = Prover.ProofResult.UNKNOWN;
 	}
 
