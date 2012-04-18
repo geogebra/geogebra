@@ -1552,6 +1552,35 @@ public class ExpressionNode extends ValidExpression implements
 				append(sb, rightStr, right, operation, STRING_TYPE);
 			}
 			break;
+		case IMPLICATION:
+			if (STRING_TYPE.equals(StringType.MATHML)) {
+				mathml(sb, "<implies/>", leftStr, rightStr);
+			} else {
+				append(sb, leftStr, left, operation, STRING_TYPE);
+	
+				sb.append(' ');
+				switch (STRING_TYPE) {
+				case LATEX:
+					if (kernel.isInsertLineBreaks()) {
+						sb.append("\\-");
+					}
+					sb.append("\\rightarrow");
+					break;
+	
+				
+					//true <= false, false<=false, false<=true
+				case MPREDUCE:
+					sb.append("<= ");
+					break;
+	
+				default:
+					sb.append(strIMPLIES);
+				}
+				sb.append(' ');
+	
+				append(sb, rightStr, right, operation, STRING_TYPE);
+			}
+			break;
 
 		case EQUAL_BOOLEAN:
 			if (STRING_TYPE.equals(StringType.MATHML)) {

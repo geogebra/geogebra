@@ -419,7 +419,7 @@ public class AlgebraProcessor {
 		try {
 			ve = parser.parseGeoGebraExpression(cmd);
 		} catch (Exception e) {// TODO: put back ParseException
-			// e.printStackTrace();
+			e.printStackTrace();
 			if (allowErrorDialog) {
 				app.showError(app.getError("InvalidInput") + ":\n" + cmd);
 				return null;
@@ -427,14 +427,14 @@ public class AlgebraProcessor {
 			throw new MyException(app.getError("InvalidInput") + ":\n" + cmd,
 					MyException.INVALID_INPUT);
 		} catch (MyError e) {
-			// e.printStackTrace();
+			e.printStackTrace();
 			if (allowErrorDialog) {
 				app.showError(e.getLocalizedMessage());
 				return null;
 			}
 			throw new Exception(e.getLocalizedMessage());
 		} catch (Error e) {
-			// e.printStackTrace();
+			e.printStackTrace();
 			if (allowErrorDialog) {
 				app.showError(app.getError("InvalidInput") + ":\n" + cmd);
 				return null;

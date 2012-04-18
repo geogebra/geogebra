@@ -203,6 +203,7 @@ TOKEN :  {
   | < NOT: ("\u00ac") > 
   | < OR:		("||" | "\u2228" ) >
   | < AND:		("&&" | "\u2227" ) >
+  | < IMPLICATION:		("->" | "\u21d2") >
   | < EQUAL_BOOLEAN: ("==" | "\u225f" ) >
   | < NOT_EQUAL: ("!=" | "\u2260" ) >
   | < IS_ELEMENT_OF: "\u2208" >
@@ -1081,10 +1082,10 @@ ExpressionNode expressionnode():
     Token x;
 }
 {
-    ret = ANDterm()                 
-    ( <OR>  f = ANDterm()
+    ret = ORterm()                 
+    ( <IMPLICATION>  f = ORterm()
         {                
-	         ret = new ExpressionNode(kernel, ret, Operation.OR, f);                   
+	         ret = new ExpressionNode(kernel, ret, Operation.IMPLICATION, f);                   
         }
     )*
     { 
@@ -1158,6 +1159,24 @@ ExpressionValue ANDterm():
     ( <AND>  f = COMPAREterm() 
         {
         	ret = new ExpressionNode(kernel, ret, Operation.AND, f);             
+        }     
+    )*
+    { return ret; }  
+}
+
+/**
+ * ORterm =   ANDterm <OR> ANDterm 
+ */
+ExpressionValue ORterm():
+{
+    ExpressionValue ret, f;
+    Token x;    
+}
+{
+    ret = ANDterm()           
+    ( <OR>  f = ANDterm() 
+        {
+        	ret = new ExpressionNode(kernel, ret, Operation.OR, f);             
         }     
     )*
     { return ret; }  

@@ -45,6 +45,8 @@ public interface ExpressionNodeConstants {
 	public static final String strNOT = "\u00ac";
 	/** and */
 	public static final String strAND = "\u2227";
+	/** and */
+	public static final String strIMPLIES = "\u21d2";
 	/** or */
 	public static final String strOR = "\u2228";
 	/** less equal */

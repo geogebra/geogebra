@@ -226,6 +226,17 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			str = new String[]{ "IllegalBoolean", lt.toString(errorTemplate), strAND,
 					rt.toString(errorTemplate) };
 			throw new MyError(app, str);
+		case IMPLICATION:
+			// boolean AND boolean
+			if (lt.isBooleanValue() && rt.isBooleanValue()) {
+				bool = ((BooleanValue) lt).getMyBoolean();
+				bool.setValue(!bool.getBoolean()
+						|| ((BooleanValue) rt).getBoolean());
+				return bool;
+			}
+			str = new String[]{ "IllegalBoolean", lt.toString(errorTemplate), strIMPLIES,
+					rt.toString(errorTemplate) };
+			throw new MyError(app, str);
 
 			/*
 			 * COMPARING operations
