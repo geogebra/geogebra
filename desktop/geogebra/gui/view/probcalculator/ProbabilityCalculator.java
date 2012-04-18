@@ -752,7 +752,12 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 			// create density curve
 			expr = buildDensityCurveExpression(selectedDist);
 
+			// make sure eg Normal works in Swedish (Normal == PerpendicularLine)
+			kernel.setUseInternalCommandNames(true);
+
 			densityCurve = createGeoFromString(expr, null, true);
+
+			kernel.setUseInternalCommandNames(false);
 
 			cons.removeFromConstructionList(densityCurve.getParentAlgorithm());
 

@@ -1,5 +1,6 @@
 package geogebra.gui.view.probcalculator;
 
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
@@ -630,7 +631,14 @@ public class ProbabilityManager {
 	private double evaluateExpression(String expr){
 
 		NumberValue nv;
-		nv =  app.getKernel().getAlgebraProcessor().evaluateToNumeric(expr, false);	
+		Kernel kernel = app.getKernel();
+		
+		// make sure eg Normal works in Swedish (Normal == PerpendicularLine)
+		kernel.setUseInternalCommandNames(true);
+		
+		nv =  kernel.getAlgebraProcessor().evaluateToNumeric(expr, false);	
+		
+		kernel.setUseInternalCommandNames(false);
 		double result = nv.getDouble();
 
 		return result;
