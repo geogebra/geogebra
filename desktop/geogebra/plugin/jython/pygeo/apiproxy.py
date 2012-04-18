@@ -27,11 +27,19 @@ def invoke(f, *args, **kwargs):
     invokeAndWait(runner)
     return runner.result
 
+def thread_is_async():
+    try:
+        return thread_locals.async
+    except AttributeError:
+        # It's a rogue thread!  Say it's async...
+        # TODO: check that's OK
+        return True
+
 class APIProxy(object):
     def __init__(self, api):
         self._api = api
     def __getattr__(self, attr):
-        if isEventDispatchThread() or thread_locals.async:
+        if isEventDispatchThread() or thread_is_async():
             return getattr(self._api, attr)
         else:
             return partial(invoke, getattr(self._api, attr))
