@@ -10,6 +10,7 @@ import geogebra.common.main.GeoGebraColorConstants;
 
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -66,6 +67,14 @@ public class HistoryPopup implements ListSelectionListener{
 		registerListeners();	
 	}
 
+	/**
+	 * Set the font to display the history commands
+	 * @param font the new font
+	 */
+	public void setFont(Font font) {
+		historyList.setFont(font);
+	}
+	
 	private class PopupListener implements PopupMenuListener {
 
 		private KeyListener[] listListeners;

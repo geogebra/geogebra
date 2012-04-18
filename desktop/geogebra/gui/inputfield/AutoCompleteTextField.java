@@ -12,11 +12,9 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.commands.MyException;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
-import geogebra.common.main.GeoElementSelectionListener;
 import geogebra.common.main.MyError;
 import geogebra.common.util.AutoCompleteDictionary;
 import geogebra.common.util.Korean;
-import geogebra.common.util.TextObject;
 import geogebra.gui.autocompletion.CommandCompletionListCellRenderer;
 import geogebra.gui.autocompletion.CompletionsPopup;
 import geogebra.gui.util.GeoGebraIcon;
@@ -1286,7 +1284,20 @@ public AutoCompleteTextField(int columns, Application app,
   public void setFont(Font font) {
     super.setFont(geogebra.awt.Font.getAwtFont(font));
   }
-
+  
+  /**
+   * Set the font of completions and history commands
+   * @param font the new font
+   */
+  public void setPopupsFont(java.awt.Font font) {
+	  if (this.completionsPopup != null) {
+		  this.completionsPopup.setFont(font);
+	  }
+	  if (this.historyPopup != null) {
+		  this.historyPopup.setFont(font);
+	  }
+  }
+  
   public void setForeground(Color color) {
     super.setForeground(geogebra.awt.Color.getAwtColor(color));
 
@@ -1317,5 +1328,5 @@ public AutoCompleteTextField(int columns, Application app,
 	});
 	
   }
-
+  
 }

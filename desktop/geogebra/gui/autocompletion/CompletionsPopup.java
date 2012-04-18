@@ -11,6 +11,7 @@ import static java.lang.Math.max;
 import static java.lang.Math.min;
 import geogebra.gui.inputfield.AutoCompleteTextField;
 
+import java.awt.Font;
 import java.awt.Rectangle;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
@@ -79,6 +80,14 @@ public class CompletionsPopup {
 		popup.setFocusable(false);
 		current_length=-1;// current length of sentence
 		registerListeners();
+	}
+	
+	/**
+	 * Set the font to display the completions
+	 * @param font the new font
+	 */
+	public void setFont(Font font) {
+		list.setFont(font);
 	}
 	
 	private class PopupListener implements PopupMenuListener {
