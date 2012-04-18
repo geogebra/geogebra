@@ -351,7 +351,7 @@ public class RelativeCopy {
 			throws Exception {
 		if (value == null) {
 			if (oldValue != null) {
-				MatchResult matcher = GeoElementSpreadsheet.spreadsheetPattern
+				MatchResult matcher = GeoElementSpreadsheet.spreadsheetPatternPart
 						.exec(oldValue.getLabel(StringTemplate.defaultTemplate));
 				int column = GeoElementSpreadsheet
 						.getSpreadsheetColumn(matcher);
@@ -461,7 +461,7 @@ public class RelativeCopy {
 		// column + dx) + (row + dy + 1));
 
 		// create the new cell geo
-		MatchResult matcher = GeoElementSpreadsheet.spreadsheetPattern
+		MatchResult matcher = GeoElementSpreadsheet.spreadsheetPatternPart
 				.exec(value.getLabel(StringTemplate.defaultTemplate));
 		int column0 = GeoElementSpreadsheet.getSpreadsheetColumn(matcher);
 		int row0 = GeoElementSpreadsheet.getSpreadsheetRow(matcher);
@@ -539,7 +539,7 @@ public class RelativeCopy {
 		dependents[dependents.length - 1] = value;
 		for (int i = 0; i < dependents.length; ++i) {
 			String name = dependents[i].getLabel(StringTemplate.defaultTemplate);
-			MatchResult matcher = GeoElementSpreadsheet.spreadsheetPattern
+			MatchResult matcher = GeoElementSpreadsheet.spreadsheetPatternPart
 					.exec(name);
 			int column = GeoElementSpreadsheet.getSpreadsheetColumn(matcher);
 			int row = GeoElementSpreadsheet.getSpreadsheetRow(matcher);
@@ -560,9 +560,9 @@ public class RelativeCopy {
 			after.append(column1);
 			after.append("::");
 			after.append(row1);
-			text = replaceAll(GeoElementSpreadsheet.spreadsheetPattern, text,
+			text = replaceAll(GeoElementSpreadsheet.spreadsheetPatternPart, text,
 					before.toString(), after.toString());
-			// text = replaceAll(AbstractGeoElementSpreadsheet.spreadsheetPattern, text,
+			// text = replaceAll(AbstractGeoElementSpreadsheet.spreadsheetPatternPart, text,
 			// "$" + column1 + row1, "$" + column1 + "::" + row1);
 
 			before.setLength(0);
@@ -574,9 +574,9 @@ public class RelativeCopy {
 			after.append(column1);
 			after.append('$');
 			after.append(row1);
-			text = replaceAll(GeoElementSpreadsheet.spreadsheetPattern, text,
+			text = replaceAll(GeoElementSpreadsheet.spreadsheetPatternPart, text,
 					before.toString(), after.toString());
-			// text = replaceAll(AbstractGeoElementSpreadsheet.spreadsheetPattern, text,
+			// text = replaceAll(AbstractGeoElementSpreadsheet.spreadsheetPatternPart, text,
 			// column1 + "$" + row1, "::" + column1 + "$" + row1);
 
 			before.setLength(0);
@@ -587,9 +587,9 @@ public class RelativeCopy {
 			after.append(column1);
 			after.append("::");
 			after.append(row1);
-			text = replaceAll(GeoElementSpreadsheet.spreadsheetPattern, text,
+			text = replaceAll(GeoElementSpreadsheet.spreadsheetPatternPart, text,
 					before.toString(), after.toString());
-			// text = replaceAll(AbstractGeoElementSpreadsheet.spreadsheetPattern, text,
+			// text = replaceAll(AbstractGeoElementSpreadsheet.spreadsheetPatternPart, text,
 			// column1 + row1, "::" + column1 + "::" + row1);
 
 		}
@@ -598,11 +598,11 @@ public class RelativeCopy {
 		// needed for eg Mod[$A2, B$1] which gives Mod[$A2, ::::B$1]
 		text = text.replace("::::", "::");
 
-		MatchResult matcher = GeoElementSpreadsheet.spreadsheetPattern
+		MatchResult matcher = GeoElementSpreadsheet.spreadsheetPatternPart
 				.exec(value.getLabel(StringTemplate.defaultTemplate));
 		for (int i = 0; i < dependents.length; ++i) {
 			String name = dependents[i].getLabel(StringTemplate.defaultTemplate);
-			matcher = GeoElementSpreadsheet.spreadsheetPattern.exec(name);
+			matcher = GeoElementSpreadsheet.spreadsheetPatternPart.exec(name);
 			int column = GeoElementSpreadsheet.getSpreadsheetColumn(matcher);
 			int row = GeoElementSpreadsheet.getSpreadsheetRow(matcher);
 			if ((column == -1) || (row == -1)) {
@@ -965,10 +965,9 @@ public class RelativeCopy {
 	 * Prepares a spreadsheet cell editor string for processing in the kernel
 	 * and returns either (1) a new GeoElement for the cell or (2) null.
 	 * 
-	 * @param kernel
-	 * @param app 
-	 * @param table
-	 * @param text
+	 * @param kernel kernel
+	 * @param app application
+	 * @param inputText
 	 *            string representation of the new GeoElement
 	 * @param oldValue
 	 *            current cell GeoElement
@@ -976,7 +975,7 @@ public class RelativeCopy {
 	 *            cell column
 	 * @param row
 	 *            cell row
-	 * @return
+	 * @return either (1) a new GeoElement for the cell or (2) null
 	 * @throws Exception
 	 */
 	public static GeoElement prepareAddingValueToTableNoStoringUndoInfo(
