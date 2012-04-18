@@ -505,6 +505,7 @@ public class Application extends AbstractApplication {
 
 	@Override
 	public boolean isUsingFullGui() {
+		//return useFullGui;
 		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 		return guiManager != null;
 	}
@@ -613,10 +614,11 @@ public class Application extends AbstractApplication {
 
 	@Override
 	public AlgebraView getAlgebraView() {
-		if (guiManager == null) {
-			return null;
-		}
-		return guiManager.getAlgebraView();
+		return getGuiManager().getAlgebraView();
+		//if (guiManager == null) {
+		//	return null;
+		//}
+		//return guiManager.getAlgebraView();
 	}
 
 	@Override
@@ -769,10 +771,16 @@ public class Application extends AbstractApplication {
 		getEuclidianView1().synCanvasSize();
 		splashDialog.canNowHide();
 		getEuclidianView1().repaintView();
+
+		// Well, it may cause freeze if we attach this too early
+		getGuiManager().attachAlgebraView();
 	}
-	
+
 	public void appSplashCanNowHide() {
 		splashDialog.canNowHide();
+
+		// Well, it may cause freeze if we attach this too early
+		getGuiManager().attachAlgebraView();
 	}
 
 	private void loadFile(HashMap<String, String> archiveContent) throws Exception {

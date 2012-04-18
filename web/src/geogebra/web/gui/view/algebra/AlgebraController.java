@@ -7,12 +7,25 @@ import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.web.euclidian.event.MouseEvent;
 
 import java.util.Iterator;
 
+import com.google.gwt.event.dom.client.MouseDownEvent;
+import com.google.gwt.event.dom.client.MouseMoveEvent;
+import com.google.gwt.event.dom.client.MouseOutEvent;
+import com.google.gwt.event.dom.client.MouseOverEvent;
+import com.google.gwt.event.dom.client.MouseUpEvent;
+
+import com.google.gwt.event.dom.client.MouseDownHandler;
+import com.google.gwt.event.dom.client.MouseMoveHandler;
+import com.google.gwt.event.dom.client.MouseOutHandler;
+import com.google.gwt.event.dom.client.MouseOverHandler;
+import com.google.gwt.event.dom.client.MouseUpHandler;
+
 
 public class AlgebraController extends geogebra.common.gui.view.algebra.AbstractAlgebraController
- {
+implements MouseOverHandler, MouseMoveHandler, MouseDownHandler, MouseUpHandler, MouseOutHandler {
 
 	//FIXME: make e.isControlDown like Application.isControlDown etc.
 	//FIXME: make something instead of the outcommented things, etc.
@@ -259,4 +272,25 @@ public class AlgebraController extends geogebra.common.gui.view.algebra.Abstract
 	public void dragExit(AbstractEvent e) {}
 	public void dragOver(AbstractEvent e) {}
 	public void dropActionChanged(AbstractEvent e) {}
+
+	public void onMouseDown(MouseDownEvent event) {
+		mousePressed(MouseEvent.wrapEvent(event.getNativeEvent()));
+	}
+
+	public void onMouseUp(MouseUpEvent event) {
+		// TODO: make it care for mouse down too 
+		mouseClicked(MouseEvent.wrapEvent(event.getNativeEvent()));
+	}
+
+	public void onMouseMove(MouseMoveEvent event) {
+		mouseMoved(MouseEvent.wrapEvent(event.getNativeEvent()));
+	}
+
+	public void onMouseOver(MouseOverEvent event) {
+		
+	}
+
+	public void onMouseOut(MouseOutEvent event) {
+		
+	}
 }

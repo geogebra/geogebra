@@ -40,6 +40,7 @@ public class MySplitLayoutPanel extends SplitLayoutPanel {
 
 	public void attachApp(AbstractApplication app) {
 	   this.application = app;
+	   ggwViewWrapper.attachApp(app);
     }
 
 }

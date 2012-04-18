@@ -12,19 +12,17 @@ the Free Software Foundation.
 
 package geogebra.web.gui.view.algebra;
 
+import geogebra.common.awt.Font;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.LayerView;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.gui.SetLabels;
+import geogebra.common.gui.view.algebra.AbstractAlgebraController;
 import geogebra.common.main.AbstractApplication;
 import geogebra.web.euclidian.EuclidianView;
-import geogebra.common.gui.SetLabels;
-//import geogebra.gui.inputfield.MathTextField;
-//import geogebra.gui.view.Gridable;
 import geogebra.web.main.Application;
-import geogebra.common.gui.view.algebra.AbstractAlgebraController;
 
-import geogebra.common.awt.Font;
 import java.util.HashMap;
 
 import com.google.gwt.dom.client.Style;
@@ -36,7 +34,7 @@ import com.google.gwt.user.client.ui.Tree;
  * 
  */
 
-public class AlgebraView extends Tree implements LayerView, /*Gridable,*/ SetLabels, geogebra.common.gui.view.algebra.AlgebraView {
+public class AlgebraView extends Tree implements LayerView, SetLabels, geogebra.common.gui.view.algebra.AlgebraView {
 
 	private static final long serialVersionUID = 1L;
 
@@ -128,6 +126,8 @@ public class AlgebraView extends Tree implements LayerView, /*Gridable,*/ SetLab
 	/** Creates new AlgebraView */
 	public AlgebraView(AbstractAlgebraController algCtrl) {
 
+		super();
+
 		AbstractApplication.debug("creating Algebra View");
 
 		app = (Application)algCtrl.getApplication();
@@ -145,18 +145,18 @@ public class AlgebraView extends Tree implements LayerView, /*Gridable,*/ SetLab
 		//initTreeCellRendererEditor();
 
 		// add listener
-		//addMouseListener(algCtrl);
-		//addMouseMotionListener(algCtrl);
+
+
+		addMouseDownHandler((AlgebraController)algCtrl);
+		addMouseUpHandler((AlgebraController)algCtrl);
+		addMouseMoveHandler((AlgebraController)algCtrl);
 
 		// add small border
 		//setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 0));
 
 		// initializes the tree model
-		//model = new DefaultTreeModel(null);
 		initModel();
-		//setModel(model);
 
-		//setLargeModel(true);
 		setLabels();
 
 		// tree's options
@@ -171,8 +171,6 @@ public class AlgebraView extends Tree implements LayerView, /*Gridable,*/ SetLab
 
 		// enable drag n drop
 		//algCtrl.enableDnD();
-
-		// attachView();
 	}
 
 	/**
@@ -193,13 +191,9 @@ public class AlgebraView extends Tree implements LayerView, /*Gridable,*/ SetLab
 				indNode = new TreeItem();
 				auxiliaryNode = new TreeItem();
 
-				// independent objects
-				//rootDependency.addItem(indNode);
-				//rootDependency.addItem(depNode);
 			}
 
 			// set the root
-			//model.setRoot(rootDependency);
 			clear();
 			addItem(indNode);
 			addItem(depNode);
@@ -207,7 +201,7 @@ public class AlgebraView extends Tree implements LayerView, /*Gridable,*/ SetLab
 			// add auxiliary node if neccessary
 			if (app.showAuxiliaryObjects) {
 				if (auxiliaryNode.getTree() != this) {
-					insertItem(getItemCount(), auxiliaryNode);
+					addItem(auxiliaryNode);
 				}
 			}
 			break;
@@ -224,7 +218,6 @@ public class AlgebraView extends Tree implements LayerView, /*Gridable,*/ SetLab
 			// set the root
 			clear();
 			addItem(rootOrder);
-			//model.setRoot(rootOrder);
 			break;
 
 		case TYPE:
@@ -264,7 +257,6 @@ public class AlgebraView extends Tree implements LayerView, /*Gridable,*/ SetLab
 
 	protected void removeAuxiliaryNode() {
 		removeItem(auxiliaryNode);
-		//model.removeNodeFromParent(auxiliaryNode);
 	}
 
 	boolean attached = false;
@@ -274,7 +266,14 @@ public class AlgebraView extends Tree implements LayerView, /*Gridable,*/ SetLab
 		kernel.notifyAddAll(this);
 		kernel.attach(this);
 		attached = true;
-
+		/*
+		if (treeMode == SortMode.DEPENDENCY) {
+			indNode.setState(true);
+			depNode.setState(true);
+			if (auxiliaryNode.getParentItem() != null) {
+				auxiliaryNode.setState(true);
+			}
+		}*/
 	}
 
 	public void detachView() {
@@ -333,7 +332,6 @@ public class AlgebraView extends Tree implements LayerView, /*Gridable,*/ SetLab
 	//@Override
 	public void clearSelection() {
 		super.setSelectedItem(null);
-		//super.clearSelection();
 		selectedGeoElement = null;
 	}
 
@@ -356,7 +354,7 @@ public class AlgebraView extends Tree implements LayerView, /*Gridable,*/ SetLab
 
 			switch (getTreeMode()) {
 			case DEPENDENCY:
-				insertItem(getItemCount(), auxiliaryNode);
+				addItem(auxiliaryNode);
 				break;
 			}
 
@@ -522,34 +520,24 @@ public class AlgebraView extends Tree implements LayerView, /*Gridable,*/ SetLab
 	protected void setTreeLabels() {
 		switch(getTreeMode()) {
 		case DEPENDENCY:
-
-			indNode.setUserObject(app.getPlain("FreeObjects"));
-			//model.nodeChanged(indNode);
-
-			depNode.setUserObject(app.getPlain("DependentObjects"));
-			//model.nodeChanged(depNode);
-
-			auxiliaryNode.setUserObject(app.getPlain("AuxiliaryObjects"));
-			//model.nodeChanged(auxiliaryNode);
+			setUserObject(indNode, app.getPlain("FreeObjects") );
+			setUserObject(depNode, app.getPlain("DependentObjects") );
+			setUserObject(auxiliaryNode, app.getPlain("AuxiliaryObjects") );
 			break;
 		case TYPE:
 			TreeItem node;
 			for (String key : typeNodesMap.keySet()) {
 				node = typeNodesMap.get(key);
-				node.setUserObject(app.getPlain(key));
-				//model.nodeChanged(node);
+				setUserObject(node, app.getPlain(key) );
 			}
 			break;
 		case LAYER:
-
 			for (Integer key : layerNodesMap.keySet()) {
 				node = layerNodesMap.get(key);
-				node.setUserObject(app.getPlain("LayerA",key.toString())+"TODO"+key);
-				//model.nodeChanged(node);
+				setUserObject(node, app.getPlain("LayerA",key.toString())+"TODO"+key );
 			}
 			break;
 		case ORDER:
-			//model.nodeChanged(rootOrder);
 			break;
 		}
 	}
@@ -573,18 +561,20 @@ public class AlgebraView extends Tree implements LayerView, /*Gridable,*/ SetLab
 
 			TreeItem parent, node;
 			node = new TreeItem();
-			node.setUserObject(geo);
+
 			parent = getParentNode(geo,forceLayer);
-			
 			// add node to model (alphabetically ordered)
 			int pos = getInsertPosition(parent, geo, treeMode);
+			if (pos == parent.getChildCount())
+				parent.addItem(node);
+			else
+				parent.insertItem(pos, node);
 
-			parent.insertItem(pos, node);
+			setUserObject(node, geo);
 			nodeTable.put(geo, node);
 
 			// ensure that the leaf with the new object is visible
 			parent.setState(true);
-			//expandPath(new TreePath(new Object[] { model.getRoot(), parent }));
 		}
 	}
 
@@ -620,8 +610,7 @@ public class AlgebraView extends Tree implements LayerView, /*Gridable,*/ SetLab
 				// find insert pos
 				int pos = rootType.getChildCount();
 				for (int i = 0; i < pos; i++) {
-					TreeItem child = (TreeItem) rootType
-							.getChild(i);
+					TreeItem child = rootType.getChild(i);
 					if (transTypeString.compareTo(child.toString()) < 0) {
 						pos = i;
 						break;
@@ -629,7 +618,6 @@ public class AlgebraView extends Tree implements LayerView, /*Gridable,*/ SetLab
 				}
 
 				rootType.insertItem(pos, parent);
-				//model.insertNodeInto(parent, rootType, pos);
 			}
 			break;
 		case LAYER:
@@ -641,14 +629,15 @@ public class AlgebraView extends Tree implements LayerView, /*Gridable,*/ SetLab
 			if (parent == null) {
 				String layerStr = layer + "";
 				parent = new TreeItem();
-				parent.setUserObject(layer);
+
+				setUserObject(parent, layer);
+
 				layerNodesMap.put(layer, parent);
 
 				// find insert pos
 				int pos = rootLayer.getChildCount();
 				for (int i = 0; i < pos; i++) {
-					TreeItem child = (TreeItem) rootLayer
-							.getChild(i);
+					TreeItem child = rootLayer.getChild(i);
 					if (layerStr.compareTo(child.toString()) < 0) {
 						pos = i;
 						break;
@@ -656,7 +645,6 @@ public class AlgebraView extends Tree implements LayerView, /*Gridable,*/ SetLab
 				}
 
 				rootLayer.insertItem(pos, parent);
-				//model.insertNodeInto(parent, rootLayer, pos);
 			}
 			break;
 		case ORDER:
@@ -788,17 +776,13 @@ public class AlgebraView extends Tree implements LayerView, /*Gridable,*/ SetLab
 		TreeItem node = nodeTable.get(geo);
 
 		if (node != null) {
-			node.remove();
-			//removeFromModel(node, ((DefaultTreeModel) getModel()));
+			removeFromModel(node);
 		}
 	}
 
 	public void clearView() {
 		nodeTable.clear();
-
 		clearTree();
-
-		//model.reload();
 	}
 
 	/**
@@ -825,7 +809,7 @@ public class AlgebraView extends Tree implements LayerView, /*Gridable,*/ SetLab
 	}
 
 	public void repaintView() {
-		ensureSelectedItemVisible();
+		//ensureSelectedItemVisible();
 		//repaint();
 	}
 
@@ -1232,6 +1216,16 @@ public class AlgebraView extends Tree implements LayerView, /*Gridable,*/ SetLab
 
 	public boolean isEditing() {
 		return false;
+	}
+
+	public static void setUserObject(TreeItem ti, Object ob) {
+		ti.setUserObject(ob);
+		if (ob instanceof String)
+			ti.setText((String)ob);
+		else if (ob instanceof GeoElement)
+			ti.setText(ob.toString());
+		else if (ob instanceof Integer)
+			ti.setText(ob.toString());
 	}
 
 } // AlgebraView
