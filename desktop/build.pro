@@ -185,6 +185,9 @@
 -keep class jd2xx.JD2XXInputStream { <methods>; <fields>; }
 -keep class jd2xx.JD2XXOutputStream { <methods>; <fields>; }
 
+# uses reflection, but for some reason proguard seems to delete this class
+-keep class geogebra.util.Normalizer6 { <methods>; }
+
 # -keep public class * {
 #    public protected *;
 # }
