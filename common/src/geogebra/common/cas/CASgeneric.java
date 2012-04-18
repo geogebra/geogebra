@@ -2,6 +2,7 @@ package geogebra.common.cas;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.VarString;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.FunctionNVar;
 import geogebra.common.kernel.arithmetic.FunctionalNVar;
@@ -168,15 +169,16 @@ public abstract class CASgeneric implements CASGenericInterface,
 					true);
 			DerivativeCollector col = DerivativeCollector.getCollector();
 			tmp.traverse(col);
-			List<GeoFunction> derivativeFunctions= col.getFunctions();
+			List<GeoElement> derivativeFunctions= col.getFunctions();
 			List<Integer> derivativeDegrees= col.getDegrees();
 			StringTemplate casTpl = StringTemplate.casTemplate;
 			for(int i=0;i<derivativeDegrees.size();i++){
-				GeoFunction f = derivativeFunctions.get(i);
+				GeoElement ge = derivativeFunctions.get(i);
+				VarString f = (VarString)ge;
 				StringBuilder sb = new StringBuilder(80);
 				//procedure f'(ggbcasvarx); return sub(locvarx=ggbcasvarx,df(f(locvarx),locvarx,1);
 				sb.append("<<procedure ");
-				sb.append(f.getLabel(casTpl));
+				sb.append(ge.getLabel(casTpl));
 				int deg = derivativeDegrees.get(i);
 				for(int j=0;j<deg;j++)
 					sb.append("'");
@@ -187,7 +189,7 @@ public abstract class CASgeneric implements CASGenericInterface,
 				sb.append("=");
 				sb.append(f.getVarString(casTpl));
 				sb.append(",df(");
-				sb.append(f.getLabel(casTpl));
+				sb.append(ge.getLabel(casTpl));
 				sb.append("(");
 				sb.append(f.getVarString(casTpl).replace("ggbcas", "loc"));
 				sb.append(")");

@@ -7,6 +7,7 @@ import java.util.TreeSet;
 
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoDummyVariable;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.plugin.Operation;
 /**
@@ -136,7 +137,7 @@ public interface Traversing {
 	 * from expression nodes into arrays
 	 */
 	public class DerivativeCollector implements Traversing {
-		private List<GeoFunction> derivativeFunctions;
+		private List<GeoElement> derivativeFunctions;
 		private List<Integer> derivativeDegrees;
 		private Set<String> signatures;
 		public ExpressionValue process(ExpressionValue ev) {
@@ -151,7 +152,7 @@ public interface Traversing {
 					degree = 1;
 				String signature = en.getLeft().toString(StringTemplate.defaultTemplate)+","+degree;
 				if(!signatures.contains(signature)){
-					derivativeFunctions.add((GeoFunction)en.getLeft());
+					derivativeFunctions.add((GeoElement)en.getLeft());
 					derivativeDegrees.add(degree);
 					signatures.add(signature);
 				}
@@ -165,7 +166,7 @@ public interface Traversing {
 		 * @return derivative collector
 		 */
 		public static DerivativeCollector getCollector(){
-			collector.derivativeFunctions = new ArrayList<GeoFunction>();
+			collector.derivativeFunctions = new ArrayList<GeoElement>();
 			collector.derivativeDegrees = new ArrayList<Integer>();
 			collector.signatures = new TreeSet<String>();
 			return collector;
@@ -173,7 +174,7 @@ public interface Traversing {
 		/**
 		 * @return collected functions
 		 */
-		public List<GeoFunction> getFunctions(){
+		public List<GeoElement> getFunctions(){
 			return derivativeFunctions;
 		}
 		/**

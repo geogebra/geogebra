@@ -4,6 +4,7 @@ import geogebra.common.awt.Font;
 import geogebra.common.cas.CASException;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.VarString;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
@@ -28,7 +29,7 @@ import java.util.TreeSet;
  * @author Markus Hohenwarter
  */
 
-public class GeoCasCell extends GeoElement {
+public class GeoCasCell extends GeoElement implements VarString{
 
 	private ValidExpression inputVE, evalVE, outputVE;
 	private String input, prefix, postfix, error, latex;
@@ -1863,6 +1864,10 @@ public class GeoCasCell extends GeoElement {
 	@Override
 	public boolean isLaTeXDrawableGeo(String latexStr) {
 		return isLaTeXneeded(latexStr);
+	}
+
+	public String getVarString(StringTemplate tpl) {
+		return kernel.printVariableName("x", tpl);
 	}
 
 }

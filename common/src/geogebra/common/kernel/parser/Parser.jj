@@ -2182,6 +2182,7 @@ ExpressionNode numberFunction():
       		GeoElement geo = null;    
       		String label = null;  
       		while (index >= 0) {
+      		  AbstractApplication.debug(funcName);
       			label = funcName.substring(0, index+1);
       			geo = kernel.lookupLabel(label);
       			// stop if f' is defined but f is not defined, see #1444
@@ -2193,7 +2194,7 @@ ExpressionNode numberFunction():
       			} else break;
       		}
       		
-      		if (geo == null) {
+      		if (geo == null && kernel.lookupCasCellLabel(label)==null) {
       				// function name does not exist: return command
       				Command cmd = new Command(kernel, funcName, true, !ExternalCASParsing );
       				for (int i=0; i < myList.size(); i++)
@@ -2205,7 +2206,13 @@ ExpressionNode numberFunction():
 //      		  	String [] str = { "UndefinedVariable", funcName };
 //           	 	throw new MyParseError(app, str);    
            	}
-           	
+			if(kernel.lookupCasCellLabel(label)!=null)			{			  
+           	ExpressionNode derivative =  new ExpressionNode(kernel, kernel.lookupCasCellLabel(label), Operation.DERIVATIVE, 
+	      																new MyDouble(kernel, order));
+      			
+	      		return new ExpressionNode(kernel, derivative, Operation.FUNCTION, myList.getListElement(0)); 
+	      		
+	      }
 			// create variable object for label to make sure
 			// to handle lables like $A$1 correctly and keep the expression
 			Variable geoVar = new Variable(kernel, label);
