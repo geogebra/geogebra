@@ -23,6 +23,7 @@ import geogebra.common.GeoGebraConstants;
 import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.event.AbstractEvent;
+import geogebra.common.factories.AwtFactory;
 import geogebra.common.gui.dialog.DialogManager;
 import geogebra.common.gui.view.spreadsheet.AbstractSpreadsheetTableModel;
 import geogebra.common.io.MyXMLHandler;
@@ -1485,6 +1486,16 @@ public class Application extends AbstractApplication implements
 
 	public Component getMainComponent() {
 		return mainComp;
+	}
+	
+	/**
+	 * Returns the mainComp field which wrapped
+	 * in geogebra.common.awt.Component 
+	 * 
+	 * @return wrapped mainComp
+	 */
+	public geogebra.common.awt.Component wrapGetMainComponent(){
+		return AwtFactory.prototype.newComponent(mainComp);
 	}
 
 	public Dimension getPreferredSize() {

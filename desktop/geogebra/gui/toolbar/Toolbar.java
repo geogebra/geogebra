@@ -18,10 +18,10 @@ import geogebra.common.gui.toolbar.ToolbarItem;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Macro;
 import geogebra.common.main.AbstractApplication;
-import geogebra.gui.layout.DockPanel;
+import geogebra.common.gui.layout.DockPanel;
 import geogebra.main.Application;
 
-import java.awt.Component;
+import geogebra.common.awt.Component;
 import java.util.ArrayList;
 import java.util.Vector;
 
@@ -266,7 +266,7 @@ public class Toolbar extends JToolBar {
 		// main
 		// component (not true for toolbars in EV)
 		if (dockPanel == null) {
-			return app.getMainComponent();
+			return app.wrapGetMainComponent();
 		}
 
 		// this toolbar belongs to a dock panel
@@ -276,7 +276,7 @@ public class Toolbar extends JToolBar {
 		}
 
 		// otherwise use the application main component
-		return app.getMainComponent();
+		return app.wrapGetMainComponent();
 	}
 
 	

@@ -1,5 +1,7 @@
 package geogebra.common.factories;
 
+import java.awt.Component;
+
 import geogebra.common.awt.AffineTransform;
 import geogebra.common.awt.Arc2D;
 import geogebra.common.awt.Area;
@@ -69,5 +71,6 @@ public abstract class AwtFactory {
 			geogebra.common.awt.Color bg);
 	public abstract FocusListener newFocusListener(Object listener);
 	public abstract KeyListener newKeyListener(Object listener);
+	public abstract geogebra.common.awt.Component newComponent(Object component);
 	
 }

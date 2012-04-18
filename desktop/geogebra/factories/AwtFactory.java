@@ -5,6 +5,7 @@ import geogebra.common.awt.AlphaComposite;
 import geogebra.common.awt.Arc2D;
 import geogebra.common.awt.Area;
 import geogebra.common.awt.BasicStroke;
+import geogebra.common.awt.Component;
 import geogebra.common.awt.CubicCurve2D;
 import geogebra.common.awt.Dimension;
 import geogebra.common.awt.Ellipse2DFloat;
@@ -233,6 +234,10 @@ public class AwtFactory extends geogebra.common.factories.AwtFactory{
 	@Override
 	public KeyListener newKeyListener(Object listener) {
 		return new geogebra.euclidian.event.KeyListener(listener);
+	}
+	@Override
+	public Component newComponent(Object component) {
+		return new geogebra.awt.Component(component);
 	}
 
 	

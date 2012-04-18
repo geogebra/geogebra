@@ -57,7 +57,8 @@ import javax.swing.plaf.basic.BasicButtonUI;
  * 
  * @author Florian Sonner
  */
-public abstract class DockPanel extends JPanel implements ActionListener, WindowListener, MouseListener {
+public abstract class DockPanel extends JPanel
+implements ActionListener, WindowListener, MouseListener, geogebra.common.gui.layout.DockPanel{
 	private static final long serialVersionUID = 1L;
 	
 	protected DockManager dockManager;
