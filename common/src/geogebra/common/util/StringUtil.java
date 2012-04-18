@@ -511,4 +511,8 @@ public class StringUtil {
 		return true;
 	}
 
+	public String toLowerCase(String s) {
+		return s.toLowerCase();
+	}
+
 }

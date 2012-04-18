@@ -29,7 +29,7 @@ public class Normalizer6 extends Normalizer {
 	
 	@Override
 	public String transform(String s) {
-		String ret = s.toLowerCase();	 
+		String ret = geogebra.common.util.StringUtil.prototype.toLowerCase(s);	 
 		try {
 			return ((String) normalize.invoke(null, ret, NFD)).replaceAll("[\u0300-\u036F]", "");
 		} catch (Exception e) {

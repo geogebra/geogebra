@@ -15,7 +15,7 @@ public class NormalizerMinimal {
 	 * @return the string to lower case and without accents (if Java >= 1.6)
 	 */
 	public String transform(final String s){
-		return s.toLowerCase();
+		return StringUtil.prototype.toLowerCase(s);
 	}
 
 				

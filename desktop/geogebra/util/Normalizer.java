@@ -1,5 +1,6 @@
 package geogebra.util;
 
+import geogebra.common.main.AbstractApplication;
 import geogebra.common.util.NormalizerMinimal;
 
 /**
@@ -24,19 +25,19 @@ public class Normalizer extends NormalizerMinimal {
 	
 	static {
 		try {
-			INSTANCE = (Normalizer) Class.forName(getNormalizerClass())
-					.getConstructor().newInstance();
+			INSTANCE = getNormalizerClass();
 		} catch (final Exception e) {
 			throw new RuntimeException(e);
 		}
 	}
 
-	private static String getNormalizerClass() {
+	private static Normalizer getNormalizerClass() {
 		try {
 			Class.forName("java.text.Normalizer");
-			return "geogebra.util.Normalizer6";
+			return new Normalizer6();
 		} catch (final Exception e) {
-			return "geogebra.util.Normalizer";
+			AbstractApplication.debug("Java6 Normalizer not supported");
 		}
+		return new Normalizer();
 	}
 }
