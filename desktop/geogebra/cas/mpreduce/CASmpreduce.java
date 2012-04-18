@@ -5,7 +5,6 @@ import geogebra.common.cas.CASparser;
 import geogebra.common.cas.CasParserTools;
 import geogebra.common.cas.Evaluate;
 import geogebra.common.cas.mpreduce.AbstractCASmpreduce;
-import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.ConstructionElement;
 import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import geogebra.common.kernel.arithmetic.ValidExpression;
@@ -20,15 +19,22 @@ import java.util.regex.Pattern;
 
 import org.mathpiper.mpreduce.Interpreter2;
 
+/**
+ * Desktop implementation of Reduce CAS
+ */
 public class CASmpreduce extends AbstractCASmpreduce {
 
-	private final static String RB_GGB_TO_MPReduce = "/geogebra/cas/mpreduce/ggb2mpreduce";
 	// using static CAS instance as a workaround for the MPReduce deadlock with
 	// multiple application windows
 	// see http://www.geogebra.org/trac/ticket/1415
 	private static Interpreter2 mpreduce_static;
 	private Interpreter2 mpreduce;
 
+	/**
+	 * @param casParser CAS parser
+	 * @param parserTools parser helper tools
+	 * @param casPrefix prefix for CAS variables
+	 */
 	public CASmpreduce(CASparser casParser, CasParserTools parserTools,String casPrefix) {
 		super(casParser,casPrefix);
 		this.parserTools = parserTools;
@@ -82,16 +88,16 @@ public class CASmpreduce extends AbstractCASmpreduce {
 	 * Evaluates an expression and returns the result as a string in MPReduce
 	 * syntax, e.g. evaluateMathPiper("D(x) (x^2)") returns "2*x".
 	 * 
-	 * @param exp
+	 * @param input
 	 *            expression (with command names already translated to MPReduce
 	 *            syntax).
 	 * @return result string (null possible)
-	 * @throws CASException
+	 * @throws CASException if CAS fails
 	 */
 	@Override
-	public final String evaluateMPReduce(String exp) throws CASException {
+	public final String evaluateMPReduce(String input) throws CASException {
 		try {
-			exp = casParser.replaceIndices(exp);
+			String exp = casParser.replaceIndices(input);
 			String ret = evaluateRaw(exp);
 			ret = casParser.insertSpecialChars(ret); // undo special character
 														// handling
@@ -117,22 +123,6 @@ public class CASmpreduce extends AbstractCASmpreduce {
 		super.reset();
 	}
 
-	@Override
-	public void unbindVariable(String var) {
-		try {
-			StringBuilder sb = new StringBuilder();
-			sb.append("clear(");
-			sb.append(var);
-			sb.append(");");
-			getMPReduce().evaluate(sb.toString());
-
-			// TODO: remove
-			System.out.println("Cleared variable: " + sb.toString());
-		} catch (Throwable e) {
-			System.err
-					.println("Failed to clear variable from MPReduce: " + var);
-		}
-	}
 
 	private static String getVersionString(Interpreter2 mpreduce) {
 		Pattern p = Pattern.compile("version (\\S+)");
@@ -146,9 +136,13 @@ public class CASmpreduce extends AbstractCASmpreduce {
 		return sb.toString();
 
 	}
+	/**
+	 * Queue of asynchronous commands that are waiting for update
+	 */
 	List<AsynchronousCommand> queue =new LinkedList<AsynchronousCommand>();
 	
 	private Thread casThread;
+	@SuppressWarnings("unused")
 	@Override
 	public void evaluateGeoGebraCASAsync(
 			 final AsynchronousCommand cmd 
