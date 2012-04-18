@@ -404,7 +404,10 @@ Transformable, GeoVectorND, SpreadsheetTraceable {
 			sbToString.append(" = ");
 		}
 
-		sbToString.append(buildValueString(tpl));
+		// Without toString, there was an InvocationTargetException here
+		String str = buildValueString(tpl).toString();
+		sbToString.append(str);
+
 		return sbToString.toString();
 	}
 

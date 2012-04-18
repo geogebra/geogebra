@@ -563,12 +563,17 @@ public class AlgebraView extends Tree implements LayerView, SetLabels, geogebra.
 			node = new TreeItem();
 
 			parent = getParentNode(geo,forceLayer);
+
 			// add node to model (alphabetically ordered)
 			int pos = getInsertPosition(parent, geo, treeMode);
-			if (pos == parent.getChildCount())
+
+			if (pos == parent.getChildCount()) {
 				parent.addItem(node);
-			else
+			} else try {
 				parent.insertItem(pos, node);
+			} catch (IndexOutOfBoundsException e) {
+				parent.addItem(node);
+			}
 
 			setUserObject(node, geo);
 			nodeTable.put(geo, node);
@@ -692,8 +697,7 @@ public class AlgebraView extends Tree implements LayerView, SetLabels, geogebra.
 			return right;
 
 		// bigger then last?
-		TreeItem node = (TreeItem) parent.getChild(
-				parent.getChildCount() - 1 );
+		TreeItem node = parent.getChild( parent.getChildCount() - 1 );
 		//String nodeLabel = ((GeoElement) node.getUserObject()).getLabel();
 		GeoElement geo2 = ((GeoElement) node.getUserObject());
 		if (compare(newGeo, geo2, mode))
@@ -702,7 +706,7 @@ public class AlgebraView extends Tree implements LayerView, SetLabels, geogebra.
 		// binary search
 		while (right > left) {
 			int middle = (left + right) / 2;
-			node = (TreeItem) parent.getChild(middle);
+			node = parent.getChild(middle);
 			//nodeLabel = ((GeoElement) node.getUserObject()).getLabel();
 			geo2 = ((GeoElement) node.getUserObject());
 
