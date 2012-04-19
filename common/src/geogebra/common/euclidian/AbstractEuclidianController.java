@@ -8343,6 +8343,11 @@ public abstract class AbstractEuclidianController {
 					.createPreviewPerpendicularBisector(selectedPoints);
 			break;
 	
+		case EuclidianConstants.MODE_CONIC_FIVE_POINTS:
+			previewDrawable = view
+					.createPreviewConic(mode1, selectedPoints);
+			break;
+	
 		case EuclidianConstants.MODE_JOIN: // line through two points
 			useLineEndPoint = false;
 			previewDrawable = view.createPreviewLine(selectedPoints);

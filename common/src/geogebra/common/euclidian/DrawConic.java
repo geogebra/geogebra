@@ -34,6 +34,7 @@ import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoCirclePointRadius;
 import geogebra.common.kernel.algos.AlgoCircleThreePoints;
 import geogebra.common.kernel.algos.AlgoCircleTwoPoints;
+import geogebra.common.kernel.algos.AlgoConicFivePoints;
 import geogebra.common.kernel.algos.AlgoEllipseFociPoint;
 import geogebra.common.kernel.algos.AlgoHyperbolaFociPoint;
 import geogebra.common.kernel.geos.GeoConic;
@@ -161,7 +162,7 @@ final public class DrawConic extends Drawable implements Previewable {
 		halfAxes = c.getHalfAxes();
 		c.getAffineTransform();
 	}
-
+	
 	/**
 	 * Creates a new DrawConic for preview of a circle
 	 * 
@@ -175,8 +176,25 @@ final public class DrawConic extends Drawable implements Previewable {
 		previewMode = mode;
 
 		Construction cons = view.getKernel().getConstruction();
-		neededPrevPoints = mode == EuclidianConstants.MODE_CIRCLE_TWO_POINTS ? 1
-				: 2;
+		
+		
+		switch (mode) {
+		case EuclidianConstants.MODE_CIRCLE_TWO_POINTS:
+			neededPrevPoints = 1;
+			break;
+		case EuclidianConstants.MODE_CIRCLE_THREE_POINTS:
+		case EuclidianConstants.MODE_ELLIPSE_THREE_POINTS:
+		case EuclidianConstants.MODE_HYPERBOLA_THREE_POINTS:
+			neededPrevPoints = 2;
+			break;
+		case EuclidianConstants.MODE_CONIC_FIVE_POINTS:
+			neededPrevPoints = 4;
+			break;
+
+		}
+		
+		//neededPrevPoints = mode == EuclidianConstants.MODE_CIRCLE_TWO_POINTS ? 1
+		//		: 2;
 		previewTempPoints = new GeoPoint2[neededPrevPoints + 1];
 		for (int i = 0; i < previewTempPoints.length; i++) {
 			previewTempPoints[i] = new GeoPoint2(cons);
@@ -1216,6 +1234,13 @@ final public class DrawConic extends Drawable implements Previewable {
 			initConic(algo.getCircle());
 			break;
 
+		case EuclidianConstants.MODE_CONIC_FIVE_POINTS:
+			GeoPoint2[] pts = {previewTempPoints[0], previewTempPoints[1], previewTempPoints[2], previewTempPoints[3], previewTempPoints[4]};
+			AlgoConicFivePoints algo0 = new AlgoConicFivePoints(cons, pts);
+			cons.removeFromConstructionList(algo0);
+			initConic(algo0.getConic());
+			break;
+
 		case EuclidianConstants.MODE_CIRCLE_THREE_POINTS:
 			AlgoCircleThreePoints algo2 = new AlgoCircleThreePoints(cons,
 					previewTempPoints[0], previewTempPoints[1],
@@ -1246,7 +1271,9 @@ final public class DrawConic extends Drawable implements Previewable {
 			cons.removeFromConstructionList(algo5);
 			initConic(algo5.getCircle());
 			break;
+		default: AbstractApplication.debug("unknown conic type");
 		}
+		
 
 		if (conic != null)
 			conic.setLabelVisible(false);
