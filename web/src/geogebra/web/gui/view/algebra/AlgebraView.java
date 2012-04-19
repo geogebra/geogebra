@@ -18,14 +18,18 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.LayerView;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
+import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.gui.SetLabels;
 import geogebra.common.gui.view.algebra.AbstractAlgebraController;
 import geogebra.common.main.AbstractApplication;
 import geogebra.web.euclidian.EuclidianView;
+import geogebra.web.euclidian.event.MouseEvent;
 import geogebra.web.main.Application;
 
 import java.util.HashMap;
+import java.util.Iterator;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.SpanElement;
@@ -1235,19 +1239,33 @@ public class AlgebraView extends Tree implements LayerView, SetLabels, geogebra.
 	public static void setUserObject(TreeItem ti, Object ob) {
 		ti.setUserObject(ob);
 		if (ob instanceof GeoElement) {
-			ti.setWidget(new AVRadioButton((GeoElement)ob));
+			ti.setWidget(new AVRadioButton((GeoElement)ob,
+				((AlgebraView)((GeoElement)ob).getKernel().getApplication().getAlgebraView()).lastSelectedGeo));
 		} else {
 			ti.setText(ob.toString());
 		}
 	}
 
+	public class GeoElementProxy {
+		public GeoElement geo = null;
+		public GeoElementProxy(GeoElement geoel) {
+			geo = geoel;
+		}
+	}
+
+	public GeoElementProxy lastSelectedGeo = new GeoElementProxy(null);
+
 	public static class AVRadioButton extends RadioButton {
+
 		GeoElement geo;
 		boolean previouslyChecked;
 		SpanElement se;
-		public AVRadioButton(GeoElement ge) {
+		GeoElementProxy lastSelectedGeo;
+
+		public AVRadioButton(GeoElement ge, GeoElementProxy last) {
 			super(DOM.createUniqueId(), ""); // instead of label for="", use span which doesn't react to events
 			geo = ge;
+			lastSelectedGeo = last;
 			setEnabled(ge.isEuclidianShowable());
 			setChecked(previouslyChecked = ge.isEuclidianVisible());
 
@@ -1267,35 +1285,124 @@ public class AlgebraView extends Tree implements LayerView, SetLabels, geogebra.
 				geo.getAlgebraColor() ) );
 		}
 
+		public void mouseClicked(Event event) {
+
+			if (Element.is(event.getEventTarget())) {
+				if (Element.as(event.getEventTarget()) == getElement().getFirstChild()) {
+					setChecked(previouslyChecked = !previouslyChecked);
+					geo.setEuclidianVisible(!geo.isSetEuclidianVisible());
+					geo.update();
+					geo.getKernel().getApplication().storeUndoInfo();
+					geo.getKernel().notifyRepaint();
+				}
+			}
+
+			Application app = (Application)geo.getKernel().getApplication();
+			int mode = app.getActiveEuclidianView().getMode();
+			if (//!skipSelection && 
+				(mode == EuclidianConstants.MODE_MOVE || mode == EuclidianConstants.MODE_RECORD_TO_SPREADSHEET) ) {
+				// update selection	
+				if (geo == null){
+					app.clearSelectedGeos();
+				}
+				else {					
+					// handle selecting geo
+					if (event.getCtrlKey()) {
+						app.toggleSelectedGeo(geo); 													
+						if (app.getSelectedGeos().contains(geo)) lastSelectedGeo.geo = geo;
+					} else if (event.getShiftKey() && lastSelectedGeo.geo != null) {
+						boolean nowSelecting = true;
+						boolean selecting = false;
+						boolean aux = geo.isAuxiliaryObject();
+						boolean ind = geo.isIndependent();
+						boolean aux2 = lastSelectedGeo.geo.isAuxiliaryObject();
+						boolean ind2 = lastSelectedGeo.geo.isIndependent();
+
+						if ((aux == aux2 && aux) || (aux == aux2 && ind == ind2)) {
+
+							Iterator<GeoElement> it = geo.getKernel().getConstruction().getGeoSetLabelOrder().iterator();
+
+							boolean direction = geo.getLabel(StringTemplate.defaultTemplate).
+									compareTo(lastSelectedGeo.geo.getLabel(StringTemplate.defaultTemplate)) < 0;
+
+							while (it.hasNext()) {
+								GeoElement geo2 = it.next();
+								if ((geo2.isAuxiliaryObject() == aux && aux)
+										|| (geo2.isAuxiliaryObject() == aux && geo2.isIndependent() == ind)) {
+
+									if (direction && geo2.equals(lastSelectedGeo.geo)) selecting = !selecting;
+									if (!direction && geo2.equals(geo)) selecting = !selecting;
+
+									if (selecting) {
+										app.toggleSelectedGeo(geo2);
+										nowSelecting = app.getSelectedGeos().contains(geo2);
+									}
+
+									if (!direction && geo2.equals(lastSelectedGeo.geo)) selecting = !selecting;
+									if (direction && geo2.equals(geo)) selecting = !selecting;
+								}
+							}
+						}
+
+						if (nowSelecting) {
+							app.addSelectedGeo(geo); 
+							lastSelectedGeo.geo = geo;
+						} else {
+							app.removeSelectedGeo(lastSelectedGeo.geo);
+							lastSelectedGeo.geo = null;
+						}
+
+					} else {							
+						app.clearSelectedGeos();
+						app.addSelectedGeo(geo);
+						lastSelectedGeo.geo = geo;
+					}
+				}
+			} 
+			else if (mode != EuclidianConstants.MODE_SELECTION_LISTENER) {
+				// let euclidianView know about the click
+				AbstractEvent event2 = MouseEvent.wrapEvent(event);
+				app.getActiveEuclidianView().clickedGeo(geo, event2);
+				//event.release();
+			} else 
+				// tell selection listener about click
+				app.geoElementSelected(geo, false);
+
+
+			// Alt click: copy definition to input field
+			if (geo != null && event.getAltKey() && app.showAlgebraInput()) {			
+				// F3 key: copy definition to input bar
+				app.getGlobalKeyDispatcher().handleFunctionKeyForAlgebraInput(3, geo);			
+			}
+
+			app.getActiveEuclidianView().mouseMovedOver(null);
+
+		}
+
+		public void mouseMoved(Event event) {
+			// tell EuclidianView to handle mouse over
+			EuclidianViewInterfaceCommon ev = geo.getKernel().getApplication().getActiveEuclidianView();
+			ev.mouseMovedOver(geo);
+
+			// implemented by HTML title attribute on the label
+			//FIXME: geo.getLongDescription() doesn't work
+			//if (geo != null) {
+			//	geo.getKernel().getApplication().setTooltipFlag();
+			//	se.setTitle(geo.getLongDescription());
+			//	geo.getKernel().getApplication().clearTooltipFlag();
+			//} else {
+			//	se.setTitle("");
+			//}
+		}
+
 		@Override
 		public void onBrowserEvent(Event event) {
 			if (event.getTypeInt() == Event.ONCLICK) {
 				// AlgebraController.mouseClicked in Desktop
-				if (Element.is(event.getEventTarget())) {
-					if (Element.as(event.getEventTarget()) == getElement().getFirstChild()) {
-						setChecked(previouslyChecked = !previouslyChecked);
-						geo.setEuclidianVisible(!geo.isSetEuclidianVisible());
-						geo.update();
-						geo.getKernel().getApplication().storeUndoInfo();
-						geo.getKernel().notifyRepaint();
-					}
-				}
+				mouseClicked(event);
 			} else if (event.getTypeInt() == Event.ONMOUSEMOVE) {
 				// AlgebraController.mouseMoved in Desktop
-
-				// tell EuclidianView to handle mouse over
-				EuclidianViewInterfaceCommon ev = geo.getKernel().getApplication().getActiveEuclidianView();
-				ev.mouseMovedOver(geo);
-
-				// implemented by HTML title attribute on the label
-				//FIXME: geo.getLongDescription() doesn't work
-				//if (geo != null) {
-				//	geo.getKernel().getApplication().setTooltipFlag();
-				//	se.setTitle(geo.getLongDescription());
-				//	geo.getKernel().getApplication().clearTooltipFlag();
-				//} else {
-				//	se.setTitle("");
-				//}
+				mouseMoved(event);
 			}
 		}
 	}
