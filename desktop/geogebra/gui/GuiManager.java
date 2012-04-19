@@ -994,8 +994,8 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 		initActions();
 
 		if (app.showMenuBar()) {
-			//initMenubar();
-			updateMenubar();
+			initMenubar();
+			//updateMenubar();
 			
 			Component comp = app.getMainComponent();
 			if (comp instanceof JApplet)
