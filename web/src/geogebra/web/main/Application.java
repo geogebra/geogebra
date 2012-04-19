@@ -33,6 +33,7 @@ import geogebra.common.plugin.jython.PythonBridge;
 import geogebra.common.sound.SoundManager;
 import geogebra.common.util.AbstractImageManager;
 import geogebra.common.util.GeoGebraLogger.LogDestination;
+import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
 import geogebra.web.css.GuiResources;
 import geogebra.web.euclidian.EuclidianController;
@@ -380,7 +381,7 @@ public class Application extends AbstractApplication {
 	final public String getReverseCommand(String command) {
 		initTranslatedCommands();
 
-		String key = toLowerCase(command);
+		String key = StringUtil.toLowerCase(command);
 		try {
 
 			Enumeration<String> enume = null /*AG Rana it waits for you :-))rbcommand.getKeys()*/;
@@ -390,7 +391,7 @@ public class Application extends AbstractApplication {
 				String s = enume.nextElement();
 
 				// check internal commands
-				if (toLowerCase(s).equals(key)) {
+				if (StringUtil.toLowerCase(s).equals(key)) {
 					return s;
 				}
 
@@ -886,7 +887,7 @@ public class Application extends AbstractApplication {
 		}
 
 		if ((key.length() == 5)
-				&& toLowerCase(key).startsWith("gray")) {
+				&& StringUtil.toLowerCase(key).startsWith("gray")) {
 			switch (key.charAt(4)) {
 			case '0':
 				return getColor("white");
@@ -913,7 +914,7 @@ public class Application extends AbstractApplication {
 			initColorConstants();
 		}
 
-		return colorConstants.getString(toLowerCase(key));
+		return colorConstants.getString(StringUtil.toLowerCase(key));
 	}
 
 	@Override

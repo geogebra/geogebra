@@ -1320,8 +1320,7 @@ public abstract class AlgoElement extends ConstructionElement implements
 	}
 
 	final public static String getXMLtypeString(GeoElement geo) {
-		return geo.getKernel().getApplication()
-				.toLowerCase(geo.getClassName().substring(3));
+		return StringUtil.toLowerCase(geo.getClassName().substring(3));
 	}
 	public abstract Algos getClassName();
 

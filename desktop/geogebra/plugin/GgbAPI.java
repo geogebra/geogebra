@@ -258,7 +258,7 @@ public class GgbAPI extends geogebra.common.plugin.GgbAPI {
 	 */
 	public synchronized void openFile(String strURL) {
 		try {
-			String lowerCase = app.toLowerCase(strURL);
+			String lowerCase = StringUtil.toLowerCase(strURL);
 			URL url = new URL(strURL);
 			((Application) app).loadXML(url, lowerCase.endsWith(Application.FILE_EXT_GEOGEBRA_TOOL));
 		} catch (Exception e) {
@@ -295,7 +295,7 @@ public class GgbAPI extends geogebra.common.plugin.GgbAPI {
 				((Application)app).getEuclidianView1().getExportImage(1);
 			
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			ImageIO.write(img, app.toLowerCase(format), baos);
+			ImageIO.write(img, StringUtil.toLowerCase(format), baos);
 			
 			MessageDigest md5 = getMessageDigestMD5();
 			byte[] bytesOut = baos.toByteArray();

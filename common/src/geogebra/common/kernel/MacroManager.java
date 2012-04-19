@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.common.kernel;
 
 import geogebra.common.main.AbstractApplication;
+import geogebra.common.util.StringUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,7 +27,6 @@ public class MacroManager {
 	
 	private HashMap<String, Macro> macroMap; // maps macro name to macro object
 	private ArrayList<Macro> macroList; // lists all macros	
-	private AbstractApplication app;
 	
 	/**
 	 * Creates new macro manager
@@ -35,14 +35,13 @@ public class MacroManager {
 	public MacroManager(AbstractApplication app) {
 		macroMap = new HashMap<String, Macro>();
 		macroList = new ArrayList<Macro>();
-		this.app = app;
 	}
 		
 	/**
 	 * @param macro macro to be added
 	 */
 	public void addMacro(Macro macro) {						
-		macroMap.put(app.toLowerCase(macro.getCommandName()), macro);
+		macroMap.put(StringUtil.toLowerCase(macro.getCommandName()), macro);
 		macroList.add(macro);
 	}
 	
@@ -52,7 +51,7 @@ public class MacroManager {
 	 * @return macro 
 	 */
 	public Macro getMacro(String name) {
-		return macroMap.get(app.toLowerCase(name));
+		return macroMap.get(StringUtil.toLowerCase(name));
 	}
 	
 	/**
@@ -60,7 +59,7 @@ public class MacroManager {
 	 * @param macro macro for removal
 	 */
 	public void removeMacro(Macro macro) {
-		macroMap.remove(app.toLowerCase(macro.getCommandName()));	
+		macroMap.remove(StringUtil.toLowerCase(macro.getCommandName()));	
 		macroList.remove(macro);		
 	}	
 	
@@ -80,9 +79,9 @@ public class MacroManager {
 	 * @param cmdName command name
 	 */
 	public void setMacroCommandName(Macro macro, String cmdName) {
-		macroMap.remove(app.toLowerCase(macro.getCommandName()));
+		macroMap.remove(StringUtil.toLowerCase(macro.getCommandName()));
 		macro.setCommandName(cmdName);
-		macroMap.put(app.toLowerCase(macro.getCommandName()), macro);			
+		macroMap.put(StringUtil.toLowerCase(macro.getCommandName()), macro);			
 	}
 	
 	/**

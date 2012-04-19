@@ -4591,7 +4591,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @return type string for XML
 	 */
 	final public String getXMLtypeString() {
-		return app.toLowerCase(getClassName().substring(3));
+		return StringUtil.toLowerCase(getClassName().substring(3));
 	}
 
 	/**

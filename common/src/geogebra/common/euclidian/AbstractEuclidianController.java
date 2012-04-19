@@ -73,6 +73,7 @@ import geogebra.common.main.GeoElementSelectionListener;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.util.MyMath;
+import geogebra.common.util.StringUtil;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -3941,7 +3942,7 @@ public abstract class AbstractEuclidianController {
 					String strText = "";
 					boolean useLabels = geoA.isLabelSet() && geoB.isLabelSet();
 					if (useLabels) {
-						length.setLabel(removeUnderscores(app.toLowerCase(app.getCommand("Distance"))
+						length.setLabel(removeUnderscores(StringUtil.toLowerCase(app.getCommand("Distance"))
 								//.toLowerCase(Locale.US)
 								+ geoA.getLabel(tpl)
 								+ geoB.getLabel(tpl)));
@@ -3961,7 +3962,7 @@ public abstract class AbstractEuclidianController {
 						geoA.updateRepaint();
 						geoB.updateRepaint();
 					} else {
-						length.setLabel(removeUnderscores(app.toLowerCase(app.getCommand("Distance"))));
+						length.setLabel(removeUnderscores(StringUtil.toLowerCase(app.getCommand("Distance"))));
 								//.toLowerCase(Locale.US)));
 						strText = "\"\"" + length.getLabel(tpl);
 					}
@@ -4016,7 +4017,7 @@ public abstract class AbstractEuclidianController {
 			GeoText text = createDynamicText(app.getCommand("Area"), area,
 					mouseCoords);
 			if (conic.isLabelSet()) {
-				area.setLabel(removeUnderscores(app.toLowerCase(app.getCommand("Area"))
+				area.setLabel(removeUnderscores(StringUtil.toLowerCase(app.getCommand("Area"))
 						+ conic.getLabelSimple()));
 				text.setLabel(removeUnderscores(app.getPlain("Text")
 						+ conic.getLabelSimple()));
@@ -4270,7 +4271,7 @@ public abstract class AbstractEuclidianController {
 			GeoText text = createDynamicText(app.getCommand("Circumference"),
 					circumFerence, mouseCoords);
 			if (conic.isLabelSet()) {
-				circumFerence.setLabel(removeUnderscores(app.toLowerCase(app.getCommand(
+				circumFerence.setLabel(removeUnderscores(StringUtil.toLowerCase(app.getCommand(
 						"Circumference"))
 						+ conic.getLabel(StringTemplate.defaultTemplate)));
 				text.setLabel(removeUnderscores(app.getPlain("Text")
@@ -4291,7 +4292,7 @@ public abstract class AbstractEuclidianController {
 					perimeter, mouseCoords);
 	
 			if (poly[0].isLabelSet()) {
-				perimeter.setLabel(removeUnderscores(app.toLowerCase(app.getCommand("Perimeter"))
+				perimeter.setLabel(removeUnderscores(StringUtil.toLowerCase(app.getCommand("Perimeter"))
 						+ poly[0].getLabelSimple()));
 				text.setLabel(removeUnderscores(app.getPlain("Text")
 						+ poly[0].getLabelSimple()));

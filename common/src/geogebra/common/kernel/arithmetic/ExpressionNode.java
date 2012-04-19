@@ -1556,6 +1556,7 @@ public class ExpressionNode extends ValidExpression implements
 			if (STRING_TYPE.equals(StringType.MATHML)) {
 				mathml(sb, "<implies/>", leftStr, rightStr);
 			} else {
+				if(STRING_TYPE != StringType.MPREDUCE)
 				append(sb, leftStr, left, operation, STRING_TYPE);
 	
 				sb.append(' ');
@@ -1567,10 +1568,12 @@ public class ExpressionNode extends ValidExpression implements
 					sb.append("\\rightarrow");
 					break;
 	
-				
-					//true <= false, false<=false, false<=true
 				case MPREDUCE:
-					sb.append("<= ");
+					sb.append("(not(");
+					sb.append(leftStr);
+					sb.append(") or ");
+					sb.append(rightStr);
+					sb.append(")");
 					break;
 	
 				default:

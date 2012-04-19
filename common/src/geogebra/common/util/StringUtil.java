@@ -511,8 +511,50 @@ public class StringUtil {
 		return true;
 	}
 
-	public String toLowerCase(String s) {
+	/**
+	 * Safe implementation of toLowerCase
+     * @param s input string 
+     * @return the <code>String</code>, converted to lowercase.
+     * @see     #toLowerCase(String)
+	 */
+	protected String toLower(String s) {
 		return s.toLowerCase();
+	}
+	
+	/**
+	 * Safe implementation of toLowerCase
+     * @param s input string 
+     * @return the <code>String</code>, converted to lowercase.
+     * @see     #toLowerCase(String)
+	 */
+	protected String toUpper(String s) {
+		return s.toUpperCase();
+	}
+	
+	/**
+	 * important to use this rather than String.toLowerCase() as this is overridden in 
+	 * desktop.Application so that it uses  String.toLowerCase(Locale.US)
+	 * so that the behavior is well defined whatever language we are running in
+	 * NB does cause problems eg in Turkish
+     * @param s input string
+     * @return the <code>String</code>, converted to lowercase.
+     * @see     java.lang.String#toUpperCase(Locale)
+	 */
+	public static String toLowerCase(String s) {
+		return prototype.toLower(s);
+	}
+	
+	/**
+	 * important to use this rather than String.toLowerCase() as this is overridden in 
+	 * desktop.Application so that it uses  String.toLowerCase(Locale.US)
+	 * so that the behavior is well defined whatever language we are running in
+	 * NB does cause problems eg in Turkish
+     * @param s input string
+     * @return the <code>String</code>, converted to lowercase.
+     * @see     java.lang.String#toUpperCase(Locale)
+	 */
+	public static String toUpperCase(String s) {
+		return prototype.toUpper(s);
 	}
 
 }

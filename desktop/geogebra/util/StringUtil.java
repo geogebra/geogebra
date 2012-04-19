@@ -10,7 +10,12 @@ public class StringUtil extends geogebra.common.util.StringUtil{
     }
 	
 	@Override
-	public String toLowerCase(String s) {
+	public String toLower(String s) {
 		return s.toLowerCase(Locale.US);
+	}
+	
+	@Override
+	public String toUpper(String s) {
+		return s.toUpperCase(Locale.US);
 	}
 }

@@ -1600,32 +1600,6 @@ public abstract class AbstractApplication {
 		return Character.isSpace(charAt);
 	}
 
-	/**
-	 * important to use this rather than String.toLowerCase() as this is overridden in 
-	 * desktop.Application so that it uses  String.toLowerCase(Locale.US)
-	 * so that the behavior is well defined whatever language we are running in
-	 * NB does cause problems eg in Turkish
-     * @param s 
-     * @return the <code>String</code>, converted to lowercase.
-     * @see     java.lang.String#toUpperCase(Locale)
-	 */
-	public String toLowerCase(String s) {
-		return s.toLowerCase();
-	}
-
-	/**
-	 * important to use this rather than String.toUpperCase() as this is overridden in 
-	 * desktop.Application so that it uses  String.toUpperCase(Locale.US)
-	 * so that the behavior is well defined whatever language we are running in
-	 * NB does cause problems eg in Turkish
-     * @param s 
-     * @return the <code>String</code>, converted to uppercase.
-     * @see     java.lang.String#toUpperCase(Locale)
-	 */
-	public String toUpperCase(String s) {
-		return s.toUpperCase();
-	}
-
 	public abstract void evalJavaScript(AbstractApplication app, String script,
 			String arg);
 
@@ -1727,9 +1701,9 @@ public abstract class AbstractApplication {
 
 		String command = getCommand(key);
 		
-		String syntaxStr = getSyntaxString();
+		String syntaxString = getSyntaxString();
 		
-		String syntax = getCommand(key + syntaxStr);
+		String syntax = getCommand(key + syntaxString);
 
 		syntax = syntax.replace("[", command + '[');
 

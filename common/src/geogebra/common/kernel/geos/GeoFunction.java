@@ -1482,7 +1482,7 @@ public class GeoFunction extends GeoElement implements VarString,
 				grad = 0;
 			}
 
-			if (!GeoFunction.CASError(gradientStrMinus, false, app)
+			if (!GeoFunction.CASError(gradientStrMinus, false)
 					&& !Kernel.isZero(grad)) {
 				sb.setLength(0);
 				sb.append("Limit(");
@@ -1503,7 +1503,7 @@ public class GeoFunction extends GeoElement implements VarString,
 						.toString(),null);
 				// Application.debug(sb.toString()+" = "+interceptStrMinus,1);
 
-				if (!GeoFunction.CASError(interceptStrMinus, false, app)) {
+				if (!GeoFunction.CASError(interceptStrMinus, false)) {
 					sb.setLength(0);
 					sb.append("y = ");
 					sb.append(gradientStrMinus);
@@ -1566,7 +1566,7 @@ public class GeoFunction extends GeoElement implements VarString,
 
 			// Application.debug(sb.toString()+" = "+limit,1);
 
-			if (!GeoFunction.CASError(limit, false, app)) {
+			if (!GeoFunction.CASError(limit, false)) {
 
 				// check not duplicated
 				sb.setLength(0);
@@ -1627,7 +1627,7 @@ public class GeoFunction extends GeoElement implements VarString,
 					.toString(),null);
 			// Application.debug(sb.toString()+" = "+verticalAsymptotes,1);
 
-			if (!GeoFunction.CASError(verticalAsymptotes, false, app)
+			if (!GeoFunction.CASError(verticalAsymptotes, false)
 					&& verticalAsymptotes.length() > 2) {
 				verticalAsymptotes = verticalAsymptotes.replace('{', ' ');
 				verticalAsymptotes = verticalAsymptotes.replace('}', ' ');
@@ -1701,7 +1701,7 @@ public class GeoFunction extends GeoElement implements VarString,
 									.toString(),null);
 							// Application.debug("checking for vertical asymptote: "+sb.toString()+" = "+limit,1);
 							if (limit.equals("?")
-									|| !GeoFunction.CASError(limit, true, app)) {
+									|| !GeoFunction.CASError(limit, true)) {
 								if (verticalSB.length() > 1)
 									verticalSB.append(',');
 								verticalSB.append("x=");
@@ -1720,15 +1720,14 @@ public class GeoFunction extends GeoElement implements VarString,
 		}
 	}
 
-	final private static boolean CASError(String str, boolean allowInfinity,
-			AbstractApplication app) {
+	final private static boolean CASError(String str, boolean allowInfinity) {
 		String str1 = str;
 		if (str1 == null || str1.length() == 0)
 			return true;
 		if (str1.equals("?"))
 			return true; // undefined/NaN
 		// if (str.indexOf("%i") > -1 ) return true; // complex answer
-		str1 = app.toLowerCase(str1);
+		str1 = StringUtil.toLowerCase(str1);
 		if (str1.charAt(0)== '\'')
 			return true; // maxima error eg 'diff(
 		if (!allowInfinity && str1.indexOf(Unicode.Infinity) > -1)

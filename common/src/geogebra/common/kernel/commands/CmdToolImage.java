@@ -8,6 +8,7 @@ import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.main.MyError;
+import geogebra.common.util.StringUtil;
 
 /**
  *ToolImage
@@ -36,7 +37,7 @@ public class CmdToolImage extends CommandProcessor {
 
 				int mode = (int) ((GeoNumeric) arg[0]).getDouble();
 
-				String modeStr = app.toLowerCase(kernelA.getModeText(mode));
+				String modeStr = StringUtil.toLowerCase(kernelA.getModeText(mode));
 
 				if ("".equals(modeStr))
 					throw argErr(app, c.getName(), arg[0]);

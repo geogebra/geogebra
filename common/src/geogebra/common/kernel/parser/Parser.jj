@@ -203,7 +203,7 @@ TOKEN :  {
   | < NOT: ("\u00ac") > 
   | < OR:		("||" | "\u2228" ) >
   | < AND:		("&&" | "\u2227" ) >
-  | < IMPLICATION:		("->" | "\u21d2") >
+  | < IMPLICATION:		("->" | "\u2192") >
   | < EQUAL_BOOLEAN: ("==" | "\u225f" ) >
   | < NOT_EQUAL: ("!=" | "\u2260" ) >
   | < IS_ELEMENT_OF: "\u2208" >

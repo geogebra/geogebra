@@ -2,6 +2,7 @@ package geogebra.common.main;
 
 import geogebra.common.awt.Color;
 import geogebra.common.factories.AwtFactory;
+import geogebra.common.util.StringUtil;
 
 import java.util.HashMap;
 import java.util.Map.Entry;
@@ -230,7 +231,7 @@ public class GeoGebraColorConstants {
 
 		getGeoGebraColors();
 
-		Color ret = geogebraColor.get(app.toLowerCase(colorName));
+		Color ret = geogebraColor.get(StringUtil.toLowerCase(colorName));
 
 		if (ret == null) {
 			ret = geogebraColor.get(app.reverseGetColor(colorName));

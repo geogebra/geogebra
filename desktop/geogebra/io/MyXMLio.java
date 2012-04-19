@@ -25,6 +25,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Macro;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
+import geogebra.common.util.StringUtil;
 import geogebra.main.Application;
 import geogebra.util.Util;
 
@@ -562,7 +563,7 @@ public class MyXMLio extends geogebra.common.io.MyXMLio{
 		try {
 			// try to write image using the format of the filename extension
 			int pos = fileName.lastIndexOf('.');
-			String ext = app.toLowerCase(fileName.substring(pos + 1));
+			String ext = StringUtil.toLowerCase(fileName.substring(pos + 1));
 			if (ext.equals("jpg") || ext.equals("jpeg"))
 				ext = "JPG";
 			else

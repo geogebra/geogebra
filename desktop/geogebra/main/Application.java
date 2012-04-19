@@ -1332,7 +1332,7 @@ public class Application extends AbstractApplication implements
 			return false;
 		}
 		String fileArgument = args.getStringValue("file0");
-		String lowerCase = toLowerCase(fileArgument);
+		String lowerCase =StringUtil.toLowerCase(fileArgument);
 		return lowerCase.endsWith(FILE_EXT_GEOGEBRA_TOOL);
 	}
 
@@ -1364,7 +1364,7 @@ public class Application extends AbstractApplication implements
 
 				try {
 					boolean success;
-					String lowerCase = toLowerCase(fileArgument);
+					String lowerCase =StringUtil.toLowerCase(fileArgument);
 					boolean isMacroFile = lowerCase
 							.endsWith(FILE_EXT_GEOGEBRA_TOOL);
 
@@ -2030,7 +2030,7 @@ public class Application extends AbstractApplication implements
 		}
 
 		if ((key.length() == 5)
-				&& toLowerCase(key).startsWith("gray")) {
+				&&StringUtil.toLowerCase(key).startsWith("gray")) {
 			switch (key.charAt(4)) {
 			case '0':
 				return getColor("white");
@@ -2289,7 +2289,7 @@ public class Application extends AbstractApplication implements
 	final public String getReverseCommand(String command) {
 		initTranslatedCommands();
 
-		String key = toLowerCase(command);
+		String key =StringUtil.toLowerCase(command);
 		try {
 
 			Enumeration<String> enume = rbcommand.getKeys();
@@ -2298,12 +2298,12 @@ public class Application extends AbstractApplication implements
 				String s = enume.nextElement();
 
 				// check internal commands
-				if (toLowerCase(s).equals(key)) {
+				if (StringUtil.toLowerCase(s).equals(key)) {
 					return s;
 				}
 
 				// check localized commands
-				if (toLowerCase(rbcommand.getString(s)).equals(key)) {
+				if (StringUtil.toLowerCase(rbcommand.getString(s)).equals(key)) {
 					return s;
 				}
 			}
@@ -2775,7 +2775,7 @@ public class Application extends AbstractApplication implements
 			// standard case
 			String modeText = getKernel().getModeText(mode);
 			// bugfix for Turkish locale added Locale.US
-			String iconName = "mode_" + toLowerCase(modeText)
+			String iconName = "mode_" +StringUtil.toLowerCase(modeText)
 					+ "_32.gif";
 			icon = getToolBarImage(iconName, border);
 			if (icon == null) {
@@ -4578,16 +4578,6 @@ public class Application extends AbstractApplication implements
 	@Override
 	public String getTraceXML(GeoElement ge) {
 		return getTraceManager().getTraceXML(ge);
-	}
-
-	@Override
-	public String toLowerCase(String str) {
-		return str.toLowerCase(Locale.US);
-	}
-
-	@Override
-	public String toUpperCase(String s) {
-		return s.toUpperCase(Locale.US);
 	}
 
 	@Override

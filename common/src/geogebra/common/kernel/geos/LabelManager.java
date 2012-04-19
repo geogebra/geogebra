@@ -2,6 +2,7 @@ package geogebra.common.kernel.geos;
 
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import geogebra.common.util.CopyPaste;
+import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
 
 import java.util.Arrays;
@@ -31,7 +32,7 @@ public class LabelManager {
 			if (name.startsWith(CopyPaste.labelPrefix))
 				return false;
 
-			name = geo.getKernel().getApplication().toLowerCase(name);
+			name = StringUtil.toLowerCase(name);
 			if (geo.isGeoFunction()) {
 				if (invalidFunctionNames.contains(name))
 						return false;

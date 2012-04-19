@@ -13,6 +13,7 @@ import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.AbstractApplication;
+import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
 
 import java.util.ArrayList;
@@ -833,7 +834,7 @@ public class RelativeCopy {
 			// check if text was the label of an existing geo
 			// toUpperCase() added to fix bug A1=1, enter just 'a1' or 'A1' into
 			// cell B1 -> A1 disappears
-			if (kernel.getApplication().toLowerCase(text).equals(newValues[0].getLabel(StringTemplate.defaultTemplate))
+			if (StringUtil.toLowerCase(text).equals(newValues[0].getLabel(StringTemplate.defaultTemplate))
 			// also need eg =a to work
 					|| text.equals(newValues[0].getLabel(StringTemplate.defaultTemplate))) {
 				// make sure we create a copy of this existing or auto-created

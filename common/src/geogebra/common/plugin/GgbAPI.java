@@ -18,6 +18,7 @@ import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.geos.PointProperties;
 import geogebra.common.kernel.geos.Traceable;
 import geogebra.common.main.AbstractApplication;
+import geogebra.common.util.StringUtil;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -606,7 +607,7 @@ public abstract class GgbAPI implements JavaScriptAPI{
 	 */
 	public synchronized String getObjectType(String objName) {
 		GeoElement geo = kernel.lookupLabel(objName);
-		return (geo == null) ? "" : app.toLowerCase(geo.getObjectType());
+		return (geo == null) ? "" : StringUtil.toLowerCase(geo.getObjectType());
 	}
 	
 	/**
