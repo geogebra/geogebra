@@ -1206,7 +1206,7 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 	/**
 	 * Recompute printing scale
 	 */
-	protected void calcPrintingScale() {
+	public void calcPrintingScale() {
 		double unitPerCM = PRINTER_PIXEL_PER_CM / getXscale();
 		int exp = (int) Math.round(Math.log(unitPerCM) / Math.log(10));
 		printingScale = Math.pow(10, -exp);

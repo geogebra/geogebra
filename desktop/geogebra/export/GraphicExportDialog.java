@@ -37,7 +37,9 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.text.NumberFormat;
 import java.util.Locale;
@@ -531,14 +533,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 		try {
 			
 
-			final geogebra.export.epsgraphics.EpsGraphics g = new geogebra.export.epsgraphics.EpsGraphics(
-					app.getPlain("ApplicationName") + ", "
-							+ GeoGebra.GEOGEBRA_WEBSITE, new FileOutputStream(file), 0, 0, pixelWidth, pixelHeight,
-					ColorMode.COLOR_RGB);
-
-			// draw to epsGraphics2D
-			ev.exportPaint(g, exportScale);
-			g.close();
+			exportEPS(app, ev, file, exportToClipboard, pixelWidth, pixelHeight, printingScale);
 
 			if (exportToClipboard) {
 				sendToClipboard(file);
@@ -574,18 +569,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 			return false;
 		}
 		try {
-			VectorGraphics g;
-			if (useEMFplus) {
-				g = new EMFPlusGraphics2D(file, new Dimension(pixelWidth,
-						pixelHeight));
-			} else {
-				g = new EMFGraphics2D(file, new Dimension(pixelWidth,
-						pixelHeight));
-			}
-			g.startExport();
-			getEuclidianView().exportPaint(g,exportScale);
-
-			g.endExport();
+			exportEMF(app, getEuclidianView(), file, useEMFplus, pixelWidth, pixelHeight, exportScale);
 
 			if (exportToClipboard) {
 				sendToClipboard(file); // Michael Borcherds 2008-03-02 END
@@ -624,29 +608,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 		}
 		try {
 			
-			ImageIO.scanForPlugins();
-			// export text as shapes or plaintext
-			// shapes: better representation
-			// text: smaller file size, but some unicode symbols don't export eg
-			// Upsilon
-			UserProperties props = (UserProperties) PDFGraphics2D
-					.getDefaultProperties();
-			props.setProperty(PDFGraphics2D.EMBED_FONTS, !textAsShapes);
-			// props.setProperty(PDFGraphics2D.EMBED_FONTS_AS,
-			// FontConstants.EMBED_FONTS_TYPE1);
-			props.setProperty(AbstractVectorGraphicsIO.TEXT_AS_SHAPES, textAsShapes);
-			PDFGraphics2D.setDefaultProperties(props);
-
-			VectorGraphics g = new PDFGraphics2D(file, new Dimension(
-					pixelWidth, pixelHeight));
-
-			// make sure LaTeX exported at hi res
-			app.exporting = true;
-
-			g.startExport();
-			getEuclidianView().exportPaint(g,exportScale);
-			g.endExport();
-			app.exporting = false;
+			exportPDF(app, getEuclidianView(), file, exportToClipboard, pixelWidth, pixelHeight, exportScale);
 
 			if (exportToClipboard) {
 				sendToClipboard(file); // Michael Borcherds 2008-03-02 END
@@ -699,46 +661,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 												// and 2 Points
 		try {
 
-			// export text as shapes or plaintext
-			// shapes: better representation
-			// text: smaller file size, but some unicode symbols don't export eg
-			// Upsilon
-			UserProperties props = (UserProperties) SVGGraphics2D
-					.getDefaultProperties();
-			props.setProperty(SVGGraphics2D.EMBED_FONTS, !textAsShapes);
-			props.setProperty(AbstractVectorGraphicsIO.TEXT_AS_SHAPES, textAsShapes);
-			SVGGraphics2D.setDefaultProperties(props);
-
-			// Michael Borcherds 2008-03-01
-			// added SVGExtensions to support grouped objects in layers
-			SVGExtensions g = new SVGExtensions(file, new Dimension(pixelWidth,
-					pixelHeight));
-			// VectorGraphics g = new SVGGraphics2D(file, new
-			// Dimension(pixelWidth, pixelHeight));
-
-			// make sure LaTeX exported at hi res
-			app.exporting = true;
-
-			g.startExport();
-			ev.exportPaintPre(new geogebra.awt.Graphics2D(g), exportScale);
-
-			g.startGroup("misc");
-			ev.drawActionObjects(new geogebra.awt.Graphics2D(g));
-			g.endGroup("misc");
-
-			for (int layer = 0; layer <= app.getMaxLayerUsed(); layer++) // draw
-																		// only
-																		// layers
-																		// we
-																		// need
-			{
-				g.startGroup("layer" + layer);
-				ev.drawLayers[layer].drawAll(new geogebra.awt.Graphics2D(g));
-				g.endGroup("layer" + layer);
-			}
-
-			g.endExport();
-			app.exporting = false;
+			exportSVG(app, ev, file, exportToClipboard, pixelWidth, pixelHeight, printingScale);
 
 			if (exportToClipboard) {
 				sendToClipboard(file); // Michael Borcherds 2008-03-02 END
@@ -784,11 +707,9 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 		try {
 			// draw graphics view into image
 			EuclidianView ev = getEuclidianView();
-			BufferedImage img = ev.getExportImage(exportScale, transparent);
-
-			// write image to file
-			MyImageIO.write(img, "png", getDPI(), file);
-
+			
+			exportPNG(ev, file, showError, getDPI(), exportScale);
+			
 			if (exportToClipboard) {
 				sendToClipboard(file);
 			}
@@ -851,5 +772,193 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 				.setContents(imgSel, null);
 	}
 	// Michael Borcherds 2008-03-02 END
+
+	/**
+	 * 
+	 * @param app
+	 * @param ev
+	 * @param file
+	 * @param textAsShapes
+	 * @param pixelWidth
+	 * @param pixelHeight
+	 * @param exportScale
+	 */
+	public static void exportSVG(Application app, EuclidianView ev, File file, boolean textAsShapes, int pixelWidth, int pixelHeight, double exportScale) {
+		UserProperties props = (UserProperties) SVGGraphics2D
+				.getDefaultProperties();
+		props.setProperty(SVGGraphics2D.EMBED_FONTS, !textAsShapes);
+		props.setProperty(AbstractVectorGraphicsIO.TEXT_AS_SHAPES, textAsShapes);
+		SVGGraphics2D.setDefaultProperties(props);
+
+		// Michael Borcherds 2008-03-01
+		// added SVGExtensions to support grouped objects in layers
+		SVGExtensions g;
+		try {
+			g = new SVGExtensions(file, new Dimension(pixelWidth,
+					pixelHeight));
+			// make sure LaTeX exported at hi res
+			app.exporting = true;
+
+			g.startExport();
+			ev.exportPaintPre(new geogebra.awt.Graphics2D(g), exportScale);
+
+			g.startGroup("misc");
+			ev.drawActionObjects(new geogebra.awt.Graphics2D(g));
+			g.endGroup("misc");
+
+			for (int layer = 0; layer <= app.getMaxLayerUsed(); layer++) // draw
+				// only
+				// layers
+				// we
+				// need
+			{
+				g.startGroup("layer" + layer);
+				ev.drawLayers[layer].drawAll(new geogebra.awt.Graphics2D(g));
+				g.endGroup("layer" + layer);
+			}
+
+			g.endExport();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			app.exporting = false;									
+		}
+	}
+	
+	/**
+	 * 
+	 * @param app
+	 * @param ev
+	 * @param file
+	 * @param useEMFplus
+	 * @param pixelWidth
+	 * @param pixelHeight
+	 * @param exportScale
+	 */
+	public static void exportEMF(Application app, EuclidianView ev, File file,
+			boolean useEMFplus, int pixelWidth, int pixelHeight,
+			double exportScale) {
+
+		VectorGraphics g;
+		try {
+			if (useEMFplus) {
+				g = new EMFPlusGraphics2D(file, new Dimension(pixelWidth,
+						pixelHeight));
+
+			} else {
+				g = new EMFGraphics2D(file, new Dimension(pixelWidth,
+						pixelHeight));
+			}
+			g.startExport();
+			ev.exportPaint(g,exportScale);
+
+			g.endExport();
+
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
+	/**
+	 * 
+	 * @param app
+	 * @param ev
+	 * @param file
+	 * @param textAsShapes
+	 * @param pixelWidth
+	 * @param pixelHeight
+	 * @param exportScale
+	 */
+	public static void exportPDF(Application app, EuclidianView ev, File file,
+			boolean textAsShapes, int pixelWidth, int pixelHeight,
+			double exportScale) {
+
+		ImageIO.scanForPlugins();
+		// export text as shapes or plaintext
+		// shapes: better representation
+		// text: smaller file size, but some unicode symbols don't export eg
+		// Upsilon
+		UserProperties props = (UserProperties) PDFGraphics2D
+				.getDefaultProperties();
+		props.setProperty(PDFGraphics2D.EMBED_FONTS, !textAsShapes);
+		// props.setProperty(PDFGraphics2D.EMBED_FONTS_AS,
+		// FontConstants.EMBED_FONTS_TYPE1);
+		props.setProperty(AbstractVectorGraphicsIO.TEXT_AS_SHAPES, textAsShapes);
+		PDFGraphics2D.setDefaultProperties(props);
+
+		VectorGraphics g;
+		try {
+			g = new PDFGraphics2D(file, new Dimension(
+					pixelWidth, pixelHeight));
+
+			// make sure LaTeX exported at hi res
+			app.exporting = true;
+
+			g.startExport();
+			ev.exportPaint(g,exportScale);
+			g.endExport();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			app.exporting = false;									
+		}
+	}
+
+	/**
+	 * 
+	 * @param app
+	 * @param ev
+	 * @param file
+	 * @param textAsShapes
+	 * @param pixelWidth
+	 * @param pixelHeight
+	 * @param exportScale
+	 */
+	public static void exportEPS(Application app, EuclidianView ev, File file,
+			boolean textAsShapes, int pixelWidth, int pixelHeight,
+			double exportScale) {
+		geogebra.export.epsgraphics.EpsGraphics g;
+		try {
+			g = new geogebra.export.epsgraphics.EpsGraphics(
+					app.getPlain("ApplicationName") + ", "
+							+ GeoGebra.GEOGEBRA_WEBSITE, new FileOutputStream(file), 0, 0, pixelWidth, pixelHeight,
+							ColorMode.COLOR_RGB);
+			// draw to epsGraphics2D
+			ev.exportPaint(g, exportScale);
+			g.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	/**
+	 * 
+	 * @param ev
+	 * @param file
+	 * @param transparent
+	 * @param dpi
+	 * @param exportScale
+	 */
+	public static void exportPNG(EuclidianView ev, File file,
+			boolean transparent, int dpi,
+			double exportScale) {
+		// write image to file
+		try {
+			BufferedImage img = ev.getExportImage(exportScale, transparent);
+			MyImageIO.write(img, "png", dpi, file);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
 
 }

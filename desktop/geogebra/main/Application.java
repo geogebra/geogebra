@@ -423,6 +423,8 @@ public class Application extends AbstractApplication implements
 	}
 
 	private SpreadsheetTableModel tableModel;
+
+	private CommandLineArguments args;
 	
 	
 	
@@ -444,6 +446,9 @@ public class Application extends AbstractApplication implements
 
 	protected Application(CommandLineArguments args, JFrame frame,
 			AppletImplementation appletImpl, Container comp, boolean undoActive) {
+		
+		this.args = args;
+		
 		if(args!= null && !args.containsArg("silent")) {
 			AbstractApplication.logger = new GeoGebraLogger();
 			logger.setLogDestination(LogDestination.CONSOLE);
@@ -4008,6 +4013,10 @@ public class Application extends AbstractApplication implements
 
 	public static String getExtension(File file) {
 		String fileName = file.getName();
+		return getExtension(fileName);
+	}
+
+	public static String getExtension(String fileName) {
 		int dotPos = fileName.lastIndexOf('.');
 
 		if ((dotPos <= 0) || (dotPos == (fileName.length() - 1))) {
@@ -4842,6 +4851,10 @@ public class Application extends AbstractApplication implements
 	@Override
 	protected LowerCaseDictionary newLowerCaseDictionary(){
 		return new LowerCaseDictionary(Normalizer.getInstance());
+	}
+
+	public CommandLineArguments getCommandLineArgs() {
+		return args;
 	}
 
 }

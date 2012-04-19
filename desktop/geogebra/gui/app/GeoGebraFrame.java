@@ -18,15 +18,19 @@
 package geogebra.gui.app;
 
 import geogebra.CommandLineArguments;
+import geogebra.GeoGebra;
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.awt.Color;
 import geogebra.common.cas.singularws.SingularWebService;
 import geogebra.common.factories.UtilFactory;
 import geogebra.common.kernel.Macro;
 import geogebra.common.main.AbstractApplication;
-import geogebra.common.util.GeoGebraLogger;
 import geogebra.common.util.HttpRequest;
+import geogebra.euclidian.EuclidianView;
+import geogebra.export.GraphicExportDialog;
+import geogebra.export.epsgraphics.ColorMode;
 import geogebra.gui.FileDropTargetListener;
+import geogebra.io.MyImageIO;
 import geogebra.main.Application;
 import geogebra.main.GeoGebraPreferences;
 import geogebra.util.Util;
@@ -42,18 +46,30 @@ import java.awt.Toolkit;
 import java.awt.dnd.DropTarget;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
+import java.awt.image.BufferedImage;
 import java.awt.print.PageFormat;
 import java.awt.print.Printable;
 import java.awt.print.PrinterException;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
+
+import org.freehep.graphics2d.VectorGraphics;
+import org.freehep.graphicsio.AbstractVectorGraphicsIO;
+import org.freehep.graphicsio.emf.EMFGraphics2D;
+import org.freehep.graphicsio.emf.EMFPlusGraphics2D;
+import org.freehep.graphicsio.pdf.PDFGraphics2D;
+import org.freehep.util.UserProperties;
 
 /**
  * GeoGebra's main window.
@@ -392,6 +408,8 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 			Thread runner = wnd.createAppThread(app);
 			runner.start();
 		}
+		
+		checkCommandLineExport(app);
 
 		return wnd;
 	}
@@ -634,5 +652,60 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 		return PAGE_EXISTS;
 
 	}
+	
+	public static void checkCommandLineExport(final Application app) {
+		
+		CommandLineArguments args = app.getCommandLineArgs();
+		
+		if (args != null && args.containsArg("export")) {
+			final String filename = args.getStringValue("export");
+			String dpiStr = args.getStringValue("dpi");
+
+
+			final int dpi = Integer.parseInt(dpiStr == null ? "300" : dpiStr);			
+
+			Application.debug("attempting to export: "+filename+" at "+dpiStr+"dpi");
+
+			final String extension = app.getExtension(filename);
+
+			SwingUtilities.invokeLater( new Runnable(){ 
+				public void run() { 
+
+					EuclidianView ev = app.getEuclidianView1();
+					double printingScale = ev.getPrintingScale();
+					double exportScale = (printingScale * dpi) / 2.54 / ev.getXscale();
+					boolean transparent = true;
+					boolean textAsShapes = true;
+					boolean useEMFplus = true;
+					int pixelWidth = (int) Math.floor(ev.getExportWidth() * exportScale);
+					int pixelHeight = (int) Math.floor(ev.getExportHeight() * exportScale);
+
+					File file = new File(filename);
+
+					if (extension.equals("png")) {
+						GraphicExportDialog.exportPNG(ev, file, transparent, dpi, exportScale);
+
+					} else if (extension.equals("eps")) {
+						GraphicExportDialog.exportEPS(app, ev, file, textAsShapes, pixelWidth,  pixelHeight, exportScale);
+
+					} else if (extension.equals("pdf")) {
+						GraphicExportDialog.exportPDF(app, ev, file, textAsShapes, pixelWidth,  pixelHeight, exportScale);
+						
+					} else if (extension.equals("emf")) {
+						GraphicExportDialog.exportEMF(app, ev, file, useEMFplus, pixelWidth,  pixelHeight, exportScale);
+
+					} else if (extension.equals("svg")) {
+						GraphicExportDialog.exportSVG(app, ev, file, textAsShapes, pixelWidth,  pixelHeight, exportScale);
+
+					}
+					System.exit(0);
+				} 
+				
+			});
+
+
+		}	
+	}
+
 
 }
