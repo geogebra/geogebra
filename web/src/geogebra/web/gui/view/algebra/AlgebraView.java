@@ -27,6 +27,8 @@ import geogebra.web.main.Application;
 
 import java.util.HashMap;
 
+import javax.swing.ImageIcon;
+
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.SpanElement;
 import com.google.gwt.dom.client.Style;
@@ -1252,8 +1254,9 @@ public class AlgebraView extends Tree implements LayerView, SetLabels, geogebra.
 			setChecked(previouslyChecked = ge.isEuclidianVisible());
 
 			se = DOM.createSpan().cast();
-			se.setInnerHTML(ge.toString());
-			
+			se.setInnerHTML(ge.getAlgebraDescriptionTextOrHTML(
+				StringTemplate.defaultTemplate));
+
 			//FIXME: geo.getLongDescription() doesn't work
 			//geo.getKernel().getApplication().setTooltipFlag();
 			//se.setTitle(geo.getLongDescription());
@@ -1263,7 +1266,7 @@ public class AlgebraView extends Tree implements LayerView, SetLabels, geogebra.
 
 			getElement().getStyle().setColor(
 				Color.getColorString(
-				geo.getLabelColor() ) );
+				geo.getAlgebraColor() ) );
 		}
 
 		@Override
