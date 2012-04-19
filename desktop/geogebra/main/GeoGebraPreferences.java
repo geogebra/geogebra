@@ -79,14 +79,23 @@ public class GeoGebraPreferences {
 	
 	
 	 // preferences node name for GeoGebra 	 
-	 private  Preferences ggbPrefs;
+	 private  Preferences ggbPrefs, ggbPrefsSystem;
 	  {
 		  try {
-			  ggbPrefs = Preferences.userRoot().node(GeoGebraConstants.PREFERENCES_ROOT);
+			  ggbPrefs = Preferences.userRoot().node(GeoGebraConstants.PREFERENCES_ROOT);			  
 		  } catch (Exception e) {
 			  // thrown when running unsigned JAR
 			  ggbPrefs = null;
 		  }
+		  
+		  try {
+			  ggbPrefsSystem = Preferences.systemRoot().node(GeoGebraConstants.PREFERENCES_ROOT);
+			  
+		  } catch (Exception e) {
+			  // thrown when running unsigned JAR
+			  ggbPrefsSystem = null;
+		  }
+		  
 	 }
 	  
 	 //Ulven: changed to make available to subclass GeoGebraPortablePreferences
@@ -141,6 +150,31 @@ public class GeoGebraPreferences {
 	public  void savePreference(String key, String value) {
 		if (key != null && value != null)
 			ggbPrefs.put(key, value);
+	}
+	
+	/**
+	 * Check if system (local machine), then user, allows check version
+	 * @param defaultValue default value (if key doesn't exist)
+	 * @return true if system and user allows check version
+	 */
+	public boolean loadVersionCheckAllow(String defaultValue){
+		// check if system (local machine) allows check version
+		boolean systemAllows = Boolean.valueOf(GeoGebraPreferences.getPref()
+				.ggbPrefsSystem.get(GeoGebraPreferences.VERSION_CHECK_ALLOW,defaultValue));
+		// then check if user allows
+		if (systemAllows)
+			return Boolean.valueOf(GeoGebraPreferences.getPref()
+					.ggbPrefs.get(GeoGebraPreferences.VERSION_CHECK_ALLOW,defaultValue));
+		// else don't allow
+		return false;
+	}
+	
+	/**
+	 * save "versionCheckAllow" value to users preferences
+	 * @param value value
+	 */
+	public void saveVersionCheckAllow(String value){
+		ggbPrefs.put(GeoGebraPreferences.VERSION_CHECK_ALLOW,value);
 	}
 	
 	

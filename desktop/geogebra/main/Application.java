@@ -1272,16 +1272,15 @@ public class Application extends AbstractApplication implements
 	}
 	
 	private void setVersionCheckAllowed() {
+		
 		if (versionCheckAllow != null) {
 			if (versionCheckAllow.equals("off")) {
-				GeoGebraPreferences.getPref().savePreference(
-						GeoGebraPortablePreferences.VERSION_CHECK_ALLOW, "false");
+				GeoGebraPreferences.getPref().saveVersionCheckAllow("false");
 				versionCheckAllowed = false;
 				return;
 			}
 			if (versionCheckAllow.equals("on")) {
-				GeoGebraPreferences.getPref().savePreference(
-						GeoGebraPortablePreferences.VERSION_CHECK_ALLOW, "true");
+				GeoGebraPreferences.getPref().saveVersionCheckAllow("true");
 				versionCheckAllowed = true;
 				return;
 			}
@@ -1297,8 +1296,8 @@ public class Application extends AbstractApplication implements
 			// Now everything is silently accepted.
 		}
 		
-		versionCheckAllowed = Boolean.valueOf(GeoGebraPreferences.getPref()
-				.loadPreference(GeoGebraPreferences.VERSION_CHECK_ALLOW, "true"));
+		versionCheckAllowed = GeoGebraPreferences.getPref().loadVersionCheckAllow("true");
+		
 	}
 	
 	/**
