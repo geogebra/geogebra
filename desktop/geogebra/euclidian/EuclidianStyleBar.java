@@ -467,8 +467,7 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener, geoge
 		createTextButtons();
 
 		// add the buttons --- order matters here
-		add(btnShowAxes);
-		add(btnShowGrid);
+		addGraphicsDecorationsButtons();
 		addBtnPointCapture();
 
 		add(btnColor);
@@ -501,7 +500,16 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener, geoge
 		}
 
 	}
-
+	
+	/**
+	 * add axes, grid, ... buttons
+	 */
+	protected void addGraphicsDecorationsButtons(){
+		add(btnShowAxes);
+		add(btnShowGrid);
+	}
+	
+	
 	protected PopupMenuButton[] newPopupBtnList() {
 		return new PopupMenuButton[] { btnColor, btnBgColor, btnTextColor,
 				btnLineStyle, btnPointStyle, btnTextSize, btnTableTextJustify,

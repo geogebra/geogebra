@@ -7,6 +7,7 @@ import geogebra.gui.util.MyToggleButton;
 import geogebra.gui.util.PopupMenuButton;
 import geogebra.gui.util.SelectionTable;
 import geogebra.main.Application;
+import geogebra3D.Application3D;
 
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -35,7 +36,7 @@ public class EuclidianStyleBar3D extends EuclidianStyleBar {
 	
 	//private JTextField textRotateX;
 	
-	private MyToggleButton btnViewDefault, btnViewXY, btnViewXZ, btnViewYZ;
+	private MyToggleButton btnShowPlane, btnViewDefault, btnViewXY, btnViewXZ, btnViewYZ;
 	
 
 	private PopupMenuButton btnViewProjection;
@@ -49,6 +50,11 @@ public class EuclidianStyleBar3D extends EuclidianStyleBar {
 		super(ev);
 	}
 	
+	@Override
+	protected void addGraphicsDecorationsButtons(){
+		super.addGraphicsDecorationsButtons();
+		add(btnShowPlane);
+	}
 	
 	@Override
 	protected void addBtnPointCapture(){}
@@ -78,8 +84,10 @@ public class EuclidianStyleBar3D extends EuclidianStyleBar {
 	
 	@Override
 	protected void processSource(Object source, ArrayList<GeoElement> targetGeos){
-		if (source.equals(btnRotateView)) {
-
+		
+		if (source.equals(btnShowPlane)) {
+			((Application3D) app).togglePlane();
+		}else if (source.equals(btnRotateView)) {
 			if (btnRotateView.getMySlider().isShowing()){//if slider is showing, start rotation
 				((EuclidianView3D) ev).setRotContinueAnimation(0, (btnRotateView.getSliderValue())*0.01);
 			}else{//if button has been clicked, toggle rotation
@@ -91,19 +99,6 @@ public class EuclidianStyleBar3D extends EuclidianStyleBar {
 					btnRotateView.setSelected(true);
 				}
 			}
-			
-			/*
-		}else if (source.equals(textRotateX)) {
-			EuclidianView3D ev3D = ((EuclidianView3D) ev);
-			try{
-				int angle = Integer.parseInt(textRotateX.getText());
-				Application.debug(angle);
-				ev3D.setRotAnimation(angle,ev3D.getZRot(),false);
-			} catch (Exception e) {
-				Application.debug("erreur: "+textRotateX.getText());
-				textRotateX.setText(""+((int) ev3D.getXRot()));
-			}
-			*/
 		}else if (source.equals(btnViewDefault)) {
 			((EuclidianView3D) ev).setRotAnimation(EuclidianView3D.ANGLE_ROT_OZ,EuclidianView3D.ANGLE_ROT_XOY,false);
 		}else if (source.equals(btnViewXY)) {
@@ -120,6 +115,22 @@ public class EuclidianStyleBar3D extends EuclidianStyleBar {
 	protected void createButtons() {
 
 		super.createButtons();
+		
+		// ========================================
+		// show grid button
+		btnShowPlane = new MyToggleButton(app.getImageIcon("plane.gif"),
+				iconHeight) {
+
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void update(Object[] geos) {
+				// always show this button unless in pen mode
+				this.setVisible(mode != EuclidianConstants.MODE_PEN);
+			}
+		};
+		btnShowPlane.addActionListener(this);
+
 		
 		//========================================
 		// rotate view button
