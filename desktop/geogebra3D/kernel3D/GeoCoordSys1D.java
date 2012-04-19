@@ -1,5 +1,7 @@
 package geogebra3D.kernel3D;
 
+import java.util.ArrayList;
+
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Path;
@@ -10,6 +12,7 @@ import geogebra.common.kernel.Matrix.CoordMatrixUtil;
 import geogebra.common.kernel.Matrix.CoordSys;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.Translateable;
 import geogebra.common.kernel.kernelND.GeoCoordSys;
 import geogebra.common.kernel.kernelND.GeoCoordSys1DInterface;
@@ -453,7 +456,41 @@ Translateable{
     }  
     
     
+    /////////////////////////////////////
+    // POINTS ON COORD SYS
+    /////////////////////////////////////
     
+    /** list of points on this line*/
+	protected ArrayList<GeoPointND> pointsOnLine;
+
+	/**
+	 * Returns a list of points that this line passes through. May return null.
+	 * 
+	 * @return list of points that this line passes through.
+	 */
+	public final ArrayList<GeoPointND> getPointsOnLine() {
+		return pointsOnLine;
+	}
+
+	/**
+	 * Sets a list of points that this line passes through. This method should
+	 * only be used by AlgoMacro.
+	 * 
+	 * @param points
+	 *            list of points that this line passes through
+	 */
+	public final void setPointsOnLine(ArrayList<GeoPointND> points) {
+		pointsOnLine = points;
+	}
+    
+    public final void addPointOnLine(GeoPointND p) {
+		if (pointsOnLine == null)
+			pointsOnLine = new ArrayList<GeoPointND>();
+
+		if (!pointsOnLine.contains(p))
+			pointsOnLine.add(p);
+	}
+
     
 	
 }

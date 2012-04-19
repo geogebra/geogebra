@@ -101,5 +101,11 @@ public interface GeoLineND extends GeoDirectionND{
 	 * @param point point to be removed
 	 */
 	public void removePointOnLine(GeoPointND point);
+	
+	/**
+	 * Adds a point to the list of points that this line passes through.
+	 * @param point point
+	 */
+	public void addPointOnLine(GeoPointND point);
 
 }

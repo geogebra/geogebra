@@ -1771,7 +1771,7 @@ final public class GeoPoint2 extends GeoVec3D implements VectorValue,
 		if (geo.isGeoConic())
 			((GeoConicND) geo).addPointOnConic(this);// GeoConicND
 		else if (geo.isGeoLine())
-			((GeoLine) geo).addPointOnLine(this);
+			((GeoLineND) geo).addPointOnLine(this);
 		// TODO: if geo instanceof GeoPoint...
 	}
 
