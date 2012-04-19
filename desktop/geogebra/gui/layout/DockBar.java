@@ -11,6 +11,7 @@ import geogebra.main.Application;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -37,6 +38,7 @@ import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
+import javax.swing.JToggleButton;
 import javax.swing.JToolBar;
 import javax.swing.SwingConstants;
 import javax.swing.border.BevelBorder;
@@ -48,7 +50,7 @@ import javax.swing.border.Border;
  * @author G. Sturr
  * 
  */
-public class DockBar extends JPanel implements ActionListener, MouseListener {
+public class DockBar extends JPanel implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 
@@ -57,11 +59,10 @@ public class DockBar extends JPanel implements ActionListener, MouseListener {
 
 	private ConfigurationPanel configPanel;
 
-	private JToolBar viewToolBar, menuToolBar, inputToolBar;
-	private JPanel mainPanel, minimumPanel;
+	private JPanel mainPanel, minimumPanel, viewButtonPanel;
 
 	private ArrayList<ViewButton> viewButtons;
-	private JButton btnSettings, btnGeoGebra, btnView, btnOptions;
+	private JButton btnConfigure, btnGeoGebra, btnView, btnOptions;
 
 	private JButton btnTurtle;
 
@@ -116,34 +117,42 @@ public class DockBar extends JPanel implements ActionListener, MouseListener {
 		this.revalidate();
 		this.repaint();
 	}
-	
-	public void update(){
-		
-	//	btnSettings.setSelected(!app.isMainPanelShowing());
-		
-	//	btnView.setVisible(app.isMainPanelShowing());
-	//	btnOptions.setVisible(app.isMainPanelShowing());
-		
+
+	public void update() {
+
+		// btnSettings.setSelected(!app.isMainPanelShowing());
+
+		// btnView.setVisible(app.isMainPanelShowing());
+		// btnOptions.setVisible(app.isMainPanelShowing());
+
 	}
 
 	private void initGUI() {
 
-		initToolBars();
+		initButtons();
 
 		mainPanel = new JPanel();
 		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 		mainPanel.add(Box.createVerticalStrut(15));
-		mainPanel.add(btnSettings);
+		mainPanel.add(btnConfigure);
+		//mainPanel.add(btnOptions);
 		mainPanel.add(Box.createVerticalStrut(35));
-		mainPanel.add(btnView);
-		mainPanel.add(btnOptions);
+		//mainPanel.add(btnView);
+
+		// view toggle buttons
+		
+		//TODO: handle updates during runtime
+		updateViewButtonList();
 		
 		
-		//mainPanel.add(menuToolBar, BorderLayout.NORTH);
-		//mainPanel.add(inputToolBar, BorderLayout.SOUTH);
-		//mainPanel.add(viewToolBar, BorderLayout.CENTER);
+		
+		updateViewButtons();
 		
 		
+		
+		
+		mainPanel.add(viewButtonPanel);
+
 		Border outsideBorder = BorderFactory.createMatteBorder(1, 0, 0, 1,
 				SystemColor.controlShadow);
 		Border insideBorder = BorderFactory.createMatteBorder(0, 0, 0, 1,
@@ -159,200 +168,123 @@ public class DockBar extends JPanel implements ActionListener, MouseListener {
 		btnGeoGebra.setIcon(app.getImageIcon("geogebra32.png"));
 		btnGeoGebra.addActionListener(this);
 		btnGeoGebra.setFocusPainted(false);
-		
 
-		btnSettings = new JButton();
-		btnSettings.setIcon(app.getImageIcon("tool_32.png"));
-		//btnSettings.setSelectedIcon(app.getImageIcon("go-previous24.png"));
-		btnSettings.addActionListener(this);
-		btnSettings.setFocusPainted(false);
-		btnSettings.setBorderPainted(false);
-		btnSettings.setContentAreaFilled(false);
-		
+		btnConfigure = new JButton();
+		btnConfigure.setIcon(app.getImageIcon("configure-32.png"));
+		// btnSettings.setSelectedIcon(app.getImageIcon("go-previous24.png"));
+		btnConfigure.addActionListener(this);
+		btnConfigure.setFocusPainted(false);
+		btnConfigure.setBorderPainted(false);
+		btnConfigure.setContentAreaFilled(false);
+		btnConfigure.setAlignmentX(Component.CENTER_ALIGNMENT);
 
 		btnView = new JButton();
 		btnView.setIcon(app.getImageIcon("view_btn.png"));
 		btnView.addActionListener(this);
 		btnView.setFocusPainted(false);
-	//	btnView.setBorderPainted(false);
-	//	btnView.setContentAreaFilled(false);
+		// btnView.setBorderPainted(false);
+		// btnView.setContentAreaFilled(false);
 
 		btnOptions = new JButton();
 		btnOptions.setIcon(app.getImageIcon("options_btn.png"));
 		btnOptions.addActionListener(this);
 		btnOptions.setFocusPainted(false);
-	//	btnOptions.setBorderPainted(false);
-	//	btnOptions.setContentAreaFilled(false);
-		
-		
-		//btnOptions.addMouseListener(this);
-		//btnOptions.setComponentPopupMenu(optionsPopupMenu);
-		
+		// btnOptions.setBorderPainted(false);
+		// btnOptions.setContentAreaFilled(false);
+
+		// btnOptions.addMouseListener(this);
+		// btnOptions.setComponentPopupMenu(optionsPopupMenu);
 
 		btnTurtle = new JButton("T");
 		btnTurtle.addActionListener(this);
-		
-		// view toggle buttons
-		getViewButtonList();
-		updateViewButtons();
-	}
-
-	private void initToolBars() {
-
-		// create toolbars
-		viewToolBar = new JToolBar();
-		viewToolBar.setFloatable(false);
-		viewToolBar.setOrientation(SwingConstants.VERTICAL);
-
-		menuToolBar = new JToolBar();
-		menuToolBar.setFloatable(false);
-		menuToolBar.setOrientation(SwingConstants.VERTICAL);
-		Border outsideBorder = menuToolBar.getBorder();
-		Border insideBorder = BorderFactory.createEmptyBorder(2, 0, 2, 0);
-		menuToolBar.setBorder(BorderFactory.createCompoundBorder(outsideBorder,
-				insideBorder));
-
-		inputToolBar = new JToolBar();
-		inputToolBar.setFloatable(false);
-		inputToolBar.setOrientation(SwingConstants.VERTICAL);
-
-		// register mouse listeners
-		inputToolBar.addMouseListener(new MyMouseListener());
-		menuToolBar.addMouseListener(new MyMouseListener());
-		viewToolBar.addMouseListener(new MyMouseListener());
-
-		// add buttons
-		initButtons();
-		//menuToolBar.add(btnGeoGebra);
-		menuToolBar.add(btnSettings);
-		
-		
-		viewToolBar.add(btnView);
-		viewToolBar.add(btnOptions);
-
 
 	}
 
-	private void getViewButtonList() {
+	private void updateViewButtonList() {
 
 		AbstractAction action;
-
+		ViewButton btn;
+		
 		DockPanel[] dockPanels = layout.getDockManager().getPanels();
 		Arrays.sort(dockPanels, new DockPanel.MenuOrderComparator());
 
-		// construct array with view buttons
-		// TODO initializing the viewButtons make no sense immediately before
-		// the list is cleared...?
 		if (viewButtons == null)
 			viewButtons = new ArrayList<ViewButton>();
 		viewButtons.clear();
 
-		{
-			ViewButton btn;
-
-			for (DockPanel panel : dockPanels) {
-				// skip panels with negative order by design
-				if (panel.getMenuOrder() < 0) {
-					continue;
-				}
-
-				final int viewID = panel.getViewId();
-
-				if (!app.getGuiManager().showView(viewID)
-						&& !(viewID == AbstractApplication.VIEW_PROPERTIES))
-					continue;
-
-				btn = new ViewButton();
-				btn.setToolTipText(panel.getPlainTitle());
-				// btn.setText("" + panel.getViewId());
-				setButtonIcon(btn, panel);
-
-				// btn.setPreferredSize(new Dimension(btnSize, btnSize));
-				// btn.setMaximumSize(btn.getPreferredSize());
-				// btn.setBorderPainted(false);
-
-				action = new AbstractAction(app.getPlain(panel.getViewTitle())) {
-
-					private static final long serialVersionUID = 1L;
-
-					public void actionPerformed(ActionEvent arg0) {
-						app.getGuiManager().setShowView(
-								!app.getGuiManager().showView(viewID), viewID);
-						updateViewButtons();
-					}
-				};
-
-				btn.addActionListener(action);
-				btn.setViewID(viewID);
-
-				//viewButtons.add(btn);
+		
+		// iterate through the dock panels 
+		for (DockPanel panel : dockPanels) {
+			// skip panels with negative order by design
+			if (panel.getMenuOrder() < 0) {
+				continue;
 			}
+
+			final int viewID = panel.getViewId();
+
+			if (!app.getGuiManager().showView(viewID))
+					//&& !(viewID == AbstractApplication.VIEW_PROPERTIES))
+				continue;
+
+			btn = new ViewButton();
+			btn.setToolTipText(panel.getPlainTitle());
+			btn.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+			if (panel.getIcon() != null) {
+				btn.setIcon(panel.getIcon());
+			} else {
+				btn.setIcon(app.getEmptyIcon());
+			}
+
+			action = new AbstractAction(app.getPlain(panel.getViewTitle())) {
+				private static final long serialVersionUID = 1L;
+
+				public void actionPerformed(ActionEvent arg0) {
+					app.getGuiManager().setShowView(
+							!app.getGuiManager().showView(viewID), viewID);
+					updateViewButtons();
+				}
+			};
+
+			btn.addActionListener(action);
+			btn.setViewID(viewID);
+
+			viewButtons.add(btn);
 		}
-	}
-
-	private void setButtonIcon(AbstractButton btn, DockPanel panel) {
-
-		ImageIcon icon;
-
-		if (panel.getViewId() == AbstractApplication.VIEW_EUCLIDIAN)
-			icon = app.getImageIcon("euclidian.png");
-		else if (panel.getViewId() == AbstractApplication.VIEW_EUCLIDIAN2)
-			icon = app.getImageIcon("euclidian.png");
-		else if (panel.getViewId() == AbstractApplication.VIEW_CAS)
-			icon = app.getImageIcon("panel_cas.png");
-		else if (panel.getViewId() == AbstractApplication.VIEW_SPREADSHEET)
-			icon = app.getImageIcon("panel_spreadsheet.png");
-		else if (panel.getViewId() == AbstractApplication.VIEW_ALGEBRA)
-			icon = app.getImageIcon("panel_algebra.png");
-		else if (panel.getViewId() == AbstractApplication.VIEW_PROPERTIES)
-			icon = app.getImageIcon("document-properties.png");
-		else
-			icon = app.getImageIcon("tool.png");
-
-		// icon = GeoGebraIcon.ensureIconSize(icon, new Dimension(iconSize,
-		// iconSize));
-		btn.setIcon(icon);
-
-		// icon = GeoGebraIcon.joinIcons(GeoGebraIcon.createColorSwatchIcon(1f,
-		// new Dimension(6,6), Color.darkGray, Color.green), icon);
-		// btn.setSelectedIcon(icon);
 
 	}
 
 	public void updateViewButtons() {
 
-		DockPanel[] dockPanels = layout.getDockManager().getPanels();
-		Arrays.sort(dockPanels, new DockPanel.MenuOrderComparator());
-
-	//	viewToolBar.removeAll();
-
-		for (ViewButton btn : viewButtons) {
-
-			//viewToolBar.add(btn);
-
-			btn.setVisible(!app.getGuiManager().showView(btn.getViewID()));
-			btn.setSelected(app.getGuiManager().showView(btn.getViewID()));
-
+		if (viewButtonPanel == null) {
+			viewButtonPanel = new JPanel();
+			viewButtonPanel.setLayout(new BoxLayout(viewButtonPanel,
+					BoxLayout.Y_AXIS));
 		}
 
-		// viewToolBar.add(btnKeyboard);
+		viewButtonPanel.removeAll();
+		
+		for (ViewButton btn : viewButtons) {
+			viewButtonPanel.add(btn);
+			btn.setSelected(app.getGuiManager().showView(btn.getViewID()));
+		}
 	}
 
-	class ViewButton extends JButton {
+	class ViewButton extends JToggleButton {
 
 		private static final long serialVersionUID = 1L;
 
 		private int viewID;
 
-		@Override
-		public void setBorderPainted(boolean setBorderPainted) {
-			super.setBorderPainted(false);
-		}
+//		@Override
+//		public void setBorderPainted(boolean setBorderPainted) {
+//			super.setBorderPainted(false);
+//		}
 
-		@Override
-		public void setContentAreaFilled(boolean setContentAreaFilled) {
-			super.setContentAreaFilled(false);
-		}
+//		@Override
+//		public void setContentAreaFilled(boolean setContentAreaFilled) {
+//			super.setContentAreaFilled(false);
+//		}
 
 		public int getViewID() {
 			return viewID;
@@ -361,26 +293,26 @@ public class DockBar extends JPanel implements ActionListener, MouseListener {
 		public void setViewID(int viewID) {
 			this.viewID = viewID;
 		}
+		
+		
 
 	}
 
 	public void actionPerformed(ActionEvent e) {
 		Object source = e.getSource();
 
-		if (source == btnSettings) {
+		if (source == btnConfigure) {
 
 			if (configPanel == null) {
 				configPanel = new ConfigurationPanel(app, this);
 				app.setBackPanel(configPanel);
 			}
-			//app.setBackPanel(configPanel);
+			// app.setBackPanel(configPanel);
 			app.showBackPanel();
-			
-			
+
 		}
 
 		if (source == btnOptions) {
-			
 			showOptionsPopup(btnOptions);
 		}
 
@@ -398,7 +330,7 @@ public class DockBar extends JPanel implements ActionListener, MouseListener {
 			else
 				createTurtle(2);
 		}
-		
+
 		update();
 
 	}
@@ -607,8 +539,8 @@ public class DockBar extends JPanel implements ActionListener, MouseListener {
 	private void showViewPopup(JComponent comp) {
 		if (viewPopupMenu == null) {
 			ViewMenu viewMenu = new ViewMenu(app, layout);
-			//viewPopupMenu = new ViewPopupMenu(app, app.getGuiManager()
-				//	.getLayout());
+			// viewPopupMenu = new ViewPopupMenu(app, app.getGuiManager()
+			// .getLayout());
 			viewPopupMenu = viewMenu.getPopupMenu();
 		}
 		viewPopupMenu.show(comp, comp.getWidth(), 0);
@@ -617,16 +549,15 @@ public class DockBar extends JPanel implements ActionListener, MouseListener {
 	JPopupMenu optionsPopupMenu;
 
 	private void showOptionsPopup(JComponent comp) {
-		
+
 		if (optionsPopupMenu == null) {
 			OptionsMenu optionsMenu = new OptionsMenu(app);
 			optionsPopupMenu = optionsMenu.getPopupMenu();
 		}
-		
+
 		optionsPopupMenu.show(comp, comp.getWidth(), 0);
 	}
-	
-	
+
 	private class ViewPopupMenu extends JPopupMenu {
 		private static final long serialVersionUID = 1L;
 		JMenuItem menuItem;
@@ -639,31 +570,6 @@ public class DockBar extends JPanel implements ActionListener, MouseListener {
 			add(viewMenu.getComponentPopupMenu());
 			add(new OptionsMenu(app));
 		}
-	}
-
-	public void mouseClicked(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void mouseEntered(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void mouseExited(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void mousePressed(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void mouseReleased(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
 	}
 
 }

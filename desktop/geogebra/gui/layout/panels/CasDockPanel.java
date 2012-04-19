@@ -4,6 +4,7 @@ import geogebra.common.main.AbstractApplication;
 import geogebra.gui.layout.DockPanel;
 import geogebra.main.Application;
 
+import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 
 /**
@@ -54,5 +55,10 @@ public class CasDockPanel extends DockPanel {
 		appCas.getGuiManager().getCasView().setToolbarIsUpdatedByDockPanel(true);
 		super.setActiveToolBar();
 		appCas.getGuiManager().getCasView().setToolbarIsUpdatedByDockPanel(false);
+	}
+	
+	@Override
+	public ImageIcon getIcon() { 
+			return app.getImageIcon("view-cas24.png");
 	}
 }

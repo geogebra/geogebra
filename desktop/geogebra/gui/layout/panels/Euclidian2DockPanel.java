@@ -4,6 +4,7 @@ import geogebra.common.main.AbstractApplication;
 import geogebra.euclidianND.EuclidianViewND;
 import geogebra.main.Application;
 
+import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 
 /**
@@ -47,4 +48,10 @@ public class Euclidian2DockPanel extends EuclidianDockPanelAbstract {
 	public EuclidianViewND getEuclidianView() {
 		return app.getEuclidianView2();
 	}
+	
+	@Override
+	public ImageIcon getIcon() { 
+			return app.getImageIcon("view-graphics224.png");
+	}
+	
 }
