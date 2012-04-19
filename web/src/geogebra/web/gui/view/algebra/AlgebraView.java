@@ -27,8 +27,6 @@ import geogebra.web.main.Application;
 
 import java.util.HashMap;
 
-import javax.swing.ImageIcon;
-
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.SpanElement;
 import com.google.gwt.dom.client.Style;
