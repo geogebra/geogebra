@@ -13,6 +13,7 @@
 package geogebra.gui;
 
 import geogebra.common.main.AbstractApplication;
+import geogebra.common.util.StringUtil;
 import geogebra.main.Application;
 
 import java.awt.datatransfer.DataFlavor;
@@ -121,10 +122,10 @@ public class FileDropTargetListener implements DropTargetListener {
 	 * @param fileName
 	 * @return
 	 */
-	private boolean isGGBFile(String fileName){
+	private static boolean isGGBFile(String fileName){
 		int mid = fileName.lastIndexOf(".");
 	    String ext = fileName.substring(mid+1,fileName.length());
-	    return app.toLowerCase(ext).equals(Application.FILE_EXT_GEOGEBRA);
+	    return StringUtil.toLowerCase(ext).equals(Application.FILE_EXT_GEOGEBRA);
 	}
 
 	/**
@@ -132,10 +133,10 @@ public class FileDropTargetListener implements DropTargetListener {
 	 * @param fileName
 	 * @return
 	 */
-	private boolean isGGTFile(String fileName){
+	private static boolean isGGTFile(String fileName){
 		int mid = fileName.lastIndexOf(".");
 	    String ext = fileName.substring(mid+1,fileName.length());
-	    return app.toLowerCase(ext).equals(Application.FILE_EXT_GEOGEBRA_TOOL);
+	    return StringUtil.toLowerCase(ext).equals(Application.FILE_EXT_GEOGEBRA_TOOL);
 	}
 
 	private ArrayList<File> getGGBfiles(Transferable transferable) {

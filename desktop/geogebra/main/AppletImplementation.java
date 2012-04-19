@@ -19,6 +19,7 @@ import geogebra.common.GeoGebraConstants;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.MyBoolean;
 import geogebra.common.main.AbstractApplication;
+import geogebra.common.util.StringUtil;
 import geogebra.euclidian.EuclidianView;
 import geogebra.plugin.GgbAPI;
 import geogebra.util.Util;
@@ -837,7 +838,7 @@ public class AppletImplementation implements AppletImplementationInterface {
 					app.setWaitCursor();
 					try {
 						URL ggbURL = new URL(fileStr);
-						app.loadXML(ggbURL, app.toLowerCase(fileStr)
+						app.loadXML(ggbURL, StringUtil.toLowerCase(fileStr)
 								.endsWith(Application.FILE_EXT_GEOGEBRA_TOOL));
 						reinitGUI();
 						applet.validate();
@@ -896,7 +897,7 @@ public class AppletImplementation implements AppletImplementationInterface {
 				app.setWaitCursor();
 				try {
 					String myStrURL = strURL;
-					String lowerCase = app.toLowerCase(strURL);
+					String lowerCase = StringUtil.toLowerCase(strURL);
 					if (!(lowerCase.startsWith("http") || lowerCase
 							.startsWith("file"))) {
 						myStrURL = applet.getCodeBase() + myStrURL;

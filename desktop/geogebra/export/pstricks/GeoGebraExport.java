@@ -42,6 +42,7 @@ import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
 import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import geogebra.common.util.MyMath;
+import geogebra.common.util.StringUtil;
 import geogebra.euclidianND.EuclidianViewND;
 import geogebra.main.Application;
 
@@ -184,35 +185,33 @@ public abstract class GeoGebraExport  {
 	 * @return The resulting String
 	 */
 	protected String sci2dec(double d) {
-		String s = app.toLowerCase(String.valueOf(d));
+		String s = StringUtil.toLowerCase(String.valueOf(d));
 		StringTokenizer st = new StringTokenizer(s, "e");
 		StringBuilder number;
 		if (st.countTokens() == 1)
 			return s;
-		else {
-			String token1 = st.nextToken();
-			String token2 = st.nextToken();
-			number = new StringBuilder(token1);
-			int exp = Integer.parseInt(token2);
-			if (exp > 0) {
-				int id_point = number.indexOf(".");
-				if (id_point == -1) {
-					for (int i = 0; i < exp; i++)
-						number.append("0");
-				} else {
-					number.deleteCharAt(id_point);
-					int zeros = exp - (number.length() - id_point);
-					for (int i = 0; i < zeros; i++)
-						number.append("0");
-				}
+		String token1 = st.nextToken();
+		String token2 = st.nextToken();
+		number = new StringBuilder(token1);
+		int exp = Integer.parseInt(token2);
+		if (exp > 0) {
+			int id_point = number.indexOf(".");
+			if (id_point == -1) {
+				for (int i = 0; i < exp; i++)
+					number.append("0");
 			} else {
-				exp = -exp;
-				int id_point = number.indexOf(".");
 				number.deleteCharAt(id_point);
-				for (int i = 0; i < exp - 1; i++)
-					number.insert(0, "0");
-				number.insert(0, "0.");
+				int zeros = exp - (number.length() - id_point);
+				for (int i = 0; i < zeros; i++)
+					number.append("0");
 			}
+		} else {
+			exp = -exp;
+			int id_point = number.indexOf(".");
+			number.deleteCharAt(id_point);
+			for (int i = 0; i < exp - 1; i++)
+				number.insert(0, "0");
+			number.insert(0, "0.");
 		}
 		return number.toString();
 	}
@@ -285,7 +284,7 @@ public abstract class GeoGebraExport  {
 					drawAngle((GeoAngle) g);
 					// String
 					// label="$"+Util.toLaTeXString(g.getLabelDescription(),true)+"$";
-					drawLabel(g, euclidianView.getDrawableFor((GeoAngle) g));
+					drawLabel(g, euclidianView.getDrawableFor(g));
 				}
 			} else if (g.isGeoImplicitPoly()) {
 				drawImplicitPoly((GeoImplicitPoly) g);

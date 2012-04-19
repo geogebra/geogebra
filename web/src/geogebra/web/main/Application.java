@@ -396,7 +396,7 @@ public class Application extends AbstractApplication {
 				}
 
 				// check localized commands
-				if (toLowerCase(commandConstants.getString(s)).equals(key)) {
+				if (StringUtil.toLowerCase(commandConstants.getString(s)).equals(key)) {
 					return s;
 				}
 			}
