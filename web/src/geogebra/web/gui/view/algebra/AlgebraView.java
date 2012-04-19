@@ -1236,36 +1236,27 @@ public class AlgebraView extends Tree implements LayerView, SetLabels, geogebra.
 		return false;
 	}
 
-	public static void setUserObject(TreeItem ti, Object ob) {
+	public void setUserObject(TreeItem ti, Object ob) {
 		ti.setUserObject(ob);
 		if (ob instanceof GeoElement) {
-			ti.setWidget(new AVRadioButton((GeoElement)ob,
-				((AlgebraView)((GeoElement)ob).getKernel().getApplication().getAlgebraView()).lastSelectedGeo));
+			ti.setWidget(new AVRadioButton((GeoElement)ob));
 		} else {
 			ti.setText(ob.toString());
 		}
 	}
 
-	public class GeoElementProxy {
-		public GeoElement geo = null;
-		public GeoElementProxy(GeoElement geoel) {
-			geo = geoel;
-		}
-	}
+	public GeoElement lastSelectedGeo = null;
 
-	public GeoElementProxy lastSelectedGeo = new GeoElementProxy(null);
-
-	public static class AVRadioButton extends RadioButton {
+	public class AVRadioButton extends RadioButton {
 
 		GeoElement geo;
 		boolean previouslyChecked;
 		SpanElement se;
-		GeoElementProxy lastSelectedGeo;
+		// uses lastSelectedGeo
 
-		public AVRadioButton(GeoElement ge, GeoElementProxy last) {
+		public AVRadioButton(GeoElement ge) {
 			super(DOM.createUniqueId(), ""); // instead of label for="", use span which doesn't react to events
 			geo = ge;
-			lastSelectedGeo = last;
 			setEnabled(ge.isEuclidianShowable());
 			setChecked(previouslyChecked = ge.isEuclidianVisible());
 
@@ -1309,28 +1300,28 @@ public class AlgebraView extends Tree implements LayerView, SetLabels, geogebra.
 					// handle selecting geo
 					if (event.getCtrlKey()) {
 						app.toggleSelectedGeo(geo); 													
-						if (app.getSelectedGeos().contains(geo)) lastSelectedGeo.geo = geo;
-					} else if (event.getShiftKey() && lastSelectedGeo.geo != null) {
+						if (app.getSelectedGeos().contains(geo)) lastSelectedGeo = geo;
+					} else if (event.getShiftKey() && lastSelectedGeo != null) {
 						boolean nowSelecting = true;
 						boolean selecting = false;
 						boolean aux = geo.isAuxiliaryObject();
 						boolean ind = geo.isIndependent();
-						boolean aux2 = lastSelectedGeo.geo.isAuxiliaryObject();
-						boolean ind2 = lastSelectedGeo.geo.isIndependent();
+						boolean aux2 = lastSelectedGeo.isAuxiliaryObject();
+						boolean ind2 = lastSelectedGeo.isIndependent();
 
 						if ((aux == aux2 && aux) || (aux == aux2 && ind == ind2)) {
 
 							Iterator<GeoElement> it = geo.getKernel().getConstruction().getGeoSetLabelOrder().iterator();
 
 							boolean direction = geo.getLabel(StringTemplate.defaultTemplate).
-									compareTo(lastSelectedGeo.geo.getLabel(StringTemplate.defaultTemplate)) < 0;
+									compareTo(lastSelectedGeo.getLabel(StringTemplate.defaultTemplate)) < 0;
 
 							while (it.hasNext()) {
 								GeoElement geo2 = it.next();
 								if ((geo2.isAuxiliaryObject() == aux && aux)
 										|| (geo2.isAuxiliaryObject() == aux && geo2.isIndependent() == ind)) {
 
-									if (direction && geo2.equals(lastSelectedGeo.geo)) selecting = !selecting;
+									if (direction && geo2.equals(lastSelectedGeo)) selecting = !selecting;
 									if (!direction && geo2.equals(geo)) selecting = !selecting;
 
 									if (selecting) {
@@ -1338,7 +1329,7 @@ public class AlgebraView extends Tree implements LayerView, SetLabels, geogebra.
 										nowSelecting = app.getSelectedGeos().contains(geo2);
 									}
 
-									if (!direction && geo2.equals(lastSelectedGeo.geo)) selecting = !selecting;
+									if (!direction && geo2.equals(lastSelectedGeo)) selecting = !selecting;
 									if (direction && geo2.equals(geo)) selecting = !selecting;
 								}
 							}
@@ -1346,16 +1337,16 @@ public class AlgebraView extends Tree implements LayerView, SetLabels, geogebra.
 
 						if (nowSelecting) {
 							app.addSelectedGeo(geo); 
-							lastSelectedGeo.geo = geo;
+							lastSelectedGeo = geo;
 						} else {
-							app.removeSelectedGeo(lastSelectedGeo.geo);
-							lastSelectedGeo.geo = null;
+							app.removeSelectedGeo(lastSelectedGeo);
+							lastSelectedGeo = null;
 						}
 
 					} else {							
 						app.clearSelectedGeos();
 						app.addSelectedGeo(geo);
-						lastSelectedGeo.geo = geo;
+						lastSelectedGeo = geo;
 					}
 				}
 			} 
