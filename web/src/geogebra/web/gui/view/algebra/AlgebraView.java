@@ -26,9 +26,12 @@ import geogebra.web.main.Application;
 
 import java.util.HashMap;
 
+import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.SpanElement;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.Tree;
@@ -1228,28 +1231,29 @@ public class AlgebraView extends Tree implements LayerView, SetLabels, geogebra.
 		return false;
 	}
 
-	public long radioButtonCount = 1;
-
-	public void setUserObject(TreeItem ti, final Object ob) {
+	public static void setUserObject(TreeItem ti, Object ob) {
 		ti.setUserObject(ob);
 		if (ob instanceof GeoElement) {
-			// FIXME: this labelling is not perfect
-			ti.setWidget(new AVRadioButton(
-				"rb"+(++radioButtonCount),
-				(GeoElement)ob));
+			ti.setWidget(new AVRadioButton((GeoElement)ob));
 		} else {
 			ti.setText(ob.toString());
 		}
 	}
 
-	public class AVRadioButton extends RadioButton {
+	public static class AVRadioButton extends RadioButton {
 		GeoElement geo;
 		boolean previouslyChecked;
-		public AVRadioButton(String label, GeoElement ge) {
-			super(label, ge.toString());
+		SpanElement se;
+		public AVRadioButton(GeoElement ge) {
+			super(DOM.createUniqueId(), ""); // instead of label for="", use span which doesn't react to events
 			geo = ge;
 			setEnabled(ge.isEuclidianShowable());
 			setChecked(previouslyChecked = ge.isEuclidianVisible());
+
+			se = DOM.createSpan().cast();
+			se.setInnerHTML(ge.toString());
+			getElement().appendChild(se);
+
 			getElement().getStyle().setColor(
 				Color.getColorString(
 				geo.getLabelColor() ) );
@@ -1258,11 +1262,15 @@ public class AlgebraView extends Tree implements LayerView, SetLabels, geogebra.
 		@Override
 		public void onBrowserEvent(Event event) {
 			if (event.getTypeInt() == Event.ONCLICK) {
-				setChecked(previouslyChecked = !previouslyChecked);
-				geo.setEuclidianVisible(!geo.isSetEuclidianVisible());
-				geo.update();
-				app.storeUndoInfo();
-				kernel.notifyRepaint();
+				if (Element.is(event.getEventTarget())) {
+					if (Element.as(event.getEventTarget()) == getElement().getFirstChild()) {
+						setChecked(previouslyChecked = !previouslyChecked);
+						geo.setEuclidianVisible(!geo.isSetEuclidianVisible());
+						geo.update();
+						geo.getKernel().getApplication().storeUndoInfo();
+						geo.getKernel().notifyRepaint();
+					}
+				}
 			}
 		}
 	}
