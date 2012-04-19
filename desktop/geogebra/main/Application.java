@@ -2278,7 +2278,6 @@ public class Application extends AbstractApplication implements
 				// make sure that when si[] is typed in script, it's changed to
 				// Si[] etc
 				if (getCommand(s).toLowerCase().equals(cmd.toLowerCase())) {
-					Application.debug(cmd+" "+s);
 					return s;
 				}
 			}
