@@ -13,6 +13,7 @@ package geogebra.plugin;
  */
 
 import geogebra.common.main.AbstractApplication;
+import geogebra.common.util.StringUtil;
 import geogebra.main.Application;
 
 import java.awt.event.ActionEvent;
@@ -282,7 +283,7 @@ public class PluginManager implements ActionListener { // Listens on PluginMenu
 			String line;
 			try {
 				String firstLine = br.readLine();
-				if (app.toLowerCase(firstLine).startsWith(
+				if (StringUtil.toLowerCase(firstLine).startsWith(
 						"# geogebra plugin properties")) { // check first line
 					while ((line = br.readLine()) != null) {
 						lines.add(line); // debug(line);

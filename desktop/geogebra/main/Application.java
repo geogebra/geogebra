@@ -2058,7 +2058,7 @@ public class Application extends AbstractApplication implements
 		}
 
 		try {
-			return rbcolors.getString(toLowerCase(key));
+			return rbcolors.getString(StringUtil.toLowerCase(key));
 		} catch (Exception e) {
 			return key;
 		}
@@ -2066,7 +2066,7 @@ public class Application extends AbstractApplication implements
 
 	@Override
 	final public String reverseGetColor(String locColor) {
-		String str = StringUtil.removeSpaces(toLowerCase(locColor));
+		String str = StringUtil.removeSpaces(StringUtil.toLowerCase(locColor));
 		if (rbcolors == null) {
 			initColorsResourceBundle();
 		}
@@ -2076,7 +2076,7 @@ public class Application extends AbstractApplication implements
 			Enumeration<String> enumer = rbcolors.getKeys();
 			while (enumer.hasMoreElements()) {
 				String key = enumer.nextElement();
-				if (str.equals(StringUtil.removeSpaces(toLowerCase(rbcolors.getString(key))
+				if (str.equals(StringUtil.removeSpaces(StringUtil.toLowerCase(rbcolors.getString(key))
 						))) {
 					return key;
 				}
