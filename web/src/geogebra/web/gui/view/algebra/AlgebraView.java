@@ -18,6 +18,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.LayerView;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.gui.SetLabels;
 import geogebra.common.gui.view.algebra.AbstractAlgebraController;
 import geogebra.common.main.AbstractApplication;
@@ -1252,6 +1253,12 @@ public class AlgebraView extends Tree implements LayerView, SetLabels, geogebra.
 
 			se = DOM.createSpan().cast();
 			se.setInnerHTML(ge.toString());
+			
+			//FIXME: geo.getLongDescription() doesn't work
+			//geo.getKernel().getApplication().setTooltipFlag();
+			//se.setTitle(geo.getLongDescription());
+			//geo.getKernel().getApplication().clearTooltipFlag();
+
 			getElement().appendChild(se);
 
 			getElement().getStyle().setColor(
@@ -1262,6 +1269,7 @@ public class AlgebraView extends Tree implements LayerView, SetLabels, geogebra.
 		@Override
 		public void onBrowserEvent(Event event) {
 			if (event.getTypeInt() == Event.ONCLICK) {
+				// AlgebraController.mouseClicked in Desktop
 				if (Element.is(event.getEventTarget())) {
 					if (Element.as(event.getEventTarget()) == getElement().getFirstChild()) {
 						setChecked(previouslyChecked = !previouslyChecked);
@@ -1271,6 +1279,22 @@ public class AlgebraView extends Tree implements LayerView, SetLabels, geogebra.
 						geo.getKernel().notifyRepaint();
 					}
 				}
+			} else if (event.getTypeInt() == Event.ONMOUSEMOVE) {
+				// AlgebraController.mouseMoved in Desktop
+
+				// tell EuclidianView to handle mouse over
+				EuclidianViewInterfaceCommon ev = geo.getKernel().getApplication().getActiveEuclidianView();
+				ev.mouseMovedOver(geo);
+
+				// implemented by HTML title attribute on the label
+				//FIXME: geo.getLongDescription() doesn't work
+				//if (geo != null) {
+				//	geo.getKernel().getApplication().setTooltipFlag();
+				//	se.setTitle(geo.getLongDescription());
+				//	geo.getKernel().getApplication().clearTooltipFlag();
+				//} else {
+				//	se.setTitle("");
+				//}
 			}
 		}
 	}
