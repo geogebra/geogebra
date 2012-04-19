@@ -104,11 +104,8 @@ public class AlgebraHelperBar extends JToolBar implements ActionListener {
 	public void updateLabels() {
 		toggleAuxiliary.setToolTipText(app.getPlainTooltip("AuxiliaryObjects"));
 		
-		if(algebraView.getTreeMode().equals(SortMode.TYPE)) {
-			toggleTypeTreeMode.setToolTipText(app.getPlainTooltip("TreeModeDependency"));
-		} else {
-			toggleTypeTreeMode.setToolTipText(app.getPlainTooltip("TreeModeType"));
-		}
+		toggleTypeTreeMode.setToolTipText(app.getPlainTooltip("SortObjectsBy"));
+		
 		if (menu != null) {
 			buildMenu();
 		}
