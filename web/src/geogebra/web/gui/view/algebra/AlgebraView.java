@@ -27,8 +27,12 @@ import geogebra.web.main.Application;
 import java.util.HashMap;
 
 import com.google.gwt.dom.client.Style;
-import com.google.gwt.user.client.ui.TreeItem;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Event;
+import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.Tree;
+import com.google.gwt.user.client.ui.TreeItem;
 
 /**
  * AlgebraView with tree for free and dependent objects.
@@ -148,9 +152,10 @@ public class AlgebraView extends Tree implements LayerView, SetLabels, geogebra.
 		// add listener
 
 
-		addMouseDownHandler((AlgebraController)algCtrl);
-		addMouseUpHandler((AlgebraController)algCtrl);
-		addMouseMoveHandler((AlgebraController)algCtrl);
+		//addMouseDownHandler((AlgebraController)algCtrl);
+		//addMouseUpHandler((AlgebraController)algCtrl);
+		//addMouseMoveHandler((AlgebraController)algCtrl);
+
 
 		// add small border
 		//setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 0));
@@ -1223,15 +1228,42 @@ public class AlgebraView extends Tree implements LayerView, SetLabels, geogebra.
 		return false;
 	}
 
-	public static void setUserObject(TreeItem ti, Object ob) {
+	public long radioButtonCount = 1;
+
+	public void setUserObject(TreeItem ti, final Object ob) {
 		ti.setUserObject(ob);
 		if (ob instanceof GeoElement) {
-			ti.setText(ob.toString());
-			ti.getElement().getStyle().setColor(
-				Color.getColorString(
-					((GeoElement)ob).getLabelColor()  )  );
+			// FIXME: this labelling is not perfect
+			ti.setWidget(new AVRadioButton(
+				"rb"+(++radioButtonCount),
+				(GeoElement)ob));
 		} else {
 			ti.setText(ob.toString());
+		}
+	}
+
+	public class AVRadioButton extends RadioButton {
+		GeoElement geo;
+		boolean previouslyChecked;
+		public AVRadioButton(String label, GeoElement ge) {
+			super(label, ge.toString());
+			geo = ge;
+			setEnabled(ge.isEuclidianShowable());
+			setChecked(previouslyChecked = ge.isEuclidianVisible());
+			getElement().getStyle().setColor(
+				Color.getColorString(
+				geo.getLabelColor() ) );
+		}
+
+		@Override
+		public void onBrowserEvent(Event event) {
+			if (event.getTypeInt() == Event.ONCLICK) {
+				setChecked(previouslyChecked = !previouslyChecked);
+				geo.setEuclidianVisible(!geo.isSetEuclidianVisible());
+				geo.update();
+				app.storeUndoInfo();
+				kernel.notifyRepaint();
+			}
 		}
 	}
 
