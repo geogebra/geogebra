@@ -2564,7 +2564,7 @@ public abstract class AbstractApplication {
 
 		resetFonts();
 
-		updateUI();
+		//updateUI();
 	}
 	public abstract void updateUI();
 	

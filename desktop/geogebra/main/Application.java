@@ -882,7 +882,10 @@ public class Application extends AbstractApplication implements
 
 		// update layout
 		if (updateComponentTreeUI) {
-			updateComponentTreeUI();
+			// --- this is not needed because the comp. tree UI was
+			// updated by the call to buildApplicationPanel() above
+
+			//updateComponentTreeUI();
 		}
 
 		// reset mode and focus
@@ -1172,7 +1175,7 @@ public class Application extends AbstractApplication implements
 		}
 
 		if (updateUI) {
-			updateComponentTreeUI();
+			SwingUtilities.updateComponentTreeUI(centerPanel);
 		}
 	}
 

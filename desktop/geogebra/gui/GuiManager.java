@@ -965,7 +965,8 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 		}
 
 		if (menuBar != null) {
-			menuBar.initMenubar();
+			//menuBar.initMenubar();
+			menuBar.updateMenubar();
 		}
 
 		if (constructionProtocolView != null)
@@ -984,7 +985,7 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 
 		dialogManager.updateFonts();
 
-		SwingUtilities.updateComponentTreeUI(app.getMainComponent());
+		//SwingUtilities.updateComponentTreeUI(app.getMainComponent());
 	}
 
 	public void setLabels() {
@@ -993,7 +994,9 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 		initActions();
 
 		if (app.showMenuBar()) {
-			initMenubar();
+			//initMenubar();
+			updateMenubar();
+			
 			Component comp = app.getMainComponent();
 			if (comp instanceof JApplet)
 				((JApplet) comp).setJMenuBar(menuBar);

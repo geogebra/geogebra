@@ -179,7 +179,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 			add(toolbarHelpPanel, BorderLayout.CENTER);
 		}
 
-		invalidate();
+		revalidate();
 	}
 
 	/**
@@ -546,7 +546,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 				}
 			}
 
-			invalidate();
+			revalidate();
 		}
 
 		/**
