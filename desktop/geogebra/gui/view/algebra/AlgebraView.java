@@ -551,7 +551,7 @@ public class AlgebraView extends JTree implements LayerView, Gridable, SetLabels
 
 			for (Integer key : layerNodesMap.keySet()) {
 				node = layerNodesMap.get(key);
-				node.setUserObject(app.getPlain("LayerA","" + key));
+				node.setUserObject(key);
 				model.nodeChanged(node);
 			}
 			break;

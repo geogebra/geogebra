@@ -121,7 +121,6 @@ public class AlgebraHelperBar extends JToolBar implements ActionListener {
 		if (e.getSource() == toggleAuxiliary) {
 			app.setShowAuxiliaryObjects(!app.showAuxiliaryObjects());
 			toggleAuxiliary.setSelected(app.showAuxiliaryObjects());
-			algebraView.setLabels();
 
 		} else if (e.getSource() == toggleTypeTreeMode) {
 

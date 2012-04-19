@@ -3,6 +3,7 @@ package geogebra.gui.view.algebra;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.gui.view.algebra.AlgebraView.SortMode;
 import geogebra.main.Application;
 
 import java.awt.Color;
@@ -113,8 +114,9 @@ public class MyRenderer extends DefaultTreeCellRenderer {
 				if (latexStr != null && geo.isLaTeXDrawableGeo(latexStr)) {
 					latexStr = "\\;" + latexStr; // add a little space for the
 													// icon
-					app.getDrawEquation().drawLatexImageIcon(app, latexIcon, latexStr, latexFont, false,
-							getForeground(), this.getBackground());
+					app.getDrawEquation().drawLatexImageIcon(app, latexIcon,
+							latexStr, latexFont, false, getForeground(),
+							this.getBackground());
 					setIcon(joinIcons((ImageIcon) getIcon(), latexIcon));
 					setText(" ");
 				}
@@ -128,6 +130,7 @@ public class MyRenderer extends DefaultTreeCellRenderer {
 			setBorder(null);
 
 		}
+		
 		// no GeoElement
 		else {
 			// has children, display icon to expand / collapse the node
@@ -152,7 +155,10 @@ public class MyRenderer extends DefaultTreeCellRenderer {
 
 			setForeground(Color.black);
 			setBackground(getBackgroundNonSelectionColor());
-			String str = value.toString();
+			
+			String str = (view.getTreeMode() == SortMode.LAYER) ?  app.getPlain("LayerA" , value.toString()) :
+				value.toString();
+			
 			setText(str);
 
 			// make sure we use a font that can display the text
