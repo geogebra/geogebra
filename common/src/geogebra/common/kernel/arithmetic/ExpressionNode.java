@@ -1565,7 +1565,7 @@ public class ExpressionNode extends ValidExpression implements
 					if (kernel.isInsertLineBreaks()) {
 						sb.append("\\-");
 					}
-					sb.append("\\rightarrow");
+					sb.append("\\to");
 					break;
 	
 				case MPREDUCE:
