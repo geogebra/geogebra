@@ -540,10 +540,10 @@ implements ActionListener, WindowListener, MouseListener, geogebra.common.gui.la
 	public void updateTitleBar() {
 		// The view is in the main window
 		if (frame == null) {
-			closeButton.setVisible(showStyleBar && !isMaximized());
+			closeButton.setVisible( !isMaximized());
 			windowButton.setVisible(showStyleBar && !isMaximized());
 			unwindowButton.setVisible(false);
-			maximizeButton.setVisible(showStyleBar || isMaximized());
+			maximizeButton.setVisible(false && showStyleBar || isMaximized());
 			titleLabel.setVisible(true);
 
 		} else {
@@ -867,7 +867,8 @@ implements ActionListener, WindowListener, MouseListener, geogebra.common.gui.la
 		
 		// double-click opens the stylebar and shows the button panel
 		if (arg0.getClickCount() == 2) {
-			toggleStyleBar();
+			//toggleStyleBar();
+			toggleMaximize();
 		}
 		
 		// otherwise start drag if the view is in the main window
