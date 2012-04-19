@@ -72,9 +72,9 @@ public class CmdStartAnimation extends CmdScripting {
 			
 			for(int i = 0; i < sliderCount; i++){
 				if(arg[i].isGeoNumeric())
-					((GeoNumeric) arg[0]).setAnimating(start);
+					((GeoNumeric) arg[i]).setAnimating(start);
 				else
-					((GeoPoint2) arg[0]).setAnimating(start);
+					((GeoPoint2) arg[i]).setAnimating(start);
 				if(start)
 					app.getKernel().getAnimatonManager().startAnimation();
 			} 
