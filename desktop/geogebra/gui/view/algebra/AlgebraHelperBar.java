@@ -8,6 +8,7 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JMenuItem;
@@ -141,7 +142,14 @@ public class AlgebraHelperBar extends JToolBar implements ActionListener {
 	private void buildMenu() {
 		menu = new JPopupMenu();
 		
-		menu.add(new JLabel(app.getPlain("SortBy")+":"));
+		JLabel title = new JLabel(app.getPlain("SortBy")+":");
+		title.setFont(app.getBoldFont());                      
+		title.setIcon(app.getEmptyIcon());
+		title.setBorder(BorderFactory.createEmptyBorder(5, 15, 2, 5));      
+		add(title);
+		
+		menu.add(title);
+
 		
 		JMenuItem mi = new JMenuItem();		
 		mi.setFont(app.getPlainFont());
