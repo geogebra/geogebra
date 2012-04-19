@@ -190,7 +190,7 @@ public abstract class DialogManager {
 	public abstract void showBooleanCheckboxCreationDialog(Point loc, GeoBoolean bool);
 
 	public void showNumberInputDialogCirclePointRadius(String menu,
-			GeoPointND geoPointND) {
+			GeoPointND geoPointND, AbstractEuclidianView view) {
 		
 		Kernel kernel = geoPointND.getKernel();
 		

@@ -170,6 +170,7 @@ public class DialogManager extends geogebra.common.gui.dialog.DialogManager {
 	 *            Index of the tab. Use OptionsDialog.TAB_* constants for this,
 	 *            or -1 for the default, -2 to hide.
 	 */
+	@Override
 	public void showOptionsDialog(int tabIndex) {
 		if (optionsDialog == null)
 			optionsDialog = optionsDialogFactory.create(((Application) app));
@@ -185,6 +186,7 @@ public class DialogManager extends geogebra.common.gui.dialog.DialogManager {
 	/**
 	 * Displays the properties dialog for geos
 	 */
+	@Override
 	public void showPropertiesDialog(ArrayList<GeoElement> geos) {
 		if (!((Application) app).letShowPropertiesDialog())
 			return;
@@ -218,6 +220,7 @@ public class DialogManager extends geogebra.common.gui.dialog.DialogManager {
 
 	private ArrayList<GeoElement> tempGeos = new ArrayList<GeoElement>();
 
+	@Override
 	public void showPropertiesDialog() {
 		showPropertiesDialog(null);
 	}
@@ -225,6 +228,7 @@ public class DialogManager extends geogebra.common.gui.dialog.DialogManager {
 	/**
 	 * Displays the configuration dialog for the toolbar
 	 */
+	@Override
 	public void showToolbarConfigDialog() {
 		app.getActiveEuclidianView().resetMode();
 		ToolbarConfigDialog dialog = new ToolbarConfigDialog(((Application) app));
@@ -234,6 +238,7 @@ public class DialogManager extends geogebra.common.gui.dialog.DialogManager {
 	/**
 	 * Displays the rename dialog for geo
 	 */
+	@Override
 	public void showRenameDialog(GeoElement geo, boolean storeUndo,
 			String initText, boolean selectInitText) {
 		if (!app.isRightClickEnabled())
@@ -268,6 +273,7 @@ public class DialogManager extends geogebra.common.gui.dialog.DialogManager {
 	 * @param allowTextDialog
 	 *            whether text dialog should be used for texts
 	 */
+	@Override
 	public void showRedefineDialog(GeoElement geo, boolean allowTextDialog) {
 		if (allowTextDialog && geo.isGeoText() && !geo.isTextCommand()) {
 			showTextDialog((GeoText) geo);
@@ -287,6 +293,7 @@ public class DialogManager extends geogebra.common.gui.dialog.DialogManager {
 	/**
 	 * Displays the text dialog for a given text.
 	 */
+	@Override
 	public void showTextDialog(GeoText text) {
 		showTextDialog(text, null);
 	}
@@ -294,6 +301,7 @@ public class DialogManager extends geogebra.common.gui.dialog.DialogManager {
 	/**
 	 * Creates a new text at given startPoint
 	 */
+	@Override
 	public void showTextCreationDialog(GeoPointND startPoint) {
 		showTextDialog(null, startPoint);
 	}
@@ -323,6 +331,7 @@ public class DialogManager extends geogebra.common.gui.dialog.DialogManager {
 	 * Shows the function inspector dialog. If none exists, a new inspector is
 	 * created.
 	 */
+	@Override
 	public boolean showFunctionInspector(GeoFunction function) {
 		boolean success = true;
 
@@ -344,6 +353,7 @@ public class DialogManager extends geogebra.common.gui.dialog.DialogManager {
 	/**
 	 * Creates a new checkbox at given startPoint
 	 */
+	@Override
 	public void showBooleanCheckboxCreationDialog(geogebra.common.awt.Point loc, GeoBoolean bool) {
 		Point location = new Point(loc.x, loc.y);
 		CheckboxCreationDialog d = new CheckboxCreationDialog(((Application) app), location, bool);
@@ -353,6 +363,7 @@ public class DialogManager extends geogebra.common.gui.dialog.DialogManager {
 	/**
 	 * Shows a modal dialog to enter a number or number variable name.
 	 */
+	@Override
 	public NumberValue showNumberInputDialog(String title, String message,
 			String initText) {
 		// avoid labeling of num
@@ -373,6 +384,7 @@ public class DialogManager extends geogebra.common.gui.dialog.DialogManager {
 	/**
 	 * Shows a modal dialog to enter a number or number variable name.
 	 */
+	@Override
 	public NumberValue showNumberInputDialog(String title, String message,
 			String initText, boolean changingSign, String checkBoxText) {
 		// avoid labeling of num
@@ -391,6 +403,7 @@ public class DialogManager extends geogebra.common.gui.dialog.DialogManager {
 		return handler.getNum();
 	}
 
+	@Override
 	public void showNumberInputDialogRegularPolygon(String title,
 			GeoPoint2 geoPoint1, GeoPoint2 geoPoint2) {
 
@@ -402,8 +415,9 @@ public class DialogManager extends geogebra.common.gui.dialog.DialogManager {
 
 	}
 
+	@Override
 	public void showNumberInputDialogCirclePointRadius(String title,
-			GeoPointND geoPoint1, AbstractEuclidianView view) {
+			GeoPointND geoPoint1,  AbstractEuclidianView view) {
 
 		NumberInputHandler handler = new NumberInputHandler(app.getKernel()
 				.getAlgebraProcessor());
@@ -413,6 +427,7 @@ public class DialogManager extends geogebra.common.gui.dialog.DialogManager {
 
 	}
 
+	@Override
 	public void showNumberInputDialogRotate(String title, GeoPolygon[] polys,
 			GeoPoint2[] points, GeoElement[] selGeos) {
 
@@ -424,6 +439,7 @@ public class DialogManager extends geogebra.common.gui.dialog.DialogManager {
 
 	}
 
+	@Override
 	public void showNumberInputDialogAngleFixed(String title,
 			GeoSegment[] segments, GeoPoint2[] points, GeoElement[] selGeos) {
 
@@ -435,6 +451,7 @@ public class DialogManager extends geogebra.common.gui.dialog.DialogManager {
 
 	}
 
+	@Override
 	public void showNumberInputDialogDilate(String title, GeoPolygon[] polys,
 			GeoPoint2[] points, GeoElement[] selGeos) {
 
@@ -446,6 +463,7 @@ public class DialogManager extends geogebra.common.gui.dialog.DialogManager {
 
 	}
 
+	@Override
 	public void showNumberInputDialogSegmentFixed(String title,
 			GeoPoint2 geoPoint1) {
 
@@ -462,6 +480,7 @@ public class DialogManager extends geogebra.common.gui.dialog.DialogManager {
 	 * 
 	 * @return: Object[] with { NumberValue, AngleInputDialog } pair
 	 */
+	@Override
 	public Object[] showAngleInputDialog(String title, String message,
 			String initText) {
 		// avoid labeling of num
@@ -485,6 +504,7 @@ public class DialogManager extends geogebra.common.gui.dialog.DialogManager {
 	 * 
 	 * @remark Just closes the properties dialog at the moment.
 	 */
+	@Override
 	public void closeAll() {
 		closePropertiesDialog();
 	}
@@ -504,6 +524,7 @@ public class DialogManager extends geogebra.common.gui.dialog.DialogManager {
 	 * 
 	 * @return whether a new slider (number) was create or not
 	 */
+	@Override
 	public boolean showSliderCreationDialog(int x, int y) {
 		app.setWaitCursor();
 
@@ -520,6 +541,7 @@ public class DialogManager extends geogebra.common.gui.dialog.DialogManager {
 	 * 
 	 * @return whether a new slider (number) was create or not
 	 */
+	@Override
 	public boolean showButtonCreationDialog(int x, int y, boolean textfield) {
 		ButtonDialog dialog = new ButtonDialog(((Application) app), x, y, textfield);
 		dialog.setVisible(true);

@@ -4448,7 +4448,7 @@ public abstract class AbstractEuclidianController {
 			app.getDialogManager()
 					.showNumberInputDialogCirclePointRadius(
 							app.getMenu(getKernel().getModeText(mode)),
-							getSelectedPointsND()[0]);
+							getSelectedPointsND()[0], view);
 			return true;
 		}
 		return false;
