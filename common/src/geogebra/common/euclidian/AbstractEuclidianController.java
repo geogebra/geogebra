@@ -7161,10 +7161,20 @@ public abstract class AbstractEuclidianController {
 	
 		// dragging eg a fixed point shouldn't start the selection rectangle
 		if (view.getHits().isEmpty()) {
+			
+			// HTML5 applet -> no selection rectangle
+			if (app.isHTML5Applet() && !app.isFullAppGui()) {
+				
+				// alternative: could make drag move the view?
+				//TEMPORARY_MODE = true;
+				//oldMode = mode; // remember current mode
+				//view.setMode(EuclidianConstants.MODE_TRANSLATEVIEW);
+
+			}			
 			// zoom rectangle (right drag) or selection rectangle (left drag)
 			// Michael Borcherds 2007-10-07 allow dragging with right mouse
 			// button
-			if (((app.isRightClick(event)) || allowSelectionRectangle())
+			else if (((app.isRightClick(event)) || allowSelectionRectangle())
 					&& !TEMPORARY_MODE) {
 				// Michael Borcherds 2007-10-07
 				// set zoom rectangle's size
