@@ -8,14 +8,20 @@ public interface GeoGebraConstants {
 	// DO NOT CHANGE the format of VERSION_STRING (or add commented out version)
 	// as it is read by the build system
 	// update lines below when this is updated
-	public static final String BUILD_DATE = "18 April 2012";
-	public static final String VERSION_STRING = "4.1.63.0"; // <- update lines
+	public static final String BUILD_DATE = "19 April 2012";
+	public static final String VERSION_STRING = "4.1.64.0"; // <- update lines
 															// below when this
 															// is updated
 	// current 3D: "4.9.20.0"
-	// current ggb42: "4.1.63.0"
+	// current ggb42: "4.1.64.0"
 
-	/** start hacks TODO remove it when release candidate  */
+	/** used by version checker, so that sys admins can disable version checking for *all* ggb versions with
+	 * HKEY_LOCAL_MACHINE/Software/JavaSoft/Prefs/geogebra42/version_check_allow = false
+	 * */
+	public static final String PREFERENCES_ROOT_GLOBAL = "/geogebra";
+	
+	//********* start hacks TODO remove it when branched  *************
+	/** eg HKEY_CURRENT_USER/Software/JavaSoft/Prefs/geogebra42/ */
 	public static final String PREFERENCES_ROOT = VERSION_STRING
 			.startsWith("4.9") ? "/geogebra50" : "/geogebra42";
 	/** File format version */
