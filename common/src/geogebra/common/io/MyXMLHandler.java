@@ -2575,7 +2575,7 @@ public class MyXMLHandler implements DocHandler {
 			if (independentCell) {
 				// free cell, e.g. m := 7 creates twinGeo m = 7
 				cons.addToConstructionList(geoCasCell, true);
-				if (geoCasCell.isAssignment()) {
+				if (geoCasCell.isAssignmentVariableDefined()) {
 					// make sure assignment is sent to underlying CAS, e.g. f(x)
 					// := x^2
 					// and twinGeo is created

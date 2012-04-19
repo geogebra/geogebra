@@ -29,7 +29,7 @@ import java.util.TreeSet;
  * @author Markus Hohenwarter
  */
 
-public class GeoCasCell extends GeoElement implements VarString{
+public class GeoCasCell extends GeoElement implements VarString {
 
 	private ValidExpression inputVE, evalVE, outputVE;
 	private String input, prefix, postfix, error, latex;
@@ -62,10 +62,13 @@ public class GeoCasCell extends GeoElement implements VarString{
 	// use this cell as text field
 	private boolean useAsText;
 	// for the future, is only holding font infos
-	private GeoText commentText; 
+	private GeoText commentText;
+
 	/**
 	 * Creates new CAS cell
-	 * @param c construction
+	 * 
+	 * @param c
+	 *            construction
 	 */
 
 	public GeoCasCell(Construction c) {
@@ -134,7 +137,9 @@ public class GeoCasCell extends GeoElement implements VarString{
 	 * Returns the input of this row. Command names are localized when
 	 * kernel.isPrintLocalizedCommandNames() is true, otherwise internal command
 	 * names are used.
-	 * @param tpl string template
+	 * 
+	 * @param tpl
+	 *            string template
 	 * @return input string
 	 */
 	public String getInput(StringTemplate tpl) {
@@ -153,7 +158,9 @@ public class GeoCasCell extends GeoElement implements VarString{
 
 	/**
 	 * Returns the output of this row.
-	 * @param tpl string template
+	 * 
+	 * @param tpl
+	 *            string template
 	 * @return output string
 	 */
 	public String getOutput(StringTemplate tpl) {
@@ -180,8 +187,9 @@ public class GeoCasCell extends GeoElement implements VarString{
 	/**
 	 * Returns the evaluation text (between prefix and postfix) of this row
 	 * using internal command names. This method is important to process this
-	 * row using GeoGebraCAS. 
-	 * XML template is used because we need both maximal precision and internal commands
+	 * row using GeoGebraCAS. XML template is used because we need both maximal
+	 * precision and internal commands
+	 * 
 	 * @return the evaluation text
 	 */
 	public String getEvalText() {
@@ -194,6 +202,7 @@ public class GeoCasCell extends GeoElement implements VarString{
 	/**
 	 * Returns the evaluation expression (between prefix and postfix) of this
 	 * row. This method is important to process this row using GeoGebraCAS.
+	 * 
 	 * @return the evaluation expression
 	 */
 	public ValidExpression getEvalVE() {
@@ -241,14 +250,15 @@ public class GeoCasCell extends GeoElement implements VarString{
 	}
 
 	/**
-	 * @return whether this cell is used as comment 
+	 * @return whether this cell is used as comment
 	 */
 	public boolean isUseAsText() {
 		return useAsText;
 	}
 
 	/**
-	 * @param val true to use this cell as comment only
+	 * @param val
+	 *            true to use this cell as comment only
 	 */
 	public void setUseAsText(boolean val) {
 		useAsText = val;
@@ -265,7 +275,8 @@ public class GeoCasCell extends GeoElement implements VarString{
 	}
 
 	/**
-	 * @param ft font
+	 * @param ft
+	 *            font
 	 */
 	public void setFont(Font ft) {
 		setFontSize(ft.getSize());
@@ -273,7 +284,8 @@ public class GeoCasCell extends GeoElement implements VarString{
 	}
 
 	/**
-	 * @param style font style
+	 * @param style
+	 *            font style
 	 */
 	public void setFontStyle(int style) {
 		commentText.setFontStyle(style);
@@ -287,7 +299,8 @@ public class GeoCasCell extends GeoElement implements VarString{
 	}
 
 	/**
-	 * @param c font color
+	 * @param c
+	 *            font color
 	 */
 	public void setFontColor(geogebra.common.awt.Color c) {
 		this.setObjColor(c);
@@ -301,7 +314,8 @@ public class GeoCasCell extends GeoElement implements VarString{
 	}
 
 	/**
-	 * @param size font size
+	 * @param size
+	 *            font size
 	 */
 	public void setFontSize(int size) {
 		commentText.setFontSize(size);
@@ -315,7 +329,8 @@ public class GeoCasCell extends GeoElement implements VarString{
 	}
 
 	/**
-	 * @param gt comment text
+	 * @param gt
+	 *            comment text
 	 */
 	public void setGeoText(GeoText gt) {
 		if (gt != null) {
@@ -396,7 +411,8 @@ public class GeoCasCell extends GeoElement implements VarString{
 	/**
 	 * Sets the input of this row.
 	 * 
-	 * @param inValue input value
+	 * @param inValue
+	 *            input value
 	 * @return success
 	 */
 	public boolean setInput(String inValue) {
@@ -446,7 +462,9 @@ public class GeoCasCell extends GeoElement implements VarString{
 	/**
 	 * Sets row number for CAS view. This method should only be called by
 	 * Construction.updateCasCellRows().
-	 * @param row row number
+	 * 
+	 * @param row
+	 *            row number
 	 */
 	final public void setRowNumber(int row) {
 		this.row = row;
@@ -507,7 +525,7 @@ public class GeoCasCell extends GeoElement implements VarString{
 		}
 
 		// stop if input is assignment
-		if (isAssignment()) {
+		if (isAssignmentVariableDefined()) {
 			if (eval.startsWith("KeepInput")) {
 				setEvalCommand("KeepInput");
 			}
@@ -546,7 +564,9 @@ public class GeoCasCell extends GeoElement implements VarString{
 
 	/**
 	 * Checks if newInput is structurally equal to the current input String.
-	 * @param newInput new input
+	 * 
+	 * @param newInput
+	 *            new input
 	 * @return whether newInput and current input have same stucture
 	 */
 	public boolean isStructurallyEqualToLocalizedInput(String newInput) {
@@ -624,8 +644,11 @@ public class GeoCasCell extends GeoElement implements VarString{
 		// check for function
 		boolean isFunction = ve instanceof FunctionNVar;
 
-		// outvar of assignment b := a + 5 is "b"
-		setAssignmentVar(ve.getLabel());
+		// do that only if the expression is an assignment
+		if(input.contains(ve.getAssignmentOperator())) {
+			// outvar of assignment b := a + 5 is "b"
+			setAssignmentVar(ve.getLabel());
+		}
 
 		// get input vars:
 		HashSet<GeoElement> geoVars = ve.getVariables();
@@ -757,15 +780,30 @@ public class GeoCasCell extends GeoElement implements VarString{
 	 * @param var
 	 */
 	private void setAssignmentVar(String var) {
-		if (assignmentVar != null && assignmentVar.equals(var))
+		if (assignmentVar != null && assignmentVar.equals(var)) {
 			return;
+		}
 
-		if (assignmentVar != null)
+		if (assignmentVar != null) {
 			// remove old label from construction
 			cons.removeCasCellLabel(assignmentVar);
+		}
 
 		// make sure we are using an unused label
 		if (var == null || cons.isFreeLabel(var)) {
+			// check for invalid assignment variables containing # or $ (used
+			// for references)
+			if (var.contains("#") || var.contains("$")) {
+				setError("CAS.VaribleContainsReferenceSymbol");
+			}
+
+			// TODO replace the last 3 lines by the following lines as soon as
+			// CASInputHandler.java has been moved to common
+			/*
+			 * if(var.contains(CASInputHandler.ROW_REFERENCE_STATIC+"") || var.contains(CASInputHandler.ROW_REFERENCE_DYNAMIC+"")) {
+			 * 		setError("CAS.VaribleContainsReferenceSymbol"); 
+			 * }
+			 */
 			assignmentVar = var;
 		} else {
 			changeAssignmentVar(var, getDefaultLabel());
@@ -773,15 +811,14 @@ public class GeoCasCell extends GeoElement implements VarString{
 
 		// store label of this CAS cell in Construction
 		if (assignmentVar != null) {
-			if (twinGeo != null)
+			if (twinGeo != null) {
 				twinGeo.rename(assignmentVar);
+			}
 			cons.putCasCellLabel(this, assignmentVar);
 		} else {
 			// remove twinGeo if we had one
 			setTwinGeo(null);
 		}
-
-		// view.setAssignment(var, this);
 	}
 
 	/**
@@ -790,7 +827,7 @@ public class GeoCasCell extends GeoElement implements VarString{
 	@Override
 	public void unbindVariableInCAS() {
 		// remove assignment variable
-		if (isAssignment()) {
+		if (isAssignmentVariableDefined()) {
 			kernel.unbindVariableInGeoGebraCAS(assignmentVar);
 		}
 	}
@@ -835,7 +872,9 @@ public class GeoCasCell extends GeoElement implements VarString{
 
 	/**
 	 * Returns the n-th input variable (in alphabetical order).
-	 * @param n index
+	 * 
+	 * @param n
+	 *            index
 	 * @return n-th input variable
 	 */
 	public String getInVar(int n) {
@@ -951,10 +990,11 @@ public class GeoCasCell extends GeoElement implements VarString{
 				node.traverse(ge);
 				if (!ge.didReplacement()) {
 					// try $ row reference
-					ge = GeoDummyReplacer.getReplacer(ExpressionNodeConstants.CAS_ROW_REFERENCE_PREFIX,
+					ge = GeoDummyReplacer.getReplacer(
+							ExpressionNodeConstants.CAS_ROW_REFERENCE_PREFIX,
 							inGeo);
 					node.traverse(ge);
-							
+
 				}
 			}
 		}
@@ -1003,7 +1043,8 @@ public class GeoCasCell extends GeoElement implements VarString{
 			if (geo != null) {
 				// look for GeoDummyVariable objects with name of function
 				// variable and replace them
-				GeoDummyReplacer ge = GeoDummyReplacer.getReplacer(varLabel, geo);
+				GeoDummyReplacer ge = GeoDummyReplacer.getReplacer(varLabel,
+						geo);
 				fun.getExpression().traverse(ge);
 			}
 		}
@@ -1012,6 +1053,7 @@ public class GeoCasCell extends GeoElement implements VarString{
 	/**
 	 * Returns whether this object only depends on named GeoElements defined in
 	 * the kernel.
+	 * 
 	 * @return whether this object only depends on named GeoElements
 	 */
 	final public boolean includesOnlyDefinedVariables() {
@@ -1021,8 +1063,10 @@ public class GeoCasCell extends GeoElement implements VarString{
 	/**
 	 * Same as previous function, except ignoring the undefined variables x and
 	 * y to provide definition of functions like: f: x+y=1
-	 * @param ignoreUndefinedXY true to ignore x,y
-	 * @return  whether this object only depends on named GeoElements
+	 * 
+	 * @param ignoreUndefinedXY
+	 *            true to ignore x,y
+	 * @return whether this object only depends on named GeoElements
 	 */
 	final public boolean includesOnlyDefinedVariables(boolean ignoreUndefinedXY) {
 		if (invars == null)
@@ -1040,6 +1084,7 @@ public class GeoCasCell extends GeoElement implements VarString{
 
 	/**
 	 * Returns whether this object depends on x and/or y
+	 * 
 	 * @return whether this object depends on x and/or y
 	 */
 	final public boolean includesXYVariables() {
@@ -1062,7 +1107,9 @@ public class GeoCasCell extends GeoElement implements VarString{
 	/**
 	 * Returns whether var is an input variable of this cell. For example, "b"
 	 * is an input variable of "c := a + b"
-	 * @param var variable name
+	 * 
+	 * @param var
+	 *            variable name
 	 * @return whether var is an input variable of this cell
 	 */
 	final public boolean isInputVariable(String var) {
@@ -1072,7 +1119,9 @@ public class GeoCasCell extends GeoElement implements VarString{
 	/**
 	 * Returns whether var is a function variable of this cell. For example, "y"
 	 * is a function variable of "f(y) := 2y + b"
-	 * @param var variable name
+	 * 
+	 * @param var
+	 *            variable name
 	 * @return whether var is a function variable of this cell
 	 */
 	final public boolean isFunctionVariable(String var) {
@@ -1082,6 +1131,7 @@ public class GeoCasCell extends GeoElement implements VarString{
 	/**
 	 * Returns the function variable string if input is a function or null
 	 * otherwise. For example, "m" is a function variable of "f(m) := 2m + b"
+	 * 
 	 * @return function variable string
 	 */
 	final public String getFunctionVariable() {
@@ -1093,6 +1143,7 @@ public class GeoCasCell extends GeoElement implements VarString{
 
 	/**
 	 * Returns whether this cell includes row references like $2.
+	 * 
 	 * @return whether this cell includes row references like $2.
 	 */
 	final public boolean includesRowReferences() {
@@ -1101,6 +1152,7 @@ public class GeoCasCell extends GeoElement implements VarString{
 
 	/**
 	 * Returns whether this cell includes any Numeric[] commands.
+	 * 
 	 * @return whether this cell includes any Numeric[] commands.
 	 */
 	final public boolean includesNumericCommand() {
@@ -1120,7 +1172,7 @@ public class GeoCasCell extends GeoElement implements VarString{
 	/**
 	 * @return true if assignment variable is defined
 	 */
-	final public boolean isAssignment() {
+	final public boolean isAssignmentVariableDefined() {
 		return assignmentVar != null;
 	}
 
@@ -1132,7 +1184,8 @@ public class GeoCasCell extends GeoElement implements VarString{
 	}
 
 	/**
-	 * @param cmd command
+	 * @param cmd
+	 *            command
 	 */
 	final public void setEvalCommand(String cmd) {
 		evalCmd = cmd;
@@ -1143,7 +1196,8 @@ public class GeoCasCell extends GeoElement implements VarString{
 	}
 
 	/**
-	 * @param keepInputUsed true if KeepInput was used
+	 * @param keepInputUsed
+	 *            true if KeepInput was used
 	 */
 	public void setKeepInputUsed(boolean keepInputUsed) {
 		if (inputVE != null)
@@ -1153,7 +1207,8 @@ public class GeoCasCell extends GeoElement implements VarString{
 	}
 
 	/**
-	 * @param comment comment
+	 * @param comment
+	 *            comment
 	 */
 	final public void setEvalComment(String comment) {
 		if (comment != null)
@@ -1168,7 +1223,8 @@ public class GeoCasCell extends GeoElement implements VarString{
 	}
 
 	/**
-	 * @param output output string (from CAS)
+	 * @param output
+	 *            output string (from CAS)
 	 */
 	public void setOutput(String output) {
 		error = null;
@@ -1183,7 +1239,7 @@ public class GeoCasCell extends GeoElement implements VarString{
 		// when input is a function declaration, output also needs to become a
 		// function
 		// so we need to add f(x,y) := if it is missing
-		boolean isFunctionDeclaration = isAssignment() && functionvars != null;
+		boolean isFunctionDeclaration = isAssignmentVariableDefined() && functionvars != null;
 		// note: MPReduce returns "f" for a function definition "f(x) := x^2"
 		// && !output.startsWith(assignmentVar);
 
@@ -1206,7 +1262,7 @@ public class GeoCasCell extends GeoElement implements VarString{
 			// replace GeoDummyVariable objects in outputVE by GeoElements from
 			// kernel
 			resolveGeoElementReferences(outputVE);
-		} else if (isAssignment())
+		} else if (isAssignmentVariableDefined())
 			outputVE.setLabel(assignmentVar);
 
 		kernel.setKeepCasNumbers(oldValue);
@@ -1237,7 +1293,7 @@ public class GeoCasCell extends GeoElement implements VarString{
 			return;
 		boolean isXY = includesXYVariables(); // are there x and/or y in
 												// formular
-		if (!isAssignment() || !includesOnlyDefinedVariables(true))
+		if (!isAssignmentVariableDefined() || !includesOnlyDefinedVariables(true))
 			return;
 
 		// check that assignment variable is not a reserved name in GeoGebra
@@ -1263,7 +1319,7 @@ public class GeoCasCell extends GeoElement implements VarString{
 	 * @return whether label was set
 	 */
 	public boolean setLabelOfTwinGeo() {
-		if (twinGeo == null || twinGeo.isLabelSet() || !isAssignment())
+		if (twinGeo == null || twinGeo.isLabelSet() || !isAssignmentVariableDefined())
 			return false;
 
 		// allow GeoElement to get same label as CAS cell, so we temporarily
@@ -1384,7 +1440,7 @@ public class GeoCasCell extends GeoElement implements VarString{
 	 */
 	private GeoElement silentEvalInGeoGebra(ValidExpression ve) {
 		boolean oldValue = kernel.isSilentMode();
-		
+
 		kernel.setSilentMode(true);
 
 		try {
@@ -1418,7 +1474,9 @@ public class GeoCasCell extends GeoElement implements VarString{
 		}
 		return true; // simulate success
 	}
+
 	private MyArbitraryConstant arbconst = new MyArbitraryConstant(this);
+
 	/**
 	 * Computes the output of this CAS cell based on its current input settings.
 	 * 
@@ -1447,7 +1505,8 @@ public class GeoCasCell extends GeoElement implements VarString{
 				if (evalVE == null) {
 					throw new CASException("Invalid input (evalVE is null)");
 				}
-				result = kernel.getGeoGebraCAS().evaluateGeoGebraCAS(evalVE,arbconst);
+				result = kernel.getGeoGebraCAS().evaluateGeoGebraCAS(evalVE,
+						arbconst);
 				success = result != null;
 			} catch (CASException e) {
 				System.err.println("GeoCasCell.computeOutput(), CAS eval: "
@@ -1526,7 +1585,8 @@ public class GeoCasCell extends GeoElement implements VarString{
 	}
 
 	/**
-	 * @param error error message
+	 * @param error
+	 *            error message
 	 */
 	public void setError(String error) {
 		this.error = error;

@@ -197,7 +197,7 @@ public abstract class ValidExpression implements ExpressionValue {
 	 * @return operator for assignment
 	 */
 	public String getAssignmentOperator() {
-		return " := ";
+		return ":=";
 	}
 	/**
 	 * @return operator for assignment in LaTeX form
