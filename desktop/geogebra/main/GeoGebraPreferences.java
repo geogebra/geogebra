@@ -89,7 +89,7 @@ public class GeoGebraPreferences {
 		  }
 		  
 		  try {
-			  ggbPrefsSystem = Preferences.systemRoot().node(GeoGebraConstants.PREFERENCES_ROOT);
+			  ggbPrefsSystem = Preferences.systemRoot().node(GeoGebraConstants.PREFERENCES_ROOT_GLOBAL);
 			  
 		  } catch (Exception e) {
 			  // thrown when running unsigned JAR
