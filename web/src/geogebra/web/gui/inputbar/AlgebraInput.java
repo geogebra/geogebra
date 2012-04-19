@@ -1,5 +1,7 @@
 package geogebra.web.gui.inputbar;
 
+import java.awt.TextField;
+
 import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.kernel.CircularDefinitionException;
@@ -169,7 +171,7 @@ public class AlgebraInput extends HorizontalPanel implements KeyUpHandler, Focus
 				//then it don't come here if (e.isConsumed()) return;
 
 				int keyCode = event.getNativeKeyCode();
-				if (keyCode == MyKeyCodes.KEY_ENTER) {	
+				if (keyCode == MyKeyCodes.KEY_ENTER && !inputField.isSuggestionJustHappened()) {
 					app.getKernel().clearJustCreatedGeosInViews();
 					String input = inputField.getText();					   
 					if (input == null || input.length() == 0)
@@ -234,6 +236,7 @@ public class AlgebraInput extends HorizontalPanel implements KeyUpHandler, Focus
 					inputField.setText(null);  							  			   
 								  
 				} else app.getGlobalKeyDispatcher().handleGeneralKeys(event); // handle eg ctrl-tab
+				inputField.setIsSuggestionJustHappened(false);
     }
 
 	public void onClick(ClickEvent event) {

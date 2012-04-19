@@ -38,12 +38,19 @@ import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseUpHandler;
+import com.google.gwt.event.logical.shared.SelectionEvent;
+import com.google.gwt.event.logical.shared.SelectionHandler;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.regexp.shared.MatchResult;
 import com.google.gwt.regexp.shared.RegExp;
 import com.google.gwt.user.client.ui.SuggestBox;
+import com.google.gwt.user.client.ui.SuggestionEvent;
+import com.google.gwt.user.client.ui.SuggestionHandler;
 import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
 
-public class AutoCompleteTextField extends SuggestBox implements AutoComplete, geogebra.common.gui.inputfield.AutoCompleteTextField, KeyDownHandler, KeyUpHandler, KeyPressHandler{
+public class AutoCompleteTextField extends SuggestBox implements AutoComplete, geogebra.common.gui.inputfield.AutoCompleteTextField, KeyDownHandler, KeyUpHandler, KeyPressHandler, ValueChangeHandler<String>, SelectionHandler<Suggestion> {
 	
 	  private Application app;
 	  private StringBuilder curWord;
@@ -106,7 +113,7 @@ public class AutoCompleteTextField extends SuggestBox implements AutoComplete, g
 		      boolean handleEscapeKey, AutoCompleteDictionary dict) {
 		    //AG not MathTextField and Mytextfield exists yet super(app);
 		    // allow dynamic width with columns = -1
-		  super(completionsPopup = new CompletionsPopup());
+		  super(completionsPopup = new CompletionsPopup(),new TextBox(), new DefaultSuggestionDisplay());
 		    if (columns > 0) {
 		      setColumns(columns);
 		    }
@@ -128,6 +135,8 @@ public class AutoCompleteTextField extends SuggestBox implements AutoComplete, g
 		    addKeyDownHandler(this);
 		    addKeyUpHandler(this);
 		    addKeyPressHandler(this);
+		    addValueChangeHandler(this);
+		    addSelectionHandler(this);
 		    setDictionary(dict);
 		    init();
 	}
@@ -811,4 +820,34 @@ public class AutoCompleteTextField extends SuggestBox implements AutoComplete, g
 	  AbstractApplication.debug("Implementation needed AutocompleteTextfield.addToHistory");
     }
 
+	public boolean isSuggesting() {
+		DefaultSuggestionDisplay display = (DefaultSuggestionDisplay) getSuggestionDisplay();
+		return display.isSuggestionListShowing();
+    }
+	
+	private boolean isSuggestionJustHappened = false;
+	private boolean isSuggestionClickJustHappened = false;
+	
+	/**
+	 * @return that suggestion is just happened (click or enter,
+	 *  so we don't need to run the enter code again
+	 */
+	public boolean isSuggestionJustHappened() {
+		return isSuggestionJustHappened && !isSuggestionClickJustHappened;
+	}
+	
+	public void setIsSuggestionJustHappened(boolean b) {
+		isSuggestionJustHappened = b;
+		isSuggestionClickJustHappened = b;
+	}
+	
+	/* Hopefully happens only on click */
+	public void onValueChange(ValueChangeEvent<String> event) {
+	  isSuggestionClickJustHappened = true;
+	  getTextBox().getElement().focus();
+    }
+
+	public void onSelection(SelectionEvent<Suggestion> event) {
+	   isSuggestionJustHappened = true;
+    }
 }

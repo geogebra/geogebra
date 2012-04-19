@@ -63,6 +63,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.MissingResourceException;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
@@ -582,7 +583,16 @@ public class Application extends AbstractApplication {
 				}
 			}
 		}*/
-		return commandConstants.getString(cmd);
+		try {
+			if (getCommand(cmd).indexOf(syntaxStr) == -1) {
+				if (getCommand(cmd).toLowerCase().equals(cmd.toLowerCase())) {
+					return cmd;
+				}
+			}
+		} catch(MissingResourceException e) {
+			AbstractApplication.debug(e.getLocalizedMessage());
+		}
+		return null;
 	}
 
 	public void showErrorDialog(final String msg) {
