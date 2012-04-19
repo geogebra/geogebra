@@ -118,19 +118,22 @@ public class AlgebraHelperBar extends JToolBar implements ActionListener {
 	 * React to button presses.
 	 */
 	public void actionPerformed(ActionEvent e) {
-		if(e.getSource() == toggleAuxiliary) {
+		if (e.getSource() == toggleAuxiliary) {
 			app.setShowAuxiliaryObjects(!app.showAuxiliaryObjects());
 			toggleAuxiliary.setSelected(app.showAuxiliaryObjects());
-			
-		} else if(e.getSource() == toggleTypeTreeMode) {
-			
+			algebraView.setLabels();
+
+		} else if (e.getSource() == toggleTypeTreeMode) {
+
 			if (menu == null) {
 				buildMenu();
 			}
-			
-			if (menu.isVisible()) menu.setVisible(false);
-			else menu.show(toggleTypeTreeMode, toggleTypeTreeMode.getX(), toggleTypeTreeMode.getY());
 
+			if (menu.isVisible())
+				menu.setVisible(false);
+			else
+				menu.show(toggleTypeTreeMode, toggleTypeTreeMode.getX(),
+						toggleTypeTreeMode.getY());
 
 		}
 //		else if(e.getSource() == toggleLaTeX) {

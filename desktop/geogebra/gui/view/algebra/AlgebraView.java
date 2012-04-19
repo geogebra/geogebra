@@ -279,7 +279,9 @@ public class AlgebraView extends JTree implements LayerView, Gridable, SetLabels
 	}
 
 	protected void removeAuxiliaryNode() {
-		model.removeNodeFromParent(auxiliaryNode);
+		if (auxiliaryNode.getParent() != null) {
+			model.removeNodeFromParent(auxiliaryNode);
+		}
 	}
 
 	boolean attached = false;
@@ -549,7 +551,7 @@ public class AlgebraView extends JTree implements LayerView, Gridable, SetLabels
 
 			for (Integer key : layerNodesMap.keySet()) {
 				node = layerNodesMap.get(key);
-				node.setUserObject(app.getPlain("LayerA",key.toString())+"TODO"+key);
+				node.setUserObject(app.getPlain("LayerA","" + key));
 				model.nodeChanged(node);
 			}
 			break;
