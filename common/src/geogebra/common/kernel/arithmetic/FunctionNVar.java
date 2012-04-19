@@ -654,7 +654,14 @@ public class FunctionNVar extends ValidExpression implements FunctionalNVar, Var
 					&& initIneqs(rightTree, functional, tree.getRight(), negate);
 		} else if (op.equals(Operation.NOT)) {
 			return initIneqs(leftTree, functional, tree, !negate);
-		} else if (op.equals(Operation.FUNCTION_NVAR)) {
+		}else if (op.equals(Operation.IMPLICATION)) {
+			tree.setOperation(Operation.OR);
+			tree.setLeft(new IneqTree());
+			tree.setRight(new IneqTree());
+			return initIneqs(leftTree, functional, tree.getLeft(), !negate)
+					&& initIneqs(rightTree, functional, tree.getRight(), negate);
+		} 
+		else if (op.equals(Operation.FUNCTION_NVAR)) {
 			FunctionalNVar nv = (FunctionalNVar) leftTree.getLeft();
 			ExpressionNode subExpr = nv.getFunction().getExpression().getCopy(kernel);
 			FunctionVariable[] subVars = nv.getFunction().getFunctionVariables();
