@@ -1,16 +1,15 @@
 package geogebra.web.gui.inputfield;
 
-import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-
 import geogebra.common.awt.Color;
 import geogebra.common.awt.Font;
 import geogebra.common.euclidian.DrawTextField;
 import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.event.FocusListener;
+import geogebra.common.gui.VirtualKeyboardListener;
 import geogebra.common.gui.inputfield.AutoComplete;
+import geogebra.common.gui.inputfield.MyTextField;
 import geogebra.common.javax.swing.JLabel;
 import geogebra.common.kernel.Macro;
 import geogebra.common.kernel.commands.MyException;
@@ -19,9 +18,7 @@ import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
 import geogebra.common.util.AutoCompleteDictionary;
 import geogebra.common.util.Korean;
-import geogebra.web.gui.inputfield.BorderButton;
 import geogebra.web.gui.util.GeoGebraIcon;
-import geogebra.web.gui.autocompletion.CommandCompletionListCellRenderer;
 import geogebra.web.gui.autocompletion.CompletionsPopup;
 import geogebra.web.gui.inputfield.HistoryPopup;
 import geogebra.web.main.Application;
@@ -42,15 +39,12 @@ import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.regexp.shared.MatchResult;
 import com.google.gwt.regexp.shared.RegExp;
 import com.google.gwt.user.client.ui.SuggestBox;
-import com.google.gwt.user.client.ui.SuggestionEvent;
-import com.google.gwt.user.client.ui.SuggestionHandler;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
 
-public class AutoCompleteTextField extends SuggestBox implements AutoComplete, geogebra.common.gui.inputfield.AutoCompleteTextField, KeyDownHandler, KeyUpHandler, KeyPressHandler, ValueChangeHandler<String>, SelectionHandler<Suggestion> {
+public class AutoCompleteTextField extends SuggestBox implements AutoComplete, geogebra.common.gui.inputfield.AutoCompleteTextField, KeyDownHandler, KeyUpHandler, KeyPressHandler, ValueChangeHandler<String>, SelectionHandler<Suggestion>, VirtualKeyboardListener {
 	
 	  private Application app;
 	  private StringBuilder curWord;
@@ -394,8 +388,7 @@ public class AutoCompleteTextField extends SuggestBox implements AutoComplete, g
     }
 
 	public void setCaretPosition(int caretPos) {
-		AbstractApplication.debug("implementation needed"); //TODO Auto-generated
-	    
+		getTextBox().setCursorPos(caretPos);
     }
 
 	public void setDictionary(AutoCompleteDictionary dict) {
@@ -623,14 +616,103 @@ public class AutoCompleteTextField extends SuggestBox implements AutoComplete, g
 	boolean ctrlC = false;
 
 
-	public void onKeyPress(KeyPressEvent event) {
-	    // TODO Auto-generated method stub
-	    
+	public void onKeyPress(KeyPressEvent e) {
+		if (!keyPressed) {
+			keyPressed = true;
+			 // only handle parentheses
+		    char ch = e.getCharCode();
+		    int caretPos = getCaretPosition();
+	
+		    String text = getText();
+	
+			// checking for isAltDown() because Alt+, prints another character on the PC
+			// TODO make this more robust - perhaps it could go in a document change listener
+		    if (ch == ',' && !e.isAltKeyDown()) {
+		      if (caretPos < text.length() && text.charAt(caretPos) == ',') {
+		        // User typed ',' just in ahead of an existing ',':
+		        // We may be in the position of filling in the next argument of an autocompleted command
+		        // Look for a pattern of the form ", < Argument Description > ," or ", < Argument Description > ]"
+		        // If found, select the argument description so that it can easily be typed over with the value
+		        // of the argument.
+		        if (moveToNextArgument(false)) {
+		          e.stopPropagation();
+		        }
+		        return;
+		      }
+		    }
+	
+		    if (!(ch == '(' || ch == '{' || ch == '[' || ch == '}' || ch == ')' || ch == ']')) {
+		      //super.keyTyped(e);
+		      AbstractApplication.debug("super.keyTyped needed in AutocompleteTextField");
+		      return;
+		    }
+	
+		    clearSelection();
+		    caretPos = getCaretPosition();
+	
+		    if (ch == '}' || ch == ')' || ch == ']') {
+	
+		      // simple check if brackets match
+		      if (text.length() > caretPos && text.charAt(caretPos) == ch) {
+		        int count = 0;
+		        for (int i = 0; i < text.length(); i++) {
+		          char c = text.charAt(i);
+		          if (c == '{')
+		            count++;
+		          else if (c == '}')
+		            count--;
+		          else if (c == '(')
+		            count += 1E3;
+		          else if (c == ')')
+		            count -= 1E3;
+		          else if (c == '[')
+		            count += 1E6;
+		          else if (c == ']')
+		            count -= 1E6;
+		        }
+	
+		        if (count == 0) {
+		          // if brackets match, just move the cursor forwards one
+		          e.preventDefault();
+		          caretPos++;
+		        }
+		      }
+	
+		    }
+	
+		    // auto-close parentheses
+		    if (caretPos == text.length()
+		        || MyTextField.isCloseBracketOrWhitespace(text.charAt(caretPos))) {
+		      switch (ch) {
+		        case '(':
+		          // opening parentheses: insert closing parenthesis automatically
+		          insertString(")");
+		          break;
+	
+		        case '{':
+		          // opening braces: insert closing parenthesis automatically
+		          insertString("}");
+		          break;
+	
+		        case '[':
+		          // opening bracket: insert closing parenthesis automatically
+		          insertString("]");
+		          break;
+		      }
+		    }
+	
+		    // make sure we keep the previous caret position
+		    setCaretPosition(Math.min(text.length(), caretPos));
+		}
     }
+	
+	/* We need a small hack, as keypress fired during key pressed more times.
+	 * this makes bracket completion hayware :-)
+	 */
+	private boolean keyPressed = false;
 
 	public void onKeyDown(KeyDownEvent event) {
-	    // TODO Auto-generated method stub
-	    
+	  
     }
 
 	public void onKeyUp(KeyUpEvent e) {
@@ -696,7 +778,6 @@ public class AutoCompleteTextField extends SuggestBox implements AutoComplete, g
 		        break;
 
 		      case MyKeyCodes.KEY_LEFT_PARENTHESIS:
-		    	AbstractApplication.debug("Implementation needed...MyKeyCodes_left_parenthesis not sure is good...");
 		        break;
 
 		      case MyKeyCodes.KEY_UP:
@@ -813,7 +894,7 @@ public class AutoCompleteTextField extends SuggestBox implements AutoComplete, g
 		    		    }
 		    	  
 		    }
-	    
+	    keyPressed = false;
     }
 
 	public void addToHistory(String input) {
@@ -849,5 +930,59 @@ public class AutoCompleteTextField extends SuggestBox implements AutoComplete, g
 
 	public void onSelection(SelectionEvent<Suggestion> event) {
 	   isSuggestionJustHappened = true;
+    }
+	
+	/**
+	 * Inserts a string into the text at the current caret position
+	 */
+	public void insertString(String text) {
+		int start = getSelectionStart();
+		int end = getSelectionEnd();
+
+		// clear selection if there is one
+		if (start != end) {
+			String oldText = getText();
+			StringBuilder sb = new StringBuilder();
+			sb.append(oldText.substring(0, start));
+			sb.append(oldText.substring(end));
+			setText(sb.toString());
+			setCaretPosition(start);
+		}
+
+		int pos = getCaretPosition();
+		String oldText = getText();
+		StringBuilder sb = new StringBuilder();
+		sb.append(oldText.substring(0, pos));
+		sb.append(text);
+		sb.append(oldText.substring(pos));
+		setText(sb.toString());
+
+		// setCaretPosition(pos + text.length());
+		final int newPos = pos + text.length();
+
+		// make sure AutoComplete works
+		if (this instanceof AutoCompleteTextField) {
+			AutoCompleteTextField tf = (AutoCompleteTextField) this;
+			tf.updateCurrentWord(false);
+			tf.startAutoCompletion();
+		}
+
+		
+		setCaretPosition(newPos);
+		
+
+		// TODO: tried to keep the Mac OS from auto-selecting the field by
+		// resetting the
+		// caret, but not working yet
+		// setCaret(new DefaultCaret());
+		// setCaretPosition(newPos);
+	}
+
+	private int getSelectionEnd() {
+	   return getSelectionStart() + getTextBox().getSelectionLength();
+    }
+
+	private int getSelectionStart() {
+	   return getText().indexOf(getTextBox().getSelectedText());
     }
 }

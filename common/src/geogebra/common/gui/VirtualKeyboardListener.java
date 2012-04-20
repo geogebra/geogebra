@@ -1,4 +1,4 @@
-package geogebra.gui;
+package geogebra.common.gui;
 
 public interface VirtualKeyboardListener {
 	

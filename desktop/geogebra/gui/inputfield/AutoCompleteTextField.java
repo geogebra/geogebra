@@ -561,7 +561,7 @@ public AutoCompleteTextField(int columns, Application app,
 
     // auto-close parentheses
     if (caretPos == text.length()
-        || isCloseBracketOrWhitespace(text.charAt(caretPos))) {
+        || geogebra.common.gui.inputfield.MyTextField.isCloseBracketOrWhitespace(text.charAt(caretPos))) {
       switch (ch) {
         case '(':
           // opening parentheses: insert closing parenthesis automatically
@@ -582,10 +582,6 @@ public AutoCompleteTextField(int columns, Application app,
 
     // make sure we keep the previous caret position
     setCaretPosition(Math.min(text.length(), caretPos));
-  }
-
-  private static boolean isCloseBracketOrWhitespace(char c) {
-    return Character.isWhitespace(c) || c == ')' || c == ']' || c == '}';
   }
 
   /**

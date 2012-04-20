@@ -2,9 +2,9 @@
 
 package geogebra.gui.view.algebra;
 
+import geogebra.common.gui.VirtualKeyboardListener;
 import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.gui.DynamicTextInputPane;
-import geogebra.gui.VirtualKeyboardListener;
 import geogebra.gui.editor.GeoGebraEditorPane;
 import geogebra.gui.inputfield.AutoCompleteTextField;
 import geogebra.gui.inputfield.MyTextField;
