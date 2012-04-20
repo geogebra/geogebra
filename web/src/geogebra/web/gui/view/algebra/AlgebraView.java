@@ -31,13 +31,9 @@ import geogebra.web.main.Application;
 import java.util.HashMap;
 import java.util.Iterator;
 
-import javax.swing.ImageIcon;
-
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.SpanElement;
 import com.google.gwt.dom.client.Style;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.RadioButton;
