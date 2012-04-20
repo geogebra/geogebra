@@ -766,11 +766,12 @@ class Polygon(Poly):
 
 class PolyLine(Poly):
 
-        def init(self, *points):
-            if len(points) == 1:
-                points = points[0]
-            el = self._factory.element
-            self.geo = self._api.geoPolyLine([el(p).geo for p in points])
+    def rawinit(self, pointlist):
+        el = self._factory.element
+        self.geo = self._api.geoPolyLine([el(pt).geo for pt in pointlist])
+
+    def init(self, *points):
+        self.rawinit(points)
 
 
 class Text(Element):
