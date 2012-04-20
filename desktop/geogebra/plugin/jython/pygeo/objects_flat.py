@@ -740,11 +740,12 @@ class Poly(ExpressionElement, NumberExpression):
 
 class Polygon(Poly):
 
-    def init(self, *points):
-        if len(points) == 1:
-            points = points[0]
+    def rawinit(self, pointlist):
         el = self._factory.element
-        self.geo = self._api.geoPolygon([el(p).geo for p in points])
+        self.geo = self._api.geoPolygon([el(pt).geo for pt in pointlist])
+    
+    def init(self, *points):
+        self.rawinit(points)
     
     def __len__(self):
         return API.Geo.getPolygonSize(self.geo)
@@ -1137,7 +1138,7 @@ class Intersect(object):
 
 
 class List(Element):
-    
+
     def init(self, *args):
         el = self._factory.element
         self.geo = self._api.geoList([el(arg).geo for arg in args])
