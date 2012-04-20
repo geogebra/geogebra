@@ -1477,6 +1477,14 @@ public abstract class AbstractApplication {
 		}
 	}
 	
+	public boolean hasEuclidianView3D() {
+		return false;
+	}
+
+	public EuclidianViewInterfaceCommon getEuclidianView3D() {
+		return null;
+	}
+
 	public abstract boolean hasEuclidianView2EitherShowingOrNot();
 
 	public abstract boolean isShowingEuclidianView2();

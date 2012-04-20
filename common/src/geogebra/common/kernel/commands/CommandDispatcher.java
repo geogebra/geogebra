@@ -938,6 +938,10 @@ public class CommandDispatcher {
 				return new CmdSetAxesRatio(kernel);
 			case SetVisibleInView:
 				return new CmdSetVisibleInView(kernel);
+			case ShowAxes:
+				return new CmdShowAxes(kernel);
+			case ShowGrid:
+				return new CmdShowGrid(kernel);
 			case Voronoi:
 				return new CmdVoronoi(kernel);
 			case Hull:

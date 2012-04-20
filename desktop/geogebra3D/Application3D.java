@@ -146,8 +146,14 @@ public class Application3D extends Application {
 	 * 
 	 * @return the 3D euclidian view
 	 */
+	@Override
 	public EuclidianView3D getEuclidianView3D() {
 		return euclidianView3D;
+	}
+
+	@Override
+	public boolean hasEuclidianView3D() {
+		return euclidianView3D != null;
 	}
 
 	@Override
