@@ -5,6 +5,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Manager3DInterface;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.Region;
+import geogebra.common.kernel.Matrix.CoordMatrix;
 import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoAnglePoints;
@@ -835,7 +836,7 @@ public class Manager3D implements Manager3DInterface {
 	 * location (xRW, yRW)
 	 */
 	final public GeoPoint3D IntersectLineConicSingle(String label, GeoLineND g,
-			GeoConicND c, double xRW, double yRW, CoordMatrix4x4 mat) {
+			GeoConicND c, double xRW, double yRW, CoordMatrix mat) {
 
 		AlgoIntersectLineConic3D algo = getIntersectionAlgorithm(g, c);
 
@@ -853,13 +854,23 @@ public class Manager3D implements Manager3DInterface {
 	 */
 	final public GeoPoint3D IntersectLineConicSingle(String label, GeoLineND g,
 			GeoConicND c, NumberValue index) {
+
+		return IntersectLineConicSingle(label, g, c, (int) index.getDouble() - 1);
+	}
+	
+	/**
+	 * get only one intersection point of two conics choice depends on command
+	 * input
+	 */
+	final public GeoPoint3D IntersectLineConicSingle(String label, GeoLineND g,
+			GeoConicND c, int index) {
 		AlgoIntersectLineConic3D algo = getIntersectionAlgorithm(g, c); // index
 																		// - 1
 																		// to
 																		// start
 																		// at 0
 		AlgoIntersectSingle3D salgo = new AlgoIntersectSingle3D(label, algo,
-				(int) index.getDouble() - 1);
+				index);
 		GeoPoint3D point = salgo.getPoint();
 		return point;
 	}
@@ -911,7 +922,7 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	final public GeoPoint3D IntersectConicsSingle(String label, GeoConicND A,
-			GeoConicND B, double xRW, double yRW, CoordMatrix4x4 mat) {
+			GeoConicND B, double xRW, double yRW, CoordMatrix mat) {
 
 		AlgoIntersectConics3D algo = getIntersectionAlgorithm(A, B);
 
@@ -924,15 +935,21 @@ public class Manager3D implements Manager3DInterface {
 
 	final public GeoPoint3D IntersectConicsSingle(String label, GeoConicND A,
 			GeoConicND B, NumberValue index) {
+		return IntersectConicsSingle(label,A,B,(int) index.getDouble() - 1);
+	}
+	
+	final public GeoPoint3D IntersectConicsSingle(String label, GeoConicND A,
+			GeoConicND B, int index) {
 		AlgoIntersectConics3D algo = getIntersectionAlgorithm(A, B); // index -
 																		// 1 to
 																		// start
 																		// at 0
 		AlgoIntersectSingle3D salgo = new AlgoIntersectSingle3D(label, algo,
-				(int) index.getDouble() - 1);
+				index);
 		GeoPoint3D point = salgo.getPoint();
 		return point;
-	}
+	}	
+	
 
 	final public GeoPoint3D IntersectConicsSingle(String label, GeoConicND A,
 			GeoConicND B, GeoPointND refPoint) {
@@ -980,6 +997,16 @@ public class Manager3D implements Manager3DInterface {
 	 */
 	final public GeoPoint3D IntersectLineQuadricSingle(String label,
 			GeoLineND g, GeoQuadricND q, NumberValue index) {
+
+		return IntersectLineQuadricSingle(label, g, q, (int) index.getDouble() - 1);
+	}
+	
+	/**
+	 * get only one intersection point of line and quadric choice depends on
+	 * command input
+	 */
+	final public GeoPoint3D IntersectLineQuadricSingle(String label,
+			GeoLineND g, GeoQuadricND q, int index) {
 		AlgoIntersectLineQuadric3D algo = getIntersectionAlgorithm(g, q); // index
 																			// -
 																			// 1
@@ -988,7 +1015,7 @@ public class Manager3D implements Manager3DInterface {
 																			// at
 																			// 0
 		AlgoIntersectSingle3D salgo = new AlgoIntersectSingle3D(label, algo,
-				(int) index.getDouble() - 1);
+				index);
 		GeoPoint3D point = salgo.getPoint();
 		return point;
 	}

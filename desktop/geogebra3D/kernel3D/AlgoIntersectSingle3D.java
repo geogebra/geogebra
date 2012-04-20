@@ -58,7 +58,8 @@ public class AlgoIntersectSingle3D extends AlgoIntersect3D {
 		else 
 			this.index = index;
 		
-		point = new GeoPoint3D(algo.getConstruction());								
+		point = new GeoPoint3D(algo.getConstruction());		
+		point.setIntersectionIndex(index);
 		
 		setInputOutput(); 
 		initForNearToRelationship();

@@ -29,6 +29,7 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoQuadricND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
 import geogebra.common.kernel.kernelND.Region3D;
+import geogebra.common.main.AbstractApplication;
 import geogebra.euclidian.EuclidianController;
 import geogebra.main.Application;
 import geogebra3D.euclidian3D.opengl.PlotterBrush;
@@ -37,6 +38,7 @@ import geogebra3D.gui.GuiManager3D;
 import geogebra3D.gui.dialogs.DialogManager3D;
 import geogebra3D.kernel3D.AlgoIntersectCS1D2D;
 import geogebra3D.kernel3D.AlgoIntersectCS2D2D;
+import geogebra3D.kernel3D.AlgoIntersectSingle3D;
 import geogebra3D.kernel3D.GeoCoordSys1D;
 import geogebra3D.kernel3D.GeoPlane3D;
 import geogebra3D.kernel3D.GeoPoint3D;
@@ -540,7 +542,7 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 			if (inRegionPossible){
 				Region region = point.getRegion();
 				if (region == view3D.getxOyPlane()){
-					Application.debug("ici");
+					//Application.debug("ici");
 					point3D = getNewPointFree(point);
 					ret = point3D;
 				}else if (((GeoElement) region).isGeoElement3D()){
@@ -561,9 +563,41 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 			
 		case EuclidianView3D.PREVIEW_POINT_DEPENDENT:
 			if (intersectPossible){
-				point3D = (GeoPoint3D) getKernel().getManager3D().Intersect(null, 
-						 view3D.getCursor3DIntersectionOf(0), 
-						 view3D.getCursor3DIntersectionOf(1));
+				switch(view3D.getCursor3DIntersectionType()){
+				case LINE_CS:
+					point3D = (GeoPoint3D) getKernel().getManager3D().Intersect(null, 
+							view3D.getCursor3DIntersectionOf(0), 
+							view3D.getCursor3DIntersectionOf(1));
+					break;
+				
+					
+				case LINE_CONIC:
+					point3D = (GeoPoint3D) getKernel().getManager3D().IntersectLineConicSingle(null, 
+							(GeoLineND) view3D.getCursor3DIntersectionOf(0), 
+							(GeoConicND) view3D.getCursor3DIntersectionOf(1), 
+							view3D.getCursor3D().getIntersectionIndex()); 
+					
+					break;
+					
+				case LINE_QUADRIC:
+					point3D = (GeoPoint3D) getKernel().getManager3D().IntersectLineQuadricSingle(null, 
+							(GeoLineND) view3D.getCursor3DIntersectionOf(0), 
+							(GeoQuadricND) view3D.getCursor3DIntersectionOf(1), 
+							view3D.getCursor3D().getIntersectionIndex());
+					break;
+				
+
+				case CONICS:
+					point3D = (GeoPoint3D) getKernel().getManager3D().IntersectConicsSingle(null, 
+							(GeoConicND) view3D.getCursor3DIntersectionOf(0), 
+							(GeoConicND) view3D.getCursor3DIntersectionOf(1), 
+							view3D.getCursor3D().getIntersectionIndex()); 
+					break;
+
+				default:
+					AbstractApplication.debug("Unknown intersection type: "+view3D.getCursor3DIntersectionType());
+					point3D = null;
+				}
 			}else
 				point3D = null;
 			return point3D;
@@ -633,6 +667,7 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 	protected void createNewPointIntersection(GeoPointND intersectionPoint){
 		GeoPoint3D point3D = view3D.getCursor3D();
 		point3D.setCoords(intersectionPoint.getCoordsInD(3),false);
+		point3D.setIntersectionIndex(intersectionPoint.getIntersectionIndex());
 		view3D.setCursor3DType(EuclidianView3D.PREVIEW_POINT_DEPENDENT);
 		
 	}
@@ -818,10 +853,16 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 
 		kernel.setSilentMode(true);
 		
+		//type of intersection (for getNewPoint )
+		EuclidianView3D.IntersectionType type = EuclidianView3D.IntersectionType.UNKNOWN;
+		//says if inputs is inverse, for record it for getNewPoint
+		boolean inverseInputs = false;
+		
 		//line/line or line/plane  (only one intersection point)
     	if ( (a.isGeoLine() || a instanceof GeoCoordSys2D) && (b.isGeoLine())
     			||(a.isGeoLine() && b instanceof GeoCoordSys2D) ){
     			point = (GeoPoint3D) getKernel().getManager3D().Intersect(null,  a,  b);
+    			type = EuclidianView3D.IntersectionType.LINE_CS;
     	}
     	//line/conic, line/quadric
     	else if ( a.isGeoLine() ) {
@@ -829,27 +870,34 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
     			Coords picked = view3D.getPickPoint(mouseLoc.x, mouseLoc.y);
     			point = (GeoPoint3D) getKernel().getManager3D().IntersectLineConicSingle(null, 
     					(GeoLineND)a, (GeoConicND)b, picked.getX() , picked.getY(), view3D.getToScreenMatrix());
+    			type = EuclidianView3D.IntersectionType.LINE_CONIC;
     		} else if  (b instanceof GeoQuadric3D) {
     			Coords picked = view3D.getPickPoint(mouseLoc.x, mouseLoc.y);
     			point = (GeoPoint3D) getKernel().getManager3D().IntersectLineQuadricSingle(null, 
     					(GeoLineND)a, (GeoQuadric3D)b, picked.getX() , picked.getY(), view3D.getToScreenMatrix());
+    			type = EuclidianView3D.IntersectionType.LINE_QUADRIC;
     		}
     	} else if ( b.isGeoLine() ) {
     		if (a.isGeoConic()) {
     			Coords picked = view3D.getPickPoint(mouseLoc.x, mouseLoc.y);
     			point = (GeoPoint3D) getKernel().getManager3D().IntersectLineConicSingle(null, 
     					(GeoLineND)b, (GeoConicND)a, picked.getX() , picked.getY(), view3D.getToScreenMatrix());
+    			type = EuclidianView3D.IntersectionType.LINE_CONIC;
+    			inverseInputs = true;
     		} else if  (a instanceof GeoQuadric3D) {
     			Coords picked = view3D.getPickPoint(mouseLoc.x, mouseLoc.y);
     			point = (GeoPoint3D) getKernel().getManager3D().IntersectLineQuadricSingle(null, 
     					(GeoLineND)b, (GeoQuadric3D)a, picked.getX() , picked.getY(), view3D.getToScreenMatrix());
+    			type = EuclidianView3D.IntersectionType.LINE_QUADRIC;
+    			inverseInputs = true;
     		}
     	} else if ( a.isGeoConic() && b.isGeoConic() ) {
     		
     		Coords picked = view3D.getPickPoint(mouseLoc.x, mouseLoc.y);
 			point = (GeoPoint3D) getKernel().getManager3D().IntersectConicsSingle(null, 
 					(GeoConicND)a, (GeoConicND)b, picked.getX() , picked.getY(), view3D.getToScreenMatrix());
-    		
+			type = EuclidianView3D.IntersectionType.CONICS;	
+    	
     	}
     	
     	//TODO: conic/plane, conic/quadric
@@ -878,7 +926,10 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
     	
     	
     	if (point.isDefined()){
-    		view3D.setCursor3DIntersectionOf(a, b);
+    		if (inverseInputs)
+    			view3D.setCursor3DIntersectionOf(type, b, a);
+    		else
+    			view3D.setCursor3DIntersectionOf(type, a, b);
     		return point;
     	}else
     		return null;

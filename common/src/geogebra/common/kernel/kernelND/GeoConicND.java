@@ -2800,7 +2800,7 @@ Translateable, GeoConicNDConstants,MatrixTransformable, PointRotateable,Region
 
 		if (!geo.isGeoConic()) return false;
 		
-		GeoConic conic = (GeoConic)geo;
+		GeoConicND conic = (GeoConicND)geo;
 		double[] B = conic.matrix;
 
 		double lambda1 = 0.0;

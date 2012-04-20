@@ -14,10 +14,12 @@ package geogebra3D.kernel3D;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.Matrix.CoordMatrix;
 import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.kernelND.AlgoIntersectND;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.main.Application;
 
 
 
@@ -55,14 +57,18 @@ public abstract class AlgoIntersect3D extends AlgoIntersectND {
      * that is closest to the coordinates (xRW, yRW)
      * TODO: move to an interface
      */
-    int getClosestPointIndex(double xRW, double yRW, CoordMatrix4x4 mat) {
+    int getClosestPointIndex(double xRW, double yRW, CoordMatrix mat) {
         GeoPoint3D[] P = getIntersectionPoints();
         double x, y, lengthSqr, mindist = Double.POSITIVE_INFINITY;
-        //Application.debug(""+xRW+" "+yRW+"\n"+mat);
+        //Application.debug("\nxRW="+xRW+"\nyRW="+yRW+"\nmatrix=\n"+mat);
         int minIndex = 0;
         for (int i = 0; i < P.length; i++) {
-        	Coords toScreenCoords = mat.mul(P[i].getCoords().getCoordsLast1()).getInhomCoords();
-        	//Application.debug("Screen coords of point "+i+" is:"+toScreenCoords);
+        	Coords toScreenCoords;
+        	if (mat==null)
+        		toScreenCoords = P[i].getInhomCoords();
+        	else
+        		toScreenCoords = mat.mul(P[i].getCoords().getCoordsLast1()).getInhomCoords();
+        	//Application.debug("\nScreen coords of point "+i+" is:\n"+toScreenCoords);
         	x = (toScreenCoords.getX() - xRW);
             y = (toScreenCoords.getY() - yRW);
             // comment: the z dimension is the "height", which will not be used here. 

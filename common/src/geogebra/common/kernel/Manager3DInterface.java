@@ -1,5 +1,6 @@
 package geogebra.common.kernel;
 
+import geogebra.common.kernel.Matrix.CoordMatrix;
 import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.Equation;
@@ -443,13 +444,21 @@ public interface Manager3DInterface {
 	 * location (xRW, yRW)
 	 */
 	public GeoPointND IntersectLineConicSingle(String label, GeoLineND g,
-			GeoConicND c, double xRW, double yRW, CoordMatrix4x4 mat);
+			GeoConicND c, double xRW, double yRW, CoordMatrix mat);
 
 	/**
 	 * get only one intersection point of two conics
 	 */
 	public GeoPointND IntersectLineConicSingle(String label, GeoLineND g,
 			GeoConicND c, NumberValue index);
+	
+	/**
+	 * get only one intersection point of two conics
+	 */
+	public GeoPointND IntersectLineConicSingle(String label, GeoLineND g,
+			GeoConicND c, int index);
+	
+
 
 	/**
 	 * get only one intersection point of two conics, near to refPoint
@@ -469,11 +478,14 @@ public interface Manager3DInterface {
 			GeoConicND B);
 
 	public GeoPointND IntersectConicsSingle(String label, GeoConicND A,
-			GeoConicND B, double xRW, double yRW, CoordMatrix4x4 mat);
+			GeoConicND B, double xRW, double yRW, CoordMatrix mat);
 
 	public GeoPointND IntersectConicsSingle(String label, GeoConicND A,
 			GeoConicND B, NumberValue index);
-
+	
+	public GeoPointND IntersectConicsSingle(String label, GeoConicND A,
+			GeoConicND B, int index);
+	
 	public GeoPointND IntersectConicsSingle(String label, GeoConicND A,
 			GeoConicND B, GeoPointND refPoint);
 
@@ -497,6 +509,13 @@ public interface Manager3DInterface {
 	 */
 	public GeoPointND IntersectLineQuadricSingle(String label, GeoLineND g,
 			GeoQuadricND q, NumberValue index);
+
+	/**
+	 * get only one intersection point of line and quadric choice depends on
+	 * command input
+	 */
+	public GeoPointND IntersectLineQuadricSingle(String label, GeoLineND g,
+			GeoQuadricND q, int index);
 
 	public GeoPointND IntersectLineQuadricSingle(String label, GeoLineND g,
 			GeoQuadricND q, GeoPointND refPoint);

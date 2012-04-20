@@ -1791,10 +1791,22 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	 * @param cursor3DIntersectionOf1 first GeoElement of intersection
 	 * @param cursor3DIntersectionOf2 second GeoElement of intersection
 	 */
-	public void setCursor3DIntersectionOf(GeoElement cursor3DIntersectionOf1, GeoElement cursor3DIntersectionOf2){
+	public void setCursor3DIntersectionOf(IntersectionType type, GeoElement cursor3DIntersectionOf1, GeoElement cursor3DIntersectionOf2){
+		cursor3DIntersectionType = type;
 		this.cursor3DIntersectionOf[0]=cursor3DIntersectionOf1;
 		this.cursor3DIntersectionOf[1]=cursor3DIntersectionOf2;
 	}
+	
+	public static enum IntersectionType { 
+		UNKNOWN,
+		LINE_CS,
+		LINE_CONIC,
+		CONICS,
+		LINE_QUADRIC
+	}
+	
+	public IntersectionType cursor3DIntersectionType;
+	
 	
 	/** return the i-th GeoElement of intersection
 	 * @param i number of GeoElement of intersection
@@ -1803,6 +1815,11 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	public GeoElement getCursor3DIntersectionOf(int i){
 		return cursor3DIntersectionOf[i];
 	}
+	
+	public IntersectionType getCursor3DIntersectionType(){
+		return cursor3DIntersectionType;
+	}
+
 	
 	
 	

@@ -554,7 +554,7 @@ final public class GeoPoint2 extends GeoVec3D implements VectorValue,
 		// of conics correctly for path parameter calculation of point P
 		GeoElement geo = path.toGeoElement();
 		if (geo.isGeoConic()) {
-			((GeoConic) geo).addPointOnConic(this);// GeoConicND
+			((GeoConicND) geo).addPointOnConic(this);// GeoConicND
 		}
 	}
 	/**
@@ -2058,6 +2058,22 @@ final public class GeoPoint2 extends GeoVec3D implements VectorValue,
 			return ((SymbolicParametersAlgo)algoParent).getExactCoordinates();
 		}
 		return null;
+	}
+	
+	
+	
+	
+	
+	private int intersectionIndex = -1;
+	
+
+	public void setIntersectionIndex(int index){
+		intersectionIndex = index;
+	}
+	
+
+	public int getIntersectionIndex(){
+		return intersectionIndex;
 	}
 
 }

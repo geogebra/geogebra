@@ -1721,6 +1721,15 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 	public CoordMatrix getMatrix() {
 		return null;
 	}
+	
+	/**
+	 * return null if classic 2D view
+	 * 
+	 * @return matrix inverse representation of the plane shown by this view
+	 */
+	public CoordMatrix getInverseMatrix() {
+		return null;
+	}
 
 	/**
 	 * Returns transform from eigenvector space to screen coords

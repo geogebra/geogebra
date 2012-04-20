@@ -609,6 +609,17 @@ public abstract class AbstractEuclidianController {
 	
 		GeoElement a = hits.get(0);
 		GeoElement b = hits.get(1);
+		
+		return getSingleIntersectionPoint(a,b);
+	}
+	
+	/**
+	 * 
+	 * @param a first geo
+	 * @param b second geo
+	 * @return single intersection points from geos a,b
+	 */
+	protected GeoPointND getSingleIntersectionPoint(GeoElement a, GeoElement b) {
 	
 		// first hit is a line
 		if (a.isGeoLine()) {
