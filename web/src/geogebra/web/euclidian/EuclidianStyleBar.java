@@ -10,6 +10,7 @@ import geogebra.common.kernel.algos.AlgoTableText;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.TextProperties;
 import geogebra.common.main.AbstractApplication;
+import geogebra.web.gui.util.MyToggleButton;
 import geogebra.web.euclidian.EuclidianController;
 import geogebra.web.euclidian.EuclidianView;
 import geogebra.web.main.Application;
@@ -52,7 +53,26 @@ public class EuclidianStyleBar implements geogebra.common.euclidian.EuclidianSty
 			"||", "||||" };
 
 
+	private MyToggleButton btnCopyVisualStyle, btnPen, btnShowGrid,
+	btnShowAxes;
 
+	MyToggleButton btnBold;
+
+	MyToggleButton btnItalic;
+
+	private MyToggleButton btnDelete;
+
+	private MyToggleButton btnLabel;
+
+	private MyToggleButton btnPenEraser;
+
+	MyToggleButton btnHideShowLabel;
+
+	private MyToggleButton btnTableTextLinesV;
+
+	private MyToggleButton btnTableTextLinesH;
+
+	private MyToggleButton[] toggleBtnList;
 
 
 	public EuclidianStyleBar(AbstractEuclidianView ev) {
@@ -387,6 +407,21 @@ public class EuclidianStyleBar implements geogebra.common.euclidian.EuclidianSty
 				ConstructionDefaults.DEFAULT_NONE);
 		defaultGeoMap.put(EuclidianConstants.MODE_TEXTFIELD_ACTION,
 				ConstructionDefaults.DEFAULT_NONE);
+	}
+
+	protected MyToggleButton[] newToggleBtnList() {
+		return new MyToggleButton[] { btnCopyVisualStyle, btnPen, btnShowGrid,
+				btnShowAxes, btnBold, btnItalic, btnDelete, btnLabel,
+				btnPenEraser, btnHideShowLabel, btnTableTextLinesV,
+				btnTableTextLinesH };
+	}
+
+	// =====================================================
+	// Create Buttons
+	// =====================================================
+
+	protected void createButtons() {
+		// TODO: fill in
 	}
 
 	static boolean checkGeoText(Object[] geos) {
