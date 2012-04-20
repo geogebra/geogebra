@@ -31,6 +31,8 @@ import geogebra.web.main.Application;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import javax.swing.ImageIcon;
+
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.SpanElement;
 import com.google.gwt.dom.client.Style;
@@ -1261,8 +1263,30 @@ public class AlgebraView extends Tree implements LayerView, SetLabels, geogebra.
 			setChecked(previouslyChecked = ge.isEuclidianVisible());
 
 			se = DOM.createSpan().cast();
+
 			se.setInnerHTML(ge.getAlgebraDescriptionTextOrHTML(
-				StringTemplate.defaultTemplate));
+					StringTemplate.defaultTemplate));
+			/* MathQuill was not able to render the following LaTeX:
+
+\;v \, = \,\left( \begin{tabular}{r}-10 \\ 0 \\ \end{tabular} \right)
+
+			// if enabled, render with LaTeX
+			if (isRenderLaTeX() && kernel.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_VALUE) {
+				String latexStr = geo.getLaTeXAlgebraDescription(true,
+						StringTemplate.latexTemplate);
+				if (latexStr != null && geo.isLaTeXDrawableGeo(latexStr)) {
+					latexStr = "$ \\;" + latexStr+ "$"; // add a little space for the
+													// icon
+					geogebra.web.main.DrawEquationWeb.drawEquationAlgebraView(se, latexStr,
+						geo.getAlgebraColor(), Color.white);
+				} else {
+					se.setInnerHTML(ge.getAlgebraDescriptionTextOrHTML(
+							StringTemplate.defaultTemplate));
+				}
+			} else {
+				se.setInnerHTML(ge.getAlgebraDescriptionTextOrHTML(
+						StringTemplate.defaultTemplate));
+			}*/
 
 			//FIXME: geo.getLongDescription() doesn't work
 			//geo.getKernel().getApplication().setTooltipFlag();

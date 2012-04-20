@@ -121,6 +121,47 @@ public class DrawEquationWeb implements DrawEquationInterface {
 		equationAges.clear();
 	}
 
+	/**
+	 * Draws an equation on the algebra view in display mode (not editing)
+	 * 
+	 * @param parentElement: adds the equation as the child of this element
+	 * @param eqstring: the equation in LaTeX
+	 * @param fgColor: foreground color
+	 * @param bgColor: background color
+	 */
+	public static void drawEquationAlgebraView(Element parentElement, String eqstring, Color fgColor, Color bgColor) {
+		// no scriptloaded check yet (is it necessary?)
+		// no EuclidianView 1,2 yet
+		
+		// make sure eg FractionText[] works (surrounds with {} which doesn't draw well in MathQuill)
+		if (eqstring.startsWith("{") && eqstring.endsWith("}")) {
+			eqstring = eqstring.substring(1, eqstring.length() - 1);
+		}
+
+		
+		AbstractApplication.debug("Algebra View: "+eqstring);
+
+		// remove $s
+		eqstring = eqstring.trim();
+		while (eqstring.startsWith("$")) eqstring = eqstring.substring(1).trim();
+		while (eqstring.endsWith("$")) eqstring = eqstring.substring(0, eqstring.length() - 1).trim();
+
+		//SpanElement ih = equations.get(eqstring);
+		//equationAges.put(eqstring, 0);
+		//if (ih == null) {
+			SpanElement ih = DOM.createSpan().cast();
+			drawEquationMathQuill(ih, eqstring, parentElement);
+			//equations.put(eqstring, ih);
+		//} else {
+		//	ih.getStyle().setDisplay(Style.Display.INLINE);
+		//}
+		//ih.getStyle().setLeft(x, Style.Unit.PX);
+		//ih.getStyle().setTop(y, Style.Unit.PX);
+		//ih.getStyle().setBackgroundColor(Color.getColorString(bgColor));
+		ih.getStyle().setColor(Color.getColorString(fgColor));
+		//return new geogebra.web.awt.Dimension(ih.getOffsetWidth(), ih.getOffsetHeight());
+	}
+
 	public Dimension drawEquation(AbstractApplication app, GeoElement geo,
             Graphics2D g2, int x, int y, String eqstring, Font font, boolean serif,
             Color fgColor, Color bgColor, boolean useCache) {
@@ -148,7 +189,7 @@ public class DrawEquationWeb implements DrawEquationInterface {
 			if (ih == null) {
 				ih = DOM.createSpan().cast();
 				drawEquationMathQuill(ih, eqstring,
-					((Application)app).getCanvas().getCanvasElement());
+					((Application)app).getCanvas().getCanvasElement().getParentElement());
 				equations.put(eqstring, ih);
 			} else {
 				ih.getStyle().setDisplay(Style.Display.INLINE);
@@ -219,7 +260,7 @@ public class DrawEquationWeb implements DrawEquationInterface {
 	 * @param canv: the canvas element to draw over to
 	 * @param el: the element which should be drawn  
 	 */
-	public static native void drawEquationMathQuill(Element el, String htmlt, CanvasElement canv) /*-{
+	public static native void drawEquationMathQuill(Element el, String htmlt, Element parentElement) /*-{
 
 		el.style.position = "absolute";
 		el.style.cursor = "default";
@@ -258,7 +299,7 @@ public class DrawEquationWeb implements DrawEquationInterface {
 		elsecond.innerHTML = htmlt;
 		el.appendChild(elsecond);
 
-		canv.parentElement.appendChild(el);
+		parentElement.appendChild(el);
 		$wnd.jQuery(elsecond).mathquill();
 	}-*/;
 }
