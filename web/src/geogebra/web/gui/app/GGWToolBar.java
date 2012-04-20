@@ -1,9 +1,6 @@
 package geogebra.web.gui.app;
 
-import geogebra.common.io.layout.Perspective;
 import geogebra.common.main.AbstractApplication;
-import geogebra.web.main.Application;
-import geogebra.web.gui.inputbar.AlgebraInput;
 import geogebra.web.gui.toolbar.ToolBar;
 
 import com.google.gwt.core.client.GWT;
@@ -27,6 +24,9 @@ public class GGWToolBar extends Composite {
 	@UiField ToolBar toolBar;
 	
 
+	/**
+	 * Create a new GGWToolBar object
+	 */
 	public GGWToolBar() {
 		initWidget(uiBinder.createAndBindUi(this));
 	}
@@ -40,19 +40,21 @@ public class GGWToolBar extends Composite {
 		this.app = app;
 		toolbars = new VerticalPanel();
 		toolBar = new ToolBar();
-		toolBar.setApp((geogebra.web.main.Application) app);
+		toolBar.init((geogebra.web.main.Application) app);
 		addToolbar(toolBar);
 		buildGui();
 	}
 	
+	/**
+	 * Build the toolbar GUI
+	 */
 	public void buildGui() {
-	    // TODO Auto-generated method stub
-
 		toolbarPanel = new VerticalPanel();
 	    updateToolbarPanel();
 	    
 	    
 	    //setActiveToolbar(activeToolbar);
+	    
     }
 	
 	/**
@@ -68,13 +70,13 @@ public class GGWToolBar extends Composite {
 				((ToolBar)toolbar).buildGui();
 				//TODO
 				//toolbarPanel.add(toolbar, Integer.toString(getViewId(toolbar)));
-				toolbarPanel.add(toolbar);
+				//toolbarPanel.add(toolbar);
 			}
 		}
 		
 		//TODO
 		//toolbarPanel.show(Integer.toString(activeToolbar));
-		toolbarPanel.setVisible(true);
+		//toolbarPanel.setVisible(true);
 		
 	}
 

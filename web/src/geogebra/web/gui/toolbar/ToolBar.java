@@ -1,11 +1,15 @@
 package geogebra.web.gui.toolbar;
 
+import java.util.ArrayList;
 import java.util.Vector;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.gui.toolbar.ToolbarItem;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Macro;
 import geogebra.common.main.AbstractApplication;
+import geogebra.web.gui.toolbar.ModeToggleButtonGroup;
+import geogebra.web.gui.toolbar.ModeToggleMenu;
 import geogebra.web.main.Application;
 
 import com.google.gwt.user.client.ui.MenuBar;
@@ -28,15 +32,27 @@ public class ToolBar extends MenuBar {
 	private Application app;
 	private int mode;
 
+	private ArrayList<ModeToggleMenu> modeToggleMenus;
+	
 //	public ToolBar(Application app) {
 //		this.app = app;
 //	}
 	
+	/**
+	 * Creates general toolbar.
+	 * There is no app parameter here, because of UiBinder.
+	 * After instantiate the ToolBar, call init(Application app) as well.
+	 */
 	public ToolBar() {
 		
 	}
 	
-	public void setApp(Application app){
+	/**
+	 * Initialisation of the ToolBar object
+	 * 
+	 * @param app
+	 */
+	public void init(Application app){
 		this.app = app;
 	}
 	
@@ -45,9 +61,13 @@ public class ToolBar extends MenuBar {
 	 */
 	public void buildGui() {
 		mode = -1;
+		
+		ModeToggleButtonGroup bg = new ModeToggleButtonGroup();
+		modeToggleMenus = new ArrayList<ModeToggleMenu>();
+		
 		clearItems();
 		
-		addCustomModesToToolbar();
+		addCustomModesToToolbar(bg);
 		
 	}
 	
@@ -58,8 +78,8 @@ public class ToolBar extends MenuBar {
 	 * and "||" adds a separator before starting a new menu.
 	 * 
 	 */
-	private void addCustomModesToToolbar() {
-		Vector<Object> toolbarVec;
+	private void addCustomModesToToolbar(ModeToggleButtonGroup bg) {
+		Vector<ToolbarItem> toolbarVec;
 		
 		try {
 			//AGif (dockPanel != null) {
@@ -75,9 +95,48 @@ public class ToolBar extends MenuBar {
 			//AG} else {
 				AbstractApplication.debug("invalid toolbar string: "
 						+ app.getGuiManager().getToolbarDefinition());
-			}
+			//}
 			toolbarVec = parseToolbarString(getDefaultToolbarString());
-		//AG}
+		}
+		
+		// set toolbar
+		boolean firstButton = true;
+		for (int i = 0; i < toolbarVec.size(); i++) {
+			ToolbarItem ob = toolbarVec.get(i);
+
+			// separator between menus
+			if (ob.getMode() == ToolBar.SEPARATOR) {
+				addSeparator();
+				continue;
+			}
+
+			// new menu
+			Vector<Integer> menu = ob.getMenu();
+			ModeToggleMenu tm = new ModeToggleMenu(app, this, bg);
+			modeToggleMenus.add(tm);
+
+			for (int k = 0; k < menu.size(); k++) {
+				// separator
+				int addMode = menu.get(k).intValue();
+				if (addMode < 0) {
+					// separator within menu:
+					tm.addSeparator();
+				} else { // standard case: add mode
+
+					// check mode
+					if (!"".equals(app.getToolName(addMode))) {
+						tm.addMode(addMode);
+						if (firstButton) {
+							//tm.getJToggleButton().setSelected(true);
+							firstButton = false;
+						}
+					}
+				}
+			}
+
+			if (tm.getToolsCount() > 0)
+				addItem("...",tm);
+		}
     }
 	
 	/**
@@ -91,25 +150,25 @@ public class ToolBar extends MenuBar {
 	 * @return toolbar as nested Vector objects with Integers for the modes.
 	 *         Note: separators have negative values.
 	 */
-	public static Vector<Object> parseToolbarString(String toolbarString) {
+	public static Vector<ToolbarItem> parseToolbarString(String toolbarString) {
 		String[] tokens = toolbarString.split(" ");
-		Vector<Object> toolbar = new Vector<Object>();
+		Vector<ToolbarItem> toolbar = new Vector<ToolbarItem>();
 		Vector<Integer> menu = new Vector<Integer>();
 
 		for (int i = 0; i < tokens.length; i++) {
 			if (tokens[i].equals("|")) { // start new menu
 				if (menu.size() > 0)
-					toolbar.add(menu);
+					toolbar.add(new ToolbarItem(menu));
 				menu = new Vector<Integer>();
 			} else if (tokens[i].equals("||")) { // separator between menus
 				if (menu.size() > 0)
-					toolbar.add(menu);
+					toolbar.add(new ToolbarItem(menu));
 
 				// add separator between two menus
 				// menu = new Vector();
 				// menu.add(SEPARATOR);
 				// toolbar.add(menu);
-				toolbar.add(SEPARATOR);
+				toolbar.add(new ToolbarItem(SEPARATOR));
 
 				// start next menu
 				menu = new Vector<Integer>();
@@ -130,7 +189,7 @@ public class ToolBar extends MenuBar {
 
 		// add last menu to toolbar
 		if (menu.size() > 0)
-			toolbar.add(menu);
+			toolbar.add(new ToolbarItem(menu));
 		return toolbar;
 	}
 

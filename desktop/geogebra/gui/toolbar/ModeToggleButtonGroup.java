@@ -12,7 +12,7 @@ the Free Software Foundation.
 package geogebra.gui.toolbar;
 
 import javax.swing.ButtonGroup;
-import javax.swing.JPopupMenu;
+import geogebra.common.javax.swing.JPopupMenu;
 
 /**
  * Group of buttons for mode groups

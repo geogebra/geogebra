@@ -2909,4 +2909,68 @@ public abstract class AbstractApplication {
 
 	
 	public abstract void updateTopBottomPanels();
+
+	protected String getToolNameOrHelp(int mode, boolean toolName) {
+		// macro
+		String ret;
+	
+		if (mode >= EuclidianConstants.MACRO_MODE_ID_OFFSET) {
+			// MACRO
+			int macroID = mode - EuclidianConstants.MACRO_MODE_ID_OFFSET;
+			try {
+				Macro macro = kernel.getMacro(macroID);
+				if (toolName) {
+					// TOOL NAME
+					ret = macro.getToolName();
+					if ("".equals(ret)) {
+						ret = macro.getCommandName();
+					}
+				} else {
+					// TOOL HELP
+					ret = macro.getToolHelp();
+					if ("".equals(ret)) {
+						ret = macro.getNeededTypesString();
+					}
+				}
+			} catch (Exception e) {
+				AbstractApplication
+						.debug("Application.getModeText(): macro does not exist: ID = "
+								+ macroID);
+				// e.printStackTrace();
+				return "";
+			}
+		} else {
+			// STANDARD TOOL
+			String modeText = getKernel().getModeText(mode);
+			if (toolName) {
+				// tool name
+				ret = getMenu(modeText);
+			} else {
+				// tool help
+				ret = getMenu(modeText + ".Help");
+			}
+		}
+	
+		return ret;
+	}
+
+	/**
+	 * Returns name of given tool.
+	 * 
+	 * @param mode
+	 *            number
+	 */
+	public String getToolName(int mode) {
+		return getToolNameOrHelp(mode, true);
+	}
+
+	/**
+	 * Returns the tool help text for the given tool.
+	 * 
+	 * @param mode
+	 *            number
+	 */
+	public String getToolHelp(int mode) {
+		return getToolNameOrHelp(mode, false);
+	}
 }

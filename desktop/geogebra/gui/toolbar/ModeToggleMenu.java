@@ -120,7 +120,7 @@ public class ModeToggleMenu extends JPanel {
 	}
 
 	public void addMode(int mode) {
-		// add menu item to popu menu
+		// add menu item to popup menu
 		JMenuItem mi = new JMenuItem();
 		mi.setFont(app.getPlainFont());
 		mi.setBackground(bgColor);
@@ -189,7 +189,7 @@ public class ModeToggleMenu extends JPanel {
 
 	public void mouseOver() {
 		// popup menu is showing
-		JPopupMenu activeMenu = bg.getActivePopupMenu();
+		JPopupMenu activeMenu = geogebra.javax.swing.JPopupMenu.getImpl(bg.getActivePopupMenu());
 		if (activeMenu != null && activeMenu.isShowing()) {
 			setPopupVisible(true);
 		}
@@ -198,7 +198,7 @@ public class ModeToggleMenu extends JPanel {
 	// shows popup menu
 	public void setPopupVisible(boolean flag) {
 		if (flag) {
-			bg.setActivePopupMenu(popMenu);
+			bg.setActivePopupMenu(new geogebra.javax.swing.JPopupMenu(popMenu));
 			if (popMenu.isShowing())
 				return;
 			Point locButton = tbutton.getLocationOnScreen();
