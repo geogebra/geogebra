@@ -43,7 +43,7 @@ public class GeoGebraCasIntegrationTest {
 		Application app = new Application(new CommandLineArguments(
 				silent?new String[]{"--silent"}:new String[0]), new JFrame(), false);
 		if(silent)
-			AbstractApplication.dbg = null;
+			AbstractApplication.logger = null;
 		app.setLanguage(Locale.US);
 		// app.getKernel()
 		kernel = app.getKernel();
