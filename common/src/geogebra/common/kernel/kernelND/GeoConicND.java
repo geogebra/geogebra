@@ -1885,6 +1885,22 @@ Translateable, GeoConicNDConstants,MatrixTransformable, PointRotateable,Region
 		updateDegenerates(); // for degenerate conics      
 	}
 	
+	
+	public void setXSquaredCoefficient(double coeff) {
+		
+		if (Double.isInfinite(coeff)) {
+			coeff = coeff > 0 ? 10E8 : -10E8;
+		} else if (Kernel.isZero(coeff)) {
+			coeff = 1E-6;
+		}
+		
+		matrix[0] =  coeff;	
+		classifyParabolicConic(false);
+		setAffineTransform();
+
+		
+	}
+
 	/**
 	 * @param v translation vector
 	 */
@@ -2440,7 +2456,7 @@ Translateable, GeoConicNDConstants,MatrixTransformable, PointRotateable,Region
 				mu1[0] = mu1[1];
 				mu1[1] = temp;
 
-				// rotate eigenvector 90�
+				// rotate eigenvector 90
 				temp = eigenvecX;
 				eigenvecX = -eigenvecY;
 				eigenvecY = temp;
@@ -2473,7 +2489,7 @@ Translateable, GeoConicNDConstants,MatrixTransformable, PointRotateable,Region
 			mu1[0] = mu1[1];
 			mu1[1] = temp;
 
-			// rotate eigenvector 90�
+			// rotate eigenvector 90
 			temp = eigenvecX;
 			eigenvecX = -eigenvecY;
 			eigenvecY = temp;
@@ -2800,7 +2816,7 @@ Translateable, GeoConicNDConstants,MatrixTransformable, PointRotateable,Region
 
 		if (!geo.isGeoConic()) return false;
 		
-		GeoConicND conic = (GeoConicND)geo;
+		GeoConic conic = (GeoConic)geo;
 		double[] B = conic.matrix;
 
 		double lambda1 = 0.0;

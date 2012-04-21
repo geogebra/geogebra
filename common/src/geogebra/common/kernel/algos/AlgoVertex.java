@@ -51,7 +51,7 @@ public class AlgoVertex extends AlgoElement {
         GeoElement.setLabels(labels, vertex);            
     }
     
-    AlgoVertex(Construction cons, GeoConic c) {
+    public AlgoVertex(Construction cons, GeoConic c) {
         super(cons);
         this.c = c;        
         vertex = new GeoPoint2[4];       

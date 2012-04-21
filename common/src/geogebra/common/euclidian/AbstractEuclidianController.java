@@ -29,6 +29,7 @@ import geogebra.common.kernel.algos.AlgoPolygon;
 import geogebra.common.kernel.algos.AlgoTranslate;
 import geogebra.common.kernel.algos.AlgoVector;
 import geogebra.common.kernel.algos.AlgoVectorPoint;
+import geogebra.common.kernel.algos.AlgoVertex;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoAngle;
@@ -63,6 +64,7 @@ import geogebra.common.kernel.implicit.GeoImplicitPoly;
 import geogebra.common.kernel.kernelND.GeoAxisND;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoConicND.HitType;
+import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -5377,8 +5379,35 @@ public abstract class AbstractEuclidianController {
 	}
 
 	protected final void moveConic(boolean repaint) {
-		movedGeoConic.set(tempConic);
-		movedGeoConic.translate(xRW - startPoint.x, yRW - startPoint.y);
+		
+		if (isAltDown()  && (movedGeoConic.getType() == GeoConicNDConstants.CONIC_PARABOLA || movedGeoConic.getType() == GeoConicNDConstants.CONIC_DOUBLE_LINE)) {
+			
+			// drag a parabola bit keep the vertex fixed
+			// CONIC_DOUBLE_LINE needed for y=0x^2
+			Construction cons = kernel.getConstruction();
+			AlgoVertex vertex = new AlgoVertex(kernel.getConstruction(), movedGeoConic);
+			cons.removeFromConstructionList(vertex);
+			
+			GeoPoint2 vertP = (GeoPoint2) vertex.getGeoElements()[0];
+			
+			double vX = vertP.inhomX;
+			double vY = vertP.inhomY;
+			
+			double coeff;
+			
+			coeff = - (yRW - vY) / ( (xRW - vX) * (xRW - vX) );
+			
+			movedGeoConic.translate(-vX, -vY);
+			
+			movedGeoConic.setXSquaredCoefficient(coeff);
+			
+			movedGeoConic.translate(vX, vY);
+		} else {
+			// just translate conic
+			movedGeoConic.set(tempConic);
+			movedGeoConic.translate(xRW - startPoint.x, yRW - startPoint.y);			
+		}
+		
 	
 		if (repaint) {
 			movedGeoConic.updateRepaint();
