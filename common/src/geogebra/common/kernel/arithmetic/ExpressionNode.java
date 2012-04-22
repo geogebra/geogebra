@@ -2337,7 +2337,7 @@ public class ExpressionNode extends ValidExpression implements
 				mathml(sb, "<divide/>", leftStr, rightStr);
 				break;
 			case LATEX:
-				if((leftStr.charAt(0)=='-') && (left.isConstant()||
+				if((leftStr.charAt(0)=='-') && (left.isLeaf()||
 						(left instanceof ExpressionNode && isMultiplyOrDivide((ExpressionNode)left))
 						)){
 					sb.append("-\\frac{");
