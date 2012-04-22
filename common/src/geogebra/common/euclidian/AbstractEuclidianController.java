@@ -5379,7 +5379,6 @@ public abstract class AbstractEuclidianController {
 		}
 	}
 	
-	private Coords lastMovedConicEigenvec = null;
 
 	protected final void moveConic(boolean repaint) {
 		
@@ -5387,16 +5386,14 @@ public abstract class AbstractEuclidianController {
 			
 			// drag a parabola bit keep the vertex fixed
 			// CONIC_DOUBLE_LINE needed for y=0x^2
-			// we have to store the last
-			if(lastMovedConicEigenvec == null)
-				lastMovedConicEigenvec = movedGeoConic.getEigenvec(0);
 			
 			
 			double vX = movedGeoConic.b.getX();
 			double vY = movedGeoConic.b.getY();
 			
-			double c = lastMovedConicEigenvec.getX();
-			double s = lastMovedConicEigenvec.getY();
+			int index = movedGeoConic.getType() == GeoConicNDConstants.CONIC_PARABOLA?0:1;
+			double c = movedGeoConic.getEigenvec(index).getX();
+			double s = movedGeoConic.getEigenvec(index).getY();
 			
 			double coeff;
 			double dx = xRW - vX;
@@ -7915,7 +7912,6 @@ public abstract class AbstractEuclidianController {
 			pressedButton=null;
 		}
 		sliderValue = null;
-		lastMovedConicEigenvec = null;
 		if (event != null) {
 			mx = event.getX();
 			my = event.getY();
