@@ -5399,7 +5399,11 @@ public abstract class AbstractEuclidianController {
 			double dx = xRW - vX;
 			double dy = yRW - vY;
 			coeff =  (c*dx+s*dy) / ( (s*dx - c*dy) * (s*dx - c*dy) );
-			
+			if (coeff > 1E8) {
+			    coeff = 1E6;
+			   } else if (coeff < -1E8) {
+			    coeff = -1E6;
+			   }
 			movedGeoConic.translate(-vX, -vY);
 			
 			movedGeoConic.setCoeffs(coeff*s*s, -2*coeff*s*c, coeff*c*c, -c, -s, 0);
