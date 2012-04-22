@@ -1885,22 +1885,6 @@ Translateable, GeoConicNDConstants,MatrixTransformable, PointRotateable,Region
 		updateDegenerates(); // for degenerate conics      
 	}
 	
-	
-	public void setXSquaredCoefficient(double coeff) {
-		
-		if (Double.isInfinite(coeff)) {
-			coeff = coeff > 0 ? 10E8 : -10E8;
-		} else if (Kernel.isZero(coeff)) {
-			coeff = 1E-6;
-		}
-		
-		matrix[0] =  coeff;	
-		classifyParabolicConic(false);
-		setAffineTransform();
-
-		
-	}
-
 	/**
 	 * @param v translation vector
 	 */
