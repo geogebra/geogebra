@@ -2225,7 +2225,8 @@ ExpressionNode numberFunction():
 //      		  	String [] str = { "UndefinedVariable", funcName };
 //           	 	throw new MyParseError(app, str);    
            	}
-			if(kernel.lookupCasCellLabel(label)!=null)			{			  
+           	//make sure we don't send 0th derivative to CAS
+			if(kernel.lookupCasCellLabel(label)!=null && order > 0)			{			  
            	ExpressionNode derivative =  new ExpressionNode(kernel, kernel.lookupCasCellLabel(label), Operation.DERIVATIVE, 
 	      																new MyDouble(kernel, order));
       			
