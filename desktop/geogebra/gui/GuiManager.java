@@ -814,6 +814,10 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 	}
 
 	public void setShowView(boolean flag, int viewId) {
+		setShowView( flag,  viewId, true);
+	}
+	
+	public void setShowView(boolean flag, int viewId, boolean isPermanent) {
 		if (flag) {
 			layout.getDockManager().show(viewId);
 
@@ -821,7 +825,7 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 				getSpreadsheetView().requestFocus();
 			}
 		} else {
-			layout.getDockManager().hide(viewId);
+			layout.getDockManager().hide(viewId, isPermanent);
 
 			if (viewId == AbstractApplication.VIEW_SPREADSHEET) {
 				app.getActiveEuclidianView().requestFocus();
@@ -2418,7 +2422,7 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 		kernel.undo();
 		updateActions();
 		app.setDefaultCursor();
-		System.gc();
+		//System.gc();
 	}
 
 	public int getMenuBarHeight() {

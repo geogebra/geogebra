@@ -235,6 +235,13 @@ implements ActionListener, WindowListener, MouseListener, geogebra.common.gui.la
 	private boolean isAlone;
 	
 	/**
+	 * Indicator whether this panel is hidden. A hidden panel is not visible,
+	 * but it's View component is still attached to the kernel.
+	 */
+	private boolean isHidden;
+	
+
+	/**
 	 * Prepare dock panel. DockPanel::register() has to be called to make this panel fully functional!
 	 * No shortcut is assigned to the view in this construtor.
 	 * 
@@ -541,7 +548,7 @@ implements ActionListener, WindowListener, MouseListener, geogebra.common.gui.la
 		// The view is in the main window
 		if (frame == null) {
 			closeButton.setVisible( !isMaximized());
-			windowButton.setVisible(showStyleBar && !isMaximized());
+			windowButton.setVisible((!hasStyleBar || showStyleBar) && !isMaximized());
 			unwindowButton.setVisible(false);
 			maximizeButton.setVisible(false && showStyleBar || isMaximized());
 			titleLabel.setVisible(true);
@@ -590,6 +597,23 @@ implements ActionListener, WindowListener, MouseListener, geogebra.common.gui.la
 	public boolean isAlone() {
 		return isAlone;
 	}
+	
+	/**
+	 * @return If this panel is hidden but not permanently removed.
+	 */
+	public boolean isHidden() {
+		return isHidden;
+	}
+
+
+	/**
+	 * Sets the the isHidden flag (no other action) 
+	 */
+	public void setHidden(boolean isHidden) {
+		this.isHidden = isHidden;
+	}
+
+	
 	
 	/**
 	 * Update the panel.
@@ -753,13 +777,20 @@ implements ActionListener, WindowListener, MouseListener, geogebra.common.gui.la
 	}
 	
 	/**
-	 * Close this panel.
+	 * Close this panel permanently.
 	 */
 	protected void closePanel() {
-		dockManager.hide(this);
+		closePanel(true);
+	}
+	
+	
+	/**
+	 * Close this panel.
+	 * @param isPermanent 	 
+	 */
+	protected void closePanel(boolean isPermanent) {
+		dockManager.hide(this, isPermanent);
 		dockManager.getLayout().getApplication().updateMenubar();
-
-		//app.openDockBar();
 		
 		if(dockManager.getFocusedPanel() == this) {
 			dockManager.setFocusedPanel(null);
@@ -837,7 +868,7 @@ implements ActionListener, WindowListener, MouseListener, geogebra.common.gui.la
 	 */
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == closeButton) {
-			closePanel();
+			closePanel(false);
 		} else if(e.getSource() == windowButton) {
 			windowPanel();
 		} else if(e.getSource() == unwindowButton) {
@@ -856,7 +887,7 @@ implements ActionListener, WindowListener, MouseListener, geogebra.common.gui.la
 	 * pressed. 
 	 */
 	public void windowClosing(WindowEvent e) {
-		closePanel();
+		closePanel(false);
 	}
 	
 	/**

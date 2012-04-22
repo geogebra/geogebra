@@ -462,7 +462,7 @@ public class DockManager implements AWTEventListener, SetLabels {
 	public void show(DockPanel panel) {
 		
 		panel.setVisible(true);
-		
+		panel.setHidden(false);
 		// undo maximized state if another dock panel is to be shown
 		if(isMaximized)
 			undoMaximize(false);
@@ -615,8 +615,8 @@ public class DockManager implements AWTEventListener, SetLabels {
 	 * 
 	 * @param viewId
 	 */
-	public void hide(int viewId) {
-		hide(getPanel(viewId), true);
+	public void hide(int viewId, boolean isPermanent) {
+		hide(getPanel(viewId), isPermanent);
 	}
 	
 	/**
@@ -640,6 +640,8 @@ public class DockManager implements AWTEventListener, SetLabels {
 			// to issue another "close" call, therefore we quit quietly
 			return;
 		}
+		
+		panel.setHidden(!isPermanent);
 		
 		panel.setVisible(false);
 		setFocusedPanel(null);
@@ -689,6 +691,8 @@ public class DockManager implements AWTEventListener, SetLabels {
 				mainContainer.removeToolbar(panel.getToolbar());
 				mainContainer.updateToolbarPanel();
 			}
+			
+			app.updateToolBar();
 		}
 	}
 	

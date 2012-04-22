@@ -2,6 +2,7 @@ package geogebra.gui.toolbar;
 
 import geogebra.common.util.StringUtil;
 import geogebra.gui.MySmallJButton;
+import geogebra.gui.layout.ViewButtonBar;
 import geogebra.main.Application;
 
 import java.awt.BorderLayout;
@@ -21,6 +22,7 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.Border;
 
 /**
  * Container for one or multiple toolbars. Takes care of fundamental things such
@@ -70,6 +72,11 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 	 * The active toolbar.
 	 */
 	private int activeToolbar;
+
+	/**
+	 * Toolbar for View hide/show buttons
+	 */
+	private ViewButtonBar viewButtonBar;
 
 	/**
 	 * Create a new toolbar container.
@@ -172,11 +179,23 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 				toolbarHelpPanel.removeAll();
 			}
 
+			JPanel p = new JPanel(new BorderLayout());
+			p.add(modeNameLabel, BorderLayout.WEST);
+
+			if (isMain) {
+				viewButtonBar = new ViewButtonBar(app);
+				p.add(viewButtonBar, BorderLayout.EAST);
+			}
+			
 			toolbarHelpPanel.add(Box.createVerticalGlue());
-			toolbarHelpPanel.add(modeNameLabel);
+			//toolbarHelpPanel.add(modeNameLabel);
+			toolbarHelpPanel.add(p);
 			toolbarHelpPanel.add(Box.createVerticalGlue());
 
-			add(toolbarHelpPanel, BorderLayout.CENTER);
+			Border insideBorder = BorderFactory.createEmptyBorder(2, 10, 2, 0);
+			Border outsideBorder = BorderFactory.createMatteBorder(0, 0, 0, 0, SystemColor.controlShadow);
+			toolbarHelpPanel.setBorder(BorderFactory.createCompoundBorder(outsideBorder, insideBorder));
+			add(toolbarHelpPanel, BorderLayout.SOUTH);
 		}
 
 		revalidate();
@@ -339,6 +358,9 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 		// tooltip
 		modeNameLabel.setToolTipText(app.getToolTooltipHTML(mode));
 		toolbarHelpPanel.validate();
+		
+		// update view buttons
+		viewButtonBar.updateViewButtons();
 	}
 
 	/**

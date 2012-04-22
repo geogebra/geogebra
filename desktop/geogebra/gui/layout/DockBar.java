@@ -59,9 +59,10 @@ public class DockBar extends JPanel implements ActionListener {
 
 	private ConfigurationPanel configPanel;
 
-	private JPanel mainPanel, minimumPanel, viewButtonPanel;
+	private JPanel mainPanel, minimumPanel;
 
-	private ArrayList<ViewButton> viewButtons;
+	private ViewButtonBar viewButtonBar;
+	
 	private JButton btnConfigure, btnGeoGebra, btnView, btnOptions;
 
 	private JButton btnTurtle;
@@ -119,6 +120,7 @@ public class DockBar extends JPanel implements ActionListener {
 	}
 
 	public void update() {
+		//app.updateToolBar();
 
 		// btnSettings.setSelected(!app.isMainPanelShowing());
 
@@ -141,17 +143,9 @@ public class DockBar extends JPanel implements ActionListener {
 
 		// view toggle buttons
 		
-		//TODO: handle updates during runtime
-		updateViewButtonList();
-		
-		
-		
-		updateViewButtons();
-		
-		
-		
-		
-		mainPanel.add(viewButtonPanel);
+		viewButtonBar = new ViewButtonBar(app);
+		viewButtonBar.setOrientation(JToolBar.VERTICAL);
+		mainPanel.add(viewButtonBar);
 
 		Border outsideBorder = BorderFactory.createMatteBorder(1, 0, 0, 1,
 				SystemColor.controlShadow);
@@ -200,103 +194,7 @@ public class DockBar extends JPanel implements ActionListener {
 
 	}
 
-	private void updateViewButtonList() {
-
-		AbstractAction action;
-		ViewButton btn;
-		
-		DockPanel[] dockPanels = layout.getDockManager().getPanels();
-		Arrays.sort(dockPanels, new DockPanel.MenuOrderComparator());
-
-		if (viewButtons == null)
-			viewButtons = new ArrayList<ViewButton>();
-		viewButtons.clear();
-
-		
-		// iterate through the dock panels 
-		for (DockPanel panel : dockPanels) {
-			// skip panels with negative order by design
-			if (panel.getMenuOrder() < 0) {
-				continue;
-			}
-
-			final int viewID = panel.getViewId();
-
-			if (!app.getGuiManager().showView(viewID))
-					//&& !(viewID == AbstractApplication.VIEW_PROPERTIES))
-				continue;
-
-			btn = new ViewButton();
-			btn.setToolTipText(panel.getPlainTitle());
-			btn.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-			if (panel.getIcon() != null) {
-				btn.setIcon(panel.getIcon());
-			} else {
-				btn.setIcon(app.getEmptyIcon());
-			}
-
-			action = new AbstractAction(app.getPlain(panel.getViewTitle())) {
-				private static final long serialVersionUID = 1L;
-
-				public void actionPerformed(ActionEvent arg0) {
-					app.getGuiManager().setShowView(
-							!app.getGuiManager().showView(viewID), viewID);
-					updateViewButtons();
-				}
-			};
-
-			btn.addActionListener(action);
-			btn.setViewID(viewID);
-
-			viewButtons.add(btn);
-		}
-
-	}
-
-	public void updateViewButtons() {
-
-		if (viewButtonPanel == null) {
-			viewButtonPanel = new JPanel();
-			viewButtonPanel.setLayout(new BoxLayout(viewButtonPanel,
-					BoxLayout.Y_AXIS));
-		}
-
-		viewButtonPanel.removeAll();
-		
-		for (ViewButton btn : viewButtons) {
-			viewButtonPanel.add(btn);
-			btn.setSelected(app.getGuiManager().showView(btn.getViewID()));
-		}
-	}
-
-	class ViewButton extends JToggleButton {
-
-		private static final long serialVersionUID = 1L;
-
-		private int viewID;
-
-//		@Override
-//		public void setBorderPainted(boolean setBorderPainted) {
-//			super.setBorderPainted(false);
-//		}
-
-//		@Override
-//		public void setContentAreaFilled(boolean setContentAreaFilled) {
-//			super.setContentAreaFilled(false);
-//		}
-
-		public int getViewID() {
-			return viewID;
-		}
-
-		public void setViewID(int viewID) {
-			this.viewID = viewID;
-		}
-		
-		
-
-	}
+	
 
 	public void actionPerformed(ActionEvent e) {
 		Object source = e.getSource();
@@ -570,6 +468,11 @@ public class DockBar extends JPanel implements ActionListener {
 			add(viewMenu.getComponentPopupMenu());
 			add(new OptionsMenu(app));
 		}
+	}
+
+	public void updateViewButtons() {
+		viewButtonBar.updateViewButtons();
+		
 	}
 
 }
