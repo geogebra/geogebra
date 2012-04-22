@@ -2373,25 +2373,6 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 		cursor = CURSOR_HIT;
 	}
 	
-	
-	
-	
-	public void mouseEntered(){
-		//Application.debug("mouseEntered");
-		hasMouse = true;
-	}
-	
-	public void mouseExited(){
-		//Application.debug("mouseExited");
-		hasMouse = false;
-	}
-	
-	public boolean hasMouse(){
-		return hasMouse;
-	}
-	
-
-
 	/**
 	 * returns settings in XML format, read by xml handlers
 	 * @see geogebra.common.io.MyXMLHandler

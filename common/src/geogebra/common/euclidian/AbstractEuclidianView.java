@@ -78,7 +78,7 @@ import java.util.TreeSet;
  * View containing graphic representation of construction elements
  */
 public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCommon {
-	
+	private boolean hasMouse;
 	/** View other than EV1 and EV2 **/
 	public static int EVNO_GENERAL = 1001;
 	/** euclidian view number */
@@ -2467,12 +2467,19 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 	}
 
 
-	public void mouseEntered() {
-		AbstractApplication.debug("implementation needed");
+	public final void mouseEntered(){
+		hasMouse = true;
 	}
-
-	public void mouseExited() {
-		AbstractApplication.debug("implementation needed");
+	
+	public final void mouseExited(){
+		hasMouse = false;
+	}
+	
+	/**
+	 * @return whether mouse is hovering over this view
+	 */
+	public boolean hasMouse(){
+		return hasMouse;
 	}
 
 	public Previewable createPreviewParallelLine(
