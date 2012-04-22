@@ -25,6 +25,7 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoDynamicCoordinates;
 import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.algos.AlgoFocus;
 import geogebra.common.kernel.algos.AlgoPolygon;
 import geogebra.common.kernel.algos.AlgoTranslate;
 import geogebra.common.kernel.algos.AlgoVector;
@@ -5377,6 +5378,8 @@ public abstract class AbstractEuclidianController {
 			}
 		}
 	}
+	
+	private Coords lastMovedConicEigenvec = null;
 
 	protected final void moveConic(boolean repaint) {
 		
@@ -5384,22 +5387,25 @@ public abstract class AbstractEuclidianController {
 			
 			// drag a parabola bit keep the vertex fixed
 			// CONIC_DOUBLE_LINE needed for y=0x^2
-			Construction cons = kernel.getConstruction();
-			AlgoVertex vertex = new AlgoVertex(kernel.getConstruction(), movedGeoConic);
-			cons.removeFromConstructionList(vertex);
+			// we have to store the last
+			if(lastMovedConicEigenvec == null)
+				lastMovedConicEigenvec = movedGeoConic.getEigenvec(0);
 			
-			GeoPoint2 vertP = (GeoPoint2) vertex.getGeoElements()[0];
 			
-			double vX = vertP.inhomX;
-			double vY = vertP.inhomY;
+			double vX = movedGeoConic.b.getX();
+			double vY = movedGeoConic.b.getY();
+			
+			double c = lastMovedConicEigenvec.getX();
+			double s = lastMovedConicEigenvec.getY();
 			
 			double coeff;
-			
-			coeff = - (yRW - vY) / ( (xRW - vX) * (xRW - vX) );
+			double dx = xRW - vX;
+			double dy = yRW - vY;
+			coeff =  (c*dx+s*dy) / ( (s*dx - c*dy) * (s*dx - c*dy) );
 			
 			movedGeoConic.translate(-vX, -vY);
 			
-			movedGeoConic.setXSquaredCoefficient(coeff);
+			movedGeoConic.setCoeffs(coeff*s*s, -2*coeff*s*c, coeff*c*c, -c, -s, 0);
 			
 			movedGeoConic.translate(vX, vY);
 		} else {
@@ -7909,7 +7915,7 @@ public abstract class AbstractEuclidianController {
 			pressedButton=null;
 		}
 		sliderValue = null;
-	
+		lastMovedConicEigenvec = null;
 		if (event != null) {
 			mx = event.getX();
 			my = event.getY();
