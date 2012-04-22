@@ -55,16 +55,23 @@ public class AlgoTake extends AlgoElement {
 
     @Override
 	protected void setInputOutput(){
-        input = new GeoElement[3];
+    	if(n != null){
+    		input = new GeoElement[3];
+    		input[2] = n;
+    	}else{
+    		input = new GeoElement[2];
+    	}
         input[0] = inputList;
         input[1] = m;
-        input[2] = n;
-
+       
         super.setOutputLength(1);
         super.setOutput(0, outputList);
         setDependencies(); // done by AlgoElement
     }
 
+    /**
+     * @return resulting list
+     */
     public GeoList getResult() {
         return outputList;
     }
@@ -72,7 +79,7 @@ public class AlgoTake extends AlgoElement {
     @Override
 	public final void compute() {
     	
-    	if (!m.isDefined() || !n.isDefined()) {
+    	if (!m.isDefined() || (n!=null && !n.isDefined())) {
     		// return empty list
         	outputList.setDefined(true);
         	outputList.clear();
@@ -81,7 +88,7 @@ public class AlgoTake extends AlgoElement {
     	
     	size = inputList.size();
     	int start=(int)m.getDouble();
-    	double nVal = n.getDouble();
+    	double nVal = n==null ? size : n.getDouble();
     	int end = (int)nVal;
     	
     	if (nVal == 0 && inputList.isDefined() && start > 0 && start <= size) {

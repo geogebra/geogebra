@@ -55,22 +55,22 @@ public class AlgoTakeString extends AlgoElement {
 	protected void setInputOutput(){
     	
     	if (n != null) {
-	        input = new GeoElement[3];
-	        input[0] = inputText;
-	        input[1] = m;
+	        input = new GeoElement[3];	        
 	        input[2] = n;
     	}
-    	else
-    	{
-            input = new GeoElement[1];
-            input[0] = inputText;
+    	else {
+            input = new GeoElement[2];
         }    		
-
+    	input[0] = inputText;
+        input[1] = m;
         super.setOutputLength(1);
         super.setOutput(0, outputText);
         setDependencies(); // done by AlgoElement
     }
 
+    /**
+     * @return resulting text
+     */
     public GeoText getResult() {
         return outputText;
     }
@@ -78,7 +78,7 @@ public class AlgoTakeString extends AlgoElement {
     @Override
 	public final void compute() {
 
-    	if (!m.isDefined() || !n.isDefined()) {
+    	if (!m.isDefined() || (n!=null && !n.isDefined())) {
     		outputText.setTextString("");
         	return;
     	}

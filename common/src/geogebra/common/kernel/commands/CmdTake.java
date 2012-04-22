@@ -30,6 +30,21 @@ public class CmdTake extends CommandProcessor {
 		arg = resArgs(c);
 		
 		switch (n) {
+		case 2:
+
+			if ( (ok[0] = arg[0].isGeoList()) && (ok[1] = arg[1].isGeoNumeric()) ) {
+				GeoElement[] ret = { 
+						kernelA.Take(c.getLabel(),
+						(GeoList) arg[0], (GeoNumeric) arg[1], null) };
+				return ret;
+			} else if ( (ok[0] = arg[0].isGeoText()) && (ok[1] = arg[1].isGeoNumeric())  ) {
+				GeoElement[] ret = { 
+						kernelA.Take(c.getLabel(),
+						(GeoText) arg[0], (GeoNumeric) arg[1], null ) };
+				return ret;
+			} else
+				throw argErr(app, c.getName(), getBadArg(ok, arg));
+		
 		case 3:
 
 			if ( (ok[0] = arg[0].isGeoList()) && (ok[1] = arg[1].isGeoNumeric()) && (ok[2] = arg[2].isGeoNumeric()) ) {
