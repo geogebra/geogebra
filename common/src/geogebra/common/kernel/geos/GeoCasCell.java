@@ -1927,7 +1927,10 @@ public class GeoCasCell extends GeoElement implements VarString {
 	}
 
 	public String getVarString(StringTemplate tpl) {
-		return kernel.printVariableName("x", tpl);
+		if(inputVE instanceof FunctionNVar){
+			return ((FunctionNVar)inputVE).getVarString(tpl);
+		}
+		return "";
 	}
 
 }

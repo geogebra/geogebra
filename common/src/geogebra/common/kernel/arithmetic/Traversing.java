@@ -8,7 +8,6 @@ import java.util.TreeSet;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoDummyVariable;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.plugin.Operation;
 /**
  *  Traversing objects are allowed to traverse through Equation,

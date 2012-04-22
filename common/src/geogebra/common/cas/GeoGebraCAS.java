@@ -11,6 +11,7 @@ import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.cas.AsynchronousCommand;
 import geogebra.common.kernel.cas.GeoGebraCasInterface;
+import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoFunctionNVar;
@@ -314,8 +315,12 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	final private static String toString(ExpressionValue ev, boolean symbolic,StringTemplate tpl) {
 		if(ev.isExpressionNode() && ev.isLeaf()){
 			ExpressionValue lft = ((ExpressionNode)ev).getLeft();
+			AbstractApplication.debug(lft+":"+lft.getClass());
 			if(lft instanceof GeoFunction || lft instanceof GeoFunctionNVar)
 				return ((GeoElement)lft).getAssignmentLHS(tpl);
+			if(lft instanceof GeoCasCell){
+				return ((GeoElement)lft).getLabel(tpl)+"("+((GeoCasCell)lft).getVarString(tpl)+")";
+			}
 		}
 		if (symbolic) {
 			return ev.toString(tpl);
