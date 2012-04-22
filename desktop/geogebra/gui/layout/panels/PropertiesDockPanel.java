@@ -5,6 +5,7 @@ import geogebra.gui.layout.DockPanel;
 import geogebra.gui.view.properties.PropertiesView;
 import geogebra.main.Application;
 
+import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 
 /**
@@ -28,7 +29,7 @@ public class PropertiesDockPanel extends DockPanel {
 		);
 		
 		this.app = app;
-		this.setOpenInFrame(false);
+		this.setOpenInFrame(true);
 	}
 
 	@Override
@@ -56,4 +57,9 @@ public class PropertiesDockPanel extends DockPanel {
 		app.getGuiManager().getPropertiesView().unwindowPanel();
 	}
 
+	@Override
+	public ImageIcon getIcon() { 
+			return app.getImageIcon("view-properties24.png");
+	}
+	
 }
