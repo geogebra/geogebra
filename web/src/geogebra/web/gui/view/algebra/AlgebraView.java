@@ -33,12 +33,15 @@ import java.util.Iterator;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.SpanElement;
+import com.google.gwt.dom.client.DivElement;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
+import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 
 /**
  * AlgebraView with tree for free and dependent objects.
@@ -1255,24 +1258,21 @@ public class AlgebraView extends Tree implements LayerView, SetLabels, geogebra.
 		public AVRadioButton(GeoElement ge) {
 			super(DOM.createUniqueId(), ""); // instead of label for="", use span which doesn't react to events
 			geo = ge;
+
 			setEnabled(ge.isEuclidianShowable());
 			setChecked(previouslyChecked = ge.isEuclidianVisible());
 
 			se = DOM.createSpan().cast();
+			getElement().appendChild(se);
 
-			se.setInnerHTML(ge.getAlgebraDescriptionTextOrHTML(
-					StringTemplate.defaultTemplate));
-			/* MathQuill was not able to render the following LaTeX:
-
-\;v \, = \,\left( \begin{tabular}{r}-10 \\ 0 \\ \end{tabular} \right)
+			/*se.setInnerHTML(ge.getAlgebraDescriptionTextOrHTML(
+					StringTemplate.defaultTemplate));*/
 
 			// if enabled, render with LaTeX
 			if (isRenderLaTeX() && kernel.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_VALUE) {
 				String latexStr = geo.getLaTeXAlgebraDescription(true,
 						StringTemplate.latexTemplate);
-				if (latexStr != null && geo.isLaTeXDrawableGeo(latexStr)) {
-					latexStr = "$ \\;" + latexStr+ "$"; // add a little space for the
-													// icon
+				if (latexStr != null && geo.isLaTeXDrawableGeo(latexStr) && !geo.isGeoVector()) {
 					geogebra.web.main.DrawEquationWeb.drawEquationAlgebraView(se, latexStr,
 						geo.getAlgebraColor(), Color.white);
 				} else {
@@ -1282,14 +1282,12 @@ public class AlgebraView extends Tree implements LayerView, SetLabels, geogebra.
 			} else {
 				se.setInnerHTML(ge.getAlgebraDescriptionTextOrHTML(
 						StringTemplate.defaultTemplate));
-			}*/
+			}
 
 			//FIXME: geo.getLongDescription() doesn't work
 			//geo.getKernel().getApplication().setTooltipFlag();
 			//se.setTitle(geo.getLongDescription());
 			//geo.getKernel().getApplication().clearTooltipFlag();
-
-			getElement().appendChild(se);
 
 			getElement().getStyle().setColor(
 				Color.getColorString(
@@ -1305,6 +1303,7 @@ public class AlgebraView extends Tree implements LayerView, SetLabels, geogebra.
 					geo.update();
 					geo.getKernel().getApplication().storeUndoInfo();
 					geo.getKernel().notifyRepaint();
+					return;
 				}
 			}
 

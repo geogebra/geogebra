@@ -138,28 +138,36 @@ public class DrawEquationWeb implements DrawEquationInterface {
 			eqstring = eqstring.substring(1, eqstring.length() - 1);
 		}
 
-		
-		AbstractApplication.debug("Algebra View: "+eqstring);
-
 		// remove $s
 		eqstring = eqstring.trim();
 		while (eqstring.startsWith("$")) eqstring = eqstring.substring(1).trim();
 		while (eqstring.endsWith("$")) eqstring = eqstring.substring(0, eqstring.length() - 1).trim();
 
-		//SpanElement ih = equations.get(eqstring);
-		//equationAges.put(eqstring, 0);
-		//if (ih == null) {
-			SpanElement ih = DOM.createSpan().cast();
-			drawEquationMathQuill(ih, eqstring, parentElement);
-			//equations.put(eqstring, ih);
-		//} else {
-		//	ih.getStyle().setDisplay(Style.Display.INLINE);
-		//}
-		//ih.getStyle().setLeft(x, Style.Unit.PX);
-		//ih.getStyle().setTop(y, Style.Unit.PX);
+		// TODO: replace this with something better
+		//eqstring = eqstring.replace("\\begin{tabular}", "");
+		//eqstring = eqstring.replace("\\end{tabular}", "");
+
+		// TODO: hack bad absolute value - sqrt is also bad, so another solution is needed
+		//eqstring = eqstring.replace("\\left|", "|");
+		//eqstring = eqstring.replace("\\right|", "|");
+
+		// remove all \; and \,
+		eqstring = eqstring.replace("\\;","");
+		eqstring = eqstring.replace("\\,","");
+
+		AbstractApplication.debug("Algebra View: "+eqstring);
+
+		SpanElement ih = DOM.createSpan().cast();
+
+		// these two doesn't work either
+		//ih.getStyle().setHeight(50, Style.Unit.PX);
+		//parentElement.getStyle().setHeight(50, Style.Unit.PX);
+
+		drawEquationMathQuill(ih, eqstring, parentElement);
+		//ih.getStyle().setPosition(Style.Position.STATIC);
+
 		//ih.getStyle().setBackgroundColor(Color.getColorString(bgColor));
 		ih.getStyle().setColor(Color.getColorString(fgColor));
-		//return new geogebra.web.awt.Dimension(ih.getOffsetWidth(), ih.getOffsetHeight());
 	}
 
 	public Dimension drawEquation(AbstractApplication app, GeoElement geo,
@@ -188,6 +196,7 @@ public class DrawEquationWeb implements DrawEquationInterface {
 			equationAges.put(eqstring, 0);
 			if (ih == null) {
 				ih = DOM.createSpan().cast();
+				ih.getStyle().setPosition(Style.Position.ABSOLUTE);
 				drawEquationMathQuill(ih, eqstring,
 					((Application)app).getCanvas().getCanvasElement().getParentElement());
 				equations.put(eqstring, ih);
@@ -262,7 +271,7 @@ public class DrawEquationWeb implements DrawEquationInterface {
 	 */
 	public static native void drawEquationMathQuill(Element el, String htmlt, Element parentElement) /*-{
 
-		el.style.position = "absolute";
+		//el.style.position = "absolute";
 		el.style.cursor = "default";
 		if (typeof el.style.MozUserSelect != "undefined") {
 			el.style.MozUserSelect = "-moz-none";
@@ -300,6 +309,6 @@ public class DrawEquationWeb implements DrawEquationInterface {
 		el.appendChild(elsecond);
 
 		parentElement.appendChild(el);
-		$wnd.jQuery(elsecond).mathquill();
+		$wnd.jQuery(elsecond).mathquill();//.delay(2000).mathquill('redraw');
 	}-*/;
 }
