@@ -29,8 +29,12 @@ import geogebra.common.kernel.algos.AlgoPolygon;
 import geogebra.common.kernel.algos.AlgoTranslate;
 import geogebra.common.kernel.algos.AlgoVector;
 import geogebra.common.kernel.algos.AlgoVectorPoint;
+import geogebra.common.kernel.arithmetic.ExpressionNode;
+import geogebra.common.kernel.arithmetic.Function;
+import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.cas.AlgoCoefficients;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoAxis;
 import geogebra.common.kernel.geos.GeoBoolean;
@@ -73,6 +77,7 @@ import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.GeoElementSelectionListener;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.plugin.GeoClass;
+import geogebra.common.plugin.Operation;
 import geogebra.common.util.MyMath;
 import geogebra.common.util.StringUtil;
 
@@ -5456,17 +5461,71 @@ public abstract class AbstractEuclidianController {
 	
 	}
 
+	double vertexX = Double.NaN, vertexY = Double.NaN;
+
 	protected final void moveFunction(boolean repaint) {
-		movedGeoFunction.set(tempFunction);
-		movedGeoFunction.translate(xRW - startPoint.x, yRW - startPoint.y);
-	
+		
+		boolean quadratic = false;
+		
+		if (isAltDown() && !Double.isNaN(vertexX)) {
+			// vertexX and vertexY already calculated
+			quadratic = true;
+		} else if (isAltDown() && movedGeoFunction.isIndependent() && movedGeoFunction.isPolynomialFunction(false)) {
+
+			Construction cons = kernel.getConstruction();
+			AlgoCoefficients algo = new AlgoCoefficients(cons, movedGeoFunction);
+			cons.removeFromConstructionList(algo);
+			GeoList coeffs = algo.getResult();
+			if (coeffs.size() == 3) {
+				
+				quadratic = true;
+				
+				// coeff of x^2
+				double a = ((NumberValue) coeffs.get(0)).getDouble();
+				// ceoff of x
+				double b = ((NumberValue) coeffs.get(1)).getDouble();
+				// units
+				double c = ((NumberValue) coeffs.get(2)).getDouble();
+				
+				// cordinates of vertex (just calculated once)
+				vertexX = -b/a/2.0;
+				vertexY = -(b * b - 4.0 * a * c) / (4.0 * a );
+			}
+		}
+		
+		
+		if (quadratic) {
+			double p = (yRW - vertexY) / ( (xRW - vertexX) * (xRW - vertexX) );
+			
+			// slow method, less code
+			//GeoFunction geo = kernel.getAlgebraProcessor().evaluateToFunction(p +" * (x - "+vertexX+")^2 + "+vertexY , true);
+			
+			// fast method, doesn't use parser
+			MyDouble a = new MyDouble(kernel, p);
+			MyDouble h = new MyDouble(kernel, vertexX);
+			MyDouble k = new MyDouble(kernel, vertexY);
+			
+			FunctionVariable fv = new FunctionVariable(kernel);	
+			ExpressionNode squareE = new ExpressionNode(kernel,fv,Operation.MINUS,h)
+						.power(new MyDouble(kernel,2)).multiply(a).plus(k);
+			Function squareF = new Function(squareE,fv);
+			squareF.initFunction();
+			GeoFunction square = new GeoFunction(kernel.getConstruction());		
+			square.setFunction(squareF);		
+
+			movedGeoFunction.set(square);			
+		} else {
+			movedGeoFunction.set(tempFunction);
+			movedGeoFunction.translate(xRW - startPoint.x, yRW - startPoint.y);
+		}
+		
 		if (repaint) {
 			movedGeoFunction.updateRepaint();
 		} else {
 			movedGeoFunction.updateCascade();
 		}
 	}
-
+	
 	protected final void moveBoolean(boolean repaint) {
 		// movedGeoBoolean.setAbsoluteScreenLoc( oldLoc.x +
 		// mouseLoc.x-startLoc.x,
@@ -6489,7 +6548,12 @@ public abstract class AbstractEuclidianController {
 	
 		} else if (movedGeoElement.isGeoFunction()) {
 			moveMode = MOVE_FUNCTION;
+			
 			movedGeoFunction = (GeoFunction) movedGeoElement;
+			vertexX = Double.NaN;
+			vertexY = Double.NaN;
+			
+			
 			view.setShowMouseCoords(false);
 			view.setDragCursor();
 	
