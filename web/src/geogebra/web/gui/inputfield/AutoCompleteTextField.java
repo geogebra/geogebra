@@ -610,7 +610,7 @@ public class AutoCompleteTextField extends SuggestBox implements AutoComplete, g
 		      //moveCaretPosition(argMatcher.start() + 1);
 		      for (int i = 0; i < argMatcher.getGroupCount(); i++) {
 		    	  String groupStr = argMatcher.getGroup(i);
-		    	  getTextBox().setSelectionRange(text.indexOf(groupStr)+1, groupStr.length());
+		    	  getTextBox().setSelectionRange(text.indexOf(groupStr)+1, groupStr.length()-1);
 		      }
 		      return true;
 		    } else {
@@ -629,8 +629,10 @@ public class AutoCompleteTextField extends SuggestBox implements AutoComplete, g
 	public void onKeyPress(KeyPressEvent e) {
 		if (!keyPressed) {
 			keyPressed = true;
+			
 			 // only handle parentheses
 		    char ch = e.getCharCode();
+
 		    int caretPos = getCaretPosition();
 	
 		    String text = getText();
@@ -721,8 +723,11 @@ public class AutoCompleteTextField extends SuggestBox implements AutoComplete, g
 	 */
 	private boolean keyPressed = false;
 
-	public void onKeyDown(KeyDownEvent event) {
-	  
+	public void onKeyDown(KeyDownEvent e) {
+		int keyCode = e.getNativeKeyCode();
+		if (keyCode == MyKeyCodes.KEY_TAB) {
+			e.preventDefault();
+		}
     }
 
 	public void onKeyUp(KeyUpEvent e) {
@@ -830,6 +835,7 @@ public class AutoCompleteTextField extends SuggestBox implements AutoComplete, g
 		        break;
 
 		      case MyKeyCodes.KEY_TAB:
+		    	e.preventDefault();
 		        if (moveToNextArgument(true)) {
 		          e.stopPropagation();
 		        }
