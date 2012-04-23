@@ -5482,21 +5482,8 @@ public abstract class AbstractEuclidianController {
 		
 		boolean quadratic = false;
 		
-		if (isAltDown() && !Double.isNaN(vertexX)) {
-			// vertexX and vertexY already calculated
+		if (isAltDown() && !Double.isNaN(vertexX) && movedGeoFunction.isIndependent()) {
 			quadratic = true;
-		} else if (isAltDown() && movedGeoFunction.isIndependent() && movedGeoFunction.isPolynomialFunction(false)) {
-			LinkedList<PolyFunction> factors= movedGeoFunction.getFunction().getPolynomialFactors(false);
-			if(factors.size()==1 && factors.get(0).getDegree()==2){
-				double c = movedGeoFunction.evaluate(0);
-				double s = movedGeoFunction.evaluate(1);		
-				double a = 0.5*(s+movedGeoFunction.evaluate(-1))-c;
-				double b = s-a-c;
-				
-				// cordinates of vertex (just calculated once)
-				vertexX = -b/a/2.0;
-				vertexY = -(b * b - 4.0 * a * c) / (4.0 * a );
-			}
 		}
 		
 		
@@ -6569,6 +6556,26 @@ public abstract class AbstractEuclidianController {
 			vertexX = Double.NaN;
 			vertexY = Double.NaN;
 			
+			if (movedGeoFunction.isPolynomialFunction(false)) {
+				LinkedList<PolyFunction> factors= movedGeoFunction.getFunction().getPolynomialFactors(false);
+				if(factors.size() == 1 && factors.get(0).getDegree() == 2){
+					double c = movedGeoFunction.evaluate(0);
+					double s = movedGeoFunction.evaluate(1);		
+					double a = 0.5*(s+movedGeoFunction.evaluate(-1))-c;
+					double b = s-a-c;
+
+					// cordinates of vertex (just calculated once)
+					// used for alt-drag as well
+					vertexX = -b/a/2.0;
+					vertexY = -(b * b - 4.0 * a * c) / (4.0 * a );
+					
+					// make sure vertex snaps to grid for parabolas
+					transformCoordsOffset[0] = vertexX - xRW;
+					transformCoordsOffset[1] = vertexY - yRW;
+
+
+				}
+			}
 			
 			view.setShowMouseCoords(false);
 			view.setDragCursor();
