@@ -34,6 +34,7 @@ import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.arithmetic.PolyFunction;
 import geogebra.common.kernel.cas.AlgoCoefficients;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoAxis;
@@ -85,6 +86,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.LinkedList;
 
 @SuppressWarnings("javadoc")
 public abstract class AbstractEuclidianController {
@@ -5471,21 +5473,12 @@ public abstract class AbstractEuclidianController {
 			// vertexX and vertexY already calculated
 			quadratic = true;
 		} else if (isAltDown() && movedGeoFunction.isIndependent() && movedGeoFunction.isPolynomialFunction(false)) {
-
-			Construction cons = kernel.getConstruction();
-			AlgoCoefficients algo = new AlgoCoefficients(cons, movedGeoFunction);
-			cons.removeFromConstructionList(algo);
-			GeoList coeffs = algo.getResult();
-			if (coeffs.size() == 3) {
-				
-				quadratic = true;
-				
-				// coeff of x^2
-				double a = ((NumberValue) coeffs.get(0)).getDouble();
-				// ceoff of x
-				double b = ((NumberValue) coeffs.get(1)).getDouble();
-				// units
-				double c = ((NumberValue) coeffs.get(2)).getDouble();
+			LinkedList<PolyFunction> factors= movedGeoFunction.getFunction().getPolynomialFactors(false);
+			if(factors.size()==1 && factors.get(0).getDegree()==2){
+				double c = movedGeoFunction.evaluate(0);
+				double s = movedGeoFunction.evaluate(1);		
+				double a = 0.5*(s+movedGeoFunction.evaluate(-1))-c;
+				double b = s-a-c;
 				
 				// cordinates of vertex (just calculated once)
 				vertexX = -b/a/2.0;
