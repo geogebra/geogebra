@@ -3749,18 +3749,21 @@ public abstract class AbstractEuclidianController {
 				break;
 			}
 	
+			// fall through
 		case EuclidianStyleConstants.POINT_CAPTURING_AUTOMATIC:
 			if (!view.isGridOrAxesShown()) {
 				break;
 			}
 	
+			// fall through
 		case EuclidianStyleConstants.POINT_CAPTURING_ON:
 			pointCapturingPercentage = 0.125;
 	
+			// fall through
 		case EuclidianStyleConstants.POINT_CAPTURING_ON_GRID:
-	
-			xRW += transformCoordsOffset[0];
-			yRW += transformCoordsOffset[1];
+			
+			xRW += getTransformCoordsOffset(0);
+			yRW += getTransformCoordsOffset(1);
 	
 			switch (view.getGridType()) {
 			case AbstractEuclidianView.GRID_ISOMETRIC:
@@ -3791,11 +3794,11 @@ public abstract class AbstractEuclidianController {
 					double b = Math.abs(y - yRW);
 					if ((a < (isoGrid * pointCapturingPercentage))
 							&& (b < (isoGrid * pointCapturingPercentage))) {
-						xRW = (x * root3) - transformCoordsOffset[0];
-						yRW = y - transformCoordsOffset[1];
+						xRW = (x * root3) - getTransformCoordsOffset(0);
+						yRW = y - getTransformCoordsOffset(1);
 					} else {
-						xRW -= transformCoordsOffset[0];
-						yRW -= transformCoordsOffset[1];
+						xRW -= getTransformCoordsOffset(0);
+						yRW -= getTransformCoordsOffset(1);
 					}
 	
 				} else {
@@ -3811,11 +3814,11 @@ public abstract class AbstractEuclidianController {
 					if ((a < (isoGrid * pointCapturingPercentage))
 							&& (b < (isoGrid * pointCapturingPercentage))) {
 						xRW = ((x + (isoGrid / 2)) * root3)
-								- transformCoordsOffset[0];
-						yRW = (y + (isoGrid / 2)) - transformCoordsOffset[1];
+								- getTransformCoordsOffset(0);
+						yRW = (y + (isoGrid / 2)) - getTransformCoordsOffset(1);
 					} else {
-						xRW -= transformCoordsOffset[0];
-						yRW -= transformCoordsOffset[1];
+						xRW -= getTransformCoordsOffset(0);
+						yRW -= getTransformCoordsOffset(1);
 					}
 	
 				}
@@ -3837,11 +3840,11 @@ public abstract class AbstractEuclidianController {
 	
 				if ((a < (view.getGridDistances(0) * pointCapturingPercentage))
 						&& (b < (view.getGridDistances(1) * pointCapturingPercentage))) {
-					xRW = x - transformCoordsOffset[0];
-					yRW = y - transformCoordsOffset[1];
+					xRW = x - getTransformCoordsOffset(0);
+					yRW = y - getTransformCoordsOffset(1);
 				} else {
-					xRW -= transformCoordsOffset[0];
-					yRW -= transformCoordsOffset[1];
+					xRW -= getTransformCoordsOffset(0);
+					yRW -= getTransformCoordsOffset(1);
 				}
 				break;
 	
@@ -3872,17 +3875,27 @@ public abstract class AbstractEuclidianController {
 	
 				if ((a1 < (view.getGridDistances(0) * pointCapturingPercentage))
 						&& (b1 < (view.getGridDistances(1) * pointCapturingPercentage))) {
-					xRW = x1 - transformCoordsOffset[0];
-					yRW = y1 - transformCoordsOffset[1];
+					xRW = x1 - getTransformCoordsOffset(0);
+					yRW = y1 - getTransformCoordsOffset(1);
 				} else {
-					xRW -= transformCoordsOffset[0];
-					yRW -= transformCoordsOffset[1];
+					xRW -= getTransformCoordsOffset(0);
+					yRW -= getTransformCoordsOffset(1);
 				}
 				break;
 			}
 	
 		default:
 		}
+	}
+
+	private double getTransformCoordsOffset(int i) {
+		
+		// turn off for alt-drag parabola
+		if (isAltDown()) {
+			return 0;
+		}
+		
+		return transformCoordsOffset[i];
 	}
 
 	protected GeoAngle createAngle(GeoPointND A, GeoPointND B, GeoPointND C) {
@@ -6480,6 +6493,16 @@ public abstract class AbstractEuclidianController {
 			movedGeoConic = (GeoConic) movedGeoElement;
 			view.setShowMouseCoords(false);
 			view.setDragCursor();
+			
+			// make sure vertex snaps to grid for parabolas
+			if (movedGeoConic.getType() == GeoConicNDConstants.CONIC_PARABOLA) {
+				double vX = movedGeoConic.b.getX();
+				double vY = movedGeoConic.b.getY();
+
+				transformCoordsOffset[0] = vX - xRW;
+				transformCoordsOffset[1] = vY - yRW;
+
+			}
 	
 			setStartPointLocation();
 			if (tempConic == null) {
