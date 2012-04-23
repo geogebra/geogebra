@@ -319,7 +319,8 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 			if(lft instanceof GeoFunction || lft instanceof GeoFunctionNVar)
 				return ((GeoElement)lft).getAssignmentLHS(tpl);
 			if(lft instanceof GeoCasCell){
-				return ((GeoElement)lft).getLabel(tpl)+"("+((GeoCasCell)lft).getVarString(tpl)+")";
+				if(((GeoCasCell)lft).getVarString(tpl).length()>0)
+					return ((GeoElement)lft).getLabel(tpl)+"("+((GeoCasCell)lft).getVarString(tpl)+")";
 			}
 		}
 		if (symbolic) {
