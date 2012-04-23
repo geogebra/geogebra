@@ -2326,6 +2326,9 @@ public interface CommandConstants extends ConstantsWithLookup {
 
 	@DefaultStringValue("LinearEccentricity")
 	String Excentricity();
+	
+//	@DefaultStringValue("Excentricity")
+//	String LinearEccentricity();
 
 	@DefaultStringValue("[ <Polynomial> ]")
 	String Coefficients_SyntaxCAS();
@@ -2635,4 +2638,17 @@ public interface CommandConstants extends ConstantsWithLookup {
 
 	@DefaultStringValue("[ <Function> ]\n[ <Text> ]")
 	String Simplify_Syntax();
+	
+	@DefaultStringValue("ShowAxes")
+	String ShowAxes();
+	
+	@DefaultStringValue("[]\n[ <Boolean> ]\n[ <View>, <Boolean> ]")
+	String ShowAxes_Syntax();
+	
+	@DefaultStringValue("ShowGrid")
+	String ShowGrid();
+	
+	@DefaultStringValue("[]\n[ <Boolean> ]\n[ <View>, <Boolean> ]")
+	String ShowGrid_Syntax();
+	
 }
