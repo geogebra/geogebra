@@ -407,14 +407,15 @@ public class Application extends AbstractApplication {
 			return null;
 		}
 	}
-
+	
+	/**
+	 * @author Rana
+	 * This method should work for both if the getPlain and getPlainTooltip. In the case of getPlainTooltip, if the tooltipFlag 
+	 * is true, then getPlain is called. 
+	 */
 	@Override
 	public String getPlain(String key) {
 		
-		if (tooltipFlag) {
-			return getPlainTooltip(key);
-		}
-
 		if (plainConstants == null) {
 			initPlainConstants();
 		}
