@@ -2,6 +2,7 @@ package geogebra.cas.view;
 
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoCasCell;
+import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.main.Application;
 
@@ -107,7 +108,8 @@ public abstract class CASTableCell extends JPanel {
 		// set input panel
 		String input = cellValue.getInput(StringTemplate.defaultTemplate);
 		inputPanel.setInput(input);
-		inputPanel.setCommentColor(Color.green);
+		inputPanel.setCommentColor(geogebra.awt.Color
+				.getAwtColor(GeoGebraColorConstants.DARKGREEN));
 
 		dummyField.setText(inputPanel.getInput());
 
