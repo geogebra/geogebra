@@ -7,6 +7,7 @@ import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.MyError;
 
 /**
@@ -78,7 +79,7 @@ public class CmdZip extends CommandProcessor {
 			cons.setSuppressLabelCreation(true);
 			GeoList gl = (GeoList) resArg(c.getArgument(varPos + 1))[0];
 			cons.setSuppressLabelCreation(oldval);
-			num = gl.get(0).copyInternal(cons);
+			num = gl.size()==0?new GeoNumeric(cons):gl.get(0).copyInternal(cons);
 
 			cmdCons.addLocalVariable(localVarName, num);
 			// set local variable as our varPos argument
