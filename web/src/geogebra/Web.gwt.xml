@@ -12,7 +12,7 @@
   <!-- CAS -->
   <inherits name='org.mathpiper.MpreduceJs' />
   
- 
+ <inherits name="com.google.gwt.i18n.I18N"/>
    
    
 

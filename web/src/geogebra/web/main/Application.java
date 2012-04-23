@@ -60,10 +60,12 @@ import geogebra.web.util.ImageManager;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.MissingResourceException;
+import java.util.Set;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
@@ -77,6 +79,7 @@ import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.i18n.client.Dictionary;
 import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbsolutePanel;
@@ -570,6 +573,33 @@ public class Application extends AbstractApplication {
 	@Override
 	public String getInternalCommand(String cmd) {
 		initTranslatedCommands();
+		
+		//The Dictionary class is used to get the whole set of command properties keys dynamically (during runtime)
+		//These command keys are defined in the HTML host page as a JavaScript Object named "propertyVar".
+		
+//		try{
+//
+//			Dictionary commandDictionary = Dictionary.getDictionary("commandKeysVar");
+//		} catch(MissingResourceException e) {
+//			AbstractApplication.debug(e.getLocalizedMessage());
+//		}
+	
+//			Set<String> commandPropertyKeys = commandDictionary.keySet();
+//			Iterator<String> commandKeysIterator = commandPropertyKeys.iterator();
+//			while(commandKeysIterator.hasNext()) {
+//				String s = crossReferencingPropertiesKeys(commandKeysIterator.next());
+//				// Remove keys with .Syntax, .SyntaxCAS, .Syntax3D from the investigated set of keys.
+//				if (s.indexOf(syntaxStr) == -1) {
+//					//insure that the lower/upper cases are taken into consideration
+//					if (getCommand(s).toLowerCase().equals(cmd.toLowerCase())) {
+//						return s;
+//					}
+//				}
+//			}
+//
+
+		
+		
 		/*AGEnumeration<String> enume;
 		String s;
 		enume = rbcommand.getKeys();
