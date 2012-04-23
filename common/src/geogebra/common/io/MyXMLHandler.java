@@ -3831,14 +3831,14 @@ public class MyXMLHandler implements DocHandler {
 	}
 
 	private boolean handleFile(LinkedHashMap<String, String> attrs) {
-		if (!(geo.isGeoImage())) {
+		if (!(geo.isGeoImage() || geo.isGeoButton())) {
 			System.err.println("wrong element type for <file>: "
 					+ geo.getClass());
 			return false;
 		}
 
 		try {
-			((GeoImage) geo).setImageFileName(attrs.get("name"));
+			geo.setImageFileName(attrs.get("name"));
 			return true;
 		} catch (Exception e) {
 			return false;

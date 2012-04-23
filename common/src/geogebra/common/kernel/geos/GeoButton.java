@@ -292,7 +292,14 @@ public class GeoButton extends GeoElement implements AbsoluteScreenLocateable, T
 			sb.append(fontStyle);
 			sb.append("\"/>\n");
 		}
-		
+
+		// name of image file
+		if (getFillImage() != null) {
+			sb.append("\t<file name=\"");
+			sb.append(this.getGraphicsAdapter().getImageFileName());
+			sb.append("\"/>\n");
+		}
+
 	}
 	
 	@Override
