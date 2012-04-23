@@ -2,6 +2,7 @@ package geogebra.web.gui.inputfield;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import geogebra.common.awt.Color;
 import geogebra.common.awt.Font;
 import geogebra.common.euclidian.DrawTextField;
@@ -10,6 +11,7 @@ import geogebra.common.euclidian.event.FocusListener;
 import geogebra.common.gui.VirtualKeyboardListener;
 import geogebra.common.gui.inputfield.AutoComplete;
 import geogebra.common.gui.inputfield.MyTextField;
+import geogebra.common.gui.inputfield.ValidateAutocompletionResult;
 import geogebra.common.javax.swing.JLabel;
 import geogebra.common.kernel.Macro;
 import geogebra.common.kernel.commands.MyException;
@@ -39,6 +41,7 @@ import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.regexp.shared.MatchResult;
 import com.google.gwt.regexp.shared.RegExp;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.TextBox;
@@ -587,25 +590,32 @@ public class AutoCompleteTextField extends SuggestBox implements AutoComplete, g
 		  }
 	  
 	  private boolean moveToNextArgument(boolean find) {
-		  return false;
-		  	/*AGString text = getText();
+		  	String text = getText();
 		    int caretPos = getCaretPosition();
 
 		    // make sure it works if caret is just after [
 		    // if (caretPos > 0 && text.charAt(caretPos - 1) == '[') caretPos--;
 
-		    Matcher argMatcher = syntaxArgPattern.matcher(text);
-		    boolean hasNextArgument = argMatcher.find(caretPos);
+		    //AGMatcher argMatcher = syntaxArgPattern.matcher(text);
+		    MatchResult argMatcher = syntaxArgPattern.exec(text);
+		    //boolean hasNextArgument = argMatcher.find(caretPos);
+		    boolean hasNextArgument = syntaxArgPattern.test(text);
 		    if (find && !hasNextArgument) {
-		      hasNextArgument = argMatcher.find();
+		      //hasNextArgument = argMatcher.find();
+		    	hasNextArgument = syntaxArgPattern.test(text);
 		    }
-		    if (hasNextArgument && (find || argMatcher.start() == caretPos)) {
-		      setCaretPosition(argMatcher.end());
-		      moveCaretPosition(argMatcher.start() + 1);
+		    //if (hasNextArgument && (find || argMatcher.start() == caretPos)) {
+		    if (hasNextArgument && (find || argMatcher.getIndex() == caretPos)) {
+		      //setCaretPosition(argMatcher.end();
+		      //moveCaretPosition(argMatcher.start() + 1);
+		      for (int i = 0; i < argMatcher.getGroupCount(); i++) {
+		    	  String groupStr = argMatcher.getGroup(i);
+		    	  getTextBox().setSelectionRange(text.indexOf(groupStr)+1, groupStr.length());
+		      }
 		      return true;
 		    } else {
 		      return false;
-		    }*/
+		    }
 		  }
 	
 
@@ -930,6 +940,8 @@ public class AutoCompleteTextField extends SuggestBox implements AutoComplete, g
 
 	public void onSelection(SelectionEvent<Suggestion> event) {
 	   isSuggestionJustHappened = true;
+	   int index = completions.indexOf(event.getSelectedItem().getReplacementString());
+	   validateAutoCompletion(index, getCompletions());
     }
 	
 	/**
@@ -985,4 +997,51 @@ public class AutoCompleteTextField extends SuggestBox implements AutoComplete, g
 	private int getSelectionStart() {
 	   return getText().indexOf(getTextBox().getSelectedText());
     }
+
+	  /**
+	   * Ticket #1167 Auto-completes input; It will keep already entered parameters<br>
+	   * and merge them in order. If chosen command has less it will output:<br>
+	   * command_name[&lt;original parameter list&gt;]<br>
+	   * <br>
+	   * e.g.:<br>
+	   * Input: der <br>
+	   * Choose: Derivative[ &lt;Function&gt; ]<br>
+	   * Output: Derivative[ &lt;Function&gt; ]<br>
+	   * <br>
+	   * Input: derivative[x^2]<br>
+	   * Choose: Derivative[ &lt;Function&gt; ]<br>
+	   * Output: Derivative[x^2]<br>
+	   * <br>
+	   * Input: derivative[x^2]<br>
+	   * Choose: Derivative[ &lt;Function>, &lt;Number&gt; ]<br>
+	   * Output: Derivative[x^2, &lt;Number&gt; ]<br>
+	   * <br>
+	   * Input: derivative[x^2, &lt;Number&gt; ]<br>
+	   * Choose: Derivative[ &lt;Function&gt;, &lt;Number&gt; ]<br>
+	   * Output: Derivative[x^2, &lt;Number&gt; ]<br>
+	   * <br>
+	   * Input: inde[x, &lt;Number&gt; ]<br>
+	   * Choose: IndexOf[ &lt;Object&gt;, &lt;List&gt;, &lt;StartIndex&gt; ]<br>
+	   * Output: IndexOf[x, &lt;Number&gt; , &lt;StartIndex&gt; ]<br>
+	   * <br>
+	   * 
+	   * @param index
+	   *          index of the chosen command in the completions list
+	   * @return false if completions list is null or index < 0 or index >
+	   *         completions.size()
+	   * @author Lucas Binter
+	   */
+	public boolean validateAutoCompletion(int index, List<String> completions) {
+		ValidateAutocompletionResult ret = geogebra.common.gui.inputfield.MyTextField.commonValidateAutocompletion(index, completions,getText(),curWordStart);
+		
+		if (!ret.returnval) {
+			return false;
+		}
+		
+		setText(ret.sb);
+		setCaretPosition(ret.carPos);
+		
+		moveToNextArgument(false);
+		return true;
+	}
 }

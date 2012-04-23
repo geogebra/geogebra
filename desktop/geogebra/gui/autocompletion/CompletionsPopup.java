@@ -229,7 +229,7 @@ public class CompletionsPopup {
 			keyEvent.consume();
 			break;
 		case VK_ENTER:			// [ENTER] validates the completions
-			textField.validateAutoCompletion(list.getSelectedIndex());
+			textField.validateAutoCompletion(list.getSelectedIndex(),textField.getCompletions());
 			hidePopup();
 			keyEvent.consume();
 			break;
@@ -282,7 +282,7 @@ public class CompletionsPopup {
 	
 	private void handleMouseClick(MouseEvent e) {
 		if (SwingUtilities.isLeftMouseButton(e)) {
-			textField.validateAutoCompletion(list.getSelectedIndex());
+			textField.validateAutoCompletion(list.getSelectedIndex(),textField.getCompletions());
 			hidePopup();
 			current_length=-1;
 		} 
