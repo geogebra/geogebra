@@ -151,6 +151,7 @@ public class DrawEquationWeb implements DrawEquationInterface {
 		AbstractApplication.debug("Algebra View: "+eqstring);
 
 		DivElement ih = DOM.createDiv().cast();
+		ih.getStyle().setPosition(Style.Position.RELATIVE);
 
 		drawEquationMathQuill(ih, eqstring, parentElement);
 
