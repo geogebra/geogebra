@@ -34,15 +34,22 @@ public class AlgoSort extends AlgoElement {
 	private GeoList inputList; //input
     private GeoList outputList; //output	
     private int size;
+	private GeoList valueList;
 
     public AlgoSort(Construction cons, String label, GeoList inputList) {
-        this(cons, inputList);
+        this(cons, inputList,null);
+        outputList.setLabel(label);
+    }
+    
+    public AlgoSort(Construction cons, String label, GeoList valueList,GeoList inputList) {
+        this(cons, inputList,valueList);
         outputList.setLabel(label);
     }
 
-    public AlgoSort(Construction cons, GeoList inputList) {
+    public AlgoSort(Construction cons, GeoList inputList,GeoList valueList) {
         super(cons);
         this.inputList = inputList;
+        this.valueList = valueList;
                
         outputList = new GeoList(cons);
 
@@ -57,9 +64,10 @@ public class AlgoSort extends AlgoElement {
 
     @Override
 	protected void setInputOutput(){
-        input = new GeoElement[1];
+        input = new GeoElement[valueList==null?1:2];
         input[0] = inputList;
-
+        if(valueList!=null)
+        	input[1] = valueList;
         super.setOutputLength(1);
         super.setOutput(0, outputList);
         setDependencies(); // done by AlgoElement
@@ -74,6 +82,11 @@ public class AlgoSort extends AlgoElement {
     	
     	size = inputList.size();
     	if (!inputList.isDefined() ||  size == 0) {
+    		outputList.setUndefined();
+    		return;
+    	}
+    	
+    	if (valueList!= null && !valueList.isDefined() ||  valueList.size() != size) {
     		outputList.setUndefined();
     		return;
     	} 
@@ -118,9 +131,16 @@ public class AlgoSort extends AlgoElement {
         outputList.clear();
         
         Iterator<GeoElement> iterator = sortedSet.iterator();
+        if(valueList==null){
         while (iterator.hasNext()) {
      	   outputList.add((iterator.next()));
         }      
+        }else{
+        	while (iterator.hasNext()) {
+        		int pos =inputList.find(iterator.next());
+          	   	outputList.add(valueList.get(pos));
+             }	
+        }
     }
   
 }

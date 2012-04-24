@@ -9776,4 +9776,10 @@ public class Kernel {
 		GeoElement.updateCascade(al, new TreeSet<AlgoElementInterface>(), true);
 	}
 
+	public GeoElement Sort(String label, GeoList valueList, GeoList inputList) {
+		AlgoSort algo = new AlgoSort(cons, label, valueList, inputList);
+		GeoList list2 = algo.getResult();
+		return list2;
+	}
+
 }

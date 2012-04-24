@@ -1,13 +1,16 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.main.MyError;
+import geogebra.common.plugin.GeoClass;
 
 /**
  * Sort[ <List> ]
  */
-public class CmdSort extends CmdOneListFunction {
+public class CmdSort extends CommandProcessor {
 
 	/**
 	 * Creates new command processor
@@ -17,10 +20,50 @@ public class CmdSort extends CmdOneListFunction {
 		super(kernel);
 	}
 
+	
 	@Override
-	final protected GeoElement doCommand(String a, GeoList b)
-	{
-		return kernelA.Sort(a, b);
+	public GeoElement[] process(Command c) throws MyError {
+		int n = c.getArgumentNumber();
+		GeoElement[] arg;
+		arg = resArgs(c);
+		switch (n) {
+		case 0:throw argNumErr(app, c.getName(), n);
+		case 1:
+			arg = resArgs(c);
+			if (arg[0].isGeoList()) {
+				GeoElement[] ret = { 
+						kernelA.Sort(c.getLabel(),
+						(GeoList) arg[0]) };
+				return ret;
+			}
+			throw argErr(app, c.getName(), arg[0]);
+		
+		case 2:			
+			arg = resArgs(c);
+			if ((arg[0].isGeoList()) &&
+				(arg[1].isGeoList())) 
+			{
+				GeoElement[] ret = { 
+						kernelA.Sort(c.getLabel(),
+						(GeoList) arg[0], (GeoList) arg[1]) };
+				return ret;
+				
+			}  else if(!(arg[0].isVectorValue() && arg[1].isVectorValue()))
+				throw argErr(app, c.getName(), arg[0]);
+			
+		
+        default :
+        	 
+        	
+                // try to create list of points (eg FitExp[])
+              	 GeoList list = wrapInList(kernelA, arg, arg.length, GeoClass.POINT);
+                   if (list != null) {
+                  	 GeoElement[] ret = { kernelA.Sort(c.getLabel(), list)};
+                       return ret;             	     	 
+                   } 		
+        	
+			throw argNumErr(app, c.getName(), n);
+		}
 	}
 
 }

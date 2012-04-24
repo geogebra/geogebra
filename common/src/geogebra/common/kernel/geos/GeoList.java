@@ -1888,4 +1888,8 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 		return actions;
 	}
 
+	public int find(GeoElement next) {
+		return geoList.indexOf(next);
+	}
+
 }
