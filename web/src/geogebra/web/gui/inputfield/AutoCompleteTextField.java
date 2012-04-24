@@ -796,16 +796,18 @@ public class AutoCompleteTextField extends SuggestBox implements AutoComplete, g
 		        break;
 
 		      case MyKeyCodes.KEY_UP:
-		        if (!handleEscapeKey) {
-		          break;
-		        }
-		        if (historyPopup == null) {
-		          String text = getPreviousInput();
-		          if (text != null)
-		            setText(text);
-		        } else if (!historyPopup.isDownPopup()) {
-		          historyPopup.showPopup();
-		        }
+		    	  if (!isSuggesting()) {
+			        if (!handleEscapeKey) {
+			          break;
+			        }
+			        if (historyPopup == null) {
+			          String text = getPreviousInput();
+			          if (text != null)
+			            setText(text);
+			        } else if (!historyPopup.isDownPopup()) {
+			          historyPopup.showPopup();
+			        }
+		    	  }
 		        break;
 
 		      case MyKeyCodes.KEY_DOWN:

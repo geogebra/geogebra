@@ -1311,4 +1311,13 @@ td.datePickerMonth {
     display:block;
     width:95%;
 }
+
+.historyList a {
+	text-decoration:none;
+	color:black;
+	display:block;
+}
  
+.historyList a:hover, .historyList a:focus, .historyList a.highlight {
+	background: #D5E2FF;
+}

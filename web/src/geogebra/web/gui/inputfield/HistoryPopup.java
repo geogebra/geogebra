@@ -4,22 +4,27 @@ import java.util.ArrayList;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.KeyUpEvent;
+import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 import geogebra.common.main.AbstractApplication;
+import geogebra.web.main.MyKeyCodes;
 
-public class HistoryPopup extends PopupPanel implements ClickHandler {
+public class HistoryPopup extends PopupPanel implements ClickHandler, KeyUpHandler {
 
 	private AutoCompleteTextField textField;
 	private boolean isDownPopup;
 	private VerticalPanel historyList;
+	private int highlighted = 0;
 
 	public HistoryPopup(AutoCompleteTextField autoCompleteTextField) {
 		 this.textField = autoCompleteTextField;
 		 historyList = new VerticalPanel();
 		 historyList.addStyleName("historyList");
+		 historyList.addHandler(this, KeyUpEvent.getType());
 		 add(historyList);
     }
 
@@ -28,6 +33,7 @@ public class HistoryPopup extends PopupPanel implements ClickHandler {
     }
 
 	public void showPopup() {
+		highlighted = 0;
 		ArrayList<String> list = textField.getHistory();
 		if (list.isEmpty()) {
 			return;
@@ -36,10 +42,13 @@ public class HistoryPopup extends PopupPanel implements ClickHandler {
 		for (String link : list) {
 	        Anchor a = new Anchor(link);
 	        a.addClickHandler(this);
+	        //sadly, it is not so nice, but I can't attach it to historyList :-(
+	        a.addKeyUpHandler(this);
 	        historyList.add(a);
         }
 		setPopupPosition(textField.getAbsoluteLeft(), textField.getAbsoluteTop()-historyList.getOffsetHeight());
 		show();
+		historyList.getWidget(0).getElement().focus();
 		
     }
 
@@ -51,6 +60,42 @@ public class HistoryPopup extends PopupPanel implements ClickHandler {
 	  Anchor target = (Anchor) event.getSource();
 	  textField.setText(target.getText());
 	  hide();
+    }
+
+	public void onKeyUp(KeyUpEvent event) {
+	    int charCode = event.getNativeKeyCode();
+	    if (historyList.getWidgetCount() == 0) {
+	    	return;
+	    }
+	    for (int i = 0; i < historyList.getWidgetCount(); i++) {
+	    	historyList.getWidget(i).removeStyleName("highlight");
+	    }
+	    Anchor a = null;
+	    switch (charCode) {
+		case MyKeyCodes.KEY_DOWN:
+			highlighted++;
+			if (highlighted >= historyList.getWidgetCount()) {
+				highlighted = historyList.getWidgetCount() -1;
+			}
+			a = (Anchor) historyList.getWidget(highlighted);
+			a.addStyleName("highlight");
+			a.getElement().focus();
+		break;
+		case MyKeyCodes.KEY_UP:
+			highlighted--;
+			if (highlighted < 0) {
+				highlighted = 0;
+			}
+			a = (Anchor) historyList.getWidget(highlighted);
+			a.addStyleName("highlight");
+			a.getElement().focus();
+		break;
+		case MyKeyCodes.KEY_ENTER: 
+			a = (Anchor) historyList.getWidget(highlighted);
+			 textField.setText(a.getText());
+			 hide();
+		break;
+	    }
     }
 
 }
