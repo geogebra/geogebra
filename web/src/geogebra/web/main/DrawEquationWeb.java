@@ -309,6 +309,11 @@ public class DrawEquationWeb implements DrawEquationInterface {
 		el.appendChild(elsecond);
 
 		parentElement.appendChild(el);
-		$wnd.jQuery(elsecond).mathquill();//.delay(2000).mathquill('redraw');
+		$wnd.jQuery(elsecond).mathquill();
+
+		// Make sure the length of brackets and square roots are OK
+		$wnd.setTimeout(function() {
+			$wnd.jQuery(elsecond).mathquill('latex', htmlt);
+		});
 	}-*/;
 }
