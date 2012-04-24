@@ -14,6 +14,20 @@ include_once("html.inc");
 $lastrev=$_GET['lastrev'];
 $firstrev=$_GET['firstrev'];
 
+$openonly=$_GET['openonly'];
+$orderbyid=$_GET['orderbyid'];
+
+function add_options($override) {
+ global $openonly, $orderbyid;
+ parse_str($override);
+ $ret="";
+ if ($openonly)
+  $ret.="&openonly=$openonly";
+ if ($orderbyid)
+  $ret.="&orderbyid=$orderbyid";
+ return $ret;
+ }
+
 // Sanitizing input:
 if (!is_numeric($lastrev))
  $lastrev="";
@@ -46,7 +60,11 @@ else {
   $sql="SELECT id FROM revisions where id>='$firstrev' order by tested limit $maxrevs";
  }
 
-$content.="<table border=1><thead><tr><td>Test name</td>";
+$content.="<table border=1><thead><tr><td>Test name
+<a href=\"".mydir()."?".add_options("orderbyid=1")."\" title=\"Ascending order\">&uarr;</a>
+<a href=\"".mydir()."?".add_options("orderbyid=-1")."\" title=\"Descending order\">&darr;</a>
+<a href=\"".mydir()."?".add_options("orderbyid=")."\" title=\"Introduction order\">~</a>
+</td>";
 
 // Unelegant way to get the number of rows, but no other idea
 // due to http://www.php.net/manual/en/pdostatement.rowcount.php, Example #2.
@@ -61,16 +79,34 @@ foreach ($db->query($sql) as $revision) {
  $revs[]=$rev;
  $content.="<td class=\"rev\">";
  if ($i==1)
-  $content.="<a href=\"".mydir()."?lastrev=$rev\">&lt;</a> ";
- $content.="<a href=http://dev.geogebra.org/trac/changeset/$rev>[$rev]</a>";
+  $content.="<a href=\"".mydir()."?lastrev=$rev".add_options()."\" title=\"Earlier revisions\">&larr;</a> ";
+ $content.="<a href=\"http://dev.geogebra.org/trac/changeset/$rev\" title=\"Show revision changes\">[$rev]</a>";
  if ($i==$maxrevs || $i==$numrows)
-  $content.=" <a href=\"".mydir()."?firstrev=$rev\">&gt;</a>";
+  $content.=" <a href=\"".mydir()."?firstrev=$rev".add_options()."\" title=\"Later revisions\">&rarr;</a>";
  $content.="</td>";
 }
 $content.="</tr></thead>";
 
+// Get the latest rev from db:
+$sql="SELECT id FROM revisions order by tested desc limit 1";
+foreach ($db->query($sql) as $id) {
+ $latestrev=$id["id"];
+ }
+$content.="<p>Last revision in database is [$latestrev]. ";
+
 // Collecting info for each test name:
 $sql="SELECT id FROM names";
+if ($openonly=="1" || $openonly=="yes" || $openonly=="true") {
+ $sql.=" where id in (SELECT name from tests where revision='$latestrev')";
+ $content.="<a href=\"".mydir()."?".add_options("openonly=0")."\">Show all tests.</a></p>";
+ }
+else
+ $content.="<a href=\"".mydir()."?".add_options("openonly=1")."\">Show problematic tests only.</a></p>";
+
+if ($orderbyid=="1")
+ $sql.=" order by id";
+if ($orderbyid=="-1")
+ $sql.=" order by id desc";
 
 foreach ($db->query($sql) as $name) {
  $n=$name['id'];
@@ -133,13 +169,13 @@ foreach ($db->query($sql) as $name) {
 
 $content.="</table>";
 
-$title="The <a href=\"".mydir()."\">recent $maxrevs</a> tests";
+$title="The <a href=\"".mydir()."?".add_options()."\">recent $maxrevs</a> tests";
 if ($lastrev!="")
  $title.=" (not later than [$lastrev])";
 if ($firstrev!="")
  $title.=" (not earlier than [$firstrev])";
 
-content ($title,$content);
+content($title,$content);
 
 $db=null;
 
