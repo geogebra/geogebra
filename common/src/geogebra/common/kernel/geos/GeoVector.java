@@ -705,31 +705,45 @@ Transformable, GeoVectorND, SpreadsheetTraceable {
 				inputs[0] = kernel.format(x,tpl);
 				inputs[1] = kernel.format(y,tpl);
 			}
+			
+			// MathQuill can't render v = \left( \begin{tabular}{r}-10 \\ 0 \\ \end{tabular} \right)
+			// so use eg \binom{ -10 }{ 0 } in web
+			// see #1987
+			if (inputs.length == 2 && app.isHTML5Applet()) {
+				sb.append(" \\binom{ ");
+				sb.append(inputs[0]);
+				sb.append(" }{ ");
+				sb.append(inputs[1]);
+				sb.append(" }");
+				
+			} else {
+			
 
-			boolean alignOnDecimalPoint = true;
-			for (int i = 0 ; i < inputs.length ; i++) {
-				if (inputs[i].indexOf('.') == -1) {
-					alignOnDecimalPoint = false;
-					continue;
-				}
-			}
-
-			if (alignOnDecimalPoint) {
-				sb.append("\\left( \\begin{tabular}{r@{.}l}");
+				boolean alignOnDecimalPoint = true;
 				for (int i = 0 ; i < inputs.length ; i++) {
-					inputs[i] = inputs[i].replace('.', '&');
+					if (inputs[i].indexOf('.') == -1) {
+						alignOnDecimalPoint = false;
+						continue;
+					}
 				}
-			} else {			
-				sb.append("\\left( \\begin{tabular}{r}");
+
+				if (alignOnDecimalPoint) {
+					sb.append("\\left( \\begin{tabular}{r@{.}l}");
+					for (int i = 0 ; i < inputs.length ; i++) {
+						inputs[i] = inputs[i].replace('.', '&');
+					}
+				} else {			
+					sb.append("\\left( \\begin{tabular}{r}");
+				}
+
+
+				for (int i = 0 ; i < inputs.length ; i++) {
+					sb.append(inputs[i]);
+					sb.append(" \\\\ ");    			
+				}
+
+				sb.append("\\end{tabular} \\right)"); 
 			}
-
-
-			for (int i = 0 ; i < inputs.length ; i++) {
-				sb.append(inputs[i]);
-				sb.append(" \\\\ ");    			
-			}
-
-			sb.append("\\end{tabular} \\right)"); 
 			break;
 		}
 
