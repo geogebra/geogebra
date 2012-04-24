@@ -1,5 +1,6 @@
 package geogebra.web.gui.autocompletion;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.user.client.ui.MultiWordSuggestOracle;
@@ -39,6 +40,13 @@ public class CompletionsPopup extends MultiWordSuggestOracle {
 
 	public void addTextField(AutoCompleteTextField autoCompleteTextField) {
 	  this.textField = autoCompleteTextField;
+    }
+
+	public void showHistoryCompletions(ArrayList<String> history) {
+	   if (history != null) {
+		   clear();
+		   addAll(history);
+	   }
     }
 
 }

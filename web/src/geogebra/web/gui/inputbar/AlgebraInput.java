@@ -74,10 +74,10 @@ public class AlgebraInput extends HorizontalPanel implements KeyUpHandler, Focus
 	    
 	    //AG updateFonts()
 	    
-	    btnHelpToggle = new ToggleButton();
-	    btnHelpToggle.addStyleName("btnHelpToggle");
+	    //AG not needed yet btnHelpToggle = new ToggleButton();
+	    ///btnHelpToggle.addStyleName("btnHelpToggle");
 	    
-	    btnHelpToggle.addClickHandler(this);
+	    //btnHelpToggle.addClickHandler(this);
 	    
 	   //in CSS btnHelpToggle.setIcon(app.getImageIcon("inputhelp_left_18x18.png"));
 	   //in CSS	btnHelpToggle.setSelectedIcon(app.getImageIcon("inputhelp_right_18x18.png"));
@@ -90,9 +90,9 @@ public class AlgebraInput extends HorizontalPanel implements KeyUpHandler, Focus
 	    HorizontalPanel eastPanel = new HorizontalPanel();
 	    eastPanel.setHorizontalAlignment(ALIGN_RIGHT);
 	    eastPanel.setVerticalAlignment(ALIGN_MIDDLE);
-	    if (app.showInputHelpToggle()) {
+	    /*AGif (app.showInputHelpToggle()) {
 	    	eastPanel.add(btnHelpToggle);
-	    }
+	    }*/
 	    
 	    add(labelPanel);
 	    setCellHorizontalAlignment(labelPanel, ALIGN_RIGHT);

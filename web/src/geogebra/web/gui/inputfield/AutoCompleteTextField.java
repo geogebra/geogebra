@@ -913,8 +913,13 @@ public class AutoCompleteTextField extends SuggestBox implements AutoComplete, g
 	    keyPressed = false;
     }
 
-	public void addToHistory(String input) {
-	  AbstractApplication.debug("Implementation needed AutocompleteTextfield.addToHistory");
+	public void addToHistory(String str) {
+		 // exit if the new string is the same as the last entered string
+	    if (!history.isEmpty() && str.equals(history.get(history.size() - 1)))
+	      return;
+
+	    history.add(str);
+	    historyIndex = history.size();
     }
 
 	public boolean isSuggesting() {
