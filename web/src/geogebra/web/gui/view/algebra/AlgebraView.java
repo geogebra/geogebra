@@ -28,6 +28,7 @@ import geogebra.web.euclidian.EuclidianView;
 import geogebra.web.euclidian.event.MouseEvent;
 import geogebra.web.main.Application;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -42,6 +43,7 @@ import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * AlgebraView with tree for free and dependent objects.
@@ -470,14 +472,14 @@ public class AlgebraView extends Tree implements LayerView, SetLabels, geogebra.
 	 * Open Editor textfield for geo.
 	 */
 	public void startEditing(GeoElement geo, boolean shiftDown) {
-		/*if (geo == null)
+		if (geo == null)
 			return;
 
 		// open Object Properties for eg GeoImages
 		if (!geo.isAlgebraViewEditable()) {
-			ArrayList<GeoElement> geos = new ArrayList<GeoElement>();
-			geos.add(geo);
-			app.getDialogManager().showPropertiesDialog(geos);
+			//FIXMEWEB ArrayList<GeoElement> geos = new ArrayList<GeoElement>();
+			//FIXMEWEB geos.add(geo);
+			//FIXMEWEB app.getDialogManager().showPropertiesDialog(geos);
 			return;
 		}
 
@@ -486,7 +488,7 @@ public class AlgebraView extends Tree implements LayerView, SetLabels, geogebra.
 				// View closed
 			{
 				if (geo.isRedefineable()) {
-					app.getDialogManager().showRedefineDialog(geo, true);
+					//FIXMEWEB app.getDialogManager().showRedefineDialog(geo, true);
 				}
 				return;
 			}
@@ -495,25 +497,21 @@ public class AlgebraView extends Tree implements LayerView, SetLabels, geogebra.
 				if (geo.isFixed()) {
 					// app.showMessage(app.getError("AssignmentToFixed"));
 				} else if (geo.isRedefineable()) {
-					app.getDialogManager().showRedefineDialog(geo, true);
+					//FIXMEWEB app.getDialogManager().showRedefineDialog(geo, true);
 				}
 				return;
 			}
 		}
 
-		TreeItem node = nodeTable
-				.get(geo);
+		TreeItem node = nodeTable.get(geo);
 
 		if (node != null) {
 			cancelEditing();
-			// select and show node
-			TreePath tp = new TreePath(node.getPath());
-			setSelectionPath(tp); // select
-			expandPath(tp);
-			makeVisible(tp);
-			scrollPathToVisible(tp);
-			startEditingAtPath(tp); // opend editing text field
-		}*/
+			//FIXMEWEB select and show node
+			Widget wi = node.getWidget();
+			if (wi instanceof AVRadioButton)
+				((AVRadioButton)wi).startEditing();
+		}
 	}
 
 	/**
@@ -1253,6 +1251,10 @@ public class AlgebraView extends Tree implements LayerView, SetLabels, geogebra.
 		GeoElement geo;
 		boolean previouslyChecked;
 		SpanElement se;
+		boolean LaTeX = false;
+
+		
+
 		// uses lastSelectedGeo
 
 		public AVRadioButton(GeoElement ge) {
@@ -1278,6 +1280,7 @@ public class AlgebraView extends Tree implements LayerView, SetLabels, geogebra.
 				if (latexStr != null && geo.isLaTeXDrawableGeo(latexStr)) {
 					geogebra.web.main.DrawEquationWeb.drawEquationAlgebraView(se, latexStr,
 						geo.getAlgebraColor(), Color.white);
+					LaTeX = true;
 				} else {
 					se.setInnerHTML(ge.getAlgebraDescriptionTextOrHTML(
 							StringTemplate.defaultTemplate));
@@ -1297,6 +1300,12 @@ public class AlgebraView extends Tree implements LayerView, SetLabels, geogebra.
 				geo.getAlgebraColor() ) );
 		}
 
+		public void startEditing() {
+			if (LaTeX) {
+				geogebra.web.main.DrawEquationWeb.editEquationMathQuill(se);
+			}
+		}
+
 		public void mouseClicked(Event event) {
 
 			if (Element.is(event.getEventTarget())) {
@@ -1309,6 +1318,18 @@ public class AlgebraView extends Tree implements LayerView, SetLabels, geogebra.
 					return;
 				}
 			}
+
+			/*
+			EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
+			if (clickCount == 2) {
+				app.clearSelectedGeos();
+				ev.resetMode();
+				if (geo != null && !event.getCtrlKey()) {
+					app.getAlgebraView().startEditing(geo, event.getShiftKey());
+				}
+				return;
+			}
+			*/
 
 			Application app = (Application)geo.getKernel().getApplication();
 			int mode = app.getActiveEuclidianView().getMode();
@@ -1410,6 +1431,10 @@ public class AlgebraView extends Tree implements LayerView, SetLabels, geogebra.
 
 		@Override
 		public void onBrowserEvent(Event event) {
+			//if (event.getTypeInt() == Event.ONDBLCLICK) {
+				// AlgebraController.mouseClicked / 2 clicks in Desktop
+			//	mouseClicked(event,2);
+			//} else
 			if (event.getTypeInt() == Event.ONCLICK) {
 				// AlgebraController.mouseClicked in Desktop
 				mouseClicked(event);

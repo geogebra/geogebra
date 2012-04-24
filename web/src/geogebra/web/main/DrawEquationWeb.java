@@ -304,4 +304,16 @@ public class DrawEquationWeb implements DrawEquationInterface {
 			$wnd.jQuery(elsecond).mathquill('latex', htmlt);
 		});
 	}-*/;
+
+	/**
+	 * Edits a MathQuill equation which was created by drawEquationMathQuill
+	 * @param parentElement: the same element as in drawEquationMathQuill
+	 */
+	public static native void editEquationMathQuill(Element parentElement) /*-{
+
+		var elsecond = parentElement.firstChild.firstChild.nextSibling;
+		
+		$wnd.jQuery(elsecond).mathquill('editable');
+
+	}-*/;
 }
