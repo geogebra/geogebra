@@ -713,5 +713,11 @@ public interface EuclidianViewInterfaceCommon extends EuclidianViewInterfaceSlim
 	 */
 	public boolean hasFocus();
 
+	/**
+	 * added so that we can easily show/hide axes in 2D & 3D
+	 * @param b
+	 */
+	public void setShowAxis(boolean b);
+
 
 }

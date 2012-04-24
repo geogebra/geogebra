@@ -3451,6 +3451,11 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 		return NO_SUCH_PAGE;
 	}
 
+	public void setShowAxis(boolean show) {
+		setShowAxis(0,  show, false);
+		setShowAxis(1,  show, false);
+		setShowAxis(2,  show, true);
+	}
 	
 }
 

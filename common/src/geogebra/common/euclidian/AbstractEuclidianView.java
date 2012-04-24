@@ -4599,4 +4599,9 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 			setStandardCoordSystem(repaint);
 			
 		}
+		
+		public void setShowAxis(boolean show) {
+			setShowAxis(0,  show, false);
+			setShowAxis(1,  show, true);
+		}
 }
