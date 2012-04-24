@@ -45,7 +45,7 @@ public class CmdShowGrid extends CmdScripting {
 			
 			boolean show = ((BooleanValue)arg[0]).getBoolean();
 			ev = app.getActiveEuclidianView();
-			ev.showGrid(true);
+			ev.showGrid(show);
 			ev.repaintView();
 			
 			break;
