@@ -20,6 +20,10 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.algos;
 
+import java.math.BigInteger;
+import java.util.HashMap;
+import java.util.HashSet;
+
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
@@ -27,6 +31,9 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoVec3D;
+import geogebra.common.kernel.prover.FreeVariable;
+import geogebra.common.kernel.prover.NoSymbolicParametersException;
+import geogebra.common.kernel.prover.Polynomial;
 
 
 /**
@@ -34,11 +41,12 @@ import geogebra.common.kernel.geos.GeoVec3D;
  * @author  Markus
  * @version 
  */
-public class AlgoOrthoLinePointLine extends AlgoElement {
+public class AlgoOrthoLinePointLine extends AlgoElement implements SymbolicParametersAlgo{
 
     private GeoPoint2 P; // input
     private GeoLine l; // input
     private GeoLine g; // output       
+	private Polynomial[] polynomials;
 
     /** Creates new AlgoOrthoLinePointLine 
      * @param cons 
@@ -114,4 +122,36 @@ public class AlgoOrthoLinePointLine extends AlgoElement {
         return app.getPlain("LineThroughAPerpendicularToB",P.getLabel(tpl),l.getLabel(tpl));
 
     }
+
+	public SymbolicParameters getSymbolicParameters() {
+		return new SymbolicParameters(this);
+	}
+
+	public int[] getFreeVariablesAndDegrees(HashSet<FreeVariable> freeVariables)
+			throws NoSymbolicParametersException {
+		throw new NoSymbolicParametersException();
+	}
+
+	public BigInteger[] getExactCoordinates(
+			HashMap<FreeVariable, BigInteger> values) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Polynomial[] getPolynomials() throws NoSymbolicParametersException {
+		if (polynomials != null) {
+			return polynomials;
+		}
+		if (P != null && l != null) {
+			Polynomial[] pP = P.getPolynomials();
+			Polynomial[] pL = l.getPolynomials();
+			polynomials = new Polynomial[3];
+			polynomials[0] = pL[1].multiply(pP[2]).negate();
+			polynomials[1] = pL[0].multiply(pP[2]);
+			polynomials[2] = pL[0].multiply(pP[1]).add(
+					pL[1].multiply(pP[0]).negate());
+			return polynomials;
+		}
+		throw new NoSymbolicParametersException();
+	}
 }

@@ -44,12 +44,14 @@ import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.prover.FreeVariable;
 import geogebra.common.kernel.prover.NoSymbolicParametersException;
+import geogebra.common.kernel.prover.Polynomial;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.plugin.Operation;
 import geogebra.common.util.MyMath;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 
 /**
@@ -1470,11 +1472,18 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 		throw new NoSymbolicParametersException();
 	}
 
-	public BigInteger[] getExactCoordinates() {
+	public BigInteger[] getExactCoordinates(final HashMap<FreeVariable,BigInteger> values) throws NoSymbolicParametersException {
 		if (algoParent != null
 	&& (algoParent instanceof SymbolicParametersAlgo)) {
-			return ((SymbolicParametersAlgo) algoParent).getExactCoordinates();
+			return ((SymbolicParametersAlgo) algoParent).getExactCoordinates(values);
 		}
 		return null;
+	}
+
+	public Polynomial[] getPolynomials() throws NoSymbolicParametersException {
+		if (algoParent != null && algoParent instanceof SymbolicParametersAlgo) {
+			return ((SymbolicParametersAlgo) algoParent).getPolynomials();
+		}
+		throw new NoSymbolicParametersException();
 	}
 }

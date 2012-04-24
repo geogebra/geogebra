@@ -30,16 +30,23 @@ import geogebra.common.kernel.PathMoverGeneric;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoDependentVector;
+import geogebra.common.kernel.algos.SymbolicParameters;
+import geogebra.common.kernel.algos.SymbolicParametersAlgo;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.VectorValue;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
+import geogebra.common.kernel.prover.FreeVariable;
+import geogebra.common.kernel.prover.NoSymbolicParametersException;
+import geogebra.common.kernel.prover.Polynomial;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.util.MyMath;
 import geogebra.common.util.Unicode;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 
@@ -49,7 +56,7 @@ import java.util.Iterator;
  */
 final public class GeoVector extends GeoVec3D
 implements Path, VectorValue, Translateable, PointRotateable, Mirrorable, Dilateable, MatrixTransformable, 
-Transformable, GeoVectorND, SpreadsheetTraceable {
+Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo {
 
 	private GeoPoint2 startPoint;
 
@@ -820,6 +827,39 @@ Transformable, GeoVectorND, SpreadsheetTraceable {
 		}
 		
 		return spreadsheetTraceList;
+	}
+	
+	public SymbolicParameters getSymbolicParameters() {
+		if (algoParent != null
+				&& (algoParent instanceof SymbolicParametersAlgo)) {
+			return new SymbolicParameters((SymbolicParametersAlgo) algoParent);
+		}
+		return null;
+	}
+
+	public int[] getFreeVariablesAndDegrees(HashSet<FreeVariable> freeVariables)
+			throws NoSymbolicParametersException {
+		if (algoParent != null
+				&& (algoParent instanceof SymbolicParametersAlgo)) {
+			return ((SymbolicParametersAlgo) algoParent)
+					.getFreeVariablesAndDegrees(freeVariables);
+		}
+		throw new NoSymbolicParametersException();
+	}
+
+	public BigInteger[] getExactCoordinates(final HashMap<FreeVariable,BigInteger> values) throws NoSymbolicParametersException{
+		if (algoParent != null
+	&& (algoParent instanceof SymbolicParametersAlgo)) {
+			return ((SymbolicParametersAlgo) algoParent).getExactCoordinates(values);
+		}
+		throw new NoSymbolicParametersException();
+	}
+
+	public Polynomial[] getPolynomials() throws NoSymbolicParametersException {
+		if (algoParent != null && algoParent instanceof SymbolicParametersAlgo) {
+			return ((SymbolicParametersAlgo) algoParent).getPolynomials();
+		}
+		throw new NoSymbolicParametersException();
 	}
 
 }

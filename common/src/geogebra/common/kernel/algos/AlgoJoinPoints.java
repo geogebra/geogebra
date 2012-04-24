@@ -19,6 +19,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.algos;
 
 import java.math.BigInteger;
+import java.util.HashMap;
 import java.util.HashSet;
 
 import geogebra.common.euclidian.EuclidianConstants;
@@ -30,6 +31,7 @@ import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.prover.FreeVariable;
 import geogebra.common.kernel.prover.NoSymbolicParametersException;
+import geogebra.common.kernel.prover.Polynomial;
 
 
 /**
@@ -41,6 +43,7 @@ public class AlgoJoinPoints extends AlgoElement implements SymbolicParametersAlg
 
     private GeoPoint2 P, Q;  // input
     private GeoLine  g;     // output       
+	private Polynomial[] polynomials;
         
     /** Creates new AlgoJoinPoints */
     public AlgoJoinPoints(Construction cons, String label, GeoPoint2 P, GeoPoint2 Q) {
@@ -126,25 +129,44 @@ public class AlgoJoinPoints extends AlgoElement implements SymbolicParametersAlg
 				&& input[0] instanceof SymbolicParametersAlgo
 				&& input[1] instanceof SymbolicParametersAlgo) {
 			int[] degree1=((SymbolicParametersAlgo) input[0]).getFreeVariablesAndDegrees(freeVariables);
-			int[] degree2=((SymbolicParametersAlgo) input[0]).getFreeVariablesAndDegrees(freeVariables);
-			return SymbolicParameters.addDegree(degree1, degree2);
+			int[] degree2=((SymbolicParametersAlgo) input[1]).getFreeVariablesAndDegrees(freeVariables);
+			return SymbolicParameters.crossDegree(degree1, degree2);
 		}
 		throw new NoSymbolicParametersException();
 		
 	}
 
-	public BigInteger[] getExactCoordinates() {
+	public BigInteger[] getExactCoordinates(final HashMap<FreeVariable,BigInteger> values) throws NoSymbolicParametersException {
 		if (input[0] != null && input[1] != null
 				&& input[0] instanceof SymbolicParametersAlgo
 				&& input[1] instanceof SymbolicParametersAlgo) {
 			BigInteger[] coords1 = ((SymbolicParametersAlgo) input[0])
-					.getExactCoordinates();
+					.getExactCoordinates(values);
 			BigInteger[] coords2 = ((SymbolicParametersAlgo) input[1])
-					.getExactCoordinates();
+					.getExactCoordinates(values);
 			if (coords1 != null && coords2 != null) {
 				return SymbolicParameters.crossProduct(coords1, coords2);
 			}
 		}
 		return null;
+	}
+
+	public Polynomial[] getPolynomials() throws NoSymbolicParametersException {
+		if (polynomials != null) {
+			return polynomials;
+		}
+		if (input[0] != null && input[1] != null
+				&& input[0] instanceof SymbolicParametersAlgo
+				&& input[1] instanceof SymbolicParametersAlgo) {
+			Polynomial[] coords1 = ((SymbolicParametersAlgo) input[0])
+					.getPolynomials();
+			Polynomial[] coords2 = ((SymbolicParametersAlgo) input[1])
+					.getPolynomials();
+			if (coords1 != null && coords2 != null) {
+				polynomials = SymbolicParameters.crossProduct(coords1, coords2);
+				return polynomials;
+			}
+		}
+		throw new NoSymbolicParametersException();
 	}
 }

@@ -99,8 +99,21 @@ public class Term implements Comparable<Term> {
 		return variables.lastKey();
 	}
 
+	public Term gcd(Term t){
+		TreeMap<FreeVariable, Integer> result = new TreeMap<FreeVariable, Integer>();
+		TreeMap<FreeVariable, Integer> tTM=t.getTerm();
+		Iterator<FreeVariable> it = variables.keySet().iterator();
+		while (it.hasNext()){
+			FreeVariable var=it.next();
+			if (tTM.containsKey(var)){
+				result.put(var, Math.min(Math.abs(variables.get(var)),Math.abs(tTM.get(var))));
+			}
+		}
+		return new Term(result);
+	}
 	public int compareTo(Term o) {
-		if (o.getTerm().isEmpty()) {
+		TreeMap<FreeVariable, Integer> t=o.getTerm();
+		if (t.isEmpty()) {
 			if (variables.isEmpty()) {
 				return 0;
 			}
@@ -109,11 +122,41 @@ public class Term implements Comparable<Term> {
 		if (variables.isEmpty()) {
 			return -1;
 		}
-		int compare = variables.lastKey().compareTo(o.getHighestVariable());
+
+		int compare = variables.lastKey().compareTo(t.lastKey());
+
 		if (compare == 0) {
-			return variables.get(variables.lastKey()).compareTo(
-					o.getTerm().get(variables.lastKey()));
+			compare = variables.get(variables.lastKey()).compareTo(t.get(t.lastKey()));
 		}
+
+		if (compare != 0) {
+			return compare;
+		}
+		
+		TreeMap<FreeVariable, Integer> variablesCopy = new TreeMap<FreeVariable, Integer>(
+				variables);
+		TreeMap<FreeVariable, Integer> oCopy = new TreeMap<FreeVariable, Integer>(
+				t);
+
+		do {
+			variablesCopy.remove(variablesCopy.lastKey());
+			oCopy.remove(oCopy.lastKey());
+			if (variablesCopy.isEmpty()) {
+				if (oCopy.isEmpty()) {
+					return 0;
+				}
+				return -1;
+			}
+			if (oCopy.isEmpty()) {
+				return 1;
+			}
+			compare = variablesCopy.lastKey().compareTo(oCopy.lastKey());
+			if (compare == 0) {
+				compare = variablesCopy.get(variablesCopy.lastKey()).compareTo(
+						oCopy.get(oCopy.lastKey()));
+			}
+		} while (compare == 0);
+
 		return compare;
 	}
 

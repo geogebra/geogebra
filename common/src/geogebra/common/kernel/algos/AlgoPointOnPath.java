@@ -12,6 +12,10 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.algos;
 
+import java.math.BigInteger;
+import java.util.HashMap;
+import java.util.HashSet;
+
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Path;
@@ -21,14 +25,22 @@ import geogebra.common.kernel.PathParameter;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.prover.FreeVariable;
+import geogebra.common.kernel.prover.NoSymbolicParametersException;
+import geogebra.common.kernel.prover.Polynomial;
 
 
-public class AlgoPointOnPath extends AlgoElement implements PathAlgo {
+public class AlgoPointOnPath extends AlgoElement implements PathAlgo, SymbolicParametersAlgo {
 
 	private Path path; // input
     private GeoPoint2 P; // output      
     private NumberValue param;
+	private Polynomial[] polynomials;
+	private FreeVariable variable;
+	private HashMap<FreeVariable, BigInteger> oldvalues;
+	private BigInteger[] exactCoordinates;
 
     public AlgoPointOnPath(
         Construction cons,
@@ -139,5 +151,62 @@ public class AlgoPointOnPath extends AlgoElement implements PathAlgo {
     
 	public boolean isChangeable() {
 		return param == null;
+	}
+
+	public SymbolicParameters getSymbolicParameters() {
+		return new SymbolicParameters(this);
+	}
+
+	public int[] getFreeVariablesAndDegrees(HashSet<FreeVariable> freeVariables)
+			throws NoSymbolicParametersException {
+		if (input[0] != null && input[0] instanceof GeoLine){
+			int[] degreesLine = ((SymbolicParametersAlgo) input[0]).getFreeVariablesAndDegrees(freeVariables);
+			if (variable==null){
+				variable=new FreeVariable();
+			}
+			freeVariables.add(variable);
+			int[] result=new int[3];
+			result[0]=degreesLine[2]+1;
+			result[1]=degreesLine[2]+1;
+			result[2]=Math.max(degreesLine[0]+1,degreesLine[1]+1);
+			return result;
+		}
+		throw new NoSymbolicParametersException();
+	}
+
+	public BigInteger[] getExactCoordinates(
+			HashMap<FreeVariable, BigInteger> values) throws NoSymbolicParametersException {
+		if (exactCoordinates != null && values != null && values == oldvalues) {
+			return exactCoordinates;
+		}
+		if (input[0] != null && input[0] instanceof GeoLine && variable != null){
+			exactCoordinates=new BigInteger[3];
+			BigInteger[] line=((SymbolicParametersAlgo) input[0]).getExactCoordinates(values);
+			exactCoordinates[0]=line[2].multiply(values.get(variable));
+			exactCoordinates[1]=line[2].multiply(BigInteger.ONE.subtract(values.get(variable)));
+			exactCoordinates[2]=line[0].multiply(values.get(variable).negate()).add(line[1].multiply(values.get(variable).subtract(BigInteger.ONE)));
+			oldvalues=values;
+			return exactCoordinates;
+		}
+		return null;
+	}
+
+	public Polynomial[] getPolynomials() throws NoSymbolicParametersException {
+		if (polynomials != null) {
+			return polynomials;
+		}
+		if (input[0] != null && input[0] instanceof GeoLine){
+			if (variable==null){
+				variable=new FreeVariable();
+			}
+			polynomials=new Polynomial[3];
+			Polynomial[] line=((SymbolicParametersAlgo) input[0]).getPolynomials();
+			polynomials[0]=line[2].multiply(new Polynomial(variable));
+			polynomials[1]=line[2].multiply((new Polynomial(1)).subtract(new Polynomial(variable)));
+			polynomials[2]=line[0].multiply((new Polynomial(variable)).negate()).add(line[1].multiply((new Polynomial(variable)).subtract(new Polynomial(1))));
+			return polynomials;
+			
+		}
+		throw new NoSymbolicParametersException();
 	}
 }

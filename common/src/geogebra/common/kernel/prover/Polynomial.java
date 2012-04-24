@@ -168,7 +168,7 @@ public class Polynomial implements Comparable<Polynomial> {
 	 *            the polynomial which is subtracted
 	 * @return the difference
 	 */
-	public Polynomial minus(final Polynomial poly) {
+	public Polynomial subtract(final Polynomial poly) {
 		return add(poly.negate());
 	}
 
@@ -179,7 +179,7 @@ public class Polynomial implements Comparable<Polynomial> {
 	 *            the polynomial which is multiplied
 	 * @return the product
 	 */
-	public Polynomial times(final Polynomial poly) {
+	public Polynomial multiply(final Polynomial poly) {
 		TreeMap<Term, Integer> result = new TreeMap<Term, Integer>();
 		TreeMap<Term, Integer> terms2 = poly.getTerms();
 		Iterator<Term> it1 = terms.keySet().iterator();
@@ -246,5 +246,13 @@ public class Polynomial implements Comparable<Polynomial> {
 	@Override
 	public int hashCode() {
 		return terms.hashCode();
+	}
+
+	/**
+	 * Tests if the Polynomial is the zero polynomial
+	 * @return true if the polynomial is zero false otherwise
+	 */
+	public boolean isZero() {
+		return terms.isEmpty();
 	}
 }

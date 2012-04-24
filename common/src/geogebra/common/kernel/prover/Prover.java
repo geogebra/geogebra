@@ -142,6 +142,30 @@ public class Prover {
 				AbstractApplication.warn("This prover cannot give an answer, try another one");
 				// TODO: to implement this correctly
 			}
+		} else if (statement.getParentAlgorithm() instanceof SymbolicParametersAlgo){
+			SymbolicParametersAlgo statementSymbolic = (SymbolicParametersAlgo) statement.getParentAlgorithm();
+			/*SymbolicParameters parameters = statementSymbolic.getSymbolicParameters();
+			try {
+				parameters.getFreeVariables();
+			} catch (NoSymbolicParametersException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}*/
+			try {
+				Polynomial[] poly = statementSymbolic.getPolynomials();
+				AbstractApplication.debug(poly[0]);
+				if (poly.length==1 && poly[0].isZero()){
+					result = Prover.ProofResult.TRUE;
+				} else {
+					result = Prover.ProofResult.FALSE;
+				}
+				return;
+				
+				//TODO: write here tomas prover
+			} catch (NoSymbolicParametersException e) {
+				AbstractApplication.warn("This prover cannot give an answer, try another one");
+				// TODO: to implement this correctly
+			}
 		}
 		
 		result = Prover.ProofResult.UNKNOWN;

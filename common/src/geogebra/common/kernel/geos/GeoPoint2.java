@@ -54,6 +54,7 @@ import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.prover.FreeVariable;
 import geogebra.common.kernel.prover.NoSymbolicParametersException;
+import geogebra.common.kernel.prover.Polynomial;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.plugin.GeoClass;
@@ -65,6 +66,7 @@ import geogebra.common.util.Unicode;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.TreeSet;
@@ -2042,11 +2044,11 @@ final public class GeoPoint2 extends GeoVec3D implements VectorValue,
 		throw new NoSymbolicParametersException();
 	}
 
-	public BigInteger[] getExactCoordinates() {
+	public BigInteger[] getExactCoordinates(final HashMap<FreeVariable,BigInteger> values) throws NoSymbolicParametersException {
 		if (algoParent == null) {
 		BigInteger[] result=new BigInteger[3];
-		result[0]=variableCoordinate1.getValue();
-		result[1]=variableCoordinate2.getValue();
+		result[0]=values.get(variableCoordinate1);
+		result[1]=values.get(variableCoordinate2);
 		result[2]=BigInteger.ONE;
 		if (result[0]==null || result[1]==null){
 			return null;
@@ -2055,7 +2057,7 @@ final public class GeoPoint2 extends GeoVec3D implements VectorValue,
 		}
 		//algoParent != null
 		if (algoParent instanceof SymbolicParametersAlgo){
-			return ((SymbolicParametersAlgo)algoParent).getExactCoordinates();
+			return ((SymbolicParametersAlgo)algoParent).getExactCoordinates(values);
 		}
 		return null;
 	}
@@ -2074,6 +2076,24 @@ final public class GeoPoint2 extends GeoVec3D implements VectorValue,
 
 	public int getIntersectionIndex(){
 		return intersectionIndex;
+	}
+
+	public Polynomial[] getPolynomials() throws NoSymbolicParametersException {
+		// if this is a free point
+				if (algoParent == null) {
+					if (variableCoordinate1 == null) {
+						variableCoordinate1 = new FreeVariable();
+					}
+					if (variableCoordinate2 == null) {
+						variableCoordinate2 = new FreeVariable();
+					}
+					Polynomial[] ret = {new Polynomial(variableCoordinate1), new Polynomial(variableCoordinate2), new Polynomial(1)};
+					return ret;
+				}
+				if (algoParent != null && algoParent instanceof SymbolicParametersAlgo) {
+					return ((SymbolicParametersAlgo) algoParent).getPolynomials();
+				}
+				throw new NoSymbolicParametersException();
 	}
 
 }
