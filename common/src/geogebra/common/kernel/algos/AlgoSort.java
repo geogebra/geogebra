@@ -36,16 +36,35 @@ public class AlgoSort extends AlgoElement {
     private int size;
 	private GeoList valueList;
 
+    /**
+     * Creates new list sorting algorithm
+     * @param cons construction
+     * @param label label for output
+     * @param inputList list to be sorted
+     */
     public AlgoSort(Construction cons, String label, GeoList inputList) {
-        this(cons, inputList,null);
+        this(cons, inputList);
         outputList.setLabel(label);
     }
     
+    /**
+     * Creates new list sorting algorithm
+     * @param cons construction
+     * @param label label for output
+     * @param valueList list of values that shall be sorted
+     * @param inputList list of keys which determines order of values in sorted list
+     */
     public AlgoSort(Construction cons, String label, GeoList valueList,GeoList inputList) {
         this(cons, inputList,valueList);
         outputList.setLabel(label);
     }
 
+    /**
+     * Creates new list sorting algorithm
+     * @param cons construction
+     * @param inputList list of keys which determines order of values in sorted list
+     * @param valueList list of values that shall be sorted
+     */
     public AlgoSort(Construction cons, GeoList inputList,GeoList valueList) {
         super(cons);
         this.inputList = inputList;
@@ -57,7 +76,16 @@ public class AlgoSort extends AlgoElement {
         compute();
     }
 
-    @Override
+    /**
+     * Creates new list sorting algorithm
+     * @param cons construction
+     * @param inputList to be sorted
+     * */
+    public AlgoSort(Construction cons, GeoList inputList) {
+		this(cons, inputList, (GeoList) null);
+	}
+
+	@Override
 	public Algos getClassName() {
         return Algos.AlgoSort;
     }
@@ -73,6 +101,9 @@ public class AlgoSort extends AlgoElement {
         setDependencies(); // done by AlgoElement
     }
 
+    /**
+     * @return sorted list
+     */
     public GeoList getResult() {
         return outputList;
     }
@@ -86,7 +117,7 @@ public class AlgoSort extends AlgoElement {
     		return;
     	}
     	
-    	if (valueList!= null && !valueList.isDefined() ||  valueList.size() != size) {
+    	if (valueList!= null && (!valueList.isDefined() ||  valueList.size() != size)) {
     		outputList.setUndefined();
     		return;
     	} 
