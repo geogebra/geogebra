@@ -18,6 +18,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArrayInteger;
 import com.google.gwt.dom.client.CanvasElement;
 import com.google.gwt.dom.client.Document;
+import com.google.gwt.dom.client.DivElement;
 import com.google.gwt.dom.client.SpanElement;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.ImageElement;
@@ -132,7 +133,7 @@ public class DrawEquationWeb implements DrawEquationInterface {
 	public static void drawEquationAlgebraView(Element parentElement, String eqstring, Color fgColor, Color bgColor) {
 		// no scriptloaded check yet (is it necessary?)
 		// no EuclidianView 1,2 yet
-		
+
 		// make sure eg FractionText[] works (surrounds with {} which doesn't draw well in MathQuill)
 		if (eqstring.startsWith("{") && eqstring.endsWith("}")) {
 			eqstring = eqstring.substring(1, eqstring.length() - 1);
@@ -143,28 +144,15 @@ public class DrawEquationWeb implements DrawEquationInterface {
 		while (eqstring.startsWith("$")) eqstring = eqstring.substring(1).trim();
 		while (eqstring.endsWith("$")) eqstring = eqstring.substring(0, eqstring.length() - 1).trim();
 
-		// TODO: replace this with something better
-		//eqstring = eqstring.replace("\\begin{tabular}", "");
-		//eqstring = eqstring.replace("\\end{tabular}", "");
-
-		// TODO: hack bad absolute value - sqrt is also bad, so another solution is needed
-		//eqstring = eqstring.replace("\\left|", "|");
-		//eqstring = eqstring.replace("\\right|", "|");
-
 		// remove all \; and \,
 		eqstring = eqstring.replace("\\;","");
 		eqstring = eqstring.replace("\\,","");
 
 		AbstractApplication.debug("Algebra View: "+eqstring);
 
-		SpanElement ih = DOM.createSpan().cast();
-
-		// these two doesn't work either
-		//ih.getStyle().setHeight(50, Style.Unit.PX);
-		//parentElement.getStyle().setHeight(50, Style.Unit.PX);
+		DivElement ih = DOM.createDiv().cast();
 
 		drawEquationMathQuill(ih, eqstring, parentElement);
-		//ih.getStyle().setPosition(Style.Position.STATIC);
 
 		//ih.getStyle().setBackgroundColor(Color.getColorString(bgColor));
 		ih.getStyle().setColor(Color.getColorString(fgColor));
@@ -271,7 +259,6 @@ public class DrawEquationWeb implements DrawEquationInterface {
 	 */
 	public static native void drawEquationMathQuill(Element el, String htmlt, Element parentElement) /*-{
 
-		//el.style.position = "absolute";
 		el.style.cursor = "default";
 		if (typeof el.style.MozUserSelect != "undefined") {
 			el.style.MozUserSelect = "-moz-none";

@@ -1265,6 +1265,9 @@ public class AlgebraView extends Tree implements LayerView, SetLabels, geogebra.
 			se = DOM.createSpan().cast();
 			getElement().appendChild(se);
 
+			se.getStyle().setProperty("display", "-moz-inline-box");
+			se.getStyle().setDisplay(Style.Display.INLINE_BLOCK);
+
 			/*se.setInnerHTML(ge.getAlgebraDescriptionTextOrHTML(
 					StringTemplate.defaultTemplate));*/
 
@@ -1272,7 +1275,7 @@ public class AlgebraView extends Tree implements LayerView, SetLabels, geogebra.
 			if (isRenderLaTeX() && kernel.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_VALUE) {
 				String latexStr = geo.getLaTeXAlgebraDescription(true,
 						StringTemplate.latexTemplate);
-				if (latexStr != null && geo.isLaTeXDrawableGeo(latexStr) && !geo.isGeoVector()) {
+				if (latexStr != null && geo.isLaTeXDrawableGeo(latexStr)) {
 					geogebra.web.main.DrawEquationWeb.drawEquationAlgebraView(se, latexStr,
 						geo.getAlgebraColor(), Color.white);
 				} else {
