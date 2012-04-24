@@ -71,8 +71,9 @@ public class MyMath2 {
 	 */
 	final public static double factorial(double x) {
 
-		if (x < 0)
-			return Double.NaN; // bugfix Michael Borcherds 2008-05-04
+		if (x < 0
+				|| x > 170.624) // changed from ggb42, 171! used to return infinity, undefined is better
+			return Double.NaN;
 
 		// big x or floating point x is computed using gamma function
 		if (x < 0 || x > 32 || x - Math.floor(x) > 1E-10)
