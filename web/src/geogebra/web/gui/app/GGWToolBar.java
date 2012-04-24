@@ -6,7 +6,10 @@ import geogebra.web.gui.toolbar.ToolBar;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -15,13 +18,14 @@ public class GGWToolBar extends Composite {
 	private static GGWToolBarUiBinder uiBinder = GWT
 	        .create(GGWToolBarUiBinder.class);
 
-	interface GGWToolBarUiBinder extends UiBinder<Widget, GGWToolBar> {
+	interface GGWToolBarUiBinder extends UiBinder<VerticalPanel, GGWToolBar> {
 	}
 
 	private VerticalPanel toolbarPanel = new VerticalPanel(); //just dummy!
 	private VerticalPanel toolbars;
 	private AbstractApplication app;
-	@UiField ToolBar toolBar;
+	public ToolBar toolBar;
+	@UiField VerticalPanel toolBarPanel;
 	
 
 	/**
@@ -36,10 +40,14 @@ public class GGWToolBar extends Composite {
 	 * 
 	 * @param app
 	 */
-	public void init(AbstractApplication app){
+	public void init(AbstractApplication app){		
+		
 		this.app = app;
 		toolbars = new VerticalPanel();
 		toolBar = new ToolBar();
+		
+		toolBarPanel.add(toolBar);
+		toolBarPanel.setSize("100%", "100%");
 		toolBar.init((geogebra.web.main.Application) app);
 		addToolbar(toolBar);
 		buildGui();
@@ -70,7 +78,7 @@ public class GGWToolBar extends Composite {
 				((ToolBar)toolbar).buildGui();
 				//TODO
 				//toolbarPanel.add(toolbar, Integer.toString(getViewId(toolbar)));
-				//toolbarPanel.add(toolbar);
+				toolBarPanel.add(toolbar);
 			}
 		}
 		

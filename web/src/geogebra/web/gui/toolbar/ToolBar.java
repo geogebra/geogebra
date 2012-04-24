@@ -12,6 +12,7 @@ import geogebra.web.gui.toolbar.ModeToggleButtonGroup;
 import geogebra.web.gui.toolbar.ModeToggleMenu;
 import geogebra.web.main.Application;
 
+import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.MenuBar;
 
 
@@ -125,6 +126,8 @@ public class ToolBar extends MenuBar {
 
 					// check mode
 					if (!"".equals(app.getToolName(addMode))) {
+						Command com = null;
+						tm.addItem(app.getToolName(addMode), true, com);
 						tm.addMode(addMode);
 						if (firstButton) {
 							//tm.getJToggleButton().setSelected(true);

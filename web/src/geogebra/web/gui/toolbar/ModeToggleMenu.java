@@ -1,20 +1,6 @@
 package geogebra.web.gui.toolbar;
 
-import geogebra.web.awt.BasicStroke;
 import geogebra.common.awt.Color;
-import geogebra.common.factories.AwtFactory;
-//import geogebra.web.awt.Component;
-import geogebra.web.awt.Dimension;
-//import geogebra.web.awt.Graphics;
-import geogebra.web.awt.Graphics2D;
-import geogebra.web.awt.Point;
-//import geogebra.web.awt.RenderingHints;
-//import geogebra.web.awt.Stroke;
-//import java.awt.event.ActionEvent;
-//import java.awt.event.ActionListener;
-//import java.awt.event.MouseEvent;
-//import java.awt.event.MouseListener;
-//import java.awt.event.MouseMotionListener;
 import geogebra.web.awt.GeneralPath;
 import java.util.ArrayList;
 
@@ -43,6 +29,7 @@ public class ModeToggleMenu extends MenuBar{
 
 	public ModeToggleMenu(Application app, ToolBar toolbar,
 			ModeToggleButtonGroup bg) {
+		super(true);
 		this.app = app;
 		this.bg = bg;
 //		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
@@ -110,15 +97,15 @@ public class ModeToggleMenu extends MenuBar{
 		          Window.alert("You selected a menu item.");
 		        }
 		      };
-		MenuItem mi = new MenuItem("modeMenuItem", tempCommand);
+		MenuItem mi = new MenuItem(app.getToolName(mode), tempCommand);
 		//mi.setFont(app.getPlainFont());
 		//mi.setBackground(bgColor);
 
 		// tool name as text
-		mi.setText(app.getToolName(mode));
+		//mi.setText(app.getToolName(mode));
 
 		//Icon icon = app.getModeIcon(mode);
-		String actionText = Integer.toString(mode);
+		//String actionText = Integer.toString(mode);
 		//mi.setIcon(icon);
 		//mi.setActionCommand(actionText);
 		//mi.addActionListener(popupMenuItemListener);
@@ -134,7 +121,7 @@ public class ModeToggleMenu extends MenuBar{
 
 			// tooltip: tool name and tool help
 			//tbutton.setToolTipText(app.getToolTooltipHTML(mode));
-			tbutton.setText("modeText");
+			tbutton.setText(app.getToolName(mode));
 			
 			// add button to button group
 			bg.add(tbutton);
