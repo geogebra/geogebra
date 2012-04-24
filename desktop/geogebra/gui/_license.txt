@@ -89,7 +89,9 @@ TRANSLATORS
   * Finnish: Juha Leino, Mikko Rahikka, Erkki Luoma-aho,
       Teemu Hinkula (Finland)
   * French: Noel Lambert (France)
-  * Galician: Jesus Garcia Otero, Irene Arias Lopez (Spain) 
+  * Galician: Débora Pereiro Carbajo, Esperanza Gesteira Losada,
+      Enrique de la Torre Fernández, Fernando Zacarías Maceiras,
+      Ignacio Larrosa CañestroJesus Garcia Otero, Irene Arias Lopez (Spain) 
   * Georgian: Lasha Kokilashvili (Georgia)
   * German: Markus Hohenwarter, Judith Hohenwarter, Andreas Lindner,
       Sandra Reichenberger, Christina Biermair, Andrea Duringer,
