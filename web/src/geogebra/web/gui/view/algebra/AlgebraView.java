@@ -476,6 +476,8 @@ public class AlgebraView extends Tree implements LayerView, SetLabels, geogebra.
 		renderer.setToolTipText(text);
 	}*/
 
+	public boolean editing = false;
+
 	/**
 	 * Open Editor textfield for geo.
 	 */
@@ -517,6 +519,7 @@ public class AlgebraView extends Tree implements LayerView, SetLabels, geogebra.
 			cancelEditing();
 			//FIXMEWEB select and show node
 			Widget wi = node.getWidget();
+			editing = true;
 			if (wi instanceof RadioButtonTreeItem)
 				((RadioButtonTreeItem)wi).startEditing();
 		}
@@ -1240,7 +1243,13 @@ public class AlgebraView extends Tree implements LayerView, SetLabels, geogebra.
 	}
 
 	public boolean isEditing() {
-		return false;
+		return editing;
+	}
+
+	protected boolean isKeyboardNavigationEnabled(TreeItem ti) {
+		if (isEditing())
+			return false;
+		return super.isKeyboardNavigationEnabled(ti);
 	}
 
 	public void setUserObject(TreeItem ti, Object ob) {
