@@ -32,9 +32,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
-import javax.swing.event.ChangeEvent;
-import javax.swing.tree.DefaultTreeModel;
-
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.SpanElement;
 import com.google.gwt.dom.client.DivElement;

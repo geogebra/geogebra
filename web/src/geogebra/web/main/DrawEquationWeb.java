@@ -30,8 +30,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.ArrayList;
 
-import javax.swing.tree.DefaultTreeModel;
-
 public class DrawEquationWeb implements DrawEquationInterface {
 	
 	private static boolean scriptloaded = false;
