@@ -314,6 +314,10 @@ public class DrawEquationWeb implements DrawEquationInterface {
 		var elsecond = parentElement.firstChild.firstChild.nextSibling;
 		
 		$wnd.jQuery(elsecond).mathquill('editable');
+		
+		var elfirst = parentElement.firstChild.firstChild;
+		
+		elfirst.style.display = 'none';
 
 	}-*/;
 }
