@@ -1,16 +1,15 @@
 package geogebra.web.gui.toolbar;
 
-import java.util.ArrayList;
-import java.util.Vector;
-
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.gui.toolbar.ToolbarItem;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Macro;
 import geogebra.common.main.AbstractApplication;
-import geogebra.web.gui.toolbar.ModeToggleButtonGroup;
-import geogebra.web.gui.toolbar.ModeToggleMenu;
+import geogebra.web.gui.app.GGWToolBar;
 import geogebra.web.main.Application;
+
+import java.util.ArrayList;
+import java.util.Vector;
 
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.MenuBar;
@@ -45,7 +44,7 @@ public class ToolBar extends MenuBar {
 	 * After instantiate the ToolBar, call init(Application app) as well.
 	 */
 	public ToolBar() {
-		
+	
 	}
 	
 	/**
@@ -128,6 +127,8 @@ public class ToolBar extends MenuBar {
 					if (!"".equals(app.getToolName(addMode))) {
 						Command com = null;
 						tm.addItem(app.getToolName(addMode), true, com);
+						tm.addItem(GGWToolBar.getImageHtml(addMode), true, com);
+						
 						tm.addMode(addMode);
 						if (firstButton) {
 							//tm.getJToggleButton().setSelected(true);
@@ -236,11 +237,9 @@ public class ToolBar extends MenuBar {
 	
 		if (macroNumber > 0 && at_least_one_shown) {
 			sb.append(" || ");
-			int count = 0;
 			for (int i = 0; i < macroNumber; i++) {
 				Macro macro = kernel.getMacro(i);
 				if (macro.isShowInToolBar()) {
-					count++;
 					sb.append(i + EuclidianConstants.MACRO_MODE_ID_OFFSET);
 					sb.append(" ");
 				}
