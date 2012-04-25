@@ -11,8 +11,8 @@ import java.util.TreeMap;
 public class FreeVariable implements Comparable<FreeVariable> {
 	private static int n = 0;
 	private static TreeMap<Integer,String> names;
+	private FreeVariable twin;
 	private final int id;
-	private BigInteger value;
 
 	static {
 		names=new TreeMap<Integer, String>();
@@ -25,6 +25,9 @@ public class FreeVariable implements Comparable<FreeVariable> {
 	public FreeVariable() {
 		n++;
 		id = n;
+		if (id<26){
+			setName(String.valueOf(" xyzabcdefghijklmnopqrstuvw".charAt(id)));
+		}
 	}
 
 	/**
@@ -49,22 +52,6 @@ public class FreeVariable implements Comparable<FreeVariable> {
 			return "freevar" + id;
 		}
 		return getName();
-	}
-
-	/**
-	 * Returns the value associated with the variable
-	 * @return the value
-	 */
-	public BigInteger getValue() {
-		return value;
-	}
-
-	/**
-	 * Sets the value associated with the variable
-	 * @param value the value
-	 */
-	public void setValue(BigInteger value) {
-		this.value = value;
 	}
 
 	public int compareTo(FreeVariable v) {
@@ -107,6 +94,22 @@ public class FreeVariable implements Comparable<FreeVariable> {
 	@Override
 	public int hashCode() {
 		return id;
+	}
+
+	/**
+	 * Returns the FreeVariable which describes the other coordinate of the same point
+	 * @return the FreeVariable
+	 */
+	public FreeVariable getTwin() {
+		return twin;
+	}
+
+	/**
+	 * Sets the FreeVariable which describes the other coordinate of the same point
+	 * @param twin the FreeVariable. Is null if there is no twin.
+	 */
+	public void setTwin(FreeVariable twin) {
+		this.twin = twin;
 	}
 
 }

@@ -9706,6 +9706,15 @@ public class Kernel {
 		return polygon;
 	}
 
+	final public GeoBoolean IsCollinear(String label, GeoPoint2 point1,
+			GeoPoint2 point2, GeoPoint2 point3) {
+		AlgoIsCollinear algo = new AlgoIsCollinear(cons, label, point1, point2,
+				point3);
+		GeoBoolean bool = algo.getResult();
+		return bool;
+	}
+	
+	
 	public void notifyChangeLayer(GeoElement ge, int layer, int layer2) {
 		app.updateMaxLayerUsed(layer2);
 		for (int i = 0; i < viewCnt; ++i) {
