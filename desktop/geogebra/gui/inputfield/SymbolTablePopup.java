@@ -2,8 +2,8 @@ package geogebra.gui.inputfield;
 
 import static java.awt.event.KeyEvent.VK_ENTER;
 import static java.awt.event.KeyEvent.VK_ESCAPE;
+import geogebra.common.gui.util.TableSymbols;
 import geogebra.gui.util.SelectionTable;
-import geogebra.gui.util.TableSymbols;
 import geogebra.main.Application;
 
 import java.awt.Dimension;

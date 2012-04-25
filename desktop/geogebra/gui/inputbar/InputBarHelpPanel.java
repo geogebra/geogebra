@@ -2,13 +2,13 @@ package geogebra.gui.inputbar;
 
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.gui.SetLabels;
+import geogebra.common.gui.util.TableSymbols;
 import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.common.util.LowerCaseDictionary;
 import geogebra.gui.util.GeoGebraIcon;
 import geogebra.gui.util.SelectionTable;
-import geogebra.gui.util.TableSymbols;
 import geogebra.main.Application;
 
 import java.awt.BorderLayout;

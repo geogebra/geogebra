@@ -14,6 +14,7 @@ package geogebra.gui.dialog.options;
 
 import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.gui.SetLabels;
+import geogebra.common.gui.util.TableSymbols;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.NumberValue;
@@ -24,7 +25,6 @@ import geogebra.euclidianND.EuclidianViewND;
 import geogebra.gui.NumberComboBox;
 import geogebra.gui.dialog.DashListRenderer;
 import geogebra.gui.inputfield.MyTextField;
-import geogebra.gui.util.TableSymbols;
 import geogebra.main.Application;
 
 import java.awt.BorderLayout;
