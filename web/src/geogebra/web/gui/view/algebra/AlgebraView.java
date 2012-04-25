@@ -1251,7 +1251,10 @@ public class AlgebraView extends Tree implements LayerView, SetLabels, geogebra.
 			// Workaround to make treeitem visual selection available
 			DOM.setStyleAttribute(
 				(com.google.gwt.user.client.Element)
-				ti.getElement().getFirstChildElement(), "display", "block");
+				ti.getElement().getFirstChildElement(), "display", "-moz-inline-box");
+			DOM.setStyleAttribute(
+				(com.google.gwt.user.client.Element)
+				ti.getElement().getFirstChildElement(), "display", "inline-block");
 		} else {
 			ti.setText(ob.toString());
 		}
@@ -1271,7 +1274,7 @@ public class AlgebraView extends Tree implements LayerView, SetLabels, geogebra.
 
 		private class RadioButtonHandy extends RadioButton {
 			public RadioButtonHandy() {
-				super(DOM.createUniqueId(),"");
+				super(DOM.createUniqueId());
 			}
 
 			@Override
