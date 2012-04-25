@@ -33,7 +33,7 @@ public class InputDialogDilate extends InputDialog {
 		this.selGeos = selGeos;
 		this.kernel = kernel;
 
-		createGUI(title, app.getPlain("Numeric"), false, DEFAULT_COLUMNS, 1, true, true, false, false, false, false, DialogType.GeoGebraEditor);		
+		createGUI(title, app.getPlain("Numeric"), false, DEFAULT_COLUMNS, 1, true, false, false, false, DialogType.GeoGebraEditor);		
 		JPanel centerPanel = new JPanel(new BorderLayout());
 		centerPanel.add(inputPanel, BorderLayout.CENTER);								
 		getContentPane().add(centerPanel, BorderLayout.CENTER);		

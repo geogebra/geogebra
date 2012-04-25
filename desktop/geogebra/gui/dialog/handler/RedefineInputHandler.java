@@ -17,6 +17,9 @@ public class RedefineInputHandler implements InputHandler {
 		this.oldString=oldString; // Michael Borcherds 2007-12-31
 	}
 	
+	/**
+	 * @param geo
+	 */
 	public void setGeoElement(GeoElement geo) {
 		this.geo = geo;
 	}

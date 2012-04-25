@@ -66,7 +66,7 @@ public class ScriptInputDialog extends InputDialog {
 		inputHandler = new TextInputHandler();
 				
 				
-		createGUI(title, "", false, cols, rows, true, true, false, true, false, false, DialogType.GeoGebraEditor);		
+		createGUI(title, "", false, cols, rows, true, false, false, false, DialogType.GeoGebraEditor);		
 		
 		// init dialog using text
 		

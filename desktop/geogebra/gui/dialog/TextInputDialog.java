@@ -142,7 +142,7 @@ public class TextInputDialog extends InputDialog implements DocumentListener {
 		isIniting = true;
 
 		// build input dialog GUI
-		createGUI(title, "", false, cols, rows, false, false, false, false,
+		createGUI(title, "", false, cols, rows, false, false,
 				false, false, DialogType.DynamicText);
 		addHelpButton(AbstractApplication.WIKI_TEXT_TOOL);
 		editor = (DynamicTextInputPane) inputPanel.getTextComponent();

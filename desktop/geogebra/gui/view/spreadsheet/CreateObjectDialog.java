@@ -109,7 +109,7 @@ public class CreateObjectDialog extends InputDialog implements
 
 		boolean showApply = false;
 
-		createGUI(title, "", false, 16, 1, false, false, false, false, false,
+		createGUI(title, "", false, 16, 1, false, false, false,
 				showApply, DialogType.GeoGebraEditor);
 
 		// this.btCancel.setVisible(false);

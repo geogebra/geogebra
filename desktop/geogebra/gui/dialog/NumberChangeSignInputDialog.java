@@ -47,8 +47,8 @@ public class NumberChangeSignInputDialog extends InputDialog {
 	}
 	
 	@Override
-	protected void createBtPanel(boolean showApply){
+	protected void loadBtPanel(boolean showApply){
 		btPanel.add(checkBox);
-		super.createBtPanel(showApply);
+		super.loadBtPanel(showApply);
 	}	
 }
