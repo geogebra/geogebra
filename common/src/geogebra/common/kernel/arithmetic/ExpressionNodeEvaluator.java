@@ -314,6 +314,10 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 						((NumberValue) rt).getDouble(),
 						((NumberValue) lt).getDouble()));
 			}
+			if(lt.isTextValue() && rt.isTextValue()){
+				int comp = ((TextValue)lt).toValueString(tpl).compareTo(((TextValue)rt).toValueString(tpl));
+				return new MyBoolean(kernel,comp<0);
+			}
 			str = new String[]{ "IllegalComparison", lt.toString(errorTemplate), "<",
 					rt.toString(errorTemplate) };
 			throw new MyError(app, str);
@@ -325,6 +329,10 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				return new MyBoolean(kernel, Kernel.isGreater(
 						((NumberValue) lt).getDouble(),
 						((NumberValue) rt).getDouble()));
+			}
+			if(lt.isTextValue() && rt.isTextValue()){
+				int comp = ((TextValue)lt).toValueString(tpl).compareTo(((TextValue)rt).toValueString(tpl));
+				return new MyBoolean(kernel,comp>0);
 			}
 			str = new String[]{ "IllegalComparison", lt.getClass().getName(),
 					lt.toString(errorTemplate), ">", rt.toString(errorTemplate),
@@ -338,6 +346,10 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 						((NumberValue) rt).getDouble(),
 						((NumberValue) lt).getDouble()));
 			}
+			if(lt.isTextValue() && rt.isTextValue()){
+				int comp = ((TextValue)lt).toValueString(tpl).compareTo(((TextValue)rt).toValueString(tpl));
+				return new MyBoolean(kernel,comp<=0);
+			}
 			str = new String[]{ "IllegalComparison", lt.toString(errorTemplate),
 					strLESS_EQUAL, rt.toString(errorTemplate) };
 			throw new MyError(app, str);
@@ -348,6 +360,10 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				return new MyBoolean(kernel, Kernel.isGreaterEqual(
 						((NumberValue) lt).getDouble(),
 						((NumberValue) rt).getDouble()));
+			}
+			if(lt.isTextValue() && rt.isTextValue()){
+				int comp = ((TextValue)lt).toValueString(tpl).compareTo(((TextValue)rt).toValueString(tpl));
+				return new MyBoolean(kernel,comp>=0);
 			}
 			str = new String[]{ "IllegalComparison", lt.toString(errorTemplate),
 					strGREATER_EQUAL, rt.toString(errorTemplate) };
