@@ -21,7 +21,7 @@ import geogebra.common.kernel.prover.Prover;
  *         18th April 2012
  *
  */
-public class AlgoIsCollinear extends AlgoElement implements SymbolicParametersAlgo{
+public class AlgoAreCollinear extends AlgoElement implements SymbolicParametersAlgo{
 
 	private GeoPoint2 inputPoint1; //input
 	private GeoPoint2 inputPoint2; //input
@@ -38,7 +38,7 @@ public class AlgoIsCollinear extends AlgoElement implements SymbolicParametersAl
      * @param inputPoint2 the second point
      * @param inputPoint3 the third point
      */
-    public AlgoIsCollinear(final Construction cons, final String label, final GeoPoint2 inputPoint1, final GeoPoint2 inputPoint2, final GeoPoint2 inputPoint3) {
+    public AlgoAreCollinear(final Construction cons, final String label, final GeoPoint2 inputPoint1, final GeoPoint2 inputPoint2, final GeoPoint2 inputPoint3) {
         super(cons);
         this.inputPoint1=inputPoint1;
         this.inputPoint2=inputPoint2;
@@ -53,7 +53,7 @@ public class AlgoIsCollinear extends AlgoElement implements SymbolicParametersAl
 
     @Override
 	public Algos getClassName() {
-        return Algos.AlgoIsCollinear;
+        return Algos.AlgoAreCollinear;
     }
 
     @Override
@@ -67,7 +67,7 @@ public class AlgoIsCollinear extends AlgoElement implements SymbolicParametersAl
         super.setOutput(0, outputBoolean);
         setDependencies(); // done by AlgoElement
     }
-
+    																								
     public GeoBoolean getResult() {
         return outputBoolean;
     }

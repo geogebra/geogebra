@@ -2652,5 +2652,8 @@ public interface CommandConstants extends ConstantsWithLookup {
 	String ShowGrid_Syntax();
 
 	@DefaultStringValue("AreCollinear")
-	String IsCollinear();
+	String AreCollinear();
+	
+	@DefaultStringValue("[ <Point>, <Point>, <Point> ]")
+	String AreCollinear_Syntax();
 }

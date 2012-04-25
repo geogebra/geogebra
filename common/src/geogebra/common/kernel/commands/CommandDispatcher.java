@@ -1016,8 +1016,8 @@ public class CommandDispatcher {
 				return new CmdBinomial(kernel);
 			case RandomBetween:
 				return new CmdRandom(kernel);
-			case IsCollinear:
-				return new CmdIsCollinear(kernel);
+			case AreCollinear:
+				return new CmdAreCollinear(kernel);
 			default:
 				AbstractApplication.debug("missing case in CommandDispatcher");
 				return null;

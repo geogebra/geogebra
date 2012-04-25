@@ -9706,9 +9706,9 @@ public class Kernel {
 		return polygon;
 	}
 
-	final public GeoBoolean IsCollinear(String label, GeoPoint2 point1,
+	final public GeoBoolean AreCollinear(String label, GeoPoint2 point1,
 			GeoPoint2 point2, GeoPoint2 point3) {
-		AlgoIsCollinear algo = new AlgoIsCollinear(cons, label, point1, point2,
+		AlgoAreCollinear algo = new AlgoAreCollinear(cons, label, point1, point2,
 				point3);
 		GeoBoolean bool = algo.getResult();
 		return bool;
