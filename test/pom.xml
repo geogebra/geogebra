@@ -6,7 +6,7 @@
 	<artifactId>test</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 
-	<name>GeoGebraTest</name>
+	<name>test</name>
 	<url>http://www.geogebra.org</url>
 
 	<properties>
