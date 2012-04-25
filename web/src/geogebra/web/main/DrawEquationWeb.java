@@ -318,6 +318,19 @@ public class DrawEquationWeb implements DrawEquationInterface {
 		var elsecond = parentElement.firstChild.firstChild.nextSibling;
 
 		$wnd.jQuery(elsecond).mathquill('revert').mathquill('editable');
-		
+
+		$wnd.jQuery(elsecond).keypress(function(event) {
+			if (event.which == 13) {
+				var thisjq = $wnd.jQuery(this);
+				var latexq = thisjq.mathquill('latex');
+				this.previousSibling.style.display = "block";
+				@geogebra.web.main.DrawEquationWeb::endEditingEquationMathQuill(Ljava/lang/String;)(latexq);
+				thisjq.mathquill('revert').mathquill();
+			}
+		});
 	}-*/;
+
+	public static void endEditingEquationMathQuill(String latex) {
+		//com.google.gwt.user.client.Window.alert(latex);
+	}
 }
