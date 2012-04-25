@@ -142,6 +142,11 @@ public class NoExceptionsTest {
 	}
 
 	@Test
+	public void cmdAreCollinear() {
+		t("AreCollinear[ Pt1,Pt2,Pt3 ]");
+	}
+	
+	@Test
 	public void cmdExpression() {
 		t("1+i");
 		t("(1,2)+{(2,3),(4,5)}");
