@@ -3,6 +3,8 @@ package geogebra.web.gui.inputfield;
 import java.util.ArrayList;
 import java.util.List;
 
+import sun.awt.HorizBagLayout;
+
 import geogebra.common.awt.Color;
 import geogebra.common.awt.Font;
 import geogebra.common.euclidian.DrawTextField;
@@ -43,11 +45,15 @@ import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.regexp.shared.MatchResult;
 import com.google.gwt.regexp.shared.RegExp;
+import com.google.gwt.user.client.ui.FocusWidget;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
+import com.google.gwt.user.client.ui.ToggleButton;
 
-public class AutoCompleteTextField extends SuggestBox implements AutoComplete, geogebra.common.gui.inputfield.AutoCompleteTextField, KeyDownHandler, KeyUpHandler, KeyPressHandler, ValueChangeHandler<String>, SelectionHandler<Suggestion>, VirtualKeyboardListener {
+public class AutoCompleteTextField extends HorizontalPanel implements AutoComplete, geogebra.common.gui.inputfield.AutoCompleteTextField, KeyDownHandler, KeyUpHandler, KeyPressHandler, ValueChangeHandler<String>, SelectionHandler<Suggestion>, VirtualKeyboardListener {
 	
 	  private Application app;
 	  private StringBuilder curWord;
@@ -66,8 +72,14 @@ public class AutoCompleteTextField extends SuggestBox implements AutoComplete, g
 	  private static CompletionsPopup completionsPopup;
 
 	  private HistoryPopup historyPopup;
+	  SuggestBox textField = null;
 
 	  private DrawTextField drawTextField = null;
+	  
+	// symbol table popup fields
+	private ToggleButton showSymbolButton = null;
+	private SymbolTablePopup tablePopup;
+	private boolean showSymbolTableIcon = false;
 	  
 	  /**
 	   * Flag to determine if text must start with "=" to activate autoComplete;
@@ -110,10 +122,16 @@ public class AutoCompleteTextField extends SuggestBox implements AutoComplete, g
 		      boolean handleEscapeKey, AutoCompleteDictionary dict) {
 		    //AG not MathTextField and Mytextfield exists yet super(app);
 		    // allow dynamic width with columns = -1
-		  super(completionsPopup = new CompletionsPopup(),new TextBox(), new DefaultSuggestionDisplay());
+		  textField = new SuggestBox(completionsPopup = new CompletionsPopup(),new TextBox(), new SuggestBox.DefaultSuggestionDisplay());
 		    if (columns > 0) {
 		      setColumns(columns);
 		    }
+		    
+		    showSymbolButton = new ToggleButton();
+		    showSymbolButton.setText("\u03B1");
+		    
+		    add(textField);
+		    add(showSymbolButton);
 
 		    this.app = app;
 		    setAutoComplete(true);
@@ -129,21 +147,21 @@ public class AutoCompleteTextField extends SuggestBox implements AutoComplete, g
 		    completionsPopup.addTextField(this);
 		    
 		    // addKeyListener(this); now in MathTextField <==AG not mathtexfield exist yet
-		    addKeyDownHandler(this);
-		    addKeyUpHandler(this);
-		    addKeyPressHandler(this);
-		    addValueChangeHandler(this);
-		    addSelectionHandler(this);
+		    textField.addKeyDownHandler(this);
+		    textField.addKeyUpHandler(this);
+		    textField.addKeyPressHandler(this);
+		    textField.addValueChangeHandler(this);
+		    textField.addSelectionHandler(this);
 		    setDictionary(dict);
 		    init();
 	}
 	
 	private void init(){
-		getTextBox().addMouseUpHandler(new MouseUpHandler(){
+		textField.getTextBox().addMouseUpHandler(new MouseUpHandler(){
 			public void onMouseUp(MouseUpEvent event) {
 				//AG I dont understand thisAutoCompleteTextField tf = ((AutoCompleteTextField)event.getSource()); 
 	            //AG tf.setFocus(true);
-				setFocus(true);
+				textField.setFocus(true);
             }
 		});
 	}
@@ -341,8 +359,7 @@ public class AutoCompleteTextField extends SuggestBox implements AutoComplete, g
     }
 
 	public void requestFocus() {
-	    AbstractApplication.debug("implementation needed - just finishing"); //TODO Auto-generated
-		setFocus(true);
+		textField.setFocus(true);
     }
 
 	public void setLabel(JLabel label) {
@@ -373,12 +390,12 @@ public class AutoCompleteTextField extends SuggestBox implements AutoComplete, g
 	}
 
 	public void addFocusListener(FocusListener listener) {
-		getTextBox().addFocusHandler((geogebra.web.euclidian.event.FocusListener) listener);
-		getTextBox().addBlurHandler((geogebra.web.euclidian.event.FocusListener) listener);	    
+		textField.getTextBox().addFocusHandler((geogebra.web.euclidian.event.FocusListener) listener);
+		textField.getTextBox().addBlurHandler((geogebra.web.euclidian.event.FocusListener) listener);	    
     }
 
 	public void addKeyListener(geogebra.common.euclidian.event.KeyListener listener) {
-		super.addKeyPressHandler((geogebra.web.euclidian.event.KeyListener) listener);
+		textField.addKeyPressHandler((geogebra.web.euclidian.event.KeyListener) listener);
 	}
 	
 	public void wrapSetText(String s) {
@@ -387,11 +404,11 @@ public class AutoCompleteTextField extends SuggestBox implements AutoComplete, g
     }
 
 	public int getCaretPosition() {
-		return getTextBox().getCursorPos();
+		return textField.getTextBox().getCursorPos();
     }
 
 	public void setCaretPosition(int caretPos) {
-		getTextBox().setCursorPos(caretPos);
+		textField.getTextBox().setCursorPos(caretPos);
     }
 
 	public void setDictionary(AutoCompleteDictionary dict) {
@@ -452,8 +469,8 @@ public class AutoCompleteTextField extends SuggestBox implements AutoComplete, g
 	  }
 	  
 	  private void clearSelection() {
-		    int start = getText().indexOf(getTextBox().getSelectedText());
-		    int end = start + getTextBox().getSelectionLength();
+		    int start = textField.getText().indexOf(textField.getTextBox().getSelectedText());
+		    int end = start + textField.getTextBox().getSelectionLength();
 		    // clear selection if there is one
 		    if (start != end) {
 		      int pos = getCaretPosition();
@@ -610,7 +627,7 @@ public class AutoCompleteTextField extends SuggestBox implements AutoComplete, g
 		      //moveCaretPosition(argMatcher.start() + 1);
 		      for (int i = 0; i < argMatcher.getGroupCount(); i++) {
 		    	  String groupStr = argMatcher.getGroup(i);
-		    	  getTextBox().setSelectionRange(text.indexOf(groupStr)+1, groupStr.length()-1);
+		    	  textField.getTextBox().setSelectionRange(text.indexOf(groupStr)+1, groupStr.length()-1);
 		      }
 		      return true;
 		    } else {
@@ -925,7 +942,7 @@ public class AutoCompleteTextField extends SuggestBox implements AutoComplete, g
     }
 
 	public boolean isSuggesting() {
-		DefaultSuggestionDisplay display = (DefaultSuggestionDisplay) getSuggestionDisplay();
+		SuggestBox.DefaultSuggestionDisplay display = (SuggestBox.DefaultSuggestionDisplay) textField.getSuggestionDisplay();
 		return display.isSuggestionListShowing();
     }
 	
@@ -948,7 +965,7 @@ public class AutoCompleteTextField extends SuggestBox implements AutoComplete, g
 	/* Hopefully happens only on click */
 	public void onValueChange(ValueChangeEvent<String> event) {
 	  isSuggestionClickJustHappened = true;
-	  getTextBox().getElement().focus();
+	  textField.getTextBox().getElement().focus();
     }
 
 	public void onSelection(SelectionEvent<Suggestion> event) {
@@ -1004,11 +1021,11 @@ public class AutoCompleteTextField extends SuggestBox implements AutoComplete, g
 	}
 
 	private int getSelectionEnd() {
-	   return getSelectionStart() + getTextBox().getSelectionLength();
+	   return getSelectionStart() + textField.getTextBox().getSelectionLength();
     }
 
 	private int getSelectionStart() {
-	   return getText().indexOf(getTextBox().getSelectedText());
+	   return getText().indexOf(textField.getTextBox().getSelectedText());
     }
 
 	  /**
@@ -1057,4 +1074,31 @@ public class AutoCompleteTextField extends SuggestBox implements AutoComplete, g
 		moveToNextArgument(false);
 		return true;
 	}
+	
+	/**
+	 * Sets a flag to show the symbol table icon when the field is focused
+	 * 
+	 * @param showSymbolTableIcon
+	 */
+	public void setShowSymbolTableIcon(boolean showSymbolTableIcon) {
+		this.showSymbolTableIcon = showSymbolTableIcon;
+	}
+
+	private SymbolTablePopup getTablePopup() {
+		if (tablePopup == null)
+			tablePopup = new SymbolTablePopup(app, this);
+		return tablePopup;
+	}
+
+	public String getText() {
+	    return textField.getText();
+    }
+
+	public void setText(String s) {
+	   textField.setText(s);
+    }
+
+	public FocusWidget getTextBox() {
+	    return textField.getTextBox();
+    }
 }

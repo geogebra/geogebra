@@ -1288,28 +1288,22 @@ td.datePickerMonth {
 } 
 
 /* AlgebraInput styles */
+.AlgebraInput {
+    margin:auto 25%;
+}
+
 .AlgebraInput .btnHelpToggle {
     width:18px;
     height:18px;
 }
 
-.AlgebraInput .btnHelpToggle.gwt-ToggleButton-up, .AlgebraInput .btnHelpToggle.gwt-ToggleButton-up-hovering {
-    background:url("images/inputhelp_left_18x18.png") no-repeat center center;
-}
-
-.AlgebraInput .btnHelpToggle.gwt-ToggleButton-down, .AlgebraInput .btnHelpToggle.gwt-ToggleButton-down-hovering {
-    background:url("images/inputhelp_right_18x18.png") no-repeat center center;
-}
-
-
 .InputPanel {
-    width:99%;
     overflow:auto;
 }
 
-.InputPanel input.AlgebraInput {
+.InputPanel input {
     display:block;
-    width:95%;
+    min-width:600px;
 }
 
 .historyList a {
