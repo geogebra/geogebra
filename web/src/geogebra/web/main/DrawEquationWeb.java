@@ -311,13 +311,13 @@ public class DrawEquationWeb implements DrawEquationInterface {
 	 */
 	public static native void editEquationMathQuill(Element parentElement) /*-{
 
-		var elsecond = parentElement.firstChild.firstChild.nextSibling;
-		
-		$wnd.jQuery(elsecond).mathquill('editable');
-		
 		var elfirst = parentElement.firstChild.firstChild;
 		
 		elfirst.style.display = 'none';
 
+		var elsecond = parentElement.firstChild.firstChild.nextSibling;
+
+		$wnd.jQuery(elsecond).mathquill('revert').mathquill('editable');
+		
 	}-*/;
 }
