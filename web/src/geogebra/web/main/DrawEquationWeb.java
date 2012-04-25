@@ -10,6 +10,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
 import geogebra.web.css.GuiResources;
 import geogebra.web.euclidian.EuclidianView;
+import geogebra.web.gui.view.algebra.RadioButtonTreeItem;
 import geogebra.web.helper.ScriptLoadCallback;
 import geogebra.web.html5.DynamicScriptElement;
 
@@ -28,6 +29,8 @@ import com.google.gwt.user.client.DOM;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.ArrayList;
+
+import javax.swing.tree.DefaultTreeModel;
 
 public class DrawEquationWeb implements DrawEquationInterface {
 	
@@ -309,7 +312,7 @@ public class DrawEquationWeb implements DrawEquationInterface {
 	 * Edits a MathQuill equation which was created by drawEquationMathQuill
 	 * @param parentElement: the same element as in drawEquationMathQuill
 	 */
-	public static native void editEquationMathQuill(Element parentElement) /*-{
+	public static native void editEquationMathQuill(RadioButtonTreeItem rbti, Element parentElement) /*-{
 
 		var elfirst = parentElement.firstChild.firstChild;
 		
@@ -324,13 +327,13 @@ public class DrawEquationWeb implements DrawEquationInterface {
 				var thisjq = $wnd.jQuery(this);
 				var latexq = thisjq.mathquill('latex');
 				this.previousSibling.style.display = "block";
-				@geogebra.web.main.DrawEquationWeb::endEditingEquationMathQuill(Ljava/lang/String;)(latexq);
+				@geogebra.web.main.DrawEquationWeb::endEditingEquationMathQuill(Lgeogebra/web/gui/view/algebra/RadioButtonTreeItem;Ljava/lang/String;)(rbti,latexq);
 				thisjq.mathquill('revert').mathquill();
 			}
 		});
 	}-*/;
 
-	public static void endEditingEquationMathQuill(String latex) {
-		//com.google.gwt.user.client.Window.alert(latex);
+	public static void endEditingEquationMathQuill(RadioButtonTreeItem rbti, String latex) {
+		rbti.stopEditing(latex);
 	}
 }
