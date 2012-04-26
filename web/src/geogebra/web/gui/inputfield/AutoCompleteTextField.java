@@ -129,6 +129,16 @@ public class AutoCompleteTextField extends HorizontalPanel implements AutoComple
 		    
 		    showSymbolButton = new ToggleButton();
 		    showSymbolButton.setText("\u03B1");
+		    showSymbolButton.addClickHandler(new ClickHandler() {
+				
+				public void onClick(ClickEvent event) {
+					if (showSymbolButton.isDown()) {
+						getTablePopup().showRelativeTo(showSymbolButton);
+					} else {
+						getTablePopup().hide();
+					}
+				}
+			});
 		    
 		    add(textField);
 		    add(showSymbolButton);
