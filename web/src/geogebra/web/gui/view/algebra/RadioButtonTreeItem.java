@@ -182,12 +182,14 @@ public class RadioButtonTreeItem extends HorizontalPanel
 
 		boolean switchw = false;
 		for (int i = 0; i < newValueLast.length(); i++)
-			if (newValueLast.charAt(i) != '|')
-				sb.append(newValueLast.charAt(i));
-			else if (switchw = !switchw)
-				sb.append("abs(");
-			else
-				sb.append(")");
+			if (newValueLast.charAt(i) != ' ') {
+				if (newValueLast.charAt(i) != '|')
+					sb.append(newValueLast.charAt(i));
+				else if (switchw = !switchw)
+					sb.append("abs(");
+				else
+					sb.append(")");
+			}
 
 		newValue = sb.toString();
 
