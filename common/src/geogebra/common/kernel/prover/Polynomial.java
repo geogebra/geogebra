@@ -2,6 +2,7 @@ package geogebra.common.kernel.prover;
 
 import geogebra.common.main.AbstractApplication;
 
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.TreeMap;
 
@@ -182,7 +183,7 @@ public class Polynomial implements Comparable<Polynomial> {
 	 * @return the product
 	 */
 	public Polynomial multiply(final Polynomial poly) {
-		AbstractApplication.debug(poly);
+		AbstractApplication.debug(getSingularMultiplication("rr", poly, this));
 		TreeMap<Term, Integer> result = new TreeMap<Term, Integer>();
 		TreeMap<Term, Integer> terms2 = poly.getTerms();
 		Iterator<Term> it1 = terms.keySet().iterator();
@@ -239,6 +240,67 @@ public class Polynomial implements Comparable<Polynomial> {
 			sb.append('+');
 		}
 		return sb.substring(0, sb.length() - 1); // removing closing "+"
+	}
+	
+	/**
+	 * The set of the variables in this polynomial
+	 * @return the set of variables
+	 */
+	public HashSet<FreeVariable> getVars() {
+		HashSet<FreeVariable> v = new HashSet<FreeVariable>();
+		Iterator<Term> it = terms.keySet().iterator();
+		while (it.hasNext()) {
+			Term t = it.next();
+			v.addAll(t.getVars());
+		}
+		return v;
+	}
+
+	/**
+	 * The set of the variables in two given polynomials
+	 * @return the set of variables
+	 */
+	public HashSet<FreeVariable> getVars(Polynomial p1, Polynomial p2) {
+		HashSet<FreeVariable> v = new HashSet<FreeVariable>();
+		v.addAll(p1.getVars());
+		v.addAll(p2.getVars());
+		return v;
+	}
+	
+	/**
+	 * Creates a comma separated list of the variables in two given polynomials
+	 * @return the comma separated list
+	 */
+	public String getVarsAsCommaSeparatedString(Polynomial p1, Polynomial p2) {
+		StringBuilder sb = new StringBuilder();
+		Iterator<FreeVariable> it = getVars(p1,p2).iterator();
+		while (it.hasNext()) {
+			FreeVariable fv = it.next();
+			sb.append("," + fv);
+		}
+		if (sb.length()>0)
+			return sb.substring(1); // removing first "," character
+		return "";
+	}
+	
+	/**
+	 * Creates a Singular command for creating a ring to work with two
+	 * polynomials, with a closing ";" 
+	 * @param ringVariable variable name for the ring in Singular
+	 * @param p1 first polynomial
+	 * @param p2 second polynomial
+	 * @return the Singular command
+	 */
+	public String getSingularMultiplication(String ringVariable, Polynomial p1, Polynomial p2) {
+		return "ring " + ringVariable + "=0,(" 
+				+ getVarsAsCommaSeparatedString(p1, p2)
+				+ "),dp;" // ring definition in Singular
+				
+				+ "short=0;" // switching off short output
+				
+				+ "(" + p1.toString() + ")"
+				+ "*"
+				+ "(" + p2.toString() + ");"; // the multiplication command
 	}
 	
 	@Override

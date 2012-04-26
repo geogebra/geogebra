@@ -2,6 +2,7 @@ package geogebra.common.kernel.prover;
 
 import geogebra.common.main.AbstractApplication;
 
+import java.util.HashSet;
 import java.util.TreeMap;
 import java.util.Iterator;
 
@@ -182,6 +183,20 @@ public class Term implements Comparable<Term> {
 				sb.append("^" + power);
 		}
 		return sb.substring(1); // removing first "*" character
+	}
+
+	/**
+	 * The set of variables in this term
+	 * @return the set of variables
+	 */
+	public HashSet<FreeVariable> getVars() {
+		HashSet<FreeVariable> v = new HashSet<FreeVariable>();
+		Iterator<FreeVariable> it = variables.keySet().iterator();
+		while (it.hasNext()) {
+			FreeVariable fv  = it.next();
+			v.add(fv);
+		}
+		return v;
 	}
 	
 	@Override
