@@ -370,11 +370,18 @@ public class Application extends AbstractApplication {
 			return "";
 		}
 		
-		if(commandConstants == null) {
-			initTranslatedCommands();
+		try {
+			
+			if(commandConstants == null) {
+				initTranslatedCommands();
+			}
+			
+			return commandConstants.getString(crossReferencingPropertiesKeys(key));
+			
+		} catch(MissingResourceException e) {
+			AbstractApplication.error(e.toString() + " Invalid key: " + key);
+			return null;
 		}
-		
-		return commandConstants.getString(crossReferencingPropertiesKeys(key));
 	}
 	
 	
@@ -425,12 +432,22 @@ public class Application extends AbstractApplication {
 	@Override
 	public String getPlain(String key) {
 		
-		if (plainConstants == null) {
-			initPlainConstants();
+		if(key == null) {
+			return "";
 		}
 		
-		
-		return plainConstants.getString(crossReferencingPropertiesKeys(key));
+		try {
+			
+			if (plainConstants == null) {
+				initPlainConstants();
+			}
+			
+			return plainConstants.getString(crossReferencingPropertiesKeys(key));
+			
+		} catch(MissingResourceException e) {
+			AbstractApplication.error(e.toString() + " Invalid key: " + key);
+			return null;
+		}
 	}
 	
 	/**
@@ -468,21 +485,43 @@ public class Application extends AbstractApplication {
 	@Override
 	public String getMenu(String key) {
 		
-		if (menuConstants == null) {
-			initMenuConstants();
+		if(key == null) {
+			return "";
 		}
+		
+		try {
+			
+			if (menuConstants == null) {
+				initMenuConstants();
+			}
 
-		return menuConstants.getString(crossReferencingPropertiesKeys(key));
+			return menuConstants.getString(crossReferencingPropertiesKeys(key));
+			
+		} catch(MissingResourceException e) {
+			AbstractApplication.error(e.toString() + " Invalid key: " + key);
+			return null;
+		}
 	}
 
 	@Override
 	public String getError(String key) {
 		
-		if (errorConstants == null) {
-			initErrorConstants();
+		if(key == null) {
+			return "";
 		}
+		
+		try {
+			
+			if (errorConstants == null) {
+				initErrorConstants();
+			}
 
-		return errorConstants.getString(key);
+			return errorConstants.getString(key);
+			
+		} catch(MissingResourceException e) {
+			AbstractApplication.error(e.toString() + " Invalid key: " + key);
+			return null;
+		}
 	}
 
 	/**
@@ -945,12 +984,21 @@ public class Application extends AbstractApplication {
 				return getColor("black");
 			}
 		}
+		
+		try {
+			
+			if (colorConstants == null) {
+				initColorConstants();
+			}
 
-		if (colorConstants == null) {
-			initColorConstants();
+			return colorConstants.getString(StringUtil.toLowerCase(key));
+			
+		} catch(MissingResourceException e) {
+			AbstractApplication.error(e.toString() + " Invalid key: " + key);
+			return null;
 		}
 
-		return colorConstants.getString(StringUtil.toLowerCase(key));
+		
 	}
 
 	@Override
@@ -1353,33 +1401,48 @@ public class Application extends AbstractApplication {
 	@Override
 	final public String getSymbol(int key) {
 		
-		if (symbolConstants == null) {
-			initSymbolConstants();
-		}
+		try {
+			
+			if (symbolConstants == null) {
+				initSymbolConstants();
+			}
 
-		String ret = null;
+			String ret = null;
 
-		ret = symbolConstants.getString("S_" + key);
+			ret = symbolConstants.getString("S_" + key);
 
-		if (ret != null && ret.isEmpty()) {
+			if (ret != null && ret.isEmpty()) {
+				return null;
+			}
+			return ret;
+			
+		} catch(MissingResourceException e) {
+			AbstractApplication.error(e.toString() + " Invalid key number: " + key);
 			return null;
 		}
-		return ret;
 	}
 	
 	@Override
 	final public String getSymbolTooltip(int key) {
-		if (symbolConstants == null) {
-			initSymbolConstants();
-		}
+		
+		try {
+			
+			if (symbolConstants == null) {
+				initSymbolConstants();
+			}
 
-		String ret = null;
-		ret = symbolConstants.getString("T_" + key);
-		if (ret != null && ret.isEmpty()) {
+			String ret = null;
+			ret = symbolConstants.getString("T_" + key);
+			if (ret != null && ret.isEmpty()) {
+				return null;
+			}
+			
+			return ret;
+			
+		} catch(MissingResourceException e) {
+			AbstractApplication.error(e.toString() + " Invalid key number: " + key);
 			return null;
 		}
-		
-		return ret;
 	}
 
 	
