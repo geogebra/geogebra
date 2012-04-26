@@ -58,7 +58,6 @@ import geogebra.web.util.GeoGebraLogger;
 import geogebra.web.util.ImageManager;
 
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -378,35 +377,42 @@ public class Application extends AbstractApplication {
 		return commandConstants.getString(crossReferencingPropertiesKeys(key));
 	}
 	
-	/*
-	 * This method maybe deprecated in the future
-	 * It is currently not functional  
+	
+	/**
+	 * This method checks if the command is stored in the command properties file as a key or a value.
+	 * @param command: a value that should be in the command properties files (part of Internationalization)
+	 * @return the value "command" after verifying its existence.
 	 */
 	final public String getReverseCommand(String command) {
 		initTranslatedCommands();
 
-		String key = StringUtil.toLowerCase(command);
+		String aCommand = StringUtil.toLowerCase(command);
+		String key = null;
 		try {
-
-			Enumeration<String> enume = null /*AG Rana it waits for you :-))rbcommand.getKeys()*/;
-			AbstractApplication.debug("i18n needed");
-
-			while (enume != null && enume.hasMoreElements()) {
-				String s = enume.nextElement();
+			
+			//The Dictionary class is used to get the whole set of command properties keys dynamically (during runtime)
+			//These command keys are defined in the HTML host page as a JavaScript Object named "commandKeysVar".
+			Dictionary commandKeys = Dictionary.getDictionary("commandKeysVar");
+			Set<String> commandKeysSet = commandKeys.keySet();
+			Iterator<String> commandKeysIterator = commandKeysSet.iterator();
+			while(commandKeysIterator != null && commandKeysIterator.hasNext()) {
+				key = commandKeysIterator.next();
 
 				// check internal commands
-				if (StringUtil.toLowerCase(s).equals(key)) {
-					return s;
+				if (key != null && StringUtil.toLowerCase(key).equals(aCommand)) {
+					return key;
 				}
 
 				// check localized commands
-				if (StringUtil.toLowerCase(commandConstants.getString(s)).equals(key)) {
-					return s;
+				if (StringUtil.toLowerCase(commandConstants.getString(key)).equals(aCommand)) {
+					return key;
 				}
-			}
 
+			}
 			return null;
-		} catch (Exception e) {
+
+		} catch (MissingResourceException e) {
+			AbstractApplication.error(e.toString() + " error in command " + key);
 			return null;
 		}
 	}
@@ -575,7 +581,7 @@ public class Application extends AbstractApplication {
 		initTranslatedCommands();
 		
 		//The Dictionary class is used to get the whole set of command properties keys dynamically (during runtime)
-		//These command keys are defined in the HTML host page as a JavaScript Object named "propertyVar".
+		//These command keys are defined in the HTML host page as a JavaScript Object named "commandKeysVar".
 		
 		Dictionary commandDictionary = null;
 		try{
@@ -590,7 +596,7 @@ public class Application extends AbstractApplication {
 			Iterator<String> commandKeysIterator = commandPropertyKeys.iterator();
 			while(commandKeysIterator.hasNext()) {
 				String s = crossReferencingPropertiesKeys(commandKeysIterator.next());
-//				AbstractApplication.debug("Rana Test: " + s);
+//				AbstractApplication.debug("Testing: " + s);
 				// Remove keys with .Syntax, .SyntaxCAS, .Syntax3D from the investigated set of keys.
 				if (s.indexOf(syntaxStr) == -1) {
 					//insure that the lower/upper cases are taken into consideration
@@ -600,47 +606,9 @@ public class Application extends AbstractApplication {
 				}
 			}
 		}
-	
-			
 		return null;
-
-		
-		
-		/*AGEnumeration<String> enume;
-		String s;
-		enume = rbcommand.getKeys();
-		while (enume.hasMoreElements()) {
-			s = enume.nextElement();
-			// check isn't .Syntax, .SyntaxCAS, .Syntax3D
-			if (s.indexOf(syntaxStr) == -1) {
-				// make sure that when si[] is typed in script, it's changed to
-				// Si[] etc
-				if (getCommand(s).toLowerCase().equals(cmd.toLowerCase())) {
-					return s;
-				}
-			}
-		}*/
-		
-//		try {
-//			if (getCommand(cmd).indexOf(syntaxStr) == -1) {
-//				if (getCommand(cmd).toLowerCase().equals(cmd.toLowerCase())) {
-//					return cmd;
-//				}
-//			}
-//		} catch(MissingResourceException e) {
-//			AbstractApplication.debug(e.getLocalizedMessage());
-//		}
 	}
 	
-//	public static native void getCommandKeys() 
-//	/*-{
-//		commandKeysVar= {
-//		Point: "Point",
-//        Polygon: "Polygon",
-//        PointList: "PointList"
-//		}
-//	}-*/;
-
 	public void showErrorDialog(final String msg) {
 		// TODO: implement it better for GeoGebraWebGUI
 		Window.alert(msg);
@@ -925,14 +893,26 @@ public class Application extends AbstractApplication {
 		return imageManager;
 	}
 
-	/*
-	 * This method maybe deprecated in the future
-	 * It is currently not functional: low priority
-	 */
 	@Override
-	public String reverseGetColor(String colorName) {
-		AbstractApplication.debug("implementation needed"); // TODO
-		return null;
+	public String reverseGetColor(String locColor) {
+		String str = StringUtil.removeSpaces(StringUtil.toLowerCase(locColor));
+
+		try {
+
+			Dictionary colorKeysDict = Dictionary.getDictionary("colorKeysVar");
+			Iterator<String> colorKeysIterator = colorKeysDict.keySet().iterator();
+			while (colorKeysIterator != null && colorKeysIterator.hasNext()) {
+				String key = colorKeysIterator.next();
+				if (key != null && str.equals(StringUtil.removeSpaces(StringUtil.toLowerCase(this.getColor(key))
+						))) {
+					return key;
+				}
+			}
+
+			return str;
+		} catch (MissingResourceException e) {
+			return str;
+		}
 	}
 
 	@Override
