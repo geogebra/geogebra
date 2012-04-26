@@ -1,6 +1,6 @@
 package geogebra.gui;
 
-import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
+import geogebra.common.gui.inputfield.AltKeys;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
@@ -152,7 +152,20 @@ public class GeoGebraKeys implements KeyListener {
 
 
 			// don't want to act on eg "Shift"
-			if (keyString.length() == 1)
+			if (keyString.length() == 1) {
+				
+				if (e.isShiftDown()) {
+					insertStr = AltKeys.LookupUpper.get(Character.toUpperCase(keyString.charAt(0)));
+				} else {
+					// toUpperCase() here deliberate!
+					insertStr = AltKeys.LookupLower.get(Character.toUpperCase(keyString.charAt(0)));
+				}
+				
+				if (insertStr == null) {
+					insertStr = "";
+				}
+				
+				/*
 				switch (keyString.charAt(0)) {
 
 				case '*' :
@@ -289,16 +302,17 @@ public class GeoGebraKeys implements KeyListener {
 				case '7' :
 					insertStr = "\u2077"; // alt-7 -> unicode superscript 7
 					break;
-/*	care needed
-On pc-keyboard:    7   8   9    0
-AltGraph
-or Ctrl Alt        {   [   ]    }
-
-On Apple:          7   8   9    0
-Alt                    [   ]
-Ctrl Alt               {   }
- */
-				case '8' :
+//	care needed
+//On pc-keyboard:    7   8   9    0
+//AltGraph
+//or Ctrl Alt        {   [   ]    }
+//
+//On Apple:          7   8   9    0
+//Alt                    [   ]
+//Ctrl Alt               {   }
+// 
+ 				case '8' :
+ 
 					insertStr = "\u2078"; // alt-8 -> unicode superscript 8
 					break;
 				case '9' :
@@ -306,7 +320,8 @@ Ctrl Alt               {   }
 					break;
 				default:
 					AbstractApplication.debug("no key matched "+keyString+" "+StringUtil.toHexString(keyString));
-				}
+				} //*/
+			}
 
 			// insert into the text component
 			if (!insertStr.equals("")) {

@@ -39,15 +39,71 @@ public class Unicode {
 	final public static char piChar = '\u03c0'; // "\u0435";
 	final public static String PI_STRING = Character.toString(piChar);
 	public static final String alphaBetaGamma = "\u03b1\u03b2\u03b3";
+	// lower case Greek
 	public static final String alpha = "\u03B1";
+	public static final String beta = "\u03B2";
+	public static final String gamma = "\u03B3";
+	public static final String delta = "\u03B4";
+	public static final String epsilon = "\u03B5";
+	public static final String zeta = "\u03B6";
+	public static final String eta = "\u03B7";
+	public static final String theta = "\u03B8";
+	public static final String iota = "\u03B9";
+	public static final String kappa = "\u03BA";
+	public static final String lambda = "\u03BB";
+	public static final String mu = "\u03BC";
+	public static final String nu = "\u03BD";
+	public static final String xi = "\u03BE";
+	public static final String omicron = "\u03BF";
+	public static final String pi = "\u03C0";
+	public static final String rho = "\u03C1";
+	public static final String sigmaf = "\u03C2"; // sigma, final form
+	public static final String sigma = "\u03C3";
+	public static final String tau = "\u03C4";
+	public static final String upsilon = "\u03C5";
+	public static final String phi = "\u03C6";
+	public static final String chi = "\u03C7";
+	public static final String psi = "\u03C8";
+	public static final String omega = "\u03C9";
+	
+	// UPPER CASE Greek
+	public static final String Alpha = "\u0391";
+	public static final String Beta = "\u0392";
+	public static final String Gamma = "\u0393";
+	public static final String Delta = "\u0394";
+	public static final String Epsilon = "\u0395";
+	public static final String Zeta = "\u0396";
+	public static final String Eta = "\u0397";
+	public static final String Theta = "\u0398";
+	public static final String Iota = "\u0399";
+	public static final String Kappa = "\u039A";
+	public static final String Lambda = "\u039B";
+	public static final String Mu = "\u039C";
+	public static final String Nu = "\u039D";
+	public static final String Xi = "\u039E";
+	public static final String Omicron = "\u039F";
+	public static final String Pi = "\u03A0";
+	public static final String Rho = "\u03A1";
+	// <!-- there is no Sigmaf, and no \U03A2 character either -->
+	public static final String Sigma = "\u03A3";
+	public static final String Tau = "\u03A4";
+	public static final String Upsilon = "\u03A5";
+	public static final String Phi = "\u03A6";
+	public static final String Chi = "\u03A7";
+	public static final String Psi = "\u03A8";
+	public static final String Omega = "\u03A9";
+	
+	public static final String PLUSMINUS = "\u00b1";
+	public static final String NOTEQUAL = "\u2260";
+
+
+
 	
 	final public static char FEMININE_ORDINAL_INDICATOR = '\u00aa';
 
 	final public static String IMAGINARY = "\u03af"; // GREEK SMALL LETTER IOTA
 														// WITH TONOS
 	public static final String NBSP = "\u00a0"; // non-breaking (hard) space
-	public static char mu = '\u03bc';
-	public static char sigma = '\u03c3';
 
 	/* helper Unicode strings for fixing Hungarian translations */
 	// These endings will get -re, -nek, -hez:

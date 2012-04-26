@@ -1,16 +1,12 @@
 package geogebra.web.gui.inputfield;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import sun.awt.HorizBagLayout;
-
 import geogebra.common.awt.Color;
 import geogebra.common.awt.Font;
 import geogebra.common.euclidian.DrawTextField;
 import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.event.FocusListener;
 import geogebra.common.gui.VirtualKeyboardListener;
+import geogebra.common.gui.inputfield.AltKeys;
 import geogebra.common.gui.inputfield.AutoComplete;
 import geogebra.common.gui.inputfield.MyTextField;
 import geogebra.common.gui.inputfield.ValidateAutocompletionResult;
@@ -23,11 +19,13 @@ import geogebra.common.main.MyError;
 import geogebra.common.util.AutoCompleteDictionary;
 import geogebra.common.util.Korean;
 import geogebra.common.util.Unicode;
-import geogebra.web.gui.util.GeoGebraIcon;
 import geogebra.web.gui.autocompletion.CompletionsPopup;
-import geogebra.web.gui.inputfield.HistoryPopup;
+import geogebra.web.gui.util.GeoGebraIcon;
 import geogebra.web.main.Application;
 import geogebra.web.main.MyKeyCodes;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -48,10 +46,9 @@ import com.google.gwt.regexp.shared.MatchResult;
 import com.google.gwt.regexp.shared.RegExp;
 import com.google.gwt.user.client.ui.FocusWidget;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SuggestBox;
-import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
+import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.ToggleButton;
 
 public class AutoCompleteTextField extends HorizontalPanel implements AutoComplete, geogebra.common.gui.inputfield.AutoCompleteTextField, KeyDownHandler, KeyUpHandler, KeyPressHandler, ValueChangeHandler<String>, SelectionHandler<Suggestion>, VirtualKeyboardListener {
@@ -902,24 +899,39 @@ public class AutoCompleteTextField extends HorizontalPanel implements AutoComple
 
 		        e.stopPropagation();
 		        break;
-		      case MyKeyCodes.KEY_A:
-		    	  if (e.isAltKeyDown()) {
-		    		  insertString(Unicode.alpha);
-		    	  }
 		      default:
+
+		    	  // check for eg alt-a for alpha
+		    	  // check for eg alt-shift-a for upper case alpha
+		    	  if (e.isAltKeyDown()) {
+
+		    		  char c = (char) keyCode;
+		    		  String s;
+		    		  
+		    		  if (e.isShiftKeyDown()) {
+		    			  s = AltKeys.LookupUpper.get(c);
+		    		  } else {
+		    			  s = AltKeys.LookupLower.get(c);
+		    		  }
+
+		    		  if (s != null) {
+		    			  insertString(s);
+		    			  break;
+		    		  }
+		    	  }
 		    	  /*Try handling here that is originaly in keyup
 		    	   * 
 		    	   */
 		    	  boolean modifierKeyPressed = e.isControlKeyDown() || e
-		    		        .isAltKeyDown();
+		    			  .isAltKeyDown();
 
-		    		    // we don't want to act when AltGr is down
-		    		    // as it is used eg for entering {[}] is some locales
-		    		    // NB e.isAltGraphDown() doesn't work
-		    		    if (e.isAltKeyDown() && e.isControlKeyDown())
-		    		      modifierKeyPressed = false;
+		    	  // we don't want to act when AltGr is down
+		    	  // as it is used eg for entering {[}] is some locales
+		    	  // NB e.isAltGraphDown() doesn't work
+		    	  if (e.isAltKeyDown() && e.isControlKeyDown())
+		    		  modifierKeyPressed = false;
 
-		    		    char charPressed = Character.valueOf((char) e.getNativeKeyCode());
+		    	  char charPressed = Character.valueOf((char) e.getNativeKeyCode());
 
 		    		    if ((isLetterOrDigit(charPressed) || modifierKeyPressed)
 		    		        && !(ctrlC)
