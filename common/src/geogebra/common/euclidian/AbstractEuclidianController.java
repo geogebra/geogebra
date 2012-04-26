@@ -7067,7 +7067,6 @@ public abstract class AbstractEuclidianController {
 	
 			if (!selGeos.contains(geo)) {
 				app.clearSelectedGeos();
-				AbstractApplication.debug("addSelectedGeo következik");
 				app.addSelectedGeo(geo);
 				// app.geoElementSelected(geo, false); // copy definiton to
 				// input bar
