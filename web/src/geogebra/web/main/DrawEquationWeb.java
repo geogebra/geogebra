@@ -8,27 +8,24 @@ import geogebra.common.awt.Graphics2D;
 import geogebra.common.euclidian.DrawEquationInterface;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
-import geogebra.web.css.GuiResources;
 import geogebra.web.euclidian.EuclidianView;
 import geogebra.web.gui.view.algebra.RadioButtonTreeItem;
 import geogebra.web.helper.ScriptLoadCallback;
 import geogebra.web.html5.DynamicScriptElement;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArrayInteger;
-import com.google.gwt.dom.client.CanvasElement;
-import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.DivElement;
-import com.google.gwt.dom.client.SpanElement;
+import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.ImageElement;
+import com.google.gwt.dom.client.SpanElement;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.DOM;
-
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.ArrayList;
 
 public class DrawEquationWeb implements DrawEquationInterface {
 	
@@ -134,20 +131,6 @@ public class DrawEquationWeb implements DrawEquationInterface {
 	public static void drawEquationAlgebraView(Element parentElement, String eqstring, Color fgColor, Color bgColor) {
 		// no scriptloaded check yet (is it necessary?)
 		// no EuclidianView 1,2 yet
-
-		// make sure eg FractionText[] works (surrounds with {} which doesn't draw well in MathQuill)
-		if (eqstring.startsWith("{") && eqstring.endsWith("}")) {
-			eqstring = eqstring.substring(1, eqstring.length() - 1);
-		}
-
-		// remove $s
-		eqstring = eqstring.trim();
-		while (eqstring.startsWith("$")) eqstring = eqstring.substring(1).trim();
-		while (eqstring.endsWith("$")) eqstring = eqstring.substring(0, eqstring.length() - 1).trim();
-
-		// remove all \; and \,
-		eqstring = eqstring.replace("\\;","");
-		eqstring = eqstring.replace("\\,","");
 
 		AbstractApplication.debug("Algebra View: "+eqstring);
 
@@ -323,7 +306,7 @@ public class DrawEquationWeb implements DrawEquationInterface {
 		$wnd.jQuery(elsecond).keypress(function(event) {
 			if (event.which == 13) {
 				var thisjq = $wnd.jQuery(this);
-				var latexq = thisjq.mathquill('latex');
+				var latexq = thisjq.mathquill('text');
 				this.previousSibling.style.display = "block";
 				@geogebra.web.main.DrawEquationWeb::endEditingEquationMathQuill(Lgeogebra/web/gui/view/algebra/RadioButtonTreeItem;Ljava/lang/String;)(rbti,latexq);
 				thisjq.mathquill('revert').mathquill();
@@ -334,4 +317,19 @@ public class DrawEquationWeb implements DrawEquationInterface {
 	public static void endEditingEquationMathQuill(RadioButtonTreeItem rbti, String latex) {
 		rbti.stopEditing(latex);
 	}
+
+	/**
+	 * Updates a MathQuill equation which was created by drawEquationMathQuill
+	 * @param parentElement: the same element as in drawEquationMathQuill
+	 */
+	public static native void updateEquationMathQuill(String htmlt, Element parentElement) /*-{
+		var elsecond = parentElement.firstChild.firstChild.nextSibling;
+
+		$wnd.jQuery(elsecond).mathquill('revert').html(htmlt).mathquill();
+
+		// Make sure the length of brackets and square roots are OK
+		$wnd.setTimeout(function() {
+			$wnd.jQuery(elsecond).mathquill('latex', htmlt);
+		});
+	}-*/;
 }

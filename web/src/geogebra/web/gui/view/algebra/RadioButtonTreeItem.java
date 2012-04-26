@@ -1,3 +1,15 @@
+/* 
+GeoGebra - Dynamic Mathematics for Everyone
+http://www.geogebra.org
+
+This file is part of GeoGebra.
+
+This program is free software; you can redistribute it and/or modify it 
+under the terms of the GNU General Public License as published by 
+the Free Software Foundation.
+
+ */
+
 package geogebra.web.gui.view.algebra;
 
 import geogebra.common.awt.Color;
@@ -9,6 +21,7 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.web.euclidian.event.MouseEvent;
 import geogebra.web.main.Application;
+import geogebra.web.main.DrawEquationWeb;
 
 import java.util.Iterator;
 
@@ -26,6 +39,13 @@ import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.InlineHTML;
 import com.google.gwt.user.client.ui.RadioButton;
+
+/**
+ * RadioButtonTreeItem for the items of the algebra view tree
+ * and also for the event handling which is copied from Desktop/AlgebraController.java
+ *
+ * File created by Arpad Fekete
+ */
 
 public class RadioButtonTreeItem extends HorizontalPanel
 	implements DoubleClickHandler, ClickHandler, MouseMoveHandler {
@@ -95,6 +115,7 @@ public class RadioButtonTreeItem extends HorizontalPanel
 			String latexStr = geo.getLaTeXAlgebraDescription(true,
 					StringTemplate.latexTemplate);
 			if (latexStr != null && geo.isLaTeXDrawableGeo(latexStr)) {
+				latexStr = inputLatexCosmetics(latexStr);
 				geogebra.web.main.DrawEquationWeb.drawEquationAlgebraView(se, latexStr,
 					geo.getAlgebraColor(), Color.white);
 				LaTeX = true;
@@ -112,6 +133,23 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		//geo.getKernel().getApplication().clearTooltipFlag();
 	}
 
+	public String inputLatexCosmetics(String eqstring) {
+		// make sure eg FractionText[] works (surrounds with {} which doesn't draw well in MathQuill)
+		if (eqstring.startsWith("{") && eqstring.endsWith("}")) {
+			eqstring = eqstring.substring(1, eqstring.length() - 1);
+		}
+
+		// remove $s
+		eqstring = eqstring.trim();
+		while (eqstring.startsWith("$")) eqstring = eqstring.substring(1).trim();
+		while (eqstring.endsWith("$")) eqstring = eqstring.substring(0, eqstring.length() - 1).trim();
+
+		// remove all \; and \,
+		eqstring = eqstring.replace("\\;","");
+		eqstring = eqstring.replace("\\,","");
+		return eqstring;
+	}
+
 	public void startEditing() {
 		if (LaTeX) {
 			geogebra.web.main.DrawEquationWeb.editEquationMathQuill(this,se);
@@ -120,14 +158,52 @@ public class RadioButtonTreeItem extends HorizontalPanel
 
 	public void stopEditing(String newValue) {
 
-		// TODO: How to make simple formula from latex formula??
-		/*
+		// Formula Hacks ... Currently only functions are considered
+		int ieq = newValue.indexOf('=');
+		String newValueFirst = "";
+		String newValueLast = "";
+		if (ieq != -1) {
+			newValueFirst = newValue.substring(0,ieq);
+			newValueLast = newValue.substring(ieq);
+		} else {
+			newValueFirst = "";
+			newValueLast = newValue;
+		}
+		newValueLast = newValueLast.replace("**","^");
+		newValueLast = newValueLast.replace("cdot","*");
+
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < newValueFirst.length(); i++)
+			// i+=2 is not good because it can be f(*x*) or g*(*x*) 
+			if (newValueFirst.charAt(i) != '*')
+				sb.append(newValueFirst.charAt(i));
+
+		boolean switchw = false;
+		for (int i = 0; i < newValueLast.length(); i++)
+			if (newValueLast.charAt(i) != '|')
+				sb.append(newValueLast.charAt(i));
+			else if (switchw = !switchw)
+				sb.append("abs(");
+			else
+				sb.append(")");
+
+		newValue = sb.toString();
+
+		// Formula Hacks ended.
+
 		boolean redefine = !geo.isPointOnPath();
 		GeoElement geo2 = kernel.getAlgebraProcessor().changeGeoElement(
 				geo, newValue, redefine, true);
 		if (geo2 != null)
 			geo = geo2;
-		*/
+
+		String latexStr = geo.getLaTeXAlgebraDescription(true,
+				StringTemplate.latexTemplate);
+
+		if (latexStr != null && geo.isLaTeXDrawableGeo(latexStr)) {
+			latexStr = inputLatexCosmetics(latexStr);
+			DrawEquationWeb.updateEquationMathQuill(latexStr, se);
+		}
 	}
 
 	public void onDoubleClick(DoubleClickEvent evt) {
