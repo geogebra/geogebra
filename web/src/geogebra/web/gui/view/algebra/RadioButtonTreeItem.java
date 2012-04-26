@@ -211,13 +211,14 @@ public class RadioButtonTreeItem extends HorizontalPanel
 	}
 
 	public void onDoubleClick(DoubleClickEvent evt) {
-		EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
-		app.clearSelectedGeos();
-		ev.resetMode();
-		if (geo != null && !evt.isControlKeyDown()) {
-			app.getAlgebraView().startEditing(geo, evt.isShiftKeyDown());
+		if (!av.editing) {
+			EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
+			app.clearSelectedGeos();
+			ev.resetMode();
+			if (geo != null && !evt.isControlKeyDown()) {
+				app.getAlgebraView().startEditing(geo, evt.isShiftKeyDown());
+			}
 		}
-		return;
 	}
 
 	public void onClick(ClickEvent evt) {

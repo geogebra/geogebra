@@ -301,10 +301,16 @@ public class DrawEquationWeb implements DrawEquationInterface {
 
 		var elsecond = parentElement.firstChild.firstChild.nextSibling;
 
-		$wnd.jQuery(elsecond).mathquill('revert').mathquill('editable');
+		$wnd.jQuery(elsecond).mathquill('revert').mathquill('editable').focus();
 
 		$wnd.jQuery(elsecond).keypress(function(event) {
-			if (event.which == 13) {
+			var code = 13;
+			if (event.keyCode) {
+				code = event.keyCode;
+			} else if (event.which) {
+				code = event.which;
+			}
+			if (code == 13) {
 				var thisjq = $wnd.jQuery(this);
 				var latexq = thisjq.mathquill('text');
 				this.previousSibling.style.display = "block";
