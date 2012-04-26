@@ -12,46 +12,24 @@ the Free Software Foundation.
 
 package geogebra.web.gui.view.algebra;
 
-import geogebra.common.awt.Color;
 import geogebra.common.awt.Font;
+import geogebra.common.gui.SetLabels;
+import geogebra.common.gui.view.algebra.AbstractAlgebraController;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.LayerView;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.euclidian.EuclidianConstants;
-import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
-import geogebra.common.euclidian.event.AbstractEvent;
-import geogebra.common.gui.SetLabels;
-import geogebra.common.gui.view.algebra.AbstractAlgebraController;
 import geogebra.common.main.AbstractApplication;
 import geogebra.web.euclidian.EuclidianView;
-import geogebra.web.euclidian.event.MouseEvent;
 import geogebra.web.main.Application;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.SpanElement;
-import com.google.gwt.dom.client.DivElement;
 import com.google.gwt.dom.client.Style;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.DoubleClickEvent;
-import com.google.gwt.event.dom.client.DoubleClickHandler;
-import com.google.gwt.event.dom.client.MouseMoveEvent;
-import com.google.gwt.event.dom.client.MouseMoveHandler;
 import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Event;
-import com.google.gwt.user.client.ui.InlineHTML;
-import com.google.gwt.user.client.ui.SimplePanel;
-import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.google.gwt.user.client.ui.Composite;
 
 /**
  * AlgebraView with tree for free and dependent objects.
@@ -520,6 +498,7 @@ public class AlgebraView extends Tree implements LayerView, SetLabels, geogebra.
 			//FIXMEWEB select and show node
 			Widget wi = node.getWidget();
 			editing = true;
+			setAnimationEnabled(false);
 			if (wi instanceof RadioButtonTreeItem)
 				((RadioButtonTreeItem)wi).startEditing();
 		}
@@ -1240,6 +1219,8 @@ public class AlgebraView extends Tree implements LayerView, SetLabels, geogebra.
 	// temporary proxies end
 
 	public void cancelEditing() {
+		editing = false;
+		setAnimationEnabled(true);
 	}
 
 	public boolean isEditing() {

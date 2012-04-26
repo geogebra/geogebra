@@ -158,6 +158,8 @@ public class RadioButtonTreeItem extends HorizontalPanel
 
 	public void stopEditing(String newValue) {
 
+		av.cancelEditing();
+
 		// Formula Hacks ... Currently only functions are considered
 		int ieq = newValue.indexOf('=');
 		String newValueFirst = "";
