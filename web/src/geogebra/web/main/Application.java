@@ -577,26 +577,32 @@ public class Application extends AbstractApplication {
 		//The Dictionary class is used to get the whole set of command properties keys dynamically (during runtime)
 		//These command keys are defined in the HTML host page as a JavaScript Object named "propertyVar".
 		
-//		try{
-//
-//			Dictionary commandDictionary = Dictionary.getDictionary("commandKeysVar");
-//		} catch(MissingResourceException e) {
-//			AbstractApplication.debug(e.getLocalizedMessage());
-//		}
+		Dictionary commandDictionary = null;
+		try{
+
+			commandDictionary = Dictionary.getDictionary("commandKeysVar");
+		} catch(MissingResourceException e) {
+			AbstractApplication.debug(e.getLocalizedMessage());
+		}
+		
+		if(commandDictionary != null) {
+			Set<String> commandPropertyKeys = commandDictionary.keySet();
+			Iterator<String> commandKeysIterator = commandPropertyKeys.iterator();
+			while(commandKeysIterator.hasNext()) {
+				String s = crossReferencingPropertiesKeys(commandKeysIterator.next());
+//				AbstractApplication.debug("Rana Test: " + s);
+				// Remove keys with .Syntax, .SyntaxCAS, .Syntax3D from the investigated set of keys.
+				if (s.indexOf(syntaxStr) == -1) {
+					//insure that the lower/upper cases are taken into consideration
+					if (getCommand(s).toLowerCase().equals(cmd.toLowerCase())) {
+						return s;
+					}
+				}
+			}
+		}
 	
-//			Set<String> commandPropertyKeys = commandDictionary.keySet();
-//			Iterator<String> commandKeysIterator = commandPropertyKeys.iterator();
-//			while(commandKeysIterator.hasNext()) {
-//				String s = crossReferencingPropertiesKeys(commandKeysIterator.next());
-//				// Remove keys with .Syntax, .SyntaxCAS, .Syntax3D from the investigated set of keys.
-//				if (s.indexOf(syntaxStr) == -1) {
-//					//insure that the lower/upper cases are taken into consideration
-//					if (getCommand(s).toLowerCase().equals(cmd.toLowerCase())) {
-//						return s;
-//					}
-//				}
-//			}
-//
+			
+		return null;
 
 		
 		
@@ -614,17 +620,26 @@ public class Application extends AbstractApplication {
 				}
 			}
 		}*/
-		try {
-			if (getCommand(cmd).indexOf(syntaxStr) == -1) {
-				if (getCommand(cmd).toLowerCase().equals(cmd.toLowerCase())) {
-					return cmd;
-				}
-			}
-		} catch(MissingResourceException e) {
-			AbstractApplication.debug(e.getLocalizedMessage());
-		}
-		return null;
+		
+//		try {
+//			if (getCommand(cmd).indexOf(syntaxStr) == -1) {
+//				if (getCommand(cmd).toLowerCase().equals(cmd.toLowerCase())) {
+//					return cmd;
+//				}
+//			}
+//		} catch(MissingResourceException e) {
+//			AbstractApplication.debug(e.getLocalizedMessage());
+//		}
 	}
+	
+//	public static native void getCommandKeys() 
+//	/*-{
+//		commandKeysVar= {
+//		Point: "Point",
+//        Polygon: "Polygon",
+//        PointList: "PointList"
+//		}
+//	}-*/;
 
 	public void showErrorDialog(final String msg) {
 		// TODO: implement it better for GeoGebraWebGUI

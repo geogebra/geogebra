@@ -1159,6 +1159,12 @@ public interface CommandConstants extends ConstantsWithLookup {
 
 	@DefaultStringValue("[ <List of Numbers> ]")
 	String Median_Syntax();
+	
+	@DefaultStringValue("Surface")
+	String Surface();
+	
+	@DefaultStringValue("[ <Expression>, <Expression>, <Expression>, <Parameter Variable 1>, <Start Value>, <End Value>, <Parameter Variable 2>, <Start Value>, <End Value> ]")
+	String Surface_Syntax();
 
 	@DefaultStringValue("Surface")
 	String SurfaceCartesian();
