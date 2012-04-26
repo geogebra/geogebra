@@ -1292,16 +1292,28 @@ td.datePickerMonth {
     margin:auto 25%;
 }
 
-.AlgebraInput .btnHelpToggle {
+.SymbolToggleButton {
     width:18px;
     height:18px;
+}
+
+.SymbolTable a {
+	text-decoration:none;
+	color:black;
+	border-radius:none;
+    display:block;
+    padding:1px;
+}
+
+.SymbolTable a:hover, .SymbolTable a.focus {
+	background: #D5E2FF;
 }
 
 .InputPanel {
     overflow:auto;
 }
 
-.InputPanel input {
+.InputPanel input.TextField {
     display:block;
     min-width:600px;
 }

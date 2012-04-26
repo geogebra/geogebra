@@ -39,7 +39,8 @@ public class Unicode {
 	final public static char piChar = '\u03c0'; // "\u0435";
 	final public static String PI_STRING = Character.toString(piChar);
 	public static final String alphaBetaGamma = "\u03b1\u03b2\u03b3";
-
+	public static final String alpha = "\u03B1";
+	
 	final public static char FEMININE_ORDINAL_INDICATOR = '\u00aa';
 
 	final public static String IMAGINARY = "\u03af"; // GREEK SMALL LETTER IOTA

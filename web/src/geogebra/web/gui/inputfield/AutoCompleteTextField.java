@@ -22,6 +22,7 @@ import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
 import geogebra.common.util.AutoCompleteDictionary;
 import geogebra.common.util.Korean;
+import geogebra.common.util.Unicode;
 import geogebra.web.gui.util.GeoGebraIcon;
 import geogebra.web.gui.autocompletion.CompletionsPopup;
 import geogebra.web.gui.inputfield.HistoryPopup;
@@ -126,9 +127,11 @@ public class AutoCompleteTextField extends HorizontalPanel implements AutoComple
 		    if (columns > 0) {
 		      setColumns(columns);
 		    }
+		    textField.addStyleName("TextField");
 		    
 		    showSymbolButton = new ToggleButton();
-		    showSymbolButton.setText("\u03B1");
+		    showSymbolButton.setText(Unicode.alpha);
+		    showSymbolButton.addStyleName("SymbolToggleButton");
 		    showSymbolButton.addClickHandler(new ClickHandler() {
 				
 				public void onClick(ClickEvent event) {
@@ -157,9 +160,9 @@ public class AutoCompleteTextField extends HorizontalPanel implements AutoComple
 		    completionsPopup.addTextField(this);
 		    
 		    // addKeyListener(this); now in MathTextField <==AG not mathtexfield exist yet
-		    textField.addKeyDownHandler(this);
-		    textField.addKeyUpHandler(this);
-		    textField.addKeyPressHandler(this);
+		    textField.getTextBox().addKeyDownHandler(this);
+		    textField.getTextBox().addKeyUpHandler(this);
+		    textField.getTextBox().addKeyPressHandler(this);
 		    textField.addValueChangeHandler(this);
 		    textField.addSelectionHandler(this);
 		    setDictionary(dict);
@@ -405,7 +408,7 @@ public class AutoCompleteTextField extends HorizontalPanel implements AutoComple
     }
 
 	public void addKeyListener(geogebra.common.euclidian.event.KeyListener listener) {
-		textField.addKeyPressHandler((geogebra.web.euclidian.event.KeyListener) listener);
+		textField.getTextBox().addKeyPressHandler((geogebra.web.euclidian.event.KeyListener) listener);
 	}
 	
 	public void wrapSetText(String s) {
@@ -654,8 +657,6 @@ public class AutoCompleteTextField extends HorizontalPanel implements AutoComple
 
 
 	public void onKeyPress(KeyPressEvent e) {
-		if (!keyPressed) {
-			keyPressed = true;
 			
 			 // only handle parentheses
 		    char ch = e.getCharCode();
@@ -742,13 +743,7 @@ public class AutoCompleteTextField extends HorizontalPanel implements AutoComple
 	
 		    // make sure we keep the previous caret position
 		    setCaretPosition(Math.min(text.length(), caretPos));
-		}
     }
-	
-	/* We need a small hack, as keypress fired during key pressed more times.
-	 * this makes bracket completion hayware :-)
-	 */
-	private boolean keyPressed = false;
 
 	public void onKeyDown(KeyDownEvent e) {
 		int keyCode = e.getNativeKeyCode();
@@ -907,6 +902,10 @@ public class AutoCompleteTextField extends HorizontalPanel implements AutoComple
 
 		        e.stopPropagation();
 		        break;
+		      case MyKeyCodes.KEY_A:
+		    	  if (e.isAltKeyDown()) {
+		    		  insertString(Unicode.alpha);
+		    	  }
 		      default:
 		    	  /*Try handling here that is originaly in keyup
 		    	   * 
@@ -939,7 +938,6 @@ public class AutoCompleteTextField extends HorizontalPanel implements AutoComple
 		    		    }
 		    	  
 		    }
-	    keyPressed = false;
     }
 
 	public void addToHistory(String str) {
@@ -1110,5 +1108,9 @@ public class AutoCompleteTextField extends HorizontalPanel implements AutoComple
 
 	public FocusWidget getTextBox() {
 	    return textField.getTextBox();
+    }
+
+	public void toggleSymbolButton(boolean toggled) {
+	    showSymbolButton.setDown(toggled);
     }
 }
