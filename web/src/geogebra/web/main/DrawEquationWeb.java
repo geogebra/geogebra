@@ -303,7 +303,7 @@ public class DrawEquationWeb implements DrawEquationInterface {
 
 		$wnd.jQuery(elsecond).mathquill('revert').mathquill('editable').focus();
 
-		$wnd.jQuery(elsecond).keypress(function(event) {
+		$wnd.jQuery(elsecond).keyup(function(event) {
 			var code = 13;
 			if (event.keyCode) {
 				code = event.keyCode;
