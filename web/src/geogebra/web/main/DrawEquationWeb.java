@@ -317,6 +317,9 @@ public class DrawEquationWeb implements DrawEquationInterface {
 				@geogebra.web.main.DrawEquationWeb::endEditingEquationMathQuill(Lgeogebra/web/gui/view/algebra/RadioButtonTreeItem;Ljava/lang/String;)(rbti,latexq);
 				thisjq.mathquill('revert').mathquill();
 			}
+			event.stopPropagation();
+			event.preventDefault();
+			return false;
 		});
 	}-*/;
 

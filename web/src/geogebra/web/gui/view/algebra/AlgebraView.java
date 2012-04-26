@@ -27,6 +27,7 @@ import java.util.HashMap;
 
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.Widget;
@@ -1252,4 +1253,9 @@ public class AlgebraView extends Tree implements LayerView, SetLabels, geogebra.
 
 	public GeoElement lastSelectedGeo = null;
 
+	@Override
+	public void onBrowserEvent(Event event) {
+		if (!editing)
+			super.onBrowserEvent(event);
+	}
 } // AlgebraView
