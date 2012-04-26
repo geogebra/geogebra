@@ -251,12 +251,13 @@ public abstract class GeoGebraLogger {
 			Throwable t = new Throwable();
 			StackTraceElement[] elements = t.getStackTrace();
 			// String calleeMethod = elements[0].getMethodName();
-			callerMethodName = elements[3].getMethodName();
 			int ce = 3;
+			callerMethodName = elements[ce].getMethodName();
 			if ("debug".equals(callerMethodName)) {
 				// This means AbstractApplication.debug(Object) was called,
 				// so it is better to search for its caller instead
 				++ ce;
+				callerMethodName = elements[ce].getMethodName();
 			}
 			callerClassName = elements[ce].getClassName();
 			callerLineNumber = elements[ce].getLineNumber();

@@ -120,7 +120,7 @@ public class Prover {
 		if (statement != null) {
 
 			String c = simplifiedXML(construction);
-			AbstractApplication.debug("Construction: " + c);
+			AbstractApplication.trace("Construction: " + c);
 			// getCASString may also be used 
 			String cd = statement.getCommandDescription(StringTemplate.ogpTemplate);
 			AbstractApplication.debug("Statement to prove: " + cd);
@@ -137,7 +137,7 @@ public class Prover {
 			SymbolicParameters parameters = statementSymbolic.getSymbolicParameters();
 			try {
 				parameters.getFreeVariables();
-				//TODO: write here tomas prover
+				// TODO: write here Recio's prover
 			} catch (NoSymbolicParametersException e) {
 				AbstractApplication.warn("This prover cannot give an answer, try another one");
 				// TODO: to implement this correctly
@@ -161,7 +161,7 @@ public class Prover {
 				}
 				return;
 				
-				//TODO: write here tomas prover
+				// TODO: write here Recio's prover
 			} catch (NoSymbolicParametersException e) {
 				AbstractApplication.warn("This prover cannot give an answer, try another one");
 				// TODO: to implement this correctly

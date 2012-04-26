@@ -8,6 +8,7 @@ import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.prover.FreeVariable;
 import geogebra.common.kernel.prover.NoSymbolicParametersException;
 import geogebra.common.kernel.prover.Polynomial;
+import geogebra.common.main.AbstractApplication;
 
 import java.math.BigInteger;
 import java.util.HashMap;
@@ -115,6 +116,7 @@ public class AlgoAreCollinear extends AlgoElement implements SymbolicParametersA
 	}
 
 	public Polynomial[] getPolynomials() throws NoSymbolicParametersException {
+		AbstractApplication.debug(polynomials);
 		if (polynomials != null) {
 			return polynomials;
 		}
@@ -124,11 +126,15 @@ public class AlgoAreCollinear extends AlgoElement implements SymbolicParametersA
 				&& input[2] instanceof SymbolicParametersAlgo) {
 			Polynomial[] coords1 = ((SymbolicParametersAlgo) input[0])
 					.getPolynomials();
+			AbstractApplication.debug("coords1 finished");
 			Polynomial[] coords2 = ((SymbolicParametersAlgo) input[1])
 					.getPolynomials();
+			AbstractApplication.debug("coords2 finished");
 			Polynomial[] coords3 = ((SymbolicParametersAlgo) input[2])
 					.getPolynomials();
+			AbstractApplication.debug("coords3 finished");
 			polynomials = new Polynomial[1];
+			AbstractApplication.debug("big calculation started");
 			polynomials[0] = coords1[0].multiply(coords2[1]).multiply(coords3[2]).add(
 					coords2[0].multiply(coords3[1]).multiply(coords1[2])).add(
 					coords3[0].multiply(coords1[1]).multiply(coords2[2])).subtract(
@@ -136,6 +142,7 @@ public class AlgoAreCollinear extends AlgoElement implements SymbolicParametersA
 					coords3[0].multiply(coords2[1]).multiply(coords1[2]).add(
 					coords2[0].multiply(coords1[1]).multiply(coords3[2])).add(
 					coords1[0].multiply(coords3[1]).multiply(coords2[2])));
+			AbstractApplication.debug("big calculation ended");
 			return polynomials;
 		}
 		throw new NoSymbolicParametersException();
