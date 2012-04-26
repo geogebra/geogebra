@@ -252,8 +252,15 @@ public abstract class GeoGebraLogger {
 			StackTraceElement[] elements = t.getStackTrace();
 			// String calleeMethod = elements[0].getMethodName();
 			callerMethodName = elements[3].getMethodName();
-			callerClassName = elements[3].getClassName();
-			callerLineNumber = elements[3].getLineNumber();
+			int ce = 3;
+			if ("debug".equals(callerMethodName)) {
+				// This means AbstractApplication.debug(Object) was called,
+				// so it is better to search for its caller instead
+				++ ce;
+			}
+			callerClassName = elements[ce].getClassName();
+			callerLineNumber = elements[ce].getLineNumber();
+			
 			if (callerClassName.equals("Unknown")) {
 				/* In web production mode the GWT compile rewrites the
 				 * code very thoroughly. We are doing some intuitive

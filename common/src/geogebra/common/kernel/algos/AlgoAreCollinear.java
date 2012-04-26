@@ -1,20 +1,17 @@
 package geogebra.common.kernel.algos;
 
-import java.math.BigInteger;
-import java.util.HashMap;
-import java.util.HashSet;
-
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.prover.FreeVariable;
 import geogebra.common.kernel.prover.NoSymbolicParametersException;
 import geogebra.common.kernel.prover.Polynomial;
-import geogebra.common.kernel.prover.Prover;
+
+import java.math.BigInteger;
+import java.util.HashMap;
+import java.util.HashSet;
 
 /**
  * @author Simon Weitzhofer
@@ -31,7 +28,7 @@ public class AlgoAreCollinear extends AlgoElement implements SymbolicParametersA
 	private Polynomial[] polynomials;
 
     /**
-     * Creates a new AlgoIsCollinear function
+     * Creates a new AlgoAreCollinear function
      * @param cons the Construction
      * @param label the name of the boolean
      * @param inputPoint1 the first point
