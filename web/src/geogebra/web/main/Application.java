@@ -2,7 +2,6 @@ package geogebra.web.main;
 
 import geogebra.common.awt.BufferedImage;
 import geogebra.common.awt.Font;
-import geogebra.common.cas.singularws.SingularWebService;
 import geogebra.common.euclidian.AbstractEuclidianController;
 import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.euclidian.DrawEquationInterface;
@@ -750,15 +749,7 @@ public class Application extends AbstractApplication {
 		geogebra.common.euclidian.EuclidianStatic.prototype = new geogebra.web.euclidian.EuclidianStatic();
 		geogebra.common.euclidian.clipping.DoubleArrayFactory.prototype = new geogebra.common.euclidian.clipping.DoubleArrayFactoryImpl();
     
-		// initialize SingularWS
-		SingularWebService sws = new SingularWebService();
-		sws.enable();
-		if (sws.isAvailable()) {
-			debug("SingularWS is available at " + sws.getConnectionSite());
-			debug(sws.directCommand("ring r=0,(x,y),dp;ideal I=x^2,x;groebner(I);"));
-		} else {
-			debug("No SingularWS is available at " + sws.getConnectionSite());
-			}
+		AbstractApplication.initializeSingularWS();
 	}
 
 	private void showSplashImageOnCanvas() {

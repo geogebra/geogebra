@@ -21,7 +21,6 @@ import geogebra.CommandLineArguments;
 import geogebra.GeoGebra;
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.awt.Color;
-import geogebra.common.cas.singularws.SingularWebService;
 import geogebra.common.factories.UtilFactory;
 import geogebra.common.kernel.Macro;
 import geogebra.common.main.AbstractApplication;
@@ -456,25 +455,7 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 				app.getPythonBridge();
 			}
 
-			// Initialize Singular web service
-			initSingularWS();
-		}
-
-		/**
-		 * Initializes Singular web service.
-		 */
-		private void initSingularWS() {
-			SingularWebService sws = new SingularWebService();
-			sws.enable();
-			if (sws.isAvailable()) {
-				AbstractApplication.debug("SingularWS is available at "
-						+ sws.getConnectionSite());
-				// System.out.println(sws.directCommand("ring r=0,(x,y),dp;ideal I=x^2,x;groebner(I);"));
-			} else {
-				AbstractApplication.debug("No SingularWS is available at "
-						+ sws.getConnectionSite());
-			}
-
+			AbstractApplication.initializeSingularWS();
 		}
 
 		/**

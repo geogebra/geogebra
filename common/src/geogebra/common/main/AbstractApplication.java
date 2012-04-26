@@ -4,6 +4,7 @@ import geogebra.common.awt.BufferedImage;
 import geogebra.common.awt.Dimension;
 import geogebra.common.awt.Font;
 import geogebra.common.awt.Image;
+import geogebra.common.cas.singularws.SingularWebService;
 import geogebra.common.euclidian.AbstractEuclidianController;
 import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.euclidian.DrawEquationInterface;
@@ -1506,6 +1507,17 @@ public abstract class AbstractApplication {
 		}
 	}
 
+	public static void initializeSingularWS() {
+		singularWS = new SingularWebService();
+		singularWS.enable();
+		if (singularWS.isAvailable()) {
+			debug("SingularWS is available at " + singularWS.getConnectionSite());
+			debug(singularWS.directCommand("ring r=0,(x,y),dp;ideal I=x^2,x;groebner(I);"));
+		} else {
+			debug("No SingularWS is available at " + singularWS.getConnectionSite() + " (yet)");
+			}
+	}
+	
 	public static void debug(Object s) {
 		if (s == null) {
 			debug("<null>");
@@ -1569,6 +1581,7 @@ public abstract class AbstractApplication {
 	}
 	
 	public static GeoGebraLogger logger;
+	public static SingularWebService singularWS;
 
 	public boolean isMacOS() {
 		return false;
