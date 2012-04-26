@@ -1,5 +1,7 @@
 package geogebra.common.kernel.prover;
 
+import geogebra.common.main.AbstractApplication;
+
 import java.util.Iterator;
 import java.util.TreeMap;
 
@@ -180,6 +182,7 @@ public class Polynomial implements Comparable<Polynomial> {
 	 * @return the product
 	 */
 	public Polynomial multiply(final Polynomial poly) {
+		AbstractApplication.debug(poly);
 		TreeMap<Term, Integer> result = new TreeMap<Term, Integer>();
 		TreeMap<Term, Integer> terms2 = poly.getTerms();
 		Iterator<Term> it1 = terms.keySet().iterator();
@@ -225,16 +228,19 @@ public class Polynomial implements Comparable<Polynomial> {
 		}
 		while (it.hasNext()) {
 			Term t = it.next();
-			sb.append(terms.get(t));
+			int c = terms.get(t);
 			if (!t.getTerm().isEmpty()) {
-				sb.append('*');
+				if (c != 1)
+					sb.append(c + "*");
 				sb.append(t);
 			}
-			sb.append(" + ");
+			else
+				sb.append(c);
+			sb.append('+');
 		}
-		return sb.substring(0, sb.length() - 3);
+		return sb.substring(0, sb.length() - 1); // removing closing "+"
 	}
-
+	
 	@Override
 	public boolean equals(Object o) {
 		if (o instanceof Polynomial) {

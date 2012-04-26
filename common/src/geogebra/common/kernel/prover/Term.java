@@ -1,5 +1,7 @@
 package geogebra.common.kernel.prover;
 
+import geogebra.common.main.AbstractApplication;
+
 import java.util.TreeMap;
 import java.util.Iterator;
 
@@ -174,13 +176,14 @@ public class Term implements Comparable<Term> {
 		Iterator<FreeVariable> it = variables.keySet().iterator();
 		while (it.hasNext()) {
 			FreeVariable fv = it.next();
-			sb.append(fv);
-			sb.append('^');
-			sb.append(variables.get(fv));
+			sb.append("*" + fv);
+			int power = variables.get(fv);
+			if (power > 1)
+				sb.append("^" + power);
 		}
-		return sb.toString();
+		return sb.substring(1); // removing first "*" character
 	}
-
+	
 	@Override
 	public int hashCode() {
 		return variables.hashCode();
