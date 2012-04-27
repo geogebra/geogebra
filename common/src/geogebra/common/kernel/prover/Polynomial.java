@@ -123,6 +123,15 @@ public class Polynomial implements Comparable<Polynomial> {
 	}
 
 	/**
+	 * Converts a String to a Polynomial
+	 * @param s the input string 
+	 */
+	public Polynomial(String s) {
+		// TODO: to implement
+		this();
+	}
+	
+	/**
 	 * Returns the sum of the polynomial plus another polynomial.
 	 * 
 	 * @param poly
@@ -262,6 +271,8 @@ public class Polynomial implements Comparable<Polynomial> {
 
 	/**
 	 * The set of the variables in two given polynomials
+	 * @param p1 the first polynomial
+	 * @param p2 the second polynomial
 	 * @return the set of variables
 	 */
 	public HashSet<FreeVariable> getVars(Polynomial p1, Polynomial p2) {
@@ -273,6 +284,8 @@ public class Polynomial implements Comparable<Polynomial> {
 	
 	/**
 	 * Creates a comma separated list of the variables in two given polynomials
+	 * @param p1 the first polynomial
+	 * @param p2 the second polynomial
 	 * @return the comma separated list
 	 */
 	public String getVarsAsCommaSeparatedString(Polynomial p1, Polynomial p2) {

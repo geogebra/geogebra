@@ -1,6 +1,5 @@
 package geogebra.common.kernel.prover;
 
-import java.math.BigInteger;
 import java.util.TreeMap;
 
 /**
@@ -27,7 +26,8 @@ public class FreeVariable implements Comparable<FreeVariable> {
 		id = n;
 		if (id<26){
 			setName(String.valueOf(" xyzabcdefghijklmnopqrstuvw".charAt(id)));
-		}
+		} else
+			setName("v" + (id-25)); // v1,v2,v3,... when no more single letters available
 	}
 
 	/**
