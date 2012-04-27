@@ -331,7 +331,8 @@ public class GeoText extends GeoElement implements Locateable,
 
 	@Override
 	public String toValueString(StringTemplate tpl1) {
-		return str;
+		// http://www.geogebra.org/forum/viewtopic.php?f=8&t=26139
+		return str == null ? "" : str;
 	}
 
 	/**
