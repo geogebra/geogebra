@@ -291,6 +291,8 @@ public class DrawEquationWeb implements DrawEquationInterface {
 
 	/**
 	 * Edits a MathQuill equation which was created by drawEquationMathQuill
+	 * 
+	 * @param rbti: the tree item for callback
 	 * @param parentElement: the same element as in drawEquationMathQuill
 	 */
 	public static native void editEquationMathQuill(RadioButtonTreeItem rbti, Element parentElement) /*-{

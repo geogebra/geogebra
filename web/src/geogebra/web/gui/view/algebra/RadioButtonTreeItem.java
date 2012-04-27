@@ -32,6 +32,8 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.DoubleClickEvent;
 import com.google.gwt.event.dom.client.DoubleClickHandler;
+import com.google.gwt.event.dom.client.KeyUpEvent;
+import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.event.dom.client.MouseMoveHandler;
 import com.google.gwt.user.client.DOM;
@@ -39,6 +41,7 @@ import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.InlineHTML;
 import com.google.gwt.user.client.ui.RadioButton;
+import com.google.gwt.user.client.ui.TextBox;
 
 /**
  * RadioButtonTreeItem for the items of the algebra view tree
@@ -60,6 +63,7 @@ public class RadioButtonTreeItem extends HorizontalPanel
 	SpanElement se;
 	RadioButtonHandy radio;
 	InlineHTML ihtml;
+	TextBox tb;
 
 	private class RadioButtonHandy extends RadioButton {
 		public RadioButtonHandy() {
@@ -153,7 +157,37 @@ public class RadioButtonTreeItem extends HorizontalPanel
 	public void startEditing() {
 		if (LaTeX) {
 			geogebra.web.main.DrawEquationWeb.editEquationMathQuill(this,se);
+		} else {
+			remove(ihtml);
+			tb = new TextBox();
+			tb.setText( geo.getAlgebraDescriptionTextOrHTML(
+					StringTemplate.defaultTemplate) );
+			add(tb);
+
+			tb.addKeyUpHandler(new KeyUpHandler() {
+				public void onKeyUp(KeyUpEvent kevent) {
+					if (kevent.getNativeKeyCode() == 13) {
+						remove(tb);
+						add(ihtml);
+						stopEditingSimple(tb.getText());
+					}
+				}
+			});
 		}
+	}
+
+	public void stopEditingSimple(String newValue) {
+
+		av.cancelEditing();
+
+		boolean redefine = !geo.isPointOnPath();
+		GeoElement geo2 = kernel.getAlgebraProcessor().changeGeoElement(
+				geo, newValue, redefine, true);
+		if (geo2 != null)
+			geo = geo2;
+
+		se.setInnerHTML(geo.getAlgebraDescriptionTextOrHTML(
+				StringTemplate.defaultTemplate));
 	}
 
 	public void stopEditing(String newValue) {
