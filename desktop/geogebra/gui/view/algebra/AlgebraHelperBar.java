@@ -10,14 +10,14 @@ import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JLabel;
-import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.JToolBar;
 
 /**
- * Helper tool bar for the algebra view which displays some useful
- * buttons to change the functionality (e.g. show auxiliary objects).
+ * Helper tool bar for the algebra view which displays some useful buttons to
+ * change the functionality (e.g. show auxiliary objects).
  */
 public class AlgebraHelperBar extends JToolBar implements ActionListener {
 	/** */
@@ -27,23 +27,23 @@ public class AlgebraHelperBar extends JToolBar implements ActionListener {
 	 * The algebra view which uses this tool bar.
 	 */
 	protected AlgebraView algebraView;
-	
+
 	/**
 	 * Instance of the application.
 	 */
 	protected Application app;
-	
+
 	/**
 	 * Button to show/hide auxiliary objects in the algebra view.
 	 */
 	private JButton toggleAuxiliary;
-	
+
 	/**
-	 * Button to toggle between the two tree modes of the algebra view:
-	 *  - Categorize objects by free / independent / auxiliary
-	 *  - Categorize objects by their type 
+	 * Button to toggle between the two tree modes of the algebra view: -
+	 * Categorize objects by free / independent / auxiliary - Categorize objects
+	 * by their type
 	 */
-	protected JButton toggleTypeTreeMode;
+	protected PopupMenuButton toggleTypeTreeMode;
 
 	private PopupMenuButton btnTextSize;
 
@@ -52,8 +52,8 @@ public class AlgebraHelperBar extends JToolBar implements ActionListener {
 	/**
 	 * Button to toggle LaTeX rendering
 	 */
-//	private JButton toggleLaTeX;
-	
+	// private JButton toggleLaTeX;
+
 	/**
 	 * Helper bar.
 	 * 
@@ -63,52 +63,57 @@ public class AlgebraHelperBar extends JToolBar implements ActionListener {
 	public AlgebraHelperBar(AlgebraView algebraView, Application app) {
 		this.algebraView = algebraView;
 		this.app = app;
-		
+
 		setFloatable(false);
-		
+
 		addButtons();
-		
+
 		updateStates();
 		updateLabels();
 	}
-	
+
 	/**
 	 * add the buttons
 	 */
-	protected void addButtons(){
-		
+	protected void addButtons() {
+
 		toggleAuxiliary = new JButton(app.getImageIcon("auxiliary.png"));
+		toggleAuxiliary.setFocusPainted(false);
 		toggleAuxiliary.addActionListener(this);
 		add(toggleAuxiliary);
-		
+
 		addSeparator();
-		
-		toggleTypeTreeMode = new JButton(app.getImageIcon("tree.png"));
-		toggleTypeTreeMode.addActionListener(this);
+
+		toggleTypeTreeMode = new PopupMenuButton(app);
+		buildMenu();
+		toggleTypeTreeMode.setPopupMenu(menu);
+		toggleTypeTreeMode.setKeepVisible(true);
+		toggleTypeTreeMode.setStandardButton(true); // mouse clicks over total
+													// button region
+		toggleTypeTreeMode.setIcon(app.getImageIcon("tree.png"));
+
 		add(toggleTypeTreeMode);
 
 	}
-	
+
 	/**
 	 * Update the states of the tool bar buttons.
 	 */
 	public void updateStates() {
 		toggleAuxiliary.setSelected(app.showAuxiliaryObjects());
-		toggleTypeTreeMode.setSelected(algebraView.getTreeMode().equals(SortMode.TYPE));
-//		toggleLaTeX.setSelected(!algebraView.isRenderLaTeX());
+		//toggleTypeTreeMode.setSelected(algebraView.getTreeMode().equals(SortMode.TYPE));
+		// toggleLaTeX.setSelected(!algebraView.isRenderLaTeX());
 	}
-	
+
 	/**
 	 * Update the tool tip texts (used for language change).
 	 */
 	public void updateLabels() {
 		toggleAuxiliary.setToolTipText(app.getPlainTooltip("AuxiliaryObjects"));
-		
+
 		toggleTypeTreeMode.setToolTipText(app.getPlainTooltip("SortObjectsBy"));
-		
-		if (menu != null) {
-			buildMenu();
-		}
+		buildMenu();
+
 	}
 
 	/**
@@ -119,80 +124,79 @@ public class AlgebraHelperBar extends JToolBar implements ActionListener {
 			app.setShowAuxiliaryObjects(!app.showAuxiliaryObjects());
 			toggleAuxiliary.setSelected(app.showAuxiliaryObjects());
 
-		} else if (e.getSource() == toggleTypeTreeMode) {
-
-			if (menu == null) {
-				buildMenu();
-			}
-
-			if (menu.isVisible())
-				menu.setVisible(false);
-			else
-				menu.show(toggleTypeTreeMode, toggleTypeTreeMode.getX(),
-						toggleTypeTreeMode.getY());
-
 		}
-//		else if(e.getSource() == toggleLaTeX) {
-//			algebraView.setRenderLaTeX(!algebraView.isRenderLaTeX());
-//			toggleLaTeX.setSelected(!algebraView.isRenderLaTeX());
-//		}
+		// else if(e.getSource() == toggleLaTeX) {
+		// algebraView.setRenderLaTeX(!algebraView.isRenderLaTeX());
+		// toggleLaTeX.setSelected(!algebraView.isRenderLaTeX());
+		// }
 	}
-	
+
 	private void buildMenu() {
-		menu = new JPopupMenu();
-		
-		JLabel title = new JLabel(app.getPlain("SortBy")+":");
-		title.setFont(app.getBoldFont());                      
+
+		if (menu == null) {
+			menu = new JPopupMenu();
+		}
+		menu.removeAll();
+
+		JLabel title = new JLabel(app.getPlain("SortBy") + ":");
+		title.setFont(app.getBoldFont());
 		title.setIcon(app.getEmptyIcon());
-		title.setBorder(BorderFactory.createEmptyBorder(5, 15, 2, 5));      
+		title.setBorder(BorderFactory.createEmptyBorder(2, 5, 2, 5));
 		add(title);
-		
+
 		menu.add(title);
 
-		
-		JMenuItem mi = new JMenuItem();		
+		JCheckBoxMenuItem mi = new JCheckBoxMenuItem();
 		mi.setFont(app.getPlainFont());
 		mi.setBackground(Color.white);
-		mi.setText(app.getPlain("Dependency"));				
-		mi.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e){
+		mi.setText(app.getPlain("Dependency"));
+		mi.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
 				algebraView.setTreeMode(SortMode.DEPENDENCY);
+				buildMenu();
 			}
 		});
+		mi.setSelected(algebraView.getTreeMode() == SortMode.DEPENDENCY);
 		menu.add(mi);
-		
-		mi = new JMenuItem();		
+
+		mi = new JCheckBoxMenuItem();
 		mi.setFont(app.getPlainFont());
 		mi.setBackground(Color.white);
-		mi.setText(app.getPlain("ObjectType"));				
-		mi.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e){
+		mi.setText(app.getPlain("ObjectType"));
+		mi.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
 				algebraView.setTreeMode(SortMode.TYPE);
+				buildMenu();
 			}
 		});
+		mi.setSelected(algebraView.getTreeMode() == SortMode.TYPE);
 		menu.add(mi);
-		
-		mi = new JMenuItem();		
+
+		mi = new JCheckBoxMenuItem();
 		mi.setFont(app.getPlainFont());
 		mi.setBackground(Color.white);
-		mi.setText(app.getPlain("Layer"));				
-		mi.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e){
+		mi.setText(app.getPlain("Layer"));
+		mi.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
 				algebraView.setTreeMode(SortMode.LAYER);
+				buildMenu();
 			}
 		});
+		mi.setSelected(algebraView.getTreeMode() == SortMode.LAYER);
 		menu.add(mi);
-		
-		mi = new JMenuItem();		
+
+		mi = new JCheckBoxMenuItem();
 		mi.setFont(app.getPlainFont());
 		mi.setBackground(Color.white);
-		mi.setText(app.getPlain("ConstructionOrder"));				
-		mi.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e){
+		mi.setText(app.getPlain("ConstructionOrder"));
+		mi.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
 				algebraView.setTreeMode(SortMode.ORDER);
+				buildMenu();
 			}
 		});
+		mi.setSelected(algebraView.getTreeMode() == SortMode.ORDER);
 		menu.add(mi);
-		
+
 	}
 }

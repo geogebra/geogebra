@@ -306,6 +306,9 @@ public class AlgebraView extends JTree implements LayerView, Gridable, SetLabels
 		editor.setFont(font);
 		renderer.setFont(font);
 		editTF.setFont(font);
+		if (helperBar != null) {
+			helperBar.updateLabels();
+		}
 	}
 
 	private void initTreeCellRendererEditor() {

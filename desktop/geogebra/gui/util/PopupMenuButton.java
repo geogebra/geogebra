@@ -102,16 +102,37 @@ public class PopupMenuButton extends JButton implements ChangeListener {
 	/*#***********************************
 	/** Button constructors */
 
+	/**
+	 * @param app
+	 */
 	public PopupMenuButton(Application app){
 		this( app, null, -1, -1, null, -1,  false,  false);
 	}
 
 	
+	/**
+	 * @param app
+	 * @param data
+	 * @param rows
+	 * @param columns
+	 * @param iconSize
+	 * @param mode
+	 */
 	public PopupMenuButton(Application app, Object[] data, Integer rows, Integer columns, Dimension iconSize, Integer mode){
 		this( app, data, rows, columns, iconSize, mode,  true,  false);	
 	}
 
 
+	/**
+	 * @param app
+	 * @param data
+	 * @param rows
+	 * @param columns
+	 * @param iconSize
+	 * @param mode
+	 * @param hasTable
+	 * @param hasSlider
+	 */
 	public PopupMenuButton(Application app, Object[] data, Integer rows, Integer columns, Dimension iconSize, 
 			Integer mode, final boolean hasTable, boolean hasSlider){
 		super(); 
@@ -247,6 +268,11 @@ public class PopupMenuButton extends JButton implements ChangeListener {
 		myPopup.removeAll();
 	}
 
+	public void setPopupMenu(JPopupMenu menu){
+		myPopup = menu;
+	}
+	
+	
 	/**
 	 * Override processMouseEvents to prevent firing a mouseReleased event and
 	 * the resulting ActionPerformed event when the mouse is clicked in the
