@@ -1007,6 +1007,76 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 	}
 
 
+	private boolean isValidParameter(double parameter, double index) {
+
+		boolean[] isValid = { true, true, true };
+
+		switch (selectedDist) {
+
+		case ProbabilityCalculatorSettings.DIST_F:
+		case ProbabilityCalculatorSettings.DIST_STUDENT:
+		case ProbabilityCalculatorSettings.DIST_EXPONENTIAL:
+		case ProbabilityCalculatorSettings.DIST_WEIBULL:
+		case ProbabilityCalculatorSettings.DIST_POISSON:
+			// all parameters must be positive
+			isValid[0] = parameter > 0;
+			break;
+
+		case ProbabilityCalculatorSettings.DIST_CAUCHY:
+		case ProbabilityCalculatorSettings.DIST_LOGISTIC:
+			// scale must be positive
+			isValid[1] = index == 1 && parameter > 0;
+			break;
+
+		case ProbabilityCalculatorSettings.DIST_CHISQUARE:
+			// df >= 1, integer
+			isValid[0] = Math.floor(parameter) == parameter && parameter >= 1;
+			break;
+
+		case ProbabilityCalculatorSettings.DIST_BINOMIAL:
+			// n >= 0, integer
+			isValid[0] = index == 0 && Math.floor(parameter) == parameter
+					&& parameter >= 0;
+			// p is probability value
+			isValid[1] = index == 1 && parameter >= 0 && parameter <= 1;
+			break;
+
+		case ProbabilityCalculatorSettings.DIST_PASCAL:
+			// n >= 1, integer
+			isValid[0] = index == 0 && Math.floor(parameter) == parameter
+					&& parameter >= 1;
+			// p is probability value
+			isValid[1] = index == 1 && parameter >= 0 && parameter <= 1;
+			break;
+
+		case ProbabilityCalculatorSettings.DIST_HYPERGEOMETRIC:
+			// population size: N >= 1, integer
+			isValid[0] = index == 0 && Math.floor(parameter) == parameter
+					&& parameter >= 1;
+			// successes in the population: n >= 0 and <= N, integer
+			isValid[1] = index == 1 && Math.floor(parameter) == parameter
+					&& parameter >= 0 && parameter <= parameters[0];
+			// sample size:  s>= 1 and s<= N, integer
+			isValid[2] = index == 2 && Math.floor(parameter) == parameter
+					&& parameter >= 1 && parameter <= parameters[0];;
+			break;
+
+		// ===================================
+		// no restrictions:
+		//
+		// case ProbabilityCalculatorSettings.DIST_NORMAL:
+		// case ProbabilityCalculatorSettings.DIST_LOGNORMAL:
+		// =========================================
+
+		}
+
+		return isValid[0] && isValid[1] && isValid[2];
+
+	}
+
+	
+	
+	
 	//=================================================
 	//      Event Handlers 
 	//=================================================
@@ -1103,14 +1173,15 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 			}
 
 			else 
-				// handle parm entry
+				// handle parameter entry
 				for(int i=0; i< parameters.length; ++i)
 					if (source == fldParameterArray[i]) {
-						parameters[i] = value;
-						// TODO
-						//validateParms(selectedParms);
-						//updatePlot();
-						updateAll();
+						
+						if(isValidParameter(value, i)){
+							parameters[i] = value;
+							updateAll();
+						}
+						
 					}
 
 			updateIntervalProbability();

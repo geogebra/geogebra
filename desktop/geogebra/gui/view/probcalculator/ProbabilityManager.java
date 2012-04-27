@@ -309,9 +309,11 @@ public class ProbabilityManager {
 			xMax = 4*k;
 			yMin = 0;
 			if(k>2)
-				yMax = 1.2* ((GeoFunction)densityCurve).evaluate(k-2);	
+				// mode occurs when x = k-2; add 0.1 to handle k near 2
+				yMax = 1.2* ((GeoFunction)densityCurve).evaluate(k-2+0.1);	
 			else
-				yMax = 1.2* ((GeoFunction)densityCurve).evaluate(0);	
+				// mode occurs at x = 0, but we only use x near zero
+				yMax = 1.2* ((GeoFunction)densityCurve).evaluate(0.1);	
 			break;
 
 		case ProbabilityCalculatorSettings.DIST_F:
