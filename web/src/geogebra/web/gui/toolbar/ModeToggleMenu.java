@@ -1,17 +1,17 @@
 package geogebra.web.gui.toolbar;
 
 import geogebra.common.awt.Color;
+import geogebra.common.main.AbstractApplication;
 import geogebra.web.awt.GeneralPath;
+import geogebra.web.javax.swing.JPopupMenu;
+import geogebra.web.main.Application;
+
 import java.util.ArrayList;
 
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
-
-
-import geogebra.web.javax.swing.JPopupMenu;
-import geogebra.web.main.Application;
 
 public class ModeToggleMenu extends MenuBar{
 
@@ -53,43 +53,49 @@ public class ModeToggleMenu extends MenuBar{
 //		return tbutton;
 //	}
 //
-//	public boolean selectMode(int mode) {
-//		String modeText = mode + "";
-//
-//		for (int i = 0; i < size; i++) {
-//			JMenuItem mi = menuItemList.get(i);
-//			// found item for mode?
-//			if (mi.getActionCommand().equals(modeText)) {
-//				selectItem(mi);
-//				return true;
-//			}
-//		}
-//		return false;
-//	}
-//
-//	public int getFirstMode() {
-//		if (menuItemList == null || menuItemList.size() == 0) {
-//			return -1;
-//		}
-//		JMenuItem mi = menuItemList.get(0);
-//		return Integer.parseInt(mi.getActionCommand());
-//	}
-//
-//	private void selectItem(JMenuItem mi) {
-//		// check if the menu item is already selected
-//		if (tbutton.isSelected()
-//				&& tbutton.getActionCommand() == mi.getActionCommand()) {
-//			return;
-//		}
-//
+	public boolean selectMode(int mode) {
+		String modeText = mode + "";
+
+		for (int i = 0; i < size; i++) {
+			MenuItem mi = menuItemList.get(i);
+			// found item for mode?
+			AbstractApplication.debug(mi.getElement().getAttribute("mode"));
+			//if (mi.getActionCommand().equals(modeText)) {
+			if (mi.getElement().getAttribute("mode").equals(modeText)) {
+				selectMenuItem(mi);
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public int getFirstMode() {
+		if (menuItemList == null || menuItemList.size() == 0) {
+			return -1;
+		}
+		MenuItem mi = menuItemList.get(0);
+		return Integer.parseInt(mi.getElement().getAttribute("mode"));
+	}
+
+	/*
+	 * This method has the same functionality as the 
+	 * geogebra.gui.toolbar.ModeToggleMenu.selectItem(JMenuItem mi)
+	 */
+	private void selectMenuItem(MenuItem mi) {
+		// check if the menu item is already selected
+		if (tbutton.isSelected()
+				&& tbutton.getElement().getAttribute("mode") == mi.getElement().getAttribute("mode")) {
+			return;
+		}
+
 //		tbutton.setIcon(mi.getIcon());
-//		tbutton.setToolTipText(app.getToolTooltipHTML(Integer.parseInt(mi
-//				.getActionCommand())));
-//		tbutton.setActionCommand(mi.getActionCommand());
-//		tbutton.setSelected(true);
-//		// tbutton.requestFocus();
-//	}
-//
+		tbutton.setText(app.getToolName(Integer.parseInt(mi
+				.getElement().getAttribute("mode"))));
+		tbutton.getElement().setAttribute("mode",mi.getElement().getAttribute("mode"));
+		tbutton.setSelected(true);
+		// tbutton.requestFocus();
+	}
+
 	public void addMode(int mode) {
 		// add menu item to popup menu
 		Command tempCommand = new Command() {
@@ -105,19 +111,19 @@ public class ModeToggleMenu extends MenuBar{
 		//mi.setText(app.getToolName(mode));
 
 		//Icon icon = app.getModeIcon(mode);
-		//String actionText = Integer.toString(mode);
+		String actionText = Integer.toString(mode);
 		//mi.setIcon(icon);
-		//mi.setActionCommand(actionText);
+		mi.getElement().setAttribute("mode", actionText);	
 		//mi.addActionListener(popupMenuItemListener);
 
-		popMenu.add(mi);
+		//popMenu.add(mi);
 		menuItemList.add(mi);
 		size++;
 
 		if (size == 1) {
 			// init tbutton
 			//tbutton.setIcon(icon);
-			//tbutton.setActionCommand(actionText);
+			tbutton.getElement().setAttribute("mode", actionText);
 
 			// tooltip: tool name and tool help
 			//tbutton.setToolTipText(app.getToolTooltipHTML(mode));
@@ -126,6 +132,11 @@ public class ModeToggleMenu extends MenuBar{
 			// add button to button group
 			bg.add(tbutton);
 		}
+	}
+	
+	
+	public MyJToggleButton getButton() {
+		return tbutton;
 	}
 
 //	/**
@@ -215,6 +226,8 @@ class MyJToggleButton extends MenuItem /*implements  MouseListener,
 	boolean popupTriangleHighlighting = false;
 	boolean popupTriangleClicked = false;
 	private ModeToggleMenu menu;
+
+	private boolean isSelected = false;
 
 //	private static final Color arrowColor = AwtFactory.prototype.newColor(0, 0, 0, 130);
 	// private static final Color selColor = new Color(166, 11, 30,150);
@@ -416,6 +429,41 @@ class MyJToggleButton extends MenuItem /*implements  MouseListener,
 //			popupTriangleHighlighting = !popupTriangleHighlighting;
 //			repaint();
 //		}
+
+	public boolean isSelected() {
+	    return isSelected;
+    }
+	
+	public void setSelected(boolean flag){
+		isSelected = flag;
 	}
+}
+
+
+//	class MyMenuItem extends MenuItem{
+//
+//		/**
+//		 * 
+//		 */
+//		String actionCommand = "0";
+//
+//		/**
+//		 * @param text
+//		 * @param com
+//		 */
+//		public MyMenuItem(String text, Command com) {    
+//	        super(text, com);
+//			
+//        }
+//		
+//		public void setActionCommand(String text){
+//			actionCommand = text;
+//		}
+//		
+//		public String getActionCommand(){
+//			return actionCommand;
+//		}
+//		
+//	}
 
 }

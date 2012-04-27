@@ -69,7 +69,67 @@ public class ToolBar extends MenuBar {
 		
 		addCustomModesToToolbar(bg);
 		
+		setMode(app.getMode());
+		
 	}
+	
+	/**
+	 * Sets toolbar mode. This will change the selected toolbar icon.
+	 * @param newMode see EuclidianConstants for mode numbers
+	 * 
+	 * 
+	 * @return actual mode number selected (might be different if it's not available)
+	 */
+	public int setMode(int newMode) {
+		boolean success = false;
+		int tmpMode = newMode;
+		// there is no special icon/button for the selection listener mode, use
+		// the
+		// move mode button instead
+		if (tmpMode == EuclidianConstants.MODE_SELECTION_LISTENER) {
+			tmpMode = EuclidianConstants.MODE_MOVE;
+		}
+
+		if (modeToggleMenus != null) {
+			for (int i = 0; i < modeToggleMenus.size(); i++) {
+				ModeToggleMenu mtm = modeToggleMenus.get(i);
+				if (mtm.selectMode(tmpMode)) {
+					success = true;
+					break;
+				}
+			}
+
+
+			if (!success) {
+					mode = setMode(getFirstMode());
+				
+			}
+			
+			this.mode = tmpMode;
+
+		}
+
+		return tmpMode;
+	}
+
+	/**
+	 * @return currently selected mode
+	 */
+	public int getSelectedMode() {
+		return mode;
+	}
+	
+	/**
+	 * @return first mode in this toolbar
+	 */
+	public int getFirstMode() {
+		if (modeToggleMenus == null || modeToggleMenus.size() == 0) {
+			return -1;
+		}
+		ModeToggleMenu mtm = modeToggleMenus.get(0);
+		return mtm.getFirstMode();
+	}
+
 	
 	/**
 	 * Adds the given modes to a two-dimensional toolbar. The toolbar definition
@@ -126,8 +186,7 @@ public class ToolBar extends MenuBar {
 					// check mode
 					if (!"".equals(app.getToolName(addMode))) {
 						Command com = null;
-						tm.addItem(app.getToolName(addMode), true, com);
-						tm.addItem(GGWToolBar.getImageHtml(addMode), true, com);
+						tm.addItem(GGWToolBar.getImageHtml(addMode)+app.getToolName(addMode), true, com);
 						
 						tm.addMode(addMode);
 						if (firstButton) {
@@ -138,8 +197,11 @@ public class ToolBar extends MenuBar {
 				}
 			}
 
-			if (tm.getToolsCount() > 0)
-				addItem("...",tm);
+			
+			if (tm.getToolsCount() > 0){
+				int tbuttonMode = Integer.parseInt(tm.getButton().getElement().getAttribute("mode"));
+				addItem(GGWToolBar.getImageHtml(tbuttonMode), true,tm);
+			}
 		}
     }
 	
