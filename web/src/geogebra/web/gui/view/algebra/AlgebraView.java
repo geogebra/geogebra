@@ -477,16 +477,16 @@ public class AlgebraView extends Tree implements LayerView, SetLabels, geogebra.
 				// View closed
 			{
 				if (geo.isRedefineable()) {
-					//FIXMEWEB app.getDialogManager().showRedefineDialog(geo, true);
+					app.getDialogManager().showRedefineDialog(geo, true);
 				}
 				return;
 			}
 
 			if (!geo.isChangeable()) {
 				if (geo.isFixed()) {
-					// app.showMessage(app.getError("AssignmentToFixed"));
+					app.showMessage(app.getError("AssignmentToFixed"));
 				} else if (geo.isRedefineable()) {
-					//FIXMEWEB app.getDialogManager().showRedefineDialog(geo, true);
+					app.getDialogManager().showRedefineDialog(geo, true);
 				}
 				return;
 			}

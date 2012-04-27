@@ -598,8 +598,8 @@ public class Application extends AbstractApplication {
 
 	@Override
 	public boolean letRedefine() {
-		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
-		return false;
+		//AbstractApplication.debug("implementation needed"); // TODO Auto-generated
+		return true;
 	}
 
 	@Override
@@ -646,7 +646,12 @@ public class Application extends AbstractApplication {
 		}
 		return null;
 	}
-	
+
+	public void showMessage(final String message) {
+		// TODO: implement it better for GeoGebraWebGUI
+		Window.alert(message);
+	}
+
 	public void showErrorDialog(final String msg) {
 		// TODO: implement it better for GeoGebraWebGUI
 		Window.alert(msg);
