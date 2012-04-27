@@ -1,5 +1,7 @@
 package geogebra.web.gui.app;
 
+import geogebra.common.main.AbstractApplication;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -14,6 +16,8 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class GGWGraphicsView extends Composite {
 
+	AbstractApplication application = null;
+	
 	private static GGWGraphicsViewUiBinder uiBinder = GWT
 	        .create(GGWGraphicsViewUiBinder.class);
 
@@ -41,4 +45,8 @@ public class GGWGraphicsView extends Composite {
 		return eview1;
 	}
 
+	public void attachApp(AbstractApplication app) {
+	   this.application = app;
+	   eview1.attachApp(app);
+	}
 }

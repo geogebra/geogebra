@@ -6,5 +6,9 @@
 	<ui:style>
 		
 	</ui:style>
-	<web:EuclidianPanel ui:field="euclidianpanel" ></web:EuclidianPanel>
-</ui:UiBinder> 
+
+	<web:VerticalPanelSmart ui:field="ancestor">
+		<web:EuclidianStyleBarPanel ui:field="espanel"></web:EuclidianStyleBarPanel>
+		<web:EuclidianPanel ui:field="euclidianpanel" ></web:EuclidianPanel>
+	</web:VerticalPanelSmart>
+</ui:UiBinder>

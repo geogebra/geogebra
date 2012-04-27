@@ -1,11 +1,14 @@
 package geogebra.web.gui.app;
 
+import geogebra.common.main.AbstractApplication;
+
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.AbsolutePanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.ProvidesResize;
@@ -21,6 +24,8 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class EuclidianView1 extends ResizeComposite {
 
+	AbstractApplication application = null;
+
 	private static EuclidianView1UiBinder uiBinder = GWT
 	        .create(EuclidianView1UiBinder.class);
 
@@ -30,12 +35,14 @@ public class EuclidianView1 extends ResizeComposite {
 	 * Binds EuclidianView as UIBinder
 	 *
 	 */
-	interface EuclidianView1UiBinder extends UiBinder<EuclidianPanel, EuclidianView1> {
+	interface EuclidianView1UiBinder extends UiBinder<VerticalPanel, EuclidianView1> {
 	}
-	
+
 	/**
 	 * EuclidianPanel for textfields
 	 */
+	@UiField VerticalPanelSmart ancestor;
+	@UiField EuclidianStyleBarPanel espanel;
 	@UiField EuclidianPanel euclidianpanel;
 
 	public EuclidianView1() {
@@ -63,7 +70,10 @@ public class EuclidianView1 extends ResizeComposite {
 	public void onLoad() {
 		//getEuclidianPanel().getElement().getStyle().setPosition(Position.RELATIVE);
 	}
-	
-	
+
+	public void attachApp(AbstractApplication app) {
+	   this.application = app;
+	   espanel.attachApp(app);
+	}
 
 }
