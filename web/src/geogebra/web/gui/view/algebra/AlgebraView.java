@@ -913,7 +913,7 @@ public class AlgebraView extends Tree implements LayerView, SetLabels, geogebra.
 			try {
 				node.setSelected(true);
 				ensureSelectedItemVisible();
-				//((DefaultTreeModel)getModel()).nodeChanged(node);
+				((RadioButtonTreeItem)node.getWidget()).update();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -922,11 +922,11 @@ public class AlgebraView extends Tree implements LayerView, SetLabels, geogebra.
 			 * not otherwise because editing geos while animation is running
 			 * won't work then (ticket #151).
 			 */
-			/*if (isEditing()) {
-				if (getEditingPath().equals(new TreePath(node.getPath()))) {
-					cancelEditing();
+			if (isEditing()) {
+				if (((RadioButtonTreeItem)node.getWidget()).isThisEdited()) {
+					((RadioButtonTreeItem)node.getWidget()).cancelEditing();
 				}
-			}*/
+			}
 		}
 	}
 

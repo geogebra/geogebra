@@ -59,6 +59,7 @@ public class RadioButtonTreeItem extends HorizontalPanel
 	AlgebraView av;
 	boolean previouslyChecked;
 	boolean LaTeX = false;
+	boolean thisIsEdited = false;
 
 	SpanElement se;
 	RadioButtonHandy radio;
@@ -120,7 +121,7 @@ public class RadioButtonTreeItem extends HorizontalPanel
 					StringTemplate.latexTemplate);
 			if (latexStr != null && geo.isLaTeXDrawableGeo(latexStr)) {
 				latexStr = inputLatexCosmetics(latexStr);
-				geogebra.web.main.DrawEquationWeb.drawEquationAlgebraView(se, latexStr,
+				DrawEquationWeb.drawEquationAlgebraView(se, latexStr,
 					geo.getAlgebraColor(), Color.white);
 				LaTeX = true;
 			} else {
@@ -135,6 +136,32 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		//geo.getKernel().getApplication().setTooltipFlag();
 		//se.setTitle(geo.getLongDescription());
 		//geo.getKernel().getApplication().clearTooltipFlag();
+	}
+
+	public void update() {
+		if (LaTeX) {
+			String latexStr = geo.getLaTeXAlgebraDescription(true,
+					StringTemplate.latexTemplate);
+			latexStr = inputLatexCosmetics(latexStr);
+			DrawEquationWeb.updateEquationMathQuill(latexStr, se);
+		} else {
+			se.setInnerHTML(geo.getAlgebraDescriptionTextOrHTML(
+					StringTemplate.defaultTemplate));
+		}
+	}
+
+	public boolean isThisEdited() {
+		return thisIsEdited;
+	}
+
+	public void cancelEditing() {
+		if (LaTeX) {
+			DrawEquationWeb.endEditingEquationMathQuill(this, se);
+		} else {
+			remove(tb);
+			add(ihtml);
+			stopEditingSimple(tb.getText());
+		}
 	}
 
 	public String inputLatexCosmetics(String eqstring) {
@@ -155,6 +182,7 @@ public class RadioButtonTreeItem extends HorizontalPanel
 	}
 
 	public void startEditing() {
+		thisIsEdited = true;
 		if (LaTeX) {
 			geogebra.web.main.DrawEquationWeb.editEquationMathQuill(this,se);
 		} else {
@@ -178,6 +206,7 @@ public class RadioButtonTreeItem extends HorizontalPanel
 
 	public void stopEditingSimple(String newValue) {
 
+		thisIsEdited = false;
 		av.cancelEditing();
 
 		boolean redefine = !geo.isPointOnPath();
@@ -192,6 +221,7 @@ public class RadioButtonTreeItem extends HorizontalPanel
 
 	public void stopEditing(String newValue) {
 
+		thisIsEdited = false;
 		av.cancelEditing();
 
 		// Formula Hacks ... Currently only functions are considered
