@@ -3,20 +3,12 @@ package geogebra.web.gui.app;
 import geogebra.common.main.AbstractApplication;
 import geogebra.web.gui.view.algebra.AlgebraView;
 
-import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.event.logical.shared.AttachEvent;
-import com.google.gwt.event.logical.shared.AttachEvent.Handler;
-import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.client.ui.AbsolutePanel;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.RequiresResize;
-import com.google.gwt.user.client.ui.Widget;
-
-import com.google.gwt.dom.client.Style;
 
 public class AlgebraPanel extends Composite implements RequiresResize {
 
@@ -25,15 +17,16 @@ public class AlgebraPanel extends Composite implements RequiresResize {
 	private static AlgebraPanelUiBinder uiBinder = GWT
 	        .create(AlgebraPanelUiBinder.class);
 
-	interface AlgebraPanelUiBinder extends UiBinder<AbsolutePanel, AlgebraPanel> {
+	interface AlgebraPanelUiBinder extends UiBinder<ScrollPanel, AlgebraPanel> {
 	}
 
-	@UiField AbsolutePanel algebrap;
+	@UiField ScrollPanel algebrap;
 	AlgebraView aview = null;
 
 	public AlgebraPanel() {
 		initWidget(uiBinder.createAndBindUi(this));
 		algebrap.setSize("100%", "100%");
+		algebrap.setAlwaysShowScrollBars(false);
 		//aview = Canvas.createIfSupported();
 		//algebrapanel.add(aview);
 	}
@@ -47,7 +40,7 @@ public class AlgebraPanel extends Composite implements RequiresResize {
 		}
 	}
 
-	public AbsolutePanel getAbsolutePanel() {
+	public ScrollPanel getAbsolutePanel() {
 	    return algebrap;
     }
 
