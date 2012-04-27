@@ -451,11 +451,12 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 				checkVersion();
 			}
 
+			AbstractApplication.initializeSingularWS();
+			
 			if (!app.isApplet()) {
 				app.getPythonBridge();
 			}
-
-			AbstractApplication.initializeSingularWS();
+	
 		}
 
 		/**
