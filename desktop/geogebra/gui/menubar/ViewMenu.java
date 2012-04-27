@@ -99,7 +99,7 @@ public class ViewMenu extends BaseMenu {
 
 		// show/hide keyboard
 		cbShowKeyboard = new JCheckBoxMenuItem(showKeyboardAction);
-		app.setEmptyIcon(cbShowKeyboard);
+		cbShowKeyboard.setIcon(app.getImageIcon("keyboard.png"));
 		KeyboardSettings kbs = app.getSettings().getKeyboard();
 		if (kbs.isShowKeyboardOnStart()) {
 			cbShowKeyboard.setSelected(true);
