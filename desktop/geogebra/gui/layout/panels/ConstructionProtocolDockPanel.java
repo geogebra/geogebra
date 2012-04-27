@@ -4,6 +4,7 @@ import geogebra.common.main.AbstractApplication;
 import geogebra.gui.layout.DockPanel;
 import geogebra.main.Application;
 
+import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 
 public class ConstructionProtocolDockPanel extends DockPanel {
@@ -37,4 +38,8 @@ public class ConstructionProtocolDockPanel extends DockPanel {
 		return app.getGuiManager().getConstructionProtocolView().getStyleBar();
 	}
 	
+	@Override
+	public ImageIcon getIcon() { 
+			return app.getImageIcon("view-constructionprotocol24.png");
+	}
 }
