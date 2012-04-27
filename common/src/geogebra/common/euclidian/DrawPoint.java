@@ -159,7 +159,7 @@ public final class DrawPoint extends Drawable {
 
 		// Math.round to make sure that highlight circles drawn symmetrically
 		// (eg after zoom when points aren't on pixel boundaries)
-		if (!view.getApplication().isExporting()) {
+		if (!view.getApplication().isExporting() && pointSize > 2) {
 			xUL = Math.round(xUL);
 			yUL = Math.round(yUL);
 		}
