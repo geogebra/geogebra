@@ -4305,7 +4305,7 @@ public class ExpressionNode extends ValidExpression implements
 			return ((TextValue) ev1).toValueString(StringTemplate.defaultTemplate).equals(
 					((TextValue) ev2).toValueString(StringTemplate.defaultTemplate));
 		} else if (ev1.isVectorValue() && ev2.isVectorValue()) {
-			return ((VectorValue) ev1).getVector().equals(
+			return ((VectorValue) ev1).getVector().isEqual(
 					((VectorValue) ev2).getVector());
 		} else if (ev1.isBooleanValue() && ev2.isBooleanValue()) {
 			return ((BooleanValue) ev1).getMyBoolean().getBoolean() == ((BooleanValue) ev2)
