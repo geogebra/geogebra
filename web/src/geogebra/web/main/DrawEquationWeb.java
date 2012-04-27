@@ -313,7 +313,7 @@ public class DrawEquationWeb implements DrawEquationInterface {
 				code = event.which;
 			}
 			if (code == 13) {
-				@geogebra.web.main.DrawEquationWeb::endEditingEquationMathQuill(Lgeogebra/web/gui/view/algebra/RadioButtonTreeItem;Ljava/lang/String;)(rbti,parentElement);
+				@geogebra.web.main.DrawEquationWeb::endEditingEquationMathQuill(Lgeogebra/web/gui/view/algebra/RadioButtonTreeItem;Lcom/google/gwt/dom/client/Element;)(rbti,parentElement);
 			}
 			event.stopPropagation();
 			event.preventDefault();
@@ -326,7 +326,7 @@ public class DrawEquationWeb implements DrawEquationInterface {
 
 		var thisjq = $wnd.jQuery(elsecond);
 		var latexq = thisjq.mathquill('text');
-		this.previousSibling.style.display = "block";
+		elsecond.previousSibling.style.display = "block";
 		@geogebra.web.main.DrawEquationWeb::endEditingEquationMathQuill(Lgeogebra/web/gui/view/algebra/RadioButtonTreeItem;Ljava/lang/String;)(rbti,latexq);
 		thisjq.mathquill('revert').mathquill();
 	}-*/;
