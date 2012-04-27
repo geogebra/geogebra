@@ -21,6 +21,7 @@ import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ToggleButton;
@@ -64,6 +65,8 @@ public class AlgebraInput extends HorizontalPanel implements KeyUpHandler, Focus
 	    inputPanel = new InputPanel(null,app,30,true);
 	    
 	    inputField = inputPanel.getTextComponent();
+	    int inputWidth = Window.getClientWidth() - 120;
+	    inputField.getTextBox().setWidth(inputWidth+"px");
 	    
 	    inputField.getTextBox().addKeyUpHandler(this);
 	    inputField.getTextBox().addFocusHandler(this);

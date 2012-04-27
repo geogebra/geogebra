@@ -1289,7 +1289,7 @@ td.datePickerMonth {
 
 /* AlgebraInput styles */
 .AlgebraInput {
-    margin:auto 25%;
+    margin:auto 20px;
 }
 
 .SymbolToggleButton {
@@ -1315,7 +1315,6 @@ td.datePickerMonth {
 
 .InputPanel input.TextField {
     display:block;
-    min-width:600px;
 }
 
 .historyList a {

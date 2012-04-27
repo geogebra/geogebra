@@ -48,6 +48,9 @@ public class Web implements EntryPoint {
 	public void onModuleLoad() {
 		//do we have an app?
 		Web.loadedAsApp = checkIfNeedToLoadAsApp();
+		if (Web.loadedAsApp) {
+			JavaScriptInjector.inject(GuiResources.INSTANCE.commandContstantsJs().getText());
+		}
 		
 		// insert mathquill css
 		StyleInjector.inject(GuiResources.INSTANCE.mathquillCss().getText());

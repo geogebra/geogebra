@@ -124,6 +124,8 @@ public class AutoCompleteTextField extends HorizontalPanel implements AutoComple
 		    if (columns > 0) {
 		      setColumns(columns);
 		    }
+		    setVerticalAlignment(ALIGN_MIDDLE);
+		    
 		    textField.addStyleName("TextField");
 		    
 		    showSymbolButton = new ToggleButton();
