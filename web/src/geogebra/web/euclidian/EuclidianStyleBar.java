@@ -11,14 +11,21 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.TextProperties;
 import geogebra.common.main.AbstractApplication;
 import geogebra.web.gui.util.MyToggleButton;
+import geogebra.web.css.GuiResources;
 import geogebra.web.euclidian.EuclidianController;
 import geogebra.web.euclidian.EuclidianView;
 import geogebra.web.main.Application;
+import geogebra.web.util.ImageManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class EuclidianStyleBar implements geogebra.common.euclidian.EuclidianStyleBar {
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
+
+public class EuclidianStyleBar extends HorizontalPanel
+	implements geogebra.common.euclidian.EuclidianStyleBar, ValueChangeHandler {
 
 	EuclidianController ec;
 	protected EuclidianViewInterfaceCommon ev;
@@ -84,7 +91,7 @@ public class EuclidianStyleBar implements geogebra.common.euclidian.EuclidianSty
 		cons = app.getKernel().getConstruction();
 
 		// init handling of default geos
-		//createDefaultMap();
+		createDefaultMap();
 		defaultGeos = new ArrayList<GeoElement>();
 
 		// toolbar display settings
@@ -105,7 +112,7 @@ public class EuclidianStyleBar implements geogebra.common.euclidian.EuclidianSty
 		for (int i = 0; i < lineStyleArray.length; i++)
 			lineStyleMap.put(lineStyleArray[i], i);
 
-		//initGUI();
+		initGUI();
 		isIniting = false;
 
 		setMode(ev.getMode()); // this will also update the stylebar
@@ -409,6 +416,41 @@ public class EuclidianStyleBar implements geogebra.common.euclidian.EuclidianSty
 				ConstructionDefaults.DEFAULT_NONE);
 	}
 
+	// =====================================================
+	// Init GUI
+	// =====================================================
+
+	private void initGUI() {
+
+		createButtons();
+
+		addButtons();
+	
+		toggleBtnList = newToggleBtnList();
+	}
+
+	/**
+	 * adds/removes buttons 
+	 * (must be called on updates so that separators are drawn only when needed)
+	 */
+	private void addButtons() {
+
+		clear();
+
+		//--- order matters here
+		
+		// add graphics decoration buttons
+		addGraphicsDecorationsButtons();
+	}
+
+	/**
+	 * add axes, grid, ... buttons
+	 */
+	protected void addGraphicsDecorationsButtons(){
+		add(btnShowAxes);
+		add(btnShowGrid);
+	}
+
 	protected MyToggleButton[] newToggleBtnList() {
 		return new MyToggleButton[] { btnCopyVisualStyle, btnPen, btnShowGrid,
 				btnShowAxes, btnBold, btnItalic, btnDelete, btnLabel,
@@ -422,6 +464,58 @@ public class EuclidianStyleBar implements geogebra.common.euclidian.EuclidianSty
 
 	protected void createButtons() {
 		// TODO: fill in
+
+		// ========================================
+		// show axes button
+		btnShowAxes = new MyToggleButton(
+			GuiResources.INSTANCE.axes(),
+			iconHeight) {
+
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void update(Object[] geos) {
+				// always show this button unless in pen mode
+				this.setVisible(mode != EuclidianConstants.MODE_PEN);
+			}
+		};
+
+		// btnShowAxes.setPreferredSize(new Dimension(16,16));
+		btnShowAxes.addValueChangeHandler(this);
+
+		// ========================================
+		// show grid button
+		btnShowGrid = new MyToggleButton(
+			GuiResources.INSTANCE.grid(),
+			iconHeight) {
+
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void update(Object[] geos) {
+				// always show this button unless in pen mode
+				this.setVisible(mode != EuclidianConstants.MODE_PEN);
+			}
+		};
+		// btnShowGrid.setPreferredSize(new Dimension(16,16));
+		//btnShowGrid.addActionListener(this);
+	}
+
+	// =====================================================
+	// Event Handlers
+	// =====================================================
+
+	protected void updateGUI() {
+		if (isIniting)
+			return;
+
+		acceptValueChangeEvents(false);
+		btnShowAxes.setValue(ev.getShowXaxis());
+		acceptValueChangeEvents(true);
+
+		acceptValueChangeEvents(false);
+		btnShowGrid.setValue(ev.getShowGrid());
+		acceptValueChangeEvents(true);
 	}
 
 	static boolean checkGeoText(Object[] geos) {
@@ -435,4 +529,67 @@ public class EuclidianStyleBar implements geogebra.common.euclidian.EuclidianSty
 		return geosOK;
 	}
 
+	private boolean acceptValueChangeEvents = true;
+	public void acceptValueChangeEvents(boolean accept) {
+		acceptValueChangeEvents = accept;
+	}
+
+	public void onValueChange(ValueChangeEvent event) {
+		if (acceptValueChangeEvents) {
+			Object source = event.getSource();
+
+			needUndo = false;
+
+			ArrayList<GeoElement> targetGeos = new ArrayList<GeoElement>();
+			targetGeos.addAll(ec.getJustCreatedGeos());
+			if (mode != EuclidianConstants.MODE_MOVE)
+				targetGeos.addAll(defaultGeos);
+			else
+				targetGeos.addAll(app.getSelectedGeos());
+
+			processSource(source, targetGeos);
+
+			if (needUndo) {
+				app.storeUndoInfo();
+				needUndo = false;
+			}
+
+			updateGUI();
+		}
+	}
+
+	/**
+	 * process the action performed
+	 * 
+	 * @param source
+	 * @param targetGeos
+	 */
+	protected void processSource(Object source, ArrayList<GeoElement> targetGeos) {
+
+		if (source.equals(btnShowAxes)) {
+			if (app.getEuclidianView1() == ev)
+				app.getSettings().getEuclidian(1)
+						.setShowAxes(!ev.getShowXaxis(), !ev.getShowXaxis());
+			else if (!app.hasEuclidianView2EitherShowingOrNot())
+				ev.setShowAxes(!ev.getShowXaxis(), true);
+			else if (app.getEuclidianView2() == ev)
+				app.getSettings().getEuclidian(2)
+						.setShowAxes(!ev.getShowXaxis(), !ev.getShowXaxis());
+			else
+				ev.setShowAxes(!ev.getShowXaxis(), true);
+			ev.repaint();
+		}
+
+		else if (source.equals(btnShowGrid)) {
+			if (app.getEuclidianView1() == ev)
+				app.getSettings().getEuclidian(1).showGrid(!ev.getShowGrid());
+			else if (!app.hasEuclidianView2EitherShowingOrNot())
+				ev.showGrid(!ev.getShowGrid());
+			else if (app.getEuclidianView2() == ev)
+				app.getSettings().getEuclidian(2).showGrid(!ev.getShowGrid());
+			else
+				ev.showGrid(!ev.getShowGrid());
+			ev.repaint();
+		}
+	}
 }

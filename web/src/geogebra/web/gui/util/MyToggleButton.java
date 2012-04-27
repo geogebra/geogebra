@@ -2,6 +2,7 @@ package geogebra.web.gui.util;
 
 import com.google.gwt.user.client.ui.ToggleButton;
 import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.resources.client.ImageResource;
 
 public class MyToggleButton extends ToggleButton {
 
@@ -9,6 +10,12 @@ public class MyToggleButton extends ToggleButton {
 
 	public MyToggleButton(Image icon, int iconHeight) {
 		super(icon);
+		//Dimension d = new Dimension(icon.getIconWidth(), iconHeight);
+		//setIcon(GeoGebraIcon.ensureIconSize(icon, d));
+	}
+
+	public MyToggleButton(ImageResource icon, int iconHeight) {
+		super(new Image(icon));
 		//Dimension d = new Dimension(icon.getIconWidth(), iconHeight);
 		//setIcon(GeoGebraIcon.ensureIconSize(icon, d));
 	}
