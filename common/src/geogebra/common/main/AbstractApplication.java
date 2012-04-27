@@ -1721,12 +1721,17 @@ public abstract class AbstractApplication {
 	public String getCommandSyntax(String key) {
 
 		String command = getCommand(key);
-		
+
 		String syntaxString = getSyntaxString();
 		
-		String syntax = getCommand(key + syntaxString);
+		String syntax = null;
 
-		syntax = syntax.replace("[", command + '[');
+		if(syntaxString != null) {
+
+			syntax = getCommand(key + syntaxString);
+
+			syntax = syntax.replace("[", command + '[');
+		}
 
 		return syntax;
 	}
