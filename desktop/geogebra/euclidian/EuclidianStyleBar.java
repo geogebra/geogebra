@@ -205,6 +205,7 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener, geoge
 	 */
 	public void updateStyleBar() {
 
+		
 		if (mode == EuclidianConstants.MODE_VISUAL_STYLE)
 			return;
 
@@ -302,6 +303,9 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener, geoge
 		// show the pen delete button
 		// TODO: handle pen mode in code above
 		btnPenDelete.setVisible((mode == EuclidianConstants.MODE_PEN));
+		
+		addButtons();
+		
 	}
 
 	private void updateTableText(Object[] geos) {
@@ -459,27 +463,55 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener, geoge
 
 	private void initGUI() {
 
-		removeAll();
-
 		createButtons();
 		createColorButton();
 		createBgColorButton();
 		createTextButtons();
+		createTableTextButtons();
+		
+		addButtons();
+		
+		popupBtnList = newPopupBtnList();
+		toggleBtnList = newToggleBtnList();
 
-		// add the buttons --- order matters here
+		for (int i = 0; i < popupBtnList.length; i++) {
+			// popupBtnList[i].setStandardButton(true);
+		}
+
+	}
+	
+	/**
+	 * adds/removes buttons 
+	 * (must be called on updates so that separators are drawn only when needed)
+	 */
+	private void addButtons() {
+
+		removeAll();
+
+		//--- order matters here
+		
+		// add graphics decoration buttons
 		addGraphicsDecorationsButtons();
 		addBtnPointCapture();
 
+		// add color and style buttons
+		if(btnColor.isVisible() || btnTextColor.isVisible())
+			addSeparator();
+		
 		add(btnColor);
 		add(btnBgColor);
 		add(btnTextColor);
 		add(btnLineStyle);
 		add(btnPointStyle);
+		
+		// add text decoration buttons
+		if(btnBold.isVisible())
+			addSeparator();
+		
 		add(btnBold);
 		add(btnItalic);
 		add(btnTextSize);
 
-		createTableTextButtons();
 		add(btnTableTextJustify);
 		add(btnTableTextLinesV);
 		add(btnTableTextLinesH);
@@ -492,14 +524,8 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener, geoge
 		addBtnRotateView();
 		// add(btnPenDelete);
 
-		popupBtnList = newPopupBtnList();
-		toggleBtnList = newToggleBtnList();
-
-		for (int i = 0; i < popupBtnList.length; i++) {
-			// popupBtnList[i].setStandardButton(true);
-		}
-
 	}
+	
 	
 	/**
 	 * add axes, grid, ... buttons
@@ -968,7 +994,7 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener, geoge
 			}
 
 		};
-		ImageIcon ptCaptureIcon = app.getImageIcon("magnet.gif");
+		ImageIcon ptCaptureIcon = app.getImageIcon("magnet2.gif");
 		btnPointCapture.setIconSize(new Dimension(ptCaptureIcon.getIconWidth(),
 				iconHeight));
 		btnPointCapture.setIcon(ptCaptureIcon);
