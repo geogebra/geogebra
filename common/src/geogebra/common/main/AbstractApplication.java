@@ -2044,7 +2044,8 @@ public abstract class AbstractApplication {
 
 
 
-	boolean reverseMouseWheel = false;
+	// default changed for ggb42 (consistent with the rest of the sotfware world)
+	boolean reverseMouseWheel = true;
 
 	public boolean isMouseWheelReversed() {
 		return reverseMouseWheel;
