@@ -3944,9 +3944,20 @@ public abstract class AbstractEuclidianController {
 	 * Creates a text that shows a number value of geo at the current mouse
 	 * position.
 	 */
-	protected GeoText createDynamicText(String descText, GeoElement value, Point loc) {
+	protected GeoText createDynamicText(String type, GeoElement object, GeoElement value, Point loc) {
 		// create text that shows length
 		try {
+			
+			// type might be eg "Area of %0" or "XXX %0 YYY"
+			
+			String descText;
+			
+			if (object.isGeoPolygon()) {
+				descText = descriptionPoints(type, (GeoPolygon) object);
+			} else {
+				descText = app.getPlain(type, "\" + Name[" + object.getLabel(StringTemplate.defaultTemplate) + "] + \"");
+			}
+			
 			// create dynamic text
 			String dynText = "\"" + descText + " = \" + " + value.getLabel(StringTemplate.defaultTemplate);
 	
@@ -4046,7 +4057,7 @@ public abstract class AbstractEuclidianController {
 			GeoNumeric area = kernel.Area(null, conic);
 	
 			// text
-			GeoText text = createDynamicText(app.getCommand("Area"), area,
+			GeoText text = createDynamicText("AreaOfA", conic, area,
 					mouseCoords);
 			if (conic.isLabelSet()) {
 				area.setLabel(removeUnderscores(StringUtil.toLowerCase(app.getCommand("Area"))
@@ -4063,8 +4074,7 @@ public abstract class AbstractEuclidianController {
 			GeoPolygon[] poly = getSelectedPolygons();
 	
 			// dynamic text with polygon's area
-			GeoText text = createDynamicText(
-					descriptionPoints(app.getCommand("Area"), poly[0]),
+			GeoText text = createDynamicText("AreaOfA",  poly[0],
 					poly[0], mouseLoc);
 			if (poly[0].isLabelSet()) {
 				text.setLabel(removeUnderscores(app.getPlain("Text")
@@ -4077,9 +4087,9 @@ public abstract class AbstractEuclidianController {
 		return null;
 	}
 
-	protected String descriptionPoints(String prefix, GeoPolygon poly) {
+	protected String descriptionPoints(String type, GeoPolygon poly) {
 		// build description text including point labels
-		String descText = prefix;
+		StringBuilder descText = new StringBuilder();
 	
 		// use points for polygon with static points (i.e. no list of points)
 		GeoPoint2[] points = null;
@@ -4088,12 +4098,12 @@ public abstract class AbstractEuclidianController {
 		}
 	
 		if (points != null) {
-			descText = descText + " \"";
+			descText.append(" \"");
 			boolean allLabelsSet = true;
 			for (int i = 0; i < points.length; i++) {
 				if (points[i].isLabelSet()) {
-					descText = descText + " + Name[" + points[i].getLabel(StringTemplate.defaultTemplate)
-							+ "]";
+					descText.append(" + Name[" + points[i].getLabel(StringTemplate.defaultTemplate)
+							+ "]");
 				} else {
 					allLabelsSet = false;
 					i = points.length;
@@ -4101,16 +4111,16 @@ public abstract class AbstractEuclidianController {
 			}
 	
 			if (allLabelsSet) {
-				descText = descText + " + \"";
+				descText.append(" + \"");
 				for (int i = 0; i < points.length; i++) {
 					points[i].setLabelVisible(true);
 					points[i].updateRepaint();
 				}
 			} else {
-				descText = app.getCommand("Area");
+				return app.getPlain(type, "\" + Name[" + poly.getLabel(StringTemplate.defaultTemplate) + "] + \"");
 			}
 		}
-		return descText;
+		return app.getPlain(type,  descText.toString() );
 	}
 
 	protected boolean regularPolygon(Hits hits) {
@@ -4300,7 +4310,7 @@ public abstract class AbstractEuclidianController {
 			GeoNumeric circumFerence = kernel.Circumference(null, conic);
 	
 			// text
-			GeoText text = createDynamicText(app.getCommand("Circumference"),
+			GeoText text = createDynamicText("CircumferenceOfA", conic,
 					circumFerence, mouseCoords);
 			if (conic.isLabelSet()) {
 				circumFerence.setLabel(removeUnderscores(StringUtil.toLowerCase(app.getCommand(
@@ -4319,8 +4329,7 @@ public abstract class AbstractEuclidianController {
 			GeoNumeric perimeter = kernel.Perimeter(null, poly[0]);
 	
 			// text
-			GeoText text = createDynamicText(
-					descriptionPoints(app.getCommand("Perimeter"), poly[0]),
+			GeoText text = createDynamicText("PerimeterOfA", poly[0],
 					perimeter, mouseCoords);
 	
 			if (poly[0].isLabelSet()) {
