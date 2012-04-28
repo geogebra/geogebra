@@ -597,6 +597,8 @@ public class RelativeCopy {
 
 		// TODO is this a bug in the regex?
 		// needed for eg Mod[$A2, B$1] which gives Mod[$A2, ::::B$1]
+		// =$B$1 BinomialCoefficient[B$2, $A3] gives BinomialCoefficient[::::::B$2, $A::3]
+		text = text.replace("::::::", "::");
 		text = text.replace("::::", "::");
 
 		MatchResult matcher = GeoElementSpreadsheet.spreadsheetPatternPart
