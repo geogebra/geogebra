@@ -192,10 +192,17 @@ public class Polynomial implements Comparable<Polynomial> {
 	 * @return the product
 	 */
 	public Polynomial multiply(final Polynomial poly) {
-		String singularMultiplication = getSingularMultiplication("rr", poly, this); 
-		AbstractApplication.debug(singularMultiplication);
 		if (AbstractApplication.singularWS.isAvailable()) {
-			AbstractApplication.debug("singular:" + AbstractApplication.singularWS.directCommand(singularMultiplication));
+			String singularMultiplicationProgram = getSingularMultiplication("rr", poly, this);
+			if (singularMultiplicationProgram.length()>100)
+				AbstractApplication.debug(singularMultiplicationProgram.length() + " bytes -> singular");
+			else 
+				AbstractApplication.debug(singularMultiplicationProgram + " -> singular");
+			String singularMultiplication = AbstractApplication.singularWS.directCommand(singularMultiplicationProgram);
+			if (singularMultiplication.length()>100)
+				AbstractApplication.debug("singular -> " + singularMultiplication.length() + " bytes");
+			else
+				AbstractApplication.debug("singular -> " + singularMultiplication);
 		}
 		TreeMap<Term, Integer> result = new TreeMap<Term, Integer>();
 		TreeMap<Term, Integer> terms2 = poly.getTerms();
