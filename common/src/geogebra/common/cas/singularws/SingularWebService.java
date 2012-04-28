@@ -33,16 +33,16 @@ public class SingularWebService {
 	}
 	
 	private String swsCommandResult(String command, String parameters) {
-		String getRequest = wsHost + "/?c=" + command;
+		String getRequest = wsHost + "/";
+		String encodedParameters = "";
 		if (parameters != null) {
 			URLEncoder urle = UtilFactory.prototype.newURLEncoder();
-			String encodedParameters = urle.encode(parameters);
-			getRequest += "&p=" + encodedParameters;
+			encodedParameters = urle.encode(parameters);
 		}
 		HttpRequest httpr = UtilFactory.prototype.newHttpRequest();
 		httpr.setTimeout(timeout);
-		httpr.sendRequest(getRequest);
-		String response = httpr.getResponse(); // will not work in web
+		httpr.sendRequestPost(getRequest,"c=" + command + "&p=" + encodedParameters);
+		String response = httpr.getResponse(); // will not work in web, TODO: callback!
 		return response;
 	}
 	

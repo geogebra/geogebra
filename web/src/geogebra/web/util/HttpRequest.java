@@ -53,4 +53,11 @@ public class HttpRequest extends geogebra.common.util.HttpRequest {
 		AbstractApplication.warn("not available");
 	    return null;
     }
+
+	@Override
+    public void sendRequestPost(String url, String post) {
+	    // TODO: Implement this as a real post,
+		// currently we fall back to GET:
+		sendRequest(url + "?" + post);	    
+    }
 }

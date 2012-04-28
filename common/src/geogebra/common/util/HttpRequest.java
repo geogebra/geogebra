@@ -38,11 +38,18 @@ public abstract class HttpRequest {
 	}
 
 	/**
+	 * Opens an URL
 	 * @param url
 	 *            full URL to be opened
 	 */
 	public abstract void sendRequest(String url);
 
+	/**
+	 * Opens and URL and sends some POST parameters
+	 * @param url full URL to be opened
+	 * @param post POST parameters (already encoded)
+	 */
+	public abstract void sendRequestPost(String url, String post);
 	
 	/**
 	 * @param timeout_secs HTTP request timeout in seconds
