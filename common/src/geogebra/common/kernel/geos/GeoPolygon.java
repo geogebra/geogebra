@@ -530,8 +530,7 @@ public class GeoPolygon extends GeoElement implements NumberValue, Path,
 		}
 
 		setCoordSys(null);
-		if(poly.getSegments()!=null && poly.getSegments().length >0 && poly.getSegments()[0].isLabelSet())
-			updateSegments();
+		updateSegments();
 		defined = poly.defined;
 
 		if (poly.hasChangeableCoordParentNumbers())

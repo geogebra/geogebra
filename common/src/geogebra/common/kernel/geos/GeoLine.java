@@ -1431,7 +1431,10 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 
 	@Override
 	public void doRemove() {
-
+		if(getStartPoint()!=null)
+			getStartPoint().removeIncidence(this);
+		if(getEndPoint()!=null)
+			getEndPoint().removeIncidence(this);
 		if (pointsOnLine != null) {
 			for (int i = 0; i < pointsOnLine.size(); ++i) {
 				GeoPoint2 p = pointsOnLine.get(i);

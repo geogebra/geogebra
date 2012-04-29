@@ -1888,8 +1888,13 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 		return actions;
 	}
 
-	public int find(GeoElement next) {
-		return geoList.indexOf(next);
+	/**
+	 * Returns position of needle in this list or -1 when not found
+	 * @param needle geo to be found
+	 * @return position of needle in this list or -1 when not found
+	 */
+	public int find(GeoElement needle) {
+		return geoList.indexOf(needle);
 	}
 
 }
