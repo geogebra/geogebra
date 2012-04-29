@@ -35,10 +35,7 @@ public abstract class GuiManager {
 			EuclidianViewInterfaceCommon euclidianViewInterfaceCommon,
 			Point mouseLoc);
 
-	public void setMode(int mode) {
-		// TODO Auto-generated method stub
-		
-	}
+	public abstract void setMode(int mode);
 
 	public abstract void redo();
 	public abstract void undo();

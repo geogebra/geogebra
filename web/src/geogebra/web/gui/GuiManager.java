@@ -1,6 +1,7 @@
 package geogebra.web.gui;
 
 import geogebra.common.awt.Point;
+import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.gui.dialog.DialogManager;
@@ -12,6 +13,7 @@ import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.settings.ProbabilityCalculatorSettings;
 import geogebra.web.gui.view.algebra.AlgebraController;
 import geogebra.web.gui.view.algebra.AlgebraView;
 import geogebra.web.euclidian.EuclidianView;
@@ -364,5 +366,19 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 	public void detachAlgebraView() {
 		if (algebraView != null)
 			algebraView.detachView();
+	}
+	
+	public void setMode(int mode) {
+
+		// can't move this after otherwise Object Properties doesn't work
+		kernel.notifyModeChanged(mode);
+
+		// select toolbar button, returns *actual* mode selected
+//		int newMode = setToolbarMode(mode);
+//		
+//		if (mode != EuclidianConstants.MODE_SELECTION_LISTENER && newMode != mode) {
+//			mode = newMode;
+//			kernel.notifyModeChanged(mode);
+//		}
 	}
 }

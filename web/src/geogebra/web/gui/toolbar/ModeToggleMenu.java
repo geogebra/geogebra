@@ -100,6 +100,9 @@ public class ModeToggleMenu extends MenuBar{
 //		tbutton.setText(miMode);
 //		tbutton.setSelected(true);
 		// tbutton.requestFocus();*/
+		
+		//temporary - until we have only one toolbar
+		setMode(Integer.parseInt(miMode));
 	}
 
 	public void addMode(int mode) {
@@ -221,9 +224,9 @@ public class ModeToggleMenu extends MenuBar{
 //		return popMenu.isShowing();
 //	}
 //
-//	public void setMode(int mode) {
-//		app.setMode(mode);
-//	}
+	public void setMode(int mode) {
+		app.setMode(mode);
+	}
 //
 //}
 //
