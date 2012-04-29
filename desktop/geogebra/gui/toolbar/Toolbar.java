@@ -297,7 +297,7 @@ public class Toolbar extends JToolBar {
 	public static String getAllTools(Application app) {
 		StringBuilder sb = new StringBuilder();
 
-		sb.append(ToolBar.getAllToolsNoMacros());
+		sb.append(ToolBar.getAllToolsNoMacros(true));
 
 		// macros
 		Kernel kernel = app.getKernel();

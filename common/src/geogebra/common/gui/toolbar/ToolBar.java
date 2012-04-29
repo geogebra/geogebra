@@ -17,25 +17,34 @@ public class ToolBar {
 	public static final Integer SEPARATOR = new Integer(-1);
 
 	/**
+	 * Returns with the default definition of the genearl tool bar whithout
+	 * macros.
+	 * 
+	 * @param showAllMenu true, if all menus must appear. (On the web there
+	 * are some tools, which don't appear.)
 	 * @return The default definition of the general tool bar without macros.
 	 */
-	public static String getAllToolsNoMacros() {
+	public static String getAllToolsNoMacros(boolean showAllMenu) {
 		StringBuilder sb = new StringBuilder();
 	
 		// move
 		sb.append(EuclidianConstants.MODE_MOVE);
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_MOVE_ROTATE);
-		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_RECORD_TO_SPREADSHEET);
-	
+		if(showAllMenu){
+			sb.append(" ");
+			sb.append(EuclidianConstants.MODE_RECORD_TO_SPREADSHEET);
+		}
+			
 		// points
 		sb.append(" || ");
 		sb.append(EuclidianConstants.MODE_POINT);
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_POINT_ON_OBJECT);
-		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_ATTACH_DETACH);
+		if(showAllMenu){
+			sb.append(" ");
+			sb.append(EuclidianConstants.MODE_ATTACH_DETACH);
+		}
 		sb.append(" , ");
 		sb.append(EuclidianConstants.MODE_INTERSECT);
 		sb.append(" ");
@@ -66,14 +75,18 @@ public class ToolBar {
 		sb.append(EuclidianConstants.MODE_PARALLEL);
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_LINE_BISECTOR);
-		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_ANGULAR_BISECTOR);
+		if(showAllMenu){
+			sb.append(" ");
+			sb.append(EuclidianConstants.MODE_ANGULAR_BISECTOR);
+		}
 		sb.append(" , ");
 		sb.append(EuclidianConstants.MODE_TANGENTS);
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_POLAR_DIAMETER);
-		sb.append(" , ");
-		sb.append(EuclidianConstants.MODE_FITLINE);
+		if(showAllMenu){
+			sb.append(" , ");
+			sb.append(EuclidianConstants.MODE_FITLINE);
+		}
 		sb.append(" , ");
 		sb.append(EuclidianConstants.MODE_LOCUS);
 	
@@ -122,14 +135,18 @@ public class ToolBar {
 		sb.append(EuclidianConstants.MODE_ANGLE);
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_ANGLE_FIXED);
-		sb.append(" , ");
-		sb.append(EuclidianConstants.MODE_DISTANCE);
-		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_AREA);
+		if(showAllMenu){
+			sb.append(" , ");
+			sb.append(EuclidianConstants.MODE_DISTANCE);
+			sb.append(" ");
+			sb.append(EuclidianConstants.MODE_AREA);
+		}
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_SLOPE);
-		sb.append(" , ");
-		sb.append(EuclidianConstants.MODE_CREATE_LIST);
+		if(showAllMenu){
+			sb.append(" , ");
+			sb.append(EuclidianConstants.MODE_CREATE_LIST);
+		}
 	
 		// transformations
 		sb.append(" | ");
@@ -145,33 +162,39 @@ public class ToolBar {
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_DILATE_FROM_POINT);
 	
-		// dialogs
-		sb.append(" | ");
-	
-		sb.append(EuclidianConstants.MODE_TEXT);
-		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_IMAGE);
-		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_PEN);
-		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_FREEHAND);
-		sb.append(" , ");
-		sb.append(EuclidianConstants.MODE_RELATION);
-		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_PROBABILITY_CALCULATOR);
-		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_FUNCTION_INSPECTOR);
-	
+			// dialogs
+			sb.append(" | ");
+		
+			sb.append(EuclidianConstants.MODE_TEXT);
+			sb.append(" ");
+		if(showAllMenu){
+			sb.append(EuclidianConstants.MODE_IMAGE);
+			sb.append(" ");
+			sb.append(EuclidianConstants.MODE_PEN);
+			sb.append(" ");
+			sb.append(EuclidianConstants.MODE_FREEHAND);
+			sb.append(" , ");
+		}
+			sb.append(EuclidianConstants.MODE_RELATION);
+		if(showAllMenu){
+			sb.append(" ");
+			sb.append(EuclidianConstants.MODE_PROBABILITY_CALCULATOR);
+			sb.append(" ");
+			sb.append(EuclidianConstants.MODE_FUNCTION_INSPECTOR);
+		}
+			
 		// objects with actions
 		sb.append(" | ");
 		sb.append(EuclidianConstants.MODE_SLIDER);
-		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_SHOW_HIDE_CHECKBOX);
-		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_BUTTON_ACTION);
-		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_TEXTFIELD_ACTION);
-	
+		if(showAllMenu){
+			sb.append(" ");
+			sb.append(EuclidianConstants.MODE_SHOW_HIDE_CHECKBOX);
+			sb.append(" ");
+			sb.append(EuclidianConstants.MODE_BUTTON_ACTION);
+			sb.append(" ");
+			sb.append(EuclidianConstants.MODE_TEXTFIELD_ACTION);
+		}
+			
 		// properties
 		sb.append(" || ");
 		sb.append(EuclidianConstants.MODE_TRANSLATEVIEW);
@@ -190,7 +213,8 @@ public class ToolBar {
 	
 		return sb.toString();
 	}
-
+	
+	
 	/**
 	 * @return The default definition of the general tool bar without macros.
 	 */

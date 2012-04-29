@@ -51,7 +51,7 @@ public class Layout extends geogebra.common.gui.Layout implements SettingListene
 	 * {@link #initialize(Application)} has to be called once in order to use this class.
 	 */
 	public Layout() {
-		initializeDefaultPerspectives();
+		initializeDefaultPerspectives(true);
 		
 		this.perspectives = new ArrayList<Perspective>(defaultPerspectives.length);
 	}
