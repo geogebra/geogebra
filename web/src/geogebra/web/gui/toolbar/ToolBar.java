@@ -12,7 +12,9 @@ import java.util.ArrayList;
 import java.util.Vector;
 
 import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.MenuBar;
+import com.google.gwt.user.client.ui.MenuItem;
 
 
 
@@ -172,7 +174,7 @@ public class ToolBar extends MenuBar {
 
 			// new menu
 			Vector<Integer> menu = ob.getMenu();
-			ModeToggleMenu tm = new ModeToggleMenu(app, this, bg);
+			final ModeToggleMenu tm = new ModeToggleMenu(app, this, bg);
 			modeToggleMenus.add(tm);
 
 			for (int k = 0; k < menu.size(); k++) {
@@ -186,9 +188,18 @@ public class ToolBar extends MenuBar {
 					// check mode
 					if (!"".equals(app.getToolName(addMode))) {
 						Command com = null;
-						tm.addItem(GGWToolBar.getImageHtml(addMode)+app.getToolName(addMode), true, com);
+						final MenuItem item = new MenuItem(GGWToolBar.getImageHtml(addMode)+app.getToolName(addMode), true, com);
+						com = new Command(){
+							public void execute() {
+								tm.selectMenuItem(item);
+                            }
+						};
+						item.setCommand(com);
+						item.getElement().setAttribute("mode", addMode+"");
+						tm.addItem(item);
+						//tm.addItem(GGWToolBar.getImageHtml(addMode)+app.getToolName(addMode), true, com);
 						
-						tm.addMode(addMode);
+						tm.addMode(addMode);					
 						if (firstButton) {
 							//tm.getJToggleButton().setSelected(true);
 							firstButton = false;
@@ -199,8 +210,10 @@ public class ToolBar extends MenuBar {
 
 			
 			if (tm.getToolsCount() > 0){
-				int tbuttonMode = Integer.parseInt(tm.getButton().getElement().getAttribute("mode"));
-				addItem(GGWToolBar.getImageHtml(tbuttonMode), true,tm);
+				int tbuttonMode = Integer.parseInt(tm.getElement().getAttribute("mode"));
+				MenuItem newItem = new MenuItem(GGWToolBar.getImageHtml(tbuttonMode), true,tm);
+				tm.setButton(newItem);
+				addItem(newItem);
 			}
 		}
     }

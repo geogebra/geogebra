@@ -3,6 +3,7 @@ package geogebra.web.gui.toolbar;
 import geogebra.common.awt.Color;
 import geogebra.common.main.AbstractApplication;
 import geogebra.web.awt.GeneralPath;
+import geogebra.web.gui.app.GGWToolBar;
 import geogebra.web.javax.swing.JPopupMenu;
 import geogebra.web.main.Application;
 
@@ -17,7 +18,8 @@ public class ModeToggleMenu extends MenuBar{
 
 	private static final long serialVersionUID = 1L;
 	ModeToggleButtonGroup bg;
-	private MyJToggleButton tbutton, mouseOverButton;
+	//private MyJToggleButton tbutton, mouseOverButton;
+	private MenuItem tbutton;
 	private JPopupMenu popMenu;
 	private ArrayList<MenuItem> menuItemList;
 
@@ -34,9 +36,9 @@ public class ModeToggleMenu extends MenuBar{
 		this.bg = bg;
 //		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 
-		tbutton = new MyJToggleButton(this);
+//		tbutton = new MyJToggleButton(this);
 //		tbutton.setAlignmentY(BOTTOM_ALIGNMENT);
-		addItem(tbutton);
+//		addItem(tbutton);
 
 		popMenu = new JPopupMenu();
 //		popMenu.setBackground(bgColor);
@@ -81,19 +83,23 @@ public class ModeToggleMenu extends MenuBar{
 	 * This method has the same functionality as the 
 	 * geogebra.gui.toolbar.ModeToggleMenu.selectItem(JMenuItem mi)
 	 */
-	private void selectMenuItem(MenuItem mi) {
+	void selectMenuItem(MenuItem mi) {
+		String miMode = mi.getElement().getAttribute("mode");
 		// check if the menu item is already selected
-		if (tbutton.isSelected()
-				&& tbutton.getElement().getAttribute("mode") == mi.getElement().getAttribute("mode")) {
-			return;
-		}
+//		if (tbutton.isSelected()
+//				&& tbutton.getElement().getAttribute("mode") == miMode) {
+//			return;
+//		}
+//		
 
+		
 //		tbutton.setIcon(mi.getIcon());
-		tbutton.setText(app.getToolName(Integer.parseInt(mi
-				.getElement().getAttribute("mode"))));
-		tbutton.getElement().setAttribute("mode",mi.getElement().getAttribute("mode"));
-		tbutton.setSelected(true);
-		// tbutton.requestFocus();
+//		tbutton.setText(app.getToolName(Integer.parseInt(miMode)));
+		tbutton.getElement().setAttribute("mode",miMode);
+		tbutton.setHTML(GGWToolBar.getImageHtml(Integer.parseInt(miMode)));
+//		tbutton.setText(miMode);
+//		tbutton.setSelected(true);
+		// tbutton.requestFocus();*/
 	}
 
 	public void addMode(int mode) {
@@ -123,20 +129,27 @@ public class ModeToggleMenu extends MenuBar{
 		if (size == 1) {
 			// init tbutton
 			//tbutton.setIcon(icon);
-			tbutton.getElement().setAttribute("mode", actionText);
+			//tbutton.getElement().setAttribute("mode", actionText);
 
+			this.getElement().setAttribute("mode", actionText);
+//			this.setTitle(app.getToolName(mode));
 			// tooltip: tool name and tool help
 			//tbutton.setToolTipText(app.getToolTooltipHTML(mode));
-			tbutton.setText(app.getToolName(mode));
+			//tbutton.setText(app.getToolName(mode));
 			
 			// add button to button group
-			bg.add(tbutton);
+			//bg.add(tbutton);
 		}
 	}
 	
 	
-	public MyJToggleButton getButton() {
-		return tbutton;
+//	public MyJToggleButton getButton() {
+//		return tbutton;
+//	}
+	
+	public void setButton(MenuItem button){
+		tbutton = button;
+		
 	}
 
 //	/**
