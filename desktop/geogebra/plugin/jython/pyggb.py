@@ -58,6 +58,10 @@ class Interface(PythonScriptInterface):
         self.run(script)
         
     def handleEvent(self, evt_type, target):
+        # if ... return and try ... finally are hacks to try to fix #1520
+        # I can't run ATM so...
+        if target not in self.factory._cache:
+            return
         try:
             for listener in self.event_listeners[evt_type]:
                 listener(evt_type, target)
@@ -80,7 +84,7 @@ class Interface(PythonScriptInterface):
                 self.handling_event = False
         finally:
             if evt_type == 'remove':
-                self.factory._cache.pop(target, None)
+                del self.factory._cache[target]
         
     def notifySelected(self, geo, add):
         # geo = API.Geo(geo)
