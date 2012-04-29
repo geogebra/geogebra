@@ -58,25 +58,29 @@ class Interface(PythonScriptInterface):
         self.run(script)
         
     def handleEvent(self, evt_type, target):
-        for listener in self.event_listeners[evt_type]:
-            listener(evt_type, target)
-        # target = API.Geo(target)
-        if self.handling_event:
-            return
-        element = self.factory.get_element(target)
         try:
-            action = getattr(element, "on" + evt_type)
-        except AttributeError:
-            return
-        try:
-            self.handling_event = True
-            action(element)
-        except Exception:
-            sys.stderr.write("Error while handling event '%s' on '%r'\n"
-                             % (evt_type, target))
-            raise
+            for listener in self.event_listeners[evt_type]:
+                listener(evt_type, target)
+            # target = API.Geo(target)
+            if self.handling_event:
+                return
+            element = self.factory.get_element(target)
+            try:
+                action = getattr(element, "on" + evt_type)
+            except AttributeError:
+                return
+            try:
+                self.handling_event = True
+                action(element)
+            except Exception:
+                sys.stderr.write("Error while handling event '%s' on '%r'\n"
+                                 % (evt_type, target))
+                raise
+            finally:
+                self.handling_event = False
         finally:
-            self.handling_event = False
+            if evt_type == 'remove':
+                self.factory._cache.pop(target, None)
         
     def notifySelected(self, geo, add):
         # geo = API.Geo(geo)
