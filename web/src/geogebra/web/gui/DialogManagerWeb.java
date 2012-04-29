@@ -2,6 +2,7 @@ package geogebra.web.gui;
 
 import geogebra.common.awt.Point;
 import geogebra.common.gui.dialog.DialogManager;
+import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
@@ -9,6 +10,7 @@ import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.AbstractApplication;
+import geogebra.web.main.Application;
 
 import java.util.ArrayList;
 
@@ -83,6 +85,7 @@ public class DialogManagerWeb extends DialogManager {
 
 	@Override
 	protected void showTextDialog(GeoText geo, GeoPointND startPoint) {
+		
 		String inputValue = prompt("Enter text", "");
 
 		if (!"".equals(inputValue)) {
@@ -101,7 +104,20 @@ public class DialogManagerWeb extends DialogManager {
 						t.setStartPoint(startPoint);
 					} catch (Exception e) {
 					}
+				} else {
+
+					Coords coords = startPoint.getInhomCoordsInD(3);
+					t.setRealWorldLoc(coords.getX(), coords.getY());
+					t.setAbsoluteScreenLocActive(false);
 				}
+
+				// make sure (only) the output of the text tool is selected
+				app.getActiveEuclidianView()
+						.getEuclidianController()
+						.memorizeJustCreatedGeos(ret);
+
+				t.updateRepaint();
+				app.storeUndoInfo();
 			}
 		}
 
