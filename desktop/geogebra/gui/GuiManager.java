@@ -27,7 +27,7 @@ import geogebra.euclidianND.EuclidianViewND;
 import geogebra.gui.app.GeoGebraFrame;
 import geogebra.gui.app.MyFileFilter;
 import geogebra.gui.color.GeoGebraColorChooser;
-import geogebra.gui.dialog.DialogManager;
+import geogebra.gui.dialog.DialogManagerDesktop;
 import geogebra.gui.dialog.InputDialog;
 import geogebra.gui.dialog.InputDialogOpenURL;
 import geogebra.gui.dialog.PropertiesDialog;
@@ -120,8 +120,8 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 	public Application app;
 	protected Kernel kernel;
 
-	protected DialogManager dialogManager;
-	protected DialogManager.Factory dialogManagerFactory;
+	protected DialogManagerDesktop dialogManager;
+	protected DialogManagerDesktop.Factory dialogManagerFactory;
 
 	private AlgebraInput algebraInput;
 	private AlgebraController algebraController;
@@ -165,7 +165,7 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 		// this flag prevents closing opened webpage without save (see #126)
 		htmlLoaded = false;
 
-		dialogManagerFactory = new DialogManager.Factory();
+		dialogManagerFactory = new DialogManagerDesktop.Factory();
 	}
 
 	/**
@@ -761,7 +761,7 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 	 * use Application.getDialogManager() instead
 	 */
 	@Deprecated
-	public DialogManager getDialogManager() {
+	public DialogManagerDesktop getDialogManager() {
 		return dialogManager;
 	}
 

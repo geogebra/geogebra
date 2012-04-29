@@ -66,11 +66,6 @@ public class DialogManagerMinimal extends DialogManager {
 		
 	}
 
-	@Override
-	public void showTextCreationDialog(GeoPointND loc) {
-		// TODO Auto-generated method stub
-		
-	}
 
 	@Override
 	public void showNumberInputDialogDilate(String menu,
@@ -127,12 +122,6 @@ public class DialogManagerMinimal extends DialogManager {
 	}
 
 	@Override
-	public void showTextDialog(GeoText geo) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public void showOptionsDialog(int tabEuclidian) {
 		// TODO Auto-generated method stub
 		
@@ -154,6 +143,11 @@ public class DialogManagerMinimal extends DialogManager {
 			String initText, boolean changingSign, String checkBoxText) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	@Override
+	protected void showTextDialog(GeoText text, GeoPointND startPoint) {
+		// TODO Auto-generated method stub
+		
 	}
 
 

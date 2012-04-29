@@ -33,12 +33,6 @@ public class DialogManagerWeb extends DialogManager {
     }
 
 	@Override
-    public void showTextCreationDialog(GeoPointND loc) {
-	    // TODO Auto-generated method stub
-	    
-    }
-
-	@Override
     public void showBooleanCheckboxCreationDialog(Point loc, GeoBoolean bool) {
 	    // TODO Auto-generated method stub
 	    
@@ -88,10 +82,30 @@ public class DialogManagerWeb extends DialogManager {
     }
 
 	@Override
-    public void showTextDialog(GeoText geo) {
-	    // TODO Auto-generated method stub
-	    
-    }
+	protected void showTextDialog(GeoText geo, GeoPointND startPoint) {
+		String inputValue = prompt("Enter text", "");
+
+		if (!"".equals(inputValue)) {
+			
+			if (inputValue.indexOf('\"') == -1) {
+				inputValue = "\"" + inputValue + "\"";
+			}
+
+			GeoElement[] ret = app.getKernel().getAlgebraProcessor()
+					.processAlgebraCommand(inputValue, false);
+			if (ret != null && ret[0].isTextValue()) {
+				GeoText t = (GeoText) ret[0];
+
+				if (startPoint.isLabelSet()) {
+					try {
+						t.setStartPoint(startPoint);
+					} catch (Exception e) {
+					}
+				}
+			}
+		}
+
+	}
 
 	@Override
     public void showOptionsDialog(int tabEuclidian) {

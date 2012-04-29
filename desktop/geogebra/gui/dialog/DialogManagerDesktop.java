@@ -48,7 +48,7 @@ import javax.swing.UIManager;
  * GeoGebra. Supports (explicit) lazy initialization so that dialogs have to be
  * created manually if needed.
  */
-public class DialogManager extends geogebra.common.gui.dialog.DialogManager {
+public class DialogManagerDesktop extends geogebra.common.gui.dialog.DialogManager {
 	/**
 	 * The option dialog where the user can change all application settings.
 	 */
@@ -92,7 +92,7 @@ public class DialogManager extends geogebra.common.gui.dialog.DialogManager {
 	 */
 	private Locale currentLocale;
 
-	public DialogManager(AbstractApplication app) {
+	public DialogManagerDesktop(AbstractApplication app) {
 		super(app);
 	}
 
@@ -290,23 +290,7 @@ public class DialogManager extends geogebra.common.gui.dialog.DialogManager {
 		id.setVisible(true);
 	}
 
-	/**
-	 * Displays the text dialog for a given text.
-	 */
-	@Override
-	public void showTextDialog(GeoText text) {
-		showTextDialog(text, null);
-	}
-
-	/**
-	 * Creates a new text at given startPoint
-	 */
-	@Override
-	public void showTextCreationDialog(GeoPointND startPoint) {
-		showTextDialog(null, startPoint);
-	}
-
-	private void showTextDialog(GeoText text, GeoPointND startPoint) {
+	protected void showTextDialog(GeoText text, GeoPointND startPoint) {
 		app.setWaitCursor();
 
 		if (textInputDialog == null) {
@@ -703,16 +687,16 @@ public class DialogManager extends geogebra.common.gui.dialog.DialogManager {
 	}
 
 	/**
-	 * Factory for the {@link DialogManager} class.
+	 * Factory for the {@link DialogManagerDesktop} class.
 	 */
 	public static class Factory {
 		/**
 		 * @param app
 		 *            Application instance
-		 * @return a new {@link DialogManager}
+		 * @return a new {@link DialogManagerDesktop}
 		 */
-		public DialogManager create(Application app) {
-			DialogManager dialogManager = new DialogManager(app);
+		public DialogManagerDesktop create(Application app) {
+			DialogManagerDesktop dialogManager = new DialogManagerDesktop(app);
 			dialogManager.setOptionsDialogFactory(new OptionsDialog.Factory());
 			return dialogManager;
 		}

@@ -4,7 +4,7 @@ import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.gui.dialog.DialogManager;
+import geogebra.gui.dialog.DialogManagerDesktop;
 import geogebra.gui.dialog.InputDialog;
 import geogebra.gui.dialog.handler.NumberInputHandler;
 import geogebra.gui.dialog.options.OptionsDialog;
@@ -16,7 +16,7 @@ import geogebra3D.gui.OptionsDialog3D;
 /**
  * 3D version of the dialog manager.
  */
-public class DialogManager3D extends DialogManager {
+public class DialogManager3D extends DialogManagerDesktop {
 	/**
 	 * Construct 3D dialog manager.
 	 * 
@@ -62,9 +62,9 @@ public class DialogManager3D extends DialogManager {
 		id.setVisible(true);
 	}
 	
-	public static class Factory extends DialogManager.Factory {
+	public static class Factory extends DialogManagerDesktop.Factory {
 		@Override
-		public DialogManager create(Application app) {
+		public DialogManagerDesktop create(Application app) {
 			if(!(app instanceof Application3D)) {
 				throw new IllegalArgumentException();
 			}

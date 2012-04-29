@@ -73,7 +73,7 @@ public class InputDialogDilate extends InputDialog {
 		cons.setSuppressLabelCreation(oldVal);
 		
 		if (success) {
-			return DialogManager.doDilate(kernel, ((NumberInputHandler)inputHandler).getNum(), points, selGeos);
+			return DialogManagerDesktop.doDilate(kernel, ((NumberInputHandler)inputHandler).getNum(), points, selGeos);
 		}
 		
 		return false;

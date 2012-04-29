@@ -120,8 +120,6 @@ public abstract class DialogManager {
 		
 	}
 
-	public abstract void showTextCreationDialog(GeoPointND loc);
-
     public boolean showSliderCreationDialog(int x, int y) {
 		Kernel kernel = app.getKernel();
 		boolean isAngle = !confirm("OK for number, Cancel for angle");
@@ -357,8 +355,6 @@ public abstract class DialogManager {
 	public abstract void showRenameDialog(GeoElement geo, boolean b, String label,
 			boolean c);
 
-	public abstract void showTextDialog(GeoText geo);
-
 	public abstract void showOptionsDialog(int tabEuclidian);
 
 	public abstract void showPropertiesDialog();
@@ -396,6 +392,49 @@ public abstract class DialogManager {
 			kernel.getApplication().getActiveEuclidianView().getEuclidianController().memorizeJustCreatedGeos(onlysegment);
 		}
 	}
+
+	/**
+	 * Displays the text dialog for a given text.
+	 */
+	final public void showTextDialog(GeoText text) {
+		showTextDialog(text, null);
+	}
+
+	/**
+	 * Creates a new text at given startPoint
+	 */
+	final public void showTextCreationDialog(GeoPointND startPoint) {
+		showTextDialog(null, startPoint);
+	}
+	
+	
+	/**
+	 * this method is always overridden (except when using DialogManagerMinimal, just for testing currently)
+	 * @param geo
+	 * @param startPoint
+	 */
+	protected void showTextDialog(GeoText geo, GeoPointND startPoint) {
+		String inputValue = prompt("Enter text", "");
+
+		if (!"".equals(inputValue)) {
+
+			GeoElement[] ret = geo.getKernel().getAlgebraProcessor()
+					.processAlgebraCommand(inputValue, false);
+			if (ret != null && ret[0].isTextValue()) {
+				GeoText t = (GeoText) ret[0];
+
+				if (startPoint.isLabelSet()) {
+					try {
+						t.setStartPoint(startPoint);
+					} catch (Exception e) {
+					}
+				}
+			}
+		}
+
+	}
+
+
 
 
 }
