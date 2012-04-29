@@ -604,16 +604,6 @@ final public String toValueString(StringTemplate tpl) {
     
     
     
-    private GeoElement highlightingAncestor;
-    
-    public void setHighlightingAncestor(GeoElement geo){
-    	highlightingAncestor=geo;
-    }
-    
-    public GeoElement getHighlightingAncestor(){
-    	return highlightingAncestor;
-    }
-    
     
     @Override
 	public boolean isOnPath(Coords Pnd, double eps) {    
@@ -681,4 +671,25 @@ final public String toValueString(StringTemplate tpl) {
     	AlgoJoinPointsSegment algo = (AlgoJoinPointsSegment) getParentAlgorithm();
     	algo.modifyInputPoints((GeoPoint2) P, (GeoPoint2) Q);    	
     }
+    
+    
+    
+
+	private GeoElement meta = null;
+	
+	@Override
+	public boolean isFromMeta() {
+		return meta!=null;
+	}
+	
+	public GeoElement getMeta(){
+		return meta;
+	}
+
+	/**
+	 * @param poly polygon or polyhedron creating this segment
+	 */
+	public void setFromMeta(GeoElement poly) {
+		meta = poly;
+	}
 }

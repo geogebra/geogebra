@@ -66,7 +66,8 @@ public class AlgoJoinPointsSegment extends AlgoElement implements AlgoJoinPoints
         this.P = P;
         this.Q = Q;
           
-        s = new GeoSegment(cons, P, Q);          
+        s = new GeoSegment(cons, P, Q);
+        s.setFromMeta(poly);
         setInputOutput(); // for AlgoElement
                
         // compute line through P, Q

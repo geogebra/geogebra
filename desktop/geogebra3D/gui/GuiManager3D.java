@@ -27,6 +27,7 @@ import geogebra3D.gui.view.algebra.AlgebraView3D;
 import java.awt.Component;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
+import java.util.ArrayList;
 
 import javax.swing.AbstractAction;
 
@@ -172,6 +173,41 @@ public class GuiManager3D extends GuiManager {
 				app, p.x, p.y);
 		popupMenu.show(((EuclidianViewND) view).getJPanel(), p.x, p.y);
 	}
+	
+	
+	
+	/**
+	 * Displays the popup menu for geo at the position p in the coordinate space
+	 * of the component invoker
+	 * @param geos list of geos
+	 * @param view view calling
+	 * @param p place to show the popup menue
+	 */
+	public void showPopupChooseGeo(GeoElement geo,
+			ArrayList<GeoElement> geos, EuclidianViewND view,
+			geogebra.common.awt.Point p) {
+		
+		if (geo==null || geos==null)
+			return;
+
+		// clear highlighting and selections in views
+		app.getActiveEuclidianView().resetMode();
+		
+		Component invoker = view.getJPanel();
+
+		Point screenPos = (invoker == null) ? new Point(0, 0) : invoker
+				.getLocationOnScreen();
+		screenPos.translate(p.x, p.y);
+
+		ArrayList<GeoElement> firstGeo = new ArrayList<GeoElement>();
+		firstGeo.add(geo);
+		ContextMenuChooseGeo popupMenu = new ContextMenuChooseGeo(app, view, firstGeo, geos, screenPos);
+		popupMenu.show(invoker, p.x, p.y);
+
+
+	}
+
+
 	
 	
 	//////////////////////////////

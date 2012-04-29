@@ -78,7 +78,8 @@ import java.util.TreeSet;
  * View containing graphic representation of construction elements
  */
 public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCommon {
-	private boolean hasMouse;
+	/** says if the view has the mouse */
+	protected boolean hasMouse;
 	/** View other than EV1 and EV2 **/
 	public static int EVNO_GENERAL = 1001;
 	/** euclidian view number */

@@ -77,6 +77,14 @@ public abstract class AlgoElement extends ConstructionElement implements
 			c.addToConstructionList(this, false);
 		}
 	}
+	
+	/**
+	 * add the algo to the construction
+	 * (if disabled before by Kernel.silentMode)
+	 */
+	public void addToConstructionList(){
+		cons.addToConstructionList(this, false);
+	}
 
 	/**
 	 * initialize output list

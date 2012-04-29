@@ -2955,7 +2955,8 @@ public abstract class GeoElement extends ConstructionElement implements
 			} else if (isGeoFunction()) {
 				chars = functionLabels;
 			} else if (isGeoLine()) {
-				if (((GeoLineND) this).isFromPolyhedron()) {
+				//name "edge" for segments from polyhedron
+				if (isFromMeta() && !((FromMeta) this).getMeta().isGeoPolygon()) {
 					int counter = 0;
 					String str;
 					final String name = app.getPlain("Name.edge");
@@ -7032,6 +7033,15 @@ public abstract class GeoElement extends ConstructionElement implements
 	
 	public final ExpressionValue traverse(Traversing t){
 		return t.process(this);
+	}
+	
+	
+	/**
+	 * Says if this geo comes from a "meta geo", e.g. a segment coming from a polygon
+	 * @return true if is from meta geo
+	 */
+	public boolean isFromMeta(){
+		return false;
 	}
 
 }

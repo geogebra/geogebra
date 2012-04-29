@@ -46,6 +46,7 @@ import geogebra.common.kernel.geos.PointProperties;
 import geogebra.common.kernel.geos.TextProperties;
 import geogebra.common.kernel.geos.Traceable;
 import geogebra.common.kernel.kernelND.GeoConicND;
+import geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import geogebra.common.kernel.kernelND.GeoLevelOfDetail;
 import geogebra.common.kernel.kernelND.GeoPlaneND;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -185,6 +186,7 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 	private ScriptEditPanel scriptEditPanel;
 	private BackgroundImagePanel bgImagePanel;
 	private AbsoluteScreenLocationPanel absScreenLocPanel;
+	private ShowView2D showView2D;
 	private ShowConditionPanel showConditionPanel;
 	private ColorFunctionPanel colorFunctionPanel;
 
@@ -275,6 +277,7 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 		fixPanel = new FixPanel();
 		checkBoxFixPanel = new CheckBoxFixPanel();
 		absScreenLocPanel = new AbsoluteScreenLocationPanel();
+		showView2D = new ShowView2D();
 		auxPanel = new AuxiliaryObjectPanel();
 		animStepPanel = new AnimationStepPanel(app);
 		textFieldSizePanel = new TextfieldSizePanel(app);
@@ -342,6 +345,7 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 		basicTabList.add(rightAnglePanel);
 		basicTabList.add(allowOutlyingIntersectionsPanel);
 		basicTabList.add(showTrimmedIntersectionLines);
+		basicTabList.add(showView2D);
 		basicTab = new TabPanel(basicTabList);
 		tabPanelList.add(basicTab);
 
@@ -512,6 +516,7 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 		animSpeedPanel.setLabels();
 		slopeTriangleSizePanel.setLabels();
 		absScreenLocPanel.setLabels();
+		showView2D.setLabels();
 		sliderPanel.setLabels();
 
 		if (!isDefaults) {
@@ -5261,6 +5266,96 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 			}
 		}
 	}
+	
+	
+	/**
+	 * panel to show a 2D view from a plane, polygon, etc.
+	 * 
+	 * @author mathieu
+	 */
+	private class ShowView2D extends JPanel implements
+			ItemListener, SetLabels, UpdateablePropertiesPanel {
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+		private Object[] geos; // currently selected geos
+		private JCheckBox cb2DView;
+
+		public ShowView2D() {
+			super(new FlowLayout(FlowLayout.LEFT));
+
+			// check boxes for show trace
+			cb2DView = new JCheckBox();
+			cb2DView.addItemListener(this);
+
+			// put it all together
+			add(cb2DView);
+		}
+
+		public void setLabels() {
+			cb2DView.setText(app.getPlain("ViewFrom"));
+		}
+
+		public JPanel update(Object[] geos) {
+			this.geos = geos;
+			if (!checkGeos(geos))
+				return null;
+
+			cb2DView.removeItemListener(this);
+
+			// check if properties have same values
+			GeoCoordSys2D temp, geo0 = (GeoCoordSys2D) geos[0];
+			boolean equalVal = true;
+
+			for (int i = 0; i < geos.length; i++) {
+				temp = (GeoCoordSys2D) geos[i];
+				// same object visible value
+				if (geo0.hasView2DVisible() != temp
+						.hasView2DVisible())
+					equalVal = false;
+			}
+
+			// set checkbox
+			if (equalVal)
+				cb2DView.setSelected(geo0.hasView2DVisible());
+			else
+				cb2DView.setSelected(false);
+
+			cb2DView.addItemListener(this);
+			return this;
+		}
+
+		private boolean checkGeos(Object[] geos) {
+			for (int i = 0; i < geos.length; i++) {
+				GeoElement geo = (GeoElement) geos[i];
+				if (!(geo instanceof GeoCoordSys2D) || !(geo.isGeoElement3D()))
+					return false;
+			}
+			return true;
+		}
+
+		/**
+		 * listens to checkboxes and sets trace state
+		 */
+		public void itemStateChanged(ItemEvent e) {
+			GeoCoordSys2D geo;
+			Object source = e.getItemSelectable();
+
+			// absolute screen location flag changed
+			if (source == cb2DView) {
+				boolean flag = cb2DView.isSelected();
+				EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
+				for (int i = 0; i < geos.length; i++) {
+					geo = (GeoCoordSys2D) geos[i];
+					geo.setView2DVisible(flag);
+				}
+
+				updateSelection(geos);
+			}
+		}
+	}
+
 
 	/**
 	 * Panel for segment decoration

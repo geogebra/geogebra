@@ -463,7 +463,6 @@ public class GeoPolygon extends GeoElement implements NumberValue, Path,
 			}
 		}
 
-		segment.setHighlightingAncestor(this);
 
 		return segment;
 	}
@@ -1610,6 +1609,16 @@ public class GeoPolygon extends GeoElement implements NumberValue, Path,
 	public void createView2D() {
 		euclidianViewForPlane = app.createEuclidianViewForPlane(this);
 	}
+	
+	public boolean hasView2DVisible(){
+		return euclidianViewForPlane!=null;
+	}
+	
+
+	public void setView2DVisible(boolean flag){
+		createView2D();
+	}
+
 
 	@Override
 	public void update() {
@@ -1630,12 +1639,8 @@ public class GeoPolygon extends GeoElement implements NumberValue, Path,
 		curve.setFromPolyLine(points, true);
 	}
 
-	/**
-	 * @return true for polyhedral faces
-	 */
-	public boolean isFromPolyhedron() {
-		return false;
-	}
+	
+
 
 	@Override
 	public String getDefaultLabel(char[] chars, boolean isInteger) {
@@ -1644,7 +1649,7 @@ public class GeoPolygon extends GeoElement implements NumberValue, Path,
 		int counter = 0;
 		String str;
 		String name;
-		if (isFromPolyhedron())
+		if (isFromMeta())
 			name = app.getPlain("Name.face");
 		else
 			name = app.getPlain("Name.polygon");

@@ -33,17 +33,18 @@ public class DrawSegment3D extends DrawCoordSys1D {
 	}
 
 	
+	@Override
 	public boolean doHighlighting(){
 		
 		//if the segments depends on a polygon (or polyhedron), look at the poly' highlighting
-		GeoElement ancestor = ((GeoSegmentND) getGeoElement()).getHighlightingAncestor();		
-		if (ancestor!=null)
-			if (ancestor.doHighlighting())
-				return true;
+		GeoElement meta = ((GeoSegmentND) getGeoElement()).getMeta();		
+		if (meta!=null && meta.doHighlighting())
+			return true;
 		
 		return super.doHighlighting();
 	}
 	
+	@Override
 	protected void updateForView(){
 		if (getView3D().viewChangedByZoom())
 			updateForItSelf();

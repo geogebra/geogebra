@@ -60,15 +60,15 @@ public class ContextMenuGeoElement extends JPopupMenu {
 
 	private static final long serialVersionUID = 1L;
 	/** background color*/
-	final static Color bgColor = Color.white;
+	protected final static Color bgColor = Color.white;
 	/** foreground color*/
-	final static Color fgColor = Color.black;
+	protected final static Color fgColor = Color.black;
 	/** selected elements*/
 	ArrayList<GeoElement> geos;
 	/** current element */
 	GeoElement geo;
 	/** application */
-	protected Application app;
+	public Application app;
 	/**
 	 * Creates new context menu
 	 * @param app application

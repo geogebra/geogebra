@@ -1112,7 +1112,7 @@ public abstract class AbstractEuclidianController {
 		}
 	}
 
-	protected void doSingleHighlighting(GeoElement geo) {
+	public void doSingleHighlighting(GeoElement geo) {
 		if (geo == null) {
 			return;
 		}
@@ -7035,10 +7035,11 @@ public abstract class AbstractEuclidianController {
 	
 		// find and set movedGeoElement
 		view.setHits(mouseLoc);
+		Hits viewHits = view.getHits();
 	
 		// make sure that eg slider takes precedence over a polygon (in the same
 		// layer)
-		view.getHits().removePolygons();
+		viewHits.removePolygons();
 	
 		Hits moveableList;
 	
@@ -7054,12 +7055,13 @@ public abstract class AbstractEuclidianController {
 		// On drag, we want to be able to drag a circle
 		// on click, we want to be able to select the intersection point
 		if (drag) {
-			moveableList = view.getHits().getMoveableHits(view);
+			moveableList = viewHits.getMoveableHits(view);
 		} else {
-			moveableList = view.getHits();
+			moveableList = viewHits;
 		}
 	
 		Hits hits = moveableList.getTopHits();
+		
 	
 		// Application.debug("end("+(System.currentTimeMillis()-t0)+")");
 	
@@ -7073,7 +7075,7 @@ public abstract class AbstractEuclidianController {
 		} else {
 			// choose out of hits
 			geo = chooseGeo(hits, false);
-	
+			
 			if (!selGeos.contains(geo)) {
 				app.clearSelectedGeos();
 				app.addSelectedGeo(geo);
@@ -8163,23 +8165,10 @@ public abstract class AbstractEuclidianController {
 						if (app.isUsingFullGui() && app.getGuiManager() != null)
 							app.getGuiManager().showPopupMenu(
 									app.getSelectedGeos(), view, mouseLoc);
+
 					} else {
 						// no selected geos: choose geo and show popup menu
-						geo = chooseGeo(hits, false);
-						if (app.isUsingFullGui() && app.getGuiManager() != null) {
-							if (geo != null) {
-								ArrayList<GeoElement> geos = new ArrayList<GeoElement>();
-								geos.add(geo);
-								app.getGuiManager().showPopupMenu(geos,
-										view, mouseLoc);
-							} else {
-								// for 3D : if the geo hitted is xOyPlane, then
-								// chooseGeo return null
-								// app.getGuiManager().showDrawingPadPopup((EuclidianView)
-								// view, mouseLoc);
-								showDrawingPadPopup(mouseLoc);
-							}
-						}
+						showPopupMenuChooseGeo(hits);
 					}
 				}
 				return;
@@ -8722,6 +8711,31 @@ public abstract class AbstractEuclidianController {
 
 	public AbstractApplication getApplication() {
 		return app;
+	}
+
+	/**
+	 * show popup menu when no geo is selected
+	 * @param hits hits on the mouse
+	 */
+	protected void showPopupMenuChooseGeo(Hits hits){
+		GeoElement geo = chooseGeo(hits, false);
+		if (app.isUsingFullGui() && app.getGuiManager() != null) {
+			//if (geo != null) {
+				ArrayList<GeoElement> geos = new ArrayList<GeoElement>();
+				geos.add(geo);
+				app.getGuiManager().showPopupMenu(geos,
+						view, mouseLoc);
+
+			/* Now overriden
+			} else {
+				// for 3D : if the geo hitted is xOyPlane, then
+				// chooseGeo return null
+				// app.getGuiManager().showDrawingPadPopup((EuclidianView)
+				// view, mouseLoc);
+				showDrawingPadPopup(mouseLoc);
+			}
+			*/
+		}
 	}
 	
 }

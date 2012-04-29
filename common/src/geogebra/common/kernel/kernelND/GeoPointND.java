@@ -230,16 +230,5 @@ public interface GeoPointND extends GeoElementND, PointProperties{
 
 	
 
-	/**
-	 * sets the index of intersection
-	 * @param index index
-	 */
-	public void setIntersectionIndex(int index);
-	
-	/**
-	 * 
-	 * @return the index of intersection
-	 */
-	public int getIntersectionIndex();
 	
 }

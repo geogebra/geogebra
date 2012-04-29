@@ -238,9 +238,6 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	private int cursor = CURSOR_DEFAULT;
 	
 
-	//mouse
-	private boolean hasMouse = false;
-	
 	
 	// animation	
 	/** tells if the view is under animation for scale */
@@ -1787,39 +1784,34 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	
 	
 	
-	/** sets that the current 3D cursor is at the intersection of the two GeoElement parameters
-	 * @param cursor3DIntersectionOf1 first GeoElement of intersection
-	 * @param cursor3DIntersectionOf2 second GeoElement of intersection
-	 */
-	public void setCursor3DIntersectionOf(IntersectionType type, GeoElement cursor3DIntersectionOf1, GeoElement cursor3DIntersectionOf2){
-		cursor3DIntersectionType = type;
-		this.cursor3DIntersectionOf[0]=cursor3DIntersectionOf1;
-		this.cursor3DIntersectionOf[1]=cursor3DIntersectionOf2;
+	
+	private int intersectionThickness;
+	
+	public void setIntersectionThickness(GeoElement a, GeoElement b){
+		int t1 = a.getLineThickness();
+		int t2 = b.getLineThickness();
+		if (t2>t1)
+			intersectionThickness=t2;
+		else
+			intersectionThickness=t1;
+		intersectionThickness+=6;
 	}
 	
-	public static enum IntersectionType { 
-		UNKNOWN,
-		LINE_CS,
-		LINE_CONIC,
-		CONICS,
-		LINE_QUADRIC
+	public int getIntersectionThickness(){
+		return intersectionThickness;
 	}
 	
-	public IntersectionType cursor3DIntersectionType;
 	
 	
-	/** return the i-th GeoElement of intersection
-	 * @param i number of GeoElement of intersection
-	 * @return GeoElement of intersection
-	 */
-	public GeoElement getCursor3DIntersectionOf(int i){
-		return cursor3DIntersectionOf[i];
-	}
+	private GeoPointND intersectionPoint;
 	
-	public IntersectionType getCursor3DIntersectionType(){
-		return cursor3DIntersectionType;
+	public void setIntersectionPoint(GeoPointND point){
+		intersectionPoint=point;
 	}
 
+	public GeoPointND getIntersectionPoint(){
+		return intersectionPoint;
+	}
 	
 	
 	
@@ -2078,11 +2070,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 				break;
 			case PREVIEW_POINT_DEPENDENT:
 				//use size of intersection
-				int t1 = getCursor3DIntersectionOf(0).getLineThickness();
-				int t2 = getCursor3DIntersectionOf(1).getLineThickness();
-				if (t1>t2)
-					t2=t1;
-				t = (t2+6)/getScale();
+				t = getIntersectionThickness()/getScale();
 				getCursor3D().getDrawingMatrix().setVx((Coords) vx.mul(t));
 				getCursor3D().getDrawingMatrix().setVy((Coords) vy.mul(t));
 				getCursor3D().getDrawingMatrix().setVz((Coords) vz.mul(t));
@@ -2214,8 +2202,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	public void drawCursor(Renderer renderer){
 
 		
-		//Application.debug("hasMouse="+hasMouse+"\n!getEuclidianController().mouseIsOverLabel() "+!getEuclidianController().mouseIsOverLabel() +"\ngetEuclidianController().cursor3DVisibleForCurrentMode(getCursor3DType())" + getEuclidianController().cursor3DVisibleForCurrentMode(getCursor3DType())+"\ncursor="+cursor+"\ngetCursor3DType()="+getCursor3DType());		
-		//Application.debug(mode);
+		//Application.debug("\nhasMouse="+hasMouse+"\n!getEuclidianController().mouseIsOverLabel() "+!getEuclidianController().mouseIsOverLabel() +"\ngetEuclidianController().cursor3DVisibleForCurrentMode(getCursor3DType())" + getEuclidianController().cursor3DVisibleForCurrentMode(getCursor3DType())+"\ncursor="+cursor+"\ngetCursor3DType()="+getCursor3DType());		
 
 		if (hasMouse){
 			if (moveCursorIsVisible()){

@@ -91,11 +91,6 @@ public interface GeoLineND extends GeoDirectionND{
 	public GeoPointND getStartPoint();
 
 	/**
-	 * @return true for polyhedral edges
-	 */
-	public boolean isFromPolyhedron();
-
-	/**
 	 * Removes a point from list of points that 
 	 * are registered as points on this line
 	 * @param point point to be removed

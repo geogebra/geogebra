@@ -17,6 +17,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.kernelND.AlgoIntersectND;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.main.AbstractApplication;
 
 
 public abstract class AlgoIntersect extends AlgoIntersectND {
@@ -42,10 +43,12 @@ public abstract class AlgoIntersect extends AlgoIntersectND {
      * that is closest to the coordinates (xRW, yRW)
      */
     public int getClosestPointIndex(double xRW, double yRW) {
+    	//AbstractApplication.debug("\nxRW="+xRW+"\nyRW="+yRW);
         GeoPoint2[] P = getIntersectionPoints();
         double x, y, lengthSqr, mindist = Double.POSITIVE_INFINITY;
         int minIndex = 0;
         for (int i = 0; i < P.length; i++) {
+        	//AbstractApplication.debug("\npoint "+i+":\nx="+P[i].inhomX+"\ny="+P[i].inhomY);
             x = (P[i].inhomX - xRW);
             y = (P[i].inhomY - yRW);
             lengthSqr = x * x + y * y;
@@ -54,7 +57,7 @@ public abstract class AlgoIntersect extends AlgoIntersectND {
                 minIndex = i;
             }
         }
-
+        //AbstractApplication.debug("\nminIndex="+minIndex);
         return minIndex;
     }
     

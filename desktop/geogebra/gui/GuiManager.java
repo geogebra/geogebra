@@ -1154,6 +1154,7 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 		}
 
 	}
+	
 
 	/**
 	 * Toggles the popup menu for geo at the position p in the coordinate space

@@ -1115,18 +1115,6 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND,
 	
 	
 	
-	private int intersectionIndex = -1;
-	
-
-	public void setIntersectionIndex(int index){
-		intersectionIndex = index;
-	}
-	
-
-	public int getIntersectionIndex(){
-		return intersectionIndex;
-	}
-	
 	
 
 

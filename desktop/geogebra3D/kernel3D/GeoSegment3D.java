@@ -26,8 +26,7 @@ import geogebra.common.plugin.GeoClass;
  * @author ggb3d
  * 
  */
-public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND,
-		NumberValue {
+public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 
 	/** if is a segment from a GeoPolygon3D or GeoPolyhedron */
 	private GeoElement geoParent = null;
@@ -252,27 +251,7 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND,
 		return false;
 	}
 
-	// ///////////////////////////////////
-	// if this if from a GeoPolygon3D or a GeoPolyhedron
-
-	/**
-	 * sets a GeoElement as parent (GeoPolygon3D or a GeoPolyhedron)
-	 * 
-	 * @param geo
-	 *            the parent
-	 */
-	public void setGeoParent(GeoElement geo) {
-		this.geoParent = geo;
-	}
-
-	/**
-	 * return the parent GeoElement (GeoPolygon3D or a GeoPolyhedron)
-	 * 
-	 * @return the parent GeoElement (GeoPolygon3D or a GeoPolyhedron)
-	 */
-	public GeoElement getGeoParent() {
-		return this.geoParent;
-	}
+	
 
 	// ///////////////////////////////////
 	// GeoSegmentInterface interface
@@ -312,15 +291,6 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND,
 		return (x >= 0) && (x <= 1);
 	}
 
-	private GeoElement highlightingAncestor;
-
-	public void setHighlightingAncestor(GeoElement geo) {
-		highlightingAncestor = geo;
-	}
-
-	public GeoElement getHighlightingAncestor() {
-		return highlightingAncestor;
-	}
 
 	@Override
 	final public boolean isGeoLine() {
@@ -461,17 +431,22 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND,
 		return true;
 	}
 
-	private boolean isFromPolyhedron;
-
-	public boolean isFromPolyhedron() {
-		return isFromPolyhedron;
+	private GeoElement meta = null;
+	
+	@Override
+	public boolean isFromMeta() {
+		return meta!=null;
+	}
+	
+	public GeoElement getMeta(){
+		return meta;
 	}
 
 	/**
-	 * @param flag true if polyhedral face
+	 * @param poly polygon or polyhedron creating this segment
 	 */
-	public void setFromPolyhedron(boolean flag) {
-		isFromPolyhedron = flag;
+	public void setFromMeta(GeoElement poly) {
+		meta = poly;
 	}
 	
 	

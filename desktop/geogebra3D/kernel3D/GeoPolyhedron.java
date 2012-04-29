@@ -352,14 +352,13 @@ public class GeoPolyhedron extends GeoElement3D {// implements Path {
 		GeoSegment3D segment;
 		
 
-		AlgoJoinPoints3D algoSegment = new AlgoJoinPoints3D((Construction)cons, startPoint,
+		AlgoJoinPoints3D algoSegment = new AlgoJoinPoints3D(cons, startPoint,
 				endPoint, this, GeoClass.SEGMENT3D);
-		((Construction) cons).removeFromConstructionList(algoSegment);
+		cons.removeFromConstructionList(algoSegment);
 
 		segment = (GeoSegment3D) algoSegment.getCS();
 		// refresh color to ensure segments have same color as polygon:
 		segment.setObjColor(getObjectColor());
-		segment.setFromPolyhedron(true);
 
 		Long index = new Long(segmentsIndexMax);
 		segmentsIndex.put(key, index);
@@ -1019,7 +1018,7 @@ public class GeoPolyhedron extends GeoElement3D {// implements Path {
 
 		// prevent from removing this when redefine a prism (see
 		// AlgoJoinPoints3D and AlgoPolygon)
-		if (this != ((Construction) getConstruction()).getKeepGeo())
+		if (this != getConstruction().getKeepGeo())
 			super.remove();
 	}
 

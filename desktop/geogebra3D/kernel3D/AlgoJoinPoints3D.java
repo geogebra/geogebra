@@ -96,7 +96,7 @@ public class AlgoJoinPoints3D extends AlgoElement3D {
     	case SEGMENT3D:
     		cs = new GeoSegment3D(cons, P, Q);
     		if (poly!=null){
-    			((GeoSegment3D) cs).setGeoParent(poly);	 
+    			((GeoSegment3D) cs).setFromMeta(poly);	 
     		}
     		break;
     	case LINE3D:
@@ -150,7 +150,8 @@ public class AlgoJoinPoints3D extends AlgoElement3D {
     }
     
 
-    public void compute() {
+    @Override
+	public void compute() {
     	    
     	if (poly!=null) {
     		if (!poly.isDefined())
@@ -164,7 +165,8 @@ public class AlgoJoinPoints3D extends AlgoElement3D {
     	}
     }
     
-    public void remove() {
+    @Override
+	public void remove() {
         super.remove();
         //if segment is part of a polygon, remove it
         if (poly != null) {
@@ -189,6 +191,7 @@ public class AlgoJoinPoints3D extends AlgoElement3D {
     	compute();
     }
     
+	@Override
 	public Algos getClassName() {
     	switch(geoClassType){
     	case SEGMENT3D:
@@ -201,7 +204,8 @@ public class AlgoJoinPoints3D extends AlgoElement3D {
     	return null;
 	}
 	
-    final public String toString(StringTemplate tpl) {
+    @Override
+	final public String toString(StringTemplate tpl) {
         StringBuilder sb = new StringBuilder();
 
         switch(geoClassType){

@@ -491,6 +491,15 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 				.getToScreenMatrix());
 
 	}
+	
+	public boolean hasView2DVisible(){
+		return euclidianViewForPlane!=null;
+	}
+	
+
+	public void setView2DVisible(boolean flag){
+		createView2D();
+	}
 
 	@Override
 	public void update() {

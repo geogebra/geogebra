@@ -129,9 +129,6 @@ public class GeoLine3D extends GeoCoordSys1D {
 		return true;
 	}
 
-	public boolean isFromPolyhedron(){
-		return false;
-	}
 	
 	public final void removePointOnLine(GeoPointND p) {
 		//TODO

@@ -1442,9 +1442,6 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 		super.doRemove();
 	}
 
-	public boolean isFromPolyhedron() {
-		return false;
-	}
 
 	public Function getFunction() {
 		return getGeoFunction().getFunction();

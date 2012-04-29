@@ -6,8 +6,11 @@
 import geogebra.common.euclidian.Previewable;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.geos.FromMeta;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.main.Application;
 import geogebra3D.euclidian3D.opengl.Renderer;
 import geogebra3D.kernel3D.ConstructionDefaults3D;
@@ -318,6 +321,18 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 	}
 
 
-	
+
+	@Override
+	public boolean doHighlighting(){
+
+		//if the polygon depends on a polyhedron, look at the meta' highlighting
+		if (getGeoElement().isFromMeta()){
+			GeoElement meta = ((FromMeta) getGeoElement()).getMeta();		
+			if (meta!=null && meta.doHighlighting())
+				return true;
+		}
+		
+		return super.doHighlighting();
+	}
 
 }

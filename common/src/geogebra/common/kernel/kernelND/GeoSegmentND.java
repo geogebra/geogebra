@@ -2,6 +2,7 @@ package geogebra.common.kernel.kernelND;
 
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.geos.FromMeta;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.LimitedPath;
 
@@ -11,7 +12,7 @@ import geogebra.common.kernel.geos.LimitedPath;
  * @author ggb3D
  *
  */
-public interface GeoSegmentND extends GeoLineND, LimitedPath, NumberValue {
+public interface GeoSegmentND extends GeoLineND, LimitedPath, NumberValue, FromMeta {
 
 
 	
@@ -49,17 +50,6 @@ public interface GeoSegmentND extends GeoLineND, LimitedPath, NumberValue {
 	 */
 	public double getPointY(double parameter);
 
-	/**
-	 * Sets the highlighting ancestor
-	 * @param geo ancestor (polygon)
-	 */
-	public void setHighlightingAncestor(GeoElement geo);
-	
-	/**
-	 * Returns highlighting ancestor (polygon)
-	 * @return the highlighting ancestor
-	 */
-	public GeoElement getHighlightingAncestor();
 
 	/**
 	 * modify the input points

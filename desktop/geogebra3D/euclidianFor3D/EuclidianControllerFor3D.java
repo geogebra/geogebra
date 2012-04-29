@@ -80,6 +80,16 @@ public class EuclidianControllerFor3D extends EuclidianController {
 			return super.detach(p);
 		return false;
 	}
+	
+	/**
+	 * Method used when geos are both 2D
+	 * @param a first geo
+	 * @param b second geo
+	 * @return single intersection point
+	 */
+	protected GeoPointND getSingleIntersectionPointFrom2D(GeoElement a, GeoElement b) {
+		return super.getSingleIntersectionPoint(a, b);
+	}
 
 	
 	@Override
@@ -87,7 +97,7 @@ public class EuclidianControllerFor3D extends EuclidianController {
 
 		// check if a and b are two 2D geos
 		if (!a.isGeoElement3D() && !b.isGeoElement3D())
-			return super.getSingleIntersectionPoint(a, b);
+			return getSingleIntersectionPointFrom2D(a, b);
 		
 		
 		// first hit is a line

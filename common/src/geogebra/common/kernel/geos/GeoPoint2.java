@@ -2065,18 +2065,6 @@ final public class GeoPoint2 extends GeoVec3D implements VectorValue,
 	
 	
 	
-	
-	private int intersectionIndex = -1;
-	
-
-	public void setIntersectionIndex(int index){
-		intersectionIndex = index;
-	}
-	
-
-	public int getIntersectionIndex(){
-		return intersectionIndex;
-	}
 
 	public Polynomial[] getPolynomials() throws NoSymbolicParametersException {
 		// if this is a free point
