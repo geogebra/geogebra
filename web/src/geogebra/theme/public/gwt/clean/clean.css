@@ -1326,3 +1326,11 @@ td.datePickerMonth {
 .historyList a:hover, .historyList a:focus, .historyList a.highlight {
 	background: #D5E2FF;
 }
+
+[isSelected=true] img{
+	border: 2px solid blue;
+}
+
+[isSelected=false] img{
+	border: 1px solid lightgray;
+}
