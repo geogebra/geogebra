@@ -192,17 +192,17 @@ public class Polynomial implements Comparable<Polynomial> {
 	 * @return the product
 	 */
 	public Polynomial multiply(final Polynomial poly) {
-		if (AbstractApplication.singularWS.isAvailable()) {
+		if (AbstractApplication.singularWS != null && AbstractApplication.singularWS.isAvailable()) {
 			String singularMultiplicationProgram = getSingularMultiplication("rr", poly, this);
 			if (singularMultiplicationProgram.length()>100)
-				AbstractApplication.debug(singularMultiplicationProgram.length() + " bytes -> singular");
+				AbstractApplication.trace(singularMultiplicationProgram.length() + " bytes -> singular");
 			else 
-				AbstractApplication.debug(singularMultiplicationProgram + " -> singular");
+				AbstractApplication.trace(singularMultiplicationProgram + " -> singular");
 			String singularMultiplication = AbstractApplication.singularWS.directCommand(singularMultiplicationProgram);
 			if (singularMultiplication.length()>100)
-				AbstractApplication.debug("singular -> " + singularMultiplication.length() + " bytes");
+				AbstractApplication.trace("singular -> " + singularMultiplication.length() + " bytes");
 			else
-				AbstractApplication.debug("singular -> " + singularMultiplication);
+				AbstractApplication.trace("singular -> " + singularMultiplication);
 		}
 		TreeMap<Term, Integer> result = new TreeMap<Term, Integer>();
 		TreeMap<Term, Integer> terms2 = poly.getTerms();
@@ -277,27 +277,25 @@ public class Polynomial implements Comparable<Polynomial> {
 	}
 
 	/**
-	 * The set of the variables in two given polynomials
-	 * @param p1 the first polynomial
-	 * @param p2 the second polynomial
+	 * The set of the variables in the given polynomials
+	 * @param polys the polynomials
 	 * @return the set of variables
 	 */
-	public HashSet<FreeVariable> getVars(Polynomial p1, Polynomial p2) {
+	public static HashSet<FreeVariable> getVars(Polynomial[] polys) {
 		HashSet<FreeVariable> v = new HashSet<FreeVariable>();
-		v.addAll(p1.getVars());
-		v.addAll(p2.getVars());
+		for (int i=0; i<polys.length; ++i)
+			v.addAll(polys[i].getVars());
 		return v;
 	}
 	
 	/**
-	 * Creates a comma separated list of the variables in two given polynomials
-	 * @param p1 the first polynomial
-	 * @param p2 the second polynomial
+	 * Creates a comma separated list of the variables in the given polynomials
+	 * @param polys the polynomials
 	 * @return the comma separated list
 	 */
-	public String getVarsAsCommaSeparatedString(Polynomial p1, Polynomial p2) {
+	public static String getVarsAsCommaSeparatedString(Polynomial[] polys) {
 		StringBuilder sb = new StringBuilder();
-		Iterator<FreeVariable> it = getVars(p1,p2).iterator();
+		Iterator<FreeVariable> it = getVars(polys).iterator();
 		while (it.hasNext()) {
 			FreeVariable fv = it.next();
 			sb.append("," + fv);
@@ -306,18 +304,54 @@ public class Polynomial implements Comparable<Polynomial> {
 			return sb.substring(1); // removing first "," character
 		return "";
 	}
+
+	/**
+	 * Uses a minimal heuristics to fix the first four variables to certain "easy" numbers.
+	 * The first two variables (usually the coordinates of the first point) are set to 0,
+	 * and the second two variables (usually the coordinates of the second point) are set to 0 and 1.
+	 * @param polys the polynomials
+	 * @return the string of the extra polynomials (e.g. "a1,a2,b1,b2-1")
+	 */
+	private static String setFixValues(Polynomial[] polys) {
+		StringBuilder sb = new StringBuilder();
+		Iterator<FreeVariable> it = getVars(polys).iterator();
+		int i=0;
+		while (it.hasNext() && i<4) {
+			FreeVariable fv = it.next();
+			sb.append(fv);
+			if (i==3)
+				sb.append("-1");
+			sb.append(",");
+			i++;
+		}
+		return sb.toString();
+	}
 	
 	/**
-	 * Creates a Singular command for creating a ring to work with two
-	 * polynomials, with a closing ";" 
+	 * Creates a comma separated list of the given polynomials
+	 * @param polys the polynomials
+	 * @return the comma separated list
+	 */
+	public static String getPolysAsCommaSeparatedString(Polynomial[] polys) {
+		StringBuilder sb = new StringBuilder();
+		for (int i=0; i<polys.length; ++i)
+			sb.append("," + polys[i].toString());
+		if (sb.length()>0)
+			return sb.substring(1); // removing first "," character
+		return "";
+	}
+	
+	/**
+	 * Creates a Singular program for creating a ring to work with two
+	 * polynomials, and multiply them; adds a closing ";" 
 	 * @param ringVariable variable name for the ring in Singular
 	 * @param p1 first polynomial
 	 * @param p2 second polynomial
-	 * @return the Singular command
+	 * @return the Singular program code
 	 */
 	public String getSingularMultiplication(String ringVariable, Polynomial p1, Polynomial p2) {
 		return "ring " + ringVariable + "=0,(" 
-				+ getVarsAsCommaSeparatedString(p1, p2)
+				+ getVarsAsCommaSeparatedString(new Polynomial[] {p1, p2})
 				+ "),dp;" // ring definition in Singular
 				
 				+ "short=0;" // switching off short output
@@ -346,5 +380,51 @@ public class Polynomial implements Comparable<Polynomial> {
 	 */
 	public boolean isZero() {
 		return terms.isEmpty();
+	}
+
+	/**
+	 * Creates a Singular program for creating a ring to work with several
+	 * polynomials, and returns the Groebner basis of them w.r.t. the
+	 * revgradlex order; adds a closing ";"
+	 * @param ringVariable variable name for the ring in Singular
+	 * @param idealVariable variable name for the ideal in Singular
+	 * @param polys array of polynomials
+	 * @param setFixValues if set the leading values to fix positions (0,0,0,1)
+	 * @return the Singular program code
+	 */
+	public static String getSingularGroebner(String ringVariable, String idealVariable, Polynomial[] polys,
+			boolean setFixValues) {
+		String ret = "ring " + ringVariable + "=0,(" 
+			+ getVarsAsCommaSeparatedString(polys)
+			+ "),dp;" // ring definition in Singular
+				
+			+ "ideal " + idealVariable + "=";
+		if (setFixValues)
+			ret += setFixValues(polys);
+		ret += getPolysAsCommaSeparatedString(polys) // ideal definition in Singular
+			+";groebner(" + idealVariable + ");"; // the Groebner basis calculation command
+		return ret;
+	}
+	
+	/**
+	 * Decides if an array of polynomials (as a set) gives a solvable equation system
+	 * on the field of the complex numbers.
+	 * @param polys the array of polynomials
+	 * @return yes if solvable, no if no solutions, or null (if cannot decide)
+	 */
+	public static Boolean solvable(Polynomial[] polys) {
+		if (AbstractApplication.singularWS != null && AbstractApplication.singularWS.isAvailable()) {
+			String singularSolvableProgram = getSingularGroebner("rr", "ii", polys, true);
+			AbstractApplication.debug(singularSolvableProgram.length() + " bytes -> singular");
+			String singularSolvable = AbstractApplication.singularWS.directCommand(singularSolvableProgram);
+			if (singularSolvable.length()>100)
+				AbstractApplication.debug("singular -> " + singularSolvable.length() + " bytes");
+			else
+				AbstractApplication.debug("singular -> " + singularSolvable);
+			if ("_[1]=1".equals(singularSolvable))
+				return false; // no solution
+			return true; // at least one solution exists
+		}
+		return null; // cannot decide
 	}
 }

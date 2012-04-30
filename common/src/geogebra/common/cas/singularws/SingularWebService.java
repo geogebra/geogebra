@@ -43,6 +43,13 @@ public class SingularWebService {
 		httpr.setTimeout(timeout);
 		httpr.sendRequestPost(getRequest,"c=" + command + "&p=" + encodedParameters);
 		String response = httpr.getResponse(); // will not work in web, TODO: callback!
+		if (response == null)
+			return null; // avoiding NPE in web
+		// Trimming:
+		if (response.endsWith("> "))
+			response = response.substring(0, response.length()-2);
+		if (response.endsWith("\n"))
+			response = response.substring(0, response.length()-1);
 		return response;
 	}
 	

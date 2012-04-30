@@ -14,6 +14,11 @@ package geogebra.common.kernel.prover;
  * 
  */
 
+import java.util.Iterator;
+
+// ArrayUtils cannot be used in GWT:
+// import org.apache.commons.lang.ArrayUtils;
+
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.SymbolicParameters;
@@ -116,7 +121,61 @@ public class Prover {
 	 * subsystem.
 	 */
 	public void compute() {
-		/* to be implemented */
+		if (/*engine == ProverEngine.BOTANAS_PROVER*/ true) {
+			Polynomial[] polys = null;
+			Iterator<GeoElement> it = statement.getAllPredecessors().iterator();
+			while (it.hasNext()) {
+				GeoElement geo = it.next();
+				// AbstractApplication.debug(geo);
+				if (geo instanceof SymbolicParametersAlgo) {
+					try {
+						Polynomial[] geoPolys = ((SymbolicParametersAlgo) geo).getBotanaPolynomials();
+						if (geoPolys != null) {
+							int polysLength = 0;
+							if (polys != null)
+								polysLength = polys.length;
+							Polynomial[] allPolys = new Polynomial[polysLength + geoPolys.length];
+							for (int i=0; i<polysLength; ++i)
+								allPolys[i] = polys[i];
+							for (int i=0; i<geoPolys.length; ++i)
+								allPolys[polysLength + i] = geoPolys[i];
+							// ArrayUtils cannot be used in GWT:
+							// Polynomial[] allPolys = (Polynomial[]) ArrayUtils.addAll(polys, geoPolys);
+							polys = allPolys;
+						}
+					} catch (NoSymbolicParametersException e) {
+						AbstractApplication.warn("This prover cannot give an answer, try another one");
+					}
+				}
+			}
+			try {
+				Polynomial[] spolys = ((SymbolicParametersAlgo) statement.getParentAlgorithm()).getBotanaPolynomials();
+				boolean ans = true;
+				for (int i=0; i<spolys.length && ans; ++i) {
+					// Rabinowitsch trick
+					Polynomial spoly = spolys[i].multiply(new Polynomial(new FreeVariable())).subtract(new Polynomial(1));
+					Polynomial[] allPolys = new Polynomial[polys.length + 1];
+					for (int j=0; j<polys.length; ++j)
+						allPolys[j] = polys[j];
+					allPolys[polys.length] = spoly;
+					// ArrayUtils cannot be used in GWT:
+					// Polynomial[] allPolys = (Polynomial[]) ArrayUtils.add(polys, spoly);
+					if (Polynomial.solvable(allPolys)) // FIXME: here seems NPE if SingularWS not initialized 
+						ans = false;
+				}
+				if (ans)
+					result = ProofResult.TRUE;
+				else
+					result = ProofResult.FALSE;
+				AbstractApplication.info("BOTANAS_PROVER: this statement is " + result);
+				// return; // this will return later, now we calculate the other methods as well
+			} catch (NoSymbolicParametersException e) {
+				// TODO Auto-generated catch block
+				AbstractApplication.warn("This prover cannot give an answer, try another one");
+				
+			}
+		}
+		
 		if (statement != null) {
 
 			String c = simplifiedXML(construction);
@@ -159,6 +218,7 @@ public class Prover {
 				} else {
 					result = Prover.ProofResult.FALSE;
 				}
+				AbstractApplication.info("PURE_SYMBOLIC_PROVER: this statement is " + result);
 				return;
 				
 				// TODO: write here Recio's prover

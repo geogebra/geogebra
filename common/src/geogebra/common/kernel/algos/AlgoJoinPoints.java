@@ -32,6 +32,7 @@ import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.prover.FreeVariable;
 import geogebra.common.kernel.prover.NoSymbolicParametersException;
 import geogebra.common.kernel.prover.Polynomial;
+import geogebra.common.main.AbstractApplication;
 
 
 /**
@@ -164,9 +165,33 @@ public class AlgoJoinPoints extends AlgoElement implements SymbolicParametersAlg
 					.getPolynomials();
 			if (coords1 != null && coords2 != null) {
 				polynomials = SymbolicParameters.crossProduct(coords1, coords2);
+				AbstractApplication.debug("polys(" + g.getLabelSimple()
+					+ "): "
+					+ polynomials[0].toString() + ","
+					+ polynomials[1].toString() + ","
+					+ polynomials[2].toString());
+					
 				return polynomials;
 			}
 		}
 		throw new NoSymbolicParametersException();
+	}
+
+	public FreeVariable[] getBotanaVars() {
+		FreeVariable[] vars = new FreeVariable[4];
+		FreeVariable[] line1vars = new FreeVariable[2];
+		FreeVariable[] line2vars = new FreeVariable[2];
+		line1vars = ((SymbolicParametersAlgo) input[0]).getBotanaVars();
+		line2vars = ((SymbolicParametersAlgo) input[1]).getBotanaVars();
+		vars[0] = line1vars[0];
+		vars[1] = line1vars[1];
+		vars[2] = line2vars[0];
+		vars[3] = line2vars[1];
+		return vars;
+	}
+
+	public Polynomial[] getBotanaPolynomials()
+			throws NoSymbolicParametersException {
+		return null;
 	}
 }

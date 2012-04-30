@@ -45,7 +45,9 @@ public class AlgoIntersectLines extends AlgoIntersectAbstract implements Symboli
     private GeoLine g, h; // input
     private GeoPoint2 S; // output       
 	private Polynomial[] polynomials;
-
+	private Polynomial[] botanaPolynomials;
+	private FreeVariable[] botanaVars;
+	
     /** Creates new AlgoJoinPoints */
     public AlgoIntersectLines(Construction cons, String label, GeoLine g, GeoLine h) {
         super(cons);
@@ -166,6 +168,50 @@ public class AlgoIntersectLines extends AlgoIntersectAbstract implements Symboli
 				polynomials = SymbolicParameters.crossProduct(coords1, coords2);
 				return polynomials;
 			}
+		}
+		throw new NoSymbolicParametersException();
+	}
+
+	public FreeVariable[] getBotanaVars() {
+		return botanaVars;
+	}
+
+	public Polynomial[] getBotanaPolynomials() throws NoSymbolicParametersException {
+		if (botanaPolynomials != null) {
+			return botanaPolynomials;
+		}
+		if (input[0] != null && input[0] instanceof GeoLine){
+			if (botanaVars==null){
+				botanaVars = new FreeVariable[2];
+				botanaVars[0]=new FreeVariable();
+				botanaVars[1]=new FreeVariable();
+			}
+			// Storing determinant:
+			FreeVariable[] fv = ((SymbolicParametersAlgo) input[0]).getBotanaVars();
+			// a*d-b*c:
+			Polynomial a = new Polynomial(fv[0]);
+			Polynomial b = new Polynomial(fv[1]);
+			Polynomial c = new Polynomial(fv[2]);
+			Polynomial d = new Polynomial(fv[3]);
+			botanaPolynomials = new Polynomial[2];
+			botanaPolynomials[0] = a.multiply(d).subtract(b.multiply(c))
+					// + e*(b-d)
+					.add(new Polynomial(botanaVars[0]).multiply(b.subtract(d)))
+					// - f*(a-c)
+					.subtract(new Polynomial(botanaVars[1]).multiply(a.subtract(c)));
+			
+			fv = ((SymbolicParametersAlgo) input[1]).getBotanaVars();
+			// a*d-b*c:
+			a = new Polynomial(fv[0]);
+			b = new Polynomial(fv[1]);
+			c = new Polynomial(fv[2]);
+			d = new Polynomial(fv[3]);
+			botanaPolynomials[1] = a.multiply(d).subtract(b.multiply(c))
+					// + e*(b-d)
+					.add(new Polynomial(botanaVars[0]).multiply(b.subtract(d)))
+					// - f*(a-c)
+					.subtract(new Polynomial(botanaVars[1]).multiply(a.subtract(c)));
+			return botanaPolynomials;
 		}
 		throw new NoSymbolicParametersException();
 	}

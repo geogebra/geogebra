@@ -107,6 +107,7 @@ final public class GeoPoint2 extends GeoVec3D implements VectorValue,
 	private boolean isInfinite, isDefined;
 	private boolean showUndefinedInAlgebraView = true;
 	private FreeVariable variableCoordinate1=null, variableCoordinate2=null;
+	private FreeVariable[] botanaVars;
 
 	// list of Locateables (GeoElements) that this point is start point of
 	// if this point is removed, the Locateables have to be notified
@@ -2082,6 +2083,30 @@ final public class GeoPoint2 extends GeoVec3D implements VectorValue,
 					return ((SymbolicParametersAlgo) algoParent).getPolynomials();
 				}
 				throw new NoSymbolicParametersException();
+	}
+
+	public FreeVariable[] getBotanaVars() {
+		if (algoParent != null && algoParent instanceof SymbolicParametersAlgo) {
+			return ((SymbolicParametersAlgo) algoParent).getBotanaVars();
+		}
+
+		if (algoParent == null) {
+			if (botanaVars == null) {
+				botanaVars = new FreeVariable[2];
+				botanaVars[0] = new FreeVariable();
+				botanaVars[1] = new FreeVariable();
+			}
+		}
+		
+		return botanaVars;
+	}
+
+	public Polynomial[] getBotanaPolynomials()
+			throws NoSymbolicParametersException {
+		if (algoParent != null && algoParent instanceof SymbolicParametersAlgo) {
+			return ((SymbolicParametersAlgo) algoParent).getBotanaPolynomials();
+		}
+		return null;
 	}
 
 }

@@ -154,4 +154,15 @@ public class AlgoOrthoLinePointLine extends AlgoElement implements SymbolicParam
 		}
 		throw new NoSymbolicParametersException();
 	}
+
+	public FreeVariable[] getBotanaVars() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Polynomial[] getBotanaPolynomials()
+			throws NoSymbolicParametersException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

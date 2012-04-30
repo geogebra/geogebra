@@ -4,6 +4,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.prover.FreeVariable;
 import geogebra.common.kernel.prover.NoSymbolicParametersException;
@@ -27,6 +28,9 @@ public class AlgoAreCollinear extends AlgoElement implements SymbolicParametersA
 	
     private GeoBoolean outputBoolean; //output	
 	private Polynomial[] polynomials;
+	private Polynomial[] botanaPolynomials;
+	private FreeVariable[] botanaVars;
+
 
     /**
      * Creates a new AlgoAreCollinear function
@@ -116,7 +120,6 @@ public class AlgoAreCollinear extends AlgoElement implements SymbolicParametersA
 	}
 
 	public Polynomial[] getPolynomials() throws NoSymbolicParametersException {
-		AbstractApplication.debug(polynomials);
 		if (polynomials != null) {
 			return polynomials;
 		}
@@ -139,6 +142,50 @@ public class AlgoAreCollinear extends AlgoElement implements SymbolicParametersA
 					coords2[0].multiply(coords1[1]).multiply(coords3[2])).add(
 					coords1[0].multiply(coords3[1]).multiply(coords2[2])));
 			return polynomials;
+		}
+		throw new NoSymbolicParametersException();
+	}
+
+	public FreeVariable[] getBotanaVars() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Polynomial[] getBotanaPolynomials() throws NoSymbolicParametersException {
+		if (botanaPolynomials != null) {
+			return botanaPolynomials;
+		}
+
+		if (input[0] != null && input[1] != null && input[2] != null
+				&& input[0] instanceof SymbolicParametersAlgo
+				&& input[1] instanceof SymbolicParametersAlgo
+				&& input[2] instanceof SymbolicParametersAlgo) {
+			
+			FreeVariable[] fv1 = new FreeVariable[2];
+			FreeVariable[] fv2 = new FreeVariable[2];
+			FreeVariable[] fv3 = new FreeVariable[2];
+			fv1 = ((SymbolicParametersAlgo) input[0])
+					.getBotanaVars();
+			fv2 = ((SymbolicParametersAlgo) input[1])
+					.getBotanaVars();
+			fv3 = ((SymbolicParametersAlgo) input[2])
+					.getBotanaVars();
+
+			// a*d-b*c:
+			Polynomial a = new Polynomial(fv1[0]);
+			Polynomial b = new Polynomial(fv1[1]);
+			Polynomial c = new Polynomial(fv2[0]);
+			Polynomial d = new Polynomial(fv2[1]);
+			Polynomial e = new Polynomial(fv3[0]);
+			Polynomial f = new Polynomial(fv3[1]);
+			botanaPolynomials = new Polynomial[1];
+			botanaPolynomials[0] = a.multiply(d).subtract(b.multiply(c))
+					// + e*(b-d)
+					.add(new Polynomial(e).multiply(b.subtract(d)))
+					// - f*(a-c)
+					.subtract(new Polynomial(f).multiply(a.subtract(c)));
+			return botanaPolynomials;
+			
 		}
 		throw new NoSymbolicParametersException();
 	}

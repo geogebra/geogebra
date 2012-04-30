@@ -38,7 +38,9 @@ public class AlgoPointOnPath extends AlgoElement implements PathAlgo, SymbolicPa
     private GeoPoint2 P; // output      
     private NumberValue param;
 	private Polynomial[] polynomials;
+	private Polynomial[] botanaPolynomials;
 	private FreeVariable variable;
+	private FreeVariable[] botanaVars;
 	private HashMap<FreeVariable, BigInteger> oldvalues;
 	private BigInteger[] exactCoordinates;
 
@@ -208,5 +210,38 @@ public class AlgoPointOnPath extends AlgoElement implements PathAlgo, SymbolicPa
 			
 		}
 		throw new NoSymbolicParametersException();
+	}
+	
+	public Polynomial[] getBotanaPolynomials() throws NoSymbolicParametersException {
+		if (botanaPolynomials != null) {
+			return botanaPolynomials;
+		}
+		if (input[0] != null && input[0] instanceof GeoLine){
+			if (botanaVars==null){
+				botanaVars = new FreeVariable[2];
+				botanaVars[0]=new FreeVariable();
+				botanaVars[1]=new FreeVariable();
+			}
+			// Storing determinant:
+			FreeVariable[] fv = ((SymbolicParametersAlgo) input[0]).getBotanaVars(); // a,b,c,d
+			// a*d-b*c:
+			Polynomial a = new Polynomial(fv[0]);
+			Polynomial b = new Polynomial(fv[1]);
+			Polynomial c = new Polynomial(fv[2]);
+			Polynomial d = new Polynomial(fv[3]);
+			botanaPolynomials = new Polynomial[1];
+			botanaPolynomials[0] = a.multiply(d).subtract(b.multiply(c))
+					// + e*(b-d)
+					.add(new Polynomial(botanaVars[0]).multiply(b.subtract(d)))
+					// - f*(a-c)
+					.subtract(new Polynomial(botanaVars[1]).multiply(a.subtract(c)));
+			return botanaPolynomials;
+			
+		}
+		throw new NoSymbolicParametersException();
+	}
+
+	public FreeVariable[] getBotanaVars() {
+		return botanaVars;
 	}
 }
