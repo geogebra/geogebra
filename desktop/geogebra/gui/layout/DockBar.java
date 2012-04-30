@@ -136,7 +136,7 @@ public class DockBar extends JPanel implements ActionListener {
 		mainPanel = new JPanel();
 		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 		mainPanel.add(Box.createVerticalStrut(15));
-		mainPanel.add(btnConfigure);
+	//	mainPanel.add(btnConfigure);
 		//mainPanel.add(btnOptions);
 		mainPanel.add(Box.createVerticalStrut(35));
 		//mainPanel.add(btnView);
@@ -145,6 +145,7 @@ public class DockBar extends JPanel implements ActionListener {
 		
 		viewButtonBar = new ViewButtonBar(app);
 		viewButtonBar.setOrientation(JToolBar.VERTICAL);
+		viewButtonBar.setPreferredSize(new Dimension(32,32));
 		mainPanel.add(viewButtonBar);
 
 		Border outsideBorder = BorderFactory.createMatteBorder(1, 0, 0, 1,
