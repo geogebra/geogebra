@@ -475,8 +475,10 @@ public class AlgoLocusSlider extends AlgoElement implements AlgoLocusSliderInter
 					} else {
 						// decrease step until another step is possible
 						while (!sliderMover.hasNext()
-								&& sliderMover.smallerStep())
-							;
+								&& sliderMover.smallerStep()){
+							// do nothing
+						}
+							
 
 						// no smaller step possible: run finished
 						if (!sliderMover.hasNext())

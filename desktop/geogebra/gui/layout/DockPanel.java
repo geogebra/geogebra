@@ -560,7 +560,7 @@ implements ActionListener, WindowListener, MouseListener, geogebra.common.gui.la
 			closeButton.setVisible( !isMaximized());
 			windowButton.setVisible((!hasStyleBar || showStyleBar) && !isMaximized());
 			unwindowButton.setVisible(false);
-			maximizeButton.setVisible(false && showStyleBar || isMaximized());
+			maximizeButton.setVisible(isMaximized());
 			titleLabel.setVisible(true);
 
 		} else {

@@ -742,13 +742,6 @@ public class Application extends AbstractApplication {
 		geogebra.common.factories.SwingFactory.prototype = new geogebra.web.factories.SwingFactory();
 		geogebra.common.factories.UtilFactory.prototype = new geogebra.web.factories.UtilFactory();
 		geogebra.common.util.StringUtil.prototype = new geogebra.common.util.StringUtil();
-		// TODO: probably there is better way
-		geogebra.common.awt.Color.black = geogebra.web.awt.Color.black;
-		geogebra.common.awt.Color.white = geogebra.web.awt.Color.white;
-		geogebra.common.awt.Color.blue = geogebra.web.awt.Color.blue;
-		geogebra.common.awt.Color.gray = geogebra.web.awt.Color.gray;
-		geogebra.common.awt.Color.lightGray = geogebra.web.awt.Color.lightGray;
-		geogebra.common.awt.Color.darkGray = geogebra.web.awt.Color.darkGray;
 
 		geogebra.common.euclidian.HatchingHandler.prototype = new geogebra.web.euclidian.HatchingHandler();
 		geogebra.common.euclidian.EuclidianStatic.prototype = new geogebra.web.euclidian.EuclidianStatic();
@@ -1517,10 +1510,7 @@ public class Application extends AbstractApplication {
 
 	@Override
 	public StringType getFormulaRenderingType() {
-		if (true) {
-			return StringType.LATEX;
-		}
-		return StringType.MATHML;
+		return StringType.LATEX;
 	}
 
 	public static native void console(JavaScriptObject dataAsJSO) /*-{

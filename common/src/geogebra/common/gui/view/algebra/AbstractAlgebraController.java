@@ -12,16 +12,9 @@ the Free Software Foundation.
 
 package geogebra.common.gui.view.algebra;
 
-import geogebra.common.awt.Rectangle;
-import geogebra.common.euclidian.EuclidianConstants;
-import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
-import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
-
-import java.util.Iterator;
 
 public class AbstractAlgebraController {
 

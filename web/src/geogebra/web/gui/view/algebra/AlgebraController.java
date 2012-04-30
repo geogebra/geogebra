@@ -160,8 +160,6 @@ implements MouseOverHandler, MouseMoveHandler, MouseDownHandler, MouseUpHandler,
 	public void mousePressed(AbstractEvent e) {
 		view.cancelEditing();
 		
-		new geogebra.common.awt.Point(e.getPoint().x,e.getPoint().y);
-
 		boolean rightClick = app.isRightClickEnabled() && e.isRightClick();
 
 		// RIGHT CLICK

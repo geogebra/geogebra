@@ -463,21 +463,7 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 	
 	@Override
     protected boolean drawPlayButtonInThisView() {
-
-		// just one view
-		if ( getApplication().getGuiManager() == null) {
-			return true;
-		}
-		// eg ev1 just closed
-		// GetViewId evp = getApplication().getGuiManager().getLayout().getDockManager().getFocusedEuclidianPanel();
-		//we dont have above yet: so just be null :-)
-		GetViewId evp = null;
-		if (evp == null) {
-			return true;
-		}
-
-		return !((getApplication().getGuiManager() != null) && (this.getViewID() != evp
-				.getViewId()));
+		return true;
 	}
 	
 	@Override

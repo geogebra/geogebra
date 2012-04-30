@@ -148,7 +148,7 @@ public class DrawEquationWeb implements DrawEquationInterface {
             Color fgColor, Color bgColor, boolean useCache) {
 		
 
-		if (true) { // the new way to draw an Equation (latex)
+		 // the new way to draw an Equation (latex)
 			// no scriptloaded check yet (is it necessary?)
 			// no EuclidianView 1,2 yet
 			
@@ -181,18 +181,7 @@ public class DrawEquationWeb implements DrawEquationInterface {
 			ih.getStyle().setBackgroundColor(Color.getColorString(bgColor));
 			ih.getStyle().setColor(Color.getColorString(fgColor));
 			return new geogebra.web.awt.Dimension(ih.getOffsetWidth(), ih.getOffsetHeight());
-		}
-
-		// the old way to draw an Equation (mathml)
-		JsArrayInteger ret = null;
-		if (scriptloaded) {
-			AbstractApplication.debug(eqstring);
-			ret = drawEquation(((geogebra.web.awt.Graphics2D)g2).getCanvas().getContext2d(), eqstring, x, y);
-		} else {
-			needToDrawEquation  = true;
-		}
-			
-	    return new geogebra.web.awt.Dimension(ret == null ? 100 : ret.get(0),ret == null ? 100 : ret.get(1));
+		
     }
 
 	public static native JsArrayInteger drawEquation(Context2d ctx, String mathmlStr, int x, int y) /*-{
