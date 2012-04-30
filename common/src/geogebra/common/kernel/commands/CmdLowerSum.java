@@ -31,7 +31,7 @@ public class CmdLowerSum extends CommandProcessor {
 		switch (n) {
 		case 4:
 			arg = resArgs(c);
-			if ((ok[0] = (arg[0].isGeoFunctionable()))
+			if ((ok[0] = (arg[0].isGeoFunctionable() && !arg[0].isGeoSegment()))
 					&& (ok[1] = (arg[1].isNumberValue()))
 					&& (ok[2] = (arg[2].isNumberValue()))
 					&& (ok[3] = (arg[3].isNumberValue()))) {
