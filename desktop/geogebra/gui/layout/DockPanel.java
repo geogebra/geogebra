@@ -211,7 +211,7 @@ implements ActionListener, WindowListener, MouseListener, geogebra.common.gui.la
 	 * The frame which holds this DockPanel if the DockPanel is opened in
 	 * an additional window.
 	 */
-	private JFrame frame = null;
+	protected JFrame frame = null;
 	
 	/**
 	 * The component used for this view.
@@ -477,10 +477,20 @@ implements ActionListener, WindowListener, MouseListener, geogebra.common.gui.la
 		return app.getPlain(title);
 	}
 	
+	
 	/**
-	 * Create a frame for this DockPanel.
+	 * Create a frame for this DockPanel. The new frame will be set visible by
+	 * this method.
 	 */
 	public void createFrame() {
+		createFrame(true);
+	}
+	
+	/**
+	 * Create a frame for this DockPanel.
+	 * @param isVisible flag to set the frame visible from this method
+	 */
+	public void createFrame(boolean isVisible) {
 		frame = new JFrame(getPlainTitle());
 		
 		// needs the higher res as used by Windows 7 for the Toolbar
@@ -524,7 +534,7 @@ implements ActionListener, WindowListener, MouseListener, geogebra.common.gui.la
    	setOpenInFrame(true);
    	
    	frame.setSize(windowBounds.getSize());
-   	frame.setVisible(true);
+   	frame.setVisible(isVisible);
 	
    	// make titlebar visible if necessary
 		updatePanel();
