@@ -9,8 +9,9 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.Box;
 import javax.swing.ImageIcon;
-import javax.swing.JMenuItem;
+import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.JToolBar;
 import javax.swing.SwingConstants;
@@ -46,7 +47,7 @@ public class PropertiesStyleBar extends JToolBar {
 		updateGUI();
 
 		add(btnOption);
-
+		add(Box.createVerticalStrut(28));
 	}
 
 	public void updateGUI() {
@@ -64,7 +65,7 @@ public class PropertiesStyleBar extends JToolBar {
 		menu.removeAll();
 
 		for (final OptionType type : OptionType.values()) {
-			final JMenuItem mi = new JMenuItem();
+			final JCheckBoxMenuItem mi = new JCheckBoxMenuItem();
 			mi.setFont(app.getPlainFont());
 			mi.setBackground(Color.white);
 			mi.setText(getTypeLabel(type));
@@ -78,6 +79,7 @@ public class PropertiesStyleBar extends JToolBar {
 				}
 			});
 			menu.add(mi);
+			mi.setSelected(type == propertiesView.getSelectedOptionType());
 			if (type == OptionType.OBJECTS || type == OptionType.SPREADSHEET) {
 				menu.addSeparator();
 			}
