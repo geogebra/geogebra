@@ -1,6 +1,7 @@
 package geogebra3D.gui;
 
 import geogebra.gui.dialog.options.OptionsEuclidian;
+import geogebra.gui.dialog.options.OptionsEuclidian2;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.main.Application;
 import geogebra3D.Application3D;
@@ -23,7 +24,7 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
-public class OptionsEuclidian3D extends OptionsEuclidian {
+public class OptionsEuclidian3D extends OptionsEuclidian2 {
 	private static final long serialVersionUID = 1L;
 	private AxisPanel3D zAxisPanel;
 	

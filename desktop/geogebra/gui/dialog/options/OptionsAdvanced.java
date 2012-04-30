@@ -13,6 +13,7 @@ import geogebra.gui.util.FullWidthLayout;
 import geogebra.main.Application;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
@@ -28,6 +29,7 @@ import javax.swing.ButtonGroup;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
@@ -35,6 +37,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JSlider;
 import javax.swing.JTextField;
 import javax.swing.ToolTipManager;
+import javax.swing.border.Border;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -144,10 +147,6 @@ public class OptionsAdvanced extends JPanel implements ActionListener,
 
 		JPanel panel = new JPanel();
 		panel.setLayout(new FullWidthLayout());
-		panel.add(virtualKeyboardPanel);
-		panel.add(guiFontsizePanel);
-		panel.add(tooltipPanel);
-		panel.add(languagePanel);
 		panel.add(perspectivesPanel);
 		panel.add(angleUnitPanel);
 		panel.add(continuityPanel);
@@ -155,6 +154,12 @@ public class OptionsAdvanced extends JPanel implements ActionListener,
 		panel.add(checkboxSizePanel);
 		panel.add(rightAnglePanel);
 		panel.add(coordinatesPanel);
+		panel.add(guiFontsizePanel);
+		panel.add(virtualKeyboardPanel);
+		panel.add(tooltipPanel);
+		panel.add(languagePanel);
+		
+		
 		panel.add(miscPanel);
 
 		JScrollPane scrollPane = new JScrollPane(panel);
@@ -172,56 +177,35 @@ public class OptionsAdvanced extends JPanel implements ActionListener,
 		virtualKeyboardPanel.setLayout(new BoxLayout(virtualKeyboardPanel,
 				BoxLayout.Y_AXIS));
 
-		JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-
+		
+		
 		keyboardLanguageLabel = new JLabel();
-		panel.add(keyboardLanguageLabel);
-
+		virtualKeyboardPanel.add(OptionsUtil.flowPanel(keyboardLanguageLabel));
 		cbKeyboardLanguage = new JComboBox();
 		// listener to this combo box is added in setLabels()
-		panel.add(cbKeyboardLanguage);
-
-		virtualKeyboardPanel.add(panel, BorderLayout.NORTH);
-
-		panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		virtualKeyboardPanel.add(OptionsUtil.flowPanel(Box.createHorizontalStrut(20),cbKeyboardLanguage));
 
 		widthLabel = new JLabel();
-		panel.add(widthLabel);
-
 		tfKeyboardWidth = new JTextField(3);
 		tfKeyboardWidth.addFocusListener(this);
-		panel.add(tfKeyboardWidth);
-
-		panel.add(new JLabel("px"));
-
-		panel.add(Box.createHorizontalStrut(10));
-
 		heightLabel = new JLabel();
-		panel.add(heightLabel);
-
 		tfKeyboardHeight = new JTextField(3);
 		tfKeyboardHeight.addFocusListener(this);
-		panel.add(tfKeyboardHeight);
 
-		panel.add(new JLabel("px"));
-
-		panel.add(Box.createHorizontalStrut(10));
-
+		virtualKeyboardPanel.add(OptionsUtil.flowPanel(widthLabel, tfKeyboardWidth,
+				new JLabel("px"), Box.createHorizontalStrut(10), heightLabel,
+				tfKeyboardHeight, new JLabel("px")));
+		
 		cbKeyboardShowAutomatic = new JCheckBox();
-		panel.add(cbKeyboardShowAutomatic);
-
+		
 		opacityLabel = new JLabel();
-		panel.add(opacityLabel);
-
 		slOpacity = new JSlider(25, 100);
 		slOpacity.setPreferredSize(new Dimension(100, (int) slOpacity
 				.getPreferredSize().getHeight()));
 		// listener added in updateGUI()
-		panel.add(slOpacity);
-
 		opacityLabel.setLabelFor(slOpacity);
-
-		virtualKeyboardPanel.add(panel, BorderLayout.CENTER);
+		virtualKeyboardPanel.add(OptionsUtil.flowPanel(cbKeyboardShowAutomatic, opacityLabel,slOpacity));
+		
 	}
 
 	/**
@@ -232,7 +216,7 @@ public class OptionsAdvanced extends JPanel implements ActionListener,
 		guiFontsizePanel.setLayout(new BoxLayout(guiFontsizePanel,
 				BoxLayout.Y_AXIS));
 
-		JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT,0,0));
 
 		guiFontSizeLabel = new JLabel();
 		panel.add(guiFontSizeLabel);
@@ -264,18 +248,18 @@ public class OptionsAdvanced extends JPanel implements ActionListener,
 	 * Initialize the tooltip panel.
 	 */
 	private void initTooltipPanel() {
-		tooltipPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-
+		tooltipPanel = new JPanel();
+		tooltipPanel.setLayout(new BoxLayout(tooltipPanel, BoxLayout.Y_AXIS));
+		
+		
 		tooltipLanguageLabel = new JLabel();
-		tooltipPanel.add(tooltipLanguageLabel);
-
+		tooltipPanel.add(OptionsUtil.flowPanel(tooltipLanguageLabel));
 		cbTooltipLanguage = new JComboBox();
 		// listener to this combo box is added in setLabels()
-		tooltipPanel.add(cbTooltipLanguage);
+		tooltipPanel.add(OptionsUtil.flowPanel(Box.createHorizontalStrut(20),cbTooltipLanguage));
 
 		tooltipTimeoutLabel = new JLabel();
-		tooltipPanel.add(tooltipTimeoutLabel);
-
+		
 		// get tooltipTimeouts from MyXMLHandler
 		tooltipTimeouts = new String[MyXMLHandler.tooltipTimeouts.length];
 		for (int i = 0; i < MyXMLHandler.tooltipTimeouts.length - 1; i++)
@@ -283,7 +267,8 @@ public class OptionsAdvanced extends JPanel implements ActionListener,
 		tooltipTimeouts[tooltipTimeouts.length - 1] = "-";
 
 		cbTooltipTimeout = new JComboBox(tooltipTimeouts);
-		tooltipPanel.add(cbTooltipTimeout);
+		
+		tooltipPanel.add(OptionsUtil.flowPanel(tooltipTimeoutLabel,cbTooltipTimeout));
 	}
 
 	/**
@@ -296,13 +281,13 @@ public class OptionsAdvanced extends JPanel implements ActionListener,
 		cbShowTitleBar.addActionListener(this);
 		perspectivesPanel.add(cbShowTitleBar);
 
-		cbIgnoreDocumentLayout = new JCheckBox();
-		cbIgnoreDocumentLayout.addActionListener(this);
-		perspectivesPanel.add(cbIgnoreDocumentLayout);
-
 		cbAllowStyleBar = new JCheckBox();
 		cbAllowStyleBar.addActionListener(this);
 		perspectivesPanel.add(cbAllowStyleBar);
+		
+		cbIgnoreDocumentLayout = new JCheckBox();
+		cbIgnoreDocumentLayout.addActionListener(this);
+		perspectivesPanel.add(cbIgnoreDocumentLayout);
 
 	}
 
@@ -805,11 +790,13 @@ public class OptionsAdvanced extends JPanel implements ActionListener,
 
 	}
 
+	
+	
 	/**
 	 * Update the language of the user interface.
 	 */
 	public void setLabels() {
-		virtualKeyboardPanel.setBorder(BorderFactory.createTitledBorder(app
+		virtualKeyboardPanel.setBorder(OptionsUtil.titleBorder(app
 				.getPlain("VirtualKeyboard")));
 		keyboardLanguageLabel.setText(app.getPlain("VirtualKeyboardLanguage")
 				+ ":");
@@ -818,41 +805,40 @@ public class OptionsAdvanced extends JPanel implements ActionListener,
 		cbKeyboardShowAutomatic.setText(app.getPlain("ShowAutomatically"));
 		opacityLabel.setText(app.getMenu("Opacity") + ":");
 
-		guiFontsizePanel.setBorder(BorderFactory.createTitledBorder(app
+		guiFontsizePanel.setBorder(OptionsUtil.titleBorder(app
 				.getMenu("FontSize")));
 		guiFontSizeLabel.setText(app.getMenu("GUIFontSize") + ":");
 
-		tooltipPanel.setBorder(BorderFactory.createTitledBorder(app
+		tooltipPanel.setBorder(OptionsUtil.titleBorder(app
 				.getPlain("Tooltips")));
 		tooltipLanguageLabel.setText(app.getPlain("TooltipLanguage") + ":");
 		tooltipTimeoutLabel.setText(app.getPlain("TooltipTimeout") + ":");
 
-		languagePanel.setBorder(BorderFactory.createTitledBorder(app
+		languagePanel.setBorder(OptionsUtil.titleBorder(app
 				.getMenu("Language")));
 		cbUseLocalDigits.setText(app.getPlain("LocalizedDigits"));
 		cbUseLocalLabels.setText(app.getPlain("LocalizedLabels"));
 
-		angleUnitPanel.setBorder(BorderFactory.createTitledBorder(app
+		angleUnitPanel.setBorder(OptionsUtil.titleBorder(app
 				.getMenu("AngleUnit")));
 		angleUnitRadioDegree.setText(app.getMenu("Degree"));
 		angleUnitRadioRadian.setText(app.getMenu("Radiant"));
 
-		continuityPanel.setBorder(BorderFactory.createTitledBorder(app
+		continuityPanel.setBorder(OptionsUtil.titleBorder(app
 				.getMenu("Continuity")));
 		continuityRadioOn.setText(app.getMenu("on"));
 		continuityRadioOff.setText(app.getMenu("off"));
 
-		usePathAndRegionParametersPanel.setBorder(BorderFactory
-				.createTitledBorder(app.getMenu("UsePathAndRegionParameters")));
+		usePathAndRegionParametersPanel.setBorder(OptionsUtil.titleBorder(app.getMenu("UsePathAndRegionParameters")));
 		usePathAndRegionParametersRadioOn.setText(app.getMenu("on"));
 		usePathAndRegionParametersRadioOff.setText(app.getMenu("off"));
 
-		checkboxSizePanel.setBorder(BorderFactory.createTitledBorder(app
+		checkboxSizePanel.setBorder(OptionsUtil.titleBorder(app
 				.getMenu("CheckboxSize")));
 		checkboxSizeRadioRegular.setText(app.getMenu("CheckboxSize.Regular"));
 		checkboxSizeRadioLarge.setText(app.getMenu("CheckboxSize.Large"));
 
-		rightAnglePanel.setBorder(BorderFactory.createTitledBorder(app
+		rightAnglePanel.setBorder(OptionsUtil.titleBorder(app
 				.getMenu("RightAngleStyle")));
 		rightAngleRadio1.setText(app.getMenu(app.getPlain("off")));
 		rightAngleRadio2.setText("\u25a1");
@@ -860,19 +846,19 @@ public class OptionsAdvanced extends JPanel implements ActionListener,
 		rightAngleRadio4.setText("\u2335");
 		rightAngleRadio4.setFont(app.getFontCanDisplayAwt("\u2335"));
 
-		coordinatesPanel.setBorder(BorderFactory.createTitledBorder(app
+		coordinatesPanel.setBorder(OptionsUtil.titleBorder(app
 				.getPlain("Coordinates")));
 		coordinatesRadio1.setText(app.getMenu("A = (x, y)"));
 		coordinatesRadio2.setText(app.getMenu("A(x | y)"));
 		coordinatesRadio3.setText(app.getMenu("A: (x, y)"));
 
-		perspectivesPanel.setBorder(BorderFactory.createTitledBorder(app
+		perspectivesPanel.setBorder(OptionsUtil.titleBorder(app
 				.getMenu("Perspectives")));
 		cbIgnoreDocumentLayout.setText(app.getPlain("IgnoreDocumentLayout"));
 		cbShowTitleBar.setText(app.getPlain("ShowTitleBar"));
 		cbAllowStyleBar.setText(app.getPlain("AllowStyleBar"));
 
-		miscPanel.setBorder(BorderFactory.createTitledBorder(app
+		miscPanel.setBorder(OptionsUtil.titleBorder(app
 				.getPlain("Miscellaneous")));
 		cbEnableScripting.setText(app.getPlain("EnableScripting"));
 		// cbEnableScripting.setSelected(b)
