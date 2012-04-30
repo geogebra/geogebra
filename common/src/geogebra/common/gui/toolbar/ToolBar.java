@@ -26,7 +26,7 @@ public class ToolBar {
 	 */
 	public static String getAllToolsNoMacros(boolean showAllMenu) {
 		StringBuilder sb = new StringBuilder();
-	
+		
 		// move
 		sb.append(EuclidianConstants.MODE_MOVE);
 		sb.append(" ");
@@ -41,10 +41,8 @@ public class ToolBar {
 		sb.append(EuclidianConstants.MODE_POINT);
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_POINT_ON_OBJECT);
-		if(showAllMenu){
-			sb.append(" ");
-			sb.append(EuclidianConstants.MODE_ATTACH_DETACH);
-		}
+		sb.append(" ");
+		sb.append(EuclidianConstants.MODE_ATTACH_DETACH);
 		sb.append(" , ");
 		sb.append(EuclidianConstants.MODE_INTERSECT);
 		sb.append(" ");
@@ -75,18 +73,14 @@ public class ToolBar {
 		sb.append(EuclidianConstants.MODE_PARALLEL);
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_LINE_BISECTOR);
-		if(showAllMenu){
-			sb.append(" ");
-			sb.append(EuclidianConstants.MODE_ANGULAR_BISECTOR);
-		}
+		sb.append(" ");
+		sb.append(EuclidianConstants.MODE_ANGULAR_BISECTOR);
 		sb.append(" , ");
 		sb.append(EuclidianConstants.MODE_TANGENTS);
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_POLAR_DIAMETER);
-		if(showAllMenu){
-			sb.append(" , ");
-			sb.append(EuclidianConstants.MODE_FITLINE);
-		}
+		sb.append(" , ");
+		sb.append(EuclidianConstants.MODE_FITLINE);
 		sb.append(" , ");
 		sb.append(EuclidianConstants.MODE_LOCUS);
 	
@@ -135,18 +129,15 @@ public class ToolBar {
 		sb.append(EuclidianConstants.MODE_ANGLE);
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_ANGLE_FIXED);
-		if(showAllMenu){
-			sb.append(" , ");
-			sb.append(EuclidianConstants.MODE_DISTANCE);
-			sb.append(" ");
-			sb.append(EuclidianConstants.MODE_AREA);
-		}
+		sb.append(" , ");
+		sb.append(EuclidianConstants.MODE_DISTANCE);
+		sb.append(" ");
+		sb.append(EuclidianConstants.MODE_AREA);
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_SLOPE);
-		if(showAllMenu){
-			sb.append(" , ");
-			sb.append(EuclidianConstants.MODE_CREATE_LIST);
-		}
+		sb.append(" , ");
+		sb.append(EuclidianConstants.MODE_CREATE_LIST);
+
 	
 		// transformations
 		sb.append(" | ");
@@ -162,11 +153,12 @@ public class ToolBar {
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_DILATE_FROM_POINT);
 	
-			// dialogs
-			sb.append(" | ");
+		// dialogs
+		sb.append(" | ");
 		
-			sb.append(EuclidianConstants.MODE_TEXT);
-			sb.append(" ");
+		sb.append(EuclidianConstants.MODE_TEXT);
+		sb.append(" ");
+		
 		if(showAllMenu){
 			sb.append(EuclidianConstants.MODE_IMAGE);
 			sb.append(" ");
@@ -175,7 +167,9 @@ public class ToolBar {
 			sb.append(EuclidianConstants.MODE_FREEHAND);
 			sb.append(" , ");
 		}
-			sb.append(EuclidianConstants.MODE_RELATION);
+		
+		sb.append(EuclidianConstants.MODE_RELATION);
+		
 		if(showAllMenu){
 			sb.append(" ");
 			sb.append(EuclidianConstants.MODE_PROBABILITY_CALCULATOR);
