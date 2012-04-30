@@ -22,6 +22,6 @@ cd $WEB_AUTOBUILDDIR
 # A quick draft compilation for debugging
 ./build -s PRETTY -nl -u gecko1_8 -i $REVDIR/$REVISION/war-debug -- -draftCompile
 
-echo $REVISION > $REVDIR/$REVISION/war/web/version.txt
+echo -n $REVISION > $REVDIR/$REVISION/war/web/version.txt
 
 exit 0
