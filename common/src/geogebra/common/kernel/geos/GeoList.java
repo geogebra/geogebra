@@ -681,7 +681,7 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 		sbToString.setLength(0);
 		sbToString.append(label);
 		sbToString.append(" = ");
-		sbToString.append(buildValueString(tpl));
+		sbToString.append(buildValueString(tpl).toString());
 		return sbToString.toString();
 	}
 
