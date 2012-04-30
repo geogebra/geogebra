@@ -404,7 +404,7 @@ public abstract class EuclidianStatic {
 	}
 
 	/**
-	 * @param shape shapeto be drawn
+	 * @param shape shape to be drawn
 	 * @param g2 graphics
 	 */
 	public static void drawWithValueStrokePure(geogebra.common.awt.Shape shape, Graphics2D g2) {

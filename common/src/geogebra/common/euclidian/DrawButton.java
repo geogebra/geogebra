@@ -194,7 +194,7 @@ public final class DrawButton extends Drawable implements RemoveNeeded {
 	 */
 	@Override
 	final public boolean hit(int x, int y) {
-		return myButton.getBounds().contains(x, y);				      
+		return myButton.getBounds().contains(x, y) && isVisible;				      
 	}
 
 	@Override
