@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Vector;
 
 import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
@@ -162,7 +163,6 @@ public class ToolBar extends MenuBar {
 		}
 		
 		// set toolbar
-		boolean firstButton = true;
 		for (int i = 0; i < toolbarVec.size(); i++) {
 			ToolbarItem ob = toolbarVec.get(i);
 
@@ -199,11 +199,7 @@ public class ToolBar extends MenuBar {
 						tm.addItem(item);
 						//tm.addItem(GGWToolBar.getImageHtml(addMode)+app.getToolName(addMode), true, com);
 						
-						tm.addMode(addMode);					
-						if (firstButton) {
-							//tm.getJToggleButton().setSelected(true);
-							firstButton = false;
-						}
+						tm.addMode(addMode);
 					}
 				}
 			}
@@ -212,6 +208,7 @@ public class ToolBar extends MenuBar {
 			if (tm.getToolsCount() > 0){
 				int tbuttonMode = Integer.parseInt(tm.getElement().getAttribute("mode"));
 				MenuItem newItem = new MenuItem(GGWToolBar.getImageHtml(tbuttonMode), true,tm);
+				newItem.getElement().setAttribute("isSelected", "false");
 				tm.setButton(newItem);
 				addItem(newItem);
 			}
@@ -322,6 +319,10 @@ public class ToolBar extends MenuBar {
 		}
 	
 		return sb.toString();
+	}
+	
+	public ArrayList<ModeToggleMenu> getModeToggleMenus(){
+		return modeToggleMenus;
 	}
 
 }

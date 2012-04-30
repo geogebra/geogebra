@@ -26,6 +26,7 @@ public class ModeToggleMenu extends MenuBar{
 //	private ActionListener popupMenuItemListener;
 	private Application app;
 	int size;
+	private ToolBar toolbar;
 
 	final static Color bgColor = Color.white;
 
@@ -34,6 +35,7 @@ public class ModeToggleMenu extends MenuBar{
 		super(true);
 		this.app = app;
 		this.bg = bg;
+		this.toolbar = toolbar;
 //		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 
 //		tbutton = new MyJToggleButton(this);
@@ -68,6 +70,7 @@ public class ModeToggleMenu extends MenuBar{
 				return true;
 			}
 		}
+		tbutton.getElement().setAttribute("isSelected", "false");
 		return false;
 	}
 
@@ -86,11 +89,11 @@ public class ModeToggleMenu extends MenuBar{
 	void selectMenuItem(MenuItem mi) {
 		String miMode = mi.getElement().getAttribute("mode");
 		// check if the menu item is already selected
-//		if (tbutton.isSelected()
-//				&& tbutton.getElement().getAttribute("mode") == miMode) {
-//			return;
-//		}
-//		
+		if (tbutton.getElement().getAttribute("isSelected").equals(true)
+				&& tbutton.getElement().getAttribute("mode").equals(miMode)) {
+			return;
+		}
+		
 
 		
 //		tbutton.setIcon(mi.getIcon());
@@ -98,7 +101,17 @@ public class ModeToggleMenu extends MenuBar{
 		tbutton.getElement().setAttribute("mode",miMode);
 		tbutton.setHTML(GGWToolBar.getImageHtml(Integer.parseInt(miMode)));
 //		tbutton.setText(miMode);
-//		tbutton.setSelected(true);
+		
+		ArrayList<ModeToggleMenu> modeToggleMenus = toolbar.getModeToggleMenus();
+		for (int i = 0; i < modeToggleMenus.size(); i++) {
+			ModeToggleMenu mtm = modeToggleMenus.get(i);
+			if (mtm != this) {
+				mtm.tbutton.getElement().setAttribute("isSelected","false");
+			}
+		}
+		tbutton.getElement().setAttribute("isSelected","true");
+		
+		
 		// tbutton.requestFocus();*/
 		
 		//temporary - until we have only one toolbar
@@ -145,15 +158,22 @@ public class ModeToggleMenu extends MenuBar{
 		}
 	}
 	
-	
-//	public MyJToggleButton getButton() {
-//		return tbutton;
-//	}
-	
+	/**
+	 * Sets tbutton field.
+	 * @param button the new value of tbutton
+	 */
 	public void setButton(MenuItem button){
-		tbutton = button;
-		
+		tbutton = button;		
 	}
+	
+	/**
+	 * Gets tbutton field.
+	 * @return with tbutton
+	 */
+	public MenuItem getButton(){
+		return tbutton;		
+	}
+	
 
 //	/**
 //	 * Removes all modes from the toggle menu. Used for the temporary
