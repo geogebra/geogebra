@@ -188,6 +188,8 @@ public class ToolBar extends MenuBar {
 					// check mode
 					if (!"".equals(app.getToolName(addMode))) {
 						Command com = null;
+						String temp = GGWToolBar.getImageHtml(addMode);
+						AbstractApplication.debug(temp);
 						final MenuItem item = new MenuItem(GGWToolBar.getImageHtml(addMode)+app.getToolName(addMode), true, com);
 						com = new Command(){
 							public void execute() {
