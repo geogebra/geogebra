@@ -39,12 +39,11 @@ import java.util.Arrays;
  * Computes intersection points of two conic sections
  *  
  * @author  Markus Hohenwarter
- * @version 
  */
 public class AlgoIntersectConics extends AlgoIntersect {
       
-	// number of old distances that are used to 
-    // compute the mean distance change of one point
+	/** number of old distances that are used to 
+     compute the mean distance change of one point **/
     static final int DIST_MEMORY_SIZE = 8;
     
     private GeoConic A, B;
@@ -58,7 +57,7 @@ public class AlgoIntersectConics extends AlgoIntersect {
     private boolean [] isQonPath;
     private boolean [] isPalive; // has P ever been defined?
     private boolean firstIntersection = true;
-    private int i;
+    //private int i;
     private boolean isLimitedPathSituation;
     private boolean isPermutationNeeded = true;
     private boolean possibleSpecialCase = false;
@@ -79,6 +78,9 @@ public class AlgoIntersectConics extends AlgoIntersect {
     	return EuclidianConstants.MODE_INTERSECT;
     }
     
+	/**
+	 * @param cons construction
+	 */
 	public AlgoIntersectConics(Construction cons) {           
     	super(cons); 
     	
@@ -89,6 +91,11 @@ public class AlgoIntersectConics extends AlgoIntersect {
 	       
 	}
     
+    /**
+     * @param cons construction
+     * @param A first conic
+     * @param B second conic
+     */
     public AlgoIntersectConics(Construction cons, GeoConic A, GeoConic B) {           
     	this(cons);     
     	
@@ -106,7 +113,7 @@ public class AlgoIntersectConics extends AlgoIntersect {
         age = new int[4];
         permutation = new int[4];
         distTable = new double[4][4];
-        for (i=0; i < 4; i++) {
+        for (int i=0; i < 4; i++) {
             P[i] = new GeoPoint2(cons);                    
             Q[i] = new GeoPoint2(cons);      
             D[i] = new GeoPoint2(cons);            
@@ -125,7 +132,7 @@ public class AlgoIntersectConics extends AlgoIntersect {
     }
     
     private void setIncidence() {
-        for (i=0; i < 4; i++) {
+        for (int i=0; i < 4; i++) {
         	P[i].addIncidence(A);
     		P[i].addIncidence(B);
         }
@@ -148,7 +155,13 @@ public class AlgoIntersectConics extends AlgoIntersect {
 		return P;
 	}
 	
+    /**
+     * @return first conic
+     */
     GeoConic getA() { return A; }
+    /**
+     * @return second conic
+     */
     GeoConic getB() { return B; }
 	
 	@Override
@@ -325,7 +338,7 @@ public class AlgoIntersectConics extends AlgoIntersect {
      }
     
     // calc intersections of conics A and B
-    final void computeContinous() {     
+    final private void computeContinous() {     
         /* D ... old defined points
          * P ... current points
          * Q ... new points
@@ -342,7 +355,7 @@ public class AlgoIntersectConics extends AlgoIntersect {
                      
 		// remember the defined points D, so that Di = Pi if Pi is finite        
 		// and set age
-		for (i=0; i < 4; i++) {
+		for (int i=0; i < 4; i++) {
 			boolean finite = P[i].isFinite();
 			
 			if (noSingularity && finite)  { 
@@ -369,7 +382,7 @@ public class AlgoIntersectConics extends AlgoIntersect {
         if (firstIntersection) {
         // init points in order P[0], P[1] , ...
             int count=0;
-            for (i=0; i < Q.length; i++) {
+            for (int i=0; i < Q.length; i++) {
             	// 	make sure interesection points lie on limited paths   
                 if (Q[i].isDefined() && pointLiesOnBothPaths(Q[i])) {              
                     P[count].setCoords(Q[i]);
@@ -409,7 +422,7 @@ public class AlgoIntersectConics extends AlgoIntersect {
     	//  singularity check
         boolean noSingularity = !isSingularitySituation();
                               
-    	for (i=0; i < P.length; i++) {
+    	for (int i=0; i < P.length; i++) {
             if (P[i].isDefined()) {
             	if (!pointLiesOnBothPaths(P[i])) {
             		// the intersection point should be undefined as it doesn't lie
@@ -438,9 +451,9 @@ public class AlgoIntersectConics extends AlgoIntersect {
     }
     
     
-    private boolean pointLiesOnBothPaths(GeoPoint2 P) {
-    	return A.isIntersectionPointIncident(P, Kernel.MIN_PRECISION) 
-				&& B.isIntersectionPointIncident(P, Kernel.MIN_PRECISION);
+    private boolean pointLiesOnBothPaths(GeoPoint2 Pt) {
+    	return A.isIntersectionPointIncident(Pt, Kernel.MIN_PRECISION) 
+				&& B.isIntersectionPointIncident(Pt, Kernel.MIN_PRECISION);
     }
     
 	/**
@@ -469,8 +482,12 @@ public class AlgoIntersectConics extends AlgoIntersect {
     	return ret;
     }
     
-    // calc four intersection Points of conics A and B.
-    // write result into points
+    /** calc four intersection Points of conics A and B.
+     *    write result into points
+     * @param conic1 first conic
+     * @param conic2 second conic
+     * @param points output array
+     */
     final public void intersectConics(GeoConic conic1, GeoConic conic2, 
                                         GeoPoint2[] points) {
     	    	 
@@ -730,7 +747,7 @@ public class AlgoIntersectConics extends AlgoIntersect {
         
        // Go through cubic equation's solutions and take first degenerate conic
        // with det(A + x B) < eps.           
-	   for (i=0; i < solnr; i++) {  
+	   for (int i=0; i < solnr; i++) {  
  		   // A + x B
 		   for (int j=0; j < 6; j++) {   
 			   flatDeg[j] = (flatA[j] + sol[i] * flatB[j]);	          	          
@@ -825,7 +842,7 @@ public class AlgoIntersectConics extends AlgoIntersect {
 	    for(int i=0; i<solnr; i++)
 	    	points[i].setCoords(res[i][0], res[i][1], 1.0d);
 	    	
-	    for(i=solnr; i<4; i++)
+	    for(int i=solnr; i<4; i++)
 	    	points[i].setUndefined();
 	    
 	    if (testPoints(A, B, points, Kernel.MIN_PRECISION))
@@ -842,25 +859,25 @@ public class AlgoIntersectConics extends AlgoIntersect {
      * @param points resulting intersection points
      * @return true if points were found
      */
-    private boolean intersectConicsWithEqualSubmatrixS(GeoConic A, GeoConic B, GeoPoint2 [] points) {    	
+    private boolean intersectConicsWithEqualSubmatrixS(GeoConic c1, GeoConic c2, GeoPoint2 [] points) {    	
 	    if (tempLine == null) {			
 			tempLine = new GeoLine(cons);			
 		}
 		
 		// set line passing through intersection points (e.g. of two circles)
 	    tempLine.setCoords(        			
-				2*(A.matrix[4] - B.matrix[4]),
-				2*(A.matrix[5] - B.matrix[5]),
-				A.matrix[2] - B.matrix[2]);
+				2*(c1.matrix[4] - c2.matrix[4]),
+				2*(c1.matrix[5] - c2.matrix[5]),
+				c1.matrix[2] - c2.matrix[2]);
 		        	        	        	
 		// try first conic
-		AlgoIntersectLineConic.intersectLineConic(tempLine, A, points);        	
-		if (testPoints(A, B, points, Kernel.MIN_PRECISION))
+		AlgoIntersectLineConic.intersectLineConic(tempLine, c1, points);        	
+		if (testPoints(c1, c2, points, Kernel.MIN_PRECISION))
 			return true;
 		
 		// try second conic
-		AlgoIntersectLineConic.intersectLineConic(tempLine, B, points);
-		if (testPoints(A, B, points, Kernel.MIN_PRECISION))
+		AlgoIntersectLineConic.intersectLineConic(tempLine, c2, points);
+		if (testPoints(c1, c2, points, Kernel.MIN_PRECISION))
 			return true; 
 		
 		return false;
@@ -897,6 +914,10 @@ public class AlgoIntersectConics extends AlgoIntersect {
      * Undefined (NaN) or infinite distances are set to max of all defined
      * distances + 1. If there are no defined distances, all distances
      * are set to 0.
+     * @param D 
+     * @param age how long corresponding D has been undefined
+     * @param Q 
+     * @param table 
      */
     final public static void distanceTable(GeoPoint2 [] D, int[] age, 
                                            GeoPoint2 [] Q, double[][] table) {
@@ -963,6 +984,12 @@ public class AlgoIntersectConics extends AlgoIntersect {
      *    
      *  For limitedPaths we also have to make sure that we only use points from Q 
      *  to set P that really lie on both paths.
+     * @param P 
+     * @param isPalive 
+     * @param Q 
+     * @param isQonPath 
+     * @param distTable 
+     * @param pointList 
      *  
      *  @param permutation is an output parameter for the permutation
      *  of points Q used to set points P, e.g. permuation {1,0} 
