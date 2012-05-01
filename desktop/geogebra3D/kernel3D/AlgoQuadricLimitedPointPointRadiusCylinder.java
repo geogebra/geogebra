@@ -6,6 +6,7 @@ import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.kernel.kernelND.GeoQuadricNDConstants;
 
 
 /**
@@ -25,29 +26,33 @@ public class AlgoQuadricLimitedPointPointRadiusCylinder extends AlgoQuadricLimit
 	 * @param r
 	 */
 	public AlgoQuadricLimitedPointPointRadiusCylinder(Construction c, String[] labels, GeoPointND origin, GeoPointND secondPoint, NumberValue r) {
-		super(c, labels, origin, secondPoint, r, GeoQuadric3DLimited.QUADRIC_CYLINDER);
+		super(c, labels, origin, secondPoint, r, GeoQuadricNDConstants.QUADRIC_CYLINDER);
 		
 	}
 	
+	@Override
 	protected void createEnds(){
-		AlgoQuadricEnds algo2 = new AlgoQuadricEnds((Construction)cons, getQuadric());
-		((Construction) cons).removeFromConstructionList(algo2);
+		AlgoQuadricEnds algo2 = new AlgoQuadricEnds(cons, getQuadric());
+		cons.removeFromConstructionList(algo2);
 		bottom = algo2.getSection1();
 		top = algo2.getSection2();
 
 	}
 	
+	@Override
 	protected void setOutput(){
-		output = new GeoElement[] {getQuadric(),getQuadric().getBottom(),getQuadric().getTop(),getQuadric().getSide()};
+		setOutput(new GeoElement[] {getQuadric(),getQuadric().getBottom(),getQuadric().getTop(),getQuadric().getSide()});
 	}
 	
 
+	@Override
 	protected void setQuadric(Coords o1, Coords o2, Coords d, double r, double min, double max){
 		getQuadric().setCylinder(o1,d,r, min, max);
 	}
 
 	
 
+	@Override
 	public Algos getClassName() {
 		return Algos.AlgoLimitedCylinder;
 	}

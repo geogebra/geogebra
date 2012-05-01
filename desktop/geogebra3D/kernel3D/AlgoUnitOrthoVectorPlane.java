@@ -59,7 +59,8 @@ public class AlgoUnitOrthoVectorPlane extends AlgoOrthoVectorPlane {
     
     
     
-    protected Coords getCoords(){
+    @Override
+	protected Coords getCoords(){
     	return super.getCoords().normalized();
     }
     
@@ -68,6 +69,7 @@ public class AlgoUnitOrthoVectorPlane extends AlgoOrthoVectorPlane {
     
     
 
+	@Override
 	public Algos getClassName() {
     	
     	return Algos.AlgoUnitOrthoVectorPlane;

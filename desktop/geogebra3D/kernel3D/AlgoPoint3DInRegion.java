@@ -59,18 +59,19 @@ public class AlgoPoint3DInRegion extends AlgoElement3D {
     
     
 
-    public Algos getClassName() {
+    @Override
+	public Algos getClassName() {
         return Algos.AlgoPoint3DInRegion;
     }
 
     // for AlgoElement
-    protected void setInputOutput() {
+    @Override
+	protected void setInputOutput() {
     	
     	input = new GeoElement[1];  	
-        input[0] = (GeoElement)region.toGeoElement();
+        input[0] = region.toGeoElement();
 
-        output = new GeoElement[1];
-        output[0] = P;
+        setOnlyOutput(P);
         setDependencies(); // done by AlgoElement
         
      }
@@ -83,7 +84,8 @@ public class AlgoPoint3DInRegion extends AlgoElement3D {
         return region;
     }
 
-    public final void compute() {
+    @Override
+	public final void compute() {
     	
     	if (input[0].isDefined()) {	 
 	        //Application.debug("coords=\n"+P.getCoordsInD(3));
@@ -96,7 +98,8 @@ public class AlgoPoint3DInRegion extends AlgoElement3D {
     	
     }
 
-    final public String toString(StringTemplate tpl) {
+    @Override
+	final public String toString(StringTemplate tpl) {
         StringBuilder sb = new StringBuilder();
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation

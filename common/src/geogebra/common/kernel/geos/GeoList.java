@@ -24,9 +24,9 @@ import geogebra.common.kernel.PathNormalizer;
 import geogebra.common.kernel.PathOrPoint;
 import geogebra.common.kernel.PathParameter;
 import geogebra.common.kernel.StringTemplate;
-import geogebra.common.kernel.algos.AlgoDependentListInterface;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoMacroInterface;
+import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.ListValue;
@@ -1682,7 +1682,7 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 	@Override
 	public boolean hasMoveableInputPoints(final EuclidianViewInterfaceSlim view) {
 		// we don't want e.g. DotPlots to be dragged
-		if (!((getParentAlgorithm() == null) || (getParentAlgorithm() instanceof AlgoDependentListInterface))) {
+		if (!((getParentAlgorithm() == null) || (getParentAlgorithm().getClassName()==Algos.AlgoDependentList))) {
 			return false;
 		}
 		for (int i = 0; i < geoList.size(); i++) {

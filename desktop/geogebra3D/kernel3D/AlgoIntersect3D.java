@@ -15,11 +15,9 @@ package geogebra3D.kernel3D;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Matrix.CoordMatrix;
-import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.kernelND.AlgoIntersectND;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.main.Application;
 
 
 
@@ -41,6 +39,7 @@ public abstract class AlgoIntersect3D extends AlgoIntersectND {
 	 * Avoids two intersection points at same position. 
 	 * This is only done as long as the second intersection point doesn't have a label yet.
 	 */
+	@Override
 	protected void avoidDoubleTangentPoint() {
 		GeoPoint3D [] points = getIntersectionPoints();
 	    if (!points[1].isLabelSet() && points[0].isEqual(points[1])) {
@@ -82,8 +81,10 @@ public abstract class AlgoIntersect3D extends AlgoIntersectND {
         return minIndex;
     }
 
-    protected abstract GeoPoint3D[] getIntersectionPoints();
-    protected abstract GeoPoint3D[] getLastDefinedIntersectionPoints();
+    @Override
+	protected abstract GeoPoint3D[] getIntersectionPoints();
+    @Override
+	protected abstract GeoPoint3D[] getLastDefinedIntersectionPoints();
     
     int getClosestPointIndex(GeoPointND refPoint) {
     	Coords refInhom = refPoint.getInhomCoordsInD(3);
@@ -111,9 +112,12 @@ public abstract class AlgoIntersect3D extends AlgoIntersectND {
    
 
     //TODO: organize better according to types: GeoVec, GeoVec4D, GeoVec3D, Coords
-    protected void setCoords(GeoPointND destination, GeoPointND source){
+    @Override
+	protected void setCoords(GeoPointND destination, GeoPointND source){
     	((GeoPoint3D) destination).setCoords(((GeoPoint3D) source).getCoords());
     }
-    public abstract void compute();
-    public abstract void initForNearToRelationship();
+    @Override
+	public abstract void compute();
+    @Override
+	public abstract void initForNearToRelationship();
 }

@@ -45,18 +45,21 @@ public class AlgoOrthoPlaneBisectorPointPoint extends AlgoOrthoPlane {
         getPlane().setLabel(label);
     }
 
-    public Algos getClassName() {
+    @Override
+	public Algos getClassName() {
         return Algos.AlgoPlaneBisector;
     }
 
 
 
 
-    protected Coords getNormal(){
+    @Override
+	protected Coords getNormal(){
     	return point2.getInhomCoordsInD(3).sub(point1.getInhomCoordsInD(3));
     }
 
-    protected Coords getPoint(){
+    @Override
+	protected Coords getPoint(){
     	return point1.getInhomCoordsInD(3).add(point2.getInhomCoordsInD(3)).mul(0.5);
     }
 

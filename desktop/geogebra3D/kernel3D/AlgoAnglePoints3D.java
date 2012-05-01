@@ -41,11 +41,13 @@ public class AlgoAnglePoints3D extends AlgoAnglePoints{
 	}
 	
 	
-    final protected GeoAngle newGeoAngle(Construction cons){
+    @Override
+	final protected GeoAngle newGeoAngle(Construction cons){
     	return new GeoAngle3D(cons);
     }
 	
-    public final void compute() {
+    @Override
+	public final void compute() {
     	Coords center = getB().getInhomCoordsInD(3);
     	Coords v1 = getA().getInhomCoordsInD(3).sub(center);
     	Coords v2 = getC().getInhomCoordsInD(3).sub(center);
@@ -71,7 +73,8 @@ public class AlgoAnglePoints3D extends AlgoAnglePoints{
     }
 	
 
-    public Coords getVn(){
+    @Override
+	public Coords getVn(){
     	return vn;
     }
     

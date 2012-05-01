@@ -63,6 +63,7 @@ public class AlgoMidpoint3D extends AlgoMidpointND {
 		super(cons,segment);
 	}
 
+	@Override
 	protected GeoPointND newGeoPoint(Construction cons) {
 		
 		return new GeoPoint3D(cons);
@@ -72,15 +73,18 @@ public class AlgoMidpoint3D extends AlgoMidpointND {
 
 
     
-    protected GeoPoint3D getPoint() {
+    @Override
+	protected GeoPoint3D getPoint() {
         return (GeoPoint3D) super.getPoint();
     }
     
-    protected void copyCoords(GeoPointND point){
+    @Override
+	protected void copyCoords(GeoPointND point){
     	getPoint().setCoords(point.getCoordsInD(3));
     }
     
-    protected void computeMidCoords(){
+    @Override
+	protected void computeMidCoords(){
         
     	getPoint().setCoords(getP().getInhomCoordsInD(3).add(getQ().getInhomCoordsInD(3)).mul(0.5));
     }

@@ -62,7 +62,8 @@ public class AlgoIntersectCS2D2D extends AlgoIntersectCoordSys {
     }
 
     
-    protected GeoElement3D createIntersection(Construction cons){
+    @Override
+	protected GeoElement3D createIntersection(Construction cons){
     	
     	GeoLine3D ret = new GeoLine3D(cons);
     	ret.setIsIntersection(true);
@@ -78,7 +79,8 @@ public class AlgoIntersectCS2D2D extends AlgoIntersectCoordSys {
 
     
 
-    public void compute(){
+    @Override
+	public void compute(){
 
     	GeoCoordSys2D cs1 = (GeoCoordSys2D) getCS1();
     	GeoCoordSys2D cs2 = (GeoCoordSys2D) getCS2();
@@ -104,7 +106,7 @@ public class AlgoIntersectCS2D2D extends AlgoIntersectCoordSys {
     	// update line
     	Construction c = cs1.toGeoElement().getConstruction();
     	c.getKernel().setSilentMode(true);
-    	GeoLine3D l = new GeoLine3D((Construction)c, intersection[0], intersection[1]);
+    	GeoLine3D l = new GeoLine3D(c, intersection[0], intersection[1]);
     	c.getKernel().setSilentMode(false);
     	return l;
     }
@@ -167,12 +169,14 @@ public class AlgoIntersectCS2D2D extends AlgoIntersectCoordSys {
     	}
     }   
     
+	@Override
 	protected String getIntersectionTypeString(){
 		return "IntersectionLineOfAB";
 	}
 	
 
 
+	@Override
 	public Algos getClassName() {
     	
     	return Algos.AlgoIntersectCS2D2D;

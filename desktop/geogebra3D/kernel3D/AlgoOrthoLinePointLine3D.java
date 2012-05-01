@@ -36,7 +36,8 @@ public class AlgoOrthoLinePointLine3D extends AlgoOrtho {
         super(cons,label,point, (GeoElement) line);
     }
 
-    public Algos getClassName() {
+    @Override
+	public Algos getClassName() {
         return Algos.AlgoOrthoLinePointLine;
     }
 
@@ -46,7 +47,8 @@ public class AlgoOrthoLinePointLine3D extends AlgoOrtho {
     }
 
   
-    public final void compute() {
+    @Override
+	public final void compute() {
     	
     	GeoLineND line = getInputLine();
     	Coords o = line.getPointInD(3, 0);

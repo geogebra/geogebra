@@ -43,6 +43,7 @@ public class AlgoQuadricSide extends AlgoQuadric {
 	
 	
 
+	@Override
 	public void compute() {
 				
 		//check origin
@@ -63,6 +64,7 @@ public class AlgoQuadricSide extends AlgoQuadric {
 	}
 
 
+	@Override
 	public void remove() {
 		super.remove();
 		if (isHelperAlgo)
@@ -70,6 +72,7 @@ public class AlgoQuadricSide extends AlgoQuadric {
 	}       
 
 
+	@Override
 	protected Coords getDirection() {
 		return null;
 	}

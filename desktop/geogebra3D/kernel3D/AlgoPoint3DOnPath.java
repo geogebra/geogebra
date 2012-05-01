@@ -52,18 +52,19 @@ public class AlgoPoint3DOnPath extends AlgoElement3D {
     
     
 
-    public Algos getClassName() {
+    @Override
+	public Algos getClassName() {
         return Algos.AlgoPoint3DOnPath;
     }
 
     // for AlgoElement
-    protected void setInputOutput() {
+    @Override
+	protected void setInputOutput() {
     	
     	input = new GeoElement[1];  	
-        input[0] = (GeoElement)path.toGeoElement();
+        input[0] = path.toGeoElement();
 
-        output = new GeoElement[1];
-        output[0] = P;
+        setOnlyOutput(P);
         setDependencies(); // done by AlgoElement
         
      }
@@ -76,7 +77,8 @@ public class AlgoPoint3DOnPath extends AlgoElement3D {
         return path;
     }
 
-    public final void compute() {
+    @Override
+	public final void compute() {
     	
     	
     	if (input[0].isDefined()) {	    	
@@ -88,7 +90,8 @@ public class AlgoPoint3DOnPath extends AlgoElement3D {
     	
     }
 
-    final public String toString(StringTemplate tpl) {
+    @Override
+	final public String toString(StringTemplate tpl) {
         StringBuilder sb = new StringBuilder();
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation

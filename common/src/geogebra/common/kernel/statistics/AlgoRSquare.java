@@ -65,8 +65,7 @@ public class AlgoRSquare extends AlgoElement {
         input[0] = inputList;
         input[1] = function.toGeoElement();
         
-        output = new GeoElement[1];
-        output[0] = r2;
+        setOnlyOutput(r2);
         setDependencies(); // done by AlgoElement
     }
 

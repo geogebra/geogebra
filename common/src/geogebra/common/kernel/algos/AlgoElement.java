@@ -50,7 +50,7 @@ public abstract class AlgoElement extends ConstructionElement implements
 	 *             getOutputLength(), getOutput() instead
 	 */
 	@Deprecated
-	protected GeoElement[] output;
+	private GeoElement[] output;
 	private GeoElement[] efficientInput;
 	private GeoNumeric[] randomUnlabeledInput;
 

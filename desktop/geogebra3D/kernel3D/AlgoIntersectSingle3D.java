@@ -32,7 +32,7 @@ public class AlgoIntersectSingle3D extends AlgoIntersect3D {
 
 	// intersection point is the (a) nearest to refPoint
 	AlgoIntersectSingle3D(String label, AlgoIntersect3D algo, GeoPointND refPoint) {
-		super((Construction) algo.getConstruction());
+		super(algo.getConstruction());
 		this.algo = algo;
 		algo.addUser(); // this algorithm is a user of algo			
 		this.refPoint = refPoint;
@@ -48,7 +48,7 @@ public class AlgoIntersectSingle3D extends AlgoIntersect3D {
 	
 	// intersection point is index-th intersection point of algo
 	AlgoIntersectSingle3D(String label, AlgoIntersect3D algo, int index) {
-		super((Construction) algo.getConstruction());
+		super(algo.getConstruction());
 		this.algo = algo;
 		algo.addUser(); // this algorithm is a user of algo			
 		
@@ -66,19 +66,23 @@ public class AlgoIntersectSingle3D extends AlgoIntersect3D {
 		point.setLabel(label);		
 	}
 	
-    protected boolean showUndefinedPointsInAlgebraView() {
+    @Override
+	protected boolean showUndefinedPointsInAlgebraView() {
     	return true;
     }
 	
+	@Override
 	public Algos getClassName() {
 		return Algos.AlgoIntersectSingle3D;
 	}
     
-    public int getRelatedModeID() {
+    @Override
+	public int getRelatedModeID() {
     	return EuclidianConstants.MODE_INTERSECT;
     }
 	
 	// for AlgoElement
+	@Override
 	public void setInputOutput() {
 		if (refPoint==null) {
 			input = new GeoElement[3];
@@ -104,18 +108,22 @@ public class AlgoIntersectSingle3D extends AlgoIntersect3D {
 		return point;
 	}
 	
+	@Override
 	protected GeoPoint3D [] getIntersectionPoints() {
 		return (GeoPoint3D []) getOutput();
 	}
 		
+	@Override
 	protected GeoPoint3D[] getLastDefinedIntersectionPoints() {	
 		return null;
 	}
 
-    public boolean isNearToAlgorithm() {
+    @Override
+	public boolean isNearToAlgorithm() {
     	return true;
     }
     
+	@Override
 	public final void initForNearToRelationship() {				
 		parentOutput = algo.getIntersectionPoints();					
 		
@@ -127,6 +135,7 @@ public class AlgoIntersectSingle3D extends AlgoIntersect3D {
 		algo.compute();
 	}
 
+	@Override
 	public void compute() {
 		parentOutput = algo.getIntersectionPoints();
 		
@@ -142,6 +151,7 @@ public class AlgoIntersectSingle3D extends AlgoIntersect3D {
 		}
 	}   
 	
+	@Override
 	public void remove() {
 		super.remove();
 		algo.removeUser(); // this algorithm was a user of algo

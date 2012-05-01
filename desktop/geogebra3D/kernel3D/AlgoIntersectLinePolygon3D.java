@@ -101,7 +101,7 @@ public class AlgoIntersectLinePolygon3D extends AlgoElement3D {
     	double max = g.getMaxParameter();
     	
     	for(int i=0; i<p.getSegments().length; i++){
-    		GeoSegmentND seg = (GeoSegmentND) p.getSegments()[i];
+    		GeoSegmentND seg = p.getSegments()[i];
     		
     		Coords o2 = seg.getPointInD(3, 0);
            	Coords d2 = seg.getPointInD(3, 1).sub(o2);
@@ -127,7 +127,8 @@ public class AlgoIntersectLinePolygon3D extends AlgoElement3D {
     }
   
 
-    public void compute() {
+    @Override
+	public void compute() {
     	
     	//clear the points map
     	newCoords.clear();
@@ -172,7 +173,8 @@ public class AlgoIntersectLinePolygon3D extends AlgoElement3D {
 		
 	}
 	
-    protected void setInputOutput() {
+    @Override
+	protected void setInputOutput() {
         input = new GeoElement[2];
         input[0] = (GeoElement) g;
         input[1] = p;

@@ -61,7 +61,8 @@ public abstract class AlgoLinePoint extends AlgoElement3D {
     	return inputParallel;
     }
     
-    public final void compute() {
+    @Override
+	public final void compute() {
     	
     	Coords v = getDirection();
     	
@@ -74,7 +75,8 @@ public abstract class AlgoLinePoint extends AlgoElement3D {
 
     abstract protected Coords getDirection();
     
-    final public String toString(StringTemplate tpl) {
+    @Override
+	final public String toString(StringTemplate tpl) {
     	return app.getPlain("LineThroughAParallelToB",point.getLabel(tpl),inputParallel.getLabel(tpl));
     }
 }

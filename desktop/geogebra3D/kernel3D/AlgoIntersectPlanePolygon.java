@@ -24,8 +24,8 @@ public class AlgoIntersectPlanePolygon extends AlgoIntersectLinePolygon3D {
 		this.plane = plane;
 		input = new GeoElement[2];
         
-        input[0] = (GeoElement)plane;
-        input[1] = (GeoElement)p;
+        input[0] = plane;
+        input[1] = p;
         input[0].addAlgorithm(this);
         input[1].addAlgorithm(this);
 	}
@@ -35,6 +35,7 @@ public class AlgoIntersectPlanePolygon extends AlgoIntersectLinePolygon3D {
 		return Algos.AlgoIntersectPlanePolygon;
 	}
 	
+	@Override
 	protected void setInputOutput() {
 		input = new GeoElement[0]; //set in constructor of this algo
 		setDependencies();

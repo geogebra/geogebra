@@ -70,6 +70,7 @@ public abstract class GeoVec4D extends GeoVec implements GeoCoords4D {
 	/**
 	 * returns all class-specific xml tags for saveXML Geogebra File Format
 	 */
+	@Override
 	protected void getXMLtags(StringBuilder sb) {
 		super.getXMLtags(sb);
 

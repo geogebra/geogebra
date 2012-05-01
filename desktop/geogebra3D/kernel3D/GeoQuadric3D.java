@@ -13,6 +13,7 @@ import geogebra.common.kernel.geos.Translateable;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoQuadric3DInterface;
 import geogebra.common.kernel.kernelND.GeoQuadricND;
+import geogebra.common.kernel.kernelND.GeoQuadricNDConstants;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
 import geogebra.common.kernel.kernelND.Region3D;
@@ -64,6 +65,7 @@ public class GeoQuadric3D extends GeoQuadricND implements
 	// //////////////////////////////
 	// SPHERE
 
+	@Override
 	protected void setSphereNDMatrix(Coords M, double r) {
 		super.setSphereNDMatrix(M, r);
 
@@ -75,10 +77,12 @@ public class GeoQuadric3D extends GeoQuadricND implements
 		eigenMatrix.setVz(new Coords(0, 0, getHalfAxis(2), 0));
 	}
 
+	@Override
 	public void setSphereND(GeoPointND M, GeoSegmentND segment) {
 		// TODO
 	}
 
+	@Override
 	public void setSphereND(GeoPointND M, GeoPointND P) {
 		// TODO do this in GeoQuadricND, implement degenerate cases
 		setSphereNDMatrix(M.getInhomCoordsInD(3), M.distance(P));
@@ -214,31 +218,36 @@ public class GeoQuadric3D extends GeoQuadricND implements
 	// /////////////////////////////
 	// GeoElement
 
+	@Override
 	public GeoElement copy() {
 		return new GeoQuadric3D(this);
 	}
 
+	@Override
 	public GeoClass getGeoClassType() {
 		return GeoClass.QUADRIC;
 	}
 
+	@Override
 	public String getTypeString() {
 		switch (type) {
-		case GeoQuadric3D.QUADRIC_SPHERE:
+		case GeoQuadricNDConstants.QUADRIC_SPHERE:
 			return "Sphere";
-		case GeoQuadric3D.QUADRIC_CYLINDER:
+		case GeoQuadricNDConstants.QUADRIC_CYLINDER:
 			return "Cylinder";
-		case GeoQuadric3D.QUADRIC_CONE:
+		case GeoQuadricNDConstants.QUADRIC_CONE:
 			return "Cone";
 		default:
 			return "Quadric";
 		}
 	}
 
+	@Override
 	public boolean isEqual(GeoElement Geo) {
 		return false;
 	}
 
+	@Override
 	public void set(GeoElement geo) {
 
 		GeoQuadric3D quadric = (GeoQuadric3D) geo;
@@ -264,14 +273,17 @@ public class GeoQuadric3D extends GeoQuadricND implements
 		super.set(geo);
 	}
 
+	@Override
 	public boolean showInAlgebraView() {
 		return true;
 	}
 
+	@Override
 	protected boolean showInEuclidianView() {
 		return true;
 	}
 
+	@Override
 	protected StringBuilder buildValueString(StringTemplate tpl) {
 
 		StringBuilder sbToValueString=new StringBuilder();
@@ -302,19 +314,23 @@ public class GeoQuadric3D extends GeoQuadricND implements
 		return sbToValueString;
 	}
 
+	@Override
 	public String getClassName() {
 		return "GeoQuadric";
 	}
 
 	/** to be able to fill it with an alpha value */
+	@Override
 	public boolean isFillable() {
 		return true;
 	}
 
+	@Override
 	public boolean isGeoElement3D() {
 		return true;
 	}
 
+	@Override
 	public boolean isVector3DValue() {
 		// TODO Auto-generated method stub
 		return false;
@@ -364,7 +380,7 @@ public class GeoQuadric3D extends GeoQuadricND implements
 			if (v < 0)
 				r = -r;
 
-			n = (Coords) getEigenvec3D(1).mul(Math.sin(u) / r2).add(
+			n = getEigenvec3D(1).mul(Math.sin(u) / r2).add(
 					getEigenvec3D(0).mul(Math.cos(u) / r2).add(
 							getEigenvec3D(2).mul(-r / r2)));
 
@@ -372,7 +388,7 @@ public class GeoQuadric3D extends GeoQuadricND implements
 
 		case QUADRIC_CYLINDER:
 
-			n = (Coords) getEigenvec3D(1).mul(Math.sin(u)).add(
+			n = getEigenvec3D(1).mul(Math.sin(u)).add(
 					getEigenvec3D(0).mul(Math.cos(u)));
 
 			return n;
@@ -450,10 +466,12 @@ public class GeoQuadric3D extends GeoQuadricND implements
 		return null;
 	}
 
+	@Override
 	public Coords getLabelPosition() {
 		return new Coords(4); // TODO
 	}
 
+	@Override
 	public Coords getMainDirection() {
 		// TODO create with parameter coord where is looked at
 		return new Coords(0, 0, 1, 0);
@@ -478,6 +496,7 @@ public class GeoQuadric3D extends GeoQuadricND implements
 	// REGION 3D INTERFACE
 	// /////////////////////////////////////////////////
 
+	@Override
 	public boolean isRegion() {
 		return true;
 	}
@@ -664,6 +683,7 @@ public class GeoQuadric3D extends GeoQuadricND implements
 		eigenMatrix.setOrigin(getMidpoint());
 	}
 
+	@Override
 	public boolean isTranslateable() {
 		return true;
 	}

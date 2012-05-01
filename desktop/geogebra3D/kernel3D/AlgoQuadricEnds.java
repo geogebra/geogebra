@@ -69,7 +69,8 @@ public class AlgoQuadricEnds extends AlgoElement3D {
 
 
     
-    public final void compute() {
+    @Override
+	public final void compute() {
     	
     	
     	if (!quadric.isDefined()){
@@ -126,12 +127,14 @@ public class AlgoQuadricEnds extends AlgoElement3D {
     }
     
     
-    public Algos getClassName() {
+    @Override
+	public Algos getClassName() {
         return Algos.AlgoQuadricEnds;
     }
     
 
 
+	@Override
 	public void remove() {
 		super.remove();
 		quadric.remove();

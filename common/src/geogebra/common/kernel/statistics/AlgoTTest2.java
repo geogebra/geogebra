@@ -104,8 +104,7 @@ public class AlgoTTest2 extends AlgoElement {
 			input[7] = pooled;
 		}
 
-		output = new GeoElement[1];
-		output[0] = result;
+		setOnlyOutput(result);
 		setDependencies(); // done by AlgoElement
 	}
 

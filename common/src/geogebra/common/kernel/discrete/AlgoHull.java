@@ -72,8 +72,7 @@ public class AlgoHull extends AlgoElement {
 		if (percentage != null)
 			input[1] = percentage;
 
-		output = new GeoElement[1];
-		output[0] = locus;
+		setOnlyOutput(locus);
 		setDependencies(); // done by AlgoElement
 	}
 

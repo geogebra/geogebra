@@ -26,6 +26,7 @@ public class AlgoVector3D extends AlgoVector {
 	}
 
 
+	@Override
 	protected GeoVectorND createNewVector(){
 
 		return new GeoVector3D(cons);
@@ -33,12 +34,14 @@ public class AlgoVector3D extends AlgoVector {
 	}
 
 
+	@Override
 	protected GeoPointND newStartPoint(){
 
 		return new GeoPoint3D(getP());
 
 	}
 
+	@Override
 	protected void setCoords(){
 		getVector().setCoords(getQ().getCoordsInD(3).sub(getP().getCoordsInD(3)).get());
 	}

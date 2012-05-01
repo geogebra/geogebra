@@ -95,8 +95,7 @@ public class AlgoTMeanEstimate extends AlgoElement {
 			input[3] = geoLevel;	
 		}
 
-		output = new GeoElement[1];
-		output[0] = result;
+		setOnlyOutput(result);
 		setDependencies(); // done by AlgoElement
 	}
 

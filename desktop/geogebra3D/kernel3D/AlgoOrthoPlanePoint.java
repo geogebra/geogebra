@@ -53,7 +53,8 @@ public abstract class AlgoOrthoPlanePoint extends AlgoOrthoPlane {
         getPlane().setLabel(label);
     }
 
-    public Algos getClassName() {
+    @Override
+	public Algos getClassName() {
         return Algos.AlgoOrthoPlanePoint;
     }
 
@@ -61,7 +62,8 @@ public abstract class AlgoOrthoPlanePoint extends AlgoOrthoPlane {
 
 
 
-    protected Coords getPoint(){
+    @Override
+	protected Coords getPoint(){
     	return point.getInhomCoordsInD(3);
     }
     
@@ -73,7 +75,8 @@ public abstract class AlgoOrthoPlanePoint extends AlgoOrthoPlane {
     	return secondInput;
     }
 
-    final public String toString(StringTemplate tpl) {
+    @Override
+	final public String toString(StringTemplate tpl) {
     	return app.getPlain("PlaneThroughAPerpendicularToB",point.getLabel(tpl),secondInput.getLabel(tpl));
 
     }

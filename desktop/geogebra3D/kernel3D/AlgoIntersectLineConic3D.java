@@ -80,11 +80,13 @@ public class AlgoIntersectLineConic3D extends AlgoIntersect3D {
         GeoElement.setLabels(labels, P);            
     }
     
-    public Algos getClassName() {
+    @Override
+	public Algos getClassName() {
         return Algos.AlgoIntersectLineConic;
     }
 
-    public int getRelatedModeID() {
+    @Override
+	public int getRelatedModeID() {
     	return EuclidianConstants.MODE_INTERSECT;
     }
 
@@ -122,22 +124,25 @@ public class AlgoIntersectLineConic3D extends AlgoIntersect3D {
     }   
     
     // for AlgoElement
-    protected void setInputOutput() {
+    @Override
+	protected void setInputOutput() {
         input = new GeoElement[2];
         input[0] = (GeoElement) g;
         input[1] = c;
         
-        output = P;            
+        setOutput(P);            
         noUndefinedPointsInAlgebraView();
         setDependencies(); // done by AlgoElement
     }    
     
 
-    protected final GeoPoint3D [] getIntersectionPoints() {
+    @Override
+	protected final GeoPoint3D [] getIntersectionPoints() {
         return P;
     }
     
-    protected GeoPoint3D [] getLastDefinedIntersectionPoints() {
+    @Override
+	protected GeoPoint3D [] getLastDefinedIntersectionPoints() {
         return D;
     }
     
@@ -155,13 +160,15 @@ public class AlgoIntersectLineConic3D extends AlgoIntersect3D {
     GeoConicND getConic() { return c; }
     
     
-    public final String toString(StringTemplate tpl) {
+    @Override
+	public final String toString(StringTemplate tpl) {
     	return app.getPlain("IntersectionPointOfAB",c.getLabel(tpl),((GeoElement) g).getLabel(tpl));
     }
 
     
     
 
+	@Override
 	public void compute() {
 		
 		CoordSys cs = c.getCoordSys();
@@ -235,7 +242,8 @@ public class AlgoIntersectLineConic3D extends AlgoIntersect3D {
         return minIndex;
     }*/
 	
-    public final void initForNearToRelationship() {   
+    @Override
+	public final void initForNearToRelationship() {   
     	//TODO
     }
 }

@@ -104,7 +104,8 @@ public class AlgoIntersectPlaneQuadric extends AlgoElement3D {
     
     
     
-    public void compute(){
+    @Override
+	public void compute(){
     	//Application.debug("quadric=\n"+quadric.getSymetricMatrix()+"\nplan=\n"+plane.getParametricMatrix().toString());	 
     
     	CoordMatrix qm = quadric.getSymetricMatrix();
@@ -138,6 +139,7 @@ public class AlgoIntersectPlaneQuadric extends AlgoElement3D {
     
     
 
+	@Override
 	public Algos getClassName() {
     	
     	return Algos.AlgoIntersectPlaneQuadric;
@@ -146,7 +148,8 @@ public class AlgoIntersectPlaneQuadric extends AlgoElement3D {
 	
 	
 	
-    final public String toString(StringTemplate tpl) {
+    @Override
+	final public String toString(StringTemplate tpl) {
         StringBuilder sb = new StringBuilder();
 
         sb.append(app.getPlain("IntersectionCurveOfAB",plane.getLabel(tpl),quadric.getLabel(tpl)));

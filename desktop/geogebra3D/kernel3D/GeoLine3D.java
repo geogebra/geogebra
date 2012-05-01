@@ -29,37 +29,45 @@ public class GeoLine3D extends GeoCoordSys1D {
     	startPoint = P;	    	
     }
     	
+	@Override
 	protected GeoCoordSys1D create(Construction cons){
 		return new GeoLine3D(cons);
 	}	
 
+	@Override
 	public GeoClass getGeoClassType() {		
 		return GeoClass.LINE3D;
 	}
 
+	@Override
 	public String getTypeString() {
 		// TODO Raccord de méthode auto-généré
 		return "Line3D";
 	}
 
+	@Override
 	public boolean isEqual(GeoElement Geo) {
 		// TODO Raccord de méthode auto-généré
 		return false;
 	}
 
+	@Override
 	public boolean showInAlgebraView() {
 		// TODO Raccord de méthode auto-généré
 		return true;
 	}
 
+	@Override
 	protected boolean showInEuclidianView() {
 		return true;
 	}
 
+	@Override
 	public String toValueString(StringTemplate tpl) {
 		return buildValueString(tpl).toString();
 	}
 	
+	@Override
 	final public String toString(StringTemplate tpl) {
 
     	StringBuilder sbToString = getSbToString();
@@ -96,11 +104,13 @@ public class GeoLine3D extends GeoCoordSys1D {
 		return sbToString;  
 	}
 
+	@Override
 	public String getClassName() {
 		// TODO Raccord de méthode auto-généré
 		return "GeoLine3D";
 	}
 	
+	@Override
 	final public boolean isGeoLine() {
 		return true;
 	}	
@@ -125,6 +135,7 @@ public class GeoLine3D extends GeoCoordSys1D {
 		return false;
 	}
 		
+	@Override
 	public boolean isValidCoord(double x){
 		return true;
 	}

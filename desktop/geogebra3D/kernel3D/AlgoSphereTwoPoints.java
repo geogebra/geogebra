@@ -48,13 +48,15 @@ public class AlgoSphereTwoPoints extends AlgoSphereNDTwoPoints {
          super(cons, label,M, P);
     }
     
-    protected GeoQuadricND createSphereND(Construction cons){
+    @Override
+	protected GeoQuadricND createSphereND(Construction cons){
     	GeoQuadric3D sphere = new GeoQuadric3D(cons);
         //circle.addPointOnConic((GeoPoint) getP()); //TODO do this in AlgoSphereNDTwoPoints
         return sphere;
     }
 
-    public Algos getClassName() {
+    @Override
+	public Algos getClassName() {
         return Algos.AlgoSphereTwoPoints;
     }
 
@@ -64,7 +66,8 @@ public class AlgoSphereTwoPoints extends AlgoSphereNDTwoPoints {
         return (GeoQuadric3D) getSphereND();
     }
 
-    final public String toString(StringTemplate tpl) {
+    @Override
+	final public String toString(StringTemplate tpl) {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
         return app.getPlain("SphereThroughAwithCenterB",

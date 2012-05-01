@@ -50,13 +50,15 @@ public class AlgoCircle3DPointRadiusDirection extends AlgoCircle3DPointDirection
     
 
     
-    protected final double getRadius() {
+    @Override
+	protected final double getRadius() {
     	
     	return ((NumberValue) getSecondInput()).getDouble();
 
     }
 
-    public Algos getClassName() {
+    @Override
+	public Algos getClassName() {
         return Algos.AlgoCirclePointRadiusDirection;
     }
 
@@ -66,7 +68,8 @@ public class AlgoCircle3DPointRadiusDirection extends AlgoCircle3DPointDirection
      * 
      * @return command string
      */
-    final protected String getCommandString(){
+    @Override
+	final protected String getCommandString(){
     	if (getForAxis() instanceof GeoCoordSys2D)
     		return "CircleWithCenterARadiusBParallelToC";
     	else

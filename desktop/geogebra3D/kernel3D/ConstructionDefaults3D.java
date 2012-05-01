@@ -131,6 +131,7 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 		//Application.debug("ConstructionDefaults3D");
 	}
 	
+	@Override
 	public void createDefaultGeoElements() {
 		super.createDefaultGeoElements();
 		
@@ -308,6 +309,7 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 		defaultGeoElements.put(DEFAULT_SURFACECARTESIAN3D, surface);
 	}
 		
+	@Override
 	public int getDefaultType(GeoElement geo){
 
 		switch (geo.getGeoClassType()) {

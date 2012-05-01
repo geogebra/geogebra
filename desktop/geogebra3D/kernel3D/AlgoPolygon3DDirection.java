@@ -62,7 +62,7 @@ public class AlgoPolygon3DDirection extends AlgoPolygon {
      */
     @Override
 	protected void createPolygon(boolean createSegments){
-    	poly = new GeoPolygon3D(cons, points, (CoordSys) cs2D, createSegments);
+    	poly = new GeoPolygon3D(cons, points, cs2D, createSegments);
     }
 	
 

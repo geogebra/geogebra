@@ -72,11 +72,13 @@ public class AlgoIntersectLineQuadric3D extends AlgoIntersect3D {
         GeoElement.setLabels(labels, Q);       //TODO change to P      
     }
     
-    public Algos getClassName() {
+    @Override
+	public Algos getClassName() {
         return Algos.AlgoIntersectLineQuadric3D;
     }
 
-    public int getRelatedModeID() {
+    @Override
+	public int getRelatedModeID() {
     	return EuclidianConstants.MODE_INTERSECT;
     }
 
@@ -114,22 +116,25 @@ public class AlgoIntersectLineQuadric3D extends AlgoIntersect3D {
     }   
     
     // for AlgoElement
-    public void setInputOutput() {
+    @Override
+	public void setInputOutput() {
         input = new GeoElement[2];
         input[0] = (GeoElement) g;
         input[1] = q;
         
-        output = Q;    //TODO  change to P         
+        setOutput(Q);    //TODO  change to P         
         noUndefinedPointsInAlgebraView();
         setDependencies(); // done by AlgoElement
     }    
     
 
-    protected final GeoPoint3D [] getIntersectionPoints() {
+    @Override
+	protected final GeoPoint3D [] getIntersectionPoints() {
         return Q;   //TODO  change to P 
     }
     
-    protected GeoPoint3D [] getLastDefinedIntersectionPoints() {
+    @Override
+	protected GeoPoint3D [] getLastDefinedIntersectionPoints() {
         return D;
     }
     
@@ -147,7 +152,8 @@ public class AlgoIntersectLineQuadric3D extends AlgoIntersect3D {
     GeoQuadricND getQuadric() { return q; }
     
     
-    public final String toString(StringTemplate tpl) {
+    @Override
+	public final String toString(StringTemplate tpl) {
     	return app.getPlain("IntersectionPointOfAB",q.getLabel(tpl),((GeoElement) g).getLabel(tpl));
     }
 
@@ -160,6 +166,7 @@ public class AlgoIntersectLineQuadric3D extends AlgoIntersect3D {
     public static final int INTERSECTION_PASSING_LINE = 6;
     
 
+	@Override
 	public void compute() {
 		
 		Coords o = g.getStartInhomCoords();
@@ -197,10 +204,10 @@ public class AlgoIntersectLineQuadric3D extends AlgoIntersect3D {
         + p3 * (m[5] * p1 + m[6] * p2 + m[2] * p3 + m[9])
         + m[7] * p1 + m[8] * p2 + m[9] * p3 + m[3];
         
-        Kernel kernel = (Kernel) q.getKernel();
-        if (kernel.isZero(u)) {//no quadratic term
-            if (kernel.isZero(b)) {//no linear term: 0 t = -w
-                if (kernel.isZero(w)) { // whole line is contained in q
+        Kernel kernel = q.getKernel();
+        if (Kernel.isZero(u)) {//no quadratic term
+            if (Kernel.isZero(b)) {//no linear term: 0 t = -w
+                if (Kernel.isZero(w)) { // whole line is contained in q
                     Q[0].setUndefined();
                     Q[1].setUndefined();
                     intersectionType = INTERSECTION_PRODUCING_LINE;
@@ -302,7 +309,8 @@ public class AlgoIntersectLineQuadric3D extends AlgoIntersect3D {
         return minIndex;
     }*/
 	
-    public final void initForNearToRelationship() {   
+    @Override
+	public final void initForNearToRelationship() {   
 //TODO
     }
 }

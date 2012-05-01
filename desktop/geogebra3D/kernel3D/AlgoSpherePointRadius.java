@@ -72,12 +72,14 @@ public class AlgoSpherePointRadius extends AlgoSphereNDPointRadius {
             super(cons,M,rgeo,dummy);
         }
     
-    protected GeoQuadricND createSphereND(Construction cons){
+    @Override
+	protected GeoQuadricND createSphereND(Construction cons){
     	return new GeoQuadric3D(cons);
     }
     
 
-    public Algos getClassName() {
+    @Override
+	public Algos getClassName() {
         return Algos.AlgoSpherePointRadius;
     }
 
@@ -88,7 +90,8 @@ public class AlgoSpherePointRadius extends AlgoSphereNDPointRadius {
 
 
 
-    final public String toString(StringTemplate tpl) {
+    @Override
+	final public String toString(StringTemplate tpl) {
         return app.getPlain("SphereWithCenterAandRadiusB",getM().getLabel(tpl),getRGeo().getLabel(tpl));
     }
 }

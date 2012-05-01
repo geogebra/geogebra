@@ -262,6 +262,7 @@ public class AlgoArchimedeanSolid extends AlgoPolyhedron{
 	
 	
 	
+	@Override
 	public void update() {
 
 		// compute and polyhedron
@@ -278,6 +279,7 @@ public class AlgoArchimedeanSolid extends AlgoPolyhedron{
 
 
 
+	@Override
 	public Algos getClassName() {
 		return Algos.valueOf(className);
 	}

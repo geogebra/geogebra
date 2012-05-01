@@ -44,7 +44,8 @@ public class AlgoOrthoPlanePointVector extends AlgoOrthoPlanePoint {
 
 
 
-    protected Coords getNormal(){
+    @Override
+	protected Coords getNormal(){
     	return ((GeoVectorND) getSecondInput()).getCoordsInD(3);
     }
 

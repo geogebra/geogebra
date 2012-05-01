@@ -65,8 +65,7 @@ public class AlgoTTestPaired extends AlgoElement {
 		input[1] = geoList1;
 		input[2] = tail;
 
-		output = new GeoElement[1];
-		output[0] = result;
+		setOnlyOutput(result);
 		setDependencies(); // done by AlgoElement
 	}
 

@@ -61,8 +61,7 @@ public class AlgoQ1 extends AlgoElement {
         input = new GeoElement[1];
         input[0] = inputList;
 
-        output = new GeoElement[1];
-        output[0] = Q1;
+        setOnlyOutput(Q1);
         setDependencies(); // done by AlgoElement
     }
 

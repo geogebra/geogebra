@@ -89,7 +89,7 @@ public abstract class AlgoQuadricLimitedConicHeight extends AlgoElement3D {
 	 * sets the output
 	 */
 	final protected void setOutput(){
-		output = new GeoElement[] {getQuadric(),getQuadric().getTop(),getQuadric().getSide()};
+		setOutput(new GeoElement[] {getQuadric(),getQuadric().getTop(),getQuadric().getSide()});
 	}
 	
 	@Override

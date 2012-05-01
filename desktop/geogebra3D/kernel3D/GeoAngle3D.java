@@ -11,10 +11,12 @@ final public class GeoAngle3D extends GeoAngle {
 		//setAngleStyle(ANGLE_ISNOTREFLEX);
 	}
 	
+	@Override
 	final public GeoClass getGeoClassType() {
 		return GeoClass.ANGLE3D;
 	}
 	
+	@Override
 	final public boolean hasOrientation(){
 		return false; //no specific orientation
 	}

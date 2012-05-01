@@ -35,7 +35,6 @@ import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.CoordSys;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoElement;
-import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.arithmetic3D.Vector3DValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -143,6 +142,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND,
 	// /////////////////////////////////////////////////////////
 	// GeoPointND interface (TODO move it to abstract method)
 
+	@Override
 	public double distance(GeoPointND P) {
 		// TODO dimension ?
 		return getInhomCoordsInD(3).distance(P.getInhomCoordsInD(3));
@@ -156,14 +156,17 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND,
 	// /////////////////////////////////////////////////////////
 	// COORDINATES
 
+	@Override
 	public double getX() {
 		return getCoords().get(1);
 	}
 
+	@Override
 	public double getY() {
 		return getCoords().get(2);
 	}
 
+	@Override
 	public double getZ() {
 		return getCoords().get(3);
 	}
@@ -204,10 +207,12 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND,
 
 	}
 
+	@Override
 	final public void setCoords(Coords v) {
 		setCoords(v, true);
 	}
 
+	@Override
 	final public void setCoords(double x, double y, double z, double w) {
 
 		setWillingCoords(null);
@@ -374,6 +379,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND,
 		return Q.getCoords().sub(getCoords()).get();
 	}
 
+	@Override
 	protected boolean movePoint(Coords rwTransVec, Coords endPosition) {
 
 		boolean movedGeo = false;
@@ -431,6 +437,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND,
 		return path != null;
 	}
 
+	@Override
 	final public boolean isPointOnPath() {
 		return path != null;
 	}
@@ -455,6 +462,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND,
 	}
 
 	// copied on GeoPoint
+	@Override
 	public boolean isChangeable() {
 		return !isFixed()
 				&& (isIndependent() || isPointOnPath() || isPointInRegion());
@@ -472,6 +480,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND,
 		return region != null;
 	}
 
+	@Override
 	final public boolean isPointInRegion() {
 		return region != null;
 	}
@@ -666,14 +675,17 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND,
 	// /////////////////////////////////////////////////////////
 	// COMMON STUFF
 
+	@Override
 	public String getClassName() {
 		return "GeoPoint3D";
 	}
 
+	@Override
 	public String getTypeString() {
 		return "Point3D";
 	}
 
+	@Override
 	public GeoClass getGeoClassType() {
 		return GeoClass.POINT3D;
 	}
@@ -683,14 +695,17 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND,
 		set((GeoElement) point);
 	}
 
+	@Override
 	public GeoPoint3D copy() {
 		return new GeoPoint3D(this);
 	}
 
+	@Override
 	final public boolean isGeoPoint() {
 		return true;
 	}
 
+	@Override
 	public boolean isDefined() {
 
 		return isDefined;
@@ -699,6 +714,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND,
 	/*
 	 * public void set(GeoPointND P){ set((GeoElement) P); }
 	 */
+	@Override
 	public void set(GeoElement geo) {
 
 		if (geo.isGeoPoint()) {
@@ -719,6 +735,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND,
 
 	}
 
+	@Override
 	public void setUndefined() {
 		setCoords(new Coords(Double.NaN, Double.NaN, Double.NaN, Double.NaN),
 				false);
@@ -727,10 +744,12 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND,
 
 	}
 
+	@Override
 	public boolean showInEuclidianView() {
 		return isDefined;
 	}
 
+	@Override
 	final public String toString(StringTemplate tpl) {
 
 		StringBuilder sbToString = getSbToString();
@@ -743,10 +762,12 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND,
 		return sbToString.toString();
 	}
 
+	@Override
 	public boolean hasValueStringChangeableRegardingView() {
 		return true;
 	}
 
+	@Override
 	public String toValueString(StringTemplate tpl) {
 		if (isInfinite())
 			return app.getPlain("undefined");
@@ -781,6 +802,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND,
 		return sbToString.toString();
 	}
 
+	@Override
 	public boolean isEqual(GeoElement geo) {
 
 		if (!geo.isGeoPoint())
@@ -812,6 +834,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND,
 	 * Returns whether this point has three changeable numbers as coordinates,
 	 * e.g. point A = (a, b, c) where a, b and c are free GeoNumeric objects.
 	 */
+	@Override
 	public boolean hasChangeableCoordParentNumbers() {
 		return false;
 	}
@@ -847,6 +870,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND,
 	/**
 	 * returns all class-specific xml tags for saveXML GeoGebra File Format
 	 */
+	@Override
 	protected void getXMLtags(StringBuilder sb) {
 		super.getXMLtags(sb);
 
@@ -892,6 +916,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND,
 	 * Tells Locateables that their start point is removed and calls
 	 * super.remove()
 	 */
+	@Override
 	public void doRemove() {
 		if (locateableList != null) {
 
@@ -905,6 +930,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND,
 	/**
 	 * Calls super.update() and updateCascade() for all registered locateables.
 	 */
+	@Override
 	public void update() {
 		super.update();
 
@@ -931,10 +957,12 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND,
 		return isDefined && !isInfinite;
 	}
 
+	@Override
 	public boolean isInfinite() {
 		return isInfinite;
 	}
 
+	@Override
 	public boolean isVector3DValue() {
 		// TODO Auto-generated method stub
 		return true;
@@ -966,6 +994,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND,
 	// ////////////////////////////////
 	// GeoElement3DInterface interface
 
+	@Override
 	public Coords getLabelPosition() {
 		// Application.debug(inhom.toString());
 		return getCoords();
@@ -1038,6 +1067,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND,
 		showUndefinedInAlgebraView = flag;
 	}
 
+	@Override
 	public final boolean showInAlgebraView() {
 		return (isDefined || showUndefinedInAlgebraView);
 	}
@@ -1047,12 +1077,14 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND,
 		this.set((GeoElement) p);
 	}
 
+	@Override
 	public void setParentAlgorithm(AlgoElement algorithm) {
 		super.setParentAlgorithm(algorithm);
 		if (algorithm != null)
 			setConstructionDefaults(); // set colors to dependent colors
 	}
 	
+	@Override
 	public ArrayList<String> getColumnHeadings() {
 		if (spreadsheetColumnHeadings == null) {
 			spreadsheetColumnHeadings = new ArrayList<String>();
@@ -1066,6 +1098,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND,
 		return spreadsheetColumnHeadings;
 	}
 	
+	@Override
 	public ArrayList<GeoNumeric> getSpreadsheetTraceList() {
 		if (spreadsheetTraceList == null) {
 			spreadsheetTraceList = new ArrayList<GeoNumeric>();

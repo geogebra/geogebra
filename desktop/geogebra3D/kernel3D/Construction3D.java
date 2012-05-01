@@ -43,11 +43,12 @@ public class Construction3D extends Construction {
 	}
 	
 	
+	@Override
 	protected void initAxis(){
 		super.initAxis();
 		
 		
-		zAxis3D = new GeoAxis3D(this,GeoAxis3D.Z_AXIS_3D);
+		zAxis3D = new GeoAxis3D(this,GeoAxisND.Z_AXIS_3D);
 		
 		xOyPlane = new GeoPlane3DConstant(this,GeoPlane3DConstant.XOY_PLANE);
 		
@@ -75,6 +76,7 @@ public class Construction3D extends Construction {
 	/**
 	 * creates the ConstructionDefaults consDefaults
 	 */
+	@Override
 	public void newConstructionDefaults(){
 		consDefaults = new ConstructionDefaults3D(this);
 	}
@@ -82,6 +84,7 @@ public class Construction3D extends Construction {
 	
 	
 	
+	@Override
 	protected void initGeoTables() {		
 		super.initGeoTables();
 		

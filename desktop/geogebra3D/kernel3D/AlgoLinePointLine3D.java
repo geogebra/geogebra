@@ -35,11 +35,13 @@ public class AlgoLinePointLine3D extends AlgoLinePoint {
         super(cons,label,point, (GeoElement) line);
     }
 
-    public Algos getClassName() {
+    @Override
+	public Algos getClassName() {
         return Algos.AlgoLinePointLine;
     }
 
 
+	@Override
 	protected Coords getDirection() {
 		return getInputParallel().getMainDirection();
 	}

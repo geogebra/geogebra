@@ -54,6 +54,7 @@ public class GeoPlane3DConstant extends GeoPlane3D {
 
 */
 	
+	@Override
 	public boolean isAvailableAtConstructionStep(int step) {
 		// this method is overwritten
 		// in order to make the axes available
@@ -61,6 +62,7 @@ public class GeoPlane3DConstant extends GeoPlane3D {
 		return true;
 	}
 	
+	@Override
 	public String toValueString(StringTemplate tpl) {
 		return label;
 	}

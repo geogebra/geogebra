@@ -78,6 +78,7 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 	 * }
 	 */
 
+	@Override
 	public GeoElement copy() {
 		return new GeoSurfaceCartesian3D(this);
 	}
@@ -88,6 +89,7 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 		return false;
 	}
 
+	@Override
 	public void set(GeoElement geo) {
 		GeoSurfaceCartesian3D geoSurface = (GeoSurfaceCartesian3D) geo;
 
@@ -129,14 +131,17 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 		return true;
 	}
 
+	@Override
 	public String getClassName() {
 		return "GeoSurfaceCartesian3D";
 	}
 
+	@Override
 	public String getTypeString() {
 		return "SurfaceCartesian3D";
 	}
 
+	@Override
 	public GeoClass getGeoClassType() {
 		return GeoClass.SURFACECARTESIAN3D;
 	}
@@ -154,10 +159,12 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 		return null;
 	}
 
+	@Override
 	public Coords getLabelPosition() {
 		return new Coords(4); // TODO
 	}
 
+	@Override
 	public Coords getMainDirection() {
 		return null;
 	}
@@ -180,11 +187,13 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 
 	}
 
+	@Override
 	public boolean isGeoElement3D() {
 		return true;
 	}
 
 	/** to be able to fill it with an alpha value */
+	@Override
 	public boolean isFillable() {
 		return true;
 	}
@@ -203,6 +212,7 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 	// /////////////////////////
 	// SPECIFIC XML
 
+	@Override
 	protected void getXMLtags(StringBuilder sb) {
 		super.getXMLtags(sb);
 

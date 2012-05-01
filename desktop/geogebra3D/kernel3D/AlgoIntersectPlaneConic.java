@@ -30,16 +30,17 @@ public class AlgoIntersectPlaneConic extends AlgoIntersectLineConic3D {
 		this.plane = plane;
 		input = new GeoElement[2];
         input[0] = (GeoElement)plane;
-        input[1] = (GeoElement)c;
+        input[1] = c;
         input[0].addAlgorithm(this);
         input[1].addAlgorithm(this);
 	}
 
 	
     // for AlgoElement
-    protected void setInputOutput() {
+    @Override
+	protected void setInputOutput() {
     	input = new GeoElement[0]; //set input in constructor
-        output = P;            
+        setOutput(P);            
         noUndefinedPointsInAlgebraView();
         setDependencies(); // done by AlgoElement
     }    

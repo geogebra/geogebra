@@ -35,7 +35,8 @@ public class AlgoOrthoLinePointPlane extends AlgoOrtho {
         super(cons,label,point, (GeoElement) cs);
     }
 
-    public Algos getClassName() {
+    @Override
+	public Algos getClassName() {
         return Algos.AlgoOrthoLinePointPlane;
     }
 
@@ -45,7 +46,8 @@ public class AlgoOrthoLinePointPlane extends AlgoOrtho {
     }
 
   
-    public final void compute() {
+    @Override
+	public final void compute() {
     	
     	CoordSys coordsys = getCS().getCoordSys();
     	

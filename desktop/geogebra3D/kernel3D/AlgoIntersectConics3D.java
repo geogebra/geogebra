@@ -99,11 +99,13 @@ public class AlgoIntersectConics3D extends AlgoIntersect3D {
         GeoElement.setLabels(labels, P);            
     }
     
-    public Algos getClassName() {
+    @Override
+	public Algos getClassName() {
         return Algos.AlgoIntersectConics;
     }
 
-    public int getRelatedModeID() {
+    @Override
+	public int getRelatedModeID() {
     	return EuclidianConstants.MODE_INTERSECT;
     }
 
@@ -144,26 +146,30 @@ public class AlgoIntersectConics3D extends AlgoIntersect3D {
     }   
     
     // for AlgoElement
-    public void setInputOutput() {
+    @Override
+	public void setInputOutput() {
         input = new GeoElement[2];
         input[0] = A;
         input[1] = B;
         
-        output = P;            
+        setOutput(P);            
         noUndefinedPointsInAlgebraView();
         setDependencies(); // done by AlgoElement
     }    
     
 
-    protected final GeoPoint3D [] getIntersectionPoints() {
+    @Override
+	protected final GeoPoint3D [] getIntersectionPoints() {
         return P;
     }
     
-    protected GeoPoint3D [] getLastDefinedIntersectionPoints() {
+    @Override
+	protected GeoPoint3D [] getLastDefinedIntersectionPoints() {
         return D;
     }
     
-    protected void setCoords(GeoPointND destination, GeoPointND source){
+    @Override
+	protected void setCoords(GeoPointND destination, GeoPointND source){
     	destination.setCoords(source.getCoordsInD(3),false);
     }
     
@@ -182,13 +188,15 @@ public class AlgoIntersectConics3D extends AlgoIntersect3D {
     GeoConicND getB() { return B; }
 
     
-    public final String toString(StringTemplate tpl) {
+    @Override
+	public final String toString(StringTemplate tpl) {
     	return app.getPlain("IntersectionPointOfAB",A.getLabel(tpl),B.getLabel(tpl));
     }
 
     
     
 
+	@Override
 	public void compute() {
 		
 		CoordSys csA = A.getCoordSys();
@@ -271,7 +279,8 @@ public class AlgoIntersectConics3D extends AlgoIntersect3D {
 	}
 	
 
-    public final void initForNearToRelationship() {   
+    @Override
+	public final void initForNearToRelationship() {   
     	//TODO
     }
 }

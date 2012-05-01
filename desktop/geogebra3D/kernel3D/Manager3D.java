@@ -405,7 +405,7 @@ public class Manager3D implements Manager3DInterface {
 	final public GeoPlane3D Plane3D(String label, GeoPointND point,
 			GeoCoordSys2D cs) {
 		AlgoPlaneThroughPointAndPlane algo = new AlgoPlaneThroughPointAndPlane(
-				cons, label, point, (GeoCoordSys2D) cs);
+				cons, label, point, cs);
 		return algo.getPlane();
 	}
 
@@ -794,7 +794,7 @@ public class Manager3D implements Manager3DInterface {
 				new NumberValue[] { xcoord, ycoord, zcoord }, new GeoNumeric[] {
 						uVar, vVar }, new NumberValue[] { uFrom, vFrom },
 				new NumberValue[] { uTo, vTo });
-		return (GeoSurfaceCartesian3D) algo.getSurface();
+		return algo.getSurface();
 
 	}
 
@@ -984,7 +984,7 @@ public class Manager3D implements Manager3DInterface {
 	public GeoPointND[] IntersectLineQuadric(String[] labels, GeoLineND A,
 			GeoQuadricND B) {
 		AlgoIntersectLineQuadric3D algo = getIntersectionAlgorithm(A,
-				(GeoQuadric3D) B);
+				B);
 		algo.setPrintedInXML(true);
 		GeoPoint3D[] points = algo.getIntersectionPoints();
 		GeoElement.setLabels(labels, points);

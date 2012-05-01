@@ -78,6 +78,7 @@ public class GeoPolygon3D extends GeoPolygon implements GeoElement3DInterface,
 
 	// ///////////////////////////////////////
 	// GeoPolygon3D
+	@Override
 	public GeoClass getGeoClassType() {
 		return GeoClass.POLYGON3D;
 	}
@@ -87,6 +88,7 @@ public class GeoPolygon3D extends GeoPolygon implements GeoElement3DInterface,
 	 * 
 	 * @return true
 	 */
+	@Override
 	public boolean isGeoElement3D() {
 		return true;
 	}
@@ -101,6 +103,7 @@ public class GeoPolygon3D extends GeoPolygon implements GeoElement3DInterface,
 	 *            the old segment
 	 */
 
+	@Override
 	public void removeSegment(GeoSegmentND oldSegment) {
 		((GeoSegment3D) oldSegment).getParentAlgorithm().remove();
 	}
@@ -114,6 +117,7 @@ public class GeoPolygon3D extends GeoPolygon implements GeoElement3DInterface,
 	 *            the end point
 	 * @return the segment
 	 */
+	@Override
 	public GeoSegmentND createSegment(GeoPointND startPoint,
 			GeoPointND endPoint, boolean euclidianVisible) {
 
@@ -122,9 +126,9 @@ public class GeoPolygon3D extends GeoPolygon implements GeoElement3DInterface,
 				&& !((GeoElement) endPoint).isGeoElement3D())
 			return super.createSegment(startPoint, endPoint, euclidianVisible);
 
-		AlgoJoinPoints3D algoSegment = new AlgoJoinPoints3D((Construction)cons, startPoint,
+		AlgoJoinPoints3D algoSegment = new AlgoJoinPoints3D(cons, startPoint,
 				endPoint, this, GeoClass.SEGMENT3D);
-		((Construction) cons).removeFromConstructionList(algoSegment);
+		cons.removeFromConstructionList(algoSegment);
 
 		return createSegment((GeoSegmentND) algoSegment.getCS(),
 				euclidianVisible);
@@ -138,8 +142,9 @@ public class GeoPolygon3D extends GeoPolygon implements GeoElement3DInterface,
 	 *            number of point
 	 * @return the i-th point
 	 */
+	@Override
 	public GeoPoint2 getPoint(int i) {
-		return (GeoPoint2) points2D[i];
+		return points2D[i];
 	}
 
 	/**
@@ -149,6 +154,7 @@ public class GeoPolygon3D extends GeoPolygon implements GeoElement3DInterface,
 	 *            number of point
 	 * @return the i-th point
 	 */
+	@Override
 	public Coords getPoint3D(int i) {
 		Coords v = super.getPoint3D(i);
 		// return coordSys.getPoint(getPointX(i), getPointY(i));
@@ -160,6 +166,7 @@ public class GeoPolygon3D extends GeoPolygon implements GeoElement3DInterface,
 	 * 
 	 * @return the normal of the polygon's plane
 	 */
+	@Override
 	public Coords getMainDirection() {
 
 		if (interiorPoint == null) {
@@ -174,7 +181,7 @@ public class GeoPolygon3D extends GeoPolygon implements GeoElement3DInterface,
 		// Application.debug("polygon("+getLabel()+") : "+vn.dotproduct(interiorPoint.sub(getPoint3D(0))));
 
 		if (vn.dotproduct(interiorPoint.sub(getPoint3D(0))) > 0)
-			return (Coords) vn.mul(-1); // vn is oriented to interior
+			return vn.mul(-1); // vn is oriented to interior
 		else
 			return vn;
 	}
@@ -191,16 +198,19 @@ public class GeoPolygon3D extends GeoPolygon implements GeoElement3DInterface,
 	 * Returns the 2D points of this polygon. Note that this array may change
 	 * dynamically.
 	 */
+	@Override
 	public GeoPointND[] getPoints() {
 		return points2D;
 	}
 
+	@Override
 	public void setEuclidianVisible(boolean visible) {
 
 		setEuclidianVisible(visible, createSegments);
 
 	}
 
+	@Override
 	public String getClassName() {
 		return "GeoPolygon3D";
 	}
@@ -214,6 +224,7 @@ public class GeoPolygon3D extends GeoPolygon implements GeoElement3DInterface,
 	 * @param cs
 	 *            the 2D coordinate system
 	 */
+	@Override
 	public void setCoordSys(CoordSys cs) {
 
 		if (points == null)
@@ -311,11 +322,13 @@ public class GeoPolygon3D extends GeoPolygon implements GeoElement3DInterface,
 	 * 
 	 * @return the 2D coordinate system
 	 */
+	@Override
 	public CoordSys getCoordSys() {
 		return coordSys;
 	}
 
 	/** return true if there's a polygon AND a 2D coord sys */
+	@Override
 	public boolean isDefined() {
 		if (coordSys == null)
 			return false;
@@ -385,6 +398,7 @@ public class GeoPolygon3D extends GeoPolygon implements GeoElement3DInterface,
 		isPartOfClosedSurface = v;
 	}
 
+	@Override
 	public boolean isPartOfClosedSurface() {
 		return isPartOfClosedSurface;
 	}
@@ -425,6 +439,7 @@ public class GeoPolygon3D extends GeoPolygon implements GeoElement3DInterface,
 	// Path interface
 
 	// TODO merge with GeoPolygon
+	@Override
 	public void pathChanged(GeoPointND PI) {
 		
 		//if kernel doesn't use path/region parameters, do as if point changed its coords
@@ -458,6 +473,7 @@ public class GeoPolygon3D extends GeoPolygon implements GeoElement3DInterface,
 	}
 
 	// TODO merge with GeoPolygon
+	@Override
 	public void pointChanged(GeoPointND PI) {
 
 		// TODO remove that
@@ -522,6 +538,7 @@ public class GeoPolygon3D extends GeoPolygon implements GeoElement3DInterface,
 	// /////////////////////////////////
 	// REGION3D INTERFACE
 
+	@Override
 	public void setRegionChanged(GeoPointND PI, double x, double y) {
 
 		PI.setCoords2D(x, y, 1);
@@ -529,6 +546,7 @@ public class GeoPolygon3D extends GeoPolygon implements GeoElement3DInterface,
 
 	}
 
+	@Override
 	public boolean isInRegion(GeoPointND PI, boolean update) {
 
 		GeoPoint3D P = (GeoPoint3D) PI;
@@ -538,18 +556,22 @@ public class GeoPolygon3D extends GeoPolygon implements GeoElement3DInterface,
 
 	}
 
+	@Override
 	protected GeoPolygon newGeoPolygon(Construction cons) {
 		return new GeoPolygon3D(cons, null);
 	}
 
+	@Override
 	protected GeoPointND[] copyPoints(Construction cons) {
 		return GeoElement.copyPointsND(cons, points);
 	}
 
+	@Override
 	protected GeoPointND newGeoPoint() {
 		return new GeoPoint3D(cons);
 	}
 
+	@Override
 	public Coords getDirectionInD3() {
 		return getCoordSys().getNormal();
 	}
@@ -560,6 +582,7 @@ public class GeoPolygon3D extends GeoPolygon implements GeoElement3DInterface,
 	 * //TODO: non-simple case area = Math.abs(calcAreaWithSign(points2D)); }
 	 */
 
+	@Override
 	public void translate(Coords v) {
 		super.translate(v);
 		getCoordSys().translate(v);

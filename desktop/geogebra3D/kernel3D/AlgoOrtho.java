@@ -60,7 +60,8 @@ public abstract class AlgoOrtho extends AlgoElement3D {
     }
 
 
-    final public String toString(StringTemplate tpl) {
+    @Override
+	final public String toString(StringTemplate tpl) {
     	return app.getPlain("LineThroughAPerpendicularToB",point.getLabel(tpl),inputOrtho.getLabel(tpl));
     }
 }

@@ -2,7 +2,6 @@ package geogebra3D.kernel3D;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.Path;
 import geogebra.common.kernel.PathParameter;
 import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.Coords;
@@ -56,15 +55,18 @@ public class GeoPolyLine3D extends GeoPolyLine implements
 	// ///////////////////////////////////////
 	// GeoPolyLine3D
 
+	@Override
 	public String getClassName() {
 		return "GeoPolyLine3D";
 	}
 
+	@Override
 	public String getTypeString() {
 		return "PolyLine3D";
 
 	}
 
+	@Override
 	public GeoClass getGeoClassType() {
 		return GeoClass.POLYLINE3D;
 	}
@@ -74,6 +76,7 @@ public class GeoPolyLine3D extends GeoPolyLine implements
 	 * 
 	 * @return true
 	 */
+	@Override
 	public boolean isGeoElement3D() {
 		return true;
 	}
@@ -81,6 +84,7 @@ public class GeoPolyLine3D extends GeoPolyLine implements
 	// ///////////////////////////////////////
 	// Overwrite GeoPolyLine
 
+	@Override
 	public GeoElement copyInternal(Construction cons) {
 		GeoPolyLine3D ret = new GeoPolyLine3D(cons, null);
 		ret.points = GeoElement.copyPointsND(cons, points);
@@ -88,6 +92,7 @@ public class GeoPolyLine3D extends GeoPolyLine implements
 		return ret;
 	}
 
+	@Override
 	public void set(GeoElement geo) {
 		GeoPolyLine3D poly = (GeoPolyLine3D) geo;
 		length = poly.length;
@@ -119,6 +124,7 @@ public class GeoPolyLine3D extends GeoPolyLine implements
 		seg.setCoord(geoPoint, geoPoint2);
 	}
 
+	@Override
 	public boolean isOnPath(GeoPointND P, double eps) {
 
 		if (P.getPath() == this)
@@ -133,6 +139,7 @@ public class GeoPolyLine3D extends GeoPolyLine implements
 		return false;
 	}
 
+	@Override
 	public void pathChanged(GeoPointND P) {
 		
 		//if kernel doesn't use path/region parameters, do as if point changed its coords
@@ -165,6 +172,7 @@ public class GeoPolyLine3D extends GeoPolyLine implements
 		pp.setT(t);
 	}
 
+	@Override
 	public void pointChanged(GeoPointND P) {
 
 		// double qx = P.x/P.z;
@@ -204,6 +212,7 @@ public class GeoPolyLine3D extends GeoPolyLine implements
 		pathChanged(P);
 	}
 
+	@Override
 	public void calcLength() {
 
 		// last point not checked in loop
@@ -227,6 +236,7 @@ public class GeoPolyLine3D extends GeoPolyLine implements
 		setDefined();
 	}
 
+	@Override
 	public void rotate(NumberValue r) {
 		return; // TODO
 	}
@@ -235,10 +245,12 @@ public class GeoPolyLine3D extends GeoPolyLine implements
 		return; // TODO
 	}
 
+	@Override
 	public void matrixTransform(double a00, double a01, double a10, double a11) {
 		return; // TODO
 	}
 
+	@Override
 	public void translate(Coords v) {
 		return; // TODO
 	}
@@ -251,10 +263,12 @@ public class GeoPolyLine3D extends GeoPolyLine implements
 		return; // TODO
 	}
 
+	@Override
 	public void mirror(GeoLine g) {
 		return; // TODO
 	}
 
+	@Override
 	public boolean isAllVertexLabelsSet() {
 		for (int i = 0; i < points.length; i++)
 			if (!points[i].isLabelSet())
@@ -262,6 +276,7 @@ public class GeoPolyLine3D extends GeoPolyLine implements
 		return true;
 	}
 
+	@Override
 	public void matrixTransform(double a00, double a01, double a02, double a10,
 			double a11, double a12, double a20, double a21, double a22) {
 		return; // TODO
@@ -270,6 +285,7 @@ public class GeoPolyLine3D extends GeoPolyLine implements
 	/**
 	 * @deprecated use getPointND(int i)
 	 */
+	@Override
 	public GeoPoint2 getPoint(int i) {
 		return null;
 	}
@@ -277,6 +293,7 @@ public class GeoPolyLine3D extends GeoPolyLine implements
 	/**
 	 * @deprecated
 	 */
+	@Override
 	public void toGeoCurveCartesian(GeoCurveCartesian curve) {
 		return;
 	}

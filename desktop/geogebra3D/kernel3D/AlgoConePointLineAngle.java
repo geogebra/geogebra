@@ -26,12 +26,14 @@ public class AlgoConePointLineAngle extends AlgoQuadricPointNumber {
 		super(c,label,origin,(GeoElement) axis,angle,new AlgoQuadricComputerCone());
 	}
 	
+	@Override
 	protected Coords getDirection(){
 		GeoLineND axis = (GeoLineND) getSecondInput();
 		return axis.getPointInD(3, 1).sub(axis.getPointInD(3, 0));
 	}
 	
-    final public String toString(StringTemplate tpl) {
+    @Override
+	final public String toString(StringTemplate tpl) {
     	return app.getPlain(getPlainName(),getOrigin().getLabel(tpl),
     			getSecondInput().getLabel(tpl),getNumber().getLabel(tpl));
 

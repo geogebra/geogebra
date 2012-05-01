@@ -43,7 +43,8 @@ public class AlgoCircle3DThreePoints extends AlgoCircleThreePoints {
 
 	
 	
-    protected void setPoints(GeoPointND A, GeoPointND B, GeoPointND C){
+    @Override
+	protected void setPoints(GeoPointND A, GeoPointND B, GeoPointND C){
     	
     	
     	points = new GeoPointND[3];
@@ -67,29 +68,32 @@ public class AlgoCircle3DThreePoints extends AlgoCircleThreePoints {
     }
 
     
-    protected void createCircle(){
+    @Override
+	protected void createCircle(){
     	
         circle = new GeoConic3D(cons,coordSys);
     }
     
     
-    protected void setInput() {
+    @Override
+	protected void setInput() {
     	input = new GeoElement[3];
     	for (int i=0; i<3; i++)
     		input[i] = (GeoElement) points[i];
 
     }
     
-    protected void setOutput() {
+    @Override
+	protected void setOutput() {
 
-    	output = new GeoElement[1];
-    	output[0] = (GeoConic3D)circle;	
+    	setOnlyOutput(circle);	
 
     }
     
     
   
-    public void compute(){
+    @Override
+	public void compute(){
     	
 
     	coordSys.resetCoordSys();
@@ -120,7 +124,8 @@ public class AlgoCircle3DThreePoints extends AlgoCircleThreePoints {
     }
     
     
-    public String toString(StringTemplate tpl) {
+    @Override
+	public String toString(StringTemplate tpl) {
     	return app.getPlain("CircleThroughABC",points[0].getLabel(tpl),
     			points[1].getLabel(tpl),points[2].getLabel(tpl));
     }

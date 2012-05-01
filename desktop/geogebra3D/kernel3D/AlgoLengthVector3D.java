@@ -52,17 +52,18 @@ public class AlgoLengthVector3D extends AlgoElement {
         num.setLabel(label);
     }
 
-    public Algos getClassName() {
+    @Override
+	public Algos getClassName() {
         return Algos.AlgoLengthVector;
     }
 
     // for AlgoElement
-    protected void setInputOutput() {
+    @Override
+	protected void setInputOutput() {
         input = new GeoElement[1];
         input[0] = (GeoElement)v;
 
-        output = new GeoElement[1];
-        output[0] = num;
+        setOnlyOutput(num);
         setDependencies(); // done by AlgoElement
     }
 
@@ -71,13 +72,15 @@ public class AlgoLengthVector3D extends AlgoElement {
     }
 
     // calc length of vector v   
-    public final void compute() {
+    @Override
+	public final void compute() {
     	Coords coords = v.getDirectionInD3();
     	coords.calcNorm();
         num.setValue(coords.getNorm());
     }
 
-    final public String toString(StringTemplate tpl) {
+    @Override
+	final public String toString(StringTemplate tpl) {
         return app.getPlain("LengthOfA",((GeoElement)v).getLabel(tpl));
     }
 }

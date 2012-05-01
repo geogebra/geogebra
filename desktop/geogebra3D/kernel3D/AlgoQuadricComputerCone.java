@@ -13,12 +13,14 @@ public class AlgoQuadricComputerCone extends AlgoQuadricComputer {
 
 
 
+	@Override
 	public void setQuadric(GeoQuadric3D quadric, Coords origin,
 			Coords direction, double number) {
 		quadric.setCone(origin, direction.normalize(), number);
 		
 	}
 
+	@Override
 	public double getNumber(double v){
 		double c = Math.cos(v);
 		double s = Math.sin(v);

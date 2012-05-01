@@ -62,23 +62,25 @@ public class AlgoMidpointSegment3D extends AlgoMidpoint3D {
     }
     
     // for AlgoElement
-    protected void setInputOutput() {
+    @Override
+	protected void setInputOutput() {
         input = new GeoElement[1];
         input[0] = (GeoElement) segment;        
 
-        output = new GeoElement[1];
-        output[0] = getPoint();
+        setOnlyOutput(getPoint());
         setDependencies(); // done by AlgoElement
     }
 
     
-    final public String toString(StringTemplate tpl) {
+    @Override
+	final public String toString(StringTemplate tpl) {
         return app.getPlain("MidpointOfA",((GeoElement) segment).getLabel(tpl));
 
     }
 
     
-    public Algos getClassName() {
+    @Override
+	public Algos getClassName() {
         return Algos.AlgoMidpointSegment;
     }
 

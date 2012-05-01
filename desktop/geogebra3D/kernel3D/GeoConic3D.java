@@ -74,6 +74,7 @@ public class GeoConic3D extends GeoConicND implements GeoElement3DInterface {// 
 		this.coordSys = cs;
 	}
 
+	@Override
 	public CoordSys getCoordSys() {
 		return coordSys;
 	}
@@ -123,6 +124,7 @@ public class GeoConic3D extends GeoConicND implements GeoElement3DInterface {// 
 		// coordSys.setDrawingMatrix(matrix);
 	}
 
+	@Override
 	public Coords getLabelPosition() {
 		return new Coords(4); // TODO
 	}
@@ -142,6 +144,7 @@ public class GeoConic3D extends GeoConicND implements GeoElement3DInterface {// 
 		// TODO ?
 	}
 
+	@Override
 	public Coords getMainDirection() {
 		return coordSys.getNormal();
 	}
@@ -156,6 +159,7 @@ public class GeoConic3D extends GeoConicND implements GeoElement3DInterface {// 
 	 * }
 	 */
 
+	@Override
 	public Coords getEigenvec3D(int i) {
 		return coordSys.getVector(super.getEigenvec(i));
 	}
@@ -164,20 +168,24 @@ public class GeoConic3D extends GeoConicND implements GeoElement3DInterface {// 
 		return getMidpoint3D();
 	}
 
+	@Override
 	public Coords getMidpoint3D() {
 		return coordSys.getPoint(super.getMidpoint2D());
 	}
 
+	@Override
 	public Coords getDirection3D(int i) {
 		return getCoordSys().getVector(lines[i].y, -lines[i].x);
 	}
 
+	@Override
 	public Coords getOrigin3D(int i) {
 		return getCoordSys().getPoint(startPoints[i].x, startPoints[i].y);
 	}
 
 	// ///////////////////////////////////////
 	// GeoConic3D
+	@Override
 	public GeoClass getGeoClassType() {
 		return GeoClass.CONIC3D;
 	}
@@ -187,10 +195,12 @@ public class GeoConic3D extends GeoConicND implements GeoElement3DInterface {// 
 	 * 
 	 * @return true
 	 */
+	@Override
 	public boolean isGeoElement3D() {
 		return true;
 	}
 
+	@Override
 	final public String toString(StringTemplate tpl) {
 
 		StringBuilder sbToString = new StringBuilder();
@@ -202,10 +212,12 @@ public class GeoConic3D extends GeoConicND implements GeoElement3DInterface {// 
 		return sbToString.toString();
 	}
 
+	@Override
 	public boolean hasValueStringChangeableRegardingView() {
 		return true;
 	}
 
+	@Override
 	protected StringBuilder buildValueString(StringTemplate tpl) {
 
 		if (!(getViewForValueString() instanceof EuclidianView))
@@ -273,6 +285,7 @@ public class GeoConic3D extends GeoConicND implements GeoElement3DInterface {// 
 		return false;
 	}
 
+	@Override
 	public void set(GeoElement geo) {
 
 		if (geo instanceof GeoConicND) {
@@ -285,10 +298,12 @@ public class GeoConic3D extends GeoConicND implements GeoElement3DInterface {// 
 
 	}
 
+	@Override
 	public String getClassName() {
 		return "GeoConic3D";
 	}
 
+	@Override
 	public boolean isVector3DValue() {
 		// TODO Auto-generated method stub
 		return false;
@@ -307,6 +322,7 @@ public class GeoConic3D extends GeoConicND implements GeoElement3DInterface {// 
 	/**
 	 * returns all class-specific xml tags for saveXML
 	 */
+	@Override
 	protected void getXMLtags(StringBuilder sb) {
 		super.getXMLtags(sb);
 		// curve thickness and type
@@ -335,10 +351,12 @@ public class GeoConic3D extends GeoConicND implements GeoElement3DInterface {// 
 	// GeoCoordSys2D
 	// //////////////////////////////////
 
+	@Override
 	public void pointChangedForRegion(GeoPointND PI) {
 		// TODO
 	}
 
+	@Override
 	public void regionChanged(GeoPointND PI) {
 
 		//if kernel doesn't use path/region parameters, do as if point changed its coords
@@ -350,6 +368,7 @@ public class GeoConic3D extends GeoConicND implements GeoElement3DInterface {// 
 		// TODO
 	}
 
+	@Override
 	public boolean isRegion() {
 		return false; // TODO
 	}
@@ -362,6 +381,7 @@ public class GeoConic3D extends GeoConicND implements GeoElement3DInterface {// 
 		return isIntersection;
 	}
 
+	@Override
 	protected void doTranslate(Coords v) {
 		coordSys.translate(v);
 	}

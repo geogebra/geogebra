@@ -441,7 +441,8 @@ implements Vector3DValue, geogebra.common.kernel.kernelND.Geo3DVec {
 		return !(Double.isNaN(x) || Double.isNaN( y));
 	}
     
-    final public String toString(StringTemplate tpl) {          
+    @Override
+	final public String toString(StringTemplate tpl) {          
 		sbToString.setLength(0);
 		sbToString.append('(');
 		sbToString.append(kernel.format(x,tpl));
@@ -477,6 +478,7 @@ implements Vector3DValue, geogebra.common.kernel.kernelND.Geo3DVec {
         this.mode = mode;
     }
 
+	@Override
 	final public String toValueString(StringTemplate tpl) {
 		return toString(tpl);
 	}  

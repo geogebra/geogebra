@@ -26,11 +26,13 @@ public abstract class AlgoQuadricPointPointNumber extends AlgoQuadricPointNumber
 	}
 	
 	
+	@Override
 	protected Coords getDirection(){
 		return ((GeoPointND) getSecondInput()).getCoordsInD(3).sub(getOrigin().getCoordsInD(3));
 	}
 	
-    final public String toString(StringTemplate tpl) {
+    @Override
+	final public String toString(StringTemplate tpl) {
     	return app.getPlain(getPlainName(),getOrigin().getLabel(tpl),getSecondInput().getLabel(tpl),
     			getNumber().getLabel(tpl));
 

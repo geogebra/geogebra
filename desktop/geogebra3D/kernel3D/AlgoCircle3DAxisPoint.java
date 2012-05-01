@@ -64,7 +64,8 @@ public class AlgoCircle3DAxisPoint extends AlgoElement3D {
     
 
     
-    public final void compute() {
+    @Override
+	public final void compute() {
     	
     	Coords p = point.getCoordsInD(3);
     	Coords o = axis.getPointInD(3, 0);
@@ -93,12 +94,14 @@ public class AlgoCircle3DAxisPoint extends AlgoElement3D {
 
     }
 
-    public Algos getClassName() {
+    @Override
+	public Algos getClassName() {
         return Algos.AlgoCircleAxisPoint;
     }
 
     
-    final public String toString(StringTemplate tpl) {
+    @Override
+	final public String toString(StringTemplate tpl) {
     	return app.getPlain("CircleOfAxisAThroughB",((GeoElement) axis).getLabel(tpl),point.getLabel(tpl));
     }
 }

@@ -86,8 +86,7 @@ public class AlgoSpearman extends AlgoElement {
 			input[1] = geoListY;
 		}
 
-		output = new GeoElement[1];
-		output[0] = result;
+		setOnlyOutput(result);
 		setDependencies(); // done by AlgoElement
 	}
 

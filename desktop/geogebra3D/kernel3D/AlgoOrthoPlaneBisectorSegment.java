@@ -43,18 +43,21 @@ public class AlgoOrthoPlaneBisectorSegment extends AlgoOrthoPlane {
         getPlane().setLabel(label);
     }
 
-    public Algos getClassName() {
+    @Override
+	public Algos getClassName() {
         return Algos.AlgoPlaneBisector;
     }
 
 
 
 
-    protected Coords getNormal(){
+    @Override
+	protected Coords getNormal(){
     	return ((GeoElement) segment).getMainDirection();
     }
 
-    protected Coords getPoint(){
+    @Override
+	protected Coords getPoint(){
     	return segment.getPointInD(3, 0.5);
     }
 

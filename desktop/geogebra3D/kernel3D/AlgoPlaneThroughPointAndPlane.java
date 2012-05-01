@@ -48,7 +48,8 @@ public class AlgoPlaneThroughPointAndPlane extends AlgoPlaneThroughPoint {
 
 
   
-    public final void compute() {
+    @Override
+	public final void compute() {
     	
     	
     	
@@ -76,7 +77,8 @@ public class AlgoPlaneThroughPointAndPlane extends AlgoPlaneThroughPoint {
     }
 
     
-    protected GeoElement getSecondInput(){
+    @Override
+	protected GeoElement getSecondInput(){
     	return (GeoElement) cs;
     }
 }

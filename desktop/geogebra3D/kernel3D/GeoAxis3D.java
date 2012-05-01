@@ -63,6 +63,7 @@ public class GeoAxis3D extends GeoLine3D implements GeoAxisND {
 		setLabelVisible(false);		
 	}	
 
+	@Override
 	public boolean isAvailableAtConstructionStep(int step) {
 		// this method is overwritten
 		// in order to make the axes available
@@ -70,14 +71,17 @@ public class GeoAxis3D extends GeoLine3D implements GeoAxisND {
 		return true;
 	}
 
+	@Override
 	public boolean isDefined() {
 		return true;
 	}
 
+	@Override
 	public GeoClass getGeoClassType() {
 		return GeoClass.AXIS3D;
 	}
 		
+	@Override
 	public String toValueString(StringTemplate tpl) {
 		return label;
 	}
@@ -99,6 +103,7 @@ public class GeoAxis3D extends GeoLine3D implements GeoAxisND {
 	/**
 	 * overrides GeoElement method : this is a "constant" element, so the label is set
 	 */
+	@Override
 	public boolean isLabelSet() {
 		return true;
 	}	
@@ -174,6 +179,7 @@ public class GeoAxis3D extends GeoLine3D implements GeoAxisND {
 		return ticksize;
 	}
 	
+	@Override
 	public Coords getDirectionInD3() {
 		return new Coords(0, 0, 1, 0);
 	}

@@ -29,8 +29,8 @@ public class AlgoIntersectPlanePolygonalRegion extends AlgoIntersectLinePolygona
 		this.plane = plane;
 			input = new GeoElement[2];
 	        
-	        input[0] = (GeoElement)plane;
-	        input[1] = (GeoElement)p;
+	        input[0] = plane;
+	        input[1] = p;
 	        input[0].addAlgorithm(this);
 	        input[1].addAlgorithm(this);
 	}
@@ -41,21 +41,25 @@ public class AlgoIntersectPlanePolygonalRegion extends AlgoIntersectLinePolygona
 	}
 	
 	//try this
+	@Override
 	protected void setInputOutput() {
 		input = new GeoElement[0]; //set in constructor of this algo
 		setDependencies();
 	}
 	
+	@Override
 	public String toString(StringTemplate tpl) {
         return app.getPlain("IntersectionOfAandB",((GeoElement) plane).getLabel(tpl),p.getLabel(tpl));
     }
 	
 
+	@Override
 	protected void setStyle(GeoSegmentND segment) {
 		//TODO use default intersection style for lines
 		segment.setObjColor(new geogebra.awt.Color(Color.red));
 	}
 	
+	@Override
 	protected void calcLineInPlaneOfPolygon() {
 		
     	lineInPlaneOfPolygon = true;

@@ -42,6 +42,7 @@ public class AlgoIntersectLinePolygonalRegion3D extends AlgoIntersectLinePolygon
 
 	}
 
+	@Override
 	protected OutputHandler<GeoElement> createOutputPoints(){
     	return new OutputHandler<GeoElement>(new elementFactory<GeoElement>() {
 			public GeoPoint3D newElement() {
@@ -53,7 +54,8 @@ public class AlgoIntersectLinePolygonalRegion3D extends AlgoIntersectLinePolygon
 		});
     }
 	
-	   protected OutputHandler<GeoElement> createOutputSegments(){
+	   @Override
+	protected OutputHandler<GeoElement> createOutputSegments(){
 	    	return new OutputHandler<GeoElement>(new elementFactory<GeoElement>() {
 				public GeoSegment3D newElement() {
 				
@@ -69,7 +71,8 @@ public class AlgoIntersectLinePolygonalRegion3D extends AlgoIntersectLinePolygon
 			});
 	    }
     
-    protected void intersectionsCoords(GeoLineND g, GeoPolygon p, TreeMap<Double, Coords> newCoords){
+    @Override
+	protected void intersectionsCoords(GeoLineND g, GeoPolygon p, TreeMap<Double, Coords> newCoords){
 
     	if (!lineInPlaneOfPolygon){
     		//p.getConstruction().getKernel().setSilentMode(true);
@@ -92,7 +95,7 @@ public class AlgoIntersectLinePolygonalRegion3D extends AlgoIntersectLinePolygon
     	double max = g.getMaxParameter();
     	
     	for(int i=0; i<p.getSegments().length; i++){
-    		GeoSegmentND seg = (GeoSegmentND) p.getSegments()[i];
+    		GeoSegmentND seg = p.getSegments()[i];
     		
     		Coords o2 = seg.getPointInD(3, 0);
            	Coords d2 = seg.getPointInD(3, 1).sub(o2);
@@ -116,7 +119,8 @@ public class AlgoIntersectLinePolygonalRegion3D extends AlgoIntersectLinePolygon
         }
         
     }
-    protected void intersectionsSegments(GeoLineND g, GeoPolygon p,
+    @Override
+	protected void intersectionsSegments(GeoLineND g, GeoPolygon p,
 			TreeMap<Double, Coords> newCoords,
 			TreeMap<Double, Coords[]> newSegmentCoords) {
 		
@@ -274,7 +278,8 @@ public class AlgoIntersectLinePolygonalRegion3D extends AlgoIntersectLinePolygon
     
     }
 
-    public void compute() {
+    @Override
+	public void compute() {
     	calcLineInPlaneOfPolygon();
     	super.compute();
     }
@@ -286,6 +291,7 @@ public class AlgoIntersectLinePolygonalRegion3D extends AlgoIntersectLinePolygon
 	}
 
 
+	@Override
 	protected void setLabels(String[] labels) {
 
 		if (!lineInPlaneOfPolygon) {
@@ -301,6 +307,7 @@ public class AlgoIntersectLinePolygonalRegion3D extends AlgoIntersectLinePolygon
 		return Algos.AlgoIntersectLinePolygonalRegion3D;
 	}
 	
+	@Override
 	protected void init() {
 		// TODO Auto-generated method stub
 		spaceDim = 3;

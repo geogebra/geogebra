@@ -99,6 +99,7 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 		return cross.norm() / Math.pow(D1.norm(), 3);
 	}
 
+	@Override
 	public GeoElement copy() {
 		return new GeoCurveCartesian3D(this);
 	}
@@ -109,6 +110,7 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 		return false;
 	}
 
+	@Override
 	public void set(GeoElement geo) {
 		GeoCurveCartesian3D geoCurve = (GeoCurveCartesian3D) geo;
 
@@ -149,18 +151,22 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 		return true;
 	}
 
+	@Override
 	public String getClassName() {
 		return "GeoCurveCartesian3D";
 	}
 
+	@Override
 	public String getTypeString() {
 		return "CurveCartesian3D";
 	}
 
+	@Override
 	public GeoClass getGeoClassType() {
 		return GeoClass.CURVECARTESIAN3D;
 	}
 
+	@Override
 	public boolean isVector3DValue() {
 		return false;
 	}
@@ -178,10 +184,12 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 		return null;
 	}
 
+	@Override
 	public Coords getLabelPosition() {
 		return new Coords(4); // TODO
 	}
 
+	@Override
 	public Coords getMainDirection() {
 		return null;
 	}
@@ -204,6 +212,7 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 
 	}
 
+	@Override
 	public boolean isGeoElement3D() {
 		return true;
 	}

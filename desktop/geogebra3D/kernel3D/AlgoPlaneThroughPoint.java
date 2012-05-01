@@ -47,7 +47,8 @@ public abstract class AlgoPlaneThroughPoint extends AlgoElement3D {
         
     }
 
-    public Algos getClassName() {
+    @Override
+	public Algos getClassName() {
         return Algos.AlgoPlaneThroughPoint;
     }
 
@@ -64,7 +65,8 @@ public abstract class AlgoPlaneThroughPoint extends AlgoElement3D {
     
     abstract protected GeoElement getSecondInput();
 
-    public String toString(StringTemplate tpl) {
+    @Override
+	public String toString(StringTemplate tpl) {
     	return app.getPlain("PlaneThroughAParallelToB",point.getLabel(tpl),getSecondInput().getLabel(tpl));
 
     }

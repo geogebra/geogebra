@@ -23,7 +23,6 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic3D.Vector3DValue;
-import geogebra.common.kernel.geos.GeoElement;
 
 /**
  *
@@ -55,23 +54,25 @@ public class AlgoDependentVector3D extends AlgoElement3D {
         vec.setLabel(label);
     }   
     
+	@Override
 	public Algos getClassName() {
 		return Algos.AlgoDependentVector3D;
 	}
 	
     // for AlgoElement
+	@Override
 	protected void setInputOutput() {
         input = root.getGeoElementVariables();  
         
-        output = new GeoElement[1];        
-        output[0] = vec;        
+        setOnlyOutput(vec);        
         setDependencies(); // done by AlgoElement
     }    
     
     public GeoVector3D getVector3D() { return vec; }
     
     // calc the current value of the arithmetic tree
-    public final void compute() {   
+    @Override
+	public final void compute() {   
     	try {
 	        temp = ((Vector3DValue) root.evaluate(StringTemplate.defaultTemplate)).getPointAsDouble();
 	        vec.setCoords(temp);
@@ -80,7 +81,8 @@ public class AlgoDependentVector3D extends AlgoElement3D {
 	    }    
     }   
     
-    final public String toString(StringTemplate tpl) {         
+    @Override
+	final public String toString(StringTemplate tpl) {         
             return root.toString(tpl);
     }
 }

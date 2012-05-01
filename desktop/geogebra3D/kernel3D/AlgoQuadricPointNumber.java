@@ -35,6 +35,7 @@ public abstract class AlgoQuadricPointNumber extends AlgoQuadric {
 	
 	
 
+	@Override
 	public void compute() {
 		
 		//check origin

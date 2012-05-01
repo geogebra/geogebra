@@ -29,27 +29,33 @@ public class GeoRay3D extends GeoLine3D implements GeoRayND, LimitedPath {
 		super(construction);
 	}
 
+	@Override
 	public GeoClass getGeoClassType() {
 		return GeoClass.RAY3D;
 	}
 
+	@Override
 	public String getTypeString() {
 		return "Ray3D";
 	}
 
+	@Override
 	protected GeoCoordSys1D create(Construction cons) {
 		return new GeoRay3D(cons);
 	}
 
 	// Path3D interface
+	@Override
 	public double getMinParameter() {
 		return 0;
 	}
 
+	@Override
 	public boolean isValidCoord(double x) {
 		return (x >= 0);
 	}
 
+	@Override
 	public boolean isOnPath(Coords p, double eps) {
 		// first check global line
 		if (!super.isOnPath(p, eps))
@@ -60,6 +66,7 @@ public class GeoRay3D extends GeoLine3D implements GeoRayND, LimitedPath {
 
 	}
 
+	@Override
 	public boolean respectLimitedPath(Coords p, double eps) {
 		if (Kernel.isEqual(p.getW(), 0, eps))// infinite point
 			return false;
@@ -78,6 +85,7 @@ public class GeoRay3D extends GeoLine3D implements GeoRayND, LimitedPath {
 	private boolean keepTypeOnGeometricTransform = true; // for mirroring,
 															// rotation, ...
 
+	@Override
 	final public boolean isLimitedPath() {
 		return true;
 	}
@@ -185,6 +193,7 @@ public class GeoRay3D extends GeoLine3D implements GeoRayND, LimitedPath {
 			return isOnPath(p, eps);
 	}
 
+	@Override
 	public GeoElement copyInternal(Construction cons) {
 		GeoRay3D ray = new GeoRay3D(cons,
 				(GeoPointND) startPoint.copyInternal(cons));
@@ -192,6 +201,7 @@ public class GeoRay3D extends GeoLine3D implements GeoRayND, LimitedPath {
 		return ray;
 	}
 
+	@Override
 	public void set(GeoElement geo) {
 		super.set(geo);
 		if (!geo.isGeoRay())
@@ -207,6 +217,7 @@ public class GeoRay3D extends GeoLine3D implements GeoRayND, LimitedPath {
 		startPoint.set(ray.getStartPoint());
 	}
 
+	@Override
 	protected void getXMLtags(StringBuilder sb) {
 		super.getXMLtags(sb);
 

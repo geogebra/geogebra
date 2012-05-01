@@ -13,19 +13,22 @@ public class AlgoTranslate3D extends AlgoTranslate {
 		super(cons, in, v);
 	}
 	
-    protected Coords getVectorCoords(){
+    @Override
+	protected Coords getVectorCoords(){
     	GeoVectorND vec = (GeoVectorND) v;
     	return vec.getCoordsInD(3);
     }
     
-    protected GeoElement copy(GeoElement geo){
+    @Override
+	protected GeoElement copy(GeoElement geo){
     	if (v.isGeoElement3D())
     		return ((Kernel3D) kernel).copy3D(geo);
     	else
     		return super.copy(geo);
     }
     
-    protected GeoElement copyInternal(Construction cons, GeoElement geo){
+    @Override
+	protected GeoElement copyInternal(Construction cons, GeoElement geo){
     	if (v.isGeoElement3D())
     		return ((Kernel3D) kernel).copyInternal3D(cons,geo);
     	else

@@ -76,15 +76,18 @@ public class AlgoPolyLine3D extends AlgoPolyLine {
      * create the polygon
      * @param createSegments says if the polygon has to creates its edges (3D only)
      */
-    protected void createPolyLine(boolean createSegments){
+    @Override
+	protected void createPolyLine(boolean createSegments){
     	poly = new GeoPolyLine3D(this.cons, this.points);
     }
         
-    public Algos getClassName() {
+    @Override
+	public Algos getClassName() {
         return Algos.AlgoPolyLine3D;
     }
     
-    public int getRelatedModeID() {
+    @Override
+	public int getRelatedModeID() {
     	return EuclidianConstants.MODE_POLYLINE;
     }
     
@@ -110,7 +113,8 @@ public class AlgoPolyLine3D extends AlgoPolyLine {
     	
     }
     
-    public void update() {
+    @Override
+	public void update() {
         // compute output from input
         compute();
         getOutput(0).update();
@@ -122,7 +126,8 @@ public class AlgoPolyLine3D extends AlgoPolyLine {
     }
     
  
-    public void compute() { 
+    @Override
+	public void compute() { 
     	if (geoList != null) {
     		updatePointArray(geoList);
     	}
@@ -135,7 +140,8 @@ public class AlgoPolyLine3D extends AlgoPolyLine {
     
     
     // for AlgoElement
-    protected void setInputOutput() {
+    @Override
+	protected void setInputOutput() {
     	
     	//efficient inputs are points or list
     	GeoElement [] efficientInput = createEfficientInput();  	

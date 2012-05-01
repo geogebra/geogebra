@@ -58,8 +58,7 @@ public class AlgoFitPow extends AlgoElement {
 	protected void setInputOutput() {
 		input = new GeoElement[1];
 		input[0] = geolist;
-		output = new GeoElement[1];
-		output[0] = geofunction;
+		setOnlyOutput(geofunction);
 		setDependencies();
 	}// setInputOutput()
 

@@ -75,7 +75,8 @@ public abstract class AlgoCircle3DPointDirection extends AlgoElement3D {
     
 
     
-    public final void compute() {
+    @Override
+	public final void compute() {
     	
     	
 		//recompute the coord sys
@@ -133,12 +134,14 @@ public abstract class AlgoCircle3DPointDirection extends AlgoElement3D {
     }
     
 
-    public Algos getClassName() {
+    @Override
+	public Algos getClassName() {
         return Algos.AlgoCirclePointRadiusDirection;
     }
 
 
-    final public String toString(StringTemplate tpl) {
+    @Override
+	final public String toString(StringTemplate tpl) {
     	return app.getPlain(getCommandString(),((GeoElement) point).getLabel(tpl),
     			secondInput.getLabel(tpl),((GeoElement) forAxis).getLabel(tpl));
     }

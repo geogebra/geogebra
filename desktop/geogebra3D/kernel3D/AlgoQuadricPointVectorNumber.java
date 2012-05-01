@@ -25,11 +25,13 @@ public abstract class AlgoQuadricPointVectorNumber extends AlgoQuadricPointNumbe
 		super(c,label,origin,(GeoElement) direction, r,computer);
 	}
 	
+	@Override
 	protected Coords getDirection(){
 		return ((GeoVectorND) getSecondInput()).getCoordsInD(3);
 	}
 	
-    final public String toString(StringTemplate tpl) {
+    @Override
+	final public String toString(StringTemplate tpl) {
     	return app.getPlain(getPlainName(),getOrigin().getLabel(tpl),
     			getSecondInput().getLabel(tpl),getNumber().getLabel(tpl));
 

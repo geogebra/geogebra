@@ -52,7 +52,8 @@ public class AlgoCircle3DPointPointDirection extends AlgoCircle3DPointDirection 
     
 
     
-    protected final double getRadius() {
+    @Override
+	protected final double getRadius() {
     	
     	GeoPointND pointThrough = (GeoPointND) getSecondInput();
     	Coords radius = pointThrough.getInhomCoordsInD(3).sub(getCenter().getInhomCoordsInD(3));
@@ -67,7 +68,8 @@ public class AlgoCircle3DPointPointDirection extends AlgoCircle3DPointDirection 
 
     }
 
-    public Algos getClassName() {
+    @Override
+	public Algos getClassName() {
         return Algos.AlgoCirclePointPointDirection;
     }
 
@@ -77,7 +79,8 @@ public class AlgoCircle3DPointPointDirection extends AlgoCircle3DPointDirection 
      * 
      * @return command string
      */
-    final protected String getCommandString(){
+    @Override
+	final protected String getCommandString(){
     	if (getForAxis() instanceof GeoCoordSys2D)
     		return "CircleWithCenterAThroughBParallelToC";
     	else

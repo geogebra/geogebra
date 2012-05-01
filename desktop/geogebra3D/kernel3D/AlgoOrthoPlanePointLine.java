@@ -44,7 +44,8 @@ public class AlgoOrthoPlanePointLine extends AlgoOrthoPlanePoint {
 
 
 
-    protected Coords getNormal(){
+    @Override
+	protected Coords getNormal(){
     	return getSecondInput().getMainDirection();
     }
 

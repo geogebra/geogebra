@@ -15,15 +15,18 @@ public class AlgoQuadricEndBottom extends AlgoQuadricEnd {
 		super(cons, label, quadric);
 	}
 
+	@Override
 	protected Coords getOrigin(Coords o1, Coords o2) {
 		return o1;
 	}
 
+	@Override
 	protected Coords getV1(Coords v1) {
 		return v1.mul(-1);
 	}
 
 
+	@Override
 	public Algos getClassName() {
 		return Algos.AlgoQuadricEndBottom;
 	}

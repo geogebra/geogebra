@@ -36,6 +36,7 @@ public class AlgoCylinderAxisRadius extends AlgoQuadric {
 	
 	
 
+	@Override
 	public void compute() {
 		
 
@@ -72,10 +73,12 @@ public class AlgoCylinderAxisRadius extends AlgoQuadric {
 	
 	
 
+	@Override
 	protected Coords getDirection(){
 		return axis.getPointInD(3, 1).sub(axis.getPointInD(3, 0));
 	}
 
+	@Override
 	final public String toString(StringTemplate tpl) {
 		return app.getPlain("CylinderWithAxisARadiusB",
 				((GeoElement) axis).getLabel(tpl),getNumber().getLabel(tpl));

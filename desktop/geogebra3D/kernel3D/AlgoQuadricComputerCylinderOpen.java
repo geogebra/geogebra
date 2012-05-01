@@ -11,6 +11,7 @@ import geogebra.common.kernel.Matrix.Coords;
 public class AlgoQuadricComputerCylinderOpen extends AlgoQuadricComputerCylinder {
 	
 	
+	@Override
 	public GeoQuadric3D newQuadric(Construction c){
 		return new GeoQuadric3DPart(c);
 	}
@@ -18,6 +19,7 @@ public class AlgoQuadricComputerCylinderOpen extends AlgoQuadricComputerCylinder
 
 
 
+	@Override
 	public void setQuadric(GeoQuadric3D quadric, Coords origin,
 			Coords direction, double number) {
 		

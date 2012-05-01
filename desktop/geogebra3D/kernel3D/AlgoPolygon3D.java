@@ -54,8 +54,9 @@ public class AlgoPolygon3D extends AlgoPolygon {
      * create the polygon
      * @param createSegments says if the polygon has to creates its edges (3D only)
      */
-    protected void createPolygon(boolean createSegments){
-    	poly = new GeoPolygon3D(cons, points, (CoordSys) cs2D, createSegments);
+    @Override
+	protected void createPolygon(boolean createSegments){
+    	poly = new GeoPolygon3D(cons, points, cs2D, createSegments);
     	if (polyhedron!=null){
     		((GeoPolygon3D) poly).setIsPartOfClosedSurface(true);
     		((GeoPolygon3D) poly).setFromMeta(polyhedron);
@@ -63,7 +64,8 @@ public class AlgoPolygon3D extends AlgoPolygon {
     }
 	
 
-    public void compute() { 
+    @Override
+	public void compute() { 
     	
     	//check if a coord sys is possible
     	if (((GeoPolygon3D) poly).updateCoordSys())

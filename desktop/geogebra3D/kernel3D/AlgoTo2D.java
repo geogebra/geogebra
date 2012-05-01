@@ -55,7 +55,7 @@ public class AlgoTo2D extends AlgoElement3D {
     		P2.setCoords(1,0,1);
 
     		kernel.setSilentMode(true);
-    		out = (GeoElement) ((Kernel) kernel).Segment(null, P1, P2);
+    		out = kernel.Segment(null, P1, P2);
     		kernel.setSilentMode(false);
     		
     		break;
@@ -69,12 +69,14 @@ public class AlgoTo2D extends AlgoElement3D {
     	}
     }   
 
-    public Algos getClassName() {
+    @Override
+	public Algos getClassName() {
         return Algos.AlgoTo2D;
     }
 
     // for AlgoElement
-    protected void setInputOutput() {
+    @Override
+	protected void setInputOutput() {
   	
     	input = new GeoElement3D[1];
     	input[0] = in;      	
@@ -88,7 +90,7 @@ public class AlgoTo2D extends AlgoElement3D {
 
         // parent of output
         out.setParentAlgorithm(this);       
-        ((Construction) cons).addToAlgorithmList(this); 
+        cons.addToAlgorithmList(this); 
     }
 
     GeoElement3D getIn() {
@@ -100,12 +102,14 @@ public class AlgoTo2D extends AlgoElement3D {
     }
     
     // recalc 
-    public final void compute() {
+    @Override
+	public final void compute() {
     	// TODO ?
     	// otherwise comment empty statement
     } 
   
-    final public String toString(StringTemplate tpl) {     
+    @Override
+	final public String toString(StringTemplate tpl) {     
         return  null;
     }
 }

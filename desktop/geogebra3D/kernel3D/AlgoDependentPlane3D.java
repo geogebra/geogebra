@@ -26,7 +26,6 @@ import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.Polynomial;
-import geogebra.common.kernel.geos.GeoElement;
 
 /**
  *
@@ -79,16 +78,17 @@ public class AlgoDependentPlane3D extends AlgoElement3D {
     }   
     
     
+	@Override
 	public Algos getClassName() {
 		return Algos.AlgoDependentPlane;
 	}
     
     // for AlgoElement
+	@Override
 	protected void setInputOutput() {
         input = equation.getGeoElementVariables();   
 			
-        output = new GeoElement[1];        
-        output[0] = p;        
+        setOnlyOutput(p);        
         setDependencies(); // done by AlgoElement
     }    
     
@@ -98,7 +98,8 @@ public class AlgoDependentPlane3D extends AlgoElement3D {
     public GeoPlane3D getPlane() { return p; }
     
     // calc the current value of the arithmetic tree
-    public final void compute() {  
+    @Override
+	public final void compute() {  
 
     	try {
     		p.setEquation(
@@ -112,7 +113,8 @@ public class AlgoDependentPlane3D extends AlgoElement3D {
     	}
     }   
           
-    final public String toString(StringTemplate tpl) { 
+    @Override
+	final public String toString(StringTemplate tpl) { 
     	return equation.toString(tpl);
     } 
     

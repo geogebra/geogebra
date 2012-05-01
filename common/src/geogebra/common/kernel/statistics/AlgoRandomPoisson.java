@@ -52,8 +52,7 @@ protected void setInputOutput() {
       input =  new GeoElement[1];
       input[0] = a.toGeoElement();
       
-      output = new GeoElement[1];        
-      output[0] = num;        
+      setOnlyOutput(num);        
       setDependencies(); // done by AlgoElement
   }    
   

@@ -13,6 +13,7 @@ public class AlgoQuadricComputerCylinder extends AlgoQuadricComputer {
 
 
 
+	@Override
 	public void setQuadric(GeoQuadric3D quadric, Coords origin,
 			Coords direction, double number) {
 		quadric.setCylinder(origin, direction.normalize(), number);
@@ -20,6 +21,7 @@ public class AlgoQuadricComputerCylinder extends AlgoQuadricComputer {
 	}
 	
 
+	@Override
 	public double getNumber(double v){
 
 		if (Kernel.isZero(v)) {

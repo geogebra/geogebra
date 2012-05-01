@@ -48,17 +48,18 @@ public class AlgoIntersectCS1D2D extends AlgoIntersectCoordSys {
      */    
     public AlgoIntersectCS1D2D(Construction cons, String label, GeoElement cs1, GeoElement cs2) {
 
-    	super(cons,label, (GeoElement) cs1, (GeoElement) cs2);
+    	super(cons,label, cs1, cs2);
  
     }
 
 	// sets the 1D coord sys as cs1
-    protected void setCoordSys(GeoElement cs1, GeoElement cs2){
+    @Override
+	protected void setCoordSys(GeoElement cs1, GeoElement cs2){
   
     	if (cs1 instanceof GeoLineND)
-    		super.setCoordSys((GeoElement) cs1, (GeoElement) cs2);
+    		super.setCoordSys(cs1, cs2);
     	else
-    		super.setCoordSys((GeoElement) cs2, (GeoElement) cs1);
+    		super.setCoordSys(cs2, cs1);
     	
     }
     
@@ -70,7 +71,8 @@ public class AlgoIntersectCS1D2D extends AlgoIntersectCoordSys {
 
     
 
-    public void compute(){
+    @Override
+	public void compute(){
 
 
 
@@ -143,6 +145,7 @@ public class AlgoIntersectCS1D2D extends AlgoIntersectCoordSys {
 			return null;
     }
 	
+	@Override
 	protected String getIntersectionTypeString(){
 		return "IntersectionPointOfAB";
 	}

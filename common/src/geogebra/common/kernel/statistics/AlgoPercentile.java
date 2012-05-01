@@ -62,8 +62,7 @@ public class AlgoPercentile extends AlgoElement {
 		input[0] = inputList;
 		input[1] = value;
 
-		output = new GeoElement[1];
-		output[0] = result;
+		setOnlyOutput(result);
 		setDependencies(); // done by AlgoElement
 	}
 

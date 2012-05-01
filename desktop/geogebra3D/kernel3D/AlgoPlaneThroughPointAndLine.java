@@ -51,7 +51,8 @@ public class AlgoPlaneThroughPointAndLine extends AlgoPlaneThroughPoint {
 
 
   
-    public final void compute() {
+    @Override
+	public final void compute() {
     	
     	CoordSys coordsys = getPlane().getCoordSys();
     	
@@ -72,12 +73,14 @@ public class AlgoPlaneThroughPointAndLine extends AlgoPlaneThroughPoint {
         
     }
 
-    protected GeoElement getSecondInput(){
+    @Override
+	protected GeoElement getSecondInput(){
     	return (GeoElement) line;
     }
     
     
-    final public String toString(StringTemplate tpl) {
+    @Override
+	final public String toString(StringTemplate tpl) {
     	return app.getPlain("PlaneThroughAB",getPoint().getLabel(tpl),getSecondInput().getLabel(tpl));
 
     }

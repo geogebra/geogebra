@@ -154,6 +154,7 @@ public abstract class GeoElement3D extends GeoElement implements
 	 * it's a 3D GeoElement.
 	 * @return true
 	 */
+	@Override
 	public boolean isGeoElement3D(){
 		return true;
 	}
@@ -164,6 +165,7 @@ public abstract class GeoElement3D extends GeoElement implements
 		return m_drawingMatrix;
 	}
 	
+	@Override
 	abstract public Coords getLabelPosition();
 	
 	/** sets the 4x4 matrix for drawing the {@link Drawable3D} and the label
@@ -200,6 +202,7 @@ public abstract class GeoElement3D extends GeoElement implements
     /** set the alpha value to alpha for openGL
      * @param alpha alpha value
      */
+	@Override
 	public void setAlphaValue(float alpha) {
 		if ( alpha < 0.0f || alpha > 1.0f)
 			return;
@@ -207,6 +210,7 @@ public abstract class GeoElement3D extends GeoElement implements
 	}
 	
 	//TODO remove this
+	@Override
 	public Coords getMainDirection(){ return null;}
 
 
@@ -231,6 +235,7 @@ public abstract class GeoElement3D extends GeoElement implements
 	/////////////////////////////////////////
 	// ExpressionValue implementation
 	
+	@Override
 	public boolean isVector3DValue() {
 		return false;
 	}	

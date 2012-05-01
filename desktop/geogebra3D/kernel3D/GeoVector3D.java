@@ -3,7 +3,6 @@ package geogebra3D.kernel3D;
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.Locateable;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.CoordMatrix;
 import geogebra.common.kernel.Matrix.CoordMatrix4x4;
@@ -58,6 +57,7 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND,
 		matrix = new CoordMatrix(4, 2);
 	}
 
+	@Override
 	public void setCoords(double[] vals) {
 		super.setCoords(vals);
 
@@ -88,29 +88,35 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND,
 		labelPosition = matrix.getOrigin().add(matrix.getVx().mul(0.5));
 	}
 
+	@Override
 	public Coords getLabelPosition() {
 		return labelPosition;
 	}
 
+	@Override
 	public GeoElement copy() {
 		GeoVector3D ret = new GeoVector3D(getConstruction());
 		ret.set(this);
 		return ret;
 	}
 
+	@Override
 	public GeoClass getGeoClassType() {
 		return GeoClass.VECTOR3D;
 	}
 
+	@Override
 	public String getTypeString() {
 		return "Vector3D";
 	}
 
+	@Override
 	public boolean isDefined() {
 		return (!(Double.isNaN(getX()) || Double.isNaN(getY())
 				|| Double.isNaN(getZ()) || Double.isNaN(getW())));
 	}
 
+	@Override
 	public boolean isEqual(GeoElement geo) {
 
 		if (!geo.isGeoVector())
@@ -130,6 +136,7 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND,
 
 	}
 
+	@Override
 	final public boolean isInfinite() {
 		Coords v = getCoords();
 		return Double.isInfinite(v.getX()) || Double.isInfinite(v.getY())
@@ -140,6 +147,7 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND,
 		return !isInfinite();
 	}
 
+	@Override
 	public void set(GeoElement geo) {
 		if (geo.isGeoVector()) {
 			GeoVectorND v = (GeoVectorND) geo;
@@ -152,33 +160,40 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND,
 		}
 	}
 
+	@Override
 	public void setUndefined() {
 		setCoords(Double.NaN, Double.NaN, Double.NaN, Double.NaN);
 	}
 
+	@Override
 	public boolean showInAlgebraView() {
 		// TODO Auto-generated method stub
 		return true;
 	}
 
+	@Override
 	protected boolean showInEuclidianView() {
 		// TODO Auto-generated method stub
 		return true;
 	}
 
+	@Override
 	public String getClassName() {
 		return "GeoVector3D";
 	}
 
+	@Override
 	public boolean isVector3DValue() {
 		return true;
 	}
 
 	// for properties panel
+	@Override
 	public boolean isPath() {
 		return true;
 	}
 
+	@Override
 	public boolean isGeoVector() {
 		return true;
 	}
@@ -187,6 +202,7 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND,
 	// TO STRING
 	// /////////////////////////////////////////////
 
+	@Override
 	final public String toString(StringTemplate tpl) {
 		sbToString.setLength(0);
 		sbToString.append(label);
@@ -210,6 +226,7 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND,
 
 	private StringBuilder sbToString = new StringBuilder(50);
 
+	@Override
 	final public String toValueString(StringTemplate tpl) {
 		return buildValueString(tpl).toString();
 	}
@@ -269,6 +286,7 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND,
 
 	private StringBuilder sb;
 
+	@Override
 	public String toLaTeXString(boolean symbolic,StringTemplate tpl) {
 		if (sb == null)
 			sb = new StringBuilder();
@@ -317,6 +335,7 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND,
 	/**
 	 * returns all class-specific xml tags for saveXML
 	 */
+	@Override
 	protected void getXMLtags(StringBuilder sb) {
 		super.getXMLtags(sb);
 		// line thickness and type
@@ -383,7 +402,7 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND,
 	}
 
 	public void initStartPoint(GeoPointND p, int number) {
-		startPoint = (GeoPoint3D) p;
+		startPoint = p;
 
 	}
 
@@ -413,7 +432,7 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND,
 	}
 
 	public Geo3DVec get3DVec() {
-		return new Geo3DVec((Kernel)kernel, v.getX(), v.getY(), v.getZ());
+		return new Geo3DVec(kernel, v.getX(), v.getY(), v.getZ());
 	}
 
 	public double[] getPointAsDouble() {
@@ -443,6 +462,7 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND,
 		return getCoordsInD(3);
 	}
 
+	@Override
 	public boolean isLaTeXDrawableGeo(String latexStr) {
 		return true;
 	}
@@ -469,6 +489,7 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND,
 		return spreadsheetColumnHeadings;
 	}
 	
+	@Override
 	public ArrayList<GeoNumeric> getSpreadsheetTraceList() {
 		if (spreadsheetTraceList == null) {
 			spreadsheetTraceList = new ArrayList<GeoNumeric>();

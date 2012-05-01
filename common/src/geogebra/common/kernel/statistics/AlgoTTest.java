@@ -96,8 +96,7 @@ public class AlgoTTest extends AlgoElement {
 			input[4] = tail;			
 		}
 
-		output = new GeoElement[1];
-		output[0] = result;
+		setOnlyOutput(result);
 		setDependencies(); // done by AlgoElement
 	}
 

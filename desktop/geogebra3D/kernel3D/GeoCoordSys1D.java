@@ -12,7 +12,6 @@ import geogebra.common.kernel.Matrix.CoordMatrixUtil;
 import geogebra.common.kernel.Matrix.CoordSys;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.Translateable;
 import geogebra.common.kernel.kernelND.GeoCoordSys;
 import geogebra.common.kernel.kernelND.GeoCoordSys1DInterface;
@@ -56,12 +55,14 @@ Translateable{
 	
 	
 	
+	@Override
 	public boolean isDefined() {
 		return coordsys.isDefined();
 	}
 	
 	
 
+	@Override
 	public void setUndefined() {
 		coordsys.setUndefined();
 	}
@@ -114,6 +115,7 @@ Translateable{
 	}
 	
 	
+	@Override
 	public void set(GeoElement geo) {
 		if (geo instanceof GeoCoordSys1D){
 			if (!geo.isDefined())
@@ -139,8 +141,9 @@ Translateable{
 	
 	
 
+	@Override
 	final public GeoElement copy() {
-		GeoCoordSys1D geo = create((Construction)cons);
+		GeoCoordSys1D geo = create(cons);
 		geo.setCoord(this);
 		return geo;
 	}
@@ -196,6 +199,7 @@ Translateable{
 	}
 
 	
+	@Override
 	public Coords getMainDirection(){ 
 		return getCoordSys().getMatrixOrthonormal().getVx();
 	}
@@ -204,6 +208,7 @@ Translateable{
 	
 	
 	// Path3D interface
+	@Override
 	public boolean isPath(){
 		return true;
 	}
@@ -352,6 +357,7 @@ Translateable{
     /**
      * returns all class-specific xml tags for saveXML
      */
+	@Override
 	protected void getXMLtags(StringBuilder sb) {
         super.getXMLtags(sb);
 		//	line thickness and type  
@@ -368,12 +374,14 @@ Translateable{
 	}
 	
 	
+	@Override
 	public CoordMatrix4x4 getDrawingMatrix(){
 		return getCoordSys().getMatrixOrthonormal();
 	}
 
 	
 
+	@Override
 	public Coords getLabelPosition(){
 		return coordsys.getPoint(0.5);
 	}
@@ -447,6 +455,7 @@ Translateable{
 	
 
 	
+	@Override
 	final public boolean isTranslateable() {
 		return true;
 	}

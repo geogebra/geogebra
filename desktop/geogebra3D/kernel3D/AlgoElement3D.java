@@ -117,7 +117,7 @@ abstract public class AlgoElement3D extends AlgoElement{
 	 */
 	protected void setInputOutput(GeoElement[] input, GeoElement[] efficientInput, GeoElement[] a_output) {
 		this.input = input;
-		this.output = a_output;
+		this.setOutput(a_output);
 		setEfficientDependencies(input, efficientInput);
 	}
 	
@@ -131,13 +131,14 @@ abstract public class AlgoElement3D extends AlgoElement{
 	protected void setInputOutput(GeoElement[] a_input, GeoElement[] a_output, boolean setDependencies) {
 		
 		input = a_input;
-		output = a_output;
+		setOutput(a_output);
 		setInputOutput(setDependencies);
 	
 	}
 	/**
 	 * calls {@link AlgoElement#setDependencies()} and {@link AlgoElement#compute()}
 	 */
+	@Override
 	protected void setInputOutput() {
 		
 		setInputOutput(true);

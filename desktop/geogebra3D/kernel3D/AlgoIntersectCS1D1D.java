@@ -63,7 +63,8 @@ public class AlgoIntersectCS1D1D extends AlgoIntersectCoordSys {
     // COMPUTE
     
 
-    public void compute(){
+    @Override
+	public void compute(){
     	
     	if (!outputIsDefined())
     		return;
@@ -112,6 +113,7 @@ public class AlgoIntersectCS1D1D extends AlgoIntersectCoordSys {
 
 	
 
+	@Override
 	protected String getIntersectionTypeString(){
 		return "IntersectionPointOfAB";
 	}

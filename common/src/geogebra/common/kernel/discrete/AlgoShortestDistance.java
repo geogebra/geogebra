@@ -46,12 +46,11 @@ public class AlgoShortestDistance extends AlgoElement {
     protected void setInputOutput(){
         input = new GeoElement[4];
         input[0] = inputList;
-        input[1] = (GeoElement)start;
-        input[2] = (GeoElement)end;
-        input[3] = (GeoElement)weighted;
+        input[1] = start.toGeoElement();
+        input[2] = end.toGeoElement();
+        input[3] = weighted;
 
-        output = new GeoElement[1];
-        output[0] = locus;
+        setOnlyOutput(locus);
         setDependencies(); // done by AlgoElement
     }
 

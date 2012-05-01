@@ -49,6 +49,7 @@ public class AlgoPlaneCS2D extends AlgoElement3D {
 	}
 	
 	
+	@Override
 	public void compute() {
 		
 		CoordSys coordsys = cs.getCoordSys();
@@ -81,11 +82,13 @@ public class AlgoPlaneCS2D extends AlgoElement3D {
 	
 	
 	
+	@Override
 	public Algos getClassName() {
 		return Algos.AlgoPlane;
 	}
 	
-    final public String toString(StringTemplate tpl) {
+    @Override
+	final public String toString(StringTemplate tpl) {
     	return app.getPlain("PlaneContainingA",((GeoElement) csInput).getLabel(tpl));
 
     }
