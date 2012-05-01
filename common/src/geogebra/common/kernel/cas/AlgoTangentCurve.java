@@ -1,3 +1,14 @@
+/* 
+GeoGebra - Dynamic Mathematics for Everyone
+http://www.geogebra.org
+
+This file is part of GeoGebra.
+
+This program is free software; you can redistribute it and/or modify it 
+under the terms of the GNU General Public License as published by 
+the Free Software Foundation.
+
+ */
 package geogebra.common.kernel.cas;
 
 import geogebra.common.euclidian.EuclidianConstants;
@@ -10,7 +21,8 @@ import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint2;
 
 /**
- * @author Victor Franco Espino version 11-02-2007
+ * @author Victor Franco Espino 
+ * @version 11-02-2007
  * 
  *         tangent to Curve f in point P: (b'(t), -a'(t), a'(t)*b(t)-a(t)*b'(t))
  */

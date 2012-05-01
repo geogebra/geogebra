@@ -715,7 +715,7 @@ public interface EuclidianViewInterfaceCommon extends EuclidianViewInterfaceSlim
 
 	/**
 	 * added so that we can easily show/hide axes in 2D & 3D
-	 * @param b
+	 * @param b flag to show axes
 	 */
 	public void setShowAxis(boolean b);
 

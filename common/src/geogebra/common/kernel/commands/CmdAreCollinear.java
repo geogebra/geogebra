@@ -1,3 +1,15 @@
+/* 
+GeoGebra - Dynamic Mathematics for Everyone
+http://www.geogebra.org
+
+This file is part of GeoGebra.
+
+This program is free software; you can redistribute it and/or modify it 
+under the terms of the GNU General Public License as published by 
+the Free Software Foundation.
+
+ */
+
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.CircularDefinitionException;
@@ -7,8 +19,15 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.main.MyError;
 
+/**
+ * AreCollinear[<Point>, <Point>, <Point> ]
+ */
 public class CmdAreCollinear extends CommandProcessor {
 
+	/**
+	 * Creates new command processor
+	 * @param kernel kernel
+	 */
 	public CmdAreCollinear(Kernel kernel) {
 		super(kernel);
 	}

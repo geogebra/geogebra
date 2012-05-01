@@ -63,10 +63,8 @@ public final static int OUTSIDE  = LEFT | RIGHT | BELOW | ABOVE;
 *  Calculate the clipping points of a line with a rectangle.
 *  @param  x1     starting x of line
 *  @param  y1     starting y of line
-*  @param  mask1  clipping info mask for starting point
 *  @param  x2     ending x of line
 *  @param  y2     ending y of line
-*  @param  mask2  clipping info mask for ending point
 *  @param  xmin   lower left x of rectangle
 *  @param  xmax   upper right x of rectangle
 *  @param  ymin   lower left y of rectangle

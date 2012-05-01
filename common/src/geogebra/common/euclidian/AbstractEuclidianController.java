@@ -35,7 +35,6 @@ import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.PolyFunction;
-import geogebra.common.kernel.cas.AlgoCoefficients;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoAxis;
 import geogebra.common.kernel.geos.GeoBoolean;
@@ -8091,7 +8090,6 @@ public abstract class AbstractEuclidianController {
 	
 		transformCoords();
 		Hits hits = null;
-		GeoElement geo;
 	
 		if (hitResetIcon()) {
 			app.reset();

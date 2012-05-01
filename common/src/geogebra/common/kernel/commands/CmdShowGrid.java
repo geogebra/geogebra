@@ -1,17 +1,28 @@
+/* 
+GeoGebra - Dynamic Mathematics for Everyone
+http://www.geogebra.org
+
+This file is part of GeoGebra.
+
+This program is free software; you can redistribute it and/or modify it 
+under the terms of the GNU General Public License as published by 
+the Free Software Foundation.
+
+ */
 package geogebra.common.kernel.commands;
 
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
-import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.BooleanValue;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
-import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyError;
 
 /**
- *SetVisibleInView
+ * ShowGrid[]
+ * ShowGrid[<Boolean>]
+ * ShowGrid[<View ID>, <Boolean]
  */
 public class CmdShowGrid extends CmdScripting {
 
@@ -55,7 +66,6 @@ public class CmdShowGrid extends CmdScripting {
 			if (!arg[1].isBooleanValue())
 				throw argErr(app, c.getName(), arg[1]);
 			
-			int view = (int) ((NumberValue)arg[0]).getDouble();
 			show = ((BooleanValue)arg[1]).getBoolean();
 
 			
