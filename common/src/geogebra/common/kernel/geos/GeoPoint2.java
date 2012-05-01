@@ -1819,7 +1819,7 @@ final public class GeoPoint2 extends GeoVec3D implements VectorValue,
 			// get all "randomizable" predecessors of this and geo
 			TreeSet<GeoElement> pred = this.getAllRandomizablePredecessors();
 			ArrayList<GeoElement> predList = new ArrayList<GeoElement>();
-			TreeSet<AlgoElementInterface> tmpSet = new TreeSet<AlgoElementInterface>();
+			TreeSet<AlgoElementInterface> tmpSet = GeoElement.getTempSet();
 
 			predList.addAll(pred);
 			pred.addAll(geo.getAllRandomizablePredecessors());
@@ -1873,16 +1873,8 @@ final public class GeoPoint2 extends GeoVec3D implements VectorValue,
 				predGeo.recoverFromClone();
 			}
 
-			// this does not work!
-			// if (!this.isFixed())
-			// this.updateCascade();
-			// if (!geo.isFixed())
-			// geo.updateCascade();
-
+			GeoElement.updateCascade(predList, tmpSet, false);
 			
-			//temporary fix for #1827
-			//GeoElement.updateCascade(predList, tmpSet, false);
-			kernel.updateConstruction();
 			
 			// if all of the cases are good, add incidence
 			if (incident)

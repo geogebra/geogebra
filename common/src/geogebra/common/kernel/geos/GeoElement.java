@@ -50,7 +50,6 @@ import geogebra.common.kernel.cas.CASGenericInterface;
 import geogebra.common.kernel.cas.GeoGebraCasInterface;
 import geogebra.common.kernel.commands.AlgebraProcessor;
 import geogebra.common.kernel.kernelND.GeoElementND;
-import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
@@ -64,6 +63,7 @@ import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -5638,13 +5638,22 @@ public abstract class GeoElement extends ConstructionElement implements
 
 	private static volatile ArrayList<GeoElement> moveObjectsUpdateList;
 	private static volatile TreeSet<AlgoElementInterface> tempSet;
+	
+	private static Comparator<AlgoElementInterface> algoComparator = new Comparator<AlgoElementInterface>(){
 
+		public int compare(AlgoElementInterface o1, AlgoElementInterface o2) {
+			if(o1 instanceof ConstructionElement && o2 instanceof ConstructionElement)
+				((ConstructionElement)o1).compareTo((ConstructionElement)o2);
+			return 1;
+		}
+		
+	};
 	/**
 	 * @return temporary set of algoritms
 	 */
 	protected static TreeSet<AlgoElementInterface> getTempSet() {
 		if (tempSet == null) {
-			tempSet = new TreeSet<AlgoElementInterface>();
+			tempSet = new TreeSet<AlgoElementInterface>(algoComparator);
 		}
 		return tempSet;
 	}

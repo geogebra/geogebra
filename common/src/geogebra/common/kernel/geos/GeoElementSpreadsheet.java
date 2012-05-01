@@ -19,6 +19,9 @@ public class GeoElementSpreadsheet {
 	 */
 	public static final RegExp spreadsheetPattern = RegExp
 			.compile("^\\$?([A-Z]+)\\$?([1-9][0-9]*)$");
+	/**
+	 * match fooA1bar, but not fooA01bar etc.
+	 */
 	public static final RegExp spreadsheetPatternPart = RegExp
 			.compile("\\$?([A-Z]+)\\$?([1-9][0-9]*)");
 
