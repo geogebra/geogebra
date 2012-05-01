@@ -208,11 +208,8 @@ public class ToolBar extends MenuBar {
 
 			
 			if (tm.getToolsCount() > 0){
-				int tbuttonMode = Integer.parseInt(tm.getElement().getAttribute("mode"));
-				MenuItem newItem = new MenuItem(GGWToolBar.getImageHtml(tbuttonMode), true,tm);
-				newItem.getElement().setAttribute("isSelected", "false");
-				tm.setButton(newItem);
-				addItem(newItem);
+			//	tm.setButton(newItem);
+				addItem(tm.getButton());
 			}
 		}
     }

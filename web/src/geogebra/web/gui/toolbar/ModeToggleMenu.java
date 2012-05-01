@@ -36,9 +36,11 @@ public class ModeToggleMenu extends MenuBar{
 		this.app = app;
 		this.bg = bg;
 		this.toolbar = toolbar;
-//		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+		tbutton = new MenuItem("", true, this);
+		tbutton.getElement().setAttribute("isSelected", "false");
 
-//		tbutton = new MyJToggleButton(this);
+		
+		
 //		tbutton.setAlignmentY(BOTTOM_ALIGNMENT);
 //		addItem(tbutton);
 
@@ -144,9 +146,8 @@ public class ModeToggleMenu extends MenuBar{
 
 		if (size == 1) {
 			// init tbutton
-			//tbutton.setIcon(icon);
-			//tbutton.getElement().setAttribute("mode", actionText);
-
+			tbutton.getElement().setAttribute("mode", actionText);
+			tbutton.setHTML(GGWToolBar.getImageHtml(mode));
 			this.getElement().setAttribute("mode", actionText);
 //			this.setTitle(app.getToolName(mode));
 			// tooltip: tool name and tool help
@@ -163,7 +164,7 @@ public class ModeToggleMenu extends MenuBar{
 	 * @param button the new value of tbutton
 	 */
 	public void setButton(MenuItem button){
-		tbutton = button;		
+		tbutton = button;
 	}
 	
 	/**
@@ -474,6 +475,7 @@ class MyJToggleButton extends MenuItem /*implements  MouseListener,
 		isSelected = flag;
 	}
 }
+
 
 
 //	class MyMenuItem extends MenuItem{
