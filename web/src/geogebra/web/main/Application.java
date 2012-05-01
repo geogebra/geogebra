@@ -379,7 +379,7 @@ public class Application extends AbstractApplication {
 			
 		} catch(MissingResourceException e) {
 			AbstractApplication.error(e.toString() + " Invalid key: " + key);
-			return null;
+			return key;
 		}
 	}
 	
@@ -442,10 +442,10 @@ public class Application extends AbstractApplication {
 			}
 			
 			return plainConstants.getString(crossReferencingPropertiesKeys(key));
-			
+						
 		} catch(MissingResourceException e) {
-			AbstractApplication.error(e.toString() + " Invalid key: " + key);
-			return null;
+			AbstractApplication.error(e.toString() + " Missing key: " + key);
+			return key;
 		}
 	}
 	
@@ -498,7 +498,7 @@ public class Application extends AbstractApplication {
 			
 		} catch(MissingResourceException e) {
 			AbstractApplication.error(e.toString() + " Invalid key: " + key);
-			return null;
+			return key;
 		}
 	}
 
@@ -519,7 +519,7 @@ public class Application extends AbstractApplication {
 			
 		} catch(MissingResourceException e) {
 			AbstractApplication.error(e.toString() + " Invalid key: " + key);
-			return null;
+			return key;
 		}
 	}
 
@@ -984,7 +984,7 @@ public class Application extends AbstractApplication {
 			
 		} catch(MissingResourceException e) {
 			AbstractApplication.error(e.toString() + " Invalid key: " + key);
-			return null;
+			return key;
 		}
 
 		
