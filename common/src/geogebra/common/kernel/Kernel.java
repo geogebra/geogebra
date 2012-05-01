@@ -9782,7 +9782,7 @@ public class Kernel {
 			al.add(geo);
 		}
 
-		GeoElement.updateCascade(al, new TreeSet<AlgoElementInterface>(), true);
+		GeoElement.updateCascade(al, new TreeSet<AlgoElement>(), true);
 	}
 
 	public GeoElement Sort(String label, GeoList valueList, GeoList inputList) {

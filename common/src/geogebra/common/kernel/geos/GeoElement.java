@@ -37,7 +37,6 @@ import geogebra.common.kernel.algos.AlgoCirclePointRadiusInterface;
 import geogebra.common.kernel.algos.AlgoDrawInformation;
 import geogebra.common.kernel.algos.AlgoDynamicCoordinatesInterface;
 import geogebra.common.kernel.algos.AlgoElement;
-import geogebra.common.kernel.algos.AlgoElementInterface;
 import geogebra.common.kernel.algos.AlgorithmSet;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.algos.ConstructionElement;
@@ -3244,52 +3243,11 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * 
 	 * @param algorithm algorithm to be removed
 	 */
-	public final void removeAlgorithm(final AlgoElementInterface algorithm) {
+	public final void removeAlgorithm(final AlgoElement algorithm) {
 		algorithmList.remove(algorithm);
-		removeFromUpdateSets((AlgoElement) algorithm);
+		removeFromUpdateSets(algorithm);
 	}
 
-	// /**
-	// * Removes all algorithms from algoUpdateSet that cannot be reached
-	// * through the algorithmList - input - output graph. This method should
-	// * be called when an algorithm removes its input but keeps its output,
-	// * see AlgoDependentCasCell.removeInputButKeepOutput().
-	// */
-	// final public void removeUnreachableAlgorithmsFromUpdateSet() {
-	// if (algorithmList == null || algorithmList.isEmpty()) return;
-	//
-	// // create set of reachable algorithms
-	// HashSet<AlgoElement> reachableAlgos = new HashSet<AlgoElement>();
-	// addReachableAlgorithms(algorithmList, reachableAlgos);
-	//
-	// // remove algorithms from updateSet that are not reachable
-	// Iterator<AlgoElement> it = algoUpdateSet.getIterator();
-	// while (it.hasNext()) {
-	// AlgoElement updateAlgo = it.next();
-	// if (!reachableAlgos.contains(updateAlgo)) {
-	// it.remove();
-	// }
-	// }
-	// }
-	//
-	// /**
-	// * Adds all algorithms that can be reached through the output graph from
-	// startList to
-	// * reachableAlgorithmList
-	// * @param startList
-	// * @param reachableAlgorithmList
-	// */
-	// private void addReachableAlgorithms(ArrayList<AlgoElement> startList,
-	// HashSet<AlgoElement> reachableAlgorithmList) {
-	// if (startList != null && !startList.isEmpty()) {
-	// reachableAlgorithmList.addAll(startList);
-	// for (AlgoElement algo : startList) {
-	// for (GeoElement output : algo.getOutput()) {
-	// addReachableAlgorithms(output.algorithmList, reachableAlgorithmList);
-	// }
-	// }
-	// }
-	// }
 	/**
 	 * @return set of all dependent algos in topological order
 	 */
@@ -3454,11 +3412,11 @@ public abstract class GeoElement extends ConstructionElement implements
 				algoUpdateSet.updateAll();
 			} else {
 				// join both algoUpdateSets and update all algorithms
-				final TreeSet<AlgoElementInterface> tempAlgoSet = getTempSet();
+				final TreeSet<AlgoElement> tempAlgoSet = getTempSet();
 				tempAlgoSet.clear();
 				algoUpdateSet.addAllToCollection(tempAlgoSet);
 				secondGeo.algoUpdateSet.addAllToCollection(tempAlgoSet);
-				for (final AlgoElementInterface algo : tempAlgoSet) {
+				for (final AlgoElement algo : tempAlgoSet) {
 					algo.update();
 				}
 			}
@@ -3486,7 +3444,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 */
 	final static public synchronized void updateCascade(
 			final ArrayList<?> geos,
-			final TreeSet<AlgoElementInterface> tempSet1,
+			final TreeSet<AlgoElement> tempSet1,
 			final boolean updateCascadeAll) {
 		// only one geo: call updateCascade()
 		if (geos.size() == 1) {
@@ -3519,9 +3477,9 @@ public abstract class GeoElement extends ConstructionElement implements
 
 		// now we have one nice algorithm set that we can update
 		if (tempSet1.size() > 0) {
-			final Iterator<AlgoElementInterface> it = tempSet1.iterator();
+			final Iterator<AlgoElement> it = tempSet1.iterator();
 			while (it.hasNext()) {
-				final AlgoElement algo = (AlgoElement) it.next();
+				final AlgoElement algo = it.next();
 				algo.update();
 			}
 		}
@@ -3540,7 +3498,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @param lastAlgo stop cascade on this algo
 	 */
 	final static public void updateCascadeUntil(final ArrayList<?> geos,
-			final TreeSet<AlgoElementInterface> tempSet2,
+			final TreeSet<AlgoElement> tempSet2,
 			final AlgoElement lastAlgo) {
 		// only one geo: call updateCascade()
 		if (geos.size() == 1) {
@@ -3573,9 +3531,9 @@ public abstract class GeoElement extends ConstructionElement implements
 
 		// now we have one nice algorithm set that we can update
 		if (tempSet2.size() > 0) {
-			final Iterator<AlgoElementInterface> it = tempSet2.iterator();
+			final Iterator<AlgoElement> it = tempSet2.iterator();
 			while (it.hasNext()) {
-				final AlgoElement algo = (AlgoElement) it.next();
+				final AlgoElement algo = it.next();
 
 				algo.update();
 
@@ -3758,10 +3716,10 @@ public abstract class GeoElement extends ConstructionElement implements
 	 */
 	public boolean isParentOf(final GeoElement geo) {
 		if (algoUpdateSet != null) {
-			final Iterator<AlgoElementInterface> it = algoUpdateSet
+			final Iterator<AlgoElement> it = algoUpdateSet
 					.getIterator();
 			while (it.hasNext()) {
-				final AlgoElementInterface algo = it.next();
+				final AlgoElement algo = it.next();
 				for (int i = 0; i < algo.getOutputLength(); i++) {
 					if (geo == algo.getOutput(i)) {
 						return true;
@@ -3813,10 +3771,10 @@ public abstract class GeoElement extends ConstructionElement implements
 	public TreeSet<GeoElement> getAllChildren() {
 		final TreeSet<GeoElement> set = new TreeSet<GeoElement>();
 		if (algoUpdateSet != null) {
-			final Iterator<AlgoElementInterface> it = algoUpdateSet
+			final Iterator<AlgoElement> it = algoUpdateSet
 					.getIterator();
 			while (it.hasNext()) {
-				final AlgoElement algo = (AlgoElement) it.next();
+				final AlgoElement algo = it.next();
 				for (int i = 0; i < algo.getOutputLength(); i++) {
 					set.add(algo.getOutput(i));
 				}
@@ -5637,23 +5595,21 @@ public abstract class GeoElement extends ConstructionElement implements
 	}
 
 	private static volatile ArrayList<GeoElement> moveObjectsUpdateList;
-	private static volatile TreeSet<AlgoElementInterface> tempSet;
+	private static volatile TreeSet<AlgoElement> tempSet;
 	
-	private static Comparator<AlgoElementInterface> algoComparator = new Comparator<AlgoElementInterface>(){
+	private static Comparator<AlgoElement> algoComparator = new Comparator<AlgoElement>(){
 
-		public int compare(AlgoElementInterface o1, AlgoElementInterface o2) {
-			if(o1 instanceof ConstructionElement && o2 instanceof ConstructionElement)
-				((ConstructionElement)o1).compareTo((ConstructionElement)o2);
-			return 1;
+		public int compare(AlgoElement o1, AlgoElement o2) {
+			return o1.compareTo(o2);
 		}
 		
 	};
 	/**
 	 * @return temporary set of algoritms
 	 */
-	protected static TreeSet<AlgoElementInterface> getTempSet() {
+	protected static TreeSet<AlgoElement> getTempSet() {
 		if (tempSet == null) {
-			tempSet = new TreeSet<AlgoElementInterface>(algoComparator);
+			tempSet = new TreeSet<AlgoElement>(algoComparator);
 		}
 		return tempSet;
 	}
@@ -6988,7 +6944,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @param i algo
 	 * @return true if algo is in update set
 	 */
-	public boolean algoUpdateSetContains(final AlgoElementInterface i) {
+	public boolean algoUpdateSetContains(final AlgoElement i) {
 		return getAlgoUpdateSet().contains(i);
 	}
 

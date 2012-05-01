@@ -41,7 +41,7 @@ import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoDependentPoint;
 import geogebra.common.kernel.algos.AlgoDynamicCoordinates;
 import geogebra.common.kernel.algos.AlgoElement;
-import geogebra.common.kernel.algos.AlgoElementInterface;
+import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.SymbolicParameters;
 import geogebra.common.kernel.algos.SymbolicParametersAlgo;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
@@ -1274,11 +1274,11 @@ final public class GeoPoint2 extends GeoVec3D implements VectorValue,
 		}
 	}
 
-	private static volatile TreeSet<AlgoElementInterface> tempSet;
+	private static volatile TreeSet<AlgoElement> tempSet;
 
-	protected static TreeSet<AlgoElementInterface> getTempSet() {
+	protected static TreeSet<AlgoElement> getTempSet() {
 		if (tempSet == null) {
-			tempSet = new TreeSet<AlgoElementInterface>();
+			tempSet = new TreeSet<AlgoElement>();
 		}
 		return tempSet;
 	}
@@ -1819,7 +1819,7 @@ final public class GeoPoint2 extends GeoVec3D implements VectorValue,
 			// get all "randomizable" predecessors of this and geo
 			TreeSet<GeoElement> pred = this.getAllRandomizablePredecessors();
 			ArrayList<GeoElement> predList = new ArrayList<GeoElement>();
-			TreeSet<AlgoElementInterface> tmpSet = GeoElement.getTempSet();
+			TreeSet<AlgoElement> tmpSet = GeoElement.getTempSet();
 
 			predList.addAll(pred);
 			pred.addAll(geo.getAllRandomizablePredecessors());
@@ -1841,9 +1841,9 @@ final public class GeoPoint2 extends GeoVec3D implements VectorValue,
 				}
 
 				GeoElement.updateCascadeUntil(predList,
-						new TreeSet<AlgoElementInterface>(), this.algoParent);
+						new TreeSet<AlgoElement>(), this.algoParent);
 				GeoElement.updateCascadeUntil(predList,
-						new TreeSet<AlgoElementInterface>(), geo.algoParent);
+						new TreeSet<AlgoElement>(), geo.algoParent);
 				/*
 				 * if (!this.isFixed()) this.updateCascade(); if
 				 * (!geo.isFixed()) geo.updateCascade();

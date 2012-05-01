@@ -21,7 +21,7 @@ import java.util.Iterator;
  */
 public class AlgorithmSet {
 
-	private HashMap<AlgoElementInterface, AlgoElementInterface> hashMap;
+	private HashMap<AlgoElement, AlgoElement> hashMap;
 
 	private Link head, tail;
 	private int size;
@@ -60,14 +60,14 @@ public class AlgorithmSet {
 	 * @param algo
 	 *            algo to be added
 	 */
-	final public boolean add(AlgoElementInterface algo) {
+	final public boolean add(AlgoElement algo) {
 		if (contains(algo))
 			return false;
 
 		// empty list?
 		if (getHead() == null) {
 			if (hashMap == null) {
-				hashMap = new HashMap<AlgoElementInterface, AlgoElementInterface>();
+				hashMap = new HashMap<AlgoElement, AlgoElement>();
 			}
 			hashMap.put(algo, algo);
 
@@ -91,7 +91,7 @@ public class AlgorithmSet {
 		 */
 
 		// check if algo needs to be inserted right after a certain parentAlgo
-		AlgoElementInterface parentAlgo = algo.getUpdateAfterAlgo();
+		AlgoElement parentAlgo = algo.getUpdateAfterAlgo();
 
 		// Standard case: insert at end of list
 		if (parentAlgo == null || parentAlgo == tail.algo
@@ -138,7 +138,7 @@ public class AlgorithmSet {
 	 * @return true iff this set contains algo.
 	 * @param algo
 	 */
-	final public boolean contains(AlgoElementInterface algo) {
+	final public boolean contains(AlgoElement algo) {
 		if (size == 0 || algo == null)
 			return false;
 
@@ -152,7 +152,7 @@ public class AlgorithmSet {
 	 * @param algo
 	 *            algo to be removed
 	 */
-	final public boolean remove(AlgoElementInterface algo) {
+	final public boolean remove(AlgoElement algo) {
 		Object remObj = hashMap.remove(algo);
 		if (remObj == null) {
 			return false;
@@ -200,7 +200,7 @@ public class AlgorithmSet {
 	 * @param lastAlgoToUpdate
 	 *            last algorithm to update
 	 */
-	final public void updateAllUntil(AlgoElementInterface lastAlgoToUpdate) {
+	final public void updateAllUntil(AlgoElement lastAlgoToUpdate) {
 		Link cur = getHead();
 		while (cur != null) {
 			cur.algo.update();
@@ -217,7 +217,7 @@ public class AlgorithmSet {
 	 * @param collection
 	 */
 	final public void addAllToCollection(
-			Collection<AlgoElementInterface> collection) {
+			Collection<AlgoElement> collection) {
 		Link cur = getHead();
 		while (cur != null) {
 			collection.add(cur.algo);
@@ -242,10 +242,10 @@ public class AlgorithmSet {
 	}
 
 	private class Link {
-		AlgoElementInterface algo;
+		AlgoElement algo;
 		Link next;
 
-		Link(AlgoElementInterface a, Link n) {
+		Link(AlgoElement a, Link n) {
 			algo = a;
 			next = n;
 		}
@@ -276,7 +276,7 @@ public class AlgorithmSet {
 	}
 
 	private class AlgorithmSetIterator implements
-			Iterator<AlgoElementInterface> {
+			Iterator<AlgoElement> {
 		private Link cur = getHead();
 
 		public AlgorithmSetIterator() {
@@ -291,8 +291,8 @@ public class AlgorithmSet {
 			return cur != null;
 		}
 
-		public AlgoElementInterface next() {
-			AlgoElementInterface ret = cur.algo;
+		public AlgoElement next() {
+			AlgoElement ret = cur.algo;
 			cur = cur.next;
 			return ret;
 		}

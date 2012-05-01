@@ -1,7 +1,7 @@
 package geogebra.common.main;
 
 import geogebra.common.kernel.Matrix.Coords;
-import geogebra.common.kernel.algos.AlgoElementInterface;
+import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 
@@ -22,13 +22,13 @@ public abstract class GlobalKeyDispatcher {
 	/** application */
 	protected AbstractApplication app;
 	
-	private TreeSet<AlgoElementInterface> tempSet;
+	private TreeSet<AlgoElement> tempSet;
 	/**
 	 * @return temporary set of algos
 	 */
-	protected TreeSet<AlgoElementInterface> getTempSet() {
+	protected TreeSet<AlgoElement> getTempSet() {
 		if (tempSet == null) {
-			tempSet = new TreeSet<AlgoElementInterface>();
+			tempSet = new TreeSet<AlgoElement>();
 		}
 		return tempSet;
 	}

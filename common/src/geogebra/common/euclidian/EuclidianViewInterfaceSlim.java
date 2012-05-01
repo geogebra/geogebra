@@ -2,7 +2,7 @@ package geogebra.common.euclidian;
 
 import geogebra.common.awt.Rectangle;
 import geogebra.common.kernel.LayerView;
-import geogebra.common.kernel.algos.AlgoElementInterface;
+import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
@@ -25,7 +25,7 @@ public interface EuclidianViewInterfaceSlim extends LayerView{
 	 * @param algo algorithm
 	 * @return free input points of given algorithm
 	 */
-	public ArrayList<GeoPoint2> getFreeInputPoints(AlgoElementInterface algo);
+	public ArrayList<GeoPoint2> getFreeInputPoints(AlgoElement algo);
 	
 	/**
 	 * @param geoElement element

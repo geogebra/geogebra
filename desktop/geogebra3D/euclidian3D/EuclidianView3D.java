@@ -15,7 +15,7 @@ import geogebra.common.kernel.Matrix.CoordMatrix;
 import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.CoordMatrixUtil;
 import geogebra.common.kernel.Matrix.Coords;
-import geogebra.common.kernel.algos.AlgoElementInterface;
+import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoButton;
@@ -3145,7 +3145,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	}
 	
 
-	public ArrayList<GeoPoint2> getFreeInputPoints(AlgoElementInterface algoParent){
+	public ArrayList<GeoPoint2> getFreeInputPoints(AlgoElement algoParent){
 		return algoParent.getFreeInputPoints();
 	}
 	

@@ -8,7 +8,6 @@ import geogebra.common.kernel.Matrix.CoordMatrix;
 import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoElement;
-import geogebra.common.kernel.algos.AlgoElementInterface;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.kernelND.GeoConicND;
@@ -275,17 +274,16 @@ public class EuclidianViewForPlane extends EuclidianViewFor3D {
 	public boolean isMoveable(GeoElement geo){
 		if (hasForParent(geo)) {
 			return false;
-		} else {
-			return geo.isMoveable();
 		}
+		return geo.isMoveable();
 	}	
 
 	@Override
-	public ArrayList<GeoPoint2> getFreeInputPoints(AlgoElementInterface algoParent){
+	public ArrayList<GeoPoint2> getFreeInputPoints(AlgoElement algoParent){
 		ArrayList<GeoPoint2> list = algoParent.getFreeInputPoints();
 		ArrayList<GeoPoint2> ret = new ArrayList<GeoPoint2>();	
 		for (GeoPoint2 p : list)
-			if (!hasForParent((GeoElement)p))
+			if (!hasForParent(p))
 				ret.add(p);
 		return ret;
 	}	

@@ -22,7 +22,7 @@
 package geogebra.plugin.kinect;
 
 import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.algos.AlgoElementInterface;
+import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.main.Application;
@@ -650,11 +650,11 @@ public class KinectTest extends Component {
 	}
 
 	private ArrayList<GeoNumeric> numberList;
-	private TreeSet<AlgoElementInterface> tempSet;
+	private TreeSet<AlgoElement> tempSet;
 
-	private TreeSet<AlgoElementInterface> getTempSet() {
+	private TreeSet<AlgoElement> getTempSet() {
 		if (tempSet == null) {
-			tempSet = new TreeSet<AlgoElementInterface>();
+			tempSet = new TreeSet<AlgoElement>();
 		}
 		return tempSet;
 	}

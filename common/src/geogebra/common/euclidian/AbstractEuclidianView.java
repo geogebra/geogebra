@@ -24,7 +24,6 @@ import geogebra.common.kernel.Matrix.CoordMatrix;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoBoxPlot;
 import geogebra.common.kernel.algos.AlgoElement;
-import geogebra.common.kernel.algos.AlgoElementInterface;
 import geogebra.common.kernel.algos.AlgoFunctionAreaSums;
 import geogebra.common.kernel.algos.AlgoIntegralFunctions;
 import geogebra.common.kernel.algos.AlgoSlope;
@@ -1806,7 +1805,7 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 	}
 
 	public ArrayList<GeoPoint2> getFreeInputPoints(
-			AlgoElementInterface algoParent) {
+			AlgoElement algoParent) {
 		return algoParent.getFreeInputPoints();
 	}
 

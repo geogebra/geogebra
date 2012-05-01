@@ -10,7 +10,7 @@ import geogebra.common.kernel.algos.AlgoBarChart;
 import geogebra.common.kernel.algos.AlgoDependentNumber;
 import geogebra.common.kernel.algos.AlgoDependentPoint;
 import geogebra.common.kernel.algos.AlgoElement;
-import geogebra.common.kernel.algos.AlgoElementInterface;
+import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoJoinPointsSegment;
 import geogebra.common.kernel.algos.AlgoListElement;
 import geogebra.common.kernel.algos.AlgoPointOnPath;
@@ -935,10 +935,10 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 	}
 
 
-	private TreeSet<AlgoElementInterface> tempSet;
-	private TreeSet<AlgoElementInterface> getTempSet() {
+	private TreeSet<AlgoElement> tempSet;
+	private TreeSet<AlgoElement> getTempSet() {
 		if (tempSet == null) {
-			tempSet = new TreeSet<AlgoElementInterface>();
+			tempSet = new TreeSet<AlgoElement>();
 		}
 		return tempSet;
 	}

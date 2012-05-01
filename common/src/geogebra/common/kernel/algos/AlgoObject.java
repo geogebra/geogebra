@@ -22,7 +22,6 @@ import java.util.Iterator;
  * Returns the GeoElement from an object's label.
  * 
  * @author Michael, Markus
- * @version
  */
 public class AlgoObject extends AlgoElement {
 
@@ -33,6 +32,12 @@ public class AlgoObject extends AlgoElement {
 	private GeoElement refObject; // referenced object
 	private GeoElement[] inputForUpdateSetPropagation;
 
+	/**
+	 * Creates new algorithm for Object[name].
+	 * @param cons construction
+	 * @param label label
+	 * @param text object name
+	 */
 	public AlgoObject(Construction cons, String label, GeoText text) {
 		super(cons);
 		this.text = text;
@@ -90,6 +95,9 @@ public class AlgoObject extends AlgoElement {
 		setDependencies();
 	}
 
+	/**
+	 * @return object with given name
+	 */
 	public GeoElement getResult() {
 		return geo;
 	}
@@ -134,10 +142,10 @@ public class AlgoObject extends AlgoElement {
 			// of the newly referenced geo
 			refObject.addToUpdateSetOnly(this);
 			if (geo != null) {
-				Iterator<AlgoElementInterface> it = geo.getAlgoUpdateSet()
+				Iterator<AlgoElement> it = geo.getAlgoUpdateSet()
 						.getIterator();
 				while (it.hasNext()) {
-					refObject.addToUpdateSetOnly((AlgoElement) it.next());
+					refObject.addToUpdateSetOnly(it.next());
 				}
 			}
 		}

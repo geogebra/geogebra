@@ -40,7 +40,7 @@ import java.util.TreeSet;
  * @author Markus
  */
 public abstract class AlgoElement extends ConstructionElement implements
-		EuclidianViewCE, AlgoElementInterface {
+		EuclidianViewCE {
 	/** input elements*/
 	public GeoElement[] input;
 	/**
@@ -371,7 +371,7 @@ public abstract class AlgoElement extends ConstructionElement implements
 		/**
 		 * set the label to the next geo with no label (or create new one)
 		 * 
-		 * @param label
+		 * @param label label
 		 * @return corresponding geo
 		 */
 		public T addLabel(String label) {
@@ -394,7 +394,8 @@ public abstract class AlgoElement extends ConstructionElement implements
 		}
 
 		/**
-		 * @param i
+		 * Returns output element at given position
+		 * @param i position (starting with 0)
 		 * @return get the i<sup>th</sup> Element of this OutputHandler
 		 */
 		public T getElement(int i) {
@@ -421,9 +422,7 @@ public abstract class AlgoElement extends ConstructionElement implements
 	}
 
 	/**
-	 * 
-	 * 
-	 * @param <S>
+	 * Produces objects of type &lt;S>
 	 */
 	public interface elementFactory<S extends GeoElement> {
 
@@ -441,6 +440,11 @@ public abstract class AlgoElement extends ConstructionElement implements
 	 * ggbApplet.getCommandString(objName); ggbApplet.getValueString(objName);
 	 */
 
+	/**
+	 * Converts algorithm identifier into command name
+	 * @param classname algorithm identifier
+	 * @return internal command name
+	 */
 	final static String getCommandString(Algos classname) {
 		// init rbalgo2command if needed
 		// for translation of Algo-classname to command name
@@ -461,6 +465,7 @@ public abstract class AlgoElement extends ConstructionElement implements
 	 * look at the current location of their output points.
 	 */
 	public void initForNearToRelationship() {
+		//overriden in subclasses
 	}
 
 	public boolean isNearToAlgorithm() {
@@ -508,7 +513,7 @@ public abstract class AlgoElement extends ConstructionElement implements
 	 * more efficient than calling updateCascade() for all individual
 	 * AlgoElements.
 	 * 
-	 * @param algos
+	 * @param algos list of algos that need updating
 	 */
 	public static void updateCascadeAlgos(ArrayList<AlgoElement> algos) {
 		if (algos == null) {
@@ -533,11 +538,11 @@ public abstract class AlgoElement extends ConstructionElement implements
 		GeoElement.updateCascade(geos, getTempSet(), true);
 	}
 
-	private static TreeSet<AlgoElementInterface> tempSet;
+	private static TreeSet<AlgoElement> tempSet;
 
-	private static TreeSet<AlgoElementInterface> getTempSet() {
+	private static TreeSet<AlgoElement> getTempSet() {
 		if (tempSet == null) {
-			tempSet = new TreeSet<AlgoElementInterface>();
+			tempSet = new TreeSet<AlgoElement>();
 		}
 		return tempSet;
 	}
@@ -550,6 +555,9 @@ public abstract class AlgoElement extends ConstructionElement implements
 		return output;
 	}
 
+	/**
+	 * @return array of input elements
+	 */
 	final public GeoElement[] getInput() {
 		return input;
 	}
@@ -692,41 +700,6 @@ public abstract class AlgoElement extends ConstructionElement implements
 		}
 	}
 
-	// /**
-	// * Removes algorithm from all updateSets and algorithm lists of
-	// * input objects and their predecessors. The algorithm itself
-	// * and its output are kept in the construction.
-	// */
-	// final public void removeInputDependencies() {
-	// if (input == null) return;
-	//
-	// // we keep the output, so we need to remove
-	// // the algorithm from all update sets of input predecessors
-	// TreeSet<GeoElement> inputPred = new TreeSet<GeoElement>();
-	//
-	// // delete from algorithm lists of input
-	// // collect all input predecessors
-	// for (int i = 0; i < input.length; i++) {
-	// input[i].removeAlgorithm(this);
-	// input[i].addPredecessorsToSet(inputPred, false);
-	// inputPred.add(input[i]);
-	// }
-	//
-	// // delete from algorithm lists of efficient input
-	// // collect all input predecessors
-	// if (efficientInput != null) {
-	// for (int i = 0; i < efficientInput.length; i++) {
-	// efficientInput[i].removeAlgorithm(this);
-	// efficientInput[i].addPredecessorsToSet(inputPred, false);
-	// inputPred.add(efficientInput[i]);
-	// }
-	// }
-	//
-	// // make sure that unreachable algos are removed from update sets
-	// for (GeoElement predGeo : inputPred) {
-	// predGeo.removeUnreachableAlgorithmsFromUpdateSet();
-	// }
-	// }
 
 	/**
 	 * Tells this algorithm to react on the deletion of one of its outputs.
@@ -1110,10 +1083,6 @@ public abstract class AlgoElement extends ConstructionElement implements
 			sb.append(cmd);
 		}
 	}
-	@Deprecated
-	public final String toRealString() {
-		return toString();
-	}
 	
 	public String toRealString(StringTemplate tpl) {
 		return toString(tpl);
@@ -1127,6 +1096,7 @@ public abstract class AlgoElement extends ConstructionElement implements
  
 	/**
 	 * translate class name to internal command name GeoGebra File Format
+	 * @param tpl string template
 	 * 
 	 * @return internal command name
 	 */
@@ -1159,12 +1129,20 @@ public abstract class AlgoElement extends ConstructionElement implements
 		getXML(sb, true);
 	}
 
+	/**
+	 * @return XML representation of this algo, including output objects
+	 */
 	public String getXML() {
 		StringBuilder sb = new StringBuilder();
 		getXML(sb, true);
 		return sb.toString();
 	}
 
+	/**
+	 * Adds XML representation of this algo to the string builder
+	 * @param sb string builder
+	 * @param includeOutputGeos true to include output geos
+	 */
 	public final void getXML(StringBuilder sb, boolean includeOutputGeos) {
 		// this is needed for helper commands like
 		// intersect for single intersection points
@@ -1198,7 +1176,7 @@ public abstract class AlgoElement extends ConstructionElement implements
 	/**
 	 * concatenate output XML to sb
 	 * 
-	 * @param sb
+	 * @param sb string builder
 	 */
 	protected void getOutputXML(StringBuilder sb) {
 		// output
@@ -1213,8 +1191,11 @@ public abstract class AlgoElement extends ConstructionElement implements
 		}
 	}
 
-	// Expressions should be shown as out = expression
-	// e.g. <expression label="u" exp="a + 7 b"/>
+	/** Expressions should be shown as out = expression
+	 * e.g. <expression label="u" exp="a + 7 b"/>
+	 * @param tpl string template 
+	 * @return expression XML tag
+	 */
 	protected String getExpXML(StringTemplate tpl) {
 		StringBuilder sb = new StringBuilder();
 		sb.append("<expression");

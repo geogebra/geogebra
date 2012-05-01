@@ -28,7 +28,7 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoClosestPoint;
 import geogebra.common.kernel.algos.AlgoElement;
-import geogebra.common.kernel.algos.AlgoElementInterface;
+import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoPointOnPath;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
@@ -812,9 +812,9 @@ Dilateable, Transformable, EuclidianViewCE {
 						double[][] iX=new double[][]{{(b*ay-a*by)/det,-ay/det},{by/det}};
 						double[][] iY=new double[][]{{-(b*ax-a*bx)/det,ax/det},{-bx/det}};
 						
-						Iterator<AlgoElementInterface> it=algoUpdateSet.getIterator();
+						Iterator<AlgoElement> it=algoUpdateSet.getIterator();
 						while(it!=null&&it.hasNext()){
-							AlgoElementInterface elem=it.next();
+							AlgoElement elem=it.next();
 							if (elem instanceof AlgoPointOnPath && isIndependent()){
 								GeoPoint2 point=((AlgoPointOnPath)elem).getP();
 								if (!Kernel.isZero(point.getZ())){
@@ -1436,9 +1436,9 @@ Dilateable, Transformable, EuclidianViewCE {
 				}
 			}
 			if (algoUpdateSet!=null){
-				Iterator<AlgoElementInterface> it=algoUpdateSet.getIterator();
+				Iterator<AlgoElement> it=algoUpdateSet.getIterator();
 				while(it.hasNext()){
-					AlgoElement elem=(AlgoElement)it.next();
+					AlgoElement elem = it.next();
 					if (elem instanceof AlgoPointOnPath){
 						for (int i=0;i<elem.getInput().length;i++){
 							if (elem.getInput()[i]==this){

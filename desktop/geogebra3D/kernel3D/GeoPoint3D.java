@@ -35,7 +35,7 @@ import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.CoordSys;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoElement;
-import geogebra.common.kernel.algos.AlgoElementInterface;
+import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.arithmetic3D.Vector3DValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -915,11 +915,11 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND,
 		}
 	}
 
-	private static TreeSet<AlgoElementInterface> tempSet;
+	private static TreeSet<AlgoElement> tempSet;
 
-	protected static TreeSet<AlgoElementInterface> getTempSet() {
+	protected static TreeSet<AlgoElement> getTempSet() {
 		if (tempSet == null) {
-			tempSet = new TreeSet<AlgoElementInterface>();
+			tempSet = new TreeSet<AlgoElement>();
 		}
 		return tempSet;
 	}

@@ -6,7 +6,6 @@ import geogebra.common.io.MyXMLio;
 import geogebra.common.kernel.algos.AlgoDependentNumber;
 import geogebra.common.kernel.algos.AlgoDistancePoints;
 import geogebra.common.kernel.algos.AlgoElement;
-import geogebra.common.kernel.algos.AlgoElementInterface;
 import geogebra.common.kernel.algos.AlgorithmSet;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.algos.ConstructionElement;
@@ -783,8 +782,8 @@ public class Construction {
 	 *            to be added
 	 * @see #updateConstruction()
 	 */
-	public void addToAlgorithmList(AlgoElementInterface algo) {
-		algoList.add((AlgoElement) algo);
+	public void addToAlgorithmList(AlgoElement algo) {
+		algoList.add(algo);
 	}
 
 	/**
@@ -793,7 +792,7 @@ public class Construction {
 	 * @param algo
 	 *            algo to be removed
 	 */
-	public void removeFromAlgorithmList(AlgoElementInterface algo) {
+	public void removeFromAlgorithmList(AlgoElement algo) {
 		algoList.remove(algo);
 	}
 

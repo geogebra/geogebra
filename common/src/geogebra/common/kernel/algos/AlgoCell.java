@@ -23,17 +23,22 @@ import java.util.Iterator;
  * Returns the GeoElement from an object's coordinates in the spreadsheet.
  * 
  * @author Michael, Markus
- * @version
  */
 public class AlgoCell extends AlgoElement {
 
 	private GeoElement geo; // output
-	protected NumberValue a, b; // input
+	private NumberValue a, b; // input
 
 	private String currentLabel;
 	private GeoElement refObject; // referenced object
 	private GeoElement[] inputForUpdateSetPropagation;
 
+	/**
+	 * @param cons construction
+	 * @param label label for output
+	 * @param a column
+	 * @param b row
+	 */
 	public AlgoCell(Construction cons, String label, NumberValue a,
 			NumberValue b) {
 		super(cons);
@@ -89,6 +94,10 @@ public class AlgoCell extends AlgoElement {
 		setDependencies();
 	}
 
+	/**
+	 * 
+	 * @return cell at given position
+	 */
 	public GeoElement getResult() {
 		return geo;
 	}
@@ -134,10 +143,10 @@ public class AlgoCell extends AlgoElement {
 			// of the newly referenced geo
 			refObject.addToUpdateSetOnly(this);
 			if (geo != null) {
-				Iterator<AlgoElementInterface> it = geo.getAlgoUpdateSet()
+				Iterator<AlgoElement> it = geo.getAlgoUpdateSet()
 						.getIterator();
 				while (it.hasNext()) {
-					refObject.addToUpdateSetOnly((AlgoElement) it.next());
+					refObject.addToUpdateSetOnly(it.next());
 				}
 			}
 		}
