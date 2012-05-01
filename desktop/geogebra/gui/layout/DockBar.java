@@ -14,31 +14,28 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
 import java.awt.Image;
 import java.awt.SystemColor;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
-import java.util.Arrays;
 
-import javax.swing.AbstractAction;
-import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
-import javax.swing.JToggleButton;
 import javax.swing.JToolBar;
 import javax.swing.SwingConstants;
 import javax.swing.border.BevelBorder;
@@ -62,7 +59,7 @@ public class DockBar extends JPanel implements ActionListener {
 	private JPanel mainPanel, minimumPanel;
 
 	private ViewButtonBar viewButtonBar;
-	
+
 	private JButton btnConfigure, btnGeoGebra, btnView, btnOptions;
 
 	private JButton btnTurtle;
@@ -120,7 +117,7 @@ public class DockBar extends JPanel implements ActionListener {
 	}
 
 	public void update() {
-		//app.updateToolBar();
+		// app.updateToolBar();
 
 		// btnSettings.setSelected(!app.isMainPanelShowing());
 
@@ -136,16 +133,16 @@ public class DockBar extends JPanel implements ActionListener {
 		mainPanel = new JPanel();
 		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 		mainPanel.add(Box.createVerticalStrut(15));
-	//	mainPanel.add(btnConfigure);
-		//mainPanel.add(btnOptions);
+		mainPanel.add(btnConfigure);
+		// mainPanel.add(btnOptions);
 		mainPanel.add(Box.createVerticalStrut(35));
-		//mainPanel.add(btnView);
+		// mainPanel.add(btnView);
 
 		// view toggle buttons
-		
+
 		viewButtonBar = new ViewButtonBar(app);
 		viewButtonBar.setOrientation(JToolBar.VERTICAL);
-		viewButtonBar.setPreferredSize(new Dimension(32,32));
+		viewButtonBar.setPreferredSize(new Dimension(32, 32));
 		mainPanel.add(viewButtonBar);
 
 		Border outsideBorder = BorderFactory.createMatteBorder(1, 0, 0, 1,
@@ -165,12 +162,12 @@ public class DockBar extends JPanel implements ActionListener {
 		btnGeoGebra.setFocusPainted(false);
 
 		btnConfigure = new JButton();
-		btnConfigure.setIcon(app.getImageIcon("configure-32.png"));
-		// btnSettings.setSelectedIcon(app.getImageIcon("go-previous24.png"));
+		btnConfigure.setIcon(app.getImageIcon("arrow-out.png"));
+		btnConfigure.setSelectedIcon(app.getImageIcon("arrow-in.png"));
 		btnConfigure.addActionListener(this);
 		btnConfigure.setFocusPainted(false);
-		btnConfigure.setBorderPainted(false);
-		btnConfigure.setContentAreaFilled(false);
+		//btnConfigure.setBorderPainted(false);
+		//btnConfigure.setContentAreaFilled(false);
 		btnConfigure.setAlignmentX(Component.CENTER_ALIGNMENT);
 
 		btnView = new JButton();
@@ -195,7 +192,64 @@ public class DockBar extends JPanel implements ActionListener {
 
 	}
 
-	
+	private boolean fullScreen = false;
+
+	private void toggleFullScreen() {
+
+		GraphicsEnvironment ge = GraphicsEnvironment
+				.getLocalGraphicsEnvironment();
+		GraphicsDevice gs = ge.getDefaultScreenDevice();
+		// GraphicsDevice[] gs = ge.getScreenDevices();
+		// Determine if full-screen mode is supported directly
+		if (gs.isFullScreenSupported()) {
+			AbstractApplication.info("full screen mode supported");
+		} else {
+			AbstractApplication.info("full screen mode not supported");
+		}
+
+		fullScreen = !fullScreen;
+		JFrame f = app.getFrame();
+		try {
+			if (fullScreen) { // Enter full-screen mode
+				
+				Toolkit toolkit = Toolkit.getDefaultToolkit();
+				Dimension dim = toolkit.getScreenSize();
+				f.setResizable(true);
+				
+				
+				f.removeNotify();
+				f.setUndecorated(true);
+				f.addNotify();
+				
+				gs.setFullScreenWindow(f);
+				
+				f.setLocation(0, 0);
+				f.setSize(dim);
+				f.validate();
+				
+			} else { // Return to normal windowed mode
+		
+				gs.setFullScreenWindow(null);
+				
+				f.removeNotify();
+				f.setUndecorated(false);
+				f.addNotify();
+				f.validate();
+		
+			}
+		}
+
+		catch (Exception e) {
+			System.out.println("error: " + e.getMessage());
+		}
+
+		finally {
+			// Exit full-screen mode
+			//AbstractApplication.info("finally");
+			//gs.setFullScreenWindow(null);
+		}
+
+	}
 
 	public void actionPerformed(ActionEvent e) {
 		Object source = e.getSource();
@@ -203,12 +257,13 @@ public class DockBar extends JPanel implements ActionListener {
 		if (source == btnConfigure) {
 
 			if (configPanel == null) {
-				configPanel = new ConfigurationPanel(app, this);
-				app.setBackPanel(configPanel);
+				// configPanel = new ConfigurationPanel(app, this);
+				// app.setBackPanel(configPanel);
 			}
 			// app.setBackPanel(configPanel);
-			app.showBackPanel();
-
+			// app.showBackPanel();
+			toggleFullScreen();
+			btnConfigure.setSelected(!btnConfigure.isSelected());
 		}
 
 		if (source == btnOptions) {
@@ -473,7 +528,7 @@ public class DockBar extends JPanel implements ActionListener {
 
 	public void updateViewButtons() {
 		viewButtonBar.updateViewButtons();
-		
+
 	}
 
 }
