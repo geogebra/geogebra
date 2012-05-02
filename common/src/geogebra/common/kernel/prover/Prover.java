@@ -217,7 +217,7 @@ public class Prover {
 			else {
 				ret[i] = new Polynomial(fv[0]);
 				++i;
-				ret[i] = new Polynomial(fv[0]).subtract(new Polynomial(1));
+				ret[i] = new Polynomial(fv[1]).subtract(new Polynomial(1));
 				++i;
 			}
 		}
