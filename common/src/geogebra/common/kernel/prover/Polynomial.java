@@ -284,8 +284,14 @@ public class Polynomial implements Comparable<Polynomial> {
 	 */
 	public static HashSet<FreeVariable> getVars(Polynomial[] polys) {
 		HashSet<FreeVariable> v = new HashSet<FreeVariable>();
-		for (int i=0; i<polys.length; ++i)
-			v.addAll(polys[i].getVars());
+		int polysLength = 0;
+		if (polys != null)
+			polysLength = polys.length;
+		for (int i=0; i<polysLength; ++i) {
+			HashSet<FreeVariable> vars = polys[i].getVars();
+			if (vars != null)
+				v.addAll(vars);
+		}
 		return v;
 	}
 	
@@ -296,7 +302,10 @@ public class Polynomial implements Comparable<Polynomial> {
 	 */
 	public static String getVarsAsCommaSeparatedString(Polynomial[] polys) {
 		StringBuilder sb = new StringBuilder();
-		Iterator<FreeVariable> it = getVars(polys).iterator();
+		HashSet<FreeVariable> vars = getVars(polys);
+		if (vars == null)
+			return "";
+		Iterator<FreeVariable> it = vars.iterator();
 		while (it.hasNext()) {
 			FreeVariable fv = it.next();
 			sb.append("," + fv);

@@ -14,6 +14,7 @@ package geogebra.common.kernel.prover;
  * 
  */
 
+import java.util.HashSet;
 import java.util.Iterator;
 
 // ArrayUtils cannot be used in GWT:
@@ -120,6 +121,90 @@ public class Prover {
 	 * Starts computation of the proof, based on the defined
 	 * subsystem.
 	 */
+	
+	private Polynomial[] create3FreePointsNeverCollinearNDG() {
+		// Creating the set of free points first:
+		HashSet<GeoElement> freePoints = new HashSet<GeoElement>();
+		Iterator<GeoElement> it = statement.getAllPredecessors().iterator();
+		while (it.hasNext()) {
+			GeoElement geo = it.next();
+			if (geo.isGeoPoint() && geo.getParentAlgorithm() == null) { // this is a free point
+				freePoints.add(geo);
+			}
+		}
+		int setSize = freePoints.size();
+		// The output will contain $\binom{n}{3}$ elements:
+		Polynomial[] ret = new Polynomial[setSize * (setSize - 1) * (setSize - 2) / 6];
+		int i = 0;
+		// Creating the set of triplets:
+		HashSet<HashSet<GeoElement>> triplets = new HashSet<HashSet<GeoElement>>();
+		Iterator<GeoElement> it1 = freePoints.iterator();
+		while (it1.hasNext()) {
+			GeoElement geo1 = it1.next();
+			Iterator<GeoElement> it2 = freePoints.iterator();
+			while (it2.hasNext()) {
+				GeoElement geo2 = it2.next();
+				if (!geo1.isEqual(geo2)) {
+					Iterator<GeoElement> it3 = freePoints.iterator();
+					while (it3.hasNext()) {
+						GeoElement geo3 = it3.next();
+						if (!geo1.isEqual(geo3) && !geo2.isEqual(geo3)) {
+							HashSet<GeoElement> triplet = new HashSet<GeoElement>();
+							triplet.add(geo1);
+							triplet.add(geo2);
+							triplet.add(geo3);
+							if (!triplets.contains(triplet)) {
+								triplets.add(triplet);
+								AbstractApplication.debug(geo1.getLabelSimple() + 
+										geo2.getLabelSimple() + 
+										geo3.getLabelSimple() + " should never be collinear");
+								FreeVariable[] fv1 = ((SymbolicParametersAlgo)geo1).getBotanaVars();
+								FreeVariable[] fv2 = ((SymbolicParametersAlgo)geo2).getBotanaVars();
+								FreeVariable[] fv3 = ((SymbolicParametersAlgo)geo3).getBotanaVars();
+								// Creating the polynomial for collinearity:
+								Polynomial p = Polynomial.setCollinear(fv1[0], fv1[1], fv2[0], fv2[1], fv3[0], fv3[1]);
+								// Rabinowitsch trick for prohibiting collinearity:
+								ret[i] = p.multiply(new Polynomial(new FreeVariable())).subtract(new Polynomial(1));
+								// FIXME: this always introduces an extra variable, shouldn't do
+								i++;
+							}
+						}
+					}
+				}
+			}
+		}
+	
+		return ret;
+
+		/*
+		Iterator<GeoElement> it1 = statement.getAllPredecessors().iterator();
+		while (it1.hasNext()) {
+			GeoElement geo1 = it1.next();
+			if (geo1.isGeoPoint() && geo1.getParentAlgorithm() == null) { // this is a free point
+				Iterator<GeoElement> it2 = statement.getAllPredecessors().iterator();
+				while (it2.hasNext()) {
+					GeoElement geo2 = it2.next();
+					if (geo2.isGeoPoint() && geo2.getParentAlgorithm() == null &&
+							!geo1.isEqual(geo2)) { // this is a different free point
+						Iterator<GeoElement> it3 = statement.getAllPredecessors().iterator();
+						while (it3.hasNext()) {
+							GeoElement geo3 = it3.next();
+							if (geo3.isGeoPoint() && geo3.getParentAlgorithm() == null &&
+									!geo1.isEqual(geo3) && !geo2.isEqual(geo3)) {
+								AbstractApplication.debug(geo1.getLabelSimple() + 
+										geo2.getLabelSimple() + 
+										geo3.getLabelSimple() + " should never be collinear");
+							}
+						}
+					}
+				}
+			}
+		}
+		*/
+
+	
+	}
+	
 	public void compute() {
 		if (/*engine == ProverEngine.BOTANAS_PROVER*/ true) {
 			Polynomial[] polys = null;
@@ -150,14 +235,29 @@ public class Prover {
 			}
 			try {
 				Polynomial[] spolys = ((SymbolicParametersAlgo) statement.getParentAlgorithm()).getBotanaPolynomials();
-				Polynomial[] allPolys = new Polynomial[polys.length + 1];
-				for (int j=0; j<polys.length; ++j)
+				Polynomial[] npolys = create3FreePointsNeverCollinearNDG();
+				int polysLength = 0;
+				int npolysLength = 0;
+				int spolysLength = 0;
+				if (polys != null)
+					polysLength = polys.length;
+				if (npolys != null)
+					npolysLength = npolys.length;
+				if (spolys != null)
+					spolysLength = spolys.length;
+				
+				Polynomial[] allPolys = new Polynomial[polysLength + npolysLength + 1];
+				for (int j=0; j<polysLength; ++j)
 					allPolys[j] = polys[j];
+				for (int j=0; j<npolysLength; ++j)
+					allPolys[j + polysLength] = npolys[j];
+				
 				boolean ans = true;
-				for (int i=0; i<spolys.length && ans; ++i) {
+				for (int i=0; i<spolysLength && ans; ++i) {
 					// Rabinowitsch trick
 					Polynomial spoly = spolys[i].multiply(new Polynomial(new FreeVariable())).subtract(new Polynomial(1));
-					allPolys[polys.length] = spoly;
+					// FIXME: this always introduces an extra variable, shouldn't do
+					allPolys[polysLength + npolysLength] = spoly;
 					// ArrayUtils cannot be used in GWT:
 					// Polynomial[] allPolys = (Polynomial[]) ArrayUtils.add(polys, spoly);
 					if (Polynomial.solvable(allPolys)) // FIXME: here seems NPE if SingularWS not initialized 
