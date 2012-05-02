@@ -183,7 +183,7 @@ public class RadioButtonTreeItem extends HorizontalPanel
 
 	public void startEditing() {
 		thisIsEdited = true;
-		if (LaTeX) {
+		if (LaTeX && !(geo.isGeoVector() && geo.isIndependent())) {
 			geogebra.web.main.DrawEquationWeb.editEquationMathQuill(this,se);
 		} else {
 			remove(ihtml);
@@ -215,8 +215,15 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		if (geo2 != null)
 			geo = geo2;
 
-		se.setInnerHTML(geo.getAlgebraDescriptionTextOrHTML(
+		if ( geo.isGeoVector() && geo.isIndependent() ) {
+			String latexStr = geo.getLaTeXAlgebraDescription(true,
+					StringTemplate.latexTemplate);
+			latexStr = inputLatexCosmetics(latexStr);
+			DrawEquationWeb.updateEquationMathQuill(latexStr, se);
+		} else {
+			se.setInnerHTML(geo.getAlgebraDescriptionTextOrHTML(
 				StringTemplate.defaultTemplate));
+		}
 	}
 
 	public void stopEditing(String newValue) {
