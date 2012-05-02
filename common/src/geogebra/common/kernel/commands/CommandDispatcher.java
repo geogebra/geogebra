@@ -880,6 +880,8 @@ public class CommandDispatcher {
 				return new CmdSetPointSize(kernel);
 			case SetFixed:
 				return new CmdSetFixed(kernel);
+			case SetTrace:
+				return new CmdSetTrace(kernel);
 			case Rename:
 				return new CmdRename(kernel);
 			case HideLayer:

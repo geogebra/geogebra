@@ -103,7 +103,7 @@ public final class DrawList extends Drawable implements RemoveNeeded {
 		} else {
 			if (isTracing) {
 				isTracing = false;
-				view.updateBackground();
+				//view.updateBackground();
 			}
 		}
 

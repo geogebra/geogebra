@@ -209,7 +209,7 @@ public class DrawParametricCurve extends Drawable {
 		} else {
 			if (isTracing) {
 				isTracing = false;
-				view.updateBackground();
+				//view.updateBackground();
 			}
 		}
 	}

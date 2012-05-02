@@ -305,7 +305,7 @@ public final class DrawPoint extends Drawable {
 		} else {
 			if (isTracing) {
 				isTracing = false;
-				view.updateBackground();
+				//view.updateBackground();
 			}
 		}
 

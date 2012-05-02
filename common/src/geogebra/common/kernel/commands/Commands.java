@@ -151,7 +151,7 @@ public enum Commands implements CommandsConstants{
 	//=============================================================
    	CopyFreeObject(TABLE_SCRIPTING), SetColor(TABLE_SCRIPTING), SetBackgroundColor(TABLE_SCRIPTING), SetDynamicColor(TABLE_SCRIPTING),
    	SetConditionToShowObject(TABLE_SCRIPTING), SetFilling(TABLE_SCRIPTING), SetLineThickness(TABLE_SCRIPTING), SetLineStyle(TABLE_SCRIPTING),
-   	SetPointStyle(TABLE_SCRIPTING), SetPointSize(TABLE_SCRIPTING), SetFixed(TABLE_SCRIPTING), Rename(TABLE_SCRIPTING),
+   	SetPointStyle(TABLE_SCRIPTING), SetPointSize(TABLE_SCRIPTING), SetFixed(TABLE_SCRIPTING), SetTrace(TABLE_SCRIPTING), Rename(TABLE_SCRIPTING),
    	HideLayer(TABLE_SCRIPTING), ShowLayer(TABLE_SCRIPTING), SetCoords(TABLE_SCRIPTING), Pan(TABLE_SCRIPTING),
    	ZoomIn(TABLE_SCRIPTING), ZoomOut(TABLE_SCRIPTING), SetActiveView(TABLE_SCRIPTING), SelectObjects(TABLE_SCRIPTING),
    	SetLayer(TABLE_SCRIPTING), SetCaption(TABLE_SCRIPTING), SetLabelMode(TABLE_SCRIPTING), SetTooltipMode(TABLE_SCRIPTING),

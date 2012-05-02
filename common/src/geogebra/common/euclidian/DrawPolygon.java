@@ -104,7 +104,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 			} else {
 				if (isTracing) {
 					isTracing = false;
-					view.updateBackground();
+					//view.updateBackground();
 				}
 			}
 

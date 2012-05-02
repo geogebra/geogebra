@@ -79,7 +79,7 @@ public class DrawLocus extends Drawable {
 		} else {
 			if (isTracing) {
 				isTracing = false;
-				view.updateBackground();
+				//view.updateBackground();
 			}
 		}
 		if (geo.isInverseFill()) {

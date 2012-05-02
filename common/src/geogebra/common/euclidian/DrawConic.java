@@ -322,7 +322,7 @@ final public class DrawConic extends Drawable implements Previewable {
 		} else {
 			if (isTracing) {
 				isTracing = false;
-				view.updateBackground();
+				//view.updateBackground();
 			}
 		}
 
