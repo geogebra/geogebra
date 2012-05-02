@@ -46,6 +46,10 @@ public class Prover {
 	 * OpenGeoProver (http://code.google.com/p/open-geo-prover/)
 	 */
 	OPENGEOPROVER, /**
+	 * pure symbolic prover (every object is calculated symbolically, also the statements)
+	 */ 
+	PURE_SYMBOLIC_PROVER,
+	/**
 	 * Default prover (GeoGebra decides internally)
 	 */
 	AUTO}
@@ -313,6 +317,10 @@ public class Prover {
 			return;
 		}
 
+		if (engine == ProverEngine.BOTANAS_PROVER && !AbstractApplication.singularWS.isAvailable()) {
+			setProverEngine(ProverEngine.PURE_SYMBOLIC_PROVER); 
+		}
+		
 		if (engine == ProverEngine.BOTANAS_PROVER) {
 			BotanasProver();
 			return; // this will return later, now we calculate the other methods as well
