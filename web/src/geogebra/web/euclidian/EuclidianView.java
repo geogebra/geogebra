@@ -78,7 +78,10 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 		evNo = 1;
 	    // TODO Auto-generated constructor stub
 		this.g2p = new geogebra.web.awt.Graphics2D(canvas);
+		setGridLineStyle(EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT);
+		setAxesLineStyle(EuclidianStyleConstants.AXES_LINE_TYPE_ARROW);
 		setAxesColor(geogebra.common.awt.Color.black);
+		setGridColor(geogebra.common.awt.Color.lightGray);
 		updateFonts();
 		setStandardCoordSystem();
 		attachView();
