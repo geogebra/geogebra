@@ -3,6 +3,7 @@ package geogebra3D.euclidian3D;
 import geogebra.common.euclidian.Hits;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoCoordSys2D;
+import geogebra.common.main.AbstractApplication;
 import geogebra3D.euclidian3D.Drawable3D.drawableComparator;
 import geogebra3D.kernel3D.GeoQuadric3D;
 import java.util.ArrayList;
@@ -87,6 +88,11 @@ public class Hits3D extends Hits {
 	
 	@Override
 	public boolean add(GeoElement geo){
+		
+		if (geo==null){
+			AbstractApplication.error("adding null geo");
+			return false;
+		}
 		
 		if (geo instanceof GeoCoordSys2D) {
 			cs2DCount++;
