@@ -350,17 +350,6 @@ public class Command extends ValidExpression implements ReplaceChildrenByValues{
 		return set;
 	}
 
-	
-	@Override
-	public void addCommands(Set<Command> commands) {
-		commands.add(this);
-
-		int size = args.size();
-		for (int i = 0; i < size; i++) {
-			args.get(i).addCommands(commands);
-		}
-	}
-
 	final public boolean isExpressionNode() {
 		return false;
 	}

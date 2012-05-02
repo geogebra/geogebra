@@ -183,5 +183,28 @@ public interface Traversing {
 			return derivativeDegrees;
 		}
 	}
+	
+	/**
+	 * Goes through the ExpressionValue and collects all derivatives
+	 * from expression nodes into arrays
+	 */
+	public class CommandCollector implements Traversing {
+		private Set<Command> commands;
+		public ExpressionValue process(ExpressionValue ev) {
+			if(ev instanceof Command)
+				commands.add((Command)ev);
+			return ev;
+		}
+		private static CommandCollector collector = new CommandCollector();
+		/**
+		 * Resets and returns the collector
+		 * @param commands set into which we want to collect the commands
+		 * @return derivative collector
+		 */
+		public static CommandCollector getCollector(Set<Command> commands){		
+			collector.commands = commands;
+			return collector;
+		}
+	}
 
 }

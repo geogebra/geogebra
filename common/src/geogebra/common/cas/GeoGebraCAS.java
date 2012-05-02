@@ -315,7 +315,6 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	final private static String toString(ExpressionValue ev, boolean symbolic,StringTemplate tpl) {
 		if(ev.isExpressionNode() && ev.isLeaf()){
 			ExpressionValue lft = ((ExpressionNode)ev).getLeft();
-			AbstractApplication.debug(lft+":"+lft.getClass());
 			if(lft instanceof GeoFunction || lft instanceof GeoFunctionNVar)
 				return ((GeoElement)lft).getAssignmentLHS(tpl);
 			if(lft instanceof GeoCasCell){

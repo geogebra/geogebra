@@ -894,8 +894,6 @@ public class FunctionNVar extends ValidExpression implements FunctionalNVar, Var
 
 	@Override
 	public ExpressionValue traverse(Traversing t) {
-		if(t instanceof Traversing.GeoDummyReplacer)
-			return this;
 		ExpressionValue ev = t.process(this);
 		if(ev!=this)
 			return ev;

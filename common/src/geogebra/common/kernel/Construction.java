@@ -636,31 +636,6 @@ public class Construction {
 						.updateInputStringWithRowReferences();
 			}
 		}
-
-		// TODO remove
-		System.out.println("*** updateCasCellRows() ***");
-		counter = 0;
-		for (ConstructionElement ce : ceList) {
-			if (ce instanceof GeoCasCell) {
-				int row = ((GeoCasCell) ce).getRowNumber();
-				System.out.println("Row "
-						+ row
-						+ ": "
-						+ ((GeoCasCell) ce)
-								.toString(StringTemplate.defaultTemplate));
-				counter++;
-			} else if (ce instanceof AlgoDependentCasCell) {
-				int row = ((AlgoDependentCasCell) ce).getCasCell()
-						.getRowNumber();
-				System.out.println("Row "
-						+ row
-						+ ": "
-						+ (((AlgoDependentCasCell) ce).getCasCell())
-								.toString(StringTemplate.defaultTemplate));
-				counter++;
-			}
-		}
-
 	}
 
 	/**

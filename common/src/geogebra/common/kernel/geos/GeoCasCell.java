@@ -12,8 +12,10 @@ import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import geogebra.common.kernel.arithmetic.FunctionNVar;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
+import geogebra.common.kernel.arithmetic.Traversing.CommandCollector;
 import geogebra.common.kernel.arithmetic.Traversing.GeoDummyReplacer;
 import geogebra.common.kernel.arithmetic.ValidExpression;
+import geogebra.common.main.AbstractApplication;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.util.StringUtil;
 
@@ -461,7 +463,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 
 	/**
 	 * Sets row number for CAS view. This method should only be called by
-	 * Construction.updateCasCellRows().
+	 * {@link Construction#updateCasCellRows()}
 	 * 
 	 * @param row
 	 *            row number
@@ -611,8 +613,10 @@ public class GeoCasCell extends GeoElement implements VarString {
 
 		// get all command names
 		commands = new HashSet<Command>();
-		ve.addCommands(commands);
+		ve.traverse(CommandCollector.getCollector(commands));
+		AbstractApplication.debug(ve.getClass());
 		if (commands.isEmpty()) {
+			AbstractApplication.debug("no commands"+ve);
 			commands = null;
 		} else {
 			for (Command cmd : commands) {
@@ -718,8 +722,9 @@ public class GeoCasCell extends GeoElement implements VarString {
 	 * @return translated expression
 	 */
 	private String translate(String exp, boolean toLocalCmd) {
-		if (commands == null)
+		if (commands == null){
 			return exp;
+		}
 
 		String translatedExp = exp;
 		Iterator<Command> it = commands.iterator();
@@ -1685,7 +1690,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 				sb.append(StringUtil.encodeXML(commentText.getTextString()));
 				sb.append("\" ");
 			} else {
-				sb.append(StringUtil.encodeXML(input));
+				sb.append(StringUtil.encodeXML(translate(input,false)));
 				sb.append("\" ");
 
 				if (evalVE != inputVE) {

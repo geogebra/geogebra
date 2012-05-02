@@ -1117,21 +1117,6 @@ public class ExpressionNode extends ValidExpression implements
 		}
 	}
 
-	@Override
-	public void addCommands(Set<Command> commands) {
-		if (left instanceof Command) {
-			((Command) left).addCommands(commands);
-		} else if (left instanceof ExpressionNode) {
-			((ExpressionNode) left).addCommands(commands);
-		}
-
-		if (right instanceof Command) {
-			((Command) right).addCommands(commands);
-		} else if (right instanceof ExpressionNode) {
-			((ExpressionNode) right).addCommands(commands);
-		}
-	}
-
 	/**
 	 * @return GeoElement variables
 	 */

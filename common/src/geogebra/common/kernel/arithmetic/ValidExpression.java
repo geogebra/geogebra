@@ -209,7 +209,7 @@ public abstract class ValidExpression implements ExpressionValue {
 	/**
 	 * @param cmds commands
 	 */
-	public void addCommands(Set<Command> cmds) {
+	public final void addCommands(Set<Command> cmds) {
 		// do nothing, see Command, ExpressionNode classes
 	}
 
