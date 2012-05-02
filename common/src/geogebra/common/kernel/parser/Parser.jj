@@ -2201,7 +2201,6 @@ ExpressionNode numberFunction():
       		GeoElement geo = null;    
       		String label = null;  
       		while (index >= 0) {
-      		  AbstractApplication.debug(funcName);
       			label = funcName.substring(0, index+1);
       			geo = kernel.lookupLabel(label);
       			// stop if f' is defined but f is not defined, see #1444
