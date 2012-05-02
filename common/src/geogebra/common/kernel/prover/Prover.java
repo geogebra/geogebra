@@ -222,7 +222,7 @@ public class Prover {
 	
 	private void BotanasProver() {
 		// Getting the hypotheses:
-		Polynomial[] polys = null;
+		Polynomial[] hypotheses = null;
 		Iterator<GeoElement> it = statement.getAllPredecessors().iterator();
 		while (it.hasNext()) {
 			GeoElement geo = it.next();
@@ -231,15 +231,15 @@ public class Prover {
 				try {
 					Polynomial[] geoPolys = ((SymbolicParametersAlgo) geo).getBotanaPolynomials();
 					if (geoPolys != null) {
-						int polysLength = 0;
-						if (polys != null)
-							polysLength = polys.length;
-						Polynomial[] allPolys = new Polynomial[polysLength + geoPolys.length];
-						for (int i=0; i<polysLength; ++i)
-							allPolys[i] = polys[i];
+						int nHypotheses = 0;
+						if (hypotheses != null)
+							nHypotheses = hypotheses.length;
+						Polynomial[] allPolys = new Polynomial[nHypotheses + geoPolys.length];
+						for (int i=0; i<nHypotheses; ++i)
+							allPolys[i] = hypotheses[i];
 						for (int i=0; i<geoPolys.length; ++i)
-							allPolys[polysLength + i] = geoPolys[i];
-						polys = allPolys;
+							allPolys[nHypotheses + i] = geoPolys[i];
+						hypotheses = allPolys;
 					}
 				} catch (NoSymbolicParametersException e) {
 					AbstractApplication.warn("This prover cannot give an answer, try another one");
@@ -249,34 +249,41 @@ public class Prover {
 		try {
 			// The statement polynomials. If there are more ones, then a new equation
 			// system will be created and solved for each.
-			Polynomial[] spolys = ((SymbolicParametersAlgo) statement.getParentAlgorithm()).getBotanaPolynomials();
+			Polynomial[] statements = ((SymbolicParametersAlgo) statement.getParentAlgorithm()).getBotanaPolynomials();
 			// The NDG conditions (automatically created):
-			Polynomial[] npolys = create3FreePointsNeverCollinearNDG();
-			int polysLength = 0;
-			int npolysLength = 0;
-			int spolysLength = 0;
-			if (polys != null)
-				polysLength = polys.length;
-			if (npolys != null)
-				npolysLength = npolys.length;
-			if (spolys != null)
-				spolysLength = spolys.length;
+			Polynomial[] ndgConditions = create3FreePointsNeverCollinearNDG();
+			// Fix points (heuristics):
+			Polynomial[] fixValues = fixValues();
+			int nHypotheses = 0;
+			int nNdgConditions = 0;
+			int nStatements = 0;
+			int nFixValues = 0;
+			if (hypotheses != null)
+				nHypotheses = hypotheses.length;
+			if (ndgConditions != null)
+				nNdgConditions = ndgConditions.length;
+			if (statements != null)
+				nStatements = statements.length;
+			if (fixValues != null)
+				nFixValues = fixValues.length;
 			
 			// These polynomials will be in the equation system always:
-			Polynomial[] allPolys = new Polynomial[polysLength + npolysLength + 1];
-			for (int j=0; j<polysLength; ++j)
-				allPolys[j] = polys[j];
-			for (int j=0; j<npolysLength; ++j)
-				allPolys[j + polysLength] = npolys[j];
+			Polynomial[] eqSystem = new Polynomial[nHypotheses + nNdgConditions + nFixValues + 1];
+			for (int j=0; j<nHypotheses; ++j)
+				eqSystem[j] = hypotheses[j];
+			for (int j=0; j<nNdgConditions; ++j)
+				eqSystem[j + nHypotheses] = ndgConditions[j];
+			for (int j=0; j<nFixValues; ++j)
+				eqSystem[j + nHypotheses + nNdgConditions] = fixValues[j];
 			
 			boolean ans = true;
 			// Solving the equation system for each polynomial of the statement:
-			for (int i=0; i<spolysLength && ans; ++i) {
+			for (int i=0; i<nStatements && ans; ++i) {
 				// Rabinowitsch trick
-				Polynomial spoly = spolys[i].multiply(new Polynomial(new FreeVariable())).subtract(new Polynomial(1));
+				Polynomial spoly = statements[i].multiply(new Polynomial(new FreeVariable())).subtract(new Polynomial(1));
 				// FIXME: this always introduces an extra variable, shouldn't do
-				allPolys[polysLength + npolysLength] = spoly;
-				if (Polynomial.solvable(allPolys)) // FIXME: here seems NPE if SingularWS not initialized 
+				eqSystem[nHypotheses + nNdgConditions + nFixValues] = spoly;
+				if (Polynomial.solvable(eqSystem)) // FIXME: here seems NPE if SingularWS not initialized 
 					ans = false;
 			}
 			if (ans)
@@ -306,9 +313,9 @@ public class Prover {
 			return;
 		}
 
-		if (/*engine == ProverEngine.BOTANAS_PROVER*/ true) {
+		if (engine == ProverEngine.BOTANAS_PROVER) {
 			BotanasProver();
-			// return; // this will return later, now we calculate the other methods as well
+			return; // this will return later, now we calculate the other methods as well
 		}
 		
 		if (statement instanceof SymbolicParametersAlgo){
