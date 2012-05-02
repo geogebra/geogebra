@@ -17,9 +17,6 @@ package geogebra.common.kernel.prover;
 import java.util.HashSet;
 import java.util.Iterator;
 
-// ArrayUtils cannot be used in GWT:
-// import org.apache.commons.lang.ArrayUtils;
-
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.SymbolicParameters;
@@ -122,6 +119,11 @@ public class Prover {
 	 * subsystem.
 	 */
 	
+	/** 
+	 * Creates those polynomials which describe that none of 3 free points
+	 * can lie on the same line. 
+	 * @return the NDG polynomials (in denial form)
+	 */
 	private Polynomial[] create3FreePointsNeverCollinearNDG() {
 		// Creating the set of free points first:
 		HashSet<GeoElement> freePoints = new HashSet<GeoElement>();
@@ -153,6 +155,7 @@ public class Prover {
 							triplet.add(geo1);
 							triplet.add(geo2);
 							triplet.add(geo3);
+							// Only the significantly new triplets will be processed:
 							if (!triplets.contains(triplet)) {
 								triplets.add(triplet);
 								AbstractApplication.debug(geo1.getLabelSimple() + 
@@ -162,7 +165,8 @@ public class Prover {
 								FreeVariable[] fv2 = ((SymbolicParametersAlgo)geo2).getBotanaVars();
 								FreeVariable[] fv3 = ((SymbolicParametersAlgo)geo3).getBotanaVars();
 								// Creating the polynomial for collinearity:
-								Polynomial p = Polynomial.setCollinear(fv1[0], fv1[1], fv2[0], fv2[1], fv3[0], fv3[1]);
+								Polynomial p = Polynomial.setCollinear(fv1[0], fv1[1],
+										fv2[0], fv2[1], fv3[0], fv3[1]);
 								// Rabinowitsch trick for prohibiting collinearity:
 								ret[i] = p.multiply(new Polynomial(new FreeVariable())).subtract(new Polynomial(1));
 								// FIXME: this always introduces an extra variable, shouldn't do
@@ -173,109 +177,80 @@ public class Prover {
 				}
 			}
 		}
-	
 		return ret;
+	}
 
-		/*
-		Iterator<GeoElement> it1 = statement.getAllPredecessors().iterator();
-		while (it1.hasNext()) {
-			GeoElement geo1 = it1.next();
-			if (geo1.isGeoPoint() && geo1.getParentAlgorithm() == null) { // this is a free point
-				Iterator<GeoElement> it2 = statement.getAllPredecessors().iterator();
-				while (it2.hasNext()) {
-					GeoElement geo2 = it2.next();
-					if (geo2.isGeoPoint() && geo2.getParentAlgorithm() == null &&
-							!geo1.isEqual(geo2)) { // this is a different free point
-						Iterator<GeoElement> it3 = statement.getAllPredecessors().iterator();
-						while (it3.hasNext()) {
-							GeoElement geo3 = it3.next();
-							if (geo3.isGeoPoint() && geo3.getParentAlgorithm() == null &&
-									!geo1.isEqual(geo3) && !geo2.isEqual(geo3)) {
-								AbstractApplication.debug(geo1.getLabelSimple() + 
-										geo2.getLabelSimple() + 
-										geo3.getLabelSimple() + " should never be collinear");
-							}
-						}
+	private void BotanasProver() {
+		// Getting the hypotheses:
+		Polynomial[] polys = null;
+		Iterator<GeoElement> it = statement.getAllPredecessors().iterator();
+		while (it.hasNext()) {
+			GeoElement geo = it.next();
+			// AbstractApplication.debug(geo);
+			if (geo instanceof SymbolicParametersAlgo) {
+				try {
+					Polynomial[] geoPolys = ((SymbolicParametersAlgo) geo).getBotanaPolynomials();
+					if (geoPolys != null) {
+						int polysLength = 0;
+						if (polys != null)
+							polysLength = polys.length;
+						Polynomial[] allPolys = new Polynomial[polysLength + geoPolys.length];
+						for (int i=0; i<polysLength; ++i)
+							allPolys[i] = polys[i];
+						for (int i=0; i<geoPolys.length; ++i)
+							allPolys[polysLength + i] = geoPolys[i];
+						polys = allPolys;
 					}
+				} catch (NoSymbolicParametersException e) {
+					AbstractApplication.warn("This prover cannot give an answer, try another one");
 				}
 			}
 		}
-		*/
-
-	
+		try {
+			// The statement polynomials. If there are more ones, then a new equation
+			// system will be created and solved for each.
+			Polynomial[] spolys = ((SymbolicParametersAlgo) statement.getParentAlgorithm()).getBotanaPolynomials();
+			// The NDG conditions (automatically created):
+			Polynomial[] npolys = create3FreePointsNeverCollinearNDG();
+			int polysLength = 0;
+			int npolysLength = 0;
+			int spolysLength = 0;
+			if (polys != null)
+				polysLength = polys.length;
+			if (npolys != null)
+				npolysLength = npolys.length;
+			if (spolys != null)
+				spolysLength = spolys.length;
+			
+			// These polynomials will be in the equation system always:
+			Polynomial[] allPolys = new Polynomial[polysLength + npolysLength + 1];
+			for (int j=0; j<polysLength; ++j)
+				allPolys[j] = polys[j];
+			for (int j=0; j<npolysLength; ++j)
+				allPolys[j + polysLength] = npolys[j];
+			
+			boolean ans = true;
+			// Solving the equation system for each polynomial of the statement:
+			for (int i=0; i<spolysLength && ans; ++i) {
+				// Rabinowitsch trick
+				Polynomial spoly = spolys[i].multiply(new Polynomial(new FreeVariable())).subtract(new Polynomial(1));
+				// FIXME: this always introduces an extra variable, shouldn't do
+				allPolys[polysLength + npolysLength] = spoly;
+				if (Polynomial.solvable(allPolys)) // FIXME: here seems NPE if SingularWS not initialized 
+					ans = false;
+			}
+			if (ans)
+				result = ProofResult.TRUE;
+			else
+				result = ProofResult.FALSE;
+			AbstractApplication.info("BOTANAS_PROVER: this statement is " + result);
+		} catch (NoSymbolicParametersException e) {
+			// TODO Auto-generated catch block
+			AbstractApplication.warn("This prover cannot give an answer, try another one");
+		}
 	}
 	
 	public void compute() {
-		if (/*engine == ProverEngine.BOTANAS_PROVER*/ true) {
-			Polynomial[] polys = null;
-			Iterator<GeoElement> it = statement.getAllPredecessors().iterator();
-			while (it.hasNext()) {
-				GeoElement geo = it.next();
-				// AbstractApplication.debug(geo);
-				if (geo instanceof SymbolicParametersAlgo) {
-					try {
-						Polynomial[] geoPolys = ((SymbolicParametersAlgo) geo).getBotanaPolynomials();
-						if (geoPolys != null) {
-							int polysLength = 0;
-							if (polys != null)
-								polysLength = polys.length;
-							Polynomial[] allPolys = new Polynomial[polysLength + geoPolys.length];
-							for (int i=0; i<polysLength; ++i)
-								allPolys[i] = polys[i];
-							for (int i=0; i<geoPolys.length; ++i)
-								allPolys[polysLength + i] = geoPolys[i];
-							// ArrayUtils cannot be used in GWT:
-							// Polynomial[] allPolys = (Polynomial[]) ArrayUtils.addAll(polys, geoPolys);
-							polys = allPolys;
-						}
-					} catch (NoSymbolicParametersException e) {
-						AbstractApplication.warn("This prover cannot give an answer, try another one");
-					}
-				}
-			}
-			try {
-				Polynomial[] spolys = ((SymbolicParametersAlgo) statement.getParentAlgorithm()).getBotanaPolynomials();
-				Polynomial[] npolys = create3FreePointsNeverCollinearNDG();
-				int polysLength = 0;
-				int npolysLength = 0;
-				int spolysLength = 0;
-				if (polys != null)
-					polysLength = polys.length;
-				if (npolys != null)
-					npolysLength = npolys.length;
-				if (spolys != null)
-					spolysLength = spolys.length;
-				
-				Polynomial[] allPolys = new Polynomial[polysLength + npolysLength + 1];
-				for (int j=0; j<polysLength; ++j)
-					allPolys[j] = polys[j];
-				for (int j=0; j<npolysLength; ++j)
-					allPolys[j + polysLength] = npolys[j];
-				
-				boolean ans = true;
-				for (int i=0; i<spolysLength && ans; ++i) {
-					// Rabinowitsch trick
-					Polynomial spoly = spolys[i].multiply(new Polynomial(new FreeVariable())).subtract(new Polynomial(1));
-					// FIXME: this always introduces an extra variable, shouldn't do
-					allPolys[polysLength + npolysLength] = spoly;
-					// ArrayUtils cannot be used in GWT:
-					// Polynomial[] allPolys = (Polynomial[]) ArrayUtils.add(polys, spoly);
-					if (Polynomial.solvable(allPolys)) // FIXME: here seems NPE if SingularWS not initialized 
-						ans = false;
-				}
-				if (ans)
-					result = ProofResult.TRUE;
-				else
-					result = ProofResult.FALSE;
-				AbstractApplication.info("BOTANAS_PROVER: this statement is " + result);
-				// return; // this will return later, now we calculate the other methods as well
-			} catch (NoSymbolicParametersException e) {
-				// TODO Auto-generated catch block
-				AbstractApplication.warn("This prover cannot give an answer, try another one");
-				
-			}
-		}
-		
 		if (statement != null) {
 
 			String c = simplifiedXML(construction);
@@ -291,6 +266,11 @@ public class Prover {
 			return;
 		}
 
+		if (/*engine == ProverEngine.BOTANAS_PROVER*/ true) {
+			BotanasProver();
+			// return; // this will return later, now we calculate the other methods as well
+		}
+		
 		if (statement instanceof SymbolicParametersAlgo){
 			SymbolicParametersAlgo statementSymbolic = (SymbolicParametersAlgo) statement;
 			SymbolicParameters parameters = statementSymbolic.getSymbolicParameters();
