@@ -1434,4 +1434,21 @@ public class AppletImplementation implements AppletImplementationInterface {
 		
 	}
 
+	public void setPenColor(int red, int green, int blue) {
+		ggbApi.setPenColor(red, green, blue);
+		
+	}
+
+	public void setPenSize(int size) {
+		ggbApi.setPenSize(size);
+	}
+
+	public int getPenSize() {
+		return ggbApi.getPenSize();
+	}
+
+	public String getPenColor() {
+		return ggbApi.getPenColor();
+	}
+
 }

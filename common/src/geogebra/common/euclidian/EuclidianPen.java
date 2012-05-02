@@ -1,5 +1,6 @@
 package geogebra.common.euclidian;
 
+import geogebra.common.awt.Color;
 import geogebra.common.awt.Point;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.kernel.geos.GeoImage;
@@ -49,4 +50,11 @@ public abstract class EuclidianPen {
 	 */
 	public abstract void doDrawPoints(GeoImage ge,List<Point> list); 
 
+	public abstract void setPenColor(Color color);
+	
+	public abstract void setPenSize(int size);
+
+	public abstract int getPenSize();
+	
+	public abstract Color getPenColorCommon();
 }

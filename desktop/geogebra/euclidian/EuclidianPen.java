@@ -140,6 +140,10 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 	public Color getPenColor() {
 		return penColor;
 	}
+	
+	public geogebra.common.awt.Color getPenColorCommon() {
+		return new geogebra.awt.Color(penColor);
+	}
 
 	public void setPenColor(Color penColor) {
 		this.penColor = penColor;
@@ -1975,5 +1979,11 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
     	pt[0] = r1.xcenter + t*Math.cos(r1.angle);
     	pt[1] = r1.ycenter + t*Math.sin(r1.angle);
     }
+
+	@Override
+	public void setPenColor(geogebra.common.awt.Color color) {
+		setPenColor(geogebra.awt.Color.getAwtColor(color));
+		
+	}
 
 }

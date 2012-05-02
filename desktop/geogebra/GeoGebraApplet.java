@@ -35,10 +35,12 @@ public class GeoGebraApplet extends JApplet implements JavaScriptAPI {
 	private static final long serialVersionUID = -350682076336303151L;
 
 	// applet member variables
-	private AppletImplementationInterface appletImplementation = null;
+	/** Implamentation of applet's methods*/
+	AppletImplementationInterface appletImplementation = null;
 	private boolean animationRunningAtLastStop = false;
 
-	private AppletSplashScreen splashScreen = null;
+	/** Splash screen */
+	AppletSplashScreen splashScreen = null;
 	private boolean appletIsIniting = true;
 	
 	/**
@@ -64,7 +66,10 @@ public class GeoGebraApplet extends JApplet implements JavaScriptAPI {
 		} 					
 	}
 	
-	private void initAppletInBackground() {
+	/**
+	 * Initializes applet in separate thread
+	 */
+	void initAppletInBackground() {
 		Thread runner = new Thread() {
 			@Override
 			public void run() {						
@@ -158,6 +163,9 @@ public class GeoGebraApplet extends JApplet implements JavaScriptAPI {
 		return appletImplementation;
 	}
 	
+	/**
+	 * @param appImp applet implementation
+	 */
 	public void setAppletImplementation(AppletImplementationInterface appImp) {
 		appletImplementation = appImp;
 		appletIsIniting = false;
@@ -219,6 +227,9 @@ public class GeoGebraApplet extends JApplet implements JavaScriptAPI {
 		}
 	}
 	
+	/**
+	 * @return true once the GUI is fully initialized
+	 */
 	final boolean isAppletFullyLoaded() {
 		return !appletIsIniting;
 	}
@@ -607,5 +618,22 @@ public class GeoGebraApplet extends JApplet implements JavaScriptAPI {
 	public void uploadToGeoGebraTube() {
 		getAppletImplementation().uploadToGeoGebraTube();
 		
+	}
+
+	public void setPenColor(int red, int green, int blue) {
+		getAppletImplementation().setPenColor(red, green, blue);
+		
+	}
+
+	public void setPenSize(int size) {
+		getAppletImplementation().setPenSize(size);
+	}
+
+	public int getPenSize() {
+		return getAppletImplementation().getPenSize();
+	}
+
+	public String getPenColor() {
+		return getAppletImplementation().getPenColor();
 	}
 }

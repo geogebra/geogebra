@@ -230,6 +230,30 @@ public interface JavaScriptAPI {
 	public void setColor(String objName, int red, int green, int blue);
 	
 	/**
+	 * @param red red part (0-255)
+	 * @param green green part (0-255)
+	 * @param blue blue part (0-255)
+	 */
+	public void setPenColor(int red, int green, int blue);
+	
+	/**
+	 * @param size size in pixels
+	 */
+	public void setPenSize(int size);
+	
+	/**
+	 * 
+	 * @return pen size in pixels
+	 */
+	public int getPenSize();
+	
+	/**
+	 * 
+	 * @return pen color as RGB hex string (eg #AB1234)
+	 */
+	public String getPenColor();
+	
+	/**
 	 * Returns the color of the object as an hex string. Note that the hex-string 
 	 * starts with # and uses upper case letters, e.g. "#FF0000" for red.
 	 */

@@ -3,6 +3,7 @@ package geogebra.common.plugin;
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
+import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
@@ -939,7 +940,23 @@ public abstract class GgbAPI implements JavaScriptAPI{
 	final public String getBase64() {
 		return getBase64(false);
 	}
+	
+	final public void setPenColor(int red,int green,int blue){
+		app.getActiveEuclidianView().getEuclidianController().getPen().setPenColor(
+				AwtFactory.prototype.newColor(red, green, blue));
+	}
+	
+	final public void setPenSize(int size){
+		app.getActiveEuclidianView().getEuclidianController().getPen().setPenSize(size);
+	}
+	public int getPenSize() {
+		return app.getActiveEuclidianView().getEuclidianController().getPen().getPenSize();
+    }
 
+	public String getPenColor() {
+		return "#"+StringUtil.toHexString(app.getActiveEuclidianView()
+				.getEuclidianController().getPen().getPenColorCommon());
+    }
 	
 
 }

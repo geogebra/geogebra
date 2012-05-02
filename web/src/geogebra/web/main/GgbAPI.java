@@ -32,7 +32,7 @@ import java.util.Map.Entry;
 
 import org.apache.tools.ant.taskdefs.Java;
 
-public class GgbAPI  extends geogebra.common.plugin.GgbAPI implements JavaScriptAPI {
+public class GgbAPI  extends geogebra.common.plugin.GgbAPI {
 
 	public GgbAPI(AbstractApplication app) {
 		this.app = app;
