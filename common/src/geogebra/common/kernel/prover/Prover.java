@@ -119,13 +119,7 @@ public class Prover {
 	 * subsystem.
 	 */
 	
-	/** 
-	 * Creates those polynomials which describe that none of 3 free points
-	 * can lie on the same line. 
-	 * @return the NDG polynomials (in denial form)
-	 */
-	private Polynomial[] create3FreePointsNeverCollinearNDG() {
-		// Creating the set of free points first:
+	private HashSet<GeoElement> getFreePoints() {
 		HashSet<GeoElement> freePoints = new HashSet<GeoElement>();
 		Iterator<GeoElement> it = statement.getAllPredecessors().iterator();
 		while (it.hasNext()) {
@@ -134,6 +128,17 @@ public class Prover {
 				freePoints.add(geo);
 			}
 		}
+		return freePoints;
+	}
+	
+	/** 
+	 * Creates those polynomials which describe that none of 3 free points
+	 * can lie on the same line. 
+	 * @return the NDG polynomials (in denial form)
+	 */
+	private Polynomial[] create3FreePointsNeverCollinearNDG() {
+		// Creating the set of free points first:
+		HashSet<GeoElement> freePoints = getFreePoints();
 		int setSize = freePoints.size();
 		// The output will contain $\binom{n}{3}$ elements:
 		Polynomial[] ret = new Polynomial[setSize * (setSize - 1) * (setSize - 2) / 6];
@@ -180,6 +185,41 @@ public class Prover {
 		return ret;
 	}
 
+	/**
+	 * Uses a minimal heuristics to fix the first four variables to certain "easy" numbers.
+	 * The first two variables (usually the coordinates of the first point) are set to 0,
+	 * and the second two variables (usually the coordinates of the second point) are set to 0 and 1.
+	 * @return the string of the extra polynomials (e.g. "a1,a2,b1,b2-1")
+	 */
+	Polynomial[] fixValues() { // TODO: this is not used yet
+		HashSet<GeoElement> freePoints = getFreePoints();
+		int setSize = freePoints.size();
+		int retSize = 0;
+		if (setSize >= 2)
+			retSize = 4;
+		if (retSize == 1)
+			retSize = 2;
+		Polynomial[] ret = new Polynomial[retSize];
+		Iterator<GeoElement> it = freePoints.iterator();
+		int i = 0;
+		while (it.hasNext() && i<4) {
+			FreeVariable[] fv = ((SymbolicParametersAlgo) it.next()).getBotanaVars();
+			if (i==0) {
+				ret[i] = new Polynomial(fv[0]);
+				++i;
+				ret[i] = new Polynomial(fv[1]);
+				++i;
+			}
+			else {
+				ret[i] = new Polynomial(fv[0]);
+				++i;
+				ret[i] = new Polynomial(fv[0]).subtract(new Polynomial(1));
+				++i;
+			}
+		}
+		return ret;
+	}
+	
 	private void BotanasProver() {
 		// Getting the hypotheses:
 		Polynomial[] polys = null;

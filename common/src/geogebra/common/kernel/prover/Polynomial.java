@@ -314,28 +314,6 @@ public class Polynomial implements Comparable<Polynomial> {
 			return sb.substring(1); // removing first "," character
 		return "";
 	}
-
-	/**
-	 * Uses a minimal heuristics to fix the first four variables to certain "easy" numbers.
-	 * The first two variables (usually the coordinates of the first point) are set to 0,
-	 * and the second two variables (usually the coordinates of the second point) are set to 0 and 1.
-	 * @param polys the polynomials
-	 * @return the string of the extra polynomials (e.g. "a1,a2,b1,b2-1")
-	 */
-	private static String setFixValues(Polynomial[] polys) {
-		StringBuilder sb = new StringBuilder();
-		Iterator<FreeVariable> it = getVars(polys).iterator();
-		int i=0;
-		while (it.hasNext() && i<4) {
-			FreeVariable fv = it.next();
-			sb.append(fv);
-			if (i==3)
-				sb.append("-1");
-			sb.append(",");
-			i++;
-		}
-		return sb.toString();
-	}
 	
 	/**
 	 * Creates a comma separated list of the given polynomials
@@ -431,15 +409,12 @@ public class Polynomial implements Comparable<Polynomial> {
 	 * @param setFixValues if set the leading values to fix positions (0,0,0,1)
 	 * @return the Singular program code
 	 */
-	public static String getSingularGroebner(String ringVariable, String idealVariable, Polynomial[] polys,
-			boolean setFixValues) {
+	public static String getSingularGroebner(String ringVariable, String idealVariable, Polynomial[] polys) {
 		String ret = "ring " + ringVariable + "=0,(" 
 			+ getVarsAsCommaSeparatedString(polys)
 			+ "),dp;" // ring definition in Singular
 				
 			+ "ideal " + idealVariable + "=";
-		if (setFixValues)
-			ret += setFixValues(polys);
 		ret += getPolysAsCommaSeparatedString(polys) // ideal definition in Singular
 			+";groebner(" + idealVariable + ");"; // the Groebner basis calculation command
 		return ret;
@@ -453,7 +428,7 @@ public class Polynomial implements Comparable<Polynomial> {
 	 */
 	public static Boolean solvable(Polynomial[] polys) {
 		if (AbstractApplication.singularWS != null && AbstractApplication.singularWS.isAvailable()) {
-			String singularSolvableProgram = getSingularGroebner("rr", "ii", polys, true);
+			String singularSolvableProgram = getSingularGroebner("rr", "ii", polys);
 			if (singularSolvableProgram.length()>500)
 				AbstractApplication.debug( singularSolvableProgram.length() + " bytes -> singular");
 			else
