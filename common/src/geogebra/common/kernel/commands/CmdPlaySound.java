@@ -97,7 +97,7 @@ public class CmdPlaySound extends CmdScripting {
 					&& (ok[1] = arg[1].isGeoNumeric())
 					&& (ok[2] = arg[2].isGeoNumeric())) {
 
-				sm.playFunction(((GeoFunction) arg[0]), // function
+				sm.playFunction(((GeoFunction) arg[0]).threadSafeCopy(), // function
 						((GeoNumeric) arg[1]).getDouble(), // min value
 						((GeoNumeric) arg[2]).getDouble()); // max value
 				return;
@@ -116,7 +116,7 @@ public class CmdPlaySound extends CmdScripting {
 					&& (ok[3] = arg[3].isGeoNumeric()) 
 					&& (ok[4] = arg[4].isGeoNumeric())) {
 
-				sm.playFunction(((GeoFunction) arg[0]), // function
+				sm.playFunction(((GeoFunction) arg[0]).threadSafeCopy(), // function
 						((GeoNumeric) arg[1]).getDouble(), // min value
 						((GeoNumeric) arg[2]).getDouble(), // max value
 						(int)((GeoNumeric) arg[3]).getDouble(), // sample rate

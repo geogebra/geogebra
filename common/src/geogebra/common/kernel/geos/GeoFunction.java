@@ -1790,6 +1790,14 @@ public class GeoFunction extends GeoElement implements VarString,
 			curve.setHideRangeInFormula(true);
 		}
 	}
+	
+	public GeoFunction threadSafeCopy() {
+		FunctionVariable t = new FunctionVariable(kernel, "t");
+		FunctionVariable x = fun.getFunctionVariable();
+		ExpressionNode yExp = (ExpressionNode) ((ExpressionNode) getFunction()
+				.getExpression().deepCopy(kernel)).replace(x, t);
+		return new GeoFunction(cons,new Function(yExp, t));
+	}
 
 	public void dilate(NumberValue r, GeoPoint2 S) {
 		double rd = r.getNumber().getDouble(), a = S.getX(), b = S.getY();
