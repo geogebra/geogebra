@@ -66,8 +66,8 @@ public abstract class DialogManager {
 		String str = geo.getRedefineString(false, true);
 		
 		String inputValue = prompt(app.getPlain("Redefine") +" "+geo.getNameDescription(), str);
-		
-		if (inputValue.equals(this.oldString)) return; // Michael Borcherds 2007-12-31
+
+		if (inputValue == null || inputValue.equals(this.oldString)) return;
 		try {
 			GeoElement newGeo = app.getKernel().getAlgebraProcessor().changeGeoElement(
 					geo, inputValue, true, true);
