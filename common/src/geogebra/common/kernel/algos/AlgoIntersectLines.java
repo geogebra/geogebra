@@ -186,31 +186,12 @@ public class AlgoIntersectLines extends AlgoIntersectAbstract implements Symboli
 				botanaVars[0]=new FreeVariable();
 				botanaVars[1]=new FreeVariable();
 			}
-			// Storing determinant:
 			FreeVariable[] fv = ((SymbolicParametersAlgo) input[0]).getBotanaVars();
-			// a*d-b*c:
-			Polynomial a = new Polynomial(fv[0]);
-			Polynomial b = new Polynomial(fv[1]);
-			Polynomial c = new Polynomial(fv[2]);
-			Polynomial d = new Polynomial(fv[3]);
 			botanaPolynomials = new Polynomial[2];
-			botanaPolynomials[0] = a.multiply(d).subtract(b.multiply(c))
-					// + e*(b-d)
-					.add(new Polynomial(botanaVars[0]).multiply(b.subtract(d)))
-					// - f*(a-c)
-					.subtract(new Polynomial(botanaVars[1]).multiply(a.subtract(c)));
-			
+			botanaPolynomials[0] = Polynomial.setCollinear(fv[0], fv[1], fv[2], fv[3], botanaVars[0], botanaVars[1]); 
 			fv = ((SymbolicParametersAlgo) input[1]).getBotanaVars();
-			// a*d-b*c:
-			a = new Polynomial(fv[0]);
-			b = new Polynomial(fv[1]);
-			c = new Polynomial(fv[2]);
-			d = new Polynomial(fv[3]);
-			botanaPolynomials[1] = a.multiply(d).subtract(b.multiply(c))
-					// + e*(b-d)
-					.add(new Polynomial(botanaVars[0]).multiply(b.subtract(d)))
-					// - f*(a-c)
-					.subtract(new Polynomial(botanaVars[1]).multiply(a.subtract(c)));
+			botanaPolynomials[1] = Polynomial.setCollinear(fv[0], fv[1], fv[2], fv[3], botanaVars[0], botanaVars[1]); 
+					
 			return botanaPolynomials;
 		}
 		throw new NoSymbolicParametersException();

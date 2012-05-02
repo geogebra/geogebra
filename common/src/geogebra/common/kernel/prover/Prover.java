@@ -150,13 +150,13 @@ public class Prover {
 			}
 			try {
 				Polynomial[] spolys = ((SymbolicParametersAlgo) statement.getParentAlgorithm()).getBotanaPolynomials();
+				Polynomial[] allPolys = new Polynomial[polys.length + 1];
+				for (int j=0; j<polys.length; ++j)
+					allPolys[j] = polys[j];
 				boolean ans = true;
 				for (int i=0; i<spolys.length && ans; ++i) {
 					// Rabinowitsch trick
 					Polynomial spoly = spolys[i].multiply(new Polynomial(new FreeVariable())).subtract(new Polynomial(1));
-					Polynomial[] allPolys = new Polynomial[polys.length + 1];
-					for (int j=0; j<polys.length; ++j)
-						allPolys[j] = polys[j];
 					allPolys[polys.length] = spoly;
 					// ArrayUtils cannot be used in GWT:
 					// Polynomial[] allPolys = (Polynomial[]) ArrayUtils.add(polys, spoly);

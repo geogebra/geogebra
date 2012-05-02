@@ -222,19 +222,9 @@ public class AlgoPointOnPath extends AlgoElement implements PathAlgo, SymbolicPa
 				botanaVars[0]=new FreeVariable();
 				botanaVars[1]=new FreeVariable();
 			}
-			// Storing determinant:
-			FreeVariable[] fv = ((SymbolicParametersAlgo) input[0]).getBotanaVars(); // a,b,c,d
-			// a*d-b*c:
-			Polynomial a = new Polynomial(fv[0]);
-			Polynomial b = new Polynomial(fv[1]);
-			Polynomial c = new Polynomial(fv[2]);
-			Polynomial d = new Polynomial(fv[3]);
+			FreeVariable[] fv = ((SymbolicParametersAlgo) input[0]).getBotanaVars();
 			botanaPolynomials = new Polynomial[1];
-			botanaPolynomials[0] = a.multiply(d).subtract(b.multiply(c))
-					// + e*(b-d)
-					.add(new Polynomial(botanaVars[0]).multiply(b.subtract(d)))
-					// - f*(a-c)
-					.subtract(new Polynomial(botanaVars[1]).multiply(a.subtract(c)));
+			botanaPolynomials[0] = Polynomial.setCollinear(fv[0], fv[1], fv[2], fv[3], botanaVars[0], botanaVars[1]);
 			return botanaPolynomials;
 			
 		}

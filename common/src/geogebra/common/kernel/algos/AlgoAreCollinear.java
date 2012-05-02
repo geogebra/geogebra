@@ -147,7 +147,6 @@ public class AlgoAreCollinear extends AlgoElement implements SymbolicParametersA
 	}
 
 	public FreeVariable[] getBotanaVars() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -171,19 +170,8 @@ public class AlgoAreCollinear extends AlgoElement implements SymbolicParametersA
 			fv3 = ((SymbolicParametersAlgo) input[2])
 					.getBotanaVars();
 
-			// a*d-b*c:
-			Polynomial a = new Polynomial(fv1[0]);
-			Polynomial b = new Polynomial(fv1[1]);
-			Polynomial c = new Polynomial(fv2[0]);
-			Polynomial d = new Polynomial(fv2[1]);
-			Polynomial e = new Polynomial(fv3[0]);
-			Polynomial f = new Polynomial(fv3[1]);
 			botanaPolynomials = new Polynomial[1];
-			botanaPolynomials[0] = a.multiply(d).subtract(b.multiply(c))
-					// + e*(b-d)
-					.add(new Polynomial(e).multiply(b.subtract(d)))
-					// - f*(a-c)
-					.subtract(new Polynomial(f).multiply(a.subtract(c)));
+			botanaPolynomials[0] = Polynomial.setCollinear(fv1[0], fv1[1], fv2[0], fv2[1], fv3[0], fv3[1]); 
 			return botanaPolynomials;
 			
 		}

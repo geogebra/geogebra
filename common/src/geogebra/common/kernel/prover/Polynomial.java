@@ -192,6 +192,7 @@ public class Polynomial implements Comparable<Polynomial> {
 	 * @return the product
 	 */
 	public Polynomial multiply(final Polynomial poly) {
+		/*
 		if (AbstractApplication.singularWS != null && AbstractApplication.singularWS.isAvailable()) {
 			String singularMultiplicationProgram = getSingularMultiplication("rr", poly, this);
 			if (singularMultiplicationProgram.length()>100)
@@ -203,7 +204,7 @@ public class Polynomial implements Comparable<Polynomial> {
 				AbstractApplication.trace("singular -> " + singularMultiplication.length() + " bytes");
 			else
 				AbstractApplication.trace("singular -> " + singularMultiplication);
-		}
+		} */
 		TreeMap<Term, Integer> result = new TreeMap<Term, Integer>();
 		TreeMap<Term, Integer> terms2 = poly.getTerms();
 		Iterator<Term> it1 = terms.keySet().iterator();
@@ -361,6 +362,35 @@ public class Polynomial implements Comparable<Polynomial> {
 				+ "(" + p2.toString() + ");"; // the multiplication command
 	}
 	
+	/**
+	 * Creates a polynomial which describes the input coordinates as points
+	 * lying on the same line. 
+	 * @param fv1 x-coordinate of the first point
+	 * @param fv2 y-coordinate of the first point
+	 * @param fv3 x-coordinate of the second point
+	 * @param fv4 y-coordinate of the second point
+	 * @param fv5 x-coordinate of the third point
+	 * @param fv6 y-coordinate of the third point
+	 * @return the polynomial
+	 */
+	public static Polynomial setCollinear(FreeVariable fv1, FreeVariable fv2, FreeVariable fv3, 
+			FreeVariable fv4, FreeVariable fv5, FreeVariable fv6) {
+		// a*d-b*c:
+		Polynomial a = new Polynomial(fv1);
+		Polynomial b = new Polynomial(fv2);
+		Polynomial c = new Polynomial(fv3);
+		Polynomial d = new Polynomial(fv4);
+		Polynomial e = new Polynomial(fv5);
+		Polynomial f = new Polynomial(fv6);
+		
+		Polynomial ret = a.multiply(d).subtract(b.multiply(c))
+				// + e*(b-d)
+				.add(e.multiply(b.subtract(d)))
+				// - f*(a-c)
+				.subtract(f.multiply(a.subtract(c)));
+		return ret;
+	}
+	
 	@Override
 	public boolean equals(Object o) {
 		if (o instanceof Polynomial) {
@@ -415,9 +445,12 @@ public class Polynomial implements Comparable<Polynomial> {
 	public static Boolean solvable(Polynomial[] polys) {
 		if (AbstractApplication.singularWS != null && AbstractApplication.singularWS.isAvailable()) {
 			String singularSolvableProgram = getSingularGroebner("rr", "ii", polys, true);
-			AbstractApplication.debug(singularSolvableProgram.length() + " bytes -> singular");
+			if (singularSolvableProgram.length()>500)
+				AbstractApplication.debug( singularSolvableProgram.length() + " bytes -> singular");
+			else
+				AbstractApplication.debug(singularSolvableProgram + " -> singular");
 			String singularSolvable = AbstractApplication.singularWS.directCommand(singularSolvableProgram);
-			if (singularSolvable.length()>100)
+			if (singularSolvable.length()>500)
 				AbstractApplication.debug("singular -> " + singularSolvable.length() + " bytes");
 			else
 				AbstractApplication.debug("singular -> " + singularSolvable);
