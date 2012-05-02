@@ -498,7 +498,7 @@ public class EuclidianStyleBar extends HorizontalPanel
 			}
 		};
 		// btnShowGrid.setPreferredSize(new Dimension(16,16));
-		//btnShowGrid.addActionListener(this);
+		btnShowGrid.addValueChangeHandler(this);
 	}
 
 	// =====================================================
