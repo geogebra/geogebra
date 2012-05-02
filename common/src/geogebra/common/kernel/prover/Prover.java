@@ -317,8 +317,12 @@ public class Prover {
 			return;
 		}
 
-		if (engine == ProverEngine.BOTANAS_PROVER && !AbstractApplication.singularWS.isAvailable()) {
-			setProverEngine(ProverEngine.PURE_SYMBOLIC_PROVER); 
+		// Fallback for another prover if singularWS is not available:
+		if (engine == ProverEngine.BOTANAS_PROVER) {
+			if (AbstractApplication.singularWS == null)
+				setProverEngine(ProverEngine.PURE_SYMBOLIC_PROVER);
+			else if (!AbstractApplication.singularWS.isAvailable())
+				setProverEngine(ProverEngine.PURE_SYMBOLIC_PROVER); 
 		}
 		
 		if (engine == ProverEngine.BOTANAS_PROVER) {
