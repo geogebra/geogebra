@@ -696,8 +696,21 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 
 	@Override
 	public void setClip(int x, int y, int width, int height) {
+		/*
+		 * old code: breaks grid with emulated dashed lines, see #1718
+		 * 
 		geogebra.common.awt.Shape sh = AwtFactory.prototype.newRectangle(x, y, width, height);
 		setClip(sh);
+		*/
+		
+		context.beginPath();
+		context.moveTo(x, y);
+		context.lineTo(x + width, y);
+		context.lineTo(x + width, y + height);
+		context.lineTo(x , y + height);
+		context.lineTo(x , y);
+		context.clip();
+
 	}
 
 	public void setWidth(int w) {
