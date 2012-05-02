@@ -23,6 +23,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.kernelND.AlgoMidpointND;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -39,7 +40,9 @@ import geogebra.common.kernel.prover.Polynomial;
 public class AlgoMidpoint extends AlgoMidpointND implements SymbolicParametersAlgo{
       
     private Polynomial[] polynomials;
-
+	private Polynomial[] botanaPolynomials;
+	private FreeVariable[] botanaVars;
+    
 	public AlgoMidpoint(Construction cons, String label, GeoPoint2 P, GeoPoint2 Q) {
     	this(cons, P, Q);
     	getPoint().setLabel(label);
@@ -134,14 +137,34 @@ public class AlgoMidpoint extends AlgoMidpointND implements SymbolicParametersAl
 	}
 
 	public FreeVariable[] getBotanaVars() {
-		// TODO Auto-generated method stub
-		return null;
+		return botanaVars;
 	}
 
-	public Polynomial[] getBotanaPolynomials()
-			throws NoSymbolicParametersException {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	public Polynomial[] getBotanaPolynomials() throws NoSymbolicParametersException {
+		if (botanaPolynomials != null) {
+			return botanaPolynomials;
+		}
+		GeoPoint2 P=(GeoPoint2) getP();
+		GeoPoint2 Q=(GeoPoint2) getQ();
 
+		if (P == null || Q == null)
+			throw new NoSymbolicParametersException();
+		
+		if (botanaVars==null){
+			botanaVars = new FreeVariable[2];
+			botanaVars[0]=new FreeVariable();
+			botanaVars[1]=new FreeVariable();
+		}
+		
+		FreeVariable[] fv1 = ((SymbolicParametersAlgo) P).getBotanaVars();
+		FreeVariable[] fv2 = ((SymbolicParametersAlgo) Q).getBotanaVars();
+		botanaPolynomials = new Polynomial[2];
+		// 2*m1-a1-b1, 2*m2-a2-b2
+		botanaPolynomials[0] = (new Polynomial(2)).multiply(new Polynomial(botanaVars[0])).
+				subtract(new Polynomial(fv1[0])).subtract(new Polynomial(fv2[0]));
+		botanaPolynomials[1] = (new Polynomial(2)).multiply(new Polynomial(botanaVars[1])).
+				subtract(new Polynomial(fv1[1])).subtract(new Polynomial(fv2[1]));
+		return botanaPolynomials;
+		
+	}
 }
