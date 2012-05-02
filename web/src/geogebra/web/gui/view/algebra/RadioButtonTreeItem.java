@@ -115,6 +115,29 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		add(ihtml);
 		ihtml.getElement().appendChild(se);
 
+		String text = "";
+		if (geo.isIndependent()) {
+			text = geo.getAlgebraDescriptionTextOrHTML(
+					StringTemplate.defaultTemplate);
+		} else {
+			switch (kernel.getAlgebraStyle()) {
+			case Kernel.ALGEBRA_STYLE_VALUE:
+				text = geo.getAlgebraDescriptionTextOrHTML(
+						StringTemplate.defaultTemplate);
+				break;
+
+			case Kernel.ALGEBRA_STYLE_DEFINITION:
+				text = geo.addLabelTextOrHTML(
+					geo.getDefinitionDescription(StringTemplate.defaultTemplate));
+				break;
+
+			case Kernel.ALGEBRA_STYLE_COMMAND:
+				text = geo.addLabelTextOrHTML(
+					geo.getCommandDescription(StringTemplate.defaultTemplate));
+				break;
+			}
+		}
+
 		// if enabled, render with LaTeX
 		if (av.isRenderLaTeX() && kernel.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_VALUE) {
 			String latexStr = geo.getLaTeXAlgebraDescription(true,
@@ -125,12 +148,10 @@ public class RadioButtonTreeItem extends HorizontalPanel
 					geo.getAlgebraColor(), Color.white);
 				LaTeX = true;
 			} else {
-				se.setInnerHTML(ge.getAlgebraDescriptionTextOrHTML(
-						StringTemplate.defaultTemplate));
+				se.setInnerHTML(text);
 			}
 		} else {
-			se.setInnerHTML(ge.getAlgebraDescriptionTextOrHTML(
-					StringTemplate.defaultTemplate));
+			se.setInnerHTML(text);
 		}
 		//FIXME: geo.getLongDescription() doesn't work
 		//geo.getKernel().getApplication().setTooltipFlag();
