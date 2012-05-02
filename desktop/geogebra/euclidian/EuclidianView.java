@@ -119,7 +119,6 @@ public class EuclidianView extends EuclidianViewND implements
 
 		
 
-		printScaleNF = FormatFactory.prototype.getNumberFormat("#.#####", 5);
 
 		// algebra controller will take care of our key events
 

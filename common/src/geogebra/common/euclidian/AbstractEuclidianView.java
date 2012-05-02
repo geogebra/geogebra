@@ -296,6 +296,9 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 		// ggb3D 2009-02-05
 		hits = new Hits();
 		
+		printScaleNF = FormatFactory.prototype.getNumberFormat("#.#####", 5);
+
+		
 	}
 	
 	public void setAxesColor(geogebra.common.awt.Color axesColor) {
