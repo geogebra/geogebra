@@ -19,6 +19,7 @@ import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoList;
 import geogebra.web.euclidian.event.MouseEvent;
 import geogebra.web.main.Application;
 import geogebra.web.main.DrawEquationWeb;
@@ -142,7 +143,9 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		if (av.isRenderLaTeX() && kernel.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_VALUE) {
 			String latexStr = geo.getLaTeXAlgebraDescription(true,
 					StringTemplate.latexTemplate);
-			if (latexStr != null && geo.isLaTeXDrawableGeo(latexStr)) {
+			if (latexStr != null &&
+				geo.isLaTeXDrawableGeo(latexStr) &&
+				geo.isGeoList() ? !((GeoList)geo).isMatrix() : true ) {
 				latexStr = inputLatexCosmetics(latexStr);
 				DrawEquationWeb.drawEquationAlgebraView(se, latexStr,
 					geo.getAlgebraColor(), Color.white);
