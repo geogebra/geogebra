@@ -40,7 +40,7 @@ import java.util.ArrayList;
  */
 public class GeoFunctionConditional extends GeoFunction {
 
-	//private boolean isDefined = true;
+	// private boolean isDefined = true;
 
 	private GeoFunction condFun, ifFun, elseFun;
 
@@ -48,7 +48,9 @@ public class GeoFunctionConditional extends GeoFunction {
 
 	/**
 	 * Creates new conditional function
-	 * @param c construction
+	 * 
+	 * @param c
+	 *            construction
 	 */
 	public GeoFunctionConditional(Construction c) {
 		super(c);
@@ -57,13 +59,15 @@ public class GeoFunctionConditional extends GeoFunction {
 	/**
 	 * Creates a new GeoFunctionConditional object.
 	 * 
-	 * @param c construction
+	 * @param c
+	 *            construction
 	 * @param condFun
 	 *            a GeoFunction that evaluates to a boolean value (i.e.
 	 *            isBooleanFunction() returns true)
-	 * @param ifFun function for the if branch
-	 * @param elseFun function for the else branch
-	 *            (may be null)
+	 * @param ifFun
+	 *            function for the if branch
+	 * @param elseFun
+	 *            function for the else branch (may be null)
 	 */
 	public GeoFunctionConditional(Construction c, GeoFunction condFun,
 			GeoFunction ifFun, GeoFunction elseFun) {
@@ -76,7 +80,8 @@ public class GeoFunctionConditional extends GeoFunction {
 	/**
 	 * Copy constructor
 	 * 
-	 * @param geo function to copy
+	 * @param geo
+	 *            function to copy
 	 */
 	public GeoFunctionConditional(GeoFunctionConditional geo) {
 		super(geo.cons);
@@ -198,7 +203,8 @@ public class GeoFunctionConditional extends GeoFunction {
 	/**
 	 * Set this function to the n-th derivative of f
 	 * 
-	 * @param f function
+	 * @param f
+	 *            function
 	 * @param n
 	 *            order of derivative
 	 */
@@ -213,7 +219,8 @@ public class GeoFunctionConditional extends GeoFunction {
 	/**
 	 * Returns this function's value at position x.
 	 * 
-	 * @param x position
+	 * @param x
+	 *            position
 	 * @return f(x) = condition(x) ? ifFun(x) : elseFun(x)
 	 */
 	@Override
@@ -507,25 +514,28 @@ public class GeoFunctionConditional extends GeoFunction {
 	 */
 	@Override
 	public void setUsingCasCommand(String ggbCasCmd, CasEvaluableFunction f,
-			boolean symbolic,MyArbitraryConstant arbconst) {
+			boolean symbolic, MyArbitraryConstant arbconst) {
 		GeoFunctionConditional ff = (GeoFunctionConditional) f;
 
 		if (ff.ifFun != null) {
-			ifFun.setUsingCasCommand(ggbCasCmd, ff.ifFun, symbolic,arbconst);
+			ifFun.setUsingCasCommand(ggbCasCmd, ff.ifFun, symbolic, arbconst);
 		} else {
 			ifFun = null;
 		}
 
 		if (ff.elseFun != null) {
-			elseFun.setUsingCasCommand(ggbCasCmd, ff.elseFun, symbolic,arbconst);
+			elseFun.setUsingCasCommand(ggbCasCmd, ff.elseFun, symbolic,
+					arbconst);
 		} else {
 			elseFun = null;
 		}
 	}
 
 	/**
-	 * @param substituteNumbers true to replace names by values
-	 * @param tpl string template
+	 * @param substituteNumbers
+	 *            true to replace names by values
+	 * @param tpl
+	 *            string template
 	 * @return LaTeX description of this function
 	 */
 	public String conditionalLaTeX(boolean substituteNumbers, StringTemplate tpl) {
@@ -565,15 +575,18 @@ public class GeoFunctionConditional extends GeoFunction {
 	}
 
 	/**
-	 * eg <piecewise><piece><cn> 0 </cn><apply> <lt/> <ci> x </ci> <cn> 0 </cn> </apply> </piece> <otherwise> <ci> x </ci> </otherwise> </piecewise> 
+	 * eg <piecewise><piece><cn> 0 </cn><apply> <lt/> <ci> x </ci> <cn> 0 </cn>
+	 * </apply> </piece> <otherwise> <ci> x </ci> </otherwise> </piecewise>
 	 * 
-	 * @param substituteNumbers true to replace names by values
-	 * @param tpl string template
-	 * @return MathML description of this function, eg 
+	 * @param substituteNumbers
+	 *            true to replace names by values
+	 * @param tpl
+	 *            string template
+	 * @return MathML description of this function, eg
 	 */
-	public String conditionalMathML(boolean substituteNumbers, StringTemplate tpl) {
+	public String conditionalMathML(boolean substituteNumbers,
+			StringTemplate tpl) {
 		StringBuilder sb = new StringBuilder();
-		
 
 		if (getElseFunction() == null && !ifFun.isGeoFunctionConditional()) {
 			sb.append("<piecewise><piece>");
@@ -591,11 +604,13 @@ public class GeoFunctionConditional extends GeoFunction {
 			for (int i = 0; i < cases.size(); i++) {
 				if (i == cases.size() - 1 && complete) {
 					sb.append("<otherwise>");
-					sb.append(cases.get(i).toLaTeXString(!substituteNumbers, tpl));
+					sb.append(cases.get(i).toLaTeXString(!substituteNumbers,
+							tpl));
 					sb.append("</otherwise>");
 				} else {
 					sb.append("<piece>");
-					sb.append(cases.get(i).toLaTeXString(!substituteNumbers, tpl));
+					sb.append(cases.get(i).toLaTeXString(!substituteNumbers,
+							tpl));
 					sb.append(conditions.get(i).toLaTeXString(
 							!substituteNumbers, getVarString(tpl), tpl));
 					sb.append("</piece>");
@@ -633,9 +648,11 @@ public class GeoFunctionConditional extends GeoFunction {
 	}
 
 	/**
-	 * Container for condition tripples (upper bound, lower bound, other conditions)
+	 * Container for condition tripples (upper bound, lower bound, other
+	 * conditions)
+	 * 
 	 * @author kondr
-	 *
+	 * 
 	 */
 	class Bounds {
 		private boolean lowerSharp, upperSharp;
@@ -644,7 +661,9 @@ public class GeoFunctionConditional extends GeoFunction {
 
 		/**
 		 * Adds restrictions from the expression to current bounds
-		 * @param e expression
+		 * 
+		 * @param e
+		 *            expression
 		 * @return new bounds
 		 */
 		public Bounds addRestriction(ExpressionNode e) {
@@ -728,33 +747,35 @@ public class GeoFunctionConditional extends GeoFunction {
 		}
 
 		/**
-		 * @param symbolic true to keep variable names
-		 * @param varString variable string
-		 * @param tpl string template
+		 * @param symbolic
+		 *            true to keep variable names
+		 * @param varString
+		 *            variable string
+		 * @param tpl
+		 *            string template
 		 * @return LaTeX string
 		 */
 		public String toLaTeXString(boolean symbolic, String varString,
 				StringTemplate tpl) {
 			StringBuilder ret = new StringBuilder();
-			
+
 			if (tpl.hasType(StringType.LATEX)) {
-			
+
 				if (upper == null && lower != null) {
 					ret.append(varString);
 					ret.append(" ");
 					ret.append(lowerSharp ? ">" : Unicode.GREATER_EQUAL);
 					ret.append(" ");
 					ret.append(kernel.format(lower, tpl));
-				}
-				else if (lower == null && upper != null) {
+				} else if (lower == null && upper != null) {
 					ret.append(varString);
 					ret.append(" ");
 					ret.append(upperSharp ? "<" : Unicode.LESS_EQUAL);
 					ret.append(" ");
 					ret.append(kernel.format(upper, tpl));
-				}
-				else if (lower != null && upper != null) {
-					if (Kernel.isEqual(lower, upper) && !lowerSharp && !upperSharp) {
+				} else if (lower != null && upper != null) {
+					if (Kernel.isEqual(lower, upper) && !lowerSharp
+							&& !upperSharp) {
 						ret.append(varString);
 						ret.append(" = ");
 						ret.append(kernel.format(lower, tpl));
@@ -764,7 +785,7 @@ public class GeoFunctionConditional extends GeoFunction {
 						ret.append(lowerSharp ? "<" : Unicode.LESS_EQUAL);
 						ret.append(" ");
 						ret.append(varString);
-						ret.append( " ");
+						ret.append(" ");
 						ret.append(upperSharp ? "<" : Unicode.LESS_EQUAL);
 						ret.append(" ");
 						ret.append(kernel.format(upper, tpl));
@@ -772,18 +793,17 @@ public class GeoFunctionConditional extends GeoFunction {
 				}
 				if (condition != null) {
 					return condition.toLaTeXString(symbolic, tpl);
-				}
-				else if (condition != null) {
+				} else if (condition != null) {
 					ret.insert(0, "(");
 					ret.append(")\\wedge \\left(");
 					ret.append(condition.toLaTeXString(symbolic, tpl));
 					ret.append("\\right)");
 				}
-			
+
 			} else {
 				// StringType.MATHML
 				// <apply><lt/><ci>x</ci><cn>3</cn></apply>
-				
+
 				if (upper == null && lower != null) {
 					ret.append("<apply>");
 					ret.append(lowerSharp ? "<gt/>" : "<geq/>");
@@ -792,8 +812,7 @@ public class GeoFunctionConditional extends GeoFunction {
 					ret.append("</ci><cn>");
 					ret.append(kernel.format(lower, tpl));
 					ret.append("</cn></apply>");
-				}
-				else if (lower == null && upper != null) {
+				} else if (lower == null && upper != null) {
 					ret.append("<apply>");
 					ret.append(upperSharp ? "<lt/>" : "<leq/>");
 					ret.append("<ci>");
@@ -801,9 +820,9 @@ public class GeoFunctionConditional extends GeoFunction {
 					ret.append("</ci><cn>");
 					ret.append(kernel.format(upper, tpl));
 					ret.append("</cn></apply>");
-				}
-				else if (lower != null && upper != null) {
-					if (Kernel.isEqual(lower, upper) && !lowerSharp && !upperSharp) {
+				} else if (lower != null && upper != null) {
+					if (Kernel.isEqual(lower, upper) && !lowerSharp
+							&& !upperSharp) {
 						ret.append("<apply>");
 						ret.append("<eq/>");
 						ret.append("<ci>");
@@ -828,48 +847,47 @@ public class GeoFunctionConditional extends GeoFunction {
 							ret.append("</apply>");
 						} else {
 							// more complex for eg 3 < x <= 5
-							
-							ret.append("<apply>");//<apply>
-							ret.append("<and/>");//  <and/>
-							ret.append("<apply>");//  <apply>
-							ret.append(lowerSharp ? "<lt/>" : "<leq/>");//    <lt/>
+
+							ret.append("<apply>");// <apply>
+							ret.append("<and/>");// <and/>
+							ret.append("<apply>");// <apply>
+							ret.append(lowerSharp ? "<lt/>" : "<leq/>");// <lt/>
 							ret.append("<cn>");
 							ret.append(kernel.format(lower, tpl));
-							ret.append("</cn>");//    <cn>3</cn>
+							ret.append("</cn>");// <cn>3</cn>
 							ret.append("<ci>");
 							ret.append(varString);
-							ret.append("</ci>");//    <ci>x</ci>
-							ret.append("</apply>");//  </apply>
-							ret.append("<apply>");//  <apply>
-							ret.append(upperSharp ? "<lt/>" : "<leq/>");//    <leq/>
+							ret.append("</ci>");// <ci>x</ci>
+							ret.append("</apply>");// </apply>
+							ret.append("<apply>");// <apply>
+							ret.append(upperSharp ? "<lt/>" : "<leq/>");// <leq/>
 							ret.append("<ci>");
 							ret.append(varString);
-							ret.append("</ci>");//    <ci>x</ci>
+							ret.append("</ci>");// <ci>x</ci>
 							ret.append("<cn>");
 							ret.append(kernel.format(upper, tpl));
-							ret.append("</cn>");	//    <cn>5</cn>
-							ret.append("</apply>");//  </apply>
-							ret.append("</apply>");//</apply>
+							ret.append("</cn>"); // <cn>5</cn>
+							ret.append("</apply>");// </apply>
+							ret.append("</apply>");// </apply>
 						}
-						
+
 					}
 				}
 				if (condition != null) {
 					return condition.toLaTeXString(symbolic, tpl);
-				}
-				else if (condition != null) {
-					
+				} else if (condition != null) {
+
 					// prepend
-					ret.insert(0,"<apply><and/>");
+					ret.insert(0, "<apply><and/>");
 					ret.append(condition.toLaTeXString(symbolic, tpl));
 					ret.append("</apply>");
 
 				}
-				
+
 			}
-			
+
 			AbstractApplication.debug(ret);
-			
+
 			return ret.toString();
 		}
 	}
@@ -893,6 +911,13 @@ public class GeoFunctionConditional extends GeoFunction {
 	public String toOutputValueString(StringTemplate tpl) {
 		return toValueString(tpl);
 
+	}
+
+	@Override
+	public GeoFunction threadSafeCopy() {
+		return new GeoFunctionConditional(cons, condFun.threadSafeCopy(),
+				ifFun.threadSafeCopy(), elseFun == null ? null
+						: elseFun.threadSafeCopy());
 	}
 
 }

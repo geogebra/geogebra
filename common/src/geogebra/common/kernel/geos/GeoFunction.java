@@ -1791,9 +1791,16 @@ public class GeoFunction extends GeoElement implements VarString,
 		}
 	}
 	
+	/**
+	 * Creates a copy of this function with different function 
+	 * variable so that both functions can be evaluated in separate threads
+	 * @return copy of this function
+	 */
 	public GeoFunction threadSafeCopy() {
+		if(fun==null)
+			return this;
 		FunctionVariable t = new FunctionVariable(kernel, "t");
-		FunctionVariable x = fun.getFunctionVariable();
+		FunctionVariable x = getFunction().getFunctionVariable();
 		ExpressionNode yExp = (ExpressionNode) ((ExpressionNode) getFunction()
 				.getExpression().deepCopy(kernel)).replace(x, t);
 		return new GeoFunction(cons,new Function(yExp, t));
