@@ -5192,7 +5192,10 @@ public abstract class AbstractEuclidianController {
 				transformCoords(); // grid lock
 			}
 		} else {
-			transformCoords(); // grid lock
+			if (!isAltDown()) {
+				// interferes with Alt to get multiples of 15  degrees (web)
+				transformCoords(); // grid lock
+			}
 		}
 	}
 
