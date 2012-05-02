@@ -35,6 +35,14 @@ public interface GuiResources extends ClientBundle {
 	@Source("geogebra/resources/images/axes.gif")
 	ImageResource axes();
 
+	// style bar icons may be temporarily here
+	@Source("geogebra/resources/images/bold.png")
+	ImageResource bold();
+
+	// style bar icons may be temporarily here
+	@Source("geogebra/resources/images/italic.png")
+	ImageResource italic();
+
 	@Source("geogebra/resources/images/splash-ggb4.svg")
 	TextResource ggb4Splash();
 	

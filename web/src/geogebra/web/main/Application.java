@@ -164,15 +164,16 @@ public class Application extends AbstractApplication {
 		canvas.setCoordinateSpaceWidth(1);
 		final Application this_app = this;
 		initing = true;
-		
+
 		//try to async loading of kernel, maybe we got quicker...
 		GWT.runAsync(new RunAsyncCallback() {
 			
 			public void onSuccess() {
 				initCoreObjects(undoActive, this_app);
 				frame.finishAsyncLoading(articleElement, frame, this_app);
+				initing = false;
 			}
-			
+
 			public void onFailure(Throwable reason) {
 				AbstractApplication.debug(reason);
 			}
@@ -204,7 +205,7 @@ public class Application extends AbstractApplication {
 		getEuclidianView1().synCanvasSize();
 		getEuclidianView1().repaintView();
 		appFrame.finishAsyncLoading(article, geoGebraAppFrame, this);
-		initing = true;
+		//initing = true;
     }
 
 
@@ -1092,8 +1093,18 @@ public class Application extends AbstractApplication {
 
 	@Override
 	public void updateStyleBars() {
-		AbstractApplication.debug("implementation needed for GUI"); // TODO Auto-generated
 
+		if (!isUsingFullGui() || isIniting()) {
+			return;
+		}
+
+		if (getEuclidianView1().hasStyleBar()) {
+			getEuclidianView1().getStyleBar().updateStyleBar();
+		}
+
+		if (hasEuclidianView2() && ((EuclidianView)getEuclidianView2()).hasStyleBar()) {
+			getEuclidianView2().getStyleBar().updateStyleBar();
+		}
 	}
 
 	@Override

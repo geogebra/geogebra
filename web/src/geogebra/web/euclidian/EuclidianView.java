@@ -605,4 +605,7 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 		setCoordinateSpaceSize(g2p.getOffsetWidth(), g2p.getOffsetHeight());
     }
 
+	final public boolean hasStyleBar() {
+		return styleBar != null;
+	}
 }

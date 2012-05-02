@@ -10,6 +10,7 @@ import geogebra.common.kernel.algos.AlgoTableText;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.TextProperties;
 import geogebra.common.main.AbstractApplication;
+import geogebra.web.awt.Font;
 import geogebra.web.gui.util.MyToggleButton;
 import geogebra.web.css.GuiResources;
 import geogebra.web.euclidian.EuclidianController;
@@ -122,7 +123,22 @@ public class EuclidianStyleBar extends HorizontalPanel
 		return mode;
 	}
 
-	public void applyVisualStyle(ArrayList<GeoElement> selectedGeos) { }
+	public void applyVisualStyle(ArrayList<GeoElement> geos) {
+
+		if (geos == null || geos.size() < 1)
+			return;
+		needUndo = false;
+
+		if (btnBold.isVisible())
+			applyFontStyle(geos);
+		if (btnItalic.isVisible())
+			applyFontStyle(geos);
+
+		if (needUndo) {
+			app.storeUndoInfo();
+			needUndo = false;
+		}
+	}
 
 	public void updateButtonPointCapture(int mode) { }
 
@@ -157,8 +173,11 @@ public class EuclidianStyleBar extends HorizontalPanel
 	}
 
 	public void setLabels() {
+
+		initGUI();
+		updateStyleBar();
+
 	    AbstractApplication.debug("implementation needed for GUI"); // TODO Auto-generated
-	    
     }
 
 	/**
@@ -247,6 +266,13 @@ public class EuclidianStyleBar extends HorizontalPanel
 			// we also update stylebars according to just created geos
 			activeGeoList.addAll(ec.getJustCreatedGeos());
 		}
+
+		// temporary instead of the...
+		updateTableText(activeGeoList.toArray());
+		btnShowAxes.update(activeGeoList.toArray());
+		btnShowGrid.update(activeGeoList.toArray());
+		btnBold.update(activeGeoList.toArray());
+		btnItalic.update(activeGeoList.toArray());
 
 		/*
 		// -----------------------------------------------------
@@ -423,6 +449,7 @@ public class EuclidianStyleBar extends HorizontalPanel
 	private void initGUI() {
 
 		createButtons();
+		createTextButtons();
 
 		addButtons();
 	
@@ -438,9 +465,16 @@ public class EuclidianStyleBar extends HorizontalPanel
 		clear();
 
 		//--- order matters here
-		
+
 		// add graphics decoration buttons
 		addGraphicsDecorationsButtons();
+
+		// add text decoration buttons
+		//if(btnBold.isVisible())
+		//	addSeparator();
+
+		add(btnBold);
+		add(btnItalic);
 	}
 
 	/**
@@ -499,6 +533,64 @@ public class EuclidianStyleBar extends HorizontalPanel
 		};
 		// btnShowGrid.setPreferredSize(new Dimension(16,16));
 		btnShowGrid.addValueChangeHandler(this);
+	}
+
+	private void createTextButtons() {
+		// ========================================
+		// bold text button
+		//ImageIcon boldIcon = GeoGebraIcon.createStringIcon(app.getPlain("Bold")
+		//		.substring(0, 1), app.getPlainFont(), true, false, true,
+		//		iconDimension, Color.black, null);
+		btnBold = new MyToggleButton(
+				GuiResources.INSTANCE.bold(),
+				iconHeight) {
+
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void update(Object[] geos) {
+
+				boolean geosOK = checkGeoText(geos);
+				setVisible(geosOK);
+				if (geosOK) {
+					GeoElement geo = ((GeoElement) geos[0])
+							.getGeoElementForPropertiesDialog();
+					int style = ((TextProperties) geo).getFontStyle();
+					btnBold.setValue(style == Font.BOLD
+							|| style == (Font.BOLD + Font.ITALIC));
+				}
+			}
+		};
+		btnBold.addValueChangeHandler(this);
+
+		// ========================================
+		// italic text button
+		//ImageIcon italicIcon = GeoGebraIcon.createStringIcon(
+		//		app.getPlain("Italic").substring(0, 1), app.getPlainFont(),
+		//		false, true, true, iconDimension, Color.black, null);
+		btnItalic = new MyToggleButton(
+				GuiResources.INSTANCE.italic(),
+				iconHeight) {
+
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void update(Object[] geos) {
+
+				boolean geosOK = checkGeoText(geos);
+				setVisible(geosOK);
+				this.setVisible(geosOK);
+				if (geosOK) {
+					GeoElement geo = ((GeoElement) geos[0])
+							.getGeoElementForPropertiesDialog();
+					int style = ((TextProperties) geo).getFontStyle();
+					btnItalic.setValue(style == Font.ITALIC
+							|| style == (Font.BOLD + Font.ITALIC));
+				}
+			}
+
+		};
+		btnItalic.addValueChangeHandler(this);
 	}
 
 	// =====================================================
@@ -590,6 +682,29 @@ public class EuclidianStyleBar extends HorizontalPanel
 			else
 				ev.showGrid(!ev.getShowGrid());
 			ev.repaint();
+		} else if (source == btnBold) {
+			applyFontStyle(targetGeos);
+		} else if (source == btnItalic) {
+			applyFontStyle(targetGeos);
 		}
 	}
+
+	private void applyFontStyle(ArrayList<GeoElement> geos) {
+
+		int fontStyle = 0;
+		if (btnBold.getValue())
+			fontStyle += 1;
+		if (btnItalic.getValue())
+			fontStyle += 2;
+		for (int i = 0; i < geos.size(); i++) {
+			GeoElement geo = geos.get(i);
+			if (geo instanceof TextProperties
+					&& ((TextProperties) geo).getFontStyle() != fontStyle) {
+				((TextProperties) geo).setFontStyle(fontStyle);
+				geo.updateRepaint();
+				needUndo = true;
+			}
+		}
+	}
+
 }
