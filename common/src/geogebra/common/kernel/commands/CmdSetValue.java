@@ -74,6 +74,8 @@ public class CmdSetValue extends CmdScripting {
 					}
 				}
 			}
+			if(!arg[1].isLabelSet())
+				arg[1].remove();
 			return;
 		case 3:
 			if ((ok = (arg[0].isGeoList() && arg[0].isIndependent())) && arg[1].isNumberValue()) {

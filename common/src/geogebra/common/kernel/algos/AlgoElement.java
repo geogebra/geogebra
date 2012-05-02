@@ -673,12 +673,15 @@ public abstract class AlgoElement extends ConstructionElement implements
 		update();
 		return false;
 	}
-
+	private boolean removed = false;
 	/**
 	 * Removes algorithm and all dependent objects from construction.
 	 */
 	@Override
 	public void remove() {
+		if(removed)
+			return;
+		removed = true;
 		cons.removeFromConstructionList(this);
 		cons.removeFromAlgorithmList(this);
 
@@ -689,6 +692,8 @@ public abstract class AlgoElement extends ConstructionElement implements
 
 		// delete from algorithm lists of input
 		for (int i = 0; i < input.length; i++) {
+			if(!input[i].isLabelSet())
+				input[i].remove();
 			input[i].removeAlgorithm(this);
 		}
 
