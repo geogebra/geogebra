@@ -16,6 +16,7 @@ import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.algos.AlgoFunctionFreehand;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
@@ -26,6 +27,7 @@ import geogebra.common.kernel.arithmetic.Variable;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
 import geogebra.common.plugin.GeoClass;
@@ -409,4 +411,42 @@ public abstract class CommandProcessor {
 
 		return list;
 	}
+	
+	/**
+	 * Used by eg FitSin to allow a freehand function to be passed as an arg
+	 * 
+	 * converts a list of y-coordinates into a list of GeoPoints
+	 * @param kernelA
+	 * @param algo
+	 * @return
+	 */
+	public static  GeoList wrapFreehandFunctionArgInList(Kernel kernelA, AlgoFunctionFreehand algo) {
+
+		Construction cons = kernelA.getConstruction();
+
+
+		GeoList list = (GeoList) algo.getInput()[0];
+
+		// first 2 points in list are start and end, rest are y-coordinates
+		double start = ((NumberValue)list.get(0)).getDouble();
+		double end = ((NumberValue)list.get(1)).getDouble();
+		int size = list.size() - 2;
+
+		double step = (end - start) / (size -1);
+
+		ArrayList<GeoElement> geoElementList = new ArrayList<GeoElement>();
+		for (int i = 0; i < size; i++) {
+			GeoPoint2 p = new GeoPoint2(cons, start + i * step, ((NumberValue)list.get(2 + i)).getDouble(), 1.0);
+			geoElementList.add(p);
+		}
+
+		boolean oldMacroMode = cons.isSuppressLabelsActive();
+		cons.setSuppressLabelCreation(true);
+		list = kernelA.List(null, geoElementList, false);
+		cons.setSuppressLabelCreation(oldMacroMode);
+
+		return list;
+	}
+
+
 }

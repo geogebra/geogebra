@@ -1,11 +1,17 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.AlgoFunctionFreehand;
 import geogebra.common.kernel.arithmetic.Command;
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.main.MyError;
 import geogebra.common.plugin.GeoClass;
+
+import java.util.ArrayList;
 
 /**
  * abstract class for Commands with one list argument eg Mean[ <List> ]
@@ -38,8 +44,28 @@ public abstract class CmdOneListFunction extends CommandProcessor {
 			if (arg[0].isGeoList()) {
 				GeoElement[] ret = { 
 						doCommand(c.getLabel(),
-						(GeoList) arg[0]) };
+								(GeoList) arg[0]) };
 				return ret;
+			} else if (arg[0].isGeoFunction()) {
+
+				// allow FitXXX[ <Freehand Function> ], eg FitSin 
+
+				GeoFunction fun = (GeoFunction) arg[0];
+
+				if (fun.getParentAlgorithm() instanceof AlgoFunctionFreehand) {
+
+
+					GeoList list = wrapFreehandFunctionArgInList(kernelA, (AlgoFunctionFreehand) fun.getParentAlgorithm());
+
+
+					if (list != null) {
+						GeoElement[] ret = { doCommand(c.getLabel(), list)};
+						return ret;             	     	 
+					} 
+
+
+				}
+
 			}
 			throw argErr(app, c.getName(), arg[0]);
 		
@@ -65,7 +91,7 @@ public abstract class CmdOneListFunction extends CommandProcessor {
 		}
 	}
 	
-    /**
+	/**
      * Perform the actual command
      * @param label label for output
      * @param list input list
