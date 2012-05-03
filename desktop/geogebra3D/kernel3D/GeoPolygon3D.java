@@ -1,5 +1,6 @@
 package geogebra3D.kernel3D;
 
+import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.PathParameter;
@@ -14,8 +15,11 @@ import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoPolygon3DInterface;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
+import geogebra.common.kernel.kernelND.ViewCreator;
 import geogebra.common.plugin.GeoClass;
+import geogebra3D.Application3D;
 import geogebra3D.euclidian3D.Drawable3D;
+import geogebra3D.euclidianForPlane.EuclidianViewForPlane;
 
 /**
  * Class extending {@link GeoPolygon} in 3D world.
@@ -24,7 +28,7 @@ import geogebra3D.euclidian3D.Drawable3D;
  * 
  */
 public class GeoPolygon3D extends GeoPolygon implements GeoElement3DInterface,
-		GeoPolygon3DInterface, FromMeta {
+		GeoPolygon3DInterface, FromMeta, ViewCreator {
 
 	/** 2D coord sys where the polygon exists */
 	private CoordSys coordSys;
@@ -586,6 +590,47 @@ public class GeoPolygon3D extends GeoPolygon implements GeoElement3DInterface,
 	public void translate(Coords v) {
 		super.translate(v);
 		getCoordSys().translate(v);
+	}
+	
+
+	// ////////////////////////////////
+	// 2D VIEW
+
+	private EuclidianViewForPlane euclidianViewForPlane;
+
+	public void createView2D() {
+		euclidianViewForPlane = ((Application3D) app).createEuclidianViewForPlane(this);
+	}
+	
+	public boolean hasView2DVisible(){
+		return euclidianViewForPlane!=null && app.getGuiManager().showView(euclidianViewForPlane.getId());
+	}
+	
+
+	public void setView2DVisible(boolean flag){
+		
+		if (euclidianViewForPlane==null){
+			if (flag)
+				createView2D();
+			return;
+		}
+		
+		app.getGuiManager().setShowView(flag, euclidianViewForPlane.getId());
+		
+		
+	}
+	
+	
+	
+	
+	
+
+	@Override
+	public void update() {
+		super.update();
+		if (euclidianViewForPlane != null) {
+			euclidianViewForPlane.updateForPlane();
+		}
 	}
 
 }

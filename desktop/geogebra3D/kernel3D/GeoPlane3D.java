@@ -14,12 +14,13 @@ import geogebra.common.kernel.geos.Translateable;
 import geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import geogebra.common.kernel.kernelND.GeoPlaneND;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.kernel.kernelND.ViewCreator;
 import geogebra.common.plugin.GeoClass;
 import geogebra3D.Application3D;
 import geogebra3D.euclidianForPlane.EuclidianViewForPlane;
 
 public class GeoPlane3D extends GeoElement3D implements Functional2Var,
-		GeoCoordSys2D, GeoCoords4D, GeoPlaneND, Translateable {
+		ViewCreator, GeoCoords4D, GeoPlaneND, Translateable {
 
 	/** default labels */
 	private static final char[] Labels = { 'p', 'q', 'r' };
@@ -484,7 +485,7 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 	private EuclidianViewForPlane euclidianViewForPlane;
 
 	public void createView2D() {
-		euclidianViewForPlane = (EuclidianViewForPlane) app
+		euclidianViewForPlane = ((Application3D) app)
 				.createEuclidianViewForPlane(this);
 		updateViewForPlaneDirection(((Application3D) app).getEuclidianView3D()
 				.getViewDirection(), ((Application3D) app).getEuclidianView3D()
@@ -493,7 +494,7 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 	}
 	
 	public boolean hasView2DVisible(){
-		return euclidianViewForPlane!=null;
+		return euclidianViewForPlane!=null && app.getGuiManager().showView(euclidianViewForPlane.getId());
 	}
 	
 

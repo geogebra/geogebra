@@ -1600,32 +1600,8 @@ public class GeoPolygon extends GeoElement implements NumberValue, Path,
 		return new Coords(0, 0, 1, 0);
 	}
 
-	// ////////////////////////////////
-	// 2D VIEW
-
-	private AbstractEuclidianView euclidianViewForPlane;
-
-	public void createView2D() {
-		euclidianViewForPlane = app.createEuclidianViewForPlane(this);
-	}
-	
-	public boolean hasView2DVisible(){
-		return euclidianViewForPlane!=null;
-	}
-	
-
-	public void setView2DVisible(boolean flag){
-		createView2D();
-	}
 
 
-	@Override
-	public void update() {
-		super.update();
-		if (euclidianViewForPlane != null) {
-			euclidianViewForPlane.updateForPlane();
-		}
-	}
 
 	public void matrixTransform(double a00, double a01, double a02, double a10,
 			double a11, double a12, double a20, double a21, double a22) {

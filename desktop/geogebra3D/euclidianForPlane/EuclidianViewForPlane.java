@@ -32,6 +32,8 @@ public class EuclidianViewForPlane extends EuclidianViewFor3D {
 	private static final long serialVersionUID = 1L;
 	
 	private GeoCoordSys2D plane;
+	
+	private int id;
 
 	/**
 	 * 
@@ -287,5 +289,21 @@ public class EuclidianViewForPlane extends EuclidianViewFor3D {
 				ret.add(p);
 		return ret;
 	}	
+	
+	/**
+	 * set the id of the view
+	 * @param id id
+	 */
+	public void setId(int id){
+		this.id=id;
+	}
+	
+	/**
+	 * 
+	 * @return the id of the view
+	 */
+	public int getId(){
+		return id;
+	}
 	
 }

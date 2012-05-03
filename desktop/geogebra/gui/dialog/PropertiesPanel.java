@@ -50,6 +50,7 @@ import geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import geogebra.common.kernel.kernelND.GeoLevelOfDetail;
 import geogebra.common.kernel.kernelND.GeoPlaneND;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.kernel.kernelND.ViewCreator;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.common.plugin.EuclidianStyleConstants;
@@ -186,7 +187,7 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 	private ScriptEditPanel scriptEditPanel;
 	private BackgroundImagePanel bgImagePanel;
 	private AbsoluteScreenLocationPanel absScreenLocPanel;
-	private ShowView2D showView2D;
+	//private ShowView2D showView2D;
 	private ShowConditionPanel showConditionPanel;
 	private ColorFunctionPanel colorFunctionPanel;
 
@@ -277,7 +278,7 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 		fixPanel = new FixPanel();
 		checkBoxFixPanel = new CheckBoxFixPanel();
 		absScreenLocPanel = new AbsoluteScreenLocationPanel();
-		showView2D = new ShowView2D();
+		//showView2D = new ShowView2D();
 		auxPanel = new AuxiliaryObjectPanel();
 		animStepPanel = new AnimationStepPanel(app);
 		textFieldSizePanel = new TextfieldSizePanel(app);
@@ -345,7 +346,7 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 		basicTabList.add(rightAnglePanel);
 		basicTabList.add(allowOutlyingIntersectionsPanel);
 		basicTabList.add(showTrimmedIntersectionLines);
-		basicTabList.add(showView2D);
+		//basicTabList.add(showView2D);
 		basicTab = new TabPanel(basicTabList);
 		tabPanelList.add(basicTab);
 
@@ -516,7 +517,7 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 		animSpeedPanel.setLabels();
 		slopeTriangleSizePanel.setLabels();
 		absScreenLocPanel.setLabels();
-		showView2D.setLabels();
+		//showView2D.setLabels();
 		sliderPanel.setLabels();
 
 		if (!isDefaults) {
@@ -5305,11 +5306,11 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 			cb2DView.removeItemListener(this);
 
 			// check if properties have same values
-			GeoCoordSys2D temp, geo0 = (GeoCoordSys2D) geos[0];
+			ViewCreator temp, geo0 = (ViewCreator) geos[0];
 			boolean equalVal = true;
 
 			for (int i = 0; i < geos.length; i++) {
-				temp = (GeoCoordSys2D) geos[i];
+				temp = (ViewCreator) geos[i];
 				// same object visible value
 				if (geo0.hasView2DVisible() != temp
 						.hasView2DVisible())
@@ -5329,7 +5330,7 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 		private boolean checkGeos(Object[] geos) {
 			for (int i = 0; i < geos.length; i++) {
 				GeoElement geo = (GeoElement) geos[i];
-				if (!(geo instanceof GeoCoordSys2D) || !(geo.isGeoElement3D()))
+				if (!(geo instanceof ViewCreator))
 					return false;
 			}
 			return true;
@@ -5339,7 +5340,7 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 		 * listens to checkboxes and sets trace state
 		 */
 		public void itemStateChanged(ItemEvent e) {
-			GeoCoordSys2D geo;
+			ViewCreator geo;
 			Object source = e.getItemSelectable();
 
 			// absolute screen location flag changed
@@ -5347,7 +5348,7 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 				boolean flag = cb2DView.isSelected();
 				EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
 				for (int i = 0; i < geos.length; i++) {
-					geo = (GeoCoordSys2D) geos[i];
+					geo = (ViewCreator) geos[i];
 					geo.setView2DVisible(flag);
 				}
 

@@ -28,6 +28,7 @@ import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.geos.Traceable;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoCoordSys2D;
+import geogebra.common.kernel.kernelND.ViewCreator;
 import geogebra.common.main.AbstractApplication;
 import geogebra.euclidian.EuclidianView;
 import geogebra.gui.inputbar.AlgebraInput;
@@ -518,9 +519,9 @@ public class ContextMenuGeoElement extends JPopupMenu {
 	
 	
 	private void addPlaneItems() {
-		if (!(geo instanceof GeoCoordSys2D))
+		if (!(geo instanceof ViewCreator))
 			return;
-		final GeoCoordSys2D plane = (GeoCoordSys2D) geo;
+		final ViewCreator plane = (ViewCreator) geo;
 
 		AbstractAction action;
 

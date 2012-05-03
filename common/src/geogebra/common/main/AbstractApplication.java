@@ -2326,14 +2326,7 @@ public abstract class AbstractApplication {
 		getEuclidianView1().remove(geo);
 	}
 
-	/**
-	 * TODO remove this after ggb v>=5 (replace with same from Application3D)
-	 * @param plane
-	 * @return
-	 */
-	public AbstractEuclidianView createEuclidianViewForPlane(Object plane) {
-		return null;
-	}
+
 
 	public abstract void setXML(String string, boolean b);
 

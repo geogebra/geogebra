@@ -23,6 +23,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.commands.CommandsConstants;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoCoordSys2D;
+import geogebra.common.kernel.kernelND.ViewCreator;
 import geogebra.euclidian.EuclidianController;
 import geogebra.gui.GuiManager;
 import geogebra.main.AppletImplementation;
@@ -185,9 +186,7 @@ public class Application3D extends Application {
 	 * @param plane
 	 * @return create a new euclidian view for the plane
 	 */
-	@Override
-	public AbstractEuclidianView createEuclidianViewForPlane(Object o) {
-		GeoCoordSys2D plane = (GeoCoordSys2D) o;
+	public EuclidianViewForPlane createEuclidianViewForPlane(ViewCreator plane) {
 		// create new view for plane and controller
 		EuclidianController ec = new EuclidianControllerForPlane(kernel3D);
 		euclidianViewForPlane = new EuclidianViewForPlane(ec, plane);

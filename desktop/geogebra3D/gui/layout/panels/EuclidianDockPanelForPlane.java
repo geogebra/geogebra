@@ -16,13 +16,16 @@ public class EuclidianDockPanelForPlane extends EuclidianDockPanelAbstract {
 	private static final long serialVersionUID = 1L;
 	private EuclidianViewForPlane view;
 	
+	//id of the first view
+	private static int viewId = AbstractApplication.VIEW_EUCLIDIAN_FOR_PLANE;
+	
 	/**
 	 * @param app application
 	 * @param view view for plane
 	 */
 	public EuclidianDockPanelForPlane(Application app, EuclidianViewForPlane view) {
 		super(
-			AbstractApplication.VIEW_EUCLIDIAN_FOR_PLANE,	// view id 
+			viewId,	// view id 
 			"GraphicsViewForPlaneA", 				// view title
 			ToolBar.getAllToolsNoMacrosForPlane(),// toolbar string
 			true,						// style bar?
@@ -30,8 +33,16 @@ public class EuclidianDockPanelForPlane extends EuclidianDockPanelAbstract {
 			'P'
 		);
 		
+		
+		
 		this.app = app;
 		this.view = view;
+		view.setId(viewId);
+		
+		
+		
+		viewId++; //id of next view
+		
 	}
 	
 	@Override

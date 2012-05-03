@@ -179,15 +179,16 @@ public class GuiManager3D extends GuiManager {
 	/**
 	 * Displays the popup menu for geo at the position p in the coordinate space
 	 * of the component invoker
+	 * @param firstGeos first geos
 	 * @param geos list of geos
 	 * @param view view calling
 	 * @param p place to show the popup menue
 	 */
-	public void showPopupChooseGeo(GeoElement geo,
+	public void showPopupChooseGeo(ArrayList<GeoElement> firstGeos,
 			ArrayList<GeoElement> geos, EuclidianViewND view,
 			geogebra.common.awt.Point p) {
 		
-		if (geo==null || geos==null)
+		if (firstGeos == null || firstGeos.get(0) == null)
 			return;
 
 		// clear highlighting and selections in views
@@ -199,9 +200,8 @@ public class GuiManager3D extends GuiManager {
 				.getLocationOnScreen();
 		screenPos.translate(p.x, p.y);
 
-		ArrayList<GeoElement> firstGeo = new ArrayList<GeoElement>();
-		firstGeo.add(geo);
-		ContextMenuChooseGeo popupMenu = new ContextMenuChooseGeo(app, view, firstGeo, geos, screenPos);
+
+		ContextMenuChooseGeo popupMenu = new ContextMenuChooseGeo(app, view, firstGeos, geos, screenPos);
 		popupMenu.show(invoker, p.x, p.y);
 
 

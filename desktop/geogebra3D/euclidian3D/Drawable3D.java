@@ -635,6 +635,13 @@ public abstract class Drawable3D extends DrawableND {
 		if ( (this.isTransparent()) && (!d.isTransparent()) )
 			return 1;
 		
+
+		//check if one is selected and not the other
+		if (this.getGeoElement().isSelected() && !d.getGeoElement().isSelected())
+			return -1;
+		if (!this.getGeoElement().isSelected() && d.getGeoElement().isSelected())
+			return 1;
+		
 		
 		
 		//check if the two objects are "mixed"			
@@ -653,6 +660,8 @@ public abstract class Drawable3D extends DrawableND {
 				if (this.getPickOrder()>d.getPickOrder())
 					return 1;
 			}
+			
+			
 			
 			// if both are points, check if one is on a path and the other not
 			if (this.getGeoElement().isGeoPoint() && d.getGeoElement().isGeoPoint()){

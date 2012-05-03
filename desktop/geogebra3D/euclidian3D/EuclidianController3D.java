@@ -2971,12 +2971,12 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 	 * @param hits hits on the mouse
 	 */
 	@Override
-	protected void showPopupMenuChooseGeo(Hits hits){
+	protected void showPopupMenuChooseGeo(ArrayList<GeoElement> firstHits, Hits hits){
 		if (app.isUsingFullGui() && app.getGuiManager() != null) {
 			//if (geo != null) {
 
 				((GuiManager3D) app.getGuiManager()).showPopupChooseGeo(
-						chooseGeo(hits, false),
+						firstHits,
 						hits,
 						view3D, mouseLoc);
 

@@ -1137,6 +1137,7 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 	 */
 	public void showPopupMenu(ArrayList<GeoElement> geos, Component invoker,
 			geogebra.common.awt.Point p) {
+		
 		if (geos == null || !app.letShowPopupMenu())
 			return;
 		if (app.getKernel().isAxis(geos.get(0))) {

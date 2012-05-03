@@ -8164,12 +8164,29 @@ public abstract class AbstractEuclidianController {
 						}
 
 						if (app.isUsingFullGui() && app.getGuiManager() != null)
-							app.getGuiManager().showPopupMenu(
-									app.getSelectedGeos(), view, mouseLoc);
+							showPopupMenuChooseGeo(app.getSelectedGeos(),hits);
+							//app.getGuiManager().showPopupMenu(app.getSelectedGeos(), view, mouseLoc);
 
 					} else {
-						// no selected geos: choose geo and show popup menu
-						showPopupMenuChooseGeo(hits);
+						// no selected geos: choose geo and show popup menu				
+						if (app.isUsingFullGui() && app.getGuiManager() != null) {
+							//if (geo != null) {
+							    GeoElement geo = chooseGeo(hits, false);
+								ArrayList<GeoElement> geos = new ArrayList<GeoElement>();
+								geos.add(geo);
+								showPopupMenuChooseGeo(geos,hits);
+
+							/* Now overriden
+							} else {
+								// for 3D : if the geo hitted is xOyPlane, then
+								// chooseGeo return null
+								// app.getGuiManager().showDrawingPadPopup((EuclidianView)
+								// view, mouseLoc);
+								showDrawingPadPopup(mouseLoc);
+							}
+							*/
+						}
+						
 					}
 				}
 				return;
@@ -8716,27 +8733,13 @@ public abstract class AbstractEuclidianController {
 
 	/**
 	 * show popup menu when no geo is selected
+	 * @param firstHits first hits on the mouse
 	 * @param hits hits on the mouse
 	 */
-	protected void showPopupMenuChooseGeo(Hits hits){
-		GeoElement geo = chooseGeo(hits, false);
-		if (app.isUsingFullGui() && app.getGuiManager() != null) {
-			//if (geo != null) {
-				ArrayList<GeoElement> geos = new ArrayList<GeoElement>();
-				geos.add(geo);
-				app.getGuiManager().showPopupMenu(geos,
-						view, mouseLoc);
+	protected void showPopupMenuChooseGeo(ArrayList<GeoElement> firstHits, Hits hits){
 
-			/* Now overriden
-			} else {
-				// for 3D : if the geo hitted is xOyPlane, then
-				// chooseGeo return null
-				// app.getGuiManager().showDrawingPadPopup((EuclidianView)
-				// view, mouseLoc);
-				showDrawingPadPopup(mouseLoc);
-			}
-			*/
-		}
+		app.getGuiManager().showPopupMenu(firstHits,view, mouseLoc);
+
 	}
 	
 }

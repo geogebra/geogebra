@@ -50,7 +50,7 @@ public class ContextMenuChooseGeo extends ContextMenuGeoElement {
 	
 	private int index;
 	
-	private static final int MORE_INDEX = 3;
+	private static final int MORE_INDEX = 4;
 	
 	private JMenu moreMenu;
 
@@ -70,8 +70,8 @@ public class ContextMenuChooseGeo extends ContextMenuGeoElement {
 		
 		//section to choose a geo
 		
-		//return if just one geo
-		if (geos.size()<2)
+		//return if just one geo, or if first geos more than one
+		if (geos.size()<2 || firstGeo.size()>1)
 			return;
 		
 		this.view = view;
@@ -87,7 +87,8 @@ public class ContextMenuChooseGeo extends ContextMenuGeoElement {
 		for (GeoElement geo : geos){
 			if (index>0){//don't add first geo
 				addGeo(geo);
-			}
+			}else
+				index++;
 			if (geo.isFromMeta()){
 				GeoElement meta = ((FromMeta) geo).getMeta();
 				if (!metas.contains(meta)){
