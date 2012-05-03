@@ -876,7 +876,13 @@ Identity_Syntax: "",
 CircleArc: "", 
 Polar_Syntax: "", 
 Random: "", 
-Simplify_Syntax: ""
+Simplify_Syntax: "",
+ShowAxes: "",
+ShowAxes_Syntax: "",
+ShowGrid: "",
+ShowGrid_Syntax: "",
+AreCollinear: "",
+AreCollinear_Syntax: ""
 		};
 		
 var colorKeysVar = {
