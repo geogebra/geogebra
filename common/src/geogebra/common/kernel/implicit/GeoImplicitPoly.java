@@ -890,7 +890,7 @@ Dilateable, Transformable, EuclidianViewCE {
 	
 	@Override
 	final public double distance(GeoPoint2 p) {
-		AlgoClosestPoint algo = new AlgoClosestPoint(cons, "", this, p);
+		AlgoClosestPoint algo = new AlgoClosestPoint(cons, this, p);
 		algo.remove();
 		GeoPoint2 pointOnCurve = algo.getP();
 		return p.distance(pointOnCurve);

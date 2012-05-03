@@ -675,12 +675,9 @@ public class AlgoIntersectImplicitpolys extends AlgoSimpleRootsPolynomial {
 					pair[0]=newCoeff[i];
 					pair[1]=t;
 				}
-				AbstractApplication.debug("polishing pair "+Arrays.toString(pair));
+			
 				if (PolynomialUtils.rootPolishing(pair,p1,p2))
-					insert(pair);
-				else{
-					AbstractApplication.debug("polishing pair "+Arrays.toString(pair)+" failed.");
-				}
+					insert(pair);				
 			}
 		}
 		if (hints!=null){
