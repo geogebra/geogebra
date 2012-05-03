@@ -35,19 +35,18 @@ public class CmdZip extends CommandProcessor {
 
 		// create local variable at position 1 and resolve arguments
 		GeoElement arg = null;
+		GeoElement[] vars = new GeoElement[n / 2];
+		GeoList[] over = new GeoList[n / 2];
 		boolean oldval = cons.isSuppressLabelsActive();
 		try{
 			cons.setSuppressLabelCreation(true);	
-			arg = resArgsForZip(c);
+			arg = resArgsForZip(c,vars,over);
 		}finally{
 			cons.setSuppressLabelCreation(oldval);
 		}
 		return kernelA.Zip(c.getLabel(), arg, vars, over);
 		
 	}
-
-	private GeoElement[] vars;
-	private GeoList[] over;
 
 	/**
 	 * Resolves arguments, creates local variables and fills the vars and
@@ -56,11 +55,10 @@ public class CmdZip extends CommandProcessor {
 	 * @param c zip command
 	 * @return list of arguments
 	 */
-	protected final GeoElement resArgsForZip(Command c) {
+	protected final GeoElement resArgsForZip(Command c,GeoElement[] vars, GeoList[] over) {
 		// check if there is a local variable in arguments
 		int numArgs = c.getArgumentNumber();
-		vars = new GeoElement[numArgs / 2];
-		over = new GeoList[numArgs / 2];
+		
 		Construction cmdCons = c.getKernel().getConstruction();
 		
 		for (int varPos = 1; varPos < numArgs; varPos += 2) {
