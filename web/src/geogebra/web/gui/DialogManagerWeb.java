@@ -88,7 +88,7 @@ public class DialogManagerWeb extends DialogManager {
 		
 		String inputValue = prompt("Enter text", "");
 
-		if (!"".equals(inputValue)) {
+		if ((inputValue != null) ? !"".equals(inputValue) : false) {
 			
 			if (inputValue.indexOf('\"') == -1) {
 				inputValue = "\"" + inputValue + "\"";

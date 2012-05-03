@@ -143,9 +143,9 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		if (av.isRenderLaTeX() && kernel.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_VALUE) {
 			String latexStr = geo.getLaTeXAlgebraDescription(true,
 					StringTemplate.latexTemplate);
-			if (latexStr != null &&
+			if ((latexStr != null) &&
 				geo.isLaTeXDrawableGeo(latexStr) &&
-				geo.isGeoList() ? !((GeoList)geo).isMatrix() : true ) {
+				(geo.isGeoList() ? !((GeoList)geo).isMatrix() : true) ) {
 				latexStr = inputLatexCosmetics(latexStr);
 				DrawEquationWeb.drawEquationAlgebraView(se, latexStr,
 					geo.getAlgebraColor(), Color.white);
@@ -190,9 +190,10 @@ public class RadioButtonTreeItem extends HorizontalPanel
 
 	public String inputLatexCosmetics(String eqstring) {
 		// make sure eg FractionText[] works (surrounds with {} which doesn't draw well in MathQuill)
-		if (eqstring.startsWith("{") && eqstring.endsWith("}")) {
-			eqstring = eqstring.substring(1, eqstring.length() - 1);
-		}
+		if (eqstring.length() >= 2)
+			if (eqstring.startsWith("{") && eqstring.endsWith("}")) {
+				eqstring = eqstring.substring(1, eqstring.length() - 1);
+			}
 
 		// remove $s
 		eqstring = eqstring.trim();
