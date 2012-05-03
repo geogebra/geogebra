@@ -9714,6 +9714,12 @@ public class Kernel {
 		return bool;
 	}
 	
+	public GeoElement AreParallel(String label, GeoLine geoLine1,
+			GeoLine geoLine2) {
+		AlgoAreParallel algo = new AlgoAreParallel(cons, label, geoLine1, geoLine2);
+		GeoBoolean bool = algo.getResult();
+		return bool;
+	}
 	
 	public void notifyChangeLayer(GeoElement ge, int layer, int layer2) {
 		app.updateMaxLayerUsed(layer2);

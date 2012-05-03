@@ -488,7 +488,9 @@ AlgoTo2D,AlgoDependentVector3D,AlgoParametricDerivative,
 	AlgoDoubleListSYY(Commands.SYY),
 	AlgoExtremumNumerical(Commands.Extremum),
 	AlgoSimpleRootsPoly(Commands.Roots),
-	AlgoImplicitPolyTangentCurve(Commands.Tangent), AlgoProve(Commands.Prove), AlgoAreCollinear(Commands.AreCollinear);
+	AlgoImplicitPolyTangentCurve(Commands.Tangent), 
+	AlgoProve(Commands.Prove), AlgoAreCollinear(Commands.AreCollinear), 
+	AlgoAreParallel(Commands.AreParallel);
 	private String command;
 	private Algos(){
 		this.command="Expression";

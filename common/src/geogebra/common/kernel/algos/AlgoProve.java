@@ -83,5 +83,10 @@ public class AlgoProve extends AlgoElement {
    
     	
     }
+    
+    @Override
+	public void update(){
+    	//do not redo the prove
+    }
 }
 

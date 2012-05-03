@@ -16,19 +16,22 @@ import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.main.MyError;
 
 /**
- * AreCollinear[<Point>, <Point>, <Point> ]
+ * AreParallel[<Line>, <Line>]
+ * @author Simon Weitzhofer
+ * 3rd of may 2012 
+ *
  */
-public class CmdAreCollinear extends CommandProcessor {
+public class CmdAreParallel extends CommandProcessor {
 
 	/**
-	 * Creates new command processor
+	 * Create new command processor
 	 * @param kernel kernel
 	 */
-	public CmdAreCollinear(Kernel kernel) {
+	public CmdAreParallel(Kernel kernel) {
 		super(kernel);
 	}
 
@@ -38,17 +41,14 @@ public class CmdAreCollinear extends CommandProcessor {
 		int n=c.getArgumentNumber();
 		GeoElement[] arg;
 		arg = resArgs(c);
-		if (n==3) {
-			if (!(arg[0] instanceof GeoPoint2 )){
+		if (n==2) {
+			if (!(arg[0] instanceof GeoLine )){
 				throw argErr(app, c.getName(), arg[0]);
 			}
-			if (!(arg[1] instanceof GeoPoint2 )){
+			if (!(arg[1] instanceof GeoLine )){
 				throw argErr(app, c.getName(), arg[1]);
 			}
-			if (!(arg[2] instanceof GeoPoint2 )){
-				throw argErr(app, c.getName(), arg[2]);
-			}
-			GeoElement[] ret = {kernelA.AreCollinear(c.getLabel(), (GeoPoint2) arg[0],(GeoPoint2) arg[1],(GeoPoint2) arg[2])};
+			GeoElement[] ret = {kernelA.AreParallel(c.getLabel(), (GeoLine) arg[0],(GeoLine) arg[1])};
 			return ret;
 		}
 		throw argNumErr(app, c.getName(), n);

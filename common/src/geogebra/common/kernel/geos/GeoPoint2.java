@@ -2021,6 +2021,9 @@ final public class GeoPoint2 extends GeoVec3D implements VectorValue,
 			if (variableCoordinate2 == null) {
 				variableCoordinate2 = new FreeVariable();
 			}
+			variableCoordinate1.setTwin(variableCoordinate2);
+			variableCoordinate2.setTwin(variableCoordinate1);
+
 			freeVariables.add(variableCoordinate1);
 			freeVariables.add(variableCoordinate2);
 			int[] degrees = new int[3];

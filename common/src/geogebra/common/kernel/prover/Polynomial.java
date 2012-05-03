@@ -4,6 +4,7 @@ import geogebra.common.main.AbstractApplication;
 
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.SortedMap;
 import java.util.TreeMap;
 
 /**
@@ -232,13 +233,57 @@ public class Polynomial implements Comparable<Polynomial> {
 		return new Polynomial(result);
 	}
 
-	public int compareTo(Polynomial p) {
-		int comp1 = terms.lastKey().compareTo(p.getTerms().lastKey());
-		if (comp1 == 0) {
-			return terms.get(terms.lastKey())
-					.compareTo(p.getTerms().get(p.getTerms().lastKey()));
+	public int compareTo(Polynomial poly) {
+		if (this==poly){
+			return 0;
 		}
-		return comp1;
+
+		TreeMap<Term, Integer> polyVars=poly.getTerms();
+		if (polyVars.isEmpty()) {
+			if (terms.isEmpty()) {
+				return 0;
+			}
+			return 1;
+		}
+		if (terms.isEmpty()) {
+			return -1;
+		}
+		
+		Term termsLastKey=terms.lastKey(),
+				polyVarsLastKey=polyVars.lastKey();
+
+		int compare = termsLastKey.compareTo(polyVarsLastKey);
+
+		if (compare == 0) {
+			compare = terms.get(termsLastKey).compareTo(polyVars.get(polyVarsLastKey));
+		}
+
+		if (compare != 0) {
+			return compare;
+		}
+		
+		do {
+			SortedMap<Term, Integer> termsSub = terms.headMap(termsLastKey);
+			SortedMap<Term, Integer> oSub = polyVars.headMap(polyVarsLastKey);
+			if (termsSub.isEmpty()) {
+				if (oSub.isEmpty()) {
+					return 0;
+				}
+				return -1;
+			}
+			if (oSub.isEmpty()) {
+				return 1;
+			}
+			termsLastKey=termsSub.lastKey();
+			polyVarsLastKey=oSub.lastKey();
+			compare = termsLastKey.compareTo(polyVarsLastKey);
+			if (compare == 0) {
+				compare = termsSub.get(termsLastKey).compareTo(
+						oSub.get(polyVarsLastKey));
+			}
+		} while (compare == 0);
+
+		return compare;
 	}
 
 	@Override

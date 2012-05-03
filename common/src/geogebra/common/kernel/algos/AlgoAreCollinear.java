@@ -115,8 +115,28 @@ public class AlgoAreCollinear extends AlgoElement implements SymbolicParametersA
 		throw new NoSymbolicParametersException();
 	}
 
-	public BigInteger[] getExactCoordinates(final HashMap<FreeVariable,BigInteger> values) {
-		return null;
+	public BigInteger[] getExactCoordinates(final HashMap<FreeVariable,BigInteger> values) throws NoSymbolicParametersException {
+		if (input[0] != null && input[1] != null && input[2] != null
+				&& input[0] instanceof SymbolicParametersAlgo
+				&& input[1] instanceof SymbolicParametersAlgo
+				&& input[2] instanceof SymbolicParametersAlgo) {
+			BigInteger[] coords1 = ((SymbolicParametersAlgo) input[0])
+					.getExactCoordinates(values);
+			BigInteger[] coords2 = ((SymbolicParametersAlgo) input[1])
+					.getExactCoordinates(values);
+			BigInteger[] coords3 = ((SymbolicParametersAlgo) input[2])
+					.getExactCoordinates(values);
+			BigInteger[] coords = new BigInteger[1];
+			coords[0] = coords1[0].multiply(coords2[1]).multiply(coords3[2]).add(
+					coords2[0].multiply(coords3[1]).multiply(coords1[2])).add(
+					coords3[0].multiply(coords1[1]).multiply(coords2[2])).subtract(
+							
+					coords3[0].multiply(coords2[1]).multiply(coords1[2]).add(
+					coords2[0].multiply(coords1[1]).multiply(coords3[2])).add(
+					coords1[0].multiply(coords3[1]).multiply(coords2[2])));
+			return coords;
+		}
+		throw new NoSymbolicParametersException();
 	}
 
 	public Polynomial[] getPolynomials() throws NoSymbolicParametersException {

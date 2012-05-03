@@ -1,8 +1,8 @@
 package geogebra.common.kernel.prover;
 
-import geogebra.common.main.AbstractApplication;
-
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.Iterator;
 
@@ -14,6 +14,7 @@ import java.util.Iterator;
  */
 public class Term implements Comparable<Term> {
 	private TreeMap<FreeVariable, Integer> variables;
+	private HashMap<Term, Integer> comparisons=new HashMap<Term, Integer>();
 
 	/**
 	 * creates the 1 term
@@ -115,6 +116,10 @@ public class Term implements Comparable<Term> {
 		return new Term(result);
 	}
 	public int compareTo(Term o) {
+		if (this==o){
+			return 0;
+		}
+
 		TreeMap<FreeVariable, Integer> t=o.getTerm();
 		if (t.isEmpty()) {
 			if (variables.isEmpty()) {
@@ -125,38 +130,38 @@ public class Term implements Comparable<Term> {
 		if (variables.isEmpty()) {
 			return -1;
 		}
+		
+		FreeVariable variablesLastKey=variables.lastKey(),
+				tLastKey=t.lastKey();
 
-		int compare = variables.lastKey().compareTo(t.lastKey());
+		int compare = variablesLastKey.compareTo(tLastKey);
 
 		if (compare == 0) {
-			compare = variables.get(variables.lastKey()).compareTo(t.get(t.lastKey()));
+			compare = variables.get(variablesLastKey).compareTo(t.get(tLastKey));
 		}
 
 		if (compare != 0) {
 			return compare;
 		}
 		
-		TreeMap<FreeVariable, Integer> variablesCopy = new TreeMap<FreeVariable, Integer>(
-				variables);
-		TreeMap<FreeVariable, Integer> oCopy = new TreeMap<FreeVariable, Integer>(
-				t);
-
 		do {
-			variablesCopy.remove(variablesCopy.lastKey());
-			oCopy.remove(oCopy.lastKey());
-			if (variablesCopy.isEmpty()) {
-				if (oCopy.isEmpty()) {
+			SortedMap<FreeVariable, Integer> variablesSub = variables.headMap(variablesLastKey);
+			SortedMap<FreeVariable, Integer> oSub = t.headMap(tLastKey);
+			if (variablesSub.isEmpty()) {
+				if (oSub.isEmpty()) {
 					return 0;
 				}
 				return -1;
 			}
-			if (oCopy.isEmpty()) {
+			if (oSub.isEmpty()) {
 				return 1;
 			}
-			compare = variablesCopy.lastKey().compareTo(oCopy.lastKey());
+			variablesLastKey=variablesSub.lastKey();
+			tLastKey=oSub.lastKey();
+			compare = variablesLastKey.compareTo(tLastKey);
 			if (compare == 0) {
-				compare = variablesCopy.get(variablesCopy.lastKey()).compareTo(
-						oCopy.get(oCopy.lastKey()));
+				compare = variablesSub.get(variablesLastKey).compareTo(
+						oSub.get(tLastKey));
 			}
 		} while (compare == 0);
 
@@ -173,7 +178,7 @@ public class Term implements Comparable<Term> {
 
 	@Override
 	public String toString() {
-		StringBuilder sb = new StringBuilder();
+		StringBuilder sb = new StringBuilder("");
 		Iterator<FreeVariable> it = variables.keySet().iterator();
 		while (it.hasNext()) {
 			FreeVariable fv = it.next();
@@ -201,7 +206,10 @@ public class Term implements Comparable<Term> {
 	
 	@Override
 	public int hashCode() {
-		return variables.hashCode();
+		if (variables.isEmpty()){
+			return 0;
+		}
+		return variables.firstKey().hashCode()>>variables.lastKey().hashCode();
 	}
 
 }

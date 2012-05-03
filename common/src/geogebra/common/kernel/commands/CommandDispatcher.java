@@ -1020,6 +1020,9 @@ public class CommandDispatcher {
 				return new CmdRandom(kernel);
 			case AreCollinear:
 				return new CmdAreCollinear(kernel);
+			case AreParallel:
+				return new CmdAreParallel(kernel);
+					
 			default:
 				AbstractApplication.debug("missing case in CommandDispatcher");
 				return null;

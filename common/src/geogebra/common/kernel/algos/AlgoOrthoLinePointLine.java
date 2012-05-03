@@ -129,13 +129,32 @@ public class AlgoOrthoLinePointLine extends AlgoElement implements SymbolicParam
 
 	public int[] getFreeVariablesAndDegrees(HashSet<FreeVariable> freeVariables)
 			throws NoSymbolicParametersException {
+		if (P != null && l != null) {
+			int[] degreeP = P.getFreeVariablesAndDegrees(freeVariables);
+			int[] degreeL = l.getFreeVariablesAndDegrees(freeVariables);
+			
+			int[] result =new int[3];
+			result[0]=degreeL[1]+degreeP[2];
+			result[1] = degreeL[0]+degreeP[2];
+			result[2] = Math.max(degreeL[0]+degreeP[1],degreeL[1]+degreeP[0]);
+			return result;
+		}
 		throw new NoSymbolicParametersException();
 	}
 
 	public BigInteger[] getExactCoordinates(
-			HashMap<FreeVariable, BigInteger> values) {
-		// TODO Auto-generated method stub
-		return null;
+			HashMap<FreeVariable, BigInteger> values) throws NoSymbolicParametersException {
+		if (P != null && l != null) {
+			BigInteger[] pP = P.getExactCoordinates(values);
+			BigInteger[] pL = l.getExactCoordinates(values);
+			BigInteger[] coords = new BigInteger[3];
+			coords[0] = pL[1].multiply(pP[2]).negate();
+			coords[1] = pL[0].multiply(pP[2]);
+			coords[2] = pL[0].multiply(pP[1]).negate().add(
+					pL[1].multiply(pP[0]));
+			return coords;
+		}
+		throw new NoSymbolicParametersException();
 	}
 
 	public Polynomial[] getPolynomials() throws NoSymbolicParametersException {
@@ -148,8 +167,8 @@ public class AlgoOrthoLinePointLine extends AlgoElement implements SymbolicParam
 			polynomials = new Polynomial[3];
 			polynomials[0] = pL[1].multiply(pP[2]).negate();
 			polynomials[1] = pL[0].multiply(pP[2]);
-			polynomials[2] = pL[0].multiply(pP[1]).add(
-					pL[1].multiply(pP[0]).negate());
+			polynomials[2] = pL[0].multiply(pP[1]).negate().add(
+					pL[1].multiply(pP[0]));
 			return polynomials;
 		}
 		throw new NoSymbolicParametersException();
