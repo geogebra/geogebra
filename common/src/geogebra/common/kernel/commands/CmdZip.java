@@ -33,16 +33,16 @@ public class CmdZip extends CommandProcessor {
 		if (n < 3 || n % 2 == 0)
 			throw argNumErr(app, c.getName(), n);
 
-		boolean[] ok = new boolean[n];
-
 		// create local variable at position 1 and resolve arguments
-		GeoElement[] arg;
-		arg = resArgsForZip(c);
-
-		if ((ok[0] = arg[0].isGeoElement()) && (ok[2] = arg[2].isGeoList())) {
-			return kernelA.Zip(c.getLabel(), arg[0], vars, over);
-		} 
-		throw argErr(app,c.getName(),getBadArg(ok,arg));
+		GeoElement arg = null;
+		boolean oldval = cons.isSuppressLabelsActive();
+		try{
+			cons.setSuppressLabelCreation(true);	
+			arg = resArgsForZip(c);
+		}finally{
+			cons.setSuppressLabelCreation(oldval);
+		}
+		return kernelA.Zip(c.getLabel(), arg, vars, over);
 		
 	}
 
@@ -56,13 +56,13 @@ public class CmdZip extends CommandProcessor {
 	 * @param c zip command
 	 * @return list of arguments
 	 */
-	protected final GeoElement[] resArgsForZip(Command c) {
+	protected final GeoElement resArgsForZip(Command c) {
 		// check if there is a local variable in arguments
 		int numArgs = c.getArgumentNumber();
 		vars = new GeoElement[numArgs / 2];
 		over = new GeoList[numArgs / 2];
 		Construction cmdCons = c.getKernel().getConstruction();
-
+		
 		for (int varPos = 1; varPos < numArgs; varPos += 2) {
 			String localVarName = c.getVariableName(varPos);
 			if (localVarName == null) {
@@ -75,10 +75,9 @@ public class CmdZip extends CommandProcessor {
 
 			// initialize first value of local numeric variable from initPos
 
-			boolean oldval = cons.isSuppressLabelsActive();
-			cons.setSuppressLabelCreation(true);
+		
 			GeoList gl = (GeoList) resArg(c.getArgument(varPos + 1))[0];
-			cons.setSuppressLabelCreation(oldval);
+			
 			num = gl.size()==0?new GeoNumeric(cons):gl.get(0).copyInternal(cons);
 
 			cmdCons.addLocalVariable(localVarName, num);
@@ -92,9 +91,10 @@ public class CmdZip extends CommandProcessor {
 			// remove local variable name from kernel again
 
 		}
-		GeoElement[] arg = resArgs(c);
-		for (GeoElement localVar : vars)
+		GeoElement[] arg = resArg(c.getArgument(0));
+		for (GeoElement localVar : vars) 
 			cmdCons.removeLocalVariable(localVar.getLabel(StringTemplate.defaultTemplate));
-		return arg;
+		
+		return arg[0];
 	}
 }

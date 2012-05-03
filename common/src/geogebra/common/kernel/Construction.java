@@ -502,7 +502,8 @@ public class Construction {
 	final public void removeLocalVariable(String varname) {
 		if (localVariableTable != null) {
 			GeoElement geo = localVariableTable.remove(varname);
-			geo.undoLocalVariableLabel();
+			if(geo!=null)
+				geo.undoLocalVariableLabel();
 		}
 	}
 
