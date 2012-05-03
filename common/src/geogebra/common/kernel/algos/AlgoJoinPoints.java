@@ -45,6 +45,7 @@ public class AlgoJoinPoints extends AlgoElement implements SymbolicParametersAlg
     private GeoPoint2 P, Q;  // input
     private GeoLine  g;     // output       
 	private Polynomial[] polynomials;
+	private Variable[] botanaVars;
         
     /** Creates new AlgoJoinPoints */
     public AlgoJoinPoints(Construction cons, String label, GeoPoint2 P, GeoPoint2 Q) {
@@ -178,20 +179,25 @@ public class AlgoJoinPoints extends AlgoElement implements SymbolicParametersAlg
 	}
 
 	public Variable[] getBotanaVars() {
-		Variable[] vars = new Variable[4];
+		if (botanaVars != null)
+			return botanaVars;
+		
+		botanaVars = new Variable[4];
 		Variable[] line1vars = new Variable[2];
 		Variable[] line2vars = new Variable[2];
 		line1vars = ((SymbolicParametersAlgo) input[0]).getBotanaVars();
 		line2vars = ((SymbolicParametersAlgo) input[1]).getBotanaVars();
-		vars[0] = line1vars[0];
-		vars[1] = line1vars[1];
-		vars[2] = line2vars[0];
-		vars[3] = line2vars[1];
-		return vars;
+		botanaVars[0] = line1vars[0];
+		botanaVars[1] = line1vars[1];
+		botanaVars[2] = line2vars[0];
+		botanaVars[3] = line2vars[1];
+		
+		return botanaVars;
 	}
 
 	public Polynomial[] getBotanaPolynomials()
 			throws NoSymbolicParametersException {
+		// It's OK, polynomials for lines are only created when a third point is lying on them, too:
 		return null;
 	}
 }

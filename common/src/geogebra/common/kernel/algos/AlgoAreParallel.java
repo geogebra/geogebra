@@ -27,6 +27,7 @@ public class AlgoAreParallel extends AlgoElement implements
 
 	private GeoBoolean outputBoolean; // output
 	private Polynomial[] polynomials;
+	private Polynomial[] botanaPolynomials;
 
 	/**
 	 * Tests if two lines are parallel
@@ -139,7 +140,23 @@ public class AlgoAreParallel extends AlgoElement implements
 
 	public Polynomial[] getBotanaPolynomials()
 			throws NoSymbolicParametersException {
-		// TODO Auto-generated method stub
+		if (botanaPolynomials != null) {
+			return botanaPolynomials;
+		}
+		if (inputLine1 != null && inputLine2 != null) {
+			Variable[] v1 = new Variable[4];
+			Variable[] v2 = new Variable[4];
+			v1 = ((SymbolicParametersAlgo) inputLine1).getBotanaVars(); // (a1,a2,b1,b2)
+			v2 = ((SymbolicParametersAlgo) inputLine2).getBotanaVars(); // (c1,c2,d1,d2)
+			
+			botanaPolynomials = new Polynomial[1];
+			// (a1-b1)*(c2-d2)-(a2-b2)*(c1-d1)
+			botanaPolynomials[0] = (new Polynomial(v1[0]).subtract(new Polynomial(v1[2])))
+					.multiply((new Polynomial(v2[1]).subtract(new Polynomial(v2[3]))))
+					.subtract((new Polynomial(v1[1]).subtract(new Polynomial(v1[3])))
+					.multiply((new Polynomial(v2[0]).subtract(new Polynomial(v2[2]))))); 
+			return botanaPolynomials;
+		}
 		return null;
 	}
 
