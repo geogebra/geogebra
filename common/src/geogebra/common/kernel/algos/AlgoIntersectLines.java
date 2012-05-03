@@ -30,7 +30,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoVec3D;
-import geogebra.common.kernel.prover.FreeVariable;
+import geogebra.common.kernel.prover.Variable;
 import geogebra.common.kernel.prover.NoSymbolicParametersException;
 import geogebra.common.kernel.prover.Polynomial;
 
@@ -46,7 +46,7 @@ public class AlgoIntersectLines extends AlgoIntersectAbstract implements Symboli
     private GeoPoint2 S; // output       
 	private Polynomial[] polynomials;
 	private Polynomial[] botanaPolynomials;
-	private FreeVariable[] botanaVars;
+	private Variable[] botanaVars;
 	
     /** Creates new AlgoJoinPoints */
     public AlgoIntersectLines(Construction cons, String label, GeoLine g, GeoLine h) {
@@ -128,17 +128,17 @@ public class AlgoIntersectLines extends AlgoIntersectAbstract implements Symboli
 		return new SymbolicParameters(this);
 	}
 
-	public int[] getFreeVariablesAndDegrees(HashSet<FreeVariable> freeVariables) throws NoSymbolicParametersException {
+	public int[] getFreeVariablesAndDegrees(HashSet<Variable> variables) throws NoSymbolicParametersException {
 		
 		if (input[0] != null && input[1] != null && (input[0] instanceof SymbolicParametersAlgo) && (input[1] instanceof SymbolicParametersAlgo)){
-			int[] degree1=((SymbolicParametersAlgo)input[0]).getFreeVariablesAndDegrees(freeVariables);
-			int[] degree2=((SymbolicParametersAlgo)input[1]).getFreeVariablesAndDegrees(freeVariables);
+			int[] degree1=((SymbolicParametersAlgo)input[0]).getFreeVariablesAndDegrees(variables);
+			int[] degree2=((SymbolicParametersAlgo)input[1]).getFreeVariablesAndDegrees(variables);
 			return SymbolicParameters.crossDegree(degree1, degree2);
 		}
 		throw new NoSymbolicParametersException();
 	}
 
-	public BigInteger[] getExactCoordinates(final HashMap<FreeVariable,BigInteger> values) throws NoSymbolicParametersException {
+	public BigInteger[] getExactCoordinates(final HashMap<Variable,BigInteger> values) throws NoSymbolicParametersException {
 		if (input[0] != null && input[1] != null
 				&& input[0] instanceof SymbolicParametersAlgo
 				&& input[1] instanceof SymbolicParametersAlgo) {
@@ -150,7 +150,7 @@ public class AlgoIntersectLines extends AlgoIntersectAbstract implements Symboli
 				return SymbolicParameters.crossProduct(coords1, coords2);
 			}
 		}
-		return null;
+		throw new NoSymbolicParametersException();
 	}
 
 	public Polynomial[] getPolynomials() throws NoSymbolicParametersException {
@@ -172,7 +172,7 @@ public class AlgoIntersectLines extends AlgoIntersectAbstract implements Symboli
 		throw new NoSymbolicParametersException();
 	}
 
-	public FreeVariable[] getBotanaVars() {
+	public Variable[] getBotanaVars() {
 		return botanaVars;
 	}
 
@@ -182,11 +182,11 @@ public class AlgoIntersectLines extends AlgoIntersectAbstract implements Symboli
 		}
 		if (input[0] != null && input[0] instanceof GeoLine){
 			if (botanaVars==null){
-				botanaVars = new FreeVariable[2];
-				botanaVars[0]=new FreeVariable();
-				botanaVars[1]=new FreeVariable();
+				botanaVars = new Variable[2];
+				botanaVars[0]=new Variable();
+				botanaVars[1]=new Variable();
 			}
-			FreeVariable[] fv = ((SymbolicParametersAlgo) input[0]).getBotanaVars();
+			Variable[] fv = ((SymbolicParametersAlgo) input[0]).getBotanaVars();
 			botanaPolynomials = new Polynomial[2];
 			botanaPolynomials[0] = Polynomial.setCollinear(fv[0], fv[1], fv[2], fv[3], botanaVars[0], botanaVars[1]); 
 			fv = ((SymbolicParametersAlgo) input[1]).getBotanaVars();

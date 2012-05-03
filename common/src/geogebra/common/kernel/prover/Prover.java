@@ -72,7 +72,7 @@ public class Prover {
 	
 	/* input */
 	private int timeout = 10;
-	private ProverEngine engine = ProverEngine.BOTANAS_PROVER;
+	private ProverEngine engine = ProverEngine.RECIOS_PROVER;
 	private Construction construction;
 	private GeoElement statement;
 	
@@ -170,14 +170,14 @@ public class Prover {
 								AbstractApplication.debug(geo1.getLabelSimple() + 
 										geo2.getLabelSimple() + 
 										geo3.getLabelSimple() + " should never be collinear");
-								FreeVariable[] fv1 = ((SymbolicParametersAlgo)geo1).getBotanaVars();
-								FreeVariable[] fv2 = ((SymbolicParametersAlgo)geo2).getBotanaVars();
-								FreeVariable[] fv3 = ((SymbolicParametersAlgo)geo3).getBotanaVars();
+								Variable[] fv1 = ((SymbolicParametersAlgo)geo1).getBotanaVars();
+								Variable[] fv2 = ((SymbolicParametersAlgo)geo2).getBotanaVars();
+								Variable[] fv3 = ((SymbolicParametersAlgo)geo3).getBotanaVars();
 								// Creating the polynomial for collinearity:
 								Polynomial p = Polynomial.setCollinear(fv1[0], fv1[1],
 										fv2[0], fv2[1], fv3[0], fv3[1]);
 								// Rabinowitsch trick for prohibiting collinearity:
-								ret[i] = p.multiply(new Polynomial(new FreeVariable())).subtract(new Polynomial(1));
+								ret[i] = p.multiply(new Polynomial(new Variable())).subtract(new Polynomial(1));
 								// FIXME: this always introduces an extra variable, shouldn't do
 								i++;
 							}
@@ -207,7 +207,7 @@ public class Prover {
 		Iterator<GeoElement> it = freePoints.iterator();
 		int i = 0;
 		while (it.hasNext() && i<4) {
-			FreeVariable[] fv = ((SymbolicParametersAlgo) it.next()).getBotanaVars();
+			Variable[] fv = ((SymbolicParametersAlgo) it.next()).getBotanaVars();
 			if (i==0) {
 				ret[i] = new Polynomial(fv[0]);
 				++i;
@@ -284,7 +284,7 @@ public class Prover {
 			// Solving the equation system for each polynomial of the statement:
 			for (int i=0; i<nStatements && ans; ++i) {
 				// Rabinowitsch trick
-				Polynomial spoly = statements[i].multiply(new Polynomial(new FreeVariable())).subtract(new Polynomial(1));
+				Polynomial spoly = statements[i].multiply(new Polynomial(new Variable())).subtract(new Polynomial(1));
 				// FIXME: this always introduces an extra variable, shouldn't do
 				eqSystem[nHypotheses + nNdgConditions + nFixValues] = spoly;
 				if (Polynomial.solvable(eqSystem)) // FIXME: here seems NPE if SingularWS not initialized 
@@ -328,6 +328,18 @@ public class Prover {
 		if (engine == ProverEngine.BOTANAS_PROVER) {
 			BotanasProver();
 			return; // this will return later, now we calculate the other methods as well
+		} else if (engine == ProverEngine.RECIOS_PROVER) {
+					
+			if (statement==null){
+				result=ProofResult.UNKNOWN;
+			} else if (statement instanceof SymbolicParametersAlgo){
+				result = ProverReciosMethod.prove(((SymbolicParametersAlgo)statement).getSymbolicParameters());
+			} else if (statement.getParentAlgorithm() instanceof SymbolicParametersAlgo){
+				result = ProverReciosMethod.prove(((SymbolicParametersAlgo)statement.getParentAlgorithm()).getSymbolicParameters());
+			} else {
+				result=ProofResult.UNKNOWN;
+			}
+			return;
 		}
 		
 		if (statement instanceof SymbolicParametersAlgo){

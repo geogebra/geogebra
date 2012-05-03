@@ -27,7 +27,7 @@ import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.kernelND.AlgoMidpointND;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.common.kernel.prover.FreeVariable;
+import geogebra.common.kernel.prover.Variable;
 import geogebra.common.kernel.prover.NoSymbolicParametersException;
 import geogebra.common.kernel.prover.Polynomial;
 
@@ -41,7 +41,7 @@ public class AlgoMidpoint extends AlgoMidpointND implements SymbolicParametersAl
       
     private Polynomial[] polynomials;
 	private Polynomial[] botanaPolynomials;
-	private FreeVariable[] botanaVars;
+	private Variable[] botanaVars;
     
 	public AlgoMidpoint(Construction cons, String label, GeoPoint2 P, GeoPoint2 Q) {
     	this(cons, P, Q);
@@ -84,13 +84,13 @@ public class AlgoMidpoint extends AlgoMidpointND implements SymbolicParametersAl
 		return new SymbolicParameters(this);
 	}
 
-	public int[] getFreeVariablesAndDegrees(HashSet<FreeVariable> freeVariables)
+	public int[] getFreeVariablesAndDegrees(HashSet<Variable> variables)
 			throws NoSymbolicParametersException {
 		GeoPoint2 P=(GeoPoint2) getP();
 		GeoPoint2 Q=(GeoPoint2) getQ();
 		if (P != null && Q != null) {
-			int[] degreeP = P.getFreeVariablesAndDegrees(freeVariables);
-			int[] degreeQ = Q.getFreeVariablesAndDegrees(freeVariables);
+			int[] degreeP = P.getFreeVariablesAndDegrees(variables);
+			int[] degreeQ = Q.getFreeVariablesAndDegrees(variables);
 			
 			int[] result =new int[3];
 			result[0]=Math.max(degreeP[0],degreeQ[0]);
@@ -102,7 +102,7 @@ public class AlgoMidpoint extends AlgoMidpointND implements SymbolicParametersAl
 	}
 
 	public BigInteger[] getExactCoordinates(
-			HashMap<FreeVariable, BigInteger> values)
+			HashMap<Variable, BigInteger> values)
 			throws NoSymbolicParametersException {
 		GeoPoint2 P=(GeoPoint2) getP();
 		GeoPoint2 Q=(GeoPoint2) getQ();
@@ -136,7 +136,7 @@ public class AlgoMidpoint extends AlgoMidpointND implements SymbolicParametersAl
 		throw new NoSymbolicParametersException();
 	}
 
-	public FreeVariable[] getBotanaVars() {
+	public Variable[] getBotanaVars() {
 		return botanaVars;
 	}
 
@@ -151,13 +151,13 @@ public class AlgoMidpoint extends AlgoMidpointND implements SymbolicParametersAl
 			throw new NoSymbolicParametersException();
 		
 		if (botanaVars==null){
-			botanaVars = new FreeVariable[2];
-			botanaVars[0]=new FreeVariable();
-			botanaVars[1]=new FreeVariable();
+			botanaVars = new Variable[2];
+			botanaVars[0]=new Variable();
+			botanaVars[1]=new Variable();
 		}
 		
-		FreeVariable[] fv1 = ((SymbolicParametersAlgo) P).getBotanaVars();
-		FreeVariable[] fv2 = ((SymbolicParametersAlgo) Q).getBotanaVars();
+		Variable[] fv1 = ((SymbolicParametersAlgo) P).getBotanaVars();
+		Variable[] fv2 = ((SymbolicParametersAlgo) Q).getBotanaVars();
 		botanaPolynomials = new Polynomial[2];
 		// 2*m1-a1-b1, 2*m2-a2-b2
 		botanaPolynomials[0] = (new Polynomial(2)).multiply(new Polynomial(botanaVars[0])).

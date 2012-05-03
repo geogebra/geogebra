@@ -65,7 +65,7 @@ public class Polynomial implements Comparable<Polynomial> {
 	 * @param fv
 	 *            the variable
 	 */
-	public Polynomial(final FreeVariable fv) {
+	public Polynomial(final Variable fv) {
 		this();
 		terms.put(new Term(fv), 1);
 	}
@@ -78,7 +78,7 @@ public class Polynomial implements Comparable<Polynomial> {
 	 * @param variable
 	 *            the variable
 	 */
-	public Polynomial(final int coeff, final FreeVariable variable) {
+	public Polynomial(final int coeff, final Variable variable) {
 		this();
 		terms.put(new Term(variable), coeff);
 	}
@@ -93,7 +93,7 @@ public class Polynomial implements Comparable<Polynomial> {
 	 * @param power
 	 *            the exponent
 	 */
-	public Polynomial(final int coeff, final FreeVariable variable,
+	public Polynomial(final int coeff, final Variable variable,
 			final int power) {
 		this();
 		terms.put(new Term(variable, power), coeff);
@@ -312,8 +312,8 @@ public class Polynomial implements Comparable<Polynomial> {
 	 * The set of the variables in this polynomial
 	 * @return the set of variables
 	 */
-	public HashSet<FreeVariable> getVars() {
-		HashSet<FreeVariable> v = new HashSet<FreeVariable>();
+	public HashSet<Variable> getVars() {
+		HashSet<Variable> v = new HashSet<Variable>();
 		Iterator<Term> it = terms.keySet().iterator();
 		while (it.hasNext()) {
 			Term t = it.next();
@@ -327,13 +327,13 @@ public class Polynomial implements Comparable<Polynomial> {
 	 * @param polys the polynomials
 	 * @return the set of variables
 	 */
-	public static HashSet<FreeVariable> getVars(Polynomial[] polys) {
-		HashSet<FreeVariable> v = new HashSet<FreeVariable>();
+	public static HashSet<Variable> getVars(Polynomial[] polys) {
+		HashSet<Variable> v = new HashSet<Variable>();
 		int polysLength = 0;
 		if (polys != null)
 			polysLength = polys.length;
 		for (int i=0; i<polysLength; ++i) {
-			HashSet<FreeVariable> vars = polys[i].getVars();
+			HashSet<Variable> vars = polys[i].getVars();
 			if (vars != null)
 				v.addAll(vars);
 		}
@@ -347,12 +347,12 @@ public class Polynomial implements Comparable<Polynomial> {
 	 */
 	public static String getVarsAsCommaSeparatedString(Polynomial[] polys) {
 		StringBuilder sb = new StringBuilder();
-		HashSet<FreeVariable> vars = getVars(polys);
+		HashSet<Variable> vars = getVars(polys);
 		if (vars == null)
 			return "";
-		Iterator<FreeVariable> it = vars.iterator();
+		Iterator<Variable> it = vars.iterator();
 		while (it.hasNext()) {
-			FreeVariable fv = it.next();
+			Variable fv = it.next();
 			sb.append("," + fv);
 		}
 		if (sb.length()>0)
@@ -405,8 +405,8 @@ public class Polynomial implements Comparable<Polynomial> {
 	 * @param fv6 y-coordinate of the third point
 	 * @return the polynomial
 	 */
-	public static Polynomial setCollinear(FreeVariable fv1, FreeVariable fv2, FreeVariable fv3, 
-			FreeVariable fv4, FreeVariable fv5, FreeVariable fv6) {
+	public static Polynomial setCollinear(Variable fv1, Variable fv2, Variable fv3, 
+			Variable fv4, Variable fv5, Variable fv6) {
 		// a*d-b*c:
 		Polynomial a = new Polynomial(fv1);
 		Polynomial b = new Polynomial(fv2);

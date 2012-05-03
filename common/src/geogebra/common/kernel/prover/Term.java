@@ -13,14 +13,14 @@ import java.util.Iterator;
  * 
  */
 public class Term implements Comparable<Term> {
-	private TreeMap<FreeVariable, Integer> variables;
+	private TreeMap<Variable, Integer> variables;
 	private HashMap<Term, Integer> comparisons=new HashMap<Term, Integer>();
 
 	/**
 	 * creates the 1 term
 	 */
 	public Term() {
-		variables = new TreeMap<FreeVariable, Integer>();
+		variables = new TreeMap<Variable, Integer>();
 	}
 
 	/**
@@ -30,10 +30,10 @@ public class Term implements Comparable<Term> {
 	 *            the term to copy
 	 */
 	public Term(final Term t) {
-		variables = new TreeMap<FreeVariable, Integer>(t.getTerm());
+		variables = new TreeMap<Variable, Integer>(t.getTerm());
 	}
 
-	private Term(final TreeMap<FreeVariable, Integer> variables) {
+	private Term(final TreeMap<Variable, Integer> variables) {
 		this.variables = variables;
 	}
 
@@ -43,8 +43,8 @@ public class Term implements Comparable<Term> {
 	 * @param variable
 	 *            the variable
 	 */
-	public Term(final FreeVariable variable) {
-		variables = new TreeMap<FreeVariable, Integer>();
+	public Term(final Variable variable) {
+		variables = new TreeMap<Variable, Integer>();
 		variables.put(variable, 1);
 	}
 
@@ -56,8 +56,8 @@ public class Term implements Comparable<Term> {
 	 * @param exponent
 	 *            the exponent
 	 */
-	public Term(final FreeVariable variable, final int exponent) {
-		variables = new TreeMap<FreeVariable, Integer>();
+	public Term(final Variable variable, final int exponent) {
+		variables = new TreeMap<Variable, Integer>();
 		variables.put(variable, exponent);
 	}
 
@@ -69,13 +69,13 @@ public class Term implements Comparable<Term> {
 	 * @return the product
 	 */
 	public Term times(final Term term) {
-		TreeMap<FreeVariable, Integer> productTerm = new TreeMap<FreeVariable, Integer>(
+		TreeMap<Variable, Integer> productTerm = new TreeMap<Variable, Integer>(
 				variables);
 
-		TreeMap<FreeVariable, Integer> variables2 = term.getTerm();
-		Iterator<FreeVariable> it = term.getTerm().keySet().iterator();
+		TreeMap<Variable, Integer> variables2 = term.getTerm();
+		Iterator<Variable> it = term.getTerm().keySet().iterator();
 		while (it.hasNext()) {
-			FreeVariable vp = it.next();
+			Variable vp = it.next();
 			if (variables.containsKey(vp)) {
 				productTerm.put(vp, variables.get(vp) + variables2.get(vp));
 			} else {
@@ -90,7 +90,7 @@ public class Term implements Comparable<Term> {
 	 * 
 	 * @return the map
 	 */
-	public TreeMap<FreeVariable, Integer> getTerm() {
+	public TreeMap<Variable, Integer> getTerm() {
 		return variables;
 	}
 
@@ -99,16 +99,16 @@ public class Term implements Comparable<Term> {
 	 * 
 	 * @return the variable with the highest order
 	 */
-	public FreeVariable getHighestVariable() {
+	public Variable getHighestVariable() {
 		return variables.lastKey();
 	}
 
 	public Term gcd(Term t){
-		TreeMap<FreeVariable, Integer> result = new TreeMap<FreeVariable, Integer>();
-		TreeMap<FreeVariable, Integer> tTM=t.getTerm();
-		Iterator<FreeVariable> it = variables.keySet().iterator();
+		TreeMap<Variable, Integer> result = new TreeMap<Variable, Integer>();
+		TreeMap<Variable, Integer> tTM=t.getTerm();
+		Iterator<Variable> it = variables.keySet().iterator();
 		while (it.hasNext()){
-			FreeVariable var=it.next();
+			Variable var=it.next();
 			if (tTM.containsKey(var)){
 				result.put(var, Math.min(Math.abs(variables.get(var)),Math.abs(tTM.get(var))));
 			}
@@ -120,7 +120,7 @@ public class Term implements Comparable<Term> {
 			return 0;
 		}
 
-		TreeMap<FreeVariable, Integer> t=o.getTerm();
+		TreeMap<Variable, Integer> t=o.getTerm();
 		if (t.isEmpty()) {
 			if (variables.isEmpty()) {
 				return 0;
@@ -131,7 +131,7 @@ public class Term implements Comparable<Term> {
 			return -1;
 		}
 		
-		FreeVariable variablesLastKey=variables.lastKey(),
+		Variable variablesLastKey=variables.lastKey(),
 				tLastKey=t.lastKey();
 
 		int compare = variablesLastKey.compareTo(tLastKey);
@@ -145,8 +145,8 @@ public class Term implements Comparable<Term> {
 		}
 		
 		do {
-			SortedMap<FreeVariable, Integer> variablesSub = variables.headMap(variablesLastKey);
-			SortedMap<FreeVariable, Integer> oSub = t.headMap(tLastKey);
+			SortedMap<Variable, Integer> variablesSub = variables.headMap(variablesLastKey);
+			SortedMap<Variable, Integer> oSub = t.headMap(tLastKey);
 			if (variablesSub.isEmpty()) {
 				if (oSub.isEmpty()) {
 					return 0;
@@ -179,9 +179,9 @@ public class Term implements Comparable<Term> {
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder("");
-		Iterator<FreeVariable> it = variables.keySet().iterator();
+		Iterator<Variable> it = variables.keySet().iterator();
 		while (it.hasNext()) {
-			FreeVariable fv = it.next();
+			Variable fv = it.next();
 			sb.append("*" + fv);
 			int power = variables.get(fv);
 			if (power > 1)
@@ -194,11 +194,11 @@ public class Term implements Comparable<Term> {
 	 * The set of variables in this term
 	 * @return the set of variables
 	 */
-	public HashSet<FreeVariable> getVars() {
-		HashSet<FreeVariable> v = new HashSet<FreeVariable>();
-		Iterator<FreeVariable> it = variables.keySet().iterator();
+	public HashSet<Variable> getVars() {
+		HashSet<Variable> v = new HashSet<Variable>();
+		Iterator<Variable> it = variables.keySet().iterator();
 		while (it.hasNext()) {
-			FreeVariable fv  = it.next();
+			Variable fv  = it.next();
 			v.add(fv);
 		}
 		return v;

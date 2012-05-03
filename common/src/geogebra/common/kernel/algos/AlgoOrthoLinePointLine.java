@@ -31,7 +31,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoVec3D;
-import geogebra.common.kernel.prover.FreeVariable;
+import geogebra.common.kernel.prover.Variable;
 import geogebra.common.kernel.prover.NoSymbolicParametersException;
 import geogebra.common.kernel.prover.Polynomial;
 
@@ -127,11 +127,11 @@ public class AlgoOrthoLinePointLine extends AlgoElement implements SymbolicParam
 		return new SymbolicParameters(this);
 	}
 
-	public int[] getFreeVariablesAndDegrees(HashSet<FreeVariable> freeVariables)
+	public int[] getFreeVariablesAndDegrees(HashSet<Variable> variables)
 			throws NoSymbolicParametersException {
 		if (P != null && l != null) {
-			int[] degreeP = P.getFreeVariablesAndDegrees(freeVariables);
-			int[] degreeL = l.getFreeVariablesAndDegrees(freeVariables);
+			int[] degreeP = P.getFreeVariablesAndDegrees(variables);
+			int[] degreeL = l.getFreeVariablesAndDegrees(variables);
 			
 			int[] result =new int[3];
 			result[0]=degreeL[1]+degreeP[2];
@@ -143,7 +143,7 @@ public class AlgoOrthoLinePointLine extends AlgoElement implements SymbolicParam
 	}
 
 	public BigInteger[] getExactCoordinates(
-			HashMap<FreeVariable, BigInteger> values) throws NoSymbolicParametersException {
+			HashMap<Variable, BigInteger> values) throws NoSymbolicParametersException {
 		if (P != null && l != null) {
 			BigInteger[] pP = P.getExactCoordinates(values);
 			BigInteger[] pL = l.getExactCoordinates(values);
@@ -174,7 +174,7 @@ public class AlgoOrthoLinePointLine extends AlgoElement implements SymbolicParam
 		throw new NoSymbolicParametersException();
 	}
 
-	public FreeVariable[] getBotanaVars() {
+	public Variable[] getBotanaVars() {
 		// TODO Auto-generated method stub
 		return null;
 	}

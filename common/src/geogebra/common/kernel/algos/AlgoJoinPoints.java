@@ -29,7 +29,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoVec3D;
-import geogebra.common.kernel.prover.FreeVariable;
+import geogebra.common.kernel.prover.Variable;
 import geogebra.common.kernel.prover.NoSymbolicParametersException;
 import geogebra.common.kernel.prover.Polynomial;
 import geogebra.common.main.AbstractApplication;
@@ -125,19 +125,19 @@ public class AlgoJoinPoints extends AlgoElement implements SymbolicParametersAlg
 		return null;
 	}
 
-	public int[] getFreeVariablesAndDegrees(HashSet<FreeVariable> freeVariables) throws NoSymbolicParametersException {
+	public int[] getFreeVariablesAndDegrees(HashSet<Variable> variables) throws NoSymbolicParametersException {
 		if (input[0] != null && input[1] != null
 				&& input[0] instanceof SymbolicParametersAlgo
 				&& input[1] instanceof SymbolicParametersAlgo) {
-			int[] degree1=((SymbolicParametersAlgo) input[0]).getFreeVariablesAndDegrees(freeVariables);
-			int[] degree2=((SymbolicParametersAlgo) input[1]).getFreeVariablesAndDegrees(freeVariables);
+			int[] degree1=((SymbolicParametersAlgo) input[0]).getFreeVariablesAndDegrees(variables);
+			int[] degree2=((SymbolicParametersAlgo) input[1]).getFreeVariablesAndDegrees(variables);
 			return SymbolicParameters.crossDegree(degree1, degree2);
 		}
 		throw new NoSymbolicParametersException();
 		
 	}
 
-	public BigInteger[] getExactCoordinates(final HashMap<FreeVariable,BigInteger> values) throws NoSymbolicParametersException {
+	public BigInteger[] getExactCoordinates(final HashMap<Variable,BigInteger> values) throws NoSymbolicParametersException {
 		if (input[0] != null && input[1] != null
 				&& input[0] instanceof SymbolicParametersAlgo
 				&& input[1] instanceof SymbolicParametersAlgo) {
@@ -149,7 +149,7 @@ public class AlgoJoinPoints extends AlgoElement implements SymbolicParametersAlg
 				return SymbolicParameters.crossProduct(coords1, coords2);
 			}
 		}
-		return null;
+		throw new NoSymbolicParametersException();
 	}
 
 	public Polynomial[] getPolynomials() throws NoSymbolicParametersException {
@@ -177,10 +177,10 @@ public class AlgoJoinPoints extends AlgoElement implements SymbolicParametersAlg
 		throw new NoSymbolicParametersException();
 	}
 
-	public FreeVariable[] getBotanaVars() {
-		FreeVariable[] vars = new FreeVariable[4];
-		FreeVariable[] line1vars = new FreeVariable[2];
-		FreeVariable[] line2vars = new FreeVariable[2];
+	public Variable[] getBotanaVars() {
+		Variable[] vars = new Variable[4];
+		Variable[] line1vars = new Variable[2];
+		Variable[] line2vars = new Variable[2];
 		line1vars = ((SymbolicParametersAlgo) input[0]).getBotanaVars();
 		line2vars = ((SymbolicParametersAlgo) input[1]).getBotanaVars();
 		vars[0] = line1vars[0];

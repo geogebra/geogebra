@@ -4,7 +4,7 @@ package geogebra.common.kernel.algos;
 import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.HashSet;
-import geogebra.common.kernel.prover.FreeVariable;
+import geogebra.common.kernel.prover.Variable;
 import geogebra.common.kernel.prover.NoSymbolicParametersException;
 import geogebra.common.kernel.prover.Polynomial;
 
@@ -23,12 +23,12 @@ public interface SymbolicParametersAlgo {
 	
 	/**
 	 * Calculates the set of free variables and the maximum degrees.
-	 * @param freeVariables all free variables used
+	 * @param variables all free variables used
 	 * @return the degrees of the coordinates
 	 * @throws NoSymbolicParametersException thrown if no symbolic parameters are available.
 	 * 
 	 */
-	public int[] getFreeVariablesAndDegrees(HashSet<FreeVariable> freeVariables) throws NoSymbolicParametersException;
+	public int[] getFreeVariablesAndDegrees(HashSet<Variable> variables) throws NoSymbolicParametersException;
 	
 	/**
 	 * Calculates the homogeneous coordinates of the object when substituting the variables by its values.
@@ -36,7 +36,7 @@ public interface SymbolicParametersAlgo {
 	 * @return the coordinates
 	 * @throws NoSymbolicParametersException is thrown if it is not possible to obtain the exact coordinates
 	 */
-	public BigInteger[] getExactCoordinates(final HashMap<FreeVariable,BigInteger> values) throws NoSymbolicParametersException;
+	public BigInteger[] getExactCoordinates(final HashMap<Variable,BigInteger> values) throws NoSymbolicParametersException;
 	
 	/**
 	 * Calculates the polynomial describing the algorithm or statement
@@ -49,7 +49,7 @@ public interface SymbolicParametersAlgo {
 	 * Calculates the free variables of an object for the Botana method
 	 * @return array of the free variables
 	 */
-	public FreeVariable[] getBotanaVars();
+	public Variable[] getBotanaVars();
 	
 	/**
 	 * Calculates the polynomials of an object for the Botana method

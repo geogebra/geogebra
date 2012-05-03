@@ -30,7 +30,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.geos.Translateable;
-import geogebra.common.kernel.prover.FreeVariable;
+import geogebra.common.kernel.prover.Variable;
 import geogebra.common.kernel.prover.NoSymbolicParametersException;
 import geogebra.common.kernel.prover.Polynomial;
 
@@ -157,15 +157,15 @@ public class AlgoTranslate extends AlgoTransformation implements SymbolicParamet
 		return new SymbolicParameters(this);
 	}
 
-	public int[] getFreeVariablesAndDegrees(HashSet<FreeVariable> freeVariables)
+	public int[] getFreeVariablesAndDegrees(HashSet<Variable> variables)
 			throws NoSymbolicParametersException {
 		if (input[0] != null && input[1] != null
 				&& input[0] instanceof SymbolicParametersAlgo
 				&& input[1] instanceof SymbolicParametersAlgo) {
 			int[] degree1 = ((SymbolicParametersAlgo) input[0])
-					.getFreeVariablesAndDegrees(freeVariables);
+					.getFreeVariablesAndDegrees(variables);
 			int[] degree2 = ((SymbolicParametersAlgo) input[0])
-					.getFreeVariablesAndDegrees(freeVariables);
+					.getFreeVariablesAndDegrees(variables);
 			int[] result = new int[3];
 
 			result[0]=Math.max(degree1[0]+degree2[2],degree2[0]+degree1[2]);
@@ -177,7 +177,7 @@ public class AlgoTranslate extends AlgoTransformation implements SymbolicParamet
 		throw new NoSymbolicParametersException();
 	}
 
-	public BigInteger[] getExactCoordinates(final HashMap<FreeVariable,BigInteger> values) throws NoSymbolicParametersException {
+	public BigInteger[] getExactCoordinates(final HashMap<Variable,BigInteger> values) throws NoSymbolicParametersException {
 		if (input[0] != null && input[1] != null
 				&& input[0] instanceof SymbolicParametersAlgo
 				&& input[1] instanceof SymbolicParametersAlgo) {
@@ -218,7 +218,7 @@ public class AlgoTranslate extends AlgoTransformation implements SymbolicParamet
 		throw new NoSymbolicParametersException();
 	}
 
-	public FreeVariable[] getBotanaVars() {
+	public Variable[] getBotanaVars() {
 		// TODO Auto-generated method stub
 		return null;
 	}

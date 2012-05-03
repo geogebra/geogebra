@@ -36,7 +36,7 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.VectorValue;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
-import geogebra.common.kernel.prover.FreeVariable;
+import geogebra.common.kernel.prover.Variable;
 import geogebra.common.kernel.prover.NoSymbolicParametersException;
 import geogebra.common.kernel.prover.Polynomial;
 import geogebra.common.main.AbstractApplication;
@@ -837,17 +837,17 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo {
 		return null;
 	}
 
-	public int[] getFreeVariablesAndDegrees(HashSet<FreeVariable> freeVariables)
+	public int[] getFreeVariablesAndDegrees(HashSet<Variable> variables)
 			throws NoSymbolicParametersException {
 		if (algoParent != null
 				&& (algoParent instanceof SymbolicParametersAlgo)) {
 			return ((SymbolicParametersAlgo) algoParent)
-					.getFreeVariablesAndDegrees(freeVariables);
+					.getFreeVariablesAndDegrees(variables);
 		}
 		throw new NoSymbolicParametersException();
 	}
 
-	public BigInteger[] getExactCoordinates(final HashMap<FreeVariable,BigInteger> values) throws NoSymbolicParametersException{
+	public BigInteger[] getExactCoordinates(final HashMap<Variable,BigInteger> values) throws NoSymbolicParametersException{
 		if (algoParent != null
 	&& (algoParent instanceof SymbolicParametersAlgo)) {
 			return ((SymbolicParametersAlgo) algoParent).getExactCoordinates(values);
@@ -862,7 +862,7 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo {
 		throw new NoSymbolicParametersException();
 	}
 
-	public FreeVariable[] getBotanaVars() {
+	public Variable[] getBotanaVars() {
 		if (algoParent != null
 				&& algoParent instanceof SymbolicParametersAlgo) {
 			return ((SymbolicParametersAlgo) algoParent).getBotanaVars();

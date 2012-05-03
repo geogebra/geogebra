@@ -51,7 +51,7 @@ import geogebra.common.kernel.arithmetic.VectorValue;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.common.kernel.prover.FreeVariable;
+import geogebra.common.kernel.prover.Variable;
 import geogebra.common.kernel.prover.NoSymbolicParametersException;
 import geogebra.common.kernel.prover.Polynomial;
 import geogebra.common.main.AbstractApplication;
@@ -105,8 +105,8 @@ final public class GeoPoint2 extends GeoVec3D implements VectorValue,
 	public double inhomY;
 	private boolean isInfinite, isDefined;
 	private boolean showUndefinedInAlgebraView = true;
-	private FreeVariable variableCoordinate1=null, variableCoordinate2=null;
-	private FreeVariable[] botanaVars;
+	private Variable variableCoordinate1=null, variableCoordinate2=null;
+	private Variable[] botanaVars;
 
 	// list of Locateables (GeoElements) that this point is start point of
 	// if this point is removed, the Locateables have to be notified
@@ -2011,21 +2011,21 @@ final public class GeoPoint2 extends GeoVec3D implements VectorValue,
 		return null;
 	}
 
-	public int[] getFreeVariablesAndDegrees(HashSet<FreeVariable> freeVariables) throws NoSymbolicParametersException {
+	public int[] getFreeVariablesAndDegrees(HashSet<Variable> variables) throws NoSymbolicParametersException {
 
 		// if this is a free point
 		if (algoParent == null) {
 			if (variableCoordinate1 == null) {
-				variableCoordinate1 = new FreeVariable();
+				variableCoordinate1 = new Variable();
 			}
 			if (variableCoordinate2 == null) {
-				variableCoordinate2 = new FreeVariable();
+				variableCoordinate2 = new Variable();
 			}
 			variableCoordinate1.setTwin(variableCoordinate2);
 			variableCoordinate2.setTwin(variableCoordinate1);
 
-			freeVariables.add(variableCoordinate1);
-			freeVariables.add(variableCoordinate2);
+			variables.add(variableCoordinate1);
+			variables.add(variableCoordinate2);
 			int[] degrees = new int[3];
 			degrees[0] = 1;
 			degrees[1] = 1;
@@ -2034,12 +2034,12 @@ final public class GeoPoint2 extends GeoVec3D implements VectorValue,
 		}
 		if (algoParent != null && algoParent instanceof SymbolicParametersAlgo) {
 			return ((SymbolicParametersAlgo) algoParent).getFreeVariablesAndDegrees(
-					freeVariables);
+					variables);
 		}
 		throw new NoSymbolicParametersException();
 	}
 
-	public BigInteger[] getExactCoordinates(final HashMap<FreeVariable,BigInteger> values) throws NoSymbolicParametersException {
+	public BigInteger[] getExactCoordinates(final HashMap<Variable,BigInteger> values) throws NoSymbolicParametersException {
 		if (algoParent == null) {
 		BigInteger[] result=new BigInteger[3];
 		result[0]=values.get(variableCoordinate1);
@@ -2065,10 +2065,10 @@ final public class GeoPoint2 extends GeoVec3D implements VectorValue,
 		// if this is a free point
 				if (algoParent == null) {
 					if (variableCoordinate1 == null) {
-						variableCoordinate1 = new FreeVariable();
+						variableCoordinate1 = new Variable();
 					}
 					if (variableCoordinate2 == null) {
-						variableCoordinate2 = new FreeVariable();
+						variableCoordinate2 = new Variable();
 					}
 					Polynomial[] ret = {new Polynomial(variableCoordinate1), new Polynomial(variableCoordinate2), new Polynomial(1)};
 					return ret;
@@ -2079,16 +2079,16 @@ final public class GeoPoint2 extends GeoVec3D implements VectorValue,
 				throw new NoSymbolicParametersException();
 	}
 
-	public FreeVariable[] getBotanaVars() {
+	public Variable[] getBotanaVars() {
 		if (algoParent != null && algoParent instanceof SymbolicParametersAlgo) {
 			return ((SymbolicParametersAlgo) algoParent).getBotanaVars();
 		}
 
 		if (algoParent == null) {
 			if (botanaVars == null) {
-				botanaVars = new FreeVariable[2];
-				botanaVars[0] = new FreeVariable();
-				botanaVars[1] = new FreeVariable();
+				botanaVars = new Variable[2];
+				botanaVars[0] = new Variable();
+				botanaVars[1] = new Variable();
 			}
 		}
 		

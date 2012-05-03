@@ -6,7 +6,7 @@ import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint2;
-import geogebra.common.kernel.prover.FreeVariable;
+import geogebra.common.kernel.prover.Variable;
 import geogebra.common.kernel.prover.NoSymbolicParametersException;
 import geogebra.common.kernel.prover.Polynomial;
 import geogebra.common.main.AbstractApplication;
@@ -29,7 +29,7 @@ public class AlgoAreCollinear extends AlgoElement implements SymbolicParametersA
     private GeoBoolean outputBoolean; //output	
 	private Polynomial[] polynomials;
 	private Polynomial[] botanaPolynomials;
-	private FreeVariable[] botanaVars;
+	private Variable[] botanaVars;
 
 
     /**
@@ -90,18 +90,18 @@ public class AlgoAreCollinear extends AlgoElement implements SymbolicParametersA
 		return new SymbolicParameters(this);
 	}
 
-	public int[] getFreeVariablesAndDegrees(HashSet<FreeVariable> freeVariables)
+	public int[] getFreeVariablesAndDegrees(HashSet<Variable> variables)
 			throws NoSymbolicParametersException {
 		if (input[0] != null && input[1] != null && input[2] != null
 				&& input[0] instanceof SymbolicParametersAlgo
 				&& input[1] instanceof SymbolicParametersAlgo
 				&& input[2] instanceof SymbolicParametersAlgo) {
 			int[] degree1 = ((SymbolicParametersAlgo) input[0])
-					.getFreeVariablesAndDegrees(freeVariables);
+					.getFreeVariablesAndDegrees(variables);
 			int[] degree2 = ((SymbolicParametersAlgo) input[1])
-					.getFreeVariablesAndDegrees(freeVariables);
+					.getFreeVariablesAndDegrees(variables);
 			int[] degree3 = ((SymbolicParametersAlgo) input[2])
-					.getFreeVariablesAndDegrees(freeVariables);
+					.getFreeVariablesAndDegrees(variables);
 			int[] result =new int[1];
 			result[0]=Math.max(degree1[0]+degree2[1]+degree3[2],
 					Math.max(degree2[0]+degree3[1]+degree1[2],
@@ -115,7 +115,7 @@ public class AlgoAreCollinear extends AlgoElement implements SymbolicParametersA
 		throw new NoSymbolicParametersException();
 	}
 
-	public BigInteger[] getExactCoordinates(final HashMap<FreeVariable,BigInteger> values) throws NoSymbolicParametersException {
+	public BigInteger[] getExactCoordinates(final HashMap<Variable,BigInteger> values) throws NoSymbolicParametersException {
 		if (input[0] != null && input[1] != null && input[2] != null
 				&& input[0] instanceof SymbolicParametersAlgo
 				&& input[1] instanceof SymbolicParametersAlgo
@@ -166,7 +166,7 @@ public class AlgoAreCollinear extends AlgoElement implements SymbolicParametersA
 		throw new NoSymbolicParametersException();
 	}
 
-	public FreeVariable[] getBotanaVars() {
+	public Variable[] getBotanaVars() {
 		return null;
 	}
 
@@ -180,9 +180,9 @@ public class AlgoAreCollinear extends AlgoElement implements SymbolicParametersA
 				&& input[1] instanceof SymbolicParametersAlgo
 				&& input[2] instanceof SymbolicParametersAlgo) {
 			
-			FreeVariable[] fv1 = new FreeVariable[2];
-			FreeVariable[] fv2 = new FreeVariable[2];
-			FreeVariable[] fv3 = new FreeVariable[2];
+			Variable[] fv1 = new Variable[2];
+			Variable[] fv2 = new Variable[2];
+			Variable[] fv3 = new Variable[2];
 			fv1 = ((SymbolicParametersAlgo) input[0])
 					.getBotanaVars();
 			fv2 = ((SymbolicParametersAlgo) input[1])

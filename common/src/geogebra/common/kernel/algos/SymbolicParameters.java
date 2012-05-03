@@ -4,7 +4,7 @@ import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.HashSet;
 
-import geogebra.common.kernel.prover.FreeVariable;
+import geogebra.common.kernel.prover.Variable;
 import geogebra.common.kernel.prover.NoSymbolicParametersException;
 import geogebra.common.kernel.prover.Polynomial;
 
@@ -19,7 +19,7 @@ public class SymbolicParameters {
 	 * The symbolic degree of the coordinates
 	 */
 	protected int[] degree;
-	private HashSet<FreeVariable> freeVariables;
+	private HashSet<Variable> variables;
 	private SymbolicParametersAlgo spa;
 
 	/**
@@ -37,7 +37,7 @@ public class SymbolicParameters {
 	 * @throws NoSymbolicParametersException if no symbolic parameters can be obtained
 	 */
 	public int[] getDegrees() throws NoSymbolicParametersException {
-		if (freeVariables == null) {
+		if (variables == null) {
 			initDegrees();
 		}
 		return degree;
@@ -134,10 +134,10 @@ public class SymbolicParameters {
 	 * @throws NoSymbolicParametersException if no symbolic parameters can be obtained
 	 */
 	public int getDimension() throws NoSymbolicParametersException {
-		if (freeVariables == null) {
+		if (variables == null) {
 			initDegrees();
 		}
-		return freeVariables.size();
+		return variables.size();
 	}
 	
 	/**
@@ -145,11 +145,11 @@ public class SymbolicParameters {
 	 * @return the set of all free variables
 	 * @throws NoSymbolicParametersException if no symbolic parameters can be obtained
 	 */
-	public HashSet<FreeVariable> getFreeVariables() throws NoSymbolicParametersException{
-		if (freeVariables == null) {
+	public HashSet<Variable> getFreeVariables() throws NoSymbolicParametersException{
+		if (variables == null) {
 			initDegrees();
 		}
-		return freeVariables;
+		return variables;
 	}
 	
 	/**
@@ -158,7 +158,7 @@ public class SymbolicParameters {
 	 * @return the coordinates
 	 * @throws NoSymbolicParametersException thrown if it is not possible to obtain the exact coordinates
 	 */
-	public BigInteger[] getExactCoordinates(final HashMap<FreeVariable,BigInteger> values) throws NoSymbolicParametersException{
+	public BigInteger[] getExactCoordinates(final HashMap<Variable,BigInteger> values) throws NoSymbolicParametersException{
 		return spa.getExactCoordinates(values);
 	}
 	
@@ -185,8 +185,8 @@ public class SymbolicParameters {
 	 * @throws NoSymbolicParametersException 
 	 */
 	private void initDegrees() throws NoSymbolicParametersException {
-		freeVariables = new HashSet<FreeVariable>();
-		degree=spa.getFreeVariablesAndDegrees(freeVariables);
+		variables = new HashSet<Variable>();
+		degree=spa.getFreeVariablesAndDegrees(variables);
 	}
 
 }

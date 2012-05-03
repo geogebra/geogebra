@@ -5,7 +5,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
-import geogebra.common.kernel.prover.FreeVariable;
+import geogebra.common.kernel.prover.Variable;
 import geogebra.common.kernel.prover.NoSymbolicParametersException;
 import geogebra.common.kernel.prover.Polynomial;
 import geogebra.common.main.AbstractApplication;
@@ -84,19 +84,20 @@ public class AlgoAreParallel extends AlgoElement implements
 		return new SymbolicParameters(this);
 	}
 
-	public int[] getFreeVariablesAndDegrees(HashSet<FreeVariable> freeVariables)
+	public int[] getFreeVariablesAndDegrees(HashSet<Variable> variables)
 			throws NoSymbolicParametersException {
 		if (inputLine1 != null && inputLine2 != null) {
-			int[] degree1 = inputLine1.getFreeVariablesAndDegrees(freeVariables);
-			int[] degree2 = inputLine2.getFreeVariablesAndDegrees(freeVariables);
+			int[] degree1 = inputLine1.getFreeVariablesAndDegrees(variables);
+			int[] degree2 = inputLine2.getFreeVariablesAndDegrees(variables);
 			int[] degree = new int[1];
 			degree[0]=Math.max(degree1[0]+degree2[1], degree1[1]+degree2[0]);
+			return degree;
 		}
 		throw new NoSymbolicParametersException();
 	}
 
 	public BigInteger[] getExactCoordinates(
-			HashMap<FreeVariable, BigInteger> values)
+			HashMap<Variable, BigInteger> values)
 			throws NoSymbolicParametersException {
 		if (inputLine1 != null && inputLine2 != null) {
 			BigInteger[] coords1 = ((SymbolicParametersAlgo) input[0])
@@ -131,7 +132,7 @@ public class AlgoAreParallel extends AlgoElement implements
 		throw new NoSymbolicParametersException();
 	}
 
-	public FreeVariable[] getBotanaVars() {
+	public Variable[] getBotanaVars() {
 		// TODO Auto-generated method stub
 		return null;
 	}

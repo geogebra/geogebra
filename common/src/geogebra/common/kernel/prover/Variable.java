@@ -7,10 +7,10 @@ import java.util.TreeMap;
  * @author Simon Weitzhofer
  *
  */
-public class FreeVariable implements Comparable<FreeVariable> {
+public class Variable implements Comparable<Variable> {
 	private static int n = 0;
 	private static TreeMap<Integer,String> names;
-	private FreeVariable twin;
+	private Variable twin;
 	private final int id;
 
 	static {
@@ -21,20 +21,20 @@ public class FreeVariable implements Comparable<FreeVariable> {
 	 * Creates a new variable
 	 */
 	
-	public FreeVariable() {
+	public Variable() {
 		n++;
 		id = n;
-		if (id<26){
-			setName(String.valueOf(" xyzabcdefghijklmnopqrstuvw".charAt(id)));
+		if (id<27){
+			setName(String.valueOf("xyzabcdefghijklmnopqrstuvw".charAt(id-1)));
 		} else
-			setName("v" + (id-25)); // v1,v2,v3,... when no more single letters available
+			setName("v" + (id-26)); // v1,v2,v3,... when no more single letters available
 	}
 
 	/**
 	 * Copies a variable
 	 * @param fv the variable to copy
 	 */
-	protected FreeVariable(FreeVariable fv) {
+	protected Variable(Variable fv) {
 		id = fv.getId();
 	}
 
@@ -48,13 +48,10 @@ public class FreeVariable implements Comparable<FreeVariable> {
 
 	@Override
 	public String toString() {
-		if (getName() == null) {
-			return "freevar" + id;
-		}
 		return getName();
 	}
 
-	public int compareTo(FreeVariable v) {
+	public int compareTo(Variable v) {
 		if (id < v.getId()) {
 			return 1;
 		}
@@ -66,8 +63,8 @@ public class FreeVariable implements Comparable<FreeVariable> {
 
 	@Override
 	public boolean equals(Object o) {
-		if (o instanceof FreeVariable) {
-			return id == ((FreeVariable) o).id;
+		if (o instanceof Variable) {
+			return id == ((Variable) o).id;
 		}
 		return super.equals(o);
 	}
@@ -97,18 +94,18 @@ public class FreeVariable implements Comparable<FreeVariable> {
 	}
 
 	/**
-	 * Returns the FreeVariable which describes the other coordinate of the same point
-	 * @return the FreeVariable
+	 * Returns the Variable which describes the other coordinate of the same point
+	 * @return the Variable
 	 */
-	public FreeVariable getTwin() {
+	public Variable getTwin() {
 		return twin;
 	}
 
 	/**
-	 * Sets the FreeVariable which describes the other coordinate of the same point
-	 * @param twin the FreeVariable. Is null if there is no twin.
+	 * Sets the Variable which describes the other coordinate of the same point
+	 * @param twin the Variable. Is null if there is no twin.
 	 */
-	public void setTwin(FreeVariable twin) {
+	public void setTwin(Variable twin) {
 		this.twin = twin;
 	}
 
