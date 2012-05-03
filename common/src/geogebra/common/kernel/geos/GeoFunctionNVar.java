@@ -820,5 +820,11 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 		public boolean needsLevelOfDetail() {
 			return (fun!=null) && (fun.getVarNumber()==2) && !isInequality();
 		}
+		
+		@Override
+		public int getMinimumLineThickness() {
+			return isInequality ? 0 : 1;
+		}
+
 
 }

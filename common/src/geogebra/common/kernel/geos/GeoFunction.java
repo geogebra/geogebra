@@ -2031,5 +2031,10 @@ public class GeoFunction extends GeoElement implements VarString,
 		return ret;
 
 	}
+	
+	@Override
+	public int getMinimumLineThickness() {
+		return (isInequality != null && isInequality) ? 0 : 1;
+	}
 
 }

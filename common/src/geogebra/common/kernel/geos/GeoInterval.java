@@ -333,5 +333,11 @@ public class GeoInterval extends GeoFunction {
 	public String toOutputValueString(StringTemplate tpl) {
 		return toValueString(tpl);
 	}
+	
+	@Override
+	public int getMinimumLineThickness() {
+		return 0;
+	}
+
 
 }
