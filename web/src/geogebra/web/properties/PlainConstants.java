@@ -1866,6 +1866,13 @@ public interface PlainConstants extends ConstantsWithLookup {
 
 	@DefaultStringValue("Angle of %0")
 	String AngleOfA();
-
-
+	
+	@DefaultStringValue("Area of %0")
+	String AreaOfA();
+	
+	@DefaultStringValue("Perimeter of %0")
+	String PerimeterOfA();
+	
+	@DefaultStringValue("Circumference of %0")
+	String CircumferenceOfA();
 }
