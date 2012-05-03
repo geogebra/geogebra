@@ -58,7 +58,6 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 		kernel.redo();
 		updateActions();
 		app.setDefaultCursor();
-		System.gc();
 	}
 
 	public void undo() {
@@ -66,7 +65,6 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 		kernel.undo();
 		updateActions();
 		app.setDefaultCursor();
-		System.gc();
 	}
 
 	@Override

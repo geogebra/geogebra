@@ -2578,7 +2578,6 @@ public class Kernel {
 		notifyClearView();
 		notifyRepaint();
 
-		System.gc();
 	}
 
 	public double getXmax() {

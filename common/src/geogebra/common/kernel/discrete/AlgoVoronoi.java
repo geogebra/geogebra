@@ -126,7 +126,6 @@ public class AlgoVoronoi extends AlgoElement {
 		//boolean oldState = cons.isSuppressLabelsActive();
 		//cons.setSuppressLabelCreation(true);
 		
-		//System.gc();
 		
 		int index = 0;
 		

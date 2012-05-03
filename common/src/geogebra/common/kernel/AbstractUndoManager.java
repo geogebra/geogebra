@@ -161,7 +161,6 @@ public abstract class AbstractUndoManager {
 	protected synchronized void clearUndoInfo() {
 		undoInfoList.clear();
 		iterator = undoInfoList.listIterator();
-		System.gc();
 	}
 	
 	/**

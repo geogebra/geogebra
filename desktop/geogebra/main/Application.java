@@ -899,7 +899,6 @@ public class Application extends AbstractApplication implements
 			euclidianView.requestFocusInWindow();
 		}
 
-		System.gc();
 	}
 
 	protected void updateComponentTreeUI() {
@@ -1886,7 +1885,6 @@ public class Application extends AbstractApplication implements
 
 		setLabels(); // update display
 
-		System.gc();
 	}
 
 	
@@ -2900,7 +2898,6 @@ public class Application extends AbstractApplication implements
 		getGuiManager().updateMenubar();
 		getGuiManager().updateActions();
 		updateDockBar();
-		System.gc();
 	}
 
 	
@@ -2926,7 +2923,6 @@ public class Application extends AbstractApplication implements
 
 		getGuiManager().updateMenuWindow();
 		getGuiManager().updateMenuFile();
-		System.gc();
 	}
 
 	

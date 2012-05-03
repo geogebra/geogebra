@@ -396,7 +396,6 @@ public class OptionsMenu extends BaseMenu implements ActionListener {
 			try {
 				app.setFontSize(Integer.parseInt(cmd.substring(0, 2)));
 				app.setUnsaved();
-				System.gc();
 			} catch (Exception e) {
 				app.showError(e.toString());
 			}

@@ -179,7 +179,6 @@ public class AppletImplementation implements AppletImplementationInterface {
 				GeoGebraAppletPreloader.loadAllJarFiles(!app
 						.useBrowserForJavaScript());
 
-				System.gc();
 			}
 		};
 		initingThread.start();
@@ -580,7 +579,6 @@ public class AppletImplementation implements AppletImplementationInterface {
 		app.refreshViews();
 
 		applet.validate();
-		System.gc();
 	}
 
 	/* JAVA SCRIPT INTERFACE */

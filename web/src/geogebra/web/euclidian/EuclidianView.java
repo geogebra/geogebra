@@ -399,7 +399,6 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 		} catch (Exception e) {
 			bgImage = null;
 			bgGraphics = null;
-			System.gc();
 		}
 
 		updateBackgroundImage();

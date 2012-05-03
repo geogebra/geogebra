@@ -328,7 +328,6 @@ public class MyXMLio extends geogebra.common.io.MyXMLio{
 			throw new Exception(XML_FILE + " not found");
 		}
 		
-		System.gc();
 	}
 
 	public void processXMLString(String str, boolean clearAll, boolean isGGTfile, boolean settingsBatch)

@@ -355,7 +355,6 @@ public class EuclidianView extends EuclidianViewND implements
 			rect.setFrame(pagewidth - xmargin, 0, xmargin, pageheight);
 			g2d.fill(rect);
 
-			System.gc();
 			return (PAGE_EXISTS);
 		
 	}

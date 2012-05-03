@@ -271,7 +271,6 @@ public abstract class EuclidianViewND extends AbstractEuclidianView implements E
 		} catch (OutOfMemoryError e) {
 			bgImage = null;
 			bgGraphics = null;
-			System.gc();
 		}
 
 		updateBackgroundImage();

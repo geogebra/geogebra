@@ -73,7 +73,7 @@ public class OptionsDefaults extends JPanel implements TreeSelectionListener,
 
 	private DefaultMutableTreeNode textNode, imageNode, booleanNode;
 
-	private DefaultMutableTreeNode listNode;
+	private DefaultMutableTreeNode listNode, inequalitiesNode;
 
 	/**
 	 * The class which contains all default objects.
@@ -180,6 +180,7 @@ public class OptionsDefaults extends JPanel implements TreeSelectionListener,
 		angleNode = new DefaultMutableTreeNode();
 		booleanNode = new DefaultMutableTreeNode();
 		listNode = new DefaultMutableTreeNode();
+		inequalitiesNode = new DefaultMutableTreeNode();
 
 		rootNode.add(pointsNode);
 		pointsNode.add(pointsFreeNode);
@@ -202,6 +203,7 @@ public class OptionsDefaults extends JPanel implements TreeSelectionListener,
 		rootNode.add(angleNode);
 		rootNode.add(booleanNode);
 		rootNode.add(listNode);
+		rootNode.add(inequalitiesNode);
 
 		// create the dictionary which is used to assign a type constant (int)
 		// to
@@ -240,6 +242,7 @@ public class OptionsDefaults extends JPanel implements TreeSelectionListener,
 		typeToNode.put(angleNode, ConstructionDefaults.DEFAULT_ANGLE);
 		typeToNode.put(booleanNode, ConstructionDefaults.DEFAULT_BOOLEAN);
 		typeToNode.put(listNode, ConstructionDefaults.DEFAULT_LIST);
+		typeToNode.put(inequalitiesNode, ConstructionDefaults.DEFAULT_INEQUALITY);
 
 	}
 
@@ -292,6 +295,7 @@ public class OptionsDefaults extends JPanel implements TreeSelectionListener,
 		angleNode.setUserObject(app.getPlain("Angle"));
 		booleanNode.setUserObject(app.getPlain("Boolean"));
 		listNode.setUserObject(app.getPlain("List"));
+		inequalitiesNode.setUserObject(app.getPlain("Inequality"));
 
 		GuiManager.setLabelsRecursive(propPanel);
 		// propPanel.setLabels();

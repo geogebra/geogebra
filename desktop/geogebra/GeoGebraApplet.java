@@ -87,7 +87,6 @@ public class GeoGebraApplet extends JApplet implements JavaScriptAPI {
 				    // dispose splash screen
 					splashScreen.dispose();
 					splashScreen = null;
-					System.gc();
 					
 					// init some things in background (like CAS, more GUI components)
 					appletImplementation.initInBackground();										
@@ -113,7 +112,6 @@ public class GeoGebraApplet extends JApplet implements JavaScriptAPI {
 		requestFocus();
 
 		repaint();
-		System.gc();
 	}
 
 	@Override
@@ -127,7 +125,6 @@ public class GeoGebraApplet extends JApplet implements JavaScriptAPI {
 		}
 		
 		repaint();
-		System.gc();
 	}
 
 	@Override
@@ -148,7 +145,6 @@ public class GeoGebraApplet extends JApplet implements JavaScriptAPI {
 		// http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6550586
 		RepaintManager.setCurrentManager(null);
 		
-		System.gc();
 	}
 
 	/**
@@ -217,7 +213,6 @@ public class GeoGebraApplet extends JApplet implements JavaScriptAPI {
 				if (Runtime.getRuntime().freeMemory() < 2000000) {								
 					g.drawString("Out of Memory Error: Please restart your browser. ", width/2 - 120, height/2 + 30);
 				}
-				System.gc();
 			}
 		} 
 		

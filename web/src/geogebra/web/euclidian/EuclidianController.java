@@ -56,10 +56,12 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 	protected void setMouseLocation(AbstractEvent event) {
 		mouseLoc = event.getPoint();
 		
+		
 		setAltDown(event.isAltDown());
 		
 		mouseLoc.x = mouseLoc.x - ((EuclidianView) view).getAbsoluteLeft() + Window.getScrollLeft();
 		mouseLoc.y = mouseLoc.y - ((EuclidianView) view).getAbsoluteTop() + Window.getScrollTop();
+
 	
 		if (mouseLoc.x < 0) {
 			mouseLoc.x = 0;
@@ -71,6 +73,9 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 		} else if (mouseLoc.y > view.getViewHeight()) {
 			mouseLoc.y = view.getViewHeight();
 		}
+		
+		Application.debug(view.toRealWorldCoordX(mouseLoc.x)+ " " + view.toRealWorldCoordY(mouseLoc.y));
+
 	}
 	
 	public void setApplication(AbstractApplication app) {

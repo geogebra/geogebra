@@ -185,7 +185,6 @@ public class MidiSound implements MetaEventListener {
 			sequencer.close();
 		}
 
-		System.gc();
 	}
 
 	/**

@@ -535,7 +535,6 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 		cacheList.clear();
 		clear();
 		setUndefined();
-		System.gc();
 	}
 	/**
 	 * Adds a geo to this list

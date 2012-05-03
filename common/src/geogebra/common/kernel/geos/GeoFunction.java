@@ -270,6 +270,18 @@ public class GeoFunction extends GeoElement implements VarString,
 		set(f);
 	}
 
+	public GeoFunction(Construction cons, boolean b) {
+		super(cons);
+		
+		// needed before defaults are set
+		isInequality = new Boolean(b);
+
+		// moved from GeoElement's constructor
+		// must be called from the subclass, see
+		// http://benpryor.com/blog/2008/01/02/dont-call-subclass-methods-from-a-superclass-constructor/
+		setConstructionDefaults(); // init visual settings
+	}
+
 	@Override
 	public GeoElement copy() {
 		return new GeoFunction(this);
@@ -315,12 +327,15 @@ public class GeoFunction extends GeoElement implements VarString,
 	 */
 	public void initFunction() {
 		fun.initFunction();
-		if (fun.isBooleanFunction()) {
-			GeoElement ge = cons.getConstructionDefaults().getDefaultGeo(
-					ConstructionDefaults.DEFAULT_INEQUALITY_1VAR);
-			setVisualStyle(ge);
-			setAlphaValue(ge.getAlphaValue());
-		}
+		//if (fun.isBooleanFunction()) {
+		//	GeoElement ge = cons.getConstructionDefaults().getDefaultGeo(
+		//			ConstructionDefaults.DEFAULT_INEQUALITY_1VAR);
+		//	setVisualStyle(ge);
+		//	setAlphaValue(ge.getAlphaValue());
+		//}
+		
+		
+		setConstructionDefaults();
 	}
 
 	public Function getFunction() {
@@ -2035,6 +2050,10 @@ public class GeoFunction extends GeoElement implements VarString,
 	@Override
 	public int getMinimumLineThickness() {
 		return (isInequality != null && isInequality) ? 0 : 1;
+	}
+ 
+	public boolean isInequality() {
+		return (isInequality != null && isInequality) ? true : false;
 	}
 
 }

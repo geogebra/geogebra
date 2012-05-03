@@ -499,7 +499,6 @@ public class PrintPreview extends JDialog {
 			m_preview.doLayout();
 			m_preview.getParent().getParent().validate(); 
 		}	
-		System.gc();
 	}
 	
 	public boolean pageExists(int pageIndex) {
@@ -532,7 +531,6 @@ public class PrintPreview extends JDialog {
 		}
 		m_preview.doLayout();
 		m_preview.getParent().getParent().validate();
-		System.gc();
 	}
 	
 	private void setScale(int scale) {
@@ -547,7 +545,6 @@ public class PrintPreview extends JDialog {
 		}
 		m_preview.doLayout();
 		m_preview.getParent().getParent().validate();	
-		System.gc();	
 	}
 
 	class PreviewContainer extends JPanel implements Pageable {

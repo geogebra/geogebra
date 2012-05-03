@@ -1751,7 +1751,6 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 			}
 		}
 
-		System.gc();
 		return PAGE_EXISTS;
 	}
 

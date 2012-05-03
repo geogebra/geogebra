@@ -1324,7 +1324,6 @@ public class Construction {
 			stopCollectingRedefineCalls();
 			consXML.setLength(0);
 			consXML = null;
-			System.gc();
 		}
 	}
 

@@ -522,12 +522,15 @@ public class ConstructionDefaults {
 				type = DEFAULT_INEQUALITY;				
 			break;
 		case FUNCTION:
-			if(((GeoFunction)geo).isBooleanFunction())
-				type = DEFAULT_INEQUALITY_1VAR; 
-			else
+			if(((GeoFunction)geo).isBooleanFunction()) {
+				type = DEFAULT_INEQUALITY; 
+			} else {
 				type = DEFAULT_FUNCTION;
+			}
 			break;
 		case INTERVAL:
+			type = DEFAULT_INEQUALITY;				
+		break;
 		case FUNCTIONCONDITIONAL:
 			type = DEFAULT_FUNCTION;
 			break;

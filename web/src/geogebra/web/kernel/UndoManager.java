@@ -57,7 +57,6 @@ public class UndoManager extends AbstractUndoManager {
 		//	public void run() {
 				doStoreUndoInfo(currentUndoXML);
 				CopyPaste.pastePutDownCallback(app);
-				System.gc();
 		//	}
 		//};
 		//undoSaverThread.start();
@@ -77,7 +76,6 @@ public class UndoManager extends AbstractUndoManager {
 				doStoreUndoInfo(currentUndoXML);
 				if (refresh)
 					restoreCurrentUndoInfo();
-				System.gc();
 
 		//	}
 		//};
@@ -104,7 +102,6 @@ public class UndoManager extends AbstractUndoManager {
 			AbstractApplication.debug("UndoManager.storeUndoInfo: "
 					+ err.toString());
 			err.printStackTrace();
-			System.gc();
 		}
 		updateUndoActions();
 	}
@@ -129,7 +126,6 @@ public class UndoManager extends AbstractUndoManager {
 			restoreCurrentUndoInfo();
 		} catch (Error err) {
 			System.err.println("UndoManager.loadUndoInfo: " + err.toString());
-			System.gc();
 		}
 	}
 }

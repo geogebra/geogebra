@@ -121,7 +121,6 @@ public class AlgoSolveODE2 extends AlgoElement {
 		locus.setPoints(al);
 
 		locus.setDefined(true);
-		// System.gc();
 	}
 
 	@Override

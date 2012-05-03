@@ -63,7 +63,6 @@ public class QDParser {
 		stack.clear();
 		sb = new StringBuilder();
 		etag = new StringBuilder();
-		System.gc();
 	}
 
 	private static int popMode(Stack<Integer> st) {
