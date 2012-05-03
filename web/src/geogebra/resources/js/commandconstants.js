@@ -882,7 +882,9 @@ ShowAxes_Syntax: "",
 ShowGrid: "",
 ShowGrid_Syntax: "",
 AreCollinear: "",
-AreCollinear_Syntax: ""
+AreCollinear_Syntax: "",
+AreParallel: "",
+AreParallel_Syntax: ""
 		};
 		
 var colorKeysVar = {

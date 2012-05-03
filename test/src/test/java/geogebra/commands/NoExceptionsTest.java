@@ -145,6 +145,11 @@ public class NoExceptionsTest {
 	public void cmdAreCollinear() {
 		t("AreCollinear[ Pt1,Pt2,Pt3 ]");
 	}
+
+	@Test
+	public void cmdAreParallel() {
+		t("AreParallel[ l1,l2 ]");
+	}
 	
 	@Test
 	public void cmdExpression() {

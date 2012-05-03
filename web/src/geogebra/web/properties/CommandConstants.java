@@ -2662,4 +2662,11 @@ public interface CommandConstants extends ConstantsWithLookup {
 	
 	@DefaultStringValue("[ <Point>, <Point>, <Point> ]")
 	String AreCollinear_Syntax();
+
+	@DefaultStringValue("AreParallel")
+	String AreParallel();
+	
+	@DefaultStringValue("[ <Line>, <Line> ]")
+	String AreParallel_Syntax();
+
 }
