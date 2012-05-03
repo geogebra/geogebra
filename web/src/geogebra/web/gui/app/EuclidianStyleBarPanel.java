@@ -10,6 +10,7 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.RequiresResize;
+import com.google.gwt.dom.client.Style;
 
 public class EuclidianStyleBarPanel extends Composite implements RequiresResize {
 
@@ -27,6 +28,8 @@ public class EuclidianStyleBarPanel extends Composite implements RequiresResize 
 	public EuclidianStyleBarPanel() {
 		initWidget(uiBinder.createAndBindUi(this));
 		simplep.setSize("100%", "100%");
+		simplep.getElement().getStyle().setBackgroundColor("#eeeeee");
+		simplep.getElement().getStyle().setRight(1, Style.Unit.PX);
 		//aview = Canvas.createIfSupported();
 		//algebrapanel.add(aview);
 	}
