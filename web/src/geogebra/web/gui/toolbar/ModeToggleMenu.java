@@ -9,12 +9,23 @@ import geogebra.web.main.Application;
 
 import java.util.ArrayList;
 
+import com.google.gwt.canvas.client.Canvas;
+import com.google.gwt.canvas.dom.client.Context2d;
+import com.google.gwt.canvas.dom.client.CssColor;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.DoubleClickEvent;
+import com.google.gwt.event.dom.client.DoubleClickHandler;
 import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.AbsolutePanel;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
 
-public class ModeToggleMenu extends MenuBar{
+public class ModeToggleMenu extends MenuBar implements DoubleClickHandler,
+        ClickHandler {
 
 	private static final long serialVersionUID = 1L;
 	ModeToggleButtonGroup bg;
@@ -27,6 +38,7 @@ public class ModeToggleMenu extends MenuBar{
 	private Application app;
 	int size;
 	private ToolBar toolbar;
+	private Canvas canvas;
 
 	final static Color bgColor = Color.white;
 
@@ -147,7 +159,7 @@ public class ModeToggleMenu extends MenuBar{
 		if (size == 1) {
 			// init tbutton
 			tbutton.getElement().setAttribute("mode", actionText);
-			tbutton.setHTML(GGWToolBar.getImageHtml(mode));
+			tbutton.setHTML(getImagePanelHtml(mode));
 			this.getElement().setAttribute("mode", actionText);
 //			this.setTitle(app.getToolName(mode));
 			// tooltip: tool name and tool help
@@ -157,6 +169,48 @@ public class ModeToggleMenu extends MenuBar{
 			// add button to button group
 			//bg.add(tbutton);
 		}
+	}
+	
+	private String getImagePanelHtml(int mode) {
+		AbsolutePanel imagePanel = new AbsolutePanel();
+
+		imagePanel.add(new Image(GGWToolBar.getImageURL(mode)), 0, 0);
+
+		canvas = Canvas.createIfSupported();
+
+		// canvas init.
+		canvas.setWidth("32px");
+		canvas.setHeight("32px");
+		canvas.setCoordinateSpaceWidth(32);
+		canvas.setCoordinateSpaceHeight(32);
+
+//		// attempts of drawing in canvas
+//
+//		Context2d context = canvas.getContext2d();
+//		context.setFillStyle(CssColor.make("rgb(200, 0,0"));
+//		context.fillRect(10, 20, 20, 100);
+//		context.fill();
+//
+//		canvas.getContext2d().setLineWidth(1);
+//		canvas.getContext2d().beginPath();
+//		canvas.getContext2d().moveTo(1, 1);
+//		canvas.getContext2d().lineTo(1, 30);
+//		canvas.getContext2d().lineTo(20, 30);
+//		canvas.getContext2d().lineTo(30, 1);
+//		canvas.getContext2d().closePath();
+//		canvas.getContext2d().stroke();
+//
+//		context.setFillStyle(CssColor.make("rgb(200, 0,0"));
+//		context.beginPath();
+//		context.arc(10, 20, 5, 0, Math.PI * 2.0, true);
+//		context.closePath();
+//		context.fill();
+
+		canvas.setVisible(true);
+		canvas.addDoubleClickHandler(this);
+		canvas.addClickHandler(this);
+		imagePanel.add(canvas);
+		return imagePanel.toString();
 	}
 	
 	/**
@@ -475,6 +529,16 @@ class MyJToggleButton extends MenuItem /*implements  MouseListener,
 		isSelected = flag;
 	}
 }
+public void onClick(ClickEvent event) {
+	Window.alert("onclick");
+	
+}
+
+public void onDoubleClick(DoubleClickEvent event) {
+	Window.alert("doubleclick");
+	
+}
+
 
 
 

@@ -13,6 +13,7 @@ import java.util.Vector;
 
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Element;
+import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
@@ -323,5 +324,10 @@ public class ToolBar extends MenuBar {
 	public ArrayList<ModeToggleMenu> getModeToggleMenus(){
 		return modeToggleMenus;
 	}
+	
+//	@Override
+//    public void onBrowserEvent(Event event){
+//		
+//	}
 
 }
