@@ -30,16 +30,18 @@ import geogebra.common.main.AbstractApplication;
 /**
  * 
  * @author Zbynek
- * @version
  */
 public class AlgoVertexPolygon extends AlgoElement {
 
 	private GeoPolyLineInterface p; // input		
 	private NumberValue index;
 	private GeoPoint2 oneVertex;
-	protected OutputHandler<GeoElement> outputPoints;
+	private OutputHandler<GeoElement> outputPoints;
 	/**
 	 * Creates new vertex algo
+	 * @param cons construction
+	 * @param labels labels for vertices
+	 * @param p polygon or polyline
 	 */
 
 	public AlgoVertexPolygon(Construction cons, String[] labels, GeoPolyLineInterface p) {
@@ -54,7 +56,7 @@ public class AlgoVertexPolygon extends AlgoElement {
 		// Construction.resolveLabelDependency()
 	}
 	
-	protected void setLabels(String[] labels) {
+	private void setLabels(String[] labels) {
         //if only one label (e.g. "A") for more than one output, new labels will be A_1, A_2, ...
         if (labels!=null &&
         		labels.length==1 &&
@@ -69,6 +71,12 @@ public class AlgoVertexPolygon extends AlgoElement {
         }	
     }
 
+	/**
+	 * @param cons construction
+	 * @param label label
+	 * @param p polygon or polyline
+	 * @param v vertex index
+	 */
 	public AlgoVertexPolygon(Construction cons, String label, GeoPolyLineInterface p,
 			NumberValue v) {
 
@@ -77,7 +85,10 @@ public class AlgoVertexPolygon extends AlgoElement {
 	}
 
 	/**
+	 * Creates algo for Vertex[poly] (many output points)
 	 * Creates new unlabeled vertex algo
+	 * @param cons construction
+	 * @param p polygon or polyline
 	 */
 	AlgoVertexPolygon(Construction cons, GeoPolyLineInterface p) {
 		super(cons);
@@ -87,6 +98,12 @@ public class AlgoVertexPolygon extends AlgoElement {
 		compute();
 	}
 
+	/**
+	 * Creates algo for Vertex[poly,n] (one output)
+	 * @param cons construction or polyline
+	 * @param p polygon or polyline
+	 * @param v vertrex index
+	 */
 	AlgoVertexPolygon(Construction cons, GeoPolyLineInterface p, NumberValue v) {
 		super(cons);
 		this.p = p;
@@ -188,13 +205,13 @@ public class AlgoVertexPolygon extends AlgoElement {
 		return oneVertex;
 	}
 	
-	 protected OutputHandler<GeoElement> createOutputPoints(){
+	 private OutputHandler<GeoElement> createOutputPoints(){
 	    	return new OutputHandler<GeoElement>(new elementFactory<GeoElement>() {
 				public GeoPoint2 newElement() {
-					GeoPoint2 p=new GeoPoint2(cons);
-					p.setCoords(0, 0, 1);
-					p.setParentAlgorithm(AlgoVertexPolygon.this);
-					return p;
+					GeoPoint2 pt=new GeoPoint2(cons);
+					pt.setCoords(0, 0, 1);
+					pt.setParentAlgorithm(AlgoVertexPolygon.this);
+					return pt;
 				}
 			});
 	    }

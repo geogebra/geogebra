@@ -17,18 +17,33 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
 
 
+/**
+ * Algorithm for vertical text
+ * @author Michael
+ */
 public class AlgoVerticalText extends AlgoElement {
 
 	private GeoText text; //output	
     private GeoText args; //input	
     
-    private StringBuffer sb = new StringBuffer();
+    private StringBuilder sb = new StringBuilder();
     
+    /**
+     * Creates new algo for vertical text
+     * @param cons construction
+     * @param label label for output
+     * @param args input text
+     */
     public AlgoVerticalText(Construction cons, String label, GeoText args) {
     	this(cons,  args);
         text.setLabel(label);
     }
 
+    /**
+     * Creates new unlabeled algo for vertical text
+     * @param cons construction
+     * @param args input text
+     */
     AlgoVerticalText(Construction cons, GeoText args) {
         super(cons);
         this.args = args;
@@ -55,6 +70,9 @@ public class AlgoVerticalText extends AlgoElement {
         setDependencies(); // done by AlgoElement
     }
 
+    /**
+     * @return resulting text
+     */
     public GeoText getResult() {
         return text;
     }
@@ -67,10 +85,8 @@ public class AlgoVerticalText extends AlgoElement {
     	}
     	
     	sb.setLength(0);
-    	sb.append("\\rotatebox{90}{");
-    	sb.append(args.getTextString());
-    	sb.append("}");
-
+    	AlgoRotateText.appendRotatedText(sb, args, 90);
+    	
     	text.setTextString(sb.toString());
     	text.setLaTeX(true,false);
     }

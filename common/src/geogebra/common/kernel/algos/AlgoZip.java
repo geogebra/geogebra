@@ -10,12 +10,6 @@ the Free Software Foundation.
 
  */
 
-/*
- * AlgoSlope.java
- *
- * Created on 30. August 2001, 21:37
- */
-
 package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
@@ -51,8 +45,12 @@ public class AlgoZip extends AlgoElement {
 
 	/**
 	 * Creates a new algorithm to create a sequence of objects that form a list.
+	 * @param cons construction
 	 * 
 	 * @param label label for the list
+	 * @param expression expression (first argument of zip
+	 * @param vars variables
+	 * @param over lists from which the variables should be taken
 	 */
 	public AlgoZip(Construction cons, String label, GeoElement expression,
 			GeoElement[] vars, GeoList[] over) {
@@ -63,6 +61,10 @@ public class AlgoZip extends AlgoElement {
 
 	/**
 	 * Creates a new algorithm to create a sequence of objects that form a list.
+	 * @param cons construction
+	 * @param expression expression (first argument of zip
+	 * @param vars variables
+	 * @param over lists from which the variables should be taken
 	 */
 	AlgoZip(Construction cons, GeoElement expression, GeoElement[] vars,
 			GeoList[] over) {

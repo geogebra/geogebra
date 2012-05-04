@@ -28,13 +28,17 @@ import geogebra.common.kernel.geos.GeoVector;
 /**
  * Vector v = P - (0, 0)
  * @author  Markus
- * @version 
  */
 public class AlgoVectorPoint extends AlgoElement {
 
     private GeoPoint2 P;   // input
     private GeoVector  v;     // output                    
     
+    /**
+     * @param cons construction
+     * @param label label for output
+     * @param P input point
+     */
     public AlgoVectorPoint(Construction cons, String label, GeoPoint2 P) {
         super(cons);
         this.P = P;
@@ -69,7 +73,13 @@ public class AlgoVectorPoint extends AlgoElement {
         setDependencies(); // done by AlgoElement
     }           
     
+    /**
+     * @return output vector
+     */
     public GeoVector getVector() { return v; }
+    /**
+     * @return input point
+     */
     public GeoPoint2 getP() { return P; }    
     
     // calc vector OP   

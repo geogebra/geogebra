@@ -30,10 +30,14 @@ public class AlgoRotateText extends AlgoElement {
     private GeoText args; //input	
     private GeoNumeric angle; // input
      
-    private StringBuffer sb = new StringBuffer();
+    private StringBuilder sb = new StringBuilder();
     
     /**
      * Creates new text rotation algo
+     * @param cons construction
+     * @param label label for output
+     * @param args input text
+     * @param angle angle of rotation
      */
     public AlgoRotateText(Construction cons, String label, GeoText args, GeoNumeric angle) {
     	this(cons,  args, angle);
@@ -42,6 +46,9 @@ public class AlgoRotateText extends AlgoElement {
 
     /**
      * Creates new unlabeled text rotation algo
+     * @param cons construction
+     * @param args input text
+     * @param angle angle of rotation
      */
     AlgoRotateText(Construction cons, GeoText args, GeoNumeric angle) {
         super(cons);
@@ -87,19 +94,29 @@ public class AlgoRotateText extends AlgoElement {
     		return;
     	}
     	
-    	boolean latex = args.isLaTeX();
-    	
     	sb.setLength(0);
-    	sb.append("\\rotatebox{");
-    	sb.append(angle.getValue()*180/Math.PI); // convert to degrees
-    	sb.append("}{ ");
-    	if (!latex) sb.append("\\text{ ");
-    	sb.append(args.getTextString());
-    	if (!latex) sb.append(" } ");
-    	sb.append(" }");
+    	appendRotatedText(sb,args,angle.getValue()*180/Math.PI);
+    	
 
     	text.setTextString(sb.toString());
     	text.setLaTeX(true,false);
+    }
+    
+    /**
+     * Appends LaTeX command for the rotated text to the string builder.
+     * @param sbuilder string builder
+     * @param text text
+     * @param degrees rotation algo
+     */
+    public static void appendRotatedText(StringBuilder sbuilder,GeoText text,double degrees){
+    	boolean latex = text.isLaTeX();
+    	sbuilder.append("\\rotatebox{");
+    	sbuilder.append(degrees); // convert to degrees
+    	sbuilder.append("}{ ");
+    	if (!latex) sbuilder.append("\\text{ ");
+    	sbuilder.append(text.getTextString());
+    	if (!latex) sbuilder.append(" } ");
+    	sbuilder.append(" }");
     }
 
 	@Override

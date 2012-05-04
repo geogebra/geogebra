@@ -28,9 +28,8 @@ import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 
 
 /**
- *
+ * Algorithm for conic vertices
  * @author  Markus
- * @version 
  */
 public class AlgoVertex extends AlgoElement {
 
@@ -41,16 +40,29 @@ public class AlgoVertex extends AlgoElement {
     private GeoVec2D b;
     private GeoVec2D [] eigenvec;
         
+    /**
+     * @param cons construction
+     * @param label label for ouputs (for A outputs A_1,A_2,... will be created)
+     * @param c conic
+     */
     AlgoVertex(Construction cons, String label, GeoConic c) {
         this(cons, c);
         GeoElement.setLabels(label, vertex);            
     }
-    
+    /**
+     * @param cons construction
+     * @param labels labels for ouputs
+     * @param c conic
+     */
     public AlgoVertex(Construction cons, String [] labels, GeoConic c) {
         this(cons, c);
         GeoElement.setLabels(labels, vertex);            
     }
-    
+    /**
+     * 
+     * @param cons construction
+     * @param c conic
+     */
     public AlgoVertex(Construction cons, GeoConic c) {
         super(cons);
         this.c = c;        
@@ -84,7 +96,14 @@ public class AlgoVertex extends AlgoElement {
         setDependencies(); // done by AlgoElement
     }    
     
+    /**
+     * @return input conic
+     */
     GeoConic getConic() { return c; }
+    /**
+     * 
+     * @return array of conic vertices
+     */
     public GeoPoint2 [] getVertex() { return vertex; }    
         
     @Override

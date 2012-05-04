@@ -39,7 +39,6 @@ import geogebra.common.kernel.prover.Polynomial;
  * Vector between two points P and Q.
  * 
  * @author  Markus
- * @version 
  */
 public class AlgoVector extends AlgoElement implements SymbolicParametersAlgo{
 
@@ -47,7 +46,11 @@ public class AlgoVector extends AlgoElement implements SymbolicParametersAlgo{
     private GeoVectorND  v;     // output     
 	private Polynomial[] polynomials;
         
-    /** Creates new AlgoVector */  
+    /** Creates new AlgoVector 
+     * @param cons construction
+     * @param label label for output
+     * @param P start point
+     * @param Q end point*/  
     public AlgoVector(Construction cons, String label, GeoPointND P, GeoPointND Q) {
         super(cons);
         this.P = P;
@@ -65,7 +68,9 @@ public class AlgoVector extends AlgoElement implements SymbolicParametersAlgo{
             	startPoint.set(P);
             	v.setStartPoint(startPoint);
             }        		
-        } catch (CircularDefinitionException e) {}
+        } catch (CircularDefinitionException e) {
+        	//just formal; v is new, so can't really cause this
+        }
         
         
                  
@@ -76,11 +81,17 @@ public class AlgoVector extends AlgoElement implements SymbolicParametersAlgo{
         v.setLabel(label);
     }        
         
+    /**
+     * @return new vector (overriden in 3D)
+     */
     protected GeoVectorND createNewVector(){
     	
     	return new GeoVector(cons);   	
     }   
    
+    /**
+     * @return copy of P (overriden in 3D)
+     */
     protected GeoPointND newStartPoint(){
     	
     	return new GeoPoint2((GeoPoint2) P);
@@ -108,8 +119,18 @@ public class AlgoVector extends AlgoElement implements SymbolicParametersAlgo{
         setDependencies(); // done by AlgoElement
     }           
     
+    /**
+     * @return output vector
+     */
     public GeoVectorND getVector() { return v; }
+    /**
+     * @return input start point
+     */
     public GeoPointND getP() { return P; }
+    
+    /**
+     * @return input end point
+     */
     public GeoPointND getQ() { return Q; }
     
     // calc the vector between P and Q    
@@ -131,6 +152,9 @@ public class AlgoVector extends AlgoElement implements SymbolicParametersAlgo{
         }
     }
     
+    /**
+     * Updates coords of v using the strtpoint and endpoint 
+     */
     protected void setCoords(){
     	v.setCoords(P.vectorTo(Q));
     }
