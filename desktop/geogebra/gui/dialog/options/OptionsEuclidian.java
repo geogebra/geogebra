@@ -49,6 +49,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
+import javax.swing.JToggleButton;
 
 /**
  * Panel with options for the euclidian view. TODO: optimization: updateGUI()
@@ -95,6 +96,8 @@ public class OptionsEuclidian extends JPanel implements ActionListener,
 
 	// flags
 	private boolean isIniting;
+
+	private JToggleButton cbLockRatio;
 
 	/***********************************************
 	 * Creates a new dialog for the properties of the Euclidian view.
@@ -208,12 +211,17 @@ public class OptionsEuclidian extends JPanel implements ActionListener,
 
 		tfAxesRatioX = new MyTextField(app, 6);
 		tfAxesRatioY = new MyTextField(app, 6);
-		tfAxesRatioX.setEnabled(view.isZoomable());
-		tfAxesRatioY.setEnabled(view.isZoomable());
+		tfAxesRatioX.setEnabled(view.isZoomable() && !view.isLockedAxesRatio());
+		tfAxesRatioY.setEnabled(view.isZoomable() && !view.isLockedAxesRatio());
 		tfAxesRatioX.addActionListener(this);
 		tfAxesRatioY.addActionListener(this);
 		tfAxesRatioX.addFocusListener(this);
 		tfAxesRatioY.addFocusListener(this);
+		cbLockRatio = new JToggleButton();
+		cbLockRatio.setSelected(view.isLockedAxesRatio());
+		cbLockRatio.setIcon(app.getImageIcon("lock.png"));
+		cbLockRatio.setEnabled(view.isZoomable());
+		cbLockRatio.addActionListener(this);
 		axesRatioLabel = new JLabel("");
 
 		dimPanel = new JPanel();
@@ -224,7 +232,7 @@ public class OptionsEuclidian extends JPanel implements ActionListener,
 
 		dimPanel.add(OptionsUtil.flowPanel(axesRatioLabel));
 		dimPanel.add(OptionsUtil.flowPanel(Box.createHorizontalStrut(20), tfAxesRatioX,
-				new JLabel(" : "), tfAxesRatioY));
+				new JLabel(" : "), tfAxesRatioY,cbLockRatio));
 	}
 
 	private void initAxesOptionsPanel() {
@@ -474,8 +482,9 @@ public class OptionsEuclidian extends JPanel implements ActionListener,
 
 		updateGUIforCbView();
 
-		tfAxesRatioX.setEnabled(view.isZoomable());
-		tfAxesRatioY.setEnabled(view.isZoomable());
+		tfAxesRatioX.setEnabled(view.isZoomable() && !view.isLockedAxesRatio());
+		tfAxesRatioY.setEnabled(view.isZoomable() && !view.isLockedAxesRatio());
+		cbLockRatio.setEnabled(view.isZoomable());
 
 		updateMinMax();
 
@@ -825,6 +834,14 @@ public class OptionsEuclidian extends JPanel implements ActionListener,
 				view.setCoordSystem(view.getXZero(), view.getYZero(),
 						view.getXscale(), view.getXscale() * xval / yval);
 			}
+		} else if(source == cbLockRatio){
+			if(cbLockRatio.isSelected()){
+				view.setLockedAxesRatio(parseDouble(tfAxesRatioX.getText())/parseDouble(tfAxesRatioY.getText()));
+			}
+			else
+				view.setLockedAxesRatio(null);
+			tfAxesRatioX.setEnabled(view.isZoomable() && !view.isLockedAxesRatio() );
+			tfAxesRatioY.setEnabled(view.isZoomable() && !view.isLockedAxesRatio() );
 		} else if (source == cbView) {
 
 			setViewFromIndex(cbView.getSelectedIndex());
@@ -896,9 +913,9 @@ public class OptionsEuclidian extends JPanel implements ActionListener,
 				}
 				view.setXminObject(view.getXminObject());
 				tfAxesRatioX.setEnabled(view.isZoomable()
-						&& !view.isUnitAxesRatio());
+						&& !view.isLockedAxesRatio());
 				tfAxesRatioY.setEnabled(view.isZoomable()
-						&& !view.isUnitAxesRatio());
+						&& !view.isLockedAxesRatio());
 				view.updateBounds();
 			}
 		}

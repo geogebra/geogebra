@@ -124,7 +124,7 @@ implements ActionListener {
         	miStandardView.setEnabled(false);
         }
         
-        if(ev.isUnitAxesRatio()){
+        if(ev.isLockedAxesRatio()){
         	yaxisMenu.setEnabled(false);
         }
    

@@ -168,7 +168,7 @@ public interface EuclidianViewInterfaceCommon extends EuclidianViewInterfaceSlim
 	 * returns true if the axes ratio is 1
 	 * @return true if the axes ratio is 1
 	 */
-	public boolean isUnitAxesRatio();
+	public boolean isLockedAxesRatio();
 
 	/**
 	 * @return true if bounds are not dynamic

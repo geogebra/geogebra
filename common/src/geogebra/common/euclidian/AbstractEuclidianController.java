@@ -7307,7 +7307,7 @@ public abstract class AbstractEuclidianController {
 		if (view.getHits().isEmpty()) {
 			
 			// HTML5 applet -> no selection rectangle
-			if (app.isHTML5Applet() && !app.isFullAppGui()) {
+			if (app.isHTML5Applet() && !AbstractApplication.isFullAppGui()) {
 				
 				// alternative: could make drag move the view?
 				//TEMPORARY_MODE = true;

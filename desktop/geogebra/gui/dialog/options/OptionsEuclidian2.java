@@ -915,8 +915,8 @@ public class OptionsEuclidian2 extends JPanel  implements ActionListener, FocusL
 					}
 				}	
 				view.setXminObject(view.getXminObject());
-				tfAxesRatioX.setEnabled(view.isZoomable() && !view.isUnitAxesRatio());
-				tfAxesRatioY.setEnabled(view.isZoomable() && !view.isUnitAxesRatio());
+				tfAxesRatioX.setEnabled(view.isZoomable() && !view.isLockedAxesRatio());
+				tfAxesRatioY.setEnabled(view.isZoomable() && !view.isLockedAxesRatio());
 				view.updateBounds();
 			}
 		}		

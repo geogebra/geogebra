@@ -115,7 +115,7 @@ public class Layout extends geogebra.common.gui.Layout implements SettingListene
 			else
 				ev.showGrid(perspective.getShowGrid());
 
-			ev.setUnitAxesRatio(perspective.isUnitAxesRatio());
+			ev.setLockedAxesRatio(perspective.isUnitAxesRatio()?1.0:null);
 		}
 		
 		app.getGuiManager().setToolBarDefinition(perspective.getToolbarDefinition());

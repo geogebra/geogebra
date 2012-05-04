@@ -427,15 +427,15 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 	
 	private boolean updatingBounds = false;
 
-	private boolean unitAxesRatio;
+	private Double lockedAxesRatio;
 
 	/**
 	 * returns true if the axes ratio is 1
 	 * 
 	 * @return true if the axes ratio is 1
 	 */
-	public boolean isUnitAxesRatio() {
-		return unitAxesRatio || (gridType == GRID_POLAR);
+	public boolean isLockedAxesRatio() {
+		return lockedAxesRatio != null || (gridType == GRID_POLAR);
 	}
 
 	/**
@@ -444,9 +444,9 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 	 * @param flag
 	 *            true to set to 1, false to allow user
 	 */
-	public void setUnitAxesRatio(boolean flag) {
-		unitAxesRatio = flag;
-		if (flag) {
+	public void setLockedAxesRatio(Double flag) {
+		lockedAxesRatio = flag;
+		if (flag!=null) {
 			updateBounds();
 		}
 	}
@@ -460,9 +460,10 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 		double xmax2 = xmaxObject.getDouble();
 		double ymin2 = yminObject.getDouble();
 		double ymax2 = ymaxObject.getDouble();
-		if (isUnitAxesRatio() && (getHeight() > 0) && (getWidth() > 0)) {
-			double newWidth = ((ymax2 - ymin2) * getWidth()) / (getHeight() + 0.0);
-			double newHeight = ((xmax2 - xmin2) * getHeight()) / (getWidth() + 0.0);
+		if (isLockedAxesRatio() && (getHeight() > 0) && (getWidth() > 0)) {
+			double ratio = gridType == GRID_POLAR ? 1 : lockedAxesRatio.doubleValue();
+			double newWidth = ratio*((ymax2 - ymin2) * getWidth()) / (getHeight() + 0.0);
+			double newHeight = 1/ratio*((xmax2 - xmin2) * getHeight()) / (getWidth() + 0.0);
 
 			if ((xmax2 - xmin2) < newWidth) {
 				double c = (xmin2 + xmax2) / 2;
@@ -4387,7 +4388,7 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 		if (!isZoomable()) {
 			return;
 		}
-		if (isUnitAxesRatio()) {
+		if (isLockedAxesRatio()) {
 			return;
 		}
 		if (axesRatioZoomer == null) {
