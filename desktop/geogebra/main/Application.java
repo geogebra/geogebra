@@ -241,6 +241,9 @@ public class Application extends AbstractApplication implements
 		if (GeoGebraConstants.IS_PRE_RELEASE) {
 			supportedLocales.add(new Locale("ml")); // Malayalam
 		}
+		if (GeoGebraConstants.IS_PRE_RELEASE) {
+			supportedLocales.add(new Locale("mn")); // Mongolian
+		}
 		supportedLocales.add(new Locale("mk")); // Macedonian
 		if (GeoGebraConstants.IS_PRE_RELEASE) {
 			supportedLocales.add(new Locale("mr")); // Marathi

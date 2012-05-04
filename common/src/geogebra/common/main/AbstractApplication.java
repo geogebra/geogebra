@@ -162,6 +162,8 @@ public abstract class AbstractApplication {
 		specialLanguageNames.put("lt", "Lithuanian / Lietuvi\u0173 kalba");
 		specialLanguageNames.put("ml",
 				"Malayalam / \u0D2E\u0D32\u0D2F\u0D3E\u0D33\u0D02");
+		specialLanguageNames.put("mn",
+				"Mongolian / \u041C\u043E\u043D\u0433\u043E\u043B \u0445\u044D\u043B");
 		specialLanguageNames
 				.put("mk",
 						"Macedonian / \u041C\u0430\u043A\u0435\u0434\u043E\u043D\u0441\u043A\u0438 \u0458\u0430\u0437\u0438\u043A");
