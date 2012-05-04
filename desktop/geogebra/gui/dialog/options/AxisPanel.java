@@ -138,7 +138,7 @@ public class AxisPanel extends JPanel implements ActionListener, ItemListener, F
 				cbDrawAtBorder.addActionListener(this);
 				stickToEdge = new JLabel(app.getPlain("StickToEdge"));
 				
-				JPanel crossPanel  = OptionsUtil.flowPanel(crossAt, tfCross,stickToEdge);
+				JPanel crossPanel  = OptionsUtil.flowPanel(crossAt, tfCross,cbDrawAtBorder,stickToEdge);
 				
 							
 				// add all panels
