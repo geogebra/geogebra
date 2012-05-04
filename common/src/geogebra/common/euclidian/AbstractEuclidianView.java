@@ -3207,14 +3207,12 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 									+ kernel.formatPiE(axisCross[1],
 											axesNumberFormat[0],StringTemplate.defaultTemplate));
 							if ((labelno % unitsPerLabelX) == 0) {
-								StringBuilder sb = new StringBuilder();
-								sb.setLength(0);
-								sb.append(strNum);
 								if ((axesUnitLabels[0] != null) && !piAxisUnit[0]) {
-									sb.append(axesUnitLabels[0]);
+									// no advantage using StringBuilder, only one thing added
+									strNum += axesUnitLabels[0];
 								}
 
-								TextLayout layout = geogebra.common.factories.AwtFactory.prototype.newTextLayout(sb.toString(),
+								TextLayout layout = geogebra.common.factories.AwtFactory.prototype.newTextLayout(strNum,
 										getFontAxes(), frc);
 								int x, y = (int) (yCrossPix + yoffset);
 
@@ -3233,7 +3231,7 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 								// prevTextEnd = (int) (x + layout.getAdvance());
 								
 								
-								drawStringWithBackground(g2, sb.toString(), x, y, bgCol, frc);
+								drawStringWithBackground(g2, strNum, x, y, bgCol, frc);
 								//g2.drawString(sb.toString(), x, y);
 							}
 						}
@@ -3353,13 +3351,12 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 									+ kernel.formatPiE(axisCross[0],
 											axesNumberFormat[0],StringTemplate.defaultTemplate));
 							if ((labelno % unitsPerLabelY) == 0) {
-								StringBuilder sb = new StringBuilder();
-								sb.append(strNum);
 								if ((axesUnitLabels[1] != null) && !piAxisUnit[1]) {
-									sb.append(axesUnitLabels[1]);
+									// no advantage using StringBuilder, only one thing added
+									strNum += axesUnitLabels[1];
 								}
 
-								TextLayout layout = geogebra.common.factories.AwtFactory.prototype.newTextLayout(sb.toString(),
+								TextLayout layout = geogebra.common.factories.AwtFactory.prototype.newTextLayout(strNum,
 										getFontAxes(), frc);
 								int x = (int) ((xCrossPix + xoffset) - layout
 										.getAdvance());
@@ -3373,7 +3370,7 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 								}
 								
 								
-								drawStringWithBackground(g2, sb.toString(), x, y, bgCol, frc);
+								drawStringWithBackground(g2, strNum, x, y, bgCol, frc);
 								//g2.drawString(sb.toString(), x, y);
 							}
 						}
