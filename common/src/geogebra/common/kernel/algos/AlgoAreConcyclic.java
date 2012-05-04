@@ -1,0 +1,264 @@
+package geogebra.common.kernel.algos;
+
+import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.geos.GeoBoolean;
+import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.prover.Variable;
+import geogebra.common.kernel.prover.NoSymbolicParametersException;
+import geogebra.common.kernel.prover.Polynomial;
+import java.math.BigInteger;
+import java.util.HashMap;
+import java.util.HashSet;
+
+/**
+ * @author Simon Weitzhofer
+ *  27th of April 2012
+ * 
+ */
+public class AlgoAreConcyclic extends AlgoElement implements
+		SymbolicParametersAlgo {
+
+	private GeoPoint2 inputPoint1; // input
+	private GeoPoint2 inputPoint2; // input
+	private GeoPoint2 inputPoint3; // input
+	private GeoPoint2 inputPoint4; // input
+
+	private GeoBoolean outputBoolean; // output
+	private Polynomial[] polynomials;
+
+	/**
+	 * Tests if two lines are parallel
+	 * @param cons The construction the lines depend on
+	 * @param label the name of the resulting boolean
+	 * @param inputPoint1 the first point
+	 * @param inputPoint2 the second point
+	 * @param inputPoint3 the third point
+	 * @param inputPoint4 the forth point
+	 */
+	public AlgoAreConcyclic(Construction cons, String label, GeoPoint2 inputPoint1,
+			GeoPoint2 inputPoint2, GeoPoint2 inputPoint3, GeoPoint2 inputPoint4) {
+		super(cons);
+		this.inputPoint1 = inputPoint1;
+		this.inputPoint2 = inputPoint2;
+		this.inputPoint3 = inputPoint3;
+		this.inputPoint4 = inputPoint4;
+
+		outputBoolean = new GeoBoolean(cons);
+
+		setInputOutput();
+		compute();
+		outputBoolean.setLabel(label);
+	}
+
+	@Override
+	public Algos getClassName() {
+		return Algos.AlgoAreConcyclic;
+	}
+
+	@Override
+	protected void setInputOutput() {
+		input = new GeoElement[4];
+		input[0] = inputPoint1;
+		input[1] = inputPoint2;
+		input[2] = inputPoint3;
+		input[3] = inputPoint4;
+
+		super.setOutputLength(1);
+		super.setOutput(0, outputBoolean);
+		setDependencies(); // done by AlgoElement
+	}
+
+
+	/**
+	 * Gets the result of the test
+	 * @return true if the lines are parallel and false otherwise
+	 */
+	
+	public GeoBoolean getResult() {
+		return outputBoolean;
+	}
+
+	@Override
+	public final void compute() {
+		
+		double ax=inputPoint1.getX(), ay=inputPoint1.getY(), az=inputPoint1.getZ(),
+				bx=inputPoint2.getX(), by=inputPoint2.getY(), bz=inputPoint2.getZ(),
+				cx=inputPoint3.getX(), cy=inputPoint3.getY(), cz=inputPoint3.getZ(),
+				dx=inputPoint4.getX(), dy=inputPoint4.getY(), dz=inputPoint4.getZ();
+		double ax2=ax*ax, ay2=ay*ay, az2=az*az,
+				bx2=bx*bx, by2=by*by, bz2=bz*bz,
+				cx2=cx*cx, cy2=cy*cy, cz2=cz*cz,
+				dx2=dx*dx, dy2=dy*dy, dz2=dz*dz;
+		
+		double det=
+				ax2*bx*bz*cy*cz*dz2 - ax2*bx*bz*cz2*dy*dz - ax2*by*bz*cx*cz*dz2 + 
+				ax2*by*bz*cz2*dx*dz + ax2*bz2*cx*cz*dy*dz - ax2*bz2*cy*cz*dx*dz - 
+				ax*az*bx2*cy*cz*dz2 + ax*az*bx2*cz2*dy*dz - ax*az*by2*cy*cz*dz2 + 
+				ax*az*by2*cz2*dy*dz + ax*az*by*bz*cx2*dz2 + ax*az*by*bz*cy2*dz2 - 
+				ax*az*by*bz*cz2*dx2 - ax*az*by*bz*cz2*dy2 - ax*az*bz2*cx2*dy*dz - 
+				ax*az*bz2*cy2*dy*dz + ax*az*bz2*cy*cz*dx2 + ax*az*bz2*cy*cz*dy2 + 
+				ay2*bx*bz*cy*cz*dz2 - ay2*bx*bz*cz2*dy*dz - ay2*by*bz*cx*cz*dz2 + 
+				ay2*by*bz*cz2*dx*dz + ay2*bz2*cx*cz*dy*dz - ay2*bz2*cy*cz*dx*dz + 
+				ay*az*bx2*cx*cz*dz2 - ay*az*bx2*cz2*dx*dz - ay*az*bx*bz*cx2*dz2 - 
+				ay*az*bx*bz*cy2*dz2 + ay*az*bx*bz*cz2*dx2 + ay*az*bx*bz*cz2*dy2 + 
+				ay*az*by2*cx*cz*dz2 - ay*az*by2*cz2*dx*dz + ay*az*bz2*cx2*dx*dz - 
+				ay*az*bz2*cx*cz*dx2 - ay*az*bz2*cx*cz*dy2 + ay*az*bz2*cy2*dx*dz - 
+				az2*bx2*cx*cz*dy*dz + az2*bx2*cy*cz*dx*dz + az2*bx*bz*cx2*dy*dz + 
+				az2*bx*bz*cy2*dy*dz - az2*bx*bz*cy*cz*dx2 - az2*bx*bz*cy*cz*dy2 - 
+				az2*by2*cx*cz*dy*dz + az2*by2*cy*cz*dx*dz - az2*by*bz*cx2*dx*dz + 
+				az2*by*bz*cx*cz*dx2 + az2*by*bz*cx*cz*dy2 - az2*by*bz*cy2*dx*dz;
+	        outputBoolean.setValue(Kernel.isZero(det));
+	}
+
+	public SymbolicParameters getSymbolicParameters() {
+		return new SymbolicParameters(this);
+	}
+
+	public int[] getFreeVariablesAndDegrees(HashSet<Variable> variables)
+			throws NoSymbolicParametersException {
+		if (inputPoint1 != null && inputPoint2 != null && inputPoint1 != null && inputPoint2 != null) {
+			int[] degree1 = inputPoint1.getFreeVariablesAndDegrees(variables);
+			int[] degree2 = inputPoint2.getFreeVariablesAndDegrees(variables);
+			int[] degree3 = inputPoint3.getFreeVariablesAndDegrees(variables);
+			int[] degree4 = inputPoint4.getFreeVariablesAndDegrees(variables);
+
+			int[] degree = new int[1];
+			degree[0]=Math.max(degree1[1] + degree1[2] + degree2[0] + degree2[2] +   2*degree3[0],
+					Math.max( degree1[0] + degree1[2] + degree2[1] + degree2[2] +   2*degree3[0],
+							Math.max( degree1[1] + degree1[2] + degree2[0] + degree2[2] +   2*degree3[1],
+							Math.max( degree1[0] + degree1[2] + degree2[1] + degree2[2] +   2*degree3[1],
+							Math.max( degree1[1] + degree1[2] + 2*degree2[0] + degree3[0] +   degree3[2],
+							Math.max( degree1[1] + degree1[2] + 2*degree2[1] + degree3[0] +   degree3[2],
+							Math.max( 2*degree1[0] + degree2[1] + degree2[2] + degree3[0] +   degree3[2],
+							Math.max( 2*degree1[1] + degree2[1] + degree2[2] + degree3[0] +   degree3[2],
+							Math.max( 2*degree1[2] + degree2[1] + degree2[2] + degree3[0] +   degree3[2],
+							Math.max( degree1[1] + degree1[2] + 2*degree2[2] + degree3[0] +   degree3[2],
+							Math.max( degree1[0] + degree1[2] + 2*degree2[0] + degree3[1] +   degree3[2],
+							Math.max( degree1[0] + degree1[2] + 2*degree2[1] + degree3[1] +   degree3[2],
+							Math.max( 2*degree1[0] + degree2[0] + degree2[2] + degree3[1] +   degree3[2],
+							Math.max( 2*degree1[1] + degree2[0] + degree2[2] + degree3[1] +   degree3[2],
+							Math.max( 2*degree1[2] + degree2[0] + degree2[2] + degree3[1] +   degree3[2],
+							Math.max( degree1[0] + degree1[2] + 2*degree2[2] + degree3[1] +   degree3[2],
+							Math.max( degree1[1] + degree1[2] + degree2[0] + degree2[2] +   2*degree3[2],
+							Math.max( degree1[0] + degree1[2] + degree2[1] + degree2[2] +   2*degree3[2],
+							Math.max(2*degree4[0],
+							Math.max( 2*degree1[2] + degree2[1] + degree2[2] + 2*degree3[0] +   degree4[0],
+							Math.max( degree1[1] + degree1[2] + 2*degree2[2] + 2*degree3[0] +   degree4[0],
+							Math.max( 2*degree1[2] + degree2[1] + degree2[2] + 2*degree3[1] +   degree4[0],
+							Math.max( degree1[1] + degree1[2] + 2*degree2[2] + 2*degree3[1] +   degree4[0],
+							Math.max( 2*degree1[2] + 2*degree2[0] + degree3[1] + degree3[2] +   degree4[0],
+							Math.max( 2*degree1[2] + 2*degree2[1] + degree3[1] + degree3[2] +   degree4[0],
+							Math.max( 2*degree1[0] + 2*degree2[2] + degree3[1] + degree3[2] +   degree4[0],
+							Math.max( 2*degree1[1] + 2*degree2[2] + degree3[1] + degree3[2] +   degree4[0],
+							Math.max( degree1[1] + degree1[2] + 2*degree2[0] + 2*degree3[2] +   degree4[0],
+							Math.max( degree1[1] + degree1[2] + 2*degree2[1] + 2*degree3[2] +   degree4[0],
+							Math.max( 2*degree1[0] + degree2[1] + degree2[2] + 2*degree3[2] +   degree4[0],
+							Math.max( 2*degree1[1] + degree2[1] + degree2[2] + 2*degree3[2] +   degree4[0],
+							Math.max(2*degree4[1],
+							Math.max( 2*degree1[2] + degree2[0] + degree2[2] + 2*degree3[0] +   degree4[1],
+							Math.max( degree1[0] + degree1[2] + 2*degree2[2] + 2*degree3[0] +   degree4[1],
+							Math.max( 2*degree1[2] + degree2[0] + degree2[2] + 2*degree3[1] +   degree4[1],
+							Math.max( degree1[0] + degree1[2] + 2*degree2[2] + 2*degree3[1] +   degree4[1],
+							Math.max( 2*degree1[2] + 2*degree2[0] + degree3[0] + degree3[2] +   degree4[1],
+							Math.max( 2*degree1[2] + 2*degree2[1] + degree3[0] + degree3[2] +   degree4[1],
+							Math.max( 2*degree1[0] + 2*degree2[2] + degree3[0] + degree3[2] +   degree4[1],
+							Math.max( 2*degree1[1] + 2*degree2[2] + degree3[0] + degree3[2] +   degree4[1],
+							Math.max( degree1[0] + degree1[2] + 2*degree2[0] + 2*degree3[2] +   degree4[1],
+							Math.max( degree1[0] + degree1[2] + 2*degree2[1] + 2*degree3[2] +   degree4[1],
+							Math.max( 2*degree1[0] + degree2[0] + degree2[2] + 2*degree3[2] +   degree4[1],
+							Math.max( 2*degree1[1] + degree2[0] + degree2[2] + 2*degree3[2] +   degree4[1],
+							Math.max(degree4[2], 2*degree4[2])))))))))))))))))))))))))))))))))))))))))))));
+			return degree;
+		}
+		throw new NoSymbolicParametersException();
+	}
+
+	public BigInteger[] getExactCoordinates(
+			HashMap<Variable, BigInteger> values)
+			throws NoSymbolicParametersException {
+		if (inputPoint1 != null && inputPoint2 != null && inputPoint3 != null && inputPoint4 != null) {
+			BigInteger[] coords1 = inputPoint1.getExactCoordinates(values);
+			BigInteger[] coords2 = inputPoint2.getExactCoordinates(values);
+			BigInteger[] coords3 = inputPoint3.getExactCoordinates(values);
+			BigInteger[] coords4 = inputPoint4.getExactCoordinates(values);
+			BigInteger[] coords = new BigInteger[1];
+			BigInteger[][] matrix=new BigInteger[4][4];
+			matrix[0][0]=coords1[0].multiply(coords1[2]);
+			matrix[0][1]=coords1[1].multiply(coords1[2]);
+			matrix[0][2]=coords1[0].multiply(coords1[0]).add(coords1[1].multiply(coords1[1]));
+			matrix[0][3]=coords1[2].multiply(coords1[2]);
+			
+			matrix[1][0]=coords2[0].multiply(coords2[2]);
+			matrix[1][1]=coords2[1].multiply(coords2[2]);
+			matrix[1][2]=coords2[0].multiply(coords2[0]).add(coords2[1].multiply(coords2[1]));
+			matrix[1][3]=coords2[2].multiply(coords2[2]);
+			
+			matrix[2][0]=coords3[0].multiply(coords3[2]);
+			matrix[2][1]=coords3[1].multiply(coords3[2]);
+			matrix[2][2]=coords3[0].multiply(coords3[0]).add(coords3[1].multiply(coords3[1]));
+			matrix[2][3]=coords3[2].multiply(coords3[2]);
+			
+			matrix[3][0]=coords4[0].multiply(coords4[2]);
+			matrix[3][1]=coords4[1].multiply(coords4[2]);
+			matrix[3][2]=coords4[0].multiply(coords4[0]).add(coords4[1].multiply(coords4[1]));
+			matrix[3][3]=coords4[2].multiply(coords4[2]);
+			
+			coords[0] = SymbolicParameters.det4(matrix);
+
+			return coords;
+		}
+		throw new NoSymbolicParametersException();
+	}
+
+	public Polynomial[] getPolynomials() throws NoSymbolicParametersException {
+		if (polynomials != null) {
+			return polynomials;
+		}
+		if (inputPoint1 != null && inputPoint2 != null && inputPoint3 != null && inputPoint4 != null) {
+			Polynomial[] coords1 = inputPoint1.getPolynomials();
+			Polynomial[] coords2 = inputPoint2.getPolynomials();
+			Polynomial[] coords3 = inputPoint3.getPolynomials();
+			Polynomial[] coords4 = inputPoint4.getPolynomials();
+			polynomials = new Polynomial[1];
+			Polynomial[][] matrix=new Polynomial[4][4];
+			matrix[0][0]=coords1[0].multiply(coords1[2]);
+			matrix[0][1]=coords1[1].multiply(coords1[2]);
+			matrix[0][2]=coords1[0].multiply(coords1[0]).add(coords1[1].multiply(coords1[1]));
+			matrix[0][3]=coords1[2].multiply(coords1[2]);
+			
+			matrix[1][0]=coords2[0].multiply(coords2[2]);
+			matrix[1][1]=coords2[1].multiply(coords2[2]);
+			matrix[1][2]=coords2[0].multiply(coords2[0]).add(coords2[1].multiply(coords2[1]));
+			matrix[1][3]=coords2[2].multiply(coords2[2]);
+			
+			matrix[2][0]=coords3[0].multiply(coords3[2]);
+			matrix[2][1]=coords3[1].multiply(coords3[2]);
+			matrix[2][2]=coords3[0].multiply(coords3[0]).add(coords3[1].multiply(coords3[1]));
+			matrix[2][3]=coords3[2].multiply(coords3[2]);
+			
+			matrix[3][0]=coords4[0].multiply(coords4[2]);
+			matrix[3][1]=coords4[1].multiply(coords4[2]);
+			matrix[3][2]=coords4[0].multiply(coords4[0]).add(coords4[1].multiply(coords4[1]));
+			matrix[3][3]=coords4[2].multiply(coords4[2]);
+			
+			polynomials[0] = SymbolicParameters.det4(matrix);
+
+			return polynomials;
+		}
+		throw new NoSymbolicParametersException();
+	}
+
+	public Variable[] getBotanaVars() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Polynomial[] getBotanaPolynomials()
+			throws NoSymbolicParametersException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

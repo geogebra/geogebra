@@ -167,10 +167,10 @@ public class AlgoVector extends AlgoElement implements SymbolicParametersAlgo{
 			BigInteger[] coords2 = ((SymbolicParametersAlgo) input[1])
 					.getExactCoordinates(values);
 			BigInteger[] result = new BigInteger[3];
-			result[0] = coords1[0].multiply(coords2[2]).subtract(
-					coords2[0].multiply(coords1[2]));
-			result[1] = coords1[1].multiply(coords2[2]).subtract(
-					coords2[1].multiply(coords1[2]));
+			result[0] = coords2[0].multiply(coords1[2]).subtract(
+					coords1[0].multiply(coords2[2]));
+			result[1] = coords2[1].multiply(coords1[2]).subtract(
+					coords1[1].multiply(coords2[2]));
 			result[2] = coords1[2].multiply(coords2[2]);
 			return SymbolicParameters.reduce(result);
 		}
@@ -189,10 +189,10 @@ public class AlgoVector extends AlgoElement implements SymbolicParametersAlgo{
 			Polynomial[] coords2 = ((SymbolicParametersAlgo) input[1])
 					.getPolynomials();
 			polynomials = new Polynomial[3];
-			polynomials[0] = coords1[0].multiply(coords2[2]).subtract(
-					coords2[0].multiply(coords1[2]));
-			polynomials[1] = coords1[1].multiply(coords2[2]).subtract(
-					coords2[1].multiply(coords1[2]));
+			polynomials[0] = coords2[0].multiply(coords1[2]).subtract(
+					coords1[0].multiply(coords2[2]));
+			polynomials[1] = coords2[1].multiply(coords1[2]).subtract(
+					coords1[1].multiply(coords2[2]));
 			polynomials[2] = coords1[2].multiply(coords2[2]);
 			return polynomials;
 		}

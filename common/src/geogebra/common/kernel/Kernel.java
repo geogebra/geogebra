@@ -9713,6 +9713,14 @@ public class Kernel {
 		return bool;
 	}
 	
+	public GeoElement AreConcyclic(String label, GeoPoint2 point1,
+			GeoPoint2 point2, GeoPoint2 point3, GeoPoint2 point4) {
+		AlgoAreConcyclic algo = new AlgoAreConcyclic(cons, label, point1, point2,
+				point3, point4);
+		GeoBoolean bool = algo.getResult();
+		return bool;
+	}
+	
 	public GeoElement AreParallel(String label, GeoLine geoLine1,
 			GeoLine geoLine2) {
 		AlgoAreParallel algo = new AlgoAreParallel(cons, label, geoLine1, geoLine2);

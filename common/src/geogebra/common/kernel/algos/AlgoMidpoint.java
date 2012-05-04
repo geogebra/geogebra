@@ -93,9 +93,9 @@ public class AlgoMidpoint extends AlgoMidpointND implements SymbolicParametersAl
 			int[] degreeQ = Q.getFreeVariablesAndDegrees(variables);
 			
 			int[] result =new int[3];
-			result[0]=Math.max(degreeP[0],degreeQ[0]);
-			result[1] = Math.max(degreeP[1],degreeQ[1]);
-			result[2] = Math.max(degreeP[2],degreeQ[2]);
+			result[0]=Math.max(degreeP[0]+degreeQ[2],degreeQ[0]+degreeP[2]);
+			result[1] = Math.max(degreeP[1]+degreeQ[2],degreeQ[1]+degreeP[2]);
+			result[2] = degreeP[2]+degreeQ[2];
 			return result;
 		}
 		throw new NoSymbolicParametersException();
@@ -110,9 +110,9 @@ public class AlgoMidpoint extends AlgoMidpointND implements SymbolicParametersAl
 			BigInteger[] pP = P.getExactCoordinates(values);
 			BigInteger[] pQ = Q.getExactCoordinates(values);
 			BigInteger[] coords = new BigInteger[3];
-			coords[0] = pP[0].add(pQ[0]);
-			coords[1] = pP[1].add(pQ[1]);
-			coords[2] = pP[2].add(pQ[2]);
+			coords[0] = pP[0].multiply(pQ[2]).add(pQ[0].multiply(pP[2]));
+			coords[1] = pP[1].multiply(pQ[2]).add(pQ[1].multiply(pP[2]));
+			coords[2] = pP[2].multiply(pQ[2]).multiply(BigInteger.valueOf(2));
 			return coords;
 		}
 		throw new NoSymbolicParametersException();
@@ -128,9 +128,9 @@ public class AlgoMidpoint extends AlgoMidpointND implements SymbolicParametersAl
 			Polynomial[] pP = P.getPolynomials();
 			Polynomial[] pQ = Q.getPolynomials();
 			polynomials = new Polynomial[3];
-			polynomials[0] = pP[0].add(pQ[0]);
-			polynomials[1] = pP[1].add(pQ[1]);
-			polynomials[2] = pP[2].add(pQ[2]);
+			polynomials[0] = pP[0].multiply(pQ[2]).add(pQ[0].multiply(pP[2]));
+			polynomials[1] = pP[1].multiply(pQ[2]).add(pQ[1].multiply(pP[2]));
+			polynomials[2] = pP[2].multiply(pQ[2]).multiply(new Polynomial(2));
 			return polynomials;
 		}
 		throw new NoSymbolicParametersException();

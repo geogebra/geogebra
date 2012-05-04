@@ -1022,6 +1022,8 @@ public class CommandDispatcher {
 				return new CmdAreCollinear(kernel);
 			case AreParallel:
 				return new CmdAreParallel(kernel);
+			case AreConcyclic:
+				return new CmdAreConcyclic(kernel);
 					
 			default:
 				AbstractApplication.debug("missing case in CommandDispatcher");

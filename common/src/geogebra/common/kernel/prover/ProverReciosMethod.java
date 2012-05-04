@@ -7,6 +7,7 @@ import java.util.Iterator;
 
 import geogebra.common.kernel.algos.SymbolicParameters;
 import geogebra.common.kernel.prover.Prover.ProofResult;
+import geogebra.common.main.AbstractApplication;
 
 /**
  * A prover which uses Tomas Recios method to prove geometric theorems.
@@ -126,8 +127,10 @@ public class ProverReciosMethod {
 			variables[i]=it.next();
 		}
 		
+		int nrOfTests=((deg+2)*(deg+1))/2;
+		AbstractApplication.debug("nr of tests: "+nrOfTests);
 		for (int i=1; i<=deg+2;i++){
-			for (int j=1; j<=deg+2;j++){
+			for (int j=1; j<=i;j++){
 				values.put(variables[0], BigInteger.valueOf((deg+2-i)*(deg+2-j)));
 				values.put(variables[1], BigInteger.valueOf(i*j));
 				try {

@@ -152,6 +152,12 @@ public class NoExceptionsTest {
 	}
 	
 	@Test
+	public void cmdAreConcyclic() {
+		t("AreConcyclic[ Pt1,Pt2,Pt3,Pt4 ]");
+	}
+
+	
+	@Test
 	public void cmdExpression() {
 		t("1+i");
 		t("(1,2)+{(2,3),(4,5)}");
