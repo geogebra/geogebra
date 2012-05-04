@@ -11,6 +11,7 @@ import geogebra.common.awt.Graphics2D;
 import geogebra.common.awt.Line2D;
 import geogebra.common.awt.Point;
 import geogebra.common.awt.Rectangle;
+import geogebra.common.awt.Rectangle2D;
 import geogebra.common.awt.font.TextLayout;
 import geogebra.common.euclidian.DrawLine.PreviewType;
 import geogebra.common.euclidian.DrawableList.DrawableIterator;
@@ -2826,6 +2827,7 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 		 * Get styleBar
 		 */
 		protected geogebra.common.euclidian.EuclidianStyleBar styleBar;
+		private boolean moveAxesLabels = false;
 		
 		/**
 		 * Draws grid
@@ -3087,10 +3089,35 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 			double arrowAdjustx = drawArrowsx ? axesStroke.getLineWidth() : 0;
 			double arrowAdjusty = drawArrowsy ? axesStroke.getLineWidth() : 0;
 
+			Color bgCol = moveAxesLabels && showGrid ? null : getBackgroundCommon();
+
+			// Draw just y-axis first (in case any labels need to be drawn over it)
+			if (yAxisOnscreen()) {
+
+				// y-Axis itself
+				g2.setStroke(axesStroke);
+				tempLine.setLine(xCrossPix, arrowAdjusty + (drawArrowsy ? 1 : -1),
+						xCrossPix, yAxisEnd);
+				g2.draw(tempLine);
+
+				if (drawArrowsy) {
+					// draw arrow for y-axis
+					tempLine.setLine(xCrossPix + 0.5, arrowAdjusty, xCrossPix
+							- arrowSize, arrowAdjusty + arrowSize);
+					g2.draw(tempLine);
+					tempLine.setLine(xCrossPix - 0.5, arrowAdjusty, xCrossPix
+							+ arrowSize, arrowAdjusty + arrowSize);
+					g2.draw(tempLine);
+				}
+
+			}
+
+
 			// ========================================
 			// X-AXIS
-			if (showAxes[0] && (getYmin() < axisCross[0]) && (getYmax() > axisCross[0])) {
-				if (showGrid) {
+			if (xAxisOnscreen()) {
+				
+				if (showGrid && moveAxesLabels ) {
 					yoffset = fontsize + 4;
 					xoffset = 10;
 				} else {
@@ -3148,6 +3175,26 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 					labelno += 1;
 				}
 				int maxX = getWidth() - SCREEN_BORDER;
+				
+				// x-Axis itself
+				g2.setStroke(axesStroke);
+				tempLine.setLine(xAxisStart, yCrossPix, getWidth() - arrowAdjustx - 1,
+						yCrossPix);
+				g2.draw(tempLine);
+
+				if (drawArrowsx) {
+
+					// draw arrow for x-axis
+					tempLine.setLine(getWidth() - arrowAdjustx, yCrossPix + 0.5, getWidth()
+							- arrowAdjustx - arrowSize, yCrossPix - arrowSize);
+					g2.draw(tempLine);
+					tempLine.setLine(getWidth() - arrowAdjustx, yCrossPix - 0.5, getWidth()
+							- arrowAdjustx - arrowSize, yCrossPix + arrowSize);
+					g2.draw(tempLine);
+
+					// g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+					// RenderingHints.VALUE_ANTIALIAS_OFF);
+				}
 
 				for (; pix < getWidth(); rw += axesNumberingDistances[0], pix += axesStep) {
 					if (pix <= maxX) {
@@ -3173,7 +3220,7 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 
 								// if label intersects the y-axis then draw it 6
 								// pixels to the left
-								if (zero && showAxes[1] && !positiveAxes[1]) {
+								if (moveAxesLabels && zero && showAxes[1] && !positiveAxes[1]) {
 									x = (int) (pix + 6);
 								} else {
 									x = (int) ((pix + xoffset) - (layout
@@ -3184,7 +3231,10 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 								// other
 
 								// prevTextEnd = (int) (x + layout.getAdvance());
-								g2.drawString(sb.toString(), x, y);
+								
+								
+								drawStringWithBackground(g2, sb.toString(), x, y, bgCol, frc);
+								//g2.drawString(sb.toString(), x, y);
 							}
 						}
 
@@ -3218,36 +3268,14 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 					g2.draw(tempLine);
 				}
 
-				// x-Axis
-				g2.setStroke(axesStroke);
-
-				// tempLine.setLine(0, yCrossPix, width, yCrossPix);
-				tempLine.setLine(xAxisStart, yCrossPix, getWidth() - arrowAdjustx - 1,
-						yCrossPix);
-
-				g2.draw(tempLine);
-
-				if (drawArrowsx) {
-
-					// draw arrow for x-axis
-					tempLine.setLine(getWidth() - arrowAdjustx, yCrossPix + 0.5, getWidth()
-							- arrowAdjustx - arrowSize, yCrossPix - arrowSize);
-					g2.draw(tempLine);
-					tempLine.setLine(getWidth() - arrowAdjustx, yCrossPix - 0.5, getWidth()
-							- arrowAdjustx - arrowSize, yCrossPix + arrowSize);
-					g2.draw(tempLine);
-
-					// g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-					// RenderingHints.VALUE_ANTIALIAS_OFF);
-				}
 			}
 
 			// ========================================
 			// Y-AXIS
 
-			if (showAxes[1] && (getXmin() < axisCross[1]) && (getXmax() > axisCross[1])) {
+			if (yAxisOnscreen()) {
 
-				if (showGrid) {
+				if (showGrid && moveAxesLabels) {
 					xoffset = -2 - (fontsize / 4);
 					yoffset = -2;
 				} else {
@@ -3313,6 +3341,7 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 				// axesStep) {
 				// yAxisEnd
 
+
 				for (; pix >= maxY; rw += axesNumberingDistances[1], pix -= axesStep, labelno++) {
 					if (pix >= maxY) {
 						if (showAxesNumbers[1]) {
@@ -3337,12 +3366,15 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 								int y;
 								// if the label is at the axis cross point then draw
 								// it 2 pixels above
-								if (zero && showAxes[0] && !positiveAxes[0]) {
+								if (moveAxesLabels && zero && showAxes[0] && !positiveAxes[0]) {
 									y = (int) (yCrossPix - 2);
 								} else {
 									y = (int) (pix + yoffset);
 								}
-								g2.drawString(sb.toString(), x, y);
+								
+								
+								drawStringWithBackground(g2, sb.toString(), x, y, bgCol, frc);
+								//g2.drawString(sb.toString(), x, y);
 							}
 						}
 						if (drawMajorTicks[1]) {
@@ -3374,24 +3406,7 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 					g2.draw(tempLine);
 				}
 
-				// y-Axis
 
-				// tempLine.setLine(xZero, 0, xZero, height);
-
-				tempLine.setLine(xCrossPix, arrowAdjusty + (drawArrowsy ? 1 : -1),
-						xCrossPix, yAxisEnd);
-
-				g2.draw(tempLine);
-
-				if (drawArrowsy) {
-					// draw arrow for y-axis
-					tempLine.setLine(xCrossPix + 0.5, arrowAdjusty, xCrossPix
-							- arrowSize, arrowAdjusty + arrowSize);
-					g2.draw(tempLine);
-					tempLine.setLine(xCrossPix - 0.5, arrowAdjusty, xCrossPix
-							+ arrowSize, arrowAdjusty + arrowSize);
-					g2.draw(tempLine);
-				}
 			}
 
 			// if one of the axes is not visible, show upper left and lower right
@@ -3426,6 +3441,32 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 							getHeight() - 5);
 				}
 			}
+		}
+
+		private boolean xAxisOnscreen() {
+			return showAxes[0] && (getYmin() < axisCross[0]) && (getYmax() > axisCross[0]);
+		}
+
+		private boolean yAxisOnscreen() {
+			return showAxes[1] && (getXmin() < axisCross[1]) && (getXmax() > axisCross[1]);
+		}
+
+		private void drawStringWithBackground(Graphics2D g2, String text, double x, double y, Color bgCol, FontRenderContext frc) {
+
+			if (bgCol != null) {
+				TextLayout layout = geogebra.common.factories.AwtFactory.prototype.newTextLayout(text, getFontLine(), frc);			
+				Rectangle2D rect = layout.getBounds();			
+				rect.setRect(rect.getX() + x , rect.getY() + y, rect.getWidth(), rect.getHeight());
+				//AbstractApplication.debug(rect.getX()+" "+rect.getY()+" "+rect.getWidth()+" "+rect.getHeight());
+				g2.setPaint(bgCol);		
+				g2.fill(rect);
+			}
+
+			g2.setPaint(axesColor);						
+			g2.drawString(text, (int) (x), (int) y);
+
+
+
 		}
 
 		/**
