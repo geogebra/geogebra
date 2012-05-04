@@ -3231,7 +3231,10 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 								// prevTextEnd = (int) (x + layout.getAdvance());
 								
 								
-								drawStringWithBackground(g2, strNum, x, y, bgCol, layout);
+								// don't draw "0" unless the axes are crossing somewhere else
+								if (!zero || axisCross[0] != 0 || axisCross[1] != 0) {
+									drawStringWithBackground(g2, strNum, x, y, bgCol, layout);
+								}
 								//g2.drawString(sb.toString(), x, y);
 							}
 						}
@@ -3369,8 +3372,10 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 									y = (int) (pix + yoffset);
 								}
 								
-								
-								drawStringWithBackground(g2, strNum, x, y, bgCol, layout);
+								// don't draw "0" unless the axes are crossing somewhere else
+								if (!zero || axisCross[0] != 0 || axisCross[1] != 0) {
+									drawStringWithBackground(g2, strNum, x, y, bgCol, layout);
+								}
 								//g2.drawString(sb.toString(), x, y);
 							}
 						}
