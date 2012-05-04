@@ -2668,5 +2668,11 @@ public interface CommandConstants extends ConstantsWithLookup {
 	
 	@DefaultStringValue("[ <Line>, <Line> ]")
 	String AreParallel_Syntax();
+	
+	@DefaultStringValue("AreConcyclic")
+	String AreConcyclic();
+	
+	@DefaultStringValue("[ <Point>, <Point>, <Point>, <Point> ]")
+	String AreConcyclic_Syntax();
 
 }
