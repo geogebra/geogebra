@@ -4,6 +4,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
+import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.MyDouble;
@@ -30,8 +31,7 @@ public class AlgoCompleteSquare extends AlgoElement {
 		k = new MyDouble(kernel);
 		
 		fv = new FunctionVariable(kernel);	
-		ExpressionNode squareE = new ExpressionNode(kernel,fv,Operation.MINUS,h)
-					.power(new MyDouble(kernel,2)).multiply(a).plus(k);
+		ExpressionNode squareE = new ExpressionNode(kernel,a);
 		Function squareF = new Function(squareE,fv);
 		squareF.initFunction();
 		square = new GeoFunction(cons);		
@@ -89,14 +89,15 @@ public class AlgoCompleteSquare extends AlgoElement {
 		
 		if(lastDeg != degInt){
 			ExpressionNode squareE;
+			ExpressionValue fvPower;
 			if(degInt == 2)
-			 squareE = new ExpressionNode(kernel,fv,Operation.MINUS,h)
-			.power(new MyDouble(kernel,2)).multiply(a).plus(k);
+				fvPower = fv;
 			else
-			squareE = new ExpressionNode(kernel,
-						new ExpressionNode(kernel,fv,Operation.POWER,new MyDouble(kernel,degInt/2))
-					,Operation.MINUS,h)
-					.power(new MyDouble(kernel,2)).multiply(a).plus(k);
+				fvPower = new ExpressionNode(kernel,fv,Operation.POWER,new MyDouble(kernel,degInt/2));
+			 squareE = new ExpressionNode(kernel,
+					 	new ExpressionNode(kernel,a,Operation.MULTIPLY,
+					     new ExpressionNode(kernel,fvPower,Operation.MINUS,h).power(new MyDouble(kernel,2))),Operation.PLUS,k);
+				
 			square.getFunction().setExpression(squareE);
 		}
 		lastDeg = degInt;
