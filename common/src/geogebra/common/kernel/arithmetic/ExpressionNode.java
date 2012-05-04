@@ -4485,11 +4485,20 @@ public class ExpressionNode extends ValidExpression implements
 		return operationToString(leftStr, rightStr, false,tpl);
 	}
 
+	private static boolean isConstantDouble(ExpressionValue ev, double v){
+		if(ev instanceof ExpressionNode)
+			return isConstantDouble(((ExpressionNode)ev).getLeft(),v);
+		return ev instanceof MyDouble && ev.isConstant() && Kernel.isEqual(v,((MyDouble)ev).getDouble());
+	}
 	/**
 	 * @param v2 value to add
 	 * @return result of addition
 	 */
 	public ExpressionNode plus(ExpressionValue v2) {
+		if(isConstantDouble(v2,0))
+			return this;
+		if(this.isLeaf() && isConstantDouble(left,0))
+			return new ExpressionNode(kernel, v2);
 		return new ExpressionNode(kernel, this, Operation.PLUS, v2);
 	}
 
@@ -4498,6 +4507,10 @@ public class ExpressionNode extends ValidExpression implements
 	 * @return result of multiplication
 	 */
 	public ExpressionNode multiply(ExpressionValue v2) {
+		if(isConstantDouble(v2,0))
+			return new ExpressionNode(kernel, v2);
+		if(isConstantDouble(v2,1))
+			return this;
 		return new ExpressionNode(kernel, v2, Operation.MULTIPLY, this);
 	}
 
