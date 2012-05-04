@@ -3218,24 +3218,14 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 
 								// if label intersects the y-axis then draw it 6
 								// pixels to the left
-								if (moveAxesLabels && zero && showAxes[1] && !positiveAxes[1]) {
+								if (zero && showAxes[1] && !positiveAxes[1] && axisCross[1] == 0) {
 									x = (int) (pix + 6);
 								} else {
 									x = (int) ((pix + xoffset) - (layout
 											.getAdvance() / 2));
 								}
 
-								// make sure we don't print one string on top of the
-								// other
-
-								// prevTextEnd = (int) (x + layout.getAdvance());
-								
-								
-								// don't draw "0" unless the axes are crossing somewhere else
-								if (!zero || axisCross[0] != 0 || axisCross[1] != 0) {
-									drawStringWithBackground(g2, strNum, x, y, bgCol, layout);
-								}
-								//g2.drawString(sb.toString(), x, y);
+								drawStringWithBackground(g2, strNum, x, y, bgCol, layout);
 							}
 						}
 
@@ -3366,17 +3356,13 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 								int y;
 								// if the label is at the axis cross point then draw
 								// it 2 pixels above
-								if (moveAxesLabels && zero && showAxes[0] && !positiveAxes[0]) {
+								if (zero && showAxes[0] && !positiveAxes[0] && axisCross[0] == 0) {
 									y = (int) (yCrossPix - 2);
 								} else {
 									y = (int) (pix + yoffset);
 								}
 								
-								// don't draw "0" unless the axes are crossing somewhere else
-								if (!zero || axisCross[0] != 0 || axisCross[1] != 0) {
-									drawStringWithBackground(g2, strNum, x, y, bgCol, layout);
-								}
-								//g2.drawString(sb.toString(), x, y);
+								drawStringWithBackground(g2, strNum, x, y, bgCol, layout);
 							}
 						}
 						if (drawMajorTicks[1]) {
