@@ -1,23 +1,15 @@
 {
-  "background_page": "background.html",
-  "browser_action": {
-    "default_title": "__MSG_GeoGebraApp_title__"
+  "name": "GeoGebra",
+  "description": "GeoGebra Web Application",
+  "version": "0.0.0.1",
+  "app": {
+    "launch": {
+      "local_path": "app.html"
+    }
   },
-  "content_scripts" : [ {
-    "matches" : ["http://*.google.com/*", "https://*.google.com/*"],
-    "js": ["js/jquery-1.7.1.min.js","application.js"]
-    // not inserted somehow..."css" : ["css/application.css"],
-  } ],
-  "default_locale": "en",
-  "description": "__MSG_GeoGebraApp_description__",
-  "icons": {
-    "128": "icon_128.png"
-  },
-  "name": "__MSG_GeoGebraApp_name__",
-  "options_page": "options.html",
-  "permissions": [
-    "tabs", 
-    "http://*/"
-   ],
-  "version": "0.0.0.1"
+  "icons": { 
+  	"16": "icon_16.png",
+    "48": "icon_48.png",
+    "128": "icon_128.png" 
+    }
 }
