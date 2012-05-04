@@ -988,6 +988,15 @@ public class MyXMLHandler implements DocHandler {
 			} catch (Exception e) {
 				//not a number: ignore
 			}
+			
+			try {
+				if(attrs.get("lockedAxesRatio")!=null){
+					ev.setLockedAxesRatio(Double.parseDouble(attrs.get("lockedAxesRatio"))); 
+				}
+			} catch (Exception e) {
+				//not a number: ignore
+			}
+
 
 			try {
 				ev.setGridType(Integer.parseInt(attrs.get("gridType"))); // Michael
@@ -1071,7 +1080,7 @@ public class MyXMLHandler implements DocHandler {
 		try {
 			int width;
 			int height;
-			if (!app.isFullAppGui()) {
+			if (!AbstractApplication.isFullAppGui()) {
 				width = (app.getDataParamWidth() > 0 && !app.getUseFullGui()) ? app.getDataParamWidth() :  Integer.parseInt(attrs.get("width"));
 				height = (app.getDataParamHeight() > 0 && !app.getUseFullGui()) ? app.getDataParamHeight() : Integer.parseInt(attrs.get("height"));
 			} else {

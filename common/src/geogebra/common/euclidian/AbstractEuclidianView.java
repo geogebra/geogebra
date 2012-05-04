@@ -3629,7 +3629,7 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 			setAllowToolTips(evs.getAllowToolTips());
 		
 			synchronizeMenuBarAndEuclidianStyleBar(evs);
-		
+			
 			if (evs.getXmaxObject() == null) {
 				setCoordSystem(evs.getXZero(), evs.getYZero(), evs.getXscale(),
 						evs.getYscale(), true);
@@ -3640,6 +3640,8 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 			} else {
 				updateBounds();
 			}
+			//let's do this after other updates because this might override e.g. xmin
+			setLockedAxesRatio(evs.getLockedAxesRatio());
 		}
 
 		/**
@@ -4008,7 +4010,12 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 
 			sbxml.append("\" gridType=\"");
 			sbxml.append(getGridType()); // cartesian/isometric/polar
-
+			
+			if(lockedAxesRatio!=null){
+				sbxml.append("\" lockedAxesRatio=\"");
+				sbxml.append(lockedAxesRatio);
+			}
+			
 			sbxml.append("\"/>\n");
 
 			// background color

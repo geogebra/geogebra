@@ -7331,7 +7331,8 @@ public abstract class AbstractEuclidianController {
 				// Cmd-shift-left-drag: zoom without preserving aspect ratio
 						|| (app.isMacOS() && app.isControlDown(event)
 								&& !event.isShiftDown() && !app
-									.isRightClick(event)));
+									.isRightClick(event))
+						|| view.isLockedAxesRatio());
 				view.repaintView();
 				return;
 			}
@@ -7505,7 +7506,7 @@ public abstract class AbstractEuclidianController {
 		 */
 	
 		moveMode = MOVE_VIEW;
-		if (!hits.isEmpty()) {
+		if (!hits.isEmpty() && !view.isLockedAxesRatio() && view.isZoomable()) {
 			for (Object hit : hits) {
 				if (hit == kernel.getXAxis()) {
 					moveMode = MOVE_X_AXIS;

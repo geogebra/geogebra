@@ -295,6 +295,8 @@ public class EuclidianSettings extends AbstractSettings {
 
 	private boolean allowShowMouseCoords = true;
 
+	private Double lockedAxesRatio = null;
+
 	public boolean getAllowShowMouseCoords() {
 		return allowShowMouseCoords;
 	}
@@ -735,6 +737,15 @@ public class EuclidianSettings extends AbstractSettings {
 
 	final public boolean[] getDrawBorderAxes() {
 		return drawBorderAxes;
+	}
+
+	public void setLockedAxesRatio(double ratio) {
+		lockedAxesRatio = ratio;
+		
+	}
+	
+	public Double getLockedAxesRatio(){
+		return lockedAxesRatio;
 	}
 
 	// TODO add more settings here
