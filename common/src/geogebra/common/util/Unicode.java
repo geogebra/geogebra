@@ -62,6 +62,7 @@ public class Unicode {
 	public static final String tau = "\u03C4";
 	public static final String upsilon = "\u03C5";
 	public static final String phi = "\u03C6";
+	public static final String phi_symbol = "\u03D5"; // "straight" phi	
 	public static final String chi = "\u03C7";
 	public static final String psi = "\u03C8";
 	public static final String omega = "\u03C9";
