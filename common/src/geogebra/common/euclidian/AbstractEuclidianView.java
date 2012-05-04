@@ -3231,7 +3231,7 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 								// prevTextEnd = (int) (x + layout.getAdvance());
 								
 								
-								drawStringWithBackground(g2, strNum, x, y, bgCol, frc);
+								drawStringWithBackground(g2, strNum, x, y, bgCol, layout);
 								//g2.drawString(sb.toString(), x, y);
 							}
 						}
@@ -3370,7 +3370,7 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 								}
 								
 								
-								drawStringWithBackground(g2, strNum, x, y, bgCol, frc);
+								drawStringWithBackground(g2, strNum, x, y, bgCol, layout);
 								//g2.drawString(sb.toString(), x, y);
 							}
 						}
@@ -3448,10 +3448,9 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 			return showAxes[1] && (getXmin() < axisCross[1]) && (getXmax() > axisCross[1]);
 		}
 
-		private void drawStringWithBackground(Graphics2D g2, String text, double x, double y, Color bgCol, FontRenderContext frc) {
+		private void drawStringWithBackground(Graphics2D g2, String text, double x, double y, Color bgCol, TextLayout layout) {
 
 			if (bgCol != null) {
-				TextLayout layout = geogebra.common.factories.AwtFactory.prototype.newTextLayout(text, getFontLine(), frc);			
 				Rectangle2D rect = layout.getBounds();			
 				rect.setRect(rect.getX() + x , rect.getY() + y, rect.getWidth(), rect.getHeight());
 				//AbstractApplication.debug(rect.getX()+" "+rect.getY()+" "+rect.getWidth()+" "+rect.getHeight());
