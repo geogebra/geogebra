@@ -540,7 +540,7 @@ public class ExpressionNode extends ValidExpression implements
 	 * @param vars
 	 *            the set to add all variables as Strings
 	 */
-	private void getPolynomialVars(TreeSet<String> vars) {
+	private void getPolynomialVars(Set<String> vars) {
 		if (left.isExpressionNode()) {
 			((ExpressionNode) left).getPolynomialVars(vars);
 		} else if (left.isPolynomialInstance()) {
