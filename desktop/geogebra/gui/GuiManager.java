@@ -970,8 +970,7 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 		}
 
 		if (menuBar != null) {
-			//menuBar.initMenubar();
-			menuBar.updateMenubar();
+			menuBar.updateFonts();
 		}
 
 		if (constructionProtocolView != null)

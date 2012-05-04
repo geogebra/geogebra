@@ -23,13 +23,18 @@ import java.util.Scanner;
 import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
 import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.MenuElement;
 import javax.swing.ScrollPaneConstants;
 
 public class GeoGebraMenuBar extends JMenuBar {
@@ -160,6 +165,39 @@ public class GeoGebraMenuBar extends JMenuBar {
 	public void updateMenuWindow() {
 		windowMenu.update();
 	}
+	
+	/**
+	 * Update the menu fonts.
+	 */
+	public void updateFonts() {
+		for(int i = 0; i < this.getMenuCount(); i++){
+			setMenuFontRecursive(getMenu(i), app.getPlainFont());
+		}
+	}
+
+	/**
+	 * @param m
+	 * @param font
+	 */
+	public static void setMenuFontRecursive(JMenuItem m, Font font) {
+		if (m instanceof JMenu) {
+			JPopupMenu pm = ((JMenu) m).getPopupMenu();
+
+			MenuElement[] components = pm.getSubElements();
+
+			for (MenuElement com : components) {
+				// System.out.println(m.getText());
+				if (com instanceof JComponent) {
+					((JComponent) com).setFont(font);
+				}
+				if (com instanceof JMenuItem) {
+					setMenuFontRecursive((JMenuItem) com, font);
+				}
+			}
+		}
+		m.setFont(font);
+	}
+	
 	
 	/**
 	 * Show the print preview dialog.
