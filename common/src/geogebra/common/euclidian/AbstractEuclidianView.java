@@ -3207,11 +3207,17 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 									+ kernel.formatPiE(axisCross[1],
 											axesNumberFormat[0],StringTemplate.defaultTemplate));
 							if ((labelno % unitsPerLabelX) == 0) {
-								if ((axesUnitLabels[0] != null) && !piAxisUnit[0]) {
-									// no advantage using StringBuilder, only one thing added
-									strNum += axesUnitLabels[0];
-								}
 
+								StringBuilder sb = new StringBuilder(strNum);
+
+								if (rw < 0) {
+									// change minus sign (too short) to n-dash
+									sb.setCharAt(0, Unicode.nDash);
+								}
+								if ((axesUnitLabels[0] != null) && !piAxisUnit[0]) {
+									sb.append(axesUnitLabels[0]);
+								}
+								
 								TextLayout layout = geogebra.common.factories.AwtFactory.prototype.newTextLayout(strNum,
 										getFontAxes(), frc);
 								int x, y = (int) (yCrossPix + yoffset);
@@ -3225,7 +3231,7 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 											.getAdvance() / 2));
 								}
 
-								drawStringWithBackground(g2, strNum, x, y, bgCol, layout);
+								drawStringWithBackground(g2, sb.toString(), x, y, bgCol, layout, 0, 6);
 							}
 						}
 
@@ -3344,10 +3350,19 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 									+ kernel.formatPiE(axisCross[0],
 											axesNumberFormat[0],StringTemplate.defaultTemplate));
 							if ((labelno % unitsPerLabelY) == 0) {
-								if ((axesUnitLabels[1] != null) && !piAxisUnit[1]) {
-									// no advantage using StringBuilder, only one thing added
-									strNum += axesUnitLabels[1];
+								
+								StringBuilder sb = new StringBuilder(strNum);
+
+								if (rw < 0) {
+									// change minus sign (too short) to n-dash
+									sb.setCharAt(0, Unicode.nDash);
 								}
+
+								
+								if ((axesUnitLabels[1] != null) && !piAxisUnit[1]) {
+									sb.append(axesUnitLabels[1]);
+								}
+								
 
 								TextLayout layout = geogebra.common.factories.AwtFactory.prototype.newTextLayout(strNum,
 										getFontAxes(), frc);
@@ -3362,7 +3377,7 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 									y = (int) (pix + yoffset);
 								}
 								
-								drawStringWithBackground(g2, strNum, x, y, bgCol, layout);
+								drawStringWithBackground(g2, sb.toString(), x, y, bgCol, layout, rw < 0 ? 10 : 5, 0);
 							}
 						}
 						if (drawMajorTicks[1]) {
@@ -3439,11 +3454,14 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 			return showAxes[1] && (getXmin() < axisCross[1]) && (getXmax() > axisCross[1]);
 		}
 
-		private void drawStringWithBackground(Graphics2D g2, String text, double x, double y, Color bgCol, TextLayout layout) {
+		/*
+		 * spaceToLeft so that minus signs are more visible next to grid
+		 */
+		private void drawStringWithBackground(Graphics2D g2, String text, double x, double y, Color bgCol, TextLayout layout, int spaceToLeft, int spaceBelow) {
 
 			if (bgCol != null) {
 				Rectangle2D rect = layout.getBounds();			
-				rect.setRect(rect.getX() + x , rect.getY() + y, rect.getWidth(), rect.getHeight());
+				rect.setRect(rect.getX() + x - spaceToLeft , rect.getY() + y , rect.getWidth() + spaceToLeft, rect.getHeight() + spaceBelow);
 				//AbstractApplication.debug(rect.getX()+" "+rect.getY()+" "+rect.getWidth()+" "+rect.getHeight());
 				g2.setPaint(bgCol);		
 				g2.fill(rect);
