@@ -291,6 +291,8 @@ public class AlgebraProcessor {
 
 		try {
 			oldLabel = geo.getLabel(StringTemplate.defaultTemplate);
+			if(geo instanceof GeoFunction)
+				cons.registerFunctionVariable(((GeoFunction)geo).getFunction().getFunctionVariable());
 			newLabel = newValue.getLabel();
 
 			if (newLabel == null) {
@@ -339,6 +341,8 @@ public class AlgebraProcessor {
 		} catch (Error e) {
 			e.printStackTrace();
 			throw new Exception(app.getError("InvalidInput") + ":\n" + newValue);
+		}finally{
+			cons.registerFunctionVariable(null);
 		}
 	}
 

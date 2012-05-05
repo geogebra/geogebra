@@ -8,7 +8,9 @@ import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
+import geogebra.common.kernel.geos.GeoFunctionConditional;
 import geogebra.common.kernel.geos.GeoFunctionable;
+import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
 
 /**
@@ -45,16 +47,14 @@ public class CmdIf extends CommandProcessor {
 				kernelA.getConstruction().setSuppressLabelCreation(true);
 				GeoFunction elseFun = null;
 				c.getArgument(1).replaceVariables(varName, fv);
-				c.getArgument(0).resolveVariables();
-				c.getArgument(1).resolveVariables();
+				
+				//AbstractApplication.debug("LEFT"+.getClass());
 				if(n==3){
 					c.getArgument(2).replaceVariables(varName, fv);
-					c.getArgument(2).resolveVariables();
-					elseFun=(GeoFunction)kernelA.getAlgebraProcessor().processFunction(new Function(c.getArgument(2),fv))[0];
+					elseFun=resolveFunction(c,2,fv);
 				}
-				
-				GeoFunction condFun = (GeoFunction)kernelA.getAlgebraProcessor().processFunction(new Function(c.getArgument(0),fv))[0];
-				GeoFunction ifFun = (GeoFunction)kernelA.getAlgebraProcessor().processFunction(new Function(c.getArgument(1),fv))[0];
+				GeoFunction ifFun = resolveFunction(c,1,fv);
+				GeoFunction condFun = resolveFunction(c,0,fv);
 				kernelA.getConstruction().setSuppressLabelCreation(oldFlag);
 				return new GeoElement[]{kernelA.If(c.getLabel(), 
 						condFun,ifFun, elseFun)};
@@ -96,5 +96,12 @@ public class CmdIf extends CommandProcessor {
 		default:
 			throw argNumErr(app, c.getName(), n);
 		}
+	}
+
+	private GeoFunction resolveFunction(Command c, int i, FunctionVariable fv) {
+		c.getArgument(i).resolveVariables();
+		if(  c.getArgument(i).getLeft() instanceof GeoFunctionConditional)
+				return (GeoFunction)c.getArgument(i).getLeft();
+		return (GeoFunction)kernelA.getAlgebraProcessor().processFunction(new Function(c.getArgument(i),fv))[0];
 	}
 }

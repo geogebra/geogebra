@@ -23,9 +23,11 @@ import geogebra.common.kernel.EuclidianViewCE;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.ToGeoElement;
+import geogebra.common.main.AbstractApplication;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.util.StringUtil;
 
@@ -1256,6 +1258,14 @@ public abstract class AlgoElement extends ConstructionElement implements
 			// so that it's the same type when the file is loaded again
 			sb.append(" type=\"");
 			sb.append(getOutput()[0].getXMLtypeString());
+			sb.append("\"");
+		}
+		if ((this instanceof AlgoFunctionInterval || this instanceof AlgoIfFunction) && getOutput(0) instanceof GeoFunction ) {
+			// need to write the geo type in the XML if it's undefined 
+			// so that it's the same type when the file is loaded again
+			AbstractApplication.debug("writing var");
+			sb.append(" var=\"");
+			sb.append(((GeoFunction)getOutput(0)).getVarString(StringTemplate.defaultTemplate));
 			sb.append("\"");
 		}
 		sb.append(">\n");

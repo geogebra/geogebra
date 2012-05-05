@@ -31,6 +31,7 @@ import geogebra.common.kernel.PathRegionHandling;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.Equation;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
+import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.commands.AlgebraProcessor;
@@ -4566,6 +4567,12 @@ public class MyXMLHandler implements DocHandler {
 		if (type != null) {
 			cons.setOutputGeo(type);
 		}
+		
+		String var = attrs.get("var");
+		if (var != null) {
+			AbstractApplication.debug("reading var");
+			cons.registerFunctionVariable(new FunctionVariable(kernel,var));
+		}
 
 		// Application.debug(name);
 		if (name != null)
@@ -4681,6 +4688,7 @@ public class MyXMLHandler implements DocHandler {
 
 			// process the command
 			cmdOutput = kernel.getAlgebraProcessor().processCommand(cmd, true);
+			cons.registerFunctionVariable(null);
 			String cmdName = cmd.getName();
 			if (cmdOutput == null)
 				throw new MyError(app, "processing of command " + cmd

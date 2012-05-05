@@ -88,7 +88,6 @@ public class Parser implements ParserInterface{
     	GeoGebraCASParsing = false;
     	ExternalCASParsing = false;
     	MPReduceParsing = false;
-    	kernel.getConstruction().registerFunctionVariable(null);  
     }
 
     /**
