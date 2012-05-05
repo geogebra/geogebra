@@ -50,6 +50,13 @@ your workstation.
 	</unzip>
 	</target>
 	-->
+	
+	<!-- download base64 encoded version of mpreduce from GeoGebra repository -->
+	<target name="ggbreduce-base64">
+	<get src="http://dev.geogebra.org/download/lib/build/mpreduce/default.img-base64.php?date=20120505"
+	    dest="src/geogebra/resources/statictexts/defaultbase64web.img"/>
+	</target> <!-- do not use yet! -->
+	
 	<!-- download javacc from GeoGebra repository -->
 	<target name="javacc-geogebra">
 	<mkdir dir="../desktop/lib/build/javacc"/>
