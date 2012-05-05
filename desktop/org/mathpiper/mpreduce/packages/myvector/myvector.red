@@ -461,11 +461,7 @@ symbolic procedure myvectorcrossprod vargs;
     w2:=aeval list('difference,
 			list('times,getv(x,0),getv(y,1)),
 			list('times,getv(x,1),getv(y,0)));
-    x:=mkvect(2);
-    putv(x,0,0);
-    putv(x,1,0);
-    putv(x,2,w2);
-    return x
+    return w2
   >>
   else
     rerror(myvector,15,"A problem in cross");
