@@ -1871,7 +1871,14 @@ public class ExpressionNode extends ValidExpression implements
 		case VECTORPRODUCT:
 			if (STRING_TYPE.equals(StringType.MATHML)) {
 				mathml(sb, "<vectorproduct/>", leftStr, rightStr);
-			} else {
+			} else if(STRING_TYPE.equals(StringType.MPREDUCE)){
+				sb.append("mycross(");
+				sb.append(leftStr);
+				sb.append(',');
+				sb.append(rightStr);
+				sb.append(')');
+				
+			}else{
 				append(sb, leftStr, left, operation, STRING_TYPE);
 				// sb.append(leftStr);
 				sb.append(' ');
@@ -1881,9 +1888,6 @@ public class ExpressionNode extends ValidExpression implements
 						sb.append("\\-");
 					}
 					sb.append("\\times");
-					break;
-				case MPREDUCE:
-					sb.append('*');
 					break;
 				default:
 					sb.append(strVECTORPRODUCT);
