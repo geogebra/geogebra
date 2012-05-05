@@ -365,10 +365,10 @@ implements ActionListener, WindowListener, MouseListener, geogebra.common.gui.la
 		buttonPanel = new JPanel();
 		buttonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, 0, 1));
 		buttonPanel.add(maximizeButton);
-		buttonPanel.add(Box.createHorizontalStrut(2));
+		buttonPanel.add(Box.createHorizontalStrut(4));
 		buttonPanel.add(unwindowButton);
 		buttonPanel.add(windowButton);
-		buttonPanel.add(Box.createHorizontalStrut(2));
+		buttonPanel.add(Box.createHorizontalStrut(4));
 		buttonPanel.add(closeButton);
 
 		// Custom border for the major panels (title, stylebar and toolbar)
@@ -431,14 +431,16 @@ implements ActionListener, WindowListener, MouseListener, geogebra.common.gui.la
 				app.getImageIcon("triangle-down.png"));
 		toggleStyleBarButton.addActionListener(this);
 		toggleStyleBarButton.setFocusPainted(false);
-	//	toggleStyleBarButton.setBorderPainted(false);
+		toggleStyleBarButton.setBorderPainted(false);
+		toggleStyleBarButton.setContentAreaFilled(false);
 		toggleStyleBarButton.setPreferredSize(new Dimension(12, 12));
 
 		// button to show/hide styling bar if the title panel is invisible
 		toggleStyleBarButton2 = new JButton(
 				app.getImageIcon("triangle-down.png"));
 		toggleStyleBarButton2.setFocusPainted(false);
-	//	toggleStyleBarButton2.setBorderPainted(false);
+		toggleStyleBarButton2.setBorderPainted(false);
+		toggleStyleBarButton2.setContentAreaFilled(false);
 		toggleStyleBarButton2.setPreferredSize(new Dimension(12, 12));
 		toggleStyleBarButton2.addActionListener(this);
 
@@ -446,12 +448,17 @@ implements ActionListener, WindowListener, MouseListener, geogebra.common.gui.la
 		unwindowButton = new JButton(app.getImageIcon("view-unwindow.png"));
 		unwindowButton.addActionListener(this);
 		unwindowButton.setFocusPainted(false);
+		unwindowButton.setContentAreaFilled(false);
+		unwindowButton.setBorderPainted(false);
+		
 		unwindowButton.setPreferredSize(new Dimension(16, 16));
 
 		// button to display the view in a separate window
 		windowButton = new JButton(app.getImageIcon("view-window.png"));
 		windowButton.addActionListener(this);
 		windowButton.setFocusPainted(false);
+		windowButton.setContentAreaFilled(false);
+		windowButton.setBorderPainted(false);
 		windowButton.setPreferredSize(new Dimension(16, 16));
 
 		// button to close the view
@@ -558,7 +565,7 @@ implements ActionListener, WindowListener, MouseListener, geogebra.common.gui.la
 		// The view is in the main window
 		if (frame == null) {
 			closeButton.setVisible( !isMaximized());
-			windowButton.setVisible((!hasStyleBar || showStyleBar) && !isMaximized());
+			windowButton.setVisible(!isMaximized());
 			unwindowButton.setVisible(false);
 			maximizeButton.setVisible(isMaximized());
 			titleLabel.setVisible(true);
