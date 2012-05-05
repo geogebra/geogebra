@@ -60,8 +60,9 @@ for i in GeoGebra-Linux-*-Portable*.tar.gz; do
  if [ "$GC_USER" != "" -a "$GC_PASS" != "" ]; then
   EXTRA=""
   echo $i | grep x86_64 && EXTRA=" (64 bit)"
-  $SVNDIR/geogebra/desktop/scripts/autobuild/googlecode_upload.py -s "GeoGebra Portable $VERSION_STRING for Linux$EXTRA" \
-   -p geogebra -u $GC_USER -w "$GC_PASS" -l Test $i
+  # TEMPORARILY DISABLED
+  # $SVNDIR/geogebra/desktop/scripts/autobuild/googlecode_upload.py -s "GeoGebra Portable $VERSION_STRING for Linux$EXTRA" \
+  #  -p geogebra -u $GC_USER -w "$GC_PASS" -l Test $i
   fi
  done
 
