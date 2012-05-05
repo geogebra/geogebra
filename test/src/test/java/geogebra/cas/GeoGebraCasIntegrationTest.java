@@ -641,6 +641,12 @@ public class GeoGebraCasIntegrationTest {
 		t("Cross[(a, b), (d, e)]",
 				"(0,0, a * e - b * d)");
 	}
+	
+	@Test
+	public void Cross_5() {
+		t("(a, b, c)\u2297 (d, e, f)",
+				"(b * f - c * e, -a * f + c * d, a * e - b * d)");
+	}
 	/* CSolutions */
 
 	@Test
@@ -872,7 +878,7 @@ public class GeoGebraCasIntegrationTest {
 	
 	@Test
 	public void Dot_1() {
-		t("(1,2) \u2297 (a,b)","a+2*b");
+		t("(1,2) * (a,b)","a+2*b");
 	}
 
 	/* Element */
