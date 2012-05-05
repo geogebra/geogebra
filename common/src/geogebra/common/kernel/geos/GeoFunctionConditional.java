@@ -332,7 +332,9 @@ public class GeoFunctionConditional extends GeoFunction {
 		sbToString.setLength(0);
 		if (isLabelSet()) {
 			sbToString.append(label);
-			sbToString.append("(x) = ");
+			sbToString.append('(');
+			sbToString.append(condFun.getVarString(tpl));
+			sbToString.append(") = ");
 		}
 		sbToString.append(toValueString(tpl));
 		return sbToString.toString();

@@ -1,7 +1,10 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.Command;
+import geogebra.common.kernel.arithmetic.Function;
+import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
@@ -33,9 +36,32 @@ public class CmdIf extends CommandProcessor {
 		switch (n) {
 		case 2: // if - then
 		case 3: // if - then - else
-			arg = resArgs(c);
+			if(kernelA.getConstruction().getRegistredFunctionVariable()!=null){
+				String varName = kernelA.getConstruction().getRegistredFunctionVariable().toString(StringTemplate.defaultTemplate);
+			FunctionVariable fv = new FunctionVariable(kernelA,varName);
+			int r=	c.getArgument(0).replaceVariables(varName, fv);
+			if(r>0){
+				boolean oldFlag =kernelA.getConstruction().isSuppressLabelsActive() ;
+				kernelA.getConstruction().setSuppressLabelCreation(true);
+				GeoFunction elseFun = null;
+				c.getArgument(1).replaceVariables(varName, fv);
+				c.getArgument(0).resolveVariables();
+				c.getArgument(1).resolveVariables();
+				if(n==3){
+					c.getArgument(2).replaceVariables(varName, fv);
+					c.getArgument(2).resolveVariables();
+					elseFun=(GeoFunction)kernelA.getAlgebraProcessor().processFunction(new Function(c.getArgument(2),fv))[0];
+				}
+				
+				GeoFunction condFun = (GeoFunction)kernelA.getAlgebraProcessor().processFunction(new Function(c.getArgument(0),fv))[0];
+				GeoFunction ifFun = (GeoFunction)kernelA.getAlgebraProcessor().processFunction(new Function(c.getArgument(1),fv))[0];
+				kernelA.getConstruction().setSuppressLabelCreation(oldFlag);
+				return new GeoElement[]{kernelA.If(c.getLabel(), 
+						condFun,ifFun, elseFun)};
+			}
+			}
+			arg =resArgs(c);
 			GeoElement geoElse = n == 3 ? arg[2] : null;
-
 			// standard case: simple boolean condition
 			if (arg[0].isGeoBoolean()) {
 				GeoElement[] ret = { kernelA.If(c.getLabel(),

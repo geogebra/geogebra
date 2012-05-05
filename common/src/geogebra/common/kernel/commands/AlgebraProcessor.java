@@ -417,8 +417,9 @@ public class AlgebraProcessor {
 			throws Exception {
 		ValidExpression ve;
 		try {
-			ve = parser.parseGeoGebraExpression(cmd);
+			ve = parser.parseGeoGebraExpression(cmd);			
 		} catch (Exception e) {// TODO: put back ParseException
+
 			e.printStackTrace();
 			if (allowErrorDialog) {
 				app.showError(app.getError("InvalidInput") + ":\n" + cmd);
@@ -445,6 +446,9 @@ public class AlgebraProcessor {
 		// process ValidExpression (built by parser)
 		GeoElement[] geoElements = null;
 		try {
+			ExpressionValue ve2 = ve instanceof ExpressionNode? ((ExpressionNode)ve).getLeft():ve;
+			if(ve2 instanceof Function)
+				kernel.getConstruction().registerFunctionVariable(((Function)ve2).getFunctionVariable());			
 			geoElements = processValidExpression(ve);
 			if (storeUndo && geoElements != null)
 				app.storeUndoInfo();
@@ -469,6 +473,8 @@ public class AlgebraProcessor {
 			ex.printStackTrace();
 			throw new Exception(app.getError("Error") + ":\n"
 					+ ex.getLocalizedMessage());
+		}finally{
+			kernel.getConstruction().registerFunctionVariable(null);
 		}
 		return geoElements;
 	}

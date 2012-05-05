@@ -2620,6 +2620,14 @@ public class Construction {
 	public GeoElement getOutputGeo() {
 		return outputGeo == null ? new GeoNumeric(this) : outputGeo;
 	}
+	private FunctionVariable registredFV;
+	public void registerFunctionVariable(FunctionVariable functionVariable) {
+		registredFV =  functionVariable;
+		
+	}
+	public FunctionVariable getRegistredFunctionVariable(){
+		return registredFV;
+	}
 
 	// update all indices >= pos
 
