@@ -1,5 +1,6 @@
 package geogebra.gui.toolbar;
 
+import geogebra.common.main.AbstractApplication;
 import geogebra.common.util.StringUtil;
 import geogebra.gui.MySmallJButton;
 import geogebra.gui.layout.ViewButtonBar;
@@ -360,7 +361,10 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 		toolbarHelpPanel.validate();
 		
 		// update view buttons
-		viewButtonBar.updateViewButtons();
+		if (viewButtonBar==null)
+			AbstractApplication.error("viewButtonBar==null");
+		else
+			viewButtonBar.updateViewButtons();
 	}
 
 	/**
