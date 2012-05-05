@@ -74,8 +74,6 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 			mouseLoc.y = view.getViewHeight();
 		}
 		
-		Application.debug(view.toRealWorldCoordX(mouseLoc.x)+ " " + view.toRealWorldCoordY(mouseLoc.y));
-
 	}
 	
 	public void setApplication(AbstractApplication app) {
