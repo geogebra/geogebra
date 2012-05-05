@@ -343,7 +343,7 @@ public class Command extends ValidExpression implements ReplaceChildrenByValues{
 		HashSet<GeoElement> set = new HashSet<GeoElement>();
 		int size = args.size();
 		for (int i = 0; i < size; i++) {
-			HashSet<GeoElement> s = args.get(i).getVariables();
+			Set<GeoElement> s = args.get(i).getVariables();
 			if (s != null)
 				set.addAll(s);
 		}

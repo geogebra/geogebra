@@ -445,10 +445,7 @@ public class AlgebraProcessor {
 
 		// process ValidExpression (built by parser)
 		GeoElement[] geoElements = null;
-		try {
-			ExpressionValue ve2 = ve instanceof ExpressionNode? ((ExpressionNode)ve).getLeft():ve;
-			if(ve2 instanceof Function)
-				kernel.getConstruction().registerFunctionVariable(((Function)ve2).getFunctionVariable());			
+		try {		
 			geoElements = processValidExpression(ve);
 			if (storeUndo && geoElements != null)
 				app.storeUndoInfo();

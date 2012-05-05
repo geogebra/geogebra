@@ -87,7 +87,8 @@ public class Parser implements ParserInterface{
     	ReInit(new java.io.StringReader(parseString));    	
     	GeoGebraCASParsing = false;
     	ExternalCASParsing = false;
-    	MPReduceParsing = false;  
+    	MPReduceParsing = false;
+    	kernel.getConstruction().registerFunctionVariable(null);  
     }
 
     /**
@@ -968,7 +969,8 @@ ExpressionNode functionExpressionnode():
 	   ) 
 	   		// local variables, allow function of y and deal with it in GeoFunction constructor
 	   		(( varName =  <VARX> | varName =  <VARY> | varName = label() )
-	   		  { localVars = new ArrayList<String>(); localVars.add(varName.image); } )
+	   		  { localVars = new ArrayList<String>(); localVars.add(varName.image);
+	   		  kernel.getConstruction().registerFunctionVariable(new FunctionVariable(kernel,varName.image));} )
 			// optional second variable			
 			 (<COMMA> ( varName = casVar() )
 			 { localVars.add(varName.image); } )* 

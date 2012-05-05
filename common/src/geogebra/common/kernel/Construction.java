@@ -2621,10 +2621,18 @@ public class Construction {
 		return outputGeo == null ? new GeoNumeric(this) : outputGeo;
 	}
 	private FunctionVariable registredFV;
+	/**
+	 * Registers function variable that should be recognized in If and Function commands
+	 * @param functionVariable local function variable
+	 */
 	public void registerFunctionVariable(FunctionVariable functionVariable) {
 		registredFV =  functionVariable;
 		
 	}
+	/**
+	 * Returns function variable that should be recognized in If and Function commands
+	 * @return local function variable or null if there is none
+	 */
 	public FunctionVariable getRegistredFunctionVariable(){
 		return registredFV;
 	}
