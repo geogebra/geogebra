@@ -165,12 +165,12 @@ public class AlgoVector extends AlgoElement implements SymbolicParametersAlgo{
 
 	public int[] getFreeVariablesAndDegrees(HashSet<Variable> variables)
 			throws NoSymbolicParametersException {
-		if (input[0] != null && input[1] != null
-				&& input[0] instanceof SymbolicParametersAlgo
-				&& input[1] instanceof SymbolicParametersAlgo) {
-			int[] degree1 = ((SymbolicParametersAlgo) input[0])
+		if (P != null && Q != null
+				&& P instanceof SymbolicParametersAlgo
+				&& Q instanceof SymbolicParametersAlgo) {
+			int[] degree1 = ((SymbolicParametersAlgo) P)
 					.getFreeVariablesAndDegrees(variables);
-			int[] degree2 = ((SymbolicParametersAlgo) input[0])
+			int[] degree2 = ((SymbolicParametersAlgo) Q)
 					.getFreeVariablesAndDegrees(variables);
 			int[] result=new int[3];
 			result[0]=Math.max(degree1[0]+degree2[2],degree2[0]+degree1[2]);
@@ -183,12 +183,12 @@ public class AlgoVector extends AlgoElement implements SymbolicParametersAlgo{
 	}
 
 	public BigInteger[] getExactCoordinates(final HashMap<Variable,BigInteger> values) throws NoSymbolicParametersException {
-		if (input[0] != null && input[1] != null
-				&& input[0] instanceof SymbolicParametersAlgo
-				&& input[1] instanceof SymbolicParametersAlgo) {
-			BigInteger[] coords1 = ((SymbolicParametersAlgo) input[0])
+		if (P != null && Q != null
+				&& P instanceof SymbolicParametersAlgo
+				&& Q instanceof SymbolicParametersAlgo) {
+			BigInteger[] coords1 = ((SymbolicParametersAlgo) P)
 					.getExactCoordinates(values);
-			BigInteger[] coords2 = ((SymbolicParametersAlgo) input[1])
+			BigInteger[] coords2 = ((SymbolicParametersAlgo) Q)
 					.getExactCoordinates(values);
 			BigInteger[] result = new BigInteger[3];
 			result[0] = coords2[0].multiply(coords1[2]).subtract(
@@ -205,12 +205,12 @@ public class AlgoVector extends AlgoElement implements SymbolicParametersAlgo{
 		if (polynomials != null) {
 			return polynomials;
 		}
-		if (input[0] != null && input[1] != null
-				&& input[0] instanceof SymbolicParametersAlgo
-				&& input[1] instanceof SymbolicParametersAlgo) {
-			Polynomial[] coords1 = ((SymbolicParametersAlgo) input[0])
+		if (P != null && Q != null
+				&& P instanceof SymbolicParametersAlgo
+				&& Q instanceof SymbolicParametersAlgo) {
+			Polynomial[] coords1 = ((SymbolicParametersAlgo) P)
 					.getPolynomials();
-			Polynomial[] coords2 = ((SymbolicParametersAlgo) input[1])
+			Polynomial[] coords2 = ((SymbolicParametersAlgo) Q)
 					.getPolynomials();
 			polynomials = new Polynomial[3];
 			polynomials[0] = coords2[0].multiply(coords1[2]).subtract(

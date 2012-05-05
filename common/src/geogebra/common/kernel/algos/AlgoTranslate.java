@@ -159,12 +159,12 @@ public class AlgoTranslate extends AlgoTransformation implements SymbolicParamet
 
 	public int[] getFreeVariablesAndDegrees(HashSet<Variable> variables)
 			throws NoSymbolicParametersException {
-		if (input[0] != null && input[1] != null
-				&& input[0] instanceof SymbolicParametersAlgo
-				&& input[1] instanceof SymbolicParametersAlgo) {
-			int[] degree1 = ((SymbolicParametersAlgo) input[0])
+		if (inGeo != null && v != null
+				&& inGeo instanceof SymbolicParametersAlgo
+				&& v instanceof SymbolicParametersAlgo) {
+			int[] degree1 = ((SymbolicParametersAlgo) inGeo)
 					.getFreeVariablesAndDegrees(variables);
-			int[] degree2 = ((SymbolicParametersAlgo) input[0])
+			int[] degree2 = ((SymbolicParametersAlgo) v)
 					.getFreeVariablesAndDegrees(variables);
 			int[] result = new int[3];
 
@@ -178,12 +178,12 @@ public class AlgoTranslate extends AlgoTransformation implements SymbolicParamet
 	}
 
 	public BigInteger[] getExactCoordinates(final HashMap<Variable,BigInteger> values) throws NoSymbolicParametersException {
-		if (input[0] != null && input[1] != null
-				&& input[0] instanceof SymbolicParametersAlgo
-				&& input[1] instanceof SymbolicParametersAlgo) {
-			BigInteger[] coords1 = ((SymbolicParametersAlgo) input[0])
+		if (inGeo != null && v != null
+				&& inGeo instanceof SymbolicParametersAlgo
+				&& v instanceof SymbolicParametersAlgo) {
+			BigInteger[] coords1 = ((SymbolicParametersAlgo) inGeo)
 					.getExactCoordinates(values);
-			BigInteger[] coords2 = ((SymbolicParametersAlgo) input[1])
+			BigInteger[] coords2 = ((SymbolicParametersAlgo) v)
 					.getExactCoordinates(values);
 			BigInteger[] result = new BigInteger[3];
 			result[0] = coords1[0].multiply(coords2[2]).add(
@@ -200,12 +200,12 @@ public class AlgoTranslate extends AlgoTransformation implements SymbolicParamet
 		if (polynomials != null) {
 			return polynomials;
 		}
-		if (input[0] != null && input[1] != null
-				&& input[0] instanceof SymbolicParametersAlgo
-				&& input[1] instanceof SymbolicParametersAlgo) {
-			Polynomial[] coords1 = ((SymbolicParametersAlgo) input[0])
+		if (inGeo != null && v != null
+				&& inGeo instanceof SymbolicParametersAlgo
+				&& v instanceof SymbolicParametersAlgo) {
+			Polynomial[] coords1 = ((SymbolicParametersAlgo) inGeo)
 					.getPolynomials();
-			Polynomial[] coords2 = ((SymbolicParametersAlgo) input[1])
+			Polynomial[] coords2 = ((SymbolicParametersAlgo) v)
 					.getPolynomials();
 			polynomials = new Polynomial[3];
 			polynomials[0] = coords1[0].multiply(coords2[2]).add(

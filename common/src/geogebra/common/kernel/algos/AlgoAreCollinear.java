@@ -22,9 +22,7 @@ import java.util.HashSet;
  */
 public class AlgoAreCollinear extends AlgoElement implements SymbolicParametersAlgo{
 
-	private GeoPoint2 inputPoint1; //input
-	private GeoPoint2 inputPoint2; //input
-	private GeoPoint2 inputPoint3; //input
+	private GeoPoint2 inputPoint1, inputPoint2, inputPoint3; //input
 	
     private GeoBoolean outputBoolean; //output	
 	private Polynomial[] polynomials;
@@ -40,8 +38,10 @@ public class AlgoAreCollinear extends AlgoElement implements SymbolicParametersA
      * @param inputPoint2 the second point
      * @param inputPoint3 the third point
      */
-    public AlgoAreCollinear(final Construction cons, final String label, final GeoPoint2 inputPoint1, final GeoPoint2 inputPoint2, final GeoPoint2 inputPoint3) {
-        super(cons);
+	public AlgoAreCollinear(final Construction cons, final String label,
+			final GeoPoint2 inputPoint1, final GeoPoint2 inputPoint2,
+			final GeoPoint2 inputPoint3) {
+		super(cons);
         this.inputPoint1=inputPoint1;
         this.inputPoint2=inputPoint2;
         this.inputPoint3=inputPoint3;
@@ -70,6 +70,10 @@ public class AlgoAreCollinear extends AlgoElement implements SymbolicParametersA
         setDependencies(); // done by AlgoElement
     }
     																								
+    /**
+     * Returns the result of the test
+     * @return true if the three points lie on one line, false otherwise
+     */
     public GeoBoolean getResult() {
         return outputBoolean;
     }
@@ -92,40 +96,29 @@ public class AlgoAreCollinear extends AlgoElement implements SymbolicParametersA
 
 	public int[] getFreeVariablesAndDegrees(HashSet<Variable> variables)
 			throws NoSymbolicParametersException {
-		if (input[0] != null && input[1] != null && input[2] != null
-				&& input[0] instanceof SymbolicParametersAlgo
-				&& input[1] instanceof SymbolicParametersAlgo
-				&& input[2] instanceof SymbolicParametersAlgo) {
-			int[] degree1 = ((SymbolicParametersAlgo) input[0])
-					.getFreeVariablesAndDegrees(variables);
-			int[] degree2 = ((SymbolicParametersAlgo) input[1])
-					.getFreeVariablesAndDegrees(variables);
-			int[] degree3 = ((SymbolicParametersAlgo) input[2])
-					.getFreeVariablesAndDegrees(variables);
-			int[] result =new int[1];
-			result[0]=Math.max(degree1[0]+degree2[1]+degree3[2],
-					Math.max(degree2[0]+degree3[1]+degree1[2],
-					Math.max(degree3[0]+degree1[1]+degree2[2],
-							
-					Math.max(degree3[0]+degree2[1]+degree1[2],
-					Math.max(degree2[0]+degree1[1]+degree3[2],
-							degree1[0]+degree3[1]+degree2[2])))));
+		if (inputPoint1 != null && inputPoint2 != null && inputPoint3 != null) {
+			int[] degree1 = inputPoint1.getFreeVariablesAndDegrees(variables);
+			int[] degree2 = inputPoint2.getFreeVariablesAndDegrees(variables);
+			int[] degree3 = inputPoint3.getFreeVariablesAndDegrees(variables);
+			int[] result = new int[1];
+			result[0] = Math.max(degree1[0] + degree2[1] + degree3[2],
+					Math.max(degree2[0] + degree3[1] + degree1[2],
+					Math.max(degree3[0] + degree1[1] + degree2[2],
+					Math.max(degree3[0] + degree2[1] + degree1[2],
+					Math.max(degree2[0] + degree1[1] + degree3[2],
+							degree1[0] + degree3[1] + degree2[2])))));
 			return result;
 		}
 		throw new NoSymbolicParametersException();
 	}
 
-	public BigInteger[] getExactCoordinates(final HashMap<Variable,BigInteger> values) throws NoSymbolicParametersException {
-		if (input[0] != null && input[1] != null && input[2] != null
-				&& input[0] instanceof SymbolicParametersAlgo
-				&& input[1] instanceof SymbolicParametersAlgo
-				&& input[2] instanceof SymbolicParametersAlgo) {
-			BigInteger[] coords1 = ((SymbolicParametersAlgo) input[0])
-					.getExactCoordinates(values);
-			BigInteger[] coords2 = ((SymbolicParametersAlgo) input[1])
-					.getExactCoordinates(values);
-			BigInteger[] coords3 = ((SymbolicParametersAlgo) input[2])
-					.getExactCoordinates(values);
+	public BigInteger[] getExactCoordinates(
+			final HashMap<Variable, BigInteger> values)
+			throws NoSymbolicParametersException {
+		if (inputPoint1 != null && inputPoint2 != null && inputPoint3 != null) {
+			BigInteger[] coords1 = inputPoint1.getExactCoordinates(values);
+			BigInteger[] coords2 = inputPoint2.getExactCoordinates(values);
+			BigInteger[] coords3 = inputPoint3.getExactCoordinates(values);
 			BigInteger[] coords = new BigInteger[1];
 			coords[0] = coords1[0].multiply(coords2[1]).multiply(coords3[2]).add(
 					coords2[0].multiply(coords3[1]).multiply(coords1[2])).add(
@@ -143,16 +136,11 @@ public class AlgoAreCollinear extends AlgoElement implements SymbolicParametersA
 		if (polynomials != null) {
 			return polynomials;
 		}
-		if (input[0] != null && input[1] != null && input[2] != null
-				&& input[0] instanceof SymbolicParametersAlgo
-				&& input[1] instanceof SymbolicParametersAlgo
-				&& input[2] instanceof SymbolicParametersAlgo) {
-			Polynomial[] coords1 = ((SymbolicParametersAlgo) input[0])
-					.getPolynomials();
-			Polynomial[] coords2 = ((SymbolicParametersAlgo) input[1])
-					.getPolynomials();
-			Polynomial[] coords3 = ((SymbolicParametersAlgo) input[2])
-					.getPolynomials();
+		
+		if (inputPoint1 != null && inputPoint2 != null && inputPoint3 != null) {
+			Polynomial[] coords1 = inputPoint1.getPolynomials();
+			Polynomial[] coords2 = inputPoint2.getPolynomials();
+			Polynomial[] coords3 = inputPoint3.getPolynomials();
 			polynomials = new Polynomial[1];
 			polynomials[0] = coords1[0].multiply(coords2[1]).multiply(coords3[2]).add(
 					coords2[0].multiply(coords3[1]).multiply(coords1[2])).add(
@@ -175,20 +163,14 @@ public class AlgoAreCollinear extends AlgoElement implements SymbolicParametersA
 			return botanaPolynomials;
 		}
 
-		if (input[0] != null && input[1] != null && input[2] != null
-				&& input[0] instanceof SymbolicParametersAlgo
-				&& input[1] instanceof SymbolicParametersAlgo
-				&& input[2] instanceof SymbolicParametersAlgo) {
+		if (inputPoint1 != null && inputPoint2 != null && inputPoint3 != null) {
 			
 			Variable[] fv1 = new Variable[2];
 			Variable[] fv2 = new Variable[2];
 			Variable[] fv3 = new Variable[2];
-			fv1 = ((SymbolicParametersAlgo) input[0])
-					.getBotanaVars();
-			fv2 = ((SymbolicParametersAlgo) input[1])
-					.getBotanaVars();
-			fv3 = ((SymbolicParametersAlgo) input[2])
-					.getBotanaVars();
+			fv1 = inputPoint1.getBotanaVars();
+			fv2 = inputPoint2.getBotanaVars();
+			fv3 = inputPoint3.getBotanaVars();
 
 			botanaPolynomials = new Polynomial[1];
 			botanaPolynomials[0] = Polynomial.setCollinear(fv1[0], fv1[1], fv2[0], fv2[1], fv3[0], fv3[1]); 

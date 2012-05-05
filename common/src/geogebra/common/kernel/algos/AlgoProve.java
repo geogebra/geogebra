@@ -64,7 +64,7 @@ public class AlgoProve extends AlgoElement {
     	Prover p = new Prover();
     	p.setConstruction(cons);
     	p.setStatement(root);
-    	p.setProverEngine(ProverEngine.BOTANAS_PROVER);
+    	p.setProverEngine(ProverEngine.RECIOS_PROVER);
     	p.compute();
     	Boolean result = p.getYesNoAnswer();
     	if (result != null)

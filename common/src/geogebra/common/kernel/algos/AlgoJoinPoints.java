@@ -117,21 +117,13 @@ public class AlgoJoinPoints extends AlgoElement implements SymbolicParametersAlg
 
     //Simon Weitzhofer 2012-04-03
 	public SymbolicParameters getSymbolicParameters() {
-		// only makes sense if the predecessors also have SymbolicParameters
-		if (input[0] != null && input[1] != null
-				&& input[0] instanceof SymbolicParametersAlgo
-				&& input[1] instanceof SymbolicParametersAlgo) {
-			return new SymbolicParameters(this);
-		}
-		return null;
+		return new SymbolicParameters(this);
 	}
 
 	public int[] getFreeVariablesAndDegrees(HashSet<Variable> variables) throws NoSymbolicParametersException {
-		if (input[0] != null && input[1] != null
-				&& input[0] instanceof SymbolicParametersAlgo
-				&& input[1] instanceof SymbolicParametersAlgo) {
-			int[] degree1=((SymbolicParametersAlgo) input[0]).getFreeVariablesAndDegrees(variables);
-			int[] degree2=((SymbolicParametersAlgo) input[1]).getFreeVariablesAndDegrees(variables);
+		if (P != null && Q != null) {
+			int[] degree1=P.getFreeVariablesAndDegrees(variables);
+			int[] degree2=Q.getFreeVariablesAndDegrees(variables);
 			return SymbolicParameters.crossDegree(degree1, degree2);
 		}
 		throw new NoSymbolicParametersException();
@@ -139,13 +131,9 @@ public class AlgoJoinPoints extends AlgoElement implements SymbolicParametersAlg
 	}
 
 	public BigInteger[] getExactCoordinates(final HashMap<Variable,BigInteger> values) throws NoSymbolicParametersException {
-		if (input[0] != null && input[1] != null
-				&& input[0] instanceof SymbolicParametersAlgo
-				&& input[1] instanceof SymbolicParametersAlgo) {
-			BigInteger[] coords1 = ((SymbolicParametersAlgo) input[0])
-					.getExactCoordinates(values);
-			BigInteger[] coords2 = ((SymbolicParametersAlgo) input[1])
-					.getExactCoordinates(values);
+		if (P != null && Q != null) {
+			BigInteger[] coords1 = P.getExactCoordinates(values);
+			BigInteger[] coords2 = Q.getExactCoordinates(values);
 			if (coords1 != null && coords2 != null) {
 				return SymbolicParameters.crossProduct(coords1, coords2);
 			}
@@ -157,13 +145,9 @@ public class AlgoJoinPoints extends AlgoElement implements SymbolicParametersAlg
 		if (polynomials != null) {
 			return polynomials;
 		}
-		if (input[0] != null && input[1] != null
-				&& input[0] instanceof SymbolicParametersAlgo
-				&& input[1] instanceof SymbolicParametersAlgo) {
-			Polynomial[] coords1 = ((SymbolicParametersAlgo) input[0])
-					.getPolynomials();
-			Polynomial[] coords2 = ((SymbolicParametersAlgo) input[1])
-					.getPolynomials();
+		if (P != null && Q != null) {
+			Polynomial[] coords1 = P.getPolynomials();
+			Polynomial[] coords2 = Q.getPolynomials();
 			if (coords1 != null && coords2 != null) {
 				polynomials = SymbolicParameters.crossProduct(coords1, coords2);
 				AbstractApplication.debug("polys(" + g.getLabelSimple()

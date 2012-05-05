@@ -128,27 +128,23 @@ public class AlgoIntersectLines extends AlgoIntersectAbstract implements Symboli
 		return new SymbolicParameters(this);
 	}
 
-	public int[] getFreeVariablesAndDegrees(HashSet<Variable> variables) throws NoSymbolicParametersException {
-		
-		if (input[0] != null && input[1] != null && (input[0] instanceof SymbolicParametersAlgo) && (input[1] instanceof SymbolicParametersAlgo)){
-			int[] degree1=((SymbolicParametersAlgo)input[0]).getFreeVariablesAndDegrees(variables);
-			int[] degree2=((SymbolicParametersAlgo)input[1]).getFreeVariablesAndDegrees(variables);
+	public int[] getFreeVariablesAndDegrees(HashSet<Variable> variables)
+			throws NoSymbolicParametersException {
+		if (g != null && h != null) {
+			int[] degree1 = g.getFreeVariablesAndDegrees(variables);
+			int[] degree2 = h.getFreeVariablesAndDegrees(variables);
 			return SymbolicParameters.crossDegree(degree1, degree2);
 		}
 		throw new NoSymbolicParametersException();
 	}
 
-	public BigInteger[] getExactCoordinates(final HashMap<Variable,BigInteger> values) throws NoSymbolicParametersException {
-		if (input[0] != null && input[1] != null
-				&& input[0] instanceof SymbolicParametersAlgo
-				&& input[1] instanceof SymbolicParametersAlgo) {
-			BigInteger[] coords1 = ((SymbolicParametersAlgo) input[0])
-					.getExactCoordinates(values);
-			BigInteger[] coords2 = ((SymbolicParametersAlgo) input[1])
-					.getExactCoordinates(values);
-			if (coords1 != null && coords2 != null) {
-				return SymbolicParameters.crossProduct(coords1, coords2);
-			}
+	public BigInteger[] getExactCoordinates(
+			final HashMap<Variable, BigInteger> values)
+			throws NoSymbolicParametersException {
+		if (g != null && h != null) {
+			BigInteger[] coords1 = g.getExactCoordinates(values);
+			BigInteger[] coords2 = h.getExactCoordinates(values);
+			return SymbolicParameters.crossProduct(coords1, coords2);
 		}
 		throw new NoSymbolicParametersException();
 	}
@@ -157,17 +153,11 @@ public class AlgoIntersectLines extends AlgoIntersectAbstract implements Symboli
 		if (polynomials != null) {
 			return polynomials;
 		}
-		if (input[0] != null && input[1] != null
-				&& input[0] instanceof SymbolicParametersAlgo
-				&& input[1] instanceof SymbolicParametersAlgo) {
-			Polynomial[] coords1 = ((SymbolicParametersAlgo) input[0])
-					.getPolynomials();
-			Polynomial[] coords2 = ((SymbolicParametersAlgo) input[1])
-					.getPolynomials();
-			if (coords1 != null && coords2 != null) {
-				polynomials = SymbolicParameters.crossProduct(coords1, coords2);
-				return polynomials;
-			}
+		if (g != null && h != null) {
+			Polynomial[] coords1 = g.getPolynomials();
+			Polynomial[] coords2 = h.getPolynomials();
+			polynomials = SymbolicParameters.crossProduct(coords1, coords2);
+			return polynomials;
 		}
 		throw new NoSymbolicParametersException();
 	}
@@ -180,16 +170,16 @@ public class AlgoIntersectLines extends AlgoIntersectAbstract implements Symboli
 		if (botanaPolynomials != null) {
 			return botanaPolynomials;
 		}
-		if (input[0] != null && input[0] instanceof GeoLine){
+		if (g != null && h != null){
 			if (botanaVars==null){
 				botanaVars = new Variable[2];
 				botanaVars[0]=new Variable();
 				botanaVars[1]=new Variable();
 			}
-			Variable[] fv = ((SymbolicParametersAlgo) input[0]).getBotanaVars();
+			Variable[] fv = g.getBotanaVars();
 			botanaPolynomials = new Polynomial[2];
 			botanaPolynomials[0] = Polynomial.setCollinear(fv[0], fv[1], fv[2], fv[3], botanaVars[0], botanaVars[1]); 
-			fv = ((SymbolicParametersAlgo) input[1]).getBotanaVars();
+			fv = h.getBotanaVars();
 			botanaPolynomials[1] = Polynomial.setCollinear(fv[0], fv[1], fv[2], fv[3], botanaVars[0], botanaVars[1]); 
 					
 			return botanaPolynomials;
