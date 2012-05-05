@@ -133,6 +133,7 @@ public class Unicode {
 	// characters with cedillas
 	// some Greek, Russian, Malayalam, Arabic
 	public static final String charactersWithDescenders = "\u00B5\u1EF3\u0177\u0135\u0157\u0163\u0137\u015F\u0137\u013C\u00E7\u0146\u1EF9\u011F\u011D\u0123\u00FDgjy\u03BE\u03B2\u03C8\u03B3\u03B7\u03C2\u0444\u0449\u0446\u0D71\u0D6C\u0D6B\u0D33\u0D67\u0630\u0648\u0635\u0628\u0631\u064D\u0633\u062E\u064A\u064D";
+	public static final char nDash = '\u2013';
 
 	/*
 	 * converts an integer to a unicode superscript string (including minus
