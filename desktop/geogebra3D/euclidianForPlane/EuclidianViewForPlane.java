@@ -142,7 +142,8 @@ public class EuclidianViewForPlane extends EuclidianViewFor3D {
 	private CoordMatrix4x4 transform = CoordMatrix4x4.IDENTITY;
 	
 	public void updateMatrix(){
-		planeMatrix = plane.getCoordSys().getMatrixOrthonormal();	
+		//planeMatrix = plane.getCoordSys().getMatrixOrthonormal();	
+		planeMatrix = plane.getCoordSys().getDrawingMatrix();	
 		
 		transformedMatrix = planeMatrix.mul(transform);//transform.mul(planeMatrix);	
 		inverseTransformedMatrix = transformedMatrix.inverse();
