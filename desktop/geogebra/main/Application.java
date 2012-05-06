@@ -657,7 +657,18 @@ public class Application extends AbstractApplication implements
 							+ "  --regressionFile=FILENAME\texport textual representations of dependent objects, then exit\n"
 							+ "  --versionCheckAllow=SETTING\tallow version check (on/off or true/false for single launch)\n"
 							+ "  --logLevel=LEVEL\tset logging level (EMERGENCY|ALERT|CRITICAL|ERROR|WARN|NOTICE|INFO|DEBUG|TRACE)\n"
-							+ "  --silent\tCompletely mute logging");
+							+ "  --silent\tCompletely mute logging\n"
+							+ "  --prover=OPTIONS\tset options for the prover subsystem, where OPTIONS is described above\n"
+							+ "OPTIONS : a comma separated list, formed with the following available options\n"
+							+ "  engine:ENGINE\tset engine (OGP|Recio|Botana|PS)\n"
+							+ "  timeou:SECS\tset the maximum time attributed to the prover (in seconds)\n"
+							+ "  maxterms:NUMBER\tset the maximal number of terms (only available with OpenGeoProver)\n"
+							+ "  method:METHOD\tset the method used with OpenGeoProver (Groebner|Wu|Area)\n"
+							+ "  fpnevercoll:BOOLEAN\tassume three free points are never collinear\n"
+							+ "  usefixcoords:BOOLEAN\tuse fix coordinates for the first points\n"
+							+ "  singularWS:BOOLEAN\tuse Singular WebService when possible\n"
+							+ "  singularWSremoteURL:URL\tset the remote server URL for Singular WebService\n"
+							+ "  singularWStimeout:SECS\tset the timeout for SingularWebService\n");
 			System.exit(0);
 		}
 		// help debug applets
@@ -1274,8 +1285,19 @@ public class Application extends AbstractApplication implements
 			this.getEuclidianView2().setAntialiasing(antiAliasing);
 		}
 		
-		versionCheckAllow = args.getStringValue("versionCheckAllow");
-		setVersionCheckAllowed();
+
+        if (args.containsArg("prover")) {
+            String[] proverOptions = args.getStringValue("prover").split(",");
+            for (int i = 0 ; i < proverOptions.length ; i++) {
+                setProverOption(proverOptions[i]);
+            }
+        }
+
+        if (args.containsArg("versionCheckAllow")) {
+            versionCheckAllow = args.getStringValue("versionCheckAllow");
+            setVersionCheckAllowed();
+        }
+
 	}
 	
 	private void setVersionCheckAllowed() {
@@ -1299,13 +1321,66 @@ public class Application extends AbstractApplication implements
 				versionCheckAllowed = true;
 				return;
 			}
-			// TODO: Throw a warning message here that the option is not recognized.
-			// Now everything is silently accepted.
+            AbstractApplication.warn("Option versionCheckAllow not recognized : ".concat(versionCheckAllow));
 		}
 		
 		versionCheckAllowed = GeoGebraPreferences.getPref().loadVersionCheckAllow("true");
 		
 	}
+
+    private void setProverOption(String option) {
+        String[] str = option.split(":");
+        if ("engine".equals(str[0])) {
+            if ("OGP".equals(str[1]) 
+                    || "Recio".equals(str[1])
+                    || "Botana".equals(str[1])
+                    || "PS".equals(str[1])) {
+                proverEngine = str[1];
+                return;
+            }
+            AbstractApplication.warn("Option not recognized : ".concat(option));
+            return;
+        }
+        if ("timeout".equals(str[0])) {
+            proverTimeout = Integer.parseInt(str[1]);
+            return;
+        }
+        if ("maxterms".equals(str[0])) {
+            maxTerms = Integer.parseInt(str[1]);
+            return;
+        }
+        if ("method".equals(str[0])) {
+            if ("Groebner".equals(str[1]) 
+                    || "Wu".equals(str[1])
+                    || "Area".equals(str[1])) {
+                proverMethod = str[1];
+                return;
+            }
+            AbstractApplication.warn("Option not recognized".concat(option));
+            return;
+        }
+        if ("fpnevercoll".equals(str[0])) {
+            freePointsNeverCollinear = Boolean.valueOf(str[1]).booleanValue();
+            return;
+        }
+        if ("usefixcoords".equals(str[0])) {
+            useFixCoordinates = Boolean.valueOf(str[1]).booleanValue();
+            return;
+        }
+        if ("singularWS".equals(str[0])) {
+            useSingularWebService = Boolean.valueOf(str[1]).booleanValue();
+            return;
+        }
+        if ("singularWSremoteURL".equals(str[0])) {
+            singularWebServiceRemoteURL = str[1];
+            return;
+        }
+        if ("singularWStimeout".equals(str[0])) {
+            singularWebServiceTimeout = Integer.parseInt(str[1]);
+            return;
+        }
+        AbstractApplication.warn("Option prover not recognized : ".concat(option));
+    }
 	
 	/**
 	 * Reports if GeoGebra version check is allowed. The version_check_allowed preference

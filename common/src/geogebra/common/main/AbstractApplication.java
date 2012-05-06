@@ -227,6 +227,19 @@ public abstract class AbstractApplication {
 
 	}
 
+    /*
+     * Prover settings (see handleHelpVersionArgs for details)
+     */
+    public static String proverEngine = "Auto";
+    public static int proverTimeout = 5;
+    public static int maxTerms = 10000;
+    public static String proverMethod = "OGP";
+    public static boolean freePointsNeverCollinear = true;
+    public static boolean useFixCoordinates = true;
+    public static boolean useSingularWebService = true;
+    public static String singularWebServiceRemoteURL = "http://ggb1.idm.jku.at:8085/";
+    public static int singularWebServiceTimeout = 5;
+
 	public MyXMLio myXMLio;
 
 	// gui / menu fontsize (-1 = use appFontSize)

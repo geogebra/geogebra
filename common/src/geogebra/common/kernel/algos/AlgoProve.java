@@ -18,6 +18,7 @@ import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.prover.Prover;
 import geogebra.common.kernel.prover.Prover.ProverEngine;
+import geogebra.common.main.AbstractApplication;
 
 /**
  *
@@ -61,10 +62,21 @@ public class AlgoProve extends AlgoElement {
     // calc the current value of the arithmetic tree
     @Override
 	public final void compute() {	
-    	Prover p = new Prover();
+	
+	// Create and initialize the prover 
+     	Prover p = new Prover();
+     	p.setProverEngine(ProverEngine.RECIOS_PROVER);
+        if ("OGP".equals(AbstractApplication.proverEngine))
+            p.setProverEngine(ProverEngine.OPENGEOPROVER);
+        else if ("Botana".equals(AbstractApplication.proverEngine))
+            p.setProverEngine(ProverEngine.BOTANAS_PROVER);
+        else if ("Recio".equals(AbstractApplication.proverEngine))
+            p.setProverEngine(ProverEngine.RECIOS_PROVER);
+        else if ("PS".equals(AbstractApplication.proverEngine))
+            p.setProverEngine(ProverEngine.PURE_SYMBOLIC_PROVER);
+        p.setTimeout(AbstractApplication.proverTimeout);
     	p.setConstruction(cons);
     	p.setStatement(root);
-    	p.setProverEngine(ProverEngine.RECIOS_PROVER);
     	p.compute();
     	Boolean result = p.getYesNoAnswer();
     	if (result != null)
