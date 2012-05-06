@@ -60,6 +60,7 @@ public class CmdSetVisibleInView extends CmdScripting {
 					boolean show = ((GeoBoolean)arg[2]).getBoolean();
 
 					if (show) {
+						geo.setEuclidianVisible(true);
 						geo.addView(ev.getViewID());
 						ev.add(geo);
 					} else {
