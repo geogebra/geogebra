@@ -65,14 +65,13 @@ public class AlgoProve extends AlgoElement {
 	
 	// Create and initialize the prover 
      	Prover p = new Prover();
-     	p.setProverEngine(ProverEngine.RECIOS_PROVER);
-        if ("OGP".equals(AbstractApplication.proverEngine))
+        if ("OpenGeoProver".equalsIgnoreCase(AbstractApplication.proverEngine))
             p.setProverEngine(ProverEngine.OPENGEOPROVER);
-        else if ("Botana".equals(AbstractApplication.proverEngine))
+        else if ("Botana".equalsIgnoreCase(AbstractApplication.proverEngine))
             p.setProverEngine(ProverEngine.BOTANAS_PROVER);
-        else if ("Recio".equals(AbstractApplication.proverEngine))
+        else if ("Recio".equalsIgnoreCase(AbstractApplication.proverEngine))
             p.setProverEngine(ProverEngine.RECIOS_PROVER);
-        else if ("PS".equals(AbstractApplication.proverEngine))
+        else if ("PureSymbolic".equalsIgnoreCase(AbstractApplication.proverEngine))
             p.setProverEngine(ProverEngine.PURE_SYMBOLIC_PROVER);
         p.setTimeout(AbstractApplication.proverTimeout);
     	p.setConstruction(cons);

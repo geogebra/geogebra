@@ -658,18 +658,35 @@ public class Application extends AbstractApplication implements
 							+ "  --versionCheckAllow=SETTING\tallow version check (on/off or true/false for single launch)\n"
 							+ "  --logLevel=LEVEL\tset logging level (EMERGENCY|ALERT|CRITICAL|ERROR|WARN|NOTICE|INFO|DEBUG|TRACE)\n"
 							+ "  --silent\tCompletely mute logging\n"
-							+ "  --prover=OPTIONS\tset options for the prover subsystem, where OPTIONS is described above\n"
-							+ "OPTIONS : a comma separated list, formed with the following available options\n"
-							+ "  engine:ENGINE\tset engine (OGP|Recio|Botana|PS)\n"
-							+ "  timeou:SECS\tset the maximum time attributed to the prover (in seconds)\n"
-							+ "  maxterms:NUMBER\tset the maximal number of terms (only available with OpenGeoProver)\n"
-							+ "  method:METHOD\tset the method used with OpenGeoProver (Groebner|Wu|Area)\n"
-							+ "  fpnevercoll:BOOLEAN\tassume three free points are never collinear\n"
-							+ "  usefixcoords:BOOLEAN\tuse fix coordinates for the first points\n"
-							+ "  singularWS:BOOLEAN\tuse Singular WebService when possible\n"
-							+ "  singularWSremoteURL:URL\tset the remote server URL for Singular WebService\n"
-							+ "  singularWStimeout:SECS\tset the timeout for SingularWebService\n");
+							+ "  --prover=OPTIONS\tset options for the prover subsystem (use --proverhelp for more information)\n");
+			
 			System.exit(0);
+		}
+		if (args.containsArg("proverhelp")) {
+			// help message for the prover
+			System.out.println(
+					"  --prover=OPTIONS\tset options for the prover subsystem\n"
+					+ "    where OPTIONS is a comma separated list, formed with the following available settings (defaults in brackets):\n"
+					+ "      engine:ENGINE\tset engine (Auto|OpenGeoProver|Recio|Botana|PureSymbolic) [" 
+					+ AbstractApplication.proverEngine + "]\n"
+					+ "      timeout:SECS\tset the maximum time attributed to the prover (in seconds) [" 
+					+ AbstractApplication.proverTimeout + "]\n"
+					+ "      maxterms:NUMBER\tset the maximal number of terms ["
+					+ AbstractApplication.maxTerms + "] (OpenGeoProver only)\n"
+					+ "      method:METHOD\tset the method (Wu|Groebner|Area) ["
+					+ AbstractApplication.proverMethod + "] (OpenGeoProver only)\n"
+					+ "      fpnevercoll:BOOLEAN\tassume three free points are never collinear ["
+					+ AbstractApplication.freePointsNeverCollinear + "] (Botana only)\n"
+					+ "      usefixcoords:BOOLEAN\tuse fix coordinates for the first points ["
+					+ AbstractApplication.useFixCoordinates + "] (Botana only)\n"
+					+ "      singularWS:BOOLEAN\tuse Singular WebService when possible ["
+					+ AbstractApplication.useSingularWebService + "]\n"
+					+ "      singularWSremoteURL:URL\tset the remote server URL for Singular WebService ["
+					+ AbstractApplication.singularWebServiceRemoteURL + "]\n"
+					+ "      singularWStimeout:SECS\tset the timeout for SingularWebService ["
+					+ AbstractApplication.singularWebServiceTimeout + "]\n\n"
+					+ "  Example: --prover=engine:Botana,timeout:10,fpnevercoll:false\n");
+					System.exit(0);
 		}
 		// help debug applets
 		info("GeoGebra " + GeoGebraConstants.VERSION_STRING + " "
@@ -678,9 +695,7 @@ public class Application extends AbstractApplication implements
 		if (args.containsArg("v")) {
 			System.exit(0);
 		}
-
 	}
-
 	
 	@Override
 	protected EuclidianController newEuclidianController(Kernel kernel1) {
@@ -1328,58 +1343,60 @@ public class Application extends AbstractApplication implements
 		
 	}
 
-    private void setProverOption(String option) {
+    private static void setProverOption(String option) {
         String[] str = option.split(":");
-        if ("engine".equals(str[0])) {
-            if ("OGP".equals(str[1]) 
-                    || "Recio".equals(str[1])
-                    || "Botana".equals(str[1])
-                    || "PS".equals(str[1])) {
-                proverEngine = str[1];
+        if ("engine".equalsIgnoreCase(str[0])) {
+            if ("OpenGeoProver".equalsIgnoreCase(str[1]) 
+                    || "Recio".equalsIgnoreCase(str[1])
+                    || "Botana".equalsIgnoreCase(str[1])
+                    || "PureSymbolic".equalsIgnoreCase(str[1])
+                    || "Auto".equalsIgnoreCase(str[1])
+                    ) {
+                proverEngine = str[1].toLowerCase();
                 return;
             }
-            AbstractApplication.warn("Option not recognized : ".concat(option));
+            AbstractApplication.warn("Option not recognized: ".concat(option));
             return;
         }
-        if ("timeout".equals(str[0])) {
+        if ("timeout".equalsIgnoreCase(str[0])) {
             proverTimeout = Integer.parseInt(str[1]);
             return;
         }
-        if ("maxterms".equals(str[0])) {
+        if ("maxTerms".equalsIgnoreCase(str[0])) {
             maxTerms = Integer.parseInt(str[1]);
             return;
         }
-        if ("method".equals(str[0])) {
-            if ("Groebner".equals(str[1]) 
-                    || "Wu".equals(str[1])
-                    || "Area".equals(str[1])) {
-                proverMethod = str[1];
+        if ("method".equalsIgnoreCase(str[0])) {
+            if ("Groebner".equalsIgnoreCase(str[1]) 
+                    || "Wu".equalsIgnoreCase(str[1])
+                    || "Area".equalsIgnoreCase(str[1])) {
+                proverMethod = str[1].toLowerCase();
                 return;
             }
-            AbstractApplication.warn("Option not recognized".concat(option));
+            AbstractApplication.warn("Method parameter not recognized: ".concat(option));
             return;
         }
-        if ("fpnevercoll".equals(str[0])) {
+        if ("fpnevercoll".equalsIgnoreCase(str[0])) {
             freePointsNeverCollinear = Boolean.valueOf(str[1]).booleanValue();
             return;
         }
-        if ("usefixcoords".equals(str[0])) {
+        if ("usefixcoords".equalsIgnoreCase(str[0])) {
             useFixCoordinates = Boolean.valueOf(str[1]).booleanValue();
             return;
         }
-        if ("singularWS".equals(str[0])) {
+        if ("singularWS".equalsIgnoreCase(str[0])) {
             useSingularWebService = Boolean.valueOf(str[1]).booleanValue();
             return;
         }
-        if ("singularWSremoteURL".equals(str[0])) {
-            singularWebServiceRemoteURL = str[1];
+        if ("singularWSremoteURL".equalsIgnoreCase(str[0])) {
+            singularWebServiceRemoteURL = str[1].toLowerCase();
             return;
         }
-        if ("singularWStimeout".equals(str[0])) {
+        if ("singularWStimeout".equalsIgnoreCase(str[0])) {
             singularWebServiceTimeout = Integer.parseInt(str[1]);
             return;
         }
-        AbstractApplication.warn("Option prover not recognized : ".concat(option));
+        AbstractApplication.warn("Prover option not recognized: ".concat(option));
     }
 	
 	/**

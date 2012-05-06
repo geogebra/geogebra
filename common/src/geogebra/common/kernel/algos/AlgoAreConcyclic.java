@@ -29,7 +29,7 @@ public class AlgoAreConcyclic extends AlgoElement implements
 	private Polynomial[] polynomials;
 
 	/**
-	 * Tests if two lines are parallel
+	 * Tests if four points are concyclic
 	 * @param cons The construction the lines depend on
 	 * @param label the name of the resulting boolean
 	 * @param inputPoint1 the first point
@@ -73,7 +73,7 @@ public class AlgoAreConcyclic extends AlgoElement implements
 
 	/**
 	 * Gets the result of the test
-	 * @return true if the lines are parallel and false otherwise
+	 * @return true if the points are concyclic and false otherwise
 	 */
 	
 	public GeoBoolean getResult() {

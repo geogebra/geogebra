@@ -117,6 +117,11 @@ public class ProverBotanasMethod {
 		return ret;
 	}
 	
+	/**
+	 * Proves the statement by using Botana's method 
+	 * @param statement the statement to prove
+	 * @return if the proof was successful
+	 */
 	public static ProofResult prove(GeoElement statement){
 		ProofResult result = ProofResult.UNKNOWN;
 
@@ -150,9 +155,13 @@ public class ProverBotanasMethod {
 			// system will be created and solved for each.
 			Polynomial[] statements = ((SymbolicParametersAlgo) statement.getParentAlgorithm()).getBotanaPolynomials();
 			// The NDG conditions (automatically created):
-			Polynomial[] ndgConditions = create3FreePointsNeverCollinearNDG(statement);
+			Polynomial[] ndgConditions = null;
+			if (AbstractApplication.freePointsNeverCollinear)
+				ndgConditions = create3FreePointsNeverCollinearNDG(statement);
 			// Fix points (heuristics):
-			Polynomial[] fixValues = fixValues(statement);
+			Polynomial[] fixValues = null;
+			if (AbstractApplication.useFixCoordinates)
+				fixValues = fixValues(statement);
 			int nHypotheses = 0;
 			int nNdgConditions = 0;
 			int nStatements = 0;

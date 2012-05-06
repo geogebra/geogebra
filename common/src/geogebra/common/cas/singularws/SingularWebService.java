@@ -14,13 +14,11 @@ import geogebra.common.util.URLEncoder;
  */
 public class SingularWebService {
 
-	private int timeout = 10;
-	//private String wsHostDefault = "http://ws.geogebra.org/Singular";
-	private final String wsHostDefault = "http://140.78.116.130:8085";
+	private int timeout = AbstractApplication.singularWebServiceTimeout;
 	private final String testConnectionCommand = "t";
 	private final String singularDirectCommand = "s";
 	
-	private String wsHost = wsHostDefault;
+	private String wsHost = AbstractApplication.singularWebServiceRemoteURL;
 	private Boolean available; 
 	
 	/**

@@ -26,17 +26,14 @@ public class GeoGebra extends Object implements GeoGebraConstants {
 		CommandLineArguments args = new CommandLineArguments(cmdArgs);
 				
     	boolean showSplash = true;
-    	if(!args.getBooleanValue("showSplash", true)) {
+    	if (!args.getBooleanValue("showSplash", true)) {
     		showSplash = false;
     	}
     	
-    	if(args.containsArg("help")||args.containsArg("v")) {
+    	if (args.containsArg("help") || args.containsArg("proverhelp")
+    			|| args.containsArg("v") || args.containsArg("regressionFile")) {
     		showSplash = false;
     	}
-
-			if(args.containsArg("regressionFile")) {
-				showSplash = false;
-			}
     	
     	if (showSplash) {
     	  // Show splash screen
