@@ -3978,6 +3978,10 @@ public class ExpressionNode extends ValidExpression implements
 			break;
 
 		case FUNCTION:
+			if(right instanceof ListValue){
+				sb.append("applyfunction("+leftStr+","+rightStr+")");
+				break;
+			}
 			// GeoFunction and GeoFunctionConditional should not be expanded
 			if (left instanceof GeoFunction) {
 				GeoFunction geo = (GeoFunction) left;

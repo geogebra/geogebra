@@ -655,6 +655,9 @@ public abstract class AbstractCASmpreduce extends CASgeneric {
 						+ "		   if (numberp(a) and a>0) or a=infinity then -infinity"
 						+ "		   else if (numberp(a) and a<0) or a=infinity then infinity"
 						+ "		   else '?" + "		 else" + "        a*b;");
+				
+				mpreduce1.evaluate("procedure applyfunction(a,b);"
+						+ "      for i:=1:length(b) collect a(part(b,i))");
 
 				mpreduce1.evaluate("operator multiplication;");
 
