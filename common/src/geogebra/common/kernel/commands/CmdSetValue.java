@@ -74,8 +74,6 @@ public class CmdSetValue extends CmdScripting {
 					}
 				}
 			}
-			if(!arg[1].isLabelSet())
-				arg[1].remove();
 			return;
 		case 3:
 			if ((ok = (arg[0].isGeoList() && arg[0].isIndependent())) && arg[1].isNumberValue()) {
@@ -117,12 +115,6 @@ public class CmdSetValue extends CmdScripting {
 						}
 					}
 				}
-			if(!arg[1].isLabelSet())
-					arg[1].remove();
-			if(!arg[1].isLabelSet())
-				arg[1].remove();
-			if(!arg[2].isLabelSet())
-				arg[2].remove();
 			} else
 				throw argErr(app, c.getName(), ok ? arg[1] : arg[0]);
 
