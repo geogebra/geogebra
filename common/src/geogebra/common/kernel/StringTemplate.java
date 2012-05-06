@@ -303,4 +303,14 @@ public class StringTemplate {
 		return symbolicArbConst;
 	}
 	
+	/**
+	 * Returns whether round hack is allowed for given number
+	 * @param abs absolute value of number
+	 * @param nf2 kernel's number format
+	 * @return whether round hack is allowed for given number
+	 */
+	public boolean allowsRoundHack(double abs, NumberFormatAdapter nf2) {
+		return !forceSF && (((abs < 10E7) && (getNF(nf).getMaximumFractionDigits() < 10)) || (abs < 1000));
+	}
+	
 }

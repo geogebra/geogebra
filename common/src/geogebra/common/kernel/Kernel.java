@@ -1091,7 +1091,7 @@ public class Kernel {
 			// We don't do this for large numbers as
 			double abs = Math.abs(x);
 			if (!isLongInteger
-					&& (((abs < 10E7) && (nf.getMaximumFractionDigits() < 10)) || (abs < 1000))) {
+					&& tpl.allowsRoundHack(abs,nf)) {
 				// increase abs(x) slightly to round up
 				x = x * ROUND_HALF_UP_FACTOR;
 			}
@@ -1572,7 +1572,7 @@ public class Kernel {
 			sbFormatSF.append('0');
 		}
 		sbFormatSF.append(absStr);
-
+		AbstractApplication.debug(sbFormatSF.toString());
 		return sbFormatSF.toString();
 	}
 
