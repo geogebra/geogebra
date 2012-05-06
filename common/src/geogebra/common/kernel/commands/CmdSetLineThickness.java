@@ -3,7 +3,6 @@ package geogebra.common.kernel.commands;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
-import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyError;
 
 /**
@@ -22,9 +21,9 @@ public class CmdSetLineThickness extends CmdScripting {
 	}
 
 	@Override
-	final public void perform(Command c) throws MyError {
+	protected
+	final void perform(Command c) throws MyError {
 		int n = c.getArgumentNumber();
-		GeoElement[] arg;
 		switch (n) {
 		case 2:
 			arg = resArgs(c);

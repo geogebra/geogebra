@@ -22,9 +22,9 @@ public class CmdSetCaption extends CmdScripting {
 	}
 
 	@Override
-	final public void perform(Command c) throws MyError {
+	protected
+	final void perform(Command c) throws MyError {
 		int n = c.getArgumentNumber();
-		GeoElement[] arg;
 
 		switch (n) {
 		case 2:

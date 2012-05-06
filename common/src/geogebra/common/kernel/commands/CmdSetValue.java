@@ -33,9 +33,9 @@ public class CmdSetValue extends CmdScripting {
 	}
 
 	@Override
-	final public void perform(Command c) throws MyError {
+	protected
+	final void perform(Command c) throws MyError {
 		int n = c.getArgumentNumber();
-		GeoElement[] arg;
 		arg = resArgs(c);
 		boolean ok;
 		
@@ -117,7 +117,12 @@ public class CmdSetValue extends CmdScripting {
 						}
 					}
 				}
-
+			if(!arg[1].isLabelSet())
+					arg[1].remove();
+			if(!arg[1].isLabelSet())
+				arg[1].remove();
+			if(!arg[2].isLabelSet())
+				arg[2].remove();
 			} else
 				throw argErr(app, c.getName(), ok ? arg[1] : arg[0]);
 

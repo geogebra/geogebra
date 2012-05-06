@@ -10,7 +10,6 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoFunctionConditional;
 import geogebra.common.kernel.geos.GeoFunctionable;
-import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
 
 /**

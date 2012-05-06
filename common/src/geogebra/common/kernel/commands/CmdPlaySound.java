@@ -4,7 +4,6 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoBoolean;
-import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoText;
@@ -27,10 +26,10 @@ public class CmdPlaySound extends CmdScripting {
 	}
 
 	@Override
-	final public void perform(Command c) throws MyError {
+	protected
+	final void perform(Command c) throws MyError {
 
 		int n = c.getArgumentNumber();
-		GeoElement[] arg;
 		
 		boolean[] ok = new boolean[n];
 		SoundManager sm = app.getSoundManager();

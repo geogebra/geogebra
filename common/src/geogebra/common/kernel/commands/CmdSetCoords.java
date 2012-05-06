@@ -25,10 +25,10 @@ public class CmdSetCoords extends CmdScripting {
 	}
 
 	@Override
-	final public void perform(Command c) throws MyError {
+	protected
+	final void perform(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];
-		GeoElement[] arg;
 
 		switch (n) {
 		case 3:

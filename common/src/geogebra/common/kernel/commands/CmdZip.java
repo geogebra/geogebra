@@ -53,6 +53,8 @@ public class CmdZip extends CommandProcessor {
 	 * overlists
 	 * 
 	 * @param c zip command
+	 * @param vars variables
+	 * @param over lists from which the vars should be taken
 	 * @return list of arguments
 	 */
 	protected final GeoElement resArgsForZip(Command c,GeoElement[] vars, GeoList[] over) {

@@ -14,7 +14,8 @@ import geogebra.common.main.MyError;
  *
  */
 public abstract class CmdScripting extends CommandProcessor {
-
+	/** array of arguments */
+	GeoElement[] arg;
 	/**
 	 * Create new command processor
 	 * 
@@ -29,9 +30,18 @@ public abstract class CmdScripting extends CommandProcessor {
 	 * Perform the actual command
 	 * @param c command
 	 */
-	public abstract void perform(Command c);
+	protected abstract void perform(Command c);
 		
-	
+	/**
+	 * Perform the actual command and remove all unlabeled inputs
+	 * @param c command
+	 */
+	public void performAndClean(Command c){
+		perform(c);
+		for(int i=0;arg!=null && i<arg.length;i++)
+			if(arg[i]!=null && !arg[i].isLabelSet())
+				arg[i].remove();
+	}
 	@Override
 	public final GeoElement[] process (Command c) throws MyError,
 			CircularDefinitionException {

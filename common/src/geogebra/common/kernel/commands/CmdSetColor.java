@@ -5,7 +5,6 @@ import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
-import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.common.main.MyError;
@@ -28,9 +27,9 @@ public class CmdSetColor extends CmdScripting {
 	}
 
 	@Override
-	public void perform(Command c) throws MyError {
+	protected void perform(Command c) throws MyError {
 		int n = c.getArgumentNumber();
-		GeoElement[] arg;
+		
 		arg = resArgs(c);
 
 		switch (n) {
