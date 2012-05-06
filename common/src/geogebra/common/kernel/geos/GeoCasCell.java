@@ -15,7 +15,6 @@ import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import geogebra.common.kernel.arithmetic.Traversing.CommandCollector;
 import geogebra.common.kernel.arithmetic.Traversing.GeoDummyReplacer;
 import geogebra.common.kernel.arithmetic.ValidExpression;
-import geogebra.common.main.AbstractApplication;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.util.StringUtil;
 
@@ -614,9 +613,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 		// get all command names
 		commands = new HashSet<Command>();
 		ve.traverse(CommandCollector.getCollector(commands));
-		AbstractApplication.debug(ve.getClass());
 		if (commands.isEmpty()) {
-			AbstractApplication.debug("no commands"+ve);
 			commands = null;
 		} else {
 			for (Command cmd : commands) {
@@ -649,7 +646,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 		boolean isFunction = ve instanceof FunctionNVar;
 
 		// do that only if the expression is an assignment
-		if(input.contains(ve.getAssignmentOperator())) {
+		if(input.contains(ve.getAssignmentOperator().trim())) {
 			// outvar of assignment b := a + 5 is "b"
 			setAssignmentVar(ve.getLabel());
 		}
