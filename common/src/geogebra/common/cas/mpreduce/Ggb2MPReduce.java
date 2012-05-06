@@ -136,7 +136,7 @@ public class Ggb2MPReduce {
 		p("IntegralBetween.5",
 				"<< begin scalar integral!!; let intrules!!; integral!!:=int(%0-(%1),%2,%3,%4); clearrules intrules!!; return if freeof(integral!!,\\'int) then integral!! else num\\_int(%0-(%1),%2,%3,%4) end >>");
 		p("Intersect.2",
-				"<<begin scalar eqn1!!, eqn2!!; eqn1!!:=(%0); eqn2!!:=(%1); return flattenlist(for each element!! in mysolve(list(if freeof(eqn1!!,=) then eqn1!!=y!!!! else eqn1!!,if freeof(eqn2!!,=) then eqn2!!=y!!!! else eqn2!!),list(mymainvar(mymainvar(eqn1!!)+mymainvar(eqn2!!)), currenty!!)) collect map(rhs,element!!)) end>>");
+				"<<begin scalar eqn1!!, eqn2!!; eqn1!!:=(%0); eqn2!!:=(%1); return flattenlist(for each element!! in mysolve(list(eqn1!!=currenty!!!!, eqn2!!=currenty!!!!),list(ggbcasvar1x, currenty!!)) collect map(rhs,element!!)) end>>");
 		p("Invert.1", "1/(%0)");
 		p("IntegerPart.1", "if %0>0 then floor(%0) else ceiling(%0)");
 		p("IsPrime.1", "if primep(%0) and (%0)>1 then true else false");
@@ -262,7 +262,7 @@ public class Ggb2MPReduce {
 		p("Solve.2",
 				"<< begin scalar equations!!; equations!!:=(%0); if arglength(equations!!)>-1 and part(equations!!,0)=\\'list then equations!!:=mkdepthone(equations!!); return flattenlist(mysolve(aeval(equations!!),%1)) end >>");
 		p("SolveODE.1",
-				"<<begin scalar tmpret, tmpeqn; tmpeqn:=sub(list(currentx!!=x!!, currenty!!=y!!),(%0))$ depend y!!,x!!; if freeof(tmpeqn,=) then tmpeqn:=df(y!!,x!!)=tmpeqn; tmpret:=odesolve(tmpeqn,y!!,x!!)$ nodepend y!!,x!!; return if length(tmpret)=1 then sub(list(x!!=currentx!!, y!!=currenty!!),first(tmpret)) else sub(list(x!!=currentx!!, y!!=currenty!!),tmpret) end>>");
+				"<<begin scalar tmpret, tmpeqn; tmpeqn:=sub(list(currentx!!=x!!, currenty!!=y!!),(%0))$ depend y!!,x!!; if freeof(tmpeqn,=) then tmpeqn:=df(y!!,x!!)=tmpeqn; tmpret:=odesolve(sub(list(ggbcasvar1y'=df(y!!,x!!),ggbcasvar1y''=df(y!!,x!!)),tmpeqn),y!!,x!!)$ nodepend y!!,x!!; return if length(tmpret)=1 then sub(list(x!!=currentx!!, y!!=currenty!!),first(tmpret)) else sub(list(x!!=currentx!!, y!!=currenty!!),tmpret) end>>");
 		p("SolveODE.3",
 				"<<begin scalar tmpret, tmpeqn; tmpeqn:=(%0)$ depend %1,%2; if freeof(tmpeqn,=) then tmpeqn:=df(%1,%2)=tmpeqn; tmpret:=odesolve(tmpeqn,%1,%2)$ nodepend %1,%2; return if length(tmpret)=1 then first(tmpret) else tmpret end>>");
 		p("Substitute.2",
