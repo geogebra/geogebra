@@ -9,12 +9,14 @@ import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
+import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.FunctionNVar;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import geogebra.common.kernel.arithmetic.Traversing.CommandCollector;
 import geogebra.common.kernel.arithmetic.Traversing.GeoDummyReplacer;
 import geogebra.common.kernel.arithmetic.ValidExpression;
+import geogebra.common.main.AbstractApplication;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.util.StringUtil;
 
@@ -1295,15 +1297,28 @@ public class GeoCasCell extends GeoElement implements VarString {
 			return;
 		boolean isXY = includesXYVariables(); // are there x and/or y in
 												// formular
-		if (!isAssignmentVariableDefined() || !includesOnlyDefinedVariables(true))
+		if (!isAssignmentVariableDefined())
 			return;
-
+		if((inputVE instanceof Function) && (outputVE instanceof ExpressionNode)){
+			String[] labels = outputVE.getLabels();
+			outputVE = new Function((ExpressionNode)outputVE,((Function)inputVE).getFunctionVariable());
+			outputVE.setLabels(labels);
+		}
+		else if((inputVE instanceof FunctionNVar) && (outputVE instanceof ExpressionNode)){
+			String[] labels = outputVE.getLabels();
+			outputVE = new FunctionNVar((ExpressionNode)outputVE,((FunctionNVar)inputVE).getFunctionVariables());
+			outputVE.setLabels(labels);
+		}
+		
+		if(!includesOnlyDefinedVariables(true))
+			return;
 		// check that assignment variable is not a reserved name in GeoGebra
 		if (ExpressionNodeConstants.RESERVED_FUNCTION_NAMES
 				.contains(assignmentVar))
 			return;
 
 		// try to create twin geo for assignment, e.g. m := c + 3
+		
 		GeoElement newTwinGeo = silentEvalInGeoGebra(outputVE);
 		if (newTwinGeo != null) {
 			if (isXY)
