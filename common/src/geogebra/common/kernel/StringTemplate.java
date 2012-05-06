@@ -24,7 +24,12 @@ public class StringTemplate {
 	 * Template which prints numbers with maximal precision and adds prefix to 
 	 * variables (ggbtmpvar)
 	 */
-	public static final StringTemplate prefixedDefault = new StringTemplate();
+	public static final StringTemplate prefixedDefault = new StringTemplate(){
+		@Override
+		public boolean allowsRoundHack(double abs, NumberFormatAdapter nf2,ScientificFormatAdapter sf2){
+			return false;
+		}
+	};
 	static {
 		prefixedDefault.forceSF = true;
 		prefixedDefault.usePrefix = true;
@@ -307,10 +312,16 @@ public class StringTemplate {
 	 * Returns whether round hack is allowed for given number
 	 * @param abs absolute value of number
 	 * @param nf2 kernel's number format
+	 * @param sf2 kernel's scientific format
 	 * @return whether round hack is allowed for given number
 	 */
-	public boolean allowsRoundHack(double abs, NumberFormatAdapter nf2) {
-		return !forceSF && (((abs < 10E7) && (getNF(nf).getMaximumFractionDigits() < 10)) || (abs < 1000));
+	public boolean allowsRoundHack(double abs, NumberFormatAdapter nf2,ScientificFormatAdapter sf2) {
+		if(abs < 1000)
+			return true;
+		if(abs > 10E7)
+			return false;
+		return (getNF(nf2)!=null && getNF(nf2).getMaximumFractionDigits() < 10)
+			|| (getSF(sf2)!=null && getSF(sf2).getSigDigits() < 10);
 	}
 	
 }
