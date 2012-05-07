@@ -3089,7 +3089,7 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 			double arrowAdjustx = drawArrowsx ? axesStroke.getLineWidth() : 0;
 			double arrowAdjusty = drawArrowsy ? axesStroke.getLineWidth() : 0;
 
-			Color bgCol = moveAxesLabels && showGrid ? null : getBackgroundCommon();
+			Color bgCol = showGrid && !moveAxesLabels ? getBackgroundCommon() : null;
 
 			// Draw just y-axis first (in case any labels need to be drawn over it)
 			if (yAxisOnscreen()) {
