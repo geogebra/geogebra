@@ -578,7 +578,7 @@ public abstract class AbstractEuclidianController {
 			break;
 	
 		case EuclidianConstants.MODE_PEN:
-		case EuclidianConstants.MODE_FREEHAND:
+		case EuclidianConstants.MODE_FREEHAND_FUNCTION:
 			pen.resetPenOffsets();
 	
 			view.setSelectionRectangle(null);
@@ -5129,7 +5129,7 @@ public abstract class AbstractEuclidianController {
 			break;
 	
 		case EuclidianConstants.MODE_PEN:
-		case EuclidianConstants.MODE_FREEHAND:
+		case EuclidianConstants.MODE_FREEHAND_FUNCTION:
 			changedKernel = pen();
 			break;
 	
@@ -6089,7 +6089,7 @@ public abstract class AbstractEuclidianController {
 	protected void wrapMouseclicked(AbstractEvent event) {
 		
 		if ((mode == EuclidianConstants.MODE_PEN)
-				|| (mode == EuclidianConstants.MODE_FREEHAND)) {
+				|| (mode == EuclidianConstants.MODE_FREEHAND_FUNCTION)) {
 			return;
 		}
 	
@@ -7109,7 +7109,7 @@ public abstract class AbstractEuclidianController {
 			pressedButton.setDraggedOrContext(true);
 		}
 		if ((mode == EuclidianConstants.MODE_PEN)
-				|| (mode == EuclidianConstants.MODE_FREEHAND)) {
+				|| (mode == EuclidianConstants.MODE_FREEHAND_FUNCTION)) {
 			pen.handleMousePressedForPenMode(event, null);
 			return;
 		}
@@ -7723,7 +7723,7 @@ public abstract class AbstractEuclidianController {
 		Hits hits;
 	
 		if ((mode == EuclidianConstants.MODE_PEN)
-				|| (mode == EuclidianConstants.MODE_FREEHAND)) {
+				|| (mode == EuclidianConstants.MODE_FREEHAND_FUNCTION)) {
 			view.setHits(mouseLoc);
 			hits = view.getHits();
 			hits.removeAllButImages();
@@ -8027,7 +8027,7 @@ public abstract class AbstractEuclidianController {
 		}
 	
 		if ((mode == EuclidianConstants.MODE_PEN)
-				|| (mode == EuclidianConstants.MODE_FREEHAND)) {
+				|| (mode == EuclidianConstants.MODE_FREEHAND_FUNCTION)) {
 			pen.handleMouseReleasedForPenMode(event);
 			return;
 		}
@@ -8326,7 +8326,7 @@ public abstract class AbstractEuclidianController {
 		}
 	
 		if ((mode == EuclidianConstants.MODE_PEN)
-				|| (mode == EuclidianConstants.MODE_FREEHAND)) {
+				|| (mode == EuclidianConstants.MODE_FREEHAND_FUNCTION)) {
 			return;
 		}
 	
@@ -8431,7 +8431,7 @@ public abstract class AbstractEuclidianController {
 		// init preview drawables
 		switch (mode1) {
 	
-		case EuclidianConstants.MODE_FREEHAND:
+		case EuclidianConstants.MODE_FREEHAND_FUNCTION:
 			pen.setFreehand(true);
 	
 			break;

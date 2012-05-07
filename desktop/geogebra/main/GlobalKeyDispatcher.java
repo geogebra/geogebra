@@ -548,7 +548,7 @@ public class GlobalKeyDispatcher extends geogebra.common.main.GlobalKeyDispatche
 
 				// disable zooming in PEN mode
 				if (app.getActiveEuclidianView().getMode() != EuclidianConstants.MODE_PEN
-						|| app.getActiveEuclidianView().getMode() != EuclidianConstants.MODE_FREEHAND) {
+						|| app.getActiveEuclidianView().getMode() != EuclidianConstants.MODE_FREEHAND_FUNCTION) {
 
 					boolean spanish = ((Application)app).getLocale().toString()
 							.startsWith("es");

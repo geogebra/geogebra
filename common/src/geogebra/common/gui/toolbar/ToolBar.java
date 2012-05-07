@@ -164,7 +164,7 @@ public class ToolBar {
 			sb.append(" ");
 			sb.append(EuclidianConstants.MODE_PEN);
 			sb.append(" ");
-			sb.append(EuclidianConstants.MODE_FREEHAND);
+			sb.append(EuclidianConstants.MODE_FREEHAND_FUNCTION);
 			sb.append(" , ");
 		}
 		

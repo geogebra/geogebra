@@ -155,44 +155,6 @@ public class ToolManagerDialog extends javax.swing.JDialog {
 			app.showError(app.getError("Tool.DeleteUsed") + " " + macroNames);
 	}
 
-	/**
-	 * Saves all selected tools in a new file.
-	 */
-	private void saveTools(JList toolList) {
-		Object[] sel = toolList.getSelectedValues();
-		if (sel == null || sel.length == 0)
-			return;
-
-		File file = app.getGuiManager().showSaveDialog(
-				Application.FILE_EXT_GEOGEBRA_TOOL, null,
-				app.getPlain("ApplicationName") + " " + app.getMenu("Tools"),
-				true, false);
-		if (file == null)
-			return;
-
-		// we need to save all selected tools and all tools
-		// that are used by the selected tools
-		LinkedHashSet<Macro> tools = new LinkedHashSet<Macro>();
-		for (int i = 0; i < sel.length; i++) {
-			Macro macro = (Macro) sel[i];
-			ArrayList<Macro> macros = macro.getUsedMacros();
-			if (macros != null)
-				tools.addAll(macros);
-			tools.add(macro);
-		}
-
-		// create Macro array list from tools set
-		ArrayList<Macro> macros = new ArrayList<Macro>(
-				tools.size());
-		Iterator<Macro> it = tools.iterator();
-		while (it.hasNext()) {
-			macros.add(it.next());
-		}
-
-		// save selected macros
-		app.saveMacroFile(file, macros);
-	}
-
 	private void initGUI() {
 		try {
 			setTitle(app.getMenu("Tool.Manage"));
@@ -237,6 +199,10 @@ public class ToolManagerDialog extends javax.swing.JDialog {
 			toolButtonPanel.add(btSave);
 			btSave.setText(app.getMenu("SaveAs") + " ...");
 
+			final JButton btShare = new JButton();
+			toolButtonPanel.add(btShare);
+			btShare.setText(app.getMenu("Share") + " ...");
+
 			// name & icon
 			final ToolNameIconPanel namePanel = new ToolNameIconPanel(app, true);
 			namePanel.setBorder(BorderFactory.createTitledBorder(app
@@ -272,9 +238,18 @@ public class ToolManagerDialog extends javax.swing.JDialog {
 						openTools(toolList);
 					} else if (src == btSave) {
 						saveTools(toolList);
+					} else if (src == btShare) {
+						uploadToGeoGebraTube(toolList);
 					}
 				}
+
+
+
+					
 			};
+			
+			
+			btShare.addActionListener(ac);
 			btSave.addActionListener(ac);
 			btDelete.addActionListener(ac);
 			btOpen.addActionListener(ac);
@@ -404,6 +379,95 @@ public class ToolManagerDialog extends javax.swing.JDialog {
 			}
 			return this;
 		}
+	}
+	
+	/*
+	 * upload selected Tools to GeoGebraTube
+	 */
+	private void uploadToGeoGebraTube(final JList toolList) {
+		
+		Thread runner = new Thread() {
+			@Override
+			public void run() {
+				app.setWaitCursor();
+				try {
+					app.clearSelectedGeos();
+					
+
+					Object[] sel = toolList.getSelectedValues();
+					if (sel == null || sel.length == 0)
+						return;
+
+					// we need to save all selected tools and all tools
+					// that are used by the selected tools
+					LinkedHashSet<Macro> tools = new LinkedHashSet<Macro>();
+					for (int i = 0; i < sel.length; i++) {
+						Macro macro = (Macro) sel[i];
+						ArrayList<Macro> macros = macro.getUsedMacros();
+						if (macros != null)
+							tools.addAll(macros);
+						tools.add(macro);
+					}
+
+					// create Macro array list from tools set
+					ArrayList<Macro> macros = new ArrayList<Macro>(
+							tools.size());
+					Iterator<Macro> it = tools.iterator();
+					while (it.hasNext()) {
+						macros.add(it.next());
+					}
+					// create new exporter
+					geogebra.export.GeoGebraTubeExportDesktop exporter
+						= new geogebra.export.GeoGebraTubeExportDesktop(app);
+					
+					exporter.uploadWorksheet(macros);
+					
+				} catch (Exception e) {
+					AbstractApplication.debug("Uploading failed");
+					e.printStackTrace();
+				}
+				app.setDefaultCursor();
+			}
+		};
+		runner.start();
+	}
+	
+	/**
+	 * Saves all selected tools in a new file.
+	 */
+	private void saveTools(JList toolList) {
+		Object[] sel = toolList.getSelectedValues();
+		if (sel == null || sel.length == 0)
+			return;
+
+		File file = app.getGuiManager().showSaveDialog(
+				Application.FILE_EXT_GEOGEBRA_TOOL, null,
+				app.getPlain("ApplicationName") + " " + app.getMenu("Tools"),
+				true, false);
+		if (file == null)
+			return;
+
+		// we need to save all selected tools and all tools
+		// that are used by the selected tools
+		LinkedHashSet<Macro> tools = new LinkedHashSet<Macro>();
+		for (int i = 0; i < sel.length; i++) {
+			Macro macro = (Macro) sel[i];
+			ArrayList<Macro> macros = macro.getUsedMacros();
+			if (macros != null)
+				tools.addAll(macros);
+			tools.add(macro);
+		}
+
+		// create Macro array list from tools set
+		ArrayList<Macro> macros = new ArrayList<Macro>(
+				tools.size());
+		Iterator<Macro> it = tools.iterator();
+		while (it.hasNext()) {
+			macros.add(it.next());
+		}
+
+		// save selected macros
+		app.saveMacroFile(file, macros);
 	}
 
 }

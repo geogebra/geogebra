@@ -2,9 +2,11 @@ package geogebra.common.export;
 
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.Macro;
 import geogebra.common.main.AbstractApplication;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * Export GeoGebra worksheet to GeoGebraTube.
@@ -21,6 +23,8 @@ public abstract class GeoGebraTubeExport {
 	 * Application instance.
 	 */
 	public AbstractApplication app;
+
+	protected ArrayList<Macro> macros;
 	
 	/**
 	 * Constructs a new instance of the GeoGebraTube exporter.
@@ -34,7 +38,7 @@ public abstract class GeoGebraTubeExport {
 	/**
 	 * Upload the current worksheet to GeoGebraTube.
 	 */
-	public abstract void uploadWorksheet();
+	public abstract void uploadWorksheet(ArrayList<Macro> macros);
 	
 
 	
@@ -51,13 +55,20 @@ public abstract class GeoGebraTubeExport {
 
 
 	/**
-	 * Append a base64 encoded .ggb file to the passed string buffer. 
+	 * returns a base64 encoded .ggb file 
 	 * 
 	 * @throws IOException
 	 */
 	protected String getBase64String() throws IOException {
 		return app.getGgbApi().getBase64(true);
 	}
+	
+	/**
+	 * returns a base64 encoded .ggt file 
+	 * 
+	 * @throws IOException
+	 */
+	protected abstract String getBase64Tools(ArrayList<Macro> macros) throws IOException;
 	
 	/**
 	 * Shows a small dialog with a progress bar. 
@@ -112,7 +123,7 @@ public abstract class GeoGebraTubeExport {
 		// build post query
 		StringBuffer stringBuffer = new StringBuffer();
 		stringBuffer.append("data=");
-		stringBuffer.append(encode(getBase64String()));
+		stringBuffer.append(encode(macros == null ? getBase64String() : getBase64Tools(macros)));
 
 		stringBuffer.append("&title=");
 		stringBuffer.append(encode(cons.getTitle()));

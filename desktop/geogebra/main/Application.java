@@ -4880,7 +4880,7 @@ public class Application extends AbstractApplication implements
 	@Override
 	public void uploadToGeoGebraTube() {
  		GeoGebraTubeExportDesktop ggbtube = new GeoGebraTubeExportDesktop(this);
- 		ggbtube.uploadWorksheet();
+ 		ggbtube.uploadWorksheet(null);
 	}
 	
 	

@@ -247,7 +247,7 @@ public class GGWToolBar extends Composite {
 		case EuclidianConstants.MODE_FITLINE:
 			return myIconResourceBundle.mode_fitline_32().getSafeUri().asString();
 
-		case EuclidianConstants.MODE_FREEHAND:
+		case EuclidianConstants.MODE_FREEHAND_FUNCTION:
 			return myIconResourceBundle.mode_freehand_32().getSafeUri().asString();
 
 		case EuclidianConstants.MODE_FUNCTION_INSPECTOR:

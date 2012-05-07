@@ -3461,9 +3461,12 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 
 			if (bgCol != null) {
 				Rectangle2D rect = layout.getBounds();			
-				rect.setRect(rect.getX() + x - spaceToLeft , rect.getY() + y , rect.getWidth() + spaceToLeft, rect.getHeight() + spaceBelow);
+				
+				int vOffset = 0;//app.isHTML5Applet() ? -10 : 0;
+				
+				rect.setRect(rect.getX() + x - spaceToLeft , rect.getY() + y + vOffset , rect.getWidth() + spaceToLeft, rect.getHeight() + spaceBelow + vOffset);
 				//AbstractApplication.debug(rect.getX()+" "+rect.getY()+" "+rect.getWidth()+" "+rect.getHeight());
-				g2.setPaint(bgCol);		
+				g2.setPaint(Color.cyan);		
 				g2.fill(rect);
 			}
 

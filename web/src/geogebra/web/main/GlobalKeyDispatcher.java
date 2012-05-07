@@ -470,7 +470,7 @@ public class GlobalKeyDispatcher extends
 
 				// disable zooming in PEN mode
 				if (ev.getMode() != EuclidianConstants.MODE_PEN
-						|| ev.getMode() != EuclidianConstants.MODE_FREEHAND) {
+						|| ev.getMode() != EuclidianConstants.MODE_FREEHAND_FUNCTION) {
 
 					//TCO boolean spanish = app.getLocale().toString()
 					//		.startsWith("es");

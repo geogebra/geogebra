@@ -2,9 +2,11 @@ package geogebra.web.main;
 
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.Macro;
 import geogebra.common.main.AbstractApplication;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestBuilder;
@@ -35,7 +37,10 @@ public class GeoGebraTubeExportWeb extends geogebra.common.export.GeoGebraTubeEx
 	 * Upload the current worksheet to GeoGebraTube.
 	 */
 	@Override
-    public void uploadWorksheet() {
+    public void uploadWorksheet(ArrayList<Macro> macrosIn) {
+		
+		this.macros = macrosIn;
+		
 		showDialog();
 
 		Construction cons = app.getKernel().getConstruction();
@@ -170,6 +175,12 @@ public class GeoGebraTubeExportWeb extends geogebra.common.export.GeoGebraTubeEx
     public void hideDialog(){
 		AbstractApplication.debug("Unimplemented");
 	}
+
+	@Override
+    protected String getBase64Tools(ArrayList<Macro> macros) throws IOException {
+		AbstractApplication.debug("Unimplemented");
+	    return null;
+    }
 
 
 }

@@ -485,7 +485,7 @@ class FileMenu extends BaseMenu {
 								geogebra.export.GeoGebraTubeExportDesktop exporter
 									= new geogebra.export.GeoGebraTubeExportDesktop(app);
 								
-								exporter.uploadWorksheet();
+								exporter.uploadWorksheet(null);
 								
 							} catch (Exception e) {
 								AbstractApplication.debug("Uploading failed");
