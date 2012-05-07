@@ -13,7 +13,6 @@ the Free Software Foundation.
 package geogebra.common.kernel.geos;
 
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.PathMover;
 import geogebra.common.kernel.PathMoverGeneric;
@@ -268,18 +267,6 @@ public class GeoFunction extends GeoElement implements VarString,
 	public GeoFunction(GeoFunction f) {
 		this(f.cons);
 		set(f);
-	}
-
-	public GeoFunction(Construction cons, boolean b) {
-		super(cons);
-		
-		// needed before defaults are set
-		isInequality = new Boolean(b);
-
-		// moved from GeoElement's constructor
-		// must be called from the subclass, see
-		// http://benpryor.com/blog/2008/01/02/dont-call-subclass-methods-from-a-superclass-constructor/
-		setConstructionDefaults(); // init visual settings
 	}
 
 	@Override
@@ -2052,6 +2039,9 @@ public class GeoFunction extends GeoElement implements VarString,
 		return (isInequality != null && isInequality) ? 0 : 1;
 	}
  
+	/**
+	 * @return whether this function is inequality (more precisely logical combination of inequalities)
+	 */
 	public boolean isInequality() {
 		return (isInequality != null && isInequality) ? true : false;
 	}

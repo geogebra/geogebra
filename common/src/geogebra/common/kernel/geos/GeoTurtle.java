@@ -12,7 +12,6 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.geos;
 
-import geogebra.common.awt.BufferedImage;
 import geogebra.common.awt.Color;
 import geogebra.common.awt.Image;
 import geogebra.common.factories.AwtFactory;

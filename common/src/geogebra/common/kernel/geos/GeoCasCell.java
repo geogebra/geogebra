@@ -79,7 +79,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 
 		input = "";
 		localizedInput = "";
-		inputVE = null;
+		setInputVE(null);
 		outputVE = null;
 		prefix = "";
 		evalVE = null;
@@ -423,11 +423,11 @@ public class GeoCasCell extends GeoElement implements VarString {
 		// if the cell is used as comment, treat it as empty
 		if (useAsText) {
 			suppressOutput = true;
-			inputVE = new ExpressionNode();
+			setInputVE(new ExpressionNode());
 			this.commentText.setTextString(inValue != null ? inValue : "");
 		} else { // parse input into valid expression
 			suppressOutput = inValue.endsWith(";");
-			inputVE = parseGeoGebraCASInputAndResolveDummyVars(inValue);
+			setInputVE(parseGeoGebraCASInputAndResolveDummyVars(inValue));
 		}
 		input = inValue != null ? inValue : ""; // remember exact user input
 		prefix = "";
@@ -658,8 +658,12 @@ public class GeoCasCell extends GeoElement implements VarString {
 		if (geoVars != null) {
 			for (GeoElement geo : geoVars) {
 				String var = geo.getLabel(StringTemplate.defaultTemplate);
-
+				AbstractApplication.debug(ve+","+ve.getClass()+","+ve.isTopLevelCommand());
 				// local function variables are NOT input variables
+				if(ve.isTopLevelCommand()){//TODO
+					
+					getFunctionVars().add(var);
+				}
 				if (isFunction && ((FunctionNVar) ve).isFunctionVariable(var)) {
 					// function variable, e.g. k in f(k) := k^2 + 3
 					getFunctionVars().add(var);
@@ -675,7 +679,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 
 		// replace GeoDummyVariable objects in inputVE by the found inGeos
 		// This is important for row references and renaming of inGeos to work
-		inputVE = resolveInputReferences(inputVE, inGeos);
+		setInputVE(resolveInputReferences(inputVE, inGeos));
 
 		// check for circular definition
 		isCircularDefinition = false;
@@ -973,7 +977,19 @@ public class GeoCasCell extends GeoElement implements VarString {
 
 		// make sure we have an expression node
 		ExpressionNode node;
-		if (ve instanceof FunctionNVar) {
+		if (ve.isTopLevelCommand() && getFunctionVars().iterator().hasNext()) {
+			AbstractApplication.printStacktrace("wrong function syntax");
+			String[] labels = ve.getLabels();
+			if (ve instanceof ExpressionNode){
+				node = (ExpressionNode) ve;
+			}else{ 
+				node = new ExpressionNode(kernel,ve);
+			}
+			ret = new Function(node,
+					new FunctionVariable(kernel,getFunctionVars().iterator().next()));
+			ret.setLabels(labels);
+		}
+		else if (ve instanceof FunctionNVar) {
 			node = ((FunctionNVar) ve).getExpression();
 			ret = ve; // make sure we return the Function
 		} else if (ve instanceof ExpressionNode) {
@@ -1299,6 +1315,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 												// formular
 		if (!isAssignmentVariableDefined())
 			return;
+		AbstractApplication.debug(inputVE.getClass()+","+outputVE.getClass());
 		if((inputVE instanceof Function) && (outputVE instanceof ExpressionNode)){
 			String[] labels = outputVE.getLabels();
 			outputVE = new Function((ExpressionNode)outputVE,((Function)inputVE).getFunctionVariable());
@@ -1948,6 +1965,11 @@ public class GeoCasCell extends GeoElement implements VarString {
 			return ((FunctionNVar)inputVE).getVarString(tpl);
 		}
 		return "";
+	}
+
+	private void setInputVE(ValidExpression inputVE) {
+		AbstractApplication.debug(inputVE+":"+(inputVE==null?"":inputVE.getClass()));
+		this.inputVE = inputVE;
 	}
 
 }

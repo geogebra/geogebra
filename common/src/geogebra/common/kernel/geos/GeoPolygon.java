@@ -13,7 +13,6 @@ the Free Software Foundation.
 package geogebra.common.kernel.geos;
 
 import geogebra.common.awt.Color;
-import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.Kernel;
