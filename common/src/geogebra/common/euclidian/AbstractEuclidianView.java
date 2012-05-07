@@ -3466,7 +3466,7 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 				
 				rect.setRect(rect.getX() + x - spaceToLeft , rect.getY() + y + vOffset , rect.getWidth() + spaceToLeft, rect.getHeight() + spaceBelow + vOffset);
 				//AbstractApplication.debug(rect.getX()+" "+rect.getY()+" "+rect.getWidth()+" "+rect.getHeight());
-				g2.setPaint(Color.cyan);		
+				g2.setPaint(bgCol);		
 				g2.fill(rect);
 			}
 
