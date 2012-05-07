@@ -783,19 +783,6 @@ public class AutoCompleteTextField extends HorizontalPanel implements AutoComple
 		        }
 		        break;
 
-		      case MyKeyCodes.KEY_0:
-		      case MyKeyCodes.KEY_1:
-		      case MyKeyCodes.KEY_2:
-		      case MyKeyCodes.KEY_3:
-		      case MyKeyCodes.KEY_4:
-		      case MyKeyCodes.KEY_5:
-		      case MyKeyCodes.KEY_6:
-		      case MyKeyCodes.KEY_7:
-		      case MyKeyCodes.KEY_8:
-		      case MyKeyCodes.KEY_9:
-		        if (e.isControlKeyDown() && e.isShiftKeyDown())
-		          app.getGlobalKeyDispatcher().handleGeneralKeys(e);
-		        break;
 
 		      // process input
 
@@ -901,13 +888,30 @@ public class AutoCompleteTextField extends HorizontalPanel implements AutoComple
 
 		        e.stopPropagation();
 		        break;
-		      default:
+		        
+			      case MyKeyCodes.KEY_0:
+			      case MyKeyCodes.KEY_1:
+			      case MyKeyCodes.KEY_2:
+			      case MyKeyCodes.KEY_3:
+			      case MyKeyCodes.KEY_4:
+			      case MyKeyCodes.KEY_5:
+			      case MyKeyCodes.KEY_6:
+			      case MyKeyCodes.KEY_7:
+			      case MyKeyCodes.KEY_8:
+			      case MyKeyCodes.KEY_9:
+			        if (e.isControlKeyDown() && e.isShiftKeyDown())
+			          app.getGlobalKeyDispatcher().handleGeneralKeys(e);
+			       
+			       // fall through eg Alt-2 for squared
+			        
+			      default:
 
 		    	  // check for eg alt-a for alpha
 		    	  // check for eg alt-shift-a for upper case alpha
 		    	  if (e.isAltKeyDown()) {
 
 		    		  char c = (char) keyCode;
+		    		  
 		    		  String s;
 		    		  
 		    		  if (e.isShiftKeyDown()) {

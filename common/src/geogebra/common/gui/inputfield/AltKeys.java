@@ -1,6 +1,7 @@
 package geogebra.common.gui.inputfield;
 
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
+import geogebra.common.main.AbstractApplication;
 import geogebra.common.util.Unicode;
 
 import java.util.HashMap;
@@ -53,6 +54,7 @@ public class AltKeys {
 		LookupLower.put('6', Unicode.Superscript_6+"");
 		LookupLower.put('7', Unicode.Superscript_7+"");
 		LookupLower.put('8', Unicode.Superscript_8+"");
+		LookupUpper.put('8', ExpressionNodeConstants.strVECTORPRODUCT);
 		LookupLower.put('9', Unicode.Superscript_9+"");
 		
 		
@@ -87,29 +89,36 @@ public class AltKeys {
 		LookupUpper.put('>', Unicode.GREATER_EQUAL+"");
 		LookupLower.put('>', Unicode.GREATER_EQUAL+"");
 		
-		LookupUpper.put('+', Unicode.PLUSMINUS);
-		LookupLower.put('+', Unicode.PLUSMINUS);
-		
-		LookupUpper.put('+', Unicode.PLUSMINUS);
-		LookupLower.put('+', Unicode.PLUSMINUS);
-		
-		LookupUpper.put('+', Unicode.PLUSMINUS);
-		LookupLower.put('+', Unicode.PLUSMINUS);
-		
-		LookupUpper.put('+', Unicode.PLUSMINUS);
-		LookupLower.put('+', Unicode.PLUSMINUS);
-		
-		LookupUpper.put('+', Unicode.PLUSMINUS);
-		LookupLower.put('+', Unicode.PLUSMINUS);
-		
-		LookupUpper.put('+', Unicode.PLUSMINUS);
-		LookupLower.put('+', Unicode.PLUSMINUS);
-		
-		LookupUpper.put('+', Unicode.PLUSMINUS);
-		LookupLower.put('+', Unicode.PLUSMINUS);
-		
-		LookupUpper.put('+', Unicode.PLUSMINUS);
-		LookupLower.put('+', Unicode.PLUSMINUS);
+		if (AbstractApplication.isFullAppGui()) {
+				
+			// on Chrome, Alt-Keypad* gives character 106  
+			LookupUpper.put((char)106, ExpressionNodeConstants.strVECTORPRODUCT);
+			LookupLower.put((char)106, ExpressionNodeConstants.strVECTORPRODUCT);
+			
+			// on Chrome, Alt-Keypad+ gives character 107
+			LookupUpper.put((char)107, Unicode.PLUSMINUS);
+			LookupLower.put((char)107, Unicode.PLUSMINUS);
+			
+			// on Chrome, Alt-Keypad- gives character 109
+			LookupUpper.put((char)109, Unicode.Superscript_Minus+"");
+			LookupLower.put((char)109, Unicode.Superscript_Minus+"");
+			
+			// on Chrome, Alt-= gives character 187 (>>) 
+			LookupUpper.put((char)187, Unicode.NOTEQUAL+"");
+			LookupLower.put((char)187, Unicode.NOTEQUAL+"");
+	
+			// on Chrome, Alt-, gives character 188 (1/4) 
+			LookupUpper.put((char)188, Unicode.LESS_EQUAL+"");
+			LookupLower.put((char)188, Unicode.LESS_EQUAL+"");
+			
+			// on Chrome, Alt-- gives character 189 (1/2) 
+			LookupUpper.put((char)189, Unicode.Superscript_Minus+"");
+			LookupLower.put((char)189, Unicode.Superscript_Minus+"");
+			
+			// on Chrome, Alt-. gives character 190 (3/4) 
+			LookupUpper.put((char)190, Unicode.GREATER_EQUAL+"");
+			LookupLower.put((char)190, Unicode.GREATER_EQUAL+"");
+		}
 		
 		
 		
