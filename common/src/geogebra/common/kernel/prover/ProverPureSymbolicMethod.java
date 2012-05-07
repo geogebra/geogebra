@@ -18,6 +18,11 @@ import geogebra.common.main.AbstractApplication;
  */
 public class ProverPureSymbolicMethod {
 	
+	/**
+	 * Proves the statement by using pure symbolic method 
+	 * @param statement the statement to prove
+	 * @return if the proof was successful
+	 */
 	public static ProofResult prove(GeoElement statement){
 		ProofResult result = ProofResult.UNKNOWN;
 
@@ -48,7 +53,6 @@ public class ProverPureSymbolicMethod {
 				} else {
 					result = Prover.ProofResult.FALSE;
 				}
-				AbstractApplication.info("This statement is " + result);
 				return result;
 				
 				// TODO: write here Recio's prover

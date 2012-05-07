@@ -88,9 +88,11 @@ public class AlgoProve extends AlgoElement {
     	AbstractApplication.debug("Benchmarking: " + elapsedTime + " ms");
     	
     	Boolean result = p.getYesNoAnswer();
+    	AbstractApplication.debug("Statement is " + result);
     	if (result != null)
     		bool.setValue(result);
-    	
+    	else
+    		bool.setValue(false);
     }   
     @Override
     // Not sure how to do this hack normally. 

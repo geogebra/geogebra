@@ -198,7 +198,6 @@ public class ProverBotanasMethod {
 				result = ProofResult.TRUE;
 			else
 				result = ProofResult.FALSE;
-			AbstractApplication.info("This statement is " + result);
 		} catch (NoSymbolicParametersException e) {
 			// TODO Auto-generated catch block
 			AbstractApplication.warn("Botana's prover cannot give an answer, try another one");

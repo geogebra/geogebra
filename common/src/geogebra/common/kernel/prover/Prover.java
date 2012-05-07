@@ -148,6 +148,8 @@ public class Prover {
 				setProverEngine(ProverEngine.PURE_SYMBOLIC_PROVER); 
 		}
 		
+		AbstractApplication.debug("Using " + engine);
+		
 		if (engine == ProverEngine.BOTANAS_PROVER) {
 			result = ProverBotanasMethod.prove(statement);
 			return; // this will return later, now we calculate the other methods as well
