@@ -1,6 +1,9 @@
 package geogebra.web.util;
 
+import java.util.Date;
+
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.i18n.client.DateTimeFormat;
 
 /**
  * GeoGebraLogger implementation for the web platform
@@ -15,6 +18,12 @@ public class GeoGebraLogger extends geogebra.common.util.GeoGebraLogger {
 	public GeoGebraLogger() {
 	}
 
+	@Override
+    protected String getTimeInfo() {
+		Date date = new Date();
+		return DateTimeFormat.getFormat("HH:mm:ss.SSS").format(date);
+	}
+	
 	@Override
     public void setLogFile(String logFileName) {
 		log(WARN, "FILE logging is not supported in web, falling back to use CONSOLES instead");
