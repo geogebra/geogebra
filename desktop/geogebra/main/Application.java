@@ -458,6 +458,10 @@ public class Application extends AbstractApplication implements
 			if (args.containsArg("logLevel")) {
 				logger.setLogLevel(args.getStringValue("logLevel"));
 			}
+			if (args.containsArg("logFile")) {
+				logger.setLogDestination(LogDestination.FILE);
+				logger.setLogFile(args.getStringValue("logFile"));
+			}
 				
 		}
 
@@ -657,6 +661,7 @@ public class Application extends AbstractApplication implements
 							+ "  --regressionFile=FILENAME\texport textual representations of dependent objects, then exit\n"
 							+ "  --versionCheckAllow=SETTING\tallow version check (on/off or true/false for single launch)\n"
 							+ "  --logLevel=LEVEL\tset logging level (EMERGENCY|ALERT|CRITICAL|ERROR|WARN|NOTICE|INFO|DEBUG|TRACE)\n"
+							+ "  --logFile=FILENAME\tset log file"
 							+ "  --silent\tCompletely mute logging\n"
 							+ "  --prover=OPTIONS\tset options for the prover subsystem (use --proverhelp for more information)\n");
 			
@@ -4338,7 +4343,11 @@ public class Application extends AbstractApplication implements
      * http://blogs.sun.com/nickstephen/entry/java_redirecting_system_out_and
      */
     private void setUpLogging() {
-
+    		if (logger.getLogDestination() == LogDestination.FILE) {
+    			// File logging already set up, don't override:
+    			return;
+    		}
+    	
             // initialize logging to go to rolling log file
             logManager = LogManager.getLogManager();
             logManager.reset();
