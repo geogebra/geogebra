@@ -43,10 +43,13 @@ public class CmdCopyFreeObject extends CommandProcessor {
 							.processAlgebraCommandNoExceptions(command, true); 
 
 					ret[0].setVisualStyle(arg[0]); 
-
+					if(!arg[0].isLabelSet())
+						arg[0].remove();
 					return ret; 
 
 				} catch (Exception e) { 
+					if(!arg[0].isLabelSet())
+						arg[0].remove();
 					e.printStackTrace(); 
 					throw argErr(app, c.getName(), arg[0]); 
 				} 
@@ -54,6 +57,8 @@ public class CmdCopyFreeObject extends CommandProcessor {
 			GeoElement geo = arg[0].copy();
 			geo.setLabel(label);
 			GeoElement[] ret = { geo };
+			if(!arg[0].isLabelSet())
+				arg[0].remove();
 			return ret;
 
 
