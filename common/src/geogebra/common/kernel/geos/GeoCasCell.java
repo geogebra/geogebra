@@ -660,7 +660,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 				String var = geo.getLabel(StringTemplate.defaultTemplate);
 				AbstractApplication.debug(ve+","+ve.getClass()+","+ve.isTopLevelCommand());
 				// local function variables are NOT input variables
-				if(ve.isTopLevelCommand()){//TODO
+				if(ve.isTopLevelCommand() && isFunction(ve.getTopLevelCommand())){
 					
 					getFunctionVars().add(var);
 				}
@@ -691,6 +691,14 @@ public class GeoCasCell extends GeoElement implements VarString {
 				}
 			}
 		}
+	}
+	private static String[] functionCommands = new String[]{"Derivative","Integral"};
+	private static boolean isFunction(Command topLevelCommand) {
+		for(int i=0;i<functionCommands.length;i++){
+			if(functionCommands[i].equals(topLevelCommand.getName()))
+				return true;
+		}
+		return false;
 	}
 
 	/**

@@ -200,7 +200,8 @@ public class Inequality {
 		Construction cons = kernel.getConstruction();
 		boolean supress = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(true);
-		funBorder = new GeoFunction(cons, true);
+		//funBorder for inequality f(x)>g(x) is function f(x)-g(x)
+		funBorder = new GeoFunction(cons);
 		funBorder.setFunction(new Function(normal, fv[varIndex]));		
 		zeros = Kernel.RootMultiple(funBorder);
 		/*for(int i=0;i<zeros.length;i++){
