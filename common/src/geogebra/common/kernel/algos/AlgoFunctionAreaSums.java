@@ -48,7 +48,8 @@ implements AlgoDrawInformation{
 	
 	// largest possible number of rectangles
 	private static final int MAX_RECTANGLES = 10000;
-	
+	/** number of points used for checking that function is defined on the interval **/
+	double CHECKPOINTS = 100;
 	// subsample every 5 pixels
 	private static final int SAMPLE_PIXELS = 5;
 
@@ -642,7 +643,7 @@ implements AlgoDrawInformation{
 	
 	@Override
 	final public boolean euclidianViewUpdate() {
-		compute();
+		compute(true);
 		return false;
 	}
 	
@@ -842,11 +843,16 @@ implements AlgoDrawInformation{
 	public GeoList getList2(){
 		return list2;
 	}
-		
 	@Override
-	public final void compute() {	
+	public final void compute(){
+		compute(false);
+	}
+	
+	private void compute(boolean onlyZoom) {	
 		GeoElement geo; // temporary variable	
-		//Application.debug(type);
+		
+		boolean isDefined = true;
+		
 		switch (type)
 		{
 		case TYPE_LOWERSUM:
@@ -855,11 +861,24 @@ implements AlgoDrawInformation{
 			if (!(f.isDefined() && ageo.isDefined() && bgeo.isDefined() 
 					&& ngeo.isDefined())) 
 				sum.setUndefined();
-					
-			RealRootFunction fun = f.getRealRootFunctionY();				
+			
+			
+			RealRootFunction fun = f.getRealRootFunctionY();	
 			double ad = a.getDouble();
 			double bd = b.getDouble();		 
-			 
+			double temp = ad;
+			if(!onlyZoom && bd>=ad){
+				double interval = (bd-ad)/CHECKPOINTS;
+				for(temp = ad; temp <= bd; temp += interval){
+					if(Double.isNaN(f.evaluate(temp)))
+					{
+						isDefined = false;
+						break;
+					}
+				}
+			}else{
+				isDefined=sum.isDefined();
+			}
 			double ints = n.getDouble();		
 			if (ints < 1) {
 				sum.setUndefined();
@@ -955,6 +974,8 @@ implements AlgoDrawInformation{
 			
 			// calc area of rectangles				
 			sum.setValue(cumSum * STEP);	
+			if(!isDefined)
+				sum.setUndefined();
 			break;
 
 		case TYPE_TRAPEZOIDALSUM:
@@ -973,7 +994,17 @@ implements AlgoDrawInformation{
 			fun = f.getRealRootFunctionY();				
 			ad = a.getDouble();
 			bd = b.getDouble();		 
-			 
+			if(!onlyZoom  && bd>=ad){
+				double interval = (bd-ad)/CHECKPOINTS;
+				for(temp = ad; temp <= bd; temp += interval){
+					if(Double.isNaN(f.evaluate(temp))){
+						isDefined = false;
+						break;
+					}
+				}
+			}else{
+				isDefined=sum.isDefined();
+			}
 			ints = n.getDouble();		
 			if (ints < 1) {
 				sum.setUndefined();
@@ -1072,6 +1103,8 @@ implements AlgoDrawInformation{
 			
 			// calc area of rectangles				
 			sum.setValue(cumSum * STEP);	
+			if(!isDefined)
+				sum.setUndefined();
 				
 			break;
 		case TYPE_BARCHART_RAWDATA:
@@ -1765,6 +1798,33 @@ implements AlgoDrawInformation{
 				list2.add(new GeoNumeric(cons, prob));
 		}
 		cons.setSuppressLabelCreation(oldSuppress);
+	}
+	
+	@Override
+	public void update() {
+		if (doStopUpdateCascade()) {
+			return;
+		}
+
+		// do not update input random numbers without label
+
+		// counter++;
+		// startTime = System.currentTimeMillis();
+
+		// compute output from input
+		compute();
+
+		// endTime = System.currentTimeMillis();
+		// computeTime += (endTime - startTime);
+		// startTime = System.currentTimeMillis();
+
+		// update dependent objects
+		for (int i = 0; i < getOutputLength(); i++) {
+			getOutput(i).update();
+		}
+
+		// endTime = System.currentTimeMillis();
+		// updateTime += (endTime - startTime );
 	}
 	
 }
