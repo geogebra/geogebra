@@ -104,9 +104,15 @@ public class SingularWebService {
 	}
 	
 	/**
-	 * If the test connection is working, then set the webservice "available".
+	 * If the test connection is working, then set the webservice "available",
+	 * unless it is disabled by a command line option.
 	 */
 	public void enable() {
+		if (!AbstractApplication.useSingularWebService) {
+			AbstractApplication.debug("SingularWS connection disabled by command line option");
+			this.available = false;
+			return;
+		}
 		AbstractApplication.debug("Trying to enable SingularWS connection");
 		Boolean tc = testConnection();
 		if (tc != null && tc) {

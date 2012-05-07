@@ -560,6 +560,8 @@ public class Application extends AbstractApplication implements
 
 		// open file given by startup parameter
 		handleOptionArgsEarly(args); // for --regressionFile=...
+		// init singularWS
+		initializeSingularWS();
 		boolean fileLoaded = handleFileArg(args);
 
 		// initialize GUI

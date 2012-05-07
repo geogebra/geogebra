@@ -427,9 +427,6 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 
 		@Override
 		public void run() {
-			// init singularWS
-			AbstractApplication.initializeSingularWS();
-			
 			// init properties dialog
 			this.app.getGuiManager().getDialogManager().initPropertiesDialog();
 
