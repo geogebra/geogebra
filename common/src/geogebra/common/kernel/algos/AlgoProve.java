@@ -12,6 +12,8 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.algos;
 
+import java.util.Date;
+
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoBoolean;
@@ -76,7 +78,15 @@ public class AlgoProve extends AlgoElement {
         p.setTimeout(AbstractApplication.proverTimeout);
     	p.setConstruction(cons);
     	p.setStatement(root);
-    	p.compute();
+    	
+    	// Adding benchmarking:
+    	Date date = new Date();
+        long startTime = date.getTime();
+    	p.compute(); // the computation of the proof
+    	date = new Date();
+    	long elapsedTime = date.getTime() - startTime;
+    	AbstractApplication.debug("Benchmarking: " + elapsedTime + " ms");
+    	
     	Boolean result = p.getYesNoAnswer();
     	if (result != null)
     		bool.setValue(result);
