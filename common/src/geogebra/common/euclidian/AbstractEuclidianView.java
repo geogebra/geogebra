@@ -3461,10 +3461,11 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 
 			if (bgCol != null) {
 				Rectangle2D rect = layout.getBounds();			
+
+				// maybe bug in web implementation of TextLayout?
+				double vOffset = app.isHTML5Applet() ? -rect.getHeight() : 0;
 				
-				int vOffset = 0;//app.isHTML5Applet() ? -10 : 0;
-				
-				rect.setRect(rect.getX() + x - spaceToLeft , rect.getY() + y + vOffset , rect.getWidth() + spaceToLeft, rect.getHeight() + spaceBelow + vOffset);
+				rect.setRect(rect.getX() + x - spaceToLeft , rect.getY() + y + vOffset , rect.getWidth() + spaceToLeft, rect.getHeight() + spaceBelow);
 				//AbstractApplication.debug(rect.getX()+" "+rect.getY()+" "+rect.getWidth()+" "+rect.getHeight());
 				g2.setPaint(bgCol);		
 				g2.fill(rect);
