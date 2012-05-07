@@ -870,7 +870,8 @@ implements AlgoDrawInformation{
 			if(!onlyZoom && bd>=ad){
 				double interval = (bd-ad)/CHECKPOINTS;
 				for(temp = ad; temp <= bd; temp += interval){
-					if(Double.isNaN(f.evaluate(temp)))
+					double val = f.evaluate(temp);
+					if(Double.isNaN(val)||Double.isInfinite(val))
 					{
 						isDefined = false;
 						break;
@@ -997,7 +998,8 @@ implements AlgoDrawInformation{
 			if(!onlyZoom  && bd>=ad){
 				double interval = (bd-ad)/CHECKPOINTS;
 				for(temp = ad; temp <= bd; temp += interval){
-					if(Double.isNaN(f.evaluate(temp))){
+					double val = f.evaluate(temp);
+					if(Double.isNaN(val)||Double.isInfinite(val)){
 						isDefined = false;
 						break;
 					}
