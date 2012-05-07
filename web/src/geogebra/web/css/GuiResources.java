@@ -43,6 +43,10 @@ public interface GuiResources extends ClientBundle {
 	@Source("geogebra/resources/images/italic.png")
 	ImageResource italic();
 
+	// style bar icons may be temporarily here
+	@Source("geogebra/resources/images/triangle-down.png")
+	ImageResource triangle_down();
+
 	@Source("geogebra/resources/images/splash-ggb4.svg")
 	TextResource ggb4Splash();
 	
