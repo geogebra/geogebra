@@ -1305,14 +1305,6 @@ public class Application extends AbstractApplication implements
 			this.getEuclidianView2().setAntialiasing(antiAliasing);
 		}
 		
-
-        if (args.containsArg("prover")) {
-            String[] proverOptions = args.getStringValue("prover").split(",");
-            for (int i = 0 ; i < proverOptions.length ; i++) {
-                setProverOption(proverOptions[i]);
-            }
-        }
-
         if (args.containsArg("versionCheckAllow")) {
             versionCheckAllow = args.getStringValue("versionCheckAllow");
             setVersionCheckAllowed();
@@ -1423,6 +1415,12 @@ public class Application extends AbstractApplication implements
 		if (args.containsArg("regressionFile")) {
 			this.regressionFileName = args.getStringValue("regressionFile");
 		}
+        if (args.containsArg("prover")) {
+            String[] proverOptions = args.getStringValue("prover").split(",");
+            for (int i = 0 ; i < proverOptions.length ; i++) {
+                setProverOption(proverOptions[i]);
+            }
+        }
 	}
 
 	/**
