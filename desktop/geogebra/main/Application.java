@@ -1240,11 +1240,6 @@ public class Application extends AbstractApplication implements
 			return;
 		}
 
-		String language = args.getStringValue("language");
-		if (language.length() > 0) {
-			setLocale(getLocale(language));
-		}
-
 		if (args.containsArg("showAlgebraInput")) {
 			boolean showInputBar = args.getBooleanValue("showAlgebraInput",
 					true);
@@ -1413,6 +1408,10 @@ public class Application extends AbstractApplication implements
 	private void handleOptionArgsEarly(CommandLineArguments args) {
 		if (args == null) {
 			return;
+		}
+		String language = args.getStringValue("language");
+		if (language.length() > 0) {
+			setLocale(getLocale(language));
 		}
 		if (args.containsArg("regressionFile")) {
 			this.regressionFileName = args.getStringValue("regressionFile");
