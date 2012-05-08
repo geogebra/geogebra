@@ -77,7 +77,7 @@ rm -f GeoGebraWeb-$VERSION.zip
 rm -fR GeoGebraWeb-$VERSION
 
 # 7. Finished
-echo "Now you might want to check this deplyoment by pointing your web browser to
+echo "Now you might want to check this deployment by pointing your web browser to
 * http://www.geogebra.org/web
 * http://dev.geogebra.org/download/web/GeoGebraWeb-latest.zip
 * http://$GAEAPP.appspot.com
