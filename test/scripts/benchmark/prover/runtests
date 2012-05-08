@@ -6,6 +6,9 @@ DEBUG=1
 TIMEOUT=20
 HTML=html/index.html
 PROVERS="Botana Recio PureSymbolic"
+TESTGGBURLBASE=http://dev.geogebra.org/trac/browser/trunk
+GGBDIR=geogebra/test/scripts/benchmark/prover
+
 THISDIR=`dirname $0`
 MYDIR=`cd $THISDIR; pwd`
 mkdir -p $MYDIR/tmp $MYDIR/html
@@ -33,7 +36,7 @@ for i in *.ggb; do
  unzip $i geogebra_thumbnail.png >/dev/null 2>&1
  mv geogebra_thumbnail.png html/$i.png
  echo -n "$i;"
- echo "<tr><td><img src=\"$i.png\"><br>$i</td>" >> $MYDIR/$HTML
+ echo "<tr><td><img src=\"$i.png\"><br><a href=\"$TESTGGBURLBASE/$GGBDIR/$i\">$i</a></td>" >> $MYDIR/$HTML
  for j in $PROVERS; do
   cd $MYDIR; cd $BUILDDIR
   # Testing:
