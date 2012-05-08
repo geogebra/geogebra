@@ -175,8 +175,8 @@ public abstract class AlgoStats2D extends AlgoElement {
     		
     	}
     	
-    	double mux=sumx/(double)sizex;
-    	double muy=sumy/(double)sizex;
+    	double mux=sumx/sizex;
+    	double muy=sumy/sizex;
     	double var;
     	
         switch (stat)

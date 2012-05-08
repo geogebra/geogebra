@@ -83,7 +83,7 @@ public class AlgoListElement extends AlgoElement {
 	}
 
 	/**
-	 * Creates new unlabeed element algo
+	 * Creates new unlabeled element algo
 	 */
 	public AlgoListElement(Construction cons, String label, GeoList geoList,
 			NumberValue[] num2, boolean shortSyntax) {

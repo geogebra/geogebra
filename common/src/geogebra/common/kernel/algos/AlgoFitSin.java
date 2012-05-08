@@ -248,7 +248,7 @@ public class AlgoFitSin extends AlgoElement {
 					if ((current != state) && (current != 0)) { // Update
 																// eventual
 																// change
-						if (nearmaxmin(y, a, b, state, current, max, min)) {// Kill
+						if (nearmaxmin(a, b, state, current, max, min)) {// Kill
 																			// noise
 							changes++;
 							state = current;
@@ -605,7 +605,7 @@ public class AlgoFitSin extends AlgoElement {
 	}// getPoints()
 
 	// Noisekiller
-	private final static boolean nearmaxmin(double y, double a, double b,
+	private final static boolean nearmaxmin(double a, double b,
 			int state, int current, double max, double min) {
 		if ((state == 1) && (current == -1)) { // A real max-change?
 			if (max > a + NOISEKILLER * b) {

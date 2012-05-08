@@ -99,7 +99,7 @@ public class AlgoMedian extends AlgoElement {
        // do the sorting
        Arrays.sort(sortList);
        
-       if (Math.floor((double)size/2)==(double)size/2.0)
+       if (Math.floor((double)size/2)==size/2.0)
        {
     	 median.setValue((sortList[size/2]+sortList[size/2-1])/2);  
        }

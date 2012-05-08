@@ -1058,7 +1058,7 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 					&& parameter >= 0 && parameter <= parameters[0];
 			// sample size:  s>= 1 and s<= N, integer
 			isValid[2] = index == 2 && Math.floor(parameter) == parameter
-					&& parameter >= 1 && parameter <= parameters[0];;
+					&& parameter >= 1 && parameter <= parameters[0];
 			break;
 
 		// ===================================

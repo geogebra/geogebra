@@ -108,10 +108,6 @@ public class ConstructionProtocolSettings extends AbstractSettings {
 			settingChanged();
 		}
 	}
-	
-	public void setColVisibility(int col, boolean isVisible){
-		
-	}
 
 	public boolean[] getColsVisibility(){
 		return cpColumnsVisible;

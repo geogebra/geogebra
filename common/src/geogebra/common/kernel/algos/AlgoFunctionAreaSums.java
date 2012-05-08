@@ -230,7 +230,7 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 	}
 
 	public AlgoFunctionAreaSums(GeoFunction f, NumberValue a, NumberValue b,
-			NumberValue n, NumberValue d, int type) {
+			NumberValue n, NumberValue d) {
 		super(f.cons, false);
 		this.f = f;
 		this.a = a;

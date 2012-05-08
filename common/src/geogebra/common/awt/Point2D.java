@@ -45,8 +45,8 @@ public abstract class Point2D {
 		}
 
 		@Override
-		public double distance(double x, double y) {
-			return Math.sqrt(Point2D.distanceSq(getX(), getY(), x, y));
+		public double distance(double x1, double y1) {
+			return Math.sqrt(Point2D.distanceSq(getX(), getY(), x1, y1));
 		}
 		
 	}
@@ -58,8 +58,8 @@ public abstract class Point2D {
 	public abstract void setY(double y);
 	public abstract double distance(Point2D q);
 	public static double distanceSq(double x1, double y1, double x2, double y2) {
-        x2 -= x1;
-        y2 -= y1;
-        return x2 * x2 + y2 * y2;
+        double d_x = x2 - x1;
+        double d_y = y2 - y1;
+        return d_x * d_x + d_y * d_y;
     }
 }

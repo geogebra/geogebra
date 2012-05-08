@@ -18,18 +18,17 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.algos;
 
-import java.math.BigInteger;
-import java.util.HashMap;
-import java.util.HashSet;
-
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.kernelND.AlgoMidpointND;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.common.kernel.prover.Variable;
 import geogebra.common.kernel.prover.NoSymbolicParametersException;
 import geogebra.common.kernel.prover.Polynomial;
+import geogebra.common.kernel.prover.Variable;
+
+import java.math.BigInteger;
+import java.util.HashMap;
+import java.util.HashSet;
 
 
 /**

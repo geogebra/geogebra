@@ -204,6 +204,7 @@ public class ClipShape {
 			intercept = x1;
 		}
 		
+		@Override
 		public String toString() {
 			return slope+"*t+"+intercept;
 		}
@@ -228,6 +229,7 @@ public class ClipShape {
 		
 		public QFunction() {}
 		
+		@Override
 		public String toString() {
 			return a+"*t*t+"+b+"*t+"+c;
 		}
@@ -270,6 +272,7 @@ public class ClipShape {
 		
 		public CFunction() {}
 		
+		@Override
 		public String toString() {
 			return a+"*t*t*t+"+b+"*t*t+"+c+"*t+"+d;
 		}

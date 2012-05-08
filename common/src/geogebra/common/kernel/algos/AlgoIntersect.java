@@ -17,7 +17,6 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.kernelND.AlgoIntersectND;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.common.main.AbstractApplication;
 
 
 public abstract class AlgoIntersect extends AlgoIntersectND {

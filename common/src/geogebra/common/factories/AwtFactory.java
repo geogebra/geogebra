@@ -1,7 +1,5 @@
 package geogebra.common.factories;
 
-import java.awt.Component;
-
 import geogebra.common.awt.AffineTransform;
 import geogebra.common.awt.Arc2D;
 import geogebra.common.awt.Area;

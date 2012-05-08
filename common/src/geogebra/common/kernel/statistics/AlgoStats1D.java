@@ -164,7 +164,7 @@ public abstract class AlgoStats1D extends AlgoElement {
 				}    		    		
 			}   
 
-			double mu=sumVal/(double)size;
+			double mu=sumVal/size;
 			double var;
 
 			switch (stat)
@@ -173,7 +173,7 @@ public abstract class AlgoStats1D extends AlgoElement {
 				result.setValue(mu);
 				break;
 			case STATS_SD:
-				var=sumSquares/(double)size-mu*mu;
+				var=sumSquares/size-mu*mu;
 				result.setValue(Math.sqrt(var));
 				break;
 			case STATS_SAMPLE_SD:
@@ -181,7 +181,7 @@ public abstract class AlgoStats1D extends AlgoElement {
 				result.setValue(Math.sqrt(var));
 				break;
 			case STATS_VARIANCE:
-				var=sumSquares/(double)size-mu*mu;
+				var=sumSquares/size-mu*mu;
 				result.setValue(var);
 				break;
 			case STATS_SAMPLE_VARIANCE:
@@ -189,7 +189,7 @@ public abstract class AlgoStats1D extends AlgoElement {
 				result.setValue(var);
 				break;
 			case STATS_SXX:
-				var=sumSquares - (sumVal * sumVal) / (double)size;
+				var=sumSquares - (sumVal * sumVal) / size;
 				result.setValue(var);
 				break;
 			case STATS_SIGMAX:

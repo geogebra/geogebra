@@ -47,7 +47,7 @@ public class AlgoTangentFunctionNumber extends AlgoUsingTempCASalgo {
 			NumberValue n, GeoFunction f) {
 		super(cons);
 		this.n = n;
-		ngeo = (GeoElement) n.toGeoElement();
+		ngeo = n.toGeoElement();
 		this.f = f;
 
 		tangent = new GeoLine(cons);

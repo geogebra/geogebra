@@ -40,7 +40,7 @@ public class AlgoSumRectangle extends AlgoFunctionAreaSums {
 	
 	private AlgoSumRectangle( GeoFunction f, 
 			   NumberValue a, NumberValue b, NumberValue n,NumberValue d) {
-		super(f, a, b, n, d, AlgoFunctionAreaSums.TYPE_RECTANGLESUM);		
+		super(f, a, b, n, d);		
 	}
 	
 	@Override

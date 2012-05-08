@@ -605,63 +605,42 @@ public class DataPanel extends JPanel implements ActionListener, StatPanelInterf
 		public void paintIcon(boolean checked, boolean highlighted, Graphics g, int x, int y) {
 
 			{
-				// outer bevel
-				if (true) {
-					// Outer top/left
-					//g.setColor(UIManager.getColor("CheckBox.shadow"));
-					g.setColor(new Color(128,128,128));
-					g.drawLine(x, y, x + (csize-2), y);
-					g.drawLine(x, y + 1, x, y + (csize-2));
+				// Outer top/left
+				//g.setColor(UIManager.getColor("CheckBox.shadow"));
+				g.setColor(new Color(128,128,128));
+				g.drawLine(x, y, x + (csize-2), y);
+				g.drawLine(x, y + 1, x, y + (csize-2));
 
-					// Outer bottom/right
-					//g.setColor(UIManager.getColor("CheckBox.highlight"));
+				// Outer bottom/right
+				//g.setColor(UIManager.getColor("CheckBox.highlight"));
+				g.setColor(Color.white);
+				g.drawLine(x + (csize-1), y, x + (csize-1), y + (csize-1));
+				g.drawLine(x, y + (csize-1), x + (csize-2), y + (csize-1));
+
+				// Inner top.left
+				//g.setColor(UIManager.getColor("CheckBox.darkShadow"));
+				g.setColor(new Color(64,64,64));
+				g.drawLine(x + 1, y + 1, x + (csize-3), y + 1);
+				g.drawLine(x + 1, y + 2, x + 1, y + (csize-3));
+
+				// Inner bottom/right
+				//g.setColor(UIManager.getColor("CheckBox.light"));
+				g.setColor(new Color(212,208,200));
+				g.drawLine(x + 1, y + (csize-2), x + (csize-2), y + (csize-2));
+				g.drawLine(x + (csize-2), y + 1, x + (csize-2), y + (csize-3));
+
+				// inside box 
+				if (highlighted) {
+					//g.setColor(UIManager.getColor("CheckBox.background"));
+					g.setColor(highlightBackground);
+				} else {
+					//g.setColor(UIManager.getColor("CheckBox.interiorBackground"));
 					g.setColor(Color.white);
-					g.drawLine(x + (csize-1), y, x + (csize-1), y + (csize-1));
-					g.drawLine(x, y + (csize-1), x + (csize-2), y + (csize-1));
-
-					// Inner top.left
-					//g.setColor(UIManager.getColor("CheckBox.darkShadow"));
-					g.setColor(new Color(64,64,64));
-					g.drawLine(x + 1, y + 1, x + (csize-3), y + 1);
-					g.drawLine(x + 1, y + 2, x + 1, y + (csize-3));
-
-					// Inner bottom/right
-					//g.setColor(UIManager.getColor("CheckBox.light"));
-					g.setColor(new Color(212,208,200));
-					g.drawLine(x + 1, y + (csize-2), x + (csize-2), y + (csize-2));
-					g.drawLine(x + (csize-2), y + 1, x + (csize-2), y + (csize-3));
-
-					// inside box 
-					if (highlighted) {
-						//g.setColor(UIManager.getColor("CheckBox.background"));
-						g.setColor(highlightBackground);
-					} else {
-						//g.setColor(UIManager.getColor("CheckBox.interiorBackground"));
-						g.setColor(Color.white);
-					}
-					g.fillRect(x + 2, y + 2, csize - 4, csize - 4);
-				} else {
-					//g.setColor(UIManager.getColor("CheckBox.shadow"));
-					g.setColor(new Color(128,128,128));
-					g.drawRect(x + 1, y + 1, csize - 3, csize - 3);
-
-					if (true) {
-						//g.setColor(UIManager.getColor("CheckBox.background"));
-						g.setColor(highlightBackground);
-					} else {
-						//g.setColor(UIManager.getColor("CheckBox.interiorBackground"));
-						g.setColor(Color.white);
-					}
-					g.fillRect(x + 2, y + 2, csize - 4, csize - 4);
 				}
+				g.fillRect(x + 2, y + 2, csize - 4, csize - 4);
 
-				if (true) {
-					//g.setColor(UIManager.getColor("CheckBox.foreground"));
-					g.setColor(new Color(0,0,0));
-				} else {
-					//g.setColor(UIManager.getColor("CheckBox.shadow"));
-					g.setColor(new Color(128,128,128));
-				}
+				//g.setColor(UIManager.getColor("CheckBox.foreground"));
+				g.setColor(new Color(0,0,0));
 
 				// paint check
 
