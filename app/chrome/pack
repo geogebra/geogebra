@@ -1,0 +1,43 @@
+#!/bin/sh
+# Creates the geogebra.crx file
+# @author Gabor Ancsin <gabor@geogebra.org>
+# @author Zoltan Kovacs <zoltan@geogebra.org>
+# The crxmake.sh script was downloaded from http://code.google.com/chrome/extensions/crx.html
+
+# 1. Settings
+APPNAME=geogebra
+KEYFILE=igi-keystore-CL.key.pem
+AUTOBUILDCONF=../../desktop/scripts/autobuild/autobuild.conf
+
+test -r $AUTOBUILDCONF || {
+ echo "No autobuild.conf exists in $AUTOBUILDCONF"
+ exit 11
+ }
+
+. ../../desktop/scripts/autobuild/autobuild.conf
+
+test -r $P12DIR/$KEYFILE || {
+ echo "No $KEYFILE exists in directory $P12DIR"
+ exit 12
+ }
+
+# 2. Working directories
+MYDIR=`dirname $0`
+CHROMEDIR=`cd $MYDIR; pwd`
+WEBDIR=`cd $CHROMEDIR/../../web; pwd`
+
+cd $WEBDIR
+./build -u safari
+cp -r $WEBDIR/war/web $CHROMEDIR/$APPNAME
+cp -r $WEBDIR/war/web/app.html $CHROMEDIR/$APPNAME
+cd $CHROMEDIR
+
+# 3. Packaging
+./crxmake.sh $APPNAME $P12DIR/$KEYFILE
+
+# 4. Cleanup
+rm -rf $APPNAME/web
+rm -rf $APPNAME/app.html
+
+# 5. Info
+echo "Packaging is finished, the result is in $APPNAME.crx"
