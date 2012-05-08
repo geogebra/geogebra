@@ -89,6 +89,31 @@ public class AlgoAreConcyclic extends AlgoElement implements
 				bx=inputPoint2.getX(), by=inputPoint2.getY(), bz=inputPoint2.getZ(),
 				cx=inputPoint3.getX(), cy=inputPoint3.getY(), cz=inputPoint3.getZ(),
 				dx=inputPoint4.getX(), dy=inputPoint4.getY(), dz=inputPoint4.getZ();
+		
+		//Using Ptolomy's theorem
+		
+		double ab=cz*dz*Math.sqrt((bx*az-ax*bz)*(bx*az-ax*bz)+(by*az-ay*bz)*(by*az-ay*bz));
+		double ac=bz*dz*Math.sqrt((cx*az-ax*cz)*(cx*az-ax*cz)+(cy*az-ay*cz)*(cy*az-ay*cz));
+		double ad=bz*cz*Math.sqrt((dx*az-ax*dz)*(dx*az-ax*dz)+(dy*az-ay*dz)*(dy*az-ay*dz));
+		double bc=az*dz*Math.sqrt((cx*bz-bx*cz)*(cx*bz-bx*cz)+(cy*bz-by*cz)*(cy*bz-by*cz));
+		double bd=az*cz*Math.sqrt((dx*bz-bx*dz)*(dx*bz-bx*dz)+(dy*bz-by*dz)*(dy*bz-by*dz));
+		double cd=az*bz*Math.sqrt((dx*cz-cx*dz)*(dx*cz-cx*dz)+(dy*cz-cy*dz)*(dy*cz-cy*dz));
+		
+		double precision = Kernel.getEpsilon();
+		Kernel.setMinPrecision();
+		
+		if (Kernel.isZero((ab*cd+bc*ad-ac*bd)/(az*bz*cz*dz)) 
+				|| Kernel.isZero((ab*cd+ac*bd-bc*ad)/(az*bz*cz*dz)) 
+				|| Kernel.isZero((bc*ad+ac*bd-ab*cd)/(az*bz*cz*dz))){
+			outputBoolean.setValue(true);
+		} else {
+			outputBoolean.setValue(false);
+		}
+		
+		Kernel.setEpsilon(precision);
+		
+		/*
+		
 		double ax2=ax*ax, ay2=ay*ay, az2=az*az,
 				bx2=bx*bx, by2=by*by, bz2=bz*bz,
 				cx2=cx*cx, cy2=cy*cy, cz2=cz*cz,
@@ -115,8 +140,10 @@ public class AlgoAreConcyclic extends AlgoElement implements
 		// minimal precision for the current calculation (and then back):
 		double precision = Kernel.getEpsilon();
 		Kernel.setMinPrecision();
-	    outputBoolean.setValue(Kernel.isZero(det));
+	    //outputBoolean.setValue(Kernel.isZero(det));
+	    AbstractApplication.debug(det);
 	    Kernel.setEpsilon(precision);
+	    */
 	}
 
 	public SymbolicParameters getSymbolicParameters() {
@@ -133,7 +160,7 @@ public class AlgoAreConcyclic extends AlgoElement implements
 
 			int[] degree = new int[1];
 			degree[0]=Math.max(degree1[1] + degree1[2] + degree2[0] + degree2[2] +   2*degree3[0],
-					Math.max( degree1[0] + degree1[2] + degree2[1] + degree2[2] +   2*degree3[0],
+							Math.max( degree1[0] + degree1[2] + degree2[1] + degree2[2] +   2*degree3[0],
 							Math.max( degree1[1] + degree1[2] + degree2[0] + degree2[2] +   2*degree3[1],
 							Math.max( degree1[0] + degree1[2] + degree2[1] + degree2[2] +   2*degree3[1],
 							Math.max( degree1[1] + degree1[2] + 2*degree2[0] + degree3[0] +   degree3[2],
@@ -186,6 +213,8 @@ public class AlgoAreConcyclic extends AlgoElement implements
 			HashMap<Variable, BigInteger> values)
 			throws NoSymbolicParametersException {
 		if (inputPoint1 != null && inputPoint2 != null && inputPoint3 != null && inputPoint4 != null) {
+			
+			
 			BigInteger[] coords1 = inputPoint1.getExactCoordinates(values);
 			BigInteger[] coords2 = inputPoint2.getExactCoordinates(values);
 			BigInteger[] coords3 = inputPoint3.getExactCoordinates(values);
