@@ -2,6 +2,8 @@
 # Creates a benchmark output for the prover in CSV format to stdout
 # @author Zoltan Kovacs <zoltan@geogebra.org>
 
+DEBUG=1
+TIMEOUT=20
 PROVERS="Botana Recio PureSymbolic"
 LOGFILE=.test.log
 REGRESSIONFILE=.regression.out
@@ -23,16 +25,23 @@ for i in *.ggb; do
  echo -n "$i;"
  for j in $PROVERS; do
   cd $MYDIR_ABSOLUTE; cd $BUILDDIR
-  java -jar geogebra.jar --prover=engine:$j --logFile=$LOGFILE \
-  --regressionFile=$REGRESSIONFILE $MYDIR_ABSOLUTE/$i --language=en \
-  >.test.stdout 2>.test.stderr
-  # Regression out file sometimes shows the wrong result:
-  # RESULT=`cat $REGRESSIONFILE | grep Prove | sed 's/\(.*\) = \(.*\)/\2/'`
-  RESULT=`cat $LOGFILE | grep "Statement is " | sed 's/\(.*\)Statement is \(.*\)/\2/'`
-  TIME=`cat $LOGFILE | grep Benchmarking | awk '{print $5}'`
-  cp $REGRESSIONFILE $REGRESSIONFILE-$i-$j
-  cp $LOGFILE $LOGFILE-$i-$j
-  echo -n "$RESULT;$TIME;"
-  done
+  timeout $TIMEOUT java -jar geogebra.jar --prover=engine:$j --logFile=$LOGFILE \
+   --regressionFile=$REGRESSIONFILE $MYDIR_ABSOLUTE/$i --language=en \
+   >.test.stdout 2>.test.stderr
+  RETVAL=$?
+  if [ $RETVAL = 124 ]; then
+   echo -n ";timeout;"
+  else
+   # Regression out file shows the wrong result (the stored value in the file is shown):
+   # RESULT=`cat $REGRESSIONFILE | grep Prove | sed 's/\(.*\) = \(.*\)/\2/'`
+   RESULT=`cat $LOGFILE | grep "Statement is " | sed 's/\(.*\)Statement is \(.*\)/\2/'`
+   TIME=`cat $LOGFILE | grep Benchmarking | awk '{print $5}'`
+   if [ $DEBUG = 1 ]; then
+    cp $REGRESSIONFILE $REGRESSIONFILE-$i-$j
+    cp $LOGFILE $LOGFILE-$i-$j
+    fi
+   echo -n "$RESULT;$TIME;"
+   fi # No timeout
+  done # All provers done for this tests
  echo
- done
+ done # All tests done
