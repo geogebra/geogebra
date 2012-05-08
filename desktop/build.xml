@@ -239,7 +239,7 @@ office@geogebra.org
 		<!--symlink link="${src.dir}/geogebra/common" resource="${src.dir}/../common/src/geogebra/common"/-->
 		<mkdir dir="${src.dir}/geogebra/common"/>
 		<copy todir="${src.dir}/geogebra/common">
-			<fileset dir="${src.dir}/../common/src/geogebra/common">
+			<fileset dir="${src.dir}/../common/war/WEB-INF/classes/geogebra/common">
 				<include name="**/*" />
 			</fileset>
 		</copy>
@@ -338,8 +338,8 @@ office@geogebra.org
 	</target>
 
 	<target name="ggb-algos-jar" depends="clean" description="create unsigned geogebra_algos.jar">
-		<copy todir="${src.dir}/org/apache">
-			<fileset dir="${src.dir}/../common/src/org/apache">
+		<copy todir="${src.dir}/org">
+		    <fileset dir="${src.dir}/../common/war/WEB-INF/classes/org">
 				<include name="**/*.class" />
 			</fileset>
 		</copy>

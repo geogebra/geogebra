@@ -224,7 +224,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	private String realLabel; // for macro constructions, see setRealLabel() for
 								// details
 	private String oldLabel; // see doRenameLabel
-	private String caption;
+	public String caption;
 	/** true if label is wanted, but not set*/
 	public boolean labelWanted = false;
 	/** tue if label is set */

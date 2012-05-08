@@ -3,6 +3,7 @@ package geogebra.web.javax.swing;
 import geogebra.common.awt.Dimension;
 import geogebra.common.awt.Rectangle;
 import geogebra.common.gui.inputfield.AutoCompleteTextField;
+import geogebra.common.javax.swing.AbstractJComboBox;
 import geogebra.common.javax.swing.JLabel;
 import geogebra.common.main.AbstractApplication;
 
@@ -65,6 +66,15 @@ public class Box extends geogebra.common.javax.swing.Box{
 	    AbstractApplication.debug("implementation needed - just finishing"); // TODO
 	    return new geogebra.web.awt.Rectangle(impl.getAbsoluteLeft(), impl.getAbsoluteTop(),
 	    		impl.getOffsetWidth(), impl.getOffsetHeight());
+    }
+
+	@Override
+    public void validate() {
+    }
+
+	@Override
+    public void add(AbstractJComboBox comboBox) {
+	    AbstractApplication.debug("unimplemented");	    
     }
 
 }

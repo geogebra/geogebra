@@ -2,6 +2,7 @@ package geogebra.web.factories;
 
 import geogebra.common.euclidian.Drawable;
 import geogebra.common.gui.inputfield.AutoCompleteTextField;
+import geogebra.common.javax.swing.AbstractJComboBox;
 import geogebra.common.javax.swing.Box;
 import geogebra.common.javax.swing.JLabel;
 import geogebra.common.main.AbstractApplication;
@@ -23,5 +24,11 @@ public class SwingFactory extends geogebra.common.factories.SwingFactory {
 	public Box createHorizontalBox() {
 		return new geogebra.web.javax.swing.Box();
 	}
+
+	@Override
+    public AbstractJComboBox newJComboBox() {
+	    AbstractApplication.debug("unimplemented");
+	    return null;
+    }
 
 }

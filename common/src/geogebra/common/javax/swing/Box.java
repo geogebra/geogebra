@@ -18,9 +18,9 @@ public abstract class Box {
 
 	public abstract Rectangle getBounds();
 
-	public void validate() {
-		
-	}
+	public abstract void validate();
+
+	public abstract void add(AbstractJComboBox comboBox);
 
 	//public abstract Box createHorizontalBox();
 

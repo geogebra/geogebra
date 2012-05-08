@@ -177,7 +177,7 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 	}
 
 	// end
-	private int fontSize;
+	int fontSize;
 	private geogebra.common.awt.AffineTransform coordTransform = 
 			geogebra.common.factories.AwtFactory.prototype.newAffineTransform();
 	private double[] AxesTickInterval = { 1, 1 }; // for axes =
@@ -2120,9 +2120,13 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 			break;
 
 		case LIST:
-			d = new DrawList(this, (GeoList) geo);
-			break;
-			
+			GeoList list = (GeoList) geo;
+			if (list.drawAsComboBox()) {
+				d = new DrawComboBox(this, list);				
+			} else {
+				d = new DrawList(this, list);
+			}			break;
+
 		case TURTLE:
 			d = new DrawTurtle(this, (GeoTurtle) geo);
 			break;

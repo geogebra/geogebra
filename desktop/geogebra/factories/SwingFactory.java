@@ -5,6 +5,7 @@ import geogebra.common.gui.inputfield.AutoCompleteTextField;
 import geogebra.common.javax.swing.Box;
 import geogebra.common.javax.swing.JLabel;
 import geogebra.common.main.AbstractApplication;
+import geogebra.javax.swing.JComboBoxDesktop;
 
 public class SwingFactory extends geogebra.common.factories.SwingFactory {
 
@@ -23,6 +24,11 @@ public class SwingFactory extends geogebra.common.factories.SwingFactory {
 	@Override
 	public Box createHorizontalBox() {
 		return new geogebra.javax.swing.Box(javax.swing.Box.createHorizontalBox());
+	}
+
+	@Override
+	public JComboBoxDesktop newJComboBox() {
+		return new geogebra.javax.swing.JComboBoxDesktop();
 	}
 
 }

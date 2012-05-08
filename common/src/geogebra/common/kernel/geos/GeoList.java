@@ -15,6 +15,8 @@ package geogebra.common.kernel.geos;
 import geogebra.common.awt.Color;
 import geogebra.common.awt.Font;
 import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
+import geogebra.common.factories.SwingFactory;
+import geogebra.common.javax.swing.AbstractJComboBox;
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Path;
@@ -45,7 +47,7 @@ import java.util.ArrayList;
  */
 public class GeoList extends GeoElement implements ListValue, LineProperties,
 		PointProperties, TextProperties, Traceable, Path, Transformable,
-		SpreadsheetTraceable {
+		SpreadsheetTraceable, AbsoluteScreenLocateable, GeoFurniture {
 
 	private final static GeoClass ELEMENT_TYPE_MIXED = GeoClass.DEFAULT;
 
@@ -1466,6 +1468,8 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 
 	private int closestPointIndex;
 
+	private AbstractJComboBox comboBox, comboBox2;
+
 	/**
 	 * @return selected index
 	 */
@@ -1894,6 +1898,122 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 	 */
 	public int find(GeoElement needle) {
 		return geoList.indexOf(needle);
+	}
+
+	public boolean drawAsComboBox() {
+		return true;
+	}
+	
+	public AbstractJComboBox getComboBox(int viewID) {
+		
+		if (comboBox == null) {
+			comboBox = SwingFactory.prototype.newJComboBox();
+			//comboBox.addActionListener(this);
+			comboBox.setEditable(false);
+			comboBox.setSelectedIndex(getSelectedIndex());
+			
+			if (size() > 0) {
+				for (int i = 0 ; i < size() ; i++) {
+					comboBox.addItem(get(i).toValueString(StringTemplate.defaultTemplate));
+				}
+			}
+			
+		}
+		
+		if (viewID != AbstractApplication.VIEW_EUCLIDIAN2) {
+			return comboBox;		
+		}
+		
+		if (comboBox2 == null) {
+			comboBox2 = SwingFactory.prototype.newJComboBox();
+			//comboBox2.addActionListener(this);
+			comboBox2.setEditable(false);
+			comboBox2.setSelectedIndex(getSelectedIndex());
+			
+			if (size() > 0) {
+				for (int i = 0 ; i < size() ; i++) {
+					comboBox2.addItem(get(i).toValueString(StringTemplate.defaultTemplate));
+				}
+			}
+
+		}
+		
+		return comboBox2;
+		
+	}
+
+	/*
+	public void actionPerformed(ActionEvent e) {
+		
+		
+		if (e.getSource() == comboBox) {
+			
+			setSelectedIndex(comboBox.getSelectedIndex());
+			updateCascade();
+			getKernel().notifyRepaint(); 
+			getKernel().storeUndoInfo();
+			
+			if (comboBox2 != null) {
+				comboBox2.setSelectedIndex(getSelectedIndex());
+
+				
+			}
+		} else if (e.getSource() == comboBox2) {
+			
+			setSelectedIndex(comboBox2.getSelectedIndex());
+			comboBox.setSelectedIndex(getSelectedIndex());
+			updateCascade();
+			getKernel().notifyRepaint(); 
+			getKernel().storeUndoInfo();
+			
+		}
+		
+	}*/
+	
+	@Override
+	public boolean isAbsoluteScreenLocateable() {
+		return drawAsComboBox();
+	}
+
+	@Override
+	public boolean isMoveable() {
+		return drawAsComboBox();
+	}
+
+	public boolean isAbsoluteScreenLocActive() {		
+		return true;
+	}
+
+	public void setAbsoluteScreenLoc(int x, int y) {		
+		
+		labelOffsetX = x;
+		labelOffsetY = y;		
+	}
+
+	public int getAbsoluteScreenLocX() {	
+		return labelOffsetX;
+	}
+
+	public int getAbsoluteScreenLocY() {		
+		return labelOffsetY;
+	}
+
+	public void setAbsoluteScreenLocActive(boolean flag) {				
+	}
+
+	public void setRealWorldLoc(double x, double y) {
+	}
+
+	public double getRealWorldLocX() {
+		return 0;
+	}
+
+	public double getRealWorldLocY() {
+		return 0;
+	}
+
+	public boolean isFurniture() {
+		return drawAsComboBox();
 	}
 
 }

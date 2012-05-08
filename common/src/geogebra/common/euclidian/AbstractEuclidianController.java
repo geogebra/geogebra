@@ -45,6 +45,7 @@ import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoFunctionable;
+import geogebra.common.kernel.geos.GeoFurniture;
 import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoList;
@@ -80,6 +81,7 @@ import geogebra.common.plugin.GeoClass;
 import geogebra.common.plugin.Operation;
 import geogebra.common.util.MyMath;
 import geogebra.common.util.StringUtil;
+
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -167,7 +169,7 @@ public abstract class AbstractEuclidianController {
 
 	protected GeoBoolean movedGeoBoolean;
 
-	protected GeoButton movedGeoButton;
+	protected GeoFurniture movedGeoButton;
 
 	protected GeoElement movedLabelGeoElement;
 
@@ -452,11 +454,11 @@ public abstract class AbstractEuclidianController {
 								.toRealWorldCoordY(((GeoBoolean) geo)
 										.getAbsoluteScreenLocY() + 20));
 						firstMoveable = false;
-					} else if (geo.isGeoButton()) {
+					} else if (geo instanceof GeoFurniture) {
 						startPoint.setLocation(view
-								.toRealWorldCoordX(((GeoButton) geo)
+								.toRealWorldCoordX(((GeoFurniture) geo)
 										.getAbsoluteScreenLocX() - 5), view
-								.toRealWorldCoordY(((GeoButton) geo)
+								.toRealWorldCoordY(((GeoFurniture) geo)
 										.getAbsoluteScreenLocY() + 30));
 						firstMoveable = false;
 					}
@@ -5551,7 +5553,7 @@ public abstract class AbstractEuclidianController {
 		// movedGeoButton.setAbsoluteScreenLoc( oldLoc.x +
 		// mouseLoc.x-startLoc.x,
 		// oldLoc.y + mouseLoc.y-startLoc.y);
-	
+	//AbstractApplication.printStacktrace("");
 		// part of snap to grid code
 		movedGeoButton.setAbsoluteScreenLoc(
 				view.toScreenCoordX(xRW - startPoint.x),
@@ -6687,8 +6689,8 @@ public abstract class AbstractEuclidianController {
 		}
 	
 		// button
-		else if (movedGeoElement.isGeoButton()) {
-			movedGeoButton = (GeoButton) movedGeoElement;
+		else if (movedGeoElement instanceof GeoFurniture && ((GeoFurniture)movedGeoElement).isFurniture()) {
+			movedGeoButton = (GeoFurniture) movedGeoElement;
 			// move checkbox
 			moveMode = MOVE_BUTTON;
 			startLoc = mouseLoc;
@@ -7094,7 +7096,7 @@ public abstract class AbstractEuclidianController {
 			resetMovedGeoPoint();
 			return;
 		}
-	
+
 		handleMovedElement(geo, selGeos.size() > 1);
 	
 		view.repaintView();
@@ -7421,7 +7423,6 @@ public abstract class AbstractEuclidianController {
 																		// free,
 																		// as in
 																		// v3.2
-			AbstractApplication.debug("complex" + complex);
 			hits.removeAllPolygons();
 			hits.removeConicsHittedOnFilling();
 			createNewPoint(hits, true, false, true, true, complex);
@@ -7553,7 +7554,7 @@ public abstract class AbstractEuclidianController {
 		case EuclidianConstants.MODE_POINT_ON_OBJECT:
 			view.setHits(mouseLoc);
 			hits = view.getHits();
-			AbstractApplication.debug(hits);
+
 			// if mode==EuclidianView.MODE_POINT_ON_OBJECT, point can be in a
 			// region
 			createNewPointForModePoint(hits, false);
