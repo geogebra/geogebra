@@ -15,7 +15,7 @@ TARGET=$1
 
 # 2. Updating war/web to www.geogebra.org/web/...
 echo "Copying $APPNAME.crx to www.geogebra.org/web/$TARGET/$APPNAME.crx"
-rsync -avPO --rsh=ssh $APPNAME $WWW_SERVER_LOGIN:$GGBWEBDIR/$TARGET 2>&1 | grep -v failed | grep -v "were not transferred"
+rsync -avPO --rsh=ssh $APPNAME.crx $WWW_SERVER_LOGIN:$GGBWEBDIR/$TARGET 2>&1 | grep -v failed | grep -v "were not transferred"
 
 # 3. Finished
 echo "Now you might want to check this deployment by pointing your Chrome browser to
