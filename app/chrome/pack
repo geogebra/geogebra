@@ -29,7 +29,7 @@ WEBDIR=`cd $CHROMEDIR/../../web; pwd`
 cd $WEBDIR
 ./build -u safari
 cp -r $WEBDIR/war/web $CHROMEDIR/$APPNAME
-cp -r $WEBDIR/war/web/app.html $CHROMEDIR/$APPNAME
+cp -r $WEBDIR/war/app.html $CHROMEDIR/$APPNAME
 cd $CHROMEDIR
 
 # 3. Packaging
