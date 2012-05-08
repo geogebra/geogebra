@@ -4,33 +4,47 @@
 
 DEBUG=1
 TIMEOUT=20
+HTML=html/index.html
 PROVERS="Botana Recio PureSymbolic"
-LOGFILE=.test.log
-REGRESSIONFILE=.regression.out
-MYDIR=`dirname $0`
-MYDIR_ABSOLUTE=`cd $MYDIR; pwd`
+THISDIR=`dirname $0`
+MYDIR=`cd $THISDIR; pwd`
+mkdir -p $MYDIR/tmp $MYDIR/html
+LOGFILE=$MYDIR/tmp/.test.log
+REGRESSIONFILE=$MYDIR/tmp/.regression.out
+rm -f $HTML
 
 BUILDDIR=../../../../desktop/build
 test -r $BUILDDIR/geogebra.jar || exit 1 # Non-existing JAR
 
 # Heading
 echo -n "Filename;"
+echo "<table border=\"1\"><tr><th>Filename</th>" >> $MYDIR/$HTML
 for j in $PROVERS; do
  echo -n "$j result;Speed;"
+ echo "<th>$j result</th><th>Speed</th>" >> $MYDIR/$HTML
  done
 echo
+echo "</tr>" >> $MYDIR/$HTML
 
 # Content
 for i in *.ggb; do
+ # Creating thumbnail:
+ cd $MYDIR
+ unzip $i geogebra_thumbnail.png >/dev/null 2>&1
+ mv geogebra_thumbnail.png html/$i.png
  echo -n "$i;"
+ echo "<tr><td><img src=\"$i.png\"><br>$i</td>" >> $MYDIR/$HTML
  for j in $PROVERS; do
-  cd $MYDIR_ABSOLUTE; cd $BUILDDIR
+  cd $MYDIR; cd $BUILDDIR
+  # Testing:
   timeout $TIMEOUT java -jar geogebra.jar --prover=engine:$j --logFile=$LOGFILE \
-   --regressionFile=$REGRESSIONFILE $MYDIR_ABSOLUTE/$i --language=en \
-   >.test.stdout 2>.test.stderr
+   --regressionFile=$REGRESSIONFILE $MYDIR/$i --language=en \
+   >$MYDIR/tmp/.test.stdout 2>$MYDIR/tmp/.test.stderr
+  
   RETVAL=$?
   if [ $RETVAL = 124 ]; then
-   echo -n ";timeout;"
+   RESULT=""
+   TIME=timeout
   else
    # Regression out file shows the wrong result (the stored value in the file is shown):
    # RESULT=`cat $REGRESSIONFILE | grep Prove | sed 's/\(.*\) = \(.*\)/\2/'`
@@ -40,8 +54,11 @@ for i in *.ggb; do
     cp $REGRESSIONFILE $REGRESSIONFILE-$i-$j
     cp $LOGFILE $LOGFILE-$i-$j
     fi
-   echo -n "$RESULT;$TIME;"
    fi # No timeout
+  echo -n "$RESULT;$TIME;"
+  echo "<td>$RESULT</td><td>$TIME</td>" >> $MYDIR/$HTML
   done # All provers done for this tests
  echo
+ echo "</tr>" >> $MYDIR/$HTML
  done # All tests done
+echo "</table>" >> $MYDIR/$HTML
