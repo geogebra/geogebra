@@ -47,6 +47,8 @@ public class AlgoOrthoLinePointLine extends AlgoElement implements SymbolicParam
     private GeoLine l; // input
     private GeoLine g; // output       
 	private Polynomial[] polynomials;
+	private Polynomial[] botanaPolynomials;
+	private Variable[] botanaVars;
 
     /** Creates new AlgoOrthoLinePointLine 
      * @param cons 
@@ -175,13 +177,36 @@ public class AlgoOrthoLinePointLine extends AlgoElement implements SymbolicParam
 	}
 
 	public Variable[] getBotanaVars() {
-		// TODO Auto-generated method stub
-		return null;
+		return botanaVars;
 	}
 
 	public Polynomial[] getBotanaPolynomials()
 			throws NoSymbolicParametersException {
-		// TODO Auto-generated method stub
-		return null;
+
+		if (botanaPolynomials != null) {
+			return botanaPolynomials;
+		}
+		if (P != null && l != null){
+			Variable[] vP = P.getBotanaVars();
+			Variable[] vL = l.getBotanaVars();
+			
+			if (botanaVars==null){
+				botanaVars = new Variable[4]; // storing 2 new variables, plus the coordinates of P
+				botanaVars[0]=new Variable();
+				botanaVars[1]=new Variable();
+				botanaVars[2]=vP[0];
+				botanaVars[3]=vP[1];
+			}
+			
+			botanaPolynomials = new Polynomial[2];
+			// The two points of line and the intersection (Botana) point of the perpendicular are collinear:  
+			botanaPolynomials[0] = Polynomial.collinear(vL[0], vL[1], vL[2], vL[3], botanaVars[0], botanaVars[1]);
+			
+			// The perpendicularity condition:
+			botanaPolynomials[1] = Polynomial.perpendicular(botanaVars[0], botanaVars[1], vP[0], vP[1], vL[0], vL[1], vL[2], vL[3]); 
+					
+			return botanaPolynomials;
+		}
+		throw new NoSymbolicParametersException();
 	}
 }

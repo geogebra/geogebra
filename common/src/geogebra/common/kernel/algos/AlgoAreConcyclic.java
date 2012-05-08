@@ -29,7 +29,9 @@ public class AlgoAreConcyclic extends AlgoElement implements
 
 	private GeoBoolean outputBoolean; // output
 	private Polynomial[] polynomials;
+	private Polynomial[] botanaPolynomials;
 
+	
 	/**
 	 * Tests if four points are concyclic
 	 * @param cons The construction the lines depend on
@@ -293,8 +295,42 @@ public class AlgoAreConcyclic extends AlgoElement implements
 
 	public Polynomial[] getBotanaPolynomials()
 			throws NoSymbolicParametersException {
-		// TODO Auto-generated method stub
-		return null;
+		if (botanaPolynomials != null) {
+			return botanaPolynomials;
+		}
+		if (inputPoint1 != null && inputPoint2 != null && inputPoint3 != null && inputPoint4 != null) {
+			Variable[] coords1 = inputPoint1.getBotanaVars();
+			Variable[] coords2 = inputPoint2.getBotanaVars();
+			Variable[] coords3 = inputPoint3.getBotanaVars();
+			Variable[] coords4 = inputPoint4.getBotanaVars();
+			polynomials = new Polynomial[1];
+			Polynomial[][] matrix=new Polynomial[4][4];
+
+			matrix[0][0]=new Polynomial(coords1[0]);
+			matrix[0][1]=new Polynomial(coords1[1]);
+			matrix[0][2]=matrix[0][0].multiply(matrix[0][0]).add(matrix[0][1].multiply(matrix[0][1]));
+			matrix[0][3]=new Polynomial(1);
+			
+			matrix[1][0]=new Polynomial(coords2[0]);
+			matrix[1][1]=new Polynomial(coords2[1]);
+			matrix[1][2]=matrix[1][0].multiply(matrix[1][0]).add(matrix[1][1].multiply(matrix[1][1]));
+			matrix[1][3]=new Polynomial(1);
+			
+			matrix[2][0]=new Polynomial(coords3[0]);
+			matrix[2][1]=new Polynomial(coords3[1]);
+			matrix[2][2]=matrix[2][0].multiply(matrix[2][0]).add(matrix[2][1].multiply(matrix[2][1]));
+			matrix[2][3]=new Polynomial(1);
+			
+			matrix[3][0]=new Polynomial(coords4[0]);
+			matrix[3][1]=new Polynomial(coords4[1]);
+			matrix[3][2]=matrix[3][0].multiply(matrix[3][0]).add(matrix[3][1].multiply(matrix[3][1]));
+			matrix[3][3]=new Polynomial(1);
+			
+			polynomials[0] = SymbolicParameters.det4(matrix);
+
+			return polynomials;
+		}
+		throw new NoSymbolicParametersException();
 	}
 
 }

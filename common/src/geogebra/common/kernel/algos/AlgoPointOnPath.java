@@ -224,7 +224,7 @@ public class AlgoPointOnPath extends AlgoElement implements PathAlgo, SymbolicPa
 			}
 			Variable[] fv = ((SymbolicParametersAlgo) input[0]).getBotanaVars();
 			botanaPolynomials = new Polynomial[1];
-			botanaPolynomials[0] = Polynomial.setCollinear(fv[0], fv[1], fv[2], fv[3], botanaVars[0], botanaVars[1]);
+			botanaPolynomials[0] = Polynomial.collinear(fv[0], fv[1], fv[2], fv[3], botanaVars[0], botanaVars[1]);
 			return botanaPolynomials;
 			
 		}

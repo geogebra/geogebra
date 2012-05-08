@@ -67,7 +67,7 @@ public class ProverBotanasMethod {
 								Variable[] fv2 = ((SymbolicParametersAlgo)geo2).getBotanaVars();
 								Variable[] fv3 = ((SymbolicParametersAlgo)geo3).getBotanaVars();
 								// Creating the polynomial for collinearity:
-								Polynomial p = Polynomial.setCollinear(fv1[0], fv1[1],
+								Polynomial p = Polynomial.collinear(fv1[0], fv1[1],
 										fv2[0], fv2[1], fv3[0], fv3[1]);
 								// Rabinowitsch trick for prohibiting collinearity:
 								ret[i] = p.multiply(new Polynomial(new Variable())).subtract(new Polynomial(1));

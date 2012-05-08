@@ -405,7 +405,7 @@ public class Polynomial implements Comparable<Polynomial> {
 	 * @param fv6 y-coordinate of the third point
 	 * @return the polynomial
 	 */
-	public static Polynomial setCollinear(Variable fv1, Variable fv2, Variable fv3, 
+	public static Polynomial collinear(Variable fv1, Variable fv2, Variable fv3, 
 			Variable fv4, Variable fv5, Variable fv6) {
 		// a*d-b*c:
 		Polynomial a = new Polynomial(fv1);
@@ -420,6 +420,37 @@ public class Polynomial implements Comparable<Polynomial> {
 				.add(e.multiply(b.subtract(d)))
 				// - f*(a-c)
 				.subtract(f.multiply(a.subtract(c)));
+		return ret;
+	}
+	
+	/**
+	 * Creates a polynomial which describes the input coordinates as points
+	 * are perpendicular. 
+	 * @param v1 x-coordinate of the first point
+	 * @param v2 y-coordinate of the first point
+	 * @param v3 x-coordinate of the second point
+	 * @param v4 y-coordinate of the second point
+	 * @param v5 x-coordinate of the third point
+	 * @param v6 y-coordinate of the third point
+	 * @param v7 x-coordinate of the fourth point
+	 * @param v8 y-coordinate of the fourth point
+	 * @return the polynomial
+	 */
+	public static Polynomial perpendicular(Variable v1, Variable v2, Variable v3, 
+			Variable v4, Variable v5, Variable v6, Variable v7, Variable v8) {
+
+		Polynomial a1 = new Polynomial(v1);
+		Polynomial a2 = new Polynomial(v2);
+		Polynomial b1 = new Polynomial(v3);
+		Polynomial b2 = new Polynomial(v4);
+		Polynomial c1 = new Polynomial(v5);
+		Polynomial c2 = new Polynomial(v6);
+		Polynomial d1 = new Polynomial(v7);
+		Polynomial d2 = new Polynomial(v8);
+		
+		// (a1-b1)*(c1-d1)+(a2-b2)*(c2-d2)
+		Polynomial ret = ((a1.subtract(b1)).multiply(c1.subtract(d1)))
+				.add((a2.subtract(b2)).multiply(c2.subtract(d2)));
 		return ret;
 	}
 	
@@ -488,5 +519,13 @@ public class Polynomial implements Comparable<Polynomial> {
 			return true; // at least one solution exists
 		}
 		return null; // cannot decide
+	}
+
+	public static Polynomial setPerpendicular(Variable variable,
+			Variable variable2, Variable variable3, Variable variable4,
+			Variable variable5, Variable variable6, Variable variable7,
+			Variable variable8) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

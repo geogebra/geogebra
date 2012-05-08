@@ -178,9 +178,9 @@ public class AlgoIntersectLines extends AlgoIntersectAbstract implements Symboli
 			}
 			Variable[] fv = g.getBotanaVars();
 			botanaPolynomials = new Polynomial[2];
-			botanaPolynomials[0] = Polynomial.setCollinear(fv[0], fv[1], fv[2], fv[3], botanaVars[0], botanaVars[1]); 
+			botanaPolynomials[0] = Polynomial.collinear(fv[0], fv[1], fv[2], fv[3], botanaVars[0], botanaVars[1]); 
 			fv = h.getBotanaVars();
-			botanaPolynomials[1] = Polynomial.setCollinear(fv[0], fv[1], fv[2], fv[3], botanaVars[0], botanaVars[1]); 
+			botanaPolynomials[1] = Polynomial.collinear(fv[0], fv[1], fv[2], fv[3], botanaVars[0], botanaVars[1]); 
 					
 			return botanaPolynomials;
 		}
