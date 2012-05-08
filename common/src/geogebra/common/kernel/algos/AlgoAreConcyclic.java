@@ -8,6 +8,8 @@ import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.prover.Variable;
 import geogebra.common.kernel.prover.NoSymbolicParametersException;
 import geogebra.common.kernel.prover.Polynomial;
+import geogebra.common.main.AbstractApplication;
+
 import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -109,7 +111,12 @@ public class AlgoAreConcyclic extends AlgoElement implements
 				az2*bx*bz*cy2*dy*dz - az2*bx*bz*cy*cz*dx2 - az2*bx*bz*cy*cz*dy2 - 
 				az2*by2*cx*cz*dy*dz + az2*by2*cy*cz*dx*dz - az2*by*bz*cx2*dx*dz + 
 				az2*by*bz*cx*cz*dx2 + az2*by*bz*cx*cz*dy2 - az2*by*bz*cy2*dx*dz;
-	        outputBoolean.setValue(Kernel.isZero(det));
+		// There may be awful numerical errors introduced, so switching to
+		// minimal precision for the current calculation (and then back):
+		double precision = Kernel.getEpsilon();
+		Kernel.setMinPrecision();
+	    outputBoolean.setValue(Kernel.isZero(det));
+	    Kernel.setEpsilon(precision);
 	}
 
 	public SymbolicParameters getSymbolicParameters() {

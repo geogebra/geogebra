@@ -2039,6 +2039,10 @@ public class Kernel {
 		return true;
 	}
 
+	/**
+	 * Sets the epsilon value for kernel arithmetics
+	 * @param epsilon Between -epsilon and +epsilon the numbers are considered zero
+	 */
 	final public static void setEpsilon(double epsilon) {
 		EPSILON = epsilon;
 
@@ -2065,14 +2069,24 @@ public class Kernel {
 		}
 	}
 
+	/**
+	 * Returns the epsilon value for kernel arithmetics
+	 * @return the current value
+	 */
 	final public static double getEpsilon() {
 		return EPSILON;
 	}
 
+	/**
+	 * Sets the kernel precision to MIN_PRECISION
+	 */
 	final public static void setMinPrecision() {
 		setEpsilon(MIN_PRECISION);
 	}
 
+	/**
+	 * Resets the kernel precision to STANDARD_PRECISION 
+	 */
 	final public static void resetPrecision() {
 		setEpsilon(STANDARD_PRECISION);
 	}
