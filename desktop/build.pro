@@ -24,7 +24,7 @@
 -libraryjars lib/build/jogl1/jar/jogl.jar
 -libraryjars lib/build/jogl1/jar/gluegen-rt.jar
 -libraryjars lib/jython.jar
--libraryjars ../java150-rt.jar
+#-libraryjars ../java150-rt.jar
 
 # Rhino Javascript is not obfuscated
 -libraryjars build/geogebra_javascript.jar
