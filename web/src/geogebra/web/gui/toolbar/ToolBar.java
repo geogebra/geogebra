@@ -12,9 +12,6 @@ import java.util.ArrayList;
 import java.util.Vector;
 
 import com.google.gwt.user.client.Command;
-import com.google.gwt.user.client.Element;
-import com.google.gwt.user.client.Event;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
 
@@ -189,9 +186,9 @@ public class ToolBar extends MenuBar {
 					// check mode
 					if (!"".equals(app.getToolName(addMode))) {
 						Command com = null;
-						String temp = GGWToolBar.getImageHtml(addMode);
+						String temp = GGWToolBar.getImageHtml(addMode)+ "<span class=\"toolbar_menuitem_label\">" + app.getToolName(addMode) + "</span>";
 						AbstractApplication.debug(temp);
-						final MenuItem item = new MenuItem(GGWToolBar.getImageHtml(addMode)+app.getToolName(addMode), true, com);
+						final MenuItem item = new MenuItem(temp, true, com);
 						com = new Command(){
 							public void execute() {
 								tm.selectMenuItem(item);
@@ -199,6 +196,7 @@ public class ToolBar extends MenuBar {
 						};
 						item.setCommand(com);
 						item.getElement().setAttribute("mode", addMode+"");
+						item.setStyleName("toolbar_menuitem");
 						tm.addItem(item);
 						//tm.addItem(GGWToolBar.getImageHtml(addMode)+app.getToolName(addMode), true, com);
 						

@@ -42,7 +42,7 @@ public class ImageWrapper {
 	}-*/;
 	
 	/**
-	 * Native event hanlder
+	 * Native event handler
 	 * @param event
 	 * @param callback
 	 */

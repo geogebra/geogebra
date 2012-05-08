@@ -11,13 +11,12 @@ import java.util.ArrayList;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
-import com.google.gwt.canvas.dom.client.CssColor;
+import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.DoubleClickEvent;
 import com.google.gwt.event.dom.client.DoubleClickHandler;
 import com.google.gwt.user.client.Command;
-import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Image;
@@ -38,7 +37,8 @@ public class ModeToggleMenu extends MenuBar implements DoubleClickHandler,
 	private Application app;
 	int size;
 	private ToolBar toolbar;
-	private Canvas canvas;
+	Canvas canvas;
+	private AbsolutePanel imagePanel;
 
 	final static Color bgColor = Color.white;
 
@@ -113,7 +113,8 @@ public class ModeToggleMenu extends MenuBar implements DoubleClickHandler,
 //		tbutton.setIcon(mi.getIcon());
 //		tbutton.setText(app.getToolName(Integer.parseInt(miMode)));
 		tbutton.getElement().setAttribute("mode",miMode);
-		tbutton.setHTML(GGWToolBar.getImageHtml(Integer.parseInt(miMode)));
+		//tbutton.setHTML(GGWToolBar.getImageHtml(Integer.parseInt(miMode)));
+		updateCanvas(Integer.parseInt(miMode));
 //		tbutton.setText(miMode);
 		
 		ArrayList<ModeToggleMenu> modeToggleMenus = toolbar.getModeToggleMenus();
@@ -149,7 +150,8 @@ public class ModeToggleMenu extends MenuBar implements DoubleClickHandler,
 		//Icon icon = app.getModeIcon(mode);
 		String actionText = Integer.toString(mode);
 		//mi.setIcon(icon);
-		mi.getElement().setAttribute("mode", actionText);	
+		mi.getElement().setAttribute("mode", actionText);
+		mi.setStyleName("toolbar_menuitem");
 		//mi.addActionListener(popupMenuItemListener);
 
 		//popMenu.add(mi);
@@ -159,7 +161,9 @@ public class ModeToggleMenu extends MenuBar implements DoubleClickHandler,
 		if (size == 1) {
 			// init tbutton
 			tbutton.getElement().setAttribute("mode", actionText);
-			tbutton.setHTML(getImagePanelHtml(mode));
+			//tbutton.setHTML(getImagePanelHtml(mode));
+			tbutton.getElement().appendChild(getCanvas(mode).getElement());			
+			
 			this.getElement().setAttribute("mode", actionText);
 //			this.setTitle(app.getToolName(mode));
 			// tooltip: tool name and tool help
@@ -171,11 +175,9 @@ public class ModeToggleMenu extends MenuBar implements DoubleClickHandler,
 		}
 	}
 	
-	private String getImagePanelHtml(int mode) {
-		AbsolutePanel imagePanel = new AbsolutePanel();
 
-		imagePanel.add(new Image(GGWToolBar.getImageURL(mode)), 0, 0);
-
+	private Canvas getCanvas(int mode){
+	
 		canvas = Canvas.createIfSupported();
 
 		// canvas init.
@@ -183,34 +185,51 @@ public class ModeToggleMenu extends MenuBar implements DoubleClickHandler,
 		canvas.setHeight("32px");
 		canvas.setCoordinateSpaceWidth(32);
 		canvas.setCoordinateSpaceHeight(32);
-
-//		// attempts of drawing in canvas
-//
-//		Context2d context = canvas.getContext2d();
-//		context.setFillStyle(CssColor.make("rgb(200, 0,0"));
-//		context.fillRect(10, 20, 20, 100);
-//		context.fill();
-//
-//		canvas.getContext2d().setLineWidth(1);
-//		canvas.getContext2d().beginPath();
-//		canvas.getContext2d().moveTo(1, 1);
-//		canvas.getContext2d().lineTo(1, 30);
-//		canvas.getContext2d().lineTo(20, 30);
-//		canvas.getContext2d().lineTo(30, 1);
-//		canvas.getContext2d().closePath();
-//		canvas.getContext2d().stroke();
-//
-//		context.setFillStyle(CssColor.make("rgb(200, 0,0"));
-//		context.beginPath();
-//		context.arc(10, 20, 5, 0, Math.PI * 2.0, true);
-//		context.closePath();
-//		context.fill();
-
+	
+		updateCanvas(mode);
+		
 		canvas.setVisible(true);
 		canvas.addDoubleClickHandler(this);
 		canvas.addClickHandler(this);
-		imagePanel.add(canvas);
-		return imagePanel.toString();
+		return canvas;
+		
+	}
+	
+	private void updateCanvas(int mode) {
+		final Image image = new Image(GGWToolBar.getImageURL(mode));
+		ImageElement imageElement = (ImageElement) image.getElement().cast();
+		attachNativeLoadHandler(imageElement);
+	}
+	
+
+	/**
+	 * @param img
+	 */
+	public void attachNativeLoadHandler(ImageElement img) {
+		addNativeLoadHandler(img,this);
+	}
+
+	private native void addNativeLoadHandler(ImageElement img, ModeToggleMenu mtmenu) /*-{
+		img.addEventListener("load",function() {
+			mtmenu.@geogebra.web.gui.toolbar.ModeToggleMenu::drawOnCanvas(Lcom/google/gwt/dom/client/ImageElement;)(img);
+		});
+	}-*/;
+	
+	/** 
+	 * @param imageElement
+	 */
+	public void drawOnCanvas(ImageElement imageElement) {
+
+		Context2d context = canvas.getContext2d();
+		context.drawImage(imageElement, 0, 0);
+
+		// TODO draw the red triangle here
+// test draw
+//		context.setFillStyle(CssColor.make("rgb(200, 0,0"));
+//		context.fillRect(10, 20, 20, 100);
+//		context.fill();
+		
+		//canvas.setVisible(true);
 	}
 	
 	/**
