@@ -90,8 +90,10 @@ public class AltKeys {
 		LookupLower.put('>', Unicode.GREATER_EQUAL+"");
 		
 		if (AbstractApplication.isFullAppGui()) {
+			
+			// these keycodes also work in Safari 5.1.2 (Win 7), Firefox 12 (Win 7) and Chrome 20 on Chromebook
 				
-			// on Chrome, Alt-Keypad* gives character 106  
+			// on Chrome 18 (Win 7), Alt-Keypad* gives character 106  
 			LookupUpper.put((char)106, ExpressionNodeConstants.strVECTORPRODUCT);
 			LookupLower.put((char)106, ExpressionNodeConstants.strVECTORPRODUCT);
 			
