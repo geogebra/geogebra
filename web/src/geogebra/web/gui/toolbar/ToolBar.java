@@ -12,6 +12,9 @@ import java.util.ArrayList;
 import java.util.Vector;
 
 import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.Element;
+import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
 
@@ -323,9 +326,25 @@ public class ToolBar extends MenuBar {
 		return modeToggleMenus;
 	}
 	
-//	@Override
-//    public void onBrowserEvent(Event event){
-//		
-//	}
+	@Override
+	public void onBrowserEvent(Event event) {
+		MenuItem item = findItem(DOM.eventGetTarget(event));
 
+		if ((DOM.eventGetType(event) == Event.ONCLICK)
+				//TODO: replace 35 with a variable
+		        && (event.getClientY() < 35)) {
+			((ModeToggleMenu) item.getSubMenu()).selectMenuItem(item);
+
+		} else
+			super.onBrowserEvent(event);
+	}
+
+	private MenuItem findItem(Element hItem) {
+		for (MenuItem item : getItems()) {
+			if (DOM.isOrHasChild(item.getElement(), hItem)) {
+				return item;
+			}
+		}
+		return null;
+	}
 }
