@@ -23,6 +23,7 @@ import geogebra.common.awt.Shape;
 import geogebra.common.awt.font.TextLayout;
 import geogebra.common.euclidian.event.FocusListener;
 import geogebra.common.euclidian.event.KeyListener;
+import geogebra.common.euclidian.event.ActionListener;
 
 public abstract class AwtFactory {
 	public static AwtFactory prototype = null;
@@ -68,6 +69,7 @@ public abstract class AwtFactory {
 			geogebra.common.awt.Color bg2, int x2, int i,
 			geogebra.common.awt.Color bg);
 	public abstract FocusListener newFocusListener(Object listener);
+	public abstract ActionListener newActionListener(Object listener);
 	public abstract KeyListener newKeyListener(Object listener);
 	public abstract geogebra.common.awt.Component newComponent(Object component);
 	

@@ -6,8 +6,10 @@ import geogebra.common.awt.Color;
 import geogebra.common.awt.Dimension;
 import geogebra.common.awt.Font;
 import geogebra.common.awt.Rectangle;
+import geogebra.common.euclidian.event.ActionListener;
 import geogebra.common.gui.inputfield.AutoCompleteTextField;
 import geogebra.common.javax.swing.AbstractJComboBox;
+import geogebra.common.main.AbstractApplication;
 
 /**
  * Wrapper for javax.swing.Box
@@ -16,6 +18,8 @@ import geogebra.common.javax.swing.AbstractJComboBox;
 public class JComboBoxDesktop extends geogebra.common.javax.swing.AbstractJComboBox {
 	
 	private javax.swing.JComboBox impl = null; 
+	
+	int selectedIndex = -1;
 	
 	/**
 	 * Creates new wrapper Box
@@ -71,14 +75,16 @@ public class JComboBoxDesktop extends geogebra.common.javax.swing.AbstractJCombo
 
 	@Override
 	public void setSelectedIndex(int selectedIndex) {
-		// TODO Auto-generated method stub
+		//if (selectedIndex < impl.getItemCount()) 
+		
+		impl.setSelectedIndex(selectedIndex);
+		
 		
 	}
 
 	@Override
 	public int getSelectedIndex() {
-		// TODO Auto-generated method stub
-		return 0;
+		return impl.getSelectedIndex();
 	}
 
 
@@ -86,6 +92,11 @@ public class JComboBoxDesktop extends geogebra.common.javax.swing.AbstractJCombo
 		if(!(comboBox instanceof JComboBoxDesktop))
 			return null;
 		return ((JComboBoxDesktop)comboBox).impl;
+	}
+
+	@Override
+	public void addActionListener(ActionListener newActionListener) {
+		impl.addActionListener((geogebra.euclidian.event.ActionListener) newActionListener);
 	}
 		
 

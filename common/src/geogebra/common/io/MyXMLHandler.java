@@ -3783,7 +3783,7 @@ public class MyXMLHandler implements DocHandler {
 		try {
 			if (geo.isGeoList())
 				((GeoList) geo).setSelectedIndex(Integer.parseInt(attrs
-						.get("val")));
+						.get("val")), false);
 			return true;
 		} catch (Exception e) {
 			return false;

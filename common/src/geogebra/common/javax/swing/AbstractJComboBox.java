@@ -25,5 +25,8 @@ public abstract class AbstractJComboBox {
 
 	public abstract int getSelectedIndex();
 
+	public abstract void addActionListener(
+			geogebra.common.euclidian.event.ActionListener newActionListener);
+
 
 }

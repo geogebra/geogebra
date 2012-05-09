@@ -1480,11 +1480,27 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 	/**
 	 * @param selectedIndex0 new selected index
 	 */
-	public void setSelectedIndex(final int selectedIndex0) {
+	public void setSelectedIndex(final int selectedIndex0, boolean update) {
 		selectedIndex = selectedIndex0;
+
+		if (update) {
+			updateCascade();
+			getKernel().notifyRepaint(); 
+			getKernel().storeUndoInfo();
+
+			if (comboBox != null) {
+				comboBox.setSelectedIndex(getSelectedIndex());
+			}
+			if (comboBox2 != null) {
+				comboBox2.setSelectedIndex(getSelectedIndex());
+			}
+
+		}
+
+
 	}
 
-	// END G.Sturr
+// END G.Sturr
 
 	/*
 	 * mathieu : for drawing 3D elements of the list
@@ -1908,15 +1924,14 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 		
 		if (comboBox == null) {
 			comboBox = SwingFactory.prototype.newJComboBox();
-			//comboBox.addActionListener(this);
 			comboBox.setEditable(false);
-			comboBox.setSelectedIndex(getSelectedIndex());
 			
 			if (size() > 0) {
 				for (int i = 0 ; i < size() ; i++) {
 					comboBox.addItem(get(i).toValueString(StringTemplate.defaultTemplate));
 				}
 			}
+			comboBox.setSelectedIndex(getSelectedIndex());
 			
 		}
 		
@@ -1926,15 +1941,15 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 		
 		if (comboBox2 == null) {
 			comboBox2 = SwingFactory.prototype.newJComboBox();
-			//comboBox2.addActionListener(this);
 			comboBox2.setEditable(false);
-			comboBox2.setSelectedIndex(getSelectedIndex());
 			
 			if (size() > 0) {
 				for (int i = 0 ; i < size() ; i++) {
 					comboBox2.addItem(get(i).toValueString(StringTemplate.defaultTemplate));
 				}
 			}
+			
+			comboBox2.setSelectedIndex(getSelectedIndex());
 
 		}
 		
@@ -2015,5 +2030,6 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 	public boolean isFurniture() {
 		return drawAsComboBox();
 	}
+
 
 }

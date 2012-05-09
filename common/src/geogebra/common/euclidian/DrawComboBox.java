@@ -13,6 +13,9 @@
 package geogebra.common.euclidian;
 
 import geogebra.common.awt.Color;
+import geogebra.common.euclidian.event.ActionEvent;
+import geogebra.common.euclidian.event.FocusEvent;
+import geogebra.common.factories.AwtFactory;
 import geogebra.common.factories.SwingFactory;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
@@ -40,6 +43,7 @@ public final class DrawComboBox extends Drawable implements RemoveNeeded {
 	geogebra.common.javax.swing.AbstractJComboBox comboBox;
 	geogebra.common.javax.swing.JLabel label;
 	//ButtonListener bl;
+	private ActionListener listener;
 	private geogebra.common.javax.swing.Box box = SwingFactory.prototype.createHorizontalBox();
 
 	public DrawComboBox(AbstractEuclidianView view, GeoList list) {
@@ -54,6 +58,9 @@ public final class DrawComboBox extends Drawable implements RemoveNeeded {
 		//label.setLabelFor(comboBox);
 		comboBox.setVisible(true);
 		label.setVisible(true);
+		
+		comboBox.addActionListener(AwtFactory.prototype.newActionListener(new DrawComboBox.ActionListener()));
+
 		//comboBox.addFocusListener(bl);
 		
 		//comboBox.addFocusListener(AwtFactory.prototype.newFocusListener(ifListener));
@@ -239,6 +246,23 @@ public final class DrawComboBox extends Drawable implements RemoveNeeded {
 		this.geo = geo;
 	}
 
+	/**
+	 * Listens to events in this textfield
+	 * @author Michael + Judit
+	 */
+	public class ActionListener extends geogebra.common.euclidian.event.ActionListener{
+
+
+		/**
+		 * @param e focus event
+		 */
+		public void actionPerformed(ActionEvent e) {
+			
+			//AbstractApplication.debug("action performed" + comboBox.getSelectedIndex());
+			geoList.setSelectedIndex(comboBox.getSelectedIndex(), true);
+		}
+	
+	}
 
 
 }

@@ -1,10 +1,13 @@
 package geogebra.factories;
 
 import geogebra.awt.Ellipse2DDouble;
+import geogebra.common.awt.AffineTransform;
 import geogebra.common.awt.AlphaComposite;
 import geogebra.common.awt.Arc2D;
 import geogebra.common.awt.Area;
 import geogebra.common.awt.BasicStroke;
+import geogebra.common.awt.BufferedImage;
+import geogebra.common.awt.Color;
 import geogebra.common.awt.Component;
 import geogebra.common.awt.CubicCurve2D;
 import geogebra.common.awt.Dimension;
@@ -14,18 +17,12 @@ import geogebra.common.awt.FontRenderContext;
 import geogebra.common.awt.GeneralPath;
 import geogebra.common.awt.GradientPaint;
 import geogebra.common.awt.Line2D;
-import geogebra.common.awt.Point;
 import geogebra.common.awt.Point2D;
 import geogebra.common.awt.QuadCurve2D;
 import geogebra.common.awt.Rectangle;
-import geogebra.common.awt.BufferedImage;
-import geogebra.common.awt.Color;
-import geogebra.common.awt.AffineTransform;
 import geogebra.common.awt.Rectangle2D;
-import geogebra.common.awt.RectangularShape;
 import geogebra.common.awt.Shape;
 import geogebra.common.awt.font.TextLayout;
-import geogebra.common.euclidian.GeneralPathClipped;
 import geogebra.common.euclidian.event.FocusListener;
 import geogebra.euclidian.event.KeyListener;
 
@@ -238,6 +235,11 @@ public class AwtFactory extends geogebra.common.factories.AwtFactory{
 	@Override
 	public Component newComponent(Object component) {
 		return new geogebra.awt.Component(component);
+	}
+	
+	@Override
+	public geogebra.euclidian.event.ActionListener newActionListener(Object listener) {
+		return new geogebra.euclidian.event.ActionListener(listener);
 	}
 
 	

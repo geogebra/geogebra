@@ -25,6 +25,7 @@ import geogebra.common.awt.Shape;
 import geogebra.common.awt.font.TextLayout;
 import geogebra.common.euclidian.event.FocusListener;
 import geogebra.common.euclidian.event.KeyListener;
+import geogebra.common.euclidian.event.ActionListener;
 import geogebra.common.main.AbstractApplication;
 
 /**
@@ -238,6 +239,12 @@ public class AwtFactory extends geogebra.common.factories.AwtFactory {
 
 	@Override
     public Component newComponent(Object component) {
+		AbstractApplication.debug("implementation needed really"); // TODO Auto-generated
+	    return null;
+    }
+
+	@Override
+    public ActionListener newActionListener(Object listener) {
 		AbstractApplication.debug("implementation needed really"); // TODO Auto-generated
 	    return null;
     }
