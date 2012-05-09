@@ -21,7 +21,8 @@ test -r $BUILDDIR/geogebra.jar || exit 1 # Non-existing JAR
 
 # Heading
 echo -n "Filename;"
-echo "<table border=\"1\"><tr><th>Filename</th>" >> $MYDIR/$HTML
+cat style.html >> $MYDIR/$HTML
+echo "<table><tr><th>Filename</th>" >> $MYDIR/$HTML
 for j in $PROVERS; do
  echo -n "$j result;Speed;"
  echo "<th>$j result</th><th>Speed</th>" >> $MYDIR/$HTML
