@@ -43,34 +43,8 @@ public class AlgoSpherePointRadius extends AlgoSphereNDPointRadius {
         	
             super(cons, label, M, r);
         }
-        
-    AlgoSpherePointRadius(
-            Construction cons,
-            String label,
-            GeoPointND M,
-            GeoSegment3D segment, boolean dummy) {
-        	
-            super(cons, label, M, segment, dummy);
-        }
 
-        
-    public AlgoSpherePointRadius(
-            Construction cons,
-            GeoPoint3D M,
-            NumberValue r) {
-        	
-    	super(cons, M, r);
-                
-        }
     
-    
-    AlgoSpherePointRadius(
-            Construction cons,
-            GeoPoint3D M,
-            GeoSegment3D rgeo, boolean dummy) {
-        	
-            super(cons,M,rgeo,dummy);
-        }
     
     @Override
 	protected GeoQuadricND createSphereND(Construction cons){

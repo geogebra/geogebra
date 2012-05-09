@@ -333,7 +333,7 @@ public class AlgoIntersectLineConic extends AlgoIntersect {
 		}
 
 		// calc new intersection points Q
-		intersect(c, g, Q);
+		intersect(c, Q);
 
 		// pointOnConic should be first intersection point
 		// Note: if the first intersection point was already set when a file
@@ -387,7 +387,7 @@ public class AlgoIntersectLineConic extends AlgoIntersect {
 	 */
 	private void computeNonContinous() {
 		// calc new intersection points Q
-		intersect(c, g, Q);
+		intersect(c, Q);
 
 		// use fixed permutation to set output points P
 		for (int i = 0; i < P.length; i++) {
@@ -433,7 +433,7 @@ public class AlgoIntersectLineConic extends AlgoIntersect {
 		}
 
 		// calc new intersection points Q
-		intersect(c, g, Q);
+		intersect(c, Q);
 
 		// for limited paths we have to distinguish between intersection points
 		// Q
@@ -542,7 +542,7 @@ public class AlgoIntersectLineConic extends AlgoIntersect {
 	 * 
 	 * @returns type of intersection
 	 */
-	private int intersect(GeoConic c, GeoLine g, GeoPoint2[] sol) {
+	private int intersect(GeoConic c, GeoPoint2[] sol) {
 		boolean ok = false;
 		int ret = INTERSECTION_PASSING_LINE;
 

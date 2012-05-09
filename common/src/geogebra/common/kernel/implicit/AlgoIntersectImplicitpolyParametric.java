@@ -76,7 +76,7 @@ public class AlgoIntersectImplicitpolyParametric extends
 	 */
 	public AlgoIntersectImplicitpolyParametric(Construction c, String[] labels,
 			boolean setLabels, GeoImplicitPoly p, GeoLine l) {
-		super(c,labels,setLabels,p,l);
+		super(c,p,l);
 		this.p=p;
 		this.l=l;
 		compute();
@@ -92,7 +92,7 @@ public class AlgoIntersectImplicitpolyParametric extends
 	 */
 	public AlgoIntersectImplicitpolyParametric(Construction c, String[] labels,
 			boolean setLabels, GeoImplicitPoly p, GeoFunction f) {
-		super(c,labels,setLabels,p,f);
+		super(c,p,f);
 		this.p=p;
 		this.f=f;
 		compute();

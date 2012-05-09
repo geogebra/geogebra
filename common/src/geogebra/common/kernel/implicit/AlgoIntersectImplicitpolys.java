@@ -76,7 +76,7 @@ public class AlgoIntersectImplicitpolys extends AlgoSimpleRootsPolynomial {
 	 */
 	public AlgoIntersectImplicitpolys(Construction c, String[] labels, boolean setLabels,
 			GeoImplicitPoly p1, GeoConic c1) {
-		super(c,labels,setLabels,p1,c1);
+		super(c,p1,c1);
 		this.p1=p1;
 		this.c1=c1;
         initForNearToRelationship();
@@ -104,7 +104,7 @@ public class AlgoIntersectImplicitpolys extends AlgoSimpleRootsPolynomial {
 	 */
 	public AlgoIntersectImplicitpolys(Construction c, String[] labels,
 			boolean setLabels,GeoImplicitPoly p1,GeoImplicitPoly p2) {
-		super(c, labels, setLabels, p1,p2);
+		super(c, p1,p2);
 		this.p1=p1;
 		this.p2=p2;
         initForNearToRelationship();

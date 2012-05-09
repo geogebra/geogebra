@@ -53,7 +53,7 @@ public class AlgoIntersectPolynomialConic extends AlgoSimpleRootsPolynomial {
 	}
 	
 	public AlgoIntersectPolynomialConic(Construction cons,String[] labels,boolean setLabel,GeoFunction h,GeoConic c) {
-		super(cons,labels,setLabel,h,c);
+		super(cons,h,c);
 		this.h=h;
 		this.c=c;
         compute();

@@ -90,7 +90,7 @@ public class AlgoFunctionInterval extends AlgoElement {
             g.setUndefined();
                
         // check if f has changed           
-        if (!hasEqualExpressions(f, g)) {
+        if (!hasEqualExpressions(f)) {
         	g.set(f);
         }
                         
@@ -105,7 +105,7 @@ public class AlgoFunctionInterval extends AlgoElement {
        
     }
     
-    private boolean hasEqualExpressions(GeoFunction f, GeoFunction g) {
+    private boolean hasEqualExpressions(GeoFunction f) {
     	boolean equal;
     	
     	if (f.isGeoFunctionConditional()) {

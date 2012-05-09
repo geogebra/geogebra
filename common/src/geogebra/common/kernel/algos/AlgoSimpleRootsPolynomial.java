@@ -51,7 +51,7 @@ public abstract class AlgoSimpleRootsPolynomial extends AlgoIntersect {
 		});
 	}
 	
-	public AlgoSimpleRootsPolynomial(Construction c,String[] labels,boolean setLabels,GeoElement... geos) {
+	public AlgoSimpleRootsPolynomial(Construction c,GeoElement... geos) {
 		this(c);
 		this.geos=new GeoElement[geos.length];
 		for (int i=0;i<geos.length;i++){
@@ -60,9 +60,6 @@ public abstract class AlgoSimpleRootsPolynomial extends AlgoIntersect {
 		setInputOutput();
 	}
 	
-	public AlgoSimpleRootsPolynomial(Construction c,GeoElement... geos) {
-		this(c,null,false,geos);
-	}
 	
 	/**
 	 * @param pf assigns a PolynomialFunction to this Algorithm which roots lead to one or more output Points

@@ -55,7 +55,7 @@ public abstract class AlgoSphereNDPointRadius extends AlgoElement {
 	protected AlgoSphereNDPointRadius(Construction cons, String label,
 			GeoPointND M, GeoSegmentND segment, boolean dummy) {
 
-		this(cons, M, segment, dummy);
+		this(cons, M, segment);
 		sphereND.setLabel(label);
 	}
 
@@ -77,7 +77,7 @@ public abstract class AlgoSphereNDPointRadius extends AlgoElement {
 	}
 
 	protected AlgoSphereNDPointRadius(Construction cons, GeoPointND M,
-			GeoSegmentND rgeo, boolean dummy) {
+			GeoSegmentND rgeo) {
 
 		super(cons);
 

@@ -39,7 +39,7 @@ public class AlgoPolyLine3D extends AlgoPolyLine {
     }
  
     protected AlgoPolyLine3D(Construction cons, String [] labels, GeoPointND [] points, GeoList geoList) {
-    	this(cons,labels,points,geoList,null,true,null);
+    	this(cons,labels,points,geoList,true);
     }
     
     /**
@@ -47,14 +47,12 @@ public class AlgoPolyLine3D extends AlgoPolyLine {
      * @param labels names of the polygon and the segments
      * @param points vertices of the polygon
      * @param geoList list of vertices of the polygon (alternative to points)
-     * @param cs2D for 3D stuff : GeoCoordSys2D
      * @param createSegments  says if the polygon has to creates its edges (3D only) 
-     * @param polyhedron polyhedron (when segment is part of), used for 3D
      */
     protected AlgoPolyLine3D(Construction cons, String [] labels, 
-    		GeoPointND [] points, GeoList geoList, CoordSys cs2D, 
-    		boolean createSegments, GeoElement polyhedron) {
-        super(cons, labels, points, geoList, cs2D, createSegments, polyhedron);
+    		GeoPointND [] points, GeoList geoList,
+    		boolean createSegments) {
+        super(cons, labels, points, geoList, createSegments);
 
         //poly = new GeoPolygon(cons, points);
       //  createPolyLine(createSegments);  
