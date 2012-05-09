@@ -11,6 +11,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.TextProperties;
 import geogebra.common.main.AbstractApplication;
 import geogebra.web.awt.Font;
+import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.util.MyToggleButton;
 import geogebra.web.css.GuiResources;
 import geogebra.web.euclidian.EuclidianController;
@@ -21,6 +22,7 @@ import geogebra.web.util.ImageManager;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
@@ -498,11 +500,22 @@ public class EuclidianStyleBar extends HorizontalPanel
 
 	protected void createButtons() {
 		// TODO: fill in
+		
+		// ========================================
+		// mode button
+		
+		ImageResource [] modeArray = new ImageResource [] {
+				AppResources.INSTANCE.cursor_arrow(),
+				AppResources.INSTANCE.application_graphics(),
+				AppResources.INSTANCE.delete_small(),
+				AppResources.INSTANCE.mode_point_16(),
+				AppResources.INSTANCE.mode_copyvisualstyle_16()
+		};
 
 		// ========================================
 		// show axes button
 		btnShowAxes = new MyToggleButton(
-			GuiResources.INSTANCE.axes(),
+			AppResources.INSTANCE.axes(),
 			iconHeight) {
 
 			private static final long serialVersionUID = 1L;
@@ -520,7 +533,7 @@ public class EuclidianStyleBar extends HorizontalPanel
 		// ========================================
 		// show grid button
 		btnShowGrid = new MyToggleButton(
-			GuiResources.INSTANCE.grid(),
+			AppResources.INSTANCE.grid(),
 			iconHeight) {
 
 			private static final long serialVersionUID = 1L;
@@ -542,7 +555,7 @@ public class EuclidianStyleBar extends HorizontalPanel
 		//		.substring(0, 1), app.getPlainFont(), true, false, true,
 		//		iconDimension, Color.black, null);
 		btnBold = new MyToggleButton(
-				GuiResources.INSTANCE.bold(),
+				AppResources.INSTANCE.format_text_bold(),
 				iconHeight) {
 
 			private static final long serialVersionUID = 1L;
@@ -569,7 +582,7 @@ public class EuclidianStyleBar extends HorizontalPanel
 		//		app.getPlain("Italic").substring(0, 1), app.getPlainFont(),
 		//		false, true, true, iconDimension, Color.black, null);
 		btnItalic = new MyToggleButton(
-				GuiResources.INSTANCE.italic(),
+				AppResources.INSTANCE.format_text_italic(),
 				iconHeight) {
 
 			private static final long serialVersionUID = 1L;
