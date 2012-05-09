@@ -1,6 +1,6 @@
 package geogebra.common.euclidian.event;
 
-import geogebra.common.euclidian.DrawComboBox;
+import geogebra.common.euclidian.DrawList;
 import geogebra.common.main.AbstractApplication;
 
 public class ActionListener {
@@ -11,8 +11,8 @@ public class ActionListener {
 	protected void wrapActionPerformed(ActionEvent event) {
 		
 		
-		if (listenerClass instanceof DrawComboBox.ActionListener){
-			((DrawComboBox.ActionListener) listenerClass).actionPerformed(event);
+		if (listenerClass instanceof DrawList.ActionListener){
+			((DrawList.ActionListener) listenerClass).actionPerformed(event);
 		}
 		else{
 			AbstractApplication.debug("other type: "+listenerClass.getClass());

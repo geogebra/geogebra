@@ -1206,6 +1206,15 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 			repaint();
 		}
 	}
+	
+	public void drawListAsComboBox(GeoList list, boolean b) {
+		
+		list.setDrawAsComboBox(b);
+		
+		DrawList d = (DrawList) getDrawable(list);
+		d.resetDrawType();
+				
+	}
 
 
 	/**
@@ -1310,7 +1319,6 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 	 * adds a GeoElement to this view
 	 */
 	public void add(GeoElement geo) {
-		// Application.printStacktrace(""+geo.isVisibleInView(this));
 
 		// G.Sturr 2010-6-30
 		// filter out any geo not marked for this view
@@ -1338,6 +1346,7 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 	 * removes a GeoElement from this view
 	 */
 	public void remove(GeoElement geo) {
+
 		Drawable d = (Drawable) DrawableMap.get(geo);
 		int layer = geo.getLayer();
 		if(d==null)
@@ -2120,12 +2129,8 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 			break;
 
 		case LIST:
-			GeoList list = (GeoList) geo;
-			if (list.drawAsComboBox()) {
-				d = new DrawComboBox(this, list);				
-			} else {
-				d = new DrawList(this, list);
-			}			break;
+			d = new DrawList(this, (GeoList) geo);			
+			break;
 
 		case TURTLE:
 			d = new DrawTurtle(this, (GeoTurtle) geo);
@@ -4132,7 +4137,7 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 		public void drawPoints(GeoImage ge, double[] x, double[] y) {
 			ArrayList<geogebra.common.awt.Point> ptList = new ArrayList<geogebra.common.awt.Point>();
 
-			AbstractApplication.debug("x0" + x[0]);
+			//AbstractApplication.debug("x0" + x[0]);
 			for (int i = 0; i < x.length; i++) {
 				int xi = toScreenCoordX(x[i]);
 				int yi = toScreenCoordY(y[i]);
@@ -4157,8 +4162,7 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 							/ ((dx1 * dy2) - (dx2 * dy1));
 					double ratio2 = ((-(x[i] - cx[0]) * dy1) + (dx1 * (y[i] - cy[0])))
 							/ ((dx1 * dy2) - (dx2 * dy1));
-					AbstractApplication.debug(cx[2] + "," + cy[2] + "," + h + ","
-							+ w);
+					//AbstractApplication.debug(cx[2] + "," + cy[2] + "," + h + ","+ w);
 					xi = (int) Math.round(w * ratio1);
 					yi = (int) Math.round(h * (1 - ratio2));
 

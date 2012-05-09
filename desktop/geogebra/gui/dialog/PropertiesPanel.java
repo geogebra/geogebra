@@ -2427,8 +2427,12 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 					geo = (GeoList) geos[i];
 					geo.setDrawAsComboBox(flag);
 					
+					app.getActiveEuclidianView().drawListAsComboBox(geo, flag);
+					
 					geo.updateRepaint();
 				}
+				
+				app.refreshViews();
 
 				updateSelection(geos);
 			}
