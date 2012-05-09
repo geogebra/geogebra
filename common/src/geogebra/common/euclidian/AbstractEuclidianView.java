@@ -3219,7 +3219,8 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 
 								StringBuilder sb = new StringBuilder(strNum);
 
-								if (rw < 0) {
+								// don't check rw < 0 as it fails for eg -0.0000000001
+								if (sb.charAt(0) == '-') {
 									// change minus sign (too short) to n-dash
 									sb.setCharAt(0, Unicode.nDash);
 								}
@@ -3362,7 +3363,8 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 								
 								StringBuilder sb = new StringBuilder(strNum);
 
-								if (rw < 0) {
+								// don't check rw < 0 as it fails for eg -0.0000000001
+								if (sb.charAt(0) == '-') {
 									// change minus sign (too short) to n-dash
 									sb.setCharAt(0, Unicode.nDash);
 								}
