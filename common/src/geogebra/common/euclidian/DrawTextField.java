@@ -66,7 +66,7 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 		//bl = new ButtonListener();
 		ifListener = new InputFieldListener();
 		ifKeyListener = new InputFieldKeyListener();
-		textField = SwingFactory.prototype.newAutoCompleteTextField(geo.getLength(), view.getApplication(), this);
+		textField = geoTextField.getTextField(view.getViewID(), this);//SwingFactory.prototype.newAutoCompleteTextField(geo.getLength(), view.getApplication(), this);
 		textField.showPopupSymbolButton(true);
 		textField.setAutoComplete(false);
 		textField.enableColoring(false);
