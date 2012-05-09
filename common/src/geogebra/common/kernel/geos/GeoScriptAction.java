@@ -116,7 +116,6 @@ public class GeoScriptAction extends GeoElement  {
 	 * Perform the command
 	 */
 	public void perform() {
-		AbstractApplication.printStacktrace(getID()+":"+getParentAlgorithm());
 		if(action!=null)
 			action.performAndClean(command);
 		remove();

@@ -892,6 +892,8 @@ public class CommandDispatcher {
 				return new CmdSetCoords(kernel);
 			case Pan:
 				return new CmdPan(kernel);
+			case CenterView:
+				return new CmdCenterView(kernel);
 			case ZoomIn:
 				return new CmdZoomIn(kernel);
 			case ZoomOut:

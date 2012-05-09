@@ -2675,4 +2675,10 @@ public interface CommandConstants extends ConstantsWithLookup {
 	@DefaultStringValue("[ <Point>, <Point>, <Point>, <Point> ]")
 	String AreConcyclic_Syntax();
 
+	@DefaultStringValue("CenterView")
+	String CenterView();
+	
+	@DefaultStringValue("[ <Center Point> ]")
+	String CenterView_Syntax();
+
 }

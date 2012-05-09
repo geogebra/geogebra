@@ -886,7 +886,9 @@ AreCollinear_Syntax: "",
 AreParallel: "",
 AreParallel_Syntax: "",
 AreConcyclic: "",
-AreConcyclic_Syntax: ""
+AreConcyclic_Syntax: "",
+CenterView: "",
+CenterView_Syntax: ""
 			
 		};
 		

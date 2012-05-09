@@ -130,4 +130,7 @@ public interface EuclidianViewInterfaceSlim extends LayerView{
 	 * @param r new selection rectangle
 	 */
 	void setSelectionRectangle(Rectangle r);
+	
+	public void setRealWorldCoordSystem(double xmin, double xmax,
+			double ymin, double ymax);
 }
