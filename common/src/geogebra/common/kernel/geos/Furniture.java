@@ -1,6 +1,6 @@
 package geogebra.common.kernel.geos;
 
-public interface GeoFurniture {
+public interface Furniture {
 
 	int getAbsoluteScreenLocX();
 

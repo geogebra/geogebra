@@ -25,6 +25,7 @@ import geogebra.common.kernel.algos.AlgoTransformation;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.AbsoluteScreenLocateable;
+import geogebra.common.kernel.geos.Furniture;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoConic;
@@ -46,7 +47,6 @@ import geogebra.common.kernel.geos.PointProperties;
 import geogebra.common.kernel.geos.TextProperties;
 import geogebra.common.kernel.geos.Traceable;
 import geogebra.common.kernel.kernelND.GeoConicND;
-import geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import geogebra.common.kernel.kernelND.GeoLevelOfDetail;
 import geogebra.common.kernel.kernelND.GeoPlaneND;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -187,6 +187,7 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 	private ScriptEditPanel scriptEditPanel;
 	private BackgroundImagePanel bgImagePanel;
 	private AbsoluteScreenLocationPanel absScreenLocPanel;
+	private ListsAsComboBoxPanel comboBoxPanel;
 	//private ShowView2D showView2D;
 	private ShowConditionPanel showConditionPanel;
 	private ColorFunctionPanel colorFunctionPanel;
@@ -278,6 +279,7 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 		fixPanel = new FixPanel();
 		checkBoxFixPanel = new CheckBoxFixPanel();
 		absScreenLocPanel = new AbsoluteScreenLocationPanel();
+		comboBoxPanel = new ListsAsComboBoxPanel();
 		//showView2D = new ShowView2D();
 		auxPanel = new AuxiliaryObjectPanel();
 		animStepPanel = new AnimationStepPanel(app);
@@ -341,6 +343,7 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 			basicTabList.add(bgImagePanel);
 
 		basicTabList.add(absScreenLocPanel);
+		basicTabList.add(comboBoxPanel);
 		if (!isDefaults)
 			basicTabList.add(allowReflexAnglePanel);
 		basicTabList.add(rightAnglePanel);
@@ -517,6 +520,7 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 		animSpeedPanel.setLabels();
 		slopeTriangleSizePanel.setLabels();
 		absScreenLocPanel.setLabels();
+		comboBoxPanel.setLabels();
 		//showView2D.setLabels();
 		sliderPanel.setLabels();
 
@@ -2295,7 +2299,7 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 				if (geo instanceof AbsoluteScreenLocateable) {
 					AbsoluteScreenLocateable absLoc = (AbsoluteScreenLocateable) geo;
 					if (!absLoc.isAbsoluteScreenLocateable()
-							|| geo.isGeoBoolean() || geo.isGeoButton())
+							|| geo.isGeoBoolean() || geo instanceof Furniture)
 						return false;
 				} else
 					return false;
@@ -2333,6 +2337,97 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 					}
 					geo.setAbsoluteScreenLocActive(flag);
 					geo.toGeoElement().updateRepaint();
+				}
+
+				updateSelection(geos);
+			}
+		}
+	}	
+	
+	/**
+	 * panel to set whether GeoLists are drawn as ComboBoxes
+	 * 
+	 * @author Michael
+	 */
+	private class ListsAsComboBoxPanel extends JPanel implements
+			ItemListener, SetLabels, UpdateablePropertiesPanel {
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+		private Object[] geos; // currently selected geos
+		private JCheckBox cbComboBox;
+
+		public ListsAsComboBoxPanel() {
+			super(new FlowLayout(FlowLayout.LEFT));
+
+			// check boxes for show trace
+			cbComboBox = new JCheckBox();
+			cbComboBox.addItemListener(this);
+
+			// put it all together
+			add(cbComboBox);
+		}
+
+		public void setLabels() {
+			cbComboBox.setText(app.getPlain("DrawAsDropDownList"));
+		}
+
+		public JPanel update(Object[] geos) {
+			this.geos = geos;
+			if (!checkGeos(geos))
+				return null;
+
+			cbComboBox.removeItemListener(this);
+
+			// check if properties have same values
+			GeoList temp, geo0 = (GeoList) geos[0];
+			boolean equalVal = true;
+
+			for (int i = 0; i < geos.length; i++) {
+				temp = (GeoList) geos[i];
+				// same object visible value
+				if (geo0.drawAsComboBox() != temp
+						.drawAsComboBox())
+					equalVal = false;
+			}
+
+			// set checkbox
+			if (equalVal)
+				cbComboBox.setSelected(geo0.drawAsComboBox());
+			else
+				cbComboBox.setSelected(false);
+
+			cbComboBox.addItemListener(this);
+			return this;
+		}
+
+		private boolean checkGeos(Object[] geos) {
+			for (int i = 0; i < geos.length; i++) {
+				GeoElement geo = (GeoElement) geos[i];
+				if (!geo.isGeoList()) {					
+						return false;
+				} 
+			}
+			return true;
+		}
+
+		/**
+		 * listens to checkboxes and sets trace state
+		 */
+		public void itemStateChanged(ItemEvent e) {
+			GeoList geo;
+			Object source = e.getItemSelectable();
+
+			// absolute screen location flag changed
+			if (source == cbComboBox) {
+				boolean flag = cbComboBox.isSelected();
+				EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
+				for (int i = 0; i < geos.length; i++) {
+					geo = (GeoList) geos[i];
+					geo.setDrawAsComboBox(flag);
+					
+					geo.updateRepaint();
 				}
 
 				updateSelection(geos);

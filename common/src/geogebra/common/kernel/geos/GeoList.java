@@ -47,7 +47,7 @@ import java.util.ArrayList;
  */
 public class GeoList extends GeoElement implements ListValue, LineProperties,
 		PointProperties, TextProperties, Traceable, Path, Transformable,
-		SpreadsheetTraceable, AbsoluteScreenLocateable, GeoFurniture {
+		SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture {
 
 	private final static GeoClass ELEMENT_TYPE_MIXED = GeoClass.DEFAULT;
 
@@ -65,6 +65,7 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 
 	private boolean isDefined = true;
 	private boolean isDrawable = true;
+	private boolean drawAsComboBox = false;
 	private GeoClass elementType = ELEMENT_TYPE_MIXED;
 
 	/**
@@ -520,6 +521,8 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 	 */
 	public final void clear() {
 		geoList.clear();
+		
+		rebuildComboBoxes();
 	}
 
 	/**
@@ -579,6 +582,9 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 		if (!geo.isLabelSet()) {
 			geo.setViewFlags(getViewSet());
 		}
+		
+		rebuildComboBoxes();
+
 
 	}
 
@@ -591,6 +597,8 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 	 */
 	public final void remove(final GeoElement geo) {
 		geoList.remove(geo);
+		
+		rebuildComboBoxes();
 	}
 
 	/**
@@ -602,6 +610,9 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 	 */
 	public final void remove(final int index) {
 		geoList.remove(index);
+		
+		rebuildComboBoxes();
+
 	}
 
 	/**
@@ -807,6 +818,10 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 			sb.append(selectedIndex);
 			sb.append("\"/>\n");
 		}
+		
+		if (drawAsComboBox == true) {
+			sb.append("\t<comboBox val=\"true\"/>\n");			
+		}
 
 		// point style
 		sb.append("\t<pointSize val=\"");
@@ -841,6 +856,10 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 			sb.append(printFigures);
 			sb.append("\"/>\n");
 		}
+		
+		// for ComboBoxes (and comments)
+		getCaptionXML(sb);
+		
 		sb.append("</element>\n");
 
 	}
@@ -1474,6 +1493,11 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 	 * @return selected index
 	 */
 	public int getSelectedIndex() {
+		
+		if (selectedIndex >= size()) {
+			selectedIndex = 0;
+		}
+		
 		return selectedIndex;
 	}
 
@@ -1917,7 +1941,11 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 	}
 
 	public boolean drawAsComboBox() {
-		return true;
+		return drawAsComboBox;
+	}
+	
+	public void setDrawAsComboBox(boolean b) {
+		drawAsComboBox = b;
 	}
 	
 	public AbstractJComboBox getComboBox(int viewID) {
@@ -1926,12 +1954,7 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 			comboBox = SwingFactory.prototype.newJComboBox();
 			comboBox.setEditable(false);
 			
-			if (size() > 0) {
-				for (int i = 0 ; i < size() ; i++) {
-					comboBox.addItem(get(i).toValueString(StringTemplate.defaultTemplate));
-				}
-			}
-			comboBox.setSelectedIndex(getSelectedIndex());
+			rebuildComboBox(comboBox);
 			
 		}
 		
@@ -1943,47 +1966,38 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 			comboBox2 = SwingFactory.prototype.newJComboBox();
 			comboBox2.setEditable(false);
 			
-			if (size() > 0) {
-				for (int i = 0 ; i < size() ; i++) {
-					comboBox2.addItem(get(i).toValueString(StringTemplate.defaultTemplate));
-				}
-			}
-			
-			comboBox2.setSelectedIndex(getSelectedIndex());
+			rebuildComboBox(comboBox2);
+
 
 		}
 		
 		return comboBox2;
 		
 	}
-
-	/*
-	public void actionPerformed(ActionEvent e) {
+	
+	private void rebuildComboBox(AbstractJComboBox cb) {
 		
-		
-		if (e.getSource() == comboBox) {
+		if (cb != null) {
 			
-			setSelectedIndex(comboBox.getSelectedIndex());
-			updateCascade();
-			getKernel().notifyRepaint(); 
-			getKernel().storeUndoInfo();
-			
-			if (comboBox2 != null) {
-				comboBox2.setSelectedIndex(getSelectedIndex());
-
-				
+			if (size() > 0) {
+				for (int i = 0 ; i < size() ; i++) {
+					comboBox.addItem(get(i).toValueString(StringTemplate.defaultTemplate));
+				}
 			}
-		} else if (e.getSource() == comboBox2) {
 			
-			setSelectedIndex(comboBox2.getSelectedIndex());
-			comboBox.setSelectedIndex(getSelectedIndex());
-			updateCascade();
-			getKernel().notifyRepaint(); 
-			getKernel().storeUndoInfo();
+			comboBox.setSelectedIndex(getSelectedIndex());			
+			
 			
 		}
 		
-	}*/
+	}
+	
+	private void rebuildComboBoxes() {
+		
+		rebuildComboBox(comboBox);
+		rebuildComboBox(comboBox2);
+		
+	}
 	
 	@Override
 	public boolean isAbsoluteScreenLocateable() {

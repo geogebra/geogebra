@@ -45,7 +45,7 @@ import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoFunctionable;
-import geogebra.common.kernel.geos.GeoFurniture;
+import geogebra.common.kernel.geos.Furniture;
 import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoList;
@@ -169,7 +169,7 @@ public abstract class AbstractEuclidianController {
 
 	protected GeoBoolean movedGeoBoolean;
 
-	protected GeoFurniture movedGeoButton;
+	protected Furniture movedGeoButton;
 
 	protected GeoElement movedLabelGeoElement;
 
@@ -454,11 +454,11 @@ public abstract class AbstractEuclidianController {
 								.toRealWorldCoordY(((GeoBoolean) geo)
 										.getAbsoluteScreenLocY() + 20));
 						firstMoveable = false;
-					} else if (geo instanceof GeoFurniture) {
+					} else if (geo instanceof Furniture) {
 						startPoint.setLocation(view
-								.toRealWorldCoordX(((GeoFurniture) geo)
+								.toRealWorldCoordX(((Furniture) geo)
 										.getAbsoluteScreenLocX() - 5), view
-								.toRealWorldCoordY(((GeoFurniture) geo)
+								.toRealWorldCoordY(((Furniture) geo)
 										.getAbsoluteScreenLocY() + 30));
 						firstMoveable = false;
 					}
@@ -6689,8 +6689,8 @@ public abstract class AbstractEuclidianController {
 		}
 	
 		// button
-		else if (movedGeoElement instanceof GeoFurniture && ((GeoFurniture)movedGeoElement).isFurniture()) {
-			movedGeoButton = (GeoFurniture) movedGeoElement;
+		else if (movedGeoElement instanceof Furniture && ((Furniture)movedGeoElement).isFurniture()) {
+			movedGeoButton = (Furniture) movedGeoElement;
 			// move checkbox
 			moveMode = MOVE_BUTTON;
 			startLoc = mouseLoc;

@@ -23,7 +23,7 @@ import geogebra.common.plugin.GeoClass;
  * 
  * @author Michael
  */
-public class GeoButton extends GeoElement implements AbsoluteScreenLocateable, TextProperties, GeoFurniture {			
+public class GeoButton extends GeoElement implements AbsoluteScreenLocateable, TextProperties, Furniture {			
 
 	private boolean buttonFixed = false;
 	

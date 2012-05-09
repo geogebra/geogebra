@@ -76,16 +76,7 @@ public final class DrawList extends Drawable implements RemoveNeeded {
 					oldDrawableSize, this))
 				drawablePos++;
 
-			// // for polygons, we also need to add drawables for the segments
-			// if (listElement.isGeoPolygon()) {
-			// GeoSegment [] segments = ((GeoPolygon)
-			// listElement).getSegments();
-			// for (int k=0; k < segments.length; k++) {
-			// // add drawable for segment
-			// if (addToDrawableList(segments[k], drawablePos, oldDrawableSize))
-			// drawablePos++;
-			// }
-			// }
+
 		}
 
 		// remove end of list
@@ -145,29 +136,6 @@ public final class DrawList extends Drawable implements RemoveNeeded {
 		}
 	}
 
-	/*
-	 * matthieu 2010-07-01 code moved to DrawListArray.java
-	 * 
-	 * 
-	 * private boolean addToDrawableList(GeoElement listElement, int
-	 * drawablePos, int oldDrawableSize) { Drawable d = null; boolean
-	 * inOldDrawableRange = drawablePos < oldDrawableSize; if
-	 * (inOldDrawableRange) { // try to reuse old drawable Drawable oldDrawable
-	 * = (Drawable) drawables.get(drawablePos); if (oldDrawable.geo ==
-	 * listElement) { d = oldDrawable; } else { d = getDrawable(listElement); }
-	 * } else { d = getDrawable(listElement); }
-	 * 
-	 * if (d != null) { d.update(); if (inOldDrawableRange) {
-	 * drawables.set(drawablePos, d); } else { drawables.add(drawablePos, d); }
-	 * return true; }
-	 * 
-	 * return false; }
-	 * 
-	 * private Drawable getDrawable(GeoElement listElement) { Drawable d =
-	 * view.getDrawable(listElement); if (d == null) { // create a new drawable
-	 * for geo d = view.createDrawable(listElement);
-	 * setCreatedByDrawList(true);//d.createdByDrawList = true; } return d; }
-	 */
 
 	@Override
 	final public void draw(geogebra.common.awt.Graphics2D g2) {

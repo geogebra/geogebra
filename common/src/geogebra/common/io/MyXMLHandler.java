@@ -2958,6 +2958,9 @@ public class MyXMLHandler implements DocHandler {
 			} else if ("coefficients".equals(eName)) {
 				ok = handleCoefficients(attrs);
 				break;
+			} else if ("comboBox".equals(eName)) {
+				ok = handleComboBox(attrs);
+				break;
 			}
 
 		case 'd':
@@ -3962,7 +3965,7 @@ public class MyXMLHandler implements DocHandler {
 
 	private boolean handleArcSize(LinkedHashMap<String, String> attrs) {
 		if (!(geo instanceof GeoAngle)) {
-			System.err.println("wrong element type for <arcSize>: "
+			AbstractApplication.error("wrong element type for <arcSize>: "
 					+ geo.getClass());
 			return false;
 		}
@@ -3980,7 +3983,7 @@ public class MyXMLHandler implements DocHandler {
 			LinkedHashMap<String, String> attrs) {
 		if (!(geo instanceof AbsoluteScreenLocateable)) {
 			AbstractApplication
-					.debug("wrong element type for <absoluteScreenLocation>: "
+					.error("wrong element type for <absoluteScreenLocation>: "
 							+ geo.getClass());
 			return false;
 		}
@@ -3999,7 +4002,7 @@ public class MyXMLHandler implements DocHandler {
 
 	private boolean handleAllowReflexAngle(LinkedHashMap<String, String> attrs) {
 		if (!(geo.isGeoAngle())) {
-			System.err.println("wrong element type for <allowReflexAngle>: "
+			AbstractApplication.error("wrong element type for <allowReflexAngle>: "
 					+ geo.getClass());
 			return false;
 		}
@@ -4017,7 +4020,7 @@ public class MyXMLHandler implements DocHandler {
 	private boolean handleEmphasizeRightAngle(
 			LinkedHashMap<String, String> attrs) {
 		if (!(geo.isGeoAngle())) {
-			System.err.println("wrong element type for <emphasizeRightAngle>: "
+			AbstractApplication.error("wrong element type for <emphasizeRightAngle>: "
 					+ geo.getClass());
 			return false;
 		}
@@ -4025,6 +4028,24 @@ public class MyXMLHandler implements DocHandler {
 		try {
 			GeoAngle angle = (GeoAngle) geo;
 			angle.setEmphasizeRightAngle(parseBoolean(attrs.get("val")));
+			return true;
+		} catch (Exception e) {
+
+			return false;
+		}
+	}
+
+	private boolean handleComboBox(
+			LinkedHashMap<String, String> attrs) {
+		if (!(geo.isGeoList())) {
+			System.err.println("wrong element type for <comboBox>: "
+					+ geo.getClass());
+			return false;
+		}
+
+		try {
+			GeoList list = (GeoList) geo;
+			list.setDrawAsComboBox(parseBoolean(attrs.get("val")));
 			return true;
 		} catch (Exception e) {
 
