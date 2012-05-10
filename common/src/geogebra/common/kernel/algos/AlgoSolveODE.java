@@ -94,11 +94,7 @@ public class AlgoSolveODE extends AlgoElement {
 	        if (f1 == null) ode = new ODE(f0); else ode = new ODE2(f0,f1);
 	        integrator.addStepHandler(stepHandler);
 	        
-            //boolean oldState = cons.isSuppressLabelsActive();
-            //cons.setSuppressLabelCreation(true);
-            //g.add(new GeoPoint(cons, null, x.getDouble(), y.getDouble(), 1.0));
             al.add(new MyPoint(x.getDouble(), y.getDouble(), false));
-            //cons.setSuppressLabelCreation(oldState);
 
 	        double[] yy = new double[] { y.getDouble() }; // initial state
 	        double[] yy2 = new double[] { x.getDouble(), y.getDouble() }; // initial state
@@ -142,20 +138,14 @@ public class AlgoSolveODE extends AlgoElement {
 	            double[] y = interpolator.getInterpolatedState();
 	            //System.out.println(t + " " + y[0]);
 	            
-	            boolean oldState = cons.isSuppressLabelsActive();
-	            cons.setSuppressLabelCreation(true);
-	            
 	            if (f1 == null) {
-	            	//g.add(new GeoPoint(cons, null, t, y[0], 1.0));
 	            	al.add(new MyPoint(t, y[0], true));
 	            }
 	            else
 	            {
-		            //g.add(new GeoPoint(cons, null, y[0], y[1], 1.0));
 	            	al.add(new MyPoint(y[0], y[1], true));
 	            }
 	            	
-	            cons.setSuppressLabelCreation(oldState);
 	        }
 	    };
 	    //integrator.addStepHandler(stepHandler);
