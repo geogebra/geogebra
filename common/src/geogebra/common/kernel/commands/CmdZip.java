@@ -65,6 +65,10 @@ public class CmdZip extends CommandProcessor {
 		
 		for (int varPos = 1; varPos < numArgs; varPos += 2) {
 			String localVarName = c.getVariableName(varPos);
+			if(localVarName==null && c.getArgument(varPos).isTopLevelCommand()){
+				localVarName = c.getArgument(varPos).getTopLevelCommand().getVariableName(0);
+			}
+			
 			if (localVarName == null) {
 				throw argErr(app, c.getName(), c.getArgument(varPos));
 			}
