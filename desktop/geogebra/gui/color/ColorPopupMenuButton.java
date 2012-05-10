@@ -43,7 +43,7 @@ public class ColorPopupMenuButton extends PopupMenuButton implements ActionListe
 
 	public ColorPopupMenuButton(Application app, Dimension iconSize, int colorSetType, boolean hasSlider) {
 
-		super(app, createDummyIcons(iconSize), -1, 9, iconSize, SelectionTable.MODE_ICON);
+		super(app, createDummyIcons(iconSize), -1, 9, iconSize, geogebra.common.gui.util.SelectionTable.MODE_ICON);
 		this.app = app;
 		this.iconSize = iconSize;
 		this.colorSetType = colorSetType;

@@ -4679,7 +4679,7 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 			// panel for button to open external file
 						
 			btnImage = new PopupMenuButton(app, iconArray, -1, 4,
-					new Dimension(32, 32), SelectionTable.MODE_ICON);
+					new Dimension(32, 32), geogebra.common.gui.util.SelectionTable.MODE_ICON);
 			btnImage.setSelectedIndex(1);
 			btnImage.setStandardButton(true);
 			btnImage.setKeepVisible(false);

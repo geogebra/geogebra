@@ -1,5 +1,8 @@
 package geogebra.web.euclidian;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
@@ -8,27 +11,37 @@ import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoTableText;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.kernel.geos.PointProperties;
 import geogebra.common.kernel.geos.TextProperties;
 import geogebra.common.main.AbstractApplication;
+import geogebra.common.plugin.EuclidianStyleConstants;
+import geogebra.web.gui.color.ColorPopupMenuButton;
+import geogebra.web.gui.util.GeoGebraIcon;
+import geogebra.web.gui.util.PopupMenuButton;
+import geogebra.web.awt.Color;
 import geogebra.web.awt.Font;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.util.MyToggleButton;
-import geogebra.web.css.GuiResources;
 import geogebra.web.euclidian.EuclidianController;
 import geogebra.web.euclidian.EuclidianView;
 import geogebra.web.main.Application;
-import geogebra.web.util.ImageManager;
+import geogebra.web.awt.Dimension;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.PushButton;
+import com.google.gwt.canvas.client.Canvas;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 
 public class EuclidianStyleBar extends HorizontalPanel
-	implements geogebra.common.euclidian.EuclidianStyleBar, ValueChangeHandler {
+	implements geogebra.common.euclidian.EuclidianStyleBar, ValueChangeHandler, ClickHandler {
 
 	EuclidianController ec;
 	protected EuclidianViewInterfaceCommon ev;
@@ -62,6 +75,18 @@ public class EuclidianStyleBar extends HorizontalPanel
 	private final String[] bracketArray2 = { "\u00D8", "{ }", "( )", "[ ]",
 			"||", "||||" };
 
+	// buttons and lists of buttons
+	private ColorPopupMenuButton btnColor, btnBgColor, btnTextColor;
+
+	private PopupMenuButton btnLineStyle, btnPointStyle, btnTextSize, btnMode;
+
+	PopupMenuButton btnTableTextJustify;
+
+	PopupMenuButton btnTableTextBracket;
+
+	private PopupMenuButton btnLabelStyle;
+
+	private PopupMenuButton btnPointCapture;
 
 	private MyToggleButton btnCopyVisualStyle, btnPen, btnShowGrid,
 	btnShowAxes;
@@ -83,6 +108,7 @@ public class EuclidianStyleBar extends HorizontalPanel
 	private MyToggleButton btnTableTextLinesH;
 
 	private MyToggleButton[] toggleBtnList;
+	private PushButton btnDeleteGeo;
 
 
 	public EuclidianStyleBar(AbstractEuclidianView ev) {
@@ -511,7 +537,67 @@ public class EuclidianStyleBar extends HorizontalPanel
 				AppResources.INSTANCE.mode_point_16(),
 				AppResources.INSTANCE.mode_copyvisualstyle_16()
 		};
+		
+		btnMode = new PopupMenuButton((Application) ev.getApplication(),
+				modeArray, 1, 1, new Dimension(20, iconHeight),
+				geogebra.common.gui.util.SelectionTable.MODE_ICON);
+		btnMode.addValueChangeHandler(this);
+		btnMode.setKeepVisible(false);
+		// add(btnMode);
+		
+		// ========================================
+		// delete button
+		btnDelete = new MyToggleButton(
+				AppResources.INSTANCE.delete_small(),
+				iconHeight) {
 
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void update(Object[] geos) {
+				this.setVisible((geos.length == 0 && mode == EuclidianConstants.MODE_MOVE)
+						|| mode == EuclidianConstants.MODE_DELETE);
+			}
+		};
+		btnDelete.addValueChangeHandler(this);
+		// add(btnDelete);
+		// ========================================
+		// hide/show labels button
+		btnLabel = new MyToggleButton(
+				AppResources.INSTANCE.mode_copyvisualstyle_16(),
+				iconHeight) {
+
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void update(Object[] geos) {
+				this.setVisible((geos.length == 0 && mode == EuclidianConstants.MODE_MOVE)
+						|| mode == EuclidianConstants.MODE_SHOW_HIDE_LABEL);
+			}
+		};
+		btnLabel.addValueChangeHandler(this);
+		// add(btnLabel);
+		
+		// ========================================
+		// visual style button
+
+		btnCopyVisualStyle = new MyToggleButton(
+				AppResources.INSTANCE.mode_copyvisualstyle_16(),
+				iconHeight) {
+
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void update(Object[] geos) {
+				this.setVisible((geos.length > 0 && mode == EuclidianConstants.MODE_MOVE)
+						|| mode == EuclidianConstants.MODE_VISUAL_STYLE);
+			}
+		};
+		btnCopyVisualStyle.addValueChangeHandler(this);
+		// add(this.btnCopyVisualStyle);
+		
+		
+		
 		// ========================================
 		// show axes button
 		btnShowAxes = new MyToggleButton(
@@ -546,6 +632,322 @@ public class EuclidianStyleBar extends HorizontalPanel
 		};
 		// btnShowGrid.setPreferredSize(new Dimension(16,16));
 		btnShowGrid.addValueChangeHandler(this);
+		
+		// ========================================
+		// line style button
+
+		// create line style icon array
+		final Dimension lineStyleIconSize = new Dimension(80, iconHeight);
+		Canvas [] lineStyleIcons = new Canvas[lineStyleArray.length];
+		for (int i = 0; i < lineStyleArray.length; i++)
+			lineStyleIcons[i] = GeoGebraIcon.createLineStyleIcon(
+					lineStyleArray[i], 2, lineStyleIconSize, Color.BLACK, null);
+
+		// create button
+		btnLineStyle = new PopupMenuButton((Application) app, lineStyleIcons, 1, 1,
+				lineStyleIconSize, geogebra.common.gui.util.SelectionTable.MODE_ICON) {
+
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void update(Object[] geos) {
+
+				/*AGif (mode == EuclidianConstants.MODE_PEN) {
+					this.setVisible(true);
+					setFgColor(ec.getPen().getPenColor());
+					setSliderValue(ec.getPen().getPenSize());
+					setSelectedIndex(lineStyleMap.get(ec.getPen()
+							.getPenLineStyle()));
+				} else {*/
+					boolean geosOK = (geos.length > 0);
+					for (int i = 0; i < geos.length; i++) {
+						GeoElement geo = ((GeoElement) geos[i])
+								.getGeoElementForPropertiesDialog();
+						if (!(geo.isPath()
+								|| (geo.isGeoList() ? ((GeoList) geo)
+										.showLineProperties() : false)
+								|| (geo.isGeoNumeric() ? (((GeoNumeric) geo)
+										.isDrawable() || ((GeoNumeric) geo)
+										.isSliderFixed()) : false) || geo
+								.isGeoAngle())) {
+							geosOK = false;
+							break;
+						}
+					//}
+
+					this.setVisible(geosOK);
+
+					if (geosOK) {
+						// setFgColor(((GeoElement)geos[0]).getObjectColor());
+
+						setFgColor(Color.black);
+						setSliderValue(((GeoElement) geos[0])
+								.getLineThickness());
+
+						setSelectedIndex(lineStyleMap
+								.get(((GeoElement) geos[0]).getLineType()));
+
+						this.setKeepVisible(mode == EuclidianConstants.MODE_MOVE);
+					}
+				}
+			}
+
+			@Override
+			public Canvas getButtonIcon() {
+				if (getSelectedIndex() > -1) {
+					return GeoGebraIcon.createLineStyleIcon(
+							lineStyleArray[this.getSelectedIndex()],
+							this.getSliderValue(), lineStyleIconSize,
+							Color.BLACK, null);
+				}
+				return GeoGebraIcon.createEmptyIcon(lineStyleIconSize.getWidth(),
+						lineStyleIconSize.getHeight());
+			}
+
+		};
+
+		btnLineStyle.getMySlider().setMinimum(1);
+		btnLineStyle.getMySlider().setMaximum(13);
+		btnLineStyle.getMySlider().setMajorTickSpacing(2);
+		btnLineStyle.getMySlider().setMinorTickSpacing(1);
+		btnLineStyle.getMySlider().setPaintTicks(true);
+		btnLineStyle.addValueChangeHandler(this);
+
+		// ========================================
+		// point style button
+
+		// create line style icon array
+		final Dimension pointStyleIconSize = new Dimension(20, iconHeight);
+		Canvas[] pointStyleIcons = new Canvas[pointStyleArray.length];
+		for (int i = 0; i < pointStyleArray.length; i++)
+			pointStyleIcons[i] = GeoGebraIcon.createPointStyleIcon(
+					pointStyleArray[i], 4, pointStyleIconSize, Color.BLACK,
+					null);
+
+		// create button
+		btnPointStyle = new PopupMenuButton((Application) app, pointStyleIcons, 2, 1,
+				pointStyleIconSize, geogebra.common.gui.util.SelectionTable.MODE_ICON) {
+
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void update(Object[] geos) {
+				GeoElement geo;
+				boolean geosOK = (geos.length > 0);
+				for (int i = 0; i < geos.length; i++) {
+					geo = (GeoElement) geos[i];
+					if (!(geo.getGeoElementForPropertiesDialog().isGeoPoint())
+							&& (!(geo.isGeoList() && ((GeoList) geo)
+									.showPointProperties()))) {
+						geosOK = false;
+						break;
+					}
+				}
+				this.setVisible(geosOK);
+
+				if (geosOK) {
+					// setFgColor(((GeoElement)geos[0]).getObjectColor());
+					setFgColor(Color.black);
+
+					// if geo is a matrix, this will return a GeoNumeric...
+					geo = ((GeoElement) geos[0])
+							.getGeoElementForPropertiesDialog();
+
+					// ... so need to check
+					if (geo instanceof PointProperties) {
+						setSliderValue(((PointProperties) geo).getPointSize());
+						int pointStyle = ((PointProperties) geo)
+								.getPointStyle();
+						if (pointStyle == -1) // global default point style
+							pointStyle = EuclidianStyleConstants.POINT_STYLE_DOT;
+						setSelectedIndex(pointStyleMap.get(pointStyle));
+						this.setKeepVisible(mode == EuclidianConstants.MODE_MOVE);
+					}
+				}
+			}
+
+			@Override
+			public Canvas getButtonIcon() {
+				if (getSelectedIndex() > -1) {
+					return GeoGebraIcon.createPointStyleIcon(
+							pointStyleArray[this.getSelectedIndex()],
+							this.getSliderValue(), pointStyleIconSize,
+							Color.BLACK, null);
+				}
+				return GeoGebraIcon.createEmptyIcon(pointStyleIconSize.getWidth(),
+						pointStyleIconSize.getHeight());
+			}
+		};
+		btnPointStyle.getMySlider().setMinimum(1);
+		btnPointStyle.getMySlider().setMaximum(9);
+		btnPointStyle.getMySlider().setMajorTickSpacing(2);
+		btnPointStyle.getMySlider().setMinorTickSpacing(1);
+		btnPointStyle.getMySlider().setPaintTicks(true);
+		btnPointStyle.addValueChangeHandler(this);
+
+		// ========================================
+		// eraser button
+		btnPenEraser = new MyToggleButton(AppResources.INSTANCE.delete_small(),
+				iconHeight) {
+
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void update(Object[] geos) {
+				this.setVisible(mode == EuclidianConstants.MODE_PEN);
+			}
+		};
+
+		btnPenEraser.addValueChangeHandler(this);
+
+		// ========================================
+		// delete geo button
+		btnDeleteGeo = new PushButton(new Image(AppResources.INSTANCE.delete_small()));
+		btnDeleteGeo.addClickHandler(this);
+		// add(btnDeleteGeo);
+
+		// ========================================
+		// hide/show label button
+		btnHideShowLabel = new MyToggleButton(
+				AppResources.INSTANCE.mode_showhidelabel_16(), iconHeight) {
+
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void update(Object[] geos) {
+				// only show this button when handling selection, do not use it
+				// for defaults
+				if (mode != EuclidianConstants.MODE_MOVE) {
+					this.setVisible(false);
+					return;
+				}
+				boolean geosOK = (geos.length > 0);
+				for (int i = 0; i < geos.length; i++) {
+					if ((((GeoElement) geos[i])
+							.getGeoElementForPropertiesDialog().isGeoText())) {
+						geosOK = false;
+						break;
+					}
+				}
+				this.setVisible(geosOK);
+				if (geosOK) {
+					btnHideShowLabel.setSelected(((GeoElement) geos[0])
+							.isLabelVisible());
+				}
+			}
+
+		};
+
+		btnHideShowLabel.addValueChangeHandler(this);
+
+		// ========================================
+		// caption style button
+
+		String[] captionArray = new String[] { app.getPlain("stylebar.Hidden"), // index
+																				// 4
+				app.getPlain("Name"), // index 0
+				app.getPlain("NameAndValue"), // index 1
+				app.getPlain("Value"), // index 2
+				app.getPlain("Caption") // index 3
+		};
+
+		btnLabelStyle = new PopupMenuButton((Application) app, captionArray, 1, 1,
+				new Dimension(0, iconHeight), geogebra.common.gui.util.SelectionTable.MODE_TEXT) {
+
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void update(Object[] geos) {
+				boolean geosOK = false;
+				GeoElement geo = null;
+				if (mode == EuclidianConstants.MODE_MOVE) {
+					for (int i = 0; i < geos.length; i++) {
+						if (((GeoElement) geos[i]).isLabelShowable()
+								|| ((GeoElement) geos[i]).isGeoAngle()
+								|| (((GeoElement) geos[i]).isGeoNumeric() ? ((GeoNumeric) geos[i])
+										.isSliderFixed() : false)) {
+							geo = (GeoElement) geos[i];
+							geosOK = true;
+							break;
+						}
+					}
+				} else if (app.getLabelingStyle() == ConstructionDefaults.LABEL_VISIBLE_ALWAYS_OFF) {
+					this.setVisible(false);
+					return;
+				} else if (app.getLabelingStyle() == ConstructionDefaults.LABEL_VISIBLE_POINTS_ONLY) {
+					for (int i = 0; i < geos.length; i++) {
+						if (((GeoElement) geos[i]).isLabelShowable()
+								&& ((GeoElement) geos[i]).isGeoPoint()) {
+							geo = (GeoElement) geos[i];
+							geosOK = true;
+							break;
+						}
+					}
+				} else {
+					for (int i = 0; i < geos.length; i++) {
+						if (((GeoElement) geos[i]).isLabelShowable()
+								|| ((GeoElement) geos[i]).isGeoAngle()
+								|| (((GeoElement) geos[i]).isGeoNumeric() ? ((GeoNumeric) geos[i])
+										.isSliderFixed() : false)) {
+							geo = (GeoElement) geos[i];
+							geosOK = true;
+							break;
+						}
+					}
+				}
+				this.setVisible(geosOK);
+
+				if (geosOK) {
+					if (!geo.isLabelVisible())
+						setSelectedIndex(0);
+					else
+						setSelectedIndex(geo.getLabelMode() + 1);
+
+				}
+			}
+
+			@Override
+			public Canvas getButtonIcon() {
+				return (Canvas) this.getIcon();
+			}
+		};
+		ImageResource ic = AppResources.INSTANCE.mode_showhidelabel_16();
+		btnLabelStyle.setIconSize(new Dimension(ic.getWidth(), iconHeight));
+		btnLabelStyle.setIcon(ic);
+		btnLabelStyle.addValueChangeHandler(this);
+		btnLabelStyle.setKeepVisible(false);
+
+		// ========================================
+		// point capture button
+
+		String[] strPointCapturing = { app.getMenu("Labeling.automatic"),
+				app.getMenu("SnapToGrid"), app.getMenu("FixedToGrid"),
+				app.getMenu("off") };
+
+		btnPointCapture = new PopupMenuButton((Application) app, strPointCapturing, 1, 1,
+				new Dimension(0, iconHeight), geogebra.common.gui.util.SelectionTable.MODE_TEXT) {
+
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void update(Object[] geos) {
+				// always show this button unless in pen mode
+				this.setVisible(mode != EuclidianConstants.MODE_PEN);
+
+			}
+
+			@Override
+			public Canvas getButtonIcon() {
+				return this.getIcon();
+			}
+
+		};
+		ImageResource ptCaptureIcon = AppResources.INSTANCE.magnet2();
+		btnPointCapture.setIconSize(new Dimension(ptCaptureIcon.getWidth(),
+				iconHeight));
+		btnPointCapture.setIcon(ptCaptureIcon);
+		btnPointCapture.addValueChangeHandler(this);
+		btnPointCapture.setKeepVisible(false);
 	}
 
 	private void createTextButtons() {
@@ -719,5 +1121,10 @@ public class EuclidianStyleBar extends HorizontalPanel
 			}
 		}
 	}
+
+	public void onClick(ClickEvent event) {
+	    // TODO Auto-generated method stub
+	    
+    }
 
 }

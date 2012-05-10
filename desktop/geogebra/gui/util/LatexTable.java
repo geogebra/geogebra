@@ -76,7 +76,7 @@ public class LatexTable extends SelectionTable implements MenuElement{
 			// get the selected string
 			StringBuffer sb = new StringBuffer(latexArray[this.getSelectedIndex()]);
 			// if LaTeX string, adjust the string to include selected text within braces
-			if(mode == SelectionTable.MODE_LATEX){
+			if(mode == geogebra.common.gui.util.SelectionTable.MODE_LATEX){
 				
 				String selText = ((InputPanel)inputDialog.getInputPanel()).getSelectedText();		
 				if (selText != null) {
@@ -89,7 +89,7 @@ public class LatexTable extends SelectionTable implements MenuElement{
 			inputDialog.insertString(sb.toString(), inputDialog.isLaTeX());
 
 			// if unicode string, add the string to the recent symbol list
-			if(mode == SelectionTable.MODE_TEXT){
+			if(mode == geogebra.common.gui.util.SelectionTable.MODE_TEXT){
 				inputDialog.addRecentSymbol(sb.toString());
 			}
 			

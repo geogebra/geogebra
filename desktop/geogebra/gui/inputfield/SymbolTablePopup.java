@@ -71,7 +71,7 @@ public class SymbolTablePopup {
 				TableSymbols.basicSymbols(app), 
 				-1,10, 
 				new Dimension(24,24), 
-				SelectionTable.MODE_TEXT);
+				geogebra.common.gui.util.SelectionTable.MODE_TEXT);
 
 		symbolTable.setShowGrid(true);
 		symbolTable.setHorizontalAlignment(SwingConstants.CENTER);

@@ -222,7 +222,7 @@ public class EuclidianStyleBar3D extends EuclidianStyleBar {
 	private class ProjectionPopup extends PopupMenuButton implements ActionListener{
 		private static final long serialVersionUID = 1L;
 		public ProjectionPopup(Application app, ImageIcon[] projectionIcons){
-			super(app, projectionIcons, 1, projectionIcons.length, new Dimension(16, 16), SelectionTable.MODE_ICON, true, false);
+			super(app, projectionIcons, 1, projectionIcons.length, new Dimension(16, 16), geogebra.common.gui.util.SelectionTable.MODE_ICON, true, false);
 			addActionListener(this);
 			setIcon(projectionIcons[((EuclidianView3D) ev).getProjection()]);
 		}

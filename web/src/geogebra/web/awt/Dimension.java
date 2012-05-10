@@ -20,5 +20,13 @@ public class Dimension extends geogebra.common.awt.Dimension {
 	public int getHeight() {
 		return (int)impl.getHeight();
 	}
+	
+	public void setWidth(int w) {
+		impl.width = w;
+	}
+	
+	public void setHeight(int h) {
+		impl.height = h;
+	}
 
 }

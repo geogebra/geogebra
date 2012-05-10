@@ -316,7 +316,7 @@ public class TextInputDialog extends InputDialog implements DocumentListener {
 
 		JMenu menu = new JMenu(app.getMenu("Properties.Basic"));
 		menu.add(new LatexTable(app, this, btInsertUnicode, TableSymbols
-				.basicSymbols(app), -1, 11, SelectionTable.MODE_TEXT));
+				.basicSymbols(app), -1, 11, geogebra.common.gui.util.SelectionTable.MODE_TEXT));
 		btInsertUnicode.addPopupMenuItem(menu);
 		// btInsertUnicode.addPopupMenuItem(createMenuItem(SymbolTable.math_ops,0,1,2));
 		btInsertUnicode.addPopupMenuItem(createMenuItem(TableSymbols.operators,
@@ -354,7 +354,7 @@ public class TextInputDialog extends InputDialog implements DocumentListener {
 		JMenu menu = new JMenu(table[0] + " " + table[1] + " " + table[2]
 				+ "  ");
 		menu.add(new LatexTable(app, this, btInsertUnicode, table, rows,
-				columns, SelectionTable.MODE_TEXT));
+				columns, geogebra.common.gui.util.SelectionTable.MODE_TEXT));
 		return menu;
 	}
 
@@ -380,13 +380,13 @@ public class TextInputDialog extends InputDialog implements DocumentListener {
 		laTexButtonTitleMap.put("RootsAndFractions", menu);
 		menu.add(new LatexTable(app, this, btInsertLaTeX,
 				TableSymbolsLaTeX.roots_fractions, 1, -1,
-				SelectionTable.MODE_LATEX));
+				geogebra.common.gui.util.SelectionTable.MODE_LATEX));
 		btInsertLaTeX.addPopupMenuItem(menu);
 
 		menu = new JMenu();
 		laTexButtonTitleMap.put("SumsAndIntegrals", menu);
 		LatexTable table = new LatexTable(app, this, btInsertLaTeX,
-				TableSymbolsLaTeX.sums, 1, -1, SelectionTable.MODE_LATEX);
+				TableSymbolsLaTeX.sums, 1, -1, geogebra.common.gui.util.SelectionTable.MODE_LATEX);
 		// table.setCaretPosition(-3);
 		menu.add(table);
 		btInsertLaTeX.addPopupMenuItem(menu);
@@ -394,50 +394,50 @@ public class TextInputDialog extends InputDialog implements DocumentListener {
 		menu = new JMenu();
 		laTexButtonTitleMap.put("Accents", menu);
 		menu.add(new LatexTable(app, this, btInsertLaTeX,
-				TableSymbolsLaTeX.accents, 2, -1, SelectionTable.MODE_LATEX));
+				TableSymbolsLaTeX.accents, 2, -1, geogebra.common.gui.util.SelectionTable.MODE_LATEX));
 		btInsertLaTeX.addPopupMenuItem(menu);
 
 		menu = new JMenu();
 		laTexButtonTitleMap.put("AccentsExt", menu);
 		menu.add(new LatexTable(app, this, btInsertLaTeX,
 				TableSymbolsLaTeX.accentsExtended, 2, -1,
-				SelectionTable.MODE_LATEX));
+				geogebra.common.gui.util.SelectionTable.MODE_LATEX));
 		btInsertLaTeX.addPopupMenuItem(menu);
 
 		menu = new JMenu();
 		laTexButtonTitleMap.put("Brackets", menu);
 		menu.add(new LatexTable(app, this, btInsertLaTeX,
-				TableSymbolsLaTeX.brackets, 2, -1, SelectionTable.MODE_LATEX));
+				TableSymbolsLaTeX.brackets, 2, -1, geogebra.common.gui.util.SelectionTable.MODE_LATEX));
 		btInsertLaTeX.addPopupMenuItem(menu);
 
 		menu = new JMenu();
 		laTexButtonTitleMap.put("Matrices", menu);
 		menu.add(new LatexTable(app, this, btInsertLaTeX,
-				TableSymbolsLaTeX.matrices, 1, -1, SelectionTable.MODE_LATEX));
+				TableSymbolsLaTeX.matrices, 1, -1, geogebra.common.gui.util.SelectionTable.MODE_LATEX));
 		btInsertLaTeX.addPopupMenuItem(menu);
 
 		menu = new JMenu();
 		laTexButtonTitleMap.put("FrakturLetters", menu);
 		menu.add(new LatexTable(app, this, btInsertLaTeX, TableSymbolsLaTeX
-				.mathfrak(), 4, -1, SelectionTable.MODE_LATEX));
+				.mathfrak(), 4, -1, geogebra.common.gui.util.SelectionTable.MODE_LATEX));
 		btInsertLaTeX.addPopupMenuItem(menu);
 
 		menu = new JMenu();
 		laTexButtonTitleMap.put("CalligraphicLetters", menu);
 		menu.add(new LatexTable(app, this, btInsertLaTeX, TableSymbolsLaTeX
-				.mathcal(), 2, -1, SelectionTable.MODE_LATEX));
+				.mathcal(), 2, -1, geogebra.common.gui.util.SelectionTable.MODE_LATEX));
 		btInsertLaTeX.addPopupMenuItem(menu);
 
 		menu = new JMenu();
 		laTexButtonTitleMap.put("BlackboardLetters", menu);
 		menu.add(new LatexTable(app, this, btInsertLaTeX, TableSymbolsLaTeX
-				.mathbb(), 2, -1, SelectionTable.MODE_LATEX));
+				.mathbb(), 2, -1, geogebra.common.gui.util.SelectionTable.MODE_LATEX));
 		btInsertLaTeX.addPopupMenuItem(menu);
 
 		menu = new JMenu();
 		laTexButtonTitleMap.put("CursiveLetters", menu);
 		menu.add(new LatexTable(app, this, btInsertLaTeX, TableSymbolsLaTeX
-				.mathscr(), 2, -1, SelectionTable.MODE_LATEX));
+				.mathscr(), 2, -1, geogebra.common.gui.util.SelectionTable.MODE_LATEX));
 		btInsertLaTeX.addPopupMenuItem(menu);
 
 		JMenuItem menuItem = new JMenuItem();
@@ -549,7 +549,7 @@ public class TextInputDialog extends InputDialog implements DocumentListener {
 
 		recentSymbolTable = new SelectionTable(app, recentSymbolList.toArray(),
 				1, recentSymbolList.size(), new Dimension(24, 24),
-				SelectionTable.MODE_TEXT);
+				geogebra.common.gui.util.SelectionTable.MODE_TEXT);
 
 		recentSymbolTable.setHorizontalAlignment(SwingConstants.CENTER);
 		recentSymbolTable.setSelectedIndex(0);

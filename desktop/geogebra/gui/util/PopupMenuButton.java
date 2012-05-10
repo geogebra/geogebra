@@ -239,7 +239,7 @@ public class PopupMenuButton extends JButton implements ChangeListener {
 		isIniting = false;
 
 
-		if(mode == SelectionTable.MODE_TEXT && iconSize.width == -1){
+		if(mode == geogebra.common.gui.util.SelectionTable.MODE_TEXT && iconSize.width == -1){
 			iconSize.width = myTable.getColumnWidth()-4;
 			iconSize.height = myTable.getRowHeight()-4;	
 		}
@@ -459,7 +459,7 @@ public class PopupMenuButton extends JButton implements ChangeListener {
 		if(hasTable){
 			switch (mode){
 
-			case SelectionTable.MODE_TEXT:
+			case geogebra.common.gui.util.SelectionTable.MODE_TEXT:
 				// Strings are converted to icons. We don't use setText so that the button size can be controlled
 				// regardless of the layout manager.
 
@@ -468,8 +468,8 @@ public class PopupMenuButton extends JButton implements ChangeListener {
 
 				break;
 
-			case SelectionTable.MODE_ICON:
-			case SelectionTable.MODE_LATEX:
+			case geogebra.common.gui.util.SelectionTable.MODE_ICON:
+			case geogebra.common.gui.util.SelectionTable.MODE_LATEX:
 				icon  = (ImageIcon) myTable.getSelectedValue();
 				break;
 

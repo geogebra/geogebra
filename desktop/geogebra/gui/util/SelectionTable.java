@@ -89,12 +89,6 @@ public class SelectionTable extends JTable {
 	}
 
 
-	public static final int MODE_TEXT = 0;
-	public static final int MODE_ICON = 1;
-	public static final int MODE_IMAGE = 2;
-	public static final int MODE_LATEX = 3;
-
-
 	boolean useColorSwatchBorder = false;
 	public void setUseColorSwatchBorder(boolean useColorSwatchBorder) {
 		this.useColorSwatchBorder = useColorSwatchBorder;
@@ -126,7 +120,7 @@ public class SelectionTable extends JTable {
 		this.app = app;	
 		this.mode = mode;
 		this.iconSize = iconSize;
-		if(mode == MODE_LATEX)
+		if(mode == geogebra.common.gui.util.SelectionTable.MODE_LATEX)
 			data = createLatexIconArray((String[]) data);
 		this.data = data;
 
@@ -237,7 +231,7 @@ public class SelectionTable extends JTable {
 
 		// match row height to specified icon height
 		// when mode=text then let font size adjust row height automatically  
-		if(!(mode == MODE_TEXT || mode == MODE_LATEX)){		
+		if(!(mode == geogebra.common.gui.util.SelectionTable.MODE_TEXT || mode == geogebra.common.gui.util.SelectionTable.MODE_LATEX)){		
 			rowHeight = iconSize.height + padding;	
 		} else{
 			rowHeight = getMaxRowHeight(this) + padding;
@@ -251,7 +245,7 @@ public class SelectionTable extends JTable {
 		int w;
 		for (int i = 0; i < getColumnCount(); ++ i) {	
 			// for mode=text, adjust column width to the maximum width in the column	
-			if(mode == MODE_TEXT || mode == MODE_LATEX){
+			if(mode == geogebra.common.gui.util.SelectionTable.MODE_TEXT || mode == geogebra.common.gui.util.SelectionTable.MODE_LATEX){
 				w = getMaxColumnWidth(this,i); 
 				getColumnModel().getColumn(i).setPreferredWidth(w);
 				columnWidth = Math.max(w, columnWidth);
@@ -361,12 +355,12 @@ public class SelectionTable extends JTable {
 
 		switch (mode){
 
-		case MODE_IMAGE:
+		case geogebra.common.gui.util.SelectionTable.MODE_IMAGE:
 			icon = GeoGebraIcon.createFileImageIcon( app, (String)value, alpha, iconSize);
 			break;
 
-		case MODE_ICON:
-		case MODE_LATEX:
+		case geogebra.common.gui.util.SelectionTable.MODE_ICON:
+		case geogebra.common.gui.util.SelectionTable.MODE_LATEX:
 			icon = (ImageIcon) value;
 			break;
 
@@ -399,7 +393,7 @@ public class SelectionTable extends JTable {
 
 			rollOverBorder = BorderFactory.createLineBorder(Color.GRAY, 3);
 			normalBorder = BorderFactory.createLineBorder(Color.GRAY, 1);
-			if(mode == MODE_LATEX)
+			if(mode == geogebra.common.gui.util.SelectionTable.MODE_LATEX)
 				selectedBorder = rollOverBorder;
 			else
 				selectedBorder = BorderFactory.createLineBorder(Color.BLACK, 3);
@@ -417,7 +411,7 @@ public class SelectionTable extends JTable {
 			setAlignmentX(CENTER_ALIGNMENT);
 			setAlignmentY(CENTER_ALIGNMENT);
 
-			if(mode == MODE_TEXT){
+			if(mode == geogebra.common.gui.util.SelectionTable.MODE_TEXT){
 				this.setHorizontalAlignment(horizontalAlignment);
 				this.setVerticalAlignment(SwingConstants.CENTER);
 				setText((String)value);

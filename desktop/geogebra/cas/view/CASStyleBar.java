@@ -366,7 +366,7 @@ public class CASStyleBar extends JToolBar implements ActionListener{
 		String[] textSizeArray = app.getFontSizeStrings();
 
 		btnTextSize = new PopupMenuButton(app, textSizeArray, -1, 1,
-				new Dimension(-1, iconHeight), SelectionTable.MODE_TEXT) {
+				new Dimension(-1, iconHeight), geogebra.common.gui.util.SelectionTable.MODE_TEXT) {
 
 			private static final long serialVersionUID = 1L;
 

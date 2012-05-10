@@ -1,7 +1,10 @@
 package geogebra.web.gui.util;
 
-
 import geogebra.common.awt.Color;
+import geogebra.common.awt.RenderingHints;
+import geogebra.common.euclidian.EuclidianStatic;
+import geogebra.web.awt.BufferedImage;
+import geogebra.web.awt.Dimension;
 import geogebra.web.awt.Graphics2D;
 import geogebra.web.openjdk.awt.geom.Polygon;
 
@@ -63,6 +66,61 @@ public class GeoGebraIcon {
 		 */
 	    
 	    return icon;
+    }
+
+	/** creates LineStyle icon
+	 * @param dashStyle
+	 * @param thickness
+	 * @param iconSize
+	 * @param fgColor
+	 * @param bgColor
+	 * @return Canvas with icon drawn
+	 */
+	public static Canvas createLineStyleIcon(int dashStyle, int thickness, Dimension iconSize, Color fgColor, Color bgColor) {
+		int h = iconSize.getHeight();
+		int w = iconSize.getWidth();
+
+		Canvas image = Canvas.createIfSupported();
+	    Graphics2D g2 = new Graphics2D(image);
+		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+		if(bgColor != null){
+			g2.setPaint(bgColor);
+			g2.fillRect(0, 0, w, h);
+		}
+
+		// draw dashed line
+		g2.setPaint(fgColor);
+		g2.setStroke(new geogebra.web.awt.BasicStroke(EuclidianStatic.getStroke(thickness, dashStyle)));
+		int mid = h / 2;
+		g2.drawLine(4, mid, w - 4, mid);
+
+		return image;
+    }
+	
+	public static Canvas createEmptyIcon(int width, int height){
+
+		Canvas image = Canvas.createIfSupported();
+		image.setWidth(width+"px");
+		image.setHeight(height+"px");
+		image.setCoordinateSpaceHeight(height);
+		image.setCoordinateSpaceWidth(width);
+		return image;
+	}
+
+	/**
+	 * @param pointStyle
+	 * @param pointSize
+	 * @param iconSize
+	 * @param fgColor
+	 * @param bgColor
+	 * @return
+	 */
+	public static Canvas createPointStyleIcon(int pointStyle, int pointSize, Dimension iconSize, Color fgColor, Color bgColor) {
+		GeoGebraIcon g = new GeoGebraIcon();
+		PointStyleImage image = new PointStyleImage(iconSize, pointStyle, pointSize,  fgColor,  bgColor);
+
+		return image.getCanvas();
     }
 
 }

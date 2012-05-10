@@ -574,7 +574,7 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener, geoge
 				app.getImageIcon("mode_copyvisualstyle_16.png") };
 		btnMode = new PopupMenuButton((Application) ev.getApplication(),
 				modeArray, -1, 1, new Dimension(20, iconHeight),
-				SelectionTable.MODE_ICON);
+				geogebra.common.gui.util.SelectionTable.MODE_ICON);
 		btnMode.addActionListener(this);
 		btnMode.setKeepVisible(false);
 		// add(btnMode);
@@ -697,7 +697,7 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener, geoge
 
 		// create button
 		btnLineStyle = new PopupMenuButton(app, lineStyleIcons, -1, 1,
-				lineStyleIconSize, SelectionTable.MODE_ICON) {
+				lineStyleIconSize, geogebra.common.gui.util.SelectionTable.MODE_ICON) {
 
 			private static final long serialVersionUID = 1L;
 
@@ -778,7 +778,7 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener, geoge
 
 		// create button
 		btnPointStyle = new PopupMenuButton(app, pointStyleIcons, 2, -1,
-				pointStyleIconSize, SelectionTable.MODE_ICON) {
+				pointStyleIconSize, geogebra.common.gui.util.SelectionTable.MODE_ICON) {
 
 			private static final long serialVersionUID = 1L;
 
@@ -904,7 +904,7 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener, geoge
 		};
 
 		btnLabelStyle = new PopupMenuButton(app, captionArray, -1, 1,
-				new Dimension(0, iconHeight), SelectionTable.MODE_TEXT) {
+				new Dimension(0, iconHeight), geogebra.common.gui.util.SelectionTable.MODE_TEXT) {
 
 			private static final long serialVersionUID = 1L;
 
@@ -977,7 +977,7 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener, geoge
 				app.getMenu("off") };
 
 		btnPointCapture = new PopupMenuButton(app, strPointCapturing, -1, 1,
-				new Dimension(0, iconHeight), SelectionTable.MODE_TEXT) {
+				new Dimension(0, iconHeight), geogebra.common.gui.util.SelectionTable.MODE_TEXT) {
 
 			private static final long serialVersionUID = 1L;
 
@@ -1279,7 +1279,7 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener, geoge
 		String[] textSizeArray = app.getFontSizeStrings();
 
 		btnTextSize = new PopupMenuButton(app, textSizeArray, -1, 1,
-				new Dimension(-1, iconHeight), SelectionTable.MODE_TEXT) {
+				new Dimension(-1, iconHeight), geogebra.common.gui.util.SelectionTable.MODE_TEXT) {
 
 			private static final long serialVersionUID = 1L;
 
@@ -1319,7 +1319,7 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener, geoge
 				app.getImageIcon("format-justify-right.png") };
 		btnTableTextJustify = new PopupMenuButton(
 				(Application) ev.getApplication(), justifyIcons, 1, -1,
-				new Dimension(20, iconHeight), SelectionTable.MODE_ICON) {
+				new Dimension(20, iconHeight), geogebra.common.gui.util.SelectionTable.MODE_ICON) {
 
 			private static final long serialVersionUID = 1L;
 
@@ -1356,7 +1356,7 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener, geoge
 
 		btnTableTextBracket = new PopupMenuButton(
 				(Application) ev.getApplication(), bracketIcons, 2, -1,
-				new Dimension(30, iconHeight), SelectionTable.MODE_ICON) {
+				new Dimension(30, iconHeight), geogebra.common.gui.util.SelectionTable.MODE_ICON) {
 
 			private static final long serialVersionUID = 1L;
 

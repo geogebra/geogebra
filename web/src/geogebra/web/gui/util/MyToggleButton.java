@@ -37,4 +37,9 @@ public class MyToggleButton extends ToggleButton {
 	private void toggle() {
 		this.setValue(!this.getValue());
 	}
+
+	public void setSelected(boolean selected) {
+	    // TODO Auto-generated method stub
+	    
+    }
 }

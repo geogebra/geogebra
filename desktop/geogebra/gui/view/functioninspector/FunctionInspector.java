@@ -433,7 +433,7 @@ KeyListener, ActionListener, SpecialNumberFormatInterface {
 		columnNames[COL_CURVATURE] =	app.getPlain("fncInspector.Curvature");
 		columnNames[COL_DIFFERENCE] =	app.getPlain("fncInspector.Difference");
 		btnAddColumn = new PopupMenuButton(app, columnNames, -1, 1, 
-				new Dimension(0, 18), SelectionTable.MODE_TEXT);
+				new Dimension(0, 18), geogebra.common.gui.util.SelectionTable.MODE_TEXT);
 		btnAddColumn.setKeepVisible(false);
 		btnAddColumn.setStandardButton(true);
 		btnAddColumn.setFixedIcon(GeoGebraIcon.createEmptyIcon(1, 1));

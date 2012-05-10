@@ -135,7 +135,7 @@ public class SpreadsheetStyleBar extends JToolBar implements ActionListener{
 				app.getImageIcon("border_right.png")
 		};
 
-		btnBorderStyle = new PopupMenuButton(app, borderStyleIcon, 2,-1, iconDimension, SelectionTable.MODE_ICON);
+		btnBorderStyle = new PopupMenuButton(app, borderStyleIcon, 2,-1, iconDimension, geogebra.common.gui.util.SelectionTable.MODE_ICON);
 		btnBorderStyle.setKeepVisible(false);
 		btnBorderStyle.setSelectedIndex(1);
 		btnBorderStyle.addActionListener(this);
