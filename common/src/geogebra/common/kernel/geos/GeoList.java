@@ -508,7 +508,7 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 
 	@Override
 	public boolean isDrawable() {
-		return isDrawable;
+		return isDrawable || drawAsComboBox();
 	}
 
 	@Override
@@ -522,7 +522,8 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 	public final void clear() {
 		geoList.clear();
 		
-		rebuildComboBoxes();
+		comboBox = null;
+		comboBox2 = null;
 	}
 
 	/**
@@ -1951,11 +1952,7 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 	public AbstractJComboBox getComboBox(int viewID) {
 		
 		if (comboBox == null) {
-			comboBox = SwingFactory.prototype.newJComboBox();
-			comboBox.setEditable(false);
-			
-			rebuildComboBox(comboBox);
-			
+			comboBox = buildComboBox();
 		}
 		
 		if (viewID != AbstractApplication.VIEW_EUCLIDIAN2) {
@@ -1963,39 +1960,44 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 		}
 		
 		if (comboBox2 == null) {
-			comboBox2 = SwingFactory.prototype.newJComboBox();
-			comboBox2.setEditable(false);
-			
-			rebuildComboBox(comboBox2);
-
-
+			comboBox2 = buildComboBox();
 		}
 		
 		return comboBox2;
 		
 	}
 	
-	private void rebuildComboBox(AbstractJComboBox cb) {
+	private AbstractJComboBox buildComboBox() {
 		
-		if (cb != null) {
+		AbstractJComboBox cb = SwingFactory.prototype.newJComboBox();
+			
+			
+			cb.setEditable(false);
 			
 			if (size() > 0) {
 				for (int i = 0 ; i < size() ; i++) {
-					comboBox.addItem(get(i).toValueString(StringTemplate.defaultTemplate));
+					GeoElement geo = get(i);
+					String item;
+					if (geo.isLabelSet()) {
+						item = geo.getLabel(StringTemplate.defaultTemplate);
+					} else {
+						item = get(i).toValueString(StringTemplate.defaultTemplate);
+					}
+					cb.addItem(item);
 				}
+				cb.setSelectedIndex(getSelectedIndex());			
 			}
 			
-			comboBox.setSelectedIndex(getSelectedIndex());			
 			
-			
-		}
+			return cb;
+		
 		
 	}
 	
 	private void rebuildComboBoxes() {
 		
-		rebuildComboBox(comboBox);
-		rebuildComboBox(comboBox2);
+		comboBox = buildComboBox();
+		comboBox2 = buildComboBox();
 		
 	}
 	
