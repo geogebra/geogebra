@@ -172,7 +172,7 @@ implements ClickHandler, ChangeHandler
 	}
 
 	public void onClick(ClickEvent e) {
-		if (e.getSource() == btApply.getElement()) {
+		if (e.getSource() == btApply.getElement().getFirstChild()) {
 			geoResult = rbAngle.getValue() ? angle : number; 		
 			getResult();
 			geoResult.setLabelMode(GeoElement.LABEL_NAME_VALUE);
@@ -180,11 +180,11 @@ implements ClickHandler, ChangeHandler
 			geoResult.update();
 			//((GeoNumeric)geoResult).setRandom(cbRandom.isSelected());
 
-			setVisible(false);
-			
+			hide();
+
 			app.storeUndoInfo();
-		} else if (e.getSource() == btCancel.getElement()) {
-			setVisible(false);
+		} else if (e.getSource() == btCancel.getElement().getFirstChild()) {
+			hide();
 		} else if (e.getSource() == rbNumber.getElement() ||
 				   e.getSource() == rbAngle.getElement() ||
 				   e.getSource() == rbInteger.getElement()) {

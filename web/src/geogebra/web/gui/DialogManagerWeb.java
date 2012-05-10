@@ -10,6 +10,7 @@ import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.AbstractApplication;
+import geogebra.web.gui.dialog.SliderDialog;
 import geogebra.web.main.Application;
 
 import java.util.ArrayList;
@@ -149,5 +150,21 @@ public class DialogManagerWeb extends DialogManager {
 	    return null;
     }
 
+	/**
+	 * Creates a new slider at given location (screen coords).
+	 * 
+	 * @return whether a new slider (number) was create or not
+	 *//* outcommented until working
+	@Override
+    public boolean showSliderCreationDialog(int x, int y) {
+		app.setWaitCursor();
+
+		SliderDialog dialog = new SliderDialog(((Application) app), x, y);
+		dialog.center();
+
+		app.setDefaultCursor();
+
+		return true;
+	}*/
 
 }
