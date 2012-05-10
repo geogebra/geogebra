@@ -1302,7 +1302,7 @@ public class Application extends AbstractApplication implements
 			this.getEuclidianView2().setAntialiasing(antiAliasing);
 		}
 		
-        if (args.containsArg("versionCheckAllow")) {
+        if (!isApplet() && args.containsArg("versionCheckAllow")) {
             versionCheckAllow = args.getStringValue("versionCheckAllow");
             setVersionCheckAllowed();
         }

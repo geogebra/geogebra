@@ -81,6 +81,7 @@ public class GeoGebraPreferences {
 	 // preferences node name for GeoGebra 	 
 	 private  Preferences ggbPrefs, ggbPrefsSystem;
 	  {
+
 		  try {
 			  ggbPrefs = Preferences.userRoot().node(GeoGebraConstants.PREFERENCES_ROOT);			  
 		  } catch (Exception e) {
@@ -88,12 +89,21 @@ public class GeoGebraPreferences {
 			  ggbPrefs = null;
 		  }
 		  
+		  
+		  
+		  
 		  try {
-			  ggbPrefsSystem = Preferences.systemRoot().node(GeoGebraConstants.PREFERENCES_ROOT_GLOBAL);
-			  
+			  if (Preferences.systemRoot().nodeExists(GeoGebraConstants.PREFERENCES_ROOT_GLOBAL)){
+				  ggbPrefsSystem = Preferences.systemRoot().node(GeoGebraConstants.PREFERENCES_ROOT_GLOBAL);	
+				  //System.out.println("system preference "+GeoGebraConstants.PREFERENCES_ROOT_GLOBAL+ " exists");		  
+			  }else{
+				  ggbPrefsSystem = null;
+				  //System.out.println("system preference "+GeoGebraConstants.PREFERENCES_ROOT_GLOBAL+ " does not exist");
+			  }
 		  } catch (Exception e) {
 			  // thrown when running unsigned JAR
 			  ggbPrefsSystem = null;
+			  //System.out.println("Error : system preference "+GeoGebraConstants.PREFERENCES_ROOT_GLOBAL);
 		  }
 		  
 	 }
@@ -159,12 +169,16 @@ public class GeoGebraPreferences {
 	 */
 	public boolean loadVersionCheckAllow(String defaultValue){
 		// check if system (local machine) allows check version
-		boolean systemAllows = Boolean.valueOf(GeoGebraPreferences.getPref()
-				.ggbPrefsSystem.get(GeoGebraPreferences.VERSION_CHECK_ALLOW,defaultValue));
+		boolean systemAllows;
+		if (ggbPrefsSystem==null){
+			systemAllows = true;
+			AbstractApplication.info("No system preferences");
+		}else{
+			systemAllows = Boolean.valueOf(ggbPrefsSystem.get(GeoGebraPreferences.VERSION_CHECK_ALLOW,defaultValue));
+		}
 		// then check if user allows
 		if (systemAllows)
-			return Boolean.valueOf(GeoGebraPreferences.getPref()
-					.ggbPrefs.get(GeoGebraPreferences.VERSION_CHECK_ALLOW,defaultValue));
+			return Boolean.valueOf(ggbPrefs.get(GeoGebraPreferences.VERSION_CHECK_ALLOW,defaultValue));
 		// else don't allow
 		return false;
 	}
