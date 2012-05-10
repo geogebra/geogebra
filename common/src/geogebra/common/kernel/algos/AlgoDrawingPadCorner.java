@@ -90,20 +90,20 @@ public class AlgoDrawingPadCorner extends AlgoElement {
 			ev = app.getEuclidianView2();
 		}
 
-		double width = ev.toRealWorldCoordX((double) (ev.getWidth()) + 1);
-		double height = ev.toRealWorldCoordY((double) (ev.getHeight()) + 1);
+		double xmax = ev.toRealWorldCoordX((double) (ev.getWidth()) + 1);
+		double ymin = ev.toRealWorldCoordY((double) (ev.getHeight()) + 1);
 		double zeroX = ev.toRealWorldCoordX(-1);
 		double zeroY = ev.toRealWorldCoordY(0 - 1);
 
 		switch ((int) number.getDouble()) {
 		case 1:
-			corner.setCoords(zeroX, height, 1.0);
+			corner.setCoords(zeroX, ymin, 1.0);
 			break;
 		case 2:
-			corner.setCoords(width, height, 1.0);
+			corner.setCoords(xmax, ymin, 1.0);
 			break;
 		case 3:
-			corner.setCoords(width, zeroY, 1.0);
+			corner.setCoords(xmax, zeroY, 1.0);
 			break;
 		case 4:
 			corner.setCoords(zeroX, zeroY, 1.0);
