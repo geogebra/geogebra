@@ -6924,8 +6924,9 @@ public abstract class GeoElement extends ConstructionElement implements
 					return true; // \; \, just spacing
 				}
 				break;
-			case '^':
-				return true;
+			// removed: we don't want to use latex for eg f(x) = x^3
+			//case '^':
+			//	return true;
 			}
 		}
 
