@@ -416,9 +416,9 @@ public abstract class CommandProcessor {
 	 * Used by eg FitSin to allow a freehand function to be passed as an arg
 	 * 
 	 * converts a list of y-coordinates into a list of GeoPoints
-	 * @param kernelA
-	 * @param algo
-	 * @return
+	 * @param kernelA kernel
+	 * @param algo function's parent algorithm
+	 * @return list of points on the function
 	 */
 	public static  GeoList wrapFreehandFunctionArgInList(Kernel kernelA, AlgoFunctionFreehand algo) {
 
