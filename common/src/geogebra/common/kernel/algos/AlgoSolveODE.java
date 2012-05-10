@@ -129,8 +129,6 @@ public class AlgoSolveODE extends AlgoElement {
 	    StepHandler stepHandler = new StepHandler() {
 	        public void reset() {}
 	        
-	        Construction cons = kernel.getConstruction();
-	                
 	        public boolean requiresDenseOutput() { return false; }
 	                
 	        public void handleStep(StepInterpolator interpolator, boolean isLast) throws DerivativeException {
