@@ -1841,7 +1841,6 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				} else if (list.size() == 1) {
 					ExpressionValue ev = list.getMyList().getListElement(0)
 							.evaluate(tpl);
-					AbstractApplication.debug(ev.getClass());
 					if ((funN.getVarNumber() == 2) && (ev instanceof GeoPoint2)) {
 						GeoPoint2 pt = (GeoPoint2) ev;
 						if (funN.isBooleanFunction()) {
