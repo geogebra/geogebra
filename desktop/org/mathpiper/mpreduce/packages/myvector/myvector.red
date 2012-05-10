@@ -257,7 +257,7 @@ vectormapping 'quotient,'minus,'df,'int,'sqrt;
 % We must put appropriate flags upon the arithmetic operators and
 % vector operators too ...
  flag('(sub minus difference quotient plus times expt),'varithop);
- flag('(myvect cross dot perpendicular unitperpendicular unitvector vmod listtomyvect dim get),'myvectorfn);
+ flag('(myvect cross dot perpendicular unitperpendicular unitvector vmod listtomyvect dim get xcoord ycoord zcoord),'myvectorfn);
 
 % We must now define the procedures to carry out vector algebra and
 % calculus. They must be given a VECTORFUNCTION property
@@ -645,6 +645,14 @@ symbolic procedure myunit vargs;
 myvectorfn('dim,'mydim);
 symbolic procedure mydim vargs;
   1+upbv car vargs;
+  
+myvectorfn('xcoord,'myxcoord);
+symbolic procedure myxcoord vargs;
+  getv(car vargs,0);
+
+myvectorfn('ycoord,'myycoord);
+symbolic procedure myycoord vargs;
+  getv(car vargs,1);
 
 myvectorfn('get,'mygetelement);
 symbolic procedure mygetelement vargs;
