@@ -15,6 +15,7 @@ package geogebra.common.kernel.algos;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
+import geogebra.common.kernel.arithmetic.FunctionalNVar;
 import geogebra.common.kernel.geos.GeoFunction;
 
 /**
@@ -30,15 +31,16 @@ public class AlgoDenominator extends AlgoNumerator {
 	 * Creates new algo for computing denominator
 	 * @param cons construction
 	 * @param label label
-	 * @param f rational function
+	 * @param func rational function
 	 */
-	public AlgoDenominator(Construction cons, String label, GeoFunction f) {
-		super(cons, label, f);
+	public AlgoDenominator(Construction cons, String label, FunctionalNVar func) {
+		super(cons, label, func);
 	}
 
-	/*
-     * over-rides AlgoNumerator
-     */
+	public AlgoDenominator(Construction cons, FunctionalNVar func) {
+		super(cons, func);
+	}
+
 	@Override
     protected ExpressionValue getPart(ExpressionNode node) {
     	return node.getRight();

@@ -5621,7 +5621,7 @@ public class Kernel {
 	/**
 	 * Denominator Michael Borcherds
 	 */
-	final public GeoFunction Denominator(String label, GeoFunction func) {
+	final public GeoElement Denominator(String label, FunctionalNVar func) {
 		AlgoDenominator algo = new AlgoDenominator(cons, label, func);
 		return algo.getResult();
 	}
@@ -9256,8 +9256,8 @@ public class Kernel {
 	/**
 	 * Numerator Michael Borcherds
 	 */
-	final public GeoFunction Numerator(String label, GeoFunction func) {
-		AlgoNumerator algo = new AlgoNumerator(cons, label, func);
+	final public GeoElement Numerator(String label, FunctionalNVar arg) {
+		AlgoNumerator algo = new AlgoNumerator(cons, label, arg);
 		return algo.getResult();
 	}
 
@@ -9651,6 +9651,24 @@ public class Kernel {
 			FunctionalNVar g, GeoNumeric x, GeoNumeric y, GeoNumeric end,
 			GeoNumeric step) {
 		AlgoSolveODE algo = new AlgoSolveODE(cons, label, f, g, x, y, end, step);
+		return algo.getResult();
+	}
+
+	/**
+	 * 
+	 * @param label
+	 * @param func
+	 * @param n
+	 * @param lengthRatio
+	 * @param minX
+	 * @param minY
+	 * @param maxX
+	 * @param maxY
+	 * @return
+	 */
+	final public GeoLocus SlopeField(String label, FunctionalNVar func, GeoNumeric n, GeoNumeric lengthRatio, GeoNumeric minX, GeoNumeric minY, GeoNumeric maxX, GeoNumeric maxY) {
+		
+		AlgoSlopeField algo = new AlgoSlopeField(cons, label, func,n, lengthRatio, minX, minY, maxX, maxY);
 		return algo.getResult();
 	}
 

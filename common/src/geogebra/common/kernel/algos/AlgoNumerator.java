@@ -17,10 +17,13 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.Function;
+import geogebra.common.kernel.arithmetic.FunctionNVar;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
+import geogebra.common.kernel.arithmetic.FunctionalNVar;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
+import geogebra.common.kernel.geos.GeoFunctionNVar;
 import geogebra.common.plugin.Operation;
 
 /**
@@ -30,17 +33,25 @@ import geogebra.common.plugin.Operation;
  */
 public class AlgoNumerator extends AlgoElement {
 
-	private GeoFunction f; // input
-    private GeoFunction g; // output        
+	private FunctionalNVar f; // input
+    private GeoElement g; // output        
     
-    public AlgoNumerator(Construction cons, String label, GeoFunction f) {
+    public AlgoNumerator(Construction cons, String label, FunctionalNVar f) {
+    	this(cons, f);
+        g.setLabel(label);
+    }
+    
+    public AlgoNumerator(Construction cons, FunctionalNVar f) {
     	super(cons);
         this.f = f;            	
     	
-        g = new GeoFunction(cons);                
+        if (f instanceof GeoFunction) {
+        	g = new GeoFunction(cons);     
+        } else {
+        	g = new GeoFunctionNVar(cons);             	
+        }
         setInputOutput(); // for AlgoElement        
         compute();
-        g.setLabel(label);
     }
     
     @Override
@@ -52,14 +63,14 @@ public class AlgoNumerator extends AlgoElement {
     @Override
 	protected void setInputOutput() {
         input = new GeoElement[1];
-        input[0] = f;
+        input[0] = (GeoElement) f;
 
         super.setOutputLength(1);
         super.setOutput(0, g);
         setDependencies(); // done by AlgoElement
     }
 
-    public GeoFunction getResult() {
+    public GeoElement getResult() {
         return g;
     }
 
@@ -81,10 +92,27 @@ public class AlgoNumerator extends AlgoElement {
         //Application.debug(root.left.getClass()+"");
           
         if (ev.isExpressionNode()) {
-        	Function fun = new Function((ExpressionNode)ev, f.getFunction().getFunctionVariable());
-        	g.setFunction(fun);
+        	
+        	if (f instanceof GeoFunction) {
+        	
+        	Function fun = new Function((ExpressionNode)ev, f.getFunction().getFunctionVariables()[0]);
+        	((GeoFunction)g).setFunction(fun);
+        	} else {
+            	FunctionNVar fun = new FunctionNVar((ExpressionNode)ev, f.getFunction().getFunctionVariables());
+        		
+        		((GeoFunctionNVar)g).setFunction(fun);
+        	}
         } else if (ev instanceof FunctionVariable) {
+        	if (f instanceof GeoFunction) {
         	g.set(kernel.getAlgebraProcessor().evaluateToFunction("x", false));
+        	} else {
+        		String var = ((FunctionVariable)ev).getSetVarString();
+        		
+        		boolean oldMode = kernel.isSilentMode();
+        		kernel.setSilentMode(true);
+            	g.set((GeoFunctionNVar)(kernel.getAlgebraProcessor().processAlgebraCommand(var+"+0x+0y", false)[0]));
+        		kernel.setSilentMode(oldMode);
+        	}
         }
         else if (ev.isNumberValue()) {
         	double val = ((NumberValue)ev).getDouble();

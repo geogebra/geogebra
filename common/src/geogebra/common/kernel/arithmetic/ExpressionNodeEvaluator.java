@@ -356,6 +356,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 
 		case GREATER_EQUAL:
 			// number >= number
+			AbstractApplication.debug(lt.getClass()+" "+rt.getClass());
 			if (lt.isNumberValue() && rt.isNumberValue()) {
 				return new MyBoolean(kernel, Kernel.isGreaterEqual(
 						((NumberValue) lt).getDouble(),

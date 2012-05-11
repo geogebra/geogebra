@@ -2,6 +2,7 @@ package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
+import geogebra.common.kernel.arithmetic.FunctionalNVar;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.main.MyError;
@@ -30,9 +31,9 @@ public class CmdDenominator extends CommandProcessor {
 		case 1:
 			arg = resArgs(c);
 
-			if (arg[0].isGeoFunction()) {
+			if (arg[0] instanceof FunctionalNVar) {
 				GeoElement[] ret = { kernelA.Denominator(c.getLabel(),
-						(GeoFunction) arg[0]) };
+						(FunctionalNVar) arg[0]) };
 				return ret;
 
 			}

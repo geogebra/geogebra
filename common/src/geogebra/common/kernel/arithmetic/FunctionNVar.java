@@ -901,4 +901,13 @@ public class FunctionNVar extends ValidExpression implements FunctionalNVar, Var
 		return this;
 	}
 
+	public ExpressionNode getFunctionExpression() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public boolean isDefined() {
+		return true;
+	}
+
 }

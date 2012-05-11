@@ -507,6 +507,8 @@ public class CommandDispatcher {
 				return new CmdComplexRoot(kernel);
 			case SolveODE:
 				return new CmdSolveODE(kernel);
+			case SlopeField:
+				return new CmdSlopeField(kernel);
 			case Iteration:
 				return new CmdIteration(kernel);
 			case PathParameter:

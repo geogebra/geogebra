@@ -60,7 +60,7 @@ public enum Commands implements CommandsConstants{
    	RectangleSum(TABLE_FUNCTION), TaylorSeries(TABLE_FUNCTION), UpperSum(TABLE_FUNCTION), TrapezoidalSum(TABLE_FUNCTION),
    	Limit(TABLE_FUNCTION), LimitBelow(TABLE_FUNCTION), LimitAbove(TABLE_FUNCTION), Factors(TABLE_FUNCTION),
    	Degree(TABLE_FUNCTION), Coefficients(TABLE_FUNCTION), PartialFractions(TABLE_FUNCTION), Numerator(TABLE_FUNCTION),
-   	Denominator(TABLE_FUNCTION), ComplexRoot(TABLE_FUNCTION), SolveODE(TABLE_FUNCTION), Iteration(TABLE_FUNCTION),
+   	Denominator(TABLE_FUNCTION), ComplexRoot(TABLE_FUNCTION), SolveODE(TABLE_FUNCTION), SlopeField(TABLE_FUNCTION), Iteration(TABLE_FUNCTION),
    	PathParameter(TABLE_FUNCTION), Asymptote(TABLE_FUNCTION), CurvatureVector(TABLE_FUNCTION), Curvature(TABLE_FUNCTION),
    	OsculatingCircle(TABLE_FUNCTION), IterationList(TABLE_FUNCTION), RootList(TABLE_FUNCTION),
    	ImplicitCurve(TABLE_FUNCTION),

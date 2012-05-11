@@ -47,4 +47,6 @@ public interface FunctionalNVar {
 	 * @return comma separated variable names
 	 */
 	public String getVarString(StringTemplate tpl);
+	public ExpressionNode getFunctionExpression();
+	public boolean isDefined();
 }
