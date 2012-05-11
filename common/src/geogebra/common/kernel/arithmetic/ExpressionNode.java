@@ -37,6 +37,7 @@ import geogebra.common.plugin.Operation;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
@@ -745,32 +746,32 @@ public class ExpressionNode extends ValidExpression implements
 	 * @param xVar variable x
 	 * @param yVar variable y
 	 * @param zVar variable z
+	 * @param undecided list for subexpressions where it's not clear whether they can be used for multiplication directly or not
 	 * 
 	 * @return number of replacements done
 	 */
 	protected int replaceXYZnodes(FunctionVariable xVar, FunctionVariable yVar,
-			FunctionVariable zVar) {
+			FunctionVariable zVar,ArrayList<ExpressionNode> undecided) {
 		if ((xVar == null) && ((yVar == null) & (zVar == null))) {
 			return 0;
 		}
 
 		// left tree
-		int replacements = 0;
 		if (left.isExpressionNode()) {
-			replacements += ((ExpressionNode) left).replaceXYZnodes(xVar, yVar,
-					zVar);
+			((ExpressionNode) left).replaceXYZnodes(xVar, yVar,
+					zVar,undecided);
 		}
 		// right tree
 		if ((right != null) && right.isExpressionNode()) {
-			replacements += ((ExpressionNode) right).replaceXYZnodes(xVar,
-					yVar, zVar);
+			((ExpressionNode) right).replaceXYZnodes(xVar,
+					yVar, zVar, undecided);
 		}
 
 		switch (operation) {
 		case XCOORD:
 			if (xVar != null) {
-				replacements++;
-				operation = Operation.MULTIPLY;
+				undecided.add(this);
+				operation = Operation.MULTIPLY_OR_FUNCTION;
 				right = left;
 				left = xVar;
 			}
@@ -778,8 +779,8 @@ public class ExpressionNode extends ValidExpression implements
 
 		case YCOORD:
 			if (yVar != null) {
-				replacements++;
-				operation = Operation.MULTIPLY;
+				undecided.add(this);
+				operation = Operation.MULTIPLY_OR_FUNCTION;
 				right = left;
 				left = yVar;
 			}
@@ -787,15 +788,28 @@ public class ExpressionNode extends ValidExpression implements
 
 		case ZCOORD:
 			if (zVar != null) {
-				replacements++;
-				operation = Operation.MULTIPLY;
+				undecided.add(this);
+				operation = Operation.MULTIPLY_OR_FUNCTION;
 				right = left;
 				left = zVar;
 			}
 			break;
+		case POWER:
+			if(left.isExpressionNode() && ((ExpressionNode)left).operation==Operation.MULTIPLY_OR_FUNCTION){
+				right = new ExpressionNode(kernel,((ExpressionNode)left).getRight(),Operation.POWER,right);
+				left = ((ExpressionNode)left).getLeft();
+				operation = Operation.MULTIPLY;
+			}
+		case FACTORIAL:
+			if(left.isExpressionNode() && ((ExpressionNode)left).operation==Operation.MULTIPLY_OR_FUNCTION){
+				right = new ExpressionNode(kernel,((ExpressionNode)left).getRight(),Operation.FACTORIAL,null);
+				left = ((ExpressionNode)left).getLeft();
+				operation = Operation.MULTIPLY;
+			}
 		}
+		
 
-		return replacements;
+		return undecided.size();
 	}
 
 	/**

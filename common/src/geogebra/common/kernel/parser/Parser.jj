@@ -75,6 +75,7 @@ public class Parser implements ParserInterface{
     private boolean GeoGebraCASParsing = false;
     private boolean ExternalCASParsing = false;
 	private boolean MPReduceParsing = false;
+	private ArrayList<ExpressionNode > undecided = new ArrayList<ExpressionNode >();
     
     public Parser(Kernel kernel, Construction cons) {
     	 this ( new java.io.StringReader("") ); // dummy stream for parser initing
@@ -88,6 +89,7 @@ public class Parser implements ParserInterface{
     	GeoGebraCASParsing = false;
     	ExternalCASParsing = false;
     	MPReduceParsing = false;
+    	undecided.clear();
     }
 
     /**
@@ -95,7 +97,9 @@ public class Parser implements ParserInterface{
      */
     public ValidExpression parseGeoGebraExpression(String parseString) throws ParseException {           
         myReInit( parseString );                         
-        return buildValidExpression();     
+        ValidExpression ret = buildValidExpression();
+        processUndecided();
+        return ret;     
     }
     
      /**
@@ -105,7 +109,8 @@ public class Parser implements ParserInterface{
         myReInit( parseString );
         // parse x^2 + y^2 as an expression and don't throw Incomplete Equation error
         GeoGebraCASParsing = true;                        
-        return buildCASExpression();     
+        ValidExpression ret = buildCASExpression();
+        return ret;     
     }        
     
     /**
@@ -114,7 +119,9 @@ public class Parser implements ParserInterface{
     public ValidExpression parseMathPiper(String parseString) throws ParseException {           
         myReInit( parseString ); 
         ExternalCASParsing = true;                         
-        return buildMathPiperExpression();     
+        ValidExpression ret = buildMathPiperExpression();
+        processUndecided();
+        return ret;        
     }
 
       /**
@@ -142,7 +149,9 @@ public class Parser implements ParserInterface{
     public Function parseFunction(String parseString) 
     throws ParseException {    
         myReInit( parseString );                           
-        return function();      
+        Function ret = function();
+        processUndecided();
+        return ret;           
     }
 
     /**
@@ -151,7 +160,9 @@ public class Parser implements ParserInterface{
     public FunctionNVar parseFunctionNVar(String parseString) 
     throws ParseException {    
         myReInit( parseString );                           
-        return functionNVar();      
+        FunctionNVar ret = functionNVar();
+        processUndecided();
+        return ret;           
     }
     
     /**
@@ -160,7 +171,9 @@ public class Parser implements ParserInterface{
     public ExpressionNode parseCmdExpression(String parseString) 
     throws ParseException {    
         myReInit(parseString );                           
-        return cmdexpression();      
+        ExpressionNode ret = cmdexpression();
+        processUndecided();
+        return ret;           
     }
     
     /**
@@ -169,7 +182,9 @@ public class Parser implements ParserInterface{
     public ExpressionNode parseExpression(String parseString) 
     throws ParseException {    
         myReInit( parseString);                           
-        return expression();      
+        ExpressionNode ret = expression();
+        processUndecided();
+        return ret;   
     }
     
     /**
@@ -179,7 +194,19 @@ public class Parser implements ParserInterface{
     throws ParseException {    
         myReInit(parseString );                           
         return label().image;      
-    }    
+    }
+    private ExpressionNode makePower(ExpressionValue v,ExpressionValue e){
+  		if(v.isExpressionNode() && ((ExpressionNode)v).getOperation()
+  			==Operation.MULTIPLY_OR_FUNCTION){
+    		return new ExpressionNode(kernel,((ExpressionNode)v).getLeft(),Operation.MULTIPLY,
+    			new ExpressionNode(kernel,((ExpressionNode)v).getRight(),Operation.POWER,e));  		}
+  		return new ExpressionNode(kernel,v,Operation.POWER,e);
+	}
+
+	private void processUndecided(){		for(ExpressionNode en: undecided)
+			en.setOperation(Operation.MULTIPLY);
+		undecided.clear();	  
+ 	}
 }
 PARSER_END(Parser)
 
@@ -584,7 +611,7 @@ ValidExpression buildMathPiperExpression() :
 /**
  * convert MPReduce String to GeoGebra string
  */
-ValidExpression buildMPReduceExpression() : 
+private ValidExpression buildMPReduceExpression() : 
 {
     ValidExpression ve;
     ExpressionNode lhs, rhs;
@@ -1475,7 +1502,7 @@ ExpressionValue enpower():
 			for (int i=0; i< exponentList.size(); i++)
 			{
 				ExpressionValue exponent = exponentList.get(i);
-				ret = new ExpressionNode(kernel, ret, Operation.POWER, exponent);
+				ret = makePower(ret, exponent);
 			}
 		}
 		else
@@ -1486,9 +1513,9 @@ ExpressionValue enpower():
       		for (int i=size-2; i >= 0; i--)
 			{
 				ExpressionValue prevExponent = exponentList.get(i);
-				tempEV = new ExpressionNode(kernel, prevExponent, Operation.POWER, tempEV);
+				tempEV = makePower(prevExponent,tempEV);
 			}
-			ret = new ExpressionNode(kernel, ret, Operation.POWER, tempEV);
+			ret = makePower(ret, tempEV);
 		}
   
       	return ret;
@@ -1507,7 +1534,13 @@ ExpressionValue enfactorial():
 {     
 	    en = NOTterm() 
 	    (LOOKAHEAD(<FACTORIAL>) <FACTORIAL> 
-	     {            
+	     {
+	       		if(en.isExpressionNode() && ((ExpressionNode)en).getOperation()==Operation.MULTIPLY_OR_FUNCTION)	       		{
+	       		  en = new ExpressionNode(kernel, ((ExpressionNode)en).getLeft(),
+	       		  	Operation.MULTIPLY,
+	       		  	new ExpressionNode(kernel, ((ExpressionNode)en).getRight(), Operation.FACTORIAL, null)
+	       		  	);	       		}
+	       		else
 	            en = new ExpressionNode(kernel, en, Operation.FACTORIAL, null);                    
 	     }      
 	     )?    
@@ -2275,9 +2308,10 @@ ExpressionNode numberFunction():
 	                throw new MyParseError(app, str);
 				}
 				// a(b) becomes a*b because a is not a function, no list, and no curve
-				// e.g. a(1+x) = a*(1+x) when a is a number
-	      		else 
-	      			return new ExpressionNode(kernel, geoExp, Operation.MULTIPLY, myList.getListElement(0)); 
+				// e.g. a(1+x) = a*(1+x) when a is a number      		   
+	      		ExpressionNode expr =  new ExpressionNode(kernel, geoExp, Operation.MULTIPLY_OR_FUNCTION, myList.getListElement(0));
+	      		undecided.add(expr);
+	      		return expr; 
 
 //	      		else {// error: no function
 //	      			String [] str = { "FunctionExpected", funcName };
@@ -2382,3 +2416,5 @@ ExpressionNode polarvector_special():
         	return en;
         }           
 }
+
+

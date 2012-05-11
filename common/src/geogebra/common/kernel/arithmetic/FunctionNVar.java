@@ -24,6 +24,7 @@ import geogebra.common.plugin.Operation;
 import geogebra.common.util.MaxSizeHashMap;
 import geogebra.common.util.MyMath;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 
 /**
@@ -301,9 +302,13 @@ public class FunctionNVar extends ValidExpression implements FunctionalNVar, Var
 		}
 
 		// try to replace x(x+1) by x*(x+1)
-		expression.replaceXYZnodes(xVar, yVar, zVar);
+		undecided.clear();
+		expression.replaceXYZnodes(xVar, yVar, zVar,undecided);
+		for(ExpressionNode en: undecided)
+			en.setOperation(Operation.MULTIPLY);
+		undecided.clear();
 	}
-
+	private static ArrayList<ExpressionNode> undecided = new ArrayList<ExpressionNode>();
 	private void initType(ExpressionValue ev) {
 		if (ev.isBooleanValue()) {
 			isBooleanFunction = true;
