@@ -212,12 +212,16 @@ public class FunctionNVar extends ValidExpression implements FunctionalNVar, Var
 
 	public String getVarString(StringTemplate tpl) {
 		StringBuilder sb = new StringBuilder();
+		return appendVarString(sb, tpl).toString();
+	}
+
+	public StringBuilder appendVarString(StringBuilder sb, StringTemplate tpl) {
 		for (int i = 0; i < fVars.length - 1; i++) {
 			sb.append(fVars[i].toString(tpl));
 			sb.append(", ");
 		}
 		sb.append(fVars[fVars.length - 1].toString(tpl));
-		return sb.toString();
+		return sb;
 	}
 
 	/**

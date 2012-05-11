@@ -49,4 +49,5 @@ public interface FunctionalNVar {
 	public String getVarString(StringTemplate tpl);
 	public ExpressionNode getFunctionExpression();
 	public boolean isDefined();
+	public void setLabel(String label);
 }

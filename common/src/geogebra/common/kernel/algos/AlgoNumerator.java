@@ -20,10 +20,11 @@ import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.FunctionNVar;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.FunctionalNVar;
-import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoFunctionNVar;
+import geogebra.common.main.AbstractApplication;
 import geogebra.common.plugin.Operation;
 
 /**
@@ -98,25 +99,54 @@ public class AlgoNumerator extends AlgoElement {
         	Function fun = new Function((ExpressionNode)ev, f.getFunction().getFunctionVariables()[0]);
         	((GeoFunction)g).setFunction(fun);
         	} else {
-            	FunctionNVar fun = new FunctionNVar((ExpressionNode)ev, f.getFunction().getFunctionVariables());
-        		
+            	FunctionNVar fun = new FunctionNVar((ExpressionNode)ev, f.getFunction().getFunctionVariables());       		
         		((GeoFunctionNVar)g).setFunction(fun);
         	}
         } else if (ev instanceof FunctionVariable) {
         	if (f instanceof GeoFunction) {
-        	g.set(kernel.getAlgebraProcessor().evaluateToFunction("x", false));
+        			
+        		// construct function f(x) = x
+    			FunctionVariable fv = new FunctionVariable(kernel);	
+    			ExpressionNode en = new ExpressionNode(kernel,fv);
+    			Function tempFun = new Function(en,fv);
+    			tempFun.initFunction();
+    			((GeoFunction)g).setFunction(tempFun);		
+
         	} else {
-        		String var = ((FunctionVariable)ev).getSetVarString();
         		
+        		GeoFunctionNVar ff = ((GeoFunctionNVar)f);
+        		
+        		FunctionNVar fun = ff.getFunction();
+        		String var = ((FunctionVariable)ev).getSetVarString();
+       		
+        		
+        		// build command eg f(a,b)=a
+        		StringBuilder cmd = new StringBuilder();
+        		cmd.append("f_tempFunctionXYZ(");
+        		fun.appendVarString(cmd, StringTemplate.defaultTemplate);
+        		cmd.append(")=");
+        		cmd.append(var);
+        		
+        		//String vars = fun.getVarString(StringTemplate.defaultTemplate);
+        		
+        		//AbstractApplication.debug(vars+" "+args.toString());
+        		
+        		// TODO: remove this hack
         		boolean oldMode = kernel.isSilentMode();
         		kernel.setSilentMode(true);
-            	g.set((GeoFunctionNVar)(kernel.getAlgebraProcessor().processAlgebraCommand(var+"+0x+0y", false)[0]));
+            	g.set((kernel.getAlgebraProcessor().processAlgebraCommand(cmd.toString(), false)[0]));
         		kernel.setSilentMode(oldMode);
         	}
         }
         else if (ev.isNumberValue()) {
-        	double val = ((NumberValue)ev).getDouble();
-        	g.set(kernel.getAlgebraProcessor().evaluateToFunction(""+val, false));
+
+    		// construct function f(x) = 1
+			FunctionVariable fv = new FunctionVariable(kernel);	
+			ExpressionNode en = new ExpressionNode(kernel,new MyDouble(kernel, 1.0));
+			Function tempFun = new Function(en,fv);
+			tempFun.initFunction();
+			((GeoFunction)g).setFunction(tempFun);		
+			
         }
         else
         {
