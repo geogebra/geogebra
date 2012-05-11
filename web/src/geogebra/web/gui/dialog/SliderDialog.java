@@ -21,6 +21,7 @@ import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.web.gui.AngleTextField;
 import geogebra.web.gui.DialogManagerWeb;
 import geogebra.web.main.Application;
 
@@ -28,6 +29,8 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.RadioButton;
@@ -36,10 +39,11 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.DOM;
+import com.google.gwt.dom.client.Element;
 
 
 public class SliderDialog extends PopupPanel
-implements ClickHandler, ChangeHandler
+implements ClickHandler, ChangeHandler, ValueChangeHandler<Boolean>
 {
 	/**
 	 *  
@@ -47,7 +51,7 @@ implements ClickHandler, ChangeHandler
 	private static final long serialVersionUID = 1L;
 	private Button btApply, btCancel;
 	private RadioButton rbNumber, rbAngle, rbInteger;
-	private TextBox min, max, inc;
+	private AngleTextField min, max, inc;
 	private InlineLabel minLabel, maxLabel, incLabel;
 	private HorizontalPanel minPanel, maxPanel, incPanel;
 
@@ -98,6 +102,11 @@ implements ClickHandler, ChangeHandler
 
 		setWidget(mainWidget = new VerticalPanel());
 		createGUI();
+
+		GeoElement selGeo = rbAngle.getValue() ? angle : number;
+		Object [] geos = { selGeo };
+		sliderPanelUpdate(geos);
+		animationStepUpdate(geos);
 	}
 
 	private void createGUI() {
@@ -114,11 +123,12 @@ implements ClickHandler, ChangeHandler
 		// radio buttons for number or angle
 		String id = DOM.createUniqueId();
 		rbNumber = new RadioButton(id, app.getPlain("Numeric"));
-		rbNumber.addClickHandler(this);
+		rbNumber.addValueChangeHandler(this);
+		rbNumber.setChecked(true);
 		rbAngle = new RadioButton(id, app.getPlain("Angle"));
-		rbAngle.addClickHandler(this);
+		rbAngle.addValueChangeHandler(this);
 		rbInteger = new RadioButton(id, app.getPlain("Integer"));
-		rbInteger.addClickHandler(this);
+		rbInteger.addValueChangeHandler(this);
 
 		leftWidget.add(rbNumber);
 		leftWidget.add(rbAngle);			
@@ -129,17 +139,17 @@ implements ClickHandler, ChangeHandler
 		rightWidget.add(incPanel = new HorizontalPanel());
 
 		minPanel.add(minLabel = new InlineLabel(app.getPlain("min")+":"));
-		minPanel.add(min = new TextBox());
-		min.setVisibleLength(6);
+		minPanel.add(min = new AngleTextField(6, app));
+		min.setText("-5");
 		min.addChangeHandler(this);
 
 		maxPanel.add(maxLabel = new InlineLabel(app.getPlain("max")+":"));
-		maxPanel.add(max = new TextBox());
-		max.setVisibleLength(6);
+		maxPanel.add(max = new AngleTextField(6, app));
+		max.addChangeHandler(this);
 
-		incPanel.add(incLabel = new InlineLabel(app.getPlain("Width")+":"));
-		incPanel.add(inc = new TextBox());
-		inc.setVisibleLength(6);
+		incPanel.add(incLabel = new InlineLabel(app.getPlain("AnimationStep") + ":"));
+		incPanel.add(inc = new AngleTextField(6, app));
+		inc.addChangeHandler(this);
 
 		// buttons
 		btApply = new Button(app.getPlain("Apply"));
@@ -172,7 +182,8 @@ implements ClickHandler, ChangeHandler
 	}
 
 	public void onClick(ClickEvent e) {
-		if (e.getSource() == btApply.getElement().getFirstChild()) {
+		Element target = e.getNativeEvent().getEventTarget().cast();
+		if (target == btApply.getElement()) {
 			geoResult = rbAngle.getValue() ? angle : number; 		
 			getResult();
 			geoResult.setLabelMode(GeoElement.LABEL_NAME_VALUE);
@@ -183,26 +194,27 @@ implements ClickHandler, ChangeHandler
 			hide();
 
 			app.storeUndoInfo();
-		} else if (e.getSource() == btCancel.getElement().getFirstChild()) {
+		} else if (target == btCancel.getElement()) {
 			hide();
-		} else if (e.getSource() == rbNumber.getElement() ||
-				   e.getSource() == rbAngle.getElement() ||
-				   e.getSource() == rbInteger.getElement()) {
-			GeoElement selGeo = rbAngle.getValue() ? angle : number;			
-			if (e.getSource() == rbInteger) {
-				number.setAnimationStep(1);
-				number.setIntervalMin(1);
-				number.setIntervalMax(30);
-			} else if (e.getSource() == rbNumber) {
-				GeoNumeric num = app.getKernel().getDefaultNumber(false);
-				number.setAnimationStep(num.getAnimationStep());
-				number.setIntervalMin(num.getIntervalMin());
-				number.setIntervalMax(num.getIntervalMax());
-			}
-			GeoElement [] geos = { selGeo };
-
-			sliderPanelUpdate(geos);
 		}
+	}
+
+	public void onValueChange(ValueChangeEvent<Boolean> vc) {
+		GeoElement selGeo = rbAngle.getValue() ? angle : number;			
+		if (vc.getSource() == rbInteger) {
+			number.setAnimationStep(1);
+			number.setIntervalMin(1);
+			number.setIntervalMax(30);
+		} else if (vc.getSource() == rbNumber) {
+			GeoNumeric num = app.getKernel().getDefaultNumber(false);
+			number.setAnimationStep(num.getAnimationStep());
+			number.setIntervalMin(num.getIntervalMin());
+			number.setIntervalMax(num.getIntervalMax());
+		}
+		GeoElement [] geos = { selGeo };
+
+		sliderPanelUpdate(geos);
+		animationStepUpdate(geos);
 	}
 
 	public final static int TEXT_FIELD_FRACTION_DIGITS = 8;
@@ -263,12 +275,6 @@ implements ClickHandler, ChangeHandler
 		} else {
 			max.setText("");
 		}
-
-		if (equalWidth){
-			inc.setText(app.getKernel().format(num0.getSliderWidth(),highPrecision));
-		} else {
-			max.setText("");
-		}
 	}
 
 	private static boolean sliderPanelCheckGeos(Object[] geos) {
@@ -283,7 +289,31 @@ implements ClickHandler, ChangeHandler
 		return geosOK;
 	}
 
+	private boolean animationStepPanelCheckGeos(Object[] geos) {
+		boolean geosOK = true;
+		for (int i = 0; i < geos.length; i++) {
+			GeoElement geo = (GeoElement) geos[i];
+			if (!geo.isChangeable() 
+					|| geo.isGeoText() 
+					|| geo.isGeoImage()
+					|| geo.isGeoList()
+					|| geo.isGeoBoolean()
+					|| geo.isGeoButton()
+					|| !true && geo.isGeoNumeric() && geo.isIndependent() // slider						
+			)  
+			{				
+				geosOK = false;
+				break;
+			}
+		}
+		
+		
+		return geosOK;
+	}
+
 	public void onChange(ChangeEvent ce) {
+		if (ce.getSource() == inc)
+			doAnimationStepActionPerformed();
 		if (ce.getSource() instanceof TextBox)
 			doTextFieldActionPerformed((TextBox)ce.getSource());
 	}
@@ -324,16 +354,67 @@ implements ClickHandler, ChangeHandler
 			
 			}
 		}
-		else if (source == inc) {
-			for (int i = 0; i < geos.length; i++) {
-				GeoNumeric num = (GeoNumeric) geos[i];
-				num.setSliderWidth(value.getDouble());
-				num.updateRepaint();
-			}
-		} 
 
 		sliderPanelUpdate(geos);
 		//actionPerforming = false;
+	}
+
+	private void doAnimationStepActionPerformed() {
+
+		GeoElement selGeo = rbAngle.getValue() ? angle : number;
+		Object [] geos = { selGeo };
+
+		NumberValue newVal =
+			app.getKernel().getAlgebraProcessor().evaluateToNumeric(
+				inc.getText(),true);
+		if (newVal != null && !Double.isNaN(newVal.getDouble())) {
+			for (int i = 0; i < geos.length; i++) {
+				GeoElement geo = (GeoElement) geos[i];
+				geo.setAnimationStep(newVal);
+				geo.updateRepaint();
+			}
+		}
+		animationStepUpdate(geos);
+	}
+
+	public void animationStepUpdate(Object[] geos) {
+
+		if (!animationStepPanelCheckGeos(geos))
+			return;
+
+		//inc.removeChangeHandler(this);
+
+		// check if properties have same values
+		GeoElement temp, geo0 = (GeoElement) geos[0];
+		boolean equalStep = true;
+		boolean onlyAngles = true;
+
+		for (int i = 0; i < geos.length; i++) {
+			temp = (GeoElement) geos[i];
+			// same object visible value
+			if (!Kernel.isEqual(geo0.getAnimationStep(), temp.getAnimationStep()))
+				equalStep = false;
+			if (!(temp.isGeoAngle()))
+				onlyAngles = false;
+		}
+
+		// set trace visible checkbox
+		//int oldDigits = kernel.getMaximumFractionDigits();
+		//kernel.setMaximumFractionDigits(PropertiesDialog.TEXT_FIELD_FRACTION_DIGITS);
+		StringTemplate highPrecision = StringTemplate.printDecimals(StringType.GEOGEBRA, TEXT_FIELD_FRACTION_DIGITS,false);
+
+        if (equalStep){
+        	GeoElement stepGeo = geo0.getAnimationStepObject();
+			if (onlyAngles && (stepGeo == null ||(!stepGeo.isLabelSet() && stepGeo.isIndependent())))
+				inc.setText(
+					app.getKernel().formatAngle(geo0.getAnimationStep(),highPrecision).toString());
+			else
+				inc.setText(stepGeo.getLabel(highPrecision));
+        }
+		else
+			inc.setText("");
+
+		//tfAnimStep.addActionListener(this);
 	}
 
 /*

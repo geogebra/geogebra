@@ -154,7 +154,7 @@ public class DialogManagerWeb extends DialogManager {
 	 * Creates a new slider at given location (screen coords).
 	 * 
 	 * @return whether a new slider (number) was create or not
-	 *//* outcommented until working
+	 */
 	@Override
     public boolean showSliderCreationDialog(int x, int y) {
 		app.setWaitCursor();
@@ -165,6 +165,6 @@ public class DialogManagerWeb extends DialogManager {
 		app.setDefaultCursor();
 
 		return true;
-	}*/
+	}
 
 }

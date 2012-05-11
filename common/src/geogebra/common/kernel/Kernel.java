@@ -255,7 +255,9 @@ public class Kernel {
 	protected boolean insertLineBreaks = false;
 
 	// angle unit: degree, radians
-	// private int angleUnit = Kernel.ANGLE_DEGREE;
+	// although this is initialized from the default preferences XML,
+	// we need to initialize this here too for GeoGebraWeb
+	private int angleUnit = Kernel.ANGLE_DEGREE;
 
 	private boolean viewReiniting = false;
 	private boolean undoActive = false;
@@ -2017,7 +2019,6 @@ public class Kernel {
 		return arcusFunctionCreatesAngle;
 	}
 
-	private int angleUnit;
 	private boolean keepCasNumbers;
 
 	final public void setAngleUnit(int unit) {
