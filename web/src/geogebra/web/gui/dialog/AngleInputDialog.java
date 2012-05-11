@@ -12,6 +12,7 @@ the Free Software Foundation.
 package geogebra.web.gui.dialog;
 
 import geogebra.web.main.Application;
+import geogebra.web.gui.view.algebra.InputPanel;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -34,7 +35,8 @@ public class AngleInputDialog extends PopupPanel implements ClickHandler {
 
 	protected Application app;
 	protected String initString;
-	
+	protected InputPanel inputPanel;
+
 	/**
 	 * Input Dialog for a GeoAngle object.
 	 */
@@ -55,7 +57,7 @@ public class AngleInputDialog extends PopupPanel implements ClickHandler {
 		//createGUI(title, message, autoComplete, DEFAULT_COLUMNS, 1, true, false, false, false, DialogType.GeoGebraEditor);
 
 		VerticalPanel centerPanel = new VerticalPanel();
-		//centerPanel.add(inputPanel);
+		centerPanel.add(inputPanel);
 		centerPanel.add(rbCounterClockWise);
 		centerPanel.add(rbClockWise);
 		HorizontalPanel btPanel = new HorizontalPanel();
@@ -87,7 +89,7 @@ public class AngleInputDialog extends PopupPanel implements ClickHandler {
 		success=true;
 		try {
 
-				if (source == btOK /*|| source == inputPanel.getTextComponent()*/) {
+				if (source == btOK || source == inputPanel.getTextComponent()) {
 			//	inputText = inputPanel.getText();
 
 				// negative orientation ?
