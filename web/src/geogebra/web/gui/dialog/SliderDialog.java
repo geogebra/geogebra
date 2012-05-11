@@ -142,18 +142,21 @@ implements ClickHandler, ChangeHandler, ValueChangeHandler<Boolean>
 		rightWidget.add(incPanel = new HorizontalPanel());
 
 		minPanel.setHorizontalAlignment(HorizontalPanel.ALIGN_RIGHT);
+		minPanel.setVerticalAlignment(VerticalPanel.ALIGN_MIDDLE);
 		minPanel.add(minLabel = new InlineLabel(app.getPlain("min")+": "));
 		minPanel.add(min = new AngleTextField(6, app));
 		minPanel.getElement().getStyle().setMargin(3, Style.Unit.PX);
 		min.addChangeHandler(this);
 
 		maxPanel.setHorizontalAlignment(HorizontalPanel.ALIGN_RIGHT);
+		maxPanel.setVerticalAlignment(VerticalPanel.ALIGN_MIDDLE);
 		maxPanel.add(maxLabel = new InlineLabel(app.getPlain("max")+": "));
 		maxPanel.add(max = new AngleTextField(6, app));
 		maxPanel.getElement().getStyle().setMargin(3, Style.Unit.PX);
 		max.addChangeHandler(this);
 
 		incPanel.setHorizontalAlignment(HorizontalPanel.ALIGN_RIGHT);
+		incPanel.setVerticalAlignment(VerticalPanel.ALIGN_MIDDLE);
 		incPanel.add(incLabel = new InlineLabel(app.getPlain("AnimationStep") + ": "));
 		incPanel.add(inc = new AngleTextField(6, app));
 		incPanel.getElement().getStyle().setMargin(3, Style.Unit.PX);
@@ -205,6 +208,7 @@ implements ClickHandler, ChangeHandler, ValueChangeHandler<Boolean>
 			hide();
 
 			app.storeUndoInfo();
+			app.getKernel().notifyRepaint();
 		} else if (target == btCancel.getElement()) {
 			hide();
 		}
