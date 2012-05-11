@@ -40,6 +40,7 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.Style;
 
 
 public class SliderDialog extends PopupPanel
@@ -114,6 +115,7 @@ implements ClickHandler, ChangeHandler, ValueChangeHandler<Boolean>
 		//setResizable(false);
 
 		//Create components to be displayed
+		mainWidget.setHorizontalAlignment(VerticalPanel.ALIGN_CENTER);		
 		mainWidget.add(topWidget = new HorizontalPanel());
 		mainWidget.add(bottomWidget = new HorizontalPanel());
 
@@ -131,36 +133,45 @@ implements ClickHandler, ChangeHandler, ValueChangeHandler<Boolean>
 		rbInteger.addValueChangeHandler(this);
 
 		leftWidget.add(rbNumber);
-		leftWidget.add(rbAngle);			
+		leftWidget.add(rbAngle);
 		leftWidget.add(rbInteger);			
 
+		rightWidget.setHorizontalAlignment(HorizontalPanel.ALIGN_RIGHT);
 		rightWidget.add(minPanel = new HorizontalPanel());
 		rightWidget.add(maxPanel = new HorizontalPanel());
 		rightWidget.add(incPanel = new HorizontalPanel());
 
-		minPanel.add(minLabel = new InlineLabel(app.getPlain("min")+":"));
+		minPanel.setHorizontalAlignment(HorizontalPanel.ALIGN_RIGHT);
+		minPanel.add(minLabel = new InlineLabel(app.getPlain("min")+": "));
 		minPanel.add(min = new AngleTextField(6, app));
-		min.setText("-5");
+		minPanel.getElement().getStyle().setMargin(3, Style.Unit.PX);
 		min.addChangeHandler(this);
 
-		maxPanel.add(maxLabel = new InlineLabel(app.getPlain("max")+":"));
+		maxPanel.setHorizontalAlignment(HorizontalPanel.ALIGN_RIGHT);
+		maxPanel.add(maxLabel = new InlineLabel(app.getPlain("max")+": "));
 		maxPanel.add(max = new AngleTextField(6, app));
+		maxPanel.getElement().getStyle().setMargin(3, Style.Unit.PX);
 		max.addChangeHandler(this);
 
-		incPanel.add(incLabel = new InlineLabel(app.getPlain("AnimationStep") + ":"));
+		incPanel.setHorizontalAlignment(HorizontalPanel.ALIGN_RIGHT);
+		incPanel.add(incLabel = new InlineLabel(app.getPlain("AnimationStep") + ": "));
 		incPanel.add(inc = new AngleTextField(6, app));
+		incPanel.getElement().getStyle().setMargin(3, Style.Unit.PX);
 		inc.addChangeHandler(this);
 
 		// buttons
 		btApply = new Button(app.getPlain("Apply"));
 		btApply.addClickHandler(this);
+		btApply.getElement().getStyle().setMargin(3, Style.Unit.PX);
 		//btApply.setActionCommand("Apply");
 		//btApply.addActionListener(this);
 		btCancel = new Button(app.getPlain("Cancel"));
 		btCancel.addClickHandler(this);
+		btCancel.getElement().getStyle().setMargin(3, Style.Unit.PX);
 		//btCancel.setActionCommand("Cancel");
 		//btCancel.addActionListener(this);
 
+		bottomWidget.setHorizontalAlignment(HorizontalPanel.ALIGN_CENTER);
 		bottomWidget.add(btApply);
 		bottomWidget.add(btCancel);
 
