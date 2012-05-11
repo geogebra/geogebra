@@ -10,9 +10,12 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoTableText;
+import geogebra.common.kernel.geos.GeoButton;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.PointProperties;
 import geogebra.common.kernel.geos.TextProperties;
 import geogebra.common.main.AbstractApplication;
@@ -23,6 +26,7 @@ import geogebra.web.gui.util.PopupMenuButton;
 import geogebra.web.awt.Color;
 import geogebra.web.awt.Font;
 import geogebra.web.gui.images.AppResources;
+import geogebra.web.gui.images.AppResourcesConverter;
 import geogebra.web.gui.util.MyToggleButton;
 import geogebra.web.euclidian.EuclidianController;
 import geogebra.web.euclidian.EuclidianView;
@@ -911,8 +915,8 @@ public class EuclidianStyleBar extends HorizontalPanel
 				return (Canvas) this.getIcon();
 			}
 		};
-		ImageResource ic = AppResources.INSTANCE.mode_showhidelabel_16();
-		btnLabelStyle.setIconSize(new Dimension(ic.getWidth(), iconHeight));
+		Canvas ic = AppResourcesConverter.convert(AppResources.INSTANCE.mode_showhidelabel_16());
+		btnLabelStyle.setIconSize(new Dimension(ic.getCoordinateSpaceWidth(), iconHeight));
 		btnLabelStyle.setIcon(ic);
 		btnLabelStyle.addValueChangeHandler(this);
 		btnLabelStyle.setKeepVisible(false);
@@ -942,14 +946,93 @@ public class EuclidianStyleBar extends HorizontalPanel
 			}
 
 		};
-		ImageResource ptCaptureIcon = AppResources.INSTANCE.magnet2();
-		btnPointCapture.setIconSize(new Dimension(ptCaptureIcon.getWidth(),
+		Canvas ptCaptureIcon = AppResourcesConverter.convert(AppResources.INSTANCE.magnet2());
+		btnPointCapture.setIconSize(new Dimension(ptCaptureIcon.getCoordinateSpaceWidth(),
 				iconHeight));
 		btnPointCapture.setIcon(ptCaptureIcon);
 		btnPointCapture.addValueChangeHandler(this);
 		btnPointCapture.setKeepVisible(false);
 	}
 
+	// ========================================
+		// object color button (color for everything except text)
+
+		private void createColorButton() {
+
+			final Dimension colorIconSize = new Dimension(20, iconHeight);
+			btnColor = new ColorPopupMenuButton((Application) app, colorIconSize,
+					ColorPopupMenuButton.COLORSET_DEFAULT, true) {
+
+				private static final long serialVersionUID = 1L;
+
+				@Override
+				public void update(Object[] geos) {
+
+					/*if (mode == EuclidianConstants.MODE_PEN) {
+						this.setVisible(true);
+
+						setSelectedIndex(getColorIndex(ec.getPen().getPenColor()));
+
+						setSliderValue(100);
+						getMySlider().setVisible(false);
+
+					} else {*/
+						boolean geosOK = (geos.length > 0 || mode == EuclidianConstants.MODE_PEN);
+						for (int i = 0; i < geos.length; i++) {
+							GeoElement geo = ((GeoElement) geos[i])
+									.getGeoElementForPropertiesDialog();
+							if (geo instanceof GeoImage || geo instanceof GeoText
+									|| geo instanceof GeoButton) {
+								geosOK = false;
+								break;
+							}
+						}
+
+						setVisible(geosOK);
+
+						if (geosOK) {
+							// get color from first geo
+							geogebra.common.awt.Color geoColor;
+							geoColor = ((GeoElement) geos[0]).getObjectColor();
+
+							// check if selection contains a fillable geo
+							// if true, then set slider to first fillable's alpha
+							// value
+							float alpha = 1.0f;
+							boolean hasFillable = false;
+							for (int i = 0; i < geos.length; i++) {
+								if (((GeoElement) geos[i]).isFillable()) {
+									hasFillable = true;
+									alpha = ((GeoElement) geos[i]).getAlphaValue();
+									break;
+								}
+							}
+							
+							if (hasFillable)
+								setTitle(app
+										.getPlain("stylebar.ColorTransparency"));
+							else
+								setTitle(app.getPlain("stylebar.Color"));
+
+							setSliderValue(Math.round(alpha * 100));
+
+							updateColorTable();
+
+							// find the geoColor in the table and select it
+							int index = this.getColorIndex(geoColor);
+							setSelectedIndex(index);
+							setDefaultColor(alpha, geoColor);
+
+							this.setKeepVisible(mode == EuclidianConstants.MODE_MOVE);
+						}
+					//}
+				}
+
+			};
+
+			btnColor.addValueChangeHandler(this);
+		}
+	
 	private void createTextButtons() {
 		// ========================================
 		// bold text button

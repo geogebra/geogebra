@@ -15,6 +15,7 @@ import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
@@ -234,6 +235,10 @@ public class PopupMenuButton extends Composite implements ChangeHandler {
 			myTable.setSliderValue(value);
 		updateGUI();
 	}
+	
+	public SelectionTable getMyTable() {
+		return myTable;
+	}
 
 	public Canvas getButtonIcon() {
 	    return null;
@@ -271,10 +276,19 @@ public class PopupMenuButton extends Composite implements ChangeHandler {
 	    
     }
 
-	public void setIcon(ImageResource ic) {
+	public void setIcon(Canvas canvas) {
 	    // TODO Auto-generated method stub
 	    
     }
+	
+	/**
+	 * sets the tooTip strings for the menu selection table; 
+	 * the toolTipArray should have a 1-1 correspondence with the data array 
+	 * @param toolTipArray
+	 */
+	public void setToolTipArray(String[] toolTipArray){
+		myTable.setToolTipArray(toolTipArray);
+	}
 	
 	public Canvas getIcon() {
 		return null;
@@ -283,6 +297,12 @@ public class PopupMenuButton extends Composite implements ChangeHandler {
 
 	public void onChange(ChangeEvent event) {
 	  AbstractApplication.debug("slider changed");
+    }
+
+
+	public void addClickHandler(EuclidianStyleBar euclidianStyleBar) {
+	    // TODO Auto-generated method stub
+	    
     }
 
 }

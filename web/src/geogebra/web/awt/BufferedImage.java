@@ -83,4 +83,8 @@ public class BufferedImage implements geogebra.common.awt.BufferedImage {
 	public CanvasElement getCanvasElement() {
 	    return impl.getCanvas().getCanvasElement();
     }
+	
+	public Canvas getCanvas() {
+		return impl.getCanvas();
+	}
 }

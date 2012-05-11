@@ -3,8 +3,10 @@ package geogebra.web.gui.util;
 import geogebra.common.awt.Color;
 import geogebra.common.awt.RenderingHints;
 import geogebra.common.euclidian.EuclidianStatic;
+import geogebra.web.awt.BasicStroke;
 import geogebra.web.awt.BufferedImage;
 import geogebra.web.awt.Dimension;
+import geogebra.web.awt.Font;
 import geogebra.web.awt.Graphics2D;
 import geogebra.web.openjdk.awt.geom.Polygon;
 
@@ -122,5 +124,92 @@ public class GeoGebraIcon {
 
 		return image.getCanvas();
     }
+	
+	public static Canvas createColorSwatchIcon(float alpha, Dimension iconSize, Color fgColor, Color bgColor){
+
+		int h = iconSize.getHeight();
+		int w = iconSize.getWidth();
+		int offset = 2;
+		float thickness = 3;
+
+		// if fgColor is null then make it a transparent white
+		if(fgColor == null)
+			fgColor = geogebra.common.factories.AwtFactory.prototype.newColor(255,255,255,1);
+		
+		BufferedImage image = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+		Graphics2D g2 = new Graphics2D(image.getCanvas());
+		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+		--h;
+		--w;
+
+		if(bgColor != null){
+			g2.setPaint(bgColor);
+			g2.fillRect(0, 0, w, h);
+		}
+
+		// interior fill color using alpha level
+
+		float[] rgb = new float[3];
+		fgColor.getRGBColorComponents(rgb);
+		g2.setPaint(geogebra.common.factories.AwtFactory.prototype.newColor( rgb[0], rgb[1], rgb[2], alpha));
+		g2.fillRect(offset, offset, w-2*offset, h-2*offset);
+
+		// border color with alpha = 1
+		g2.setPaint(fgColor);
+		g2.setStroke(new BasicStroke(thickness)); 
+		g2.drawRect(offset, offset, w-2*offset, h-2*offset);
+
+		return g2.getCanvas();
+	}
+
+	public static Canvas createTextSymbolIcon(String symbol,Font font, Dimension iconSize, Color fgColor, Color bgColor){
+
+		int h = iconSize.getHeight();
+		int w = iconSize.getWidth();
+
+		BufferedImage image = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+		Graphics2D g2 = new Graphics2D(image.getCanvas());
+		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+		if(bgColor != null)
+			g2.setBackground(bgColor);
+
+		g2.setColor (fgColor);
+		g2.setFont (new Font (font.getFontFamily()));
+
+		//fm = g2.getFontMetrics ();
+		int symbolWidth = (int) g2.getCanvas().getContext2d().measureText(symbol).getWidth();
+		//int ascent = fm.getMaxAscent ();
+		//int descent= fm.getMaxDescent ();
+		int msg_x = w/2 - symbolWidth/2;
+		int msg_y = h/2; //- descent/2 + ascent/2;
+
+		g2.drawString (symbol, msg_x, msg_y-2);
+		g2.fillRect(1, h-5, w-1, 3);
+
+		/*ImageIcon ic = new ImageIcon(image);
+		//ensureIconSize(ic, iconSize);
+
+		return ic;*/
+		return g2.getCanvas();
+	}
+	
+	public static Canvas createNullSymbolIcon(int width, int height){
+
+		BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+
+		Graphics2D g2 = new Graphics2D(image.getCanvas());
+		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+		g2.setPaint(Color.GRAY);
+		// draw a rectangle with an x inside
+		g2.drawRect(3, 3, width-6, height-6);
+		int k = 7;
+		g2.drawLine(k, k, width-k, height-k);
+		g2.drawLine(k, height-k, width-k, k );
+		return g2.getCanvas();
+	}
+
 
 }
