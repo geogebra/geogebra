@@ -2628,7 +2628,7 @@ public class ExpressionNode extends ValidExpression implements
 				mathml(sb, "<factorial/>", leftStr, null);
 				break;
 			case MPREDUCE:
-				sb.append("factorial(");
+				appendReduceFunction(sb, "factorial");
 				sb.append(leftStr);
 				sb.append(")");
 				break;
@@ -2666,7 +2666,9 @@ public class ExpressionNode extends ValidExpression implements
 				case PSTRICKS:
 					sb.append("COS(");
 					break;
-	
+				case MPREDUCE:
+					appendReduceFunction(sb, "cos");
+					break;
 				default:
 					sb.append("cos(");
 				}
@@ -2691,7 +2693,9 @@ public class ExpressionNode extends ValidExpression implements
 				case MATH_PIPER:
 					sb.append("Sin(");
 					break;
-	
+				case MPREDUCE:
+					appendReduceFunction(sb, "sin");
+					break;
 				case PSTRICKS:
 					sb.append("SIN(");
 					break;
@@ -2753,7 +2757,9 @@ public class ExpressionNode extends ValidExpression implements
 				case PSTRICKS:
 					sb.append("CSC(");
 					break;
-	
+				case MPREDUCE:
+					appendReduceFunction(sb, "csc");
+					break;
 				default:
 					sb.append("csc(");
 				}
@@ -2782,7 +2788,9 @@ public class ExpressionNode extends ValidExpression implements
 				case PSTRICKS:
 					sb.append("SEC(");
 					break;
-	
+				case MPREDUCE:
+					appendReduceFunction(sb, "sec");
+					break;
 				default:
 					sb.append("sec(");
 				}
@@ -2811,7 +2819,9 @@ public class ExpressionNode extends ValidExpression implements
 				case PSTRICKS:
 					sb.append("COT(");
 					break;
-	
+				case MPREDUCE:
+					appendReduceFunction(sb, "cot");
+					break;
 				default:
 					sb.append("cot(");
 				}
@@ -2840,7 +2850,9 @@ public class ExpressionNode extends ValidExpression implements
 				case PSTRICKS:
 					sb.append("CSCH(");
 					break;
-	
+				case MPREDUCE:
+					appendReduceFunction(sb, "csch");
+					break;
 				default:
 					sb.append("csch(");
 				}
@@ -2865,7 +2877,9 @@ public class ExpressionNode extends ValidExpression implements
 				case PSTRICKS:
 					sb.append("SECH(");
 					break;
-	
+				case MPREDUCE:
+					appendReduceFunction(sb, "sech");
+					break;
 				default:
 					sb.append("sech(");
 				}
@@ -2890,7 +2904,9 @@ public class ExpressionNode extends ValidExpression implements
 				case PSTRICKS:
 					sb.append("COTH(");
 					break;
-	
+				case MPREDUCE:
+					appendReduceFunction(sb, "coth");
+					break;
 				default:
 					sb.append("coth(");
 				}
@@ -2915,7 +2931,9 @@ public class ExpressionNode extends ValidExpression implements
 				case PSTRICKS:
 					sb.append("ACOS(");
 					break;
-
+				case MPREDUCE:
+					appendReduceFunction(sb, "acos");
+					break;
 				default:
 					sb.append("acos(");
 				}
@@ -2940,7 +2958,9 @@ public class ExpressionNode extends ValidExpression implements
 				case PSTRICKS:
 					sb.append("ASIN(");
 					break;
-	
+				case MPREDUCE:
+					appendReduceFunction(sb, "asin");
+					break;
 				default:
 					sb.append("asin(");
 				}
@@ -2965,7 +2985,9 @@ public class ExpressionNode extends ValidExpression implements
 				case PSTRICKS:
 					sb.append("ATAN(");
 					break;
-	
+				case MPREDUCE:
+					appendReduceFunction(sb, "atan");
+					break;
 				default:
 					sb.append("atan(");
 				}
@@ -3021,7 +3043,9 @@ public class ExpressionNode extends ValidExpression implements
 				case PSTRICKS:
 					sb.append("COSH(");
 					break;
-	
+				case MPREDUCE:
+					appendReduceFunction(sb, "cosh");
+					break;
 				default:
 					sb.append("cosh(");
 				}
@@ -3046,7 +3070,9 @@ public class ExpressionNode extends ValidExpression implements
 				case PSTRICKS:
 					sb.append("SINH(");
 					break;
-	
+				case MPREDUCE:
+					appendReduceFunction(sb, "sinh");
+					break;
 				default:
 					sb.append("sinh(");
 				}
@@ -3071,7 +3097,9 @@ public class ExpressionNode extends ValidExpression implements
 				case PSTRICKS:
 					sb.append("TANH(");
 					break;
-	
+				case MPREDUCE:
+					appendReduceFunction(sb, "tanh");
+					break;
 				default:
 					sb.append("tanh(");
 				}
@@ -3096,7 +3124,9 @@ public class ExpressionNode extends ValidExpression implements
 				case PSTRICKS:
 					sb.append("ACOSH(");
 					break;
-	
+				case MPREDUCE:
+					appendReduceFunction(sb, "acosh");
+					break;
 				default:
 					sb.append("acosh(");
 				}
@@ -3121,7 +3151,9 @@ public class ExpressionNode extends ValidExpression implements
 				case PSTRICKS:
 					sb.append("ASINH(");
 					break;
-	
+				case MPREDUCE:
+					appendReduceFunction(sb, "asinh");
+					break;
 				default:
 					sb.append("asinh(");
 				}
@@ -3146,7 +3178,9 @@ public class ExpressionNode extends ValidExpression implements
 				case PSTRICKS:
 					sb.append("ATANH(");
 					break;
-	
+				case MPREDUCE:
+					appendReduceFunction(sb, "atanh");
+					break;
 				default:
 					sb.append("atanh(");
 				}
@@ -3161,9 +3195,8 @@ public class ExpressionNode extends ValidExpression implements
 					break;
 	
 				case MPREDUCE:
-					sb.append("ci(");
+					appendReduceFunction(sb, "ci");
 					break;
-	
 				default:
 					sb.append("cosIntegral(");
 				}
@@ -3177,7 +3210,7 @@ public class ExpressionNode extends ValidExpression implements
 					break;
 	
 				case MPREDUCE:
-					sb.append("si(");
+					appendReduceFunction(sb, "si");
 					break;
 	
 				default:
@@ -3193,7 +3226,7 @@ public class ExpressionNode extends ValidExpression implements
 					break;
 	
 				case MPREDUCE:
-					sb.append("ei(");
+					appendReduceFunction(sb, "ei");
 					break;
 	
 				default:
@@ -3248,11 +3281,15 @@ public class ExpressionNode extends ValidExpression implements
 				sb.append(leftStr);
 				sb.append(')');
 				break;
-
+			case MPREDUCE:
+				appendReduceFunction(sb, "exp");
+				sb.append(leftStr);
+				sb.append(')');
+				break;
+				
 			case JASYMCA:
 			case GEOGEBRA_XML:
 			case MAXIMA:
-			case MPREDUCE:
 				sb.append("exp(");
 				sb.append(leftStr);
 				sb.append(')');
@@ -3290,11 +3327,12 @@ public class ExpressionNode extends ValidExpression implements
 				case MATH_PIPER:
 					sb.append("Ln(");
 					break;
-	
+				case MPREDUCE:
+					appendReduceFunction(sb, "log");
+					break;
 				case MAXIMA:
 				case JASYMCA:
 				case GEOGEBRA_XML:
-				case MPREDUCE:
 					sb.append("log(");
 					break;
 	
@@ -3395,10 +3433,14 @@ public class ExpressionNode extends ValidExpression implements
 				sb.append(leftStr);
 				sb.append(rightBracket(STRING_TYPE));
 				break;
-
+			case MPREDUCE:
+				appendReduceFunction(sb, "erf");
+				sb.append(leftStr);
+				sb.append(')');
+				break;
 			case MAXIMA:
 			case MATH_PIPER:
-			case MPREDUCE:
+			
 			default:
 				sb.append("erf(");
 				sb.append(leftStr);
@@ -3416,10 +3458,13 @@ public class ExpressionNode extends ValidExpression implements
 				sb.append(leftStr);
 				sb.append(rightBracket(STRING_TYPE));
 				break;
-
+			case MPREDUCE:
+				appendReduceFunction(sb, "psi");
+				sb.append(leftStr);
+				sb.append(')');
+				break;
 			case MAXIMA:
 			case MATH_PIPER:
-			case MPREDUCE:
 			default:
 				sb.append("psi(");
 				sb.append(leftStr);
@@ -3455,7 +3500,12 @@ public class ExpressionNode extends ValidExpression implements
 				break;
 
 			case MPREDUCE:
-				sb.append("logb(");
+				if(left instanceof ListValue){
+					sb.append("applyfunction2(logb,");
+				}
+				else{
+					sb.append("logb(");
+				}
 				sb.append(leftStr);
 				sb.append(",10)");
 				break;
@@ -3484,7 +3534,12 @@ public class ExpressionNode extends ValidExpression implements
 				break;
 
 			case MPREDUCE:
-				sb.append("logb(");
+				if(left instanceof ListValue){
+					sb.append("applyfunction2(logb,");
+				}
+				else{
+					sb.append("logb(");
+				}
 				sb.append(leftStr);
 				sb.append(",2)");
 				break;
@@ -3513,7 +3568,11 @@ public class ExpressionNode extends ValidExpression implements
 				sb.append(leftStr);
 				sb.append(')');
 				break;
-
+			case MPREDUCE:
+				appendReduceFunction(sb, "sqrt");
+				sb.append(leftStr);
+				sb.append(')');
+				break;
 			default:
 				sb.append("sqrt(");
 				sb.append(leftStr);
@@ -3534,9 +3593,16 @@ public class ExpressionNode extends ValidExpression implements
 
 			case MATH_PIPER:
 			case MPREDUCE:
+				if(left instanceof ListValue){
+					sb.append("applyfunction2(**,");
+					sb.append(leftStr);
+					sb.append(",1/3)");
+				}
+				else{
 				sb.append("(");
 				sb.append(leftStr);
 				sb.append(")^(1/3)");
+				}
 				break;
 
 			default:
@@ -3564,7 +3630,7 @@ public class ExpressionNode extends ValidExpression implements
 				break;
 
 			case MPREDUCE:
-				sb.append("myabs(");
+				appendReduceFunction(sb, "myabs");
 				sb.append(leftStr);
 				sb.append(')');
 				break;
@@ -3585,10 +3651,11 @@ public class ExpressionNode extends ValidExpression implements
 			case MATH_PIPER:
 				sb.append("Sign(");
 				break;
-
+			case MPREDUCE:
+				appendReduceFunction(sb, "sign");
+				break;
 			case JASYMCA:
 			case MAXIMA:
-			case MPREDUCE:
 				sb.append("sign(");
 				break;
 
@@ -3599,10 +3666,6 @@ public class ExpressionNode extends ValidExpression implements
 			sb.append(')');
 			break;
 
-		/*
-		 * FIXME: Complex numbers here are sometimes (a,b) and sometimes (a+bi),
-		 * Maxima needs a+b*%i, Mathpiper a+b*I or complex(a,b).
-		 */
 		case CONJUGATE:
 			switch (STRING_TYPE) {
 			case MATHML:
@@ -3617,6 +3680,11 @@ public class ExpressionNode extends ValidExpression implements
 				sb.append("Conjugate(");
 				sb.append(leftStr);
 				sb.append(")");
+				break;
+			case MPREDUCE:
+				appendReduceFunction(sb, "conjugate");
+				sb.append(leftStr);
+				sb.append(')');
 				break;
 			default:
 				sb.append("conjugate(");
@@ -3646,7 +3714,7 @@ public class ExpressionNode extends ValidExpression implements
 				sb.append(')');
 				break;
 			case MPREDUCE:
-				sb.append("myarg(");
+				appendReduceFunction(sb, "myarg");
 				sb.append(leftStr);
 				sb.append(')');
 				break;
@@ -3673,7 +3741,11 @@ public class ExpressionNode extends ValidExpression implements
 				sb.append(leftStr);
 				sb.append(')');
 				break;
-
+			case MPREDUCE:
+				appendReduceFunction(sb,"floor");
+				sb.append(leftStr);
+				sb.append(')');
+				break;
 			default:
 				sb.append("floor(");
 				sb.append(leftStr);
@@ -3697,9 +3769,12 @@ public class ExpressionNode extends ValidExpression implements
 				sb.append(leftStr);
 				sb.append(')');
 				break;
-
-			case MAXIMA:
 			case MPREDUCE:
+				appendReduceFunction(sb,"ceiling");
+				sb.append(leftStr);
+				sb.append(')');
+				break;
+			case MAXIMA:
 			case PSTRICKS:
 				sb.append("ceiling(");
 				sb.append(leftStr);
@@ -3724,7 +3799,9 @@ public class ExpressionNode extends ValidExpression implements
 				break;
 
 			case MPREDUCE:
-				sb.append("myround(");
+				appendReduceFunction(sb,"myround");
+				sb.append(leftStr);
+				sb.append(')');
 				break;
 
 			default:
@@ -3743,7 +3820,9 @@ public class ExpressionNode extends ValidExpression implements
 			case MATH_PIPER:
 				sb.append("Gamma(");
 				break;
-
+			case MPREDUCE:
+				appendReduceFunction(sb,"gamma");
+				break;
 			default:
 				sb.append("gamma(");
 			}
@@ -3762,7 +3841,8 @@ public class ExpressionNode extends ValidExpression implements
 				break;
 
 			case MPREDUCE:
-				sb.append("gamma2(");
+				appendReduceFunction(sb,"gamma2");
+				break;
 
 			default:
 				sb.append("gamma(");
@@ -3888,7 +3968,6 @@ public class ExpressionNode extends ValidExpression implements
 
 				case MATH_PIPER:
 				case MAXIMA:
-				case MPREDUCE:
 					// we need to protect x(A) as a constant in the CAS
 					// see http://www.geogebra.org/trac/ticket/662
 					// see http://www.geogebra.org/trac/ticket/922
@@ -3896,7 +3975,11 @@ public class ExpressionNode extends ValidExpression implements
 					sb.append(leftStr);
 					sb.append(')');
 					break;
-
+				case MPREDUCE:	
+					appendReduceFunction(sb, "xcoord");
+					sb.append(leftStr);
+					sb.append(')');
+					break;
 				default:
 					sb.append("x(");
 					sb.append(leftStr);
@@ -3926,7 +4009,6 @@ public class ExpressionNode extends ValidExpression implements
 
 				case MATH_PIPER:
 				case MAXIMA:
-				case MPREDUCE:
 					// we need to protect x(A) as a constant in the CAS
 					// see http://www.geogebra.org/trac/ticket/662
 					// see http://www.geogebra.org/trac/ticket/922
@@ -3934,7 +4016,11 @@ public class ExpressionNode extends ValidExpression implements
 					sb.append(leftStr);
 					sb.append(')');
 					break;
-
+				case MPREDUCE:	
+					appendReduceFunction(sb, "ycoord");
+					sb.append(leftStr);
+					sb.append(')');
+					break;
 				default:
 					sb.append("y(");
 					sb.append(leftStr);
@@ -3960,7 +4046,6 @@ public class ExpressionNode extends ValidExpression implements
 
 				case MATH_PIPER:
 				case MAXIMA:
-				case MPREDUCE:
 					// we need to protect x(A) as a constant in the CAS
 					// see http://www.geogebra.org/trac/ticket/662
 					// see http://www.geogebra.org/trac/ticket/922
@@ -3968,7 +4053,11 @@ public class ExpressionNode extends ValidExpression implements
 					sb.append(leftStr);
 					sb.append(')');
 					break;
-
+				case MPREDUCE:	
+					appendReduceFunction(sb, "zcoord");
+					sb.append(leftStr);
+					sb.append(')');
+					break;
 				default:
 					sb.append("z(");
 					sb.append(leftStr);
@@ -3978,7 +4067,7 @@ public class ExpressionNode extends ValidExpression implements
 			break;
 
 		case FUNCTION:
-			if(right instanceof ListValue){
+			if(STRING_TYPE == StringType.MPREDUCE && right instanceof ListValue){
 				sb.append("applyfunction("+leftStr+","+rightStr+")");
 				break;
 			}
@@ -4179,6 +4268,20 @@ public class ExpressionNode extends ValidExpression implements
 		return sb.toString();
 	}
 	
+	private void appendReduceFunction(StringBuilder sb, String string) {
+		AbstractApplication.debug(left.getClass());
+		if(left instanceof ListValue) {
+			sb.append("applyfunction(");
+			sb.append(string);
+			sb.append(",");
+		}
+		else{
+			sb.append(string);
+			sb.append('(');
+		}
+		
+	}
+
 	private static boolean isMultiplyOrDivide(ExpressionNode exp) {
 		return exp.getOperation().equals(Operation.MULTIPLY) || 
 				exp.getOperation().equals(Operation.DIVIDE);

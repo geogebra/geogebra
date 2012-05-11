@@ -659,8 +659,15 @@ public abstract class AbstractCASmpreduce extends CASgeneric {
 				mpreduce1.evaluate("procedure applyfunction(a,b);"
 						+ "if(arglength(b)<0) then a(b) else " +
 						"if(part(b,0)='mat) then applyfunction(a,mattolistoflists(b))"+
-						"else for i:=1:length(b) " +
-						"collect applyfunction(a,part(b,i))");
+						"else if (part(b,0)='list) then for i:=1:length(b) " +
+						"collect applyfunction(a,part(b,i))" +
+						"else a(b)");
+				mpreduce1.evaluate("procedure applyfunction2(a,b,p);"
+						+ "if(arglength(b)<0) then a(b,p) else " +
+						"if(part(b,0)='mat) then applyfunction2(a,mattolistoflists(b),p)"+
+						"else if (part(b,0)='list) then for i:=1:length(b) " +
+						"collect applyfunction2(a,part(b,i),p)" +
+						"else a(b,p)");
 
 				mpreduce1.evaluate("operator multiplication;");
 

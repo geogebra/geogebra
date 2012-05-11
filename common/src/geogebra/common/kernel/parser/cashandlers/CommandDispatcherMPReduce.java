@@ -33,6 +33,8 @@ public class CommandDispatcherMPReduce {
 		addition (Operation.PLUS),
 		/** internal multiplication -- need to parse that if we used keepinput*/
 		multiplication (Operation.MULTIPLY),
+		/** function application (i.e. for lists)*/
+		applyfunction (Operation.FUNCTION),
 		/** internal subtraction -- need to parse that if we used keepinput*/
 		subtraction (Operation.MINUS),
 		/** logb */
@@ -93,6 +95,7 @@ public class CommandDispatcherMPReduce {
 			case multiplication:
 			case subtraction:
 			case addition:
+			case applyfunction:
 				// e.g. addition[x,3] becomes x + 3
 				ret = new ExpressionNode(kernel,
 						 args.getListElement(0),commands.valueOf(cmdName).getOperation(),

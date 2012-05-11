@@ -1976,7 +1976,6 @@ public class GeoCasCell extends GeoElement implements VarString {
 	}
 
 	private void setInputVE(ValidExpression inputVE) {
-		AbstractApplication.debug(inputVE+":"+(inputVE==null?"":inputVE.getClass()));
 		this.inputVE = inputVE;
 	}
 
