@@ -653,6 +653,10 @@ symbolic procedure myxcoord vargs;
 myvectorfn('ycoord,'myycoord);
 symbolic procedure myycoord vargs;
   getv(car vargs,1);
+  
+myvectorfn('zcoord,'myzcoord);
+symbolic procedure myzcoord vargs;
+  getv(car vargs,1);
 
 myvectorfn('get,'mygetelement);
 symbolic procedure mygetelement vargs;
