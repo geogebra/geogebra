@@ -23,3 +23,6 @@ SIMPLETESTTIMEOUT=20
 
 REMOTEUSER=some-developer
 RECIPIENT=geogebra-dev@googlegroups.com
+
+MAILSERVERSSHLOGIN=build@dev.geogebra.org
+MAILSERVERSSHPORT=22
