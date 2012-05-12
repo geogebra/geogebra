@@ -3814,8 +3814,6 @@ public class ExpressionNode extends ValidExpression implements
 
 			case MPREDUCE:
 				appendReduceFunction(sb,"myround");
-				sb.append(leftStr);
-				sb.append(')');
 				break;
 
 			default:
