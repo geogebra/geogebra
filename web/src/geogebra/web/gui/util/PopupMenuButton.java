@@ -182,8 +182,8 @@ public class PopupMenuButton extends Composite implements ChangeHandler {
 	}
 
 	protected void handlePopupActionEvent() {
-	    // TODO Auto-generated method stub
-	    
+		//do this right :-)
+	   myPopup.hide();
     }
 
 

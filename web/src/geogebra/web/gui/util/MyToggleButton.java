@@ -63,18 +63,18 @@ public class MyToggleButton extends Composite implements ClickHandler, HasValue<
 		int width = ctx.getCanvas().getWidth();
 		int height = ctx.getCanvas().getHeight();
 		if (down) {
-			ctx.setFillStyle("gray");
+			ctx.setStrokeStyle("gray");
 			isDown = true;
 		} else {
-			ctx.setFillStyle("white");
+			ctx.setStrokeStyle("white");
 			isDown = false;
 		}
 		ctx.clearRect(0, 0, width, height);
 		ctx.beginPath();
-		
-		ctx.rect(0, 0, width, height);
+		ctx.setLineWidth(2);
+		ctx.rect(0, 0, width-2, height-2);
 		ctx.closePath();
-		ctx.fill();
+		ctx.stroke();
 		drawIcon(icon); 
     }
 

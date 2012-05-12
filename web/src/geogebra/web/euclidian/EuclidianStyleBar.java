@@ -545,16 +545,16 @@ public class EuclidianStyleBar extends HorizontalPanel
 		// ========================================
 		// mode button
 		
-		ImageResource [] modeArray = new ImageResource [] {
-				AppResources.INSTANCE.cursor_arrow(),
-				AppResources.INSTANCE.application_graphics(),
-				AppResources.INSTANCE.delete_small(),
-				AppResources.INSTANCE.mode_point_16(),
-				AppResources.INSTANCE.mode_copyvisualstyle_16()
+		CanvasElement [] modeArray = new CanvasElement [] {
+				AppResourcesConverter.convert(AppResources.INSTANCE.cursor_arrow()),
+				AppResourcesConverter.convert(AppResources.INSTANCE.application_graphics()),
+				AppResourcesConverter.convert(AppResources.INSTANCE.delete_small()),
+				AppResourcesConverter.convert(AppResources.INSTANCE.mode_point_16()),
+				AppResourcesConverter.convert(AppResources.INSTANCE.mode_copyvisualstyle_16())
 		};
 		
 		btnMode = new PopupMenuButton((Application) ev.getApplication(),
-				modeArray, 1, 1, new Dimension(20, iconHeight),
+				modeArray, -1, 1, new Dimension(20, iconHeight),
 				geogebra.common.gui.util.SelectionTable.MODE_ICON);
 		btnMode.addValueChangeHandler(this);
 		btnMode.setKeepVisible(false);
@@ -659,7 +659,7 @@ public class EuclidianStyleBar extends HorizontalPanel
 					lineStyleArray[i], 2, lineStyleIconSize, Color.BLACK, null);
 
 		// create button
-		btnLineStyle = new PopupMenuButton((Application) app, lineStyleIcons, 1, 1,
+		btnLineStyle = new PopupMenuButton((Application) app, lineStyleIcons, -1, 1,
 				lineStyleIconSize, geogebra.common.gui.util.SelectionTable.MODE_ICON) {
 
 			private static final long serialVersionUID = 1L;
@@ -740,7 +740,7 @@ public class EuclidianStyleBar extends HorizontalPanel
 					null);
 
 		// create button
-		btnPointStyle = new PopupMenuButton((Application) app, pointStyleIcons, 2, 1,
+		btnPointStyle = new PopupMenuButton((Application) app, pointStyleIcons, 2, -1,
 				pointStyleIconSize, geogebra.common.gui.util.SelectionTable.MODE_ICON) {
 
 			private static final long serialVersionUID = 1L;
@@ -866,7 +866,7 @@ public class EuclidianStyleBar extends HorizontalPanel
 				app.getPlain("Caption") // index 3
 		};
 
-		btnLabelStyle = new PopupMenuButton((Application) app, captionArray, 1, 1,
+		btnLabelStyle = new PopupMenuButton((Application) app, captionArray, -1, 1,
 				new Dimension(0, iconHeight), geogebra.common.gui.util.SelectionTable.MODE_TEXT) {
 
 			private static final long serialVersionUID = 1L;
@@ -939,7 +939,7 @@ public class EuclidianStyleBar extends HorizontalPanel
 				app.getMenu("SnapToGrid"), app.getMenu("FixedToGrid"),
 				app.getMenu("off") };
 
-		btnPointCapture = new PopupMenuButton((Application) app, strPointCapturing, 1, 1,
+		btnPointCapture = new PopupMenuButton((Application) app, strPointCapturing, -1, 1,
 				new Dimension(0, iconHeight), geogebra.common.gui.util.SelectionTable.MODE_TEXT) {
 
 			private static final long serialVersionUID = 1L;

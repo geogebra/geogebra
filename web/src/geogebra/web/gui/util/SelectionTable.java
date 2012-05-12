@@ -1,9 +1,15 @@
 package geogebra.web.gui.util;
 
-import javax.swing.ImageIcon;
-
+import com.google.gwt.canvas.client.Canvas;
+import com.google.gwt.canvas.dom.client.Context2d;
+import com.google.gwt.dom.client.CanvasElement;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.cellview.client.CellTable;
+import com.google.gwt.user.client.ui.Anchor;
+import com.google.gwt.user.client.ui.FocusWidget;
 import com.google.gwt.user.client.ui.Grid;
+import com.google.gwt.user.client.ui.Widget;
 
 import geogebra.common.awt.Color;
 import geogebra.common.main.AbstractApplication;
@@ -12,7 +18,7 @@ import geogebra.web.main.Application;
 
 
 
-public class SelectionTable extends Grid {
+public class SelectionTable extends Grid implements ClickHandler {
 
 	private int sliderValue;	
 	private int rollOverRow = -1;
@@ -20,10 +26,41 @@ public class SelectionTable extends Grid {
 	private int mode;
 	private int numRows, numColumns, rowHeight, columnWidth;
 	private Dimension iconSize;
+	private Application app;
 	
 	public SelectionTable(Application app, Object[] data, Integer rows,
             Integer columns, Dimension iconSize, Integer mode) {
-		super(rows,columns);
+		super();
+		this.app = app;	
+		this.mode = mode;
+		this.iconSize = iconSize;
+		
+
+		//=======================================
+		// determine the dimensions of the table
+
+		// rows = -1, cols = -1  ==> square table to fit data
+		if(rows == -1 && columns == -1){
+			rows = (int) Math.floor(Math.sqrt(data.length));
+			columns = (int) Math.ceil(1.0 * data.length / rows);
+		}
+
+		// rows = -1  ==> fixed cols, rows added to fit data
+		else if(rows == -1){
+			rows = (int) (Math.ceil(1.0 *data.length / columns));
+		}
+
+		// cols = -1 ==> fixed rows, cols added to fit data
+		else if(columns == -1){
+			columns = (int) (1.0 * Math.ceil(data.length / rows));
+		}
+		
+		numRows = rows;
+		numColumns = columns;
+		resize(numRows,numColumns);
+		
+		// set the table model with the data
+		populateModel(data);
     }
 	
 	public void setFgColor(Color fgColor) {
@@ -156,8 +193,57 @@ public class SelectionTable extends Grid {
 	    return 50;
     }
 
-	public void populateModel(Object[] colorSwatchIcons) {
-	   AbstractApplication.debug("build up the model from <a>-s");
+	public void populateModel(Object[] data) {
+	  	
+		int r=0;
+		int c=0;
+		
+		for(int i=0; i < Math.min(data.length, this.numRows * this.numColumns); i++){
+			setWidget(r, c, createWidget(data[i]));
+			++c;
+			if(c == this.numColumns){
+				c = 0;
+				++r;
+			}
+		}
+    }
+
+	private Widget createWidget(Object object) {
+		Widget w = null;
+		Context2d ctx = null;
+		switch (mode) {
+		case geogebra.common.gui.util.SelectionTable.MODE_TEXT:
+			w = new Anchor((String)object);
+			break;
+		case geogebra.common.gui.util.SelectionTable.MODE_ICON:
+			w = Canvas.createIfSupported();
+			((Canvas)w).setWidth(((CanvasElement)object).getWidth()+"px");
+			((Canvas)w).setHeight(((CanvasElement)object).getHeight()+"px");
+			((Canvas)w).setCoordinateSpaceWidth(((CanvasElement)object).getWidth());
+			((Canvas)w).setCoordinateSpaceWidth(((CanvasElement)object).getWidth());
+			ctx = ((Canvas) w).getContext2d();
+			ctx.drawImage((CanvasElement)object, 0, 0);
+			break;
+		case geogebra.common.gui.util.SelectionTable.MODE_IMAGE:
+			w = Canvas.createIfSupported();
+			((Canvas)w).setWidth(((CanvasElement)object).getWidth()+"px");
+			((Canvas)w).setHeight(((CanvasElement)object).getHeight()+"px");
+			((Canvas)w).setCoordinateSpaceWidth(((CanvasElement)object).getWidth());
+			((Canvas)w).setCoordinateSpaceWidth(((CanvasElement)object).getWidth());
+			ctx = ((Canvas) w).getContext2d();
+			ctx.drawImage((CanvasElement)object, 0, 0);
+			break;
+		case geogebra.common.gui.util.SelectionTable.MODE_LATEX:
+			AbstractApplication.debug("SelectionTable mode latex");
+			break;
+	  	}
+		((FocusWidget)w).addClickHandler(this);
+		return w;
+    }
+
+	public void onClick(ClickEvent event) {
+	    // TODO Auto-generated method stub
+	    
     }
 
 }
