@@ -335,7 +335,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	 * CAS.
 	 */
 	final synchronized public String getCASCommand(String name,
-			ArrayList<?> args, boolean symbolic,StringTemplate tpl) {
+			ArrayList<ExpressionNode> args, boolean symbolic,StringTemplate tpl) {
 		StringBuilder sbCASCommand = new StringBuilder(80);
 
 		// build command key as name + ".N"
@@ -353,7 +353,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 				char ch = translation.charAt(i);
 				if (ch == '%') {
 					if (args.size() == 1) { // might be a list as the argument
-						ExpressionValue ev = (ExpressionValue) args.get(0);
+						ExpressionValue ev = args.get(0);
 						String str = toString(ev, symbolic,tpl);
 						if (ev.isListValue()) {
 							// is a list, remove { and }
@@ -370,7 +370,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 						}
 					} else {
 						for (int j = 0; j < args.size(); j++) {
-							ExpressionValue ev = (ExpressionValue) args.get(j);
+							ExpressionValue ev = args.get(j);
 							sbCASCommand.append(toString(ev, symbolic,tpl));
 							sbCASCommand.append(',');
 						}
@@ -407,19 +407,26 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 			if (name.length() == 1) {
 				char ch = name.charAt(0);
 				if (ch == 'x' || ch == 'y' || ch == 'z') {
-					sbCASCommand.append(ch);
-					sbCASCommand.append("coord");
+					if(args.get(0).isListValue()){
+						sbCASCommand.append("applyfunction(");
+						sbCASCommand.append(ch);
+						sbCASCommand.append("coord,");
+					}
+					else{
+						sbCASCommand.append(ch);
+						sbCASCommand.append("coord(");
+					}
 					handled = true;
 				}
 			}
 
 			// standard case: add ggbcasvar prefix to name for CAS
-			if (!handled)
+			if (!handled){
 				sbCASCommand.append(app.getKernel().printVariableName(name,tpl));
-
-			sbCASCommand.append('(');
+				sbCASCommand.append('(');
+			}
 			for (int i = 0; i < args.size(); i++) {
-				ExpressionValue ev = (ExpressionValue) args.get(i);
+				ExpressionValue ev = args.get(i);
 				sbCASCommand.append(toString(ev, symbolic,tpl));
 				sbCASCommand.append(',');
 			}
@@ -437,7 +444,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 					int pos = translation.charAt(i) - '0';
 					if (pos >= 0 && pos < args.size()) {
 						// success: insert argument(pos)
-						ExpressionValue ev = (ExpressionValue) args.get(pos);
+						ExpressionValue ev = args.get(pos);
 						sbCASCommand.append(toString(ev,symbolic,tpl));
 					} else {
 						// failed
