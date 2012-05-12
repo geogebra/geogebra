@@ -94,4 +94,4 @@ $LASTOKINFO
 
 $LOG
 
-Automatic message, do not reply" | ssh -p$MAILSERVERSSHPORT $MAILSERVERSSHLOGIN mail -s "autotest/alarm report" $RECIPIENT
+Automatic message, do not reply" | ssh -i $MAILSERVERSSHKEY -p$MAILSERVERSSHPORT $MAILSERVERSSHLOGIN mail -s "autotest/alarm report" $RECIPIENT
