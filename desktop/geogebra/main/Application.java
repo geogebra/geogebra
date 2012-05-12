@@ -434,7 +434,7 @@ public class Application extends AbstractApplication implements
 	
 	private DockBar dockBar;
 
-	private boolean showDockBar = true;
+	private boolean showDockBar = false;
 	
 	public void openDockBar() {
 		if (dockBar != null) {
