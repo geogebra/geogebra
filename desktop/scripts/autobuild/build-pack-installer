@@ -26,6 +26,10 @@ DELSRC=1
 LOGFILE=/tmp/build-pack-installer.log
 CV=4.2
 STOPONECJERR=1
+TESTURL="http://dev.geogebra.org/~build/www-autobuild"
+if [ "$WWWDIR" = "" ]; then
+ WWWDIR=/home/build/www-autobuild
+ fi
 
 # 3. Reading command line arguments
 while [ $# -gt 0 ]; do
@@ -42,6 +46,7 @@ while [ $# -gt 0 ]; do
    echo "  -ng, --no-grammar         Do not compile grammar with javacc"
    echo "  -nc, --no-classes         Do not (re)compile classes"
    echo "  -ne, --no-ecj-err         Do not stop on an ecj error"
+   echo "  -tu [url]                 Test URL ($TESTURL), points to WWWDIR ($WWWDIR)"
    echo "  -r [revision]             Use revision instead of latest"
    echo "  -l [logfile]              Use logfile instead of /tmp/build-pack-installer.log"
    echo "  -v, --verbose             Be verbose whenever possible"
@@ -236,13 +241,14 @@ cp $WORKDIR/lib/vernier_ccsd* $WWWDIR/$MYDIR/usb || exit 4
 
 log "Rewriting HTML and JNLP files"
 cd $WWWDIR/$MYDIR
+TESTURLSED=`echo $TESTURL | sed s/"\/"/"\/\/"/g`
 for i in `ls -1 *.html *.jnlp 2>/dev/null`; do
     cat $i | \
-     sed s/"http:\/\/www.geogebra.org\/webstart\/$CV\/unsigned"/"http:\/\/www.geogebra.org\/webstart\/$MYDIR\/unsigned\/unpacked"/g | \
-     sed s/"http:\/\/www.geogebra.org\/webstart\/$CV\/usb-gomotion"/"http:\/\/www.geogebra.org\/webstart\/$MYDIR\/usb-gomotion.ggb"/g | \
-     sed s/"http:\/\/www.geogebra.org\/webstart\/$CV\/debug"/"http:\/\/www.geogebra.org\/webstart\/$MYDIR\/debug"/g | \
-     sed s/"http:\/\/www.geogebra.org\/webstart\/$CV\/jnlp\/"/"http:\/\/www.geogebra.org\/webstart\/$MYDIR\/unpacked\/"/g | \
-     sed s/"http:\/\/www.geogebra.org\/webstart\/$CV\/"/"http:\/\/www.geogebra.org\/webstart\/$MYDIR\/"/g | \
+     sed s/"http:\/\/www.geogebra.org\/webstart\/$CV\/unsigned"/"$TESTURLSED\/$MYDIR\/unsigned\/unpacked"/g | \
+     sed s/"http:\/\/www.geogebra.org\/webstart\/$CV\/usb-gomotion"/"$TESTURLSED\/$MYDIR\/usb-gomotion.ggb"/g | \
+     sed s/"http:\/\/www.geogebra.org\/webstart\/$CV\/debug"/"$TESTURLSED\/$MYDIR\/debug"/g | \
+     sed s/"http:\/\/www.geogebra.org\/webstart\/$CV\/jnlp\/"/"$TESTURLSED\/$MYDIR\/unpacked\/"/g | \
+     sed s/"http:\/\/www.geogebra.org\/webstart\/$CV\/"/"$TESTURLSED\/webstart\/$MYDIR\/"/g | \
      sed s/"<\/title>"/" ($MYVER)<\/title>"/g | \
      grep -v "association mime-type" | \
      grep -v packEnabled \
@@ -260,10 +266,11 @@ for i in geogebra geogebra_main; do
 # 10/5. Removing .svn subdirectories from $WWWDIR
 find $WWWDIR -name .svn | xargs rm -fR
 
+# Disabling since the build server should offer http access:
 # 11. rsync-www on demand
-if [ "$WWW_REMOTEDIR" != "" ]; then
- cd $WORKDIR/scripts/autobuild
- runstep 11 .rsyncwww "Copying all files to $WWW_REMOTEDIR" ./rsync-www
- fi
+# if [ "$WWW_REMOTEDIR" != "" ]; then
+#  cd $WORKDIR/scripts/autobuild
+#   runstep 11 .rsyncwww "Copying all files to $WWW_REMOTEDIR" ./rsync-www
+#  fi
 
 log "END"
