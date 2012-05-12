@@ -23,6 +23,8 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JToolBar;
+import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 
 /**
@@ -54,6 +56,10 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 	 */
 	private JPanel toolbarHelpPanel;
 
+	public JPanel getToolbarHelpPanel() {
+		return toolbarHelpPanel;
+	}
+
 	/**
 	 * Label in the help panel showing the current mode name.
 	 */
@@ -63,6 +69,12 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 	 * Panel which contains all toolbars.
 	 */
 	private ToolbarPanel toolbarPanel;
+
+	public JToolBar getToolbarPanel() {
+		JToolBar tb = new JToolBar();
+		tb.add(toolbarPanel);
+		return tb;
+	}
 
 	/**
 	 * Toolbars added to this container.
@@ -79,6 +91,9 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 	 */
 	private ViewButtonBar viewButtonBar;
 
+	private int orientation = SwingConstants.NORTH;
+	
+	
 	/**
 	 * Create a new toolbar container.
 	 * 
@@ -135,11 +150,12 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 		gluePanel.add(Box.createVerticalGlue());
 		add(gluePanel, BorderLayout.WEST);
 
+		JPanel undoPanel = new JPanel();
+		
 		// UNDO Toolbar     
 		if (isMain && app.isUndoActive()) {
-			JPanel undoPanel = new JPanel();
 
-			if (app.getMaxIconSize() >= 32) {
+			if ((orientation == SwingConstants.SOUTH || orientation == SwingConstants.NORTH) && app.getMaxIconSize() >= 32) {
 				undoPanel.setLayout(new BoxLayout(undoPanel, BoxLayout.Y_AXIS));
 			} else {
 				undoPanel.setLayout(new BoxLayout(undoPanel, BoxLayout.X_AXIS));
@@ -164,7 +180,17 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 
 			undoPanel.add(Box.createVerticalGlue());
 
-			add(undoPanel, BorderLayout.EAST);
+			
+			if (orientation == SwingConstants.NORTH
+					|| orientation == SwingConstants.SOUTH) {
+				
+				//viewButtonBar = new ViewButtonBar(app);
+				//JPanel p = new JPanel(new BorderLayout());
+				//p.add(viewButtonBar, BorderLayout.WEST);
+				//p.add(undoPanel, BorderLayout.EAST);
+
+				add(undoPanel, BorderLayout.EAST);
+			}
 		}
 
 		if (showHelp) {
@@ -184,8 +210,15 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 			p.add(modeNameLabel, BorderLayout.WEST);
 
 			if (isMain) {
+				JPanel p2 = new JPanel(new FlowLayout(FlowLayout.LEFT,0,0));
 				viewButtonBar = new ViewButtonBar(app);
-				p.add(viewButtonBar, BorderLayout.EAST);
+				p2.add(viewButtonBar);
+				if (orientation == SwingConstants.EAST
+						|| orientation == SwingConstants.WEST) {
+					p2.add(undoPanel);
+				}
+				p.add(p2,BorderLayout.EAST);
+				
 			}
 			
 			toolbarHelpPanel.add(Box.createVerticalGlue());
@@ -196,7 +229,14 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 			Border insideBorder = BorderFactory.createEmptyBorder(2, 10, 2, 0);
 			Border outsideBorder = BorderFactory.createMatteBorder(0, 0, 0, 0, SystemColor.controlShadow);
 			toolbarHelpPanel.setBorder(BorderFactory.createCompoundBorder(outsideBorder, insideBorder));
-			add(toolbarHelpPanel, BorderLayout.SOUTH);
+			
+			if (orientation == SwingConstants.NORTH) {
+				add(toolbarHelpPanel, BorderLayout.SOUTH);
+			} else if (orientation == SwingConstants.SOUTH) {
+				add(toolbarHelpPanel, BorderLayout.NORTH);
+			}
+			
+			updateHelpText();
 		}
 
 		revalidate();
@@ -224,6 +264,21 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 		return ret;
 	}     
 
+	public void setOrientation(int orientation) {
+
+		this.orientation = orientation;
+		int barOrientation = SwingConstants.HORIZONTAL;
+		if(orientation == SwingConstants.EAST || orientation == SwingConstants.WEST){
+			barOrientation = SwingConstants.VERTICAL;
+		}
+		
+		for (Toolbar toolbar : toolbars) {
+			toolbar.setOrientation(barOrientation);
+		}
+	}
+	
+	
+	
 	/**
 	 * Marks the passed toolbar as active and makes it visible.
 	 * 
