@@ -30,7 +30,14 @@ public class MyToggleButton extends Composite implements ClickHandler, HasValue<
 
 	public MyToggleButton(Image ic, int iconHeight) {
 		icon = createIcon(ic);
-		wrapper = new HorizontalPanel();
+		createCommonObjects();
+		//Do it from CSS! changeStyle();
+		//Dimension d = new Dimension(icon.getIconWidth(), iconHeight);
+		//setIcon(GeoGebraIcon.ensureIconSize(icon, d));
+	}
+
+	private void createCommonObjects() {
+	    wrapper = new HorizontalPanel();
 		button = Canvas.createIfSupported();
 		button.setWidth((icon.getWidth()+2)+"px");
 		button.setHeight((icon.getHeight()+2)+"px");
@@ -44,10 +51,7 @@ public class MyToggleButton extends Composite implements ClickHandler, HasValue<
 		button.addClickHandler(this);
 		initWidget(wrapper);
 		setStyleName("MyToggleButton");
-		//Do it from CSS! changeStyle();
-		//Dimension d = new Dimension(icon.getIconWidth(), iconHeight);
-		//setIcon(GeoGebraIcon.ensureIconSize(icon, d));
-	}
+    }
 
 	private void drawIcon(CanvasElement ic) {
 	   if (ic != null && ic.getHeight() > 0 && ic.getWidth() > 0) {
@@ -91,6 +95,19 @@ public class MyToggleButton extends Composite implements ClickHandler, HasValue<
 		//Dimension d = new Dimension(icon.getIconWidth(), iconHeight);
 		//setIcon(GeoGebraIcon.ensureIconSize(icon, d));
 	}
+
+	public MyToggleButton() {
+	    this(new Image(),0);
+    }
+
+	public MyToggleButton(CanvasElement ic) {
+	    icon = createIcon(ic);
+	    createCommonObjects();
+    }
+
+	private CanvasElement createIcon(CanvasElement ic) {
+	    return ic;
+    }
 
 	public void changeStyle() {
 		getElement().getStyle().setPaddingTop(3, Style.Unit.PX);
@@ -148,6 +165,20 @@ public class MyToggleButton extends Composite implements ClickHandler, HasValue<
 	      ValueChangeEvent.fireIfNotEqual(this, oldValue, value);
 	    }
 	  }
+
+	public void addClickHandler(ClickHandler clickHandler) {
+	   button.addClickHandler(clickHandler);
+    }
+
+	public CanvasElement getIcon() {
+	    return icon;
+    }
+
+	public void setIcon(CanvasElement canvas) {
+	    icon.setWidth(canvas.getWidth());
+	    icon.setHeight(canvas.getHeight());
+	    icon.getContext2d().drawImage(canvas, 0, 0);
+    }
 	
 	
 }

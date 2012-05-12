@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.canvas.client.Canvas;
+import com.google.gwt.dom.client.CanvasElement;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyDownEvent;
@@ -216,7 +217,7 @@ public class AutoCompleteTextField extends HorizontalPanel implements AutoComple
 		   AbstractApplication.debug("implementation needed"); //TODO Auto-generated
     }
 
-	private void setBorderButton(int i, Canvas createUpDownTriangleIcon,
+	private void setBorderButton(int i, CanvasElement createUpDownTriangleIcon,
             ClickHandler al) {
 		   AbstractApplication.debug("implementation needed"); //TODO Auto-generated
     }

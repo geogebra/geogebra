@@ -14,10 +14,12 @@ import javax.swing.ImageIcon;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
+import com.google.gwt.dom.client.CanvasElement;
+import com.google.gwt.user.client.ui.Image;
 
 public class GeoGebraIcon {
 
-	public static Canvas createUpDownTriangleIcon(boolean isRollOver, boolean isEnabled) {
+	public static CanvasElement createUpDownTriangleIcon(boolean isRollOver, boolean isEnabled) {
 		int h = 18;
 		int w = 12;
 		
@@ -26,7 +28,7 @@ public class GeoGebraIcon {
 	    if (!isEnabled) {
 	    	//AGImageIcon ic = new ImageIcon(image);
 			//AGreturn ic;
-	    	return icon;
+	    	return icon.getCanvasElement();
 	    }
 	    
 	    if (isRollOver) {
@@ -67,7 +69,7 @@ public class GeoGebraIcon {
 		g2.drawLine(x+3, y+3, x+3, y+3);
 		 */
 	    
-	    return icon;
+	    return icon.getCanvasElement();
     }
 
 	/** creates LineStyle icon
@@ -78,7 +80,7 @@ public class GeoGebraIcon {
 	 * @param bgColor
 	 * @return Canvas with icon drawn
 	 */
-	public static Canvas createLineStyleIcon(int dashStyle, int thickness, Dimension iconSize, Color fgColor, Color bgColor) {
+	public static CanvasElement createLineStyleIcon(int dashStyle, int thickness, Dimension iconSize, Color fgColor, Color bgColor) {
 		int h = iconSize.getHeight();
 		int w = iconSize.getWidth();
 
@@ -97,17 +99,17 @@ public class GeoGebraIcon {
 		int mid = h / 2;
 		g2.drawLine(4, mid, w - 4, mid);
 
-		return image;
+		return image.getCanvasElement();
     }
 	
-	public static Canvas createEmptyIcon(int width, int height){
+	public static CanvasElement createEmptyIcon(int width, int height){
 
 		Canvas image = Canvas.createIfSupported();
 		image.setWidth(width+"px");
 		image.setHeight(height+"px");
 		image.setCoordinateSpaceHeight(height);
 		image.setCoordinateSpaceWidth(width);
-		return image;
+		return image.getCanvasElement();
 	}
 
 	/**
@@ -118,14 +120,14 @@ public class GeoGebraIcon {
 	 * @param bgColor
 	 * @return
 	 */
-	public static Canvas createPointStyleIcon(int pointStyle, int pointSize, Dimension iconSize, Color fgColor, Color bgColor) {
+	public static CanvasElement createPointStyleIcon(int pointStyle, int pointSize, Dimension iconSize, Color fgColor, Color bgColor) {
 		GeoGebraIcon g = new GeoGebraIcon();
 		PointStyleImage image = new PointStyleImage(iconSize, pointStyle, pointSize,  fgColor,  bgColor);
 
-		return image.getCanvas();
+		return image.getCanvas().getCanvasElement();
     }
 	
-	public static Canvas createColorSwatchIcon(float alpha, Dimension iconSize, Color fgColor, Color bgColor){
+	public static CanvasElement createColorSwatchIcon(float alpha, Dimension iconSize, Color fgColor, Color bgColor){
 
 		int h = iconSize.getHeight();
 		int w = iconSize.getWidth();
@@ -160,10 +162,10 @@ public class GeoGebraIcon {
 		g2.setStroke(new BasicStroke(thickness)); 
 		g2.drawRect(offset, offset, w-2*offset, h-2*offset);
 
-		return g2.getCanvas();
+		return g2.getCanvas().getCanvasElement();
 	}
 
-	public static Canvas createTextSymbolIcon(String symbol,Font font, Dimension iconSize, Color fgColor, Color bgColor){
+	public static CanvasElement createTextSymbolIcon(String symbol,Font font, Dimension iconSize, Color fgColor, Color bgColor){
 
 		int h = iconSize.getHeight();
 		int w = iconSize.getWidth();
@@ -192,10 +194,10 @@ public class GeoGebraIcon {
 		//ensureIconSize(ic, iconSize);
 
 		return ic;*/
-		return g2.getCanvas();
+		return g2.getCanvas().getCanvasElement();
 	}
 	
-	public static Canvas createNullSymbolIcon(int width, int height){
+	public static CanvasElement createNullSymbolIcon(int width, int height){
 
 		BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 
@@ -208,8 +210,33 @@ public class GeoGebraIcon {
 		int k = 7;
 		g2.drawLine(k, k, width-k, height-k);
 		g2.drawLine(k, height-k, width-k, k );
-		return g2.getCanvas();
+		return g2.getCanvas().getCanvasElement();
 	}
+
+	public static CanvasElement createDownTriangleIcon() {
+		int h = 18;
+		int w = 12;
+		
+	    Canvas icon = Canvas.createIfSupported();
+	    icon.setHeight(h+"px");
+	    icon.setWidth(w+"px");
+	    icon.setCoordinateSpaceHeight(h);
+	    icon.setCoordinateSpaceWidth(w);
+	    Graphics2D g2 = new Graphics2D(icon);
+	    
+	    g2.setColor(Color.GRAY);
+	    
+	    int midx = w/2;
+		int midy = h/2;
+		
+		Polygon p = new Polygon();
+		p.addPoint(midx-3,midy-3);
+		p.addPoint(midx+3,midy-3);
+		p.addPoint(midx,midy+3);
+
+		g2.fillPolygon(p);
+	    return g2.getCanvas().getCanvasElement();
+    }
 
 
 }

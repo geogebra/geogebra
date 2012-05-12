@@ -5,6 +5,7 @@ import java.util.HashMap;
 import javax.swing.ImageIcon;
 
 import com.google.gwt.canvas.client.Canvas;
+import com.google.gwt.dom.client.CanvasElement;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.HasClickHandlers;
@@ -66,8 +67,8 @@ public class ColorPopupMenuButton extends PopupMenuButton implements ClickHandle
 	}
 
 	@Override
-	public Canvas getButtonIcon() {
-		Canvas icon = super.getButtonIcon();
+	public CanvasElement getButtonIcon() {
+		CanvasElement icon = super.getButtonIcon();
 		if (icon == null && this.hasSlider) {
 			icon = GeoGebraIcon.createColorSwatchIcon( getSliderValue()/100f, iconSize, defaultColor, null);
 		}
@@ -125,8 +126,8 @@ public class ColorPopupMenuButton extends PopupMenuButton implements ClickHandle
 		return toolTipArray;
 	}
 
-	private static Canvas[] getColorSwatchIcons(geogebra.common.awt.Color[] colorArray, float alpha, Dimension iconSize, int colorSetType){
-		Canvas[] a = new Canvas[colorArray.length];
+	private static CanvasElement[] getColorSwatchIcons(geogebra.common.awt.Color[] colorArray, float alpha, Dimension iconSize, int colorSetType){
+		CanvasElement[] a = new CanvasElement[colorArray.length];
 		for(int i = 0; i < colorArray.length; i++)
 			if(colorArray[i] != null) {
 				a[i] = GeoGebraIcon.createColorSwatchIcon( alpha,  iconSize, colorArray[i] , null);
@@ -136,9 +137,9 @@ public class ColorPopupMenuButton extends PopupMenuButton implements ClickHandle
 		return a;
 	}
 
-	private static  Canvas[] createDummyIcons( Dimension iconSize){
+	private static  CanvasElement[] createDummyIcons( Dimension iconSize){
 
-		Canvas[] a = new Canvas[27];
+		CanvasElement[] a = new CanvasElement[27];
 		for(int i = 0; i < 27; i++) {
 			a[i] = GeoGebraIcon.createEmptyIcon(iconSize.getWidth(), iconSize.getHeight());
 		}

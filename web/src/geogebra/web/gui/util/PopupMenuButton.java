@@ -11,6 +11,7 @@ import geogebra.web.euclidian.EuclidianStyleBar;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.CanvasElement;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -24,9 +25,9 @@ import com.google.gwt.user.client.ui.ToggleButton;
 
 public class PopupMenuButton extends Composite implements ChangeHandler {
 	
-	private ToggleButton tb;
+	private MyToggleButton tb;
 	private HorizontalPanel hp;
-	private Button b;
+	private MyCanvasButton b;
 	private int mode;
 	private Object[] data;	
 	private Application app;
@@ -98,9 +99,9 @@ public class PopupMenuButton extends Composite implements ChangeHandler {
 		this.hasTable = hasTable;		
 		this.mode = mode;
 		this.iconSize = iconSize;
-		this.tb = new ToggleButton();
+		this.tb = new MyToggleButton(GeoGebraIcon.createDownTriangleIcon());
 		this.hp = new HorizontalPanel();
-		this.b = new Button();
+		this.b = new MyCanvasButton();
 		hp.add(b);
 		hp.add(tb);
 		initWidget(hp);
@@ -240,8 +241,8 @@ public class PopupMenuButton extends Composite implements ChangeHandler {
 		return myTable;
 	}
 
-	public Canvas getButtonIcon() {
-	    return null;
+	public CanvasElement getButtonIcon() {
+	    return tb.getIcon();
     }
 	
 	public int getSelectedIndex() {
@@ -276,9 +277,8 @@ public class PopupMenuButton extends Composite implements ChangeHandler {
 	    
     }
 
-	public void setIcon(Canvas canvas) {
-	    // TODO Auto-generated method stub
-	    
+	public void setIcon(CanvasElement canvas) {
+		b.setIcon(canvas);
     }
 	
 	/**
@@ -290,8 +290,8 @@ public class PopupMenuButton extends Composite implements ChangeHandler {
 		myTable.setToolTipArray(toolTipArray);
 	}
 	
-	public Canvas getIcon() {
-		return null;
+	public CanvasElement getIcon() {
+		return tb.getIcon();
 	}
 
 
@@ -301,8 +301,7 @@ public class PopupMenuButton extends Composite implements ChangeHandler {
 
 
 	public void addClickHandler(EuclidianStyleBar euclidianStyleBar) {
-	    // TODO Auto-generated method stub
-	    
+		
     }
 
 }

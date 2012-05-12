@@ -22,6 +22,7 @@ import geogebra.common.main.AbstractApplication;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.web.gui.color.ColorPopupMenuButton;
 import geogebra.web.gui.util.GeoGebraIcon;
+import geogebra.web.gui.util.MyCanvasButton;
 import geogebra.web.gui.util.PopupMenuButton;
 import geogebra.web.awt.Color;
 import geogebra.web.awt.Font;
@@ -39,6 +40,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.canvas.client.Canvas;
+import com.google.gwt.dom.client.CanvasElement;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
@@ -112,7 +114,7 @@ public class EuclidianStyleBar extends HorizontalPanel
 	private MyToggleButton btnTableTextLinesH;
 
 	private MyToggleButton[] toggleBtnList;
-	private PushButton btnDeleteGeo;
+	private MyCanvasButton btnDeleteGeo;
 
 
 	public EuclidianStyleBar(AbstractEuclidianView ev) {
@@ -172,7 +174,11 @@ public class EuclidianStyleBar extends HorizontalPanel
 		}
 	}
 
-	public void updateButtonPointCapture(int mode) { }
+	public void updateButtonPointCapture(int mode) {
+		if (mode == 3 || mode == 0)
+			mode = 3 - mode; // swap 0 and 3
+		btnPointCapture.setSelectedIndex(mode);
+	}
 
 	public void setMode(int mode) {
 
@@ -500,6 +506,7 @@ public class EuclidianStyleBar extends HorizontalPanel
 
 		// add graphics decoration buttons
 		addGraphicsDecorationsButtons();
+		addBtnPointCapture();
 
 		// add text decoration buttons
 		//if(btnBold.isVisible())
@@ -515,6 +522,10 @@ public class EuclidianStyleBar extends HorizontalPanel
 	protected void addGraphicsDecorationsButtons(){
 		add(btnShowAxes);
 		add(btnShowGrid);
+	}
+	
+	protected void addBtnPointCapture() {
+		add(btnPointCapture);
 	}
 
 	protected MyToggleButton[] newToggleBtnList() {
@@ -642,7 +653,7 @@ public class EuclidianStyleBar extends HorizontalPanel
 
 		// create line style icon array
 		final Dimension lineStyleIconSize = new Dimension(80, iconHeight);
-		Canvas [] lineStyleIcons = new Canvas[lineStyleArray.length];
+		CanvasElement [] lineStyleIcons = new CanvasElement[lineStyleArray.length];
 		for (int i = 0; i < lineStyleArray.length; i++)
 			lineStyleIcons[i] = GeoGebraIcon.createLineStyleIcon(
 					lineStyleArray[i], 2, lineStyleIconSize, Color.BLACK, null);
@@ -697,7 +708,7 @@ public class EuclidianStyleBar extends HorizontalPanel
 			}
 
 			@Override
-			public Canvas getButtonIcon() {
+			public CanvasElement getButtonIcon() {
 				if (getSelectedIndex() > -1) {
 					return GeoGebraIcon.createLineStyleIcon(
 							lineStyleArray[this.getSelectedIndex()],
@@ -722,7 +733,7 @@ public class EuclidianStyleBar extends HorizontalPanel
 
 		// create line style icon array
 		final Dimension pointStyleIconSize = new Dimension(20, iconHeight);
-		Canvas[] pointStyleIcons = new Canvas[pointStyleArray.length];
+		CanvasElement[] pointStyleIcons = new CanvasElement[pointStyleArray.length];
 		for (int i = 0; i < pointStyleArray.length; i++)
 			pointStyleIcons[i] = GeoGebraIcon.createPointStyleIcon(
 					pointStyleArray[i], 4, pointStyleIconSize, Color.BLACK,
@@ -771,7 +782,7 @@ public class EuclidianStyleBar extends HorizontalPanel
 			}
 
 			@Override
-			public Canvas getButtonIcon() {
+			public CanvasElement getButtonIcon() {
 				if (getSelectedIndex() > -1) {
 					return GeoGebraIcon.createPointStyleIcon(
 							pointStyleArray[this.getSelectedIndex()],
@@ -806,7 +817,7 @@ public class EuclidianStyleBar extends HorizontalPanel
 
 		// ========================================
 		// delete geo button
-		btnDeleteGeo = new PushButton(new Image(AppResources.INSTANCE.delete_small()));
+		btnDeleteGeo = new MyCanvasButton(AppResources.INSTANCE.delete_small());
 		btnDeleteGeo.addClickHandler(this);
 		// add(btnDeleteGeo);
 
@@ -911,12 +922,12 @@ public class EuclidianStyleBar extends HorizontalPanel
 			}
 
 			@Override
-			public Canvas getButtonIcon() {
-				return (Canvas) this.getIcon();
+			public CanvasElement getButtonIcon() {
+				return this.getIcon();
 			}
 		};
-		Canvas ic = AppResourcesConverter.convert(AppResources.INSTANCE.mode_showhidelabel_16());
-		btnLabelStyle.setIconSize(new Dimension(ic.getCoordinateSpaceWidth(), iconHeight));
+		CanvasElement ic = AppResourcesConverter.convert(AppResources.INSTANCE.mode_showhidelabel_16());
+		btnLabelStyle.setIconSize(new Dimension(ic.getWidth(), iconHeight));
 		btnLabelStyle.setIcon(ic);
 		btnLabelStyle.addValueChangeHandler(this);
 		btnLabelStyle.setKeepVisible(false);
@@ -941,13 +952,13 @@ public class EuclidianStyleBar extends HorizontalPanel
 			}
 
 			@Override
-			public Canvas getButtonIcon() {
+			public CanvasElement getButtonIcon() {
 				return this.getIcon();
 			}
 
 		};
-		Canvas ptCaptureIcon = AppResourcesConverter.convert(AppResources.INSTANCE.magnet2());
-		btnPointCapture.setIconSize(new Dimension(ptCaptureIcon.getCoordinateSpaceWidth(),
+		CanvasElement ptCaptureIcon = AppResourcesConverter.convert(AppResources.INSTANCE.magnet2());
+		btnPointCapture.setIconSize(new Dimension(ptCaptureIcon.getWidth(),
 				iconHeight));
 		btnPointCapture.setIcon(ptCaptureIcon);
 		btnPointCapture.addValueChangeHandler(this);
