@@ -2,6 +2,7 @@ package geogebra.common.kernel.cas;
 
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.Command;
+import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import geogebra.common.kernel.arithmetic.ValidExpression;
@@ -36,7 +37,7 @@ public interface GeoGebraCasInterface {
 
 	public void setSignificantFiguresForNumeric(int figures);
 
-	public String getCASCommand(String name, ArrayList<?> args,
+	public String getCASCommand(String name, ArrayList<ExpressionNode> args,
 			boolean symbolic,StringTemplate tpl);
 
 	public CasType getCurrentCASType();
