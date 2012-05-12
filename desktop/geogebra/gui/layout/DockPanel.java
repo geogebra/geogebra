@@ -527,8 +527,6 @@ implements ActionListener, WindowListener, MouseListener, geogebra.common.gui.la
 
 		if (isDialog) {
 			frame = new JDialog(app.getFrame(), false);
-			// needs the higher res as used by Windows 7 for the Toolbar
-			((JDialog)frame).setIconImage(app.getInternalImage("geogebra64.png"));
 		} else {
 			frame = new JFrame(getPlainTitle());
 			// needs the higher res as used by Windows 7 for the Toolbar
