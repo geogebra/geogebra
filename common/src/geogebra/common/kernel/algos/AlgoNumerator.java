@@ -114,28 +114,15 @@ public class AlgoNumerator extends AlgoElement {
 
         	} else {
         		
+        		// construct eg f(a,b)=b
         		GeoFunctionNVar ff = ((GeoFunctionNVar)f);
-        		
         		FunctionNVar fun = ff.getFunction();
-        		String var = ((FunctionVariable)ev).getSetVarString();
-       		
+        		FunctionVariable[] vars = fun.getFunctionVariables();        		
+    			ExpressionNode en = new ExpressionNode(kernel,ev);    			
+    			FunctionNVar newFun = new FunctionNVar(en, vars);
+        		((GeoFunctionNVar)g).setFunction(newFun);
+
         		
-        		// build command eg f(a,b)=a
-        		StringBuilder cmd = new StringBuilder();
-        		cmd.append("f_tempFunctionXYZ(");
-        		fun.appendVarString(cmd, StringTemplate.defaultTemplate);
-        		cmd.append(")=");
-        		cmd.append(var);
-        		
-        		//String vars = fun.getVarString(StringTemplate.defaultTemplate);
-        		
-        		//AbstractApplication.debug(vars+" "+args.toString());
-        		
-        		// TODO: remove this hack
-        		boolean oldMode = kernel.isSilentMode();
-        		kernel.setSilentMode(true);
-            	g.set((kernel.getAlgebraProcessor().processAlgebraCommand(cmd.toString(), false)[0]));
-        		kernel.setSilentMode(oldMode);
         	}
         }
         else if (ev.isNumberValue()) {
@@ -157,7 +144,7 @@ public class AlgoNumerator extends AlgoElement {
 	
     }
     
-    /*
+    /**
      * over-ridden in AlgoDenominator
      */
     protected ExpressionValue getPart(ExpressionNode node) {
