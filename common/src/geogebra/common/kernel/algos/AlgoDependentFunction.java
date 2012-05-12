@@ -197,6 +197,10 @@ public class AlgoDependentFunction extends AlgoElement {
 
 				int order = (int) Math.round(((NumberValue) node.getRight())
 						.getDouble());
+				if(leftValue.isExpressionNode() && (((ExpressionNode)leftValue).getOperation()==Operation.$VAR_COL
+						||((ExpressionNode)leftValue).getOperation()==Operation.$VAR_ROW
+						||((ExpressionNode)leftValue).getOperation()==Operation.$VAR_ROW_COL)) 
+					leftValue = ((ExpressionNode)leftValue).getLeft();
 				return ((Functional) leftValue).getGeoDerivative(order);
 
 				// remove spreadsheet $ references, i.e. $A1 -> A1
