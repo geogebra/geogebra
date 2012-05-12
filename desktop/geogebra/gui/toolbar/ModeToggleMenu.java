@@ -37,6 +37,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JToggleButton;
+import javax.swing.JToolBar;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
@@ -54,6 +55,8 @@ public class ModeToggleMenu extends JPanel {
 	private ActionListener popupMenuItemListener;
 	private Application app;
 	int size;
+	
+	private Toolbar toolbar;
 
 	final static Color bgColor = Color.white;
 
@@ -62,6 +65,7 @@ public class ModeToggleMenu extends JPanel {
 		this.app = app;
 		this.bg = bg;
 		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+		this.toolbar = toolbar;
 
 		tbutton = new MyJToggleButton(this);
 		tbutton.setAlignmentY(BOTTOM_ALIGNMENT);
@@ -207,8 +211,14 @@ public class ModeToggleMenu extends JPanel {
 				component = app.getMainComponent(); // if geogebrapanel is
 													// inside an awt window
 			Point locApp = component.getLocationOnScreen();
-			popMenu.show(component, locButton.x - locApp.x, locButton.y
-					- locApp.y + tbutton.getHeight());
+			
+			if (toolbar.getOrientation() == JToolBar.HORIZONTAL) {
+				popMenu.show(component, locButton.x - locApp.x, locButton.y
+						- locApp.y + tbutton.getHeight());
+			} else {
+				popMenu.show(component, locButton.x - locApp.x + tbutton.getWidth(), locButton.y
+						- locApp.y + tbutton.getHeight()/2);
+			}
 		} else {
 			popMenu.setVisible(false);
 		}
@@ -315,6 +325,14 @@ class MyJToggleButton extends JToggleButton implements MouseListener,
 
 			if (menu.getMouseOverButton() == this
 					&& (popupTriangleHighlighting || menu.isPopupShowing())) {
+				
+				int x = BORDER + iconWidth + 2;
+				int y = BORDER + iconHeight + 1;
+				
+				// background glow circle
+				g2.setColor(Color.LIGHT_GRAY);
+				g2.fillOval(x-9, y-9, 12, 12);
+				
 				g2.setColor(Color.red);
 				g2.fill(gp);
 				g2.setColor(Color.black);
