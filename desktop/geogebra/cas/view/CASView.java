@@ -112,6 +112,9 @@ public class CASView extends JComponent implements View, Gridable {
 		// put the scrollpanel in
 		setLayout(new BorderLayout());
 		add(scrollPane, BorderLayout.CENTER);
+		
+		add(new CASControlPanel(app,this), BorderLayout.NORTH);
+		
 		this.setBackground(Color.white);
 
 		consoleTable.getSelectionModel().addListSelectionListener(selectionListener());
