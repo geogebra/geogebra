@@ -17,6 +17,7 @@ import java.awt.Graphics;
 import java.awt.GraphicsEnvironment;
 import java.awt.Rectangle;
 import java.awt.SystemColor;
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
@@ -32,6 +33,7 @@ import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -208,10 +210,10 @@ implements ActionListener, WindowListener, MouseListener, geogebra.common.gui.la
 	private String defaultToolbarString;
 	
 	/**
-	 * The frame which holds this DockPanel if the DockPanel is opened in
-	 * an additional window.
+	 * The window which holds this DockPanel if the DockPanel is opened in
+	 * an additional window. The window may become either a JFrame or JDialog.
 	 */
-	protected JFrame frame = null;
+	protected Window frame = null;
 	
 	/**
 	 * The component used for this view.
@@ -240,6 +242,35 @@ implements ActionListener, WindowListener, MouseListener, geogebra.common.gui.la
 	 */
 	private boolean isHidden;
 	
+	/**
+	 * Flag to determine if a dialog is newly created
+	 */
+	private boolean isNewDialog = true;
+	
+	/**
+	 * Flag to determine if the frame field will be created as a JDialog (true)
+	 * or as a JFram (false). Default is false.
+	 */
+	private boolean isDialog = false;
+
+	
+	/**
+	 * @return	true if this dock panel frame will be created as a JDialog.
+	 * If false then it will be created as a JFrame 
+	 * 
+	 */
+	public boolean isDialog() {
+		return isDialog;
+	}
+
+	/**
+	 * Sets the isDialog flag. 
+	 * @param isDialog	true if this dock panel frame will be created as a JDialog.
+	 * If false then it will be created as a JFrame 
+	 */
+	public void setDialog(boolean isDialog) {
+		this.isDialog = isDialog;
+	}
 
 	/**
 	 * Prepare dock panel. DockPanel::register() has to be called to make this panel fully functional!
@@ -434,6 +465,7 @@ implements ActionListener, WindowListener, MouseListener, geogebra.common.gui.la
 		toggleStyleBarButton.setBorderPainted(false);
 		toggleStyleBarButton.setContentAreaFilled(false);
 		toggleStyleBarButton.setPreferredSize(new Dimension(12, 12));
+		toggleStyleBarButton.setRolloverEnabled(true);
 
 		// button to show/hide styling bar if the title panel is invisible
 		toggleStyleBarButton2 = new JButton(
@@ -443,6 +475,7 @@ implements ActionListener, WindowListener, MouseListener, geogebra.common.gui.la
 		toggleStyleBarButton2.setContentAreaFilled(false);
 		toggleStyleBarButton2.setPreferredSize(new Dimension(12, 12));
 		toggleStyleBarButton2.addActionListener(this);
+		toggleStyleBarButton2.setRolloverEnabled(true);
 
 		// button to insert the view in the main window
 		unwindowButton = new JButton(app.getImageIcon("view-unwindow.png"));
@@ -485,70 +518,80 @@ implements ActionListener, WindowListener, MouseListener, geogebra.common.gui.la
 	}
 	
 	
+	
 	/**
-	 * Create a frame for this DockPanel. The new frame will be set visible by
-	 * this method.
+	 * Create a frame for this DockPanel. The frame will either
+	 * be a JFrame or a JDialog depending on the isDialog flag.
 	 */
 	public void createFrame() {
-		createFrame(true);
-	}
-	
-	/**
-	 * Create a frame for this DockPanel.
-	 * @param isVisible flag to set the frame visible from this method
-	 */
-	public void createFrame(boolean isVisible) {
-		frame = new JFrame(getPlainTitle());
-		
+
+		if (isDialog) {
+			frame = new JDialog(app.getFrame(), false);
+		} else {
+			frame = new JFrame(getPlainTitle());
+		}
+
 		// needs the higher res as used by Windows 7 for the Toolbar
-   	frame.setIconImage(app.getInternalImage("geogebra64.png"));  
-   	frame.addWindowListener(this);	
-   	
-   	frame.addComponentListener(new ComponentAdapter() {
-          @Override
-		public void componentResized(ComponentEvent event) {
-          	setFrameBounds(event.getComponent().getBounds());
-          }
-          
-          @Override
-		public void componentMoved(ComponentEvent event) {
-          	setFrameBounds(event.getComponent().getBounds());
-          }
-      });
-   	
-   	frame.getContentPane().add(this);
-   	
-   	
-   	// TODO multimonitor supported?
-   	Rectangle screenSize = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds();
-   	
-   	// Use the previous dimension of this view
-   	Rectangle windowBounds = getFrameBounds();
-   	
-   	// resize window if necessary
-   	if(windowBounds.width > screenSize.width)
-   		windowBounds.width = screenSize.width - 50;
-   	if(windowBounds.height > screenSize.height)
-   		windowBounds.height = windowBounds.height - 50;
-   	
-   	// center window if necessary
-   	if(windowBounds.x + windowBounds.width > screenSize.width ||
-   		windowBounds.y + windowBounds.height > screenSize.height) {
-   		frame.setLocationRelativeTo(null);
-   	} else {
-   		frame.setLocation(windowBounds.getLocation());
-   	}
-   	setOpenInFrame(true);
-   	
-   	frame.setSize(windowBounds.getSize());
-   	frame.setVisible(isVisible);
-	
-   	// make titlebar visible if necessary
-		updatePanel();
+		frame.setIconImage(app.getInternalImage("geogebra64.png"));
+		frame.addWindowListener(this);
+
+		frame.addComponentListener(new ComponentAdapter() {
+			@Override
+			public void componentResized(ComponentEvent event) {
+				setFrameBounds(event.getComponent().getBounds());
+			}
+
+			@Override
+			public void componentMoved(ComponentEvent event) {
+				setFrameBounds(event.getComponent().getBounds());
+			}
+		});
+
+		if (isDialog) {
+			(((JDialog) frame).getContentPane()).add(this);
+		} else {
+			(((JFrame) frame).getContentPane()).add(this);
+		}
+
+		// TODO multimonitor supported?
+		Rectangle screenSize = GraphicsEnvironment
+				.getLocalGraphicsEnvironment().getMaximumWindowBounds();
+
+		// Use the previous dimension of this view
+		Rectangle windowBounds = getFrameBounds();
 		
+		// resize window if necessary
+		if (windowBounds.width > screenSize.width)
+			windowBounds.width = screenSize.width - 50;
+		if (windowBounds.height > screenSize.height)
+			windowBounds.height = windowBounds.height - 50;
+
+		// center window if necessary
+		if(isNewDialog){
+			//frame.pack();
+			frame.setSize(windowBounds.getSize());
+			frame.setLocationRelativeTo(app.getMainComponent());
+			isNewDialog = false;
+		}
+		else if (windowBounds.x + windowBounds.width > screenSize.width
+				|| windowBounds.y + windowBounds.height > screenSize.height) {
+			frame.setLocationRelativeTo(null);
+			
+		
+		}else {
+			frame.setLocation(windowBounds.getLocation());
+		}
+		setOpenInFrame(true);
+
+		frame.setSize(windowBounds.getSize());
+		frame.setVisible(true);
+
+		// make titlebar visible if necessary
+		updatePanel();
+
 		frame.repaint();
 	}
-	
+
 	/**
 	 * Remove the frame.
 	 */
@@ -789,7 +832,11 @@ implements ActionListener, WindowListener, MouseListener, geogebra.common.gui.la
 	        	}
 	        }
 			
-			frame.setTitle(windowTitle.toString());
+	        if (isDialog) {
+				((JDialog) frame).setTitle(windowTitle.toString());
+			} else {
+				((JFrame) frame).setTitle(windowTitle.toString());
+			}
 		}
 	}
 	
@@ -1031,12 +1078,15 @@ implements ActionListener, WindowListener, MouseListener, geogebra.common.gui.la
 		if(toggleStyleBarButton != null) {
 			if(showStyleBar) {
 				toggleStyleBarButton.setIcon(app.getImageIcon("triangle-up.png"));
+				toggleStyleBarButton.setRolloverIcon(app.getImageIcon("triangle-up-rollover.png"));
 			} else {
 				toggleStyleBarButton.setIcon(app.getImageIcon("triangle-down.png"));
+				toggleStyleBarButton.setRolloverIcon(app.getImageIcon("triangle-down-rollover.png"));
 			}
 		}
 		if (toggleStyleBarButton2 != null) {
 			toggleStyleBarButton2.setIcon(toggleStyleBarButton.getIcon());
+			toggleStyleBarButton2.setRolloverIcon(toggleStyleBarButton.getRolloverIcon());
 		}
 		
 	}
