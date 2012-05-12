@@ -49,10 +49,10 @@ import geogebra.common.main.MyError;
 import geogebra.common.main.settings.ConstructionProtocolSettings;
 import geogebra.common.main.settings.Settings;
 import geogebra.common.plugin.EuclidianStyleConstants;
+import geogebra.common.util.GeoGebraLogger.LogDestination;
 import geogebra.common.util.LowerCaseDictionary;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
-import geogebra.common.util.GeoGebraLogger.LogDestination;
 import geogebra.euclidian.DrawEquation;
 import geogebra.euclidian.EuclidianController;
 import geogebra.euclidian.EuclidianView;
@@ -64,6 +64,7 @@ import geogebra.gui.app.GeoGebraFrame;
 import geogebra.gui.inputbar.AlgebraInput;
 import geogebra.gui.layout.DockBar;
 import geogebra.gui.toolbar.Toolbar;
+import geogebra.gui.toolbar.ToolbarContainer;
 import geogebra.gui.util.ImageSelection;
 import geogebra.gui.view.algebra.AlgebraView;
 import geogebra.gui.view.spreadsheet.SpreadsheetTableModel;
@@ -157,6 +158,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
+import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.ToolTipManager;
 import javax.swing.WindowConstants;
@@ -405,7 +407,18 @@ public class Application extends AbstractApplication implements
 	// private int axesFontSize;
 	// private int euclidianFontSize;
 
-	protected JPanel centerPanel, topPanel, bottomPanel, backPanel, mainCardPanel;
+	/**
+	 * Panels to form the main content panel
+	 */
+	protected JPanel centerPanel, northPanel, southPanel, eastPanel, westPanel;
+	
+	
+	/**
+	 * Panels to hold different types of content:
+	 * (1) mainCardPanel holds application panels
+	 * (2) backPanel holds utility panels and the perspective startuo screen
+	 */
+	protected JPanel mainCardPanel, backPanel;
 
 	
 
@@ -417,8 +430,12 @@ public class Application extends AbstractApplication implements
 	// The help panel slides open on a button press from the input bar.
 	private JSplitPane applicationSplitPane;
 
+	
+	
 	private DockBar dockBar;
 
+	private boolean showDockBar = true;
+	
 	public void openDockBar() {
 		if (dockBar != null) {
 			dockBar.openDockBar();
@@ -428,8 +445,6 @@ public class Application extends AbstractApplication implements
 	private SpreadsheetTableModel tableModel;
 
 	private CommandLineArguments args;
-	
-	
 	
 	
 	public Application(CommandLineArguments args, JFrame frame,
@@ -950,9 +965,11 @@ public class Application extends AbstractApplication implements
 	/**
 	 * Builds a panel with all components that should be shown on screen (like
 	 * toolbar, input field, algebra view).
+	 * @return application panel
 	 */
 	public JPanel buildApplicationPanel() {
-		JPanel panel = new JPanel(new BorderLayout());
+		
+		JPanel applicationPanel = new JPanel(new BorderLayout());
 
 		// remove existing elements
 		if (centerPanel != null) {
@@ -965,79 +982,97 @@ public class Application extends AbstractApplication implements
 		updateCenterPanel(true);
 		
 		
-		// backPanel
-		if (backPanel == null) {
-			backPanel = new JPanel(new BorderLayout());
-		}
-
-
 		// full GUI => use layout manager, add other GUI elements as requested
 		if (isUsingFullGui()) {
-			topPanel = new JPanel(new BorderLayout());
-			bottomPanel = new JPanel(new BorderLayout());
-
-			updateTopBottomPanels();
-
-			// ==================
-			// G.Sturr 2010-11-14
-			// Create a help panel for the input bar and a JSplitPane to contain
-			// it.
-			// The splitPane defaults with the application on the left and null
-			// on the right.
-			// Our help panel will be added/removed as needed by the input bar.
+		
+			// create panels if empty
+			if (backPanel == null) {
+				backPanel = new JPanel(new BorderLayout());
+			}			
+			if( northPanel == null){
+			northPanel = new JPanel(new BorderLayout());
+			}
+			if( southPanel == null){
+			southPanel = new JPanel(new BorderLayout());
+			}
+			if( eastPanel == null){
+			eastPanel = new JPanel(new BorderLayout());
+			}
+			if( westPanel == null){
+			westPanel = new JPanel(new BorderLayout());
+			}
+			
+			if (dockBar == null) {
+				dockBar = new DockBar(this);
+			}
+			
+			// clear the panels
+			northPanel.removeAll();		
+			southPanel.removeAll();
+			eastPanel.removeAll();
+			westPanel.removeAll();
+			northPanel.removeAll();
+					
+			// create a JSplitPane with the center panel as the left component.
+			// The right component is null initially, but can be used for sliding a
+			// help panel in/out of the center application panel.
 			if (applicationSplitPane == null) {
 				applicationSplitPane = new JSplitPane(
 						JSplitPane.HORIZONTAL_SPLIT, centerPanel, null);
 				applicationSplitPane.setBorder(BorderFactory
 						.createEmptyBorder());
-				// help panel is on the right, so set all resize weight to the
-				// left pane
+				// set all resize weight to the left pane
 				applicationSplitPane.setResizeWeight(1.0);
 				applicationSplitPane.setDividerSize(0);
 			}
-
-			if (dockBar == null) {
-				dockBar = new DockBar(this);
-			}
-
-			JPanel mainPanel = new JPanel(new BorderLayout());
-
-			mainPanel.add(topPanel, BorderLayout.NORTH);
-			mainPanel.add(applicationSplitPane, BorderLayout.CENTER);
-			mainPanel.add(bottomPanel, BorderLayout.SOUTH);
-
 			
+			// add north/south panels to center panel
+			JPanel northSouthCenter = new JPanel(new BorderLayout());
+			northSouthCenter.add(applicationSplitPane, BorderLayout.CENTER);
+			northSouthCenter.add(northPanel, BorderLayout.NORTH);
+			northSouthCenter.add(southPanel, BorderLayout.SOUTH);
+			
+			// add east/west panels to the northSouthCenter panel
+			// (this puts them outside, not sandwiched between north/south)
+			JPanel mainPanel = new JPanel(new BorderLayout());
+			mainPanel.add(northSouthCenter, BorderLayout.CENTER);
+			mainPanel.add(eastPanel, BorderLayout.EAST);
+			mainPanel.add(westPanel, BorderLayout.WEST);
 			
 			mainCardPanel = new JPanel(new CardLayout());
 			mainCardPanel.add(mainPanel, "mainPanel");
 			mainCardPanel.add(backPanel, "backPanel");
-			isMainPanelShowing = true;
-			dockBar.setVisible(true);
 			
-			panel.add(mainCardPanel, BorderLayout.CENTER);
-			panel.add(dockBar, BorderLayout.WEST);
+			applicationPanel.add(mainCardPanel, BorderLayout.CENTER);
+			if(showDockBar)
+				applicationPanel.add(dockBar, BorderLayout.WEST);
+			
+			// configure the panel components (adds toolbar, input bar, dockbar)
+			updateApplicationLayout();
 
+			
 			// init labels
 			setLabels();
 
-			// Menubar; if the main component is a JPanel, we need to add the
+			// Special case: return application panel with menubar
+			// If the main component is a JPanel, we need to add the
 			// menubar manually to the north
 			if (showMenuBar() && (mainComp instanceof JPanel)) {
 				JPanel menuBarPanel = new JPanel(new BorderLayout());
 				menuBarPanel.add(getGuiManager().getMenuBar(),
 						BorderLayout.NORTH);
-				menuBarPanel.add(panel, BorderLayout.CENTER);
+				menuBarPanel.add(applicationPanel, BorderLayout.CENTER);
 				return menuBarPanel;
 			}
-			// standard case: return
-			return panel;
+			
+			// Standard case: return application panel
+			return applicationPanel;
 		}
 
-		// minimal applet => just display EV
-		
-		panel.add(((EuclidianViewND) euclidianView).getJPanel(), BorderLayout.CENTER);
-		centerPanel.add(panel, BorderLayout.CENTER);
-		return panel;
+		// Minimal applet case:  return only the center panel with the EV 
+		applicationPanel.add(((EuclidianViewND) euclidianView).getJPanel(), BorderLayout.CENTER);
+		centerPanel.add(applicationPanel, BorderLayout.CENTER);
+		return applicationPanel;
 		
 	}
 
@@ -1046,6 +1081,8 @@ public class Application extends AbstractApplication implements
 	//==================================================
 
 	private boolean isMainPanelShowing = true;
+
+	private int toolbarPosition = SwingConstants.NORTH;
 
 	public boolean isMainPanelShowing(){
 		return isMainPanelShowing;
@@ -1116,24 +1153,28 @@ public class Application extends AbstractApplication implements
 	}
 
 	/**
-	 * Updates the component layout of the top and bottom panels. These panels
-	 * hold the toolbar and algebra input bar, so this method is called when the
+	 * Updates the configuration of the panels surrounding the main panel
+	 * (toolbar, input bar etc.). This method should be called when the
 	 * visibility or arrangement of these components is changed.
 	 */
-	public void updateTopBottomPanels() {
-		if ((topPanel == null) || (bottomPanel == null)) {
+	public void updateApplicationLayout() {
+		if ((northPanel == null) || (southPanel == null) || (eastPanel == null)
+				|| (westPanel == null)) {
 			return;
 		}
 
-		topPanel.removeAll();
-		bottomPanel.removeAll();
+		northPanel.removeAll();
+		southPanel.removeAll();
+		eastPanel.removeAll();
+		westPanel.removeAll();
 
+		// handle input bar
 		if (showAlgebraInput) {
 			if (showInputTop) {
-				topPanel.add(getGuiManager().getAlgebraInput(),
+				northPanel.add(getGuiManager().getAlgebraInput(),
 						BorderLayout.SOUTH);
 			} else {
-				bottomPanel.add(getGuiManager().getAlgebraInput(),
+				southPanel.add(getGuiManager().getAlgebraInput(),
 						BorderLayout.SOUTH);
 			}
 		}
@@ -1141,16 +1182,53 @@ public class Application extends AbstractApplication implements
 		// initialize toolbar panel even if it's not used (hack)
 		getGuiManager().getToolbarPanelContainer();
 
+		ToolbarContainer toolBarContainer = (ToolbarContainer) getGuiManager()
+				.getToolbarPanelContainer();
+		JComponent helpPanel = toolBarContainer.getToolbarHelpPanel();
+		toolBarContainer.setOrientation(toolbarPosition);
+
+		
+		
 		if (showToolBar) {
+			
+			// TODO handle xml for new toolbar position vs. old showToolBarTop 
+			showToolBarTop = false;
 			if (showToolBarTop) {
-				topPanel.add(getGuiManager().getToolbarPanelContainer(),
+				northPanel.add(getGuiManager().getToolbarPanelContainer(),
 						BorderLayout.NORTH);
 			} else {
-				bottomPanel.add(getGuiManager().getToolbarPanelContainer(),
+				southPanel.add(getGuiManager().getToolbarPanelContainer(),
 						BorderLayout.NORTH);
 			}
+
+			switch (toolbarPosition) {
+			case SwingConstants.NORTH:
+				northPanel.add(toolBarContainer, BorderLayout.NORTH);
+				break;
+			case SwingConstants.SOUTH:
+				southPanel.add(toolBarContainer, BorderLayout.NORTH);
+				break;
+			case SwingConstants.EAST:
+				eastPanel.add(toolBarContainer, BorderLayout.NORTH);
+				if (helpPanel != null) {
+					northPanel.add(helpPanel, BorderLayout.NORTH);
+				}
+				break;
+			case SwingConstants.WEST:
+				westPanel.add(toolBarContainer, BorderLayout.NORTH);
+				if (helpPanel != null) {
+					northPanel.add(helpPanel, BorderLayout.NORTH);
+				}
+				break;
+			}
+
 		}
-		topPanel.revalidate();
+
+		northPanel.revalidate();
+		southPanel.revalidate();
+		westPanel.revalidate();
+		eastPanel.revalidate();
+		toolBarContainer.buildGui();
 	}
 
 	private String regressionFileName = null;
@@ -2841,7 +2919,7 @@ public class Application extends AbstractApplication implements
 		showAlgebraInput = flag;
 
 		if (update) {
-			updateTopBottomPanels();
+			updateApplicationLayout();
 			updateMenubar();
 		}
 	}
@@ -2849,7 +2927,17 @@ public class Application extends AbstractApplication implements
 	
 
 	
+	public void setToolbarPosition(int position, boolean update){
+		toolbarPosition = position;
+		if (update) {
+			updateApplicationLayout();
+			updateMenubar();
+		}
+	}
 	
+	public int getToolbarPosition(){
+		return toolbarPosition;
+	}
 
 	public boolean showToolBarTop() {
 		return showToolBarTop;
@@ -2863,7 +2951,7 @@ public class Application extends AbstractApplication implements
 		showToolBarTop = flag;
 
 		if (!isIniting()) {
-			updateTopBottomPanels();
+			updateApplicationLayout();
 		}
 	}
 
@@ -2909,15 +2997,17 @@ public class Application extends AbstractApplication implements
 		showMenuBar = flag;
 	}
 
-	public void setShowToolBar(boolean toolbar) {
-		showToolBar = toolbar;
+	public void updateToolBarLayout() {
 
 		if (!isIniting()) {
-			updateTopBottomPanels();
+			updateApplicationLayout();
 			updateMenubar();
 		}
 	}
 
+	public void setShowToolBar(boolean toolbar) {
+		showToolBar = toolbar;
+	}
 
 	public void setShowToolBar(boolean toolbar, boolean help) {
 		showToolBar = toolbar;
@@ -4890,6 +4980,10 @@ public class Application extends AbstractApplication implements
 
 	public CommandLineArguments getCommandLineArgs() {
 		return args;
+	}
+
+	public void updatePropertiesView() {
+			getGuiManager().updatePropertiesView();
 	}
 
 }

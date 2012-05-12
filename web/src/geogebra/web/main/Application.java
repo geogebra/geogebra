@@ -1679,7 +1679,7 @@ public class Application extends AbstractApplication {
 	}
 
 	@Override
-    public void updateTopBottomPanels() {
+    public void updateApplicationLayout() {
 	    AbstractApplication.debug("Implementation needed...");
     }
 

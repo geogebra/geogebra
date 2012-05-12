@@ -2592,7 +2592,7 @@ public abstract class AbstractApplication {
 
 	public void setGUIFontSize(int size) {
 		guiFontSize = size;
-		updateFonts();
+		//updateFonts();
 		//isSaved = false;
 
 		resetFonts();
@@ -2924,7 +2924,7 @@ public abstract class AbstractApplication {
 		showInputTop = flag;
 
 		if (update && !isIniting()) {
-			updateTopBottomPanels();
+			updateApplicationLayout();
 		}
 	}
 	
@@ -2943,7 +2943,7 @@ public abstract class AbstractApplication {
 	}
 
 	
-	public abstract void updateTopBottomPanels();
+	public abstract void updateApplicationLayout();
 
 	protected String getToolNameOrHelp(int mode, boolean toolName) {
 		// macro
