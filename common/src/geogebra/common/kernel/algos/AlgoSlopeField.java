@@ -152,11 +152,13 @@ public class AlgoSlopeField extends AlgoElement implements EuclidianViewCE {
 
 
 
-			double length = step1 / 2 * (lengthRatio == null ? 0.5 : lengthRatio.getDouble());
+			double length = (lengthRatio == null ? 0.5 : lengthRatio.getDouble());
 			
 			if (length < 0 || length > 1 || Double.isInfinite(length) || Double.isNaN(length)) {
 				length = 0.5;
 			}
+			
+			length *= step1 / 2;
 
 			//AbstractApplication.debug(xStep+" "+yStep+" "+step);
 
