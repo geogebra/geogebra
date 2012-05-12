@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Insets;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -155,6 +156,11 @@ public class CASControlPanel extends JPanel implements ActionListener,
 		btnBack.setPreferredSize(btnEvaluate.getPreferredSize());
 		
 		
+		btnEvaluate.setMargin(new Insets(0,0,0,0));
+		btnKeepInput.setMargin(new Insets(0,0,0,0));
+		btnNumeric.setMargin(new Insets(0,0,0,0));
+		
+		
 		JPanel westPanel = OptionsUtil.flowPanel(1, 1, 0, btnClear, btnBack);
 		JPanel centerPanel = OptionsUtil.flowPanel(1, 1,0, btnEvaluate,
 				btnNumeric, btnKeepInput);
@@ -195,6 +201,8 @@ public class CASControlPanel extends JPanel implements ActionListener,
 
 		public ControlButton() {
 			super();
+			
+			setMargin(new Insets(0,0,0,0));
 			addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
 					if(!view.getConsoleTable().isEditing())
