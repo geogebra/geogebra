@@ -775,6 +775,8 @@ public class DockManager implements AWTEventListener, SetLabels {
 		}
 		
 		app.getGuiManager().updateMenubarSelection();
+		// notify the application
+		app.updatePropertiesView();
 		
 	}
 	
@@ -804,6 +806,19 @@ public class DockManager implements AWTEventListener, SetLabels {
 	public DockPanel getFocusedPanel() {
 		return focusedDockPanel;
 	}
+	
+	/**
+	 * @return The viewId of the dock panel which has focus at the moment.
+	 */
+	public int getFocusedViewId() {
+		
+		if (focusedDockPanel == null)
+			return -1;
+
+		return focusedDockPanel.getViewId();
+	}
+	
+	
 	
 	/**
 	 * @return The dock euclidian panel which had focus the last.

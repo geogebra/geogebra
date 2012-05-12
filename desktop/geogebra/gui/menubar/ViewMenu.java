@@ -371,6 +371,7 @@ public class ViewMenu extends BaseMenu {
 
 			public void actionPerformed(ActionEvent e) {
 				app.setShowToolBar(!app.showToolBar());
+				app.updateToolBarLayout();
 			}
 		};
 

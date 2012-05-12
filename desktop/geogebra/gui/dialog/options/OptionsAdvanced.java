@@ -147,17 +147,18 @@ public class OptionsAdvanced extends JPanel implements ActionListener,
 
 		JPanel panel = new JPanel();
 		panel.setLayout(new FullWidthLayout());
-		panel.add(perspectivesPanel);
+		
+		panel.add(virtualKeyboardPanel);
 		panel.add(angleUnitPanel);
 		panel.add(continuityPanel);
 		panel.add(usePathAndRegionParametersPanel);
 		panel.add(checkboxSizePanel);
 		panel.add(rightAnglePanel);
 		panel.add(coordinatesPanel);
-		panel.add(guiFontsizePanel);
-		panel.add(virtualKeyboardPanel);
+		panel.add(guiFontsizePanel);	
 		panel.add(tooltipPanel);
 		panel.add(languagePanel);
+		panel.add(perspectivesPanel);
 		
 		
 		panel.add(miscPanel);
@@ -279,15 +280,15 @@ public class OptionsAdvanced extends JPanel implements ActionListener,
 
 		cbShowTitleBar = new JCheckBox();
 		cbShowTitleBar.addActionListener(this);
-		perspectivesPanel.add(cbShowTitleBar);
+		//perspectivesPanel.add(cbShowTitleBar);
 
 		cbAllowStyleBar = new JCheckBox();
 		cbAllowStyleBar.addActionListener(this);
-		perspectivesPanel.add(cbAllowStyleBar);
+		//perspectivesPanel.add(cbAllowStyleBar);
 		
 		cbIgnoreDocumentLayout = new JCheckBox();
 		cbIgnoreDocumentLayout.addActionListener(this);
-		perspectivesPanel.add(cbIgnoreDocumentLayout);
+		perspectivesPanel.add(OptionsUtil.flowPanel(cbIgnoreDocumentLayout));
 
 	}
 

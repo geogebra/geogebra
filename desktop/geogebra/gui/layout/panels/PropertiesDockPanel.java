@@ -1,6 +1,8 @@
 package geogebra.gui.layout.panels;
 
+import java.awt.Cursor;
 import java.awt.event.WindowEvent;
+import java.awt.event.WindowFocusListener;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.geos.GeoElement;
@@ -18,7 +20,7 @@ import javax.swing.JDialog;
  * Dock panel for the algebra view.
  */
 public class PropertiesDockPanel extends DockPanel implements
-		GeoElementSelectionListener {
+		GeoElementSelectionListener, WindowFocusListener {
 	private static final long serialVersionUID = 1L;
 	private Application app;
 	private PropertiesView view;
@@ -32,14 +34,16 @@ public class PropertiesDockPanel extends DockPanel implements
 		super(AbstractApplication.VIEW_PROPERTIES, // view id
 				"Properties", // view title phrase
 				null, // toolbar string
-				true, // style bar?
+				false, // style bar?
 				7, // menu order
 				'E' // menu shortcut
 		);
 
 		this.app = app;
 		this.setOpenInFrame(true);
-		this.setShowStyleBar(true);
+		// this.setShowStyleBar(true);
+		super.setDialog(true);
+
 	}
 
 	@Override
@@ -80,40 +84,43 @@ public class PropertiesDockPanel extends DockPanel implements
 	@Override
 	public void createFrame() {
 
-		// create a dialog
-		if (dialog == null) {
-			dialog = new JDialog(app.getFrame(), false);
-			dialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
-			dialog.setResizable(true);
+		super.createFrame();
 
-			dialog.addWindowListener(this);
-		}
-
-		// call super to create a hidden frame with PropertiesView content
-		super.createFrame(false);
-
-		// swap the contents from the frame to the dialog
-		dialog.setContentPane(frame.getContentPane());
-		dialog.setLocation(frame.getLocation());
-		dialog.setBounds(frame.getBounds());
-		dialog.setTitle(frame.getTitle());
-		// dialog.pack();
-		dialog.setVisible(true);
+		frame.addWindowFocusListener(this);
+		frame.addWindowListener(this);
 
 	}
+
 
 	@Override
-	public void removeFrame() {
-		frame.setContentPane(dialog.getContentPane());
-		dialog.setVisible(false);
-		super.removeFrame();
+	public void updateLabels() {
+		super.updateLabels();
+		if (view != null) {
+			titleLabel
+					.setText(view.getTypeString(view.getSelectedOptionType()));
+		}
 	}
 
+	
+	/**
+	 * Update all elements in the title bar.
+	 */
+	@Override
+	public void updateTitleBar() {
+		super.updateTitleBar();
+		titleLabel.setVisible(true);
+		//titleLabel.setIcon(app.getImageIcon("tool.png"));
+		//titleLabel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
+	}
+	
+	
+	
 	public void windowGainedFocus(WindowEvent arg0) {
+
 		// make sure this dialog is the current selection listener
 		if (app.getMode() != EuclidianConstants.MODE_SELECTION_LISTENER
-				|| app.getCurrentSelectionListener() != this) {
-			app.setSelectionListenerMode(this);
+				|| app.getCurrentSelectionListener() != view) {
+			app.setSelectionListenerMode(view);
 			view.selectionChanged();
 		}
 	}
@@ -124,6 +131,43 @@ public class PropertiesDockPanel extends DockPanel implements
 	public void geoElementSelected(GeoElement geo, boolean addToSelection) {
 		view.geoElementSelected(geo, addToSelection);
 
+	}
+
+	public void closeDialog() {
+		setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+		app.storeUndoInfo();
+		setCursor(Cursor.getDefaultCursor());
+		setVisible(false);
+	}
+
+	/*
+	 * Window Listener
+	 */
+	public void windowActivated(WindowEvent e) {
+		/*
+		 * if (!isModal()) { geoTree.setSelected(null, false);
+		 * //selectionChanged(); } repaint();
+		 */
+	}
+
+	public void windowDeactivated(WindowEvent e) {
+	}
+
+	public void windowClosing(WindowEvent e) {
+		// cancel();
+		closeDialog();
+	}
+
+	public void windowClosed(WindowEvent e) {
+	}
+
+	public void windowDeiconified(WindowEvent e) {
+	}
+
+	public void windowIconified(WindowEvent e) {
+	}
+
+	public void windowOpened(WindowEvent e) {
 	}
 
 }

@@ -328,9 +328,12 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 		}
 
 		return propertiesView;
-
 	}
 
+	public boolean hasPropertiesView(){
+		return propertiesView != null;
+	}
+	
 	/**
 	 * 
 	 * @param algc
@@ -989,7 +992,7 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 
 		dialogManager.updateFonts();
 
-		//SwingUtilities.updateComponentTreeUI(app.getMainComponent());
+		SwingUtilities.updateComponentTreeUI(app.getMainComponent());
 	}
 
 	public void setLabels() {
@@ -1091,6 +1094,25 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 		menuBar = (GeoGebraMenuBar) newMenuBar;
 	}
 
+	public void updateMenuBarLayout() {
+		if (app.showMenuBar()) {
+			Component comp = app.getMainComponent();
+			if (comp instanceof JApplet)
+				((JApplet) comp).setJMenuBar(menuBar);
+			else if (comp instanceof JFrame) {
+				((JFrame) comp).setJMenuBar(menuBar);
+				((JFrame) comp).validate();	
+			}
+		}else{
+			Component comp = app.getMainComponent();
+			if (comp instanceof JApplet)
+				((JApplet) comp).setJMenuBar(null);
+			else if (comp instanceof JFrame) {
+				((JFrame) comp).setJMenuBar(null);
+				((JFrame) comp).validate();			}
+		}
+	}
+	
 	public void showAboutDialog() {
 		GeoGebraMenuBar.showAboutDialog(app);
 	}
@@ -2657,10 +2679,29 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 
 		return ret;
 	}
+	
+	/**
+	 * hides the properties view if it is open in its own frame not the current
+	 * selection listener
+	 */
+	public void hidePropertiesViewIfNotListener() {
+
+		if (propertiesView != null
+				&& showView(AbstractApplication.VIEW_PROPERTIES)
+				&& propertiesView != app.getCurrentSelectionListener()
+				&& getLayout().getDockManager()
+						.getPanel(AbstractApplication.VIEW_PROPERTIES)
+						.isOpenInFrame()) {
+			
+			setShowView(false, Application.VIEW_PROPERTIES, false);
+		}
+	}
 
 	public void setMode(int mode) {
 		getDialogManager().closePropertiesDialogIfNotListener();
 
+//		hidePropertiesViewIfNotListener();
+		
 		// can't move this after otherwise Object Properties doesn't work
 		kernel.notifyModeChanged(mode);
 
@@ -2985,6 +3026,14 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 			algebraInput.initGUI();
 	}
 
+	public void updatePropertiesView(){
+		if(propertiesView !=null){
+			propertiesView.updatePropertiesView();
+		}
+	}
+	
+	
+	
 	@Override
 	public void showPopupMenu(ArrayList<GeoElement> selectedGeos,
 			EuclidianViewInterfaceCommon view,
