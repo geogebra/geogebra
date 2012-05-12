@@ -241,14 +241,14 @@ cp $WORKDIR/lib/vernier_ccsd* $WWWDIR/$MYDIR/usb || exit 4
 
 log "Rewriting HTML and JNLP files"
 cd $WWWDIR/$MYDIR
-TESTURLSED=`echo $TESTURL | sed s/"\/"/"\/\/"/g`
+TESTURLSED=`echo $TESTURL | sed s/"\/"/"\\\\\\\\\/"/g`
 for i in `ls -1 *.html *.jnlp 2>/dev/null`; do
     cat $i | \
      sed s/"http:\/\/www.geogebra.org\/webstart\/$CV\/unsigned"/"$TESTURLSED\/$MYDIR\/unsigned\/unpacked"/g | \
      sed s/"http:\/\/www.geogebra.org\/webstart\/$CV\/usb-gomotion"/"$TESTURLSED\/$MYDIR\/usb-gomotion.ggb"/g | \
      sed s/"http:\/\/www.geogebra.org\/webstart\/$CV\/debug"/"$TESTURLSED\/$MYDIR\/debug"/g | \
      sed s/"http:\/\/www.geogebra.org\/webstart\/$CV\/jnlp\/"/"$TESTURLSED\/$MYDIR\/unpacked\/"/g | \
-     sed s/"http:\/\/www.geogebra.org\/webstart\/$CV\/"/"$TESTURLSED\/webstart\/$MYDIR\/"/g | \
+     sed s/"http:\/\/www.geogebra.org\/webstart\/$CV\/"/"$TESTURLSED\/$MYDIR\/"/g | \
      sed s/"<\/title>"/" ($MYVER)<\/title>"/g | \
      grep -v "association mime-type" | \
      grep -v packEnabled \
