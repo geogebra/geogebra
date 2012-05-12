@@ -659,11 +659,6 @@ public class GeoCasCell extends GeoElement implements VarString {
 			for (GeoElement geo : geoVars) {
 				String var = geo.getLabel(StringTemplate.defaultTemplate);
 				AbstractApplication.debug(ve+","+ve.getClass()+","+ve.isTopLevelCommand());
-				// local function variables are NOT input variables
-				if(ve.isTopLevelCommand() && isFunction(ve.getTopLevelCommand())){
-					
-					getFunctionVars().add(var);
-				}
 				if (isFunction && ((FunctionNVar) ve).isFunctionVariable(var)) {
 					// function variable, e.g. k in f(k) := k^2 + 3
 					getFunctionVars().add(var);
