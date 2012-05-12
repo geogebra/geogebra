@@ -21,10 +21,10 @@ import geogebra.common.kernel.arithmetic.FunctionNVar;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.FunctionalNVar;
 import geogebra.common.kernel.arithmetic.MyDouble;
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoFunctionNVar;
-import geogebra.common.main.AbstractApplication;
 import geogebra.common.plugin.Operation;
 
 /**
@@ -142,7 +142,7 @@ public class AlgoNumerator extends AlgoElement {
 
     		// construct function f(x) = 1
 			FunctionVariable fv = new FunctionVariable(kernel);	
-			ExpressionNode en = new ExpressionNode(kernel,new MyDouble(kernel, 1.0));
+			ExpressionNode en = new ExpressionNode(kernel,new MyDouble(kernel, ((NumberValue)ev).getDouble()));
 			Function tempFun = new Function(en,fv);
 			tempFun.initFunction();
 			((GeoFunction)g).setFunction(tempFun);		
