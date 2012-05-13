@@ -41,17 +41,21 @@ find -name '*.properties' -size 0 | xargs rm
 cd $MYDIR
 
 # Rsync files to www:
-rsync -avPO --rsh=ssh $PROP_DIR/tube/* $TUBE_REMOTEDIR 2>&1 | grep -v failed | grep -v "were not transferred"
-rsync -avPO --rsh=ssh $PROP_DIR/nav/* $NAV_REMOTEDIR 2>&1 | grep -v failed | grep -v "were not transferred"
+WWW_SERVER_USER=`echo $WWW_SERVER_LOGIN | cut -f1 -d@`
+WWW_REMOTEDIR=`echo $WWW_SERVER_LOGIN | cut -f2 -d@`
+rsync -avPO -e "ssh -p $WWW_SERVER_PORT -i $WWW_SERVER_KEY -l $WWW_SERVER_USER" \
+ $PROP_DIR/tube/* $TUBE_REMOTEDIR 2>&1 | grep -v failed | grep -v "were not transferred"
+rsync -avPO -e "ssh -p $WWW_SERVER_PORT -i $WWW_SERVER_KEY -l $WWW_SERVER_USER" \
+ $PROP_DIR/nav/* $NAV_REMOTEDIR 2>&1 | grep -v failed | grep -v "were not transferred"
 
 # The script should also remove all files
 # /Library/WebServer/GeoGebra/navigation/cache/* and
 # /Library/WebServer/GeoGebraTube/tmp/cache/zend_cache---Zend_Translate_*
 # so that the properties are really used.
-ssh $WWW_SERVER_LOGIN \
- "cd /Library/WebServer/GeoGebra/navigation/cache && find . -name '*.php' | xargs rm"
-ssh $WWW_SERVER_LOGIN \
- "cd /Library/WebServer/GeoGebraTube/tmp/cache && find . -name 'zend_cache---Zend_Translate*' | xargs rm"
+ssh -p $WWW_SERVER_PORT -i $WWW_SERVER_KEY $WWW_SERVER_LOGIN \
+ "cd /home/GeoGebra/navigation/cache && find . -name '*.php' | xargs rm"
+ssh -p $WWW_SERVER_PORT -i $WWW_SERVER_KEY $WWW_SERVER_LOGIN \
+ "cd /home/GeoGebraTube/tmp/cache && find . -name 'zend_cache---Zend_Translate*' | xargs rm"
 
 date
 echo "$0: end"

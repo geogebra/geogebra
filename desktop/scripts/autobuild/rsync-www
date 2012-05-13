@@ -6,8 +6,6 @@
 date
 echo "$0: start"
 
-WWW_REMOTEDIR=www.geogebra.org:/tmp/rsync-www-test
-
 test -r autobuild.conf || {
  echo "Cannot find autobuild.conf (make sure you edit autobuild.conf.dist first)"
  exit 1
@@ -15,7 +13,10 @@ test -r autobuild.conf || {
 . ./autobuild.conf
 
 # 2. rsync'ing
-rsync -avPO --rsh=ssh $WWWDIR/* $WWW_REMOTEDIR 2>&1 | grep -v failed | grep -v "were not transferred"
+WWW_SERVER_USER=`echo $WWW_SERVER_LOGIN | cut -f1 -d@`
+WWW_REMOTEDIR=`echo $WWW_SERVER_LOGIN | cut -f2 -d@`
+rsync -avPO -e "ssh -p $WWW_SERVER_PORT -i $WWW_SERVER_KEY -l $WWW_SERVER_USER" \
+ $WWWDIR/* $WWW_REMOTEDIR 2>&1 | grep -v failed | grep -v "were not transferred"
 
 date
 echo "$0: end"
