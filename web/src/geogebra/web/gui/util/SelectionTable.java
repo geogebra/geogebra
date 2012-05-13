@@ -61,6 +61,8 @@ public class SelectionTable extends Grid implements ClickHandler {
 		
 		// set the table model with the data
 		populateModel(data);
+		addClickHandler(this);
+		addStyleName("SelectionTable");
     }
 	
 	public void setFgColor(Color fgColor) {
@@ -111,14 +113,17 @@ public class SelectionTable extends Grid implements ClickHandler {
 		rollOverRow = -1;
 		rollOverColumn = -1;
 	}
+	
+	private int selectedColumn = -1;
+	
 	private int getSelectedColumn() {
-	    // TODO Auto-generated method stub
-	    return 0;
+	    return selectedColumn;
     }
+	
+	private int selectedRow = -1;
 
-	private Integer getSelectedRow() {
-	    // TODO Auto-generated method stub
-	    return null;
+	private int getSelectedRow() {
+	    return selectedRow;
     }
 
 	public int getColumnWidth() {
@@ -237,13 +242,13 @@ public class SelectionTable extends Grid implements ClickHandler {
 			AbstractApplication.debug("SelectionTable mode latex");
 			break;
 	  	}
-		((FocusWidget)w).addClickHandler(this);
 		return w;
     }
 
 	public void onClick(ClickEvent event) {
-	    // TODO Auto-generated method stub
-	    
+	   Cell clicked = getCellForEvent(event);
+	   selectedColumn = clicked.getCellIndex();
+	   selectedRow = clicked.getRowIndex();
     }
 
 }

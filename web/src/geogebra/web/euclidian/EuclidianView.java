@@ -416,8 +416,11 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 	}
 
 	@Override
-    public boolean requestFocusInWindow() {		
-		g2p.getCanvas().getCanvasElement().focus();
+    public boolean requestFocusInWindow() {
+		if (!AbstractApplication.isFullAppGui()) {
+			//somehow this hides EuclidianStylebar, probably CSS bug
+			g2p.getCanvas().getCanvasElement().focus();
+		}
 		focusGained();
 		return true;
     }

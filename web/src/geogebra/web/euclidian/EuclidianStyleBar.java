@@ -556,7 +556,7 @@ public class EuclidianStyleBar extends HorizontalPanel
 		btnMode = new PopupMenuButton((Application) ev.getApplication(),
 				modeArray, -1, 1, new Dimension(20, iconHeight),
 				geogebra.common.gui.util.SelectionTable.MODE_ICON);
-		btnMode.addValueChangeHandler(this);
+		btnMode.addClickHandler(this);
 		btnMode.setKeepVisible(false);
 		// add(btnMode);
 		
@@ -726,7 +726,7 @@ public class EuclidianStyleBar extends HorizontalPanel
 		btnLineStyle.getMySlider().setMajorTickSpacing(2);
 		btnLineStyle.getMySlider().setMinorTickSpacing(1);
 		btnLineStyle.getMySlider().setPaintTicks(true);
-		btnLineStyle.addValueChangeHandler(this);
+		btnLineStyle.addClickHandler(this);
 
 		// ========================================
 		// point style button
@@ -798,7 +798,7 @@ public class EuclidianStyleBar extends HorizontalPanel
 		btnPointStyle.getMySlider().setMajorTickSpacing(2);
 		btnPointStyle.getMySlider().setMinorTickSpacing(1);
 		btnPointStyle.getMySlider().setPaintTicks(true);
-		btnPointStyle.addValueChangeHandler(this);
+		btnPointStyle.addClickHandler(this);
 
 		// ========================================
 		// eraser button
@@ -929,7 +929,7 @@ public class EuclidianStyleBar extends HorizontalPanel
 		CanvasElement ic = AppResourcesConverter.convert(AppResources.INSTANCE.mode_showhidelabel_16());
 		btnLabelStyle.setIconSize(new Dimension(ic.getWidth(), iconHeight));
 		btnLabelStyle.setIcon(ic);
-		btnLabelStyle.addValueChangeHandler(this);
+		btnLabelStyle.addClickHandler(this);
 		btnLabelStyle.setKeepVisible(false);
 
 		// ========================================
@@ -961,7 +961,7 @@ public class EuclidianStyleBar extends HorizontalPanel
 		btnPointCapture.setIconSize(new Dimension(ptCaptureIcon.getWidth(),
 				iconHeight));
 		btnPointCapture.setIcon(ptCaptureIcon);
-		btnPointCapture.addValueChangeHandler(this);
+		btnPointCapture.addClickHandler(this);
 		btnPointCapture.setKeepVisible(false);
 	}
 
@@ -1041,7 +1041,7 @@ public class EuclidianStyleBar extends HorizontalPanel
 
 			};
 
-			btnColor.addValueChangeHandler(this);
+			btnColor.addClickHandler(this);
 		}
 	
 	private void createTextButtons() {
@@ -1139,25 +1139,29 @@ public class EuclidianStyleBar extends HorizontalPanel
 		if (acceptValueChangeEvents) {
 			Object source = event.getSource();
 
-			needUndo = false;
-
-			ArrayList<GeoElement> targetGeos = new ArrayList<GeoElement>();
-			targetGeos.addAll(ec.getJustCreatedGeos());
-			if (mode != EuclidianConstants.MODE_MOVE)
-				targetGeos.addAll(defaultGeos);
-			else
-				targetGeos.addAll(app.getSelectedGeos());
-
-			processSource(source, targetGeos);
-
-			if (needUndo) {
-				app.storeUndoInfo();
-				needUndo = false;
-			}
-
-			updateGUI();
+			handleEventHandlers(source);
 		}
 	}
+
+	private void handleEventHandlers(Object source) {
+	    needUndo = false;
+
+	    ArrayList<GeoElement> targetGeos = new ArrayList<GeoElement>();
+	    targetGeos.addAll(ec.getJustCreatedGeos());
+	    if (mode != EuclidianConstants.MODE_MOVE)
+	    	targetGeos.addAll(defaultGeos);
+	    else
+	    	targetGeos.addAll(app.getSelectedGeos());
+
+	    processSource(source, targetGeos);
+
+	    if (needUndo) {
+	    	app.storeUndoInfo();
+	    	needUndo = false;
+	    }
+
+	    updateGUI();
+    }
 
 	/**
 	 * process the action performed
@@ -1191,6 +1195,14 @@ public class EuclidianStyleBar extends HorizontalPanel
 			else
 				ev.showGrid(!ev.getShowGrid());
 			ev.repaint();
+		} else if (source == btnPointCapture) {
+			int mode = btnPointCapture.getSelectedIndex();
+			if (mode == 3 || mode == 0)
+				mode = 3 - mode; // swap 0 and 3
+			ev.setPointCapturing(mode);
+			
+			// update other EV stylebars since this is a global property 
+			app.updateStyleBars();
 		} else if (source == btnBold) {
 			applyFontStyle(targetGeos);
 		} else if (source == btnItalic) {
@@ -1217,8 +1229,11 @@ public class EuclidianStyleBar extends HorizontalPanel
 	}
 
 	public void onClick(ClickEvent event) {
-	    // TODO Auto-generated method stub
-	    
+		if (acceptValueChangeEvents) {
+			Object source = event.getSource();
+
+			handleEventHandlers(source);
+		}
     }
 
 }

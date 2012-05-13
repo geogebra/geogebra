@@ -7,6 +7,7 @@ import geogebra.web.euclidian.EuclidianStyleBar;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.RequiresResize;
@@ -19,10 +20,10 @@ public class EuclidianStyleBarPanel extends Composite implements RequiresResize 
 	private static EuclidianStyleBarPanelUiBinder uiBinder = GWT
 	        .create(EuclidianStyleBarPanelUiBinder.class);
 
-	interface EuclidianStyleBarPanelUiBinder extends UiBinder<SimplePanel, EuclidianStyleBarPanel> {
+	interface EuclidianStyleBarPanelUiBinder extends UiBinder<AbsolutePanel, EuclidianStyleBarPanel> {
 	}
 
-	@UiField SimplePanel simplep;
+	@UiField AbsolutePanel simplep;
 	EuclidianStyleBar eviewsb = null;
 
 	public EuclidianStyleBarPanel() {
@@ -43,7 +44,7 @@ public class EuclidianStyleBarPanel extends Composite implements RequiresResize 
 		}
 	}
 
-	public SimplePanel getSimplePanel() {
+	public AbsolutePanel getSimplePanel() {
 	    return simplep;
     }
 

@@ -185,11 +185,6 @@ public class PopupMenuButton extends Composite implements ChangeHandler {
 		//do this right :-)
 	   myPopup.hide();
     }
-
-
-	public void addValueChangeHandler(EuclidianStyleBar euclidianStyleBar) {
-	   tb.addValueChangeHandler(euclidianStyleBar);
-    }
 	
 	public void setKeepVisible(boolean keepVisible) {
 		this.keepVisible = keepVisible;
@@ -301,7 +296,7 @@ public class PopupMenuButton extends Composite implements ChangeHandler {
 
 
 	public void addClickHandler(EuclidianStyleBar euclidianStyleBar) {
-		
+		b.addClickHandler(euclidianStyleBar);
     }
 
 }

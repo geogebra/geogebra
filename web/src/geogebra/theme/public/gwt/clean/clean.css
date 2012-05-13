@@ -1285,8 +1285,21 @@ td.datePickerMonth {
 	-ms-user-select: none;
 	-o-user-select: none;
 	user-select: none;
-} 
+}
 
+/* EuclidianStyleBar styles */
+.SelectionTable a {
+	text-decoration:none;
+	color:black;
+	border-radius:none;
+    display:block;
+    padding:1px;
+	
+}
+
+.SelectionTable a:hover, SelectionTable a:focus {
+	background: #D5E2FF;
+}
 /* AlgebraInput styles */
 .AlgebraInput {
     margin:auto 20px;
