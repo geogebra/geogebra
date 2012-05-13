@@ -4613,6 +4613,7 @@ public class ExpressionNode extends ValidExpression implements
 			return isConstantDouble(((ExpressionNode)ev).getLeft(),v);
 		return ev instanceof MyDouble && ev.isConstant() && Kernel.isEqual(v,((MyDouble)ev).getDouble());
 	}
+	
 	/**
 	 * @param v2 value to add
 	 * @return result of addition
@@ -4623,6 +4624,69 @@ public class ExpressionNode extends ValidExpression implements
 		if(this.isLeaf() && isConstantDouble(left,0))
 			return new ExpressionNode(kernel, v2);
 		return new ExpressionNode(kernel, this, Operation.PLUS, v2);
+	}
+
+	/**
+	 * @return result of erf(this)
+	 */
+	public ExpressionNode erf() {
+		return new ExpressionNode(kernel, this, Operation.ERF, null);
+	}
+
+	/**
+	 * @return result of abs(this)
+	 */
+	public ExpressionNode abs() {
+		return new ExpressionNode(kernel, this, Operation.ABS, null);
+	}
+
+	/**
+	 * @return result of exp(this)
+	 */
+	public ExpressionNode exp() {
+		return new ExpressionNode(kernel, this, Operation.EXP, null);
+	}
+
+	/**
+	 * @return result of sqrt(this)
+	 */
+	public ExpressionNode sqrt() {
+		return new ExpressionNode(kernel, this, Operation.SQRT, null);
+	}
+
+	/**
+	 * @return result of this * -1
+	 */
+	public ExpressionNode reverseSign() {
+		return new ExpressionNode(kernel, new MyDouble(kernel, -1.0), Operation.MULTIPLY, this);
+	}
+	
+	/**
+	 * @return result of this * -1
+	 */
+	public ExpressionNode reverseSign2() {
+		return new ExpressionNode(kernel, new MyDouble(kernel, 0.0), Operation.MINUS, this);
+	}
+
+
+
+	/**
+	 * @return result of this^2
+	 */
+	public ExpressionNode square() {
+		return new ExpressionNode(kernel, this, Operation.POWER, new MyDouble(kernel, 2.0));
+	}
+
+	/**
+	 * @param v2 value to subtract
+	 * @return result of subtract
+	 */
+	public ExpressionNode subtract(ExpressionValue v2) {
+		if(isConstantDouble(v2,0))
+			return this;
+		if(this.isLeaf() && isConstantDouble(left,0))
+			return new ExpressionNode(kernel, v2);
+		return new ExpressionNode(kernel, this, Operation.MINUS, v2);
 	}
 
 	/**
@@ -4747,5 +4811,11 @@ public class ExpressionNode extends ValidExpression implements
 	 */
 	public ExpressionValue replace(ExpressionValue oldObj, ExpressionValue newObj) {
 		return traverse(Replacer.getReplacer(oldObj, newObj));
+	}
+
+	public GeoFunction buildFunction(FunctionVariable fv) {
+		Function tempFun = new Function(this, fv);
+		tempFun.initFunction();
+		return new GeoFunction(kernel.getConstruction(), tempFun);
 	}
 }
