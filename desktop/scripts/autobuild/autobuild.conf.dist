@@ -70,21 +70,21 @@ LINUX_MAXIMA_TGZ=/home/kovzol/workspace/maxima-5.24.0-cmucl-linux-i686.tar.gz
 # for the 64 bit Linux portable version as well.
 
 # If this is set, rsync-www will run:
-WWW_REMOTEDIR=www.geogebra.org:/home/webstart/
+WWW_REMOTEDIR=/home/webstart/
 
 # Python3 is needed for some scripts.
 #PYTHON3=/Users/zoltan/src/Python-3.2/python.exe # Luxembourg server
 # If not set, the default python3 executable will be used (if exists)
 
 # GeoGebraTube remote server, account, and application.ini file
-WWW_SERVER_LOGIN=zoltan@www.geogebra.org
-WWW_SERVER_PORT=22
-WWW_SERVER_KEY=/home/build/.ssh/id_rsa-www-refresh@www
+WWW_SERVER_LOGIN=...@www.geogebra.org
+WWW_SERVER_PORT=...
+WWW_SERVER_KEY=/home/build/.ssh/id_rsa-...@www
 GGT_APP_INI_FILE=/home/GeoGebraTube/application/configs/application.ini
 
 # Remote directories for nav and tube
-NAV_REMOTEDIR=www-refresh@www.geogebra.org:/home/GeoGebra/navigation/
-TUBE_REMOTEDIR=www-refresh@www.geogebra.org:/home/GeoGebraTube/languages/
+NAV_REMOTEDIR=/home/GeoGebra/navigation/
+TUBE_REMOTEDIR=/home/GeoGebraTube/languages/
 
 # Directory for ggbtrans
 GGBTRANS_DIR=/home/ggbtrans/svn/ggbtrans

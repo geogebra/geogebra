@@ -13,10 +13,8 @@ test -r autobuild.conf || {
 . ./autobuild.conf
 
 # 2. rsync'ing
-WWW_SERVER_USER=`echo $WWW_SERVER_LOGIN | cut -f1 -d@`
-WWW_REMOTEDIR=`echo $WWW_SERVER_LOGIN | cut -f2 -d@`
-rsync -avPO -e "ssh -p $WWW_SERVER_PORT -i $WWW_SERVER_KEY -l $WWW_SERVER_USER" \
- $WWWDIR/* $WWW_REMOTEDIR 2>&1 | grep -v failed | grep -v "were not transferred"
+rsync -avPO --rsh="ssh -p $WWW_SERVER_PORT -i $WWW_SERVER_KEY" \
+ $WWWDIR/* $WWW_SERVER_LOGIN:$WWW_REMOTEDIR 2>&1 | grep -v failed | grep -v "were not transferred"
 
 date
 echo "$0: end"
