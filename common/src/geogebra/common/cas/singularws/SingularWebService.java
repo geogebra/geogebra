@@ -14,6 +14,8 @@ import geogebra.common.util.URLEncoder;
  */
 public class SingularWebService {
 
+	private final int GET_REQUEST_MAX_SIZE = 2000;
+	
 	private int timeout = AbstractApplication.singularWebServiceTimeout;
 	private final String testConnectionCommand = "t";
 	private final String singularDirectCommand = "s";
@@ -31,7 +33,7 @@ public class SingularWebService {
 	}
 	
 	private String swsCommandResult(String command, String parameters) {
-		String getRequest = wsHost + "/";
+		String url1 = wsHost + "/";
 		String encodedParameters = "";
 		if (parameters != null) {
 			URLEncoder urle = UtilFactory.prototype.newURLEncoder();
@@ -39,7 +41,12 @@ public class SingularWebService {
 		}
 		HttpRequest httpr = UtilFactory.prototype.newHttpRequest();
 		httpr.setTimeout(timeout);
-		httpr.sendRequestPost(getRequest,"c=" + command + "&p=" + encodedParameters);
+		// Varnish currently cannot do caching for POST requests,
+		// so we prefer GET for the shorter Singular programs:
+		if (encodedParameters.length() + url1.length() + command.length() + 6 <= GET_REQUEST_MAX_SIZE)
+			httpr.sendRequest(url1 + "?c=" + command + "&p=" + encodedParameters);
+		else
+			httpr.sendRequestPost(url1,"c=" + command + "&p=" + encodedParameters);
 		String response = httpr.getResponse(); // will not work in web, TODO: callback!
 		if (response == null)
 			return null; // avoiding NPE in web

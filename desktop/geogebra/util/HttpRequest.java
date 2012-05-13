@@ -22,7 +22,9 @@ public class HttpRequest extends geogebra.common.util.HttpRequest {
 			String s = "";
 			answer = in.readLine(); // the last line will never get a "\n" on its end
 			while ((s = in.readLine()) != null) {
-				answer += "\n" + s;
+				if (!("".equals(answer))) // if the answer starts with "\n"s, we ignore them
+					answer += "\n";
+				answer += s;
 			}
 		}
 		catch (Exception ex) {
