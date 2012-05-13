@@ -6,6 +6,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Macro;
 import geogebra.common.main.AbstractApplication;
 import geogebra.web.gui.app.GGWToolBar;
+import geogebra.web.gui.toolbar.ModeToggleMenu.MyJToggleButton;
 import geogebra.web.main.Application;
 
 import java.util.ArrayList;
@@ -325,20 +326,20 @@ public class ToolBar extends MenuBar {
 	public ArrayList<ModeToggleMenu> getModeToggleMenus(){
 		return modeToggleMenus;
 	}
-	
+
 	@Override
 	public void onBrowserEvent(Event event) {
 		MenuItem item = findItem(DOM.eventGetTarget(event));
 
-		if ((DOM.eventGetType(event) == Event.ONCLICK)
-				//TODO: replace 35 with a variable
-		        && (event.getClientY() < 35)) {
+		if ((DOM.eventGetType(event) == Event.ONCLICK) && (item != null)
+		        && !((ModeToggleMenu.MyJToggleButton)item).isTriangleHighlighted()) {
 			((ModeToggleMenu) item.getSubMenu()).selectMenuItem(item);
 
 		} else
 			super.onBrowserEvent(event);
 	}
 
+	
 	private MenuItem findItem(Element hItem) {
 		for (MenuItem item : getItems()) {
 			if (DOM.isOrHasChild(item.getElement(), hItem)) {

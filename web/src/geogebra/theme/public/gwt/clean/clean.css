@@ -1327,10 +1327,20 @@ td.datePickerMonth {
 	background: #D5E2FF;
 }
 
-[isSelected=true] canvas{
+[isSelected=true] .toolbar_icon{
 	border: 2px solid blue;
 }
 
-[isSelected=false] canvas{
+[isSelected=false] .toolbar_icon{
 	border: 1px solid lightgray;
+}
+
+.red_triangle{
+	position: relative;
+	top: -15px;
+	left: -4px;
+}
+
+.toolbar_item{
+	width: 40px;
 }
