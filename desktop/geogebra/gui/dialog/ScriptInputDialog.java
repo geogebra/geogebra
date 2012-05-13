@@ -75,7 +75,11 @@ public class ScriptInputDialog extends InputDialog {
 		languageSelector = new JComboBox();
 		languageSelector.addItem(app.getPlain("Script"));
 		languageSelector.addItem(app.getPlain("JavaScript"));
-		languageSelector.addItem(app.getPlain("Python"));
+		
+		// don't show in 4.2 Webstart builds
+		if (!Application.isWebstart() || app.is3D()) {
+			languageSelector.addItem(app.getPlain("Python"));
+		}
 		languageSelector.addActionListener(this);
 		
 		setGeo(button);

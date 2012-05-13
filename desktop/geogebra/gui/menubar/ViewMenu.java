@@ -108,15 +108,19 @@ public class ViewMenu extends BaseMenu {
 		}
 		add(cbShowKeyboard);
 
-		// show/hide python window
-		cbShowPython = new JCheckBoxMenuItem(showPythonAction);
-		app.setEmptyIcon(cbShowPython);
-		add(cbShowPython);
+		// show Python and Kinect options in Eclipse & 5.0 Webstart only
+		// ie not 4.2
+		if (!app.isWebstart() || app.is3D()) {
+			// show/hide python window
+			cbShowPython = new JCheckBoxMenuItem(showPythonAction);
+			app.setEmptyIcon(cbShowPython);
+			add(cbShowPython);
 
-		// TEST: show/hide Kinect window
-		cbShowKinect = new JCheckBoxMenuItem(showKinectAction);
-		app.setEmptyIcon(cbShowKinect);
-		add(cbShowKinect);
+			// TEST: show/hide Kinect window
+			cbShowKinect = new JCheckBoxMenuItem(showKinectAction);
+			app.setEmptyIcon(cbShowKinect);
+			add(cbShowKinect);
+		}
 
 		// cbShowHandwriting = new JCheckBoxMenuItem(showHandwritingAction);
 		// app.setEmptyIcon(cbShowHandwriting);
@@ -472,7 +476,10 @@ public class ViewMenu extends BaseMenu {
 
 		cbShowAlgebraInput.setSelected(app.showAlgebraInput());
 		cbShowKeyboard.setSelected(Application.isVirtualKeyboardActive());
-		cbShowPython.setSelected(app.isPythonWindowVisible());
+		
+		if (cbShowPython != null) {
+			cbShowPython.setSelected(app.isPythonWindowVisible());
+		}
 		// cbShowHandwriting.setSelected(Application.isHandwritingRecognitionActive());
 		// cbShowHandwritingAutoAdd.setSelected(Application.isHandwritingRecognitionAutoAdd());
 		// cbShowHandwritingTimedAdd.setSelected(Application.isHandwritingRecognitionTimedAdd());
