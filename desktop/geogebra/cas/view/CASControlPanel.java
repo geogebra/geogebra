@@ -14,6 +14,7 @@ import geogebra.common.gui.SetLabels;
 import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.common.util.Unicode;
 import geogebra.gui.dialog.options.OptionsUtil;
+import geogebra.gui.inputfield.MyTextField;
 import geogebra.main.Application;
 
 import javax.swing.BorderFactory;
@@ -22,6 +23,8 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
+import javax.swing.border.Border;
 
 public class CASControlPanel extends JPanel implements ActionListener,
 		SetLabels {
@@ -30,26 +33,20 @@ public class CASControlPanel extends JPanel implements ActionListener,
 	private CASView view;
 	private JPanel numPad;
 
-	private String[][] numPadData = { { "9", "9" },
-			{ "8", "8" }, { "7", "7" }, { "6", "6" }, { "5", "5" },
-			{ "4", "4" }, { "3", "3" }, { "2", "2" }, 
-			{ "1", "1" }, { ".", "." },{ "0", "0" }, {"EE", "E"}
-	};
-	
-	
-	private String[][] operatorData = { 
-			 { "\u00F7", "/" }, { "\u00D7", "*" },{ "\u2212", "-" },{ "\u002B", "+" }
-	};
-	
-	private String[][] specialCharData = { 
-			 { "x", "x" }, { Unicode.PI_STRING, Unicode.PI_STRING },{ Unicode.EULER_STRING, Unicode.EULER_STRING },
-			 { Unicode.IMAGINARY, Unicode.IMAGINARY }, {"\u221a", "sqrt()"}, {"^", "^"}, {"!", "!"}
-	};
-	
-	
-	
-	
-	
+	private String[][] numPadData = { { "9", "9" }, { "8", "8" }, { "7", "7" },
+			{ "6", "6" }, { "5", "5" }, { "4", "4" }, { "3", "3" },
+			{ "2", "2" }, { "1", "1" }, { ".", "." }, { "0", "0" },
+			{ "EE", "E" } };
+
+	private String[][] operatorData = { { "\u00F7", "/" }, { "\u00D7", "*" },
+			{ "\u2212", "-" }, { "\u002B", "+" } };
+
+	private String[][] specialCharData = { { "x", "x" },
+			{ Unicode.PI_STRING, Unicode.PI_STRING },
+			{ Unicode.EULER_STRING, Unicode.EULER_STRING },
+			{ Unicode.IMAGINARY, Unicode.IMAGINARY }, { "\u221a", "sqrt()" },
+			{ "^", "^" }, { "!", "!" } };
+
 	private JButton btnNumeric;
 	private JButton btnKeepInput;
 	private JButton btnEvaluate;
@@ -62,41 +59,50 @@ public class CASControlPanel extends JPanel implements ActionListener,
 	public CASControlPanel(Application app, CASView view) {
 		this.app = app;
 		this.view = view;
-
+		this.setFocusable(false);
 		initGUI();
+		for (int i = 0; i < this.getComponentCount(); i++) {
+			this.getComponent(i).setFocusable(false);
+		}
 	}
 
 	private void initGUI() {
 		setLayout(new BorderLayout());
-		
-		specialCharPad = createPad(specialCharData, 2,4, false);
-		operatorPad = createPad(operatorData, 4,1, true);
-		numPad = createPad(numPadData, 4,3, false);
+
+		specialCharPad = createPad(specialCharData, 2, 4, false);
+		operatorPad = createPad(operatorData, 4, 1, true);
+		numPad = createPad(numPadData, 4, 3, false);
 		createEnterPad();
-		
+
 		JPanel p = new JPanel();
-		p.setLayout(new BoxLayout(p,BoxLayout.X_AXIS));
+		p.setLayout(new BoxLayout(p, BoxLayout.X_AXIS));
 		p.add(numPad);
-		p.add(Box.createHorizontalStrut(4));
+		p.add(Box.createHorizontalStrut(0));
 		p.add(operatorPad);
 		p.add(Box.createHorizontalStrut(10));
 		p.add(specialCharPad);
-		
-		p.setBorder(BorderFactory.createEmptyBorder(4, 4, 4, 4));
+
+		p.setBorder(BorderFactory.createEmptyBorder(8, 8, 8, 8));
 		add(p, BorderLayout.WEST);
-		
-		//enterPad.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, SystemColor.controlShadow));
-		enterPad.setBorder(BorderFactory.createEmptyBorder(4,4,4,4));
+
+		Border topBorder = (BorderFactory.createCompoundBorder(BorderFactory
+				.createMatteBorder(1, 0, 1, 0, SystemColor.controlShadow),
+				BorderFactory.createMatteBorder(1, 0, 0, 0,
+						SystemColor.controlLtHighlight)));
+		enterPad.setBorder(BorderFactory.createCompoundBorder(topBorder,
+				BorderFactory.createEmptyBorder(4, 4, 4, 2)));
+
+		// enterPad.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0,
+		// SystemColor.controlShadow));
+		// enterPad.setBorder(BorderFactory.createEmptyBorder(4,4,4,4));
 		add(enterPad, BorderLayout.SOUTH);
-		
-		this.setBorder(BorderFactory.createEtchedBorder());
+
+		// this.setBorder(BorderFactory.createEtchedBorder());
 
 	}
 
-	
-
-	
-	private JPanel createPad(String[][] btnData, int rows, int columns, boolean isBold) {
+	private JPanel createPad(String[][] btnData, int rows, int columns,
+			boolean isBold) {
 
 		JPanel padGrid = new JPanel(new GridLayout(rows, columns));
 		GridLayout l = (GridLayout) padGrid.getLayout();
@@ -109,11 +115,12 @@ public class CASControlPanel extends JPanel implements ActionListener,
 				final ControlButton btn = new ControlButton();
 				btn.setPreferredSize(new Dimension(30, 30));
 				if (isBold) {
-					btn.setFont(app.getBoldFont());
+					Font f = app.getBoldFont();
+					btn.setFont(f.deriveFont((float) (f.getSize() + 2)));
 				} else {
 					btn.setFont(app.getPlainFont());
 				}
-				
+
 				btn.setText(btnData[i][0]);
 				btn.setInsertText(btnData[i][1]);
 				padGrid.add(btn);
@@ -121,17 +128,15 @@ public class CASControlPanel extends JPanel implements ActionListener,
 		}
 		JPanel pad = new JPanel(new BorderLayout());
 		pad.add(padGrid, BorderLayout.NORTH);
-		
+		pad.setFocusable(false);
 		return pad;
 	}
-	
-	
-	
+
 	private void createEnterPad() {
 		Font font = app.getBoldFont();
 		Color fgColor = geogebra.awt.Color
 				.getAwtColor(GeoGebraColorConstants.BLACK);
-				
+
 		btnNumeric = new JButton("\u2248");
 		btnKeepInput = new JButton(app.getPlain("\u2713"));
 		btnEvaluate = new JButton("=");
@@ -144,7 +149,7 @@ public class CASControlPanel extends JPanel implements ActionListener,
 		btnKeepInput.setForeground(fgColor);
 		btnEvaluate.setFont(font);
 		btnEvaluate.setForeground(fgColor);
-		
+
 		btnNumeric.addActionListener(this);
 		btnKeepInput.addActionListener(this);
 		btnEvaluate.addActionListener(this);
@@ -154,20 +159,18 @@ public class CASControlPanel extends JPanel implements ActionListener,
 		btnKeepInput.setPreferredSize(btnEvaluate.getPreferredSize());
 		btnClear.setPreferredSize(btnEvaluate.getPreferredSize());
 		btnBack.setPreferredSize(btnEvaluate.getPreferredSize());
-		
-		
-		btnEvaluate.setMargin(new Insets(0,0,0,0));
-		btnKeepInput.setMargin(new Insets(0,0,0,0));
-		btnNumeric.setMargin(new Insets(0,0,0,0));
-		
-		
+
+		btnEvaluate.setMargin(new Insets(0, 0, 0, 0));
+		btnKeepInput.setMargin(new Insets(0, 0, 0, 0));
+		btnNumeric.setMargin(new Insets(0, 0, 0, 0));
+
 		JPanel westPanel = OptionsUtil.flowPanel(1, 1, 0, btnClear, btnBack);
-		JPanel centerPanel = OptionsUtil.flowPanel(1, 1,0, btnEvaluate,
+		JPanel centerPanel = OptionsUtil.flowPanel(8, 2, 0, btnEvaluate,
 				btnNumeric, btnKeepInput);
-		
+
 		enterPad = new JPanel(new BorderLayout());
 		enterPad.add(centerPanel, BorderLayout.WEST);
-		//enterPad.add(westPanel, BorderLayout.WEST);
+		// enterPad.add(westPanel, BorderLayout.WEST);
 
 	}
 
@@ -175,8 +178,6 @@ public class CASControlPanel extends JPanel implements ActionListener,
 		// TODO Auto-generated method stub
 
 	}
-
-	
 
 	public void actionPerformed(ActionEvent e) {
 		Object source = e.getSource();
@@ -190,10 +191,9 @@ public class CASControlPanel extends JPanel implements ActionListener,
 
 	}
 
-	
 	/***********************************************
 	 * ControlButton class
-	 *
+	 * 
 	 **********************************************/
 	public class ControlButton extends JButton {
 
@@ -201,21 +201,42 @@ public class CASControlPanel extends JPanel implements ActionListener,
 
 		public ControlButton() {
 			super();
-			
-			setMargin(new Insets(0,0,0,0));
+			this.setFocusable(false);
+			this.setRequestFocusEnabled(false);
+			setMargin(new Insets(0, 0, 0, 0));
 			addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
-					if(!view.getConsoleTable().isEditing())
-					{
-						int row = view.getConsoleTable().getClickedRow();
-						view.getConsoleTable().startEditingRow(row);
-						view.getConsoleTable().getEditor().setInputSelectionEnd(0);
-						
-					}else{
-						
-					view.getConsoleTable().getEditor()
-							.insertText(getInsertText());
+					int row = view.getConsoleTable().getSelectedRow();
+					if (row == -1) {
+						row = 0;
 					}
+
+					if (!view.getConsoleTable().isEditing()) {
+						view.getConsoleTable().startEditingRow(row);
+					}
+
+					((MyTextField) view.getConsoleTable().getEditor()
+							.getInputArea()).insertString(getInsertText());
+								
+					// move the caret inside last inserted bracket
+					if (getInsertText().endsWith(")")) {
+						// MyTextField.insertString uses a runnable to change caret position 
+						// (fixes a Mac OS problem). Thus, another runnable is needed here to
+						// move the caret after insertString is done.
+						SwingUtilities.invokeLater(new Runnable() {
+							public void run() {
+								int l = ((MyTextField) view.getConsoleTable()
+										.getEditor().getInputArea()).getText()
+										.length();
+								;
+								((MyTextField) view.getConsoleTable()
+										.getEditor().getInputArea())
+										.setCaretPosition(l - 1);
+							}
+						});
+
+					 }
+
 				}
 			});
 		}
@@ -229,6 +250,5 @@ public class CASControlPanel extends JPanel implements ActionListener,
 		}
 
 	}
-	
-	
+
 }
