@@ -16,7 +16,11 @@ import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.SystemColor;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
@@ -26,6 +30,8 @@ import javax.swing.CellEditor;
 import javax.swing.JTable;
 import javax.swing.JViewport;
 import javax.swing.ListSelectionModel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableCellRenderer;
@@ -203,8 +209,30 @@ public class CASTable extends JTable {
 
 		// this.sizeColumnsToFit(0);
 		// this.setSurrendersFocusOnKeystroke(true);
+		
+		this.getSelectionModel().addListSelectionListener(new SelectionListener(this));
+
 	}
 
+	/**
+	 * Selection listener to repaint selection frame when selection changes 
+	 */
+	public class SelectionListener implements ListSelectionListener {
+	    JTable table;
+
+	    SelectionListener(JTable table) {
+	        this.table = table;
+	    }
+	    
+	    public void valueChanged(ListSelectionEvent e) {
+	        if (!e.getValueIsAdjusting()) {
+	           table.repaint();
+	        }
+	    }
+	}
+
+	
+	
 	/**
 	 * Returns the CAS view which uses this table
 	 * 
@@ -641,4 +669,23 @@ public class CASTable extends JTable {
 	public void setCurrentWidth(int currentWidth) {
 		this.currentWidth = currentWidth;
 	}
+	
+	
+	
+	/**
+	 * @Override
+	 * Highlights the selected row
+	 */
+	public void paint(Graphics graphics) {
+		super.paint(graphics);
+		Graphics2D g2 = (Graphics2D) graphics;
+		if(this.getSelectedRow() >= 0){
+			Rectangle rect = getCellRect(getSelectedRow(), 0, true);
+			g2.setColor(SystemColor.controlHighlight);
+			g2.drawRect(rect.x, rect.y, rect.width-2, rect.height-2);
+		}
+	}
+	
+	
+	
 }
