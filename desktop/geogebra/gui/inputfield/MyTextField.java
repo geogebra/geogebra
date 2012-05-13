@@ -1,7 +1,9 @@
 package geogebra.gui.inputfield;
 
+import geogebra.common.factories.AwtFactory;
 import geogebra.common.gui.SetLabels;
 import geogebra.common.gui.VirtualKeyboardListener;
+import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.gui.util.GeoGebraIcon;
 import geogebra.gui.virtualkeyboard.VirtualKeyboard;
 import geogebra.main.Application;
@@ -62,6 +64,14 @@ public class MyTextField extends JTextField implements ActionListener,
 	private Border defaultBorder;
 
 	private boolean enableColoring = true;
+	
+	// matched brackets color = web color "Light sea green"
+	private static Color COLOR_MATCHED = geogebra.awt.Color
+			.getAwtColor(AwtFactory.prototype.newColor(32, 178, 170));
+	
+	// unmatched brackets color = red
+	private static Color COLOR_UNMATCHED = Color.red;
+	
 
 	/************************************
 	 * Construct an instance of MyTextField without a fixed column width
@@ -374,9 +384,9 @@ public class MyTextField extends JTextField implements ActionListener,
 				textMode = !textMode;
 			if (i == bracket1pos || i == bracket2pos) {
 				if (bracket2pos > -1) {
-					bg = Color.CYAN; // matched bracket
+					bg = COLOR_MATCHED; // matched bracket
 				} else {
-					bg = Color.RED; // unmatched bracket
+					bg = COLOR_UNMATCHED; // unmatched bracket
 				}
 			}
 
