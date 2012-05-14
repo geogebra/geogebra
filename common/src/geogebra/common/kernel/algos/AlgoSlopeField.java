@@ -2,7 +2,7 @@ package geogebra.common.kernel.algos;
 
 import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.NeedsEuclidianViewUpdate;
+import geogebra.common.kernel.EuclidianViewCE;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.MyPoint;
 import geogebra.common.kernel.StringTemplate;
@@ -24,7 +24,7 @@ import java.util.ArrayList;
  * @author michael
  *
  */
-public class AlgoSlopeField extends AlgoElement implements NeedsEuclidianViewUpdate {
+public class AlgoSlopeField extends AlgoElement {
 
 	private FunctionalNVar func; // input
 	private GeoNumeric n, lengthRatio, minX, minY, maxX, maxY;

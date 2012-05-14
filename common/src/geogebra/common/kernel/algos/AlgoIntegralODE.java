@@ -3,7 +3,7 @@ package geogebra.common.kernel.algos;
 import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.MyPoint;
-import geogebra.common.kernel.NeedsEuclidianViewUpdate;
+import geogebra.common.kernel.EuclidianViewCE;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.FunctionalNVar;
 import geogebra.common.kernel.geos.GeoElement;
@@ -29,7 +29,7 @@ import org.apache.commons.math.ode.sampling.StepInterpolator;
  * @author michael
  *
  */
-public class AlgoIntegralODE extends AlgoElement implements NeedsEuclidianViewUpdate {
+public class AlgoIntegralODE extends AlgoElement {
 
 	private GeoElement geo; // input
 	private GeoPoint2 p;

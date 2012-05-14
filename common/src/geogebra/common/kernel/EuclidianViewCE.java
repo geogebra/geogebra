@@ -1,9 +1,12 @@
 package geogebra.common.kernel;
 /**
- * Interface for objects that may need updting their descendants on EV change
+ * Interface for objects that may need updating their descendants on EV change
  * (zoom etc.)
+ * 
+ * use to register for updates:
+ * cons.registerEuclidianViewCE(this);
  */
-public interface NeedsEuclidianViewUpdate {
+public interface EuclidianViewCE {
 	
 	/**
 	 * 

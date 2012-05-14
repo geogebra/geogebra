@@ -76,7 +76,7 @@ public class Construction {
 		geoSetWithCasCells = new TreeSet<GeoElement>();
 		geoSetLabelOrder = new TreeSet<GeoElement>(new LabelComparator());
 		geoSetsTypeMap = new HashMap<GeoClass, TreeSet<GeoElement>>();
-		euclidianViewCE = new ArrayList<NeedsEuclidianViewUpdate>();
+		euclidianViewCE = new ArrayList<EuclidianViewCE>();
 
 		if (parentConstruction != null)
 			consDefaults = parentConstruction.getConstructionDefaults();
@@ -140,7 +140,7 @@ public class Construction {
 	protected HashMap<String, GeoElement> geoTable;
 
 	// list of algorithms that need to be updated when EuclidianView changes
-	private ArrayList<NeedsEuclidianViewUpdate> euclidianViewCE;
+	private ArrayList<EuclidianViewCE> euclidianViewCE;
 
 	/** Table for (label, GeoElement) pairs, contains local variables */
 	protected HashMap<String, GeoElement> localVariableTable;
@@ -829,7 +829,7 @@ public class Construction {
 	 * @param elem
 	 *            construction element to be registered
 	 */
-	public final void registerEuclidianViewCE(NeedsEuclidianViewUpdate elem) {
+	public final void registerEuclidianViewCE(EuclidianViewCE elem) {
 		if (!euclidianViewCE.contains(elem))
 			euclidianViewCE.add(elem);
 	}
@@ -841,7 +841,7 @@ public class Construction {
 	 * @param elem
 	 *            construction element to be unregistered
 	 */
-	public final void unregisterEuclidianViewCE(NeedsEuclidianViewUpdate elem) {
+	public final void unregisterEuclidianViewCE(EuclidianViewCE elem) {
 		euclidianViewCE.remove(elem);
 	}
 

@@ -19,7 +19,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.implicit;
 
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.NeedsEuclidianViewUpdate;
+import geogebra.common.kernel.EuclidianViewCE;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.MyPoint;
 import geogebra.common.kernel.Path;
@@ -65,7 +65,7 @@ import org.apache.commons.math.linear.RealMatrix;
  */
 public class GeoImplicitPoly extends GeoUserInputElement implements Path,
 Traceable, Mirrorable, ConicMirrorable, Translateable, PointRotateable,
-Dilateable, Transformable, NeedsEuclidianViewUpdate {
+Dilateable, Transformable, EuclidianViewCE {
 	
 	private double[][] coeff;
 	private double[][] coeffSquarefree;
