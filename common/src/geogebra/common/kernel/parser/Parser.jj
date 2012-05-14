@@ -2245,8 +2245,8 @@ ExpressionNode numberFunction():
       				index--;
       			} else break;
       		}
-      		
-      		if (geo == null && kernel.lookupCasCellLabel(label)==null) {
+      		GeoElement cell = kernel.lookupCasCellLabel(label);
+      		if (geo == null && cell==null) {
       				// function name does not exist: return command
       				Command cmd = new Command(kernel, funcName, true, !ExternalCASParsing );
       				for (int i=0; i < myList.size(); i++)
@@ -2259,11 +2259,16 @@ ExpressionNode numberFunction():
 //           	 	throw new MyParseError(app, str);    
            	}
            	//make sure we don't send 0th derivative to CAS
-			if(kernel.lookupCasCellLabel(label)!=null && order > 0)			{			  
-           	ExpressionNode derivative =  new ExpressionNode(kernel, kernel.lookupCasCellLabel(label), Operation.DERIVATIVE, 
+			if(cell!=null && order > 0)	{			  
+           	ExpressionNode derivative =  new ExpressionNode(kernel, cell, Operation.DERIVATIVE, 
 	      																new MyDouble(kernel, order));
       			
 	      		return new ExpressionNode(kernel, derivative, Operation.FUNCTION, myList.getListElement(0)); 
+	      		
+	      }
+	      if(cell!=null && geo==null)	{
+			  	
+	      		return new ExpressionNode(kernel, cell, Operation.FUNCTION, myList.getListElement(0)); 
 	      		
 	      }
 			// create variable object for label to make sure
