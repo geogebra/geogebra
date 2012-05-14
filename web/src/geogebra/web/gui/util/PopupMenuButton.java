@@ -9,14 +9,18 @@ import geogebra.web.main.Application;
 import geogebra.web.awt.Dimension;
 import geogebra.web.euclidian.EuclidianStyleBar;
 
+import com.gargoylesoftware.htmlunit.javascript.host.EventHandler;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.CanvasElement;
+import com.google.gwt.dom.client.Document;
+import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
@@ -100,6 +104,7 @@ public class PopupMenuButton extends Composite implements ChangeHandler {
 		this.mode = mode;
 		this.iconSize = iconSize;
 		this.tb = new MyToggleButton(GeoGebraIcon.createDownTriangleIcon());
+		tb.setDimension(10,20);
 		this.hp = new HorizontalPanel();
 		this.b = new MyCanvasButton();
 		hp.add(b);
@@ -182,7 +187,7 @@ public class PopupMenuButton extends Composite implements ChangeHandler {
 	}
 
 	protected void handlePopupActionEvent() {
-		//do this right :-)
+	   ((Canvas)b.getButton()).fireEvent(new ClickEvent(){});
 	   myPopup.hide();
     }
 	
@@ -272,8 +277,8 @@ public class PopupMenuButton extends Composite implements ChangeHandler {
 	    
     }
 
-	public void setIcon(CanvasElement canvas) {
-		b.setIcon(canvas);
+	public void setIcon(ImageResource ptCaptureIcon) {
+		b.setIcon(ptCaptureIcon);
     }
 	
 	/**
@@ -297,6 +302,20 @@ public class PopupMenuButton extends Composite implements ChangeHandler {
 
 	public void addClickHandler(EuclidianStyleBar euclidianStyleBar) {
 		b.addClickHandler(euclidianStyleBar);
+    }
+
+
+	protected void setIcon(CanvasElement ic) {
+	    b.setIcon(ic);
+    }
+	
+	public Object getPopupButton() {
+		return tb.getButton();
+	}
+
+
+	public Object getActionButton() {
+	    return b.getButton();
     }
 
 }

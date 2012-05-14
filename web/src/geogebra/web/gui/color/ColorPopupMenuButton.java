@@ -114,6 +114,10 @@ public class ColorPopupMenuButton extends PopupMenuButton implements ClickHandle
 			this.setIcon(GeoGebraIcon.createNullSymbolIcon(iconSize.getWidth(), iconSize.getHeight()));
 	}
 
+	protected void setIcon(CanvasElement ic) {
+	    super.setIcon(ic);
+    }
+
 	private String[] getToolTipArray(){
 		String[] toolTipArray = new String[colorSet.length];
 		for(int i=0; i<toolTipArray.length; i++){

@@ -926,7 +926,7 @@ public class EuclidianStyleBar extends HorizontalPanel
 				return this.getIcon();
 			}
 		};
-		CanvasElement ic = AppResourcesConverter.convert(AppResources.INSTANCE.mode_showhidelabel_16());
+		ImageResource ic = AppResources.INSTANCE.mode_showhidelabel_16();
 		btnLabelStyle.setIconSize(new Dimension(ic.getWidth(), iconHeight));
 		btnLabelStyle.setIcon(ic);
 		btnLabelStyle.addClickHandler(this);
@@ -957,7 +957,8 @@ public class EuclidianStyleBar extends HorizontalPanel
 			}
 
 		};
-		CanvasElement ptCaptureIcon = AppResourcesConverter.convert(AppResources.INSTANCE.magnet2());
+		//it is not needed, must be an Image preloaded like others.
+		ImageResource ptCaptureIcon = AppResources.INSTANCE.magnet2();
 		btnPointCapture.setIconSize(new Dimension(ptCaptureIcon.getWidth(),
 				iconHeight));
 		btnPointCapture.setIcon(ptCaptureIcon);
@@ -1195,11 +1196,11 @@ public class EuclidianStyleBar extends HorizontalPanel
 			else
 				ev.showGrid(!ev.getShowGrid());
 			ev.repaint();
-		} else if (source == btnPointCapture) {
-			int mode = btnPointCapture.getSelectedIndex();
-			if (mode == 3 || mode == 0)
-				mode = 3 - mode; // swap 0 and 3
-			ev.setPointCapturing(mode);
+		} else if (source == btnPointCapture.getActionButton()) {
+			int pointCapturingMode = btnPointCapture.getSelectedIndex();
+			if (pointCapturingMode == 3 || pointCapturingMode == 0)
+				pointCapturingMode = 3 - pointCapturingMode; // swap 0 and 3
+			ev.setPointCapturing(pointCapturingMode);
 			
 			// update other EV stylebars since this is a global property 
 			app.updateStyleBars();

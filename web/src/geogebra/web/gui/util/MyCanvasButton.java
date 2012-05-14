@@ -8,6 +8,8 @@ import com.google.gwt.dom.client.CanvasElement;
 import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.LoadEvent;
+import com.google.gwt.event.dom.client.LoadHandler;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.dom.client.MouseUpEvent;
@@ -17,87 +19,137 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.RootPanel;
 
 public class MyCanvasButton extends Composite implements MouseDownHandler, MouseUpHandler {
 	
+	
+	/**
+	 *  Default button width for CanvasButtons
+	 */
+	public static int DEFAULT_BUTTON_WIDTH = 20;
+	/**
+	 * Default button height for CanvasButtons
+	 */
+	public static int DEFAULT_BUTTON_HEIGHT = 20;
+	
 	private Canvas button;
-	private Context2d ctx = null;
-	private CanvasElement icon = null;
-
+	Context2d ctx = null;
+	private ImageElement icon;
+	CanvasElement compiledicon;
+	
+	/**
+	 * 
+	 * Creates a new button
+	 * 
+	 * @param icon as imageResource
+	 */
 	public MyCanvasButton(ImageResource icon) {
 		this(new Image(icon));
     }
 
-	public MyCanvasButton(Image image) {
-		icon = createIcon(image);
+	public MyCanvasButton(final Image image) {
+		icon = ImageElement.as(image.getElement());
 		button = Canvas.createIfSupported();
-		button.setWidth((icon.getWidth()+2)+"px");
-		button.setHeight((icon.getHeight()+2)+"px");
-		button.setCoordinateSpaceHeight(icon.getHeight()+2);
-		button.setCoordinateSpaceWidth(icon.getWidth()+2);
+		button.setWidth(DEFAULT_BUTTON_WIDTH+"px");
+		button.setHeight(DEFAULT_BUTTON_HEIGHT+"px");
+		button.setCoordinateSpaceHeight(DEFAULT_BUTTON_HEIGHT);
+		button.setCoordinateSpaceWidth(DEFAULT_BUTTON_WIDTH);
 		ctx = button.getContext2d();
-		//ctx.drawImage(icon, 0,0);
-		drawIcon(icon);
+		ctx.setFillStyle("white");
+		ctx.fillRect(0, 0, ctx.getCanvas().getWidth(), ctx.getCanvas().getHeight());
 		button.addMouseDownHandler(this);
 		button.addMouseUpHandler(this);
+		image.addLoadHandler(new LoadHandler() {
+			
+			public void onLoad(LoadEvent event) {
+				int cwidth = ctx.getCanvas().getWidth();
+				int cheight = ctx.getCanvas().getHeight();
+				ctx.clearRect(0, 0, cwidth, cheight);
+				ctx.setFillStyle("white");
+				ctx.fillRect(0, 0, cwidth, cheight);
+				ctx.drawImage(icon, 0, 0);
+				compiledicon = createCanvasElementFromImage(icon);
+			}
+		});
+		RootPanel.get().add(image);
 		initWidget(button);
-		setStyleName("MyToggleButton");
+		setStyleName("MyCanvasButton");
     }
 	
-	public MyCanvasButton() {
-		// temporary fix (100x50)
-		button = Canvas.createIfSupported();
-		button.setWidth("100px");
-		button.setHeight("50px");
-		button.setCoordinateSpaceHeight(100);
-		button.setCoordinateSpaceWidth(50);
-		ctx = button.getContext2d();
-		icon = button.getCanvasElement();
-		drawIcon(icon);
-		button.addMouseDownHandler(this);
-		button.addMouseUpHandler(this);
-		initWidget(button);
-		setStyleName("MyToggleButton");
+	/**
+	 * @param ie ImageElement
+	 * @return CanvasElement with the image drawn on it.
+	 */
+	protected CanvasElement createCanvasElementFromImage(ImageElement ie) {
+	   Canvas c = Canvas.createIfSupported();
+	   int iwidth = ie.getWidth();
+	   int iheight = ie.getHeight();
+	   c.setWidth(iwidth+"px");
+	   c.setHeight(iheight+"px");
+	   Context2d cctx = c.getContext2d();
+	   cctx.clearRect(0,0,iwidth,iheight);
+	   cctx.drawImage(ie, 0, 0);
+	   return c.getCanvasElement();
     }
 
-	private CanvasElement createIcon(Image ic) {
-	    Canvas c = Canvas.createIfSupported();
-	    c.setWidth(ic.getWidth()+"px"+2);
-		c.setHeight(ic.getHeight()+"px"+2);
-		c.setCoordinateSpaceHeight(ic.getHeight()+2);
-		c.setCoordinateSpaceWidth(ic.getWidth()+2);
-		Context2d context = c.getContext2d();
-		context.drawImage(ImageElement.as(ic.getElement()),2,2);
-		return c.getCanvasElement();
+	/**
+	 *  Creates a CanvasButton with empty image
+	 */
+	public MyCanvasButton() {
+		this(new Image());
     }
 
 	public void onMouseUp(MouseUpEvent event) {
-		//set up state
-
+		ctx.setFillStyle("white");
+		ctx.fillRect(0, 0, ctx.getCanvas().getWidth(), ctx.getCanvas().getHeight());
+		ctx.drawImage(compiledicon, 0, 0);
 	}
 
 	public void onMouseDown(MouseDownEvent event) {
-		//set down state
-
+		ctx.setStrokeStyle("gray");
+		ctx.setLineWidth(2);
+		ctx.strokeRect(1, 1, ctx.getCanvas().getWidth()-1, ctx.getCanvas().getHeight()-1);
+		ctx.drawImage(compiledicon, 0, 0);
 	}
 
 	public void addClickHandler(EuclidianStyleBar handler) {
 		button.addClickHandler(handler);
     }
 	
-	private void drawIcon(CanvasElement ic) {
-		   if (ic != null && ic.getHeight() > 0 && ic.getWidth() > 0) {
-			   ctx.drawImage(ic, 0, 0);
-		   }
-	    }
+	public void setIcon(ImageResource is) {
+		icon.removeFromParent();
+		Image i = new Image(is.getSafeUri());
+		icon = ImageElement.as(i.getElement());
+		i.addLoadHandler(new LoadHandler() {
+			
+			public void onLoad(LoadEvent event) {
+				int cwidth = ctx.getCanvas().getWidth();
+				int cheight = ctx.getCanvas().getHeight();
+				ctx.clearRect(0, 0, cwidth, cheight);
+				ctx.setFillStyle("white");
+				ctx.fillRect(0, 0, cwidth, cheight);
+				ctx.drawImage(icon, 0, 0);
+				compiledicon = createCanvasElementFromImage(icon);
+			}
+		});
+		RootPanel.get().add(i);
+    }
 
-	public void setIcon(CanvasElement canvas) {
-		button.setWidth((canvas.getWidth()+2)+"px");
-		button.setHeight((canvas.getHeight()+2)+"px");
-		button.setCoordinateSpaceHeight(canvas.getHeight()+2);
-		button.setCoordinateSpaceWidth(canvas.getWidth()+2);
-		//ctx.drawImage(icon, 0,0);
-		drawIcon(canvas);
+	public void setIcon(CanvasElement ic) {
+		compiledicon = ic;
+		int icwidth = ic.getWidth();
+		int icheight = ic.getHeight();
+		int ctxwidth = ctx.getCanvas().getWidth();
+		int ctxheight = ctx.getCanvas().getHeight();
+		int drawX = (ctxwidth/2) - (icwidth/2);
+		int drawY = (ctxheight/2) - (icheight/2);
+		ctx.clearRect(0, 0, ctx.getCanvas().getHeight(), ctx.getCanvas().getWidth());
+		ctx.drawImage(compiledicon, drawX, drawY);
+    }
+
+	public Object getButton() {
+	    return button;
     }
 
 }

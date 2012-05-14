@@ -223,7 +223,8 @@ public class GeoGebraIcon {
 	    icon.setCoordinateSpaceHeight(h);
 	    icon.setCoordinateSpaceWidth(w);
 	    Graphics2D g2 = new Graphics2D(icon);
-	    
+	    g2.setColor(Color.WHITE);
+	    g2.fillRect(0, 0, g2.getCanvas().getCoordinateSpaceWidth(), g2.getCanvas().getCoordinateSpaceHeight());
 	    g2.setColor(Color.GRAY);
 	    
 	    int midx = w/2;

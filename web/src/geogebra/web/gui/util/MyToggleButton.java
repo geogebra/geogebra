@@ -5,6 +5,7 @@ import geogebra.web.euclidian.EuclidianStyleBar;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.ToggleButton;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.resources.client.ImageResource;
@@ -15,6 +16,8 @@ import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.LoadEvent;
+import com.google.gwt.event.dom.client.LoadHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
@@ -26,37 +29,66 @@ public class MyToggleButton extends Composite implements ClickHandler, HasValue<
 	private Context2d ctx = null;
 	private boolean isDown = false;
 	protected HorizontalPanel wrapper = null;
-	private CanvasElement icon = null;
-
-	public MyToggleButton(Image ic, int iconHeight) {
-		icon = createIcon(ic);
-		createCommonObjects();
-		//Do it from CSS! changeStyle();
-		//Dimension d = new Dimension(icon.getIconWidth(), iconHeight);
-		//setIcon(GeoGebraIcon.ensureIconSize(icon, d));
+	private ImageElement icon;
+	CanvasElement compiledicon;
+	
+	public MyToggleButton() {
+	    this(new Image(),0);
+    }
+	
+	public MyToggleButton(ImageResource icon, int iconHeight) {
+		this(new Image(icon.getSafeUri()),iconHeight);
 	}
 
+	public MyToggleButton(final Image image, int iconHeight) {
+		
+		image.addLoadHandler(new LoadHandler() {
+			
+			public void onLoad(LoadEvent event) {
+				ctx.drawImage(icon, 0, 0);
+				compiledicon = createCanvasElementFromImage(icon);
+				setDown(false);
+			}
+		});
+		RootPanel.get().add(image);
+		
+		icon = ImageElement.as(image.getElement());
+		
+		createCommonObjects();
+	}
+	
+	public MyToggleButton(CanvasElement ic) {
+		   compiledicon = ic;
+		   createCommonObjects();
+		   setDown(false);
+	    }
+
 	private void createCommonObjects() {
-	    wrapper = new HorizontalPanel();
-		button = Canvas.createIfSupported();
-		button.setWidth((icon.getWidth()+2)+"px");
-		button.setHeight((icon.getHeight()+2)+"px");
-		button.setCoordinateSpaceHeight(icon.getHeight()+2);
-		button.setCoordinateSpaceWidth(icon.getWidth()+2);
-		wrapper.add(button);
+	    button = Canvas.createIfSupported();
+		button.setWidth(MyCanvasButton.DEFAULT_BUTTON_WIDTH+"px");
+		button.setHeight(MyCanvasButton.DEFAULT_BUTTON_HEIGHT+"px");
+		button.setCoordinateSpaceHeight(MyCanvasButton.DEFAULT_BUTTON_WIDTH);
+		button.setCoordinateSpaceWidth(MyCanvasButton.DEFAULT_BUTTON_WIDTH);
 		ctx = button.getContext2d();
-		//ctx.drawImage(icon, 0,0);
-		drawIcon(icon);
-		setDown(false);
+		wrapper = new HorizontalPanel();
+		wrapper.add(button);
 		button.addClickHandler(this);
 		initWidget(wrapper);
 		setStyleName("MyToggleButton");
     }
-
-	private void drawIcon(CanvasElement ic) {
-	   if (ic != null && ic.getHeight() > 0 && ic.getWidth() > 0) {
-		   ctx.drawImage(ic, 0, 0);
-	   }
+	
+	/*
+	 * @param ie ImageElement
+	 * @return CanvasElement with the image drawn on it.
+	 */
+	protected CanvasElement createCanvasElementFromImage(ImageElement ie) {
+	   Canvas c = Canvas.createIfSupported();
+	   int iwidth = ie.getWidth();
+	   int iheight = ie.getHeight();
+	   c.setWidth(iwidth+"px");
+	   c.setHeight(iheight+"px");
+	   c.getContext2d().drawImage(ie, 0, 0);
+	   return c.getCanvasElement();
     }
 
 	private void setDown(boolean down) {
@@ -75,47 +107,14 @@ public class MyToggleButton extends Composite implements ClickHandler, HasValue<
 		ctx.rect(0, 0, width-2, height-2);
 		ctx.closePath();
 		ctx.stroke();
-		drawIcon(icon); 
+		ctx.drawImage(compiledicon, 0, 0); 
     }
 
-	private CanvasElement createIcon(Image ic) {
-	    Canvas c = Canvas.createIfSupported();
-	    c.setWidth(ic.getWidth()+"px"+2);
-		c.setHeight(ic.getHeight()+"px"+2);
-		c.setCoordinateSpaceHeight(ic.getHeight()+2);
-		c.setCoordinateSpaceWidth(ic.getWidth()+2);
-		Context2d context = c.getContext2d();
-		context.drawImage(ImageElement.as(ic.getElement()),2,2);
-		return c.getCanvasElement();
-    }
+	
 
-	public MyToggleButton(ImageResource icon, int iconHeight) {
-		this(new Image(icon.getSafeUri()),iconHeight);
-		//changeStyle();
-		//Dimension d = new Dimension(icon.getIconWidth(), iconHeight);
-		//setIcon(GeoGebraIcon.ensureIconSize(icon, d));
-	}
+	
 
-	public MyToggleButton() {
-	    this(new Image(),0);
-    }
-
-	public MyToggleButton(CanvasElement ic) {
-	    icon = createIcon(ic);
-	    createCommonObjects();
-    }
-
-	private CanvasElement createIcon(CanvasElement ic) {
-	    return ic;
-    }
-
-	public void changeStyle() {
-		getElement().getStyle().setPaddingTop(3, Style.Unit.PX);
-		getElement().getStyle().setPaddingLeft(3, Style.Unit.PX);
-		getElement().getStyle().setPaddingRight(3, Style.Unit.PX);
-		getElement().getStyle().setPaddingBottom(1, Style.Unit.PX);
-		getElement().getStyle().setMargin(5, Style.Unit.PX);
-	}
+	
 
 	public void update(Object[] geos) {
 	}
@@ -171,13 +170,27 @@ public class MyToggleButton extends Composite implements ClickHandler, HasValue<
     }
 
 	public CanvasElement getIcon() {
-	    return icon;
+	    return compiledicon;
     }
 
 	public void setIcon(CanvasElement canvas) {
-	    icon.setWidth(canvas.getWidth());
-	    icon.setHeight(canvas.getHeight());
-	    icon.getContext2d().drawImage(canvas, 0, 0);
+		compiledicon = canvas;
+		ctx.clearRect(0, 0, ctx.getCanvas().getWidth(), ctx.getCanvas().getHeight());
+	    ctx.drawImage(compiledicon, 0, 0);
+    }
+
+	public void setDimension(int w, int h) {
+	   button.setWidth(w+"px");
+	   button.setHeight(h+"px");
+	   button.setCoordinateSpaceWidth(w);
+	   button.setCoordinateSpaceHeight(h);
+	   ctx.setFillStyle("white");
+	   ctx.fillRect(0, 0, w, h);
+	   ctx.drawImage(compiledicon, 0, 0);
+    }
+
+	public Object getButton() {
+	   return button;
     }
 	
 	
