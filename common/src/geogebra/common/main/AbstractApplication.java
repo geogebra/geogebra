@@ -1526,10 +1526,10 @@ public abstract class AbstractApplication {
 		singularWS = new SingularWebService();
 		singularWS.enable();
 		if (singularWS.isAvailable()) {
-			debug("SingularWS is available at " + singularWS.getConnectionSite());
-			debug(singularWS.directCommand("ring r=0,(x,y),dp;ideal I=x^2,x;groebner(I);"));
+			info("SingularWS is available at " + singularWS.getConnectionSite());
+			// debug(singularWS.directCommand("ring r=0,(x,y),dp;ideal I=x^2,x;groebner(I);"));
 		} else {
-			debug("No SingularWS is available at " + singularWS.getConnectionSite() + " (yet)");
+			info("No SingularWS is available at " + singularWS.getConnectionSite() + " (yet)");
 			}
 	}
 	
