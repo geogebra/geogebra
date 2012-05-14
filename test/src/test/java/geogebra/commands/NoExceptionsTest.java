@@ -2191,4 +2191,13 @@ public class NoExceptionsTest {
 		t("ZoomOut[ n1 ]");
 		t("ZoomOut[ n1, Pt1 ]");
 	}
+	
+	@Test
+	public void cmdSlopeField() {
+		t("SlopeField[ x/y ]");
+		t("SlopeField[ -y/x, 5 ]");
+		t("SlopeField[ -y/x, 5, 0.1 ]");
+		t("SlopeField[ -y/x, 5, 0.1,0,0,1,1]");
+	}
+
 }

@@ -123,6 +123,7 @@ public class StringTemplate {
 	static{
 		numericDefault.allowMoreDigits = true;
 	}
+	
 	/**
 	 * Default LaTeX template, just allow bigger precision for Numeric command
 	 */
@@ -130,6 +131,23 @@ public class StringTemplate {
 	static{
 		numericLatex.stringType = StringType.LATEX;
 		numericLatex.allowMoreDigits = true;
+	}
+	/** Generic template for CAS tests */
+	public static final StringTemplate testTemplate = new StringTemplate();
+	static {
+		testTemplate.internationalizeDigits = false;
+		testTemplate.setType(StringType.GEOGEBRA_XML);
+		testTemplate.localizeCmds = false;
+		testTemplate.sf = geogebra.common.factories.FormatFactory.prototype.getScientificFormat(15,20,false);
+	}
+	/** Template for CAS tests involving Numeric command*/
+	public static final StringTemplate testNumeric = new StringTemplate();
+	static {
+		testNumeric.internationalizeDigits = false;
+		testNumeric.setType(StringType.GEOGEBRA_XML);
+		testNumeric.localizeCmds = false;
+		testNumeric.allowMoreDigits = true;
+		testNumeric.sf = geogebra.common.factories.FormatFactory.prototype.getScientificFormat(15,20,false);
 	}
 		
 	private StringType stringType;

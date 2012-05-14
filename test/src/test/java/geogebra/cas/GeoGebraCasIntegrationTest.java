@@ -11,12 +11,15 @@ import geogebra.common.cas.mpreduce.AbstractCASmpreduce;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import geogebra.common.kernel.arithmetic.ValidExpression;
+import geogebra.common.kernel.arithmetic.Traversing.CommandCollector;
 import geogebra.common.kernel.cas.GeoGebraCasInterface;
 import geogebra.common.main.AbstractApplication;
 import geogebra.main.Application;
 
+import java.util.HashSet;
 import java.util.Locale;
 
 import javax.swing.JFrame;
@@ -83,8 +86,18 @@ public class GeoGebraCasIntegrationTest {
 
 		// Resolve Variable objects in ValidExpression as GeoDummy objects.
 		parser.resolveVariablesForCAS(outputVe);
-
-		return outputVe.toString(StringTemplate.xmlTemplate);
+		boolean includesNumericCommand = false;
+		HashSet<Command> commands = new HashSet<Command>();
+		inputVe.traverse(CommandCollector.getCollector(commands));
+		if(!commands.isEmpty()){
+				for (Command cmd : commands) {
+					String cmdName = cmd.getName();
+					// Numeric used
+					includesNumericCommand = includesNumericCommand
+							|| ("Numeric".equals(cmdName) && cmd.getArgumentNumber()>1);
+				}
+		}
+		return outputVe.toString(includesNumericCommand?StringTemplate.testNumeric:StringTemplate.testTemplate);
 	}
 
 	private static void t(String input, String expectedResult,
@@ -2714,7 +2727,7 @@ public class GeoGebraCasIntegrationTest {
 
 	@Test
 	public void Ticket_Ticket1336_2() {
-		t("Ceiling[4.4]", "5");
+		t("Ceil[4.4]", "5");
 	}
 
 	@Test

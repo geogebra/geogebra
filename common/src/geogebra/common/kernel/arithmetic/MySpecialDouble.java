@@ -124,7 +124,8 @@ public class MySpecialDouble extends MyDouble {
 	@Override
 	public String toString(StringTemplate tpl) {
 		if (!isLetterConstant) {
-			if (keepOriginalString || tpl.allowMoreDigits()) {
+			if (keepOriginalString || (!tpl.useScientific(kernel.useSignificantFigures) && !strToString.contains("."))
+					|| tpl.allowMoreDigits()) {
 				if (scientificNotation) {
 					// change 5.1E-20 to 5.1*10^(-20) or 5.1 \cdot 10^{-20}
 					return kernel.convertScientificNotation(strToString,tpl);
