@@ -477,22 +477,21 @@ public class Polynomial implements Comparable<Polynomial> {
 
 	/**
 	 * Creates a Singular program for creating a ring to work with several
-	 * polynomials, and returns the Groebner basis of them w.r.t. the
-	 * revgradlex order; adds a closing ";"
+	 * polynomials, and returns if the equation system has solution. Uses
+	 * the Groebner basis w.r.t. the revgradlex order; adds a closing ";"
 	 * @param ringVariable variable name for the ring in Singular
 	 * @param idealVariable variable name for the ideal in Singular
 	 * @param polys array of polynomials
-	 * @param setFixValues if set the leading values to fix positions (0,0,0,1)
 	 * @return the Singular program code
 	 */
-	public static String getSingularGroebner(String ringVariable, String idealVariable, Polynomial[] polys) {
+	public static String getSingularGroebnerSolvable(String ringVariable, String idealVariable, Polynomial[] polys) {
 		String ret = "ring " + ringVariable + "=0,(" 
 			+ getVarsAsCommaSeparatedString(polys)
 			+ "),dp;" // ring definition in Singular
 				
 			+ "ideal " + idealVariable + "=";
 		ret += getPolysAsCommaSeparatedString(polys) // ideal definition in Singular
-			+";groebner(" + idealVariable + ");"; // the Groebner basis calculation command
+			+";groebner(" + idealVariable + ")!=1;"; // the Groebner basis calculation command
 		return ret;
 	}
 	
@@ -504,9 +503,9 @@ public class Polynomial implements Comparable<Polynomial> {
 	 */
 	public static Boolean solvable(Polynomial[] polys) {
 		if (AbstractApplication.singularWS != null && AbstractApplication.singularWS.isAvailable()) {
-			String singularSolvableProgram = getSingularGroebner("rr", "ii", polys);
+			String singularSolvableProgram = getSingularGroebnerSolvable("rr", "ii", polys);
 			if (singularSolvableProgram.length()>500)
-				AbstractApplication.debug( singularSolvableProgram.length() + " bytes -> singular");
+				AbstractApplication.debug(singularSolvableProgram.length() + " bytes -> singular");
 			else
 				AbstractApplication.debug(singularSolvableProgram + " -> singular");
 			String singularSolvable = AbstractApplication.singularWS.directCommand(singularSolvableProgram);
@@ -514,18 +513,11 @@ public class Polynomial implements Comparable<Polynomial> {
 				AbstractApplication.debug("singular -> " + singularSolvable.length() + " bytes");
 			else
 				AbstractApplication.debug("singular -> " + singularSolvable);
-			if ("_[1]=1".equals(singularSolvable))
+			if ("0".equals(singularSolvable))
 				return false; // no solution
 			return true; // at least one solution exists
 		}
 		return null; // cannot decide
 	}
 
-	public static Polynomial setPerpendicular(Variable variable,
-			Variable variable2, Variable variable3, Variable variable4,
-			Variable variable5, Variable variable6, Variable variable7,
-			Variable variable8) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }
