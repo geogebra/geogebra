@@ -72,7 +72,7 @@ public class GeoGebraCasIntegrationTest {
 		CASparser parser = (CASparser) cas.getCASparser();
 		ValidExpression inputVe = parser
 				.parseGeoGebraCASInputAndResolveDummyVars(input);
-		String result = cas.evaluateGeoGebraCAS(inputVe, arbconst);
+		String result = cas.evaluateGeoGebraCAS(inputVe, arbconst,StringTemplate.numericDefault);
 
 		if (result == null || result.length() <= 0) {
 			return "";
