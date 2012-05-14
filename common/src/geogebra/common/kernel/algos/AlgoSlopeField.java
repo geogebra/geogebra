@@ -8,6 +8,7 @@ import geogebra.common.kernel.MyPoint;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.FunctionalNVar;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoLocus;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.AbstractApplication;
@@ -159,6 +160,8 @@ public class AlgoSlopeField extends AlgoElement implements NeedsEuclidianViewUpd
 			}
 			
 			length *= step1 / 2;
+			
+			boolean funcOfJustY = func instanceof GeoFunction && ((GeoFunction)func).isFunctionOfY();
 
 			//AbstractApplication.debug(xStep+" "+yStep+" "+step);
 
@@ -193,7 +196,15 @@ public class AlgoSlopeField extends AlgoElement implements NeedsEuclidianViewUpd
 						}
 					} else {
 						// non-quotient function like x y
-						double gradient = func.evaluate(input1);
+						double gradient;
+						
+						if (funcOfJustY) {
+							// eg SlopeField[y]
+							gradient = ((GeoFunction)func).evaluate(input1[1]);
+						} else {
+							// standard case
+							gradient = func.evaluate(input1);
+						}
 						drawLine(gradient, length, xx, yy);
 
 					}
