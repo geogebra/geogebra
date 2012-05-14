@@ -1,6 +1,6 @@
 package geogebra.gui.dialog;
 
-import geogebra.gui.dialog.handler.NumberChangeSignInputHandler;
+import geogebra.common.gui.dialog.handler.NumberChangeSignInputHandler;
 import geogebra.gui.view.algebra.InputPanel.DialogType;
 import geogebra.main.Application;
 

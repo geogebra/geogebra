@@ -1,4 +1,4 @@
-package geogebra.gui.dialog.handler;
+package geogebra.common.gui.dialog.handler;
 
 import geogebra.common.kernel.commands.AlgebraProcessor;
 

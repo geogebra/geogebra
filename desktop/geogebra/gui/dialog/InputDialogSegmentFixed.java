@@ -1,10 +1,10 @@
 package geogebra.gui.dialog;
 
 import geogebra.common.gui.InputHandler;
+import geogebra.common.gui.dialog.handler.NumberInputHandler;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoPoint2;
-import geogebra.gui.dialog.handler.NumberInputHandler;
 import geogebra.main.Application;
 
 import java.awt.event.ActionEvent;

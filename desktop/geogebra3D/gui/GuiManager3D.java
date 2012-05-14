@@ -1,6 +1,7 @@
 package geogebra3D.gui;
 
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
+import geogebra.common.gui.dialog.handler.NumberInputHandler;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -8,7 +9,6 @@ import geogebra.euclidian.EuclidianView;
 import geogebra.euclidianND.EuclidianViewND;
 import geogebra.gui.GuiManager;
 import geogebra.gui.dialog.InputDialog;
-import geogebra.gui.dialog.handler.NumberInputHandler;
 import geogebra.gui.dialog.options.OptionsDialog;
 import geogebra.gui.layout.Layout;
 import geogebra.gui.view.algebra.AlgebraController;
