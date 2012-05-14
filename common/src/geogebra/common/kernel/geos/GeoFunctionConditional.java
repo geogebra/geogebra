@@ -888,8 +888,6 @@ public class GeoFunctionConditional extends GeoFunction {
 
 			}
 
-			AbstractApplication.debug(ret);
-
 			return ret.toString();
 		}
 	}
@@ -920,6 +918,21 @@ public class GeoFunctionConditional extends GeoFunction {
 		return new GeoFunctionConditional(cons, condFun.threadSafeCopy(),
 				ifFun.threadSafeCopy(), elseFun == null ? null
 						: elseFun.threadSafeCopy());
+	}
+
+	public void setElseFunction(GeoFunction elseFun2) {
+		this.elseFun = elseFun2;
+		
+	}
+
+	public void setConditionalFunction(GeoFunction condFun2) {
+		this.condFun = condFun2;
+		
+	}
+
+	public void setIfFunction(GeoFunction ifFun2) {
+		this.ifFun = ifFun2;
+		
 	}
 
 }

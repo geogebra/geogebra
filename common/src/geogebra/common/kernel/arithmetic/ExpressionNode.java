@@ -4627,6 +4627,14 @@ public class ExpressionNode extends ValidExpression implements
 	}
 
 	/**
+	 * @param v2 value to add
+	 * @return result of addition
+	 */
+	public ExpressionNode lessThan(ExpressionValue v2) {
+		return new ExpressionNode(kernel, this, Operation.LESS, v2);
+	}
+
+	/**
 	 * @return result of erf(this)
 	 */
 	public ExpressionNode erf() {
@@ -4638,6 +4646,20 @@ public class ExpressionNode extends ValidExpression implements
 	 */
 	public ExpressionNode abs() {
 		return new ExpressionNode(kernel, this, Operation.ABS, null);
+	}
+
+	/**
+	 * @return result of gamma(this)
+	 */
+	public ExpressionNode gamma() {
+		return new ExpressionNode(kernel, this, Operation.GAMMA, null);
+	}
+
+	/**
+	 * @return result of gamma(v2, this)
+	 */
+	public ExpressionNode gammaIncompleteReverseArgs(ExpressionValue v2) {
+		return new ExpressionNode(kernel, v2, Operation.GAMMA_INCOMPLETE, this);
 	}
 
 	/**
