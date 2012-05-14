@@ -177,7 +177,7 @@
  (mma           "redlog/mma"                                 csl psl)
  (guardian      "guardian"              test                 csl psl)
  (cdiff         "cdiff"                 test                 csl psl)
- (myvect	"myvect"				     csl psl)
+ (myvector		"myvector"				     				 csl psl)
 )
 
 % End of configuration data
