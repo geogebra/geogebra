@@ -39,6 +39,7 @@ public class AlgoIntegralODE extends AlgoElement implements NeedsEuclidianViewUp
 	
 	private AlgoNumerator numAlgo;
 	private AlgoDenominator denAlgo;
+	private FunctionalNVar num, den;
 	
 	@SuppressWarnings("javadoc")
 	boolean quotient;
@@ -71,6 +72,16 @@ public class AlgoIntegralODE extends AlgoElement implements NeedsEuclidianViewUp
 			}
 		} // else leave f0 = null
 
+		numAlgo = new AlgoNumerator(cons, f0);
+		denAlgo = new AlgoDenominator(cons, f0);
+		cons.removeFromConstructionList(numAlgo);
+		cons.removeFromConstructionList(denAlgo);
+
+		num = (FunctionalNVar) numAlgo.getGeoElements()[0];
+		den = (FunctionalNVar) denAlgo.getGeoElements()[0];
+
+		quotient = num.isDefined() && den.isDefined();
+		
 		locus = new GeoLocus(cons);
 		setInputOutput(); // for AlgoElement        
 		compute();
@@ -114,18 +125,6 @@ public class AlgoIntegralODE extends AlgoElement implements NeedsEuclidianViewUp
 		double ymin = Double.MAX_VALUE;
 		double xmin = Double.MAX_VALUE;
 		double ymax = -Double.MAX_VALUE;
-
-		numAlgo = new AlgoNumerator(cons, f0);
-		denAlgo = new AlgoDenominator(cons, f0);
-		cons.removeFromConstructionList(numAlgo);
-		cons.removeFromConstructionList(denAlgo);
-
-		FunctionalNVar num = (FunctionalNVar) numAlgo.getGeoElements()[0];
-		FunctionalNVar den = (FunctionalNVar) denAlgo.getGeoElements()[0];
-
-		quotient = num.isDefined() && den.isDefined();
-
-
 
 		if (!quotient) {
 			// make sure it covers all of EV1 & EV2 if appropriate
