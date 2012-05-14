@@ -19,7 +19,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.EuclidianViewCE;
+import geogebra.common.kernel.NeedsEuclidianViewUpdate;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoElement;
@@ -42,7 +42,7 @@ import java.util.TreeSet;
  * @author Markus
  */
 public abstract class AlgoElement extends ConstructionElement implements
-		EuclidianViewCE {
+		NeedsEuclidianViewUpdate {
 	/** input elements*/
 	public GeoElement[] input;
 	/**

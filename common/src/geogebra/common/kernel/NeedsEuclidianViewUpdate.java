@@ -3,7 +3,7 @@ package geogebra.common.kernel;
  * Interface for objects that may need updting their descendants on EV change
  * (zoom etc.)
  */
-public interface EuclidianViewCE {
+public interface NeedsEuclidianViewUpdate {
 	
 	/**
 	 * 
