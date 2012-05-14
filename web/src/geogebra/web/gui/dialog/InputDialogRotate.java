@@ -53,17 +53,20 @@ public class InputDialogRotate extends AngleInputDialog implements KeyUpHandler 
 		try {
 			if (source == btOK || source == inputPanel.getTextComponent().getTextField()) {
 				//FIXME setVisibleForTools(!processInput());
-				setVisible(!processInput());				
+				if (!processInput())
+					show();
+				else
+					hide();
 			//} else if (source == btApply) {
 			//	processInput();
 			} else if (source == btCancel) {
 				//FIXME setVisibleForTools(false);
-				setVisible(false);
+				hide();
 			}
 		} catch (Exception ex) {
 			// do nothing on uninitializedValue
 			//FIXME setVisibleForTools(false);
-			setVisible(false);
+			hide();
 		}
 	}
 
