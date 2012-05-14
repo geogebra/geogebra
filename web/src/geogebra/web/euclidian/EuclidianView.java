@@ -578,7 +578,6 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 
 	@Override
     public void add(Box box) {
-	    AbstractApplication.debug("implementation needed - just finishing"); // TODO
 	    getApplication().getEuclidianViewpanel().add(
 	    		geogebra.web.javax.swing.Box.getImpl((geogebra.web.javax.swing.Box) box),
 	    		(int)box.getBounds().getX(), (int)box.getBounds().getY());

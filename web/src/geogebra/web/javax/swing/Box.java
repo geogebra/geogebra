@@ -63,7 +63,6 @@ public class Box extends geogebra.common.javax.swing.Box{
 
 	@Override
     public Rectangle getBounds() {
-	    AbstractApplication.debug("implementation needed - just finishing"); // TODO
 	    return new geogebra.web.awt.Rectangle(impl.getAbsoluteLeft(), impl.getAbsoluteTop(),
 	    		impl.getOffsetWidth(), impl.getOffsetHeight());
     }
@@ -74,7 +73,7 @@ public class Box extends geogebra.common.javax.swing.Box{
 
 	@Override
     public void add(AbstractJComboBox comboBox) {
-	    AbstractApplication.debug("unimplemented");	    
+	    impl.add(JComboBox.getImpl(comboBox));	    
     }
 
 }

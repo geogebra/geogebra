@@ -27,8 +27,7 @@ public class SwingFactory extends geogebra.common.factories.SwingFactory {
 
 	@Override
     public AbstractJComboBox newJComboBox() {
-	    AbstractApplication.debug("unimplemented");
-	    return null;
+	    return new geogebra.web.javax.swing.JComboBox();
     }
 
 }
