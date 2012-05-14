@@ -44,6 +44,18 @@ public class OptionsUtil {
 		return p;
 	}
 
+	
+	public static JPanel flowPanelCenter(int hgap, int vgap, int tab,
+			Component... comps) {
+		JPanel p = new JPanel(new FlowLayout(FlowLayout.CENTER, hgap, vgap));
+		p.add(Box.createHorizontalStrut(tab));
+		for (Component comp : comps) {
+			p.add(comp);
+		}
+		return p;
+	}
+	
+	
 	public static Border titleBorder(String title) {
 		Border outsideBorder = BorderFactory.createTitledBorder(title);
 		Border insideBorder = BorderFactory.createEmptyBorder(0, 20, 0, 0);

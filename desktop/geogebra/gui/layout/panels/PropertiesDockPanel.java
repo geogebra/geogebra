@@ -55,7 +55,6 @@ public class PropertiesDockPanel extends DockPanel implements
 			view.windowPanel();
 		else
 			view.unwindowPanel();
-
 		return view;
 	}
 
@@ -101,7 +100,6 @@ public class PropertiesDockPanel extends DockPanel implements
 		}
 	}
 
-	
 	/**
 	 * Update all elements in the title bar.
 	 */
@@ -109,12 +107,8 @@ public class PropertiesDockPanel extends DockPanel implements
 	public void updateTitleBar() {
 		super.updateTitleBar();
 		titleLabel.setVisible(true);
-		//titleLabel.setIcon(app.getImageIcon("tool.png"));
-		//titleLabel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
 	}
-	
-	
-	
+
 	public void windowGainedFocus(WindowEvent arg0) {
 
 		// make sure this dialog is the current selection listener
@@ -133,12 +127,7 @@ public class PropertiesDockPanel extends DockPanel implements
 
 	}
 
-	public void closeDialog() {
-		setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-		app.storeUndoInfo();
-		setCursor(Cursor.getDefaultCursor());
-		setVisible(false);
-	}
+	
 
 	/*
 	 * Window Listener
@@ -170,4 +159,9 @@ public class PropertiesDockPanel extends DockPanel implements
 	public void windowOpened(WindowEvent e) {
 	}
 
+	public void closeDialog() {
+		view.closeDialog();
+	}
+	
+	
 }

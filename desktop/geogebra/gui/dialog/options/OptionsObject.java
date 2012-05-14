@@ -67,8 +67,7 @@ import javax.swing.tree.TreeSelectionModel;
 /**
  * @author Markus Hohenwarter
  */
-public class OptionsObject extends JPanel implements WindowListener,
-		WindowFocusListener, TreeSelectionListener, KeyListener,
+public class OptionsObject extends JPanel implements TreeSelectionListener, KeyListener,
 		GeoElementSelectionListener, SetLabels {
 
 	// private static final int MAX_OBJECTS_IN_TREE = 500;
@@ -174,7 +173,7 @@ public class OptionsObject extends JPanel implements WindowListener,
 		leftButtonPanel.add(defaultsButton);
 
 		// right buttons
-		//rightButtonPanel.add(closeButton);
+		rightButtonPanel.add(closeButton);
 
 		// PROPERTIES PANEL
 		if (colChooser == null) {
@@ -236,35 +235,11 @@ public class OptionsObject extends JPanel implements WindowListener,
 		propPanel.setLabels();
 	}
 
-	/*
-	 * public void cancel() {
-	 * setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-	 * kernel.detach(geoTree);
-	 * 
-	 * // remember current construction step int consStep =
-	 * kernel.getConstructionStep();
-	 * 
-	 * // restore old construction state app.restoreCurrentUndoInfo();
-	 * 
-	 * // go to current construction step ConstructionProtocol cp =
-	 * app.getConstructionProtocol(); if (cp != null) {
-	 * cp.setConstructionStep(consStep); }
-	 * 
-	 * setCursor(Cursor.getDefaultCursor()); setVisible(false); }
-	 * 
-	 * public void apply() {
-	 * setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-	 * app.storeUndoInfo(); setCursor(Cursor.getDefaultCursor());
-	 * setVisible(false); }
-	 */
-
 	
 
+
 	public void closeDialog() {
-		setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-		app.storeUndoInfo();
-		setCursor(Cursor.getDefaultCursor());
-		setVisible(false);
+		app.getGuiManager().getPropertiesView().closeDialog();
 	}
 
 	/**
@@ -452,70 +427,8 @@ public class OptionsObject extends JPanel implements WindowListener,
 		}
 	}
 
-	/**
-	 * renames first selected GeoElement
-	 * 
-	 * private void rename() { ArrayList selGeos = selectionList; if
-	 * (selGeos.size() > 0) { GeoElement geo = (GeoElement) selGeos.get(0);
-	 * app.showRenameDialog(geo, false, null);
-	 * 
-	 * selectionList.clear(); selectionList.add(geo);
-	 * geoTree.setSelected(selectionList, false); } }
-	 */
-
-	/**
-	 * redefines first selected GeoElement
-	 * 
-	 * private void redefine() { ArrayList selGeos = selectionList;
-	 * geoTree.clearSelection(); if (selGeos.size() > 0)
-	 * app.showRedefineDialog((GeoElement) selGeos.get(0)); }
-	 */
-
-	/*
-	 * Window Listener
-	 */
-	public void windowActivated(WindowEvent e) {
-		/*
-		 * if (!isModal()) { geoTree.setSelected(null, false);
-		 * //selectionChanged(); } repaint();
-		 */
-	}
-
-	public void windowDeactivated(WindowEvent e) {
-	}
-
-	public void windowClosing(WindowEvent e) {
-		// cancel();
-		closeDialog();
-	}
-
-	public void windowClosed(WindowEvent e) {
-	}
-
-	public void windowDeiconified(WindowEvent e) {
-	}
-
-	public void windowIconified(WindowEvent e) {
-	}
-
-	public void windowOpened(WindowEvent e) {
-	}
-
 	
 	
-	public void windowGainedFocus(WindowEvent arg0) {
-		// make sure this dialog is the current selection listener
-		if (app.getMode() != EuclidianConstants.MODE_SELECTION_LISTENER
-				|| app.getCurrentSelectionListener() != this) {
-			// TODO
-			//app.setSelectionListenerMode(this);
-			selectionChanged();
-		}
-	}
-
-	public void windowLostFocus(WindowEvent arg0) {
-	}
-
 	// Tree selection listener
 	public void valueChanged(TreeSelectionEvent e) {
 		selectionChanged();

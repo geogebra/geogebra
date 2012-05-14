@@ -16,6 +16,7 @@ import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
 import geogebra.gui.GuiManager;
+import geogebra.gui.dialog.options.GeoTree;
 import geogebra.gui.dialog.options.OptionsAdvanced;
 import geogebra.gui.dialog.options.OptionsCAS;
 import geogebra.gui.dialog.options.OptionsDefaults;
@@ -23,15 +24,23 @@ import geogebra.gui.dialog.options.OptionsEuclidian;
 import geogebra.gui.dialog.options.OptionsLayout;
 import geogebra.gui.dialog.options.OptionsObject;
 import geogebra.gui.dialog.options.OptionsSpreadsheet;
+import geogebra.gui.view.properties.PropertiesView.OptionType;
 import geogebra.main.Application;
+import geogebra.main.GeoGebraPreferences;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Cursor;
+import java.awt.FlowLayout;
+import java.awt.SystemColor;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
 import java.util.HashMap;
 
 import javax.swing.BorderFactory;
+import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
@@ -42,28 +51,20 @@ import javax.swing.JPanel;
  * @version
  */
 public class PropertiesView extends JPanel implements
-		geogebra.common.gui.view.properties.PropertiesView, WindowFocusListener {
+		geogebra.common.gui.view.properties.PropertiesView {
 
 	private static final long serialVersionUID = 1L;
 
-	// private JTreeGeoElements geoTree;
+	//private GeoTree geoTree;
 
 	private Application app;
 	private boolean attached;
 
 	private PropertiesStyleBar styleBar;
 
-	private OptionsDefaults defaultsPanel;
-	private OptionsEuclidian euclidianPanel;
-	private OptionsSpreadsheet spreadsheetPanel;
-	private OptionsCAS casPanel;
-	private OptionsAdvanced advancedPanel;
-	// private PropertiesPanel propPanel;
-	private OptionsObject objectPanel;
-	private OptionsLayout layoutPanel;
-
-	private boolean isIniting = true;
-
+	/**
+	 * Option panel types
+	 */
 	public enum OptionType {
 		// Order matters for the selection menu. A separator is placed after
 		// OBJECTS and SPREADSHEET to isolate the view options
@@ -72,12 +73,37 @@ public class PropertiesView extends JPanel implements
 
 	private OptionType selectedOptionType = OptionType.LAYOUT;
 
-	private JPanel mainPanel;
+	// option panels
+	private OptionsDefaults defaultsPanel;
+	private OptionsEuclidian euclidianPanel;
+	private OptionsSpreadsheet spreadsheetPanel;
+	private OptionsCAS casPanel;
+	private OptionsAdvanced advancedPanel;
+	private OptionsObject objectPanel;
+	private OptionsLayout layoutPanel;
 
-	public OptionType getSelectedOptionType() {
-		return selectedOptionType;
+	static HashMap<Integer, OptionType> viewMap = new HashMap<Integer, OptionType>();
+	// map to match view ID with OptionType
+	static {
+
+		viewMap = new HashMap<Integer, OptionType>();
+		viewMap.put(AbstractApplication.VIEW_CAS, OptionType.CAS);
+		viewMap.put(AbstractApplication.VIEW_SPREADSHEET,
+				OptionType.SPREADSHEET);
+		viewMap.put(AbstractApplication.VIEW_EUCLIDIAN, OptionType.EUCLIDIAN);
+		viewMap.put(AbstractApplication.VIEW_EUCLIDIAN2, OptionType.EUCLIDIAN2);
 	}
 
+	// GUI elements
+	private JPanel mainPanel, buttonPanel;
+	private JButton restoreDefaultsButton, saveButton, closeButton;
+
+	private boolean isIniting = true;
+
+	/**************************************************
+	 * Constructor
+	 * @param app
+	 */
 	public PropertiesView(Application app) {
 
 		super();
@@ -92,43 +118,162 @@ public class PropertiesView extends JPanel implements
 		styleBar.getBtnOption().requestFocus();
 	}
 
+	// ============================================
+	// GUI
+	// ============================================
+
 	/** */
 	public void initGUI() {
 
 		setLayout(new BorderLayout());
 		add(getStyleBar(), BorderLayout.NORTH);
+
 		mainPanel = new JPanel(new BorderLayout());
 		add(mainPanel, BorderLayout.CENTER);
+
+		createButtonPanel();
+		add(buttonPanel, BorderLayout.SOUTH);
 	}
 
+	
+	/**
+	 * Creates the button panel for all option panels except the Object Panel
+	 */
+	private void createButtonPanel() {
+		// panel with buttons at the bottom
+		buttonPanel = new JPanel(new BorderLayout());
+
+		buttonPanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory
+				.createMatteBorder(1, 0, 0, 0, SystemColor.controlLtHighlight),
+				BorderFactory.createEmptyBorder(5, 0, 5, 0)));
+
+		// buttonPanel.setBackground(Color.white);
+
+		// (restore defaults on the left side)
+		JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		// panel.setBackground(Color.white);
+
+		if (!app.isApplet()) {
+			restoreDefaultsButton = new JButton();
+			restoreDefaultsButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					GeoGebraPreferences.getPref().clearPreferences();
+
+					// reset defaults for GUI, views etc
+					// this has to be called before load XML preferences,
+					// in order to avoid overwrite
+					app.getSettings().resetSettings();
+
+					// for geoelement defaults, this will do nothing, so it is
+					// OK here
+					GeoGebraPreferences.getPref().loadXMLPreferences(app);
+
+					// reset default line thickness etc
+					app.getKernel().getConstruction().getConstructionDefaults()
+							.resetDefaults();
+
+					// reset defaults for geoelements; this will create brand
+					// new objects
+					// so the options defaults dialog should be reset later
+					app.getKernel().getConstruction().getConstructionDefaults()
+							.createDefaultGeoElementsFromScratch();
+
+					// reset the stylebar defaultGeo
+					if (app.getEuclidianView1().hasStyleBar())
+						app.getEuclidianView1().getStyleBar()
+								.restoreDefaultGeo();
+					if (app.hasEuclidianView2EitherShowingOrNot())
+						if (app.getEuclidianView2().hasStyleBar())
+							app.getEuclidianView2().getStyleBar()
+									.restoreDefaultGeo();
+
+					// restore dialog panels to display these defaults
+					restoreDefaults();
+
+				}
+			});
+
+			panel.add(restoreDefaultsButton);
+		}
+
+		buttonPanel.add(panel, BorderLayout.WEST);
+
+		// (save and close on the right side)
+		panel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+		// panel.setBackground(Color.white);
+
+		if (!app.isApplet()) {
+			saveButton = new JButton();
+			saveButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					GeoGebraPreferences.getPref().saveXMLPreferences(app);
+				}
+			});
+			panel.add(saveButton);
+		}
+
+		closeButton = new JButton();
+		closeButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				closeDialog();
+			}
+		});
+		panel.add(closeButton);
+		buttonPanel.add(panel, BorderLayout.EAST);
+
+	}
+
+	/**
+	 * Restores default settings in option dialogs
+	 */
+	public void restoreDefaults() {
+
+		((OptionsDefaults) getOptionPanel(OptionType.DEFAULTS))
+				.restoreDefaults();
+		((OptionsAdvanced) getOptionPanel(OptionType.ADVANCED))
+				.updateAfterReset();
+
+		// TODO
+		// --- add calls to other panels here
+
+		updateGUI();
+	}
+
+	
+	// ============================================
+	// Updates
+	// ============================================
+
+	/**
+	 * Updates properties view panel. If any geos are selected then the Objects
+	 * panel will be shown. If not, then an option pane for the current focused
+	 * view is shown. If
+	 */
 	public void updatePropertiesView() {
 
 		if (app.getSelectedGeos().size() > 0) {
 			setOptionPanel(OptionType.OBJECTS);
 		} else {
-			int focusedView = app.getGuiManager().getLayout().getDockManager()
-					.getFocusedViewId();
-			setOptionPanelByView(focusedView);
+			int focusedViewId = app.getGuiManager().getLayout()
+					.getDockManager().getFocusedViewId();
+
+			if (viewMap.get(focusedViewId) != null) {
+				setOptionPanel(viewMap.get(focusedViewId));
+			} else {
+				setOptionPanel(OptionType.LAYOUT);
+			}
+
 		}
 	}
 
 	/**
-	 * Sets and shows the option panel for the given view id
-	 * 
-	 * @param type
+	 * @return type of option panel currently displayed
 	 */
-	public void setOptionPanelByView(int viewID) {
-
-		HashMap<Integer, OptionType> viewMap = new HashMap<Integer, OptionType>();
-		viewMap.put(AbstractApplication.VIEW_CAS, OptionType.CAS);
-		viewMap.put(AbstractApplication.VIEW_SPREADSHEET,
-				OptionType.SPREADSHEET);
-		viewMap.put(AbstractApplication.VIEW_EUCLIDIAN, OptionType.EUCLIDIAN);
-		viewMap.put(AbstractApplication.VIEW_EUCLIDIAN2, OptionType.EUCLIDIAN2);
-
-		setOptionPanel(viewMap.get(viewID));
+	public OptionType getSelectedOptionType() {
+		return selectedOptionType;
 	}
-
+	
+	
 	/**
 	 * Sets and shows the option panel for the given option type
 	 * 
@@ -148,6 +293,9 @@ public class PropertiesView extends JPanel implements
 				BorderFactory.createEmptyBorder(15, 10, 10, 10));
 		mainPanel.add(getOptionPanel(type), BorderLayout.CENTER);
 
+		// don't show the button panel in the Objects panel (it has it's own)
+		buttonPanel.setVisible(type != OptionType.OBJECTS);
+
 		// update GUI
 		updateGUI();
 
@@ -157,6 +305,7 @@ public class PropertiesView extends JPanel implements
 	}
 
 	public void updateGUI() {
+
 		if (defaultsPanel != null) {
 			defaultsPanel.updateGUI();
 		}
@@ -185,7 +334,8 @@ public class PropertiesView extends JPanel implements
 			styleBar.updateGUI();
 		}
 
-			app.getGuiManager().getLayout().getDockManager().getPanel(AbstractApplication.VIEW_PROPERTIES).updateTitleBar();
+		app.getGuiManager().getLayout().getDockManager()
+				.getPanel(AbstractApplication.VIEW_PROPERTIES).updateTitleBar();
 	}
 
 	/**
@@ -305,6 +455,13 @@ public class PropertiesView extends JPanel implements
 	 * Update the labels of the components (e.g. if the language changed).
 	 */
 	public void setLabels() {
+
+		closeButton.setText(app.getMenu("Close"));
+
+		if (!app.isApplet()) {
+			saveButton.setText(app.getMenu("Settings.Save"));
+			restoreDefaultsButton.setText(app.getMenu("Settings.ResetDefault"));
+		}
 
 		GuiManager.setLabelsRecursive(this);
 	}
@@ -442,22 +599,9 @@ public class PropertiesView extends JPanel implements
 		setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 		app.storeUndoInfo();
 		setCursor(Cursor.getDefaultCursor());
-		setVisible(false);
+		app.getGuiManager().setShowView(false, getViewID());
 	}
 
-	public void windowGainedFocus(WindowEvent arg0) {
-		System.out.println("gained focus");
-		// make sure this dialog is the current selection listener
-		if (app.getMode() != EuclidianConstants.MODE_SELECTION_LISTENER
-				|| app.getCurrentSelectionListener() != this) {
-			// TODO
-			app.setSelectionListenerMode(this);
-			selectionChanged();
-		}
-	}
-
-	public void windowLostFocus(WindowEvent arg0) {
-		System.out.println("lost focus");
-	}
+	
 
 }
