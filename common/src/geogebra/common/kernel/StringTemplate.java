@@ -113,16 +113,23 @@ public class StringTemplate {
 	public static StringTemplate maxPrecision = new StringTemplate();
 	static {
 		maxPrecision.sf = geogebra.common.factories.FormatFactory.prototype.getScientificFormat(15,20,false);
+		maxPrecision.allowMoreDigits = true;
 	}
 	/**
-	 * Default template, just better output of arbitrary constants in CAS
+	 * Default template, just allow bigger precision for Numeric command
 	 */
-	public static StringTemplate casCellTemplate = new StringTemplate();
 
-	private boolean symbolicArbConst;
-	
+	public static final StringTemplate numericDefault = new StringTemplate();
 	static{
-			casCellTemplate.symbolicArbConst = true;
+		numericDefault.allowMoreDigits = true;
+	}
+	/**
+	 * Default LaTeX template, just allow bigger precision for Numeric command
+	 */
+	public static final StringTemplate numericLatex = new StringTemplate();
+	static{
+		numericLatex.stringType = StringType.LATEX;
+		numericLatex.allowMoreDigits = true;
 	}
 		
 	private StringType stringType;
@@ -301,12 +308,6 @@ public class StringTemplate {
 	public boolean isUseTempVariablePrefix() {
 		return usePrefix;
 	}
-	/**
-	 * @return true if arbConst can be written as name string
-	 */
-	public boolean isSymbolicArbConst() {
-		return symbolicArbConst;
-	}
 	
 	/**
 	 * Returns whether round hack is allowed for given number
@@ -322,6 +323,12 @@ public class StringTemplate {
 			return false;
 		return (getNF(nf2)!=null && getNF(nf2).getMaximumFractionDigits() < 10)
 			|| (getSF(sf2)!=null && getSF(sf2).getSigDigits() < 10);
+	}
+	/**
+	 * @return true if more digits than what is set by this template are allowed in output
+	 */
+	public boolean allowMoreDigits() {
+		return allowMoreDigits;
 	}
 	
 }

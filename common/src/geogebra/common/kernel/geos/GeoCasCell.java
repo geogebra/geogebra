@@ -241,7 +241,8 @@ public class GeoCasCell extends GeoElement implements VarString {
 				// kernel.setInsertLineBreaks(true);
 
 				// create LaTeX string
-				latex = outputVE.toAssignmentLaTeXString();
+				latex = outputVE.toAssignmentLaTeXString(includesNumericCommand() ? StringTemplate.numericLatex:
+					StringTemplate.latexTemplate);
 
 				// TODO Uncomment once support for latex line breaking is
 				// implemented.
@@ -622,7 +623,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 				String cmdName = cmd.getName();
 				// Numeric used
 				includesNumericCommand = includesNumericCommand
-						|| "Numeric".equals(cmdName);
+						|| ("Numeric".equals(cmdName) && cmd.getArgumentNumber()>1);
 
 				// if command not known to CAS
 				if (!kernel.getGeoGebraCAS().isCommandAvailable(cmd)) {
@@ -687,7 +688,10 @@ public class GeoCasCell extends GeoElement implements VarString {
 			}
 		}
 	}
+	/* TODO finnish this fix for f:=Derivative[x^2]
 	private static String[] functionCommands = new String[]{"Derivative","Integral"};
+	
+	
 	private static boolean isFunction(Command topLevelCommand) {
 		for(int i=0;i<functionCommands.length;i++){
 			if(functionCommands[i].equals(topLevelCommand.getName()))
@@ -695,7 +699,8 @@ public class GeoCasCell extends GeoElement implements VarString {
 		}
 		return false;
 	}
-
+	*/
+	
 	/**
 	 * Sets input to use internal command names and translatedInput to use
 	 * localized command names. As a side effect, all command names are added as
@@ -1213,8 +1218,8 @@ public class GeoCasCell extends GeoElement implements VarString {
 	final public void setEvalCommand(String cmd) {
 		evalCmd = cmd;
 
-		includesNumericCommand = includesNumericCommand || evalCmd != null
-				&& evalCmd.equals("Numeric");
+		//includesNumericCommand = includesNumericCommand || evalCmd != null
+			//	&& evalCmd.equals("Numeric");
 		setKeepInputUsed(evalCmd != null && evalCmd.equals("KeepInput"));
 	}
 
@@ -1253,12 +1258,6 @@ public class GeoCasCell extends GeoElement implements VarString {
 		error = null;
 		latex = null;
 
-		boolean oldValue = kernel.isKeepCasNumbers();
-
-		// make sure numbers and their precision are kept from Numeric[]
-		// commands
-		kernel.setKeepCasNumbers(includesNumericCommand);
-
 		// when input is a function declaration, output also needs to become a
 		// function
 		// so we need to add f(x,y) := if it is missing
@@ -1287,8 +1286,6 @@ public class GeoCasCell extends GeoElement implements VarString {
 			resolveGeoElementReferences(outputVE);
 		} else if (isAssignmentVariableDefined())
 			outputVE.setLabel(assignmentVar);
-
-		kernel.setKeepCasNumbers(oldValue);
 	}
 
 	/**
@@ -1543,7 +1540,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 					throw new CASException("Invalid input (evalVE is null)");
 				}
 				result = kernel.getGeoGebraCAS().evaluateGeoGebraCAS(evalVE,
-						arbconst);
+						arbconst,StringTemplate.maxPrecision);
 				success = result != null;
 			} catch (CASException e) {
 				System.err.println("GeoCasCell.computeOutput(), CAS eval: "
@@ -1572,7 +1569,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 				// GeoElement evalGeo = silentEvalInGeoGebra(evalVE);
 				if (geos != null) {
 					success = true;
-					result = geos[0].toValueString(StringTemplate.maxPrecision);
+					result = geos[0].toValueString(StringTemplate.numericDefault);
 					AlgoElement parentAlgo = geos[0].getParentAlgorithm();
 					// cons.removeFromConstructionList(parentAlgo);
 					if (parentAlgo != null)

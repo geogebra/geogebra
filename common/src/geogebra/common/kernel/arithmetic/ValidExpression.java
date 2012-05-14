@@ -182,15 +182,15 @@ public abstract class ValidExpression implements ExpressionValue {
 	 * 
 	 * @return assignment in LaTeX
 	 */
-	public String toAssignmentLaTeXString() {
+	public final String toAssignmentLaTeXString(StringTemplate tpl) {
 		if (labels == null) {
-			return toLaTeXString(true,StringTemplate.latexTemplate);
+			return toLaTeXString(true,tpl);
 		}
 
 		StringBuilder sb = new StringBuilder();
 		sb.append(getLabelForAssignment());
 		sb.append(getAssignmentOperatorLaTeX());
-		sb.append(toLaTeXString(true,StringTemplate.latexTemplate));
+		sb.append(toLaTeXString(true,tpl));
 		return sb.toString();
 	}
 	/**

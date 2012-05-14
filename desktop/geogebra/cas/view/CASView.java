@@ -365,9 +365,9 @@ public class CASView extends JComponent implements View, Gridable {
 		// if we don't have an outputVE, we let GeoCasCell deal with it :)
 		if (outVE == null) {
 			return consoleTable.getGeoCasCell(n).getOutput(
-					StringTemplate.casCellTemplate);
+					StringTemplate.numericDefault);
 		}
-		return outVE.toString(StringTemplate.casCellTemplate);
+		return outVE.toString(StringTemplate.numericDefault);
 	}
 
 	/**

@@ -86,7 +86,7 @@ public class CASInputHandler {
 				GeoCasCell cellValue = consoleTable.getGeoCasCell(consoleTable
 						.getSelectedRow());
 				if (cellValue.getInputVE() != null)
-					selRowInput = cellValue.toString(StringTemplate.casCellTemplate);
+					selRowInput = cellValue.toString(StringTemplate.numericDefault);
 			}
 			if (selRowInput.length() == 0)
 				return;

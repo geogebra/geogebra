@@ -2019,8 +2019,6 @@ public class Kernel {
 		return arcusFunctionCreatesAngle;
 	}
 
-	private boolean keepCasNumbers;
-
 	final public void setAngleUnit(int unit) {
 		angleUnit = unit;
 	}
@@ -2090,25 +2088,6 @@ public class Kernel {
 	 */
 	final public static void resetPrecision() {
 		setEpsilon(STANDARD_PRECISION);
-	}
-
-	/**
-	 * Returns whether MySpecialDouble objects should keep numbers literally or
-	 * not.
-	 */
-	public boolean isKeepCasNumbers() {
-		return keepCasNumbers;
-	}
-
-	/**
-	 * Tells MySpecialDouble objects to keep numbers literally.
-	 * 
-	 * @param keepCasNumbers
-	 *            true = keep literal CAS numbers, false = use kernel number
-	 *            formatting
-	 */
-	public void setKeepCasNumbers(boolean keepCasNumbers) {
-		this.keepCasNumbers = keepCasNumbers;
 	}
 
 	/**
