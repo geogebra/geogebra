@@ -144,7 +144,7 @@ public abstract class AbstractCASmpreduce extends CASgeneric {
 
 	@Override
 	final public synchronized String evaluateGeoGebraCAS(
-			ValidExpression inputExpression,MyArbitraryConstant tpl) throws CASException {
+			ValidExpression inputExpression,MyArbitraryConstant arbconst, StringTemplate tpl) throws CASException {
 		ValidExpression casInput = inputExpression;
 		// KeepInput[] command should set flag keepinput!!:=1
 		// so that commands like Substitute can work accordingly
@@ -191,7 +191,7 @@ public abstract class AbstractCASmpreduce extends CASgeneric {
 			// function definition f(x) := x^2 should return x^2
 			// f(x):=Derivative[x^2] should return 2x
 			return toGeoGebraString(evaluateMPReduce(result+"("+
-			((FunctionNVar)casInput).getVarString(StringTemplate.casTemplate)+")"),tpl);
+			((FunctionNVar)casInput).getVarString(StringTemplate.casTemplate)+")"),arbconst,tpl);
 		}
 		Command cmd = casInput.getTopLevelCommand();
 		if(cmd!=null && "Delete".equals(cmd.getName()) && "true".equals(result)){
@@ -202,7 +202,7 @@ public abstract class AbstractCASmpreduce extends CASgeneric {
 		// standard case
 		if("".equals(result))
 			return null;
-		return toGeoGebraString(result,tpl);
+		return toGeoGebraString(result,arbconst,tpl);
 	}
 
 	@Override
@@ -231,13 +231,14 @@ public abstract class AbstractCASmpreduce extends CASgeneric {
 	 * 
 	 * @param mpreduceString
 	 *            String in MPReduce syntax
+	 * @param arbconst arbitrary constant handler
 	 * @param tpl template that should be used for serialization. Should be casCellTemplate for CAS and
 	 * 	defaultTemplate for input bar
 	 * @return String in Geogebra syntax.
 	 * @throws CASException
 	 *             Throws if the underlying CAS produces an error
 	 */
-	final public synchronized String toGeoGebraString(String mpreduceString,MyArbitraryConstant tpl)
+	final public synchronized String toGeoGebraString(String mpreduceString,MyArbitraryConstant arbconst,StringTemplate tpl)
 			throws CASException {
 		ExpressionValue ve = casParser.parseMPReduce(mpreduceString);
 		// replace rational exponents by roots or vice versa
@@ -246,9 +247,9 @@ public abstract class AbstractCASmpreduce extends CASgeneric {
 			boolean toRoot = ve.getKernel().getApplication().getSettings().getCasSettings()
 					.getShowExpAsRoots();
 				ve.traverse(PowerRootReplacer.getReplacer(toRoot));
-			if(tpl!=null){
-				tpl.reset();
-				ve.traverse(ArbconstReplacer.getReplacer(tpl));
+			if(arbconst!=null){
+				arbconst.reset();
+				ve.traverse(ArbconstReplacer.getReplacer(arbconst));
 			}
 		}
 		

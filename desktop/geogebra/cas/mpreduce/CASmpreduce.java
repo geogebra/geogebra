@@ -5,6 +5,7 @@ import geogebra.common.cas.CASparser;
 import geogebra.common.cas.CasParserTools;
 import geogebra.common.cas.Evaluate;
 import geogebra.common.cas.mpreduce.AbstractCASmpreduce;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.ConstructionElement;
 import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import geogebra.common.kernel.arithmetic.ValidExpression;
@@ -167,7 +168,8 @@ public class CASmpreduce extends AbstractCASmpreduce {
 					try{
 						inVE = casParser.parseGeoGebraCASInput(input);
 						//TODO: arbconst()
-						result = evaluateGeoGebraCAS(inVE,new MyArbitraryConstant((ConstructionElement)command));
+						result = evaluateGeoGebraCAS(inVE,new MyArbitraryConstant((ConstructionElement)command),
+								StringTemplate.defaultTemplate);
 						CASAsyncFinished(inVE, result, null, command,  input);
 					}catch(Throwable exception){
 						AbstractApplication.debug("exception handling ...");

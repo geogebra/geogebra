@@ -32,6 +32,8 @@ public interface GeoGebraCasInterface {
 	public String[] getPolynomialCoeffs(String exp, String variable);
 
 	public String evaluateGeoGebraCAS(String exp,MyArbitraryConstant cons);
+	
+	public String evaluateGeoGebraCAS(ValidExpression exp,MyArbitraryConstant cons,StringTemplate tpl);
 
 	public void unbindVariable(String addCASVariablePrefix);
 

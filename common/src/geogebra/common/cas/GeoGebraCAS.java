@@ -169,13 +169,13 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	 * @return evaluation result
 	 * @throws CASException if there is a timeout or the expression cannot be evaluated
 	 */
-	public String evaluateGeoGebraCAS(ValidExpression casInput,MyArbitraryConstant tpl)
+	public String evaluateGeoGebraCAS(ValidExpression casInput,MyArbitraryConstant arbconst,StringTemplate tpl)
 			throws CASException {
 
 		String result = null;
 		CASException exception = null;
 		try {
-			result = getCurrentCAS().evaluateGeoGebraCAS(casInput,tpl);
+			result = getCurrentCAS().evaluateGeoGebraCAS(casInput,arbconst,tpl);
 		} catch (CASException ce) {
 			exception = ce;
 		} finally {
@@ -523,6 +523,12 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	public void evaluateGeoGebraCASAsync(AsynchronousCommand c) {
 		getCurrentCAS().evaluateGeoGebraCASAsync(c);
 	}
+
+	public String evaluateGeoGebraCAS(ValidExpression evalVE,
+			MyArbitraryConstant arbconst) {
+		return evaluateGeoGebraCAS(evalVE,arbconst,StringTemplate.defaultTemplate);
+	}
+
 	
 
 

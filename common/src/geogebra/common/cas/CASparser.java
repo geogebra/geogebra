@@ -113,13 +113,13 @@ public class CASparser implements CASParserInterface{
 	/**
 	 * Tries to convert parsed CAS output to GeoGebra syntax.
 	 * @param ev parsed CAS output
-	 * @param arbconst arbitrary constant handler
+	 * @param tpl string template
 	 * @return GeoGebra string representation of 
 	 * @throws CASException in case the conversion failed
 	 */
-	public String toGeoGebraString(ExpressionValue ev,MyArbitraryConstant arbconst) throws CASException {
+	public String toGeoGebraString(ExpressionValue ev,StringTemplate tpl) throws CASException {
 		try {
-			return toString(ev, StringTemplate.defaultTemplate);
+			return toString(ev, tpl);
 		} catch (Throwable e) {
 			e.printStackTrace();
 			throw new CASException(e);

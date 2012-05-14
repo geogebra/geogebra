@@ -66,6 +66,8 @@ public class AlgoQuadricSide extends AlgoQuadric {
 
 	@Override
 	public void remove() {
+		if(removed)
+			return;
 		super.remove();
 		if (isHelperAlgo)
 			getInputQuadric().remove();

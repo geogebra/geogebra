@@ -58,7 +58,7 @@ public abstract class CASgeneric implements CASGenericInterface,
 	 * @throws CASException if evaluation fails
 	 */
 	public abstract String evaluateGeoGebraCAS(ValidExpression casInput,
-			MyArbitraryConstant arbconst)
+			MyArbitraryConstant arbconst,StringTemplate tpl)
 			throws CASException;
 
 	/**
