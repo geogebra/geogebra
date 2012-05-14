@@ -1277,7 +1277,7 @@ public interface CommandConstants extends ConstantsWithLookup {
 	@DefaultStringValue("[ ]\n[ <Image> ]\n[ <Text or Number>, \"<Format (optional)>\" , \"<Error Correction (optional)>\", <Width (optional)>, <Height (optional)>]")
 	String BarCode_Syntax();
 
-	@DefaultStringValue("[ <Expression> ]")
+	@DefaultStringValue("[ <Boolean Expression> ]")
 	String Prove_Syntax();
 	
 	@DefaultStringValue("[ <List> ]")
