@@ -9317,6 +9317,15 @@ public class Kernel {
 	}
 
 	/**
+	 * Integral of function f
+	 */
+	final public GeoElement IntegralODE(String label, GeoElement arg,
+			GeoPoint2 p) {
+		AlgoIntegralODE algo = new AlgoIntegralODE(cons, label, arg, p);
+		return algo.getResult();
+	}
+
+	/**
 	 * definite Integral of function f from x=a to x=b
 	 */
 	final public GeoNumeric Integral(String label, GeoFunction f,

@@ -2,12 +2,14 @@ package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
+import geogebra.common.kernel.arithmetic.FunctionalNVar;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.CasEvaluableFunction;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunctionable;
 import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.main.MyError;
 
 /**
@@ -49,6 +51,14 @@ public class CmdIntegral extends CommandProcessor {
 			throw argErr(app, internalCommandName, arg[0]);
 
 		case 2:
+			arg = resArgs(c);
+			if ((ok[0]=(arg[0] instanceof FunctionalNVar) || arg[0].isGeoLocus()) && (ok[1]=arg[1].isGeoPoint())) {
+				GeoElement[] ret = { kernelA.IntegralODE(c.getLabel(),
+						 arg[0], // function or SlopeField/locus
+						(GeoPoint2) arg[1]) }; // var
+				return ret;
+			}
+			
 			// Integral[ f(x,y), x]
 			arg = resArgsLocalNumVar(c, 1, 1);
 			if ((ok[0]=arg[0] instanceof CasEvaluableFunction) && (ok[1]=arg[1].isGeoNumeric())) {
@@ -56,7 +66,7 @@ public class CmdIntegral extends CommandProcessor {
 						(CasEvaluableFunction) arg[0], // function
 						(GeoNumeric) arg[1]) }; // var
 				return ret;
-			}
+			} 
 			throw argErr(app, internalCommandName, getBadArg(ok,arg));
 
 		case 3:
