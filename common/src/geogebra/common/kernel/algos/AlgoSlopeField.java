@@ -14,14 +14,41 @@ import geogebra.common.kernel.geos.GeoNumeric;
 
 import java.util.ArrayList;
 
+/**
+ * 
+ * eg SlopeField[ x/y ]
+ * eg SlopeField[ x/y, 20 ]
+ * eg SlopeField[ x/y, 20, 0.8 ]
+ * eg SlopeField[ x/y, 20, 0.8, 0, 0, 5, 5 ]
+ * 
+ * @author michael
+ *
+ */
 public class AlgoSlopeField extends AlgoElement implements NeedsEuclidianViewUpdate {
 
 	private FunctionalNVar func; // input
 	private GeoNumeric n, lengthRatio, minX, minY, maxX, maxY;
 	//private GeoList g; // output        
 	private GeoLocus locus; // output   
+	@SuppressWarnings("javadoc")
 	ArrayList<MyPoint> al;
+	
+	private AlgoNumerator numAlgo;
+	private AlgoDenominator denAlgo;
+	private FunctionalNVar num, den;
+	private boolean quotient;
 
+	/**
+	 * @param cons cons
+	 * @param label label
+	 * @param func fucntion
+	 * @param n length of grid
+	 * @param lengthRatio between 0 and 1
+	 * @param minX minX
+	 * @param minY minY
+	 * @param maxX maxX
+	 * @param maxY maxY
+	 */
 	public AlgoSlopeField(Construction cons, String label, FunctionalNVar func, GeoNumeric n, GeoNumeric lengthRatio, GeoNumeric minX, GeoNumeric minY, GeoNumeric maxX, GeoNumeric maxY) {
 		super(cons);
 		this.func = func;            	
@@ -33,6 +60,21 @@ public class AlgoSlopeField extends AlgoElement implements NeedsEuclidianViewUpd
 		this.maxX = maxX;
 		this.maxY = maxY;
 
+		numAlgo = new AlgoNumerator(cons, func);
+		denAlgo = new AlgoDenominator(cons, func);
+		cons.removeFromConstructionList(numAlgo);
+		cons.removeFromConstructionList(denAlgo);
+		
+		num = (FunctionalNVar) numAlgo.getGeoElements()[0];
+		den = (FunctionalNVar) denAlgo.getGeoElements()[0];
+		
+		quotient = num.isDefined() && den.isDefined();
+		
+		if (!quotient) {
+			cons.removeFromAlgorithmList(numAlgo);
+			cons.removeFromAlgorithmList(denAlgo);
+		}
+		
 		//g = new GeoList(cons);   
 		locus = new GeoLocus(cons);
 		setInputOutput(); // for AlgoElement        
@@ -77,6 +119,9 @@ public class AlgoSlopeField extends AlgoElement implements NeedsEuclidianViewUpd
 		setDependencies(); // done by AlgoElement
 	}
 
+	/**
+	 * @return locus
+	 */
 	public GeoLocus getResult() {
 		return locus;
 	}
@@ -90,16 +135,6 @@ public class AlgoSlopeField extends AlgoElement implements NeedsEuclidianViewUpd
 
 		if (al == null) al = new ArrayList<MyPoint>();
 		else al.clear();
-
-
-
-		AlgoNumerator numAlgo = new AlgoNumerator(cons, func);
-		AlgoDenominator denAlgo = new AlgoDenominator(cons, func);
-		cons.removeFromConstructionList(numAlgo);
-		cons.removeFromConstructionList(denAlgo);
-
-		FunctionalNVar num = (FunctionalNVar) numAlgo.getGeoElements()[0];
-		FunctionalNVar den = (FunctionalNVar) denAlgo.getGeoElements()[0];
 
 		double xmax = -Double.MAX_VALUE;
 		double ymin = Double.MAX_VALUE;
@@ -232,6 +267,16 @@ public class AlgoSlopeField extends AlgoElement implements NeedsEuclidianViewUpd
 	final public String toString(StringTemplate tpl) {
 		return getCommandDescription(tpl);
 	}
+	
+    @Override
+	public void remove() {
+    	if(removed)
+			return;
+        super.remove();
+	    ((GeoElement) func).removeAlgorithm(numAlgo);
+	    ((GeoElement) func).removeAlgorithm(denAlgo);
+    }
+
 
 
 }
