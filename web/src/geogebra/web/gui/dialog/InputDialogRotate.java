@@ -159,11 +159,10 @@ public class InputDialogRotate extends AngleInputDialog implements KeyUpHandler 
 	 */
 	public void onKeyUp(KeyUpEvent e) {
 
-		// return unless digit typed
-		if (!Character.isDigit(
-				Character.toChars(
-					e.getNativeEvent().getCharCode()
-				)[0]))
+		// return unless digit typed (instead of !Character.isDigit)
+		if (e.getNativeKeyCode() < 48 ||
+			(e.getNativeKeyCode() >  57 && e.getNativeKeyCode() < 96) ||
+			e.getNativeKeyCode() > 105)
 			return;
 
 		AutoCompleteTextField tc = inputPanel.getTextComponent();
