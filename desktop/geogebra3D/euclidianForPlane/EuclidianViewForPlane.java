@@ -1,13 +1,12 @@
 package geogebra3D.euclidianForPlane;
 
-import java.awt.geom.AffineTransform;
-import java.util.ArrayList;
-
+import geogebra.common.euclidian.DrawAngle;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.CoordMatrix;
 import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.kernelND.GeoConicND;
@@ -15,8 +14,11 @@ import geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoPlaneND;
 import geogebra.euclidian.EuclidianController;
-
+import geogebra3D.euclidianFor3D.DrawAngleFor3D;
 import geogebra3D.euclidianFor3D.EuclidianViewFor3D;
+
+import java.awt.geom.AffineTransform;
+import java.util.ArrayList;
 
 /**
  * 2D view for plane.
@@ -26,19 +28,14 @@ import geogebra3D.euclidianFor3D.EuclidianViewFor3D;
  */
 public class EuclidianViewForPlane extends EuclidianViewFor3D {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	
 	private GeoCoordSys2D plane;
 	
 	private int id;
 
 	/**
 	 * 
-	 * @param ec
-	 * @param plane 
+	 * @param ec controller
+	 * @param plane plane creating this view
 	 */
 	public EuclidianViewForPlane(EuclidianController ec, GeoCoordSys2D plane) {
 		super(ec, new boolean[]{ true, true }, true, 1); //TODO ev id
@@ -50,6 +47,12 @@ public class EuclidianViewForPlane extends EuclidianViewFor3D {
 		initView(true);
 		setShowAxes(false, true);
 		showGrid(false);
+	}
+	
+	
+	@Override
+	protected DrawAngle newDrawAngle(GeoAngle geo){
+		return new DrawAngleFor3D(this, geo);
 	}
 	
 	@Override
@@ -82,14 +85,13 @@ public class EuclidianViewForPlane extends EuclidianViewFor3D {
 		case POLYGON3D:
 		case CONIC:
 		case CONIC3D:
-			break;
+		case ANGLE:
+		case ANGLE3D:
+			return geo.isVisibleInView3D();
 		default:
 			return false;
 		}
 		
-		//Application.debug(geo+": "+geo.isVisibleInView3D());
-		
-		return geo.isVisibleInView3D();
 	}
 	
 	@Override
@@ -110,6 +112,10 @@ public class EuclidianViewForPlane extends EuclidianViewFor3D {
 		return coords.projectPlane(getMatrix())[1];
 	}
 	
+	/**
+	 * @param coords in view plane
+	 * @return coords in 3D world
+	 */
 	public Coords getCoordsFromView(Coords coords){
 		return getMatrix().mul(coords);
 	}
@@ -141,6 +147,9 @@ public class EuclidianViewForPlane extends EuclidianViewFor3D {
 	//private CoordMatrix4x4 reverseMatrix;
 	private CoordMatrix4x4 transform = CoordMatrix4x4.IDENTITY;
 	
+	/**
+	 * update the matrix transformation
+	 */
 	public void updateMatrix(){
 		//planeMatrix = plane.getCoordSys().getMatrixOrthonormal();	
 		planeMatrix = plane.getCoordSys().getDrawingMatrix();	
@@ -149,6 +158,11 @@ public class EuclidianViewForPlane extends EuclidianViewFor3D {
 		inverseTransformedMatrix = transformedMatrix.inverse();
 	}
 	
+	/**
+	 * set the transform matrix regarding view direction
+	 * @param directionView3D 3D view direction
+	 * @param toScreenMatrix matrix from real 3D world to screen world
+	 */
 	public void setTransform(Coords directionView3D, CoordMatrix toScreenMatrix){
 		
 		//front or back view
@@ -171,7 +185,7 @@ public class EuclidianViewForPlane extends EuclidianViewFor3D {
 		double vXx = m.get(1, 1);
 		double vXy = m.get(2, 1);
 		double vYx = m.get(1, 2);
-		double vYy = m.get(2, 2);
+		m.get(2, 2);
 		
 		//Application.debug("vx="+vXx+","+vXy+"\nvy="+vYx+","+vYy);
 		

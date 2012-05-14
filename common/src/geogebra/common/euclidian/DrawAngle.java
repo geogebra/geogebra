@@ -197,6 +197,15 @@ public class DrawAngle extends Drawable implements Previewable {
 	}
 
 	/**
+	 * 
+	 * @param p point
+	 * @return coords of the point in view 
+	 */
+	protected Coords getCoordsInView(GeoPointND p){
+		return p.getInhomCoordsInD(3);
+	}
+	
+	/**
 	 * @return raw value (0 to 2pi) of angle
 	 */
 	protected double getRawAngle() {
@@ -223,19 +232,19 @@ public class DrawAngle extends Drawable implements Previewable {
 		switch (angleDrawMode) {
 		case DRAW_MODE_POINTS: // three points
 			// vertex
-			Coords v = vertex.getInhomCoordsInD(3);
+			Coords v = getCoordsInView(vertex);
 			if (!inView(v)) {
 				isVisible = false;
 				return;
 			}
 			m = v.get();
 
-			Coords ptCoords = point.getInhomCoordsInD(3);
+			Coords ptCoords = getCoordsInView(point);
 			if (!inView(ptCoords)) {
 				isVisible = false;
 				return;
 			}
-			Coords coords2 = point2.getInhomCoordsInD(3);
+			Coords coords2 = getCoordsInView(point2);
 			if (!inView(coords2)) {
 				isVisible = false;
 				return;

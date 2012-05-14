@@ -1,6 +1,5 @@
 package geogebra3D.euclidianFor3D;
 
-import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.DrawableND;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoElement;
@@ -15,6 +14,12 @@ import geogebra.euclidian.EuclidianView;
  */
 public class EuclidianViewFor3D extends EuclidianView {
 
+	/**
+	 * @param ec controller
+	 * @param showAxes show the axes
+	 * @param showGrid shos the grid
+	 * @param evno dock panel id
+	 */
 	public EuclidianViewFor3D(EuclidianController ec, boolean[] showAxes,
 			boolean showGrid, int evno) {
 		super(ec, showAxes, showGrid, evno, null);

@@ -2025,7 +2025,7 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 				}
 				d = new DrawSlider(this, (GeoNumeric) geo);
 			} else {
-				d = new DrawAngle(this, (GeoAngle) geo);
+				d = newDrawAngle((GeoAngle) geo);
 				if (geo.isDrawable()) {
 					if (!geo.isColorSet()) {
 						geogebra.common.awt.Color col = geo
@@ -2160,6 +2160,15 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 		default:
 			return false;
 		}
+	}
+	
+	/**
+	 * 
+	 * @param geo angle
+	 * @return drawable for this angle
+	 */
+	protected DrawAngle newDrawAngle(GeoAngle geo){
+		return new DrawAngle(this, geo);
 	}
 
 
