@@ -84,9 +84,8 @@ public class AlgoPercentile extends AlgoElement {
 		if(value == null){
 			result.setUndefined();
 			return;
-		}else{
-			val = value.getDouble()*100;
 		}
+		val = value.getDouble()*100;
 
 		if(val <= 0 || val > 100){
 			result.setUndefined();

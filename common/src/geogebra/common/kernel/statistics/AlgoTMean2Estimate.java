@@ -143,7 +143,7 @@ public class AlgoTMean2Estimate extends AlgoElement {
 	 * @param n2 second sample n
 	 * @return approximate degrees of freedom
 	 */
-	private double getDegreeOfFreedom(double v1, double v2, double n1, double n2, boolean pooled) {
+	private static double getDegreeOfFreedom(double v1, double v2, double n1, double n2, boolean pooled) {
 		
 		if(pooled)
 			return n1 + n2 - 2;

@@ -158,12 +158,11 @@ public final  class RegressionMath {
         double n=det22(1.0d*size,sigmax,sigmax,sigmax2);
         if(Math.abs(n-0.0d)<1.0E-15d) {
             return false;
-        }else{
-            p1=det22(sigmay,sigmax,sigmaxy,sigmax2)/n;
-            p2=det22(size,sigmay,sigmax,sigmaxy)/n;
-            //r=corrCoeff();
-            return true;
-        }//if-else
+        }
+		p1=det22(sigmay,sigmax,sigmaxy,sigmax2)/n;
+		p2=det22(size,sigmay,sigmax,sigmaxy)/n;
+		//r=corrCoeff();
+		return true;
     }//doLinearReg(GeoList)
     
     public  final boolean doQuad(GeoList gl) {
@@ -181,25 +180,24 @@ public final  class RegressionMath {
         
         if(Math.abs(n-0.0d)<1.0E-15d) {
             return false;
-        }else{
-              p1=det33(
-                sigmay,       sigmax,   sigmax2,
-                sigmaxy,      sigmax2,  sigmax3,
-                sigmax2y,     sigmax3,  sigmax4
-            )/n;
-            p2=det33(
-                1.0d*size,       sigmay,     sigmax2,
-                sigmax,     sigmaxy,    sigmax3,
-                sigmax2,    sigmax2y,   sigmax4
-            )/n;
-            p3=det33(
-                1.0d*size,       sigmax,     sigmay,
-                sigmax,     sigmax2,    sigmaxy,
-                sigmax2,    sigmax3,    sigmax2y
-            )/n;
-            //r=0.0d; // Not useful
-            return true;
-        }//if-else
+        }
+		p1=det33(
+		    sigmay,       sigmax,   sigmax2,
+		    sigmaxy,      sigmax2,  sigmax3,
+		    sigmax2y,     sigmax3,  sigmax4
+		)/n;
+		p2=det33(
+		    1.0d*size,       sigmay,     sigmax2,
+		    sigmax,     sigmaxy,    sigmax3,
+		    sigmax2,    sigmax2y,   sigmax4
+		)/n;
+		p3=det33(
+		    1.0d*size,       sigmax,     sigmay,
+		    sigmax,     sigmax2,    sigmaxy,
+		    sigmax2,    sigmax3,    sigmax2y
+		)/n;
+		//r=0.0d; // Not useful
+		return true;
     }//doQuad(Geolist)
     
     public  final boolean doCubic(GeoList gl) {
@@ -218,34 +216,33 @@ public final  class RegressionMath {
         
         if(Math.abs(n-0.0d)<1.0E-15d) {
             return false;
-        }else{
-            p1=det44(
-                sigmay,           sigmax,       sigmax2,      sigmax3,
-                sigmaxy,          sigmax2,      sigmax3,      sigmax4,
-                sigmax2y,         sigmax3,      sigmax4,      sigmax5,
-                sigmax3y,         sigmax4,      sigmax5,      sigmax6
-            )/n;
-            p2=det44(
-                size,           sigmay,       sigmax2,      sigmax3,
-                sigmax,           sigmaxy,      sigmax3,      sigmax4,
-                sigmax2,          sigmax2y,     sigmax4,      sigmax5,
-                sigmax3,          sigmax3y,     sigmax5,      sigmax6
-            )/n;
-            p3=det44(
-                size,           sigmax,       sigmay,       sigmax3,
-                sigmax,           sigmax2,      sigmaxy,      sigmax4,
-                sigmax2,          sigmax3,      sigmax2y,     sigmax5,
-                sigmax3,          sigmax4,      sigmax3y,     sigmax6
-            )/n;
-            p4=det44(
-                size,           sigmax,       sigmax2,      sigmay,
-                sigmax,           sigmax2,      sigmax3,      sigmaxy,
-                sigmax2,          sigmax3,      sigmax4,      sigmax2y,
-                sigmax3,          sigmax4,      sigmax5,      sigmax3y
-            )/n;
-            //r=0.0d; // Not useful
-            return true;
-        }//if-else
+        }
+		p1=det44(
+		    sigmay,           sigmax,       sigmax2,      sigmax3,
+		    sigmaxy,          sigmax2,      sigmax3,      sigmax4,
+		    sigmax2y,         sigmax3,      sigmax4,      sigmax5,
+		    sigmax3y,         sigmax4,      sigmax5,      sigmax6
+		)/n;
+		p2=det44(
+		    size,           sigmay,       sigmax2,      sigmax3,
+		    sigmax,           sigmaxy,      sigmax3,      sigmax4,
+		    sigmax2,          sigmax2y,     sigmax4,      sigmax5,
+		    sigmax3,          sigmax3y,     sigmax5,      sigmax6
+		)/n;
+		p3=det44(
+		    size,           sigmax,       sigmay,       sigmax3,
+		    sigmax,           sigmax2,      sigmaxy,      sigmax4,
+		    sigmax2,          sigmax3,      sigmax2y,     sigmax5,
+		    sigmax3,          sigmax4,      sigmax3y,     sigmax6
+		)/n;
+		p4=det44(
+		    size,           sigmax,       sigmax2,      sigmay,
+		    sigmax,           sigmax2,      sigmax3,      sigmaxy,
+		    sigmax2,          sigmax3,      sigmax4,      sigmax2y,
+		    sigmax3,          sigmax4,      sigmax5,      sigmax3y
+		)/n;
+		//r=0.0d; // Not useful
+		return true;
     }//doCubic(Geolist)
     
     public  final boolean doQuart(GeoList gl) {
@@ -264,45 +261,44 @@ public final  class RegressionMath {
                        sigmax4,     sigmax5,    sigmax6,    sigmax7,    sigmax8); 
         if(Math.abs(n-0.0d)<1.0E-15d) {
             return false;
-        }else{
-            p1=det55(
-                       sigmay,       sigmax,     sigmax2,    sigmax3,    sigmax4,
-                       sigmaxy,      sigmax2,    sigmax3,    sigmax4,    sigmax5,
-                       sigmax2y,     sigmax3,    sigmax4,    sigmax5,    sigmax6,
-                       sigmax3y,     sigmax4,    sigmax5,    sigmax6,    sigmax7,
-                       sigmax4y,     sigmax5,    sigmax6,    sigmax7,    sigmax8
-            )/n;
-            p2=det55(
-                       1.0d*size,   sigmay,      sigmax2,    sigmax3,    sigmax4,
-                       sigmax,      sigmaxy,     sigmax3,    sigmax4,    sigmax5,
-                       sigmax2,     sigmax2y,    sigmax4,    sigmax5,    sigmax6,
-                       sigmax3,     sigmax3y,    sigmax5,    sigmax6,    sigmax7,
-                       sigmax4,     sigmax4y,    sigmax6,    sigmax7,    sigmax8             
-            )/n;
-            p3=det55(
-                       1.0d*size,   sigmax,     sigmay,      sigmax3,    sigmax4,
-                       sigmax,      sigmax2,    sigmaxy,     sigmax4,    sigmax5,
-                       sigmax2,     sigmax3,    sigmax2y,    sigmax5,    sigmax6,
-                       sigmax3,     sigmax4,    sigmax3y,    sigmax6,    sigmax7,
-                       sigmax4,     sigmax5,    sigmax4y,    sigmax7,    sigmax8
-            )/n;
-            p4=det55(
-                       1.0d*size,   sigmax,     sigmax2,    sigmay,      sigmax4,
-                       sigmax,      sigmax2,    sigmax3,    sigmaxy,     sigmax5,
-                       sigmax2,     sigmax3,    sigmax4,    sigmax2y,    sigmax6,
-                       sigmax3,     sigmax4,    sigmax5,    sigmax3y,    sigmax7,
-                       sigmax4,     sigmax5,    sigmax6,    sigmax4y,    sigmax8
-            )/n;
-            p5=det55(
-                       1.0d*size,   sigmax,     sigmax2,    sigmax3,    sigmay,
-                       sigmax,      sigmax2,    sigmax3,    sigmax4,    sigmaxy,
-                       sigmax2,     sigmax3,    sigmax4,    sigmax5,    sigmax2y,
-                       sigmax3,     sigmax4,    sigmax5,    sigmax6,    sigmax3y,
-                       sigmax4,     sigmax5,    sigmax6,    sigmax7,    sigmax4y 
-            )/n;
-            //r=0.0d; // Not useful
-            return true;
-        }//if-else
+        }
+		p1=det55(
+		           sigmay,       sigmax,     sigmax2,    sigmax3,    sigmax4,
+		           sigmaxy,      sigmax2,    sigmax3,    sigmax4,    sigmax5,
+		           sigmax2y,     sigmax3,    sigmax4,    sigmax5,    sigmax6,
+		           sigmax3y,     sigmax4,    sigmax5,    sigmax6,    sigmax7,
+		           sigmax4y,     sigmax5,    sigmax6,    sigmax7,    sigmax8
+		)/n;
+		p2=det55(
+		           1.0d*size,   sigmay,      sigmax2,    sigmax3,    sigmax4,
+		           sigmax,      sigmaxy,     sigmax3,    sigmax4,    sigmax5,
+		           sigmax2,     sigmax2y,    sigmax4,    sigmax5,    sigmax6,
+		           sigmax3,     sigmax3y,    sigmax5,    sigmax6,    sigmax7,
+		           sigmax4,     sigmax4y,    sigmax6,    sigmax7,    sigmax8             
+		)/n;
+		p3=det55(
+		           1.0d*size,   sigmax,     sigmay,      sigmax3,    sigmax4,
+		           sigmax,      sigmax2,    sigmaxy,     sigmax4,    sigmax5,
+		           sigmax2,     sigmax3,    sigmax2y,    sigmax5,    sigmax6,
+		           sigmax3,     sigmax4,    sigmax3y,    sigmax6,    sigmax7,
+		           sigmax4,     sigmax5,    sigmax4y,    sigmax7,    sigmax8
+		)/n;
+		p4=det55(
+		           1.0d*size,   sigmax,     sigmax2,    sigmay,      sigmax4,
+		           sigmax,      sigmax2,    sigmax3,    sigmaxy,     sigmax5,
+		           sigmax2,     sigmax3,    sigmax4,    sigmax2y,    sigmax6,
+		           sigmax3,     sigmax4,    sigmax5,    sigmax3y,    sigmax7,
+		           sigmax4,     sigmax5,    sigmax6,    sigmax4y,    sigmax8
+		)/n;
+		p5=det55(
+		           1.0d*size,   sigmax,     sigmax2,    sigmax3,    sigmay,
+		           sigmax,      sigmax2,    sigmax3,    sigmax4,    sigmaxy,
+		           sigmax2,     sigmax3,    sigmax4,    sigmax5,    sigmax2y,
+		           sigmax3,     sigmax4,    sigmax5,    sigmax6,    sigmax3y,
+		           sigmax4,     sigmax5,    sigmax6,    sigmax7,    sigmax4y 
+		)/n;
+		//r=0.0d; // Not useful
+		return true;
     }//doQuart(Geolist)
     
     public  final boolean doExp(GeoList gl) {
@@ -317,9 +313,8 @@ public final  class RegressionMath {
             y=ylist[i];
             if(y<0.0d) { //log(minus)!
                 return false;
-            }else{
-                ylist[i]=Math.log(ylist[i]);
-            }//if
+            }
+			ylist[i]=Math.log(ylist[i]);
         }//for all y
         doSums(LINEAR);     //calculate neccessary sigmas
         if(error) {return false;}
@@ -327,14 +322,13 @@ public final  class RegressionMath {
         double n=det22(1.0d*size,sigmax,sigmax,sigmax2);
         if(Math.abs(n-0.0d)<1.0E-15d) {
             return false;
-        }else{
-            p1=det22(sigmay,sigmax,sigmaxy,sigmax2)/n;
-            p2=det22(size,sigmay,sigmax,sigmaxy)/n;
-            //transform back:
-            p1=Math.exp(p1);
-            //r=corrCoeff();
-            return true;
-        }//if-else
+        }
+		p1=det22(sigmay,sigmax,sigmaxy,sigmax2)/n;
+		p2=det22(size,sigmay,sigmax,sigmaxy)/n;
+		//transform back:
+		p1=Math.exp(p1);
+		//r=corrCoeff();
+		return true;
     }//doExp(GeoList)    
 
     public  final boolean doLog(GeoList gl) {
@@ -349,9 +343,8 @@ public final  class RegressionMath {
             x=xlist[i];
             if(x<0.0d) { //log(minus)!
                 return false;
-            }else{
-                xlist[i]=Math.log(xlist[i]);
-            }//if
+            }
+			xlist[i]=Math.log(xlist[i]);
         }//for all x
         doSums(LINEAR);     //calculate neccessary sigmas
         if(error) {return false;}
@@ -359,13 +352,12 @@ public final  class RegressionMath {
         double n=det22(1.0d*size,sigmax,sigmax,sigmax2);
         if(Math.abs(n-0.0d)<1.0E-15d) {
             return false;
-        }else{
-            p1=det22(sigmay,sigmax,sigmaxy,sigmax2)/n;
-            p2=det22(size,sigmay,sigmax,sigmaxy)/n;
-            //No transformation of p1 or p2 neccessary
-            //r=corrCoeff();
-            return true;
-        }//if-else
+        }
+		p1=det22(sigmay,sigmax,sigmaxy,sigmax2)/n;
+		p2=det22(size,sigmay,sigmax,sigmaxy)/n;
+		//No transformation of p1 or p2 neccessary
+		//r=corrCoeff();
+		return true;
     }//doLog(GeoList)    
 
     public  final boolean doPow(GeoList gl) {
@@ -380,10 +372,9 @@ public final  class RegressionMath {
             x=xlist[i];y=ylist[i];
             if( (y<0.0d)||(x<0.0d) ) { //log(minus)!
                 return false;
-            }else{
-                xlist[i]=Math.log(xlist[i]);
-                ylist[i]=Math.log(ylist[i]);
-            }//if
+            }
+			xlist[i]=Math.log(xlist[i]);
+			ylist[i]=Math.log(ylist[i]);
         }//for all x
         doSums(LINEAR);     //calculate neccessary sigmas
         if(error) {return false;}
@@ -391,31 +382,30 @@ public final  class RegressionMath {
         double n=det22(1.0d*size,sigmax,sigmax,sigmax2);
         if(Math.abs(n-0.0d)<1.0E-15d) {
             return false;
-        }else{
-            p1=det22(sigmay,sigmax,sigmaxy,sigmax2)/n;
-            p2=det22(size,sigmay,sigmax,sigmaxy)/n;
-            //Transform back:
-            p1=Math.exp(p1);
-            //r=corrCoeff();
-            return true;
-        }//if-else
+        }
+		p1=det22(sigmay,sigmax,sigmaxy,sigmax2)/n;
+		p2=det22(size,sigmay,sigmax,sigmaxy)/n;
+		//Transform back:
+		p1=Math.exp(p1);
+		//r=corrCoeff();
+		return true;
     }//doPow(GeoList)    
     
     
-    public   final double det22(	//15.11.08: public for FitSin and FitLogisticc
+    public   final static double det22(	//15.11.08: public for FitSin and FitLogisticc
     			double a11,    double a12,     
                 double a21,    double a22){
             return a11*a22-a21*a12;
     }//det22()
     
-    public  final double det33(    //15.11.08: public for FitSin and FitLogisticc
+    public  final static double det33(    //15.11.08: public for FitSin and FitLogisticc
     		double a11,    double a12,     double a13, 
             double a21,    double a22,     double a23,
             double a31,    double a32,     double a33) {
         return a11*(a22*a33-a32*a23)-a12*(a21*a33-a31*a23)+a13*(a21*a32-a31*a22);
     }//det33()
     
-    public  final double det44(  //15.11.08: public for FitSin and FitLogisticc
+    public  final static double det44(  //15.11.08: public for FitSin and FitLogisticc
         double a11,     double a12,     double a13,     double a14,
         double a21,     double a22,     double a23,     double a24,
         double a31,     double a32,     double a33,     double a34,
@@ -430,7 +420,7 @@ public final  class RegressionMath {
         a22*a31*a14*a43 - a22*a14*a41*a33 - a31*a14*a23*a42 + a14*a23*a32*a41;
     }//det44()
     
-    public  final double det55(		//15.11.08: public for FitSin and FitLogisticc
+    public  final static double det55(		//15.11.08: public for FitSin and FitLogisticc
         double a11,     double a12,     double a13,     double a14,     double a15,
         double a21,     double a22,     double a23,     double a24,     double a25,
         double a31,     double a32,     double a33,     double a34,     double a35,

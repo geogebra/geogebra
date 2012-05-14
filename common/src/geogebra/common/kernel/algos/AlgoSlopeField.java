@@ -11,7 +11,6 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoLocus;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.main.AbstractApplication;
 
 import java.util.ArrayList;
 
@@ -66,12 +65,12 @@ public class AlgoSlopeField extends AlgoElement implements NeedsEuclidianViewUpd
 		int i = 0;
 
 		input[i++] = (GeoElement)func;
-		if (n != null) input[i++] = (GeoElement)n;
-		if (lengthRatio != null) input[i++] = (GeoElement)lengthRatio;
-		if (minX != null) input[i++] = (GeoElement)minX;
-		if (minY != null) input[i++] = (GeoElement)minY;
-		if (maxX != null) input[i++] = (GeoElement)maxX;
-		if (maxY != null) input[i++] = (GeoElement)maxY;
+		if (n != null) input[i++] = n;
+		if (lengthRatio != null) input[i++] = lengthRatio;
+		if (minX != null) input[i++] = minX;
+		if (minY != null) input[i++] = minY;
+		if (maxX != null) input[i++] = maxX;
+		if (maxY != null) input[i++] = maxY;
 
 		super.setOutputLength(1);
 		super.setOutput(0, locus);

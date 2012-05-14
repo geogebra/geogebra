@@ -6,6 +6,7 @@ import geogebra.common.kernel.discrete.delauney.Triangle;
 import geogebra.common.kernel.discrete.delauney.Triangulation;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
+import geogebra.euclidianND.EuclidianViewND;
 
 import java.awt.AlphaComposite;
 import java.awt.Color;
@@ -81,7 +82,7 @@ public class HatchingHandler extends geogebra.common.euclidian.HatchingHandler{
 		Graphics2D g2d = bufferedImage.createGraphics();
 
 		// enable anti-aliasing
-		EuclidianView.setAntialiasing(g2d);
+		EuclidianViewND.setAntialiasing(g2d);
 
 		// enable transparency
 		g2d.setComposite(AlphaComposite.Src);
@@ -150,7 +151,7 @@ public class HatchingHandler extends geogebra.common.euclidian.HatchingHandler{
 			Graphics2D g2d = copy.createGraphics();
 
 			// enable anti-aliasing
-			EuclidianView.setAntialiasing(g2d);
+			EuclidianViewND.setAntialiasing(g2d);
 
 			// set total transparency
 			g2d.setComposite(AlphaComposite.Src);
@@ -300,7 +301,7 @@ public class HatchingHandler extends geogebra.common.euclidian.HatchingHandler{
 		Rectangle2D all = new Rectangle(0, 0, width, height);
 
 		// enable anti-aliasing
-		EuclidianView.setAntialiasing(g2d);
+		EuclidianViewND.setAntialiasing(g2d);
 		// Keep track of sites done; no drawing for initial triangles sites
 		HashSet<Pnt> done = new HashSet<Pnt>(initialTriangle);
 		for (Triangle triangle : dt)

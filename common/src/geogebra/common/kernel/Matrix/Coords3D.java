@@ -13,10 +13,6 @@ public class Coords3D {
 		val[3] = w;
 	}
 
-	public Coords3D(int i) {
-		val[0] = val[1] = val[2] = val[3] = 0;
-	}
-
 	// /////////////////////////////////////////////////:
 	// setters and getters
 	/**
@@ -116,8 +112,7 @@ public class Coords3D {
 
 	/**
 	 * sets the "val[0]-coord"
-	 * 
-	 * @param val
+	 * @param v new value of "val[0]-coord"
 	 */
 	public void setX(double v) {
 		val[0] = v;
@@ -126,8 +121,7 @@ public class Coords3D {
 
 	/**
 	 * sets the "val[1]-coord"
-	 * 
-	 * @param val
+	 * @param v new value of "val[1]-coord"
 	 */
 	public void setY(double v) {
 		val[1] = v;
@@ -137,7 +131,7 @@ public class Coords3D {
 	/**
 	 * sets the "val[2]-coord"
 	 * 
-	 * @param val
+	 * @param v new value of "val[2]-coord"
 	 */
 	public void setZ(double v) {
 		val[2] = v;
@@ -147,7 +141,7 @@ public class Coords3D {
 	/**
 	 * sets the "val[3]-coord"
 	 * 
-	 * @param val
+	 * @param v new value of "val[3]-coord"
 	 */
 	public void setW(double v) {
 		val[3] = v;
@@ -163,7 +157,7 @@ public class Coords3D {
 	 * If this={x1,x2,...} and v={val[0]'1,val[0]'2,...}, the dot product is
 	 * x1*val[0]'1+x2*val[0]'2+...
 	 * 
-	 * @param v
+	 * @param a
 	 *            vector multiplied with
 	 * @return value of the dot product
 	 */
@@ -178,7 +172,7 @@ public class Coords3D {
 	 * If this={val[0],val[1],val[2]} and v={val[0]',val[1]',val[2]'}, then
 	 * cross product={yz'-val[1]'val[2],zx'-val[2]'val[0],xy'-yx'}
 	 * 
-	 * @param v
+	 * @param a
 	 *            vector multiplied with
 	 * @return vector resulting of the cross product
 	 */

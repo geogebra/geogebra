@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.statistics;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.algos.AlgoTwoNumFunction;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.NumberValue;
@@ -47,10 +48,10 @@ public class AlgoRandom extends AlgoTwoNumFunction implements SetRandomValue {
 		
 	}
 
-	private double random(double a, double b) {
+	private static double random(double a, double b) {
 		// make sure 4.000000001 is not rounded up to 5
-		a = kernel.checkInteger(a);
-		b = kernel.checkInteger(b);
+		a = Kernel.checkInteger(a);
+		b = Kernel.checkInteger(b);
 		
 		// Math.floor/ceil to make sure
 		// RandomBetween[3.2, 4.7] is between 3.2 and 4.7
@@ -61,7 +62,7 @@ public class AlgoRandom extends AlgoTwoNumFunction implements SetRandomValue {
 	}
 
 	public void setRandomValue(double d) {
-		d = Math.round(kernel.checkInteger(d));
+		d = Math.round(Kernel.checkInteger(d));
 		
 		if (d >= a.getDouble() && d <= b.getDouble()) {
 			num.setValue(d);

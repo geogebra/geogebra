@@ -13,8 +13,6 @@ import geogebra.common.util.StringUtil;
 import geogebra.common.util.TextObject;
 import geogebra.common.util.Unicode;
 
-import javax.swing.JTextField;
-
 /**
  * Input box for user input
  * @author Michael

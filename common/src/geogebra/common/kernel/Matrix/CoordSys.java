@@ -487,7 +487,7 @@ public class CoordSys {
 		matrixOrthonormal.setOrigin(getOrigin());
 	}
 
-	public void translateDrawingMatrix(Coords v) {
+	public void translateDrawingMatrix() {
 		drawingMatrix.setOrigin(getOrigin());
 	}
 

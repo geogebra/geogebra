@@ -1768,7 +1768,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 					}
 				}
 				AlgoListElement algo = new AlgoListElement(
-						kernel.getConstruction(), (GeoList) subList, nvs, true);
+						kernel.getConstruction(), (GeoList) subList, nvs);
 				return algo.getElement();
 			}
 			// Application.debug("FUNCTION lt: " + lt + ", " + lt.getClass()

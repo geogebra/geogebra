@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.statistics;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.algos.AlgoTwoNumFunction;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.NumberValue;
@@ -61,7 +62,7 @@ public class AlgoRandomBinomial extends AlgoTwoNumFunction implements SetRandomV
 	}
 
 	public void setRandomValue(double d) {
-		d = Math.round(kernel.checkInteger(d));
+		d = Math.round(Kernel.checkInteger(d));
 		
 		if (d >= 0 && d <= a.getDouble()) {
 			num.setValue(d);
@@ -118,7 +119,7 @@ public class AlgoRandomBinomial extends AlgoTwoNumFunction implements SetRandomV
 
 	}
 
-	private int randomBinomial(double n, double p) {
+	private static int randomBinomial(double n, double p) {
 
 		int count = 0;
 		for (int i = 0 ; i < n ; i++) {
@@ -133,7 +134,7 @@ public class AlgoRandomBinomial extends AlgoTwoNumFunction implements SetRandomV
 
 	private static double logtable[] = new double[10];
 
-	private double logOfKFactorial(int k) {
+	private static double logOfKFactorial(int k) {
 		if (k<10) {
 			if (logtable[k] == 0) logtable[k] = Math.log(MyMath2.factorial(k+1d));
 			return logtable[k];

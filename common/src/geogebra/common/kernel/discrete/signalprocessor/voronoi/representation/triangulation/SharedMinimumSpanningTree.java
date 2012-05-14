@@ -11,7 +11,7 @@ public class SharedMinimumSpanningTree {
     /* ***************************************************** */
     // Comparator for removeEdgesInOrderFromOuterBoundary() method
     
-    private static final Comparator VERTEX_COMPARATOR = new Comparator<VVertex>() {
+    private static final Comparator<VVertex> VERTEX_COMPARATOR = new Comparator<VVertex>() {
         public int compare(VVertex v1, VVertex v2) {
             if (v1.y < v2.y)      return -1;
             else if (v1.y > v2.y) return 1;
@@ -24,7 +24,7 @@ public class SharedMinimumSpanningTree {
         }
     };
     
-    private static final Comparator PATH_COMPARATOR = new Comparator<VHalfEdge>() {
+    private static final Comparator<VHalfEdge> PATH_COMPARATOR = new Comparator<VHalfEdge>() {
         public int compare(VHalfEdge e1, VHalfEdge e2) {
             if      (e1.getLength() < e2.getLength()) return -1;
             else if (e1.getLength() > e2.getLength()) return  1;
@@ -336,16 +336,13 @@ public class SharedMinimumSpanningTree {
         if ( valuesincluster>=3 ) {
             if ( clustercutoff==-1 || clustercutoff_index<=0.25*sortedvalues.size() ) {
                 return curr;
-            } else {
-                return clustercutoff;
             }
-        } else {
-            if ( prev_clustercutoff==-1 || prev_clustercutoff_index<=0.25*sortedvalues.size() ) {
-                return curr;
-            } else {
-                return prev_clustercutoff;
-            }
+			return clustercutoff;
         }
+		if ( prev_clustercutoff==-1 || prev_clustercutoff_index<=0.25*sortedvalues.size() ) {
+		    return curr;
+		}
+		return prev_clustercutoff;
     }
     
     
@@ -356,7 +353,8 @@ public class SharedMinimumSpanningTree {
         /* ************************************************* */
         // Constructor
         
-        private VertexList() {
+		private static final long serialVersionUID = 1L;
+		private VertexList() {
             super(VERTEX_COMPARATOR);
         }
         
@@ -378,7 +376,9 @@ public class SharedMinimumSpanningTree {
         /* ************************************************* */
         // Constructor
         
-        private FuturePathList() {
+		private static final long serialVersionUID = 1L;
+
+		private FuturePathList() {
             super(PATH_COMPARATOR);
         }
         

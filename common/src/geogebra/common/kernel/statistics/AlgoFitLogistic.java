@@ -233,11 +233,11 @@ public final class AlgoFitLogistic extends AlgoElement {
 			// debug("increasing: "+increasing+" allpos: "+allplus+" allneg: "+allneg);
 
 		// / Iterate for best k: ///
-		err_old = beta2(xd, yd, k);
+		err_old = beta2(k);
 		k = k + sign * lambda;
 		err = err_old + 1; // to start off the while:
 		while (Math.abs(err - err_old) > EPSILONFIND) {
-			err = beta2(xd, yd, k);
+			err = beta2(k);
 			// negerr=beta2(xd,yd,-k);
 			// if(Math.abs(negerr)<Math.abs(err)){//change to neg k
 			// k=-k;sign=-1*sign;err=negerr;
@@ -347,18 +347,18 @@ public final class AlgoFitLogistic extends AlgoElement {
 			m31 = m13;
 			m32 = m23;
 
-			n = regMath.det33(m11, m12, m13, m21, m22, m23, m31, m32, m33);
+			n = RegressionMath.det33(m11, m12, m13, m21, m22, m23, m31, m32, m33);
 
 			if (Math.abs(n) < EPSSING) { // Not singular?
 				error = true;
 				errorMsg("Singular matrix...");
 				da = db = dc = 0.0d; // to stop it all...
 			} else {
-				da = regMath.det33(b1, m12, m13, b2, m22, m23, b3, m32, m33)
+				da = RegressionMath.det33(b1, m12, m13, b2, m22, m23, b3, m32, m33)
 						/ n;
-				db = regMath.det33(m11, b1, m13, m21, b2, m23, m31, b3, m33)
+				db = RegressionMath.det33(m11, b1, m13, m21, b2, m23, m31, b3, m33)
 						/ n;
-				dc = regMath.det33(m11, m12, b1, m21, m22, b2, m31, m32, b3)
+				dc = RegressionMath.det33(m11, m12, b1, m21, m22, b2, m31, m32, b3)
 						/ n;
 				newa = a + da;
 				newb = b + db;
@@ -458,14 +458,14 @@ public final class AlgoFitLogistic extends AlgoElement {
 
 	// Sum of squared errors, using b(=k). a and c are calculated from first and
 	// last datapoint.
-	private final static double beta2(double[] x, double[] y, double k) {
+	private final static double beta2(double k) {
 		double beta = 0.0d, sum = 0.0d;
 		for (int i = 0; i < size; i++) {
 			beta = beta(xd[i], yd[i], k);
 			sum += beta * beta;
 		}// for all data
 		return sum;
-	}// beta2(x,y,k)
+	}// beta2(k)
 
 	// / --- Bj�rn Ove Thue's trick --- ///
 	// c as function of first and last point

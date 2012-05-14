@@ -858,7 +858,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	 * @return gammaIncomplete(lt,this)
 	 */
 	public ExpressionValue gammaIncomplete(NumberValue lt) {
-		val = MyMath2.gammaIncomplete(lt.getDouble(), val, kernel);
+		val = MyMath2.gammaIncomplete(lt.getDouble(), val);
 		isAngle = false;
 		return this;
 	}

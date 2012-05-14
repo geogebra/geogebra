@@ -14,7 +14,7 @@ import org.apache.commons.math.special.Gamma;
  * important for minimal applets
  */
 public class MyMath2 {
-	final public static double gammaIncomplete(double a, double x, Kernel kernel) {
+	final public static double gammaIncomplete(double a, double x) {
 
 		try {
 			// see http://mathworld.wolfram.com/RegularizedGammaFunction.html

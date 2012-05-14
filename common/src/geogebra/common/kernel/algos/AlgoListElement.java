@@ -86,12 +86,12 @@ public class AlgoListElement extends AlgoElement {
 	 * Creates new unlabeled element algo
 	 */
 	public AlgoListElement(Construction cons, String label, GeoList geoList,
-			NumberValue[] num2, boolean shortSyntax) {
-		this(cons,geoList,num2,shortSyntax);
+			NumberValue[] num2) {
+		this(cons,geoList,num2);
 		element.setLabel(label);
 	}
 	public AlgoListElement(Construction cons, GeoList geoList,
-			NumberValue[] num2, boolean shortSyntax) {
+			NumberValue[] num2) {
 		super(cons);
 		this.geoList = geoList;		
 		this.num2 = num2;

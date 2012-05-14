@@ -13,7 +13,6 @@ package geogebra.common.kernel.algos;
  */
 
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.Function;
@@ -100,14 +99,11 @@ public class AlgoFitSin extends AlgoElement {
 	private final static double TWO_PI = PI * 2;
 
 	// Properties
-	private static AbstractApplication app = null;
-	private static Kernel k = null;
 	private static double a, b, c, d; // a+bsin(cx+d)
 	private static double[] xd, yd; // datapoints
 	private static int size; // data arrays
 	private static int iterations; // LM iterations
 	private static boolean error = false; // General catch-all
-	private static RegressionMath regMath = null; // Reference to detXX
 
 	// / --- GeoGebra obligatory: --- ///
 	
@@ -123,7 +119,6 @@ public class AlgoFitSin extends AlgoElement {
 	public AlgoFitSin(Construction cons, GeoList geolist) {
 		super(cons);
 		app = kernel.getApplication();
-		k = app.getKernel();
 		this.geolist = geolist;
 		geofunction = new GeoFunction(cons);
 		setInputOutput();
@@ -162,7 +157,6 @@ public class AlgoFitSin extends AlgoElement {
 			return;
 		}
 		// if error in parameters :
-		regMath = k.getRegressionMath();
 		try {
 			getPoints(); // Sorts the points while getting them
 			doReg();
@@ -422,7 +416,7 @@ public class AlgoFitSin extends AlgoElement {
 			m42 = m24;
 			m43 = m34;
 
-			n = regMath.det44(m11, m12, m13, m14, m21, m22, m23, m24, m31, m32,
+			n = RegressionMath.det44(m11, m12, m13, m14, m21, m22, m23, m24, m31, m32,
 					m33, m34, m41, m42, m43, m44);
 
 			if (Math.abs(n) < EPSSING) { // Sinular matrix?
@@ -430,13 +424,13 @@ public class AlgoFitSin extends AlgoElement {
 				errorMsg("Singular matrix...");
 				da = db = dc = dd = 0; // To stop it all...
 			} else {
-				da = regMath.det44(b1, m12, m13, m14, b2, m22, m23, m24, b3,
+				da = RegressionMath.det44(b1, m12, m13, m14, b2, m22, m23, m24, b3,
 						m32, m33, m34, b4, m42, m43, m44) / n;
-				db = regMath.det44(m11, b1, m13, m14, m21, b2, m23, m24, m31,
+				db = RegressionMath.det44(m11, b1, m13, m14, m21, b2, m23, m24, m31,
 						b3, m33, m34, m41, b4, m43, m44) / n;
-				dc = regMath.det44(m11, m12, b1, m14, m21, m22, b2, m24, m31,
+				dc = RegressionMath.det44(m11, m12, b1, m14, m21, m22, b2, m24, m31,
 						m32, b3, m34, m41, m42, b4, m44) / n;
-				dd = regMath.det44(m11, m12, m13, b1, m21, m22, m23, b2, m31,
+				dd = RegressionMath.det44(m11, m12, m13, b1, m21, m22, m23, b2, m31,
 						m32, m33, b3, m41, m42, m43, b4) / n;
 
 				newa = a + da;

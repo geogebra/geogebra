@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.statistics;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.NumberValue;
@@ -78,7 +79,7 @@ protected void setInputOutput() {
 	/*
 	 * poisson random number (Knuth)
 	 */
-	private int randomPoisson(double lambda) {
+	private static int randomPoisson(double lambda) {
 		double L = Math.exp(-lambda);
 		double p = 1;
 		int k = 0;
@@ -99,7 +100,7 @@ protected void setInputOutput() {
 	 * http://statmath.wu-wien.ac.at/papers/92-04-13.wh.ps.gz
 	 * http://epub.wu-wien.ac.at/dyn/virlib/wp/eng/mediate/epub-wu-01_6f2.pdf?ID=epub-wu-01_6f2
 	 */
-	private int randomPoissonTRS(double mu) {
+	private static int randomPoissonTRS(double mu) {
 		
 		
 		if (mu < 10) return randomPoisson(mu);
@@ -136,7 +137,7 @@ protected void setInputOutput() {
 	
 	private static double logtable[] = new double[10];
 	
-	private double logOfKFactorial(int k) {
+	private static double logOfKFactorial(int k) {
 		if (k<10) {
 			if (logtable[k] == 0) logtable[k] = Math.log(MyMath2.factorial(k));
 			return logtable[k];
@@ -147,7 +148,7 @@ protected void setInputOutput() {
 	}
 
 	public void setRandomValue(double d) {
-		d = Math.round(kernel.checkInteger(d));
+		d = Math.round(Kernel.checkInteger(d));
 		
 		if (d >= 0) {
 			num.setValue(d);
