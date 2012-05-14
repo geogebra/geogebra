@@ -114,7 +114,9 @@ public class AlgoCurvatureVectorCurve extends AlgoElement {
 	}
 	
 	@Override
-	public void remove() {  
+	public void remove() {
+		if(removed)
+			return;
     	super.remove();  
    		A.removeAlgorithm(algoCAS);
    		f.removeAlgorithm(algoCAS);

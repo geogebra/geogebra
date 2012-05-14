@@ -126,6 +126,8 @@ public class AlgoAnglePoints extends AlgoElement implements
 
 	@Override
 	public void remove() {
+		if(removed)
+			return;
 		if (algoAnglePoly != null)
 			algoAnglePoly.remove();
 		else

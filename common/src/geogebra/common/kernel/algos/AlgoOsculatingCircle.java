@@ -99,6 +99,8 @@ public class AlgoOsculatingCircle extends AlgoElement {
     
     @Override
 	public void remove() {
+    	if(removed)
+			return;
         super.remove();
         f.removeAlgorithm(algo);
         f.removeAlgorithm(cv);

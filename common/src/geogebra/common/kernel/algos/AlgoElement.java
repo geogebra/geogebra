@@ -675,7 +675,8 @@ public abstract class AlgoElement extends ConstructionElement implements
 		update();
 		return false;
 	}
-	private boolean removed = false;
+	/** flag stating whether remove() on this algo was  already called*/
+	protected boolean removed = false;
 	/**
 	 * Removes algorithm and all dependent objects from construction.
 	 */

@@ -94,6 +94,8 @@ public class AlgoDependentList extends AlgoElement{
      */
     @Override
 	public void remove() {
+    	if(removed)
+			return;
     	super.remove();
     	
 		//  removing unlabeled input

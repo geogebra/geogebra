@@ -257,6 +257,8 @@ public class AlgoPolygon extends AlgoElement {
     
     @Override
 	public void remove() {
+    	if(removed)
+			return;
         super.remove();
         //if polygon is part of a polyhedron, remove it
         if (polyhedron != null)

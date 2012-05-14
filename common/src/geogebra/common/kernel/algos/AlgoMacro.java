@@ -105,6 +105,8 @@ implements AlgoMacroInterface {
     
     @Override
 	public void remove() {
+    	if(removed)
+			return;
     	macro.unregisterAlgorithm(this);
     	super.remove();    	
     }           

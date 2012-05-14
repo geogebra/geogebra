@@ -61,6 +61,8 @@ public class AlgoCellRange extends AlgoElement {
 
 	@Override
 	public void remove() {
+		if(removed)
+			return;
 		super.remove();
 		clearGeoList();
 	}

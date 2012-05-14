@@ -151,9 +151,11 @@ public class AlgoJoinPointsSegment extends AlgoElement implements AlgoJoinPoints
     	GeoVec3D.lineThroughPoints(P, Q, s);      	    
     	s.calcLength();
     }
-
+    
     @Override
 	public void remove() {
+    	if(removed)
+			return;
         super.remove();
         if (poly != null)
             poly.remove();

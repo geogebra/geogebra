@@ -168,6 +168,8 @@ public abstract class AlgoIntersectND extends AlgoIntersectAbstract {
 
     @Override
 	public void remove() {
+    	if(removed)
+			return;
         if (numberOfUsers == 0) {
             //  this algorithm has no users and no labeled output       
             super.remove();

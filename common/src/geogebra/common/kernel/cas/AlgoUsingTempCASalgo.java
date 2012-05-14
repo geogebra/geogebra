@@ -17,6 +17,8 @@ public abstract class AlgoUsingTempCASalgo extends AlgoElement {
 
 	@Override
 	public void remove() {
+		if(removed)
+			return;
 		super.remove();
 		if (algoCAS != null)
 			algoCAS.remove();

@@ -71,7 +71,9 @@ public class AlgoCurvature extends AlgoElement {
     }   
     
 	@Override
-	public void remove() {  
+	public void remove() {
+		if(removed)
+			return;
     	super.remove();  
     }
 

@@ -80,6 +80,8 @@ public class AlgoDependentCasCell extends AlgoElement {
 	
 	@Override
 	public void remove() {
+		if(removed)
+			return;
 		// tell construction that input geos are no longer used by this CAS algorithm
 		for (GeoElement geo : input) {
 			geo.removeCasAlgoUser();			
