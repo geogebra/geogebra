@@ -659,7 +659,6 @@ public class GeoCasCell extends GeoElement implements VarString {
 		if (geoVars != null) {
 			for (GeoElement geo : geoVars) {
 				String var = geo.getLabel(StringTemplate.defaultTemplate);
-				AbstractApplication.debug(ve+","+ve.getClass()+","+ve.isTopLevelCommand());
 				if (isFunction && ((FunctionNVar) ve).isFunctionVariable(var)) {
 					// function variable, e.g. k in f(k) := k^2 + 3
 					getFunctionVars().add(var);
@@ -669,7 +668,11 @@ public class GeoCasCell extends GeoElement implements VarString {
 				}
 			}
 		}
-
+		if(ve.getLabel()!=null && getFunctionVars().isEmpty()){
+			String var = getFunctionVariable(ve);
+			if(var!=null)
+				getFunctionVars().add(var);
+		}
 		// create Array of defined input GeoElements
 		inGeos = updateInputGeoElements(invars);
 
@@ -688,18 +691,31 @@ public class GeoCasCell extends GeoElement implements VarString {
 			}
 		}
 	}
-	/* TODO finnish this fix for f:=Derivative[x^2]
-	private static String[] functionCommands = new String[]{"Derivative","Integral"};
+		
 	
-	
-	private static boolean isFunction(Command topLevelCommand) {
-		for(int i=0;i<functionCommands.length;i++){
-			if(functionCommands[i].equals(topLevelCommand.getName()))
-				return true;
+	private static String getFunctionVariable(ValidExpression ve) {
+		if(!ve.isTopLevelCommand())
+			return null;
+		Command cmd = ve.getTopLevelCommand();
+		if("Derivative".equals(cmd.getName())){
+			if(cmd.getArgumentNumber()>1){
+				
+				if(!cmd.getArgument(1).isLeaf() || !(cmd.getArgument(1).getLeft() instanceof GeoDummyVariable))
+					return null;
+				return ((GeoElement)cmd.getArgument(1).getLeft()).toString(StringTemplate.defaultTemplate);//StringTemplate.defaultTemplate);
+			}
+			AbstractApplication.debug(cmd.getArgument(0).getLeft().getClass());
+			
+			Iterator<GeoElement> it = cmd.getArgument(0).getVariables().iterator();
+			while(it.hasNext()){
+				GeoElement em = it.next();
+				if(ve.getKernel().lookupLabel(em.toString(StringTemplate.defaultTemplate))==null)
+					return em.toString(StringTemplate.defaultTemplate);
+			}
 		}
-		return false;
+		return null;
 	}
-	*/
+	
 	
 	/**
 	 * Sets input to use internal command names and translatedInput to use
@@ -986,7 +1002,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 		// make sure we have an expression node
 		ExpressionNode node;
 		if (ve.isTopLevelCommand() && getFunctionVars().iterator().hasNext()) {
-			AbstractApplication.printStacktrace("wrong function syntax");
+			AbstractApplication.warn("wrong function syntax");
 			String[] labels = ve.getLabels();
 			if (ve instanceof ExpressionNode){
 				node = (ExpressionNode) ve;
