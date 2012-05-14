@@ -45,7 +45,19 @@ public class MyCanvasButton extends Composite implements MouseDownHandler, Mouse
     }
 	
 	public MyCanvasButton() {
-	   this(new Image());
+		// temporary fix (100x50)
+		button = Canvas.createIfSupported();
+		button.setWidth("100px");
+		button.setHeight("50px");
+		button.setCoordinateSpaceHeight(100);
+		button.setCoordinateSpaceWidth(50);
+		ctx = button.getContext2d();
+		icon = button.getCanvasElement();
+		drawIcon(icon);
+		button.addMouseDownHandler(this);
+		button.addMouseUpHandler(this);
+		initWidget(button);
+		setStyleName("MyToggleButton");
     }
 
 	private CanvasElement createIcon(Image ic) {
