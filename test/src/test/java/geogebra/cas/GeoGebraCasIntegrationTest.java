@@ -2325,11 +2325,10 @@ public class GeoGebraCasIntegrationTest {
 		t("Solve[-1 = b^c, b]", "{}");
 	}
 
-	// TODO Confirm that expected result is correct.
 	@Test
 	public void Solve_OneVariableVC_10() {
 		t("Solve[0.5 N0 = N0 exp(-0.3 t), t]", "{t = (10 * log(2)) / 3}",
-				"{t = 10 * log(2^(1 / 3))}");
+				"{t = 10 * log(cbrt(2))}");
 	}
 
 	// FIXME commented out because of #1871
