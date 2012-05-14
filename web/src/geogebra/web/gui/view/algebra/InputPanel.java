@@ -28,9 +28,12 @@ public class InputPanel extends HorizontalPanel {
 	   textComponent = new AutoCompleteTextField(columns, app);
 	   add(textComponent);
     }
-	
+
 	public AutoCompleteTextField getTextComponent() {
 		return textComponent;
 	}
 
+	public String getText() {
+		return textComponent.getText();
+	}
 }

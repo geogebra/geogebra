@@ -1132,4 +1132,8 @@ public class AutoCompleteTextField extends HorizontalPanel implements AutoComple
 	public void toggleSymbolButton(boolean toggled) {
 	    showSymbolButton.setDown(toggled);
     }
+
+	public SuggestBox getTextField() {
+		return textField;
+	}
 }

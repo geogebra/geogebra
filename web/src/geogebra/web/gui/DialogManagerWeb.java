@@ -2,14 +2,20 @@ package geogebra.web.gui;
 
 import geogebra.common.awt.Point;
 import geogebra.common.gui.dialog.DialogManager;
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
+import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.AbstractApplication;
+import geogebra.common.gui.dialog.handler.NumberInputHandler;
+import geogebra.web.gui.dialog.InputDialogRotate;
+import geogebra.web.gui.dialog.AngleInputDialog;
 import geogebra.web.gui.dialog.SliderDialog;
 import geogebra.web.main.Application;
 
@@ -51,9 +57,22 @@ public class DialogManagerWeb extends DialogManager {
 	@Override
     public Object[] showAngleInputDialog(String title, String message,
             String initText) {
-	    // TODO Auto-generated method stub
-	    return null;
-    }
+
+		// avoid labeling of num
+		Construction cons = app.getKernel().getConstruction();
+		boolean oldVal = cons.isSuppressLabelsActive();
+		cons.setSuppressLabelCreation(true);
+
+		NumberInputHandler handler = new NumberInputHandler(app.getKernel()
+				.getAlgebraProcessor());
+		AngleInputDialog id = new AngleInputDialog(((Application) app), message, title,
+				initText, false, handler, true);
+		id.setVisible(true);
+
+		cons.setSuppressLabelCreation(oldVal);
+		Object[] ret = { handler.getNum(), id };
+		return ret;
+	}
 
 	@Override
     public boolean showButtonCreationDialog(int x, int y, boolean textfield) {
@@ -165,6 +184,18 @@ public class DialogManagerWeb extends DialogManager {
 		app.setDefaultCursor();
 
 		return true;
+	}
+
+	@Override
+	public void showNumberInputDialogRotate(String title, GeoPolygon[] polys,
+			GeoPoint2[] points, GeoElement[] selGeos) {
+
+		NumberInputHandler handler = new NumberInputHandler(app.getKernel()
+				.getAlgebraProcessor());
+		InputDialogRotate id = new InputDialogRotate(((Application) app), title, handler, polys,
+				points, selGeos, app.getKernel());
+		id.setVisible(true);
+
 	}
 
 }

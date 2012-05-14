@@ -11,9 +11,11 @@ the Free Software Foundation.
 */
 package geogebra.web.gui.dialog;
 
+import geogebra.common.gui.InputHandler;
 import geogebra.web.main.Application;
 import geogebra.web.gui.view.algebra.InputPanel;
 
+import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.DOM;
@@ -27,6 +29,10 @@ public class AngleInputDialog extends PopupPanel implements ClickHandler {
 	
 	private static final long serialVersionUID = 1L;
 
+	public static final int DEFAULT_COLUMNS = 30;
+	public static final int DEFAULT_ROWS = 10;
+	public enum DialogType  { TextArea, DynamicText, GeoGebraEditor }
+
 	protected RadioButton rbCounterClockWise, rbClockWise;
 	Button btOK, btCancel;
 
@@ -36,16 +42,17 @@ public class AngleInputDialog extends PopupPanel implements ClickHandler {
 	protected Application app;
 	protected String initString;
 	protected InputPanel inputPanel;
+	protected InputHandler inputHandler;
 
 	/**
 	 * Input Dialog for a GeoAngle object.
 	 */
 	public AngleInputDialog(Application app,  String message, String title, String initString,
-					boolean autoComplete, /*InputHandler handler,*/ boolean modal) {
+					boolean autoComplete, InputHandler handler, boolean modal) {
 		super(false, true);
 		//super(app.getFrame(), modal);
 		this.app = app;
-		//inputHandler = handler;
+		inputHandler = handler;
 		this.initString = initString;
 
 		// create radio buttons for "clockwise" and "counter clockwise"
@@ -56,17 +63,23 @@ public class AngleInputDialog extends PopupPanel implements ClickHandler {
 
 		//createGUI(title, message, autoComplete, DEFAULT_COLUMNS, 1, true, false, false, false, DialogType.GeoGebraEditor);
 
+		// Create components to be displayed
+		inputPanel = new InputPanel(initString, app, DEFAULT_COLUMNS, true);
+
 		VerticalPanel centerPanel = new VerticalPanel();
 		centerPanel.add(inputPanel);
 		centerPanel.add(rbCounterClockWise);
 		centerPanel.add(rbClockWise);
+
 		HorizontalPanel btPanel = new HorizontalPanel();
 		centerPanel.setHorizontalAlignment(VerticalPanel.ALIGN_RIGHT);
 		centerPanel.add(btPanel);
 
 		btOK = new Button("OK");
+		btOK.getElement().getStyle().setMargin(3, Style.Unit.PX);
 		btOK.addClickHandler(this);
 		btCancel = new Button("Cancel");
+		btCancel.getElement().getStyle().setMargin(3, Style.Unit.PX);
 		btCancel.addClickHandler(this);
 		//btApply = new Button("Apply");
 		//btApply.addActionListener(this);
@@ -89,15 +102,15 @@ public class AngleInputDialog extends PopupPanel implements ClickHandler {
 		success=true;
 		try {
 
-				if (source == btOK || source == inputPanel.getTextComponent()) {
-			//	inputText = inputPanel.getText();
+			if (source == btOK || source == inputPanel.getTextComponent().getTextField()) {
+				inputText = inputPanel.getText();
 
 				// negative orientation ?
 				if (rbClockWise.getValue()) {
 					inputText = "-(" + inputText + ")";
 				}
 
-				//finished = inputHandler.processInput(inputText);
+				finished = inputHandler.processInput(inputText);
 			} else if (source == btCancel) {
 				finished = true;		
 				success=false;
