@@ -22,14 +22,14 @@ test -r autobuild.conf || {
 . ./autobuild.conf
 
 # 2. Setting local variables
-MYDIR=4.2
-cd $WWWDIR/$MYDIR
-MYVER=`cat unpacked/version.txt`
-
-if [ -r mirrors.conf ]; then
+if [ ! -r mirrors.conf ]; then
  echo "mirrors.conf is missing, exiting"
  exit 2
  fi
+
+MYDIR=4.2
+cd $WWWDIR/$MYDIR
+MYVER=`cat unpacked/version.txt`
 
 cat $SVNDIR/geogebra/desktop/scripts/autobuild/mirrors.conf | grep -v "^#" | grep -v "^$" | while read IP PORT RUSER DIR; do
  echo "Copying files to $RUSER@$IP:$PORT/$DIR..."

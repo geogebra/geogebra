@@ -22,18 +22,23 @@ test -r autobuild.conf || {
 . ./autobuild.conf
 
 # 2. Setting local variables
-cd $WWWDIR
-MYVER=`cat unpacked/version.txt`
+# Assuming the local directory is already created in the directory RSYNC_LOCALDIR variable
+if [ "$RSYNC_LOCALDIR" = "" ]; then
+ echo "RSYNC_LOCALDIR is not set, exiting"
+ exit 2
+ fi
 
-if [ -r mirrors.conf ]; then
+if [ ! -r mirrors.conf ]; then
  echo "mirrors.conf is missing, exiting"
  exit 2
  fi
 
-cat $SVNDIR/geogebra/desktop/scripts/autobuild/mirrors.conf | grep -v "^#" | grep -v "^$" | while read IP PORT RUSER DIR; do
- echo "Copying files to $RUSER@$IP:$PORT/$DIR..."
+cd $RSYNC_LOCALDIR/webstart
+
+cat $SVNDIR/geogebra/desktop/scripts/autobuild/mirrors.conf | grep -v "^#" | grep -v "^$" | grep -v localhost | while read IP PORT RUSER DIR; do
+ echo "Copying 3.2 related files from $RSYNC_LOCALDIR/webstart to $RUSER@$IP:$PORT/$DIR..."
  # Copying files to root directory:
- scp -P $PORT 3.2 packed unpacked unsigned $RUSER@$IP:$DIR
+ scp -r -P $PORT 3.2 packed unpacked unsigned $RUSER@$IP:$DIR
  done
 
 date
