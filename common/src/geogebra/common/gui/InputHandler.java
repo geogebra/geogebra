@@ -9,7 +9,7 @@ under the terms of the GNU General Public License as published by
 the Free Software Foundation.
 
 */
-package geogebra.gui;
+package geogebra.common.gui;
 
 public interface InputHandler {
 	/**

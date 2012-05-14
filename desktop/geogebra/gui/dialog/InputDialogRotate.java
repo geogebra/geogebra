@@ -1,11 +1,11 @@
 package geogebra.gui.dialog;
 
+import geogebra.common.gui.InputHandler;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.util.Unicode;
-import geogebra.gui.InputHandler;
 import geogebra.main.Application;
 
 import java.awt.event.ActionEvent;

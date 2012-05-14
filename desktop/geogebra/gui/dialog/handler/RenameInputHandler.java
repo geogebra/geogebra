@@ -1,12 +1,12 @@
 package geogebra.gui.dialog.handler;
 
+import geogebra.common.gui.InputHandler;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.LabelManager;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
-import geogebra.gui.InputHandler;
 
 public class RenameInputHandler implements InputHandler {
 	private GeoElement geo;

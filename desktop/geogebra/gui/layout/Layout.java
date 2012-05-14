@@ -1,6 +1,7 @@
 package geogebra.gui.layout;
 
 import geogebra.common.euclidian.AbstractEuclidianView;
+import geogebra.common.gui.InputHandler;
 import geogebra.common.io.layout.DockPanelData;
 import geogebra.common.io.layout.Perspective;
 import geogebra.common.main.AbstractApplication;
@@ -8,7 +9,6 @@ import geogebra.common.main.settings.AbstractSettings;
 import geogebra.common.main.settings.LayoutSettings;
 import geogebra.common.main.settings.SettingListener;
 import geogebra.euclidianND.EuclidianViewND;
-import geogebra.gui.InputHandler;
 import geogebra.gui.dialog.InputDialog;
 import geogebra.main.Application;
 import geogebra.main.GeoGebraPreferences;

@@ -11,7 +11,7 @@ the Free Software Foundation.
 */
 package geogebra.gui.dialog;
 
-import geogebra.gui.InputHandler;
+import geogebra.common.gui.InputHandler;
 import geogebra.gui.view.algebra.InputPanel.DialogType;
 import geogebra.main.Application;
 

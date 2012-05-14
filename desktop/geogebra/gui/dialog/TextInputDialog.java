@@ -12,6 +12,7 @@ the Free Software Foundation.
 package geogebra.gui.dialog;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.gui.InputHandler;
 import geogebra.common.gui.util.TableSymbols;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
@@ -25,7 +26,6 @@ import geogebra.common.main.MyError;
 import geogebra.gui.DynamicTextInputPane;
 import geogebra.gui.DynamicTextInputPane.DynamicTextField;
 import geogebra.gui.GuiManager;
-import geogebra.gui.InputHandler;
 import geogebra.gui.util.GeoGebraIcon;
 import geogebra.gui.util.LatexTable;
 import geogebra.gui.util.PopupMenuButton;

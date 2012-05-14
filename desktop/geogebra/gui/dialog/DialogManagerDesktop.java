@@ -2,6 +2,7 @@ package geogebra.gui.dialog;
 
 import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.gui.InputHandler;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoBoolean;
@@ -15,7 +16,6 @@ import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.AbstractApplication;
 import geogebra.gui.GuiManager;
-import geogebra.gui.InputHandler;
 import geogebra.gui.app.MyFileFilter;
 import geogebra.gui.autocompletion.AutoCompletion;
 import geogebra.gui.dialog.handler.NumberChangeSignInputHandler;

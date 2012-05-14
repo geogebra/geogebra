@@ -1,13 +1,13 @@
 package geogebra.gui.dialog;
 
 
+import geogebra.common.gui.InputHandler;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.util.Unicode;
-import geogebra.gui.InputHandler;
 import geogebra.gui.dialog.handler.NumberInputHandler;
 import geogebra.main.Application;
 
