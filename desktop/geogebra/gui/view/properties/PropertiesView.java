@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.gui.view.properties;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
 import geogebra.gui.GuiManager;
@@ -58,6 +59,7 @@ public class PropertiesView extends JPanel implements
 	//private GeoTree geoTree;
 
 	private Application app;
+	private Kernel kernel;
 	private boolean attached;
 
 	private PropertiesStyleBar styleBar;
@@ -110,6 +112,13 @@ public class PropertiesView extends JPanel implements
 
 		this.app = app;
 		app.setPropertiesView(this);
+		
+		//init object properties
+		AbstractApplication.debug("init object properties");
+		getOptionPanel(OptionType.OBJECTS);
+		AbstractApplication.debug("end (init object properties)");
+		
+		kernel = app.getKernel();
 		// this.geoTree=geoTree;
 
 		initGUI();
@@ -480,12 +489,12 @@ public class PropertiesView extends JPanel implements
 	public void attachView() {
 		clearView();
 		// kernel.notifyAddAll(this);
-		// kernel.attach(this);
+		kernel.attach(this);
 		attached = true;
 	}
 
 	public void detachView() {
-		// kernel.detach(this);
+		kernel.detach(this);
 		clearView();
 		attached = false;
 	}
@@ -521,9 +530,18 @@ public class PropertiesView extends JPanel implements
 		// TODO Auto-generated method stub
 
 	}
+	
 
 	public void repaintView() {
-		// propPanel.updateSelection(app.getSelectedGeos().toArray());
+		
+		if (objectPanel==null 
+				|| app.getSelectedGeos()==null
+				|| app.getSelectedGeos().size()!=1)
+			return;
+		
+		
+		objectPanel.updateOneGeoDefinition(app.getSelectedGeos().get(0));
+		
 	}
 
 	public void reset() {
@@ -552,11 +570,15 @@ public class PropertiesView extends JPanel implements
 	public void updateSelection() {
 
 		if (app.getSelectedGeos().toArray().length > 0) {
-			// propPanel.updateSelection(app.getSelectedGeos().toArray());
-			this.setVisible(true);
+			setOptionPanel(OptionType.OBJECTS);
+			objectPanel.updateSelection(app.getSelectedGeos().toArray());
+			//this.setVisible(true);
 		} else {
 			// this.setVisible(false);
+			updatePropertiesView();
 		}
+		
+		
 	}
 
 	// private ArrayList<GeoElement> tempArrayList = new

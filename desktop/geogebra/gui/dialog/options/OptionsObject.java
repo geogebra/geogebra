@@ -67,7 +67,7 @@ import javax.swing.tree.TreeSelectionModel;
 /**
  * @author Markus Hohenwarter
  */
-public class OptionsObject extends JPanel implements TreeSelectionListener, KeyListener,
+public class OptionsObject extends JPanel implements /*TreeSelectionListener,*/ KeyListener,
 		GeoElementSelectionListener, SetLabels {
 
 	// private static final int MAX_OBJECTS_IN_TREE = 500;
@@ -111,7 +111,7 @@ public class OptionsObject extends JPanel implements TreeSelectionListener, KeyL
 				//requestFocusInWindow();
 			}
 		});
-		geoTree.addTreeSelectionListener(this);
+		//geoTree.addTreeSelectionListener(this);
 		geoTree.addKeyListener(this);
 
 		// build GUI
@@ -194,13 +194,20 @@ public class OptionsObject extends JPanel implements TreeSelectionListener, KeyL
 		this.removeAll();
 		// contentPane.setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
 
+		/*
 		JSplitPane splitPane = new JSplitPane();
 		splitPane.setLeftComponent(listScroller);
 		splitPane.setRightComponent(propPanel);
+		*/
 
 		this.setLayout(new BorderLayout());
-		this.add(splitPane, BorderLayout.CENTER);
+		//this.add(splitPane, BorderLayout.CENTER);
+		this.add(propPanel, BorderLayout.CENTER);
 		this.add(buttonPanel, BorderLayout.SOUTH);
+		
+		
+
+		
 
 		if (wasShowing) {
 			setVisible(true);
@@ -463,5 +470,17 @@ public class OptionsObject extends JPanel implements TreeSelectionListener, KeyL
 	public GeoTree getGeoTree() {
 		return geoTree;
 	}
+	
+	public void updateSelection(Object[] geos) {
+		// if (geos == oldSelGeos) return;
+		// oldSelGeos = geos;
+
+		propPanel.updateSelection(geos);
+	}
+	
+	public void updateOneGeoDefinition(GeoElement geo) {
+		propPanel.updateOneGeoDefinition(geo);
+	}
+	
 
 } // PropertiesDialog

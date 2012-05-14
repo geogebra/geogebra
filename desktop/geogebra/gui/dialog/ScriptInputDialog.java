@@ -102,6 +102,8 @@ public class ScriptInputDialog extends InputDialog {
 	
 	public void setGeo(GeoElement geo) {
 		
+		//AbstractApplication.printStacktrace("");
+		
 		if (global) {
 			setGlobal();
 			return;

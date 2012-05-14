@@ -614,6 +614,15 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 		updateTabs(geos);
 	}
 
+
+	/**
+	 * Update just definition of one geo
+	 * @param geo geo
+	 */
+	public void updateOneGeoDefinition(GeoElement geo) {
+		namePanel.updateDef(geo);
+	}
+	
 	private class TabPanel extends JPanel {
 
 		private static final long serialVersionUID = 1L;
@@ -6535,10 +6544,13 @@ class NamePanel extends JPanel implements ActionListener, FocusListener,
 				.isTextCommand() : !(((currentGeo.isGeoImage() || currentGeo
 				.isGeoButton()) && currentGeo.isIndependent()));
 		if (showDefinition) {
+			/*
 			tfDefinition.removeActionListener(this);
 			defInputHandler.setGeoElement(currentGeo);
 			tfDefinition.setText(getDefText(currentGeo));
 			tfDefinition.addActionListener(this);
+			*/
+			updateDef(currentGeo);
 
 			if (currentGeo.isIndependent()) {
 				defLabel.setText(app.getPlain("Value") + ":");
@@ -6563,6 +6575,16 @@ class NamePanel extends JPanel implements ActionListener, FocusListener,
 		updateGUI(showDefinition, showCaption);
 
 		return this;
+	}
+	
+	public void updateDef(GeoElement geo){
+
+		tfDefinition.removeActionListener(this);
+		defInputHandler.setGeoElement(geo);
+		tfDefinition.setText(getDefText(geo));
+		tfDefinition.addActionListener(this);
+		
+		//AbstractApplication.debug(geo);
 	}
 
 	private static boolean checkGeos(Object[] geos) {
