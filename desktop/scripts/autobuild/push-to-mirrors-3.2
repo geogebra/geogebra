@@ -38,7 +38,7 @@ cd $RSYNC_LOCALDIR/webstart
 cat $SVNDIR/geogebra/desktop/scripts/autobuild/mirrors.conf | grep -v "^#" | grep -v "^$" | grep -v localhost | while read IP PORT RUSER DIR; do
  echo "Copying 3.2 related files from $RSYNC_LOCALDIR/webstart to $RUSER@$IP:$PORT/$DIR..."
  # Copying files to root directory:
- scp -r -P $PORT 3.2 packed unpacked unsigned $RUSER@$IP:$DIR
+ scp -r -P $PORT 3.2 *.jar.var packed unpacked unsigned $RUSER@$IP:$DIR
  done
 
 date
