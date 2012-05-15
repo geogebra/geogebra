@@ -41,6 +41,12 @@ find -name '*.properties' -size 0 | xargs rm
 cd $MYDIR
 
 # Rsync files to www:
+
+echo rsync -avPO --rsh="ssh -p $WWW_SERVER_PORT -i $WWW_SERVER_KEY" \
+ $PROP_DIR/tube/* $WWW_SERVER_LOGIN:$TUBE_REMOTEDIR
+echo ssh -p $WWW_SERVER_PORT -i $WWW_SERVER_KEY $WWW_SERVER_LOGIN \
+ "cd /home/GeoGebra/navigation/cache && find . -name '*.php' | xargs rm"
+exit
 rsync -avPO --rsh="ssh -p $WWW_SERVER_PORT -i $WWW_SERVER_KEY" \
  $PROP_DIR/tube/* $WWW_SERVER_LOGIN:$TUBE_REMOTEDIR 2>&1 | grep -v failed | grep -v "were not transferred"
 rsync -avPO --rsh="ssh -p $WWW_SERVER_PORT -i $WWW_SERVER_KEY" \
