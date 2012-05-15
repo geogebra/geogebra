@@ -89,6 +89,7 @@ public class AngleInputDialog extends PopupPanel implements ClickHandler {
 
 		setWidget(centerPanel);
 		center();
+		inputPanel.getTextComponent().getTextField().setFocus(true);
 	}
 
 	public boolean isCounterClockWise() {

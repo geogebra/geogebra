@@ -40,7 +40,6 @@ public class InputDialogRotate extends AngleInputDialog implements KeyUpHandler 
 		this.kernel = kernel;
 
 		this.inputPanel.getTextComponent().getTextField().addKeyUpHandler(this);
-
 	}
 
 	/**
