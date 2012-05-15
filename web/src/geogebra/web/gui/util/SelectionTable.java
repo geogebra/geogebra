@@ -216,25 +216,31 @@ public class SelectionTable extends Grid implements ClickHandler {
 	private Widget createWidget(Object object) {
 		Widget w = null;
 		Context2d ctx = null;
+		int width = 0;
+		int height = 0;
 		switch (mode) {
 		case geogebra.common.gui.util.SelectionTable.MODE_TEXT:
 			w = new Anchor((String)object);
 			break;
 		case geogebra.common.gui.util.SelectionTable.MODE_ICON:
 			w = Canvas.createIfSupported();
-			((Canvas)w).setWidth(((CanvasElement)object).getWidth()+"px");
-			((Canvas)w).setHeight(((CanvasElement)object).getHeight()+"px");
-			((Canvas)w).setCoordinateSpaceWidth(((CanvasElement)object).getWidth());
-			((Canvas)w).setCoordinateSpaceWidth(((CanvasElement)object).getWidth());
+			width = ((CanvasElement)object).getWidth();
+			height = ((CanvasElement)object).getHeight();
+			((Canvas)w).setWidth(width+"px");
+			((Canvas)w).setHeight(height+"px");
+			((Canvas)w).setCoordinateSpaceWidth(width);
+			((Canvas)w).setCoordinateSpaceHeight(height);
 			ctx = ((Canvas) w).getContext2d();
 			ctx.drawImage((CanvasElement)object, 0, 0);
 			break;
 		case geogebra.common.gui.util.SelectionTable.MODE_IMAGE:
 			w = Canvas.createIfSupported();
-			((Canvas)w).setWidth(((CanvasElement)object).getWidth()+"px");
-			((Canvas)w).setHeight(((CanvasElement)object).getHeight()+"px");
-			((Canvas)w).setCoordinateSpaceWidth(((CanvasElement)object).getWidth());
-			((Canvas)w).setCoordinateSpaceWidth(((CanvasElement)object).getWidth());
+			width = ((CanvasElement)object).getWidth();
+			height = ((CanvasElement)object).getHeight();
+			((Canvas)w).setWidth(width+"px");
+			((Canvas)w).setHeight(height+"px");
+			((Canvas)w).setCoordinateSpaceWidth(width);
+			((Canvas)w).setCoordinateSpaceHeight(height);
 			ctx = ((Canvas) w).getContext2d();
 			ctx.drawImage((CanvasElement)object, 0, 0);
 			break;
@@ -249,6 +255,16 @@ public class SelectionTable extends Grid implements ClickHandler {
 	   Cell clicked = getCellForEvent(event);
 	   selectedColumn = clicked.getCellIndex();
 	   selectedRow = clicked.getRowIndex();
+    }
+
+	public Object getSelectedValue() {
+		if(getSelectedRow() != -1 && getSelectedColumn() != -1)
+			return getValueAt(getSelectedRow(), getSelectedColumn());
+		return null;
+    }
+
+	private Object getValueAt(int row, int column) {
+	    return getWidget(row, column);
     }
 
 }

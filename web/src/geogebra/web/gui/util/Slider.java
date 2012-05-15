@@ -39,6 +39,7 @@ public class Slider extends FocusWidget implements HasChangeHandlers, HasValue<I
 	   range.setAttribute("type", "range");
 	   range.setAttribute("min", String.valueOf(min));
 	   range.setAttribute("max", String.valueOf(max));   
+	   range.setAttribute("value", String.valueOf(min));
     }
 
 	public void removeChangeListener(PopupMenuButton popupMenuButton) {
@@ -47,7 +48,7 @@ public class Slider extends FocusWidget implements HasChangeHandlers, HasValue<I
     }
 
 	public void setValue(String value) {
-		  DOM.setElementProperty(getElement(), "value", value != null ? value : "");
+		  DOM.setElementProperty(getElement(), "value", value != null ? value : "0");
     }
 
 	public void addChangeListener(PopupMenuButton popupMenuButton) {
@@ -100,7 +101,7 @@ public class Slider extends FocusWidget implements HasChangeHandlers, HasValue<I
     }
 
 	public void setValue(Integer value) {
-		setValue(value,false);
+		setValue(String.valueOf(value));
     }
 
 	public void setValue(Integer value, boolean fireEvents) {

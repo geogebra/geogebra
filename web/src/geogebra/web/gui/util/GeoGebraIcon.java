@@ -138,8 +138,12 @@ public class GeoGebraIcon {
 		if(fgColor == null)
 			fgColor = geogebra.common.factories.AwtFactory.prototype.newColor(255,255,255,1);
 		
-		BufferedImage image = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
-		Graphics2D g2 = new Graphics2D(image.getCanvas());
+		Canvas c = Canvas.createIfSupported();
+		c.setWidth(w+"px");
+		c.setHeight(h+"px");
+		c.setCoordinateSpaceHeight(h);
+		c.setCoordinateSpaceWidth(w);
+		Graphics2D g2 = new Graphics2D(c);
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
 		--h;
@@ -152,9 +156,9 @@ public class GeoGebraIcon {
 
 		// interior fill color using alpha level
 
-		float[] rgb = new float[3];
-		fgColor.getRGBColorComponents(rgb);
-		g2.setPaint(geogebra.common.factories.AwtFactory.prototype.newColor( rgb[0], rgb[1], rgb[2], alpha));
+		//float[] rgb = new float[3];
+		//fgColor.getRGBColorComponents(rgb);
+		g2.setPaint(new geogebra.web.awt.Color(fgColor.getRed(), fgColor.getGreen(), fgColor.getBlue()/*,alpha*255*/));
 		g2.fillRect(offset, offset, w-2*offset, h-2*offset);
 
 		// border color with alpha = 1

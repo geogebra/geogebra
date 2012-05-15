@@ -3,11 +3,14 @@ package geogebra.web.euclidian;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import javax.swing.ImageIcon;
+
 import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.ConstructionDefaults;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoTableText;
 import geogebra.common.kernel.geos.GeoButton;
@@ -19,6 +22,7 @@ import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.PointProperties;
 import geogebra.common.kernel.geos.TextProperties;
 import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.MyError;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.web.gui.color.ColorPopupMenuButton;
 import geogebra.web.gui.util.GeoGebraIcon;
@@ -487,6 +491,8 @@ public class EuclidianStyleBar extends HorizontalPanel
 	private void initGUI() {
 
 		createButtons();
+		createColorButton();
+		createBgColorButton();
 		createTextButtons();
 
 		addButtons();
@@ -508,13 +514,45 @@ public class EuclidianStyleBar extends HorizontalPanel
 		addGraphicsDecorationsButtons();
 		addBtnPointCapture();
 
+		// add color and style buttons
+		if(btnColor.isVisible() || btnTextColor.isVisible()) {
+			addSeparator();
+		}
+		
+		add(btnColor);
+		add(btnBgColor);
+		add(btnTextColor);
+		add(btnLineStyle);
+		add(btnPointStyle);
+		
 		// add text decoration buttons
-		//if(btnBold.isVisible())
-		//	addSeparator();
-
+		if(btnBold.isVisible())
+			addSeparator();
+		
 		add(btnBold);
 		add(btnItalic);
+		add(btnTextSize);
+
+		/*add(btnTableTextJustify);
+		add(btnTableTextLinesV);
+		add(btnTableTextLinesH);
+		add(btnTableTextBracket);*/
+
+		// add(btnPenEraser);
+		// add(btnHideShowLabel);
+		add(btnLabelStyle);
+		// add(btnPointCapture);
+		addBtnRotateView();
+		// add(btnPenDelete);
 	}
+	
+	protected void addBtnRotateView() {
+
+	}
+
+	private void addSeparator() {
+	    AbstractApplication.debug("Implementation needed...");
+    }
 
 	/**
 	 * add axes, grid, ... buttons
@@ -1044,8 +1082,122 @@ public class EuclidianStyleBar extends HorizontalPanel
 
 			btnColor.addClickHandler(this);
 		}
+		
+		private void createBgColorButton() {
+
+			final Dimension bgColorIconSize = new Dimension(20, iconHeight);
+
+			btnBgColor = new ColorPopupMenuButton((Application) app, bgColorIconSize,
+					ColorPopupMenuButton.COLORSET_BGCOLOR, false) {
+
+				private static final long serialVersionUID = 1L;
+
+				@Override
+				public void update(Object[] geos) {
+
+					boolean geosOK = (geos.length > 0);
+					for (int i = 0; i < geos.length; i++) {
+						GeoElement geo = ((GeoElement) geos[i])
+								.getGeoElementForPropertiesDialog();
+						if (!(geo instanceof GeoText)
+								&& !(geo instanceof GeoButton)) {
+							geosOK = false;
+							break;
+						}
+					}
+
+					setVisible(geosOK);
+
+					if (geosOK) {
+						// get color from first geo
+						geogebra.common.awt.Color geoColor;
+						geoColor = ((GeoElement) geos[0]).getBackgroundColor();
+
+						/*
+						 * // check if selection contains a fillable geo // if true,
+						 * then set slider to first fillable's alpha value float
+						 * alpha = 1.0f; boolean hasFillable = false; for (int i =
+						 * 0; i < geos.length; i++) { if (((GeoElement)
+						 * geos[i]).isFillable()) { hasFillable = true; alpha =
+						 * ((GeoElement) geos[i]).getAlphaValue(); break; } }
+						 * getMySlider().setVisible(hasFillable);
+						 * setSliderValue(Math.round(alpha * 100));
+						 */
+						float alpha = 1.0f;
+						updateColorTable();
+
+						// find the geoColor in the table and select it
+						int index = getColorIndex(geoColor);
+						setSelectedIndex(index);
+						setDefaultColor(alpha, geoColor);
+
+						// if nothing was selected, set the icon to show the
+						// non-standard color
+						if (index == -1) {
+							this.setIcon(GeoGebraIcon.createColorSwatchIcon(alpha,
+									bgColorIconSize,
+									geoColor, null));
+						}
+					}
+				}
+			};
+			btnBgColor.setKeepVisible(true);
+			btnBgColor.addClickHandler(this);
+		}
 	
 	private void createTextButtons() {
+		// ========================
+		// text color button
+		final Dimension textColorIconSize = new Dimension(20, iconHeight);
+
+		btnTextColor = new ColorPopupMenuButton((Application) app, textColorIconSize,
+				ColorPopupMenuButton.COLORSET_DEFAULT, false) {
+
+			private static final long serialVersionUID = 1L;
+
+			private geogebra.common.awt.Color geoColor;
+
+			@Override
+			public void update(Object[] geos) {
+
+				boolean geosOK = checkGeoText(geos);
+				setVisible(geosOK);
+
+				if (geosOK) {
+					GeoElement geo = ((GeoElement) geos[0])
+							.getGeoElementForPropertiesDialog();
+					geoColor =	geo
+							.getObjectColor();
+					updateColorTable();
+
+					// find the geoColor in the table and select it
+					int index = this.getColorIndex(geoColor);
+					setSelectedIndex(index);
+
+					// if nothing was selected, set the icon to show the
+					// non-standard color
+					if (index == -1) {
+						this.setIcon(getButtonIcon());
+					}
+
+					setFgColor(geoColor);
+					setFontStyle(((TextProperties) geo).getFontStyle());
+				}
+			}
+
+			@Override
+			public CanvasElement getButtonIcon() {
+				return GeoGebraIcon.createTextSymbolIcon("A",
+						(Font) app.getPlainFontCommon(), textColorIconSize,
+						getSelectedColor(),
+						null);
+			}
+
+		};
+
+		btnTextColor.addClickHandler(this);
+
+
 		// ========================================
 		// bold text button
 		//ImageIcon boldIcon = GeoGebraIcon.createStringIcon(app.getPlain("Bold")
@@ -1101,6 +1253,37 @@ public class EuclidianStyleBar extends HorizontalPanel
 
 		};
 		btnItalic.addValueChangeHandler(this);
+		
+		
+		// ========================================
+		// text size button
+
+		String[] textSizeArray = app.getFontSizeStrings();
+
+		btnTextSize = new PopupMenuButton((Application) app, textSizeArray, -1, 1,
+				new Dimension(-1, iconHeight), geogebra.common.gui.util.SelectionTable.MODE_TEXT) {
+
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void update(Object[] geos) {
+
+				boolean geosOK = checkGeoText(geos);
+				setVisible(geosOK);
+
+				if (geosOK) {
+					GeoElement geo = ((GeoElement) geos[0])
+							.getGeoElementForPropertiesDialog();
+					setSelectedIndex(GeoText
+							.getFontSizeIndex(((TextProperties) geo)
+									.getFontSize())); // font size ranges from
+														// -4 to 4, transform
+														// this to 0,1,..,4
+				}
+			}
+		};
+		btnTextSize.addClickHandler(this);
+		btnTextSize.setKeepVisible(false);
 	}
 
 	// =====================================================
@@ -1184,9 +1367,7 @@ public class EuclidianStyleBar extends HorizontalPanel
 			else
 				ev.setShowAxes(!ev.getShowXaxis(), true);
 			ev.repaint();
-		}
-
-		else if (source.equals(btnShowGrid)) {
+		} else if (source.equals(btnShowGrid)) {
 			if (app.getEuclidianView1() == ev)
 				app.getSettings().getEuclidian(1).showGrid(!ev.getShowGrid());
 			else if (!app.hasEuclidianView2EitherShowingOrNot())
@@ -1208,26 +1389,321 @@ public class EuclidianStyleBar extends HorizontalPanel
 			applyFontStyle(targetGeos);
 		} else if (source == btnItalic) {
 			applyFontStyle(targetGeos);
+		} else if (source == btnColor.getActionButton()) {
+			/*if (mode == EuclidianConstants.MODE_PEN) {
+				ec.getPen().setPenColor(
+						geogebra.awt.Color.getAwtColor(btnColor
+								.getSelectedColor()));
+				// btnLineStyle.setFgColor((Color)btnColor.getSelectedValue());
+			} else {*/
+				applyColor(targetGeos);
+				// btnLineStyle.setFgColor((Color)btnColor.getSelectedValue());
+				// btnPointStyle.setFgColor((Color)btnColor.getSelectedValue());
+			//}
+		} else if (source == btnBgColor.getActionButton()) {
+			if (btnBgColor.getSelectedIndex() >= 0) {
+				applyBgColor(targetGeos);
+			}
 		}
+
+		else if (source == btnTextColor.getActionButton()) {
+			if (btnTextColor.getSelectedIndex() >= 0) {
+				applyTextColor(targetGeos);
+				// btnTextColor.setFgColor((Color)btnTextColor.getSelectedValue());
+				// btnItalic.setForeground((Color)btnTextColor.getSelectedValue());
+				// btnBold.setForeground((Color)btnTextColor.getSelectedValue());
+			}
+		} else if (source == btnLineStyle.getActionButton()) {
+			if (btnLineStyle.getSelectedValue() != null) {
+				/*if (mode == EuclidianConstants.MODE_PEN) {
+					ec.getPen().setPenLineStyle(
+							lineStyleArray[btnLineStyle.getSelectedIndex()]);
+					ec.getPen().setPenSize(btnLineStyle.getSliderValue());
+				} else {*/
+					applyLineStyle(targetGeos);
+				//}
+
+			}
+		} else if (source == btnPointStyle.getActionButton()) {
+			if (btnPointStyle.getSelectedValue() != null) {
+				applyPointStyle(targetGeos);
+			}
+		} else if (source == btnBold) {
+			applyFontStyle(targetGeos);
+		} else if (source == btnItalic) {
+			applyFontStyle(targetGeos);
+		} else if (source == btnTextSize.getActionButton()) {
+			applyTextSize(targetGeos);
+		} else if (source == btnHideShowLabel) {
+			applyHideShowLabel(targetGeos);
+			updateStyleBar();
+		} else if (source == btnLabelStyle.getActionButton()) {
+			applyCaptionStyle(targetGeos);
+		}
+
+		else if (source == btnTableTextJustify.getActionButton()) {
+			applyTableTextFormat(targetGeos);
+		} else if (source == btnTableTextLinesH) {
+			applyTableTextFormat(targetGeos);
+		} else if (source == btnTableTextLinesV) {
+			applyTableTextFormat(targetGeos);
+		} else if (source == btnTableTextBracket.getActionButton()) {
+			applyTableTextFormat(targetGeos);
+		}
+
+		//else if (source == btnPenDelete) {
+
+			// add code here to delete pen image
+
+		//} else if (source == btnPenEraser) {
+
+			// add code here to toggle between pen and eraser mode;
+
+		//}
 	}
+	
+	// ==============================================
+		// Apply Styles
+		// ==============================================
 
-	private void applyFontStyle(ArrayList<GeoElement> geos) {
+		private void applyLineStyle(ArrayList<GeoElement> geos) {
+			int lineStyle = lineStyleArray[btnLineStyle.getSelectedIndex()];
+			int lineSize = btnLineStyle.getSliderValue();
 
-		int fontStyle = 0;
-		if (btnBold.getValue())
-			fontStyle += 1;
-		if (btnItalic.getValue())
-			fontStyle += 2;
-		for (int i = 0; i < geos.size(); i++) {
-			GeoElement geo = geos.get(i);
-			if (geo instanceof TextProperties
-					&& ((TextProperties) geo).getFontStyle() != fontStyle) {
-				((TextProperties) geo).setFontStyle(fontStyle);
+			for (int i = 0; i < geos.size(); i++) {
+				GeoElement geo = geos.get(i);
+				if (geo.getLineType() != lineStyle
+						|| geo.getLineThickness() != lineSize) {
+					geo.setLineType(lineStyle);
+					geo.setLineThickness(lineSize);
+					geo.updateRepaint();
+					needUndo = true;
+				}
+			}
+		}
+
+		private void applyPointStyle(ArrayList<GeoElement> geos) {
+			int pointStyle = pointStyleArray[btnPointStyle.getSelectedIndex()];
+			int pointSize = btnPointStyle.getSliderValue();
+			for (int i = 0; i < geos.size(); i++) {
+				GeoElement geo = geos.get(i);
+				if (geo instanceof PointProperties) {
+					if (((PointProperties) geo).getPointSize() != pointSize
+							|| (((PointProperties) geo).getPointStyle() != pointStyle)) {
+						((PointProperties) geo).setPointSize(pointSize);
+						((PointProperties) geo).setPointStyle(pointStyle);
+						geo.updateRepaint();
+						needUndo = true;
+					}
+				}
+			}
+		}
+
+		private void applyColor(ArrayList<GeoElement> geos) {
+
+			Color color = (Color) btnColor
+					.getSelectedColor();
+			float alpha = btnColor.getSliderValue() / 100.0f;
+
+			for (int i = 0; i < geos.size(); i++) {
+				GeoElement geo = geos.get(i);
+				// apply object color to all other geos except images or text
+				if (!(geo.getGeoElementForPropertiesDialog() instanceof GeoImage || geo
+						.getGeoElementForPropertiesDialog() instanceof GeoText))
+					if (geo.getObjectColor() != color || geo
+							.getAlphaValue() != alpha) {
+						geo.setObjColor(new geogebra.web.awt.Color(color));
+						// if we change alpha for functions, hit won't work properly
+						if (geo.isFillable())
+							geo.setAlphaValue(alpha);
+						geo.updateVisualStyle();
+						needUndo = true;
+					}
+			}
+
+			app.getKernel().notifyRepaint();
+		}
+
+		private void applyBgColor(ArrayList<GeoElement> geos) {
+
+			Color color = (Color) btnBgColor
+					.getSelectedColor();
+			float alpha = btnBgColor.getSliderValue() / 100.0f;
+
+			for (int i = 0; i < geos.size(); i++) {
+				GeoElement geo = geos.get(i);
+
+				// if text geo, then apply background color
+				if (geo instanceof TextProperties)
+					if (geo.getBackgroundColor() != color
+							|| geo.getAlphaValue() != alpha) {
+						geo.setBackgroundColor(color == null ? null : new geogebra.web.awt.Color(color));
+						// TODO apply background alpha
+						// --------
+						geo.updateRepaint();
+						needUndo = true;
+					}
+			}
+		}
+
+		private void applyTextColor(ArrayList<GeoElement> geos) {
+
+			Color color = (Color) btnTextColor.getSelectedColor();
+			for (int i = 0; i < geos.size(); i++) {
+				GeoElement geo = geos.get(i);
+				if (geo.getGeoElementForPropertiesDialog() instanceof TextProperties
+						&& geo.getObjectColor() != color) {
+					geo.setObjColor(new geogebra.web.awt.Color(color));
+					geo.updateRepaint();
+					needUndo = true;
+				}
+			}
+		}
+
+		private void applyFontStyle(ArrayList<GeoElement> geos) {
+
+			int fontStyle = 0;
+			if (btnBold.isSelected())
+				fontStyle += 1;
+			if (btnItalic.isSelected())
+				fontStyle += 2;
+			for (int i = 0; i < geos.size(); i++) {
+				GeoElement geo = geos.get(i);
+				if (geo instanceof TextProperties
+						&& ((TextProperties) geo).getFontStyle() != fontStyle) {
+					((TextProperties) geo).setFontStyle(fontStyle);
+					geo.updateRepaint();
+					needUndo = true;
+				}
+			}
+		}
+
+		private void applyTextSize(ArrayList<GeoElement> geos) {
+
+			int fontSize = GeoText.getRelativeFontSize(btnTextSize
+					.getSelectedIndex()); // transform indices to the range -4, .. ,
+											// 4
+
+			for (int i = 0; i < geos.size(); i++) {
+				GeoElement geo = geos.get(i);
+				if (geo instanceof TextProperties
+						&& ((TextProperties) geo).getFontSize() != fontSize) {
+					((TextProperties) geo).setFontSize(fontSize);
+					geo.updateRepaint();
+					needUndo = true;
+				}
+			}
+		}
+
+		private void applyHideShowLabel(ArrayList<GeoElement> geos) {
+			boolean visible = btnHideShowLabel.isSelected();
+			for (int i = 0; i < geos.size(); i++) {
+				GeoElement geo = geos.get(i);
+				if (geo.isLabelVisible() != visible) {
+					geo.setLabelVisible(visible);
+					geo.updateRepaint();
+					needUndo = true;
+				}
+			}
+		}
+
+		private void applyCaptionStyle(ArrayList<GeoElement> geos) {
+			for (int i = 0; i < geos.size(); i++) {
+				GeoElement geo = geos.get(i);
+				if ((mode == EuclidianConstants.MODE_MOVE && (geo.isLabelShowable()
+						|| geo.isGeoAngle() || (geo.isGeoNumeric() ? ((GeoNumeric) geo)
+						.isSliderFixed() : false)))
+						|| (app.getLabelingStyle() == ConstructionDefaults.LABEL_VISIBLE_POINTS_ONLY
+								&& geo.isLabelShowable() && geo.isGeoPoint())
+						|| (app.getLabelingStyle() == ConstructionDefaults.LABEL_VISIBLE_ALWAYS_ON
+								&& geo.isLabelShowable() || geo.isGeoAngle() || (geo
+									.isGeoNumeric() ? ((GeoNumeric) geo)
+								.isSliderFixed() : false))
+						|| (app.getLabelingStyle() == ConstructionDefaults.LABEL_VISIBLE_AUTOMATIC
+								&& geo.isLabelShowable() || geo.isGeoAngle() || (geo
+									.isGeoNumeric() ? ((GeoNumeric) geo)
+								.isSliderFixed() : false))) {
+					if (btnLabelStyle.getSelectedIndex() == 0) {
+						if (mode == EuclidianConstants.MODE_MOVE
+								|| app.getLabelingStyle() != ConstructionDefaults.LABEL_VISIBLE_ALWAYS_ON) {
+							geo.setLabelVisible(false);
+						}
+					} else {
+						geo.setLabelVisible(true);
+						geo.setLabelMode(btnLabelStyle.getSelectedIndex() - 1);
+					}
+				}
 				geo.updateRepaint();
 				needUndo = true;
 			}
 		}
-	}
+
+		private void applyTableTextFormat(ArrayList<GeoElement> geos) {
+
+			AlgoElement algo = null;
+			GeoElement[] input;
+			GeoElement geo;
+			String arg = null;
+
+			String[] justifyArray = { "l", "c", "r" };
+			arg = justifyArray[btnTableTextJustify.getSelectedIndex()];
+			if (this.btnTableTextLinesH.isSelected())
+				arg += "_";
+			if (this.btnTableTextLinesV.isSelected())
+				arg += "|";
+			if (btnTableTextBracket.getSelectedIndex() > 0)
+				arg += this.bracketArray2[btnTableTextBracket.getSelectedIndex()];
+			ArrayList<GeoElement> newGeos = new ArrayList<GeoElement>();
+
+			StringBuilder cmdText = new StringBuilder();
+
+			for (int i = 0; i < geos.size(); i++) {
+
+				// get the TableText algo for this geo and its input
+				geo = geos.get(i);
+				algo = geo.getParentAlgorithm();
+				input = algo.getInput();
+
+				// create a new TableText cmd
+				cmdText.setLength(0);
+				cmdText.append("TableText[");
+				cmdText.append(((GeoList) input[0]).getFormulaString(
+						StringTemplate.defaultTemplate, false));
+				cmdText.append(",\"");
+				cmdText.append(arg);
+				cmdText.append("\"]");
+
+				// use the new cmd to redefine the geo and save it to a list.
+				// (the list is needed to reselect the geo)
+				newGeos.add(redefineGeo(geo, cmdText.toString()));
+			}
+
+			// reset the selection
+			app.setSelectedGeos(newGeos);
+		}
+
+		
+		public GeoElement redefineGeo(GeoElement geo, String cmdtext) {
+			GeoElement newGeo = null;
+
+			if (cmdtext == null)
+				return newGeo;
+
+			try {
+				newGeo = app.getKernel().getAlgebraProcessor()
+						.changeGeoElement(geo, cmdtext, true, true);
+				app.doAfterRedefine(newGeo);
+				newGeo.updateRepaint();
+				return newGeo;
+
+			} catch (Exception e) {
+				app.showError("ReplaceFailed");
+			} catch (MyError err) {
+				app.showError(err);
+			}
+			return newGeo;
+		}
+	
 
 	public void onClick(ClickEvent event) {
 		if (acceptValueChangeEvents) {

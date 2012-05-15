@@ -192,6 +192,10 @@ public class MyToggleButton extends Composite implements ClickHandler, HasValue<
 	public Object getButton() {
 	   return button;
     }
+
+	public boolean isSelected() {
+	    return isDown;
+    }
 	
 	
 }
