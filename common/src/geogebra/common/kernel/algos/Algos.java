@@ -232,6 +232,7 @@ public enum Algos {
 	AlgoInverseNormal(Commands.InverseNormal),
 	AlgoNormal(Commands.Normal),
 	AlgoNormalDF(Commands.Normal),
+	AlgoFDistributionDF(Commands.FDistribution),
 	AlgoGammaDF(Commands.Gamma),
 	AlgoTDistributionDF(Commands.TDistribution),
 	AlgoBinomial(Commands.Binomial),

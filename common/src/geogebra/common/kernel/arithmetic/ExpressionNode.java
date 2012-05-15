@@ -4664,6 +4664,14 @@ public class ExpressionNode extends ValidExpression implements
 	}
 
 	/**
+	 * @param v2 input
+	 * @return result of beta(this, v2)
+	 */
+	public ExpressionNode beta(ExpressionValue v2) {
+		return new ExpressionNode(kernel, this, Operation.BETA, v2);
+	}
+
+	/**
 	 * @return result of exp(this)
 	 */
 	public ExpressionNode exp() {

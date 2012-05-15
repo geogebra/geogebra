@@ -2,9 +2,10 @@ package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.algos.AlgoFDistributionDF;
+import geogebra.common.kernel.arithmetic.BooleanValue;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
-import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.main.MyError;
@@ -32,7 +33,7 @@ import geogebra.common.main.MyError;
 			
 			arg = resArgs(c);
 
-			boolean cumulative = false; // default for n=3
+			BooleanValue cumulative = null; // default for n=3 (false)
 			switch (n) {
 			case 4:
 				if (!arg[2].isGeoFunction() || !((GeoFunction)arg[2]).toString(StringTemplate.defaultTemplate).equals("x")) {
@@ -40,7 +41,7 @@ import geogebra.common.main.MyError;
 				}
 				
 				if (arg[3].isGeoBoolean()) {
-					cumulative = ((GeoBoolean)arg[3]).getBoolean();
+					cumulative = (BooleanValue) arg[3];
 				} else
 					throw argErr(app, c.getName(), arg[3]);
 
@@ -49,22 +50,9 @@ import geogebra.common.main.MyError;
 				if ((ok[0] = arg[0].isNumberValue()) && (ok[1] = arg[1].isNumberValue())) {
 					if (arg[2].isGeoFunction() && ((GeoFunction)arg[2]).toString(StringTemplate.defaultTemplate).equals("x")) {
 
-						// needed for eg Normal[1, 0.001, x] 
-						StringTemplate highPrecision = StringTemplate.maxPrecision;
-						String d1 = arg[0].getLabel(highPrecision);
-						String d2 = arg[1].getLabel(highPrecision);
+						AlgoFDistributionDF algo = new AlgoFDistributionDF(cons, c.getLabel(), (NumberValue)arg[0], (NumberValue)arg[1], cumulative);
+						return algo.getGeoElements();
 
-						String command;
-						
-						if (cumulative) {
-							command = "If[x<0,0,betaRegularized(("+d1+")/2,("+d2+")/2,("+d1+")*x/(("+d1+")*x+"+d2+"))]";
-						} else {
-							command = "If[x<0,0,((("+d1+")*x)^(("+d1+")/2)*("+d2+")^(("+d2+")/2))/(x*(("+d1+")*x+"+d2+")^(("+d1+"+"+d2+")/2)*beta(("+d1+")/2,("+d2+")/2))]";
-						}
-						
-						
-						GeoElement[] ret = kernelA.getAlgebraProcessor().processAlgebraCommand(command, true);
-						return ret;
 
 
 					} else if (arg[2].isNumberValue()) {
