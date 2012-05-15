@@ -187,7 +187,7 @@ public class MyButton {
 	}
 
 	/**
-	 * @return boundsof this button
+	 * @return bounds of this button
 	 */
 	public Rectangle getBounds() {
 		return geogebra.common.factories.AwtFactory.prototype.newRectangle(x,

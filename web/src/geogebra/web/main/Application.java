@@ -1476,8 +1476,10 @@ public class Application extends AbstractApplication {
 
 	@Override
 	public BufferedImage getExternalImageAdapter(String fileName) {
-		return new geogebra.web.awt.BufferedImage(
-				ImageManager.getExternalImage(fileName));
+		ImageElement im = ImageManager.getExternalImage(fileName);
+		if(im==null)
+			return null;
+		return new geogebra.web.awt.BufferedImage(im);
 	}
 
 	// random id to identify ggb files
