@@ -2,11 +2,13 @@ package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.algos.AlgoTDistributionDF;
+import geogebra.common.kernel.arithmetic.BooleanValue;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
-import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
+import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
 
 /**
@@ -32,7 +34,7 @@ public class CmdTDistribution extends CommandProcessor {
 		
 		arg = resArgs(c);
 
-		boolean cumulative = false; // default for n=2
+		BooleanValue cumulative = null; // default for n=2 (false)
 		switch (n) {
 		case 3:
 			if (!arg[1].isGeoFunction() || !((GeoFunction)arg[1]).toString(StringTemplate.defaultTemplate).equals("x")) {
@@ -40,7 +42,7 @@ public class CmdTDistribution extends CommandProcessor {
 			}
 			
 			if (arg[2].isGeoBoolean()) {
-				cumulative = ((GeoBoolean)arg[2]).getBoolean();
+				cumulative = (BooleanValue) arg[2];
 			} else
 				throw argErr(app, c.getName(), arg[2]);
 
@@ -49,22 +51,9 @@ public class CmdTDistribution extends CommandProcessor {
 			if (arg[0].isNumberValue()) {
 				if (arg[1].isGeoFunction() && ((GeoFunction)arg[1]).toString(StringTemplate.defaultTemplate).equals("x")) {
 
-					// needed for eg Normal[1, 0.001, x] 
-					StringTemplate highPrecision = StringTemplate.maxPrecision;
-					String v = arg[0].getLabel(highPrecision);
-
-					String command;
-					
-					if (cumulative) {
-						command = "0.5+sign(x)/2*(betaRegularized(("+v+")/2,0.5,1)-betaRegularized(("+v+")/2,0.5,("+v+")/("+v+"+x^2)))";
-					} else {
-						command = "gamma(("+v+"+1)/2)*(1+x^2/("+v+"))^(-(("+v+"+1)/2))/(gamma(("+v+")/2)*sqrt(pi*("+v+")))";
-					}
-					
-					
-					GeoElement[] ret = kernelA.getAlgebraProcessor().processAlgebraCommand(command, true);
-					return ret;
-
+					AbstractApplication.debug("jhgjhgjhg");
+					AlgoTDistributionDF algo = new AlgoTDistributionDF(cons, c.getLabel(), (NumberValue)arg[0], cumulative);
+					return algo.getGeoElements();
 
 				} else if (arg[1].isNumberValue()) {
 					GeoElement[] ret = { kernelA.TDistribution(c.getLabel(),

@@ -4656,6 +4656,7 @@ public class ExpressionNode extends ValidExpression implements
 	}
 
 	/**
+	 * @param v2 input
 	 * @return result of gamma(v2, this)
 	 */
 	public ExpressionNode gammaIncompleteReverseArgs(ExpressionValue v2) {
@@ -4677,6 +4678,13 @@ public class ExpressionNode extends ValidExpression implements
 	}
 
 	/**
+	 * @return result of sqrt(this)
+	 */
+	public ExpressionNode sgn() {
+		return new ExpressionNode(kernel, this, Operation.SGN, null);
+	}
+
+	/**
 	 * @return result of this * -1
 	 */
 	public ExpressionNode reverseSign() {
@@ -4690,7 +4698,14 @@ public class ExpressionNode extends ValidExpression implements
 		return new ExpressionNode(kernel, new MyDouble(kernel, 0.0), Operation.MINUS, this);
 	}
 
-
+	/**
+	 * @param v1 input
+	 * @param v2 input
+	 * @return result of betaRegularized(this, v1, v2)
+	 */
+	public ExpressionNode betaRegularized(ExpressionValue v1, ExpressionValue v2) {
+		return new ExpressionNode(kernel, new MyNumberPair(kernel, this, v1), Operation.BETA_INCOMPLETE_REGULARIZED, v2);
+	}
 
 	/**
 	 * @return result of this^2
@@ -4835,6 +4850,10 @@ public class ExpressionNode extends ValidExpression implements
 		return traverse(Replacer.getReplacer(oldObj, newObj));
 	}
 
+	/**
+	 * @param fv parameter of function, eg 'x' in f(x)=x^2
+	 * @return new GeoFunction
+	 */
 	public GeoFunction buildFunction(FunctionVariable fv) {
 		Function tempFun = new Function(this, fv);
 		tempFun.initFunction();
