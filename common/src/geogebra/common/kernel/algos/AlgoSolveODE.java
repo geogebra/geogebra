@@ -68,6 +68,12 @@ public class AlgoSolveODE extends AlgoElement {
 			num = (FunctionalNVar) numAlgo.getGeoElements()[0];
 			den = (FunctionalNVar) denAlgo.getGeoElements()[0];
 			quotient = num.isDefined() && den.isDefined();
+			
+			if (!quotient) {
+				cons.removeFromAlgorithmList(numAlgo);
+				cons.removeFromAlgorithmList(denAlgo);
+			}
+			
 		} else {
 			num = f0;
 			den = f1;
