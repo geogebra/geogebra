@@ -235,6 +235,7 @@ public enum Algos {
 	AlgoCauchyDF(Commands.Cauchy),
 	AlgoFDistributionDF(Commands.FDistribution),
 	AlgoGammaDF(Commands.Gamma),
+	AlgoChiSquaredDF(Commands.ChiSquared),
 	AlgoTDistributionDF(Commands.TDistribution),
 	AlgoBinomial(Commands.Binomial),
 	AlgoExpand(Commands.Expand),

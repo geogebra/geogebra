@@ -121,6 +121,17 @@ public class ExpressionNode extends ValidExpression implements
 		setRight(node.right);
 	}
 
+	/**
+	 * 
+	 * wraps a double in an ExpressionNode
+	 * 
+	 * @param kernel2 kernel
+	 * @param d double
+	 */
+	public ExpressionNode(Kernel kernel2, double d) {
+		this(kernel2, new MyDouble(kernel2, d));
+	}
+
 	public Kernel getKernel() {
 		return kernel;
 	}
@@ -4627,11 +4638,19 @@ public class ExpressionNode extends ValidExpression implements
 	}
 
 	/**
-	 * @param v2 value to add
-	 * @return result of addition
+	 * @param v2 value to compare
+	 * @return result this < v2
 	 */
 	public ExpressionNode lessThan(ExpressionValue v2) {
 		return new ExpressionNode(kernel, this, Operation.LESS, v2);
+	}
+
+	/**
+	 * @param v2 value to compare
+	 * @return result this < d
+	 */
+	public ExpressionNode lessThan(double d) {
+		return new ExpressionNode(kernel, this, Operation.LESS, new MyDouble(kernel, d));
 	}
 
 	/**
@@ -4742,6 +4761,17 @@ public class ExpressionNode extends ValidExpression implements
 	}
 
 	/**
+	 * @param v2 value to subtract
+	 * @return result of subtract
+	 */
+	public ExpressionNode subtract(double d) {
+		if(d == 0) {
+			return this;
+		}
+		return new ExpressionNode(kernel, this, Operation.MINUS, new MyDouble(kernel, d));
+	}
+
+	/**
 	 * @param v2 coefficient
 	 * @return result of multiplication
 	 */
@@ -4762,11 +4792,27 @@ public class ExpressionNode extends ValidExpression implements
 	}
 
 	/**
+	 * @param v2 exponent
+	 * @return d ^ this
+	 */
+	public ExpressionNode powerR(double d) {
+		return new ExpressionNode(kernel, new MyDouble(kernel, d), Operation.POWER, this);
+	}
+
+	/**
 	 * @param v2 divisor
 	 * @return result of division
 	 */
 	public ExpressionNode divide(ExpressionValue v2) {
 		return new ExpressionNode(kernel, this, Operation.DIVIDE, v2);
+	}
+
+	/**
+	 * @param v2 divisor
+	 * @return result of division
+	 */
+	public ExpressionNode divide(double d) {
+		return new ExpressionNode(kernel, this, Operation.DIVIDE, new MyDouble(kernel, d));
 	}
 
 	/**
