@@ -11,7 +11,6 @@ import geogebra.web.gui.inputfield.AutoCompleteTextField;
 import geogebra.web.main.Application;
 
 import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler; 
 

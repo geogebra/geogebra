@@ -10,10 +10,12 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoPolygon;
+import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.gui.dialog.handler.NumberInputHandler;
+import geogebra.web.gui.dialog.InputDialogAngleFixed;
 import geogebra.web.gui.dialog.InputDialogRotate;
 import geogebra.web.gui.dialog.AngleInputDialog;
 import geogebra.web.gui.dialog.SliderDialog;
@@ -198,4 +200,15 @@ public class DialogManagerWeb extends DialogManager {
 
 	}
 
+	@Override
+	public void showNumberInputDialogAngleFixed(String title,
+			GeoSegment[] segments, GeoPoint2[] points, GeoElement[] selGeos) {
+
+		NumberInputHandler handler = new NumberInputHandler(app.getKernel()
+				.getAlgebraProcessor());
+		InputDialogAngleFixed id = new InputDialogAngleFixed(((Application) app), title, handler,
+				segments, points, selGeos, app.getKernel());
+		id.setVisible(true);
+
+	}
 }
