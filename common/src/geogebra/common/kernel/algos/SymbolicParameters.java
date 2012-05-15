@@ -172,6 +172,9 @@ public class SymbolicParameters {
 		for (int i=0;i<vect.length;i++){
 			gcd=gcd.gcd(vect[i]);
 		}
+		if (gcd.equals(BigInteger.ZERO)) {
+			gcd=BigInteger.ONE;
+		}
 		BigInteger[] result=new BigInteger[vect.length];
 		for (int i=0;i<vect.length;i++){
 			result[i]=vect[i].divide(gcd);

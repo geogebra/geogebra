@@ -20,6 +20,10 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.algos;
 
+import java.math.BigInteger;
+import java.util.HashMap;
+import java.util.HashSet;
+
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
@@ -27,17 +31,21 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoVec3D;
+import geogebra.common.kernel.prover.NoSymbolicParametersException;
+import geogebra.common.kernel.prover.Polynomial;
+import geogebra.common.kernel.prover.Variable;
 
 /**
  *
  * @author  Markus
  * @version 
  */
-public class AlgoLinePointLine extends AlgoElement {
+public class AlgoLinePointLine extends AlgoElement implements SymbolicParametersAlgo{
 
     private GeoPoint2 P; // input
     private GeoLine l; // input
     private GeoLine g; // output       
+	private Polynomial[] polynomials;
 
     /** Creates new AlgoLinePointLine */
     public AlgoLinePointLine(Construction cons, String label, GeoPoint2 P, GeoLine l) {
@@ -107,4 +115,73 @@ public class AlgoLinePointLine extends AlgoElement {
     	return app.getPlain("LineThroughAParallelToB",P.getLabel(tpl),l.getLabel(tpl));
 
     }
+
+    // Simon Weitzhofer 2012-05-07
+    
+	public SymbolicParameters getSymbolicParameters() {
+		return new SymbolicParameters(this);
+	}
+
+	public int[] getFreeVariablesAndDegrees(HashSet<Variable> variables)
+			throws NoSymbolicParametersException {
+		
+		if (P != null && l != null){
+			int[] degreeP = P.getFreeVariablesAndDegrees(variables);
+			int[] degreeL = l.getFreeVariablesAndDegrees(variables);
+			int[] degrees = new int[3];
+			degrees[0]=degreeL[0]+degreeP[2];
+			degrees[1]=degreeL[1]+degreeP[2];
+			degrees[2]=Math.max(degreeL[0]+degreeP[0],degreeL[1]+degreeP[1]);
+			return degrees;
+			
+		}
+		
+		throw new NoSymbolicParametersException();
+	}
+
+	public BigInteger[] getExactCoordinates(HashMap<Variable, BigInteger> values)
+			throws NoSymbolicParametersException {
+		
+		if (P != null && l != null){
+			BigInteger[] coordsP = P.getExactCoordinates(values);
+			BigInteger[] coordsL = l.getExactCoordinates(values);
+			BigInteger[] coords=new BigInteger[3];
+			coords[0]=coordsL[0].multiply(coordsP[2]);
+			coords[1]=coordsL[1].multiply(coordsP[2]);
+			coords[2]=coordsL[0].multiply(coordsP[0]).add(coordsL[1].multiply(coordsP[1])).negate();
+			return coords;
+		}
+		
+		throw new NoSymbolicParametersException();
+	}
+
+	public Polynomial[] getPolynomials() throws NoSymbolicParametersException {
+		
+		if (polynomials!=null){
+			return polynomials;
+		}
+		
+		if (P != null && l != null){
+			Polynomial[] coordsP = P.getPolynomials();
+			Polynomial[] coordsl = l.getPolynomials();
+			polynomials=new Polynomial[3];
+			polynomials[0]=coordsl[0].multiply(coordsP[2]);
+			polynomials[1]=coordsl[1].multiply(coordsP[2]);
+			polynomials[2]=coordsl[0].multiply(coordsP[0]).add(coordsl[1].multiply(coordsP[1])).negate();
+			return polynomials;
+		}
+		
+		throw new NoSymbolicParametersException();
+	}
+
+	public Variable[] getBotanaVars() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Polynomial[] getBotanaPolynomials()
+			throws NoSymbolicParametersException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
