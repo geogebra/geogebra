@@ -87,6 +87,8 @@ public class MyToggleButton extends Composite implements ClickHandler, HasValue<
 	   int iheight = ie.getHeight();
 	   c.setWidth(iwidth+"px");
 	   c.setHeight(iheight+"px");
+	   c.setCoordinateSpaceHeight(iheight);
+	   c.setCoordinateSpaceWidth(iwidth);
 	   c.getContext2d().drawImage(ie, 0, 0);
 	   return c.getCanvasElement();
     }

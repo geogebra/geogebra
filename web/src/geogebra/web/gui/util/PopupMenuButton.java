@@ -329,5 +329,9 @@ public class PopupMenuButton extends Composite implements ChangeHandler {
 	public Object getSelectedValue() {
 		return myTable.getSelectedValue();
 	}
+	
+	public CanvasElement getActionIcon() {
+		return b.compiledicon;
+	}
 
 }

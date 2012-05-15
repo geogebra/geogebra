@@ -996,7 +996,7 @@ public class EuclidianStyleBar extends HorizontalPanel
 
 			@Override
 			public CanvasElement getButtonIcon() {
-				return this.getIcon();
+				return this.getActionIcon();
 			}
 
 		};

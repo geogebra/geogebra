@@ -87,6 +87,8 @@ public class MyCanvasButton extends Composite implements MouseDownHandler, Mouse
 	   int iheight = ie.getHeight();
 	   c.setWidth(iwidth+"px");
 	   c.setHeight(iheight+"px");
+	   c.setCoordinateSpaceWidth(iwidth);
+	   c.setCoordinateSpaceHeight(iheight);
 	   Context2d cctx = c.getContext2d();
 	   cctx.clearRect(0,0,iwidth,iheight);
 	   cctx.drawImage(ie, 0, 0);
@@ -145,11 +147,17 @@ public class MyCanvasButton extends Composite implements MouseDownHandler, Mouse
 		int drawX = (ctxwidth/2) - (icwidth/2);
 		int drawY = (ctxheight/2) - (icheight/2);
 		ctx.clearRect(0, 0, ctx.getCanvas().getHeight(), ctx.getCanvas().getWidth());
+		ctx.setFillStyle("white");
+		ctx.fillRect(0, 0, ctx.getCanvas().getWidth(), ctx.getCanvas().getHeight());
 		ctx.drawImage(compiledicon, drawX, drawY);
     }
 
 	public Object getButton() {
 	    return button;
+    }
+
+	public CanvasElement getIcon() {
+	    return compiledicon;
     }
 
 }
