@@ -59,7 +59,7 @@ public class GeoConicPart extends GeoConic implements LimitedPath, NumberValue {
 	private boolean posOrientation;
 	private int conic_part_type;
 
-	private double value, area;
+	private double value, area, arcLength;
 	private boolean value_defined;
 
 	private EllipticArcLength ellipticArcLength;
@@ -246,8 +246,9 @@ public class GeoConicPart extends GeoConic implements LimitedPath, NumberValue {
 				paramExtent += Kernel.PI_2;
 
 			double r = halfAxes[0];
+			arcLength = r * paramExtent;
 			if (conic_part_type == CONIC_PART_ARC) {
-				value = r * paramExtent; // length
+				value =  arcLength;
 				// area arc = area sector - area triangle
 				area = r * r * (paramExtent - Math.sin(paramExtent)) / 2.0;
 			} else {
@@ -319,14 +320,25 @@ public class GeoConicPart extends GeoConic implements LimitedPath, NumberValue {
 	}
 
 	/**
-	 * Returns arc length
+	 * Returns arc length / area as appropriate
 	 * 
-	 * @return arc length
+	 * @return arc length / area as appropriate
 	 */
 	final public double getValue() {
 		if (!value_defined)
 			return Double.NaN;
 		return value;
+	}
+
+	/**
+	 * Returns arc length 
+	 * 
+	 * @return arc length
+	 */
+	final public double getArcLength() {
+		if (!value_defined)
+			return Double.NaN;
+		return arcLength;
 	}
 
 	/**
@@ -336,6 +348,8 @@ public class GeoConicPart extends GeoConic implements LimitedPath, NumberValue {
 	 */
 	@Override
 	final public double getArea() {
+		if (!value_defined)
+			return Double.NaN;
 		return area;
 	}
 

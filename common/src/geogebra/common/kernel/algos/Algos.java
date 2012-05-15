@@ -101,6 +101,7 @@ public enum Algos {
 	AlgoJoinPoints(Commands.Line),
 	AlgoJoinPointsRay(Commands.Ray),
 	AlgoJoinPointsSegment(Commands.Segment),
+	AlgoArcLength(Commands.Length),
 	AlgoLengthSegment(Commands.Length),
 	AlgoLengthVector(Commands.Length),
 	AlgoLineBisector(Commands.LineBisector),

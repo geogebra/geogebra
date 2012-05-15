@@ -6684,7 +6684,16 @@ public class Kernel {
 		GeoNumeric num = algo.getLength();
 		return num;
 	}
-
+	
+	/**
+	 * Arc Length named label of part-conic
+	 */
+	final public GeoNumeric Length(String label, GeoConicPart seg) {
+		AlgoArcLength algo = new AlgoArcLength(cons, label, seg);
+		GeoNumeric num = algo.getArcLength();
+		return num;
+	}
+	
 	/**
 	 * Mod[a, b]
 	 */

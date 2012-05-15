@@ -3,6 +3,7 @@ package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
+import geogebra.common.kernel.geos.GeoConicPart;
 import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
@@ -59,10 +60,16 @@ public class CmdLength extends CommandProcessor {
 						(GeoLocus) arg[0]) };
 				return ret;
 			} else if (arg[0].isGeoSegment()) {
-					GeoElement[] ret = { kernelA.Length(c.getLabel(),
-							(GeoSegmentND) arg[0]) };
-					return ret;
-				
+				GeoElement[] ret = { kernelA.Length(c.getLabel(),
+						(GeoSegmentND) arg[0]) };
+				return ret;
+			
+			} else if (arg[0].isGeoConicPart()) {
+				// Arc length
+				GeoElement[] ret = { kernelA.Length(c.getLabel(),
+						(GeoConicPart) arg[0]) };
+				return ret;
+			
 			} else {
 				throw argErr(app, c.getName(), arg[0]);
 			}
