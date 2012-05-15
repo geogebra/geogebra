@@ -35,7 +35,7 @@ cd $RSYNC_LOCALDIR/webstart
 
 cat $SVNDIR/geogebra/desktop/scripts/autobuild/mirrors-rsync.conf | grep -v "^#" | grep -v "^$" | while read IP PORT RUSER DIR RSYNC_PASSWORD; do
  echo "Copying 3.2 related files from $RSYNC_LOCALDIR/webstart to rsync://$RUSER@$IP:$PORT/$DIR/webstart/..."
- RSYNC_PASSWORD=$RSYNC_PASSWORD rsync -avILK 3.2 packed unpacked unsigned *.jar.var rsync://$RUSER@$IP:$PORT/$DIR/webstart
+ RSYNC_PASSWORD=$RSYNC_PASSWORD rsync -avILK 3.2 packed unpacked unsigned *.jar rsync://$RUSER@$IP:$PORT/$DIR/webstart
 
  # TODO: Automatic check (by wget)
 
