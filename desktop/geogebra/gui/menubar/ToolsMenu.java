@@ -138,6 +138,7 @@ class ToolsMenu extends BaseMenu {
 					app.getGuiManager().addToToolbarDefinition(mode);
 					app.updateToolBar();
 				}
+				app.setMode(mode);
 				
 			}
 		};
