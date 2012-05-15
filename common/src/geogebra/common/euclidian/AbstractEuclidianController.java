@@ -12,6 +12,7 @@ the Free Software Foundation.
 package geogebra.common.euclidian;
 
 
+import geogebra.common.awt.Color;
 import geogebra.common.awt.Point;
 import geogebra.common.awt.Point2D;
 import geogebra.common.awt.Rectangle;
@@ -23,6 +24,7 @@ import geogebra.common.kernel.Path;
 import geogebra.common.kernel.Region;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.algos.AlgoArcLength;
 import geogebra.common.kernel.algos.AlgoDynamicCoordinates;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoPolygon;
@@ -35,6 +37,7 @@ import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.PolyFunction;
+import geogebra.common.kernel.geos.Furniture;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoAxis;
 import geogebra.common.kernel.geos.GeoBoolean;
@@ -45,7 +48,6 @@ import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoFunctionable;
-import geogebra.common.kernel.geos.Furniture;
 import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoList;
@@ -81,7 +83,6 @@ import geogebra.common.plugin.GeoClass;
 import geogebra.common.plugin.Operation;
 import geogebra.common.util.MyMath;
 import geogebra.common.util.StringUtil;
-
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -3966,6 +3967,7 @@ public abstract class AbstractEuclidianController {
 					true, true);
 			text.setAbsoluteScreenLocActive(true);
 			text.setAbsoluteScreenLoc(loc.x, loc.y);
+			text.setBackgroundColor(Color.WHITE);
 			text.updateRepaint();
 			return text;
 		} catch (Exception e) {
@@ -4021,6 +4023,7 @@ public abstract class AbstractEuclidianController {
 					}
 			
 					text.setStartPoint(textCorner);
+					text.setBackgroundColor(Color.WHITE);
 					text.updateRepaint();
 					return text;
 				} catch (Exception e) {
@@ -4291,20 +4294,20 @@ public abstract class AbstractEuclidianController {
 		else if (selConics() == 1) {
 			GeoConic conic = getSelectedConics()[0];
 			if (conic.isGeoConicPart()) {
-				// length of arc
-				GeoConicPart conicPart = (GeoConicPart) conic;
-				if (conicPart.getConicPartType() == GeoConicPart.CONIC_PART_ARC) {
-					// arc length
-					if (conic.isLabelVisible()) {
-						conic.setLabelMode(GeoElement.LABEL_NAME_VALUE);
-					} else {
-						conic.setLabelMode(GeoElement.LABEL_VALUE);
-					}
-					conic.updateRepaint();
-					GeoElement[] ret = { conic };
-					return ret; // return this not null because the kernel has
-								// changed
-				}
+				
+				Construction cons = kernel.getConstruction();
+				AlgoArcLength algo = new AlgoArcLength(cons, null, (GeoConicPart) conic);
+				//cons.removeFromConstructionList(algo);
+				GeoNumeric arcLength = algo.getArcLength();
+				
+				GeoText text = createDynamicText("ArcLengthOfA", conic, arcLength,
+						mouseCoords);
+					text.setLabel(removeUnderscores(app.getPlain("Text")
+							+ conic.getLabelSimple()));
+				GeoElement[] ret = { text };
+				return ret;
+
+				
 			}
 	
 			// standard case: conic
