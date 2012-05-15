@@ -47,13 +47,14 @@ rsync -avPO --rsh="ssh -p $WWW_SERVER_PORT -i $WWW_SERVER_KEY" \
  $PROP_DIR/nav/* $WWW_SERVER_LOGIN:$NAV_REMOTEDIR 2>&1 | grep -v failed | grep -v "were not transferred"
 
 # The script should also remove all files
-# /Library/WebServer/GeoGebra/navigation/cache/* and
-# /Library/WebServer/GeoGebraTube/tmp/cache/zend_cache---Zend_Translate_*
+# /home/GeoGebra/navigation/cache/* and
+# /home/GeoGebraTube/tmp/cache/zend_cache---Zend_Translate_*
 # so that the properties are really used.
 ssh -p $WWW_SERVER_PORT -i $WWW_SERVER_KEY $WWW_SERVER_LOGIN \
  "cd /home/GeoGebra/navigation/cache && find . -name '*.php' | xargs rm"
 ssh -p $WWW_SERVER_PORT -i $WWW_SERVER_KEY $WWW_SERVER_LOGIN \
  "cd /home/GeoGebraTube/tmp/cache && find . -name 'zend_cache---Zend_Translate*' | xargs rm"
+# It is important to make sure that during copying the user should have enough privileges.
 
 date
 echo "$0: end"
