@@ -9799,8 +9799,8 @@ public class Kernel {
 
 		clearCasCache();
 
-		TreeSet<GeoElement> treeset = getConstruction()
-				.getGeoSetConstructionOrder();
+		TreeSet<GeoElement> treeset = new TreeSet<GeoElement>(getConstruction()
+				.getGeoSetConstructionOrder());
 
 		ArrayList<GeoElement> al = new ArrayList<GeoElement>();
 
