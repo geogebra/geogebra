@@ -105,6 +105,7 @@ public class AngleInputDialog extends PopupPanel implements ClickHandler {
 
 			if (source == btOK || source == inputPanel.getTextComponent().getTextField()) {
 				inputText = inputPanel.getText();
+				inputPanel.getTextComponent().hideTablePopup();
 
 				// negative orientation ?
 				if (rbClockWise.getValue()) {
@@ -115,6 +116,7 @@ public class AngleInputDialog extends PopupPanel implements ClickHandler {
 			} else if (source == btCancel) {
 				finished = true;		
 				success=false;
+				inputPanel.getTextComponent().hideTablePopup();
 			}
 		} catch (Exception ex) {
 			// do nothing on uninitializedValue		

@@ -1117,6 +1117,11 @@ public class AutoCompleteTextField extends HorizontalPanel implements AutoComple
 		return tablePopup;
 	}
 
+	public void hideTablePopup() {
+		if (tablePopup != null)
+			tablePopup.hide();
+	}
+
 	public String getText() {
 	    return textField.getText();
     }
