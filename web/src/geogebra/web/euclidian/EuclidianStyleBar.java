@@ -118,6 +118,8 @@ public class EuclidianStyleBar extends HorizontalPanel
 	private MyToggleButton btnTableTextLinesH;
 
 	private MyToggleButton[] toggleBtnList;
+	private PopupMenuButton[] popupBtnList;
+	
 	private MyCanvasButton btnDeleteGeo;
 
 
@@ -309,30 +311,26 @@ public class EuclidianStyleBar extends HorizontalPanel
 			activeGeoList.addAll(ec.getJustCreatedGeos());
 		}
 
-		// temporary instead of the...
-		updateTableText(activeGeoList.toArray());
-		btnShowAxes.update(activeGeoList.toArray());
-		btnShowGrid.update(activeGeoList.toArray());
-		btnBold.update(activeGeoList.toArray());
-		btnItalic.update(activeGeoList.toArray());
-
-		/*
 		// -----------------------------------------------------
 		// update the buttons
 		// note: this must always be done, even when activeGeoList is empty
 		// -----------------------------------------------------
 		updateTableText(activeGeoList.toArray());
 		for (int i = 0; i < popupBtnList.length; i++) {
-			popupBtnList[i].update(activeGeoList.toArray());
+			if (popupBtnList[i] != null) {
+				popupBtnList[i].update(activeGeoList.toArray());
+			}
 		}
 		for (int i = 0; i < toggleBtnList.length; i++) {
-			toggleBtnList[i].update(activeGeoList.toArray());
+			if (toggleBtnList[i] != null) {
+				toggleBtnList[i].update(activeGeoList.toArray());
+			}
 		}
 
 		// show the pen delete button
 		// TODO: handle pen mode in code above
-		btnPenDelete.setVisible((mode == EuclidianConstants.MODE_PEN));
-		*/
+		//btnPenDelete.setVisible((mode == EuclidianConstants.MODE_PEN));
+		addButtons();
     }
 
 	private void updateTableText(Object[] geos) {
@@ -497,6 +495,7 @@ public class EuclidianStyleBar extends HorizontalPanel
 
 		addButtons();
 	
+		popupBtnList = newPopupBtnList();
 		toggleBtnList = newToggleBtnList();
 	}
 
@@ -571,6 +570,12 @@ public class EuclidianStyleBar extends HorizontalPanel
 				btnShowAxes, btnBold, btnItalic, btnDelete, btnLabel,
 				btnPenEraser, btnHideShowLabel, btnTableTextLinesV,
 				btnTableTextLinesH };
+	}
+	
+	protected PopupMenuButton[] newPopupBtnList() {
+		return new PopupMenuButton[] { btnColor, btnBgColor, btnTextColor,
+				btnLineStyle, btnPointStyle, btnTextSize, btnTableTextJustify,
+				btnTableTextBracket, btnLabelStyle, btnPointCapture };
 	}
 
 	// =====================================================

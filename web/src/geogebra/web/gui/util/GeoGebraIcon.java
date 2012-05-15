@@ -4,18 +4,13 @@ import geogebra.common.awt.Color;
 import geogebra.common.awt.RenderingHints;
 import geogebra.common.euclidian.EuclidianStatic;
 import geogebra.web.awt.BasicStroke;
-import geogebra.web.awt.BufferedImage;
 import geogebra.web.awt.Dimension;
 import geogebra.web.awt.Font;
 import geogebra.web.awt.Graphics2D;
 import geogebra.web.openjdk.awt.geom.Polygon;
 
-import javax.swing.ImageIcon;
-
 import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.dom.client.CanvasElement;
-import com.google.gwt.user.client.ui.Image;
 
 public class GeoGebraIcon {
 
@@ -84,8 +79,12 @@ public class GeoGebraIcon {
 		int h = iconSize.getHeight();
 		int w = iconSize.getWidth();
 
-		Canvas image = Canvas.createIfSupported();
-	    Graphics2D g2 = new Graphics2D(image);
+		Canvas c = Canvas.createIfSupported();
+		c.setWidth(w+"px");
+		c.setHeight(h+"px");
+		c.setCoordinateSpaceHeight(h);
+		c.setCoordinateSpaceWidth(w);
+	    Graphics2D g2 = new Graphics2D(c);
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
 		if(bgColor != null){
@@ -99,7 +98,7 @@ public class GeoGebraIcon {
 		int mid = h / 2;
 		g2.drawLine(4, mid, w - 4, mid);
 
-		return image.getCanvasElement();
+		return c.getCanvasElement();
     }
 	
 	public static CanvasElement createEmptyIcon(int width, int height){
@@ -158,7 +157,7 @@ public class GeoGebraIcon {
 
 		//float[] rgb = new float[3];
 		//fgColor.getRGBColorComponents(rgb);
-		g2.setPaint(new geogebra.web.awt.Color(fgColor.getRed(), fgColor.getGreen(), fgColor.getBlue()/*,alpha*255*/));
+		g2.setPaint(new geogebra.web.awt.Color(fgColor.getRed(), fgColor.getGreen(), fgColor.getBlue(),alpha*255));
 		g2.fillRect(offset, offset, w-2*offset, h-2*offset);
 
 		// border color with alpha = 1
@@ -174,8 +173,12 @@ public class GeoGebraIcon {
 		int h = iconSize.getHeight();
 		int w = iconSize.getWidth();
 
-		BufferedImage image = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
-		Graphics2D g2 = new Graphics2D(image.getCanvas());
+		Canvas c = Canvas.createIfSupported();
+		c.setWidth(w+"px");
+		c.setHeight(h+"px");
+		c.setCoordinateSpaceHeight(h);
+		c.setCoordinateSpaceWidth(w);
+		Graphics2D g2 = new Graphics2D(c);
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
 		if(bgColor != null)
@@ -203,9 +206,13 @@ public class GeoGebraIcon {
 	
 	public static CanvasElement createNullSymbolIcon(int width, int height){
 
-		BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+		Canvas c = Canvas.createIfSupported();
+		c.setWidth(width+"px");
+		c.setHeight(height+"px");
+		c.setCoordinateSpaceHeight(width);
+		c.setCoordinateSpaceWidth(height);
 
-		Graphics2D g2 = new Graphics2D(image.getCanvas());
+		Graphics2D g2 = new Graphics2D(c);
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
 		g2.setPaint(Color.GRAY);

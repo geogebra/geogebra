@@ -15,6 +15,8 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.CanvasElement;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.NativeEvent;
+import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -132,8 +134,6 @@ public class PopupMenuButton extends Composite implements ChangeHandler {
 				}
 			}
 		});
-				
-			
 
 
 		// place text to the left of drop down icon
@@ -188,6 +188,7 @@ public class PopupMenuButton extends Composite implements ChangeHandler {
 
 	protected void handlePopupActionEvent() {
 	   ((Canvas)b.getButton()).fireEvent(new ClickEvent(){});
+	   updateGUI();
 	   myPopup.hide();
     }
 	
@@ -196,8 +197,7 @@ public class PopupMenuButton extends Composite implements ChangeHandler {
 	}
 
 	public void update(Object[] geos) {
-	    // TODO Auto-generated method stub
-	    
+	    //do nothing here will be overwritten
     }
 	
 	public void setFgColor(Color fgColor) {
@@ -207,11 +207,6 @@ public class PopupMenuButton extends Composite implements ChangeHandler {
 		updateGUI();
 
 	}
-
-	private void updateGUI() {
-	    // TODO Auto-generated method stub
-	    
-    }
 	
 	public void setSelectedIndex(Integer selectedIndex) {
 
@@ -298,6 +293,19 @@ public class PopupMenuButton extends Composite implements ChangeHandler {
 	public void onChange(ChangeEvent event) {
 	  AbstractApplication.debug("slider changed");
     }
+	
+	private void updateGUI(){
+
+		if(isIniting) return;
+
+		setIcon(getButtonIcon());
+
+		if(hasTable){
+			myTable.repaint();
+		}
+
+		
+	}
 
 
 	public void addClickHandler(EuclidianStyleBar euclidianStyleBar) {

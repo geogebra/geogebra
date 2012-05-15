@@ -91,7 +91,7 @@ public class MyToggleButton extends Composite implements ClickHandler, HasValue<
 	   return c.getCanvasElement();
     }
 
-	private void setDown(boolean down) {
+	void setDown(boolean down) {
 		int width = ctx.getCanvas().getWidth();
 		int height = ctx.getCanvas().getHeight();
 		if (down) {

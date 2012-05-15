@@ -13,6 +13,7 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.resources.client.ImageResource;
 
 import geogebra.common.awt.Color;
+import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.web.awt.Dimension;
 import geogebra.web.gui.util.GeoGebraIcon;

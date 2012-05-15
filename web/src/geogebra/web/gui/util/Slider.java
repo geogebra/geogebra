@@ -5,9 +5,16 @@ import geogebra.web.awt.Dimension;
 
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.HasChangeHandlers;
+import com.google.gwt.event.dom.client.MouseDownEvent;
+import com.google.gwt.event.dom.client.MouseDownHandler;
+import com.google.gwt.event.dom.client.MouseMoveEvent;
+import com.google.gwt.event.dom.client.MouseMoveHandler;
+import com.google.gwt.event.dom.client.MouseUpEvent;
+import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
@@ -20,26 +27,26 @@ import com.google.gwt.user.client.ui.ToggleButton;
 import com.google.gwt.user.client.ui.ValueBoxBase;
 import com.google.gwt.user.client.ui.Widget;
 
-public class Slider extends FocusWidget implements HasChangeHandlers, HasValue<Integer> {
+public class Slider extends FocusWidget implements HasChangeHandlers, HasValue<Integer>, MouseDownHandler, MouseUpHandler {
 	
-	private static Element range;
+	private Element range;
 	private boolean valueChangeHandlerInitialized;
+	private Integer valueOnDragStart;
 	 
 	public Slider() {
 		this(0,100);
 	}
 
 	public Slider(int min, int max) {
-		this(range = Document.get().createElement("input"),min,max);
-	  
-    }
-
-	public Slider(Element slider, int min, int max) {
-	   super(slider);
+	   range = Document.get().createElement("input");
 	   range.setAttribute("type", "range");
 	   range.setAttribute("min", String.valueOf(min));
 	   range.setAttribute("max", String.valueOf(max));   
 	   range.setAttribute("value", String.valueOf(min));
+	   setElement(range);
+	   addMouseDownHandler(this);
+	   addMouseUpHandler(this);
+	   
     }
 
 	public void removeChangeListener(PopupMenuButton popupMenuButton) {
@@ -47,15 +54,12 @@ public class Slider extends FocusWidget implements HasChangeHandlers, HasValue<I
 	    
     }
 
-	public void setValue(String value) {
-		  DOM.setElementProperty(getElement(), "value", value != null ? value : "0");
-    }
-
 	public void addChangeListener(PopupMenuButton popupMenuButton) {
 		addChangeHandler(popupMenuButton);
     }
 
 	public Integer getValue() {
+		AbstractApplication.debug(Integer.valueOf(range.getAttribute("value"))+" alphaSlider");
 	   return Integer.valueOf(range.getAttribute("value"));
     }
 
@@ -101,19 +105,32 @@ public class Slider extends FocusWidget implements HasChangeHandlers, HasValue<I
     }
 
 	public void setValue(Integer value) {
-		setValue(String.valueOf(value));
+		setValue(value,false);
     }
 
 	public void setValue(Integer value, boolean fireEvents) {
-		Integer oldValue = getValue();
-	    setValue(String.valueOf(value));
-	    if (fireEvents) {
-	      ValueChangeEvent.fireIfNotEqual(this, oldValue, value);
-	    }
+		//Integer oldValue = getValue();
+	    setSliderValue(String.valueOf(value));
+	    //if (fireEvents) {
+	    //  ValueChangeEvent.fireIfNotEqual(this, oldValue, value);
+	    //}
+    }
+
+	private void setSliderValue(String value) {
+	   range.setAttribute("value", value);
     }
 
 	public HandlerRegistration addChangeHandler(ChangeHandler handler) {
 		return addDomHandler(handler, ChangeEvent.getType());
+    }
+
+	public void onMouseUp(MouseUpEvent event) {
+	   ValueChangeEvent.fireIfNotEqual(this, valueOnDragStart, getValue());
+	    
+    }
+
+	public void onMouseDown(MouseDownEvent event) {
+	   valueOnDragStart = getValue();
     }
 
 }

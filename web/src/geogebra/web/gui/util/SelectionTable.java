@@ -87,13 +87,13 @@ public class SelectionTable extends Grid implements ClickHandler {
     }
 
 	private void changeSelection(int row, int column, boolean b, boolean c) {
-	    // TODO Auto-generated method stub
-	    
+	   selectedRow = row;
+	   selectedColumn = column;
     }
 
 	private void clearSelection() {
-	    // TODO Auto-generated method stub
-	    
+	   selectedColumn = 0;
+	   selectedRow = 0;
     }
 
 	public int getSelectedIndex() {
@@ -265,6 +265,11 @@ public class SelectionTable extends Grid implements ClickHandler {
 
 	private Object getValueAt(int row, int column) {
 	    return getWidget(row, column);
+    }
+
+	public void repaint() {
+	  //should we do here something?
+	    
     }
 
 }
