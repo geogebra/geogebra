@@ -188,7 +188,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		if (casInput.isKeepInputUsed()
 				&& (exception != null || "?".equals(result))) {
 			// return original input
-			return casInput.toString(StringTemplate.defaultTemplate);
+			return casInput.toString(tpl);
 		}
 
 		// pass on exception
@@ -526,7 +526,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 
 	public String evaluateGeoGebraCAS(ValidExpression evalVE,
 			MyArbitraryConstant arbconst) {
-		return evaluateGeoGebraCAS(evalVE,arbconst,StringTemplate.defaultTemplate);
+		return evaluateGeoGebraCAS(evalVE,arbconst,StringTemplate.numericDefault);
 	}
 
 	
