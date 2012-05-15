@@ -2,9 +2,10 @@ package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.algos.AlgoCauchyDF;
+import geogebra.common.kernel.arithmetic.BooleanValue;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
-import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.main.MyError;
@@ -32,7 +33,7 @@ public class CmdCauchy extends CommandProcessor {
 		
 		arg = resArgs(c);
 
-		boolean cumulative = false; // default for n=3
+		BooleanValue cumulative = null; // default for n=3 (false)
 		switch (n) {
 		case 4:
 			if (!arg[2].isGeoFunction() || !((GeoFunction)arg[2]).toString(StringTemplate.defaultTemplate).equals("x")) {
@@ -40,7 +41,7 @@ public class CmdCauchy extends CommandProcessor {
 			}
 			
 			if (arg[3].isGeoBoolean()) {
-				cumulative = ((GeoBoolean)arg[3]).getBoolean();
+				cumulative = (BooleanValue) arg[3];
 			} else
 				throw argErr(app, c.getName(), arg[3]);
 
@@ -49,22 +50,9 @@ public class CmdCauchy extends CommandProcessor {
 			if ((ok[0] = arg[0].isNumberValue()) && (ok[1] = arg[1].isNumberValue())) {
 				if (arg[2].isGeoFunction() && ((GeoFunction)arg[2]).toString(StringTemplate.defaultTemplate).equals("x")) {
 
-					// needed for eg Normal[1, 0.001, x] 
-					StringTemplate highPrecision = StringTemplate.maxPrecision;
-					String x0 = arg[0].getLabel(highPrecision);
-					String g = arg[1].getLabel(highPrecision);
-					
-					String command;
-					
-					if (cumulative) {
-						command = "1/pi atan((x-("+x0+"))/abs("+g+"))+0.5";
-					} else {
-						command = "1/pi abs("+g+")/(("+g+")^2+(x-("+x0+"))^2)";
-					}
-					
-					
-					GeoElement[] ret = kernelA.getAlgebraProcessor().processAlgebraCommand(command, true);
-					return ret;
+					AlgoCauchyDF algo = new AlgoCauchyDF(cons, c.getLabel(), (NumberValue)arg[0], (NumberValue)arg[1], cumulative);
+					return algo.getGeoElements();
+
 
 
 				} else if (arg[2].isNumberValue()) {

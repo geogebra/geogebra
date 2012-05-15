@@ -4693,6 +4693,13 @@ public class ExpressionNode extends ValidExpression implements
 	}
 
 	/**
+	 * @return result of atan(this)
+	 */
+	public ExpressionNode atan() {
+		return new ExpressionNode(kernel, this, Operation.ARCTAN, null);
+	}
+
+	/**
 	 * @return result of this * -1
 	 */
 	public ExpressionNode reverseSign() {
