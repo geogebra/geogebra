@@ -16,8 +16,8 @@ test -r $AUTOBUILDCONF && . $AUTOBUILDCONF && echo "* Using autobuild.conf for o
 TARGET=$1
 
 # 2. Updating war/web to www.geogebra.org/web/...
-echo "Copying $APPNAME.crx to www.geogebra.org/web/$TARGET/$APPNAME.crx"
-rsync -avPO --rsh="ssh -p $WWW_SERVER_PORT -i $WWW_SERVER_KEY" $APPNAME.crx $WWW_SERVER_LOGIN:$GGBWEBDIR/$TARGET 2>&1 | grep -v failed | grep -v "were not transferred"
+echo "Copying $APPNAME.crx to $WWW_SERVER_LOGIN:$GGBWEBDIR/$TARGET/$APPNAME.crx"
+rsync -avPO --rsh="ssh -p $WWW_SERVER_PORT -i $WWW_SERVER_KEY" $APPNAME.crx $WWW_SERVER_LOGIN:$GGBWEBDIR/$TARGET
 
 # 3. Finished
 echo "Now you might want to check this deployment by pointing your Chrome browser to
