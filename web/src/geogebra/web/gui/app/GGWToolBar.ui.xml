@@ -2,5 +2,5 @@
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
 	xmlns:g="urn:import:com.google.gwt.user.client.ui"
 	xmlns:web="urn:import:geogebra.web.gui.toolbar">
-	<g:VerticalPanel ui:field="toolBarPanel"></g:VerticalPanel>
+		<g:VerticalPanel ui:field="toolBarPanel"></g:VerticalPanel>
 </ui:UiBinder> 

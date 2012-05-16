@@ -8,6 +8,9 @@ public interface AppResources extends ClientBundle {
 	
 	AppResources INSTANCE = GWT.create(AppResources.class);
 	
+	@Source("geogebra/web/gui/images/GeoGebraTube.png")
+	ImageResource GeoGebraTube();
+	
 	@Source("geogebra/web/gui/images/applications-graphics.png")
 	ImageResource application_graphics();
 	

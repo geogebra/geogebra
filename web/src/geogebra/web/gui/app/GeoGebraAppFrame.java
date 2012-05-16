@@ -22,6 +22,7 @@ import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
+import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SplitLayoutPanel;
 
 /**
@@ -85,6 +86,11 @@ public class GeoGebraAppFrame extends Composite {
 		app = createApplication(article,this);
 		ggwSplitLayoutPanel.attachApp(app);
 		ggwCommandLine.attachApp(app);
+		
+		//take in GeoGebraTube link
+		LinkToGGT lggt = new LinkToGGT();
+		lggt.setStyleName("linktoggt");
+		RootPanel.get().add(lggt);
     }
 	
 	/**

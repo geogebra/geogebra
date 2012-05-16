@@ -1357,3 +1357,13 @@ td.datePickerMonth {
 .toolbar_item{
 	width: 40px;
 }
+
+.linktoggt {
+	display: block;
+	position: fixed;
+	right: 10px;
+	top: 10px;
+	z-index:1000000;
+	cursor:pointer;
+	border-radius:2px;
+}
