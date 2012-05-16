@@ -13,6 +13,8 @@ import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.FunctionNVar;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
+import geogebra.common.kernel.arithmetic.Traversing;
+import geogebra.common.kernel.arithmetic.Traversing.ArbconstReplacer;
 import geogebra.common.kernel.arithmetic.Traversing.CommandCollector;
 import geogebra.common.kernel.arithmetic.Traversing.GeoDummyReplacer;
 import geogebra.common.kernel.arithmetic.ValidExpression;
@@ -1351,7 +1353,9 @@ public class GeoCasCell extends GeoElement implements VarString {
 			return;
 
 		// try to create twin geo for assignment, e.g. m := c + 3
-		
+		ArbconstReplacer repl = ArbconstReplacer.getReplacer(arbconst);
+		arbconst.reset();
+		outputVE.traverse(repl);
 		GeoElement newTwinGeo = silentEvalInGeoGebra(outputVE);
 		if (newTwinGeo != null) {
 			if (isXY)
@@ -1557,7 +1561,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 					throw new CASException("Invalid input (evalVE is null)");
 				}
 				result = kernel.getGeoGebraCAS().evaluateGeoGebraCAS(evalVE,
-						arbconst,StringTemplate.maxPrecision);
+						null,StringTemplate.numericDefault);
 				success = result != null;
 			} catch (CASException e) {
 				System.err.println("GeoCasCell.computeOutput(), CAS eval: "
