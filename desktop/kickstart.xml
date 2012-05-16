@@ -203,6 +203,7 @@ instructions.
 	</target>
 	
 	<!-- download mpreduce default.img from GeoGebra repository -->
+	<!-- Please change the date in ../web/kickstart.xml when the default.img file is changing! -->
 	<target name="mpreduce-geogebra">
 	<get 
 	    src="http://dev.geogebra.org/download/lib/build/mpreduce/default.img-20120512"

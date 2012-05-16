@@ -20,7 +20,7 @@ your workstation.
 
 <project default="geogebraweb-developer">
 
-	<target name="geogebraweb-developer-commandline" depends="javacc, gwt-sdk"
+	<target name="geogebraweb-developer-commandline" depends="javacc, gwt-sdk, geogebraweb-developer"
 	    description="For command line developers (mostly Unix): to create GeoGebraWeb builds">
 	</target>
 
@@ -28,7 +28,7 @@ your workstation.
 	    description="For command line developers (mostly Unix): to create GeoGebraWeb builds">
 	</target>
 
-	<target name="geogebraweb-developer" 
+	<target name="geogebraweb-developer" depends="ggbreduce-base64"
 	    description="For Eclipse developers: to create GeoGebraWeb builds">
 	</target>
 
@@ -52,10 +52,11 @@ your workstation.
 	-->
 	
 	<!-- download base64 encoded version of mpreduce from GeoGebra repository -->
+	<!-- Please change the date according to ../desktop/kickstart.xml when the default.img file is changing! -->
 	<target name="ggbreduce-base64">
-	<get src="http://dev.geogebra.org/download/lib/build/mpreduce/default.img-base64.php?date=20120505"
+	<get src="http://dev.geogebra.org/download/lib/build/mpreduce/default.img-base64.php?date=20120512"
 	    dest="src/geogebra/resources/statictexts/defaultbase64web.img"/>
-	</target> <!-- do not use yet! -->
+	</target>
 	
 	<!-- download javacc from GeoGebra repository -->
 	<target name="javacc-geogebra">
