@@ -7,7 +7,7 @@
 # Override them if needed by using autobuild.conf
 WWW_SERVER_LOGIN=www-refresh@www.geogebra.org
 GGBWEBDIR=/home/GeoGebra/web
-APPNAME=geogebra
+APPNAME=geogebra_chromeapp
 
 AUTOBUILDCONF=../../desktop/scripts/autobuild/autobuild.conf
 
