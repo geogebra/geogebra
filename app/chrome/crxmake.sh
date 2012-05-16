@@ -15,7 +15,7 @@ crx="$name.crx"
 pub="$name.pub"
 sig="$name.sig"
 zip="$name.zip"
-trap 'rm -f "$pub" "$sig" "$zip"' EXIT
+trap 'rm -f "$pub" "$sig"' EXIT
 
 # zip up the crx dir
 cwd=$(pwd -P)
@@ -40,4 +40,4 @@ sig_len_hex=$(byte_swap $(printf '%08x\n' $(ls -l "$sig" | awk '{print $5}')))
   echo "$crmagic_hex $version_hex $pub_len_hex $sig_len_hex" | xxd -r -p
   cat "$pub" "$sig" "$zip"
 ) > "$crx"
-echo "Wrote $crx"
+echo "Wrote $crx and $zip"

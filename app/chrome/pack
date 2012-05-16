@@ -4,7 +4,7 @@
 # @author Zoltan Kovacs <zoltan@geogebra.org>
 
 # 1. Settings
-APPNAME=geogebra
+APPNAME=geogebra_chromeapp
 KEYFILE=igi-keystore-CL.key.pem
 AUTOBUILDCONF=../../desktop/scripts/autobuild/autobuild.conf
 
@@ -36,7 +36,7 @@ cd $CHROMEDIR
 
 # 4. Cleanup
 rm -rf $APPNAME/web
-rm -rf $APPNAME/app.html
+rm -f $APPNAME/app.html
 
 # 5. Info
-echo "Packaging is finished, the result is in $APPNAME.crx"
+echo "Packaging is finished, the result is in $APPNAME.crx and $APPNAME.zip"

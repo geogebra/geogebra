@@ -15,10 +15,16 @@ test -r $AUTOBUILDCONF && . $AUTOBUILDCONF && echo "* Using autobuild.conf for o
 
 TARGET=$1
 
-# 2. Updating war/web to www.geogebra.org/web/...
-echo "Copying $APPNAME.crx to $WWW_SERVER_LOGIN:$GGBWEBDIR/$TARGET/$APPNAME.crx"
-rsync -avPO --rsh="ssh -p $WWW_SERVER_PORT -i $WWW_SERVER_KEY" $APPNAME.crx $WWW_SERVER_LOGIN:$GGBWEBDIR/$TARGET
+# 2. Copying
+for i in crx zip; do
+ echo "Copying $APPNAME.$i to $WWW_SERVER_LOGIN:$GGBWEBDIR/$TARGET/$APPNAME.$i"
+ rsync -avPO --rsh="ssh -p $WWW_SERVER_PORT -i $WWW_SERVER_KEY" $APPNAME.$i $WWW_SERVER_LOGIN:$GGBWEBDIR/$TARGET
+ done
 
 # 3. Finished
 echo "Now you might want to check this deployment by pointing your Chrome browser to
-* http://www.geogebra.org/web/$TARGET/$APPNAME.crx"
+* http://www.geogebra.org/web/$TARGET/$APPNAME.crx
+
+Or just download
+http://www.geogebra.org/web/$TARGET/$APPNAME.zip
+for uploading it to https://chrome.google.com/webstore/developer/dashboard."
