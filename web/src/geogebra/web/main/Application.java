@@ -300,8 +300,8 @@ public class Application extends AbstractApplication {
 				var dt = e.dataTransfer;
 				if (dt.files.length) {
 					var fileToHandle = dt.files[0];
-					var imageRegEx = /\.(png|jpg|jpeg|gif)$/;
-					var ggbRegEx = /\.(ggb|ggt)$/;
+					var imageRegEx = /\.(png|jpg|jpeg|gif)$/i;
+					var ggbRegEx = /\.(ggb|ggt)$/i;
 					if (fileToHandle.name.toLowerCase().match(imageRegEx)) {
 						var reader = new FileReader();
 						reader.onloadend = function(ev) {
@@ -900,7 +900,7 @@ public class Application extends AbstractApplication {
 			return; // Ignore files without extension
 		}
 
-		String ext = fn.substring(index + 1);
+		String ext = fn.substring(index + 1).toLowerCase();
 		if (!IMAGE_EXTENSIONS.contains(ext)) {
 			return; // Ignore non image files
 		}

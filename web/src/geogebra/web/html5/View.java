@@ -199,7 +199,7 @@ public class View extends Widget {
 			return tmp_arr.join('');
 		}		
 		
-	    var imageRegex = /\.(png|jpg|jpeg|gif)$/;
+	    var imageRegex = /\.(png|jpg|jpeg|gif)$/i;
 	    if (workerUrls === "false") {
 	    	$wnd.zip.useWebWorkers = false;
 	    } else {
@@ -303,7 +303,7 @@ public class View extends Widget {
 					return tmp_arr.join('');
 				}		
 				
-			    var imageRegex = /\.(png|jpg|jpeg|gif)$/;
+			    var imageRegex = /\.(png|jpg|jpeg|gif)$/i;
 			    if (workerUrls === "false") {
 			    	$wnd.zip.useWebWorkers = false;
 			    } else {
