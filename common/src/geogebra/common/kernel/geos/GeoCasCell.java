@@ -1356,8 +1356,9 @@ public class GeoCasCell extends GeoElement implements VarString {
 		if (newTwinGeo != null) {
 			if (isXY)
 				// only allow x and y for TwinGeo elements of functional type,
-				// prevents definitions like a:=x
-				if (!(newTwinGeo instanceof geogebra.common.kernel.arithmetic.Functional))
+				if (!(newTwinGeo instanceof geogebra.common.kernel.arithmetic.Functional)
+						//or conics and implicit polys
+						&& !newTwinGeo.isPath())
 					return;
 			setTwinGeo(newTwinGeo);
 		}
