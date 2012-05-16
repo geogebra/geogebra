@@ -2020,7 +2020,6 @@ public class ExpressionNode extends ValidExpression implements
 			break;
 
 		case MINUS:
-			AbstractApplication.debug(leftStr+" "+rightStr+" "+right.isLeaf()+" "+opID(right) +" "+ Operation.MULTIPLY.ordinal());
 			switch (STRING_TYPE) {
 			case MATHML:
 				mathml(sb, "<minus/>", leftStr, rightStr);
@@ -2044,13 +2043,11 @@ public class ExpressionNode extends ValidExpression implements
 				break;
 
 			default:
-				AbstractApplication.debug(1);
 						if (left instanceof Equation) {
 					sb.append(leftBracket(STRING_TYPE));
 					sb.append(leftStr);
 					sb.append(rightBracket(STRING_TYPE));
 				} else {
-					AbstractApplication.debug(2);
 					sb.append(leftStr);
 				}
 
@@ -2058,25 +2055,20 @@ public class ExpressionNode extends ValidExpression implements
 				if (valueForm
 						&& rightStr
 								.equals(AbstractApplication.unicodeZero + "")) {
-					AbstractApplication.debug(3);
 					break;
 				}
 
 				if (right.isLeaf()
-						|| ((opID(right) >= Operation.MULTIPLY.ordinal() // not +, -
-							&& opID(right) != Operation.FUNCTION_NVAR.ordinal()))) {												
+						|| (opID(right) >= Operation.MULTIPLY.ordinal())) { // not +, -
 																			
 					if (rightStr.charAt(0) == '-') { // convert - - to +
 						if (STRING_TYPE.equals(StringType.LATEX)
 								&& kernel.isInsertLineBreaks()) {
-							AbstractApplication.debug(5);
 							sb.append(" \\-+ ");
 						} else {
-							AbstractApplication.debug(6);
 							sb.append(" + ");
 						}
 						sb.append(rightStr.substring(1));
-						AbstractApplication.debug(7);
 					} else if (rightStr
 							.startsWith(Unicode.RightToLeftUnaryMinusSign)) { // Arabic
 																				// convert
@@ -2084,10 +2076,8 @@ public class ExpressionNode extends ValidExpression implements
 																				// -
 																				// to
 																				// +
-						AbstractApplication.debug(8);
 						if (STRING_TYPE.equals(StringType.LATEX)
 								&& kernel.isInsertLineBreaks()) {
-							AbstractApplication.debug(9);
 							sb.append(" \\-+ ");
 						} else {
 							sb.append(" + ");
@@ -2110,7 +2100,6 @@ public class ExpressionNode extends ValidExpression implements
 					} else {
 						sb.append(" - ");
 					}
-					AbstractApplication.debug(100);
 					sb.append(leftBracket(STRING_TYPE));
 					sb.append(rightStr);
 					sb.append(rightBracket(STRING_TYPE));
@@ -4656,7 +4645,7 @@ public class ExpressionNode extends ValidExpression implements
 	}
 
 	/**
-	 * @param v2 value to compare
+	 * @param d value to compare
 	 * @return result this < d
 	 */
 	public ExpressionNode lessThan(double d) {
@@ -4771,14 +4760,36 @@ public class ExpressionNode extends ValidExpression implements
 	}
 
 	/**
-	 * @param v2 value to subtract
-	 * @return result of subtract
+	 * @param d value to add
+	 * @return result of add
+	 */
+	public ExpressionNode plus(double d) {
+		if(d == 0) {
+			return this;
+		}
+		return new ExpressionNode(kernel, this, Operation.PLUS, new MyDouble(kernel, d));
+	}
+
+	/**
+	 * @param d value to subtract
+	 * @return this - d
 	 */
 	public ExpressionNode subtract(double d) {
 		if(d == 0) {
 			return this;
 		}
 		return new ExpressionNode(kernel, this, Operation.MINUS, new MyDouble(kernel, d));
+	}
+
+	/**
+	 * @param d value to subtract
+	 * @return d - this
+	 */
+	public ExpressionNode subtractR(double d) {
+		if(d == 0) {
+			return this;
+		}
+		return new ExpressionNode(kernel, new MyDouble(kernel, d), Operation.MINUS, this);
 	}
 
 	/**
@@ -4802,7 +4813,7 @@ public class ExpressionNode extends ValidExpression implements
 	}
 
 	/**
-	 * @param v2 exponent
+	 * @param d exponent
 	 * @return d ^ this
 	 */
 	public ExpressionNode powerR(double d) {
@@ -4818,7 +4829,7 @@ public class ExpressionNode extends ValidExpression implements
 	}
 
 	/**
-	 * @param v2 divisor
+	 * @param d divisor
 	 * @return result of division
 	 */
 	public ExpressionNode divide(double d) {

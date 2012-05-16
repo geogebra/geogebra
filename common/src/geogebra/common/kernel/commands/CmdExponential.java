@@ -2,9 +2,10 @@ package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.algos.AlgoExponentialDF;
+import geogebra.common.kernel.arithmetic.BooleanValue;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
-import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.main.MyError;
@@ -32,7 +33,7 @@ public class CmdExponential extends CommandProcessor {
 		
 		arg = resArgs(c);
 
-		boolean cumulative = false; // default for n=2
+		BooleanValue cumulative = null; // default for n=2
 		switch (n) {
 		case 3:
 			if (!arg[1].isGeoFunction() || !((GeoFunction)arg[1]).toString(StringTemplate.defaultTemplate).equals("x")) {
@@ -40,7 +41,7 @@ public class CmdExponential extends CommandProcessor {
 			}
 			
 			if (arg[2].isGeoBoolean()) {
-				cumulative = ((GeoBoolean)arg[2]).getBoolean();
+				cumulative = (BooleanValue)arg[2];
 			} else
 				throw argErr(app, c.getName(), arg[2]);
 
@@ -50,20 +51,9 @@ public class CmdExponential extends CommandProcessor {
 			if (ok[0] ) {
 				if (arg[1].isGeoFunction() && ((GeoFunction)arg[1]).toString(StringTemplate.defaultTemplate).equals("x")) {
 
-					// needed for eg Normal[1, 0.001, x] 
-					StringTemplate highPrecision = StringTemplate.maxPrecision;
-					String l = arg[0].getLabel(highPrecision);
-					String command = null;
-					
-					if (cumulative) {
-						command="If[x<0,0,1-exp(-("+l+")x)]";
-					} else {
-						command="If[x<0,0,("+l+")exp(-("+l+")x)]";
-					}
-					
-					
-					GeoElement[] ret = kernelA.getAlgebraProcessor().processAlgebraCommand(command, true);
-					return ret;
+					AlgoExponentialDF algo = new AlgoExponentialDF(cons, c.getLabel(), (NumberValue)arg[0], cumulative);
+					return algo.getGeoElements();
+
 
 
 				} else if (arg[1].isNumberValue()) {
