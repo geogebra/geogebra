@@ -876,4 +876,11 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo {
 		}
 	throw new NoSymbolicParametersException();
 	}
+
+	public double[] getInhomCoords() {
+		double[] ret = new double[2];
+		ret[0] = getX();
+		ret[1] = getY();
+		return ret;
+	}
 }

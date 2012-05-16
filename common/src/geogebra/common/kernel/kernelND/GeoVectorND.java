@@ -43,6 +43,11 @@ public interface GeoVectorND extends GeoDirectionND, Locateable {
 	void getInhomCoords(double[] coords);
 
 	/**
+	 * @return inhomogeneous coords
+	 */
+	double[] getInhomCoords();
+
+	/**
 	 * @return true if tracing
 	 */
 	public boolean getTrace();

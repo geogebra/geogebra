@@ -470,8 +470,13 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND,
 	public void getInhomCoords(double[] coords) {
 		coords[0] = v.getX();
 		coords[1] = v.getY();
-		coords[2] = v.getZ();
-		
+		coords[2] = v.getZ();		
+	}
+	
+	public double[] getInhomCoords() {
+		double[] coords = new double[3];
+		getInhomCoords(coords);
+		return coords;
 	}
 	
 	@Override

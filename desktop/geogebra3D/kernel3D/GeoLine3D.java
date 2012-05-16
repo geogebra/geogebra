@@ -4,9 +4,14 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.PathMover;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.kernel.kernelND.GeoVectorND;
+import geogebra.common.main.AbstractApplication;
 import geogebra.common.plugin.GeoClass;
+import geogebra.common.util.Unicode;
+import geogebra.main.Application;
 
 public class GeoLine3D extends GeoCoordSys1D {
 
@@ -41,19 +46,17 @@ public class GeoLine3D extends GeoCoordSys1D {
 
 	@Override
 	public String getTypeString() {
-		// TODO Raccord de méthode auto-généré
 		return "Line3D";
 	}
 
 	@Override
 	public boolean isEqual(GeoElement Geo) {
-		// TODO Raccord de méthode auto-généré
+		AbstractApplication.debug("unimplemented");
 		return false;
 	}
 
 	@Override
 	public boolean showInAlgebraView() {
-		// TODO Raccord de méthode auto-généré
 		return true;
 	}
 
@@ -79,12 +82,51 @@ public class GeoLine3D extends GeoCoordSys1D {
 	}
 
 	private StringBuilder buildValueString(StringTemplate tpl) {	
-		String parameter = "\u03bb";
+		
+		StringBuilder sbToString = getSbBuildValueString();
+		sbToString.setLength(0);
+		String parameter = Unicode.lambda;
+		AlgoElement algo = getParentAlgorithm();
+		
+		if (algo instanceof AlgoLinePoint) {
+			AlgoLinePoint algoLP = (AlgoLinePoint) algo;
+			
+			GeoElement[] geos = algoLP.getInput();
+			
+			if (geos[0].isGeoPoint() && geos[1].isGeoVector()) {
+				
+				// use original coordinates for displaying, not normalized form for Line[ A, u ]
+				
+				GeoPointND pt = (GeoPointND) geos[0];
+				Coords coords1 = pt.getInhomCoords();
+				GeoVectorND vec = (GeoVectorND) geos[1];
+				
+				double[] coords2 = vec.getInhomCoords();
+				
+				sbToString.append("X = (");
+				sbToString.append(kernel.format(coords1.get(1), tpl));
+				sbToString.append(", ");
+				sbToString.append(kernel.format(coords1.get(2), tpl));
+				sbToString.append(", ");
+				sbToString.append(kernel.format(coords1.getLength() == 3 ? coords1.get(3) : 0, tpl));
+				sbToString.append(") + ");
+				sbToString.append(parameter);
+				sbToString.append(" (");
+				sbToString.append(kernel.format(coords2[0], tpl));
+				sbToString.append(", ");
+				sbToString.append(kernel.format(coords2[1], tpl));
+				sbToString.append(", ");
+				sbToString.append(kernel.format(coords2.length == 3 ? coords2[2] : 0, tpl));
+				sbToString.append(")");
+				
+				return sbToString;  
+			}
+		}
+		
+		
 		Coords O = coordsys.getOrigin();//TODO inhom coords
 		Coords V = coordsys.getVx();
 
-		StringBuilder sbToString = getSbBuildValueString();
-		sbToString.setLength(0);
 		sbToString.append("X = (");
 		sbToString.append(kernel.format(O.get(1),tpl));
 		sbToString.append(", ");
@@ -106,7 +148,6 @@ public class GeoLine3D extends GeoCoordSys1D {
 
 	@Override
 	public String getClassName() {
-		// TODO Raccord de méthode auto-généré
 		return "GeoLine3D";
 	}
 	
@@ -118,7 +159,7 @@ public class GeoLine3D extends GeoCoordSys1D {
 	//Path3D interface
 	
 	public PathMover createPathMover() {
-		// TODO Auto-generated method stub
+		AbstractApplication.debug("unimplemented");
 		return null;
 	}
 
