@@ -2,8 +2,10 @@ package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.algos.AlgoLogNormalDF;
+import geogebra.common.kernel.arithmetic.BooleanValue;
 import geogebra.common.kernel.arithmetic.Command;
-import geogebra.common.kernel.geos.GeoBoolean;
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.main.MyError;
@@ -28,7 +30,7 @@ public class CmdLogNormal extends CommandProcessor {
 		boolean ok;
 		GeoElement[] arg;
 
-		boolean cumulative = false; // default for n=3
+		BooleanValue cumulative = null; // default for n=3 (false)
 		arg = resArgs(c);
 		
 		switch (n) {
@@ -38,7 +40,7 @@ public class CmdLogNormal extends CommandProcessor {
 			}
 			
 			if (arg[3].isGeoBoolean()) {
-				cumulative = ((GeoBoolean)arg[3]).getBoolean();
+				cumulative = (BooleanValue)arg[3];
 			} else
 				throw argErr(app, c.getName(), arg[3]);
 			
@@ -47,21 +49,8 @@ public class CmdLogNormal extends CommandProcessor {
 			if ((ok = arg[0].isNumberValue()) && (arg[1].isNumberValue())) {
 				if (arg[2].isGeoFunction() && ((GeoFunction)arg[2]).toString(StringTemplate.defaultTemplate).equals("x")) {
 									
-					// needed for eg Normal[1, 0.001, x] 
-					StringTemplate highPrecision = StringTemplate.maxPrecision;
-					String mean = arg[0].getLabel(highPrecision);
-					String sd = arg[1].getLabel(highPrecision);
-					
-					
-					if (cumulative) {
-						GeoElement[] ret = kernelA.getAlgebraProcessor().processAlgebraCommand( "If[x<0,0,1/2 erf((ln(x)-("+mean+"))/(sqrt(2)*abs("+sd+"))) + 1/2]", true );
-						
-						return ret;
-						
-					} 
-					GeoElement[] ret = kernelA.getAlgebraProcessor().processAlgebraCommand( "If[x<0,0,1/(x sqrt(2 * pi) * abs("+sd+"))*exp(-((ln(x)-("+mean+"))^2/(2*("+sd+")^2)))]", true );
-						
-					return ret;
+					AlgoLogNormalDF algo = new AlgoLogNormalDF(cons, c.getLabel(), (NumberValue)arg[0], (NumberValue)arg[1], cumulative);
+					return algo.getGeoElements();
 					
 					
 				} else if (arg[2].isNumberValue()) 

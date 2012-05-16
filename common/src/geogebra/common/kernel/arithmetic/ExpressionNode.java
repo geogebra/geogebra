@@ -4667,6 +4667,13 @@ public class ExpressionNode extends ValidExpression implements
 	}
 
 	/**
+	 * @return result of ln(this)
+	 */
+	public ExpressionNode ln() {
+		return new ExpressionNode(kernel, this, Operation.LOG, null);
+	}
+
+	/**
 	 * @return result of gamma(this)
 	 */
 	public ExpressionNode gamma() {
@@ -4768,6 +4775,17 @@ public class ExpressionNode extends ValidExpression implements
 			return this;
 		}
 		return new ExpressionNode(kernel, this, Operation.PLUS, new MyDouble(kernel, d));
+	}
+
+	/**
+	 * @param d value to multiply
+	 * @return result of multiply
+	 */
+	public ExpressionNode multiply(double d) {
+		if(d == 0) {
+			return this;
+		}
+		return new ExpressionNode(kernel, this, Operation.MULTIPLY, new MyDouble(kernel, d));
 	}
 
 	/**
