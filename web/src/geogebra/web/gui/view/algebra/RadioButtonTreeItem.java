@@ -267,8 +267,8 @@ public class RadioButtonTreeItem extends HorizontalPanel
 			newValueFirst = "";
 			newValueLast = newValue;
 		}
-		newValueLast = newValueLast.replace("**","^");
-		newValueLast = newValueLast.replace("cdot","*");
+		//newValueLast = newValueLast.replace("**","^");
+		//newValueLast = newValueLast.replace("cdot","*");
 
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < newValueFirst.length(); i++)

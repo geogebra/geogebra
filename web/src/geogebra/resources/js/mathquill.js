@@ -3,6 +3,10 @@
  *   under the GNU Lesser General Public License
  *     http://www.gnu.org/licenses/lgpl.html
  * Project Website: http://mathquill.com
+ * 
+ * This file was modified by Arpad Fekete on behalf of GeoGebra Inc.
+ * The file became part of the web version of the software GeoGebra.
+ * (2012.03.30. - 2012.05.16.) Appropriate license terms apply.
  */
 
 (function() {
@@ -969,7 +973,7 @@ LatexCmds.subscript = LatexCmds._ = proto(SupSub, function(replacedFragment) {
 LatexCmds.superscript =
 LatexCmds.supscript =
 LatexCmds['^'] = proto(SupSub, function(replacedFragment) {
-  SupSub.call(this, '^', '<sup></sup>', '**', replacedFragment);
+  SupSub.call(this, '^', '<sup></sup>', '^', replacedFragment);
 });
 
 function Fraction(replacedFragment) {
@@ -1687,7 +1691,9 @@ LatexCmds.mp = LatexCmds.mnplus = LatexCmds.minusplus =
   bind(PlusMinus,'\\mp ','&#8723;');
 
 CharCmds['*'] = LatexCmds.sdot = LatexCmds.cdot =
-  bind(BinaryOperator, '\\cdot ', '&middot;');
+//  bind(BinaryOperator, '\\cdot ', '&middot;');
+	bind(BinaryOperator, '\\cdot ', '&middot;', '*');
+// new BinaryOperator('\\cdot', '&middot', '*');
 //semantically should be &sdot;, but &middot; looks better
 
 LatexCmds['='] = bind(BinaryOperator, '=', '=');
