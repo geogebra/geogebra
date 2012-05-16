@@ -1,6 +1,7 @@
 #!/bin/bash -e
-#
 # Purpose: Pack a Chromium extension directory into crx format
+# This script was downloaded from http://code.google.com/chrome/extensions/crx.html,
+# and modified for omitting the .svn subdirectories
 
 if test $# -ne 2; then
   echo "Usage: crxmake.sh <extension dir> <pem path>"
@@ -18,7 +19,7 @@ trap 'rm -f "$pub" "$sig" "$zip"' EXIT
 
 # zip up the crx dir
 cwd=$(pwd -P)
-(cd "$dir" && zip -qr -9 -X "$cwd/$zip" .)
+(cd "$dir" && zip -qr -9 -X "$cwd/$zip" . --exclude ".svn/*")
 
 # signature
 openssl sha1 -sha1 -binary -sign "$key" < "$zip" > "$sig"

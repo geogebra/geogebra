@@ -2,7 +2,6 @@
 # Creates the geogebra.crx file
 # @author Gabor Ancsin <gabor@geogebra.org>
 # @author Zoltan Kovacs <zoltan@geogebra.org>
-# The crxmake.sh script was downloaded from http://code.google.com/chrome/extensions/crx.html
 
 # 1. Settings
 APPNAME=geogebra
@@ -29,7 +28,7 @@ WEBDIR=`cd $CHROMEDIR/../../web; pwd`
 cd $WEBDIR
 ./build -u safari
 cp -r $WEBDIR/war/web $CHROMEDIR/$APPNAME
-cp -r $WEBDIR/war/app.html $CHROMEDIR/$APPNAME
+cp $WEBDIR/war/app.html $CHROMEDIR/$APPNAME
 cd $CHROMEDIR
 
 # 3. Packaging
