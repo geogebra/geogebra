@@ -154,7 +154,6 @@ public class AlgoDependentFunctionNVar extends AlgoElement {
     
     @Override
 	public String toRealString(StringTemplate tpl) {
-    	AbstractApplication.printStacktrace("wrong string");
         if (sb == null) sb = new StringBuilder();
         else sb.setLength(0);
         if (f.isLabelSet() && !f.isBooleanFunction()) {
