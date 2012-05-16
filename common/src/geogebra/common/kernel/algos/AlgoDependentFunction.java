@@ -18,8 +18,11 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.Function;
+import geogebra.common.kernel.arithmetic.FunctionNVar;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.Functional;
+import geogebra.common.kernel.arithmetic.FunctionalNVar;
+import geogebra.common.kernel.arithmetic.MyList;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
@@ -111,7 +114,6 @@ public class AlgoDependentFunction extends AlgoElement {
 			}
 		}
 		f.setDefined(isDefined);
-
 		if (isDefined && expContainsFunctions) {
 			// expand the functions and derivatives in expression tree
 			ExpressionValue ev = null;
@@ -156,7 +158,7 @@ public class AlgoDependentFunction extends AlgoElement {
 	 * 
 	 * @return new ExpressionNode as result
 	 */
-	private static ExpressionValue expandFunctionDerivativeNodes(
+	protected static ExpressionValue expandFunctionDerivativeNodes(
 			ExpressionValue ev) {
 		if (ev != null && ev.isExpressionNode()) {
 			ExpressionNode node = (ExpressionNode) ev;
@@ -187,7 +189,21 @@ public class AlgoDependentFunction extends AlgoElement {
 				// now replace every x in function by the expanded argument
 				return funcExpression.replaceAndWrap(x,
 						expandFunctionDerivativeNodes(node.getRight()));
+			case FUNCTION_NVAR:
+				AbstractApplication.debug("replacing");
+				
 
+				FunctionNVar funN =  ((FunctionalNVar) leftValue)
+						.getFunction();
+				FunctionVariable[] xy = funN.getFunctionVariables();
+				// don't destroy the function
+				ExpressionNode funNExpression = funN.getExpression().getCopy(
+						funN.getKernel());
+				// now replace every x in function by the expanded argument
+				for(int i=0;i<xy.length;i++)
+					funNExpression = funNExpression.replaceAndWrap(xy[i],
+						expandFunctionDerivativeNodes( ((MyList)node.getRight()).getListElement(i)));
+				return(funNExpression);
 			case DERIVATIVE:
 				// don't expand derivative of GeoFunctionConditional
 				if (leftValue.isGeoElement()
@@ -222,7 +238,8 @@ public class AlgoDependentFunction extends AlgoElement {
 		if (ev != null && ev.isExpressionNode()) {
 			ExpressionNode node = (ExpressionNode) ev;
 			Operation op = node.getOperation();
-			if (op.equals(Operation.FUNCTION)
+			if (op.equals(Operation.FUNCTION_NVAR)
+					|| op.equals(Operation.FUNCTION)
 					|| op.equals(Operation.DERIVATIVE)) {
 				return true;
 			}
@@ -232,7 +249,7 @@ public class AlgoDependentFunction extends AlgoElement {
 		return false;
 	}
 
-	StringBuilder sb;
+	private StringBuilder sb;
 
 	@Override
 	public String toString(StringTemplate tpl) {

@@ -14,6 +14,9 @@ package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.arithmetic.ExpressionNode;
+import geogebra.common.kernel.arithmetic.ExpressionValue;
+import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.FunctionNVar;
 import geogebra.common.kernel.geos.GeoFunctionNVar;
 import geogebra.common.main.AbstractApplication;
@@ -28,7 +31,9 @@ public class AlgoDependentFunctionNVar extends AlgoElement {
 
 	private FunctionNVar fun;
     private GeoFunctionNVar f; // output         
-
+    private ExpressionNode expression;
+    private FunctionNVar expandedFun;
+    private boolean expContainsFunctions;
     /**
      * @param cons
      * @param label
@@ -48,7 +53,11 @@ public class AlgoDependentFunctionNVar extends AlgoElement {
         this.fun = fun;
         f = new GeoFunctionNVar(cons);
         f.setFunction(fun);
-        
+        expression = fun.getExpression();
+		expContainsFunctions = AlgoDependentFunction.containsFunctions(expression);
+		if (expContainsFunctions) {
+			expandedFun = new FunctionNVar(fun, kernel);
+		}
         setInputOutput(); // for AlgoElement
         
         compute();
@@ -95,6 +104,36 @@ public class AlgoDependentFunctionNVar extends AlgoElement {
                 break;
             }
         }
+        if (isDefined && expContainsFunctions) {
+			// expand the functions and derivatives in expression tree
+			ExpressionValue ev = null;
+
+			try { // needed for eg f(x)=floor(x) f'(x)
+				ev = AlgoDependentFunction.expandFunctionDerivativeNodes(expression.deepCopy(kernel));
+			} catch (Exception e) {
+				e.printStackTrace();
+				AbstractApplication.debug("derivative failed");
+			}
+
+			if (ev == null) {
+				f.setUndefined();
+				return;
+			}
+
+			ExpressionNode node;
+			if (ev.isExpressionNode())
+				node = (ExpressionNode) ev;
+			else
+				node = new ExpressionNode(kernel, ev);
+
+			expandedFun.setExpression(node);
+			f.setFunction(expandedFun);
+			//TODO: check whether we need this (we do that in AlgoDependentFunction)
+			//if (f.isBooleanFunction() && f.isLabelSet())
+				//f.resetIneqs();
+		}
+        
+        
         f.setDefined(isDefined);
     }
     
