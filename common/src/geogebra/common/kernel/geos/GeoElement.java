@@ -6909,6 +6909,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @return true if the text uses LaTeX syntax
 	 */
 	public static boolean isLaTeXneeded(String latex2) {
+		
 		String latex = latex2;
 		// Unicode is fine to render these:
 		latex = latex.replace("\\leq", "");
@@ -6924,8 +6925,27 @@ public abstract class GeoElement extends ConstructionElement implements
 					return true; // \; \, just spacing
 				}
 				break;
-			// removed: we don't want to use latex for eg f(x) = x^3
-			//case '^':
+			// we want to use LaTeX where the power is not an integer
+			// x^2 no LaTeX
+			// x^x use LaTeX
+			// exp(x) use LaTeX
+			case '^':
+				
+				if (latex.charAt(i+1) == '{') {
+					int closeBraceIndex = latex.indexOf('}', i);
+					if (closeBraceIndex > i + 2) {
+						for (int j = i+2 ; j < closeBraceIndex ; j++) {
+							char ch2 = latex.charAt(j);
+							if (!Character.isDigit(ch2) && ch2 != '-') {
+								return true;
+							}
+						}
+						
+					}
+				}
+				
+				
+				break;
 			//	return true;
 			}
 		}
