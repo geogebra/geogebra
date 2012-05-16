@@ -7849,6 +7849,15 @@ public class Kernel {
 	}
 
 	/**
+	 * ScientificText[number] 
+	 */
+	final public GeoText ScientificText(String label, GeoNumeric num, GeoNumeric prec) {
+		AlgoScientificText algo = new AlgoScientificText(cons, label, num, prec);
+		GeoText text = algo.getResult();
+		return text;
+	}
+
+	/**
 	 * SurdText[number] Kai Chung Tam
 	 */
 	final public GeoText SurdText(String label, GeoNumeric num) {

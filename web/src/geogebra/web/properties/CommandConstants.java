@@ -2681,4 +2681,16 @@ public interface CommandConstants extends ConstantsWithLookup {
 	@DefaultStringValue("[ <Center Point> ]")
 	String CenterView_Syntax();
 
+	@DefaultStringValue("ScientificText")
+	String ScientificText();
+	
+	@DefaultStringValue("[ <Number>, <Precision> ]")
+	String ScientificText_Syntax();
+
+	@DefaultStringValue("SlopeField")
+	String SlopeField();
+	
+	@DefaultStringValue("[ <f(x,y)> ]\n[ <f(x,y)>, <Number n> ]\n[ <f(x,y)>, <Number n>, <Length Multiplier a> ]\n[ <f(x,y)>, <Number n>, <Length Multiplier a>, <Min x>, <Min y>, <Max x>, <Max y> ]")
+	String SlopeField_Syntax();
+
 }

@@ -42,7 +42,7 @@ public enum Commands implements CommandsConstants{
   	// text
 	//=============================================================
    	Text(TABLE_TEXT), LaTeX(TABLE_TEXT), LetterToUnicode(TABLE_TEXT), TextToUnicode(TABLE_TEXT),
-   	UnicodeToText(TABLE_TEXT), UnicodeToLetter(TABLE_TEXT), FractionText(TABLE_TEXT), SurdText(TABLE_TEXT),
+   	UnicodeToText(TABLE_TEXT), UnicodeToLetter(TABLE_TEXT), FractionText(TABLE_TEXT), SurdText(TABLE_TEXT), ScientificText(TABLE_TEXT),
    	TableText(TABLE_TEXT), VerticalText(TABLE_TEXT), RotateText(TABLE_TEXT), Ordinal(TABLE_TEXT),
 
   	//=============================================================

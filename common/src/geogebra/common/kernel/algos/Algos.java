@@ -296,6 +296,7 @@ public enum Algos {
 	AlgoFitLogistic(Commands.FitLogistic),
 	AlgoSumPoints(Commands.Sum),
 	AlgoSurdText(Commands.SurdText),
+	AlgoScientificText(Commands.ScientificText),
 	AlgoSurdTextPoint(Commands.SurdText),
 	AlgoTTest(Commands.TTest),
 	AlgoTTestPaired(Commands.TTestPaired),

@@ -2020,6 +2020,7 @@ public class ExpressionNode extends ValidExpression implements
 			break;
 
 		case MINUS:
+			AbstractApplication.debug(leftStr+" "+rightStr+" "+right.isLeaf()+" "+opID(right) +" "+ Operation.MULTIPLY.ordinal());
 			switch (STRING_TYPE) {
 			case MATHML:
 				mathml(sb, "<minus/>", leftStr, rightStr);
@@ -2043,11 +2044,13 @@ public class ExpressionNode extends ValidExpression implements
 				break;
 
 			default:
-				if (left instanceof Equation) {
+				AbstractApplication.debug(1);
+						if (left instanceof Equation) {
 					sb.append(leftBracket(STRING_TYPE));
 					sb.append(leftStr);
 					sb.append(rightBracket(STRING_TYPE));
 				} else {
+					AbstractApplication.debug(2);
 					sb.append(leftStr);
 				}
 
@@ -2055,21 +2058,25 @@ public class ExpressionNode extends ValidExpression implements
 				if (valueForm
 						&& rightStr
 								.equals(AbstractApplication.unicodeZero + "")) {
+					AbstractApplication.debug(3);
 					break;
 				}
 
 				if (right.isLeaf()
-						|| (opID(right) >= Operation.MULTIPLY.ordinal())) { // not
-																			// +,
-																			// -
+						|| ((opID(right) >= Operation.MULTIPLY.ordinal() // not +, -
+							&& opID(right) != Operation.FUNCTION_NVAR.ordinal()))) {												
+																			
 					if (rightStr.charAt(0) == '-') { // convert - - to +
 						if (STRING_TYPE.equals(StringType.LATEX)
 								&& kernel.isInsertLineBreaks()) {
+							AbstractApplication.debug(5);
 							sb.append(" \\-+ ");
 						} else {
+							AbstractApplication.debug(6);
 							sb.append(" + ");
 						}
 						sb.append(rightStr.substring(1));
+						AbstractApplication.debug(7);
 					} else if (rightStr
 							.startsWith(Unicode.RightToLeftUnaryMinusSign)) { // Arabic
 																				// convert
@@ -2077,8 +2084,10 @@ public class ExpressionNode extends ValidExpression implements
 																				// -
 																				// to
 																				// +
+						AbstractApplication.debug(8);
 						if (STRING_TYPE.equals(StringType.LATEX)
 								&& kernel.isInsertLineBreaks()) {
+							AbstractApplication.debug(9);
 							sb.append(" \\-+ ");
 						} else {
 							sb.append(" + ");
@@ -2101,6 +2110,7 @@ public class ExpressionNode extends ValidExpression implements
 					} else {
 						sb.append(" - ");
 					}
+					AbstractApplication.debug(100);
 					sb.append(leftBracket(STRING_TYPE));
 					sb.append(rightStr);
 					sb.append(rightBracket(STRING_TYPE));

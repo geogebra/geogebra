@@ -431,6 +431,8 @@ public class CommandDispatcher {
 				return new CmdFractionText(kernel);
 			case SurdText:
 				return new CmdSurdText(kernel);
+			case ScientificText:
+				return new CmdScientificText(kernel);
 			case TableText:
 				return new CmdTableText(kernel);
 			case VerticalText:

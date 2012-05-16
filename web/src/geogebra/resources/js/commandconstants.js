@@ -888,7 +888,11 @@ AreParallel_Syntax: "",
 AreConcyclic: "",
 AreConcyclic_Syntax: "",
 CenterView: "",
-CenterView_Syntax: ""
+CenterView_Syntax: "",
+ScientificText: "",
+ScientificText_Syntax: "",
+SlopeField: "",
+SlopeField_Syntax: ""
 			
 		};
 		

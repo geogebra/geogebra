@@ -289,6 +289,23 @@ public class StringTemplate {
 	}
 
 	/**
+	 * Scientific Notation (eg 2.3 * 4 ^ 5)
+	 * 
+	 * @param type string type
+	 * @param decimals figures
+	 * @param allowMore true to use kernel's precision, if it's higher
+	 * @return template with given parameters
+	 */
+	public static StringTemplate printScientific(StringType type, int decimals,boolean allowMore) {
+		StringTemplate tpl = new StringTemplate();
+		tpl.forceSF = true;
+		tpl.allowMoreDigits = allowMore;
+		tpl.setType(type);
+		tpl.sf=geogebra.common.factories.FormatFactory.prototype.getScientificFormat(decimals,20,true);
+		return tpl;
+	}
+
+	/**
 	 * Receives default SF and returns SF to be used
 	 * @param sfk default
 	 * @return SF to be used

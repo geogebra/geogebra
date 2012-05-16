@@ -46,8 +46,8 @@ public class AlgoIntegralODE extends AlgoElement {
 	@SuppressWarnings("javadoc")
 	ArrayList<MyPoint> al;
 
-	final private static double step = 0.1;
-	final private static int n = 100;
+	final private static double step = 0.02;
+	final private static int n = 20;
 
 
 
