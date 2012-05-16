@@ -569,7 +569,13 @@ public class AlgebraProcessor {
 		try {
 			ValidExpression ve = parser.parseGeoGebraExpression(str);
 			GeoElement[] temp = processValidExpression(ve);
-			list = (GeoList) temp[0];
+			// CAS in GeoGebraWeb dies badly if we don't handle this case (Simon's hack): 
+			// list = (GeoList) temp[0];
+			if (temp[0] instanceof GeoList) {
+				list = (GeoList) temp[0];
+				} else {
+				AbstractApplication.error("return value was not a list");
+				}
 		} catch (CircularDefinitionException e) {
 			AbstractApplication.debug("CircularDefinition");
 			//app.showError("CircularDefinition");

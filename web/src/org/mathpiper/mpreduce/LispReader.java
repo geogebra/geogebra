@@ -5,6 +5,9 @@
 package org.mathpiper.mpreduce;
 
 import com.google.gwt.core.client.Scheduler.RepeatingCommand;
+
+import geogebra.common.main.AbstractApplication;
+
 import java.io.IOException;
 import org.mathpiper.mpreduce.io.streams.InputStream;
 import java.math.BigInteger;
@@ -538,7 +541,10 @@ public class LispReader implements RepeatingCommand {
                     String s = new String(data);
                     w = (LispObject) Jlisp.builtinFunctions.get(s);
                     if (w == null) {
-                        Jlisp.lispErr.println(s + " not found");
+                    	if (Jlisp.lispErr != null)
+                    		Jlisp.lispErr.println(s + " not found");
+                    	else
+                    		AbstractApplication.error("lispErr is null, " + s + " not found");
                     }
                 }
                 break;
