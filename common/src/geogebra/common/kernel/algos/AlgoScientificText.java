@@ -104,6 +104,16 @@ public class AlgoScientificText extends AlgoElement {
 			
 			sb.append(strs[0]);
 			
+			// we want 1.23 not 1.230000
+			while (sb.charAt(sb.length() - 1) == '0') {
+				sb.setLength(sb.length() - 1);
+			}
+			
+			// for 1.0000 we need to remove the . too
+			if (sb.charAt(sb.length() - 1) == '.') {
+				sb.setLength(sb.length() - 1);
+			}
+			
 			// remove . from end (if it's there)
 			int l = sb.length();
 			if (sb.charAt(l - 1) == '.') {
