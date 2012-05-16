@@ -14,6 +14,7 @@ import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseUpHandler;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
@@ -115,8 +116,8 @@ public class MyCanvasButton extends Composite implements MouseDownHandler, Mouse
 		ctx.drawImage(compiledicon, 0, 0);
 	}
 
-	public void addClickHandler(EuclidianStyleBar handler) {
-		button.addClickHandler(handler);
+	public HandlerRegistration addClickHandler(EuclidianStyleBar handler) {
+		return button.addClickHandler(handler);
     }
 	
 	public void setIcon(ImageResource is) {

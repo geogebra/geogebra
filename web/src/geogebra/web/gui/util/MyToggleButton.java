@@ -31,6 +31,7 @@ public class MyToggleButton extends Composite implements ClickHandler, HasValue<
 	protected HorizontalPanel wrapper = null;
 	private ImageElement icon;
 	CanvasElement compiledicon;
+	private HandlerRegistration actionListener;
 	
 	public MyToggleButton() {
 	    this(new Image(),0);
@@ -145,7 +146,8 @@ public class MyToggleButton extends Composite implements ClickHandler, HasValue<
 
 	public HandlerRegistration addValueChangeHandler(
             ValueChangeHandler<Boolean> handler) {
-		return addHandler(handler, ValueChangeEvent.getType());
+		actionListener = addHandler(handler, ValueChangeEvent.getType());
+		return actionListener;
     }
 
 	public Boolean getValue() {
@@ -198,6 +200,12 @@ public class MyToggleButton extends Composite implements ClickHandler, HasValue<
 	public boolean isSelected() {
 	    return isDown;
     }
+
+	public void removeValueChangeHandler(EuclidianStyleBar euclidianStyleBar) {
+		if (actionListener != null) {
+			actionListener.removeHandler();
+		}
+	}
 	
 	
 }

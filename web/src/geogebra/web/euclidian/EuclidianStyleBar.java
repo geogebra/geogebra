@@ -599,7 +599,7 @@ public class EuclidianStyleBar extends HorizontalPanel
 		btnMode = new PopupMenuButton((Application) ev.getApplication(),
 				modeArray, -1, 1, new Dimension(20, iconHeight),
 				geogebra.common.gui.util.SelectionTable.MODE_ICON);
-		btnMode.addClickHandler(this);
+		btnMode.addActionListener(this);
 		btnMode.setKeepVisible(false);
 		// add(btnMode);
 		
@@ -769,7 +769,7 @@ public class EuclidianStyleBar extends HorizontalPanel
 		btnLineStyle.getMySlider().setMajorTickSpacing(2);
 		btnLineStyle.getMySlider().setMinorTickSpacing(1);
 		btnLineStyle.getMySlider().setPaintTicks(true);
-		btnLineStyle.addClickHandler(this);
+		btnLineStyle.addActionListener(this);
 
 		// ========================================
 		// point style button
@@ -841,7 +841,7 @@ public class EuclidianStyleBar extends HorizontalPanel
 		btnPointStyle.getMySlider().setMajorTickSpacing(2);
 		btnPointStyle.getMySlider().setMinorTickSpacing(1);
 		btnPointStyle.getMySlider().setPaintTicks(true);
-		btnPointStyle.addClickHandler(this);
+		btnPointStyle.addActionListener(this);
 
 		// ========================================
 		// eraser button
@@ -972,7 +972,7 @@ public class EuclidianStyleBar extends HorizontalPanel
 		ImageResource ic = AppResources.INSTANCE.mode_showhidelabel_16();
 		btnLabelStyle.setIconSize(new Dimension(ic.getWidth(), iconHeight));
 		btnLabelStyle.setIcon(ic);
-		btnLabelStyle.addClickHandler(this);
+		btnLabelStyle.addActionListener(this);
 		btnLabelStyle.setKeepVisible(false);
 
 		// ========================================
@@ -1005,7 +1005,7 @@ public class EuclidianStyleBar extends HorizontalPanel
 		btnPointCapture.setIconSize(new Dimension(ptCaptureIcon.getWidth(),
 				iconHeight));
 		btnPointCapture.setIcon(ptCaptureIcon);
-		btnPointCapture.addClickHandler(this);
+		btnPointCapture.addActionListener(this);
 		btnPointCapture.setKeepVisible(false);
 	}
 
@@ -1085,7 +1085,7 @@ public class EuclidianStyleBar extends HorizontalPanel
 
 			};
 
-			btnColor.addClickHandler(this);
+			btnColor.addActionListener(this);
 		}
 		
 		private void createBgColorButton() {
@@ -1147,7 +1147,7 @@ public class EuclidianStyleBar extends HorizontalPanel
 				}
 			};
 			btnBgColor.setKeepVisible(true);
-			btnBgColor.addClickHandler(this);
+			btnBgColor.addActionListener(this);
 		}
 	
 	private void createTextButtons() {
@@ -1200,7 +1200,7 @@ public class EuclidianStyleBar extends HorizontalPanel
 
 		};
 
-		btnTextColor.addClickHandler(this);
+		btnTextColor.addActionListener(this);
 
 
 		// ========================================
@@ -1287,7 +1287,7 @@ public class EuclidianStyleBar extends HorizontalPanel
 				}
 			}
 		};
-		btnTextSize.addClickHandler(this);
+		btnTextSize.addActionListener(this);
 		btnTextSize.setKeepVisible(false);
 	}
 
@@ -1296,40 +1296,55 @@ public class EuclidianStyleBar extends HorizontalPanel
 	// =====================================================
 
 	protected void updateGUI() {
+
 		if (isIniting)
 			return;
 
-		acceptValueChangeEvents(false);
-		btnShowAxes.setValue(ev.getShowXaxis());
-		acceptValueChangeEvents(true);
-
-		acceptValueChangeEvents(false);
-		btnShowGrid.setValue(ev.getShowGrid());
-		acceptValueChangeEvents(true);
-	}
-
-	static boolean checkGeoText(Object[] geos) {
-		boolean geosOK = (geos.length > 0);
-		for (int i = 0; i < geos.length; i++) {
-			if (!(((GeoElement) geos[i]).getGeoElementForPropertiesDialog() instanceof TextProperties)) {
-				geosOK = false;
-				break;
-			}
+		btnMode.removeActionListener(this);
+		switch (mode) {
+		case EuclidianConstants.MODE_MOVE:
+			btnMode.setSelectedIndex(0);
+			break;
+		case EuclidianConstants.MODE_PEN:
+			btnMode.setSelectedIndex(1);
+			break;
+		case EuclidianConstants.MODE_DELETE:
+			btnMode.setSelectedIndex(2);
+			break;
+		case EuclidianConstants.MODE_SHOW_HIDE_LABEL:
+			btnMode.setSelectedIndex(3);
+			break;
+		case EuclidianConstants.MODE_VISUAL_STYLE:
+			btnMode.setSelectedIndex(4);
+			break;
 		}
-		return geosOK;
-	}
+		btnMode.addActionListener(this);
 
-	private boolean acceptValueChangeEvents = true;
-	public void acceptValueChangeEvents(boolean accept) {
-		acceptValueChangeEvents = accept;
+		//btnPen.removeActionListener(this);
+		//btnPen.setSelected(mode == EuclidianConstants.MODE_PEN);
+		//btnPen.addActionListener(this);
+
+		btnDelete.removeValueChangeHandler(this);
+		btnDelete.setSelected(mode == EuclidianConstants.MODE_DELETE);
+		btnDelete.addValueChangeHandler(this);
+
+		btnLabel.removeValueChangeHandler(this);
+		btnLabel.setSelected(mode == EuclidianConstants.MODE_SHOW_HIDE_LABEL);
+		btnLabel.addValueChangeHandler(this);
+
+		btnShowAxes.removeValueChangeHandler(this);
+		btnShowAxes.setSelected(ev.getShowXaxis());
+		btnShowAxes.addValueChangeHandler(this);
+
+		btnShowGrid.removeValueChangeHandler(this);
+		btnShowGrid.setSelected(ev.getShowGrid());
+		btnShowGrid.addValueChangeHandler(this);
 	}
 
 	public void onValueChange(ValueChangeEvent event) {
-		if (acceptValueChangeEvents) {
 			Object source = event.getSource();
 
 			handleEventHandlers(source);
-		}
 	}
 
 	private void handleEventHandlers(Object source) {
@@ -1352,6 +1367,16 @@ public class EuclidianStyleBar extends HorizontalPanel
 	    updateGUI();
     }
 
+	static boolean checkGeoText(Object[] geos) {
+		boolean geosOK = (geos.length > 0);
+		for (int i = 0; i < geos.length; i++) {
+			if (!(((GeoElement) geos[i]).getGeoElementForPropertiesDialog() instanceof TextProperties)) {
+				geosOK = false;
+				break;
+			}
+		}
+		return geosOK;
+	}
 	/**
 	 * process the action performed
 	 * 
@@ -1711,11 +1736,16 @@ public class EuclidianStyleBar extends HorizontalPanel
 	
 
 	public void onClick(ClickEvent event) {
-		if (acceptValueChangeEvents) {
 			Object source = event.getSource();
 
 			handleEventHandlers(source);
-		}
+    }
+
+	/**
+	 * @param actionButton runs programatically the action performed event.
+	 */
+	public void fireActionPerformed(Object actionButton) {
+		handleEventHandlers(actionButton);
     }
 
 }

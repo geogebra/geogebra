@@ -23,6 +23,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.shared.GwtEvent;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
@@ -63,6 +64,7 @@ public class PopupMenuButton extends Composite implements ChangeHandler {
 	protected boolean popupIsVisible;
 	private Dimension iconSize;
 	private ButtonPopupMenu myPopup;
+	private HandlerRegistration actionListener;
 	
 	/*#***********************************
 	/** Button constructors */
@@ -291,7 +293,11 @@ public class PopupMenuButton extends Composite implements ChangeHandler {
 
 
 	public void onChange(ChangeEvent event) {
-	  AbstractApplication.debug("slider changed");
+		if(mySlider != null)
+			setSliderValue(mySlider.getValue());
+		((EuclidianStyleBar)app.getEuclidianView1().getStyleBar()).fireActionPerformed(this.getActionButton());
+		updateGUI();
+		
     }
 	
 	private void updateGUI(){
@@ -308,8 +314,8 @@ public class PopupMenuButton extends Composite implements ChangeHandler {
 	}
 
 
-	public void addClickHandler(EuclidianStyleBar euclidianStyleBar) {
-		b.addClickHandler(euclidianStyleBar);
+	public void addActionListener(EuclidianStyleBar euclidianStyleBar) {
+		actionListener = b.addClickHandler(euclidianStyleBar);
     }
 
 
@@ -333,5 +339,11 @@ public class PopupMenuButton extends Composite implements ChangeHandler {
 	public CanvasElement getActionIcon() {
 		return b.compiledicon;
 	}
+	
+	public void removeActionListener(EuclidianStyleBar euclidianStyleBar) {
+		if (actionListener != null) {
+			actionListener.removeHandler();
+		}
+    }
 
 }
