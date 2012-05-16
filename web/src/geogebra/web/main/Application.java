@@ -671,7 +671,7 @@ public class Application extends AbstractApplication {
 
 	@Override
 	public boolean freeMemoryIsCritical() {
-		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
+		// can't access available memory etc from JavaScript
 		return false;
 	}
 
