@@ -304,7 +304,7 @@ public class PopupMenuButton extends Composite implements ChangeHandler {
 
 		if(isIniting) return;
 
-		setIcon(getButtonIcon());
+		setIcon(getActionIcon());
 
 		if(hasTable){
 			myTable.repaint();

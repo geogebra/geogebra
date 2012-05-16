@@ -27,7 +27,7 @@ import com.google.gwt.user.client.ui.ToggleButton;
 import com.google.gwt.user.client.ui.ValueBoxBase;
 import com.google.gwt.user.client.ui.Widget;
 
-public class Slider extends FocusWidget implements HasChangeHandlers, HasValue<Integer>, MouseDownHandler, MouseUpHandler {
+public class Slider extends FocusWidget implements HasChangeHandlers, HasValue<Integer>, MouseDownHandler, MouseUpHandler, MouseMoveHandler {
 	
 	private Element range;
 	private boolean valueChangeHandlerInitialized;
@@ -42,12 +42,17 @@ public class Slider extends FocusWidget implements HasChangeHandlers, HasValue<I
 	   range.setAttribute("type", "range");
 	   range.setAttribute("min", String.valueOf(min));
 	   range.setAttribute("max", String.valueOf(max));   
-	   range.setAttribute("value", String.valueOf(min));
+	   setRangeValue(range,String.valueOf(min));
 	   setElement(range);
 	   addMouseDownHandler(this);
+	   //addMouseMoveHandler(this);
 	   addMouseUpHandler(this);
 	   
     }
+
+	private native void setRangeValue(Element range, String value) /*-{
+	   range.value = value;
+    }-*/;
 
 	public void removeChangeListener(PopupMenuButton popupMenuButton) {
 	    // TODO Auto-generated method stub
@@ -57,11 +62,15 @@ public class Slider extends FocusWidget implements HasChangeHandlers, HasValue<I
 	public void addChangeListener(PopupMenuButton popupMenuButton) {
 		addChangeHandler(popupMenuButton);
     }
+	
 
 	public Integer getValue() {
-		AbstractApplication.debug(Integer.valueOf(range.getAttribute("value"))+" alphaSlider");
-	   return Integer.valueOf(range.getAttribute("value"));
+	   return Integer.valueOf(getRangeValue(range));
     }
+
+	private native  String getRangeValue(Element range) /*-{
+	    return range.value;
+    }-*/;
 
 	public void setMinimum(int min) {
 	    range.setAttribute("min", String.valueOf(min));
@@ -117,7 +126,7 @@ public class Slider extends FocusWidget implements HasChangeHandlers, HasValue<I
     }
 
 	private void setSliderValue(String value) {
-	   range.setAttribute("value", value);
+	   setRangeValue(range, value);
     }
 
 	public HandlerRegistration addChangeHandler(ChangeHandler handler) {
@@ -131,6 +140,10 @@ public class Slider extends FocusWidget implements HasChangeHandlers, HasValue<I
 
 	public void onMouseDown(MouseDownEvent event) {
 	   valueOnDragStart = getValue();
+    }
+
+	public void onMouseMove(MouseMoveEvent event) {
+	    event.stopPropagation();
     }
 
 }

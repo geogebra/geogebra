@@ -140,17 +140,19 @@ public class MyCanvasButton extends Composite implements MouseDownHandler, Mouse
     }
 
 	public void setIcon(CanvasElement ic) {
-		compiledicon = ic;
-		int icwidth = ic.getWidth();
-		int icheight = ic.getHeight();
-		int ctxwidth = ctx.getCanvas().getWidth();
-		int ctxheight = ctx.getCanvas().getHeight();
-		int drawX = (ctxwidth/2) - (icwidth/2);
-		int drawY = (ctxheight/2) - (icheight/2);
-		ctx.clearRect(0, 0, ctx.getCanvas().getHeight(), ctx.getCanvas().getWidth());
-		ctx.setFillStyle("white");
-		ctx.fillRect(0, 0, ctx.getCanvas().getWidth(), ctx.getCanvas().getHeight());
-		ctx.drawImage(compiledicon, drawX, drawY);
+		if (ic != null) {
+				compiledicon = ic;
+				int icwidth = ic.getWidth();
+				int icheight = ic.getHeight();
+				int ctxwidth = ctx.getCanvas().getWidth();
+				int ctxheight = ctx.getCanvas().getHeight();
+				int drawX = (ctxwidth/2) - (icwidth/2);
+				int drawY = (ctxheight/2) - (icheight/2);
+				ctx.clearRect(0, 0, ctx.getCanvas().getHeight(), ctx.getCanvas().getWidth());
+				ctx.setFillStyle("white");
+				ctx.fillRect(0, 0, ctx.getCanvas().getWidth(), ctx.getCanvas().getHeight());
+				ctx.drawImage(compiledicon, drawX, drawY);
+		}
     }
 
 	public Object getButton() {
