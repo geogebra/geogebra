@@ -1435,6 +1435,12 @@ public class NoExceptionsTest {
 	}
 
 	@Test
+	public void cmdProveDetails() {
+		t("ProveDetails[ true ]");
+		t("ProveDetails[ Pt1==Pt2 ]");
+	}
+
+	@Test
 	public void cmdQ1() {
 		t("Q1[ list1 ]");
 	}

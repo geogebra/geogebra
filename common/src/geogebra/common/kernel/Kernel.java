@@ -3710,6 +3710,12 @@ public class Kernel {
 		return bool;
 	}	
 
+	final public GeoList ProveDetails(String label, GeoElement arg) {
+		AlgoProveDetails algo = new AlgoProveDetails(cons, label, arg);
+		GeoList list = algo.getGeoList();
+		return list;
+	}	
+
 	/** Point on path with cartesian coordinates (x,y) */
 	final public GeoPoint2 Point(String label, Path path, double x, double y,
 			boolean addToConstruction, boolean complex) {

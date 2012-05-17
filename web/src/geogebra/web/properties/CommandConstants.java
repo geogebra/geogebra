@@ -812,6 +812,9 @@ public interface CommandConstants extends ConstantsWithLookup {
 	@DefaultStringValue("Prove")
 	String Prove();
 	
+	@DefaultStringValue("ProveDetails")
+	String ProveDetails();
+	
 	@DefaultStringValue("AffineRatio")
 	String AffineRatio();
 
@@ -1279,6 +1282,9 @@ public interface CommandConstants extends ConstantsWithLookup {
 
 	@DefaultStringValue("[ <Boolean Expression> ]")
 	String Prove_Syntax();
+	
+	@DefaultStringValue("[ <Boolean Expression> ]")
+	String ProveDetails_Syntax();
 	
 	@DefaultStringValue("[ <List> ]")
 	String RootList_Syntax();

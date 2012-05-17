@@ -31,6 +31,12 @@ public class AlgoProve extends AlgoElement {
     private GeoElement root;  // input
     private GeoBoolean bool;     // output              
         
+    /**
+     * Proves the given statement and gives a yes/no answer (boolean)
+     * @param cons The construction
+     * @param label Label for the output
+     * @param root Input statement
+     */
     public AlgoProve(Construction cons, String label, GeoElement root) {
     	super(cons);
         this.root = root;  
@@ -59,6 +65,10 @@ public class AlgoProve extends AlgoElement {
         setDependencies(); // done by AlgoElement
     }    
     
+    /**
+     * Returns the output for the Prove command
+     * @return A boolean: true/false
+     */
     public GeoBoolean getGeoBoolean() { return bool; }
     
     // calc the current value of the arithmetic tree

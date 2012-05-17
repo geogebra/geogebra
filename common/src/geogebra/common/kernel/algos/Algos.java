@@ -502,7 +502,8 @@ AlgoTo2D,AlgoDependentVector3D,AlgoParametricDerivative,
 	AlgoExtremumNumerical(Commands.Extremum),
 	AlgoSimpleRootsPoly(Commands.Roots),
 	AlgoImplicitPolyTangentCurve(Commands.Tangent), 
-	AlgoProve(Commands.Prove), AlgoAreCollinear(Commands.AreCollinear), 
+	AlgoProve(Commands.Prove), AlgoProveDetails(Commands.ProveDetails),
+	AlgoAreCollinear(Commands.AreCollinear), 
 	AlgoAreParallel(Commands.AreParallel), AlgoAreConcyclic(Commands.AreConcyclic);
 	private String command;
 	private Algos(){

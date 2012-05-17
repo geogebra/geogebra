@@ -15,11 +15,10 @@ package geogebra.common.kernel.prover;
  */
 
 import java.util.HashSet;
-import java.util.Iterator;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
-import geogebra.common.kernel.algos.SymbolicParameters;
+
 import geogebra.common.kernel.algos.SymbolicParametersAlgo;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
@@ -74,12 +73,59 @@ public class Prover {
 	private int timeout = 10;
 	private ProverEngine engine = ProverEngine.RECIOS_PROVER;
 	private Construction construction;
-	private GeoElement statement;
+	/**
+	 * The statement to be prove
+	 */
+	protected GeoElement statement;
 	
 	/* output */
-	private String NDGconditions;
+	private HashSet<NDGCondition> ndgConditions = new HashSet<NDGCondition>();
 	private ProofResult result;
 
+	/**
+	 * @author Zoltan Kovacs <zoltan@geogebra.org>
+	 * An object which contains a condition description (e.g. "AreCollinear")
+	 * and an ordered list of GeoElement's (e.g. A, B, C)
+	 */
+	public static class NDGCondition {
+		/**
+		 * The condition String
+		 */
+		String condition;
+		/**
+		 * Array of GeoElements (parameters of the condition)
+		 */
+		GeoElement[] geos;
+		/**
+		 * A short textual description of the condition
+		 * @return the condition
+		 */
+		public String getCondition() {
+			return condition;
+		}
+		/**
+		 * Sets a condition text
+		 * @param condition the text, e.g. "AreCollinear"
+		 */
+		public void setCondition(String condition) {
+			this.condition = condition;
+		}
+		/**
+		 * Returns the GeoElements for a given condition
+		 * @return the array of GeoElements
+		 */
+		public GeoElement[] getGeos() {
+			return geos;
+		}
+		/**
+		 * Sets the GeoElements for a given condition
+		 * @param object the array of GeoElements
+		 */
+		public void setGeos(GeoElement[] object) {
+			this.geos = object;
+		}
+	}
+	
 	/**
 	 * Constructor for the package.
 	 */
@@ -119,10 +165,17 @@ public class Prover {
 	}
 	
 	/**
+	 * Adds a non-degeneracy condition to the prover object
+	 * @param condition the condition itself
+	 */
+	public void addNDGcondition(NDGCondition condition) {
+		ndgConditions.add(condition);
+	}
+	
+	/**
 	 * Starts computation of the proof, based on the defined
 	 * subsystem.
 	 */
-	
 
 	public void compute() {
 		if (statement != null) {
@@ -151,7 +204,7 @@ public class Prover {
 		AbstractApplication.debug("Using " + engine);
 		
 		if (engine == ProverEngine.BOTANAS_PROVER) {
-			result = ProverBotanasMethod.prove(statement);
+			result = ProverBotanasMethod.prove(this);
 			return; // this will return later, now we calculate the other methods as well
 		} else if (engine == ProverEngine.RECIOS_PROVER) {
 					
@@ -174,8 +227,8 @@ public class Prover {
 	 * Gets non-degeneracy conditions of the current proof.
 	 * @return The XML output string of the NDG condition
 	 */
-	public String getNDGConditions() {
-		return NDGconditions;
+	public HashSet<NDGCondition> getNDGConditions() {
+		return ndgConditions;
 	}
 	
 	/**
