@@ -143,8 +143,9 @@ public class AlgoProveDetails extends AlgoElement {
     				ndgConditionsList.add(it2.next());
     			}
     			
-    			// Put this list to the final output:
-    			list.add(ndgConditionsList);
+    			// Put this list to the final output (if non-empty):
+    			if (ndgConditionsList.size() > 0)
+    				list.add(ndgConditionsList);
     		}
     	}
     		
