@@ -449,7 +449,7 @@ public class OptionsLayout extends JPanel implements ActionListener,
 		// tool bar panel
 		toolbarPanel.setBorder(OptionsUtil.titleBorder(app.getMenu("Toolbar")));
 		ckShowToolbar.setText(app.getMenu("Show"));
-		ckShowToolHelp.setText(app.getMenu("ShowToolHelp"));
+		ckShowToolHelp.setText(app.getMenu("ShowToolBarHelp"));
 
 		// perspectives panel
 		perspectivesPanel
