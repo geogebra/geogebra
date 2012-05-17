@@ -83,7 +83,7 @@ cd $SVNDIR/geogebra/desktop/scripts/autobuild/windows/WiX
 rm -f *.msi
 ./create-msi
 WINDOWS_MSI=`ls -1 --color=no *.msi` # assuming 1 file exists here, FIXME
-if [ "$GC_USER" != "" -a "$GC_PASS" != "" ]; then
+$SVNDIR/geogebra/desktop/scripts/autobuild/gcallow $MYVER && if [ "$GC_USER" != "" -a "$GC_PASS" != "" ]; then
   $SVNDIR/geogebra/desktop/scripts/autobuild/googlecode_upload.py -s "GeoGebra $VERSION_STRING installer for Windows (for automated install)" \
    -p geogebra -u $GC_USER -w "$GC_PASS" -l Test $WINDOWS_MSI
  fi
