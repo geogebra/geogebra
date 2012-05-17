@@ -2035,6 +2035,8 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 	 * http://geogebratube.org/student/cXX/m111/options http://ggbtu.be/m111
 	 * http://ggbtu.be/cXX/m111/options http://www.ggbtu.be/m111
 	 * http://www.ggbtu.be/cXX/options
+	 * 
+	 * also can have ?mobile=true ?mobile=false on end
 	 */
 	public boolean loadURL(String urlString, boolean suppressErrorMsg) {
 		urlString = urlString.trim();
@@ -2065,6 +2067,12 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 				// remove hostname
 				urlString = urlString.substring(urlString.indexOf('/'),
 						urlString.length());
+
+				// remove ?mobile=true or ?mobile=false on end
+				if (urlString.endsWith("?mobile=true") || urlString.endsWith("?mobile=false") ) {
+					int i = urlString.lastIndexOf('?');
+					urlString = urlString.substring(0, i);
+				}
 
 				String id;
 
@@ -2119,7 +2127,7 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 			} else {
 				// try to load from GeoGebra applet
 				URL url = getEscapedUrl(urlString);
-				success = loadFromHtml(url);
+				success = app.loadFromHtml(url);
 
 				// fallback: maybe some address like download.php?file=1234,
 				// e.g. the forum
@@ -2153,168 +2161,13 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 				u.getQuery(), u.getRef()).toURL();
 	}
 
-	/**
-	 * Tries to load a construction from the following sources in order:
-	 * <ol>
-	 * <li>
-	 * From embedded base64 string
-	 * <ol type="a">
-	 * <li><code>&lt;article ... data-param-ggbbase64="..." /&gt;</code></li>
-	 * <li><code>&lt;param name="ggbBase64" value="..." /&gt;</code></li>
-	 * </ol>
-	 * </li>
-	 * <li>
-	 * From relative referenced *.ggb file
-	 * <ol type="a">
-	 * <li><code>&lt;article ... data-param-filename="..." /&gt;</code></li>
-	 * <li><code>&lt;param name="filename" value="..." /&gt;</code></li>
-	 * </ol>
-	 * </li>
-	 * </ol>
-	 * 
-	 */
-	private boolean loadFromHtml(URL url) throws IOException {
-		String page = fetchPage(url);
-		page = page.replaceAll("\\s+", " "); // Normalize white spaces
-		page = page.replace('"', '\''); // Replace double quotes (") with single
-		// quotes (')
-		String lowerCasedPage = page.toLowerCase(Locale.US); // We must preserve
-		// casing for
-		// base64
-		// strings and
-		// case sensitve
-		// file systems
-
-		String val = getAttributeValue(page, lowerCasedPage,
-				"data-param-ggbbase64='");
-		val = val == null ? getAttributeValue(page, lowerCasedPage,
-				"name='ggbbase64' value='") : val;
-
-		if (val != null) { // 'val' is the base64 string
-			byte[] zipFile = Base64.decode(val);
-
-			return app.loadXML(zipFile);
-		}
-
-		val = getAttributeValue(page, lowerCasedPage, "data-param-filename='");
-		val = val == null ? getAttributeValue(page, lowerCasedPage,
-				"name='filename' value='") : val;
-
-		if (val != null) { // 'val' is the relative path to *.ggb file
-			String path = url.getPath(); // http://www.geogebra.org/mobile/test.html?test=true
-			// -> path would be
-			// '/mobile/test.html'
-			int index = path.lastIndexOf('/');
-			path = index == -1 ? path : path.substring(0, index + 1); // Remove
-			// the
-			// 'test.html'
-			// part
-			path += val; // Add filename
-			URL fileUrl = new URL(url.getProtocol(), url.getHost(), path);
-
-			return app.loadXML(fileUrl, false);
-		}
-
-		return false;
-	}
-
-	private static String getAttributeValue(String page, String lowerCasedPage,
-			String attrName) {
-		int index;
-		if (-1 != (index = lowerCasedPage.indexOf(attrName))) { // value='test.ggb'
-			index += attrName.length();
-			return getAttributeValue(page, index, '\''); // Search for next
-			// single quote (')
-		}
-		attrName = attrName.replaceAll("'", "");
-		if (-1 != (index = lowerCasedPage.indexOf(attrName))) { // value=filename_
-			// or
-			// value=filename>
-			// ( ) or (>)
-			index += attrName.length();
-			return getAttributeValue(page, index, ' ', '>'); // Search for next
-			// white space (
-			// ) or angle
-			// bracket (>)
-		}
-		return null;
-	}
-
-	private static String getAttributeValue(String page, int begin,
-			char... attributeEndMarkers) {
-		int end = begin;
-		while (end < page.length()
-				&& !isMarker(attributeEndMarkers, page.charAt(end))) {
-			end++;
-		}
-
-		return end == page.length() || end == begin ? // attribute value not
-		// terminated or empty
-		null
-				: page.substring(begin, end);
-	}
-
-	private static boolean isMarker(char[] markers, char character) {
-		for (char m : markers) {
-			if (m == character) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	private static String fetchPage(URL url) throws IOException {
-		BufferedReader reader = null;
-		try {
-			reader = new BufferedReader(new InputStreamReader(url.openStream()));
-			StringBuilder page = new StringBuilder();
-			String line;
-			while (null != (line = reader.readLine())) {
-				page.append(line); // page does not contain any line breaks
-				// '\n', '\r' or "\r\n"
-			}
-			return page.toString();
-		} finally {
-			if (reader != null) {
-				reader.close();
-			}
-		}
-	}
 
 	/*
 	 * loads an html file with <param name="ggbBase64" value="UEsDBBQACAAI...
 	 */
 	public boolean loadBase64File(final File file) {
-		if (!file.exists()) {
-			// show file not found message
-			JOptionPane.showConfirmDialog(
-					app.getMainComponent(),
-					app.getError("FileNotFound") + ":\n"
-							+ file.getAbsolutePath(), app.getError("Error"),
-					JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE);
-			return false;
-		}
-
-		boolean success = false;
-
-		app.setWaitCursor();
-		// hide navigation bar for construction steps if visible
-		app.setShowConstructionProtocolNavigation(false);
-
-		try {
-			success = loadFromHtml(file.toURI().toURL()); // file.toURL() does
-			// not escape
-			// illegal
-			// characters
-		} catch (Exception e) {
-			app.setDefaultCursor();
-			app.showError(app.getError("LoadFileFailed") + ":\n" + file);
-			e.printStackTrace();
-			return false;
-
-		}
+		boolean success = app.loadBase64File(file);
 		updateGUIafterLoadFile(success, false);
-		app.setDefaultCursor();
 		return success;
 
 	}

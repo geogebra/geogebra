@@ -50,6 +50,7 @@ import geogebra.common.main.settings.ConstructionProtocolSettings;
 import geogebra.common.main.settings.Settings;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.util.GeoGebraLogger.LogDestination;
+import geogebra.common.util.Base64;
 import geogebra.common.util.LowerCaseDictionary;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
@@ -1508,7 +1509,7 @@ public class Application extends AbstractApplication implements
 	 * 
 	 * @return true if file is loading and is a ggt file
 	 */
-	private boolean isLoadingTool(CommandLineArguments args) {
+	private static boolean isLoadingTool(CommandLineArguments args) {
 		if ((args == null) || (args.getNoOfFiles() == 0)) {
 			return false;
 		}
@@ -1546,8 +1547,9 @@ public class Application extends AbstractApplication implements
 				try {
 					boolean success;
 					String lowerCase =StringUtil.toLowerCase(fileArgument);
-					boolean isMacroFile = lowerCase
-							.endsWith(FILE_EXT_GEOGEBRA_TOOL);
+					String ext = getExtension(lowerCase);
+
+					boolean isMacroFile = ext.equals(FILE_EXT_GEOGEBRA_TOOL);
 
 					if (lowerCase.startsWith("http:")
 							|| lowerCase.startsWith("file:")) {
@@ -1582,6 +1584,9 @@ public class Application extends AbstractApplication implements
 								}
 							}
 						}
+					} else if (ext.equals(FILE_EXT_HTM) || ext.equals(FILE_EXT_HTML)){
+						loadBase64File(new File(fileArgument));
+						success = true;
 					} else {
 						File f = new File(fileArgument);
 						f = f.getCanonicalFile();
@@ -1598,6 +1603,174 @@ public class Application extends AbstractApplication implements
 		}
 
 		return successRet;
+	}
+	
+	/**
+	 * loads an html file with <param name="ggbBase64" value="UEsDBBQACAAI...
+	 * @param file html file
+	 * @return success
+	 */
+	public boolean loadBase64File(final File file) {
+		if (!file.exists()) {
+			// show file not found message
+			JOptionPane.showConfirmDialog(
+					getMainComponent(),
+					getError("FileNotFound") + ":\n"
+							+ file.getAbsolutePath(), getError("Error"),
+					JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE);
+			return false;
+		}
+
+		boolean success = false;
+
+		setWaitCursor();
+		// hide navigation bar for construction steps if visible
+		setShowConstructionProtocolNavigation(false);
+
+		try {
+			success = loadFromHtml(file.toURI().toURL()); // file.toURL() does
+			// not escape
+			// illegal
+			// characters
+		} catch (Exception e) {
+			setDefaultCursor();
+			showError(getError("LoadFileFailed") + ":\n" + file);
+			e.printStackTrace();
+			return false;
+
+		}
+		//updateGUIafterLoadFile(success, false);
+		setDefaultCursor();
+		return success;
+
+	}
+
+	/**
+	 * Tries to load a construction from the following sources in order:
+	 * <ol>
+	 * <li>
+	 * From embedded base64 string
+	 * <ol type="a">
+	 * <li><code>&lt;article ... data-param-ggbbase64="..." /&gt;</code></li>
+	 * <li><code>&lt;param name="ggbBase64" value="..." /&gt;</code></li>
+	 * </ol>
+	 * </li>
+	 * <li>
+	 * From relative referenced *.ggb file
+	 * <ol type="a">
+	 * <li><code>&lt;article ... data-param-filename="..." /&gt;</code></li>
+	 * <li><code>&lt;param name="filename" value="..." /&gt;</code></li>
+	 * </ol>
+	 * </li>
+	 * </ol>
+	 * 
+	 */
+	public boolean loadFromHtml(URL url) throws IOException {
+		String page = fetchPage(url);
+		page = page.replaceAll("\\s+", " "); // Normalize white spaces
+		page = page.replace('"', '\''); // Replace double quotes (") with single
+		// quotes (')
+		String lowerCasedPage = page.toLowerCase(Locale.US); // We must preserve
+		// casing for
+		// base64
+		// strings and
+		// case sensitve
+		// file systems
+
+		String val = getAttributeValue(page, lowerCasedPage,
+				"data-param-ggbbase64='");
+		val = val == null ? getAttributeValue(page, lowerCasedPage,
+				"name='ggbbase64' value='") : val;
+
+		if (val != null) { // 'val' is the base64 string
+			byte[] zipFile = Base64.decode(val);
+
+			return loadXML(zipFile);
+		}
+
+		val = getAttributeValue(page, lowerCasedPage, "data-param-filename='");
+		val = val == null ? getAttributeValue(page, lowerCasedPage,
+				"name='filename' value='") : val;
+
+		if (val != null) { // 'val' is the relative path to *.ggb file
+			String path = url.getPath(); // http://www.geogebra.org/mobile/test.html?test=true
+			// -> path would be
+			// '/mobile/test.html'
+			int index = path.lastIndexOf('/');
+			path = index == -1 ? path : path.substring(0, index + 1); // Remove
+			// the
+			// 'test.html'
+			// part
+			path += val; // Add filename
+			URL fileUrl = new URL(url.getProtocol(), url.getHost(), path);
+
+			return loadXML(fileUrl, false);
+		}
+
+		return false;
+	}
+
+	private static String getAttributeValue(String page, String lowerCasedPage,
+			String attrName) {
+		int index;
+		if (-1 != (index = lowerCasedPage.indexOf(attrName))) { // value='test.ggb'
+			index += attrName.length();
+			return getAttributeValue(page, index, '\''); // Search for next
+			// single quote (')
+		}
+		attrName = attrName.replaceAll("'", "");
+		if (-1 != (index = lowerCasedPage.indexOf(attrName))) { // value=filename_
+			// or
+			// value=filename>
+			// ( ) or (>)
+			index += attrName.length();
+			return getAttributeValue(page, index, ' ', '>'); // Search for next
+			// white space (
+			// ) or angle
+			// bracket (>)
+		}
+		return null;
+	}
+
+	private static String getAttributeValue(String page, int begin,
+			char... attributeEndMarkers) {
+		int end = begin;
+		while (end < page.length()
+				&& !isMarker(attributeEndMarkers, page.charAt(end))) {
+			end++;
+		}
+
+		return end == page.length() || end == begin ? // attribute value not
+		// terminated or empty
+		null
+				: page.substring(begin, end);
+	}
+
+	private static boolean isMarker(char[] markers, char character) {
+		for (char m : markers) {
+			if (m == character) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private static String fetchPage(URL url) throws IOException {
+		BufferedReader reader = null;
+		try {
+			reader = new BufferedReader(new InputStreamReader(url.openStream()));
+			StringBuilder page = new StringBuilder();
+			String line;
+			while (null != (line = reader.readLine())) {
+				page.append(line); // page does not contain any line breaks
+				// '\n', '\r' or "\r\n"
+			}
+			return page.toString();
+		} finally {
+			if (reader != null) {
+				reader.close();
+			}
+		}
 	}
 
 	
