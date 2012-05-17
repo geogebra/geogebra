@@ -64,6 +64,8 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 
+import org.python.google.common.collect.Lists;
+
 /**
  * @author Markus Hohenwarter
  */
@@ -78,9 +80,11 @@ public class OptionsObject extends JPanel implements /*TreeSelectionListener,*/ 
 	private Application app;
 	private Kernel kernel;
 	private GeoTree geoTree;
-	private JButton closeButton, defaultsButton, delButton;
+	private JButton defaultsButton, delButton;
 	private PropertiesPanel propPanel;
 	private GeoGebraColorChooser colChooser;
+
+	
 
 	// stop slider increment being less than 0.00000001
 	public final static int TEXT_FIELD_FRACTION_DIGITS = 8;
@@ -129,12 +133,6 @@ public class OptionsObject extends JPanel implements /*TreeSelectionListener,*/ 
 			setVisible(false);
 		}
 
-		// LIST PANEL
-		JScrollPane listScroller = new JScrollPane(geoTree);
-		listScroller.setMinimumSize(new Dimension(120, 200));
-		listScroller.setBackground(geoTree.getBackground());
-		listScroller.setBorder(BorderFactory.createEmptyBorder(5, 5, 0, 5));
-
 		// delete button
 		delButton = new JButton(app.getImageIcon("delete_small.gif"));
 		delButton.addActionListener(new ActionListener() {
@@ -151,12 +149,7 @@ public class OptionsObject extends JPanel implements /*TreeSelectionListener,*/ 
 			}
 		});
 
-		closeButton = new JButton();
-		closeButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				closeDialog();
-			}
-		});
+
 
 		// build button panel with some buttons on the left
 		// and some on the right
@@ -167,13 +160,13 @@ public class OptionsObject extends JPanel implements /*TreeSelectionListener,*/ 
 		buttonPanel.add(leftButtonPanel, BorderLayout.WEST);
 
 		// left buttons
-		if (app.letDelete())
-			leftButtonPanel.add(delButton);
-
 		leftButtonPanel.add(defaultsButton);
+		
 
 		// right buttons
-		rightButtonPanel.add(closeButton);
+		if (app.letDelete())
+			rightButtonPanel.add(delButton);
+
 
 		// PROPERTIES PANEL
 		if (colChooser == null) {
@@ -194,19 +187,11 @@ public class OptionsObject extends JPanel implements /*TreeSelectionListener,*/ 
 		this.removeAll();
 		// contentPane.setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
 
-		/*
-		JSplitPane splitPane = new JSplitPane();
-		splitPane.setLeftComponent(listScroller);
-		splitPane.setRightComponent(propPanel);
-		*/
+		
 
 		this.setLayout(new BorderLayout());
-		//this.add(splitPane, BorderLayout.CENTER);
 		this.add(propPanel, BorderLayout.CENTER);
 		this.add(buttonPanel, BorderLayout.SOUTH);
-		
-		
-
 		
 
 		if (wasShowing) {
@@ -214,6 +199,7 @@ public class OptionsObject extends JPanel implements /*TreeSelectionListener,*/ 
 		}
 
 		setLabels();
+
 	}
 
 
@@ -235,7 +221,6 @@ public class OptionsObject extends JPanel implements /*TreeSelectionListener,*/ 
 	public void setLabels() {
 		
 		delButton.setText(app.getPlain("Delete"));
-		closeButton.setText(app.getMenu("Close"));
 		defaultsButton.setText(app.getMenu("ApplyDefaults"));
 
 		geoTree.setLabels();
@@ -267,6 +252,9 @@ public class OptionsObject extends JPanel implements /*TreeSelectionListener,*/ 
 
 		propPanel.updateSelection(selectionList.toArray());
 	}
+	
+	
+	
 
 	/**
 	 * shows this dialog and select GeoElement geo at screen position location

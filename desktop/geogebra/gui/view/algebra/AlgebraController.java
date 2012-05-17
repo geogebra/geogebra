@@ -24,6 +24,7 @@ import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.main.AbstractApplication;
 import geogebra.gui.util.GeoGebraIcon;
 import geogebra.gui.GuiManager;
 import geogebra.main.Application;
@@ -50,6 +51,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import javax.swing.ImageIcon;
+import javax.swing.JTree;
+import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
 
 public class AlgebraController extends geogebra.common.gui.view.algebra.AbstractAlgebraController
@@ -82,6 +85,8 @@ implements MouseListener, MouseMotionListener, DragGestureListener, DragSourceLi
 		// get GeoElement at mouse location		
 		TreePath tp = (TreePath)view.getPathForLocation(e.getX(), e.getY());
 		GeoElement geo = AlgebraView.getGeoElementForPath(tp);	
+		
+		ArrayList<GeoElement> groupedGeos = null;
 
 		// check if we clicked on the 16x16 show/hide icon
 		if (geo != null) {
@@ -95,6 +100,23 @@ implements MouseListener, MouseMotionListener, DragGestureListener, DragSourceLi
 				kernel.notifyRepaint();
 				return;
 			}		
+		}else{ // try group action
+			Rectangle rect = (Rectangle)view.getPathBounds(tp);		
+			if (rect!=null){ //group action
+				if (e.getX()-rect.x<16){ // collapse/expand icon
+					JTree tree = (JTree) view;
+					if (tree.isCollapsed(tp))
+						tree.expandPath(tp);
+					else
+						tree.collapsePath(tp);
+				}else{ // collect geos of the group
+					DefaultMutableTreeNode node = (DefaultMutableTreeNode) tp.getLastPathComponent();					groupedGeos = new ArrayList<GeoElement>();
+					for (int i=0; i<node.getChildCount(); i++){
+						groupedGeos.add((GeoElement) ((DefaultMutableTreeNode) node.getChildAt(i)).getUserObject());
+					}
+				}
+			}
+
 		}
 
 		// check double click
@@ -113,9 +135,12 @@ implements MouseListener, MouseMotionListener, DragGestureListener, DragSourceLi
 		int mode = ev.getMode();
 		if (!skipSelection && (mode == EuclidianConstants.MODE_MOVE || mode == EuclidianConstants.MODE_RECORD_TO_SPREADSHEET) ) {
 			// update selection	
-			if (geo == null)
-				app.clearSelectedGeos();
-			else {					
+			if (geo == null){
+				if (!Application.isControlDown(e) && !e.isShiftDown())
+					app.clearSelectedGeos();
+				if (groupedGeos!=null)
+					app.addSelectedGeos(groupedGeos, true);
+			}else {					
 				// handle selecting geo
 				if (Application.isControlDown(e)) {
 					app.toggleSelectedGeo(geo); 													
@@ -287,8 +312,24 @@ implements MouseListener, MouseMotionListener, DragGestureListener, DragSourceLi
 			app.setTooltipFlag();
 			((AlgebraView)view).setToolTipText(geo.getLongDescriptionHTML(true, true));
 			app.clearTooltipFlag();
-		} else
-			((AlgebraView)view).setToolTipText(null);						
+		} else{
+			((AlgebraView)view).setToolTipText(null);	
+			TreePath tp = (TreePath)view.getPathForLocation(e.getX(), e.getY());
+			if (!((JTree) view).isCollapsed(tp)){
+				Rectangle rect = (Rectangle)view.getPathBounds(tp);		
+				if (rect!=null){ //mouse over group
+					if (e.getX()-rect.x>16){ // collect geos of the group
+						DefaultMutableTreeNode node = (DefaultMutableTreeNode) tp.getLastPathComponent();
+						ArrayList<GeoElement> groupedGeos = new ArrayList<GeoElement>();
+						for (int i=0; i<node.getChildCount(); i++){
+							groupedGeos.add((GeoElement) ((DefaultMutableTreeNode) node.getChildAt(i)).getUserObject());
+						}
+						ev.mouseMovedOverList(groupedGeos);
+					}
+				}
+			}
+			
+		}
 	}
 	
 

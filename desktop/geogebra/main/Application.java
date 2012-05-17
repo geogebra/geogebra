@@ -1915,6 +1915,9 @@ public class Application extends AbstractApplication implements
 		}
 		return guiManager.getAlgebraView();
 	}
+	
+	
+
 
 	@Override
 	public EuclidianView getEuclidianView2() {

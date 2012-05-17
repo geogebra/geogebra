@@ -59,7 +59,7 @@ public class OptionsMenu extends BaseMenu implements ActionListener {
 		menuAlgebraStyle.setIcon(app.getEmptyIcon());
 		String[] strDescription = { app.getPlain("Value"), 
 				app.getPlain("Definition"), 
-				app.getPlain("Command") };
+				app.getPlain("Command")};
 		String[] strDescriptionAC = { "0", "1", "2" };
 		ActionListener descAL = new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {

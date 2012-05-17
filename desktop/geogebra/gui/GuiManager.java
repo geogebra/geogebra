@@ -218,6 +218,9 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 				newCenterSize.width / (float) oldCenterSize.width,
 				newCenterSize.height / (float) oldCenterSize.height);
 	}
+	
+	
+	
 
 	/**
 	 * Register panels for the layout manager.

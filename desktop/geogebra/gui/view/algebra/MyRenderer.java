@@ -85,6 +85,7 @@ public class MyRenderer extends DefaultTreeCellRenderer {
 							.addLabelTextOrHTML(geo
 									.getCommandDescription(StringTemplate.defaultTemplate));
 					break;
+
 				}
 			}
 

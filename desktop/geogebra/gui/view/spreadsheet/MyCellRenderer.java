@@ -201,6 +201,7 @@ public class MyCellRenderer extends DefaultTableCellRenderer {
 				text = GeoElement.convertIndicesToHTML(geo
 						.getCommandDescription(StringTemplate.defaultTemplate));
 				break;
+				
 			}
 		}
 

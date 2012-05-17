@@ -4,11 +4,14 @@ import geogebra.common.main.AbstractApplication;
 import geogebra.gui.layout.DockPanel;
 import geogebra.main.Application;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.FlowLayout;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 /**
@@ -40,13 +43,14 @@ public class AlgebraDockPanel extends DockPanel {
 	}
 	
 	@Override
-	protected JComponent loadComponent() {
+	protected JComponent loadComponent() {	
 		JScrollPane scrollPane = new JScrollPane(app.getGuiManager().getAlgebraView());
 		scrollPane.setBorder(BorderFactory.createEmptyBorder());
 		scrollPane.setBackground(Color.white);
 		
 		return scrollPane;
 	}
+	
 
 	@Override
 	protected void setActiveToolBar(){

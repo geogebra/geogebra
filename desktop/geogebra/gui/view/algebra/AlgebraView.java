@@ -189,7 +189,7 @@ public class AlgebraView extends JTree implements LayerView, Gridable, SetLabels
 		setScrollsOnExpand(true);
 		setRowHeight(-1); // to enable flexible height of cells
 
-		setToggleClickCount(1);
+		setToggleClickCount(-1);
 
 		// enable drag n drop
 		algCtrl.enableDnD();
@@ -287,6 +287,11 @@ public class AlgebraView extends JTree implements LayerView, Gridable, SetLabels
 	boolean attached = false;
 
 	public void attachView() {
+		//AbstractApplication.printStacktrace("");
+		
+		if (attached)
+			return;
+		
 		clearView();
 		kernel.notifyAddAll(this);
 		kernel.attach(this);
@@ -295,9 +300,12 @@ public class AlgebraView extends JTree implements LayerView, Gridable, SetLabels
 	}
 
 	public void detachView() {
+		//does nothing : view may be used in object properties
+		/*
 		kernel.detach(this);
 		clearView();
 		attached = false;
+		*/
 	}
 
 	public void updateFonts() {

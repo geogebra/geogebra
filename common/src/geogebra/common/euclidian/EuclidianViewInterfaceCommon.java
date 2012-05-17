@@ -695,6 +695,10 @@ public interface EuclidianViewInterfaceCommon extends EuclidianViewInterfaceSlim
 	 */
 	public void mouseMovedOver(GeoElement geo);
 	/**
+	 * @param geoList list of geos that mouse moved over
+	 */
+	public void mouseMovedOverList(ArrayList<GeoElement> geoList);
+	/**
 	 * @param bgColor new background color
 	 */
 	public void setBackground(geogebra.common.awt.Color bgColor);

@@ -98,7 +98,7 @@ public class PropertiesView extends JPanel implements
 
 	// GUI elements
 	private JPanel mainPanel, buttonPanel;
-	private JButton restoreDefaultsButton, saveButton, closeButton;
+	private JButton restoreDefaultsButton, saveButton;
 
 	private boolean isIniting = true;
 
@@ -221,13 +221,6 @@ public class PropertiesView extends JPanel implements
 			panel.add(saveButton);
 		}
 
-		closeButton = new JButton();
-		closeButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				closeDialog();
-			}
-		});
-		panel.add(closeButton);
 		buttonPanel.add(panel, BorderLayout.EAST);
 
 	}
@@ -465,7 +458,6 @@ public class PropertiesView extends JPanel implements
 	 */
 	public void setLabels() {
 
-		closeButton.setText(app.getMenu("Close"));
 
 		if (!app.isApplet()) {
 			saveButton.setText(app.getMenu("Settings.Save"));
