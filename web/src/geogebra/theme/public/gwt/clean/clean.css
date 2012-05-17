@@ -1303,6 +1303,17 @@ td.datePickerMonth {
 	top:10px;
 }
 
+.undoButton {
+	position:absolute;
+	right:45px;
+	top:10px;
+}
+
+.redoButton {
+	position:absolute;
+	right:70px;
+	top:10px;
+}
 
 /* EuclidianStyleBar styles */
 .SelectionTable a {
