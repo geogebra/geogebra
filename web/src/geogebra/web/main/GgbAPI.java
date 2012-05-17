@@ -282,7 +282,7 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI {
 				} else {
 					zipWriter.close(function(dataURI) {
 							if (typeof clb === "function") {
-								clb(dataURI.substr(dataURI.indexOf(',')));
+								clb(dataURI.substr(dataURI.indexOf(',')+1));
 							} else {
 								$wnd.console.log("not callback was given");
 								$wnd.console.log(dataURI);
