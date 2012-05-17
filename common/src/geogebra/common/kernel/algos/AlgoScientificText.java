@@ -15,25 +15,34 @@ package geogebra.common.kernel.algos;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
+import geogebra.common.kernel.arithmetic.MyDouble;
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoText;
-import geogebra.common.main.AbstractApplication;
-import geogebra.common.util.ScientificFormatAdapter;
-import geogebra.common.util.Unicode;
 
+/**
+ * 
+ * writes numbers in the forum 1.23 * 10 ^ -3 (in LaTeX)
+ * 
+ * @author michael
+ *
+ */
 public class AlgoScientificText extends AlgoElement {
 
-	private GeoNumeric num, precision; //input
+	private GeoNumeric num; //input
+	private NumberValue precision; // input
 	private GeoText text; //output	
 
-	protected StringBuilder sb = new StringBuilder();
+	private StringBuilder sb = new StringBuilder();
 
+	@SuppressWarnings("javadoc")
 	public AlgoScientificText(Construction cons, String label, GeoNumeric num, GeoNumeric precision) {
 		this(cons, num, precision);
 		text.setLabel(label);
 	}
 
+	@SuppressWarnings("javadoc")
 	AlgoScientificText(Construction cons, GeoNumeric num, GeoNumeric precision) {
 		super(cons);
 		this.num = num;
@@ -47,6 +56,7 @@ public class AlgoScientificText extends AlgoElement {
 		compute();
 	}
 
+	@SuppressWarnings("javadoc")
 	public AlgoScientificText(Construction cons) {
 		super(cons);
 	}
@@ -58,9 +68,11 @@ public class AlgoScientificText extends AlgoElement {
 
 	@Override
 	protected void setInputOutput(){
-		input = new GeoElement[2];
+		input = new GeoElement[precision == null ? 1 : 2];
 		input[0] = num;
-		input[1] = precision;
+		if (precision != null) {
+			input[1] = (GeoElement) precision;
+		}
 		
 		setOutputLength(1);
 		setOutput(0, text);
@@ -77,14 +89,25 @@ public class AlgoScientificText extends AlgoElement {
 
 	@Override
 	public void compute() {   	
-		StringTemplate tpl = StringTemplate.get(app.getFormulaRenderingType());
+		
+		boolean rounding = true;
+		
+		// make a temporary double: makes checking for NaN neater
+		// NB (int)Double.NAN = 0
+		if (precision == null) {
+			precision = new MyDouble(kernel, 15);
+			rounding = false;
+		}
+
 		if (num.isDefined() && precision.isDefined()) {
+			
 
 			sb.setLength(0);
 
 			double decimal = num.getDouble();
 			
 			int prec = (int) precision.getDouble();
+			
 			if (prec < 1 || prec > 15) {
 				text.setUndefined();
 				return;				
@@ -104,14 +127,16 @@ public class AlgoScientificText extends AlgoElement {
 			
 			sb.append(strs[0]);
 			
-			// we want 1.23 not 1.230000
-			while (sb.charAt(sb.length() - 1) == '0') {
-				sb.setLength(sb.length() - 1);
-			}
-			
-			// for 1.0000 we need to remove the . too
-			if (sb.charAt(sb.length() - 1) == '.') {
-				sb.setLength(sb.length() - 1);
+			if (!rounding) {
+				// we want 1.23 not 1.230000
+				while (sb.charAt(sb.length() - 1) == '0') {
+					sb.setLength(sb.length() - 1);
+				}
+				
+				// for 1.0000 we need to remove the . too
+				if (sb.charAt(sb.length() - 1) == '.') {
+					sb.setLength(sb.length() - 1);
+				}
 			}
 			
 			// remove . from end (if it's there)

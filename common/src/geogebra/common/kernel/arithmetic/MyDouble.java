@@ -943,4 +943,8 @@ public class MyDouble extends ValidExpression implements NumberValue,
 		return null;
 	}
 
+	public boolean isDefined() {
+		return !Double.isNaN(val);
+	}
+
 }

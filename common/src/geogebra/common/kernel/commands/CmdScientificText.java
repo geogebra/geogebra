@@ -4,7 +4,6 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.main.MyError;
 
 /**
@@ -29,13 +28,22 @@ public class CmdScientificText extends CommandProcessor {
 		arg = resArgs(c);
 
 		switch (n) {
+		case 1:
+
+			if (arg[0].isGeoNumeric()) {
+				GeoElement[] ret = { kernelA.ScientificText(c.getLabel(),
+						(GeoNumeric) arg[0], null) };
+				return ret;
+			} 
+
+				throw argErr(app, c.getName(), arg[arg[0].isGeoNumeric() ? 1 : 0]);
 		case 2:
 
 			if (arg[0].isGeoNumeric() && arg[1].isGeoNumeric()) {
 				GeoElement[] ret = { kernelA.ScientificText(c.getLabel(),
 						(GeoNumeric) arg[0], (GeoNumeric) arg[1]) };
 				return ret;
-			} else
+			} 
 
 				throw argErr(app, c.getName(), arg[arg[0].isGeoNumeric() ? 1 : 0]);
 

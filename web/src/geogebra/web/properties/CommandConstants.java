@@ -2684,7 +2684,7 @@ public interface CommandConstants extends ConstantsWithLookup {
 	@DefaultStringValue("ScientificText")
 	String ScientificText();
 	
-	@DefaultStringValue("[ <Number>, <Precision> ]")
+	@DefaultStringValue("[ <Number> ]\n[ <Number>, <Precision> ]")
 	String ScientificText_Syntax();
 
 	@DefaultStringValue("SlopeField")
