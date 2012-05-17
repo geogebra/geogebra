@@ -46,6 +46,7 @@ public class ModeToggleMenu extends MenuBar implements DoubleClickHandler,
 	public ModeToggleMenu(Application app, ToolBar toolbar,
 			ModeToggleButtonGroup bg) {
 		super(true);
+		setFocusOnHoverEnabled(false);
 		this.app = app;
 		this.bg = bg;
 		this.toolbar = toolbar;

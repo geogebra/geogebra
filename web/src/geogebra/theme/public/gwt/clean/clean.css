@@ -1287,6 +1287,23 @@ td.datePickerMonth {
 	user-select: none;
 }
 
+/* App common styles */
+.GeoGebraAppFrame {
+	font: 100%/120% Frutiger, "Frutiger Linotype", Univers, Calibri, "Gill Sans", "Gill Sans MT", "Myriad Pro", Myriad, "DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma, Geneva, "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+/*GeoGebraMenuBar styles*/
+.GeoGebraMenuBar {
+	font-size:80%;
+}
+
+.linktoggbtube {
+	position:absolute;
+	right:20px;
+	top:10px;
+}
+
+
 /* EuclidianStyleBar styles */
 .SelectionTable a {
 	text-decoration:none;
@@ -1356,14 +1373,4 @@ td.datePickerMonth {
 
 .toolbar_item{
 	width: 40px;
-}
-
-.linktoggt {
-	display: block;
-	position: fixed;
-	right: 10px;
-	top: 10px;
-	z-index:1000000;
-	cursor:pointer;
-	border-radius:2px;
 }

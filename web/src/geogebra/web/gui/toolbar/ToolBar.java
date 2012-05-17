@@ -49,7 +49,8 @@ public class ToolBar extends MenuBar {
 	 * After instantiate the ToolBar, call init(Application app) as well.
 	 */
 	public ToolBar() {
-	
+		super();
+		setFocusOnHoverEnabled(false);
 	}
 	
 	/**

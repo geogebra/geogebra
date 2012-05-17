@@ -46,6 +46,7 @@ public class GeoGebraAppFrame extends Composite {
 	
 	@UiField GGWToolBar ggwToolBar;
 	@UiField GGWCommandLine ggwCommandLine;
+	@UiField GGWMenuBar ggwMenuBar;
 	MySplitLayoutPanel ggwSplitLayoutPanel;
 	
 	DockLayoutPanel outer = null;
@@ -60,6 +61,7 @@ public class GeoGebraAppFrame extends Composite {
 	    // because we want to take advantage of the entire client area.
 	    Window.enableScrolling(false);
 	    Window.setMargin("0px");
+	    addStyleName("GeoGebraAppFrame");
 
 	    // Add the outer panel to the RootLayoutPanel, so that it will be
 	    // displayed.
@@ -86,11 +88,7 @@ public class GeoGebraAppFrame extends Composite {
 		app = createApplication(article,this);
 		ggwSplitLayoutPanel.attachApp(app);
 		ggwCommandLine.attachApp(app);
-		
-		//take in GeoGebraTube link
-		LinkToGGT lggt = new LinkToGGT();
-		lggt.setStyleName("linktoggt");
-		RootPanel.get().add(lggt);
+		ggwMenuBar.init(app);
     }
 	
 	/**

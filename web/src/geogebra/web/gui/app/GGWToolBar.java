@@ -54,7 +54,7 @@ public class GGWToolBar extends Composite {
 
 		toolBarPanel.add(toolBar);
 		
-		toolBarPanel.setSize("100%", "100%");
+		//toolBarPanel.setSize("100%", "100%");
 		toolBar.init((geogebra.web.main.Application) app);
 		addToolbar(toolBar);
 		buildGui();

@@ -5,11 +5,15 @@
   
    <ui:style>
 	  .debugborder { border:1px solid black;}
+	  .menuswrapper {width:100%;}
   </ui:style>
 
-  <g:DockLayoutPanel addStyleNames="{style.debugborder}" unit='PX'>
-    <g:north size='50'>
-      <web:GGWToolBar addStyleNames="{style.debugborder}" ui:field='ggwToolBar' />
+  <g:DockLayoutPanel unit='PX'>
+    <g:north size="90">
+    	<g:VerticalPanel addStyleNames='{style.menuswrapper}'>
+    		<web:GGWMenuBar ui:field="ggwMenuBar"></web:GGWMenuBar>
+      		<web:GGWToolBar ui:field='ggwToolBar' />
+      	</g:VerticalPanel>
     </g:north>
     
     <g:south size='50'>
