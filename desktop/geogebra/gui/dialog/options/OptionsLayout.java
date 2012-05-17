@@ -466,7 +466,7 @@ public class OptionsLayout extends JPanel implements ActionListener,
 		ckOpenConsProtocol.setText(app.getPlain("ConstructionProtocolButton"));
 
 		// menu bar panel
-		menuBarPanel.setTitle(app.getMenu("Miscellaneous"));
+		menuBarPanel.setTitle(app.getPlain("Miscellaneous"));
 		ckShowMenuBar.setText(app.getMenu("ShowMenuBar"));
 
 	}
