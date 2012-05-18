@@ -235,17 +235,6 @@ public class CommandDispatcher {
 		cmdTable = new HashMap<String, CommandProcessor>(500);
 		casTable = new HashMap<String, CommandProcessor>(500);
 
-		// Here we doesn't instantiate CommandProcessor object as before,
-		// in order to speedup the initial loading of the Application
-		// we instantiate CommandProcessor objects when needed and
-		// store them in this command table afterwards
-
-		// ... in order to change or add a command,
-		// please change the enum "Commands" and the method
-		// "commandTableSwitch", and if the first command in a subtable
-		// changed, the following switch as well
-		// Arpad Fekete, 2011-09-29
-
 		for (Commands comm : Commands.values()) {
 			cmdTable.put(comm.name(), null);
 		}
