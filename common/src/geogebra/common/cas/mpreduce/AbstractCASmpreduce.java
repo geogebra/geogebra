@@ -171,7 +171,10 @@ public abstract class AbstractCASmpreduce extends CASgeneric {
 		
 		// set default switches 
 		// (note: off factor turns on exp, so off exp must be placed later)
-		sb.append("$ numeric!!:=0$ precision 30$ print\\_precision 16$ on pri, rationalize  $ off complex, rounded, numval, factor, exp, allfac, div, combinelogs, expandlogs, revpri $ currentx!!:= ");
+		
+		sb.append("$ numeric!!:=0$ precision 30$ print\\_precision 16$ off complex, rounded, numval, factor, div, combinelogs, expandlogs, pri$ currentx!!:= "); 
+	
+	//	sb.append("$ numeric!!:=0$ precision 30$ print\\_precision 16$ on pri, rationalize  $ off complex, rounded, numval, factor, exp, allfac, div, combinelogs, expandlogs, revpri $ currentx!!:= ");
 		
 		sb.append(casPrefix);
 		sb.append("x; currenty!!:= ");
