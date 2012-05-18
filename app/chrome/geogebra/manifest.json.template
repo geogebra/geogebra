@@ -1,10 +1,6 @@
 {
   "name": "GeoGebra",
-  "description": "GeoGebra is free dynamic mathematics software for all levels of
-education that joins geometry, algebra, graphing, and calculus in one
-easy-to-use package. Our desktop application from www.geogebra.org is
-used by millions of students and teachers around the world and has
-received several educational software awards in Europe and the USA.",
+  "description": "Free dynamic mathematics software for all levels of education that joins geometry, algebra, graphing, and calculus.",
   "version": "VERSION",
   "app": {
     "launch": {
