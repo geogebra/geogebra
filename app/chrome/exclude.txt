@@ -2,4 +2,4 @@
 web/statictexts/*
 web/web.devmode.js
 svnignore.txt
-mainfest.json.template
+manifest.json.template
