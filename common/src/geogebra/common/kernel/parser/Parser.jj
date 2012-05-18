@@ -2246,6 +2246,13 @@ ExpressionNode numberFunction():
       			} else break;
       		}
       		GeoElement cell = kernel.lookupCasCellLabel(label);
+      		//f(t)=t(t+1)
+      		if(funcName.equals(kernel.getConstruction().getRegistredFunctionVariable().toString(StringTemplate.defaultTemplate)))      		{
+      		  AbstractApplication.debug("was ok");
+      		  ExpressionNode expr =  new ExpressionNode(kernel, new Variable(kernel,funcName), Operation.MULTIPLY_OR_FUNCTION, myList.getListElement(0));
+	      		undecided.add(expr);
+	      		return expr;       		}
+      		AbstractApplication.debug("was nok");
       		if (geo == null && cell==null) {
       				// function name does not exist: return command
       				Command cmd = new Command(kernel, funcName, true, !ExternalCASParsing );
