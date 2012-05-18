@@ -59,13 +59,13 @@ public class AlgoGammaDF extends AlgoElement {
         // make function x<0
 		FunctionVariable fv = new FunctionVariable(kernel);	
 		ExpressionNode en = new ExpressionNode(kernel,fv);
-		Function tempFun = new Function(en.lessThan(newDoub(0)),fv);
+		Function tempFun = new Function(en.lessThan(0),fv);
 		condFun = new GeoFunction(cons, tempFun);
 		ret.setConditionalFunction(condFun);
 		
         // make function x=0
 		fv = new FunctionVariable(kernel);	
-		en = new ExpressionNode(kernel,newDoub(0));
+		en = new ExpressionNode(kernel,0);
 		tempFun = new Function(en,fv);
 		ifFun = new GeoFunction(cons, tempFun);
 		ret.setIfFunction(ifFun);
@@ -140,7 +140,7 @@ public class AlgoGammaDF extends AlgoElement {
 			
 			div = div.multiply(tEn.power(k));
 			
-			en = en.reverseSign().exp().multiply(fvEn.power(kEn.subtract(newDoub(1)))).divide(div);
+			en = en.reverseSign().exp().multiply(fvEn.power(kEn.subtract(1))).divide(div);
 
 
 			// old hack:
@@ -158,8 +158,5 @@ public class AlgoGammaDF extends AlgoElement {
 
     }
 
-	private ExpressionValue newDoub(double x) {
-		return new MyDouble(kernel, x);
-	}
 	
 }

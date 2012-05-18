@@ -101,10 +101,10 @@ public class AlgoNormalDF extends AlgoElement {
 		if (cumulative != null && cumulative.getBoolean()) {
 
 
-			ExpressionNode sqrt2 = (new ExpressionNode(kernel, newDoub(2))).sqrt();
+			ExpressionNode sqrt2 = (new ExpressionNode(kernel, 2)).sqrt();
 			div = sqrt2.multiply(div.abs());
 
-			en = en.subtract(mean).divide(div).erf().plus(newDoub(1)).divide(newDoub(2));
+			en = en.subtract(mean).divide(div).erf().plus(1).divide(2);
 
 
 			// old hack from CmdNormal:
@@ -113,9 +113,9 @@ public class AlgoNormalDF extends AlgoElement {
 		} else {
 
 			ExpressionNode div2 = new ExpressionNode(kernel, sd);
-			div2 = div2.square().multiply(newDoub(2));
+			div2 = div2.square().multiply(2);
 
-			ExpressionNode sqrt2pi = (new ExpressionNode(kernel, newDoub(Math.PI))).multiply(newDoub(2)).sqrt();
+			ExpressionNode sqrt2pi = (new ExpressionNode(kernel, Math.PI)).multiply(2).sqrt();
 
 			div = sqrt2pi.multiply(div.abs());
 
@@ -132,9 +132,5 @@ public class AlgoNormalDF extends AlgoElement {
 
 
     }
-
-	private ExpressionValue newDoub(double x) {
-		return new MyDouble(kernel, x);
-	}
 	
 }

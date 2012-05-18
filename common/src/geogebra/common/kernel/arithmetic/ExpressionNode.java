@@ -4704,6 +4704,13 @@ public class ExpressionNode extends ValidExpression implements
 	}
 
 	/**
+	 * @return result of 1/this
+	 */
+	public ExpressionNode reciprocate() {
+		return new ExpressionNode(kernel, this, Operation.POWER, new MyDouble(kernel, -1));
+	}
+
+	/**
 	 * @return result of sqrt(this)
 	 */
 	public ExpressionNode sqrt() {

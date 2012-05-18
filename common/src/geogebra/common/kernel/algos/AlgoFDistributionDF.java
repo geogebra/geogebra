@@ -58,13 +58,13 @@ public class AlgoFDistributionDF extends AlgoElement {
         // make function x<0
 		FunctionVariable fv = new FunctionVariable(kernel);	
 		ExpressionNode en = new ExpressionNode(kernel,fv);
-		Function tempFun = new Function(en.lessThan(newDoub(0)),fv);
+		Function tempFun = new Function(en.lessThan(0),fv);
 		condFun = new GeoFunction(cons, tempFun);
 		ret.setConditionalFunction(condFun);
 		
         // make function x=0
 		fv = new FunctionVariable(kernel);	
-		en = new ExpressionNode(kernel,newDoub(0));
+		en = new ExpressionNode(kernel, 0);
 		tempFun = new Function(en,fv);
 		ifFun = new GeoFunction(cons, tempFun);
 		ret.setIfFunction(ifFun);
@@ -117,10 +117,8 @@ public class AlgoFDistributionDF extends AlgoElement {
 		ExpressionNode d1En = new ExpressionNode(kernel, d1);
 		ExpressionNode d2En = new ExpressionNode(kernel, d2);
 		
-		ExpressionValue two = newDoub(2);
-
-		ExpressionNode halfd1 = d1En.divide(two);
-		ExpressionNode halfd2 = d2En.divide(two);
+		ExpressionNode halfd1 = d1En.divide(2);
+		ExpressionNode halfd2 = d2En.divide(2);
 		
 
 		ExpressionNode en;
@@ -128,7 +126,7 @@ public class AlgoFDistributionDF extends AlgoElement {
 		if (cumulative != null && cumulative.getBoolean()) {
 
 
-			en = d1En.divide(two).betaRegularized(halfd2, fvEn.multiply(d1).divide(fvEn.multiply(d1).plus(d2)));
+			en = d1En.divide(2).betaRegularized(halfd2, fvEn.multiply(d1).divide(fvEn.multiply(d1).plus(d2)));
 
 
 			// old hack:
@@ -161,8 +159,5 @@ public class AlgoFDistributionDF extends AlgoElement {
 
     }
 
-	private ExpressionValue newDoub(double x) {
-		return new MyDouble(kernel, x);
-	}
 	
 }

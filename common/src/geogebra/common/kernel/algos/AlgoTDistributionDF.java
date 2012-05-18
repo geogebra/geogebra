@@ -97,20 +97,18 @@ public class AlgoTDistributionDF extends AlgoElement {
 		ExpressionNode vEn = new ExpressionNode(kernel, v);
 		ExpressionNode xEn = new ExpressionNode(kernel, x);
 		ExpressionNode div = vEn;
-		ExpressionValue one = newDoub(1);
-		ExpressionValue two = newDoub(2);
-		ExpressionNode pi = new ExpressionNode(kernel,newDoub(Math.PI));
+		ExpressionNode pi = new ExpressionNode(kernel,Math.PI);
 
 		if (cumulative != null && cumulative.getBoolean()) {
 
-			ExpressionValue half = newDoub(0.5);
-			ExpressionNode halfV = vEn.divide(two);
+			ExpressionValue half = new MyDouble(kernel, 0.5);
+			ExpressionNode halfV = vEn.divide(2);
 			
-			ExpressionNode beta1 = halfV.betaRegularized(half, one);
+			ExpressionNode beta1 = halfV.betaRegularized(half, new MyDouble(kernel, 2));
 			ExpressionNode beta2 = halfV.betaRegularized(half,vEn.divide(vEn.plus(xEn.square())));
 					
 			en = new ExpressionNode(kernel, half);
-			en = en.plus(xEn.sgn().divide(two).multiply(beta1.subtract(beta2)));
+			en = en.plus(xEn.sgn().divide(2).multiply(beta1.subtract(beta2)));
 
 			
 			// old hack:
@@ -121,11 +119,11 @@ public class AlgoTDistributionDF extends AlgoElement {
 			en = new ExpressionNode(kernel, v);
 			ExpressionNode mult = new ExpressionNode(kernel, x);
 			
-			mult = mult.square().divide(v).plus(one).power(vEn.plus(one).divide(two).reverseSign());
+			mult = mult.square().divide(v).plus(1).power(vEn.plus(1).divide(2).reverseSign());
 			
-			div = div.divide(two).gamma().multiply(pi.multiply(v).sqrt());
+			div = div.divide(2).gamma().multiply(pi.multiply(v).sqrt());
 			
-			en = en.plus(newDoub(1)).divide(two).gamma().multiply(mult).divide(div);
+			en = en.plus(1).divide(2).gamma().multiply(mult).divide(div);
 
 			// old hack:
 			//	command = "gamma(("+v+"+1)/2)*(1+x^2/("+v+"))^(-(("+v+"+1)/2))/(gamma(("+v+")/2)*sqrt(pi*("+v+")))";
@@ -138,9 +136,5 @@ public class AlgoTDistributionDF extends AlgoElement {
 
 
     }
-
-	private ExpressionValue newDoub(double x) {
-		return new MyDouble(kernel, x);
-	}
 	
 }

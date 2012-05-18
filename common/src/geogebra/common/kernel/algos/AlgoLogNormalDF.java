@@ -20,17 +20,15 @@ package geogebra.common.kernel.algos;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.arithmetic.BooleanValue;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
-import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
-import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoFunctionConditional;
 
 /**
- * algorithm for Weibull[0,1,x]
+ * algorithm for LogNormal[0,1,x]
  * @author  Michael
  */
 public class AlgoLogNormalDF extends AlgoElement {
@@ -58,13 +56,13 @@ public class AlgoLogNormalDF extends AlgoElement {
         // make function x<0
 		FunctionVariable fv = new FunctionVariable(kernel);	
 		ExpressionNode en = new ExpressionNode(kernel,fv);
-		Function tempFun = new Function(en.lessThan(newDoub(0)),fv);
+		Function tempFun = new Function(en.lessThan(0),fv);
 		condFun = new GeoFunction(cons, tempFun);
 		ret.setConditionalFunction(condFun);
 		
         // make function x=0
 		fv = new FunctionVariable(kernel);	
-		en = new ExpressionNode(kernel,newDoub(0));
+		en = new ExpressionNode(kernel,0);
 		tempFun = new Function(en,fv);
 		ifFun = new GeoFunction(cons, tempFun);
 		ret.setIfFunction(ifFun);
@@ -152,9 +150,4 @@ public class AlgoLogNormalDF extends AlgoElement {
 
 
     }
-
-	private ExpressionValue newDoub(double x) {
-		return new MyDouble(kernel, x);
-	}
-	
 }

@@ -20,46 +20,43 @@ package geogebra.common.kernel.algos;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.arithmetic.BooleanValue;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
-import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
-import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 
 /**
- * algorithm for Cauchy[0,1,x]
+ * algorithm for Logistic[0,1,x]
  * @author  Michael
  */
-public class AlgoCauchyDF extends AlgoElement {
+public class AlgoLogisticDF extends AlgoElement {
 
-	private NumberValue a, b;  // input
+	private NumberValue mean, scale;  // input
 	private BooleanValue cumulative; // optional input
 	private GeoFunction ret;     // output           
         
     @SuppressWarnings("javadoc")
-	public AlgoCauchyDF(Construction cons, String label, NumberValue mean, NumberValue sd, BooleanValue cumulative) {       
-  	  	this(cons, mean, sd, cumulative);
+	public AlgoLogisticDF(Construction cons, String label, NumberValue mean, NumberValue scale, BooleanValue cumulative) {       
+  	  	this(cons, mean, scale, cumulative);
         ret.setLabel(label);
       }   
     
     @SuppressWarnings("javadoc")
-	protected AlgoCauchyDF(Construction cons, NumberValue a, NumberValue b, BooleanValue cumulative) {       
+	protected AlgoLogisticDF(Construction cons, NumberValue mean, NumberValue scale, BooleanValue cumulative) {       
   	  super(cons); 
-        this.a = a;
-        this.b = b;
+        this.mean = mean;
+        this.scale = scale;
         this.cumulative = cumulative;
         ret = new GeoFunction(cons); 
         setInputOutput(); // for AlgoElement
         
-        // compute angle
         compute();     
       }   
     
     @Override
 	public Algos getClassName() {
-        return Algos.AlgoNormalDF;
+        return Algos.AlgoLogsticDF;
     }
     
     // for AlgoElement
@@ -75,8 +72,8 @@ public class AlgoCauchyDF extends AlgoElement {
 		GeoFunction dummyFun = new GeoFunction(cons, tempFun);
     	
         input =  new GeoElement[cumulative == null ? 3 : 4];
-        input[0] = a.toGeoElement();
-        input[1] = b.toGeoElement();
+        input[0] = mean.toGeoElement();
+        input[1] = scale.toGeoElement();
         input[2] = dummyFun;
         if (cumulative != null) {
         	input[3] = (GeoElement) cumulative;
@@ -95,24 +92,28 @@ public class AlgoCauchyDF extends AlgoElement {
     @Override
 	public void compute() {
 		FunctionVariable fv = new FunctionVariable(kernel);
-		ExpressionNode x0 = new ExpressionNode(kernel, a);
-		ExpressionNode g = new ExpressionNode(kernel, b);
 		ExpressionNode en = new ExpressionNode(kernel, fv);
+		ExpressionNode absS = (new ExpressionNode(kernel, scale)).abs();
 		
+		en = en.subtract(mean).divide(absS).reverseSign().exp();
+
 		if (cumulative != null && cumulative.getBoolean()) {
 
-			
-			en = en.subtract(x0).divide(g.abs()).atan().divide(Math.PI).plus(0.5);
 
-			// old hack:
-			//command = "1/pi atan((x-("+x0+"))/abs("+g+"))+0.5";
+			en = en.plus(1).reciprocate();
+			
+			// old hack
+			//processAlgebraCommand( "1/(1+exp(-(x-("+m+"))/abs("+s+")))", true );
+			
+
 
 		} else {
 
-			en = g.abs().divide(g.square().plus(en.subtract(x0).square()).multiply(Math.PI));
+			en = en.divide(absS.multiply(en.plus(1).square()));
+
 
 			// old hack:
-			//command = "1/pi abs("+g+")/(("+g+")^2+(x-("+x0+"))^2)";
+			//processAlgebraCommand( "exp(-(x-("+m+"))/abs("+s+"))/(abs("+s+")*(1+exp(-(x-("+m+"))/abs("+s+")))^2)", true );
 		}
 		
 		Function tempFun = new Function(en, fv);
@@ -122,5 +123,6 @@ public class AlgoCauchyDF extends AlgoElement {
 
 
     }
+
 	
 }

@@ -2,7 +2,10 @@ package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.algos.AlgoLogisticDF;
+import geogebra.common.kernel.arithmetic.BooleanValue;
 import geogebra.common.kernel.arithmetic.Command;
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
@@ -28,7 +31,7 @@ public class CmdLogistic extends CommandProcessor {
 		boolean ok;
 		GeoElement[] arg;
 
-		boolean cumulative = false; // default for n=3
+		BooleanValue cumulative = null; // default for n=3
 		arg = resArgs(c);
 		
 		switch (n) {
@@ -38,7 +41,7 @@ public class CmdLogistic extends CommandProcessor {
 			}
 			
 			if (arg[3].isGeoBoolean()) {
-				cumulative = ((GeoBoolean)arg[3]).getBoolean();
+				cumulative = (BooleanValue)arg[3];
 			} else
 				throw argErr(app, c.getName(), arg[3]);
 			
@@ -47,20 +50,8 @@ public class CmdLogistic extends CommandProcessor {
 			if ((ok = arg[0].isNumberValue()) && (arg[1].isNumberValue())) {
 				if (arg[2].isGeoFunction() && ((GeoFunction)arg[2]).toString(StringTemplate.defaultTemplate).equals("x")) {
 									
-					// needed for eg Normal[1, 0.001, x] 
-					StringTemplate highPrecision = StringTemplate.maxPrecision;
-					String m = arg[0].getLabel(highPrecision);
-					String s = arg[1].getLabel(highPrecision);
-					
-					if (cumulative) {
-						GeoElement[] ret = kernelA.getAlgebraProcessor().processAlgebraCommand( "1/(1+exp(-(x-("+m+"))/abs("+s+")))", true );
-						
-						return ret;
-						
-					}
-					GeoElement[] ret = kernelA.getAlgebraProcessor().processAlgebraCommand( "exp(-(x-("+m+"))/abs("+s+"))/(abs("+s+")*(1+exp(-(x-("+m+"))/abs("+s+")))^2)", true );
-						
-					return ret;
+					AlgoLogisticDF algo = new AlgoLogisticDF(cons, c.getLabel(), (NumberValue)arg[0], (NumberValue)arg[1], cumulative);
+					return algo.getGeoElements();
 					
 					
 				} else if (arg[2].isNumberValue()) 
