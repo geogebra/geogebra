@@ -26,7 +26,7 @@ CHROMEDIR=`cd $MYDIR; pwd`
 WEBDIR=`cd $CHROMEDIR/../../web; pwd`
 
 cd $WEBDIR
-./build -u safari
+./build -u safari -c -nl # -c: cleanup first, -nl: no languages (later should be removed)
 cp -r $WEBDIR/war/web $CHROMEDIR/$APPNAME
 cp $WEBDIR/war/app.html $CHROMEDIR/$APPNAME
 cd $CHROMEDIR

@@ -1,4 +1,4 @@
 .svn/*
-statictexts/*
+web/statictexts/*
 web.devmode.js
 svnignore.txt
