@@ -1,7 +1,7 @@
 {
   "name": "GeoGebra",
   "description": "GeoGebra Web Application",
-  "version": "0.0.0.1",
+  "version": "0.0.0.2",
   "app": {
     "launch": {
       "local_path": "app.html"
