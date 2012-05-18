@@ -1,0 +1,4 @@
+.svn/*
+statictexts/*
+web.devmode.js
+svnignore.txt

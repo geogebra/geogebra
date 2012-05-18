@@ -19,7 +19,7 @@ trap 'rm -f "$pub" "$sig"' EXIT
 
 # zip up the crx dir
 cwd=$(pwd -P)
-(cd "$dir" && zip -qr -9 -X "$cwd/$zip" . --exclude ".svn/*")
+(cd "$dir" && zip -qr -9 -X "$cwd/$zip" . --exclude @../exclude.txt)
 
 # signature
 openssl sha1 -sha1 -binary -sign "$key" < "$zip" > "$sig"
