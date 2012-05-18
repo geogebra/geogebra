@@ -68,6 +68,7 @@ public class PropertiesStyleBar extends JPanel {
 
 	
 	void buildGUI() {
+		
 
 		lblTitle = new JLabel();
 		JPanel titlePanel = OptionsUtil.flowPanel(10, lblTitle);

@@ -348,6 +348,8 @@ public class PropertiesView extends JPanel implements
 	 * @return
 	 */
 	public JComponent getOptionPanel(OptionType type) {
+		
+		//AbstractApplication.printStacktrace("type :"+type);
 
 		switch (type) {
 		case DEFAULTS:
@@ -479,6 +481,11 @@ public class PropertiesView extends JPanel implements
 	// //////////////////////////////////////////////////////
 
 	public void attachView() {
+		if (attached){
+			AbstractApplication.error("already attached");
+			return;
+		}
+		
 		clearView();
 		// kernel.notifyAddAll(this);
 		kernel.attach(this);

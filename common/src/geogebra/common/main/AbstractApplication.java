@@ -2438,6 +2438,10 @@ public abstract class AbstractApplication {
 	final public boolean containsSelectedGeo(GeoElement geo) {
 		return selectedGeos.contains(geo);
 	}
+	
+	final public boolean containsSelectedGeos(ArrayList<GeoElement> geos) {
+		return selectedGeos.containsAll(geos);
+	}
 
 	final public void removeSelectedGeo(GeoElement geo) {
 		removeSelectedGeo(geo, true);
