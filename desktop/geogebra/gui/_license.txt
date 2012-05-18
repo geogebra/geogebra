@@ -176,28 +176,10 @@ SUPPORTING PARTNERS
   * Austrian Academy of Sciences
     2004-2006: DOC scholarship for Markus Hohenwarter
   * Department of Mathematics, University of Salzburg
-    2002-2009: hosting the GeoGebra website
+    2002-2009: hosting the GeoGebra website                                                                
 
-SOFTWARE 
-libraries used by GeoGebra:
-  * MathPiper, http://www.mathpiper.org/ (GPL)
-  * Reduce, http://reduce-algebra.sourceforge.net/ (BSD)
-  * The Apache Commons Mathematics Library, 
-    http://commons.apache.org/math/ (Apache Software License)
-  * FreeHEP Java Libraries, http://java.freehep.org (LGPL)
-  * EPS Graphics, http://epsgraphics.sf.net (GPL)
-  * JLaTeXMath, http://forge.scilab.org/index.php/p/jlatexmath/ (GPL)
-  * JUNG, http://jung.sourceforge.net (BSD)
-  * Tango Icon Gallery, http://tango.freedesktop.org (Public Domain)
-  * Maxima, http://maxima.sourceforge.net/ (GPL)
-  * JSXGraph, http://jsxgraph.org/ (LGPL)
-  * J2DXX, http://bleyer.org/jd2xx/ (BSD)
-  * Jython, http://www.jython.org (Python 2)
-For other tools used for running or building GeoGebra please see
-http://www.geogebra.org/trac/wiki/SourcesForUsedLibraries
 
-------------------------------------------------------------------------
-
+                                             
 GeoGebra - Dynamic Mathematics for Everyone
 http://www.geogebra.org/
 
@@ -209,16 +191,20 @@ http://www.geogebra.org/
 2) GeoGebra Language Files, Documentation, and Installers License:
    Creative Commons Attribution-Share Alike 3.0 or later
 
-Note for Non-commercial Users (e.g private, schools, or universities)
-  You may use and distribute GeoGebra free of charge at home,
-  in school and universities under the conditions explained below.
+3) GeoGebra Web Services including GeoGebraTube:
+   Free for non-commercial use.
+   
+Note for Non-commercial Users (e.g. private, schools, or universities)
+  You may use and distribute GeoGebra and GeoGebraTube materials 
+  free of charge at home, in school and universities under the 
+  conditions explained below.
 
 Note for Commercial Users (e.g. publishers or online schools)
-  If you would like to use GeoGebra applets, installers, or
-  documentation for commercial purposes and put the resulting work under
-  your copyright (e.g. for books, online courses, or on websites under
-  your own copyright), you can do so by setting up a collaboration
-  agreement with GeoGebra.
+  If you would like to use GeoGebra applets, installers, web services
+  (including GeoGebraTube) or documentation for commercial purposes and 
+  put the resulting work under your copyright (e.g. for books, online 
+  courses, or on websites under your own copyright), you can do so by 
+  setting up a collaboration agreement with GeoGebra.
   Please write to office@geogebra.org for details and we will help you
   to find a simple and good solution for your specific projects.
 
@@ -240,9 +226,9 @@ Note for Commercial Users (e.g. publishers or online schools)
    GNU General Public License for more details.
 
    You can find GeoGebra's source code at 
-     http://www.geogebra.org/source/program/
-   If you would like to help with programming, please write to
-     office@geogebra.org
+   If you would like to help with programming, please find all details
+   on how to get involved including GeoGebra's source code on
+   http://dev.geogebra.org
 
 ------------------------------------------------------------------------
 
@@ -262,7 +248,7 @@ Note for Commercial Users (e.g. publishers or online schools)
         you may distribute the resulting work only under the same,
         similar or a compatible license.
 
-   GeoGebra file types that are subject to the above-mentioned license:
+   GeoGebra file types that are subject to the abovmentioned license:
     * GeoGebra language files are ...
         the user interface language files ("properties files") for
         all languages used by the GeoGebra application and applets.
@@ -274,3 +260,33 @@ Note for Commercial Users (e.g. publishers or online schools)
         installation packages that let you install the GeoGebra 
         application and/or documentation files on your system 
         (MS Windows, Mac OS X, Linux, etc.) including GeoGebra WebStart.
+
+------------------------------------------------------------------------
+
+3) GeoGebra Web Services including GeoGebraTube:   
+
+   You are free to use GeoGebra's Web Services (including GeoGebraTube 
+   embed codes and other web service APIs) from http://www.geogebra.org, 
+   http://www.geogebratube.org and any subdomains under the following 
+   conditions:
+    * Attribution. You must attribute our web services
+        (i.e. by linking to our website and mentioning GeoGebra)
+	* Non-commercial. You may not use our web services for commercial 
+		purposes (unless you have explicit permission from 
+		office@geogebra.org).
+   
+---------------------------------------------------------------------
+Libraries used by GeoGebra:
+  * MathPiper, http://www.mathpiper.org/ (GPL)
+  * Reduce, http://reduce-algebra.sourceforge.net/ (BSD)
+  * The Apache Commons Mathematics Library, 
+    http://commons.apache.org/math/ (Apache Software License)
+  * FreeHEP Java Libraries, http://java.freehep.org (LGPL)
+  * EPS Graphics, http://epsgraphics.sf.net (GPL)
+  * JLaTeXMath, http://forge.scilab.org/index.php/p/jlatexmath/ (GPL)
+  * JUNG, http://jung.sourceforge.net (BSD)
+  * Tango Icon Gallery, http://tango.freedesktop.org (Public Domain)
+  * Maxima, http://maxima.sourceforge.net/ (GPL)
+  * JSXGraph, http://jsxgraph.org/ (LGPL)
+For other tools used for running or building GeoGebra please see
+http://dev.geogebra.org/trac/wiki/SourcesForUsedLibraries
