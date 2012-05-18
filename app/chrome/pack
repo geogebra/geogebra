@@ -32,6 +32,7 @@ cp $WEBDIR/war/app.html $CHROMEDIR/$APPNAME
 cd $CHROMEDIR
 
 # 3. Packaging
+rm -f $APPNAME.zip
 ./crxmake.sh $APPNAME $P12DIR/$KEYFILE
 
 # 4. Cleanup
