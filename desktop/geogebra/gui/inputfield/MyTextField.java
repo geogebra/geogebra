@@ -169,12 +169,13 @@ public class MyTextField extends JTextField implements ActionListener,
 
 	public void focusGained(FocusEvent e) {
 
-		// TODO: can't remember why the caret position was reset like this,
-		// a trick to keep the Mac OS from selecting the field?
-		//
-		// now removed - stops the text being highlighted #709
-		// thisField.setCaretPosition(thisField.getCaretPosition());
-
+		// Keep the Mac OS from selecting the entire text on focus.
+		// TODO: make sense of old comment: 
+		//    "now removed - stops the text being highlighted #709"
+		if(app.isMacOS()){
+		 thisField.setCaretPosition(thisField.getCaretPosition());
+		}
+				
 		if (showSymbolTableIcon && hasFocus())
 			borderBtn.setIconVisible(0, true);
 		thisField.repaint();
