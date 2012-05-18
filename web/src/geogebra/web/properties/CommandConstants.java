@@ -2699,4 +2699,21 @@ public interface CommandConstants extends ConstantsWithLookup {
 	@DefaultStringValue("[ <f(x,y)> ]\n[ <f(x,y)>, <Number n> ]\n[ <f(x,y)>, <Number n>, <Length Multiplier a> ]\n[ <f(x,y)>, <Number n>, <Length Multiplier a>, <Min x>, <Min y>, <Max x>, <Max y> ]")
 	String SlopeField_Syntax();
 
+	 @DefaultStringValue("ArePerpendicular")
+	 String ArePerpendicular();
+
+	 @DefaultStringValue("[ <Line>, <Line> ]")
+	 String ArePerpendicularSyntax();
+	 
+	 @DefaultStringValue("AreEqual")
+	 String AreEqual();
+	 
+	 @DefaultStringValue("[ <Object>, <Object> ]")
+	 String AreEqualSyntax();
+	 
+	 @DefaultStringValue("AreConcurrent")
+	 String AreConcurrent();
+	 
+	 @DefaultStringValue("[ <Line>, <Line>, <Line> ]")
+	 String AreConcurrentSyntax();
 }

@@ -1,5 +1,7 @@
 package geogebra.common.kernel.prover;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 
@@ -47,12 +49,14 @@ public class ProverPureSymbolicMethod {
 			}*/
 			try {
 				Polynomial[] poly = statementSymbolic.getPolynomials();
-				AbstractApplication.debug(poly[0]);
-				if (poly.length==1 && poly[0].isZero()){
-					result = Prover.ProofResult.TRUE;
-				} else {
-					result = Prover.ProofResult.FALSE;
-				}
+				for (Polynomial polynomial:poly){
+					AbstractApplication.debug(polynomial);
+					if (!polynomial.isZero()){
+						result=Prover.ProofResult.FALSE;
+						return result;
+					}
+				} 
+				result = Prover.ProofResult.TRUE;
 				return result;
 				
 				// TODO: write here Recio's prover

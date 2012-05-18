@@ -45,7 +45,7 @@ public class AlgoProve extends AlgoElement {
         setInputOutput(); // for AlgoElement
         
         // compute value of dependent number
-        compute();      
+        initialCompute();      
         bool.setLabel(label);
     }   
     
@@ -72,8 +72,7 @@ public class AlgoProve extends AlgoElement {
     public GeoBoolean getGeoBoolean() { return bool; }
     
     // calc the current value of the arithmetic tree
-    @Override
-	public final void compute() {	
+	public final void initialCompute() {
 	
 	// Create and initialize the prover 
      	Prover p = new Prover();
@@ -118,7 +117,7 @@ public class AlgoProve extends AlgoElement {
     }
     
     @Override
-	public void update(){
+	public void compute(){
     	//do not redo the prove
     }
 }

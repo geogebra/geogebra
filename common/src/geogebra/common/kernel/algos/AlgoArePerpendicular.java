@@ -16,10 +16,10 @@ import java.util.HashSet;
 
 /**
  * @author Simon Weitzhofer
- *  27th of April 2012
+ *  17th of May 2012
  * 
  */
-public class AlgoAreParallel extends AlgoElement implements
+public class AlgoArePerpendicular extends AlgoElement implements
 		SymbolicParametersAlgo {
 
 	private GeoLine inputLine1; // input
@@ -30,13 +30,13 @@ public class AlgoAreParallel extends AlgoElement implements
 	private Polynomial[] botanaPolynomials;
 
 	/**
-	 * Tests if two lines are parallel
+	 * Tests if two lines are perpendicular
 	 * @param cons The construction the lines depend on
 	 * @param label the name of the resulting boolean
 	 * @param inputLine1 the first line
 	 * @param inputLine2 the second line
 	 */
-	public AlgoAreParallel(Construction cons, String label, GeoLine inputLine1,
+	public AlgoArePerpendicular(Construction cons, String label, GeoLine inputLine1,
 			GeoLine inputLine2) {
 		super(cons);
 		this.inputLine1 = inputLine1;
@@ -51,7 +51,7 @@ public class AlgoAreParallel extends AlgoElement implements
 
 	@Override
 	public Algos getClassName() {
-		return Algos.AlgoAreParallel;
+		return Algos.AlgoArePerpendicular;
 	}
 
 	@Override
@@ -68,7 +68,7 @@ public class AlgoAreParallel extends AlgoElement implements
 
 	/**
 	 * Gets the result of the test
-	 * @return true if the lines are parallel and false otherwise
+	 * @return true if the lines are perpendicular and false otherwise
 	 */
 	
 	public GeoBoolean getResult() {
@@ -77,7 +77,7 @@ public class AlgoAreParallel extends AlgoElement implements
 
 	@Override
 	public final void compute() {
-		outputBoolean.setValue(inputLine1.isParallel(inputLine2));
+		outputBoolean.setValue(inputLine1.isPerpendicular(inputLine2));
 	}
 
 	public SymbolicParameters getSymbolicParameters() {
@@ -90,7 +90,7 @@ public class AlgoAreParallel extends AlgoElement implements
 			int[] degree1 = inputLine1.getFreeVariablesAndDegrees(variables);
 			int[] degree2 = inputLine2.getFreeVariablesAndDegrees(variables);
 			int[] degree = new int[1];
-			degree[0]=Math.max(degree1[0]+degree2[1], degree1[1]+degree2[0]);
+			degree[0]=Math.max(degree1[0]+degree2[0], degree1[1]+degree2[1]);
 			return degree;
 		}
 		throw new NoSymbolicParametersException();
@@ -105,8 +105,8 @@ public class AlgoAreParallel extends AlgoElement implements
 			BigInteger[] coords2 = ((SymbolicParametersAlgo) input[1])
 					.getExactCoordinates(values);
 			BigInteger[] coords = new BigInteger[1];
-			coords[0] = coords1[0].multiply(coords2[1]).subtract(
-					coords1[1].multiply(coords2[0]));
+			coords[0] = coords1[0].multiply(coords2[0]).add(
+					coords1[1].multiply(coords2[1]));
 
 			return coords;
 		}
@@ -124,8 +124,8 @@ public class AlgoAreParallel extends AlgoElement implements
 			Polynomial[] coords2 = ((SymbolicParametersAlgo) input[1])
 					.getPolynomials();
 			polynomials = new Polynomial[1];
-			polynomials[0] = coords1[0].multiply(coords2[1]).subtract(
-					coords1[1].multiply(coords2[0]));
+			polynomials[0] = coords1[0].multiply(coords2[0]).add(
+					coords1[1].multiply(coords2[1]));
 
 			return polynomials;
 		}
@@ -139,23 +139,7 @@ public class AlgoAreParallel extends AlgoElement implements
 
 	public Polynomial[] getBotanaPolynomials()
 			throws NoSymbolicParametersException {
-		if (botanaPolynomials != null) {
-			return botanaPolynomials;
-		}
-		if (inputLine1 != null && inputLine2 != null) {
-			Variable[] v1 = new Variable[4];
-			Variable[] v2 = new Variable[4];
-			v1 = ((SymbolicParametersAlgo) inputLine1).getBotanaVars(); // (a1,a2,b1,b2)
-			v2 = ((SymbolicParametersAlgo) inputLine2).getBotanaVars(); // (c1,c2,d1,d2)
-			
-			botanaPolynomials = new Polynomial[1];
-			// (a1-b1)*(c2-d2)-(a2-b2)*(c1-d1)
-			botanaPolynomials[0] = (new Polynomial(v1[0]).subtract(new Polynomial(v1[2])))
-					.multiply((new Polynomial(v2[1]).subtract(new Polynomial(v2[3]))))
-					.subtract((new Polynomial(v1[1]).subtract(new Polynomial(v1[3])))
-					.multiply((new Polynomial(v2[0]).subtract(new Polynomial(v2[2]))))); 
-			return botanaPolynomials;
-		}
+		// TODO Auto-generated method stub
 		return null;
 	}
 

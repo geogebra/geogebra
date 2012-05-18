@@ -505,7 +505,9 @@ AlgoTo2D,AlgoDependentVector3D,AlgoParametricDerivative,
 	AlgoImplicitPolyTangentCurve(Commands.Tangent), 
 	AlgoProve(Commands.Prove), AlgoProveDetails(Commands.ProveDetails),
 	AlgoAreCollinear(Commands.AreCollinear), 
-	AlgoAreParallel(Commands.AreParallel), AlgoAreConcyclic(Commands.AreConcyclic);
+	AlgoAreParallel(Commands.AreParallel), AlgoAreConcyclic(Commands.AreConcyclic),
+	AlgoArePerpendicular(Commands.ArePerpendicular), AlgoAreEqual(Commands.AreEqual),
+	AlgoAreConcurrent(Commands.AreConcurrent);
 	private String command;
 	private Algos(){
 		this.command="Expression";

@@ -885,6 +885,8 @@ ShowGrid: "",
 ShowGrid_Syntax: "",
 AreCollinear: "",
 AreCollinear_Syntax: "",
+AreConcurrent: "",
+AreConcurrent_Syntax: "",
 AreParallel: "",
 AreParallel_Syntax: "",
 AreConcyclic: "",
@@ -894,7 +896,11 @@ CenterView_Syntax: "",
 ScientificText: "",
 ScientificText_Syntax: "",
 SlopeField: "",
-SlopeField_Syntax: ""
+SlopeField_Syntax: "",
+ArePerpendicular: "",
+ArePerpendicular_Syntax: "",
+AreEqual: "",
+AreEqual_Syntax: ""
 			
 		};
 		

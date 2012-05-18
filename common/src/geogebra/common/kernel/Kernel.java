@@ -9757,7 +9757,15 @@ public class Kernel {
 		return bool;
 	}
 	
-	public GeoElement AreConcyclic(String label, GeoPoint2 point1,
+	final public GeoBoolean AreConcurrent(String label, GeoLine line1,
+			GeoLine line2, GeoLine line3) {
+		AlgoAreConcurrent algo = new AlgoAreConcurrent(cons, label, line1,
+				line2, line3);
+		GeoBoolean bool = algo.getResult();
+		return bool;
+	}
+	
+	final public GeoBoolean AreConcyclic(String label, GeoPoint2 point1,
 			GeoPoint2 point2, GeoPoint2 point3, GeoPoint2 point4) {
 		AlgoAreConcyclic algo = new AlgoAreConcyclic(cons, label, point1, point2,
 				point3, point4);
@@ -9765,9 +9773,23 @@ public class Kernel {
 		return bool;
 	}
 	
-	public GeoElement AreParallel(String label, GeoLine geoLine1,
+	final public GeoBoolean AreEqual(String label, GeoElement geoElement1,
+			GeoElement geoElement2) {
+		AlgoAreEqual algo = new AlgoAreEqual(cons, label, geoElement1, geoElement2);
+		GeoBoolean bool = algo.getResult();
+		return bool;
+	}
+	
+	final public GeoBoolean AreParallel(String label, GeoLine geoLine1,
 			GeoLine geoLine2) {
 		AlgoAreParallel algo = new AlgoAreParallel(cons, label, geoLine1, geoLine2);
+		GeoBoolean bool = algo.getResult();
+		return bool;
+	}
+	
+	final public GeoBoolean ArePerpendicular(String label, GeoLine geoLine1,
+			GeoLine geoLine2) {
+		AlgoArePerpendicular algo = new AlgoArePerpendicular(cons, label, geoLine1, geoLine2);
 		GeoBoolean bool = algo.getResult();
 		return bool;
 	}

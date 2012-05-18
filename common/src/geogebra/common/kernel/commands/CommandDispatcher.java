@@ -1021,6 +1021,13 @@ public class CommandDispatcher {
 				return new CmdAreParallel(kernel);
 			case AreConcyclic:
 				return new CmdAreConcyclic(kernel);
+			case ArePerpendicular:
+				return new CmdArePerpendicular(kernel);
+			case AreEqual:
+				return new CmdAreEqual(kernel);
+			case AreConcurrent:
+				return new CmdAreConcurrent(kernel);
+					
 					
 			default:
 				AbstractApplication.debug("missing case in CommandDispatcher");
