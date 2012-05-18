@@ -1305,13 +1305,13 @@ td.datePickerMonth {
 
 .undoButton {
 	position:absolute;
-	right:45px;
+	right:70px;
 	top:10px;
 }
 
 .redoButton {
 	position:absolute;
-	right:70px;
+	right:45px;
 	top:10px;
 }
 
