@@ -996,10 +996,11 @@ ExpressionNode functionExpressionnode():
 	   		// local variables, allow function of y and deal with it in GeoFunction constructor
 	   		(( varName =  <VARX> | varName =  <VARY> | varName = label() )
 	   		  { localVars = new ArrayList<String>(); localVars.add(varName.image);
-	   		  kernel.getConstruction().registerFunctionVariable(new FunctionVariable(kernel,varName.image));} )
+	   		  kernel.getConstruction().registerFunctionVariable(varName.image);} )
 			// optional second variable			
 			 (<COMMA> ( varName = casVar() )
-			 { localVars.add(varName.image); } )* 
+			 { localVars.add(varName.image);
+			 kernel.getConstruction().registerFunctionVariable(varName.image);} )* 
 			// closing ) and assignment with expressionnode
 	   		 ")" ( <EQUAL > | <ASSIGNMENT> ) rhs = expressionnode()
 	    {
@@ -2247,12 +2248,10 @@ ExpressionNode numberFunction():
       		}
       		GeoElement cell = kernel.lookupCasCellLabel(label);
       		//f(t)=t(t+1)
-      		if(funcName.equals(kernel.getConstruction().getRegistredFunctionVariable().toString(StringTemplate.defaultTemplate)))      		{
-      		  AbstractApplication.debug("was ok");
+      		if(kernel.getConstruction().isRegistredFunctionVariable(funcName))      		{
       		  ExpressionNode expr =  new ExpressionNode(kernel, new Variable(kernel,funcName), Operation.MULTIPLY_OR_FUNCTION, myList.getListElement(0));
 	      		undecided.add(expr);
 	      		return expr;       		}
-      		AbstractApplication.debug("was nok");
       		if (geo == null && cell==null) {
       				// function name does not exist: return command
       				Command cmd = new Command(kernel, funcName, true, !ExternalCASParsing );

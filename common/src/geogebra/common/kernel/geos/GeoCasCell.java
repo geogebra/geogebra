@@ -1333,7 +1333,6 @@ public class GeoCasCell extends GeoElement implements VarString {
 												// formular
 		if (!isAssignmentVariableDefined())
 			return;
-		AbstractApplication.debug(inputVE.getClass()+","+outputVE.getClass());
 		if((inputVE instanceof Function) && (outputVE instanceof ExpressionNode)){
 			String[] labels = outputVE.getLabels();
 			outputVE = new Function((ExpressionNode)outputVE,((Function)inputVE).getFunctionVariable());
@@ -1355,7 +1354,9 @@ public class GeoCasCell extends GeoElement implements VarString {
 		// try to create twin geo for assignment, e.g. m := c + 3
 		ArbconstReplacer repl = ArbconstReplacer.getReplacer(arbconst);
 		arbconst.reset();
+		AbstractApplication.debug(outputVE.getClass()+outputVE.toString(StringTemplate.defaultTemplate));
 		outputVE.traverse(repl);
+		AbstractApplication.debug(outputVE.getClass()+outputVE.toString(StringTemplate.defaultTemplate));
 		GeoElement newTwinGeo = silentEvalInGeoGebra(outputVE);
 		if (newTwinGeo != null) {
 			if (isXY)

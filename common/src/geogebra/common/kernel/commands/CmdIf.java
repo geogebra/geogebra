@@ -38,7 +38,7 @@ public class CmdIf extends CommandProcessor {
 		case 2: // if - then
 		case 3: // if - then - else
 			if(kernelA.getConstruction().getRegistredFunctionVariable()!=null){
-				String varName = kernelA.getConstruction().getRegistredFunctionVariable().toString(StringTemplate.defaultTemplate);
+				String varName = kernelA.getConstruction().getRegistredFunctionVariable();
 			FunctionVariable fv = new FunctionVariable(kernelA,varName);
 			int r=	c.getArgument(0).replaceVariables(varName, fv);
 			if(r>0){

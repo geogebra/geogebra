@@ -4592,7 +4592,7 @@ public class MyXMLHandler implements DocHandler {
 		String var = attrs.get("var");
 		if (var != null) {
 			AbstractApplication.debug("reading var");
-			cons.registerFunctionVariable(new FunctionVariable(kernel,var));
+			cons.registerFunctionVariable(var);
 		}
 
 		// Application.debug(name);

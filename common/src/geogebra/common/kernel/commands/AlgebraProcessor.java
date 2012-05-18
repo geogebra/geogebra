@@ -292,7 +292,7 @@ public class AlgebraProcessor {
 		try {
 			oldLabel = geo.getLabel(StringTemplate.defaultTemplate);
 			if(geo instanceof GeoFunction)
-				cons.registerFunctionVariable(((GeoFunction)geo).getFunction().getFunctionVariable());
+				cons.registerFunctionVariable(((GeoFunction)geo).getFunction().getVarString(StringTemplate.defaultTemplate));
 			newLabel = newValue.getLabel();
 
 			if (newLabel == null) {

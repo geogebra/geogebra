@@ -51,8 +51,7 @@ public class CmdFunction extends CommandProcessor {
 					|| kernelA.getConstruction().getRegistredFunctionVariable() != null) {
 				if (varName == null)
 					varName = kernelA.getConstruction()
-							.getRegistredFunctionVariable()
-							.toString(StringTemplate.defaultTemplate);
+							.getRegistredFunctionVariable();
 				FunctionVariable fv = new FunctionVariable(kernelA, varName);
 				int r = c.getArgument(0).replaceVariables(varName, fv);
 				c.getArgument(0).replaceVariables(varName, fv);

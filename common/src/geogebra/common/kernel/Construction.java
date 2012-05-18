@@ -2620,21 +2620,35 @@ public class Construction {
 	public GeoElement getOutputGeo() {
 		return outputGeo == null ? new GeoNumeric(this) : outputGeo;
 	}
-	private FunctionVariable registredFV;
+	private TreeSet<String> registredFV = new TreeSet<String>();
 	/**
 	 * Registers function variable that should be recognized in If and Function commands
-	 * @param functionVariable local function variable
+	 * @param fv local function variable
 	 */
-	public void registerFunctionVariable(FunctionVariable functionVariable) {
-		registredFV =  functionVariable;
+	public void registerFunctionVariable(String fv) {
+		if(fv == null)
+			registredFV.clear();
+		else
+			registredFV.add(fv);
 		
+	}
+	/**
+	 * 
+	 * @param s variable name
+	 * @return whether s is among registred function variables
+	 */
+	public boolean isRegistredFunctionVariable(String s){
+		return registredFV.contains(s);
 	}
 	/**
 	 * Returns function variable that should be recognized in If and Function commands
 	 * @return local function variable or null if there is none
 	 */
-	public FunctionVariable getRegistredFunctionVariable(){
-		return registredFV;
+	public String getRegistredFunctionVariable(){
+		Iterator<String> it = registredFV.iterator();
+		if(it.hasNext())
+				return it.next();
+		return null;
 	}
 
 	// update all indices >= pos
