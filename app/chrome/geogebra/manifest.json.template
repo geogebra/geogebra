@@ -1,6 +1,6 @@
 {
   "name": "GeoGebra",
-  "description": "Free dynamic mathematics software for all levels of education that joins geometry, algebra, graphing, and calculus.",
+  "description": "GeoGebra is free dynamic mathematics software for all levels of education that joins geometry, algebra, graphing, and calculus.",
   "version": "VERSION",
   "app": {
     "launch": {
