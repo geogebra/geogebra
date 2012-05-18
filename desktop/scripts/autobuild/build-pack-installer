@@ -89,6 +89,11 @@ while [ $# -gt 0 ]; do
    LOGFILE="$1"
    ;;
    
+  -tu)
+   shift
+   TESTURL="$1"
+   ;;
+   
   -v | --verbose)
    VERBOSE=1
    ;;
