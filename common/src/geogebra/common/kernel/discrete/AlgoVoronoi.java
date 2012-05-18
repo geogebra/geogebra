@@ -38,7 +38,7 @@ import java.util.TreeSet;
  * @version 
  */
 
-public class AlgoVoronoi extends AlgoElement {
+public class AlgoVoronoi extends AlgoElement implements GraphAlgo {
 
 	
 	private GeoList inputList; //input

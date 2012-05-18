@@ -37,6 +37,9 @@ import geogebra.common.kernel.algos.AlgoCirclePointRadiusInterface;
 import geogebra.common.kernel.algos.AlgoDrawInformation;
 import geogebra.common.kernel.algos.AlgoDynamicCoordinatesInterface;
 import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.algos.AlgoIntegralODE;
+import geogebra.common.kernel.algos.AlgoSlopeField;
+import geogebra.common.kernel.algos.AlgoSolveODE;
 import geogebra.common.kernel.algos.AlgorithmSet;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.algos.ConstructionElement;
@@ -48,6 +51,7 @@ import geogebra.common.kernel.arithmetic.Traversing;
 import geogebra.common.kernel.cas.CASGenericInterface;
 import geogebra.common.kernel.cas.GeoGebraCasInterface;
 import geogebra.common.kernel.commands.AlgebraProcessor;
+import geogebra.common.kernel.discrete.GraphAlgo;
 import geogebra.common.kernel.kernelND.GeoElementND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.AbstractApplication;
@@ -2980,6 +2984,20 @@ public abstract class GeoElement extends ConstructionElement implements
 			} else if (isGeoImage()) {
 				return defaultNumberedLabel("Name.picture");
 			} else if (isGeoLocus()) {
+				
+				if (algoParent instanceof AlgoSolveODE
+						|| algoParent instanceof AlgoIntegralODE) {
+					
+					return defaultNumberedLabel("Name.numericalIntegral");
+					
+				} else if (algoParent instanceof AlgoSlopeField) {
+					
+					return defaultNumberedLabel("Name.slopefield");
+				} else if (algoParent instanceof GraphAlgo) {
+					
+					return defaultNumberedLabel("Name.graph");
+				}
+				
 				return defaultNumberedLabel("Name.locus");
 			} else if (isGeoTextField()) {
 				return defaultNumberedLabel("Name.textfield");

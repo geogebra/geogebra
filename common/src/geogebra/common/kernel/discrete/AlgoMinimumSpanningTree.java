@@ -16,7 +16,7 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 
 import java.util.ArrayList;
 
-public class AlgoMinimumSpanningTree extends AlgoHull{
+public class AlgoMinimumSpanningTree extends AlgoHull {
 
 	public AlgoMinimumSpanningTree(Construction cons, String label, GeoList inputList) {
 		super(cons, label, inputList, null);

@@ -39,7 +39,7 @@ import java.util.Collection;
  * @version
  */
 
-public class AlgoHull extends AlgoElement {
+public class AlgoHull extends AlgoElement  implements GraphAlgo {
 
 	
 	protected GeoList inputList; // input

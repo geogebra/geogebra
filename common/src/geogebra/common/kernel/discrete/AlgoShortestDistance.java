@@ -20,7 +20,7 @@ import java.util.List;
 
 import org.apache.commons.collections15.Transformer;
 
-public class AlgoShortestDistance extends AlgoElement {
+public class AlgoShortestDistance extends AlgoElement  implements GraphAlgo {
 	
 	GeoPointND start, end;
 	GeoList inputList;

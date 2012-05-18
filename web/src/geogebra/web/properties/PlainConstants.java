@@ -1875,4 +1875,15 @@ public interface PlainConstants extends ConstantsWithLookup {
 	
 	@DefaultStringValue("Circumference of %0")
 	String CircumferenceOfA();
+	
+	@DefaultStringValue("slopefield")
+	String Name_slopefield();
+
+	@DefaultStringValue("numericalIntegral")
+	String Name_numericalIntegral();
+
+	@DefaultStringValue("graph")
+	String Name_graph();
+
+
 }

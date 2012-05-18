@@ -52,8 +52,6 @@ public class GeoLocus extends GeoElement implements Path, Traceable {
 		setConstructionDefaults(); // init visual settings
 
 		myPointList = new ArrayList<MyPoint>(500);
-		// setAlgebraVisible(false);
-		setAuxiliaryObject(true);
 	}
 
 	@Override

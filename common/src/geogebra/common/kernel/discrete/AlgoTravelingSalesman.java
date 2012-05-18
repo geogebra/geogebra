@@ -13,7 +13,7 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 
 import java.util.ArrayList;
 
-public class AlgoTravelingSalesman extends AlgoHull{
+public class AlgoTravelingSalesman extends AlgoHull {
 
 	public AlgoTravelingSalesman(Construction cons, String label, GeoList inputList) {
 		super(cons, label, inputList, null);
