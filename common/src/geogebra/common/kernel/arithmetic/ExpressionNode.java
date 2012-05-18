@@ -811,6 +811,7 @@ public class ExpressionNode extends ValidExpression implements
 				left = ((ExpressionNode)left).getLeft();
 				operation = Operation.MULTIPLY;
 			}
+			break;
 		case FACTORIAL:
 			if(left.isExpressionNode() && ((ExpressionNode)left).operation==Operation.MULTIPLY_OR_FUNCTION){
 				right = new ExpressionNode(kernel,((ExpressionNode)left).getRight(),Operation.FACTORIAL,null);
