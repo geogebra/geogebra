@@ -44,7 +44,9 @@ public class CommandDispatcherMPReduce {
 		/** cosine integral */
 		ci(Operation.CI),
 		/** cosine integral */
-		ei(Operation.EI);
+		ei(Operation.EI),
+		/** taylor(sin(x),0,3) returns taylor(x-x^3/6,x,0,3)*/
+		taylor(Operation.NO_OPERATION);
 		private Operation op;
 		private commands(Operation op){
 			this.op = op;
@@ -75,6 +77,9 @@ public class CommandDispatcherMPReduce {
 			//TODO -- template is not important for arb*, but is this correct for df?
 			StringTemplate tpl = StringTemplate.casTemplate;
 			switch (commands.valueOf(cmdName)) {
+			case taylor:
+				ret = args.getListElement(0);
+				break;
 			case logb:
 				// e.g. logb[x,3] becomes log(3,x)
 				ret = new ExpressionNode(kernel,
