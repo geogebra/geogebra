@@ -1,5 +1,0 @@
-To create a proof test in a .ggb file, make sure that the .ggb file
-contains one and only one Prove statement.
-
-Then run ./runtests. The .csv output will be given on stdout,
-and also an .html export will be created in html/.
