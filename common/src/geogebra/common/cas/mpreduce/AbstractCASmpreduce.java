@@ -149,6 +149,7 @@ public abstract class AbstractCASmpreduce extends CASgeneric {
 		// KeepInput[] command should set flag keepinput!!:=1
 		// so that commands like Substitute can work accordingly
 		boolean keepInput = casInput.isKeepInputUsed();
+		boolean taylorToStd = true;
 		if (keepInput) {
 			// remove KeepInput[] command and take argument
 			Command cmd = casInput.getTopLevelCommand();
@@ -156,6 +157,11 @@ public abstract class AbstractCASmpreduce extends CASgeneric {
 				// use argument of KeepInput as casInput
 				if (cmd.getArgumentNumber() > 0)
 					casInput = cmd.getArgument(0);
+			}
+		}else if (casInput.isTopLevelCommand()){
+			Command cmd = casInput.getTopLevelCommand();
+			if (cmd != null && cmd.getName().equals("TaylorSeries")) {
+				taylorToStd = false;
 			}
 		}
 
@@ -168,7 +174,8 @@ public abstract class AbstractCASmpreduce extends CASgeneric {
 		StringBuilder sb = new StringBuilder();
 		sb.append("<<keepinput!!:=");
 		sb.append(keepInput ? 1 : 0);
-		
+		sb.append("$taylortostd:=");
+		sb.append(taylorToStd?1:0);
 		// set default switches 
 		// (note: off factor turns on exp, so off exp must be placed later)
 		
