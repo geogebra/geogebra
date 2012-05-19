@@ -1487,7 +1487,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				str = new String[]{ "IllegalArgument", "ld", lt.toString(errorTemplate) };
 				throw new MyError(app, str);
 			}
-
+		case SQRT_SHORT:
 		case SQRT:
 			// sqrt(number)
 			if (lt.isNumberValue()) {

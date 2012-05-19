@@ -421,6 +421,7 @@ TOKEN: {
 |	< ROUND_FUNC: ( "round" | "Round" ) + ("("|"[")> 
 |	< RANDOM_FUNC:  "random()"  >
 |   < MP_POLARTOPOINT: "polartopoint\u00a7(" > // may be returned by MPreduce
+|  	< SQRT_SHORT: "\u221a" > 
 | 	< FUNCTION_LABEL: (<SPREADSHEET_LABEL> | <LABEL> ) "(" >
 }
 
@@ -1533,7 +1534,7 @@ ExpressionValue enfactorial():
     ExpressionValue en;   
 }
 {     
-	    en = NOTterm() 
+	    en = ensqrt() 
 	    (LOOKAHEAD(<FACTORIAL>) <FACTORIAL> 
 	     {
 	       		if(en.isExpressionNode() && ((ExpressionNode)en).getOperation()==Operation.MULTIPLY_OR_FUNCTION)	       		{
@@ -1546,6 +1547,30 @@ ExpressionValue enfactorial():
 	     }      
 	     )?    
 	     { return en; }	    	
+}
+
+ExpressionValue ensqrt():
+{   
+    ExpressionValue en;   
+}
+{     
+	    <SQRT_SHORT > en = NOTterm()  
+	     {
+	       		if(en.isExpressionNode() && ((ExpressionNode)en).getOperation()==Operation.MULTIPLY_OR_FUNCTION)
+	       		{
+	       		  en = new ExpressionNode(kernel,
+	       		  new ExpressionNode(kernel, ((ExpressionNode)en).getLeft(), Operation.SQRT_SHORT, null),
+	       		  	Operation.MULTIPLY,
+	       		  ((ExpressionNode)en).getRight()	
+	       		  	);
+	       		}
+	       		else
+	            en = new ExpressionNode(kernel, en, Operation.SQRT_SHORT, null);
+	            return en;               
+	     }     | en = NOTterm() 
+	         
+	     { return en; }
+	     { return en; }	
 }
 
 /**

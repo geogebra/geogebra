@@ -818,6 +818,12 @@ public class ExpressionNode extends ValidExpression implements
 				left = ((ExpressionNode)left).getLeft();
 				operation = Operation.MULTIPLY;
 			}
+		case SQRT_SHORT:
+			if(left.isExpressionNode() && ((ExpressionNode)left).operation==Operation.MULTIPLY_OR_FUNCTION){
+				right = ((ExpressionNode)left).getRight();
+				left = new ExpressionNode(kernel,((ExpressionNode)left).getLeft(),Operation.SQRT,null);
+				operation = Operation.MULTIPLY;
+			}	
 		}
 		
 
@@ -3576,7 +3582,7 @@ public class ExpressionNode extends ValidExpression implements
 				break;
 			}
 			break;
-
+		case SQRT_SHORT:
 		case SQRT:
 			switch (STRING_TYPE) {
 			case MATHML:
