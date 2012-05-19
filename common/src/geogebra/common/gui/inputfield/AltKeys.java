@@ -36,6 +36,8 @@ public class AltKeys {
 		LookupUpper.put('O', Unicode.degree);
 		LookupLower.put('P', Unicode.pi);
 		LookupUpper.put('P', Unicode.Pi);
+		LookupLower.put('R', Unicode.SQUARE_ROOT);
+		LookupUpper.put('R', Unicode.SQUARE_ROOT);
 		LookupLower.put('S', Unicode.sigma);
 		LookupUpper.put('S', Unicode.Sigma);
 		LookupLower.put('T', Unicode.theta);

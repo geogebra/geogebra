@@ -94,6 +94,7 @@ public class Unicode {
 	public static final String Psi = "\u03A8";
 	public static final String Omega = "\u03A9";
 	
+	public static final String SQUARE_ROOT = "\u221a";
 	public static final String PLUSMINUS = "\u00b1";
 	public static final String NOTEQUAL = "\u2260";
 
