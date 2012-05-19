@@ -49,7 +49,7 @@ public class CmdTriangular extends CommandProcessor {
 					String c = arg[2].getLabel(highPrecision);
 					
 					if (cumulative) {
-						GeoElement[] ret = kernelA.getAlgebraProcessor().processAlgebraCommand( "If[x < "+a+", 0, If[x < "+c+", (x - ("+a+"))� / ("+b+" - ("+a+")) / ("+c+" - ("+a+")), If[x < "+b+", 1 + (x - ("+b+"))� / ("+b+" - ("+a+")) / ("+c+" - ("+b+")), 1]]]", true);
+						GeoElement[] ret = kernelA.getAlgebraProcessor().processAlgebraCommand( "If[x < "+a+", 0, If[x < "+c+", (x - ("+a+"))^2 / ("+b+" - ("+a+")) / ("+c+" - ("+a+")), If[x < "+b+", 1 + (x - ("+b+"))^2 / ("+b+" - ("+a+")) / ("+c+" - ("+b+")), 1]]]", true);
 						return ret;
 						
 					} 
@@ -67,7 +67,7 @@ public class CmdTriangular extends CommandProcessor {
 					String c = arg[2].getLabel(highPrecision);
 					String x = arg[3].getLabel(highPrecision);
 					
-					GeoElement[] ret = kernelA.getAlgebraProcessor().processAlgebraCommand( "If["+x+" < "+a+", 0, If["+x+" < "+c+", ("+x+" - ("+a+"))� / ("+b+" - ("+a+")) / ("+c+" - ("+a+")), If["+x+" < "+b+", 1 + ("+x+" - ("+b+"))� / ("+b+" - ("+a+")) / ("+c+" - ("+b+")), 1]]]", true );
+					GeoElement[] ret = kernelA.getAlgebraProcessor().processAlgebraCommand( "If["+x+" < "+a+", 0, If["+x+" < "+c+", ("+x+" - ("+a+"))^2 / ("+b+" - ("+a+")) / ("+c+" - ("+a+")), If["+x+" < "+b+", 1 + ("+x+" - ("+b+"))^2 / ("+b+" - ("+a+")) / ("+c+" - ("+b+")), 1]]]", true );
 					return ret;
 					
 				}  else
