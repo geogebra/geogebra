@@ -164,18 +164,7 @@ public class InputDialog extends JDialog implements ActionListener,
 		// prepare the input panel text selection
 		if (initString != null && selectInitText) {
 			inputPanel.selectText();
-		} else {
-			// workaround for #1478
-			// TODO not working
-			if (Application.MAC_OS) {
-				SwingUtilities.invokeLater(new Runnable() {
-					public void run() {
-						inputPanel.getTextComponent().setSelectionStart(0);
-						inputPanel.getTextComponent().setSelectionEnd(0);
-					}
-				});
-			}
-		}
+		} 
 
 		// finalize the GUI
 		centerOnScreen();

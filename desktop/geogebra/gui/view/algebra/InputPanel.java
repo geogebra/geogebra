@@ -158,9 +158,8 @@ public class InputPanel extends JPanel implements FocusListener, VirtualKeyboard
 		return textComponent.getSelectedText();
 	}
 	
-	public void selectText() { 					
-		textComponent.setSelectionStart(0);
-		textComponent.moveCaretPosition(textComponent.getText().length());
+	public void selectText() {
+		textComponent.selectAll();
 	}
 	
 	public void setText(String text) {

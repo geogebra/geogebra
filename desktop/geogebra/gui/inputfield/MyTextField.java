@@ -3,7 +3,6 @@ package geogebra.gui.inputfield;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.gui.SetLabels;
 import geogebra.common.gui.VirtualKeyboardListener;
-import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.gui.util.GeoGebraIcon;
 import geogebra.gui.virtualkeyboard.VirtualKeyboard;
 import geogebra.main.Application;
@@ -26,10 +25,10 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
+import javax.swing.text.DefaultCaret;
 
 /**
  * Extends JTextField to add (1) dynamic coloring of bracket symbols and quote
@@ -99,6 +98,15 @@ public class MyTextField extends JTextField implements ActionListener,
 	 */
 	private void initField() {
 
+		// The OS X caret contains code that auto-selects text in undesirable
+		// ways. So we replace the mac caret with a new default caret.
+		if (app.isMacOS()) {
+			DefaultCaret c = new DefaultCaret();
+			int blinkRate = getCaret().getBlinkRate();
+			c.setBlinkRate(blinkRate);
+			setCaret(c);
+		}
+
 		setOpaque(true);
 		addFocusListener(this);
 		addCaretListener(this);
@@ -167,13 +175,22 @@ public class MyTextField extends JTextField implements ActionListener,
 	// Event Handlers, Listeners
 	// ====================================================
 
-	public void focusGained(FocusEvent e) {
+	boolean selectAllOnFocus = false;
+	
+	/**
+	 * Sets a flag to force all text to be selected on focus
+	 * (helpful for tabbed data entry)
+	 * @param selectAllOnFocus
+	 */
+	public void setSelectAllOnFocus(boolean selectAllOnFocus) {
+		this.selectAllOnFocus = selectAllOnFocus;
+	}
 
-		// Keep the Mac OS from selecting the entire text on focus.
-		// TODO: make sense of old comment: 
-		//    "now removed - stops the text being highlighted #709"
-		if(app.isMacOS()){
-		 thisField.setCaretPosition(thisField.getCaretPosition());
+	public void focusGained(FocusEvent e) {
+			
+		if(selectAllOnFocus){
+			thisField.setText(thisField.getText());
+			thisField.selectAll();
 		}
 				
 		if (showSymbolTableIcon && hasFocus())
@@ -248,20 +265,6 @@ public class MyTextField extends JTextField implements ActionListener,
 			tf.startAutoCompletion();
 		}
 
-		// Under a Mac OS the string is always selected after the insert. A
-		// runnable prevents
-		// this by resetting the caret to cancel the selection.
-		SwingUtilities.invokeLater(new Runnable() {
-			public void run() {
-				setCaretPosition(newPos);
-			}
-		});
-
-		// TODO: tried to keep the Mac OS from auto-selecting the field by
-		// resetting the
-		// caret, but not working yet
-		// setCaret(new DefaultCaret());
-		// setCaretPosition(newPos);
 	}
 
 	/**
