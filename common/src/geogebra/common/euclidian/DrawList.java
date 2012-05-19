@@ -103,7 +103,7 @@ public final class DrawList extends Drawable implements RemoveNeeded {
 	final public void update() {
 
 		if (geoList.drawAsComboBox()) {
-			isVisible = geo.isEuclidianVisible();
+			isVisible = geo.isEuclidianVisible() && geoList.size()!=0;
 			// textField.setVisible(isVisible);
 			// label.setVisible(isVisible);
 			box.setVisible(isVisible);

@@ -921,6 +921,7 @@ public class NoExceptionsTest {
 		t("Integral[ f1 ]");
 		t("Integral[ f1, n2, n3 ]");
 		t("Integral[ f1, n2, n3, b1 ]");
+		t("Integral[SlopeField[x/y],(1,1)]");
 
 	}
 
@@ -2205,5 +2206,24 @@ public class NoExceptionsTest {
 		t("SlopeField[ -y/x, 5, 0.1 ]");
 		t("SlopeField[ -y/x, 5, 0.1,0,0,1,1]");
 	}
-
+	@Test
+	public void cmdScientificText(){
+		t("ScientificText[pi,10]");
+		t("ScientificText[pi]");
+	}
+	
+	@Test
+	public void cmdArePerpendicular(){
+		t("ArePerpendicular[l1,l2]");
+	}
+	
+	@Test
+	public void cmdAreConcurrent(){
+		t("AreConcurrent[l1,l2,x=0]");
+	}
+	
+	@Test
+	public void cmdAreEqual(){
+		t("AreEqual[Pt1,Pt2]");
+	}
 }
