@@ -1,7 +1,6 @@
 package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
@@ -133,13 +132,25 @@ public class AlgoArePerpendicular extends AlgoElement implements
 	}
 
 	public Variable[] getBotanaVars() {
-		// TODO Auto-generated method stub
+		// No return variables needed
 		return null;
 	}
 
 	public Polynomial[] getBotanaPolynomials()
 			throws NoSymbolicParametersException {
-		// TODO Auto-generated method stub
+		if (botanaPolynomials != null) {
+			return botanaPolynomials;
+		}
+		if (inputLine1 != null && inputLine2 != null) {
+			Variable[] v1 = new Variable[4];
+			Variable[] v2 = new Variable[4];
+			v1 = ((SymbolicParametersAlgo) inputLine1).getBotanaVars(); // (a1,a2,b1,b2)
+			v2 = ((SymbolicParametersAlgo) inputLine2).getBotanaVars(); // (c1,c2,d1,d2)
+			
+			botanaPolynomials = new Polynomial[1];
+			botanaPolynomials[0] = Polynomial.perpendicular(v1[0], v1[1], v1[2], v1[3], v2[0], v2[1], v2[2], v2[3]);
+			return botanaPolynomials;
+		}
 		return null;
 	}
 

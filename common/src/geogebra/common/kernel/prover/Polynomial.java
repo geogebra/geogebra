@@ -425,15 +425,15 @@ public class Polynomial implements Comparable<Polynomial> {
 	
 	/**
 	 * Creates a polynomial which describes the input coordinates as points
-	 * are perpendicular. 
-	 * @param v1 x-coordinate of the first point
-	 * @param v2 y-coordinate of the first point
-	 * @param v3 x-coordinate of the second point
-	 * @param v4 y-coordinate of the second point
-	 * @param v5 x-coordinate of the third point
-	 * @param v6 y-coordinate of the third point
-	 * @param v7 x-coordinate of the fourth point
-	 * @param v8 y-coordinate of the fourth point
+	 * are perpendicular, i.e. AB is perpendicular to CD. 
+	 * @param v1 x-coordinate of the first point (A)
+	 * @param v2 y-coordinate of the first point (A)
+	 * @param v3 x-coordinate of the second point (B)
+	 * @param v4 y-coordinate of the second point (B)
+	 * @param v5 x-coordinate of the third point (C)
+	 * @param v6 y-coordinate of the third point (C)
+	 * @param v7 x-coordinate of the fourth point (D)
+	 * @param v8 y-coordinate of the fourth point (D)
 	 * @return the polynomial
 	 */
 	public static Polynomial perpendicular(Variable v1, Variable v2, Variable v3, 
@@ -453,6 +453,38 @@ public class Polynomial implements Comparable<Polynomial> {
 				.add((a2.subtract(b2)).multiply(c2.subtract(d2)));
 		return ret;
 	}
+
+	/**
+	 * Creates a polynomial which describes the input coordinates as points
+	 * are parallel, i.e. AB is parallel to CD. 
+	 * @param v1 x-coordinate of the first point (A)
+	 * @param v2 y-coordinate of the first point (A)
+	 * @param v3 x-coordinate of the second point (B)
+	 * @param v4 y-coordinate of the second point (B)
+	 * @param v5 x-coordinate of the third point (C)
+	 * @param v6 y-coordinate of the third point (C)
+	 * @param v7 x-coordinate of the fourth point (D)
+	 * @param v8 y-coordinate of the fourth point (D)
+	 * @return the polynomial
+	 */
+	public static Polynomial parallel(Variable v1, Variable v2, Variable v3, 
+			Variable v4, Variable v5, Variable v6, Variable v7, Variable v8) {
+
+		Polynomial a1 = new Polynomial(v1);
+		Polynomial a2 = new Polynomial(v2);
+		Polynomial b1 = new Polynomial(v3);
+		Polynomial b2 = new Polynomial(v4);
+		Polynomial c1 = new Polynomial(v5);
+		Polynomial c2 = new Polynomial(v6);
+		Polynomial d1 = new Polynomial(v7);
+		Polynomial d2 = new Polynomial(v8);
+
+		// (a1-b1)*(c2-d2)-(a2-b2)*(c1-d1)
+		Polynomial ret = ((a1.subtract(b1)).multiply(c2.subtract(d2)))
+				.subtract((a2.subtract(b2)).multiply(c1.subtract(d1)));
+		return ret;
+	}
+	
 	
 	@Override
 	public boolean equals(Object o) {
