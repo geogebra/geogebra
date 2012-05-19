@@ -573,7 +573,7 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 
 		// remember selected tab
 		Component selectedTab = tabs.getSelectedComponent();
-
+		
 		tabs.removeAll();
 		for (int i = 0; i < tabPanelList.size(); i++) {
 			TabPanel tp = tabPanelList.get(i);

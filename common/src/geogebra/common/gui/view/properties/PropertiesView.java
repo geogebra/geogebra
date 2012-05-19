@@ -18,7 +18,7 @@ import geogebra.common.main.GeoElementSelectionListener;
  * Properties view
  *
  */
-public interface PropertiesView extends View, GeoElementSelectionListener{
+public interface PropertiesView extends View{
 	/**
 	 * Update selection
 	 */

@@ -12,12 +12,10 @@ the Free Software Foundation.
 
 package geogebra.gui.view.properties;
 
-import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
 import geogebra.gui.GuiManager;
-import geogebra.gui.dialog.options.GeoTree;
 import geogebra.gui.dialog.options.OptionsAdvanced;
 import geogebra.gui.dialog.options.OptionsCAS;
 import geogebra.gui.dialog.options.OptionsDefaults;
@@ -25,19 +23,15 @@ import geogebra.gui.dialog.options.OptionsEuclidian;
 import geogebra.gui.dialog.options.OptionsLayout;
 import geogebra.gui.dialog.options.OptionsObject;
 import geogebra.gui.dialog.options.OptionsSpreadsheet;
-import geogebra.gui.view.properties.PropertiesView.OptionType;
 import geogebra.main.Application;
 import geogebra.main.GeoGebraPreferences;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.FlowLayout;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowFocusListener;
 import java.util.HashMap;
 
 import javax.swing.BorderFactory;
@@ -580,21 +574,6 @@ public class PropertiesView extends JPanel implements
 		
 	}
 
-	// private ArrayList<GeoElement> tempArrayList = new
-	// ArrayList<GeoElement>();
-
-	public void geoElementSelected(GeoElement geo, boolean addToSelection) {
-		if (objectPanel != null) {
-			objectPanel.geoElementSelected(geo, addToSelection);
-		}
-
-	}
-
-	public void selectionChanged() {
-		if (objectPanel != null) {
-			objectPanel.selectionChanged();
-		}
-	}
 
 	// //////////////////////////////////////////////////////
 	// FOR DOCK/UNDOCK PANEL

@@ -20,7 +20,7 @@ import javax.swing.JDialog;
  * Dock panel for the algebra view.
  */
 public class PropertiesDockPanel extends DockPanel implements
-		GeoElementSelectionListener, WindowFocusListener {
+		WindowFocusListener {
 	private static final long serialVersionUID = 1L;
 	private Application app;
 	private PropertiesView view;
@@ -110,22 +110,14 @@ public class PropertiesDockPanel extends DockPanel implements
 	}
 
 	public void windowGainedFocus(WindowEvent arg0) {
+		//	
 
-		// make sure this dialog is the current selection listener
-		if (app.getMode() != EuclidianConstants.MODE_SELECTION_LISTENER
-				|| app.getCurrentSelectionListener() != view) {
-			app.setSelectionListenerMode(view);
-			view.selectionChanged();
-		}
 	}
 
 	public void windowLostFocus(WindowEvent arg0) {
 	}
 
-	public void geoElementSelected(GeoElement geo, boolean addToSelection) {
-		view.geoElementSelected(geo, addToSelection);
 
-	}
 
 	
 

@@ -12,65 +12,28 @@ the Free Software Foundation.
 
 package geogebra.gui.dialog.options;
 
-import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.gui.SetLabels;
 import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.StringTemplate;
-import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoElementSpreadsheet;
-import geogebra.common.main.AbstractApplication;
-import geogebra.common.main.GeoElementSelectionListener;
-import geogebra.euclidianND.EuclidianViewND;
-import geogebra.gui.GeoTreeCellRenderer;
 import geogebra.gui.color.GeoGebraColorChooser;
 import geogebra.gui.dialog.PropertiesPanel;
-import geogebra.gui.view.algebra.AlgebraView;
 import geogebra.main.Application;
 
 import java.awt.BorderLayout;
-import java.awt.Container;
-import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.Point;
-import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowFocusListener;
-import java.awt.event.WindowListener;
 import java.util.ArrayList;
-import java.util.HashMap;
-
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JSplitPane;
-import javax.swing.JTree;
-import javax.swing.event.TreeSelectionEvent;
-import javax.swing.event.TreeSelectionListener;
-import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.DefaultTreeModel;
-import javax.swing.tree.TreePath;
-import javax.swing.tree.TreeSelectionModel;
-
-import org.python.google.common.collect.Lists;
 
 /**
  * @author Markus Hohenwarter
  */
-public class OptionsObject extends JPanel implements /*TreeSelectionListener,*/ KeyListener,
-		GeoElementSelectionListener, SetLabels {
+public class OptionsObject extends JPanel implements SetLabels {
 
 	// private static final int MAX_OBJECTS_IN_TREE = 500;
 	private static final int MAX_GEOS_FOR_EXPAND_ALL = 15;
@@ -79,7 +42,6 @@ public class OptionsObject extends JPanel implements /*TreeSelectionListener,*/ 
 	private static final long serialVersionUID = 1L;
 	private Application app;
 	private Kernel kernel;
-	private GeoTree geoTree;
 	private JButton defaultsButton, delButton;
 	private PropertiesPanel propPanel;
 	private GeoGebraColorChooser colChooser;
@@ -104,19 +66,6 @@ public class OptionsObject extends JPanel implements /*TreeSelectionListener,*/ 
 		this.app = app;
 		kernel = app.getKernel();
 
-		
-		geoTree = new GeoTree(app);
-		geoTree.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				// some textfields are updated when they lose focus
-				// give them a chance to do that before we change the selection
-				// TODO 
-				//requestFocusInWindow();
-			}
-		});
-		//geoTree.addTreeSelectionListener(this);
-		geoTree.addKeyListener(this);
 
 		// build GUI
 		initGUI();
@@ -126,7 +75,6 @@ public class OptionsObject extends JPanel implements /*TreeSelectionListener,*/ 
 	 * inits GUI with labels of current language
 	 */
 	public void initGUI() {
-		geoTree.setFont(app.getPlainFont());
 
 		boolean wasShowing = isShowing();
 		if (wasShowing) {
@@ -181,7 +129,6 @@ public class OptionsObject extends JPanel implements /*TreeSelectionListener,*/ 
 			propPanel = new PropertiesPanel(app, colChooser, false);
 			propPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 0, 5));
 		}
-		selectionChanged(); // init propPanel
 
 		// put it all together
 		this.removeAll();
@@ -223,16 +170,11 @@ public class OptionsObject extends JPanel implements /*TreeSelectionListener,*/ 
 		delButton.setText(app.getPlain("Delete"));
 		defaultsButton.setText(app.getMenu("ApplyDefaults"));
 
-		geoTree.setLabels();
 		propPanel.setLabels();
 	}
 
 	
 
-
-	public void closeDialog() {
-		app.getGuiManager().getPropertiesView().closeDialog();
-	}
 
 	/**
 	 * Reset the visual style of the selected elements.
@@ -240,17 +182,15 @@ public class OptionsObject extends JPanel implements /*TreeSelectionListener,*/ 
 	 * TODO Does not work with lists (F.S.)
 	 */
 	private void applyDefaults() {
-		GeoElement geo;
+
 		ConstructionDefaults defaults = kernel.getConstruction()
 				.getConstructionDefaults();
-
-		for (int i = 0; i < selectionList.size(); ++i) {
-			geo = (GeoElement) selectionList.get(i);
+		
+		for (GeoElement geo : app.getSelectedGeos()){
 			defaults.setDefaultVisualStyles(geo, true);
 			geo.updateRepaint();
 		}
 
-		propPanel.updateSelection(selectionList.toArray());
 	}
 	
 	
@@ -264,12 +204,7 @@ public class OptionsObject extends JPanel implements /*TreeSelectionListener,*/ 
 
 		setViewActive(true);
 
-		if (kernel.getConstruction().getGeoSetConstructionOrder().size() < MAX_GEOS_FOR_EXPAND_ALL)
-			geoTree.expandAll();
-		else
-			geoTree.collapseAll();
 
-		geoTree.setSelected(geos, false);
 		if (!isShowing()) {
 			// pack and center on first showing
 			if (firstTime) {
@@ -311,153 +246,27 @@ public class OptionsObject extends JPanel implements /*TreeSelectionListener,*/ 
 			return;
 		viewActive = flag;
 
-		if (flag) {
-			geoTree.clear();
-			kernel.attach(geoTree);
-
-			// // only add objects if there are less than 200
-			// int geoSize =
-			// kernel.getConstruction().getGeoSetConstructionOrder().size();
-			// if (geoSize < MAX_OBJECTS_IN_TREE)
-			kernel.notifyAddAll(geoTree);
-
-			//app.setSelectionListenerMode(this);
-			
-			//TODO
-		//	addWindowFocusListener(this);
-		} else {
-			kernel.detach(geoTree);
-
-			//TODO
-		//	removeWindowFocusListener(this);
-		//	app.setSelectionListenerMode(null);
-		}
 	}
 
 	private boolean viewActive = false;
 
-	/**
-	 * handles selection change
-	 */
-	public void selectionChanged() {
-		updateSelectedGeos(geoTree.getSelectionPaths());
 
-		Object[] geos = selectionList.toArray();
-		propPanel.updateSelection(geos);
-		// Util.addKeyListenerToAll(propPanel, this);
 
-		// update selection of application too
-		if (app.getMode() == EuclidianConstants.MODE_SELECTION_LISTENER)
-			app.setSelectedGeos(selectionList);
-	}
-
-	private ArrayList<?> updateSelectedGeos(TreePath[] selPath) {
-		selectionList.clear();
-
-		if (selPath != null) {
-			// add all selected paths
-			for (int i = 0; i < selPath.length; i++) {
-				DefaultMutableTreeNode node = (DefaultMutableTreeNode) selPath[i]
-						.getLastPathComponent();
-
-				if (node == node.getRoot()) {
-					// root: add all objects
-					selectionList.clear();
-					selectionList.addAll(kernel.getConstruction()
-							.getGeoSetLabelOrder());
-					i = selPath.length;
-				} else if (node.getParent() == node.getRoot()) {
-					// type node: select all children
-					for (int k = 0; k < node.getChildCount(); k++) {
-						DefaultMutableTreeNode child = (DefaultMutableTreeNode) node
-								.getChildAt(k);
-						selectionList.add(child.getUserObject());
-					}
-				} else {
-					// GeoElement
-					selectionList.add(node.getUserObject());
-				}
-			}
-		}
-
-		return selectionList;
-	}
-
-	private ArrayList selectionList = new ArrayList();
-
-	public void geoElementSelected(GeoElement geo, boolean addToSelection) {
-		if (geo == null)
-			return;
-		tempArrayList.clear();
-		tempArrayList.add(geo);
-		geoTree.setSelected(tempArrayList, addToSelection);
-		// requestFocus();
-	}
-
-	private ArrayList<GeoElement> tempArrayList = new ArrayList<GeoElement>();
 
 	/**
 	 * deletes all selected GeoElements from Kernel
 	 */
 	private void deleteSelectedGeos() {
-		ArrayList selGeos = selectionList;
-
-		if (selGeos.size() > 0) {
-			Object[] geos = selGeos.toArray();
-			for (int i = 0; i < geos.length - 1; i++) {
-				((GeoElement) geos[i])
-						.removeOrSetUndefinedIfHasFixedDescendent();
-			}
-
-			// select element above last to delete
-			GeoElement geo = (GeoElement) geos[geos.length - 1];
-			TreePath tp = geoTree.getTreePath(geo);
-			if (tp != null) {
-				int row = geoTree.getRowForPath(tp);
-				tp = geoTree.getPathForRow(row - 1);
-				geo.removeOrSetUndefinedIfHasFixedDescendent();
-				if (tp != null)
-					geoTree.setSelectionPath(tp);
-			}
-		}
+		
+		app.deleteSelectedObjects();
+		
 	}
 
 	
 	
-	// Tree selection listener
-	public void valueChanged(TreeSelectionEvent e) {
-		selectionChanged();
-	}
 
-	/*
-	 * KeyListener
-	 */
-	public void keyPressed(KeyEvent e) {
-		Object src = e.getSource();
 
-		if (src instanceof GeoTree) {
-			if (e.getKeyCode() == KeyEvent.VK_DELETE) {
-				deleteSelectedGeos();
-			}
-		}
-	}
 
-	public void keyReleased(KeyEvent e) {
-	}
-
-	public void keyTyped(KeyEvent e) {
-	}
-
-	// ignore if the view is dragged around (can't be dragged at all)
-	public void beginDrag() {
-	}
-
-	public void endDrag() {
-	}
-
-	public GeoTree getGeoTree() {
-		return geoTree;
-	}
 	
 	public void updateSelection(Object[] geos) {
 		// if (geos == oldSelGeos) return;
