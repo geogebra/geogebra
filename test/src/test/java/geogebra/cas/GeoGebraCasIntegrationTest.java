@@ -2505,12 +2505,12 @@ public class GeoGebraCasIntegrationTest {
 
 	@Test
 	public void TaylorPolynomial_VariableSpecified_2() {
-		t("TaylorPolynomial[x^3, x, 1, 3]", "x^(3)");
+		t("TaylorPolynomial[x^3, x, 0, 3]", "x^(3)");
 	}
 
 	@Test
 	public void TaylorPolynomial_VariableSpecified_3() {
-		t("TaylorPolynomial[x^3, x, 1, 3]", "x^(3)");
+		t("TaylorPolynomial[x^3, x, 1, 3]", "1 + 3 * (x - 1) + 3 * (x - 1)^(2) + (x - 1)^(3)");
 	}
 
 	@Test
