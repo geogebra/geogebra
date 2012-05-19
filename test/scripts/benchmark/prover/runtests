@@ -17,7 +17,20 @@ REGRESSIONFILE=$MYDIR/tmp/.regression.out
 rm -f $HTML
 
 BUILDDIR=../../../../desktop/build
-test -r $BUILDDIR/geogebra.jar || exit 1 # Non-existing JAR
+test -r $BUILDDIR/geogebra.jar 2>&1 || exit 1 # Non-existing JAR
+
+VERSION=`cd $BUILDDIR; java -jar geogebra.jar --v | cut -f5 -d" "`
+
+# Title
+TITLE="Prover benchmark for GeoGebra $VERSION"
+DATE=`date "+%Y-%m-%d %H:%M"`
+HOST=`hostname`
+echo "<!DOCTYPE html><html><head>
+<title>$TITLE</title>
+</head><body><h1>$TITLE</h1>
+<h2>on $DATE at $HOST</h2><pre>" >> $HTML
+hwinfo --short --cpu 2>&1 | grep CPU | sed 's/^[ \t]*//' >> $HTML
+echo -n "</pre>" >> $HTML
 
 # Heading
 echo -n "Filename;"
@@ -31,13 +44,15 @@ echo
 echo "</tr>" >> $MYDIR/$HTML
 
 # Content
-for i in *.ggb; do
+for i in `find -name '*.ggb'`; do
  # Creating thumbnail:
  cd $MYDIR
+ DIRNAME=`dirname $i | sed s/"^\.\/tests\/"/""/`
+ TEST=`basename $i`
  unzip $i geogebra_thumbnail.png >/dev/null 2>&1
- mv geogebra_thumbnail.png html/$i.png
- echo -n "$i;"
- echo "<tr><td><img src=\"$i.png\"><br><a href=\"$TESTGGBURLBASE/$GGBDIR/$i\">$i</a></td>" >> $MYDIR/$HTML
+ mv geogebra_thumbnail.png html/$TEST.png
+ echo -n "$TEST;"
+ echo "<tr><td><img src=\"$TEST.png\"><br><a href=\"$TESTGGBURLBASE/$GGBDIR/$i\">$TEST</a></td>" >> $MYDIR/$HTML
  for j in $PROVERS; do
   cd $MYDIR; cd $BUILDDIR
   # Testing:
@@ -55,14 +70,18 @@ for i in *.ggb; do
    RESULT=`cat $LOGFILE | grep "Statement is " | sed 's/\(.*\)Statement is \(.*\)/\2/'`
    TIME=`cat $LOGFILE | grep Benchmarking | awk '{print $5}'`
    if [ $DEBUG = 1 ]; then
-    cp $REGRESSIONFILE $REGRESSIONFILE-$i-$j
-    cp $LOGFILE $LOGFILE-$i-$j
+    cp $REGRESSIONFILE $REGRESSIONFILE-$TEST-$j
+    cp $LOGFILE $LOGFILE-$TEST-$j
     fi
    fi # No timeout
   echo -n "$RESULT;$TIME;"
-  echo "<td>$RESULT</td><td>$TIME</td>" >> $MYDIR/$HTML
+  RESULTCLASS=""
+  if [ "$RESULT" != "$DIRNAME" ]; then
+   RESULTCLASS=" class=\"error\" info=\"$DIRNAME\""
+   fi
+  echo "<td$RESULTCLASS>$RESULT</td><td$RESULTCLASS>$TIME</td>" >> $MYDIR/$HTML
   done # All provers done for this tests
  echo
  echo "</tr>" >> $MYDIR/$HTML
  done # All tests done
-echo "</table>" >> $MYDIR/$HTML
+echo "</table></body></html>" >> $MYDIR/$HTML
