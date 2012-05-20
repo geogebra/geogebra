@@ -1029,7 +1029,7 @@ public class ExpressionNode extends ValidExpression implements
 			}
 		}
 		// transfer left subtree
-		if (left.isExpressionNode()) {
+		if (left.isExpressionNode() && polynomialOperation(((ExpressionNode)left).getOperation())) {
 			((ExpressionNode) left).makePolynomialTree(equ);
 		} else if (!(left.isPolynomialInstance())) {
 			left = new Polynomial(kernel, new Term(kernel, left, ""));
@@ -1037,12 +1037,25 @@ public class ExpressionNode extends ValidExpression implements
 
 		// transfer right subtree
 		if (right != null) {
-			if (right.isExpressionNode()) {
+			if (right.isExpressionNode()&& polynomialOperation(((ExpressionNode)right).getOperation())) {
 				((ExpressionNode) right).makePolynomialTree(equ);
 			} else if (!(right.isPolynomialInstance())) {
 				right = new Polynomial(kernel, new Term(kernel, right, ""));
 			}
 		}
+	}
+
+	private static boolean polynomialOperation(Operation operation2) {
+		switch(operation2){
+			case NO_OPERATION:
+			case PLUS:
+			case MINUS:
+			case MULTIPLY:
+			case MULTIPLY_OR_FUNCTION:	
+			case DIVIDE:
+			case POWER: return true;
+		}
+		return false;
 	}
 
 	/**
