@@ -36,15 +36,19 @@ import geogebra.common.util.StringUtil;
  * @author Markus Hohenwarter
  */
 public class AlgoDependentFunction extends AlgoElement {
-
+	/** input */
 	protected Function fun;
-	protected GeoFunction f; // output
+	/** output */
+	protected GeoFunction f; 
 
 	private Function expandedFun;
 	private ExpressionNode expression;
 	private boolean expContainsFunctions; // expression contains functions
 
-	/** Creates new AlgoDependentFunction */
+	/** Creates new AlgoDependentFunction 
+	 * @param cons construction
+	 * @param label label for output
+	 * @param fun input function*/
 	public AlgoDependentFunction(Construction cons, String label, Function fun) {
 		this(cons, fun);
 
@@ -58,6 +62,10 @@ public class AlgoDependentFunction extends AlgoElement {
 		f.setLabel(derivativeLabel != null ? derivativeLabel : label);
 	}
 
+	/**
+	 * @param cons construction
+	 * @param fun input function
+	 */
 	public AlgoDependentFunction(Construction cons, Function fun) {
 		super(cons);
 		this.fun = fun;
@@ -77,7 +85,10 @@ public class AlgoDependentFunction extends AlgoElement {
 		compute();
 	}
 
-	public AlgoDependentFunction(Construction cons) {
+	/**
+	 * @param cons construction
+	 */
+	protected AlgoDependentFunction(Construction cons) {
 		super(cons);
 	}
 
@@ -96,6 +107,9 @@ public class AlgoDependentFunction extends AlgoElement {
 		setDependencies(); // done by AlgoElement
 	}
 
+	/**
+	 * @return resulting function
+	 */
 	public GeoFunction getFunction() {
 		return f;
 	}
@@ -155,6 +169,7 @@ public class AlgoDependentFunction extends AlgoElement {
 
 	/**
 	 * Expandes all FUNCTION and DERIVATIVE nodes in the given expression.
+	 * @param ev expression to expand (only ExpressionNodes are affected)
 	 * 
 	 * @return new ExpressionNode as result
 	 */
@@ -199,6 +214,9 @@ public class AlgoDependentFunction extends AlgoElement {
 				// don't destroy the function
 				ExpressionNode funNExpression = funN.getExpression().getCopy(
 						funN.getKernel());
+				// with f(A) where A is a point we should not get there, but still
+				if(!(node.getRight() instanceof MyList))
+					return ev;
 				// now replace every x in function by the expanded argument
 				for(int i=0;i<xy.length;i++)
 					funNExpression = funNExpression.replaceAndWrap(xy[i],
@@ -234,6 +252,10 @@ public class AlgoDependentFunction extends AlgoElement {
 		return ev;
 	}
 
+	/**
+	 * @param ev expression
+	 * @return whether given expression contains operation FUNCTION, FUNCTION_NVAR or DERIVATIVE
+	 */
 	public static boolean containsFunctions(ExpressionValue ev) {
 		if (ev != null && ev.isExpressionNode()) {
 			ExpressionNode node = (ExpressionNode) ev;

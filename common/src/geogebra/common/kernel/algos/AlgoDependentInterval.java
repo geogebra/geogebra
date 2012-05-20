@@ -5,9 +5,17 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.geos.GeoInterval;
 
+/**
+ * Algorithm for dependent intervals, eg a<x<a+1
+ *
+ */
 public class AlgoDependentInterval extends AlgoDependentFunction {
 
 
+	/**
+	 * @param cons construction
+	 * @param fun input interval
+	 */
 	AlgoDependentInterval(Construction cons, Function fun) {
         super(cons);
         this.fun = fun;
@@ -20,6 +28,11 @@ public class AlgoDependentInterval extends AlgoDependentFunction {
         compute();
     }
 
+	/**
+	 * @param cons construction
+	 * @param label label for output
+	 * @param fun input interval
+	 */
 	public AlgoDependentInterval(Construction cons, String label,
 			Function fun) {
         this(cons, fun);

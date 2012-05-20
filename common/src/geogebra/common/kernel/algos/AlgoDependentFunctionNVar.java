@@ -16,7 +16,6 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
-import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.FunctionNVar;
 import geogebra.common.kernel.geos.GeoFunctionNVar;
 import geogebra.common.main.AbstractApplication;
@@ -35,9 +34,9 @@ public class AlgoDependentFunctionNVar extends AlgoElement {
     private FunctionNVar expandedFun;
     private boolean expContainsFunctions;
     /**
-     * @param cons
-     * @param label
-     * @param fun
+     * @param cons construction
+     * @param label label for output
+     * @param fun input function
      */
     public AlgoDependentFunctionNVar(Construction cons, String label, FunctionNVar fun) {
         this(cons, fun);
@@ -45,8 +44,8 @@ public class AlgoDependentFunctionNVar extends AlgoElement {
     }
     
     /**
-     * @param cons
-     * @param fun
+     * @param cons construction
+     * @param fun input function
      */
     AlgoDependentFunctionNVar(Construction cons, FunctionNVar fun) {
         super(cons);
@@ -64,7 +63,7 @@ public class AlgoDependentFunctionNVar extends AlgoElement {
     }
     
     /**
-     * @param cons
+     * @param cons construction
      */
     public AlgoDependentFunctionNVar(Construction cons) {
 		super(cons);

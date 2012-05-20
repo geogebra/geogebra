@@ -26,12 +26,17 @@ public class AlgoDependentGeoCopy extends AlgoElement {
 	private ExpressionNode origGeoNode;
     private GeoElement origGeo, copyGeo;     // input, ouput              
     
-    public AlgoDependentGeoCopy(Construction cons, String label, GeoElement origGeoNode) {
+    /**
+     * @param cons construction
+     * @param label label for output
+     * @param origGeo original element
+     */
+    public AlgoDependentGeoCopy(Construction cons, String label, GeoElement origGeo) {
     	super(cons);
-    	origGeo = origGeoNode;
+    	this.origGeo = origGeo;
     	
     	// just for the toString() method
-    	this.origGeoNode = new ExpressionNode(kernel, origGeo.evaluate(StringTemplate.defaultTemplate));
+    	origGeoNode = new ExpressionNode(kernel, origGeo);
     	
         copyGeo = origGeo.copy();
         setInputOutput(); // for AlgoElement
@@ -39,7 +44,11 @@ public class AlgoDependentGeoCopy extends AlgoElement {
         compute();      
         copyGeo.setLabel(label);
     }
-    
+    /**
+     * @param cons construction
+     * @param label label for output
+     * @param origGeoNode original expression
+     */
     public AlgoDependentGeoCopy(Construction cons, String label, ExpressionNode origGeoNode) {
     	super(cons);
     	this.origGeoNode = origGeoNode;
@@ -68,6 +77,9 @@ public class AlgoDependentGeoCopy extends AlgoElement {
         setDependencies(); // done by AlgoElement
     }    
     
+    /**
+     * @return depedent copy of original geo
+     */
     public GeoElement getGeo() { return copyGeo; }
     
     // copy geo
