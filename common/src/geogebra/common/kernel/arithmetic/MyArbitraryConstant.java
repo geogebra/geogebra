@@ -8,6 +8,8 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * Arbitrary constant comming from reduce
@@ -23,6 +25,9 @@ public class MyArbitraryConstant  {
 
 	
 	private ArrayList<GeoNumeric> consts= new ArrayList<GeoNumeric>(), ints= new ArrayList<GeoNumeric>(), complexNumbers = new ArrayList<GeoNumeric>();
+	private Map<Integer,GeoNumeric> constsM= new TreeMap<Integer,GeoNumeric>(), 
+			intsM= new TreeMap<Integer,GeoNumeric>(), 
+			complexNumbersM = new TreeMap<Integer,GeoNumeric>();
 	private ConstructionElement ce;
 	/**
 	 * Creates new arbitrary constant handler
@@ -41,25 +46,30 @@ public class MyArbitraryConstant  {
 	}*/
 	private int position = 0;
 	/**
+	 * @param myDouble 
 	 * @return real constant
 	 */
-	public ExpressionValue nextConst() {
-		return nextConst(consts,"c");
+	public ExpressionValue nextConst(MyDouble myDouble) {
+		return nextConst(consts,constsM,"c",myDouble);
 	}
 	/**
 	 * @return integer constant
 	 */
-	public ExpressionValue nextInt() {
-		return nextConst(ints,"k");
+	public ExpressionValue nextInt(MyDouble myDouble) {
+		return nextConst(ints,intsM,"k",myDouble);
 	}
 	/**
 	 * @return complex constant
 	 */
-	public ExpressionValue nextComplex() {
-		return nextConst(complexNumbers,"z");
+	public ExpressionValue nextComplex(MyDouble myDouble) {
+		return nextConst(complexNumbers,complexNumbersM,"z",myDouble);
 	}
 	
-	private ExpressionValue nextConst(ArrayList<GeoNumeric> consts2,String prefix) {
+	private ExpressionValue nextConst(ArrayList<GeoNumeric> consts2,Map<Integer, GeoNumeric> map, String prefix, MyDouble myDouble) {
+		Integer index = new Integer((int)myDouble.getDouble());
+		GeoNumeric found = map.get(index);
+		if(found!=null)
+			return found;
 		Construction c = ce.getConstruction();
 		if(position >= consts2.size() || consts2.get(position)==null){
 			GeoNumeric add = new GeoNumeric(c);
@@ -71,6 +81,7 @@ public class MyArbitraryConstant  {
 			AlgoDependentArbconst algo = new AlgoDependentArbconst(c,add,ce);
 			c.removeFromConstructionList(algo);
 			consts2.add(position,add);
+			map.put(index,add);
 			position++;
 			return add;
 		}

@@ -119,11 +119,11 @@ public interface Traversing {
 				return ev;
 			ExpressionNode en = (ExpressionNode)ev;
 			if(en.getOperation()==Operation.ARBCONST)
-				return arbconst.nextConst();
+				return arbconst.nextConst((MyDouble)en.getRight());
 			if(en.getOperation()==Operation.ARBINT)
-				return arbconst.nextInt();
+				return arbconst.nextInt((MyDouble)en.getRight());
 			if(en.getOperation()==Operation.ARBCOMPLEX)
-				return arbconst.nextComplex();
+				return arbconst.nextComplex((MyDouble)en.getRight());
 			return en;
 		}
 		private static ArbconstReplacer replacer = new ArbconstReplacer();
