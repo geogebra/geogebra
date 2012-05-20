@@ -13,7 +13,6 @@ import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.FunctionNVar;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
-import geogebra.common.kernel.arithmetic.Traversing;
 import geogebra.common.kernel.arithmetic.Traversing.ArbconstReplacer;
 import geogebra.common.kernel.arithmetic.Traversing.CommandCollector;
 import geogebra.common.kernel.arithmetic.Traversing.GeoDummyReplacer;
@@ -1354,9 +1353,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 		// try to create twin geo for assignment, e.g. m := c + 3
 		ArbconstReplacer repl = ArbconstReplacer.getReplacer(arbconst);
 		arbconst.reset();
-		AbstractApplication.debug(outputVE.getClass()+outputVE.toString(StringTemplate.defaultTemplate));
 		outputVE.traverse(repl);
-		AbstractApplication.debug(outputVE.getClass()+outputVE.toString(StringTemplate.defaultTemplate));
 		GeoElement newTwinGeo = silentEvalInGeoGebra(outputVE);
 		if (newTwinGeo != null) {
 			if (isXY)
@@ -1550,7 +1547,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 			}
 			return false;
 		}
-
+		
 		String result = null;
 		boolean success = false;
 		CASException ce = null;
@@ -1634,7 +1631,11 @@ public class GeoCasCell extends GeoElement implements VarString {
 		if (doTwinGeoUpdate) {
 			updateTwinGeo();
 		}
-
+		if(!doTwinGeoUpdate || twinGeo == null){
+			ArbconstReplacer repl = ArbconstReplacer.getReplacer(arbconst);
+			arbconst.reset();
+			outputVE.traverse(repl);
+		}
 		// set back firstComputeOutput, see setInput()
 		firstComputeOutput = false;
 		return success;

@@ -2,12 +2,14 @@ package geogebra.common.kernel.parser.cashandlers;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.arithmetic.Equation;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
+import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.GetItem;
 import geogebra.common.kernel.arithmetic.MyDouble;
-import geogebra.common.kernel.arithmetic.MyNumberPair;
 import geogebra.common.kernel.arithmetic.Variable;
+import geogebra.common.kernel.arithmetic.Traversing.VariableReplacer;
 import geogebra.common.plugin.Operation;
 
 /**
@@ -106,11 +108,23 @@ public class CommandDispatcherMPReduce {
 						 args.getItem(0),commands.valueOf(cmdName).getOperation(),
 								null);
 				break;
+			case sub:	
+				if(args.getItem(1).isExpressionNode()&& ((ExpressionNode)args.getItem(1)).getOperation()==Operation.INTEGRAL){
+					String var = ((ExpressionNode)args.getItem(1)).getRight().toString(StringTemplate.defaultTemplate);
+					FunctionVariable fv =new FunctionVariable(kernel,"t");
+					VariableReplacer rep = VariableReplacer.getReplacer(var, fv);
+					args.getItem(1).traverse(rep); 
+					((Equation)((ExpressionNode)args.getItem(0)).getLeft()).setLHS(new ExpressionNode(kernel,fv));
+				}
+				// e.g. addition[x,3] becomes x + 3
+				ret = new ExpressionNode(kernel,
+						 args.getItem(0),commands.valueOf(cmdName).getOperation(),
+						 args.getItem(1));
+				break;
 			case multiplication:
 			case subtraction:
 			case addition:
-			case applyfunction:
-			case sub:	
+			case applyfunction:	
 				// e.g. addition[x,3] becomes x + 3
 				ret = new ExpressionNode(kernel,
 						 args.getItem(0),commands.valueOf(cmdName).getOperation(),
@@ -144,6 +158,7 @@ public class CommandDispatcherMPReduce {
 		} catch (IllegalArgumentException e) {
 			// No enum const for cmdName
 		} catch (Exception e) {
+			e.printStackTrace();
 			System.err
 					.println("CommandDispatcherMPReduce: error when processing command: "
 							+ cmdName + ", " + args);

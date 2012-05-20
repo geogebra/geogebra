@@ -38,6 +38,8 @@ public interface Geo3DVec extends ExpressionValue{
 		
 	/**
 	 * multiply 3D matrix by 3D point
+	 * @param myList matrix
+	 * @param rt 3D point
 	 */
 	public void multiplyMatrix(MyList myList, ExpressionValue rt);
 }

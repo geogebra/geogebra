@@ -4297,7 +4297,11 @@ public class ExpressionNode extends ValidExpression implements
 				sb.append("d");
 				sb.append(rightStr);
 			}else{
-				sb.append("gGbInTeGrAl(");
+				if(STRING_TYPE==StringType.MPREDUCE){
+					sb.append("int(");
+				}else{
+					sb.append("gGbInTeGrAl(");
+				}
 				sb.append(leftStr);
 				sb.append(',');
 				sb.append(rightStr);
@@ -4313,7 +4317,11 @@ public class ExpressionNode extends ValidExpression implements
 				sb.append(leftStr);
 				sb.append("}");
 			}else{
-				sb.append("gGbSuBsTiTuTiOn(");
+				if(STRING_TYPE==StringType.MPREDUCE){
+					sb.append("sub(");
+				}else{	
+					sb.append("gGbSuBsTiTuTiOn(");
+				}
 				sb.append(leftStr);
 				sb.append(',');
 				sb.append(rightStr);

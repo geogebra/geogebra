@@ -81,6 +81,34 @@ public interface Traversing {
 			return didReplacement;
 		}
 	}
+	
+	/**
+	 * Replaces Variables with given name by given object
+	 * @author zbynek
+	 *
+	 */
+	public class VariableReplacer implements Traversing {
+		private String var;
+		private ExpressionValue newObj;
+		public ExpressionValue process(ExpressionValue ev) {
+				if(!(ev instanceof Variable))
+					return ev;
+				if(!var.equals(ev.toString(StringTemplate.defaultTemplate)))
+					return ev;
+				return newObj;
+		}
+		private static VariableReplacer replacer = new VariableReplacer();
+		/**
+		 * @param varStr variable name
+		 * @param replacement replacement object
+		 * @return replacer
+		 */
+		public static VariableReplacer getReplacer(String varStr,ExpressionValue replacement){
+			replacer.var = varStr;
+			replacer.newObj = replacement;
+			return replacer;
+		}
+	}
 	/**
 	 * Replaces arbconst(), arbint(), arbcomplex() by auxiliary numerics
 	 */

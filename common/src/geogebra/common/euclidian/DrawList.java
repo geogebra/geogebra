@@ -112,7 +112,7 @@ public final class DrawList extends Drawable implements RemoveNeeded {
 			}
 
 			// don't need to worry about labeling options, just check if caption set or not
-			if (geo.caption != null) {
+			if (geo.getRawCaption() != null) {
 				// get caption to show r
 				String caption = geo.getCaption(StringTemplate.defaultTemplate);
 				if (!caption.equals(oldCaption)) {

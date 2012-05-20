@@ -41,6 +41,9 @@ public interface NumberValue extends SpreadsheetTraceable, ToGeoElement {
      * @return value of this number
      */
     public double getDouble();
+    /**
+     * @return whether this value is defined or not
+     */
 	public boolean isDefined(); 
 }
 
