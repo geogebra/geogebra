@@ -257,4 +257,13 @@ public abstract class ValidExpression implements ExpressionValue {
 		return t.process(this);
 	}
 
+	public static String debugString(ExpressionValue s) {
+		if(s==null)
+			return "<null>";
+		if(s instanceof ExpressionNode)
+			return "ExNode("+debugString(((ExpressionNode)s).getLeft())+","+
+			((ExpressionNode)s).getOperation()+","+debugString(((ExpressionNode)s).getRight())+")";
+		return s.getClass().getSimpleName()+"("+s.toString(StringTemplate.defaultTemplate)+")";
+	}
+
 }

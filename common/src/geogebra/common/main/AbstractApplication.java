@@ -29,6 +29,8 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
+import geogebra.common.kernel.arithmetic.ExpressionValue;
+import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.cas.CASGenericInterface;
 import geogebra.common.kernel.commands.CommandDispatcher;
 import geogebra.common.kernel.commands.CommandProcessor;
@@ -1534,6 +1536,9 @@ public abstract class AbstractApplication {
 	}
 	
 	public static void debug(Object s) {
+		if(s instanceof ExpressionValue){
+			debug(ValidExpression.debugString((ExpressionValue)s));
+		}
 		if (s == null) {
 			debug("<null>");
 		} else {

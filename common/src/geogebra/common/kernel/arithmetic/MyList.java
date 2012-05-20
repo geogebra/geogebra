@@ -39,7 +39,7 @@ import java.util.HashSet;
  * @author Markus Hohenwarter
  */
 public class MyList extends ValidExpression implements ListValue,
-		ReplaceChildrenByValues {
+		ReplaceChildrenByValues, GetItem {
 
 	private Kernel kernel;
 	private int matrixRows = -1; // -1 means not calculated, 0 means not a
@@ -1055,6 +1055,10 @@ public class MyList extends ValidExpression implements ListValue,
 			listElements.set(i,insert.traverse(t));
 		}
 		return v;
+	}
+
+	public ExpressionValue getItem(int i) {
+		return listElements.get(i);
 	}
 
 }

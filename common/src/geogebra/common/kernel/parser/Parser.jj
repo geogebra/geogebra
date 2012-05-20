@@ -407,6 +407,8 @@ TOKEN: {
 |	< CI_FUNC:  ("cosIntegral"| "CosIntegral") + ("("|"[")>
 |	< SI_FUNC:  ("sinIntegral" | "SinIntegral") + ("("|"[")>
 |	< EI_FUNC:  ("expIntegral" | "ExpIntegral")+ ("("|"[") >
+|	< INTEGRAL_FUNC:  "gGbInTeGrAl(" >
+|	< SUBSTITUTION_FUNC:  "gGbSuBsTiTuTiOn(" >
 |	< ARBINT_FUNC:  "arbint("  >
 |	< ARBCOMPLEX_FUNC:  "arbcomplex(" >
 |	< ARBCONST_FUNC:  "arbconst(" >    
@@ -717,10 +719,11 @@ Token casVar():
 /**
  * command =     <LABEL> [ argument (, argument)* ]  
  */
-Command command():
+ValidExpression command():
 {     
     Command c;
     Token t;
+    String cmdName;
     ExpressionNode en;
 }
 {   
@@ -735,11 +738,16 @@ Command command():
 	    { return c; }	 
     |
      	(t = <FUNCTION_LABEL>) // includes (
-	    {   c = new Command(kernel, t.image.substring(0,t.image.length()-1), true, !ExternalCASParsing );    } 
+	    { cmdName = t.image.substring(0,t.image.length()-1);
+	      c = new Command(kernel, cmdName, true, !ExternalCASParsing );    } 
 	    (   ( en = cmdexpression()  { c.addArgument( en ); } )?
 	        ( <COMMA> en = cmdexpression() { c.addArgument( en ); } )*
 	    ")" )
-	    { return c; }
+	    { if(MPReduceParsing)	    {
+	      ExpressionNode res = CommandDispatcherMPReduce.processCommand(cmdName,c);
+	      if(res!=null)
+	      	return res;	    }
+	    return c; }
 	)
 }
 
@@ -1952,7 +1960,7 @@ ExpressionValue myDouble():
  */
 ExpressionNode numberFunction():
 {
-    ExpressionNode en, en2, en3;
+    ExpressionNode en, en2, en3,en4;
     ExpressionValue ev;
     MyList myList;
     Token c, flabel, fvar1, fvar2;
@@ -2220,7 +2228,17 @@ ExpressionNode numberFunction():
 | 
     <ROUND_FUNC> en = expressionOrEquation() (")"|"]")
       { return new ExpressionNode(kernel, en, Operation.ROUND, null); }
-| 
+|
+    <INTEGRAL_FUNC> ( en = expressionOrEquation()) < COMMA > ( en2 = expressionOrEquation() ) (")"|"]")
+      {
+        
+        return new ExpressionNode(kernel, en, Operation.INTEGRAL,  en2); }
+|
+    <SUBSTITUTION_FUNC> ( en = expressionOrEquation()) < COMMA > ( en2 = expressionOrEquation() ) (")"|"]")
+      {
+        
+        return new ExpressionNode(kernel, en, Operation.SUBSTITUTION,  en2); }
+|
   <RANDOM_FUNC>
       {  
       	 Construction cons = kernel.getConstruction();

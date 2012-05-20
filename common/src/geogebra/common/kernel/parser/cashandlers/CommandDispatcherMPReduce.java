@@ -4,8 +4,9 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
+import geogebra.common.kernel.arithmetic.GetItem;
 import geogebra.common.kernel.arithmetic.MyDouble;
-import geogebra.common.kernel.arithmetic.MyList;
+import geogebra.common.kernel.arithmetic.MyNumberPair;
 import geogebra.common.kernel.arithmetic.Variable;
 import geogebra.common.plugin.Operation;
 
@@ -46,7 +47,10 @@ public class CommandDispatcherMPReduce {
 		/** cosine integral */
 		ei(Operation.EI),
 		/** taylor(sin(x),0,3) returns taylor(x-x^3/6,x,0,3)*/
-		taylor(Operation.NO_OPERATION);
+		taylor(Operation.NO_OPERATION),
+		//we should also have int here, but the name clashes with Java's int
+		/** sub(x=y,int(x,x)) */
+		sub(Operation.SUBSTITUTION);
 		private Operation op;
 		private commands(Operation op){
 			this.op = op;
@@ -69,22 +73,27 @@ public class CommandDispatcherMPReduce {
 	 * @param args
 	 *            list of command arguments
 	 */
-	public static ExpressionNode processCommand(String cmdName, MyList args) {
+	public static ExpressionNode processCommand(String cmdName, GetItem args) {
 
 		try {
 			ExpressionValue ret = null;
 			Kernel kernel = args.getKernel();
 			//TODO -- template is not important for arb*, but is this correct for df?
 			StringTemplate tpl = StringTemplate.casTemplate;
-			switch (commands.valueOf(cmdName)) {
+			
+			if("int".equals(cmdName)){
+				ret = new ExpressionNode(kernel,args.getItem(0),Operation.INTEGRAL,args.getItem(1));
+			}
+			else switch (commands.valueOf(cmdName)) {
+			
 			case taylor:
-				ret = args.getListElement(0);
+				ret = args.getItem(0);
 				break;
 			case logb:
 				// e.g. logb[x,3] becomes log(3,x)
 				ret = new ExpressionNode(kernel,
-						 args.getListElement(1),Operation.LOGB,
-								args.getListElement(0));
+						 args.getItem(1),Operation.LOGB,
+								args.getItem(0));
 				break;
 			case arbcomplex:
 			case arbconst:
@@ -94,22 +103,23 @@ public class CommandDispatcherMPReduce {
 			case ei:
 				// e.g. logb[x,3] becomes log(3,x)
 				ret = new ExpressionNode(kernel,
-						 args.getListElement(0),commands.valueOf(cmdName).getOperation(),
+						 args.getItem(0),commands.valueOf(cmdName).getOperation(),
 								null);
 				break;
 			case multiplication:
 			case subtraction:
 			case addition:
 			case applyfunction:
+			case sub:	
 				// e.g. addition[x,3] becomes x + 3
 				ret = new ExpressionNode(kernel,
-						 args.getListElement(0),commands.valueOf(cmdName).getOperation(),
-						 args.getListElement(1));
+						 args.getItem(0),commands.valueOf(cmdName).getOperation(),
+						 args.getItem(1));
 				break;
 			case df:
 				// e.g. df(f(var),var) from MPReduce becomes f'(var)
 				// see http://www.geogebra.org/trac/ticket/1420
-				String expStr = args.getListElement(0).toString(tpl);
+				String expStr = args.getItem(0).toString(tpl);
 				int nameEnd = expStr.indexOf('(');
 				String funLabel = nameEnd > 0 ? expStr.substring(0, nameEnd)
 						: expStr;
@@ -120,7 +130,7 @@ public class CommandDispatcherMPReduce {
 						Operation.DERIVATIVE, new MyDouble(kernel, 1));
 				// function of given variable gives f'(t)
 				ret = new ExpressionNode(kernel, derivative,
-						Operation.FUNCTION, args.getListElement(1)); // Variable
+						Operation.FUNCTION, args.getItem(1)); // Variable
 																		// "t"
 				break;
 			}

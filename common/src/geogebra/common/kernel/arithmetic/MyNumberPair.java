@@ -51,5 +51,15 @@ public class MyNumberPair extends MyVecNode {
 		        
 		 return sb.toString();      
     }    
+    
+    @Override
+	final public ExpressionValue traverse(Traversing t){
+    	ExpressionValue v = t.process(this);
+    	if(v!=this) 
+    		return v;
+    	x = x.traverse(t);
+    	y = y.traverse(t);
+    	return this;
+    }
 	
 }

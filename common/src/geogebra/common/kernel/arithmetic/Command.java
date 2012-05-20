@@ -35,7 +35,7 @@ import java.util.Set;
  * 
  * @author Markus
  */
-public class Command extends ValidExpression implements ReplaceChildrenByValues{
+public class Command extends ValidExpression implements ReplaceChildrenByValues, GetItem{
 
 	// list of arguments
 	private ArrayList<ExpressionNode> args = new ArrayList<ExpressionNode>();
@@ -406,5 +406,9 @@ public class Command extends ValidExpression implements ReplaceChildrenByValues{
 			args.set(i, en);
 		}
 		return this;
+	}
+
+	public ExpressionValue getItem(int i) {
+		return args.get(i);
 	}
 }

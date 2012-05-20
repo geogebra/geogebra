@@ -76,7 +76,8 @@ public class CASparser implements CASParserInterface{
 		//}catch (MaximaVersionUnsupportedExecption e) {
 		//	throw e; // propagate exception
 		}catch (Throwable e) {
-			AbstractApplication.debug(e);
+			e.printStackTrace();
+			//AbstractApplication.debug(e);
 			return null;
 		}
 	}

@@ -4290,7 +4290,36 @@ public class ExpressionNode extends ValidExpression implements
 			sb.append(leftStr);
 			sb.append(')');
 			break;
-
+		case INTEGRAL:
+			if(STRING_TYPE==StringType.LATEX){
+				sb.append("\\int");
+				sb.append(leftStr);
+				sb.append("d");
+				sb.append(rightStr);
+			}else{
+				sb.append("gGbInTeGrAl(");
+				sb.append(leftStr);
+				sb.append(',');
+				sb.append(rightStr);
+				sb.append(")");
+				//AbstractApplication.debug(sb);
+			}
+			break;
+		case SUBSTITUTION:
+			if(STRING_TYPE==StringType.LATEX){
+				sb.append("\\left.");
+				sb.append(rightStr);
+				sb.append("\\right\\mid_{");
+				sb.append(leftStr);
+				sb.append("}");
+			}else{
+				sb.append("gGbSuBsTiTuTiOn(");
+				sb.append(leftStr);
+				sb.append(',');
+				sb.append(rightStr);
+				sb.append(")");
+			}
+			break;	
 		default:
 			sb.append("unhandled operation " + operation);
 		}
