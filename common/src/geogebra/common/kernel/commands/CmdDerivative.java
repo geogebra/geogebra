@@ -8,6 +8,7 @@ import geogebra.common.kernel.geos.CasEvaluableFunction;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunctionNVar;
 import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
 
 /**
@@ -50,9 +51,24 @@ public class CmdDerivative extends CommandProcessor {
 			if ((arg[0].isGeoFunction()||arg[0].isGeoCurveCartesian())
 					&& arg[1].isNumberValue()) {
 				double order = ((NumberValue) arg[1]).getDouble();
+				
+				// default for arg[1] not GeoNumeric (eg Segment)
+				// don't want f''' for name
+				boolean constant = false;
+				
+				if (arg[1].isGeoNumeric()) {
+					if (arg[1].getParentAlgorithm() == null) {
+						// Derivative[f,n] -> don't want f'' for name
+						// Derivative[f,2] -> do want f'' for name
+						constant = !arg[1].isLabelSet(); 
+					} else {
+						// eg Derivative[f,n+2] -> don't want f'''' for name
+						constant = false;
+					}
+				}
 
 				CasEvaluableFunction f = (CasEvaluableFunction) arg[0];
-				if (label == null) {
+				if (label == null && constant) {
 					int iorder = (int) Math.round(order);
 					label = getDerivLabel(f.toGeoElement(), iorder);
 				}
