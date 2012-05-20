@@ -180,6 +180,7 @@ public abstract class ValidExpression implements ExpressionValue {
 	}
 	/**
 	 * 
+	 * @param tpl string template
 	 * @return assignment in LaTeX
 	 */
 	public final String toAssignmentLaTeXString(StringTemplate tpl) {
@@ -257,13 +258,17 @@ public abstract class ValidExpression implements ExpressionValue {
 		return t.process(this);
 	}
 
+	/** 
+	 * @param s expression
+	 * @return string for debugging (revealing structure)
+	 */
 	public static String debugString(ExpressionValue s) {
 		if(s==null)
 			return "<null>";
 		if(s instanceof ExpressionNode)
 			return "ExNode("+debugString(((ExpressionNode)s).getLeft())+","+
 			((ExpressionNode)s).getOperation()+","+debugString(((ExpressionNode)s).getRight())+")";
-		return s.getClass().getSimpleName()+"("+s.toString(StringTemplate.defaultTemplate)+")";
+		return s.getClass().getName().replaceAll("geogebra.common.kernel.arithmetic.", "")+"("+s.toString(StringTemplate.defaultTemplate)+")";
 	}
 
 }
