@@ -1119,8 +1119,9 @@ public class AlgebraProcessor {
 		} else if (en.getOperation().equals(Operation.FUNCTION)) {
 			ExpressionValue left = en.getLeft();
 			ExpressionValue right = en.getRight();
+			//the isConstant() here makes difference between f(1) and f(x), see #2155
 			if (left.isLeaf() && left.isGeoElement() && right.isLeaf()
-					&& right.isNumberValue() && !isIndependent) {
+					&& right.isNumberValue() && !right.isConstant() && !isIndependent) {
 				f = (GeoFunction) kernel.DependentGeoCopy(label,
 						((GeoFunctionable)left).getGeoFunction());
 				ret[0] = f;
