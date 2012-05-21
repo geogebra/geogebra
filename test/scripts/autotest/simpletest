@@ -18,7 +18,7 @@ test -r geogebra.jar || exit 2 # Non-existing JAR
 
 
 xvfb-run timeout -k $SIMPLETESTTIMEOUT $SIMPLETESTTIMEOUT \
- $JAVA_HOME/bin/java -jar geogebra.jar --regressionFile=simpletest.out $MYDIR/simpletest.ggb \
+ $JAVA_HOME/bin/java -jar geogebra.jar --regressionFile=simpletest.out --logFile=simpletest.log $MYDIR/simpletest.ggb \
   >simpletest.stdout 2>simpletest.stderr
 
 diff simpletest.out $MYDIR/simpletest.out || exit 3 # Problem with simple testing
