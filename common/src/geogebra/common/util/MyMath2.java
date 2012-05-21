@@ -129,22 +129,23 @@ public class MyMath2 {
 		}
 	}
 
+	;
+	
 	/**
 
 	 * @param x x
 	 * @return inverse error function
 	 */
-	final public static double inverf(double x) {
-		SeriesInvErfAlgorithm algo = new SeriesInvErfAlgorithm();
+	final public static double inverf(double x, SeriesInvErfAlgorithm invErfalgo) {
 		if (x > 1 || x < -1) {
 			return Double.NaN;
 		}
 		
 		if (x < 0) { 
-			return -algo.invErf(-x);
+			return -invErfalgo.invErf(-x);
 		}
 		
-		return algo.invErf(x);
+		return invErfalgo.invErf(x);
 	}
 
 	final public static double psi(double x) {

@@ -24,10 +24,10 @@ Series approximation to the Inverse Incomplete Gamma function.
  */
 public class SeriesInvErfAlgorithm
 {
-	private static int maxiter = 50;
-	private static double eps = 1E-7;
+	private static int maxiter = 100;
+	private static double eps = 1E-9;
 
-	private double[] logCk = new double[maxiter];
+	private static double[] logCk = new double[maxiter];
 	private static double sqrtPi2 = Math.sqrt(Math.PI) / (2.0);
 
 

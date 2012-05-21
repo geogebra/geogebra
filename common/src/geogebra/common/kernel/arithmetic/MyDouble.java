@@ -27,6 +27,7 @@ import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
 import geogebra.common.util.MyMath;
 import geogebra.common.util.MyMath2;
+import geogebra.common.util.SeriesInvErfAlgorithm;
 import geogebra.common.util.Unicode;
 
 import java.util.ArrayList;
@@ -47,6 +48,9 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	 * kernel
 	 */
 	protected Kernel kernel;
+	
+	// static as has lookup table (don't want to recalculate)
+	private static SeriesInvErfAlgorithm invErfalgo;
 
 	/**
 	 * Do not use integer operations beyond this bound
@@ -386,6 +390,19 @@ public class MyDouble extends ValidExpression implements NumberValue,
 		isAngle = false;
 		return this;
 	}
+	
+	/**
+	 * @return inverf(this)
+	 */
+	final public MyDouble inverf() {
+		if (invErfalgo == null) {
+			invErfalgo = new SeriesInvErfAlgorithm();
+		}
+		val = MyMath2.inverf(val, invErfalgo);
+		isAngle = false;
+		return this;
+	}
+
 	/**
 	 * @param order order
 	 * @return polygamma(this,order)
