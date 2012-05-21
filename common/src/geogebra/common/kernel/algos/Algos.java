@@ -240,6 +240,7 @@ public enum Algos {
 	AlgoTriangular(Commands.Triangular),
 	AlgoTriangularDF(Commands.Triangular),
 	AlgoUniformDF(Commands.Uniform),
+	AlgoUniform(Commands.Uniform),
 	AlgoWeibullDF(Commands.Weibull),
 	AlgoLogNormalDF(Commands.LogNormal),
 	AlgoGammaDF(Commands.Gamma),

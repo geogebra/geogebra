@@ -8,6 +8,7 @@ import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
+import geogebra.common.kernel.statistics.AlgoUniform;
 import geogebra.common.main.MyError;
 /**
  * Uniform[min,max,x]
@@ -53,14 +54,8 @@ public class CmdUniform extends CommandProcessor {
 
 				} else if (arg[2].isNumberValue()) 
 				{
-					// needed for eg Normal[1, 0.001, x] 
-					StringTemplate highPrecision = StringTemplate.maxPrecision;
-					String a = arg[0].getLabel(highPrecision);
-					String b = arg[1].getLabel(highPrecision);
-					String x = arg[2].getLabel(highPrecision);
-
-					GeoElement[] ret = kernelA.getAlgebraProcessor().processAlgebraCommand( "If["+x+"<Min["+a+","+b+"],0,If["+x+">Max["+a+","+b+"],1,("+x+"-Min["+a+","+b+"])/abs("+b+"-("+a+"))]]", true );
-					return ret;
+					AlgoUniform algo = new AlgoUniform(cons, c.getLabel(), (NumberValue)arg[0], (NumberValue)arg[1], (NumberValue)arg[2]);
+					return algo.getGeoElements();
 
 				}  else
 					throw argErr(app, c.getName(), arg[2]);
