@@ -2,13 +2,24 @@ package geogebra.web.gui.app;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.main.AbstractApplication;
+import geogebra.web.gui.images.AppResources;
+import geogebra.web.gui.menubar.GeoGebraMenubar;
 import geogebra.web.gui.toolbar.ToolBar;
 import geogebra.web.gui.toolbar.images.MyIconResourceBundle;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Element;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -17,7 +28,7 @@ public class GGWToolBar extends Composite {
 	private static GGWToolBarUiBinder uiBinder = GWT
 	        .create(GGWToolBarUiBinder.class);
 
-	interface GGWToolBarUiBinder extends UiBinder<VerticalPanel, GGWToolBar> {
+	interface GGWToolBarUiBinder extends UiBinder<HorizontalPanel, GGWToolBar> {
 	}
 
 	static private MyIconResourceBundle myIconResourceBundle = GWT
@@ -32,7 +43,7 @@ public class GGWToolBar extends Composite {
 	private AbstractApplication app;
 	public ToolBar toolBar;
 	@UiField
-	VerticalPanel toolBarPanel;
+	HorizontalPanel toolBarPanel;
 
 	/**
 	 * Create a new GGWToolBar object
@@ -68,14 +79,44 @@ public class GGWToolBar extends Composite {
 		updateToolbarPanel();
 
 		// setActiveToolbar(activeToolbar);
+		
+		//undo-redo buttons
 
+		Image redoImage = new Image(AppResources.INSTANCE.edit_redo());
+		Button redoButton = new Button();
+		redoButton.getElement().appendChild(redoImage.getElement());
+		redoButton.addClickHandler(new ClickHandler(){
+			public void onClick(ClickEvent event) {
+				app.getGuiManager().redo();
+            }
+		});
+		redoButton.setStyleName("redoBdutton");
+		redoButton.setTitle("Redo");
+	
+		Image undoImage = new Image(AppResources.INSTANCE.edit_undo());
+		Button undoButton = new Button();
+		undoButton.getElement().appendChild(undoImage.getElement());
+		undoButton.addClickHandler(new ClickHandler(){
+			public void onClick(ClickEvent event) {
+				app.getGuiManager().undo();
+            }
+		});
+		undoButton.setStyleName("redoBdutton");
+		undoButton.setTitle("Redo");
+		//toolBarPanel.add(redoButton);
+		
+		VerticalPanel undoPanel = new VerticalPanel();
+		undoPanel.setStyleName("undoPanel");
+		undoPanel.add(undoButton);
+		undoPanel.add(redoButton);
+		toolBarPanel.add(undoPanel);
 	}
 
 	/**
 	 * Update toolbars.
 	 */
 	public void updateToolbarPanel() {
-		AbstractApplication.debug("Implementation needed - just finishing");
+		AbstractApplication.printStacktrace("Implementation needed - just finishing");
 
 		toolbarPanel.clear();
 		
@@ -88,9 +129,12 @@ public class GGWToolBar extends Composite {
 			}
 		}
 		
+		
+		
 		//TODO
 		//toolbarPanel.show(Integer.toString(activeToolbar));
 		//toolbarPanel.setVisible(true);
+		
 		
 	}
 

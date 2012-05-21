@@ -42,26 +42,6 @@ public class GeoGebraMenubar extends MenuBar {
 			linktoggb.setStyleName("linktoggbtube");
 			linktoggb.setTitle("Go to GeoGebraTube");
 			
-			//undo-redo buttons
-			MenuItem redoButton = addItem(getMenuBarHtml(AppResources.INSTANCE.edit_redo().getSafeUri().asString(),""),true, new Command() {
-				
-				public void execute() {
-					app.getGuiManager().redo();
-				}
-			});
-			
-			MenuItem undoButton = addItem(getMenuBarHtml(AppResources.INSTANCE.edit_undo().getSafeUri().asString(),""),true, new Command() {
-				
-				public void execute() {
-					app.getGuiManager().undo();
-				}
-			});
-			
-			redoButton.setStyleName("redoButton");
-			redoButton.setTitle("Redo");			
-			undoButton.setStyleName("undoButton");
-			undoButton.setTitle("Undo");
-			
         }
 		
 		public static String getMenuBarHtml(String url,String text) {
