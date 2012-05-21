@@ -179,7 +179,7 @@ public class ContextMenuChooseGeo extends ContextMenuGeoElement {
 		public void actionPerformed(ActionEvent e) {
 
 			//AbstractApplication.debug(geo.getLabelSimple());
-			app.clearSelectedGeos();
+			app.clearSelectedGeos(false); //repaint done next step
 			app.addSelectedGeo(geo);
 		}
 		

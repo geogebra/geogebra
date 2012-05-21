@@ -272,10 +272,13 @@ public class OptionsObject extends JPanel implements SetLabels {
 		// if (geos == oldSelGeos) return;
 		// oldSelGeos = geos;
 
+		
+		//Application.printStacktrace("");
 		propPanel.updateSelection(geos);
 	}
 	
 	public void updateOneGeoDefinition(GeoElement geo) {
+		
 		propPanel.updateOneGeoDefinition(geo);
 	}
 	

@@ -1771,9 +1771,13 @@ public abstract class AbstractApplication {
 			selectedGeos.clear();
 			if (repaint) {
 				kernel.notifyRepaint();
+				updateSelection();
 			}
+			
+			
+				
 		}
-		updateSelection();
+		
 	}
 
 

@@ -7084,7 +7084,7 @@ public abstract class AbstractEuclidianController {
 			geo = chooseGeo(hits, false);
 			
 			if (!selGeos.contains(geo)) {
-				app.clearSelectedGeos();
+				app.clearSelectedGeos(false); //repaint done next step
 				app.addSelectedGeo(geo);
 				// app.geoElementSelected(geo, false); // copy definiton to
 				// input bar
@@ -8162,7 +8162,7 @@ public abstract class AbstractEuclidianController {
 						// selection
 						// and show menu just for new objects
 						if (!app.getSelectedGeos().contains(hits.get(0))) {
-							app.clearSelectedGeos();
+							app.clearSelectedGeos(false); //repaint will be done next step
 							app.addSelectedGeos(hits, true);
 						} else {
 							app.addSelectedGeo(hits.get(0));

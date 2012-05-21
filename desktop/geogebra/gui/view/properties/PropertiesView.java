@@ -561,8 +561,8 @@ public class PropertiesView extends JPanel implements
 	// //////////////////////////////////////////////////////
 
 	public void updateSelection() {
-
-		if (app.getSelectedGeos().toArray().length > 0) {
+		
+		if (app.getSelectedGeos().size() > 0) {
 			setOptionPanel(OptionType.OBJECTS);
 			objectPanel.updateSelection(app.getSelectedGeos().toArray());
 			//this.setVisible(true);

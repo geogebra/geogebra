@@ -178,7 +178,7 @@ implements MouseListener, MouseMotionListener, DragGestureListener, DragSourceLi
 					}
 
 				} else {							
-					app.clearSelectedGeos();
+					app.clearSelectedGeos(false); //repaint will be done next step
 					app.addSelectedGeo(geo);
 					lastSelectedGeo = geo;
 				}
@@ -264,14 +264,14 @@ implements MouseListener, MouseMotionListener, DragGestureListener, DragSourceLi
 			{
 				if( geo != null  && !app.containsSelectedGeo(geo)) 
 				{					
-					app.clearSelectedGeos();
+					app.clearSelectedGeos(false); //repaint will be done next step
 					app.addSelectedGeo(geo);
 					lastSelectedGeo = geo;
 					skipSelection = true;
 				}else{
 					ArrayList<GeoElement> groupedGeos = groupAction(e,tp,true);
 					if (groupedGeos!=null && !app.containsSelectedGeos(groupedGeos)){
-						app.clearSelectedGeos();
+						app.clearSelectedGeos(false); //repaint will be done next step
 						app.addSelectedGeos(groupedGeos, true);
 						skipSelection = true;
 					}
