@@ -129,6 +129,24 @@ public class MyMath2 {
 		}
 	}
 
+	/**
+
+	 * @param x x
+	 * @return inverse error function
+	 */
+	final public static double inverf(double x) {
+		SeriesInvErfAlgorithm algo = new SeriesInvErfAlgorithm();
+		if (x > 1 || x < -1) {
+			return Double.NaN;
+		}
+		
+		if (x < 0) { 
+			return -algo.invErf(-x);
+		}
+		
+		return algo.invErf(x);
+	}
+
 	final public static double psi(double x) {
 		return Gamma.digamma(x);
 	}
