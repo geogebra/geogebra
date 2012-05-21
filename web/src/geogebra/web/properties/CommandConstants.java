@@ -2716,4 +2716,11 @@ public interface CommandConstants extends ConstantsWithLookup {
 	 
 	 @DefaultStringValue("[ <Line>, <Line>, <Line> ]")
 	 String AreConcurrentSyntax();
+	 
+	 @DefaultStringValue("SetTrace")
+	 String SetTrace();
+	 
+	 @DefaultStringValue("[ <Object>, <true | false> ]")
+	 String SetTraceSyntax();
+	 
 }

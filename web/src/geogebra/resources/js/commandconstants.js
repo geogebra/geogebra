@@ -900,7 +900,9 @@ SlopeField_Syntax: "",
 ArePerpendicular: "",
 ArePerpendicular_Syntax: "",
 AreEqual: "",
-AreEqual_Syntax: ""
+AreEqual_Syntax: "",
+SetTrace: "",
+SetTrace_Syntax: ""
 			
 		};
 		
