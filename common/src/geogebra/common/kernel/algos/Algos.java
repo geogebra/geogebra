@@ -235,6 +235,7 @@ public enum Algos {
 	AlgoLogsticDF(Commands.Logistic),
 	AlgoCauchyDF(Commands.Cauchy),
 	AlgoFDistributionDF(Commands.FDistribution),
+	AlgoErlang(Commands.Erlang),
 	AlgoErlangDF(Commands.Erlang),
 	AlgoTriangular(Commands.Triangular),
 	AlgoTriangularDF(Commands.Triangular),
