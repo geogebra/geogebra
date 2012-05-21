@@ -828,6 +828,7 @@ public class Application extends AbstractApplication {
 
 		// Well, it may cause freeze if we attach this too early
 		getGuiManager().attachAlgebraView();
+		
 	}
 
 	public void appSplashCanNowHide() {
@@ -835,6 +836,27 @@ public class Application extends AbstractApplication {
 
 		// Well, it may cause freeze if we attach this too early
 		getGuiManager().attachAlgebraView();
+		
+		
+		
+		// allow eg ?command=A=(1,1);B=(2,2) in URL
+		String cmd = com.google.gwt.user.client.Window.Location.getParameter("command");
+		
+		if (cmd != null) {
+		
+			if (cmd.indexOf('?') > -1) {
+				cmd = cmd.substring(0,  cmd.indexOf('?'));
+			}
+			
+			AbstractApplication.debug("exectuing commands: "+cmd);
+			
+			String[] cmds = cmd.split(";");			
+			for (int i = 0 ; i < cmds.length ; i++) {
+				getKernel().getAlgebraProcessor().processAlgebraCommandNoExceptionsOrErrors(cmds[i], false);
+			}
+	    
+		}
+
 	}
 
 	private void loadFile(HashMap<String, String> archiveContent) throws Exception {
