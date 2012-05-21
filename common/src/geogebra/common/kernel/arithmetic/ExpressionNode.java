@@ -4806,6 +4806,16 @@ public class ExpressionNode extends ValidExpression implements
 		return new ExpressionNode(kernel, this, Operation.LESS, new MyDouble(
 				kernel, d));
 	}
+	
+	/**
+	 * @param d
+	 *            value to compare
+	 * @return result this <= d
+	 */
+	public ExpressionNode lessThanEqual(double d) {
+		return new ExpressionNode(kernel, this, Operation.LESS_EQUAL, new MyDouble(
+				kernel, d));
+	}
 
 	/**
 	 * @return result of erf(this)

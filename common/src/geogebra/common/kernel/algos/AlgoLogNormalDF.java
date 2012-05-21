@@ -53,10 +53,10 @@ public class AlgoLogNormalDF extends AlgoElement {
         this.cumulative = cumulative;
         ret = new GeoFunctionConditional(cons); 
 
-        // make function x<0
+        // make function x<=0
 		FunctionVariable fv = new FunctionVariable(kernel);	
 		ExpressionNode en = new ExpressionNode(kernel,fv);
-		Function tempFun = new Function(en.lessThan(0),fv);
+		Function tempFun = new Function(en.lessThanEqual(0),fv);
 		condFun = new GeoFunction(cons, tempFun);
 		ret.setConditionalFunction(condFun);
 		
