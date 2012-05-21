@@ -1631,7 +1631,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 		if (doTwinGeoUpdate) {
 			updateTwinGeo();
 		}
-		if(!doTwinGeoUpdate || twinGeo == null){
+		if(outputVE!=null && (!doTwinGeoUpdate || twinGeo == null)){
 			ArbconstReplacer repl = ArbconstReplacer.getReplacer(arbconst);
 			arbconst.reset();
 			outputVE.traverse(repl);
