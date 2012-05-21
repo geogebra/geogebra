@@ -14,7 +14,9 @@ package geogebra.common.kernel.prover;
  * 
  */
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
@@ -129,7 +131,13 @@ public class Prover {
 	/**
 	 * Constructor for the package.
 	 */
-	public Prover() {}
+	public Prover() {
+		 proverAutoOrder = new ArrayList<ProverEngine>();
+		 // Order for the AUTO prover:
+		 proverAutoOrder.add(ProverEngine.RECIOS_PROVER);
+		 proverAutoOrder.add(ProverEngine.BOTANAS_PROVER);
+		 proverAutoOrder.add(ProverEngine.PURE_SYMBOLIC_PROVER);
+	}
 
 	/**
 	 * Sets the maximal time spent in the Prover for the given proof.
@@ -172,28 +180,32 @@ public class Prover {
 		ndgConditions.add(condition);
 	}
 	
+	private List<ProverEngine> proverAutoOrder;
+	
 	/**
 	 * Starts computation of the proof, based on the defined
 	 * subsystem.
 	 */
 
 	public void compute() {
+		// Step 1: Checking if the statement is null.
 		if (statement != null) {
-
 			String c = simplifiedXML(construction);
 			AbstractApplication.trace("Construction: " + c);
 			// getCASString may also be used 
 			String cd = statement.getCommandDescription(StringTemplate.ogpTemplate);
 			AbstractApplication.debug("Statement to prove: " + cd);
-
 		}
 		else {
 			AbstractApplication.error("No statement to prove");
 			result = ProofResult.UNKNOWN;
 			return;
 		}
+		
+		// Step 2: Non-AUTO provers
 
-		// Fallback for another prover if singularWS is not available:
+		// Botana's prover need singularWS.
+		// So fallback for another prover if singularWS is not available:
 		if (engine == ProverEngine.BOTANAS_PROVER) {
 			if (AbstractApplication.singularWS == null)
 				setProverEngine(ProverEngine.PURE_SYMBOLIC_PROVER);
@@ -207,20 +219,17 @@ public class Prover {
 			result = ProverBotanasMethod.prove(this);
 			return; // this will return later, now we calculate the other methods as well
 		} else if (engine == ProverEngine.RECIOS_PROVER) {
-					
-			if (statement==null){
-				result=ProofResult.UNKNOWN;
-			} else if (statement instanceof SymbolicParametersAlgo){
-				result = ProverReciosMethod.prove(((SymbolicParametersAlgo)statement).getSymbolicParameters());
-			} else if (statement.getParentAlgorithm() instanceof SymbolicParametersAlgo){
-				result = ProverReciosMethod.prove(((SymbolicParametersAlgo)statement.getParentAlgorithm()).getSymbolicParameters());
-			} else {
-				result=ProofResult.UNKNOWN;
-			}
+			result = ProverReciosMethod.prove(this);
+			return;
+		} else if (engine == ProverEngine.PURE_SYMBOLIC_PROVER) {
+			result = ProverPureSymbolicMethod.prove(this);
 			return;
 		}
-		// Falling back to pure symbolic prover:
-		result = ProverPureSymbolicMethod.prove(statement);
+
+		// Step 3: AUTO prover
+		
+		result = ProofResult.UNKNOWN;
+
 	}
 
 	/**

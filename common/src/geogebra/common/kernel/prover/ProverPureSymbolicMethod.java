@@ -25,46 +25,37 @@ public class ProverPureSymbolicMethod {
 	 * @param statement the statement to prove
 	 * @return if the proof was successful
 	 */
-	public static ProofResult prove(GeoElement statement){
-		ProofResult result = ProofResult.UNKNOWN;
-
+	public static ProofResult prove(Prover prover){
+		
+		GeoElement statement = prover.statement;
+		
 		if (statement instanceof SymbolicParametersAlgo){
 			SymbolicParametersAlgo statementSymbolic = (SymbolicParametersAlgo) statement;
 			SymbolicParameters parameters = statementSymbolic.getSymbolicParameters();
 			try {
 				parameters.getFreeVariables();
 				// TODO: write here Recio's prover
+				// FIXME: No, something else is required here!
 			} catch (NoSymbolicParametersException e) {
-				AbstractApplication.warn("This prover cannot give an answer, try another one");
-				// TODO: to implement this correctly
+				return ProofResult.UNKNOWN;
 			}
 		} else if (statement.getParentAlgorithm() instanceof SymbolicParametersAlgo){
 			SymbolicParametersAlgo statementSymbolic = (SymbolicParametersAlgo) statement.getParentAlgorithm();
-			/*SymbolicParameters parameters = statementSymbolic.getSymbolicParameters();
-			try {
-				parameters.getFreeVariables();
-			} catch (NoSymbolicParametersException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}*/
 			try {
 				Polynomial[] poly = statementSymbolic.getPolynomials();
 				for (Polynomial polynomial:poly){
 					AbstractApplication.debug(polynomial);
 					if (!polynomial.isZero()){
-						result=Prover.ProofResult.FALSE;
-						return result;
+						return ProofResult.FALSE;
 					}
 				} 
-				result = Prover.ProofResult.TRUE;
-				return result;
-				
+				return ProofResult.TRUE;
 				// TODO: write here Recio's prover
+				// FIXME: No, something else is required here!
 			} catch (NoSymbolicParametersException e) {
-				AbstractApplication.warn("Pure symbolic prover cannot give an answer, try another one");
-				// TODO: to implement this correctly
+				return ProofResult.UNKNOWN;
 			}
 		}
-		return result;
+		return ProofResult.UNKNOWN;
 	}
 }

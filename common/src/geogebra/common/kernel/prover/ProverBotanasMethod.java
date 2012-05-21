@@ -131,11 +131,9 @@ public class ProverBotanasMethod {
 	/**
 	 * Proves the statement by using Botana's method 
 	 * @param prover the prover input object 
-	 * @return if the proof was successful
+	 * @return if the statement is true
 	 */
-	public static ProofResult prove(Prover prover){
-		ProofResult result = ProofResult.UNKNOWN;
-
+	public static ProofResult prove(Prover prover) {
 		// Getting the hypotheses:
 		Polynomial[] hypotheses = null;
 		Iterator<GeoElement> it = prover.statement.getAllPredecessors().iterator();
@@ -157,7 +155,7 @@ public class ProverBotanasMethod {
 						hypotheses = allPolys;
 					}
 				} catch (NoSymbolicParametersException e) {
-					AbstractApplication.warn("This prover cannot give an answer, try another one");
+					return ProofResult.UNKNOWN;
 				}
 			}
 		}
@@ -206,13 +204,10 @@ public class ProverBotanasMethod {
 					ans = false;
 			}
 			if (ans)
-				result = ProofResult.TRUE;
-			else
-				result = ProofResult.FALSE;
+				return ProofResult.TRUE;
+			return ProofResult.FALSE;
 		} catch (NoSymbolicParametersException e) {
-			// TODO Auto-generated catch block
-			AbstractApplication.warn("Botana's prover cannot give an answer, try another one");
+			return ProofResult.UNKNOWN;
 		}
-		return result;
 	}
 }

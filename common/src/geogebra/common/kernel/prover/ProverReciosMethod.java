@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 
 import geogebra.common.kernel.algos.SymbolicParameters;
+import geogebra.common.kernel.algos.SymbolicParametersAlgo;
 import geogebra.common.kernel.prover.Prover.ProofResult;
 import geogebra.common.main.AbstractApplication;
 
@@ -18,10 +19,19 @@ import geogebra.common.main.AbstractApplication;
 public class ProverReciosMethod {
 	/**
 	 * The prover which tries to prove the statement with the help of Tomas Recios method.
-	 * @param s The symbolic parameters which contain the statement to prove
+	 * @param prover the prover input object 
 	 * @return The result of the prove.
 	 */
-	public static ProofResult prove(final SymbolicParameters s){
+	public static ProofResult prove(Prover prover){
+
+		SymbolicParameters s;
+
+		if (prover.statement instanceof SymbolicParametersAlgo)
+			s = (((SymbolicParametersAlgo)prover.statement).getSymbolicParameters());
+		else if (prover.statement.getParentAlgorithm() instanceof SymbolicParametersAlgo)
+			s = (((SymbolicParametersAlgo)prover.statement.getParentAlgorithm()).getSymbolicParameters());
+		else return ProofResult.UNKNOWN;
+		
 		int[] degs;
 		try {
 			degs = s.getDegrees();
