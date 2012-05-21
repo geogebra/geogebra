@@ -844,10 +844,6 @@ public class Application extends AbstractApplication {
 		
 		if (cmd != null) {
 		
-			if (cmd.indexOf('?') > -1) {
-				cmd = cmd.substring(0,  cmd.indexOf('?'));
-			}
-			
 			AbstractApplication.debug("exectuing commands: "+cmd);
 			
 			String[] cmds = cmd.split(";");			
