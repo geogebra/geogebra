@@ -84,6 +84,8 @@ public class AlgoProve extends AlgoElement {
             p.setProverEngine(ProverEngine.RECIOS_PROVER);
         else if ("PureSymbolic".equalsIgnoreCase(AbstractApplication.proverEngine))
             p.setProverEngine(ProverEngine.PURE_SYMBOLIC_PROVER);
+        else if ("Auto".equalsIgnoreCase(AbstractApplication.proverEngine))
+            p.setProverEngine(ProverEngine.AUTO);
         p.setTimeout(AbstractApplication.proverTimeout);
     	p.setConstruction(cons);
     	p.setStatement(root);

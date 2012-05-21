@@ -16,6 +16,7 @@ package geogebra.common.kernel.prover;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 
 import geogebra.common.kernel.Construction;
@@ -23,6 +24,7 @@ import geogebra.common.kernel.StringTemplate;
 
 import geogebra.common.kernel.algos.SymbolicParametersAlgo;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.prover.Prover.ProverEngine;
 import geogebra.common.main.AbstractApplication;
 
 /**
@@ -203,35 +205,48 @@ public class Prover {
 		}
 		
 		// Step 2: Non-AUTO provers
-
-		// Botana's prover need singularWS.
-		// So fallback for another prover if singularWS is not available:
-		if (engine == ProverEngine.BOTANAS_PROVER) {
-			if (AbstractApplication.singularWS == null)
-				setProverEngine(ProverEngine.PURE_SYMBOLIC_PROVER);
-			else if (!AbstractApplication.singularWS.isAvailable())
-				setProverEngine(ProverEngine.PURE_SYMBOLIC_PROVER); 
+		if (engine != ProverEngine.AUTO) {
+			callEngine(engine);
+			return;
 		}
 		
+		// Step 3: AUTO prover
 		AbstractApplication.debug("Using " + engine);
-		
-		if (engine == ProverEngine.BOTANAS_PROVER) {
+		Iterator<ProverEngine> it = proverAutoOrder.iterator();
+		result = ProofResult.UNKNOWN;
+		while (result == ProofResult.UNKNOWN && it.hasNext()) {
+			ProverEngine pe = it.next();
+			callEngine(pe);
+		}
+	}
+
+	private void callEngine(ProverEngine currentEngine) {
+		AbstractApplication.debug("Using " + currentEngine);
+		if (currentEngine == ProverEngine.BOTANAS_PROVER) {
+			// Botana's prover need singularWS.
+			// So don't try to use it if singularWS is not available:
+			if (AbstractApplication.singularWS == null) {
+				AbstractApplication.debug(currentEngine + " cannot be used, since singularWS is null");
+				result = ProofResult.UNKNOWN;
+				return;
+			}
+			if (!AbstractApplication.singularWS.isAvailable()) {
+				AbstractApplication.debug(currentEngine + " cannot be used, since singularWS is unavailable");
+				result = ProofResult.UNKNOWN;
+				return;
+			}
 			result = ProverBotanasMethod.prove(this);
-			return; // this will return later, now we calculate the other methods as well
-		} else if (engine == ProverEngine.RECIOS_PROVER) {
+			return;
+		} else if (currentEngine == ProverEngine.RECIOS_PROVER) {
 			result = ProverReciosMethod.prove(this);
 			return;
-		} else if (engine == ProverEngine.PURE_SYMBOLIC_PROVER) {
+		} else if (currentEngine == ProverEngine.PURE_SYMBOLIC_PROVER) {
 			result = ProverPureSymbolicMethod.prove(this);
 			return;
 		}
 
-		// Step 3: AUTO prover
-		
-		result = ProofResult.UNKNOWN;
-
 	}
-
+	
 	/**
 	 * Gets non-degeneracy conditions of the current proof.
 	 * @return The XML output string of the NDG condition
