@@ -4822,6 +4822,13 @@ public class ExpressionNode extends ValidExpression implements
 	}
 
 	/**
+	 * @return result of this!
+	 */
+	public ExpressionNode factorial() {
+		return new ExpressionNode(kernel, this, Operation.FACTORIAL, null);
+	}
+
+	/**
 	 * @return result of ln(this)
 	 */
 	public ExpressionNode ln() {
@@ -4842,6 +4849,15 @@ public class ExpressionNode extends ValidExpression implements
 	 */
 	public ExpressionNode gammaIncompleteReverseArgs(ExpressionValue v2) {
 		return new ExpressionNode(kernel, v2, Operation.GAMMA_INCOMPLETE, this);
+	}
+
+	/**
+	 * @param v2
+	 *            input
+	 * @return result of gamma(this, v2)
+	 */
+	public ExpressionNode gammaIncomplete(ExpressionValue v2) {
+		return new ExpressionNode(kernel, this, Operation.GAMMA_INCOMPLETE, v2);
 	}
 
 	/**

@@ -2,7 +2,10 @@ package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.algos.AlgoErlangDF;
+import geogebra.common.kernel.arithmetic.BooleanValue;
 import geogebra.common.kernel.arithmetic.Command;
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
@@ -31,7 +34,7 @@ import geogebra.common.main.MyError;
 			
 			arg = resArgs(c);
 
-			boolean cumulative = false; // default for n=3
+			BooleanValue cumulative = null; // default for n=3
 			switch (n) {
 			case 4:
 				if (!arg[2].isGeoFunction() || !((GeoFunction)arg[2]).toString(StringTemplate.defaultTemplate).equals("x")) {
@@ -39,7 +42,7 @@ import geogebra.common.main.MyError;
 				}
 				
 				if (arg[3].isGeoBoolean()) {
-					cumulative = ((GeoBoolean)arg[3]).getBoolean();
+					cumulative = (BooleanValue)arg[3];
 				} else
 					throw argErr(app, c.getName(), arg[3]);
 
@@ -48,20 +51,8 @@ import geogebra.common.main.MyError;
 				if ((ok[0] = arg[0].isNumberValue()) && (ok[1] = arg[1].isNumberValue())) {
 					if (arg[2].isGeoFunction() && ((GeoFunction)arg[2]).toString(StringTemplate.defaultTemplate).equals("x")) {
 
-						// needed for eg Normal[1, 0.001, x] 
-						StringTemplate highPrecision = StringTemplate.maxPrecision;
-						String k = arg[0].getLabel(highPrecision);
-						String l = arg[1].getLabel(highPrecision);
-						String command;
-						
-						if (cumulative) {
-							command = "If[x<0,0,gamma("+k+",("+l+")x)/("+k+"-1)!]";
-						} else {
-							command = "If[x<0,0,(("+l+")^("+k+")x^("+k+"-1)exp(-("+l+")x))/("+k+"-1)!]";
-						}						
-						
-						GeoElement[] ret = kernelA.getAlgebraProcessor().processAlgebraCommand(command, true);
-						return ret;
+						AlgoErlangDF algo = new AlgoErlangDF(cons, c.getLabel(), (NumberValue)arg[0], (NumberValue)arg[1], cumulative);
+						return algo.getGeoElements();
 
 
 					} else if (arg[2].isNumberValue()) {
