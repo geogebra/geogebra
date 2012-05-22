@@ -35,26 +35,28 @@ public class GwtXmlParser implements XmlParser {
 
 	private void recursiveElementWalk(DocHandler docHandler, Element element) throws Exception {
 		docHandler.startElement(element.getTagName(), getAttributesFor(element));
-		
+
 		NodeList children = element.getChildNodes();
-		for(int i = 0; i < children.getLength(); i++) {
-			Node child = children.item(i);
-			if (child.getNodeType() == Node.ELEMENT_NODE) {
-				recursiveElementWalk(docHandler, (Element) child);
+		if (element.hasChildNodes())
+			for(int i = 0; i < children.getLength(); i++) {
+				Node child = children.item(i);
+				if (child.getNodeType() == Node.ELEMENT_NODE) {
+					recursiveElementWalk(docHandler, (Element) child);
+				}
 			}
-		}
-		
+
 		docHandler.endElement(element.getTagName());
 	}
 
 	private LinkedHashMap<String, String> getAttributesFor(Element element) {
 		LinkedHashMap<String, String> copiedAttributes = new LinkedHashMap<String, String>();
 		NamedNodeMap attributes = element.getAttributes();
-		for (int i = 0; i < attributes.getLength(); i++) {
-			Attr attr = (Attr) attributes.item(i);
-			copiedAttributes.put(attr.getName(), attr.getValue());
-		}
-		
+		if (element.hasAttributes())
+			for (int i = 0; i < attributes.getLength(); i++) {
+				Attr attr = (Attr) attributes.item(i);
+				copiedAttributes.put(attr.getName(), attr.getValue());
+			}
+
 		return copiedAttributes;
 	}
 	
