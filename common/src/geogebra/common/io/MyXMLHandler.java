@@ -4198,9 +4198,15 @@ public class MyXMLHandler implements DocHandler {
 	 */
 	protected GeoPointND handleAbsoluteStartPoint(
 			LinkedHashMap<String, String> attrs) {
-		double x = Double.parseDouble(attrs.get("x"));
-		double y = Double.parseDouble(attrs.get("y"));
-		double z = Double.parseDouble(attrs.get("z"));
+		double x = Double.NaN;
+		double y = Double.NaN;
+		double z = Double.NaN;
+		if (attrs.get("x") != null && !attrs.get("x").equals("NaN"))
+			x = Double.parseDouble(attrs.get("x"));
+		if (attrs.get("y") != null && !attrs.get("y").equals("NaN"))
+			y = Double.parseDouble(attrs.get("y"));
+		if (attrs.get("z") != null && !attrs.get("z").equals("NaN"))
+			z = Double.parseDouble(attrs.get("z"));
 		GeoPoint2 p = new GeoPoint2(cons);
 		p.setCoords(x, y, z);
 		return p;
