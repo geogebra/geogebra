@@ -14,13 +14,14 @@ package geogebra.common.kernel.geos;
 
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
+import geogebra.common.kernel.kernelND.GeoElementND;
 
 /**
  * Interface to unify object types that allow evaluation with CAS commands,
  * like getting the derivative of a GeoFunction or GeoCurveCartesian.
  * @author Markus Hohenwarter
  */
-public interface CasEvaluableFunction extends ToGeoElement {
+public interface CasEvaluableFunction extends GeoElementND {
 	
 	/**
 	 * Sets this function by applying a GeoGebraCAS command to a function.
