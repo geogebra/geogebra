@@ -516,7 +516,7 @@ public class Application extends AbstractApplication {
 				initErrorConstants();
 			}
 
-			return errorConstants.getString(key);
+			return errorConstants.getString(crossReferencingPropertiesKeys(key));
 			
 		} catch(MissingResourceException e) {
 			AbstractApplication.error(e.toString() + " Invalid key: " + key);
