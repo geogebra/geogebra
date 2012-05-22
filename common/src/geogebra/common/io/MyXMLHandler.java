@@ -31,7 +31,6 @@ import geogebra.common.kernel.PathRegionHandling;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.Equation;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
-import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.commands.AlgebraProcessor;
@@ -3502,10 +3501,7 @@ public class MyXMLHandler implements DocHandler {
 			String strVal = attrs.get("val");
 			if (isNumber) {
 				GeoNumeric n = (GeoNumeric) geo;
-				if (strVal.equals("NaN"))
-					n.setValue(Double.NaN);
-				else
-					n.setValue(StringUtil.parseDouble(strVal));
+				n.setValue(StringUtil.parseDouble(strVal));
 
 				// random
 				n.setRandom("true".equals(attrs.get("random")));
@@ -4202,12 +4198,9 @@ public class MyXMLHandler implements DocHandler {
 		double x = Double.NaN;
 		double y = Double.NaN;
 		double z = Double.NaN;
-		if (attrs.get("x") != null && !attrs.get("x").equals("NaN"))
-			x = StringUtil.parseDouble(attrs.get("x"));
-		if (attrs.get("y") != null && !attrs.get("y").equals("NaN"))
-			y = StringUtil.parseDouble(attrs.get("y"));
-		if (attrs.get("z") != null && !attrs.get("z").equals("NaN"))
-			z = StringUtil.parseDouble(attrs.get("z"));
+		x = StringUtil.parseDouble(attrs.get("x"));
+		y = StringUtil.parseDouble(attrs.get("y"));
+		z = StringUtil.parseDouble(attrs.get("z"));
 		GeoPoint2 p = new GeoPoint2(cons);
 		p.setCoords(x, y, z);
 		return p;
