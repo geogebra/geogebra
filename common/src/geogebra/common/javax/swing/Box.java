@@ -22,6 +22,16 @@ public abstract class Box {
 
 	public abstract void add(AbstractJComboBox comboBox);
 
+	public void doLayout() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void remove(AbstractJComboBox comboBox) {
+		// TODO Auto-generated method stub
+		
+	}
+
 	//public abstract Box createHorizontalBox();
 
 }

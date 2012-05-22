@@ -98,6 +98,15 @@ public class JComboBoxDesktop extends geogebra.common.javax.swing.AbstractJCombo
 	public void addActionListener(ActionListener newActionListener) {
 		impl.addActionListener((geogebra.euclidian.event.ActionListener) newActionListener);
 	}
-		
+
+	@Override
+	public void removeAllItems() {
+		impl.removeAllItems();
+	}
+
+	@Override
+	public int getItemCount() {
+		return impl.getItemCount();
+	}		
 
 }

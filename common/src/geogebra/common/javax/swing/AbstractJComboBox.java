@@ -28,5 +28,8 @@ public abstract class AbstractJComboBox {
 	public abstract void addActionListener(
 			geogebra.common.euclidian.event.ActionListener newActionListener);
 
+	public abstract void removeAllItems();
+
+	public abstract int getItemCount();
 
 }

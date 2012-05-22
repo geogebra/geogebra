@@ -46,8 +46,8 @@ import java.util.ArrayList;
  * List of GeoElements
  */
 public class GeoList extends GeoElement implements ListValue, LineProperties,
-		PointProperties, TextProperties, Traceable, Path, Transformable,
-		SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture {
+PointProperties, TextProperties, Traceable, Path, Transformable,
+SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture {
 
 	private final static GeoClass ELEMENT_TYPE_MIXED = GeoClass.DEFAULT;
 
@@ -76,7 +76,7 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 	private boolean showAllProperties = false;
 
 	private ArrayList<GeoElement> colorFunctionListener; // Michael Borcherds
-															// 2008-04-02
+	// 2008-04-02
 
 	/**
 	 * Creates new GeoList, size defaults to 20
@@ -194,7 +194,7 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 				final GeoElement cachedGeo = cacheList.get(i);
 				if (!cachedGeo.isLabelSet()
 						&& (cachedGeo.getGeoClassType() == otherElement
-								.getGeoClassType())) {
+						.getGeoClassType())) {
 					// cached geo is unlabeled and has needed object type: use
 					// it
 					cachedGeo.set(otherElement);
@@ -478,7 +478,7 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 	final public boolean isDefined() {
 		return isDefined;
 	}
-	
+
 	/**
 	 * @param flag true to make this list defined
 	 */
@@ -521,7 +521,7 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 	 */
 	public final void clear() {
 		geoList.clear();
-		
+
 		comboBox = null;
 		comboBox2 = null;
 	}
@@ -583,7 +583,7 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 		if (!geo.isLabelSet()) {
 			geo.setViewFlags(getViewSet());
 		}
-		
+
 		rebuildComboBoxes();
 
 
@@ -598,7 +598,7 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 	 */
 	public final void remove(final GeoElement geo) {
 		geoList.remove(geo);
-		
+
 		rebuildComboBoxes();
 	}
 
@@ -611,7 +611,7 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 	 */
 	public final void remove(final int index) {
 		geoList.remove(index);
-		
+
 		rebuildComboBoxes();
 
 	}
@@ -656,7 +656,7 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 			return null;
 		}
 	}
-	
+
 	/**
 	 * Increases capcity of this list if necessary
 	 * @param size capcity to ensure
@@ -713,7 +713,7 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 				final GeoElement geo = geoList.get(i);
 
 				sbBuildValueString
-						.append(geo.getAlgebraDescriptionRegrOut(tpl));
+				.append(geo.getAlgebraDescriptionRegrOut(tpl));
 				sbBuildValueString.append(" ");
 			}
 
@@ -725,7 +725,7 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 		return sbBuildValueString.toString();
 	}
 
-	
+
 
 	@Override
 	public String toValueString(StringTemplate tpl) {
@@ -819,7 +819,7 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 			sb.append(selectedIndex);
 			sb.append("\"/>\n");
 		}
-		
+
 		if (drawAsComboBox == true) {
 			sb.append("\t<comboBox val=\"true\"/>\n");			
 		}
@@ -857,10 +857,10 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 			sb.append(printFigures);
 			sb.append("\"/>\n");
 		}
-		
+
 		// for ComboBoxes (and comments)
 		getCaptionXML(sb);
-		
+
 		sb.append("</element>\n");
 
 	}
@@ -1186,9 +1186,9 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 	public GeoElement getGeoElementForPropertiesDialog() {
 		if ((geoList.size() > 0) && (elementType != ELEMENT_TYPE_MIXED)) {
 			return get(0).getGeoElementForPropertiesDialog(); // getGeoElementForPropertiesDialog()
-																// to cope with
-																// lists of
-																// lists
+			// to cope with
+			// lists of
+			// lists
 		}
 		return this;
 	}
@@ -1221,8 +1221,8 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 						if (!geoij.getGeoClassType().equals(GeoClass.NUMERIC)
 								&& !geoij.getGeoClassType().equals(
 										GeoClass.FUNCTION)
-								&& !geoij.getGeoClassType().equals(
-										GeoClass.FUNCTION_NVAR)) {
+										&& !geoij.getGeoClassType().equals(
+												GeoClass.FUNCTION_NVAR)) {
 							return false;
 						}
 					}
@@ -1494,11 +1494,11 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 	 * @return selected index
 	 */
 	public int getSelectedIndex() {
-		
+
 		if (selectedIndex >= size()) {
 			selectedIndex = 0;
 		}
-		
+
 		return selectedIndex;
 	}
 
@@ -1525,7 +1525,7 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 
 	}
 
-// END G.Sturr
+	// END G.Sturr
 
 	/*
 	 * mathieu : for drawing 3D elements of the list
@@ -1944,63 +1944,97 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 	public boolean drawAsComboBox() {
 		return drawAsComboBox;
 	}
-	
+
 	public void setDrawAsComboBox(boolean b) {
 		drawAsComboBox = b;
 	}
-	
+
 	public AbstractJComboBox getComboBox(int viewID) {
-		
+
 		if (comboBox == null) {
 			comboBox = buildComboBox();
 		}
-		
+
 		if (viewID != AbstractApplication.VIEW_EUCLIDIAN2) {
 			return comboBox;		
 		}
-		
+
 		if (comboBox2 == null) {
 			comboBox2 = buildComboBox();
 		}
-		
+
 		return comboBox2;
-		
+
 	}
-	
-	private AbstractJComboBox buildComboBox() {
-		
-		AbstractJComboBox cb = SwingFactory.prototype.newJComboBox();
-			
-			
-			cb.setEditable(false);
-			
-			if (size() > 0) {
-				for (int i = 0 ; i < size() ; i++) {
-					GeoElement geo = get(i);
-					String item;
-					if (geo.isLabelSet()) {
-						item = geo.getLabel(StringTemplate.defaultTemplate);
-					} else {
-						item = get(i).toValueString(StringTemplate.defaultTemplate);
-					}
-					cb.addItem(item);
+
+	private AbstractJComboBox buildComboBox(AbstractJComboBox cb) {
+
+		//AbstractJComboBox cb = SwingFactory.prototype.newJComboBox();
+
+		cb.removeAllItems();
+
+		cb.setEditable(false);
+
+		if (size() > 0) {
+			for (int i = 0 ; i < size() ; i++) {
+				GeoElement geo = get(i);
+				String item;
+				if (geo.isLabelSet()) {
+					item = geo.getLabel(StringTemplate.defaultTemplate);
+				} else {
+					item = get(i).toValueString(StringTemplate.defaultTemplate);
 				}
-				cb.setSelectedIndex(getSelectedIndex());			
+				cb.addItem(item);
 			}
-			
-			
-			return cb;
-		
-		
+			cb.setSelectedIndex(getSelectedIndex());			
+		}
+
+
+		return cb;
+
+
 	}
-	
+
+	private AbstractJComboBox buildComboBox() {
+		return buildComboBox(SwingFactory.prototype.newJComboBox());
+	}
+
+	public void rebuildComboxBoxIfNecessary(AbstractJComboBox cb) {
+
+		if (cb.getItemCount() != size()) {
+			// definitely needs rebuilding
+			buildComboBox(cb);
+			return;
+		}
+
+
+		if (size() > 0) {
+			for (int i = 0 ; i < size() ; i++) {
+				GeoElement geo = get(i);
+				String item;
+				if (geo.isLabelSet()) {
+					item = geo.getLabel(StringTemplate.defaultTemplate);
+				} else {
+					item = get(i).toValueString(StringTemplate.defaultTemplate);
+				}
+
+
+				if (!cb.getItemAt(i).toString().equals(item)) {
+					// list changed, so rebuild
+					buildComboBox(cb);
+					return;
+				}
+			}
+		}
+
+	}
+
 	private void rebuildComboBoxes() {
-		
 		comboBox = buildComboBox();
 		comboBox2 = buildComboBox();
-		
+
 	}
-	
+
 	@Override
 	public boolean isAbsoluteScreenLocateable() {
 		return drawAsComboBox();
@@ -2016,7 +2050,7 @@ public class GeoList extends GeoElement implements ListValue, LineProperties,
 	}
 
 	public void setAbsoluteScreenLoc(int x, int y) {		
-		
+
 		labelOffsetX = x;
 		labelOffsetY = y;		
 	}

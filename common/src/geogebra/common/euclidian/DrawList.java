@@ -103,13 +103,16 @@ public final class DrawList extends Drawable implements RemoveNeeded {
 	final public void update() {
 
 		if (geoList.drawAsComboBox()) {
-			isVisible = geo.isEuclidianVisible() && geoList.size()!=0;
+			isVisible = geo.isEuclidianVisible() && geoList.size() != 0;
 			// textField.setVisible(isVisible);
 			// label.setVisible(isVisible);
 			box.setVisible(isVisible);
 			if (!isVisible) {
 				return;
 			}
+			
+			// eg size changed etc
+			geoList.rebuildComboxBoxIfNecessary(comboBox);
 
 			// don't need to worry about labeling options, just check if caption set or not
 			if (geo.getRawCaption() != null) {

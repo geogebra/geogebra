@@ -3567,7 +3567,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * Updates this object and all dependent ones. Notifies kernel to repaint
 	 * views.
 	 */
-	final public void updateRepaint() {
+	public void updateRepaint() {
 		updateCascade();
 		kernel.notifyRepaint();
 	}

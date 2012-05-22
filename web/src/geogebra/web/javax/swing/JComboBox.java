@@ -90,4 +90,15 @@ public class JComboBox extends geogebra.common.javax.swing.AbstractJComboBox {
 	    return ((JComboBox)comboBox).impl;
     }
 
+	@Override
+    public void removeAllItems() {
+		impl.clear();
+	    
+    }
+
+	@Override
+    public int getItemCount() {
+	    return impl.getItemCount();
+	}
+
 }
