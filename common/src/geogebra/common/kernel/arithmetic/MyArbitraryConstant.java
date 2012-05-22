@@ -4,6 +4,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.algos.ConstructionElement;
+import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 
@@ -144,6 +145,11 @@ public class MyArbitraryConstant  {
 			return Algos.AlgoDependentNumber;
 		}
 		
+	}
+
+
+	public boolean isCAS() {
+		return ce instanceof GeoCasCell;
 	}
 	
 	
