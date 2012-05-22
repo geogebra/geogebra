@@ -20,6 +20,7 @@ import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.util.StringUtil;
 
 /**
  * Try to expand the given function
@@ -83,7 +84,7 @@ public class AlgoDegree extends AlgoElement {
 		String functionOut;
 		try {
 			functionOut = kernel.evaluateCachedGeoGebraCAS(sb.toString(),arbconst);
-			num.setValue(Double.parseDouble(functionOut));
+			num.setValue(StringUtil.parseDouble(functionOut));
 		} catch (Throwable e) {
 			System.err.println("AlgoDegree: " + e.getMessage());
 			num.setUndefined();

@@ -214,6 +214,7 @@ import geogebra.common.plugin.Operation;
 import geogebra.common.util.MaxSizeHashMap;
 import geogebra.common.util.NumberFormatAdapter;
 import geogebra.common.util.ScientificFormatAdapter;
+import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
 
 import java.util.ArrayList;
@@ -621,9 +622,9 @@ public class Kernel {
 		GeoVec3D v = (GeoVec3D) geo;
 
 		try {
-			double x = Double.parseDouble(attrs.get("x"));
-			double y = Double.parseDouble(attrs.get("y"));
-			double z = Double.parseDouble(attrs.get("z"));
+			double x = StringUtil.parseDouble(attrs.get("x"));
+			double y = StringUtil.parseDouble(attrs.get("y"));
+			double z = StringUtil.parseDouble(attrs.get("z"));
 			v.hasUpdatePrevilege = true;
 			v.setCoords(x, y, z);
 			return true;

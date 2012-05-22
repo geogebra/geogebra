@@ -17,6 +17,8 @@
 
 package org.apache.commons.math.random;
 
+import geogebra.common.util.StringUtil;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -252,7 +254,7 @@ public class EmpiricalDistributionImpl implements Serializable, EmpiricalDistrib
             String str = null;
             double val = 0.0d;
             while ((str = inputStream.readLine()) != null) {
-                val = Double.parseDouble(str);
+                val = StringUtil.parseDouble(str);
                 SummaryStatistics stats = binStats.get(findBin(val));
                 stats.addValue(val);
             }

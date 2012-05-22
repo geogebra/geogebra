@@ -1670,7 +1670,7 @@ public class GeoFunction extends GeoElement implements VarString,
 						if (verticalAsymptotesArray[i].trim().equals(""))
 							isInRange = false; // was complex root
 						// isInRange =
-						// parentFunction.evaluateCondition(Double.parseDouble(verticalAsymptotesArray[i]));
+						// parentFunction.evaluateCondition(StringUtil.parseDouble(verticalAsymptotesArray[i]));
 						else
 							isInRange = parentFunction.evaluateCondition(kernel
 									.getAlgebraProcessor()

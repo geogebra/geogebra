@@ -70,6 +70,7 @@ import geogebra.common.main.settings.SpreadsheetSettings;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.util.SpreadsheetTraceSettings;
+import geogebra.common.util.StringUtil;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -87,7 +88,7 @@ import org.xml.sax.SAXException;
 // public class MyXMLHandler extends DefaultHandler {
 public class MyXMLHandler implements DocHandler {
 
-	private static final double FORMAT = Double
+	private static final double FORMAT = StringUtil
 			.parseDouble(GeoGebraConstants.XML_FILE_FORMAT);
 
 	private static final int MODE_INVALID = -1;
@@ -418,7 +419,7 @@ public class MyXMLHandler implements DocHandler {
 				mode = MODE_GEOGEBRA;
 				// check file format version
 				try {
-					ggbFileFormat = Double.parseDouble(attrs.get("format"));
+					ggbFileFormat = StringUtil.parseDouble(attrs.get("format"));
 
 					ggbFileFormat = Kernel.checkDecimalFraction(ggbFileFormat);
 
@@ -868,7 +869,7 @@ public class MyXMLHandler implements DocHandler {
 			String[] parmStringArray = parmString.split(",");
 			double[] parameters = new double[parmStringArray.length];
 			for (int i = 0; i < parmStringArray.length; i++)
-				parameters[i] = Double.parseDouble(parmStringArray[i]);
+				parameters[i] = StringUtil.parseDouble(parmStringArray[i]);
 
 			app.getSettings().getProbCalcSettings().setParameters(parameters);
 
@@ -936,15 +937,15 @@ public class MyXMLHandler implements DocHandler {
 		}
 		if (attrs.get("xZero") != null) {
 			try {
-				double xZero = Double.parseDouble(attrs.get("xZero"));
-				double yZero = Double.parseDouble(attrs.get("yZero"));
-				double scale = Double.parseDouble(attrs.get("scale"));
+				double xZero = StringUtil.parseDouble(attrs.get("xZero"));
+				double yZero = StringUtil.parseDouble(attrs.get("yZero"));
+				double scale = StringUtil.parseDouble(attrs.get("scale"));
 
 				// new since version 2.5
 				double yscale = scale;
 				String strYscale = attrs.get("yscale");
 				if (strYscale != null) {
-					yscale = Double.parseDouble(strYscale);
+					yscale = StringUtil.parseDouble(strYscale);
 				}
 				ev.setCoordSystem(xZero, yZero, scale, yscale);
 
@@ -992,7 +993,7 @@ public class MyXMLHandler implements DocHandler {
 			
 			try {
 				if(attrs.get("lockedAxesRatio")!=null){
-					ev.setLockedAxesRatio(Double.parseDouble(attrs.get("lockedAxesRatio"))); 
+					ev.setLockedAxesRatio(StringUtil.parseDouble(attrs.get("lockedAxesRatio"))); 
 				}
 			} catch (Exception e) {
 				//not a number: ignore
@@ -1297,14 +1298,14 @@ public class MyXMLHandler implements DocHandler {
 		// <grid distX="2.0" distY="4.0"/>
 		try {
 			double[] dists = new double[3];
-			dists[0] = Double.parseDouble(attrs.get("distX"));
-			dists[1] = Double.parseDouble(attrs.get("distY"));
+			dists[0] = StringUtil.parseDouble(attrs.get("distX"));
+			dists[1] = StringUtil.parseDouble(attrs.get("distY"));
 
 			// in v4.0 the polar grid adds an angle step element to
 			// gridDistances
 			String theta = attrs.get("distTheta");
 			if (theta != null)
-				dists[2] = Double.parseDouble(attrs.get("distTheta"));
+				dists[2] = StringUtil.parseDouble(attrs.get("distTheta"));
 			else
 				dists[2] = Math.PI / 6; // default
 
@@ -1366,7 +1367,7 @@ public class MyXMLHandler implements DocHandler {
 			// check if tickDistance is given
 			String strTickDist = attrs.get("tickDistance");
 			if (strTickDist != null) {
-				double tickDist = Double.parseDouble(strTickDist);
+				double tickDist = StringUtil.parseDouble(strTickDist);
 				ev.setAxesNumberingDistance(tickDist, axis);
 			}
 
@@ -1395,7 +1396,7 @@ public class MyXMLHandler implements DocHandler {
 				ev.setAxisCross(axis, 0);
 				ev.setDrawBorderAxes(axis, true);
 			} else if (axisCross != null) {
-				double ac = Double.parseDouble(axisCross);
+				double ac = StringUtil.parseDouble(axisCross);
 				ev.setAxisCross(axis, ac);
 				ev.setDrawBorderAxes(axis, false);
 			} else {
@@ -1841,7 +1842,7 @@ public class MyXMLHandler implements DocHandler {
 		try {
 			boolean show = parseBoolean(attrs.get("show"));
 			boolean playButton = parseBoolean(attrs.get("playButton"));
-			double playDelay = Double.parseDouble(attrs.get("playDelay"));
+			double playDelay = StringUtil.parseDouble(attrs.get("playDelay"));
 			boolean showProtButton = parseBoolean(attrs.get("protButton"));
 
 			// Maybe there is not guiManager yet. In this case we store the
@@ -2389,7 +2390,7 @@ public class MyXMLHandler implements DocHandler {
 	private boolean handlePane(LinkedHashMap<String, String> attrs) {
 		try {
 			String location = attrs.get("location");
-			double dividerLocation = Double.parseDouble(attrs.get("divider"));
+			double dividerLocation = StringUtil.parseDouble(attrs.get("divider"));
 			int orientation = Integer.parseInt(attrs.get("orientation"));
 
 			tmp_panes.add(new DockSplitPaneData(location, dividerLocation,
@@ -3504,7 +3505,7 @@ public class MyXMLHandler implements DocHandler {
 				if (strVal.equals("NaN"))
 					n.setValue(Double.NaN);
 				else
-					n.setValue(Double.parseDouble(strVal));
+					n.setValue(StringUtil.parseDouble(strVal));
 
 				// random
 				n.setRandom("true".equals(attrs.get("random")));
@@ -3638,7 +3639,7 @@ public class MyXMLHandler implements DocHandler {
 	 * return false; }
 	 * 
 	 * try { GeoPoint p = (GeoPoint) geo; PathParameter param = new
-	 * PathParameter(); double t = Double.parseDouble((String)
+	 * PathParameter(); double t = StringUtil.parseDouble((String)
 	 * attrs.get("val")); param.setT(t);
 	 * 
 	 * String strBranch = (String) attrs.get("branch"); if (strBranch != null) {
@@ -3679,10 +3680,10 @@ public class MyXMLHandler implements DocHandler {
 				num.setAbsoluteScreenLocActive(false);
 			}
 
-			double x = Double.parseDouble(attrs.get("x"));
-			double y = Double.parseDouble(attrs.get("y"));
+			double x = StringUtil.parseDouble(attrs.get("x"));
+			double y = StringUtil.parseDouble(attrs.get("y"));
 			num.setSliderLocation(x, y, true);
-			num.setSliderWidth(Double.parseDouble(attrs.get("width")));
+			num.setSliderWidth(StringUtil.parseDouble(attrs.get("width")));
 			num.setSliderFixed(parseBoolean(attrs.get("fixed")));
 			num.setSliderHorizontal(parseBoolean(attrs.get("horizontal")));
 
@@ -4164,9 +4165,9 @@ public class MyXMLHandler implements DocHandler {
 			// absolute start point (coords expected)
 			try {
 				/*
-				 * double x = Double.parseDouble((String) attrs.get("x"));
-				 * double y = Double.parseDouble((String) attrs.get("y"));
-				 * double z = Double.parseDouble((String) attrs.get("z"));
+				 * double x = StringUtil.parseDouble((String) attrs.get("x"));
+				 * double y = StringUtil.parseDouble((String) attrs.get("y"));
+				 * double z = StringUtil.parseDouble((String) attrs.get("z"));
 				 * GeoPoint p = new GeoPoint(cons); p.setCoords(x, y, z);
 				 */
 
@@ -4202,11 +4203,11 @@ public class MyXMLHandler implements DocHandler {
 		double y = Double.NaN;
 		double z = Double.NaN;
 		if (attrs.get("x") != null && !attrs.get("x").equals("NaN"))
-			x = Double.parseDouble(attrs.get("x"));
+			x = StringUtil.parseDouble(attrs.get("x"));
 		if (attrs.get("y") != null && !attrs.get("y").equals("NaN"))
-			y = Double.parseDouble(attrs.get("y"));
+			y = StringUtil.parseDouble(attrs.get("y"));
 		if (attrs.get("z") != null && !attrs.get("z").equals("NaN"))
-			z = Double.parseDouble(attrs.get("z"));
+			z = StringUtil.parseDouble(attrs.get("z"));
 		GeoPoint2 p = new GeoPoint2(cons);
 		p.setCoords(x, y, z);
 		return p;
@@ -4430,12 +4431,12 @@ public class MyXMLHandler implements DocHandler {
 			// set eigenvectors, but don't classify conic now
 			// classifyConic() will be called in handleMatrix() by
 			// conic.setMatrix()
-			conic.setEigenvectors(Double.parseDouble(attrs.get("x0")),
-					Double.parseDouble(attrs.get("y0")),
-					Double.parseDouble(attrs.get("z0")),
-					Double.parseDouble(attrs.get("x1")),
-					Double.parseDouble(attrs.get("y1")),
-					Double.parseDouble(attrs.get("z1")));
+			conic.setEigenvectors(StringUtil.parseDouble(attrs.get("x0")),
+					StringUtil.parseDouble(attrs.get("y0")),
+					StringUtil.parseDouble(attrs.get("z0")),
+					StringUtil.parseDouble(attrs.get("x1")),
+					StringUtil.parseDouble(attrs.get("y1")),
+					StringUtil.parseDouble(attrs.get("z1")));
 			return true;
 		} catch (Exception e) {
 			return false;
@@ -4453,12 +4454,12 @@ public class MyXMLHandler implements DocHandler {
 				GeoConic conic = (GeoConic) geo;
 				// set matrix and classify conic now
 				// <eigenvectors> should have been set earlier
-				double[] matrix = { Double.parseDouble(attrs.get("A0")),
-						Double.parseDouble(attrs.get("A1")),
-						Double.parseDouble(attrs.get("A2")),
-						Double.parseDouble(attrs.get("A3")),
-						Double.parseDouble(attrs.get("A4")),
-						Double.parseDouble(attrs.get("A5")) };
+				double[] matrix = { StringUtil.parseDouble(attrs.get("A0")),
+						StringUtil.parseDouble(attrs.get("A1")),
+						StringUtil.parseDouble(attrs.get("A2")),
+						StringUtil.parseDouble(attrs.get("A3")),
+						StringUtil.parseDouble(attrs.get("A4")),
+						StringUtil.parseDouble(attrs.get("A5")) };
 				conic.setMatrix(matrix);
 			}
 			return true;
@@ -4522,14 +4523,14 @@ public class MyXMLHandler implements DocHandler {
 						start = c + 1;
 						break;
 					case ']':
-						newRow.add(Double.parseDouble(data.substring(start, c)));
+						newRow.add(StringUtil.parseDouble(data.substring(start, c)));
 						start = c + 1;
 						collect.add(newRow);
 						newRow = new ArrayList<Double>();
 						c++; // jump over ','
 						break;
 					case ',':
-						newRow.add(Double.parseDouble(data.substring(start, c)));
+						newRow.add(StringUtil.parseDouble(data.substring(start, c)));
 						start = c + 1;
 					}
 				}

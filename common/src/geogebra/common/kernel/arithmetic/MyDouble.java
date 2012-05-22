@@ -28,6 +28,7 @@ import geogebra.common.main.MyError;
 import geogebra.common.util.MyMath;
 import geogebra.common.util.MyMath2;
 import geogebra.common.util.SeriesInvErfAlgorithm;
+import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
 
 import java.util.ArrayList;
@@ -772,7 +773,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	private static StringBuilder sb = new StringBuilder();
 
 	/**
-	 * extension of Double.parseDouble() to cope with unicode digits eg Arabic
+	 * extension of StringUtil.parseDouble() to cope with unicode digits eg Arabic
 	 * @param str string to be parsed
 	 * @param app application for showing errors
 	 * @return value
@@ -846,7 +847,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 			sb.append(ch + "");
 		}
 		try {
-		return Double.parseDouble(sb.toString());
+		return StringUtil.parseDouble(sb.toString());
 		} catch (Exception e) {
 			// eg try to parse "1.2.3", "1..2"
 			throw new MyError(app, "InvalidInput");

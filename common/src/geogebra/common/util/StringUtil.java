@@ -556,5 +556,11 @@ public class StringUtil {
 	public static String toUpperCase(String s) {
 		return prototype.toUpper(s);
 	}
+	
+	public static double parseDouble(String s){
+		if("NaN".equals(s))
+			return Double.NaN;
+		return StringUtil.parseDouble(s);
+	}
 
 }
