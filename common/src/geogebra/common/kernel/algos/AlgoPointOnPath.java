@@ -32,7 +32,8 @@ import geogebra.common.kernel.prover.NoSymbolicParametersException;
 import geogebra.common.kernel.prover.Polynomial;
 
 
-public class AlgoPointOnPath extends AlgoElement implements PathAlgo, SymbolicParametersAlgo {
+public class AlgoPointOnPath extends AlgoElement implements PathAlgo, SymbolicParametersAlgo,
+	SymbolicParametersBotanaAlgo {
 
 	private Path path; // input
     private GeoPoint2 P; // output      
@@ -222,7 +223,7 @@ public class AlgoPointOnPath extends AlgoElement implements PathAlgo, SymbolicPa
 				botanaVars[0]=new Variable();
 				botanaVars[1]=new Variable();
 			}
-			Variable[] fv = ((SymbolicParametersAlgo) input[0]).getBotanaVars();
+			Variable[] fv = ((SymbolicParametersBotanaAlgo) input[0]).getBotanaVars();
 			botanaPolynomials = new Polynomial[1];
 			botanaPolynomials[0] = Polynomial.collinear(fv[0], fv[1], fv[2], fv[3], botanaVars[0], botanaVars[1]);
 			return botanaPolynomials;

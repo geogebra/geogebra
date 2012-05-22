@@ -33,6 +33,7 @@ import geogebra.common.kernel.algos.AlgoAsymptoteInterface;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.SymbolicParameters;
 import geogebra.common.kernel.algos.SymbolicParametersAlgo;
+import geogebra.common.kernel.algos.SymbolicParametersBotanaAlgo;
 import geogebra.common.kernel.algos.TangentAlgo;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.Function;
@@ -63,7 +64,7 @@ import java.util.HashSet;
 public class GeoLine extends GeoVec3D implements Path, Translateable,
 		PointRotateable, Mirrorable, Dilateable, LineProperties, GeoLineND,
 		MatrixTransformable, GeoFunctionable, Transformable, Functional,
-		SymbolicParametersAlgo {
+		SymbolicParametersAlgo, SymbolicParametersBotanaAlgo {
 
 	// modes
 	/** implicit equation */
@@ -1490,14 +1491,14 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	public Variable[] getBotanaVars() {
 		if (algoParent != null
 				&& algoParent instanceof SymbolicParametersAlgo) {
-			return ((SymbolicParametersAlgo) algoParent).getBotanaVars();
+			return ((SymbolicParametersBotanaAlgo) algoParent).getBotanaVars();
 		}
 		return null;
 	}
 	
 	public Polynomial[] getBotanaPolynomials() throws NoSymbolicParametersException  {
 		if (algoParent != null && algoParent instanceof SymbolicParametersAlgo) {
-		return ((SymbolicParametersAlgo) algoParent).getBotanaPolynomials();
+		return ((SymbolicParametersBotanaAlgo) algoParent).getBotanaPolynomials();
 		}
 	throw new NoSymbolicParametersException();
 	}

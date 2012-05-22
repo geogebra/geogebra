@@ -40,7 +40,8 @@ import geogebra.common.main.AbstractApplication;
  * @author  Markus
  * @version 
  */
-public class AlgoJoinPoints extends AlgoElement implements SymbolicParametersAlgo {
+public class AlgoJoinPoints extends AlgoElement implements SymbolicParametersAlgo,
+	SymbolicParametersBotanaAlgo {
 
     private GeoPoint2 P, Q;  // input
     private GeoLine  g;     // output       
@@ -169,8 +170,8 @@ public class AlgoJoinPoints extends AlgoElement implements SymbolicParametersAlg
 		botanaVars = new Variable[4];
 		Variable[] line1vars = new Variable[2];
 		Variable[] line2vars = new Variable[2];
-		line1vars = ((SymbolicParametersAlgo) input[0]).getBotanaVars();
-		line2vars = ((SymbolicParametersAlgo) input[1]).getBotanaVars();
+		line1vars = ((SymbolicParametersBotanaAlgo) input[0]).getBotanaVars();
+		line2vars = ((SymbolicParametersBotanaAlgo) input[1]).getBotanaVars();
 		botanaVars[0] = line1vars[0];
 		botanaVars[1] = line1vars[1];
 		botanaVars[2] = line2vars[0];

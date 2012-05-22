@@ -5,6 +5,8 @@ import java.util.HashSet;
 import java.util.Iterator;
 
 import geogebra.common.kernel.algos.SymbolicParametersAlgo;
+import geogebra.common.kernel.algos.SymbolicParametersBotanaAlgo;
+import geogebra.common.kernel.algos.SymbolicParametersBotanaAlgoAre;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.prover.Prover.NDGCondition;
 import geogebra.common.kernel.prover.Prover.ProofResult;
@@ -65,9 +67,9 @@ public class ProverBotanasMethod {
 								AbstractApplication.debug(geo1.getLabelSimple() + 
 										geo2.getLabelSimple() + 
 										geo3.getLabelSimple() + " should never be collinear");
-								Variable[] fv1 = ((SymbolicParametersAlgo)geo1).getBotanaVars();
-								Variable[] fv2 = ((SymbolicParametersAlgo)geo2).getBotanaVars();
-								Variable[] fv3 = ((SymbolicParametersAlgo)geo3).getBotanaVars();
+								Variable[] fv1 = ((SymbolicParametersBotanaAlgo)geo1).getBotanaVars();
+								Variable[] fv2 = ((SymbolicParametersBotanaAlgo)geo2).getBotanaVars();
+								Variable[] fv3 = ((SymbolicParametersBotanaAlgo)geo3).getBotanaVars();
 								// Creating the polynomial for collinearity:
 								Polynomial p = Polynomial.collinear(fv1[0], fv1[1],
 										fv2[0], fv2[1], fv3[0], fv3[1]);
@@ -111,7 +113,7 @@ public class ProverBotanasMethod {
 		Iterator<GeoElement> it = freePoints.iterator();
 		int i = 0;
 		while (it.hasNext() && i<4) {
-			Variable[] fv = ((SymbolicParametersAlgo) it.next()).getBotanaVars();
+			Variable[] fv = ((SymbolicParametersBotanaAlgo) it.next()).getBotanaVars();
 			if (i==0) {
 				ret[i] = new Polynomial(fv[0]);
 				++i;
@@ -142,7 +144,7 @@ public class ProverBotanasMethod {
 			// AbstractApplication.debug(geo);
 			if (geo instanceof SymbolicParametersAlgo) {
 				try {
-					Polynomial[] geoPolys = ((SymbolicParametersAlgo) geo).getBotanaPolynomials();
+					Polynomial[] geoPolys = ((SymbolicParametersBotanaAlgo) geo).getBotanaPolynomials();
 					if (geoPolys != null) {
 						int nHypotheses = 0;
 						if (hypotheses != null)
@@ -160,9 +162,9 @@ public class ProverBotanasMethod {
 			}
 		}
 		try {
-			// The statement polynomials. If there are more ones, then a new equation
-			// system will be created and solved for each.
-			Polynomial[] statements = ((SymbolicParametersAlgo) prover.statement.getParentAlgorithm()).getBotanaPolynomials();
+			// The sets of statement polynomials.
+			// The last equation of each set will be negated.
+			Polynomial[][] statements = ((SymbolicParametersBotanaAlgoAre) prover.statement.getParentAlgorithm()).getBotanaPolynomials();
 			// The NDG conditions (automatically created):
 			Polynomial[] ndgConditions = null;
 			if (AbstractApplication.freePointsNeverCollinear)
@@ -183,23 +185,26 @@ public class ProverBotanasMethod {
 				nStatements = statements.length;
 			if (fixValues != null)
 				nFixValues = fixValues.length;
-			
-			// These polynomials will be in the equation system always:
-			Polynomial[] eqSystem = new Polynomial[nHypotheses + nNdgConditions + nFixValues + 1];
-			for (int j=0; j<nHypotheses; ++j)
-				eqSystem[j] = hypotheses[j];
-			for (int j=0; j<nNdgConditions; ++j)
-				eqSystem[j + nHypotheses] = ndgConditions[j];
-			for (int j=0; j<nFixValues; ++j)
-				eqSystem[j + nHypotheses + nNdgConditions] = fixValues[j];
-			
+						
 			boolean ans = true;
-			// Solving the equation system for each polynomial of the statement:
+			// Solving the equation system for each sets of polynomials of the statement:
 			for (int i=0; i<nStatements && ans; ++i) {
-				// Rabinowitsch trick
-				Polynomial spoly = statements[i].multiply(new Polynomial(new Variable())).subtract(new Polynomial(1));
+				int nPolysStatement = statements[i].length;
+				Polynomial[] eqSystem = new Polynomial[nHypotheses + nNdgConditions + nFixValues + nPolysStatement];
+				// These polynomials will be in the equation system always:
+				for (int j=0; j<nHypotheses; ++j)
+					eqSystem[j] = hypotheses[j];
+				for (int j=0; j<nNdgConditions; ++j)
+					eqSystem[j + nHypotheses] = ndgConditions[j];
+				for (int j=0; j<nFixValues; ++j)
+					eqSystem[j + nHypotheses + nNdgConditions] = fixValues[j];
+				for (int j=0; j<nPolysStatement - 1; ++j)
+					eqSystem[j + nHypotheses + nNdgConditions + nFixValues] = statements[i][j];
+
+				// Rabinowitsch trick for the last polynomial of the current statement:
+				Polynomial spoly = statements[i][nPolysStatement - 1].multiply(new Polynomial(new Variable())).subtract(new Polynomial(1));
 				// FIXME: this always introduces an extra variable, shouldn't do
-				eqSystem[nHypotheses + nNdgConditions + nFixValues] = spoly;
+				eqSystem[nHypotheses + nNdgConditions + nFixValues + nPolysStatement - 1] = spoly;
 				if (Polynomial.solvable(eqSystem)) // FIXME: here seems NPE if SingularWS not initialized 
 					ans = false;
 			}

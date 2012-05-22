@@ -43,6 +43,7 @@ import geogebra.common.kernel.algos.AlgoDynamicCoordinates;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.SymbolicParameters;
 import geogebra.common.kernel.algos.SymbolicParametersAlgo;
+import geogebra.common.kernel.algos.SymbolicParametersBotanaAlgo;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.MyVecNode;
@@ -78,7 +79,8 @@ import java.util.TreeSet;
 final public class GeoPoint2 extends GeoVec3D implements VectorValue,
 		PathOrPoint, Translateable, PointRotateable, Mirrorable, Dilateable,
 		MatrixTransformable, ConicMirrorable, GeoPointND, Animatable,
-		Transformable, SpreadsheetTraceable, SymbolicParametersAlgo {
+		Transformable, SpreadsheetTraceable, SymbolicParametersAlgo,
+		SymbolicParametersBotanaAlgo {
 
 	// don't set point size here as this would overwrite
 	// setConstructionDefaults()
@@ -2080,8 +2082,8 @@ final public class GeoPoint2 extends GeoVec3D implements VectorValue,
 	}
 
 	public Variable[] getBotanaVars() {
-		if (algoParent != null && algoParent instanceof SymbolicParametersAlgo) {
-			return ((SymbolicParametersAlgo) algoParent).getBotanaVars();
+		if (algoParent != null && algoParent instanceof SymbolicParametersBotanaAlgo) {
+			return ((SymbolicParametersBotanaAlgo) algoParent).getBotanaVars();
 		}
 
 		if (algoParent == null) {
@@ -2098,7 +2100,7 @@ final public class GeoPoint2 extends GeoVec3D implements VectorValue,
 	public Polynomial[] getBotanaPolynomials()
 			throws NoSymbolicParametersException {
 		if (algoParent != null && algoParent instanceof SymbolicParametersAlgo) {
-			return ((SymbolicParametersAlgo) algoParent).getBotanaPolynomials();
+			return ((SymbolicParametersBotanaAlgo) algoParent).getBotanaPolynomials();
 		}
 		return null;
 	}

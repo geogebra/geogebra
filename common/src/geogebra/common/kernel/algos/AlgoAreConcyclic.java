@@ -19,7 +19,7 @@ import java.util.HashSet;
  * 
  */
 public class AlgoAreConcyclic extends AlgoElement implements
-		SymbolicParametersAlgo {
+		SymbolicParametersAlgo, SymbolicParametersBotanaAlgoAre {
 
 	private GeoPoint2 inputPoint1; // input
 	private GeoPoint2 inputPoint2; // input
@@ -28,8 +28,7 @@ public class AlgoAreConcyclic extends AlgoElement implements
 
 	private GeoBoolean outputBoolean; // output
 	private Polynomial[] polynomials;
-	private Polynomial[] botanaPolynomials;
-
+	private Polynomial[][] botanaPolynomials;
 	
 	/**
 	 * Tests if four points are concyclic
@@ -287,12 +286,7 @@ public class AlgoAreConcyclic extends AlgoElement implements
 		throw new NoSymbolicParametersException();
 	}
 
-	public Variable[] getBotanaVars() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public Polynomial[] getBotanaPolynomials()
+	public Polynomial[][] getBotanaPolynomials()
 			throws NoSymbolicParametersException {
 		if (botanaPolynomials != null) {
 			return botanaPolynomials;
@@ -302,7 +296,7 @@ public class AlgoAreConcyclic extends AlgoElement implements
 			Variable[] coords2 = inputPoint2.getBotanaVars();
 			Variable[] coords3 = inputPoint3.getBotanaVars();
 			Variable[] coords4 = inputPoint4.getBotanaVars();
-			polynomials = new Polynomial[1];
+			botanaPolynomials = new Polynomial[1][1];
 			Polynomial[][] matrix=new Polynomial[4][4];
 
 			matrix[0][0]=new Polynomial(coords1[0]);
@@ -325,9 +319,9 @@ public class AlgoAreConcyclic extends AlgoElement implements
 			matrix[3][2]=matrix[3][0].multiply(matrix[3][0]).add(matrix[3][1].multiply(matrix[3][1]));
 			matrix[3][3]=new Polynomial(1);
 			
-			polynomials[0] = SymbolicParameters.det4(matrix);
+			botanaPolynomials[0][0] = SymbolicParameters.det4(matrix);
 
-			return polynomials;
+			return botanaPolynomials;
 		}
 		throw new NoSymbolicParametersException();
 	}

@@ -40,7 +40,8 @@ import geogebra.common.kernel.prover.Polynomial;
  * @author  Markus
  * @version 
  */
-public class AlgoIntersectLines extends AlgoIntersectAbstract implements SymbolicParametersAlgo{
+public class AlgoIntersectLines extends AlgoIntersectAbstract implements SymbolicParametersAlgo,
+	SymbolicParametersBotanaAlgo {
 
     private GeoLine g, h; // input
     private GeoPoint2 S; // output       

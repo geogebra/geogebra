@@ -41,7 +41,8 @@ import geogebra.common.kernel.prover.Polynomial;
  * @author  Markus
  * @version 
  */
-public class AlgoOrthoLinePointLine extends AlgoElement implements SymbolicParametersAlgo{
+public class AlgoOrthoLinePointLine extends AlgoElement implements SymbolicParametersAlgo,
+SymbolicParametersBotanaAlgo {
 
     private GeoPoint2 P; // input
     private GeoLine l; // input

@@ -27,7 +27,8 @@ import geogebra.common.kernel.prover.Polynomial;
 import geogebra.common.kernel.prover.Variable;
 
 
-public class AlgoLineBisector extends AlgoElement implements SymbolicParametersAlgo{
+public class AlgoLineBisector extends AlgoElement implements SymbolicParametersAlgo,
+	SymbolicParametersBotanaAlgo {
 
 	private GeoPoint2 A, B;  // input    
     private GeoLine  g;     // output   

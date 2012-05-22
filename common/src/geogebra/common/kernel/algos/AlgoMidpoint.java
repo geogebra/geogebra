@@ -36,7 +36,8 @@ import java.util.HashSet;
  * @author  Markus
  * @version 
  */
-public class AlgoMidpoint extends AlgoMidpointND implements SymbolicParametersAlgo{
+public class AlgoMidpoint extends AlgoMidpointND implements SymbolicParametersAlgo,
+	SymbolicParametersBotanaAlgo {
       
     private Polynomial[] polynomials;
 	private Polynomial[] botanaPolynomials;
@@ -155,8 +156,8 @@ public class AlgoMidpoint extends AlgoMidpointND implements SymbolicParametersAl
 			botanaVars[1]=new Variable();
 		}
 		
-		Variable[] fv1 = ((SymbolicParametersAlgo) P).getBotanaVars();
-		Variable[] fv2 = ((SymbolicParametersAlgo) Q).getBotanaVars();
+		Variable[] fv1 = ((SymbolicParametersBotanaAlgo) P).getBotanaVars();
+		Variable[] fv2 = ((SymbolicParametersBotanaAlgo) Q).getBotanaVars();
 		botanaPolynomials = new Polynomial[2];
 		// 2*m1-a1-b1, 2*m2-a2-b2
 		botanaPolynomials[0] = (new Polynomial(2)).multiply(new Polynomial(botanaVars[0])).

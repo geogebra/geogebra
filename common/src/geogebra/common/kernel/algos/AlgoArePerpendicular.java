@@ -19,14 +19,14 @@ import java.util.HashSet;
  * 
  */
 public class AlgoArePerpendicular extends AlgoElement implements
-		SymbolicParametersAlgo {
+		SymbolicParametersAlgo, SymbolicParametersBotanaAlgoAre {
 
 	private GeoLine inputLine1; // input
 	private GeoLine inputLine2; // input
 
 	private GeoBoolean outputBoolean; // output
 	private Polynomial[] polynomials;
-	private Polynomial[] botanaPolynomials;
+	private Polynomial[][] botanaPolynomials;
 
 	/**
 	 * Tests if two lines are perpendicular
@@ -131,12 +131,7 @@ public class AlgoArePerpendicular extends AlgoElement implements
 		throw new NoSymbolicParametersException();
 	}
 
-	public Variable[] getBotanaVars() {
-		// No return variables needed
-		return null;
-	}
-
-	public Polynomial[] getBotanaPolynomials()
+	public Polynomial[][] getBotanaPolynomials()
 			throws NoSymbolicParametersException {
 		if (botanaPolynomials != null) {
 			return botanaPolynomials;
@@ -144,11 +139,11 @@ public class AlgoArePerpendicular extends AlgoElement implements
 		if (inputLine1 != null && inputLine2 != null) {
 			Variable[] v1 = new Variable[4];
 			Variable[] v2 = new Variable[4];
-			v1 = ((SymbolicParametersAlgo) inputLine1).getBotanaVars(); // (a1,a2,b1,b2)
-			v2 = ((SymbolicParametersAlgo) inputLine2).getBotanaVars(); // (c1,c2,d1,d2)
+			v1 = ((SymbolicParametersBotanaAlgo) inputLine1).getBotanaVars(); // (a1,a2,b1,b2)
+			v2 = ((SymbolicParametersBotanaAlgo) inputLine2).getBotanaVars(); // (c1,c2,d1,d2)
 			
-			botanaPolynomials = new Polynomial[1];
-			botanaPolynomials[0] = Polynomial.perpendicular(v1[0], v1[1], v1[2], v1[3], v2[0], v2[1], v2[2], v2[3]);
+			botanaPolynomials = new Polynomial[1][1];
+			botanaPolynomials[0][0] = Polynomial.perpendicular(v1[0], v1[1], v1[2], v1[3], v2[0], v2[1], v2[2], v2[3]);
 			return botanaPolynomials;
 		}
 		return null;

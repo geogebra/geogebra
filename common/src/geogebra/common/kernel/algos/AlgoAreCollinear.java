@@ -17,15 +17,14 @@ import java.util.HashSet;
  *         18th April 2012
  *
  */
-public class AlgoAreCollinear extends AlgoElement implements SymbolicParametersAlgo{
+public class AlgoAreCollinear extends AlgoElement implements SymbolicParametersAlgo,
+	SymbolicParametersBotanaAlgoAre {
 
 	private GeoPoint2 inputPoint1, inputPoint2, inputPoint3; //input
 	
     private GeoBoolean outputBoolean; //output	
 	private Polynomial[] polynomials;
-	private Polynomial[] botanaPolynomials;
-	private Variable[] botanaVars;
-
+	private Polynomial[][] botanaPolynomials;
 
     /**
      * Creates a new AlgoAreCollinear function
@@ -151,11 +150,7 @@ public class AlgoAreCollinear extends AlgoElement implements SymbolicParametersA
 		throw new NoSymbolicParametersException();
 	}
 
-	public Variable[] getBotanaVars() {
-		return null;
-	}
-
-	public Polynomial[] getBotanaPolynomials() throws NoSymbolicParametersException {
+	public Polynomial[][] getBotanaPolynomials() throws NoSymbolicParametersException {
 		if (botanaPolynomials != null) {
 			return botanaPolynomials;
 		}
@@ -169,8 +164,8 @@ public class AlgoAreCollinear extends AlgoElement implements SymbolicParametersA
 			fv2 = inputPoint2.getBotanaVars();
 			fv3 = inputPoint3.getBotanaVars();
 
-			botanaPolynomials = new Polynomial[1];
-			botanaPolynomials[0] = Polynomial.collinear(fv1[0], fv1[1], fv2[0], fv2[1], fv3[0], fv3[1]); 
+			botanaPolynomials = new Polynomial[1][1];
+			botanaPolynomials[0][0] = Polynomial.collinear(fv1[0], fv1[1], fv2[0], fv2[1], fv3[0], fv3[1]); 
 			return botanaPolynomials;
 			
 		}

@@ -32,6 +32,7 @@ import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoDependentVector;
 import geogebra.common.kernel.algos.SymbolicParameters;
 import geogebra.common.kernel.algos.SymbolicParametersAlgo;
+import geogebra.common.kernel.algos.SymbolicParametersBotanaAlgo;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.VectorValue;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -56,7 +57,7 @@ import java.util.Iterator;
  */
 final public class GeoVector extends GeoVec3D
 implements Path, VectorValue, Translateable, PointRotateable, Mirrorable, Dilateable, MatrixTransformable, 
-Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo {
+Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, SymbolicParametersBotanaAlgo {
 
 	private GeoPoint2 startPoint;
 
@@ -865,14 +866,14 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo {
 	public Variable[] getBotanaVars() {
 		if (algoParent != null
 				&& algoParent instanceof SymbolicParametersAlgo) {
-			return ((SymbolicParametersAlgo) algoParent).getBotanaVars();
+			return ((SymbolicParametersBotanaAlgo) algoParent).getBotanaVars();
 		}
 		return null;
 	}
 	
 	public Polynomial[] getBotanaPolynomials() throws NoSymbolicParametersException  {
 		if (algoParent != null && algoParent instanceof SymbolicParametersAlgo) {
-		return ((SymbolicParametersAlgo) algoParent).getBotanaPolynomials();
+		return ((SymbolicParametersBotanaAlgo) algoParent).getBotanaPolynomials();
 		}
 	throw new NoSymbolicParametersException();
 	}

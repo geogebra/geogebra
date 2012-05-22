@@ -183,13 +183,58 @@ public class Prover {
 	}
 	
 	private List<ProverEngine> proverAutoOrder;
+
+	/* This code works in JVM only. */
+	/*
+	private class computeThread implements Runnable {
+		public computeThread() {
+		}
+		public void run() {
+			// Display info about this particular thread
+			AbstractApplication.debug(Thread.currentThread() + " running");
+			decideStatement();
+		}
+	}
+	*/
 	
 	/**
 	 * Starts computation of the proof, based on the defined
 	 * subsystem.
 	 */
-
+	/* This code works in JVM only. */
+	/*
 	public void compute() {
+		result = ProofResult.UNKNOWN;
+		Thread t = new Thread(new computeThread(), "compute");
+		long startTime = System.currentTimeMillis();
+		t.start();
+		int i = 0;
+		while (t.isAlive()) {
+			AbstractApplication.debug("Waiting for the prover: " + i++);
+			try {
+				t.join(50);
+			} catch (InterruptedException e) {
+				return;
+			}
+			if (((System.currentTimeMillis() - startTime) > timeout * 1000L)
+	                  && t.isAlive()) {
+	                AbstractApplication.debug("Prover timeout");
+	                t.interrupt();
+	                // t.join(); // http://docs.oracle.com/javase/tutorial/essential/concurrency/simple.html
+	                return;
+	            }
+		}
+	}
+	*/
+	public void compute() {
+		decideStatement();
+	}
+	
+	/**
+	 * The real computation of decision of a statement.
+	 * The statement is forwarded to an engine (or more engines).
+	 */
+	protected void decideStatement() {
 		// Step 1: Checking if the statement is null.
 		if (statement != null) {
 			String c = simplifiedXML(construction);
@@ -223,7 +268,7 @@ public class Prover {
 	private void callEngine(ProverEngine currentEngine) {
 		AbstractApplication.debug("Using " + currentEngine);
 		if (currentEngine == ProverEngine.BOTANAS_PROVER) {
-			// Botana's prover need singularWS.
+			// Botana's prover needs singularWS.
 			// So don't try to use it if singularWS is not available:
 			if (AbstractApplication.singularWS == null) {
 				AbstractApplication.debug(currentEngine + " cannot be used, since singularWS is null");

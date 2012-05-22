@@ -17,12 +17,14 @@ import java.util.HashSet;
  *         18th of May 2012
  *
  */
-public class AlgoAreConcurrent extends AlgoElement implements SymbolicParametersAlgo{
+public class AlgoAreConcurrent extends AlgoElement implements SymbolicParametersAlgo,
+	SymbolicParametersBotanaAlgoAre {
 
 	private GeoLine inputLine1, inputLine2, inputLine3; //input
 	
     private GeoBoolean outputBoolean; //output	
 	private Polynomial[] polynomials;
+	private Polynomial[][] botanaPolynomials;
 
 
     /**
@@ -149,15 +151,31 @@ public class AlgoAreConcurrent extends AlgoElement implements SymbolicParameters
 		throw new NoSymbolicParametersException();
 	}
 
-	public Variable[] getBotanaVars() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	public Polynomial[][] getBotanaPolynomials() throws NoSymbolicParametersException {
+		if (botanaPolynomials != null) {
+			return botanaPolynomials;
+		}
 
-	public Polynomial[] getBotanaPolynomials()
-			throws NoSymbolicParametersException {
-		// TODO Auto-generated method stub
-		return null;
+		if (inputLine1 != null && inputLine2 != null && inputLine3 != null) {
+			
+			Variable[][] v = new Variable[3][4];
+			v[0] = inputLine1.getBotanaVars();
+			v[1] = inputLine2.getBotanaVars();
+			v[2] = inputLine3.getBotanaVars();
+			
+			Variable[] nv = new Variable[2]; // new point for collinearity
+			nv[0]=new Variable();
+			nv[1]=new Variable();
+			
+			// We need three collinearities with an extra point.
+			botanaPolynomials = new Polynomial[1][3];
+			for (int i=0; i<3; ++i)
+				botanaPolynomials[0][i] = Polynomial.collinear(v[i][0],v[i][1],v[i][2],v[i][3],nv[0],nv[1]);
+			
+			return botanaPolynomials;
+			
+		}
+		throw new NoSymbolicParametersException();
 	}
   
 }
