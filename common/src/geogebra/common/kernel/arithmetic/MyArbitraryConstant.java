@@ -108,7 +108,7 @@ public class MyArbitraryConstant  {
 	public class AlgoDependentArbconst extends AlgoElement{
 		private GeoElement constant;
 		private ConstructionElement outCE;
-		private ArrayList<AlgoElement> updateList;
+		//private ArrayList<AlgoElement> updateList;
 		/**
 		 * @param c construction
 		 * @param constant the constant as a (complex) number
@@ -118,10 +118,10 @@ public class MyArbitraryConstant  {
 			super(c,false);
 			this.constant=constant;
 			this.outCE = outCE;
-			if(outCE instanceof AlgoElement){
+			/**if(outCE instanceof AlgoElement){
 				updateList = new ArrayList<AlgoElement>();
 				updateList.add((AlgoElement)outCE);
-			}
+			}*/
 				
 			setInputOutput();
 		}
@@ -134,8 +134,8 @@ public class MyArbitraryConstant  {
 
 		@Override
 		public void compute() {
-			if(updateList!=null)
-				AlgoElement.updateCascadeAlgos(updateList);
+			if(outCE instanceof AlgoElement && ((AlgoElement)outCE).getOutputLength()==1)
+				((AlgoElement) outCE).getOutput(0).updateCascade();
 			else if(outCE!=null)
 				outCE.update();
 		}
