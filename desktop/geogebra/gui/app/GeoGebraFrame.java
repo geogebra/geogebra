@@ -239,18 +239,10 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 
 		if (Application.MAC_OS)
 			initMacSpecifics();
+		
 		// set system look and feel
-		try {
-			if (Application.MAC_OS || Application.WINDOWS)
-				UIManager.setLookAndFeel(UIManager
-						.getSystemLookAndFeelClassName());
-			else
-				// Linux or others
-				UIManager.setLookAndFeel(UIManager
-						.getCrossPlatformLookAndFeelClassName());
-		} catch (Exception e) {
-			AbstractApplication.debug(e + "");
-		}
+		setLAF(args.containsArg("crossPlatformLAF"));
+		
 		if (args.containsArg("resetSettings")) {
 			GeoGebraPreferences.getPref().clearPreferences();
 		}
@@ -267,7 +259,41 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 		// create first window and show it
 		createNewWindow(args, wnd);
 	}
-
+	
+	
+	/**
+	 * Sets the look and feel.
+	 * 
+	 * @param forceCrossPlatformLAF
+	 *            If true then the cross-platform LAF is set, otherwise a LAF
+	 *            native to the OS is set.
+	 */
+	public static  void setLAF(boolean forceCrossPlatformLAF) {
+		// set system look and feel
+		try {
+			if (!forceCrossPlatformLAF && Application.MAC_OS || Application.WINDOWS)
+				UIManager.setLookAndFeel(UIManager
+						.getSystemLookAndFeelClassName());
+			else
+				// Linux or others
+				UIManager.setLookAndFeel(UIManager
+						.getCrossPlatformLookAndFeelClassName());
+		} catch (Exception e) {
+			AbstractApplication.debug(e + "");
+		}
+	}
+				
+	/**
+	 * toggles between the native LAF and the cross-platform LAF
+	 * (for Windows and OS X only)
+	 */
+	public static void toggleCrossPlatformLAF() {
+		if (Application.MAC_OS || Application.WINDOWS) {
+			setLAF(UIManager.getLookAndFeel().isNativeLookAndFeel());
+		}
+	}
+	
+	
 	/**
 	 * Returns the active GeoGebra window.
 	 * 

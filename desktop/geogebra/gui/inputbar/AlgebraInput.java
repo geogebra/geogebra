@@ -20,6 +20,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.MyError;
+import geogebra.gui.app.GeoGebraFrame;
 import geogebra.gui.inputfield.AutoCompleteTextField;
 import geogebra.gui.view.algebra.AlgebraInputDropTargetListener;
 import geogebra.gui.view.algebra.InputPanel;
@@ -39,6 +40,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JToggleButton;
+import javax.swing.SwingUtilities;
 
 /**
  * @author Markus Hohenwarter
@@ -237,9 +239,20 @@ public class AlgebraInput extends  JPanel implements ActionListener, KeyListener
 	public void actionPerformed(ActionEvent e) {
 		Object source = e.getSource();
 
-		if (source == btnHelpToggle) { 
-			if(btnHelpToggle.isSelected()){
-				InputBarHelpPanel helpPanel = (InputBarHelpPanel) app.getGuiManager().getInputHelpPanel();
+		if (source == btnHelpToggle) {
+
+			// ==========================================
+			// hidden switch to toggle native/crossPlatform LAF
+			if (Application.getControlDown() && Application.getShiftDown()) {
+				GeoGebraFrame.toggleCrossPlatformLAF();
+				SwingUtilities.updateComponentTreeUI(app.getFrame());
+				return;
+			}
+			// =========================================
+			
+			if (btnHelpToggle.isSelected()) {
+				InputBarHelpPanel helpPanel = (InputBarHelpPanel) app
+						.getGuiManager().getInputHelpPanel();
 				helpPanel.setLabels();
 				helpPanel.setCommands();
 				app.setShowInputHelpPanel(true);
