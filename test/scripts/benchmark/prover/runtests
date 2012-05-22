@@ -47,7 +47,7 @@ echo "</tr>" >> $MYDIR/$HTML
 
 # Content
 TESTS=0
-for i in `find -name '*.ggb'`; do
+for i in `find -name '*.ggb' | sort`; do
  TESTS=`expr $TESTS + 1`
  # Creating thumbnail:
  cd $MYDIR
@@ -60,7 +60,7 @@ for i in `find -name '*.ggb'`; do
  for j in $PROVERS; do
   cd $MYDIR; cd $BUILDDIR
   # Testing:
-  timeout $TIMEOUT java -jar geogebra.jar --prover=engine:$j --logFile=$LOGFILE \
+  timeout $TIMEOUT java -jar geogebra.jar --prover=engine:$j,timeout:$TIMEOUT --logFile=$LOGFILE \
    --regressionFile=$REGRESSIONFILE $MYDIR/$i --language=en \
    >$MYDIR/tmp/.test.stdout 2>$MYDIR/tmp/.test.stderr
   
@@ -69,8 +69,9 @@ for i in `find -name '*.ggb'`; do
    RESULT=""
    TIME=timeout
   else
-   # Regression out file shows the wrong result (the stored value in the file is shown):
+   # Regression out file used to show the wrong result (the stored value in the file is shown):
    # RESULT=`cat $REGRESSIONFILE | grep Prove | sed 's/\(.*\) = \(.*\)/\2/'`
+   # But now it's OK, thanks to Markus and Simon in [17470].
    RESULT=`cat $LOGFILE | grep "Statement is " | sed 's/\(.*\)Statement is \(.*\)/\2/'`
    TIME=`cat $LOGFILE | grep Benchmarking | awk '{print $5}'`
    if [ $DEBUG = 1 ]; then
