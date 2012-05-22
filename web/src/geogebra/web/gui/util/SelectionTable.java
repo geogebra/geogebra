@@ -2,18 +2,23 @@ package geogebra.web.gui.util;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
+import com.google.gwt.canvas.dom.client.ImageData;
 import com.google.gwt.dom.client.CanvasElement;
+import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.FocusWidget;
 import com.google.gwt.user.client.ui.Grid;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Widget;
 
 import geogebra.common.awt.Color;
 import geogebra.common.main.AbstractApplication;
 import geogebra.web.awt.Dimension;
+import geogebra.web.gui.images.AppResourcesConverter;
 import geogebra.web.main.Application;
 
 
@@ -27,6 +32,12 @@ public class SelectionTable extends Grid implements ClickHandler {
 	private int numRows, numColumns, rowHeight, columnWidth;
 	private Dimension iconSize;
 	private Application app;
+	
+	private float alpha;
+	
+	public void setAlpha(float alpha) {
+		this.alpha = alpha;
+	}
 	
 	public SelectionTable(Application app, Object[] data, Integer rows,
             Integer columns, Dimension iconSize, Integer mode) {
@@ -199,8 +210,17 @@ public class SelectionTable extends Grid implements ClickHandler {
     }
 
 	public void populateModel(Object[] data) {
-	  	
-		int r=0;
+	  	if (data.length > 0) {
+			if (data[0] instanceof ImageResource) {
+				AppResourcesConverter.convertImageResourceToImageData(data, this);
+			} else {
+				populateModelCallback(data);
+			}
+	  	}
+    }
+
+	public void populateModelCallback(Object[] data) {
+	    int r=0;
 		int c=0;
 		
 		for(int i=0; i < Math.min(data.length, this.numRows * this.numColumns); i++){
@@ -223,26 +243,16 @@ public class SelectionTable extends Grid implements ClickHandler {
 			w = new Anchor((String)object);
 			break;
 		case geogebra.common.gui.util.SelectionTable.MODE_ICON:
+		case geogebra.common.gui.util.SelectionTable.MODE_IMAGE: //fall through
 			w = Canvas.createIfSupported();
-			width = ((CanvasElement)object).getWidth();
-			height = ((CanvasElement)object).getHeight();
+			width = ((ImageData)object).getWidth();
+			height = ((ImageData)object).getHeight();
 			((Canvas)w).setWidth(width+"px");
 			((Canvas)w).setHeight(height+"px");
 			((Canvas)w).setCoordinateSpaceWidth(width);
 			((Canvas)w).setCoordinateSpaceHeight(height);
 			ctx = ((Canvas) w).getContext2d();
-			ctx.drawImage((CanvasElement)object, 0, 0);
-			break;
-		case geogebra.common.gui.util.SelectionTable.MODE_IMAGE:
-			w = Canvas.createIfSupported();
-			width = ((CanvasElement)object).getWidth();
-			height = ((CanvasElement)object).getHeight();
-			((Canvas)w).setWidth(width+"px");
-			((Canvas)w).setHeight(height+"px");
-			((Canvas)w).setCoordinateSpaceWidth(width);
-			((Canvas)w).setCoordinateSpaceHeight(height);
-			ctx = ((Canvas) w).getContext2d();
-			ctx.drawImage((CanvasElement)object, 0, 0);
+			ctx.putImageData((ImageData) object,0, 0);
 			break;
 		case geogebra.common.gui.util.SelectionTable.MODE_LATEX:
 			AbstractApplication.debug("SelectionTable mode latex");
@@ -257,19 +267,49 @@ public class SelectionTable extends Grid implements ClickHandler {
 	   selectedRow = clicked.getRowIndex();
     }
 
-	public Object getSelectedValue() {
+	public ImageData getSelectedValue() {
 		if(getSelectedRow() != -1 && getSelectedColumn() != -1)
 			return getValueAt(getSelectedRow(), getSelectedColumn());
 		return null;
     }
 
-	private Object getValueAt(int row, int column) {
-	    return getWidget(row, column);
+	private ImageData getValueAt(int row, int column) {
+		Canvas c = (Canvas) getWidget(row, column);
+		Context2d ctx = c.getContext2d();
+	    return ctx.getImageData(0, 0, c.getCoordinateSpaceWidth(), c.getCoordinateSpaceHeight());
     }
 
 	public void repaint() {
 	  //should we do here something?
 	    
     }
+
+	public void updateFonts() {
+	    // TODO Auto-generated method stub
+	    
+    }
+	
+	public ImageData getDataIcon(Object value){
+
+		ImageData icon = null;
+		if(value == null) return 
+		GeoGebraIcon.createEmptyIcon(1, 1);
+		//GeoGebraIcon.createStringIcon("\u00D8", app.getPlainFont(), true, false, true, iconSize , Color.GRAY, null);
+
+		switch (mode){
+
+		case geogebra.common.gui.util.SelectionTable.MODE_IMAGE:
+			icon = GeoGebraIcon.createFileImageIcon( app, (String)value, alpha, iconSize);
+			break;
+
+		case geogebra.common.gui.util.SelectionTable.MODE_ICON:
+		case geogebra.common.gui.util.SelectionTable.MODE_LATEX:
+			icon = (ImageData) value;
+			break;
+
+		}
+
+		return icon;
+	}
 
 }

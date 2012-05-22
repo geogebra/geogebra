@@ -112,6 +112,9 @@
   <extend-property name='locale' values='en' />
   <set-property-fallback name="locale" value="en"/>
   
+  <!-- For login to Google -->
+  <inherits name="com.google.api.gwt.oauth2.OAuth2" />
+  
   <!-- Images, js-es will be copied from here.
   You can reference them by GWT.getModuleBaseUrl()+"js/file.js" -->
   <public path="resources" />

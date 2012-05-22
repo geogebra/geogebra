@@ -5,6 +5,7 @@ import java.util.HashMap;
 import javax.swing.ImageIcon;
 
 import com.google.gwt.canvas.client.Canvas;
+import com.google.gwt.canvas.dom.client.ImageData;
 import com.google.gwt.dom.client.CanvasElement;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -68,8 +69,8 @@ public class ColorPopupMenuButton extends PopupMenuButton implements ClickHandle
 	}
 
 	@Override
-	public CanvasElement getButtonIcon() {
-		CanvasElement icon = super.getButtonIcon();
+	public ImageData getButtonIcon() {
+		ImageData icon = super.getButtonIcon();
 		if (icon == null && this.hasSlider) {
 			icon = GeoGebraIcon.createColorSwatchIcon( getSliderValue()/100f, iconSize, defaultColor, null);
 		}
@@ -115,7 +116,7 @@ public class ColorPopupMenuButton extends PopupMenuButton implements ClickHandle
 			this.setIcon(GeoGebraIcon.createNullSymbolIcon(iconSize.getWidth(), iconSize.getHeight()));
 	}
 
-	protected void setIcon(CanvasElement ic) {
+	public void setIcon(CanvasElement ic) {
 	    super.setIcon(ic);
     }
 
@@ -131,8 +132,8 @@ public class ColorPopupMenuButton extends PopupMenuButton implements ClickHandle
 		return toolTipArray;
 	}
 
-	private static CanvasElement[] getColorSwatchIcons(geogebra.common.awt.Color[] colorArray, float alpha, Dimension iconSize, int colorSetType){
-		CanvasElement[] a = new CanvasElement[colorArray.length];
+	private static ImageData[] getColorSwatchIcons(geogebra.common.awt.Color[] colorArray, float alpha, Dimension iconSize, int colorSetType){
+		ImageData[] a = new ImageData[colorArray.length];
 		for(int i = 0; i < colorArray.length; i++)
 			if(colorArray[i] != null) {
 				a[i] = GeoGebraIcon.createColorSwatchIcon( alpha,  iconSize, colorArray[i] , null);
@@ -142,9 +143,9 @@ public class ColorPopupMenuButton extends PopupMenuButton implements ClickHandle
 		return a;
 	}
 
-	private static  CanvasElement[] createDummyIcons( Dimension iconSize){
+	private static  ImageData[] createDummyIcons( Dimension iconSize){
 
-		CanvasElement[] a = new CanvasElement[27];
+		ImageData[] a = new ImageData[27];
 		for(int i = 0; i < 27; i++) {
 			a[i] = GeoGebraIcon.createEmptyIcon(iconSize.getWidth(), iconSize.getHeight());
 		}

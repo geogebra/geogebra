@@ -66,10 +66,10 @@ public class MyToggleButton extends Composite implements ClickHandler, HasValue<
 
 	private void createCommonObjects() {
 	    button = Canvas.createIfSupported();
-		button.setWidth(MyCanvasButton.DEFAULT_BUTTON_WIDTH+"px");
-		button.setHeight(MyCanvasButton.DEFAULT_BUTTON_HEIGHT+"px");
-		button.setCoordinateSpaceHeight(MyCanvasButton.DEFAULT_BUTTON_WIDTH);
-		button.setCoordinateSpaceWidth(MyCanvasButton.DEFAULT_BUTTON_WIDTH);
+		button.setWidth(MyCJButton.DEFAULT_BUTTON_WIDTH+"px");
+		button.setHeight(MyCJButton.DEFAULT_BUTTON_HEIGHT+"px");
+		button.setCoordinateSpaceHeight(MyCJButton.DEFAULT_BUTTON_WIDTH);
+		button.setCoordinateSpaceWidth(MyCJButton.DEFAULT_BUTTON_WIDTH);
 		ctx = button.getContext2d();
 		wrapper = new HorizontalPanel();
 		wrapper.add(button);

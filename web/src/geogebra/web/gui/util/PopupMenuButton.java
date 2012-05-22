@@ -1,70 +1,87 @@
 package geogebra.web.gui.util;
 
-import javax.swing.JSlider;
 
-import geogebra.common.awt.Color;
-import geogebra.common.main.AbstractApplication;
-import geogebra.web.gui.util.SelectionTable;
-import geogebra.web.main.Application;
-import geogebra.web.awt.Dimension;
-import geogebra.web.euclidian.EuclidianStyleBar;
 
-import com.gargoylesoftware.htmlunit.javascript.host.EventHandler;
-import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.CanvasElement;
-import com.google.gwt.dom.client.Document;
-import com.google.gwt.dom.client.NativeEvent;
-import com.google.gwt.event.dom.client.BlurEvent;
-import com.google.gwt.event.dom.client.BlurHandler;
+import com.google.gwt.canvas.dom.client.ImageData;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.logical.shared.ValueChangeEvent;
-import com.google.gwt.event.shared.GwtEvent;
+import com.google.gwt.event.dom.client.MouseOverEvent;
+import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.resources.client.ImageResource;
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.ToggleButton;
+import com.google.gwt.user.client.ui.PopupPanel;
+import geogebra.web.awt.Color;
+import geogebra.web.awt.Dimension;
+import geogebra.web.awt.Font;
+import geogebra.web.awt.Point;
+import geogebra.web.euclidian.EuclidianStyleBar;
+import geogebra.web.main.Application;
 
-public class PopupMenuButton extends Composite implements ChangeHandler {
+
+public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 	
-	private MyToggleButton tb;
-	private HorizontalPanel hp;
-	private MyCanvasButton b;
 	private int mode;
 	private Object[] data;	
 	private Application app;
-	private ImageResource[] mArray;
-	private Dimension dimension;
-	private int modeIcon;
-	private boolean keepVisible;
-	private Color fgColor;
-	private SelectionTable myTable;
-	private boolean hasTable;
+	private PopupMenuButton thisButton;
+	private ButtonPopupMenu myPopup;
+	
+	public PopupPanel getMyPopup() {
+		return myPopup;
+	}
+	
 	private Slider mySlider;
+	
+	private Color fgColor;
 	private int fontStyle = 0;
 	
+
 	public void setFontStyle(int fontStyle) {
 		this.fontStyle = fontStyle;
 	}
+
+	public void setFgColor(Color fgColor) {
+		this.fgColor = fgColor;
+		if(myTable != null)
+			myTable.setFgColor(fgColor);
+		updateGUI();
+
+	}
 	
+	private SelectionTable myTable;
+	public SelectionTable getMyTable() {
+		return myTable;
+	}
+
+	private Dimension iconSize;
+
+	public void setIconSize(Dimension iconSize) {
+		this.iconSize = iconSize;
+	}
+
+	private boolean hasTable;
+	
+	// flag to determine if the popup should persist after a mouse click
+	private boolean keepVisible = true;
+
+	private boolean isDownwardPopup = true;
+
+	public void setDownwardPopup(boolean isDownwardPopup) {
+		this.isDownwardPopup = isDownwardPopup;
+	}
+
+
 	private boolean isStandardButton = false;
 	public void setStandardButton(boolean isStandardButton) {
 		this.isStandardButton = isStandardButton;
 	}
-
+	
 	private boolean isFixedIcon = false;
 
 
 	private boolean isIniting = true;	
 	protected boolean popupIsVisible;
-	private Dimension iconSize;
-	private ButtonPopupMenu myPopup;
-	private HandlerRegistration actionListener;
 	
 	/*#***********************************
 	/** Button constructors */
@@ -73,9 +90,8 @@ public class PopupMenuButton extends Composite implements ChangeHandler {
 	 * @param app
 	 */
 	public PopupMenuButton(Application app){
-		this( app, null, 0, 0, null, -1,  false,  false);
+		this( app, null, -1, -1, null, -1,  false,  false);
 	}
-
 	
 	/**
 	 * @param app
@@ -88,8 +104,7 @@ public class PopupMenuButton extends Composite implements ChangeHandler {
 	public PopupMenuButton(Application app, Object[] data, Integer rows, Integer columns, Dimension iconSize, Integer mode){
 		this( app, data, rows, columns, iconSize, mode,  true,  false);	
 	}
-
-
+	
 	/**
 	 * @param app
 	 * @param data
@@ -107,107 +122,150 @@ public class PopupMenuButton extends Composite implements ChangeHandler {
 		this.hasTable = hasTable;		
 		this.mode = mode;
 		this.iconSize = iconSize;
-		this.tb = new MyToggleButton(GeoGebraIcon.createDownTriangleIcon());
-		tb.setDimension(10,20);
-		this.hp = new HorizontalPanel();
-		this.b = new MyCanvasButton();
-		hp.add(b);
-		hp.add(tb);
-		initWidget(hp);
-		setStyleName("PopupMenuButton");
-		
+		this.thisButton = this;
+
+		//this.setFocusable(false);
+
+
 		// create the popup
 		myPopup = new ButtonPopupMenu();
 		//myPopup.setFocusable(false);
 		//myPopup.setBackground(Color.WHITE);
 		//myPopup.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.GRAY),
-				//BorderFactory.createEmptyBorder(3,3,3,3)));
+		//		BorderFactory.createEmptyBorder(3,3,3,3)));
 
 
 
 		// add a mouse listener to our button that triggers the popup		
-		tb.addClickHandler(new ClickHandler() {
+		addClickHandler(new ClickHandler() {
 			
 			public void onClick(ClickEvent event) {
-				if (tb.isDown()) {
-					myPopup.showRelativeTo(tb);
-				} else {
-					myPopup.hide();
+				if(!thisButton.isEnabled()) {
+					return;
 				}
+				if(popupIsVisible == true && !myPopup.isVisible()){
+					popupIsVisible = false;
+					return;
+				}
+				
+				if(prepareToShowPopup() == false) {
+					return;
+				}
+				
+				Point locButton = new Point(event.getX(),event.getY());
+				
+				// trigger popup 
+				// default: trigger only when the mouse is over the right side of the button
+				// if isStandardButton: pressing anywhere triggers the popup
+				if( isStandardButton || event.getX() >= getWidth()-16 &&  event.getX() <= getWidth()) { 
+					if(hasTable)
+						myTable.updateFonts();
+					if(isDownwardPopup)
+						// popup appears below the button
+						myPopup.showRelativeTo(getWidget());
+					else
+						// popup appears above the button
+						myPopup.showRelativeTo(getWidget());
+				}
+
+				popupIsVisible = myPopup.isShowing();
 			}
 		});
-
-
-		// place text to the left of drop down icon
-		//this.setHorizontalTextPosition(SwingConstants.LEFT); 
-		//this.setHorizontalAlignment(SwingConstants.LEFT);
-
-
+		
+		addMouseEntered(new MouseOverHandler() {
+			
+			public void onMouseOver(MouseOverEvent event) {
+				popupIsVisible = myPopup.isShowing();
+			}
+		});
+		
 		// create selection table
-		if(hasTable){			
-			this.data = data;
+			if(hasTable){			
+				this.data = data;
 
-			myTable = new SelectionTable(app,data,rows,columns,iconSize,mode);
-			setSelectedIndex(0);	
-
-			// add a mouse listener to handle table selection
-			myTable.addClickHandler(new ClickHandler() {
+				myTable = new SelectionTable(app,data,rows,columns,iconSize,mode);
+				setSelectedIndex(0);
 				
-				public void onClick(ClickEvent event) {
-					handlePopupActionEvent();
-				}
-				
-			});
-
-			/*		
-			// if displaying text only, then adjust the width 
-			if(mode == SelectionTable.MODE_TEXT){
-				 Dimension d = this.getPreferredSize();
-				 d.width = myTable.getColumnWidth();
-				 setMinimumSize(d); 
-				 setMaximumSize(d); 
-			 }
-			 */	
-
-			//myTable.setBackground(myPopup.getBackground());
-			myPopup.getPanel().add(myTable);
-		}
-
-
-		// create slider
-		if(hasSlider)
-			getMySlider();
-
-		isIniting = false;
-
-
-		if(mode == geogebra.common.gui.util.SelectionTable.MODE_TEXT && iconSize.getWidth() == -1){
-			iconSize.setWidth(myTable.getColumnWidth()-4);
-			iconSize.setHeight(myTable.getRowHeight()-4);	
-		}
-
+				myTable.addClickHandler(new ClickHandler() {
+					
+					public void onClick(ClickEvent event) {
+						handlePopupActionEvent();
+					}
+				});		
+			}
+		
+		
 	}
-
-	protected void handlePopupActionEvent() {
-	   ((Canvas)b.getButton()).fireEvent(new ClickEvent(){});
-	   updateGUI();
-	   myPopup.hide();
-    }
 	
-	public void setKeepVisible(boolean keepVisible) {
-		this.keepVisible = keepVisible;
-	}
-
-	public void update(Object[] geos) {
-	    //do nothing here will be overwritten
-    }
-	
-	public void setFgColor(Color fgColor) {
-		this.fgColor = fgColor;
-		if(myTable != null)
-			myTable.setFgColor(fgColor);
+	/**
+	 * Pass a popup action event up to the button invoker. If the first button
+	 * click triggered our popup (the click was in the triangle region), then we
+	 * must pass action events from the popup to the invoker
+	 */
+	public void handlePopupActionEvent(){
+		button.fireEvent(new ClickEvent(){});
 		updateGUI();
+		if(!keepVisible) {
+			myPopup.hide();
+		}
+	}
+	
+	
+	
+	
+	
+	private void updateGUI(){
 
+		if(isIniting) return;
+
+		setIcon(getButtonIcon());
+
+		if(hasTable){
+			myTable.repaint();
+		}
+
+		//repaint();
+	}
+	
+	//==============================================
+		//    Icon Handling
+		//==============================================
+
+
+
+		public ImageData getButtonIcon(){
+
+			ImageData icon = (ImageData) this.getIcon();
+			if(isFixedIcon) return icon;
+
+
+			// draw the icon for the current table selection
+			if(hasTable){
+				switch (mode){
+
+				case geogebra.common.gui.util.SelectionTable.MODE_TEXT:
+					// Strings are converted to icons. We don't use setText so that the button size can be controlled
+					// regardless of the layout manager.
+
+					icon = GeoGebraIcon.createStringIcon((String)data[getSelectedIndex()], (Font) app.getPlainFontCommon(), 
+							false, false, true, iconSize, Color.BLACK, null);
+
+					break;
+
+				case geogebra.common.gui.util.SelectionTable.MODE_ICON:
+				case geogebra.common.gui.util.SelectionTable.MODE_LATEX:
+					icon  = myTable.getSelectedValue();
+					break;
+
+				default:
+					icon = myTable.getDataIcon(data[getSelectedIndex()]);
+				}
+			}
+			return icon;
+		}
+
+	public boolean prepareToShowPopup(){
+		return true;
 	}
 	
 	public void setSelectedIndex(Integer selectedIndex) {
@@ -219,8 +277,33 @@ public class PopupMenuButton extends Composite implements ChangeHandler {
 		updateGUI();
 	}
 	
-	public int getSliderValue() {
-		return mySlider.getValue();
+	public void onChange(ChangeEvent event) {
+		if(mySlider != null) {
+			   setSliderValue(mySlider.getValue());
+		}
+		((EuclidianStyleBar)app.getEuclidianView1().getStyleBar()).fireActionPerformed(this);
+		updateGUI();
+	}
+	
+	public Slider getMySlider() {
+		if(mySlider == null)
+			initSlider();
+		return mySlider;
+	}
+	
+	private void initSlider() {
+		mySlider = new Slider(0,100);
+		mySlider.setMajorTickSpacing(25);
+		mySlider.setMinorTickSpacing(5);
+		mySlider.setPaintTicks(false);
+		mySlider.setPaintLabels(false);
+		//      mySlider.setSnapToTicks(true);
+		               
+		mySlider.addChangeListener(this);
+		
+		// set slider dimensions from css
+		  
+		myPopup.getPanel().add(mySlider);
 	}
 	
 	public void setSliderValue(int value) {
@@ -233,50 +316,33 @@ public class PopupMenuButton extends Composite implements ChangeHandler {
 			myTable.setSliderValue(value);
 		updateGUI();
 	}
-	
-	public SelectionTable getMyTable() {
-		return myTable;
-	}
-
-	public CanvasElement getButtonIcon() {
-	    return tb.getIcon();
-    }
-	
 	public int getSelectedIndex() {
 		return myTable.getSelectedIndex();
 	}
 
-	public Slider getMySlider() {
-		if(mySlider == null) {
-			initSlider();
+	public void update(Object[] array) {
+	    // will be overwritten from instances
+    }
+	
+	public Object getSelectedValue() {
+		return myTable.getSelectedValue();
+	}
+	
+	public int getSliderValue() {
+		return mySlider.getValue();
+	}
+	
+	private HandlerRegistration actionListener;
+	
+	public void removeActionListener(EuclidianStyleBar euclidianStyleBar) {
+		if (actionListener != null) {
+			actionListener.removeHandler();
 		}
-	    return mySlider;
-    }
+	}
 
-	private void initSlider() {
-	   mySlider = new Slider(0,100);
-	   mySlider.setMajorTickSpacing(25);
-	   mySlider.setMinorTickSpacing(5);
-	   mySlider.setPaintTicks(false);
-	   mySlider.setPaintLabels(false);
-		//	mySlider.setSnapToTicks(true);
-		
-	   mySlider.addChangeListener(this);
-		
-		// set slider dimensions from css
-		
-		myPopup.getPanel().add(mySlider);
-    }
-
-
-	public void setIconSize(Dimension d) {
-	    // TODO Auto-generated method stub
-	    
-    }
-
-	public void setIcon(ImageResource ptCaptureIcon) {
-		b.setIcon(ptCaptureIcon);
-    }
+	public void setKeepVisible(boolean keepVisible) {
+		this.keepVisible = keepVisible;
+	}
 	
 	/**
 	 * sets the tooTip strings for the menu selection table; 
@@ -287,63 +353,4 @@ public class PopupMenuButton extends Composite implements ChangeHandler {
 		myTable.setToolTipArray(toolTipArray);
 	}
 	
-	public CanvasElement getIcon() {
-		return tb.getIcon();
-	}
-
-
-	public void onChange(ChangeEvent event) {
-		if(mySlider != null)
-			setSliderValue(mySlider.getValue());
-		((EuclidianStyleBar)app.getEuclidianView1().getStyleBar()).fireActionPerformed(this.getActionButton());
-		updateGUI();
-		
-    }
-	
-	private void updateGUI(){
-
-		if(isIniting) return;
-
-		setIcon(getActionIcon());
-
-		if(hasTable){
-			myTable.repaint();
-		}
-
-		
-	}
-
-
-	public void addActionListener(EuclidianStyleBar euclidianStyleBar) {
-		actionListener = b.addClickHandler(euclidianStyleBar);
-    }
-
-
-	protected void setIcon(CanvasElement ic) {
-	    b.setIcon(ic);
-    }
-	
-	public Object getPopupButton() {
-		return tb.getButton();
-	}
-
-
-	public Object getActionButton() {
-	    return b.getButton();
-    }
-	
-	public Object getSelectedValue() {
-		return myTable.getSelectedValue();
-	}
-	
-	public CanvasElement getActionIcon() {
-		return b.compiledicon;
-	}
-	
-	public void removeActionListener(EuclidianStyleBar euclidianStyleBar) {
-		if (actionListener != null) {
-			actionListener.removeHandler();
-		}
-    }
-
 }

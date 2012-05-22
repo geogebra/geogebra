@@ -82,5 +82,21 @@ public interface GeoGebraConstants {
 	public static final String MATHML_URL = "js/mathml_concat.js";
 	/** Splash timeout in miliseconds */
 	public static final int SPLASH_DIALOG_DELAY = 1000;
+	
+	 // //////////////////////////////////////////////////////////////////////////
+	 // AUTHENTICATING WITH GOOGLE ///////////////////////////////////////////////
+	 // //////////////////////////////////////////////////////////////////////////
+	
+	/** google auth url */
+	public static final String GOOGLE_AUTH_URL = "https://accounts.google.com/o/oauth2/auth";
+	
+	// This app's personal client ID assigned by the Google APIs Console
+	// (http://code.google.com/apis/console).
+	public static final String GOOGLE_CLIENT_ID = "656990710877.apps.googleusercontent.com";
+
+	// The auth scope being requested. This scope will allow the application to
+	// identify who the authenticated user is.
+	public static final String PLUS_ME_SCOPE = "https://www.googleapis.com/auth/plus.me";
+
 
 }

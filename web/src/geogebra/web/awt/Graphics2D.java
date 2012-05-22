@@ -30,6 +30,7 @@ import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.CanvasPattern;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.canvas.dom.client.Context2d.Repetition;
+import com.google.gwt.canvas.dom.client.ImageData;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArrayNumber;
@@ -825,5 +826,9 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 		
 		
 	}-*/;
+	
+	public ImageData getImageData(int x, int y, int width, int height) {
+		return context.getImageData(x, y, width, height);
+	}
 
 }

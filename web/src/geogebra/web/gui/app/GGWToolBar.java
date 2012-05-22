@@ -116,7 +116,7 @@ public class GGWToolBar extends Composite {
 	 * Update toolbars.
 	 */
 	public void updateToolbarPanel() {
-		AbstractApplication.printStacktrace("Implementation needed - just finishing");
+		//AbstractApplication.printStacktrace("Implementation needed - just finishing");
 
 		toolbarPanel.clear();
 		

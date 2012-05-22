@@ -3,6 +3,7 @@ package geogebra.web.gui.util;
 import geogebra.common.awt.Color;
 import geogebra.common.awt.RenderingHints;
 import geogebra.common.euclidian.EuclidianStatic;
+import geogebra.common.main.AbstractApplication;
 import geogebra.web.awt.BasicStroke;
 import geogebra.web.awt.Dimension;
 import geogebra.web.awt.Font;
@@ -10,20 +11,25 @@ import geogebra.web.awt.Graphics2D;
 import geogebra.web.openjdk.awt.geom.Polygon;
 
 import com.google.gwt.canvas.client.Canvas;
+import com.google.gwt.canvas.dom.client.Context2d;
+import com.google.gwt.canvas.dom.client.ImageData;
+import com.google.gwt.canvas.dom.client.TextMetrics;
 import com.google.gwt.dom.client.CanvasElement;
 
 public class GeoGebraIcon {
 
-	public static CanvasElement createUpDownTriangleIcon(boolean isRollOver, boolean isEnabled) {
+	private static Canvas tmpCanvas;
+
+	public static ImageData createUpDownTriangleIcon(boolean isRollOver, boolean isEnabled) {
 		int h = 18;
 		int w = 12;
 		
-	    Canvas icon = Canvas.createIfSupported();
+		Canvas icon = getTmpCanvas(w, h);
 	    Graphics2D g2 = new Graphics2D(icon);
 	    if (!isEnabled) {
 	    	//AGImageIcon ic = new ImageIcon(image);
 			//AGreturn ic;
-	    	return icon.getCanvasElement();
+	    	return g2.getImageData(0, 0, w, h);
 	    }
 	    
 	    if (isRollOver) {
@@ -64,7 +70,7 @@ public class GeoGebraIcon {
 		g2.drawLine(x+3, y+3, x+3, y+3);
 		 */
 	    
-	    return icon.getCanvasElement();
+	    return g2.getImageData(0, 0, w, h);
     }
 
 	/** creates LineStyle icon
@@ -75,15 +81,11 @@ public class GeoGebraIcon {
 	 * @param bgColor
 	 * @return Canvas with icon drawn
 	 */
-	public static CanvasElement createLineStyleIcon(int dashStyle, int thickness, Dimension iconSize, Color fgColor, Color bgColor) {
+	public static ImageData createLineStyleIcon(int dashStyle, int thickness, Dimension iconSize, Color fgColor, Color bgColor) {
 		int h = iconSize.getHeight();
 		int w = iconSize.getWidth();
 
-		Canvas c = Canvas.createIfSupported();
-		c.setWidth(w+"px");
-		c.setHeight(h+"px");
-		c.setCoordinateSpaceHeight(h);
-		c.setCoordinateSpaceWidth(w);
+		Canvas c = getTmpCanvas(w, h);
 	    Graphics2D g2 = new Graphics2D(c);
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
@@ -98,17 +100,17 @@ public class GeoGebraIcon {
 		int mid = h / 2;
 		g2.drawLine(4, mid, w - 4, mid);
 
-		return c.getCanvasElement();
+		return g2.getImageData(0, 0, w, h);
     }
 	
-	public static CanvasElement createEmptyIcon(int width, int height){
+	public static ImageData createEmptyIcon(int width, int height){
 
-		Canvas image = Canvas.createIfSupported();
+		Canvas image =	getTmpCanvas(width, height);
 		image.setWidth(width+"px");
 		image.setHeight(height+"px");
 		image.setCoordinateSpaceHeight(height);
 		image.setCoordinateSpaceWidth(width);
-		return image.getCanvasElement();
+		return image.getContext2d().getImageData(0, 0, width, height);
 	}
 
 	/**
@@ -119,14 +121,13 @@ public class GeoGebraIcon {
 	 * @param bgColor
 	 * @return
 	 */
-	public static CanvasElement createPointStyleIcon(int pointStyle, int pointSize, Dimension iconSize, Color fgColor, Color bgColor) {
+	public static ImageData createPointStyleIcon(int pointStyle, int pointSize, Dimension iconSize, Color fgColor, Color bgColor) {
 		GeoGebraIcon g = new GeoGebraIcon();
 		PointStyleImage image = new PointStyleImage(iconSize, pointStyle, pointSize,  fgColor,  bgColor);
-
-		return image.getCanvas().getCanvasElement();
+		return image.getCanvas().getContext2d().getImageData(0, 0, image.getCanvas().getCanvasElement().getWidth(), image.getCanvas().getCanvasElement().getHeight());
     }
 	
-	public static CanvasElement createColorSwatchIcon(float alpha, Dimension iconSize, Color fgColor, Color bgColor){
+	public static ImageData createColorSwatchIcon(float alpha, Dimension iconSize, Color fgColor, Color bgColor){
 
 		int h = iconSize.getHeight();
 		int w = iconSize.getWidth();
@@ -137,11 +138,7 @@ public class GeoGebraIcon {
 		if(fgColor == null)
 			fgColor = geogebra.common.factories.AwtFactory.prototype.newColor(255,255,255,1);
 		
-		Canvas c = Canvas.createIfSupported();
-		c.setWidth(w+"px");
-		c.setHeight(h+"px");
-		c.setCoordinateSpaceHeight(h);
-		c.setCoordinateSpaceWidth(w);
+		Canvas c = getTmpCanvas(w,h);
 		Graphics2D g2 = new Graphics2D(c);
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
@@ -165,19 +162,15 @@ public class GeoGebraIcon {
 		g2.setStroke(new BasicStroke(thickness)); 
 		g2.drawRect(offset, offset, w-2*offset, h-2*offset);
 
-		return g2.getCanvas().getCanvasElement();
+		return g2.getImageData(0, 0, iconSize.getWidth(), iconSize.getHeight());
 	}
 
-	public static CanvasElement createTextSymbolIcon(String symbol,Font font, Dimension iconSize, Color fgColor, Color bgColor){
+	public static ImageData createTextSymbolIcon(String symbol,Font font, Dimension iconSize, Color fgColor, Color bgColor){
 
 		int h = iconSize.getHeight();
 		int w = iconSize.getWidth();
 
-		Canvas c = Canvas.createIfSupported();
-		c.setWidth(w+"px");
-		c.setHeight(h+"px");
-		c.setCoordinateSpaceHeight(h);
-		c.setCoordinateSpaceWidth(w);
+		Canvas c = getTmpCanvas(w, h);
 		Graphics2D g2 = new Graphics2D(c);
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
@@ -201,16 +194,12 @@ public class GeoGebraIcon {
 		//ensureIconSize(ic, iconSize);
 
 		return ic;*/
-		return g2.getCanvas().getCanvasElement();
+		return g2.getImageData(0, 0, w, h);
 	}
 	
-	public static CanvasElement createNullSymbolIcon(int width, int height){
+	public static ImageData createNullSymbolIcon(int width, int height){
 
-		Canvas c = Canvas.createIfSupported();
-		c.setWidth(width+"px");
-		c.setHeight(height+"px");
-		c.setCoordinateSpaceHeight(width);
-		c.setCoordinateSpaceWidth(height);
+		Canvas c = getTmpCanvas(width, height);
 
 		Graphics2D g2 = new Graphics2D(c);
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -221,16 +210,14 @@ public class GeoGebraIcon {
 		int k = 7;
 		g2.drawLine(k, k, width-k, height-k);
 		g2.drawLine(k, height-k, width-k, k );
-		return g2.getCanvas().getCanvasElement();
+		return g2.getImageData(0, 0, width, height);
 	}
 
-	public static CanvasElement createDownTriangleIcon() {
+	public static ImageData createDownTriangleIcon() {
 		int h = 18;
 		int w = 12;
 		
-	    Canvas icon = Canvas.createIfSupported();
-	    icon.setHeight(h+"px");
-	    icon.setWidth(w+"px");
+		Canvas icon = getTmpCanvas(w,h);
 	    icon.setCoordinateSpaceHeight(h);
 	    icon.setCoordinateSpaceWidth(w);
 	    Graphics2D g2 = new Graphics2D(icon);
@@ -247,8 +234,66 @@ public class GeoGebraIcon {
 		p.addPoint(midx,midy+3);
 
 		g2.fillPolygon(p);
-	    return g2.getCanvas().getCanvasElement();
+	    return g2.getImageData(0, 0, w, h);
     }
 
+	public static ImageData createStringIcon(String str, Font font, boolean isBold, boolean isItalic, 
+			boolean isCentered, Dimension iconSize, Color fgColor, Color bgColor){
+		int h = iconSize.getHeight();
+		int w = iconSize.getWidth();
+
+		Canvas c = getTmpCanvas(w,h);
+		Graphics2D g2 = new Graphics2D(c);
+		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+		if(bgColor != null)
+			g2.setBackground(bgColor);
+
+		g2.setColor (fgColor);
+		//font = font.deriveFont((h-6)*1.0f);
+		if(isBold)
+			font = (Font) font.deriveFont(Font.BOLD);
+		if(isItalic)
+			font = (Font) font.deriveFont(Font.ITALIC);
+		g2.setFont (font);
+
+
+		//FontMetrics fm = g2.getFontMetrics ();
+		TextMetrics fm = g2.getCanvas().getContext2d().measureText(str);
+		double symbolWidth = fm.getWidth();
+		//int ascent = fm.getMaxAscent ();
+		//int descent= fm.getMaxDescent ();
+		double x = (isCentered) ? w/2 - symbolWidth/2 : 1;
+		double mid_y = 0; // there is not easy way to check the height of the text now h/2 - descent/2 + ascent/2 - 1;
+
+		g2.drawString (str,(int) x, (int) mid_y);
+
+		return g2.getImageData(0, 0, w, h);
+    }
+
+	private static Canvas getTmpCanvas(int w, int h) {
+	    if (tmpCanvas == null) {
+	    	tmpCanvas = Canvas.createIfSupported();
+	    }
+	    Context2d ctx = tmpCanvas.getContext2d();
+	    tmpCanvas.setCoordinateSpaceWidth(w);
+	    tmpCanvas.setCoordinateSpaceHeight(h);
+	    ctx.setTransform(1, 0, 0, 1, 0, 0);
+	    
+	    ctx.clearRect(0, 0, tmpCanvas.getCoordinateSpaceWidth(), tmpCanvas.getCoordinateSpaceHeight());
+	    return tmpCanvas;
+    }
+
+	public static ImageData createFileImageIcon(AbstractApplication app, String fileName, float alpha, Dimension iconSize){
+
+		int h = iconSize.getHeight();
+		int w = iconSize.getWidth();
+		Canvas c = getTmpCanvas(w,h);
+		c.setCoordinateSpaceWidth(w);
+		c.setCoordinateSpaceHeight(h);
+		c.getContext2d().fillText("?", 0, 0);
+		
+		return c.getContext2d().getImageData(0, 0, w, h);
+	}
 
 }
