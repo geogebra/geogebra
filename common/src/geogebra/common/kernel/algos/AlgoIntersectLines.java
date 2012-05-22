@@ -157,7 +157,7 @@ public class AlgoIntersectLines extends AlgoIntersectAbstract implements Symboli
 		if (g != null && h != null) {
 			Polynomial[] coords1 = g.getPolynomials();
 			Polynomial[] coords2 = h.getPolynomials();
-			polynomials = SymbolicParameters.crossProduct(coords1, coords2);
+			polynomials = Polynomial.crossProduct(coords1, coords2);
 			return polynomials;
 		}
 		throw new NoSymbolicParametersException();

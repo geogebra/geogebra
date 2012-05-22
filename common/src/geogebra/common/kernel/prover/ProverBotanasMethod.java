@@ -41,9 +41,25 @@ public class ProverBotanasMethod {
 		// Creating the set of free points first:
 		HashSet<GeoElement> freePoints = getFreePoints(prover.statement);
 		int setSize = freePoints.size();
+
+		// Creating NDGs:
+		NDGCondition ndgc = new NDGCondition();
+		if (setSize > 3)
+			ndgc.condition = "DegeneratePolygon";
+		else
+			ndgc.condition = "AreCollinear";
+		ndgc.geos = new GeoElement[setSize];
+		int i = 0;
+		Iterator<GeoElement> it = freePoints.iterator();
+		while (it.hasNext()) {
+			ndgc.geos[i++] = it.next();
+		}
+		Arrays.sort(ndgc.geos);
+		prover.addNDGcondition(ndgc);
+		
 		// The output will contain $\binom{n}{3}$ elements:
 		Polynomial[] ret = new Polynomial[setSize * (setSize - 1) * (setSize - 2) / 6];
-		int i = 0;
+		i = 0;
 		// Creating the set of triplets:
 		HashSet<HashSet<GeoElement>> triplets = new HashSet<HashSet<GeoElement>>();
 		Iterator<GeoElement> it1 = freePoints.iterator();
@@ -64,9 +80,6 @@ public class ProverBotanasMethod {
 							// Only the significantly new triplets will be processed:
 							if (!triplets.contains(triplet)) {
 								triplets.add(triplet);
-								AbstractApplication.debug(geo1.getLabelSimple() + 
-										geo2.getLabelSimple() + 
-										geo3.getLabelSimple() + " should never be collinear");
 								Variable[] fv1 = ((SymbolicParametersBotanaAlgo)geo1).getBotanaVars();
 								Variable[] fv2 = ((SymbolicParametersBotanaAlgo)geo2).getBotanaVars();
 								Variable[] fv3 = ((SymbolicParametersBotanaAlgo)geo3).getBotanaVars();
@@ -76,6 +89,8 @@ public class ProverBotanasMethod {
 								// Rabinowitsch trick for prohibiting collinearity:
 								ret[i] = p.multiply(new Polynomial(new Variable())).subtract(new Polynomial(1));
 								// FIXME: this always introduces an extra variable, shouldn't do
+								/*
+								// This is unelegant and confusing:
 								NDGCondition ndgc = new NDGCondition();
 								ndgc.condition = "AreCollinear";
 								ndgc.geos = new GeoElement[3];
@@ -84,6 +99,7 @@ public class ProverBotanasMethod {
 								ndgc.geos[2] = geo3;
 								Arrays.sort(ndgc.geos);
 								prover.addNDGcondition(ndgc);
+								*/
 								i++;
 							}
 						}

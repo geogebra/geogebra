@@ -267,6 +267,7 @@ public class Prover {
 
 	private void callEngine(ProverEngine currentEngine) {
 		AbstractApplication.debug("Using " + currentEngine);
+		ndgConditions = new HashSet<NDGCondition>(); // reset
 		if (currentEngine == ProverEngine.BOTANAS_PROVER) {
 			// Botana's prover needs singularWS.
 			// So don't try to use it if singularWS is not available:

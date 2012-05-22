@@ -279,7 +279,7 @@ public class AlgoAreConcyclic extends AlgoElement implements
 			matrix[3][2]=coords4[0].multiply(coords4[0]).add(coords4[1].multiply(coords4[1]));
 			matrix[3][3]=coords4[2].multiply(coords4[2]);
 			
-			polynomials[0] = SymbolicParameters.det4(matrix);
+			polynomials[0] = Polynomial.det4(matrix);
 
 			return polynomials;
 		}
@@ -319,7 +319,7 @@ public class AlgoAreConcyclic extends AlgoElement implements
 			matrix[3][2]=matrix[3][0].multiply(matrix[3][0]).add(matrix[3][1].multiply(matrix[3][1]));
 			matrix[3][3]=new Polynomial(1);
 			
-			botanaPolynomials[0][0] = SymbolicParameters.det4(matrix);
+			botanaPolynomials[0][0] = Polynomial.det4(matrix);
 
 			return botanaPolynomials;
 		}

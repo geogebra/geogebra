@@ -150,7 +150,7 @@ public class AlgoJoinPoints extends AlgoElement implements SymbolicParametersAlg
 			Polynomial[] coords1 = P.getPolynomials();
 			Polynomial[] coords2 = Q.getPolynomials();
 			if (coords1 != null && coords2 != null) {
-				polynomials = SymbolicParameters.crossProduct(coords1, coords2);
+				polynomials = Polynomial.crossProduct(coords1, coords2);
 				AbstractApplication.debug("polys(" + g.getLabelSimple()
 					+ "): "
 					+ polynomials[0].toString() + ","
