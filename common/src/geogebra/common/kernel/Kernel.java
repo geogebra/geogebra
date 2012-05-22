@@ -9246,6 +9246,11 @@ public class Kernel {
 		AlgoSolveODECas algo = new AlgoSolveODECas(cons, label, func);
 		return algo.getResult();
 	}
+	
+	final public GeoElement SolveODE(String label, CasEvaluableFunction func,GeoPointND pt) {
+		AlgoSolveODECas algo = new AlgoSolveODECas(cons, label, func,pt);
+		return algo.getResult();
+	}
 
 	/**
 	 * Simplify text, eg "+-x" to "-x"

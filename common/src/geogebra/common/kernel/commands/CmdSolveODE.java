@@ -6,6 +6,7 @@ import geogebra.common.kernel.arithmetic.FunctionalNVar;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunctionable;
 import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.geos.CasEvaluableFunction;
 import geogebra.common.main.MyError;
 
@@ -39,6 +40,14 @@ public class CmdSolveODE extends CommandProcessor {
 				return ret;
 			}
 			throw argErr(app,c.getName(),arg[0]);
+		case 2:
+			if ((ok[0]=arg[0] instanceof CasEvaluableFunction)&&
+					(ok[1]=arg[1] instanceof GeoPointND)) {
+				GeoElement[] ret = { kernelA.SolveODE(c.getLabel(),
+						(CasEvaluableFunction) arg[0],(GeoPointND)arg[1]) };
+				return ret;
+			}
+			throw argErr(app,c.getName(),getBadArg(ok,arg));
 		case 5:
 			if ((ok[0] = arg[0] instanceof FunctionalNVar)
 					&& (ok[1] = arg[1].isGeoNumeric())

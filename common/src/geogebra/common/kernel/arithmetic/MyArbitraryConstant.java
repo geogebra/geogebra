@@ -99,6 +99,13 @@ public class MyArbitraryConstant  {
 		position=0;
 	}
 	
+	public GeoNumeric getConst(int i){
+		return consts.get(i);
+	}
+	
+	public int getTotalNumberOfConsts(){
+		return consts.size()+ints.size()+complexNumbers.size();
+	}
 	
 	/**
 	 * Ensures that update of the constant (if visualised as slider) triggers
