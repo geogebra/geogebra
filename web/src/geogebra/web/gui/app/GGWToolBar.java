@@ -90,7 +90,7 @@ public class GGWToolBar extends Composite {
 				app.getGuiManager().redo();
             }
 		});
-		redoButton.setStyleName("redoBdutton");
+		//redoButton.setStyleName("redoButton");
 		redoButton.setTitle("Redo");
 	
 		Image undoImage = new Image(AppResources.INSTANCE.edit_undo());
@@ -101,8 +101,8 @@ public class GGWToolBar extends Composite {
 				app.getGuiManager().undo();
             }
 		});
-		undoButton.setStyleName("redoBdutton");
-		undoButton.setTitle("Redo");
+		//undoButton.setStyleName("undoButton");
+		undoButton.setTitle("Undo");
 		//toolBarPanel.add(redoButton);
 		
 		VerticalPanel undoPanel = new VerticalPanel();
@@ -116,8 +116,6 @@ public class GGWToolBar extends Composite {
 	 * Update toolbars.
 	 */
 	public void updateToolbarPanel() {
-		//AbstractApplication.printStacktrace("Implementation needed - just finishing");
-
 		toolbarPanel.clear();
 		
 		for(Widget toolbar : toolbars) {
