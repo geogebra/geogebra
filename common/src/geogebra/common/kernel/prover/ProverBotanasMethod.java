@@ -158,7 +158,7 @@ public class ProverBotanasMethod {
 		while (it.hasNext()) {
 			GeoElement geo = it.next();
 			// AbstractApplication.debug(geo);
-			if (geo instanceof SymbolicParametersAlgo) {
+			if (geo instanceof SymbolicParametersBotanaAlgo) {
 				try {
 					Polynomial[] geoPolys = ((SymbolicParametersBotanaAlgo) geo).getBotanaPolynomials();
 					if (geoPolys != null) {
