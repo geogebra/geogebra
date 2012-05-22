@@ -560,7 +560,7 @@ public class StringUtil {
 	public static double parseDouble(String s){
 		if("NaN".equals(s))
 			return Double.NaN;
-		return StringUtil.parseDouble(s);
+		return Double.parseDouble(s);
 	}
 
 }
