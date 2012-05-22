@@ -29,7 +29,8 @@ import geogebra.common.main.AbstractApplication;
 public class AlgoProve extends AlgoElement {
 
     private GeoElement root;  // input
-    private GeoBoolean bool;     // output              
+    private GeoBoolean bool;     // output
+    private Boolean result;
         
     /**
      * Proves the given statement and gives a yes/no answer (boolean)
@@ -45,13 +46,14 @@ public class AlgoProve extends AlgoElement {
         setInputOutput(); // for AlgoElement
         
         // compute value of dependent number
-        initialCompute();      
+        initialCompute();
+        compute();
         bool.setLabel(label);
     }   
     
 	@Override
 	public Algos getClassName() {
-		return Algos.AlgoDependentBoolean;
+		return Algos.AlgoProve;
 	}
     
     // for AlgoElement
@@ -98,13 +100,10 @@ public class AlgoProve extends AlgoElement {
     	long elapsedTime = date.getTime() - startTime;
     	AbstractApplication.debug("Benchmarking: " + elapsedTime + " ms");
     	
-    	Boolean result = p.getYesNoAnswer();
+    	result = p.getYesNoAnswer();
     	AbstractApplication.debug("Statement is " + result);
-    	if (result != null)
-    		bool.setValue(result);
-    	else
-    		bool.setValue(false);
     }   
+	
     @Override
     // Not sure how to do this hack normally. 
     final public String getCommandName(StringTemplate tpl) {
@@ -114,13 +113,14 @@ public class AlgoProve extends AlgoElement {
     @Override
 	final public String toString(StringTemplate tpl) {
     	return getCommandDescription(tpl);
-   
-    	
     }
     
     @Override
 	public void compute(){
-    	//do not redo the prove
+    	if (result != null)
+    		bool.setValue(result);
+    	else
+    		bool.setValue(false);
     }
 }
 
