@@ -132,7 +132,7 @@ implements MouseOverHandler, MouseMoveHandler, MouseDownHandler, MouseUpHandler,
 					}
 
 				} else {							
-					app.clearSelectedGeos();
+					app.clearSelectedGeos(false); //repaint will be done next step
 					app.addSelectedGeo(geo);
 					lastSelectedGeo = geo;
 				}
@@ -216,7 +216,7 @@ implements MouseOverHandler, MouseMoveHandler, MouseDownHandler, MouseUpHandler,
 					!e.isControlDown() && !e.isShiftDown() 
 					&& geo != null  && !app.containsSelectedGeo(geo)) 
 			{					
-				app.clearSelectedGeos();
+				app.clearSelectedGeos(false); //repaint will be done next step
 				app.addSelectedGeo(geo);
 				lastSelectedGeo = geo;
 				skipSelection = true;

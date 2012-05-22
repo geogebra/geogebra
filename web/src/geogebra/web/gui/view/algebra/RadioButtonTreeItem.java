@@ -371,7 +371,7 @@ public class RadioButtonTreeItem extends HorizontalPanel
 						av.lastSelectedGeo = null;
 					}
 				} else {							
-					app.clearSelectedGeos();
+					app.clearSelectedGeos(false); //repaint will be done next step
 					app.addSelectedGeo(geo);
 					av.lastSelectedGeo = geo;
 				}
