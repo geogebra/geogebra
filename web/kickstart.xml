@@ -28,7 +28,7 @@ your workstation.
 	    description="For command line developers (mostly Unix): to create GeoGebraWeb builds">
 	</target>
 
-	<target name="geogebraweb-developer" depends="ggbreduce-base64"
+	<target name="geogebraweb-developer" depends="ggbreduce-base64, gwt-oauth2"
 	    description="For Eclipse developers: to create GeoGebraWeb builds">
 	</target>
 
@@ -51,6 +51,14 @@ your workstation.
 	</target>
 	-->
 	
+	<!-- download gwt-oauth2 from Google Code -->
+	<target name="gwt-oauth2">
+	<mkdir dir="lib"/>
+	<mkdir dir="lib/download"/>
+	<get src="http://gwt-oauth2.googlecode.com/files/gwt-oauth2-0.2-alpha.jar" dest="lib/download/gwt-oauth2-0.2-alpha.jar"
+	    usetimestamp="true"/>
+	</target>
+
 	<!-- download base64 encoded version of mpreduce from GeoGebra repository -->
 	<!-- Please change the date according to ../desktop/kickstart.xml when the default.img file is changing! -->
 	<target name="ggbreduce-base64">
