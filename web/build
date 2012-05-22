@@ -195,12 +195,23 @@ export JAVA_HOME
 $ANT compile-grammar-cl || exit 5
 
 # 6. Compiling web with javac
+
+# 6/1. Creating symlinks
 cd ../web/src/geogebra
 ln -s ../../../common/src/com
 ln -s ../../../common/src/geogebra/common
 ln -s ../../../common/src/geogebra/webapache
 ln -s ../../../common/src/geogebra/jung
 
+# 6/2. Unzipping 3rd party GWT JARs
+# TODO: Maybe do something similar with WebWorker
+THIRDPARTYJARS="gwt-oauth2-0.2-alpha.jar"
+for i in $THIRDPARTYJARS; do
+ echo unzip $WEBDIR/lib/download/$i
+ unzip $WEBDIR/lib/download/$i
+ done
+
+# 6/3. Running javac
 cd $WEBDIR
 $ANT $JAVAC_CLEANUP javac || exit 6
 
