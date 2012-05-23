@@ -171,7 +171,8 @@ public class AlgoIntersectLines extends AlgoIntersectAbstract implements Symboli
 		if (botanaPolynomials != null) {
 			return botanaPolynomials;
 		}
-		if (g != null && h != null){
+		// We cannot decide a statement properly if any of the inputs is a segment:
+		if (g != null && h != null && !g.isGeoSegment() && !h.isGeoSegment()) {
 			if (botanaVars==null){
 				botanaVars = new Variable[2];
 				botanaVars[0]=new Variable();
