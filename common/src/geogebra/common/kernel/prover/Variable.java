@@ -3,8 +3,6 @@ package geogebra.common.kernel.prover;
 import java.util.HashMap;
 
 import geogebra.common.main.AbstractApplication;
-import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.prover.Polynomial;
 
 /**
  * A simple class for variables.

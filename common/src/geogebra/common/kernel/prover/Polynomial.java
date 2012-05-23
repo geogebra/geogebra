@@ -132,7 +132,7 @@ public class Polynomial implements Comparable<Polynomial> {
         // Firstly, we remove all whitespace.
         s = s.replace(" ","");
         // We verify that s has a "good" form, to avoid bugs
-        String regex = "((-?\\w+)(\\*(-?\\w+)(\\^[0-9]+)?)*)([\\+-]((-?\\w+)(\\*(-?\\w+)(\\^[0-9]+)?)*))*";
+        String regex = "((-?\\w+)(\\^[0-9]+)?(\\*(-?\\w+)(\\^[0-9]+)?)*)([\\+-]((-?\\w+)(\\^[0-9]+)?(\\*(-?\\w+)(\\^[0-9]+)?)*))*";
         if (! s.matches(regex)) {
             AbstractApplication.error("Polynomial of unexpected form : ".concat(s));
         }
@@ -143,6 +143,10 @@ public class Polynomial implements Comparable<Polynomial> {
         s = s.replace("+-","-");
         s = s.replace("-","+-");
         s = s.replace("~","-");
+        // Avoid the "'-' in first position" bug
+        if (s.length() != 0 && s.charAt(0) == '+') {
+            s = s.substring(1);
+        }
         // We can now separate our string into his terms
         String[] termsOfS = s.split("[+]");
         Polynomial sum = new Polynomial(0);
@@ -164,12 +168,12 @@ public class Polynomial implements Comparable<Polynomial> {
                     product = product.multiply(factor);
                 }
                 // If factors[j] is a variable
-                else if (factors[j].matches("\\w")) {
+                else if (factors[j].matches("\\w+")) {
                     Polynomial factor = new Polynomial(new Variable(factors[j]));
                     product = product.multiply(factor);
                 }
                 // If factors[j] is the negation of a variable
-                else if (factors[j].matches("-\\w")) {
+                else if (factors[j].matches("-\\w+")) {
                     Polynomial factor = new Polynomial(-1,new Variable(factors[j].substring(1)));
                     product = product.multiply(factor);
                 }
