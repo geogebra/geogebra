@@ -770,7 +770,6 @@ public class MyDouble extends ValidExpression implements NumberValue,
 		return parseDouble(app, str.substring(0, str.length() - 1)) / 100;
 	}
 
-	private static StringBuilder sb = new StringBuilder();
 
 	/**
 	 * extension of StringUtil.parseDouble() to cope with unicode digits eg Arabic
@@ -779,6 +778,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	 * @return value
 	 */
 	public static double parseDouble(AbstractApplication app, String str) {
+		StringBuilder sb = new StringBuilder();
 		sb.setLength(0);
 		for (int i = 0; i < str.length(); i++) {
 			int ch = str.charAt(i);
