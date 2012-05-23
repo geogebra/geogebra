@@ -1345,9 +1345,9 @@ final public class GeoPoint2 extends GeoVec3D implements VectorValue,
 			for (int i = 0; i < incidenceList.size(); ++i) {
 				GeoElement geo = incidenceList.get(i);
 				if (geo.isGeoConic()) {
-					((GeoConic) geo).removePointOnConic(this);// GeoConicND
+					((GeoConicND) geo).removePointOnConic(this);// GeoConicND
 				} else if (geo.isGeoLine()) {
-					((GeoLine) geo).removePointOnLine(this);
+					((GeoLineND) geo).removePointOnLine(this);
 				}
 			}
 		}
