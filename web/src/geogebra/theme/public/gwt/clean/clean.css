@@ -1373,3 +1373,9 @@ td.datePickerMonth {
 .toolbar_item{
 	width: 40px;
 }
+
+.toolbar_menuitem_label{
+	position: relative;
+	top: -7px;
+	margin-left: 5px;
+}

@@ -51,6 +51,7 @@ public class ToolBar extends MenuBar {
 	public ToolBar() {
 		super();
 		setFocusOnHoverEnabled(false);
+		this.setHeight("55px");  //toolbar's height
 	}
 	
 	/**
