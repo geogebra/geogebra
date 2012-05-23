@@ -1,41 +1,65 @@
 package geogebra.common.kernel.prover;
 
-import java.util.TreeMap;
+import java.util.HashMap;
+
+import geogebra.common.main.AbstractApplication;
+import geogebra.common.kernel.prover.Polynomial;
 
 /**
  * A simple class for variables.
  * @author Simon Weitzhofer
+ * @author Damien Desfontaines
  *
  */
 public class Variable implements Comparable<Variable> {
 	private static int n = 0;
-	private static TreeMap<Integer,String> names;
-	private Variable twin;
-	private final int id;
+    private static int nextAvailableNumber = 0;
+	private static HashMap<String,Integer> nameToId;
+    private static HashMap<String,Variable> twins;
+
+	private final String name;
+    private final int id;
 
 	static {
-		names=new TreeMap<Integer, String>();
+		nameToId = new HashMap<String, Integer>();
+		twins = new HashMap<String, Variable>();
 	}
 	
 	/**
 	 * Creates a new variable
 	 */
-	
 	public Variable() {
-		n++;
-		id = n;
-		if (id<27){
-			setName(String.valueOf("xyzabcdefghijklmnopqrstuvw".charAt(id-1)));
-		} else
-			setName("v" + (id-26)); // v1,v2,v3,... when no more single letters available
+        n++;
+        nextAvailableNumber++;
+        name = "v".concat(Integer.toString(nextAvailableNumber));
+        nameToId.put(name,n);
+        id = n;
 	}
+
+    /**
+     * Returns the variable v
+     * @param x the name of the variable
+     */
+    public Variable(String v) {
+        if (nameToId.containsKey(v)) {
+            name = v;
+            id = nameToId.get(name);
+        }
+        else {
+            n++;
+            name = v;
+            nameToId.put(name,n);
+            id = n;
+        }
+    }
 
 	/**
 	 * Copies a variable
 	 * @param fv the variable to copy
 	 */
 	protected Variable(Variable fv) {
-		id = fv.getId();
+		name = fv.getName();
+        id = fv.getId();
 	}
 
 	/**
@@ -43,7 +67,7 @@ public class Variable implements Comparable<Variable> {
 	 * @return the id
 	 */
 	public int getId() {
-		return id;
+        return id;
 	}
 
 	@Override
@@ -52,10 +76,11 @@ public class Variable implements Comparable<Variable> {
 	}
 
 	public int compareTo(Variable v) {
-		if (id < v.getId()) {
+        int vId = v.getId();
+		if (id < vId) {
 			return 1;
 		}
-		if (id > v.getId()) {
+		if (id > vId) {
 			return -1;
 		}
 		return 0;
@@ -64,7 +89,7 @@ public class Variable implements Comparable<Variable> {
 	@Override
 	public boolean equals(Object o) {
 		if (o instanceof Variable) {
-			return id == ((Variable) o).id;
+			return name == ((Variable) o).name;
 		}
 		return super.equals(o);
 	}
@@ -74,23 +99,12 @@ public class Variable implements Comparable<Variable> {
 	 * @return the name
 	 */
 	public String getName() {
-		return names.get(id);
-	}
-
-	/**
-	 * Sets the name of the variable. Prints a warning if two different variables have the same name.
-	 * @param name the name of the variable.
-	 */
-	public void setName(final String name) {
-//		if (names.containsValue(name) && !name.equals(names.get(id))){
-//			System.err.println("warning: two different variables with same name: "+name);
-//		}
-		names.put(id, name);
+		return name;
 	}
 
 	@Override
 	public int hashCode() {
-		return id;
+		return nameToId.get(name);
 	}
 
 	/**
@@ -98,7 +112,7 @@ public class Variable implements Comparable<Variable> {
 	 * @return the Variable
 	 */
 	public Variable getTwin() {
-		return twin;
+		return twins.get(name);
 	}
 
 	/**
@@ -106,7 +120,6 @@ public class Variable implements Comparable<Variable> {
 	 * @param twin the Variable. Is null if there is no twin.
 	 */
 	public void setTwin(Variable twin) {
-		this.twin = twin;
+		twins.put(name,twin);
 	}
-
 }

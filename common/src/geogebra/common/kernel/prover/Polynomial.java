@@ -15,7 +15,6 @@ import java.util.TreeMap;
  * 
  */
 public class Polynomial implements Comparable<Polynomial> {
-
 	private TreeMap<Term, Integer> terms;
 
 	/**
@@ -126,10 +125,62 @@ public class Polynomial implements Comparable<Polynomial> {
 	/**
 	 * Converts a String to a Polynomial
 	 * @param s the input string 
+     * @author Damien Desfontaines
 	 */
 	public Polynomial(String s) {
-		// TODO: to implement
-		this();
+        // s has the form "-2*x^2*y + 5*x^3 - 2"
+        // Firstly, we remove all whitespace.
+        s = s.replace(" ","");
+        // We verify that s has a "good" form, to avoid bugs
+        String regex = "((-?\\w+)(\\*(-?\\w+)(\\^[0-9]+)?)*)([\\+-]((-?\\w+)(\\*(-?\\w+)(\\^[0-9]+)?)*))*";
+        if (! s.matches(regex)) {
+            AbstractApplication.error("Polynomial of unexpected form : ".concat(s));
+        }
+        // Then, we transform all minus signs between terms into "+-", to
+        // separate terms more easily.
+        // The 4 following lines are ugly. There must be a better way to do this.
+        s = s.replace("*-","*~");
+        s = s.replace("+-","-");
+        s = s.replace("-","+-");
+        s = s.replace("~","-");
+        // We can now separate our string into his terms
+        String[] termsOfS = s.split("[+]");
+        Polynomial sum = new Polynomial(0);
+        for (int i = 0 ; i < termsOfS.length ; i++) {
+            String[] factors = termsOfS[i].split("[*]");
+            Polynomial product = new Polynomial(1);
+            for (int j = 0 ; j < factors.length ; j++) {
+                // If factors[j] is of form x^n
+                if (factors[j].contains("^")) {
+                    String[] factorMembers = factors[j].split("\\^");
+                    Variable variable = new Variable(factorMembers[0]);
+                    int exponent = Integer.parseInt(factorMembers[1]);
+                    Polynomial factor = new Polynomial(1,variable,exponent);
+                    product = product.multiply(factor);
+                }
+                // If factors[j] is a number
+                else if (factors[j].matches("-?[0-9]+")) {
+                    Polynomial factor = new Polynomial(Integer.parseInt(factors[j]));
+                    product = product.multiply(factor);
+                }
+                // If factors[j] is a variable
+                else if (factors[j].matches("\\w")) {
+                    Polynomial factor = new Polynomial(new Variable(factors[j]));
+                    product = product.multiply(factor);
+                }
+                // If factors[j] is the negation of a variable
+                else if (factors[j].matches("-\\w")) {
+                    Polynomial factor = new Polynomial(-1,new Variable(factors[j].substring(1)));
+                    product = product.multiply(factor);
+                }
+                else {
+                    AbstractApplication.error("Input of unexpected form : ".concat(factors[j]));
+                    product = product.multiply(new Polynomial());
+                }
+            }
+            sum = sum.add(product);
+        }
+		terms = new TreeMap<Term, Integer>(sum.getTerms());
 	}
 	
 	/**
