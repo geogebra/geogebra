@@ -7,6 +7,8 @@ import java.util.Iterator;
 
 import geogebra.common.kernel.algos.SymbolicParameters;
 import geogebra.common.kernel.algos.SymbolicParametersAlgo;
+import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.prover.Prover.NDGCondition;
 import geogebra.common.kernel.prover.Prover.ProofResult;
 import geogebra.common.main.AbstractApplication;
 
@@ -82,6 +84,17 @@ public class ProverReciosMethod {
 			}
 		}
 		int nrFreeVariables=freeVariables.size();
+		if (firstFixedVariable != null && secondFixedVariable != null
+				&& firstFixedVariable.getParent() != null
+				&& firstFixedVariable.getParent() != null) {
+			NDGCondition ndg = new NDGCondition();
+			ndg.setCondition("AreEqual");
+			GeoElement[] geos = { firstFixedVariable.getParent(),
+					secondFixedVariable.getParent() };
+			ndg.setGeos(geos);
+			prover.addNDGcondition(ndg);
+		}
+
 		
 		switch (nrFreeVariables) {
 			case 0:
@@ -89,7 +102,7 @@ public class ProverReciosMethod {
 			case 1:
 				return compute1d(freeVariables,values,deg,s);
 			case 2:
-				return compute2d(freeVariables, values, deg, s);
+ 				return compute2d(freeVariables, values, deg, s);
 			default:
 				return ProofResult.UNKNOWN;
 		}

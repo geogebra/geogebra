@@ -5,6 +5,7 @@ import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.prover.Variable;
 import geogebra.common.kernel.prover.NoSymbolicParametersException;
@@ -87,6 +88,9 @@ public class AlgoAreEqual extends AlgoElement implements
 
 	public int[] getFreeVariablesAndDegrees(HashSet<Variable> variables)
 			throws NoSymbolicParametersException {
+		if ((inputElement1 instanceof GeoSegment) || (inputElement2 instanceof GeoSegment)){
+			throw new NoSymbolicParametersException();
+		}
 		if (inputElement1 != null && inputElement2 != null) {
 			if (((inputElement1 instanceof GeoPoint2) && (inputElement2 instanceof GeoPoint2))||
 				((inputElement1 instanceof GeoLine) && (inputElement2 instanceof GeoLine))||
@@ -102,19 +106,28 @@ public class AlgoAreEqual extends AlgoElement implements
 		throw new NoSymbolicParametersException();
 	}
 
-	public BigInteger[] getExactCoordinates(
-			HashMap<Variable, BigInteger> values)
+	public BigInteger[] getExactCoordinates(HashMap<Variable, BigInteger> values)
 			throws NoSymbolicParametersException {
+		if ((inputElement1 instanceof GeoSegment)
+				|| (inputElement2 instanceof GeoSegment)) {
+			throw new NoSymbolicParametersException();
+		}
 		if (inputElement1 != null && inputElement2 != null) {
-			if (((inputElement1 instanceof GeoPoint2) && (inputElement2 instanceof GeoPoint2))||
-				((inputElement1 instanceof GeoLine) && (inputElement2 instanceof GeoLine))||
-				((inputElement1 instanceof GeoVector) && (inputElement2 instanceof GeoVector))){
-				BigInteger[] coords1=((SymbolicParametersAlgo)inputElement1).getExactCoordinates(values);
-				BigInteger[] coords2=((SymbolicParametersAlgo)inputElement2).getExactCoordinates(values);
-				BigInteger[] coords=new BigInteger[1];
+			if (((inputElement1 instanceof GeoPoint2) && (inputElement2 instanceof GeoPoint2))
+					|| ((inputElement1 instanceof GeoLine) && (inputElement2 instanceof GeoLine))
+					|| ((inputElement1 instanceof GeoVector) && (inputElement2 instanceof GeoVector))) {
+				BigInteger[] coords1 = ((SymbolicParametersAlgo) inputElement1)
+						.getExactCoordinates(values);
+				BigInteger[] coords2 = ((SymbolicParametersAlgo) inputElement2)
+						.getExactCoordinates(values);
+				BigInteger[] coords = new BigInteger[1];
 				coords[0] = coords1[0]
-						.multiply(coords2[2]).subtract(coords2[0].multiply(coords1[2])).abs()
-						.add(coords1[1].multiply(coords2[2]).subtract(coords2[1].multiply(coords1[2])).abs());
+						.multiply(coords2[2])
+						.subtract(coords2[0].multiply(coords1[2]))
+						.abs()
+						.add(coords1[1].multiply(coords2[2])
+								.subtract(coords2[1].multiply(coords1[2]))
+								.abs());
 				return coords;
 			}
 		}
@@ -125,6 +138,9 @@ public class AlgoAreEqual extends AlgoElement implements
 		AbstractApplication.debug(polynomials);
 		if (polynomials != null) {
 			return polynomials;
+		}
+		if ((inputElement1 instanceof GeoSegment) || (inputElement2 instanceof GeoSegment)){
+			throw new NoSymbolicParametersException();
 		}
 		if (inputElement1 != null && inputElement2 != null) {
 			if (((inputElement1 instanceof GeoPoint2) && (inputElement2 instanceof GeoPoint2))||

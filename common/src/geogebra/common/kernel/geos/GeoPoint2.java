@@ -2003,14 +2003,7 @@ final public class GeoPoint2 extends GeoVec3D implements VectorValue,
 	}
 
 	public SymbolicParameters getSymbolicParameters() {
-		if (algoParent == null) {
-			return new SymbolicParameters(this);
-		}
-		if (algoParent instanceof SymbolicParametersAlgo) {
-			return ((SymbolicParametersAlgo) algoParent)
-					.getSymbolicParameters();
-		}
-		return null;
+		return new SymbolicParameters(this);
 	}
 
 	public int[] getFreeVariablesAndDegrees(HashSet<Variable> variables) throws NoSymbolicParametersException {
@@ -2018,10 +2011,10 @@ final public class GeoPoint2 extends GeoVec3D implements VectorValue,
 		// if this is a free point
 		if (algoParent == null) {
 			if (variableCoordinate1 == null) {
-				variableCoordinate1 = new Variable();
+				variableCoordinate1 = new Variable(this);
 			}
 			if (variableCoordinate2 == null) {
-				variableCoordinate2 = new Variable();
+				variableCoordinate2 = new Variable(this);
 			}
 			variableCoordinate1.setTwin(variableCoordinate2);
 			variableCoordinate2.setTwin(variableCoordinate1);
@@ -2067,10 +2060,10 @@ final public class GeoPoint2 extends GeoVec3D implements VectorValue,
 		// if this is a free point
 				if (algoParent == null) {
 					if (variableCoordinate1 == null) {
-						variableCoordinate1 = new Variable();
+						variableCoordinate1 = new Variable(this);
 					}
 					if (variableCoordinate2 == null) {
-						variableCoordinate2 = new Variable();
+						variableCoordinate2 = new Variable(this);
 					}
 					Polynomial[] ret = {new Polynomial(variableCoordinate1), new Polynomial(variableCoordinate2), new Polynomial(1)};
 					return ret;

@@ -29,6 +29,7 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.prover.Variable;
 import geogebra.common.kernel.prover.NoSymbolicParametersException;
@@ -131,6 +132,9 @@ public class AlgoIntersectLines extends AlgoIntersectAbstract implements Symboli
 
 	public int[] getFreeVariablesAndDegrees(HashSet<Variable> variables)
 			throws NoSymbolicParametersException {
+		if ((g instanceof GeoSegment) || (h instanceof GeoSegment)){
+			throw new NoSymbolicParametersException();
+		}
 		if (g != null && h != null) {
 			int[] degree1 = g.getFreeVariablesAndDegrees(variables);
 			int[] degree2 = h.getFreeVariablesAndDegrees(variables);
@@ -142,6 +146,9 @@ public class AlgoIntersectLines extends AlgoIntersectAbstract implements Symboli
 	public BigInteger[] getExactCoordinates(
 			final HashMap<Variable, BigInteger> values)
 			throws NoSymbolicParametersException {
+		if ((g instanceof GeoSegment) || (h instanceof GeoSegment)){
+			throw new NoSymbolicParametersException();
+		}
 		if (g != null && h != null) {
 			BigInteger[] coords1 = g.getExactCoordinates(values);
 			BigInteger[] coords2 = h.getExactCoordinates(values);
@@ -153,6 +160,9 @@ public class AlgoIntersectLines extends AlgoIntersectAbstract implements Symboli
 	public Polynomial[] getPolynomials() throws NoSymbolicParametersException {
 		if (polynomials != null) {
 			return polynomials;
+		}
+		if ((g instanceof GeoSegment) || (h instanceof GeoSegment)){
+			throw new NoSymbolicParametersException();
 		}
 		if (g != null && h != null) {
 			Polynomial[] coords1 = g.getPolynomials();

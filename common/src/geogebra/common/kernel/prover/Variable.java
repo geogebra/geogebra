@@ -3,6 +3,7 @@ package geogebra.common.kernel.prover;
 import java.util.HashMap;
 
 import geogebra.common.main.AbstractApplication;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.prover.Polynomial;
 
 /**
@@ -16,7 +17,8 @@ public class Variable implements Comparable<Variable> {
     private static int nextAvailableNumber = 0;
 	private static HashMap<String,Integer> nameToId;
     private static HashMap<String,Variable> twins;
-
+    
+    private GeoElement parent;
 	private final String name;
     private final int id;
 
@@ -35,10 +37,19 @@ public class Variable implements Comparable<Variable> {
         nameToId.put(name,n);
         id = n;
 	}
+	
+	/**
+	 * Creates a new variable and sets the parent GeoElement
+	 * @param parent the GeoElement which defines the variable
+	 */
+	public Variable(GeoElement parent){
+		this();
+		this.parent=parent;
+	}
 
     /**
      * Returns the variable v
-     * @param x the name of the variable
+     * @param v the name of the variable
      */
     public Variable(String v) {
         if (nameToId.containsKey(v)) {
@@ -121,5 +132,21 @@ public class Variable implements Comparable<Variable> {
 	 */
 	public void setTwin(Variable twin) {
 		twins.put(name,twin);
+	}
+
+	/**
+	 * Returns the parent GeoElement
+	 * @return the parent GeoElement
+	 */
+	public GeoElement getParent() {
+		return parent;
+	}
+
+	/**
+	 * Sets the parent GeoElement
+	 * @param parent the parent GeoElement
+	 */
+	public void setParent(final GeoElement parent) {
+		this.parent = parent;
 	}
 }

@@ -28,7 +28,9 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoVec3D;
+import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.geos.Translateable;
 import geogebra.common.kernel.prover.Variable;
 import geogebra.common.kernel.prover.NoSymbolicParametersException;
@@ -159,9 +161,8 @@ public class AlgoTranslate extends AlgoTransformation implements SymbolicParamet
 
 	public int[] getFreeVariablesAndDegrees(HashSet<Variable> variables)
 			throws NoSymbolicParametersException {
-		if (inGeo != null && v != null
-				&& inGeo instanceof SymbolicParametersAlgo
-				&& v instanceof SymbolicParametersAlgo) {
+		if (inGeo instanceof GeoPoint2
+				&& v instanceof GeoVector) {
 			int[] degree1 = ((SymbolicParametersAlgo) inGeo)
 					.getFreeVariablesAndDegrees(variables);
 			int[] degree2 = ((SymbolicParametersAlgo) v)
@@ -178,9 +179,8 @@ public class AlgoTranslate extends AlgoTransformation implements SymbolicParamet
 	}
 
 	public BigInteger[] getExactCoordinates(final HashMap<Variable,BigInteger> values) throws NoSymbolicParametersException {
-		if (inGeo != null && v != null
-				&& inGeo instanceof SymbolicParametersAlgo
-				&& v instanceof SymbolicParametersAlgo) {
+		if (inGeo instanceof GeoPoint2
+				&& v instanceof GeoVector) {
 			BigInteger[] coords1 = ((SymbolicParametersAlgo) inGeo)
 					.getExactCoordinates(values);
 			BigInteger[] coords2 = ((SymbolicParametersAlgo) v)
@@ -200,9 +200,8 @@ public class AlgoTranslate extends AlgoTransformation implements SymbolicParamet
 		if (polynomials != null) {
 			return polynomials;
 		}
-		if (inGeo != null && v != null
-				&& inGeo instanceof SymbolicParametersAlgo
-				&& v instanceof SymbolicParametersAlgo) {
+		if (inGeo instanceof GeoPoint2
+				&& v instanceof GeoVector) {
 			Polynomial[] coords1 = ((SymbolicParametersAlgo) inGeo)
 					.getPolynomials();
 			Polynomial[] coords2 = ((SymbolicParametersAlgo) v)

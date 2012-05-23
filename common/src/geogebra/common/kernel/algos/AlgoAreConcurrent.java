@@ -5,6 +5,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
+import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.prover.Variable;
 import geogebra.common.kernel.prover.NoSymbolicParametersException;
 import geogebra.common.kernel.prover.Polynomial;
@@ -93,6 +94,11 @@ public class AlgoAreConcurrent extends AlgoElement implements SymbolicParameters
 
 	public int[] getFreeVariablesAndDegrees(HashSet<Variable> variables)
 			throws NoSymbolicParametersException {
+		if ((inputLine1 instanceof GeoSegment)
+				|| (inputLine2 instanceof GeoSegment)
+				|| (inputLine3 instanceof GeoSegment)) {
+			throw new NoSymbolicParametersException();
+		}
 		if (inputLine1 != null && inputLine2 != null && inputLine3 != null) {
 			int[] degree1 = inputLine1.getFreeVariablesAndDegrees(variables);
 			int[] degree2 = inputLine2.getFreeVariablesAndDegrees(variables);
@@ -112,6 +118,11 @@ public class AlgoAreConcurrent extends AlgoElement implements SymbolicParameters
 	public BigInteger[] getExactCoordinates(
 			final HashMap<Variable, BigInteger> values)
 			throws NoSymbolicParametersException {
+		if ((inputLine1 instanceof GeoSegment)
+				|| (inputLine2 instanceof GeoSegment)
+				|| (inputLine3 instanceof GeoSegment)) {
+			throw new NoSymbolicParametersException();
+		}
 		if (inputLine1 != null && inputLine2 != null && inputLine3 != null) {
 			BigInteger[] coords1 = inputLine1.getExactCoordinates(values);
 			BigInteger[] coords2 = inputLine2.getExactCoordinates(values);
@@ -133,7 +144,11 @@ public class AlgoAreConcurrent extends AlgoElement implements SymbolicParameters
 		if (polynomials != null) {
 			return polynomials;
 		}
-		
+		if ((inputLine1 instanceof GeoSegment)
+				|| (inputLine2 instanceof GeoSegment)
+				|| (inputLine3 instanceof GeoSegment)) {
+			throw new NoSymbolicParametersException();
+		}
 		if (inputLine1 != null && inputLine2 != null && inputLine3 != null) {
 			Polynomial[] coords1 = inputLine1.getPolynomials();
 			Polynomial[] coords2 = inputLine2.getPolynomials();

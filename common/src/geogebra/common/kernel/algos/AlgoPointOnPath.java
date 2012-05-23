@@ -27,6 +27,7 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.prover.Variable;
 import geogebra.common.kernel.prover.NoSymbolicParametersException;
 import geogebra.common.kernel.prover.Polynomial;
@@ -42,7 +43,6 @@ public class AlgoPointOnPath extends AlgoElement implements PathAlgo, SymbolicPa
 	private Polynomial[] botanaPolynomials;
 	private Variable variable;
 	private Variable[] botanaVars;
-	private HashMap<Variable, BigInteger> oldvalues;
 	private BigInteger[] exactCoordinates;
 
     public AlgoPointOnPath(
@@ -162,10 +162,13 @@ public class AlgoPointOnPath extends AlgoElement implements PathAlgo, SymbolicPa
 
 	public int[] getFreeVariablesAndDegrees(HashSet<Variable> variables)
 			throws NoSymbolicParametersException {
-		if (input[0] != null && input[0] instanceof GeoLine){
+		if (input[0] instanceof GeoSegment) {
+			throw new NoSymbolicParametersException();
+		}
+		if (input[0] instanceof GeoLine){
 			int[] degreesLine = ((SymbolicParametersAlgo) input[0]).getFreeVariablesAndDegrees(variables);
 			if (variable==null){
-				variable=new Variable();
+				variable=new Variable(P);
 			}
 			variables.add(variable);
 			int[] result=new int[3];
@@ -179,16 +182,15 @@ public class AlgoPointOnPath extends AlgoElement implements PathAlgo, SymbolicPa
 
 	public BigInteger[] getExactCoordinates(
 			HashMap<Variable, BigInteger> values) throws NoSymbolicParametersException {
-		if (exactCoordinates != null && values != null && values == oldvalues) {
-			return exactCoordinates;
+		if (input[0] instanceof GeoSegment) {
+			throw new NoSymbolicParametersException();
 		}
-		if (input[0] != null && input[0] instanceof GeoLine && variable != null){
+		if (input[0] instanceof GeoLine && variable != null){
 			exactCoordinates=new BigInteger[3];
 			BigInteger[] line=((SymbolicParametersAlgo) input[0]).getExactCoordinates(values);
 			exactCoordinates[0]=line[2].multiply(values.get(variable));
 			exactCoordinates[1]=line[2].multiply(BigInteger.ONE.subtract(values.get(variable)));
 			exactCoordinates[2]=line[0].multiply(values.get(variable).negate()).add(line[1].multiply(values.get(variable).subtract(BigInteger.ONE)));
-			oldvalues=values;
 			return exactCoordinates;
 		}
 		return null;
@@ -198,9 +200,12 @@ public class AlgoPointOnPath extends AlgoElement implements PathAlgo, SymbolicPa
 		if (polynomials != null) {
 			return polynomials;
 		}
-		if (input[0] != null && input[0] instanceof GeoLine){
+		if (input[0] instanceof GeoSegment) {
+			throw new NoSymbolicParametersException();
+		}
+		if (path instanceof GeoLine){
 			if (variable==null){
-				variable=new Variable();
+				variable=new Variable(P);
 			}
 			polynomials=new Polynomial[3];
 			Polynomial[] line=((SymbolicParametersAlgo) input[0]).getPolynomials();

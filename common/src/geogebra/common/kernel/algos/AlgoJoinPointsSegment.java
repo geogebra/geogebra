@@ -18,6 +18,10 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.algos;
 
+import java.math.BigInteger;
+import java.util.HashMap;
+import java.util.HashSet;
+
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
@@ -29,6 +33,7 @@ import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.prover.NoSymbolicParametersException;
 import geogebra.common.kernel.prover.Polynomial;
 import geogebra.common.kernel.prover.Variable;
+import geogebra.common.main.AbstractApplication;
 
 
 /**
@@ -37,7 +42,7 @@ import geogebra.common.kernel.prover.Variable;
  * @version 
  */
 public class AlgoJoinPointsSegment extends AlgoElement implements AlgoJoinPointsSegmentInterface,
-	SymbolicParametersBotanaAlgo {
+	SymbolicParametersBotanaAlgo, SymbolicParametersAlgo {
 
 	private GeoPoint2 P, Q; // input
     private GeoSegment s; // output: GeoSegment subclasses GeoLine 
@@ -46,6 +51,7 @@ public class AlgoJoinPointsSegment extends AlgoElement implements AlgoJoinPoints
     
     private Variable[] botanaVars;
     private Polynomial[] botanaPolynomials;
+	private Polynomial[] polynomials;
 
     /** Creates new AlgoJoinPoints */
     public AlgoJoinPointsSegment(
@@ -215,4 +221,46 @@ public class AlgoJoinPointsSegment extends AlgoElement implements AlgoJoinPoints
 		// It's OK, polynomials for lines/segments are only created when a third point is lying on them, too:
 		return null;
 	}
+	
+	public SymbolicParameters getSymbolicParameters() {
+		return new SymbolicParameters(this);
+	}
+
+	public int[] getFreeVariablesAndDegrees(HashSet<Variable> variables) throws NoSymbolicParametersException {
+		if (P != null && Q != null) {
+			int[] degree1=P.getFreeVariablesAndDegrees(variables);
+			int[] degree2=Q.getFreeVariablesAndDegrees(variables);
+			return SymbolicParameters.crossDegree(degree1, degree2);
+		}
+		throw new NoSymbolicParametersException();
+		
+	}
+
+	public BigInteger[] getExactCoordinates(final HashMap<Variable,BigInteger> values) throws NoSymbolicParametersException {
+		if (P != null && Q != null) {
+			BigInteger[] coords1 = P.getExactCoordinates(values);
+			BigInteger[] coords2 = Q.getExactCoordinates(values);
+			if (coords1 != null && coords2 != null) {
+				return SymbolicParameters.crossProduct(coords1, coords2);
+			}
+		}
+		throw new NoSymbolicParametersException();
+	}
+
+	public Polynomial[] getPolynomials() throws NoSymbolicParametersException {
+		if (polynomials != null) {
+			return polynomials;
+		}
+		if (P != null && Q != null) {
+			Polynomial[] coords1 = P.getPolynomials();
+			Polynomial[] coords2 = Q.getPolynomials();
+			if (coords1 != null && coords2 != null) {
+				polynomials = Polynomial.crossProduct(coords1, coords2);
+					
+				return polynomials;
+			}
+		}
+		throw new NoSymbolicParametersException();
+	}
+	
 }
