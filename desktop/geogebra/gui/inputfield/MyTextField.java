@@ -276,6 +276,10 @@ public class MyTextField extends JTextField implements ActionListener,
 		this.showSymbolTableIcon = showSymbolTableIcon;
 	}
 
+	public void setOpenSymbolTableUpwards(boolean openUpwards){
+		getTablePopup().setOpenUpwards(openUpwards);
+	}
+	
 	private SymbolTablePopup getTablePopup() {
 		if (tablePopup == null)
 			tablePopup = new SymbolTablePopup(app, this);

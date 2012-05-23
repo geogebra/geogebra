@@ -22,6 +22,7 @@ import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.MyError;
 import geogebra.gui.app.GeoGebraFrame;
 import geogebra.gui.inputfield.AutoCompleteTextField;
+import geogebra.gui.inputfield.MyTextField;
 import geogebra.gui.view.algebra.AlgebraInputDropTargetListener;
 import geogebra.gui.view.algebra.InputPanel;
 import geogebra.main.Application;
@@ -158,6 +159,11 @@ public class AlgebraInput extends  JPanel implements ActionListener, KeyListener
 		return inputField;
 	}
 
+	public void updateOrientation(boolean showInputTop){
+		inputField.setOpenSymbolTableUpwards(!showInputTop);
+	}
+	
+	
 	/**
 	 * updates labels according to current locale
 	 */
@@ -246,6 +252,7 @@ public class AlgebraInput extends  JPanel implements ActionListener, KeyListener
 			if (Application.getControlDown() && Application.getShiftDown()) {
 				GeoGebraFrame.toggleCrossPlatformLAF();
 				SwingUtilities.updateComponentTreeUI(app.getFrame());
+				app.getFrame().pack();
 				return;
 			}
 			// =========================================

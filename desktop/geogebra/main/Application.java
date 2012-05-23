@@ -1178,6 +1178,7 @@ public class Application extends AbstractApplication implements
 				southPanel.add(getGuiManager().getAlgebraInput(),
 						BorderLayout.SOUTH);
 			}
+			((AlgebraInput)getGuiManager().getAlgebraInput()).updateOrientation(showInputTop);
 		}
 
 		// initialize toolbar panel even if it's not used (hack)

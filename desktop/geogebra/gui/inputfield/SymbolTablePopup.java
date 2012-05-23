@@ -40,10 +40,10 @@ public class SymbolTablePopup {
 	private SelectionTable symbolTable;
 	private Application app;
 	private Locale locale;
+	private boolean openUpwards = true;
 
 
-	
-	
+
 	/******************************************************
 	 * Constructs a symbol table popup.
 	 * @param app
@@ -165,9 +165,19 @@ public class SymbolTablePopup {
 
 		if(locateAtFieldEnd){
 			Dimension d  = popup.getPreferredSize();
-			popup.show(textField, textField.getX() + textField.getWidth() - d.width, - d.height);
+			if (openUpwards){
+				popup.show(textField, textField.getX() + textField.getWidth() - d.width, - d.height);
+			}else{
+				popup.show(textField, textField.getX() + textField.getWidth() - d.width, 
+						textField.getY() + textField.getHeight());
+			}
 		}else{
-			popup.show(textField, getCaretPixelPosition().x, getCaretPixelPosition().y);
+			if (openUpwards){
+				popup.show(textField, getCaretPixelPosition().x, getCaretPixelPosition().y);
+			}else{
+				popup.show(textField, getCaretPixelPosition().x, 
+						textField.getY() + textField.getHeight());
+			}
 		}
 	}
 
@@ -180,6 +190,17 @@ public class SymbolTablePopup {
 			return;
 		}
 		popup.setVisible(false);
+	}
+
+
+	
+	/**
+	 * @param openUpwards
+	 *            true => popup opens sitting above the textfield, 
+	 *            false => popup opens below
+	 */
+	public void setOpenUpwards(boolean openUpwards) {
+		this.openUpwards = openUpwards;
 	}
 
 
