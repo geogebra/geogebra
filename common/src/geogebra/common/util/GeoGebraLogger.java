@@ -179,6 +179,11 @@ public abstract class GeoGebraLogger {
 	 * @param message the log message
 	 */
 	public void log(Level level, String message) {
+		
+		if (message == null) {
+			message = "*null*";
+		}
+		
 		if (logLevel.getPriority() >= level.getPriority()) {
 			String caller = "";
 			if (callerShown) {

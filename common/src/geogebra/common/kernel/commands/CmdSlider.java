@@ -40,13 +40,34 @@ public class CmdSlider extends CommandProcessor {
 		for (int i = 5; i < n; i++)
 			if (!arg[i].isBooleanValue())
 				throw argErr(app, c.getName(), arg[i]);
-		GeoNumeric slider;
-		//Slider[0,360Â°] should be angle
+
+
+
+		GeoNumeric slider = null;
+
+
+		// check if a slider already exists with this name and use it if possible
+		GeoElement geo = cons.lookupLabel(c.getLabel());
+		if (geo != null && geo.isGeoNumeric()) {
+			slider = (GeoNumeric) geo;
+		}
+		
+		//Slider[0,360°] should be angle
 		if ((n > 5 && ((BooleanValue) arg[5]).getBoolean()) 
-				|| arg[0] instanceof GeoAngle || arg[1] instanceof GeoAngle)
-			slider = new GeoAngle(kernelA.getConstruction());
-		else
-			slider = new GeoNumeric(kernelA.getConstruction());
+				|| arg[0] instanceof GeoAngle || arg[1] instanceof GeoAngle) {
+
+			if (slider == null || !slider.isAngle()) {
+				slider = new GeoAngle(kernelA.getConstruction());
+			}
+		} else {
+			if (slider == null || slider.isAngle()) {
+				slider = new GeoNumeric(kernelA.getConstruction());
+			}
+		}
+		
+		
+		
+		
 		slider.setIntervalMin((NumberValue) arg[0]);
 		slider.setIntervalMax((NumberValue) arg[1]);
 		if (n > 2)
