@@ -4,7 +4,7 @@
 # @author Zoltan Kovacs <zoltan@geogebra.org>
 
 DEBUG=1 # In tmp/ there can be some log, if you set this to 1.
-TIMEOUT=20
+TIMEOUT=120
 HTML=html/index.html
 PROVERS="Botana Recio PureSymbolic Auto"
 TESTGGBURLBASE=http://dev.geogebra.org/trac/browser/trunk
