@@ -239,10 +239,15 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 
 		if (Application.MAC_OS)
 			initMacSpecifics();
-		
-		// set system look and feel
-		setLAF(args.containsArg("crossPlatformLAF"));
-		
+
+		// set look and feel
+		if (args.containsArg("laf")) {
+			setLAF(args.getStringValue("laf").equals("system"));
+		} else {
+			// system LAF for Windows and Mac; cross-platform for LINUX, others
+			setLAF(Application.MAC_OS || Application.WINDOWS);
+		}
+
 		if (args.containsArg("resetSettings")) {
 			GeoGebraPreferences.getPref().clearPreferences();
 		}
@@ -259,38 +264,32 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 		// create first window and show it
 		createNewWindow(args, wnd);
 	}
-	
-	
+
 	/**
 	 * Sets the look and feel.
 	 * 
-	 * @param forceCrossPlatformLAF
-	 *            If true then the cross-platform LAF is set, otherwise a LAF
-	 *            native to the OS is set.
+	 * @param isSystemLAF
+	 *            true => set system LAF, false => set cross-platform LAF
 	 */
-	public static  void setLAF(boolean forceCrossPlatformLAF) {
-		// set system look and feel
+	public static void setLAF(boolean isSystemLAF) {
 		try {
-			if (!forceCrossPlatformLAF && Application.MAC_OS || Application.WINDOWS)
+			if (isSystemLAF) {
 				UIManager.setLookAndFeel(UIManager
-						.getSystemLookAndFeelClassName());
-			else
-				// Linux or others
+						.getSystemLookAndFeelClassName());				
+			} else {
 				UIManager.setLookAndFeel(UIManager
 						.getCrossPlatformLookAndFeelClassName());
+			}
 		} catch (Exception e) {
 			AbstractApplication.debug(e + "");
 		}
 	}
 				
 	/**
-	 * toggles between the native LAF and the cross-platform LAF
-	 * (for Windows and OS X only)
+	 * Toggles between the system LAF and the cross-platform LAF
 	 */
 	public static void toggleCrossPlatformLAF() {
-		if (Application.MAC_OS || Application.WINDOWS) {
-			setLAF(UIManager.getLookAndFeel().isNativeLookAndFeel());
-		}
+		setLAF(!UIManager.getLookAndFeel().isNativeLookAndFeel()); 
 	}
 	
 	

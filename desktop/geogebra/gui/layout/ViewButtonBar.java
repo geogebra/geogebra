@@ -128,18 +128,8 @@ public class ViewButtonBar extends JPanel implements ActionListener{
 					!app.getGuiManager().showView(viewID), viewID, false);
 			
 			}
-		//	if(app.getControlDown())
-			//	toggleLAF();
 		}
 	}
-	
-//	static boolean forceCrossPlatform = false;
-
-//	public  void toggleLAF() {
-//		forceCrossPlatform = !forceCrossPlatform;
-//		GeoGebraFrame.setLAF(forceCrossPlatform);
-//		SwingUtilities.updateComponentTreeUI(app.getFrame());
-//	}
 
 	
 	public void updateViewButtons() {
