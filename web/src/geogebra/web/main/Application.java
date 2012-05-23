@@ -789,10 +789,14 @@ public class Application extends AbstractApplication {
 	}
 
 	public void loadGgbFileAgain(String dataUrl) {
+
 		geogebra.web.main.DrawEquationWeb.deleteLaTeXes(
 			(EuclidianView)getActiveEuclidianView());
 		imageManager.reset();
-		GeoGebraFrame.fileLoader.getView().processBase64String(dataUrl);
+		if (useFullAppGui)
+			GeoGebraAppFrame.fileLoader.getView().processBase64String(dataUrl);
+		else
+			GeoGebraFrame.fileLoader.getView().processBase64String(dataUrl);
 	}
 
 	public static void log(String message) {
