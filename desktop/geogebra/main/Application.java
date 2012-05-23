@@ -1251,7 +1251,6 @@ public class Application extends AbstractApplication implements
 		System.exit(0);
 	}
 
-	private String versionCheckAllow = null;
 	private static boolean versionCheckAllowed = true;
 
 	/**
@@ -1382,14 +1381,13 @@ public class Application extends AbstractApplication implements
 		}
 		
 
-		versionCheckAllow = args.getStringValue("versionCheckAllow");
-		setVersionCheckAllowed();
+		setVersionCheckAllowed(args.getStringValue("versionCheckAllow"));
 
 	}
 	
-	private void setVersionCheckAllowed() {
+	private void setVersionCheckAllowed(String versionCheckAllow) {
 
-		if (isApplet) {
+		if (isApplet() || isWebstart()) {
 			versionCheckAllowed = false;
 			return;
 		}
@@ -1484,8 +1482,14 @@ public class Application extends AbstractApplication implements
 	 * @return if the check is allowed
 	 * @author Zoltan Kovacs <zoltan@geogebra.org>
 	 */
-	public static boolean getVersionCheckAllowed() {
+	public boolean getVersionCheckAllowed() {
+		
+		if (isApplet() || isWebstart()) {
+			return false;
+		}
+		
 		return versionCheckAllowed;
+
 	}
 
 	private void handleOptionArgsEarly(CommandLineArguments args) {

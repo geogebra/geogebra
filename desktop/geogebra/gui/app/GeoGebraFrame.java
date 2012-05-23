@@ -489,7 +489,7 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 		 */
 		private void checkVersion() {
 			AbstractApplication.debug("Checking version");
-			if (!Application.getVersionCheckAllowed()) {
+			if (!app.getVersionCheckAllowed()) {
 				AbstractApplication.debug("Version check is not allowed");
 				return;
 			}
