@@ -481,7 +481,7 @@ public class PropertiesView extends JPanel implements
 		}
 		
 		clearView();
-		// kernel.notifyAddAll(this);
+		kernel.notifyAddAll(this);
 		kernel.attach(this);
 		attached = true;
 	}
@@ -493,17 +493,18 @@ public class PropertiesView extends JPanel implements
 	}
 
 	public void add(GeoElement geo) {
-		// TODO Auto-generated method stub
+		
+		objectPanel.getTree().add(geo);
 
 	}
 
 	public void remove(GeoElement geo) {
-		// TODO Auto-generated method stub
+		objectPanel.getTree().remove(geo);
 
 	}
 
 	public void rename(GeoElement geo) {
-		// TODO Auto-generated method stub
+		objectPanel.getTree().rename(geo);
 
 	}
 
@@ -511,16 +512,19 @@ public class PropertiesView extends JPanel implements
 
 		// updateSelection();
 		// propPanel.updateSelection(new GeoElement[] {geo});
+		objectPanel.getTree().update(geo);
 
 	}
 
 	public void updateVisualStyle(GeoElement geo) {
 		// update(geo);
+		objectPanel.getTree().updateVisualStyle(geo);
 
 	}
 
 	public void updateAuxiliaryObject(GeoElement geo) {
 		// TODO Auto-generated method stub
+		objectPanel.getTree().updateAuxiliaryObject(geo);
 
 	}
 	
@@ -534,16 +538,18 @@ public class PropertiesView extends JPanel implements
 		
 		
 		objectPanel.updateOneGeoDefinition(app.getSelectedGeos().get(0));
+		objectPanel.getTree().repaint();
 		
 	}
 
 	public void reset() {
-		// TODO Auto-generated method stub
+		objectPanel.getTree().repaint();
 
 	}
 
 	public void clearView() {
-		// TODO Auto-generated method stub
+		objectPanel.getTree().clearView();
+		
 
 	}
 
@@ -555,6 +561,7 @@ public class PropertiesView extends JPanel implements
 	public int getViewID() {
 		return AbstractApplication.VIEW_PROPERTIES;
 	}
+	
 
 	// //////////////////////////////////////////////////////
 	// SELECTION
@@ -580,20 +587,22 @@ public class PropertiesView extends JPanel implements
 	// //////////////////////////////////////////////////////
 
 	public void windowPanel() {
-		// setGeoTreeVisible();
+		objectPanel.setGeoTreeVisible();
 
 		// kernel.attach(geoTree);
 		// kernel.notifyAddAll(geoTree);
 		// app.setSelectionListenerMode(this);
 	}
 
+
 	public void unwindowPanel() {
-		// setGeoTreeNotVisible();
+		objectPanel.setGeoTreeNotVisible();
 
 		// kernel.detach(geoTree);
 		// geoTree.clear();
 		// app.setSelectionListenerMode(null);
 	}
+
 
 	public void closeDialog() {
 		setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));

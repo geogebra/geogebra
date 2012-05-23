@@ -18,9 +18,13 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.gui.color.GeoGebraColorChooser;
 import geogebra.gui.dialog.PropertiesPanel;
+import geogebra.gui.view.algebra.AlgebraController;
+import geogebra.gui.view.algebra.AlgebraTree;
+import geogebra.gui.view.algebra.AlgebraTreeController;
 import geogebra.main.Application;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
@@ -29,6 +33,8 @@ import java.util.ArrayList;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
 
 /**
  * @author Markus Hohenwarter
@@ -38,6 +44,7 @@ public class OptionsObject extends JPanel implements SetLabels {
 	// private static final int MAX_OBJECTS_IN_TREE = 500;
 	private static final int MAX_GEOS_FOR_EXPAND_ALL = 15;
 	private static final int MAX_COMBOBOX_ENTRIES = 200;
+	private static final int MIN_LIST_WIDTH = 120;
 
 	private static final long serialVersionUID = 1L;
 	private Application app;
@@ -45,8 +52,11 @@ public class OptionsObject extends JPanel implements SetLabels {
 	private JButton defaultsButton, delButton;
 	private PropertiesPanel propPanel;
 	private GeoGebraColorChooser colChooser;
-
 	
+	private AlgebraTree tree;
+
+	private JSplitPane splitPane;
+	private JScrollPane listScroller;
 
 	// stop slider increment being less than 0.00000001
 	public final static int TEXT_FIELD_FRACTION_DIGITS = 8;
@@ -80,6 +90,14 @@ public class OptionsObject extends JPanel implements SetLabels {
 		if (wasShowing) {
 			setVisible(false);
 		}
+		
+		// LIST PANEL
+		tree = new AlgebraTree(new AlgebraTreeController(kernel));
+		listScroller = new JScrollPane(tree);
+		listScroller.setMinimumSize(new Dimension(MIN_LIST_WIDTH, 200));
+		listScroller.setBackground(Color.white);
+		listScroller.setBorder(BorderFactory.createEmptyBorder(5, 5, 0, 5));
+
 
 		// delete button
 		delButton = new JButton(app.getImageIcon("delete_small.gif"));
@@ -134,10 +152,13 @@ public class OptionsObject extends JPanel implements SetLabels {
 		this.removeAll();
 		// contentPane.setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
 
-		
+		splitPane = new JSplitPane();
+		splitPane.setLeftComponent(listScroller);
+		splitPane.setRightComponent(propPanel);
 
 		this.setLayout(new BorderLayout());
-		this.add(propPanel, BorderLayout.CENTER);
+		//this.add(propPanel, BorderLayout.CENTER);
+		this.add(splitPane, BorderLayout.CENTER);
 		this.add(buttonPanel, BorderLayout.SOUTH);
 		
 
@@ -263,9 +284,30 @@ public class OptionsObject extends JPanel implements SetLabels {
 	}
 
 	
-	
+	private int dividerLocation = MIN_LIST_WIDTH;
 
+	/**
+	 * show the geo list
+	 */
+	public void setGeoTreeVisible() {
+		splitPane.setDividerSize(8);
+		splitPane.setDividerLocation(dividerLocation);
+		listScroller.setVisible(true);
+		splitPane.repaint();
+		
+	}
 
+	/**
+	 * hide the geo list
+	 */
+	public void setGeoTreeNotVisible() {
+		
+		listScroller.setVisible(false);
+		dividerLocation=splitPane.getDividerLocation();
+		splitPane.setDividerSize(0);
+		splitPane.repaint();
+		
+	}
 
 	
 	public void updateSelection(Object[] geos) {
@@ -280,6 +322,14 @@ public class OptionsObject extends JPanel implements SetLabels {
 	public void updateOneGeoDefinition(GeoElement geo) {
 		
 		propPanel.updateOneGeoDefinition(geo);
+	}
+	
+
+	/**
+	 * @return the tree
+	 */
+	public AlgebraTree getTree(){
+		return tree;
 	}
 	
 

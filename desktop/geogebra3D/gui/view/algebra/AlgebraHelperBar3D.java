@@ -2,7 +2,7 @@ package geogebra3D.gui.view.algebra;
 
 import geogebra.gui.view.algebra.AlgebraHelperBar;
 import geogebra.gui.view.algebra.AlgebraView;
-import geogebra.gui.view.algebra.AlgebraView.SortMode;
+import geogebra.gui.view.algebra.AlgebraTree.SortMode;
 import geogebra.main.Application;
 
 import java.awt.event.ActionEvent;

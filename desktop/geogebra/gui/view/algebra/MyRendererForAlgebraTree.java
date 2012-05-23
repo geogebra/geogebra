@@ -3,7 +3,8 @@ package geogebra.gui.view.algebra;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.gui.view.algebra.AlgebraView.SortMode;
+import geogebra.common.main.AbstractApplication;
+import geogebra.gui.view.algebra.AlgebraTree.SortMode;
 import geogebra.main.Application;
 
 import java.awt.Color;
@@ -23,13 +24,13 @@ import javax.swing.tree.DefaultTreeCellRenderer;
  * 
  * @author Markus
  */
-public class MyRenderer extends DefaultTreeCellRenderer {
+public class MyRendererForAlgebraTree extends DefaultTreeCellRenderer {
 
 	private static final long serialVersionUID = 1L;
 
 	protected Application app;
-	private AlgebraView view;
-	private Kernel kernel;
+	private AlgebraTree view;
+	protected Kernel kernel;
 	private ImageIcon iconShown, iconHidden;
 
 	private ImageIcon latexIcon;
@@ -37,7 +38,7 @@ public class MyRenderer extends DefaultTreeCellRenderer {
 
 	private Font latexFont;
 
-	public MyRenderer(Application app, AlgebraView view) {
+	public MyRendererForAlgebraTree(Application app, AlgebraTree view) {
 		setOpaque(true);
 		this.app = app;
 		this.kernel = app.getKernel();
@@ -50,6 +51,22 @@ public class MyRenderer extends DefaultTreeCellRenderer {
 
 		latexIcon = new ImageIcon();
 		this.view = view;
+	}
+	
+	
+	protected String getDescription(GeoElement geo){
+
+		String text = null;
+		if (geo.isIndependent()) {
+			text = getAlgebraDescriptionTextOrHTML(geo);
+		} else {
+			text = geo
+					.addLabelTextOrHTML(geo
+							.getDefinitionDescription(StringTemplate.defaultTemplate));
+
+		}
+		
+		return text;
 	}
 
 	@Override
@@ -65,29 +82,9 @@ public class MyRenderer extends DefaultTreeCellRenderer {
 			GeoElement geo = (GeoElement) ob;
 			setForeground(geogebra.awt.Color.getAwtColor(geo.getAlgebraColor()));
 
-			String text = null;
-			if (geo.isIndependent()) {
-				text = getAlgebraDescriptionTextOrHTML(geo);
-			} else {
-				switch (kernel.getAlgebraStyle()) {
-				case Kernel.ALGEBRA_STYLE_VALUE:
-					text = getAlgebraDescriptionTextOrHTML(geo);
-					break;
-
-				case Kernel.ALGEBRA_STYLE_DEFINITION:
-					text = geo
-							.addLabelTextOrHTML(geo
-									.getDefinitionDescription(StringTemplate.defaultTemplate));
-					break;
-
-				case Kernel.ALGEBRA_STYLE_COMMAND:
-					text = geo
-							.addLabelTextOrHTML(geo
-									.getCommandDescription(StringTemplate.defaultTemplate));
-					break;
-
-				}
-			}
+			String text = getDescription(geo);
+			
+			
 
 			// make sure we use a font that can display the text
 			setFont(app.getFontCanDisplayAwt(text, Font.BOLD));
