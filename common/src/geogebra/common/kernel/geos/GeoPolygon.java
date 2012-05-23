@@ -29,12 +29,16 @@ import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoJoinPointsSegment;
 import geogebra.common.kernel.algos.AlgoPolygon;
 import geogebra.common.kernel.algos.Algos;
+import geogebra.common.kernel.algos.SymbolicParametersBotanaAlgo;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
+import geogebra.common.kernel.prover.NoSymbolicParametersException;
+import geogebra.common.kernel.prover.Polynomial;
+import geogebra.common.kernel.prover.Variable;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.util.MyMath;
 
@@ -49,7 +53,7 @@ import java.util.HashSet;
 public class GeoPolygon extends GeoElement implements NumberValue, Path,
 		GeoSurfaceFinite, Traceable, PointRotateable, MatrixTransformable,
 		Mirrorable, Translateable, Dilateable, GeoCoordSys2D,
-		GeoPolyLineInterface, Transformable {
+		GeoPolyLineInterface, Transformable, SymbolicParametersBotanaAlgo {
 
 	/** maximal number of vertices for polygon tool */
 	public static final int POLYGON_MAX_POINTS = 100;
@@ -1660,5 +1664,16 @@ public class GeoPolygon extends GeoElement implements NumberValue, Path,
 	 */
 	public void setInteriorPoint(Coords point) {
 		interiorPoint = point;
+	}
+
+	public Variable[] getBotanaVars() {
+		// It's OK to return null here:
+		return null;
+	}
+
+	public Polynomial[] getBotanaPolynomials()
+			throws NoSymbolicParametersException {
+		// It's OK to return null here:
+		return null;
 	}
 }

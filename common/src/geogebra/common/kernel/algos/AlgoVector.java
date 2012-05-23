@@ -221,18 +221,5 @@ public class AlgoVector extends AlgoElement implements SymbolicParametersAlgo{
 			return polynomials;
 		}
 		throw new NoSymbolicParametersException();
-	}
-
-	public Variable[] getBotanaVars() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public Polynomial[] getBotanaPolynomials()
-			throws NoSymbolicParametersException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-    
+	}   
 }

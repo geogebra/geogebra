@@ -21,6 +21,7 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Transform;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoJoinPointsSegment;
+import geogebra.common.kernel.algos.SymbolicParametersAlgo;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
@@ -671,8 +672,6 @@ final public String toValueString(StringTemplate tpl) {
     	AlgoJoinPointsSegment algo = (AlgoJoinPointsSegment) getParentAlgorithm();
     	algo.modifyInputPoints((GeoPoint2) P, (GeoPoint2) Q);    	
     }
-    
-    
     
 
 	private GeoElement meta = null;

@@ -2099,7 +2099,7 @@ final public class GeoPoint2 extends GeoVec3D implements VectorValue,
 
 	public Polynomial[] getBotanaPolynomials()
 			throws NoSymbolicParametersException {
-		if (algoParent != null && algoParent instanceof SymbolicParametersAlgo) {
+		if (algoParent != null && algoParent instanceof SymbolicParametersBotanaAlgo) {
 			return ((SymbolicParametersBotanaAlgo) algoParent).getBotanaPolynomials();
 		}
 		return null;

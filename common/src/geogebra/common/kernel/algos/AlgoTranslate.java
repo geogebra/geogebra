@@ -39,7 +39,7 @@ import geogebra.common.kernel.prover.Polynomial;
  * @author Markus
  * @version
  */
-public class AlgoTranslate extends AlgoTransformation implements SymbolicParametersAlgo{
+public class AlgoTranslate extends AlgoTransformation implements SymbolicParametersAlgo {
 
 	private Translateable out;
 	private GeoElement inGeo, outGeo;
@@ -217,16 +217,4 @@ public class AlgoTranslate extends AlgoTransformation implements SymbolicParamet
 		}
 		throw new NoSymbolicParametersException();
 	}
-
-	public Variable[] getBotanaVars() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public Polynomial[] getBotanaPolynomials()
-			throws NoSymbolicParametersException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }

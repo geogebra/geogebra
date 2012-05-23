@@ -176,6 +176,7 @@ public class ProverBotanasMethod {
 					return ProofResult.UNKNOWN;
 				}
 			}
+			else return ProofResult.UNKNOWN;
 		}
 		try {
 			// The sets of statement polynomials.

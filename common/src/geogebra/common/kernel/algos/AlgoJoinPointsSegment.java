@@ -26,6 +26,9 @@ import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoVec3D;
+import geogebra.common.kernel.prover.NoSymbolicParametersException;
+import geogebra.common.kernel.prover.Polynomial;
+import geogebra.common.kernel.prover.Variable;
 
 
 /**
@@ -33,12 +36,16 @@ import geogebra.common.kernel.geos.GeoVec3D;
  * @author  Markus
  * @version 
  */
-public class AlgoJoinPointsSegment extends AlgoElement implements AlgoJoinPointsSegmentInterface {
+public class AlgoJoinPointsSegment extends AlgoElement implements AlgoJoinPointsSegmentInterface,
+	SymbolicParametersBotanaAlgo {
 
 	private GeoPoint2 P, Q; // input
     private GeoSegment s; // output: GeoSegment subclasses GeoLine 
 
-    private GeoPolygon poly; // for polygons         
+    private GeoPolygon poly; // for polygons
+    
+    private Variable[] botanaVars;
+    private Polynomial[] botanaPolynomials;
 
     /** Creates new AlgoJoinPoints */
     public AlgoJoinPointsSegment(
@@ -185,4 +192,27 @@ public class AlgoJoinPointsSegment extends AlgoElement implements AlgoJoinPoints
         }
 		return app.getPlain("SegmentAB",P.getLabel(tpl),Q.getLabel(tpl));
     }
+
+	public Variable[] getBotanaVars() {
+		if (botanaVars != null)
+			return botanaVars;
+		
+		botanaVars = new Variable[4];
+		Variable[] line1vars = new Variable[2];
+		Variable[] line2vars = new Variable[2];
+		line1vars = ((SymbolicParametersBotanaAlgo) input[0]).getBotanaVars();
+		line2vars = ((SymbolicParametersBotanaAlgo) input[1]).getBotanaVars();
+		botanaVars[0] = line1vars[0];
+		botanaVars[1] = line1vars[1];
+		botanaVars[2] = line2vars[0];
+		botanaVars[3] = line2vars[1];
+		
+		return botanaVars;
+	}
+
+	public Polynomial[] getBotanaPolynomials()
+			throws NoSymbolicParametersException {
+		// It's OK, polynomials for lines/segments are only created when a third point is lying on them, too:
+		return null;
+	}
 }
