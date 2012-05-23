@@ -25,13 +25,15 @@ import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.Polynomial;
 import geogebra.common.kernel.geos.GeoConic;
+import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.main.AbstractApplication;
 
 /**
  *
  * @author  Markus
  * @version 
  */
-public class AlgoDependentConic extends AlgoElement {
+public class AlgoDependentConic extends AlgoElement implements EvaluateAtPoint{
 
     private Equation equation;
     private ExpressionValue [] ev = new ExpressionValue[6];  // input
@@ -54,7 +56,7 @@ public class AlgoDependentConic extends AlgoElement {
         for (int i=0; i<6; i++) {
         	// find constant parts of input and evaluate them right now
             if (ev[i].isConstant()) ev[i] = ev[i].evaluate(StringTemplate.defaultTemplate);
-                 
+            AbstractApplication.debug(ev[i].toString(StringTemplate.defaultTemplate));     
             // check that coefficient is a number: this may throw an exception
             ExpressionValue eval = ev[i].evaluate(StringTemplate.defaultTemplate);
             ((NumberValue) eval).getDouble();  
@@ -104,6 +106,18 @@ public class AlgoDependentConic extends AlgoElement {
 			conic.setUndefined();
 		}
     }   
+    
+    final public double evaluate(GeoPoint2 P) {
+    	double mat0 = ev[0].evaluateNum().getDouble(); // x\u00b2
+		double mat1 = ev[2].evaluateNum().getDouble(); // y\u00b2
+		double mat2 = ev[5].evaluateNum().getDouble(); // constant
+		double mat3 = ev[1].evaluateNum().getDouble() / 2.0; // xy
+		double mat4 = ev[3].evaluateNum().getDouble() / 2.0; // x
+		double mat5 = ev[4].evaluateNum().getDouble() / 2.0;
+		return P.x * (mat0 * P.x + mat3 * P.y + mat4 * P.z)
+			+ P.y * (mat3 * P.x + mat1 * P.y + mat5 * P.z)
+			+ P.z * (mat4 * P.x + mat5 * P.y + mat2 * P.z);
+	}
 
     @Override
 	public final String toString(StringTemplate tpl) {

@@ -5,24 +5,30 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.Algos;
-import geogebra.common.kernel.arithmetic.Functional;
+import geogebra.common.kernel.algos.EvaluateAtPoint;
 import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import geogebra.common.kernel.geos.CasEvaluableFunction;
-import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
-import geogebra.common.kernel.geos.GeoFunctionable;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.AbstractApplication;
-import geogebra.common.util.StringUtil;
 
+/**
+ * @author zbynek
+ *
+ */
 public class AlgoSolveODECas extends AlgoElement {
 	private CasEvaluableFunction f;
 	private GeoElement g;
 	private GeoPointND pt;
 	private AlgoElement helper;
+	/**
+	 * @param cons construction
+	 * @param label label for output
+	 * @param f input function
+	 */
 	public AlgoSolveODECas(Construction cons,  String label, CasEvaluableFunction f) {
 		super(cons);
 		this.f = f;
@@ -32,6 +38,12 @@ public class AlgoSolveODECas extends AlgoElement {
 		g.setLabel(label);
 	}
 	
+	/**
+	 *  @param cons construction
+	 * @param label label for output
+	 * @param f input function
+	 * @param pt point through which the integral line should go
+	 */
 	public AlgoSolveODECas(Construction cons,  String label, CasEvaluableFunction f,GeoPointND pt) {
 		super(cons);
 		this.f = f;
@@ -94,34 +106,36 @@ public class AlgoSolveODECas extends AlgoElement {
 			return;
 		}
 		c1.setAlgebraVisible(false);
-		if(g instanceof Functional){
+		//we have dependent function
+		if(g instanceof GeoFunction && helper!=null){
 			GeoPoint2 ptt = (GeoPoint2)pt;
 			c1.setValue(0);
-			double val0 = ((Functional)g).evaluate(ptt.getX()/ptt.getZ());
+			double val0 = ((GeoFunction)g).evaluate(ptt.getX()/ptt.getZ());
 			c1.setValue(1);
-			double val1 = ((Functional)g).evaluate(ptt.getX()/ptt.getZ());
+			double val1 = ((GeoFunction)g).evaluate(ptt.getX()/ptt.getZ());
 			double d= (ptt.getY()/ptt.getZ()-val0)/(val1-val0);
 			c1.setValue(d);
-			double val = ((Functional)g).evaluate(ptt.getX()/ptt.getZ());
+			double val = ((GeoFunction)g).evaluate(ptt.getX()/ptt.getZ());
 			if(!Kernel.isEqual(ptt.getY()/ptt.getZ(), val)){
 				g.setUndefined();
-			}
+			}else
+				helper.update();
 		}
-		else if(g instanceof GeoConic){
+		//we have dependent conic or line
+		else if(helper instanceof EvaluateAtPoint){
 			GeoPoint2 ptt = (GeoPoint2)pt;
+			EvaluateAtPoint dep = (EvaluateAtPoint)helper;
 			c1.setValue(0);
-			helper.update();
-			double val0 = ((GeoConic)g).evaluate(ptt);
+			double val0 = dep.evaluate(ptt);
 			c1.setValue(1);
-			helper.update();
-			double val1 = ((GeoConic)g).evaluate(ptt);
+			double val1 = dep.evaluate(ptt);
 			double d= (0-val0)/(val1-val0);
 			c1.setValue(d);
-			helper.update();
-			double val = ((GeoConic)g).evaluate(ptt);
+			double val = dep.evaluate(ptt);
 			if(!Kernel.isZero(val)){
 				g.setUndefined();
-			}
+			}else
+				helper.update();
 		}else{
 			AbstractApplication.debug("Unhandled case "+g.getClass());
 		}
@@ -136,14 +150,17 @@ public class AlgoSolveODECas extends AlgoElement {
 			functionOut = kernel.evaluateGeoGebraCAS(casString,arbconst);
 			boolean flag = cons.isSuppressLabelsActive();
 			cons.setSuppressLabelCreation(true);
-			GeoElement[]res = kernel.getAlgebraProcessor().processAlgebraCommandNoExceptions(functionOut, false);
+			GeoElement[]res = kernel.getAlgebraProcessor().processAlgebraCommandNoExceptionHandling(functionOut,
+					false,false,false);
 			cons.setSuppressLabelCreation(flag);
-			if(g==null){
-				g = res[0];
-				helper = g.getParentAlgorithm();
-			}else
-				g.set(res[0]);
-			ok =true;
+			if(res!=null && res.length>0){
+				if(g==null){
+					g = res[0];
+					helper = g.getParentAlgorithm();
+				}else
+					g.set(res[0]);
+				ok =true;
+			}
 		} catch (Throwable e) {
 			AbstractApplication.debug("AlgoDegree: " + e.getMessage());
 		}
@@ -155,6 +172,9 @@ public class AlgoSolveODECas extends AlgoElement {
 		}	
 	}
 
+	/**
+	 * @return resulting function, conic or line
+	 */
 	public GeoElement getResult(){
 		return g;
 	}	
