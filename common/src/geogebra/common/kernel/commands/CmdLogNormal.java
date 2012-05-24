@@ -8,6 +8,7 @@ import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
+import geogebra.common.kernel.statistics.AlgoLogNormal;
 import geogebra.common.main.MyError;
 
 /**
@@ -55,13 +56,8 @@ public class CmdLogNormal extends CommandProcessor {
 					
 				} else if (arg[2].isNumberValue()) 
 				{
-					// needed for eg Normal[1, 0.001, x] 
-					StringTemplate highPrecision = StringTemplate.maxPrecision;
-					String mean = arg[0].getLabel(highPrecision);
-					String sd = arg[1].getLabel(highPrecision);
-					String x = arg[2].getLabel(highPrecision);
-					GeoElement[] ret = kernelA.getAlgebraProcessor().processAlgebraCommand( "1/2 erf((ln(If["+x+"<0,0,"+x+"])-("+mean+"))/(sqrt(2)*abs("+sd+"))) + 1/2", true );
-					return ret;
+					AlgoLogNormal algo = new AlgoLogNormal(cons, c.getLabel(), (NumberValue)arg[0], (NumberValue)arg[1], (NumberValue)arg[2]);
+					return algo.getGeoElements();
 					
 				}  else
 					throw argErr(app, c.getName(), arg[2]);

@@ -286,4 +286,8 @@ public class MyMath2 {
 		return ret;
 	}
 
+	public static double erf(double d) {
+		return erf(0, 1, d);
+	}
+
 }
