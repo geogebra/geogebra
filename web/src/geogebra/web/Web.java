@@ -13,6 +13,7 @@ import geogebra.web.helper.JavaScriptInjector;
 import geogebra.web.html5.ArticleElement;
 import geogebra.web.html5.Dom;
 
+import com.google.api.gwt.oauth2.client.Auth;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
@@ -27,6 +28,12 @@ import com.google.gwt.user.client.ui.RootPanel;
  * Entry point classes define <code>onModuleLoad()</code>.
  */
 public class Web implements EntryPoint {
+	
+
+	/**
+	 * Google Authorization class entry point.
+	 */
+	public static final Auth AUTH = Auth.get();
 	
 	public void t(String s,AlgebraProcessor ap) throws Exception{
 		ap.processAlgebraCommandNoExceptionHandling(s, false,false, true);

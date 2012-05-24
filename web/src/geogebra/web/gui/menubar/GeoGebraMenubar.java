@@ -2,7 +2,10 @@ package geogebra.web.gui.menubar;
 
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.main.AbstractApplication;
+import geogebra.web.Web;
 import geogebra.web.gui.images.AppResources;
+import geogebra.web.helper.GoogleApiCallback;
+import geogebra.web.helper.MyGoogleApis;
 import geogebra.web.main.Application;
 import geogebra.web.util.JSON;
 
@@ -18,6 +21,7 @@ import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.RequestException;
 import com.google.gwt.http.client.Response;
 import com.google.gwt.http.client.URL;
+import com.google.gwt.storage.client.Storage;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.MenuBar;
@@ -33,12 +37,12 @@ import com.google.gwt.user.client.ui.MenuItem;
 
 public class GeoGebraMenubar extends MenuBar {
 	
-		private static final Auth AUTH = Auth.get();
 	
 		private AbstractApplication app;
 		private FileMenu fileMenu;
 
 		private MenuItem loginToGoogle;
+		private MenuItem linktoggb;
 
 		public GeoGebraMenubar(AbstractApplication app) {
 	        super();
@@ -51,9 +55,114 @@ public class GeoGebraMenubar extends MenuBar {
 		private void init() {
 
 			//file
-			fileMenu = new FileMenu(app);
-			addItem(app.getMenu("File"),fileMenu);
-			MenuItem linktoggb = addItem(getMenuBarHtml(AppResources.INSTANCE.GeoGebraTube().getSafeUri().asString(),""),true, new Command() {
+			createFileMenu();
+			
+			createLinkToGGBT();
+			
+			createLoginToGoogle();
+        }
+
+		private void createLoginToGoogle() {
+			
+			Command c = null;
+			String menuHtml = "";
+			if (signedInToGoogle()) {
+				c = createCommandForSignedIn();
+				//will be handled by callback
+				createMenuHtmlForSignedIn();
+			} else {
+				c = createCommandForNotSignedIn();
+				menuHtml = createMenuHtmlForNotSignedIn();
+			}
+			
+			
+	        loginToGoogle = addItem(menuHtml,c);
+        }
+
+		String createMenuHtmlForNotSignedIn() {
+	        return "Login to Google";
+        }
+
+		private void createMenuHtmlForSignedIn() {
+	        AuthRequest r = MyGoogleApis.createNewAuthRequest();
+	        Web.AUTH.login(r, new Callback<String, Throwable>() {
+
+				public void onFailure(Throwable reason) {
+					AbstractApplication.error("Request failed" + " " + reason.getMessage());
+                }
+
+				public void onSuccess(String token) {
+					MyGoogleApis.executeApi(GeoGebraConstants.API_USERINFO + token,new GoogleApiCallback() {
+						
+						public void success(String responseText) {
+							JavaScriptObject answer = JSON.parse(responseText);
+							loginToGoogle.setHTML(JSON.get(answer,"email"));
+							loginToGoogle.setCommand(createCommandForSignedIn());
+						}
+						
+						public void failure(String failureText) {
+							AbstractApplication.error(failureText);
+							
+						}
+                       });
+                }
+			});
+	        
+        }
+
+		private static boolean signedInToGoogle() {
+	        AuthRequest r = MyGoogleApis.createNewAuthRequest();
+	        if (Web.AUTH.expiresIn(r) > 0) {
+	        	return true;
+	        }
+	        return false;
+        }
+
+		Command createCommandForNotSignedIn() {
+	        // TODO Auto-generated method stub
+	        return new Command() {
+				
+				public void execute() {
+					final AuthRequest req = MyGoogleApis.createNewAuthRequest();
+					Web.AUTH.login(req, new Callback<String, Throwable>() {
+
+						public void onFailure(Throwable reason) {
+	                       AbstractApplication.error("Request failed" + " " + reason.getMessage());
+                        }
+
+						public void onSuccess(String token) {
+	                       MyGoogleApis.executeApi(GeoGebraConstants.API_USERINFO + token,new GoogleApiCallback() {
+							
+							public void success(String responseText) {
+								JavaScriptObject answer = JSON.parse(responseText);
+								loginToGoogle.setHTML(JSON.get(answer,"email"));
+								loginToGoogle.setCommand(createCommandForSignedIn());
+							}
+							
+							public void failure(String failureText) {
+								AbstractApplication.error(failureText);
+								
+							}
+	                       });
+                        }
+					});
+				}
+			};
+        }
+
+		Command createCommandForSignedIn() {
+	        return new Command() {
+				
+				public void execute() {
+					Web.AUTH.clearAllTokens();
+					loginToGoogle.setHTML(createMenuHtmlForNotSignedIn());
+					loginToGoogle.setCommand(createCommandForNotSignedIn());
+				}
+			};
+        }
+
+		private void createLinkToGGBT() {
+	        linktoggb = addItem(getMenuBarHtml(AppResources.INSTANCE.GeoGebraTube().getSafeUri().asString(),""),true, new Command() {
 				
 				public void execute() {
 					Window.open("http://geogebratube.org", "", "");
@@ -61,48 +170,11 @@ public class GeoGebraMenubar extends MenuBar {
 			});
 			linktoggb.setStyleName("linktoggbtube");
 			linktoggb.setTitle("Go to GeoGebraTube");
-			
-			loginToGoogle = addItem("Login to Google",new Command() {
-				
-				public void execute() {
-					final AuthRequest req = new AuthRequest(GeoGebraConstants.GOOGLE_AUTH_URL, GeoGebraConstants.GOOGLE_CLIENT_ID)
-		            .withScopes(GeoGebraConstants.USERINFO_EMAIL_SCOPE,GeoGebraConstants.USERINFO_PROFILE_SCOPE,GeoGebraConstants.DRIVE_SCOPE);
-		        // Calling login() will display a popup to the user the first time it is
-		        // called. Once the user has granted access to the application,
-		        // subsequent calls to login() will not display the popup, and will
-		        // immediately result in the callback being given the token to use.
-			        AUTH.login(req, new Callback<String, Throwable>() {
-			          public void onSuccess(String token) {
-			        	  
-			        	  String url = "https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=" 
-			        	            + token;
-			        	  RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, URL.encode(url));
-			        	  try {
-			        		  Request request = builder.sendRequest(null, new RequestCallback() {
-			        		    public void onError(Request request, Throwable exception) {
-			        		       // Couldn't connect to server (could be timeout, SOP violation, etc.)     
-			        		    }
-	
-			        		    public void onResponseReceived(Request request, Response response) {
-			        		      if (200 == response.getStatusCode()) {
-			        		    	  JavaScriptObject answer = JSON.parse(response.getText());
-			        		          loginToGoogle.setHTML(JSON.get(answer,"email"));
-			        		      } else {
-			        		        // Handle the error.  Can get the status text from response.getStatusText()
-			        		      }
-			        		    }       
-			        		  });
-			        		} catch (RequestException e) {
-			        		  // Couldn't connect to server        
-			        		}
-			          }
-	
-			          public void onFailure(Throwable caught) {
-			            Window.alert("Error:\n" + caught.getMessage());
-			          }
-			        });
-				}
-			});
+        }
+
+		private void createFileMenu() {
+	        fileMenu = new FileMenu(app);
+			addItem(app.getMenu("File"),fileMenu);
         }
 		
 		public static String getMenuBarHtml(String url,String text) {
