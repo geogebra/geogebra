@@ -515,6 +515,9 @@ public interface CommandConstants extends ConstantsWithLookup {
 	@DefaultStringValue("[ <Mean>, <Scale>, x ]\n[ <Mean>, <Scale>, <Variable Value> ]\n[ <Mean>, <Scale>, x, <Boolean Cumulative> ]")
 	String Logistic_Syntax();
 
+	@DefaultStringValue("[ <Mean>, <Scale>, <Probability> ]")
+	String InverseLogistic_Syntax();
+
 	@DefaultStringValue("[ <Dividend Number>, <Divisor Number> ]\n[ <Dividend Polynomial>, <Divisor Polynomial> ]")
 	String Mod_Syntax();
 
@@ -694,6 +697,9 @@ public interface CommandConstants extends ConstantsWithLookup {
 
 	@DefaultStringValue("[ <Mean>, <Standard Deviation>, x ]\n[ <Mean>, <Standard Deviation>, <Variable Value> ]\n[ <Mean>, <Standard Deviation>, x, <Boolean Cumulative> ]")
 	String LogNormal_Syntax();
+
+	@DefaultStringValue("[ <Mean>, <Standard Deviation>, <Probability> ]")
+	String InverseLogNormal_Syntax();
 
 	@DefaultStringValue("[ <Mean>, <Standard Deviation> ]")
 	String RandomNormal_Syntax();
@@ -1006,6 +1012,9 @@ public interface CommandConstants extends ConstantsWithLookup {
 
 	@DefaultStringValue("Logistic")
 	String Logistic();
+
+	@DefaultStringValue("InverseLogistic")
+	String InverseLogistic();
 
 	@DefaultStringValue("[ <List of Numbers> ]")
 	String Q3_Syntax();
@@ -2590,6 +2599,9 @@ public interface CommandConstants extends ConstantsWithLookup {
 
 	@DefaultStringValue("LogNormal")
 	String LogNormal();
+
+	@DefaultStringValue("InverseLogNormal")
+	String InverseLogNormal();
 
 	@DefaultStringValue("Trilinear")
 	String Trilinear();

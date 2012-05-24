@@ -7,7 +7,6 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
-import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.statistics.AlgoBinomialDist;
 import geogebra.common.kernel.statistics.AlgoCauchy;
 import geogebra.common.kernel.statistics.AlgoChiSquared;
@@ -23,6 +22,8 @@ import geogebra.common.kernel.statistics.AlgoInverseExponential;
 import geogebra.common.kernel.statistics.AlgoInverseFDistribution;
 import geogebra.common.kernel.statistics.AlgoInverseGamma;
 import geogebra.common.kernel.statistics.AlgoInverseHyperGeometric;
+import geogebra.common.kernel.statistics.AlgoInverseLogNormal;
+import geogebra.common.kernel.statistics.AlgoInverseLogistic;
 import geogebra.common.kernel.statistics.AlgoInverseNormal;
 import geogebra.common.kernel.statistics.AlgoInversePascal;
 import geogebra.common.kernel.statistics.AlgoInversePoisson;
@@ -198,6 +199,10 @@ public class ProbabilityManager {
 		switch (d) {
 		case NORMAL: ret = new AlgoInverseNormal(cons, param1, param2, x);
 		break;
+		case LOGNORMAL: ret = new AlgoInverseLogNormal(cons, param1, param2, x);
+		break;
+		case LOGISTIC: ret = new AlgoInverseLogistic(cons, param1, param2, x);
+		break;
 		case STUDENT: ret = new AlgoInverseTDistribution(cons, param1, x);
 		break;
 		case CHISQUARE: ret = new AlgoInverseChiSquared(cons, param1, x);
@@ -220,15 +225,6 @@ public class ProbabilityManager {
 		break;
 		case HYPERGEOMETRIC: ret = new AlgoInverseHyperGeometric(cons, null, param1, param2, param3, x);
 		break;
-
-
-		//TODO ------------- inverse cmds for these dist.
-		case LOGNORMAL: 
-			AbstractApplication.error("TODO");
-			break;
-		case LOGISTIC: 
-			AbstractApplication.error("TODO");
-			break;
 
 		}
 		

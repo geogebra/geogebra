@@ -118,7 +118,7 @@ public enum Commands implements CommandsConstants{
 	// probability
 	//=============================================================
    	Random(TABLE_PROBABILITY), RandomNormal(TABLE_PROBABILITY), RandomUniform(TABLE_PROBABILITY), RandomBinomial(TABLE_PROBABILITY),
-   	RandomPoisson(TABLE_PROBABILITY), Normal(TABLE_PROBABILITY), LogNormal(TABLE_PROBABILITY), Logistic(TABLE_PROBABILITY),
+   	RandomPoisson(TABLE_PROBABILITY), Normal(TABLE_PROBABILITY), LogNormal(TABLE_PROBABILITY), Logistic(TABLE_PROBABILITY), InverseLogistic(TABLE_PROBABILITY),
    	InverseNormal(TABLE_PROBABILITY), Binomial(TABLE_PROBABILITY), BinomialDist(TABLE_PROBABILITY), Bernoulli(TABLE_PROBABILITY),
    	InverseBinomial(TABLE_PROBABILITY), TDistribution(TABLE_PROBABILITY), InverseTDistribution(TABLE_PROBABILITY), FDistribution(TABLE_PROBABILITY),
    	InverseFDistribution(TABLE_PROBABILITY), Gamma(TABLE_PROBABILITY), InverseGamma(TABLE_PROBABILITY), Cauchy(TABLE_PROBABILITY),
@@ -126,7 +126,7 @@ public enum Commands implements CommandsConstants{
    	InverseExponential(TABLE_PROBABILITY), HyperGeometric(TABLE_PROBABILITY), InverseHyperGeometric(TABLE_PROBABILITY), Pascal(TABLE_PROBABILITY),
    	InversePascal(TABLE_PROBABILITY), Poisson(TABLE_PROBABILITY), InversePoisson(TABLE_PROBABILITY), Weibull(TABLE_PROBABILITY),
    	InverseWeibull(TABLE_PROBABILITY), Zipf(TABLE_PROBABILITY), InverseZipf(TABLE_PROBABILITY), Triangular(TABLE_PROBABILITY),
-   	Uniform(TABLE_PROBABILITY), Erlang(TABLE_PROBABILITY),
+   	Uniform(TABLE_PROBABILITY), Erlang(TABLE_PROBABILITY), InverseLogNormal(TABLE_PROBABILITY),
    	
 	//=============================================================
 	// vector & matrix

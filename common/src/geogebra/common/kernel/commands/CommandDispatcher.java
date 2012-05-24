@@ -740,8 +740,12 @@ public class CommandDispatcher {
 				return new CmdNormal(kernel);
 			case LogNormal:
 				return new CmdLogNormal(kernel);
+			case InverseLogNormal:
+				return new CmdInverseLogNormal(kernel);
 			case Logistic:
 				return new CmdLogistic(kernel);
+			case InverseLogistic:
+				return new CmdInverseLogistic(kernel);
 			case InverseNormal:
 				return new CmdInverseNormal(kernel);
 			case Binomial:

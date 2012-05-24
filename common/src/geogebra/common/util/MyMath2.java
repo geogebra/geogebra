@@ -129,29 +129,50 @@ public class MyMath2 {
 		}
 	}
 
-	;
-	
-	/**
+	private static double C2sqrtPi = 1.1283791670955125738961589;
 
-	 * @param x x
-	 * @return inverse error function
+	/**
+	 *    Inverse of the error function Erf.
+	 *
+	 * Implementation: Inversion by Newton iteration of erf(x).
+	 * The initial value x0 = 0.
+	 * For |z| <= 0.84 (=erf(1)) at most 4 iterations are necessary.
+	 * 
+	 * adapted from http://www.mathematik.uni-bielefeld.de/~sillke/ALGORITHMS/special-functions/inv_erf.c
+	 * (in fact needs up to about 20 in extreme cases for very small z)
+	 * @param z z
+	 * @return inverf(z)
 	 */
-	final public static double inverf(double x, SeriesInvErfAlgorithm invErfalgo) {
-		if (x > 1 || x < -1) {
+	final public static double inverf(double z) {
+
+		if (z > 1 || z < -1) {
 			return Double.NaN;
 		}
 		
-		if (x < 0) { 
-			return -invErfalgo.invErf(-x);
+		/* f(x)   = erf(x) - z   */
+		/* f'(x)  = c*exp(-x*x)  */
+		/* f''(x) = -2 f'(x)     */
+		double c = C2sqrtPi;
+		double f = -z, f1=c;
+		double q = f/f1, x = -q, x0 = 0;
+
+		while (Math.abs(x-x0) > 1e-12 && Math.abs(f) > 1e-14 ) {
+			/* Newton 2nd order: x <- x - f/f'(1 + f*f''/(2 f'^2)) */
+			x0  = x;
+			f   = MyMath2.erf(x) - z;
+			f1  = c * Math.exp(-x*x);
+			q   = f / f1;
+			x  -= q * (1 - x * q);  /* Newton Step 2nd order */
 		}
-		
-		return invErfalgo.invErf(x);
+
+		return x;
 	}
+
 
 	final public static double psi(double x) {
 		return Gamma.digamma(x);
 	}
-	
+
 	final public static double logGamma(double x) {
 		return Gamma.logGamma(x);
 	}
@@ -164,7 +185,7 @@ public class MyMath2 {
 		default: return Double.NaN;
 		}
 	}
-	
+
 	/** Euler's constant */
 	public static double EULER = 0.57721566;
 	private static double TMIN = 2.0;
@@ -189,8 +210,8 @@ public class MyMath2 {
 			d = one.divide(b);
 			h = one.divide(b); 
 			// d=h=1/b=1/(bre+ibim)=bre-ibim/(bre^2+bim^2);
-			
-			
+
+
 			for (i = 2; i <= MAXIT; i++) {
 				a = -(i - 1) * (i - 1);
 				b = b.add(two);
@@ -202,13 +223,13 @@ public class MyMath2 {
 				del = c.multiply(d);
 				// del = c*d
 				h=h.multiply(del);
-				
+
 				//AbstractApplication.debug(Math.abs(delre - 1.0)+ Math.abs(delim));
 				if (Math.abs(del.getReal() - 1.0) + Math.abs(del.getImaginary()) < Kernel.MIN_PRECISION)
 					break;
 			}
 			//if (i > MAXIT)
-				//return new Complex(Double.NaN,Double.NaN);
+			//return new Complex(Double.NaN,Double.NaN);
 			// h = (cos(t)-isin(t))*h
 			h = h.multiply(new Complex(Math.cos(t),-Math.sin(t)));
 
@@ -241,10 +262,10 @@ public class MyMath2 {
 			if (k > MAXIT)
 				return new Complex(Double.NaN,Double.NaN);
 		}
-		
+
 		return	new Complex(sumc + Math.log(t) + EULER, Math.signum(a2)*sums);
-		
-			
+
+
 
 	}
 
@@ -268,7 +289,7 @@ public class MyMath2 {
 	final public static double si(double a) {
 		return cisi(a).getImaginary();
 	}
-	
+
 	/**
 	 * Returns exponential integral of given number, 
 	 * for negative values returns undefined

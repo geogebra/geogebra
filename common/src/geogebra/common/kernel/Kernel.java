@@ -109,103 +109,7 @@ import geogebra.common.kernel.kernelND.GeoRayND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.kernel.optimization.ExtremumFinder;
 import geogebra.common.kernel.parser.Parser;
-import geogebra.common.kernel.statistics.AlgoANOVA;
-import geogebra.common.kernel.statistics.AlgoBernoulliBarChart;
-import geogebra.common.kernel.statistics.AlgoBinomialDist;
-import geogebra.common.kernel.statistics.AlgoBinomialDistBarChart;
-import geogebra.common.kernel.statistics.AlgoCauchy;
-import geogebra.common.kernel.statistics.AlgoChiSquared;
-import geogebra.common.kernel.statistics.AlgoDoubleListCovariance;
-import geogebra.common.kernel.statistics.AlgoDoubleListPMCC;
-import geogebra.common.kernel.statistics.AlgoDoubleListSXX;
-import geogebra.common.kernel.statistics.AlgoDoubleListSXY;
-import geogebra.common.kernel.statistics.AlgoDoubleListSigmaXX;
-import geogebra.common.kernel.statistics.AlgoDoubleListSigmaXY;
-import geogebra.common.kernel.statistics.AlgoDoubleListSigmaYY;
-import geogebra.common.kernel.statistics.AlgoExponential;
-import geogebra.common.kernel.statistics.AlgoFDistribution;
-import geogebra.common.kernel.statistics.AlgoFit;
-import geogebra.common.kernel.statistics.AlgoFitExp;
-import geogebra.common.kernel.statistics.AlgoFitGrowth;
-import geogebra.common.kernel.statistics.AlgoFitLineX;
-import geogebra.common.kernel.statistics.AlgoFitLineY;
-import geogebra.common.kernel.statistics.AlgoFitLog;
-import geogebra.common.kernel.statistics.AlgoFitLogistic;
-import geogebra.common.kernel.statistics.AlgoFitNL;
-import geogebra.common.kernel.statistics.AlgoGamma;
-import geogebra.common.kernel.statistics.AlgoGeometricMean;
-import geogebra.common.kernel.statistics.AlgoHarmonicMean;
-import geogebra.common.kernel.statistics.AlgoHyperGeometric;
-import geogebra.common.kernel.statistics.AlgoHyperGeometricBarChart;
-import geogebra.common.kernel.statistics.AlgoInverseBinomial;
-import geogebra.common.kernel.statistics.AlgoInverseCauchy;
-import geogebra.common.kernel.statistics.AlgoInverseChiSquared;
-import geogebra.common.kernel.statistics.AlgoInverseExponential;
-import geogebra.common.kernel.statistics.AlgoInverseFDistribution;
-import geogebra.common.kernel.statistics.AlgoInverseGamma;
-import geogebra.common.kernel.statistics.AlgoInverseHyperGeometric;
-import geogebra.common.kernel.statistics.AlgoInverseNormal;
-import geogebra.common.kernel.statistics.AlgoInversePascal;
-import geogebra.common.kernel.statistics.AlgoInversePoisson;
-import geogebra.common.kernel.statistics.AlgoInverseTDistribution;
-import geogebra.common.kernel.statistics.AlgoInverseWeibull;
-import geogebra.common.kernel.statistics.AlgoInverseZipf;
-import geogebra.common.kernel.statistics.AlgoListCovariance;
-import geogebra.common.kernel.statistics.AlgoListMeanX;
-import geogebra.common.kernel.statistics.AlgoListMeanY;
-import geogebra.common.kernel.statistics.AlgoListPMCC;
-import geogebra.common.kernel.statistics.AlgoListSDX;
-import geogebra.common.kernel.statistics.AlgoListSDY;
-import geogebra.common.kernel.statistics.AlgoListSXX;
-import geogebra.common.kernel.statistics.AlgoListSXY;
-import geogebra.common.kernel.statistics.AlgoListSYY;
-import geogebra.common.kernel.statistics.AlgoListSampleSDX;
-import geogebra.common.kernel.statistics.AlgoListSampleSDY;
-import geogebra.common.kernel.statistics.AlgoListSigmaXX;
-import geogebra.common.kernel.statistics.AlgoListSigmaXY;
-import geogebra.common.kernel.statistics.AlgoListSigmaYY;
-import geogebra.common.kernel.statistics.AlgoMean;
-import geogebra.common.kernel.statistics.AlgoMedian;
-import geogebra.common.kernel.statistics.AlgoMode;
-import geogebra.common.kernel.statistics.AlgoNormal;
-import geogebra.common.kernel.statistics.AlgoOrdinalRank;
-import geogebra.common.kernel.statistics.AlgoPascal;
-import geogebra.common.kernel.statistics.AlgoPascalBarChart;
-import geogebra.common.kernel.statistics.AlgoPercentile;
-import geogebra.common.kernel.statistics.AlgoPoisson;
-import geogebra.common.kernel.statistics.AlgoPoissonBarChart;
-import geogebra.common.kernel.statistics.AlgoProduct;
-import geogebra.common.kernel.statistics.AlgoQ1;
-import geogebra.common.kernel.statistics.AlgoQ3;
-import geogebra.common.kernel.statistics.AlgoRSquare;
-import geogebra.common.kernel.statistics.AlgoRandom;
-import geogebra.common.kernel.statistics.AlgoRandomBinomial;
-import geogebra.common.kernel.statistics.AlgoRandomNormal;
-import geogebra.common.kernel.statistics.AlgoRandomPoisson;
-import geogebra.common.kernel.statistics.AlgoRandomUniform;
-import geogebra.common.kernel.statistics.AlgoRootMeanSquare;
-import geogebra.common.kernel.statistics.AlgoSXX;
-import geogebra.common.kernel.statistics.AlgoSample;
-import geogebra.common.kernel.statistics.AlgoSampleStandardDeviation;
-import geogebra.common.kernel.statistics.AlgoSampleVariance;
-import geogebra.common.kernel.statistics.AlgoShuffle;
-import geogebra.common.kernel.statistics.AlgoSigmaXX;
-import geogebra.common.kernel.statistics.AlgoSpearman;
-import geogebra.common.kernel.statistics.AlgoStandardDeviation;
-import geogebra.common.kernel.statistics.AlgoSum;
-import geogebra.common.kernel.statistics.AlgoSumSquaredErrors;
-import geogebra.common.kernel.statistics.AlgoTDistribution;
-import geogebra.common.kernel.statistics.AlgoTMean2Estimate;
-import geogebra.common.kernel.statistics.AlgoTMeanEstimate;
-import geogebra.common.kernel.statistics.AlgoTTest;
-import geogebra.common.kernel.statistics.AlgoTTest2;
-import geogebra.common.kernel.statistics.AlgoTTestPaired;
-import geogebra.common.kernel.statistics.AlgoTiedRank;
-import geogebra.common.kernel.statistics.AlgoVariance;
-import geogebra.common.kernel.statistics.AlgoWeibull;
-import geogebra.common.kernel.statistics.AlgoZipf;
-import geogebra.common.kernel.statistics.AlgoZipfBarChart;
-import geogebra.common.kernel.statistics.RegressionMath;
+import geogebra.common.kernel.statistics.*;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.AbstractApplication.CasType;
 import geogebra.common.main.MyError;
@@ -6978,6 +6882,26 @@ public class Kernel {
 	final public GeoNumeric InverseNormal(String label, NumberValue a,
 			NumberValue b, NumberValue c) {
 		AlgoInverseNormal algo = new AlgoInverseNormal(cons, label, a, b, c);
+		GeoNumeric num = algo.getResult();
+		return num;
+	}
+
+	/**
+	 * InverseLogNormal[mean,variance,x] Michael Borcherds
+	 */
+	final public GeoNumeric InverseLogNormal(String label, NumberValue a,
+			NumberValue b, NumberValue c) {
+		AlgoInverseLogNormal algo = new AlgoInverseLogNormal(cons, label, a, b, c);
+		GeoNumeric num = algo.getResult();
+		return num;
+	}
+
+	/**
+	 * InverseLogistic[mean,variance,x] Michael Borcherds
+	 */
+	final public GeoNumeric InverseLogistic(String label, NumberValue a,
+			NumberValue b, NumberValue c) {
+		AlgoInverseLogistic algo = new AlgoInverseLogistic(cons, label, a, b, c);
 		GeoNumeric num = algo.getResult();
 		return num;
 	}
