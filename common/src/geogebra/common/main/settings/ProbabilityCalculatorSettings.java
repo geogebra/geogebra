@@ -9,6 +9,9 @@ import java.util.LinkedList;
  */
 public class ProbabilityCalculatorSettings extends AbstractSettings {
 	
+	public enum DIST { NORMAL, STUDENT, CHISQUARE, F, CAUCHY, EXPONENTIAL, GAMMA, WEIBULL, LOGISTIC, LOGNORMAL, ERLANG, BINOMIAL, PASCAL, HYPERGEOMETRIC, POISSON };
+
+	/*
 	// continuous distribution identifiers
 	public static final int DIST_NORMAL = 0;
 	public static final int DIST_STUDENT = 1;
@@ -28,12 +31,12 @@ public class ProbabilityCalculatorSettings extends AbstractSettings {
 	public static final int DIST_BINOMIAL = 11;
 	public static final int DIST_PASCAL = 12;
 	public static final int DIST_HYPERGEOMETRIC = 13;
-	public static final int DIST_POISSON = 14;
+	public static final int DIST_POISSON = 14;*/
 
-	public static final int distCount = 15;
+	public static final int distCount = DIST.values().length;
 
 	private double[] parameters = {0.0d, 1.0d};
-	private int distributionType = DIST_NORMAL;
+	private DIST distributionType = DIST.NORMAL;
 	private boolean isCumulative = false;
 	
 	public ProbabilityCalculatorSettings(LinkedList<SettingListener> listeners) {
@@ -64,7 +67,7 @@ public class ProbabilityCalculatorSettings extends AbstractSettings {
 	/**
 	 * Sets the  distribution type
 	 */
-	public void setDistributionType(int distributionType) {
+	public void setDistributionType(DIST distributionType) {
 		this.distributionType = distributionType;
 			settingChanged();
 	}
@@ -72,7 +75,7 @@ public class ProbabilityCalculatorSettings extends AbstractSettings {
 	/** 
 	 * @return distribution type
 	 */
-	public int getDistributionType() {
+	public DIST getDistributionType() {
 		return distributionType;
 	}
 	

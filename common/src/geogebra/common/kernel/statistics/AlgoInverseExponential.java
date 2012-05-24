@@ -31,7 +31,12 @@ public class AlgoInverseExponential extends AlgoDistribution {
         super(cons, label, a, b, null, null);
     }
 
-    @Override
+    public AlgoInverseExponential(Construction cons, NumberValue a,
+			NumberValue b) {
+        super(cons, a, b, null, null);
+	}
+
+	@Override
 	public Algos getClassName() {
         return Algos.AlgoInverseExponential;
     }

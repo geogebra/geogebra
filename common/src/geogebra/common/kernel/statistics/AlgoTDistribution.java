@@ -36,7 +36,12 @@ public class AlgoTDistribution extends AlgoDistribution {
         super(cons, label, a, b, null, null);
     }
 
-    @Override
+    public AlgoTDistribution(Construction cons, NumberValue a,
+			NumberValue b) {
+        super(cons, a, b, null, null);
+	}
+
+	@Override
 	public Algos getClassName() {
         return Algos.AlgoTDistribution;
     }

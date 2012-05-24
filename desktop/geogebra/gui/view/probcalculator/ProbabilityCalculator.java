@@ -7,19 +7,30 @@ import geogebra.common.kernel.Path;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.algos.AlgoBarChart;
+import geogebra.common.kernel.algos.AlgoCauchyDF;
+import geogebra.common.kernel.algos.AlgoChiSquaredDF;
 import geogebra.common.kernel.algos.AlgoDependentNumber;
 import geogebra.common.kernel.algos.AlgoDependentPoint;
+import geogebra.common.kernel.algos.AlgoDistributionDF;
 import geogebra.common.kernel.algos.AlgoElement;
-import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.algos.AlgoExponentialDF;
+import geogebra.common.kernel.algos.AlgoFDistributionDF;
+import geogebra.common.kernel.algos.AlgoGammaDF;
 import geogebra.common.kernel.algos.AlgoJoinPointsSegment;
 import geogebra.common.kernel.algos.AlgoListElement;
+import geogebra.common.kernel.algos.AlgoLogNormalDF;
+import geogebra.common.kernel.algos.AlgoLogisticDF;
+import geogebra.common.kernel.algos.AlgoNormalDF;
 import geogebra.common.kernel.algos.AlgoPointOnPath;
 import geogebra.common.kernel.algos.AlgoRayPointVector;
 import geogebra.common.kernel.algos.AlgoSequence;
+import geogebra.common.kernel.algos.AlgoTDistributionDF;
 import geogebra.common.kernel.algos.AlgoTake;
+import geogebra.common.kernel.algos.AlgoWeibullDF;
 import geogebra.common.kernel.algos.ConstructionElement;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
+import geogebra.common.kernel.arithmetic.MyBoolean;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.MyVecNode;
 import geogebra.common.kernel.arithmetic.NumberValue;
@@ -45,6 +56,7 @@ import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.common.main.settings.AbstractSettings;
 import geogebra.common.main.settings.ProbabilityCalculatorSettings;
+import geogebra.common.main.settings.ProbabilityCalculatorSettings.DIST;
 import geogebra.common.main.settings.SettingListener;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.plugin.Operation;
@@ -111,7 +123,7 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 
 
 	// selected distribution mode
-	private int selectedDist = ProbabilityCalculatorSettings.DIST_NORMAL;  // default: startup with normal distribution
+	private DIST selectedDist = DIST.NORMAL;  // default: startup with normal distribution
 
 
 	// distribution fields 
@@ -122,8 +134,8 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 	private boolean isLineGraph = false;
 
 	// maps for the distribution ComboBox 
-	private HashMap<Integer, String> distributionMap;
-	private HashMap<String, Integer> reverseDistributionMap;
+	private HashMap<DIST, String> distributionMap;
+	private HashMap<String, DIST> reverseDistributionMap;
 
 
 	// GeoElements
@@ -137,7 +149,7 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 
 
 	// GUI elements
-	private JComboBox comboDistribution, comboProbType;
+	private JComboBox<String> comboDistribution, comboProbType;
 	private JTextField[] fldParameterArray;
 	private JTextField fldLow,fldHigh,fldResult;
 	private JLabel[] lblParameterArray;
@@ -233,13 +245,13 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 
 
 
-	public void setProbabilityCalculator(int distributionType, double[] parameters, boolean isCumulative){
+	public void setProbabilityCalculator(DIST distributionType, double[] parameters, boolean isCumulative){
 
 		this.selectedDist = distributionType;
 		this.isCumulative = isCumulative;
 		this.parameters = parameters;
 		if(parameters == null)
-			this.parameters = ProbabilityManager.getDefaultParameterMap().get(selectedDist);	
+			this.parameters = ProbabilityManager.getDefaultParameters(selectedDist);	
 
 		//this.buildLayout();
 		//isIniting = true;
@@ -271,7 +283,7 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 
 
 
-	public int getSelectedDist() {
+	public DIST getSelectedDist() {
 		return selectedDist;
 	}
 
@@ -295,23 +307,23 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 		if(this.isCumulative == isCumulative) return;
 
 		this.isCumulative = isCumulative;
-		
+
 		// in cumulative mode only left-sided intervals are allowed
 		setProbabilityComboBoxMenu();
 		if(!isCumulative)
 			// make sure left-sided is still selected when reverting to non-cumulative mode
 			comboProbType.setSelectedIndex(PROB_LEFT);
 		updateAll();
-		
+
 	}
 
 	public boolean isLineGraph() {
 		return isLineGraph;
 	}
-	
+
 	public void setLineGraph(boolean isLineGraph) {
 		if(this.isLineGraph == isLineGraph) return;
-		
+
 		this.isLineGraph = isLineGraph;
 		updateAll();
 	}
@@ -365,8 +377,8 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 
 			// plot panel (extension of EuclidianView)
 			//======================================================
-			
-			
+
+
 			plotPanel = new PlotPanelEuclidianView(app.getKernel(), exportToEVAction);
 			plotPanel.setMouseEnabled(true,true);
 			plotPanel.setMouseMotionEnabled(true);
@@ -378,7 +390,7 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 			 */
 			plotPanel.setBorder(BorderFactory.createEmptyBorder());
 
-			
+
 			// table panel
 			//======================================================
 			table = new ProbabilityTable(app, this);
@@ -637,14 +649,14 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 			// discrete distribution 
 			// ====================================================
 
-			
+
 			// create discrete bar graph and associated lists
 			createDiscreteLists();
-		
+
 
 			// create interval bar chart
 			// ============================
-			
+
 			AlgoBarChart algoBarChart;
 			if(isLineGraph){
 				NumberValue zeroWidth = new GeoNumeric(cons, 0);
@@ -666,7 +678,7 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 
 
 			// create discrete interval bar graph and associated lists
-			
+
 			// Use Take[] to create a subset of the full discrete graph:
 			//     Take[discreteList, x(lowPoint) + offset, x(highPoint) + offset] 
 			//
@@ -681,7 +693,7 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 			ExpressionNode high = new ExpressionNode(kernel, highPoint, Operation.XCOORD, null);				
 			ExpressionNode lowPlusOffset = new ExpressionNode(kernel, low, Operation.PLUS, offset);
 			ExpressionNode highPlusOffset = new ExpressionNode(kernel, high, Operation.PLUS, offset);	
-			
+
 			AlgoDependentNumber xLow;
 			if(isCumulative)
 				// for cumulative bar graphs we only show a single bar
@@ -689,16 +701,16 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 			else
 				xLow = new AlgoDependentNumber(cons, lowPlusOffset, false);
 			cons.removeFromConstructionList(xLow);
-			
+
 			AlgoDependentNumber xHigh = new AlgoDependentNumber(cons, highPlusOffset, false);
 			cons.removeFromConstructionList(xHigh);
 
-			
+
 			AlgoTake take = new AlgoTake(cons, (GeoList)discreteValueList, 
 					(GeoNumeric) xLow.getGeoElements()[0], (GeoNumeric) xHigh.getGeoElements()[0]);
 			cons.removeFromConstructionList(take);
 			intervalValueList = (GeoList) take.getGeoElements()[0];
-			
+
 			AlgoTake take2 = new AlgoTake(cons, (GeoList)discreteProbList, 
 					(GeoNumeric)xLow.getGeoElements()[0], (GeoNumeric)xHigh.getGeoElements()[0]);
 			cons.removeFromConstructionList(take2);
@@ -750,16 +762,8 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 			// ====================================================
 
 			// create density curve
-			expr = buildDensityCurveExpression(selectedDist);
+			densityCurve = buildDensityCurveExpression(selectedDist);
 
-			// make sure eg Normal works in Swedish (Normal == PerpendicularLine)
-			kernel.setUseInternalCommandNames(true);
-
-			densityCurve = createGeoFromString(expr, null, true);
-
-			kernel.setUseInternalCommandNames(false);
-
-			cons.removeFromConstructionList(densityCurve.getParentAlgorithm());
 
 			densityCurve.setObjColor(new geogebra.awt.Color(COLOR_PDF));
 			densityCurve.setLineThickness(thicknessCurve);
@@ -793,14 +797,14 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 
 
 			if(isCumulative){
-				
+
 				// point on curve 
 				GeoFunction f = (GeoFunction)densityCurve;	
 				ExpressionNode highPointX = new ExpressionNode(kernel, highPoint, 
 						Operation.XCOORD, null);
 				ExpressionNode curveY = new ExpressionNode(kernel, f,
 						Operation.FUNCTION, highPointX);
-		
+
 				MyVecNode curveVec = new MyVecNode( kernel, highPointX, curveY);
 				ExpressionNode curvePointNode = new ExpressionNode(kernel, curveVec, 
 						Operation.NO_OPERATION, null);
@@ -808,8 +812,8 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 
 				AlgoDependentPoint pAlgo = new AlgoDependentPoint(cons, curvePointNode, false);
 				cons.removeFromConstructionList(pAlgo);
-				
-					
+
+
 				curvePoint = (GeoPoint2) pAlgo.getGeoElements()[0];
 				curvePoint.setObjColor(new geogebra.awt.Color(COLOR_POINT));
 				curvePoint.setPointSize(4);
@@ -887,7 +891,7 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 		// axes
 		//	plotSettings.showYAxis = probManager.isDiscrete(selectedDist);
 		plotSettings.showYAxis = isCumulative();
-		
+
 
 		plotSettings.isEdgeAxis[0] = false;
 		plotSettings.isEdgeAxis[1] = true;
@@ -978,24 +982,24 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 		boolean isValid = true;
 		switch (selectedDist){
 
-		case ProbabilityCalculatorSettings.DIST_BINOMIAL:
-		case ProbabilityCalculatorSettings.DIST_HYPERGEOMETRIC: 
+		case BINOMIAL:
+		case HYPERGEOMETRIC: 
 			isValid = xLow >= getDiscreteXMin() && xHigh <= getDiscreteXMax();
 			break;
 
-		case ProbabilityCalculatorSettings.DIST_POISSON: 
-		case ProbabilityCalculatorSettings.DIST_PASCAL: 
+		case POISSON: 
+		case PASCAL: 
 			isValid = xLow >= getDiscreteXMin();   
 			break;
 
 
-		case ProbabilityCalculatorSettings.DIST_CHISQUARE:
-		case ProbabilityCalculatorSettings.DIST_EXPONENTIAL:
+		case CHISQUARE:
+		case EXPONENTIAL:
 			if(probMode != PROB_LEFT)
 				isValid = xLow >= 0;   
 				break;
 
-		case ProbabilityCalculatorSettings.DIST_F:	
+		case F:	
 			if(probMode != PROB_LEFT)
 				isValid = xLow > 0;   
 				break;
@@ -1013,60 +1017,60 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 
 		switch (selectedDist) {
 
-		case ProbabilityCalculatorSettings.DIST_F:
-		case ProbabilityCalculatorSettings.DIST_STUDENT:
-		case ProbabilityCalculatorSettings.DIST_EXPONENTIAL:
-		case ProbabilityCalculatorSettings.DIST_WEIBULL:
-		case ProbabilityCalculatorSettings.DIST_POISSON:
+		case F:
+		case STUDENT:
+		case EXPONENTIAL:
+		case WEIBULL:
+		case POISSON:
 			// all parameters must be positive
 			isValid[0] = parameter > 0;
 			break;
 
-		case ProbabilityCalculatorSettings.DIST_CAUCHY:
-		case ProbabilityCalculatorSettings.DIST_LOGISTIC:
+		case CAUCHY:
+		case LOGISTIC:
 			// scale must be positive
 			isValid[1] = index == 1 && parameter > 0;
 			break;
 
-		case ProbabilityCalculatorSettings.DIST_CHISQUARE:
+		case CHISQUARE:
 			// df >= 1, integer
 			isValid[0] = Math.floor(parameter) == parameter && parameter >= 1;
 			break;
 
-		case ProbabilityCalculatorSettings.DIST_BINOMIAL:
+		case BINOMIAL:
 			// n >= 0, integer
 			isValid[0] = index == 0 && Math.floor(parameter) == parameter
-					&& parameter >= 0;
+			&& parameter >= 0;
 			// p is probability value
 			isValid[1] = index == 1 && parameter >= 0 && parameter <= 1;
 			break;
 
-		case ProbabilityCalculatorSettings.DIST_PASCAL:
+		case PASCAL:
 			// n >= 1, integer
 			isValid[0] = index == 0 && Math.floor(parameter) == parameter
-					&& parameter >= 1;
+			&& parameter >= 1;
 			// p is probability value
 			isValid[1] = index == 1 && parameter >= 0 && parameter <= 1;
 			break;
 
-		case ProbabilityCalculatorSettings.DIST_HYPERGEOMETRIC:
+		case HYPERGEOMETRIC:
 			// population size: N >= 1, integer
 			isValid[0] = index == 0 && Math.floor(parameter) == parameter
-					&& parameter >= 1;
+			&& parameter >= 1;
 			// successes in the population: n >= 0 and <= N, integer
 			isValid[1] = index == 1 && Math.floor(parameter) == parameter
 					&& parameter >= 0 && parameter <= parameters[0];
-			// sample size:  s>= 1 and s<= N, integer
-			isValid[2] = index == 2 && Math.floor(parameter) == parameter
-					&& parameter >= 1 && parameter <= parameters[0];
-			break;
+					// sample size:  s>= 1 and s<= N, integer
+					isValid[2] = index == 2 && Math.floor(parameter) == parameter
+							&& parameter >= 1 && parameter <= parameters[0];
+							break;
 
-		// ===================================
-		// no restrictions:
-		//
-		// case ProbabilityCalculatorSettings.DIST_NORMAL:
-		// case ProbabilityCalculatorSettings.DIST_LOGNORMAL:
-		// =========================================
+							// ===================================
+							// no restrictions:
+							//
+							// case DIST.NORMAL:
+							// case DIST.LOGNORMAL:
+							// =========================================
 
 		}
 
@@ -1074,9 +1078,9 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 
 	}
 
-	
-	
-	
+
+
+
 	//=================================================
 	//      Event Handlers 
 	//=================================================
@@ -1104,16 +1108,17 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 
 
 		if(source == comboDistribution){
-			
+
 			if(comboDistribution.getSelectedItem() != null) 
 				if( comboDistribution.getSelectedItem().equals(ListSeparatorRenderer.SEPARATOR)){
 					comboDistribution.removeActionListener(this);
 					comboDistribution.setSelectedItem(distributionMap.get(selectedDist));
 					comboDistribution.addActionListener(this);
 				}
-				else if(selectedDist != this.reverseDistributionMap.get(comboDistribution.getSelectedItem())){
-					selectedDist = this.reverseDistributionMap.get(comboDistribution.getSelectedItem());
-					parameters = ProbabilityManager.getDefaultParameterMap().get(selectedDist);
+				else if(!selectedDist.equals(this.reverseDistributionMap.get(comboDistribution.getSelectedItem()))){
+
+					selectedDist = reverseDistributionMap.get(comboDistribution.getSelectedItem());
+					parameters = ProbabilityManager.getDefaultParameters(selectedDist);
 					this.setProbabilityCalculator(selectedDist, parameters, isCumulative);
 				}
 			this.requestFocus();
@@ -1176,12 +1181,12 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 				// handle parameter entry
 				for(int i=0; i< parameters.length; ++i)
 					if (source == fldParameterArray[i]) {
-						
+
 						if(isValidParameter(value, i)){
 							parameters[i] = value;
 							updateAll();
 						}
-						
+
 					}
 
 			updateIntervalProbability();
@@ -1238,13 +1243,13 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 
 	}
 
-	
+
 	private void updateGUI() {
 
 		// set visibility and text of the parameter labels and fields
 		for(int i = 0; i < maxParameterCount; ++i ){
 
-			boolean hasParm = i < ProbabilityManager.getParmCount()[selectedDist];
+			boolean hasParm = i < ProbabilityManager.getParmCount(selectedDist);
 
 			lblParameterArray[i].setVisible(hasParm);
 			fldParameterArray[i].setVisible(hasParm);
@@ -1255,7 +1260,7 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 			if(hasParm){
 				// set label
 				lblParameterArray[i].setVisible(true);
-				lblParameterArray[i].setText(parameterLabels[selectedDist][i]);
+				lblParameterArray[i].setText(parameterLabels[selectedDist.ordinal()][i]);
 				// set field
 				fldParameterArray[i].removeActionListener(this);
 				fldParameterArray[i].setText("" + format( parameters[i]));
@@ -1281,7 +1286,7 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 	}
 
 
-	
+
 
 
 	private void updateIntervalProbability(){
@@ -1351,8 +1356,8 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 		// make result field editable for inverse probability calculation  
 		// TODO: remove lognormal and logistic filters when their inverse cmds become available
 		if(probMode != PROB_INTERVAL
-				&& selectedDist != ProbabilityCalculatorSettings.DIST_LOGNORMAL
-				&& selectedDist != ProbabilityCalculatorSettings.DIST_LOGISTIC){
+				&& selectedDist != DIST.LOGNORMAL
+				&& selectedDist != DIST.LOGISTIC){
 			fldResult.setBackground(fldLow.getBackground());
 			fldResult.setBorder(fldLow.getBorder());
 			fldResult.setEditable(true);
@@ -1370,7 +1375,7 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 		if(isDiscrete){
 			high = Math.round(high);
 			low = Math.round(low);
-			
+
 			// make sure arrow keys move points in 1s
 			lowPoint.setAnimationStep(1);
 			highPoint.setAnimationStep(1);
@@ -1524,16 +1529,16 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 			styleBar.setLabels();
 
 	}
-	
+
 	private void setLabelArrays(){
 
 		distributionMap = probManager.getDistributionMap();
 		reverseDistributionMap = probManager.getReverseDistributionMap();
 		parameterLabels = ProbabilityManager.getParameterLabelArray(app);
 	}
-	
+
 	private void setProbabilityComboBoxMenu(){
-		
+
 		comboProbType.removeActionListener(this);
 		comboProbType.removeAllItems();
 		if(isCumulative)
@@ -1544,31 +1549,31 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 			comboProbType.addItem(app.getMenu("RightProb"));
 		}
 		comboProbType.addActionListener(this);
-		
+
 	}
-	
+
 
 	private void setDistributionComboBoxMenu(){
 
 		comboDistribution.removeActionListener(this);
 		comboDistribution.removeAllItems();
-		comboDistribution.addItem(distributionMap.get(ProbabilityCalculatorSettings.DIST_NORMAL));
-		comboDistribution.addItem(distributionMap.get(ProbabilityCalculatorSettings.DIST_STUDENT));
-		comboDistribution.addItem(distributionMap.get(ProbabilityCalculatorSettings.DIST_CHISQUARE));
-		comboDistribution.addItem(distributionMap.get(ProbabilityCalculatorSettings.DIST_F));
-		comboDistribution.addItem(distributionMap.get(ProbabilityCalculatorSettings.DIST_EXPONENTIAL));
-		comboDistribution.addItem(distributionMap.get(ProbabilityCalculatorSettings.DIST_CAUCHY));
-		comboDistribution.addItem(distributionMap.get(ProbabilityCalculatorSettings.DIST_WEIBULL));
-		comboDistribution.addItem(distributionMap.get(ProbabilityCalculatorSettings.DIST_GAMMA));
-		comboDistribution.addItem(distributionMap.get(ProbabilityCalculatorSettings.DIST_LOGNORMAL));
-		comboDistribution.addItem(distributionMap.get(ProbabilityCalculatorSettings.DIST_LOGISTIC));
+		comboDistribution.addItem(distributionMap.get(DIST.NORMAL));
+		comboDistribution.addItem(distributionMap.get(DIST.STUDENT));
+		comboDistribution.addItem(distributionMap.get(DIST.CHISQUARE));
+		comboDistribution.addItem(distributionMap.get(DIST.F));
+		comboDistribution.addItem(distributionMap.get(DIST.EXPONENTIAL));
+		comboDistribution.addItem(distributionMap.get(DIST.CAUCHY));
+		comboDistribution.addItem(distributionMap.get(DIST.WEIBULL));
+		comboDistribution.addItem(distributionMap.get(DIST.GAMMA));
+		comboDistribution.addItem(distributionMap.get(DIST.LOGNORMAL));
+		comboDistribution.addItem(distributionMap.get(DIST.LOGISTIC));
 
 		comboDistribution.addItem(ListSeparatorRenderer.SEPARATOR);
 
-		comboDistribution.addItem(distributionMap.get(ProbabilityCalculatorSettings.DIST_BINOMIAL));
-		comboDistribution.addItem(distributionMap.get(ProbabilityCalculatorSettings.DIST_PASCAL));
-		comboDistribution.addItem(distributionMap.get(ProbabilityCalculatorSettings.DIST_POISSON));
-		comboDistribution.addItem(distributionMap.get(ProbabilityCalculatorSettings.DIST_HYPERGEOMETRIC));
+		comboDistribution.addItem(distributionMap.get(DIST.BINOMIAL));
+		comboDistribution.addItem(distributionMap.get(DIST.PASCAL));
+		comboDistribution.addItem(distributionMap.get(DIST.POISSON));
+		comboDistribution.addItem(distributionMap.get(DIST.HYPERGEOMETRIC));
 
 		comboDistribution.setSelectedItem(distributionMap.get(selectedDist));
 		comboDistribution.addActionListener(this);
@@ -1583,9 +1588,9 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 	//=================================================
 	//       Geo Handlers
 	//=================================================
-	
-	
-	private GeoElement createGeoFromString(String text, String label, boolean suppressLabelCreation ){
+
+
+	private GeoElement createGeoFromString(String text, boolean suppressLabelCreation ){
 
 		try {
 
@@ -1599,8 +1604,8 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 			boolean oldEnableUndo = cons.isUndoEnabled();
 			cons.setUndoEnabled(false);
 
-			GeoElement[] geos = (GeoElement[]) kernel.getAlgebraProcessor()
-			.processAlgebraCommandNoExceptions(text, false);	
+			GeoElement[] geos = kernel.getAlgebraProcessor()
+					.processAlgebraCommandNoExceptions(text, false);	
 
 			cons.setUndoEnabled(oldEnableUndo);
 
@@ -1667,25 +1672,62 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 	 * @param parms
 	 * @return
 	 */
-	private String buildDensityCurveExpression(int type){
-		String expr = "";
+	private GeoFunction buildDensityCurveExpression(DIST type){
 
-		// build geogebra string for creating a density curve with list values as parameters
-		// e.g." Normal[0,1,x] "
+		MyDouble param1 = null, param2 = null;
 
-		StringBuilder sb = new StringBuilder();
-		sb.append(ProbabilityManager.getCommand()[type]);
-		sb.append("[");
-		for(int i=0; i < parameters.length; i++){
-			sb.append(parameters[i] + ",");
+
+		if (parameters.length > 0) {
+			param1 = new MyDouble(kernel, parameters[0]);
 		}
-		if(isCumulative)
-			sb.append("x, true]");
-		else
-			sb.append("x, false]");
+		if (parameters.length > 1) {
+			param2 = new MyDouble(kernel, parameters[1]);
+		}
 
-		return sb.toString();
+		AlgoDistributionDF ret = null;
+
+		switch (type) {
+		case NORMAL: ret = new AlgoNormalDF(cons, param1, param2, new GeoBoolean(cons, false));
+		break;
+		case STUDENT: ret = new AlgoTDistributionDF(cons, param1, new GeoBoolean(cons, false));
+		break;
+		case CHISQUARE: ret = new AlgoChiSquaredDF(cons, param1, new GeoBoolean(cons, false));
+		break;
+		case F: ret = new AlgoFDistributionDF(cons, param1, param2, new GeoBoolean(cons, false));
+		break;
+		case CAUCHY: ret = new AlgoCauchyDF(cons, param1, param2, new GeoBoolean(cons, false));
+		break;
+		case EXPONENTIAL: ret = new AlgoExponentialDF(cons, param1, new GeoBoolean(cons, false));
+		break;
+		case GAMMA: ret = new AlgoGammaDF(cons, param1, param2, new GeoBoolean(cons, false));
+		break;
+		case WEIBULL: ret = new AlgoWeibullDF(cons, param1, param2, new GeoBoolean(cons, false));
+		break;
+		case LOGNORMAL: ret = new AlgoLogNormalDF(cons, param1, param2, new GeoBoolean(cons, false));
+		break;
+		case LOGISTIC: ret = new AlgoLogisticDF(cons, param1, param2, new GeoBoolean(cons, false));
+		break;
+
+		case BINOMIAL:
+		case PASCAL:
+		case POISSON:
+		case HYPERGEOMETRIC:
+			AbstractApplication.error("not continuous");
+			break;
+		default:
+			AbstractApplication.error("missing case");
+		}
+
+		if (ret != null) {
+			cons.removeFromConstructionList((AlgoElement) ret);
+		}
+
+		return ret.getResult();
+
 	}
+
+
+
 
 
 
@@ -1700,7 +1742,7 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 		AlgoDependentNumber plusOneAlgo;
 		switch(selectedDist){
 
-		case ProbabilityCalculatorSettings.DIST_BINOMIAL:	
+		case BINOMIAL:	
 
 			/*n = "Element[" + parmList.getLabel() + ",1]";
 			p = "Element[" + parmList.getLabel() + ",2]";
@@ -1738,7 +1780,7 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 
 			break;
 
-		case ProbabilityCalculatorSettings.DIST_PASCAL:	
+		case PASCAL:	
 
 			nGeo = new GeoNumeric(cons,parameters[0]);
 			pGeo = new GeoNumeric(cons,parameters[1]);	
@@ -1770,7 +1812,7 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 
 			break;
 
-		case ProbabilityCalculatorSettings.DIST_POISSON:
+		case POISSON:
 
 			GeoNumeric meanGeo = new GeoNumeric(cons,parameters[0]);
 			k = new GeoNumeric(cons);
@@ -1802,7 +1844,7 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 			break;
 
 
-		case ProbabilityCalculatorSettings.DIST_HYPERGEOMETRIC:	
+		case HYPERGEOMETRIC:	
 			/*
 			p = "" + parameters[0];  // population size
 			n = "" + parameters[1];  // n
@@ -1917,7 +1959,7 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 	static class ListSeparatorRenderer extends JLabel implements ListCellRenderer {
 
 		private static final long serialVersionUID = 1L;
-		
+
 		public static final String SEPARATOR = "---";
 		JSeparator separator;
 
@@ -1976,7 +2018,7 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 
 
 	private void setSliderDefaults(){
-		for(int i = 0; i < ProbabilityManager.getParmCount()[selectedDist]; i++){
+		for(int i = 0; i < ProbabilityManager.getParmCount(selectedDist); i++){
 			// TODO: this is breaking the discrete distributions
 			//sliderArray[i].setValue((int) probManager.getDefaultParameterMap().get(selectedDist)[i]);
 		}
@@ -2009,7 +2051,7 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 	 */
 	public void getXML(StringBuilder sb) {
 
-		if(selectedDist == -1) return;
+		if(selectedDist == null) return;
 
 		sb.append("<probabilityCalculator>\n");
 		sb.append("\t<distribution");
@@ -2060,7 +2102,7 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 	//============================================================
 
 
-	
+
 	/**
 	 * Action to export all GeoElements that are currently displayed in this
 	 * panel to a EuclidianView. The viewID for the target EuclidianView is
@@ -2075,22 +2117,22 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 
 		public void actionPerformed(ActionEvent event){
 			Integer euclidianViewID = (Integer) this.getValue("euclidianViewID");
-			
+
 			// if null ID then use EV1 unless shift is down, then use EV2
 			if(euclidianViewID == null){
 				euclidianViewID = app.getShiftDown()? app.getEuclidianView2().getViewID() : app.getEuclidianView1().getViewID();
 			}
-			
+
 			// do the export
 			exportGeosToEV(euclidianViewID);
-			
+
 			// null out the ID property
 			this.putValue("euclidianViewID", null);
 		}
 	};
-	
-	
-	
+
+
+
 
 	/**
 	 * Exports all GeoElements that are currently displayed in this panel to a target
@@ -2111,7 +2153,7 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 
 			//create low point
 			expr = "Point[" + app.getPlain("xAxis") + "]";
-			GeoPoint2 lowPointCopy = (GeoPoint2) createGeoFromString(expr,null,false);
+			GeoPoint2 lowPointCopy = (GeoPoint2) createGeoFromString(expr,false);
 			lowPointCopy.setVisualStyle(lowPoint);
 			lowPointCopy.setLabelVisible(false);
 			lowPointCopy.setCoords(low, 0, 1);
@@ -2119,7 +2161,7 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 			newGeoList.add(lowPointCopy);
 
 			//create high point
-			GeoPoint2 highPointCopy = (GeoPoint2) createGeoFromString(expr,null,false);
+			GeoPoint2 highPointCopy = (GeoPoint2) createGeoFromString(expr,false);
 			highPointCopy.setVisualStyle(lowPoint);
 			highPointCopy.setLabelVisible(false);
 			highPointCopy.setCoords(high, 0, 1);
@@ -2137,19 +2179,19 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 
 				GeoElement discreteValueListCopy = discreteValueList.copy();
 				newGeoList.add(discreteValueList);
-				
+
 				if(isLineGraph)
 					expr = "BarChart[" + discreteValueListCopy.getLabel(StringTemplate.maxPrecision) + "," + 
-				discreteProbListCopy.getLabel(StringTemplate.maxPrecision) + ",0.1]";
+							discreteProbListCopy.getLabel(StringTemplate.maxPrecision) + ",0.1]";
 				else
 					expr = "BarChart[" + discreteValueListCopy.getLabel(StringTemplate.maxPrecision) + "," + 
-				discreteProbListCopy.getLabel(StringTemplate.maxPrecision) + "]" ;
-				
-				GeoElement discreteGraphCopy = createGeoFromString(expr,null,false);
+							discreteProbListCopy.getLabel(StringTemplate.maxPrecision) + "]" ;
+
+				GeoElement discreteGraphCopy = createGeoFromString(expr,false);
 				discreteGraphCopy.setLabel(null);
 				discreteGraphCopy.setVisualStyle(discreteGraph);
 				newGeoList.add(discreteGraphCopy);
-				
+
 
 
 
@@ -2157,25 +2199,25 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 				// ============================
 				double offset = 1 - ((GeoNumeric)discreteValueList.get(0)).getDouble() + 0.5;  
 				expr = "Take[" + discreteProbListCopy.getLabel(tpl)  + ", x(" 
-				+ lowPointCopy.getLabel(tpl) + ")+" + offset + ", x(" + highPointCopy.getLabel(tpl) +")+" + offset +"]";
-				GeoElement intervalProbList  = (GeoList) createGeoFromString(expr, null, false);
+						+ lowPointCopy.getLabel(tpl) + ")+" + offset + ", x(" + highPointCopy.getLabel(tpl) +")+" + offset +"]";
+				GeoElement intervalProbList  = (GeoList) createGeoFromString(expr,  false);
 				newGeoList.add(intervalProbList);
 
 				expr = "Take[" + discreteValueListCopy.getLabel(tpl)  + ", x(" 
-				+ lowPointCopy.getLabel(tpl) + ")+" + offset + ", x(" + highPointCopy.getLabel(tpl) +")+" + offset +"]";
-				GeoElement intervalValueList  = (GeoList) createGeoFromString(expr, null, false);
+						+ lowPointCopy.getLabel(tpl) + ")+" + offset + ", x(" + highPointCopy.getLabel(tpl) +")+" + offset +"]";
+				GeoElement intervalValueList  = (GeoList) createGeoFromString(expr,  false);
 				newGeoList.add(intervalValueList);
 
 				if(isLineGraph)
 					expr = "BarChart[" + intervalValueList.getLabel(tpl) + "," + intervalProbList.getLabel(tpl) + ",0.1]";
 				else
 					expr = "BarChart[" + intervalValueList.getLabel(tpl) + "," + intervalProbList.getLabel(tpl) + "]";
-				
-				GeoElement discreteIntervalGraphCopy  = createGeoFromString(expr, null, false);
+
+				GeoElement discreteIntervalGraphCopy  = createGeoFromString(expr,  false);
 				discreteIntervalGraphCopy.setLabel(null);
 				discreteIntervalGraphCopy.setVisualStyle(discreteIntervalGraph);
 				newGeoList.add(discreteIntervalGraphCopy);
-				
+
 
 			}
 
@@ -2192,8 +2234,8 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 				//integral
 				if(!isCumulative){
 					expr = "Integral[" + densityCurveCopy.getLabel(tpl) + ", x(" + lowPointCopy.getLabel(tpl) 
-					+ "), x(" + highPointCopy.getLabel(tpl) + ") , true ]";
-					GeoElement integralCopy  = createGeoFromString(expr,null, false);
+							+ "), x(" + highPointCopy.getLabel(tpl) + ") , true ]";
+					GeoElement integralCopy  = createGeoFromString(expr, false);
 					integralCopy.setVisualStyle(integral);
 					integralCopy.setLabel(null);
 					newGeoList.add(integralCopy);
@@ -2253,8 +2295,6 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 
 
 	public void settingsChanged(AbstractSettings settings) {
-		AbstractApplication.debug("settings changed");
-
 		ProbabilityCalculatorSettings pcSettings = (ProbabilityCalculatorSettings) settings;
 		setProbabilityCalculator(pcSettings.getDistributionType(), pcSettings.getParameters(), pcSettings.isCumulative());
 

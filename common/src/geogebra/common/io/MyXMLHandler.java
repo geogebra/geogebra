@@ -65,6 +65,7 @@ import geogebra.common.main.MyError;
 import geogebra.common.main.settings.ConstructionProtocolSettings;
 import geogebra.common.main.settings.EuclidianSettings;
 import geogebra.common.main.settings.KeyboardSettings;
+import geogebra.common.main.settings.ProbabilityCalculatorSettings.DIST;
 import geogebra.common.main.settings.SpreadsheetSettings;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.plugin.GeoClass;
@@ -858,7 +859,7 @@ public class MyXMLHandler implements DocHandler {
 		try {
 			int distributionType = Integer.parseInt(attrs.get("type"));
 			app.getSettings().getProbCalcSettings()
-					.setDistributionType(distributionType);
+					.setDistributionType(DIST.values()[distributionType]);
 
 			boolean isCumulative = parseBoolean(attrs.get("isCumulative"));
 			app.getSettings().getProbCalcSettings().setCumulative(isCumulative);

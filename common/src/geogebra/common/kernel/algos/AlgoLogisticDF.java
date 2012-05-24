@@ -30,7 +30,7 @@ import geogebra.common.kernel.geos.GeoFunction;
  * algorithm for Logistic[0,1,x]
  * @author  Michael
  */
-public class AlgoLogisticDF extends AlgoElement {
+public class AlgoLogisticDF extends AlgoElement implements AlgoDistributionDF {
 
 	private NumberValue mean, scale;  // input
 	private BooleanValue cumulative; // optional input
@@ -43,7 +43,7 @@ public class AlgoLogisticDF extends AlgoElement {
       }   
     
     @SuppressWarnings("javadoc")
-	protected AlgoLogisticDF(Construction cons, NumberValue mean, NumberValue scale, BooleanValue cumulative) {       
+	public AlgoLogisticDF(Construction cons, NumberValue mean, NumberValue scale, BooleanValue cumulative) {       
   	  super(cons); 
         this.mean = mean;
         this.scale = scale;

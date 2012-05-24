@@ -30,6 +30,11 @@ public class AlgoCauchy extends AlgoDistribution {
 		super(cons, label, a, b, c, null);
 	}
 
+	public AlgoCauchy(Construction cons, NumberValue a,
+			NumberValue b, NumberValue c) {
+		super(cons, a, b, c, null);
+	}
+
 	@Override
 	public Algos getClassName() {
 		return Algos.AlgoCauchy;

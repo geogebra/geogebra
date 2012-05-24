@@ -30,6 +30,10 @@ public class AlgoChiSquared extends AlgoDistribution {
 		super(cons, label, a, b, null, null);
 	}
 
+	public AlgoChiSquared(Construction cons, NumberValue a, NumberValue b) {
+		super(cons, a, b, null, null);
+	}
+
 	@Override
 	public Algos getClassName() {
 		return Algos.AlgoChiSquared;

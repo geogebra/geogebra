@@ -32,7 +32,7 @@ import geogebra.common.kernel.geos.GeoFunction;
  * algorithm for PDF / CDF of T Distribution TDistribution[a,x]
  * @author  Michael
  */
-public class AlgoTDistributionDF extends AlgoElement {
+public class AlgoTDistributionDF extends AlgoElement implements AlgoDistributionDF {
 
 	private NumberValue v;  // input
 	private BooleanValue cumulative; // optional input
@@ -45,7 +45,7 @@ public class AlgoTDistributionDF extends AlgoElement {
       }   
     
     @SuppressWarnings("javadoc")
-	protected AlgoTDistributionDF(Construction cons, NumberValue a, BooleanValue cumulative) {       
+	public AlgoTDistributionDF(Construction cons, NumberValue a, BooleanValue cumulative) {       
   	  super(cons); 
         this.v = a;
         this.cumulative = cumulative;

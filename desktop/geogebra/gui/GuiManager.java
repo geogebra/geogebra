@@ -17,7 +17,7 @@ import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
 import geogebra.common.main.settings.KeyboardSettings;
-import geogebra.common.main.settings.ProbabilityCalculatorSettings;
+import geogebra.common.main.settings.ProbabilityCalculatorSettings.DIST;
 import geogebra.common.util.Base64;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
@@ -80,7 +80,6 @@ import java.awt.dnd.DropTarget;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -2586,7 +2585,7 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 					app.getGuiManager().setShowView(true,
 							AbstractApplication.VIEW_PROBABILITY_CALCULATOR);
 					probCalculator.setProbabilityCalculator(
-							ProbabilityCalculatorSettings.DIST_NORMAL, null,
+							DIST.NORMAL, null,
 							false);
 				}
 			}

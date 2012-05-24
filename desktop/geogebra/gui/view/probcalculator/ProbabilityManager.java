@@ -1,10 +1,43 @@
 package geogebra.gui.view.probcalculator;
 
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
+import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.kernel.statistics.AlgoBinomialDist;
+import geogebra.common.kernel.statistics.AlgoCauchy;
+import geogebra.common.kernel.statistics.AlgoChiSquared;
+import geogebra.common.kernel.statistics.AlgoDistribution;
+import geogebra.common.kernel.statistics.AlgoExponential;
+import geogebra.common.kernel.statistics.AlgoFDistribution;
+import geogebra.common.kernel.statistics.AlgoGamma;
+import geogebra.common.kernel.statistics.AlgoHyperGeometric;
+import geogebra.common.kernel.statistics.AlgoInverseBinomial;
+import geogebra.common.kernel.statistics.AlgoInverseCauchy;
+import geogebra.common.kernel.statistics.AlgoInverseChiSquared;
+import geogebra.common.kernel.statistics.AlgoInverseExponential;
+import geogebra.common.kernel.statistics.AlgoInverseFDistribution;
+import geogebra.common.kernel.statistics.AlgoInverseGamma;
+import geogebra.common.kernel.statistics.AlgoInverseHyperGeometric;
+import geogebra.common.kernel.statistics.AlgoInverseNormal;
+import geogebra.common.kernel.statistics.AlgoInversePascal;
+import geogebra.common.kernel.statistics.AlgoInversePoisson;
+import geogebra.common.kernel.statistics.AlgoInverseTDistribution;
+import geogebra.common.kernel.statistics.AlgoInverseWeibull;
+import geogebra.common.kernel.statistics.AlgoLogNormal;
+import geogebra.common.kernel.statistics.AlgoLogistic;
+import geogebra.common.kernel.statistics.AlgoNormal;
+import geogebra.common.kernel.statistics.AlgoPascal;
+import geogebra.common.kernel.statistics.AlgoPoisson;
+import geogebra.common.kernel.statistics.AlgoTDistribution;
+import geogebra.common.kernel.statistics.AlgoWeibull;
+import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.settings.ProbabilityCalculatorSettings;
+import geogebra.common.main.settings.ProbabilityCalculatorSettings.DIST;
 import geogebra.main.Application;
 
 import java.util.HashMap;
@@ -33,21 +66,21 @@ public class ProbabilityManager {
 		this.probCalc = probCalc;
 
 	}
-	
+
 	/**
 	 * Returns true of the given distribution type is discrete
 	 * @param distType
 	 * @return
 	 */
-	public boolean isDiscrete(int distType) {
-		return distType == ProbabilityCalculatorSettings.DIST_BINOMIAL 
-		|| distType == ProbabilityCalculatorSettings.DIST_PASCAL
-		|| distType == ProbabilityCalculatorSettings.DIST_HYPERGEOMETRIC 
-		|| distType == ProbabilityCalculatorSettings.DIST_POISSON;
+	public boolean isDiscrete(DIST distType) {
+		return distType.equals(DIST.BINOMIAL) 
+				|| distType.equals(DIST.PASCAL)
+				|| distType.equals(DIST.HYPERGEOMETRIC) 
+				|| distType.equals(DIST.POISSON);
 
 	}
-	
-	
+
+
 
 	/**
 	 * Creates a hash map that can return a JComboBox menu string for
@@ -55,25 +88,25 @@ public class ProbabilityManager {
 	 * Key = display type constant 
 	 * Value = menu item string
 	 */
-	protected HashMap<Integer, String> getDistributionMap() {
+	protected HashMap<DIST, String> getDistributionMap() {
 
-		HashMap<Integer, String> plotMap = new HashMap<Integer, String>();
+		HashMap<DIST, String> plotMap = new HashMap<DIST, String>();
 
-		plotMap.put(ProbabilityCalculatorSettings.DIST_NORMAL, app.getMenu("Distribution.Normal"));
-		plotMap.put(ProbabilityCalculatorSettings.DIST_STUDENT, app.getMenu("Distribution.StudentT"));
-		plotMap.put(ProbabilityCalculatorSettings.DIST_CHISQUARE, app.getMenu("Distribution.ChiSquare"));
-		plotMap.put(ProbabilityCalculatorSettings.DIST_F, app.getMenu("Distribution.F"));
-		plotMap.put(ProbabilityCalculatorSettings.DIST_EXPONENTIAL, app.getMenu("Distribution.Exponential"));
-		plotMap.put(ProbabilityCalculatorSettings.DIST_CAUCHY, app.getMenu("Distribution.Cauchy"));
-		plotMap.put(ProbabilityCalculatorSettings.DIST_WEIBULL, app.getMenu("Distribution.Weibull"));
-		plotMap.put(ProbabilityCalculatorSettings.DIST_LOGISTIC, app.getCommand("Logistic"));
-		plotMap.put(ProbabilityCalculatorSettings.DIST_LOGNORMAL, app.getCommand("LogNormal"));
+		plotMap.put(DIST.NORMAL, app.getMenu("Distribution.Normal"));
+		plotMap.put(DIST.STUDENT, app.getMenu("Distribution.StudentT"));
+		plotMap.put(DIST.CHISQUARE, app.getMenu("Distribution.ChiSquare"));
+		plotMap.put(DIST.F, app.getMenu("Distribution.F"));
+		plotMap.put(DIST.EXPONENTIAL, app.getMenu("Distribution.Exponential"));
+		plotMap.put(DIST.CAUCHY, app.getMenu("Distribution.Cauchy"));
+		plotMap.put(DIST.WEIBULL, app.getMenu("Distribution.Weibull"));
+		plotMap.put(DIST.LOGISTIC, app.getCommand("Logistic"));
+		plotMap.put(DIST.LOGNORMAL, app.getCommand("LogNormal"));
 
-		plotMap.put(ProbabilityCalculatorSettings.DIST_GAMMA, app.getMenu("Distribution.Gamma"));
-		plotMap.put(ProbabilityCalculatorSettings.DIST_BINOMIAL, app.getMenu("Distribution.Binomial"));
-		plotMap.put(ProbabilityCalculatorSettings.DIST_PASCAL, app.getMenu("Distribution.Pascal"));
-		plotMap.put(ProbabilityCalculatorSettings.DIST_POISSON, app.getMenu("Distribution.Poisson"));
-		plotMap.put(ProbabilityCalculatorSettings.DIST_HYPERGEOMETRIC, app.getMenu("Distribution.Hypergeometric"));
+		plotMap.put(DIST.GAMMA, app.getMenu("Distribution.Gamma"));
+		plotMap.put(DIST.BINOMIAL, app.getMenu("Distribution.Binomial"));
+		plotMap.put(DIST.PASCAL, app.getMenu("Distribution.Pascal"));
+		plotMap.put(DIST.POISSON, app.getMenu("Distribution.Poisson"));
+		plotMap.put(DIST.HYPERGEOMETRIC, app.getMenu("Distribution.Hypergeometric"));
 
 		return plotMap;
 	}
@@ -84,18 +117,18 @@ public class ProbabilityManager {
 	 * Key = menu item string
 	 * Value = display type constant
 	 */
-	protected HashMap<String, Integer> getReverseDistributionMap() {
+	protected HashMap<String, DIST> getReverseDistributionMap() {
 
-		HashMap<Integer, String> plotMap = getDistributionMap();
-		HashMap<String, Integer> plotMapReverse = new HashMap<String, Integer>();
-		for (Integer key : plotMap.keySet()) {
+		HashMap<DIST, String> plotMap = getDistributionMap();
+		HashMap<String, DIST> plotMapReverse = new HashMap<String, DIST>();
+		for (DIST key : plotMap.keySet()) {
 			plotMapReverse.put(plotMap.get(key), key);
 		}
 
 		return plotMapReverse;
 	}
 
-	
+
 	/**
 	 * Returns a 2D array of strings used to label the parameter fields for each
 	 * type of distribution
@@ -107,165 +140,224 @@ public class ProbabilityManager {
 
 		String[][] parameterLabels = new String[ProbabilityCalculatorSettings.distCount][4];
 
-		parameterLabels[ProbabilityCalculatorSettings.DIST_NORMAL][0] = app.getMenu("Mean");
-		parameterLabels[ProbabilityCalculatorSettings.DIST_NORMAL][1] = app.getMenu("StandardDeviation.short");
+		parameterLabels[ProbabilityCalculatorSettings.DIST.NORMAL.ordinal()][0] = app.getMenu("Mean");
+		parameterLabels[ProbabilityCalculatorSettings.DIST.NORMAL.ordinal()][1] = app.getMenu("StandardDeviation.short");
 
-		parameterLabels[ProbabilityCalculatorSettings.DIST_STUDENT][0] = app.getMenu("DegreesOfFreedom.short");
+		parameterLabels[ProbabilityCalculatorSettings.DIST.STUDENT.ordinal()][0] = app.getMenu("DegreesOfFreedom.short");
 
-		parameterLabels[ProbabilityCalculatorSettings.DIST_CHISQUARE][0] = app.getMenu("DegreesOfFreedom.short");
+		parameterLabels[ProbabilityCalculatorSettings.DIST.CHISQUARE.ordinal()][0] = app.getMenu("DegreesOfFreedom.short");
 
-		parameterLabels[ProbabilityCalculatorSettings.DIST_F][0] = app.getMenu("DegreesOfFreedom1.short");
-		parameterLabels[ProbabilityCalculatorSettings.DIST_F][1] = app.getMenu("DegreesOfFreedom2.short");
+		parameterLabels[ProbabilityCalculatorSettings.DIST.F.ordinal()][0] = app.getMenu("DegreesOfFreedom1.short");
+		parameterLabels[ProbabilityCalculatorSettings.DIST.F.ordinal()][1] = app.getMenu("DegreesOfFreedom2.short");
 
-		parameterLabels[ProbabilityCalculatorSettings.DIST_EXPONENTIAL][0] = app.getMenu("Mean");
+		parameterLabels[ProbabilityCalculatorSettings.DIST.EXPONENTIAL.ordinal()][0] = app.getMenu("Mean");
 
-		parameterLabels[ProbabilityCalculatorSettings.DIST_CAUCHY][0] = app.getMenu("Median");
-		parameterLabels[ProbabilityCalculatorSettings.DIST_CAUCHY][1] = app.getMenu("Distribution.Scale");
+		parameterLabels[ProbabilityCalculatorSettings.DIST.CAUCHY.ordinal()][0] = app.getMenu("Median");
+		parameterLabels[ProbabilityCalculatorSettings.DIST.CAUCHY.ordinal()][1] = app.getMenu("Distribution.Scale");
 
-		parameterLabels[ProbabilityCalculatorSettings.DIST_WEIBULL][0] = app.getMenu("Distribution.Shape");
-		parameterLabels[ProbabilityCalculatorSettings.DIST_WEIBULL][1] = app.getMenu("Distribution.Scale");
-		
-		parameterLabels[ProbabilityCalculatorSettings.DIST_LOGISTIC][0] = app.getMenu("Mean");
-		parameterLabels[ProbabilityCalculatorSettings.DIST_LOGISTIC][1] = app.getMenu("Distribution.Scale");
-		
-		parameterLabels[ProbabilityCalculatorSettings.DIST_LOGNORMAL][0] = app.getMenu("Mean");
-		parameterLabels[ProbabilityCalculatorSettings.DIST_LOGNORMAL][1] = app.getMenu("StandardDeviation.short");
+		parameterLabels[ProbabilityCalculatorSettings.DIST.WEIBULL.ordinal()][0] = app.getMenu("Distribution.Shape");
+		parameterLabels[ProbabilityCalculatorSettings.DIST.WEIBULL.ordinal()][1] = app.getMenu("Distribution.Scale");
 
-		parameterLabels[ProbabilityCalculatorSettings.DIST_GAMMA][0] = app.getMenu("Alpha.short");
-		parameterLabels[ProbabilityCalculatorSettings.DIST_GAMMA][1] = app.getMenu("Beta.short");
+		parameterLabels[ProbabilityCalculatorSettings.DIST.LOGISTIC.ordinal()][0] = app.getMenu("Mean");
+		parameterLabels[ProbabilityCalculatorSettings.DIST.LOGISTIC.ordinal()][1] = app.getMenu("Distribution.Scale");
 
-		parameterLabels[ProbabilityCalculatorSettings.DIST_BINOMIAL][0] = app.getMenu("Binomial.number");
-		parameterLabels[ProbabilityCalculatorSettings.DIST_BINOMIAL][1] = app.getMenu("Binomial.probability");
+		parameterLabels[ProbabilityCalculatorSettings.DIST.LOGNORMAL.ordinal()][0] = app.getMenu("Mean");
+		parameterLabels[ProbabilityCalculatorSettings.DIST.LOGNORMAL.ordinal()][1] = app.getMenu("StandardDeviation.short");
 
-		parameterLabels[ProbabilityCalculatorSettings.DIST_PASCAL][0] = app.getMenu("Binomial.number");
-		parameterLabels[ProbabilityCalculatorSettings.DIST_PASCAL][1] = app.getMenu("Binomial.probability");
+		parameterLabels[ProbabilityCalculatorSettings.DIST.GAMMA.ordinal()][0] = app.getMenu("Alpha.short");
+		parameterLabels[ProbabilityCalculatorSettings.DIST.GAMMA.ordinal()][1] = app.getMenu("Beta.short");
 
-		parameterLabels[ProbabilityCalculatorSettings.DIST_POISSON][0] = app.getMenu("Mean");
+		parameterLabels[ProbabilityCalculatorSettings.DIST.BINOMIAL.ordinal()][0] = app.getMenu("Binomial.number");
+		parameterLabels[ProbabilityCalculatorSettings.DIST.BINOMIAL.ordinal()][1] = app.getMenu("Binomial.probability");
 
-		parameterLabels[ProbabilityCalculatorSettings.DIST_HYPERGEOMETRIC][0] = app.getMenu("Hypergeometric.population");
-		parameterLabels[ProbabilityCalculatorSettings.DIST_HYPERGEOMETRIC][1] = app.getMenu("Hypergeometric.number");
-		parameterLabels[ProbabilityCalculatorSettings.DIST_HYPERGEOMETRIC][2] = app.getMenu("Hypergeometric.sample");
+		parameterLabels[ProbabilityCalculatorSettings.DIST.PASCAL.ordinal()][0] = app.getMenu("Binomial.number");
+		parameterLabels[ProbabilityCalculatorSettings.DIST.PASCAL.ordinal()][1] = app.getMenu("Binomial.probability");
+
+		parameterLabels[ProbabilityCalculatorSettings.DIST.POISSON.ordinal()][0] = app.getMenu("Mean");
+
+		parameterLabels[ProbabilityCalculatorSettings.DIST.HYPERGEOMETRIC.ordinal()][0] = app.getMenu("Hypergeometric.population");
+		parameterLabels[ProbabilityCalculatorSettings.DIST.HYPERGEOMETRIC.ordinal()][1] = app.getMenu("Hypergeometric.number");
+		parameterLabels[ProbabilityCalculatorSettings.DIST.HYPERGEOMETRIC.ordinal()][2] = app.getMenu("Hypergeometric.sample");
 
 		return parameterLabels;
 	}
 
-	
+
+
+
+
 	/**
-	 * Returns an array of GeoGebra probability distribution command names
-	 * indexed by the distribution types
+	 * Returns a GeoGebra inverse probability distribution command 
 	 * 
-	 * @return
+	 * @return AlgoDistribution
 	 */
-	protected static String[] getCommand(){
+	protected static AlgoDistribution getInverseCommand(DIST d, Construction cons, NumberValue param1, NumberValue param2, NumberValue param3, NumberValue x){
 
-		String[] cmd = new String[ProbabilityCalculatorSettings.distCount];
-		cmd[ProbabilityCalculatorSettings.DIST_NORMAL] = "Normal";
-		cmd[ProbabilityCalculatorSettings.DIST_STUDENT] = "TDistribution";
-		cmd[ProbabilityCalculatorSettings.DIST_CHISQUARE] = "ChiSquared";
-		cmd[ProbabilityCalculatorSettings.DIST_F] = "FDistribution";
-		cmd[ProbabilityCalculatorSettings.DIST_CAUCHY] = "Cauchy";
-		cmd[ProbabilityCalculatorSettings.DIST_EXPONENTIAL] = "Exponential";
-		cmd[ProbabilityCalculatorSettings.DIST_GAMMA] = "Gamma";
-		cmd[ProbabilityCalculatorSettings.DIST_WEIBULL] = "Weibull";
-		cmd[ProbabilityCalculatorSettings.DIST_LOGISTIC] = "Logistic";
-		cmd[ProbabilityCalculatorSettings.DIST_LOGNORMAL] = "LogNormal";
+		AlgoDistribution ret = null;
 		
-		
-		// --- discrete
-		cmd[ProbabilityCalculatorSettings.DIST_BINOMIAL] = "BinomialDist";
-		cmd[ProbabilityCalculatorSettings.DIST_PASCAL] = "Pascal";
-		cmd[ProbabilityCalculatorSettings.DIST_POISSON] = "Poisson";
-		cmd[ProbabilityCalculatorSettings.DIST_HYPERGEOMETRIC] = "HyperGeometric";
+		switch (d) {
+		case NORMAL: ret = new AlgoInverseNormal(cons, param1, param2, x);
+		break;
+		case STUDENT: ret = new AlgoInverseTDistribution(cons, param1, x);
+		break;
+		case CHISQUARE: ret = new AlgoInverseChiSquared(cons, param1, x);
+		break;
+		case F: ret = new AlgoInverseFDistribution(cons, param1, param2, x);
+		break;
+		case CAUCHY: ret = new AlgoInverseCauchy(cons, param1, param2, x);
+		break;
+		case EXPONENTIAL: ret = new AlgoInverseExponential(cons, param1, x);
+		break;
+		case GAMMA: ret = new AlgoInverseGamma(cons, param1, param2, x);
+		break;
+		case WEIBULL: ret = new AlgoInverseWeibull(cons, param1, param2, x);
+		break;
+		case BINOMIAL: ret = new AlgoInverseBinomial(cons, param1, param2, x);
+		break;
+		case PASCAL: ret = new AlgoInversePascal(cons, param1, param2, x);
+		break;
+		case POISSON: ret = new AlgoInversePoisson(cons, param1, x);
+		break;
+		case HYPERGEOMETRIC: ret = new AlgoInverseHyperGeometric(cons, null, param1, param2, param3, x);
+		break;
 
-		return cmd;
-	}
 
-	
-	/**
-	 * Returns an array of GeoGebra inverse probability distribution command names
-	 * indexed by the distribution types
-	 * 
-	 * @return
-	 */
-	protected static String[] getInverseCommand(){
-
-		String[] inverseCmd = new String[ProbabilityCalculatorSettings.distCount];
-		inverseCmd[ProbabilityCalculatorSettings.DIST_NORMAL] = "InverseNormal";
-		inverseCmd[ProbabilityCalculatorSettings.DIST_STUDENT] = "InverseTDistribution";
-		inverseCmd[ProbabilityCalculatorSettings.DIST_CHISQUARE] = "InverseChiSquared";
-		inverseCmd[ProbabilityCalculatorSettings.DIST_F] = "InverseFDistribution";
-		inverseCmd[ProbabilityCalculatorSettings.DIST_CAUCHY] = "InverseCauchy";
-		inverseCmd[ProbabilityCalculatorSettings.DIST_EXPONENTIAL] = "InverseExponential";
-		inverseCmd[ProbabilityCalculatorSettings.DIST_GAMMA] = "InverseGamma";
-		inverseCmd[ProbabilityCalculatorSettings.DIST_WEIBULL] = "InverseWeibull";
 		//TODO ------------- inverse cmds for these dist.
-		inverseCmd[ProbabilityCalculatorSettings.DIST_LOGNORMAL] = "InverseWeibull"; 
-		inverseCmd[ProbabilityCalculatorSettings.DIST_LOGISTIC] = "InverseWeibull";
-		// --- discrete
-		inverseCmd[ProbabilityCalculatorSettings.DIST_BINOMIAL] = "InverseBinomial";
-		inverseCmd[ProbabilityCalculatorSettings.DIST_PASCAL] = "InversePascal";
-		inverseCmd[ProbabilityCalculatorSettings.DIST_POISSON] = "InversePoisson";
-		inverseCmd[ProbabilityCalculatorSettings.DIST_HYPERGEOMETRIC] = "InverseHyperGeometric";
+		case LOGNORMAL: 
+			AbstractApplication.error("TODO");
+			break;
+		case LOGISTIC: 
+			AbstractApplication.error("TODO");
+			break;
 
-		return inverseCmd;
+		}
+		
+		if (ret != null) {
+			ret.getConstruction().removeFromConstructionList(ret);
+		} else {
+			AbstractApplication.error("missing case");
+		}
+		
+		return ret;
 	}
+
+	/**
+	 * Returns a GeoGebra probability distribution command 
+	 * 
+	 * @return AlgoDistribution
+	 */
+	protected static AlgoDistribution getCommand(DIST d, Construction cons, NumberValue param1, NumberValue param2, NumberValue param3, NumberValue x, boolean isCumulative){
+
+		AlgoDistribution ret = null;
+
+		switch (d) {
+		case NORMAL: ret = new AlgoNormal(cons, param1, param2, x);
+		break;
+		case STUDENT: ret = new AlgoTDistribution(cons,  param1, x);
+		break;
+		case CHISQUARE: ret = new AlgoChiSquared(cons,  param1, x);
+		break;
+		case F: ret = new AlgoFDistribution(cons,  param1, param2, x);
+		break;
+		case CAUCHY: ret = new AlgoCauchy(cons,  param1, param2, x);
+		break;
+		case EXPONENTIAL: ret = new AlgoExponential(cons,  param1, x);
+		break;
+		case GAMMA: ret = new AlgoGamma(cons,  param1, param2, x);
+		break;
+		case WEIBULL: ret = new AlgoWeibull(cons,  param1, param2, x);
+		break;
+		case BINOMIAL: ret = new AlgoBinomialDist(cons,  param1, param2, x, new GeoBoolean(cons, isCumulative));
+		break;
+		case PASCAL: ret = new AlgoPascal(cons,  param1, param2, x, new GeoBoolean(cons, isCumulative));
+		break;
+		case POISSON: ret = new AlgoPoisson(cons,  param1, x, new GeoBoolean(cons, isCumulative));
+		break;
+		case HYPERGEOMETRIC: ret = new AlgoHyperGeometric(cons,  param1, param2, param3, x, new GeoBoolean(cons, isCumulative));
+		break;
+		case LOGNORMAL: ret = new AlgoLogNormal(cons,  param1, param2, x);
+		break;
+		case LOGISTIC: ret = new AlgoLogistic(cons,  param1, param2, x);
+		break;
+
+		default:
+			AbstractApplication.error("missing case");
+		}
+		
+		if (ret != null) {
+			cons.removeFromConstructionList(ret);
+		} else {
+			AbstractApplication.error("missing case");
+		}
+	
+		return ret;
+	
+	}
+
 
 	/**
 	 * Returns an array of the required number of parameters needed for each distribution type. 
 	 * The array is indexed by distribution type.
 	 * @return
 	 */
-	protected static int[] getParmCount(){
+	protected static int getParmCount(DIST d){
 
-		int[] parmCount = new int[ProbabilityCalculatorSettings.distCount];
-		parmCount[ProbabilityCalculatorSettings.DIST_NORMAL] = 2;
-		parmCount[ProbabilityCalculatorSettings.DIST_STUDENT] = 1;
-		parmCount[ProbabilityCalculatorSettings.DIST_CHISQUARE] = 1;
-		parmCount[ProbabilityCalculatorSettings.DIST_F] = 2;
-		parmCount[ProbabilityCalculatorSettings.DIST_CAUCHY] = 2;
-		parmCount[ProbabilityCalculatorSettings.DIST_EXPONENTIAL] = 1;
-		parmCount[ProbabilityCalculatorSettings.DIST_GAMMA] = 2;
-		parmCount[ProbabilityCalculatorSettings.DIST_WEIBULL] = 2;
-		parmCount[ProbabilityCalculatorSettings.DIST_LOGNORMAL] = 2;
-		parmCount[ProbabilityCalculatorSettings.DIST_LOGISTIC] = 2;
-		// --- discrete
-		parmCount[ProbabilityCalculatorSettings.DIST_BINOMIAL] = 2;
-		parmCount[ProbabilityCalculatorSettings.DIST_PASCAL] = 2;
-		parmCount[ProbabilityCalculatorSettings.DIST_POISSON] = 1;
-		parmCount[ProbabilityCalculatorSettings.DIST_HYPERGEOMETRIC] = 3;
+		switch (d) {
+		case GAMMA:
+		case WEIBULL:
+		case LOGNORMAL:
+		case LOGISTIC:
+		case BINOMIAL:
+		case PASCAL:
+		case F:
+		case CAUCHY:
+		case NORMAL: return 2;
 
-		return parmCount;
+		
+		
+		case STUDENT:
+		case CHISQUARE:
+		case EXPONENTIAL:
+		case POISSON: return 1;
+		
+		case HYPERGEOMETRIC: return 3;
+
+		default: throw new Error("unknown distribution");
+		
+		}
 	}
-
 
 
 	/** Creates a map that returns default parameter values for each distribution type.
 	/*  Key = distribution type constant
 	/*  Value = default parameter values for the distribution type 
 	 */
-	protected static HashMap<Integer,double[]> getDefaultParameterMap(){
-		HashMap<Integer,double[]> defaultParameterMap = new HashMap<Integer,double[]>();
+	protected static double[] getDefaultParameters(DIST d){
+		HashMap<DIST,double[]> defaultParameterMap = new HashMap<DIST,double[]>();
 
-		defaultParameterMap.put(ProbabilityCalculatorSettings.DIST_NORMAL, new double[] {0, 1}); // mean = 0, sigma = 1
-		defaultParameterMap.put(ProbabilityCalculatorSettings.DIST_STUDENT, new double[] {10}); // df = 10
-		defaultParameterMap.put(ProbabilityCalculatorSettings.DIST_CHISQUARE, new double[] {6}); // df = 6
+		switch (d) {
+		case NORMAL: return new double[] {0, 1}; // mean = 0, sigma = 1
+		case STUDENT: return new double[] {10}; // df = 10
+		case CHISQUARE: return  new double[] {6}; // df = 6
 
-		defaultParameterMap.put(ProbabilityCalculatorSettings.DIST_F, new double[] {5,2}); // df1 = 5, df2 = 2
-		defaultParameterMap.put(ProbabilityCalculatorSettings.DIST_EXPONENTIAL, new double[] {1}); // mean = 1
-		defaultParameterMap.put(ProbabilityCalculatorSettings.DIST_GAMMA, new double[] {3,2}); // alpha = 3, beta = 2
-		defaultParameterMap.put(ProbabilityCalculatorSettings.DIST_CAUCHY, new double[] {0,1}); // median = 0, scale = 1
-		defaultParameterMap.put(ProbabilityCalculatorSettings.DIST_WEIBULL, new double[] {5,1}); // shape = 5, scale = 1
-		defaultParameterMap.put(ProbabilityCalculatorSettings.DIST_LOGNORMAL, new double[] {0,1}); //  mean = 0, sigma = 1
-		defaultParameterMap.put(ProbabilityCalculatorSettings.DIST_LOGISTIC, new double[] {5,2}); // mean = 5, scale = 2
-		
-		
-		defaultParameterMap.put(ProbabilityCalculatorSettings.DIST_BINOMIAL, new double[] {20, 0.5}); // n = 20, p = 0.5
-		defaultParameterMap.put(ProbabilityCalculatorSettings.DIST_PASCAL, new double[] {10, 0.5}); // n = 10, p = 0.5
-		defaultParameterMap.put(ProbabilityCalculatorSettings.DIST_POISSON, new double[] {4}); // mean = 4
-		defaultParameterMap.put(ProbabilityCalculatorSettings.DIST_HYPERGEOMETRIC, new double[] {60, 10, 20}); // pop = 60, n = 10, sample = 20
+		case F: return  new double[] {5,2}; // df1 = 5, df2 = 2
+		case EXPONENTIAL: return  new double[] {1}; // mean = 1
+		case GAMMA: return  new double[] {3,2}; // alpha = 3, beta = 2
+		case CAUCHY: return  new double[] {0,1}; // median = 0, scale = 1
+		case WEIBULL: return  new double[] {5,1}; // shape = 5, scale = 1
+		case LOGNORMAL: return  new double[] {0,1}; //  mean = 0, sigma = 1
+		case LOGISTIC: return  new double[] {5,2}; // mean = 5, scale = 2
 
 
-		return defaultParameterMap;
+		case BINOMIAL: return  new double[] {20, 0.5}; // n = 20, p = 0.5
+		case PASCAL: return  new double[] {10, 0.5}; // n = 10, p = 0.5
+		case POISSON: return  new double[] {4}; // mean = 4
+		case HYPERGEOMETRIC: return  new double[] {60, 10, 20}; // pop = 60, n = 10, sample = 20
+
+		default: Application.error("missing case");
+		}
+
+		return null;
 
 	}
 
@@ -277,7 +369,7 @@ public class ProbabilityManager {
 	 * Returns the appropriate plot dimensions for a given distribution and parameter set. 
 	 * Plot dimensions are returned as an array of double: {xMin, xMax, yMin, yMax} 	 
 	 */
-	protected double[] getPlotDimensions(int selectedDist, double [] parms, GeoElement densityCurve, boolean isCumulative){
+	protected double[] getPlotDimensions(DIST selectedDist, double [] parms, GeoElement densityCurve, boolean isCumulative){
 
 		double xMin = 0, xMax = 0, yMin = 0, yMax = 0;
 
@@ -287,7 +379,7 @@ public class ProbabilityManager {
 
 		switch(selectedDist){
 
-		case ProbabilityCalculatorSettings.DIST_NORMAL:
+		case NORMAL:
 			mean = parms[0];
 			sigma = parms[1];
 			xMin = mean - 5*sigma;
@@ -296,14 +388,14 @@ public class ProbabilityManager {
 			yMax = 1.2* ((GeoFunction)densityCurve).evaluate(mean);	
 			break;
 
-		case ProbabilityCalculatorSettings.DIST_STUDENT:
+		case STUDENT:
 			xMin = -5;
 			xMax = 5;
 			yMin = 0;
 			yMax = 1.2* ((GeoFunction)densityCurve).evaluate(0);	
 			break;
 
-		case ProbabilityCalculatorSettings.DIST_CHISQUARE:
+		case CHISQUARE:
 			k = parms[0];		
 			xMin = 0;
 			xMax = 4*k;
@@ -316,7 +408,7 @@ public class ProbabilityManager {
 				yMax = 1.2* ((GeoFunction)densityCurve).evaluate(0.1);	
 			break;
 
-		case ProbabilityCalculatorSettings.DIST_F:
+		case F:
 			v = parms[0];
 			v2 = parms[1];
 			mean = v2 > 2 ? v2 / (v2 - 2): 1;
@@ -333,7 +425,7 @@ public class ProbabilityManager {
 			//System.out.println("F ymax: " + yMax);
 			break;
 
-		case ProbabilityCalculatorSettings.DIST_CAUCHY:
+		case CAUCHY:
 			median = parms[0];
 			scale = parms[1];	
 			// TODO --- better estimates
@@ -345,7 +437,7 @@ public class ProbabilityManager {
 			break;
 
 
-		case ProbabilityCalculatorSettings.DIST_EXPONENTIAL:
+		case EXPONENTIAL:
 			double lambda = parms[0];		
 			xMin = 0;
 			xMax = 4*(1/lambda);   // st dev = 1/lambda	
@@ -354,7 +446,7 @@ public class ProbabilityManager {
 			break;
 
 
-		case ProbabilityCalculatorSettings.DIST_GAMMA:
+		case GAMMA:
 			double alpha = parms[0]; // (shape)
 			double beta = parms[1];  //(scale)
 			mode = (alpha - 1) * beta;
@@ -370,7 +462,7 @@ public class ProbabilityManager {
 			break;
 
 
-		case ProbabilityCalculatorSettings.DIST_WEIBULL:
+		case WEIBULL:
 			shape = parms[0];	
 			scale = parms[1];	
 			median = scale*Math.pow(Math.log(2), 1/shape);
@@ -387,7 +479,7 @@ public class ProbabilityManager {
 
 			break;
 
-		case ProbabilityCalculatorSettings.DIST_LOGNORMAL:
+		case LOGNORMAL:
 			mean = parms[0];
 			sigma = parms[1];
 			double var = (Math.exp(sigma*sigma) - 1)*Math.exp(2*mean + sigma*sigma);
@@ -398,8 +490,8 @@ public class ProbabilityManager {
 			yMax = 1.2* ((GeoFunction)densityCurve).evaluate(mode);	
 			break;
 
-			
-		case ProbabilityCalculatorSettings.DIST_LOGISTIC:
+
+		case LOGISTIC:
 			mean = parms[0];
 			scale = parms[1];
 			sd = Math.PI*scale/Math.sqrt(3);
@@ -410,19 +502,19 @@ public class ProbabilityManager {
 			break;
 
 
-		case ProbabilityCalculatorSettings.DIST_PASCAL:
-		case ProbabilityCalculatorSettings.DIST_POISSON:
+		case PASCAL:
+		case POISSON:
 			xMin = probCalc.getDiscreteXMin();
 			xMax = probCalc.getDiscreteXMax();
 			yMin = 0;	
 			yMax = 1.2* getDiscreteYMax(selectedDist, parms, (int)xMin, (int)xMax);
 			xMin -= 1;
-			
+
 			break;
-			
-			
-		case ProbabilityCalculatorSettings.DIST_BINOMIAL:
-		case ProbabilityCalculatorSettings.DIST_HYPERGEOMETRIC:
+
+
+		case BINOMIAL:
+		case HYPERGEOMETRIC:
 			xMin = probCalc.getDiscreteXMin();
 			xMax = probCalc.getDiscreteXMax();
 			yMin = 0;	
@@ -452,7 +544,7 @@ public class ProbabilityManager {
 	 * @param high
 	 * @return
 	 */
-	private double getDiscreteYMax(int distType, double[] parms, int low, int high){
+	private double getDiscreteYMax(DIST distType, double[] parms, int low, int high){
 
 		double max = 0;
 
@@ -467,34 +559,27 @@ public class ProbabilityManager {
 	 * If isCumulative = true,  returns P(X <= value) for the given distribution 
 	 * If isCumulative = false,  returns P(X = value) for the given distribution 
 	 */
-	public double probability(double value, double [] parms, int distType, boolean isCumulative ){
+	public double probability(double value, double [] parms, DIST distType, boolean isCumulative ){
 
-		String[] cmd = ProbabilityManager.getCommand();
-		double prob = 0;
-
-		try {
-
-			// Build GeoGebra string for exact discrete probability
-			// e.g. "Binomial[ parms[0] , parms[1] , value, false ]"
-
-			StringBuilder expr = new StringBuilder();
-			expr.append(cmd[distType]);
-			expr.append("[");
-			for(int i=0; i < parms.length; i++){
-				expr.append(parms[i]);
-				expr.append(",");
-			}
-			expr.append(value + "," + isCumulative + "]");
-
-			// Use the string to calculate the probability
-			prob = evaluateExpression(expr.toString());	
-
-
-		} catch (Exception e) {		
-			e.printStackTrace();
+		MyDouble param1 = null, param2 = null, param3 = null;
+		
+		Construction cons = app.getKernel().getConstruction();
+		Kernel kernel = app.getKernel();
+		
+		if (parms.length > 0) {
+			param1 = new MyDouble(kernel, parms[0]);
 		}
-
-		return prob;
+		if (parms.length > 1) {
+			param2 = new MyDouble(kernel, parms[1]);
+		}
+		if (parms.length > 2) {
+			param3 = new MyDouble(kernel, parms[2]);
+		}
+		
+		AlgoDistribution algo = getCommand(distType, cons, param1, param2, param3, new MyDouble(kernel, value), isCumulative);
+		
+		return algo.getResult().getDouble();
+		
 	}
 
 
@@ -504,67 +589,17 @@ public class ProbabilityManager {
 	 * If mode == PROB_LEFT then P(low <= X) is returned.
 	 * If mode == PROB_RIGHT then P(X <= high) is returned.
 	 */
-	public double intervalProbability(double low, double high, int distType, double [] parms, int probMode){
+	public double intervalProbability(double low, double high, DIST distType, double [] parms, int probMode){
 
-		String[] cmd = getCommand();
-
-		String exprHigh = "";
-		String exprLow = "";
-		double prob = 0;
-
-
-		try {
-
-			// Build GeoGebra strings for high and low cumulative probabilities
-			// e.g. "Normal[ parms[0] , parms[1] , high ]"
-			// =================================================
-
-			StringBuilder partialExpr = new StringBuilder();
-			partialExpr.append(cmd[distType]);
-			partialExpr.append("[");
-			for(int i=0; i < parms.length; i++){
-				partialExpr.append(parms[i]);
-				partialExpr.append(",");
-			}
-
-			StringBuilder highExpr = new StringBuilder(partialExpr.toString());
-			StringBuilder lowExpr = new StringBuilder(partialExpr.toString());
-
-			highExpr.append(high);
-			lowExpr.append(isDiscrete(distType) ? low - 1 : low);
-
-			// for discrete case boolean cumulative must also be included
-			if(isDiscrete(distType)){
-				highExpr.append(", true");
-				lowExpr.append(", true");
-			}
-
-			highExpr.append("]");
-			lowExpr.append("]");
-
-
-			//System.out.println(highExpr.toString());
-			//System.out.println(lowExpr.toString());
-
-
-			// Use the strings to calculate the interval probability
-			// ========================================
-
-			if(probMode == ProbabilityCalculator.PROB_LEFT)
-				prob = evaluateExpression(highExpr.toString());	
-			else if(probMode == ProbabilityCalculator.PROB_RIGHT)
-				prob = 1 - evaluateExpression(lowExpr.toString());
-			else {
-				//Application.debug(highExpr.toString()+" "+lowExpr.toString());
-				prob = evaluateExpression(highExpr.toString()) - evaluateExpression(lowExpr.toString());
-			}
-
-
-		} catch (Exception e) {		
-			e.printStackTrace();
+		
+		if(probMode == ProbabilityCalculator.PROB_LEFT)
+			return probability(high, parms, distType, true);
+		else if(probMode == ProbabilityCalculator.PROB_RIGHT)
+			return 1 - probability(low, parms, distType, true);
+		else {
+			return probability(high, parms, distType, true) - probability(low, parms, distType, true);
 		}
-
-		return prob;
+		
 	}
 
 
@@ -576,75 +611,30 @@ public class ProbabilityManager {
 	 * @param prob
 	 *            cumulative probability
 	 */
-	protected double inverseProbability(int distType, double prob, double[] parms){
-
-		String[] inverseCmd = ProbabilityManager.getInverseCommand();
-		double result = 0;
-
-
-		try {
-			// build geogebra string for calculating inverse prob 
-			// e.g. "InverseNormal[ parms[0] , parms[1] , prob ]"
-			StringBuilder sb = new StringBuilder();
-			sb.append(inverseCmd[distType]);
-			sb.append("[");
-			for(int i=0; i < parms.length; i++){
-				sb.append(parms[i]);
-				sb.append(",");
-			}
-			sb.append(prob);
-			sb.append("]");
-
-			// evaluate the expression
-			result = evaluateExpression(sb.toString());
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		return result;
-	}
-
-	/**
-	 * Returns the result of substituting a given numeric value into a GeoGebra
-	 * function given as a String expression.
-	 * 
-	 * @param expr
-	 * @param x
-	 * @return
-	 */
-	private double evaluateFunction(String expr, double x){
-
-		GeoFunction tempGeo;
-		tempGeo = app.getKernel().getAlgebraProcessor().evaluateToFunction(expr, false);	
-		double result = tempGeo.evaluate(x);
-		tempGeo.remove();
-
-		return result;
-	}
-
-	
-	/**
-	 * Returns the numeric result of evaluating a given GeoGebra expression.
-	 * 
-	 * @param expr
-	 * @return
-	 */
-	private double evaluateExpression(String expr){
-
-		NumberValue nv;
+	protected double inverseProbability(DIST distType, double prob, double[] parms){
+		
+		MyDouble param1 = null, param2 = null, param3 = null;
+		
+		Construction cons = app.getKernel().getConstruction();
 		Kernel kernel = app.getKernel();
 		
-		// make sure eg Normal works in Swedish (Normal == PerpendicularLine)
-		kernel.setUseInternalCommandNames(true);
+		if (parms.length > 0) {
+			param1 = new MyDouble(kernel, parms[0]);
+		}
+		if (parms.length > 1) {
+			param2 = new MyDouble(kernel, parms[1]);
+		}
+		if (parms.length > 2) {
+			param3 = new MyDouble(kernel, parms[2]);
+		}
 		
-		nv =  kernel.getAlgebraProcessor().evaluateToNumeric(expr, false);	
+		AlgoDistribution algo = getInverseCommand(distType, cons, param1, param2, param3, new MyDouble(kernel,prob));
 		
-		kernel.setUseInternalCommandNames(false);
-		double result = nv.getDouble();
-
-		return result;
+		return algo.getResult().getDouble();
 	}
+
+
+
 
 
 

@@ -32,7 +32,7 @@ import geogebra.common.kernel.geos.GeoFunction;
  * algorithm for Normal[0,1,x]
  * @author  Michael
  */
-public class AlgoNormalDF extends AlgoElement {
+public class AlgoNormalDF extends AlgoElement implements AlgoDistributionDF {
 
 	private NumberValue mean, sd;  // input
 	private BooleanValue cumulative; // optional input
@@ -45,7 +45,7 @@ public class AlgoNormalDF extends AlgoElement {
       }   
     
     @SuppressWarnings("javadoc")
-	protected AlgoNormalDF(Construction cons, NumberValue a, NumberValue b, BooleanValue cumulative) {       
+	public AlgoNormalDF(Construction cons, NumberValue a, NumberValue b, BooleanValue cumulative) {       
   	  super(cons); 
         this.mean = a;
         this.sd = b;

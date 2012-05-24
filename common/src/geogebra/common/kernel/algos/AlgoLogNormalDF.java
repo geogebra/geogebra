@@ -31,7 +31,7 @@ import geogebra.common.kernel.geos.GeoFunctionConditional;
  * algorithm for LogNormal[0,1,x]
  * @author  Michael
  */
-public class AlgoLogNormalDF extends AlgoElement {
+public class AlgoLogNormalDF extends AlgoElement implements AlgoDistributionDF {
 
 	private NumberValue mean, sd;  // input
 	private BooleanValue cumulative; // optional input
@@ -46,7 +46,7 @@ public class AlgoLogNormalDF extends AlgoElement {
       }   
     
     @SuppressWarnings("javadoc")
-	protected AlgoLogNormalDF(Construction cons, NumberValue mean, NumberValue sd, BooleanValue cumulative) {       
+	public AlgoLogNormalDF(Construction cons, NumberValue mean, NumberValue sd, BooleanValue cumulative) {       
   	  super(cons); 
         this.mean = mean;
         this.sd = sd;

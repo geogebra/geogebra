@@ -31,7 +31,12 @@ public class AlgoInverseChiSquared extends AlgoDistribution {
         super(cons, label, a, b, null, null);
     }
 
-    @Override
+    public AlgoInverseChiSquared(Construction cons, NumberValue a,
+			NumberValue b) {
+        super(cons, a, b, null, null);
+	}
+
+	@Override
 	public Algos getClassName() {
         return Algos.AlgoInverseChiSquared;
     }

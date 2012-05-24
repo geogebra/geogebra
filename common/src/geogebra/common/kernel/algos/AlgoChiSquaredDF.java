@@ -31,7 +31,7 @@ import geogebra.common.kernel.geos.GeoFunctionConditional;
  * algorithm for ChiSquared[a,x]
  * @author  Michael
  */
-public class AlgoChiSquaredDF extends AlgoElement {
+public class AlgoChiSquaredDF extends AlgoElement implements AlgoDistributionDF {
 
 	private NumberValue k;  // input
 	private BooleanValue cumulative; // optional input
@@ -46,7 +46,7 @@ public class AlgoChiSquaredDF extends AlgoElement {
       }   
     
     @SuppressWarnings("javadoc")
-	protected AlgoChiSquaredDF(Construction cons, NumberValue a, BooleanValue cumulative) {       
+	public AlgoChiSquaredDF(Construction cons, NumberValue a, BooleanValue cumulative) {       
   	  super(cons); 
         this.k = a;
         this.cumulative = cumulative;

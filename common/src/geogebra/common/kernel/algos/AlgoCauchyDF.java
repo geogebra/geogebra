@@ -32,7 +32,7 @@ import geogebra.common.kernel.geos.GeoFunction;
  * algorithm for Cauchy[0,1,x]
  * @author  Michael
  */
-public class AlgoCauchyDF extends AlgoElement {
+public class AlgoCauchyDF extends AlgoElement implements AlgoDistributionDF {
 
 	private NumberValue a, b;  // input
 	private BooleanValue cumulative; // optional input
@@ -45,7 +45,7 @@ public class AlgoCauchyDF extends AlgoElement {
       }   
     
     @SuppressWarnings("javadoc")
-	protected AlgoCauchyDF(Construction cons, NumberValue a, NumberValue b, BooleanValue cumulative) {       
+	public AlgoCauchyDF(Construction cons, NumberValue a, NumberValue b, BooleanValue cumulative) {       
   	  super(cons); 
         this.a = a;
         this.b = b;

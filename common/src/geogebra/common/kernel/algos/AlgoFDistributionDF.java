@@ -33,7 +33,7 @@ import geogebra.common.kernel.geos.GeoFunctionConditional;
  * algorithm for FDistribution[0,1,x]
  * @author  Michael
  */
-public class AlgoFDistributionDF extends AlgoElement {
+public class AlgoFDistributionDF extends AlgoElement implements AlgoDistributionDF {
 
 	private NumberValue d1, d2;  // input
 	private BooleanValue cumulative; // optional input
@@ -48,7 +48,7 @@ public class AlgoFDistributionDF extends AlgoElement {
       }   
     
     @SuppressWarnings("javadoc")
-	protected AlgoFDistributionDF(Construction cons, NumberValue a, NumberValue b, BooleanValue cumulative) {       
+	public AlgoFDistributionDF(Construction cons, NumberValue a, NumberValue b, BooleanValue cumulative) {       
   	  super(cons); 
         this.d1 = a;
         this.d2 = b;

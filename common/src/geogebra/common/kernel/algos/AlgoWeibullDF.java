@@ -31,7 +31,7 @@ import geogebra.common.kernel.geos.GeoFunctionConditional;
  * algorithm for Weibull[0,1,x]
  * @author  Michael
  */
-public class AlgoWeibullDF extends AlgoElement {
+public class AlgoWeibullDF extends AlgoElement implements AlgoDistributionDF {
 
 	private NumberValue k, l;  // input
 	private BooleanValue cumulative; // optional input
@@ -46,7 +46,7 @@ public class AlgoWeibullDF extends AlgoElement {
       }   
     
     @SuppressWarnings("javadoc")
-	protected AlgoWeibullDF(Construction cons, NumberValue k, NumberValue l, BooleanValue cumulative) {       
+	public AlgoWeibullDF(Construction cons, NumberValue k, NumberValue l, BooleanValue cumulative) {       
   	  super(cons); 
         this.k = k;
         this.l = l;

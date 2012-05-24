@@ -31,7 +31,7 @@ import geogebra.common.kernel.geos.GeoFunctionConditional;
  * algorithm for Exponential[a,x, boolean] (PDF / CDF)
  * @author  Michael
  */
-public class AlgoExponentialDF extends AlgoElement {
+public class AlgoExponentialDF extends AlgoElement implements AlgoDistributionDF {
 
 	private NumberValue lambda;  // input
 	private BooleanValue cumulative; // optional input
@@ -46,7 +46,7 @@ public class AlgoExponentialDF extends AlgoElement {
       }   
     
     @SuppressWarnings("javadoc")
-	protected AlgoExponentialDF(Construction cons, NumberValue lambda, BooleanValue cumulative) {       
+	public AlgoExponentialDF(Construction cons, NumberValue lambda, BooleanValue cumulative) {       
   	  super(cons); 
         this.lambda = lambda;
         this.cumulative = cumulative;

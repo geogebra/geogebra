@@ -31,7 +31,12 @@ public class AlgoInverseTDistribution extends AlgoDistribution {
         super(cons, label, a, b, null, null);
     }
 
-    @Override
+    public AlgoInverseTDistribution(Construction cons, NumberValue a,
+			NumberValue b) {
+        super(cons, a, b, null, null);
+	}
+
+	@Override
 	public Algos getClassName() {
         return Algos.AlgoInverseTDistribution;
     }

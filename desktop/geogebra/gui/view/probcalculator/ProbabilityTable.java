@@ -1,5 +1,6 @@
 package geogebra.gui.view.probcalculator;
 
+import geogebra.common.main.settings.ProbabilityCalculatorSettings.DIST;
 import geogebra.gui.view.spreadsheet.statdialog.StatTable;
 import geogebra.main.Application;
 
@@ -25,7 +26,7 @@ public class ProbabilityTable extends JPanel  implements ListSelectionListener{
 	private StatTable statTable;
 
 	private String[] columnNames;
-	int distType;
+	private DIST distType;
 	private int xMin, xMax;
 	private boolean isIniting;
 	private double[] parms;
@@ -46,7 +47,7 @@ public class ProbabilityTable extends JPanel  implements ListSelectionListener{
 		statTable.getTable().setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
 
 		// blank table
-		setTable(-1, null , 0, 10);
+		setTable(null, null , 0, 10);
 
 
 
@@ -58,7 +59,7 @@ public class ProbabilityTable extends JPanel  implements ListSelectionListener{
 	}
 
 
-	public void setTable(int distType, double[] parms, int xMin, int xMax){
+	public void setTable(DIST distType, double[] parms, int xMin, int xMax){
 
 		isIniting = true;
 
@@ -79,7 +80,7 @@ public class ProbabilityTable extends JPanel  implements ListSelectionListener{
 		while(x<=xMax){
 
 			model.setValueAt("" + x, row, 0);
-			if(distType > -1 ){
+			if(distType != null ){
 				prob = probManager.probability(x, parms, distType, isCumulative());
 				model.setValueAt("" + probCalc.format(prob), row, 1);
 			}
@@ -194,8 +195,8 @@ public class ProbabilityTable extends JPanel  implements ListSelectionListener{
 
 	public void setSelectionByRowValue(int lowValue, int highValue){
 
-		if(!probManager.isDiscrete(distType)) 
-			return;
+		//if(!probManager.isDiscrete(distType)) 
+		//	return;
 
 		try {
 			statTable.getTable().getSelectionModel().removeListSelectionListener(this);
