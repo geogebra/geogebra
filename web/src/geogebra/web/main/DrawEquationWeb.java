@@ -157,7 +157,10 @@ public class DrawEquationWeb implements DrawEquationInterface {
 				eqstring = eqstring.substring(1, eqstring.length() - 1);
 			}
 
-			
+			// remove all \; and \,
+			eqstring = eqstring.replace("\\;","");
+			eqstring = eqstring.replace("\\,","");
+
 			AbstractApplication.debug(eqstring);
 
 			// remove $s
