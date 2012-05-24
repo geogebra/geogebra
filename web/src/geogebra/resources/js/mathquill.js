@@ -1532,11 +1532,16 @@ _ = Variable.prototype = new Symbol;
 _.text = function() {
   var text = this.cmd;
   if (this.prev && !(this.prev instanceof Variable)
-      && !(this.prev instanceof BinaryOperator))
+      && !(this.prev instanceof BinaryOperator)
+      && !(this.prev.cmd === '('))
     text = '*' + text;
   if (this.next && !(this.next instanceof BinaryOperator)
-      && !(this.next.cmd === '^'))
+      && !(this.next.cmd === '^')
+      && !(this.next.cmd === ')')
+      && !(this.next.cmd === '(')
+      && !(this.next.cmd === '\\left('))
     text += '*';
+
   return text;
 };
 
@@ -2042,7 +2047,7 @@ LatexCmds.ang = LatexCmds.angle = bind(VanillaSymbol,'\\angle ','&ang;');
 
 
 function NonItalicizedFunction(replacedFragment, fn) {
-  Symbol.call(this, '\\'+fn+' ', '<span>'+fn+'</span>');
+  Symbol.call(this, '\\'+fn+' ', '<span>'+fn+'</span>', fn);
 }
 _ = NonItalicizedFunction.prototype = new Symbol;
 _.respace = function()
@@ -2282,7 +2287,7 @@ _.offset = function() {
 };
 _.writeLatex = function(latex) {
   this.deleteSelection();
-  latex = ( latex && latex.match(/\\text\{([^}]|\\\})*\}|\\[a-z]*|[^\s]/ig) ) || 0;
+  latex = ( latex && latex.match(/\\text\{([^}]|\\\})*\}|\\[a-z]*|[a-z]+\s*\(|[^\s]/ig) ) || 0;
   (function writeLatexBlock(cursor) {
     while (latex.length) {
       var token = latex.shift(); //pop first item
@@ -2307,13 +2312,19 @@ _.writeLatex = function(latex) {
         else //was an open-paren, hack to put the following latex
           latex.unshift('{'); //in the ParenBlock in the math DOM
       }
-      else if (/^\\[a-z]+$/i.test(token)) {
-        token = token.slice(1);
-        var cmd = LatexCmds[token];
+      else if (/^\\[a-z]+|[a-z]+\s*\($/i.test(token)) {
+    	var realtoken = token.match(/[a-z]+/ig).shift();
+        //token = token.slice(1);
+        var cmd = LatexCmds[realtoken];
+        if (token.charAt(token.length-1) === '(')
+        	latex.unshift('(');
         if (cmd)
-          cursor.insertNew(cmd = new cmd(undefined, token));
+          cursor.insertNew(cmd = new cmd(undefined, realtoken));
         else {
-          cmd = new TextBlock(token);
+          if (token.charAt(token.length-1) === '(')
+              cmd = new NonItalicizedFunction(undefined, realtoken);
+          else
+              cmd = new TextBlock(realtoken);
           cursor.insertNew(cmd).insertAfter(cmd);
           continue; //skip recursing through children
         }

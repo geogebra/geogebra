@@ -273,7 +273,7 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < newValueFirst.length(); i++)
 			// i+=2 is not good because it can be f(*x*) or g*(*x*) 
-			if (newValueFirst.charAt(i) != '*')
+		//	if (newValueFirst.charAt(i) != '*')
 				sb.append(newValueFirst.charAt(i));
 
 		boolean switchw = false;
