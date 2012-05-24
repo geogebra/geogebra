@@ -640,8 +640,12 @@ public class CASTable extends JTable {
 	@Override
 	public void setFont(Font ft) {
 		super.setFont(ft);
-		if (editor != null)
+		if (editor != null){
+			if(isEditing()){
+				editor.stopCellEditing();
+			}
 			editor.setFont(getFont());
+		}
 		if (renderer != null)
 			renderer.setFont(getFont());
 		repaint();
