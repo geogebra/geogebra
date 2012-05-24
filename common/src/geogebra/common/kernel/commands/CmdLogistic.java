@@ -6,9 +6,9 @@ import geogebra.common.kernel.algos.AlgoLogisticDF;
 import geogebra.common.kernel.arithmetic.BooleanValue;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
-import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
+import geogebra.common.kernel.statistics.AlgoLogistic;
 import geogebra.common.main.MyError;
 
 /**
@@ -56,14 +56,9 @@ public class CmdLogistic extends CommandProcessor {
 					
 				} else if (arg[2].isNumberValue()) 
 				{
-					// needed for eg Normal[1, 0.001, x] 
-					StringTemplate highPrecision = StringTemplate.maxPrecision;
-					String m = arg[0].getLabel(highPrecision);
-					String s = arg[1].getLabel(highPrecision);
-					String x = arg[2].getLabel(highPrecision);
-					
-					GeoElement[] ret = kernelA.getAlgebraProcessor().processAlgebraCommand( "1/(1+exp(-("+x+"-("+m+"))/abs("+s+")))", true );
-					return ret;
+					AlgoLogistic algo = new AlgoLogistic(cons, c.getLabel(), (NumberValue)arg[0], (NumberValue)arg[1], (NumberValue)arg[2]);
+					return algo.getGeoElements();
+
 					
 				}  else
 					throw argErr(app, c.getName(), arg[2]);
