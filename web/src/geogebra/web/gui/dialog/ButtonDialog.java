@@ -12,6 +12,7 @@ import geogebra.web.main.Application;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PopupPanel;
@@ -47,7 +48,7 @@ public class ButtonDialog extends PopupPanel implements ClickHandler{
 		super(false,true);
 		
 		this.app = app;		
-		this.textField = textField;
+		this.textField = textfield;
 		this.x=x;
 		this.y=y;
 		
@@ -70,11 +71,13 @@ public class ButtonDialog extends PopupPanel implements ClickHandler{
 		}
 		
 		//captionLabel.setLabelFor(tfCaption);
-		VerticalPanel captionPanel = new VerticalPanel();
+		HorizontalPanel captionPanel = new HorizontalPanel();
 		captionPanel.add(captionLabel);
 		captionPanel.add(ip);
-		
-		
+		captionPanel.addStyleName("captionPanel");
+		captionLabel.getElement().getParentElement().addClassName("tdForCaptionLabel");
+		captionLabel.getElement().getParentElement().setAttribute("style","vertical-align: middle");
+				
 //		// combo box to link GeoElement to TextField
 //		comboModel = new DefaultComboBoxModel();
 //		TreeSet<GeoElement> sortedSet = app.getKernel().getConstruction().
@@ -177,6 +180,7 @@ public class ButtonDialog extends PopupPanel implements ClickHandler{
 		btPanel = new HorizontalPanel();
 		btPanel.add(btApply);
 		btPanel.add(btCancel);
+		btPanel.addStyleName("buttonPanel");
 			
 		//Create the JOptionPane.
 		optionPane = new VerticalPanel();
@@ -223,10 +227,9 @@ public class ButtonDialog extends PopupPanel implements ClickHandler{
 //			geoResult = button;		
 			hide();
 //			
-//			app.storeUndoInfo();
+			app.storeUndoInfo();
 		} 
-		else if (source == btCancel) {		
-			AbstractApplication.debug("btCancel :)");
+		else if (source == btCancel) {
 //			geoResult = null;
 			hide();
 		} 

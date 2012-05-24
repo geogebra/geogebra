@@ -98,6 +98,7 @@ public class InputPanel extends HorizontalPanel {
 //			tfPanel = new JPanel(new BorderLayout(0, 0));
 //			tfPanel.add(textComponent, BorderLayout.CENTER);
 //			add(tfPanel, BorderLayout.CENTER);
+			add(textComponent);
 //		}
 	}
 

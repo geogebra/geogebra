@@ -1379,3 +1379,15 @@ td.datePickerMonth {
 	top: -7px;
 	margin-left: 5px;
 }
+
+.captionPanel td{
+	vertical-align: middle;
+}
+
+.tdForCaptionLabel{
+	vertical-align: middle;
+}
+
+.buttonPanel {
+	margin: auto;
+}
