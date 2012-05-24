@@ -15,6 +15,7 @@ import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.gui.dialog.handler.NumberInputHandler;
+import geogebra.web.gui.dialog.ButtonDialog;
 import geogebra.web.gui.dialog.InputDialogAngleFixed;
 import geogebra.web.gui.dialog.InputDialogRotate;
 import geogebra.web.gui.dialog.AngleInputDialog;
@@ -78,8 +79,9 @@ public class DialogManagerWeb extends DialogManager {
 
 	@Override
     public boolean showButtonCreationDialog(int x, int y, boolean textfield) {
-	    // TODO Auto-generated method stub
-	    return false;
+		ButtonDialog dialog = new ButtonDialog(((Application) app), x, y, textfield);
+		dialog.setVisible(true);
+		return true;
     }
 
 	@Override

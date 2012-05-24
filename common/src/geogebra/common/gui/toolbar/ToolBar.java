@@ -185,9 +185,10 @@ public class ToolBar {
 			sb.append(EuclidianConstants.MODE_SHOW_HIDE_CHECKBOX);
 			sb.append(" ");
 			sb.append(EuclidianConstants.MODE_BUTTON_ACTION);
-			sb.append(" ");
-			sb.append(EuclidianConstants.MODE_TEXTFIELD_ACTION);
 		}
+		sb.append(" ");
+		sb.append(EuclidianConstants.MODE_TEXTFIELD_ACTION);
+		
 			
 		// properties
 		sb.append(" || ");
