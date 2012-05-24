@@ -4,9 +4,11 @@ import geogebra.common.main.AbstractApplication;
 import geogebra.web.gui.view.algebra.AlgebraView;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Style;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.ScrollPanel;
+import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.RequiresResize;
 
@@ -21,6 +23,7 @@ public class AlgebraPanel extends Composite implements RequiresResize {
 	}
 
 	@UiField ScrollPanel algebrap;
+	SimplePanel simplep;
 	AlgebraView aview = null;
 
 	public AlgebraPanel() {
@@ -33,10 +36,13 @@ public class AlgebraPanel extends Composite implements RequiresResize {
 
 	public void setAlgebraView(AlgebraView av) {
 		if (av != aview) {
-			if (aview != null)
-				algebrap.remove(aview);
+			if (aview != null && simplep != null) {
+				simplep.remove(aview);
+				algebrap.remove(simplep);
+			}
 
-			algebrap.add(aview = av);
+			simplep = new SimplePanel(aview = av);
+			algebrap.add(simplep);
 		}
 	}
 
