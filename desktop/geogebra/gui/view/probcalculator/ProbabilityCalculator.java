@@ -149,7 +149,7 @@ implements View, ActionListener, FocusListener, ChangeListener, SettingListener 
 
 
 	// GUI elements
-	private JComboBox<String> comboDistribution, comboProbType;
+	private JComboBox comboDistribution, comboProbType;
 	private JTextField[] fldParameterArray;
 	private JTextField fldLow,fldHigh,fldResult;
 	private JLabel[] lblParameterArray;
