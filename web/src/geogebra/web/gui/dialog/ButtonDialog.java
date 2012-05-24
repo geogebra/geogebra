@@ -1,5 +1,8 @@
 package geogebra.web.gui.dialog;
 
+import java.util.Iterator;
+import java.util.TreeSet;
+
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoButton;
@@ -15,6 +18,7 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -78,31 +82,32 @@ public class ButtonDialog extends PopupPanel implements ClickHandler{
 		captionLabel.getElement().getParentElement().addClassName("tdForCaptionLabel");
 		captionLabel.getElement().getParentElement().setAttribute("style","vertical-align: middle");
 				
-//		// combo box to link GeoElement to TextField
+		// combo box to link GeoElement to TextField
 //		comboModel = new DefaultComboBoxModel();
-//		TreeSet<GeoElement> sortedSet = app.getKernel().getConstruction().
-//									getGeoSetNameDescriptionOrder();			
-//		
+		TreeSet<GeoElement> sortedSet = app.getKernel().getConstruction().
+									getGeoSetNameDescriptionOrder();			
+		
 //		final JComboBox cbAdd = new JComboBox(comboModel);
-//
-//		
-//		
-//		if (textField) {
-//			// lists for combo boxes to select input and output objects
-//			// fill combobox models
-//			Iterator<GeoElement> it = sortedSet.iterator();
+		final ListBox cbAdd = new ListBox();
+		
+		
+		if (textField) {
+			// lists for combo boxes to select input and output objects
+			// fill combobox models
+			Iterator<GeoElement> it = sortedSet.iterator();
 //			comboModel.addElement(null);
 //			FontMetrics fm = getFontMetrics(getFont());
 //			int width = (int)cbAdd.getPreferredSize().getWidth();
-//			while (it.hasNext()) {
-//				GeoElement geo = it.next();				
-//				if (!geo.isGeoImage() && !(geo.isGeoButton()) && !(geo.isGeoBoolean())) {				
+			while (it.hasNext()) {
+				GeoElement geo = it.next();				
+				if (!geo.isGeoImage() && !(geo.isGeoButton()) && !(geo.isGeoBoolean())) {
 //					comboModel.addElement(geo);
-//					String str = geo.toString(StringTemplate.defaultTemplate);
+					String str = geo.toString(StringTemplate.defaultTemplate);
+					cbAdd.addItem(str);
 //					if (width < fm.stringWidth(str))
 //						width = fm.stringWidth(str);
-//				}
-//			}	
+				}
+			}	
 //			
 //			// make sure it's not too wide (eg long GeoList)
 //			Dimension size = new Dimension(Math.min(Application.getScreenSize().width/2, width), cbAdd.getPreferredSize().height);
@@ -111,7 +116,7 @@ public class ButtonDialog extends PopupPanel implements ClickHandler{
 //
 //
 //			
-//			if (comboModel.getSize() > 1) {
+			if (cbAdd.getItemCount() > 1) {
 //		
 //				// listener for the combobox
 //				MyComboBoxListener ac = new MyComboBoxListener() {
@@ -137,8 +142,8 @@ public class ButtonDialog extends PopupPanel implements ClickHandler{
 //				cbAdd.addMouseListener(ac);
 //				
 //				captionPanel.add(cbAdd);
-//			}
-//		}
+			}
+		}
 //
 //		
 //		// create script panel
@@ -165,11 +170,11 @@ public class ButtonDialog extends PopupPanel implements ClickHandler{
 //		scriptPanel.add(ip2,BorderLayout.CENTER);
 //		scriptPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 //		
-//		JPanel linkedPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-//		JLabel linkedLabel = new JLabel(app.getPlain("LinkedObject")+":");
-//		linkedPanel.add(linkedLabel);
-//		linkedPanel.add(cbAdd);
-//		
+		HorizontalPanel linkedPanel = new HorizontalPanel();
+		Label linkedLabel = new Label(app.getPlain("LinkedObject")+":");
+		linkedPanel.add(linkedLabel);
+		linkedPanel.add(cbAdd);
+		
 		// buttons
 		btApply = new Button(app.getPlain("Apply"));
 		btApply.getElement().setAttribute("action","Apply");
@@ -187,8 +192,8 @@ public class ButtonDialog extends PopupPanel implements ClickHandler{
 		
 		// create object list
 		optionPane.add(captionPanel);
-//		if (textField)
-//			optionPane.add(linkedPanel, BorderLayout.CENTER);	
+		if (textField)
+			optionPane.add(linkedPanel);	
 //		else
 //			optionPane.add(scriptPanel, BorderLayout.CENTER);	
 		optionPane.add(btPanel);	
