@@ -1,15 +1,17 @@
 package geogebra.cas.view;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.Insets;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import geogebra.common.awt.Color;
+import geogebra.common.factories.AwtFactory;
 import geogebra.common.gui.SetLabels;
 import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.common.util.Unicode;
@@ -20,9 +22,12 @@ import geogebra.main.Application;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.Icon;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JToggleButton;
 import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
 
@@ -47,63 +52,108 @@ public class CASControlPanel extends JPanel implements ActionListener,
 			{ Unicode.IMAGINARY, Unicode.IMAGINARY }, { "\u221a", "sqrt()" },
 			{ "^", "^" }, { "!", "!" } };
 
-	private JButton btnNumeric;
-	private JButton btnKeepInput;
-	private JButton btnEvaluate;
-	private JPanel enterPad;
+	private MyButton btnNumeric;
+	private MyButton btnKeepInput;
+	private MyButton btnEvaluate;
+	private MyButton btnShowKeyboard;
+	private JPanel topBarPanel;
 	private JPanel operatorPad;
 	private JButton btnClear;
 	private JButton btnBack;
 	private JPanel specialCharPad;
+	private MyButton btnCopyStatic;
+	private MyButton btnCopyDynamic;
+	private JPanel copyPad;
+	private JPanel calculatorPanel;
+	private JPanel evaluatePad;
 
+	private JPanel bottomPanel;
+	
 	public CASControlPanel(Application app, CASView view) {
 		this.app = app;
 		this.view = view;
-		this.setFocusable(false);
 		initGUI();
-		for (int i = 0; i < this.getComponentCount(); i++) {
-			this.getComponent(i).setFocusable(false);
-		}
-	}
 
+	}
+	
+	public void showCalculatorPanel(boolean isVisible){
+		calculatorPanel.setVisible(isVisible);
+	}
+	
+	public JPanel getControlBar(){
+		return topBarPanel;
+	}
+	
+	public JPanel getControlPanel(){
+		if(bottomPanel == null){
+			createBottomPanel();
+		}
+		return bottomPanel;
+	}
+	
+	
 	private void initGUI() {
 		setLayout(new BorderLayout());
 
-		specialCharPad = createPad(specialCharData, 2, 4, false);
-		operatorPad = createPad(operatorData, 4, 1, true);
-		numPad = createPad(numPadData, 4, 3, false);
-		createEnterPad();
-
-		JPanel p = new JPanel();
-		p.setLayout(new BoxLayout(p, BoxLayout.X_AXIS));
-		p.add(numPad);
-		p.add(Box.createHorizontalStrut(0));
-		p.add(operatorPad);
-		p.add(Box.createHorizontalStrut(10));
-		p.add(specialCharPad);
-
-		p.setBorder(BorderFactory.createEmptyBorder(8, 8, 8, 8));
-		add(p, BorderLayout.WEST);
-
+		createCalculatorPanel();
+		calculatorPanel.setVisible(false);
+		calculatorPanel.setBorder(BorderFactory.createEmptyBorder(8, 8, 8, 8));
+		
+		createTopBarPanel();
 		Border topBorder = (BorderFactory.createCompoundBorder(BorderFactory
 				.createMatteBorder(1, 0, 1, 0, SystemColor.controlShadow),
 				BorderFactory.createMatteBorder(1, 0, 0, 0,
 						SystemColor.controlLtHighlight)));
-		enterPad.setBorder(BorderFactory.createCompoundBorder(topBorder,
+		topBarPanel.setBorder(BorderFactory.createCompoundBorder(topBorder,
 				BorderFactory.createEmptyBorder(4, 4, 4, 2)));
 
-		// enterPad.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0,
-		// SystemColor.controlShadow));
-		// enterPad.setBorder(BorderFactory.createEmptyBorder(4,4,4,4));
-		add(enterPad, BorderLayout.SOUTH);
+		//add(calculatorPanel, BorderLayout.CENTER);
+		//add(topBarPanel, BorderLayout.NORTH);
 
-		// this.setBorder(BorderFactory.createEtchedBorder());
 
 	}
+	
+	public void setControlComponent(JComponent comp){
+		BorderLayout layout = (BorderLayout) getLayout();
+		remove(layout.getLayoutComponent(BorderLayout.CENTER));
+		add(comp, BorderLayout.CENTER);
+		revalidate();
+	}
+	
+	public void restoreDefaultControlComponent(){
+		setControlComponent(calculatorPanel);
+	}
 
+	
+	public void createBottomPanel(){
+		bottomPanel = new JPanel(new BorderLayout());
+		setBottomPanelSOUTH(calculatorPanel);
+	}
+	
+	public void setBottomPanelNORTH(JComponent comp){
+		BorderLayout layout = (BorderLayout) bottomPanel.getLayout();
+		remove(layout.getLayoutComponent(BorderLayout.NORTH));
+		add(comp, BorderLayout.NORTH);
+		revalidate();
+	}
+	
+	public void setBottomPanelSOUTH(JComponent comp) {
+		BorderLayout layout = (BorderLayout) bottomPanel.getLayout();
+		if (layout.getLayoutComponent(BorderLayout.SOUTH) != null) {
+			remove(layout.getLayoutComponent(BorderLayout.SOUTH));
+		}
+		bottomPanel.add(comp, BorderLayout.SOUTH);
+		revalidate();
+	}
+	
+	
+	
 	private JPanel createPad(String[][] btnData, int rows, int columns,
-			boolean isBold) {
+			boolean isBold, Color textColor) {
 
+		if (textColor == null) {
+			textColor = Color.BLACK;
+		}
 		JPanel padGrid = new JPanel(new GridLayout(rows, columns));
 		GridLayout l = (GridLayout) padGrid.getLayout();
 		l.setHgap(0);
@@ -114,6 +164,7 @@ public class CASControlPanel extends JPanel implements ActionListener,
 			} else {
 				final ControlButton btn = new ControlButton();
 				btn.setPreferredSize(new Dimension(30, 30));
+				btn.setForeground(geogebra.awt.Color.getAwtColor(textColor));
 				if (isBold) {
 					Font f = app.getBoldFont();
 					btn.setFont(f.deriveFont((float) (f.getSize() + 2)));
@@ -132,45 +183,109 @@ public class CASControlPanel extends JPanel implements ActionListener,
 		return pad;
 	}
 
-	private void createEnterPad() {
-		Font font = app.getBoldFont();
-		Color fgColor = geogebra.awt.Color
-				.getAwtColor(GeoGebraColorConstants.BLACK);
+	private void createTopBarPanel() {
+		
+		createCopyPad();
+		JPanel westPanel = OptionsUtil.flowPanel(1, 1, 0, copyPad);		
 
-		btnNumeric = new JButton("\u2248");
-		btnKeepInput = new JButton(app.getPlain("\u2713"));
-		btnEvaluate = new JButton("=");
-		btnClear = new JButton("\u2718");
-		btnBack = new JButton("\u2190");
+		topBarPanel = new JPanel(new BorderLayout());
+		topBarPanel.add(westPanel, BorderLayout.WEST);
 
-		btnNumeric.setFont(font);
-		btnNumeric.setForeground(fgColor);
-		btnKeepInput.setFont(font);
-		btnKeepInput.setForeground(fgColor);
-		btnEvaluate.setFont(font);
-		btnEvaluate.setForeground(fgColor);
+	}
+	
+	
+	private void createCalculatorPanel(){
 
+		specialCharPad = createPad(specialCharData, 2, 4, false, null);
+		operatorPad = createPad(operatorData, 4, 1, true,
+				geogebra.common.main.GeoGebraColorConstants.MAROON);
+		numPad = createPad(numPadData, 4, 3, false, null);
+		
+		calculatorPanel = new JPanel();
+		calculatorPanel.setLayout(new BoxLayout(calculatorPanel, BoxLayout.X_AXIS));
+		calculatorPanel.add(numPad);
+		calculatorPanel.add(Box.createHorizontalStrut(0));
+		calculatorPanel.add(operatorPad);
+		calculatorPanel.add(Box.createHorizontalStrut(15));
+		
+		createEvaluatePad();
+		
+		JPanel specialCharEvalPanel = new JPanel(new BorderLayout());
+		
+		specialCharEvalPanel.add(specialCharPad, BorderLayout.NORTH);
+		specialCharEvalPanel.add(evaluatePad, BorderLayout.SOUTH);
+		
+		calculatorPanel.add(specialCharEvalPanel);
+		
+
+	}
+	
+	private void createEvaluatePad(){
+		
+		btnNumeric = new MyButton(app.getImageIcon("cas-numeric24.png"));
+		btnKeepInput = new MyButton(app.getImageIcon("cas-keepinput24.png"));
+		btnEvaluate = new MyButton(app.getImageIcon("cas-evaluate24.png"));
+		
 		btnNumeric.addActionListener(this);
 		btnKeepInput.addActionListener(this);
 		btnEvaluate.addActionListener(this);
 
-		btnEvaluate.setPreferredSize(new Dimension(30, 30));
-		btnNumeric.setPreferredSize(btnEvaluate.getPreferredSize());
-		btnKeepInput.setPreferredSize(btnEvaluate.getPreferredSize());
-		btnClear.setPreferredSize(btnEvaluate.getPreferredSize());
-		btnBack.setPreferredSize(btnEvaluate.getPreferredSize());
+		// btnEvaluate.setPreferredSize(new Dimension(30, 30));
+		// btnNumeric.setPreferredSize(btnEvaluate.getPreferredSize());
+		// btnKeepInput.setPreferredSize(btnEvaluate.getPreferredSize());
+		
+		//btnClear = new JButton("\u232B");
+				//btnBack = new JButton("\u23CE");
+				//btnClear.setFont(font);
+				//btnBack.setFont(font);
+				//btnClear.setPreferredSize(new Dimension(30, 30));
+		// btnClear = new JButton("\u2718");
+				// btnBack = new JButton("\u2190");
+		//btnClear.setPreferredSize(btnEvaluate.getPreferredSize());
+		//btnBack.setPreferredSize(btnEvaluate.getPreferredSize());
 
 		btnEvaluate.setMargin(new Insets(0, 0, 0, 0));
 		btnKeepInput.setMargin(new Insets(0, 0, 0, 0));
 		btnNumeric.setMargin(new Insets(0, 0, 0, 0));
 
-		JPanel westPanel = OptionsUtil.flowPanel(1, 1, 0, btnClear, btnBack);
-		JPanel centerPanel = OptionsUtil.flowPanel(8, 2, 0, btnEvaluate,
-				btnNumeric, btnKeepInput);
+		evaluatePad = OptionsUtil.flowPanelRight(4, 0, 0, btnKeepInput,
+				Box.createHorizontalStrut(10), btnEvaluate, btnNumeric);
 
-		enterPad = new JPanel(new BorderLayout());
-		enterPad.add(centerPanel, BorderLayout.WEST);
-		// enterPad.add(westPanel, BorderLayout.WEST);
+	}
+
+	private void createCopyPad() {
+		Font font = app.getBoldFont();
+		java.awt.Color fgColor = geogebra.awt.Color.getAwtColor(Color.BLACK);
+
+		btnCopyStatic = new MyButton(app.getImageIcon("cascopy-static.png"));
+		btnCopyDynamic = new MyButton(app.getImageIcon("cascopy-dynamic.png"));
+		
+
+		btnShowKeyboard = 	new MyButton(app.getImageIcon("cas-keyboard.png"));	
+		btnShowKeyboard.addActionListener(this);
+		
+		
+		btnShowKeyboard.setFocusable(false);
+		btnCopyStatic.setFocusable(false);
+		btnCopyDynamic.setFocusable(false);
+
+		// btnCopyDynamic.setBorderPainted(false);
+		// btnCopyDynamic.setContentAreaFilled(false);
+		// btnCopyStatic.setBorderPainted(false);
+		// btnCopyStatic.setContentAreaFilled(false);
+
+		btnCopyDynamic.addActionListener(this);
+		btnCopyStatic.addActionListener(this);
+
+		btnShowKeyboard.setMargin(new Insets(0, 0, 0, 0));
+		btnCopyDynamic.setMargin(new Insets(0, 0, 0, 0));
+		btnCopyStatic.setMargin(new Insets(0, 0, 0, 0));
+
+		JPanel westPanel = OptionsUtil.flowPanel(4, 0, 0, btnShowKeyboard,
+				Box.createHorizontalStrut(10), btnCopyStatic, btnCopyDynamic);
+
+		copyPad = new JPanel(new BorderLayout());
+		copyPad.add(westPanel, BorderLayout.WEST);
 
 	}
 
@@ -180,15 +295,56 @@ public class CASControlPanel extends JPanel implements ActionListener,
 	}
 
 	public void actionPerformed(ActionEvent e) {
+		
 		Object source = e.getSource();
+		
+		System.out.println(e.getSource().getClass().getName());
+		
 		if (source == btnKeepInput) {
 			view.processInput("KeepInput", null);
 		} else if (source == btnEvaluate) {
 			view.processInput("Evaluate", null);
 		} else if (source == btnNumeric) {
 			view.processInput("Numeric", null);
-		}
 
+		} else if (source == btnCopyStatic) {
+
+			if (btnCopyStatic.isSelected()) {
+				view.getConsoleTable().setCopyMode(CASTable.COPY_STATIC);
+			} else {
+				view.getConsoleTable().setCopyMode(CASTable.COPY_OFF);
+			}
+			view.repaint();
+
+		} else if (source == btnCopyDynamic) {
+
+			if (btnCopyDynamic.isSelected()) {
+				view.getConsoleTable().setCopyMode(CASTable.COPY_DYNAMIC);
+			} else {
+				view.getConsoleTable().setCopyMode(CASTable.COPY_OFF);
+			}
+			view.repaint();
+		}
+		
+		else if (source == btnShowKeyboard) {
+			calculatorPanel.setVisible(btnShowKeyboard.isSelected());
+			view.repaint();
+		}
+		updateGUI();
+	}
+
+	private void updateGUI() {
+
+		btnCopyStatic.removeActionListener(this);
+		btnCopyDynamic.removeActionListener(this);
+
+		btnCopyDynamic
+				.setSelected(view.getConsoleTable().getCopyMode() == CASTable.COPY_DYNAMIC);
+		btnCopyStatic
+				.setSelected(view.getConsoleTable().getCopyMode() == CASTable.COPY_STATIC);
+
+		btnCopyStatic.addActionListener(this);
+		btnCopyDynamic.addActionListener(this);
 	}
 
 	/***********************************************
@@ -217,11 +373,13 @@ public class CASControlPanel extends JPanel implements ActionListener,
 
 					((MyTextField) view.getConsoleTable().getEditor()
 							.getInputArea()).insertString(getInsertText());
-								
+
 					// move the caret inside last inserted bracket
 					if (getInsertText().endsWith(")")) {
-						// MyTextField.insertString uses a runnable to change caret position 
-						// (fixes a Mac OS problem). Thus, another runnable is needed here to
+						// MyTextField.insertString uses a runnable to change
+						// caret position
+						// (fixes a Mac OS problem). Thus, another runnable is
+						// needed here to
 						// move the caret after insertString is done.
 						SwingUtilities.invokeLater(new Runnable() {
 							public void run() {
@@ -235,7 +393,7 @@ public class CASControlPanel extends JPanel implements ActionListener,
 							}
 						});
 
-					 }
+					}
 
 				}
 			});
@@ -250,5 +408,23 @@ public class CASControlPanel extends JPanel implements ActionListener,
 		}
 
 	}
+	
+	/***********************************************
+	 * ControlButton class
+	 * 
+	 **********************************************/
+	private class MyButton extends JToggleButton {
+
+		public MyButton(Icon icon) {
+			super(icon);
+			this.setFocusable(false);
+			this.setRequestFocusEnabled(false);
+			setMargin(new Insets(0, 0, 0, 0));
+			//this.setBorderPainted(false);
+			//this.setContentAreaFilled(false);
+			this.setPreferredSize(new Dimension(20,20));
+		}
+	}
+	
 
 }

@@ -41,6 +41,8 @@ public class CASStyleBar extends JToolBar implements ActionListener{
 	private MyToggleButton btnItalic;
 	private MyToggleButton btnUseAsText;
 	
+	private MyToggleButton btnShowKeyboard;
+	private MyToggleButton btnCopyStatic;
 
 	protected int iconHeight = 18;
 	private Dimension iconDimension = new Dimension(16, iconHeight);
@@ -76,8 +78,22 @@ public class CASStyleBar extends JToolBar implements ActionListener{
 	
 	public void actionPerformed(ActionEvent e) {
 		Object source = e.getSource();
+	
 		needUndo = false;
+		if(source == btnShowKeyboard){
+			casView.showCalculatorPanel(btnShowKeyboard.isSelected());
+		}else if (source == btnCopyStatic) {
 
+			if (btnCopyStatic.isSelected()) {
+				casView.getConsoleTable().setCopyMode(CASTable.COPY_STATIC);
+			} else {
+				casView.getConsoleTable().setCopyMode(CASTable.COPY_OFF);
+			}
+			casView.repaint();
+		}
+		
+		
+		
 		processSource(source, selectedRows);
 
 		if (needUndo) {
@@ -121,6 +137,10 @@ public class CASStyleBar extends JToolBar implements ActionListener{
 				toggleBtnList[i].update(selectedRows.toArray());
 				}catch(Exception e){}//TODO: find problem
 			}
+			
+			btnCopyStatic.removeActionListener(this);
+			btnCopyStatic.setSelected(casView.getConsoleTable().getCopyMode() == CASTable.COPY_STATIC);
+			btnCopyStatic.addActionListener(this);
 	
 	}
 	
@@ -197,6 +217,17 @@ public class CASStyleBar extends JToolBar implements ActionListener{
 	private void initGUI() {
 
 		removeAll();
+		
+		btnShowKeyboard = 	new MyToggleButton(app.getImageIcon("cas-keyboard.png"), iconHeight);	
+		btnShowKeyboard.addActionListener(this);
+		
+		
+		btnCopyStatic = new MyToggleButton(app.getImageIcon("cascopy-static.png"), iconHeight);
+		btnCopyStatic.addActionListener(this);
+		btnCopyStatic.setFocusable(false);
+		add(btnShowKeyboard);
+		add(btnCopyStatic);
+
 		
 		createTextButtons();
 

@@ -55,6 +55,17 @@ public class OptionsUtil {
 		return p;
 	}
 	
+	public static JPanel flowPanelRight(int hgap, int vgap, int tab,
+			Component... comps) {
+		JPanel p = new JPanel(new FlowLayout(FlowLayout.RIGHT, hgap, vgap));
+		p.add(Box.createHorizontalStrut(tab));
+		for (Component comp : comps) {
+			p.add(comp);
+		}
+		return p;
+	}
+	
+	
 	
 	public static Border titleBorder(String title) {
 		Border outsideBorder = BorderFactory.createTitledBorder(title);

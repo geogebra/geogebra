@@ -60,6 +60,8 @@ public class CASView extends JComponent implements View, Gridable {
 	/** stylebar */
 	CASStyleBar styleBar;
 
+	private CASControlPanel controlPanel;
+
 	/**
 	 * Creates new CAS view
 	 * @param app application
@@ -113,7 +115,8 @@ public class CASView extends JComponent implements View, Gridable {
 		setLayout(new BorderLayout());
 		add(scrollPane, BorderLayout.CENTER);
 		
-		add(new CASControlPanel(app,this), BorderLayout.NORTH);
+		controlPanel = new CASControlPanel(app,this);
+		add(controlPanel.getControlPanel(), BorderLayout.SOUTH);
 		
 		this.setBackground(Color.white);
 
@@ -126,8 +129,14 @@ public class CASView extends JComponent implements View, Gridable {
 		casInputHandler = new CASInputHandler(this);
 
 		// addFocusListener(this);
+		
+		updateFonts();
 	}
 
+	public void showCalculatorPanel(boolean isVisible){
+		controlPanel.showCalculatorPanel(isVisible);
+	}
+	
 	private ListSelectionListener selectionListener() {
 		return new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent e) {
@@ -252,7 +261,8 @@ public class CASView extends JComponent implements View, Gridable {
 	 * Updates GUI fonts
 	 */
 	public void updateFonts() {
-		if (app.getGUIFontSize() == getFont().getSize())
+		
+		if (getFont() != null && app.getGUIFontSize() == getFont().getSize())
 			return;
 
 		setFont(app.getPlainFont());
