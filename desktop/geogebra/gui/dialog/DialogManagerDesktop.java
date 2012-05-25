@@ -60,10 +60,6 @@ public class DialogManagerDesktop extends geogebra.common.gui.dialog.DialogManag
 	 */
 	private OptionsDialog.Factory optionsDialogFactory;
 
-	/**
-	 * Dialog to change object properties.
-	 */
-	private PropertiesDialog propDialog;
 
 	/**
 	 * Dialog to view properties of a function.
@@ -97,27 +93,6 @@ public class DialogManagerDesktop extends geogebra.common.gui.dialog.DialogManag
 	}
 
 	/**
-	 * Initialize the properties panel.
-	 */
-	public synchronized void initPropertiesDialog() {
-		if (propDialog == null) {
-			propDialog = new PropertiesDialog((Application) app);
-		}
-	}
-
-	/**
-	 * Reinitialize the properties panel.
-	 */
-	public synchronized void reinitPropertiesDialog() {
-		if (propDialog != null && propDialog.isVisible())
-			propDialog.setVisible(false);
-
-		propDialog = null;
-		propDialog = new PropertiesDialog((Application) app);
-
-	}
-
-	/**
 	 * Update the fonts used in the dialogs.
 	 */
 	public void updateFonts() {
@@ -127,9 +102,6 @@ public class DialogManagerDesktop extends geogebra.common.gui.dialog.DialogManag
 		if (textInputDialog != null)
 			textInputDialog.updateFonts();
 
-		if (propDialog != null)
-			// changed to force all panels to be updated
-			reinitPropertiesDialog(); // was propDialog.initGUI();
 
 		if (optionsDialog != null) {
 			GuiManager.setFontRecursive(optionsDialog, ((Application) app).getPlainFont());
@@ -146,9 +118,6 @@ public class DialogManagerDesktop extends geogebra.common.gui.dialog.DialogManag
 	 * Update labels in the GUI.
 	 */
 	public void setLabels() {
-		if (propDialog != null)
-			// changed to force all language strings to be updated
-			reinitPropertiesDialog(); // was propDialog.initGUI();
 
 		if (optionsDialog != null)
 			optionsDialog.setLabels();
@@ -191,31 +160,12 @@ public class DialogManagerDesktop extends geogebra.common.gui.dialog.DialogManag
 		if (!((Application) app).letShowPropertiesDialog())
 			return;
 
-		// save the geos list: it will be cleared by setMoveMode()
-		ArrayList<GeoElement> selGeos = null;
-		if (geos == null)
-			geos = app.getSelectedGeos();
 
-		if (geos != null) {
-			tempGeos.clear();
-			tempGeos.addAll(geos);
-			selGeos = tempGeos;
-		}
-
-		app.setMoveMode();
-		app.setWaitCursor();
-
-		// open properties dialog
-		initPropertiesDialog();
-		propDialog.setVisibleWithGeos(selGeos);
-
-		// double-click on slider -> open properties at slider tab
+		AbstractApplication.debug("TODO : set option objects visible");
 		if (geos != null && geos.size() == 1
 				&& geos.get(0).isEuclidianVisible()
 				&& geos.get(0) instanceof GeoNumeric)
-			propDialog.showSliderTab();
-
-		app.setDefaultCursor();
+			AbstractApplication.debug("TODO : propPanel.showSliderTab()");
 	}
 
 	private ArrayList<GeoElement> tempGeos = new ArrayList<GeoElement>();
@@ -486,22 +436,12 @@ public class DialogManagerDesktop extends geogebra.common.gui.dialog.DialogManag
 	/**
 	 * Close all open dialogs.
 	 * 
-	 * @remark Just closes the properties dialog at the moment.
 	 */
 	@Override
 	public void closeAll() {
-		closePropertiesDialog();
+		//closePropertiesDialog();
 	}
 
-	/**
-	 * Close the properties dialog. Has no side-effects if the dialog has not
-	 * yet been used or is invisible already.
-	 */
-	public void closePropertiesDialog() {
-		if (propDialog != null && propDialog.isShowing()) {
-			propDialog.cancel();
-		}
-	}
 
 	/**
 	 * Creates a new slider at given location (screen coords).
@@ -532,21 +472,6 @@ public class DialogManagerDesktop extends geogebra.common.gui.dialog.DialogManag
 		return true;
 	}
 
-	/**
-	 * Close the properties dialog if it is not the current selection listener.
-	 * Has no side-effects if the dialog is has not yet been used or if if it
-	 * invisible already.
-	 * 
-	 * @see #closePropertiesDialog()
-	 */
-	public void closePropertiesDialogIfNotListener() {
-		// close properties dialog
-		// if it is not the current selection listener
-		if (propDialog != null && propDialog.isShowing()
-				&& propDialog != app.getCurrentSelectionListener()) {
-			propDialog.setVisible(false);
-		}
-	}
 
 	public synchronized void initFileChooser() {
 		if (fileChooser == null) {
@@ -630,9 +555,6 @@ public class DialogManagerDesktop extends geogebra.common.gui.dialog.DialogManag
 		return optionsDialog;
 	}
 
-	public PropertiesDialog getPropDialog() {
-		return propDialog;
-	}
 
 	public GeoGebraFileChooser getFileChooser() {
 		return fileChooser;

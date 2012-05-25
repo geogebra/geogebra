@@ -27,7 +27,7 @@ import javax.swing.tree.TreePath;
 /**
  * Options with the default settings of objects.
  */
-public class OptionsDefaults extends JPanel implements TreeSelectionListener,
+public class OptionsDefaults extends JPanel implements OptionPanel, TreeSelectionListener,
 		SetLabels {
 	/** */
 	private static final long serialVersionUID = 1L;

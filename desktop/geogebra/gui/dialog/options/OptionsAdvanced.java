@@ -44,7 +44,7 @@ import javax.swing.event.ChangeListener;
 /**
  * Advanced options for the options dialog.
  */
-public class OptionsAdvanced extends JPanel implements ActionListener,
+public class OptionsAdvanced extends JPanel implements OptionPanel, ActionListener,
 		ChangeListener, FocusListener, SetLabels {
 	/** */
 	private static final long serialVersionUID = 1L;
@@ -168,6 +168,9 @@ public class OptionsAdvanced extends JPanel implements ActionListener,
 		scrollPane.setBorder(BorderFactory.createEmptyBorder());
 
 		add(scrollPane, BorderLayout.CENTER);
+		
+
+		setLabels();
 	}
 
 	/**

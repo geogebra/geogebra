@@ -52,7 +52,7 @@ import javax.swing.event.ChangeListener;
 /**
  * Layout options for the options dialog.
  */
-public class OptionsLayout extends JPanel implements ActionListener,
+public class OptionsLayout extends JPanel implements OptionPanel, ActionListener,
 		FocusListener, SetLabels {
 	/** */
 	private static final long serialVersionUID = 1L;
@@ -93,6 +93,7 @@ public class OptionsLayout extends JPanel implements ActionListener,
 
 		initGUI();
 		updateGUI();
+		setLabels();
 
 	}
 

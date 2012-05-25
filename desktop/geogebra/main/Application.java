@@ -5166,9 +5166,10 @@ public class Application extends AbstractApplication implements
 	public CommandLineArguments getCommandLineArgs() {
 		return args;
 	}
-
+	
+	@Override
 	public void updatePropertiesView() {
-			getGuiManager().updatePropertiesView();
+		getGuiManager().updatePropertiesView();
 	}
 
 }

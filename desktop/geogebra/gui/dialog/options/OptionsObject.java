@@ -39,7 +39,7 @@ import javax.swing.JSplitPane;
 /**
  * @author Markus Hohenwarter
  */
-public class OptionsObject extends JPanel implements SetLabels {
+public class OptionsObject extends JPanel implements OptionPanel, SetLabels {
 
 	// private static final int MAX_OBJECTS_IN_TREE = 500;
 	private static final int MAX_GEOS_FOR_EXPAND_ALL = 15;
@@ -190,8 +190,9 @@ public class OptionsObject extends JPanel implements SetLabels {
 		
 		delButton.setText(app.getPlain("Delete"));
 		defaultsButton.setText(app.getMenu("ApplyDefaults"));
-
+		
 		propPanel.setLabels();
+		
 	}
 
 	
@@ -308,9 +309,15 @@ public class OptionsObject extends JPanel implements SetLabels {
 		splitPane.repaint();
 		
 	}
-
 	
-	public void updateSelection(Object[] geos) {
+	/**
+	 * update selection regarding Application
+	 */
+	public void updateSelection() {
+		updateSelection(app.getSelectedGeos().toArray());
+	}
+	
+	private void updateSelection(Object[] geos) {
 		// if (geos == oldSelGeos) return;
 		// oldSelGeos = geos;
 
@@ -330,6 +337,11 @@ public class OptionsObject extends JPanel implements SetLabels {
 	 */
 	public AlgebraTree getTree(){
 		return tree;
+	}
+
+	public void updateGUI() {
+		setLabels();
+		
 	}
 	
 

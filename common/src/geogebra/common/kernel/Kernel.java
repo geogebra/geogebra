@@ -569,6 +569,14 @@ public class Kernel {
 	public ConstructionElement getConstructionElement(int index) {
 		return cons.getConstructionElement(index);
 	}
+	
+	/**
+	 * 
+	 * @return first geo if exists
+	 */
+	public GeoElement getFirstGeo(){
+		return cons.getFirstGeo();
+	}
 
 	/**
 	 * @param step new construction step

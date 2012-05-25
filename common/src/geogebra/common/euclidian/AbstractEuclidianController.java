@@ -7706,6 +7706,7 @@ public abstract class AbstractEuclidianController {
 
 	protected void wrapMousePressed(AbstractEvent event) {
 		
+
 		if (app.isUsingFullGui() && app.getGuiManager() != null) {
 			// determine parent panel to change focus
 			// EuclidianDockPanelAbstract panel =
@@ -7715,9 +7716,10 @@ public abstract class AbstractEuclidianController {
 			// if(panel != null) {
 			// app.getGuiManager().getLayout().getDockManager().setFocusedPanel(panel);
 			// }
-			app.getGuiManager().setFocusedPanel(event);
+			app.getGuiManager().setFocusedPanel(event,false);
 		}
-	
+		
+		
 		setMouseLocation(event);
 	
 		if (handleMousePressedForViewButtons()) {
@@ -7789,6 +7791,13 @@ public abstract class AbstractEuclidianController {
 		}
 	
 		switchModeForMousePressed(event);
+		
+
+		if (app.isUsingFullGui() && app.getGuiManager() != null) {
+			
+			app.updatePropertiesView();
+		}
+	
 	}
 
 	protected boolean processZoomRectangle() {
@@ -7844,17 +7853,6 @@ public abstract class AbstractEuclidianController {
 	
 		switch (mode) {
 		case EuclidianConstants.MODE_SELECTION_LISTENER:
-			// tell properties dialog
-			if ((hits.size() > 0)
-					&& app.isUsingFullGui()
-					&& app.getGuiManager()
-							.isPropertiesDialogSelectionListener()) {
-				GeoElement geo = hits.get(0);
-				app.geoElementSelected(geo, false);
-				for (int i = 1; i < hits.size(); i++) {
-					app.geoElementSelected(hits.get(i), true);
-				}
-			}
 			break;
 	
 		case EuclidianConstants.MODE_MIRROR_AT_POINT:

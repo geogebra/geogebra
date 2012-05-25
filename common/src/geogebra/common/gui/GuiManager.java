@@ -40,7 +40,7 @@ public abstract class GuiManager {
 	public abstract void redo();
 	public abstract void undo();
 
-	public abstract void setFocusedPanel(AbstractEvent event);
+	public abstract void setFocusedPanel(AbstractEvent event, boolean updatePropertiesView);
 
 	public abstract void loadImage(GeoPoint2 loc, Object object, boolean altDown);
 
@@ -65,7 +65,6 @@ public abstract class GuiManager {
 
 	public abstract void addSpreadsheetTrace(GeoElement tracegeo);
 
-	public abstract boolean isPropertiesDialogSelectionListener();
 
 	public abstract geogebra.common.javax.swing.JTextComponent getAlgebraInputTextField();
 

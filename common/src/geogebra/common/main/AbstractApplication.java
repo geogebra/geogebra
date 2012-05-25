@@ -87,6 +87,7 @@ public abstract class AbstractApplication {
 	public static final int VIEW_INSPECTOR = 256;
 	public static final int VIEW_EUCLIDIAN3D = 512;
 	public static final int VIEW_EUCLIDIAN_FOR_PLANE = 1024;
+	//please let 1024 to 2047 empty
 	public static final int VIEW_PLOT_PANEL = 2048;
 	public static final int VIEW_TEXT_PREVIEW = 4096;
 	public static final int VIEW_PROPERTIES = 4097;
@@ -2206,6 +2207,16 @@ public abstract class AbstractApplication {
 	public void setShowToolBarNoUpdate(boolean toolbar) {
 		showToolBar = toolbar;
 	}
+	
+	/**
+	 * add first geo to selected geos
+	 * @return true if a first geo exists
+	 */
+	public final boolean addFirstGeoSelected(){
+		GeoElement geo = kernel.getFirstGeo();
+		addSelectedGeo(geo);
+		return (geo!=null);
+	}
 
 	public final void addSelectedGeo(GeoElement geo) {
 		addSelectedGeo(geo, true);
@@ -3020,5 +3031,13 @@ public abstract class AbstractApplication {
 	 */
 	public String getToolHelp(int mode) {
 		return getToolNameOrHelp(mode, false);
+	}
+
+	/**
+	 * update the properties view
+	 */
+	public void updatePropertiesView() {
+		// TODO Auto-generated method stub
+		
 	}
 }

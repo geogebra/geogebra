@@ -58,7 +58,7 @@ import javax.swing.JToggleButton;
  * revised by G.Sturr 2010-8-15
  * 
  */
-public class OptionsEuclidian extends JPanel implements ActionListener,
+public class OptionsEuclidian extends JPanel implements OptionPanel, ActionListener,
 		FocusListener, ItemListener, SetLabels {
 
 	private static final long serialVersionUID = 1L;

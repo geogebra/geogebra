@@ -1110,6 +1110,27 @@ public class Construction {
 			return null;
 		return ceList.get(index);
 	}
+	
+	/**
+	 * 
+	 * @return first geo if exists
+	 */
+	public GeoElement getFirstGeo(){
+		
+		ConstructionElement ce = null;
+		GeoElement geo = null;
+		int index = 0;
+		
+		while(index<ceList.size() && geo == null){
+			ce = ceList.get(index);
+			if (ce instanceof GeoElement)
+				geo = (GeoElement) ce;
+			index++;
+		}
+		
+		return geo;
+
+	}
 
 	/**
 	 * Returns a set with all labeled GeoElement objects of this construction in

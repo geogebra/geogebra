@@ -21,6 +21,7 @@ package geogebra.gui;
 import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.main.AbstractApplication;
 import geogebra.gui.dialog.options.OptionsDialog;
 import geogebra.main.Application;
 
@@ -172,7 +173,9 @@ implements ActionListener {
     }
     
     protected void showOptionsDialog(){
-    	app.getDialogManager().showOptionsDialog(OptionsDialog.TAB_EUCLIDIAN);
+    	app.getGuiManager().setShowView(true, AbstractApplication.VIEW_PROPERTIES);
+    	app.getGuiManager().setFocusedPanel(app.getActiveEuclidianView().getViewID(), true);
+    	//app.getDialogManager().showOptionsDialog(OptionsDialog.TAB_EUCLIDIAN);
 		//app.getGuiManager().showDrawingPadPropertiesDialog();
     }
     

@@ -99,7 +99,7 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 	}
 
 	@Override
-	public void setFocusedPanel(AbstractEvent event) {
+	public void setFocusedPanel(AbstractEvent event, boolean updatePropertiesView) {
 		// TODO Auto-generated method stub
 		AbstractApplication.debug("unimplemented method");
 
@@ -133,12 +133,7 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 
 	}
 
-	@Override
-	public boolean isPropertiesDialogSelectionListener() {
-		AbstractApplication.debug("unimplemented method");
-		// TODO Auto-generated method stub
-		return false;
-	}
+
 
 	@Override
 	public JTextComponent getAlgebraInputTextField() {

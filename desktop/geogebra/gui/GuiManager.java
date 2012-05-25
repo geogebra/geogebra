@@ -268,10 +268,6 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 		return new Euclidian2DockPanel(app, null);
 	}
 
-	public boolean isPropertiesDialogSelectionListener() {
-		return app.getCurrentSelectionListener() == dialogManager
-				.getPropDialog();
-	}
 
 	public boolean isInputFieldSelectionListener() {
 		return app.getCurrentSelectionListener() == algebraInput.getTextField();
@@ -773,13 +769,6 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 	}
 
 	public void doAfterRedefine(GeoElement geo) {
-		PropertiesDialog propDialog = getDialogManager().getPropDialog();
-
-		// select geoElement with label again
-		if (propDialog != null && propDialog.isShowing()) {
-			// propDialog.setViewActive(true);
-			propDialog.geoElementSelected(geo, false);
-		}
 
 		// G.Sturr 2010-6-28
 		// if a tracing geo has been redefined, then put it back into the
@@ -1058,6 +1047,14 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 
 		if (probCalculator != null)
 			probCalculator.setLabels();
+		
+
+
+		if (propertiesView != null)
+			propertiesView.setLabels();
+		
+		
+		
 
 	}
 
@@ -1577,8 +1574,7 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 
 	// returns true for YES or NO and false for CANCEL
 	public boolean saveCurrentFile() {
-		getDialogManager().closePropertiesDialog();
-
+		
 		app.getEuclidianView1().reset();
 		if(app.hasEuclidianView2()){
 			app.getEuclidianView2().reset();
@@ -1831,7 +1827,6 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 	}
 
 	public void openFile() {
-		getDialogManager().closePropertiesDialog();
 
 		if (app.isSaved() || saveCurrentFile()) {
 			app.setWaitCursor();
@@ -2258,7 +2253,6 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
-				getDialogManager().closePropertiesDialog();
 				undo();
 
 			}
@@ -2269,7 +2263,6 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
-				getDialogManager().closePropertiesDialog();
 
 				redo();
 			}
@@ -2555,7 +2548,6 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 	}
 
 	public void setMode(int mode) {
-		getDialogManager().closePropertiesDialogIfNotListener();
 
 //		hidePropertiesViewIfNotListener();
 		
@@ -2865,15 +2857,31 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 		return inputHelpPanel;
 	}
 
-	public void setFocusedPanel(MouseEvent e) {
+	public void setFocusedPanel(MouseEvent e, boolean updatePropertiesView) {
 		// determine parent panel to change focus
 		EuclidianDockPanelAbstract panel = (EuclidianDockPanelAbstract) SwingUtilities
 				.getAncestorOfClass(EuclidianDockPanelAbstract.class,
 						(Component) e.getSource());
 
+		setFocusedPanel(panel, updatePropertiesView);
+
+	}
+	
+	public void setFocusedPanel(int viewId, boolean updatePropertiesView) {
+		setFocusedPanel((EuclidianDockPanelAbstract) getLayout().getDockManager().getPanel(viewId),updatePropertiesView);
+
+	}
+	
+	public void setFocusedPanel(EuclidianDockPanelAbstract panel, boolean updatePropertiesView) {
+		
 		if (panel != null) {
-			app.getGuiManager().getLayout().getDockManager()
+			getLayout().getDockManager()
 					.setFocusedPanel(panel);
+			
+
+			// notify the properties view
+			if  (updatePropertiesView)
+				updatePropertiesView();
 		}
 
 	}
@@ -2900,8 +2908,8 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 	}
 
 	@Override
-	public void setFocusedPanel(AbstractEvent event) {
-		setFocusedPanel(geogebra.euclidian.event.MouseEvent.getEvent(event));
+	public void setFocusedPanel(AbstractEvent event, boolean updatePropertiesView) {
+		setFocusedPanel(geogebra.euclidian.event.MouseEvent.getEvent(event), updatePropertiesView);
 	}
 
 	@Override

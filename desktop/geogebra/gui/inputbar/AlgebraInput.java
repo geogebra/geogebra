@@ -350,7 +350,7 @@ public class AlgebraInput extends  JPanel implements ActionListener, KeyListener
 	}
 
 	public void focusGained(FocusEvent arg0) {
-		app.clearSelectedGeos();
+		//app.clearSelectedGeos();
 	}
 
 	public void focusLost(FocusEvent arg0) {

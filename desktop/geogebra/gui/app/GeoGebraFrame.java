@@ -452,8 +452,6 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 
 		@Override
 		public void run() {
-			// init properties dialog
-			this.app.getGuiManager().getDialogManager().initPropertiesDialog();
 
 			// init file chooser
 			this.app.getGuiManager().getDialogManager().initFileChooser();

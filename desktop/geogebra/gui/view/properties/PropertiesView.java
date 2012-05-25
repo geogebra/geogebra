@@ -16,6 +16,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
 import geogebra.gui.GuiManager;
+import geogebra.gui.dialog.options.OptionPanel;
 import geogebra.gui.dialog.options.OptionsAdvanced;
 import geogebra.gui.dialog.options.OptionsCAS;
 import geogebra.gui.dialog.options.OptionsDefaults;
@@ -67,7 +68,7 @@ public class PropertiesView extends JPanel implements
 		OBJECTS, EUCLIDIAN, EUCLIDIAN2, CAS, SPREADSHEET, LAYOUT, DEFAULTS, ADVANCED
 	}
 
-	private OptionType selectedOptionType = OptionType.LAYOUT;
+	private OptionType selectedOptionType = OptionType.OBJECTS;
 
 	// option panels
 	private OptionsDefaults defaultsPanel;
@@ -119,6 +120,9 @@ public class PropertiesView extends JPanel implements
 		setOptionPanel(selectedOptionType);
 		isIniting = false;
 		styleBar.getBtnOption().requestFocus();
+		
+
+		setLabels();
 	}
 
 	// ============================================
@@ -136,6 +140,7 @@ public class PropertiesView extends JPanel implements
 
 		createButtonPanel();
 		add(buttonPanel, BorderLayout.SOUTH);
+		
 	}
 
 	
@@ -246,6 +251,7 @@ public class PropertiesView extends JPanel implements
 	 * view is shown. If
 	 */
 	public void updatePropertiesView() {
+		
 
 		if (app.getSelectedGeos().size() > 0) {
 			setOptionPanel(OptionType.OBJECTS);
@@ -256,7 +262,9 @@ public class PropertiesView extends JPanel implements
 			if (viewMap.get(focusedViewId) != null) {
 				setOptionPanel(viewMap.get(focusedViewId));
 			} else {
-				setOptionPanel(OptionType.LAYOUT);
+				//setOptionPanel(OptionType.LAYOUT);
+				updateSelection();
+				//setOptionPanel(OptionType.OBJECTS);
 			}
 
 		}
@@ -276,6 +284,8 @@ public class PropertiesView extends JPanel implements
 	 * @param type
 	 */
 	public void setOptionPanel(OptionType type) {
+		
+		//AbstractApplication.printStacktrace("\ntype="+type+"\nisIniting="+isIniting+"\nsize="+app.getSelectedGeos().size());
 
 		if (type == null || !isIniting && selectedOptionType == type) {
 			return;
@@ -287,15 +297,27 @@ public class PropertiesView extends JPanel implements
 		mainPanel.removeAll();
 		getOptionPanel(type).setBorder(
 				BorderFactory.createEmptyBorder(15, 10, 10, 10));
-		mainPanel.add(getOptionPanel(type), BorderLayout.CENTER);
+		mainPanel.add((JPanel) getOptionPanel(type), BorderLayout.CENTER);
 
+		//select at least one object
+		if (type==OptionType.OBJECTS){
+			if(app.getSelectedGeos().size()==0){
+				if (!app.addFirstGeoSelected()){ //try to add first geo
+					objectPanel.updateSelection(); //if none, update selection so that object properties show no tab
+				}
+			}else
+				objectPanel.updateSelection();
+		}
+			
+			
 		// don't show the button panel in the Objects panel (it has it's own)
 		buttonPanel.setVisible(type != OptionType.OBJECTS);
 
 		// update GUI
-		updateGUI();
-
+		//updateGUI();
+		getOptionPanel(type).updateGUI();
 		getOptionPanel(type).revalidate();
+		setOwnLabels();
 		this.revalidate();
 		this.repaint();
 	}
@@ -326,12 +348,6 @@ public class PropertiesView extends JPanel implements
 
 		setLabels();
 
-		if (styleBar != null) {
-			styleBar.updateGUI();
-		}
-
-		app.getGuiManager().getLayout().getDockManager()
-				.getPanel(AbstractApplication.VIEW_PROPERTIES).updateTitleBar();
 	}
 
 	/**
@@ -341,7 +357,7 @@ public class PropertiesView extends JPanel implements
 	 * @param type
 	 * @return
 	 */
-	public JComponent getOptionPanel(OptionType type) {
+	public OptionPanel getOptionPanel(OptionType type) {
 		
 		//AbstractApplication.printStacktrace("type :"+type);
 
@@ -454,13 +470,34 @@ public class PropertiesView extends JPanel implements
 	 */
 	public void setLabels() {
 
-
 		if (!app.isApplet()) {
 			saveButton.setText(app.getMenu("Settings.Save"));
 			restoreDefaultsButton.setText(app.getMenu("Settings.ResetDefault"));
 		}
 
-		GuiManager.setLabelsRecursive(this);
+		//GuiManager.setLabelsRecursive(this);
+
+		if (defaultsPanel!=null) defaultsPanel.setLabels();
+		if (euclidianPanel!=null) euclidianPanel.setLabels();
+		if (spreadsheetPanel!=null) spreadsheetPanel.setLabels();
+		if (casPanel!=null) casPanel.setLabels();
+		if (advancedPanel!=null) advancedPanel.setLabels();
+		if (objectPanel!=null) objectPanel.setLabels();
+		if (layoutPanel!=null) layoutPanel.setLabels();
+		
+		setOwnLabels();
+		
+
+	}
+	
+	private void setOwnLabels(){
+
+		if (styleBar != null) {
+			styleBar.updateGUI();
+		}
+
+		app.getGuiManager().getLayout().getDockManager()
+				.getPanel(AbstractApplication.VIEW_PROPERTIES).updateTitleBar();
 	}
 
 	public void closeIfNotCurrentListener() {
@@ -568,17 +605,11 @@ public class PropertiesView extends JPanel implements
 	// //////////////////////////////////////////////////////
 
 	public void updateSelection() {
-		
-		if (app.getSelectedGeos().size() > 0) {
+
+		if (selectedOptionType!=OptionType.OBJECTS)
 			setOptionPanel(OptionType.OBJECTS);
-			objectPanel.updateSelection(app.getSelectedGeos().toArray());
-			//this.setVisible(true);
-		} else {
-			// this.setVisible(false);
-			updatePropertiesView();
-		}
-		
-		
+		objectPanel.updateSelection();
+
 	}
 
 

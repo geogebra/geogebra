@@ -473,6 +473,7 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 	 * Update the labels of this panel in case the user language was changed.
 	 */
 	public void setLabels() {
+		
 		// update labels of tabs
 		// TODO change label for script tab
 		basicTab.setTitle(app.getMenu("Properties.Basic"));
@@ -549,14 +550,15 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 			TabPanel tp = tabPanelList.get(i);
 			tp.addToTabbedPane(tabs);
 		}
+		
 
 		// switch back to previously selected tab
 		if (tabs.getTabCount() > 0) {
 			int index = tabs.indexOfComponent(selectedTab);
 			tabs.setSelectedIndex(Math.max(0, index));
-			tabs.setVisible(true);
+			//tabs.setVisible(true);
 		} else {
-			tabs.setVisible(false);
+			//tabs.setVisible(false);
 		}
 	}
 

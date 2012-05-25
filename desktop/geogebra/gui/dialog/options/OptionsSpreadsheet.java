@@ -45,7 +45,7 @@ import javax.swing.JTextField;
  * G.Sturr 2010-3-5
  * 
  */
-public class OptionsSpreadsheet extends JPanel  implements ActionListener, FocusListener, SetLabels {
+public class OptionsSpreadsheet extends JPanel  implements OptionPanel, ActionListener, FocusListener, SetLabels {
 	
 	private static final long serialVersionUID = 1L;
 

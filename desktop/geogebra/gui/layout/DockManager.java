@@ -775,8 +775,6 @@ public class DockManager implements AWTEventListener, SetLabels {
 		}
 		
 		app.getGuiManager().updateMenubarSelection();
-		// notify the application
-		app.updatePropertiesView();
 		
 	}
 	
