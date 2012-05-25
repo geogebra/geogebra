@@ -19,14 +19,21 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoSegment;
+import geogebra.common.kernel.prover.NoSymbolicParametersException;
+import geogebra.common.kernel.prover.Polynomial;
+import geogebra.common.kernel.prover.Variable;
 
 
-public class AlgoLineBisectorSegment extends AlgoElement {
+public class AlgoLineBisectorSegment extends AlgoElement implements 
+	SymbolicParametersBotanaAlgo {
 
     private GeoSegment s;  // input   
     private GeoLine  g;     // output        
     
     private GeoPoint2 midPoint;
+    private Polynomial[] botanaPolynomials;
+	private Variable[] botanaVars;
+	
         
     /** Creates new AlgoLineBisector */
     public AlgoLineBisectorSegment(Construction cons, String label, GeoSegment s) {
@@ -92,4 +99,55 @@ public class AlgoLineBisectorSegment extends AlgoElement {
         return app.getPlain("LineBisectorOfA",s.getLabel(tpl));
 
     }
+
+	public Variable[] getBotanaVars() {
+		return botanaVars;
+	}
+
+	/* This is mostly the same as in AlgoLineBisector.java. TODO: maybe commonize.
+	 * (non-Javadoc)
+	 * @see geogebra.common.kernel.algos.SymbolicParametersBotanaAlgo#getBotanaPolynomials()
+	 */
+	public Polynomial[] getBotanaPolynomials()
+			throws NoSymbolicParametersException {
+
+		if (botanaPolynomials != null) {
+			return botanaPolynomials;
+		}
+		if (s != null){
+			Variable[] v = s.getBotanaVars(); // A, B
+			
+			if (botanaVars==null){
+				botanaVars = new Variable[4]; // storing 4 new variables (C, D)
+				botanaVars[0]=new Variable();
+				botanaVars[1]=new Variable();
+				botanaVars[2]=new Variable();
+				botanaVars[3]=new Variable();
+			}
+			Polynomial c1=new Polynomial(botanaVars[0]);
+			Polynomial c2=new Polynomial(botanaVars[1]);
+			Polynomial d1=new Polynomial(botanaVars[2]);
+			Polynomial d2=new Polynomial(botanaVars[3]);
+			Polynomial a1=new Polynomial(v[0]);
+			Polynomial a2=new Polynomial(v[1]);
+			
+			botanaPolynomials = new Polynomial[4];
+			// C will be the midpoint of AB  
+			// 2*c1-a1-b1, 2*c2-a2-b2 (same as for AlgoMidPoint, TODO: maybe commonize)
+			botanaPolynomials[0] = (new Polynomial(2)).multiply(c1).
+					subtract(new Polynomial(v[0])).subtract(new Polynomial(v[2]));
+			botanaPolynomials[1] = (new Polynomial(2)).multiply(c2).
+					subtract(new Polynomial(v[1])).subtract(new Polynomial(v[3]));
+		
+			// D will be the rotation of A around C by 90 degrees
+			// d2=c2+(c1-a1), d1=c1-(c2-a2) => d2-c2-c1+a1, d1-c1+c2-a2
+			botanaPolynomials[2] = ((d2.subtract(c2)).subtract(c1)).add(a1);
+			botanaPolynomials[3] = ((d1.subtract(c1)).add(c2)).subtract(a2);
+					
+			return botanaPolynomials;
+		}
+		throw new NoSymbolicParametersException();
+	}
+
+    
 }
