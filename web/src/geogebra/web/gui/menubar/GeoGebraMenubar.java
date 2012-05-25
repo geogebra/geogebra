@@ -40,6 +40,7 @@ public class GeoGebraMenubar extends MenuBar {
 	
 		private AbstractApplication app;
 		private FileMenu fileMenu;
+		private OptionsMenu optionsMenu;
 
 		private MenuItem loginToGoogle;
 		private MenuItem linktoggb;
@@ -56,6 +57,9 @@ public class GeoGebraMenubar extends MenuBar {
 
 			//file
 			createFileMenu();
+			
+			//Creation of Options Menu
+			createOptionsMenu();
 			
 			createLinkToGGBT();
 			
@@ -176,6 +180,11 @@ public class GeoGebraMenubar extends MenuBar {
 	        fileMenu = new FileMenu(app);
 			addItem(app.getMenu("File"),fileMenu);
         }
+		
+		private void createOptionsMenu() {
+			optionsMenu = new OptionsMenu(app);
+			addItem(app.getMenu("Options"), optionsMenu);
+		}
 		
 		public static String getMenuBarHtml(String url,String text) {
 			return "<img width=\"16\" height=\"16\" alt=\""+text+"\" src=\""+url+"\" />"+" "+text;
