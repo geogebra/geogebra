@@ -72,6 +72,7 @@ public class OptionsSpreadsheet extends JPanel  implements OptionPanel, ActionLi
 		// build GUI
 		initGUI();
 		updateGUI();
+		setLabels();
 	}
 
 	private SpreadsheetSettings settings(){
