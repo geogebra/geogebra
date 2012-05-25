@@ -217,6 +217,32 @@ public class Construction {
 		xAxis = new GeoAxis(this, GeoAxisND.X_AXIS);
 		yAxis = new GeoAxis(this, GeoAxisND.Y_AXIS);
 	}
+	
+	/**
+	 * 
+	 * @param geo geo
+	 * @return true if "constant element" (xAxis, yAxis, ...)
+	 */
+	protected boolean isConstantElement(GeoElement geo){
+		return (geo==xAxis) || (geo==yAxis);
+	}
+	
+	/**
+	 * 
+	 * @param geosList list of geos
+	 * @return copy of the list without any "constant element" (xAxis, yAxis, ...)
+	 */
+	public ArrayList<GeoElement> removeAllConstants(ArrayList<GeoElement> geosList){
+		ArrayList<GeoElement> geos = new ArrayList<GeoElement>();
+		geos.addAll(geosList);
+		for (int i = geos.size() - 1 ; i >= 0 ; i-- ) {
+			GeoElement geo = geos.get(i);
+			if (isConstantElement(geo))
+				geos.remove(i);
+		}
+		
+		return geos;
+	}
 
 	/**
 	 * Renames xAxis and yAxis in the geoTable and sets *AxisLocalName-s

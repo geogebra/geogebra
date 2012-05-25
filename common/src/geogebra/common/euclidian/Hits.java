@@ -148,6 +148,7 @@ public class Hits extends ArrayList<GeoElement> {
 		}
 	}
 	
+	
 	/**
 	 * Removes all transparent geos.
 	 * Transparency criteria same as in EuclidianController3D::decideHideIntersection

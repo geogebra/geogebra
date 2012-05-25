@@ -256,13 +256,19 @@ public class PropertiesView extends JPanel implements
 		updatePropertiesView(app.getSelectedGeos());
 	}
 
+	
+	
 	/**
 	 * Updates properties view panel. If geos are not empty then the Objects
 	 * panel will be shown. If not, then an option pane for the current focused
 	 * view is shown. 
-	 * @param geos geos
+	 * @param geosList geos list
 	 */
-	public void updatePropertiesView(ArrayList<GeoElement> geos) {
+	public void updatePropertiesView(ArrayList<GeoElement> geosList) {
+		
+		//remove constant geos
+		ArrayList<GeoElement> geos = kernel.getConstruction().removeAllConstants(geosList);
+		
 		
 		if (geos.size() > 0) {
 			setOptionPanel(OptionType.OBJECTS,geos);
@@ -628,10 +634,18 @@ public class PropertiesView extends JPanel implements
 	// //////////////////////////////////////////////////////
 
 	public void updateSelection() {
+		
+		
+		ArrayList<GeoElement> geos = kernel.getConstruction().removeAllConstants(app.getSelectedGeos());
 
-		if (selectedOptionType!=OptionType.OBJECTS)
-			setOptionPanel(OptionType.OBJECTS);
-		objectPanel.updateSelection(app.getSelectedGeos());
+		if (geos.size()>0){
+			if (selectedOptionType!=OptionType.OBJECTS)
+				setOptionPanel(OptionType.OBJECTS);
+
+			objectPanel.updateSelection(geos);
+		}else{
+			setOptionPanel(OptionType.EUCLIDIAN);
+		}
 
 	}
 
