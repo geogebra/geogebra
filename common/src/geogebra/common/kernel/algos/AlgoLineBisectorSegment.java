@@ -12,6 +12,10 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.algos;
 
+import java.math.BigInteger;
+import java.util.HashMap;
+import java.util.HashSet;
+
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
@@ -25,12 +29,13 @@ import geogebra.common.kernel.prover.Variable;
 
 
 public class AlgoLineBisectorSegment extends AlgoElement implements 
-	SymbolicParametersBotanaAlgo {
+	SymbolicParametersAlgo, SymbolicParametersBotanaAlgo {
 
     private GeoSegment s;  // input   
     private GeoLine  g;     // output        
     
     private GeoPoint2 midPoint;
+    private Polynomial[] polynomials;
     private Polynomial[] botanaPolynomials;
 	private Variable[] botanaVars;
 	
@@ -100,6 +105,81 @@ public class AlgoLineBisectorSegment extends AlgoElement implements
 
     }
 
+	public SymbolicParameters getSymbolicParameters() {
+		return new SymbolicParameters(this);
+	}
+
+	public int[] getFreeVariablesAndDegrees(HashSet<Variable> variables)
+			throws NoSymbolicParametersException {
+		GeoPoint2 A = (GeoPoint2) s.getStartPointAsGeoElement();
+		GeoPoint2 B = (GeoPoint2) s.getEndPointAsGeoElement();
+		// TODO: Common code with AlgoLineBisector.java, maybe commonize.
+		if (A != null && B != null) {
+			int[] degree1=A.getFreeVariablesAndDegrees(variables);
+			int[] degree2=B.getFreeVariablesAndDegrees(variables);
+			int[] result=new int[3];
+			result[0]=Math.max(degree1[0]+degree1[2]+2*degree2[2],2*degree1[2]+degree2[0]+degree2[2]);
+			result[1]=Math.max(degree1[1]+degree1[2]+2*degree2[2],2*degree1[2]+degree2[1]+degree2[2]);
+			result[2]=2*Math.max(Math.max(degree1[2]+degree2[0],degree1[2]+degree2[1]),Math.max(degree1[0]+degree2[2],degree1[1]+degree2[2]));			
+			return result;
+		}
+		throw new NoSymbolicParametersException();
+	}
+
+	public BigInteger[] getExactCoordinates(HashMap<Variable, BigInteger> values)
+			throws NoSymbolicParametersException {
+		GeoPoint2 A = (GeoPoint2) s.getStartPointAsGeoElement();
+		GeoPoint2 B = (GeoPoint2) s.getEndPointAsGeoElement();
+		// TODO: Common code with AlgoLineBisector.java, maybe commonize.
+		if (A != null && B != null) {
+			BigInteger[] coords1 = A.getExactCoordinates(values);
+			BigInteger[] coords2 = B.getExactCoordinates(values);
+			
+			BigInteger[] result = new BigInteger[3];
+			//2 az bz (-az bx + ax bz)
+			result[0]=BigInteger.valueOf(2).multiply(coords1[2]).multiply(coords2[2]).multiply(
+					coords1[0].multiply(coords2[2]).subtract(coords2[0].multiply(coords1[2])));
+			//2 az bz (-az by + ay bz)
+			result[1]=BigInteger.valueOf(2).multiply(coords1[2]).multiply(coords2[2]).multiply(
+					coords1[1].multiply(coords2[2]).subtract(coords2[1].multiply(coords1[2])));
+			//(az bx - ax bz) (az bx + ax bz) - (-az by + ay bz) (az by + ay bz)
+			result[2]=coords1[2].multiply(coords2[0]).subtract(coords1[0].multiply(coords2[2])).multiply(
+					coords1[2].multiply(coords2[0]).add(coords1[0].multiply(coords2[2]))).subtract(
+					coords1[1].multiply(coords2[2]).subtract(coords1[2].multiply(coords2[1])).multiply(
+					coords1[1].multiply(coords2[2]).add(coords1[2].multiply(coords2[1]))));
+			return result;
+		}
+		throw new NoSymbolicParametersException();
+	}
+
+	public Polynomial[] getPolynomials() throws NoSymbolicParametersException {
+		if (polynomials !=null){
+			return polynomials;
+		}
+		GeoPoint2 A = (GeoPoint2) s.getStartPointAsGeoElement();
+		GeoPoint2 B = (GeoPoint2) s.getEndPointAsGeoElement();
+		// TODO: Common code with AlgoLineBisector.java, maybe commonize.
+		if (A != null && B != null) {
+			Polynomial[] coords1 = A.getPolynomials();
+			Polynomial[] coords2 = B.getPolynomials();
+			
+			polynomials = new Polynomial[3];
+			//2 az bz (-az bx + ax bz)
+			polynomials[0]=(new Polynomial(2)).multiply(coords1[2]).multiply(coords2[2]).multiply(
+					coords1[0].multiply(coords2[2]).subtract(coords2[0].multiply(coords1[2])));
+			//2 az bz (-az by + ay bz)
+			polynomials[1]=(new Polynomial(2)).multiply(coords1[2]).multiply(coords2[2]).multiply(
+					coords1[1].multiply(coords2[2]).subtract(coords2[1].multiply(coords1[2])));
+			//(az bx - ax bz) (az bx + ax bz) - (-az by + ay bz) (az by + ay bz)
+			polynomials[2]=coords1[2].multiply(coords2[0]).subtract(coords1[0].multiply(coords2[2])).multiply(
+					coords1[2].multiply(coords2[0]).add(coords1[0].multiply(coords2[2]))).subtract(
+					coords1[1].multiply(coords2[2]).subtract(coords1[2].multiply(coords2[1])).multiply(
+					coords1[1].multiply(coords2[2]).add(coords1[2].multiply(coords2[1]))));
+			return polynomials;
+		}
+		throw new NoSymbolicParametersException();
+	}
+    
 	public Variable[] getBotanaVars() {
 		return botanaVars;
 	}
