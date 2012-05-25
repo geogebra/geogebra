@@ -3033,11 +3033,5 @@ public abstract class AbstractApplication {
 		return getToolNameOrHelp(mode, false);
 	}
 
-	/**
-	 * update the properties view
-	 */
-	public void updatePropertiesView() {
-		// TODO Auto-generated method stub
-		
-	}
+
 }

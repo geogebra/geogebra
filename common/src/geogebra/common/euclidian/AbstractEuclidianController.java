@@ -90,6 +90,8 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
 
+import org.apache.catalina.core.ApplicationContext;
+
 @SuppressWarnings("javadoc")
 public abstract class AbstractEuclidianController {
 
@@ -7793,10 +7795,6 @@ public abstract class AbstractEuclidianController {
 		switchModeForMousePressed(event);
 		
 
-		if (app.isUsingFullGui() && app.getGuiManager() != null) {
-			
-			app.updatePropertiesView();
-		}
 	
 	}
 
@@ -8318,7 +8316,17 @@ public abstract class AbstractEuclidianController {
 		moveMode = MOVE_NONE;
 		initShowMouseCoords();
 		view.setShowAxesRatio(false);
+		
+		
+		
+		if (app.isUsingFullGui() && app.getGuiManager() != null) {			
+			app.getGuiManager().updatePropertiesView();
+		}
+		
+		
 		kernel.notifyRepaint();
+		
+		
 	}
 
 	protected void wrapMouseWheelMoved(AbstractEvent event) {

@@ -270,6 +270,7 @@ public class PropertiesView extends JPanel implements
 		}
 	}
 
+
 	/**
 	 * @return type of option panel currently displayed
 	 */
@@ -286,6 +287,7 @@ public class PropertiesView extends JPanel implements
 	public void setOptionPanel(OptionType type) {
 		
 		//AbstractApplication.printStacktrace("\ntype="+type+"\nisIniting="+isIniting+"\nsize="+app.getSelectedGeos().size());
+		//AbstractApplication.debug("\ntype="+type+"\nisIniting="+isIniting+"\nsize="+app.getSelectedGeos().size());
 
 		if (type == null || !isIniting && selectedOptionType == type) {
 			return;

@@ -374,4 +374,15 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 //			kernel.notifyModeChanged(mode);
 //		}
 	}
+
+	@Override
+    public void updatePropertiesView() {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+
+	
+	
+	
 }

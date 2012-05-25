@@ -54,6 +54,10 @@ public abstract class EuclidianDockPanelAbstract extends DockPanel implements ge
 	 */
 	public final void setEuclidianFocus(boolean hasFocus) {
 		hasEuclidianFocus = hasFocus;
+		if(hasEuclidianFocus) 
+			titleLabel.setFont(app.getBoldFont());
+		else
+			titleLabel.setFont(app.getPlainFont());
 	}
 	
 	/**

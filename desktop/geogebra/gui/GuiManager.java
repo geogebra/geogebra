@@ -2876,12 +2876,14 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 		
 		if (panel != null) {
 			getLayout().getDockManager()
-					.setFocusedPanel(panel);
+					.setFocusedPanel(panel,updatePropertiesView);
 			
 
+			/*
 			// notify the properties view
 			if  (updatePropertiesView)
 				updatePropertiesView();
+				*/
 		}
 
 	}
@@ -2890,12 +2892,15 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 		if (algebraInput != null)
 			algebraInput.initGUI();
 	}
-
+	
+	
+	@Override
 	public void updatePropertiesView(){
 		if(propertiesView !=null){
 			propertiesView.updatePropertiesView();
 		}
 	}
+	
 	
 	
 	

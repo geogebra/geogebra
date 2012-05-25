@@ -121,4 +121,6 @@ public abstract class GuiManager {
 	public abstract void updateAlgebraInput();
 
 	public abstract void setShowAuxiliaryObjects(boolean flag);
+
+	public abstract void updatePropertiesView();
 }

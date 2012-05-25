@@ -728,25 +728,36 @@ public class DockManager implements AWTEventListener, SetLabels {
 		}
 	}
 	
+	
 	/**
 	 * Change the focused panel to "panel".
 	 * 
-	 * @param panel
+	 * @param panel panel
 	 */
 	public void setFocusedPanel(DockPanel panel) {
+		setFocusedPanel(panel, true);
+	}
+	
+	/**
+	 * Change the focused panel to "panel".
+	 * 
+	 * @param panel panel
+	 * @param updatePropertiesView update the properties view
+	 */
+	public void setFocusedPanel(DockPanel panel, boolean updatePropertiesView) {
 		if(focusedDockPanel == panel) {
 			return;
 		} 
 		
 		// remove focus from previously focused dock panel
 		if(focusedDockPanel != null) {
-			focusedDockPanel.setFocus(false);
+			focusedDockPanel.setFocus(false, false);
 		}
 		
 		focusedDockPanel = panel;
 		
 		if(focusedDockPanel != null) {
-			focusedDockPanel.setFocus(true);
+			focusedDockPanel.setFocus(true, updatePropertiesView);
 		}
 		
 		

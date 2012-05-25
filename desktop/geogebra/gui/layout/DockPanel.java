@@ -1,6 +1,7 @@
 package geogebra.gui.layout;
 
 import geogebra.common.io.layout.DockPanelData;
+import geogebra.common.main.AbstractApplication;
 import geogebra.gui.app.GeoGebraFrame;
 import geogebra.gui.layout.panels.EuclidianDockPanelAbstract;
 import geogebra.gui.toolbar.Toolbar;
@@ -605,6 +606,7 @@ implements ActionListener, WindowListener, MouseListener, geogebra.common.gui.la
 	 * Update all elements in the title bar.
 	 */
 	public void updateTitleBar() {
+		
 		// The view is in the main window
 		if (frame == null) {
 			closeButton.setVisible( !isMaximized());
@@ -1161,7 +1163,12 @@ implements ActionListener, WindowListener, MouseListener, geogebra.common.gui.la
 	 * 
 	 * @param hasFocus
 	 */
-	public void setFocus(boolean hasFocus) {
+	public void setFocus(boolean hasFocus, boolean updatePropertiesView) {
+		
+		if (hasFocus && updatePropertiesView){
+			app.getGuiManager().updatePropertiesView();
+		}
+		
 		// don't change anything if it's not necessary
 		if(this.hasFocus == hasFocus)
 			return;

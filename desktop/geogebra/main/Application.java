@@ -5167,9 +5167,5 @@ public class Application extends AbstractApplication implements
 		return args;
 	}
 	
-	@Override
-	public void updatePropertiesView() {
-		getGuiManager().updatePropertiesView();
-	}
 
 }

@@ -50,7 +50,7 @@ public class ErrorDockPanel extends DockPanel {
 	
 	//unused methods
 	@Override
-	public final void setFocus(boolean hasFocus) {}
+	public final void setFocus(boolean hasFocus, boolean updatePropertiesView) {}
 	@Override
 	protected void closePanel() {}
 }
