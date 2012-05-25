@@ -33,6 +33,7 @@ import java.awt.FlowLayout;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.swing.BorderFactory;
@@ -248,13 +249,23 @@ public class PropertiesView extends JPanel implements
 	/**
 	 * Updates properties view panel. If any geos are selected then the Objects
 	 * panel will be shown. If not, then an option pane for the current focused
-	 * view is shown. If
+	 * view is shown. 
 	 */
 	public void updatePropertiesView() {
 		
+		updatePropertiesView(app.getSelectedGeos());
+	}
 
-		if (app.getSelectedGeos().size() > 0) {
-			setOptionPanel(OptionType.OBJECTS);
+	/**
+	 * Updates properties view panel. If geos are not empty then the Objects
+	 * panel will be shown. If not, then an option pane for the current focused
+	 * view is shown. 
+	 * @param geos geos
+	 */
+	public void updatePropertiesView(ArrayList<GeoElement> geos) {
+		
+		if (geos.size() > 0) {
+			setOptionPanel(OptionType.OBJECTS,geos);
 		} else {
 			int focusedViewId = app.getGuiManager().getLayout()
 					.getDockManager().getFocusedViewId();
@@ -270,7 +281,6 @@ public class PropertiesView extends JPanel implements
 		}
 	}
 
-
 	/**
 	 * @return type of option panel currently displayed
 	 */
@@ -282,16 +292,35 @@ public class PropertiesView extends JPanel implements
 	/**
 	 * Sets and shows the option panel for the given option type
 	 * 
-	 * @param type
+	 * @param type type
 	 */
 	public void setOptionPanel(OptionType type) {
+		setOptionPanel(type,app.getSelectedGeos());
+	}
+		
+	
+	private void setOptionPanel(OptionType type, ArrayList<GeoElement> geos) {
 		
 		//AbstractApplication.printStacktrace("\ntype="+type+"\nisIniting="+isIniting+"\nsize="+app.getSelectedGeos().size());
-		//AbstractApplication.debug("\ntype="+type+"\nisIniting="+isIniting+"\nsize="+app.getSelectedGeos().size());
+		//AbstractApplication.debug("\ntype="+type+"\nisIniting="+isIniting+"\nsize="+app.getSelectedGeos().size()+"\ngeos="+geos);
 
-		if (type == null || !isIniting && selectedOptionType == type) {
+		
+
+		if (type == null) {
 			return;
 		}
+
+
+		//update selection
+		if (type==OptionType.OBJECTS){
+			objectPanel.updateSelection(geos);
+		}
+
+		if (!isIniting && selectedOptionType == type) {
+			return;
+		}
+			
+				
 
 		selectedOptionType = type;
 
@@ -301,17 +330,7 @@ public class PropertiesView extends JPanel implements
 				BorderFactory.createEmptyBorder(15, 10, 10, 10));
 		mainPanel.add((JPanel) getOptionPanel(type), BorderLayout.CENTER);
 
-		//update selection
-		if (type==OptionType.OBJECTS){
-			/*
-			if(app.getSelectedGeos().size()==0){
-				if (!app.addFirstGeoSelected()){ //try to add first geo
-					objectPanel.updateSelection(); //if none, update selection so that object properties show no tab
-				}
-			}else
-			*/
-				objectPanel.updateSelection();
-		}
+		
 			
 			
 		// don't show the button panel in the Objects panel (it has it's own)
@@ -612,7 +631,7 @@ public class PropertiesView extends JPanel implements
 
 		if (selectedOptionType!=OptionType.OBJECTS)
 			setOptionPanel(OptionType.OBJECTS);
-		objectPanel.updateSelection();
+		objectPanel.updateSelection(app.getSelectedGeos());
 
 	}
 

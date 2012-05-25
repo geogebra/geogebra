@@ -123,4 +123,6 @@ public abstract class GuiManager {
 	public abstract void setShowAuxiliaryObjects(boolean flag);
 
 	public abstract void updatePropertiesView();
+	
+	public abstract void updatePropertiesView(ArrayList<GeoElement> hits);
 }

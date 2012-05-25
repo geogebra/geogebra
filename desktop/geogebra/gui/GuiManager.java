@@ -2901,7 +2901,12 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 		}
 	}
 	
-	
+	@Override
+	public void updatePropertiesView(ArrayList<GeoElement> hits){
+		if(propertiesView !=null){
+			propertiesView.updatePropertiesView(hits);
+		}
+	}
 	
 	
 	@Override

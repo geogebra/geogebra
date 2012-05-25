@@ -310,20 +310,25 @@ public class OptionsObject extends JPanel implements OptionPanel, SetLabels {
 		
 	}
 	
-	/**
+	/*
 	 * update selection regarding Application
-	 */
+	 *
 	public void updateSelection() {
-		updateSelection(app.getSelectedGeos().toArray());
+		updateSelection(app.getSelectedGeos());
 	}
+	*/
 	
-	private void updateSelection(Object[] geos) {
+	/**
+	 * update selection for properties panel
+	 * @param geos geos
+	 */
+	public void updateSelection(ArrayList<GeoElement> geos) {
 		// if (geos == oldSelGeos) return;
 		// oldSelGeos = geos;
 
 		
 		//Application.printStacktrace("");
-		propPanel.updateSelection(geos);
+		propPanel.updateSelection(geos.toArray());
 	}
 	
 	public void updateOneGeoDefinition(GeoElement geo) {

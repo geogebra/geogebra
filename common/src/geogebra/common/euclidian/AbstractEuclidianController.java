@@ -8315,10 +8315,9 @@ public abstract class AbstractEuclidianController {
 		initShowMouseCoords();
 		view.setShowAxesRatio(false);
 		
-		app.addSelectedGeos(hits, false);
 		
 		if (app.isUsingFullGui() && app.getGuiManager() != null) {			
-			app.getGuiManager().updatePropertiesView();
+			app.getGuiManager().updatePropertiesView(hits);
 		}
 		
 		
