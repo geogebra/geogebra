@@ -299,13 +299,15 @@ public class PropertiesView extends JPanel implements
 				BorderFactory.createEmptyBorder(15, 10, 10, 10));
 		mainPanel.add((JPanel) getOptionPanel(type), BorderLayout.CENTER);
 
-		//select at least one object
+		//update selection
 		if (type==OptionType.OBJECTS){
+			/*
 			if(app.getSelectedGeos().size()==0){
 				if (!app.addFirstGeoSelected()){ //try to add first geo
 					objectPanel.updateSelection(); //if none, update selection so that object properties show no tab
 				}
 			}else
+			*/
 				objectPanel.updateSelection();
 		}
 			
