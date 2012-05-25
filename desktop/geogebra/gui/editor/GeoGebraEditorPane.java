@@ -18,6 +18,7 @@ import geogebra.main.Application;
 
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.IllegalComponentStateException;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.FocusEvent;
@@ -67,6 +68,7 @@ public class GeoGebraEditorPane extends JEditorPane implements CaretListener,
 
 	/**
 	 * Default Constructor
+	 * @param app app
 	 *
 	 * @param rows
 	 *            the number of rows to use
@@ -89,6 +91,9 @@ public class GeoGebraEditorPane extends JEditorPane implements CaretListener,
 		addKeyListener(new GeoGebraKeys(app));
 	}
 
+	/**
+	 * @param kitString
+	 */
 	public void setEditorKit(String kitString) {
 		String str = getText();
 		if ("geogebra".equalsIgnoreCase(kitString)) {
@@ -253,9 +258,8 @@ public class GeoGebraEditorPane extends JEditorPane implements CaretListener,
 	public MatchingBlockManager getMatchingBlockManager(boolean lr) {
 		if (lr) {
 			return matchLR;
-		} else {
-			return matchRL;
 		}
+		return matchRL;
 	}
 
 	/**
@@ -295,7 +299,11 @@ public class GeoGebraEditorPane extends JEditorPane implements CaretListener,
 								p.y + r.y + 2 + r.height);
 						helpPopup.show();
 					} catch (BadLocationException ex) {
+						//
 					}
+					catch (IllegalComponentStateException ex) {			
+						//
+					}				
 				}
 			} else {
 				if (helpPopup != null) {
@@ -310,6 +318,7 @@ public class GeoGebraEditorPane extends JEditorPane implements CaretListener,
 	 * {@inheritDoc}
 	 */
 	public void focusGained(FocusEvent e) {
+		//
 	}
 
 	/**
@@ -373,17 +382,17 @@ public class GeoGebraEditorPane extends JEditorPane implements CaretListener,
 	 *            of the mouse
 	 * @param ev
 	 *            the event which occured
-	 * @param type
+	 * @param type1
 	 *            of the event : KeywordListener.ONMOUSECLICKED or
 	 *            KeywordListener.ONMOUSEOVER
 	 */
 	protected void preventConcernedKeywordListener(int position,
-			EventObject ev, int type) {
+			EventObject ev, int type1) {
 		int tok = lexer.getKeyword(position, true);
 		KeywordEvent kev = new KeywordEvent(this, ev, tok, lexer.start
 				+ lexer.yychar(), lexer.yylength());
 		for (KeywordListener listener : kwListeners) {
-			if (type == listener.getType()) {
+			if (type1 == listener.getType()) {
 				listener.caughtKeyword(kev);
 			}
 		}
@@ -417,6 +426,7 @@ public class GeoGebraEditorPane extends JEditorPane implements CaretListener,
 	 *            event
 	 */
 	public void mouseExited(MouseEvent e) {
+		//
 	}
 
 	/**
@@ -426,6 +436,7 @@ public class GeoGebraEditorPane extends JEditorPane implements CaretListener,
 	 *            event
 	 */
 	public void mousePressed(MouseEvent e) {
+		//
 	}
 
 	/**
@@ -435,6 +446,7 @@ public class GeoGebraEditorPane extends JEditorPane implements CaretListener,
 	 *            event
 	 */
 	public void mouseReleased(MouseEvent e) {
+		//
 	}
 
 	/**
@@ -456,6 +468,7 @@ public class GeoGebraEditorPane extends JEditorPane implements CaretListener,
 	 *            event
 	 */
 	public void mouseDragged(MouseEvent e) {
+		//
 	}
 
 	/**
