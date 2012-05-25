@@ -248,19 +248,18 @@ public class Polynomial implements Comparable<Polynomial> {
 	 * @return the product
 	 */
 	public Polynomial multiply(final Polynomial poly) {
+		
 		/*
 		if (AbstractApplication.singularWS != null && AbstractApplication.singularWS.isAvailable()) {
 			String singularMultiplicationProgram = getSingularMultiplication("rr", poly, this);
-			if (singularMultiplicationProgram.length()>100)
+			if (singularMultiplicationProgram.length()>100) {
 				AbstractApplication.trace(singularMultiplicationProgram.length() + " bytes -> singular");
-			else 
-				AbstractApplication.trace(singularMultiplicationProgram + " -> singular");
-			String singularMultiplication = AbstractApplication.singularWS.directCommand(singularMultiplicationProgram);
-			if (singularMultiplication.length()>100)
-				AbstractApplication.trace("singular -> " + singularMultiplication.length() + " bytes");
-			else
-				AbstractApplication.trace("singular -> " + singularMultiplication);
-		} */
+				String singularMultiplication = AbstractApplication.singularWS.directCommand(singularMultiplicationProgram);
+				return new Polynomial(singularMultiplication);
+			}
+		}
+		*/
+		
 		TreeMap<Term, Integer> result = new TreeMap<Term, Integer>();
 		TreeMap<Term, Integer> terms2 = poly.getTerms();
 		Iterator<Term> it1 = terms.keySet().iterator();
@@ -438,8 +437,10 @@ public class Polynomial implements Comparable<Polynomial> {
 	 * @return the Singular program code
 	 */
 	public String getSingularMultiplication(String ringVariable, Polynomial p1, Polynomial p2) {
-		return "ring " + ringVariable + "=0,(" 
-				+ getVarsAsCommaSeparatedString(new Polynomial[] {p1, p2})
+		String vars = getVarsAsCommaSeparatedString(new Polynomial[] {p1, p2});
+		if (vars != "")
+			return "ring " + ringVariable + "=0,(" 
+				+ vars
 				+ "),dp;" // ring definition in Singular
 				
 				+ "short=0;" // switching off short output
@@ -447,6 +448,7 @@ public class Polynomial implements Comparable<Polynomial> {
 				+ "(" + p1.toString() + ")"
 				+ "*"
 				+ "(" + p2.toString() + ");"; // the multiplication command
+		return p1.toString() + "*" + p2.toString() + ";";
 	}
 	
 	/**
