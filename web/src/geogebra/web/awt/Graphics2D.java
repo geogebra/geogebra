@@ -34,6 +34,7 @@ import com.google.gwt.canvas.dom.client.ImageData;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArrayNumber;
+import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.user.client.Element;
 
 public class Graphics2D extends geogebra.common.awt.Graphics2D {
@@ -597,7 +598,11 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
     	BufferedImage bi = geogebra.web.awt.BufferedImage.getGawtImage(img);
     	if(bi==null)
     		return;
-    	context.drawImage(bi.getImageElement(), x, y);
+    	try{
+    		context.drawImage(bi.getImageElement(), x, y);
+    	} catch (Exception e){
+    		AbstractApplication.error("error in context.drawImage method");
+    	}
     }
 
     public void drawGraphics(geogebra.web.awt.Graphics2D gother, int x, int y,
