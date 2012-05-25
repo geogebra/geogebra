@@ -44,15 +44,15 @@ public abstract class GeoGebraLogger {
 
 	private static Set<String> reportedImplementationNeeded = new TreeSet<String>();
 	
-	public Level EMERGENCY = new Level(0, "EMERGENCY");
-	public Level ALERT = new Level(1, "ALERT");
-	public Level CRITICAL = new Level(2, "CRITICAL");
-	public Level ERROR = new Level(3, "ERROR");
-	public Level WARN = new Level(4, "WARN");
-	public Level NOTICE = new Level(5, "NOTICE");
-	public Level INFO = new Level(7, "INFO");
-	public Level DEBUG = new Level(8, "DEBUG");
-	public Level TRACE = new Level(9, "TRACE"); 
+	public final Level EMERGENCY = new Level(0, "EMERGENCY");
+	public final Level ALERT = new Level(1, "ALERT");
+	public final Level CRITICAL = new Level(2, "CRITICAL");
+	public final Level ERROR = new Level(3, "ERROR");
+	public final Level WARN = new Level(4, "WARN");
+	public final Level NOTICE = new Level(5, "NOTICE");
+	public final Level INFO = new Level(7, "INFO");
+	public final Level DEBUG = new Level(8, "DEBUG");
+	public final Level TRACE = new Level(9, "TRACE"); 
 	/**
 	 * Logging destinations
 	 */
