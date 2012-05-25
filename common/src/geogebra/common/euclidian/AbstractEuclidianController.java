@@ -90,8 +90,6 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
 
-import org.apache.catalina.core.ApplicationContext;
-
 @SuppressWarnings("javadoc")
 public abstract class AbstractEuclidianController {
 
