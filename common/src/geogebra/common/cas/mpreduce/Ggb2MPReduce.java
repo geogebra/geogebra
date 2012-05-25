@@ -84,11 +84,11 @@ public class Ggb2MPReduce {
 				"<<clear tmp!!; off factor, pri, combinelogs$ on div, complex, expandlogs$ tmp!!:=(%0); off factor, pri, combinelogs$ on div, expandlogs$  tmp!!>>");
 		p("Exponential.2", "1-exp(-(%0)*(%1))");
 		p("Factor.1",
-				"<<off combinelogs$ begin scalar factorlist!!, tmpexp!!; if numberp(den(%0)) then <<factorlist!!:=factorize(%0); return part(!*hold((for each x in factorlist!! collect (if arglength(x)<0 or part(x,0) neq \\'list then x else if part(x,2)=1 then part(x,1) else part(x,0):=**))),0):=*>> else <<on factor; tmpexp!!:=(%0); on factor; return tmpexp!! >> end >>");
+				"<<on combineexpt; off combinelogs$ begin scalar factorlist!!, tmpexp!!; if numberp(den(%0)) then <<factorlist!!:=factorize(%0); return part(!*hold((for each x in factorlist!! collect (if arglength(x)<0 or part(x,0) neq \\'list then x else if part(x,2)=1 then part(x,1) else part(x,0):=**))),0):=*>> else <<on factor; tmpexp!!:=(%0); on factor; return tmpexp!! >> end >>");
 		p("Factor.2",
-				"<<off combinelogs$ begin scalar factorlist!!; korder append(list(%1),varorder!!); factorlist!!:=factorize(%0); korder varorder!!;return part(!*hold(for each x in factorlist!! collect (if arglength(x)<0 or part(x,0) neq \\'list then x else if part(x,2)=1 then part(x,1) else part(x,0):=**)),0):=* end >>");
+				"<<on combineexpt; off combinelogs$ begin scalar factorlist!!; korder append(list(%1),varorder!!); factorlist!!:=factorize(%0); korder varorder!!;return part(!*hold(for each x in factorlist!! collect (if arglength(x)<0 or part(x,0) neq \\'list then x else if part(x,2)=1 then part(x,1) else part(x,0):=**)),0):=* end >>");
 		p("Factors.1",
-				"<<off combinelogs$ off complex, rounded; for each x in factorize(%0) collect if arglength(x)<0 or part(x,0) neq \\'list then x:=list(x,1) else x >>");
+				"<<on combineexpt; off combinelogs$ off complex, rounded; for each x in factorize(%0) collect if arglength(x)<0 or part(x,0) neq \\'list then x:=list(x,1) else x >>");
 		p("FDistribution.3",
 				"betaRegularized((%0)/2,(%1)/2,(%0)*(%2)/((%0)*(%2)+%1))");
 		p("Flatten.1", "mkdepthone(%0)");
@@ -124,13 +124,13 @@ public class Ggb2MPReduce {
 		p("Imaginary.1", "impart(%0)");
 		p("ImplicitDerivative.3", "-df(%0,%1)/df(%0,%2)");
 		p("Integral.1",
-				"<<begin scalar integral!!, input!!; input!!:=(%0); on combineexpt; let intrules!!; integral!!:=int(input!!,mymainvar(input!!)); clearrules intrules!!; off combineexpt; return if  freeof(integral!!,\\'int) then part(list(integral!!,newarbconst()),0):=+ else \\'? end>>");
+				"<<begin scalar integral!!, input!!; input!!:=(%0); on combineexpt; let intrules!!; integral!!:=int(input!!,mymainvar(input!!)); clearrules intrules!!;  return if  freeof(integral!!,\\'int) then part(list(integral!!,newarbconst()),0):=+ else \\'? end>>");
 		p("Integral.2",
-				"<<begin scalar integral!!; let intrules!!; on combineexpt; integral!!:=int(%0,%1); clearrules intrules!!;off combineexpt; return if freeof(integral!!,\\'int) then part(list(integral!!,newarbconst()),0):=+ else \\'? end>>");
+				"<<begin scalar integral!!; let intrules!!; on combineexpt; integral!!:=int(%0,%1); clearrules intrules!!; return if freeof(integral!!,\\'int) then part(list(integral!!,newarbconst()),0):=+ else \\'? end>>");
 		p("Integral.3",
-				"<<begin scalar integral!!, input!!; input!!:=(%0);on combineexpt; let intrules!!; integral!!:=myint(input!!,mymainvar(input!!),%1,%2); clearrules intrules!!; off combineexpt;return if freeof(integral!!,\\'int) then integral!! else num\\_int(input!!,mainvar(input!!),%1,%2) end>>");
+				"<<begin scalar integral!!, input!!; input!!:=(%0);on combineexpt; let intrules!!; integral!!:=myint(input!!,mymainvar(input!!),%1,%2); clearrules intrules!!; return if freeof(integral!!,\\'int) then integral!! else num\\_int(input!!,mainvar(input!!),%1,%2) end>>");
 		p("Integral.4",
-				"<<begin scalar integral!!; let intrules!!;on combineexpt; integral!!:=int(%0,%1,%2,%3); clearrules intrules!!;off combineexpt; return if freeof(integral!!,\\'int) then integral!! else num\\_int(%0,%1,%2,%3) end>>");
+				"<<begin scalar integral!!; let intrules!!;on combineexpt; integral!!:=int(%0,%1,%2,%3); clearrules intrules!!; return if freeof(integral!!,\\'int) then integral!! else num\\_int(%0,%1,%2,%3) end>>");
 		p("IntegralBetween.4",
 				"<< begin scalar integral!!, input1!!, input2!!, variable!!; input1!!:=(%0); input2!!:=(%1); variable!!:=mymainvar(list(input1!!, input2!!)); let intrules!!; integral!!:=myint(input1!!-input2!!,mymainvar(list(input1!!, input2!!)),%2,%3); clearrules intrules!!; return if freeof(integral!!,\\'int) then integral!! else num\\_int(input1!!-input2!!,variable,%2,%3) end >>");
 		p("IntegralBetween.5",
@@ -251,7 +251,7 @@ public class Ggb2MPReduce {
 		p("SD.1",
 				"<<begin scalar tmpmean, tmplist; tmplist:=(%0)$ tmpmean:=0$ tmpmean:= (1/length(tmplist))*for i:=1:length(tmplist) sum part(tmplist,i)$ return sqrt((1/length(tmplist))*for i:=1:length(tmplist) sum (part(tmplist,i)^2-tmpmean^2)) end>>");
 		p("Shuffle.1", "shuffle(%0)");
-		p("Simplify.1", "<<on combinelogs; trigsimp(%0, combine)>>");
+		p("Simplify.1", "<<on combinelogs,combineexpt; trigsimp(%0, combine)>>");
 		// p("SimplifyFull.1","trigsimp(%0, combine)");
 		p("Solutions.1",
 				"<< begin scalar input!!; input!!:=(%0); return flattenlist(for each element!! in mysolve(input!!,mymainvar(input!!)) collect map(rhs,element!!)) end>>");
