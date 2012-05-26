@@ -1,10 +1,13 @@
 package geogebra.common.kernel.prover;
 
 import java.math.BigInteger;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.TreeSet;
 
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.SymbolicParameters;
 import geogebra.common.kernel.algos.SymbolicParametersAlgo;
 import geogebra.common.kernel.geos.GeoElement;
@@ -56,46 +59,67 @@ public class ProverReciosMethod {
 		// setting two points fixed (the first to (0,0) and the second to (0,1))
 		// all other variables are stores in freeVariables
 		Iterator<Variable> it=variables.iterator();
-		Variable firstFixedVariable=null, secondFixedVariable=null;
 		HashMap<Variable, BigInteger> values=new HashMap<Variable, BigInteger>();
+		TreeSet<Variable> fixedVariables=new TreeSet<Variable>(new Comparator<Variable>(){
+			public int compare(Variable v1, Variable v2) {
+				String nameV1, nameV2;
+				if (v1.getParent()==null || (nameV1=v1.getParent().getLabel(StringTemplate.defaultTemplate))==null){
+					if (v2.getParent()==null || v1.getParent().getLabel(StringTemplate.defaultTemplate)==null){
+						return v1.compareTo(v2);
+					}
+					return -1;
+				}
+				if (v2.getParent()==null || (nameV2=v2.getParent().getLabel(StringTemplate.defaultTemplate))==null){
+					return 1;
+				}
+				int compareNames=nameV1.compareTo(nameV2);
+				if (compareNames==0){
+					return v1.compareTo(v2);
+				}
+				return compareNames;
+			}	
+		});
 		HashSet<Variable> freeVariables=new HashSet<Variable>();
 		while(it.hasNext()){
 			Variable fv=it.next();
-			if (firstFixedVariable==null){
-				if (fv.getTwin()==null){
-					freeVariables.add(fv);
-					continue;
-				}
-				firstFixedVariable=fv;
-				values.put(fv, BigInteger.ZERO);
-			} else if (firstFixedVariable.getTwin().equals(fv)){
-				values.put(fv, BigInteger.ZERO);
-			} else if (secondFixedVariable==null){
-				if (fv.getTwin()==null){
-					freeVariables.add(fv);
-					continue;
-				}
-				secondFixedVariable=fv;
-				values.put(fv, BigInteger.ZERO);
-			} else if (secondFixedVariable.getTwin().equals(fv)){
-				values.put(fv, BigInteger.ONE);
-			} else {
+			if (fv.getTwin()==null || !variables.contains(fv.getTwin())){
 				freeVariables.add(fv);
+				continue;
+			}
+			fixedVariables.add(fv);
+		}
+		
+		it = fixedVariables.iterator();
+		int nrOfFixedCoordinates=0;
+		GeoElement fixedElement1=null, fixedElement2=null;
+		while (it.hasNext()){
+			Variable var;
+			if (nrOfFixedCoordinates==0){
+				var = it.next();
+				values.put(var, BigInteger.ZERO);
+				values.put(it.next(), BigInteger.ZERO);
+				fixedElement1=var.getParent();
+				nrOfFixedCoordinates=1;
+			} else if (nrOfFixedCoordinates==1){
+				var = it.next();
+				values.put(var, BigInteger.ZERO);
+				values.put(it.next(), BigInteger.ONE);
+				fixedElement2=var.getParent();
+				nrOfFixedCoordinates=2;
+			} else {
+				freeVariables.add(it.next());
 			}
 		}
+		
 		int nrFreeVariables=freeVariables.size();
-		if (firstFixedVariable != null && secondFixedVariable != null
-				&& firstFixedVariable.getParent() != null
-				&& firstFixedVariable.getParent() != null) {
+		if (nrOfFixedCoordinates==2 && nrFreeVariables<=2){
 			NDGCondition ndg = new NDGCondition();
 			ndg.setCondition("AreEqual");
-			GeoElement[] geos = { firstFixedVariable.getParent(),
-					secondFixedVariable.getParent() };
+			GeoElement[] geos = { fixedElement1, fixedElement2 };
 			ndg.setGeos(geos);
 			prover.addNDGcondition(ndg);
 		}
 
-		
 		switch (nrFreeVariables) {
 			case 0:
 				return compute0d(values, s);
