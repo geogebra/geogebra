@@ -22,6 +22,7 @@ public enum Commands implements CommandsConstants{
    	Mod(TABLE_ALGEBRA), Div(TABLE_ALGEBRA), Min(TABLE_ALGEBRA), Max(TABLE_ALGEBRA),
    	LCM(TABLE_ALGEBRA), GCD(TABLE_ALGEBRA), Expand(TABLE_ALGEBRA), Factor(TABLE_ALGEBRA),
    	Simplify(TABLE_ALGEBRA), PrimeFactors(TABLE_ALGEBRA), CompleteSquare(TABLE_ALGEBRA),
+   	ToBase(TABLE_ALGEBRA),FromBase(TABLE_ALGEBRA),
 
   	//=================================================================
   	// Geometry

@@ -517,7 +517,8 @@ AlgoTo2D,AlgoDependentVector3D,AlgoParametricDerivative,
 	AlgoAreCollinear(Commands.AreCollinear), 
 	AlgoAreParallel(Commands.AreParallel), AlgoAreConcyclic(Commands.AreConcyclic),
 	AlgoArePerpendicular(Commands.ArePerpendicular), AlgoAreEqual(Commands.AreEqual),
-	AlgoAreConcurrent(Commands.AreConcurrent);
+	AlgoAreConcurrent(Commands.AreConcurrent), AlgoToBase(Commands.ToBase),
+	AlgoFromBase(Commands.FromBase);
 	private String command;
 	private Algos(){
 		this.command="Expression";
