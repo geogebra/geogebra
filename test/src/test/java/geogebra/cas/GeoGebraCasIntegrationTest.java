@@ -9,7 +9,7 @@ import geogebra.cas.logging.CASTestLogger;
 import geogebra.common.cas.CASparser;
 import geogebra.common.cas.mpreduce.AbstractCASmpreduce;
 import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
@@ -50,7 +50,7 @@ public class GeoGebraCasIntegrationTest {
 		app.setLanguage(Locale.US);
 		// app.getKernel()
 		kernel = app.getKernel();
-		arbconst =  new MyArbitraryConstant(new GeoNumeric(kernel.getConstruction()));
+		arbconst =  null;new MyArbitraryConstant(new GeoCasCell(kernel.getConstruction()));
 		cas = kernel.getGeoGebraCAS();
 		logger = new CASTestLogger();
 	}
