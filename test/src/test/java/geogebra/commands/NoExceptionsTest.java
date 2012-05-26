@@ -2226,4 +2226,25 @@ public class NoExceptionsTest {
 	public void cmdAreEqual(){
 		t("AreEqual[Pt1,Pt2]");
 	}
+	
+	@Test
+	public void cmdToBase(){
+		t("ToBase[1000000,2]");
+	}
+	
+	@Test
+	public void cmdFromBase(){
+		t("FromBase[\"FFA23\",16]");
+	}
+	
+	@Test
+	public void cmdInverseLogistic(){
+		t("InverseLogistic[1,2,3]");
+	}
+	
+	@Test
+	public void cmdInverseLogNormal(){
+		t("InverseLogNormal[1,2,3]");
+	}
+	
 }
