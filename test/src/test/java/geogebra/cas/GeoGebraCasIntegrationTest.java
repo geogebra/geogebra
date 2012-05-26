@@ -50,7 +50,7 @@ public class GeoGebraCasIntegrationTest {
 		app.setLanguage(Locale.US);
 		// app.getKernel()
 		kernel = app.getKernel();
-		arbconst =  null;new MyArbitraryConstant(new GeoCasCell(kernel.getConstruction()));
+		arbconst =  new MyArbitraryConstant(new GeoCasCell(kernel.getConstruction()));
 		cas = kernel.getGeoGebraCAS();
 		logger = new CASTestLogger();
 	}
