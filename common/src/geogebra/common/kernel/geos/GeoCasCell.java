@@ -1578,11 +1578,11 @@ public class GeoCasCell extends GeoElement implements VarString {
 			kernel.setSilentMode(true);
 
 			try {
-				// process inputExp in GeoGebra
+				// process inputExp in GeoGebra *without* assignment (we need to avoid redefinition)
 				GeoElement[] geos = kernel
 						.getAlgebraProcessor()
 						.processAlgebraCommandNoExceptionHandling(
-								evalVE.toAssignmentString(StringTemplate.maxPrecision),
+								evalVE.toString(StringTemplate.maxPrecision),
 								false, false, false);
 
 				// GeoElement evalGeo = silentEvalInGeoGebra(evalVE);
