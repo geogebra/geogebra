@@ -24,6 +24,9 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoSegment;
+import geogebra.common.kernel.prover.NoSymbolicParametersException;
+import geogebra.common.kernel.prover.Polynomial;
+import geogebra.common.kernel.prover.Variable;
 
 
 /**
@@ -31,13 +34,17 @@ import geogebra.common.kernel.geos.GeoSegment;
  * @author  Markus
  * @version 
  */
-public class AlgoMidpointSegment extends AlgoElement {
+public class AlgoMidpointSegment extends AlgoElement implements SymbolicParametersBotanaAlgo {
 
     private GeoSegment segment; // input
     private GeoPoint2 M; // output        
     private GeoPoint2 P, Q; // endpoints of segment
+
+	private Variable[] botanaVars;
+	private Polynomial[] botanaPolynomials;
+
     
-    /** Creates new AlgoVector */
+	/** Creates new AlgoVector */
     public AlgoMidpointSegment(Construction cons, String label, GeoSegment segment) {
     	this(cons, segment);
     	M.setLabel(label);
@@ -110,4 +117,36 @@ public class AlgoMidpointSegment extends AlgoElement {
         return app.getPlain("MidpointOfA",segment.getLabel(tpl));
 
     }
+    
+	public Variable[] getBotanaVars() {
+		return botanaVars;
+	}
+
+	public Polynomial[] getBotanaPolynomials() throws NoSymbolicParametersException {
+		if (botanaPolynomials != null) {
+			return botanaPolynomials;
+		}
+		
+		if (P == null || Q == null)
+			throw new NoSymbolicParametersException();
+		
+		if (botanaVars==null){
+			botanaVars = new Variable[2];
+			botanaVars[0]=new Variable();
+			botanaVars[1]=new Variable();
+		}
+		
+		Variable[] fv1 = ((SymbolicParametersBotanaAlgo) P).getBotanaVars();
+		Variable[] fv2 = ((SymbolicParametersBotanaAlgo) Q).getBotanaVars();
+		botanaPolynomials = new Polynomial[2];
+		// 2*m1-a1-b1, 2*m2-a2-b2
+		botanaPolynomials[0] = (new Polynomial(2)).multiply(new Polynomial(botanaVars[0])).
+				subtract(new Polynomial(fv1[0])).subtract(new Polynomial(fv2[0]));
+		botanaPolynomials[1] = (new Polynomial(2)).multiply(new Polynomial(botanaVars[1])).
+				subtract(new Polynomial(fv1[1])).subtract(new Polynomial(fv2[1]));
+		return botanaPolynomials;
+		
+	}
+
+    
 }
