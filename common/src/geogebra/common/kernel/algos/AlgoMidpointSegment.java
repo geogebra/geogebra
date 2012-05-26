@@ -18,6 +18,10 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.algos;
 
+import java.math.BigInteger;
+import java.util.HashMap;
+import java.util.HashSet;
+
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
@@ -34,12 +38,14 @@ import geogebra.common.kernel.prover.Variable;
  * @author  Markus
  * @version 
  */
-public class AlgoMidpointSegment extends AlgoElement implements SymbolicParametersBotanaAlgo {
+public class AlgoMidpointSegment extends AlgoElement implements SymbolicParametersAlgo,
+	SymbolicParametersBotanaAlgo {
 
     private GeoSegment segment; // input
     private GeoPoint2 M; // output        
     private GeoPoint2 P, Q; // endpoints of segment
 
+	private Polynomial[] polynomials;
 	private Variable[] botanaVars;
 	private Polynomial[] botanaPolynomials;
 
@@ -117,6 +123,56 @@ public class AlgoMidpointSegment extends AlgoElement implements SymbolicParamete
         return app.getPlain("MidpointOfA",segment.getLabel(tpl));
 
     }
+
+	public SymbolicParameters getSymbolicParameters() {
+		return new SymbolicParameters(this);
+	}
+
+	public int[] getFreeVariablesAndDegrees(HashSet<Variable> variables)
+			throws NoSymbolicParametersException {
+		if (P != null && Q != null) {
+			int[] degreeP = P.getFreeVariablesAndDegrees(variables);
+			int[] degreeQ = Q.getFreeVariablesAndDegrees(variables);
+			
+			int[] result =new int[3];
+			result[0]=Math.max(degreeP[0]+degreeQ[2],degreeQ[0]+degreeP[2]);
+			result[1] = Math.max(degreeP[1]+degreeQ[2],degreeQ[1]+degreeP[2]);
+			result[2] = degreeP[2]+degreeQ[2];
+			return result;
+		}
+		throw new NoSymbolicParametersException();
+	}
+
+	public BigInteger[] getExactCoordinates(
+			HashMap<Variable, BigInteger> values)
+			throws NoSymbolicParametersException {
+		if (P != null && Q != null) {
+			BigInteger[] pP = P.getExactCoordinates(values);
+			BigInteger[] pQ = Q.getExactCoordinates(values);
+			BigInteger[] coords = new BigInteger[3];
+			coords[0] = pP[0].multiply(pQ[2]).add(pQ[0].multiply(pP[2]));
+			coords[1] = pP[1].multiply(pQ[2]).add(pQ[1].multiply(pP[2]));
+			coords[2] = pP[2].multiply(pQ[2]).multiply(BigInteger.valueOf(2));
+			return coords;
+		}
+		throw new NoSymbolicParametersException();
+	}
+
+	public Polynomial[] getPolynomials() throws NoSymbolicParametersException {
+		if (polynomials != null) {
+			return polynomials;
+		}
+		if (P != null && Q != null) {
+			Polynomial[] pP = P.getPolynomials();
+			Polynomial[] pQ = Q.getPolynomials();
+			polynomials = new Polynomial[3];
+			polynomials[0] = pP[0].multiply(pQ[2]).add(pQ[0].multiply(pP[2]));
+			polynomials[1] = pP[1].multiply(pQ[2]).add(pQ[1].multiply(pP[2]));
+			polynomials[2] = pP[2].multiply(pQ[2]).multiply(new Polynomial(2));
+			return polynomials;
+		}
+		throw new NoSymbolicParametersException();
+	}
     
 	public Variable[] getBotanaVars() {
 		return botanaVars;
