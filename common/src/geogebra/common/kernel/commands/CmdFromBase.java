@@ -28,7 +28,6 @@ public class CmdFromBase extends CommandProcessor{
 		@Override
 		final public GeoElement[] process(Command c) throws MyError {
 			int n = c.getArgumentNumber();
-			boolean[] ok = new boolean[n];
 			
 
 			switch (n) {
@@ -43,34 +42,28 @@ public class CmdFromBase extends CommandProcessor{
 				ExpressionNode[] argE = c.getArguments();
 				GeoElement[] arg = new GeoElement[2];
 				
-				argE[0].resolveVariables();
-				arg[0] = resArg(argE[0])[0];
-				if(!arg[0].isNumberValue())
-					throw argErr(app, c.getName(), arg[0]);
-				String str = argE[1].toString(StringTemplate.defaultTemplate);
+				argE[1].resolveVariables();
+				arg[1] = resArg(argE[1])[0];
+				if(!arg[1].isNumberValue())
+					throw argErr(app, c.getName(), arg[1]);
+				String str = argE[0].toString(StringTemplate.defaultTemplate);
 				try{
-					argE[1].resolveVariables();
-					arg[1] = resArg(argE[0])[1];
+					argE[0].resolveVariables();
+					arg[0] = resArg(argE[0])[0];
 				}
 				catch(Throwable t){
 					//do nothing
 				}
-				if(!(arg[1] instanceof GeoText)){
-					arg[1] = new GeoText(kernelA.getConstruction(),str);
+				if(!(arg[0] instanceof GeoText)){
+					arg[0] = new GeoText(kernelA.getConstruction(),str);
 				}
 				
 				cons.setSuppressLabelCreation(oldMacroMode);
 				
+				GeoElement[] ret = { kernelA.FromBase(c.getLabel(),
+							 (GeoText) arg[0],(NumberValue) arg[1]) };
+				return ret;
 				
-				if ((ok[0] = (arg[0].isNumberValue()))
-						&& (ok[1] = (arg[1].isGeoText()))) {
-					GeoElement[] ret = { kernelA.FromBase(c.getLabel(),
-							(NumberValue) arg[0], (GeoText) arg[1]) };
-					return ret;
-				}
-				if (!ok[0])
-					throw argErr(app, c.getName(), arg[0]);
-				throw argErr(app, c.getName(), arg[1]);
 
 			default:
 				throw argNumErr(app, c.getName(), n);

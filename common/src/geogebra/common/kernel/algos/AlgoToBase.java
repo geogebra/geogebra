@@ -7,6 +7,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
+import geogebra.common.util.StringUtil;
 
 public class AlgoToBase extends AlgoElement {
 
@@ -26,7 +27,7 @@ public class AlgoToBase extends AlgoElement {
 	@Override
 	protected void setInputOutput() {
 		input = new GeoElement[]
-				{base.toGeoElement(), number.toGeoElement()};
+				{number.toGeoElement(),base.toGeoElement()};
 		setOnlyOutput(result);
 		setDependencies();
 	}
@@ -50,7 +51,7 @@ public class AlgoToBase extends AlgoElement {
 			return; 
 		}
 		BigInteger bi = BigInteger.valueOf((long)number.getDouble());
-		result.setTextString(bi.toString(b));
+		result.setTextString(StringUtil.toUpperCase(bi.toString(b)));
 
 	}
 

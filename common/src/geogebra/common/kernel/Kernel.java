@@ -9808,15 +9808,15 @@ public class Kernel {
 		return list2;
 	}
 
-	public GeoElement ToBase(String label, NumberValue base,
-			NumberValue number) {
+	public GeoElement ToBase(String label, NumberValue number,
+			NumberValue base) {
 		AlgoToBase toBase = new AlgoToBase(cons,label,base,number);
 		return toBase.getResult();
 	}
 	
-	public GeoElement FromBase(String label, NumberValue base,
-			GeoText numberInBase) {
-		AlgoFromBase fromBase = new AlgoFromBase(cons,label,base,numberInBase);
+	public GeoElement FromBase(String label, GeoText number,
+			NumberValue base) {
+		AlgoFromBase fromBase = new AlgoFromBase(cons,label,number,base);
 		return fromBase.getResult();
 	}
 

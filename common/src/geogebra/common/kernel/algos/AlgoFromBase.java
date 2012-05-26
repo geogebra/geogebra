@@ -16,7 +16,7 @@ public class AlgoFromBase extends AlgoElement {
 	private NumberValue base;
 	private GeoText number;
 	private GeoNumeric result;
-	public AlgoFromBase(Construction c,String label,NumberValue base,GeoText number) {
+	public AlgoFromBase(Construction c,String label,GeoText number,NumberValue base) {
 		super(c);
 		this.base=base;
 		this.number=number;
@@ -29,7 +29,7 @@ public class AlgoFromBase extends AlgoElement {
 	@Override
 	protected void setInputOutput() {
 		input = new GeoElement[]
-				{base.toGeoElement(), number};
+				{number,base.toGeoElement()};
 		setOnlyOutput(result);
 		setDependencies();
 	}
