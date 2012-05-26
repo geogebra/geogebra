@@ -1099,7 +1099,7 @@ public class ExpressionNode extends ValidExpression implements
 			right = null;
 			return;
 		}
-		AbstractApplication.debug(this);
+		
 		// transfer left subtree
 		if (left.isExpressionNode()) {
 			((ExpressionNode) left).makePolynomialTree(equ);
