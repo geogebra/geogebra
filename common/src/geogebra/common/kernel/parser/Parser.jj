@@ -217,6 +217,24 @@ public class Parser implements ParserInterface{
  	    case 3:return new ExpressionNode(kernel,new MyNumberPair(kernel,list.getListElement(0),
  	    list.getListElement(1)),op,list.getListElement(2));
  	    default:return null; 	  } 	}
+
+	private ExpressionNode polysToFunctionVariables(ExpressionNode en)	{			TreeSet<String> vars = en.getPolynomialVars();
+          	switch (vars.size()) {
+          		case 0: break;
+          		case 1: // single var function
+	        		return new ExpressionNode(kernel, new Function(en, new FunctionVariable(kernel, vars.first())));
+
+				default: // multivariate function
+					FunctionVariable [] funs = new FunctionVariable[vars.size()];    	
+					int i=0;
+			    	for (String var : vars) {
+			    		funs[i++] = new FunctionVariable(kernel, var);
+			    	}
+			    	return new ExpressionNode(kernel, new FunctionNVar(en, funs));
+			    	
+          	}
+          	return en;
+	  }
 }
 PARSER_END(Parser)
 
@@ -856,21 +874,7 @@ ExpressionNode cmdexpression():
     en = expressionnode()              
     {
         if (!GeoGebraCASParsing) {
-          	TreeSet<String> vars = en.getPolynomialVars();
-          	switch (vars.size()) {
-          		case 0: break;
-          		case 1: // single var function
-	        		return new ExpressionNode(kernel, new Function(en, new FunctionVariable(kernel, vars.first())));
-
-				default: // multivariate function
-					FunctionVariable [] funs = new FunctionVariable[vars.size()];    	
-					int i=0;
-			    	for (String var : vars) {
-			    		funs[i++] = new FunctionVariable(kernel, var);
-			    	}
-			    	return new ExpressionNode(kernel, new FunctionNVar(en, funs));
-			    	
-          	}
+          	en = polysToFunctionVariables(en);
         	//throw new MyError(app, "IncompleteEquation");
         }
         
@@ -882,33 +886,6 @@ ExpressionNode cmdexpression():
 )
 }
 
-ExpressionNode cmdexpression2():
-{
-    ExpressionValue ev;
-    ExpressionNode en;
-}
-{    
- (
- 	// equation like: 3x + 4 = 7
- 	LOOKAHEAD (2147483647) 
- 	ev = equation()
- 	{ 
- 		// TODO: remove
- 		return new ExpressionNode(kernel, ev);  	
- 	} 
-  |   
-    // expression 
-    en = expressionnode()              
-    {
-
-        
-        // since v3.0: commands have to take care of resolving the variables of 
-        // their arguments on their own, e.g. Sequence[ i^2, i , 1, 10 ]
-        // rhs.resolveVariables();  
-        return en;     
-    }
-)
-}
 
 /**
  * function = functionExpressionnode 
@@ -2020,18 +1997,18 @@ ExpressionNode numberFunction():
       }
 |
 	(
-	  c = <FUNCTION_LABEL> en = cmdexpression2()
+	  c = <FUNCTION_LABEL> en = expressionOrEquation()
 		{   
             myList = new MyList(kernel, true);         
             myList.addListElement(en);
         }
-       ( <COMMA> en = cmdexpression2()  
+       ( <COMMA> en = expressionOrEquation()  
        	 {
        		myList.addListElement(en); 
        	 } 
         )*
     )
-	")"
+	(")"|"]")
 	// note: the last character of FUNCTION_LABEL is a "("
       { 
       		// remove the opening parenthesis
@@ -2074,7 +2051,8 @@ ExpressionNode numberFunction():
       				Command cmd = new Command(kernel, funcName, true, !ExternalCASParsing );
       				for (int i=0; i < myList.size(); i++)
       				{
-      				  cmd.addArgument( (ExpressionNode) myList.getListElement(i) );
+      				  cmd.addArgument(GeoGebraCASParsing ? (ExpressionNode) myList.getListElement(i) :
+      				  polysToFunctionVariables((ExpressionNode) myList.getListElement(i)));
       				}
       				return new ExpressionNode(kernel, cmd);      						
       			
