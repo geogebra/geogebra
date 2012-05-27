@@ -492,7 +492,7 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 		g2.drawRect(x - 2, y - 2, 18, 18);
 		ImageElement img = kernel.isAnimationRunning() ? getPauseImage()
 				: getPlayImage();
-		g2.drawImage(new geogebra.web.awt.BufferedImage(img), x, y, null);
+		g2.drawImage(new geogebra.web.awt.BufferedImage(img), null, x, y);
 	}
 
 	@Override

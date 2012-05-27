@@ -282,13 +282,6 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D{
 		impl.drawImage(geogebra.awt.BufferedImage.getAwtBufferedImage(img), (geogebra.awt.BufferedImageOp) op, x, y);
 		
 	}
-
-	@Override
-	public void drawImage(BufferedImage img, int x, int y,
-			BufferedImageOp op) {
-		impl.drawImage(geogebra.awt.BufferedImage.getAwtBufferedImage(img),(geogebra.awt.BufferedImageOp) op, x, y);
-		
-	}
 	
 	@Override
 	public void drawImage(geogebra.common.awt.Image img, int x, int y) {

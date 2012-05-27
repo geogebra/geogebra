@@ -131,8 +131,8 @@ public class MyButton {
 
 		// draw image
 		if (geoButton.getFillImage() != null) {
-			g.drawImage(geoButton.getFillImage(), x + (width - imgWidth) / 2, y
-					+ margin, null);
+			g.drawImage(geoButton.getFillImage(), null, x + (width - imgWidth) / 2, y
+					+ margin);
 		}
 
 		// draw the text center-aligned to the button

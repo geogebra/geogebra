@@ -93,7 +93,7 @@ public abstract class EuclidianViewND extends AbstractEuclidianView implements E
 	}
 
 	public void paintBackground(geogebra.common.awt.Graphics2D g2) {
-		g2.drawImage(bgImage, 0, 0, null);
+		g2.drawImage(bgImage, null, 0, 0);
 	}
 
 	public void add(Component comp) {

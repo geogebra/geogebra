@@ -227,7 +227,7 @@ public final class DrawImage extends Drawable {
 			}
 
 			if (absoluteLocation) {
-				g3.drawImage(image, screenX, screenY, null);
+				g3.drawImage(image, null, screenX, screenY);
 				if (!isInBackground && geo.doHighlighting()) {
 					// draw rectangle around image
 					g3.setStroke(selStroke);
@@ -243,7 +243,7 @@ public final class DrawImage extends Drawable {
 
 				// g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION,RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
 
-				g3.drawImage(image, 0, 0, null);
+				g3.drawImage(image, null, 0, 0);
 				if (!isInBackground && geo.doHighlighting()) {
 					// draw rectangle around image
 					g3.setStroke(selStroke);

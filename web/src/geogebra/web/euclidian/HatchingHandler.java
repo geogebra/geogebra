@@ -155,7 +155,7 @@ public class HatchingHandler extends geogebra.common.euclidian.HatchingHandler {
 				g2d.setComposite((Composite) alphaComp);
 
 				// paint image with specified transparency
-				g2d.drawImage(image, 0, 0, null);
+				g2d.drawImage(image, null, 0, 0);
 			}
 
 			tp = new TexturePaint(copy, tr);
