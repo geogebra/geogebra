@@ -1895,11 +1895,11 @@ public class Construction {
 	 * @return true iff label is not occupied by any GeoElement.
 	 */
 	private boolean isFreeLabel(String label, boolean includeCASvariables) {
-		if(!fileLoading && ParserFunctions.RESERVED_FUNCTION_NAMES.contains(label))
-			return false;
 		if (label == null) {
 			return false;
 		}
+		if(!fileLoading && ParserFunctions.RESERVED_FUNCTION_NAMES.contains(label))
+			return false;
 		// check standard geoTable
 		if (geoTable.containsKey(label))
 			return false;
