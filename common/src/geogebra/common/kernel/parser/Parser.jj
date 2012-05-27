@@ -691,7 +691,7 @@ ValidExpression command():
 }
 {   
 	(
-	    (t = <FUNCTION_LABEL>) // includes (
+     	(t = <FUNCTION_LABEL>) // includes (
 	    { cmdName = t.image.substring(0,t.image.length()-1);
 	      c = new Command(kernel, cmdName, true, !ExternalCASParsing );    } 
 	    (   ( en = cmdexpression()  { c.addArgument( en ); } )?
@@ -1992,12 +1992,12 @@ ExpressionNode numberFunction():
       }
 |
 	(
-	  c = <FUNCTION_LABEL> en = expressionnode()
+	  c = <FUNCTION_LABEL> en = cmdexpression()
 		{   
             myList = new MyList(kernel, true);         
             myList.addListElement(en);
         }
-       ( <COMMA> en = expressionnode()  
+       ( <COMMA> en = cmdexpression()  
        	 {
        		myList.addListElement(en); 
        	 } 
