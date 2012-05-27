@@ -882,6 +882,34 @@ ExpressionNode cmdexpression():
 )
 }
 
+ExpressionNode cmdexpression2():
+{
+    ExpressionValue ev;
+    ExpressionNode en;
+}
+{    
+ (
+ 	// equation like: 3x + 4 = 7
+ 	LOOKAHEAD (2147483647) 
+ 	ev = equation()
+ 	{ 
+ 		// TODO: remove
+ 		return new ExpressionNode(kernel, ev);  	
+ 	} 
+  |   
+    // expression 
+    en = expressionnode()              
+    {
+
+        
+        // since v3.0: commands have to take care of resolving the variables of 
+        // their arguments on their own, e.g. Sequence[ i^2, i , 1, 10 ]
+        // rhs.resolveVariables();  
+        return en;     
+    }
+)
+}
+
 /**
  * function = functionExpressionnode 
  */
@@ -1992,18 +2020,18 @@ ExpressionNode numberFunction():
       }
 |
 	(
-	  c = <FUNCTION_LABEL> en = cmdexpression()
+	  c = <FUNCTION_LABEL> en = cmdexpression2()
 		{   
             myList = new MyList(kernel, true);         
             myList.addListElement(en);
         }
-       ( <COMMA> en = cmdexpression()  
+       ( <COMMA> en = cmdexpression2()  
        	 {
        		myList.addListElement(en); 
        	 } 
         )*
     )
-	(")"|"]")
+	")"
 	// note: the last character of FUNCTION_LABEL is a "("
       { 
       		// remove the opening parenthesis
