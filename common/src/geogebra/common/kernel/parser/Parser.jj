@@ -212,6 +212,7 @@ public class Parser implements ParserInterface{
  	  switch(list.size()) 	  {
  	    case 1:return new ExpressionNode(kernel,list.getListElement(0),op,null);
  	    case 2:return new ExpressionNode(kernel,list.getListElement(0),op,list.getListElement(1));
+ 	    //for beta regularized
  	    case 3:return new ExpressionNode(kernel,new MyNumberPair(kernel,list.getListElement(0),
  	    list.getListElement(1)),op,list.getListElement(2));
  	    default:return null; 	  } 	}
