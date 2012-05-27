@@ -27,6 +27,7 @@ import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.kernelND.GeoAxisND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.optimization.ExtremumFinder;
+import geogebra.common.kernel.parser.cashandlers.ParserFunctions;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
 import geogebra.common.plugin.GeoClass;
@@ -1894,6 +1895,8 @@ public class Construction {
 	 * @return true iff label is not occupied by any GeoElement.
 	 */
 	private boolean isFreeLabel(String label, boolean includeCASvariables) {
+		if(!fileLoading && ParserFunctions.RESERVED_FUNCTION_NAMES.contains(label))
+			return false;
 		if (label == null) {
 			return false;
 		}
@@ -2696,6 +2699,17 @@ public class Construction {
 		if(it.hasNext())
 				return it.next();
 		return null;
+	}
+	private boolean fileLoading;
+	
+	/**
+	 * Let construction know about file being loaded.
+	 * When this is true, user defined objects called sin, cos, ...
+	 * are accepted 
+	 * @param b true if file is loading
+	 */
+	public void setFileLoading(boolean b) {
+		fileLoading = b;	
 	}
 
 	// update all indices >= pos

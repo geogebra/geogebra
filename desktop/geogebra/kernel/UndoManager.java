@@ -215,7 +215,9 @@ public class UndoManager extends AbstractUndoManager {
 	 */
 	@Override
 	public synchronized void processXML(String strXML) throws Exception {
+		construction.setFileLoading(true);
 		xmlio.processXMLString(strXML, true, false, false);
+		construction.setFileLoading(false);
 	}
 	
 	

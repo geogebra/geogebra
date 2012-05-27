@@ -64,7 +64,9 @@ public abstract class MyXMLio {
 	 * @throws Exception if XML is invalid or there was a problem while processing
 	 */
 	public void processXMLString(String xml, boolean clearConstruction, boolean isGgtFile) throws Exception {
+		cons.setFileLoading(true);
 		processXMLString(xml,clearConstruction,isGgtFile,true);
+		cons.setFileLoading(false);
 	}
 
 	/**
