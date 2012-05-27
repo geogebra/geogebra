@@ -60,6 +60,7 @@ import geogebra.common.main.MyParseError;
 import geogebra.common.util.Unicode;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.parser.cashandlers.CommandDispatcherMPReduce;
+import geogebra.common.kernel.parser.cashandlers.ParserFunctions;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.plugin.Operation;
 
