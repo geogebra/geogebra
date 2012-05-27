@@ -18,13 +18,17 @@ import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.MyBoolean;
 import geogebra.common.kernel.geos.GeoBoolean;
+import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoLine;
+import geogebra.common.kernel.prover.NoSymbolicParametersException;
+import geogebra.common.kernel.prover.Polynomial;
 
 /**
  *
  * @author  Markus
  * @version 
  */
-public class AlgoDependentBoolean extends AlgoElement {
+public class AlgoDependentBoolean extends AlgoElement implements SymbolicParametersBotanaAlgoAre {
 
     private ExpressionNode root;  // input
     private GeoBoolean bool;     // output              
@@ -90,4 +94,18 @@ public class AlgoDependentBoolean extends AlgoElement {
         // was defined as e.g.  c = a & b
         return root.toRealString(tpl);
     }
+
+	public Polynomial[][] getBotanaPolynomials()
+			throws NoSymbolicParametersException {
+		GeoElement left = (GeoElement) this.root.getLeft();
+		GeoElement right = (GeoElement) this.root.getRight();
+		
+		if (this.root.getOperation().toString().equals("PERPENDICULAR")) {
+			AlgoArePerpendicular algo = new AlgoArePerpendicular(cons, "", (GeoLine) left, (GeoLine) right);
+			Polynomial[][] ret = ((SymbolicParametersBotanaAlgoAre) algo).getBotanaPolynomials();
+			algo.remove();
+			return ret;
+		}
+		throw new NoSymbolicParametersException();
+	}
 }

@@ -47,7 +47,7 @@ public class AlgoArePerpendicular extends AlgoElement implements
 		compute();
 		outputBoolean.setLabel(label);
 	}
-
+	
 	@Override
 	public Algos getClassName() {
 		return Algos.AlgoArePerpendicular;
