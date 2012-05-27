@@ -2715,24 +2715,24 @@ public interface CommandConstants extends ConstantsWithLookup {
 	 String ArePerpendicular();
 
 	 @DefaultStringValue("[ <Line>, <Line> ]")
-	 String ArePerpendicularSyntax();
+	 String ArePerpendicular_Syntax();
 	 
 	 @DefaultStringValue("AreEqual")
 	 String AreEqual();
 	 
 	 @DefaultStringValue("[ <Object>, <Object> ]")
-	 String AreEqualSyntax();
+	 String AreEqual_Syntax();
 	 
 	 @DefaultStringValue("AreConcurrent")
 	 String AreConcurrent();
 	 
 	 @DefaultStringValue("[ <Line>, <Line>, <Line> ]")
-	 String AreConcurrentSyntax();
+	 String AreConcurrent_Syntax();
 	 
 	 @DefaultStringValue("SetTrace")
 	 String SetTrace();
 	 
 	 @DefaultStringValue("[ <Object>, <true | false> ]")
-	 String SetTraceSyntax();
+	 String SetTrace_Syntax();
 	 
 }
