@@ -22,6 +22,7 @@ import geogebra.common.kernel.RegionParameters;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.VarString;
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.algos.AlgoFunctionFreehand;
 import geogebra.common.kernel.algos.AlgoMacroInterface;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
@@ -2044,6 +2045,10 @@ public class GeoFunction extends GeoElement implements VarString,
 	 */
 	public boolean isInequality() {
 		return (isInequality != null && isInequality) ? true : false;
+	}
+
+	public boolean isFreehandFunction() {
+		return getParentAlgorithm() instanceof AlgoFunctionFreehand;
 	}
 
 }

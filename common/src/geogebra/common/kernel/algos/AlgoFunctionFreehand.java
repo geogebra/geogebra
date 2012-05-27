@@ -98,4 +98,8 @@ public class AlgoFunctionFreehand extends AlgoElement {
         		kernel.format(((GeoNumeric)inputList.get(1)).getDouble(),tpl));
     }
 
+	public GeoList getList() {
+		return inputList;	
+	}
+
 }

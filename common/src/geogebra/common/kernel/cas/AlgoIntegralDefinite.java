@@ -16,14 +16,17 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoDrawInformation;
+import geogebra.common.kernel.algos.AlgoFunctionFreehand;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
+import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.roots.RealRootAdapter;
 import geogebra.common.kernel.roots.RealRootFunction;
+import geogebra.common.main.AbstractApplication;
 
 import org.apache.commons.math.ConvergenceException;
 import org.apache.commons.math.FunctionEvaluationException;
@@ -89,7 +92,7 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo implements
 		// don't use symbolic integral for conditional functions
 		// or if it should not be evaluated (i.e. a shade-only integral)
 		if ((evaluate == null || evaluate.getBoolean())
-				&& !f.isGeoFunctionConditional() && !evaluateNumerically) {
+				&& !f.isGeoFunctionConditional() && !f.isFreehandFunction() && !evaluateNumerically) {
 			AlgoIntegral algoInt = new AlgoIntegral(cons, f, null);
 			symbIntegral = (GeoFunction) algoInt.getResult();
 			cons.removeFromConstructionList(algoInt);
@@ -207,14 +210,105 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo implements
 		// numerical integration
 		// max_error = ACCURACY; // current maximum error
 		// maxstep = 0;
-
-		double integral = numericIntegration(f, lowerLimit, upperLimit);
-		n.setValue(integral);
-
+		
+		if (f.isFreehandFunction()) {
+			n.setValue(freehandIntegration(f, lowerLimit, upperLimit));
+			
+			//AbstractApplication.debug(n.getValue()+" "+numericIntegration(f, lowerLimit, upperLimit));
+			
+		} else {
+			n.setValue(numericIntegration(f, lowerLimit, upperLimit));
+			
+		}
 		/*
 		 * Application.debug("***\nsteps: " + maxstep);
 		 * Application.debug("max_error: " + max_error);
 		 */
+	}
+
+	private double freehandIntegration(GeoFunction f2, double lowerLimit,
+			double upperLimit) {
+		
+		int multiplier = 1;
+		
+		if (lowerLimit > upperLimit) {
+			// swap a and b
+			double temp = lowerLimit;
+			lowerLimit = upperLimit;
+			upperLimit = temp;
+			multiplier = -1;
+		}
+
+		//AbstractApplication.debug("1");
+
+		AlgoFunctionFreehand algo = (AlgoFunctionFreehand) f2.getParentAlgorithm();
+		
+		GeoList list = algo.getList();
+		
+		double a1 = ((NumberValue)list.get(0)).getDouble();
+		double b1 = ((NumberValue)list.get(1)).getDouble();
+		
+		if (lowerLimit < a1 || upperLimit > b1) {
+			return Double.NaN;
+		}
+		
+		double n = list.size() - 2;
+		
+		double step = (b1 - a1) / (n - 1);
+		
+		int startGap = (int) Math.ceil((lowerLimit - a1) / step);
+		int endGap = (int) Math.ceil((b1 - upperLimit) / step);
+		
+		double startx = a1 + step * startGap;
+		double endx = b1 - step * endGap;
+		
+		//int noOfSteps = (int) ((b - step * end - (a + step * start) )/step);
+		//int noOfSteps = (int) ((b - step * end - a - step * start) )/step)
+		// should be an integer, add Math.round in case of rounding error
+		int noOfSteps = (int) Math.round((b1 - a1) / step - endGap - startGap) + 1;
+		
+		double area = 0;
+		double sum = 0;
+		//AbstractApplication.debug("noOfSteps = "+noOfSteps);
+		//AbstractApplication.debug("step = "+step);
+		//AbstractApplication.debug("startx = "+startx);
+		//AbstractApplication.debug("endx = "+endx);
+		//AbstractApplication.debug("start = "+startGap);
+		//AbstractApplication.debug("end = "+endGap);
+		// trapezoidal rule
+		if (noOfSteps > 0) {
+			
+			
+				for (int i = 0 ; i < noOfSteps ; i++) {
+					// y-coordinate
+					double y = ((NumberValue)list.get(2 + i + startGap)).getDouble();
+					if (i == 0 || (i == noOfSteps - 1)) {
+						sum += y;
+					} else {
+						sum += 2*y;
+					}
+				}
+			// now add the extra bits at the start and end
+			
+			area = sum * step / 2.0;
+
+			if (!Kernel.isZero(startx - lowerLimit)) {
+				// h (a+b) /2
+				area += (startx - lowerLimit) * (f.evaluate(startx) + f.evaluate(lowerLimit)) / 2.0;
+			}
+		
+			if (!Kernel.isZero(endx - upperLimit)) {
+				// h (a+b) /2
+				area += (upperLimit - endx) * (f.evaluate(endx) + f.evaluate(upperLimit)) / 2.0;
+			}
+		} else {
+			// just a trapezium from lowerLimit to upperLimit
+			
+			area = (upperLimit - lowerLimit) * (f.evaluate(lowerLimit) + f.evaluate(upperLimit)) / 2.0;
+		}
+	
+		return Kernel.checkDecimalFraction(area) * multiplier;
+	
 	}
 
 	// private int maxstep;
