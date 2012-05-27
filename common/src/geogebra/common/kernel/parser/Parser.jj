@@ -390,22 +390,11 @@ TOKEN: {
 |	< Z_FUNC:  ("z" | "zcoord")  + ("("|"[")>
 |	< MAT_FUNC:  "mat("  > // may be returned by MPReduce
 |	< FREEHAND_FUNC: ( "freehand" )+ ("("|"[") > 
-|	< COSN_FUNC: ( "cos" | "Cos" ) ( < POWERN > ) + ("("|"[") > 
-|	< SINN_FUNC: ( "sin" | "Sin" ) ( < POWERN > ) + ("("|"[") > 
-|	< TANN_FUNC: ( "tan" | "Tan" ) (< POWERN > ) + ("("|"[") >  
-|	< CSCN_FUNC: ( "csc" | "Csc" | "cosec" | "Cosec") (< POWERN > ) + ("("|"[")> 
-|	< SECN_FUNC: ( "sec" | "Sec" ) (< POWERN > ) + ("("|"[") >  
-|	< COTN_FUNC: ( "cot" | "Cot" ) (< POWERN > ) + ("("|"[") >   
-|	< CSCHN_FUNC: ( "csch" | "Csch" | "cosech" | "Cosech") (< POWERN > ) + ("("|"[") > 
-|	< SECHN_FUNC: ( "sech" | "Sech" ) (< POWERN > ) + ("("|"[") > 
-|	< COTHN_FUNC: ( "coth" | "Coth" ) (< POWERN > ) + ("("|"[") > 
-|	< COSHN_FUNC: ( "cosh" | "Cosh" ) (< POWERN > ) + ("("|"[") > 
-|	< SINHN_FUNC: ( "sinh" | "Sinh" ) (< POWERN > ) + ("("|"[") > 
-|	< TANHN_FUNC: ( "tanh" | "Tanh" ) (< POWERN > ) + ("("|"[") > 
 |	< RANDOM_FUNC:  "random()"  >
 |   < MP_POLARTOPOINT: "polartopoint\u00a7(" > // may be returned by MPreduce
 |  	< SQRT_SHORT: "\u221a" > 
 | 	< FUNCTION_LABEL: (<SPREADSHEET_LABEL> | <LABEL> ) ("("|"[") >
+| 	< FUNCTION_POWER_LABEL: (<SPREADSHEET_LABEL> | <LABEL> ) (< POWERN > )("("|"[") >
 }
 
  TOKEN : {
@@ -1983,7 +1972,15 @@ ExpressionNode numberFunction():
 				return new ExpressionNode(kernel, en, Operation.ZCOORD, null);
 	         }
       	}
-      }   
+      }
+| 
+	    ( c = <FUNCTION_POWER_LABEL> ) en = expressionOrEquation() (")"|"]") 
+	 	      {
+	 	        int pos = Math.max(c.image.indexOf("("),c.image.indexOf("["));
+	 	        AbstractApplication.debug(c.image.substring(0,pos-1));
+	 	        Operation trigOp = ParserFunctions.get(c.image.substring(0,pos-1),1);
+	 	        return kernel.handleTrigPower(c.image, en, trigOp);
+	 	        }          
 |
      <FREEHAND_FUNC> en = expressionOrEquation() (")"|"]")
       { return new ExpressionNode(kernel, en, Operation.FREEHAND, null); }   
