@@ -106,6 +106,19 @@ public class AlgoDependentBoolean extends AlgoElement implements SymbolicParamet
 			algo.remove();
 			return ret;
 		}
+		if (this.root.getOperation().toString().equals("PARALLEL")) {
+			AlgoAreParallel algo = new AlgoAreParallel(cons, "", (GeoLine) left, (GeoLine) right);
+			Polynomial[][] ret = ((SymbolicParametersBotanaAlgoAre) algo).getBotanaPolynomials();
+			algo.remove();
+			return ret;
+		}
+		if (this.root.getOperation().toString().equals("EQUAL_BOOLEAN")) {
+			AlgoAreEqual algo = new AlgoAreEqual(cons, "", left, right);
+			Polynomial[][] ret = ((SymbolicParametersBotanaAlgoAre) algo).getBotanaPolynomials();
+			algo.remove();
+			return ret;
+		}
+
 		throw new NoSymbolicParametersException();
 	}
 }

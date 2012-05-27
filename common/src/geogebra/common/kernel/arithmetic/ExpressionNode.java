@@ -1953,7 +1953,7 @@ public class ExpressionNode extends ValidExpression implements
 
 		case PARALLEL:
 			if (STRING_TYPE.equals(StringType.OGP)) {
-				sb.append("IsParallel[" + leftStr + "," + rightStr + "]");
+				sb.append("AreParallel[" + leftStr + "," + rightStr + "]");
 				break;
 			}
 			append(sb, leftStr, left, operation, STRING_TYPE);
@@ -1977,7 +1977,7 @@ public class ExpressionNode extends ValidExpression implements
 
 		case PERPENDICULAR:
 			if (STRING_TYPE.equals(StringType.OGP)) {
-				sb.append("IsPerpendicular[" + leftStr + "," + rightStr + "]");
+				sb.append("ArePerpendicular[" + leftStr + "," + rightStr + "]");
 				break;
 			}
 			append(sb, leftStr, left, operation, STRING_TYPE);

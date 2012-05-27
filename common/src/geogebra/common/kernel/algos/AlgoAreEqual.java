@@ -22,14 +22,14 @@ import java.util.HashSet;
  * 
  */
 public class AlgoAreEqual extends AlgoElement implements
-		SymbolicParametersAlgo {
+		SymbolicParametersAlgo, SymbolicParametersBotanaAlgoAre {
 
 	private GeoElement inputElement1; // input
 	private GeoElement inputElement2; // input
 
 	private GeoBoolean outputBoolean; // output
 	private Polynomial[] polynomials;
-	private Polynomial[] botanaPolynomials;
+	private Polynomial[][] botanaPolynomials;
 
 	/**
 	 * Tests if two objects are equal
@@ -157,14 +157,28 @@ public class AlgoAreEqual extends AlgoElement implements
 		throw new NoSymbolicParametersException();
 	}
 
-	public Variable[] getBotanaVars() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public Polynomial[] getBotanaPolynomials()
+	public Polynomial[][] getBotanaPolynomials()
 			throws NoSymbolicParametersException {
-		// TODO Auto-generated method stub
-		return null;
+		if (botanaPolynomials != null) {
+			return botanaPolynomials;
+		}
+
+		if (inputElement1 instanceof GeoPoint2 && inputElement2 instanceof GeoPoint2) {
+			botanaPolynomials = new Polynomial[2][1];
+
+			Variable[] v1 = new Variable[2];
+			Variable[] v2 = new Variable[2];
+			v1 = ((GeoPoint2) inputElement1).getBotanaVars(); // A=(x1,y1)
+			v2 = ((GeoPoint2) inputElement2).getBotanaVars(); // B=(x2,y2)
+
+			// We want to prove: 1) x1-x2==0, 2) y1-y2==0
+			botanaPolynomials[0][0] = new Polynomial(v1[0]).subtract(new Polynomial(v2[0])); 
+			botanaPolynomials[1][0] = new Polynomial(v1[1]).subtract(new Polynomial(v2[1])); 
+			return botanaPolynomials;
+		}
+		
+		// TODO: Implement lines, and maybe segments, also circles etc.
+		
+		throw new NoSymbolicParametersException();
 	}
 }

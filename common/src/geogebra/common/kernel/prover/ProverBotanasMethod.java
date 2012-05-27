@@ -123,7 +123,7 @@ public class ProverBotanasMethod {
 		int retSize = 0;
 		if (setSize >= 2)
 			retSize = 4;
-		if (retSize == 1)
+		if (setSize == 1)
 			retSize = 2;
 		Polynomial[] ret = new Polynomial[retSize];
 		Iterator<GeoElement> it = freePoints.iterator();
