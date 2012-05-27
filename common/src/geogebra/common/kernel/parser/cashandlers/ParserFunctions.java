@@ -29,8 +29,10 @@ public static final Set<String> RESERVED_FUNCTION_NAMES = new TreeSet<String>();
  */
 public static final Set<String> RESERVED_FUNCTION_LOWERCASE = new TreeSet<String>();
 
+private static final int MAX_ARGS = 3;
+
 static {
-	for(int i=0;i<4;i++)
+	for(int i = 0; i <= MAX_ARGS; i++)
 		stringToOp.add(new TreeMap<String,Operation>());
 	put(1,"sin", Operation.SIN);
 	put(1,"Sin", Operation.SIN);
@@ -176,11 +178,18 @@ static {
 	put(1,"ceil", Operation.CEIL);
 	put(1,"Ceil", Operation.CEIL);
 	
+	put(1,"round", Operation.ROUND);
+	put(1,"Round", Operation.ROUND);
+	
 	put(1,"conjugate", Operation.CONJUGATE);
 	put(1,"Conjugate", Operation.CONJUGATE);
 	
 	put(1,"arg", Operation.ARG);
 	put(1,"Arg", Operation.ARG);
+	
+	put(0,"random", Operation.RANDOM);
+	put(1,"x", Operation.XCOORD);
+	put(1,"y", Operation.YCOORD);
 	
 }
 /**
@@ -192,6 +201,8 @@ public static Operation get(String s,int size){
 	return stringToOp.get(size).get(s);
 }
 private static void put(int size, String name, Operation op) {
+	if(size>MAX_ARGS)
+		return;
 	RESERVED_FUNCTION_NAMES.add(name);
 	RESERVED_FUNCTION_LOWERCASE.add(StringUtil.toLowerCase(name));
 	stringToOp.get(size).put(name,op);

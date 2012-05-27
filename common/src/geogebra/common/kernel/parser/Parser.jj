@@ -387,7 +387,7 @@ TOKEN: {
 |	< RANDOM_FUNC:  "random()"  >
 |   < MP_POLARTOPOINT: "polartopoint\u00a7(" > // may be returned by MPreduce
 |  	< SQRT_SHORT: "\u221a" > 
-| 	< FUNCTION_LABEL: (<SPREADSHEET_LABEL> | <LABEL> ) "(" >
+| 	< FUNCTION_LABEL: (<SPREADSHEET_LABEL> | <LABEL> ) ("("|"[") >
 }
 
  TOKEN : {
@@ -691,21 +691,12 @@ ValidExpression command():
 }
 {   
 	(
-	    (t = <SPREADSHEET_LABEL> | t = <LABEL>)
-	    { // don't allow evaluation for type check when parsing from external CAS
-	      c = new Command(kernel, t.image, true, !ExternalCASParsing );    } 
-	    ("[" 
-	       ( en = cmdexpression()  { c.addArgument( en ); } )?
-	        ( <COMMA> en = cmdexpression() { c.addArgument( en ); } )*
-	    "]") 
-	    { return c; }	 
-    |
-     	(t = <FUNCTION_LABEL>) // includes (
+	    (t = <FUNCTION_LABEL>) // includes (
 	    { cmdName = t.image.substring(0,t.image.length()-1);
 	      c = new Command(kernel, cmdName, true, !ExternalCASParsing );    } 
 	    (   ( en = cmdexpression()  { c.addArgument( en ); } )?
 	        ( <COMMA> en = cmdexpression() { c.addArgument( en ); } )*
-	    ")" )
+	    (")"|"]") )
 	    { if(MPReduceParsing)	    {
 	      ExpressionNode res = CommandDispatcherMPReduce.processCommand(cmdName,c);
 	      if(res!=null)
@@ -2012,7 +2003,7 @@ ExpressionNode numberFunction():
        	 } 
         )*
     )
-	")"
+	(")"|"]")
 	// note: the last character of FUNCTION_LABEL is a "("
       { 
       		// remove the opening parenthesis
