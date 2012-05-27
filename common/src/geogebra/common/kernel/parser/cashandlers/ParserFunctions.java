@@ -198,13 +198,15 @@ static {
  * @return operation
  */
 public static Operation get(String s,int size){
+	if(size>MAX_ARGS)
+		return null;
 	return stringToOp.get(size).get(s);
 }
 private static void put(int size, String name, Operation op) {
-	if(size>MAX_ARGS)
-		return;
 	RESERVED_FUNCTION_NAMES.add(name);
 	RESERVED_FUNCTION_LOWERCASE.add(StringUtil.toLowerCase(name));
+	if(size>MAX_ARGS)
+		return;
 	stringToOp.get(size).put(name,op);
 	
 }
