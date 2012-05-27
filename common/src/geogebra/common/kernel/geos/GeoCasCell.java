@@ -17,6 +17,7 @@ import geogebra.common.kernel.arithmetic.Traversing.ArbconstReplacer;
 import geogebra.common.kernel.arithmetic.Traversing.CommandCollector;
 import geogebra.common.kernel.arithmetic.Traversing.GeoDummyReplacer;
 import geogebra.common.kernel.arithmetic.ValidExpression;
+import geogebra.common.kernel.parser.cashandlers.ParserFunctions;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.util.StringUtil;
@@ -1346,7 +1347,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 		if(!includesOnlyDefinedVariables(true))
 			return;
 		// check that assignment variable is not a reserved name in GeoGebra
-		if (ExpressionNodeConstants.RESERVED_FUNCTION_NAMES
+		if (ParserFunctions.RESERVED_FUNCTION_LOWERCASE
 				.contains(assignmentVar))
 			return;
 

@@ -1,8 +1,5 @@
 package geogebra.common.kernel.arithmetic;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
 /**
  * String constants + String types
  */
@@ -72,18 +69,4 @@ public interface ExpressionNodeConstants {
 	/** set difference */
 	public static final String strSET_DIFFERENCE = "\\";
 
-	/**
-	 * Names that cannot be used for elements because of collision with predefined functions
-	 * these should also be documented here:
-	 * http://wiki.geogebra.org/en/Manual:Naming_Objects
-	 */
-	public static final Set<String> RESERVED_FUNCTION_NAMES = new HashSet<String>(
-			Arrays.asList("x", "y", "abs", "sgn", "sqrt", "exp", "log", "ln",
-					"ld", "lg", "cos", "sin", "tan", "acos", "arcos", "arccos",
-					"asin", "arcsin", "atan", "arctan", "cosh", "sinh", "tanh",
-					"acosh", "arcosh", "arccosh", "asinh", "arcsinh", "atanh",
-					"arctanh", "atan2", "erf", "psi", "freehand", "floor",
-					"ceil", "round", "random", "conjugate", "arg", "gamma",
-					"gammaRegularized", "beta", "betaRegularized", "sec",
-					"csc", "cosec", "cot", "sech", "csch", "coth"));
 }

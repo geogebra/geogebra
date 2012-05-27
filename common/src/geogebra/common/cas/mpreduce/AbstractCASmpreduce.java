@@ -15,6 +15,7 @@ import geogebra.common.kernel.arithmetic.Traversing.ArbconstReplacer;
 import geogebra.common.kernel.arithmetic.Traversing.PowerRootReplacer;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.parser.cashandlers.ParserFunctions;
 import geogebra.common.main.AbstractApplication;
 
 import java.util.Map;
@@ -43,7 +44,7 @@ public abstract class AbstractCASmpreduce extends CASgeneric {
 	 * lower-letter, / however the following function-names should not be
 	 * escaped / (note: all functions here must be in lowercase!)
 	 */
-	final protected Set<String> predefinedFunctions = ExpressionNodeConstants.RESERVED_FUNCTION_NAMES;
+	final protected Set<String> predefinedFunctions = ParserFunctions.RESERVED_FUNCTION_LOWERCASE;
 	private static Evaluate mpreduce;
 
 	/**
