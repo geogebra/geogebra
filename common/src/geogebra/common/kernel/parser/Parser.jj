@@ -207,6 +207,14 @@ public class Parser implements ParserInterface{
 			en.setOperation(Operation.MULTIPLY);
 		undecided.clear();	  
  	}
+
+ 	private ExpressionNode buildOpNode(Operation op,MyList list){
+ 	  switch(list.size()) 	  {
+ 	    case 1:return new ExpressionNode(kernel,list.getListElement(0),op,null);
+ 	    case 2:return new ExpressionNode(kernel,list.getListElement(0),op,list.getListElement(1));
+ 	    case 3:return new ExpressionNode(kernel,new MyNumberPair(kernel,list.getListElement(0),
+ 	    list.getListElement(1)),op,list.getListElement(2));
+ 	    default:return null; 	  } 	}
 }
 PARSER_END(Parser)
 
@@ -362,65 +370,18 @@ TOKEN: {
 |	< Z_FUNC:  ("z" | "zcoord")  + ("("|"[")>
 |	< MAT_FUNC:  "mat("  > // may be returned by MPReduce
 |	< FREEHAND_FUNC: ( "freehand" )+ ("("|"[") > 
-|	< COS_FUNC: ( "cos" | "Cos" ) + ("("|"[")> 
 |	< COSN_FUNC: ( "cos" | "Cos" ) ( < POWERN > ) + ("("|"[") > 
-|	< SIN_FUNC: ( "sin" | "Sin" )+ ("("|"[")> 
 |	< SINN_FUNC: ( "sin" | "Sin" ) ( < POWERN > ) + ("("|"[") > 
-|	< TAN_FUNC: ( "tan" | "Tan" ) + ("("|"[")> 
-|	< TANN_FUNC: ( "tan" | "Tan" ) (< POWERN > ) + ("("|"[") > 
-|	< CSC_FUNC: ( "csc" | "Csc" | "cosec" | "Cosec") > 
+|	< TANN_FUNC: ( "tan" | "Tan" ) (< POWERN > ) + ("("|"[") >  
 |	< CSCN_FUNC: ( "csc" | "Csc" | "cosec" | "Cosec") (< POWERN > ) + ("("|"[")> 
-|	< SEC_FUNC: ( "sec" | "Sec" ) + ("("|"[")> 
 |	< SECN_FUNC: ( "sec" | "Sec" ) (< POWERN > ) + ("("|"[") >  
-|	< COT_FUNC: ( "cot" | "Cot" ) + ("("|"[")> 
-|	< COTN_FUNC: ( "cot" | "Cot" ) (< POWERN > ) + ("("|"[") >  
-|	< CSCH_FUNC: ( "csch" | "Csch" | "cosech" | "Cosech") + ("("|"[")> 
+|	< COTN_FUNC: ( "cot" | "Cot" ) (< POWERN > ) + ("("|"[") >   
 |	< CSCHN_FUNC: ( "csch" | "Csch" | "cosech" | "Cosech") (< POWERN > ) + ("("|"[") > 
-|	< SECH_FUNC: ( "sech" | "Sech" ) + ("("|"[")> 
 |	< SECHN_FUNC: ( "sech" | "Sech" ) (< POWERN > ) + ("("|"[") > 
-|	< COTH_FUNC: ( "coth" | "Coth" ) + ("("|"[")> 
 |	< COTHN_FUNC: ( "coth" | "Coth" ) (< POWERN > ) + ("("|"[") > 
-|	< ACOS_FUNC: ( "acos" | "arccos"| "arcos" | "ArcCos" )+ ("("|"[")> 
-|	< ASIN_FUNC: ( "asin" | "arcsin" | "ArcSin" )+ ("("|"[") > 
-|	< ATAN_FUNC: ( "atan" | "arctan" | "ArcTan") + ("("|"[")> 
-|	< ATAN2_FUNC: ( "atan2" | "arctan2" | "ArcTan2" | "myatan2"  )+ ("("|"[")> 
-|	< ERF_FUNC: ( "erf" )+ ("("|"[")> 
-|	< PSI_FUNC: ( "psi" )+ ("("|"[")> // digamma function (returned by mpreduce)
-|	< POLYGAMMA_FUNC: ( "polygamma" )+ ("("|"[")> // polygamma function (returned by mpreduce)
-|	< COSH_FUNC: ( "cosh" | "Cosh" ) + ("("|"[")> 
 |	< COSHN_FUNC: ( "cosh" | "Cosh" ) (< POWERN > ) + ("("|"[") > 
-|	< SINH_FUNC: ( "sinh" | "Sinh" ) + ("("|"[")> 
 |	< SINHN_FUNC: ( "sinh" | "Sinh" ) (< POWERN > ) + ("("|"[") > 
-|	< TANH_FUNC: ( "tanh" | "Tanh" )+ ("("|"[") > 
 |	< TANHN_FUNC: ( "tanh" | "Tanh" ) (< POWERN > ) + ("("|"[") > 
-|	< ACOSH_FUNC: ( "acosh" | "arccosh" | "arcosh" | "ArcCosh" ) + ("("|"[")> 
-|	< ASINH_FUNC: ( "asinh" | "arcsinh" | "ArcSinh" )+ ("("|"[") > 
-|	< ATANH_FUNC: ( "atanh" | "arctanh" | "ArcTanh" )+ ("("|"[") > 
-|	< EXP_FUNC: ( "exp" | "Exp" )+ ("("|"[") > 
-|	< LOG_FUNC: ( "log" | "ln" | "Ln" )+ ("("|"[") >
-|	< LD_FUNC:   ("ld" | "log2")+ ("("|"[") > 
-|	< LG_FUNC:    ("lg" | "log10")+ ("("|"[") > 
-|	< BETA_FUNC:  ( "beta" | "Beta" )+ ("("|"[") > 
-|	< BETA_REGULARIZED_FUNC:  ( "betaRegularized" | "ibeta" ) + ("("|"[")> 
-|	< GAMMA_FUNC: ( "gamma(" | "igamma(" | "Gamma(" )> 
-|	< GAMMA_REGULARIZED_FUNC:  ("gammaRegularized") + ("("|"[")>
-|	< CI_FUNC:  ("cosIntegral"| "CosIntegral") + ("("|"[")>
-|	< SI_FUNC:  ("sinIntegral" | "SinIntegral") + ("("|"[")>
-|	< EI_FUNC:  ("expIntegral" | "ExpIntegral")+ ("("|"[") >
-|	< INTEGRAL_FUNC:  "gGbInTeGrAl(" >
-|	< SUBSTITUTION_FUNC:  "gGbSuBsTiTuTiOn(" >
-|	< ARBINT_FUNC:  "arbint("  >
-|	< ARBCOMPLEX_FUNC:  "arbcomplex(" >
-|	< ARBCONST_FUNC:  "arbconst(" >    
-|	< SQRT_FUNC: ( "sqrt" | "Sqrt" )+ ("("|"[") > 
-|	< CBRT_FUNC:  ( "cbrt") + ("("|"[") > 
-|	< ABS_FUNC:  ( "abs" | "Abs" ) + ("("|"[")> 
-|	< SGN_FUNC:  ( "sgn" | "sign" | "Sign" ) + ("("|"[")> 
-|	< FLOOR_FUNC: ( "floor" | "Floor" ) + ("("|"[")> 
-|	< CEIL_FUNC:  ( "ceil" | "Ceil" ) + ("("|"[")> 
-|	< CONJUGATE_FUNC:  ( "conjugate" | "Conjugate" ) + ("("|"[")> 
-|	< ARG_FUNC:  ( "arg" | "Arg" ) + ("("|"[")> 
-|	< ROUND_FUNC: ( "round" | "Round" ) + ("("|"[")> 
 |	< RANDOM_FUNC:  "random()"  >
 |   < MP_POLARTOPOINT: "polartopoint\u00a7(" > // may be returned by MPreduce
 |  	< SQRT_SHORT: "\u221a" > 
@@ -2028,218 +1989,7 @@ ExpressionNode numberFunction():
 |
      <FREEHAND_FUNC> en = expressionOrEquation() (")"|"]")
       { return new ExpressionNode(kernel, en, Operation.FREEHAND, null); }   
-|
-     <COS_FUNC> en = expressionOrEquation() (")"|"]")
-      { return new ExpressionNode(kernel, en, Operation.COS, null); }   
-|
-    ( c = <COSN_FUNC> ) en = expressionOrEquation() (")"|"]")
-      { return kernel.handleTrigPower(c.image, en, Operation.COS); }  
-|
-    <SIN_FUNC> en = expressionOrEquation() (")"|"]")
-      { return new ExpressionNode(kernel, en, Operation.SIN, null); }   
-|
-    ( c = <SINN_FUNC> ) en = expressionOrEquation() (")"|"]")
-      { return kernel.handleTrigPower(c.image, en, Operation.SIN); }  
-|
-    <TAN_FUNC> en = expressionOrEquation() (")"|"]")
-      { return new ExpressionNode(kernel, en, Operation.TAN, null); }  
-|
-    ( c = <TANN_FUNC> ) en = expressionOrEquation() (")"|"]")
-      { return kernel.handleTrigPower(c.image, en, Operation.TAN); }  
-|
-    <CSC_FUNC> en = expressionOrEquation() (")"|"]")
-      { return new ExpressionNode(kernel, en, Operation.CSC, null); }   
-|
-    ( c = <CSCN_FUNC> ) en = expressionOrEquation() (")"|"]")
-      { return kernel.handleTrigPower(c.image, en, Operation.CSC); }  
-|
-    <SEC_FUNC> en = expressionOrEquation() (")"|"]")
-      { return new ExpressionNode(kernel, en, Operation.SEC, null); }  
-|
-    ( c = <SECN_FUNC> ) en = expressionOrEquation() (")"|"]")
-      { return kernel.handleTrigPower(c.image, en, Operation.SEC); }  
-|
-    <COT_FUNC> en = expressionOrEquation() (")"|"]")
-      { return new ExpressionNode(kernel, en, Operation.COT, null); }  
-|
-    ( c = <COTN_FUNC> ) en = expressionOrEquation() (")"|"]")
-      { return kernel.handleTrigPower(c.image, en, Operation.COT); }  
-|
-    <CSCH_FUNC> en = expressionOrEquation() (")"|"]")
-      { return new ExpressionNode(kernel, en, Operation.CSCH, null); }   
-|
-    ( c = <CSCHN_FUNC> ) en = expressionOrEquation() (")"|"]")
-      { return kernel.handleTrigPower(c.image, en, Operation.CSCH); }  
-|
-    <SECH_FUNC> en = expressionOrEquation() (")"|"]")
-      { return new ExpressionNode(kernel, en, Operation.SECH, null); }  
-|
-    ( c = <SECHN_FUNC> ) en = expressionOrEquation() (")"|"]")
-      { return kernel.handleTrigPower(c.image, en, Operation.SECH); }  
-|
-    <COTH_FUNC> en = expressionOrEquation() (")"|"]")
-      { return new ExpressionNode(kernel, en, Operation.COTH, null); }  
-|
-    ( c = <COTHN_FUNC> ) en = expressionOrEquation() (")"|"]")
-      { return kernel.handleTrigPower(c.image, en, Operation.COTH); }  
-|
-    <ACOS_FUNC> en = expressionOrEquation() (")"|"]")
-      { return new ExpressionNode(kernel, en, Operation.ARCCOS, null); }   
-|
-    <ASIN_FUNC> en = expressionOrEquation() (")"|"]")
-      { return new ExpressionNode(kernel, en, Operation.ARCSIN, null); }  
-|
-    <ATAN_FUNC> en = expressionOrEquation() (")"|"]")
-      { return new ExpressionNode(kernel, en, Operation.ARCTAN, null); }  
-|
-    <ATAN2_FUNC> ( en = expressionOrEquation() ) < COMMA > ( en2 = expressionOrEquation() ) (")"|"]")
-      { return new ExpressionNode(kernel, en, Operation.ARCTAN2, en2); }  
-|
-    <ERF_FUNC> en = expressionOrEquation() (")"|"]")
-      { return new ExpressionNode(kernel, en, Operation.ERF, null ); }  
-|
-    <PSI_FUNC> en = expressionOrEquation() (")"|"]")
-      { return new ExpressionNode(kernel, en, Operation.PSI, null ); }  
-|
-    <COSH_FUNC> en = expressionOrEquation() (")"|"]")
-      { return new ExpressionNode(kernel, en, Operation.COSH, null); }   
-|
-    ( c = <COSHN_FUNC> ) en = expressionOrEquation() (")"|"]")
-      { return kernel.handleTrigPower(c.image, en, Operation.COSH); }  
-|
-    <SINH_FUNC> en = expressionOrEquation() (")"|"]")
-      { return new ExpressionNode(kernel, en, Operation.SINH, null); }  
-|
-    ( c = <SINHN_FUNC> ) en = expressionOrEquation() (")"|"]")
-      { return kernel.handleTrigPower(c.image, en, Operation.SINH); }  
-|
-    <TANH_FUNC> en = expressionOrEquation() (")"|"]")
-      { return new ExpressionNode(kernel, en, Operation.TANH, null); }  
-|
-    ( c = <TANHN_FUNC> ) en = expressionOrEquation() (")"|"]")
-      { return kernel.handleTrigPower(c.image, en, Operation.TANH); }  
-|
-    <ACOSH_FUNC> en = expressionOrEquation() (")"|"]")
-      { return new ExpressionNode(kernel, en, Operation.ACOSH, null); }   
-|
-    <ASINH_FUNC> en = expressionOrEquation() (")"|"]")
-      { return new ExpressionNode(kernel, en, Operation.ASINH, null); }  
-|
-    <ATANH_FUNC> en = expressionOrEquation() (")"|"]")
-      { return new ExpressionNode(kernel, en, Operation.ATANH, null); }  
-|
-    <EXP_FUNC> en = expressionOrEquation() (")"|"]")
-      { return new ExpressionNode(kernel, en, Operation.EXP, null); }
-|
-    <CI_FUNC> en = expressionOrEquation() (")"|"]")
-      { return new ExpressionNode(kernel, en, Operation.CI, null); }
-|
-    <SI_FUNC> en = expressionOrEquation() (")"|"]")
-      { return new ExpressionNode(kernel, en, Operation.SI, null); }
-| 
-    <EI_FUNC> en = expressionOrEquation() (")"|"]")
-      { return new ExpressionNode(kernel, en, Operation.EI, null); }
-| 
-    <ARBCOMPLEX_FUNC> en = expressionOrEquation() ")"
-      { return new ExpressionNode(kernel, en, Operation.ARBCOMPLEX, null); }
-| 
-    <ARBCONST_FUNC> en = expressionOrEquation() ")"
-      { return new ExpressionNode(kernel, en, Operation.ARBCONST, null); }
-| 
-    <ARBINT_FUNC> en = expressionOrEquation() ")"
-      { return new ExpressionNode(kernel, en, Operation.ARBINT, null); }
-|
-	LOOKAHEAD (2147483647)
-    <LOG_FUNC> ( en = expressionOrEquation() ) < COMMA > ( en2 = expressionOrEquation() ) (")"|"]")
-      { return new ExpressionNode(kernel, en, Operation.LOGB, en2); }
-|
-	LOOKAHEAD (2147483647)
-    <POLYGAMMA_FUNC> ( en = expressionOrEquation() ) < COMMA > ( en2 = expressionOrEquation() ) (")"|"]")
-      { return new ExpressionNode(kernel, en, Operation.POLYGAMMA, en2); }
-|
-	LOOKAHEAD (2147483647)
-    <GAMMA_FUNC> ( en = expressionOrEquation() ) < COMMA > ( en2 = expressionOrEquation() ) ")"
-      { return new ExpressionNode(kernel, en, Operation.GAMMA_INCOMPLETE, en2); }
-|
-	// factorial(a) := gamma(a+1) in MPReduce, thus we need gamma(a+1) -> a!
-	LOOKAHEAD (2147483647)
-    <GAMMA_FUNC> ev = multterm() <PLUS> c = <FLOAT> (")"|"]")
-      {
-        if (c.image.equals("1")) {
-          // gamma(a+1) -> a!
-          return new ExpressionNode(kernel, ev, Operation.FACTORIAL, null);
-        }
-        else {
-          // gamma(a+c) unchanged
-          ExpressionNode plus = new ExpressionNode(kernel, ev, Operation.PLUS,
-          		new MyDouble(kernel, MyDouble.parseDouble( app, c.image )));
-          return new ExpressionNode(kernel, plus, Operation.GAMMA, null);
-        }
-      }  
-| 
-    <GAMMA_FUNC> en = expressionOrEquation() (")"|"]")
-      { return new ExpressionNode(kernel, en, Operation.GAMMA, null); }    
-|
-    <GAMMA_REGULARIZED_FUNC> ( en = expressionOrEquation() ) < COMMA > ( en2 = expressionOrEquation() ) (")"|"]")
-      { return new ExpressionNode(kernel, en, Operation.GAMMA_INCOMPLETE_REGULARIZED, en2); }
-|
-	LOOKAHEAD (2147483647)
-   <BETA_FUNC> ( en = expressionOrEquation() ) < COMMA > ( en2 = expressionOrEquation() ) (")"|"]")
-      { return new ExpressionNode(kernel, en, Operation.BETA, en2); }
-|
-    <BETA_FUNC> ( en = expressionOrEquation() ) < COMMA > ( en2 = expressionOrEquation() ) < COMMA > ( en3 = expressionOrEquation() ) (")"|"]")
-      { return new ExpressionNode(kernel, new MyNumberPair(kernel, en, en2), Operation.BETA_INCOMPLETE, en3); }
-|
-    <BETA_REGULARIZED_FUNC> ( en = expressionOrEquation() ) < COMMA > ( en2 = expressionOrEquation() ) < COMMA > ( en3 = expressionOrEquation() ) (")"|"]")
-      { return new ExpressionNode(kernel, new MyNumberPair(kernel, en, en2), Operation.BETA_INCOMPLETE_REGULARIZED, en3); }
-| 
-    <LOG_FUNC> en = expressionOrEquation() (")"|"]")
-      { return new ExpressionNode(kernel, en, Operation.LOG, null); }
-|
- 	<LG_FUNC> en = expressionOrEquation() (")"|"]")
-      { return new ExpressionNode(kernel, en, Operation.LOG10, null); }  
-|
- 	<LD_FUNC> en = expressionOrEquation() (")"|"]")
-      { return new ExpressionNode(kernel, en, Operation.LOG2, null); }  
-|
-    <SQRT_FUNC> en = expressionOrEquation() (")"|"]")
-      { return new ExpressionNode(kernel, en, Operation.SQRT, null); }  
-|
-    <CBRT_FUNC> en = expressionOrEquation() (")"|"]")
-      { return new ExpressionNode(kernel, en, Operation.CBRT, null); }  
-|
-    <ABS_FUNC> en = expressionOrEquation() (")"|"]")
-      { return new ExpressionNode(kernel, en, Operation.ABS, null); }     
-|
-    <SGN_FUNC> en = expressionOrEquation() (")"|"]")
-      { return new ExpressionNode(kernel, en, Operation.SGN, null); }
-|
-    <FLOOR_FUNC> en = expressionOrEquation() (")"|"]")
-      { return new ExpressionNode(kernel, en, Operation.FLOOR, null); }         
-|
-    <CEIL_FUNC> en = expressionOrEquation() (")"|"]")
-      { return new ExpressionNode(kernel, en, Operation.CEIL, null); }               
-| 
-    <CONJUGATE_FUNC> en = expressionOrEquation() (")"|"]")
-      { return new ExpressionNode(kernel, en, Operation.CONJUGATE, null); }               
-| 
-    <ARG_FUNC> en = expressionOrEquation() (")"|"]")
-      { return new ExpressionNode(kernel, en, Operation.ARG, null); }               
-| 
-    <ROUND_FUNC> en = expressionOrEquation() (")"|"]")
-      { return new ExpressionNode(kernel, en, Operation.ROUND, null); }
-|
-    <INTEGRAL_FUNC> ( en = expressionOrEquation()) < COMMA > ( en2 = expressionOrEquation() ) (")"|"]")
-      {
-        
-        return new ExpressionNode(kernel, en, Operation.INTEGRAL,  en2); }
-|
-    <SUBSTITUTION_FUNC> ( en = expressionOrEquation()) < COMMA > ( en2 = expressionOrEquation() ) (")"|"]")
-      {
-        
-        return new ExpressionNode(kernel, en, Operation.SUBSTITUTION,  en2); }
-|
-  <RANDOM_FUNC>
+|      <RANDOM_FUNC>
       {  
       	 Construction cons = kernel.getConstruction();
       	 GeoNumeric randNum = new GeoNumeric(cons);
@@ -2296,6 +2046,9 @@ ExpressionNode numberFunction():
 	      		undecided.add(expr);
 	      		return expr;       		}
       		if (geo == null && cell==null) {
+      		  		Operation op = ParserFunctions.get(funcName,myList.size());
+      		  		if(op!=null)
+      		  			return buildOpNode(op,myList);
       				// function name does not exist: return command
       				Command cmd = new Command(kernel, funcName, true, !ExternalCASParsing );
       				for (int i=0; i < myList.size(); i++)
