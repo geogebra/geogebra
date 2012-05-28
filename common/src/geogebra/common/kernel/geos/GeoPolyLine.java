@@ -424,20 +424,12 @@ public class GeoPolyLine extends GeoElement implements NumberValue, Path,
 	 */
 	public void calcLength() {
 
-		// last point not checked in loop
-		if (!((GeoPoint2) points[points.length - 1]).isDefined()) {
-			setUndefined();
-			length = Double.NaN;
-			return;
-		}
-
 		length = 0;
 
 		for (int i = 0; i < points.length - 1; i++) {
-			if (!((GeoPoint2) points[i]).isDefined()) {
-				setUndefined();
-				length = Double.NaN;
-				return;
+			if (!((GeoPoint2) points[i]).isDefined() || !((GeoPoint2) points[i+1]).isDefined()) {
+				// (?,?) makes a hole in the polyline
+				continue;
 			}
 			setSegmentPoints((GeoPoint2) points[i], (GeoPoint2) points[i + 1]);
 			length += seg.getLength();

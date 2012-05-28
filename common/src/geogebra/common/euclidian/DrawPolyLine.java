@@ -17,6 +17,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoPolyLine;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.main.AbstractApplication;
 
 import java.util.ArrayList;
 
@@ -101,11 +102,12 @@ public class DrawPolyLine extends Drawable implements Previewable {
 	}
 
 	private void addPointsToPath(GeoPointND[] pts) {
-		if (gp == null)
+		if (gp == null) {
 			gp = new GeneralPathClipped(view);
-		else
+		} else {
 			gp.reset();
-
+		}
+		
 		// first point
 		pts[0].getInhomCoords(coords);
 		view.toScreenCoords(coords);
@@ -115,14 +117,29 @@ public class DrawPolyLine extends Drawable implements Previewable {
 		double xsum = coords[0];
 		double ysum = coords[1];
 
+		boolean skipNextPoint = false;
+
 		for (int i = 1; i < pts.length; i++) {
-			pts[i].getInhomCoords(coords);
-			view.toScreenCoords(coords);
-			if (labelVisible) {
-				xsum += coords[0];
-				ysum += coords[1];
+
+			if (pts[i].isDefined()) {
+
+				pts[i].getInhomCoords(coords);
+				view.toScreenCoords(coords);
+				if (labelVisible) {
+					xsum += coords[0];
+					ysum += coords[1];
+				}
+				if (skipNextPoint) {
+					skipNextPoint = false;
+					gp.moveTo(coords[0], coords[1]);
+
+				} else {
+					gp.lineTo(coords[0], coords[1]);
+				}
+			} else {
+				// undefined point -> hole in polyline
+				skipNextPoint = true;
 			}
-			gp.lineTo(coords[0], coords[1]);
 		}
 
 		if (labelVisible) {
