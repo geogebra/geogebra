@@ -27,7 +27,6 @@ import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.kernelND.GeoAxisND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.optimization.ExtremumFinder;
-import geogebra.common.kernel.parser.cashandlers.ParserFunctions;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
 import geogebra.common.plugin.GeoClass;
@@ -1898,7 +1897,8 @@ public class Construction {
 		if (label == null) {
 			return false;
 		}
-		if(!fileLoading && ParserFunctions.RESERVED_FUNCTION_NAMES.contains(label))
+		if(!fileLoading && getKernel().getApplication().
+				getParserFunctions().isReserved(label))
 			return false;
 		// check standard geoTable
 		if (geoTable.containsKey(label))

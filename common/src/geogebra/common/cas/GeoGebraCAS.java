@@ -42,7 +42,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	 */
 	public GeoGebraCAS(Kernel kernel) {
 		app = kernel.getApplication();
-		casParser = new CASparser(kernel.getParser());
+		casParser = new CASparser(kernel.getParser(),kernel.getApplication().getParserFunctions());
 
 		// DO NOT init underlying CAS here to avoid hanging animation,
 		// see http://www.geogebra.org/trac/ticket/1565

@@ -1,23 +1,13 @@
 package geogebra.common.kernel.geos;
 
-import geogebra.common.kernel.parser.cashandlers.ParserFunctions;
 import geogebra.common.util.CopyPaste;
 import geogebra.common.util.StringUtil;
-import geogebra.common.util.Unicode;
-
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * Library class for labeling geos; label-related static methods should go there
  */
 public class LabelManager {
-	private static Set<String> invalidFunctionNames = new HashSet<String>(ParserFunctions.RESERVED_FUNCTION_NAMES);
-	static
-	{
-		invalidFunctionNames.addAll(Arrays.asList("x", "y", Unicode.IMAGINARY));
-	}
+	
 
 		/**
 		 * Checks whether name can be used as label
@@ -34,7 +24,8 @@ public class LabelManager {
 
 			name = StringUtil.toLowerCase(name);
 			if (geo.isGeoFunction()) {
-				if (invalidFunctionNames.contains(name))
+				if (geo.getKernel().getApplication().
+						getParserFunctions().isReserved(name))
 						return false;
 			}
 

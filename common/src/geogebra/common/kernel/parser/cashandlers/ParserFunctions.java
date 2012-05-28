@@ -1,7 +1,8 @@
 package geogebra.common.kernel.parser.cashandlers;
 
+import geogebra.common.main.AbstractApplication;
 import geogebra.common.plugin.Operation;
-import geogebra.common.util.StringUtil;
+import geogebra.common.util.Unicode;
 
 import java.util.Map;
 import java.util.List;
@@ -16,24 +17,25 @@ import java.util.TreeSet;
  *
  */
 public class ParserFunctions {
-private static final List<Map<String,Operation>> stringToOp = new ArrayList<Map<String,Operation>>();
+private final List<Map<String,Operation>> stringToOp = new ArrayList<Map<String,Operation>>();
 
-/**
- * Names that cannot be used for elements because of collision with predefined functions
- * these should also be documented here:
- * http://wiki.geogebra.org/en/Manual:Naming_Objects
- */
-public static final Set<String> RESERVED_FUNCTION_NAMES = new TreeSet<String>();
-/**
- * Same as RESERVED_FUNCTION_NAMES, but in lower case
- */
-public static final Set<String> RESERVED_FUNCTION_LOWERCASE = new TreeSet<String>();
+
+private final Set<String> RESERVED_FUNCTION_NAMES = new TreeSet<String>();
 
 private static final int MAX_ARGS = 3;
 
-static {
+/**
+ * Initializes the string => operation map and reserved names set
+ */
+public ParserFunctions(){
 	for(int i = 0; i <= MAX_ARGS; i++)
 		stringToOp.add(new TreeMap<String,Operation>());
+	reset();
+}
+private void reset(){
+	RESERVED_FUNCTION_NAMES.clear();
+	for(int i = 0; i <= MAX_ARGS; i++)
+		stringToOp.get(i).clear();
 	put(1,"sin", Operation.SIN);
 	put(1,"Sin", Operation.SIN);
 
@@ -191,24 +193,62 @@ static {
 	put(1,"x", Operation.XCOORD);
 	put(1,"y", Operation.YCOORD);
 	
+	RESERVED_FUNCTION_NAMES.add(Unicode.IMAGINARY);
+	
+}
+
+/**
+ * Updates local names of functions
+ * @param app application
+ */
+public void updateLocale(AbstractApplication app){
+		reset();
+		put(1,app.getFunction("sin"), Operation.SIN);
+		put(1,app.getFunction("cos"), Operation.COS);
+		put(1,app.getFunction("tan"), Operation.TAN);
+		put(1,app.getFunction("cot"), Operation.COT);
+		put(1,app.getFunction("csc"), Operation.CSC);
+		put(1,app.getFunction("sec"), Operation.SEC);
+		put(1,app.getFunction("sinh"), Operation.SINH);
+		put(1,app.getFunction("cosh"), Operation.COSH);
+		put(1,app.getFunction("tanh"), Operation.TANH);
+		put(1,app.getFunction("coth"), Operation.COTH);
+		put(1,app.getFunction("csch"), Operation.CSCH);
+		put(1,app.getFunction("sech"), Operation.SECH);
+		put(1,app.getFunction("asin"), Operation.ARCSIN);
+		put(1,app.getFunction("acos"), Operation.ARCCOS);
+		put(1,app.getFunction("atan"), Operation.ARCTAN);
+		put(1,app.getFunction("asinh"), Operation.ASINH);
+		put(1,app.getFunction("acosh"), Operation.ACOSH);
+		put(1,app.getFunction("atanh"), Operation.ATANH);
 }
 /**
  * @param s function name
  * @param size number of arguments
  * @return operation
  */
-public static Operation get(String s,int size){
+public Operation get(String s,int size){
 	if(size>MAX_ARGS)
 		return null;
 	return stringToOp.get(size).get(s);
 }
-private static void put(int size, String name, Operation op) {
+private void put(int size, String name, Operation op) {
 	RESERVED_FUNCTION_NAMES.add(name);
-	RESERVED_FUNCTION_LOWERCASE.add(StringUtil.toLowerCase(name));
 	if(size>MAX_ARGS)
 		return;
 	stringToOp.get(size).put(name,op);
 	
+}
+
+/**
+ * Some names cannot be used for elements because of collision with predefined functions
+ * these should also be documented here:
+ * http://wiki.geogebra.org/en/Manual:Naming_Objects
+ * @param s label
+ * @return true if label is reserved
+ */
+public boolean isReserved(String s){
+	return RESERVED_FUNCTION_NAMES.contains(s);
 }
 }
 

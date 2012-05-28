@@ -7,7 +7,6 @@ import geogebra.common.cas.CasParserTools;
 import geogebra.common.cas.Evaluate;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.Command;
-import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.FunctionNVar;
 import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
@@ -15,11 +14,9 @@ import geogebra.common.kernel.arithmetic.Traversing.ArbconstReplacer;
 import geogebra.common.kernel.arithmetic.Traversing.PowerRootReplacer;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.parser.cashandlers.ParserFunctions;
 import geogebra.common.main.AbstractApplication;
 
 import java.util.Map;
-import java.util.Set;
 import java.util.StringTokenizer;
 
 /**
@@ -44,7 +41,7 @@ public abstract class AbstractCASmpreduce extends CASgeneric {
 	 * lower-letter, / however the following function-names should not be
 	 * escaped / (note: all functions here must be in lowercase!)
 	 */
-	final protected Set<String> predefinedFunctions = ParserFunctions.RESERVED_FUNCTION_LOWERCASE;
+	
 	private static Evaluate mpreduce;
 
 	/**
@@ -72,7 +69,7 @@ public abstract class AbstractCASmpreduce extends CASgeneric {
 		StringBuilder sb = new StringBuilder();
 		while (tokenizer.hasMoreElements()) {
 			String t = tokenizer.nextToken();
-			if (predefinedFunctions.contains(t.toLowerCase()))
+			if (casParser.getParserFunctions().isReserved(t))
 				sb.append(t);
 			else {
 				for (int i = 0; i < t.length(); ++i) {

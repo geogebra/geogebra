@@ -41,6 +41,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.kernel.parser.cashandlers.ParserFunctions;
 import geogebra.common.main.settings.Settings;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.plugin.GgbAPI;
@@ -96,7 +97,7 @@ public abstract class AbstractApplication {
 	private boolean showResetIcon = false;
 	public boolean runningInFrame = false; // don't want to show resetIcon if
 											// running in Frame
-	
+	private ParserFunctions pf = new ParserFunctions();
 	// specialLanguageNames: Java does not show an English name for all
 	// languages
 	// supported by GeoGebra, so some language codes have to be treated
@@ -366,7 +367,7 @@ public abstract class AbstractApplication {
 		if (!isCommandChanged()
 				&& ((commandDictCAS != null) || isCommandNull())) {
 			return;
-		}
+		}		
 		CASGenericInterface cas = kernel.getGeoGebraCAS().getCurrentCAS();
 		if (cas == null) {
 			return;
@@ -506,7 +507,7 @@ public abstract class AbstractApplication {
 			}
 			
 		}
-
+		getParserFunctions().updateLocale(this);
 		// get CAS Commands
 		if (kernel.isGeoGebraCASready()) {
 			fillCasCommandDict();
@@ -2977,18 +2978,18 @@ public abstract class AbstractApplication {
 			// MACRO
 			int macroID = mode - EuclidianConstants.MACRO_MODE_ID_OFFSET;
 			try {
-				Macro macro = kernel.getMacro(macroID);
+				Macro macro1 = kernel.getMacro(macroID);
 				if (toolName) {
 					// TOOL NAME
-					ret = macro.getToolName();
+					ret = macro1.getToolName();
 					if ("".equals(ret)) {
-						ret = macro.getCommandName();
+						ret = macro1.getCommandName();
 					}
 				} else {
 					// TOOL HELP
-					ret = macro.getToolHelp();
+					ret = macro1.getToolHelp();
 					if ("".equals(ret)) {
-						ret = macro.getNeededTypesString();
+						ret = macro1.getNeededTypesString();
 					}
 				}
 			} catch (Exception e) {
@@ -3031,6 +3032,14 @@ public abstract class AbstractApplication {
 	 */
 	public String getToolHelp(int mode) {
 		return getToolNameOrHelp(mode, false);
+	}
+
+	public String getFunction(String string) {
+		return getPlain("Function."+string);
+	}
+	
+	public ParserFunctions getParserFunctions(){
+		return pf;
 	}
 
 

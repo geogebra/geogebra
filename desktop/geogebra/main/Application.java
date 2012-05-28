@@ -2294,7 +2294,7 @@ public class Application extends AbstractApplication implements
 		}
 
 		updateReverseLanguage(locale.getLanguage());
-
+		
 	}
 
 	/**

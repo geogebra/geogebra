@@ -1978,7 +1978,7 @@ ExpressionNode numberFunction():
 	 	      {
 	 	        int pos = Math.max(c.image.indexOf("("),c.image.indexOf("["));
 	 	        AbstractApplication.debug(c.image.substring(0,pos-1));
-	 	        Operation trigOp = ParserFunctions.get(c.image.substring(0,pos-1),1);
+	 	        Operation trigOp = app.getParserFunctions().get(c.image.substring(0,pos-1),1);
 	 	        return kernel.handleTrigPower(c.image, en, trigOp);
 	 	        }          
 |
@@ -2041,7 +2041,7 @@ ExpressionNode numberFunction():
 	      		undecided.add(expr);
 	      		return expr;       		}
       		if (geo == null && cell==null) {
-      		  		Operation op = ParserFunctions.get(funcName,myList.size());
+      		  		Operation op = app.getParserFunctions().get(funcName,myList.size());
       		  		if(op!=null)
       		  			return buildOpNode(op,myList);
       				// function name does not exist: return command

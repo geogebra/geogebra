@@ -19,14 +19,13 @@ import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
-import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.cas.CASParserInterface;
 import geogebra.common.kernel.geos.GeoDummyVariable;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.parser.ParseException;
 import geogebra.common.kernel.parser.Parser;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.kernel.parser.cashandlers.ParserFunctions;
 
 /**
  * Handles parsing and evaluating of input in the CAS view.
@@ -35,13 +34,16 @@ import geogebra.common.main.AbstractApplication;
  */
 public class CASparser implements CASParserInterface{
 	private Parser parser;
+	private ParserFunctions parserFunctions;
 	
 	/**
 	 * Creates new CAS parser
 	 * @param parser parser
+	 * @param pf parser functions
 	 */
-	public CASparser(Parser parser) {	
+	public CASparser(Parser parser,ParserFunctions pf) {	
 		this.parser = parser;
+		this.parserFunctions = pf;
 	}
 	
 	
@@ -309,5 +311,16 @@ public class CASparser implements CASParserInterface{
 		}
 		return insertSpecial.toString();
 	}
+
+
+	/**
+	 * @return parser functions
+	 */
+	public ParserFunctions getParserFunctions() {
+		return parserFunctions;
+	}
+
+
+	
 
 }
