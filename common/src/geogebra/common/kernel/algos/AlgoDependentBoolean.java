@@ -98,24 +98,27 @@ public class AlgoDependentBoolean extends AlgoElement implements SymbolicParamet
 
 	public Polynomial[][] getBotanaPolynomials()
 			throws NoSymbolicParametersException {
+		if (!root.getLeft().isGeoElement() || !root.getRight().isGeoElement())
+			throw new NoSymbolicParametersException();
+		
 		GeoElement left = (GeoElement) root.getLeft();
 		GeoElement right = (GeoElement) root.getRight();
 		
 		if (root.getOperation().equals(Operation.PERPENDICULAR)) {
 			AlgoArePerpendicular algo = new AlgoArePerpendicular(cons, "", (GeoLine) left, (GeoLine) right);
-			Polynomial[][] ret = ((SymbolicParametersBotanaAlgoAre) algo).getBotanaPolynomials();
+			Polynomial[][] ret = algo.getBotanaPolynomials();
 			algo.remove();
 			return ret;
 		}
 		if (root.getOperation().equals(Operation.PARALLEL)) {
 			AlgoAreParallel algo = new AlgoAreParallel(cons, "", (GeoLine) left, (GeoLine) right);
-			Polynomial[][] ret = ((SymbolicParametersBotanaAlgoAre) algo).getBotanaPolynomials();
+			Polynomial[][] ret = algo.getBotanaPolynomials();
 			algo.remove();
 			return ret;
 		}
 		if (root.getOperation().equals(Operation.EQUAL_BOOLEAN)) {
 			AlgoAreEqual algo = new AlgoAreEqual(cons, "", left, right);
-			Polynomial[][] ret = ((SymbolicParametersBotanaAlgoAre) algo).getBotanaPolynomials();
+			Polynomial[][] ret = algo.getBotanaPolynomials();
 			algo.remove();
 			return ret;
 		}

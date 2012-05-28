@@ -22,6 +22,7 @@ import java.util.List;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 
+import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.SymbolicParametersAlgo;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.prover.Prover.ProverEngine;
@@ -248,14 +249,27 @@ public class Prover {
 			result = ProofResult.UNKNOWN;
 			return;
 		}
+
+		// Step 2:
+		// Maybe an already computed value is asked to be proven, e.g. Prove[1==1], i.e. Prove[true]
+		AlgoElement algoParent = statement.getParentAlgorithm();
+		if (algoParent == null) {
+			if (statement.getValueForInputBar().equals("true"))
+				result = ProofResult.TRUE; // Trust in kernel's wisdom
+			else if (statement.getValueForInputBar().equals("false"))
+				result = ProofResult.FALSE; // Trust in kernel's wisdom
+			else
+				result = ProofResult.UNKNOWN; // Not sure if this is executed at all, but for sure.
+			return;
+		}
 		
-		// Step 2: Non-AUTO provers
+		// Step 3: Non-AUTO provers
 		if (engine != ProverEngine.AUTO) {
 			callEngine(engine);
 			return;
 		}
 		
-		// Step 3: AUTO prover
+		// Step 4: AUTO prover
 		AbstractApplication.debug("Using " + engine);
 		Iterator<ProverEngine> it = proverAutoOrder.iterator();
 		result = ProofResult.UNKNOWN;
