@@ -57,6 +57,12 @@ public class RowContentPopupMenu extends JPopupMenu implements ActionListener {
 		copyToLatexItem.setActionCommand("copyAsLatex");
 		copyToLatexItem.addActionListener(this);
 		add(copyToLatexItem);
+		
+		JMenuItem copyToLibreOfficeItem = new JMenuItem(
+				table.app.getMenu("CopyAsLibreOfficeMath"));
+		copyToLibreOfficeItem.setActionCommand("copyAsLibreOfficeMath");
+		copyToLibreOfficeItem.addActionListener(this);
+		add(copyToLibreOfficeItem);
 
 		JMenuItem copyToImageItem = new JMenuItem(
 				table.app.getMenu("CopyAsImage"));
@@ -81,7 +87,12 @@ public class RowContentPopupMenu extends JPopupMenu implements ActionListener {
 			String latexOutput = value.getLaTeXOutput();
 			data = new StringSelection(StringUtil.toLaTeXString(latexOutput,
 					true));
-		} else if (ac.equals("copyAsImage")) {
+			
+		} else if (ac.equals("copyAsLibreOfficeMath")) {
+			String libreofficeOutput = value.getOutput(StringTemplate.libreofficeTemplate);
+			data = new StringSelection(libreofficeOutput);
+			
+		}else if (ac.equals("copyAsImage")) {
 			ImageIcon latexIcon = new ImageIcon();
 			Font latexFont = new Font(table.app.getPlainFont().getName(),
 					table.app.getPlainFont().getStyle(), table.app

@@ -17,6 +17,8 @@ public interface ExpressionNodeConstants {
 		MATH_PIPER,
 		/** LaTeX */
 		LATEX,
+		/** Libre Office (or Open Office) Math Commands */
+		LIBRE_OFFICE,
 		/** PSTricks */
 		PSTRICKS,
 		/** PGF */

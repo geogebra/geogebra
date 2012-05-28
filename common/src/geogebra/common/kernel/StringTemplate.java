@@ -41,11 +41,19 @@ public class StringTemplate {
 	public static StringTemplate defaultTemplate = new StringTemplate();
 	
 	/**
-	 * MPReduce string type, do not internationalize digits
+	 * LaTeX string type, do not internationalize digits
 	 */
 	public static StringTemplate latexTemplate = new StringTemplate();
 	static {
 		latexTemplate.setType(StringType.LATEX);
+	}
+	
+	/**
+	 * LibreOffice string type, do not internationalize digits
+	 */
+	public static StringTemplate libreofficeTemplate = new StringTemplate();
+	static {
+		libreofficeTemplate.setType(StringType.LIBRE_OFFICE);
 	}
 	
 	/**
@@ -230,7 +238,11 @@ public class StringTemplate {
 		case LATEX:
 			casPrintFormPI = "\\pi";
 			break;
-
+			
+		case LIBRE_OFFICE:
+			casPrintFormPI = "%pi";
+			break;
+			
 		default:
 			casPrintFormPI = Unicode.PI_STRING;
 		}

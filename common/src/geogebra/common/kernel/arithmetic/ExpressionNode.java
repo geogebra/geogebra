@@ -1587,7 +1587,11 @@ public class ExpressionNode extends ValidExpression implements
 				case LATEX:
 					sb.append("\\neg ");
 					break;
-
+					
+				case LIBRE_OFFICE:
+					sb.append("neg ");
+					break;
+					
 				case MATH_PIPER:
 					sb.append("Not ");
 					break;
@@ -1619,7 +1623,11 @@ public class ExpressionNode extends ValidExpression implements
 					}
 					sb.append("\\vee");
 					break;
-
+				
+				case LIBRE_OFFICE:
+					sb.append("or");
+					break;
+				
 				case MATH_PIPER:
 					sb.append("Or");
 					break;
@@ -1653,6 +1661,10 @@ public class ExpressionNode extends ValidExpression implements
 					sb.append("\\wedge");
 					break;
 
+				case LIBRE_OFFICE:
+					sb.append("and");
+					break;
+					
 				case MATH_PIPER:
 					sb.append("And");
 					break;
@@ -1685,6 +1697,10 @@ public class ExpressionNode extends ValidExpression implements
 					sb.append("\\to");
 					break;
 
+				case LIBRE_OFFICE:
+					sb.append("toward"); //don't know if it is correct TAM 5/28/2012
+					break;
+					
 				case MPREDUCE:
 					sb.append("(not(");
 					sb.append(leftStr);
@@ -1698,6 +1714,7 @@ public class ExpressionNode extends ValidExpression implements
 				}
 				sb.append(' ');
 
+				if (STRING_TYPE != StringType.MPREDUCE)
 				append(sb, rightStr, right, operation, STRING_TYPE);
 			}
 			break;
@@ -1716,6 +1733,7 @@ public class ExpressionNode extends ValidExpression implements
 					if (kernel.isInsertLineBreaks()) {
 						sb.append("\\-");
 					}
+				case LIBRE_OFFICE:
 				case MATH_PIPER:
 				case JASYMCA:
 				case MPREDUCE:
@@ -1745,7 +1763,9 @@ public class ExpressionNode extends ValidExpression implements
 					}
 					sb.append("\\neq");
 					break;
-
+				case LIBRE_OFFICE:
+					sb.append("<>");
+					break;
 				case MATH_PIPER:
 					sb.append("!=");
 					break;
@@ -1777,7 +1797,9 @@ public class ExpressionNode extends ValidExpression implements
 					}
 					sb.append("\\in");
 					break;
-
+				case LIBRE_OFFICE:
+					sb.append(" in ");
+					break;
 				default:
 					sb.append(strIS_ELEMENT_OF);
 				}
@@ -1801,7 +1823,9 @@ public class ExpressionNode extends ValidExpression implements
 					}
 					sb.append("\\subseteq");
 					break;
-
+				case LIBRE_OFFICE:
+					sb.append(" subseteq ");
+					break;
 				default:
 					sb.append(strIS_SUBSET_OF);
 				}
@@ -1825,7 +1849,9 @@ public class ExpressionNode extends ValidExpression implements
 					}
 					sb.append("\\subset");
 					break;
-
+				case LIBRE_OFFICE:
+					sb.append(" subset ");
+					break;
 				default:
 					sb.append(strIS_SUBSET_OF_STRICT);
 				}
@@ -1849,7 +1875,9 @@ public class ExpressionNode extends ValidExpression implements
 					}
 					sb.append("\\setminus");
 					break;
-
+				case LIBRE_OFFICE:
+					sb.append(" setminus ");
+					break;
 				default:
 					sb.append(strSET_DIFFERENCE);
 				}
@@ -1907,7 +1935,7 @@ public class ExpressionNode extends ValidExpression implements
 					}
 					sb.append("\\leq");
 					break;
-
+				case LIBRE_OFFICE:
 				case MATH_PIPER:
 				case MPREDUCE:
 					sb.append("<=");
@@ -1936,7 +1964,7 @@ public class ExpressionNode extends ValidExpression implements
 					}
 					sb.append("\\geq");
 					break;
-
+				case LIBRE_OFFICE:
 				case MATH_PIPER:
 				case MPREDUCE:
 					sb.append(">=");
@@ -1966,7 +1994,9 @@ public class ExpressionNode extends ValidExpression implements
 				}
 				sb.append("\\parallel");
 				break;
-
+			case LIBRE_OFFICE:
+				sb.append(" parallel ");
+				break;
 			default:
 				sb.append(strPARALLEL);
 			}
@@ -1990,7 +2020,9 @@ public class ExpressionNode extends ValidExpression implements
 				}
 				sb.append("\\perp");
 				break;
-
+			case LIBRE_OFFICE:
+				sb.append(" ortho ");
+				break;
 			default:
 				sb.append(strPERPENDICULAR);
 			}
@@ -2019,6 +2051,9 @@ public class ExpressionNode extends ValidExpression implements
 						sb.append("\\-");
 					}
 					sb.append("\\times");
+					break;
+				case LIBRE_OFFICE:
+					sb.append(" cdot ");
 					break;
 				default:
 					sb.append(strVECTORPRODUCT);
@@ -2279,6 +2314,7 @@ public class ExpressionNode extends ValidExpression implements
 			case MATH_PIPER:
 			case MAXIMA:
 			case LATEX:
+			case LIBRE_OFFICE:
 
 				boolean nounary = true;
 
@@ -2327,7 +2363,8 @@ public class ExpressionNode extends ValidExpression implements
 						case MAXIMA:
 							showMultiplicationSign = true;
 							break;
-
+							
+						case LIBRE_OFFICE:
 						case LATEX:
 							// check if we need a multiplication sign, see #414
 							// digit-digit, e.g. 3 * 5
@@ -2474,7 +2511,14 @@ public class ExpressionNode extends ValidExpression implements
 					sb.append("}");
 				}
 				break;
-
+			case LIBRE_OFFICE:
+				sb.append("{ ");
+				sb.append(leftStr);
+				sb.append(" } over { ");
+				sb.append(rightStr);
+				sb.append(" }");
+				break;
+				
 			case JASYMCA:
 			case MATH_PIPER:
 			case MAXIMA:
@@ -2591,6 +2635,7 @@ public class ExpressionNode extends ValidExpression implements
 						break;
 					}
 					// else fall through
+				
 				case JASYMCA:
 				case MATH_PIPER:
 				case MAXIMA:
@@ -2599,7 +2644,8 @@ public class ExpressionNode extends ValidExpression implements
 					sb.append(leftStr);
 					sb.append(rightBracket(STRING_TYPE));
 					break;
-
+					
+				case LIBRE_OFFICE:
 				default:
 
 					/*
@@ -2630,6 +2676,7 @@ public class ExpressionNode extends ValidExpression implements
 				// right wing
 				switch (STRING_TYPE) {
 				case LATEX:
+				case LIBRE_OFFICE:
 					sb.append('^');
 
 					// add brackets for eg a^b^c -> a^(b^c)
@@ -2647,6 +2694,7 @@ public class ExpressionNode extends ValidExpression implements
 					sb.append('}');
 					break;
 
+				
 				case JASYMCA:
 				case GEOGEBRA_XML:
 				case MATH_PIPER:
@@ -2758,6 +2806,18 @@ public class ExpressionNode extends ValidExpression implements
 			case MATHML:
 				mathml(sb, "<factorial/>", leftStr, null);
 				break;
+			case LIBRE_OFFICE:
+				sb.append("fact {");
+				if ((leftStr.charAt(0) != '-') && // no unary
+						left.isLeaf()) { 
+					sb.append(leftStr);
+				} else {
+					sb.append('(');
+					sb.append(leftStr);
+					sb.append(')');
+				}
+				sb.append(" }");
+				break;
 			case MPREDUCE:
 				appendReduceFunction(sb, "factorial");
 				sb.append(leftStr);
@@ -2788,6 +2848,9 @@ public class ExpressionNode extends ValidExpression implements
 				switch (STRING_TYPE) {
 				case LATEX:
 					sb.append("\\cos \\left( ");
+					break;
+				case LIBRE_OFFICE:
+					sb.append("cos left ( ");
 					break;
 
 				case MATH_PIPER:
@@ -2820,7 +2883,9 @@ public class ExpressionNode extends ValidExpression implements
 				case LATEX:
 					sb.append("\\sin \\left( ");
 					break;
-
+				case LIBRE_OFFICE:
+					sb.append("sin left ( ");
+					break;
 				case MATH_PIPER:
 					sb.append("Sin(");
 					break;
@@ -2851,7 +2916,9 @@ public class ExpressionNode extends ValidExpression implements
 				case LATEX:
 					sb.append("\\tan \\left( ");
 					break;
-
+				case LIBRE_OFFICE:
+					sb.append("tan left ( ");
+					break;
 				case MATH_PIPER:
 					sb.append("Tan(");
 					break;
@@ -2880,7 +2947,9 @@ public class ExpressionNode extends ValidExpression implements
 				case LATEX:
 					sb.append("\\csc \\left( ");
 					break;
-
+				case LIBRE_OFFICE:
+					sb.append("csc left ( ");
+					break;
 				case MATH_PIPER:
 					sb.append("Csc(");
 					break;
@@ -2911,7 +2980,9 @@ public class ExpressionNode extends ValidExpression implements
 				case LATEX:
 					sb.append("\\sec \\left( ");
 					break;
-
+				case LIBRE_OFFICE:
+					sb.append("sec left ( ");
+					break;
 				case MATH_PIPER:
 					sb.append("Sec(");
 					break;
@@ -2942,7 +3013,9 @@ public class ExpressionNode extends ValidExpression implements
 				case LATEX:
 					sb.append("\\cot \\left( ");
 					break;
-
+				case LIBRE_OFFICE:
+					sb.append("cot left ( ");
+					break;
 				case MATH_PIPER:
 					sb.append("Cot(");
 					break;
@@ -2973,7 +3046,9 @@ public class ExpressionNode extends ValidExpression implements
 				case LATEX:
 					sb.append("\\csch \\left( ");
 					break;
-
+				case LIBRE_OFFICE:
+					sb.append("func csch left (");
+					break;
 				case MATH_PIPER:
 					sb.append("Csch(");
 					break;
@@ -3000,7 +3075,9 @@ public class ExpressionNode extends ValidExpression implements
 				case LATEX:
 					sb.append("\\sech \\left( ");
 					break;
-
+				case LIBRE_OFFICE:
+					sb.append("func sech left (");
+					break;
 				case MATH_PIPER:
 					sb.append("Sech(");
 					break;
@@ -3027,7 +3104,9 @@ public class ExpressionNode extends ValidExpression implements
 				case LATEX:
 					sb.append("\\coth \\left( ");
 					break;
-
+				case LIBRE_OFFICE:
+					sb.append("coth left ( ");
+					break;
 				case MATH_PIPER:
 					sb.append("Coth(");
 					break;
@@ -3055,6 +3134,10 @@ public class ExpressionNode extends ValidExpression implements
 					sb.append("acos \\left( ");
 					break;
 
+				case LIBRE_OFFICE:
+					sb.append("arccos left (");
+					break;
+					
 				case MATH_PIPER:
 					sb.append("ArcCos(");
 					break;
@@ -3081,7 +3164,11 @@ public class ExpressionNode extends ValidExpression implements
 				case LATEX:
 					sb.append("asin \\left( ");
 					break;
-
+					
+				case LIBRE_OFFICE:
+					sb.append("arcsin left (");
+					break;
+					
 				case MATH_PIPER:
 					sb.append("ArcSin(");
 					break;
@@ -3109,6 +3196,10 @@ public class ExpressionNode extends ValidExpression implements
 					sb.append("atan \\left( ");
 					break;
 
+				case LIBRE_OFFICE:
+					sb.append("arctan left (");
+					break;
+					
 				case MATH_PIPER:
 					sb.append("ArcTan(");
 					break;
@@ -3136,6 +3227,10 @@ public class ExpressionNode extends ValidExpression implements
 					sb.append("atan2 \\left( ");
 					break;
 
+				case LIBRE_OFFICE:
+					sb.append("func arctan2 left (");
+					break;
+					
 				case MATH_PIPER:
 					sb.append("ArcTan2(");
 					break;
@@ -3166,7 +3261,9 @@ public class ExpressionNode extends ValidExpression implements
 				case LATEX:
 					sb.append("\\cosh \\left( ");
 					break;
-
+				case LIBRE_OFFICE:
+					sb.append("cosh left ( ");
+					break;
 				case MATH_PIPER:
 					sb.append("Cosh(");
 					break;
@@ -3193,7 +3290,9 @@ public class ExpressionNode extends ValidExpression implements
 				case LATEX:
 					sb.append("\\sinh \\left( ");
 					break;
-
+				case LIBRE_OFFICE:
+					sb.append("sinh left ( ");
+					break;
 				case MATH_PIPER:
 					sb.append("Sinh(");
 					break;
@@ -3220,7 +3319,9 @@ public class ExpressionNode extends ValidExpression implements
 				case LATEX:
 					sb.append("\\tanh \\left( ");
 					break;
-
+				case LIBRE_OFFICE:
+					sb.append("tanh left ( ");
+					break;
 				case MATH_PIPER:
 					sb.append("Tanh(");
 					break;
@@ -3247,7 +3348,11 @@ public class ExpressionNode extends ValidExpression implements
 				case LATEX:
 					sb.append("\\operatorname{acosh} \\left( ");
 					break;
-
+					
+				case LIBRE_OFFICE:
+					sb.append("arcosh left (");
+					break;
+					
 				case MATH_PIPER:
 					sb.append("ArcCosh(");
 					break;
@@ -3274,7 +3379,11 @@ public class ExpressionNode extends ValidExpression implements
 				case LATEX:
 					sb.append("\\operatorname{asinh} \\left( ");
 					break;
-
+					
+				case LIBRE_OFFICE:
+					sb.append("arsinh left (");
+					break;
+					
 				case MATH_PIPER:
 					sb.append("ArcSinh(");
 					break;
@@ -3301,7 +3410,11 @@ public class ExpressionNode extends ValidExpression implements
 				case LATEX:
 					sb.append("\\operatorname{atanh} \\left( ");
 					break;
-
+					
+				case LIBRE_OFFICE:
+					sb.append("artanh left (");
+					break;
+					
 				case MATH_PIPER:
 					sb.append("ArcTanh(");
 					break;
@@ -3325,6 +3438,11 @@ public class ExpressionNode extends ValidExpression implements
 				sb.append("\\operatorname{Ci} \\left( ");
 				break;
 
+				
+			case LIBRE_OFFICE:
+				sb.append("func Ci left (");
+				break;
+				
 			case MPREDUCE:
 				appendReduceFunction(sb, "ci");
 				break;
@@ -3339,7 +3457,11 @@ public class ExpressionNode extends ValidExpression implements
 			case LATEX:
 				sb.append("\\operatorname{Si} \\left( ");
 				break;
-
+				
+			case LIBRE_OFFICE:
+				sb.append("func Si left (");
+				break;
+				
 			case MPREDUCE:
 				appendReduceFunction(sb, "si");
 				break;
@@ -3355,7 +3477,10 @@ public class ExpressionNode extends ValidExpression implements
 			case LATEX:
 				sb.append("\\operatorname{Ei} \\left( ");
 				break;
-
+			case LIBRE_OFFICE:
+				sb.append("func Ei left (");
+				break;
+				
 			case MPREDUCE:
 				appendReduceFunction(sb, "ei");
 				break;
@@ -3389,6 +3514,8 @@ public class ExpressionNode extends ValidExpression implements
 			case MATHML:
 				mathml(sb, "<exp/>", leftStr, null);
 				break;
+			case LIBRE_OFFICE:
+				sb.append("func ");
 			case LATEX:
 
 				// add brackets for eg e^b^c -> e^(b^c)
@@ -3453,7 +3580,9 @@ public class ExpressionNode extends ValidExpression implements
 				case LATEX:
 					sb.append("\\ln \\left( ");
 					break;
-
+				case LIBRE_OFFICE:
+					sb.append("ln left ( ");
+					break;
 				case MATH_PIPER:
 					sb.append("Ln(");
 					break;
@@ -3491,7 +3620,14 @@ public class ExpressionNode extends ValidExpression implements
 				sb.append(rightStr);
 				sb.append(rightBracket(STRING_TYPE));
 				break;
-
+			case LIBRE_OFFICE:
+				sb.append("log_{");
+				sb.append(leftStr);
+				sb.append('}');
+				sb.append(leftBracket(STRING_TYPE));
+				sb.append(rightStr);
+				sb.append(rightBracket(STRING_TYPE));
+				break;
 			case MAXIMA:
 			case MATH_PIPER:
 				// user defined function
@@ -3542,13 +3678,17 @@ public class ExpressionNode extends ValidExpression implements
 				sb.append(rightBracket(STRING_TYPE));
 				break;
 
+
 			case MAXIMA:
 			case MATH_PIPER:
 			case MPREDUCE:
 			default:
 				sb.append("polygamma(");
 				sb.append(leftStr);
-				sb.append(", ");
+				if (STRING_TYPE.equals(StringType.LIBRE_OFFICE))
+					sb.append("\",\"");
+				else
+					sb.append(", ");
 				sb.append(rightStr);
 				sb.append(')');
 				break;
@@ -3569,9 +3709,11 @@ public class ExpressionNode extends ValidExpression implements
 				sb.append(leftStr);
 				sb.append(')');
 				break;
+				
+			case LIBRE_OFFICE:
+				sb.append("func ");
 			case MAXIMA:
 			case MATH_PIPER:
-
 			default:
 				sb.append("erf(");
 				sb.append(leftStr);
@@ -3594,6 +3736,9 @@ public class ExpressionNode extends ValidExpression implements
 				sb.append(leftStr);
 				sb.append(')');
 				break;
+				
+			case LIBRE_OFFICE:
+				sb.append("func ");
 			case MAXIMA:
 			case MATH_PIPER:
 			default:
@@ -3615,7 +3760,11 @@ public class ExpressionNode extends ValidExpression implements
 				sb.append(leftStr);
 				sb.append("\\right)");
 				break;
-
+			case LIBRE_OFFICE:
+				sb.append("log_10 (");
+				sb.append(leftStr);
+				sb.append(")");
+				break;
 			case PSTRICKS:
 				sb.append("log(");
 				sb.append(leftStr);
@@ -3655,7 +3804,11 @@ public class ExpressionNode extends ValidExpression implements
 				sb.append(leftStr);
 				sb.append("\\right)");
 				break;
-
+			case LIBRE_OFFICE:
+				sb.append("log_2 (");
+				sb.append(leftStr);
+				sb.append(")");
+				break;
 			case MAXIMA:
 			case MATH_PIPER:
 				sb.append("log2("); // user-defined function in Maxima
@@ -3691,7 +3844,11 @@ public class ExpressionNode extends ValidExpression implements
 				sb.append(leftStr);
 				sb.append('}');
 				break;
-
+			case LIBRE_OFFICE:
+				sb.append("sqrt{");
+				sb.append(leftStr);
+				sb.append('}');
+				break;
 			case MATH_PIPER:
 				sb.append("Sqrt(");
 				sb.append(leftStr);
@@ -3720,7 +3877,11 @@ public class ExpressionNode extends ValidExpression implements
 				sb.append(leftStr);
 				sb.append('}');
 				break;
-
+			case LIBRE_OFFICE:
+				sb.append("nroot{3}{");
+				sb.append(leftStr);
+				sb.append('}');
+				break;
 			case MATH_PIPER:
 			case MPREDUCE:
 				if (left instanceof ListValue) {
@@ -3751,7 +3912,11 @@ public class ExpressionNode extends ValidExpression implements
 				sb.append(leftStr);
 				sb.append("\\right|");
 				break;
-
+			case LIBRE_OFFICE:
+				sb.append("abs{");
+				sb.append(leftStr);
+				sb.append('}');
+				break;
 			case MATH_PIPER:
 				sb.append("Abs(");
 				sb.append(leftStr);
@@ -3788,6 +3953,8 @@ public class ExpressionNode extends ValidExpression implements
 				sb.append("sign(");
 				break;
 
+			case LIBRE_OFFICE:
+				sb.append("func ");
 			default:
 				sb.append("sgn(");
 			}
@@ -3802,6 +3969,11 @@ public class ExpressionNode extends ValidExpression implements
 				break;
 			case LATEX:
 				sb.append("\\overline{");
+				sb.append(leftStr);
+				sb.append("}");
+				break;
+			case LIBRE_OFFICE:
+				sb.append("overline{");
 				sb.append(leftStr);
 				sb.append("}");
 				break;
@@ -3847,6 +4019,8 @@ public class ExpressionNode extends ValidExpression implements
 				sb.append(leftStr);
 				sb.append(')');
 				break;
+			case LIBRE_OFFICE:
+				sb.append("func ");
 			default:
 				sb.append("arg(");
 				sb.append(leftStr);
@@ -3864,7 +4038,11 @@ public class ExpressionNode extends ValidExpression implements
 				sb.append(leftStr);
 				sb.append("\\right\\rfloor ");
 				break;
-
+			case LIBRE_OFFICE:
+				sb.append(" left lfloor ");
+				sb.append(leftStr);
+				sb.append(" right rfloor");
+				break;
 			case MATH_PIPER:
 				sb.append("Floor(");
 				sb.append(leftStr);
@@ -3892,7 +4070,11 @@ public class ExpressionNode extends ValidExpression implements
 				sb.append(leftStr);
 				sb.append("\\right\\rceil ");
 				break;
-
+			case LIBRE_OFFICE:
+				sb.append("left lceil ");
+				sb.append(leftStr);
+				sb.append(" right rceil");
+				break;
 			case MATH_PIPER:
 				sb.append("Ceil(");
 				sb.append(leftStr);
@@ -3923,6 +4105,9 @@ public class ExpressionNode extends ValidExpression implements
 				sb.append("\\mathrm{round} \\left( ");
 				break;
 
+			case LIBRE_OFFICE:
+				sb.append("func round left (");
+				
 			case MATH_PIPER:
 				sb.append("Round(");
 				break;
@@ -3943,13 +4128,16 @@ public class ExpressionNode extends ValidExpression implements
 			case LATEX:
 				sb.append("\\Gamma \\left( ");
 				break;
-
+			case LIBRE_OFFICE:
+				sb.append("%GAMMA left (");
+				break;
 			case MATH_PIPER:
 				sb.append("Gamma(");
 				break;
 			case MPREDUCE:
 				appendReduceFunction(sb, "gamma");
 				break;
+				
 			default:
 				sb.append("gamma(");
 			}
@@ -3962,7 +4150,9 @@ public class ExpressionNode extends ValidExpression implements
 			case LATEX:
 				sb.append("\\gamma \\left( ");
 				break;
-
+			case LIBRE_OFFICE:
+				sb.append("%GAMMA left (");
+				break;
 			case MAXIMA:
 				sb.append("gamma_incomplete(");
 				break;
@@ -3971,11 +4161,15 @@ public class ExpressionNode extends ValidExpression implements
 				appendReduceFunction(sb, "gamma2");
 				break;
 
+
 			default:
 				sb.append("gamma(");
 			}
 			sb.append(leftStr);
-			sb.append(", ");
+			if (STRING_TYPE.equals(StringType.LIBRE_OFFICE))
+				sb.append("\",\"");
+			else
+				sb.append(", ");
 			sb.append(rightStr);
 			sb.append(rightBracket(STRING_TYPE));
 			break;
@@ -3986,15 +4180,22 @@ public class ExpressionNode extends ValidExpression implements
 				sb.append("P \\left( ");
 				break;
 
+			case LIBRE_OFFICE:
+				sb.append("func gammaRegularized left (");
+				
 			case MAXIMA:
 				sb.append("gamma_incomplete_regularized(");
 				break;
+
 
 			default:
 				sb.append("gammaRegularized(");
 			}
 			sb.append(leftStr);
-			sb.append(", ");
+			if (STRING_TYPE.equals(StringType.LIBRE_OFFICE))
+				sb.append("\",\"");
+			else
+				sb.append(", ");
 			sb.append(rightStr);
 			sb.append(rightBracket(STRING_TYPE));
 			break;
@@ -4004,7 +4205,9 @@ public class ExpressionNode extends ValidExpression implements
 			case LATEX:
 				sb.append("\\Beta \\left( ");
 				break;
-
+			case LIBRE_OFFICE:
+				sb.append("%BETA left(");
+				break;
 			case MATH_PIPER:
 				sb.append("Beta(");
 				break;
@@ -4013,7 +4216,10 @@ public class ExpressionNode extends ValidExpression implements
 				sb.append("beta(");
 			}
 			sb.append(leftStr);
-			sb.append(", ");
+			if (STRING_TYPE.equals(StringType.LIBRE_OFFICE))
+				sb.append("\",\"");
+			else
+				sb.append(", ");
 			sb.append(rightStr);
 			sb.append(rightBracket(STRING_TYPE));
 			break;
@@ -4023,6 +4229,9 @@ public class ExpressionNode extends ValidExpression implements
 			case LATEX:
 				sb.append("\\Beta \\left( ");
 				break;
+			case LIBRE_OFFICE:
+				sb.append("%BETA left(");
+				break;	
 
 			case MAXIMA:
 				sb.append("beta_incomplete(");
@@ -4032,7 +4241,10 @@ public class ExpressionNode extends ValidExpression implements
 				sb.append("beta(");
 			}
 			sb.append(leftStr);
-			sb.append(", ");
+			if (STRING_TYPE.equals(StringType.LIBRE_OFFICE))
+				sb.append("\",\"");
+			else
+				sb.append(", ");
 			sb.append(rightStr);
 			sb.append(rightBracket(STRING_TYPE));
 			break;
@@ -4043,6 +4255,9 @@ public class ExpressionNode extends ValidExpression implements
 				sb.append("I \\left( ");
 				break;
 
+			case LIBRE_OFFICE:
+				sb.append("func betaRegularized left (");
+				
 			case MAXIMA:
 				sb.append("beta_incomplete_regularized(");
 				break;
@@ -4055,7 +4270,10 @@ public class ExpressionNode extends ValidExpression implements
 				sb.append("betaRegularized(");
 			}
 			sb.append(leftStr);
-			sb.append(", ");
+			if (STRING_TYPE.equals(StringType.LIBRE_OFFICE))
+				sb.append("\",\"");
+			else
+				sb.append(", ");
 			sb.append(rightStr);
 			sb.append(rightBracket(STRING_TYPE));
 			break;
@@ -4068,6 +4286,8 @@ public class ExpressionNode extends ValidExpression implements
 				case MPREDUCE:
 					sb.append("myrandom()");
 					break;
+				case LIBRE_OFFICE:
+					sb.append("func ");
 				default:
 					sb.append("random()");
 				}
@@ -4092,7 +4312,10 @@ public class ExpressionNode extends ValidExpression implements
 					sb.append(leftStr);
 					sb.append(rightBracket(STRING_TYPE));
 					break;
-
+				case LIBRE_OFFICE:
+					sb.append("func x left (");
+					sb.append(leftStr);
+					sb.append(rightBracket(STRING_TYPE));
 				case MATH_PIPER:
 				case MAXIMA:
 					// we need to protect x(A) as a constant in the CAS
@@ -4133,7 +4356,10 @@ public class ExpressionNode extends ValidExpression implements
 					sb.append(leftStr);
 					sb.append("\\right)");
 					break;
-
+				case LIBRE_OFFICE:
+					sb.append("func y left (");
+					sb.append(leftStr);
+					sb.append(rightBracket(STRING_TYPE));
 				case MATH_PIPER:
 				case MAXIMA:
 					// we need to protect x(A) as a constant in the CAS
@@ -4170,7 +4396,10 @@ public class ExpressionNode extends ValidExpression implements
 					sb.append(leftStr);
 					sb.append("\\right)");
 					break;
-
+				case LIBRE_OFFICE:
+					sb.append("func z left (");
+					sb.append(leftStr);
+					sb.append(rightBracket(STRING_TYPE));
 				case MATH_PIPER:
 				case MAXIMA:
 					// we need to protect x(A) as a constant in the CAS
@@ -4203,6 +4432,8 @@ public class ExpressionNode extends ValidExpression implements
 			if (left instanceof GeoFunction) {
 				GeoFunction geo = (GeoFunction) left;
 				if (geo.isLabelSet()) {
+					if (STRING_TYPE.equals(StringType.LIBRE_OFFICE))
+							sb.append("func ");
 					sb.append(geo.getLabel(tpl));
 					sb.append(leftBracket(STRING_TYPE));
 					sb.append(rightStr);
@@ -4213,6 +4444,8 @@ public class ExpressionNode extends ValidExpression implements
 							.getFunctionVariable();
 					String oldVarStr = var.toString(tpl);
 					var.setVarString(rightStr);
+					if (STRING_TYPE.equals(StringType.LIBRE_OFFICE))
+						sb.append("func ");
 					sb.append(geo.getLabel(tpl));
 					var.setVarString(oldVarStr);
 				}
@@ -4395,6 +4628,11 @@ public class ExpressionNode extends ValidExpression implements
 				sb.append(leftStr);
 				sb.append("d");
 				sb.append(rightStr);
+			} else if (STRING_TYPE == StringType.LIBRE_OFFICE) {
+				sb.append("int ");
+				sb.append(leftStr);
+				sb.append(" d");
+				sb.append(rightStr);
 			} else {
 				if (STRING_TYPE == StringType.MPREDUCE) {
 					sb.append("int(");
@@ -4415,6 +4653,12 @@ public class ExpressionNode extends ValidExpression implements
 				sb.append("\\right\\mid_{");
 				sb.append(leftStr);
 				sb.append("}");
+			} else if (STRING_TYPE == StringType.LIBRE_OFFICE) {
+				sb.append("left none");
+				sb.append(rightStr);
+				sb.append("right rline_{");
+				sb.append(leftStr);
+				sb.append("}");	
 			} else {
 				if (STRING_TYPE == StringType.MPREDUCE) {
 					sb.append("sub(");
@@ -4427,6 +4671,9 @@ public class ExpressionNode extends ValidExpression implements
 				sb.append(")");
 			}
 			break;
+			
+			
+			
 		default:
 			sb.append("unhandled operation " + operation);
 		}
@@ -4644,18 +4891,35 @@ public class ExpressionNode extends ValidExpression implements
 	}
 
 	private static String leftBracket(StringType type) {
-		return (type.equals(StringType.LATEX)) ? " \\left( " : "(";
+		//return (type.equals(StringType.LATEX)) ? " \\left( " : "(";
+		
+		if (type.equals(StringType.LATEX))
+			return " \\left( ";
+		else if (type.equals(StringType.LIBRE_OFFICE))
+			return " left ( ";
+		else 
+			return "(";
 	}
 
 	private static String rightBracket(StringType type) {
-		return (type.equals(StringType.LATEX)) ? " \\right) " : ")";
+		//return (type.equals(StringType.LATEX)) ? " \\right) " : ")";
+		
+		if (type.equals(StringType.LATEX))
+			return " \\right)";
+		else if (type.equals(StringType.LIBRE_OFFICE))
+			return " right )";
+		else 
+			return ")";
 	}
 
 	private static String multiplicationSign(StringType type) {
 		switch (type) {
 		case LATEX:
 			return " \\cdot ";
-
+		
+		case LIBRE_OFFICE:
+			return " cdot ";
+			
 		case GEOGEBRA:
 			return " "; // space for multiplication
 
