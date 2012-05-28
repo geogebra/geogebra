@@ -26,26 +26,26 @@ public class CmdSetConditionToShowObject extends CmdScripting {
 	protected
 	final void perform(Command c) throws MyError {
 		int n = c.getArgumentNumber();
-
+		GeoElement arg2[];
 		switch (n) {
 		case 2:
-			arg = resArgs(c);
-			if (arg[1].isGeoBoolean()) {
+			arg2 = resArgs(c);
+			if (arg2[1].isGeoBoolean()) {
 
-				GeoElement geo = arg[0];
+				GeoElement geo = arg2[0];
 
 				try {
-					geo.setShowObjectCondition((GeoBoolean) arg[1]);
+					geo.setShowObjectCondition((GeoBoolean) arg2[1]);
 				} catch (CircularDefinitionException e) {
 					e.printStackTrace();
-					throw argErr(app, c.getName(), arg[1]);
+					throw argErr(app, c.getName(), arg2[1]);
 				}
 				geo.updateRepaint();
 
 				
 				return;
 			}
-			throw argErr(app, c.getName(), arg[1]);
+			throw argErr(app, c.getName(), arg2[1]);
 
 		default:
 			throw argNumErr(app, c.getName(), n);

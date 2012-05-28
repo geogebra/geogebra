@@ -28,22 +28,22 @@ public class CmdSetDynamicColor extends CmdScripting {
 	protected
 	final void perform(Command c) throws MyError {
 		int n = c.getArgumentNumber();
-
+		GeoElement[] arg2;
 		switch (n) {
 		case 4:
 			boolean[] ok = new boolean[n];
-			arg = resArgs(c);
-			if ((ok[1] = arg[1].isNumberValue())
-					&& (ok[2] = arg[2].isNumberValue())
-					&& (ok[3] = arg[3].isNumberValue())) {
+			arg2 = resArgs(c);
+			if ((ok[1] = arg2[1].isNumberValue())
+					&& (ok[2] = arg2[2].isNumberValue())
+					&& (ok[3] = arg2[3].isNumberValue())) {
 
-				GeoElement geo = arg[0];
+				GeoElement geo = arg2[0];
 
 				ArrayList<GeoElement> listItems = new ArrayList<GeoElement>();
-				listItems.add(arg[1]); 
-				listItems.add(arg[2]); 
-				listItems.add(arg[3]); 
-				//listItems.add((GeoElement) arg[4]); // no opacity 
+				listItems.add(arg2[1]); 
+				listItems.add(arg2[2]); 
+				listItems.add(arg2[3]); 
+				//listItems.add((GeoElement) arg2[4]); // no opacity 
 				AlgoDependentList algo = new AlgoDependentList(cons, listItems, false);
 				kernelA.getConstruction().removeFromConstructionList(algo);
 				GeoList list = algo.getGeoList();
@@ -55,26 +55,26 @@ public class CmdSetDynamicColor extends CmdScripting {
 				return;
 
 			} else if (!ok[1])
-				throw argErr(app, c.getName(), arg[1]);
+				throw argErr(app, c.getName(), arg2[1]);
 			else if (!ok[2])
-				throw argErr(app, c.getName(), arg[2]);
+				throw argErr(app, c.getName(), arg2[2]);
 			else
-				throw argErr(app, c.getName(), arg[3]);
+				throw argErr(app, c.getName(), arg2[3]);
 		case 5:
 			ok = new boolean[n];
-			arg = resArgs(c);
-			if ((ok[1] = arg[1].isNumberValue())
-					&& (ok[2] = arg[2].isNumberValue())
-					&& (ok[3] = arg[3].isNumberValue())
-					&& (ok[4] = arg[4].isNumberValue())) {
+			arg2 = resArgs(c);
+			if ((ok[1] = arg2[1].isNumberValue())
+					&& (ok[2] = arg2[2].isNumberValue())
+					&& (ok[3] = arg2[3].isNumberValue())
+					&& (ok[4] = arg2[4].isNumberValue())) {
 
-				GeoElement geo = arg[0];
+				GeoElement geo = arg2[0];
 				
 				ArrayList<GeoElement> listItems = new ArrayList<GeoElement>();
-				listItems.add(arg[1]); 
-				listItems.add(arg[2]); 
-				listItems.add(arg[3]); 
-				listItems.add(arg[4]); // opacity 
+				listItems.add(arg2[1]); 
+				listItems.add(arg2[2]); 
+				listItems.add(arg2[3]); 
+				listItems.add(arg2[4]); // opacity 
 				AlgoDependentList algo = new AlgoDependentList(cons, listItems, false);
 				kernelA.getConstruction().removeFromConstructionList(algo);
 				GeoList list = algo.getGeoList();
@@ -86,13 +86,13 @@ public class CmdSetDynamicColor extends CmdScripting {
 				return;
 
 			} else if (!ok[1])
-				throw argErr(app, c.getName(), arg[1]);
+				throw argErr(app, c.getName(), arg2[1]);
 			else if (!ok[2])
-				throw argErr(app, c.getName(), arg[2]);
+				throw argErr(app, c.getName(), arg2[2]);
 			else if (!ok[3])
-				throw argErr(app, c.getName(), arg[3]);
+				throw argErr(app, c.getName(), arg2[3]);
 			else
-				throw argErr(app, c.getName(), arg[4]);
+				throw argErr(app, c.getName(), arg2[4]);
 
 		default:
 			throw argNumErr(app, c.getName(), n);

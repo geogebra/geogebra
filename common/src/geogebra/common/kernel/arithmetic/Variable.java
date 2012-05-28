@@ -81,6 +81,7 @@ public class Variable extends ValidExpression {
 	 * according GeoElement object. 
 	 * 
 	 * @param allowAutoCreateGeoElement true to allow creating new objects
+	 * @param throwError when true, error is thrown when geo not found. Otherwise null is returned in such case.
 	 * @return GeoElement with same label
 	 */
 	protected GeoElement resolve(boolean allowAutoCreateGeoElement,boolean throwError) {
