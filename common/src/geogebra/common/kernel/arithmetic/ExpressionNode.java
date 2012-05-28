@@ -1092,7 +1092,7 @@ public class ExpressionNode extends ValidExpression implements
 			}
 		}
 		if (!polynomialOperation(operation)) {
-			left = new Polynomial(kernel, new Term(kernel, new ExpressionNode(
+			left = new Polynomial(kernel, new Term( new ExpressionNode(
 					kernel, left, operation, right), ""));
 			leaf = true;
 			operation = Operation.NO_OPERATION;
@@ -1104,7 +1104,7 @@ public class ExpressionNode extends ValidExpression implements
 		if (left.isExpressionNode()) {
 			((ExpressionNode) left).makePolynomialTree(equ);
 		} else if (!(left.isPolynomialInstance())) {
-			left = new Polynomial(kernel, new Term(kernel, left, ""));
+			left = new Polynomial(kernel, new Term( left, ""));
 		}
 
 		// transfer right subtree
@@ -1120,7 +1120,7 @@ public class ExpressionNode extends ValidExpression implements
 					}
 				}
 			} else if (!(right.isPolynomialInstance())) {
-				right = new Polynomial(kernel, new Term(kernel, right, ""));
+				right = new Polynomial(kernel, new Term( right, ""));
 			}
 		}
 	}

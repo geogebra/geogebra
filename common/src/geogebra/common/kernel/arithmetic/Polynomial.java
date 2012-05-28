@@ -67,7 +67,7 @@ public class Polynomial extends ValidExpression implements Serializable
 		this(kernel);
 		// Application.debug("poly copy constructor input: " + poly);
 		for (int i = 0; i < poly.length(); i++) {
-			append(new Term(poly.terms.get(i)));
+			append(new Term(poly.terms.get(i),kernel));
 		}
 		// Application.debug("poly copy constructor output: " + this);
 	}
@@ -149,7 +149,7 @@ public class Polynomial extends ValidExpression implements Serializable
 	 * @param number constant addend
 	 */
 	public void add(ExpressionValue number) {
-		append(new Term(kernel, number, ""));
+		append(new Term(number, ""));
 		simplify(); // add up parts with same variables
 	}
 
@@ -158,8 +158,8 @@ public class Polynomial extends ValidExpression implements Serializable
 	 * @param number constant subtrahend
 	 */
 	public void sub(ExpressionValue number) {
-		Term subTerm = new Term(kernel, number, "");
-		subTerm.multiply(-1.0d);
+		Term subTerm = new Term(number, "");
+		subTerm.multiply(new MyDouble(kernel,-1.0d));
 		append(subTerm);
 		simplify(); // add up parts with same variables
 	}
@@ -178,7 +178,7 @@ public class Polynomial extends ValidExpression implements Serializable
 		for (i = 0; i < length(); i++) {
 			ti = getTerm(i);
 			for (j = 0; j < e.length(); j++) {
-				newTerm = new Term(ti);
+				newTerm = new Term(ti,kernel);
 				newTerm.multiply(e.getTerm(j));
 				temp.add(newTerm);
 			}
@@ -230,7 +230,7 @@ public class Polynomial extends ValidExpression implements Serializable
 	public void power(int p) {
 		if (p == 0) {
 			terms.clear(); // drop everything
-			append(new Term(kernel, new MyDouble(kernel, 1), ""));
+			append(new Term(new MyDouble(kernel, 1), ""));
 			return;
 		}
 
@@ -305,7 +305,7 @@ public class Polynomial extends ValidExpression implements Serializable
 	 * @return coefficient
 	 */
 	public ExpressionValue getCoefficient(String variables) {
-		Term t, newTerm = new Term(kernel, new MyDouble(kernel, 0.0), variables);
+		Term t, newTerm = new Term(new MyDouble(kernel, 0.0), variables);
 
 		// add all coefficients of the wanted variables
 		for (int i = 0; i < length(); i++) {
@@ -378,7 +378,7 @@ public class Polynomial extends ValidExpression implements Serializable
 
 		// if nothing is left, keep a term with 0
 		if (list.size() == 0) {
-			list.add(new Term(kernel, new MyDouble(kernel, 0.0), ""));
+			list.add(new Term(new MyDouble(kernel, 0.0), ""));
 		}
 
 		// sort the list

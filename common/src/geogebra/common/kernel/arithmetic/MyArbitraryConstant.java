@@ -47,19 +47,21 @@ public class MyArbitraryConstant  {
 	}*/
 	private int position = 0;
 	/**
-	 * @param myDouble 
+	 * @param myDouble constant index (global)
 	 * @return real constant
 	 */
 	public ExpressionValue nextConst(MyDouble myDouble) {
 		return nextConst(consts,constsM,"c",myDouble);
 	}
 	/**
+	 * @param myDouble constant index (global)
 	 * @return integer constant
 	 */
 	public ExpressionValue nextInt(MyDouble myDouble) {
 		return nextConst(ints,intsM,"k",myDouble);
 	}
 	/**
+	 * @param myDouble constant index (global)
 	 * @return complex constant
 	 */
 	public ExpressionValue nextComplex(MyDouble myDouble) {
@@ -99,10 +101,18 @@ public class MyArbitraryConstant  {
 		position=0;
 	}
 	
+	/**
+	 * Gets arbconst
+	 * @param i index of arbconst within this handler
+	 * @return arbconst
+	 */
 	public GeoNumeric getConst(int i){
 		return consts.get(i);
 	}
 	
+	/**
+	 * @return number of arbconsts, arbcomplexes and arbints together
+	 */
 	public int getTotalNumberOfConsts(){
 		return consts.size()+ints.size()+complexNumbers.size();
 	}
@@ -155,6 +165,9 @@ public class MyArbitraryConstant  {
 	}
 
 
+	/**
+	 * @return whether this handler is bound with CAS cell
+	 */
 	public boolean isCAS() {
 		return ce instanceof GeoCasCell;
 	}

@@ -47,7 +47,16 @@ public interface FunctionalNVar {
 	 * @return comma separated variable names
 	 */
 	public String getVarString(StringTemplate tpl);
+	/**
+	 * @return function expression
+	 */
 	public ExpressionNode getFunctionExpression();
+	/**
+	 * @return whether this function is defined or not
+	 */
 	public boolean isDefined();
+	/**
+	 * @param label new label
+	 */
 	public void setLabel(String label);
 }

@@ -36,15 +36,14 @@ public class Term implements Comparable<Object>, Serializable {
 	/** coefficient */
 	ExpressionValue coefficient; // has to evaluate() to NumberValue
 	private StringBuilder variables;
-	private Kernel kernel;
+	//private Kernel kernel;
 
 	/**
-	 * @param kernel kernel
 	 * @param coeff coefficient
 	 * @param vars variables string, eg. "xxy"
 	 */
-	public Term(Kernel kernel, ExpressionValue coeff, String vars) {
-		this(kernel, coeff, new StringBuilder(vars));
+	public Term(ExpressionValue coeff, String vars) {
+		this(coeff, new StringBuilder(vars));
 	}
 
 	/**
@@ -53,16 +52,14 @@ public class Term implements Comparable<Object>, Serializable {
 	 * @param vars variables string, eg. "xxy"
 	 */
 	public Term(Kernel kernel, double coeff, String vars) {
-		this(kernel, new MyDouble(kernel, coeff), new StringBuilder(vars));
+		this(new MyDouble(kernel, coeff), new StringBuilder(vars));
 	}
 
 	/**
-	 * @param kernel kernel
 	 * @param coeff coefficient
 	 * @param vars variables StringBuilder
 	 */
-	public Term(Kernel kernel, ExpressionValue coeff, StringBuilder vars) {
-		this.kernel = kernel;
+	public Term(ExpressionValue coeff, StringBuilder vars) {
 		coefficient = coeff;
 		variables = vars;
 	}
@@ -70,11 +67,11 @@ public class Term implements Comparable<Object>, Serializable {
 	/**
 	 * Copy constructor
 	 * @param t term to copy
+	 * @param kernel kernel for coefficient
 	 */
-	public Term(Term t) {
-		kernel = t.kernel;
+	public Term(Term t,Kernel kernel) {
 		variables = new StringBuilder(t.variables.toString());
-		coefficient = ExpressionNode.copy(t.coefficient, kernel);
+		coefficient = ExpressionNode.copy(t.coefficient,kernel);
 	}
 
 	/**
@@ -162,6 +159,7 @@ public class Term implements Comparable<Object>, Serializable {
 
 	// return a + b
 	private ExpressionValue add(ExpressionValue a, ExpressionValue b) {
+		Kernel kernel = a.getKernel();
 		boolean aconst = a.isConstant();
 		boolean bconst = b.isConstant();
 		double aval, bval;
@@ -197,7 +195,7 @@ public class Term implements Comparable<Object>, Serializable {
 	}
 
 	private ExpressionValue sub(ExpressionValue a, ExpressionValue b) {
-		return add(a, multiply(new MyDouble(kernel, -1.0d), b));
+		return add(a, multiply(new MyDouble(a.getKernel(), -1.0d), b));
 	}
 
 	/**
@@ -210,13 +208,7 @@ public class Term implements Comparable<Object>, Serializable {
 		variables.append((CharSequence)t.variables);
 		sort(variables);
 	}
-	/**
-	 * Multiplies current value with d
-	 * @param d double to multiply with
-	 */
-	void multiply(double d) {
-		multiply(new MyDouble(kernel, d));
-	}
+	
 
 	/**
 	 * multiply this term with another term return a new Term
@@ -238,7 +230,7 @@ public class Term implements Comparable<Object>, Serializable {
 
 	// c = a * b
 	private ExpressionValue multiply(ExpressionValue a, ExpressionValue b) {
-
+		Kernel kernel = a.getKernel();
 		// multiply constant?
 		boolean aconst = a.isConstant();
 		boolean bconst = b.isConstant();
@@ -290,6 +282,7 @@ public class Term implements Comparable<Object>, Serializable {
 
 	// c = a / b
 	private ExpressionValue divide(ExpressionValue a, ExpressionValue b) {
+		Kernel kernel = a.getKernel();
 		// divide constants
 		boolean aconst = a.isConstant();
 		boolean bconst = b.isConstant();
