@@ -2147,15 +2147,13 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 	 */
 	final public static boolean usesSelectionAsInput(int mode) {
 		switch (mode) {
-		case EuclidianConstants.MODE_MIRROR_AT_LINE:
-			return true;
-		case EuclidianConstants.MODE_MIRROR_AT_POINT:
-			return true;
-		case EuclidianConstants.MODE_ROTATE_BY_ANGLE:
-			return true;
 		case EuclidianConstants.MODE_TRANSLATE_BY_VECTOR:
 			return false; // changed for new "drag" behaviour
+		case EuclidianConstants.MODE_MIRROR_AT_POINT:
+		case EuclidianConstants.MODE_MIRROR_AT_LINE:
 		case EuclidianConstants.MODE_DILATE_FROM_POINT:
+		case EuclidianConstants.MODE_ROTATE_BY_ANGLE:
+		case EuclidianConstants.MODE_PEN:
 			return true;
 		default:
 			return false;

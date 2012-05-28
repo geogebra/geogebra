@@ -1,5 +1,7 @@
 package geogebra.common.awt;
 
+import geogebra.common.kernel.geos.GeoPoint2;
+
 /** Class for integer tuples **/
 public class Point {
 
@@ -54,8 +56,13 @@ public class Point {
 	public int hashCode(){
 		return (x << 16) ^ y;
 	}
+	
 	public double distance(Point d) {
-		return Math.sqrt((x-d.x)*(x-d.x)+(y-d.y)*(y-d.y));
+		return Math.sqrt((x - d.x) * (x - d.x) + (y - d.y) * (y - d.y));
+	}
+
+	public double distance(double dx, double dy) {
+		return (int) Math.sqrt((x - dx) * (x - dx) + (y - dy) * (y - dy));
 	}
 
 }

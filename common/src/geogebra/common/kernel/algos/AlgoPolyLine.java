@@ -41,29 +41,23 @@ public class AlgoPolyLine extends AlgoElement {
     }
     
     public AlgoPolyLine(Construction cons, GeoList geoList) {
-    	this(cons, null, geoList, true);
+    	this(cons, (GeoPointND [])null, geoList);
     }
     
     public AlgoPolyLine(Construction cons, String [] labels, GeoPointND [] points) {
     	this(cons, labels, points, null);
     }
  
-    protected AlgoPolyLine(Construction cons, String [] labels, GeoPointND [] points, GeoList geoList) {
-    	this(cons,labels,points,geoList,true);
-    }
-    
     /**
      * @param cons the construction
-     * @param labels names of the polygon and the segments
+     * @param labels names of the polygon
      * @param points vertices of the polygon
      * @param geoList list of vertices of the polygon (alternative to points)
-     * @param createSegments  says if the polygon has to creates its edges (3D only) 
      */
     protected AlgoPolyLine(Construction cons, String [] labels, 
-    		GeoPointND [] points, GeoList geoList, 
-    		boolean createSegments) {
+    		GeoPointND [] points, GeoList geoList) {
 
-    	this(cons, points, geoList, createSegments);
+    	this(cons, points, geoList);
         
         if (labels != null)
         	poly.setLabel(labels[0]);
@@ -73,14 +67,13 @@ public class AlgoPolyLine extends AlgoElement {
     }   
     
     protected AlgoPolyLine(Construction cons,  
-    		GeoPointND [] points, GeoList geoList, 
-    		boolean createSegments) {
+    		GeoPointND [] points, GeoList geoList) {
         super(cons);
         this.points = points;           
         this.geoList = geoList;
           
         //poly = new GeoPolygon(cons, points);
-        createPolyLine(createSegments);  
+        createPolyLine();  
         
         // compute polygon points
         compute();  
@@ -91,9 +84,8 @@ public class AlgoPolyLine extends AlgoElement {
     
     /**
      * create the polygon
-     * @param createSegments says if the polygon has to creates its edges (3D only)
      */
-    protected void createPolyLine(boolean createSegments){
+    protected void createPolyLine(){
     	poly = new GeoPolyLine(this.cons, this.points);
     }
         
@@ -165,6 +157,10 @@ public class AlgoPolyLine extends AlgoElement {
     	return (GeoPoint2[]) points;
     }
     
+    public GeoList getPointsList() {
+    	return geoList;
+    }
+    
  
     @Override
 	public void compute() { 
@@ -191,7 +187,7 @@ public class AlgoPolyLine extends AlgoElement {
 		if (geoList != null) {
 			sb.append(geoList.getLabel(tpl));
 			
-		} else {
+		} else if (points.length < 20) {
 		// use point labels
 			 
 			int last = points.length - 1;
@@ -200,8 +196,16 @@ public class AlgoPolyLine extends AlgoElement {
 				sb.append(", ");
 			}
 			sb.append(points[last].getLabel(tpl));
+		} else {
+			// too long (eg from Pen Tool), just return empty string
+			return "";
 		}
               
         return  sb.toString();
     }
+
+	public void setPointsList(GeoList newPts) {
+		this.geoList = newPts;
+		
+	}
 }

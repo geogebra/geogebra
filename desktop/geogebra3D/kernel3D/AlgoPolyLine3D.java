@@ -38,10 +38,6 @@ public class AlgoPolyLine3D extends AlgoPolyLine {
     	this(cons, labels, points, null);
     }
  
-    protected AlgoPolyLine3D(Construction cons, String [] labels, GeoPointND [] points, GeoList geoList) {
-    	this(cons,labels,points,geoList,true);
-    }
-    
     /**
      * @param cons the construction
      * @param labels names of the polygon and the segments
@@ -50,9 +46,8 @@ public class AlgoPolyLine3D extends AlgoPolyLine {
      * @param createSegments  says if the polygon has to creates its edges (3D only) 
      */
     protected AlgoPolyLine3D(Construction cons, String [] labels, 
-    		GeoPointND [] points, GeoList geoList,
-    		boolean createSegments) {
-        super(cons, labels, points, geoList, createSegments);
+    		GeoPointND [] points, GeoList geoList) {
+        super(cons, labels, points, geoList);
 
         //poly = new GeoPolygon(cons, points);
       //  createPolyLine(createSegments);  
@@ -75,7 +70,7 @@ public class AlgoPolyLine3D extends AlgoPolyLine {
      * @param createSegments says if the polygon has to creates its edges (3D only)
      */
     @Override
-	protected void createPolyLine(boolean createSegments){
+	protected void createPolyLine(){
     	poly = new GeoPolyLine3D(this.cons, this.points);
     }
         

@@ -3,6 +3,7 @@ package geogebra.common.euclidian;
 import geogebra.common.awt.Color;
 import geogebra.common.awt.Point;
 import geogebra.common.euclidian.event.AbstractEvent;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoImage;
 
 import java.util.List;
@@ -17,10 +18,10 @@ public abstract class EuclidianPen {
 	public abstract GeoImage getPenGeo();
 
 	/**
-	 * @param geo image for drawing
+	 * @param geo image or PolyLine for drawing
 	 * If geo is not null, marks true to mark this as writing to existing image
 	 */
-	public abstract void setPenGeo(GeoImage geo);
+	public abstract void setPenGeo(GeoElement geo);
 
 	/**
 	 * @param b true to switch to freehand function drawing mode

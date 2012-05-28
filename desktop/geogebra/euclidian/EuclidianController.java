@@ -242,6 +242,13 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 		event.release();
 	}
 
+	public void resetPen() {
+		if (pen != null) {
+			pen.resetPenOffsets();
+		}
+		
+	}
+
 
 	
 

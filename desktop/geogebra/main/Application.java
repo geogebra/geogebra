@@ -56,6 +56,7 @@ import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
 import geogebra.euclidian.DrawEquation;
 import geogebra.euclidian.EuclidianController;
+import geogebra.euclidian.EuclidianPen;
 import geogebra.euclidian.EuclidianView;
 import geogebra.euclidianND.EuclidianViewND;
 import geogebra.export.GeoGebraTubeExportDesktop;
@@ -5165,6 +5166,16 @@ public class Application extends AbstractApplication implements
 
 	public CommandLineArguments getCommandLineArgs() {
 		return args;
+	}
+
+	public void resetPen() {
+		
+		getEuclidianView1().getEuclidianController().resetPen();
+		
+		if (hasEuclidianView2()) {
+			getEuclidianView2().getEuclidianController().resetPen();
+		}
+		
 	}
 	
 

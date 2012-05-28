@@ -1,6 +1,7 @@
 package geogebra.web.euclidian;
 
 import geogebra.common.euclidian.AbstractEuclidianView;
+import geogebra.common.euclidian.EuclidianPen;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.MyDouble;
@@ -231,5 +232,11 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 		return app.showResetIcon()
 				&& ((mouseLoc.y < 20) && (mouseLoc.x > (view.getViewWidth() - 18)));
 	}
+
+	@Override
+    public EuclidianPen getPen() {
+		AbstractApplication.debug("implementation needed");
+	    return null;
+    }
 
 }

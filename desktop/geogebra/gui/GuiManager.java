@@ -2286,6 +2286,7 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 		app.setWaitCursor();
 		kernel.redo();
 		updateActions();
+		app.resetPen();
 		app.setDefaultCursor();
 	}
 
@@ -2293,6 +2294,7 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 		app.setWaitCursor();
 		kernel.undo();
 		updateActions();
+		app.resetPen();
 		app.setDefaultCursor();
 	}
 

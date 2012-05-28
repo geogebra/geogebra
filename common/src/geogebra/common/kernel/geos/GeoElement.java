@@ -5566,6 +5566,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	public static boolean moveObjects(ArrayList<GeoElement> geosToMove,
 			final Coords rwTransVec, final Coords endPosition,
 			final Coords viewDirection) {
+		//AbstractApplication.printStacktrace("XXX");
 		if (moveObjectsUpdateList == null) {
 			moveObjectsUpdateList = new ArrayList<GeoElement>();
 		}
@@ -5595,12 +5596,13 @@ public abstract class GeoElement extends ConstructionElement implements
 			 * corner, Rigid Polygon and stops grid-lock working properly but is
 			 * needed for eg dragging (a + x(A), b + x(B))
 			 */
-			AbstractApplication.debug((geo.getParentAlgorithm() == null) + " "
-					+ size + " " + geo.getClassName());
+			//AbstractApplication.debug((geo.getParentAlgorithm() == null) + " "
+			//		+ size + " " + geo.getClassName()+" "+geo.getLabel(StringTemplate.defaultTemplate));
 			final Coords position = (size == 1)
 					&& (geo.getParentAlgorithm() != null) ? endPosition : null;
 			moved = geo.moveObject(rwTransVec, position, viewDirection,
 					moveObjectsUpdateList) || moved;
+			
 		}
 
 		// take all independent input objects and build a common updateSet

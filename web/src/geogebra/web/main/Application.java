@@ -1322,7 +1322,7 @@ public class Application extends AbstractApplication {
 	public String getTooltipLanguageString() {
 		
 		String localeName = LocaleInfo.getCurrentLocale().getLocaleName();
-		if(localeName != null && !localeName.isEmpty()) {
+		if(localeName != null && !"".equals(localeName)) {
 			if(localeName.equals(LANGUAGE_NORWEGIAN_NYNORSK_BCP47)) {
 				return LANGUAGE_NORWEGIAN_NYNORSK;
 			}
@@ -1433,7 +1433,7 @@ public class Application extends AbstractApplication {
 
 			ret = symbolConstants.getString("S_" + key);
 
-			if (ret != null && ret.isEmpty()) {
+			if (ret != null && "".equals(ret)) {
 				return null;
 			}
 			return ret;
@@ -1455,7 +1455,7 @@ public class Application extends AbstractApplication {
 
 			String ret = null;
 			ret = symbolConstants.getString("T_" + key);
-			if (ret != null && ret.isEmpty()) {
+			if (ret != null && "".equals(ret)) {
 				return null;
 			}
 			

@@ -4946,7 +4946,7 @@ public class Kernel {
 			else if (type.equals("polygon"))
 				return new GeoPolygon(cons1, null);
 			else if (type.equals("polyline"))
-				return new GeoPolyLine(cons1, null);
+				return new GeoPolyLine(cons1, (GeoPointND[])null);
 			else
 				// parabola, parallelLines, point // bug in GeoGebra 2.6c
 				return new GeoConic(cons1);

@@ -8457,6 +8457,7 @@ public abstract class AbstractEuclidianController {
 			 */
 	
 			ArrayList<GeoElement> selection = app.getSelectedGeos();
+			pen.setPenGeo(null);
 			if (selection.size() == 1) {
 				GeoElement geo = selection.get(0);
 				// getCorner(1) == null as we can't write to transformed images
@@ -8473,10 +8474,10 @@ public abstract class AbstractEuclidianController {
 							// (ie image was probably created by the Pen Tool)
 							|| ((c1 != null) && (c2 != null)
 									&& noZoomNeeded(c1,c2,(GeoImage)geo))) {
-						pen.setPenGeo((GeoImage) geo);
-					} else {
-						pen.setPenGeo(null);
-					}
+						pen.setPenGeo(geo);
+					} 
+				} else if (geo instanceof GeoPolyLine) {
+					pen.setPenGeo(geo);
 				}
 			}
 	
@@ -8663,7 +8664,11 @@ public abstract class AbstractEuclidianController {
 	}
 
 	public void setMode(int newMode) {
-	
+
+		if (pen != null) {
+			pen.resetPenOffsets();
+		}
+
 		if ((newMode == EuclidianConstants.MODE_SPREADSHEET_ONEVARSTATS)
 				|| (newMode == EuclidianConstants.MODE_SPREADSHEET_TWOVARSTATS)
 				|| (newMode == EuclidianConstants.MODE_SPREADSHEET_MULTIVARSTATS)) {
@@ -8695,10 +8700,7 @@ public abstract class AbstractEuclidianController {
 		kernel.notifyRepaint();
 	}
 
-	public EuclidianPen getPen() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	public abstract EuclidianPen getPen();
 	
 	public void zoomInOut(boolean altPressed, boolean minusPressed) {
 		boolean allowZoom = !app.isApplet()

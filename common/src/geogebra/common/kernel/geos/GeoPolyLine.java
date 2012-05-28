@@ -23,6 +23,7 @@ import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.main.AbstractApplication;
 import geogebra.common.plugin.GeoClass;
 
 import java.util.HashSet;
@@ -56,6 +57,33 @@ public class GeoPolyLine extends GeoElement implements NumberValue, Path,
 	 */
 	public GeoPolyLine(Construction cons, String label, GeoPointND[] points) {
 		this(cons, points);
+		setLabel(label);
+	}
+
+	/**
+	 * @param cons construction
+	 */
+	public GeoPolyLine(Construction cons) {
+		super(cons);
+
+		// moved from GeoElement's constructor
+		// must be called from the subclass, see
+		// http://benpryor.com/blog/2008/01/02/dont-call-subclass-methods-from-a-superclass-constructor/
+		setConstructionDefaults(); // init visual settings
+	}
+
+	/**
+	 * @param cons construction
+	 * @param label label
+	 */
+	public GeoPolyLine(Construction cons, String label) {
+		super(cons);
+
+		// moved from GeoElement's constructor
+		// must be called from the subclass, see
+		// http://benpryor.com/blog/2008/01/02/dont-call-subclass-methods-from-a-superclass-constructor/
+		setConstructionDefaults(); // init visual settings
+		
 		setLabel(label);
 	}
 
@@ -109,7 +137,7 @@ public class GeoPolyLine extends GeoElement implements NumberValue, Path,
 
 	@Override
 	public GeoElement copyInternal(Construction cons1) {
-		GeoPolyLine ret = new GeoPolyLine(cons1, null);
+		GeoPolyLine ret = new GeoPolyLine(cons1);
 		ret.points = GeoElement.copyPoints(cons1, points);
 		ret.set(this);
 
@@ -466,8 +494,9 @@ public class GeoPolyLine extends GeoElement implements NumberValue, Path,
 		calcLength();
 
 	}
-
+	
 	public void translate(Coords v) {
+		AbstractApplication.debug("translating points");
 		for (int i = 0; i < points.length; i++) {
 			((GeoPoint2) points[i]).translate(v);
 		}

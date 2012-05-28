@@ -7,12 +7,17 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.algos.AlgoCircleThreePoints;
 import geogebra.common.kernel.algos.AlgoJoinPointsSegment;
+import geogebra.common.kernel.algos.AlgoPolyLine;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoImage;
+import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPolyLine;
+import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.util.Unicode;
+import geogebra.euclidianND.EuclidianViewND;
 import geogebra.main.Application;
 
 import java.awt.AlphaComposite;
@@ -21,8 +26,6 @@ import java.awt.Graphics2D;
 import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
-import geogebra.euclidianND.EuclidianViewND;
-
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.Shape;
@@ -31,6 +34,7 @@ import java.awt.event.MouseEvent;
 import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
@@ -44,6 +48,7 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 	private BufferedImage penImage = null;
 	private GeoImage penGeo = null; // used if drawing to existing GeoImage
 	private GeoImage lastPenImage = null;
+	private AlgoPolyLine lastPolyLine = null;
 	private boolean penWritingToExistingImage = false;
 	private ArrayList<Point> penPoints = new ArrayList<Point>();
 	private ArrayList<Point> temp = null;
@@ -152,7 +157,18 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 	private int eraserSize;
 	private int penLineStyle;
 	private Color penColor;
+	
+	// being used for Freehand Function tool
 	private boolean freehand = false;
+	
+	// being used for Freehand Shape tool (not done yet)
+	private boolean recognizeShapes = false;
+	
+	// being used for vector (makes GeoPolyLine) or bitmap (makes GeoImage)
+	private boolean vector = true;
+	private String vectorName = "sketch";
+	
+	
 
 	/************************************************
 	 * Construct EuclidianPen
@@ -193,9 +209,17 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 	}
 
 	@Override
-	public void setPenGeo(GeoImage penGeo) {
-		this.penGeo = penGeo;
-		penWritingToExistingImage = penGeo!= null;
+	public void setPenGeo(GeoElement penGeo) {
+		
+		if (penGeo == null) {
+			this.penGeo = null;
+			lastPolyLine = null;
+		} else if (penGeo.isGeoImage()) {
+			this.penGeo = (GeoImage) penGeo;
+			penWritingToExistingImage = penGeo!= null;
+		} else if (penGeo.getParentAlgorithm() instanceof AlgoPolyLine) {
+			lastPolyLine = (AlgoPolyLine) penGeo.getParentAlgorithm();
+		}
 	}
 
 	@Override
@@ -206,6 +230,7 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 		penImage = null;
 		penGeo = null;
 		lastPenImage = null;
+		lastPolyLine = null;
 	}
 
 	// ===========================================
@@ -214,7 +239,18 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 
 	public void handleMousePressedForPenMode(MouseEvent e, Hits hits) {
 
-		Rectangle rect = geogebra.awt.Rectangle.getAWTRectangle(view.getSelectionRectangle());
+		Rectangle rect = vector ? null : geogebra.awt.Rectangle.getAWTRectangle(view.getSelectionRectangle());
+		
+		if (vector) {
+			
+			// if a PolyLine is selected, we can append to it.
+			
+			ArrayList<GeoElement> selGeos = app.getSelectedGeos();
+			
+			if (selGeos.size() == 1 && selGeos.get(0) instanceof GeoPolyLine) {
+				lastPolyLine = (AlgoPolyLine) selGeos.get(0).getParentAlgorithm();
+			}
+		}
 
 		if (Application.isRightClick(e) && !freehand) {
 			view.setCursor(app.getEraserCursor());
@@ -267,7 +303,8 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 					(int) rect.getHeight(), Transparency.BITMASK);
 
 			lastPenImage = null;
-
+			lastPolyLine = null;
+			
 			penOffsetX = rect.x;
 			penOffsetY = rect.y;
 			penUsingOffsets = true;
@@ -303,7 +340,7 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 		}
 
 		// check if mouse pressed over existing image
-		if (penImage == null && hits != null && hits.size() > 0) {
+		if (penImage == null && hits != null && hits.size() > 0 && hits.get(0).isGeoImage()) {
 			GeoImage hit = (GeoImage) hits.get(0);
 
 			GeoPoint2 c1 = hit.getCorner(0);
@@ -437,6 +474,45 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 			return; // right click
 
 		app.setDefaultCursor();
+
+		if (!erasing && recognizeShapes) {
+			checkShapes(e);
+		}
+		
+		// if (lastPenImage != null) penImage = lastPenImage.getImage();
+		// //app.getExternalImage(lastPenImage);
+
+		// Application.debug(penPoints.size()+"");
+
+		if (vector) {
+			addPointsToPolyLine(penPoints);
+		} else {
+			doDrawPoints(null, penPoints);
+		}
+		
+		if (app.getScriptManager() != null) {
+			double x[] = new double[penPoints.size()], y[] = new double[penPoints
+			                                                            .size()];
+			for (int i = 0; i < penPoints.size(); i++) {
+				x[i] = view.toRealWorldCoordX(penPoints.get(i).getX()
+						+ penOffsetX);
+				y[i] = view.toRealWorldCoordY(penPoints.get(i).getY()
+						+ penOffsetY);
+			}
+			// we want to clear the points before notifyDraw throws potential
+			// exception
+			penPoints.clear();
+			if (vector) {
+				Application.warn("TODO");
+			} else {
+				app.getScriptManager().notifyDraw(lastPenImage.getLabelSimple(), x, y);
+			}
+		} else {
+			penPoints.clear();
+		}
+	}
+
+	private void checkShapes(MouseEvent e) {
 
 		String gesture = this.getGesture();
 		count = 0;
@@ -636,29 +712,116 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 			{
 				this.makeACircle(this.center_x(s), this.center_y(s), this.I_rad(s));
 			}
-		}
-		// if (lastPenImage != null) penImage = lastPenImage.getImage();
-		// //app.getExternalImage(lastPenImage);
+		}		
+	}
 
-		// Application.debug(penPoints.size()+"");
-
-		doDrawPoints(null, penPoints);
-		if (app.getScriptManager() != null) {
-			double x[] = new double[penPoints.size()], y[] = new double[penPoints
-			                                                            .size()];
-			for (int i = 0; i < penPoints.size(); i++) {
-				x[i] = view.toRealWorldCoordX(penPoints.get(i).getX()
-						+ penOffsetX);
-				y[i] = view.toRealWorldCoordY(penPoints.get(i).getY()
-						+ penOffsetY);
+	private void addPointsToPolyLine(ArrayList<Point> penPoints2) {
+		
+		Construction cons = app.getKernel().getConstruction();
+		//GeoList newPts;// = new GeoList(cons);
+		GeoPoint2[] newPts;// = new GeoList(cons);
+		int offset;
+		if (erasing) {
+			
+			if (lastPolyLine == null) {
+				return;
 			}
-			// we want to clear the points before notifyDraw throws potential
-			// exception
-			penPoints.clear();
-			app.getScriptManager().notifyDraw(lastPenImage.getLabelSimple(), x, y);
-		} else
-			penPoints.clear();
+			
+			GeoPoint2[] pts = lastPolyLine.getPoints();
+			
+			newPts = new GeoPoint2[pts.length];
+			
+			GeoPoint2 undefinedPoint = new GeoPoint2(cons, Double.NaN, Double.NaN, 1);
 
+			for (int i = 0 ; i < pts.length ; i++) {
+				
+				// check if each point is inside eraser
+				
+		    	Iterator<geogebra.common.awt.Point> it = penPoints2.iterator();
+		    	boolean erase = false;
+		    	while (it.hasNext() && !erase) {
+		    		Point p = it.next();
+		    		if (p.distance(view.toScreenCoordXd(pts[i].inhomX), view.toScreenCoordYd(pts[i].inhomY)) < eraserSize) {
+		    			erase = true;
+		    		}		    			    		
+				}
+
+				// add undefined point to erase (creates a gap)
+				newPts[i] = erase ? undefinedPoint : (GeoPoint2) pts[i].copyInternal(cons);
+			}
+			
+		} else {
+			if (lastPolyLine == null) {
+				//lastPolyLine = new GeoPolyLine(cons, "hello");
+				newPts = new GeoPoint2[penPoints2.size()];
+				//newPts = new GeoList(cons);
+				offset = 0;
+			} else {
+				//newPts = lastPolyLine.getPointsList();
+				
+				// force a gap
+				//newPts.add(new GeoPoint2(cons, Double.NaN, Double.NaN, 1));
+				
+				
+				GeoPoint2[] pts = lastPolyLine.getPoints();
+				
+				newPts = new GeoPoint2[penPoints2.size() + 1 + pts.length];
+				
+				for (int i = 0 ; i < pts.length ; i++) {
+					newPts[i] = (GeoPoint2) pts[i].copyInternal(cons);
+				}
+				
+				newPts[pts.length] = new GeoPoint2(cons, Double.NaN, Double.NaN, 1);
+	
+				
+				offset = pts.length + 1;
+				
+			}
+			
+	    	Iterator<geogebra.common.awt.Point> it = penPoints2.iterator();
+	    	while (it.hasNext()) {
+	    		Point p = it.next();
+	    		//newPts.add(new GeoPoint2(cons, view.toRealWorldCoordX(p.getX()), view.toRealWorldCoordY(p.getY()), 1));
+	    		newPts[offset++] = new GeoPoint2(cons, view.toRealWorldCoordX(p.getX()), view.toRealWorldCoordY(p.getY()), 1);
+			}
+		}
+		
+		
+    	AlgoPolyLine newPolyLine = new AlgoPolyLine(cons, null, newPts);
+    	
+    	
+		if (lastPolyLine == null) {
+			//lastPolyLine = new AlgoPolyLine(cons, null, newPts);
+		} else {
+	    	try {
+				cons.replace(lastPolyLine.getPoly(), newPolyLine.getPoly());
+				//String label = lastPolyLine.getPoly().getLabelSimple();
+				//lastPolyLine.getPoly().remove();
+				//lastPolyLine.remove();
+				//newPolyLine.getPoly().setLabel(label);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			//lastPolyLine.setPointsList(newPts);
+		}
+		
+		lastPolyLine = newPolyLine;
+		
+		GeoPolyLine poly = lastPolyLine.getPoly();
+		
+		poly.setLineThickness(penSize * 2);
+		poly.setLineType(penLineStyle);
+		poly.setObjColor(new geogebra.awt.Color(penColor));
+		poly.setLayer(1);
+		
+		app.clearSelectedGeos();
+		app.addSelectedGeo(poly);
+
+		
+		lastPolyLine.getPoly().updateRepaint();
+		
+		app.storeUndoInfo();
 	}
 
 	@Override
