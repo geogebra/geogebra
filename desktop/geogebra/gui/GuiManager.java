@@ -815,13 +815,15 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 	
 	public void setShowView(boolean flag, int viewId, boolean isPermanent) {
 		if (flag) {
-			layout.getDockManager().show(viewId);
+			if (!showView(viewId))
+				layout.getDockManager().show(viewId);
 
 			if (viewId == AbstractApplication.VIEW_SPREADSHEET) {
 				getSpreadsheetView().requestFocus();
 			}
 		} else {
-			layout.getDockManager().hide(viewId, isPermanent);
+			if (showView(viewId))
+				layout.getDockManager().hide(viewId, isPermanent);
 
 			if (viewId == AbstractApplication.VIEW_SPREADSHEET) {
 				app.getActiveEuclidianView().requestFocus();

@@ -584,7 +584,7 @@ public class PropertiesView extends JPanel implements
 
 	public void attachView() {
 		if (attached){
-			AbstractApplication.error("already attached");
+			AbstractApplication.printStacktrace("already attached");
 			return;
 		}
 		
