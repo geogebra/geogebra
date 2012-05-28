@@ -76,6 +76,8 @@ public abstract class GuiManager {
 	public abstract void attachSpreadsheetView();
 
 	public abstract void setShowView(boolean b, int viewSpreadsheet);
+	
+	public abstract void setShowView(boolean b, int viewSpreadsheet, boolean isPermanent);
 
 	public abstract boolean showView(int viewSpreadsheet);
 

@@ -170,6 +170,15 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 		AbstractApplication.debug("unimplemented method");
 
 	}
+	
+	@Override
+	public void setShowView(boolean b, int viewSpreadsheet, boolean isPermanent) {
+		// TODO Auto-generated method stub
+		AbstractApplication.debug("unimplemented method");
+
+	}
+	
+
 
 	@Override
 	public boolean showView(int viewSpreadsheet) {
