@@ -207,7 +207,7 @@ public class Equation extends ValidExpression {
         	// avoid auto creation of GeoElement when lhs is a single variable
             // e.g. A4 = x^2
         	Variable leftVar = (Variable) lhs.getLeft();
-        	lhs.setLeft(leftVar.resolve(false)); // don't allow auto creation of variables
+        	lhs.setLeft(leftVar.resolve(false,true)); // don't allow auto creation of variables
         } 
         else {
         	// standard case for lhs

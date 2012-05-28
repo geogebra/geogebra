@@ -27,6 +27,8 @@ import geogebra.common.plugin.Operation;
 
 import java.util.HashSet;
 
+import com.google.gwt.regexp.shared.RegExp;
+
 /**
  * 
  * @author Markus Hohenwarter
@@ -70,8 +72,8 @@ public class Variable extends ValidExpression {
 	 * Looks up the name of this variable in the kernel and returns the
 	 * according GeoElement object.
 	 */
-	private GeoElement resolve() {
-		return resolve(!kernel.isResolveUnkownVarsAsDummyGeos());
+	private GeoElement resolve(boolean throwError) {
+		return resolve(!kernel.isResolveUnkownVarsAsDummyGeos(),throwError);
 	}
 
 	/**
@@ -81,7 +83,7 @@ public class Variable extends ValidExpression {
 	 * @param allowAutoCreateGeoElement true to allow creating new objects
 	 * @return GeoElement with same label
 	 */
-	protected GeoElement resolve(boolean allowAutoCreateGeoElement) {
+	protected GeoElement resolve(boolean allowAutoCreateGeoElement,boolean throwError) {
 		// keep bound CAS variables when resolving a CAS expression
 		if (kernel.isResolveUnkownVarsAsDummyGeos()) {
 			// resolve unknown variable as dummy geo to keep its name and
@@ -93,7 +95,7 @@ public class Variable extends ValidExpression {
 		// allowed
 		GeoElement geo = kernel.lookupLabel(name,
 				allowAutoCreateGeoElement);
-		if (geo != null)
+		if (geo != null || !throwError)
 			return geo;
 
 		// if we get here we couldn't resolve this variable name as a GeoElement
@@ -101,6 +103,8 @@ public class Variable extends ValidExpression {
 		throw new MyParseError(kernel.getApplication(), str);
 	}
 
+	private static final RegExp polyPattern = RegExp
+			.compile("^[x-z]*$");
 	/**
 	 * Looks up the name of this variable in the kernel and returns the
 	 * according GeoElement object. For absolute spreadsheet reference names
@@ -111,7 +115,17 @@ public class Variable extends ValidExpression {
 	 * wrapping spreadsheet reference 
 	 */
 	final public ExpressionValue resolveAsExpressionValue() {
-		GeoElement geo = resolve();
+		GeoElement geo = resolve(false);
+		if(geo==null && polyPattern.test(name)){
+			String[] xx = new String[]{"","",""};
+			for(int i=0;i<name.length();i++){
+				xx[name.charAt(i)-'x'] += name.charAt(i);
+			}
+			return new Polynomial(kernel,xx[0]+xx[1]+xx[2]);
+		}
+		else if(geo==null){
+			resolve(true);
+		}
 
 		// spreadsheet dollar sign reference
 		if (name.indexOf('$') > -1) {
@@ -136,7 +150,7 @@ public class Variable extends ValidExpression {
 
 	public HashSet<GeoElement> getVariables() {
 		HashSet<GeoElement> ret = new HashSet<GeoElement>();
-		ret.add(resolve());
+		ret.add(resolve(true));
 		return ret;
 	}
 
