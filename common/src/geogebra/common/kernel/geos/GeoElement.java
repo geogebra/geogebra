@@ -5900,6 +5900,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * string representing the formula of the GeoElement in the following
 	 * formats: getFormulaString(StringType.MathPiper) eg Sqrt(x)
 	 * getFormulaString(StringType.LATEX) eg \sqrt(x)
+	 * getFormulaString(StringType.LIBRE_OFFICE) eg sqrt {x}
 	 * getFormulaString(StringType.GEOGEBRA) eg sqrt(x)
 	 * getFormulaString(StringType.GEOGEBRA_XML)
 	 * getFormulaString(StringType.JASYMCA)
