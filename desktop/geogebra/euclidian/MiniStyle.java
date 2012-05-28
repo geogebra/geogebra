@@ -167,7 +167,7 @@ public class MiniStyle {
 			geo.setObjColor(new geogebra.awt.Color(color));
 			geo.setAlphaValue(alpha);
 
-			geo.update();
+			geo.updateVisualStyle();
 
 		}
 	}

@@ -7716,7 +7716,9 @@ public abstract class AbstractEuclidianController {
 			// if(panel != null) {
 			// app.getGuiManager().getLayout().getDockManager().setFocusedPanel(panel);
 			// }
-			app.getGuiManager().setFocusedPanel(event,false);
+			app.getGuiManager().setFocusedPanel(event,false);		
+			app.getGuiManager().mousePressedForPropertiesView();
+			
 		}
 		
 		
@@ -8317,7 +8319,7 @@ public abstract class AbstractEuclidianController {
 		
 		
 		if (app.isUsingFullGui() && app.getGuiManager() != null) {			
-			app.getGuiManager().updatePropertiesView(hits);
+			app.getGuiManager().mouseReleasedForPropertiesView();
 		}
 		
 		

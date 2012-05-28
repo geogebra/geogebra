@@ -1331,7 +1331,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 */
 	public void setVisualStyleForTransformations(final GeoElement geo) {
 		setVisualStyle(geo);
-		update();
+		updateVisualStyle();
 	}
 
 	/**

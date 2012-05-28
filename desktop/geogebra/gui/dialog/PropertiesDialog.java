@@ -887,7 +887,7 @@ public class PropertiesDialog extends JDialog implements WindowListener,
 				if (iconClicked) {
 					// icon clicked: toggle show/hide
 					geo.setEuclidianVisible(!geo.isSetEuclidianVisible());
-					geo.update();
+					geo.updateVisualStyle();
 					kernel.notifyRepaint();
 
 					// update properties dialog by selecting this geo again

@@ -836,7 +836,7 @@ public class GeoPolygon extends GeoElement implements NumberValue, Path,
 		if (updateSegments && segments != null) {
 			for (int i = 0; i < segments.length; i++) {
 				segments[i].setEuclidianVisible(visible);
-				segments[i].update();
+				segments[i].updateVisualStyle();
 			}
 		}
 	}
@@ -847,7 +847,7 @@ public class GeoPolygon extends GeoElement implements NumberValue, Path,
 		if (segments != null && createSegments) {
 			for (int i = 0; i < segments.length; i++) {
 				segments[i].setObjColor(color);
-				segments[i].update();
+				segments[i].updateVisualStyle();
 			}
 		}
 	}
@@ -869,7 +869,7 @@ public class GeoPolygon extends GeoElement implements NumberValue, Path,
 			if (segments != null) {
 				for (int i = 0; i < segments.length; i++) {
 					segments[i].setLineType(type);
-					segments[i].update();
+					segments[i].updateVisualStyle();
 				}
 			}
 	}
@@ -891,7 +891,7 @@ public class GeoPolygon extends GeoElement implements NumberValue, Path,
 			if (segments != null) {
 				for (int i = 0; i < segments.length; i++) {
 					((GeoElement) segments[i]).setLineTypeHidden(type);
-					segments[i].update();
+					segments[i].updateVisualStyle();
 				}
 			}
 	}
@@ -914,7 +914,7 @@ public class GeoPolygon extends GeoElement implements NumberValue, Path,
 			if (segments != null) {
 				for (int i = 0; i < segments.length; i++) {
 					segments[i].setLineThickness(th);
-					segments[i].update();
+					segments[i].updateVisualStyle();
 				}
 			}
 	}

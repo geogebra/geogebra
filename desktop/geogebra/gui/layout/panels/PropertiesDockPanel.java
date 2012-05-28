@@ -124,6 +124,7 @@ public class PropertiesDockPanel extends DockPanel implements
 	/*
 	 * Window Listener
 	 */
+	@Override
 	public void windowActivated(WindowEvent e) {
 		/*
 		 * if (!isModal()) { geoTree.setSelected(null, false);
@@ -131,29 +132,43 @@ public class PropertiesDockPanel extends DockPanel implements
 		 */
 	}
 
+	@Override
 	public void windowDeactivated(WindowEvent e) {
 	}
 
+	@Override
 	public void windowClosing(WindowEvent e) {
 		// cancel();
 		closeDialog();
 	}
 
+	@Override
 	public void windowClosed(WindowEvent e) {
 	}
 
+	@Override
 	public void windowDeiconified(WindowEvent e) {
 	}
 
+	@Override
 	public void windowIconified(WindowEvent e) {
 	}
 
+	@Override
 	public void windowOpened(WindowEvent e) {
 	}
 
 	public void closeDialog() {
 		view.closeDialog();
 	}
-	
+
+
+	@Override
+	public void setFocus(boolean hasFocus, boolean updatePropertiesView) {
+
+		//no action on properties view
+		
+		setFocus(hasFocus);
+	}
 	
 }

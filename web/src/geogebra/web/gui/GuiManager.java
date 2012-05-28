@@ -380,9 +380,15 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 	    // TODO Auto-generated method stub
 	    
     }
+	
 
 	@Override
-    public void updatePropertiesView(ArrayList<GeoElement> hits) {
+	public void mousePressedForPropertiesView(){
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+    public void mouseReleasedForPropertiesView() {
 	    // TODO Auto-generated method stub
 	    
     }

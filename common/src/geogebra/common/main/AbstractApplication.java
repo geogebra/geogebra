@@ -1139,7 +1139,7 @@ public abstract class AbstractApplication {
 		for (int i = 0; i < selectedGeos.size(); i++) {
 			GeoElement geo = selectedGeos.get(i);
 			geo.setEuclidianVisible(!geo.isEuclidianVisible());
-			geo.update();
+			geo.updateVisualStyle();
 		}
 		kernel.notifyRepaint();
 		updateSelection();
@@ -1150,7 +1150,7 @@ public abstract class AbstractApplication {
 		for (int i = 0; i < selectedGeos.size(); i++) {
 			GeoElement geo = selectedGeos.get(i);
 			geo.setLabelVisible(!geo.isLabelVisible());
-			geo.update();
+			geo.updateVisualStyle();
 		}
 		kernel.notifyRepaint();
 		updateSelection();

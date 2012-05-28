@@ -124,5 +124,13 @@ public abstract class GuiManager {
 
 	public abstract void updatePropertiesView();
 	
-	public abstract void updatePropertiesView(ArrayList<GeoElement> hits);
+	/**
+	 * tells the properties view that mouse has been pressed
+	 */
+	public abstract void mousePressedForPropertiesView();	
+	
+	/**
+	 * tells the properties view that mouse has been released
+	 */
+	public abstract void mouseReleasedForPropertiesView();
 }

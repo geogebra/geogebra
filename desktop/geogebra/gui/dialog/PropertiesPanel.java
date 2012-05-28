@@ -561,6 +561,8 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 			//tabs.setVisible(false);
 		}
 	}
+	
+	
 
 	/**
 	 * Update all tabs after new GeoElements were selected.
@@ -608,6 +610,7 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 
 		return oneVisible;
 	}
+	
 
 	public void updateSelection(Object[] geos) {
 		// if (geos == oldSelGeos) return;
@@ -616,7 +619,13 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 		updateTabs(geos);
 	}
 
+	public void updateSelection(GeoElement geo) {
+		// if (geos == oldSelGeos) return;
+		// oldSelGeos = geos;
 
+		updateSelection(new GeoElement[] {geo});
+	}
+	
 	/**
 	 * Update just definition of one geo
 	 * @param geo geo

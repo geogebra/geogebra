@@ -376,7 +376,7 @@ public class GlobalKeyDispatcher extends geogebra.common.main.GlobalKeyDispatche
 
 			// Ctrl + E: open object properties (needed here for spreadsheet)
 			case KeyEvent.VK_E:
-				app.getDialogManager().showPropertiesDialog();
+				app.getGuiManager().setShowView(true, AbstractApplication.VIEW_PROPERTIES);
 				consumed = true;
 				break;
 

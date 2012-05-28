@@ -15,7 +15,6 @@ package geogebra.gui.view.properties;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
-import geogebra.gui.GuiManager;
 import geogebra.gui.dialog.options.OptionPanel;
 import geogebra.gui.dialog.options.OptionsAdvanced;
 import geogebra.gui.dialog.options.OptionsCAS;
@@ -26,6 +25,7 @@ import geogebra.gui.dialog.options.OptionsObject;
 import geogebra.gui.dialog.options.OptionsSpreadsheet;
 import geogebra.main.Application;
 import geogebra.main.GeoGebraPreferences;
+import geogebra.plugin.jython.PythonAPI.Geo;
 
 import java.awt.BorderLayout;
 import java.awt.Cursor;
@@ -38,7 +38,6 @@ import java.util.HashMap;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JPanel;
 
 /**
@@ -253,7 +252,7 @@ public class PropertiesView extends JPanel implements
 	 */
 	public void updatePropertiesView() {
 		
-		updatePropertiesView(app.getSelectedGeos());
+		updatePropertiesViewCheckConstants(app.getSelectedGeos());
 	}
 
 	
@@ -264,26 +263,62 @@ public class PropertiesView extends JPanel implements
 	 * view is shown. 
 	 * @param geosList geos list
 	 */
-	public void updatePropertiesView(ArrayList<GeoElement> geosList) {
+	private void updatePropertiesViewCheckConstants(ArrayList<GeoElement> geosList) {
 		
 		//remove constant geos
 		ArrayList<GeoElement> geos = kernel.getConstruction().removeAllConstants(geosList);
 		
+		updatePropertiesView(geos);
+	}
 		
+	private void updatePropertiesView(ArrayList<GeoElement> geos) {
+	
 		if (geos.size() > 0) {
 			setOptionPanel(OptionType.OBJECTS,geos);
 		} else {
-			int focusedViewId = app.getGuiManager().getLayout()
-					.getDockManager().getFocusedViewId();
+			
+			setOptionPanelRegardingFocus();
 
-			if (viewMap.get(focusedViewId) != null) {
-				setOptionPanel(viewMap.get(focusedViewId));
-			} else {
-				//setOptionPanel(OptionType.LAYOUT);
-				updateSelection();
-				//setOptionPanel(OptionType.OBJECTS);
-			}
+		}
+	}
+	
+	final private void setOptionPanelRegardingFocus(){
+		int focusedViewId = app.getGuiManager().getLayout()
+				.getDockManager().getFocusedViewId();
 
+		if (viewMap.get(focusedViewId) != null) {
+			setOptionPanel(viewMap.get(focusedViewId));
+		} else {
+			//setOptionPanel(OptionType.LAYOUT);
+			updateSelection();
+			//setOptionPanel(OptionType.OBJECTS);
+		}
+	}
+	
+	/**
+	 * acts when mouse has been pressed in euclidian controller
+	 */
+	public void mousePressedForPropertiesView(){
+		objectPanel.forgetGeoAdded();
+	}
+	
+	/**
+	 * acts when mouse has been released in euclidian controller
+	 */
+	public void mouseReleasedForPropertiesView(){
+
+		GeoElement geo = objectPanel.consumeGeoAdded();
+		
+		//AbstractApplication.debug("\ngeo="+geo+"\nsel0="+app.getSelectedGeos().get(0));
+		if (app.getSelectedGeos().size()>0) //selected geo is the most important
+			updatePropertiesView();
+		else if (geo!=null){ //last created geo
+			ArrayList<GeoElement> geos = new ArrayList<GeoElement>();
+			geos.add(geo);
+			setOptionPanel(OptionType.OBJECTS,geos);
+		}else{ //euclidian view
+			setOptionPanelRegardingFocus();
+			//updatePropertiesView();
 		}
 	}
 
@@ -319,10 +354,11 @@ public class PropertiesView extends JPanel implements
 
 		//update selection
 		if (type==OptionType.OBJECTS){
-			objectPanel.updateSelection(geos);
+			objectPanel.updateSelection(geos);		
 		}
 
 		if (!isIniting && selectedOptionType == type) {
+			updateTitleBar();
 			return;
 		}
 			
@@ -346,7 +382,9 @@ public class PropertiesView extends JPanel implements
 		//updateGUI();
 		getOptionPanel(type).updateGUI();
 		getOptionPanel(type).revalidate();
-		setOwnLabels();
+		updateStyleBar();
+		updateTitleBar(); 
+		
 		this.revalidate();
 		this.repaint();
 	}
@@ -468,7 +506,8 @@ public class PropertiesView extends JPanel implements
 		case ADVANCED:
 			return app.getMenu("Advanced");
 		case OBJECTS:
-			return app.getMenu("Objects");
+			//return app.getMenu("Objects");
+			return objectPanel.getSelectionDescription();
 		case LAYOUT:
 			return app.getMenu("Layout");
 		}
@@ -514,19 +553,22 @@ public class PropertiesView extends JPanel implements
 		if (objectPanel!=null) objectPanel.setLabels();
 		if (layoutPanel!=null) layoutPanel.setLabels();
 		
-		setOwnLabels();
+		updateStyleBar();
+		updateTitleBar();
 		
 
 	}
 	
-	private void setOwnLabels(){
+	private void updateStyleBar(){
 
 		if (styleBar != null) {
 			styleBar.updateGUI();
 		}
+	}
+	
 
-		app.getGuiManager().getLayout().getDockManager()
-				.getPanel(AbstractApplication.VIEW_PROPERTIES).updateTitleBar();
+	private void updateTitleBar(){
+		app.getGuiManager().getLayout().getDockManager().getPanel(AbstractApplication.VIEW_PROPERTIES).updateTitleBar();
 	}
 
 	public void closeIfNotCurrentListener() {
@@ -559,17 +601,19 @@ public class PropertiesView extends JPanel implements
 	}
 
 	public void add(GeoElement geo) {
-		
+		objectPanel.add(geo);
 		objectPanel.getTree().add(geo);
 
 	}
 
 	public void remove(GeoElement geo) {
+		objectPanel.update(geo);
 		objectPanel.getTree().remove(geo);
 
 	}
 
 	public void rename(GeoElement geo) {
+		objectPanel.update(geo);
 		objectPanel.getTree().rename(geo);
 
 	}
@@ -578,18 +622,21 @@ public class PropertiesView extends JPanel implements
 
 		// updateSelection();
 		// propPanel.updateSelection(new GeoElement[] {geo});
+		objectPanel.update(geo);
 		objectPanel.getTree().update(geo);
 
 	}
 
 	public void updateVisualStyle(GeoElement geo) {
 		// update(geo);
+		objectPanel.updateVisualStyle(geo);
 		objectPanel.getTree().updateVisualStyle(geo);
 
 	}
 
 	public void updateAuxiliaryObject(GeoElement geo) {
 		// TODO Auto-generated method stub
+		objectPanel.update(geo);
 		objectPanel.getTree().updateAuxiliaryObject(geo);
 
 	}
@@ -599,11 +646,11 @@ public class PropertiesView extends JPanel implements
 		
 		if (objectPanel==null 
 				|| app.getSelectedGeos()==null
-				|| app.getSelectedGeos().size()!=1)
+				|| app.getSelectedGeos().size()==0)
 			return;
 		
-		
-		objectPanel.updateOneGeoDefinition(app.getSelectedGeos().get(0));
+		if (app.getSelectedGeos().size()==1)
+			objectPanel.updateOneGeoDefinition(app.getSelectedGeos().get(0));
 		objectPanel.getTree().repaint();
 		
 	}
@@ -643,6 +690,7 @@ public class PropertiesView extends JPanel implements
 				setOptionPanel(OptionType.OBJECTS);
 
 			objectPanel.updateSelection(geos);
+			updateTitleBar(); 
 		}else{
 			setOptionPanel(OptionType.EUCLIDIAN);
 		}

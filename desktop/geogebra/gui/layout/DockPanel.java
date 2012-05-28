@@ -1161,13 +1161,28 @@ implements ActionListener, WindowListener, MouseListener, geogebra.common.gui.la
 	 * @remark The focus system implemented here has nothing to do with
 	 * swings focus system, therefore Swings focus methods won't work.
 	 * 
-	 * @param hasFocus
+	 * @param hasFocus has the focus
+	 * @param updatePropertiesView update properties view
 	 */
 	public void setFocus(boolean hasFocus, boolean updatePropertiesView) {
 		
 		if (hasFocus && updatePropertiesView){
 			app.getGuiManager().updatePropertiesView();
 		}
+		
+		setFocus(hasFocus);
+	}
+	
+	/**
+	 * Mark this panel as focused. When gaining focus the panel will
+	 * automatically request focus for its parent frame.
+	 * 
+	 * @remark The focus system implemented here has nothing to do with
+	 * swings focus system, therefore Swings focus methods won't work.
+	 * 
+	 * @param hasFocus has the focus
+	 */
+	protected void setFocus(boolean hasFocus) {
 		
 		// don't change anything if it's not necessary
 		if(this.hasFocus == hasFocus)

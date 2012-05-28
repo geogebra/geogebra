@@ -719,22 +719,22 @@ public class GeoPolyhedron extends GeoElement3D {// implements Path {
 
 		for (GeoPolygon3D polygon : polygons.values()) {
 			polygon.setLineType(type, false);
-			polygon.update();
+			polygon.updateVisualStyle();
 		}
 
 		for (GeoPolygon polygon : polygonsLinked) {
 			polygon.setLineType(type, false);
-			polygon.update();
+			polygon.updateVisualStyle();
 		}
 
 		for (GeoSegment3D segment : segments.values()) {
 			segment.setLineType(type);
-			segment.update();
+			segment.updateVisualStyle();
 		}
 
 		for (GeoSegmentND segment : segmentsLinked.values()) {
 			((GeoElement) segment).setLineType(type);
-			segment.update();
+			segment.updateVisualStyle();
 		}
 
 	}
@@ -748,22 +748,22 @@ public class GeoPolyhedron extends GeoElement3D {// implements Path {
 
 		for (GeoPolygon3D polygon : polygons.values()) {
 			polygon.setLineTypeHidden(type, false);
-			polygon.update();
+			polygon.updateVisualStyle();
 		}
 
 		for (GeoPolygon polygon : polygonsLinked) {
 			polygon.setLineTypeHidden(type, false);
-			polygon.update();
+			polygon.updateVisualStyle();
 		}
 
 		for (GeoSegment3D segment : segments.values()) {
 			segment.setLineTypeHidden(type);
-			segment.update();
+			segment.updateVisualStyle();
 		}
 
 		for (GeoSegmentND segment : segmentsLinked.values()) {
 			((GeoElement) segment).setLineTypeHidden(type);
-			segment.update();
+			segment.updateVisualStyle();
 		}
 
 	}
@@ -782,17 +782,17 @@ public class GeoPolyhedron extends GeoElement3D {// implements Path {
 
 		for (GeoPolygon polygon : polygonsLinked) {
 			polygon.setLineThickness(th, false);
-			polygon.update();
+			polygon.updateVisualStyle();
 		}
 
 		for (GeoSegment3D segment : segments.values()) {
 			segment.setLineThickness(th);
-			segment.update();
+			segment.updateVisualStyle();
 		}
 
 		for (GeoSegmentND segment : segmentsLinked.values()) {
 			segment.setLineThickness(th);
-			segment.update();
+			segment.updateVisualStyle();
 		}
 	}
 

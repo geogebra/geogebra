@@ -86,7 +86,7 @@ implements MouseListener, MouseMotionListener{
 			if (iconClicked) {
 				// icon clicked: toggle show/hide
 				geo.setEuclidianVisible(!geo.isSetEuclidianVisible());
-				geo.update();
+				geo.updateVisualStyle();
 				app.storeUndoInfo();
 				kernel.notifyRepaint();
 				return;

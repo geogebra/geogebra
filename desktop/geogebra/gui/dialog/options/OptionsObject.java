@@ -16,9 +16,9 @@ import geogebra.common.gui.SetLabels;
 import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.main.AbstractApplication;
 import geogebra.gui.color.GeoGebraColorChooser;
 import geogebra.gui.dialog.PropertiesPanel;
-import geogebra.gui.view.algebra.AlgebraController;
 import geogebra.gui.view.algebra.AlgebraTree;
 import geogebra.gui.view.algebra.AlgebraTreeController;
 import geogebra.main.Application;
@@ -30,6 +30,7 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -64,6 +65,9 @@ public class OptionsObject extends JPanel implements OptionPanel, SetLabels {
 
 	final private static int MIN_WIDTH = 500;
 	final private static int MIN_HEIGHT = 300;
+	
+
+	
 
 	/**
 	 * Creates new PropertiesDialog.
@@ -75,6 +79,8 @@ public class OptionsObject extends JPanel implements OptionPanel, SetLabels {
 		
 		this.app = app;
 		kernel = app.getKernel();
+		
+		
 
 
 		// build GUI
@@ -318,22 +324,38 @@ public class OptionsObject extends JPanel implements OptionPanel, SetLabels {
 	}
 	*/
 	
+	private ArrayList<GeoElement> selection;
+	
 	/**
 	 * update selection for properties panel
 	 * @param geos geos
 	 */
 	public void updateSelection(ArrayList<GeoElement> geos) {
-		// if (geos == oldSelGeos) return;
-		// oldSelGeos = geos;
-
 		
-		//Application.printStacktrace("");
+		selection = geos;
 		propPanel.updateSelection(geos.toArray());
+	}
+	
+	/**
+	 * 
+	 * @return description for selection
+	 */
+	public String getSelectionDescription(){
+		if (selection == null || selection.size() == 0)
+			return app.getPlain("PropertiesSelectAnObject");
+		else if (selection.size() == 1){
+			GeoElement geo = selection.get(0);
+			String title = geo.getLongDescriptionHTML(false, true);
+			if (title.length() > 80)
+				title = geo.getNameDescriptionHTML(false, true);
+			return title;
+		}else
+			return app.getPlain("Selection");
 	}
 	
 	public void updateOneGeoDefinition(GeoElement geo) {
 		
-		propPanel.updateOneGeoDefinition(geo);
+		//propPanel.updateOneGeoDefinition(geo);
 	}
 	
 
@@ -349,5 +371,62 @@ public class OptionsObject extends JPanel implements OptionPanel, SetLabels {
 		
 	}
 	
+	
+	
+	/**
+	 * update geo 
+	 * @param geo geo
+	 */
+	 public void update(GeoElement geo){
+		//AbstractApplication.printStacktrace("\ngeo = "+geo+"\nselected = "+geo.isSelected()+"\nhighlighted = "+geo.doHighlighting());
+		//AbstractApplication.debug("\ngeo = "+geo+"\nselection contains = "+(selection!=null && selection.contains(geo)));
+		if (selection!=null && selection.size()==1 && selection.contains(geo))
+			//propPanel.updateSelection(selection.toArray()); //TODO update only first tab, set flag to others
+			propPanel.updateOneGeoDefinition(geo);
+	 }
+
+	 /**
+	  * update visual style of geo 
+	  * @param geo geo
+	  */
+	 public void updateVisualStyle(GeoElement geo){
+		 //AbstractApplication.printStacktrace("\ngeo = "+geo+"\nselected = "+geo.isSelected()+"\nhighlighted = "+geo.doHighlighting());
+		 //AbstractApplication.debug("\ngeo = "+geo+"\nselection contains = "+(selection!=null && selection.contains(geo)));
+		 if (selection!=null && selection.contains(geo))
+			 propPanel.updateSelection(selection.toArray()); //TODO update only first tab, set flag to others
+		 //propPanel.updateCurrentTab(selection.toArray()); //TODO update only first tab, set flag to others
+
+	 }
+
+	 /**
+	  * update geo just added
+	  * @param geo geo
+	  */
+	 public void add(GeoElement geo){
+		 //AbstractApplication.debug("\ngeo = "+geo);
+		 geoAdded = geo;
+	 }
+	 
+	 private GeoElement geoAdded = null;
+	 
+	 /**
+	  * consume last added geo
+	  * @return last added geo
+	  */
+	 public GeoElement consumeGeoAdded(){
+		 GeoElement ret = geoAdded;
+		 forgetGeoAdded();
+		 return ret;
+	 }
+	 
+	 /**
+	  * forget last added geo
+	  */
+	 public void forgetGeoAdded(){
+		 geoAdded = null;
+	 }
+	 
+	 
+	 
 
 } // PropertiesDialog
