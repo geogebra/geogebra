@@ -22,6 +22,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.prover.NoSymbolicParametersException;
 import geogebra.common.kernel.prover.Polynomial;
+import geogebra.common.plugin.Operation;
 
 /**
  *
@@ -97,22 +98,22 @@ public class AlgoDependentBoolean extends AlgoElement implements SymbolicParamet
 
 	public Polynomial[][] getBotanaPolynomials()
 			throws NoSymbolicParametersException {
-		GeoElement left = (GeoElement) this.root.getLeft();
-		GeoElement right = (GeoElement) this.root.getRight();
+		GeoElement left = (GeoElement) root.getLeft();
+		GeoElement right = (GeoElement) root.getRight();
 		
-		if (this.root.getOperation().toString().equals("PERPENDICULAR")) {
+		if (root.getOperation().equals(Operation.PERPENDICULAR)) {
 			AlgoArePerpendicular algo = new AlgoArePerpendicular(cons, "", (GeoLine) left, (GeoLine) right);
 			Polynomial[][] ret = ((SymbolicParametersBotanaAlgoAre) algo).getBotanaPolynomials();
 			algo.remove();
 			return ret;
 		}
-		if (this.root.getOperation().toString().equals("PARALLEL")) {
+		if (root.getOperation().equals(Operation.PARALLEL)) {
 			AlgoAreParallel algo = new AlgoAreParallel(cons, "", (GeoLine) left, (GeoLine) right);
 			Polynomial[][] ret = ((SymbolicParametersBotanaAlgoAre) algo).getBotanaPolynomials();
 			algo.remove();
 			return ret;
 		}
-		if (this.root.getOperation().toString().equals("EQUAL_BOOLEAN")) {
+		if (root.getOperation().equals(Operation.EQUAL_BOOLEAN)) {
 			AlgoAreEqual algo = new AlgoAreEqual(cons, "", left, right);
 			Polynomial[][] ret = ((SymbolicParametersBotanaAlgoAre) algo).getBotanaPolynomials();
 			algo.remove();
