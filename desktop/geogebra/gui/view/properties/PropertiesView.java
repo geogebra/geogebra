@@ -457,7 +457,6 @@ public class PropertiesView extends JPanel implements
 		case CAS:
 			if (casPanel == null) {
 				casPanel = new OptionsCAS(app);
-				casPanel.updateGUI();
 			}
 			return casPanel;
 
@@ -515,22 +514,22 @@ public class PropertiesView extends JPanel implements
 	public String getTypeString(OptionType type) {
 		switch (type) {
 		case DEFAULTS:
-			return app.getPlain("Defaults");
+			return app.getPlain("PropertiesOf%0","Defaults");
 		case SPREADSHEET:
-			return app.getPlain("Spreadsheet");
+			return app.getPlain("PropertiesOf%0","Spreadsheet");
 		case EUCLIDIAN:
-			return app.getPlain("DrawingPad");
+			return app.getPlain("PropertiesOf%0","DrawingPad");
 		case EUCLIDIAN2:
-			return app.getPlain("DrawingPad2");
+			return app.getPlain("PropertiesOf%0","DrawingPad2");
 		case CAS:
-			return app.getMenu("CAS");
+			return app.getPlain("PropertiesOf%0","CAS");
 		case ADVANCED:
-			return app.getMenu("Advanced");
+			return app.getPlain("PropertiesOf%0","Advanced");
 		case OBJECTS:
 			//return app.getMenu("Objects");
 			return objectPanel.getSelectionDescription();
 		case LAYOUT:
-			return app.getMenu("Layout");
+			return app.getPlain("PropertiesOf%0","Layout");
 		}
 		return null;
 	}

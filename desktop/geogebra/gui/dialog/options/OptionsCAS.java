@@ -50,6 +50,7 @@ public class OptionsCAS  extends JPanel implements OptionPanel, ActionListener, 
 		
 		initGUI();
 		updateGUI();
+		setLabels();
 	}
 	
 	/**

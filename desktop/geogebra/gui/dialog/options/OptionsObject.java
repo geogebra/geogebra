@@ -345,12 +345,12 @@ public class OptionsObject extends JPanel implements OptionPanel, SetLabels {
 			return app.getPlain("PropertiesSelectAnObject");
 		else if (selection.size() == 1){
 			GeoElement geo = selection.get(0);
-			String title = geo.getLongDescriptionHTML(false, true);
+			String title = geo.getLongDescriptionHTML(false, false);
 			if (title.length() > 80)
-				title = geo.getNameDescriptionHTML(false, true);
-			return title;
+				title = geo.getNameDescriptionHTML(false, false);
+			return app.getPlain("PropertiesOf%0",title);
 		}else
-			return app.getPlain("Selection");
+			return app.getPlain("PropertiesOf%0","Selection");
 	}
 	
 	public void updateOneGeoDefinition(GeoElement geo) {
