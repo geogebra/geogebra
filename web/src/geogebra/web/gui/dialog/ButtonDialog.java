@@ -117,31 +117,30 @@ public class ButtonDialog extends PopupPanel implements ClickHandler{
 //
 //			
 			if (cbAdd.getItemCount() > 1) {
-//		
-//				// listener for the combobox
-//				MyComboBoxListener ac = new MyComboBoxListener() {
-//					@Override
-//					public void doActionPerformed(Object source) {				
-//						GeoElement geo = (GeoElement) cbAdd.getSelectedItem();		
-//						//if (geo == null)
-//						//{
-//						//	
-//						//	return;
-//						//}
-//						
-//						linkedGeo = geo;	
-//						//((GeoTextField)button).setLinkedGeo(geo);
-//						
-//						cbAdd.removeActionListener(this);		
-//						
-//						//cbAdd.setSelectedItem(null);
-//						cbAdd.addActionListener(this);
-//					}
-//				};
-//				cbAdd.addActionListener(ac);
-//				cbAdd.addMouseListener(ac);
-//				
-//				captionPanel.add(cbAdd);
+				cbAdd.addClickHandler(new ClickHandler(){
+
+					public void onClick(ClickEvent event) {
+						GeoElement geo = getGeo(cbAdd.getItemText(cbAdd.getSelectedIndex()));
+						if (geo==null) return;
+						linkedGeo = geo;
+                    }
+					
+					public GeoElement getGeo(String text) {
+						TreeSet<GeoElement> sortedSet = app.getKernel()
+						        .getConstruction()
+						        .getGeoSetNameDescriptionOrder();
+						Iterator<GeoElement> it = sortedSet.iterator();
+						while (it.hasNext()) {
+							GeoElement geo = it.next();
+							if (text.equals(geo
+							        .toString(StringTemplate.defaultTemplate)))
+								return geo;
+
+						}
+						return null;
+					}
+					
+				});
 			}
 		}
 //
