@@ -6,19 +6,19 @@
          xmlns="http://java.sun.com/xml/ns/javaee">
 
   <!-- Servlets -->
-  <!-- <servlet>
-    <servlet-name>greetServlet</servlet-name>
-    <servlet-class>geogebra.web.server.GreetingServiceImpl</servlet-class>
+  <servlet>
+    <servlet-name>handleGoogleDriveServlet</servlet-name>
+    <servlet-class>geogebra.server.HandleGoogleDriveServiceImpl</servlet-class>
   </servlet>
   
   <servlet-mapping>
-    <servlet-name>greetServlet</servlet-name>
-    <url-pattern>/web/greet</url-pattern>
-  </servlet-mapping> -->
+    <servlet-name>handleGoogleDriveServlet</servlet-name>
+    <url-pattern>/web/handleGD</url-pattern>
+  </servlet-mapping>
   
   <!-- Default page to serve -->
   <welcome-file-list>
-    <welcome-file>Web.html</welcome-file>
+    <welcome-file>index.html</welcome-file>
   </welcome-file-list>
 
 </web-app>

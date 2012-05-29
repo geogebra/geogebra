@@ -18,6 +18,7 @@ import geogebra.web.gui.view.algebra.AlgebraController;
 import geogebra.web.gui.view.algebra.AlgebraView;
 import geogebra.web.euclidian.EuclidianView;
 import geogebra.web.gui.app.GGWToolBar;
+import geogebra.web.gui.inputbar.AlgebraInput;
 import geogebra.web.gui.inputbar.InputBarHelpPanel;
 import geogebra.web.gui.layout.Layout;
 import geogebra.web.main.Application;
@@ -278,6 +279,8 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 	private GGWToolBar toolbarPanel = null;
 
 	private InputBarHelpPanel inputHelpPanel;
+
+	private AlgebraInput algebraInput;
 	
 	public GGWToolBar getToolbarPanel() {
 		if (toolbarPanel == null) {
@@ -400,6 +403,14 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
     public void mouseReleasedForPropertiesView() {
 	    // TODO Auto-generated method stub
 	    
+    }
+
+	public void addAlgebraInput(AlgebraInput ai) {
+	    this.algebraInput = ai;
+    }
+
+	public AlgebraInput getAlgebraInput() {
+	    return algebraInput;
     }
 
 

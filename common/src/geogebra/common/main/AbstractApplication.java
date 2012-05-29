@@ -3042,5 +3042,8 @@ public abstract class AbstractApplication {
 		return pf;
 	}
 
+	public abstract void clearConstruction();
+	
+	public abstract void fileNew();
 
 }

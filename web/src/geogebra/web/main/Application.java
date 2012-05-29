@@ -42,6 +42,7 @@ import geogebra.web.gui.GuiManager;
 import geogebra.web.gui.SplashDialog;
 import geogebra.web.gui.app.GeoGebraAppFrame;
 import geogebra.web.gui.applet.GeoGebraFrame;
+import geogebra.web.gui.inputbar.AlgebraInput;
 import geogebra.web.html5.ArticleElement;
 import geogebra.web.io.ConstructionException;
 import geogebra.web.io.MyXMLio;
@@ -1723,6 +1724,43 @@ public class Application extends AbstractApplication {
 		syntax = syntax.replace("[", command + '[');
 
 		return syntax;
+    }
+
+	@Override
+    public void fileNew() {
+kernel.resetLibraryJavaScript();
+		
+		// This needs to happen *before* clearConstruction is called
+		// as clearConstruction calls notifyClearView which triggers the
+		// updating of the Python Script
+		kernel.resetLibraryPythonScript();
+
+		// clear all
+		clearConstruction();
+		
+		// clear input bar
+		if (isUsingFullGui() && showAlgebraInput()) {
+				AlgebraInput ai = (AlgebraInput) (getGuiManager().getAlgebraInput());
+				ai.clear();
+		}
+		
+		// reset spreadsheet columns, reset trace columns
+		if (isUsingFullGui()) {
+			//getGuiManager().resetSpreadsheet();
+		}
+
+		resetMaxLayerUsed();
+		getEuclidianView1().resetXYMinMaxObjects();
+		if (hasEuclidianView2EitherShowingOrNot()) {
+			getEuclidianView2().resetXYMinMaxObjects();
+		}
+
+		if (scriptManager != null) {
+			scriptManager.resetListeners();
+		}
+
+		resetUniqueId();
+	    
     }
 
 }

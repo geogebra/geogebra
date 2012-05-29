@@ -57,6 +57,7 @@ public class AlgebraInput extends HorizontalPanel implements KeyUpHandler, Focus
 		//AG I dont think we need this app.removeTraversableKeys(this);
 		addStyleName("AlgebraInput");
 		initGUI();
+		app.getGuiManager().addAlgebraInput(this);
 	}
 
 	private void initGUI() {
