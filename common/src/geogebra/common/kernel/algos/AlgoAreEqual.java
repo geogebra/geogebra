@@ -177,6 +177,20 @@ public class AlgoAreEqual extends AlgoElement implements
 			return botanaPolynomials;
 		}
 		
+		if (inputElement1 instanceof GeoLine && inputElement2 instanceof GeoLine) {
+			botanaPolynomials = new Polynomial[2][1];
+
+			Variable[] v1 = new Variable[4];
+			Variable[] v2 = new Variable[4];
+			v1 = ((GeoLine) inputElement1).getBotanaVars(); // AB
+			v2 = ((GeoLine) inputElement2).getBotanaVars(); // CD
+
+			// We want to prove: 1) ABC collinear, 2) ABD collinear
+			botanaPolynomials[0][0] = Polynomial.collinear(v1[0], v1[1], v1[2], v1[3], v2[0], v2[1]); 
+			botanaPolynomials[1][0] = Polynomial.collinear(v1[0], v1[1], v1[2], v1[3], v2[0], v2[1]); 
+			return botanaPolynomials;
+		}
+		
 		// TODO: Implement lines, and maybe segments, also circles etc.
 		
 		throw new NoSymbolicParametersException();
