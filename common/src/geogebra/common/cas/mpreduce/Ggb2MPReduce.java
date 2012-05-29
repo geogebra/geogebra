@@ -142,6 +142,8 @@ public class Ggb2MPReduce {
 		p("Invert.1", "1/(%0)");
 		p("IntegerPart.1", "if %0>0 then floor(%0) else ceiling(%0)");
 		p("IsPrime.1", "if primep(%0) and (%0)>1 then true else false");
+		//p("Join.N","<<begin scalar list!!=list(%); if length(list!!)=1 then list!!:=part(list!!,0); return for each x!! in list!! join x!! end>>");
+		p("Join.N","<<begin scalar list!!; list!!:=list(%); if length(list!!)=1 then list!!:=mattolistoflists(part(list!!,1)); return for each x!! in list!! join x!! end>>");
 		// p("IsBound.1","if << symbolic; p!!:=isbound!!('%0); algebraic; p!!>>=1 then 'true else 'false");
 		p("Last.1",
 				"<<begin scalar list!!; list!!:=(%0); return list(part(list!!,length(list!!))) end >>");
