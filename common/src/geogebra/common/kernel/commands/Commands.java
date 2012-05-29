@@ -11,6 +11,9 @@ the Free Software Foundation.
 */
 
 package geogebra.common.kernel.commands;
+
+import geogebra.common.main.AbstractApplication;
+
 @SuppressWarnings("javadoc")
 public enum Commands implements CommandsConstants{
 	
@@ -205,5 +208,29 @@ public enum Commands implements CommandsConstants{
    	public int getTable(){
    		return table;
    	}
+   	
+   	public static Commands englishToInternal(Commands comm) {
+		switch(comm){
+			case Curve: return CurveCartesian;
+			case FormulaText: return LaTeX;
+			case IsDefined: return Defined;
+			case ConjugateDiameter: return Diameter;
+			case LinearEccentricity: return Excentricity;
+			case MajorAxis:return FirstAxis;
+			case SemiMajorAxisLength:return FirstAxisLength;
+			case PerpendicularBisector: return LineBisector;
+			case PerpendicularLine: return OrthogonalLine;
+			case PerpendicularVector: return OrthogonalVector;
+			case MinorAxis: return SecondAxis;
+			case SemiMinorAxisLength: return SecondAxisLength;
+			case UnitPerpendicularVector: return UnitOrthogonalVector;
+			case CorrelationCoefficient: return PMCC;
+			case FitLine: return FitLineY;
+			case BinomialCoefficient: return Binomial;
+			case RandomBetween: return Random;
+		}
+		AbstractApplication.debug("unhandled case"+comm.name());
+		return comm;
+	}
 	
 }

@@ -331,14 +331,13 @@ public abstract class AbstractApplication {
 
 		for (Commands comm:Commands.values()) {
 			String internal = comm.toString();
-			// Application.debug(internal);
 			if (tableVisible(comm.getTable())) {
 				String local = getScriptingCommand(internal);
 				if (local != null) {
 					local = local.trim();
 					// case is ignored in translating local command names to
 					// internal names!
-					translateCommandTableScripting.put(local.toLowerCase(),
+					translateCommandTableScripting.put(StringUtil.toLowerCase(local),
 							internal);
 
 				}
@@ -487,9 +486,13 @@ public abstract class AbstractApplication {
 
 		for (Commands comm : Commands.values()) {
 			String internal = comm.name();
-			translateCommandTable.put(StringUtil.toLowerCase(internal), internal);
-			if(!tableVisible(comm.getTable()))
+			if(!tableVisible(comm.getTable())){
+				if(comm.getTable()==CommandsConstants.TABLE_ENGLISH)
+				translateCommandTable.put(StringUtil.toLowerCase(internal), 
+						Commands.englishToInternal(comm).name());
 				continue;			
+			}
+			translateCommandTable.put(StringUtil.toLowerCase(internal), internal);
 			// Application.debug(internal);
 			String local = getCommand(internal);
 			
