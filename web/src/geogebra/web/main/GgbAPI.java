@@ -282,6 +282,7 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI {
 				} else {
 					zipWriter.close(function(dataURI) {
 							if (typeof clb === "function") {
+								// that's right, this truncation is necessary
 								clb(dataURI.substr(dataURI.indexOf(',')+1));
 							} else {
 								$wnd.console.log("not callback was given");

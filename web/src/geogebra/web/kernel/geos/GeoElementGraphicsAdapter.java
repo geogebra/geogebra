@@ -31,7 +31,7 @@ public class GeoElementGraphicsAdapter extends
 	public void setImageFileName(String fileName) {
 
 		// for file names e.g. /geogebra/main/nav_play.png
-		if (fileName.charAt(0) == '/')
+		if (fileName != null && fileName.length() != 0 && fileName.charAt(0) == '/')
 			fileName = fileName.substring(1);
 
 		if (fileName.equals(this.imageFileName))

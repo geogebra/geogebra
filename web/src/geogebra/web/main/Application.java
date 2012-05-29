@@ -928,7 +928,7 @@ public class Application extends AbstractApplication {
 		}
 
 		// for file names e.g. /geogebra/main/nav_play.png in GeoButtons
-		if (filename.charAt(0) == '/')
+		if (filename != null && filename.length() != 0 && filename.charAt(0) == '/')
 			addExternalImage(filename.substring(1), binaryContent);
 		else
 			addExternalImage(filename, binaryContent);
