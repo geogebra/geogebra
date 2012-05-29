@@ -803,7 +803,8 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 		if (toolbarPanel != null) {
 			toolbarPanel.buildGui();
 		}
-
+		//toolbarPanel.updateToolbarPanel();
+		toolbarPanel.updateHelpText();
 		if (layout != null) {
 			layout.getDockManager().updateToolbars();
 		}

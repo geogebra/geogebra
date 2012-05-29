@@ -293,7 +293,7 @@ public class OptionsLayout extends JPanel implements OptionPanel, ActionListener
 		rbInputBarNorth.setSelected(app.showInputTop());
 		rbInputBarSouth.setSelected(!app.showInputTop());
 		ckShowToolbar.setSelected(app.showToolBar());
-		//ckShowToolHelp.setSelected(app.showToolBar(toolbar));
+		ckShowToolHelp.setSelected(app.showToolBarHelp());
 
 		rbToolbarNorth.setEnabled(ckShowToolbar.isSelected());
 		rbToolbarSouth.setEnabled(ckShowToolbar.isSelected());

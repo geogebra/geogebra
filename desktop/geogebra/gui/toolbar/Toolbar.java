@@ -327,4 +327,9 @@ public class Toolbar extends JToolBar {
 
 		return sb.toString();
 	}
+	
+	
+	protected boolean preventToolTipDelay(){
+		return !app.showToolBarHelp();
+	}
 }

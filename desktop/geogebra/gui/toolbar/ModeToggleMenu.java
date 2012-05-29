@@ -31,6 +31,7 @@ import java.awt.event.MouseMotionListener;
 import java.awt.geom.GeneralPath;
 import java.util.ArrayList;
 
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.Icon;
 import javax.swing.JMenuItem;
@@ -38,8 +39,10 @@ import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JToggleButton;
 import javax.swing.JToolBar;
+import javax.swing.JToolTip;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
+import javax.swing.ToolTipManager;
 
 /**
  * JToggle button combined with popup menu for mode selection
@@ -67,7 +70,7 @@ public class ModeToggleMenu extends JPanel {
 		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 		this.toolbar = toolbar;
 
-		tbutton = new MyJToggleButton(this);
+		tbutton = new MyJToggleButton(this, toolbar);
 		tbutton.setAlignmentY(BOTTOM_ALIGNMENT);
 		add(tbutton);
 
@@ -256,11 +259,12 @@ class MyJToggleButton extends JToggleButton implements MouseListener,
 	private static final BasicStroke selStroke = new BasicStroke(3f);
 
 	private Timer showMenuTimer;
-
-	MyJToggleButton(ModeToggleMenu menu) {
+	private Toolbar toolbar;
+	
+	MyJToggleButton(ModeToggleMenu menu, Toolbar toolbar) {
 		super();
 		this.menu = menu;
-
+		this.toolbar = toolbar;
 		// add own listeners
 		addMouseListener(this);
 		addMouseMotionListener(this);
@@ -374,7 +378,14 @@ class MyJToggleButton extends JToggleButton implements MouseListener,
 		}
 	}
 
+	 int defaultInitialDelay;
+
 	public void mouseEntered(MouseEvent arg0) {
+
+		defaultInitialDelay = ToolTipManager.sharedInstance().getInitialDelay();
+		if (toolbar.preventToolTipDelay()) {
+			ToolTipManager.sharedInstance().setInitialDelay(0);
+		}
 		menu.setMouseOverButton(this);
 	}
 
@@ -412,6 +423,8 @@ class MyJToggleButton extends JToggleButton implements MouseListener,
 		if (showMenuTimer != null && showMenuTimer.isRunning()) {
 			showMenuTimer.stop();
 		}
+		
+		ToolTipManager.sharedInstance().setInitialDelay(defaultInitialDelay);
 	}
 
 	public void mouseReleased(MouseEvent e) {
@@ -452,4 +465,23 @@ class MyJToggleButton extends JToggleButton implements MouseListener,
 		}
 	}
 
+	
+	private JToolTip tip;
+	@Override
+	public JToolTip createToolTip() {
+		tip = super.createToolTip();
+		tip.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+		
+		
+		return tip;
+	}
+	
+	 @Override
+	public Point getToolTipLocation(MouseEvent event){
+		 Point p = new Point();
+		 p.y = this.getY()+this.getHeight();
+		 p.x = this.getX();
+		 return  p;
+	 }
+	
 }

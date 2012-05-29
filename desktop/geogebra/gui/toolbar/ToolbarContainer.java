@@ -3,7 +3,7 @@ package geogebra.gui.toolbar;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.util.StringUtil;
 import geogebra.gui.MySmallJButton;
-import geogebra.gui.layout.ViewButtonBar;
+import geogebra.gui.util.HelpAction;
 import geogebra.main.Application;
 
 import java.awt.BorderLayout;
@@ -11,6 +11,8 @@ import java.awt.Cursor;
 import java.awt.FlowLayout;
 import java.awt.FontMetrics;
 import java.awt.SystemColor;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.event.MouseAdapter;
@@ -21,6 +23,7 @@ import java.util.ArrayList;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JToolBar;
@@ -39,7 +42,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 	/**
 	 * Show help text at the right.
 	 */
-	private static boolean showHelp = true;
+	private static boolean showHelp = false;
 
 	/**
 	 * Application instance.
@@ -86,11 +89,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 	 */
 	private int activeToolbar;
 
-	/**
-	 * Toolbar for View hide/show buttons
-	 */
-	private ViewButtonBar viewButtonBar;
-
+	
 	private int orientation = SwingConstants.NORTH;
 	
 	
@@ -142,6 +141,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 		// therefore the following line is not completely useless ;)
 		setActiveToolbar(activeToolbar);
 
+		
 		// wrap toolbar to be vertically centered
 		JPanel gluePanel = new JPanel();
 		gluePanel.setLayout(new BoxLayout(gluePanel, BoxLayout.Y_AXIS));
@@ -149,7 +149,6 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 		gluePanel.add(toolbarPanel);
 		gluePanel.add(Box.createVerticalGlue());
 		add(gluePanel, BorderLayout.WEST);
-
 		JPanel undoPanel = new JPanel();
 		
 		// UNDO Toolbar     
@@ -184,12 +183,12 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 			if (orientation == SwingConstants.NORTH
 					|| orientation == SwingConstants.SOUTH) {
 				
-				//viewButtonBar = new ViewButtonBar(app);
-				//JPanel p = new JPanel(new BorderLayout());
-				//p.add(viewButtonBar, BorderLayout.WEST);
-				//p.add(undoPanel, BorderLayout.EAST);
+			
+				JPanel p = new JPanel(new BorderLayout());
+				p.add(getPropertiesButtonPanel(), BorderLayout.WEST);
+				p.add(undoPanel, BorderLayout.EAST);
 
-				add(undoPanel, BorderLayout.EAST);
+				add(p, BorderLayout.EAST);
 			}
 		}
 
@@ -211,8 +210,6 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 
 			if (isMain) {
 				JPanel p2 = new JPanel(new FlowLayout(FlowLayout.LEFT,0,0));
-				viewButtonBar = new ViewButtonBar(app);
-				p2.add(viewButtonBar);
 				if (orientation == SwingConstants.EAST
 						|| orientation == SwingConstants.WEST) {
 					p2.add(undoPanel);
@@ -222,19 +219,15 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 			}
 			
 			toolbarHelpPanel.add(Box.createVerticalGlue());
-			//toolbarHelpPanel.add(modeNameLabel);
-			toolbarHelpPanel.add(p);
+			toolbarHelpPanel.add(modeNameLabel);
+			//toolbarHelpPanel.add(p);
 			toolbarHelpPanel.add(Box.createVerticalGlue());
 
 			Border insideBorder = BorderFactory.createEmptyBorder(2, 10, 2, 0);
 			Border outsideBorder = BorderFactory.createMatteBorder(0, 0, 0, 0, SystemColor.controlShadow);
 			toolbarHelpPanel.setBorder(BorderFactory.createCompoundBorder(outsideBorder, insideBorder));
-			
-			if (orientation == SwingConstants.NORTH) {
-				add(toolbarHelpPanel, BorderLayout.SOUTH);
-			} else if (orientation == SwingConstants.SOUTH) {
-				add(toolbarHelpPanel, BorderLayout.NORTH);
-			}
+						
+			add(toolbarHelpPanel, BorderLayout.CENTER);
 			
 			updateHelpText();
 		}
@@ -242,6 +235,44 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 		revalidate();
 	}
 
+	private JPanel getPropertiesButtonPanel(){
+	
+		JButton btnProperties = new JButton(app.getImageIcon("view-properties22.png"));
+		btnProperties.setFocusPainted(false);
+		btnProperties.setBorderPainted(false);
+		btnProperties.setContentAreaFilled(false);
+		btnProperties.addActionListener(new ActionListener(){
+
+			public void actionPerformed(ActionEvent arg0) {
+				int viewId = AbstractApplication.VIEW_PROPERTIES;
+				app.getGuiManager().setShowView(
+						!app.getGuiManager().showView(viewId), viewId, false);
+			}
+			
+		});
+		
+		
+		
+		JButton btnHelp = new JButton(app.getImageIcon("help22.png"));
+		btnHelp.setFocusPainted(false);
+		btnHelp.setBorderPainted(false);
+		btnHelp.setContentAreaFilled(false);
+		
+		//TODO: better help action ?
+		btnHelp.addActionListener(new HelpAction(app, app
+				.getImageIcon("help.png"),app.getMenu("Help"),AbstractApplication.WIKI_MANUAL));
+		
+		
+		JPanel showPropertiesPanel = new JPanel();
+		showPropertiesPanel.setLayout(new BoxLayout(showPropertiesPanel, BoxLayout.X_AXIS));
+				
+		showPropertiesPanel.add(btnProperties);
+		showPropertiesPanel.add(btnHelp);
+				
+		return showPropertiesPanel;
+	}
+	
+	
 	/**
 	 * Select a mode.
 	 * 
@@ -415,11 +446,6 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 		modeNameLabel.setToolTipText(app.getToolTooltipHTML(mode));
 		toolbarHelpPanel.validate();
 		
-		// update view buttons
-		if (viewButtonBar==null)
-			AbstractApplication.error("viewButtonBar==null");
-		else
-			viewButtonBar.updateViewButtons();
 	}
 
 	/**

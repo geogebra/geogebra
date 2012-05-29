@@ -392,7 +392,7 @@ public class Application extends AbstractApplication implements
 	protected boolean showAlgebraView = true;
 
 	private boolean showToolBarTop = true;
-	
+	private boolean showToolBarHelp = false;
 	protected boolean showConsProtNavigation = false;
 	
 	
@@ -436,7 +436,7 @@ public class Application extends AbstractApplication implements
 	
 	private DockBar dockBar;
 
-	private boolean showDockBar = false;
+	private boolean showDockBar = true;
 	
 	public void openDockBar() {
 		if (dockBar != null) {
@@ -3110,9 +3110,7 @@ public class Application extends AbstractApplication implements
 		}
 	}
 
-	
-
-	
+		
 	public void setToolbarPosition(int position, boolean update){
 		toolbarPosition = position;
 		if (update) {
@@ -3129,18 +3127,53 @@ public class Application extends AbstractApplication implements
 		return showToolBarTop;
 	}
 
-	public void setShowToolBarTop(boolean flag) {
-		if (flag == showToolBarTop) {
+	public boolean showToolBarHelp() {
+		return showToolBarHelp;
+	}
+	
+	public void setShowToolBarTop(boolean showToolBarTop) {
+		if (this.showToolBarTop == showToolBarTop) {
 			return;
 		}
 
-		showToolBarTop = flag;
-
+		this.showToolBarTop = showToolBarTop;
 		if (!isIniting()) {
 			updateApplicationLayout();
 		}
 	}
 
+
+	public void updateToolBarLayout() {
+		if (!isIniting()) {
+			updateApplicationLayout();
+			updateMenubar();
+		}
+	}
+
+	public void setShowToolBar(boolean toolbar) {
+		showToolBar = toolbar;
+	}
+
+	public void setShowToolBar(boolean toolbar, boolean help) {
+		showToolBar = toolbar;
+		showToolBarHelp = help;
+		if (showToolBar) {
+			getGuiManager().setShowToolBarHelp(showToolBarHelp);
+		}
+	}
+
+	public boolean showToolBar() {
+		return showToolBar;
+	}
+
+	public void setShowMenuBar(boolean flag) {
+		showMenuBar = flag;
+	}
+	public boolean showMenuBar() {
+		return showMenuBar;
+	}
+	
+	
 	public boolean getShowCPNavNeedsUpdate() {
 		return showConstProtNavigationNeedsUpdate;
 	}
@@ -3178,39 +3211,9 @@ public class Application extends AbstractApplication implements
 			updateMenubar();
 		}
 	}
-
-	public void setShowMenuBar(boolean flag) {
-		showMenuBar = flag;
-	}
-
-	public void updateToolBarLayout() {
-
-		if (!isIniting()) {
-			updateApplicationLayout();
-			updateMenubar();
-		}
-	}
-
-	public void setShowToolBar(boolean toolbar) {
-		showToolBar = toolbar;
-	}
-
-	public void setShowToolBar(boolean toolbar, boolean help) {
-		showToolBar = toolbar;
-
-		if (showToolBar) {
-			getGuiManager().setShowToolBarHelp(help);
-		}
-	}
-
-	public boolean showToolBar() {
-		return showToolBar;
-	}
-
-	public boolean showMenuBar() {
-		return showMenuBar;
-	}
-
+	
+	
+	
 	/**
 	 * Enables or disables right clicking in this application. This is useful
 	 * for applets.
