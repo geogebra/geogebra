@@ -10,6 +10,7 @@ import java.awt.BorderLayout;
 import java.awt.Cursor;
 import java.awt.FlowLayout;
 import java.awt.FontMetrics;
+import java.awt.GridLayout;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -149,6 +150,9 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 		gluePanel.add(toolbarPanel);
 		gluePanel.add(Box.createVerticalGlue());
 		add(gluePanel, BorderLayout.WEST);
+		
+		
+		/*
 		JPanel undoPanel = new JPanel();
 		
 		// UNDO Toolbar     
@@ -178,19 +182,19 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 			undoPanel.add(button); 
 
 			undoPanel.add(Box.createVerticalGlue());
-
+*/
 			
 			if (orientation == SwingConstants.NORTH
 					|| orientation == SwingConstants.SOUTH) {
 				
 			
 				JPanel p = new JPanel(new BorderLayout());
-				p.add(getPropertiesButtonPanel(), BorderLayout.WEST);
-				p.add(undoPanel, BorderLayout.EAST);
+				p.add(getGridButtonPanel(), BorderLayout.EAST);
+			//	p.add(undoPanel, BorderLayout.EAST);
 
 				add(p, BorderLayout.EAST);
 			}
-		}
+		
 
 		if (showHelp) {
 			// mode label       		
@@ -212,7 +216,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 				JPanel p2 = new JPanel(new FlowLayout(FlowLayout.LEFT,0,0));
 				if (orientation == SwingConstants.EAST
 						|| orientation == SwingConstants.WEST) {
-					p2.add(undoPanel);
+					//p2.add(undoPanel);
 				}
 				p.add(p2,BorderLayout.EAST);
 				
@@ -235,9 +239,26 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 		revalidate();
 	}
 
-	private JPanel getPropertiesButtonPanel(){
-	
-		JButton btnProperties = new JButton(app.getImageIcon("view-properties22.png"));
+	private JPanel getGridButtonPanel(){
+			
+		// undo button
+		MySmallJButton btnUndo = new MySmallJButton(app.getGuiManager()
+				.getUndoAction(), 7);
+		String text = app.getMenu("Undo");
+		btnUndo.setText(null);
+		btnUndo.setToolTipText(text);
+		btnUndo.setAlignmentX(RIGHT_ALIGNMENT);
+
+		// redo button
+		MySmallJButton btnRedo = new MySmallJButton(app.getGuiManager()
+				.getRedoAction(), 7);
+		text = app.getMenu("Redo");
+		btnRedo.setText(null);
+		btnRedo.setToolTipText(text);
+		btnRedo.setAlignmentX(RIGHT_ALIGNMENT);
+
+		// properties button
+		MySmallJButton btnProperties = new MySmallJButton(app.getImageIcon("tool.png"),7);
 		btnProperties.setFocusPainted(false);
 		btnProperties.setBorderPainted(false);
 		btnProperties.setContentAreaFilled(false);
@@ -250,26 +271,29 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 			}
 			
 		});
-		
-		
-		
-		JButton btnHelp = new JButton(app.getImageIcon("help22.png"));
+
+		// help button
+		MySmallJButton btnHelp = new MySmallJButton(app.getImageIcon("help.png"),7);
 		btnHelp.setFocusPainted(false);
 		btnHelp.setBorderPainted(false);
 		btnHelp.setContentAreaFilled(false);
+		btnHelp.setToolTipText(app.getMenu("Help"));
 		
-		//TODO: better help action ?
+		// TODO: better help action ?
 		btnHelp.addActionListener(new HelpAction(app, app
-				.getImageIcon("help.png"),app.getMenu("Help"),AbstractApplication.WIKI_MANUAL));
-		
-		
-		JPanel showPropertiesPanel = new JPanel();
-		showPropertiesPanel.setLayout(new BoxLayout(showPropertiesPanel, BoxLayout.X_AXIS));
-				
-		showPropertiesPanel.add(btnProperties);
-		showPropertiesPanel.add(btnHelp);
-				
-		return showPropertiesPanel;
+				.getImageIcon("help.png"), app.getMenu("Help"),
+				AbstractApplication.WIKI_MANUAL));
+
+		JPanel gridPanel = new JPanel(new GridLayout(2, 2));
+		gridPanel.add(btnHelp);
+		gridPanel.add(btnUndo);
+		gridPanel.add(btnProperties);
+		gridPanel.add(btnRedo);
+
+		JPanel p = new JPanel(new BorderLayout());
+		p.add(gridPanel, BorderLayout.EAST);
+
+		return p;
 	}
 	
 	
