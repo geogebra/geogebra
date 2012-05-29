@@ -28,7 +28,7 @@ your workstation.
 	    description="For command line developers (mostly Unix): to create GeoGebraWeb builds">
 	</target>
 
-	<target name="geogebraweb-developer" depends="ggbreduce-base64, gwt-oauth2"
+	<target name="geogebraweb-developer" depends="ggbreduce-base64, gwt-oauth2, google-api-java-client"
 	    description="For Eclipse developers: to create GeoGebraWeb builds">
 	</target>
 
@@ -57,6 +57,20 @@ your workstation.
 	<mkdir dir="lib/download"/>
 	<get src="http://gwt-oauth2.googlecode.com/files/gwt-oauth2-0.2-alpha.jar" dest="lib/download/gwt-oauth2-0.2-alpha.jar"
 	    usetimestamp="true"/>
+	</target>
+
+	<!-- download google-api-java-client from Google Code -->
+	<target name="google-api-java-client">
+	<mkdir dir="lib"/>
+	<mkdir dir="lib/download"/>
+	<get src="http://google-api-java-client.googlecode.com/files/google-api-java-client-1.9.0-beta.zip" dest="lib/download/google-api-java-client-1.9.0-beta.zip"
+	    usetimestamp="true"/>
+	<unzip src="lib/download/google-api-java-client-1.9.0-beta.zip" dest="war/WEB-INF/lib">
+	    <patternset>
+		<include name="libs/*.jar" />
+	    </patternset>
+	    <mapper type="flatten"/>
+	</unzip>
 	</target>
 
 	<!-- download base64 encoded version of mpreduce from GeoGebra repository -->
