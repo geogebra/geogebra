@@ -49,7 +49,7 @@ while [ $# -gt 0 ]; do
    echo "  -j [dir]                  Java home directory ($JAVA_HOME)"
    echo "  -ng, --no-grammar         Do not compile grammar with javacc"
    echo "  -nc, --no-classes         Do not (re)compile classes"
-   echo "  -r, --run                 Run GeoGebra after compilation"
+   echo "  -r, --run                 Run GeoGebra after compilation (in background)"
    echo "  -tu, --tidy-up            Tidy up the build directory after compilation"
    echo "  -v, --verbose             Be verbose whenever possible"
    exit 0
@@ -189,5 +189,5 @@ if [ $RUN = 0 ]; then
  echo "To run GeoGebra, enter \"cd $BUILDDIR; java -jar geogebra.jar\"."
 else
  cd "$BUILDDIR"
- java -jar geogebra.jar
+ java -jar geogebra.jar &
  fi

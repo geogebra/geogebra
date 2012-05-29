@@ -78,7 +78,7 @@ office@geogebra.org
 	
 	<!-- create all jar files -->
 	<target name="ggb-jar-files" 
-			depends="ggb-jar, ggb-main-jar, ggb-export-jar, ggb-properties-jar, ggb-cas-jar, ggb-algos-jar, ggb-gui-jar, ggb-javascript-jar, ggb-3d-jar, ggb-usb-jar, ggb-copy-jlatexmath, ggb-copy-jython">
+			depends="ggb-jar, ggb-main-jar, ggb-export-jar, ggb-properties-jar, ggb-cas-jar, ggb-algos-jar, ggb-gui-jar, ggb-javascript-jar, ggb-usb-jar, ggb-copy-jlatexmath, ggb-copy-jython">
 	</target>
 
 	<!-- compiles grammar, javacc path is hardcoded now for simplicity -->
