@@ -2,6 +2,7 @@ package geogebra.common.kernel.prover;
 
 import geogebra.common.main.AbstractApplication;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.SortedMap;
@@ -403,13 +404,13 @@ public class Polynomial implements Comparable<Polynomial> {
 	/**
 	 * Creates a comma separated list of the variables in the given polynomials
 	 * @param polys the polynomials
+	 * @param extraVars (maybe) extra variables (typically substituted variables)
 	 * @return the comma separated list
 	 */
-	public static String getVarsAsCommaSeparatedString(Polynomial[] polys) {
+	public static String getVarsAsCommaSeparatedString(Polynomial[] polys, HashSet<Variable> extraVars) {
 		StringBuilder sb = new StringBuilder();
 		HashSet<Variable> vars = getVars(polys);
-		if (vars == null)
-			return "";
+		vars.addAll(extraVars);
 		Iterator<Variable> it = vars.iterator();
 		while (it.hasNext()) {
 			Variable fv = it.next();
@@ -443,7 +444,7 @@ public class Polynomial implements Comparable<Polynomial> {
 	 * @return the Singular program code
 	 */
 	public String getSingularMultiplication(String ringVariable, Polynomial p1, Polynomial p2) {
-		String vars = getVarsAsCommaSeparatedString(new Polynomial[] {p1, p2});
+		String vars = getVarsAsCommaSeparatedString(new Polynomial[] {p1, p2}, null);
 		if (vars != "")
 			return "ring " + ringVariable + "=0,(" 
 				+ vars
@@ -620,24 +621,43 @@ public class Polynomial implements Comparable<Polynomial> {
 	}
 
 	/**
+	 * Converts substitutions to Singular strings
+	 * @param subst input as a HashMap
+	 * @return the parameters for Singular (e.g. "v1,0,v2,0,v3,0,v4,1")
+	 */
+	static String substitutionsString(HashMap<Variable,Integer> subst) {
+		String ret = "";
+		Iterator<Variable> it = subst.keySet().iterator();
+		while (it.hasNext()) {
+			Variable v = it.next();
+			ret += "," + v.toString() + "," + subst.get(v);
+		}
+		if (ret.length()>0)
+			return ret.substring(1);
+		return "";
+	}
+	
+	/**
 	 * Creates a Singular program for creating a ring to work with several
 	 * polynomials, and returns if the equation system has a solution. Uses
 	 * the Groebner basis w.r.t. the revgradlex order.
 	 * @param ringVariable variable name for the ring in Singular
 	 * @param idealVariable variable name for the ideal in Singular
 	 * @param polys array of polynomials
-	 * @param substitutions comma separated list with variables and values, e.g. "v1,0,v2,1"
+	 * @param substitutions HashMap with variables and values, e.g. {v1->0},{v2->1}
 	 * @return the Singular program code
 	 */
 	public static String getSingularGroebnerSolvable(String ringVariable, String idealVariable, Polynomial[] polys,
-			String substitutions) {
+			HashMap<Variable,Integer> substitutions) {
+		HashSet<Variable> substVars = new HashSet<Variable>(substitutions.keySet());
+		String substParams = substitutionsString(substitutions);
 		String ret = "ring " + ringVariable + "=0,(" 
-			+ getVarsAsCommaSeparatedString(polys)
+			+ getVarsAsCommaSeparatedString(polys, substVars)
 			+ "),dp;" // ring definition in Singular
 				
 			+ "ideal " + idealVariable + "=";
 		ret += getPolysAsCommaSeparatedString(polys) // ideal definition in Singular
-			+ ";" + idealVariable + "=subst(" + idealVariable + "," + substitutions + ")" // substitutions
+			+ ";" + idealVariable + "=subst(" + idealVariable + "," + substParams + ")" // substitutions
 			+ ";groebner(" + idealVariable + ")!=1;"; // the Groebner basis calculation command
 		return ret;
 	}
@@ -646,9 +666,10 @@ public class Polynomial implements Comparable<Polynomial> {
 	 * Decides if an array of polynomials (as a set) gives a solvable equation system
 	 * on the field of the complex numbers.
 	 * @param polys the array of polynomials
+	 * @param substitutions some variables which are to be evaluated with exact numbers
 	 * @return yes if solvable, no if no solutions, or null (if cannot decide)
 	 */
-	public static Boolean solvable(Polynomial[] polys, String substitutions) {
+	public static Boolean solvable(Polynomial[] polys, HashMap<Variable,Integer> substitutions) {
 		if (AbstractApplication.singularWS != null && AbstractApplication.singularWS.isAvailable()) {
 			String singularSolvableProgram = getSingularGroebnerSolvable("rr", "ii", polys, substitutions);
 			if (singularSolvableProgram.length()>500)

@@ -1,11 +1,10 @@
 package geogebra.common.kernel.prover;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 
-import geogebra.common.kernel.algos.AlgoElement;
-import geogebra.common.kernel.algos.SymbolicParametersAlgo;
 import geogebra.common.kernel.algos.SymbolicParametersBotanaAlgo;
 import geogebra.common.kernel.algos.SymbolicParametersBotanaAlgoAre;
 import geogebra.common.kernel.geos.GeoElement;
@@ -116,27 +115,32 @@ public class ProverBotanasMethod {
 	 * The first two variables (usually the coordinates of the first point) are set to 0,
 	 * and the second two variables (usually the coordinates of the second point) are set to 0 and 1.
 	 * @param statement the input statement
-	 * @return the command for Singular (e.g. "v1,0,v2,0,v3,0,v4,1")
+	 * @return a HashMap, containing the substitutions
 	 */
-	static String fixValues(GeoElement statement) {
+	static HashMap<Variable,Integer> fixValues(GeoElement statement) {
 		HashSet<GeoElement> freePoints = getFreePoints(statement);
-		String ret = "";
+		
+		HashMap<Variable,Integer> ret = new HashMap<Variable, Integer>();
+		
 		Iterator<GeoElement> it = freePoints.iterator();
 		int i = 0;
 		while (it.hasNext() && i<2) {
 			Variable[] fv = ((SymbolicParametersBotanaAlgo) it.next()).getBotanaVars();
 			if (i==0) {
-				ret = fv[0].toString() + ",0," + fv[1].toString() + ",0";
+				ret.put(fv[0], 0);
+				ret.put(fv[1], 0);
 				++i;
 			}
 			else {
-				ret += "," + fv[0].toString() + ",0," + fv[1].toString() + ",1";
+				ret.put(fv[0], 0);
+				ret.put(fv[1], 1);
 				++i;
 			}
 		}
 		return ret;
 	}
 
+	
 	/**
 	 * Proves the statement by using Botana's method 
 	 * @param prover the prover input object 
@@ -177,7 +181,7 @@ public class ProverBotanasMethod {
 			Polynomial[] ndgConditions = null;
 			if (AbstractApplication.freePointsNeverCollinear)
 				ndgConditions = create3FreePointsNeverCollinearNDG(prover);
-			String substitutions = fixValues(prover.statement);
+			HashMap<Variable,Integer> substitutions = fixValues(prover.statement);
 			int nHypotheses = 0;
 			int nNdgConditions = 0;
 			int nStatements = 0;
