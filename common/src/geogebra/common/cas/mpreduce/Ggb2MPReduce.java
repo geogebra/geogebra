@@ -151,6 +151,8 @@ public class Ggb2MPReduce {
 				"<<begin scalar lcm!!; off rounded, roundall, numval; lcm!!:=lcm(%0,%1); if numeric!!=0 then off rounded, roundall, numval; return lcm!! end>>");
 		p("LeftSide.1",
 				"<<begin scalar input!!; input!!:=(%0); return if arglength(input!!) and part(%0,0)=\\'list then map(lhs,input!!) else lhs(input!!) end>>");
+		p("Length.1",
+				"mylength(%0)");
 		p("Length.3",
 				"<<begin scalar input!!, variable!!; input!!:=(%0); variable!!:=mymainvar(input!!); return myint(sqrt(1+df(input!!,variable!!)^2),variable!!,%1,%2) end>>");
 		p("Length.4", "int(sqrt(1+df(%0,%1)^2),%1,%2,%3)");

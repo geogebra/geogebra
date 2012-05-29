@@ -439,6 +439,8 @@ public abstract class AbstractCASmpreduce extends CASgeneric {
 				mpreduce1.evaluate("procedure gamma2(a,x); gamma(a)*igamma(a,x);");
 				mpreduce1.evaluate("procedure beta3(a,b,x); beta(a,b)*ibeta(a,b,x);");
 				mpreduce1.evaluate("symbolic procedure isbound!! x; if get(x, 'avalue) then 1 else 0;");
+				mpreduce1.evaluate("procedure mylength(x);"
+				+ " if arglength(x)>-1 and part(x,0)='list then length(x) else sqrt(mydot(x,x));");
 				mpreduce1.evaluate("procedure myabs(x);"
 						+ " if arglength(x!!)>-1 and part(x,0)='list then sqrt(for each elem!! in x sum elem!!^2)"
 						+ " else if arglength(x)>-1 and part(x,0)='mat then <<"
