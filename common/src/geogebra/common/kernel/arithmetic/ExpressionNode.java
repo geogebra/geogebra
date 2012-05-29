@@ -2842,380 +2842,63 @@ public class ExpressionNode extends ValidExpression implements
 			break;
 
 		case COS:
-			if (STRING_TYPE.equals(StringType.MATHML)) {
-				mathml(sb, "<cos/>", leftStr, null);
-			} else {
-				switch (STRING_TYPE) {
-				case LATEX:
-					sb.append("\\cos \\left( ");
-					break;
-				case LIBRE_OFFICE:
-					sb.append("cos left ( ");
-					break;
-
-				case MATH_PIPER:
-					sb.append("Cos(");
-					break;
-
-				case PSTRICKS:
-					sb.append("COS(");
-					break;
-				case MPREDUCE:
-					appendReduceFunction(sb, "cos");
-					break;
-				default:
-					sb.append("cos(");
-				}
-				if (STRING_TYPE.equals(StringType.PGF)) {
-					sb.append("(" + leftStr + ") 180/pi");
-				} else {
-					sb.append(leftStr);
-				}
-				sb.append(rightBracket(STRING_TYPE));
-			}
+			trig(leftStr,sb,"<cos/>","\\cos","Cos(","COS(","cos","cos","cos",
+					STRING_TYPE,tpl.isPrintLocalizedCommandNames(),true);
 			break;
 
 		case SIN:
-			if (STRING_TYPE.equals(StringType.MATHML)) {
-				mathml(sb, "<sin/>", leftStr, null);
-			} else {
-				switch (STRING_TYPE) {
-				case LATEX:
-					sb.append("\\sin \\left( ");
-					break;
-				case LIBRE_OFFICE:
-					sb.append("sin left ( ");
-					break;
-				case MATH_PIPER:
-					sb.append("Sin(");
-					break;
-				case MPREDUCE:
-					appendReduceFunction(sb, "sin");
-					break;
-				case PSTRICKS:
-					sb.append("SIN(");
-					break;
-
-				default:
-					sb.append("sin(");
-				}
-				if (STRING_TYPE.equals(StringType.PGF)) {
-					sb.append("(" + leftStr + ") 180/pi");
-				} else {
-					sb.append(leftStr);
-				}
-				sb.append(rightBracket(STRING_TYPE));
-			}
+			trig(leftStr,sb,"<sin/>","\\sin","Sin(","SIN(","sin","sin","sin",
+					STRING_TYPE,tpl.isPrintLocalizedCommandNames(),true);
 			break;
 
 		case TAN:
-			if (STRING_TYPE.equals(StringType.MATHML)) {
-				mathml(sb, "<tan/>", leftStr, null);
-			} else {
-				switch (STRING_TYPE) {
-				case LATEX:
-					sb.append("\\tan \\left( ");
-					break;
-				case LIBRE_OFFICE:
-					sb.append("tan left ( ");
-					break;
-				case MATH_PIPER:
-					sb.append("Tan(");
-					break;
-
-				case PSTRICKS:
-					sb.append("TAN(");
-					break;
-
-				default:
-					sb.append("tan(");
-				}
-				if (STRING_TYPE.equals(StringType.PGF)) {
-					sb.append("(" + leftStr + ") 180/pi");
-				} else {
-					sb.append(leftStr);
-				}
-				sb.append(rightBracket(STRING_TYPE));
-			}
+			trig(leftStr,sb,"<tan/>","\\tan","Tan(","TAN(","tan","tan","tan",
+					STRING_TYPE,tpl.isPrintLocalizedCommandNames(),true);
 			break;
 
 		case CSC:
-			if (STRING_TYPE.equals(StringType.MATHML)) {
-				mathml(sb, "<csc/>", leftStr, null);
-			} else {
-				switch (STRING_TYPE) {
-				case LATEX:
-					sb.append("\\csc \\left( ");
-					break;
-				case LIBRE_OFFICE:
-					sb.append("csc left ( ");
-					break;
-				case MATH_PIPER:
-					sb.append("Csc(");
-					break;
-
-				case PSTRICKS:
-					sb.append("CSC(");
-					break;
-				case MPREDUCE:
-					appendReduceFunction(sb, "csc");
-					break;
-				default:
-					sb.append("csc(");
-				}
-				if (STRING_TYPE.equals(StringType.PGF)) {
-					sb.append("(" + leftStr + ") 180/pi");
-				} else {
-					sb.append(leftStr);
-				}
-				sb.append(rightBracket(STRING_TYPE));
-			}
+			trig(leftStr,sb,"<csc/>","\\csc","Csc(","CSC(","csc","csc","csc",
+					STRING_TYPE,tpl.isPrintLocalizedCommandNames(),true);
 			break;
 
 		case SEC:
-			if (STRING_TYPE.equals(StringType.MATHML)) {
-				mathml(sb, "<sec/>", leftStr, null);
-			} else {
-				switch (STRING_TYPE) {
-				case LATEX:
-					sb.append("\\sec \\left( ");
-					break;
-				case LIBRE_OFFICE:
-					sb.append("sec left ( ");
-					break;
-				case MATH_PIPER:
-					sb.append("Sec(");
-					break;
-
-				case PSTRICKS:
-					sb.append("SEC(");
-					break;
-				case MPREDUCE:
-					appendReduceFunction(sb, "sec");
-					break;
-				default:
-					sb.append("sec(");
-				}
-				if (STRING_TYPE.equals(StringType.PGF)) {
-					sb.append("(" + leftStr + ") 180/pi");
-				} else {
-					sb.append(leftStr);
-				}
-				sb.append(rightBracket(STRING_TYPE));
-			}
+			trig(leftStr,sb,"<sec/>","\\sec","Sec(","SEC(","sec","sec","sec",
+						STRING_TYPE,tpl.isPrintLocalizedCommandNames(),true);
 			break;
 
 		case COT:
-			if (STRING_TYPE.equals(StringType.MATHML)) {
-				mathml(sb, "<cot/>", leftStr, null);
-			} else {
-				switch (STRING_TYPE) {
-				case LATEX:
-					sb.append("\\cot \\left( ");
-					break;
-				case LIBRE_OFFICE:
-					sb.append("cot left ( ");
-					break;
-				case MATH_PIPER:
-					sb.append("Cot(");
-					break;
-
-				case PSTRICKS:
-					sb.append("COT(");
-					break;
-				case MPREDUCE:
-					appendReduceFunction(sb, "cot");
-					break;
-				default:
-					sb.append("cot(");
-				}
-				if (STRING_TYPE.equals(StringType.PGF)) {
-					sb.append("(" + leftStr + ") 180/pi");
-				} else {
-					sb.append(leftStr);
-				}
-				sb.append(rightBracket(STRING_TYPE));
-			}
+			trig(leftStr,sb,"<cot/>","\\cot","Cot(","COT(","cot","cot","cot",
+					STRING_TYPE,tpl.isPrintLocalizedCommandNames(),true);
 			break;
 
 		case CSCH:
-			if (STRING_TYPE.equals(StringType.MATHML)) {
-				mathml(sb, "<csch/>", leftStr, null);
-			} else {
-				switch (STRING_TYPE) {
-				case LATEX:
-					sb.append("\\csch \\left( ");
-					break;
-				case LIBRE_OFFICE:
-					sb.append("func csch left (");
-					break;
-				case MATH_PIPER:
-					sb.append("Csch(");
-					break;
-
-				case PSTRICKS:
-					sb.append("CSCH(");
-					break;
-				case MPREDUCE:
-					appendReduceFunction(sb, "csch");
-					break;
-				default:
-					sb.append("csch(");
-				}
-				sb.append(leftStr);
-				sb.append(rightBracket(STRING_TYPE));
-			}
+			trig(leftStr,sb,"<csch/>","\\csch","Csch(","CSCH(","csch","csch","func csch",
+					STRING_TYPE,tpl.isPrintLocalizedCommandNames(),false);
 			break;
 
 		case SECH:
-			if (STRING_TYPE.equals(StringType.MATHML)) {
-				mathml(sb, "<sech/>", leftStr, null);
-			} else {
-				switch (STRING_TYPE) {
-				case LATEX:
-					sb.append("\\sech \\left( ");
-					break;
-				case LIBRE_OFFICE:
-					sb.append("func sech left (");
-					break;
-				case MATH_PIPER:
-					sb.append("Sech(");
-					break;
-
-				case PSTRICKS:
-					sb.append("SECH(");
-					break;
-				case MPREDUCE:
-					appendReduceFunction(sb, "sech");
-					break;
-				default:
-					sb.append("sech(");
-				}
-				sb.append(leftStr);
-				sb.append(rightBracket(STRING_TYPE));
-			}
+			trig(leftStr,sb,"<sech/>","\\sech","Sech(","SECH(","sech","sech","func sech",
+					STRING_TYPE,tpl.isPrintLocalizedCommandNames(),false);
 			break;
 
 		case COTH:
-			if (STRING_TYPE.equals(StringType.MATHML)) {
-				mathml(sb, "<coth/>", leftStr, null);
-			} else {
-				switch (STRING_TYPE) {
-				case LATEX:
-					sb.append("\\coth \\left( ");
-					break;
-				case LIBRE_OFFICE:
-					sb.append("coth left ( ");
-					break;
-				case MATH_PIPER:
-					sb.append("Coth(");
-					break;
-
-				case PSTRICKS:
-					sb.append("COTH(");
-					break;
-				case MPREDUCE:
-					appendReduceFunction(sb, "coth");
-					break;
-				default:
-					sb.append("coth(");
-				}
-				sb.append(leftStr);
-				sb.append(rightBracket(STRING_TYPE));
-			}
+			trig(leftStr,sb,"<coth/>","\\coth","Coth(","COTH(","coth","coth","coth",
+					STRING_TYPE,tpl.isPrintLocalizedCommandNames(),false);
 			break;
 
 		case ARCCOS:
-			if (STRING_TYPE.equals(StringType.MATHML)) {
-				mathml(sb, "<arccos/>", leftStr, null);
-			} else {
-				switch (STRING_TYPE) {
-				case LATEX:
-					sb.append("acos \\left( ");
-					break;
-
-				case LIBRE_OFFICE:
-					sb.append("arccos left (");
-					break;
-					
-				case MATH_PIPER:
-					sb.append("ArcCos(");
-					break;
-
-				case PSTRICKS:
-					sb.append("ACOS(");
-					break;
-				case MPREDUCE:
-					appendReduceFunction(sb, "acos");
-					break;
-				default:
-					sb.append("acos(");
-				}
-				sb.append(leftStr);
-				sb.append(rightBracket(STRING_TYPE));
-			}
+			trig(leftStr,sb,"<arccos/>","\\operatorname{acos}","ArcCos(","ACOS(","acos","acos","arccos",
+					STRING_TYPE,tpl.isPrintLocalizedCommandNames(),false);
 			break;
 
 		case ARCSIN:
-			if (STRING_TYPE.equals(StringType.MATHML)) {
-				mathml(sb, "<arcsin/>", leftStr, null);
-			} else {
-				switch (STRING_TYPE) {
-				case LATEX:
-					sb.append("asin \\left( ");
-					break;
-					
-				case LIBRE_OFFICE:
-					sb.append("arcsin left (");
-					break;
-					
-				case MATH_PIPER:
-					sb.append("ArcSin(");
-					break;
-
-				case PSTRICKS:
-					sb.append("ASIN(");
-					break;
-				case MPREDUCE:
-					appendReduceFunction(sb, "asin");
-					break;
-				default:
-					sb.append("asin(");
-				}
-				sb.append(leftStr);
-				sb.append(rightBracket(STRING_TYPE));
-			}
+			trig(leftStr,sb,"<arcsin/>","\\operatorname{asin}","ArcSin(","ASIN(","asin","asin","arcsin",
+					STRING_TYPE,tpl.isPrintLocalizedCommandNames(),false);
 			break;
 
 		case ARCTAN:
-			if (STRING_TYPE.equals(StringType.MATHML)) {
-				mathml(sb, "<arctan/>", leftStr, null);
-			} else {
-				switch (STRING_TYPE) {
-				case LATEX:
-					sb.append("atan \\left( ");
-					break;
-
-				case LIBRE_OFFICE:
-					sb.append("arctan left (");
-					break;
-					
-				case MATH_PIPER:
-					sb.append("ArcTan(");
-					break;
-
-				case PSTRICKS:
-					sb.append("ATAN(");
-					break;
-				case MPREDUCE:
-					appendReduceFunction(sb, "atan");
-					break;
-				default:
-					sb.append("atan(");
-				}
-				sb.append(leftStr);
-				sb.append(rightBracket(STRING_TYPE));
-			}
+			trig(leftStr,sb,"<arctan/>","\\operatorname{atan}","ArcTan(","ATAN(","atan","atan","arctan",
+					STRING_TYPE,tpl.isPrintLocalizedCommandNames(),false);
 			break;
 
 		case ARCTAN2:
@@ -3226,11 +2909,9 @@ public class ExpressionNode extends ValidExpression implements
 				case LATEX:
 					sb.append("atan2 \\left( ");
 					break;
-
 				case LIBRE_OFFICE:
-					sb.append("func arctan2 left (");
+					sb.append("func atan2 left( ");
 					break;
-					
 				case MATH_PIPER:
 					sb.append("ArcTan2(");
 					break;
@@ -3254,184 +2935,33 @@ public class ExpressionNode extends ValidExpression implements
 			break;
 
 		case COSH:
-			if (STRING_TYPE.equals(StringType.MATHML)) {
-				mathml(sb, "<cosh/>", leftStr, null);
-			} else {
-				switch (STRING_TYPE) {
-				case LATEX:
-					sb.append("\\cosh \\left( ");
-					break;
-				case LIBRE_OFFICE:
-					sb.append("cosh left ( ");
-					break;
-				case MATH_PIPER:
-					sb.append("Cosh(");
-					break;
-
-				case PSTRICKS:
-					sb.append("COSH(");
-					break;
-				case MPREDUCE:
-					appendReduceFunction(sb, "cosh");
-					break;
-				default:
-					sb.append("cosh(");
-				}
-				sb.append(leftStr);
-				sb.append(rightBracket(STRING_TYPE));
-			}
+			trig(leftStr,sb,"<cosh/>","\\cosh","Cosh(","COSH(","cosh","cosh","cosh",
+					STRING_TYPE,tpl.isPrintLocalizedCommandNames(),false);
 			break;
 
 		case SINH:
-			if (STRING_TYPE.equals(StringType.MATHML)) {
-				mathml(sb, "<sinh/>", leftStr, null);
-			} else {
-				switch (STRING_TYPE) {
-				case LATEX:
-					sb.append("\\sinh \\left( ");
-					break;
-				case LIBRE_OFFICE:
-					sb.append("sinh left ( ");
-					break;
-				case MATH_PIPER:
-					sb.append("Sinh(");
-					break;
-
-				case PSTRICKS:
-					sb.append("SINH(");
-					break;
-				case MPREDUCE:
-					appendReduceFunction(sb, "sinh");
-					break;
-				default:
-					sb.append("sinh(");
-				}
-				sb.append(leftStr);
-				sb.append(rightBracket(STRING_TYPE));
-			}
+			trig(leftStr,sb,"<sinh/>","\\sinh","Sinh(","SINH(","sinh","sinh","sinh",
+					STRING_TYPE,tpl.isPrintLocalizedCommandNames(),false);
 			break;
 
 		case TANH:
-			if (STRING_TYPE.equals(StringType.MATHML)) {
-				mathml(sb, "<sin/>", leftStr, null);
-			} else {
-				switch (STRING_TYPE) {
-				case LATEX:
-					sb.append("\\tanh \\left( ");
-					break;
-				case LIBRE_OFFICE:
-					sb.append("tanh left ( ");
-					break;
-				case MATH_PIPER:
-					sb.append("Tanh(");
-					break;
-
-				case PSTRICKS:
-					sb.append("TANH(");
-					break;
-				case MPREDUCE:
-					appendReduceFunction(sb, "tanh");
-					break;
-				default:
-					sb.append("tanh(");
-				}
-				sb.append(leftStr);
-				sb.append(rightBracket(STRING_TYPE));
-			}
-			break;
+			trig(leftStr,sb,"<tanh/>","\\tanh","Tanh(","TANH(","tanh","tanh","tanh",
+					STRING_TYPE,tpl.isPrintLocalizedCommandNames(),false);
+		break;
 
 		case ACOSH:
-			if (STRING_TYPE.equals(StringType.MATHML)) {
-				mathml(sb, "<arccosh/>", leftStr, null);
-			} else {
-				switch (STRING_TYPE) {
-				case LATEX:
-					sb.append("\\operatorname{acosh} \\left( ");
-					break;
-					
-				case LIBRE_OFFICE:
-					sb.append("arcosh left (");
-					break;
-					
-				case MATH_PIPER:
-					sb.append("ArcCosh(");
-					break;
-
-				case PSTRICKS:
-					sb.append("ACOSH(");
-					break;
-				case MPREDUCE:
-					appendReduceFunction(sb, "acosh");
-					break;
-				default:
-					sb.append("acosh(");
-				}
-				sb.append(leftStr);
-				sb.append(rightBracket(STRING_TYPE));
-			}
+			trig(leftStr,sb,"<arccosh/>","\\operatorname{acosh}","ArcCosh(","ACOSH(","acosh","acosh","arcosh",
+					STRING_TYPE,tpl.isPrintLocalizedCommandNames(),false);
 			break;
-
 		case ASINH:
-			if (STRING_TYPE.equals(StringType.MATHML)) {
-				mathml(sb, "<arcsinh/>", leftStr, null);
-			} else {
-				switch (STRING_TYPE) {
-				case LATEX:
-					sb.append("\\operatorname{asinh} \\left( ");
-					break;
-					
-				case LIBRE_OFFICE:
-					sb.append("arsinh left (");
-					break;
-					
-				case MATH_PIPER:
-					sb.append("ArcSinh(");
-					break;
-
-				case PSTRICKS:
-					sb.append("ASINH(");
-					break;
-				case MPREDUCE:
-					appendReduceFunction(sb, "asinh");
-					break;
-				default:
-					sb.append("asinh(");
-				}
-				sb.append(leftStr);
-				sb.append(rightBracket(STRING_TYPE));
-			}
+			trig(leftStr,sb,"<arcsinh/>","\\operatorname{asinh}","ArcSinh(","ASINH(","asinh","asinh","arsinh",
+					STRING_TYPE,tpl.isPrintLocalizedCommandNames(),false);			
 			break;
 
 		case ATANH:
-			if (STRING_TYPE.equals(StringType.MATHML)) {
-				mathml(sb, "<arctanh/>", leftStr, null);
-			} else {
-				switch (STRING_TYPE) {
-				case LATEX:
-					sb.append("\\operatorname{atanh} \\left( ");
-					break;
-					
-				case LIBRE_OFFICE:
-					sb.append("artanh left (");
-					break;
-					
-				case MATH_PIPER:
-					sb.append("ArcTanh(");
-					break;
-
-				case PSTRICKS:
-					sb.append("ATANH(");
-					break;
-				case MPREDUCE:
-					appendReduceFunction(sb, "atanh");
-					break;
-				default:
-					sb.append("atanh(");
-				}
-				sb.append(leftStr);
-				sb.append(rightBracket(STRING_TYPE));
-			}
-			break;
+			trig(leftStr,sb,"<arctanh/>","\\operatorname{atanh}","ArcTanh(","ATANH(","atanh","atanh","artanh",
+					STRING_TYPE,tpl.isPrintLocalizedCommandNames(),false);
+		break;
 		case CI:
 			switch (STRING_TYPE) {
 			case LATEX:
@@ -4680,6 +4210,61 @@ public class ExpressionNode extends ValidExpression implements
 		return sb.toString();
 	}
 
+	private void trig(String leftStr, StringBuilder sb, String mathml, String latex,
+			String mathPiper, String psTricks, String mpReduce, String key,
+			String libreOffice,
+			StringType STRING_TYPE, boolean localized,boolean needDegrees) {
+		if (STRING_TYPE.equals(StringType.MATHML)) {
+			mathml(sb, mathml, leftStr, null);
+		} else {
+			switch (STRING_TYPE) {
+			case LATEX:
+				if(localized){
+					sb.append("\\operatorname{");
+					sb.append(app.getFunction(key));
+					sb.append("}");
+				}else{
+					sb.append(latex);
+				}
+				sb.append(" \\left( ");
+				break;
+			case LIBRE_OFFICE:
+				if(!libreOffice.equals(app.getFunction(key))){
+					sb.append("func ");
+					
+				}
+				sb.append(app.getFunction(key));
+				sb.append(" left( ");
+				break;
+			case MATH_PIPER:
+				sb.append(mathPiper);
+				break;
+
+			case PSTRICKS:
+				sb.append(psTricks);
+				break;
+			case MPREDUCE:
+				appendReduceFunction(sb, mpReduce);
+				break;
+			default:
+				if(localized){
+					sb.append(app.getFunction(key));
+				}
+				else{	
+					sb.append(key);
+				}
+				sb.append("(");
+			}
+			if (needDegrees && STRING_TYPE.equals(StringType.PGF)) {
+				sb.append("(" + leftStr + ") 180/pi");
+			} else {
+				sb.append(leftStr);
+			}
+			sb.append(rightBracket(STRING_TYPE));
+		}
+		
+	}
+	
 	private void appendReduceFunction(StringBuilder sb, String string) {
 		AbstractApplication.debug(left.getClass());
 		if (left instanceof ListValue) {
