@@ -1303,6 +1303,15 @@ td.datePickerMonth {
 	top:10px;
 }
 
+.logintogoogle {
+	position:absolute;
+	right:44px;
+}
+
+.logintogoogle img {
+	vertical-align:bottom;
+}
+
 /* EuclidianStyleBar styles */
 .SelectionTable a {
 	text-decoration:none;
@@ -1355,6 +1364,20 @@ td.datePickerMonth {
 .historyList a:hover, .historyList a:focus, .historyList a.highlight {
 	background: #D5E2FF;
 }
+
+/* ToolBar Styles */
+.undoPanel {
+	position:absolute;
+	right:0px;
+	margin:4px 10px;
+	display:block;
+}
+
+
+.undoPanel button.gwt-Button {
+	padding:2px;
+}
+
 
 [isSelected=true] .toolbar_icon{
 	border: 2px solid blue;

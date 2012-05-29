@@ -76,6 +76,7 @@ public class GGWToolBar extends Composite {
 	 */
 	public void buildGui() {
 		toolbarPanel = new VerticalPanel();
+		toolbarPanel.addStyleName("toolbarPanel");
 		updateToolbarPanel();
 
 		// setActiveToolbar(activeToolbar);
@@ -106,7 +107,7 @@ public class GGWToolBar extends Composite {
 		//toolBarPanel.add(redoButton);
 		
 		VerticalPanel undoPanel = new VerticalPanel();
-		undoPanel.setStyleName("undoPanel");
+		undoPanel.addStyleName("undoPanel");
 		undoPanel.add(undoButton);
 		undoPanel.add(redoButton);
 		toolBarPanel.add(undoPanel);

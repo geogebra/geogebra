@@ -80,11 +80,13 @@ public class GeoGebraMenubar extends MenuBar {
 			}
 			
 			
-	        loginToGoogle = addItem(menuHtml,c);
+	        loginToGoogle = addItem(menuHtml,true,c);
+	        loginToGoogle.addStyleName("logintogoogle");
         }
 
 		String createMenuHtmlForNotSignedIn() {
-	        return "Login to Google";
+	        return getMenuBarHtml(AppResources.INSTANCE.loginToGoogle().getSafeUri().asString()
+	        		, "Login to Google");
         }
 
 		private void createMenuHtmlForSignedIn() {
@@ -100,7 +102,7 @@ public class GeoGebraMenubar extends MenuBar {
 						
 						public void success(String responseText) {
 							JavaScriptObject answer = JSON.parse(responseText);
-							loginToGoogle.setHTML(JSON.get(answer,"email"));
+							loginToGoogle.setHTML(getMenuBarHtml(AppResources.INSTANCE.loginToGoogle().getSafeUri().asString(), JSON.get(answer,"email")));
 							loginToGoogle.setCommand(createCommandForSignedIn());
 						}
 						
@@ -139,7 +141,7 @@ public class GeoGebraMenubar extends MenuBar {
 							
 							public void success(String responseText) {
 								JavaScriptObject answer = JSON.parse(responseText);
-								loginToGoogle.setHTML(JSON.get(answer,"email"));
+								loginToGoogle.setHTML(getMenuBarHtml(AppResources.INSTANCE.loginToGoogle().getSafeUri().asString(),JSON.get(answer,"email")));
 								loginToGoogle.setCommand(createCommandForSignedIn());
 							}
 							
@@ -186,7 +188,8 @@ public class GeoGebraMenubar extends MenuBar {
 			addItem(app.getMenu("Options"), optionsMenu);
 		}
 		
-		public static String getMenuBarHtml(String url,String text) {
+		public static String getMenuBarHtml(String url,String text) {		
+			//TODO: Resize images for this real size, if it is good.
 			return "<img width=\"16\" height=\"16\" alt=\""+text+"\" src=\""+url+"\" />"+" "+text;
 		}
 	
