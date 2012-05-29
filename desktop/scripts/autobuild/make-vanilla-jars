@@ -180,6 +180,7 @@ if [ $TIDYUP = 1 ]; then
  echo "Tidying up $BUILDDIR"
  for i in debug packed tempproperties unpacked unsigned; do
   rm -fR $BUILDDIR/$i
+  rm $BUILDDIR/geogebra_3d.jar
   done
  fi
 
