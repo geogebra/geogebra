@@ -165,24 +165,23 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI {
     	String macroXml = getApplication().getMacroXMLorEmpty();
     	String geogebra_javascript = getKernel().getLibraryJavaScript();
     	String geogebra_python = getKernel().getLibraryPythonScript();
-    	
-    	writeConstructionImages(getConstruction(),"/");
-    	
-    	archiveContent.put(MyXMLio.XML_FILE, constructionXml);
-    	archiveContent.put(MyXMLio.JAVASCRIPT_FILE, geogebra_javascript);
-    		
+
+    	writeConstructionImages(getConstruction(),"");
+
     	if (!macroXml.equals("")) {
     		writeMacroImages();
     		archiveContent.put(MyXMLio.XML_FILE_MACRO, macroXml);
     	}
-    	
-    	
-    	
+
+    	archiveContent.put(MyXMLio.JAVASCRIPT_FILE, geogebra_javascript);
+
     	if (!geogebra_python.equals("")) {
     		archiveContent.put(MyXMLio.PYTHON_FILE, geogebra_python);
     	}
+
+    	archiveContent.put(MyXMLio.XML_FILE, constructionXml);
     }
-    
+
     private native JavaScriptObject getDummyCallback() /*-{
 	   return function() {
 	   		$wnd.console.log("This is a dummy callback from geogebra.web.main.ggbApi.getBase64(); try the callbacked version instead");
@@ -260,18 +259,19 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI {
 		//$wnd.zip.useWebWorkers = false;
 		$wnd.zip.createWriter(new $wnd.zip.Data64URIWriter("application/vnd.geogebra.file"), function(zipWriter) {
 			function addImage(name, data, callback) {
+				data = data.substr(data.indexOf(',')+1);
 				zipWriter.add(name, new $wnd.zip.Data64URIReader(data), callback);
 			}
-		
+
 			function addText(name, data, callback) {
 				$wnd.console.log(name);
 				zipWriter.add(name, new ASCIIReader(data), callback);
 			}
-			
+
 			function checkIfStillFilesToAdd() {
 				var item;
 				if (arch.archive.length > 0) {
-					item = arch.archive.pop();
+					item = arch.archive.shift();
 					if (item.fileName.indexOf("image/png") > -1) {
 							$wnd.console.log("image zipped");
 							addImage(item.fileName,item.fileContent,function(){checkIfStillFilesToAdd();});
@@ -389,7 +389,16 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI {
 					cv.setCoordinateSpaceHeight(img.getHeight());
 					Context2d c2d = cv.getContext2d();
 					c2d.drawImage(img.getImageElement(),0,0);
-					addImageToZip(filePath + fileName, cv.toDataUrl("image/png"));
+					String ext = fileName.substring(fileName.lastIndexOf('.')+1).toLowerCase();
+					// Opera and Safari cannot toDataUrl jpeg (much less the others)
+					//if (ext.equals("jpg") || ext.equals("jpeg"))
+					//	addImageToZip(filePath + fileName, cv.toDataUrl("image/jpg"));
+					//else
+					if (ext.equals("png"))
+						addImageToZip(filePath + fileName, cv.toDataUrl("image/png"));
+					else
+						addImageToZip(filePath + fileName.substring(0,fileName.lastIndexOf('.')) + ".png", cv.toDataUrl("image/png"));
+
 				}
 			}
 		}
