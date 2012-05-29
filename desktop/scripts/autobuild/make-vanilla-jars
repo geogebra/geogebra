@@ -29,6 +29,7 @@ GRAMMAR=1
 VERBOSE=0
 CLASSES=1
 RUN=0
+TIDYUP=0
 
 BOOTCLASSPATH=`cd $WORKDIR/..; pwd`/java150-rt.jar
 set_bootclasspath
@@ -49,6 +50,7 @@ while [ $# -gt 0 ]; do
    echo "  -ng, --no-grammar         Do not compile grammar with javacc"
    echo "  -nc, --no-classes         Do not (re)compile classes"
    echo "  -r, --run                 Run GeoGebra after compilation"
+   echo "  -tu, --tidy-up            Tidy up the build directory after compilation"
    echo "  -v, --verbose             Be verbose whenever possible"
    exit 0
    ;;
@@ -59,6 +61,10 @@ while [ $# -gt 0 ]; do
 
   -r | --run)
    RUN=1
+   ;;
+
+  -tu | --tidy-up)
+   TIDYUP=1
    ;;
 
   -s)
@@ -168,8 +174,16 @@ if [ $CLASSES = 1 ]; then
 # 6/4. Packaging
 $ANT ggb-jar-files || exit 3
 
-# 7. Finish
+# 6/5. Tidying up on demand
 BUILDDIR=`cd $WORKDIR/build; pwd`
+if [ $TIDYUP = 1 ]; then
+ echo "Tidying up $BUILDDIR"
+ for i in debug packed tempproperties unpacked unsigned; do
+  rm -fR $BUILDDIR/$i
+  done
+ fi
+
+# 7. Finish
 if [ $RUN = 0 ]; then
  echo "Vanilla *.jar files are located in $BUILDDIR directory."
  echo "To run GeoGebra, enter \"cd $BUILDDIR; java -jar geogebra.jar\"."
