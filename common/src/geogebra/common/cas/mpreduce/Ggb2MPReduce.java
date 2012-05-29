@@ -23,6 +23,8 @@ public class Ggb2MPReduce {
 	 * @return map signature => syntax
 	 */
 	public Map<String,String> getMap() {
+		p("Append.2",
+				"myappend(%0,%1)");
 		p("Binomial.2",
 				"<< begin scalar n!!, k!!, result1!!, result2!!; n!!:=(%0); k!!:=(%1); result1!!:= if numberp(n!!) and numberp(k!!) and k!!>n!! then 0 else factorial(n!!)/(factorial(k!!)*factorial(n!!-k!!)); let list(gamma(~w+1) => factorial(w)); result2!!:=result1!!; clear list(gamma(~w+1) => factorial); return result2!! end >>");
 		p("BinomialDist.4",
