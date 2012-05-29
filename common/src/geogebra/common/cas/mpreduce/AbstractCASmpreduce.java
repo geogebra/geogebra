@@ -831,7 +831,7 @@ public abstract class AbstractCASmpreduce extends CASgeneric {
 				mpreduce1.evaluate("procedure mattolistoflists(a);"
 						+ " begin scalar list!!, j!!;" + "  tmpmatrix!!:=a;"
 						+ "  return" + "  if arglength(a)<0 or part(a,0) neq 'mat then"
-						+ "    tmpmatrix" + "  else"
+						+ "    tmpmatrix!!" + "  else"
 						+ "    for i:=1:part(length(a),1) collect"
 						+ "      for j!!:=1:part(length(a),2) collect"
 						+ "        tmpmatrix!!(i,j!!)" + " end;");
