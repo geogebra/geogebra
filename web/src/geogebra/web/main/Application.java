@@ -926,7 +926,12 @@ public class Application extends AbstractApplication {
 		if (!IMAGE_EXTENSIONS.contains(ext)) {
 			return; // Ignore non image files
 		}
-		addExternalImage(filename, binaryContent);
+
+		// for file names e.g. /geogebra/main/nav_play.png in GeoButtons
+		if (filename.charAt(0) == '/')
+			addExternalImage(filename.substring(1), binaryContent);
+		else
+			addExternalImage(filename, binaryContent);
 	}
 
 	private String createImageSrc(String ext, String base64) {

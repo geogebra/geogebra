@@ -29,19 +29,25 @@ public class GeoElementGraphicsAdapter extends
     }
 
 	public void setImageFileName(String fileName) {
+
+		// for file names e.g. /geogebra/main/nav_play.png
+		if (fileName.charAt(0) == '/')
+			fileName = fileName.substring(1);
+
 		if (fileName.equals(this.imageFileName))
 			return;
 
 		this.imageFileName = fileName;
 
-		if (fileName.startsWith("/geogebra")) { // internal image
-			ImageElement im = ((ImageManager) app
-					.getImageManager()).getImageResource(imageFileName);
-			image = new geogebra.web.awt.BufferedImage(ImageManager.toBufferedImage(im));
+		// such file names are saved in the ggb file too, so this if is not needed (and does not work)
+		//if (fileName.startsWith("/geogebra")) { // internal image
+		//	ImageElement im = ((ImageManager) app
+		//			.getImageManager()).getImageResource(imageFileName);
+		//	image = new geogebra.web.awt.BufferedImage(ImageManager.toBufferedImage(im));
 
-		} else {
+		//} else {
 			image = app.getExternalImageAdapter(fileName);
-		}
+		//}
     }
 
 }
