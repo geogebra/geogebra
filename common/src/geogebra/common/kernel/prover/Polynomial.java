@@ -251,6 +251,12 @@ public class Polynomial implements Comparable<Polynomial> {
 		
 		/*
 		if (AbstractApplication.singularWS != null && AbstractApplication.singularWS.isAvailable()) {
+			String pts = poly.toString();
+			String tts = this.toString();
+			if (pts.length()>=125 || pts.equals("v10*v8*v7*v4*v3+-1*v10*v9*v6*v4*v3+-1*v10*v8*v7*v5*v2+v10*v9*v6*v5*v2+-1*v8*v7*v4*v3*v1+v9*v6*v4*v3*v1+v8*v7*v5*v2*v1+-1*v9*v6*v5*v2*v1")) {
+				AbstractApplication.debug("poly=" + pts + " this=" + tts);
+			}
+							
 			String singularMultiplicationProgram = getSingularMultiplication("rr", poly, this);
 			if (singularMultiplicationProgram.length()>100) {
 				AbstractApplication.trace(singularMultiplicationProgram.length() + " bytes -> singular");
@@ -615,21 +621,24 @@ public class Polynomial implements Comparable<Polynomial> {
 
 	/**
 	 * Creates a Singular program for creating a ring to work with several
-	 * polynomials, and returns if the equation system has solution. Uses
-	 * the Groebner basis w.r.t. the revgradlex order; adds a closing ";"
+	 * polynomials, and returns if the equation system has a solution. Uses
+	 * the Groebner basis w.r.t. the revgradlex order.
 	 * @param ringVariable variable name for the ring in Singular
 	 * @param idealVariable variable name for the ideal in Singular
 	 * @param polys array of polynomials
+	 * @param substitutions comma separated list with variables and values, e.g. "v1,0,v2,1"
 	 * @return the Singular program code
 	 */
-	public static String getSingularGroebnerSolvable(String ringVariable, String idealVariable, Polynomial[] polys) {
+	public static String getSingularGroebnerSolvable(String ringVariable, String idealVariable, Polynomial[] polys,
+			String substitutions) {
 		String ret = "ring " + ringVariable + "=0,(" 
 			+ getVarsAsCommaSeparatedString(polys)
 			+ "),dp;" // ring definition in Singular
 				
 			+ "ideal " + idealVariable + "=";
 		ret += getPolysAsCommaSeparatedString(polys) // ideal definition in Singular
-			+";groebner(" + idealVariable + ")!=1;"; // the Groebner basis calculation command
+			+ ";" + idealVariable + "=subst(" + idealVariable + "," + substitutions + ")" // substitutions
+			+ ";groebner(" + idealVariable + ")!=1;"; // the Groebner basis calculation command
 		return ret;
 	}
 	
@@ -639,9 +648,9 @@ public class Polynomial implements Comparable<Polynomial> {
 	 * @param polys the array of polynomials
 	 * @return yes if solvable, no if no solutions, or null (if cannot decide)
 	 */
-	public static Boolean solvable(Polynomial[] polys) {
+	public static Boolean solvable(Polynomial[] polys, String substitutions) {
 		if (AbstractApplication.singularWS != null && AbstractApplication.singularWS.isAvailable()) {
-			String singularSolvableProgram = getSingularGroebnerSolvable("rr", "ii", polys);
+			String singularSolvableProgram = getSingularGroebnerSolvable("rr", "ii", polys, substitutions);
 			if (singularSolvableProgram.length()>500)
 				AbstractApplication.debug(singularSolvableProgram.length() + " bytes -> singular");
 			else

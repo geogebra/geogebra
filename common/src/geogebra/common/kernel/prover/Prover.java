@@ -75,8 +75,8 @@ public class Prover {
 	UNKNOWN}
 	
 	/* input */
-	private int timeout = 10;
-	private ProverEngine engine = ProverEngine.RECIOS_PROVER;
+	private int timeout = 5;
+	private ProverEngine engine = ProverEngine.AUTO;
 	private Construction construction;
 	/**
 	 * The statement to be prove

@@ -116,37 +116,27 @@ public class ProverBotanasMethod {
 	 * The first two variables (usually the coordinates of the first point) are set to 0,
 	 * and the second two variables (usually the coordinates of the second point) are set to 0 and 1.
 	 * @param statement the input statement
-	 * @return the string of the extra polynomials (e.g. "a1,a2,b1,b2-1")
+	 * @return the command for Singular (e.g. "v1,0,v2,0,v3,0,v4,1")
 	 */
-	static Polynomial[] fixValues(GeoElement statement) {
+	static String fixValues(GeoElement statement) {
 		HashSet<GeoElement> freePoints = getFreePoints(statement);
-		int setSize = freePoints.size();
-		int retSize = 0;
-		if (setSize >= 2)
-			retSize = 4;
-		if (setSize == 1)
-			retSize = 2;
-		Polynomial[] ret = new Polynomial[retSize];
+		String ret = "";
 		Iterator<GeoElement> it = freePoints.iterator();
 		int i = 0;
-		while (it.hasNext() && i<4) {
+		while (it.hasNext() && i<2) {
 			Variable[] fv = ((SymbolicParametersBotanaAlgo) it.next()).getBotanaVars();
 			if (i==0) {
-				ret[i] = new Polynomial(fv[0]);
-				++i;
-				ret[i] = new Polynomial(fv[1]);
+				ret = fv[0].toString() + ",0," + fv[1].toString() + ",0";
 				++i;
 			}
 			else {
-				ret[i] = new Polynomial(fv[0]);
-				++i;
-				ret[i] = new Polynomial(fv[1]).subtract(new Polynomial(1));
+				ret += "," + fv[0].toString() + ",0," + fv[1].toString() + ",1";
 				++i;
 			}
 		}
 		return ret;
 	}
-	
+
 	/**
 	 * Proves the statement by using Botana's method 
 	 * @param prover the prover input object 
@@ -187,43 +177,35 @@ public class ProverBotanasMethod {
 			Polynomial[] ndgConditions = null;
 			if (AbstractApplication.freePointsNeverCollinear)
 				ndgConditions = create3FreePointsNeverCollinearNDG(prover);
-			// Fix points (heuristics):
-			Polynomial[] fixValues = null;
-			if (AbstractApplication.useFixCoordinates)
-				fixValues = fixValues(prover.statement);
+			String substitutions = fixValues(prover.statement);
 			int nHypotheses = 0;
 			int nNdgConditions = 0;
 			int nStatements = 0;
-			int nFixValues = 0;
 			if (hypotheses != null)
 				nHypotheses = hypotheses.length;
 			if (ndgConditions != null)
 				nNdgConditions = ndgConditions.length;
 			if (statements != null)
 				nStatements = statements.length;
-			if (fixValues != null)
-				nFixValues = fixValues.length;
 						
 			boolean ans = true;
 			// Solving the equation system for each sets of polynomials of the statement:
 			for (int i=0; i<nStatements && ans; ++i) {
 				int nPolysStatement = statements[i].length;
-				Polynomial[] eqSystem = new Polynomial[nHypotheses + nNdgConditions + nFixValues + nPolysStatement];
+				Polynomial[] eqSystem = new Polynomial[nHypotheses + nNdgConditions + nPolysStatement];
 				// These polynomials will be in the equation system always:
 				for (int j=0; j<nHypotheses; ++j)
 					eqSystem[j] = hypotheses[j];
 				for (int j=0; j<nNdgConditions; ++j)
 					eqSystem[j + nHypotheses] = ndgConditions[j];
-				for (int j=0; j<nFixValues; ++j)
-					eqSystem[j + nHypotheses + nNdgConditions] = fixValues[j];
 				for (int j=0; j<nPolysStatement - 1; ++j)
-					eqSystem[j + nHypotheses + nNdgConditions + nFixValues] = statements[i][j];
+					eqSystem[j + nHypotheses + nNdgConditions] = statements[i][j];
 
 				// Rabinowitsch trick for the last polynomial of the current statement:
 				Polynomial spoly = statements[i][nPolysStatement - 1].multiply(new Polynomial(new Variable())).subtract(new Polynomial(1));
 				// FIXME: this always introduces an extra variable, shouldn't do
-				eqSystem[nHypotheses + nNdgConditions + nFixValues + nPolysStatement - 1] = spoly;
-				if (Polynomial.solvable(eqSystem)) // FIXME: here seems NPE if SingularWS not initialized 
+				eqSystem[nHypotheses + nNdgConditions + nPolysStatement - 1] = spoly;
+				if (Polynomial.solvable(eqSystem, substitutions)) // FIXME: here seems NPE if SingularWS not initialized 
 					ans = false;
 			}
 			if (ans)

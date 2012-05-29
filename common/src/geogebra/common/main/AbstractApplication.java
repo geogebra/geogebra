@@ -234,7 +234,7 @@ public abstract class AbstractApplication {
     /*
      * Prover settings (see handleHelpVersionArgs for details)
      */
-    public static String proverEngine = "Recio"; // Later: "auto"
+    public static String proverEngine = "Auto"; // Later: "auto"
     public static int proverTimeout = 5;
     public static int maxTerms = 10000;
     public static String proverMethod = "Wu";
