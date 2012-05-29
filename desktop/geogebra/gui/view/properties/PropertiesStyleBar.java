@@ -180,8 +180,20 @@ public class PropertiesStyleBar extends JPanel {
 	 * Update the labels of the components (e.g. if the language changed).
 	 */
 	public void setLabels() {
+		
+		for (final OptionType type : OptionType.values()) 
+			buttonMap.get(type).setToolTipText(propertiesView.getTypeString(type));
+		
 
-		buildMenu();
+	}
+	
+	/**
+	 * 
+	 */
+	public void setObjectsToolTip() {
+		
+		buttonMap.get(OptionType.OBJECTS).setToolTipText(propertiesView.getTypeString(OptionType.OBJECTS));
+		
 
 	}
 

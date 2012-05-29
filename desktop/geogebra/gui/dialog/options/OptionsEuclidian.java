@@ -14,6 +14,7 @@ package geogebra.gui.dialog.options;
 
 import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.gui.SetLabels;
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.NumberValue;
@@ -986,6 +987,40 @@ public class OptionsEuclidian extends JPanel implements OptionPanel, ActionListe
 		// handle focus changes in text fields
 		doActionPerformed(e.getSource());
 
+	}
+
+	/**
+	 * set which tab is visible
+	 * @param constant xAxis, yAxis, ...
+	 */
+	public void setSelectedTab(Construction.Constants constant){
+		switch (constant){
+		case X_AXIS:
+			tabbedPane.setSelectedIndex(1);
+			break;
+		case Y_AXIS:
+			tabbedPane.setSelectedIndex(2);
+			break;
+		default:
+			tabbedPane.setSelectedIndex(0);
+			break;
+		}
+	}
+	
+	/**
+	 * 
+	 * @return selected tab
+	 */
+	public int getSelectedTab(){
+		return tabbedPane.getSelectedIndex();
+	}
+	
+	/**
+	 * select the correct tab
+	 * @param index index
+	 */
+	public void setSelectedTab(int index){
+		tabbedPane.setSelectedIndex(index);
 	}
 
 }

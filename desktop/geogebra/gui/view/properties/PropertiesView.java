@@ -12,7 +12,9 @@ the Free Software Foundation.
 
 package geogebra.gui.view.properties;
 
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.Construction.Constants;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
 import geogebra.gui.dialog.options.OptionPanel;
@@ -72,7 +74,7 @@ public class PropertiesView extends JPanel implements
 
 	// option panels
 	private OptionsDefaults defaultsPanel;
-	private OptionsEuclidian euclidianPanel;
+	private OptionsEuclidian euclidianPanel, euclidianPanel2;
 	private OptionsSpreadsheet spreadsheetPanel;
 	private OptionsCAS casPanel;
 	private OptionsAdvanced advancedPanel;
@@ -252,7 +254,7 @@ public class PropertiesView extends JPanel implements
 	 */
 	public void updatePropertiesView() {
 		
-		updatePropertiesViewCheckConstants(app.getSelectedGeos());
+		setOptionPanelRegardingFocus(false);
 	}
 
 	
@@ -266,7 +268,7 @@ public class PropertiesView extends JPanel implements
 	private void updatePropertiesViewCheckConstants(ArrayList<GeoElement> geosList) {
 		
 		//remove constant geos
-		ArrayList<GeoElement> geos = kernel.getConstruction().removeAllConstants(geosList);
+		ArrayList<GeoElement> geos = removeAllConstants(geosList);
 		
 		updatePropertiesView(geos);
 	}
@@ -277,21 +279,33 @@ public class PropertiesView extends JPanel implements
 			setOptionPanel(OptionType.OBJECTS,geos);
 		} else {
 			
-			setOptionPanelRegardingFocus();
+			setOptionPanelRegardingFocus(true);
 
 		}
 	}
 	
-	final private void setOptionPanelRegardingFocus(){
+	final private void setOptionPanelRegardingFocus(boolean updateEuclidianTab){
 		int focusedViewId = app.getGuiManager().getLayout()
 				.getDockManager().getFocusedViewId();
+		
 
 		if (viewMap.get(focusedViewId) != null) {
-			setOptionPanel(viewMap.get(focusedViewId));
+			OptionType type = viewMap.get(focusedViewId);
+			setOptionPanel(type);
+			if (updateEuclidianTab){			
+				switch(type){
+				case EUCLIDIAN:
+					euclidianPanel.setSelectedTab(selectedTab);
+					break;
+				case EUCLIDIAN2:
+					euclidianPanel2.setSelectedTab(selectedTab);
+					break;
+				}
+			}
 		} else {
-			//setOptionPanel(OptionType.LAYOUT);
-			updateSelection();
-			//setOptionPanel(OptionType.OBJECTS);
+			setOptionPanel(OptionType.EUCLIDIAN);
+			if (updateEuclidianTab)
+				euclidianPanel.setSelectedTab(selectedTab);
 		}
 	}
 	
@@ -311,13 +325,14 @@ public class PropertiesView extends JPanel implements
 		
 		//AbstractApplication.debug("\ngeo="+geo+"\nsel0="+app.getSelectedGeos().get(0));
 		if (app.getSelectedGeos().size()>0) //selected geo is the most important
-			updatePropertiesView();
+			updatePropertiesViewCheckConstants(app.getSelectedGeos());
 		else if (geo!=null){ //last created geo
 			ArrayList<GeoElement> geos = new ArrayList<GeoElement>();
 			geos.add(geo);
 			setOptionPanel(OptionType.OBJECTS,geos);
-		}else{ //euclidian view
-			setOptionPanelRegardingFocus();
+		}else{ //focus
+			updateSelectedTab(Construction.Constants.NOT);
+			setOptionPanelRegardingFocus(true);
 			//updatePropertiesView();
 		}
 	}
@@ -354,7 +369,8 @@ public class PropertiesView extends JPanel implements
 
 		//update selection
 		if (type==OptionType.OBJECTS){
-			objectPanel.updateSelection(geos);		
+			objectPanel.updateSelection(geos);	
+			styleBar.setObjectsToolTip();
 		}
 
 		if (!isIniting && selectedOptionType == type) {
@@ -396,6 +412,9 @@ public class PropertiesView extends JPanel implements
 		}
 		if (euclidianPanel != null) {
 			euclidianPanel.updateGUI();
+		}
+		if (euclidianPanel2 != null) {
+			euclidianPanel2.updateGUI();
 		}
 		if (spreadsheetPanel != null) {
 			spreadsheetPanel.updateGUI();
@@ -446,21 +465,23 @@ public class PropertiesView extends JPanel implements
 			if (euclidianPanel == null) {
 				euclidianPanel = new OptionsEuclidian(app,
 						app.getActiveEuclidianView());
+				euclidianPanel.setLabels();
+				euclidianPanel.setView(app.getEuclidianView1());
+				euclidianPanel.showCbView(false);
 			}
-			euclidianPanel.setLabels();
-			euclidianPanel.setView(app.getEuclidianView1());
-			euclidianPanel.showCbView(false);
+			
 			return euclidianPanel;
 
 		case EUCLIDIAN2:
-			if (euclidianPanel == null) {
-				euclidianPanel = new OptionsEuclidian(app,
+			if (euclidianPanel2 == null) {
+				euclidianPanel2 = new OptionsEuclidian(app,
 						app.getEuclidianView2());
+				euclidianPanel2.setLabels();
+				euclidianPanel2.setView(app.getEuclidianView2());
+				euclidianPanel2.showCbView(false);
 			}
-			euclidianPanel.setLabels();
-			euclidianPanel.setView(app.getEuclidianView2());
-			euclidianPanel.showCbView(false);
-			return euclidianPanel;
+			
+			return euclidianPanel2;
 
 		case SPREADSHEET:
 			if (spreadsheetPanel == null) {
@@ -547,6 +568,7 @@ public class PropertiesView extends JPanel implements
 
 		if (defaultsPanel!=null) defaultsPanel.setLabels();
 		if (euclidianPanel!=null) euclidianPanel.setLabels();
+		if (euclidianPanel2!=null) euclidianPanel2.setLabels();
 		if (spreadsheetPanel!=null) spreadsheetPanel.setLabels();
 		if (casPanel!=null) casPanel.setLabels();
 		if (advancedPanel!=null) advancedPanel.setLabels();
@@ -554,6 +576,7 @@ public class PropertiesView extends JPanel implements
 		if (layoutPanel!=null) layoutPanel.setLabels();
 		
 		updateStyleBar();
+		styleBar.setLabels();
 		updateTitleBar();
 		
 
@@ -683,7 +706,7 @@ public class PropertiesView extends JPanel implements
 	public void updateSelection() {
 		
 		
-		ArrayList<GeoElement> geos = kernel.getConstruction().removeAllConstants(app.getSelectedGeos());
+		ArrayList<GeoElement> geos = removeAllConstants(app.getSelectedGeos());
 
 		if (geos.size()>0){
 			if (selectedOptionType!=OptionType.OBJECTS)
@@ -691,11 +714,54 @@ public class PropertiesView extends JPanel implements
 
 			objectPanel.updateSelection(geos);
 			updateTitleBar(); 
+			styleBar.setObjectsToolTip();
 		}else{
-			setOptionPanel(OptionType.EUCLIDIAN);
+			setOptionPanelRegardingFocus(true);
 		}
 
 	}
+	
+	
+	private int selectedTab = 0;
+	
+	private void updateSelectedTab(Construction.Constants constant){
+		switch (constant){
+		case X_AXIS:
+			selectedTab = 1;
+			break;
+		case Y_AXIS:
+			selectedTab = 2;
+			break;
+		default:
+			selectedTab = 0;
+			break;
+		}
+	}
+
+	private ArrayList<GeoElement> removeAllConstants(ArrayList<GeoElement> geosList){
+		
+		Construction.Constants firstRemovedConstant = Construction.Constants.NOT;
+		
+		
+		//check if there is constants, remove it and remember what type
+		ArrayList<GeoElement> geos = new ArrayList<GeoElement>();
+		geos.addAll(geosList);
+		for (int i = geos.size() - 1 ; i >= 0 ; i-- ) {
+			GeoElement geo = geos.get(i);
+			Construction.Constants constant = kernel.getConstruction().isConstantElement(geo);
+			if (constant!=Construction.Constants.NOT){
+				geos.remove(i);
+				if (firstRemovedConstant==Construction.Constants.NOT)
+					firstRemovedConstant=constant;
+			}
+		}
+		
+		updateSelectedTab(firstRemovedConstant);
+		
+		return geos;
+
+	}
+
 
 
 	// //////////////////////////////////////////////////////

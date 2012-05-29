@@ -1,6 +1,7 @@
 package geogebra.gui.layout;
 
 import geogebra.common.io.layout.DockSplitPaneData;
+import geogebra.common.main.AbstractApplication;
 import geogebra.main.Application;
 
 import java.awt.Component;
@@ -31,7 +32,7 @@ public class DockSplitPane extends JSplitPane {
 	public DockSplitPane(int newOrientation) {
 		super(newOrientation);
 		
-		setResizeWeight(0.5);
+		//setResizeWeight(0.5);
 		setBorder(BorderFactory.createEmptyBorder());
 		
 		dividerVisible = false;
