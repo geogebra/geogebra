@@ -200,6 +200,8 @@ public class ButtonDialog extends PopupPanel implements ClickHandler{
 //
 		//Make this dialog display it.	
 		setWidget(optionPane);
+		//this.addStyleName("ButtonDialog");
+		this.getElement().getElementsByTagName("table").getItem(0).setAttribute("cellpadding", "5px");
     }
 
 	public void onClick(ClickEvent event) {
@@ -217,12 +219,12 @@ public class ButtonDialog extends PopupPanel implements ClickHandler{
 //			button.setLabel(null);	
 //			button.setClickScript(tfScript.getText(), true);
 //			
-//			// set caption text
-//			String strCaption = tfCaption.getText().trim();
-//			if (strCaption.length() > 0) {
-//				button.setCaption(strCaption);			
-//			}
-//			
+			// set caption text
+			String strCaption = tfCaption.getText().trim();
+			if (strCaption.length() > 0) {
+				button.setCaption(strCaption);			
+			}
+			
 			button.setEuclidianVisible(true);
 //			button.setLabelVisible(true);
 			button.updateRepaint();
