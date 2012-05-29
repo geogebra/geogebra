@@ -52,6 +52,7 @@ import geogebra.common.util.AbstractImageManager;
 import geogebra.common.util.GeoGebraLogger;
 import geogebra.common.util.LowerCaseDictionary;
 import geogebra.common.util.NormalizerMinimal;
+import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
 
 import java.util.ArrayList;
@@ -380,10 +381,11 @@ public abstract class AbstractApplication {
 		// iterate through all available CAS commands, add them (translated if
 		// available, otherwise untranslated)
 		for (String cmd : cas.getAvailableCommandNames()) {
+			translateCommandTable.put(StringUtil.toLowerCase(cmd), cmd);
 			try {
 				String local = getCommand(cmd);
 				if (local != null) {
-					translateCommandTable.put(local.toLowerCase(), cmd);
+					translateCommandTable.put(StringUtil.toLowerCase(local), cmd);
 					commandDictCAS.addEntry(local);
 					subCommandDict[CommandsConstants.TABLE_CAS]
 							.addEntry(local);
@@ -484,16 +486,18 @@ public abstract class AbstractApplication {
 		}
 
 		for (Commands comm : Commands.values()) {
-			if(!tableVisible(comm.getTable()))
-				continue;
 			String internal = comm.name();
+			translateCommandTable.put(StringUtil.toLowerCase(internal), internal);
+			if(!tableVisible(comm.getTable()))
+				continue;			
 			// Application.debug(internal);
 			String local = getCommand(internal);
+			
 			if (local != null) {
 				local = local.trim();
 				// case is ignored in translating local command names to
 				// internal names!
-				translateCommandTable.put(local.toLowerCase(), internal);
+				translateCommandTable.put(StringUtil.toLowerCase(local), internal);
 
 				// only add public commands to the command dictionary
 				if (publicCommandNames.contains(internal)) {
