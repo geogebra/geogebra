@@ -48,7 +48,9 @@ public class AlgoIntersectConics extends AlgoIntersect {
     
     private GeoConic A, B;
     private GeoPoint2 [] P, D, Q;     // points  
-        
+    ArrayList<GeoPoint2> preexistPoints; // pre-existing intersection points before this Algo is constructed
+    ArrayList<GeoPoint2> newPoints;
+    
     private GeoConic degConic;  
     private GeoLine tempLine;
     private int [] age; // for points in D   
@@ -107,6 +109,8 @@ public class AlgoIntersectConics extends AlgoIntersect {
         P  = new GeoPoint2[4]; // output
         D  = new GeoPoint2[4];
         Q  = new GeoPoint2[4];       
+       preexistPoints = new ArrayList<GeoPoint2>();
+       newPoints = new ArrayList<GeoPoint2>();
                 
         isQonPath = new boolean[4];    
         isPalive = new boolean[4];
@@ -116,7 +120,7 @@ public class AlgoIntersectConics extends AlgoIntersect {
         for (int i=0; i < 4; i++) {
             P[i] = new GeoPoint2(cons);                    
             Q[i] = new GeoPoint2(cons);      
-            D[i] = new GeoPoint2(cons);            
+            D[i] = new GeoPoint2(cons);
         }                                   
         
 
@@ -124,7 +128,21 @@ public class AlgoIntersectConics extends AlgoIntersect {
         // check possible special case
         possibleSpecialCase = handleSpecialCase();
         
-        setInputOutput(); // for AlgoElement     
+        setInputOutput(); // for AlgoElement
+        
+    	ArrayList<GeoPoint2> list1 = A.getPointsOnConic();
+    	ArrayList<GeoPoint2> list2 = B.getPointsOnConic();
+    	ArrayList<GeoPoint2> temp;
+    	
+    	if (list1!=null && list2!=null) {
+    		if (list1.size() > list2.size()) {temp = list1; list1 = list2; list2=temp;}
+    		for (int i = 0; i<list1.size(); i++) {
+    			if (list1.get(i).getIncidenceList().contains(B))
+    				preexistPoints.add(list1.get(i));
+    		}
+    	}
+    	
+        
         initForNearToRelationship();
         compute(); 
         setIncidence();
@@ -187,7 +205,7 @@ public class AlgoIntersectConics extends AlgoIntersect {
 	
 	 // calc intersections of conics A and B
 	@Override
-	public final void compute() {   
+	public final void compute() {
     	// check if conics A and B are defined	   
    	   	if (!(A.isDefined() && B.isDefined())) {
    	   		for (int i=0; i < P.length; i++) {
@@ -211,10 +229,62 @@ public class AlgoIntersectConics extends AlgoIntersect {
         	computeNonContinous();
         }        	
         
+        matchExistingIntersections();
         avoidDoubleTangentPoint();
     }	   
     
-    /**
+    private void matchExistingIntersections() {
+		// TODO Auto-generated method stub
+
+    	if (preexistPoints.size()==0)
+    		return;
+    	
+    	newPoints.clear();
+    	
+        for (int i=0; i < 4; i++) {
+        	if (P[i].isDefined())
+        		newPoints.add(P[i]);
+        } 
+        
+        if (newPoints.size()==0)
+        	return;
+        
+        double gap = Double.POSITIVE_INFINITY;
+        double minDistance = Double.POSITIVE_INFINITY;
+        double d = Double.POSITIVE_INFINITY;
+        int closestPointIndex = 0; // for preexist point
+        
+        for (int i=0; i< 4; i++) {
+        	for (int j=i+1; j<4; j++) {
+        		if (P[i].isDefined()&& P[j].isDefined()) {
+        			d = P[i].distance(P[j]);
+        			if (d<gap )
+        				gap = d;
+        		}
+        	}
+        }
+        
+        
+        for (int i=0; i<4; i++) {
+        	if (P[i].isDefined()) {
+        		minDistance = Double.POSITIVE_INFINITY;
+        		for (int j=0; j< preexistPoints.size(); j++) {
+    				d = preexistPoints.get(j).distance(P[i]);
+    				if (d < minDistance) {
+    					minDistance = d;
+    					closestPointIndex = j;
+    				}
+    			}    	
+            	
+            	if (Kernel.isGreaterEqual(gap/2, minDistance)  )
+            		P[i].setCoords(preexistPoints.get(closestPointIndex));
+        	}
+
+        		
+        }
+	}
+
+	/**
      * There is an important special case we handle separately:
      * Both conic sections are circles and one is defined through a 
      * point A on the other one. In this case the first intersection 

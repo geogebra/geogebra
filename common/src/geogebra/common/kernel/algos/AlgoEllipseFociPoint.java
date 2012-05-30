@@ -62,7 +62,14 @@ public class AlgoEllipseFociPoint extends AlgoElement {
             setInputOutput(); // for AlgoElement
 
             compute();
+        	setIncidence();
         }
+
+	private void setIncidence() {
+		if (C instanceof GeoPoint2)
+			((GeoPoint2) C).addIncidence( ellipse);
+
+	}
 
     @Override
 	public Algos getClassName() {
