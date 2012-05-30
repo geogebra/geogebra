@@ -257,8 +257,8 @@ public class Polynomial implements Comparable<Polynomial> {
 	 * @return the product
 	 */
 	public Polynomial multiply(final Polynomial poly) {
-		
-		
+
+		/*
 		if (AbstractApplication.singularWS != null && AbstractApplication.singularWS.isAvailable()) {
 			if (poly.toString().length()>100 && this.toString().length()>100) {
 				String singularMultiplicationProgram = getSingularMultiplication("rr", poly, this);
@@ -267,6 +267,7 @@ public class Polynomial implements Comparable<Polynomial> {
 				return new Polynomial(singularMultiplication);
 			}
 		}
+		*/
 		
 		TreeMap<Term, Integer> result = new TreeMap<Term, Integer>();
 		TreeMap<Term, Integer> terms2 = poly.getTerms();
