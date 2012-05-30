@@ -38,12 +38,12 @@ public class StringTemplate {
 	/**
 	 * GeoGebra string type, internationalize digits
 	 */
-	public static StringTemplate defaultTemplate = new StringTemplate();
+	public static final StringTemplate defaultTemplate = new StringTemplate();
 	
 	/**
 	 * LaTeX string type, do not internationalize digits
 	 */
-	public static StringTemplate latexTemplate = new StringTemplate();
+	public static final StringTemplate latexTemplate = new StringTemplate();
 	static {
 		latexTemplate.setType(StringType.LATEX);
 	}
@@ -51,7 +51,7 @@ public class StringTemplate {
 	/**
 	 * LibreOffice string type, do not internationalize digits
 	 */
-	public static StringTemplate libreofficeTemplate = new StringTemplate();
+	public static final StringTemplate libreofficeTemplate = new StringTemplate();
 	static {
 		libreofficeTemplate.setType(StringType.LIBRE_OFFICE);
 	}
@@ -59,7 +59,7 @@ public class StringTemplate {
 	/**
 	 * MPReduce string type, do not internationalize digits
 	 */
-	public static StringTemplate casTemplate = new StringTemplate();
+	public static final StringTemplate casTemplate = new StringTemplate();
 	static {
 		casTemplate.internationalizeDigits = false;
 		casTemplate.usePrefix = false;
@@ -72,7 +72,7 @@ public class StringTemplate {
 	/**
 	 * XML string type, do not internationalize digits
 	 */
-	public static StringTemplate xmlTemplate = new StringTemplate(){
+	public static final StringTemplate xmlTemplate = new StringTemplate(){
 		@Override
 		public int getCoordStyle(int coordStyle) {
 			return Kernel.COORD_STYLE_DEFAULT;
@@ -98,7 +98,7 @@ public class StringTemplate {
 	 * Template for regression: uses 6 figures or 6 sig digits based on Kernel settings,
 	 * string type is XML
 	 */
-	public static StringTemplate regression = new StringTemplate();
+	public static final StringTemplate regression = new StringTemplate();
 	static {
 		regression.sf = geogebra.common.factories.FormatFactory.prototype.getScientificFormat(6,20,false);
 		regression.nf = geogebra.common.factories.FormatFactory.prototype.getNumberFormat(6);
@@ -107,7 +107,7 @@ public class StringTemplate {
 	/**
 	 * OGP string type
 	 */
-	public static StringTemplate ogpTemplate = new StringTemplate();
+	public static final StringTemplate ogpTemplate = new StringTemplate();
 	static {
 		ogpTemplate.forceSF=true;
 		ogpTemplate.internationalizeDigits = false;
@@ -118,7 +118,7 @@ public class StringTemplate {
 	/**
 	 * Default template, just inccreases precision to max
 	 */
-	public static StringTemplate maxPrecision = new StringTemplate();
+	public static final StringTemplate maxPrecision = new StringTemplate();
 	static {
 		maxPrecision.sf = geogebra.common.factories.FormatFactory.prototype.getScientificFormat(15,20,false);
 		maxPrecision.allowMoreDigits = true;
