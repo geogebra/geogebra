@@ -98,7 +98,7 @@ public class Variable implements Comparable<Variable> {
 	@Override
 	public boolean equals(Object o) {
 		if (o instanceof Variable) {
-			return name == ((Variable) o).name;
+			return id == ((Variable) o).getId();
 		}
 		return super.equals(o);
 	}

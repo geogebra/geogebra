@@ -129,6 +129,7 @@ public class Polynomial implements Comparable<Polynomial> {
      * @author Damien Desfontaines
 	 */
 	public Polynomial(String s) {
+		AbstractApplication.debug("Constructing poly from " + s.length() + " length String");
         // s has the form "-2*x^2*y + 5*x^3 - 2"
         // Firstly, we remove all whitespace.
         s = s.replace(" ","");
@@ -158,9 +159,16 @@ public class Polynomial implements Comparable<Polynomial> {
                 // If factors[j] is of form x^n
                 if (factors[j].contains("^")) {
                     String[] factorMembers = factors[j].split("\\^");
-                    Variable variable = new Variable(factorMembers[0]);
+                    String signedVar = factorMembers[0];
+                    Variable variable;
+                    int coeff = 1;
+                    if (signedVar.charAt(0) == '-') {
+                    	variable = new Variable(signedVar.substring(1));
+                    	coeff = -1;
+                    } else
+                    	variable = new Variable(signedVar);
                     int exponent = Integer.parseInt(factorMembers[1]);
-                    Polynomial factor = new Polynomial(1,variable,exponent);
+                    Polynomial factor = new Polynomial(coeff,variable,exponent);
                     product = product.multiply(factor);
                 }
                 // If factors[j] is a number
@@ -250,22 +258,15 @@ public class Polynomial implements Comparable<Polynomial> {
 	 */
 	public Polynomial multiply(final Polynomial poly) {
 		
-		/*
+		
 		if (AbstractApplication.singularWS != null && AbstractApplication.singularWS.isAvailable()) {
-			String pts = poly.toString();
-			String tts = this.toString();
-			if (pts.length()>=125 || pts.equals("v10*v8*v7*v4*v3+-1*v10*v9*v6*v4*v3+-1*v10*v8*v7*v5*v2+v10*v9*v6*v5*v2+-1*v8*v7*v4*v3*v1+v9*v6*v4*v3*v1+v8*v7*v5*v2*v1+-1*v9*v6*v5*v2*v1")) {
-				AbstractApplication.debug("poly=" + pts + " this=" + tts);
-			}
-							
-			String singularMultiplicationProgram = getSingularMultiplication("rr", poly, this);
-			if (singularMultiplicationProgram.length()>100) {
+			if (poly.toString().length()>100 && this.toString().length()>100) {
+				String singularMultiplicationProgram = getSingularMultiplication("rr", poly, this);
 				AbstractApplication.trace(singularMultiplicationProgram.length() + " bytes -> singular");
 				String singularMultiplication = AbstractApplication.singularWS.directCommand(singularMultiplicationProgram);
 				return new Polynomial(singularMultiplication);
 			}
 		}
-		*/
 		
 		TreeMap<Term, Integer> result = new TreeMap<Term, Integer>();
 		TreeMap<Term, Integer> terms2 = poly.getTerms();
@@ -410,7 +411,8 @@ public class Polynomial implements Comparable<Polynomial> {
 	public static String getVarsAsCommaSeparatedString(Polynomial[] polys, HashSet<Variable> extraVars) {
 		StringBuilder sb = new StringBuilder();
 		HashSet<Variable> vars = getVars(polys);
-		vars.addAll(extraVars);
+		if (extraVars != null)
+			vars.addAll(extraVars);
 		Iterator<Variable> it = vars.iterator();
 		while (it.hasNext()) {
 			Variable fv = it.next();
