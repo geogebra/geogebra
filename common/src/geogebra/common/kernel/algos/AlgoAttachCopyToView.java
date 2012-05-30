@@ -43,7 +43,7 @@ public class AlgoAttachCopyToView extends AlgoTransformation {
 	private MatrixTransformable out;
 	private GeoElement inGeo, outGeo;
 	private NumberValue viewID;
-	private GeoPointND corner1, corner3;
+	private GeoPointND corner1, corner3, corner5;
 
 	/**
 	 * Creates new apply matrix algorithm
@@ -54,8 +54,8 @@ public class AlgoAttachCopyToView extends AlgoTransformation {
 	 * @param matrix
 	 */
 	public AlgoAttachCopyToView(Construction cons, String label, GeoElement in,
-			NumberValue viewID, GeoPointND corner1, GeoPointND corner3) {
-		this(cons,in,viewID,corner1,corner3);
+			NumberValue viewID, GeoPointND corner1, GeoPointND corner3,GeoPointND corner5) {
+		this(cons,in,viewID,corner1,corner3,corner5);
 		outGeo.setLabel(label);
 	}
 
@@ -67,12 +67,13 @@ public class AlgoAttachCopyToView extends AlgoTransformation {
 	 * @param matrix
 	 */
 	public AlgoAttachCopyToView(Construction cons,  GeoElement in,
-			NumberValue viewID, GeoPointND corner1, GeoPointND corner3) {
+			NumberValue viewID, GeoPointND corner1, GeoPointND corner3,GeoPointND corner5) {
 		super(cons);
 
 		this.viewID = viewID;
 		this.corner1 = corner1;
 		this.corner3 = corner3;
+		this.corner5 = corner5;
 		
 		inGeo = in.toGeoElement();
 		if ((inGeo instanceof GeoPolyLineInterface) || inGeo.isLimitedPath()) {
@@ -102,11 +103,12 @@ public class AlgoAttachCopyToView extends AlgoTransformation {
 	// for AlgoElement
 	@Override
 	protected void setInputOutput() {
-		input = new GeoElement[4];
+		input = new GeoElement[5];
 		input[0] = inGeo;
 		input[1] = viewID.toGeoElement();
 		input[2] = corner1.toGeoElement();
 		input[3] = corner3.toGeoElement();
+		input[4] = corner5.toGeoElement();
 
 		setOutputLength(1);
 		setOutput(0, outGeo);
@@ -153,14 +155,16 @@ public class AlgoAttachCopyToView extends AlgoTransformation {
 		
 		GeoPoint2 c1 = (GeoPoint2) corner1;
 		GeoPoint2 c3 = (GeoPoint2) corner3;
+		GeoPoint2 c5 = (GeoPoint2) corner5;
 		
 	double[][] m =	MyMath.adjoint(c1.getX()/c1.getZ(), c3.getX()/c3.getZ(), c1.getX()/c1.getZ(), 
 				c1.getY()/c1.getZ(), c3.getY()/c3.getZ(), c3.getY()/c3.getZ(), 
 				1, 1, 1);
 	out.matrixTransform(m[0][0], m[1][0], m[2][0], m[0][1], m[1][1], m[2][1], m[0][2], m[1][2], m[2][2]);
 	
-	
-			out.matrixTransform(ev.getXmin(), ev.getXmax(), ev.getXmin(), ev.getYmin(), ev.getYmax(), ev.getYmax(), 1, 1, 1);
+	double x1=ev.getXmin(),x2=ev.getXmin()+(ev.getXmax()-ev.getXmin())*c5.getX()/c5.getZ()/ev.getWidth(),
+			y2=ev.getYmax(),y1=ev.getYmax()-(ev.getYmax()-ev.getYmin())*c5.getY()/c5.getZ()/ev.getHeight();
+			out.matrixTransform(x1, x2, x1, y1, y2, y2, 1, 1, 1);
 		//TODO find out why this is needed	
 		outGeo.updateCascade();
 	}
