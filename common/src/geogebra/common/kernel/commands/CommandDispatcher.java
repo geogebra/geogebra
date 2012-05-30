@@ -1035,7 +1035,8 @@ public class CommandDispatcher {
 				return new CmdToBase(kernel);
 			case FromBase:
 				return new CmdFromBase(kernel);
-							
+			case ContinuedFraction:
+				return new CmdContinuedFraction(kernel);
 				
 					
 			default:

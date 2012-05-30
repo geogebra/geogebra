@@ -5936,6 +5936,12 @@ public class Kernel {
 		GeoText text = algo.getResult();
 		return text;
 	}
+	
+	final public GeoText ContinuedFraction(String label, NumberValue num,NumberValue level,GeoBoolean shortHand) {
+		AlgoContinuedFraction algo = new AlgoContinuedFraction(cons, label, num,level,shortHand);
+		GeoText text = algo.getResult();
+		return text;
+	}
 
 	/**
 	 * FrequencyPolygon with list of class boundaries and list of heights

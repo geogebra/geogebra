@@ -2247,4 +2247,12 @@ public class NoExceptionsTest {
 		t("InverseLogNormal[1,2,3]");
 	}
 	
+	@Test
+	public void cmdContinuedFraction(){
+		t("ContinuedFraction[(sqrt(5)-1)/2]");
+		t("ContinuedFraction[(sqrt(5)-1)/2,true]");
+		t("ContinuedFraction[(sqrt(5)-1)/2,10]");
+		t("ContinuedFraction[(sqrt(5)-1)/2,10,true]");
+	}
+	
 }
