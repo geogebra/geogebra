@@ -297,6 +297,11 @@ public class GeoPolyLine extends GeoElement implements NumberValue, Path,
 	public boolean isPath() {
 		return true;
 	}
+	
+	public void updateDependentObjects(){
+		AbstractApplication.debug(getLabelSimple());
+		super.updateDependentObjects();
+	}
 
 	public PathMover createPathMover() {
 		return new PathMoverGeneric(this);
@@ -556,6 +561,7 @@ public class GeoPolyLine extends GeoElement implements NumberValue, Path,
 			((GeoPoint2) points[i]).matrixTransform(a00, a01, a02, a10, a11,
 					a12, a20, a21, a22);
 		}
+		calcLength();
 	}
 
 	public GeoPoint2 getPoint(int i) {

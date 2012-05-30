@@ -2254,5 +2254,10 @@ public class NoExceptionsTest {
 		t("ContinuedFraction[(sqrt(5)-1)/2,10]");
 		t("ContinuedFraction[(sqrt(5)-1)/2,10,true]");
 	}
+	@Test
+	public void cmdAttachCopyToView(){
+		t("AttachCopyToView[Pt1,1]");
+		t("AttachCopyToView[Pt1,2,Pt2,Pt3]");
+	}
 	
 }

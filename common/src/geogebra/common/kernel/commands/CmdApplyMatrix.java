@@ -36,7 +36,7 @@ public class CmdApplyMatrix extends CommandProcessor {
 			if (arg[0].isGeoList()) {
 
 				if (arg[1].isMatrixTransformable() || arg[1].isGeoFunction()
-						|| arg[1].isGeoPolygon() || arg[0].isGeoList()) {
+						|| arg[1].isGeoPolygon() || arg[1].isGeoPolyLine()|| arg[1].isGeoList()) {
 					ret = kernelA.ApplyMatrix(label, arg[1], (GeoList) arg[0]);
 					return ret;
 				}

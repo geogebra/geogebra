@@ -3403,7 +3403,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		updateDependentObjects();
 	}
 
-	final private void updateDependentObjects() {
+	protected void updateDependentObjects() {
 		if ((correspondingCasCell != null) && isIndependent()) {
 			updateAlgoUpdateSetWith(correspondingCasCell);
 		} else if (algoUpdateSet != null) {

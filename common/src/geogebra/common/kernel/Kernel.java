@@ -9826,4 +9826,10 @@ public class Kernel {
 		return fromBase.getResult();
 	}
 
+	public GeoElement AttachCopyToView(String label, GeoElement geoElement,
+			NumberValue viewID, GeoPointND corner1, GeoPointND corner3) {
+		AlgoAttachCopyToView algo = new AlgoAttachCopyToView(cons,label,geoElement,viewID,corner1,corner3);
+		return algo.getResult();
+	}
+
 }

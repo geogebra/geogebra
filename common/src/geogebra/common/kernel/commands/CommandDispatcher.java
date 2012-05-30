@@ -1037,7 +1037,8 @@ public class CommandDispatcher {
 				return new CmdFromBase(kernel);
 			case ContinuedFraction:
 				return new CmdContinuedFraction(kernel);
-				
+			case AttachCopyToView:
+				return new CmdAttachCopyToView(kernel);	
 					
 			default:
 				AbstractApplication.debug("missing case in CommandDispatcher");
