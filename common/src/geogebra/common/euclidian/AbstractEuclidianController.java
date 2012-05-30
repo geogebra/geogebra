@@ -8157,11 +8157,11 @@ public abstract class AbstractEuclidianController {
 						// right click on object(s) not selected -> clear
 						// selection
 						// and show menu just for new objects
-						if (!app.getSelectedGeos().contains(hits.get(0))) {
+						if (!hits.containsAll(app.getSelectedGeos())) {
 							app.clearSelectedGeos(false); //repaint will be done next step
 							app.addSelectedGeos(hits, true);
 						} else {
-							app.addSelectedGeo(hits.get(0));
+							//app.addSelectedGeo(hits.get(0));
 						}
 
 						if (app.isUsingFullGui() && app.getGuiManager() != null)
@@ -8745,12 +8745,17 @@ public abstract class AbstractEuclidianController {
 
 	/**
 	 * show popup menu when no geo is selected
-	 * @param firstHits first hits on the mouse
+	 * @param selectedGeos1 first hits on the mouse
 	 * @param hits hits on the mouse
 	 */
-	protected void showPopupMenuChooseGeo(ArrayList<GeoElement> firstHits, Hits hits){
+	protected void showPopupMenuChooseGeo(ArrayList<GeoElement> selectedGeos1, Hits hits){
 
-		app.getGuiManager().showPopupMenu(firstHits,view, mouseLoc);
+		//app.getGuiManager().showPopupMenu(firstHits,view, mouseLoc);
+		
+		app.getGuiManager().showPopupChooseGeo(
+				selectedGeos1,
+				hits,
+				view, mouseLoc);
 
 	}
 	

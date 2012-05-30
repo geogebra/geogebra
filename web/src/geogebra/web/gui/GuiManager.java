@@ -98,6 +98,16 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 		AbstractApplication.debug("unimplemented method");
 
 	}
+	
+
+	@Override
+	public void showPopupChooseGeo(ArrayList<GeoElement> selectedGeos,
+			ArrayList<GeoElement> geos, EuclidianViewInterfaceCommon view,
+			geogebra.common.awt.Point p) {
+		// TODO Auto-generated method stub
+		AbstractApplication.debug("unimplemented method");
+		
+	}
 
 	@Override
 	public void setFocusedPanel(AbstractEvent event, boolean updatePropertiesView) {

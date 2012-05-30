@@ -7,6 +7,7 @@ import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.euclidian.EuclidianView;
 import geogebra.euclidianND.EuclidianViewND;
+import geogebra.gui.ContextMenuChooseGeo;
 import geogebra.gui.GuiManager;
 import geogebra.gui.dialog.InputDialog;
 import geogebra.gui.dialog.options.OptionsDialog;
@@ -179,16 +180,17 @@ public class GuiManager3D extends GuiManager {
 	/**
 	 * Displays the popup menu for geo at the position p in the coordinate space
 	 * of the component invoker
-	 * @param firstGeos first geos
+	 * @param selectedGeos first geos
 	 * @param geos list of geos
 	 * @param view view calling
 	 * @param p place to show the popup menue
 	 */
-	public void showPopupChooseGeo(ArrayList<GeoElement> firstGeos,
+	@Override
+	public void showPopupChooseGeo(ArrayList<GeoElement> selectedGeos,
 			ArrayList<GeoElement> geos, EuclidianViewND view,
 			geogebra.common.awt.Point p) {
 		
-		if (firstGeos == null || firstGeos.get(0) == null)
+		if (selectedGeos == null || selectedGeos.get(0) == null)
 			return;
 
 		// clear highlighting and selections in views
@@ -201,7 +203,7 @@ public class GuiManager3D extends GuiManager {
 		screenPos.translate(p.x, p.y);
 
 
-		ContextMenuChooseGeo popupMenu = new ContextMenuChooseGeo(app, view, firstGeos, geos, screenPos);
+		ContextMenuChooseGeo popupMenu = new ContextMenuChooseGeo(app, view, selectedGeos, geos, screenPos);
 		popupMenu.show(invoker, p.x, p.y);
 
 

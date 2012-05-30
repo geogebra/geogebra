@@ -34,6 +34,10 @@ public abstract class GuiManager {
 	public abstract void showPopupMenu(ArrayList<GeoElement> selectedGeos,
 			EuclidianViewInterfaceCommon euclidianViewInterfaceCommon,
 			Point mouseLoc);
+	
+	public abstract void showPopupChooseGeo(ArrayList<GeoElement> selectedGeos,
+			ArrayList<GeoElement> geos, EuclidianViewInterfaceCommon view,
+			Point p);
 
 	public abstract void setMode(int mode);
 

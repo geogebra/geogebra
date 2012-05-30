@@ -1182,6 +1182,39 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 	}
 	
 
+	
+	/**
+	 * Displays the popup menu for geo at the position p in the coordinate space
+	 * of the component invoker
+	 */
+	public void showPopupChooseGeo(ArrayList<GeoElement> selectedGeos,
+			ArrayList<GeoElement> geos, EuclidianViewND view,
+			geogebra.common.awt.Point p) {
+		
+		if (geos == null || !app.letShowPopupMenu())
+			return;
+		
+		Component invoker = view.getJPanel();
+		
+		if (app.getKernel().isAxis(geos.get(0))) {
+			showDrawingPadPopup(invoker, p);
+		} else {
+			// clear highlighting and selections in views
+			app.getActiveEuclidianView().resetMode();
+
+			Point screenPos = (invoker == null) ? new Point(0, 0) : invoker
+					.getLocationOnScreen();
+			screenPos.translate(p.x, p.y);
+			
+			popupMenu = new ContextMenuChooseGeo(app, view, selectedGeos, geos, screenPos);
+			//popupMenu = new ContextMenuGeoElement(app, geos, screenPos);
+			popupMenu.show(invoker, p.x, p.y);
+		}
+
+	}
+	
+	
+	
 	/**
 	 * Toggles the popup menu for geo at the position p in the coordinate space
 	 * of the component invoker
@@ -2926,6 +2959,17 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 			EuclidianViewInterfaceCommon view,
 			geogebra.common.awt.Point mouseLoc) {
 		showPopupMenu(selectedGeos, ((EuclidianViewND) view).getJPanel(), mouseLoc);
+		
+	}
+	
+	
+	
+	@Override
+	public void showPopupChooseGeo(ArrayList<GeoElement> selectedGeos,
+			ArrayList<GeoElement> geos, EuclidianViewInterfaceCommon view,
+			geogebra.common.awt.Point p) {
+		
+		showPopupChooseGeo(selectedGeos, geos, (EuclidianViewND) view, p);
 		
 	}
 

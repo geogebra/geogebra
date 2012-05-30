@@ -1,10 +1,9 @@
-package geogebra3D.gui;
+package geogebra.gui;
 
 import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.kernel.geos.FromMeta;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.euclidianND.EuclidianViewND;
-import geogebra.gui.ContextMenuGeoElement;
 import geogebra.main.Application;
 
 import java.awt.Point;
@@ -58,25 +57,25 @@ public class ContextMenuChooseGeo extends ContextMenuGeoElement {
 	 * 
 	 * @param app application
 	 * @param view view
-	 * @param firstGeo first geo
+	 * @param selectedGeos selected geos
 	 * @param geos geos
 	 * @param location place to show
 	 */
 	public ContextMenuChooseGeo(Application app, EuclidianViewND view, 
-			ArrayList<GeoElement> firstGeo,
+			ArrayList<GeoElement> selectedGeos,
 			ArrayList<GeoElement> geos, Point location) {
 
-		super(app, firstGeo, location);
+		super(app, selectedGeos, location);
 		
 		//section to choose a geo
 		
 		//return if just one geo, or if first geos more than one
-		if (geos.size()<2 || firstGeo.size()>1)
+		if (geos.size()<2 || selectedGeos.size()>1)
 			return;
 		
 		this.view = view;
 		
-		
+		GeoElement geoSelected = selectedGeos.get(0);
 		
 		setChooseGeoTitle(app.getPlain("SelectOther"));	
 		
@@ -85,7 +84,7 @@ public class ContextMenuChooseGeo extends ContextMenuGeoElement {
 		
 		index = 0;	
 		for (GeoElement geo : geos){
-			if (index>0){//don't add first geo
+			if (geo!=geoSelected){//don't add selected geo
 				addGeo(geo);
 			}else
 				index++;
@@ -122,23 +121,28 @@ public class ContextMenuChooseGeo extends ContextMenuGeoElement {
 	}
 	
 	
+	private void createMoreMenuIfNull(){
+		if (moreMenu!=null)
+			return;
+		moreMenu = new JMenu(app.getPlain("More") );
+		moreMenu.setIcon(app.getEmptyIcon());
+		moreMenu.setBackground(getBackground());  
+		add(moreMenu);     
+		
+	}
+	
+	
 	/**
 	 * 
 	 */
 	private void addGeo(GeoElement geo) {
-
-		if (index==MORE_INDEX){ //create more menu
-			moreMenu = new JMenu(app.getPlain("More") );
-			moreMenu.setIcon(app.getEmptyIcon());
-			moreMenu.setBackground(getBackground());  
-			add(moreMenu);     
-		}
 		
 		GeoAction chooser = new GeoAction(geo);
 		JMenuItem mi;
 		if (index<MORE_INDEX){ //put it in regular popup menu
 			mi = this.add(chooser);			
 		}else{ //put it in more menu
+			createMoreMenuIfNull();
 			mi = moreMenu.add(chooser);    
 		}
 		
