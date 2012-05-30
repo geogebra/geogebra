@@ -28,7 +28,7 @@ public class AlgoContinuedFraction extends AlgoElement {
 	private NumberValue level; // input
 	private GeoText text; // output
 	private GeoBoolean shorthand;
-	private static final int MAX_QUOTIENTS = 50;
+	private static final int MAX_QUOTIENTS = 15;
 	private long denominators[] = new long[MAX_QUOTIENTS];
 
 	private StringBuilder sb = new StringBuilder();
@@ -246,7 +246,16 @@ public class AlgoContinuedFraction extends AlgoElement {
 			FractionNumerator = Math.floor(decimal * FractionDenominator + 0.5); // Rounding
 																					// Function
 			steps++;
+			
+			//we are too close to integer, next step would be uncertain
+			if(Kernel.isEqual(Z, Math.floor(Z)) && Z != Math.floor(Z)){
+				denominators[steps] = (long) Math.floor(Z);
+				steps++;
+				dotsNeeded = true;
+				break;
+			}
 			dotsNeeded = !Kernel.isEqual(Z, Math.floor(Z),Kernel.MAX_PRECISION);
+			//the approximation is within standard precision and user didn't ask for more quotients
 			if (maxSteps == 0
 					&& Math.abs((decimal - (FractionNumerator / FractionDenominator))) <= AccuracyFactor) {
 				denominators[steps] = (long) Math.floor(Z);
