@@ -12,6 +12,10 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.algos;
 
+import java.math.BigInteger;
+import java.util.HashMap;
+import java.util.HashSet;
+
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
@@ -20,8 +24,10 @@ import geogebra.common.kernel.arithmetic.MyBoolean;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
+import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.prover.NoSymbolicParametersException;
 import geogebra.common.kernel.prover.Polynomial;
+import geogebra.common.kernel.prover.Variable;
 import geogebra.common.plugin.Operation;
 
 /**
@@ -29,7 +35,8 @@ import geogebra.common.plugin.Operation;
  * @author  Markus
  * @version 
  */
-public class AlgoDependentBoolean extends AlgoElement implements SymbolicParametersBotanaAlgoAre {
+public class AlgoDependentBoolean extends AlgoElement implements SymbolicParametersAlgo, 
+	SymbolicParametersBotanaAlgoAre {
 
     private ExpressionNode root;  // input
     private GeoBoolean bool;     // output              
@@ -96,6 +103,101 @@ public class AlgoDependentBoolean extends AlgoElement implements SymbolicParamet
         return root.toRealString(tpl);
     }
 
+	public SymbolicParameters getSymbolicParameters() {
+		return new SymbolicParameters(this);
+	}
+
+	public int[] getFreeVariablesAndDegrees(HashSet<Variable> variables)
+			throws NoSymbolicParametersException {
+		if (!root.getLeft().isGeoElement() || !root.getRight().isGeoElement())
+			throw new NoSymbolicParametersException();
+		
+		GeoElement left = (GeoElement) root.getLeft();
+		GeoElement right = (GeoElement) root.getRight();
+		
+		if (root.getOperation().equals(Operation.PERPENDICULAR)) {
+			AlgoArePerpendicular algo = new AlgoArePerpendicular(cons, "", (GeoLine) left, (GeoLine) right);
+			int[] ret = algo.getFreeVariablesAndDegrees(variables);
+			algo.remove();
+			return ret;
+		}
+		if (root.getOperation().equals(Operation.PARALLEL)) {
+			AlgoAreParallel algo = new AlgoAreParallel(cons, "", (GeoLine) left, (GeoLine) right);
+			int[] ret = algo.getFreeVariablesAndDegrees(variables);
+			algo.remove();
+			return ret;
+		}
+		if (root.getOperation().equals(Operation.EQUAL_BOOLEAN)) {
+			AlgoAreEqual algo = new AlgoAreEqual(cons, "", left, right);
+			int[] ret = algo.getFreeVariablesAndDegrees(variables);
+			algo.remove();
+			return ret;
+		}
+
+		throw new NoSymbolicParametersException();
+	}
+
+	public BigInteger[] getExactCoordinates(HashMap<Variable, BigInteger> values)
+			throws NoSymbolicParametersException {
+		
+		if (!root.getLeft().isGeoElement() || !root.getRight().isGeoElement())
+			throw new NoSymbolicParametersException();
+		
+		GeoElement left = (GeoElement) root.getLeft();
+		GeoElement right = (GeoElement) root.getRight();
+		
+		if (root.getOperation().equals(Operation.PERPENDICULAR)) {
+			AlgoArePerpendicular algo = new AlgoArePerpendicular(cons, "", (GeoLine) left, (GeoLine) right);
+			BigInteger[] ret = algo.getExactCoordinates(values);
+			algo.remove();
+			return ret;
+		}
+		if (root.getOperation().equals(Operation.PARALLEL)) {
+			AlgoAreParallel algo = new AlgoAreParallel(cons, "", (GeoLine) left, (GeoLine) right);
+			BigInteger[] ret = algo.getExactCoordinates(values);
+			algo.remove();
+			return ret;
+		}
+		if (root.getOperation().equals(Operation.EQUAL_BOOLEAN)) {
+			AlgoAreEqual algo = new AlgoAreEqual(cons, "", left, right);
+			BigInteger[] ret = algo.getExactCoordinates(values);
+			algo.remove();
+			return ret;
+		}
+		
+		throw new NoSymbolicParametersException();
+	}
+
+	public Polynomial[] getPolynomials() throws NoSymbolicParametersException {
+		
+		if (!root.getLeft().isGeoElement() || !root.getRight().isGeoElement())
+			throw new NoSymbolicParametersException();
+		
+		GeoElement left = (GeoElement) root.getLeft();
+		GeoElement right = (GeoElement) root.getRight();
+		
+		if (root.getOperation().equals(Operation.PERPENDICULAR)) {
+			AlgoArePerpendicular algo = new AlgoArePerpendicular(cons, "", (GeoLine) left, (GeoLine) right);
+			Polynomial[] ret = algo.getPolynomials();
+			algo.remove();
+			return ret;
+		}
+		if (root.getOperation().equals(Operation.PARALLEL)) {
+			AlgoAreParallel algo = new AlgoAreParallel(cons, "", (GeoLine) left, (GeoLine) right);
+			Polynomial[] ret = algo.getPolynomials();
+			algo.remove();
+			return ret;
+		}
+		if (root.getOperation().equals(Operation.EQUAL_BOOLEAN)) {
+			AlgoAreEqual algo = new AlgoAreEqual(cons, "", left, right);
+			Polynomial[] ret = algo.getPolynomials();
+			algo.remove();
+			return ret;
+		}
+		
+		throw new NoSymbolicParametersException();
+	}
+    
 	public Polynomial[][] getBotanaPolynomials()
 			throws NoSymbolicParametersException {
 		if (!root.getLeft().isGeoElement() || !root.getRight().isGeoElement())
