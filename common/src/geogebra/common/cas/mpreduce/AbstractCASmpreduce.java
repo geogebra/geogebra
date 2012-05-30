@@ -440,17 +440,21 @@ public abstract class AbstractCASmpreduce extends CASgeneric {
 				mpreduce1.evaluate("procedure beta3(a,b,x); beta(a,b)*ibeta(a,b,x);");
 				mpreduce1.evaluate("symbolic procedure isbound!! x; if get(x, 'avalue) then 1 else 0;");
 				mpreduce1.evaluate("procedure myappend(x,y);"+
-				"if arglength(x)>-1 and part(x,0)='list then append(x,{y}) else append({x},y)");
+						"if arglength(x)>-1 and part(x,0)='list then append(x,{y}) else append({x},y)");
 				mpreduce1.evaluate("procedure mylength(x);"
-				+ " if arglength(x)>-1 and part(x,0)='list then length(x) else sqrt(mydot(x,x));");
+						+ " if arglength(x)>-1 and part(x,0)='list then length(x) else sqrt(mydot(x,x));");
 				mpreduce1.evaluate("procedure myabs(x);"
-						+ " if arglength(x!!)>-1 and part(x,0)='list then sqrt(for each elem!! in x sum elem!!^2)"
+						+ " if arglength(x!!)>-1 and part(x,0)='list then abs(x)"
 						+ " else if arglength(x)>-1 and part(x,0)='mat then <<"
-						+ "   clear x!!;"
-						+ "   x!!:=x;"
-						+ "   if row_dim(x!!)=1 then sqrt(for i:=1:column_dim(x!!) sum x!!(1,i)^2)"
-						+ "   else if column_dim(x!!)=1 then sqrt(for i:=1:row_dim(x!!) sum x!!(i,1)^2)"
-						+ "   else abs(x!!) >>" + " else if freeof(x,i) then abs(x)"
+						+ "   clear tmp;" 
+						+ "   tmp:=x;"
+						+ "   for i:=1:column_dim(x) do"
+						+ "     for j:=1:row_dim(x) do" 
+						+ "		  tmp(i,j):=myabs(tmp);"
+						+ "   tmp>>" 
+						+ " else if myvecp(x) then" 
+						+ "   vmod x"
+						+ " else if freeof(x,i) then abs(x)"
 						+ " else sqrt(repart(x)^2+impart(x)^2);");
 
 				mpreduce1.evaluate("procedure flattenlist a;"
