@@ -125,6 +125,16 @@ public class AlgoAttachCopyToView extends AlgoTransformation {
 
 	@Override
 	public final void compute() {
+		int view = (int) viewID.getDouble();
+		AbstractEuclidianView ev = null;
+		if (view == 2)
+			ev = app.getEuclidianView2();
+		else if(view==1)
+			ev = app.getEuclidianView1();
+		if(ev==null && view!=0){
+			outGeo.setUndefined();
+			return;
+		}
 		if (inGeo.isGeoList()) {
 			transformList((GeoList) inGeo, (GeoList) outGeo);
 			return;
@@ -135,16 +145,9 @@ public class AlgoAttachCopyToView extends AlgoTransformation {
 		} else {
 			outGeo.set(inGeo);
 		}
-		int view = (int) viewID.getDouble();
-		AbstractEuclidianView ev;
-		if (view == 2)
-			ev = app.getEuclidianView2();
-		else
-			ev = app.getEuclidianView1();
-		if(ev==null){
-			outGeo.setUndefined();
+		if(view==0)
 			return;
-		}
+		
 			
 		
 		
