@@ -514,6 +514,17 @@ public abstract class Drawable extends DrawableND {
 			g2.fill(fillShape);
 		} else if (geo.getAlphaValue() > 0.0f) {
 			g2.setPaint(geo.getFillColor());
+			
+			
+			// needed in web when we are using the dashed lines hack, eg x < 3
+			// otherwise this doesn't work in web.awt.Graphics2D
+			//		doDrawShape(shape);
+			//      context.fill();		
+			if (lineType != EuclidianStyleConstants.LINE_TYPE_FULL && geo.getKernel().getApplication().isHTML5Applet()) {
+				g2.setStroke(EuclidianStatic.getStroke(0, EuclidianStyleConstants.LINE_TYPE_FULL));
+			}
+			
+			
 			g2.fill(fillShape);
 		}
 
