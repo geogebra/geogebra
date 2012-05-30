@@ -259,8 +259,8 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI {
 		//$wnd.zip.useWebWorkers = false;
 		$wnd.zip.createWriter(new $wnd.zip.Data64URIWriter("application/vnd.geogebra.file"), function(zipWriter) {
 			function addImage(name, data, callback) {
-				data = data.substr(data.indexOf(',')+1);
-				zipWriter.add(name, new $wnd.zip.Data64URIReader(data), callback);
+				var data2 = data.substr(data.indexOf(',')+1);
+				zipWriter.add(name, new $wnd.zip.Data64URIReader(data2), callback);
 			}
 
 			function addText(name, data, callback) {
@@ -272,7 +272,9 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI {
 				var item;
 				if (arch.archive.length > 0) {
 					item = arch.archive.shift();
-					if (item.fileName.indexOf("image/png") > -1) {
+					var ind = item.fileName.lastIndexOf('.');
+					if (ind > -1 && item.fileName.substr(ind+1).toLowerCase() == "png") {
+					//if (item.fileName.indexOf(".png") > -1) {
 							$wnd.console.log("image zipped");
 							addImage(item.fileName,item.fileContent,function(){checkIfStillFilesToAdd();});
 					} else {
