@@ -296,7 +296,9 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI {
 			
 			 checkIfStillFilesToAdd();
 			
-		}, onerror);
+		}, function(error) {
+			$wnd.console.log("error occured while creating base64 zip");
+		});
     }-*/;
 
 	public native String getNativeBase64(boolean includeThumbnail) /*-{
