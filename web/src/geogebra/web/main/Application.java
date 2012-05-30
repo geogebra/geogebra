@@ -1,5 +1,6 @@
 package geogebra.web.main;
 
+import geogebra.common.GeoGebraConstants;
 import geogebra.common.awt.BufferedImage;
 import geogebra.common.awt.Font;
 import geogebra.common.euclidian.AbstractEuclidianController;
@@ -61,6 +62,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.MissingResourceException;
@@ -213,6 +215,121 @@ public class Application extends AbstractApplication {
 	public Application(ArticleElement article, GeoGebraAppFrame geoGebraAppFrame) {
 	   this(article, geoGebraAppFrame, true);
     }
+	
+	public static ArrayList<String> supportedLocales = new ArrayList<String>();
+	static {
+		if (GeoGebraConstants.IS_PRE_RELEASE) {
+			supportedLocales.add("sq"); // Albanian
+		}
+
+		supportedLocales.add("hy"); // Armenian
+		supportedLocales.add("ar"); // Arabic
+		supportedLocales.add("eu"); // Basque
+		supportedLocales.add("bs"); // Bosnian
+		if (GeoGebraConstants.IS_PRE_RELEASE) {
+			supportedLocales.add("bg"); // Bulgarian
+		}
+		supportedLocales.add("ca"); // Catalan
+		if (GeoGebraConstants.IS_PRE_RELEASE) {
+			supportedLocales.add("zh_CN"); // Chinese
+		}
+		// (Simplified)
+		supportedLocales.add("zh_TW"); // Chinese (Traditional)
+		supportedLocales.add("hr"); // Croatian
+		supportedLocales.add("cs"); // Czech
+		supportedLocales.add("da"); // Danish
+		supportedLocales.add("nl"); // Dutch
+		supportedLocales.add("en"); // English
+		supportedLocales.add("en_GB"); // English (UK)
+		supportedLocales.add("en_AU"); // English (Australia)
+		supportedLocales.add("et"); // Estonian
+		supportedLocales.add("fi"); // Finnish
+		supportedLocales.add("fr"); // French
+		supportedLocales.add("gl"); // Galician
+		supportedLocales.add("ka"); // Georgian
+		supportedLocales.add("de"); // German
+		supportedLocales.add("de_AT"); // German (Austria)
+		supportedLocales.add("el"); // Greek
+		// supportedLocales.add(new Locale("gu")); // Gujarati
+		supportedLocales.add("iw"); // Hebrew
+		if (GeoGebraConstants.IS_PRE_RELEASE) {
+			supportedLocales.add("hi"); // Hindi
+		}
+		supportedLocales.add("hu"); // Hungarian
+		supportedLocales.add("is"); // Icelandic
+		if (GeoGebraConstants.IS_PRE_RELEASE) {
+			supportedLocales.add("in"); // Indonesian
+		}
+		supportedLocales.add("it"); // Italian
+		supportedLocales.add("ja"); // Japanese
+
+		supportedLocales.add("kk"); // Kazakh
+		supportedLocales.add("ko"); // Korean
+		supportedLocales.add("lt"); // Lithuanian
+		if (GeoGebraConstants.IS_PRE_RELEASE) {
+			supportedLocales.add("ml"); // Malayalam
+		}
+		if (GeoGebraConstants.IS_PRE_RELEASE) {
+			supportedLocales.add("mn"); // Mongolian
+		}
+		supportedLocales.add("mk"); // Macedonian
+		if (GeoGebraConstants.IS_PRE_RELEASE) {
+			supportedLocales.add("mr"); // Marathi
+		}
+		supportedLocales.add("ms"); // Malay
+		if (GeoGebraConstants.IS_PRE_RELEASE) {
+			supportedLocales.add("ne"); // Nepalese
+		}
+		supportedLocales.add("no_NO"); // Norwegian (Bokmal)
+		supportedLocales.add("nn"); // Norwegian(Nynorsk)
+		// supportedLocales.add(new Locale("oc")); // Occitan
+		supportedLocales.add("fa"); // Persian
+		supportedLocales.add("pl"); // Polish
+		supportedLocales.add("pt"); // Portugese (Brazil)
+		supportedLocales.add("pt_PT"); // Portuguese (Portugal)
+		// supportedLocales.add(new Locale("pa")); // Punjabi
+		if (GeoGebraConstants.IS_PRE_RELEASE) {
+			supportedLocales.add("ro"); // Romanian
+		}
+		supportedLocales.add("ru"); // Russian
+		supportedLocales.add("sr"); // Serbian
+		if (GeoGebraConstants.IS_PRE_RELEASE) {
+			supportedLocales.add("si"); // Sinhala (Sri Lanka)
+		}
+
+		supportedLocales.add("sk"); // Slovakian
+		supportedLocales.add("sl"); // Slovenian
+		supportedLocales.add("es"); // Spanish
+		supportedLocales.add("sv"); // Swedish
+		// supportedLocales.add(new Locale("ty")); // Tahitian
+		supportedLocales.add("ta"); // Tamil
+
+		if (GeoGebraConstants.IS_PRE_RELEASE) {
+			supportedLocales.add("tl"); // Filipino
+		}
+		// supportedLocales.add(new Locale("te")); // Telugu
+		if (GeoGebraConstants.IS_PRE_RELEASE) {
+			supportedLocales.add("th"); // Thai
+		}
+
+		supportedLocales.add("tr"); // Turkish
+		if (GeoGebraConstants.IS_PRE_RELEASE) {
+			supportedLocales.add("uk"); // Ukrainian
+		}
+		// supportedLocales.add(new Locale("ur")); // Urdu
+		supportedLocales.add("vi"); // Vietnamese
+		if (GeoGebraConstants.IS_PRE_RELEASE) {
+			supportedLocales.add("cy"); // Welsh
+		}
+		if (GeoGebraConstants.IS_PRE_RELEASE) {
+			supportedLocales.add("ia"); // Interlingua
+		}
+
+		if (GeoGebraConstants.IS_PRE_RELEASE) {
+			supportedLocales.add("ji"); // Yiddish
+		}
+	}
+
 
 	/**
 	 * Inernationalization: instantiation using GWT.create() properties interfaces
