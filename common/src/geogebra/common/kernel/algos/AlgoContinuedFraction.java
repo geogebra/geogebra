@@ -32,6 +32,7 @@ public class AlgoContinuedFraction extends AlgoElement {
 	private long denominators[] = new long[MAX_QUOTIENTS];
 
 	private StringBuilder sb = new StringBuilder();
+	private boolean dotsNeeded;
 
 	public AlgoContinuedFraction(Construction cons, String label,
 			NumberValue num, NumberValue level,GeoBoolean shorthand) {
@@ -140,6 +141,8 @@ public class AlgoContinuedFraction extends AlgoElement {
 							sb.append(",");
 						}
 						sb.append(kernel.format(denominators[steps-1], tpl));
+						if(dotsNeeded)
+							sb.append(",\\ldots");
 						sb.append(']');
 						text.setTextString(sb.toString());
 					}
@@ -168,6 +171,8 @@ public class AlgoContinuedFraction extends AlgoElement {
 			sb.append("+\\frac{1}{");
 		}
 		sb.append(kernel.format(denominators[steps - 1], tpl));
+		if(dotsNeeded)
+			sb.append("+\\cdots");
 		// checkDecimalFraction() needed for eg
 		// FractionText[20.0764]
 		for (int i = 0; i < steps - 1; i++) {
@@ -183,7 +188,7 @@ public class AlgoContinuedFraction extends AlgoElement {
 	 * Department Santa Monica College 1900 Pico Blvd. Santa Monica, CA 90405
 	 * http://homepage.smc.edu/kennedy_john/DEC2FRAC.PDF
 	 */
-	public static int DecimalToFraction(double dec, double AccuracyFactor,
+	private int DecimalToFraction(double dec, double AccuracyFactor,
 			long[] denominators, int maxSteps) {
 		double FractionNumerator, FractionDenominator;
 		double DecimalSign;
@@ -241,13 +246,14 @@ public class AlgoContinuedFraction extends AlgoElement {
 			FractionNumerator = Math.floor(decimal * FractionDenominator + 0.5); // Rounding
 																					// Function
 			steps++;
-			AbstractApplication.debug(FractionNumerator / FractionDenominator);
+			dotsNeeded = !Kernel.isEqual(Z, Math.floor(Z),Kernel.MAX_PRECISION);
 			if (maxSteps == 0
 					&& Math.abs((decimal - (FractionNumerator / FractionDenominator))) <= AccuracyFactor) {
 				denominators[steps] = (long) Math.floor(Z);
 				steps++;
 				break;
 			}
+			
 		} while ((maxSteps == 0 || steps < maxSteps) && Z != Math.floor(Z)
 				&& steps < denominators.length);
 		return steps;
