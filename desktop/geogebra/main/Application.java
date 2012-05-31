@@ -195,6 +195,9 @@ public class Application extends AbstractApplication implements
 	public static ArrayList<Locale> supportedLocales = new ArrayList<Locale>();
 	static {
 		if (GeoGebraConstants.IS_PRE_RELEASE) {
+			supportedLocales.add(new Locale("af")); // Afrikaans
+		}
+		if (GeoGebraConstants.IS_PRE_RELEASE) {
 			supportedLocales.add(new Locale("sq")); // Albanian
 		}
 
