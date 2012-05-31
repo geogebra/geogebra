@@ -49,6 +49,7 @@ import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSlider;
 import javax.swing.JToolBar;
 import javax.swing.border.MatteBorder;
 
@@ -248,7 +249,7 @@ public class PrintPreview extends JDialog {
 						if(selItem.equals(app.getPlain("AlgebraWindow"))){
 							m_target = new PrintGridable(app.getGuiManager().getAlgebraView());
 						} else if (selItem.equals(app.getPlain("CAS"))){
-							m_target = new PrintGridable(app.getGuiManager().getCasView());
+							m_target = new ScalingPrintGridable(app.getGuiManager().getCasView());
 						} else if (selItem.equals(app.getPlain("Spreadsheet"))){
 							m_target = new PrintGridable(app.getGuiManager().getSpreadsheetView());
 						} else if (selItem.equals(app.getPlain("DrawingPad"))){
@@ -266,6 +267,8 @@ public class PrintPreview extends JDialog {
 						if ((selItem == app.getPlain("DrawingPad")) || (selItem == app.getPlain("DrawingPad2"))){
 							tempPanel.add(createPanelForScaling());
 						}
+						if ((selItem == app.getPlain("CAS")))
+								tempPanel.add(createPanelForScaling2());
 						panelForTitleAndScaling.revalidate();
 						
 						initPages();
@@ -311,12 +314,16 @@ public class PrintPreview extends JDialog {
 		// show scale panel for euclidian view
 		AbstractEuclidianView ev = app.getEuclidianView1();
 		AbstractEuclidianView ev2 = app.getEuclidianView2();
+		//CASView cas = app.getca
 		app.clearSelectedGeos();
 		
 		tempPanel = new JPanel(new GridLayout(0,1));
 		if (m_target == ev || m_target == ev2) {
 			tempPanel.add(createPanelForScaling());
-		}			
+		}
+		// HACK: m_target gives no information about the current view
+		else if(m_target instanceof ScalingPrintGridable)
+			tempPanel.add(createPanelForScaling2());
 		panelForTitleAndScaling.add(tempPanel, BorderLayout.SOUTH);
 		panelForTitleAndScaling.add(titlePanel, BorderLayout.CENTER);
 		centerPanel.add(panelForTitleAndScaling, BorderLayout.NORTH);
@@ -336,6 +343,18 @@ public class PrintPreview extends JDialog {
 	   						
 		setVisible(true);		
 		app.getMainComponent().setCursor(oldCursor);
+	}
+	
+	public JPanel createPanelForScaling2() {
+		// scale panel to set scale of x-axis in cm
+		PrintScalePanel2 scalePanel = new PrintScalePanel2(app, (ScalingPrintGridable) m_target);													
+				
+		JPanel retPanel = new JPanel();
+		retPanel.setLayout(new BoxLayout(retPanel, BoxLayout.X_AXIS));
+		retPanel.setBorder(BorderFactory.createEtchedBorder());		
+		retPanel.add(Box.createHorizontalStrut(10));			
+		retPanel.add(scalePanel);
+		return retPanel;
 	}
 	
 	public JPanel createPanelForScaling(){

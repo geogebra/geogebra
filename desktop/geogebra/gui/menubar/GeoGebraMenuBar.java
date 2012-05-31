@@ -3,6 +3,7 @@ package geogebra.gui.menubar;
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.main.AbstractApplication;
+import geogebra.export.ScalingPrintGridable;
 import geogebra.gui.layout.DockManager;
 import geogebra.gui.layout.Layout;
 import geogebra.main.Application;
@@ -246,7 +247,8 @@ public class GeoGebraMenuBar extends JMenuBar {
 						DockManager dm=app.getGuiManager().getLayout().getDockManager();
 						geogebra.export.PrintPreview pre;
 						if (dm.getFocusedPanel()==dm.getPanel(AbstractApplication.VIEW_CAS))
-							pre = new geogebra.export.PrintPreview(app, app.getGuiManager().getCasView(), PageFormat.LANDSCAPE);
+							// TODO I think "new ScalingPrintGridable" here is not so nice. Maybe the constructor of PrintPreview should be changed
+							pre = new geogebra.export.PrintPreview(app, new ScalingPrintGridable(app.getGuiManager().getCasView()), PageFormat.LANDSCAPE);
 						else if (dm.getFocusedPanel()==dm.getPanel(AbstractApplication.VIEW_CONSTRUCTION_PROTOCOL))
 							pre = new geogebra.export.PrintPreview(app, app.getGuiManager().getConstructionProtocolView(), PageFormat.LANDSCAPE);
 						else if (dm.getFocusedPanel()==dm.getPanel(AbstractApplication.VIEW_SPREADSHEET))
