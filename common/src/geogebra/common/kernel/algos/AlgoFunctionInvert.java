@@ -110,8 +110,46 @@ public class AlgoFunctionInvert extends AlgoElement {
 	        case ASINH:
 	        case ACOSH:
 	        case ATANH:
+	        case EXP:
+	        case LOG:
 
 	        	newRoot = new ExpressionNode(kernel, newRoot, inverse(op), null);
+	        	root = left;
+	        	break;
+	        	
+	        case COT:
+	        	// acot(x) can be written as atan(1/x)
+	        	newRoot = new ExpressionNode(kernel, new ExpressionNode(kernel,new MyDouble(kernel, 1.0) , Operation.DIVIDE, newRoot), Operation.ARCTAN, null);
+	        	root = left;
+	        	break;
+	        	
+	        case SEC:
+	        	// asec(x) can be written as acos(1/x)
+	        	newRoot = new ExpressionNode(kernel, new ExpressionNode(kernel,new MyDouble(kernel, 1.0) , Operation.DIVIDE, newRoot), Operation.ARCCOS, null);
+	        	root = left;
+	        	break;
+	        	
+	        case CSC:
+	        	// acsc(x) can be written as asin(1/x)
+	        	newRoot = new ExpressionNode(kernel, new ExpressionNode(kernel,new MyDouble(kernel, 1.0) , Operation.DIVIDE, newRoot), Operation.ARCSIN, null);
+	        	root = left;
+	        	break;
+	        	
+	        case COTH:
+	        	// acoth(x) can be written as atanh(1/x)
+	        	newRoot = new ExpressionNode(kernel, new ExpressionNode(kernel,new MyDouble(kernel, 1.0) , Operation.DIVIDE, newRoot), Operation.ATANH, null);
+	        	root = left;
+	        	break;
+	        	
+	        case SECH:
+	        	// asech(x) can be written as acosh(1/x)
+	        	newRoot = new ExpressionNode(kernel, new ExpressionNode(kernel,new MyDouble(kernel, 1.0) , Operation.DIVIDE, newRoot), Operation.ACOSH, null);
+	        	root = left;
+	        	break;
+	        	
+	        case CSCH:
+	        	// acsch(x) can be written as asinh(1/x)
+	        	newRoot = new ExpressionNode(kernel, new ExpressionNode(kernel,new MyDouble(kernel, 1.0) , Operation.DIVIDE, newRoot), Operation.ASINH, null);
 	        	root = left;
 	        	break;
 	        	
@@ -122,8 +160,31 @@ public class AlgoFunctionInvert extends AlgoElement {
 	        	break;
 	        	
 	        case SQRT:
+	        case SQRT_SHORT:
 
 	        	newRoot = new ExpressionNode(kernel, newRoot, Operation.POWER, new MyDouble(kernel, 2.0));
+	        	root = left;
+	        	break;
+
+	        case LOG2:
+
+	        	newRoot = new ExpressionNode(kernel, new MyDouble(kernel, 2.0), Operation.POWER, newRoot);
+	        	root = left;
+	        	break;
+
+	        case LOG10:
+
+	        	newRoot = new ExpressionNode(kernel, new MyDouble(kernel, 10.0), Operation.POWER, newRoot);
+	        	root = left;
+	        	break;
+
+	        case LOGB:
+				if ((fvLeft = left.contains(oldFV)) && (right.contains(oldFV))) {
+	        		g.setUndefined();
+	        		return;
+	        	}
+
+	        	newRoot = new ExpressionNode(kernel, left, Operation.POWER, right);
 	        	root = left;
 	        	break;
 
@@ -231,7 +292,7 @@ public class AlgoFunctionInvert extends AlgoElement {
 	        	
 	        	break;
 	        	
-	        	default:
+	        	default: // eg ABS, CEIL etc
 	        		//AbstractApplication.debug("failed at"+ ((ExpressionNode) root).getOperation().toString());
 	        		g.setUndefined();
 	        		return;
@@ -281,6 +342,10 @@ public class AlgoFunctionInvert extends AlgoElement {
 			return Operation.COSH;
         case ATANH:
 			return Operation.TANH;
+        case EXP:
+			return Operation.LOG;
+        case LOG:
+			return Operation.EXP;
 		}
 		
 		return null;
