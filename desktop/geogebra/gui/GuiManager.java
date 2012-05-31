@@ -250,10 +250,11 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 		// register Properties view
 		layout.registerPanel(new PropertiesDockPanel(app));
 
+		/*
 		if (!app.isWebstart() || app.is3D()) {
 			// register Assignment view
 			layout.registerPanel(new AssignmentDockPanel(app));
-		}
+		}*/
 
 	}
 
