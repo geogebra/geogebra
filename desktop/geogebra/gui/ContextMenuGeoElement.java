@@ -78,6 +78,19 @@ public class ContextMenuGeoElement extends JPopupMenu {
 		this.app = app;     
 		setBackground(bgColor);
 	}
+	
+	/**
+	 * 
+	 * @param geo geo
+	 * @return description
+	 */
+	protected String getDescription(GeoElement geo){
+		String title = geo.getLongDescriptionHTML(false, true);
+		if (title.length() > 80)
+			title = geo.getNameDescriptionHTML(false, true);
+		return title;
+	}
+	
 
 	/** Creates new MyPopupMenu for GeoElement
 	 * @param app application
@@ -90,11 +103,9 @@ public class ContextMenuGeoElement extends JPopupMenu {
 		geo = geos.get(0);
 
 		String title;
-		
+
 		if (geos.size() == 1) {
-		title = geo.getLongDescriptionHTML(false, true);
-		if (title.length() > 80)
-			title = geo.getNameDescriptionHTML(false, true);
+			title = getDescription(geo);
 		} else {
 			title = app.getPlain("Selection");
 		}

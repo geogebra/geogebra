@@ -47,11 +47,8 @@ public class ContextMenuChooseGeo extends ContextMenuGeoElement {
 	 */
 	private TreeSet<GeoElement> metas;
 	
-	private int index;
 	
-	private static final int MORE_INDEX = 4;
-	
-	private JMenu moreMenu;
+	private JMenu selectAnotherMenu;
 
 	/**
 	 * 
@@ -68,6 +65,8 @@ public class ContextMenuChooseGeo extends ContextMenuGeoElement {
 		super(app, selectedGeos, location);
 		
 		//section to choose a geo
+		addSeparator();
+		addSelectAnotherMenu();
 		
 		//return if just one geo, or if first geos more than one
 		if (geos.size()<2 || selectedGeos.size()>1)
@@ -77,22 +76,19 @@ public class ContextMenuChooseGeo extends ContextMenuGeoElement {
 		
 		GeoElement geoSelected = selectedGeos.get(0);
 		
-		setChooseGeoTitle(app.getPlain("SelectOther"));	
 		
 		//add geos
 		metas = new TreeSet<GeoElement>();
 		
-		index = 0;	
 		for (GeoElement geo : geos){
 			if (geo!=geoSelected){//don't add selected geo
 				addGeo(geo);
-			}else
-				index++;
+			}
+			
 			if (geo.isFromMeta()){
 				GeoElement meta = ((FromMeta) geo).getMeta();
 				if (!metas.contains(meta)){
 					addGeo(meta);
-					metas.add(meta);
 				}
 			}
 		}
@@ -100,34 +96,13 @@ public class ContextMenuChooseGeo extends ContextMenuGeoElement {
 	
 	
 	
-	private void setChooseGeoTitle(String str) {
-		JLabel title = new JLabel(str);
-		title.setFont(app.getBoldFont());                      
-		title.setBackground(bgColor);
-		title.setForeground(fgColor);          
-		
-		title.setIcon(app.getEmptyIcon());
-		title.setBorder(BorderFactory.createEmptyBorder(5, 15, 2, 5));  
-		addSeparator();   
-		add(title);
-		addSeparator();   
-
-		title.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				setVisible(false);
-			}
-		});
-	}
 	
 	
-	private void createMoreMenuIfNull(){
-		if (moreMenu!=null)
-			return;
-		moreMenu = new JMenu(app.getPlain("More") );
-		moreMenu.setIcon(app.getEmptyIcon());
-		moreMenu.setBackground(getBackground());  
-		add(moreMenu);     
+	private void addSelectAnotherMenu(){
+		selectAnotherMenu = new JMenu(app.getPlain("SelectAnother") );
+		selectAnotherMenu.setIcon(app.getEmptyIcon());
+		selectAnotherMenu.setBackground(getBackground());  
+		add(selectAnotherMenu);     
 		
 	}
 	
@@ -138,20 +113,14 @@ public class ContextMenuChooseGeo extends ContextMenuGeoElement {
 	private void addGeo(GeoElement geo) {
 		
 		GeoAction chooser = new GeoAction(geo);
-		JMenuItem mi;
-		if (index<MORE_INDEX){ //put it in regular popup menu
-			mi = this.add(chooser);			
-		}else{ //put it in more menu
-			createMoreMenuIfNull();
-			mi = moreMenu.add(chooser);    
-		}
-		
+		JMenuItem mi = selectAnotherMenu.add(chooser);    
 		mi.setBackground(bgColor);  
-		mi.setText(geo.getNameDescriptionHTML(false, true));			
+		mi.setText(getDescription(geo));			
 		mi.addMouseListener(new MyMouseAdapter(geo));
 	
+		//prevent to add meta twice
+		metas.add(geo);
 			
-		index++;
 		            
 	}
 	
