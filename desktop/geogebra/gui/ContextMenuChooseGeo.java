@@ -3,6 +3,7 @@ package geogebra.gui;
 import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.kernel.geos.FromMeta;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.main.AbstractApplication;
 import geogebra.euclidianND.EuclidianViewND;
 import geogebra.main.Application;
 
@@ -14,8 +15,6 @@ import java.util.ArrayList;
 import java.util.TreeSet;
 
 import javax.swing.AbstractAction;
-import javax.swing.BorderFactory;
-import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
@@ -63,14 +62,16 @@ public class ContextMenuChooseGeo extends ContextMenuGeoElement {
 			ArrayList<GeoElement> geos, Point location) {
 
 		super(app, selectedGeos, location);
+
+		//return if just one geo, or if first geos more than one
+		if (geos.size()<2 || selectedGeos.size()>1)
+			return;
 		
 		//section to choose a geo
 		addSeparator();
 		addSelectAnotherMenu();
 		
-		//return if just one geo, or if first geos more than one
-		if (geos.size()<2 || selectedGeos.size()>1)
-			return;
+		
 		
 		this.view = view;
 		
