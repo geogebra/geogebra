@@ -9,9 +9,12 @@ import geogebra.main.Application;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Point;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.HashMap;
 
 import javax.swing.AbstractButton;
@@ -24,7 +27,9 @@ import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JToggleButton;
 import javax.swing.JToolBar;
+import javax.swing.JToolTip;
 import javax.swing.SwingConstants;
+import javax.swing.ToolTipManager;
 
 public class PropertiesStyleBar extends JPanel {
 
@@ -81,7 +86,7 @@ public class PropertiesStyleBar extends JPanel {
 		
 		ButtonGroup btnGroup = new ButtonGroup();
 		for (final OptionType type : OptionType.values()) {
-			final JToggleButton btn = new JToggleButton();
+			final PropertiesButton btn = new PropertiesButton();
 			btn.setFont(app.getPlainFont());
 			btn.setToolTipText(propertiesView.getTypeString(type));
 			btn.setIcon(getTypeIcon(type));
@@ -219,5 +224,61 @@ public class PropertiesStyleBar extends JPanel {
 		}
 		return null;
 	}
+	
+	
+	private class PropertiesButton extends JToggleButton {
 
+		private JToolTip tip;
+
+		public PropertiesButton(){
+			super();
+			this.addMouseListener(new ToolTipMouseAdapter());
+		}
+
+
+		@Override
+		public JToolTip createToolTip() {
+			tip = super.createToolTip();
+			tip.setBorder(BorderFactory.createCompoundBorder(tip.getBorder(),
+					BorderFactory.createEmptyBorder(5, 5, 5, 5)));
+
+			return tip;
+		}
+
+		@Override
+		public Point getToolTipLocation(MouseEvent event){
+			Point p = new Point();
+			p.y = this.getY()+this.getHeight();
+			p.x = 0; //this.getX();
+			return  p;
+		}
+
+	}
+
+
+	/**
+	 * Listeners that give the tool tip a custom initial delay = 0
+	 */
+	public class ToolTipMouseAdapter extends MouseAdapter {
+		private int defaultInitialDelay;
+		private boolean preventToolTipDelay = true;
+
+		@Override
+		public void mouseEntered(MouseEvent e) {
+			defaultInitialDelay = ToolTipManager.sharedInstance()
+					.getInitialDelay();
+			if (preventToolTipDelay) {
+				ToolTipManager.sharedInstance().setInitialDelay(0);
+			}
+
+		}
+
+		@Override
+		public void mouseExited(MouseEvent e) {
+			ToolTipManager.sharedInstance()
+			.setInitialDelay(defaultInitialDelay);
+
+		}
+	}
+	
 }
