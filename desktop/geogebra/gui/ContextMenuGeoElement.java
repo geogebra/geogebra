@@ -605,7 +605,9 @@ public class ContextMenuGeoElement extends JPopupMenu {
 		// SHOW, HIDE
 		
 		//G.Sturr 2010-5-14: allow menu to show spreadsheet trace for non-drawables
-        if (geo.isDrawable() || (geo.isSpreadsheetTraceable() && app.getGuiManager().showView(AbstractApplication.VIEW_SPREADSHEET))) {  			JCheckBoxMenuItem cbItem;
+        if (geo.isDrawable() || (geo.isSpreadsheetTraceable() && app.getGuiManager().showView(AbstractApplication.VIEW_SPREADSHEET))) {  			
+        	
+        	JCheckBoxMenuItem cbItem;
 
 			// show object
 			if (geo.isEuclidianShowable() && geo.getShowObjectCondition() == null && (!geo.isGeoBoolean() || geo.isIndependent())) {
@@ -672,16 +674,33 @@ public class ContextMenuGeoElement extends JPopupMenu {
 			// modified to use SpreadsheetTrace Dialog
 			
 			if (geo.isSpreadsheetTraceable() && app.getGuiManager().showView(AbstractApplication.VIEW_SPREADSHEET)) {
-				cbItem = new JCheckBoxMenuItem(app.getMenu("RecordToSpreadsheet"));
-				cbItem.setIcon(app.getImageIcon("spreadsheettrace.gif"));
-				cbItem.setSelected(geo.getSpreadsheetTrace());
+				
+				boolean showRecordToSpreadsheet = true;
+				//check if other geos are recordable
+				for (int i=1; i<geos.size() && showRecordToSpreadsheet; i++)
+					showRecordToSpreadsheet &= geos.get(i).isSpreadsheetTraceable();
 
-				cbItem.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						app.getGuiManager().getSpreadsheetView().showTraceDialog(geo, null);
-					}
-				});
-				addItem(cbItem);
+				
+				if (showRecordToSpreadsheet){
+					cbItem = new JCheckBoxMenuItem(app.getMenu("RecordToSpreadsheet"));
+					cbItem.setIcon(app.getImageIcon("spreadsheettrace.gif"));
+					cbItem.setSelected(geo.getSpreadsheetTrace());
+
+					cbItem.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							GeoElement geoRecordToSpreadSheet;
+							if (geos.size()==1)
+								geoRecordToSpreadSheet = geo;
+							else
+								geoRecordToSpreadSheet = app.getKernel().List(null, geos, false);
+								
+							app.getGuiManager().getSpreadsheetView().showTraceDialog(geoRecordToSpreadSheet, null);
+						}
+					});
+					addItem(cbItem);
+				}
+
+				
 			}
 			
 			/* ------------ OLD CODE ---------------------
