@@ -20,7 +20,6 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.util.Prover;
-import geogebra.common.util.URLEncoder;
 import geogebra.common.util.Prover.ProverEngine;
 import geogebra.common.main.AbstractApplication;
 
@@ -75,7 +74,9 @@ public class AlgoProve extends AlgoElement {
      */
     public GeoBoolean getGeoBoolean() { return bool; }
     
-    // calc the current value of the arithmetic tree
+	/**
+	 * Heavy computation of the proof
+	 */
 	public final void initialCompute() {
 	
 	// Create and initialize the prover
@@ -103,6 +104,7 @@ public class AlgoProve extends AlgoElement {
     	AbstractApplication.debug("Benchmarking: " + elapsedTime + " ms");
     	
     	result = p.getYesNoAnswer();
+    	
     	AbstractApplication.debug("Statement is " + result);
     }   
 	
@@ -122,7 +124,7 @@ public class AlgoProve extends AlgoElement {
     	if (result != null)
     		bool.setValue(result);
     	else
-    		bool.setValue(false);
+    		bool.setUndefined();
     }
 }
 

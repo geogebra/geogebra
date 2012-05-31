@@ -82,6 +82,9 @@ public abstract class Prover {
 	 */
 	UNKNOWN}
 	
+	/**
+	 * Maximal time to be spent in the prover subsystem
+	 */
 	/* input */
 	protected int timeout = 5;
 	private ProverEngine engine = ProverEngine.AUTO;
@@ -91,12 +94,19 @@ public abstract class Prover {
 	 */
 	protected GeoElement statement;
 	
+	/**
+	 * Gives the current statement to prove
+	 * @return the statement (usually a GeoBoolean)
+	 */
 	public GeoElement getStatement() {
 		return statement;
 	}
 
 	/* output */
 	private HashSet<NDGCondition> ndgConditions = new HashSet<NDGCondition>();
+	/**
+	 * The result of the proof
+	 */
 	protected ProofResult result;
 
 	/**
@@ -319,8 +329,11 @@ public abstract class Prover {
 		return "<construction>\n" + sb.toString() + "</construction>";
 	}
 
+	/**
+	 * Does the real computation for the proof
+	 */
 	public void compute() {
-		// TODO Auto-generated method stub
+		// Will be overridden by web and desktop
 		
 	}
 
