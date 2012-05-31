@@ -2,6 +2,7 @@ package geogebra.factories;
 
 import geogebra.common.util.GeoGebraLogger;
 import geogebra.common.util.HttpRequest;
+import geogebra.common.util.Prover;
 import geogebra.common.util.URLEncoder;
 
 /**
@@ -23,6 +24,11 @@ public class UtilFactory extends geogebra.common.factories.UtilFactory {
 	@Override
 	public GeoGebraLogger newGeoGebraLogger() {
 		return new geogebra.util.GeoGebraLogger();
+	}
+
+	@Override
+	public Prover newProver() {
+		return new geogebra.util.Prover();
 	}
 
 }

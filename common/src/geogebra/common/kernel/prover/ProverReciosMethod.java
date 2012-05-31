@@ -11,8 +11,9 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.SymbolicParameters;
 import geogebra.common.kernel.algos.SymbolicParametersAlgo;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.prover.Prover.NDGCondition;
-import geogebra.common.kernel.prover.Prover.ProofResult;
+import geogebra.common.util.Prover;
+import geogebra.common.util.Prover.NDGCondition;
+import geogebra.common.util.Prover.ProofResult;
 import geogebra.common.main.AbstractApplication;
 
 /**
@@ -31,10 +32,10 @@ public class ProverReciosMethod {
 
 		SymbolicParameters s;
 
-		if (prover.statement instanceof SymbolicParametersAlgo)
-			s = (((SymbolicParametersAlgo)prover.statement).getSymbolicParameters());
-		else if (prover.statement.getParentAlgorithm() instanceof SymbolicParametersAlgo)
-			s = (((SymbolicParametersAlgo)prover.statement.getParentAlgorithm()).getSymbolicParameters());
+		if (prover.getStatement() instanceof SymbolicParametersAlgo)
+			s = (((SymbolicParametersAlgo)prover.getStatement()).getSymbolicParameters());
+		else if (prover.getStatement().getParentAlgorithm() instanceof SymbolicParametersAlgo)
+			s = (((SymbolicParametersAlgo)prover.getStatement().getParentAlgorithm()).getSymbolicParameters());
 		else return ProofResult.UNKNOWN;
 		
 		int[] degs;

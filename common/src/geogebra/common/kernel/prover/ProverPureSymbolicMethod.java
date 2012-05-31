@@ -1,14 +1,10 @@
 package geogebra.common.kernel.prover;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
-
 import geogebra.common.kernel.algos.SymbolicParameters;
 import geogebra.common.kernel.algos.SymbolicParametersAlgo;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.prover.Prover.ProofResult;
+import geogebra.common.util.Prover;
+import geogebra.common.util.Prover.ProofResult;
 import geogebra.common.main.AbstractApplication;
 
 /**
@@ -27,7 +23,7 @@ public class ProverPureSymbolicMethod {
 	 */
 	public static ProofResult prove(Prover prover){
 		
-		GeoElement statement = prover.statement;
+		GeoElement statement = prover.getStatement();
 		
 		if (statement instanceof SymbolicParametersAlgo){
 			SymbolicParametersAlgo statementSymbolic = (SymbolicParametersAlgo) statement;

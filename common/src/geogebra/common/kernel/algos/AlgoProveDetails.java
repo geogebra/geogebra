@@ -16,15 +16,16 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.TreeSet;
 
+import geogebra.common.factories.UtilFactory;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoText;
-import geogebra.common.kernel.prover.Prover;
-import geogebra.common.kernel.prover.Prover.NDGCondition;
-import geogebra.common.kernel.prover.Prover.ProverEngine;
+import geogebra.common.util.Prover;
+import geogebra.common.util.Prover.NDGCondition;
+import geogebra.common.util.Prover.ProverEngine;
 import geogebra.common.main.AbstractApplication;
 
 /**
@@ -81,7 +82,7 @@ public class AlgoProveDetails extends AlgoElement {
 	public final void compute() {	
 	
 	// Create and initialize the prover 
-     	Prover p = new Prover();
+		Prover p = UtilFactory.prototype.newProver();
         if ("OpenGeoProver".equalsIgnoreCase(AbstractApplication.proverEngine))
             p.setProverEngine(ProverEngine.OPENGEOPROVER);
         else if ("Botana".equalsIgnoreCase(AbstractApplication.proverEngine))

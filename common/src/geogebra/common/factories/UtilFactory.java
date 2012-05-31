@@ -2,6 +2,7 @@ package geogebra.common.factories;
 
 import geogebra.common.util.GeoGebraLogger;
 import geogebra.common.util.HttpRequest;
+import geogebra.common.util.Prover;
 import geogebra.common.util.URLEncoder;
 
 /**
@@ -29,4 +30,9 @@ public abstract class UtilFactory {
 	 * Creates a GeoGebraLogger object
 	 */
 	public abstract GeoGebraLogger newGeoGebraLogger();
+	/**
+	 * @return Prover
+	 * Creates a Prover object
+	 */
+	public abstract Prover newProver();
 }

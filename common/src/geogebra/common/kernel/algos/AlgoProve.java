@@ -14,12 +14,14 @@ package geogebra.common.kernel.algos;
 
 import java.util.Date;
 
+import geogebra.common.factories.UtilFactory;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.prover.Prover;
-import geogebra.common.kernel.prover.Prover.ProverEngine;
+import geogebra.common.util.Prover;
+import geogebra.common.util.URLEncoder;
+import geogebra.common.util.Prover.ProverEngine;
 import geogebra.common.main.AbstractApplication;
 
 /**
@@ -76,8 +78,8 @@ public class AlgoProve extends AlgoElement {
     // calc the current value of the arithmetic tree
 	public final void initialCompute() {
 	
-	// Create and initialize the prover 
-     	Prover p = new Prover();
+	// Create and initialize the prover
+		Prover p = UtilFactory.prototype.newProver();
         if ("OpenGeoProver".equalsIgnoreCase(AbstractApplication.proverEngine))
             p.setProverEngine(ProverEngine.OPENGEOPROVER);
         else if ("Botana".equalsIgnoreCase(AbstractApplication.proverEngine))

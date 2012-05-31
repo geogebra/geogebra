@@ -8,8 +8,9 @@ import java.util.Iterator;
 import geogebra.common.kernel.algos.SymbolicParametersBotanaAlgo;
 import geogebra.common.kernel.algos.SymbolicParametersBotanaAlgoAre;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.prover.Prover.NDGCondition;
-import geogebra.common.kernel.prover.Prover.ProofResult;
+import geogebra.common.util.Prover;
+import geogebra.common.util.Prover.NDGCondition;
+import geogebra.common.util.Prover.ProofResult;
 import geogebra.common.main.AbstractApplication;
 
 /**
@@ -39,22 +40,23 @@ public class ProverBotanasMethod {
 	 */
 	private static Polynomial[] create3FreePointsNeverCollinearNDG(Prover prover) {
 		// Creating the set of free points first:
-		HashSet<GeoElement> freePoints = getFreePoints(prover.statement);
+		HashSet<GeoElement> freePoints = getFreePoints(prover.getStatement());
 		int setSize = freePoints.size();
 
 		// Creating NDGs:
 		NDGCondition ndgc = new NDGCondition();
 		if (setSize > 3)
-			ndgc.condition = "DegeneratePolygon";
+			ndgc.setCondition("DegeneratePolygon");
 		else
-			ndgc.condition = "AreCollinear";
-		ndgc.geos = new GeoElement[setSize];
+			ndgc.setCondition("AreCollinear");
+		GeoElement[] geos = new GeoElement[setSize]; 
 		int i = 0;
 		Iterator<GeoElement> it = freePoints.iterator();
 		while (it.hasNext()) {
-			ndgc.geos[i++] = it.next();
+			geos[i++] = it.next();
 		}
-		Arrays.sort(ndgc.geos);
+		ndgc.setGeos(geos);
+		Arrays.sort(ndgc.getGeos());
 		prover.addNDGcondition(ndgc);
 		
 		// The output will contain $\binom{n}{3}$ elements:
@@ -146,10 +148,10 @@ public class ProverBotanasMethod {
 	 * @param prover the prover input object 
 	 * @return if the statement is true
 	 */
-	public static ProofResult prove(Prover prover) {
+	public static ProofResult prove(geogebra.common.util.Prover prover) {
 		// Getting the hypotheses:
 		Polynomial[] hypotheses = null;
-		Iterator<GeoElement> it = prover.statement.getAllPredecessors().iterator();
+		Iterator<GeoElement> it = prover.getStatement().getAllPredecessors().iterator();
 		while (it.hasNext()) {
 			GeoElement geo = it.next();
 			// AbstractApplication.debug(geo);
@@ -176,12 +178,12 @@ public class ProverBotanasMethod {
 		try {
 			// The sets of statement polynomials.
 			// The last equation of each set will be negated.
-			Polynomial[][] statements = ((SymbolicParametersBotanaAlgoAre) prover.statement.getParentAlgorithm()).getBotanaPolynomials();
+			Polynomial[][] statements = ((SymbolicParametersBotanaAlgoAre) prover.getStatement().getParentAlgorithm()).getBotanaPolynomials();
 			// The NDG conditions (automatically created):
 			Polynomial[] ndgConditions = null;
 			if (AbstractApplication.freePointsNeverCollinear)
 				ndgConditions = create3FreePointsNeverCollinearNDG(prover);
-			HashMap<Variable,Integer> substitutions = fixValues(prover.statement);
+			HashMap<Variable,Integer> substitutions = fixValues(prover.getStatement());
 			int nHypotheses = 0;
 			int nNdgConditions = 0;
 			int nStatements = 0;
