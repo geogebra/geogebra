@@ -251,7 +251,7 @@ public class ViewMenu extends BaseMenu {
 			public void actionPerformed(ActionEvent e) {
 
 
-			    JFrame f = new JFrame("Kinect Window");
+			    JFrame f = new JFrame(app.getMenu("KinectWindow"));
 				final KinectTestApplication app2 = new KinectTestApplication(f);
 
 				app2.viewer = new KinectTest(app.getKernel());
