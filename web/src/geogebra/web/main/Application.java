@@ -98,6 +98,10 @@ public class Application extends AbstractApplication {
 	public final static String DEFAULT_LOCALE = "default";
 	public final static String A_DOT = ".";
 	public final static String AN_UNDERSCORE = "_";
+	public final static String NORWEGIAN_NYNORSK_JAVA_CODE = "noNONY";
+	public final static String NORWEGIAN_BOKMAL_JAVA_CODE = "noNO";
+	public final static String NORWEGIAN_NYNORSK_GWT_CODE = "noNN";
+	public final static String NORWEGIAN_BOKMAL_GWT_CODE = "noNB";
 	/*
 	 * The representation of no_NO_NY (Norwegian Nynorsk) is illegal in a BCP47 language tag: 
 	 * it should actually use "nn" (Norwegian Nynorsk) for the language field
@@ -216,118 +220,131 @@ public class Application extends AbstractApplication {
 	   this(article, geoGebraAppFrame, true);
     }
 	
-	public static ArrayList<String> supportedLocales = new ArrayList<String>();
+	public static ArrayList<String> supportedLanguages = new ArrayList<String>();
 	static {
 		if (GeoGebraConstants.IS_PRE_RELEASE) {
-			supportedLocales.add("sq"); // Albanian
+			supportedLanguages.add("sq"); // Albanian
 		}
 
-		supportedLocales.add("hy"); // Armenian
-		supportedLocales.add("ar"); // Arabic
-		supportedLocales.add("eu"); // Basque
-		supportedLocales.add("bs"); // Bosnian
+		supportedLanguages.add("hy"); // Armenian
+		supportedLanguages.add("ar"); // Arabic
+		supportedLanguages.add("eu"); // Basque
+		supportedLanguages.add("bs"); // Bosnian
 		if (GeoGebraConstants.IS_PRE_RELEASE) {
-			supportedLocales.add("bg"); // Bulgarian
+			supportedLanguages.add("bg"); // Bulgarian
 		}
-		supportedLocales.add("ca"); // Catalan
+		supportedLanguages.add("ca"); // Catalan
 		if (GeoGebraConstants.IS_PRE_RELEASE) {
-			supportedLocales.add("zh_CN"); // Chinese
+			supportedLanguages.add("zh_CN"); // Chinese
 		}
 		// (Simplified)
-		supportedLocales.add("zh_TW"); // Chinese (Traditional)
-		supportedLocales.add("hr"); // Croatian
-		supportedLocales.add("cs"); // Czech
-		supportedLocales.add("da"); // Danish
-		supportedLocales.add("nl"); // Dutch
-		supportedLocales.add("en"); // English
-		supportedLocales.add("en_GB"); // English (UK)
-		supportedLocales.add("en_AU"); // English (Australia)
-		supportedLocales.add("et"); // Estonian
-		supportedLocales.add("fi"); // Finnish
-		supportedLocales.add("fr"); // French
-		supportedLocales.add("gl"); // Galician
-		supportedLocales.add("ka"); // Georgian
-		supportedLocales.add("de"); // German
-		supportedLocales.add("de_AT"); // German (Austria)
-		supportedLocales.add("el"); // Greek
+		supportedLanguages.add("zh_TW"); // Chinese (Traditional)
+		supportedLanguages.add("hr"); // Croatian
+		supportedLanguages.add("cs"); // Czech
+		supportedLanguages.add("da"); // Danish
+		supportedLanguages.add("nl"); // Dutch
+		supportedLanguages.add("en"); // English
+		supportedLanguages.add("en_GB"); // English (UK)
+		supportedLanguages.add("en_AU"); // English (Australia)
+		supportedLanguages.add("et"); // Estonian
+		supportedLanguages.add("fi"); // Finnish
+		supportedLanguages.add("fr"); // French
+		supportedLanguages.add("gl"); // Galician
+		supportedLanguages.add("ka"); // Georgian
+		supportedLanguages.add("de"); // German
+		supportedLanguages.add("de_AT"); // German (Austria)
+		supportedLanguages.add("el"); // Greek
 		// supportedLocales.add(new Locale("gu")); // Gujarati
-		supportedLocales.add("iw"); // Hebrew
+		supportedLanguages.add("iw"); // Hebrew
 		if (GeoGebraConstants.IS_PRE_RELEASE) {
-			supportedLocales.add("hi"); // Hindi
+			supportedLanguages.add("hi"); // Hindi
 		}
-		supportedLocales.add("hu"); // Hungarian
-		supportedLocales.add("is"); // Icelandic
+		supportedLanguages.add("hu"); // Hungarian
+		supportedLanguages.add("is"); // Icelandic
 		if (GeoGebraConstants.IS_PRE_RELEASE) {
-			supportedLocales.add("in"); // Indonesian
+			supportedLanguages.add("in"); // Indonesian
 		}
-		supportedLocales.add("it"); // Italian
-		supportedLocales.add("ja"); // Japanese
+		supportedLanguages.add("it"); // Italian
+		supportedLanguages.add("ja"); // Japanese
 
-		supportedLocales.add("kk"); // Kazakh
-		supportedLocales.add("ko"); // Korean
-		supportedLocales.add("lt"); // Lithuanian
+		supportedLanguages.add("kk"); // Kazakh
+		supportedLanguages.add("ko"); // Korean
+		supportedLanguages.add("lt"); // Lithuanian
 		if (GeoGebraConstants.IS_PRE_RELEASE) {
-			supportedLocales.add("ml"); // Malayalam
+			supportedLanguages.add("ml"); // Malayalam
 		}
 		if (GeoGebraConstants.IS_PRE_RELEASE) {
-			supportedLocales.add("mn"); // Mongolian
+			supportedLanguages.add("mn"); // Mongolian
 		}
-		supportedLocales.add("mk"); // Macedonian
+		supportedLanguages.add("mk"); // Macedonian
 		if (GeoGebraConstants.IS_PRE_RELEASE) {
-			supportedLocales.add("mr"); // Marathi
+			supportedLanguages.add("mr"); // Marathi
 		}
-		supportedLocales.add("ms"); // Malay
+		supportedLanguages.add("ms"); // Malay
 		if (GeoGebraConstants.IS_PRE_RELEASE) {
-			supportedLocales.add("ne"); // Nepalese
+			supportedLanguages.add("ne"); // Nepalese
 		}
-		supportedLocales.add("no_NB"); // Norwegian (Bokmal)
-		supportedLocales.add("no_NN"); // Norwegian(Nynorsk)
+		supportedLanguages.add("no_NB"); // Norwegian (Bokmal)
+		supportedLanguages.add("no_NN"); // Norwegian(Nynorsk)
 		// supportedLocales.add(new Locale("oc")); // Occitan
-		supportedLocales.add("fa"); // Persian
-		supportedLocales.add("pl"); // Polish
-		supportedLocales.add("pt"); // Portugese (Brazil)
-		supportedLocales.add("pt_PT"); // Portuguese (Portugal)
+		supportedLanguages.add("fa"); // Persian
+		supportedLanguages.add("pl"); // Polish
+		supportedLanguages.add("pt"); // Portugese (Brazil)
+		supportedLanguages.add("pt_PT"); // Portuguese (Portugal)
 		// supportedLocales.add(new Locale("pa")); // Punjabi
 		if (GeoGebraConstants.IS_PRE_RELEASE) {
-			supportedLocales.add("ro"); // Romanian
+			supportedLanguages.add("ro"); // Romanian
 		}
-		supportedLocales.add("ru"); // Russian
-		supportedLocales.add("sr"); // Serbian
+		supportedLanguages.add("ru"); // Russian
+		supportedLanguages.add("sr"); // Serbian
 		if (GeoGebraConstants.IS_PRE_RELEASE) {
-			supportedLocales.add("si"); // Sinhala (Sri Lanka)
+			supportedLanguages.add("si"); // Sinhala (Sri Lanka)
 		}
 
-		supportedLocales.add("sk"); // Slovakian
-		supportedLocales.add("sl"); // Slovenian
-		supportedLocales.add("es"); // Spanish
-		supportedLocales.add("sv"); // Swedish
+		supportedLanguages.add("sk"); // Slovakian
+		supportedLanguages.add("sl"); // Slovenian
+		supportedLanguages.add("es"); // Spanish
+		supportedLanguages.add("sv"); // Swedish
 		// supportedLocales.add(new Locale("ty")); // Tahitian
-		supportedLocales.add("ta"); // Tamil
+		supportedLanguages.add("ta"); // Tamil
 
 		if (GeoGebraConstants.IS_PRE_RELEASE) {
-			supportedLocales.add("tl"); // Filipino
+			supportedLanguages.add("tl"); // Filipino
 		}
 		// supportedLocales.add(new Locale("te")); // Telugu
 		if (GeoGebraConstants.IS_PRE_RELEASE) {
-			supportedLocales.add("th"); // Thai
+			supportedLanguages.add("th"); // Thai
 		}
 
-		supportedLocales.add("tr"); // Turkish
+		supportedLanguages.add("tr"); // Turkish
 		if (GeoGebraConstants.IS_PRE_RELEASE) {
-			supportedLocales.add("uk"); // Ukrainian
+			supportedLanguages.add("uk"); // Ukrainian
 		}
 		// supportedLocales.add(new Locale("ur")); // Urdu
-		supportedLocales.add("vi"); // Vietnamese
+		supportedLanguages.add("vi"); // Vietnamese
 		if (GeoGebraConstants.IS_PRE_RELEASE) {
-			supportedLocales.add("cy"); // Welsh
+			supportedLanguages.add("cy"); // Welsh
 		}
 		if (GeoGebraConstants.IS_PRE_RELEASE) {
-			supportedLocales.add("ia"); // Interlingua
+			supportedLanguages.add("ia"); // Interlingua
 		}
 
 		if (GeoGebraConstants.IS_PRE_RELEASE) {
-			supportedLocales.add("ji"); // Yiddish
+			supportedLanguages.add("ji"); // Yiddish
 		}
+	}
+	
+	public final static String languageCodeVariationCrossReferencing(String javaLanguageCode) {
+
+		String gwtLanguageCode = javaLanguageCode;
+		if(javaLanguageCode != null) {
+			if(javaLanguageCode.equals(NORWEGIAN_BOKMAL_JAVA_CODE)) {
+				gwtLanguageCode = NORWEGIAN_BOKMAL_GWT_CODE;
+			} else if(javaLanguageCode.equals(NORWEGIAN_NYNORSK_JAVA_CODE)) {
+				gwtLanguageCode = NORWEGIAN_NYNORSK_GWT_CODE;
+			}
+		}
+		return gwtLanguageCode;
 	}
 
 
