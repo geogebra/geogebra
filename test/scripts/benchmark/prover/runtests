@@ -5,6 +5,7 @@
 
 DEBUG=1 # In tmp/ there can be some log, if you set this to 1.
 TIMEOUT=120
+IMGSCALE=50
 HTML=html/index.html
 PROVERS="Botana Recio PureSymbolic Auto"
 TESTGGBURLBASE=http://dev.geogebra.org/trac/browser/trunk
@@ -56,7 +57,7 @@ for i in `find -name '*.ggb' | sort`; do
  unzip $i geogebra_thumbnail.png >/dev/null 2>&1
  mv geogebra_thumbnail.png html/$TEST.png
  echo -n "$TEST;"
- echo "<tr><td><img src=\"$TEST.png\"><br><a href=\"$TESTGGBURLBASE/$GGBDIR/$i\">$TEST</a></td>" >> $MYDIR/$HTML
+ echo "<tr><td><img src=\"$TEST.png\" style=\"width:$IMGSCALE%;height:$IMGSCALE%;\"><br><a href=\"$TESTGGBURLBASE/$GGBDIR/$i\">$TEST</a></td>" >> $MYDIR/$HTML
  for j in $PROVERS; do
   cd $MYDIR; cd $BUILDDIR
   # Testing:
@@ -80,13 +81,28 @@ for i in `find -name '*.ggb' | sort`; do
     fi
    fi # No timeout
   echo -n "$RESULT;$TIME;"
-  RESULTCLASS=""
+  RESULTCLASS=" class=\"o6\""
   if [ "$RESULT" != "$DIRNAME" ]; then
-   RESULTCLASS=" class=\"error\" info=\"$DIRNAME\""
+   RESULTCLASS=" class=\"error\""
   else
    VARNAME=$`echo $j`
    VALUE=`eval echo $VARNAME`
    eval $j=`expr $VALUE + 1`
+   if [ $TIME -lt 1000 ]; then
+    RESULTCLASS=" class=\"o5\""
+    fi
+   if [ $TIME -lt 300 ]; then
+    RESULTCLASS=" class=\"o4\""
+    fi
+   if [ $TIME -lt 150 ]; then
+    RESULTCLASS=" class=\"o3\""
+    fi
+   if [ $TIME -lt 50 ]; then
+    RESULTCLASS=" class=\"o2\""
+    fi
+   if [ $TIME -lt 20 ]; then
+    RESULTCLASS=" class=\"o1\""
+    fi
    fi
   echo "<td$RESULTCLASS>$RESULT</td><td$RESULTCLASS>$TIME</td>" >> $MYDIR/$HTML
   done # All provers done for this tests
