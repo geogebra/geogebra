@@ -610,7 +610,7 @@ implements ActionListener, WindowListener, MouseListener, geogebra.common.gui.la
 		// The view is in the main window
 		if (frame == null) {
 			closeButton.setVisible( !isMaximized());
-			windowButton.setVisible(!isMaximized());
+			windowButton.setVisible(false);   //!isMaximized());
 			unwindowButton.setVisible(false);
 			maximizeButton.setVisible(isMaximized());
 			titleLabel.setVisible(true);
@@ -1373,8 +1373,16 @@ implements ActionListener, WindowListener, MouseListener, geogebra.common.gui.la
 	public void windowOpened(WindowEvent e) { }
 	
 	public void mouseClicked(MouseEvent e) { }
-	public void mouseEntered(MouseEvent e) {	}
-	public void mouseExited(MouseEvent e) { }
+	public void mouseEntered(MouseEvent e) {
+		if(!windowButton.isVisible()){
+			windowButton.setVisible(true);
+		}
+	}
+	public void mouseExited(MouseEvent e) {
+		if(!titlePanel.getBounds().contains(e.getPoint())){
+			windowButton.setVisible(false);
+		}
+	}
 	public void mouseReleased(MouseEvent e) { }
 	
 	/**
