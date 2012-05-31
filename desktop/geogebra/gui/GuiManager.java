@@ -65,6 +65,7 @@ import geogebra.main.Application;
 import geogebra.main.GeoGebraPreferences;
 import geogebra.util.Util;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
@@ -103,6 +104,7 @@ import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
@@ -132,6 +134,7 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 	private AssignmentView assignmentView;
 	protected ConstructionProtocolNavigation constProtocolNavigation;
 	private GeoGebraMenuBar menuBar;
+	JMenuBar menuBar2;
 
 	private ToolbarContainer toolbarPanel;
 	private String strCustomToolbarDefinition;
@@ -1065,6 +1068,20 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 	public void initMenubar() {
 		if (menuBar == null) {
 			menuBar = new GeoGebraMenuBar(app, layout);
+			
+			menuBar2 = new JMenuBar();
+			String country = app.getLocale().getCountry();
+			if (country.equals("")) {
+				// TODO: hack
+				country = app.getLocale().getLanguage();
+			}
+			
+			String flag = StringUtil.toLowerCase(country)+".png";
+			JMenuItem jj = new JMenuItem(app.getFlagIcon(flag));
+			jj.setAlignmentX(100);
+			menuBar2.add(jj, BorderLayout.EAST);
+
+			
 		}
 		// ((GeoGebraMenuBar) menuBar).setFont(app.getPlainFont());
 		menuBar.initMenubar();

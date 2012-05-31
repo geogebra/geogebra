@@ -2,9 +2,7 @@ package geogebra.gui.menubar;
 
 import geogebra.common.io.MyXMLHandler;
 import geogebra.common.kernel.Kernel;
-import geogebra.gui.layout.Layout;
 import geogebra.main.Application;
-import geogebra.main.GeoGebraPreferences;
 
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -13,6 +11,7 @@ import java.util.Locale;
 
 import javax.swing.AbstractAction;
 import javax.swing.ButtonGroup;
+import javax.swing.JComponent;
 import javax.swing.JMenu;
 import javax.swing.JRadioButtonMenuItem;
 
@@ -162,10 +161,10 @@ public class OptionsMenu extends BaseMenu implements ActionListener {
 		// addSeparator();
 		// Language
 		if (app.propertiesFilesPresent()) {
-			LanguageActionListener langListener = new LanguageActionListener();
+			LanguageActionListener langListener = new LanguageActionListener(app);
 			submenu = new JMenu(app.getMenu("Language"));
 			submenu.setIcon(app.getImageIcon("globe.png"));
-			addLanguageMenuItems(submenu, langListener);
+			addLanguageMenuItems(app, submenu, langListener);
 			add(submenu);
 		}
 
@@ -213,7 +212,7 @@ public class OptionsMenu extends BaseMenu implements ActionListener {
 	 * @param menu
 	 * @param al
 	 */
-	private void addLanguageMenuItems(JMenu menu, ActionListener al) {
+	public static void addLanguageMenuItems(Application app, JComponent menu, ActionListener al) {
 		JRadioButtonMenuItem mi;
 		ButtonGroup bg = new ButtonGroup();
 		// String label;
@@ -354,24 +353,6 @@ public class OptionsMenu extends BaseMenu implements ActionListener {
 		} catch (Exception e) {
 		}
 
-	}
-
-	/**
-	 * Handle the change of the language.
-	 */
-	private class LanguageActionListener implements ActionListener {
-
-		public LanguageActionListener() {
-		}
-
-		public void actionPerformed(ActionEvent e) {
-			app.setLanguage(Application.getLocale(e.getActionCommand()));
-			// make sure axes labels are updated eg for Arabic 
-			app.getEuclidianView1().updateBackground();
-			if(app.hasEuclidianView2EitherShowingOrNot())
-				app.getEuclidianView2().updateBackground();
-			GeoGebraPreferences.getPref().saveDefaultLocale(app.getLocale());
-		}
 	}
 
 	/**

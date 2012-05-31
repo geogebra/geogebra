@@ -2014,6 +2014,112 @@ public class Application extends AbstractApplication implements
 				.getImageIcon("/gui/images/" + filename, borderColor);
 	}
 
+	/*
+	 * Attempt to return a flag to represent the current language
+	 * 
+	 * Not always possible to return a sensible value as there is not a 1-1 correspondance between countries & languages
+	 * 
+	 */
+	public ImageIcon getFlagIcon() {
+		String country = getLocale().getCountry();
+		if (country.equals("")) {
+			// TODO: hack
+			country = getLocale().getLanguage();
+		}
+		
+		// http://stackoverflow.com/questions/10175658/is-there-a-simple-way-to-get-the-language-code-from-a-country-code-in-php
+		// http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
+		
+		if ("en".equals(country)) {
+			country = "us"; // English -> USA
+		} else if ("af".equals(country)) {
+			country = "za"; // South Africa
+		} else if ("sq".equals(country)) {
+			country = "al"; // Albanian -> Albania
+		} else if ("hy".equals(country)) {
+			country = "am"; // Armenian -> Armenia
+		} else if ("ar".equals(country)) {
+			country = "eg"; // Arabic -> Egypt
+		} else if ("bs".equals(country)) {
+			country = "ba"; // Bosnian -> Bosnia
+		} else if ("ca".equals(country)) {
+			country = "catalonia"; // Catalan -> Catalonia
+		} else if ("cs".equals(country)) {
+			country = "cz"; // Catalan -> Catalonia
+		} else if ("da".equals(country)) {
+			country = "dk"; // Danish -> Denmark
+		} else if ("et".equals(country)) {
+			country = "ee"; // Estonian -> Estonia
+		} else if ("gl".equals(country)) {
+			country = "galician"; // Galician
+		} else if ("ka".equals(country)) {
+			country = "ge"; // Georgian -> Georgia
+		} else if ("el".equals(country)) {
+			country = "gr"; // Greek -> Greece
+		} else if ("iw".equals(country)) {
+			country = "il"; // Hebrew -> Israel
+		} else if ("hi".equals(country)) {
+			country = "in"; // Hindi -> India
+		} else if ("in".equals(country)) {
+			country = "id"; // Indonesian -> Indonesia
+		} else if ("tl".equals(country)) {
+			country = "ph"; // Filipino -> Philipines
+		} else if ("ja".equals(country)) {
+			country = "jp"; // Japanese -> Japan
+		} else if ("kk".equals(country)) {
+			country = "kz"; // Japanese -> Japan
+		} else if ("ko".equals(country)) {
+			country = "kr"; // Korean -> South Korea
+		} else if ("ml".equals(country)) {
+			country = "in"; // Malayalam -> India
+		} else if ("mr".equals(country)) {
+			country = "in"; // Marathi -> India
+		} else if ("ms".equals(country)) {
+			country = "my"; // Malay -> Malaysia
+		} else if ("ne".equals(country)) {
+			country = "np"; // Nepali -> Nepal
+		} else if ("fa".equals(country)) {
+			country = "ir"; // Persian -> Iran
+		} else if ("pt".equals(country)) {
+			country = "br"; // Portuguese -> Brazil
+			// NB Portuguese (Porugal) has upper case PT here so this works!			
+		} else if ("sr".equals(country)) {
+			country = "rs"; // Serbian -> Serbia		
+		} else if ("si".equals(country)) {
+			country = "lk"; // Sinhala -> Sri Lanka			
+		} else if ("sl".equals(country)) {
+			country = "si"; // Slovenian -> Slovenia
+		} else if ("sv".equals(country)) {
+			country = "se"; // Swedish -> Sweden
+		} else if ("ta".equals(country)) {
+			country = "in"; // Tamil -> India
+		} else if ("uk".equals(country)) {
+			country = "ua"; // Ukrainian -> Ukraine
+		} else if ("vi".equals(country)) {
+			country = "vn"; // Vietnamese -> Vietnam
+		} else if ("cy".equals(country)) {
+			country = "wales"; // Welsh -> Wales
+		} else if ("ji".equals(country)) {
+			country = "il"; // Yiddish -> Israel
+		} else if ("ia".equals(country)) {
+			country = "us"; // Interlingua -> USA
+		} else {
+			// other supported locales have the same language code and COUNTRY CODE
+			// apart from cAsE
+		}
+		
+		String flag = StringUtil.toLowerCase(country)+".png";
+
+		return getFlagIcon(flag);
+	}
+
+
+
+	public ImageIcon getFlagIcon(String filename) {
+		return imageManager
+				.getImageIcon("/gui/menubar/images/" + filename, null);
+	}
+
 	public ImageIcon getToolBarImage(String filename, Color borderColor) {
 		String path = "/gui/toolbar/images/" + filename;
 		ImageIcon icon = imageManager.getImageIcon(path, borderColor);

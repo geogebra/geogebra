@@ -15,6 +15,8 @@ import java.awt.SystemColor;
 import java.awt.Toolkit;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.print.PageFormat;
 import java.awt.print.Printable;
 import java.io.File;
@@ -23,6 +25,7 @@ import java.util.Scanner;
 
 import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
+import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
@@ -41,7 +44,7 @@ import javax.swing.ScrollPaneConstants;
 public class GeoGebraMenuBar extends JMenuBar {
 	private static final long serialVersionUID = 1736020764918189176L;
 
-	private BaseMenu fileMenu, editMenu, viewMenu, perspectivesMenu, optionsMenu, toolsMenu, windowMenu, helpMenu;
+	private BaseMenu fileMenu, editMenu, viewMenu, perspectivesMenu, optionsMenu, toolsMenu, windowMenu, helpMenu, languageMenu;
 
 	private Application app;
 	private Layout layout;
@@ -121,7 +124,26 @@ public class GeoGebraMenuBar extends JMenuBar {
 		// "Help"
 		helpMenu = new HelpMenu(app);
 		add(helpMenu);
-	}
+		
+		
+		// force next item to far right
+		add(Box.createHorizontalGlue());
+
+		// "flag" to select language
+		final JLabel languageLabel = new JLabel(app.getFlagIcon());
+		languageLabel.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				JPopupMenu myPopup = new JPopupMenu();
+				OptionsMenu.addLanguageMenuItems(app,  myPopup, new LanguageActionListener(app));
+				myPopup.setVisible(true);
+				myPopup.show(languageLabel, 0, languageLabel.getHeight());
+			}
+		});
+		add(languageLabel);
+		
+		
+}
 
 	/**
 	 * Update the menubar.
