@@ -70,9 +70,9 @@ for i in `find -name '*.ggb' | sort`; do
    TIME=timeout
   else
    # Regression out file used to show the wrong result (the stored value in the file is shown):
-   # RESULT=`cat $REGRESSIONFILE | grep Prove | sed 's/\(.*\) = \(.*\)/\2/'`
+   RESULT=`cat $REGRESSIONFILE | grep Prove | sed 's/\(.*\)= \(.*\)/\2/'`
    # But now it's OK, thanks to Markus and Simon in [17470].
-   RESULT=`cat $LOGFILE | grep "Statement is " | sed 's/\(.*\)Statement is \(.*\)/\2/'`
+   #RESULT=`cat $LOGFILE | grep "Statement is " | sed 's/\(.*\)Statement is \(.*\)/\2/'`
    TIME=`cat $LOGFILE | grep Benchmarking | awk '{print $5}'`
    if [ $DEBUG = 1 ]; then
     cp $REGRESSIONFILE $REGRESSIONFILE-$TEST-$j
