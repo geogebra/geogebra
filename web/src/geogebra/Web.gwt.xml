@@ -83,8 +83,11 @@
   <extend-property name='locale' values='ms' />
   <extend-property name='locale' values='ne' />
   <extend-property name='locale' values='nl' />
-  <extend-property name='locale' values='nn' />
-  <extend-property name='locale' values='no_NO' />
+  -->  
+  <!-- no_NN represents Norwegian Nynorsk, and no_NB represents Norwegian Bokmal --> 
+  <!--
+  <extend-property name='locale' values='no_NN' />
+  <extend-property name='locale' values='no_NB' />
   <extend-property name='locale' values='no' />
   <extend-property name='locale' values='pl' />
   <extend-property name='locale' values='pt_PT' />

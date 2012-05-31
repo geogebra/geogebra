@@ -280,8 +280,8 @@ public class Application extends AbstractApplication {
 		if (GeoGebraConstants.IS_PRE_RELEASE) {
 			supportedLocales.add("ne"); // Nepalese
 		}
-		supportedLocales.add("no_NO"); // Norwegian (Bokmal)
-		supportedLocales.add("nn"); // Norwegian(Nynorsk)
+		supportedLocales.add("no_NB"); // Norwegian (Bokmal)
+		supportedLocales.add("no_NN"); // Norwegian(Nynorsk)
 		// supportedLocales.add(new Locale("oc")); // Occitan
 		supportedLocales.add("fa"); // Persian
 		supportedLocales.add("pl"); // Polish
