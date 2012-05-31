@@ -1,15 +1,17 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoList;
-
+import geogebra.common.main.MyError;
 
 /**
- * Invert[ <List> ]
- * @author Michael Borcherds 
+ * Invert[ <Function> ]
+ * Invert[ <Matrix> ]
  */
-public class CmdInvert extends CmdOneListFunction {
+public class CmdInvert extends CommandProcessor {
 
 	/**
 	 * Create new command processor
@@ -22,10 +24,29 @@ public class CmdInvert extends CmdOneListFunction {
 	}
 
 	@Override
-	final protected GeoElement doCommand(String a, GeoList b)
-	{
-		return kernelA.Invert(a, b);
+	final public GeoElement[] process(Command c) throws MyError {
+		int n = c.getArgumentNumber();
+		GeoElement[] arg;
+
+		switch (n) {
+		case 1:
+			arg = resArgs(c);
+
+			if (arg[0].isGeoFunction()) {
+				GeoElement[] ret = { kernelA.Invert(c.getLabel(),
+						(GeoFunction) arg[0]) };
+				return ret;
+
+			} else if (arg[0].isGeoList()) {
+				GeoElement[] ret = { kernelA.Invert(c.getLabel(),
+						(GeoList) arg[0]) };
+				return ret;
+
+			}
+			throw argErr(app, c.getName(), arg[0]);
+
+		default:
+			throw argNumErr(app, c.getName(), n);
+		}
 	}
-
-
 }

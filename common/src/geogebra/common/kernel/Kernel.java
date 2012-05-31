@@ -7449,6 +7449,15 @@ public class Kernel {
 	}
 
 	/**
+	 * Invert[Function] Michael Borcherds
+	 */
+	final public GeoFunction Invert(String label, GeoFunction list) {
+		AlgoFunctionInvert algo = new AlgoFunctionInvert(cons, label, list);
+		GeoFunction list2 = algo.getResult();
+		return list2;
+	}
+
+	/**
 	 * Transpose[matrix] Michael Borcherds
 	 */
 	final public GeoList Transpose(String label, GeoList list) {

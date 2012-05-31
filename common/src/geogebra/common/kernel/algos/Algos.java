@@ -368,6 +368,7 @@ public enum Algos {
 	AlgoAsymptoteImplicitPoly(Commands.Asymptote),
 	AlgoPartialFractions(Commands.PartialFractions),
 	AlgoNumerator(Commands.Numerator),
+	AlgoFunctionInvert(Commands.Invert),
 	AlgoDenominator(Commands.Denominator),
 	AlgoSumSquaredErrors(Commands.SumSquaredErrors),
 	AlgoRSquare(Commands.RSquare),

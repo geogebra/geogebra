@@ -308,7 +308,7 @@ public interface CommandConstants extends ConstantsWithLookup {
 	@DefaultStringValue("MeanX")
 	String MeanX();
 
-	@DefaultStringValue("[ <Matrix> ]")
+	@DefaultStringValue("[ <Matrix> ]\n[ <Function> ]")
 	String Invert_Syntax();
 
 	@DefaultStringValue("TravelingSalesman")
