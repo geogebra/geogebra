@@ -219,9 +219,14 @@ public class AlgoFunctionInvert extends AlgoElement {
 	        		newRoot = new ExpressionNode(kernel, left, op, newRoot);
 	        		root = right;
 	        	} else {
-	        		// inverse of x+3 is x-3
-	        		newRoot = new ExpressionNode(kernel, newRoot, inverse(op), right);
-	        		root = left;	        		
+	        		if (op.equals(Operation.DIVIDE)) {
+	        			// inverse of x/3 is 3*x (not x*3)
+	        			newRoot = new ExpressionNode(kernel, right, inverse(op), newRoot);	        			
+	        		} else {
+	        			// inverse of x-3 is x+3
+	        			newRoot = new ExpressionNode(kernel, newRoot, inverse(op), right);
+	        		}
+        			root = left;	        		
 	        	}
 	        	
 	        	break;
