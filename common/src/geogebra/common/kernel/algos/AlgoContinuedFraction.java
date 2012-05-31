@@ -235,6 +235,7 @@ public class AlgoContinuedFraction extends AlgoElement {
 		PreviousDenominator = 0.0;
 		FractionDenominator = 1.0;
 		int steps = 0;
+		dotsNeeded = true;
 		do {
 			AbstractApplication.debug(Z);
 			denominators[steps] = (long) Math.floor(Z);
@@ -248,13 +249,13 @@ public class AlgoContinuedFraction extends AlgoElement {
 			steps++;
 			
 			//we are too close to integer, next step would be uncertain
-			if(Kernel.isEqual(Z, Math.floor(Z)) && Z != Math.floor(Z)){
+			if(Kernel.isEqual(Z, Math.floor(Z))){
 				denominators[steps] = (long) Math.floor(Z);
+				dotsNeeded = false;
 				steps++;
-				dotsNeeded = true;
 				break;
 			}
-			dotsNeeded = !Kernel.isEqual(Z, Math.floor(Z),Kernel.MAX_PRECISION);
+			
 			//the approximation is within standard precision and user didn't ask for more quotients
 			if (maxSteps == 0
 					&& Math.abs((decimal - (FractionNumerator / FractionDenominator))) <= AccuracyFactor) {
