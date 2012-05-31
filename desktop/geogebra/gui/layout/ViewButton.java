@@ -1,8 +1,11 @@
 package geogebra.gui.layout;
 
+import geogebra.gui.util.GeoGebraIcon;
 import geogebra.main.Application;
 
+import java.awt.Component;
 import java.awt.Point;
+import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -10,6 +13,7 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JToggleButton;
 import javax.swing.JToolTip;
 import javax.swing.ToolTipManager;
@@ -55,6 +59,11 @@ public class ViewButton extends JToggleButton implements ActionListener {
 
 		addActionListener(this);
 		addMouseListener(new ToolTipMouseAdapter());
+		
+		this.setBackground(SystemColor.control);
+		this.setContentAreaFilled(false);
+		this.setBorderPainted(false);
+		this.setFocusPainted(false);
 	}
 
 	/**
@@ -77,11 +86,21 @@ public class ViewButton extends JToggleButton implements ActionListener {
 		return viewId;
 	}
 
+	
+	@Override
+	public void setIcon(Icon ic){
+		super.setSelectedIcon(GeoGebraIcon.joinIcons(app.getImageIcon("shown.gif"), (ImageIcon) ic));
+		int s = app.getImageIcon("shown.gif").getIconWidth();
+		super.setIcon(GeoGebraIcon.joinIcons(GeoGebraIcon.createEmptyIcon(s, s), (ImageIcon) ic));
+
+	}
+	
 	@Override
 	public JToolTip createToolTip() {
 		tip = super.createToolTip();
 		// add margin
-		tip.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
+		tip.setBorder(BorderFactory.createCompoundBorder(tip.getBorder(),
+				BorderFactory.createEmptyBorder(2,2,2,2)));
 		return tip;
 	}
 
@@ -111,12 +130,14 @@ public class ViewButton extends JToggleButton implements ActionListener {
 			if (preventToolTipDelay) {
 				ToolTipManager.sharedInstance().setInitialDelay(0);
 			}
+			
 		}
 
 		@Override
 		public void mouseExited(MouseEvent e) {
 			ToolTipManager.sharedInstance()
 					.setInitialDelay(defaultInitialDelay);
+			
 		}
 		
 	}

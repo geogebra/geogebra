@@ -101,16 +101,19 @@ public class DockBar extends JPanel implements ActionListener {
 
 		mainPanel.setBackground(SystemColor.control);
 		mainPanel.setBorder(BorderFactory.createEmptyBorder());
+		mainPanel.setMinimumSize(mainPanel.getPreferredSize());
+		mainPanel.setOpaque(true);
 		
 		MouseAdapter l = new MyMouseListener();
-		this.addListenerToAllComponents(mainPanel, l);
+		//this.addListenerToAllComponents(mainPanel, l);
 
 		popup = new MyPopup();
 		popup.removeAll();
 		popup.add(mainPanel);
 		popup.setOpaque(true);
 		popup.setBackground(SystemColor.control);
-		popup.setBorderPainted(false);
+		//popup.setBorderPainted(false);
+		popup.setFocusable(false);
 
 		popup.addMouseListener(l);
 		getMinimizedPanel();
@@ -132,7 +135,7 @@ public class DockBar extends JPanel implements ActionListener {
 			popup.setVisible(false);
 			// this.add(getMinimizedPanel(), BorderLayout.CENTER);
 		} else if(!popup.isVisible()) {
-			popup.setPreferredSize(new Dimension(36, this.getMinimizedPanel()
+			popup.setPreferredSize(new Dimension(mainPanel.getPreferredSize().width, this.getMinimizedPanel()
 					.getHeight() - 0));
 			popup.show(this, 0, 0);
 			// this.add(mainPanel, BorderLayout.CENTER);
@@ -185,6 +188,7 @@ public class DockBar extends JPanel implements ActionListener {
 		
 		@Override
 		public void mouseEntered(MouseEvent e) {
+		//	Application.printStacktrace("enter"+e.getSource().getClass().getName());
 			isMinimized = false;
 			updateLayout();
 			// lblIcon.setIcon(app.getImageIcon("dockbar-triangle-rollover.png"));
@@ -194,9 +198,10 @@ public class DockBar extends JPanel implements ActionListener {
 
 		@Override
 		public void mouseExited(MouseEvent e) {
+		//	Application.printStacktrace("exit" +e.getSource().getClass().getName());
 			Component source = (Component) e.getSource();
 			//System.out.println(mainPanel.getBounds().contains(e.getPoint()));
-			if (!mainPanel.getBounds().contains(e.getPoint())) {
+			if (!popup.getBounds().contains(e.getPoint()) && e.getPoint().x >0) {
 				isMinimized = true;
 				updateLayout();
 				// System.out.println(mainPanel.getBounds().contains(e.getPoint()));

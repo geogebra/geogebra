@@ -467,12 +467,13 @@ class MyJToggleButton extends JToggleButton implements MouseListener,
 
 	
 	private JToolTip tip;
+
 	@Override
 	public JToolTip createToolTip() {
 		tip = super.createToolTip();
-		tip.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-		
-		
+		tip.setBorder(BorderFactory.createCompoundBorder(tip.getBorder(),
+				BorderFactory.createEmptyBorder(5, 5, 5, 5)));
+
 		return tip;
 	}
 	

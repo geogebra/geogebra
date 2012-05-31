@@ -1,5 +1,6 @@
 package geogebra.gui.layout;
 
+import geogebra.common.main.AbstractApplication;
 import geogebra.main.Application;
 
 import java.util.ArrayList;
@@ -28,8 +29,8 @@ public class ViewButtonBar extends JToolBar {
 
 		this.app = app;
 		this.layout = app.getGuiManager().getLayout();
-this.setOpaque(false);
-this.setBorder(BorderFactory.createEmptyBorder());
+		this.setOpaque(false);
+		this.setBorder(BorderFactory.createEmptyBorder());
 		buildToolBar();
 
 	}
@@ -53,7 +54,8 @@ this.setBorder(BorderFactory.createEmptyBorder());
 		for (DockPanel panel : dockPanels) {
 
 			// skip panels with negative order and the PropertiesView panel
-			if (panel.getMenuOrder() < 0 || panel.getViewId() == Application.VIEW_PROPERTIES) {
+			if (panel.getMenuOrder() < 0
+					|| panel.getViewId() == Application.VIEW_PROPERTIES) {
 				continue;
 			}
 
@@ -69,20 +71,18 @@ this.setBorder(BorderFactory.createEmptyBorder());
 	public void updateViewButtonVisibility() {
 
 		removeAll();
-		
+
 		for (ViewButton btn : viewButtons) {
 			DockPanel panel = btn.getPanel();
 
-			if ((panel.isHidden() || app.getGuiManager().showView(
-					btn.getViewId()))) {
-				
 				btn.setSelected(app.getGuiManager().showView(btn.getViewId()));
-				
-				add(btn);
+
+				if (panel.getViewId() != AbstractApplication.VIEW_ASSIGNMENT) 
+					add(btn);
 				// spacer
-				add(Box.createVerticalStrut(5));
-				
-			}
+				//add(Box.createVerticalStrut(5));
+
+			
 		}
 	}
 
