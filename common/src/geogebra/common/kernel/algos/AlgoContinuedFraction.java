@@ -256,9 +256,8 @@ public class AlgoContinuedFraction extends AlgoElement {
 				break;
 			}
 			
-			//the approximation is within standard precision and user didn't ask for more quotients
-			if (maxSteps == 0
-					&& Math.abs((decimal - (FractionNumerator / FractionDenominator))) <= AccuracyFactor) {
+			//the approximation is within standard precision
+			if (Math.abs((decimal - (FractionNumerator / FractionDenominator))) <= AccuracyFactor) {
 				denominators[steps] = (long) Math.floor(Z);
 				steps++;
 				break;
