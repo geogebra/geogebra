@@ -584,7 +584,7 @@ public class CreateObjectDialog extends InputDialog implements
 			} else {
 				lblPreview
 						.setText(newGeo
-								.getAlgebraDescriptionTextOrHTML(StringTemplate.defaultTemplate));
+								.getAlgebraDescriptionTextOrHTMLDefault());
 			}
 			lblPreview.setIcon(latexIcon);
 

@@ -297,11 +297,6 @@ public class GeoPolyLine extends GeoElement implements NumberValue, Path,
 	public boolean isPath() {
 		return true;
 	}
-	
-	public void updateDependentObjects(){
-		AbstractApplication.debug(getLabelSimple());
-		super.updateDependentObjects();
-	}
 
 	public PathMover createPathMover() {
 		return new PathMoverGeneric(this);

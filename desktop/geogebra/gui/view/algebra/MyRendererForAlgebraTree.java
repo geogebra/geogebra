@@ -172,7 +172,7 @@ public class MyRendererForAlgebraTree extends DefaultTreeCellRenderer {
 	 */
 	protected static String getAlgebraDescriptionTextOrHTML(GeoElement geo) {
 		return geo
-				.getAlgebraDescriptionTextOrHTML(StringTemplate.defaultTemplate);
+				.getAlgebraDescriptionTextOrHTMLDefault();
 	}
 
 	/**

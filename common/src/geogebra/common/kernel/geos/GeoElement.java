@@ -3403,7 +3403,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		updateDependentObjects();
 	}
 
-	protected void updateDependentObjects() {
+	private void updateDependentObjects() {
 		if ((correspondingCasCell != null) && isIndependent()) {
 			updateAlgoUpdateSetWith(correspondingCasCell);
 		} else if (algoUpdateSet != null) {
@@ -4142,7 +4142,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	public String getLabelDescription() {
 		switch (labelMode) {
 		case LABEL_NAME_VALUE:
-			return getAlgebraDescription(StringTemplate.defaultTemplate);
+			return getAlgebraDescriptionDefault();
 
 		case LABEL_VALUE:
 			return toDefinedValueString(StringTemplate.defaultTemplate);
@@ -4175,13 +4175,14 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * Returns algebraic representation of this GeoElement as Text. If this is
 	 * not possible (because there are indices in the representation) a HTML
 	 * string is returned.
-	 * @param tpl string template
+	 * Default template is used, caching is employed.
 	 * 
 	 * @return algebraic representation of this GeoElement as Text
 	 */
-	final public String getAlgebraDescriptionTextOrHTML(StringTemplate tpl) {
+	
+	final public String getAlgebraDescriptionTextOrHTMLDefault() {
 		if (strAlgebraDescTextOrHTMLneedsUpdate) {
-			final String algDesc = getAlgebraDescription(tpl);
+			final String algDesc = getAlgebraDescriptionDefault();
 			// convertion to html is only needed if indices are found
 			if (hasIndexLabel()) {
 				strAlgebraDescTextOrHTML = indicesToHTML(algDesc, true);
@@ -4193,21 +4194,23 @@ public abstract class GeoElement extends ConstructionElement implements
 		}
 
 		return strAlgebraDescTextOrHTML;
+			
+			
+
 	}
 
 	/**
-	 * @param tpl string template
 	 * @return algebra description
 	 */
-	final public String getAlgebraDescriptionHTML(StringTemplate tpl) {
+	final public String getAlgebraDescriptionHTMLDefault() {
 		if (strAlgebraDescriptionHTMLneedsUpdate) {
 
 			if (isGeoText()) {
-				strAlgebraDescriptionHTML = indicesToHTML(toValueString(tpl),
+				strAlgebraDescriptionHTML = indicesToHTML(toValueString(StringTemplate.defaultTemplate),
 						false);
 			} else {
 				strAlgebraDescriptionHTML = indicesToHTML(
-						getAlgebraDescription(tpl), false);
+						getAlgebraDescriptionDefault(), false);
 			}
 			strAlgebraDescriptionHTMLneedsUpdate = false;
 		}
@@ -4231,13 +4234,33 @@ public abstract class GeoElement extends ConstructionElement implements
 	}
 
 	/**
-	 * Returns algebraic representation of this GeoElement.
+	 * Returns algebraic representation (e.g. coordinates, equation) of this
+	 * construction element.
+	 * @param tpl string template
+	 * @return algebraic representation (e.g. coordinates, equation)
 	 */
-	@Override
 	final public String getAlgebraDescription(StringTemplate tpl) {
+		
+			if (isDefined()) {
+				return toString(tpl);
+			}
+			final StringBuilder sbAlgebraDesc = new StringBuilder();
+			sbAlgebraDesc.append(label);
+			sbAlgebraDesc.append(' ');
+			sbAlgebraDesc.append(app.getPlain("undefined"));
+			return sbAlgebraDesc.toString();
+			
+	}
+	/**
+	 * Returns algebraic representation (e.g. coordinates, equation) of this
+	 * construction element.
+	 * Default string template is used => caching can be employed
+	 * @return algebraic representation (e.g. coordinates, equation)
+	 */
+	final public String getAlgebraDescriptionDefault() {
 		if (strAlgebraDescriptionNeedsUpdate) {
 			if (isDefined()) {
-				strAlgebraDescription = toString(tpl);
+				strAlgebraDescription = toString(StringTemplate.defaultTemplate);
 			} else {
 				final StringBuilder sbAlgebraDesc = new StringBuilder();
 				sbAlgebraDesc.append(label);

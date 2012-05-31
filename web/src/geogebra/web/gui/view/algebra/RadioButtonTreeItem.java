@@ -122,13 +122,11 @@ public class RadioButtonTreeItem extends HorizontalPanel
 
 		String text = "";
 		if (geo.isIndependent()) {
-			text = geo.getAlgebraDescriptionTextOrHTML(
-					StringTemplate.defaultTemplate);
+			text = geo.getAlgebraDescriptionTextOrHTMLDefault();
 		} else {
 			switch (kernel.getAlgebraStyle()) {
 			case Kernel.ALGEBRA_STYLE_VALUE:
-				text = geo.getAlgebraDescriptionTextOrHTML(
-						StringTemplate.defaultTemplate);
+				text = geo.getAlgebraDescriptionTextOrHTMLDefault();
 				break;
 
 			case Kernel.ALGEBRA_STYLE_DEFINITION:
@@ -173,8 +171,7 @@ public class RadioButtonTreeItem extends HorizontalPanel
 			latexStr = inputLatexCosmetics(latexStr);
 			DrawEquationWeb.updateEquationMathQuill(latexStr, se);
 		} else {
-			se.setInnerHTML(geo.getAlgebraDescriptionTextOrHTML(
-					StringTemplate.defaultTemplate));
+			se.setInnerHTML(geo.getAlgebraDescriptionTextOrHTMLDefault());
 		}
 	}
 
@@ -217,8 +214,7 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		} else {
 			remove(ihtml);
 			tb = new TextBox();
-			tb.setText( geo.getAlgebraDescriptionTextOrHTML(
-					StringTemplate.defaultTemplate) );
+			tb.setText( geo.getAlgebraDescriptionTextOrHTMLDefault() );
 			add(tb);
 
 			tb.addKeyUpHandler(new KeyUpHandler() {
@@ -250,8 +246,7 @@ public class RadioButtonTreeItem extends HorizontalPanel
 			latexStr = inputLatexCosmetics(latexStr);
 			DrawEquationWeb.updateEquationMathQuill(latexStr, se);
 		} else {
-			se.setInnerHTML(geo.getAlgebraDescriptionTextOrHTML(
-				StringTemplate.defaultTemplate));
+			se.setInnerHTML(geo.getAlgebraDescriptionTextOrHTMLDefault());
 		}
 	}
 

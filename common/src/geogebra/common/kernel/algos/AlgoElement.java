@@ -989,22 +989,6 @@ public abstract class AlgoElement extends ConstructionElement implements
 		return sbAE.toString();
 	}
 
-	@Override
-	public String getAlgebraDescription(StringTemplate tpl) {
-		sbAE.setLength(0);
-
-		if (getOutput(0).isLabelSet()) {
-			sbAE.append(getOutput(0).getAlgebraDescription(tpl));
-		}
-		for (int i = 1; i < getOutputLength(); ++i) {
-			if (getOutput(i).isLabelSet()) {
-				sbAE.append("\n");
-				sbAE.append(getOutput(i).getAlgebraDescription(tpl));
-			}
-		}
-		return sbAE.toString();
-	}
-
 	public String getAlgebraDescriptionRegrOut(StringTemplate tpl) {
 		sbAE.setLength(0);
 

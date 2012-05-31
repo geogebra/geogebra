@@ -713,7 +713,7 @@ public abstract class GgbAPI implements JavaScriptAPI{
 		if (geo.isGeoText())
 			return ((GeoText)geo).getTextString();
 		
-		return geo.getAlgebraDescription(StringTemplate.defaultTemplate);
+		return geo.getAlgebraDescriptionDefault();
 	}
 	
 	/**

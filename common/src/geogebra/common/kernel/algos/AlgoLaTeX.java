@@ -121,7 +121,10 @@ public class AlgoLaTeX extends AlgoElement {
     		if(show){
     			text.setTextString(geo.getLaTeXAlgebraDescription(substitute,text.getStringTemplate()));
     			if(text.getTextString() == null){
-    				text.setTextString(geo.getAlgebraDescriptionTextOrHTML(text.getStringTemplate()));
+    				String desc = geo.getAlgebraDescription(text.getStringTemplate());
+    				if(geo.hasIndexLabel())
+    					desc = GeoElement.indicesToHTML(desc, true);
+    				text.setTextString(desc);
     				useLaTeX = false;
     			}
     		}else{

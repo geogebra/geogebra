@@ -193,13 +193,6 @@ public abstract class ConstructionElement implements
 	 */
 	public abstract String getNameDescription();
 
-	/**
-	 * Returns algebraic representation (e.g. coordinates, equation) of this
-	 * construction element.
-	 * @param tpl string template
-	 * @return algebraic representation (e.g. coordinates, equation)
-	 */
-	public abstract String getAlgebraDescription(StringTemplate tpl);
 
 	/**
 	 * Returns textual description of the definition of this construction
