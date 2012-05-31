@@ -244,7 +244,7 @@ public class ViewMenu extends BaseMenu {
 			}
 		};
 
-		showKinectAction = new AbstractAction(app.getMenu("Kinect Window")) {
+		showKinectAction = new AbstractAction(app.getMenu("KinectWindow")) {
 
 			private static final long serialVersionUID = 1L;
 
