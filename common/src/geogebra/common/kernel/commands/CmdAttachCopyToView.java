@@ -75,6 +75,12 @@ public class CmdAttachCopyToView extends CommandProcessor {
 						|| arg[0].isGeoPolygon() || arg[0].isGeoPolyLine() || arg[0].isGeoList()) {
 					ret = new GeoElement[] {kernelA.AttachCopyToView(label, arg[0], (NumberValue)arg[1],
 							corner1, corner3, corner5)};
+					if(n==2 && ev!=app.getActiveEuclidianView()){
+						ret[0].addView(ev.getViewID());
+						ret[0].removeView(app.getActiveEuclidianView().getViewID());
+						app.getActiveEuclidianView().remove(ret[0]);
+						ev.add(ret[0]);
+					}
 					return ret;
 				}
 				throw argErr(app, c.getName(), arg[0]);
