@@ -337,14 +337,14 @@ public class Application extends AbstractApplication {
 	public final static String languageCodeVariationCrossReferencing(String javaLanguageCode) {
 
 		String gwtLanguageCode = javaLanguageCode;
-		if(javaLanguageCode != null) {
-			if(javaLanguageCode.equals(NORWEGIAN_BOKMAL_JAVA_CODE)) {
+		
+			if(NORWEGIAN_BOKMAL_JAVA_CODE.equals(javaLanguageCode)) {
 				gwtLanguageCode = NORWEGIAN_BOKMAL_GWT_CODE;
-			} else if(javaLanguageCode.equals(NORWEGIAN_NYNORSK_JAVA_CODE)) {
+			} else if(NORWEGIAN_NYNORSK_JAVA_CODE.equals(javaLanguageCode)) {
 				gwtLanguageCode = NORWEGIAN_NYNORSK_GWT_CODE;
 			}
-		}
 		return gwtLanguageCode;
+		
 	}
 
 
