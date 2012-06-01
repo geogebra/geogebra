@@ -2,6 +2,7 @@ package geogebra.web.gui.menubar;
 
 import geogebra.common.main.AbstractApplication;
 import geogebra.web.gui.images.AppResources;
+import geogebra.web.main.Application;
 
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Window;
@@ -23,13 +24,28 @@ public class LanguagesADMenu extends MenuBar {
 	
 	private void initActions() {
 		//add the menu items of the different languages
-		addItem(GeoGebraMenubar.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),language_1),true,new Command() {
+
+		for(int i=0; i < Application.supportedLanguages.size(); i++) {
+			String languageCode = Application.supportedLanguages.get(i);
 			
-			public void execute() {
-				Window.alert("Soon! Language support...");
+			String languageName = Application.specialLanguageNames.get(Application.languageCodeVariationCrossReferencing(languageCode.replace(Application.AN_UNDERSCORE, "")));
+			
+			if(languageName != null) {
+				
+				char ch = languageName.toUpperCase().charAt(0);
+				
+				if(ch <= 'D') {
+					addItem(GeoGebraMenubar.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),languageName),true,new Command() {
+
+						public void execute() {
+							Window.alert("Soon! Language support...");
+						}
+					});
+				}
+				
 			}
-		});
-		
+		}
+
 	}
 	
 
