@@ -48,19 +48,22 @@ public class CASOutputPanel extends JPanel {
 		add(centerPanel, BorderLayout.CENTER);
 	}
 	
-	public void setOutput(String output, String latexOutput, String cmd, boolean isError){
+	public void setForeground(geogebra.common.awt.Color c){
+		outputArea.setForeground(geogebra.awt.Color.getAwtColor(c));	
+		latexPanel.setForeground(geogebra.awt.Color.getAwtColor(c));
+	}
+	
+	public void setOutput(String output, String latexOutput, String cmd, boolean isError,geogebra.common.awt.Color c){
 		boolean useLaTeXpanel = latexOutput != null && !isError;
 		outputArea.setVisible(!useLaTeXpanel);
 		latexPanel.setVisible(useLaTeXpanel);		
-		
+		setForeground(c);
 		if (useLaTeXpanel) {
 			latexPanel.setLaTeX(latexOutput);				
 		} else {
 			outputArea.setText(output);
 			if (isError)
-				outputArea.setForeground(ERROR_COLOR);
-			else
-				outputArea.setForeground(TEXT_COLOR);	
+				outputArea.setForeground(ERROR_COLOR);	
 		}	
 		
 		// update output sign

@@ -99,5 +99,17 @@ public class Color extends geogebra.common.awt.Color {
 				 Math.min((int)(getGreen()/FACTOR), 255),
 				 Math.min((int)(getBlue() /FACTOR), 255));
 	}
+	
+	@Override
+	public boolean equals(Object o){
+		if(!(o instanceof Color))
+			return false;
+		return adaptedColor.equals(((Color)o).adaptedColor);
+	}
+	
+	@Override
+	public int hashCode(){
+		return adaptedColor.hashCode();
+	}
     
 }

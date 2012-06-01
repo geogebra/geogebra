@@ -109,8 +109,8 @@ public abstract class CASTableCell extends JPanel {
 		String input = cellValue.getInput(StringTemplate.defaultTemplate);
 		inputPanel.setInput(input);
 		inputPanel.setCommentColor(geogebra.awt.Color
-				.getAwtColor(GeoGebraColorConstants.DARKGREEN));
-
+				.getAwtColor(GeoGebraColorConstants.BLACK));
+		outputPanel.setForeground(cellValue.getAlgebraColor());
 		dummyField.setText(inputPanel.getInput());
 
 		// set output panel
@@ -139,7 +139,7 @@ public abstract class CASTableCell extends JPanel {
 			outputPanel.setOutput(
 					cellValue.getOutput(StringTemplate.defaultTemplate),
 					cellValue.getLaTeXOutput(), evalCmdLocal,
-					cellValue.isError());
+					cellValue.isError(),cellValue.getAlgebraColor());
 		}
 	}
 
