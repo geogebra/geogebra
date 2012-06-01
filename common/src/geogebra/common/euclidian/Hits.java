@@ -692,5 +692,18 @@ public class Hits extends ArrayList<GeoElement> {
 		}
 		return s;
 	}
+	
+	
+	/**
+	 * 
+	 * @param list geo list
+	 * @return true if contains at least one of the elements of the list
+	 */
+	public boolean intersect(ArrayList<GeoElement> list){
+		for (GeoElement geo : list)
+			if (contains(geo))
+				return true;
+		return false;
+	}
 
 }

@@ -8157,7 +8157,8 @@ public abstract class AbstractEuclidianController {
 						// right click on object(s) not selected -> clear
 						// selection
 						// and show menu just for new objects
-						if (!hits.containsAll(app.getSelectedGeos())) {
+						
+						if (!hits.intersect(app.getSelectedGeos())) {
 							app.clearSelectedGeos(false); //repaint will be done next step
 							app.addSelectedGeos(hits, true);
 						} else {
