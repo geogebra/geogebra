@@ -5,9 +5,10 @@
 
 DEBUG=1 # In tmp/ there can be some log, if you set this to 1.
 TIMEOUT=120
-IMGSCALE=50
+IMGSCALE=25
+IMGHEIGHT=25
 HTML=html/index.html
-PROVERS="Botana Recio PureSymbolic Auto"
+PROVERS="Auto Recio Botana PureSymbolic"
 TESTGGBURLBASE=http://dev.geogebra.org/trac/browser/trunk
 GGBDIR=geogebra/test/scripts/benchmark/prover
 
@@ -36,15 +37,21 @@ hwinfo --short --cpu 2>&1 | grep CPU | sed 's/^[ \t]*//' >> $HTML
 echo -n "</pre>" >> $HTML
 
 # Heading
-echo -n "Filename;"
+echo -n "Test file;"
 cat style.html >> $MYDIR/$HTML
-echo "<table><tr><th>Filename</th>" >> $MYDIR/$HTML
+echo "<table><tr><th rowspan=\"2\" colspan=\"2\">Test file</th>" >> $MYDIR/$HTML
 for j in $PROVERS; do
  echo -n "$j result;Speed;"
- echo "<th>$j result</th><th>Speed</th>" >> $MYDIR/$HTML
+ echo "<th colspan=\"2\">$j</th>" >> $MYDIR/$HTML
  done
-echo
+echo "</tr><tr>" >> $MYDIR/$HTML
+
+for j in $PROVERS; do
+ echo "<th>Result</th><th>Speed</th>" >> $MYDIR/$HTML
+ done
+
 echo "</tr>" >> $MYDIR/$HTML
+echo
 
 # Content
 TESTS=0
@@ -57,7 +64,7 @@ for i in `find -name '*.ggb' | sort`; do
  unzip $i geogebra_thumbnail.png >/dev/null 2>&1
  mv geogebra_thumbnail.png html/$TEST.png
  echo -n "$TEST;"
- echo "<tr><td><img src=\"$TEST.png\" style=\"width:$IMGSCALE%;height:$IMGSCALE%;\"><br><a href=\"$TESTGGBURLBASE/$GGBDIR/$i\">$TEST</a></td>" >> $MYDIR/$HTML
+ echo "<tr><td class=\"ex\"><a href=\"$TESTGGBURLBASE/$GGBDIR/$i\">$TEST</a></td><td class=\"eximg\"><a href=\"$TEST.png\"><img src=\"$TEST.png\" style=\"height:${IMGHEIGHT}px;width:auto;\"></a></td>" >> $MYDIR/$HTML
  for j in $PROVERS; do
   cd $MYDIR; cd $BUILDDIR
   # Testing:
@@ -112,7 +119,7 @@ for i in `find -name '*.ggb' | sort`; do
 
 # Summary
 echo -n "Summary;"
-echo "<tr><td class=\"summary\"><b>Summary (of $TESTS)</b></td>" >> $MYDIR/$HTML
+echo "<tr><td class=\"summary\" colspan=\"2\"><b>Summary (of $TESTS)</b></td>" >> $MYDIR/$HTML
 for j in $PROVERS; do
  VARNAME=$`echo $j`
  VALUE=`eval echo $VARNAME`
