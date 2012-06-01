@@ -4,6 +4,7 @@ import geogebra.common.gui.SetLabels;
 import geogebra.common.io.layout.DockPanelData;
 import geogebra.common.io.layout.DockSplitPaneData;
 import geogebra.common.io.layout.Perspective;
+import geogebra.common.main.AbstractApplication;
 import geogebra.euclidian.EuclidianViewJPanel;
 import geogebra.gui.layout.panels.ErrorDockPanel;
 import geogebra.gui.layout.panels.EuclidianDockPanelAbstract;
@@ -749,6 +750,40 @@ public class DockManager implements AWTEventListener, SetLabels {
 			return;
 		} 
 		
+		// euclidian focus	
+		
+		// in case there is no focused panel there is also no focused euclidian
+		// dock panel
+		if(panel == null) {
+			if(focusedEuclidianDockPanel != null) {
+				focusedEuclidianDockPanel.setEuclidianFocus(false);
+				if (focusedEuclidianDockPanel != focusedDockPanel)
+					focusedEuclidianDockPanel.setTitleLabelFocus();
+				focusedEuclidianDockPanel = null;
+			}
+		}else{
+			if(panel instanceof EuclidianDockPanelAbstract && focusedEuclidianDockPanel != panel) {
+				// remove focus from previously focused dock panel
+				if(focusedEuclidianDockPanel != null) {
+					focusedEuclidianDockPanel.setEuclidianFocus(false);
+					if (focusedEuclidianDockPanel != focusedDockPanel)
+						focusedEuclidianDockPanel.setTitleLabelFocus();
+				}
+
+
+				// if a panel has focus and that panel is a euclidian dock panel
+				// change the focused euclidian dock panel to that panel				
+				focusedEuclidianDockPanel = (EuclidianDockPanelAbstract) panel;
+				focusedEuclidianDockPanel.setEuclidianFocus(true);
+
+
+				// (panels which are not euclidian dock panels do not change the focused
+				// euclidian dock panel (ie the old is kept))
+
+			}
+		}
+		
+
 		// remove focus from previously focused dock panel
 		if(focusedDockPanel != null) {
 			focusedDockPanel.setFocus(false, false);
@@ -758,31 +793,6 @@ public class DockManager implements AWTEventListener, SetLabels {
 		
 		if(focusedDockPanel != null) {
 			focusedDockPanel.setFocus(true, updatePropertiesView);
-		}
-		
-		
-		// euclidian focus		
-		if(focusedEuclidianDockPanel != panel) {
-			// remove focus from previously focused dock panel
-			if(focusedEuclidianDockPanel != null) {
-				focusedEuclidianDockPanel.setEuclidianFocus(false);
-			}
-			
-			// if a panel has focus and that panel is a euclidian dock panel
-			// change the focused euclidian dock panel to that panel
-			if(panel != null && panel instanceof EuclidianDockPanelAbstract) {
-				focusedEuclidianDockPanel = (EuclidianDockPanelAbstract) panel;
-				focusedEuclidianDockPanel.setEuclidianFocus(true);
-			}
-			
-			// (panels which are not euclidian dock panels do not change the focused
-			// euclidian dock panel (ie the old is kept))
-			
-			// in case there is no focused panel there is also no focused euclidian
-			// dock panel
-			if(panel == null) {
-				focusedEuclidianDockPanel = null;
-			}
 		}
 		
 		app.getGuiManager().updateMenubarSelection();

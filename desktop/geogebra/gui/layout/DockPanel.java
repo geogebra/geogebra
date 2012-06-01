@@ -1224,10 +1224,8 @@ implements ActionListener, WindowListener, MouseListener, geogebra.common.gui.la
 		 * this isn't the case we always stick with the normal font as it would
 		 * confuse the users that the focus "indicator" just changes if we switch
 		 * between EVs. 
-		 */
-		if(dockManager.hasFullFocusSystem()) {
-			setTitleLabelFocus();
-		}
+		 */	
+		setTitleLabelFocus();
 	}
 	
 	/**
@@ -1250,11 +1248,21 @@ implements ActionListener, WindowListener, MouseListener, geogebra.common.gui.la
 	 * sets the title label when this has not the focus
 	 */	
 	protected void setTitleLabelFocus(){
-		if(hasFocus) 
-			titleLabel.setFont(app.getBoldFont());
-		else
-			titleLabel.setFont(app.getPlainFont());
+		if(dockManager.hasFullFocusSystem()) {
+			if(titleIsBold()) 
+				titleLabel.setFont(app.getBoldFont());
+			else
+				titleLabel.setFont(app.getPlainFont());
+		}
 	}	
+	
+	/**
+	 * 
+	 * @return true if title has to be in bold
+	 */
+	protected boolean titleIsBold(){
+		return hasFocus;
+	}
 	
 	/**
 	 * @return An unique ID for this DockPanel.

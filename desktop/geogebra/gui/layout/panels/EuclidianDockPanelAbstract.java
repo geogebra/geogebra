@@ -1,5 +1,6 @@
 package geogebra.gui.layout.panels;
 
+import geogebra.common.main.AbstractApplication;
 import geogebra.euclidianND.EuclidianViewND;
 import geogebra.gui.layout.DockPanel;
 
@@ -54,10 +55,11 @@ public abstract class EuclidianDockPanelAbstract extends DockPanel implements ge
 	 */
 	public final void setEuclidianFocus(boolean hasFocus) {
 		hasEuclidianFocus = hasFocus;
-		if(hasEuclidianFocus) 
-			titleLabel.setFont(app.getBoldFont());
-		else
-			titleLabel.setFont(app.getPlainFont());
+	}
+	
+	@Override
+	protected boolean titleIsBold(){
+		return super.titleIsBold() || hasEuclidianFocus;
 	}
 	
 	/**
