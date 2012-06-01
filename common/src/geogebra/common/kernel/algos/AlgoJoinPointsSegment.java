@@ -50,7 +50,6 @@ public class AlgoJoinPointsSegment extends AlgoElement implements AlgoJoinPoints
     private GeoPolygon poly; // for polygons
     
     private Variable[] botanaVars;
-    private Polynomial[] botanaPolynomials;
 	private Polynomial[] polynomials;
 
     /** Creates new AlgoJoinPoints */

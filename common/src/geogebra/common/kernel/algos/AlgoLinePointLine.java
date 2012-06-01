@@ -40,13 +40,16 @@ import geogebra.common.kernel.prover.Variable;
  * @author  Markus
  * @version 
  */
-public class AlgoLinePointLine extends AlgoElement implements SymbolicParametersAlgo{
+public class AlgoLinePointLine extends AlgoElement implements SymbolicParametersAlgo,
+	SymbolicParametersBotanaAlgo {
 
     private GeoPoint2 P; // input
     private GeoLine l; // input
     private GeoLine g; // output       
 	private Polynomial[] polynomials;
-
+	private Polynomial[] botanaPolynomials;
+	private Variable[] botanaVars;
+	
     /** Creates new AlgoLinePointLine */
     public AlgoLinePointLine(Construction cons, String label, GeoPoint2 P, GeoLine l) {
         super(cons);
@@ -175,13 +178,42 @@ public class AlgoLinePointLine extends AlgoElement implements SymbolicParameters
 	}
 
 	public Variable[] getBotanaVars() {
-		// TODO Auto-generated method stub
-		return null;
+		return botanaVars;
 	}
 
 	public Polynomial[] getBotanaPolynomials()
 			throws NoSymbolicParametersException {
-		// TODO Auto-generated method stub
-		return null;
+
+		if (botanaPolynomials != null) {
+			return botanaPolynomials;
+		}
+		if (P != null && l != null){
+			Variable[] vP = P.getBotanaVars(); // c1,c2
+			Polynomial c1 = new Polynomial(vP[0]);
+			Polynomial c2 = new Polynomial(vP[1]);
+			Variable[] vL = l.getBotanaVars(); // a1,a2,b1,b2
+			Polynomial a1 = new Polynomial(vL[0]);
+			Polynomial a2 = new Polynomial(vL[1]);
+			Polynomial b1 = new Polynomial(vL[2]);
+			Polynomial b2 = new Polynomial(vL[3]);
+			
+			if (botanaVars==null){
+				botanaVars = new Variable[4]; // storing 2 new variables, plus the coordinates of P
+				botanaVars[0]=new Variable(); // d1
+				botanaVars[1]=new Variable(); // d2
+				botanaVars[2]=vP[0];
+				botanaVars[3]=vP[1];
+			}
+			Polynomial d1 = new Polynomial(botanaVars[0]);
+			Polynomial d2 = new Polynomial(botanaVars[1]);
+			
+			botanaPolynomials = new Polynomial[2];
+			// d1=c1+(b1-a1), d2=c2+(b2-a2) => d1-c1-b1+a1, d2-c2-b2+a2  
+			botanaPolynomials[0] = ((d1.subtract(c1)).subtract(b1)).add(a1);
+			botanaPolynomials[1] = ((d2.subtract(c2)).subtract(b2)).add(a2);
+					
+			return botanaPolynomials;
+		}
+		throw new NoSymbolicParametersException();
 	}
 }
