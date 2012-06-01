@@ -2,6 +2,7 @@ package geogebra.cas.view;
 
 import geogebra.main.Application;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -43,7 +44,15 @@ public class LaTeXPanel extends JPanel {
 		validate();
 	}		
 	
+	@Override
+	public void setForeground(Color c){
+		super.setForeground(c);
+		//repaint image, but keep size
+		drawEquationToImage();
+	}
 	private Dimension drawEquationToImage() {
+		if(g2image==null || latex ==null)
+			return new Dimension(0,0);
 		g2image.setBackground(getBackground());
 		g2image.clearRect(0, 0, image.getWidth(), image.getHeight());
 		

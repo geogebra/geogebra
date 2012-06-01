@@ -19,7 +19,6 @@ public class CASOutputPanel extends JPanel {
 	/**
 	 * The text color of the output
 	 */
-	public static Color TEXT_COLOR = Color.blue;
 	private static Color ERROR_COLOR = Color.red;
 	private static Color OUTPUT_PREFIX_COLOR = Color.gray;
 	private static String OUTPUT_PREFIX = "\u2192";
@@ -37,7 +36,8 @@ public class CASOutputPanel extends JPanel {
 		
 		outputArea = new JLabel();	
 		latexPanel = new LaTeXPanel(app);
-		latexPanel.setForeground(TEXT_COLOR);
+		//will be overwritten later
+		latexPanel.setForeground(Color.black);
 		latexPanel.setBackground(Color.white);
 		
 		add(outputSign, BorderLayout.WEST);
