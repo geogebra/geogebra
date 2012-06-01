@@ -243,12 +243,21 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI {
 			}
 		
 			function readUint8Array(index, length, callback, onerror) {
+				if (text.length <= index) {
+					return new $wnd.Uint8Array(0);
+				} else if (index < 0) {
+					return new $wnd.Uint8Array(0);
+				} else if (length <= 0) {
+					return new $wnd.Uint8Array(0);
+				} else if (text.length < index + length) {
+					length = text.length - index;
+				}
 				var i, data = new $wnd.Uint8Array(length);
 				for (i = index; i < index + length; i++)
 					data[i - index] = text.charCodeAt(i);
 				callback(data);
 			}
-		
+
 			that.size = 0;
 			that.init = init;
 			that.readUint8Array = readUint8Array;
