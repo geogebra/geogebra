@@ -108,7 +108,7 @@ public class CASInputPanel extends JPanel {
 		super.setFont(ft);
 
 		if (inputArea != null) {
-			inputArea.setFont(ft);
+			inputArea.setFont(ft.deriveFont(Font.BOLD));
 		}
 		
 	}
