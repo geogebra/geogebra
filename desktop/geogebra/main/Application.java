@@ -49,14 +49,14 @@ import geogebra.common.main.MyError;
 import geogebra.common.main.settings.ConstructionProtocolSettings;
 import geogebra.common.main.settings.Settings;
 import geogebra.common.plugin.EuclidianStyleConstants;
-import geogebra.common.util.GeoGebraLogger.LogDestination;
 import geogebra.common.util.Base64;
+import geogebra.common.util.GeoGebraLogger.LogDestination;
+import geogebra.common.util.Language;
 import geogebra.common.util.LowerCaseDictionary;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
 import geogebra.euclidian.DrawEquation;
 import geogebra.euclidian.EuclidianController;
-import geogebra.euclidian.EuclidianPen;
 import geogebra.euclidian.EuclidianView;
 import geogebra.euclidianND.EuclidianViewND;
 import geogebra.export.GeoGebraTubeExportDesktop;
@@ -132,7 +132,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLConnection;
 import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -2013,104 +2015,27 @@ public class Application extends AbstractApplication implements
 		return imageManager
 				.getImageIcon("/gui/images/" + filename, borderColor);
 	}
-
-	/*
+	
+	/**
 	 * Attempt to return a flag to represent the current language
 	 * 
 	 * Not always possible to return a sensible value as there is not a 1-1 correspondance between countries & languages
+	 * @param useGeoIP whether to look up the country using a GeoIP service
+	 * @return 
 	 * 
 	 */
-	public ImageIcon getFlagIcon() {
-		String country = getLocale().getCountry();
-		if (country.equals("")) {
-			// TODO: hack
-			country = getLocale().getLanguage();
-		}
+	public String getFlagName(boolean useGeoIP) {
+		
+		String country = Language.getCountry((AbstractApplication)this, getLocale().getLanguage(), getLocale().getCountry(), useGeoIP);
 		
 		// http://stackoverflow.com/questions/10175658/is-there-a-simple-way-to-get-the-language-code-from-a-country-code-in-php
 		// http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
 		
-		if ("en".equals(country)) {
-			country = "us"; // English -> USA
-		} else if ("af".equals(country)) {
-			country = "za"; // South Africa
-		} else if ("sq".equals(country)) {
-			country = "al"; // Albanian -> Albania
-		} else if ("hy".equals(country)) {
-			country = "am"; // Armenian -> Armenia
-		} else if ("ar".equals(country)) {
-			country = "eg"; // Arabic -> Egypt
-		} else if ("bs".equals(country)) {
-			country = "ba"; // Bosnian -> Bosnia
-		} else if ("ca".equals(country)) {
-			country = "catalonia"; // Catalan -> Catalonia
-		} else if ("cs".equals(country)) {
-			country = "cz"; // Catalan -> Catalonia
-		} else if ("da".equals(country)) {
-			country = "dk"; // Danish -> Denmark
-		} else if ("et".equals(country)) {
-			country = "ee"; // Estonian -> Estonia
-		} else if ("gl".equals(country)) {
-			country = "galician"; // Galician
-		} else if ("ka".equals(country)) {
-			country = "ge"; // Georgian -> Georgia
-		} else if ("el".equals(country)) {
-			country = "gr"; // Greek -> Greece
-		} else if ("iw".equals(country)) {
-			country = "il"; // Hebrew -> Israel
-		} else if ("hi".equals(country)) {
-			country = "in"; // Hindi -> India
-		} else if ("in".equals(country)) {
-			country = "id"; // Indonesian -> Indonesia
-		} else if ("tl".equals(country)) {
-			country = "ph"; // Filipino -> Philipines
-		} else if ("ja".equals(country)) {
-			country = "jp"; // Japanese -> Japan
-		} else if ("kk".equals(country)) {
-			country = "kz"; // Japanese -> Japan
-		} else if ("ko".equals(country)) {
-			country = "kr"; // Korean -> South Korea
-		} else if ("ml".equals(country)) {
-			country = "in"; // Malayalam -> India
-		} else if ("mr".equals(country)) {
-			country = "in"; // Marathi -> India
-		} else if ("ms".equals(country)) {
-			country = "my"; // Malay -> Malaysia
-		} else if ("ne".equals(country)) {
-			country = "np"; // Nepali -> Nepal
-		} else if ("fa".equals(country)) {
-			country = "ir"; // Persian -> Iran
-		} else if ("pt".equals(country)) {
-			country = "br"; // Portuguese -> Brazil
-			// NB Portuguese (Porugal) has upper case PT here so this works!			
-		} else if ("sr".equals(country)) {
-			country = "rs"; // Serbian -> Serbia		
-		} else if ("si".equals(country)) {
-			country = "lk"; // Sinhala -> Sri Lanka			
-		} else if ("sl".equals(country)) {
-			country = "si"; // Slovenian -> Slovenia
-		} else if ("sv".equals(country)) {
-			country = "se"; // Swedish -> Sweden
-		} else if ("ta".equals(country)) {
-			country = "in"; // Tamil -> India
-		} else if ("uk".equals(country)) {
-			country = "ua"; // Ukrainian -> Ukraine
-		} else if ("vi".equals(country)) {
-			country = "vn"; // Vietnamese -> Vietnam
-		} else if ("cy".equals(country)) {
-			country = "wales"; // Welsh -> Wales
-		} else if ("ji".equals(country)) {
-			country = "il"; // Yiddish -> Israel
-		} else if ("ia".equals(country)) {
-			country = "us"; // Interlingua -> USA
-		} else {
-			// other supported locales have the same language code and COUNTRY CODE
-			// apart from cAsE
-		}
-		
-		String flag = StringUtil.toLowerCase(country)+".png";
+		country = StringUtil.toLowerCase(country);
 
-		return getFlagIcon(flag);
+		String flag = country+".png";
+
+		return flag;
 	}
 
 
@@ -5288,6 +5213,17 @@ public class Application extends AbstractApplication implements
 			getEuclidianView2().getEuclidianController().resetPen();
 		}
 		
+	}
+
+	@Override
+	public String getCountryFromGeoIP() throws Exception {
+		URL u = new URL("http://www.geogebra.org/geoip/");
+		URLConnection uc = u.openConnection();
+		uc.setReadTimeout(3000);
+		BufferedReader in;
+		in = new BufferedReader(new
+				InputStreamReader(uc.getInputStream()));
+		return in.readLine(); // the last line will never get a "\n" on its end
 	}
 	
 

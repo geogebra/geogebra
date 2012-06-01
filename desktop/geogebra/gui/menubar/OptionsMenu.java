@@ -2,6 +2,8 @@ package geogebra.gui.menubar;
 
 import geogebra.common.io.MyXMLHandler;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.main.AbstractApplication;
+import geogebra.common.util.Language;
 import geogebra.main.Application;
 
 import java.awt.Font;
@@ -227,25 +229,28 @@ public class OptionsMenu extends BaseMenu implements ActionListener {
 		menu.add(submenu3);
 		menu.add(submenu4);
 
-		for (int i = 0; i < Application.supportedLocales.size(); i++) {
-			Locale loc = Application.supportedLocales.get(i);
-			ggbLangCode = loc.getLanguage() + loc.getCountry()
-					+ loc.getVariant();
+		Language[] languages = Language.values();
+		
+		String currentLocale = app.getLocale().toString();
+		
+		// change en_GB into enGB
+		currentLocale = currentLocale.replaceAll("_", "");
+		
+		for (int i = 0; i < languages.length; i++) {
+			Language loc = languages[i];
 
 			// enforce to show specialLanguageNames first
 			// because here getDisplayLanguage doesn't return a good result
-			String text = Application.specialLanguageNames
-					.get(ggbLangCode);
-			if (text == null)
-				text = loc.getDisplayLanguage(Locale.ENGLISH);
+			String text = loc.name;
 			mi = new JRadioButtonMenuItem(text);
 			
 			// make sure eg Malayalam, Georgian drawn OK (not in standard Java font)
 			mi.setFont(app.getFontCanDisplayAwt(text, false, Font.PLAIN, app.getGUIFontSize()));
 
-			if (loc == app.getLocale())
+			if (loc.locale.equals(currentLocale)) {
 				mi.setSelected(true);
-			mi.setActionCommand(ggbLangCode);
+			}
+			mi.setActionCommand(loc.locale);
 			mi.addActionListener(al);
 			bg.add(mi);
 

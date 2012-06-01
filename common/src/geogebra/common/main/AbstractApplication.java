@@ -49,12 +49,14 @@ import geogebra.common.plugin.ScriptManagerCommon;
 import geogebra.common.plugin.jython.PythonBridge;
 import geogebra.common.sound.SoundManager;
 import geogebra.common.util.AbstractImageManager;
+import geogebra.common.util.Country;
 import geogebra.common.util.GeoGebraLogger;
 import geogebra.common.util.LowerCaseDictionary;
 import geogebra.common.util.NormalizerMinimal;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
 
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -99,113 +101,6 @@ public abstract class AbstractApplication {
 	public boolean runningInFrame = false; // don't want to show resetIcon if
 											// running in Frame
 	private ParserFunctions pf = new ParserFunctions();
-	// specialLanguageNames: Java does not show an English name for all
-	// languages
-	// supported by GeoGebra, so some language codes have to be treated
-	// specially
-	public static HashMap<String, String> specialLanguageNames = new HashMap<String, String>();
-	static {
-		
-		specialLanguageNames.put("hy",
-				"Armenian / \u0540\u0561\u0575\u0565\u0580\u0565\u0576");
-		specialLanguageNames.put("af", "Afrikaans");
-		specialLanguageNames.put("bs",
-				"Bosnian / \u0431\u043E\u0441\u0430\u043D\u0441\u043A\u0438");
-		specialLanguageNames.put("zhCN",
-				"Chinese Simplified / \u7B80\u4F53\u4E2D\u6587");
-		specialLanguageNames.put("zhTW",
-				"Chinese Traditional / \u7E41\u9AD4\u4E2D\u6587");
-		specialLanguageNames.put("en", "English (US)");
-		specialLanguageNames.put("enGB", "English (UK)");
-		specialLanguageNames.put("enAU", "English (Australia)");
-		specialLanguageNames.put("deAT",
-				"German (Austria) / Deutsch (\u00D6sterreich)");
-		specialLanguageNames.put("de", "German / Deutsch");
-		specialLanguageNames.put("gl", "Galician / Galego");
-		specialLanguageNames.put("noNO", "Norwegian / Bokm\u00e5l");
-		specialLanguageNames.put("noNONY", "Norwegian / Nynorsk");
-		specialLanguageNames.put("pt",
-				"Portuguese (Brazil) / Portugu\u00EAs (Brasil)");
-		specialLanguageNames.put("ptPT",
-				"Portuguese (Portugal) / Portugu\u00EAs (Portugal)");
-		specialLanguageNames.put("si",
-				"Sinhala / \u0DC3\u0DD2\u0D82\u0DC4\u0DBD"); // better than
-																// Sinhalese
-
-		specialLanguageNames.put("sq", "Albanian / Gjuha Shqipe");
-		specialLanguageNames.put("ar",
-				"Arabic / \u0627\u0644\u0639\u0631\u0628\u064A\u0629 ");
-		specialLanguageNames.put("eu", "Basque / Euskara");
-		specialLanguageNames
-				.put("bg",
-						"Bulgarian / \u0431\u044A\u043B\u0433\u0430\u0440\u0441\u043A\u0438 \u0435\u0437\u0438\u043A");
-		specialLanguageNames.put("ca", "Catalan / Catal\u00E0");
-		specialLanguageNames.put("hr", "Croatian / Hrvatska");
-		specialLanguageNames.put("cs", "Czech / \u010Ce\u0161tina");
-		specialLanguageNames.put("da", "Danish / Dansk");
-		specialLanguageNames.put("nl", "Dutch / Nederlands");
-		specialLanguageNames.put("et", "Estonian / Eesti keel");
-		specialLanguageNames.put("fi", "Finnish / Suomi");
-		specialLanguageNames.put("fr", "French / Fran\u00E7ais");
-		specialLanguageNames
-				.put("ka",
-						"Georgian / \u10E5\u10D0\u10E0\u10D7\u10E3\u10DA\u10D8 \u10D4\u10DC\u10D0");
-		specialLanguageNames.put("el",
-				"Greek / \u0395\u03BB\u03BB\u03B7\u03BD\u03B9\u03BA\u03AC");
-		specialLanguageNames.put("iw",
-				"Hebrew / \u05E2\u05B4\u05D1\u05B0\u05E8\u05B4\u05D9\u05EA");
-		specialLanguageNames
-				.put("hi",
-						"Hindi / \u092E\u093E\u0928\u0915 \u0939\u093F\u0928\u094D\u0926\u0940");
-		specialLanguageNames.put("hu", "Hungarian / Magyar");
-		specialLanguageNames.put("is", "Icelandic / \u00CDslenska");
-		specialLanguageNames.put("in", "Indonesian / Bahasa Indonesia");
-		specialLanguageNames.put("it", "Italian / Italiano");
-		specialLanguageNames.put("ja", "Japanese / \u65E5\u672C\u8A9E");
-		specialLanguageNames
-				.put("kk",
-						"Kazakh / \u049A\u0430\u0437\u0430\u049B \u0442\u0456\u043B\u0456");
-		specialLanguageNames.put("ko", "Korean / \uD55C\uAD6D\uB9D0");
-		specialLanguageNames.put("lt", "Lithuanian / Lietuvi\u0173 kalba");
-		specialLanguageNames.put("ml",
-				"Malayalam / \u0D2E\u0D32\u0D2F\u0D3E\u0D33\u0D02");
-		specialLanguageNames.put("mn",
-				"Mongolian / \u041C\u043E\u043D\u0433\u043E\u043B \u0445\u044D\u043B");
-		specialLanguageNames
-				.put("mk",
-						"Macedonian / \u041C\u0430\u043A\u0435\u0434\u043E\u043D\u0441\u043A\u0438 \u0458\u0430\u0437\u0438\u043A");
-		specialLanguageNames.put("mr",
-				"Marathi / \u092E\u0930\u093E\u0920\u0940");
-		specialLanguageNames.put("ms", "Malay / Bahasa Malaysia");
-		specialLanguageNames.put("ne",
-				"Nepalese / \u0928\u0947\u092A\u093E\u0932\u0940");
-		specialLanguageNames.put("fa",
-				"Persian / \u0641\u0627\u0631\u0633\u06CC");
-		specialLanguageNames.put("pl", "Polish / J\u0119zyk polski");
-		specialLanguageNames.put("ro", "Romanian /  Rom\u00E2n\u0103");
-		specialLanguageNames
-				.put("ru",
-						"Russian / \u0420\u0443\u0441\u0441\u043A\u0438\u0439 \u044F\u0437\u044B\u043A");
-		specialLanguageNames.put("sr",
-				"Serbian / \u0441\u0440\u043F\u0441\u043A\u0438");
-		specialLanguageNames.put("sk", "Slovakian / Slovensk\u00FD jazyk");
-		specialLanguageNames.put("sl", "Slovenian / Sloven\u0161\u010Dina");
-		specialLanguageNames.put("es", "Spanish / Espa\u00F1ol");
-		specialLanguageNames.put("sv", "Swedish / Svenska");
-		specialLanguageNames
-		.put("ta", "Tamil / \u0BA4\u0BAE\u0BBF\u0BB4\u0BCD");
-		specialLanguageNames.put("tl", "Filipino");
-		specialLanguageNames.put("th",
-				"Thai / \u0E20\u0E32\u0E29\u0E32\u0E44\u0E17\u0E22");
-		specialLanguageNames.put("tr", "Turkish / T\u00FCrk\u00E7e");
-		specialLanguageNames
-				.put("uk",
-						"Ukrainian / \u0423\u043A\u0440\u0430\u0457\u043D\u0441\u044C\u043A\u0430 \u043C\u043E\u0432\u0430");
-		specialLanguageNames.put("vi", "Vietnamese / Ti\u1EBFng Vi\u1EC7t");
-		specialLanguageNames.put("cy", "Welsh / Cymraeg");
-		specialLanguageNames.put("ji",
-				"Yiddish / \u05D9\u05D9\u05B4\u05D3\u05D9\u05E9");
-	}
 	
 	// object is hit if mouse is within this many pixels
 	// (more for points, see DrawPoint)
@@ -3054,5 +2949,7 @@ public abstract class AbstractApplication {
 	public abstract void clearConstruction();
 	
 	public abstract void fileNew();
+
+	public abstract String getCountryFromGeoIP() throws Exception;
 
 }

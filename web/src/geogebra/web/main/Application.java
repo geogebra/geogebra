@@ -1897,4 +1897,10 @@ kernel.resetLibraryJavaScript();
 	    
     }
 
+	@Override
+    public String getCountryFromGeoIP() throws Exception {
+	    warn("unimplemented");
+	    return null;
+    }
+
 }

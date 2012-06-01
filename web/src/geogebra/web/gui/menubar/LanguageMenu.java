@@ -1,6 +1,7 @@
 package geogebra.web.gui.menubar;
 
 import geogebra.common.main.AbstractApplication;
+import geogebra.common.util.Language;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.main.Application;
 
@@ -77,7 +78,7 @@ public class LanguageMenu extends MenuBar {
 		for(int i=0; i < Application.supportedLanguages.size(); i++) {			
 			String languageCode = Application.supportedLanguages.get(i);
 			
-			String languageName = Application.specialLanguageNames.get(Application.languageCodeVariationCrossReferencing(languageCode.replace(Application.AN_UNDERSCORE, "")));
+			String languageName = Language.getDisplayName(Application.languageCodeVariationCrossReferencing(languageCode.replace(Application.AN_UNDERSCORE, "")));
 			
 			if(languageName != null) {
 				

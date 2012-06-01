@@ -8,6 +8,7 @@ import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.settings.KeyboardSettings;
 import geogebra.common.main.settings.Settings;
 import geogebra.common.plugin.EuclidianStyleConstants;
+import geogebra.common.util.Language;
 import geogebra.euclidian.EuclidianView;
 import geogebra.gui.util.FullWidthLayout;
 import geogebra.main.Application;
@@ -897,10 +898,11 @@ public class OptionsAdvanced extends JPanel implements OptionPanel, ActionListen
 			ggbLangCode = loc.getLanguage() + loc.getCountry()
 					+ loc.getVariant();
 
-			languages[i + 1] = Application.specialLanguageNames
-					.get(ggbLangCode);
-			if (languages[i + 1] == null)
-				languages[i + 1] = loc.getDisplayLanguage(Locale.ENGLISH);
+			// eg want "Norwegian", not "Norwegian (Bokmal)" etc
+			languages[i + 1] = loc.getDisplayLanguage(Locale.ENGLISH);
+			if (languages[i + 1] == "en_gb") {
+				languages[i + 1] = Language.getDisplayName("enGB");
+			}
 		}
 
 		int selectedIndex = cbKeyboardLanguage.getSelectedIndex();
@@ -964,10 +966,8 @@ public class OptionsAdvanced extends JPanel implements OptionPanel, ActionListen
 			ggbLangCode = loc.getLanguage() + loc.getCountry()
 					+ loc.getVariant();
 
-			languages[i + 1] = Application.specialLanguageNames
-					.get(ggbLangCode);
-			if (languages[i + 1] == null)
-				languages[i + 1] = loc.getDisplayLanguage(Locale.ENGLISH);
+			languages[i + 1] = Language.getDisplayName(ggbLangCode);
+			Application.debug(ggbLangCode+" "+languages[i + 1]);
 		}
 
 		int selectedIndex = cbTooltipLanguage.getSelectedIndex();

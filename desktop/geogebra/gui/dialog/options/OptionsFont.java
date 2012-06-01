@@ -1,6 +1,7 @@
 package geogebra.gui.dialog.options;
 
 import geogebra.common.gui.SetLabels;
+import geogebra.common.util.Language;
 import geogebra.gui.TitleLabel;
 import geogebra.gui.util.SpringUtilities;
 import geogebra.main.Application;
@@ -105,9 +106,7 @@ class OptionsFont extends JPanel implements ActionListener, SetLabels {
 
 			// enforce to show specialLanguageNames first
 			// because here getDisplayLanguage doesn't return a good result
-			languages[i] = Application.specialLanguageNames.get(ggbLangCode);
-			if (languages[i] == null)
-				languages[i] = loc.getDisplayLanguage(Locale.ENGLISH);
+			languages[i] = Language.getDisplayName(ggbLangCode);
 		}
 
 		languageCb = new JComboBox(languages);

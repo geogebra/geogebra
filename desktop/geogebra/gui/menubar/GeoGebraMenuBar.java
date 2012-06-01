@@ -19,13 +19,19 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.print.PageFormat;
 import java.awt.print.Printable;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.Scanner;
 
 import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
@@ -130,7 +136,8 @@ public class GeoGebraMenuBar extends JMenuBar {
 		add(Box.createHorizontalGlue());
 
 		// "flag" to select language
-		final JLabel languageLabel = new JLabel(app.getFlagIcon());
+		final String flagName = app.getFlagName(false);
+		final JLabel languageLabel = new JLabel(app.getFlagIcon(flagName));
 		languageLabel.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -141,6 +148,28 @@ public class GeoGebraMenuBar extends JMenuBar {
 			}
 		});
 		add(languageLabel);
+		
+		
+		
+		       new Thread(
+		               new Runnable() {
+		                   public void run() {
+		               			
+		               			String geoIPflagname = app.getFlagName(true);
+		               			
+		               			if (!geoIPflagname.equals(flagName)) {
+		               				languageLabel.setIcon(app.getFlagIcon(flagName));
+		               				AbstractApplication.debug("updating flag to "+geoIPflagname);
+		               			}
+		               			
+		               			
+		               			
+		               			
+		               			
+
+		                   }
+		               }).start();
+
 		
 		
 }
