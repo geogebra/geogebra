@@ -17,6 +17,7 @@ public class LanguageMenu extends MenuBar {
 	private MenuBar etoIMenuBar;
 	private MenuBar jtoQMenuBar;
 	private MenuBar rtoZMenuBar;
+	private LanguageCommand langCmd;
 	
 
 	
@@ -28,17 +29,17 @@ public class LanguageMenu extends MenuBar {
 	    initActions();		
 	}
 	
-	Command cmd = new Command() {
-
-		private String newLocale;
-
-		public void setNewLocale(String aLocale) {
-			newLocale = aLocale;
-		}
-		public void execute() {
-			Window.alert("Soon! Language support...");
-		}
-	};
+//	Command cmd = new Command() {
+//
+//		private String newLocale;
+//
+//		public void setNewLocale(String aLocale) {
+//			newLocale = aLocale;
+//		}
+//		public void execute() {
+//			Window.alert("Soon! Language support...");
+//		}
+//	};
 	
 	private void initActions() {
 		//add the sub-sub language menu list
@@ -64,6 +65,8 @@ public class LanguageMenu extends MenuBar {
 		rtoZMenuBar.addStyleName("GeoGebraMenuBar");
 		addItem(app.getMenu("R - Z"), rtoZMenuBar);
 		
+		langCmd = new LanguageCommand();
+		
 		addItems();
 	}
 	
@@ -80,15 +83,17 @@ public class LanguageMenu extends MenuBar {
 				
 				char ch = languageName.toUpperCase().charAt(0);
 				
+				langCmd.setLocaleCode(languageCode);
+				
 				if(ch <= 'D') {
 					
-					atoDMenuBar.addItem(GeoGebraMenubar.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),languageName),true,cmd);
+					atoDMenuBar.addItem(GeoGebraMenubar.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),languageName),true,langCmd);
 				} else if(ch <= 'I') {
-					etoIMenuBar.addItem(GeoGebraMenubar.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),languageName),true,cmd);
+					etoIMenuBar.addItem(GeoGebraMenubar.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),languageName),true,langCmd);
 				} else if(ch <= 'Q') {
-					jtoQMenuBar.addItem(GeoGebraMenubar.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),languageName),true,cmd);
+					jtoQMenuBar.addItem(GeoGebraMenubar.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),languageName),true,langCmd);
 				} else {
-					rtoZMenuBar.addItem(GeoGebraMenubar.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),languageName),true,cmd);
+					rtoZMenuBar.addItem(GeoGebraMenubar.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),languageName),true,langCmd);
 				}
 				
 			}
