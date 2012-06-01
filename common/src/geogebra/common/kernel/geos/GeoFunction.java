@@ -556,7 +556,7 @@ public class GeoFunction extends GeoElement implements VarString,
 			return false;
 		}
 		return fun.isConstantFunction()
-				|| (symbolic ? fun.getSymbolicPolynomialFactors(forRootFinding)
+				|| (symbolic ? fun.getSymbolicPolynomialFactors(forRootFinding,false)
 						: fun.getPolynomialFactors(forRootFinding)) != null;
 	}
 

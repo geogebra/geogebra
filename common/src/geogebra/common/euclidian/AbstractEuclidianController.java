@@ -6572,7 +6572,7 @@ public abstract class AbstractEuclidianController {
 			vertexX = Double.NaN;
 			vertexY = Double.NaN;
 			
-			if (movedGeoFunction.isPolynomialFunction(false)) {
+			if (movedGeoFunction.getFunction().getSymbolicPolynomialFactors(false,true) != null) {
 				LinkedList<PolyFunction> factors= movedGeoFunction.getFunction().getPolynomialFactors(false);
 				if(factors.size() == 1 && factors.get(0).getDegree() == 2){
 					double c = movedGeoFunction.evaluate(0);

@@ -366,7 +366,7 @@ public class Function extends FunctionNVar implements RealRootFunction,
 	final public LinkedList<PolyFunction> getPolynomialFactors(
 			boolean rootFindingSimplification) {
 		// try to get symbolic polynomial factors
-		LinkedList<PolyFunction> result = getSymbolicPolynomialFactors(rootFindingSimplification);
+		LinkedList<PolyFunction> result = getSymbolicPolynomialFactors(rootFindingSimplification,false);
 
 		// if this didn't work try to get numeric polynomial factors
 		if (result == null) {
@@ -395,7 +395,7 @@ public class Function extends FunctionNVar implements RealRootFunction,
 			return null;
 
 		// try to get symbolic polynomial factors
-		return deriv.getSymbolicPolynomialFactors(rootFindingSimplification);
+		return deriv.getSymbolicPolynomialFactors(rootFindingSimplification,false);
 	}
 
 	/**
@@ -413,7 +413,7 @@ public class Function extends FunctionNVar implements RealRootFunction,
 		// are
 		// replaced by their values) and try to get a polynomial.
 		// Then we take the derivative of this polynomial.
-		PolyFunction poly = expandToPolyFunction(expression, false);
+		PolyFunction poly = expandToPolyFunction(expression, false,false);
 		if (poly != null) { // we got a polynomial
 			for (int i = 0; i < n; i++) {
 				poly = poly.getDerivative();
@@ -434,7 +434,7 @@ public class Function extends FunctionNVar implements RealRootFunction,
 	 * @return all symbolic non-constant polynomial factors of this function
 	 */
 	public LinkedList<PolyFunction> getSymbolicPolynomialFactors(
-			boolean rootFindingSimplification) {
+			boolean rootFindingSimplification,boolean assumeFalseIfCASNeeded) {
 		if (factorParentExp != expression) {
 			// new expression
 			factorParentExp = expression;
@@ -444,7 +444,7 @@ public class Function extends FunctionNVar implements RealRootFunction,
 			else
 				symbolicPolyFactorList.clear();
 			symbolicPolyFactorListDefined = addPolynomialFactors(expression,
-					symbolicPolyFactorList, true, rootFindingSimplification);
+					symbolicPolyFactorList, true, rootFindingSimplification,assumeFalseIfCASNeeded);
 		}
 
 		if (symbolicPolyFactorListDefined && symbolicPolyFactorList.size() > 0) {
@@ -473,7 +473,7 @@ public class Function extends FunctionNVar implements RealRootFunction,
 			numericPolyFactorList.clear();
 
 		boolean success = addPolynomialFactors(expression,
-				numericPolyFactorList, false, rootFindingSimplification);
+				numericPolyFactorList, false, rootFindingSimplification,false);
 		if (success && numericPolyFactorList.size() > 0) {
 			return numericPolyFactorList;
 		}
@@ -493,15 +493,15 @@ public class Function extends FunctionNVar implements RealRootFunction,
 	 */
 	private boolean addPolynomialFactors(ExpressionValue ev,
 			List<PolyFunction> l, boolean symbolic,
-			boolean rootFindingSimplification) {
+			boolean rootFindingSimplification,boolean assumeFalseIfCASNeeded) {
 		if (ev.isExpressionNode()) {
 			ExpressionNode node = (ExpressionNode) ev;
 			switch (node.getOperation()) {
 			case MULTIPLY:
 				return addPolynomialFactors(node.getLeft(), l, symbolic,
-						rootFindingSimplification)
+						rootFindingSimplification,assumeFalseIfCASNeeded)
 						&& addPolynomialFactors(node.getRight(), l, symbolic,
-								rootFindingSimplification);
+								rootFindingSimplification,assumeFalseIfCASNeeded);
 
 				// try some simplifications of factors for root finding
 			case POWER:
@@ -531,11 +531,11 @@ public class Function extends FunctionNVar implements RealRootFunction,
 							// left^0 = 1
 							return addPolynomialFactors(
 									new MyDouble(kernel, 1), l, symbolic,
-									rootFindingSimplification);
+									rootFindingSimplification,assumeFalseIfCASNeeded);
 						else if (rightVal > 0)
 							// left ^ right = 0 <=> left = 0 for right > 0
 							return addPolynomialFactors(node.getLeft(), l,
-									symbolic, rootFindingSimplification);
+									symbolic, rootFindingSimplification,assumeFalseIfCASNeeded);
 					} else { // division
 						if (Kernel.isZero(rightVal)) {
 							// left / 0 = undefined
@@ -543,7 +543,7 @@ public class Function extends FunctionNVar implements RealRootFunction,
 						}
 						// left / right = 0 <=> left = 0 for right != null
 						return addPolynomialFactors(node.getLeft(), l,
-								symbolic, rootFindingSimplification);
+								symbolic, rootFindingSimplification,assumeFalseIfCASNeeded);
 					}
 				}
 				break;
@@ -556,7 +556,7 @@ public class Function extends FunctionNVar implements RealRootFunction,
 
 				// these functions can be omitted as f(x) = 0 iff x = 0
 				return addPolynomialFactors(node.getLeft(), l, symbolic,
-						rootFindingSimplification);
+						rootFindingSimplification,assumeFalseIfCASNeeded);
 			}
 		}
 
@@ -565,7 +565,7 @@ public class Function extends FunctionNVar implements RealRootFunction,
 		if (!ev.isConstant()) {
 			// build the factor: expanded ev, get the coefficients and build
 			// a polynomial with them
-			PolyFunction factor = expandToPolyFunction(ev, symbolic);
+			PolyFunction factor = expandToPolyFunction(ev, symbolic,assumeFalseIfCASNeeded);
 			if (factor == null)
 				return false; // did not work
 			l.add(factor);
@@ -584,10 +584,10 @@ public class Function extends FunctionNVar implements RealRootFunction,
 	 *            for numeric coefficients (PolyFunction)
 	 */
 	private PolyFunction expandToPolyFunction(ExpressionValue ev,
-			boolean symbolic) {
+			boolean symbolic,boolean assumeFalseIfCASNeeded) {
 		PolyFunction polyFunNoCas = expandToPolyFunctionNoCas(ev,
 				symbolic);
-		if(polyFunNoCas!=null)
+		if(polyFunNoCas!=null || assumeFalseIfCASNeeded)
 			return polyFunNoCas;
 		ExpressionNode node;
 		if (ev.isExpressionNode()) {
