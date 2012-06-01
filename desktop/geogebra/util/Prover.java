@@ -1,7 +1,11 @@
 package geogebra.util;
 
 
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.main.AbstractApplication;
+
+import com.ogprover.main.OGPConfigurationSettings;
+import com.ogprover.main.OGPParameters;
 
 /**
  * @author Zoltan Kovacs <zoltan@geogebra.org>
@@ -47,5 +51,21 @@ public class Prover extends geogebra.common.util.Prover {
 	            }
 		}
 	}
+	
+	@Override
+	protected ProofResult openGeoProver() {
+		AbstractApplication.debug("OGP is about to run...");
+		String c = simplifiedXML(construction);
+		AbstractApplication.trace("Construction: " + c);
+		// getCASString may also be used 
+		String cd = statement.getCommandDescription(StringTemplate.ogpTemplate);
+		AbstractApplication.debug("Statement to prove: " + cd);
+		OGPConfigurationSettings ogpcs = new OGPConfigurationSettings();
+		ogpcs.setMaxNumOfTerms(AbstractApplication.maxTerms);
+		OGPParameters ogpp = new OGPParameters();
+		// TODO: Call OGP with the needed parameters.
+		return ProofResult.UNKNOWN;
+	}
+
 }
 

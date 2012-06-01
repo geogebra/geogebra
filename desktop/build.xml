@@ -78,7 +78,7 @@ office@geogebra.org
 	
 	<!-- create all jar files -->
 	<target name="ggb-jar-files" 
-			depends="ggb-jar, ggb-main-jar, ggb-export-jar, ggb-properties-jar, ggb-cas-jar, ggb-algos-jar, ggb-gui-jar, ggb-javascript-jar, ggb-3d-jar, ggb-usb-jar, ggb-copy-jlatexmath, ggb-copy-jython">
+			depends="ggb-jar, ggb-main-jar, ggb-export-jar, ggb-properties-jar, ggb-cas-jar, ggb-algos-jar, ggb-gui-jar, ggb-javascript-jar, ggb-3d-jar, ggb-usb-jar, ggb-copy-jlatexmath, ggb-copy-jython, ggb-copy-ogp">
 	</target>
 
 	<!-- compiles grammar, javacc path is hardcoded now for simplicity -->
@@ -112,20 +112,20 @@ office@geogebra.org
 
 	<!-- create all jar files -->
 	<target name="ggb-jar-files3D" 
-			depends="ggb-jar3D, ggb-main-jar, ggb-export-jar, ggb-properties-jar, ggb-cas-jar, ggb-algos-jar, ggb-gui-jar, ggb-javascript-jar, ggb-3d-jar, ggb-usb-jar, ggb-copy-jlatexmath, ggb-copy-jogl, ggb-copy-jython">
+			depends="ggb-jar3D, ggb-main-jar, ggb-export-jar, ggb-properties-jar, ggb-cas-jar, ggb-algos-jar, ggb-gui-jar, ggb-javascript-jar, ggb-3d-jar, ggb-usb-jar, ggb-copy-jlatexmath, ggb-copy-jogl, ggb-copy-jython, ggb-copy-ogp">
 	</target>
 
 	<manifest file="../manifest.mf">
 		<attribute name="Main-Class" value="geogebra.GeoGebra"/>
 		<attribute name="Class-Path" 
-			value="geogebra.jar geogebra_main.jar geogebra_gui.jar geogebra_properties.jar geogebra_export.jar geogebra_cas.jar geogebra_algos.jar geogebra_javascript.jar geogebra_usb.jar jlatexmath.jar jlm_greek.jar jlm_cyrillic.jar jython.jar"/>
+			value="geogebra.jar geogebra_main.jar geogebra_gui.jar geogebra_properties.jar geogebra_export.jar geogebra_cas.jar geogebra_algos.jar geogebra_javascript.jar geogebra_usb.jar jlatexmath.jar jlm_greek.jar jlm_cyrillic.jar jython.jar OpenGeoProver.jar"/>
 		<!--	<attribute name="SplashScreen-Image" value="geogebra/splash.gif"/>	-->
 	</manifest>
 
 	<manifest file="../manifest3D.mf">
 		<attribute name="Main-Class" value="geogebra.GeoGebra3D"/>
 		<attribute name="Class-Path" 
-			value="geogebra.jar geogebra_main.jar geogebra_gui.jar geogebra_properties.jar geogebra_export.jar geogebra_cas.jar geogebra_algos.jar geogebra_3d.jar geogebra_javascript.jar geogebra_usb.jar jlatexmath.jar jlm_greek.jar jython.jar jlm_cyrillic.jar jogl.jar gluegen-rt.jar"/>
+			value="geogebra.jar geogebra_main.jar geogebra_gui.jar geogebra_properties.jar geogebra_export.jar geogebra_cas.jar geogebra_algos.jar geogebra_3d.jar geogebra_javascript.jar geogebra_usb.jar jlatexmath.jar jlm_greek.jar jython.jar jlm_cyrillic.jar jogl.jar gluegen-rt.jar OpenGeoProver.jar"/>
 		<!--	<attribute name="SplashScreen-Image" value="geogebra/splash.gif"/>	-->
 	</manifest>
 
@@ -179,6 +179,7 @@ office@geogebra.org
 			<arg value="jlm_cyrillic.jar"/>
 			<arg value="jlm_greek.jar"/>
 			<arg value="jython.jar"/>
+			<arg value="OpenGeoProver.jar"/>
 		</exec>
 	</target>
 	<!-- copies the jogl jars  -->
@@ -205,9 +206,16 @@ office@geogebra.org
 	</target>
 
 	<!-- copies the jython jars  -->
-	<target name="ggb-copy-jython" depends="clean" description="copy jlatexmath jars">
+	<target name="ggb-copy-jython" depends="clean" description="copy jython jar">
 		<copy file="${src.dir}/lib/jython.jar"
 		      tofile="${build.dir}/jython.jar">
+		</copy>
+	</target>
+
+	<!-- copies the jython jars  -->
+	<target name="ggb-copy-ogp" depends="clean" description="copy ogp jar">
+		<copy file="${src.dir}/lib/OpenGeoProver.jar"
+		      tofile="${build.dir}/OpenGeoProver.jar">
 		</copy>
 	</target>
 
@@ -231,6 +239,7 @@ office@geogebra.org
 			<arg value="jlm_cyrillic.jar"/>
 			<arg value="jlm_greek.jar"/>
 			<arg value="jython.jar"/>
+			<arg value="OpenGeoProver.jar"/>
 		</exec>
 	</target>
 

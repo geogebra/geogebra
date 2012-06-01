@@ -1,6 +1,5 @@
 package geogebra.common.util;
 
-import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoElement;
 
 import geogebra.common.main.AbstractApplication;
@@ -88,7 +87,10 @@ public abstract class Prover {
 	/* input */
 	protected int timeout = 5;
 	private ProverEngine engine = ProverEngine.AUTO;
-	private Construction construction;
+	/**
+	 * The full GeoGebra construction, containing all geos and algos.
+	 */
+	protected Construction construction;
 	/**
 	 * The statement to be prove
 	 */
@@ -162,6 +164,7 @@ public abstract class Prover {
 		 proverAutoOrder.add(ProverEngine.RECIOS_PROVER);
 		 proverAutoOrder.add(ProverEngine.BOTANAS_PROVER);
 		 proverAutoOrder.add(ProverEngine.PURE_SYMBOLIC_PROVER);
+		 proverAutoOrder.add(ProverEngine.OPENGEOPROVER);
 	}
 
 	/**
@@ -214,14 +217,7 @@ public abstract class Prover {
 	 */
 	public void decideStatement() {
 		// Step 1: Checking if the statement is null.
-		if (statement != null) {
-			String c = simplifiedXML(construction);
-			AbstractApplication.trace("Construction: " + c);
-			// getCASString may also be used 
-			String cd = statement.getCommandDescription(StringTemplate.ogpTemplate);
-			AbstractApplication.debug("Statement to prove: " + cd);
-		}
-		else {
+		if (statement == null) {
 			AbstractApplication.error("No statement to prove");
 			result = ProofResult.UNKNOWN;
 			return;
@@ -280,6 +276,9 @@ public abstract class Prover {
 		} else if (currentEngine == ProverEngine.PURE_SYMBOLIC_PROVER) {
 			result = geogebra.common.kernel.prover.ProverPureSymbolicMethod.prove(this);
 			return;
+		} else if (currentEngine == ProverEngine.OPENGEOPROVER) {
+			result = openGeoProver();
+			return;
 		}
 
 	}
@@ -323,7 +322,7 @@ public abstract class Prover {
 	 * @return The simplified XML 
 	 */
 	// TODO: Cut even more unneeded parts to reduce unneeded traffic between OGP and GeoGebra.
-	private static String simplifiedXML(Construction cons) {
+	protected static String simplifiedXML(Construction cons) {
 		StringBuilder sb = new StringBuilder();
 		cons.getConstructionElementsXML(sb);
 		return "<construction>\n" + sb.toString() + "</construction>";
@@ -334,7 +333,12 @@ public abstract class Prover {
 	 */
 	public void compute() {
 		// Will be overridden by web and desktop
-		
 	}
 
+	/**
+	 * Calls OpenGeoProver
+	 * @return the proof result
+	 */
+	protected abstract ProofResult openGeoProver();
+	
 }
