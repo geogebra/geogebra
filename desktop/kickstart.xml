@@ -478,6 +478,8 @@ instructions.
 	&lt;classpathentry kind="lib" path="lib/jlatexmath.jar"/&gt;
 	&lt;classpathentry kind="lib" path="lib/jlm_greek.jar"/&gt;
 	&lt;classpathentry kind="lib" path="lib/jlm_cyrillic.jar"/&gt;
+	&lt;classpathentry kind="lib" path="lib/OpenGeoProver.jar"/&gt;
+
 
 	&lt;classpathentry kind="output" path=""/&gt;
 
