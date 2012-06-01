@@ -18,10 +18,14 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.algos;
 
+import java.util.HashSet;
+
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
+import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
 
 /**
@@ -48,6 +52,9 @@ public class AlgoDependentText extends AlgoElement {
 
 		text = new GeoText(cons);
 		setInputOutput(); // for AlgoElement
+		
+		//set text traceable to spreadsheet, if possible
+		setSpreadsheetTraceableText();
 
 		// compute value of dependent number
 		compute();
@@ -153,5 +160,32 @@ public class AlgoDependentText extends AlgoElement {
 		if (root == null)
 			return "";
 		return root.toRealString(tpl);
+	}
+
+
+	private void setSpreadsheetTraceableText(){
+		
+		/*
+		AbstractApplication.debug("\nroot: "+root+
+				"\nleft: "+root.getLeftTree()+
+				"\nright: "+root.getRightTree()+
+				"\ngeos:"+root.getVariables()+
+				"\nright geos:"+root.getRightTree().getVariables()
+				);
+				*/
+		
+		HashSet<GeoElement> rightGeos = root.getRightTree().getVariables();
+		if (rightGeos!=null && rightGeos.size() == 1){
+			GeoElement geo = (GeoElement) rightGeos.toArray()[0];
+			if (geo.isNumberValue()){
+
+				text.setSpreadsheetTraceable(root.getLeftTree(), (NumberValue) geo);
+				/*
+			AbstractApplication.debug("\nleft string : "+root.getLeftTree().evaluate(tpl).toValueString(tpl));
+			AbstractApplication.debug("\nleft string latex : "+root.getLeftTree().evaluate(tpl).toLaTeXString(false, tpl));
+				 */
+
+			}
+		}
 	}
 }

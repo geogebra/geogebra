@@ -21,8 +21,10 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoDependentText;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoSequence;
+import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.MyStringBuffer;
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.TextValue;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.AbstractApplication;
@@ -30,14 +32,18 @@ import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.util.StringUtil;
 
+import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashSet;
+
+
 
 /**
  * Geometrical element for holding text
  *
  */
 public class GeoText extends GeoElement implements Locateable,
-		AbsoluteScreenLocateable, TextValue, TextProperties {
+		AbsoluteScreenLocateable, TextValue, TextProperties, SpreadsheetTraceable {
 
 	private String str;
 	private GeoPointND startPoint; // location of Text on screen
@@ -1037,5 +1043,59 @@ public class GeoText extends GeoElement implements Locateable,
 	public StringTemplate getStringTemplate() {
 		return tpl;
 	}
+	
+	
+	private boolean isSpreadsheetTraceable = false;
+	private NumberValue spreadsheetTraceableValue;
+	private ExpressionNode spreadsheetTraceableLeftTree;
+	
+	/**
+	 * set objects for trace to spreadsheet
+	 * @param leftTree tree for column heading
+	 * @param value value to trace
+	 */
+	public void setSpreadsheetTraceable(ExpressionNode leftTree, NumberValue value){
+		this.spreadsheetTraceableLeftTree = leftTree;
+		this.spreadsheetTraceableValue = value;
+		this.isSpreadsheetTraceable = true;
+	}
+	
+	@Override
+	public boolean isSpreadsheetTraceable() {
+		
+		return isSpreadsheetTraceable;
+	}
+	
+
+	@Override
+	public ArrayList<String> getColumnHeadings() {
+
+		if (spreadsheetColumnHeadings == null) {
+			spreadsheetColumnHeadings = new ArrayList<String>();
+		}
+		else
+			spreadsheetColumnHeadings.clear();
+
+		spreadsheetColumnHeadings.add(spreadsheetTraceableLeftTree.evaluate(tpl).toValueString(tpl));
+
+		return spreadsheetColumnHeadings;
+
+
+	}
+
+
+	@Override
+	public ArrayList<GeoNumeric> getSpreadsheetTraceList() {
+		if (spreadsheetTraceList == null) 
+			spreadsheetTraceList = new ArrayList<GeoNumeric>();
+		else
+			spreadsheetTraceList.clear();		
+
+		GeoNumeric numeric = new GeoNumeric(cons, spreadsheetTraceableValue.getDouble());
+		spreadsheetTraceList.add(numeric);
+
+		return spreadsheetTraceList;
+	}
+
 
 }
