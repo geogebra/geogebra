@@ -1,5 +1,6 @@
 package geogebra.common.kernel.geos;
 
+import geogebra.common.awt.Color;
 import geogebra.common.awt.Font;
 import geogebra.common.cas.CASException;
 import geogebra.common.kernel.Construction;
@@ -1991,6 +1992,12 @@ public class GeoCasCell extends GeoElement implements VarString {
 
 	private void setInputVE(ValidExpression inputVE) {
 		this.inputVE = inputVE;
+	}
+	
+	public Color getAlgebraColor() {
+		if(twinGeo==null)
+			return Color.BLACK;
+		return twinGeo.getAlgebraColor();
 	}
 
 }
