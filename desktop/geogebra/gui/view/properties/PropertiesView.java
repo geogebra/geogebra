@@ -251,9 +251,10 @@ public class PropertiesView extends JPanel implements
 	 * Updates properties view panel. If any geos are selected then the Objects
 	 * panel will be shown. If not, then an option pane for the current focused
 	 * view is shown. 
+	 * Called when a view gets the focus.
 	 */
 	public void updatePropertiesView() {
-		
+
 		setOptionPanelRegardingFocus(false);
 	}
 
@@ -303,9 +304,11 @@ public class PropertiesView extends JPanel implements
 				}
 			}
 		} else {
-			setOptionPanel(OptionType.EUCLIDIAN);
-			if (updateEuclidianTab)
-				euclidianPanel.setSelectedTab(selectedTab);
+			if (app.getSelectedGeos().size()==0){ //does nothing if some objects are selected
+				setOptionPanel(OptionType.EUCLIDIAN);
+				if (updateEuclidianTab)
+					euclidianPanel.setSelectedTab(selectedTab);
+			}
 		}
 	}
 	
