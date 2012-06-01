@@ -160,8 +160,10 @@ public class DialogManagerDesktop extends geogebra.common.gui.dialog.DialogManag
 		if (!((Application) app).letShowPropertiesDialog())
 			return;
 
-
-		AbstractApplication.debug("TODO : set option objects visible");
+		if (app.getSelectedGeos().size()==0)
+			app.addSelectedGeos(geos, true);
+		app.getGuiManager().setShowView(true, AbstractApplication.VIEW_PROPERTIES);
+		
 		if (geos != null && geos.size() == 1
 				&& geos.get(0).isEuclidianVisible()
 				&& geos.get(0) instanceof GeoNumeric)

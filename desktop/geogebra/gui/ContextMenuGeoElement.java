@@ -945,9 +945,7 @@ public class ContextMenuGeoElement extends JPopupMenu {
 				private static final long serialVersionUID = 1L;
 
 				public void actionPerformed(ActionEvent e) {
-					if (app.getSelectedGeos().size()==0)
-						app.addSelectedGeos(geos, true);
-					app.getGuiManager().setShowView(true, AbstractApplication.VIEW_PROPERTIES);
+					app.getDialogManager().showPropertiesDialog(geos);
 				}
 			});
 		}
