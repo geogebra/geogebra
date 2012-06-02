@@ -123,10 +123,10 @@ public class GeoGebraMenuBar extends JMenuBar {
 			add(optionsMenu);			
 
 			// "Perspectives"
-			//if(!app.isApplet()) {
-			//	perspectivesMenu = new PerspectivesMenu(app, layout);
-			//	add(perspectivesMenu);
-			//}			
+			if(!app.isApplet()) {
+				perspectivesMenu = new PerspectivesMenu(app, layout);
+				add(perspectivesMenu);
+			}			
 
 			// "View"
 			viewMenu = new ViewMenu(app, layout);
@@ -155,10 +155,10 @@ public class GeoGebraMenuBar extends JMenuBar {
 			add(viewMenu);
 
 			// "Perspectives"
-			//if(!app.isApplet()) {
-			//	perspectivesMenu = new PerspectivesMenu(app, layout);
-			//	add(perspectivesMenu);
-			//}
+			if(!app.isApplet()) {
+				perspectivesMenu = new PerspectivesMenu(app, layout);
+				add(perspectivesMenu);
+			}
 
 			// "Options"
 			optionsMenu = new OptionsMenu(app);

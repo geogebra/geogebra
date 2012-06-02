@@ -1,6 +1,5 @@
 package geogebra.gui.menubar;
 
-import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.main.settings.KeyboardSettings;
 import geogebra.gui.GuiManager;
 import geogebra.gui.layout.DockPanel;
@@ -35,25 +34,28 @@ public class ViewMenu extends BaseMenu {
 			showKinectAction,
 			showInputHelpToggleAction, showInputTopAction, showToolBarAction,
 			showToolBarTopAction,
-			// constProtocolAction,
 			showConsProtNavigationAction, showConsProtNavigationOpenProtAction,
 			showConsProtNavigationPlayAction, refreshAction, recomputeAllViews;
 
-	private JCheckBoxMenuItem cbShowInputTop, // Florian Sonner 2008-09-12
-			cbShowToolBar, // Florian Sonner 2009-01-10
-			cbShowToolBarTop, // Florian Sonner 2009-01-10
+	private JCheckBoxMenuItem cbShowInputTop,
+			cbShowToolBar,
+			cbShowToolBarTop,
 			cbShowConsProtNavigation,
 			cbShowConsProtNavigationPlay,
 			cbShowConsProtNavigationOpenProt,
 			cbShowAlgebraInput,
 			cbShowKeyboard, cbShowPython, cbShowKinect,
-			cbShowInputHelpToggle, cbShowAxes, cbShowGrid;
+			cbShowInputHelpToggle;
 
 	private AbstractAction[] showViews;
 	private JCheckBoxMenuItem[] cbViews;
 
 	private JMenu menuConsProtNav, menuInput, menuToolBar;
 
+	/**
+	 * @param app app
+	 * @param layout layout
+	 */
 	public ViewMenu(Application app, Layout layout) {
 		super(app, app.getMenu("View"));
 
@@ -65,34 +67,12 @@ public class ViewMenu extends BaseMenu {
 		update();
 	}
 
-	/*
-	 * these need changing each time before menu shown in case
-	 * ActiveEuclidianView has changed
-	 */
-	void updateItems() {
-		EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
-		cbShowAxes.setSelected(ev.getShowXaxis() && ev.getShowYaxis());
-		cbShowGrid.setSelected(ev.getShowGrid());
-	}
 
 	/**
 	 * Initialize the menu items.
 	 */
 	private void initItems() {
 		
-		
-		// views
-		// menuViews = new JMenu(app.getMenu("Views")+" ...");
-		cbShowAxes = new JCheckBoxMenuItem(app.getGuiManager()
-				.getShowAxesAction());
-		add(cbShowAxes);
-
-		cbShowGrid = new JCheckBoxMenuItem(app.getGuiManager()
-				.getShowGridAction());
-		add(cbShowGrid);
-		updateItems();
-		addSeparator();
-
 		initViewItems(this);
 		add(this);
 		addSeparator();
@@ -112,7 +92,7 @@ public class ViewMenu extends BaseMenu {
 
 		// show Python and Kinect options in Eclipse & 5.0 Webstart only
 		// ie not 4.2
-		if (!app.isWebstart() || app.is3D()) {
+		if (!Application.isWebstart() || app.is3D()) {
 			// show/hide python window
 			cbShowPython = new JCheckBoxMenuItem(showPythonAction);
 			app.setEmptyIcon(cbShowPython);
@@ -192,15 +172,9 @@ public class ViewMenu extends BaseMenu {
 		menuConsProtNav.add(cbShowConsProtNavigation);
 		menuConsProtNav.add(cbShowConsProtNavigationPlay);
 		menuConsProtNav.add(cbShowConsProtNavigationOpenProt);
-		add(menuConsProtNav);
-
-		if(!app.isApplet()) {
-			PerspectivesMenu perspectivesMenu = new PerspectivesMenu(app, layout);
-			add(perspectivesMenu);
-			addSeparator();
-		}			
-
-				addSeparator();
+		add(menuConsProtNav);	
+		
+		addSeparator();
 
 		mi = add(refreshAction);
 		setMenuShortCutAccelerator(mi, 'F');
@@ -273,9 +247,9 @@ public class ViewMenu extends BaseMenu {
 						try { 
 							Thread.sleep(7000);
 						} 
-						catch(InterruptedException e) 
+						catch(InterruptedException e1) 
 						{ // TODO Auto-generated catch block
-							e.printStackTrace(); } 
+							e1.printStackTrace(); } 
 						app2.run(); 
 					}
 				}; 
@@ -603,16 +577,6 @@ public class ViewMenu extends BaseMenu {
 	private void updateViews() {
 		DockPanel[] dockPanels = layout.getDockManager().getPanels();
 		Arrays.sort(dockPanels, new DockPanel.MenuOrderComparator());
-		int viewsInMenu = 0;
-
-		// count visible views first..
-		for (DockPanel panel : dockPanels) {
-			// skip panels with negative order by design
-			if (panel.getMenuOrder() < 0) {
-				continue;
-			}
-			++viewsInMenu;
-		}
 
 		// update views
 		{
@@ -631,9 +595,4 @@ public class ViewMenu extends BaseMenu {
 		}
 	}
 
-	@Override
-	public void setPopupMenuVisible(boolean b) {
-		updateItems();
-		super.setPopupMenuVisible(b);
-	}
 }
