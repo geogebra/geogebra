@@ -188,7 +188,13 @@ public class Toolbar extends JToolBar {
 
 		// set toolbar
 		boolean firstButton = true;
-		for (int i = 0; i < toolbarVec.size(); i++) {
+		
+		// make the loop go backwards for eg Hebrew / Arabic
+		int first = app.isRightToLeftReadingOrder() ? toolbarVec.size() - 1 : 0;
+		int increment = app.isRightToLeftReadingOrder() ?  - 1 : 1;
+		
+		//for (int i = 0; i < toolbarVec.size(); i++) {
+		for (int i = first ; i >=0 && i < toolbarVec.size(); i+=increment) {
 			ToolbarItem ob = toolbarVec.get(i);
 
 			// separator between menus
@@ -213,7 +219,7 @@ public class Toolbar extends JToolBar {
 					// check mode
 					if (!"".equals(app.getToolName(addMode))) {
 						tm.addMode(addMode);
-						if (firstButton) {
+						if (i == 0 && firstButton) {
 							tm.getJToggleButton().setSelected(true);
 							firstButton = false;
 						}

@@ -132,7 +132,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.security.MessageDigest;
@@ -5229,6 +5228,36 @@ public class Application extends AbstractApplication implements
 				InputStreamReader(uc.getInputStream()));
 		return in.readLine(); // the last line will never get a "\n" on its end
 	}
+
+	/**
+	 * 
+	 * return East/West as appropriate for eg Hebrew / Arabic
+	 * 
+	 * return String rather than BorderLayout.EAST so we're not dependent on awt
+	 */
+	public String borderEast() {
+		//return BorderLayout.EAST;
+		if (isRightToLeftReadingOrder()) {
+			return "West";
+		} else {
+			return "East";
+		}
+	}
 	
+	/**
+	 * 
+	 * return East/West as appropriate for eg Hebrew / Arabic
+	 * 
+	 * return String rather than BorderLayout.West so we're not dependent on awt
+	 */
+	public String borderWest() {
+		// TODO Auto-generated method stub
+		//return BorderLayout.WEST;
+		if (!isRightToLeftReadingOrder()) {
+			return "West";
+		} else {
+			return "East";
+		}
+	}
 
 }

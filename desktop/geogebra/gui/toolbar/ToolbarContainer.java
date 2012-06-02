@@ -149,7 +149,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 		gluePanel.add(Box.createVerticalGlue());
 		gluePanel.add(toolbarPanel);
 		gluePanel.add(Box.createVerticalGlue());
-		add(gluePanel, BorderLayout.WEST);
+		add(gluePanel, app.borderWest());
 		
 		
 		/*
@@ -189,10 +189,10 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 				
 			
 				JPanel p = new JPanel(new BorderLayout());
-				p.add(getGridButtonPanel(), BorderLayout.EAST);
+				p.add(getGridButtonPanel(), app.borderEast());
 			//	p.add(undoPanel, BorderLayout.EAST);
 
-				add(p, BorderLayout.EAST);
+				add(p, app.borderEast());
 			}
 		
 
@@ -210,7 +210,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 			}
 
 			JPanel p = new JPanel(new BorderLayout());
-			p.add(modeNameLabel, BorderLayout.WEST);
+			p.add(modeNameLabel, app.borderWest());
 
 			if (isMain) {
 				JPanel p2 = new JPanel(new FlowLayout(FlowLayout.LEFT,0,0));
