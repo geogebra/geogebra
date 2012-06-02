@@ -286,10 +286,18 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 				AbstractApplication.WIKI_MANUAL));
 
 		JPanel gridPanel = new JPanel(new GridLayout(2, 2));
-		gridPanel.add(btnProperties);
-		gridPanel.add(btnHelp);
-		gridPanel.add(btnUndo);
-		gridPanel.add(btnRedo);
+		if (app.isRightToLeftReadingOrder()) {
+			gridPanel.add(btnHelp);
+			gridPanel.add(btnProperties);
+			gridPanel.add(btnRedo);
+			gridPanel.add(btnUndo);
+		} else {
+			gridPanel.add(btnProperties);
+			gridPanel.add(btnHelp);
+			gridPanel.add(btnUndo);
+			gridPanel.add(btnRedo);
+			
+		}
 
 		JPanel p = new JPanel(new BorderLayout());
 		p.add(gridPanel, BorderLayout.EAST);
