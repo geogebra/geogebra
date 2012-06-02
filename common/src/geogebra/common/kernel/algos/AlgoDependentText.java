@@ -18,15 +18,19 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.algos;
 
-import java.util.HashSet;
-
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
+import geogebra.common.kernel.arithmetic.MyStringBuffer;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
+import geogebra.common.main.AbstractApplication;
+
+import java.util.HashSet;
+import java.util.Iterator;
 
 /**
  * 
@@ -52,7 +56,7 @@ public class AlgoDependentText extends AlgoElement {
 
 		text = new GeoText(cons);
 		setInputOutput(); // for AlgoElement
-		
+
 		//set text traceable to spreadsheet, if possible
 		setSpreadsheetTraceableText();
 
@@ -128,7 +132,7 @@ public class AlgoDependentText extends AlgoElement {
 				}
 			}
 		}
-		
+
 		try {
 			boolean latex = text.isLaTeX();
 			root.setHoldsLaTeXtext(latex);
@@ -164,7 +168,9 @@ public class AlgoDependentText extends AlgoElement {
 
 
 	private void setSpreadsheetTraceableText(){
-		
+
+		NumberValue numToTrace = null;
+
 		/*
 		AbstractApplication.debug("\nroot: "+root+
 				"\nleft: "+root.getLeftTree()+
@@ -172,20 +178,36 @@ public class AlgoDependentText extends AlgoElement {
 				"\ngeos:"+root.getVariables()+
 				"\nright geos:"+root.getRightTree().getVariables()
 				);
-				*/
-		
-		HashSet<GeoElement> rightGeos = root.getRightTree().getVariables();
-		if (rightGeos!=null && rightGeos.size() == 1){
-			GeoElement geo = (GeoElement) rightGeos.toArray()[0];
-			if (geo.isNumberValue()){
+				//*/
 
-				text.setSpreadsheetTraceable(root.getLeftTree(), (NumberValue) geo);
-				/*
-			AbstractApplication.debug("\nleft string : "+root.getLeftTree().evaluate(tpl).toValueString(tpl));
-			AbstractApplication.debug("\nleft string latex : "+root.getLeftTree().evaluate(tpl).toLaTeXString(false, tpl));
-				 */
+		HashSet<GeoElement> rightGeos = root.getVariables();
 
+		Iterator<GeoElement> it = rightGeos.iterator();
+
+		while (it.hasNext()) {
+			GeoElement geo = it.next();
+
+			if (geo.isNumberValue()) {
+				if (numToTrace == null) {
+					numToTrace = (NumberValue) geo;
+				} else {
+					// more than one NumberValue in expression, so don't want to trace
+					return;
+				}
 			}
+
 		}
+
+
+		text.setSpreadsheetTraceable(new ExpressionNode(kernel, new MyStringBuffer(kernel, ((GeoElement) numToTrace).getLabel(StringTemplate.defaultTemplate))), (NumberValue) numToTrace);
+
+
+
+		//AbstractApplication.debug("\nleft string : "+root.getLeftTree().evaluate(StringTemplate.defaultTemplate).toValueString(StringTemplate.defaultTemplate));
+		//AbstractApplication.debug("\nleft string latex : "+root.getLeftTree().evaluate(StringTemplate.defaultTemplate).toLaTeXString(false, StringTemplate.defaultTemplate));
+
+
+
+
 	}
 }
