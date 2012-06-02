@@ -192,14 +192,7 @@ public class AlgoMidpointSegment extends AlgoElement implements SymbolicParamete
 			botanaVars[1]=new Variable();
 		}
 		
-		Variable[] fv1 = ((SymbolicParametersBotanaAlgo) P).getBotanaVars();
-		Variable[] fv2 = ((SymbolicParametersBotanaAlgo) Q).getBotanaVars();
-		botanaPolynomials = new Polynomial[2];
-		// 2*m1-a1-b1, 2*m2-a2-b2
-		botanaPolynomials[0] = (new Polynomial(2)).multiply(new Polynomial(botanaVars[0])).
-				subtract(new Polynomial(fv1[0])).subtract(new Polynomial(fv2[0]));
-		botanaPolynomials[1] = (new Polynomial(2)).multiply(new Polynomial(botanaVars[1])).
-				subtract(new Polynomial(fv1[1])).subtract(new Polynomial(fv2[1]));
+		botanaPolynomials = SymbolicParameters.botanaPolynomialsMidpoint(P,Q,botanaVars);
 		return botanaPolynomials;
 		
 	}

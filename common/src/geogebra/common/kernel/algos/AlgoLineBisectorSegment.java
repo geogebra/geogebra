@@ -204,26 +204,10 @@ public class AlgoLineBisectorSegment extends AlgoElement implements
 				botanaVars[2]=new Variable();
 				botanaVars[3]=new Variable();
 			}
-			Polynomial c1=new Polynomial(botanaVars[0]);
-			Polynomial c2=new Polynomial(botanaVars[1]);
-			Polynomial d1=new Polynomial(botanaVars[2]);
-			Polynomial d2=new Polynomial(botanaVars[3]);
-			Polynomial a1=new Polynomial(v[0]);
-			Polynomial a2=new Polynomial(v[1]);
+
+			botanaPolynomials = SymbolicParameters.botanaPolynomialsLineBisector(v[0], v[1],
+					v[2], v[3], botanaVars);
 			
-			botanaPolynomials = new Polynomial[4];
-			// C will be the midpoint of AB  
-			// 2*c1-a1-b1, 2*c2-a2-b2 (same as for AlgoMidPoint, TODO: maybe commonize)
-			botanaPolynomials[0] = (new Polynomial(2)).multiply(c1).
-					subtract(new Polynomial(v[0])).subtract(new Polynomial(v[2]));
-			botanaPolynomials[1] = (new Polynomial(2)).multiply(c2).
-					subtract(new Polynomial(v[1])).subtract(new Polynomial(v[3]));
-		
-			// D will be the rotation of A around C by 90 degrees
-			// d2=c2+(c1-a1), d1=c1-(c2-a2) => d2-c2-c1+a1, d1-c1+c2-a2
-			botanaPolynomials[2] = ((d2.subtract(c2)).subtract(c1)).add(a1);
-			botanaPolynomials[3] = ((d1.subtract(c1)).add(c2)).subtract(a2);
-					
 			return botanaPolynomials;
 		}
 		throw new NoSymbolicParametersException();

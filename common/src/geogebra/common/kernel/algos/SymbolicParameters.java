@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.prover.Polynomial;
 import geogebra.common.kernel.prover.Variable;
 import geogebra.common.kernel.prover.NoSymbolicParametersException;
 
@@ -226,4 +227,62 @@ public class SymbolicParameters {
 		return botanaVars;
 	}
 
+	/**
+	 * Returns Botana polynomials for the midpoint of P and Q  
+	 * @param P First endpoint of segment
+	 * @param Q Other endpoint of segment
+	 * @param botanaVars Botana variables for the new point (midpoint) 
+	 * @return the polynomials (2 elements)
+	 */
+	public static Polynomial[] botanaPolynomialsMidpoint(GeoElement P, GeoElement Q,
+			Variable[] botanaVars) {
+		Variable[] fv1 = ((SymbolicParametersBotanaAlgo) P).getBotanaVars();
+		Variable[] fv2 = ((SymbolicParametersBotanaAlgo) Q).getBotanaVars();
+		Polynomial[] botanaPolynomials = new Polynomial[2];
+		// 2*m1-a1-b1, 2*m2-a2-b2
+		botanaPolynomials[0] = (new Polynomial(2)).multiply(new Polynomial(botanaVars[0])).
+				subtract(new Polynomial(fv1[0])).subtract(new Polynomial(fv2[0]));
+		botanaPolynomials[1] = (new Polynomial(2)).multiply(new Polynomial(botanaVars[1])).
+				subtract(new Polynomial(fv1[1])).subtract(new Polynomial(fv2[1]));
+		return botanaPolynomials;
+	}
+
+	/**
+	 * Returns Botana polynomials for the bisector of A and B
+	 * @param Ax Botana variable of A (x)
+	 * @param Ay Botana variable of A (y)
+	 * @param Bx Botana variable of B (x)
+	 * @param By Botana variable of B (y)
+	 * @param botanaVars Botana variables for the 2 new points (4 variables)
+	 * @return the polynomials (4 elements)
+	 */
+	public static Polynomial[] botanaPolynomialsLineBisector(Variable Ax,
+			Variable Ay, Variable Bx, Variable By, Variable[] botanaVars) {
+		Polynomial[] botanaPolynomials = new Polynomial[4];
+
+		Polynomial a1=new Polynomial(Ax);
+		Polynomial a2=new Polynomial(Ay);
+
+		Polynomial c1=new Polynomial(botanaVars[0]);
+		Polynomial c2=new Polynomial(botanaVars[1]);
+		Polynomial d1=new Polynomial(botanaVars[2]);
+		Polynomial d2=new Polynomial(botanaVars[3]);
+		
+		// C will be the midpoint of AB  
+		// 2*c1-a1-b1, 2*c2-a2-b2
+		botanaPolynomials[0] = (new Polynomial(2)).multiply(c1).
+				subtract(new Polynomial(Ax)).subtract(new Polynomial(Bx));
+		botanaPolynomials[1] = (new Polynomial(2)).multiply(c2).
+				subtract(new Polynomial(Ay)).subtract(new Polynomial(By));
+	
+		// D will be the rotation of A around C by 90 degrees
+		// d2=c2+(c1-a1), d1=c1-(c2-a2) => d2-c2-c1+a1, d1-c1+c2-a2
+		botanaPolynomials[2] = ((d2.subtract(c2)).subtract(c1)).add(a1);
+		botanaPolynomials[3] = ((d1.subtract(c1)).add(c2)).subtract(a2);
+				
+		return botanaPolynomials;
+
+	
+	}
+	
 }
