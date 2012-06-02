@@ -2,18 +2,20 @@ package geogebra.common.util;
 
 import geogebra.common.main.AbstractApplication;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.net.URLConnection;
-
+/**
+ * Collection of which languages are official in which countries
+ * (only includes languages supported in GeoGebra)
+ * 
+ * @author michael@geogebra.org
+ * http://en.wikipedia.org/wiki/List_of_official_languages
+ * http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
+ */
 @SuppressWarnings("javadoc")
 public enum Language {
 	Armenian("hy","hy", "Armenian / \u0540\u0561\u0575\u0565\u0580\u0565\u0576", Country.Armenia),
 	Afrikaans ("af","af", "Afrikaans", Country.SouthAfrica),
 	Bosnian("bs","bs", "Bosnian / \u0431\u043E\u0441\u0430\u043D\u0441\u043A\u0438", Country.BosniaandHerzegovina),
-	Chinese_Simplified("zhCN","zhCN", "Chinese Simplified / \u7B80\u4F53\u4E2D\u6587", Country.China),
+	Chinese_Simplified("zhCN","zhCN", "Chinese Simplified / \u7B80\u4F53\u4E2D\u6587", Country.China, Country.Singapore),
 	Chinese_Traditional("zhTW","zhTW", "Chinese Traditional / \u7E41\u9AD4\u4E2D\u6587", Country.TaiwanProvinceofChina),
 	English_US("en", "en",
 			"English (US)", Country.UnitedStatesofAmerica,
@@ -38,7 +40,7 @@ public enum Language {
 	English_Australia("enAU", "enAU", "English (Australia)", Country.Australia),
 
 	// German must be before German_Austria
-	German("de","de", "German / Deutsch", Country.Germany),
+	German("de","de", "German / Deutsch", Country.Germany, Country.Liechtenstein, Country.Luxembourg, Country.Switzerland, Country.Belgium),
 	German_Austria("deAT","deAT", "German (Austria) / Deutsch (\u00D6sterreich)", Country.Austria),
 	
 	Galician("gl","gl", "Galician / Galego", "Galician"), // fudge to get right flag
@@ -59,21 +61,31 @@ public enum Language {
 			Country.UnitedArabEmirates, Country.WesternSahara, Country.Yemen),	Basque("eu","eu", "Basque / Euskara", "basque"), // fudge to get right flag
 	Bulgarian("bg","bg", "Bulgarian / \u0431\u044A\u043B\u0433\u0430\u0440\u0441\u043A\u0438 \u0435\u0437\u0438\u043A", Country.Bulgaria),
 	Catalan("ca","ca", "Catalan / Catal\u00E0", "catalonia"), // fudge to get right flag
-	Croatian("hr","hr", "Croatian / Hrvatska", Country.Croatia),
+	Croatian("hr","hr", "Croatian / Hrvatska", Country.Croatia, Country.BosniaandHerzegovina),
 	Czech("cs","cs", "Czech / \u010Ce\u0161tina", Country.CzechRepublic),
 	Danish("da","da", "Danish / Dansk", Country.Denmark),
-	Dutch("nl","nl", "Dutch / Nederlands", Country.Netherlands),
+	Dutch("nl","nl", "Dutch / Nederlands", Country.Netherlands, Country.Belgium, Country.Suriname),
 	Estonian("et","et", "Estonian / Eesti keel", Country.Estonia),
 	Finnish("fi","fi", "Finnish / Suomi", Country.Finland),
-	French("fr","fr", "French / Fran\u00E7ais", Country.France, Country.Canada),
+	French("fr", "fr",
+			"French / Fran\u00E7ais", Country.France,
+			Country.CongoDemocraticRepublicOf, Country.Canada,
+			Country.Madagascar, Country.Cameroon, Country.CoteDivoire,
+			Country.BurkinaFaso, Country.Niger, Country.Senegal, Country.Mali,
+			Country.Rwanda, Country.Belgium, Country.Guinea, Country.Chad,
+			Country.Haiti, Country.Burundi, Country.Benin, Country.Switzerland,
+			Country.Togo, Country.CentralAfricanRepublic, Country.Congo,
+			Country.Gabon, Country.Comoros, Country.EquatorialGuinea,
+			Country.Djibouti, Country.Luxembourg, Country.Vanuatu,
+			Country.Seychelles, Country.Monaco),
 	Georgian("ka","ka", "Georgian / \u10E5\u10D0\u10E0\u10D7\u10E3\u10DA\u10D8 \u10D4\u10DC\u10D0", Country.Georgia),
-	Greek("el","el", "Greek / \u0395\u03BB\u03BB\u03B7\u03BD\u03B9\u03BA\u03AC", Country.Greece),
+	Greek("el","el", "Greek / \u0395\u03BB\u03BB\u03B7\u03BD\u03B9\u03BA\u03AC", Country.Greece, Country.Cyprus),
 	Hebrew("iw","iw", "Hebrew / \u05E2\u05B4\u05D1\u05B0\u05E8\u05B4\u05D9\u05EA", Country.Israel),
 	Hindi("hi","hi", "Hindi / \u092E\u093E\u0928\u0915 \u0939\u093F\u0928\u094D\u0926\u0940", Country.India),
 	Hungarian("hu","hu", "Hungarian / Magyar", Country.Hungary),
 	Icelandic("is","is", "Icelandic / \u00CDslenska", Country.Iceland),
 	Indonesian("in","in", "Indonesian / Bahasa Indonesia", Country.Indonesia),
-	Italian("it","it", "Italian / Italiano", Country.Italy),
+	Italian("it","it", "Italian / Italiano", Country.Italy, Country.Switzerland, Country.SanMarino, Country.VaticanCityState),
 	Japanese("ja","ja", "Japanese / \u65E5\u672C\u8A9E", Country.Japan),
 	Kazakh("kk","kk", "Kazakh / \u049A\u0430\u0437\u0430\u049B \u0442\u0456\u043B\u0456", Country.Kazakhstan),
 	Korean("ko","ko", "Korean / \uD55C\uAD6D\uB9D0", Country.KoreaRepublicof, Country.KoreaDemocraticPeoplesRepublicof),
@@ -82,13 +94,13 @@ public enum Language {
 	Mongolian("mn","mn", "Mongolian / \u041C\u043E\u043D\u0433\u043E\u043B \u0445\u044D\u043B", Country.Mongolia),
 	Macedonian("mk","mk", "Macedonian / \u041C\u0430\u043A\u0435\u0434\u043E\u043D\u0441\u043A\u0438 \u0458\u0430\u0437\u0438\u043A", Country.Macedonia),
 	Marathi("mr","mr", "Marathi / \u092E\u0930\u093E\u0920\u0940", Country.India),
-	Malay("ms","ms", "Malay / Bahasa Malaysia", Country.Malaysia),
+	Malay("ms","ms", "Malay / Bahasa Malaysia", Country.Malaysia, Country.Singapore, Country.Indonesia, Country.BruneiDarussalam),
 	Nepalese("ne","ne", "Nepalese / \u0928\u0947\u092A\u093E\u0932\u0940", Country.Nepal),
-	Persian("fa","fa", "Persian / \u0641\u0627\u0631\u0633\u06CC", Country.IranIslamicRepublicof),
+	Persian("fa","fa", "Persian / \u0641\u0627\u0631\u0633\u06CC", Country.IranIslamicRepublicof, Country.Afghanistan, Country.Tajikistan),
 	Polish("pl","pl", "Polish / J\u0119zyk polski", Country.Poland),
-	Romanian("ro","ro", "Romanian /  Rom\u00E2n\u0103", Country.Romania),
-	Russian("ru","ru", "Russian / \u0420\u0443\u0441\u0441\u043A\u0438\u0439 \u044F\u0437\u044B\u043A", Country.RussianFederation),
-	Serbian("sr","sr", "Serbian / \u0441\u0440\u043F\u0441\u043A\u0438", Country.Serbia),
+	Romanian("ro","ro", "Romanian /  Rom\u00E2n\u0103", Country.Romania, Country.MoldovaRepublicof),
+	Russian("ru","ru", "Russian / \u0420\u0443\u0441\u0441\u043A\u0438\u0439 \u044F\u0437\u044B\u043A", Country.RussianFederation, Country.Kazakhstan, Country.Belarus, Country.Kyrgyzstan, Country.Tajikistan),
+	Serbian("sr","sr", "Serbian / \u0441\u0440\u043F\u0441\u043A\u0438", Country.Serbia, Country.BosniaandHerzegovina),
 	Slovakian("sk","sk", "Slovakian / Slovensk\u00FD jazyk", Country.Slovakia),
 	Slovenian("sl","sl", "Slovenian / Sloven\u0161\u010Dina", Country.Slovenia),
 	Spanish("es", "es", "Spanish / Espa\u00F1ol", Country.Spain,
@@ -97,11 +109,12 @@ public enum Language {
 			Country.DominicanRepublic, Country.ElSalvador, Country.Guatemala,
 			Country.Honduras, Country.Mexico, Country.Nicaragua,
 			Country.Panama, Country.Paraguay, Country.Ecuador, Country.Peru,
-			Country.Uruguay, Country.Venezuela, Country.PuertoRico),	Swedish("sv","sv", "Swedish / Svenska", Country.Sweden),
-	Tamil("ta","ta", "Tamil / \u0BA4\u0BAE\u0BBF\u0BB4\u0BCD", Country.India),
+			Country.Uruguay, Country.Venezuela, Country.PuertoRico),
+	Swedish("sv","sv", "Swedish / Svenska", Country.Sweden, Country.Finland),
+	Tamil("ta","ta", "Tamil / \u0BA4\u0BAE\u0BBF\u0BB4\u0BCD", Country.India, Country.Singapore),
 	Filipino("tl","tl", "Filipino", Country.Philippines),
 	Thai("th","th", "Thai / \u0E20\u0E32\u0E29\u0E32\u0E44\u0E17\u0E22", Country.Thailand),
-	Turkish("tr","tr", "Turkish / T\u00FCrk\u00E7e", Country.Turkey),
+	Turkish("tr","tr", "Turkish / T\u00FCrk\u00E7e", Country.Turkey, Country.Cyprus),
 	Ukrainian("uk","uk", "Ukrainian / \u0423\u043A\u0440\u0430\u0457\u043D\u0441\u044C\u043A\u0430 \u043C\u043E\u0432\u0430", Country.Ukraine),
 	Vietnamese("vi","vi", "Vietnamese / Ti\u1EBFng Vi\u1EC7t", Country.VietNam),
 	Welsh("cy","cy", "Welsh / Cymraeg", "wales"), // fudge to get right flag
