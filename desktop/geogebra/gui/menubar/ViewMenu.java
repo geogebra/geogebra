@@ -79,17 +79,19 @@ public class ViewMenu extends BaseMenu {
 	 * Initialize the menu items.
 	 */
 	private void initItems() {
+		
+		
 		// views
 		// menuViews = new JMenu(app.getMenu("Views")+" ...");
 		cbShowAxes = new JCheckBoxMenuItem(app.getGuiManager()
 				.getShowAxesAction());
-	//	add(cbShowAxes);
+		add(cbShowAxes);
 
 		cbShowGrid = new JCheckBoxMenuItem(app.getGuiManager()
 				.getShowGridAction());
-	//	add(cbShowGrid);
+		add(cbShowGrid);
 		updateItems();
-	//	addSeparator();
+		addSeparator();
 
 		initViewItems(this);
 		add(this);
@@ -192,7 +194,13 @@ public class ViewMenu extends BaseMenu {
 		menuConsProtNav.add(cbShowConsProtNavigationOpenProt);
 		add(menuConsProtNav);
 
-		addSeparator();
+		if(!app.isApplet()) {
+			PerspectivesMenu perspectivesMenu = new PerspectivesMenu(app, layout);
+			add(perspectivesMenu);
+			addSeparator();
+		}			
+
+				addSeparator();
 
 		mi = add(refreshAction);
 		setMenuShortCutAccelerator(mi, 'F');
