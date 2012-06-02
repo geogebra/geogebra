@@ -3009,4 +3009,9 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 			geogebra.common.awt.Point mouseLoc) {
 		showDrawingPadPopup(((EuclidianView)view).getJPanel(), mouseLoc);
 	}
+	
+	@Override
+	public void showPropertiesViewSliderTab(){
+		propertiesView.showSliderTab();
+	}
 }

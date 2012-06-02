@@ -139,4 +139,9 @@ public abstract class GuiManager {
 	 * tells the properties view that mouse has been released
 	 */
 	public abstract void mouseReleasedForPropertiesView();
+
+	/**
+	 * tells the properties view to show slider tab
+	 */
+	public abstract void showPropertiesViewSliderTab();
 }

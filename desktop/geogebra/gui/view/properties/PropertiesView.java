@@ -112,6 +112,7 @@ public class PropertiesView extends JPanel implements
 		
 		//init object properties
 		AbstractApplication.debug("init object properties");
+		app.setWaitCursor();
 		getOptionPanel(OptionType.OBJECTS);
 		AbstractApplication.debug("end (init object properties)");
 		
@@ -125,6 +126,7 @@ public class PropertiesView extends JPanel implements
 		
 
 		setLabels();
+		app.setDefaultCursor();//remove this if init object properties is faster
 	}
 
 	// ============================================
@@ -796,5 +798,8 @@ public class PropertiesView extends JPanel implements
 	}
 
 	
+	public void showSliderTab() {
+		objectPanel.showSliderTab();
+	}
 
 }

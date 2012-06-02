@@ -102,8 +102,6 @@ public class OptionsObject extends JPanel implements OptionPanel, SetLabels {
 		listScroller = new JScrollPane(tree);
 		listScroller.setMinimumSize(new Dimension(MIN_LIST_WIDTH, 200));
 		listScroller.setBackground(Color.white);
-		listScroller.setBorder(BorderFactory.createEmptyBorder(5, 5, 0, 5));
-
 
 		// delete button
 		delButton = new JButton(app.getImageIcon("delete_small.gif"));
@@ -156,9 +154,10 @@ public class OptionsObject extends JPanel implements OptionPanel, SetLabels {
 
 		// put it all together
 		this.removeAll();
-		// contentPane.setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
+		
 
 		splitPane = new JSplitPane();
+		splitPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 		splitPane.setLeftComponent(listScroller);
 		splitPane.setRightComponent(propPanel);
 
@@ -182,6 +181,9 @@ public class OptionsObject extends JPanel implements OptionPanel, SetLabels {
 		return propPanel;
 	}
 
+	/**
+	 * show slider tab
+	 */
 	public void showSliderTab() {
 		if (propPanel != null)
 			propPanel.showSliderTab();

@@ -167,7 +167,8 @@ public class DialogManagerDesktop extends geogebra.common.gui.dialog.DialogManag
 		if (geos != null && geos.size() == 1
 				&& geos.get(0).isEuclidianVisible()
 				&& geos.get(0) instanceof GeoNumeric)
-			AbstractApplication.debug("TODO : propPanel.showSliderTab()");
+			//AbstractApplication.debug("TODO : propPanel.showSliderTab()");
+			app.getGuiManager().showPropertiesViewSliderTab();
 	}
 
 	private ArrayList<GeoElement> tempGeos = new ArrayList<GeoElement>();

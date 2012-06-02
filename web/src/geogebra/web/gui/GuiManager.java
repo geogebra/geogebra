@@ -424,6 +424,10 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
     }
 
 
+	@Override
+	public void showPropertiesViewSliderTab(){
+		// TODO Auto-generated method stub
+	}
 	
 	
 	
