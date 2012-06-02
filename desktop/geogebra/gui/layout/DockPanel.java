@@ -372,12 +372,21 @@ implements ActionListener, WindowListener, MouseListener, geogebra.common.gui.la
 		titleLabel.setFont(app.getPlainFont());
 		titleLabel.setForeground(Color.darkGray);
 			
-		JPanel p = new JPanel(new FlowLayout(FlowLayout.LEFT,2,1));
-		if(this.hasStyleBar){
-			p.add(this.toggleStyleBarButton);
+		JPanel p = new JPanel(new FlowLayout(app.flowLeft(),2,1));
+		
+		if (app.isRightToLeftReadingOrder()) {
+			p.add(titleLabel);
+			p.add(Box.createHorizontalStrut(2));
+			if(this.hasStyleBar){
+				p.add(this.toggleStyleBarButton);
+			}
+		} else {
+			if(this.hasStyleBar){
+				p.add(this.toggleStyleBarButton);
+			}
+			p.add(Box.createHorizontalStrut(2));
+			p.add(titleLabel);			
 		}
-		p.add(Box.createHorizontalStrut(2));
-		p.add(titleLabel);
 		return p;
 	}
 	
@@ -396,13 +405,22 @@ implements ActionListener, WindowListener, MouseListener, geogebra.common.gui.la
 		
 		// create button panel
 		buttonPanel = new JPanel();
-		buttonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, 0, 1));
-		buttonPanel.add(maximizeButton);
-		buttonPanel.add(Box.createHorizontalStrut(4));
-		buttonPanel.add(unwindowButton);
-		buttonPanel.add(windowButton);
-		buttonPanel.add(Box.createHorizontalStrut(4));
-		buttonPanel.add(closeButton);
+		buttonPanel.setLayout(new FlowLayout(app.flowRight(), 0, 1));
+		if (app.isRightToLeftReadingOrder()) {
+			buttonPanel.add(closeButton);
+			buttonPanel.add(Box.createHorizontalStrut(4));
+			buttonPanel.add(windowButton);
+			buttonPanel.add(unwindowButton);
+			buttonPanel.add(Box.createHorizontalStrut(4));
+			buttonPanel.add(maximizeButton);			
+		} else {
+			buttonPanel.add(maximizeButton);
+			buttonPanel.add(Box.createHorizontalStrut(4));
+			buttonPanel.add(unwindowButton);
+			buttonPanel.add(windowButton);
+			buttonPanel.add(Box.createHorizontalStrut(4));
+			buttonPanel.add(closeButton);			
+		}
 
 		// Custom border for the major panels (title, stylebar and toolbar)
 		Border panelBorder = BorderFactory.createCompoundBorder(BorderFactory
@@ -415,19 +433,19 @@ implements ActionListener, WindowListener, MouseListener, geogebra.common.gui.la
 		styleBarPanel.addMouseListener(this);
 
 		styleBarButtonPanel = new JPanel(new BorderLayout());
-		JPanel p = new JPanel(new FlowLayout(0, 0, FlowLayout.LEFT));
+		JPanel p = new JPanel(new FlowLayout(0, 0, app.flowLeft()));
 		p.add(toggleStyleBarButton2);
 		p.add(Box.createHorizontalStrut(4));
 		styleBarButtonPanel.add(p, BorderLayout.NORTH);
-		styleBarPanel.add(styleBarButtonPanel, BorderLayout.WEST);
+		styleBarPanel.add(styleBarButtonPanel, app.borderWest());
 		
 		// construct the title bar and add all elements
 		titlePanel = new JPanel();
 		titlePanel.setBorder(panelBorder);
 		titlePanel.setLayout(new BorderLayout());
 
-		titlePanel.add(createFocusPanel(), BorderLayout.WEST);
-		titlePanel.add(buttonPanel, BorderLayout.EAST);
+		titlePanel.add(createFocusPanel(), app.borderWest());
+		titlePanel.add(buttonPanel, app.borderEast());
 		titlePanel.addMouseListener(this); // drags and double-click for stylebar
 		titlePanel.addMouseListener(new MyButtonHider());
 		
@@ -442,10 +460,10 @@ implements ActionListener, WindowListener, MouseListener, geogebra.common.gui.la
 		// construct a meta panel to hold the title, tool bar and style bar panels
 
 		JPanel titleBar = new JPanel(new BorderLayout());
-		titleBar.add(titlePanel, BorderLayout.NORTH);
 		if (hasStyleBar)
 			titleBar.add(styleBarPanel, BorderLayout.SOUTH);
-
+		titleBar.add(titlePanel, BorderLayout.NORTH);
+		
 		JPanel metaPanel = new JPanel(new BorderLayout());
 		metaPanel.add(titleBar, BorderLayout.SOUTH);
 		if (hasToolbar())

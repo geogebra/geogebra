@@ -97,6 +97,7 @@ import java.awt.Component;
 import java.awt.Container;
 import java.awt.Cursor;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.GraphicsEnvironment;
@@ -5257,6 +5258,34 @@ public class Application extends AbstractApplication implements
 			return "West";
 		} else {
 			return "East";
+		}
+	}
+
+	/**
+	 * 
+	 * return Left/Right as appropriate for eg Hebrew / Arabic
+	 * 
+	 * return int rather than FlowLayout.LEFT  so we're not dependent on awt
+	 */
+	public int flowLeft() {
+		if (!isRightToLeftReadingOrder()) {
+			return 0; // left
+		} else {
+			return 2; // right
+		}
+	}
+
+	/**
+	 * 
+	 * return Left/Right as appropriate for eg Hebrew / Arabic
+	 * 
+	 * return int rather than FlowLayout.RIGHT  so we're not dependent on awt
+	 */
+	public int flowRight() {
+		if (isRightToLeftReadingOrder()) {
+			return 0; // left
+		} else {
+			return 2; // right
 		}
 	}
 
