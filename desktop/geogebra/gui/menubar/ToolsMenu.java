@@ -1,19 +1,12 @@
 package geogebra.gui.menubar;
 
-import geogebra.common.gui.toolbar.ToolBar;
-import geogebra.common.gui.toolbar.ToolbarItem;
 import geogebra.gui.dialog.ToolCreationDialog;
 import geogebra.gui.dialog.ToolManagerDialog;
-import geogebra.gui.toolbar.Toolbar;
 import geogebra.main.Application;
 
 import java.awt.event.ActionEvent;
-import java.util.Iterator;
-import java.util.Vector;
 
 import javax.swing.AbstractAction;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
 
 /**
  * The "Tools" menu.
@@ -24,8 +17,7 @@ class ToolsMenu extends BaseMenu {
 	private AbstractAction
 		toolbarConfigAction,
 		showCreateToolsAction,
-		showManageToolsAction,
-		modeChangeAction
+		showManageToolsAction
 	;
 	
 	/**
@@ -50,67 +42,7 @@ class ToolsMenu extends BaseMenu {
 		addSeparator();
 		add(showCreateToolsAction);
 		add(showManageToolsAction);
-		addSeparator();
 
-		JMenu[] modeMenus = new JMenu[13];
-		modeMenus[0] = new JMenu(app.getMenu("MovementTools"));
-		modeMenus[1] = new JMenu(app.getMenu("PointTools"));
-		modeMenus[2] = new JMenu(app.getMenu("BasicLineTools"));
-		modeMenus[3] = new JMenu(app.getMenu("SpecialLineTools"));
-		modeMenus[4] = new JMenu(app.getMenu("PolygonTools"));
-		modeMenus[5] = new JMenu(app.getMenu("CircleArcTools"));
-		modeMenus[6] = new JMenu(app.getMenu("ConicSectionTools"));
-		modeMenus[7] = new JMenu(app.getMenu("MeasurementTools"));
-		modeMenus[8] = new JMenu(app.getMenu("TransformationTools"));
-		modeMenus[9] = new JMenu(app.getMenu("SpecialObjectTools"));
-		modeMenus[10] = new JMenu(app.getMenu("ActionObjectTools"));
-		modeMenus[11] = new JMenu(app.getMenu("GeneralTools"));
-		modeMenus[12] = new JMenu(app.getMenu("CustomTools"));
-
-		for (int i = 0; i < modeMenus.length; ++i) {
-			modeMenus[i].setIcon(app.getEmptyIcon());
-			add(modeMenus[i]);
-		}
-
-		Toolbar toolbar = new Toolbar(app);
-		Vector<ToolbarItem> modes = ToolBar.parseToolbarString(toolbar
-				.getDefaultToolbarString());
-
-		int menuIndex = 0;
-
-		for (Iterator<ToolbarItem> iter = modes.iterator(); iter.hasNext();) {
-			ToolbarItem next = iter.next();
-			if (next.getMenu() != null) {
-				Iterator<Integer> iter2 = next.getMenu().iterator();
-				while ( iter2.hasNext()) {
-
-					
-						int mode = iter2.next().intValue();
-
-						if (mode < 0)
-							modeMenus[menuIndex].addSeparator();
-						else {
-							JMenuItem item = new JMenuItem(app
-									.getToolName(mode));// ,
-														// app.getModeIcon(mode));
-							item.setActionCommand(Integer.toString(mode));
-							item.addActionListener(modeChangeAction);
-							
-							app.setTooltipFlag();
-							item.setToolTipText(app.getToolHelp(mode));
-							app.clearTooltipFlag();
-							
-							modeMenus[menuIndex].add(item);
-					}
-					
-				}
-
-				++menuIndex;
-			}
-		}
-
-		if (modeMenus[modeMenus.length - 1].getItemCount() == 0)
-			modeMenus[modeMenus.length - 1].setEnabled(false);
 	}
 	
 	/**
@@ -125,21 +57,6 @@ class ToolsMenu extends BaseMenu {
 
 			public void actionPerformed(ActionEvent e) {
 				app.getDialogManager().showToolbarConfigDialog();
-			}
-		};
-
-		// Florian Sonner 2008-08-13
-		modeChangeAction = new AbstractAction() {
-			public static final long serialVersionUID = 1L;
-
-			public void actionPerformed(ActionEvent e) {
-				int mode = Integer.parseInt(e.getActionCommand());
-				if(!app.getGuiManager().getGeneralToolbar().containsMode(mode)){
-					app.getGuiManager().addToToolbarDefinition(mode);
-					app.updateToolBar();
-				}
-				app.setMode(mode);
-				
 			}
 		};
 
