@@ -674,7 +674,7 @@ public class Polynomial implements Comparable<Polynomial> {
 	 */
 	public static Boolean solvable(Polynomial[] polys, HashMap<Variable,Integer> substitutions) {
 		if (AbstractApplication.singularWS != null && AbstractApplication.singularWS.isAvailable()) {
-			String singularSolvableProgram = getSingularGroebnerSolvable("rr", "ii", polys, substitutions);
+			String singularSolvableProgram = getSingularGroebnerSolvable("r", "i", polys, substitutions);
 			if (singularSolvableProgram.length()>500)
 				AbstractApplication.debug(singularSolvableProgram.length() + " bytes -> singular");
 			else

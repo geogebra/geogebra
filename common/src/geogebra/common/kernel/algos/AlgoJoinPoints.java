@@ -166,17 +166,7 @@ public class AlgoJoinPoints extends AlgoElement implements SymbolicParametersAlg
 	public Variable[] getBotanaVars() {
 		if (botanaVars != null)
 			return botanaVars;
-		
-		botanaVars = new Variable[4];
-		Variable[] line1vars = new Variable[2];
-		Variable[] line2vars = new Variable[2];
-		line1vars = ((SymbolicParametersBotanaAlgo) input[0]).getBotanaVars();
-		line2vars = ((SymbolicParametersBotanaAlgo) input[1]).getBotanaVars();
-		botanaVars[0] = line1vars[0];
-		botanaVars[1] = line1vars[1];
-		botanaVars[2] = line2vars[0];
-		botanaVars[3] = line2vars[1];
-		
+		botanaVars = SymbolicParameters.addBotanaVarsJoinPoints(input);
 		return botanaVars;
 	}
 

@@ -4,6 +4,7 @@ import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.HashSet;
 
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.prover.Variable;
 import geogebra.common.kernel.prover.NoSymbolicParametersException;
 
@@ -205,6 +206,24 @@ public class SymbolicParameters {
 				matrix[0][0].multiply(matrix[1][2]).multiply(matrix[2][1]).multiply(matrix[3][3])).subtract(
 				matrix[0][1].multiply(matrix[1][0]).multiply(matrix[2][2]).multiply(matrix[3][3])).add(
 				matrix[0][0].multiply(matrix[1][1]).multiply(matrix[2][2]).multiply(matrix[3][3]));
+	}
+
+	/**
+	 * Adds two extra points to the Botana point list (4 extra variables)
+	 * @param input Two EV points
+	 * @return List of Botana variables (4 elements)
+	 */
+	public static Variable[] addBotanaVarsJoinPoints(GeoElement[] input) {
+		Variable[] botanaVars = new Variable[4];
+		Variable[] line1vars = new Variable[2];
+		Variable[] line2vars = new Variable[2];
+		line1vars = ((SymbolicParametersBotanaAlgo) input[0]).getBotanaVars();
+		line2vars = ((SymbolicParametersBotanaAlgo) input[1]).getBotanaVars();
+		botanaVars[0] = line1vars[0];
+		botanaVars[1] = line1vars[1];
+		botanaVars[2] = line2vars[0];
+		botanaVars[3] = line2vars[1];
+		return botanaVars;
 	}
 
 }
