@@ -23,6 +23,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
@@ -428,6 +429,7 @@ implements ActionListener, WindowListener, MouseListener, geogebra.common.gui.la
 		titlePanel.add(createFocusPanel(), BorderLayout.WEST);
 		titlePanel.add(buttonPanel, BorderLayout.EAST);
 		titlePanel.addMouseListener(this); // drags and double-click for stylebar
+		titlePanel.addMouseListener(new MyButtonHider());
 		
 		// create toolbar panel
 		if (hasToolbar()) {
@@ -1381,16 +1383,8 @@ implements ActionListener, WindowListener, MouseListener, geogebra.common.gui.la
 	public void windowOpened(WindowEvent e) { }
 	
 	public void mouseClicked(MouseEvent e) { }
-	public void mouseEntered(MouseEvent e) {
-		if(!windowButton.isVisible()){
-			windowButton.setVisible(true);
-		}
-	}
-	public void mouseExited(MouseEvent e) {
-		if(!titlePanel.getBounds().contains(e.getPoint())){
-			windowButton.setVisible(false);
-		}
-	}
+	public void mouseEntered(MouseEvent e) { }
+	public void mouseExited(MouseEvent e) { }
 	public void mouseReleased(MouseEvent e) { }
 	
 	/**
@@ -1409,6 +1403,27 @@ implements ActionListener, WindowListener, MouseListener, geogebra.common.gui.la
 			
 			super.paint(g, component);
 		}
+	}
+	
+	
+	public class MyButtonHider extends MouseAdapter{
+		
+		public void mouseEntered(MouseEvent e) {
+			//System.out.println("entered, not jpanel");
+			if (e.getSource() != titlePanel) {
+				e.consume();
+			} else if (!windowButton.isVisible()) {
+				windowButton.setVisible(true);
+			}
+		}
+
+		public void mouseExited(MouseEvent e) {
+			//System.out.println("exited:");
+			if(!titlePanel.getVisibleRect().contains(e.getPoint()))  {
+				windowButton.setVisible(false);
+			}
+		}
+
 	}
 	
 	

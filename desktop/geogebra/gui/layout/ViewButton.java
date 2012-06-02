@@ -4,6 +4,7 @@ import geogebra.gui.util.GeoGebraIcon;
 import geogebra.main.Application;
 
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
@@ -88,10 +89,18 @@ public class ViewButton extends JToggleButton implements ActionListener {
 
 	
 	@Override
-	public void setIcon(Icon ic){
-		super.setSelectedIcon(GeoGebraIcon.joinIcons(app.getImageIcon("shown.gif"), (ImageIcon) ic));
+	public void setIcon(Icon ic) {
+		super.setSelectedIcon(GeoGebraIcon.joinIcons(
+				app.getImageIcon("shown.gif"), (ImageIcon) ic));
 		int s = app.getImageIcon("shown.gif").getIconWidth();
-		super.setIcon(GeoGebraIcon.joinIcons(GeoGebraIcon.createEmptyIcon(s, s), (ImageIcon) ic));
+		super.setIcon(GeoGebraIcon.joinIcons(
+				GeoGebraIcon.createEmptyIcon(s, s), (ImageIcon) ic));
+
+		Dimension dim = new Dimension(getIcon().getIconWidth() + 5, getIcon()
+				.getIconHeight() + 10);
+		setPreferredSize(dim);
+		setMaximumSize(dim);
+		setMinimumSize(dim);
 
 	}
 	

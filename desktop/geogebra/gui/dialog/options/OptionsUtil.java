@@ -1,5 +1,6 @@
 package geogebra.gui.dialog.options;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.FlowLayout;
 
@@ -54,6 +55,19 @@ public class OptionsUtil {
 		}
 		return p;
 	}
+	
+	public static JPanel flowPanelCenter(int hgap, int vgap, int tab, Color bgColor,
+			Component... comps) {
+		JPanel p = new JPanel(new FlowLayout(FlowLayout.CENTER, hgap, vgap));
+		p.add(Box.createHorizontalStrut(tab));
+		for (Component comp : comps) {
+			p.add(comp);
+		}
+		p.setBackground(bgColor);
+		return p;
+	}
+	
+	
 	
 	public static JPanel flowPanelRight(int hgap, int vgap, int tab,
 			Component... comps) {

@@ -1060,6 +1060,8 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 		if (propertiesView != null)
 			propertiesView.setLabels();
 		
+		if (app.getDockBar() != null)
+			app.getDockBar().setLabels();
 		
 		
 

@@ -258,7 +258,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 		btnRedo.setAlignmentX(RIGHT_ALIGNMENT);
 
 		// properties button
-		MySmallJButton btnProperties = new MySmallJButton(app.getImageIcon("tool.png"),7);
+		MySmallJButton btnProperties = new MySmallJButton(app.getImageIcon("view-properties16.png"),7);
 		btnProperties.setFocusPainted(false);
 		btnProperties.setBorderPainted(false);
 		btnProperties.setContentAreaFilled(false);

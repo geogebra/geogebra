@@ -50,6 +50,13 @@ public class ViewButtonBar extends JToolBar {
 		DockPanel[] dockPanels = layout.getDockManager().getPanels();
 		Arrays.sort(dockPanels, new DockPanel.MenuOrderComparator());
 
+		// get the PropertiesView dock panel first
+		for (DockPanel panel : dockPanels) {
+			if (panel.getViewId() == Application.VIEW_PROPERTIES) {
+				viewButtons.add(new ViewButton(app, panel));
+			}
+		}
+					
 		// iterate through the dock panels
 		for (DockPanel panel : dockPanels) {
 
