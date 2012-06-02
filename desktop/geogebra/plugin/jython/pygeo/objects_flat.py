@@ -124,9 +124,27 @@ class GeoNamespace(object):
             self._api.getAllGeos()
         )
 
+class FactoryProduct(object):
+    def __init__(self, product_type, factory):
+        self._product_type = product_type
+        self._factory = factory
+    def __call__(self, *args, **kwargs):
+        return self._product_type(self._factory, *args, **kwargs)
+    @property
+    def all(self):
+        return map(
+            self._factory.get_element,
+            self._factory.api.getGeos(self._product_type.GEOCLASS)
+        )
+    def __repr__(self):
+        return "<Bound %s type>" % self._product_type.__name__
+
+
 class MetaFactoryProduct(GenericMethods.__metaclass__):
     def __get__(self, obj, objtype):
-        return partial(self, obj)
+        # return partial(self, obj)
+        return FactoryProduct(self, obj)
+
 
 class Element:
     __metaclass__ = MetaFactoryProduct
@@ -494,6 +512,8 @@ class ExpressionElement(Element):
 
 class Numeric(ExpressionElement, NumberExpression):
 
+    GEOCLASS = GeoClass.NUMERIC
+    
     # TODO Tidy this up
     @specmethod.__init__
     @sign(ElementFactory, Number)
@@ -520,11 +540,13 @@ class Numeric(ExpressionElement, NumberExpression):
 
 
 class Angle(Numeric):
-    pass
+    
+    GEOCLASS = GeoClass.ANGLE
 
 
 class Boolean(ExpressionElement, Expression):
-    pass
+    
+    GEOCLASS = GeoClass.BOOLEAN
 
 
 class VectorOrPoint(ExpressionElement, Expression):
@@ -572,6 +594,9 @@ class VectorOrPoint(ExpressionElement, Expression):
 
 
 class Vector(VectorOrPoint):
+
+    GEOCLASS = GeoClass.VECTOR
+    
     @specmethod.rawinit
     @sign(VectorThing)
     def initfromexpr(self, e):
@@ -584,6 +609,9 @@ class Vector(VectorOrPoint):
 
         
 class Point(VectorOrPoint):
+    
+    GEOCLASS = GeoClass.POINT
+    
     @specmethod.rawinit
     @sign((VectorThing, Vector))
     def initfromexpr(self, e):
@@ -650,7 +678,9 @@ class Path(Element):
 
 
 class Line(Path):
-
+    
+    GEOCLASS = GeoClass.LINE
+    
     @specmethod.init
     @sign(Point, Point)
     def initfrom2points(self, p, q):
@@ -679,6 +709,9 @@ def initfrompointandline(self, p, l):
 
 
 class Segment(Line, ExpressionElement, NumberExpression):
+    
+    GEOCLASS = GeoClass.SEGMENT
+    
     @specmethod.init
     @sign(Point, Point)
     def initfrompoints(self, p, q):
@@ -700,6 +733,9 @@ class Segment(Line, ExpressionElement, NumberExpression):
 
 
 class Ray(Line):
+    
+    GEOCLASS = GeoClass.RAY
+    
     @specmethod.init
     @sign(Point, Point)
     def initfrompoints(self, p, q):
@@ -707,6 +743,9 @@ class Ray(Line):
 
 
 class Axis(Element):
+    
+    GEOCLASS = GeoClass.AXIS
+    
     def _getvisible(self):
         return self._api.isAxisVisible(self.geo)
     def _setvisible(self, visible):
@@ -740,6 +779,8 @@ class Poly(ExpressionElement, NumberExpression):
 
 class Polygon(Poly):
 
+    GEOCLASS = GeoClass.POLYGON
+    
     def rawinit(self, pointlist):
         el = self._factory.element
         self.geo = self._api.geoPolygon([el(pt).geo for pt in pointlist])
@@ -765,7 +806,9 @@ class Polygon(Poly):
     
 
 class PolyLine(Poly):
-
+    
+    GEOCLASS = GeoClass.POLYLINE
+    
     def rawinit(self, pointlist):
         el = self._factory.element
         self.geo = self._api.geoPolyLine([el(pt).geo for pt in pointlist])
@@ -775,6 +818,9 @@ class PolyLine(Poly):
 
 
 class Text(Element):
+    
+    GEOCLASS = GeoClass.TEXT
+    
     @specmethod.rawinit
     @sign(basestring)
     def initfromstring(self, value):
@@ -820,9 +866,13 @@ class Text(Element):
 
 
 class Button(Element):
-    pass
+    
+    GEOCLASS = GeoClass.BUTTON
+
 
 class TextField(Button):
+    
+    GEOCLASS = GeoClass.TEXTFIELD
 
     def _gettext(self):
         return API.Geo.getText(self.geo)
@@ -833,6 +883,8 @@ class TextField(Button):
 
 
 class Conic(Path):
+    
+    GEOCLASS = GeoClass.CONIC
 
     @classmethod
     def fromgeo(cls, factory, geo):
@@ -929,6 +981,8 @@ Conic._conic_types = {
 
 class Locus(Path):
     
+    GEOCLASS = GeoClass.LOCUS
+    
     def get_point(self, param):
         if param < 0 or param > 1:
             raise ValueError("param must be between 0 and 1")
@@ -936,11 +990,14 @@ class Locus(Path):
 
 
 class ImplicitPoly(Path):
-
-    pass
+    
+    GEOCLASS = GeoClass.IMPLICIT_POLY
 
 
 class Function(Element):
+    
+    # TODO Split Function into Function and FunctionNVar
+    GEOCLASS = GeoClass.FUNCTION
     
     def __init__(self, factory, f):
         self._factory = factory
@@ -979,6 +1036,8 @@ class Function(Element):
 
 class Turtle(Element):
 
+    GEOCLASS = GeoClass.TURTLE
+    
     def __init__(self, factory):
         self._factory = factory
         self._api = factory.api
@@ -1139,7 +1198,9 @@ class Intersect(object):
 
 
 class List(Element):
-
+    
+    GEOCLASS = GeoClass.LIST
+    
     def init(self, *args):
         el = self._factory.element
         self.geo = self._api.geoList([el(arg).geo for arg in args])
