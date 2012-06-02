@@ -244,7 +244,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 		// undo button
 		MySmallJButton btnUndo = new MySmallJButton(app.getGuiManager()
 				.getUndoAction(), 7);
-		String text = app.getMenu("Undo");
+		String text = app.getMenuTooltip("Undo");
 		btnUndo.setText(null);
 		btnUndo.setToolTipText(text);
 		btnUndo.setAlignmentX(RIGHT_ALIGNMENT);
@@ -252,7 +252,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 		// redo button
 		MySmallJButton btnRedo = new MySmallJButton(app.getGuiManager()
 				.getRedoAction(), 7);
-		text = app.getMenu("Redo");
+		text = app.getMenuTooltip("Redo");
 		btnRedo.setText(null);
 		btnRedo.setToolTipText(text);
 		btnRedo.setAlignmentX(RIGHT_ALIGNMENT);
@@ -262,6 +262,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 		btnProperties.setFocusPainted(false);
 		btnProperties.setBorderPainted(false);
 		btnProperties.setContentAreaFilled(false);
+		btnProperties.setToolTipText(app.getPlainTooltip("Properties"));
 		btnProperties.addActionListener(new ActionListener(){
 
 			public void actionPerformed(ActionEvent arg0) {
@@ -277,7 +278,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 		btnHelp.setFocusPainted(false);
 		btnHelp.setBorderPainted(false);
 		btnHelp.setContentAreaFilled(false);
-		btnHelp.setToolTipText(app.getMenu("Help"));
+		btnHelp.setToolTipText(app.getMenuTooltip("Help"));
 		
 		// TODO: better help action ?
 		btnHelp.addActionListener(new HelpAction(app, app

@@ -138,6 +138,7 @@ public class GeoGebraMenuBar extends JMenuBar {
 		// "flag" to select language
 		final String flagName = app.getFlagName(false);
 		final JLabel languageLabel = new JLabel(app.getFlagIcon(flagName));
+		languageLabel.setToolTipText(app.getMenuTooltip("Language"));
 		languageLabel.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {

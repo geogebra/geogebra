@@ -54,7 +54,7 @@ public class DockBar extends JPanel implements ActionListener, SetLabels {
 
 	private static final long serialVersionUID = 1L;
 
-	private Application app;
+	Application app;
 	private Layout layout;
 
 	private MyPopup popup;
@@ -141,6 +141,7 @@ public class DockBar extends JPanel implements ActionListener, SetLabels {
 			}
 
 		});
+		btnProperties.setToolTipText(app.getMenuTooltip("Properties"));
 
 		// file open button
 		 btnFileOpen = new DockButton(
@@ -173,7 +174,7 @@ public class DockBar extends JPanel implements ActionListener, SetLabels {
 		btnHelp.setFocusPainted(false);
 		btnHelp.setBorderPainted(false);
 		btnHelp.setContentAreaFilled(false);
-		btnHelp.setToolTipText(app.getMenu("Help"));
+		btnHelp.setToolTipText(app.getMenuTooltip("Help"));
 
 		// TODO: better help action ?
 		btnHelp.addActionListener(new HelpAction(app, app
@@ -324,7 +325,7 @@ public class DockBar extends JPanel implements ActionListener, SetLabels {
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		Object source = e.getSource();
+		e.getSource();
 		update();
 	}
 
@@ -338,7 +339,7 @@ public class DockBar extends JPanel implements ActionListener, SetLabels {
 		final Border normalBorder = BorderFactory.createMatteBorder(1, 0, 0, 1,
 				SystemColor.controlShadow);
 
-		final Border hoverBorder = BorderFactory
+		BorderFactory
 				.createBevelBorder(BevelBorder.RAISED);
 
 		final JLabel lblIcon;
