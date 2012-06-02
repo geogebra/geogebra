@@ -177,6 +177,33 @@ public class AlgoAreEqual extends AlgoElement implements
 			return botanaPolynomials;
 		}
 		
+		// Order is important here: a GeoSegment is also a GeoLine!
+		if (inputElement1 instanceof GeoSegment && inputElement2 instanceof GeoSegment) {
+			// We check whether their length are equal.
+			botanaPolynomials = new Polynomial[1][1];
+
+			Variable[] v1 = new Variable[4];
+			Variable[] v2 = new Variable[4];
+			v1 = ((GeoSegment) inputElement1).getBotanaVars(); // AB
+			v2 = ((GeoSegment) inputElement2).getBotanaVars(); // CD
+
+			// We want to prove: d(AB)=d(CD) => (a1-b1)^2+(a2-b2)^2=(c1-d1)^2+(c2-d2)^2
+			// => (a1-b1)^2+(a2-b2)^2-(c1-d1)^2-(c2-d2)^2
+			Polynomial a1 = new Polynomial(v1[0]);
+			Polynomial a2 = new Polynomial(v1[1]);
+			Polynomial b1 = new Polynomial(v1[2]);
+			Polynomial b2 = new Polynomial(v1[3]);
+			Polynomial c1 = new Polynomial(v2[0]);
+			Polynomial c2 = new Polynomial(v2[1]);
+			Polynomial d1 = new Polynomial(v2[2]);
+			Polynomial d2 = new Polynomial(v2[3]);
+			botanaPolynomials[0][0] = ((Polynomial.sqr(a1.subtract(b1)).add(
+					Polynomial.sqr(a2.subtract(b2)))).subtract(Polynomial.sqr(c1.subtract(d1)))).
+					subtract(Polynomial.sqr(c2.subtract(d2))); 
+			 
+			return botanaPolynomials;
+		}
+
 		if (inputElement1 instanceof GeoLine && inputElement2 instanceof GeoLine) {
 			botanaPolynomials = new Polynomial[2][1];
 
@@ -190,8 +217,8 @@ public class AlgoAreEqual extends AlgoElement implements
 			botanaPolynomials[1][0] = Polynomial.collinear(v1[0], v1[1], v1[2], v1[3], v2[2], v2[3]); 
 			return botanaPolynomials;
 		}
-		
-		// TODO: Implement lines, and maybe segments, also circles etc.
+
+		// TODO: Implement circles etc.
 		
 		throw new NoSymbolicParametersException();
 	}

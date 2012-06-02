@@ -690,5 +690,15 @@ public class Polynomial implements Comparable<Polynomial> {
 		}
 		return null; // cannot decide
 	}
+	
+	/** Returns the square of the input polynomial
+	 * @param p input polynomial
+	 * @return the square (p*p)
+	 */
+	public static Polynomial sqr(Polynomial p) {
+		return p.multiply(p);
+	}
 
+	
+	
 }
