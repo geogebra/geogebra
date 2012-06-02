@@ -24,6 +24,7 @@ import geogebra.common.kernel.PathNormalizer;
 import geogebra.common.kernel.PathParameter;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint2;
@@ -222,18 +223,37 @@ public class AlgoPointOnPath extends AlgoElement implements PathAlgo, SymbolicPa
 		if (botanaPolynomials != null) {
 			return botanaPolynomials;
 		}
+
 		if (input[0] != null && input[0] instanceof GeoLine){
 			if (botanaVars==null){
 				botanaVars = new Variable[2];
 				botanaVars[0]=new Variable();
 				botanaVars[1]=new Variable();
 			}
-			Variable[] fv = ((SymbolicParametersBotanaAlgo) input[0]).getBotanaVars();
+			Variable[] fv = ((SymbolicParametersBotanaAlgo) input[0]).getBotanaVars(); // 4 variables
 			botanaPolynomials = new Polynomial[1];
 			botanaPolynomials[0] = Polynomial.collinear(fv[0], fv[1], fv[2], fv[3], botanaVars[0], botanaVars[1]);
 			return botanaPolynomials;
-			
 		}
+
+		if (input[0] != null && input[0] instanceof GeoConic){
+			if (((GeoConic) input[0]).isCircle()) {
+				if (botanaVars==null){
+					botanaVars = new Variable[2];
+					botanaVars[0]=new Variable();
+					botanaVars[1]=new Variable();
+				}
+				Variable[] fv = ((SymbolicParametersBotanaAlgo) input[0]).getBotanaVars(); // 8 variables
+				botanaPolynomials = new Polynomial[1];
+				// If this new point is D, and ABC is already a triangle with the circumcenter O,
+				// then here we must claim that e.g. AO=OD:
+				botanaPolynomials[0] = Polynomial.equidistant(fv[0], fv[1], fv[6], fv[7],
+						botanaVars[0], botanaVars[1]);
+				return botanaPolynomials;
+			}
+		}
+		
+		
 		throw new NoSymbolicParametersException();
 	}
 

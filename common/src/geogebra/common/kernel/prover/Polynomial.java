@@ -652,16 +652,23 @@ public class Polynomial implements Comparable<Polynomial> {
 	 */
 	public static String getSingularGroebnerSolvable(String ringVariable, String idealVariable, Polynomial[] polys,
 			HashMap<Variable,Integer> substitutions) {
-		HashSet<Variable> substVars = new HashSet<Variable>(substitutions.keySet());
-		String substParams = substitutionsString(substitutions);
+		HashSet<Variable> substVars = null;
+		String substCommand = "";
+		if (substitutions != null) {
+			substVars = new HashSet<Variable>(substitutions.keySet());
+			String substParams = substitutionsString(substitutions);
+			substCommand = idealVariable + "=subst(" + idealVariable + "," + substParams + ");";
+		}
 		String ret = "ring " + ringVariable + "=0,(" 
 			+ getVarsAsCommaSeparatedString(polys, substVars)
 			+ "),dp;" // ring definition in Singular
 				
-			+ "ideal " + idealVariable + "=";
-		ret += getPolysAsCommaSeparatedString(polys) // ideal definition in Singular
-			+ ";" + idealVariable + "=subst(" + idealVariable + "," + substParams + ")" // substitutions
-			+ ";groebner(" + idealVariable + ")!=1;"; // the Groebner basis calculation command
+			+ "ideal " + idealVariable + "="
+		 	+ getPolysAsCommaSeparatedString(polys) + ";"; // ideal definition in Singular
+
+		ret += substCommand;
+
+		ret += "groebner(" + idealVariable + ")!=1;"; // the Groebner basis calculation command
 		return ret;
 	}
 	
@@ -700,5 +707,34 @@ public class Polynomial implements Comparable<Polynomial> {
 	}
 
 	
+	
+	/**
+	 * Returns the square of the distance of two points
+	 * @param a1 first coordinate of A
+	 * @param a2 second coordinate of A
+	 * @param b1 first coordinate of B
+	 * @param b2 second coordinate of B
+	 * @return the square of the distance
+	 */
+	public static Polynomial sqrDistance(Variable a1, Variable a2, Variable b1, Variable b2) {
+		return sqr(new Polynomial(a1).subtract(new Polynomial(b1)))
+				.add(sqr(new Polynomial(a2).subtract(new Polynomial(b2))));
+	}
+	
+	/**
+	 * Returns if AO=OB, i.e. whether the AOB triangle is isosceles
+	 * @param a1 first coordinate of A
+	 * @param a2 second coordinate of A
+	 * @param o1 first coordinate of O
+	 * @param o2 second coordinate of O
+	 * @param b1 first coordinate of B
+	 * @param b2 second coordinate of B
+	 * @return the 0 polynomial if AO=OB
+	 */
+	public static Polynomial equidistant(Variable a1, Variable a2,
+			Variable o1, Variable o2, Variable b1,
+			Variable b2) {
+		return sqrDistance(a1,a2,o1,o2).subtract(sqrDistance(o1,o2,b1,b2));  
+	}
 	
 }

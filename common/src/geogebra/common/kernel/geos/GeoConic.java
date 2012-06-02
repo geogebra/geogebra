@@ -22,9 +22,13 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Matrix.CoordSys;
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.algos.SymbolicParametersBotanaAlgo;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoConicNDConstants;
+import geogebra.common.kernel.prover.NoSymbolicParametersException;
+import geogebra.common.kernel.prover.Polynomial;
+import geogebra.common.kernel.prover.Variable;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.util.MyMath;
@@ -36,7 +40,7 @@ import java.util.ArrayList;
  */
 public class GeoConic extends GeoConicND implements Traceable,
 		ConicMirrorable, Transformable, Mirrorable,
-		Dilateable {
+		Dilateable, SymbolicParametersBotanaAlgo {
 
 	/*
 	 * ( A[0] A[3] A[4] ) matrix = ( A[3] A[1] A[5] ) ( A[4] A[5] A[2] )
@@ -548,4 +552,20 @@ public class GeoConic extends GeoConicND implements Traceable,
 
 	}
 
+	public Variable[] getBotanaVars() {
+		if (algoParent != null
+				&& algoParent instanceof SymbolicParametersBotanaAlgo) {
+			return ((SymbolicParametersBotanaAlgo) algoParent).getBotanaVars();
+		}
+		return null;
+	}
+	
+	public Polynomial[] getBotanaPolynomials() throws NoSymbolicParametersException  {
+		if (algoParent != null && algoParent instanceof SymbolicParametersBotanaAlgo) {
+		return ((SymbolicParametersBotanaAlgo) algoParent).getBotanaPolynomials();
+		}
+	throw new NoSymbolicParametersException();
+	}
+
+	
 }

@@ -30,6 +30,12 @@ public class Prover extends geogebra.common.util.Prover {
 	
 	@Override
 	public void compute() {
+		if (AbstractApplication.proverTimeout == 0) {
+			// Do not create a thread if there is no timeout set:
+		    decideStatement();
+		    // This is especially useful for debugging in Eclipse.
+		    return;
+		}
 		result = ProofResult.UNKNOWN;
 		Thread t = new Thread(new computeThread(), "compute");
 		long startTime = System.currentTimeMillis();

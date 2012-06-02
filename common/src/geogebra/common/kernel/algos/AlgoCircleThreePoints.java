@@ -29,6 +29,9 @@ import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.kernel.prover.NoSymbolicParametersException;
+import geogebra.common.kernel.prover.Polynomial;
+import geogebra.common.kernel.prover.Variable;
 import geogebra.common.util.MyMath;
 
 //import geogebra.kernel.kernelND.GeoConicND;
@@ -38,11 +41,13 @@ import geogebra.common.util.MyMath;
  * @author Markus
  * @version
  */
-public class AlgoCircleThreePoints extends AlgoElement {
+public class AlgoCircleThreePoints extends AlgoElement implements SymbolicParametersBotanaAlgo {
 
 	private GeoPointND A, B, C; // input
 	// protected GeoConicND circle; // output
 	protected GeoConicND circle; // output
+	private Variable[] botanaVars;
+	private Polynomial[] botanaPolynomials;
 
 	// line bisectors
 	private GeoLine s0, s1;
@@ -275,5 +280,48 @@ public class AlgoCircleThreePoints extends AlgoElement {
 		// simplified to allow better Chinese translation
 		return app.getPlain("CircleThroughABC", A.getLabel(tpl), B.getLabel(tpl),
 				C.getLabel(tpl));
+	}
+
+	public Variable[] getBotanaVars() {
+		return botanaVars;
+	}
+
+	public Polynomial[] getBotanaPolynomials()
+			throws NoSymbolicParametersException {
+
+		if (botanaPolynomials != null) {
+			return botanaPolynomials;
+		}
+
+		if (botanaVars == null) {
+			botanaVars = new Variable[8];
+			Variable[] circle1vars = new Variable[2];
+			Variable[] circle2vars = new Variable[2];
+			Variable[] circle3vars = new Variable[2];
+			Variable[] centerVars = new Variable[2];
+			centerVars[0] = new Variable();
+			centerVars[1] = new Variable();
+			
+			circle1vars = ((SymbolicParametersBotanaAlgo) input[0]).getBotanaVars();
+			circle2vars = ((SymbolicParametersBotanaAlgo) input[1]).getBotanaVars();
+			circle3vars = ((SymbolicParametersBotanaAlgo) input[2]).getBotanaVars();
+			botanaVars[0] = circle1vars[0];
+			botanaVars[1] = circle1vars[1];
+			botanaVars[2] = circle2vars[0];
+			botanaVars[3] = circle2vars[1];
+			botanaVars[4] = circle3vars[0];
+			botanaVars[5] = circle3vars[1];
+			// This will be the center (let's introduce a new point):
+			botanaVars[6] = centerVars[0];
+			botanaVars[7] = centerVars[1];
+		}
+
+		botanaPolynomials = new Polynomial[2];
+		botanaPolynomials[0] = Polynomial.equidistant(botanaVars[0], botanaVars[1], 
+				botanaVars[6], botanaVars[7], botanaVars[2], botanaVars[3]);
+		botanaPolynomials[1] = Polynomial.equidistant(botanaVars[2], botanaVars[3], 
+				botanaVars[6], botanaVars[7], botanaVars[4], botanaVars[5]);
+	
+		return botanaPolynomials;
 	}
 }

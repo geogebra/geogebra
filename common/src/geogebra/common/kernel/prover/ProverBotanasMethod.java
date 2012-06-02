@@ -170,20 +170,31 @@ public class ProverBotanasMethod {
 						hypotheses = allPolys;
 					}
 				} catch (NoSymbolicParametersException e) {
+					AbstractApplication.debug(geo.getParentAlgorithm() + " is not fully implemented");
 					return ProofResult.UNKNOWN;
 				}
 			}
-			else return ProofResult.UNKNOWN;
+			else {
+				AbstractApplication.debug(geo.getParentAlgorithm() + " unimplemented");
+				return ProofResult.UNKNOWN;
+			}
 		}
 		try {
 			// The sets of statement polynomials.
 			// The last equation of each set will be negated.
+			if (!(prover.getStatement().getParentAlgorithm() instanceof SymbolicParametersBotanaAlgoAre)) {
+				AbstractApplication.debug(prover.getStatement().getParentAlgorithm() + " unimplemented");
+				return ProofResult.UNKNOWN;
+			}
+				
 			Polynomial[][] statements = ((SymbolicParametersBotanaAlgoAre) prover.getStatement().getParentAlgorithm()).getBotanaPolynomials();
 			// The NDG conditions (automatically created):
 			Polynomial[] ndgConditions = null;
 			if (AbstractApplication.freePointsNeverCollinear)
 				ndgConditions = create3FreePointsNeverCollinearNDG(prover);
-			HashMap<Variable,Integer> substitutions = fixValues(prover.getStatement());
+			HashMap<Variable,Integer> substitutions = null;
+			if (AbstractApplication.useFixCoordinates)
+				substitutions = fixValues(prover.getStatement());
 			int nHypotheses = 0;
 			int nNdgConditions = 0;
 			int nStatements = 0;
