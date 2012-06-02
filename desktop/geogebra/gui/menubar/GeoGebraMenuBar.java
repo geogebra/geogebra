@@ -54,7 +54,7 @@ public class GeoGebraMenuBar extends JMenuBar {
 
 	private Application app;
 	private Layout layout;
-	
+
 
 	/**
 	 * Creates new menubar
@@ -85,57 +85,121 @@ public class GeoGebraMenuBar extends JMenuBar {
 	 */
 	public void initMenubar() {
 		removeAll();
-	
-		// "File"
+
+		if (app.isRightToLeftReadingOrder()) {
+
+			// "flag" to select language
+			addFlag();	
+			
+			// force next item to far right
+			add(Box.createHorizontalGlue());			
+			
+			// "Help"
+			helpMenu = new HelpMenu(app);
+			add(helpMenu);			
+			
+			// "Window"
+			windowMenu = new WindowMenu(app);
+
+			if(!app.isApplet()) // just add the menu if this is not an applet we're 
+			{
+				add(windowMenu);
+
+				if (app.getPluginManager() != null) {
+					javax.swing.JMenu pim = app.getPluginManager().getPluginMenu();
+					if (pim != null) {
+						add(pim);
+					} // H-P Ulven 2008-04-17
+				}
+			}
+			
+			
+			// "Tools"
+			toolsMenu = new ToolsMenu(app);
+			add(toolsMenu);			
+			
+			// "Options"
+			optionsMenu = new OptionsMenu(app);
+			add(optionsMenu);			
+
+			// "Perspectives"
+			if(!app.isApplet()) {
+				perspectivesMenu = new PerspectivesMenu(app, layout);
+				add(perspectivesMenu);
+			}			
+
+			// "View"
+			viewMenu = new ViewMenu(app, layout);
+			add(viewMenu);			
+			
+			// "Edit"
+			editMenu = new EditMenu(app);
+			add(editMenu);
+			
+			// "File"
 			fileMenu = new FileMenu(app);
 			add(fileMenu);
-				
-		// "Edit"
-		editMenu = new EditMenu(app);
-		add(editMenu);
-		
-		// "View"
-		viewMenu = new ViewMenu(app, layout);
-		add(viewMenu);
-		
-		// "Perspectives"
-		if(!app.isApplet()) {
-			perspectivesMenu = new PerspectivesMenu(app, layout);
-			add(perspectivesMenu);
-		}
-		
-		// "Options"
-		optionsMenu = new OptionsMenu(app);
-		add(optionsMenu);
-		
-		// "Tools"
-		toolsMenu = new ToolsMenu(app);
-		add(toolsMenu);
-		
-		// "Window"
-		windowMenu = new WindowMenu(app);
-		
-		if(!app.isApplet()) // just add the menu if this is not an applet we're 
-		{
-			add(windowMenu);
 			
-			if (app.getPluginManager() != null) {
-				javax.swing.JMenu pim = app.getPluginManager().getPluginMenu();
-				if (pim != null) {
-					add(pim);
-				} // H-P Ulven 2008-04-17
-			}
-		}
-		
-		// "Help"
-		helpMenu = new HelpMenu(app);
-		add(helpMenu);
-		
-		
-		// force next item to far right
-		add(Box.createHorizontalGlue());
+		} else {
 
-		// "flag" to select language
+			// "File"
+			fileMenu = new FileMenu(app);
+			add(fileMenu);
+
+			// "Edit"
+			editMenu = new EditMenu(app);
+			add(editMenu);
+
+			// "View"
+			viewMenu = new ViewMenu(app, layout);
+			add(viewMenu);
+
+			// "Perspectives"
+			if(!app.isApplet()) {
+				perspectivesMenu = new PerspectivesMenu(app, layout);
+				add(perspectivesMenu);
+			}
+
+			// "Options"
+			optionsMenu = new OptionsMenu(app);
+			add(optionsMenu);
+
+			// "Tools"
+			toolsMenu = new ToolsMenu(app);
+			add(toolsMenu);
+
+			// "Window"
+			windowMenu = new WindowMenu(app);
+
+			if(!app.isApplet()) // just add the menu if this is not an applet we're 
+			{
+				add(windowMenu);
+
+				if (app.getPluginManager() != null) {
+					javax.swing.JMenu pim = app.getPluginManager().getPluginMenu();
+					if (pim != null) {
+						add(pim);
+					} // H-P Ulven 2008-04-17
+				}
+			}
+
+			// "Help"
+			helpMenu = new HelpMenu(app);
+			add(helpMenu);
+
+
+			// force next item to far right
+			add(Box.createHorizontalGlue());
+
+			// "flag" to select language
+			addFlag();
+		}
+
+
+
+	}
+
+	private void addFlag() {
 		final String flagName = app.getFlagName(false);
 		final JLabel languageLabel = new JLabel(app.getFlagIcon(flagName));
 		languageLabel.setToolTipText(app.getMenuTooltip("Language"));
@@ -149,31 +213,29 @@ public class GeoGebraMenuBar extends JMenuBar {
 			}
 		});
 		add(languageLabel);
-		
-		
-		
-		       new Thread(
-		               new Runnable() {
-		                   public void run() {
-		               			
-		               			String geoIPflagname = app.getFlagName(true);
-		               			
-		               			if (!geoIPflagname.equals(flagName)) {
-		               				languageLabel.setIcon(app.getFlagIcon(flagName));
-		               				AbstractApplication.debug("updating flag to "+geoIPflagname);
-		               			}
-		               			
-		               			
-		               			
-		               			
-		               			
 
-		                   }
-		               }).start();
 
-		
-		
-}
+
+		new Thread(
+				new Runnable() {
+					public void run() {
+
+						String geoIPflagname = app.getFlagName(true);
+
+						if (!geoIPflagname.equals(flagName)) {
+							languageLabel.setIcon(app.getFlagIcon(flagName));
+							AbstractApplication.debug("updating flag to "+geoIPflagname);
+						}
+
+
+
+
+
+
+					}
+				}).start();		
+	}
+
 
 	/**
 	 * Update the menubar.
@@ -187,12 +249,12 @@ public class GeoGebraMenuBar extends JMenuBar {
 		toolsMenu.update();
 		if (perspectivesMenu != null)
 			perspectivesMenu.update();
-		
+
 		if(!app.isApplet())
 			windowMenu.update();
-		
+
 		helpMenu.update();
-		
+
 		updateSelection();
 	}
 
@@ -202,7 +264,7 @@ public class GeoGebraMenuBar extends JMenuBar {
 	public void updateSelection() {
 		((EditMenu)editMenu).updateSelection();
 	}
-	
+
 	/**
 	 * Update the file menu without being forced to updated the other menus as well.
 	 */
@@ -211,14 +273,14 @@ public class GeoGebraMenuBar extends JMenuBar {
 			fileMenu.update();
 		}
 	}
-	
+
 	/**
 	 * Update the window menu without having to update the other menus as well.
 	 */
 	public void updateMenuWindow() {
 		windowMenu.update();
 	}
-	
+
 	/**
 	 * Update the menu fonts.
 	 */
@@ -250,8 +312,8 @@ public class GeoGebraMenuBar extends JMenuBar {
 		}
 		m.setFont(font);
 	}
-	
-	
+
+
 	/**
 	 * Show the print preview dialog.
 	 * 
@@ -278,7 +340,7 @@ public class GeoGebraMenuBar extends JMenuBar {
 						// Constructor constructor =
 						// classObject.getDeclaredConstructor(types);
 						// constructor.newInstance(args);
-/* old code
+						/* old code
 						boolean printCAS=false;
 						if (app.getGuiManager().hasCasView()){	
 							DockManager dm=app.getGuiManager().getLayout().getDockManager();
@@ -288,14 +350,14 @@ public class GeoGebraMenuBar extends JMenuBar {
 								printCAS=true;
 							}
 						}			
-						
+
 						if (!printCAS)
 							new geogebra.export.PrintPreview(app, app
 								.getEuclidianView(), PageFormat.LANDSCAPE);
-						
-						
-	*/					
-						
+
+
+						 */					
+
 						DockManager dm=app.getGuiManager().getLayout().getDockManager();
 						geogebra.export.PrintPreview pre;
 						if (dm.getFocusedPanel()==dm.getPanel(AbstractApplication.VIEW_CAS))
@@ -350,7 +412,7 @@ public class GeoGebraMenuBar extends JMenuBar {
 		if (app.getApplet() != null) vsb.append(" Applet");
 		else if (Application.isWebstartDebug()) vsb.append(" Debug");
 		else if (Application.isWebstart()) vsb.append(" Webstart");
-		
+
 		StringBuilder sb = new StringBuilder();
 		sb.append("<html><b>");
 		sb.append(vsb);
@@ -379,10 +441,10 @@ public class GeoGebraMenuBar extends JMenuBar {
 
 		JPanel systemInfoPanel = new JPanel(new BorderLayout(5, 5));
 		systemInfoPanel.add(new JLabel(sb.toString()), BorderLayout.CENTER);
-		
+
 		// copy system information to clipboard
 		systemInfoPanel.add(new JButton(new AbstractAction(app.getPlain("SystemInformation")) {
-	
+
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent arg0) {
@@ -404,49 +466,49 @@ public class GeoGebraMenuBar extends JMenuBar {
 				systemInfo.append("MB\nCAS: ");
 				systemInfo.append(Application.getCASVersionString());
 				systemInfo.append("\n\n");
-				
+
 				// copy log file to systemInfo
 				if (app.logFile != null) {
-				    String NL = System.getProperty("line.separator");
-				    Scanner scanner = null;
-				    try {
-					  scanner = new Scanner(new File(app.logFile.toString()));
-				      while (scanner.hasNextLine()){
-				    	  systemInfo.append(scanner.nextLine() + NL);
-				      }
-				    } catch (FileNotFoundException e) {
-				    	
-				    }
-				    finally{
-				      if (scanner != null) scanner.close();
-				    }
+					String NL = System.getProperty("line.separator");
+					Scanner scanner = null;
+					try {
+						scanner = new Scanner(new File(app.logFile.toString()));
+						while (scanner.hasNextLine()){
+							systemInfo.append(scanner.nextLine() + NL);
+						}
+					} catch (FileNotFoundException e) {
+
+					}
+					finally{
+						if (scanner != null) scanner.close();
+					}
 				}
-				
+
 				// append ggb file (except images)
 				systemInfo.append(app.getXML());
 				systemInfo.append("\n\n");
 				systemInfo.append(app.getMacroXML());
 				systemInfo.append("\n\nLibraryJavaScript:\n");
 				app.getKernel().getLibraryJavaScript();
-				
+
 				systemInfo.append("\n\nPreferences:\n");
 				systemInfo.append(GeoGebraPreferences.getPref().getXMLPreferences());
 				systemInfo.append("[/code]");
 				Toolkit.getDefaultToolkit().getSystemClipboard().setContents(
-					new StringSelection(systemInfo.toString()), null
-				);
-				
+						new StringSelection(systemInfo.toString()), null
+						);
+
 				app.showMessage(app.getPlain("SystemInformationMessage"));
 			}
 		}), BorderLayout.EAST);
-		
+
 		JPanel panel = new JPanel(new BorderLayout(5, 5));
 		panel.add(systemInfoPanel, BorderLayout.NORTH);
 		panel.add(scrollPane, BorderLayout.SOUTH);
 
 		JOptionPane infoPane = new JOptionPane(panel,
 				JOptionPane.PLAIN_MESSAGE, JOptionPane.DEFAULT_OPTION);
-		
+
 		final JDialog dialog = infoPane.createDialog(app.getMainComponent(),
 				app.getMenu("About") + " / " + app.getMenu("License"));
 
