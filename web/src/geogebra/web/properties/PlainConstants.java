@@ -1885,5 +1885,60 @@ public interface PlainConstants extends ConstantsWithLookup {
 	@DefaultStringValue("graph")
 	String Name_graph();
 
+	@DefaultStringValue("sin")
+	String Function_sin();
+
+	@DefaultStringValue("cos")
+	String Function_cos();
+
+	@DefaultStringValue("tan")
+	String Function_tan();
+
+	@DefaultStringValue("sec")
+	String Function_sec();
+
+	@DefaultStringValue("csc")
+	String Function_csc();
+
+	@DefaultStringValue("cot")
+	String Function_cot();
+
+	@DefaultStringValue("asin")
+	String Function_asin();
+
+	@DefaultStringValue("acos")
+	String Function_acos();
+
+	@DefaultStringValue("atan")
+	String Function_atan();
+
+	@DefaultStringValue("sinh")
+	String Function_sinh();
+
+	@DefaultStringValue("cosh")
+	String Function_cosh();
+
+	@DefaultStringValue("tanh")
+	String Function_tanh();
+
+	@DefaultStringValue("sech")
+	String Function_sech();
+
+	@DefaultStringValue("csch")
+	String Function_csch();
+
+	@DefaultStringValue("coth")
+	String Function_coth();
+	
+	@DefaultStringValue("asinh")
+	String Function_asinh();
+
+	@DefaultStringValue("acosh")
+	String Function_acosh();
+
+	@DefaultStringValue("atanh")
+	String Function_atanh();
+
+
 
 }
