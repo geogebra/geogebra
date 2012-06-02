@@ -220,7 +220,16 @@ public class PythonFlatAPI {
 		public static String getTypeString(GeoElement geo) {
 			return geo.getTypeString();
 		}
-
+		
+		/**
+		 * @param geo the geo
+		 * @return the GeoClass of the wrapped Geo
+		 */
+		
+		public static GeoClass getGeoClassType(GeoElement geo) {
+			return geo.getGeoClassType();
+		}
+		
 		/**
 		 * Remove the geo
 		 */
