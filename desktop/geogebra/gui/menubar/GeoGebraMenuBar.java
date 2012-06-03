@@ -286,7 +286,9 @@ public class GeoGebraMenuBar extends JMenuBar {
 	 */
 	public void updateFonts() {
 		for(int i = 0; i < this.getMenuCount(); i++){
-			setMenuFontRecursive(getMenu(i), app.getPlainFont());
+			JMenu m;
+			if ((m = getMenu(i)) != null)
+			setMenuFontRecursive(m, app.getPlainFont());
 		}
 	}
 
