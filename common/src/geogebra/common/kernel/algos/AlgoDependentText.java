@@ -22,13 +22,15 @@ import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
+import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.MyStringBuffer;
 import geogebra.common.kernel.arithmetic.NumberValue;
-import geogebra.common.kernel.arithmetic.ValidExpression;
+import geogebra.common.kernel.arithmetic.TextValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.AbstractApplication;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 
@@ -170,6 +172,8 @@ public class AlgoDependentText extends AlgoElement {
 	private void setSpreadsheetTraceableText(){
 
 		NumberValue numToTrace = null;
+		
+		String label = null;
 
 		/*
 		AbstractApplication.debug("\nroot: "+root+
@@ -180,12 +184,24 @@ public class AlgoDependentText extends AlgoElement {
 				);
 				//*/
 
+
+		// try to collect a string as label
+		// eg for "length = "+d
+		// the label will be "length ="
+		al = new ArrayList<String>();
+		getStrings(root);		
+		if (al.size() > 0) {
+			label = al.get(0);
+		}
+		
 		HashSet<GeoElement> rightGeos = root.getVariables();
 
 		Iterator<GeoElement> it = rightGeos.iterator();
 
 		while (it.hasNext()) {
 			GeoElement geo = it.next();
+			
+			//AbstractApplication.debug(geo.getClass());
 
 			if (geo.isNumberValue()) {
 				if (numToTrace == null) {
@@ -194,14 +210,15 @@ public class AlgoDependentText extends AlgoElement {
 					// more than one NumberValue in expression, so don't want to trace
 					return;
 				}
-			}
+			} 
 
 		}
+		
+		String columnHeader = label != null ? label : ((GeoElement) numToTrace).getLabel(StringTemplate.defaultTemplate);
 
-
-		if (numToTrace!=null)
-			text.setSpreadsheetTraceable(new ExpressionNode(kernel, new MyStringBuffer(kernel, ((GeoElement) numToTrace).getLabel(StringTemplate.defaultTemplate))), (NumberValue) numToTrace);
-
+		if (numToTrace != null) {
+			text.setSpreadsheetTraceable(new ExpressionNode(kernel, new MyStringBuffer(kernel, columnHeader)), numToTrace);
+		}
 
 
 		//AbstractApplication.debug("\nleft string : "+root.getLeftTree().evaluate(StringTemplate.defaultTemplate).toValueString(StringTemplate.defaultTemplate));
@@ -211,4 +228,41 @@ public class AlgoDependentText extends AlgoElement {
 
 
 	}
+	
+	private ArrayList<String> al;
+	
+	/**
+	 * gets all non-empty strings from an ExpressionNode
+	 */
+	final private void getStrings(ExpressionNode en) {
+		if (en.isLeaf()) {
+			getStrings(en.getLeftTree());
+		}
+		
+		ExpressionValue left = en.getLeft();
+		ExpressionValue right = en.getRight();
+
+		if (left.isExpressionNode()) {
+			getStrings((ExpressionNode) left);
+		} else if (left.isTextValue()) {
+			String str = ((TextValue)left).getText().toValueString(StringTemplate.defaultTemplate);
+			if (!"".equals(str)) {
+				al.add(str);
+			}
+		}
+		
+		if (right.isExpressionNode()) {
+			getStrings((ExpressionNode) right);
+		} else if (right.isTextValue()) {
+			String str = ((TextValue)right).getText().toValueString(StringTemplate.defaultTemplate);
+			if (!"".equals(str)) {
+				al.add(str);
+			}
+		}
+		
+		return;
+		
+		
+	}
+
 }
