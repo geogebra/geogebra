@@ -595,15 +595,15 @@ public class OptionsAdvanced extends JPanel implements OptionPanel, ActionListen
 	}
 
 	public void updateTooltipLanguages() {
-		if (cbTooltipLanguage.getItemCount() == Application.supportedLocales
+		if (cbTooltipLanguage.getItemCount() == Application.getSupportedLocales()
 				.size() + 1) {
 			Locale ttl = app.getTooltipLanguage();
 			if (ttl == null) {
 				cbTooltipLanguage.setSelectedIndex(0);
 			} else {
 				boolean found = false;
-				for (int i = 0; i < Application.supportedLocales.size(); i++) {
-					if (Application.supportedLocales.get(i).toString()
+				for (int i = 0; i < Application.getSupportedLocales().size(); i++) {
+					if (Application.getSupportedLocales().get(i).toString()
 							.equals(ttl.toString())) {
 						cbTooltipLanguage.setSelectedIndex(i + 1);
 						found = true;
@@ -638,7 +638,7 @@ public class OptionsAdvanced extends JPanel implements OptionPanel, ActionListen
 			if (index == -1)
 				app.setTooltipLanguage(null);
 			else
-				app.setTooltipLanguage(Application.supportedLocales.get(index)
+				app.setTooltipLanguage(Application.getSupportedLocales().get(index)
 						.toString());
 		} else if (source == cbEnableScripting) {
 			app.setScriptingDisabled(!cbEnableScripting.isSelected());
@@ -957,12 +957,12 @@ public class OptionsAdvanced extends JPanel implements OptionPanel, ActionListen
 	 * @see #setLabelsKeyboardLanguage()
 	 */
 	private void setLabelsTooltipLanguages() {
-		String[] languages = new String[Application.supportedLocales.size() + 1];
+		String[] languages = new String[Application.getSupportedLocales().size() + 1];
 		languages[0] = app.getPlain("Default");
 		String ggbLangCode;
 
-		for (int i = 0; i < Application.supportedLocales.size(); i++) {
-			Locale loc = Application.supportedLocales.get(i);
+		for (int i = 0; i < Application.getSupportedLocales().size(); i++) {
+			Locale loc = Application.getSupportedLocales().get(i);
 			ggbLangCode = loc.getLanguage() + loc.getCountry()
 					+ loc.getVariant();
 

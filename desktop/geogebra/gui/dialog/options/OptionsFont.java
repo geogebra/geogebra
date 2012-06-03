@@ -96,11 +96,11 @@ class OptionsFont extends JPanel implements ActionListener, SetLabels {
 		// panel.add(axesSizeCb);
 
 		// language panel
-		String[] languages = new String[Application.supportedLocales.size()];
+		String[] languages = new String[Application.getSupportedLocales().size()];
 		String ggbLangCode;
 
-		for (int i = 0; i < Application.supportedLocales.size(); i++) {
-			Locale loc = Application.supportedLocales.get(i);
+		for (int i = 0; i < Application.getSupportedLocales().size(); i++) {
+			Locale loc = Application.getSupportedLocales().get(i);
 			ggbLangCode = loc.getLanguage() + loc.getCountry()
 					+ loc.getVariant();
 
@@ -174,8 +174,8 @@ class OptionsFont extends JPanel implements ActionListener, SetLabels {
 		// euclidianSizeCb.addActionListener(this);
 		// axesSizeCb.addActionListener(this);
 
-		for (int i = 0; i < Application.supportedLocales.size(); i++) {
-			if (app.getLocale() == Application.supportedLocales.get(i)) {
+		for (int i = 0; i < Application.getSupportedLocales().size(); i++) {
+			if (app.getLocale() == Application.getSupportedLocales().get(i)) {
 				languageCb.setSelectedIndex(i);
 				break;
 			}
@@ -192,7 +192,7 @@ class OptionsFont extends JPanel implements ActionListener, SetLabels {
 		}
 
 		if (updateLanguage) {
-			Locale loc = Application.supportedLocales.get(languageCb
+			Locale loc = Application.getSupportedLocales().get(languageCb
 					.getSelectedIndex());
 			app.setLanguage(loc);
 			updateLanguage = false;

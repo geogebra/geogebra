@@ -196,121 +196,39 @@ public class Application extends AbstractApplication implements
 			"geogebra_properties.jar" };
 
 	// supported GUI languages (from properties files)
-	public static ArrayList<Locale> supportedLocales = new ArrayList<Locale>();
-	static {
-		if (GeoGebraConstants.IS_PRE_RELEASE) {
-			supportedLocales.add(new Locale("af")); // Afrikaans
+	private static ArrayList<Locale> supportedLocales = null;
+	public static ArrayList<Locale> getSupportedLocales() {
+		
+		if (supportedLocales != null) {
+			return supportedLocales;
 		}
-		if (GeoGebraConstants.IS_PRE_RELEASE) {
-			supportedLocales.add(new Locale("sq")); // Albanian
+		
+		supportedLocales = new ArrayList<Locale>();
+		
+		Language[] languages = Language.values();
+		
+		for (int i = 0 ; i < languages.length ; i++) {
+			
+			Language language = languages[i];
+			
+			if (language.fullyTranslated || GeoGebraConstants.IS_PRE_RELEASE) {
+			
+				if (language.locale.length() == 2) {
+					// eg "en"
+					supportedLocales.add(new Locale(language.locale));
+				} else if (language.locale.length() == 4) {
+					// eg "enGB" -> "en", "GB"
+					supportedLocales.add(new Locale(language.locale.substring(0, 2), language.locale.substring(2, 4)));
+				} else if (language.locale.length() == 6) {
+					// eg "noNONY" -> "no", "NO", "NY"
+					supportedLocales.add(new Locale(language.locale.substring(0, 2), language.locale.substring(2, 4), language.locale.substring(4, 6)));
+				}
+			}
+			
 		}
-
-		supportedLocales.add(new Locale("hy")); // Armenian
-		supportedLocales.add(new Locale("ar")); // Arabic
-		supportedLocales.add(new Locale("eu")); // Basque
-		supportedLocales.add(new Locale("bs")); // Bosnian
-		if (GeoGebraConstants.IS_PRE_RELEASE) {
-			supportedLocales.add(new Locale("bg")); // Bulgarian
-		}
-		supportedLocales.add(new Locale("ca")); // Catalan
-		if (GeoGebraConstants.IS_PRE_RELEASE) {
-			supportedLocales.add(new Locale("zh", "CN")); // Chinese
-		}
-		// (Simplified)
-		supportedLocales.add(new Locale("zh", "TW")); // Chinese (Traditional)
-		supportedLocales.add(new Locale("hr")); // Croatian
-		supportedLocales.add(new Locale("cs")); // Czech
-		supportedLocales.add(new Locale("da")); // Danish
-		supportedLocales.add(new Locale("nl")); // Dutch
-		supportedLocales.add(new Locale("en")); // English
-		supportedLocales.add(new Locale("en", "GB")); // English (UK)
-		supportedLocales.add(new Locale("en", "AU")); // English (Australia)
-		supportedLocales.add(new Locale("et")); // Estonian
-		supportedLocales.add(new Locale("fi")); // Finnish
-		supportedLocales.add(new Locale("fr")); // French
-		supportedLocales.add(new Locale("gl")); // Galician
-		supportedLocales.add(new Locale("ka")); // Georgian
-		supportedLocales.add(new Locale("de")); // German
-		supportedLocales.add(new Locale("de", "AT")); // German (Austria)
-		supportedLocales.add(new Locale("el")); // Greek
-		// supportedLocales.add(new Locale("gu")); // Gujarati
-		supportedLocales.add(new Locale("iw")); // Hebrew
-		if (GeoGebraConstants.IS_PRE_RELEASE) {
-			supportedLocales.add(new Locale("hi")); // Hindi
-		}
-		supportedLocales.add(new Locale("hu")); // Hungarian
-		supportedLocales.add(new Locale("is")); // Icelandic
-		if (GeoGebraConstants.IS_PRE_RELEASE) {
-			supportedLocales.add(new Locale("in")); // Indonesian
-		}
-		supportedLocales.add(new Locale("it")); // Italian
-		supportedLocales.add(new Locale("ja")); // Japanese
-
-		supportedLocales.add(new Locale("kk")); // Kazakh
-		supportedLocales.add(new Locale("ko")); // Korean
-		supportedLocales.add(new Locale("lt")); // Lithuanian
-		if (GeoGebraConstants.IS_PRE_RELEASE) {
-			supportedLocales.add(new Locale("ml")); // Malayalam
-		}
-		if (GeoGebraConstants.IS_PRE_RELEASE) {
-			supportedLocales.add(new Locale("mn")); // Mongolian
-		}
-		supportedLocales.add(new Locale("mk")); // Macedonian
-		if (GeoGebraConstants.IS_PRE_RELEASE) {
-			supportedLocales.add(new Locale("mr")); // Marathi
-		}
-		supportedLocales.add(new Locale("ms")); // Malay
-		if (GeoGebraConstants.IS_PRE_RELEASE) {
-			supportedLocales.add(new Locale("ne")); // Nepalese
-		}
-		supportedLocales.add(new Locale("no", "NO")); // Norwegian (Bokmal)
-		supportedLocales.add(new Locale("no", "NO", "NY")); // Norwegian(Nynorsk)
-		// supportedLocales.add(new Locale("oc")); // Occitan
-		supportedLocales.add(new Locale("fa")); // Persian
-		supportedLocales.add(new Locale("pl")); // Polish
-		supportedLocales.add(new Locale("pt")); // Portugese (Brazil)
-		supportedLocales.add(new Locale("pt", "PT")); // Portuguese (Portugal)
-		// supportedLocales.add(new Locale("pa")); // Punjabi
-		if (GeoGebraConstants.IS_PRE_RELEASE) {
-			supportedLocales.add(new Locale("ro")); // Romanian
-		}
-		supportedLocales.add(new Locale("ru")); // Russian
-		supportedLocales.add(new Locale("sr")); // Serbian
-		if (GeoGebraConstants.IS_PRE_RELEASE) {
-			supportedLocales.add(new Locale("si")); // Sinhala (Sri Lanka)
-		}
-
-		supportedLocales.add(new Locale("sk")); // Slovakian
-		supportedLocales.add(new Locale("sl")); // Slovenian
-		supportedLocales.add(new Locale("es")); // Spanish
-		supportedLocales.add(new Locale("sv")); // Swedish
-		// supportedLocales.add(new Locale("ty")); // Tahitian
-		supportedLocales.add(new Locale("ta")); // Tamil
-
-		if (GeoGebraConstants.IS_PRE_RELEASE) {
-			supportedLocales.add(new Locale("tl")); // Filipino
-		}
-		// supportedLocales.add(new Locale("te")); // Telugu
-		if (GeoGebraConstants.IS_PRE_RELEASE) {
-			supportedLocales.add(new Locale("th")); // Thai
-		}
-
-		supportedLocales.add(new Locale("tr")); // Turkish
-		if (GeoGebraConstants.IS_PRE_RELEASE) {
-			supportedLocales.add(new Locale("uk")); // Ukrainian
-		}
-		// supportedLocales.add(new Locale("ur")); // Urdu
-		supportedLocales.add(new Locale("vi")); // Vietnamese
-		if (GeoGebraConstants.IS_PRE_RELEASE) {
-			supportedLocales.add(new Locale("cy")); // Welsh
-		}
-		if (GeoGebraConstants.IS_PRE_RELEASE) {
-			supportedLocales.add(new Locale("ia")); // Interlingua
-		}
-
-		if (GeoGebraConstants.IS_PRE_RELEASE) {
-			supportedLocales.add(new Locale("ji")); // Yiddish
-		}
+		
+		return supportedLocales;
+		
 	}
 
 
@@ -2208,9 +2126,9 @@ public class Application extends AbstractApplication implements
 
 		Locale locale = null;
 
-		for (int i = 0; i < supportedLocales.size(); i++) {
-			if (supportedLocales.get(i).toString().equals(s)) {
-				locale = supportedLocales.get(i);
+		for (int i = 0; i < getSupportedLocales().size(); i++) {
+			if (getSupportedLocales().get(i).toString().equals(s)) {
+				locale = getSupportedLocales().get(i);
 				break;
 			}
 		}
@@ -2345,7 +2263,7 @@ public class Application extends AbstractApplication implements
 	 * returned.
 	 */
 	private static Locale getClosestSupportedLocale(Locale locale) {
-		int size = supportedLocales.size();
+		int size = getSupportedLocales().size();
 
 		// try to find country and variant
 		String country = locale.getCountry();
@@ -2353,7 +2271,7 @@ public class Application extends AbstractApplication implements
 
 		if (country.length() > 0) {
 			for (int i = 0; i < size; i++) {
-				Locale loc = supportedLocales.get(i);
+				Locale loc = getSupportedLocales().get(i);
 				if (country.equals(loc.getCountry())
 						&& variant.equals(loc.getVariant())) {
 					// found supported country locale
@@ -2365,7 +2283,7 @@ public class Application extends AbstractApplication implements
 		// try to find language
 		String language = locale.getLanguage();
 		for (int i = 0; i < size; i++) {
-			Locale loc = supportedLocales.get(i);
+			Locale loc = getSupportedLocales().get(i);
 			if (language.equals(loc.getLanguage())) {
 				// found supported country locale
 				return loc;
