@@ -199,7 +199,8 @@ public class AlgoDependentText extends AlgoElement {
 		}
 
 
-		text.setSpreadsheetTraceable(new ExpressionNode(kernel, new MyStringBuffer(kernel, ((GeoElement) numToTrace).getLabel(StringTemplate.defaultTemplate))), (NumberValue) numToTrace);
+		if (numToTrace!=null)
+			text.setSpreadsheetTraceable(new ExpressionNode(kernel, new MyStringBuffer(kernel, ((GeoElement) numToTrace).getLabel(StringTemplate.defaultTemplate))), (NumberValue) numToTrace);
 
 
 
