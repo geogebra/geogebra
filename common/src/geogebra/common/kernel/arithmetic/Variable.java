@@ -27,6 +27,7 @@ import geogebra.common.plugin.Operation;
 
 import java.util.HashSet;
 
+import com.google.gwt.regexp.shared.MatchResult;
 import com.google.gwt.regexp.shared.RegExp;
 
 /**
@@ -105,7 +106,7 @@ public class Variable extends ValidExpression {
 	}
 
 	private static final RegExp polyPattern = RegExp
-			.compile("^[x-z]*$");
+			.compile("^([a-wA-Z0-9_]*)([x-z]+)$");
 	/**
 	 * Looks up the name of this variable in the kernel and returns the
 	 * according GeoElement object. For absolute spreadsheet reference names
@@ -117,17 +118,25 @@ public class Variable extends ValidExpression {
 	 */
 	final public ExpressionValue resolveAsExpressionValue() {
 		GeoElement geo = resolve(false);
-		if(geo==null && polyPattern.test(name)){
+		if(geo==null){
+			MatchResult res = polyPattern.exec(name);
+			if(res==null)
+				resolve(true);
+			String xyz = res.getGroup(2);
+			//holds powers of x,y,z: eg {"xxx","y","zzzzz"}
 			String[] xx = new String[]{"","",""};
-			for(int i=0;i<name.length();i++){
-				xx[name.charAt(i)-'x'] += name.charAt(i);
+			for(int i=0;i<xyz.length();i++){
+				xx[xyz.charAt(i)-'x'] += xyz.charAt(i);
 			}
-			return new Polynomial(kernel,xx[0]+xx[1]+xx[2]);
+			String coeff =res.getGroup(1);
+			if(coeff.length()==0)
+				return new Polynomial(kernel,xx[0]+xx[1]+xx[2]);
+			GeoElement geo2 =kernel.lookupLabel(coeff);
+			if(geo2==null)
+				resolve(true);
+			return new Polynomial(kernel,new Term(geo2, xx[0]+xx[1]+xx[2]));
 		}
-		else if(geo==null){
-			resolve(true);
-		}
-
+		
 		// spreadsheet dollar sign reference
 		if (name.indexOf('$') > -1) {
 			// row and/or column dollar sign present?
