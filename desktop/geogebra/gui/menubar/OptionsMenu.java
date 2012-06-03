@@ -13,6 +13,7 @@ import java.util.Locale;
 
 import javax.swing.AbstractAction;
 import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JMenu;
 import javax.swing.JRadioButtonMenuItem;
@@ -41,7 +42,7 @@ public class OptionsMenu extends BaseMenu implements ActionListener {
 		
 		kernel = app.getKernel();
 		initActions();
-		initItems();
+		initItems(null);
 		
 		update();
 	}
@@ -49,9 +50,9 @@ public class OptionsMenu extends BaseMenu implements ActionListener {
 	/**
 	 * Initialize the menu items.
 	 */
-	private void initItems()
+	void initItems(ImageIcon flag)
 	{
-		JMenu submenu;
+		final JMenu submenu;
 		int pos;
 		
 		//G.Sturr 2009-10-18
@@ -163,11 +164,47 @@ public class OptionsMenu extends BaseMenu implements ActionListener {
 		// addSeparator();
 		// Language
 		if (app.propertiesFilesPresent()) {
+			
+			ImageIcon flagIcon;
+			final String flagName = app.getFlagName(false);
+			
+			if (flag != null) {
+				flagIcon = flag;
+			} else {
+				AbstractApplication.debug("using flag: "+flagName);
+				flagIcon = app.getFlagIcon(flagName);
+				
+			}
+						
 			LanguageActionListener langListener = new LanguageActionListener(app);
-			submenu = new JMenu(app.getMenu("Language"));
-			submenu.setIcon(app.getImageIcon("globe.png"));
-			addLanguageMenuItems(app, submenu, langListener);
-			add(submenu);
+			final JMenu submenuLang = new JMenu(app.getMenu("Language"));
+			//submenu.setIcon(app.getImageIcon("globe.png"));
+			submenuLang.setIcon(flagIcon);
+			addLanguageMenuItems(app, submenuLang, langListener);
+			add(submenuLang);
+			
+			// check 
+			if (flag == null) {
+				new Thread(
+						new Runnable() {
+							public void run() {
+
+								String geoIPflagname = app.getFlagName(true);
+
+								// fake for testing
+								// geoIPflagname = "wales.png";
+
+								if (!geoIPflagname.equals(flagName)) {
+									AbstractApplication.debug("updating flag to: "+geoIPflagname);
+
+									// rebuild menu with new flag
+									removeAll();
+									initItems(app.getFlagIcon(geoIPflagname));
+								}
+							}
+						}).start();		
+			}
+
 		}
 
 		addSeparator();

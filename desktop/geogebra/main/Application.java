@@ -2032,7 +2032,7 @@ public class Application extends AbstractApplication implements
 	 */
 	public String getFlagName(boolean useGeoIP) {
 		
-		String country = Language.getCountry((AbstractApplication)this, getLocale().getLanguage(), getLocale().getCountry(), useGeoIP);
+		String country = Language.getCountry(this, getLocale().getLanguage(), getLocale().getCountry(), useGeoIP);
 		
 		// http://stackoverflow.com/questions/10175658/is-there-a-simple-way-to-get-the-language-code-from-a-country-code-in-php
 		// http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2

@@ -89,10 +89,10 @@ public class GeoGebraMenuBar extends JMenuBar {
 		if (app.isRightToLeftReadingOrder()) {
 
 			// "flag" to select language
-			addFlag();	
+			//addFlag();	
 			
 			// force next item to far right
-			add(Box.createHorizontalGlue());			
+			//add(Box.createHorizontalGlue());			
 			
 			// "Help"
 			helpMenu = new HelpMenu(app);
@@ -189,10 +189,10 @@ public class GeoGebraMenuBar extends JMenuBar {
 
 
 			// force next item to far right
-			add(Box.createHorizontalGlue());
+			//add(Box.createHorizontalGlue());
 
 			// "flag" to select language
-			addFlag();
+			//addFlag();
 		}
 
 
@@ -226,12 +226,6 @@ public class GeoGebraMenuBar extends JMenuBar {
 							languageLabel.setIcon(app.getFlagIcon(flagName));
 							AbstractApplication.debug("updating flag to "+geoIPflagname);
 						}
-
-
-
-
-
-
 					}
 				}).start();		
 	}

@@ -166,7 +166,7 @@ public class LanguageMenu extends BaseMenu implements ActionListener {
 		if (app.propertiesFilesPresent()) {
 			LanguageActionListener langListener = new LanguageActionListener();
 			submenu = new JMenu(app.getMenu("Language"));
-			submenu.setIcon(app.getFlagIcon("gb.png"));
+			submenu.setIcon(app.getFlagIcon("ko.png"));
 			addLanguageMenuItems(submenu, langListener);
 			add(submenu);
 		}

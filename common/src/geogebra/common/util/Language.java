@@ -146,6 +146,8 @@ public enum Language {
 		
 	}
 	
+	private static String countryFromGeoIP = null;
+	
 	
 	/**
 	 * @param language 2 letter language, eg en
@@ -178,7 +180,11 @@ public enum Language {
    			
        		try {
    						
-			String countryFromGeoIP = app.getCountryFromGeoIP();
+			if (countryFromGeoIP == null) {
+				countryFromGeoIP = app.getCountryFromGeoIP();
+			}
+			
+			// countryFromGeoIP = "BE";
 						
 			// fake for testing
 			//countryFromGeoIP="IR";
@@ -188,7 +194,7 @@ public enum Language {
 			for (int i = 0 ; i < c.length ; i++) {
 				//AbstractApplication.debug(c[i].getISO()+" "+countryFromGeoIP);
 				if (c[i].getISO().equals(countryFromGeoIP)) {
-					return country;
+					return countryFromGeoIP;
 				}
 			}	
 		} catch (Exception e) {
