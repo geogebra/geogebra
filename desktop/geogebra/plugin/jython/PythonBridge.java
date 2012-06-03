@@ -93,6 +93,7 @@ public class PythonBridge extends geogebra.common.plugin.jython.PythonBridge imp
 	}
 	
 	private void handleEvent(String evt, GeoElement geo) {
+		// AbstractApplication.debug("event: " + evt);
 		pyInterface.handleEvent(evt, geo);
 	}
 	/**

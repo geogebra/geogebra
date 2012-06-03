@@ -9,7 +9,7 @@ from java.lang import Exception as JavaException
 from collections import defaultdict
 import sys, time
 # FLAT
-from pygeo import objects_flat as objects
+from pygeo import objects
 from pygeo.apiproxy import (
     API, APIProxy, start_new_thread, run_in_main_thread,
     in_new_thread, in_main_thread,
@@ -60,12 +60,15 @@ class Interface(PythonScriptInterface):
     def handleEvent(self, evt_type, target):
         # if ... return and try ... finally are hacks to try to fix #1520
         # I can't run ATM so...
+        if API.Geo.getLabel(target) is not None:
+            for listener in self.event_listeners[evt_type]:
+                try:
+                    listener(evt_type, target)
+                except Exception:
+                    sys.stderr.write("Error while running listener")
         if target not in self.factory._cache:
             return
         try:
-            for listener in self.event_listeners[evt_type]:
-                listener(evt_type, target)
-            # target = API.Geo(target)
             if self.handling_event:
                 return
             element = self.factory.get_element(target)

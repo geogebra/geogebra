@@ -862,21 +862,24 @@ class EventsPane(WindowPane, ActionListener):
             self.must_update_geos = True
     
     def save_current_script(self):
-        if self.current is None:
-            return
-        geo, evt = self.current
-        script = self.script_area.input
-        setter = "set" + evt.capitalize() + "Script"
-        getattr(API.Geo, setter)(geo, script)
+        if self.current is not None:
+            geo, evt = self.current
+            script = self.script_area.input
+            setter = "set" + evt.capitalize() + "Script"
+            getattr(API.Geo, setter)(geo, script)
             
     def update_script_area(self):
         self.save_current_script()
-        geo = self.geos[self.objects_box.selectedIndex]
-        evt = self.events_box.selectedItem
-        self.current = geo, evt
-        getter = "get" + evt.capitalize() + "Script"
-        self.script_area.input = getattr(API.Geo, getter)(geo)
-        self.script_area.reset_undo()
+        geo_index = self.objects_box.selectedIndex
+        if geo_index == -1:
+            self.current = None
+        else:
+            geo = self.geos[geo_index]
+            evt = self.events_box.selectedItem
+            self.current = geo, evt
+            getter = "get" + evt.capitalize() + "Script"
+            self.script_area.input = getattr(API.Geo, getter)(geo)
+            self.script_area.reset_undo()
         
     def reset(self):
         self.current=None
@@ -886,6 +889,7 @@ class EventsPane(WindowPane, ActionListener):
     def actionPerformed(self, evt):
         if not self.building_objects_box:
             self.update_script_area()
+
 
 
 class PythonWindowAdapter(WindowAdapter):
