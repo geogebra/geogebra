@@ -114,6 +114,7 @@ import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.StringSelection;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
+import java.awt.event.ComponentEvent;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
@@ -133,6 +134,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.security.MessageDigest;
@@ -5245,6 +5247,7 @@ public class Application extends AbstractApplication implements
 		}
 	}
 	
+	
 	/**
 	 * 
 	 * return East/West as appropriate for eg Hebrew / Arabic
@@ -5287,6 +5290,18 @@ public class Application extends AbstractApplication implements
 		} else {
 			return 2; // right
 		}
+	}
+
+
+	/**
+	 * @param c component calling for repaint
+	 */
+	public void repaintEuclidianViews(Component c){
+		
+		ComponentEvent event = new ComponentEvent(c, ComponentEvent.COMPONENT_RESIZED);
+		getEuclidianView1().dispatchEvent(event);
+		getEuclidianView2().dispatchEvent(event);
+			
 	}
 
 }

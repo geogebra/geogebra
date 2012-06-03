@@ -226,6 +226,9 @@ public class DockManager implements AWTEventListener, SetLabels {
 				}
 			}
 			
+			//recursive update resize weights for giving new space to euclidian views
+			rootPane.updateResizeWeight();
+			
 			int windowWidth = app.getPreferredSize().width;
 			int windowHeight = app.getPreferredSize().height;
 			
@@ -395,6 +398,9 @@ public class DockManager implements AWTEventListener, SetLabels {
 
 		updatePanels();
 		
+		//update new space dispatching
+		rootPane.updateResizeWeight();
+		
 		// add toolbar to main toolbar container if necessary
 		if(source.hasToolbar()) {
 			ToolbarContainer mainContainer = app.getGuiManager().getToolbarPanel();
@@ -411,9 +417,7 @@ public class DockManager implements AWTEventListener, SetLabels {
 		// Manually dispatch a resize event as the size of the 
 		// euclidian view isn't updated all the time.
 		// TODO What does the resize do which will update the component ?!
-		app.getActiveEuclidianView().dispatchEvent(
-			new ComponentEvent(rootPane, ComponentEvent.COMPONENT_RESIZED)
-		);
+		app.repaintEuclidianViews(rootPane);
 	}
 	
 	/**
@@ -534,8 +538,6 @@ public class DockManager implements AWTEventListener, SetLabels {
 			// the size (height / width depending upon lastPos) of the parent element,
 			// this value is necessary to prevent panels which completely hide
 			// their opposite element
-			// TODO implement this
-			//int parentSize;
 			
 			// the component opposite to the current component
 			Component opposite;
@@ -583,18 +585,28 @@ public class DockManager implements AWTEventListener, SetLabels {
 			if(!app.isIniting())
 				app.updateCenterPanel(true);
 			
+			//check new split pane size regarding orientation
+			int newSplitPaneSize;
+			if(newSplitPane.getOrientation() == JSplitPane.HORIZONTAL_SPLIT) {
+				newSplitPaneSize=newSplitPane.getWidth();
+			} else {
+				newSplitPaneSize=newSplitPane.getHeight();
+			}
+			//check if panel size is not too large
+			if (size>newSplitPaneSize)
+				size = newSplitPaneSize/2;
+			//set the divider location
 			if(lastPos == 0 || lastPos == 3) {
 				newSplitPane.setDividerLocation(size);
 			} else {
-				if(newSplitPane.getOrientation() == JSplitPane.HORIZONTAL_SPLIT) {
-					newSplitPane.setDividerLocation(newSplitPane.getWidth() - size);
-				} else {
-					newSplitPane.setDividerLocation(newSplitPane.getHeight() - size);
-				}
+				newSplitPane.setDividerLocation(newSplitPaneSize - size);
 			}
 		}
 		
 		panel.updatePanel();
+		
+		//update dispatching of new space
+		rootPane.updateResizeWeight();
 		
 		// add toolbar to main toolbar container if necessary, *has* to be called after
 		// DockPanel::updatePanel() as the toolbar is initialized there

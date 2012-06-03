@@ -19,7 +19,7 @@ import javax.swing.plaf.basic.BasicSplitPaneUI;
  * 
  * @author Florian Sonner
  */
-public class DockSplitPane extends JSplitPane {	
+public class DockSplitPane extends JSplitPane implements DockComponent{	
 	private static final long serialVersionUID = 1L;
 	private boolean dividerVisible;
 	
@@ -204,4 +204,33 @@ public class DockSplitPane extends JSplitPane {
 			}
 		}
 	}
+	
+	public String toString(String prefix){
+		String prefix2 = prefix+"-";
+		return "\n"
+				+prefix+"left"+((DockComponent) getLeftComponent()).toString(prefix2)
+				+"\n"
+				+prefix+"right"+((DockComponent) getRightComponent()).toString(prefix2);
+		
+	}
+	
+	
+	public boolean updateResizeWeight(){
+		if (((DockComponent) getLeftComponent()).updateResizeWeight()){
+			if (((DockComponent) getRightComponent()).updateResizeWeight())
+				setResizeWeight(0.5);
+			else
+				setResizeWeight(1);
+			return true;
+		}else if (((DockComponent) getRightComponent()).updateResizeWeight()){
+			setResizeWeight(0);
+			return true;
+		}
+		
+		setResizeWeight(0);
+		return false;
+		
+		
+	}
+	
 }

@@ -76,5 +76,10 @@ public abstract class EuclidianDockPanelAbstract extends DockPanel implements ge
 		
 		return panel;
 	}
+	
+	@Override
+	public boolean updateResizeWeight(){
+		return true;
+	}
 
 }

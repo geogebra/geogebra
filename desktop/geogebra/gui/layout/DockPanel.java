@@ -62,7 +62,7 @@ import javax.swing.plaf.basic.BasicButtonUI;
  * @author Florian Sonner
  */
 public abstract class DockPanel extends JPanel
-implements ActionListener, WindowListener, MouseListener, geogebra.common.gui.layout.DockPanel{
+implements ActionListener, WindowListener, MouseListener, geogebra.common.gui.layout.DockPanel, DockComponent{
 	private static final long serialVersionUID = 1L;
 	
 	protected DockManager dockManager;
@@ -1465,5 +1465,18 @@ implements ActionListener, WindowListener, MouseListener, geogebra.common.gui.la
 
 		updatePanel();
 	}
+	
+	
+	
+
+	public String toString(String prefix){
+		return "\n"+prefix+this.toString();
+	}
+	
+	public boolean updateResizeWeight(){
+		return false;
+	}
+	
+	
 	
 }
