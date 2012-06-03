@@ -84,13 +84,16 @@ public class ViewButtonBar extends JToolBar {
 
 				btn.setSelected(app.getGuiManager().showView(btn.getViewId()));
 
-				if (panel.getViewId() != AbstractApplication.VIEW_ASSIGNMENT) 
+				if (panel.getViewId() != AbstractApplication.VIEW_PROPERTIES 
+						&& panel.getViewId() != AbstractApplication.VIEW_ASSIGNMENT ) 
 					add(btn);
-				// spacer
-				//add(Box.createVerticalStrut(5));
-
-			
 		}
+		
+		// spacer
+		add(Box.createVerticalStrut(20));
+		// add properties view button
+		add(viewButtons.get(0));
+		viewButtons.get(0).setSelected(app.getGuiManager().showView(viewButtons.get(0).getViewId()));
 	}
 
 }

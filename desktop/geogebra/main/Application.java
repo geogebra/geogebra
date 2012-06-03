@@ -1058,7 +1058,7 @@ public class Application extends AbstractApplication implements
 			
 			applicationPanel.add(mainCardPanel, BorderLayout.CENTER);
 			if(showDockBar)
-				applicationPanel.add(dockBar, BorderLayout.WEST);
+				applicationPanel.add(dockBar, BorderLayout.EAST);
 			
 			// configure the panel components (adds toolbar, input bar, dockbar)
 			updateApplicationLayout();

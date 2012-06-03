@@ -12,6 +12,7 @@ import geogebra.main.Application;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.Insets;
@@ -101,14 +102,16 @@ public class DockBar extends JPanel implements ActionListener, SetLabels {
 		// wrap viewButtonBar to be vertically centered
 		JPanel gluePanel = new JPanel();
 		gluePanel.setLayout(new BoxLayout(gluePanel, BoxLayout.Y_AXIS));
-		// gluePanel.add(Box.createVerticalGlue());
+		gluePanel.add(Box.createVerticalGlue());
 		gluePanel.add(viewButtonBar);
-		// gluePanel.add(Box.createVerticalGlue());
+		gluePanel.add(Box.createVerticalGlue());
 		gluePanel.setBackground(SystemColor.control);
 
 		fullPanel = new JPanel(new BorderLayout());
+		fullPanel.add(Box.createVerticalStrut(50), BorderLayout.NORTH);
+
 		fullPanel.add(gluePanel, BorderLayout.CENTER);
-		fullPanel.add(getGridButtonPanel(), BorderLayout.NORTH);
+		fullPanel.add(getGridButtonPanel(), BorderLayout.SOUTH);
 		fullPanel.setBackground(SystemColor.control);
 		fullPanel.setOpaque(true);
 
@@ -117,8 +120,8 @@ public class DockBar extends JPanel implements ActionListener, SetLabels {
 		popup = new MyPopup();
 		popup.addMouseListener(ml);
 
-		addListenerToAllComponents(this,ml);
-		
+		addListenerToAllComponents(this, ml);
+
 		setLabels();
 		updateLayout();
 		toggleMinimumFullPanel();
@@ -144,30 +147,28 @@ public class DockBar extends JPanel implements ActionListener, SetLabels {
 		btnProperties.setToolTipText(app.getMenuTooltip("Properties"));
 
 		// file open button
-		 btnFileOpen = new DockButton(
-				app.getImageIcon("document-open22.png"));	
-		btnFileOpen.addActionListener(new ActionListener(){
+		btnFileOpen = new DockButton(app.getImageIcon("document-open22.png"));
+		btnFileOpen.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				app.getGuiManager().openFile();	
-			}});
+				app.getGuiManager().openFile();
+			}
+		});
 
 		// print button
-		 btnFileSave = new DockButton(
-				app.getImageIcon("document-save22.png"));	
-		btnFileSave.addActionListener(new ActionListener(){
+		btnFileSave = new DockButton(app.getImageIcon("document-save22.png"));
+		btnFileSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				app.getGuiManager().save();	
-			}});
+				app.getGuiManager().save();
+			}
+		});
 
 		// print button
-		 btnPrint = new DockButton(
-				app.getImageIcon("document-print22.png"));
-		btnPrint.addActionListener(new ActionListener(){
+		btnPrint = new DockButton(app.getImageIcon("document-print22.png"));
+		btnPrint.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				GeoGebraMenuBar.showPrintPreview(app);
-			}});
-		
-		
+			}
+		});
 
 		// help button
 		DockButton btnHelp = new DockButton(app.getImageIcon("help22.png"));
@@ -181,31 +182,31 @@ public class DockBar extends JPanel implements ActionListener, SetLabels {
 				.getImageIcon("help.png"), app.getMenu("Help"),
 				AbstractApplication.WIKI_MANUAL));
 
-		btnHelp.setHorizontalAlignment(SwingConstants.CENTER);
-		btnProperties.setHorizontalAlignment(SwingConstants.CENTER);
-
+		
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
-		buttonPanel.add(Box.createVerticalStrut(20));
-		// gridPanel.add(OptionsUtil.flowPanelCenter(0, 0, 0, btnHelp));
-		// gridPanel.add(Box.createVerticalStrut(5));
-		buttonPanel.add(OptionsUtil.flowPanelCenter(0, 0, 0,
-				SystemColor.control, btnFileOpen));
-		buttonPanel.add(Box.createVerticalStrut(2));
-		buttonPanel.add(OptionsUtil.flowPanelCenter(0, 0, 0,
-				SystemColor.control, btnFileSave));
-		buttonPanel.add(Box.createVerticalStrut(2));
-		buttonPanel.add(OptionsUtil.flowPanelCenter(0, 0, 0,
-				SystemColor.control, btnPrint));
 		
-		buttonPanel.add(Box.createVerticalStrut(60));
+		//buttonPanel.add(Box.createVerticalStrut(20));
+		buttonPanel.add(OptionsUtil.flowPanelCenter(0, 0, 0, SystemColor.control, btnHelp));
+		//buttonPanel.add(Box.createVerticalStrut(2));
+		//buttonPanel.add(OptionsUtil.flowPanelCenter(0, 0, 0,
+		//		SystemColor.control, btnFileOpen));
+		//buttonPanel.add(Box.createVerticalStrut(2));
+		//buttonPanel.add(OptionsUtil.flowPanelCenter(0, 0, 0,
+		//		SystemColor.control, btnFileSave));
+		//buttonPanel.add(Box.createVerticalStrut(2));
+		//buttonPanel.add(OptionsUtil.flowPanelCenter(0, 0, 0,
+			//	SystemColor.control, btnPrint));
+
+		buttonPanel.add(Box.createVerticalStrut(20));
 
 		buttonPanel.setOpaque(true);
 		buttonPanel.setBackground(SystemColor.control);
 
 		JPanel p = new JPanel(new BorderLayout());
 		p.add(buttonPanel, BorderLayout.CENTER);
-
+		
+		
 		return p;
 	}
 
@@ -243,9 +244,12 @@ public class DockBar extends JPanel implements ActionListener, SetLabels {
 	}
 
 	private void showPopup() {
-		popup.setPopupSize(popup.getPreferredSize().width, getMinimumPanel()
-				.getHeight() - 4);
-		popup.show(this, getMinimumPanel().getWidth(), 2);
+		if (!popup.isVisible()) {
+			popup.setPopupSize(popup.getPreferredSize().width,
+					getMinimumPanel().getHeight() - 4);
+			popup.show(this, -popup.getPreferredSize().width
+					+ getMinimumPanel().getWidth(), 2);
+		}
 	}
 
 	private void hidePopup() {
@@ -302,8 +306,7 @@ public class DockBar extends JPanel implements ActionListener, SetLabels {
 			r.width = popup.getWidth();
 			r.height = popup.getHeight();
 
-			// System.out.println( p.toString() +"   " + r.toString());
-			if (!r.contains(p) && e.getPoint().x > 0) {
+			if (!r.contains(p) && e.getPoint().x < app.getFrame().getWidth()) {
 				hidePopup();
 				// System.out.println(mainPanel.getBounds().contains(e.getPoint()));
 			}
@@ -319,7 +322,7 @@ public class DockBar extends JPanel implements ActionListener, SetLabels {
 		c.addMouseListener(l);
 
 		for (Component cc : c.getComponents())
-			if (cc instanceof JComponent){
+			if (cc instanceof JComponent) {
 				addListenerToAllComponents((JComponent) cc, l);
 			}
 	}
@@ -336,17 +339,19 @@ public class DockBar extends JPanel implements ActionListener, SetLabels {
 	 */
 	private JPanel getMinimumPanel() {
 
-		final Border normalBorder = BorderFactory.createMatteBorder(1, 0, 0, 1,
+		final Border normalBorder = BorderFactory.createMatteBorder(1, 1, 0, 1,
 				SystemColor.controlShadow);
 
-		BorderFactory
-				.createBevelBorder(BevelBorder.RAISED);
+		BorderFactory.createBevelBorder(BevelBorder.RAISED);
 
 		final JLabel lblIcon;
 
 		if (minimumPanel == null) {
 			minimumPanel = new JPanel(new BorderLayout(0, 0));
-			lblIcon = new JLabel(app.getImageIcon("dockbar-triangle.png"));
+			
+			lblIcon = new JLabel(); //app.getImageIcon("dockbar-triangle.png"));
+			lblIcon.setFont(app.getFont(false, Font.PLAIN, 10));
+			lblIcon.setText("\u25C3");
 			lblIcon.setPreferredSize(new Dimension(10, 0));
 			minimumPanel.add(lblIcon, BorderLayout.CENTER);
 
@@ -354,10 +359,12 @@ public class DockBar extends JPanel implements ActionListener, SetLabels {
 				@Override
 				public void mouseClicked(MouseEvent e) {
 					if (e.getClickCount() > 0) {
-						isMinimized = false;
-						toggleMinimumFullPanel();
-						lblIcon.setIcon(app
-								.getImageIcon("dockbar-triangle.png"));
+						if (!enableHiding) {
+							isMinimized = false;
+							toggleMinimumFullPanel();
+							//lblIcon.setIcon(app
+								//	.getImageIcon("dockbar-triangle.png"));
+						}
 					}
 				}
 
@@ -368,14 +375,14 @@ public class DockBar extends JPanel implements ActionListener, SetLabels {
 						showPopup();
 					}
 
-					lblIcon.setIcon(app
-							.getImageIcon("dockbar-triangle-rollover.png"));
-					//minimumPanel.setBackground(Color.LIGHT_GRAY);
+					//lblIcon.setIcon(app
+						//	.getImageIcon("dockbar-triangle-rollover.png"));
+					// minimumPanel.setBackground(Color.LIGHT_GRAY);
 				}
 
 				@Override
 				public void mouseExited(MouseEvent e) {
-					lblIcon.setIcon(app.getImageIcon("dockbar-triangle.png"));
+					//lblIcon.setIcon(app.getImageIcon("dockbar-triangle.png"));
 					minimumPanel.setBackground(null);
 					minimumPanel.setBorder(normalBorder);
 				}
@@ -385,6 +392,18 @@ public class DockBar extends JPanel implements ActionListener, SetLabels {
 		minimumPanel.setBorder(normalBorder);
 		return minimumPanel;
 	}
+	
+	
+	public void setLabels() {
+
+		btnPrint.setToolTipText(app.getMenu("Print"));
+		btnFileSave.setToolTipText(app.getMenu("Save"));
+		btnFileOpen.setToolTipText(app.getMenu("Load"));
+
+		updateViewButtons();
+	}
+	
+	
 
 	class MyPopup extends JPopupMenu {
 
@@ -394,7 +413,7 @@ public class DockBar extends JPanel implements ActionListener, SetLabels {
 			setBackground(SystemColor.control);
 			setFocusable(false);
 			setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 8));
-			
+
 		}
 
 		@Override
@@ -402,7 +421,7 @@ public class DockBar extends JPanel implements ActionListener, SetLabels {
 
 			super.setVisible(isVisible);
 		}
-		
+
 	}
 
 	class DockButton extends JButton {
@@ -420,23 +439,21 @@ public class DockBar extends JPanel implements ActionListener, SetLabels {
 
 			addMouseListener(new ToolTipMouseAdapter());
 		}
-		
-		
+
 		@Override
 		public void setIcon(Icon ic) {
-			
-			int s = app.getImageIcon("shown.gif").getIconWidth();
+
+			int s = app.getImageIcon("check.png").getIconWidth();
 			super.setIcon(GeoGebraIcon.joinIcons(
 					GeoGebraIcon.createEmptyIcon(s, s), (ImageIcon) ic));
 
-			Dimension dim = new Dimension(getIcon().getIconWidth() + 5, getIcon()
-					.getIconHeight() + 10);
+			Dimension dim = new Dimension(getIcon().getIconWidth() + 5,
+					getIcon().getIconHeight() + 10);
 			setPreferredSize(dim);
 			setMaximumSize(dim);
 			setMinimumSize(dim);
 
 		}
-		
 
 		@Override
 		public JToolTip createToolTip() {
@@ -486,6 +503,8 @@ public class DockBar extends JPanel implements ActionListener, SetLabels {
 		}
 
 	}
+
+	
 
 	// ============================================
 	// Full screen button
@@ -547,15 +566,6 @@ public class DockBar extends JPanel implements ActionListener, SetLabels {
 			// gs.setFullScreenWindow(null);
 		}
 
-	}
-
-	public void setLabels() {
-		
-		btnPrint.setToolTipText(app.getMenu("Print"));
-		btnFileSave.setToolTipText(app.getMenu("Save"));
-		btnFileOpen.setToolTipText(app.getMenu("Load"));
-		
-		updateViewButtons();
 	}
 
 }

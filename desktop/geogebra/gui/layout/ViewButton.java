@@ -91,8 +91,8 @@ public class ViewButton extends JToggleButton implements ActionListener {
 	@Override
 	public void setIcon(Icon ic) {
 		super.setSelectedIcon(GeoGebraIcon.joinIcons(
-				app.getImageIcon("shown.gif"), (ImageIcon) ic));
-		int s = app.getImageIcon("shown.gif").getIconWidth();
+				app.getImageIcon("check.png"), (ImageIcon) ic));
+		int s = app.getImageIcon("check.png").getIconWidth();
 		super.setIcon(GeoGebraIcon.joinIcons(
 				GeoGebraIcon.createEmptyIcon(s, s), (ImageIcon) ic));
 
