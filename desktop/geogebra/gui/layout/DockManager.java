@@ -227,7 +227,7 @@ public class DockManager implements AWTEventListener, SetLabels {
 			}
 			
 			//recursive update resize weights for giving new space to euclidian views
-			rootPane.updateResizeWeight();
+			updateSplitPanesResizeWeight();
 			
 			int windowWidth = app.getPreferredSize().width;
 			int windowHeight = app.getPreferredSize().height;
@@ -256,6 +256,17 @@ public class DockManager implements AWTEventListener, SetLabels {
 		
 		// update all labels at once
 		setLabels();
+	}
+	
+	/** 
+	 * update dispatching of new space with split panes
+	 */
+	private void updateSplitPanesResizeWeight(){
+		
+		if (app.isApplet())
+			return; //TODO check this
+		
+		rootPane.updateResizeWeight();
 	}
 
 	/**
@@ -399,7 +410,7 @@ public class DockManager implements AWTEventListener, SetLabels {
 		updatePanels();
 		
 		//update new space dispatching
-		rootPane.updateResizeWeight();
+		updateSplitPanesResizeWeight();
 		
 		// add toolbar to main toolbar container if necessary
 		if(source.hasToolbar()) {
@@ -606,7 +617,7 @@ public class DockManager implements AWTEventListener, SetLabels {
 		panel.updatePanel();
 		
 		//update dispatching of new space
-		rootPane.updateResizeWeight();
+		updateSplitPanesResizeWeight();
 		
 		// add toolbar to main toolbar container if necessary, *has* to be called after
 		// DockPanel::updatePanel() as the toolbar is initialized there
