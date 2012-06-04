@@ -187,7 +187,7 @@ public class AlgoDependentText extends AlgoElement {
 		//  find first NumberValue in expression and replace
 		ExpressionNode copy = getSpecialCopy(root);
 		
-		AbstractApplication.printStacktrace("XXX"+copy.evaluate(StringTemplate.defaultTemplate).toValueString(StringTemplate.defaultTemplate));
+		//AbstractApplication.printStacktrace("XXX"+copy.evaluate(StringTemplate.defaultTemplate).toValueString(StringTemplate.defaultTemplate));
 
 		//if (numToTrace != null) {
 		//	AbstractApplication.debug("YYY"+numToTrace.toOutputValueString(StringTemplate.defaultTemplate));			
