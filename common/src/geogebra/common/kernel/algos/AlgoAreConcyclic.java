@@ -153,10 +153,10 @@ public class AlgoAreConcyclic extends AlgoElement implements
 	public void getFreeVariables(HashSet<Variable> variables)
 			throws NoSymbolicParametersException {
 		if (inputPoint1 != null && inputPoint2 != null && inputPoint1 != null && inputPoint2 != null) {
-			getFreeVariables(variables);
-			getFreeVariables(variables);
-			getFreeVariables(variables);
-			getFreeVariables(variables);
+			inputPoint1.getFreeVariables(variables);
+			inputPoint2.getFreeVariables(variables);
+			inputPoint3.getFreeVariables(variables);
+			inputPoint4.getFreeVariables(variables);
 			return;
 		}
 		throw new NoSymbolicParametersException();
