@@ -1,5 +1,6 @@
 package geogebra.web.gui.menubar;
 
+import geogebra.common.GeoGebraConstants;
 import geogebra.common.main.AbstractApplication;
 import geogebra.web.Web;
 import geogebra.web.asyncservices.HandleGoogleDriveService;
@@ -63,6 +64,7 @@ public class FileMenu extends MenuBar {
 				app.getGuiManager().save();
 			}
 		});
+
 	    
     }
 

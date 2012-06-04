@@ -84,6 +84,9 @@ public interface GeoGebraConstants {
 	/** Splash timeout in miliseconds */
 	public static final int SPLASH_DIALOG_DELAY = 1000;
 	
+	public static final String GGW_ABOUT_TEAM_URL="http://www.geogebra.org/cms/team";
+	public static final String GGW_ABOUT_LICENSE_URL="http://dev.geogebra.org/trac/browser/trunk/geogebra/desktop/geogebra/gui/_license.txt";
+	
 	 // //////////////////////////////////////////////////////////////////////////
 	 // AUTHENTICATING WITH GOOGLE ///////////////////////////////////////////////
 	 // //////////////////////////////////////////////////////////////////////////
