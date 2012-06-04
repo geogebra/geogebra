@@ -24,11 +24,12 @@ your workstation.
 	    description="For command line developers (mostly Unix): to create GeoGebraWeb builds">
 	</target>
 
-	<target name="geogebraweb-packager-commandline" depends="geogebraweb-developer-commandline, gae-sdk"
+	<target name="geogebraweb-packager-commandline" depends="geogebraweb-developer-commandline"
 	    description="For command line developers (mostly Unix): to create GeoGebraWeb builds">
 	</target>
 
-	<target name="geogebraweb-developer" depends="ggbreduce-base64, gwt-oauth2, google-api-java-client"
+	<target name="geogebraweb-developer"
+	    depends="ggbreduce-base64, gwt-oauth2, google-api-java-client, gae-sdk, google-api-services"
 	    description="For Eclipse developers: to create GeoGebraWeb builds">
 	</target>
 
@@ -55,7 +56,7 @@ your workstation.
 	<target name="gwt-oauth2">
 	<mkdir dir="lib"/>
 	<mkdir dir="lib/download"/>
-	<get src="http://gwt-oauth2.googlecode.com/files/gwt-oauth2-0.2-alpha.jar" dest="lib/download/gwt-oauth2-0.2-alpha.jar"
+	<get src="http://gwt-oauth2.googlecode.com/files/gwt-oauth2-0.2-alpha.jar" dest="lib/gwt-oauth2-0.2-alpha.jar"
 	    usetimestamp="true"/>
 	</target>
 
@@ -93,7 +94,7 @@ your workstation.
 	<get
 	    src="http://google-web-toolkit.googlecode.com/files/gwt-2.4.0.zip"
 	    dest="lib/download/gwt-sdk.zip" usetimestamp="true"/>
-	<unzip src="lib/download/gwt-sdk.zip" dest=".."> <!-- FIXME: Find a better place for GWT SDK -->
+	<unzip src="lib/download/gwt-sdk.zip" dest="lib">
 	</unzip>
 	</target>
 
@@ -103,9 +104,24 @@ your workstation.
 	<get
 	    src="http://googleappengine.googlecode.com/files/appengine-java-sdk-1.6.3.1.zip"
 	    dest="lib/download/gae-sdk.zip" usetimestamp="true"/>
-	<unzip src="lib/download/gae-sdk.zip" dest=".."> <!-- FIXME: Find a better place for GAE SDK -->
+	<unzip src="lib/download/gae-sdk.zip" dest="lib">
 	</unzip>
+	<copy todir="war/WEB-INF/lib">
+         <fileset dir="lib/appengine-java-sdk-1.6.3.1/lib/user" includes="*.jar" />
+         <fileset dir="lib/appengine-java-sdk-1.6.3.1/lib/user/orm" includes="*.jar" />
+        </copy>
 	</target>
 
+	<target name="google-api-services">
+	<get
+	    src="http://dev.geogebra.org/download/lib/web/google-api-services-drive-v1-1.5.0-beta.jar"
+	    dest="lib/google-api-services-drive-v1-1.5.0-beta.jar"/>
+	<get
+	    src="http://dev.geogebra.org/download/lib/web/google-api-services-oauth2-v2-rev3-1.5.0-beta.jar"
+	    dest="lib/google-api-services-oauth2-v2-rev3-1.5.0-beta.jar"/>
+	<copy todir="war/WEB-INF/lib">	
+	 <fileset dir="lib" includes="google-api-services*.jar" />
+	</copy>
+	</target>
 	
 </project>

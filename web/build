@@ -49,7 +49,7 @@ export CLASSPATH
 
 # 1. Setting up environment variables
 
-GWTDIR=../gwt-2.4.0 # Override it if needed by using autobuild.conf
+GWTDIR=lib/gwt-2.4.0 # Override it if needed by using autobuild.conf
 XML=`which xml 2>/dev/null`
 if [ "$XML" = "" ]; then
  XML=`which xmlstarlet 2>/dev/null`
@@ -207,7 +207,7 @@ ln -s ../../../common/src/geogebra/jung
 # TODO: Maybe do something similar with WebWorker
 THIRDPARTYJARS="gwt-oauth2-0.2-alpha.jar"
 for i in $THIRDPARTYJARS; do
- unzip -o $WEBDIR/lib/download/$i
+ unzip -o $WEBDIR/lib/$i
  done
 
 # 6/3. Running javac
