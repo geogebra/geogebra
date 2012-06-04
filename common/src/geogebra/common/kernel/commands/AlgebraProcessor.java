@@ -1385,11 +1385,12 @@ public class AlgebraProcessor {
 	}
 
 	/**
-	 * @param n expression
+	 * @param node expression
 	 * @return resulting geos
 	 * @throws MyError on invalid operation
 	 */
-	public GeoElement[] processExpressionNode(ExpressionNode n) throws MyError {
+	public GeoElement[] processExpressionNode(ExpressionNode node) throws MyError {
+		ExpressionNode n = node;
 		// command is leaf: process command
 		if (n.isLeaf()) {
 			ExpressionValue leaf = n.getLeft();
@@ -1418,6 +1419,9 @@ public class AlgebraProcessor {
 
 		// ELSE: resolve variables and evaluate expressionnode
 		n.resolveVariables(false);
+		if(n.containsFunctionVariable()){
+			n= new ExpressionNode(kernel,new Function(n));
+		}
 		eval = n.evaluate(StringTemplate.defaultTemplate);
 		boolean dollarLabelFound = false;
 
