@@ -1378,6 +1378,19 @@ td.datePickerMonth {
 	padding:2px;
 }
 
+.undoButton {
+	position: relative;
+	top: 10px;
+	right: 5px;
+	padding: 1px
+}
+
+.redoButton {
+	position: relative;
+	top: 10px;
+	right: 5px;
+	padding: 1px;
+}
 
 [isSelected=true] .toolbar_icon{
 	border: 2px solid blue;
