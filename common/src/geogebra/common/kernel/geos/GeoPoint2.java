@@ -52,6 +52,7 @@ import geogebra.common.kernel.arithmetic.VectorValue;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.kernel.prover.ProverReciosMethod;
 import geogebra.common.kernel.prover.Variable;
 import geogebra.common.kernel.prover.NoSymbolicParametersException;
 import geogebra.common.kernel.prover.Polynomial;
@@ -2006,7 +2007,7 @@ final public class GeoPoint2 extends GeoVec3D implements VectorValue,
 		return new SymbolicParameters(this);
 	}
 
-	public int[] getFreeVariablesAndDegrees(HashSet<Variable> variables) throws NoSymbolicParametersException {
+	public void getFreeVariables(HashSet<Variable> variables) throws NoSymbolicParametersException {
 
 		// if this is a free point
 		if (algoParent == null) {
@@ -2021,15 +2022,37 @@ final public class GeoPoint2 extends GeoVec3D implements VectorValue,
 
 			variables.add(variableCoordinate1);
 			variables.add(variableCoordinate2);
-			int[] degrees = new int[3];
-			degrees[0] = 1;
-			degrees[1] = 1;
-			degrees[2] = 0;
-			return degrees;
+			return;
 		}
 		if (algoParent != null && algoParent instanceof SymbolicParametersAlgo) {
-			return ((SymbolicParametersAlgo) algoParent).getFreeVariablesAndDegrees(
+			((SymbolicParametersAlgo) algoParent).getFreeVariables(
 					variables);
+			return;
+		}
+		throw new NoSymbolicParametersException();
+	}
+	
+	public int[] getDegrees() throws NoSymbolicParametersException{
+		if (algoParent == null) {
+			GeoElement[] fixedElements = ProverReciosMethod.getFixedPoints();
+			if (fixedElements != null){
+				boolean isContained = false;
+				for (GeoElement ge:fixedElements){
+					if (ge.equals(this)){
+						isContained = true;
+					}
+				}
+				if (isContained) {
+					int[] result={0,0,0};
+					return result;
+				}
+			}
+			
+			int[] result={1,1,0};
+			return result;
+		}
+		if (algoParent instanceof SymbolicParametersAlgo) {
+			return ((SymbolicParametersAlgo) algoParent).getDegrees();
 		}
 		throw new NoSymbolicParametersException();
 	}
@@ -2041,20 +2064,15 @@ final public class GeoPoint2 extends GeoVec3D implements VectorValue,
 		result[1]=values.get(variableCoordinate2);
 		result[2]=BigInteger.ONE;
 		if (result[0]==null || result[1]==null){
-			return null;
+			throw new NoSymbolicParametersException();
 		}
 		return result;
 		}
-		//algoParent != null
 		if (algoParent instanceof SymbolicParametersAlgo){
 			return ((SymbolicParametersAlgo)algoParent).getExactCoordinates(values);
 		}
-		return null;
+		throw new NoSymbolicParametersException();
 	}
-	
-	
-	
-	
 
 	public Polynomial[] getPolynomials() throws NoSymbolicParametersException {
 		// if this is a free point

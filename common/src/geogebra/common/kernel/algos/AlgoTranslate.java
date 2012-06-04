@@ -159,14 +159,25 @@ public class AlgoTranslate extends AlgoTransformation implements SymbolicParamet
 		return new SymbolicParameters(this);
 	}
 
-	public int[] getFreeVariablesAndDegrees(HashSet<Variable> variables)
+	public void getFreeVariables(HashSet<Variable> variables)
+			throws NoSymbolicParametersException {
+		if (inGeo instanceof GeoPoint2 && v instanceof GeoVector) {
+			((SymbolicParametersAlgo) inGeo).getFreeVariables(variables);
+			((SymbolicParametersAlgo) v).getFreeVariables(variables);
+
+			return;
+		}
+		throw new NoSymbolicParametersException();
+	}
+	
+	public int[] getDegrees()
 			throws NoSymbolicParametersException {
 		if (inGeo instanceof GeoPoint2
 				&& v instanceof GeoVector) {
 			int[] degree1 = ((SymbolicParametersAlgo) inGeo)
-					.getFreeVariablesAndDegrees(variables);
+					.getDegrees();
 			int[] degree2 = ((SymbolicParametersAlgo) v)
-					.getFreeVariablesAndDegrees(variables);
+					.getDegrees();
 			int[] result = new int[3];
 
 			result[0]=Math.max(degree1[0]+degree2[2],degree2[0]+degree1[2]);

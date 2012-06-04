@@ -1463,12 +1463,20 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 		return null;
 	}
 
-	public int[] getFreeVariablesAndDegrees(HashSet<Variable> variables)
+	public void getFreeVariables(HashSet<Variable> variables)
 			throws NoSymbolicParametersException {
 		if (algoParent != null
 				&& (algoParent instanceof SymbolicParametersAlgo)) {
-			return ((SymbolicParametersAlgo) algoParent)
-					.getFreeVariablesAndDegrees(variables);
+			((SymbolicParametersAlgo) algoParent).getFreeVariables(variables);
+			return;
+		}
+		throw new NoSymbolicParametersException();
+	}
+	
+	public int[] getDegrees() throws NoSymbolicParametersException {
+		if (algoParent != null
+				&& (algoParent instanceof SymbolicParametersAlgo)) {
+			return ((SymbolicParametersAlgo) algoParent).getDegrees();
 		}
 		throw new NoSymbolicParametersException();
 	}

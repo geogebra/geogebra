@@ -161,17 +161,30 @@ public class AlgoPointOnPath extends AlgoElement implements PathAlgo, SymbolicPa
 		return new SymbolicParameters(this);
 	}
 
-	public int[] getFreeVariablesAndDegrees(HashSet<Variable> variables)
+	public void getFreeVariables(HashSet<Variable> variables)
 			throws NoSymbolicParametersException {
 		if (input[0] instanceof GeoSegment) {
 			throw new NoSymbolicParametersException();
 		}
 		if (input[0] instanceof GeoLine){
-			int[] degreesLine = ((SymbolicParametersAlgo) input[0]).getFreeVariablesAndDegrees(variables);
+			((SymbolicParametersAlgo) input[0]).getFreeVariables(variables);
 			if (variable==null){
 				variable=new Variable(P);
 			}
 			variables.add(variable);
+			return;
+		}
+		throw new NoSymbolicParametersException();
+	}
+	
+	public int[] getDegrees()
+			throws NoSymbolicParametersException {
+		if (input[0] instanceof GeoSegment) {
+			throw new NoSymbolicParametersException();
+		}
+		if (input[0] instanceof GeoLine){
+			int[] degreesLine = ((SymbolicParametersAlgo) input[0]).getDegrees();
+			
 			int[] result=new int[3];
 			result[0]=degreesLine[2]+1;
 			result[1]=degreesLine[2]+1;

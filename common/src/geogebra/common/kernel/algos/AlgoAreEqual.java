@@ -86,7 +86,7 @@ public class AlgoAreEqual extends AlgoElement implements
 		return new SymbolicParameters(this);
 	}
 
-	public int[] getFreeVariablesAndDegrees(HashSet<Variable> variables)
+	public void getFreeVariables(HashSet<Variable> variables)
 			throws NoSymbolicParametersException {
 		if ((inputElement1 instanceof GeoSegment) || (inputElement2 instanceof GeoSegment)){
 			throw new NoSymbolicParametersException();
@@ -95,8 +95,25 @@ public class AlgoAreEqual extends AlgoElement implements
 			if (((inputElement1 instanceof GeoPoint2) && (inputElement2 instanceof GeoPoint2))||
 				((inputElement1 instanceof GeoLine) && (inputElement2 instanceof GeoLine))||
 				((inputElement1 instanceof GeoVector) && (inputElement2 instanceof GeoVector))){
-				int[] degrees1=((SymbolicParametersAlgo)inputElement1).getFreeVariablesAndDegrees(variables);
-				int[] degrees2=((SymbolicParametersAlgo)inputElement2).getFreeVariablesAndDegrees(variables);
+				((SymbolicParametersAlgo)inputElement1).getFreeVariables(variables);
+				((SymbolicParametersAlgo)inputElement2).getFreeVariables(variables);
+				return;
+			}
+		}
+		throw new NoSymbolicParametersException();
+	}
+	
+	public int[] getDegrees()
+			throws NoSymbolicParametersException {
+		if ((inputElement1 instanceof GeoSegment) || (inputElement2 instanceof GeoSegment)){
+			throw new NoSymbolicParametersException();
+		}
+		if (inputElement1 != null && inputElement2 != null) {
+			if (((inputElement1 instanceof GeoPoint2) && (inputElement2 instanceof GeoPoint2))||
+				((inputElement1 instanceof GeoLine) && (inputElement2 instanceof GeoLine))||
+				((inputElement1 instanceof GeoVector) && (inputElement2 instanceof GeoVector))){
+				int[] degrees1=((SymbolicParametersAlgo)inputElement1).getDegrees();
+				int[] degrees2=((SymbolicParametersAlgo)inputElement2).getDegrees();
 				int[] degrees=new int[1];
 				degrees[0] = Math.max(Math.max(degrees1[0]+degrees2[2], degrees2[0]+degrees1[2]),
 						Math.max(degrees1[1]+degrees2[2], degrees2[1]+degrees1[2]));

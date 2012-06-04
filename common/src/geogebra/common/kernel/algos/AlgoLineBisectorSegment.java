@@ -109,14 +109,27 @@ public class AlgoLineBisectorSegment extends AlgoElement implements
 		return new SymbolicParameters(this);
 	}
 
-	public int[] getFreeVariablesAndDegrees(HashSet<Variable> variables)
+	public void getFreeVariables(HashSet<Variable> variables)
 			throws NoSymbolicParametersException {
 		GeoPoint2 A = (GeoPoint2) s.getStartPointAsGeoElement();
 		GeoPoint2 B = (GeoPoint2) s.getEndPointAsGeoElement();
 		// TODO: Common code with AlgoLineBisector.java, maybe commonize.
 		if (A != null && B != null) {
-			int[] degree1=A.getFreeVariablesAndDegrees(variables);
-			int[] degree2=B.getFreeVariablesAndDegrees(variables);
+			A.getFreeVariables(variables);
+			B.getFreeVariables(variables);
+			return;
+		}
+		throw new NoSymbolicParametersException();
+	}
+	
+	public int[] getDegrees()
+			throws NoSymbolicParametersException {
+		GeoPoint2 A = (GeoPoint2) s.getStartPointAsGeoElement();
+		GeoPoint2 B = (GeoPoint2) s.getEndPointAsGeoElement();
+		// TODO: Common code with AlgoLineBisector.java, maybe commonize.
+		if (A != null && B != null) {
+			int[] degree1=A.getDegrees();
+			int[] degree2=B.getDegrees();
 			int[] result=new int[3];
 			result[0]=Math.max(degree1[0]+degree1[2]+2*degree2[2],2*degree1[2]+degree2[0]+degree2[2]);
 			result[1]=Math.max(degree1[1]+degree1[2]+2*degree2[2],2*degree1[2]+degree2[1]+degree2[2]);

@@ -150,13 +150,25 @@ public class AlgoAreConcyclic extends AlgoElement implements
 		return new SymbolicParameters(this);
 	}
 
-	public int[] getFreeVariablesAndDegrees(HashSet<Variable> variables)
+	public void getFreeVariables(HashSet<Variable> variables)
 			throws NoSymbolicParametersException {
 		if (inputPoint1 != null && inputPoint2 != null && inputPoint1 != null && inputPoint2 != null) {
-			int[] degree1 = inputPoint1.getFreeVariablesAndDegrees(variables);
-			int[] degree2 = inputPoint2.getFreeVariablesAndDegrees(variables);
-			int[] degree3 = inputPoint3.getFreeVariablesAndDegrees(variables);
-			int[] degree4 = inputPoint4.getFreeVariablesAndDegrees(variables);
+			getFreeVariables(variables);
+			getFreeVariables(variables);
+			getFreeVariables(variables);
+			getFreeVariables(variables);
+			return;
+		}
+		throw new NoSymbolicParametersException();
+	}
+	
+	public int[] getDegrees()
+			throws NoSymbolicParametersException {
+		if (inputPoint1 != null && inputPoint2 != null && inputPoint1 != null && inputPoint2 != null) {
+			int[] degree1 = inputPoint1.getDegrees();
+			int[] degree2 = inputPoint2.getDegrees();
+			int[] degree3 = inputPoint3.getDegrees();
+			int[] degree4 = inputPoint4.getDegrees();
 
 			int[] degree = new int[1];
 			degree[0]=Math.max(degree1[1] + degree1[2] + degree2[0] + degree2[2] +   2*degree3[0],

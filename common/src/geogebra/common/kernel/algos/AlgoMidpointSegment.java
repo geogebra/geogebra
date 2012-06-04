@@ -128,11 +128,21 @@ public class AlgoMidpointSegment extends AlgoElement implements SymbolicParamete
 		return new SymbolicParameters(this);
 	}
 
-	public int[] getFreeVariablesAndDegrees(HashSet<Variable> variables)
+	public void getFreeVariables(HashSet<Variable> variables)
 			throws NoSymbolicParametersException {
 		if (P != null && Q != null) {
-			int[] degreeP = P.getFreeVariablesAndDegrees(variables);
-			int[] degreeQ = Q.getFreeVariablesAndDegrees(variables);
+			P.getFreeVariables(variables);
+			Q.getFreeVariables(variables);
+			return;
+		}
+		throw new NoSymbolicParametersException();
+	}
+	
+	public int[] getDegrees()
+			throws NoSymbolicParametersException {
+		if (P != null && Q != null) {
+			int[] degreeP = P.getDegrees();
+			int[] degreeQ = Q.getDegrees();
 			
 			int[] result =new int[3];
 			result[0]=Math.max(degreeP[0]+degreeQ[2],degreeQ[0]+degreeP[2]);

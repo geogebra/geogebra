@@ -163,15 +163,29 @@ public class AlgoVector extends AlgoElement implements SymbolicParametersAlgo{
 		return new SymbolicParameters(this);
 	}
 
-	public int[] getFreeVariablesAndDegrees(HashSet<Variable> variables)
+	public void getFreeVariables(HashSet<Variable> variables)
+			throws NoSymbolicParametersException {
+		if (P != null && Q != null
+				&& P instanceof SymbolicParametersAlgo
+				&& Q instanceof SymbolicParametersAlgo) {
+			((SymbolicParametersAlgo) P)
+					.getFreeVariables(variables);
+			((SymbolicParametersAlgo) Q)
+					.getFreeVariables(variables);
+			return;
+		}
+		throw new NoSymbolicParametersException();
+	}
+	
+	public int[] getDegrees()
 			throws NoSymbolicParametersException {
 		if (P != null && Q != null
 				&& P instanceof SymbolicParametersAlgo
 				&& Q instanceof SymbolicParametersAlgo) {
 			int[] degree1 = ((SymbolicParametersAlgo) P)
-					.getFreeVariablesAndDegrees(variables);
+					.getDegrees();
 			int[] degree2 = ((SymbolicParametersAlgo) Q)
-					.getFreeVariablesAndDegrees(variables);
+					.getDegrees();
 			int[] result=new int[3];
 			result[0]=Math.max(degree1[0]+degree2[2],degree2[0]+degree1[2]);
 			result[1]=Math.max(degree1[1]+degree2[2],degree2[1]+degree1[2]);

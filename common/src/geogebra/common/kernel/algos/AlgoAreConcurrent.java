@@ -92,7 +92,7 @@ public class AlgoAreConcurrent extends AlgoElement implements SymbolicParameters
 		return new SymbolicParameters(this);
 	}
 
-	public int[] getFreeVariablesAndDegrees(HashSet<Variable> variables)
+	public void getFreeVariables(HashSet<Variable> variables)
 			throws NoSymbolicParametersException {
 		if ((inputLine1 instanceof GeoSegment)
 				|| (inputLine2 instanceof GeoSegment)
@@ -100,9 +100,25 @@ public class AlgoAreConcurrent extends AlgoElement implements SymbolicParameters
 			throw new NoSymbolicParametersException();
 		}
 		if (inputLine1 != null && inputLine2 != null && inputLine3 != null) {
-			int[] degree1 = inputLine1.getFreeVariablesAndDegrees(variables);
-			int[] degree2 = inputLine2.getFreeVariablesAndDegrees(variables);
-			int[] degree3 = inputLine3.getFreeVariablesAndDegrees(variables);
+			inputLine1.getFreeVariables(variables);
+			inputLine2.getFreeVariables(variables);
+			inputLine3.getFreeVariables(variables);
+			return;
+		}
+		throw new NoSymbolicParametersException();
+	}
+
+	public int[] getDegrees()
+			throws NoSymbolicParametersException {
+		if ((inputLine1 instanceof GeoSegment)
+				|| (inputLine2 instanceof GeoSegment)
+				|| (inputLine3 instanceof GeoSegment)) {
+			throw new NoSymbolicParametersException();
+		}
+		if (inputLine1 != null && inputLine2 != null && inputLine3 != null) {
+			int[] degree1 = inputLine1.getDegrees();
+			int[] degree2 = inputLine2.getDegrees();
+			int[] degree3 = inputLine3.getDegrees();
 			int[] result = new int[1];
 			result[0] = Math.max(degree1[0] + degree2[1] + degree3[2],
 					Math.max(degree2[0] + degree3[1] + degree1[2],
@@ -114,7 +130,7 @@ public class AlgoAreConcurrent extends AlgoElement implements SymbolicParameters
 		}
 		throw new NoSymbolicParametersException();
 	}
-
+	
 	public BigInteger[] getExactCoordinates(
 			final HashMap<Variable, BigInteger> values)
 			throws NoSymbolicParametersException {

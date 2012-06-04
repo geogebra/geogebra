@@ -121,10 +121,20 @@ public class AlgoJoinPoints extends AlgoElement implements SymbolicParametersAlg
 		return new SymbolicParameters(this);
 	}
 
-	public int[] getFreeVariablesAndDegrees(HashSet<Variable> variables) throws NoSymbolicParametersException {
+	public void getFreeVariables(HashSet<Variable> variables) throws NoSymbolicParametersException {
 		if (P != null && Q != null) {
-			int[] degree1=P.getFreeVariablesAndDegrees(variables);
-			int[] degree2=Q.getFreeVariablesAndDegrees(variables);
+			P.getFreeVariables(variables);
+			Q.getFreeVariables(variables);
+			return;
+		}
+		throw new NoSymbolicParametersException();
+		
+	}
+	
+	public int[] getDegrees() throws NoSymbolicParametersException {
+		if (P != null && Q != null) {
+			int[] degree1=P.getDegrees();
+			int[] degree2=Q.getDegrees();
 			return SymbolicParameters.crossDegree(degree1, degree2);
 		}
 		throw new NoSymbolicParametersException();

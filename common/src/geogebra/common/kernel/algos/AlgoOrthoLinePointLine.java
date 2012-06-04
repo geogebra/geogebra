@@ -130,11 +130,21 @@ SymbolicParametersBotanaAlgo {
 		return new SymbolicParameters(this);
 	}
 
-	public int[] getFreeVariablesAndDegrees(HashSet<Variable> variables)
+	public void getFreeVariables(HashSet<Variable> variables)
 			throws NoSymbolicParametersException {
 		if (P != null && l != null) {
-			int[] degreeP = P.getFreeVariablesAndDegrees(variables);
-			int[] degreeL = l.getFreeVariablesAndDegrees(variables);
+			P.getFreeVariables(variables);
+			l.getFreeVariables(variables);
+			return;
+		}
+		throw new NoSymbolicParametersException();
+	}
+	
+	public int[] getDegrees()
+			throws NoSymbolicParametersException {
+		if (P != null && l != null) {
+			int[] degreeP = P.getDegrees();
+			int[] degreeL = l.getDegrees();
 			
 			int[] result =new int[3];
 			result[0]=degreeL[1]+degreeP[2];

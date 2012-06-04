@@ -130,14 +130,27 @@ public class AlgoIntersectLines extends AlgoIntersectAbstract implements Symboli
 		return new SymbolicParameters(this);
 	}
 
-	public int[] getFreeVariablesAndDegrees(HashSet<Variable> variables)
+	public void getFreeVariables(HashSet<Variable> variables)
 			throws NoSymbolicParametersException {
 		if ((g instanceof GeoSegment) || (h instanceof GeoSegment)){
 			throw new NoSymbolicParametersException();
 		}
 		if (g != null && h != null) {
-			int[] degree1 = g.getFreeVariablesAndDegrees(variables);
-			int[] degree2 = h.getFreeVariablesAndDegrees(variables);
+			g.getFreeVariables(variables);
+			h.getFreeVariables(variables);
+			return;
+		}
+		throw new NoSymbolicParametersException();
+	}
+	
+	public int[] getDegrees()
+			throws NoSymbolicParametersException {
+		if ((g instanceof GeoSegment) || (h instanceof GeoSegment)){
+			throw new NoSymbolicParametersException();
+		}
+		if (g != null && h != null) {
+			int[] degree1 = g.getDegrees();
+			int[] degree2 = h.getDegrees();
 			return SymbolicParameters.crossDegree(degree1, degree2);
 		}
 		throw new NoSymbolicParametersException();

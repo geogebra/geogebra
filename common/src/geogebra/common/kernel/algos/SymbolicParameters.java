@@ -38,10 +38,7 @@ public class SymbolicParameters {
 	 * @throws NoSymbolicParametersException if no symbolic parameters can be obtained
 	 */
 	public int[] getDegrees() throws NoSymbolicParametersException {
-		if (variables == null) {
-			initDegrees();
-		}
-		return degree;
+		return spa.getDegrees();
 	}
 
 	/**
@@ -120,7 +117,7 @@ public class SymbolicParameters {
 	 */
 	public int getDimension() throws NoSymbolicParametersException {
 		if (variables == null) {
-			initDegrees();
+			initFreeVariables();
 		}
 		return variables.size();
 	}
@@ -132,7 +129,7 @@ public class SymbolicParameters {
 	 */
 	public HashSet<Variable> getFreeVariables() throws NoSymbolicParametersException{
 		if (variables == null) {
-			initDegrees();
+			initFreeVariables();
 		}
 		return variables;
 	}
@@ -169,12 +166,12 @@ public class SymbolicParameters {
 	
 
 	/**
-	 * Calculates Degrees and FreeVariables
+	 * Gets the free variables
 	 * @throws NoSymbolicParametersException 
 	 */
-	private void initDegrees() throws NoSymbolicParametersException {
+	private void initFreeVariables() throws NoSymbolicParametersException {
 		variables = new HashSet<Variable>();
-		degree=spa.getFreeVariablesAndDegrees(variables);
+		spa.getFreeVariables(variables);
 	}
 	
 	/**

@@ -90,12 +90,23 @@ public class AlgoAreCollinear extends AlgoElement implements SymbolicParametersA
 		return new SymbolicParameters(this);
 	}
 
-	public int[] getFreeVariablesAndDegrees(HashSet<Variable> variables)
+	public void getFreeVariables(HashSet<Variable> variables)
 			throws NoSymbolicParametersException {
 		if (inputPoint1 != null && inputPoint2 != null && inputPoint3 != null) {
-			int[] degree1 = inputPoint1.getFreeVariablesAndDegrees(variables);
-			int[] degree2 = inputPoint2.getFreeVariablesAndDegrees(variables);
-			int[] degree3 = inputPoint3.getFreeVariablesAndDegrees(variables);
+			inputPoint1.getFreeVariables(variables);
+			inputPoint2.getFreeVariables(variables);
+			inputPoint3.getFreeVariables(variables);
+			return;
+		}
+		throw new NoSymbolicParametersException();
+	}
+	
+	public int[] getDegrees()
+			throws NoSymbolicParametersException {
+		if (inputPoint1 != null && inputPoint2 != null && inputPoint3 != null) {
+			int[] degree1 = inputPoint1.getDegrees();
+			int[] degree2 = inputPoint2.getDegrees();
+			int[] degree3 = inputPoint3.getDegrees();
 			int[] result = new int[1];
 			result[0] = Math.max(degree1[0] + degree2[1] + degree3[2],
 					Math.max(degree2[0] + degree3[1] + degree1[2],

@@ -22,13 +22,32 @@ public interface SymbolicParametersAlgo {
 	public SymbolicParameters getSymbolicParameters();
 	
 	/**
-	 * Calculates the set of free variables and the maximum degrees.
+	 * Calculates the set of free variables.
 	 * @param variables all free variables used
-	 * @return the degrees of the coordinates
 	 * @throws NoSymbolicParametersException thrown if no symbolic parameters are available.
 	 * 
 	 */
-	public int[] getFreeVariablesAndDegrees(HashSet<Variable> variables) throws NoSymbolicParametersException;
+	public void getFreeVariables(HashSet<Variable> variables) throws NoSymbolicParametersException;
+	
+	/**
+	 * Calculates the maximum degree of the variables 
+	 * @return the degrees of the coordinates
+	 * @throws NoSymbolicParametersException thrown if no symbolic parameters are available.
+	 */
+	public int[] getDegrees() throws NoSymbolicParametersException;
+	
+	/**
+	 * Returns which methods might be able to verify the statement
+	 * @return a vector of booleans of size four. The items indicate whether:
+	 * <ol start="0" type="1">
+	 * <li>Recios method might be possible</li>
+	 * <li>Botanas method might be possible</li>
+	 * <li>OpenGeoProver might be possible</li>
+	 * <li>PureSymbolic method might be possible</li>
+	 * </ol>
+	 * 
+	 */
+	//public boolean[] possiblyWorkingMethods();
 	
 	/**
 	 * Calculates the homogeneous coordinates of the object when substituting the variables by its values.

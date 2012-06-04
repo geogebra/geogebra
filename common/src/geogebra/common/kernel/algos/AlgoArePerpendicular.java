@@ -83,11 +83,21 @@ public class AlgoArePerpendicular extends AlgoElement implements
 		return new SymbolicParameters(this);
 	}
 
-	public int[] getFreeVariablesAndDegrees(HashSet<Variable> variables)
+	public void getFreeVariables(HashSet<Variable> variables)
 			throws NoSymbolicParametersException {
 		if (inputLine1 != null && inputLine2 != null) {
-			int[] degree1 = inputLine1.getFreeVariablesAndDegrees(variables);
-			int[] degree2 = inputLine2.getFreeVariablesAndDegrees(variables);
+			inputLine1.getFreeVariables(variables);
+			inputLine2.getFreeVariables(variables);
+			return;
+		}
+		throw new NoSymbolicParametersException();
+	}
+	
+	public int[] getDegrees()
+			throws NoSymbolicParametersException {
+		if (inputLine1 != null && inputLine2 != null) {
+			int[] degree1 = inputLine1.getDegrees();
+			int[] degree2 = inputLine2.getDegrees();
 			int[] degree = new int[1];
 			degree[0]=Math.max(degree1[0]+degree2[0], degree1[1]+degree2[1]);
 			return degree;

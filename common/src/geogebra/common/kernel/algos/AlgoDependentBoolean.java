@@ -107,7 +107,7 @@ public class AlgoDependentBoolean extends AlgoElement implements SymbolicParamet
 		return new SymbolicParameters(this);
 	}
 
-	public int[] getFreeVariablesAndDegrees(HashSet<Variable> variables)
+	public void getFreeVariables(HashSet<Variable> variables)
 			throws NoSymbolicParametersException {
 		if (!root.getLeft().isGeoElement() || !root.getRight().isGeoElement())
 			throw new NoSymbolicParametersException();
@@ -117,19 +117,49 @@ public class AlgoDependentBoolean extends AlgoElement implements SymbolicParamet
 		
 		if (root.getOperation().equals(Operation.PERPENDICULAR)) {
 			AlgoArePerpendicular algo = new AlgoArePerpendicular(cons, "", (GeoLine) left, (GeoLine) right);
-			int[] ret = algo.getFreeVariablesAndDegrees(variables);
+			algo.getFreeVariables(variables);
+			algo.remove();
+			return;
+		}
+		if (root.getOperation().equals(Operation.PARALLEL)) {
+			AlgoAreParallel algo = new AlgoAreParallel(cons, "", (GeoLine) left, (GeoLine) right);
+			algo.getFreeVariables(variables);
+			algo.remove();
+			return;
+		}
+		if (root.getOperation().equals(Operation.EQUAL_BOOLEAN)) {
+			AlgoAreEqual algo = new AlgoAreEqual(cons, "", left, right);
+			algo.getFreeVariables(variables);
+			algo.remove();
+			return;
+		}
+
+		throw new NoSymbolicParametersException();
+	}
+	
+	public int[] getDegrees()
+			throws NoSymbolicParametersException {
+		if (!root.getLeft().isGeoElement() || !root.getRight().isGeoElement())
+			throw new NoSymbolicParametersException();
+		
+		GeoElement left = (GeoElement) root.getLeft();
+		GeoElement right = (GeoElement) root.getRight();
+		
+		if (root.getOperation().equals(Operation.PERPENDICULAR)) {
+			AlgoArePerpendicular algo = new AlgoArePerpendicular(cons, "", (GeoLine) left, (GeoLine) right);
+			int[] ret = algo.getDegrees();
 			algo.remove();
 			return ret;
 		}
 		if (root.getOperation().equals(Operation.PARALLEL)) {
 			AlgoAreParallel algo = new AlgoAreParallel(cons, "", (GeoLine) left, (GeoLine) right);
-			int[] ret = algo.getFreeVariablesAndDegrees(variables);
+			int[] ret = algo.getDegrees();
 			algo.remove();
 			return ret;
 		}
 		if (root.getOperation().equals(Operation.EQUAL_BOOLEAN)) {
 			AlgoAreEqual algo = new AlgoAreEqual(cons, "", left, right);
-			int[] ret = algo.getFreeVariablesAndDegrees(variables);
+			int[] ret = algo.getDegrees();
 			algo.remove();
 			return ret;
 		}
