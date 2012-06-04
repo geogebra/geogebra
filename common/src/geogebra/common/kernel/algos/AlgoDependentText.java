@@ -20,7 +20,9 @@ package geogebra.common.kernel.algos;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.MyStringBuffer;
@@ -29,6 +31,7 @@ import geogebra.common.kernel.arithmetic.TextValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.AbstractApplication;
+import geogebra.common.plugin.Operation;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -171,10 +174,6 @@ public class AlgoDependentText extends AlgoElement {
 
 	private void setSpreadsheetTraceableText(){
 
-		NumberValue numToTrace = null;
-		
-		String label = null;
-
 		/*
 		AbstractApplication.debug("\nroot: "+root+
 				"\nleft: "+root.getLeftTree()+
@@ -184,42 +183,17 @@ public class AlgoDependentText extends AlgoElement {
 				);
 				//*/
 
-
-		// try to collect a string as label
-		// eg for "length = "+d
-		// the label will be "length ="
-		al = new ArrayList<String>();
-		getStrings(root);		
-		if (al.size() > 0) {
-			label = al.get(0);
-		}
 		
-		HashSet<GeoElement> rightGeos = root.getVariables();
-
-		Iterator<GeoElement> it = rightGeos.iterator();
-
-		while (it.hasNext()) {
-			GeoElement geo = it.next();
-			
-			//AbstractApplication.debug(geo.getClass());
-
-			if (geo.isNumberValue()) {
-				if (numToTrace == null) {
-					numToTrace = (NumberValue) geo;
-				} else {
-					// more than one NumberValue in expression, so don't want to trace
-					return;
-				}
-			} 
-
-		}
+		//  find first NumberValue in expression and replace
+		ExpressionNode copy = getSpecialCopy(root);
 		
-		String columnHeader = label != null ? label : ((GeoElement) numToTrace).getLabel(StringTemplate.defaultTemplate);
+		AbstractApplication.printStacktrace("XXX"+copy.evaluate(StringTemplate.defaultTemplate).toValueString(StringTemplate.defaultTemplate));
 
-		if (numToTrace != null) {
-			text.setSpreadsheetTraceable(new ExpressionNode(kernel, new MyStringBuffer(kernel, columnHeader)), numToTrace);
-		}
-
+		//if (numToTrace != null) {
+		//	AbstractApplication.debug("YYY"+numToTrace.toOutputValueString(StringTemplate.defaultTemplate));			
+		//}
+		
+		text.setSpreadsheetTraceable(copy, numToTrace);
 
 		//AbstractApplication.debug("\nleft string : "+root.getLeftTree().evaluate(StringTemplate.defaultTemplate).toValueString(StringTemplate.defaultTemplate));
 		//AbstractApplication.debug("\nleft string latex : "+root.getLeftTree().evaluate(StringTemplate.defaultTemplate).toLaTeXString(false, StringTemplate.defaultTemplate));
@@ -229,40 +203,75 @@ public class AlgoDependentText extends AlgoElement {
 
 	}
 	
-	private ArrayList<String> al;
 	
-	/**
-	 * gets all non-empty strings from an ExpressionNode
-	 */
-	final private void getStrings(ExpressionNode en) {
-		if (en.isLeaf()) {
-			getStrings(en.getLeftTree());
-		}
+	private ExpressionValue numToTrace;
+	
+	
+	// adpated from ExpressionNode.getCopy()
+	private ExpressionNode getSpecialCopy(ExpressionNode en) {
+		// Application.debug("getCopy() input: " + this);
+		ExpressionNode newNode = null;
+		ExpressionValue lev = null, rev = null;
 		
 		ExpressionValue left = en.getLeft();
 		ExpressionValue right = en.getRight();
 
-		if (left.isExpressionNode()) {
-			getStrings((ExpressionNode) left);
-		} else if (left.isTextValue()) {
-			String str = ((TextValue)left).getText().toValueString(StringTemplate.defaultTemplate);
-			if (!"".equals(str)) {
-				al.add(str);
-			}
+		if (left != null) {
+			lev = copy(left, en.getOperation().equals(Operation.PLUS));
 		}
-		
-		if (right.isExpressionNode()) {
-			getStrings((ExpressionNode) right);
-		} else if (right.isTextValue()) {
-			String str = ((TextValue)right).getText().toValueString(StringTemplate.defaultTemplate);
-			if (!"".equals(str)) {
-				al.add(str);
-			}
+		if (right != null) {
+			rev = copy(right, en.getOperation().equals(Operation.PLUS));
 		}
-		
-		return;
-		
-		
+
+		if (lev != null) {
+			newNode = new ExpressionNode(kernel, lev, en.getOperation(), rev);
+			newNode.leaf = en.leaf;
+		} else {
+			// something went wrong
+			return null;
+		}
+
+		// set member vars that are not set by constructors
+		//newNode.forceVector = forceVector;
+		//newNode.forcePoint = forcePoint;
+		//newNode.forceFunction = forceFunction;
+		// Application.debug("getCopy() output: " + newNode);
+		return newNode;
+	}
+
+	// adpated from ExpressionNode
+	// finds first "+ NumberValue" and replaces with " x "
+	// eg "value = "+x(A)+"cm"
+	private ExpressionValue copy(ExpressionValue ev, boolean opIsPlus) {
+		if (ev == null) {
+			return null;
+		}
+
+		ExpressionValue ret = null;
+		// Application.debug("copy ExpressionValue input: " + ev);
+		if (opIsPlus && numToTrace == null && ev.isNumberValue()) {
+			//************
+			// replace first encountered NumberValue, eg x(A) with empty string
+			// and make note 
+			// ************
+			numToTrace = ev;
+			ret = new MyStringBuffer(kernel, " x ");
+		} else if (ev.isExpressionNode()) {
+			ExpressionNode en = (ExpressionNode) ev;
+			ret = getSpecialCopy(en);
+		//} else if (ev instanceof MyList) {
+		//	MyList en = (MyList) ev;
+		//	ret = getCopy(kernel, en);
+		}
+		// deep copy
+		else if (ev.isPolynomialInstance() || ev.isConstant()
+				|| (ev instanceof Command)) {
+			ret = ev.deepCopy(kernel);
+		} else {
+			ret = ev;
+		}
+		// Application.debug("copy ExpressionValue output: " + ev);
+		return ret;
 	}
 
 }

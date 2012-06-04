@@ -23,6 +23,7 @@ import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoSequence;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
+import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.MyStringBuffer;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.TextValue;
@@ -34,7 +35,6 @@ import geogebra.common.util.StringUtil;
 
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.HashSet;
 
 
 
@@ -1046,7 +1046,7 @@ public class GeoText extends GeoElement implements Locateable,
 	
 	
 	private boolean isSpreadsheetTraceable = false;
-	private NumberValue spreadsheetTraceableValue;
+	private ExpressionValue spreadsheetTraceableValue;
 	private ExpressionNode spreadsheetTraceableLeftTree;
 	
 	/**
@@ -1054,7 +1054,7 @@ public class GeoText extends GeoElement implements Locateable,
 	 * @param leftTree tree for column heading
 	 * @param value value to trace
 	 */
-	public void setSpreadsheetTraceable(ExpressionNode leftTree, NumberValue value){
+	public void setSpreadsheetTraceable(ExpressionNode leftTree, ExpressionValue value){
 		this.spreadsheetTraceableLeftTree = leftTree;
 		this.spreadsheetTraceableValue = value;
 		this.isSpreadsheetTraceable = true;
@@ -1091,7 +1091,7 @@ public class GeoText extends GeoElement implements Locateable,
 		else
 			spreadsheetTraceList.clear();		
 
-		GeoNumeric numeric = new GeoNumeric(cons, spreadsheetTraceableValue.getDouble());
+		GeoNumeric numeric = new GeoNumeric(cons, spreadsheetTraceableValue.evaluateNum().getDouble());
 		spreadsheetTraceList.add(numeric);
 
 		return spreadsheetTraceList;
