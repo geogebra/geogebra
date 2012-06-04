@@ -1717,8 +1717,14 @@ public class Application extends AbstractApplication {
 	@Override
 	public void uploadToGeoGebraTube() {
 		GeoGebraTubeExportWeb ggbtube = new GeoGebraTubeExportWeb(this);
-		ggbtube.uploadWorksheet(null);
+		((GgbAPI)getGgbApi()).getBase64(true, getUploadToGeoGebraTubeCallback(ggbtube));
 	}
+
+	public native JavaScriptObject getUploadToGeoGebraTubeCallback(GeoGebraTubeExportWeb ggbtube) /*-{
+		return function(base64string) {
+			ggbtube.@geogebra.web.main.GeoGebraTubeExportWeb::uploadWorksheetSimple(Ljava/lang/String;)(base64string);
+		}
+	}-*/;
 
 	@Override
     public void setWaitCursor() {

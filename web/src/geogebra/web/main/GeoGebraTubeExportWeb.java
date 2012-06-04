@@ -32,15 +32,84 @@ public class GeoGebraTubeExportWeb extends geogebra.common.export.GeoGebraTubeEx
 	 */
 	private static final String uploadURL = "http://www.geogebratube.org/upload";
 
+	protected StringBuffer getPostData(String base64) throws IOException {
+		Construction cons = app.getKernel().getConstruction();
+		
+		// build post query
+		StringBuffer stringBuffer = new StringBuffer();
+		stringBuffer.append("data=");
+		stringBuffer.append(encode(macros == null ? base64 : getBase64Tools(macros)));
 
-	/**
-	 * Upload the current worksheet to GeoGebraTube.
-	 */
-	@Override
-    public void uploadWorksheet(ArrayList<Macro> macrosIn) {
+		stringBuffer.append("&title=");
+		stringBuffer.append(encode(cons.getTitle()));
 		
-		this.macros = macrosIn;
+		stringBuffer.append("&pretext=");
+		stringBuffer.append(encode(cons.getWorksheetText(0)));
 		
+		stringBuffer.append("&posttext=");
+		stringBuffer.append(encode(cons.getWorksheetText(1)));
+		
+		stringBuffer.append("&version=");
+		stringBuffer.append(encode(GeoGebraConstants.VERSION_STRING));
+		
+		return stringBuffer;
+	}
+
+	protected void doUploadWorksheet(RequestBuilder rb, String postData) {
+		// encode '+'
+		// for some reason encode(postData) doesn't work
+		postData = postData.replace("+", "%2B");
+		
+		try {
+			Request response = rb.sendRequest(postData, new RequestCallback()
+			{
+
+				public void onError(Request request, Throwable exception) {
+					AbstractApplication.debug("onError: " + request.toString() + " " + exception.toString());
+				}
+				public void onResponseReceived(Request request, Response response) {
+
+					if (response.getStatusCode() == Response.SC_OK) {
+
+						AbstractApplication.debug("result from server: "+response.getText());
+
+						final UploadResults results = new UploadResults(response.getText());
+
+						if(results.HasError()) {
+							statusLabelSetText(app.getPlain("UploadError"));
+							setEnabled(false);
+
+							AbstractApplication.debug("Upload failed. Response: " + response.getText());
+						} else {
+							AbstractApplication.debug("Opening URL: " + uploadURL + "/" + results.getUID());
+							app.showURLinBrowser(uploadURL + "/" + results.getUID());
+							hideDialog();
+						}
+					} else { // not Response.SC_OK
+						AbstractApplication.debug("Upload failed. Response: #" + response.getStatusCode() + " - " + response.getStatusText());
+
+						AbstractApplication.debug(response.getText());
+
+						statusLabelSetText(app.getPlain("UploadError", Integer.toString(response.getStatusCode())));
+						setEnabled(false);
+						pack();
+
+					}
+
+				}});
+		}
+		catch (RequestException e) {
+			statusLabelSetText(app.getPlain("UploadError", Integer.toString(500)));
+			setEnabled(false);
+			pack();
+
+			AbstractApplication.debug(e.getMessage());
+		}
+	}
+
+    public void uploadWorksheetSimple(String base64) {
+		this.macros = null;
+
 		showDialog();
 
 		Construction cons = app.getKernel().getConstruction();
@@ -51,57 +120,9 @@ public class GeoGebraTubeExportWeb extends geogebra.common.export.GeoGebraTubeEx
 			rb.setHeader("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
 			//rb.setHeader("Accept-Language", "app.getLocaleStr()");
 
-			String postData = getPostData().toString();
+			String postData = getPostData(base64).toString();
 
-			// encode '+'
-			// for some reason encode(postData) doesn't work
-			postData = postData.replace("+", "%2B");
-			
-			try {
-				Request response = rb.sendRequest(postData, new RequestCallback()
-				{
-
-					public void onError(Request request, Throwable exception) {
-						AbstractApplication.debug("onError: " + request.toString() + " " + exception.toString());
-					}
-					public void onResponseReceived(Request request, Response response) {
-
-						if (response.getStatusCode() == Response.SC_OK) {
-
-							AbstractApplication.debug("result from server: "+response.getText());
-
-							final UploadResults results = new UploadResults(response.getText());
-
-							if(results.HasError()) {
-								statusLabelSetText(app.getPlain("UploadError"));
-								setEnabled(false);
-
-								AbstractApplication.debug("Upload failed. Response: " + response.getText());
-							} else {
-								AbstractApplication.debug("Opening URL: " + uploadURL + "/" + results.getUID());
-								app.showURLinBrowser(uploadURL + "/" + results.getUID());
-								hideDialog();
-							}
-						} else { // not Response.SC_OK
-							AbstractApplication.debug("Upload failed. Response: #" + response.getStatusCode() + " - " + response.getStatusText());
-
-							AbstractApplication.debug(response.getText());
-
-							statusLabelSetText(app.getPlain("UploadError", Integer.toString(response.getStatusCode())));
-							setEnabled(false);
-							pack();
-
-						}
-
-					}});
-			}
-			catch (RequestException e) {
-				statusLabelSetText(app.getPlain("UploadError", Integer.toString(500)));
-				setEnabled(false);
-				pack();
-
-				AbstractApplication.debug(e.getMessage());
-			}
+			doUploadWorksheet(rb, postData);
 		} catch (Exception e) {
 			statusLabelSetText(app.getPlain("UploadError", Integer.toString(400)));
 			setEnabled(false);
@@ -110,8 +131,35 @@ public class GeoGebraTubeExportWeb extends geogebra.common.export.GeoGebraTubeEx
 			AbstractApplication.debug(e.getMessage());
 
 		}
+    }
 
+	/**
+	 * Upload the current worksheet to GeoGebraTube.
+	 */
+	@Override
+    public void uploadWorksheet(ArrayList<Macro> macrosIn) {
 
+		this.macros = macrosIn;
+
+		showDialog();
+
+		Construction cons = app.getKernel().getConstruction();
+
+		try {
+			RequestBuilder rb = new RequestBuilder(RequestBuilder.POST, uploadURL);
+			rb.setHeader("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
+			//rb.setHeader("Accept-Language", "app.getLocaleStr()");
+
+			String postData = getPostData().toString();
+			doUploadWorksheet(rb, postData);
+		} catch (Exception e) {
+			statusLabelSetText(app.getPlain("UploadError", Integer.toString(400)));
+			setEnabled(false);
+			pack();
+
+			AbstractApplication.debug(e.getMessage());
+
+		}
 	}	
 
 	@Override
