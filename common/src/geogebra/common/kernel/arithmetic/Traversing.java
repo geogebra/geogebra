@@ -234,5 +234,28 @@ public interface Traversing {
 			return collector;
 		}
 	}
+	
+	/**
+	 * Collects all function variables
+	 * @author zbynek
+	 */
+	public class FVarCollector implements Traversing {
+		private Set<String> commands;
+		public ExpressionValue process(ExpressionValue ev) {
+			if(ev instanceof FunctionVariable)
+				commands.add(((FunctionVariable)ev).getSetVarString());
+			return ev;
+		}
+		private static FVarCollector collector = new FVarCollector();
+		/**
+		 * Resets and returns the collector
+		 * @param commands set into which we want to collect the commands
+		 * @return derivative collector
+		 */
+		public static FVarCollector getCollector(Set<String> commands){		
+			collector.commands = commands;
+			return collector;
+		}
+	}
 
 }

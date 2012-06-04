@@ -4888,6 +4888,8 @@ public class ExpressionNode extends ValidExpression implements
 	public ExpressionNode power(ExpressionValue v2) {
 		if(isConstantDouble(v2,0))
 			return new ExpressionNode(kernel,new MyDouble(kernel,1));
+		if (isConstantDouble(v2, 1))
+			return this;
 		return new ExpressionNode(kernel, this, Operation.POWER, v2);
 	}
 

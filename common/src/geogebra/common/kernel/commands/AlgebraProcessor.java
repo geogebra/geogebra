@@ -31,6 +31,7 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.Parametric;
 import geogebra.common.kernel.arithmetic.Polynomial;
 import geogebra.common.kernel.arithmetic.TextValue;
+import geogebra.common.kernel.arithmetic.Traversing.FVarCollector;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.arithmetic.VectorValue;
 import geogebra.common.kernel.geos.GeoAngle;
@@ -61,7 +62,9 @@ import geogebra.common.plugin.GeoClass;
 import geogebra.common.plugin.Operation;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * Processes algebra input as Strings and valid expressions into GeoElements 
@@ -1420,7 +1423,20 @@ public class AlgebraProcessor {
 		// ELSE: resolve variables and evaluate expressionnode
 		n.resolveVariables(false);
 		if(n.containsFunctionVariable()){
-			n= new ExpressionNode(kernel,new Function(n));
+			Set<String> fvSet = new TreeSet<String>();
+			FVarCollector fvc = FVarCollector.getCollector(fvSet);
+			n.traverse(fvc);
+			if(fvSet.size()==1){
+				n= new ExpressionNode(kernel,new Function(n,new FunctionVariable(kernel,fvSet.iterator().next())));
+			}else{
+				FunctionVariable[] fvArray= new FunctionVariable[fvSet.size()];
+				Iterator<String> it = fvSet.iterator();
+				int i=0;
+				while(it.hasNext()){
+					fvArray[i++]=new FunctionVariable(kernel,it.next());
+				}
+				n= new ExpressionNode(kernel,new FunctionNVar(n,fvArray));
+			}
 		}
 		eval = n.evaluate(StringTemplate.defaultTemplate);
 		boolean dollarLabelFound = false;
