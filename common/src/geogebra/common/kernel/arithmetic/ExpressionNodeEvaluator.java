@@ -356,7 +356,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 
 		case GREATER_EQUAL:
 			// number >= number
-			AbstractApplication.debug(lt.getClass()+" "+rt.getClass());
+			//AbstractApplication.debug(lt.getClass()+" "+rt.getClass());
 			if (lt.isNumberValue() && rt.isNumberValue()) {
 				return new MyBoolean(kernel, Kernel.isGreaterEqual(
 						((NumberValue) lt).getDouble(),
@@ -950,8 +950,8 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 						"^", rt.toString(errorTemplate) };
 				throw new MyError(app, str);
 			} else {
-				AbstractApplication.debug("power: lt :" + lt.getClass()
-						+ ", rt: " + rt.getClass());
+				//AbstractApplication.debug("power: lt :" + lt.getClass()
+				//		+ ", rt: " + rt.getClass());
 				str = new String[]{ "IllegalExponent", lt.toString(errorTemplate), "^",
 						rt.toString(errorTemplate) };
 				throw new MyError(app, str);
@@ -1031,7 +1031,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 
 			}
 			str = new String[]{ "IllegalArgument", "freehand", lt.toString(errorTemplate) };
-			AbstractApplication.debug(lt.getClass() + " " + rt.getClass());
+			//AbstractApplication.debug(lt.getClass() + " " + rt.getClass());
 			throw new MyError(app, str);
 
 		case TAN:
@@ -1805,7 +1805,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 								.getGeoFunction().getFunction().evaluate(pt));
 					} else {
 						AbstractApplication
-								.debug("missing case in ExpressionNodeEvaluator");
+								.error("missing case in ExpressionNodeEvaluator");
 					}
 				}
 			} else if (lt.isPolynomialInstance() && rt.isPolynomialInstance()
