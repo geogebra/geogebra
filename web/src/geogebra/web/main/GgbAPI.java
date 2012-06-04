@@ -211,6 +211,9 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI {
 
 	private native void getNativeBase64ZipJs(JavaScriptObject arch,
             boolean includeThumbnail, JavaScriptObject clb) /*-{
+
+		$wnd.zip.workerScriptsPath = "web/js/zipjs/";
+
 		function encodeUTF8(string) {
 			var n, c1, enc, utftext = [], start = 0, end = 0, stringl = string.length;
 			for (n = 0; n < stringl; n++) {
