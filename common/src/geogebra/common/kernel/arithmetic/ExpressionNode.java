@@ -463,8 +463,8 @@ public class ExpressionNode extends ValidExpression implements
 	 * look for Variable objects in the tree and replace them by their resolved
 	 * GeoElement
 	 */
-	public void resolveVariables() {
-		doResolveVariables();
+	public final void resolveVariables(boolean forEquation) {
+		doResolveVariables(forEquation);
 		simplifyAndEvalCommands();
 		simplifyLeafs();
 
@@ -517,20 +517,20 @@ public class ExpressionNode extends ValidExpression implements
 		}
 	}
 
-	private void doResolveVariables() {
+	private void doResolveVariables(boolean forEquation) {
 		// resolve left wing
 		if (left.isVariable()) {
-			left = ((Variable) left).resolveAsExpressionValue();
+			left = ((Variable) left).resolveAsExpressionValue(forEquation);
 		} else {
-			left.resolveVariables();
+			left.resolveVariables(forEquation);
 		}
 
 		// resolve right wing
 		if (right != null) {
 			if (right.isVariable()) {
-				right = ((Variable) right).resolveAsExpressionValue();
+				right = ((Variable) right).resolveAsExpressionValue(forEquation);
 			} else {
-				right.resolveVariables();
+				right.resolveVariables(forEquation);
 			}
 		}
 	}
@@ -4886,6 +4886,8 @@ public class ExpressionNode extends ValidExpression implements
 	 * @return resulting power
 	 */
 	public ExpressionNode power(ExpressionValue v2) {
+		if(isConstantDouble(v2,0))
+			return new ExpressionNode(kernel,new MyDouble(kernel,1));
 		return new ExpressionNode(kernel, this, Operation.POWER, v2);
 	}
 

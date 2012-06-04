@@ -211,11 +211,11 @@ public class Equation extends ValidExpression {
         } 
         else {
         	// standard case for lhs
-        	lhs.resolveVariables();
+        	lhs.resolveVariables(true);
         }
      
         // resolve variables in rhs
-        rhs.resolveVariables();
+        rhs.resolveVariables(true);
         
         // build normal form polynomial        
         // copy the expression trees
@@ -423,9 +423,9 @@ public class Equation extends ValidExpression {
 		return false;
 	}
 
-	public void resolveVariables() {    
-        lhs.resolveVariables();
-        rhs.resolveVariables();		
+	public void resolveVariables(boolean forEquation) {    
+        lhs.resolveVariables(forEquation);
+        rhs.resolveVariables(forEquation);		
 	}
 
 	public String toLaTeXString(boolean symbolic,StringTemplate tpl) {

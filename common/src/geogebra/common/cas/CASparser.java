@@ -105,7 +105,7 @@ public class CASparser implements CASParserInterface{
 		}
 		// resolve variables of valid expression
 		ev.getKernel().setResolveUnkownVarsAsDummyGeos(true);
-		ev.resolveVariables();
+		ev.resolveVariables(false);
 		ev.getKernel().setResolveUnkownVarsAsDummyGeos(false);
 		
 		//TODO: remove local variables from kernel ?

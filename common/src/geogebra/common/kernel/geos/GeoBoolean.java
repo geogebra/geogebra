@@ -161,7 +161,7 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 	}
 
 	@Override
-	public void resolveVariables() {
+	public void resolveVariables(boolean forEquation) {
 		//do nothing
 	}
 

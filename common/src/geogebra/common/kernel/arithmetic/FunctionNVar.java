@@ -142,8 +142,8 @@ public class FunctionNVar extends ValidExpression implements FunctionalNVar, Var
 		return expression;
 	}
 
-	public void resolveVariables() {
-		expression.resolveVariables();
+	public void resolveVariables(boolean forEquation) {
+		expression.resolveVariables(forEquation);
 	}
 
 	/**
@@ -254,7 +254,7 @@ public class FunctionNVar extends ValidExpression implements FunctionalNVar, Var
 		}
 
 		// replace variable names by objects
-		expression.resolveVariables();
+		expression.resolveVariables(false);
 
 		// the idea here was to allow something like: Derivative[f] + 3x
 		// but wrapping the GeoFunction objects as ExpressionNodes of type

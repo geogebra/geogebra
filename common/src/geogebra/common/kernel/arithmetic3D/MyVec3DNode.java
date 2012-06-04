@@ -65,10 +65,10 @@ public class MyVec3DNode extends ValidExpression implements Vector3DValue {
 				z.deepCopy(kernel1));
 	}
 
-	public void resolveVariables() {
-		x.resolveVariables();
-		y.resolveVariables();
-		z.resolveVariables();
+	public void resolveVariables(boolean forEquation) {
+		x.resolveVariables(forEquation);
+		y.resolveVariables(forEquation);
+		z.resolveVariables(forEquation);
 	}
 
 	/**

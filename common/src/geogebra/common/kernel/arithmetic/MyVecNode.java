@@ -66,9 +66,9 @@ public class MyVecNode extends ValidExpression implements VectorValue {
 		return new MyVecNode(kernel1, x.deepCopy(kernel1), y.deepCopy(kernel1));
 	}
 
-	public void resolveVariables() {
-		x.resolveVariables();
-		y.resolveVariables();
+	public void resolveVariables(boolean forEquation) {
+		x.resolveVariables(forEquation);
+		y.resolveVariables(forEquation);
 	}
 
 	/**

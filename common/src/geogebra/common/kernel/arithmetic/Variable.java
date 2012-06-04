@@ -22,8 +22,10 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoDummyVariable;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyParseError;
 import geogebra.common.plugin.Operation;
+import geogebra.common.util.StringUtil;
 
 import java.util.HashSet;
 
@@ -116,7 +118,7 @@ public class Variable extends ValidExpression {
 	 * @return GeoElement whose label is name of this variable or ExpressionNode
 	 * wrapping spreadsheet reference 
 	 */
-	final public ExpressionValue resolveAsExpressionValue() {
+	final public ExpressionValue resolveAsExpressionValue(boolean forEquation) {
 		GeoElement geo = resolve(false);
 		if(geo==null){
 			MatchResult res = polyPattern.exec(name);
@@ -124,17 +126,24 @@ public class Variable extends ValidExpression {
 				resolve(true);
 			String xyz = res.getGroup(2);
 			//holds powers of x,y,z: eg {"xxx","y","zzzzz"}
-			String[] xx = new String[]{"","",""};
+			int[] exponents = new int[]{0,0,0};
 			for(int i=0;i<xyz.length();i++){
-				xx[xyz.charAt(i)-'x'] += xyz.charAt(i);
+				exponents[xyz.charAt(i)-'x']++;
 			}
 			String coeff =res.getGroup(1);
-			if(coeff.length()==0)
-				return new Polynomial(kernel,xx[0]+xx[1]+xx[2]);
-			GeoElement geo2 =kernel.lookupLabel(coeff);
-			if(geo2==null)
-				resolve(true);
-			return new Polynomial(kernel,new Term(geo2, xx[0]+xx[1]+xx[2]));
+			ExpressionValue geo2 = new MyDouble(kernel,1.0);
+			if(coeff.length()!=0){
+				geo2 =kernel.lookupLabel(coeff);
+				if(geo2==null)
+					resolve(true);
+				
+			}
+			AbstractApplication.printStacktrace(name+":"+forEquation);
+			if(forEquation)
+				return new Polynomial(kernel,new Term(geo2, StringUtil.repeat('x',exponents[0])+StringUtil.repeat('y',exponents[1])+StringUtil.repeat('z',exponents[2])));
+			return new ExpressionNode(kernel,new FunctionVariable(kernel,"x")).power(new MyDouble(kernel,exponents[0])).
+					multiply(new ExpressionNode(kernel,new FunctionVariable(kernel,"y")).power(new MyDouble(kernel,exponents[1]))).
+					multiply(new ExpressionNode(kernel,new FunctionVariable(kernel,"z")).power(new MyDouble(kernel,exponents[2])));
 		}
 		
 		// spreadsheet dollar sign reference
@@ -164,7 +173,7 @@ public class Variable extends ValidExpression {
 		return ret;
 	}
 
-	public void resolveVariables() {
+	public void resolveVariables(boolean forEquation) {
 		// this has to be handled in ExpressionNode
 	}
 

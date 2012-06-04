@@ -1011,6 +1011,7 @@ public class NoExceptionsTest {
 	@Test
 	public void cmdInvert() {
 		t("Invert[ matrix1 ]");
+		t("Invert[ sin(x) ]");
 
 	}
 
@@ -1862,6 +1863,7 @@ public class NoExceptionsTest {
 	@Test
 	public void cmdSort() {
 		t("Sort[ list1 ]");
+		t("Sort[ list1, list2 ]");
 	}
 
 	@Test

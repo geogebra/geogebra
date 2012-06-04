@@ -160,7 +160,7 @@ public class FitRealFunction implements org.apache.commons.math.optimization.fit
 																//System.out.println("Replaced: "+((NumberValue)pars[i]).toString()+"with: "+mydoubles[i].toString());
 		}//for all parameters
 																//System.out.println("enf(etter replace): "+enf.toString());
-		enf.resolveVariables();
+		enf.resolveVariables(false);
 		// should we dispose this??? if(this.newf!=null) 
 		this.newf=new Function(enf,fvar);						//System.out.println("new function: "+newf.toString());
 	

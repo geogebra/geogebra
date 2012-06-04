@@ -563,4 +563,11 @@ public class StringUtil {
 		return Double.parseDouble(s);
 	}
 
+	public static String repeat(char c, int count) {
+		StringBuilder ret = new StringBuilder();
+		for(int i=0;i<count;i++)
+			ret.append(c);
+		return ret.toString();
+	}
+
 }

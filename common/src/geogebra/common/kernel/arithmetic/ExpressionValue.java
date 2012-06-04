@@ -126,7 +126,7 @@ public interface ExpressionValue {
     /**
      * Resolve variables
      */
-    public void resolveVariables();
+    public void resolveVariables(boolean forEquation);
     /**
      * @param tpl string templates
      * @return same as toString, but with real labels TODO: remove this

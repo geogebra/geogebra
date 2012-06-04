@@ -42,13 +42,13 @@ public class CmdFromBase extends CommandProcessor{
 				ExpressionNode[] argE = c.getArguments();
 				GeoElement[] arg = new GeoElement[2];
 				
-				argE[1].resolveVariables();
+				argE[1].resolveVariables(false);
 				arg[1] = resArg(argE[1])[0];
 				if(!arg[1].isNumberValue())
 					throw argErr(app, c.getName(), arg[1]);
 				String str = argE[0].toString(StringTemplate.defaultTemplate);
 				try{
-					argE[0].resolveVariables();
+					argE[0].resolveVariables(false);
 					arg[0] = resArg(argE[0])[0];
 				}
 				catch(Throwable t){

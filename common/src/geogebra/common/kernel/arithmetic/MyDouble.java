@@ -150,7 +150,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 		val = x;
 	}
 
-	public void resolveVariables() {
+	public void resolveVariables(boolean forEquation) {
 		//do nothing
 	}
 

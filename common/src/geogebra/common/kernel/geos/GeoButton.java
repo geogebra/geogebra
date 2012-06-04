@@ -88,11 +88,6 @@ public class GeoButton extends GeoElement implements AbsoluteScreenLocateable, T
 	public boolean isGeoButton() {
 		return true;
 	}
-
-	@Override
-	public void resolveVariables() {
-		//do nothing
-    }
 		
 	@Override
 	public boolean showInEuclidianView() {

@@ -163,7 +163,7 @@ public class TextPreviewPanel extends EuclidianView {
 		// resolve variables and evaluate the expression
 		if (!(hasParseError)) {
 			try {
-				exp.resolveVariables();
+				exp.resolveVariables(false);
 				isIndependent = exp.isConstant();
 				eval = exp.evaluate(tpl);
 			}

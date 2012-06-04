@@ -47,7 +47,8 @@ public class GeoGebraCasIntegrationTest {
 				silent?new String[]{"--silent"}:new String[0]), new JFrame(), false);
 		if(silent)
 			AbstractApplication.logger = null;
-		app.setLanguage(Locale.US);
+		app.setLanguage(Locale.GERMANY);
+		//app.fillCasCommandDict();
 		// app.getKernel()
 		kernel = app.getKernel();
 		arbconst =  new MyArbitraryConstant(new GeoCasCell(kernel.getConstruction()));

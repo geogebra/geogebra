@@ -547,10 +547,10 @@ public class Polynomial extends ValidExpression implements Serializable
 		return vars;
 	}
 
-	public void resolveVariables() {
+	public void resolveVariables(boolean forEquation) {
 		Iterator<Term> i = terms.iterator();
 		while (i.hasNext()) {
-			i.next().getCoefficient().resolveVariables();
+			i.next().getCoefficient().resolveVariables(forEquation);
 		}
 	}
 

@@ -129,9 +129,9 @@ public class Parametric extends ValidExpression {
 		return false;
 	}
 
-	public void resolveVariables() {
-		P.resolveVariables();
-		v.resolveVariables();
+	public void resolveVariables(boolean forEquation) {
+		P.resolveVariables(forEquation);
+		v.resolveVariables(forEquation);
 	}
 
 	public String toLaTeXString(boolean symbolic,StringTemplate tpl) {

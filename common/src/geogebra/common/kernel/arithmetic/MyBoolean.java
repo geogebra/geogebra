@@ -58,7 +58,7 @@ public class MyBoolean extends ValidExpression implements BooleanValue {
         return true;
     }
     
-    public void resolveVariables() {
+    public void resolveVariables(boolean forEquation) {
     	//do nothing
     }
 
