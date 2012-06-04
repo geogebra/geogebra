@@ -263,9 +263,6 @@ public class DockManager implements AWTEventListener, SetLabels {
 	 */
 	private void updateSplitPanesResizeWeight(){
 		
-		if (app.isApplet())
-			return; //TODO check this
-		
 		rootPane.updateResizeWeight();
 	}
 

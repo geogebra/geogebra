@@ -216,13 +216,22 @@ public class DockSplitPane extends JSplitPane implements DockComponent{
 	
 	
 	public boolean updateResizeWeight(){
-		if (((DockComponent) getLeftComponent()).updateResizeWeight()){
-			if (((DockComponent) getRightComponent()).updateResizeWeight())
+		boolean takesNewSpaceLeft = false;
+		boolean takesNewSpaceRight = false;
+
+		if (((DockComponent) getLeftComponent()!=null) && ((DockComponent) getLeftComponent()).updateResizeWeight())
+			takesNewSpaceLeft = true;
+		if (((DockComponent) getRightComponent()!=null) && ((DockComponent) getRightComponent()).updateResizeWeight())
+			takesNewSpaceRight = true;
+		
+		
+		if (takesNewSpaceLeft){
+			if (takesNewSpaceRight)
 				setResizeWeight(0.5);
 			else
 				setResizeWeight(1);
 			return true;
-		}else if (((DockComponent) getRightComponent()).updateResizeWeight()){
+		}else if (takesNewSpaceRight){
 			setResizeWeight(0);
 			return true;
 		}
