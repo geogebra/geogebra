@@ -4219,7 +4219,9 @@ public class ExpressionNode extends ValidExpression implements
 		} else {
 			switch (STRING_TYPE) {
 			case LATEX:
-				if(localized){
+				if (app.isHTML5Applet()) {
+					sb.append("\\" + app.getFunction(key));
+				} else if(localized) {
 					sb.append("\\operatorname{");
 					sb.append(app.getFunction(key));
 					sb.append("}");
