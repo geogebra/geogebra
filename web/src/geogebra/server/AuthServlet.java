@@ -83,6 +83,9 @@ public class AuthServlet extends HttpServlet {
 		      if (req.getParameter("error") != null || req.getParameter("user_act") != null) {
 		    	  /*somehow it not works :
 		    	   * req.getParameter("user_act") == "logged_out" ????
+		    	   * Ok, I found out, java is not javascript, 
+		    	   * possibly req.getParameter("user_act").eq("logged_out") :-)
+		    	   * it will do for now anyway...
 		    	   */
 		    	  //user denied access, or logged out
 		    	  Collection<String> ids = new ArrayList<String>();
