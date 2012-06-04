@@ -15,4 +15,11 @@ public interface HandleGoogleDriveService extends RemoteService {
 	 * @throws IllegalArgumentException thrown if something wrong
 	 */
 	String saveToGoogleDrive(String base64) throws IllegalArgumentException;
+	
+	/**
+	 * @param action create
+	 * @param parentId the parent folder id
+	 * @return success or not
+	 */
+	Boolean fileCreated(String action, String parentId, String code);
 }

@@ -195,6 +195,8 @@ public class Application extends AbstractApplication {
 		this.useFullAppGui  = true;
 		appCanvasHeight = appFrame.getCanvasCountedHeight();
 		appCanvasWidth = appFrame.getCanvasCountedWidth();
+		
+		setCurrentFileId();
 		startLogger();
 		initCommonObjects();
 		
@@ -221,6 +223,7 @@ public class Application extends AbstractApplication {
     }
 	
 	public static ArrayList<String> supportedLanguages = new ArrayList<String>();
+	
 	static {
 		if (GeoGebraConstants.IS_PRE_RELEASE) {
 			supportedLanguages.add("sq"); // Albanian
@@ -1902,11 +1905,43 @@ kernel.resetLibraryJavaScript();
 		resetUniqueId();
 	    
     }
+	
+	private String driveBase64Content = null;
+	private String driveBase64description = null;
+	private String driveBase64FileName = null;
+	/**
+	 * static because it gets from server side, either "" or the set filename
+	 */
+	public static String currentFileId = null;
+
+
+	public void refreshCurrentFileDescriptors(String fName, String desc,
+            String fileCont) {
+	    driveBase64Content = fileCont;
+	    driveBase64description = desc;
+	    driveBase64FileName = fName;
+	    ((DialogManagerWeb) getDialogManager()).refreshAndShowCurrentFileDescriptors(driveBase64FileName, driveBase64description);
+	    
+    }
+	
+	public String getFileName() {
+		return driveBase64FileName;
+	}
+	
+	public String getFileDescription() {
+		return driveBase64description;
+	}
+	
+	private static native void setCurrentFileId() /*-{
+		@geogebra.web.main.Application::currentFileId = $wnd.GGW_appengine.FILE_IDS[0];
+	}-*/;
+
 
 	@Override
     public String getCountryFromGeoIP() throws Exception {
 	    warn("unimplemented");
 	    return null;
     }
+
 
 }

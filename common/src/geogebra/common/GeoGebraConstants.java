@@ -77,6 +77,7 @@ public interface GeoGebraConstants {
 	public static final String PROXY_SERVING_LOCATION = "proxy";
 	/** CSS class name for GeoGebraWeb &article> tag*/
 	public static final String GGM_CLASS_NAME = "geogebraweb";
+	public static final String GGW_MIME_TYPE = "application/vnd.geogebra.file";
 	
 	/** relative path to mathml*/
 	public static final String MATHML_URL = "js/mathml_concat.js";
@@ -102,5 +103,6 @@ public interface GeoGebraConstants {
 	public static final String USERINFO_PROFILE_SCOPE = "https://www.googleapis.com/auth/userinfo.profile";
 	public static final String API_USERINFO = "https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=";
 
-
+	public static final String APPENGINE_REDIRECT_URL = "http://geogebraweb.appspot.com";
+	public static final String APPENGINE_TEST_URL = "http://127.0.0.1:8888/";
 }

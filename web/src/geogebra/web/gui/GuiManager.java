@@ -14,6 +14,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.settings.ProbabilityCalculatorSettings;
+import geogebra.web.gui.util.GeoGebraFileChooser;
 import geogebra.web.gui.view.algebra.AlgebraController;
 import geogebra.web.gui.view.algebra.AlgebraView;
 import geogebra.web.euclidian.EuclidianView;
@@ -21,11 +22,14 @@ import geogebra.web.gui.app.GGWToolBar;
 import geogebra.web.gui.inputbar.AlgebraInput;
 import geogebra.web.gui.inputbar.InputBarHelpPanel;
 import geogebra.web.gui.layout.Layout;
+import geogebra.web.gui.menubar.FileMenu;
+import geogebra.web.helper.MyGoogleApis;
 import geogebra.web.main.Application;
 
 import java.util.ArrayList;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 
 public class GuiManager extends geogebra.common.gui.GuiManager {
@@ -423,6 +427,22 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 	    return algebraInput;
     }
 
+	@Override
+    public boolean save() {
+		app.setWaitCursor();
+		//String fileName = Window.prompt("File name", "Bunny");
+		//do saving here if getBase64 will be good
+		GeoGebraFileChooser fileChooser = ((DialogManagerWeb)app.getDialogManager()).getFileChooser();
+		if (((Application) app).getFileName() != null) {
+			fileChooser.setFileName(((Application) app).getFileName());
+		}
+		
+		if (((Application)app).getFileDescription() != null) {
+			fileChooser.setDescription(((Application)app).getFileDescription());
+		}
+		fileChooser.show();
+	    return true;
+    }
 
 	@Override
 	public void showPropertiesViewSliderTab(){

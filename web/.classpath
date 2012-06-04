@@ -6,5 +6,30 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/common"/>
 	<classpathentry kind="lib" path="lib/download/gwt-oauth2-0.2-alpha.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/commons-logging-1.1.1.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/google-api-client-1.9.0-beta.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/google-api-client-android2-1.9.0-beta.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/google-api-client-appengine-1.9.0-beta.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/google-api-client-servlet-1.9.0-beta.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/google-http-client-1.9.0-beta.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/google-http-client-android2-1.9.0-beta.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/google-http-client-android3-1.9.0-beta.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/google-http-client-appengine-1.9.0-beta.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/google-oauth-client-1.9.0-beta.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/google-oauth-client-appengine-1.9.0-beta.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/google-oauth-client-servlet-1.9.0-beta.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/gson-2.1.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/guava-11.0.1.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/httpclient-4.0.3.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/httpcore-4.0.1.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/jackson-core-asl-1.9.4.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/jdo2-api-2.3-eb.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/jsr305-1.3.9.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/protobuf-java-2.2.0.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/transaction-api-1.1.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/xpp3-1.1.4c.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/google-api-services-drive-v1-1.5.0-beta.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/google-api-services-oauth2-v2-rev3-1.5.0-beta.jar"/>
+	<classpathentry kind="con" path="com.google.appengine.eclipse.core.GAE_CONTAINER"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>

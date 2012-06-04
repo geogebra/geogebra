@@ -16,9 +16,37 @@
     <url-pattern>/web/handleGD</url-pattern>
   </servlet-mapping>
   
+  <servlet>
+    <servlet-name>handleOauth2Servlet</servlet-name>
+    <servlet-class>geogebra.server.HandleOAuth2ServiceImpl</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>handleOauth2Servlet</servlet-name>
+    <url-pattern>/web/handleOA</url-pattern>
+  </servlet-mapping>
+  
+   <servlet>
+    <servlet-name>StartPageServlet</servlet-name>
+    <servlet-class>geogebra.server.StartPageServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>StartPageServlet</servlet-name>
+    <url-pattern>/</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>FileServlet</servlet-name>
+    <servlet-class>geogebra.server.FileServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>FileServlet</servlet-name>
+    <url-pattern>/svc</url-pattern>
+  </servlet-mapping>
+  
   <!-- Default page to serve -->
-  <welcome-file-list>
+  <!--<welcome-file-list>
     <welcome-file>index.html</welcome-file>
-  </welcome-file-list>
+  </welcome-file-list>-->
 
 </web-app>

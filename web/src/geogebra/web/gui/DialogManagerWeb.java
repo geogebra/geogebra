@@ -20,11 +20,16 @@ import geogebra.web.gui.dialog.InputDialogAngleFixed;
 import geogebra.web.gui.dialog.InputDialogRotate;
 import geogebra.web.gui.dialog.AngleInputDialog;
 import geogebra.web.gui.dialog.SliderDialog;
+import geogebra.web.gui.menubar.GeoGebraMenubar;
+import geogebra.web.gui.util.GeoGebraFileChooser;
+import geogebra.web.gui.util.GoogleFileDescriptors;
 import geogebra.web.main.Application;
 
 import java.util.ArrayList;
 
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.MenuItem;
+import com.google.gwt.user.client.ui.PopupPanel.PositionCallback;
 
 public class DialogManagerWeb extends DialogManager {
 
@@ -213,4 +218,39 @@ public class DialogManagerWeb extends DialogManager {
 		id.setVisible(true);
 
 	}
+	
+	GeoGebraFileChooser fileChooser = null;
+
+	public GeoGebraFileChooser getFileChooser() {
+	    if (fileChooser == null) {
+	    	fileChooser = new GeoGebraFileChooser(app);
+	    }
+	    return fileChooser;
+    }
+	
+	private GoogleFileDescriptors googleFileDescriptors = null;
+
+	public void refreshAndShowCurrentFileDescriptors(
+            String driveBase64FileName, String driveBase64description) {
+	   if (googleFileDescriptors == null) {
+		   googleFileDescriptors = new GoogleFileDescriptors();
+	   }
+	   if (driveBase64FileName == null) {
+		   googleFileDescriptors.hide();
+	   } else {
+		   googleFileDescriptors.setFileName(driveBase64FileName);
+		   googleFileDescriptors.setDescription(driveBase64description);
+		   MenuItem lg = GeoGebraMenubar.loginToGoogle;
+		   final int top = lg.getElement().getOffsetTop();
+		   final int left = lg.getElement().getOffsetLeft();
+		   googleFileDescriptors.setPopupPositionAndShow(new PositionCallback() {
+			
+				public void setPosition(int offsetWidth, int offsetHeight) {
+					googleFileDescriptors.setPopupPosition(left - offsetWidth, top);
+					googleFileDescriptors.show();
+					
+				}
+		   });	
+	   }
+    }
 }

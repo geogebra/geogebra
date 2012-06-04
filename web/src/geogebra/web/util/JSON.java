@@ -19,4 +19,9 @@ public class JSON {
 	public static native String get(JavaScriptObject obj, String attr) /*-{
 	   return obj[attr] ;
     }-*/;
+
+	public static native void put (JavaScriptObject file, String attr,
+            String value) /*-{
+	   file[attr] = value;
+    }-*/;
 }

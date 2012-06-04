@@ -24,6 +24,7 @@ import com.google.gwt.http.client.URL;
 import com.google.gwt.storage.client.Storage;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
 
@@ -42,7 +43,10 @@ public class GeoGebraMenubar extends MenuBar {
 		private FileMenu fileMenu;
 		private OptionsMenu optionsMenu;
 
-		private MenuItem loginToGoogle;
+		/**
+		 * public static to add relative position for the descriptions.
+		 */
+		public static MenuItem loginToGoogle;
 		private MenuItem linktoggb;
 
 		public GeoGebraMenubar(AbstractApplication app) {
@@ -55,8 +59,9 @@ public class GeoGebraMenubar extends MenuBar {
 
 		private void init() {
 
-			//file
-			createFileMenu();
+			if (!getNativeEmailSet().equals("")) {
+				createFileMenu();
+			}
 			
 			//Creation of Options Menu
 			createOptionsMenu();
@@ -70,6 +75,7 @@ public class GeoGebraMenubar extends MenuBar {
 			
 			Command c = null;
 			String menuHtml = "";
+			/*reserve for later, when we will have client side Oauth
 			if (signedInToGoogle()) {
 				c = createCommandForSignedIn();
 				//will be handled by callback
@@ -77,17 +83,48 @@ public class GeoGebraMenubar extends MenuBar {
 			} else {
 				c = createCommandForNotSignedIn();
 				menuHtml = createMenuHtmlForNotSignedIn();
+			}*/
+			String email = getNativeEmailSet();
+			if (email.equals("")) {
+				c = createLoginCommand();
+				menuHtml = getMenuBarHtml(AppResources.INSTANCE.loginToGoogle().getSafeUri().asString(), "Login");
+			} else {
+				menuHtml =  getMenuBarHtml(AppResources.INSTANCE.loginToGoogle().getSafeUri().asString(), email);
+				c = createLogOutCommand();
 			}
-			
 			
 	        loginToGoogle = addItem(menuHtml,true,c);
 	        loginToGoogle.addStyleName("logintogoogle");
+        }
+
+		private Command createLogOutCommand() {
+	        // TODO Auto-generated method stub
+	        return new Command() {
+				
+				public void execute() {
+					Window.Location.replace(GeoGebraConstants.APPENGINE_REDIRECT_URL+"?user_act=logged_out");
+				}
+			};
+        }
+
+		private Command createLoginCommand() {
+	        // TODO Auto-generated method stub
+	        return new Command() {
+				
+				public void execute() {
+					Window.Location.replace(GeoGebraConstants.APPENGINE_REDIRECT_URL);
+				}
+			};
         }
 
 		String createMenuHtmlForNotSignedIn() {
 	        return getMenuBarHtml(AppResources.INSTANCE.loginToGoogle().getSafeUri().asString()
 	        		, "Login to Google");
         }
+		
+		private native String getNativeEmailSet() /*-{
+			return $wnd.GGW_appengine.USER_EMAIL;
+		}-*/;
 
 		private void createMenuHtmlForSignedIn() {
 	        AuthRequest r = MyGoogleApis.createNewAuthRequest();
@@ -143,6 +180,18 @@ public class GeoGebraMenubar extends MenuBar {
 								JavaScriptObject answer = JSON.parse(responseText);
 								loginToGoogle.setHTML(getMenuBarHtml(AppResources.INSTANCE.loginToGoogle().getSafeUri().asString(),JSON.get(answer,"email")));
 								loginToGoogle.setCommand(createCommandForSignedIn());
+								Web.oaAsync.triggerLoginToGoogle(new AsyncCallback<Boolean>() {
+									
+									public void onSuccess(Boolean result) {
+										AbstractApplication.debug(result);
+										
+									}
+									
+									public void onFailure(Throwable caught) {
+										AbstractApplication.error(caught.getLocalizedMessage());
+										
+									}
+								});
 							}
 							
 							public void failure(String failureText) {

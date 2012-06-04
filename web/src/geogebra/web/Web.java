@@ -7,9 +7,14 @@ import java.util.Date;
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.kernel.commands.AlgebraProcessor;
 import geogebra.common.main.AbstractApplication;
+import geogebra.web.asyncservices.HandleGoogleDriveService;
+import geogebra.web.asyncservices.HandleGoogleDriveServiceAsync;
+import geogebra.web.asyncservices.HandleOAuth2Service;
+import geogebra.web.asyncservices.HandleOAuth2ServiceAsync;
 import geogebra.web.css.GuiResources;
 import geogebra.web.gui.app.GeoGebraAppFrame;
 import geogebra.web.helper.JavaScriptInjector;
+import geogebra.web.helper.MyGoogleApis;
 import geogebra.web.html5.ArticleElement;
 import geogebra.web.html5.Dom;
 
@@ -34,6 +39,11 @@ public class Web implements EntryPoint {
 	 * Google Authorization class entry point.
 	 */
 	public static final Auth AUTH = Auth.get();
+	/**
+	 * Global Async for communication with the server
+	 */
+	public final static HandleGoogleDriveServiceAsync gdAsync = GWT.create(HandleGoogleDriveService.class);
+	public final static HandleOAuth2ServiceAsync oaAsync = GWT.create(HandleOAuth2Service.class);
 	
 	public void t(String s,AlgebraProcessor ap) throws Exception{
 		ap.processAlgebraCommandNoExceptionHandling(s, false,false, true);

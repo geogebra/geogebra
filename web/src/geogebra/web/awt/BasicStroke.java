@@ -23,8 +23,6 @@ import geogebra.common.main.AbstractApplication;
 import com.google.gwt.canvas.dom.client.Context2d.LineCap;
 import com.google.gwt.canvas.dom.client.Context2d.LineJoin;
 
-import java.awt.geom.PathIterator;
-
 
 public class BasicStroke implements geogebra.common.awt.BasicStroke {
 

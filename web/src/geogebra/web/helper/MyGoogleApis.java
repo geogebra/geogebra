@@ -2,13 +2,23 @@ package geogebra.web.helper;
 
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.main.AbstractApplication;
+import geogebra.web.Web;
+import geogebra.web.gui.util.GeoGebraFileChooser;
+import geogebra.web.main.Application;
+import geogebra.web.presenter.LoadFilePresenter;
+import geogebra.web.util.JSON;
 
 import com.google.api.gwt.oauth2.client.AuthRequest;
+import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.dev.jjs.ast.js.JsonArray;
 import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestBuilder;
+import com.google.gwt.http.client.RequestBuilder.Method;
 import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.Response;
 import com.google.gwt.http.client.URL;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public class MyGoogleApis {
 	
@@ -38,5 +48,113 @@ public class MyGoogleApis {
 	       AbstractApplication.error(e.getLocalizedMessage());
         }
     }
+
+	/**
+	 * Looks that if we have a google drive url
+	 */
+	public static void handleURL() {
+	    if (Window.Location.getParameter("state") != null) {
+	    	JavaScriptObject state = JSON.parse(Window.Location.getParameter("state"));
+	    	String action = JSON.get(state, "action");
+	    	String parentId = JSON.get(state, "parentId");
+	    	String code = Window.Location.getParameter("code");
+	    	if (action != null && parentId != null) {
+	    		Web.gdAsync.fileCreated(action, parentId, code,  new AsyncCallback<Boolean>() {
+					
+					public void onSuccess(Boolean result) {
+						
+					}
+					
+					public void onFailure(Throwable caught) {
+						// TODO Auto-generated method stub
+						
+					}
+				});
+	    	}
+	    }
+    }
+
+	public static void putNewFileToGoogleDrive(final String fileName,
+            final String description, final String fileContent, final GeoGebraFileChooser geogebrafilechooser) {
+	   //pack the things.
+		JavaScriptObject file = JavaScriptObject.createObject();
+		JSON.put(file, "content",fileContent);
+		JSON.put(file, "title", fileName);
+		JSON.put(file, "description", description);
+		JSON.put(file, "mimeType", GeoGebraConstants.GGW_MIME_TYPE);
+		JSON.put(file, "resource_id", getFileIdOrNull());
+		
+		String url = "/svc";
+		Method method = Application.currentFileId.equals("") ? RequestBuilder.POST : RequestBuilder.PUT;
+		
+		RequestBuilder builder = new RequestBuilder(method, URL.encode(url));
+		builder.setHeader("Content-Type", "application/json");
+		try {
+	        Request request = builder.sendRequest(JSON.stringify(file), new RequestCallback() {
+				
+				public void onResponseReceived(Request request, Response response) {
+					geogebrafilechooser.hide();
+					Application.currentFileId = response.getText().replace("\"", "");
+					geogebrafilechooser.saveSuccess(fileName, description, fileContent);
+				}
+				
+				public void onError(Request request, Throwable exception) {
+					AbstractApplication.error(exception.getLocalizedMessage());
+				}
+			});
+        } catch (Exception e) {
+        	  AbstractApplication.error(e.getLocalizedMessage());
+        }
+    }
+
+	private static native String getFileIdOrNull() /*-{
+	    if ($wnd.GGW_appengine && $wnd.GGW_appengine.FILE_IDS[0] !== "") {
+	    	return $wnd.GGW_appengine.FILE_IDS[0];
+	    }
+	    return null;
+    }-*/;
+
+	public static void getFileFromGoogleDrive(
+            String fileId, final LoadFilePresenter loadFilePresenter) {
+		String url = "/svc?file_id="+fileId;
+		
+		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, URL.encode(url));
+		try {
+	        builder.sendRequest(null, new RequestCallback() {
+				
+				public void onResponseReceived(Request request, Response response) {
+					JavaScriptObject data = JSON.parse(response.getText());
+					String title = JSON.get(data, "title");
+					String content = JSON.get(data, "content");
+					String mimeType = JSON.get(data, "mimeType");
+					String description = JSON.get(data, "description");
+					loadFilePresenter.process(content);
+					loadFilePresenter.getApplication().refreshCurrentFileDescriptors(title, description, content);
+				}
+				
+				public void onError(Request request, Throwable exception) {
+					AbstractApplication.error(exception.getLocalizedMessage());
+				}
+			});
+        } catch (Exception e) {
+	        // TODO: handle exception
+        }
+	    
+    }
+
+	/**
+	 * @param fileName name of the File	
+	 * @param description Description of the file
+	 * @param fileChooser GeoGebraFileChooser
+	 * @return javascript function to called back;
+	 */
+	public static native JavaScriptObject getPutFileCallback(String fileName, String description, GeoGebraFileChooser fileChooser) /*-{
+	    return function(base64) {
+	    	var fName = fileName;
+	    	var ds = description;
+	    	var chooser = fileChooser;
+	    	@geogebra.web.helper.MyGoogleApis::putNewFileToGoogleDrive(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lgeogebra/web/gui/util/GeoGebraFileChooser;)(fName,ds,base64,chooser);
+	    };
+    }-*/;
 
 }

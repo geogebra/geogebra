@@ -1414,3 +1414,54 @@ td.datePickerMonth {
 .buttonPanel {
 	margin: auto;
 }
+
+.GeoGebraFileChooser .fileNamePanel {
+    width: 100%;
+    padding:5px;
+}
+
+.GeoGebraFileChooser .fileNamePanel input {
+    float:right;
+    min-width:300px;
+}
+
+.GeoGebraFileChooser .fileNamePanel .gwt-Label {
+    padding-right:10px;
+}
+
+.GeoGebraFileChooser .descriptionPanel {
+    width: 100%;
+    padding:5px;
+}
+
+.GeoGebraFileChooser .descriptionPanel textarea {
+    float:right;
+    min-width:300px;
+}
+
+.GeoGebraFileChooser .descriptionPanel .gwt-Label {
+    padding-right:10px;
+}
+
+.GeoGebraFileChooser .buttonPanel {
+    padding:5px;
+    float:right;
+}
+
+.GeoGebraFileChooser .buttonPanel button {
+    float:right;
+    margin-left:5px;
+}
+
+.GoogleFileDescriptors {
+	font-size:80%;
+}
+
+.GoogleFileDescriptors .fileLabel {
+	padding-right: 3px;
+	font-weight:bold;
+}
+
+.GoogleFileDescriptors .fileLabel {
+	text-decoration: underline;
+}

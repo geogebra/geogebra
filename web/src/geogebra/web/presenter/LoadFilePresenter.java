@@ -5,6 +5,7 @@ import geogebra.web.Web;
 import geogebra.web.css.GuiResources;
 import geogebra.web.helper.FileLoadCallback;
 import geogebra.web.helper.JavaScriptInjector;
+import geogebra.web.helper.MyGoogleApis;
 import geogebra.web.html5.View;
 import geogebra.web.jso.JsUint8Array;
 import geogebra.web.main.Application;
@@ -24,6 +25,7 @@ public class LoadFilePresenter extends BasePresenter {
 		View view = getView();
 		String filename;
 		String base64String;
+		String fileId;
 		
 		Application app = view.getApplication();
 		
@@ -31,6 +33,8 @@ public class LoadFilePresenter extends BasePresenter {
 			process(base64String);
 		} else if (!"".equals((filename = view.getDataParamFileName()))) {
 			fetch(filename);
+		} else if (!"".equals((fileId = getGoogleFileId()))) {
+			 MyGoogleApis.getFileFromGoogleDrive(fileId,this);
 		} else {
 			//we dont have content, it is an app
 			Application.console("no base64content, possibly App loaded?");
@@ -77,7 +81,17 @@ public class LoadFilePresenter extends BasePresenter {
 		
 	}
 
-	private void process(String dataParamBase64String) {
+	private native String getGoogleFileId() /*-{
+	    if ($wnd.GGW_appengine && $wnd.GGW_appengine.FILE_IDS[0] !== "") {
+	    	return $wnd.GGW_appengine.FILE_IDS[0];
+	    }
+	    return "";
+    }-*/;
+
+	/**
+	 * @param dataParamBase64String a base64 string
+	 */
+	public void process(String dataParamBase64String) {
 			getView().processBase64String(dataParamBase64String);
 	}
 	
@@ -94,6 +108,10 @@ public class LoadFilePresenter extends BasePresenter {
 		getView().showLoadAnimation();
 		String url = fileName.startsWith("http") ? fileName : GWT.getModuleBaseURL()+"../"+fileName;
 		getView().processFileName(url);
+	}
+	
+	public Application getApplication() {
+		return getView().getApplication();
 	}
 	
 }
