@@ -58,7 +58,7 @@ public class FileMenu extends MenuBar {
 				
 		});*/
 	    
-	    addItem(GeoGebraMenubar.getMenuBarHtml(AppResources.INSTANCE.document_save().getSafeUri().asString(), app.getMenu("Save")),true,new Command() {
+	    addItem(GeoGebraMenubar.getMenuBarHtml(AppResources.INSTANCE.document_save().getSafeUri().asString(), app.getMenu("SaveAs")),true,new Command() {
 			
 			public void execute() {
 				app.getGuiManager().save();
