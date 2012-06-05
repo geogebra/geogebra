@@ -2037,7 +2037,7 @@ public class Construction {
 		// 1) remove all brothers and sisters of oldGeo
 		if (oldGeoAlgo != null) {
 			keepGeo = oldGeo;
-			oldGeoAlgo.removeOutputExcept(oldGeo);
+			oldGeoAlgo.removeOutputExcept(oldGeo,true);
 			keepGeo = null;
 		}
 

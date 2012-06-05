@@ -390,7 +390,7 @@ public class CreateObjectDialog extends InputDialog implements
 
 				// btOK acts as cancel for now
 			} else if (source == btOK) {
-				newGeo.remove();
+				newGeo.remove(true);
 				setVisible(false);
 			}
 

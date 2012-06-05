@@ -104,11 +104,11 @@ implements AlgoMacroInterface {
     }         
     
     @Override
-	public void remove() {
+	public void remove(boolean unlabeledInput) {
     	if(removed)
 			return;
     	macro.unregisterAlgorithm(this);
-    	super.remove();    	
+    	super.remove(unlabeledInput);    	
     }           
     
     @Override

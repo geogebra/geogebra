@@ -1317,7 +1317,7 @@ final public class GeoPoint2 extends GeoVec3D implements VectorValue,
 	 * super.remove()
 	 */
 	@Override
-	public void doRemove() {
+	public void doRemove(boolean unlabeledInput) {
 		if (locateableList != null) {
 
 			locateableList.doRemove();
@@ -1353,7 +1353,7 @@ final public class GeoPoint2 extends GeoVec3D implements VectorValue,
 			}
 		}
 
-		super.doRemove();
+		super.doRemove(unlabeledInput);
 	}
 
 	@Override

@@ -260,10 +260,10 @@ public class AlgoSolveODE extends AlgoElement {
 	}
 
 	@Override
-	public void remove() {
+	public void remove(boolean unlabeledInput) {
     	if(removed)
 			return;
-        super.remove();
+        super.remove(unlabeledInput);
         
         if (f1 == null) {
     	    ((GeoElement) f0).removeAlgorithm(numAlgo);

@@ -403,7 +403,7 @@ public abstract class AlgoPolygonOperation extends AlgoElement {
 
 		algoList.clear();
 		// remove point
-		oldPoint.doRemove(); 
+		oldPoint.doRemove(true); 
 	}
 
 }

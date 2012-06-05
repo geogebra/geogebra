@@ -167,7 +167,7 @@ public abstract class AlgoIntersectND extends AlgoIntersectAbstract {
     }
 
     @Override
-	public void remove() {
+	public void remove(boolean unlabeledInput) {
     	if(removed)
 			return;
         if (numberOfUsers == 0) {
@@ -179,7 +179,7 @@ public abstract class AlgoIntersectND extends AlgoIntersectAbstract {
             // remove only output
             // delete dependent objects        
             for (int i = 0; i < getOutputLength(); i++) {
-                getOutput(i).doRemove();
+                getOutput(i).doRemove(unlabeledInput);
             }
             setPrintedInXML(false);
         }

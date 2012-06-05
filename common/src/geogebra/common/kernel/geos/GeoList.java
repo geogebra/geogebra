@@ -534,7 +534,7 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture {
 			for (int i = 0; i < cacheList.size(); i++) {
 				final GeoElement geo = cacheList.get(i);
 				if ((geo != null) && !geo.isLabelSet()) {
-					geo.remove();
+					geo.remove(false);
 				}
 			}
 		}
@@ -916,7 +916,7 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture {
 	 * super.remove() // Michael Borcherds 2008-04-02
 	 */
 	@Override
-	public void doRemove() {
+	public void doRemove(boolean unlabeledInput) {
 
 		if (colorFunctionListener != null) {
 			// copy conditionListeners into array
@@ -931,7 +931,7 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture {
 			}
 		}
 
-		super.doRemove();
+		super.doRemove(unlabeledInput);
 	}
 
 	/**

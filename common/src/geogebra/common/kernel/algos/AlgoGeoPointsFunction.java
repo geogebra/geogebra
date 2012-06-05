@@ -198,7 +198,7 @@ public abstract class AlgoGeoPointsFunction extends AlgoElement{
      */
     @Override
 	public
-	void remove(GeoElement output) {
+	void remove(GeoElement output,boolean unlabeledInput) {
     	// only single undefined points may be removed       
         for (int i = 0; i < points.length; i++) {
         	if (points[i] == output && !points[i].isDefined()) {
@@ -231,7 +231,7 @@ public abstract class AlgoGeoPointsFunction extends AlgoElement{
     }//initPoints(n)
     
     private void removePoint(int pos) {
-    	points[pos].doRemove();
+    	points[pos].doRemove(true);
     	
     	// build new rootPoints array without the removed point
     	GeoPoint2[] temp = new GeoPoint2[points.length - 1];

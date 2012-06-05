@@ -65,12 +65,12 @@ public class AlgoQuadricSide extends AlgoQuadric {
 
 
 	@Override
-	public void remove() {
+	public void remove(boolean unlabeledInput) {
 		if(removed)
 			return;
-		super.remove();
+		super.remove(unlabeledInput);
 		if (isHelperAlgo)
-			getInputQuadric().remove();
+			getInputQuadric().remove(unlabeledInput);
 	}       
 
 

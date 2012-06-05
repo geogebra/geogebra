@@ -118,7 +118,7 @@ public class AlgoDotPlot extends AlgoElement {
 		outputList.setDefined(true);
 		for (int i = outputList.size() - 1; i >= size; i--) {
 			GeoElement extraGeo = outputList.get(i);
-			extraGeo.remove();
+			extraGeo.remove(true);
 			outputList.remove(extraGeo);			
 		}	
 		

@@ -152,8 +152,8 @@ public class AlgoIntersectSingle3D extends AlgoIntersect3D {
 	}   
 	
 	@Override
-	public void remove() {
-		super.remove();
+	public void remove(boolean unlabeledInput) {
+		super.remove(unlabeledInput);
 		algo.removeUser(); // this algorithm was a user of algo
 	}
 

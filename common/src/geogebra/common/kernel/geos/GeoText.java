@@ -278,8 +278,8 @@ public class GeoText extends GeoElement implements Locateable,
 	}
 
 	@Override
-	public void doRemove() {
-		super.doRemove();
+	public void doRemove(boolean unlabeledInput) {
+		super.doRemove(unlabeledInput);
 		// tell startPoint
 		if (startPoint != null)
 			startPoint.getLocateableList().unregisterLocateable(this);

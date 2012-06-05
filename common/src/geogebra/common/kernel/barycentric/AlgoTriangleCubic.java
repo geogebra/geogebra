@@ -409,7 +409,7 @@ public class AlgoTriangleCubic extends AlgoElement {
 		try{ 
 		 	ve = parser.parseGeoGebraExpression(equation); 
 		 	GeoImplicitPoly result = (GeoImplicitPoly)(algebraProcessor.processEquation((Equation) ve)[0]); 
-		 	result.remove();
+		 	result.remove(true);
 		 	poly.setCoeff(result.getCoeff());
 		 	poly.setDefined();
 		} catch(ParseException e) 

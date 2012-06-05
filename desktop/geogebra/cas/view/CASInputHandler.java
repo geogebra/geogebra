@@ -271,8 +271,8 @@ public class CASInputHandler {
 		for(int current:selected){
 		GeoCasCell cell = consoleTable.getGeoCasCell(current);
 		if(cell!=null){
-		cell.remove();
-		consoleTable.app.storeUndoInfo();
+			cell.remove(true);
+			consoleTable.app.storeUndoInfo();
 		}
 	}
 

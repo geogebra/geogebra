@@ -269,10 +269,10 @@ public class AlgoSlopeField extends AlgoElement {
 	}
 	
     @Override
-	public void remove() {
+	public void remove(boolean unlabeledInput) {
     	if(removed)
 			return;
-        super.remove();
+        super.remove(unlabeledInput);
 	    ((GeoElement) func).removeAlgorithm(numAlgo);
 	    ((GeoElement) func).removeAlgorithm(denAlgo);
     }

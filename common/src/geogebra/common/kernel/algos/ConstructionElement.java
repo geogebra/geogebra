@@ -155,7 +155,7 @@ public abstract class ConstructionElement implements
 	/**
 	 * Removes this object from the current construction.
 	 */
-	public abstract void remove();
+	public abstract void remove(boolean unlabeledInput);
 
 	/**
 	 * Updates this object.

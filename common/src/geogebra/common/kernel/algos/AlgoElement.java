@@ -677,11 +677,15 @@ public abstract class AlgoElement extends ConstructionElement implements
 	}
 	/** flag stating whether remove() on this algo was  already called*/
 	protected boolean removed = false;
+	
+	public final void remove() {
+		remove(false);
+	}
 	/**
 	 * Removes algorithm and all dependent objects from construction.
 	 */
-	@Override
-	public void remove() {
+	
+	public void remove(boolean unlabeledInput) {
 		if(removed)
 			return;
 		removed = true;
@@ -690,13 +694,13 @@ public abstract class AlgoElement extends ConstructionElement implements
 
 		// delete dependent objects
 		for (int i = 0; i < getOutputLength(); i++) {
-			getOutput(i).doRemove();
+			getOutput(i).doRemove(unlabeledInput);
 		}
 
 		// delete from algorithm lists of input
 		for (int i = 0; i < input.length; i++) {
-			if(!input[i].isLabelSet())
-				input[i].remove();
+			if(unlabeledInput && !input[i].isLabelSet())
+				input[i].remove(unlabeledInput);
 			input[i].removeAlgorithm(this);
 		}
 
@@ -714,8 +718,8 @@ public abstract class AlgoElement extends ConstructionElement implements
 	 * 
 	 * @param out output to be removed
 	 */
-	public void remove(GeoElement out) {
-		remove();
+	public void remove(GeoElement out,boolean unlabeledInput) {
+		remove(unlabeledInput);
 	}
 
 	/**
@@ -724,12 +728,12 @@ public abstract class AlgoElement extends ConstructionElement implements
 	 * 
 	 * @param keepGeo geo to be kept
 	 */
-	public void removeOutputExcept(GeoElement keepGeo) {
+	public void removeOutputExcept(GeoElement keepGeo,boolean unlabeledInput) {
 
 		for (int i = 0; i < getOutputLength(); i++) {
 			GeoElement geo = getOutput(i);
 			if (geo != keepGeo) {
-				geo.doRemove();
+				geo.doRemove(unlabeledInput);
 			}
 		}
 	}

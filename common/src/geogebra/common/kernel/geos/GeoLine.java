@@ -1431,7 +1431,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	}
 
 	@Override
-	public void doRemove() {
+	public void doRemove(boolean unlabeledInput) {
 		if(getStartPoint()!=null)
 			getStartPoint().removeIncidence(this);
 		if(getEndPoint()!=null)
@@ -1443,7 +1443,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 			}
 		}
 
-		super.doRemove();
+		super.doRemove(unlabeledInput);
 	}
 
 

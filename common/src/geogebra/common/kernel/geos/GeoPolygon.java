@@ -39,6 +39,7 @@ import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.kernel.prover.NoSymbolicParametersException;
 import geogebra.common.kernel.prover.Polynomial;
 import geogebra.common.kernel.prover.Variable;
+import geogebra.common.main.AbstractApplication;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.util.MyMath;
 
@@ -417,12 +418,21 @@ public class GeoPolygon extends GeoElement implements NumberValue, Path,
 	 *            the old segment
 	 */
 	public void removeSegment(GeoSegmentND oldSegment) {
+		if(oldSegment==null)
+			return;
 		AlgoElement parentAlgo = ((GeoSegment) oldSegment).getParentAlgorithm();
 		// if this polygon is Polygon[<list of points>], we don't do anything
 		if (parentAlgo instanceof AlgoJoinPointsSegment)
 			((AlgoJoinPointsSegment) parentAlgo).removeSegmentOnly();
 	}
 
+	@Override
+	public void remove(boolean unlabeledInput){
+    	AbstractApplication.printStacktrace("kk");
+
+    	super.remove(unlabeledInput);
+    }
+	
 	/**
 	 * return a segment joining startPoint and endPoint
 	 * 

@@ -92,10 +92,10 @@ public class CmdFillCells extends CommandProcessor {
 							// command, so delete
 							kernelA.lookupLabel(
 									GeoElementSpreadsheet.getSpreadsheetCellName(minCol,
-											row)).remove();
+											row)).remove(true);
 							kernelA.lookupLabel(
 									GeoElementSpreadsheet.getSpreadsheetCellName(
-											minCol + 1, row)).remove();
+											minCol + 1, row)).remove(true);
 
 							MyPoint p = al.get(i);														
 

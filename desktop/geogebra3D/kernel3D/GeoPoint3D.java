@@ -917,14 +917,14 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND,
 	 * super.remove()
 	 */
 	@Override
-	public void doRemove() {
+	public void doRemove(boolean unlabeledInput) {
 		if (locateableList != null) {
 
 			locateableList.doRemove();
 
 		}
 
-		super.doRemove();
+		super.doRemove(unlabeledInput);
 	}
 
 	/**

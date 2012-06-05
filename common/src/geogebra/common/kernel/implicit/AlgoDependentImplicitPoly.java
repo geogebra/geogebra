@@ -95,7 +95,7 @@ public class AlgoDependentImplicitPoly extends AlgoElement {
 	 */
 	protected void replaceGeoElement(GeoElement newElem){
 		String label=geoElement.getLabel(StringTemplate.defaultTemplate);
-		geoElement.doRemove();
+		geoElement.doRemove(false);//TODO check for memory leak
 		geoElement=newElem;
 		setInputOutput();
 		geoElement.setLabel(label);

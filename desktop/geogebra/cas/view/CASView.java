@@ -516,7 +516,7 @@ public class CASView extends JComponent implements View, Gridable {
 		for (int i=selRows.length-1; i >= 0; i--) {
 			GeoCasCell casCell = consoleTable.getGeoCasCell(selRows[i]);
 			if (casCell != null) {
-				casCell.remove();
+				casCell.remove(true);
 				undoNeeded = true;
 			}
 		}

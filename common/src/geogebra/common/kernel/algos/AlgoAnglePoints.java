@@ -125,13 +125,13 @@ public class AlgoAnglePoints extends AlgoElement implements
 	}
 
 	@Override
-	public void remove() {
+	public void remove(boolean unlabeledInput) {
 		if(removed)
 			return;
 		if (algoAnglePoly != null)
-			algoAnglePoly.remove();
+			algoAnglePoly.remove(unlabeledInput);
 		else
-			super.remove();
+			super.remove(unlabeledInput);
 	}
 
 	@Override

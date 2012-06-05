@@ -317,10 +317,10 @@ public class AlgoIntegralODE extends AlgoElement {
 
 	}
     @Override
-	public void remove() {
+	public void remove(boolean unlabeledInput) {
     	if(removed)
 			return;
-        super.remove();
+        super.remove(unlabeledInput);
         if (quotient && f0 != null) {
 	        ((GeoElement) f0).removeAlgorithm(numAlgo);
 	        ((GeoElement) f0).removeAlgorithm(denAlgo);

@@ -166,13 +166,13 @@ public class AlgoJoinPoints3D extends AlgoElement3D {
     }
     
     @Override
-	public void remove() {
+	public void remove(boolean b) {
     	if(removed)
 			return;
-        super.remove();
+        super.remove(b);
         //if segment is part of a polygon, remove it
         if (poly != null) {
-            poly.remove();
+            poly.remove(b);
         }
     }  
     

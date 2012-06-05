@@ -847,7 +847,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
         drawGeoPoint(geoPoint);
         drawLabel(geoPoint,drawPoint);
         
-        geoPoint.remove(); // Michael Borcherds 2008-08-20
+        geoPoint.remove(true); // Michael Borcherds 2008-08-20
 
         //draw Line for Slider
         startDraw();

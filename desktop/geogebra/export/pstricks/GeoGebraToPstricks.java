@@ -527,7 +527,7 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 			firstVec[1] = 0;
 
 		}
-    	tempPoint.remove(); // Michael Borcherds 2008-08-20
+    	tempPoint.remove(true); // Michael Borcherds 2008-08-20
     	
 		double angSt = Math.atan2(firstVec[1], firstVec[0]);
 
@@ -760,7 +760,7 @@ public class GeoGebraToPstricks extends GeoGebraExport {
     	drawGeoPoint(geoPoint);
     	drawLabel(geoPoint,drawPoint);
     	
-    	geoPoint.remove(); // Michael Borcherds 2008-08-20
+    	geoPoint.remove(true); // Michael Borcherds 2008-08-20
 		startBeamer(code);
     	//draw Line for Slider
     	code.append("\\psline");

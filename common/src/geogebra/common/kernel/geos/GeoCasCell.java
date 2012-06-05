@@ -1906,14 +1906,14 @@ public class GeoCasCell extends GeoElement implements VarString {
 	}
 
 	@Override
-	public void doRemove() {
+	public void doRemove(boolean unlabeledInput) {
 		if (assignmentVar != null) {
 			// remove variable name from Construction
 			cons.removeCasCellLabel(assignmentVar);
 			assignmentVar = null;
 		}
 
-		super.doRemove();
+		super.doRemove(unlabeledInput);
 		cons.removeFromGeoSetWithCasCells(this);
 		setTwinGeo(null);
 	}
@@ -1927,7 +1927,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 			GeoElement oldTwinGeo = twinGeo;
 			twinGeo = null;
 			oldTwinGeo.setCorrespondingCasCell(null);
-			oldTwinGeo.remove();
+			oldTwinGeo.remove(true);
 		}
 
 		twinGeo = newTwinGeo;

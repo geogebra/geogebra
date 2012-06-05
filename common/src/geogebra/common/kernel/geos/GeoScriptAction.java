@@ -118,7 +118,7 @@ public class GeoScriptAction extends GeoElement  {
 	public void perform() {
 		if(action!=null)
 			action.performAndClean(command);
-		remove();
+		remove(true);
 	}
 		
 }
