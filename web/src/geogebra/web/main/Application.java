@@ -182,7 +182,7 @@ public class Application extends AbstractApplication {
 			}
 
 			public void onFailure(Throwable reason) {
-				AbstractApplication.debug(reason);
+				AbstractApplication.debug("onFailure "+reason);
 			}
 		});
 	}
@@ -695,13 +695,13 @@ public class Application extends AbstractApplication {
 	@Override
 	public boolean isUsingFullGui() {
 		//return useFullGui;
-		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
+		AbstractApplication.debug("isUsingFullGui: implementation needed"); // TODO Auto-generated
 		return guiManager != null;
 	}
 
 	@Override
 	public boolean showView(int view) {
-		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
+		AbstractApplication.debug("showView: implementation needed"); // TODO Auto-generated
 		return false;
 	}
 
@@ -726,13 +726,13 @@ public class Application extends AbstractApplication {
 
 	public void setLanguage(String language) {
 		// TODO Auto-generated method stub
-		AbstractApplication.debug("implementation needed");
+		AbstractApplication.debug("setLanguage: implementation needed");
 
 	}
 
 	public void setLanguage(String language, String country) {
 		// TODO Auto-generated method stub
-		AbstractApplication.debug("implementation needed");
+		AbstractApplication.debug("setLanguage: implementation needed");
 	}
 
 	@Override
@@ -743,13 +743,13 @@ public class Application extends AbstractApplication {
 
 	@Override
 	public void traceToSpreadsheet(GeoElement o) {
-		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
+		AbstractApplication.debug("traceToSpreadsheet: implementation needed"); // TODO Auto-generated
 
 	}
 
 	@Override
 	public void resetTraceColumn(GeoElement o) {
-		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
+		AbstractApplication.debug("resetTraceColumn: implementation needed"); // TODO Auto-generated
 
 	}
 
@@ -765,7 +765,7 @@ public class Application extends AbstractApplication {
 
 			commandDictionary = Dictionary.getDictionary("commandKeysVar");
 		} catch(MissingResourceException e) {
-			AbstractApplication.debug(e.getLocalizedMessage());
+			AbstractApplication.warn("Missing Internal Command "+cmd);
 		}
 		
 		if(commandDictionary != null) {
@@ -815,7 +815,6 @@ public class Application extends AbstractApplication {
 
 	@Override
 	public long freeMemory() {
-		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 		return 0;
 	}
 
@@ -843,7 +842,7 @@ public class Application extends AbstractApplication {
 
 	@Override
 	public boolean isShowingEuclidianView2() {
-		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
+		AbstractApplication.debug("isShowingEuclidianView2: implementation needed"); // TODO Auto-generated
 		return false;
 	}
 
@@ -1169,7 +1168,8 @@ public class Application extends AbstractApplication {
 
 	@Override
 	public void showError(MyError e) {
-		AbstractApplication.debug("showError: implementation needed really "+e.toString()); 
+		Window.alert(e.getLocalizedMessage());
+		AbstractApplication.debug("showError: implementation needed with Show Online Help option "+e.toString()); 
 
 	}
 
@@ -1193,7 +1193,7 @@ public class Application extends AbstractApplication {
 	@Override
 	public void setShowConstructionProtocolNavigation(boolean show,
 			boolean playButton, double playDelay, boolean showProtButton) {
-		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
+		AbstractApplication.debug("setShowConstructionProtocolNavigation: implementation needed"); // TODO Auto-generated
 
 	}
 
@@ -1218,7 +1218,7 @@ public class Application extends AbstractApplication {
 
 	@Override
 	public SpreadsheetTraceManager getTraceManager() {
-		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
+		AbstractApplication.debug("getTraceManager: implementation needed"); // TODO Auto-generated
 		return null;
 	}
 
@@ -1336,7 +1336,7 @@ public class Application extends AbstractApplication {
 
 	@Override
 	public void initScriptingBundle() {
-		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
+		AbstractApplication.debug("initScriptingBundle: implementation needed"); // TODO Auto-generated
 
 	}
 
@@ -1361,7 +1361,7 @@ public class Application extends AbstractApplication {
 
 	@Override
 	public boolean showAlgebraInput() {
-		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
+		AbstractApplication.debug("showAlgebraInput: implementation needed"); // TODO Auto-generated
 		return false;
 	}
 
@@ -1381,7 +1381,7 @@ public class Application extends AbstractApplication {
 
 	@Override
 	public AbstractSpreadsheetTableModel getSpreadsheetTableModel() {
-		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
+		AbstractApplication.debug("getSpreadsheetTableModel: implementation needed"); // TODO Auto-generated
 		return null;
 	}
 
@@ -1413,7 +1413,7 @@ public class Application extends AbstractApplication {
 
 	@Override
 	public boolean isRightClickEnabled() {
-		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
+		AbstractApplication.debug("isRightClickEnabled: implementation needed"); // TODO Auto-generated
 		return true;
 	}
 
@@ -1457,7 +1457,7 @@ public class Application extends AbstractApplication {
 
 	@Override
 	public void updateUI() {
-		AbstractApplication.debug("implementation needed for GUI"); // TODO Auto-generated
+		AbstractApplication.debug("updateUI: implementation needed for GUI"); // TODO Auto-generated
 
 	}
 
@@ -1477,7 +1477,7 @@ public class Application extends AbstractApplication {
 
 	@Override
 	protected void getWindowLayoutXML(StringBuilder sb, boolean asPreference) {
-		AbstractApplication.debug("implementation needed for GUI"); // TODO Auto-generated
+		AbstractApplication.debug("getWindowLayoutXML: implementation needed for GUI"); // TODO Auto-generated
 
 	}
 
@@ -1853,11 +1853,11 @@ public class Application extends AbstractApplication {
 
 	@Override
     public void updateApplicationLayout() {
-	    AbstractApplication.debug("Implementation needed...");
+	    AbstractApplication.debug("updateApplicationLayout: Implementation needed...");
     }
 
 	public void setShowInputHelpPanel(boolean b) {
-		 AbstractApplication.debug("Implementation needed...");
+		 AbstractApplication.debug("setShowInputHelpPanel: Implementation needed...");
     }
 
 	public String getCommandSyntaxCAS(String key) {
