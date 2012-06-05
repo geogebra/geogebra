@@ -2259,7 +2259,7 @@ public class NoExceptionsTest {
 	@Test
 	public void cmdAttachCopyToView(){
 		t("AttachCopyToView[Pt1,1]");
-		t("AttachCopyToView[Pt1,2,Pt2,Pt3,(123,0)]");
+		t("AttachCopyToView[Pt1,2,Pt2,Pt3,(123,0),(0,123)]");
 	}
 	
 }

@@ -193,7 +193,7 @@ public enum Commands implements CommandsConstants{
    	LinearEccentricity(TABLE_ENGLISH), MajorAxis(TABLE_ENGLISH), SemiMajorAxisLength(TABLE_ENGLISH), PerpendicularBisector(TABLE_ENGLISH),
    	PerpendicularLine(TABLE_ENGLISH), PerpendicularVector(TABLE_ENGLISH), MinorAxis(TABLE_ENGLISH), SemiMinorAxisLength(TABLE_ENGLISH),
    	UnitPerpendicularVector(TABLE_ENGLISH), CorrelationCoefficient(TABLE_ENGLISH), FitLine(TABLE_ENGLISH), BinomialCoefficient(TABLE_ENGLISH),
-   	RandomBetween(TABLE_ENGLISH),
+   	RandomBetween(TABLE_ENGLISH),TaylorPolynomial(TABLE_ENGLISH),
    	
    	//=================================================================
   	// 3D
@@ -229,6 +229,10 @@ public enum Commands implements CommandsConstants{
 			case FitLine: return FitLineY;
 			case BinomialCoefficient: return Binomial;
 			case RandomBetween: return Random;
+			case TaylorPolynomial: return TaylorSeries;
+			case CylinderInfinite: return InfiniteCylinder;
+			case ConeInfinite: return InfiniteCone;
+			case OrthogonalPlane: return PerpendicularPlane;
 		}
 		AbstractApplication.debug("unhandled case"+comm.name());
 		return comm;
