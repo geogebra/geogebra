@@ -25,14 +25,20 @@ import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.kernelND.GeoQuadricND;
+import geogebra.common.kernel.prover.NoSymbolicParametersException;
+import geogebra.common.kernel.prover.Polynomial;
+import geogebra.common.kernel.prover.Variable;
 
 /**
  * 
  * @author Markus
  * @version
  */
-public class AlgoCircleTwoPoints extends AlgoSphereNDTwoPoints {
+public class AlgoCircleTwoPoints extends AlgoSphereNDTwoPoints implements
+	SymbolicParametersBotanaAlgo {
 
+	private Variable[] botanaVars;
+	
 	public AlgoCircleTwoPoints(Construction cons, GeoPoint2 M, GeoPoint2 P) {
 		super(cons, M, P);
 		setIncidence();
@@ -86,4 +92,30 @@ public class AlgoCircleTwoPoints extends AlgoSphereNDTwoPoints {
 				((GeoElement) getM()).getLabel(tpl));
 
 	}
+	
+	public Variable[] getBotanaVars() {
+		if (botanaVars == null) {
+			Variable[] circle1vars = new Variable[2];
+			Variable[] centerVars = new Variable[2];
+			
+			circle1vars = ((SymbolicParametersBotanaAlgo) getP()).getBotanaVars();
+			centerVars = ((SymbolicParametersBotanaAlgo) getM()).getBotanaVars();
+			
+			botanaVars = new Variable[4];
+			// Center:
+			botanaVars[0] = centerVars[0];
+			botanaVars[1] = centerVars[1];
+			// Point on the circle:
+			botanaVars[2] = circle1vars[0];
+			botanaVars[3] = circle1vars[1];
+		}
+		return botanaVars;
+	}
+
+	public Polynomial[] getBotanaPolynomials()
+			throws NoSymbolicParametersException {
+		// It's OK to return null here since no constraint must be set:
+		return null;
+	}
+
 }
