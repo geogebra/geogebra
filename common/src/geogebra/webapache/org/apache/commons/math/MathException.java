@@ -19,6 +19,7 @@
 package org.apache.commons.math;
 
 import com.google.gwt.core.client.GWT;
+import geogebra.common.main.AbstractApplication;
 
 
 
@@ -184,7 +185,7 @@ public class MathException extends Exception {
             // Flush the PrintWriter before it's GC'ed.
             pw.flush();
         }*/
-    	GWT.log(out);
+    	AbstractApplication.debug(out);
     }
 
 }

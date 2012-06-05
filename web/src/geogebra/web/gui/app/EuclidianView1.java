@@ -64,7 +64,7 @@ public class EuclidianView1 extends ResizeComposite {
 	}
 
 	public void onResize() {
-	    GWT.log("Resized");
+		AbstractApplication.debug("Resized");
     }
 	
 	public void onLoad() {

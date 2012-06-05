@@ -936,10 +936,6 @@ public class Application extends AbstractApplication {
 			GeoGebraFrame.fileLoader.getView().processBase64String(dataUrl);
 	}
 
-	public static void log(String message) {
-		GWT.log(message);
-	}
-
 	public void beforeLoadFile() {
 		getEuclidianView1().setDisableRepaint(true);
 		getEuclidianView1().setReIniting(true);

@@ -126,19 +126,16 @@ public class RealMatrixImpl extends AbstractRealMatrix implements Serializable {
             }
             final int nRows = d.length;
             if (nRows == 0) {
-            	GWT.log("languages needed");
                 //EJ throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.AT_LEAST_ONE_ROW);
             	throw MathRuntimeException.createIllegalArgumentException("AT_LEAST_ONE_ROW"); //EJ instead of previous row temporarly
             }
             final int nCols = d[0].length;
             if (nCols == 0) {
-            	GWT.log("languages needed");
                 //EJthrow MathRuntimeException.createIllegalArgumentException(LocalizedFormats.AT_LEAST_ONE_COLUMN);
             	throw MathRuntimeException.createIllegalArgumentException("AT_LEAST_ONE_COLUMN"); //EJ instead of previous row temporarly
             }
             for (int r = 1; r < nRows; r++) {
                 if (d[r].length != nCols) {
-                	GWT.log("languages needed");
                     throw MathRuntimeException.createIllegalArgumentException(
                             //EJ LocalizedFormats.DIFFERENT_ROWS_LENGTHS,
                     		"some rows have length {0} while others have length {1}", //EJ instead of previous row temporarly
@@ -325,14 +322,12 @@ public class RealMatrixImpl extends AbstractRealMatrix implements Serializable {
     throws MatrixIndexException {
         if (data == null) {
             if (row > 0) {
-            	GWT.log("languages needed");
                 throw MathRuntimeException.createIllegalStateException(
                         //EJ LocalizedFormats.FIRST_ROWS_NOT_INITIALIZED_YET,
                         "first {0} rows are not initialized yet",//EJ instead of previous row temporarly
                         row);
             }
             if (column > 0) {
-            	GWT.log("languages needed");
                 throw MathRuntimeException.createIllegalStateException(
                         //EJ LocalizedFormats.FIRST_COLUMNS_NOT_INITIALIZED_YET,
                         "first {0} columns are not initialized yet",//EJ instead of previous row temporarly
@@ -340,21 +335,18 @@ public class RealMatrixImpl extends AbstractRealMatrix implements Serializable {
             }
             final int nRows = subMatrix.length;
             if (nRows == 0) {
-            	GWT.log("languages needed");
                 //EJ throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.AT_LEAST_ONE_ROW);
             	throw MathRuntimeException.createIllegalArgumentException("AT_LEAST_ONE_ROW");//EJ instead of previous row temporarly
             }
 
             final int nCols = subMatrix[0].length;
             if (nCols == 0) {
-            	GWT.log("languages needed");
                 //EJ throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.AT_LEAST_ONE_COLUMN);
             	throw MathRuntimeException.createIllegalArgumentException("AT_LEAST_ONE_COLUMN");//EJ instead of previous row temporarly
             }
             data = new double[subMatrix.length][nCols];
             for (int i = 0; i < data.length; ++i) {
                 if (subMatrix[i].length != nCols) {
-                	GWT.log("languages needed");
                     throw MathRuntimeException.createIllegalArgumentException(
                             //EJ LocalizedFormats.DIFFERENT_ROWS_LENGTHS,
                     		"some rows have length {0} while others have length {1}", //EJ instead of previous row temporarly
@@ -375,7 +367,6 @@ public class RealMatrixImpl extends AbstractRealMatrix implements Serializable {
         try {
             return data[row][column];
         } catch (ArrayIndexOutOfBoundsException e) {
-        	GWT.log("languages needed");
             throw new MatrixIndexException(
                     //EJLocalizedFormats.NO_SUCH_MATRIX_ENTRY,
             		"no entry at indices ({0}, {1}) in a {2}x{3} matrix", //EJ instead of previous row temporarly
@@ -390,7 +381,6 @@ public class RealMatrixImpl extends AbstractRealMatrix implements Serializable {
         try {
             data[row][column] = value;
         } catch (ArrayIndexOutOfBoundsException e) {
-        	GWT.log("languages needed");
             throw new MatrixIndexException(
             		//EJ LocalizedFormats.NO_SUCH_MATRIX_ENTRY,
             		"no entry at indices ({0}, {1}) in a {2}x{3} matrix", //EJ instead of previous row temporarly
@@ -405,7 +395,6 @@ public class RealMatrixImpl extends AbstractRealMatrix implements Serializable {
         try {
             data[row][column] += increment;
         } catch (ArrayIndexOutOfBoundsException e) {
-        	GWT.log("languages needed");
             throw new MatrixIndexException(
                     //EJLocalizedFormats.NO_SUCH_MATRIX_ENTRY,
             		"no entry at indices ({0}, {1}) in a {2}x{3} matrix", //EJ instead of previous row temporarly
@@ -420,7 +409,6 @@ public class RealMatrixImpl extends AbstractRealMatrix implements Serializable {
         try {
             data[row][column] *= factor;
         } catch (ArrayIndexOutOfBoundsException e) {
-        	GWT.log("languages needed");
             throw new MatrixIndexException(
                     //EJLocalizedFormats.NO_SUCH_MATRIX_ENTRY,
             		"no entry at indices ({0}, {1}) in a {2}x{3} matrix", //EJ instead of previous row temporarly
@@ -447,7 +435,6 @@ public class RealMatrixImpl extends AbstractRealMatrix implements Serializable {
         final int nRows = this.getRowDimension();
         final int nCols = this.getColumnDimension();
         if (v.length != nCols) {
-        	GWT.log("languages needed");
             throw MathRuntimeException.createIllegalArgumentException(
                     // EJ LocalizedFormats.VECTOR_LENGTH_MISMATCH,
             		"vector length mismatch: got {0} but expected {1}",//EJ instead of previous row temporarly
@@ -473,7 +460,6 @@ public class RealMatrixImpl extends AbstractRealMatrix implements Serializable {
         final int nRows = getRowDimension();
         final int nCols = getColumnDimension();
         if (v.length != nRows) {
-        	GWT.log("languages needed");
             throw MathRuntimeException.createIllegalArgumentException(
                     //EJ LocalizedFormats.VECTOR_LENGTH_MISMATCH,
             		"vector length mismatch: got {0} but expected {1}",//EJ instead of previous row temporarly

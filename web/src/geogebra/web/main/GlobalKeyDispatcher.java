@@ -91,7 +91,7 @@ public class GlobalKeyDispatcher extends
 
 		case MyKeyCodes.KEY_ENTER:
 			// check not spreadsheet
-		GWT.log("enter");
+			AbstractApplication.debug("enter");
 			/*if (!(event.getSource() instanceof JTable)) {
 
 				// ENTER: set focus to input field

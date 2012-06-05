@@ -256,7 +256,7 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 
 		// experimental resize of canvas
 		//app.getEuclidianView1().setPreferredSize(width, height);
-		GWT.log("why not use Settigns for that?");
+		AbstractApplication.debug("why not use Settings for that?");
 	}
 
 	public void setToolBarDefinition(String toolBarDefinition) {

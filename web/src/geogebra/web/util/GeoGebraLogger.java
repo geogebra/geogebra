@@ -19,17 +19,17 @@ public class GeoGebraLogger extends geogebra.common.util.GeoGebraLogger {
 	}
 
 	@Override
-    protected String getTimeInfo() {
+	protected String getTimeInfo() {
 		Date date = new Date();
 		return DateTimeFormat.getFormat("HH:mm:ss.SSS").format(date);
 	}
-	
+
 	@Override
-    public void setLogFile(String logFileName) {
+	public void setLogFile(String logFileName) {
 		log(WARN, "FILE logging is not supported in web, falling back to use CONSOLES instead");
 		setLogDestination(LogDestination.CONSOLES);
 	}
-	
+
 	@Override
 	protected void print(String logEntry, Level level) {
 		if (getLogDestination() == LogDestination.WEB_CONSOLE ||
@@ -44,11 +44,12 @@ public class GeoGebraLogger extends geogebra.common.util.GeoGebraLogger {
 		}
 		if (getLogDestination() == LogDestination.CONSOLE ||
 				getLogDestination() == LogDestination.CONSOLES) {
-					GWT.log(logEntry);
-					return;
-					}
+			// don't change this to Application.debug!!
+			GWT.log(logEntry);
+			return;
+		}
 	}
-	
+
 	private native void printWebConsole(String s) /*-{
 		$wnd.console.log(s);
 		}-*/;

@@ -1,17 +1,14 @@
 package geogebra.web.gui.app;
 
+import geogebra.common.main.AbstractApplication;
+
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.event.logical.shared.AttachEvent;
-import com.google.gwt.event.logical.shared.AttachEvent.Handler;
-import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.RequiresResize;
-import com.google.gwt.user.client.ui.Widget;
 
 public class EuclidianPanel extends Composite implements RequiresResize {
 
@@ -39,7 +36,7 @@ public class EuclidianPanel extends Composite implements RequiresResize {
     }
 
 	public void onResize() {
-	   GWT.log("resized");
+		AbstractApplication.debug("resized");
     }
 
 }

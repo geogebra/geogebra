@@ -35,15 +35,15 @@ public class View extends Widget {
     }
 
 	public void promptUserForGgbFile() {		
-		GWT.log("No data-param-fileName attribute presented");
+		AbstractApplication.debug("No data-param-fileName attribute presented");
     }
 
 	public void showError(String errorMessage) {
-	   	GWT.log(errorMessage);    
+		AbstractApplication.debug(errorMessage);    
     }
 
 	public void hide() {
-		GWT.log("View.hide called");
+		AbstractApplication.debug("View.hide called");
     }
 
 	public void showLoadAnimation() {
@@ -107,7 +107,7 @@ public class View extends Widget {
 		try {
 			app.loadGgbFile(archiveContent);
 		} catch (Exception ex) {
-			Application.log(ex.getMessage());
+			Application.debug(ex.getMessage());
 			return;
 		}
 		archiveContent = null;

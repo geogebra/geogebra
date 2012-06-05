@@ -49,7 +49,7 @@ public class EuclidianStyleBarPanel extends Composite implements RequiresResize 
     }
 
 	public void onResize() {
-	   GWT.log("resized");
+		AbstractApplication.debug("resized");
     }
 
 	public void attachApp(AbstractApplication app) {
