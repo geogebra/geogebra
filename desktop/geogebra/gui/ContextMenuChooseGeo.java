@@ -107,7 +107,7 @@ public class ContextMenuChooseGeo extends ContextMenuGeoElement {
 	
 	
 	private void addSelectAnotherMenu(){
-		selectAnotherMenu = new JMenu(app.getPlain("SelectAnother") );
+		selectAnotherMenu = new JMenu(app.getMenu("SelectAnother") );
 		selectAnotherMenu.setIcon(app.getEmptyIcon());
 		selectAnotherMenu.setBackground(getBackground());
 		selectAnotherMenu.setFont(app.getItalicFont());
