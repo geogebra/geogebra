@@ -17,20 +17,21 @@ public class HelpMenu extends MenuBar {
 		super(true);
 	    this.app = app;
 	    addStyleName("GeoGebraMenuBar");
-	    addItem(app.getMenu("Version"), new Command() {
+	    // TODO: This item has no localization entry yet.
+	    addItem("Version", new Command() {
 			public void execute() {
 	            Window.alert("GeoGebra " + GeoGebraConstants.VERSION_STRING + "\n"
 	            		+ GeoGebraConstants.BUILD_DATE);       
             }
 	    });
-	    addItem(app.getMenu("About / License"), new Command() {
+	    // TODO: This item has no localization entry yet.
+	    addItem("About / License", new Command() {
 			public void execute() {
 				Window.open(GeoGebraConstants.GGW_ABOUT_LICENSE_URL, "_blank",
 						"width=720,height=600,scrollbars=no,toolbar=no,location=no,directories=no,menubar=no,status=no,copyhistory=no");
             }
 	    });
-	    // This item has no localization entry yet.
-	    addItem(app.getMenu("About / Team"), new Command() {
+	    addItem(app.getMenu("About") + " / " + app.getMenu("License"), new Command() {
 			public void execute() {
 	            Window.open(GeoGebraConstants.GGW_ABOUT_TEAM_URL, "_blank", "");
             }
