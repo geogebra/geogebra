@@ -15,7 +15,6 @@ import java.awt.AWTEvent;
 import java.awt.Component;
 import java.awt.Toolkit;
 import java.awt.event.AWTEventListener;
-import java.awt.event.ComponentEvent;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -582,6 +581,13 @@ public class DockManager implements AWTEventListener, SetLabels {
 				}
 			}
 			
+
+			
+			//Application.debug("\n"+((DockComponent) opposite).toString(""));
+			//save divider locations to prevent not visible views
+			((DockComponent) opposite).saveDividerLocation();
+			
+			
 			if(lastPos == 0 || lastPos == 3) {
 				newSplitPane.setLeftComponent(panel);
 				newSplitPane.setRightComponent(opposite);
@@ -609,12 +615,19 @@ public class DockManager implements AWTEventListener, SetLabels {
 			} else {
 				newSplitPane.setDividerLocation(newSplitPaneSize - size);
 			}
+			
+
+			//AbstractApplication.debug("\nnewSplitPaneSize = "+newSplitPaneSize+"\nsize = "+size);
+			//Application.debug("\n======\n"+((DockComponent) opposite).toString(""));
+			//re dispatch divider locations to prevent not visible views
+			((DockComponent) opposite).updateDividerLocation(newSplitPaneSize-size,newSplitPane.getOrientation());
 		}
 		
 		panel.updatePanel();
 		
 		//update dispatching of new space
 		updateSplitPanesResizeWeight();
+		
 		
 		// add toolbar to main toolbar container if necessary, *has* to be called after
 		// DockPanel::updatePanel() as the toolbar is initialized there
@@ -687,9 +700,21 @@ public class DockManager implements AWTEventListener, SetLabels {
 			panel.setEmbeddedDef(panel.calculateEmbeddedDef());
 			panel.setOpenInFrame(false);
 			
+			Component opposite = parent.getOpposite(panel);
+
+			//save divider location and size (if DockSplitPane)
+			((DockComponent) opposite).saveDividerLocation();
+			int orientation = parent.getOrientation();
+			int size = 0;
+			if (orientation==JSplitPane.VERTICAL_SPLIT)
+				size = parent.getHeight();
+			else
+				size = parent.getWidth();
+
+
 			if(parent == rootPane) {
-				if(parent.getOpposite(panel) instanceof DockSplitPane) {
-					rootPane = (DockSplitPane)parent.getOpposite(panel);
+				if(opposite instanceof DockSplitPane) {
+					rootPane = (DockSplitPane) opposite;
 				} else {
 					parent.replaceComponent(panel, null);
 				}
@@ -697,9 +722,12 @@ public class DockManager implements AWTEventListener, SetLabels {
 			} else {
 				DockSplitPane grandParent = (DockSplitPane)parent.getParent();
 				int dividerLoc = grandParent.getDividerLocation();
-				grandParent.replaceComponent(parent, parent.getOpposite(panel));
+				grandParent.replaceComponent(parent, opposite);
 				grandParent.setDividerLocation(dividerLoc);
 			}
+			
+			//re dispatch divider location
+			((DockComponent) opposite).updateDividerLocation(size,orientation);
 			
 			if(isPermanent) {
 				app.validateComponent();

@@ -1477,6 +1477,15 @@ implements ActionListener, WindowListener, MouseListener, geogebra.common.gui.la
 		return false;
 	}
 	
+
+	public void saveDividerLocation(){
+		//no divider here
+	}
+	
+	public void updateDividerLocation(int size, int orientation1){
+		//no divider here
+	}
+	
 	
 	
 }

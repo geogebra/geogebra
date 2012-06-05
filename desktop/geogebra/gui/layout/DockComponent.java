@@ -19,5 +19,17 @@ public interface DockComponent {
 	 * @return true if it contains a panel that takes new space (currently if contains an euclidian view)
 	 */
 	public boolean updateResizeWeight();
+	
+	/**
+	 * save divider location (recursively)
+	 */
+	public void saveDividerLocation();
+	
+	/**
+	 * update divider location (recursively)
+	 * @param size new size of the component
+	 * @param orientation orientation of the parent split
+	 */
+	public void updateDividerLocation(int size, int orientation);
 
 }

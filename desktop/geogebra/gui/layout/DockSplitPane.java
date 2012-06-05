@@ -205,13 +205,95 @@ public class DockSplitPane extends JSplitPane implements DockComponent{
 		}
 	}
 	
+	
+	private int savedDividerLocation;
+	private int savedSize;
+	
+	
+
+	public void saveDividerLocation(){
+		if (getOrientation()==JSplitPane.VERTICAL_SPLIT){
+			savedDividerLocation = getLeftComponent().getHeight();
+			savedSize = getHeight();
+		}else{
+			savedDividerLocation = getLeftComponent().getWidth();
+			savedSize = getWidth();
+		}
+		
+		if (getLeftComponent()!=null)
+			((DockComponent) getLeftComponent()).saveDividerLocation();
+		if (getRightComponent()!=null)
+			((DockComponent) getRightComponent()).saveDividerLocation();
+	}
+	
+	
+
+	public void updateDividerLocation(int size, int orientation1){
+		
+		/*
+		AbstractApplication.debug("\nresizeW= "+getResizeWeight()
+				+"\nsize= "+size
+				+"\nsavedSize= "+savedSize
+				+"\nsavedDividerLocation= "+savedDividerLocation
+				+"\nleft= "+getLeftComponent()
+				+"\nright= "+getRightComponent());
+				*/
+				
+
+		if (orientation1==getOrientation()){
+			if (getResizeWeight()==0){setDividerLocationRecursive(checkLocation(savedDividerLocation,size),size,orientation1);
+			}else if (getResizeWeight()==0.5){
+				if (savedSize==0)
+					savedSize=1;
+				setDividerLocationRecursive((size*savedDividerLocation)/savedSize,size,orientation1);
+			}else{
+				setDividerLocationRecursive(size-checkLocation(savedSize-savedDividerLocation, size),size,orientation1);
+			}
+		}else
+			propagateDividerLocation(size, size, orientation1);
+		
+	}
+
+	private static final int MIN_LOCATION = 100;
+	
+	private static int checkLocation(int location, int size){
+
+		if (location<MIN_LOCATION)
+			return MIN_LOCATION;
+		
+		if (location>size-MIN_LOCATION)
+			return size-MIN_LOCATION;
+		
+		return location;
+	}
+	
+
+	
+	private void setDividerLocationRecursive(int location, int size, int orientation1){
+		setDividerLocation(location);
+		//AbstractApplication.debug("location = "+location);
+		propagateDividerLocation(location, size-location, orientation1);
+	}
+	
+	private void propagateDividerLocation(int sizeLeft, int sizeRight, int orientation1){
+		if (getLeftComponent()!=null)
+			((DockComponent) getLeftComponent()).updateDividerLocation(sizeLeft,orientation1);
+		if (getRightComponent()!=null)
+			((DockComponent) getRightComponent()).updateDividerLocation(sizeRight,orientation1);
+	}
+	
+	
 	public String toString(String prefix){
 		String prefix2 = prefix+"-";
-		return "\n"
-				+prefix+"left"+((DockComponent) getLeftComponent()).toString(prefix2)
-				+"\n"
-				+prefix+"right"+((DockComponent) getRightComponent()).toString(prefix2);
 		
+
+		return "\n"				
+		+prefix+"split="+getDividerLocation()+"\n"
+		+prefix+"width="+getWidth()+"\n"
+		+prefix+"left"+((DockComponent) getLeftComponent()).toString(prefix2)
+		+"\n"
+		+prefix+"right"+((DockComponent) getRightComponent()).toString(prefix2);
+
 	}
 	
 	
@@ -219,9 +301,9 @@ public class DockSplitPane extends JSplitPane implements DockComponent{
 		boolean takesNewSpaceLeft = false;
 		boolean takesNewSpaceRight = false;
 
-		if (((DockComponent) getLeftComponent()!=null) && ((DockComponent) getLeftComponent()).updateResizeWeight())
+		if ((getLeftComponent()!=null) && ((DockComponent) getLeftComponent()).updateResizeWeight())
 			takesNewSpaceLeft = true;
-		if (((DockComponent) getRightComponent()!=null) && ((DockComponent) getRightComponent()).updateResizeWeight())
+		if ((getRightComponent()!=null) && ((DockComponent) getRightComponent()).updateResizeWeight())
 			takesNewSpaceRight = true;
 		
 		
