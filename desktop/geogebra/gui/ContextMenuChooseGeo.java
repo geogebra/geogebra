@@ -46,6 +46,9 @@ public class ContextMenuChooseGeo extends ContextMenuGeoElement {
 	 */
 	private TreeSet<GeoElement> metas;
 	
+	private ArrayList<GeoElement> selectedGeos;
+	private ArrayList<GeoElement> geos;
+	private geogebra.common.awt.Point loc;
 	
 	private JMenu selectAnotherMenu;
 
@@ -59,7 +62,7 @@ public class ContextMenuChooseGeo extends ContextMenuGeoElement {
 	 */
 	public ContextMenuChooseGeo(Application app, EuclidianViewND view, 
 			ArrayList<GeoElement> selectedGeos,
-			ArrayList<GeoElement> geos, Point location) {
+			ArrayList<GeoElement> geos, Point location, geogebra.common.awt.Point invokerLocation) {
 
 		super(app, selectedGeos, location);
 
@@ -68,11 +71,13 @@ public class ContextMenuChooseGeo extends ContextMenuGeoElement {
 			return;
 		
 		//section to choose a geo
-		addSeparator();
+		//addSeparator();
 		addSelectAnotherMenu();
 		
 		
-		
+		this.loc = invokerLocation;
+		this.selectedGeos = selectedGeos;
+		this.geos = geos;
 		this.view = view;
 		
 		GeoElement geoSelected = selectedGeos.get(0);
@@ -93,17 +98,22 @@ public class ContextMenuChooseGeo extends ContextMenuGeoElement {
 				}
 			}
 		}
+		
+		//TODO: clear selection is not working from here
+		this.getSelectionModel().clearSelection();
+		
 	}
-	
-	
 	
 	
 	
 	private void addSelectAnotherMenu(){
 		selectAnotherMenu = new JMenu(app.getPlain("SelectAnother") );
 		selectAnotherMenu.setIcon(app.getEmptyIcon());
-		selectAnotherMenu.setBackground(getBackground());  
-		add(selectAnotherMenu);     
+		selectAnotherMenu.setBackground(getBackground());
+		selectAnotherMenu.setFont(app.getItalicFont());
+		
+		// add the selection menu just under the title
+		add(selectAnotherMenu,1);     
 		
 	}
 	
@@ -155,6 +165,11 @@ public class ContextMenuChooseGeo extends ContextMenuGeoElement {
 			//AbstractApplication.debug(geo.getLabelSimple());
 			app.clearSelectedGeos(false); //repaint done next step
 			app.addSelectedGeo(geo);
+			
+			// update the geo lists and show the popup again with the new selection
+			selectedGeos.clear();
+			selectedGeos.add(geo);
+			app.getGuiManager().showPopupChooseGeo(selectedGeos, geos, (EuclidianViewND)view, loc);
 		}
 		
 	}

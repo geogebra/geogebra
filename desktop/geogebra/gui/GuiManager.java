@@ -1226,7 +1226,7 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 					.getLocationOnScreen();
 			screenPos.translate(p.x, p.y);
 			
-			popupMenu = new ContextMenuChooseGeo(app, view, selectedGeos, geos, screenPos);
+			popupMenu = new ContextMenuChooseGeo(app, view, selectedGeos, geos, screenPos, p);
 			//popupMenu = new ContextMenuGeoElement(app, geos, screenPos);
 			popupMenu.show(invoker, p.x, p.y);
 		}

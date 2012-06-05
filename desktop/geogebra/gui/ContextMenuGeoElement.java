@@ -31,6 +31,7 @@ import geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import geogebra.common.kernel.kernelND.ViewCreator;
 import geogebra.common.main.AbstractApplication;
 import geogebra.euclidian.EuclidianView;
+import geogebra.gui.dialog.options.OptionsUtil;
 import geogebra.gui.inputbar.AlgebraInput;
 import geogebra.gui.layout.DockPanel;
 import geogebra.main.Application;
@@ -971,18 +972,20 @@ public class ContextMenuGeoElement extends JPopupMenu {
 	}
 
 	/**
-	 * Sts title of this menu; e.g. "Point A" or "Selection"
+	 * Sets title of this menu; e.g. "Point A" or "Selection"
 	 * @param str title of this menu
 	 */
 	protected void setTitle(String str) {
 		JLabel title = new JLabel(str);
 		title.setFont(app.getBoldFont());                      
 		title.setBackground(bgColor);
-		title.setForeground(fgColor);          
+		title.setForeground(fgColor);
 		
 		title.setIcon(app.getEmptyIcon());
-		title.setBorder(BorderFactory.createEmptyBorder(5, 15, 2, 5));      
-		add(title);
+		title.setBorder(BorderFactory.createEmptyBorder(5, 0, 2, 15)); 
+		
+		// wrap title JLabel in a panel to prevent unneeded spacing
+		add(OptionsUtil.flowPanel(0,0,0,title));
 		addSeparator();   
 
 		title.addMouseListener(new MouseAdapter() {

@@ -203,7 +203,7 @@ public class GuiManager3D extends GuiManager {
 		screenPos.translate(p.x, p.y);
 
 
-		ContextMenuChooseGeo popupMenu = new ContextMenuChooseGeo(app, view, selectedGeos, geos, screenPos);
+		ContextMenuChooseGeo popupMenu = new ContextMenuChooseGeo(app, view, selectedGeos, geos, screenPos, p);
 		popupMenu.show(invoker, p.x, p.y);
 
 
