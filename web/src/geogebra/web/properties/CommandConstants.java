@@ -2735,4 +2735,29 @@ public interface CommandConstants extends ConstantsWithLookup {
 	 @DefaultStringValue("[ <Object>, <true | false> ]")
 	 String SetTrace_Syntax();
 	 
+	 @DefaultStringValue("FromBase")
+	 String FromBase();
+
+	 @DefaultStringValue("[ <Number as Text>, <Base> ]")
+	 String FromBase_Syntax();
+	 
+	 @DefaultStringValue("ToBase")
+	 String ToBase();
+
+	 @DefaultStringValue("[ <Number>, <Base> ]")
+	 String ToBase_Syntax();
+	 
+	 @DefaultStringValue("ContinuedFraction")
+	 String ContinuedFraction();
+
+	 @DefaultStringValue("[ <Number> ]\n[ <Number>, <Level> ]\n[ <Number>, <Level (optional)>, <Shorthand> ]")
+	 String ContinuedFraction_Syntax();
+
+	 @DefaultStringValue("AttachCopyToView")
+	 String AttachCopyToView();
+
+	 @DefaultStringValue("[ <Object>, <View 0|1|2> ]\n[ <Object>, <View 0|1|2>, <Point 1>, <Point 2>,<Screen Point 1>, <Screen Point 2>]")
+	 String AttachCopyToView_Syntax();
+	 
+	 
 }
