@@ -14,6 +14,7 @@ import geogebra.common.euclidian.GetViewId;
 import geogebra.common.euclidian.Previewable;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.factories.AwtFactory;
+import geogebra.common.io.MyXMLio;
 import geogebra.common.javax.swing.Box;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoBoolean;
@@ -33,6 +34,7 @@ import geogebra.web.main.Application;
 import geogebra.web.main.EuclidianViewPanel;
 
 import com.google.gwt.canvas.client.Canvas;
+import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -608,5 +610,28 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 
 	final public boolean hasStyleBar() {
 		return styleBar != null;
+	}
+
+	public String getCanvasBase64WithTypeString() {
+
+		// TODO: make this more perfect, like in Desktop
+
+		double ratio = g2p.getCoordinateSpaceWidth();
+		ratio /= g2p.getCoordinateSpaceHeight() * 1.0;
+		double thx = MyXMLio.THUMBNAIL_PIXELS_X;
+		double thy = MyXMLio.THUMBNAIL_PIXELS_Y;
+		if (ratio < 1)
+			thx *= ratio;
+		else if (ratio > 1)
+			thy /= ratio;
+
+		Canvas canv = Canvas.createIfSupported();
+		canv.setCoordinateSpaceHeight((int)thy);
+		canv.setCoordinateSpaceWidth((int)thx);
+		canv.setWidth((int)thx+"px");
+		canv.setHeight((int)thy+"px");
+		Context2d c2 = canv.getContext2d();
+		c2.drawImage(g2p.getCanvas().getCanvasElement(), 0, 0, (int)thx, (int)thy);
+		return canv.toDataUrl();
 	}
 }

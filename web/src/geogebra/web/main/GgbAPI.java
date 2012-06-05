@@ -11,13 +11,13 @@ import com.google.gwt.core.client.JavaScriptObject;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Macro;
-import geogebra.common.kernel.Macro;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.plugin.JavaScriptAPI;
 import geogebra.common.io.MyXMLio;
 
+import geogebra.web.euclidian.EuclidianView;
 import geogebra.web.gui.applet.GeoGebraFrame;
 import geogebra.web.helper.ScriptLoadCallback;
 import geogebra.web.html5.DynamicScriptElement;
@@ -135,7 +135,7 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI {
      */
     @Override
     public String getBase64(boolean includeThumbnail) {
-    	createArchiveContent();
+    	createArchiveContent(includeThumbnail);
     	
     	JavaScriptObject callback = getDummyCallback();
     	
@@ -144,19 +144,19 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI {
     }
     
     public void getBase64(boolean includeThumbnail, JavaScriptObject callback) {
-		createArchiveContent();
+		createArchiveContent(includeThumbnail);
 		
 		getNativeBase64ZipJs(prepareToEntrySet(archiveContent), includeThumbnail, callback);
     }
-    
+
     public void getBase64(JavaScriptObject callback) {
-    	createArchiveContent();
-		
+    	createArchiveContent(true);
+
 		getNativeBase64ZipJs(prepareToEntrySet(archiveContent), false, callback);
-    	
+
     }
 
-	private void createArchiveContent() {
+	private void createArchiveContent(boolean includeThumbnail) {
 	    archiveContent = new HashMap<String, String>();
     	boolean issaving = getKernel().isSaving();
     	//return getNativeBase64(includeThumbnail);
@@ -167,6 +167,13 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI {
     	String geogebra_python = getKernel().getLibraryPythonScript();
 
     	writeConstructionImages(getConstruction(),"");
+
+
+		// write construction thumbnails
+    	if (includeThumbnail)
+    		addImageToZip(MyXMLio.XML_FILE_THUMBNAIL,
+    			((EuclidianView)app.getEuclidianView1()).getCanvasBase64WithTypeString());
+
 
     	if (!macroXml.equals("")) {
     		writeMacroImages();
