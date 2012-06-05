@@ -19,18 +19,20 @@ public class HelpMenu extends MenuBar {
 	    addStyleName("GeoGebraMenuBar");
 	    addItem(app.getMenu("Version"), new Command() {
 			public void execute() {
-	            Window.alert("GeoGebra " + GeoGebraConstants.VERSION_STRING);       
+	            Window.alert("GeoGebra " + GeoGebraConstants.VERSION_STRING + "\n"
+	            		+ GeoGebraConstants.BUILD_DATE);       
+            }
+	    });
+	    addItem(app.getMenu("About / License"), new Command() {
+			public void execute() {
+				Window.open(GeoGebraConstants.GGW_ABOUT_LICENSE_URL, "_blank",
+						"width=720,height=600,scrollbars=no,toolbar=no,location=no,directories=no,menubar=no,status=no,copyhistory=no");
             }
 	    });
 	    // This item has no localization entry yet.
 	    addItem(app.getMenu("About / Team"), new Command() {
 			public void execute() {
 	            Window.open(GeoGebraConstants.GGW_ABOUT_TEAM_URL, "_blank", "");
-            }
-	    });
-	    addItem(app.getMenu("About / License"), new Command() {
-			public void execute() {
-				Window.open(GeoGebraConstants.GGW_ABOUT_LICENSE_URL, "_blank", "");
             }
 	    });
 	}
