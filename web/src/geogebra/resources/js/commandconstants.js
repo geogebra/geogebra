@@ -906,14 +906,14 @@ ArePerpendicular_Syntax: "",
 AreEqual: "",
 AreEqual_Syntax: "",
 SetTrace: "",
-SetTrace_Syntax: ""
-FromBase: ""
-FromBase_Syntax: ""
-ToBase: ""
-ToBase_Syntax: ""
-ContinuedFraction: ""
-ContinuedFraction_Syntax: ""
-AttachCopyToView: ""
+SetTrace_Syntax: "",
+FromBase: "",
+FromBase_Syntax: "",
+ToBase: "",
+ToBase_Syntax: "",
+ContinuedFraction: "",
+ContinuedFraction_Syntax: "",
+AttachCopyToView: "",
 AttachCopyToViewSyntax: ""
 			
 		};
