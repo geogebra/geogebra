@@ -108,6 +108,7 @@ public class AxisPanel extends JPanel implements ActionListener, ItemListener, F
 				cbAxisLabel = new JComboBox();
 				cbAxisLabel.addItem(null);
 				cbAxisLabel.addItem(axis == 0 ? "x" : "y");
+				cbAxisLabel.addItem(axis == 0 ? "\uD835\uDC65" : "\uD835\uDC66");
 				String [] greeks = TableSymbols.greekLowerCase;
 				for (int i = 0; i < greeks.length; i++) {
 					cbAxisLabel.addItem(greeks[i]);		
