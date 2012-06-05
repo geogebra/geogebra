@@ -906,6 +906,9 @@ public interface MenuConstants extends ConstantsWithLookup{
 	@DefaultStringValue("Save")
 	String Save();
 
+	@DefaultStringValue("Save to Google Drive")
+	String SaveToGoogleDrive();
+
 	@DefaultStringValue("Circumcircular Arc through Three Points")
 	String CircumcircleArc3();
 

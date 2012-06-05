@@ -55,8 +55,8 @@ public class GeoGebraFileChooser extends PopupPanel {
 	    
 	    HorizontalPanel buttonPanel = new HorizontalPanel();
 	    buttonPanel.addStyleName("buttonPanel");
-	    buttonPanel.add(cancel = new Button("Cancel"));
-	    buttonPanel.add(save = new Button("Save"));
+	    buttonPanel.add(cancel = new Button(app.getMenu("Cancel")));
+	    buttonPanel.add(save = new Button(app.getMenu("SaveToGoogleDrive")));
 	    p.add(buttonPanel);
 	    addStyleName("GeoGebraFileChooser");
 	    
