@@ -807,6 +807,7 @@ public class NoExceptionsTest {
 	@Test
 	public void cmdGetTime() {
 		t("GetTime[]");
+		t("GetTime[\"h:i:s\"]");
 	}
 
 	@Test
