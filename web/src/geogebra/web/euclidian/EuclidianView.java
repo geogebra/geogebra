@@ -499,7 +499,8 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 
 	@Override
     protected void drawActionObjects(Graphics2D g) {
-	    AbstractApplication.debug("drawActionObjects: implementation needed really"); // TODO
+	    // draws buttons and textfields in desktop
+		// not needed in web
     }
 
 
