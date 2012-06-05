@@ -8,16 +8,28 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.util.StringUtil;
-
+/**
+ * Allows conversion of numbers to different bases via ToBase[number, base]
+ * @author zbynek
+ *
+ */
 public class AlgoToBase extends AlgoElement {
 
 	private NumberValue base;
 	private NumberValue number;
 	private GeoText result;
-	public AlgoToBase(Construction c,String label,NumberValue base,NumberValue number) {
+
+	/**
+	 * @param c construction
+	 * @param label label for output
+	 * @param base base
+	 * @param number number
+	 */
+	public AlgoToBase(Construction c, String label, NumberValue number, NumberValue base
+			) {
 		super(c);
-		this.base=base;
-		this.number=number;
+		this.base = base;
+		this.number = number;
 		result = new GeoText(cons);
 		setInputOutput();
 		compute();
@@ -26,32 +38,46 @@ public class AlgoToBase extends AlgoElement {
 
 	@Override
 	protected void setInputOutput() {
-		input = new GeoElement[]
-				{number.toGeoElement(),base.toGeoElement()};
+		input = new GeoElement[] { number.toGeoElement(), base.toGeoElement() };
 		setOnlyOutput(result);
 		setDependencies();
 	}
-	
+
 	/**
 	 * @return result as text
 	 */
-	public GeoText getResult(){
+	public GeoText getResult() {
 		return result;
 	}
 
 	@Override
 	public void compute() {
-		if(!number.isDefined()||!base.isDefined()){
+		if (!number.isDefined() || !base.isDefined()) {
 			result.setUndefined();
 			return;
 		}
-		int b = (int)base.getDouble();
-		if(b<2 || b>36 || !Kernel.isInteger(number.getDouble())){
+		int b = (int) base.getDouble();
+		if (b < 2 || b > 36) {
 			result.setUndefined();
-			return; 
+			return;
 		}
-		BigInteger bi = BigInteger.valueOf((long)number.getDouble());
-		result.setTextString(StringUtil.toUpperCase(bi.toString(b)));
+		int digits = kernel.format(1.0 / 9.0, result.getStringTemplate())
+				.length() - 2;
+		double power = Math.round(Math.pow(b, digits));
+		double in = number.getDouble();
+		in = in + 1 / power > Math.ceil(in) ? Math.ceil(in) : in;
+		BigInteger bi = BigInteger.valueOf((long) in);
+		String intPart = StringUtil.toUpperCase(bi.toString(b));
+		if (Kernel.isInteger(in)) {
+			result.setTextString(intPart);
+		} else {
+
+			double decimal = Math.round(power
+					* (number.getDouble() - Math.floor(number.getDouble())));
+			bi = BigInteger.valueOf((long) decimal);
+			String decimalPart = StringUtil.toUpperCase(bi.toString(b));
+			result.setTextString(intPart + "." + decimalPart);
+		}
 
 	}
 

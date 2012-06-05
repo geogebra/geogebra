@@ -52,19 +52,36 @@ public class AlgoFromBase extends AlgoElement {
 			result.setUndefined();
 			return; 
 		}
-		long val = 0;
-		String s = StringUtil.toLowerCase(number.getTextString());
+		double val = 0;
+		
+		String in = number.getTextString();
+		int pos = in.indexOf('.');
+		String s = pos>-1? StringUtil.toLowerCase(in.substring(0,pos-1)):in;
 		for(int i=0;i<s.length();i++){
 			int last = s.charAt(i)- 0x30;
 			if(last > 9)
 				last -= 0x30 - 9;
-			if(last >= b){
+			if(last >= b || last<0){
 				result.setUndefined();
 				return; 
 			}
 			val = val*b+last;
 		}
-		
+		if(pos>-1){
+			s = StringUtil.toLowerCase(in.substring(pos+1));
+			double power = 1;
+			for(int i=0;i<s.length();i++){
+				int last = s.charAt(i)- 0x30;
+				if(last > 9)
+					last -= 0x30 - 9;
+				if(last >= b|| last<0){
+					result.setUndefined();
+					return; 
+				}
+				power /= b; 
+				val += power*last;
+			}
+		}
 		result.setValue(val);
 
 	}

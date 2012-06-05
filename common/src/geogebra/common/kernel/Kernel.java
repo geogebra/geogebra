@@ -9825,7 +9825,7 @@ public class Kernel {
 
 	public GeoElement ToBase(String label, NumberValue number,
 			NumberValue base) {
-		AlgoToBase toBase = new AlgoToBase(cons,label,base,number);
+		AlgoToBase toBase = new AlgoToBase(cons,label,number,base);
 		return toBase.getResult();
 	}
 	
