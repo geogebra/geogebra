@@ -1871,7 +1871,7 @@ public class Application extends AbstractApplication {
 
 	@Override
     public void fileNew() {
-kernel.resetLibraryJavaScript();
+		kernel.resetLibraryJavaScript();
 		
 		// This needs to happen *before* clearConstruction is called
 		// as clearConstruction calls notifyClearView which triggers the
@@ -1903,6 +1903,12 @@ kernel.resetLibraryJavaScript();
 		}
 
 		resetUniqueId();
+		
+		driveBase64FileName = null;
+		driveBase64description = null;
+		driveBase64Content = null;
+		currentFileId = "";
+		((DialogManagerWeb) getDialogManager()).refreshAndShowCurrentFileDescriptors(driveBase64FileName, driveBase64description);
 	    
     }
 	

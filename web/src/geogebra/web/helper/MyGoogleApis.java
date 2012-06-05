@@ -82,7 +82,7 @@ public class MyGoogleApis {
 		JSON.put(file, "title", fileName);
 		JSON.put(file, "description", description);
 		JSON.put(file, "mimeType", GeoGebraConstants.GGW_MIME_TYPE);
-		JSON.put(file, "resource_id", getFileIdOrNull());
+		JSON.put(file, "resource_id", Application.currentFileId);
 		
 		String url = "/svc";
 		Method method = Application.currentFileId.equals("") ? RequestBuilder.POST : RequestBuilder.PUT;

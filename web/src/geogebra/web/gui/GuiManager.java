@@ -435,10 +435,14 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 		GeoGebraFileChooser fileChooser = ((DialogManagerWeb)app.getDialogManager()).getFileChooser();
 		if (((Application) app).getFileName() != null) {
 			fileChooser.setFileName(((Application) app).getFileName());
+		} else {
+			fileChooser.setFileName("");
 		}
 		
 		if (((Application)app).getFileDescription() != null) {
 			fileChooser.setDescription(((Application)app).getFileDescription());
+		} else {
+			fileChooser.setDescription("");
 		}
 		fileChooser.show();
 	    return true;
