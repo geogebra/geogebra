@@ -211,7 +211,7 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 	
 	@Override
 	protected void initToolTipManager() {
-		AbstractApplication.debug("implementation needed really"); // TODO Auto-generated
+		AbstractApplication.debug("initToolTipManager: implementation needed really"); // TODO Auto-generated
 		
 	}
 

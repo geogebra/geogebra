@@ -803,7 +803,7 @@ public class Application extends AbstractApplication {
 
 	@Override
 	public String getTraceXML(GeoElement geoElement) {
-		AbstractApplication.debug("implementation needed really"); // TODO Auto-generated
+		AbstractApplication.debug("getTraceXML: implementation needed really"); // TODO Auto-generated
 		return null;
 	}
 
@@ -1169,7 +1169,7 @@ public class Application extends AbstractApplication {
 
 	@Override
 	public void showError(MyError e) {
-		AbstractApplication.debug("implementation needed really"); // TODO Auto-generated
+		AbstractApplication.debug("showError: implementation needed really "+e.toString()); 
 
 	}
 
@@ -1302,13 +1302,13 @@ public class Application extends AbstractApplication {
 
 	@Override
 	public SoundManager getSoundManager() {
-		AbstractApplication.debug("implementation needed for GUI"); // TODO Auto-generated
+		AbstractApplication.debug("getSoundManager: implementation needed for GUI"); // TODO Auto-generated
 		return null;
 	}
 
 	@Override
 	public CommandProcessor newCmdBarCode() {
-		AbstractApplication.debug("implementation needed really"); // TODO
+		AbstractApplication.debug("newCmdBarCode: remove after branch to ggb42"); // TODO
 		return null;
 	}
 	
@@ -1342,7 +1342,7 @@ public class Application extends AbstractApplication {
 
 	@Override
 	public String getScriptingCommand(String internal) {
-		AbstractApplication.debug("implementation needed really"); // TODO Auto-generated
+		AbstractApplication.debug("getScriptingCommand: implementation needed really"); // TODO Auto-generated
 		return null;
 	}
 

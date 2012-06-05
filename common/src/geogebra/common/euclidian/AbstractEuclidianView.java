@@ -3512,7 +3512,7 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 		 * @param g2 graphics whose hints should be set 
 		 */
 		public void setDefRenderingHints(Graphics2D g2){
-			AbstractApplication.debug("setDefRenderingHints: implementation needed");
+			//AbstractApplication.debug("setDefRenderingHints: implementation needed");
 		}
 
 		/**
