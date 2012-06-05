@@ -24,14 +24,14 @@ public class HelpMenu extends MenuBar {
 	            		+ GeoGebraConstants.BUILD_DATE);       
             }
 	    });
-	    // TODO: This item has no localization entry yet.
-	    addItem("About / License", new Command() {
+	    addItem(app.getMenu("About") + " / " + app.getMenu("License"), new Command() {
 			public void execute() {
 				Window.open(GeoGebraConstants.GGW_ABOUT_LICENSE_URL, "_blank",
 						"width=720,height=600,scrollbars=no,toolbar=no,location=no,directories=no,menubar=no,status=no,copyhistory=no");
             }
 	    });
-	    addItem(app.getMenu("About") + " / " + app.getMenu("License"), new Command() {
+	    // TODO: This item has no localization entry yet.
+	    addItem("About / Team", new Command() {
 			public void execute() {
 	            Window.open(GeoGebraConstants.GGW_ABOUT_TEAM_URL, "_blank", "");
             }
