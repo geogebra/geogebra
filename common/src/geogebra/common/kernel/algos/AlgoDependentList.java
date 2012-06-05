@@ -96,7 +96,7 @@ public class AlgoDependentList extends AlgoElement{
 	public void remove(boolean unlabeledInput) {
     	if(removed)
 			return;
-    	super.remove();
+    	super.remove(unlabeledInput);
     	
 		//  removing unlabeled input
 		for (int i=0; i < input.length; i++) {
