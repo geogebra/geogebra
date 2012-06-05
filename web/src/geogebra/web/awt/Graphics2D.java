@@ -73,14 +73,14 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 
 	@Override
     public void draw3DRect(int x, int y, int width, int height, boolean raised) {
-		AbstractApplication.debug("implementation needed for 3D"); // TODO Auto-generated
+		AbstractApplication.debug("draw3DRect: implementation needed"); 
 
 	}
 
 	
 	@Override
     public void fill3DRect(int x, int y, int width, int height, boolean raised) {
-		AbstractApplication.debug("implementation needed for 3D"); // TODO Auto-generated
+		AbstractApplication.debug("fill3DRect: implementation needed"); 
 
 	}
 
@@ -93,7 +93,7 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 	 */
 	public void draw(Shape shape) {
 		if (shape == null) {
-			GWT.log("Error in EuclidianView.draw");
+			AbstractApplication.error("Error in EuclidianView.draw");
 			return;
 		}
 		doDrawShape(shape);
@@ -156,7 +156,7 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 
 	@Override
     public boolean drawImage(Image img, AffineTransform xform, ImageObserver obs) {
-		AbstractApplication.debug("implementation needed for beauty"); // TODO Auto-generated
+		AbstractApplication.debug("drawImage: implementation needed for beauty"); // TODO Auto-generated
 		return false;
 	}
 
@@ -177,14 +177,14 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 	
 	@Override
     public void drawRenderedImage(RenderedImage img, AffineTransform xform) {
-		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
+		AbstractApplication.debug("drawRenderedImage: implementation needed"); // TODO Auto-generated
 
 	}
 
 	
 	@Override
     public void drawRenderableImage(RenderableImage img, AffineTransform xform) {
-		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
+		AbstractApplication.debug("drawRenderableImage: implementation needed"); // TODO Auto-generated
 
 	}
 
@@ -203,7 +203,7 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 	
 	@Override
     public void drawString(AttributedCharacterIterator iterator, int x, int y) {
-		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
+		AbstractApplication.debug("drawString: implementation needed"); // TODO Auto-generated
 
 	}
 
@@ -211,14 +211,14 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 	@Override
     public void drawString(AttributedCharacterIterator iterator, float x,
 	        float y) {
-		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
+		AbstractApplication.debug("drawString: implementation needed 2"); // TODO Auto-generated
 
 	}
 
 	
 	@Override
     public void drawGlyphVector(GlyphVector g, float x, float y) {
-		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
+		AbstractApplication.debug("drawGlyphVector: implementation needed"); // TODO Auto-generated
 
 	}
 
@@ -238,7 +238,7 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 
 	@Override
     public GraphicsConfiguration getDeviceConfiguration() {
-		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
+		AbstractApplication.debug("getDeviceConfiguration: implementation needed"); // TODO Auto-generated
 		return null;
 	}
 
@@ -315,35 +315,35 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 
 	@Override
     public void setRenderingHint(Key hintKey, Object hintValue) {
-		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
+		AbstractApplication.debug("setRenderingHint: implementation needed"); // TODO Auto-generated
 
 	}
 
 	
 	@Override
     public Object getRenderingHint(Key hintKey) {
-		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
+		AbstractApplication.debug("getRenderingHint: implementation needed"); // TODO Auto-generated
 		return null;
 	}
 
 	
 	@Override
     public void setRenderingHints(Map<?, ?> hints) {
-		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
+		AbstractApplication.debug("setRenderingHints: implementation needed"); // TODO Auto-generated
 
 	}
 
 	
 	@Override
     public void addRenderingHints(Map<?, ?> hints) {
-		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
+		AbstractApplication.debug("addRenderingHints: implementation needed"); // TODO Auto-generated
 
 	}
 
 	
 	@Override
     public RenderingHints getRenderingHints() {
-		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
+		AbstractApplication.debug("getRenderingHints: implementation needed"); // TODO Auto-generated
 		return null;
 	}
 
@@ -475,7 +475,6 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 
 	@Override
     public BasicStroke getStroke() {
-		AbstractApplication.debug("implementation needed really"); // TODO Auto-generated
 
 		return new geogebra.web.awt.BasicStroke(
 			(float) context.getLineWidth(), 
@@ -492,7 +491,7 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 		if (shape2 == null) {
 			// for simple clip, no null is allowed
 			clipShape = null;
-			GWT.log("Error in Graphics2D.setClip");
+			AbstractApplication.error("Error in Graphics2D.setClip");
 			return;
 		}
 		clipShape = new geogebra.web.awt.GenericShape(shape2);
@@ -554,21 +553,20 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
     }
 
 	
-    @Override
-    public void setFont(geogebra.common.awt.Font font) {
-    	if(font instanceof geogebra.web.awt.Font){
-    		currentFont=(geogebra.web.awt.Font)font;
-    		//TODO: pass other parameters here as well
-    		try{
-    		context.setFont(currentFont.getFullFontString());
-    		}
-    		catch(Throwable t){
-    			AbstractApplication.debug(currentFont.getFullFontString());
-    			t.printStackTrace();
-    		}
-    	}
-	    
-    }
+	@Override
+	public void setFont(geogebra.common.awt.Font font) {
+		if(font instanceof geogebra.web.awt.Font){
+			currentFont=(geogebra.web.awt.Font)font;
+			//TODO: pass other parameters here as well
+			try {
+				context.setFont(currentFont.getFullFontString());
+			}
+			catch(Throwable t) {
+				AbstractApplication.error("problem setting font: "+currentFont.getFullFontString());
+			}
+		}
+
+	}
 
 	
     @Override
@@ -582,13 +580,13 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 	@Override
     public void clip(geogebra.common.awt.Shape shape) {
 		if (shape == null) {
-			GWT.log("Error in Graphics2D.clip");
+			AbstractApplication.error("Error in Graphics2D.clip");
 			return;
 		}
 		clipShape = shape;
 		Shape shape2 = geogebra.web.awt.GenericShape.getGawtShape(shape);
 		if (shape2 == null) {
-			GWT.log("Error in Graphics2D.clip");
+			AbstractApplication.error("Error in Graphics2D.clip");
 			return;
 		}
 		doDrawShape(shape2);
@@ -656,7 +654,7 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 		}
 		Shape shape2 = geogebra.web.awt.GenericShape.getGawtShape(shape);
 		if (shape2 == null) {
-			GWT.log("Error in Graphics2D.setClip");
+			AbstractApplication.error("Error in Graphics2D.setClip");
 			return;
 		}
 		doDrawShape(shape2);
