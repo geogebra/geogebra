@@ -469,15 +469,16 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 					new geogebra.awt.Font(g2d.getFont()), false, Color.BLACK,
 					Color.WHITE, false);
 
-			// check if newer version is available
-			if (!app.isApplet() && !Application.isWebstart()) {
-				checkVersion();
-			}
-
 			if (!app.isApplet()) {
 				app.getPythonBridge();
 			}
 	
+			// check if newer version is available
+			// must be done last as internet may not be available
+			if (!app.isApplet() && !Application.isWebstart()) {
+				checkVersion();
+			}
+
 		}
 
 		/**
