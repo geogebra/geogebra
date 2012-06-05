@@ -3500,7 +3500,7 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 		 * @param g  graphics for reset icon
 		 */
 		protected void drawResetIcon(geogebra.common.awt.Graphics2D g){
-			AbstractApplication.debug("implementation needed");
+			AbstractApplication.debug("drawResetIcon: implementation needed");
 		}
 		/**
 		 * Draw textfields
@@ -3512,7 +3512,7 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 		 * @param g2 graphics whose hints should be set 
 		 */
 		public void setDefRenderingHints(Graphics2D g2){
-			AbstractApplication.debug("implementation needed");
+			AbstractApplication.debug("setDefRenderingHints: implementation needed");
 		}
 
 		/**
