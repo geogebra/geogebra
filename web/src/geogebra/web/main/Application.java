@@ -33,6 +33,7 @@ import geogebra.common.plugin.jython.PythonBridge;
 import geogebra.common.sound.SoundManager;
 import geogebra.common.util.AbstractImageManager;
 import geogebra.common.util.GeoGebraLogger.LogDestination;
+import geogebra.common.util.Language;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
 import geogebra.web.css.GuiResources;
@@ -222,119 +223,30 @@ public class Application extends AbstractApplication {
 	   this(article, geoGebraAppFrame, true);
     }
 	
-	public static ArrayList<String> supportedLanguages = new ArrayList<String>();
+	private static ArrayList<String> supportedLanguages = new ArrayList<String>();
 	
-	static {
-		if (GeoGebraConstants.IS_PRE_RELEASE) {
-			supportedLanguages.add("sq"); // Albanian
+	/**
+	 * @return ArrayList of languages suitable for GWT, eg "en", "de_AT"
+	 */
+	public static ArrayList<String> getSupportedLanguages() {
+		
+		if (supportedLanguages != null) {
+			return supportedLanguages;
 		}
 
-		supportedLanguages.add("hy"); // Armenian
-		supportedLanguages.add("ar"); // Arabic
-		supportedLanguages.add("eu"); // Basque
-		supportedLanguages.add("bs"); // Bosnian
-		if (GeoGebraConstants.IS_PRE_RELEASE) {
-			supportedLanguages.add("bg"); // Bulgarian
+		Language[] languages = Language.values();
+		
+		for (int i = 0 ; i < languages.length ; i++) {
+			
+			Language language = languages[i];
+			
+			if (language.fullyTranslated || GeoGebraConstants.IS_PRE_RELEASE) {			
+				supportedLanguages.add(language.localeGWT);
+			}			
 		}
-		supportedLanguages.add("ca"); // Catalan
-		if (GeoGebraConstants.IS_PRE_RELEASE) {
-			supportedLanguages.add("zh_CN"); // Chinese
-		}
-		// (Simplified)
-		supportedLanguages.add("zh_TW"); // Chinese (Traditional)
-		supportedLanguages.add("hr"); // Croatian
-		supportedLanguages.add("cs"); // Czech
-		supportedLanguages.add("da"); // Danish
-		supportedLanguages.add("nl"); // Dutch
-		supportedLanguages.add("en"); // English
-		supportedLanguages.add("en_GB"); // English (UK)
-		supportedLanguages.add("en_AU"); // English (Australia)
-		supportedLanguages.add("et"); // Estonian
-		supportedLanguages.add("fi"); // Finnish
-		supportedLanguages.add("fr"); // French
-		supportedLanguages.add("gl"); // Galician
-		supportedLanguages.add("ka"); // Georgian
-		supportedLanguages.add("de"); // German
-		supportedLanguages.add("de_AT"); // German (Austria)
-		supportedLanguages.add("el"); // Greek
-		// supportedLocales.add(new Locale("gu")); // Gujarati
-		supportedLanguages.add("iw"); // Hebrew
-		if (GeoGebraConstants.IS_PRE_RELEASE) {
-			supportedLanguages.add("hi"); // Hindi
-		}
-		supportedLanguages.add("hu"); // Hungarian
-		supportedLanguages.add("is"); // Icelandic
-		if (GeoGebraConstants.IS_PRE_RELEASE) {
-			supportedLanguages.add("in"); // Indonesian
-		}
-		supportedLanguages.add("it"); // Italian
-		supportedLanguages.add("ja"); // Japanese
-
-		supportedLanguages.add("kk"); // Kazakh
-		supportedLanguages.add("ko"); // Korean
-		supportedLanguages.add("lt"); // Lithuanian
-		if (GeoGebraConstants.IS_PRE_RELEASE) {
-			supportedLanguages.add("ml"); // Malayalam
-		}
-		if (GeoGebraConstants.IS_PRE_RELEASE) {
-			supportedLanguages.add("mn"); // Mongolian
-		}
-		supportedLanguages.add("mk"); // Macedonian
-		if (GeoGebraConstants.IS_PRE_RELEASE) {
-			supportedLanguages.add("mr"); // Marathi
-		}
-		supportedLanguages.add("ms"); // Malay
-		if (GeoGebraConstants.IS_PRE_RELEASE) {
-			supportedLanguages.add("ne"); // Nepalese
-		}
-		supportedLanguages.add("no_NB"); // Norwegian (Bokmal)
-		supportedLanguages.add("no_NN"); // Norwegian(Nynorsk)
-		// supportedLocales.add(new Locale("oc")); // Occitan
-		supportedLanguages.add("fa"); // Persian
-		supportedLanguages.add("pl"); // Polish
-		supportedLanguages.add("pt"); // Portugese (Brazil)
-		supportedLanguages.add("pt_PT"); // Portuguese (Portugal)
-		// supportedLocales.add(new Locale("pa")); // Punjabi
-		if (GeoGebraConstants.IS_PRE_RELEASE) {
-			supportedLanguages.add("ro"); // Romanian
-		}
-		supportedLanguages.add("ru"); // Russian
-		supportedLanguages.add("sr"); // Serbian
-		if (GeoGebraConstants.IS_PRE_RELEASE) {
-			supportedLanguages.add("si"); // Sinhala (Sri Lanka)
-		}
-
-		supportedLanguages.add("sk"); // Slovakian
-		supportedLanguages.add("sl"); // Slovenian
-		supportedLanguages.add("es"); // Spanish
-		supportedLanguages.add("sv"); // Swedish
-		// supportedLocales.add(new Locale("ty")); // Tahitian
-		supportedLanguages.add("ta"); // Tamil
-
-		if (GeoGebraConstants.IS_PRE_RELEASE) {
-			supportedLanguages.add("tl"); // Filipino
-		}
-		// supportedLocales.add(new Locale("te")); // Telugu
-		if (GeoGebraConstants.IS_PRE_RELEASE) {
-			supportedLanguages.add("th"); // Thai
-		}
-
-		supportedLanguages.add("tr"); // Turkish
-		if (GeoGebraConstants.IS_PRE_RELEASE) {
-			supportedLanguages.add("uk"); // Ukrainian
-		}
-		// supportedLocales.add(new Locale("ur")); // Urdu
-		supportedLanguages.add("vi"); // Vietnamese
-		if (GeoGebraConstants.IS_PRE_RELEASE) {
-			supportedLanguages.add("cy"); // Welsh
-		}
-		if (GeoGebraConstants.IS_PRE_RELEASE) {
-			supportedLanguages.add("ia"); // Interlingua
-		}
-
-		if (GeoGebraConstants.IS_PRE_RELEASE) {
-			supportedLanguages.add("ji"); // Yiddish
-		}
+		
+		return supportedLanguages;
+		
 	}
 	
 	public final static String languageCodeVariationCrossReferencing(String javaLanguageCode) {

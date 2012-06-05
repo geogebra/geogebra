@@ -75,8 +75,8 @@ public class LanguageMenu extends MenuBar {
 	
 	private void addItems() {
 		
-		for(int i=0; i < Application.supportedLanguages.size(); i++) {			
-			String languageCode = Application.supportedLanguages.get(i);
+		for(int i=0; i < Application.getSupportedLanguages().size(); i++) {			
+			String languageCode = Application.getSupportedLanguages().get(i);
 			
 			String languageName = Language.getDisplayName(Application.languageCodeVariationCrossReferencing(languageCode.replace(Application.AN_UNDERSCORE, "")));
 			
