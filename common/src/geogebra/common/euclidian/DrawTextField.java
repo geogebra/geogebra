@@ -53,6 +53,8 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 	private InputFieldKeyListener ifKeyListener;
 	private Box box = SwingFactory.prototype.createHorizontalBox();
 
+	public String tempText;
+
 	/**
 	 * @param view view
 	 * @param geo textfield
@@ -134,6 +136,7 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 		 * @param e focus event
 		 */
 		public void focusLost(FocusEvent e) {
+			textField.setText(tempText);
 			view.getEuclidianController().textfieldHasFocus(false);	
 			geoTextField.textObjectUpdated(textField);
 			geoTextField.textSubmitted();
@@ -155,17 +158,18 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 		public InputFieldKeyListener() {
 			// TODO Auto-generated constructor stub
 		}
-
+	
 		/**
 		 * Handles new chracter
 		 * @param e key event
 		 */
 		public void keyReleased(KeyEvent e) {
 			if (e.getKeyChar() == '\n') {
+				tempText = textField.getText();
 				//view.getEuclidianController().textfieldHasFocus(false);
 				//geoTextField.textObjectUpdated(textField);
 				//geoTextField.textSubmitted();
-				view.requestFocusInWindow();
+				view.requestFocusInWindowTemp();
 			} else {
 				GeoElement linkedGeo = ((GeoTextField) geo).getLinkedGeo();
 				

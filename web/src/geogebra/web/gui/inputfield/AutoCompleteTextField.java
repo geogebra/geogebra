@@ -46,6 +46,7 @@ import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.regexp.shared.MatchResult;
 import com.google.gwt.regexp.shared.RegExp;
+import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.FocusWidget;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.SuggestBox;
@@ -227,16 +228,6 @@ public class AutoCompleteTextField extends HorizontalPanel implements AutoComple
 	    AbstractApplication.debug("implementation needed"); //TODO Auto-generated
     }
 
-	
-//	public String getText() {
-//	    AbstractApplication.debug("implementation needed"); //TODO Auto-generated
-//	    return null;
-//    }
-//
-//	public void setText(String s) {
-//	    AbstractApplication.debug("implementation needed"); //TODO Auto-generated
-//	    
-//    }
 
 	public void showPopupSymbolButton(boolean b) {
 	    AbstractApplication.debug("implementation needed"); //TODO Auto-generated
@@ -993,6 +984,7 @@ public class AutoCompleteTextField extends HorizontalPanel implements AutoComple
 	/* Hopefully happens only on click */
 	public void onValueChange(ValueChangeEvent<String> event) {
 	  isSuggestionClickJustHappened = true;
+	  
 	  textField.getTextBox().getElement().focus();
     }
 

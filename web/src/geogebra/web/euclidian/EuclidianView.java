@@ -1,29 +1,16 @@
 package geogebra.web.euclidian;
 
-import java.util.ArrayList;
-
 import geogebra.common.awt.Dimension;
 import geogebra.common.awt.Font;
 import geogebra.common.awt.Graphics2D;
 import geogebra.common.euclidian.AbstractEuclidianController;
 import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.euclidian.AbstractZoomer;
-import geogebra.common.euclidian.DrawBoolean;
-import geogebra.common.euclidian.Drawable;
-import geogebra.common.euclidian.GetViewId;
-import geogebra.common.euclidian.Previewable;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.factories.AwtFactory;
+import geogebra.common.gui.inputfield.AutoCompleteTextField;
 import geogebra.common.io.MyXMLio;
 import geogebra.common.javax.swing.Box;
-import geogebra.common.kernel.geos.GeoAngle;
-import geogebra.common.kernel.geos.GeoBoolean;
-import geogebra.common.kernel.geos.GeoButton;
-import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoImage;
-import geogebra.common.kernel.geos.GeoText;
-import geogebra.common.kernel.geos.GeoTextField;
-import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.settings.EuclidianSettings;
 import geogebra.common.main.settings.SettingListener;
@@ -31,18 +18,19 @@ import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.web.awt.BasicStroke;
 import geogebra.web.gui.applet.GeoGebraFrame;
 import geogebra.web.main.Application;
-import geogebra.web.main.EuclidianViewPanel;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.dom.client.Style;
+import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.FocusEvent;
+import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.GestureChangeEvent;
 import com.google.gwt.event.dom.client.GestureEndEvent;
 import com.google.gwt.event.dom.client.GestureStartEvent;
-import com.google.gwt.event.dom.client.KeyDownEvent;
-import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.event.dom.client.MouseOutEvent;
@@ -55,12 +43,6 @@ import com.google.gwt.event.dom.client.TouchMoveEvent;
 import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbsolutePanel;
-import com.google.gwt.user.client.ui.HTMLPanel;
-import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.event.dom.client.BlurHandler;
-import com.google.gwt.event.dom.client.BlurEvent; 
-import com.google.gwt.event.dom.client.FocusHandler; 
-import com.google.gwt.event.dom.client.FocusEvent; 
 
 public class EuclidianView extends AbstractEuclidianView implements SettingListener{
 	
@@ -426,6 +408,13 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 		focusGained();
 		return true;
     }
+	
+	@Override
+    public boolean requestFocusInWindowTemp() {
+		g2p.getCanvas().getCanvasElement().focus();
+		focusGained();
+		return true;
+    }	
 
 	public void focusLost() {
 		if (isInFocus) {

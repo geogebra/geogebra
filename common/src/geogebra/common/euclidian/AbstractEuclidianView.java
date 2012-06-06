@@ -2560,6 +2560,7 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 	 */
 	public abstract void updateSize();
 	public abstract boolean requestFocusInWindow();
+	public abstract boolean requestFocusInWindowTemp();
 	
 	// Michael Borcherds 2008-03-01
 		/**
@@ -4720,4 +4721,5 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 			setShowAxis(0,  show, false);
 			setShowAxis(1,  show, true);
 		}
+
 }
