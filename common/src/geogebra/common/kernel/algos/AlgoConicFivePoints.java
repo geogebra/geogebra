@@ -172,7 +172,7 @@ public class AlgoConicFivePoints extends AlgoElement {
     			);
     	 */
 
-    	delta = 0;
+    	delta = Double.POSITIVE_INFINITY;
     	int repetition = 5;
     	for (int m=0; m<3; m++)
     		for (int n=0; n<3; n++)
