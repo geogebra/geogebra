@@ -338,6 +338,8 @@ public class OptionsObject extends JPanel implements OptionPanel, SetLabels {
 		propPanel.updateSelection(geos.toArray());
 	}
 	
+	private StringBuilder sb = new StringBuilder();
+	
 	/**
 	 * 
 	 * @return description for selection
@@ -347,11 +349,15 @@ public class OptionsObject extends JPanel implements OptionPanel, SetLabels {
 			return app.getPlain("PropertiesSelectAnObject");
 		else if (selection.size() == 1){
 			GeoElement geo = selection.get(0);
-			String title = geo.getLongDescription();
+			String title = geo.getLongDescriptionHTML(false,false);
 			if (title.length() > 80) {
-				title = geo.getNameDescription();
+				title = geo.getNameDescriptionHTML(false, false);
 			}
-			return app.getPlain("PropertiesOfA",title);
+			sb.setLength(0);
+			sb.append("<html>");
+			sb.append(app.getPlain("PropertiesOfA",title));
+			sb.append("</html>");
+			return sb.toString();
 		} else {
 			return app.getPlain("PropertiesOfA",app.getPlain("Selection"));
 		}
