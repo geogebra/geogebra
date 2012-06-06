@@ -3207,6 +3207,24 @@ public class Kernel {
 			oldViewCnt = viewCnt;
 			viewCnt = 0;
 		}
+
+		printAttachedViews();
+
+	}
+	
+	private void printAttachedViews() {
+		
+		StringBuilder sb = new StringBuilder();
+		sb.append("XXXXXXXXX Number of registered views = ");
+		sb.append(viewCnt);
+		sb.append('\n');
+		for (int i = 0; i < viewCnt; i++) {
+			sb.append(views[i].getClass());
+			sb.append('\n');
+		}
+		
+		AbstractApplication.debug(sb.toString());
+		
 	}
 
 	private boolean notifyViewsActive = true;
@@ -3246,10 +3264,7 @@ public class Kernel {
 			viewCnt = 0;
 		}
 
-		AbstractApplication.info("Number of registered views = " + viewCnt);
-		for (int i = 0; i < viewCnt; i++) {
-			AbstractApplication.info((i+1) + ". " + views[i].getClass().toString());
-		}
+		printAttachedViews();
 
 	}
 
