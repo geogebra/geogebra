@@ -378,15 +378,23 @@ public class OptionsObject extends JPanel implements OptionPanel, SetLabels {
 	
 	
 	/**
-	 * update geo 
+	 * update geo if in selection
 	 * @param geo geo
 	 */
-	 public void update(GeoElement geo){
+	 public void updateIfInSelection(GeoElement geo){
 		//AbstractApplication.printStacktrace("\ngeo = "+geo+"\nselected = "+geo.isSelected()+"\nhighlighted = "+geo.doHighlighting());
 		//AbstractApplication.debug("\ngeo = "+geo+"\nselection contains = "+(selection!=null && selection.contains(geo)));
 		if (selection!=null && selection.size()==1 && selection.contains(geo))
 			//propPanel.updateSelection(selection.toArray()); //TODO update only first tab, set flag to others
 			propPanel.updateOneGeoDefinition(geo);
+	 }
+	 
+	 /**
+	  * rename geo
+	  * @param geo
+	  */
+	 public void rename(GeoElement geo){
+		 propPanel.updateSelection(new GeoElement[] {geo});
 	 }
 
 	 /**

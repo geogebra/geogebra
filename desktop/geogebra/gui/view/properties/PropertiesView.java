@@ -634,14 +634,15 @@ public class PropertiesView extends JPanel implements
 	}
 
 	public void remove(GeoElement geo) {
-		objectPanel.update(geo);
+		objectPanel.updateIfInSelection(geo);
 		objectPanel.getTree().remove(geo);
 
 	}
 
 	public void rename(GeoElement geo) {
-		objectPanel.update(geo);
+		objectPanel.rename(geo);
 		objectPanel.getTree().rename(geo);
+		updateTitleBar();
 
 	}
 
@@ -649,7 +650,7 @@ public class PropertiesView extends JPanel implements
 
 		// updateSelection();
 		// propPanel.updateSelection(new GeoElement[] {geo});
-		objectPanel.update(geo);
+		objectPanel.updateIfInSelection(geo);
 		objectPanel.getTree().update(geo);
 
 	}
@@ -663,7 +664,7 @@ public class PropertiesView extends JPanel implements
 
 	public void updateAuxiliaryObject(GeoElement geo) {
 		// TODO Auto-generated method stub
-		objectPanel.update(geo);
+		objectPanel.updateIfInSelection(geo);
 		objectPanel.getTree().updateAuxiliaryObject(geo);
 
 	}
