@@ -3,7 +3,7 @@ package geogebra.gui.toolbar;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.util.StringUtil;
 import geogebra.gui.MySmallJButton;
-import geogebra.gui.util.HelpAction;
+import geogebra.gui.layout.DockPanel;
 import geogebra.main.Application;
 
 import java.awt.BorderLayout;
@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JToolBar;
@@ -61,6 +61,9 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 	private JPanel toolbarHelpPanel;
 
 	public JPanel getToolbarHelpPanel() {
+		if(toolbarHelpPanel == null){
+			buildToolbarHelpPanel();
+		}
 		return toolbarHelpPanel;
 	}
 
@@ -92,6 +95,8 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 
 	
 	private int orientation = SwingConstants.NORTH;
+
+	private JPanel gluePanel;
 	
 	
 	/**
@@ -144,7 +149,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 
 		
 		// wrap toolbar to be vertically centered
-		JPanel gluePanel = new JPanel();
+		gluePanel = new JPanel();
 		gluePanel.setLayout(new BoxLayout(gluePanel, BoxLayout.Y_AXIS));
 		gluePanel.add(Box.createVerticalGlue());
 		gluePanel.add(toolbarPanel);
@@ -197,48 +202,103 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 		
 
 		if (showHelp) {
-			// mode label       		
-			modeNameLabel = new JLabel();
-			modeNameLabel.setAlignmentX(LEFT_ALIGNMENT);
-
-			// put into panel to 
-			if(toolbarHelpPanel == null) {
-				toolbarHelpPanel = new JPanel();
-				toolbarHelpPanel.setLayout(new BoxLayout(toolbarHelpPanel, BoxLayout.Y_AXIS));
-			} else {
-				toolbarHelpPanel.removeAll();
-			}
-
-			JPanel p = new JPanel(new BorderLayout());
-			p.add(modeNameLabel, app.borderWest());
-
-			if (isMain) {
-				JPanel p2 = new JPanel(new FlowLayout(FlowLayout.LEFT,0,0));
-				if (orientation == SwingConstants.EAST
-						|| orientation == SwingConstants.WEST) {
-					//p2.add(undoPanel);
-				}
-				p.add(p2,BorderLayout.EAST);
-				
-			}
-			
-			toolbarHelpPanel.add(Box.createVerticalGlue());
-			toolbarHelpPanel.add(modeNameLabel);
-			//toolbarHelpPanel.add(p);
-			toolbarHelpPanel.add(Box.createVerticalGlue());
-
-			Border insideBorder = BorderFactory.createEmptyBorder(2, 10, 2, 0);
-			Border outsideBorder = BorderFactory.createMatteBorder(0, 0, 0, 0, SystemColor.controlShadow);
-			toolbarHelpPanel.setBorder(BorderFactory.createCompoundBorder(outsideBorder, insideBorder));
-						
-			add(toolbarHelpPanel, BorderLayout.CENTER);
-			
+			add(getToolbarHelpPanel(), BorderLayout.CENTER);		
 			updateHelpText();
 		}
 
 		revalidate();
 	}
 
+	
+	private class MyDockPanel extends DockPanel
+	{
+
+		public MyDockPanel(){
+			this(0, "", "1", false, 0);
+		}
+		public MyDockPanel(int id, String title, String toolbar,
+				boolean hasStyleBar, int menuOrder) {
+			super(id, title, toolbar, hasStyleBar, menuOrder);
+		}
+
+		@Override
+		protected JComponent loadComponent() {
+			// TODO Auto-generated method stub
+			return null;
+		}
+		
+	}
+	
+	boolean showHelpBar = false;
+	
+
+	JLabel lblTest = new JLabel();
+	private void toggleHelpBar(){
+		MyDockPanel dp = new MyDockPanel();
+		Toolbar myToolbar = new Toolbar(app, dp);
+		lblTest.setIcon(app.getModeIcon(app.getMode()));		
+		dp.setToolbarString("" +app.getMode());
+		myToolbar.buildGui();
+			
+		showHelpBar = !showHelpBar;
+		this.remove( ((BorderLayout)getLayout()).getLayoutComponent(app.borderWest()));
+		if(((BorderLayout)getLayout()).getLayoutComponent(BorderLayout.CENTER) != null)
+			this.remove( ((BorderLayout)getLayout()).getLayoutComponent(BorderLayout.CENTER));
+		if(showHelpBar){
+			this.add(myToolbar, app.borderWest());
+			this.add(getToolbarHelpPanel(), BorderLayout.CENTER);
+			this.revalidate();
+			updateHelpText();
+			toolbarHelpPanel.revalidate();
+			toolbarHelpPanel.repaint();
+		}else{
+			this.add(gluePanel, app.borderWest());
+			this.revalidate();
+		}
+		
+		
+		this.revalidate();
+		
+	}
+	
+	private JPanel buildToolbarHelpPanel(){
+		// mode label       		
+		modeNameLabel = new JLabel();
+		modeNameLabel.setAlignmentX(LEFT_ALIGNMENT);
+
+		// put into panel to 
+		if(toolbarHelpPanel == null) {
+			toolbarHelpPanel = new JPanel();
+			toolbarHelpPanel.setLayout(new BoxLayout(toolbarHelpPanel, BoxLayout.Y_AXIS));
+		} else {
+			toolbarHelpPanel.removeAll();
+		}
+
+		JPanel p = new JPanel(new BorderLayout());
+		p.add(modeNameLabel, app.borderWest());
+
+		if (isMain) {
+			JPanel p2 = new JPanel(new FlowLayout(FlowLayout.LEFT,0,0));
+			if (orientation == SwingConstants.EAST
+					|| orientation == SwingConstants.WEST) {
+				//p2.add(undoPanel);
+			}
+			p.add(p2,BorderLayout.EAST);
+
+		}
+
+		toolbarHelpPanel.add(Box.createVerticalGlue());
+		toolbarHelpPanel.add(modeNameLabel);
+		//toolbarHelpPanel.add(p);
+		toolbarHelpPanel.add(Box.createVerticalGlue());
+
+		Border insideBorder = BorderFactory.createEmptyBorder(2, 10, 2, 0);
+		Border outsideBorder = BorderFactory.createMatteBorder(0, 0, 0, 0, SystemColor.controlShadow);
+		toolbarHelpPanel.setBorder(BorderFactory.createCompoundBorder(outsideBorder, insideBorder));
+
+		return toolbarHelpPanel;			
+	}
+	
 	private JPanel getGridButtonPanel(){
 			
 		// undo button
@@ -281,18 +341,27 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 		btnHelp.setToolTipText(app.getMenuTooltip("Help"));
 		
 		// TODO: better help action ?
-		btnHelp.addActionListener(new HelpAction(app, app
-				.getImageIcon("help.png"), app.getMenu("Help"),
-				AbstractApplication.WIKI_MANUAL));
+	//	btnHelp.addActionListener(new HelpAction(app, app
+		//		.getImageIcon("help.png"), app.getMenu("Help"),
+			//	AbstractApplication.WIKI_MANUAL));
+		
+		btnHelp.addActionListener(new ActionListener(){
 
-		JPanel gridPanel = new JPanel(new GridLayout(2, 2));
+			public void actionPerformed(ActionEvent arg0) {
+				toggleHelpBar();
+				
+			}});
+
+		
+		
+		JPanel gridPanel = new JPanel(new GridLayout(1, 3));
 		if (app.isRightToLeftReadingOrder()) {
 			gridPanel.add(btnHelp);
-			gridPanel.add(btnProperties);
+			//gridPanel.add(btnProperties);
 			gridPanel.add(btnRedo);
 			gridPanel.add(btnUndo);
 		} else {
-			gridPanel.add(btnProperties);
+			//gridPanel.add(btnProperties);
 			gridPanel.add(btnHelp);
 			gridPanel.add(btnUndo);
 			gridPanel.add(btnRedo);
@@ -300,7 +369,8 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 		}
 
 		JPanel p = new JPanel(new BorderLayout());
-		p.add(gridPanel, BorderLayout.EAST);
+		p.add(gridPanel, BorderLayout.NORTH);
+		//p.add(OptionsUtil.flowPanelCenter(0, 0, 0, btnHelp));
 
 		return p;
 	}
@@ -477,7 +547,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 
 		// tooltip
 		modeNameLabel.setToolTipText(app.getToolTooltipHTML(mode));
-		toolbarHelpPanel.validate();
+		toolbarHelpPanel.revalidate();
 		
 	}
 
