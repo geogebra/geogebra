@@ -34,4 +34,18 @@ public interface AlgebraView extends View{
 
 	public Object getPathForLocation(int x, int y);//Object=TreePath
 	public Object getPathBounds(Object tp);//Object=Rectangle;Object=TreePath
+	
+	/**DEPENDENCY:
+	 * Tree mode where the objects are categorized by their dependency (free,
+	 * dependent, auxiliary) -- default value
+	 * TYPE:
+	 * Tree mode where the objects are categorized by their type (points,
+	 * circles, ..)
+	 * VIEW:
+	 * Tree mode where the objects are categorized by the view on which their
+	 * value is computed (xOyPlane, space, ...)
+	 * ORDER:
+	 * Construction Protocol order
+	 */
+	public static enum SortMode { DEPENDENCY, TYPE, VIEW, ORDER, LAYER }
 }

@@ -1,7 +1,7 @@
 package geogebra.gui.view.algebra;
 
+import geogebra.common.gui.view.algebra.AlgebraView.SortMode;
 import geogebra.gui.util.PopupMenuButton;
-import geogebra.gui.view.algebra.AlgebraTree.SortMode;
 import geogebra.main.Application;
 
 import java.awt.Color;
@@ -131,7 +131,7 @@ public class AlgebraHelperBar extends JToolBar implements ActionListener {
 		// }
 	}
 
-	private void buildMenu() {
+	void buildMenu() {
 
 		if (menu == null) {
 			menu = new JPopupMenu();

@@ -1,10 +1,9 @@
 package geogebra.gui.view.algebra;
 
+import geogebra.common.gui.view.algebra.AlgebraView.SortMode;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.main.AbstractApplication;
-import geogebra.gui.view.algebra.AlgebraTree.SortMode;
 import geogebra.main.Application;
 
 import java.awt.Color;

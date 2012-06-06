@@ -3983,14 +3983,12 @@ public abstract class GeoElement extends ConstructionElement implements
 	 */
 	public abstract String getTypeString();
 
-	/*
-	 * { // e.g. GeoPoint -> type = Point //return getClassName().substring(3);
-	 * }
-	 */
 	/**
+	 * overridden in GeoConicND
+	 * 
 	 * @return object type 
 	 */
-	final public String getObjectType() {
+	public String getTypeStringForAlgebraView() {
 		return getTypeString();
 	}
 
@@ -3999,6 +3997,13 @@ public abstract class GeoElement extends ConstructionElement implements
 	 */
 	public String translatedTypeString() {
 		return app.getPlain(getTypeString());
+	}
+
+	/**
+	 * @return localized type string for Algebra View
+	 */
+	public String translatedTypeStringForAlgebraView() {
+		return app.getPlain(getTypeStringForAlgebraView());
 	}
 
 	/**

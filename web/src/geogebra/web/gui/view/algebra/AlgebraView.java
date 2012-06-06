@@ -41,20 +41,6 @@ public class AlgebraView extends Tree implements LayerView, SetLabels, geogebra.
 
 	private static final long serialVersionUID = 1L;
 
-	/**DEPENDENCY:
-	 * Tree mode where the objects are categorized by their dependency (free,
-	 * dependent, auxiliary) -- default value
-	 * TYPE:
-	 * Tree mode where the objects are categorized by their type (points,
-	 * circles, ..)
-	 * VIEW:
-	 * Tree mode where the objects are categorized by the view on which their
-	 * value is computed (xOyPlane, space, ...)
-	 * ORDER:
-	 * Construction Protocol order
-	 */
-	public static enum SortMode { DEPENDENCY, TYPE, VIEW, ORDER, LAYER }
-
 	/**
 	 */
 	//public static final int MODE_VIEW = 2;
@@ -607,12 +593,12 @@ public class AlgebraView extends Tree implements LayerView, SetLabels, geogebra.
 			break;
 		case TYPE:
 			// get type node
-			String typeString = geo.getObjectType();
+			String typeString = geo.getTypeStringForAlgebraView();
 			parent = typeNodesMap.get(typeString);
 
 			// do we have to create the parent node?
 			if (parent == null) {
-				String transTypeString = geo.translatedTypeString();
+				String transTypeString = geo.translatedTypeStringForAlgebraView();
 				parent = new TreeItem(transTypeString);
 				typeNodesMap.put(typeString, parent);
 
@@ -855,7 +841,7 @@ public class AlgebraView extends Tree implements LayerView, SetLabels, geogebra.
 		// remove the type branch if there are no more children
 		switch (treeMode) {
 		case TYPE:
-			String typeString = ((GeoElement) node.getUserObject()).getObjectType();
+			String typeString = ((GeoElement) node.getUserObject()).getTypeStringForAlgebraView();
 			TreeItem parent = typeNodesMap.get(typeString);
 
 			// this has been the last node

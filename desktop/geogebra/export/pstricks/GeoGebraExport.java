@@ -290,7 +290,7 @@ public abstract class GeoGebraExport  {
 				drawImplicitPoly((GeoImplicitPoly) g);
 			}
 			// To draw Inequalities
-			else if (g.getObjectType().equals("FunctionNvar")) {
+			else if (g.getTypeString().equals("FunctionNvar")) {
 				drawGeoInequalities((GeoFunctionNVar) g);
 			}
 

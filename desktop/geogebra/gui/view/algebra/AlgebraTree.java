@@ -1,8 +1,10 @@
 package geogebra.gui.view.algebra;
 
+import geogebra.common.gui.view.algebra.AlgebraView.SortMode;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.euclidian.EuclidianView;
 import geogebra.main.Application;
 
 import java.util.HashMap;
@@ -53,21 +55,6 @@ public class AlgebraTree extends JTree {
 	 * Flag for LaTeX rendering
 	 */
 	final private static boolean renderLaTeX = true;
-	
-	/**DEPENDENCY:
-	 * Tree mode where the objects are categorized by their dependency (free,
-	 * dependent, auxiliary) -- default value
-	 * TYPE:
-	 * Tree mode where the objects are categorized by their type (points,
-	 * circles, ..)
-	 * VIEW:
-	 * Tree mode where the objects are categorized by the view on which their
-	 * value is computed (xOyPlane, space, ...)
-	 * ORDER:
-	 * Construction Protocol order
-	 */
-	public static enum SortMode { DEPENDENCY, TYPE, VIEW, ORDER, LAYER }
-
 	
 	
 	/** Creates new AlgebraView */
@@ -396,7 +383,7 @@ public class AlgebraTree extends JTree {
 	protected void removeFromModelForMode(DefaultMutableTreeNode node,
 			DefaultTreeModel model) {
 		
-		String typeString = ((GeoElement) node.getUserObject()).getObjectType();
+		String typeString = ((GeoElement) node.getUserObject()).getTypeStringForAlgebraView();
 		DefaultMutableTreeNode parent = typeNodesMap.get(typeString);
 
 		// this has been the last node
@@ -415,12 +402,14 @@ public class AlgebraTree extends JTree {
 		DefaultMutableTreeNode parent;
 
 		// get type node
-		String typeString = geo.getObjectType();
+		String typeString = geo.getTypeStringForAlgebraView();
+		
+		
 		parent = typeNodesMap.get(typeString);
 
 		// do we have to create the parent node?
 		if (parent == null) {
-			String transTypeString = geo.translatedTypeString();
+			String transTypeString = geo.translatedTypeStringForAlgebraView();
 			parent = new DefaultMutableTreeNode(transTypeString);
 			typeNodesMap.put(typeString, parent);
 

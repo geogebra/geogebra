@@ -608,7 +608,7 @@ public abstract class GgbAPI implements JavaScriptAPI{
 	 */
 	public synchronized String getObjectType(String objName) {
 		GeoElement geo = kernel.lookupLabel(objName);
-		return (geo == null) ? "" : StringUtil.toLowerCase(geo.getObjectType());
+		return (geo == null) ? "" : StringUtil.toLowerCase(geo.getTypeString());
 	}
 	
 	/**

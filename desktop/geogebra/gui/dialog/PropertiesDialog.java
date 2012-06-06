@@ -645,7 +645,7 @@ public class PropertiesDialog extends JDialog implements WindowListener,
 		 * returns geo's TreePath
 		 */
 		private TreePath getGeoPath(GeoElement geo) {
-			String typeString = geo.getObjectType();
+			String typeString = geo.getTypeString();
 			DefaultMutableTreeNode typeNode = typeNodesMap.get(typeString);
 			if (typeNode == null)
 				return null;
@@ -690,7 +690,7 @@ public class PropertiesDialog extends JDialog implements WindowListener,
 				return;
 
 			// get type node
-			String typeString = geo.getObjectType();
+			String typeString = geo.getTypeString();
 			DefaultMutableTreeNode typeNode = typeNodesMap.get(typeString);
 			GeoElementSpreadsheet ges = kernel
 					.getGeoElementSpreadsheet();
@@ -759,7 +759,7 @@ public class PropertiesDialog extends JDialog implements WindowListener,
 		public void remove(GeoElement geo, boolean binarySearch) {
 			// get type node
 			DefaultMutableTreeNode typeNode = typeNodesMap.get(geo
-					.getObjectType());
+					.getTypeString());
 			if (typeNode == null)
 				return;
 
@@ -776,7 +776,7 @@ public class PropertiesDialog extends JDialog implements WindowListener,
 
 				if (typeNode.getChildCount() == 0) {
 					// last child
-					typeNodesMap.remove(geo.getObjectType());
+					typeNodesMap.remove(geo.getTypeString());
 					treeModel.removeNodeFromParent(typeNode);
 				}
 			}
@@ -789,7 +789,7 @@ public class PropertiesDialog extends JDialog implements WindowListener,
 		 */
 		private TreePath getTreePath(GeoElement geo) {
 			DefaultMutableTreeNode typeNode = typeNodesMap.get(geo
-					.getObjectType());
+					.getTypeString());
 			if (typeNode == null)
 				return null;
 

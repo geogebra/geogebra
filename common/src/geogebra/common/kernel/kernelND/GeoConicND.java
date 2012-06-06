@@ -3466,4 +3466,11 @@ Translateable, GeoConicNDConstants,MatrixTransformable, PointRotateable,Region
 		return lastHitType;
 	}
 	
+	// make sure all Conics go in same group in AlgebraView
+	@Override
+	public String getTypeStringForAlgebraView() {
+		//return getTypeString();
+		return "Conic";                       
+	}
+	
 }
