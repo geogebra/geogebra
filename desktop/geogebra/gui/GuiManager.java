@@ -634,6 +634,8 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 		case AbstractApplication.VIEW_PROPERTIES:
 			attachPropertiesView();
 			break;
+		default: 
+			AbstractApplication.error("Error detaching VIEW: "+viewId);
 		}
 	}
 
@@ -665,7 +667,11 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 		case AbstractApplication.VIEW_ASSIGNMENT:
 			detachAssignmentView();
 			break;
-
+		case AbstractApplication.VIEW_PROPERTIES:
+			detachPropertiesView();
+			break;
+		default: 
+			AbstractApplication.error("Error detaching VIEW: "+viewId);
 		}
 	}
 
