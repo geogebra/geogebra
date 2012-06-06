@@ -90,9 +90,9 @@ public class GeoGebraMenubar extends MenuBar {
 			String email = getNativeEmailSet();
 			if (email.equals("")) {
 				c = createLoginCommand();
-				menuHtml = getMenuBarHtml(AppResources.INSTANCE.loginToGoogle().getSafeUri().asString(), "Login");
+				menuHtml = getMenuBarHtml(AppResources.INSTANCE.drive_icon_16().getSafeUri().asString(), "Login");
 			} else {
-				menuHtml =  getMenuBarHtml(AppResources.INSTANCE.loginToGoogle().getSafeUri().asString(), email);
+				menuHtml =  getMenuBarHtml(AppResources.INSTANCE.drive_icon_16().getSafeUri().asString(), email);
 				c = createLogOutCommand();
 			}
 			
@@ -121,7 +121,7 @@ public class GeoGebraMenubar extends MenuBar {
         }
 
 		String createMenuHtmlForNotSignedIn() {
-	        return getMenuBarHtml(AppResources.INSTANCE.loginToGoogle().getSafeUri().asString()
+	        return getMenuBarHtml(AppResources.INSTANCE.drive_icon_16().getSafeUri().asString()
 	        		, "Login to Google");
         }
 		
@@ -142,7 +142,7 @@ public class GeoGebraMenubar extends MenuBar {
 						
 						public void success(String responseText) {
 							JavaScriptObject answer = JSON.parse(responseText);
-							loginToGoogle.setHTML(getMenuBarHtml(AppResources.INSTANCE.loginToGoogle().getSafeUri().asString(), JSON.get(answer,"email")));
+							loginToGoogle.setHTML(getMenuBarHtml(AppResources.INSTANCE.drive_icon_16().getSafeUri().asString(), JSON.get(answer,"email")));
 							loginToGoogle.setCommand(createCommandForSignedIn());
 						}
 						
@@ -181,7 +181,7 @@ public class GeoGebraMenubar extends MenuBar {
 							
 							public void success(String responseText) {
 								JavaScriptObject answer = JSON.parse(responseText);
-								loginToGoogle.setHTML(getMenuBarHtml(AppResources.INSTANCE.loginToGoogle().getSafeUri().asString(),JSON.get(answer,"email")));
+								loginToGoogle.setHTML(getMenuBarHtml(AppResources.INSTANCE.drive_icon_16().getSafeUri().asString(),JSON.get(answer,"email")));
 								loginToGoogle.setCommand(createCommandForSignedIn());
 								Web.oaAsync.triggerLoginToGoogle(new AsyncCallback<Boolean>() {
 									

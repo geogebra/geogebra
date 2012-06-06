@@ -460,4 +460,7 @@ public interface AppResources extends ClientBundle {
 	
 	@Source("geogebra/web/gui/images/zoom16.gif")
 	ImageResource zoom16();
+	
+	@Source("geogebra/web/gui/images/drive_icon_16.png")
+	ImageResource drive_icon_16();
 }
