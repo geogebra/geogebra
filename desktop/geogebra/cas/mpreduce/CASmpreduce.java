@@ -109,7 +109,7 @@ public class CASmpreduce extends AbstractCASmpreduce {
 
 			return ret;
 		} catch (TimeoutException toe) {
-			throw new geogebra.cas.error.TimeoutException(toe.getMessage());
+			throw new geogebra.common.cas.error.TimeoutException(toe.getMessage());
 		} catch (Throwable e) {
 			System.err.println("evaluateMPReduce: " + e.getMessage());
 			return "?";

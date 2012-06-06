@@ -33,7 +33,7 @@ public class RowHeaderPopupMenu extends JPopupMenu implements ActionListener {
 	public RowHeaderPopupMenu(JList rowHeader, CASTable table) {
 		this.rowHeader = rowHeader;
 		this.table = table;
-		app = table.app;		
+		app = (Application)table.getApplication();		
 		initMenu();
 	}
 
@@ -111,7 +111,7 @@ public class RowHeaderPopupMenu extends JPopupMenu implements ActionListener {
 		
 		if (undoNeeded) {
 			// store undo info
-			table.app.storeUndoInfo();
+			table.getApplication().storeUndoInfo();
 		}
 	}
 }

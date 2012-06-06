@@ -26,9 +26,9 @@ public class CASTableCellRenderer extends CASTableCell implements
 
 			// update font and row height
 			if(((GeoCasCell) value).isUseAsText()){
-				setFont(view.getFont().deriveFont(((GeoCasCell) value).getFontStyle()));//, ((GeoCasCell) value).getFontSize()));
+				setFont(view.getCASViewComponent().getFont().deriveFont(((GeoCasCell) value).getFontStyle()));//, ((GeoCasCell) value).getFontSize()));
 			}else
-				setFont(view.getFont());
+				setFont(view.getCASViewComponent().getFont());
 			updateTableRowHeight(table, row);
 
 			// set inputPanel width to match table column width

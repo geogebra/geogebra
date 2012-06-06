@@ -46,26 +46,26 @@ public class RowContentPopupMenu extends JPopupMenu implements ActionListener {
 	}
 
 	private void initMenu() {
-		JMenuItem copyItem = new JMenuItem(table.app.getMenu("Copy"));
+		JMenuItem copyItem = new JMenuItem(table.getApplication().getMenu("Copy"));
 		copyItem.setActionCommand("copy");
 		copyItem.addActionListener(this);
 		add(copyItem);
 		addSeparator();
 
 		JMenuItem copyToLatexItem = new JMenuItem(
-				table.app.getMenu("CopyAsLaTeX"));
+				table.getApplication().getMenu("CopyAsLaTeX"));
 		copyToLatexItem.setActionCommand("copyAsLatex");
 		copyToLatexItem.addActionListener(this);
 		add(copyToLatexItem);
 		
 		JMenuItem copyToLibreOfficeItem = new JMenuItem(
-				table.app.getMenu("CopyAsLibreOfficeMath"));
+				table.getApplication().getMenu("CopyAsLibreOfficeMath"));
 		copyToLibreOfficeItem.setActionCommand("copyAsLibreOfficeMath");
 		copyToLibreOfficeItem.addActionListener(this);
 		add(copyToLibreOfficeItem);
 
 		JMenuItem copyToImageItem = new JMenuItem(
-				table.app.getMenu("CopyAsImage"));
+				table.getApplication().getMenu("CopyAsImage"));
 		copyToImageItem.setActionCommand("copyAsImage");
 		copyToImageItem.addActionListener(this);
 		add(copyToImageItem);
@@ -94,11 +94,12 @@ public class RowContentPopupMenu extends JPopupMenu implements ActionListener {
 			
 		}else if (ac.equals("copyAsImage")) {
 			ImageIcon latexIcon = new ImageIcon();
-			Font latexFont = new Font(table.app.getPlainFont().getName(),
-					table.app.getPlainFont().getStyle(), table.app
+			Application app = (Application)table.getApplication();
+			Font latexFont = new Font(app.getPlainFont().getName(),
+					app.getPlainFont().getStyle(), app
 							.getPlainFont().getSize() - 1);
 
-			table.app.getDrawEquation().drawLatexImageIcon(table.app,
+			app.getDrawEquation().drawLatexImageIcon(app,
 					latexIcon, value.getLaTeXOutput(), latexFont, false,
 					geogebra.awt.Color.getAwtColor(value.getAlgebraColor()), table.getBackground());
 

@@ -104,7 +104,7 @@ public class RowHeaderListener extends MouseAdapter implements KeyListener, List
 
 		if (undoNeeded) {
 			// store undo info
-			table.app.storeUndoInfo();
+			table.getApplication().storeUndoInfo();
 		}
 	}
 

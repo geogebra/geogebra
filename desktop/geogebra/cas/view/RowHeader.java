@@ -6,7 +6,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JList;
 import javax.swing.ListSelectionModel;
 
-public class RowHeader extends JList {
+public class RowHeader extends JList implements geogebra.common.cas.view.RowHeader {
 
 	private static final long serialVersionUID = 1L;
 

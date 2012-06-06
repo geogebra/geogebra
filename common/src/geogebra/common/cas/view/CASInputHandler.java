@@ -1,4 +1,4 @@
-package geogebra.cas.view;
+package geogebra.common.cas.view;
 
 import java.util.ArrayList;
 
@@ -272,7 +272,7 @@ public class CASInputHandler {
 		GeoCasCell cell = consoleTable.getGeoCasCell(current);
 		if(cell!=null){
 			cell.remove(true);
-			consoleTable.app.storeUndoInfo();
+			consoleTable.getApplication().storeUndoInfo();
 		}
 	}
 

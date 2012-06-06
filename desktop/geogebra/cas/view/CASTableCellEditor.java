@@ -18,7 +18,7 @@ import javax.swing.text.JTextComponent;
 
 //public class CASTableCellEditor extends DefaultCellEditor implements
 //		TableCellEditor {
-public class CASTableCellEditor extends CASTableCell implements TableCellEditor, KeyListener {
+public class CASTableCellEditor extends CASTableCell implements TableCellEditor, KeyListener, geogebra.common.cas.view.CASTableCellEditor {
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -49,7 +49,7 @@ public class CASTableCellEditor extends CASTableCell implements TableCellEditor,
 			setValue(cellValue);				
 							
 			// update font and row height
-			setFont(view.getFont());
+			setFont(view.getCASViewComponent().getFont());
 			updateTableRowHeight(table, row);				
 			
 			// Set width of editor to the width of the table column.

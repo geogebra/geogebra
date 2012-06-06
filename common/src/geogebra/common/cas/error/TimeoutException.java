@@ -1,4 +1,4 @@
-package geogebra.cas.error;
+package geogebra.common.cas.error;
 
 import geogebra.common.cas.CASException;
 
@@ -14,7 +14,10 @@ import geogebra.common.cas.CASException;
 public class TimeoutException extends CASException {
 
 	private static final long serialVersionUID = 1L;
-
+	/**
+	 * Creates new timeout exception
+	 * @param message exception message
+	 */
 	public TimeoutException(String message) {
 		super( message);
 	}

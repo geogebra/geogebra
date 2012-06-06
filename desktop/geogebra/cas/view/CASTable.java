@@ -45,7 +45,7 @@ import javax.swing.table.TableCellRenderer;
  * @author Quan
  * 
  */
-public class CASTable extends JTable {
+public class CASTable extends JTable implements geogebra.common.cas.view.CASTable{
 
 	private static final long serialVersionUID = 1L;
 	/** column of the table containing CAS cells */
@@ -60,7 +60,7 @@ public class CASTable extends JTable {
 	private CASTableModel tableModel;
 	private Kernel kernel;
 	/** application */
-	protected Application app;
+	private Application app;
 	private CASView view;
 
 	private CASTableCellEditor editor;
@@ -858,6 +858,10 @@ public class CASTable extends JTable {
 			
 		}
 		
+	}
+
+	public AbstractApplication getApplication() {
+		return app;
 	}
 
 }

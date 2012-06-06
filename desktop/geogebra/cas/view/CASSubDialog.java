@@ -86,7 +86,7 @@ public class CASSubDialog extends JDialog implements ActionListener {
 
 		createGUI();
 		pack();
-		setLocationRelativeTo(casView);
+		setLocationRelativeTo(casView.getCASViewComponent());
 	}
 
 	/**
