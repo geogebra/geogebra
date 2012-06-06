@@ -7,6 +7,13 @@ package geogebra.gui.layout;
  */
 public interface DockComponent {
 	
+
+
+	/**
+	 * minimum half size of a panel
+	 */
+	public static final int MIN_SIZE = 100;
+	
 	/**
 	 * 
 	 * @param prefix prefix to add

@@ -2498,6 +2498,7 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 		}
 
 		public void setComboLabels() {
+			intervalCombo.removeActionListener(this);
 			intervalCombo.removeAllItems();
 
 			if (hasOrientation) {
@@ -2512,6 +2513,7 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 				intervalCombo.addItem(app.getPlain("AandB",
 						GeoAngle.INTERVAL_MIN[2], GeoAngle.INTERVAL_MAX[2]));
 			}
+			intervalCombo.addActionListener(this);
 		}
 
 		public JPanel update(Object[] geos) {

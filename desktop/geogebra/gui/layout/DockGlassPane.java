@@ -1,5 +1,7 @@
 package geogebra.gui.layout;
 
+import geogebra.common.main.AbstractApplication;
+
 import java.awt.AWTEvent;
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -35,6 +37,14 @@ public class DockGlassPane extends JPanel implements AWTEventListener {
 
 	private DnDState dndState;
 	private Rectangle previewRect = new Rectangle();
+	
+
+	private Color color;
+	
+	private static final Color COLOR_DEFAULT = Color.gray;
+	private static final Color COLOR_NOT_ENOUGH_SPACE = COLOR_DEFAULT;//Color.red;
+	private static final Color COLOR_SAME_PLACE = Color.white;
+	
 
 	public DockGlassPane(DockManager dockManager) {
 		this.dockManager = dockManager;
@@ -126,8 +136,8 @@ public class DockGlassPane extends JPanel implements AWTEventListener {
 		Graphics2D g2d = (Graphics2D) g;
 
 		g2d.setStroke(stroke);
-		g2d.setColor(Color.gray);
-
+		g2d.setColor(color);
+		
 		// draw the preview rectangle
 		g2d.drawRect(
 			previewRect.x,
@@ -135,6 +145,17 @@ public class DockGlassPane extends JPanel implements AWTEventListener {
 			previewRect.width,
 			previewRect.height
 		);
+	}
+	
+	
+	private void setColorEnoughHeight(DockPanel target){
+		if (target.getHeight()<DockComponent.MIN_SIZE*2)
+			color = COLOR_NOT_ENOUGH_SPACE;
+	}
+
+	private void setColorEnoughWidth(DockPanel target){
+		if(target.getWidth()<DockComponent.MIN_SIZE*2)
+			color = COLOR_NOT_ENOUGH_SPACE;
 	}
 
 	/**
@@ -179,11 +200,14 @@ public class DockGlassPane extends JPanel implements AWTEventListener {
 			previewRect.setLocation(targetAbsPosition);
 			previewRect.setSize(target.getSize());
 			
+			color = COLOR_DEFAULT;
+			
 			// calculate the preview rectangle
 			if(orientation == JSplitPane.VERTICAL_SPLIT) {
 				if(leftPercent < maxDist) {
 					if(leftPercent < maxDist / 2) {
 						dndState.setRegion(DnDState.LEFT_OUT);
+						setColorEnoughWidth(target);
 						
 						DockSplitPane splitPane = (DockSplitPane)target.getParent();
 						previewRect.setLocation(SwingUtilities.convertPoint(splitPane.getParent(), splitPane.getLocation(), this));
@@ -191,11 +215,14 @@ public class DockGlassPane extends JPanel implements AWTEventListener {
 						previewRect.height = splitPane.getHeight();
 					} else {
 						dndState.setRegion(DnDState.LEFT);
+						setColorEnoughWidth(target);
+						
 						previewRect.width *= maxDist;
 					}
 				} else if(leftPercent > 1 - maxDist) {
 					if(leftPercent > 1 - maxDist / 2) {
 						dndState.setRegion(DnDState.RIGHT_OUT);
+						setColorEnoughWidth(target);
 						
 						DockSplitPane splitPane = (DockSplitPane)target.getParent();
 						previewRect.setLocation(SwingUtilities.convertPoint(splitPane.getParent(), splitPane.getLocation(), this));
@@ -204,6 +231,7 @@ public class DockGlassPane extends JPanel implements AWTEventListener {
 						previewRect.height = splitPane.getHeight();
 					} else {
 						dndState.setRegion(DnDState.RIGHT);
+						setColorEnoughWidth(target);
 						
 						previewRect.x += previewRect.width * (1 - maxDist);
 						previewRect.width *= maxDist;
@@ -211,19 +239,27 @@ public class DockGlassPane extends JPanel implements AWTEventListener {
 				} else {
 					if(topPercent < 0.5) {
 						dndState.setRegion(DnDState.TOP);
+						setColorEnoughHeight(target);
 						
 						previewRect.height *= 0.5f;
 					} else {
 						dndState.setRegion(DnDState.BOTTOM);
+						setColorEnoughHeight(target);
 						
 						previewRect.y += previewRect.height * 0.5f;
 						previewRect.height *= 0.5f;
 					}
 				}
+				
+				
+				
+				
+				
 			} else {
 				if(topPercent < maxDist) {
 					if(topPercent < maxDist / 2) {
 						dndState.setRegion(DnDState.TOP_OUT);
+						setColorEnoughHeight(target);
 						
 						DockSplitPane splitPane = (DockSplitPane)target.getParent();
 						previewRect.setLocation(SwingUtilities.convertPoint(splitPane.getParent(), splitPane.getLocation(), this));
@@ -231,12 +267,14 @@ public class DockGlassPane extends JPanel implements AWTEventListener {
 						previewRect.width = splitPane.getWidth();
 					} else {
 						dndState.setRegion(DnDState.TOP);
+						setColorEnoughHeight(target);
 						
 						previewRect.height *= maxDist;
 					}
 				} else if(topPercent > 1 - maxDist) {
 					if(topPercent > 1 - maxDist / 2) {
 						dndState.setRegion(DnDState.BOTTOM_OUT);
+						setColorEnoughHeight(target);
 						
 						DockSplitPane splitPane = (DockSplitPane)target.getParent();
 						previewRect.setLocation(SwingUtilities.convertPoint(splitPane.getParent(), splitPane.getLocation(), this));
@@ -245,6 +283,7 @@ public class DockGlassPane extends JPanel implements AWTEventListener {
 						previewRect.width = splitPane.getWidth();
 					} else {
 						dndState.setRegion(DnDState.BOTTOM);
+						setColorEnoughHeight(target);
 						
 						previewRect.y += previewRect.height * (1-maxDist);
 						previewRect.height *= maxDist;
@@ -252,21 +291,26 @@ public class DockGlassPane extends JPanel implements AWTEventListener {
 				} else {
 					if(leftPercent < 0.5) {
 						dndState.setRegion(DnDState.LEFT);
+						setColorEnoughWidth(target);
 						
 						previewRect.width *= 0.5f;
 					} else {
 						dndState.setRegion(DnDState.RIGHT);
+						setColorEnoughWidth(target);
 						
 						previewRect.x += previewRect.width * 0.5f;
 						previewRect.width *= 0.5f;
 					}
 				}
+				
 			}
 			
 			// nothing changed
 			if(target == dndState.getSource() && !dndState.isRegionOut()) {
 				previewRect.setSize(target.getSize());
 				previewRect.setLocation(targetAbsPosition);
+				
+				color = COLOR_SAME_PLACE;
 			}
 			
 			previewRect.x += (int)(Math.ceil(stroke.getLineWidth() / 2));

@@ -212,11 +212,14 @@ public class DockSplitPane extends JSplitPane implements DockComponent{
 	
 
 	public void saveDividerLocation(){
+		
 		if (getOrientation()==JSplitPane.VERTICAL_SPLIT){
-			savedDividerLocation = getLeftComponent().getHeight();
+			if (getLeftComponent() != null)
+				savedDividerLocation = getLeftComponent().getHeight();
 			savedSize = getHeight();
 		}else{
-			savedDividerLocation = getLeftComponent().getWidth();
+			if (getLeftComponent() != null)
+				savedDividerLocation = getLeftComponent().getWidth();
 			savedSize = getWidth();
 		}
 		
@@ -253,16 +256,18 @@ public class DockSplitPane extends JSplitPane implements DockComponent{
 			propagateDividerLocation(size, size, orientation1);
 		
 	}
-
-	private static final int MIN_LOCATION = 100;
 	
 	private static int checkLocation(int location, int size){
 
-		if (location<MIN_LOCATION)
-			return MIN_LOCATION;
+		int min = MIN_SIZE;
+		if (min>size/2)
+			min=size/2;
 		
-		if (location>size-MIN_LOCATION)
-			return size-MIN_LOCATION;
+		if (location<min)
+			return min;
+		
+		if (location>size-min)
+			return size-min;
 		
 		return location;
 	}
