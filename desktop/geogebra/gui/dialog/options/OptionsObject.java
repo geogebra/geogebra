@@ -352,8 +352,9 @@ public class OptionsObject extends JPanel implements OptionPanel, SetLabels {
 				title = geo.getNameDescription();
 			}
 			return app.getPlain("PropertiesOfA",title);
-		}else
+		} else {
 			return app.getPlain("PropertiesOfA",app.getPlain("Selection"));
+		}
 	}
 	
 	public void updateOneGeoDefinition(GeoElement geo) {
