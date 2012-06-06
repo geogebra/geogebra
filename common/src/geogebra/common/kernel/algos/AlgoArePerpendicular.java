@@ -149,8 +149,8 @@ public class AlgoArePerpendicular extends AlgoElement implements
 		if (inputLine1 != null && inputLine2 != null) {
 			Variable[] v1 = new Variable[4];
 			Variable[] v2 = new Variable[4];
-			v1 = ((SymbolicParametersBotanaAlgo) inputLine1).getBotanaVars(); // (a1,a2,b1,b2)
-			v2 = ((SymbolicParametersBotanaAlgo) inputLine2).getBotanaVars(); // (c1,c2,d1,d2)
+			v1 = ((SymbolicParametersBotanaAlgo) inputLine1).getBotanaVars(inputLine1); // (a1,a2,b1,b2)
+			v2 = ((SymbolicParametersBotanaAlgo) inputLine2).getBotanaVars(inputLine2); // (c1,c2,d1,d2)
 			
 			botanaPolynomials = new Polynomial[1][1];
 			botanaPolynomials[0][0] = Polynomial.perpendicular(v1[0], v1[1], v1[2], v1[3], v2[0], v2[1], v2[2], v2[3]);

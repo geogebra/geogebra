@@ -1676,12 +1676,12 @@ public class GeoPolygon extends GeoElement implements NumberValue, Path,
 		interiorPoint = point;
 	}
 
-	public Variable[] getBotanaVars() {
+	public Variable[] getBotanaVars(GeoElement geo) {
 		// It's OK to return null here:
 		return null;
 	}
 
-	public Polynomial[] getBotanaPolynomials()
+	public Polynomial[] getBotanaPolynomials(GeoElement geo)
 			throws NoSymbolicParametersException {
 		// It's OK to return null here:
 		return null;

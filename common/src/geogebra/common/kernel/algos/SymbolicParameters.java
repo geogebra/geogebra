@@ -215,8 +215,8 @@ public class SymbolicParameters {
 		Variable[] botanaVars = new Variable[4];
 		Variable[] line1vars = new Variable[2];
 		Variable[] line2vars = new Variable[2];
-		line1vars = ((SymbolicParametersBotanaAlgo) input[0]).getBotanaVars();
-		line2vars = ((SymbolicParametersBotanaAlgo) input[1]).getBotanaVars();
+		line1vars = ((SymbolicParametersBotanaAlgo) input[0]).getBotanaVars(input[0]);
+		line2vars = ((SymbolicParametersBotanaAlgo) input[1]).getBotanaVars(input[1]);
 		botanaVars[0] = line1vars[0];
 		botanaVars[1] = line1vars[1];
 		botanaVars[2] = line2vars[0];
@@ -233,8 +233,8 @@ public class SymbolicParameters {
 	 */
 	public static Polynomial[] botanaPolynomialsMidpoint(GeoElement P, GeoElement Q,
 			Variable[] botanaVars) {
-		Variable[] fv1 = ((SymbolicParametersBotanaAlgo) P).getBotanaVars();
-		Variable[] fv2 = ((SymbolicParametersBotanaAlgo) Q).getBotanaVars();
+		Variable[] fv1 = ((SymbolicParametersBotanaAlgo) P).getBotanaVars(P);
+		Variable[] fv2 = ((SymbolicParametersBotanaAlgo) Q).getBotanaVars(Q);
 		Polynomial[] botanaPolynomials = new Polynomial[2];
 		// 2*m1-a1-b1, 2*m2-a2-b2
 		botanaPolynomials[0] = (new Polynomial(2)).multiply(new Polynomial(botanaVars[0])).

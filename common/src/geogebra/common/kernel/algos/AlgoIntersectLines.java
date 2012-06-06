@@ -186,11 +186,11 @@ public class AlgoIntersectLines extends AlgoIntersectAbstract implements Symboli
 		throw new NoSymbolicParametersException();
 	}
 
-	public Variable[] getBotanaVars() {
+	public Variable[] getBotanaVars(GeoElement geo) {
 		return botanaVars;
 	}
 
-	public Polynomial[] getBotanaPolynomials() throws NoSymbolicParametersException {
+	public Polynomial[] getBotanaPolynomials(GeoElement geo) throws NoSymbolicParametersException {
 		if (botanaPolynomials != null) {
 			return botanaPolynomials;
 		}
@@ -201,10 +201,10 @@ public class AlgoIntersectLines extends AlgoIntersectAbstract implements Symboli
 				botanaVars[0]=new Variable();
 				botanaVars[1]=new Variable();
 			}
-			Variable[] fv = g.getBotanaVars();
+			Variable[] fv = g.getBotanaVars(g);
 			botanaPolynomials = new Polynomial[2];
 			botanaPolynomials[0] = Polynomial.collinear(fv[0], fv[1], fv[2], fv[3], botanaVars[0], botanaVars[1]); 
-			fv = h.getBotanaVars();
+			fv = h.getBotanaVars(h);
 			botanaPolynomials[1] = Polynomial.collinear(fv[0], fv[1], fv[2], fv[3], botanaVars[0], botanaVars[1]); 
 					
 			return botanaPolynomials;

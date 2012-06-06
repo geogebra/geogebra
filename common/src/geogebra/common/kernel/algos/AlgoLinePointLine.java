@@ -188,21 +188,21 @@ public class AlgoLinePointLine extends AlgoElement implements SymbolicParameters
 		throw new NoSymbolicParametersException();
 	}
 
-	public Variable[] getBotanaVars() {
+	public Variable[] getBotanaVars(GeoElement geo) {
 		return botanaVars;
 	}
 
-	public Polynomial[] getBotanaPolynomials()
+	public Polynomial[] getBotanaPolynomials(GeoElement geo)
 			throws NoSymbolicParametersException {
 
 		if (botanaPolynomials != null) {
 			return botanaPolynomials;
 		}
 		if (P != null && l != null){
-			Variable[] vP = P.getBotanaVars(); // c1,c2
+			Variable[] vP = P.getBotanaVars(P); // c1,c2
 			Polynomial c1 = new Polynomial(vP[0]);
 			Polynomial c2 = new Polynomial(vP[1]);
-			Variable[] vL = l.getBotanaVars(); // a1,a2,b1,b2
+			Variable[] vL = l.getBotanaVars(l); // a1,a2,b1,b2
 			Polynomial a1 = new Polynomial(vL[0]);
 			Polynomial a2 = new Polynomial(vL[1]);
 			Polynomial b1 = new Polynomial(vL[2]);

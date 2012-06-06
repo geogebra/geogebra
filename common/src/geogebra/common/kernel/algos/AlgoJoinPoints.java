@@ -173,14 +173,14 @@ public class AlgoJoinPoints extends AlgoElement implements SymbolicParametersAlg
 		throw new NoSymbolicParametersException();
 	}
 
-	public Variable[] getBotanaVars() {
+	public Variable[] getBotanaVars(GeoElement geo) {
 		if (botanaVars != null)
 			return botanaVars;
 		botanaVars = SymbolicParameters.addBotanaVarsJoinPoints(input);
 		return botanaVars;
 	}
 
-	public Polynomial[] getBotanaPolynomials()
+	public Polynomial[] getBotanaPolynomials(GeoElement geo)
 			throws NoSymbolicParametersException {
 		// It's OK, polynomials for lines are only created when a third point is lying on them, too:
 		return null;

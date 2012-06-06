@@ -874,17 +874,17 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 		throw new NoSymbolicParametersException();
 	}
 
-	public Variable[] getBotanaVars() {
+	public Variable[] getBotanaVars(GeoElement geo) {
 		if (algoParent != null
 				&& algoParent instanceof SymbolicParametersBotanaAlgo) {
-			return ((SymbolicParametersBotanaAlgo) algoParent).getBotanaVars();
+			return ((SymbolicParametersBotanaAlgo) algoParent).getBotanaVars(this);
 		}
 		return null;
 	}
 	
-	public Polynomial[] getBotanaPolynomials() throws NoSymbolicParametersException  {
+	public Polynomial[] getBotanaPolynomials(GeoElement geo) throws NoSymbolicParametersException  {
 		if (algoParent != null && algoParent instanceof SymbolicParametersBotanaAlgo) {
-		return ((SymbolicParametersBotanaAlgo) algoParent).getBotanaPolynomials();
+		return ((SymbolicParametersBotanaAlgo) algoParent).getBotanaPolynomials(this);
 		}
 	throw new NoSymbolicParametersException();
 	}

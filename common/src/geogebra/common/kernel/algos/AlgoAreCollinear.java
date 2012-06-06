@@ -171,9 +171,9 @@ public class AlgoAreCollinear extends AlgoElement implements SymbolicParametersA
 			Variable[] fv1 = new Variable[2];
 			Variable[] fv2 = new Variable[2];
 			Variable[] fv3 = new Variable[2];
-			fv1 = inputPoint1.getBotanaVars();
-			fv2 = inputPoint2.getBotanaVars();
-			fv3 = inputPoint3.getBotanaVars();
+			fv1 = inputPoint1.getBotanaVars(inputPoint1);
+			fv2 = inputPoint2.getBotanaVars(inputPoint2);
+			fv3 = inputPoint3.getBotanaVars(inputPoint3);
 
 			botanaPolynomials = new Polynomial[1][1];
 			botanaPolynomials[0][0] = Polynomial.collinear(fv1[0], fv1[1], fv2[0], fv2[1], fv3[0], fv3[1]); 

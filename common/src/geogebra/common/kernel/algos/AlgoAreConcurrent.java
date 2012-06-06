@@ -190,9 +190,9 @@ public class AlgoAreConcurrent extends AlgoElement implements SymbolicParameters
 		if (inputLine1 != null && inputLine2 != null && inputLine3 != null) {
 			
 			Variable[][] v = new Variable[3][4];
-			v[0] = inputLine1.getBotanaVars();
-			v[1] = inputLine2.getBotanaVars();
-			v[2] = inputLine3.getBotanaVars();
+			v[0] = inputLine1.getBotanaVars(inputLine1);
+			v[1] = inputLine2.getBotanaVars(inputLine2);
+			v[2] = inputLine3.getBotanaVars(inputLine3);
 			
 			Variable[] nv = new Variable[2]; // new point for collinearity
 			nv[0]=new Variable();

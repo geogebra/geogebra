@@ -184,11 +184,11 @@ public class AlgoMidpointSegment extends AlgoElement implements SymbolicParamete
 		throw new NoSymbolicParametersException();
 	}
     
-	public Variable[] getBotanaVars() {
+	public Variable[] getBotanaVars(GeoElement geo) {
 		return botanaVars;
 	}
 
-	public Polynomial[] getBotanaPolynomials() throws NoSymbolicParametersException {
+	public Polynomial[] getBotanaPolynomials(GeoElement geo) throws NoSymbolicParametersException {
 		if (botanaPolynomials != null) {
 			return botanaPolynomials;
 		}

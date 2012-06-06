@@ -185,8 +185,8 @@ public class AlgoAreEqual extends AlgoElement implements
 
 			Variable[] v1 = new Variable[2];
 			Variable[] v2 = new Variable[2];
-			v1 = ((GeoPoint2) inputElement1).getBotanaVars(); // A=(x1,y1)
-			v2 = ((GeoPoint2) inputElement2).getBotanaVars(); // B=(x2,y2)
+			v1 = ((GeoPoint2) inputElement1).getBotanaVars(inputElement1); // A=(x1,y1)
+			v2 = ((GeoPoint2) inputElement2).getBotanaVars(inputElement2); // B=(x2,y2)
 
 			// We want to prove: 1) x1-x2==0, 2) y1-y2==0
 			botanaPolynomials[0][0] = new Polynomial(v1[0]).subtract(new Polynomial(v2[0])); 
@@ -201,8 +201,8 @@ public class AlgoAreEqual extends AlgoElement implements
 
 			Variable[] v1 = new Variable[4];
 			Variable[] v2 = new Variable[4];
-			v1 = ((GeoSegment) inputElement1).getBotanaVars(); // AB
-			v2 = ((GeoSegment) inputElement2).getBotanaVars(); // CD
+			v1 = ((GeoSegment) inputElement1).getBotanaVars(inputElement1); // AB
+			v2 = ((GeoSegment) inputElement2).getBotanaVars(inputElement2); // CD
 
 			// We want to prove: d(AB)=d(CD) => (a1-b1)^2+(a2-b2)^2=(c1-d1)^2+(c2-d2)^2
 			// => (a1-b1)^2+(a2-b2)^2-(c1-d1)^2-(c2-d2)^2
@@ -226,8 +226,8 @@ public class AlgoAreEqual extends AlgoElement implements
 
 			Variable[] v1 = new Variable[4];
 			Variable[] v2 = new Variable[4];
-			v1 = ((GeoLine) inputElement1).getBotanaVars(); // AB
-			v2 = ((GeoLine) inputElement2).getBotanaVars(); // CD
+			v1 = ((GeoLine) inputElement1).getBotanaVars(inputElement1); // AB
+			v2 = ((GeoLine) inputElement2).getBotanaVars(inputElement2); // CD
 
 			// We want to prove: 1) ABC collinear, 2) ABD collinear
 			botanaPolynomials[0][0] = Polynomial.collinear(v1[0], v1[1], v1[2], v1[3], v2[0], v2[1]); 

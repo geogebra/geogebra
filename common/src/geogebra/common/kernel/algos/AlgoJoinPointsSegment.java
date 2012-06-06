@@ -198,14 +198,14 @@ public class AlgoJoinPointsSegment extends AlgoElement implements AlgoJoinPoints
 		return app.getPlain("SegmentAB",P.getLabel(tpl),Q.getLabel(tpl));
     }
 
-	public Variable[] getBotanaVars() {
+	public Variable[] getBotanaVars(GeoElement geo) {
 		if (botanaVars != null)
 			return botanaVars;
 		botanaVars = SymbolicParameters.addBotanaVarsJoinPoints(input);
 		return botanaVars;
 	}
 
-	public Polynomial[] getBotanaPolynomials()
+	public Polynomial[] getBotanaPolynomials(GeoElement geo)
 			throws NoSymbolicParametersException {
 		// It's OK, polynomials for lines/segments are only created when a third point is lying on them, too:
 		return null;

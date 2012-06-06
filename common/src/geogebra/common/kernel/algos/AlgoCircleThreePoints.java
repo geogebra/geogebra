@@ -282,11 +282,11 @@ public class AlgoCircleThreePoints extends AlgoElement implements SymbolicParame
 				C.getLabel(tpl));
 	}
 
-	public Variable[] getBotanaVars() {
+	public Variable[] getBotanaVars(GeoElement geo) {
 		return botanaVars;
 	}
 
-	public Polynomial[] getBotanaPolynomials()
+	public Polynomial[] getBotanaPolynomials(GeoElement geo)
 			throws NoSymbolicParametersException {
 
 		if (botanaPolynomials != null) {
@@ -296,7 +296,7 @@ public class AlgoCircleThreePoints extends AlgoElement implements SymbolicParame
 		Variable[] circle1vars = new Variable[2];
 		Variable[] circle2vars = new Variable[2];
 		Variable[] circle3vars = new Variable[2];
-		circle1vars = ((SymbolicParametersBotanaAlgo) input[0]).getBotanaVars();
+		circle1vars = ((SymbolicParametersBotanaAlgo) input[0]).getBotanaVars(input[0]);
 		
 		if (botanaVars == null) {
 			botanaVars = new Variable[4];
@@ -308,8 +308,8 @@ public class AlgoCircleThreePoints extends AlgoElement implements SymbolicParame
 			botanaVars[3] = circle1vars[1];
 		}
 		Variable[] centerVars = {botanaVars[0], botanaVars[1]};
-		circle2vars = ((SymbolicParametersBotanaAlgo) input[1]).getBotanaVars();
-		circle3vars = ((SymbolicParametersBotanaAlgo) input[2]).getBotanaVars();
+		circle2vars = ((SymbolicParametersBotanaAlgo) input[1]).getBotanaVars(input[1]);
+		circle3vars = ((SymbolicParametersBotanaAlgo) input[2]).getBotanaVars(input[2]);
 
 		botanaPolynomials = new Polynomial[2];
 		// AO=OB

@@ -232,7 +232,7 @@ public class AlgoPointOnPath extends AlgoElement implements PathAlgo, SymbolicPa
 		throw new NoSymbolicParametersException();
 	}
 	
-	public Polynomial[] getBotanaPolynomials() throws NoSymbolicParametersException {
+	public Polynomial[] getBotanaPolynomials(GeoElement geo) throws NoSymbolicParametersException {
 		if (botanaPolynomials != null) {
 			return botanaPolynomials;
 		}
@@ -243,7 +243,7 @@ public class AlgoPointOnPath extends AlgoElement implements PathAlgo, SymbolicPa
 				botanaVars[0]=new Variable();
 				botanaVars[1]=new Variable();
 			}
-			Variable[] fv = ((SymbolicParametersBotanaAlgo) input[0]).getBotanaVars(); // 4 variables
+			Variable[] fv = ((SymbolicParametersBotanaAlgo) input[0]).getBotanaVars(input[0]); // 4 variables
 			botanaPolynomials = new Polynomial[1];
 			botanaPolynomials[0] = Polynomial.collinear(fv[0], fv[1], fv[2], fv[3], botanaVars[0], botanaVars[1]);
 			return botanaPolynomials;
@@ -256,7 +256,7 @@ public class AlgoPointOnPath extends AlgoElement implements PathAlgo, SymbolicPa
 					botanaVars[0]=new Variable();
 					botanaVars[1]=new Variable();
 				}
-				Variable[] fv = ((SymbolicParametersBotanaAlgo) input[0]).getBotanaVars(); // 4 variables
+				Variable[] fv = ((SymbolicParametersBotanaAlgo) input[0]).getBotanaVars(input[0]); // 4 variables
 				botanaPolynomials = new Polynomial[1];
 				// If this new point is D, and ABC is already a triangle with the circumcenter O,
 				// then here we must claim that e.g. AO=OD:
@@ -269,7 +269,7 @@ public class AlgoPointOnPath extends AlgoElement implements PathAlgo, SymbolicPa
 		throw new NoSymbolicParametersException();
 	}
 
-	public Variable[] getBotanaVars() {
+	public Variable[] getBotanaVars(GeoElement geo) {
 		return botanaVars;
 	}
 }

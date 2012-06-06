@@ -193,7 +193,7 @@ public class AlgoLineBisectorSegment extends AlgoElement implements
 		throw new NoSymbolicParametersException();
 	}
     
-	public Variable[] getBotanaVars() {
+	public Variable[] getBotanaVars(GeoElement geo) {
 		return botanaVars;
 	}
 
@@ -201,14 +201,14 @@ public class AlgoLineBisectorSegment extends AlgoElement implements
 	 * (non-Javadoc)
 	 * @see geogebra.common.kernel.algos.SymbolicParametersBotanaAlgo#getBotanaPolynomials()
 	 */
-	public Polynomial[] getBotanaPolynomials()
+	public Polynomial[] getBotanaPolynomials(GeoElement geo)
 			throws NoSymbolicParametersException {
 
 		if (botanaPolynomials != null) {
 			return botanaPolynomials;
 		}
 		if (s != null){
-			Variable[] v = s.getBotanaVars(); // A, B
+			Variable[] v = s.getBotanaVars(s); // A, B
 			
 			if (botanaVars==null){
 				botanaVars = new Variable[4]; // storing 4 new variables (C, D)

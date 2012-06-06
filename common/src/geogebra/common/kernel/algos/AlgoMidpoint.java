@@ -19,6 +19,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.kernelND.AlgoMidpointND;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -148,11 +149,11 @@ public class AlgoMidpoint extends AlgoMidpointND implements SymbolicParametersAl
 		throw new NoSymbolicParametersException();
 	}
 
-	public Variable[] getBotanaVars() {
+	public Variable[] getBotanaVars(GeoElement geo) {
 		return botanaVars;
 	}
 
-	public Polynomial[] getBotanaPolynomials() throws NoSymbolicParametersException {
+	public Polynomial[] getBotanaPolynomials(GeoElement geo) throws NoSymbolicParametersException {
 		if (botanaPolynomials != null) {
 			return botanaPolynomials;
 		}

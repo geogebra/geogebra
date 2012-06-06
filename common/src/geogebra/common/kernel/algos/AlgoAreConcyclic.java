@@ -304,10 +304,10 @@ public class AlgoAreConcyclic extends AlgoElement implements
 			return botanaPolynomials;
 		}
 		if (inputPoint1 != null && inputPoint2 != null && inputPoint3 != null && inputPoint4 != null) {
-			Variable[] coords1 = inputPoint1.getBotanaVars();
-			Variable[] coords2 = inputPoint2.getBotanaVars();
-			Variable[] coords3 = inputPoint3.getBotanaVars();
-			Variable[] coords4 = inputPoint4.getBotanaVars();
+			Variable[] coords1 = inputPoint1.getBotanaVars(inputPoint1);
+			Variable[] coords2 = inputPoint2.getBotanaVars(inputPoint2);
+			Variable[] coords3 = inputPoint3.getBotanaVars(inputPoint3);
+			Variable[] coords4 = inputPoint4.getBotanaVars(inputPoint4);
 			botanaPolynomials = new Polynomial[1][1];
 			Polynomial[][] matrix=new Polynomial[4][4];
 

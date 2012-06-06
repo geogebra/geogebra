@@ -82,9 +82,9 @@ public class ProverBotanasMethod {
 							// Only the significantly new triplets will be processed:
 							if (!triplets.contains(triplet)) {
 								triplets.add(triplet);
-								Variable[] fv1 = ((SymbolicParametersBotanaAlgo)geo1).getBotanaVars();
-								Variable[] fv2 = ((SymbolicParametersBotanaAlgo)geo2).getBotanaVars();
-								Variable[] fv3 = ((SymbolicParametersBotanaAlgo)geo3).getBotanaVars();
+								Variable[] fv1 = ((SymbolicParametersBotanaAlgo)geo1).getBotanaVars(geo1);
+								Variable[] fv2 = ((SymbolicParametersBotanaAlgo)geo2).getBotanaVars(geo2);
+								Variable[] fv3 = ((SymbolicParametersBotanaAlgo)geo3).getBotanaVars(geo3);
 								// Creating the polynomial for collinearity:
 								Polynomial p = Polynomial.collinear(fv1[0], fv1[1],
 										fv2[0], fv2[1], fv3[0], fv3[1]);
@@ -127,7 +127,8 @@ public class ProverBotanasMethod {
 		Iterator<GeoElement> it = freePoints.iterator();
 		int i = 0;
 		while (it.hasNext() && i<2) {
-			Variable[] fv = ((SymbolicParametersBotanaAlgo) it.next()).getBotanaVars();
+			GeoElement geo = it.next();
+			Variable[] fv = ((SymbolicParametersBotanaAlgo) geo).getBotanaVars(geo);
 			if (i==0) {
 				ret.put(fv[0], 0);
 				ret.put(fv[1], 0);
@@ -157,7 +158,7 @@ public class ProverBotanasMethod {
 			// AbstractApplication.debug(geo);
 			if (geo instanceof SymbolicParametersBotanaAlgo) {
 				try {
-					Polynomial[] geoPolys = ((SymbolicParametersBotanaAlgo) geo).getBotanaPolynomials();
+					Polynomial[] geoPolys = ((SymbolicParametersBotanaAlgo) geo).getBotanaPolynomials(geo);
 					if (geoPolys != null) {
 						int nHypotheses = 0;
 						if (hypotheses != null)

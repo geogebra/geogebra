@@ -187,19 +187,19 @@ SymbolicParametersBotanaAlgo {
 		throw new NoSymbolicParametersException();
 	}
 
-	public Variable[] getBotanaVars() {
+	public Variable[] getBotanaVars(GeoElement geo) {
 		return botanaVars;
 	}
 
-	public Polynomial[] getBotanaPolynomials()
+	public Polynomial[] getBotanaPolynomials(GeoElement geo)
 			throws NoSymbolicParametersException {
 
 		if (botanaPolynomials != null) {
 			return botanaPolynomials;
 		}
 		if (P != null && l != null){
-			Variable[] vP = P.getBotanaVars();
-			Variable[] vL = l.getBotanaVars();
+			Variable[] vP = P.getBotanaVars(P);
+			Variable[] vL = l.getBotanaVars(l);
 			
 			if (botanaVars==null){
 				botanaVars = new Variable[4]; // storing 2 new variables, plus the coordinates of P

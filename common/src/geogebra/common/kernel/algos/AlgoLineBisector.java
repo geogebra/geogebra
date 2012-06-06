@@ -183,19 +183,19 @@ public class AlgoLineBisector extends AlgoElement implements SymbolicParametersA
 		throw new NoSymbolicParametersException();
 	}
 
-	public Variable[] getBotanaVars() {
+	public Variable[] getBotanaVars(GeoElement geo) {
 		return botanaVars;
 	}
 
-	public Polynomial[] getBotanaPolynomials()
+	public Polynomial[] getBotanaPolynomials(GeoElement geo)
 			throws NoSymbolicParametersException {
 
 		if (botanaPolynomials != null) {
 			return botanaPolynomials;
 		}
 		if (A != null && B != null){
-			Variable[] vA = A.getBotanaVars();
-			Variable[] vB = B.getBotanaVars();
+			Variable[] vA = A.getBotanaVars(A);
+			Variable[] vB = B.getBotanaVars(B);
 			
 			if (botanaVars==null){
 				botanaVars = new Variable[4]; // storing 4 new variables (C, D)

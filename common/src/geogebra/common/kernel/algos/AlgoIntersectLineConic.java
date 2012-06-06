@@ -34,6 +34,8 @@ import geogebra.common.kernel.prover.Variable;
 import geogebra.common.main.AbstractApplication;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 
 /**
  * 
@@ -49,9 +51,9 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements SymbolicPar
 	protected GeoPoint2[] P, Q; // output -- Q permuted according to D
 	protected int intersectionType;
 
-	private Polynomial[] botanaPolynomials;
-	private Variable[] botanaVars;
-		
+	private HashMap<GeoElement,Polynomial[]> botanaPolynomials;
+	private HashMap<GeoElement,Variable[]> botanaVars;
+			
 	private int age[]; // of defined points D
 	private int permutation[]; // of computed intersection points Q to output
 								// points P
@@ -711,29 +713,66 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements SymbolicPar
 		return foundPoint;
 	}
 
-	public Variable[] getBotanaVars() {
-		return botanaVars;
+	public Variable[] getBotanaVars(GeoElement geo) {
+		return botanaVars.get(geo);
 	}
 
-	public Polynomial[] getBotanaPolynomials() throws NoSymbolicParametersException {
+	public Polynomial[] getBotanaPolynomials(GeoElement geo) throws NoSymbolicParametersException {
 		if (botanaPolynomials != null) {
-			return botanaPolynomials;
+			Polynomial[] ret = botanaPolynomials.get(geo);
+			if (ret != null)
+				return ret;
 		}
+		
 		// We cannot decide a statement properly if the "line" is a segment or the conic is not a circle:
 		if (g != null && c != null && !g.isGeoSegment() && c.isCircle()) {
-			if (botanaVars==null){
-				// Intersection point (we create only one):
-				botanaVars = new Variable[2];
-				botanaVars[0]=new Variable();
-				botanaVars[1]=new Variable();
+			Variable[] botanaVarsThis = new Variable[2];
+			if (botanaVars == null) {
+				botanaVars = new HashMap<GeoElement, Variable[]>();
 			}
-			Variable[] vg = g.getBotanaVars(); // 4 variables from the line
-			Variable[] vc = c.getBotanaVars(); // 4 variables from the circle
-			botanaPolynomials = new Polynomial[2];
-			botanaPolynomials[0] = Polynomial.collinear(vg[0], vg[1], vg[2], vg[3], botanaVars[0], botanaVars[1]); 
-			botanaPolynomials[1] = Polynomial.equidistant(vc[2], vc[3], vc[0], vc[1], botanaVars[0], botanaVars[1]); 
-					
-			return botanaPolynomials;
+			if (botanaVars.containsKey(geo)) {
+				botanaVarsThis = botanaVars.get(geo);
+			} else {
+				// Intersection point (we create only one):
+				botanaVarsThis = new Variable[2];
+				botanaVarsThis[0] = new Variable();
+				botanaVarsThis[1] = new Variable();
+				botanaVars.put(geo, botanaVarsThis);
+			}
+
+			Polynomial[] botanaPolynomialsThis = null;
+			// Force NDG that the two intersection points must differ:
+			// TODO: This is very ugly.
+			Variable[] botanaVarsOther = new Variable[2];
+			Iterator<GeoElement> it = botanaVars.keySet().iterator();
+			boolean found = false;
+			while (it.hasNext()) {
+				GeoElement otherGeo = it.next();
+				// This should be one element:
+				if (!otherGeo.equals(geo)) {
+					botanaPolynomialsThis = new Polynomial[3];
+					botanaVarsOther = botanaVars.get(otherGeo);
+					botanaPolynomialsThis[2] = (Polynomial.sqrDistance(botanaVarsThis[0], botanaVarsThis[1], botanaVarsOther[0], botanaVarsOther[1])
+							.multiply(new Polynomial(new Variable()))).subtract(new Polynomial(1));
+					found = true;
+				}
+			}
+			if (!found) {
+				botanaPolynomialsThis = new Polynomial[2];
+			}
+			
+			Variable[] vg = g.getBotanaVars(geo); // 4 variables from the line
+			Variable[] vc = c.getBotanaVars(geo); // 4 variables from the circle
+			botanaPolynomialsThis[0] = Polynomial.collinear(vg[0], vg[1], vg[2], vg[3], botanaVarsThis[0], botanaVarsThis[1]); 
+			botanaPolynomialsThis[1] = Polynomial.equidistant(vc[2], vc[3], vc[0], vc[1], botanaVarsThis[0], botanaVarsThis[1]);
+
+			if (botanaPolynomials == null) {
+				botanaPolynomials = new HashMap<GeoElement, Polynomial[]>();
+			}
+			botanaPolynomials.put(geo, botanaPolynomialsThis);
+			
+			return botanaPolynomialsThis;
+			
 		}
 		throw new NoSymbolicParametersException();
 	}

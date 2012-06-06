@@ -2092,9 +2092,9 @@ final public class GeoPoint2 extends GeoVec3D implements VectorValue,
 				throw new NoSymbolicParametersException();
 	}
 
-	public Variable[] getBotanaVars() {
+	public Variable[] getBotanaVars(GeoElement geo) {
 		if (algoParent != null && algoParent instanceof SymbolicParametersBotanaAlgo) {
-			return ((SymbolicParametersBotanaAlgo) algoParent).getBotanaVars();
+			return ((SymbolicParametersBotanaAlgo) algoParent).getBotanaVars(this);
 		}
 
 		if (algoParent == null) {
@@ -2108,10 +2108,10 @@ final public class GeoPoint2 extends GeoVec3D implements VectorValue,
 		return botanaVars;
 	}
 
-	public Polynomial[] getBotanaPolynomials()
+	public Polynomial[] getBotanaPolynomials(GeoElement geo)
 			throws NoSymbolicParametersException {
 		if (algoParent != null && algoParent instanceof SymbolicParametersBotanaAlgo) {
-			return ((SymbolicParametersBotanaAlgo) algoParent).getBotanaPolynomials();
+			return ((SymbolicParametersBotanaAlgo) algoParent).getBotanaPolynomials(this);
 		}
 		return null;
 	}
