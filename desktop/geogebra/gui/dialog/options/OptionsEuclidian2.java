@@ -1188,9 +1188,7 @@ public class OptionsEuclidian2 extends JPanel  implements OptionPanel, ActionLis
 			else if (source == cbAxisLabel) {
 				Object ob = cbAxisLabel.getSelectedItem();
 				String text =  (ob == null) ? null : ob.toString().trim();
-				String [] labels = view.getAxesLabels();
-				labels[axis] = text;
-				view.setAxesLabels(labels);
+				view.setAxisLabel(axis,text);
 			}
 			
 			else if (source == cbTickStyle) {

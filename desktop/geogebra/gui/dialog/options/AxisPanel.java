@@ -108,7 +108,6 @@ public class AxisPanel extends JPanel implements ActionListener, ItemListener, F
 				cbAxisLabel = new JComboBox();
 				cbAxisLabel.addItem(null);
 				cbAxisLabel.addItem(axis == 0 ? "x" : "y");
-				cbAxisLabel.addItem(axis == 0 ? "\uD835\uDC65" : "\uD835\uDC66");
 				String [] greeks = TableSymbols.greekLowerCase;
 				for (int i = 0; i < greeks.length; i++) {
 					cbAxisLabel.addItem(greeks[i]);		
@@ -204,9 +203,7 @@ public class AxisPanel extends JPanel implements ActionListener, ItemListener, F
 				else if (source == cbAxisLabel) {
 					Object ob = cbAxisLabel.getSelectedItem();
 					String text =  (ob == null) ? null : ob.toString().trim();
-					String [] labels = view.getAxesLabels();
-					labels[axis] = text;
-					view.setAxesLabels(labels);
+					view.setAxisLabel(axis,text);
 				}
 				
 				else if (source == cbTickStyle) {
@@ -309,7 +306,7 @@ public class AxisPanel extends JPanel implements ActionListener, ItemListener, F
 			 	ncbTickDist.addItemListener(this);	
 			 	
 			 	cbAxisLabel.removeActionListener(this);
-			 	cbAxisLabel.setSelectedItem(view.getAxesLabels()[axis]);
+			 	cbAxisLabel.setSelectedItem(view.axisLabelForXML(axis));
 			 	cbAxisLabel.addActionListener(this);
 			 	
 			 	cbUnitLabel.removeActionListener(this);

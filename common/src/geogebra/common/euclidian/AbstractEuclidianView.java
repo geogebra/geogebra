@@ -244,6 +244,8 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 	private boolean[] showAxesNumbers = { true, true };
 
 	private String[] axesLabels = { null, null };
+	
+	private int[] axesLabelsStyle = { Font.PLAIN, Font.PLAIN };
 
 	private String[] axesUnitLabels = { null, null };
 
@@ -2277,24 +2279,33 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 	}
 
 	public void setAxesLabels(String[] axesLabels) {
-		this.axesLabels = axesLabels;
-		for (int i = 0; i < 2; i++) {
-			if ((axesLabels[i] != null) && (axesLabels[i].length() == 0)) {
-				axesLabels[i] = null;
-			}
-		}
+		setAxisLabel(0,axesLabels[0]);
+		setAxisLabel(1,axesLabels[1]);
 	}
 
 	/**
 	 * sets the axis label to axisLabel
 	 * 
 	 * @param axis axis id
-	 * @param axisLabel axis label
+	 * @param axLabel axis label
 	 */
-	public void setAxisLabel(int axis, String axisLabel) {
+	public void setAxisLabel(int axis, String axLabel) {
+		String axisLabel =axLabel;
 		if ((axisLabel != null) && (axisLabel.length() == 0)) {
 			axesLabels[axis] = null;
 		} else {
+			axesLabelsStyle[axis]=Font.PLAIN;
+			if (axisLabel.startsWith("<i>") && axisLabel.endsWith("</i>")) {
+
+				axisLabel = axisLabel.substring(3, axisLabel.length() - 4);
+				axesLabelsStyle[axis] |= Font.ITALIC;
+			}
+
+			if (axisLabel.startsWith("<b>") && axisLabel.endsWith("</b>")) {
+				axisLabel = axisLabel.substring(3, axisLabel.length() - 4);
+				axesLabelsStyle[axis] |= Font.BOLD;
+			}
+
 			axesLabels[axis] = axisLabel;
 		}
 	}
@@ -3143,8 +3154,8 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 
 				// label of x axis
 				if (axesLabels[0] != null) {
-					TextLayout layout = geogebra.common.factories.AwtFactory.prototype.newTextLayout(axesLabels[0], getFontLine(), frc);
-					g2.drawString(axesLabels[0],
+					TextLayout layout = geogebra.common.factories.AwtFactory.prototype.newTextLayout(axesLabels[0], getFontLine().deriveFont(axesLabelsStyle[0]), frc);
+					layout.draw(g2, 
 							(int) (getWidth() - 10 - layout.getAdvance()),
 							(int) (yCrossPix - 4));
 				}
@@ -3299,8 +3310,8 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 
 				// label of y axis
 				if (axesLabels[1] != null) {
-					TextLayout layout = geogebra.common.factories.AwtFactory.prototype.newTextLayout(axesLabels[1], getFontLine(), frc);
-					g2.drawString(axesLabels[1], (int) (xCrossPix + 5),
+					TextLayout layout = geogebra.common.factories.AwtFactory.prototype.newTextLayout(axesLabels[1], getFontLine().deriveFont(axesLabelsStyle[1]), frc);
+					layout.draw(g2, (int) (xCrossPix + 5),
 							(int) (5 + layout.getAscent()));
 				}
 
@@ -4088,7 +4099,7 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 				sbxml.append(showAxes[i]);
 				sbxml.append("\" label=\"");
 				sbxml.append(axesLabels[i] == null ? "" : StringUtil
-						.encodeXML(axesLabels[i]));
+						.encodeXML(axisLabelForXML(i)));
 				sbxml.append("\" unitLabel=\"");
 				sbxml.append(axesUnitLabels[i] == null ? "" : StringUtil
 						.encodeXML(axesUnitLabels[i]));
@@ -4138,6 +4149,20 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 
 			sbxml.append("</euclidianView>\n");
 		}
+		public String axisLabelForXML(int i) {
+			StringBuilder sb = new StringBuilder(20);
+			if((axesLabelsStyle[i]&Font.ITALIC)!=0)
+				sb.append("<i>");
+			if((axesLabelsStyle[i]&Font.BOLD)!=0)
+				sb.append("<b>");
+			sb.append(axesLabels[i]);
+			if((axesLabelsStyle[i]&Font.BOLD)!=0)
+				sb.append("</b>");
+			if((axesLabelsStyle[i]&Font.ITALIC)!=0)
+				sb.append("</i>");
+			return sb.toString();
+		}
+
 		/**
 		 * Draws points into an image
 		 * @param ge image
