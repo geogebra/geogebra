@@ -34,19 +34,16 @@ import geogebra.common.util.Unicode;
  * @author Markus Hohenwarter
  */
 public final class DrawList extends Drawable implements RemoveNeeded {
-
-	private GeoList geoList;
+	/** coresponding list as geo*/
+	GeoList geoList;
 	// private ArrayList drawables = new ArrayList();
 	private DrawListArray drawables;
 	private boolean isVisible;
 
-	private boolean hit = false;
 	private String oldCaption;
-
+	/** combobox */
 	geogebra.common.javax.swing.AbstractJComboBox comboBox;
-	geogebra.common.javax.swing.JLabel label;
-	//ButtonListener bl;
-	private ActionListener listener;
+	private geogebra.common.javax.swing.JLabel label;
 	private geogebra.common.javax.swing.Box box;
 
 
@@ -128,7 +125,7 @@ public final class DrawList extends Drawable implements RemoveNeeded {
 				label.setText(Unicode.NBSP + Unicode.NBSP + Unicode.NBSP);
 			}
 
-			int fontSize = view.fontSize + geoList.getFontSize();
+			int fontSize = view.getFontSize() + geoList.getFontSize();
 			AbstractApplication app = view.getApplication();
 
 			geogebra.common.awt.Font vFont = view.getFont();
@@ -391,6 +388,9 @@ public final class DrawList extends Drawable implements RemoveNeeded {
 
 	}
 
+	/**
+	 * Resets the drawables when draw as combobox option is toggled 
+	 */
 	public void resetDrawType() {
 
 		if (geoList.drawAsComboBox()) {

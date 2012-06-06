@@ -177,7 +177,7 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 	}
 
 	// end
-	int fontSize;
+	private int fontSize;
 	private geogebra.common.awt.AffineTransform coordTransform = 
 			geogebra.common.factories.AwtFactory.prototype.newAffineTransform();
 	private double[] AxesTickInterval = { 1, 1 }; // for axes =
@@ -1209,6 +1209,10 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 		}
 	}
 	
+	/**
+	 * @param list list
+	 * @param b whether the list should be drawn as combobox
+	 */
 	public void drawListAsComboBox(GeoList list, boolean b) {
 		
 		list.setDrawAsComboBox(b);
@@ -2560,6 +2564,10 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 	 */
 	public abstract void updateSize();
 	public abstract boolean requestFocusInWindow();
+	/**
+	 * Try to focus this view
+	 * @return true if successful
+	 */
 	public abstract boolean requestFocusInWindowTemp();
 	
 	// Michael Borcherds 2008-03-01
@@ -4150,6 +4158,12 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 
 			sbxml.append("</euclidianView>\n");
 		}
+		
+		/**
+		 * Returns axis label including &lt;b> and &lt;i>
+		 * @param i index of axis (0 for x, 1 for y)
+		 * @return axis label including formating tags
+		 */
 		public String axisLabelForXML(int i) {
 			StringBuilder sb = new StringBuilder(20);
 			if((axesLabelsStyle[i]&Font.ITALIC)!=0)

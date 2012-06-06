@@ -50,12 +50,25 @@ public abstract class EuclidianPen {
 	 * @param list points
 	 */
 	public abstract void doDrawPoints(GeoImage ge,List<Point> list); 
-
-	public abstract void setPenColor(Color color);
 	
+	/**
+	 * Changes pen color
+	 * @param color new color
+	 */
+	public abstract void setPenColor(Color color);
+	/**
+	 * Changes pen size
+	 * @param size new size in pixels
+	 */
 	public abstract void setPenSize(int size);
 
+	/**
+	 * @return pen size in pixels
+	 */
 	public abstract int getPenSize();
 	
+	/**
+	 * @return pen color as geogebra.common.awt.Color
+	 */
 	public abstract Color getPenColorCommon();
 }

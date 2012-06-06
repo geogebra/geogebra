@@ -141,8 +141,6 @@ public interface EuclidianViewInterfaceCommon extends EuclidianViewInterfaceSlim
 	 */
 	public String getFromPlaneString();
 
-	public ArrayList<GeoPointND> getStickyPointList();
-
 	/**
 	 * 
 	 * @return string translated description of plane from the view was created
@@ -410,15 +408,6 @@ public interface EuclidianViewInterfaceCommon extends EuclidianViewInterfaceSlim
 	 * @param isPositive true to positive direction only
 	 */
 	public void setPositiveAxis(int axis, boolean isPositive);
-
-	/**
-	 * Set real world bounds of this view
-	 * @param xmin x min
-	 * @param xmax x max
-	 * @param ymin y min
-	 * @param ymax y max
-	 */
-	public void setRealWorldCoordSystem(double xmin, double xmax, double ymin, double ymax);
 
 	/**
 	 * @param b true to show axes ratio

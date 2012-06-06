@@ -52,7 +52,7 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 	private InputFieldListener ifListener;
 	private InputFieldKeyListener ifKeyListener;
 	private Box box = SwingFactory.prototype.createHorizontalBox();
-
+	/** temporary text accessed by listeners */
 	public String tempText;
 
 	/**
