@@ -1533,13 +1533,17 @@ _.text = function() {
   var text = this.cmd;
   if (this.prev && !(this.prev instanceof Variable)
       && !(this.prev instanceof BinaryOperator)
-      && !(this.prev.cmd === '('))
+      && !(this.prev.cmd === '(')
+      && !(this.prev.cmd === ' ')
+      && !(this.prev.cmd === '*'))
     text = '*' + text;
   if (this.next && !(this.next instanceof BinaryOperator)
       && !(this.next.cmd === '^')
       && !(this.next.cmd === ')')
       && !(this.next.cmd === '(')
-      && !(this.next.cmd === '\\left('))
+      && !(this.next.cmd === '\\left(')
+      && !(this.next.cmd === ' ')
+      && !(this.next.cmd === '*'))
     text += '*';
 
   return text;
@@ -1550,7 +1554,7 @@ function VanillaSymbol(ch, html) {
 }
 VanillaSymbol.prototype = Symbol.prototype;
 
-CharCmds[' '] = bind(VanillaSymbol, '\\:', ' ');
+CharCmds[' '] = bind(VanillaSymbol, '*', ' ');
 
 LatexCmds.prime = CharCmds["'"] = bind(VanillaSymbol, "'", '&prime;');
 
