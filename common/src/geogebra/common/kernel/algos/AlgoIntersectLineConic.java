@@ -28,6 +28,9 @@ import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoConicNDConstants;
+import geogebra.common.kernel.prover.NoSymbolicParametersException;
+import geogebra.common.kernel.prover.Polynomial;
+import geogebra.common.kernel.prover.Variable;
 import geogebra.common.main.AbstractApplication;
 
 import java.util.ArrayList;
@@ -37,7 +40,7 @@ import java.util.ArrayList;
  * @author Markus
  * @version
  */
-public class AlgoIntersectLineConic extends AlgoIntersect {
+public class AlgoIntersectLineConic extends AlgoIntersect implements SymbolicParametersBotanaAlgo {
 
 	protected GeoLine g; // input
 	protected GeoConic c;
@@ -46,6 +49,9 @@ public class AlgoIntersectLineConic extends AlgoIntersect {
 	protected GeoPoint2[] P, Q; // output -- Q permuted according to D
 	protected int intersectionType;
 
+	private Polynomial[] botanaPolynomials;
+	private Variable[] botanaVars;
+		
 	private int age[]; // of defined points D
 	private int permutation[]; // of computed intersection points Q to output
 								// points P
@@ -705,4 +711,32 @@ public class AlgoIntersectLineConic extends AlgoIntersect {
 		return foundPoint;
 	}
 
+	public Variable[] getBotanaVars() {
+		return botanaVars;
+	}
+
+	public Polynomial[] getBotanaPolynomials() throws NoSymbolicParametersException {
+		if (botanaPolynomials != null) {
+			return botanaPolynomials;
+		}
+		// We cannot decide a statement properly if the "line" is a segment or the conic is not a circle:
+		if (g != null && c != null && !g.isGeoSegment() && c.isCircle()) {
+			if (botanaVars==null){
+				// Intersection point (we create only one):
+				botanaVars = new Variable[2];
+				botanaVars[0]=new Variable();
+				botanaVars[1]=new Variable();
+			}
+			Variable[] vg = g.getBotanaVars(); // 4 variables from the line
+			Variable[] vc = c.getBotanaVars(); // 4 variables from the circle
+			botanaPolynomials = new Polynomial[2];
+			botanaPolynomials[0] = Polynomial.collinear(vg[0], vg[1], vg[2], vg[3], botanaVars[0], botanaVars[1]); 
+			botanaPolynomials[1] = Polynomial.equidistant(vc[2], vc[3], vc[0], vc[1], botanaVars[0], botanaVars[1]); 
+					
+			return botanaPolynomials;
+		}
+		throw new NoSymbolicParametersException();
+	}
+
+	
 }
