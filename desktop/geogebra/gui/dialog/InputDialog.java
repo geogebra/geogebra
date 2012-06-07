@@ -14,6 +14,7 @@ package geogebra.gui.dialog;
 
 import geogebra.common.gui.InputHandler;
 import geogebra.common.gui.VirtualKeyboardListener;
+import geogebra.common.gui.view.properties.PropertiesView.OptionType;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.GeoElementSelectionListener;
@@ -395,7 +396,7 @@ public class InputDialog extends JDialog implements ActionListener,
 				setVisible(false);
 				tempArrayList.clear();
 				tempArrayList.add(geo);
-				app.getDialogManager().showPropertiesDialog(tempArrayList);
+				app.getDialogManager().showPropertiesDialog(OptionType.OBJECTS, tempArrayList);
 
 			}
 		} catch (Exception ex) {

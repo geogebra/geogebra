@@ -1,5 +1,6 @@
 package geogebra.gui.menubar;
 
+import geogebra.common.gui.view.properties.PropertiesView.OptionType;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.util.CopyPaste;
@@ -149,11 +150,11 @@ public class EditMenu extends BaseMenu {
 	private void initActions()
 	{
 		propertiesAction = new AbstractAction(app.getPlain("Properties")
-				+ " ...", app.getImageIcon("document-properties.png")) {
+				+ " ...", app.getImageIcon("view-properties16.png")) {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
-				app.getDialogManager().showPropertiesDialog();
+				app.getDialogManager().showPropertiesDialog(OptionType.OBJECTS, null);
 			}
 		};
 

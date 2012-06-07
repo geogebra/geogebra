@@ -1,5 +1,6 @@
 package geogebra.gui.menubar;
 
+import geogebra.common.gui.view.properties.PropertiesView.OptionType;
 import geogebra.common.io.MyXMLHandler;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.main.AbstractApplication;
@@ -310,11 +311,11 @@ public class OptionsMenu extends BaseMenu implements ActionListener {
 	{
 		// display the options dialog
 		showOptionsAction = new AbstractAction(app
-				.getMenu("Settings")+"...", app.getImageIcon("document-properties.png")) {
+				.getMenu("Advanced")+" ...", app.getImageIcon("view-properties16.png")) {
 			public static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
-				app.getDialogManager().showOptionsDialog(-1);
+				app.getDialogManager().showPropertiesDialog(OptionType.ADVANCED, null);
 			}
 		};
 	}

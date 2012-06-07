@@ -7,6 +7,7 @@ import javax.swing.JOptionPane;
 import geogebra.common.awt.Point;
 import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.gui.dialog.DialogManager;
+import geogebra.common.gui.view.properties.PropertiesView.OptionType;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
@@ -47,6 +48,12 @@ public class DialogManagerMinimal extends DialogManager {
 
 	@Override
 	public void showPropertiesDialog(ArrayList<GeoElement> geos) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
+	public void showPropertiesDialog(OptionType type, ArrayList<GeoElement> geos) {
 		// TODO Auto-generated method stub
 		
 	}

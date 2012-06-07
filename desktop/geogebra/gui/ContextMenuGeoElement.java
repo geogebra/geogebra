@@ -14,6 +14,7 @@ the Free Software Foundation.
 package geogebra.gui;
 
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
+import geogebra.common.gui.view.properties.PropertiesView.OptionType;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.Animatable;
 import geogebra.common.kernel.geos.GeoConic;
@@ -942,11 +943,11 @@ public class ContextMenuGeoElement extends JPopupMenu {
 			// open properties dialog      
 			addAction(new AbstractAction(
 					app.getPlain("Properties") + " ...",
-					app.getImageIcon("document-properties.png")) {
+					app.getImageIcon("view-properties16.png")) {
 				private static final long serialVersionUID = 1L;
 
 				public void actionPerformed(ActionEvent e) {
-					app.getDialogManager().showPropertiesDialog(geos);
+					app.getDialogManager().showPropertiesDialog(OptionType.OBJECTS, geos);
 				}
 			});
 		}

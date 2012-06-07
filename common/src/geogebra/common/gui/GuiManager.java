@@ -94,6 +94,8 @@ public abstract class GuiManager {
 	public abstract View getProbabilityCalculator();
 	
 	public abstract View getPlotPanelView(int id);
+	
+	public abstract View getPropertiesView();
 
 	public boolean hasProbabilityCalculator() {
 		// TODO Auto-generated method stub

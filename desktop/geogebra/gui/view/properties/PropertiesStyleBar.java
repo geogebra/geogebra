@@ -1,9 +1,9 @@
 package geogebra.gui.view.properties;
 
+import geogebra.common.gui.view.properties.PropertiesView.OptionType;
 import geogebra.common.main.AbstractApplication;
 import geogebra.gui.dialog.options.OptionsUtil;
 import geogebra.gui.util.PopupMenuButton;
-import geogebra.gui.view.properties.PropertiesView.OptionType;
 import geogebra.main.Application;
 
 import java.awt.BorderLayout;

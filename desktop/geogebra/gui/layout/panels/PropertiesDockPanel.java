@@ -46,10 +46,14 @@ public class PropertiesDockPanel extends DockPanel implements
 
 	}
 
+	private PropertiesView getPropertiesView() {
+		return (PropertiesView) app.getGuiManager().getPropertiesView();
+	}
+
 	@Override
 	protected JComponent loadComponent() {
 
-		view = app.getGuiManager().getPropertiesView();
+		view = getPropertiesView();
 
 		if (isOpenInFrame())
 			view.windowPanel();
@@ -60,19 +64,19 @@ public class PropertiesDockPanel extends DockPanel implements
 
 	@Override
 	protected JComponent loadStyleBar() {
-		return app.getGuiManager().getPropertiesView().getStyleBar();
+		return getPropertiesView().getStyleBar();
 	}
 
 	@Override
 	protected void windowPanel() {
 		super.windowPanel();
-		app.getGuiManager().getPropertiesView().windowPanel();
+		getPropertiesView().windowPanel();
 	}
 
 	@Override
 	protected void unwindowPanel() {
 		super.unwindowPanel();
-		app.getGuiManager().getPropertiesView().unwindowPanel();
+		getPropertiesView().unwindowPanel();
 	}
 
 	@Override
@@ -89,7 +93,6 @@ public class PropertiesDockPanel extends DockPanel implements
 		frame.addWindowListener(this);
 
 	}
-
 
 	@Override
 	public void updateLabels() {
@@ -110,16 +113,12 @@ public class PropertiesDockPanel extends DockPanel implements
 	}
 
 	public void windowGainedFocus(WindowEvent arg0) {
-		//	
+		//
 
 	}
 
 	public void windowLostFocus(WindowEvent arg0) {
 	}
-
-
-
-	
 
 	/*
 	 * Window Listener
@@ -162,13 +161,12 @@ public class PropertiesDockPanel extends DockPanel implements
 		view.closeDialog();
 	}
 
-
 	@Override
 	public void setFocus(boolean hasFocus, boolean updatePropertiesView) {
 
-		//no action on properties view
-		
+		// no action on properties view
+
 		setFocus(hasFocus);
 	}
-	
+
 }

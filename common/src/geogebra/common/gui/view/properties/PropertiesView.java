@@ -20,7 +20,23 @@ import geogebra.common.main.GeoElementSelectionListener;
  */
 public interface PropertiesView extends View{
 	/**
+	 * Option panel types
+	 */
+	public enum OptionType {
+		// Order matters for the selection menu. A separator is placed after
+		// OBJECTS and SPREADSHEET to isolate the view options
+		OBJECTS, EUCLIDIAN, EUCLIDIAN2, CAS, SPREADSHEET, LAYOUT, DEFAULTS, ADVANCED
+	}
+	
+	/**
 	 * Update selection
 	 */
 	public void updateSelection();
+	
+	
+	/**
+	 * Set the option panel to be displayed
+	 */
+	public void setOptionPanel(OptionType type);
+	
 }

@@ -7,6 +7,8 @@ import geogebra.common.gui.dialog.handler.NumberChangeSignInputHandler;
 import geogebra.common.gui.dialog.handler.NumberInputHandler;
 import geogebra.common.gui.dialog.handler.RedefineInputHandler;
 import geogebra.common.gui.dialog.handler.RenameInputHandler;
+import geogebra.common.gui.view.properties.PropertiesView;
+import geogebra.common.gui.view.properties.PropertiesView.OptionType;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoBoolean;
@@ -151,32 +153,56 @@ public class DialogManagerDesktop extends geogebra.common.gui.dialog.DialogManag
 
 		optionsDialog.setVisible(tabIndex != -2);
 	}
-
-	/**
-	 * Displays the properties dialog for geos
-	 */
-	@Override
-	public void showPropertiesDialog(ArrayList<GeoElement> geos) {
-		if (!((Application) app).letShowPropertiesDialog())
-			return;
-
-		if (app.getSelectedGeos().size()==0)
-			app.addSelectedGeos(geos, true);
-		app.getGuiManager().setShowView(true, AbstractApplication.VIEW_PROPERTIES);
-		
-		if (geos != null && geos.size() == 1
-				&& geos.get(0).isEuclidianVisible()
-				&& geos.get(0) instanceof GeoNumeric)
-			//AbstractApplication.debug("TODO : propPanel.showSliderTab()");
-			app.getGuiManager().showPropertiesViewSliderTab();
-	}
-
-	private ArrayList<GeoElement> tempGeos = new ArrayList<GeoElement>();
-
+	
+	
+	
 	@Override
 	public void showPropertiesDialog() {
 		showPropertiesDialog(null);
 	}
+
+	
+	@Override
+	public void showPropertiesDialog(ArrayList<GeoElement> geos) {	
+		showPropertiesDialog(OptionType.OBJECTS, geos);
+	}
+
+	/**
+	 * Displays the properties dialog 
+	 */
+	@Override
+	public void showPropertiesDialog(OptionType type, ArrayList<GeoElement> geos) {
+
+		if (!((Application) app).letShowPropertiesDialog())
+			return;
+
+		// get PropertiesView
+		PropertiesView pv = (PropertiesView) app.getGuiManager()
+				.getPropertiesView();
+
+		// select geos
+		if (geos != null) {
+			if (app.getSelectedGeos().size() == 0) {
+				app.addSelectedGeos(geos, true);
+			}
+
+			if (geos.size() == 1 && geos.get(0).isEuclidianVisible()
+					&& geos.get(0) instanceof GeoNumeric)
+				// AbstractApplication.debug("TODO : propPanel.showSliderTab()");
+				app.getGuiManager().showPropertiesViewSliderTab();
+		}
+
+		// set properties option type
+		if (type != null) {
+			pv.setOptionPanel(type);
+		}
+
+		// show the view
+		app.getGuiManager().setShowView(true,
+				AbstractApplication.VIEW_PROPERTIES);
+	}
+
+	
 
 	/**
 	 * Displays the configuration dialog for the toolbar

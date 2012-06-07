@@ -13,6 +13,7 @@ package geogebra.common.gui.dialog;
 
 import geogebra.common.awt.Point;
 import geogebra.common.euclidian.AbstractEuclidianView;
+import geogebra.common.gui.view.properties.PropertiesView.OptionType;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
@@ -53,7 +54,6 @@ public abstract class DialogManager {
 
 	public abstract boolean showFunctionInspector(GeoFunction geoFunction);
 
-	public abstract void showPropertiesDialog(ArrayList<GeoElement> geos);
 
 	public void showRedefineDialog(GeoElement geo, boolean allowTextDialog) {
 		
@@ -359,6 +359,10 @@ public abstract class DialogManager {
 
 	public abstract void showPropertiesDialog();
 
+	public abstract void showPropertiesDialog(ArrayList<GeoElement> geos);
+
+	public abstract void showPropertiesDialog(OptionType type,ArrayList<GeoElement> geos);
+	
 	public abstract void showToolbarConfigDialog();
 
 	public static boolean doDilate(Kernel kernel, NumberValue num, GeoPoint2[] points, GeoElement[] selGeos) {

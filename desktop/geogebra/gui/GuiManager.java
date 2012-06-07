@@ -324,7 +324,8 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 
 	private PropertiesView propertiesView;
 
-	public PropertiesView getPropertiesView() {
+	@Override
+	public View getPropertiesView() {
 
 		if (propertiesView == null) {
 			// initPropertiesDialog();
