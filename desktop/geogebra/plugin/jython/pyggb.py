@@ -7,7 +7,8 @@ from geogebra.plugin.jython import PythonScriptInterface
 from java.lang import Exception as JavaException
 
 from collections import defaultdict
-import sys, time
+import sys, time, traceback
+
 # FLAT
 from pygeo import objects
 from pygeo.apiproxy import (
@@ -56,7 +57,16 @@ class Interface(PythonScriptInterface):
 
     def execute(self, script):
         self.run(script)
-        
+    
+    def show_traceback(self, header, skip_lines=None):
+        sys.stderr.write(header)
+        if self.pywin is not None:
+            self.pywin.error(header)
+            tb_lines = traceback.format_exception(*sys.exc_info())
+            if skip_lines is not None:
+                tb_lines = tb_lines[skip_lines:]
+            self.pywin.error("".join(tb_lines))
+    
     def handleEvent(self, evt_type, target):
         # if ... return and try ... finally are hacks to try to fix #1520
         # I can't run ATM so...
@@ -65,7 +75,7 @@ class Interface(PythonScriptInterface):
                 try:
                     listener(evt_type, target)
                 except Exception:
-                    sys.stderr.write("Error while running listener")
+                    self.show_traceback("Error while running listener for %s" % evt_type)
         if target not in self.factory._cache:
             return
         try:
@@ -78,10 +88,10 @@ class Interface(PythonScriptInterface):
                 return
             try:
                 self.handling_event = True
-                action(element)
+                action()
             except Exception:
-                sys.stderr.write("Error while handling event '%s' on '%r'\n"
-                                 % (evt_type, target))
+                header = "Error while handling event '%s' on '%r'\n" % (evt_type, target)
+                self.show_traceback(header, 2)
                 raise
             finally:
                 self.handling_event = False
@@ -110,10 +120,8 @@ class Interface(PythonScriptInterface):
         return self.pywin is not None and self.pywin.frame.visible
 
     def setEventListener(self, geo, evt, code):
-        # geo = API.Geo(geo)
         el = self.factory.get_element(geo)
         if not code.strip():
-            # print "deleting %s listener for %s" % (evt, el)
             try:
                 delattr(el, "on" + evt)
             except AttributeError:
@@ -121,13 +129,19 @@ class Interface(PythonScriptInterface):
             return
         code = pythonify(code)
         code = "\n".join("\t" + line for line in code.split("\n"))
-        # print "setting %s listener for %s" % (evt, el)
+        code = "def __handle_event__(self=__el__):\n%s" % code
         try:
-            exec "def __f__(self):\n%s" % code in self.namespace 
-            setattr(el, "on" + evt, self.namespace['__f__'])
-            del self.namespace['__f__']
+            self.namespace['__el__'] = el
+            handler_def = compile(code, "<%s %s>" % (evt, el.label), 'exec')
+            exec handler_def in self.namespace 
+            setattr(el, "on" + evt, self.namespace['__handle_event__'])
+            del self.namespace['__handle_event__']
         except SyntaxError:
-            pass
+            header = "Error while compiling '%s' action for '%s'" % (evt, geo)
+            self.show_traceback(header)
+            raise
+        finally:
+            del self.namespace['__el__']
 
     def reset(self):
         if self.pywin is not None:
