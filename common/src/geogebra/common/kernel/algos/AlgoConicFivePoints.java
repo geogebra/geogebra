@@ -20,6 +20,7 @@ package geogebra.common.kernel.algos;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoLine;
@@ -172,7 +173,7 @@ public class AlgoConicFivePoints extends AlgoElement {
     			);
     	 */
 
-    	delta = Double.POSITIVE_INFINITY;
+    	delta = Kernel.MIN_PRECISION;
     	int repetition = 5;
     	for (int m=0; m<3; m++)
     		for (int n=0; n<3; n++)
