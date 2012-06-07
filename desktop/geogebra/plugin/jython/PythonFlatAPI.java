@@ -885,7 +885,7 @@ public class PythonFlatAPI {
 		 * @param val the new thickness
 		 */
 		public static void setTurtlePenThickness(GeoTurtle t, int val) {
-			// TODO
+			t.setPenThickness(val);
 		}
 		
 		/**
@@ -952,6 +952,15 @@ public class PythonFlatAPI {
 		
 		public static void rewindTurtle(GeoTurtle t) {
 			t.resetProgress();
+		}
+		
+		public static String[] getTurtleHistory(GeoTurtle t) {
+			String[] history = new String[t.getTurtleCommandList().size()];
+			int i=0;
+			for (GeoTurtle.Command cmd : t.getTurtleCommandList()) {
+				history[i++] = cmd.toString();
+			}
+			return history;
 		}
 		
 		public static void stepTurtle(GeoTurtle t) {
