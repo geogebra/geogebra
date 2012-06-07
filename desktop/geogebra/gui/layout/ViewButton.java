@@ -20,7 +20,7 @@ import javax.swing.JToolTip;
 import javax.swing.ToolTipManager;
 
 /**
- * Button to hide/show a view panel. Extends JToggleButton. 
+ * Button to hide/show a view panel. Extends JToggleButton.
  * 
  * @author G. Sturr
  */
@@ -31,7 +31,6 @@ public class ViewButton extends JToggleButton implements ActionListener {
 	private Application app;
 	private DockPanel panel;
 	private int viewId;
-	
 
 	private JToolTip tip;
 
@@ -60,11 +59,13 @@ public class ViewButton extends JToggleButton implements ActionListener {
 
 		addActionListener(this);
 		addMouseListener(new ToolTipMouseAdapter());
-		
+
 		this.setBackground(SystemColor.control);
 		this.setContentAreaFilled(false);
 		this.setBorderPainted(false);
 		this.setFocusPainted(false);
+
+		createToolTip();
 	}
 
 	/**
@@ -78,7 +79,7 @@ public class ViewButton extends JToggleButton implements ActionListener {
 			}
 		}
 	}
-	
+
 	public DockPanel getPanel() {
 		return panel;
 	}
@@ -87,7 +88,6 @@ public class ViewButton extends JToggleButton implements ActionListener {
 		return viewId;
 	}
 
-	
 	@Override
 	public void setIcon(Icon ic) {
 		super.setSelectedIcon(GeoGebraIcon.joinIcons(
@@ -96,32 +96,34 @@ public class ViewButton extends JToggleButton implements ActionListener {
 		super.setIcon(GeoGebraIcon.joinIcons(
 				GeoGebraIcon.createEmptyIcon(s, s), (ImageIcon) ic));
 
-		Dimension dim = new Dimension(getIcon().getIconWidth() + 5, getIcon()
+		Dimension dim = new Dimension(getIcon().getIconWidth() + 6, getIcon()
 				.getIconHeight() + 10);
 		setPreferredSize(dim);
 		setMaximumSize(dim);
 		setMinimumSize(dim);
 
 	}
-	
+
 	@Override
 	public JToolTip createToolTip() {
 		tip = super.createToolTip();
 		// add margin
 		tip.setBorder(BorderFactory.createCompoundBorder(tip.getBorder(),
-				BorderFactory.createEmptyBorder(2,2,2,2)));
+				BorderFactory.createEmptyBorder(2, 2, 2, 2)));
 		return tip;
 	}
 
 	@Override
 	public Point getToolTipLocation(MouseEvent event) {
-		// position the tip to the right of the button, vertically centered
-		Point p = new Point();
-		p.y = 0;
-		if (tip != null) {
-			p.y = this.getHeight() / 2 - tip.getPreferredSize().height / 2;
+		if (tip == null) {
+			createToolTip();
 		}
-		p.x = this.getWidth() + 5;
+
+		// position the tip to the left of the button, vertically centered
+		Point p = new Point();
+		p.y = this.getHeight() / 2 - tip.getPreferredSize().height / 2;
+		p.x = -tip.getPreferredSize().width - 2;
+		
 		return p;
 	}
 
@@ -139,15 +141,15 @@ public class ViewButton extends JToggleButton implements ActionListener {
 			if (preventToolTipDelay) {
 				ToolTipManager.sharedInstance().setInitialDelay(0);
 			}
-			
+
 		}
 
 		@Override
 		public void mouseExited(MouseEvent e) {
 			ToolTipManager.sharedInstance()
 					.setInitialDelay(defaultInitialDelay);
-			
+
 		}
-		
+
 	}
 }
