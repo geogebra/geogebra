@@ -703,7 +703,8 @@ public class DockManager implements AWTEventListener, SetLabels {
 			Component opposite = parent.getOpposite(panel);
 
 			//save divider location and size (if DockSplitPane)
-			((DockComponent) opposite).saveDividerLocation();
+			if (opposite!=null)
+				((DockComponent) opposite).saveDividerLocation();
 			int orientation = parent.getOrientation();
 			int size = 0;
 			if (orientation==JSplitPane.VERTICAL_SPLIT)
@@ -727,7 +728,8 @@ public class DockManager implements AWTEventListener, SetLabels {
 			}
 			
 			//re dispatch divider location
-			((DockComponent) opposite).updateDividerLocation(size,orientation);
+			if (opposite!=null)
+				((DockComponent) opposite).updateDividerLocation(size,orientation);
 			
 			if(isPermanent) {
 				app.validateComponent();
