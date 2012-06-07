@@ -1075,7 +1075,9 @@ class PythonWindow(ActionListener, ChangeListener):
     def execfile(self, path):
         with open(path, "rb") as f:
             self.runcode(f.read())
-
+    def error(self, text):
+        self.interactive_pane.error(text)
+    
     # Implementation of ChangeListener
     def stateChanged(self, evt):
         i = evt.source.selectedIndex
