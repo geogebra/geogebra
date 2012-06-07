@@ -15,6 +15,7 @@ import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.gui.dialog.handler.NumberInputHandler;
+import geogebra.common.gui.view.properties.PropertiesView.OptionType;
 import geogebra.web.gui.dialog.ButtonDialog;
 import geogebra.web.gui.dialog.InputDialogAngleFixed;
 import geogebra.web.gui.dialog.InputDialogRotate;
@@ -252,5 +253,11 @@ public class DialogManagerWeb extends DialogManager {
 				}
 		   });	
 	   }
+    }
+
+	@Override
+    public void showPropertiesDialog(OptionType type, ArrayList<GeoElement> geos) {
+	    // TODO Auto-generated method stub
+	    
     }
 }
