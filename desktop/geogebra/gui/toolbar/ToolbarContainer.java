@@ -347,9 +347,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 		
 		btnHelp.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0) {
-				//toggleHelpBar();
-				final String modeName = app.getKernel().getModeText(app.getMode());
-				app.getGuiManager().openToolHelp(modeName);
+				app.getGuiManager().openToolHelp();
 
 			}});
 

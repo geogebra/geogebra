@@ -257,7 +257,12 @@ public class DialogManagerWeb extends DialogManager {
 
 	@Override
     public void showPropertiesDialog(OptionType type, ArrayList<GeoElement> geos) {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("showPropertiesDialog: unimplemented");
 	    
+    }
+
+	@Override
+    public void openToolHelp() {
+	    AbstractApplication.debug("openToolHelp: unimplemented");
     }
 }

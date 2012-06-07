@@ -438,6 +438,8 @@ public abstract class DialogManager {
 
 	}
 
+	public abstract void openToolHelp();
+
 
 
 

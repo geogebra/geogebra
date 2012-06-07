@@ -156,6 +156,11 @@ public class DialogManagerMinimal extends DialogManager {
 		// TODO Auto-generated method stub
 		
 	}
+	@Override
+	public void openToolHelp() {
+		// TODO Auto-generated method stub
+		
+	}
 
 
 }

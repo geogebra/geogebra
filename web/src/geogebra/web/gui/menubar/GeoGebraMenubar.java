@@ -65,7 +65,7 @@ public class GeoGebraMenubar extends MenuBar {
 			}
 			
 			//Creation of Options Menu
-//			 createOptionsMenu(); // Later we'll put back.
+			 createOptionsMenu(); // Later we'll put back.
 			//Creation of Help Menu
 			createHelpMenu();
 			

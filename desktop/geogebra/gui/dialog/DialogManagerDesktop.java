@@ -655,14 +655,21 @@ public class DialogManagerDesktop extends geogebra.common.gui.dialog.DialogManag
 
 	@Override
 	protected String prompt(String message, String def) {
-		Application.debug("Shouldn't ever be called");
+		AbstractApplication.debug("Shouldn't ever be called");
 		return null;
 	}
 
 	@Override
 	protected boolean confirm(String string) {
-		Application.debug("Shouldn't ever be called");
+		AbstractApplication.debug("Shouldn't ever be called");
 		return false;
+	}
+
+	@Override
+	public void openToolHelp() {
+		// TODO: move openToolHelp() into DialogManager
+		((Application)app).getGuiManager().openToolHelp();
+		
 	}
 
 

@@ -2463,9 +2463,14 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 	public void openHelp(String page) {
 		openHelp(page, Help.GENERIC);
 	}
-
+	
+	public void openToolHelp() {
+		openToolHelp(app.getKernel().getModeText(app.getMode()));
+	
+	}
+	
 	public void openToolHelp(String page) {
-		Object[] options = { app.getPlain("Cancel"), app.getPlain("ShowOnlineHelp") };
+		Object[] options = { app.getPlain("ShowOnlineHelp"), app.getPlain("Cancel")  };
 		int n = JOptionPane.showOptionDialog(app.getMainComponent(),
 				app.getMenu(page + ".Help"), app.getMenu("ToolHelp") + " - "
 						+ app.getMenu(page), JOptionPane.YES_NO_OPTION,
@@ -2476,7 +2481,7 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 				options, // the titles of buttons
 				options[0]); // default button title
 
-		if (n == 1)
+		if (n == 0)
 			openHelp(app.getEnglishMenu(page), Help.TOOL);
 	}
 

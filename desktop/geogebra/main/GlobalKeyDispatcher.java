@@ -233,6 +233,11 @@ public class GlobalKeyDispatcher extends geogebra.common.main.GlobalKeyDispatche
 
 			break;
 
+			// open Tool Help
+		case KeyEvent.VK_F1:
+			app.getDialogManager().openToolHelp();
+			return true;
+
 		// F9 updates construction
 		// cmd-f9 on Mac OS
 		case KeyEvent.VK_F9:
@@ -737,6 +742,10 @@ public class GlobalKeyDispatcher extends geogebra.common.main.GlobalKeyDispatche
 				break;
 
 			}
+			return true;
+
+		case KeyEvent.VK_F1:
+			app.getDialogManager().openToolHelp();
 			return true;
 
 		case KeyEvent.VK_F4:
