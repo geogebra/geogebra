@@ -21,8 +21,8 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Transform;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoJoinPointsSegment;
-import geogebra.common.kernel.algos.SymbolicParametersAlgo;
 import geogebra.common.kernel.arithmetic.MyDouble;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.plugin.GeoClass;
@@ -278,6 +278,8 @@ public final boolean showInAlgebraView() {
    
    @Override
 final public String toValueString(StringTemplate tpl) {
+	   if(tpl.hasType(StringType.MPREDUCE))
+		   return "myabs(subtraction("+getStartPoint().toValueString(tpl)+","+getEndPoint().toValueString(tpl)+"))";
 	   return kernel.format(length,tpl);
    }
    
