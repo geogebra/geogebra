@@ -19,6 +19,7 @@ import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.Polynomial;
+import geogebra.common.kernel.arithmetic.Variable;
 import geogebra.common.kernel.barycentric.AlgoBarycenter;
 import geogebra.common.kernel.barycentric.AlgoKimberling;
 import geogebra.common.kernel.barycentric.AlgoTriangleCubic;
@@ -3498,8 +3499,19 @@ public class Kernel {
 	}
 
 	final public ExpressionNode handleTrigPower(String image,
-			ExpressionNode en, Operation type) {
-
+			ExpressionNode en, String operation) {		
+		
+		if("x".equals(operation) || "y".equals(operation)|| "z".equals(operation)){
+			return new ExpressionNode(this,new ExpressionNode(this,new Polynomial(this,operation),Operation.POWER,convertIndexToNumber(image)),
+					Operation.MULTIPLY_OR_FUNCTION,en);
+		}
+		GeoElement ge=lookupLabel(operation);
+		Operation type = app.getParserFunctions().get(operation, 1);	
+		if(ge!=null || type ==null){
+				return new ExpressionNode(this,new ExpressionNode(this,new Variable(this,operation),Operation.POWER,convertIndexToNumber(image)),
+						Operation.MULTIPLY_OR_FUNCTION,en);
+		}
+			
 		// sin^(-1)(x) -> ArcSin(x)
 		if (image.indexOf(Unicode.Superscript_Minus) > -1) {
 			// String check = ""+Unicode.Superscript_Minus +
@@ -3527,7 +3539,7 @@ public class Kernel {
 
 	}
 
-	final public GeoNumeric convertIndexToNumber(String str) {
+	final public MyDouble convertIndexToNumber(String str) {
 
 		int i = 0;
 		while ((i < str.length()) && !Unicode.isSuperscriptDigit(str.charAt(i))) {
@@ -3544,8 +3556,8 @@ public class Kernel {
 																				// "("
 																				// at
 																				// end
-		GeoNumeric num = new GeoNumeric(getConstruction(), md.getDouble());
-		return num;
+		
+		return md;
 
 	}
 

@@ -1976,10 +1976,14 @@ ExpressionNode numberFunction():
 | 
 	    ( c = <FUNCTION_POWER_LABEL> ) en = expressionOrEquation() (")"|"]") 
 	 	      {
-	 	        int pos = Math.max(c.image.indexOf("("),c.image.indexOf("["));
-	 	        AbstractApplication.debug(c.image.substring(0,pos-1));
-	 	        Operation trigOp = app.getParserFunctions().get(c.image.substring(0,pos-1),1);
-	 	        return kernel.handleTrigPower(c.image, en, trigOp);
+	 	        int pos = c.image.length()-2;
+	 	        while(pos >=0 && (Unicode.isSuperscriptDigit(c.image.charAt(pos))||
+	 	        Unicode.Superscript_Minus==c.image.charAt(pos))){
+	 	          pos--;	 	        }
+	 	        ExpressionNode ret = kernel.handleTrigPower(c.image, en, c.image.substring(0,pos+1));
+	 	        if(ret.getOperation()==Operation.MULTIPLY_OR_FUNCTION)
+	 	        	undecided.add(ret);
+	 	        return ret;
 	 	        }          
 |
      <FREEHAND_FUNC> en = expressionOrEquation() (")"|"]")
