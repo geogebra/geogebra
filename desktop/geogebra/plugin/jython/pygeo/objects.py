@@ -124,6 +124,18 @@ class GeoNamespace(object):
             self._api.getAllGeos()
         )
 
+
+class FactoryProductAttribute(object):
+    def __init__(self, name):
+        self.name = name
+    def __get__(self, obj, objtype=None):
+        return getattr(obj._product_type, self.name)
+    def __set__(self, obj, val):
+        setattr(obj._product_type, self.name, val)
+    def __delete__(self, obj):
+        delattr(obj._product_type, self.name)
+
+
 class FactoryProduct(object):
     def __init__(self, product_type, factory):
         self._product_type = product_type
@@ -138,10 +150,15 @@ class FactoryProduct(object):
         )
     def __repr__(self):
         return "<Bound %s type>" % self._product_type.__name__
+    onclick = FactoryProductAttribute("onclick")
+    onupdate = FactoryProductAttribute("onupdate")
+    onadd = FactoryProductAttribute("onadd")
+    onremove = FactoryProductAttribute("onremove")
+    onrename = FactoryProductAttribute("onrename")
 
 
-class MetaFactoryProduct    (GenericMethods.__metaclass__):
-    def __get__(self, obj, objtype):
+class MetaFactoryProduct(GenericMethods.__metaclass__):
+    def __get__(self, obj, objtype=None):
         # return partial(self, obj)
         return FactoryProduct(self, obj)
 
@@ -1096,6 +1113,11 @@ class Turtle(Element):
     def _set_speed(self, value):
         API.Geo.setTurtleSpeed(self.geo, float(value))
     speed = property(_get_speed, _set_speed)
+    
+    # property: history
+    def _get_history(self):
+        return list(API.Geo.getTurtleHistory(self.geo))
+    history = property(_get_history)
     
     def turn_left(self, angle):
         API.Geo.turtleTurn(self.geo, float(angle))
