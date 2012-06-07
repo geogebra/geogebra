@@ -337,7 +337,7 @@ implements MouseListener, MouseMotionListener{
 		// tell EuclidianView to handle mouse over
 		//EuclidianView ev = app.getEuclidianView();
 		EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
-		ev.mouseMovedOver(geo);								
+		ev.mouseMovedOver(geo,true);								
 
 		if (geo != null) {
 			app.setTooltipFlag();

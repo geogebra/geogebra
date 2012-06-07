@@ -2883,9 +2883,16 @@ public abstract class AbstractEuclidianController {
 		initShowMouseCoords();
 		view.mouseEntered();
 	}
+	
+	protected boolean move(Hits hits){
+		return move(hits,false);
+	}
 
-	protected boolean move(Hits hits) {
-		addSelectedGeo(hits.getMoveableHits(view), 1, false);
+	protected boolean move(Hits hits, boolean fromAlgebraView) {
+		if (fromAlgebraView) //highlight also not movable hits
+			addSelectedGeo(hits, 1, false);
+		else
+			addSelectedGeo(hits.getMoveableHits(view), 1, false);
 		return false;
 	}
 
@@ -3271,6 +3278,10 @@ public abstract class AbstractEuclidianController {
 	}
 	
 	public boolean refreshHighlighting(Hits hits, AbstractEvent event) {
+		return refreshHighlighting(hits, event, false);
+	}
+	
+	public boolean refreshHighlighting(Hits hits, AbstractEvent event, boolean fromAlgebraView) {
 		boolean repaintNeeded = false;
 	
 		// clear old highlighting
@@ -3282,7 +3293,7 @@ public abstract class AbstractEuclidianController {
 		highlightedGeos.clear();
 		selectionPreview = true; // only preview selection, see also
 		// mouseReleased()
-		processMode(hits, event); // build highlightedGeos List
+		processMode(hits, event, fromAlgebraView); // build highlightedGeos List
 	
 		if (highlightJustCreatedGeos) {
 			highlightedGeos.addAll(justCreatedGeos); // we also highlight just
@@ -4834,8 +4845,11 @@ public abstract class AbstractEuclidianController {
 		}
 		return false;
 	}
-
 	protected boolean switchModeForProcessMode(Hits hits, AbstractEvent event) {
+		return switchModeForProcessMode(hits, event, false);
+	}
+	
+	protected boolean switchModeForProcessMode(Hits hits, AbstractEvent event, boolean fromAlgebraView) {
 	
 		Boolean changedKernel = false;
 		GeoElement[] ret = null;
@@ -4845,7 +4859,7 @@ public abstract class AbstractEuclidianController {
 		case EuclidianConstants.MODE_MOVE:
 			// move() is for highlighting and selecting
 			if (selectionPreview) {
-				move(hits.getTopHits());
+				move(hits.getTopHits(), fromAlgebraView);
 			} else {
 				if (DRAGGING_OCCURED && (app.selectedGeosSize() == 1)) {
 					app.clearSelectedGeos();
@@ -5204,8 +5218,12 @@ public abstract class AbstractEuclidianController {
 			}
 		}
 	}
-
+	
 	public final boolean processMode(Hits processHits, AbstractEvent event) {
+		return processMode(processHits, event, false);
+	}
+	
+	public final boolean processMode(Hits processHits, AbstractEvent event, boolean fromAlgebraView) {
 		Hits hits = processHits;
 		boolean changedKernel = false;
 	
@@ -5213,7 +5231,7 @@ public abstract class AbstractEuclidianController {
 			hits = new Hits();
 		}
 	
-		changedKernel = switchModeForProcessMode(hits, event);
+		changedKernel = switchModeForProcessMode(hits, event, fromAlgebraView);
 	
 		// update preview
 		if (view.getPreviewDrawable() != null) {
