@@ -68,6 +68,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 	private boolean useAsText;
 	// for the future, is only holding font infos
 	private GeoText commentText;
+	private boolean nativeOutput;
 
 	/**
 	 * Creates new CAS cell
@@ -1282,19 +1283,19 @@ public class GeoCasCell extends GeoElement implements VarString {
 		boolean isFunctionDeclaration = isAssignmentVariableDefined() && functionvars != null;
 		// note: MPReduce returns "f" for a function definition "f(x) := x^2"
 		// && !output.startsWith(assignmentVar);
-
-		String res = output;
-		if (isFunctionDeclaration) {
-			StringBuilder sb = new StringBuilder();
-			sb.append(inputVE.getLabelForAssignment());
-			sb.append(inputVE.getAssignmentOperator());
-			sb.append(output);
-			res = sb.toString();
+		if(nativeOutput){
+			String res = output;
+			if (isFunctionDeclaration) {
+				StringBuilder sb = new StringBuilder();
+				sb.append(inputVE.getLabelForAssignment());
+				sb.append(inputVE.getAssignmentOperator());
+				sb.append(output);
+				res = sb.toString();
+			}
+	
+			// parse output into valid expression
+			outputVE = parseGeoGebraCASInputAndResolveDummyVars(res);
 		}
-
-		// parse output into valid expression
-		outputVE = parseGeoGebraCASInputAndResolveDummyVars(res);
-
 		if (isFunctionDeclaration) {
 			// replace GeoDummyVariable objects in outputVE by the function
 			// variables
@@ -1492,6 +1493,12 @@ public class GeoCasCell extends GeoElement implements VarString {
 	 * @return result GeoElement or null
 	 */
 	private GeoElement silentEvalInGeoGebra(ValidExpression ve) {
+		AbstractApplication.debug(outputVE+":"+((ExpressionNode)outputVE).getLeft().getClass());
+		if(!nativeOutput && outputVE.isExpressionNode() && ((ExpressionNode)outputVE).getLeft() instanceof GeoElement){
+			GeoElement ret= (GeoElement)((ExpressionNode)outputVE).getLeft();
+			return ret;
+		}
+		AbstractApplication.debug("reeval");
 		boolean oldValue = kernel.isSilentMode();
 
 		kernel.setSilentMode(true);
@@ -1551,7 +1558,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 		String result = null;
 		boolean success = false;
 		CASException ce = null;
-
+		nativeOutput = true;
 		if (!useGeoGebraFallback) {
 			// CAS EVALUATION
 			try {
@@ -1593,6 +1600,9 @@ public class GeoCasCell extends GeoElement implements VarString {
 					// cons.removeFromConstructionList(parentAlgo);
 					if (parentAlgo != null)
 						parentAlgo.remove();
+					outputVE = new ExpressionNode(kernel,geos[0]);
+					geos[0].addCasAlgoUser();
+					nativeOutput = false;
 				}
 			} catch (Throwable th2) {
 				System.err
@@ -1781,6 +1791,9 @@ public class GeoCasCell extends GeoElement implements VarString {
 			sb.append("\"");
 			if (isError()) {
 				sb.append(" error=\"true\"");
+			}
+			if (isNative()) {
+				sb.append(" native=\"true\"");
 			}
 
 			if (!"".equals(evalCmd)) {
@@ -1998,6 +2011,12 @@ public class GeoCasCell extends GeoElement implements VarString {
 		if(twinGeo==null)
 			return Color.BLACK;
 		return twinGeo.getAlgebraColor();
+	}
+	public void setNative(boolean b){
+		nativeOutput = b;
+	}
+	public boolean isNative(){
+		return nativeOutput;
 	}
 
 }

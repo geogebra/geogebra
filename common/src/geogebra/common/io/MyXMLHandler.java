@@ -3596,12 +3596,17 @@ public class MyXMLHandler implements DocHandler {
 		try {
 			String output = attrs.get("value");
 			boolean error = parseBoolean(attrs.get("error"));
-
+			boolean nativeOutput = parseBoolean(attrs.get("native"));
+			geoCasCell.setNative(nativeOutput);
 			if (error) {
 				geoCasCell.setError(output);
 			} else {
-				geoCasCell.setOutput(output);
+				if(!nativeOutput)
+					geoCasCell.computeOutput();
+				else
+					geoCasCell.setOutput(output);
 			}
+			
 
 			String evalCommandComment = attrs.get("evalCommand");
 			if (evalCommandComment != null) {
