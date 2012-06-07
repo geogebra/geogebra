@@ -1,10 +1,13 @@
 package geogebra.web.gui.menubar;
 
+import com.google.gwt.http.client.UrlBuilder;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Window;
 
 public class LanguageCommand implements Command {
 
+	public static final String LOCALE_PARAMETER = "locale";
+	
 	private String localeCode;
 	private String localeParameter;
 	
@@ -12,6 +15,11 @@ public class LanguageCommand implements Command {
 	public LanguageCommand() {
 		localeCode = "en";
 		localeParameter = "Locale";
+	}
+	
+	public LanguageCommand(String newLocaleCode) {
+		this.localeCode = newLocaleCode;
+		this.localeParameter = LOCALE_PARAMETER;
 	}
 	
 	public LanguageCommand(String localeParam, String newLocalCode) {
@@ -33,6 +41,13 @@ public class LanguageCommand implements Command {
 	}
 
 	public void execute() {
-		Window.alert("Soon! Language support..." + localeCode);
+//		Window.alert("Soon! Language support..." + localeCode);
+		changeLocale(localeParameter, localeCode);
+	}
+	
+	void changeLocale(String localeParamName, String newLocale) {
+		UrlBuilder newUrl = Window.Location.createUrlBuilder();
+		newUrl.setParameter(localeParamName, newLocale);
+		Window.Location.assign(newUrl.buildString());
 	}
 }

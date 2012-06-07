@@ -223,7 +223,7 @@ public class Application extends AbstractApplication {
 	   this(article, geoGebraAppFrame, true);
     }
 	
-	private static ArrayList<String> supportedLanguages = new ArrayList<String>();
+	private static ArrayList<String> supportedLanguages = null;
 	
 	/**
 	 * @return ArrayList of languages suitable for GWT, eg "en", "de_AT"
@@ -233,6 +233,8 @@ public class Application extends AbstractApplication {
 		if (supportedLanguages != null) {
 			return supportedLanguages;
 		}
+		
+		supportedLanguages = new ArrayList<String>();
 
 		Language[] languages = Language.values();
 		

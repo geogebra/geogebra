@@ -18,7 +18,6 @@ public class LanguageMenu extends MenuBar {
 	private MenuBar etoIMenuBar;
 	private MenuBar jtoQMenuBar;
 	private MenuBar rtoZMenuBar;
-	private LanguageCommand langCmd;
 	
 
 	
@@ -30,43 +29,29 @@ public class LanguageMenu extends MenuBar {
 	    initActions();		
 	}
 	
-//	Command cmd = new Command() {
-//
-//		private String newLocale;
-//
-//		public void setNewLocale(String aLocale) {
-//			newLocale = aLocale;
-//		}
-//		public void execute() {
-//			Window.alert("Soon! Language support...");
-//		}
-//	};
-	
 	private void initActions() {
 		//add the sub-sub language menu list
 
 		//add here sub-sub menu for language from A-D
 		atoDMenuBar = new MenuBar(true);
 		atoDMenuBar.addStyleName("GeoGebraMenuBar");
-		addItem(app.getMenu("A - D"), atoDMenuBar);
+		addItem("A - D", atoDMenuBar);
 		
 		//add here sub-sub menu for language from E-I
 		etoIMenuBar = new MenuBar(true);
 		etoIMenuBar.addStyleName("GeoGebraMenuBar");
-		addItem(app.getMenu("E - I"), etoIMenuBar);
+		addItem("E - I", etoIMenuBar);
 		
 		
 		//add here sub-sub menu for language from J-Q
 		jtoQMenuBar = new MenuBar(true);
 		jtoQMenuBar.addStyleName("GeoGebraMenuBar");
-		addItem(app.getMenu("J - Q"), jtoQMenuBar);
+		addItem("J - Q", jtoQMenuBar);
 
 		//add here sub-sub menu for language from R-Z
 		rtoZMenuBar = new MenuBar(true);
 		rtoZMenuBar.addStyleName("GeoGebraMenuBar");
-		addItem(app.getMenu("R - Z"), rtoZMenuBar);
-		
-		langCmd = new LanguageCommand();
+		addItem("R - Z", rtoZMenuBar);
 		
 		addItems();
 	}
@@ -84,22 +69,19 @@ public class LanguageMenu extends MenuBar {
 				
 				char ch = languageName.toUpperCase().charAt(0);
 				
-				langCmd.setLocaleCode(languageCode);
-				
 				if(ch <= 'D') {
 					
-					atoDMenuBar.addItem(GeoGebraMenubar.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),languageName),true,langCmd);
+					atoDMenuBar.addItem(GeoGebraMenubar.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),languageName),true,new LanguageCommand(languageCode));
 				} else if(ch <= 'I') {
-					etoIMenuBar.addItem(GeoGebraMenubar.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),languageName),true,langCmd);
+					etoIMenuBar.addItem(GeoGebraMenubar.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),languageName),true,new LanguageCommand(languageCode));
 				} else if(ch <= 'Q') {
-					jtoQMenuBar.addItem(GeoGebraMenubar.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),languageName),true,langCmd);
+					jtoQMenuBar.addItem(GeoGebraMenubar.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),languageName),true,new LanguageCommand(languageCode));
 				} else {
-					rtoZMenuBar.addItem(GeoGebraMenubar.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),languageName),true,langCmd);
+					rtoZMenuBar.addItem(GeoGebraMenubar.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),languageName),true,new LanguageCommand(languageCode));
 				}
 				
 			}
 		}
 
 	}
-	
 }
