@@ -1424,13 +1424,14 @@ implements ActionListener, WindowListener, MouseListener, geogebra.common.gui.la
 	}
 	
 	
-	public class MyButtonHider extends MouseAdapter{
-		
+	public class MyButtonHider extends MouseAdapter {
+
 		public void mouseEntered(MouseEvent e) {
-			//System.out.println("entered, not jpanel");
+			// System.out.println("entered, not jpanel");
 			if (e.getSource() != titlePanel) {
 				e.consume();
-			} else if (!windowButton.isVisible()) {
+			} else if (!windowButton.isVisible()
+					&& (!isAlone() && !isInFrame() && !isMaximized())) {
 				windowButton.setVisible(true);
 			}
 		}
