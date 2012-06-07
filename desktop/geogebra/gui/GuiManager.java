@@ -2465,11 +2465,11 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 	}
 
 	public void openToolHelp(String page) {
-		Object[] options = { app.getPlain("OK"), app.getPlain("ShowOnlineHelp") };
+		Object[] options = { app.getPlain("Cancel"), app.getPlain("ShowOnlineHelp") };
 		int n = JOptionPane.showOptionDialog(app.getMainComponent(),
 				app.getMenu(page + ".Help"), app.getMenu("ToolHelp") + " - "
 						+ app.getMenu(page), JOptionPane.YES_NO_OPTION,
-				JOptionPane.QUESTION_MESSAGE, null, // do not
+				JOptionPane.QUESTION_MESSAGE, app.getToolBarImage("mode_" + page + "_32.gif", Color.BLACK), // do not
 													// use a
 													// custom
 													// Icon
