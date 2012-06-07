@@ -37,20 +37,18 @@ public class GeoTurtle extends GeoElement {
 
 	// List to store sequential turtle drawing commands.
 	// TODO: use a better data structure?
-	private ArrayList<Object> cmdList;
-	// List to store the amount of time each command takes
-	private ArrayList<Double> timeList;
+	private ArrayList<Command> cmdList;
 
 	// turtle status fields
 	private GeoPointND startPoint = new GeoPoint2(cons, 0d, 0d, 1d);
-	private double[] position = { 0d, 0d, 1d };
-	private GeoPointND currentPoint = new GeoPoint2(cons, 0d, 0d, 1d);
-	private Color penColor = Color.BLACK;
-	private int penThickness = 1;
-	private boolean penDown = true;
-	private double turnAngle = 0d;
-	private double sinAngle = 0d;
-	private double cosAngle = 1d;
+	protected double[] position = { 0d, 0d, 1d };
+	protected GeoPointND currentPoint = new GeoPoint2(cons, 0d, 0d, 1d);
+	protected Color penColor = Color.BLACK;
+	protected int penThickness = 1;
+	protected boolean penDown = true;
+	protected double turnAngle = 0d;
+	protected double sinAngle = 0d;
+	protected double cosAngle = 1d;
 	private int turtleImageIndex = 1;
 
 	private int nCompletedCommands = 0;
@@ -76,8 +74,7 @@ public class GeoTurtle extends GeoElement {
 	 */
 	public GeoTurtle(Construction c) {
 		super(c);
-		cmdList = new ArrayList<Object>();
-		timeList = new ArrayList<Double>();
+		cmdList = new ArrayList<Command>();
 		
 		// TODO: put this in default construction?
 		this.setObjColor(Color.GRAY);
@@ -133,7 +130,7 @@ public class GeoTurtle extends GeoElement {
 	/**
 	 * @return list of turtle commands that define the current turtle drawing
 	 */
-	public ArrayList<Object> getTurtleCommandList() {
+	public ArrayList<Command> getTurtleCommandList() {
 		return cmdList;
 	}
 
@@ -245,7 +242,7 @@ public class GeoTurtle extends GeoElement {
 		if (currentCommandProgress == 0d) {
 			return 0d;
 		}
-		return currentCommandProgress/timeList.get(nCompletedCommands);
+		return currentCommandProgress/cmdList.get(nCompletedCommands).getTime();
 	}
 	
 	public void resetProgress() {
@@ -265,7 +262,7 @@ public class GeoTurtle extends GeoElement {
 		}
 		currentCommandProgress += speed*nSteps;
 		double t;
-		while (currentCommandProgress >= (t = timeList.get(nCompletedCommands))) {
+		while (currentCommandProgress >= (t = cmdList.get(nCompletedCommands).getTime())) {
 			nCompletedCommands += 1;
 			currentCommandProgress -= t;
 			if (nCompletedCommands == totalNCommands) {
@@ -287,18 +284,7 @@ public class GeoTurtle extends GeoElement {
 	 * @param distance distance
 	 */
 	public void forward(double distance) {
-
-		position[0] += distance * cosAngle;
-		position[1] += distance * sinAngle;
-
-		// cmdList.add(position);
-
-		GeoPointND pt = new GeoPoint2(cons, position[0], position[1], 1d);
-		cmdList.add(pt);
-		timeList.add(Math.abs(distance));
-		currentPoint.setCoords(position[0], position[1], 1.0);
-		doUpdate();
-
+		addCommand(new CmdForward(distance));
 	}
 
 	/**
@@ -306,34 +292,14 @@ public class GeoTurtle extends GeoElement {
 	 * @param y y-coordinate
 	 */
 	public void setPosition(double x, double y) {
-		
-		double distance = Math.hypot(x - position[0], y - position[1]);
-		
-		position[0] = x;
-		position[1] = y;
-
-		// cmdList.add(position);
-
-		GeoPoint2 pt = new GeoPoint2(cons, position[0], position[1], 1d);
-		cmdList.add(pt);
-		timeList.add(distance);
-		currentPoint.setCoords(position[0], position[1], 1.0);
-		doUpdate();
+		addCommand(new CmdSetPosition(x, y));
 	}
 	
 	/**
 	 * @param turnAngleChange change of turn angle in degrees
 	 */
 	public void turn(double turnAngleChange) {
-
-		this.turnAngle += turnAngleChange * Math.PI / 180;
-
-		this.sinAngle = Math.sin(this.turnAngle);
-		this.cosAngle = Math.cos(this.turnAngle);
-
-		cmdList.add(turnAngleChange);
-		timeList.add(Math.abs(turnAngleChange)/90);
-		doUpdate();
+		addCommand(new CmdTurn(turnAngleChange));
 	}
 
 	/**
@@ -341,10 +307,7 @@ public class GeoTurtle extends GeoElement {
 	 * @param penDown true to put pen down
 	 */
 	public void setPenDown(boolean penDown) {
-		this.penDown = penDown;
-		cmdList.add(penDown);
-		timeList.add(0d);
-		doUpdate();
+		addCommand(new CmdSetPen(penDown));
 	}
 
 	/**
@@ -355,7 +318,6 @@ public class GeoTurtle extends GeoElement {
 	 */
 	public void setPenColor(int r, int g, int b) {
 		setPenColor(AwtFactory.prototype.newColor(r, g, b));
-		doUpdate();
 	}
 
 	/**
@@ -363,14 +325,17 @@ public class GeoTurtle extends GeoElement {
 	 * @param penColor new pen color
 	 */
 	public void setPenColor(Color penColor) {
-		if (penColor.equals(this.penColor))
-			return;
-		this.penColor = penColor;
-		cmdList.add(penColor);
-		timeList.add(0d);
-		doUpdate();
+		addCommand(new CmdSetColor(penColor));
 	}
-
+	
+	/**
+	 * Set the thickness of the turtle pen
+	 * @param thickness new thickness
+	 */
+	public void setPenThickness(int thickness) {
+		addCommand(new CmdSetThickness(thickness));
+	}
+	
 	/**
 	 * 
 	 */
@@ -380,7 +345,6 @@ public class GeoTurtle extends GeoElement {
 		speed = 0;
 		resetProgress();
 		cmdList.clear();
-		timeList.clear();
 		turnAngle = 0d;
 		sinAngle = 0d;
 		cosAngle = 1d;
@@ -447,5 +411,360 @@ public class GeoTurtle extends GeoElement {
 		// TODO Auto-generated method stub
 		return false;
 	}
+	
+	/*
+	 * Turtle commands
+	 */
+	
+	/**
+	 * Add command to the turtle's command list and perform the command
+	 * @param cmd the command to add to the command list
+	 */
+	public void addCommand(Command cmd) {
+		cmdList.add(cmd);
+		cmd.perform();
+		doUpdate();
+	}
+	
+	public enum CmdType {
+		FORWARD,
+		SET_POSITION,
+		TURN,
+		SET_COLOR,
+		SET_PEN,
+		SET_THICKNESS
+	}
+	
+	/**
+	 * @author arno
+	 * Interface for turtle commands
+	 */
+	public interface Command {
+		/**
+		 * @return the type of the command
+		 */
+		public CmdType getType();
+		/**
+		 * @return the time taken to execute the command
+		 */
+		public double getTime();
+		/**
+		 * perform the command on the enclosed GeoTurtle
+		 */
+		public void perform();
+		/**
+		 * Draw the command
+		 * @param ds the DrawState object to use for drawing
+		 */
+		public void draw(DrawState ds);
+		/**
+		 * Draw the command partially
+		 * @param ds the drawState object to use for drawing
+		 * @param progress the fraction of the command which is completed (between 0 and 1)
+		 */
+		public void partialDraw(DrawState ds, double progress);
+	}
+	
+	/**
+	 * @author arno
+	 * Interface for drawing turtle paths.  DrawTurtle classes must implement this interface 
+	 */
+	public interface DrawState {
+		/**
+		 * Set pen status
+		 * @param down true to put pen down, false to lift it
+		 */
+		public void setPen(boolean down);
+		/**
+		 * Move turtle to new position
+		 * @param newPosition the new turtle position
+		 */
+		public void move(GeoPointND newPosition);
+		/**
+		 * Turn turtle
+		 * @param angle anticlockwise angle in radians
+		 */
+		public void turn(double angle);
+		/**
+		 * Partially move turtle
+		 * @param newPosition the new turtle position
+		 * @param progress between 0 (not started) and 1 (all done)
+		 */
+		public void partialMove(GeoPointND newPosition, double progress);
+		/**
+		 * Partially turn turtle
+		 * @param angle anticlockwise angle in radians
+		 * @param progress between 0 (not started) and 1 (all done)
+		 */
+		public void partialTurn(double angle, double progress);
+		/**
+		 * Set the pen color
+		 * @param color new color
+		 */
+		public void setColor(Color color);
+		/**
+		 * Set the pen thickness
+		 * @param th new thickness
+		 */
+		public void setThickness(int th);
+	}
+	
+	/**
+	 * @author arno
+	 * Command: Move turtle forward
+	 */
+	public class CmdForward implements Command {
+		private double length;
+		private double time;
+		private GeoPoint2 destination;
+		
+		/**
+		 * @param l how far to move
+		 */
+		public CmdForward(double l) {
+			length = l;
+			time = Math.abs(l);
+		}
+		
+		public CmdType getType() {
+			return CmdType.FORWARD;
+		}
+		
+		public double getTime() {
+			return time;
+		}
+		
+		public void perform() {
+			position[0] += length*cosAngle;
+			position[1] += length*sinAngle;
+			destination = new GeoPoint2(cons, position[0], position[1], 1d);
+			currentPoint.setCoords(position[0], position[1], 1d);
+		}
+		
+		public void draw(DrawState ds) {
+			ds.move(destination);
+		}
+		
+		public void partialDraw(DrawState ds, double progress) {
+			ds.partialMove(destination, progress);
+		}
+		
+		@Override
+		public String toString() {
+			return "fd " + length;
+		}
+	}
+	
+	/**
+	 * @author arno
+	 * Set turtle position
+	 */
+	public class CmdSetPosition implements Command {
+		double destX;
+		double destY;
+		double time;
+		GeoPoint2 destination;
+		
+		/**
+		 * @param x new x-coord
+		 * @param y new y-coord
+		 */
+		public CmdSetPosition(double x, double y) {
+			destX = x;
+			destY = y;
+			time = Math.hypot(x - position[0], y - position[1]);
+		}
+		
+		public CmdType getType() {
+			return CmdType.SET_POSITION;
+		}
 
+		public double getTime() {
+			return time;
+		}
+
+		public void perform() {
+			position[0] = destX;
+			position[1] = destY;
+			destination = new GeoPoint2(cons, position[0], position[1], 1d);
+			currentPoint.setCoords(position[0], position[1], 1d);
+		}
+
+		public void draw(DrawState ds) {
+			ds.move(destination);
+		}
+
+		public void partialDraw(DrawState ds, double progress) {
+			ds.partialMove(destination, progress);
+		}
+	}
+	
+	/**
+	 * @author arno
+	 * Command: turn turtle
+	 */
+	public class CmdTurn implements Command {
+		private double degAngle;
+		private double angle;
+		private double time;
+		
+		/**
+		 * @param a anticlokwise angle in degrees
+		 */
+		public CmdTurn(double a) {
+			degAngle = a;
+			angle = a * Math.PI / 180;
+			time = a / 90;
+		}
+		public CmdType getType() {
+			return CmdType.TURN;
+		}
+		
+		public double getTime() {
+			return time;
+		}
+		
+		public void perform() {
+			turnAngle += angle;
+			sinAngle = Math.sin(turnAngle);
+			cosAngle = Math.cos(turnAngle);
+		}
+		
+		public void draw(DrawState ds) {
+			ds.turn(angle);
+		}
+		
+		public void partialDraw(DrawState ds, double progress) {
+			ds.partialTurn(angle, progress);
+		}
+		
+		@Override
+		public String toString() {
+			if (degAngle > 0) {
+				return "tl " + degAngle;
+			} else {
+				return "tr " + (-degAngle);
+			}
+		}
+	}
+	
+	/**
+	 * @author arno
+	 * Command: set pen color
+	 */
+	public class CmdSetColor implements Command {
+		private Color color;
+		
+		/**
+		 * @param c the new pen color
+		 */
+		public CmdSetColor(Color c) {
+			color = c;
+		}
+		
+		public CmdType getType() {
+			return CmdType.SET_COLOR;
+		}
+		
+		public double getTime() {
+			return 0d;
+		}
+		
+		public void perform() {
+			penColor = color;
+		}
+		
+		public void draw(DrawState ds) {
+			ds.setColor(color);
+		}
+		
+		public void partialDraw(DrawState ds, double progress) {
+			// nothing to do
+		}
+		
+		@Override
+		public String toString() {
+			return "color " + color;
+		}
+	}
+	
+	/**
+	 * @author arno
+	 * Command: set pen state (up or down)
+	 */
+	public class CmdSetPen implements Command {
+		private boolean down;
+		
+		/**
+		 * @param d true for pen down, false for up
+		 */
+		public CmdSetPen(boolean d) {
+			down = d;
+		}
+		
+		public CmdType getType() {
+			return CmdType.SET_PEN;
+		}
+		
+		public double getTime() {
+			return 0d;
+		}
+		
+		public void perform() {
+			penDown = down;
+		}
+		
+		public void draw(DrawState ds) {
+			ds.setPen(down);
+		}
+		
+		public void partialDraw(DrawState ds, double progress) {
+			// nothing to do
+		}
+		
+		public String toString() {
+			return down ? "pd" : "pu";
+		}
+	}
+	
+	/**
+	 * @author arno
+	 * Command: set pen thickness
+	 */
+	public class CmdSetThickness implements Command {
+		private int thickness;
+		
+		/**
+		 * @param th the new pen thickness
+		 */
+		public CmdSetThickness(int th) {
+			thickness = th;
+		}
+		
+		public CmdType getType() {
+			return CmdType.SET_THICKNESS;
+		}
+		
+		public double getTime() {
+			return 0d;
+		}
+		
+		public void perform() {
+			penThickness = thickness;
+		}
+		
+		public void draw(DrawState ds) {
+			ds.setThickness(thickness);
+		}
+		
+		public void partialDraw(DrawState ds, double progress) {
+			// nothing to do
+		}
+		
+		@Override
+		public String toString() {
+			return "thickness " + thickness;
+		}
+	}
+	
 }

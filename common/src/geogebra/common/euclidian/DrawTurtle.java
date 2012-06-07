@@ -13,13 +13,18 @@ the Free Software Foundation.
 package geogebra.common.euclidian;
 
 import geogebra.common.awt.AffineTransform;
+import geogebra.common.awt.BasicStroke;
 import geogebra.common.awt.Color;
+import geogebra.common.awt.Ellipse2DDouble;
+import geogebra.common.awt.GeneralPath;
+import geogebra.common.awt.Graphics2D;
 import geogebra.common.awt.Image;
 import geogebra.common.awt.Rectangle;
+import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoTurtle;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.common.util.Cloner;
+import geogebra.common.main.AbstractApplication;
 
 import java.util.ArrayList;
 
@@ -29,22 +34,18 @@ import java.util.ArrayList;
  */
 public class DrawTurtle extends Drawable {
 
-	private GeoTurtle turtle;
+	protected GeoTurtle turtle;
 	private boolean isVisible, labelVisible;
 
-	private ArrayList<Object> cmdList;
-	private ArrayList<GeneralPathClipped> gpList;
-
-	private double[] coords = new double[2];
-
+	protected ArrayList<PartialPath> pathList;
+	
 	private Rectangle boundRect;
 
 	private double turnAngle = 0.0;
 
-	private geogebra.common.awt.Rectangle turtleImageBounds = geogebra.common.factories.AwtFactory.prototype
-			.newRectangle();
+	private geogebra.common.awt.Rectangle turtleImageBounds = AwtFactory.prototype.newRectangle();
 	private double imageSize = 10;
-	private double[] currentCoords;
+	private double[] currentCoords = new double[2];
 
 	/**
 	 * @param view
@@ -59,7 +60,105 @@ public class DrawTurtle extends Drawable {
 		turtleImageBounds.setFrame(0, 0, 0, 0);
 		update();
 	}
-
+	
+	private static class PartialPath {
+		public Color color;
+		public int thickness;
+		public GeneralPathClipped path;
+		private BasicStroke stroke;
+		
+		public PartialPath(Color c, int th, GeneralPathClipped p) {
+			color = c;
+			thickness = th;
+			path = p;
+			stroke =  AwtFactory.prototype.newBasicStroke(thickness);
+		}
+		
+		public void draw(Graphics2D g2) {
+			g2.setColor(color);
+			g2.setStroke(stroke);
+			g2.draw(path);
+		}
+	}
+	
+	private class DrawState implements GeoTurtle.DrawState {
+		private boolean penDown = true;
+		private Color penColor = Color.BLACK;
+		private int penThickness = 1;
+		private int nlines = 0;
+		private double turnAngle = 0d;
+		private GeneralPathClipped currentPath;
+		// private GeoPointND currentPosition = turtle.getStartPoint();
+		private double coords[] = new double[2];
+		
+		public DrawState() {
+			currentPath = new GeneralPathClipped(view);
+			penDown = false;
+			move(turtle.getStartPoint());
+			penDown = true;
+			nlines = 0;
+		}
+		
+		public void setPen(boolean down) {
+			penDown = down;
+		}
+		
+		public void move(GeoPointND newPosition) {
+			newPosition.getInhomCoords(coords);
+			view.toScreenCoords(coords);
+			if (penDown) {
+				currentPath.lineTo(coords[0], coords[1]);
+				nlines += 1;
+			} else {
+				currentPath.moveTo(coords[0], coords[1]);
+			}
+		}
+		
+		public void partialMove(GeoPointND newPosition, double progress) {
+			double[] newCoords = new double[2];
+			newPosition.getInhomCoords(newCoords);
+			view.toScreenCoords(newCoords);
+			coords[0] = coords[0]*(1d - progress) + newCoords[0]*progress;
+			coords[1] = coords[1]*(1d - progress) + newCoords[1]*progress;
+			if (penDown) {
+				currentPath.lineTo(coords[0], coords[1]);
+				nlines += 1;
+			} else {
+				currentPath.moveTo(coords[0], coords[1]);
+			}
+		}
+		
+		public void turn(double angle) {
+			turnAngle += angle;
+		}
+		
+		public void partialTurn(double angle, double progress) {
+			turnAngle += angle*progress;
+		}
+		
+		public void setColor(Color color) {
+			if (penColor != color) {
+				finishPartialPath();
+				penColor = color;
+			}
+		}
+		
+		public void setThickness(int thickness) {
+			if (penThickness != thickness) {
+				finishPartialPath();
+				penThickness = thickness;
+			}
+		}
+		
+		public void finishPartialPath() {
+			if (nlines > 0) {
+				pathList.add(new PartialPath(penColor, penThickness, currentPath));
+			}
+			currentPath = new GeneralPathClipped(view);
+			currentPath.moveTo(coords[0], coords[1]);
+		}
+	}
+	
 	@Override
 	final public void update() {
 
@@ -68,107 +167,36 @@ public class DrawTurtle extends Drawable {
 		if (isVisible) {
 			labelVisible = geo.isLabelVisible();
 			updateStrokes(turtle);
-
-			if (cmdList == null) {
-				cmdList = new ArrayList<Object>();
+			
+			if (pathList == null) {
+				pathList = new ArrayList<PartialPath>();
 			} else {
-				cmdList.clear();
+				pathList.clear();
 			}
-
-			if (gpList == null) {
-				gpList = new ArrayList<GeneralPathClipped>();
-			} else {
-				gpList.clear();
-			}
-
-			GeneralPathClipped gp = null;
-			boolean penDown = true;
-			boolean needsNewPath = true;
-			GeoPointND startPoint = turtle.getStartPoint();
-			startPoint.getInhomCoords(coords);
-			view.toScreenCoords(coords);
-			currentCoords = Cloner.clone(coords);
-			turnAngle = 0d;
-
+			DrawState ds = new DrawState();
 			int ncommands = turtle.getTurtleCommandList().size();
 			if (turtle.getSpeed() != 0d) {
 				ncommands = turtle.getNumberOfCompletedCommands();
 			}
 
 			// Partially process the turtle command list.
-			// The turtle command list is converted to a list of drawing style
-			// commands and a list of general paths that can be used by the draw
-			// method. Iteration stops when ncommands is reached, the current
+			// The turtle command list is converted to a list of partial paths
+			// which know how to draw themselves on a Graphic2D.
+			// Iteration stops when ncommands is reached, the current
 			// in-progress limit.
-
-			for (int i = 0; i < ncommands; i++) {
-
-				Object cmd = turtle.getTurtleCommandList().get(i);
-
-				if (cmd instanceof Boolean) {
-					penDown = (Boolean) cmd;
-				}
-
-				if (cmd instanceof Double) {
-					turnAngle += (Double) cmd;
-				}
-
-				else if (cmd instanceof GeoPointND) {
-					if (needsNewPath) {
-						gp = new GeneralPathClipped(view);
-						// move to start point of path
-						addPointToPath(gp, startPoint, false);
-						cmdList.add(gp);
-						gpList.add(gp);
-						needsNewPath = false;
-					}
-					addPointToPath(gp, (GeoPointND) cmd, penDown);
-					startPoint = (GeoPointND) cmd;
-				}
-
-				// penColor commands are added here
-				// a new general path is needed when color is reset
-				else {
-					cmdList.add(cmd);
-					needsNewPath = true;
+			
+			for (GeoTurtle.Command cmd : turtle.getTurtleCommandList()) {
+				if (ncommands-- > 0) {
+					cmd.draw(ds);
+				} else {
+					cmd.partialDraw(ds, turtle.getCurrentCommandProgress());
+					break;
 				}
 			}
-
-			// Handle the next turtle command. Line segments and angles are
-			// partially drawn according to the turtle progress field value
-
-			if (ncommands < turtle.getTurtleCommandList().size()) {
-				Object cmd = turtle.getTurtleCommandList().get(ncommands);
-				double progress = turtle.getCurrentCommandProgress();
-
-				if (cmd instanceof Boolean) {
-					// TODO
-				}
-
-				if (cmd instanceof Double) {
-					turnAngle += ((Double) cmd) * progress;
-				}
-
-				else if (cmd instanceof GeoPointND) {
-					if (needsNewPath) {
-						gp = new GeneralPathClipped(view);
-						addPointToPath(gp, startPoint, false);
-						cmdList.add(gp);
-						gpList.add(gp);
-					}
-
-					double[] startCoords = new double[2];
-					startPoint.getInhomCoords(startCoords);
-					double[] endCoords = new double[2];
-					((GeoPointND) cmd).getInhomCoords(endCoords);
-					coords[0] = startCoords[0] * (1d - progress) + endCoords[0]
-							* progress;
-					coords[1] = startCoords[1] * (1d - progress) + endCoords[1]
-							* progress;
-					addPointToPath(gp, penDown);
-				}
-			}
-
+			ds.finishPartialPath();
+			currentCoords[0] = ds.coords[0];
+			currentCoords[1] = ds.coords[1];
+			turnAngle = ds.turnAngle;
 		}
 
 		turtleImageBounds.setFrame(currentCoords[0] - imageSize / 2,
@@ -182,29 +210,6 @@ public class DrawTurtle extends Drawable {
 
 	}
 
-	private void updateCurrentCoords() {
-		currentCoords[0] = coords[0];
-		currentCoords[1] = coords[1];
-	}
-
-	private void addPointToPath(GeneralPathClipped gp, boolean penDown) {
-
-		view.toScreenCoords(coords);
-
-		if (penDown) {
-			gp.lineTo(coords[0], coords[1]);
-		} else {
-			gp.moveTo(coords[0], coords[1]);
-		}
-		updateCurrentCoords();
-	}
-
-	private void addPointToPath(GeneralPathClipped gp, GeoPointND pt,
-			boolean penDown) {
-		pt.getInhomCoords(coords);
-		addPointToPath(gp, penDown);
-	}
-
 	@Override
 	final public void draw(geogebra.common.awt.Graphics2D g2) {
 
@@ -212,25 +217,16 @@ public class DrawTurtle extends Drawable {
 
 			// TODO: handle variable line thickness
 			g2.setStroke(objStroke);
-			g2.setColor(Color.black);
-
-			for (int i = 0; i < cmdList.size(); i++) {
-				Object cmd = cmdList.get(i);
-				if (cmd instanceof Color) {
-					g2.setColor((Color) cmdList.get(i));
-				} else if (cmd instanceof GeneralPathClipped) {
-					g2.draw((GeneralPathClipped) cmd);
-				}
+			
+			for (PartialPath path : pathList) {
+				path.draw(g2);
 			}
 
 			if (geo.doHighlighting()) {
 				g2.setPaint(turtle.getSelColor());
 				g2.setStroke(selStroke);
-				for (int i = 0; i < cmdList.size(); i++) {
-					Object cmd = cmdList.get(i);
-					if (cmd instanceof GeneralPathClipped) {
-						g2.draw((GeneralPathClipped) cmd);
-					}
+				for (PartialPath path : pathList) {
+					g2.draw(path.path);
 				}
 			}
 
@@ -243,7 +239,7 @@ public class DrawTurtle extends Drawable {
 			// draw rotated turtle
 			AffineTransform tr = g2.getTransform();
 			g2.translate(currentCoords[0], currentCoords[1]);
-			g2.rotate(-turnAngle * Math.PI / 180);
+			g2.rotate(-turnAngle);
 			drawTurtleShape(g2, turtle.getTurtle(), turtle.getPenColor());
 			g2.setTransform(tr);
 
@@ -253,8 +249,8 @@ public class DrawTurtle extends Drawable {
 	@Override
 	final public boolean hit(int x, int y) {
 		if (isVisible) {
-			for (GeneralPathClipped gp : gpList) {
-				if (gp.intersects(x - hitThreshold, y - hitThreshold,
+			for (PartialPath path : pathList) {
+				if (path.path.intersects(x - hitThreshold, y - hitThreshold,
 						2 * hitThreshold, 2 * hitThreshold)) {
 					return true;
 				}
@@ -265,7 +261,7 @@ public class DrawTurtle extends Drawable {
 
 	@Override
 	final public boolean isInside(geogebra.common.awt.Rectangle rect) {
-		return cmdList != null && rect.contains(getBounds());
+		return pathList != null && rect.contains(getBounds());
 	}
 
 	@Override
@@ -289,8 +285,8 @@ public class DrawTurtle extends Drawable {
 		}
 
 		boundRect = turtleImageBounds;
-		for (GeneralPathClipped gp : gpList) {
-			boundRect = boundRect.union(gp.getBounds());
+		for (PartialPath path : pathList) {
+			boundRect = boundRect.union(path.path.getBounds());
 		}
 
 		return boundRect;
@@ -302,14 +298,10 @@ public class DrawTurtle extends Drawable {
 	// TODO: handle images when Common supports loading internal images
 	// ===================================================
 
-	private static geogebra.common.awt.Ellipse2DDouble ellipse = geogebra.common.factories.AwtFactory.prototype
-			.newEllipse2DDouble();
-	private static geogebra.common.awt.BasicStroke stroke1 = geogebra.common.factories.AwtFactory.prototype
-			.newBasicStroke(1f);
-	private static geogebra.common.awt.BasicStroke stroke2 = geogebra.common.factories.AwtFactory.prototype
-			.newBasicStroke(2f);
-	private static geogebra.common.awt.GeneralPath path = geogebra.common.factories.AwtFactory.prototype
-			.newGeneralPath();
+	private static Ellipse2DDouble ellipse = AwtFactory.prototype.newEllipse2DDouble();
+	private static BasicStroke stroke1 = AwtFactory.prototype.newBasicStroke(1f);
+	private static BasicStroke stroke2 = AwtFactory.prototype.newBasicStroke(2f);
+	private static GeneralPath path = AwtFactory.prototype.newGeneralPath();
 
 	/**
 	 * Draw turtle shapes.
