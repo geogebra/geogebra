@@ -3215,12 +3215,11 @@ public class Kernel {
 	private void printAttachedViews() {
 		
 		StringBuilder sb = new StringBuilder();
-		sb.append("XXXXXXXXX Number of registered views = ");
+		sb.append("Number of registered views = ");
 		sb.append(viewCnt);
-		sb.append('\n');
 		for (int i = 0; i < viewCnt; i++) {
+			sb.append("\n * ");
 			sb.append(views[i].getClass());
-			sb.append('\n');
 		}
 		
 		AbstractApplication.debug(sb.toString());
