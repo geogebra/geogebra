@@ -54,6 +54,7 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 	private Box box = SwingFactory.prototype.createHorizontalBox();
 	/** temporary text accessed by listeners */
 	public String tempText;
+	public boolean tempTextSaved = false;
 
 	/**
 	 * @param view view
@@ -136,7 +137,10 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 		 * @param e focus event
 		 */
 		public void focusLost(FocusEvent e) {
-			textField.setText(tempText);
+			if (tempTextSaved){
+				textField.setText(tempText);
+				tempTextSaved = false;
+			}
 			view.getEuclidianController().textfieldHasFocus(false);	
 			geoTextField.textObjectUpdated(textField);
 			geoTextField.textSubmitted();
@@ -166,6 +170,7 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 		public void keyReleased(KeyEvent e) {
 			if (e.getKeyChar() == '\n') {
 				tempText = textField.getText();
+				tempTextSaved = true;
 				//view.getEuclidianController().textfieldHasFocus(false);
 				//geoTextField.textObjectUpdated(textField);
 				//geoTextField.textSubmitted();
