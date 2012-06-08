@@ -26,6 +26,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.parser.ParseException;
 import geogebra.common.kernel.parser.Parser;
 import geogebra.common.kernel.parser.cashandlers.ParserFunctions;
+import geogebra.common.main.AbstractApplication;
 
 /**
  * Handles parsing and evaluating of input in the CAS view.
@@ -78,6 +79,7 @@ public class CASparser implements CASParserInterface{
 		//}catch (MaximaVersionUnsupportedExecption e) {
 		//	throw e; // propagate exception
 		}catch (Throwable e) {
+			AbstractApplication.debug("Parsing failed: "+inValue);
 			e.printStackTrace();
 			//AbstractApplication.debug(e);
 			return null;
