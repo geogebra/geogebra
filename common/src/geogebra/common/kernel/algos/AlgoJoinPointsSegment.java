@@ -71,7 +71,8 @@ public class AlgoJoinPointsSegment extends AlgoElement implements AlgoJoinPoints
     	    	 
         // make sure that this helper algorithm is updated right after its parent polygon
     	if (poly != null) {
-    		setUpdateAfterAlgo(poly.getParentAlgorithm());    		    		
+    		setUpdateAfterAlgo(poly.getParentAlgorithm());  
+    		protectedInput = true;
     	}
     		
         this.poly = poly;                

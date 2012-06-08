@@ -699,7 +699,7 @@ public abstract class AlgoElement extends ConstructionElement implements
 
 		// delete from algorithm lists of input
 		for (int i = 0; i < input.length; i++) {
-			if(unlabeledInput && !input[i].isLabelSet())
+			if(!protectedInput && !input[i].isLabelSet())
 				input[i].remove(unlabeledInput);
 			input[i].removeAlgorithm(this);
 		}
@@ -712,7 +712,7 @@ public abstract class AlgoElement extends ConstructionElement implements
 		}
 	}
 
-
+	protected boolean protectedInput = false;
 	/**
 	 * Tells this algorithm to react on the deletion of one of its outputs.
 	 * 
