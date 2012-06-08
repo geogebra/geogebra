@@ -60,9 +60,7 @@ public class GeoGebraMenubar extends MenuBar {
 
 		private void init() {
 
-			if (!getNativeEmailSet().equals("")) {
-				createFileMenu();
-			}
+			createFileMenu(!getNativeEmailSet().equals(""));
 			
 			//Creation of Options Menu
 			 createOptionsMenu(); // Later we'll put back.
@@ -230,8 +228,8 @@ public class GeoGebraMenubar extends MenuBar {
 			linktoggb.setTitle("Go to GeoGebraTube");
         }
 
-		private void createFileMenu() {
-	        fileMenu = new FileMenu(app);
+		private void createFileMenu(boolean enabled) {
+	        fileMenu = new FileMenu(app, enabled);
 			addItem(app.getMenu("File"),fileMenu);
         }
 		
@@ -248,6 +246,12 @@ public class GeoGebraMenubar extends MenuBar {
 		public static String getMenuBarHtml(String url,String text) {		
 			//TODO: Resize images for this real size, if it is good.
 			return "<img width=\"16\" height=\"16\" alt=\""+text+"\" src=\""+url+"\" />"+" "+text;
+		}
+
+		public static String getMenuBarHtmlGrayout(String url,String text) {		
+			//TODO: Resize images for this real size, if it is good.
+			return "<img width=\"16\" height=\"16\" alt=\""+text+"\" src=\""+url+"\" />"+" "+
+					"<span style=\"color:gray;\">"+text+"</span>";
 		}
 	
 }

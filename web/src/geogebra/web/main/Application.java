@@ -88,6 +88,8 @@ import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.user.client.Timer;
 
 public class Application extends AbstractApplication {
 
@@ -1617,18 +1619,45 @@ public class Application extends AbstractApplication {
 	public void showURLinBrowser(final String pageUrl) {
 		// Window.open(pageUrl, "_blank", "");
 		debug("opening: " + pageUrl);
-		Button openWindow = new Button("Open Window");
-		openWindow.addClickHandler(new ClickHandler() {
 
-			public void onClick(final ClickEvent clickEvent) {
-				Window.open(pageUrl, "_blank", null);
-			}
-		});
-		RootPanel.get().add(openWindow);
+		// assume showURLinBrowserWaiterFixedDelay is called before
+		showURLinBrowserPageUrl = pageUrl;
+
+		// Wonder why was openWindow necessary?
+		// The showURLinBrowser shall be called after a click anyway
+
+		//Button openWindow = new Button("Open Window");
+		//openWindow.addClickHandler(new ClickHandler() {
+
+		//	public void onClick(final ClickEvent clickEvent) {
+		//		Window.open(pageUrl, "_blank", null);
+		//	}
+		//});
+		//RootPanel.get().add(openWindow);
 	}
+
+	public String showURLinBrowserPageUrl = null;
+
+	public native void showURLinBrowserWaiterFixedDelay() /*-{
+		this.@geogebra.web.main.Application::showURLinBrowserPageUrl = null;
+
+		var that = this;
+		var timer = {};
+		function intervalTask() {
+			if (that.@geogebra.web.main.Application::showURLinBrowserPageUrl != null) {
+				$wnd.open(that.@geogebra.web.main.Application::showURLinBrowserPageUrl, "_blank", "");
+				if (timer.tout) {
+					$wnd.clearInterval(timer.tout);
+				}
+			}
+		}
+
+		timer.tout = $wnd.setInterval(intervalTask, 700);
+	}-*/;
 
 	@Override
 	public void uploadToGeoGebraTube() {
+		showURLinBrowserWaiterFixedDelay();
 		GeoGebraTubeExportWeb ggbtube = new GeoGebraTubeExportWeb(this);
 		((GgbAPI)getGgbApi()).getBase64(true, getUploadToGeoGebraTubeCallback(ggbtube));
 	}
