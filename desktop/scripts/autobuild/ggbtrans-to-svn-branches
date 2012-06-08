@@ -7,8 +7,8 @@
 # @author Zoltan Kovacs <zoltan@geogebra.org>
 
 # Edit these variables if needed:
-GGBTRANS_DIR=/home/arnaud/ggbtrans
-BRANCHES_DIR=/home/zoltan/svn/geogebra-branches
+GGBTRANS_DIR=/home/ggbtrans/svn/ggbtrans
+BRANCHES_DIR=/home/ggbtrans/svn/branches
 SVNSYNC=`pwd`/svnsync
 
 # Updating SVN:
@@ -29,6 +29,7 @@ rm -f *.properties
 $GGBTRANS_DIR/export.py 4.0 $BRANCHES_DIR/ggb40/geogebra/geogebra/properties
 cd $BRANCHES_DIR/ggb40/geogebra/geogebra/properties
 cp $BRANCHES_DIR/ggb40/geogebra/geogebra/properties/*.properties $BRANCHES_DIR/wiki/geogebra/properties
+
 `$SVNSYNC`
 svn commit -m "ggb40: *.properties files automatically updated from ggbtrans"
 

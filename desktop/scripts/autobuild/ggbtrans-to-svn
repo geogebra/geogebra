@@ -58,13 +58,10 @@ $GGBTRANS_DIR/export.py gwtjs $JS_DIR
 
 # Add new files (with directory):
 git add $PROP_DIR
-git commit -m "desktop *.properties files automatically updated from ggbtrans"
-
 git add $GWTPROP_DIR
-git commit -m "web *.properties files and java interfaces automatically updated from ggbtrans"
-
 git add $JSKEYS_PATH
-git commit -m "web properties_keys.js automatically updated from ggbtrans"
+
+git commit -m "properties files and related resources automatically updated from ggbtrans"
 
 # Commit to official GeoGebra SVN:
 git svn dcommit
