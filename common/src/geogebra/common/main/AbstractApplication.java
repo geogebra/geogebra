@@ -1151,11 +1151,22 @@ public abstract class AbstractApplication {
 			sbOrdinal.append(":s");
 		} else if ("el".equals(lang)) {
 			sbOrdinal.append('\u03b7');
-		} else if ("ro".equals(lang) || "ca".equals(lang) || "es".equals(lang)
+		} else if ("ro".equals(lang) || "es".equals(lang)
 				|| "it".equals(lang) || "pt".equals(lang)) {
 			sbOrdinal.append(Unicode.FEMININE_ORDINAL_INDICATOR);
 		} else if ("bs".equals(lang) || "sl".equals(lang)) {
 			sbOrdinal.append("-ti");
+		} else if ("ca".equals(lang)) {
+			
+			switch (n) {
+			// Catalan (masculine)
+			case 1 : sbOrdinal.append("r"); break;
+			case 2 : sbOrdinal.append("n"); break;
+			case 3 : sbOrdinal.append("r"); break;
+			case 4 : sbOrdinal.append("t"); break;
+			default: sbOrdinal.append("e"); break;
+			}
+			
 		} else if ("sq".equals(lang)) {
 			sbOrdinal.append("-te");
 		} else if ("gl".equals(lang)) {
