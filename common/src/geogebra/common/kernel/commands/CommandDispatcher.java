@@ -1048,7 +1048,12 @@ public class CommandDispatcher {
 				return new CmdCAStoOperation(kernel,Operation.VECTORPRODUCT);
 			case Real:
 				return new CmdCAStoOperation(kernel,Operation.XCOORD);
-				
+			case IntegerPart:
+				return new CmdCAStoOperation(kernel,Operation.FLOOR);
+			case Divisors:
+				return new CmdDivisorsOrDivisorsSum(kernel,false);
+			case DivisorsSum:
+				return new CmdDivisorsOrDivisorsSum(kernel,true);
 			case CFactor:
 			case CommonDenominator:
 			case CSolutions:
@@ -1056,14 +1061,11 @@ public class CommandDispatcher {
 			case Decimal:
 			case Dimension:
 			case Division:
-			case Divisors:
 			case DivisorsList:
-			case DivisorsSum:
 			case ExpandComplex:
 			case FractionalPart:
 			case Groebner:
 			case ImplicitDerivative:
-			case IntegerPart:
 			case IsPrime:
 			case LeftSide:
 			case MatrixRank:
@@ -1078,7 +1080,6 @@ public class CommandDispatcher {
 			case MixedNumber:
 			case RandomPolynomial:
 			case Rationalize:
-			
 			case RightSide:
 			case Solutions:
 			case Solve:

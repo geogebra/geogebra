@@ -17,7 +17,6 @@ public class Ggb2MPReduce {
 	 */
 	public static void p(String signature, String casSyntax) {
 		commandMap.put(signature, casSyntax);
-		System.out.println(signature.substring(0,signature.length()-2)+"(TABLE_ENGLISH),");
 	}
 
 	/**

@@ -30,7 +30,21 @@ public class AlgoPrimeFactorization extends AlgoElement {
     private GeoList outputList; //output	    
     
     private static double LARGEST_INTEGER=9007199254740992d;
+    /**
+     * Creates new factorization algo 
+     * @param cons
+     * @param label
+     * @param num Number to factorize
+     */
+    public AlgoPrimeFactorization(Construction cons,  NumberValue num) {
+        super(cons);        
+        this.num = num;
+               
+        outputList = new GeoList(cons);
 
+        setInputOutput();
+        compute();
+    }
     
     /**
      * Creates new factorization algo 
@@ -39,13 +53,7 @@ public class AlgoPrimeFactorization extends AlgoElement {
      * @param num Number to factorize
      */
     public AlgoPrimeFactorization(Construction cons, String label, NumberValue num) {
-        super(cons);        
-        this.num = num;
-               
-        outputList = new GeoList(cons);
-
-        setInputOutput();
-        compute();
+        this(cons,num);
         outputList.setLabel(label);
     }
 

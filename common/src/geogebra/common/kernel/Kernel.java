@@ -9866,5 +9866,9 @@ public class Kernel {
 		AlgoAttachCopyToView algo = new AlgoAttachCopyToView(cons,label,geoElement,viewID,corner1,corner3,screenCorner1,screenCorner3);
 		return algo.getResult();
 	}
-
+	
+	public GeoElement DivisorsOrDivisorsSum(String label, NumberValue number,boolean sum) {
+		AlgoDivisorsSum algo = new AlgoDivisorsSum(cons,label,number,sum);
+		return algo.getResult();
+	}	
 }
