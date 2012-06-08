@@ -184,5 +184,8 @@ public interface ErrorConstants extends ConstantsWithLookup {
     @DefaultStringValue("The chosen look and feel is not available on your computer")
     String UnsupportedLAF();
 
+    @DefaultStringValue("Point or vector expected")
+    String VectorExpected();
+
 
 }

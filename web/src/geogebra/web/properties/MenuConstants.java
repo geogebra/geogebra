@@ -2377,5 +2377,8 @@ public interface MenuConstants extends ConstantsWithLookup {
     @DefaultStringValue("Off")
     String off();
 
+    @DefaultStringValue("On")
+    String on();
+
 
 }

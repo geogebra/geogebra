@@ -2584,5 +2584,8 @@ public interface CommandConstants extends ConstantsWithLookup {
     @DefaultStringValue("nPr")
     String nPr();
 
+    @DefaultStringValue("[ <Number>, <Number> ]")
+    String nPr_SyntaxCAS();
+
 
 }

@@ -1882,5 +1882,8 @@ public interface PlainConstants extends ConstantsWithLookup {
     @DefaultStringValue("y Min")
     String ymin();
 
+    @DefaultStringValue("Y Step")
+    String ystep();
+
 
 }

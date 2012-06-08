@@ -103,5 +103,8 @@ public interface ColorsConstants extends ConstantsWithLookup {
     @DefaultStringValue("White")
     String white();
 
+    @DefaultStringValue("Yellow")
+    String yellow();
+
 
 }

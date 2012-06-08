@@ -33,7 +33,8 @@ var colorsKeysVar = {
 	silver:'',
 	turquoise:'',
 	violet:'',
-	white:''
+	white:'',
+	yellow:''
 };
 
 var commandKeysVar = {
@@ -894,7 +895,8 @@ var commandKeysVar = {
 	ZoomIn_Syntax:'',
 	ZoomOut:'',
 	ZoomOut_Syntax:'',
-	nPr:''
+	nPr:'',
+	nPr_SyntaxCAS:''
 };
 
 var errorKeysVar = {
@@ -955,7 +957,8 @@ var errorKeysVar = {
 	URLnotFound:'',
 	UndefinedVariable:'',
 	UnknownCommand:'',
-	UnsupportedLAF:''
+	UnsupportedLAF:'',
+	VectorExpected:''
 };
 
 var menuKeysVar = {
@@ -1747,7 +1750,8 @@ var menuKeysVar = {
 	ZoomIn_Help:'',
 	ZoomOut:'',
 	ZoomOut_Help:'',
-	off:''
+	off:'',
+	on:''
 };
 
 var plainKeysVar = {
@@ -2374,7 +2378,8 @@ var plainKeysVar = {
 	xstep:'',
 	yAxis:'',
 	ymax:'',
-	ymin:''
+	ymin:'',
+	ystep:''
 };
 
 var symbolsKeysVar = {
@@ -2414,5 +2419,6 @@ var symbolsKeysVar = {
 	T_5:'',
 	T_6:'',
 	T_7:'',
-	T_8:''
+	T_8:'',
+	T_9:''
 };
