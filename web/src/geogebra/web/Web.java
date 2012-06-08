@@ -66,7 +66,7 @@ public class Web implements EntryPoint {
 		//do we have an app?
 		Web.loadedAsApp = checkIfNeedToLoadAsApp();
 		if (Web.loadedAsApp) {
-			JavaScriptInjector.inject(GuiResources.INSTANCE.commandContstantsJs().getText());
+			JavaScriptInjector.inject(GuiResources.INSTANCE.propertiesKeysJS().getText());
 		}
 		
 		// insert mathquill css

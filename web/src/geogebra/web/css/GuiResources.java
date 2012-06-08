@@ -60,7 +60,7 @@ public interface GuiResources extends ClientBundle {
 	@Source("geogebra/resources/js/mathquill.js")
 	TextResource mathquillJs();
 	
-	@Source("geogebra/resources/js/commandconstants.js")
-	TextResource commandContstantsJs();
+	@Source("geogebra/resources/js/properties_keys.js")
+	TextResource propertiesKeysJS();
 }
 
