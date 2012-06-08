@@ -1160,6 +1160,7 @@ public abstract class AbstractApplication {
 			
 			switch (n) {
 			// Catalan (masculine)
+			case 0 : break; // just "0", not "0e" etc
 			case 1 : sbOrdinal.append("r"); break;
 			case 2 : sbOrdinal.append("n"); break;
 			case 3 : sbOrdinal.append("r"); break;
