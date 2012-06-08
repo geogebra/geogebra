@@ -1081,7 +1081,7 @@ public class Application extends AbstractApplication implements
 
 	public void updateDockBar() {
 		if (dockBar != null) {
-			dockBar.updateViewButtons();
+			dockBar.update();
 		}
 	}
 

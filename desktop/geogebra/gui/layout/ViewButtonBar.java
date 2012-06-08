@@ -90,9 +90,11 @@ public class ViewButtonBar extends JToolBar {
 		}
 		
 		// spacer
-		add(Box.createVerticalStrut(20));
+		//add(Box.createVerticalStrut(20));
+		
 		// add properties view button
-		add(viewButtons.get(0));
+		//add(viewButtons.get(0));
+		
 		viewButtons.get(0).setSelected(app.getGuiManager().showView(viewButtons.get(0).getViewId()));
 	}
 
