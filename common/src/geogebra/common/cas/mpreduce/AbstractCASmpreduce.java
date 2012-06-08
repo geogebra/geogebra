@@ -896,7 +896,7 @@ public abstract class AbstractCASmpreduce extends CASgeneric {
 		AbstractCASmpreduce.mpreduce=mpreduce1;
 		
 		// user variable ordering
-		String variableOrdering = "pi,i,ggbcasvarx, ggbcasvary, ggbcasvarz, ggbcasvara, "
+		String variableOrdering = "ggbcasvarx, ggbcasvary, ggbcasvarz, ggbcasvara, "
 				+ "ggbcasvarb, ggbcasvarc, ggbcasvard, ggbcasvare, ggbcasvarf, "
 				+ "ggbcasvarg, ggbcasvarh, ggbcasvari, ggbcasvarj, ggbcasvark, "
 				+ "ggbcasvarl, ggbcasvarm, ggbcasvarn, ggbcasvaro, ggbcasvarp, "
