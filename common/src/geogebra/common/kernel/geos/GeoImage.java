@@ -340,7 +340,7 @@ public class GeoImage extends GeoElement implements Locateable,
 	}
 
 	@Override
-	public void doRemove(boolean unlabeledInput) {
+	public void doRemove() {
 		instances.remove(this);
 
 		// remove background image
@@ -349,7 +349,7 @@ public class GeoImage extends GeoElement implements Locateable,
 			notifyUpdate();
 		}
 
-		super.doRemove(unlabeledInput);
+		super.doRemove();
 		for (int i = 0; i < corners.length; i++) {
 			// tell corner
 			if (corners[i] != null)

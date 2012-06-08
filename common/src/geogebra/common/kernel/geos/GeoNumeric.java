@@ -926,8 +926,8 @@ public class GeoNumeric extends GeoElement implements NumberValue,
 	}
 
 	@Override
-	public void doRemove(boolean unlabeledInput) {
-		super.doRemove(unlabeledInput);
+	public void doRemove() {
+		super.doRemove();
 
 		// if this was a random number, make sure it's removed
 		cons.removeRandomGeo(this);

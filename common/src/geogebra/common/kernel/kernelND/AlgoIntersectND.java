@@ -179,7 +179,7 @@ public abstract class AlgoIntersectND extends AlgoIntersectAbstract {
             // remove only output
             // delete dependent objects        
             for (int i = 0; i < getOutputLength(); i++) {
-                getOutput(i).doRemove(unlabeledInput);
+                getOutput(i).doRemove();
             }
             setPrintedInXML(false);
         }

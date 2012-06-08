@@ -557,7 +557,7 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 	 */
 	@Override
 	public
-	void remove(GeoElement output,boolean unlabeledInput) {
+	void remove(GeoElement output) {
 		// only single undefined points may be removed
 		for (int i = 0; i < rootPoints.length; i++) {
 			if (rootPoints[i] == output && !rootPoints[i].isDefined()) {
@@ -590,7 +590,7 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 	}
 
 	private void removeRootPoint(int pos) {
-		rootPoints[pos].doRemove(true);
+		rootPoints[pos].doRemove();
 
 		// build new rootPoints array without the removed point
 		GeoPoint2[] temp = new GeoPoint2[rootPoints.length - 1];

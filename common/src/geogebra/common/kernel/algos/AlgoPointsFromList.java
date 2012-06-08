@@ -190,7 +190,7 @@ public class AlgoPointsFromList extends AlgoElement {
 	 * If this is not possible the whole algorithm is removed.
 	 */
 	@Override
-	public void remove(GeoElement output,boolean unlabeledInput) {
+	public void remove(GeoElement output) {
 		// only single undefined points may be removed       
 		for (int i = 0; i < points.length; i++) {
 			if (points[i] == output && !points[i].isDefined()) {
@@ -201,7 +201,7 @@ public class AlgoPointsFromList extends AlgoElement {
 
 		// if we get here removing output was not possible
 		// so we remove the whole algorithm
-		super.remove(unlabeledInput);
+		super.remove();
 	}
 
 	private void initPoints(int number) {
@@ -223,7 +223,7 @@ public class AlgoPointsFromList extends AlgoElement {
 	}
 
 	private void removeRootPoint(int pos) {
-		points[pos].doRemove(true);
+		points[pos].doRemove();
 
 		// build new rootPoints array without the removed point
 		GeoPoint2[] temp = new GeoPoint2[points.length - 1];

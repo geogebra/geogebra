@@ -916,7 +916,7 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture {
 	 * super.remove() // Michael Borcherds 2008-04-02
 	 */
 	@Override
-	public void doRemove(boolean unlabeledInput) {
+	public void doRemove() {
 
 		if (colorFunctionListener != null) {
 			// copy conditionListeners into array
@@ -931,7 +931,7 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture {
 			}
 		}
 
-		super.doRemove(unlabeledInput);
+		super.doRemove();
 	}
 
 	/**

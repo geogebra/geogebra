@@ -694,7 +694,7 @@ public abstract class AlgoElement extends ConstructionElement implements
 
 		// delete dependent objects
 		for (int i = 0; i < getOutputLength(); i++) {
-			getOutput(i).doRemove(unlabeledInput);
+			getOutput(i).doRemove();
 		}
 
 		// delete from algorithm lists of input
@@ -718,8 +718,8 @@ public abstract class AlgoElement extends ConstructionElement implements
 	 * 
 	 * @param out output to be removed
 	 */
-	public void remove(GeoElement out,boolean unlabeledInput) {
-		remove(unlabeledInput);
+	public void remove(GeoElement out) {
+		remove();
 	}
 
 	/**
@@ -728,12 +728,12 @@ public abstract class AlgoElement extends ConstructionElement implements
 	 * 
 	 * @param keepGeo geo to be kept
 	 */
-	public void removeOutputExcept(GeoElement keepGeo,boolean unlabeledInput) {
+	public void removeOutputExcept(GeoElement keepGeo) {
 
 		for (int i = 0; i < getOutputLength(); i++) {
 			GeoElement geo = getOutput(i);
 			if (geo != keepGeo) {
-				geo.doRemove(unlabeledInput);
+				geo.doRemove();
 			}
 		}
 	}

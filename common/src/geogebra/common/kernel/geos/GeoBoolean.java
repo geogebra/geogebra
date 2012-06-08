@@ -143,7 +143,7 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 	 * super.remove()
 	 */
 	@Override
-	public void doRemove(boolean unlabeledInput) {
+	public void doRemove() {
 		if (condListenersShowObject != null) {
 			// copy conditionListeners into array
 			Object[] geos = condListenersShowObject.toArray();
@@ -157,7 +157,7 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 			}
 		}
 
-		super.doRemove(unlabeledInput);
+		super.doRemove();
 	}
 
 	@Override

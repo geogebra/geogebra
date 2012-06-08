@@ -3092,11 +3092,11 @@ public abstract class GeoElement extends ConstructionElement implements
 	public void remove(boolean unlabeledInput) {
 		// dependent object: remove parent algorithm
 		if (algoParent != null) {
-			algoParent.remove(this,unlabeledInput);
+			algoParent.remove(this);
 		} else {
-			doRemove(unlabeledInput);
+			doRemove();
 			if (correspondingCasCell != null) {
-				correspondingCasCell.doRemove(unlabeledInput);
+				correspondingCasCell.doRemove();
 			}
 		}
 	}
@@ -3110,9 +3110,8 @@ public abstract class GeoElement extends ConstructionElement implements
 
 	/**
 	 *  removes this GeoElement and all its dependents
-	 * @param unlabeledInput true to remove unlabeled input objects of parent algo
 	 */
-	public void doRemove(boolean unlabeledInput) {
+	public void doRemove() {
 		// stop animation of this geo
 		setAnimating(false);
 
@@ -3140,7 +3139,7 @@ public abstract class GeoElement extends ConstructionElement implements
 			final Object[] algos = algorithmList.toArray();
 			for (int i = 0; i < algos.length; i++) {
 				algo = (AlgoElement) algos[i];
-				algo.remove(this,unlabeledInput);
+				algo.remove(this);
 			}
 		}
 

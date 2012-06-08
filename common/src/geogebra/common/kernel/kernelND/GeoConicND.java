@@ -3425,7 +3425,7 @@ Translateable, GeoConicNDConstants,MatrixTransformable, PointRotateable,Region
 	}
 	
 	@Override
-	public void doRemove(boolean unlabeledInput) {
+	public void doRemove() {
 		
 		if (pointsOnConic!=null) {
 			for (int i=0; i<pointsOnConic.size(); ++i) {
@@ -3434,7 +3434,7 @@ Translateable, GeoConicNDConstants,MatrixTransformable, PointRotateable,Region
 			}
 		}
 		
-		super.doRemove(unlabeledInput);
+		super.doRemove();
 	}
 	
 	

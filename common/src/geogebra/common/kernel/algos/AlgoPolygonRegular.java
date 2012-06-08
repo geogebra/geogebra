@@ -391,7 +391,7 @@ public class AlgoPolygonRegular extends AlgoElement {
 
 		algoList.clear();
 		// remove point
-		oldPoint.doRemove(true);
+		oldPoint.doRemove();
 
 	}
 
@@ -400,14 +400,14 @@ public class AlgoPolygonRegular extends AlgoElement {
 	 * keepGeo.
 	 */
 	@Override
-	public void removeOutputExcept(GeoElement keepGeo,boolean unlabeledInput) {
+	public void removeOutputExcept(GeoElement keepGeo) {
 		for (int i = 0; i < super.getOutputLength(); i++) {
 			GeoElement geo = super.getOutput(i);
 			if (geo != keepGeo) {
 				if (geo.isGeoPoint()) {
 					removePoint((GeoPoint2) geo);
 				} else {
-					geo.doRemove(unlabeledInput);
+					geo.doRemove();
 				}
 			}
 		}
