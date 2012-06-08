@@ -679,8 +679,14 @@ public class Function extends FunctionNVar implements RealRootFunction,
 		if(!symbolic){
 			double [] coeffValues = new double[terms];
 			for(int i=0;i<coeff.length;i++){
-				coeffValues[i]=coeff[i][0] instanceof NumberValue ?
+				if (coeff[i][0] instanceof ExpressionNode) {
+					coeffValues[i]=coeff[i][0].evaluateNum().getDouble(); //for ticket #2276 ---Tam
+				} else {
+					coeffValues[i]=coeff[i][0] instanceof NumberValue ?
 						((NumberValue)coeff[i][0]).getDouble() : 0;
+				}
+	
+
 			}
 			polyFun = new PolyFunction(coeffValues);
 		}else{
