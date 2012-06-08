@@ -20,6 +20,7 @@ import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
+import geogebra.common.plugin.Operation;
 
 import java.util.HashMap;
 import java.util.Set;
@@ -1038,8 +1039,58 @@ public class CommandDispatcher {
 			case ContinuedFraction:
 				return new CmdContinuedFraction(kernel);
 			case AttachCopyToView:
-				return new CmdAttachCopyToView(kernel);	
-					
+				return new CmdAttachCopyToView(kernel);
+			case Imaginary:
+				return new CmdCAStoOperation(kernel,Operation.YCOORD);
+			case Dot:
+				return new CmdCAStoOperation(kernel,Operation.MULTIPLY);
+			case Cross:
+				return new CmdCAStoOperation(kernel,Operation.VECTORPRODUCT);
+			case Real:
+				return new CmdCAStoOperation(kernel,Operation.XCOORD);
+				
+			case CFactor:
+			case CommonDenominator:
+			case CSolutions:
+			case CSolve:
+			case Decimal:
+			case Dimension:
+			case Division:
+			case Divisors:
+			case DivisorsList:
+			case DivisorsSum:
+			case ExpandComplex:
+			case FractionalPart:
+			case Groebner:
+			case ImplicitDerivative:
+			case IntegerPart:
+			case IsPrime:
+			case LeftSide:
+			case MatrixRank:
+			case NextPrime:
+			case NIntegral:
+			case nPr:
+			case NRoot:
+			case NSolve:
+			case NSolutions:
+			case Numeric:
+			case PreviousPrime:
+			case MixedNumber:
+			case RandomPolynomial:
+			case Rationalize:
+			
+			case RightSide:
+			case Solutions:
+			case Solve:
+			case Substitute:
+			case ToComplex:
+			case ToExponential:
+			case ToPolar:
+			case ToPoint:
+			case TrigExpand:
+			case TrigSimplify:
+			case TrigCombine:
+				return new CAScmdProcessor(kernel);
 			default:
 				AbstractApplication.debug("missing case in CommandDispatcher");
 				return null;
