@@ -3089,7 +3089,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * object is not independent, it's parent algorithm is removed too.
 	 */
 	@Override
-	public void remove(boolean unlabeledInput) {
+	public void remove() {
 		// dependent object: remove parent algorithm
 		if (algoParent != null) {
 			algoParent.remove(this);
@@ -3104,8 +3104,8 @@ public abstract class GeoElement extends ConstructionElement implements
 	/**
 	 * Remove this element and its dependents
 	 */
-	public void remove() {
-		remove(false);
+	public final void remove(boolean dummy) {
+		remove();
 	}
 
 	/**

@@ -79,7 +79,7 @@ public class AlgoDependentCasCell extends AlgoElement {
 	}	
 	
 	@Override
-	public void remove(boolean unlabeledInput) {
+	public void remove() {
 		if(removed)
 			return;
 		// tell construction that input geos are no longer used by this CAS algorithm
@@ -87,7 +87,7 @@ public class AlgoDependentCasCell extends AlgoElement {
 			geo.removeCasAlgoUser();			
 		}
 		
-		super.remove(unlabeledInput);
+		super.remove();
 	}
 	
 	/**

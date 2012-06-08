@@ -166,19 +166,19 @@ public class AlgoJoinPointsSegment extends AlgoElement implements AlgoJoinPoints
     }
     
     @Override
-	public void remove(boolean unlabeledInput) {
+    public void remove() {
     	if(removed)
 			return;
-        super.remove(unlabeledInput);
+        super.remove();
         if (poly != null)
-            poly.remove(unlabeledInput);
+            poly.remove();
     }       
     
     /**
      * Only removes this segment and does not remove parent polygon (if poly != null)
      */
     public void removeSegmentOnly() {
-    	super.remove(false);    	
+    	super.remove();    	
     }
 
     @Override

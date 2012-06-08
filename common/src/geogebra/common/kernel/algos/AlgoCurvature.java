@@ -71,10 +71,10 @@ public class AlgoCurvature extends AlgoElement {
     }   
     
 	@Override
-	public void remove(boolean unlabeledInput) {
+	public void remove() {
 		if(removed)
 			return;
-    	super.remove(unlabeledInput);  
+    	super.remove();  
     }
 
 }

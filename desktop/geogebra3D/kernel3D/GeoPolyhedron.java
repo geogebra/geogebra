@@ -1014,12 +1014,12 @@ public class GeoPolyhedron extends GeoElement3D {// implements Path {
 	}
 
 	@Override
-	public void remove(boolean unlabeledInput) {
+	public void remove() {
 
 		// prevent from removing this when redefine a prism (see
 		// AlgoJoinPoints3D and AlgoPolygon)
 		if (this != getConstruction().getKeepGeo())
-			super.remove(unlabeledInput);
+			super.remove();
 	}
 
 }

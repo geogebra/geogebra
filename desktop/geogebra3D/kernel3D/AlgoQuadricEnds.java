@@ -135,11 +135,11 @@ public class AlgoQuadricEnds extends AlgoElement3D {
 
 
 	@Override
-	public void remove(boolean unlabeledInput) {
+	public void remove() {
 		if(removed)
 			return;
-		super.remove(unlabeledInput);
-		quadric.remove(unlabeledInput);
+		super.remove();
+		quadric.remove();
 	}       
     
     /*

@@ -514,7 +514,7 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 				ConstructionElement ce = kernel.getConstructionElement(kernel
 						.getConstructionStep());
 				if (ce != null) {
-					ce.remove(true);
+					ce.remove();
 					app.storeUndoInfo();
 				}
 				break;

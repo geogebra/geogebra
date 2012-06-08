@@ -16,10 +16,10 @@ public abstract class AlgoUsingTempCASalgo extends AlgoElement {
 	protected AlgoElement algoCAS;
 
 	@Override
-	public void remove(boolean unlabeledInput) {
+	public void remove() {
 		if(removed)
 			return;
-		super.remove(unlabeledInput);
+		super.remove();
 		if (algoCAS != null)
 			algoCAS.remove();
 	}

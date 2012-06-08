@@ -678,14 +678,12 @@ public abstract class AlgoElement extends ConstructionElement implements
 	/** flag stating whether remove() on this algo was  already called*/
 	protected boolean removed = false;
 	
-	public final void remove() {
-		remove(false);
-	}
 	/**
 	 * Removes algorithm and all dependent objects from construction.
 	 */
 	
-	public void remove(boolean unlabeledInput) {
+	@Override
+	public void remove() {
 		if(removed)
 			return;
 		removed = true;
@@ -700,7 +698,7 @@ public abstract class AlgoElement extends ConstructionElement implements
 		// delete from algorithm lists of input
 		for (int i = 0; i < input.length; i++) {
 			if(!protectedInput && !input[i].isLabelSet())
-				input[i].remove(unlabeledInput);
+				input[i].remove();
 			input[i].removeAlgorithm(this);
 		}
 

@@ -98,7 +98,7 @@ public class AlgoOsculatingCircle extends AlgoElement {
     }
     
     @Override
-	public void remove(boolean unlabeledInput) {
+    public void remove() {
     	if(removed)
 			return;
         super.remove();
@@ -108,6 +108,6 @@ public class AlgoOsculatingCircle extends AlgoElement {
         A.removeAlgorithm(cv);
         
         // make sure all AlgoCASDerivatives get removed
-        cv.remove(unlabeledInput);
+        cv.remove();
     }
 }

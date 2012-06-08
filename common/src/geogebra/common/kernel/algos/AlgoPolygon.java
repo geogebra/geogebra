@@ -256,13 +256,13 @@ public class AlgoPolygon extends AlgoElement {
     public GeoElement getPolyhedron() { return polyhedron; }    
     
     @Override
-	public void remove(boolean unlabeledInput) {
+    public void remove() {
     	if(removed)
 			return;
-        super.remove(unlabeledInput);
+        super.remove();
         //if polygon is part of a polyhedron, remove it
         if (polyhedron != null)
-            polyhedron.remove(unlabeledInput);
+            polyhedron.remove();
     }  
        
     @Override

@@ -425,13 +425,6 @@ public class GeoPolygon extends GeoElement implements NumberValue, Path,
 		if (parentAlgo instanceof AlgoJoinPointsSegment)
 			((AlgoJoinPointsSegment) parentAlgo).removeSegmentOnly();
 	}
-
-	@Override
-	public void remove(boolean unlabeledInput){
-    	AbstractApplication.printStacktrace("kk");
-
-    	super.remove(unlabeledInput);
-    }
 	
 	/**
 	 * return a segment joining startPoint and endPoint

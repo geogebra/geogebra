@@ -93,15 +93,15 @@ public class AlgoDependentList extends AlgoElement{
      * Then remove all unlabeled input objects (= list elements)
      */
     @Override
-	public void remove(boolean unlabeledInput) {
+    public void remove() {
     	if(removed)
 			return;
-    	super.remove(unlabeledInput);
+    	super.remove();
     	
 		//  removing unlabeled input
 		for (int i=0; i < input.length; i++) {
 			if (!input[i].isLabelSet()) {				
-				input[i].remove(unlabeledInput);
+				input[i].remove();
 			}
 		}    		
     		    	 	    
