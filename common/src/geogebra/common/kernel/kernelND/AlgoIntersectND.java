@@ -172,7 +172,7 @@ public abstract class AlgoIntersectND extends AlgoIntersectAbstract {
 			return;
         if (numberOfUsers == 0) {
             //  this algorithm has no users and no labeled output       
-            super.remove();
+            super.remove(unlabeledInput);
             	kernel.removeIntersectionAlgorithm(this);
         } else {
             // there are users of this algorithm, so we keep it
