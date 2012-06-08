@@ -49,7 +49,7 @@ public interface MenuConstants extends ConstantsWithLookup {
     @DefaultStringValue("Allow Tooltips")
     String AllowTooltips();
 
-    @DefaultStringValue("Î±")
+    @DefaultStringValue("α")
     String Alpha_short();
 
     @DefaultStringValue("Alternative Hypothesis")
@@ -112,7 +112,7 @@ public interface MenuConstants extends ConstantsWithLookup {
     @DefaultStringValue("Line Tools")
     String BasicLineTools();
 
-    @DefaultStringValue("Î²")
+    @DefaultStringValue("β")
     String Beta_short();
 
     @DefaultStringValue("Between Groups")
@@ -355,12 +355,6 @@ public interface MenuConstants extends ConstantsWithLookup {
     @DefaultStringValue("Conic Section Tools")
     String ConicSectionTools();
 
-    @DefaultStringValue("Extrude to Pyramid or Cone")
-    String Conify();
-
-    @DefaultStringValue("Drag polygon/circle, or select polygon/circle and enter altitude to create centered pyramid/cone")
-    String Conify_Help();
-
     @DefaultStringValue("Continuity")
     String Continuity();
 
@@ -526,7 +520,7 @@ public interface MenuConstants extends ConstantsWithLookup {
     @DefaultStringValue("Descending")
     String Descending();
 
-    @DefaultStringValue("Î¼â‚� - Î¼â‚‚")
+    @DefaultStringValue("μ₁ - μ₂")
     String DifferenceOfMeans_short();
 
     @DefaultStringValue("Difference of Means T")
@@ -534,6 +528,9 @@ public interface MenuConstants extends ConstantsWithLookup {
 
     @DefaultStringValue("Differences")
     String Differences();
+
+    @DefaultStringValue("Factor")
+    String Dilate_Factor();
 
     @DefaultStringValue("Dilate Object from Point by Factor")
     String DilateFromPoint();
@@ -687,12 +684,6 @@ public interface MenuConstants extends ConstantsWithLookup {
 
     @DefaultStringValue("Export All Open Worksheets")
     String ExportAllWorksheets();
-
-    @DefaultStringValue("Extrude to Prism or Cylinder")
-    String Extrusion();
-
-    @DefaultStringValue("Drag polygon/circle, or select polygon/circle and enter altitude to create right prism/cylinder")
-    String Extrusion_Help();
 
     @DefaultStringValue("F")
     String FStatistic();
@@ -889,7 +880,7 @@ public interface MenuConstants extends ConstantsWithLookup {
     @DefaultStringValue("sample")
     String Hypergeometric_sample();
 
-    @DefaultStringValue("Î¼")
+    @DefaultStringValue("μ")
     String HypothesizedMean_short();
 
     @DefaultStringValue("Icon")
@@ -994,9 +985,6 @@ public interface MenuConstants extends ConstantsWithLookup {
     @DefaultStringValue("Keeps and checks input")
     String KeepInput_Help();
 
-    @DefaultStringValue("Kinect Window")
-    String KinectWindow();
-
     @DefaultStringValue("Label Column")
     String LabelColumn();
 
@@ -1033,7 +1021,7 @@ public interface MenuConstants extends ConstantsWithLookup {
     @DefaultStringValue("Layout")
     String Layout();
 
-    @DefaultStringValue("â‰¤ x <")
+    @DefaultStringValue("≤ x <")
     String LeftClassRule();
 
     @DefaultStringValue("Left Sided")
@@ -1042,7 +1030,7 @@ public interface MenuConstants extends ConstantsWithLookup {
     @DefaultStringValue("n")
     String Length_short();
 
-    @DefaultStringValue("â‰¤ X")
+    @DefaultStringValue("≤ X")
     String LessThanOrEqualToX();
 
     @DefaultStringValue("License")
@@ -1324,12 +1312,6 @@ public interface MenuConstants extends ConstantsWithLookup {
     @DefaultStringValue("Select point and perpendicular line")
     String Orthogonal_Help();
 
-    @DefaultStringValue("Perpendicular Plane")
-    String OrthogonalPlane();
-
-    @DefaultStringValue("Select point and perpendicular line")
-    String OrthogonalPlane_Help();
-
     @DefaultStringValue("Other")
     String Other();
 
@@ -1365,12 +1347,6 @@ public interface MenuConstants extends ConstantsWithLookup {
 
     @DefaultStringValue("Select point and parallel line")
     String Parallel_Help();
-
-    @DefaultStringValue("Parallel Plane")
-    String ParallelPlane();
-
-    @DefaultStringValue("Select point and parallel plane")
-    String ParallelPlane_Help();
 
     @DefaultStringValue("Paste")
     String Paste();
@@ -1410,18 +1386,6 @@ public interface MenuConstants extends ConstantsWithLookup {
 
     @DefaultStringValue("Perspectives")
     String Perspectives();
-
-    @DefaultStringValue("Plane through a point and a line")
-    String PlanePointLine();
-
-    @DefaultStringValue("Select point and line")
-    String PlanePointLine_Help();
-
-    @DefaultStringValue("Plane through three points")
-    String PlaneThreePoint();
-
-    @DefaultStringValue("Select three points")
-    String PlaneThreePoint_Help();
 
     @DefaultStringValue("New Point")
     String Point();
@@ -1492,12 +1456,6 @@ public interface MenuConstants extends ConstantsWithLookup {
     @DefaultStringValue("Print Preview")
     String PrintPreview();
 
-    @DefaultStringValue("Prism")
-    String Prism();
-
-    @DefaultStringValue("Select or create a polygon for bottom, then select or create first top point")
-    String Prism_Help();
-
     @DefaultStringValue("Probability")
     String Probability();
 
@@ -1522,19 +1480,10 @@ public interface MenuConstants extends ConstantsWithLookup {
     @DefaultStringValue("Style")
     String Properties_Style();
 
-    @DefaultStringValue("Pyramid")
-    String Pyramid();
-
-    @DefaultStringValue("Select or create a polygon for bottom, then select or create top point")
-    String Pyramid_Help();
-
-    @DefaultStringValue("Python Window")
-    String PythonWindow();
-
     @DefaultStringValue("RGB")
     String RGB();
 
-    @DefaultStringValue("RÂ²")
+    @DefaultStringValue("R²")
     String RSquare_Short();
 
     @DefaultStringValue("Radians")
@@ -1642,7 +1591,7 @@ public interface MenuConstants extends ConstantsWithLookup {
     @DefaultStringValue("Right Angle Style")
     String RightAngleStyle();
 
-    @DefaultStringValue("< x â‰¤")
+    @DefaultStringValue("< x ≤")
     String RightClassRule();
 
     @DefaultStringValue("Right Sided")
@@ -1662,12 +1611,6 @@ public interface MenuConstants extends ConstantsWithLookup {
 
     @DefaultStringValue("Select object to rotate, then center point, and enter angle")
     String RotateByAngle_Help();
-
-    @DefaultStringValue("Rotate 3D Graphics View")
-    String RotateView();
-
-    @DefaultStringValue("Drag the 3D Graphics View")
-    String RotateView_Help();
 
     @DefaultStringValue("Rounding")
     String Rounding();
@@ -1930,7 +1873,7 @@ public interface MenuConstants extends ConstantsWithLookup {
     @DefaultStringValue("Spacing")
     String Spacing();
 
-    @DefaultStringValue("Ï�")
+    @DefaultStringValue("ρ")
     String Spearman_short();
 
     @DefaultStringValue("Special Line Tools")
@@ -1969,7 +1912,7 @@ public interface MenuConstants extends ConstantsWithLookup {
     @DefaultStringValue("Stacked BoxPlots")
     String StackedBoxPlots();
 
-    @DefaultStringValue("Ïƒ")
+    @DefaultStringValue("σ")
     String StandardDeviation_short();
 
     @DefaultStringValue("Standard Error")
@@ -2005,10 +1948,10 @@ public interface MenuConstants extends ConstantsWithLookup {
     @DefaultStringValue("Substitute Dialog")
     String SubstituteDialog();
 
-    @DefaultStringValue("Î£x")
+    @DefaultStringValue("Σx")
     String Sum();
 
-    @DefaultStringValue("Î£xÂ²")
+    @DefaultStringValue("Σx²")
     String Sum2();
 
     @DefaultStringValue("Sum")
@@ -2248,9 +2191,6 @@ public interface MenuConstants extends ConstantsWithLookup {
     @DefaultStringValue("Two Variable Inference")
     String TwoVariableInference();
 
-    @DefaultStringValue("3D")
-    String Type_3D();
-
     @DefaultStringValue("Algebra")
     String Type_Algebra();
 
@@ -2374,12 +2314,6 @@ public interface MenuConstants extends ConstantsWithLookup {
     @DefaultStringValue("View")
     String View();
 
-    @DefaultStringValue("View in front of")
-    String ViewInFrontOf();
-
-    @DefaultStringValue("Change the view in front of the object clicked")
-    String ViewInFrontOf_Help();
-
     @DefaultStringValue("Views")
     String Views();
 
@@ -2404,16 +2338,16 @@ public interface MenuConstants extends ConstantsWithLookup {
     @DefaultStringValue("Within Groups")
     String WithinGroups();
 
-    @DefaultStringValue("X â†’ Y")
+    @DefaultStringValue("X → Y")
     String X_Y();
 
-    @DefaultStringValue("â‰¤ X â‰¤")
+    @DefaultStringValue("≤ X ≤")
     String XBetween();
 
-    @DefaultStringValue("X â‰¤")
+    @DefaultStringValue("X ≤")
     String XLessThanOrEqual();
 
-    @DefaultStringValue("Y â†� X")
+    @DefaultStringValue("Y ← X")
     String Y_X();
 
     @DefaultStringValue("Z Estimate of a Mean")
@@ -2442,9 +2376,6 @@ public interface MenuConstants extends ConstantsWithLookup {
 
     @DefaultStringValue("Off")
     String off();
-
-    @DefaultStringValue("On")
-    String on();
 
 
 }

@@ -355,9 +355,6 @@ public interface PlainConstants extends ConstantsWithLookup {
     @DefaultStringValue("Complex Number")
     String ComplexNumber();
 
-    @DefaultStringValue("Cone with center %0, axis parallel to %1, angle %2")
-    String ConeWithCenterAAxisParallelToBAngleC();
-
     @DefaultStringValue("Conic")
     String Conic();
 
@@ -397,9 +394,6 @@ public interface PlainConstants extends ConstantsWithLookup {
     @DefaultStringValue("Corner")
     String CornerPoint();
 
-    @DefaultStringValue("Create new 2D View from %0")
-    String CreateNew2DViewFromA();
-
     @DefaultStringValue("Created with")
     String CreatedWith();
 
@@ -415,11 +409,8 @@ public interface PlainConstants extends ConstantsWithLookup {
     @DefaultStringValue("Curve")
     String Curve();
 
-    @DefaultStringValue("Cylinder between %0 and %1 with radius %2")
-    String CylinderBetweenABRadiusC();
-
-    @DefaultStringValue("Cylinder with axis %0 and radius %1")
-    String CylinderWithAxisARadiusB();
+    @DefaultStringValue("Parametric Curve")
+    String CurveCartesian();
 
     @DefaultStringValue("Date")
     String Date();
@@ -631,9 +622,6 @@ public interface PlainConstants extends ConstantsWithLookup {
     @DefaultStringValue("Extremum of %0")
     String ExtremumOfA();
 
-    @DefaultStringValue("Fading")
-    String Fading();
-
     @DefaultStringValue("File: html")
     String File_HTML();
 
@@ -754,14 +742,8 @@ public interface PlainConstants extends ConstantsWithLookup {
     @DefaultStringValue("Go to download page")
     String GoToDownloadPage();
 
-    @DefaultStringValue("Graphics View 3D")
-    String GraphicsView3D();
-
     @DefaultStringValue("Graphics View as Asymptote")
     String GraphicsViewAsAsymptote();
-
-    @DefaultStringValue("View of %0")
-    String GraphicsViewForPlaneA();
 
     @DefaultStringValue("Greek character: %0")
     String GreekCharacterA();
@@ -825,18 +807,6 @@ public interface PlainConstants extends ConstantsWithLookup {
 
     @DefaultStringValue("Inequality")
     String Inequality();
-
-    @DefaultStringValue("Cone with center %0, axis parallel to %1, angle %2")
-    String InfiniteConePointAVectorBNumberC();
-
-    @DefaultStringValue("Cone with center %0, axis through %1, angle %2")
-    String InfiniteConePointsABNumberC();
-
-    @DefaultStringValue("Cylinder with axis through %0 and parallel to %1, radius %2")
-    String InfiniteCylinderPointAVectorBNumberC();
-
-    @DefaultStringValue("Cylinder with axis through %0 and %1, radius %2")
-    String InfiniteCylinderPointsABNumberC();
 
     @DefaultStringValue("Inflection point of %0")
     String InflectionPointofA();
@@ -936,9 +906,6 @@ public interface PlainConstants extends ConstantsWithLookup {
 
     @DefaultStringValue("Lengths")
     String Lengths();
-
-    @DefaultStringValue("Level of Detail")
-    String LevelOfDetail();
 
     @DefaultStringValue("Line")
     String Line();
@@ -1047,12 +1014,6 @@ public interface PlainConstants extends ConstantsWithLookup {
 
     @DefaultStringValue("button")
     String Name_button();
-
-    @DefaultStringValue("edge")
-    String Name_edge();
-
-    @DefaultStringValue("face")
-    String Name_face();
 
     @DefaultStringValue("graph")
     String Name_graph();
@@ -1203,24 +1164,6 @@ public interface PlainConstants extends ConstantsWithLookup {
 
     @DefaultStringValue("Picture width")
     String PictureWidth();
-
-    @DefaultStringValue("plane %0")
-    String PlaneA();
-
-    @DefaultStringValue("Plane containing %0")
-    String PlaneContainingA();
-
-    @DefaultStringValue("plane created from %0")
-    String PlaneFromA();
-
-    @DefaultStringValue("Plane through %0, %1")
-    String PlaneThroughAB();
-
-    @DefaultStringValue("Plane through %0, %1, %2")
-    String PlaneThroughABC();
-
-    @DefaultStringValue("Plane through %0 parallel to %1")
-    String PlaneThroughAParallelToB();
 
     @DefaultStringValue("Play")
     String Play();
@@ -1408,15 +1351,6 @@ public interface PlainConstants extends ConstantsWithLookup {
     @DefaultStringValue("Show Numbers")
     String ShowAxisNumbers();
 
-    @DefaultStringValue("Show coordinates in 3D")
-    String ShowCoordinatesIn3D();
-
-    @DefaultStringValue("Show coordinates projected onto %0")
-    String ShowCoordinatesProjectedOntoA();
-
-    @DefaultStringValue("Show coordinates projected onto xy-plane")
-    String ShowCoordinatesProjectedOntoXYPlane();
-
     @DefaultStringValue("Show Grid")
     String ShowGrid();
 
@@ -1444,20 +1378,11 @@ public interface PlainConstants extends ConstantsWithLookup {
     @DefaultStringValue("Show trimmed intersection lines")
     String ShowTrimmed();
 
-    @DefaultStringValue("Show value in 3D")
-    String ShowValueIn3D();
-
-    @DefaultStringValue("Show value projected onto xy-plane")
-    String ShowValueProjectedOntoXYPlane();
-
     @DefaultStringValue("Show xAxis")
     String ShowxAxis();
 
     @DefaultStringValue("Show yAxis")
     String ShowyAxis();
-
-    @DefaultStringValue("Show zAxis")
-    String Showzaxis();
 
     @DefaultStringValue("Simple Formulas")
     String SimpleFormulas();
@@ -1732,9 +1657,6 @@ public interface PlainConstants extends ConstantsWithLookup {
     @DefaultStringValue("dependent")
     String dependent();
 
-    @DefaultStringValue("dilated by factor")
-    String dilatedByFactor();
-
     @DefaultStringValue("Enhanced Metafile")
     String emf();
 
@@ -1942,9 +1864,6 @@ public interface PlainConstants extends ConstantsWithLookup {
     @DefaultStringValue("xAxis")
     String xAxis();
 
-    @DefaultStringValue("xOyPlane")
-    String xOyPlane();
-
     @DefaultStringValue("x Max")
     String xmax();
 
@@ -1962,12 +1881,6 @@ public interface PlainConstants extends ConstantsWithLookup {
 
     @DefaultStringValue("y Min")
     String ymin();
-
-    @DefaultStringValue("Y Step")
-    String ystep();
-
-    @DefaultStringValue("zAxis")
-    String zAxis();
 
 
 }

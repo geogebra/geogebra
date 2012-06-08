@@ -52,42 +52,6 @@ public interface CommandConstants extends ConstantsWithLookup {
     @DefaultStringValue("[ <Circle>, <Point>, <Point> ]\n[ <Ellipse>, <Point>, <Point> ]\n[ <Circle>, <Parameter Value>, <Parameter Value> ]\n[ <Ellipse>, <Parameter Value>, <Parameter Value> ]")
     String Arc_Syntax();
 
-    @DefaultStringValue("AreCollinear")
-    String AreCollinear();
-
-    @DefaultStringValue("[ <Point>, <Point>, <Point> ]")
-    String AreCollinear_Syntax();
-
-    @DefaultStringValue("AreConcurrent")
-    String AreConcurrent();
-
-    @DefaultStringValue("[ <Line>, <Line>, <Line> ]")
-    String AreConcurrent_Syntax();
-
-    @DefaultStringValue("AreConcyclic")
-    String AreConcyclic();
-
-    @DefaultStringValue("[ <Point>, <Point>, <Point>, <Point> ]")
-    String AreConcyclic_Syntax();
-
-    @DefaultStringValue("AreEqual")
-    String AreEqual();
-
-    @DefaultStringValue("[ <Object>, <Object> ]")
-    String AreEqual_Syntax();
-
-    @DefaultStringValue("AreParallel")
-    String AreParallel();
-
-    @DefaultStringValue("[ <Line>, <Line> ]")
-    String AreParallel_Syntax();
-
-    @DefaultStringValue("ArePerpendicular")
-    String ArePerpendicular();
-
-    @DefaultStringValue("[ <Line>, <Line> ]")
-    String ArePerpendicular_Syntax();
-
     @DefaultStringValue("Area")
     String Area();
 
@@ -165,9 +129,6 @@ public interface CommandConstants extends ConstantsWithLookup {
 
     @DefaultStringValue("[ <Number of Trials>, <Probability of Success>, <Variable Value>, <Boolean Cumulative> ]")
     String BinomialDist_SyntaxCAS();
-
-    @DefaultStringValue("Bottom")
-    String Bottom();
 
     @DefaultStringValue("BoxPlot")
     String BoxPlot();
@@ -349,12 +310,6 @@ public interface CommandConstants extends ConstantsWithLookup {
     @DefaultStringValue("[ <Polynomial> ]")
     String ComplexRoot_Syntax();
 
-    @DefaultStringValue("Cone")
-    String Cone();
-
-    @DefaultStringValue("[ <Circle>, <Height> ]\n[ <Point>, <Point>, <Radius> ]")
-    String Cone_Syntax();
-
     @DefaultStringValue("Conic")
     String Conic();
 
@@ -418,12 +373,6 @@ public interface CommandConstants extends ConstantsWithLookup {
     @DefaultStringValue("[ <Point>, <Point>, <Point>, <Point> ]")
     String CrossRatio_Syntax();
 
-    @DefaultStringValue("Cube")
-    String Cube();
-
-    @DefaultStringValue("[ <Point>, <Point>, <Direction> ]")
-    String Cube_Syntax();
-
     @DefaultStringValue("Curvature")
     String Curvature();
 
@@ -441,15 +390,6 @@ public interface CommandConstants extends ConstantsWithLookup {
 
     @DefaultStringValue("[ <Expression>, <Expression>, <Parameter Variable>, <Start Value>, <End Value> ]")
     String CurveCartesian_Syntax();
-
-    @DefaultStringValue("[ <Expression>, <Expression>, <Parameter Variable>, <Start Value>, <End Value> ]\n[ <Expression>, <Expression>, <Expression>, <Parameter Variable>, <Start Value>, <End Value> ]")
-    String CurveCartesian_Syntax3D();
-
-    @DefaultStringValue("Cylinder")
-    String Cylinder();
-
-    @DefaultStringValue("[ <Circle>, <Height> ]\n[ <Point>, <Point>, <Radius> ]")
-    String Cylinder_Syntax();
 
     @DefaultStringValue("Decimal")
     String Decimal();
@@ -583,12 +523,6 @@ public interface CommandConstants extends ConstantsWithLookup {
     @DefaultStringValue("[ <Number> ]")
     String DivisorsSum_SyntaxCAS();
 
-    @DefaultStringValue("Dodecahedron")
-    String Dodecahedron();
-
-    @DefaultStringValue("[ <Point>, <Point>, <Direction> ]")
-    String Dodecahedron_Syntax();
-
     @DefaultStringValue("Dot")
     String Dot();
 
@@ -627,9 +561,6 @@ public interface CommandConstants extends ConstantsWithLookup {
 
     @DefaultStringValue("[ <Focus>, <Focus>, <Semimajor Axis Length> ]\n[ <Focus>, <Focus>, <Segment> ]\n[ <Focus>, <Focus>, <Point> ]")
     String Ellipse_Syntax();
-
-    @DefaultStringValue("Ends")
-    String Ends();
 
     @DefaultStringValue("Erlang")
     String Erlang();
@@ -868,9 +799,6 @@ public interface CommandConstants extends ConstantsWithLookup {
     @DefaultStringValue("[ <Function>, <Start x-Value>, <End x-Value> ]")
     String Function_Syntax();
 
-    @DefaultStringValue("[ <Function>, <Start x-Value>, <End x-Value> ]\n[ <Expression>, <Parameter Variable 1>, <Start Value>, <End Value>, <Parameter Variable 2>, <Start Value>, <End Value> ]")
-    String Function_Syntax3D();
-
     @DefaultStringValue("GCD")
     String GCD();
 
@@ -898,11 +826,8 @@ public interface CommandConstants extends ConstantsWithLookup {
     @DefaultStringValue("GetTime")
     String GetTime();
 
-    @DefaultStringValue("[ ]")
+    @DefaultStringValue("[]\n[ <Format> ]")
     String GetTime_Syntax();
-
-//    @DefaultStringValue("[]\n[ <Format> ]")
-//    String GetTime_Syntax();
 
     @DefaultStringValue("Groebner")
     String Groebner();
@@ -955,12 +880,6 @@ public interface CommandConstants extends ConstantsWithLookup {
     @DefaultStringValue("[ <Focus>, <Focus>, <Semimajor Axis Length> ]\n[ <Focus>, <Focus>, <Segment> ]\n[ <Focus>, <Focus>, <Point> ]")
     String Hyperbola_Syntax();
 
-    @DefaultStringValue("Icosahedron")
-    String Icosahedron();
-
-    @DefaultStringValue("[ <Point>, <Point>, <Direction> ]")
-    String Icosahedron_Syntax();
-
     @DefaultStringValue("Identity")
     String Identity();
 
@@ -1006,15 +925,6 @@ public interface CommandConstants extends ConstantsWithLookup {
     @DefaultStringValue("[ <Object>, <List> ]\n[ <Text>, <Text> ]\n[ <Object>, <List>, <Start Index> ]\n[ <Text>, <Text>, <Start Index> ]")
     String IndexOf_Syntax();
 
-    @DefaultStringValue("InfiniteCone")
-    String InfiniteCone();
-
-    @DefaultStringValue("[ <Point>, <Vector>, <Angle> ]\n[ <Point>, <Point>, <Angle> ]\n[ <Point>, <Line>, <Angle> ]")
-    String InfiniteCone_Syntax();
-
-    @DefaultStringValue("InfiniteCylinder")
-    String InfiniteCylinder();
-
     @DefaultStringValue("[ <Line>, <Radius> ]\n[ <Point>, <Vector>, <Radius> ]\n[ <Point>, <Point>, <Radius> ]")
     String InfiniteCylinder_Syntax();
 
@@ -1033,11 +943,8 @@ public interface CommandConstants extends ConstantsWithLookup {
     @DefaultStringValue("Integral")
     String Integral();
 
-    @DefaultStringValue("[ <Function> ]\n[ <Function>, <Start x-Value>, <End x-Value> ]\n[ <Function>, <Start x-Value>, <End x-Value>, <Boolean Evaluate> ]")
+    @DefaultStringValue("[ <Function> ]\n[ <Slopefield>, <Point> ]\n[ <Function>, <Start x-Value>, <End x-Value> ]\n[ <Function>, <Start x-Value>, <End x-Value>, <Boolean Evaluate> ]")
     String Integral_Syntax();
-
-//    @DefaultStringValue("[ <Function> ]\n[ <Slopefield>, <Point> ]\n[ <Function>, <Start x-Value>, <End x-Value> ]\n[ <Function>, <Start x-Value>, <End x-Value>, <Boolean Evaluate> ]")
-//    String Integral_Syntax();
 
     @DefaultStringValue("[ <Function> ]\n[ <Function>, <Variable> ]\n[ <Function>, <Start x-Value>, <End x-Value> ]\n[ <Function>, <Variable>, <Start Value>, <End Value> ]")
     String Integral_SyntaxCAS();
@@ -1077,9 +984,6 @@ public interface CommandConstants extends ConstantsWithLookup {
 
     @DefaultStringValue("[ <Line>, <Polygon> ]\n[ <Line>, <Conic> ]")
     String IntersectionPaths_Syntax();
-
-    @DefaultStringValue("[ <Line>, <Polygon> ]\n[ <Line>, <Conic> ]\n[ <Plane>, <Polygon> ]\n[ <Plane>, <Quadric> ]")
-    String IntersectionPaths_Syntax3D();
 
     @DefaultStringValue("InverseBinomial")
     String InverseBinomial();
@@ -1174,11 +1078,8 @@ public interface CommandConstants extends ConstantsWithLookup {
     @DefaultStringValue("Invert")
     String Invert();
 
-    @DefaultStringValue("[ <Matrix> ]")
+    @DefaultStringValue("[ <Matrix> ]\n[ <Function> ]")
     String Invert_Syntax();
-
-//    @DefaultStringValue("[ <Matrix> ]\n[ <Function> ]")
-//    String Invert_Syntax();
 
     @DefaultStringValue("[ <Matrix> ]")
     String Invert_SyntaxCAS();
@@ -1516,12 +1417,6 @@ public interface CommandConstants extends ConstantsWithLookup {
     @DefaultStringValue("[ <Name of Object as Text> ]")
     String Object_Syntax();
 
-    @DefaultStringValue("Octahedron")
-    String Octahedron();
-
-    @DefaultStringValue("[ <Point>, <Point>, <Direction> ]")
-    String Octahedron_Syntax();
-
     @DefaultStringValue("Ordinal")
     String Ordinal();
 
@@ -1627,21 +1522,6 @@ public interface CommandConstants extends ConstantsWithLookup {
     @DefaultStringValue("[ <Polygon> ]\n[ <Conic> ]\n[ <Locus> ]")
     String Perimeter_Syntax();
 
-    @DefaultStringValue("PerpendicularPlane")
-    String PerpendicularPlane();
-
-    @DefaultStringValue("[ <Point3D>, <Line3D> ]")
-    String PerpendicularPlane_Syntax();
-
-    @DefaultStringValue("Plane")
-    String Plane();
-
-    @DefaultStringValue("[ <Point>, <Plane> ]\n[ <Point>, <Point>, <Point> ]")
-    String Plane_Syntax();
-
-    @DefaultStringValue("PlaneBisector")
-    String PlaneBisector();
-
     @DefaultStringValue("PlaySound")
     String PlaySound();
 
@@ -1693,12 +1573,6 @@ public interface CommandConstants extends ConstantsWithLookup {
     @DefaultStringValue("[ <List of Points> ]\n[ <Point>, ..., <Point> ]\n[ <Point>, <Point>, <Number of Vertices> ]")
     String Polygon_Syntax();
 
-    @DefaultStringValue("Polyhedron")
-    String Polyhedron();
-
-    @DefaultStringValue("[ <Point>, <Point>, ... ]")
-    String Polyhedron_Syntax();
-
     @DefaultStringValue("Polynomial")
     String Polynomial();
 
@@ -1720,12 +1594,6 @@ public interface CommandConstants extends ConstantsWithLookup {
     @DefaultStringValue("[ <Number> ]")
     String PrimeFactors_SyntaxCAS();
 
-    @DefaultStringValue("Prism")
-    String Prism();
-
-    @DefaultStringValue("[ <Polygon>, <Point> ]\n[ <Polygon>, <Height value> ]\n[ <Point>, <Point>, ... ]")
-    String Prism_Syntax();
-
     @DefaultStringValue("Product")
     String Product();
 
@@ -1734,24 +1602,6 @@ public interface CommandConstants extends ConstantsWithLookup {
 
     @DefaultStringValue("[ <List of expressions> ]\n[ <Expression>, <variable>, <start index>, <end index> ]")
     String Product_SyntaxCAS();
-
-    @DefaultStringValue("Prove")
-    String Prove();
-
-    @DefaultStringValue("[ <Boolean Expression> ]")
-    String Prove_Syntax();
-
-    @DefaultStringValue("ProveDetails")
-    String ProveDetails();
-
-    @DefaultStringValue("[ <Boolean Expression> ]")
-    String ProveDetails_Syntax();
-
-    @DefaultStringValue("Pyramid")
-    String Pyramid();
-
-    @DefaultStringValue("[ <Polygon>, <Point>]\n[ <Polygon>, <Height>]\n[ <Point>, <Point>, <Point>, <Point>, ... ]")
-    String Pyramid_Syntax();
 
     @DefaultStringValue("Q1")
     String Q1();
@@ -1764,9 +1614,6 @@ public interface CommandConstants extends ConstantsWithLookup {
 
     @DefaultStringValue("[ <List of Numbers> ]")
     String Q3_Syntax();
-
-    @DefaultStringValue("Side")
-    String QuadricSide();
 
     @DefaultStringValue("RSquare")
     String RSquare();
@@ -2110,9 +1957,6 @@ public interface CommandConstants extends ConstantsWithLookup {
     @DefaultStringValue("[ <Number>, <Number> ]")
     String SetAxesRatio_Syntax();
 
-    @DefaultStringValue("[ <Number>, <Number> ]\n[ <Number>, <Number>, <Number> ]")
-    String SetAxesRatio_Syntax3D();
-
     @DefaultStringValue("SetBackgroundColor")
     String SetBackgroundColor();
 
@@ -2341,23 +2185,14 @@ public interface CommandConstants extends ConstantsWithLookup {
     @DefaultStringValue("Sort")
     String Sort();
 
-    @DefaultStringValue("[ <List> ]")
+    @DefaultStringValue("[ <List> ]\n[ <Values>, <Keys> ]")
     String Sort_Syntax();
-
-//    @DefaultStringValue("[ <List> ]\n[ <Values>, <Keys> ]")
-//    String Sort_Syntax();
 
     @DefaultStringValue("Spearman")
     String Spearman();
 
     @DefaultStringValue("[ <List of Points> ]\n[ <List of Numbers>, <List of Numbers> ]")
     String Spearman_Syntax();
-
-    @DefaultStringValue("Sphere")
-    String Sphere();
-
-    @DefaultStringValue("[ <Point>, <Radius Number> ]")
-    String Sphere_Syntax();
 
     @DefaultStringValue("StartAnimation")
     String StartAnimation();
@@ -2403,15 +2238,6 @@ public interface CommandConstants extends ConstantsWithLookup {
 
     @DefaultStringValue("[ <Number> ]\n[ <Point> ]")
     String SurdText_Syntax();
-
-    @DefaultStringValue("Surface")
-    String Surface();
-
-    @DefaultStringValue("[ <Expression>, <Expression>, <Expression>, <Parameter Variable 1>, <Start Value>, <End Value>, <Parameter Variable 2>, <Start Value>, <End Value> ]")
-    String Surface_Syntax();
-
-    @DefaultStringValue("Surface")
-    String SurfaceCartesian();
 
     @DefaultStringValue("TDistribution")
     String TDistribution();
@@ -2464,9 +2290,6 @@ public interface CommandConstants extends ConstantsWithLookup {
     @DefaultStringValue("[ <List>, <Start Position>, <End Position> ]\n[ <List>, <Start Position> ]\n[ <Text>, <Start Position>, <End Position> ]")
     String Take_Syntax();
 
-//    @DefaultStringValue("[ <List>, <Start Position>, <End Position> ]\n[ <Text>, <Start Position>, <End Position> ]")
-//    String Take_Syntax();
-
     @DefaultStringValue("[ <List>, <Start Position>, <End Position> ]")
     String Take_SyntaxCAS();
 
@@ -2484,12 +2307,6 @@ public interface CommandConstants extends ConstantsWithLookup {
 
     @DefaultStringValue("[ <Expression>, <x-Value>, <Order Number> ]\n[ <Expression>, <Variable>, <Variable-Value>, <Order Number> ]")
     String TaylorSeries_SyntaxCAS();
-
-    @DefaultStringValue("Tetrahedron")
-    String Tetrahedron();
-
-    @DefaultStringValue("[ <Point>, <Point>, <Direction> ]")
-    String Tetrahedron_Syntax();
 
     @DefaultStringValue("Text")
     String Text();
@@ -2550,9 +2367,6 @@ public interface CommandConstants extends ConstantsWithLookup {
 
     @DefaultStringValue("[ <Number> ]")
     String ToolImage_Syntax();
-
-    @DefaultStringValue("Top")
-    String Top();
 
     @DefaultStringValue("Translate")
     String Translate();
@@ -2769,9 +2583,6 @@ public interface CommandConstants extends ConstantsWithLookup {
 
     @DefaultStringValue("nPr")
     String nPr();
-
-    @DefaultStringValue("[ <Number>, <Number> ]")
-    String nPr_SyntaxCAS();
 
 
 }
