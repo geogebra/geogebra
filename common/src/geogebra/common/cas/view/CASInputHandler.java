@@ -914,7 +914,7 @@ public class CASInputHandler {
 					// needed if the reference is the first term in the
 					// expression, because in this case addParantheses isn't
 					// true yet
-					if (i < str.length() - 1) {
+					if(c != ')'){
 						addParentheses = true;
 						newNoParentheses = false;
 					}
