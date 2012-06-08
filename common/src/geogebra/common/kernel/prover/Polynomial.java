@@ -128,6 +128,8 @@ public class Polynomial implements Comparable<Polynomial> {
 	 * @param s the input string 
      * @author Damien Desfontaines
 	 */
+    // Removed to speed up the Variable class
+    /*
 	public Polynomial(String s) {
 		AbstractApplication.debug("Constructing poly from " + s.length() + " length String");
         // s has the form "-2*x^2*y + 5*x^3 - 2"
@@ -195,6 +197,7 @@ public class Polynomial implements Comparable<Polynomial> {
         }
 		terms = new TreeMap<Term, Integer>(sum.getTerms());
 	}
+    */
 	
 	/**
 	 * Returns the sum of the polynomial plus another polynomial.

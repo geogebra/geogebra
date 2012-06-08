@@ -12,17 +12,17 @@ import geogebra.common.kernel.geos.GeoElement;
  */
 public class Variable implements Comparable<Variable> {
 	private static int n = 0;
-    private static int nextAvailableNumber = 0;
-	private static HashMap<String,Integer> nameToId;
-    private static HashMap<String,Variable> twins;
+    //private static int nextAvailableNumber = 0;
+	//private static HashMap<String,Integer> nameToId;
+    private static HashMap<Integer,Variable> twins;
     
     private GeoElement parent;
-	private final String name;
+	//private final String name;
     private final int id;
 
 	static {
-		nameToId = new HashMap<String, Integer>();
-		twins = new HashMap<String, Variable>();
+		//nameToId = new HashMap<String, Integer>();
+		twins = new HashMap<Integer, Variable>();
 	}
 	
 	/**
@@ -30,9 +30,9 @@ public class Variable implements Comparable<Variable> {
 	 */
 	public Variable() {
         n++;
-        nextAvailableNumber++;
-        name = "v".concat(Integer.toString(nextAvailableNumber));
-        nameToId.put(name,n);
+        //nextAvailableNumber++;
+        //name = "v".concat(Integer.toString(nextAvailableNumber));
+        //nameToId.put(name,n);
         id = n;
 	}
 	
@@ -49,6 +49,8 @@ public class Variable implements Comparable<Variable> {
      * Returns the variable v
      * @param v the name of the variable
      */
+    // Removed to speed up the Variable class
+    /*
     public Variable(String v) {
         if (nameToId.containsKey(v)) {
             name = v;
@@ -61,13 +63,14 @@ public class Variable implements Comparable<Variable> {
             id = n;
         }
     }
+    */
 
 	/**
 	 * Copies a variable
 	 * @param fv the variable to copy
 	 */
 	protected Variable(Variable fv) {
-		name = fv.getName();
+		//name = fv.getName();
         id = fv.getId();
 	}
 
@@ -108,12 +111,14 @@ public class Variable implements Comparable<Variable> {
 	 * @return the name
 	 */
 	public String getName() {
-		return name;
+		//return name;
+        return "v".concat(Integer.toString(id));
+
 	}
 
 	@Override
 	public int hashCode() {
-		return nameToId.get(name);
+		return id;
 	}
 
 	/**
@@ -121,7 +126,7 @@ public class Variable implements Comparable<Variable> {
 	 * @return the Variable
 	 */
 	public Variable getTwin() {
-		return twins.get(name);
+		return twins.get(id);
 	}
 
 	/**
@@ -129,7 +134,7 @@ public class Variable implements Comparable<Variable> {
 	 * @param twin the Variable. Is null if there is no twin.
 	 */
 	public void setTwin(Variable twin) {
-		twins.put(name,twin);
+		twins.put(id,twin);
 	}
 
 	/**
