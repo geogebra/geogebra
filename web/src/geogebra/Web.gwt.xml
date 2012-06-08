@@ -13,6 +13,11 @@
   <inherits name='org.mathpiper.MpreduceJs' />
   
  <inherits name="com.google.gwt.i18n.I18N"/>
+ 
+ <set-configuration-property name='locale.cookie' value='locale' />
+ <set-configuration-property name='locale.useragent' value='Y' />
+ <set-configuration-property name='locale.searchorder' value='queryparam, cookie, useragent' />
+ 
    
    
 
