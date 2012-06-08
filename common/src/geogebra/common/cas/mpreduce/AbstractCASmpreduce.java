@@ -876,13 +876,15 @@ public abstract class AbstractCASmpreduce extends CASgeneric {
 				mpreduce1.evaluate("procedure mymainvar a;"
 						+ "mainvar(mymainvaraux(getkernels(list(a))));");
 
-				mpreduce1.evaluate("procedure myint(exp!!, var!!, from!!, to!!);"
-						+ "begin scalar integrand!!;"
-						+ "antiderivative!!:=int(exp!!, var!!);"
-						+ "return sub(var!!=to!!,antiderivative!!)-sub(var!!=from!!,antiderivative!!)"
+				mpreduce1.evaluate("procedure myint(exp, var, from, upto);"
+						+ "begin scalar upper, lower;"
+						+ "antiderivative:=int(exp, var);"
+						+ "if upto=Infinity or upto=-Infinity then upper:=limit(antiderivative,var,upto) else upper:=sub(var=upto,antiderivative);"
+						+ "if from=Infinity or from=-Infinity then lower:=limit(antiderivative,var,from) else lower:=sub(var=from,antiderivative);"
+						+ "return if freeof(upper,'limit) and freeof(lower,'limit) then upper-lower else '?;"
 						+ "end;");
 	}
-	/**
+	/** Integral[sin(pi*x)/(pi*x),0,Infinity]
 	 * Initializes function which depend on the current kernel.
 	 * @param mpreduce1 MPReduceevaluator
 	 * @throws Throwable from evaluator if some of the initialization commands fails
