@@ -1493,6 +1493,7 @@ public class Application extends AbstractApplication implements
 					boolean isMacroFile = ext.equals(FILE_EXT_GEOGEBRA_TOOL);
 
 					if (lowerCase.startsWith("http:")
+						    || lowerCase.startsWith("https:")
 							|| lowerCase.startsWith("file:")) {
 						// replace all whitespace characters by %20 in URL
 						// string
