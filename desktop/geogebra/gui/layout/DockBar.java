@@ -204,7 +204,7 @@ public class DockBar extends JPanel implements SetLabels {
 		buttonPanel.setBackground(SystemColor.control);
 		buttonPanel.setBorder(BorderFactory.createEmptyBorder());
 
-		buttonPanel.add(btnKeyboard);
+		//buttonPanel.add(btnKeyboard);
 		buttonPanel.add(Box.createVerticalStrut(30));
 		buttonPanel.add(btnProperties);
 
