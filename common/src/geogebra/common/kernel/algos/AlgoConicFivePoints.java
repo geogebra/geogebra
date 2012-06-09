@@ -18,11 +18,14 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.algos;
 
+import java.util.ArrayList;
+
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoConic;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoVec3D;
@@ -39,6 +42,7 @@ public class AlgoConicFivePoints extends AlgoElement {
 	private GeoPoint2[] Ppert;   
     private GeoConic conic; // output             
     private double delta;
+    private boolean criticalCase; // true when 5 points is on a parabola
     
     private double[][] A, B, C, Cpert, Cmin;
     private double l, m;
@@ -58,6 +62,7 @@ public class AlgoConicFivePoints extends AlgoElement {
         for (int i=0; i < P.length; i++) {
         	conic.addPointOnConic(P[i]); //TODO: move into setIncidence()
         }
+        
         setIncidence();
         
         setInputOutput(); // for AlgoElement
@@ -72,10 +77,35 @@ public class AlgoConicFivePoints extends AlgoElement {
         Cpert = new double[3][3];
         Cmin = new double[3][3];
 
+        checkCriticalCase();
         compute();
     }
 
-    private void setIncidence() {
+    private void checkCriticalCase() {
+    	criticalCase = false;
+    	
+    	ArrayList<GeoElement> firstList =  P[0].getIncidenceList();
+    	for (int j=0; j<firstList.size(); j++ ){
+    		if (firstList.get(j).isGeoConic()) {
+    			GeoConic p = (GeoConic)firstList.get(j);
+    			if ( p.getType() == GeoConic.CONIC_PARABOLA) {
+    				criticalCase = true;
+    				for (int i = 1; i<5; i++) {
+    					if (!P[i].getIncidenceList().contains(p)) {
+    						criticalCase = false;
+    						break;
+    					}
+    				}
+    			}
+    		}
+    		
+    		if (criticalCase) {
+    			break;
+    		}
+    	}
+    }
+
+	private void setIncidence() {
 		for (int i=0; i< P.length; ++i) {
 			P[i].addIncidence(conic);
 		}	
@@ -110,7 +140,7 @@ public class AlgoConicFivePoints extends AlgoElement {
     }
 
     // compute conic through five points P[0] ... P[4]
-    // with Pl�cker � method
+    // with Pl���cker ��� method
     @Override
 	public final void compute() {
         // compute lines P0 P1, P2 P3, 
@@ -128,6 +158,17 @@ public class AlgoConicFivePoints extends AlgoElement {
         m = -evalMatrix(A, P[4]);
         linComb(A, B, l, m, C);
         
+        /***
+         * Perturbation method to estimate the error of "detS" of the conic
+         * 
+         * The following is a random perturbation method to estimate detS
+         * it is commented out because (1) it is not deterministic
+         * (2) it still can't solve the problem of #1294
+         * 
+         * Tam 6/9/2012
+         */
+        
+        /*
         // compute a perturbed Cpert
     	kernel.setSilentMode(true);
     	Ppert = new GeoPoint2[5];
@@ -135,7 +176,7 @@ public class AlgoConicFivePoints extends AlgoElement {
     		Ppert[i] = new GeoPoint2(P[i]);
     		
     	}
-    	
+    	*/
     	
     	/*
     	double maxDistSqr = 0;
@@ -173,6 +214,10 @@ public class AlgoConicFivePoints extends AlgoElement {
     			);
     	 */
 
+    	/* perturbation for finding out deltaS
+    	 * 
+    	 */
+    	/*
     	delta = Kernel.MIN_PRECISION;
     	int repetition = 5;
     	for (int m=0; m<3; m++)
@@ -213,7 +258,106 @@ public class AlgoConicFivePoints extends AlgoElement {
     		C[0][1]=0;
     		C[1][0]=0;
         }
+        */
+    	/**
+    	 * perturbation method ends
+    	 */
+    	
+        /***
+         * Testing: use analytic method: 
+         * 
+         * solving system of linear equations
+         * 
+         * uses:
+         * 
+         * 	import org.apache.commons.math.linear.AbstractFieldMatrix;
+			import org.apache.commons.math.linear.Array2DRowFieldMatrix;
+			import org.apache.commons.math.linear.Array2DRowRealMatrix;
+			import org.apache.commons.math.linear.FieldMatrix;
+			import org.apache.commons.math.linear.DecompositionSolver;
+			import org.apache.commons.math.linear.QRDecompositionImpl;
+			import org.apache.commons.math.linear.RealMatrix;
+			import org.apache.commons.math.linear.SingularValueDecompositionImpl;
+			import org.apache.commons.math.util.BigReal;
+         */
+        /*
+        RealMatrix coeffM = new Array2DRowRealMatrix(5, 6);
+        
+        for (int i = 0; i<5; i++) {
+        	coeffM.setRow(i, new double[] {P[i].inhomX * P[i].inhomX,P[i].inhomX * P[i].inhomY,P[i].inhomY * P[i].inhomY, P[i].inhomX , P[i].inhomY, 1.0});
+        }
+        
+        SingularValueDecompositionImpl solver = new SingularValueDecompositionImpl(coeffM);
+        
+       solver.getSolver().solve(new double[] {0,0,0,0,0});
+       
+       //RealMatrix test1 = solver.getV().multiply(solver.getVT());
+       //RealMatrix test2 = solver.getVT().multiply(solver.getV());
+       
+       int key = -1;
+       double keysum = 1;
+       for (i=0; i<6; i++) {
+    	   double sum = 0;
+    	   for (j=0; j<5; j++) {
+    		   sum += solver.getV().getEntry(i,j) * solver.getV().getEntry(i,j);
+    	   }
+    	   if (sum < keysum) {
+    		   key = i;
+    		   keysum = sum;
+    	   }
+       }
+       
+       double[] xx = new double[6];
+       double[] v6 = new double[6];
+       if (!Kernel.isZero(1-keysum)) {
+    	   xx[5] = 1/(1-keysum);
+    	   for (int j=0; j<5; j++) {
+    		   xx[j] = -xx[5]*solver.getV().getEntry(key,j);
+    	   }
+       }
+       
+       for (int i=0; i<5; i++) {
+    	   v6[i] = 0;
+       }
+       
+       v6[key] = xx[5];
+       
+       for (int i=0; i<6; i++) {
+    	   for (int j=0; j<5; j++) {
+    		   v6[i] += xx[j] * solver.getV().getEntry(i,j);
+    	   }
+       }
+       
+       RealMatrix checkSol = new Array2DRowRealMatrix(6,1);
+       checkSol.setColumn(0, v6);
+       RealMatrix check = coeffM.multiply(checkSol);
+       //double[] solution = solver.getg.getV().getColumn(5);
+       for (int i=0; i<check.getRowDimension(); i++) {
+       System.out.println(check.getRow(1).toString());
+       }
+        
+        conic.setMatrix(new double[] {v6[0],v6[2],v6[5],v6[1]/2,v6[3]/2,v6[4]/2});
+        */
+        /***
+        * solving system of linear equations test ends
+        ***/
+        
+        /***
+         * critical case: five points lie on an unstable conic
+         * now only for parabola.
+         * Need more tests for: one line; two lines; one point; two points
+         */
+        
+        if (criticalCase) {
+        	conic.errDetS = Double.POSITIVE_INFINITY;
+        } else {
+        	conic.errDetS = Kernel.MIN_PRECISION;
+        }
+       
+        
         conic.setMatrix(C);
+        //System.out.println(conic.getTypeString());
+        
         kernel.setSilentMode(false);
         
     }
