@@ -29,7 +29,7 @@ public class AlgoPrimeFactorization extends AlgoElement {
 	private NumberValue num; //input
     private GeoList outputList; //output	    
     
-    private static double LARGEST_INTEGER=9007199254740992d;
+    public static double LARGEST_INTEGER=9007199254740992d;
     /**
      * Creates new factorization algo 
      * @param cons

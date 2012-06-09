@@ -4,18 +4,18 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 
-public class CmdDivisorsOrDivisorsSum extends CmdOneNumber {
+public class CmdIsPrime extends CmdOneNumber {
 
-	private boolean sum;
-
-	public CmdDivisorsOrDivisorsSum(Kernel kernel,boolean sum) {
+	/**
+	 * @param kernel
+	 */
+	public CmdIsPrime(Kernel kernel) {
 		super(kernel);
-		this.sum = sum;
 	}
 
 	@Override
 	protected GeoElement getResult(NumberValue num,String label){
-		return kernelA.DivisorsOrDivisorsSum(label, num,sum);
+		return kernelA.IsPrime(label, num);
 	}
 
 }

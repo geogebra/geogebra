@@ -42,8 +42,10 @@ import geogebra.common.kernel.cas.AlgoLengthFunction2Points;
 import geogebra.common.kernel.cas.AlgoLimit;
 import geogebra.common.kernel.cas.AlgoLimitAbove;
 import geogebra.common.kernel.cas.AlgoLimitBelow;
+import geogebra.common.kernel.cas.AlgoNextPreviousPrime;
 import geogebra.common.kernel.cas.AlgoPartialFractions;
 import geogebra.common.kernel.cas.AlgoPolynomialDiv;
+import geogebra.common.kernel.cas.AlgoPolynomialDivision;
 import geogebra.common.kernel.cas.AlgoPolynomialMod;
 import geogebra.common.kernel.cas.AlgoSimplify;
 import geogebra.common.kernel.cas.AlgoSolveODECas;
@@ -9870,5 +9872,53 @@ public class Kernel {
 	public GeoElement DivisorsOrDivisorsSum(String label, NumberValue number,boolean sum) {
 		AlgoDivisorsSum algo = new AlgoDivisorsSum(cons,label,number,sum);
 		return algo.getResult();
+	}
+	
+	public GeoElement DivisorsList(String label, NumberValue number) {
+		AlgoDivisorsList algo = new AlgoDivisorsList(cons,label,number);
+		return algo.getResult();
+	}
+	
+	public GeoBoolean IsPrime(String label, NumberValue number) {
+		AlgoIsPrime algo = new AlgoIsPrime(cons,label,number);
+		return algo.getResult();
+	}
+	
+	public GeoNumeric NextPreviousPrime(String label, NumberValue number,boolean next) {
+		AlgoNextPreviousPrime algo = new AlgoNextPreviousPrime(cons,label,number,next);
+		return algo.getResult();
+	}
+	
+	public GeoElement Dimension(String label, GeoList geoList) {
+		AlgoDimension algo = new AlgoDimension(cons,label,geoList);
+		return algo.getResult();
 	}	
+	public GeoNumeric FractionalPart(String label, NumberValue num) {
+		AlgoFractionalPart algo = new AlgoFractionalPart(cons,label,num);
+		return algo.getResult();
+	}
+	public GeoFunctionNVar LeftRightSide(String label, GeoElement equation,boolean left) {
+		AlgoLeftRightSide algo = new AlgoLeftRightSide(cons,label,equation,left);
+		return algo.getResult();
+	}
+	public GeoNumeric MatrixRank(String label, GeoList matrix) {
+		AlgoMatrixRank algo = new AlgoMatrixRank(cons,label,matrix);
+		return algo.getResult();
+	}
+	public GeoNumeric nPr(String label, NumberValue num1,NumberValue num2) {
+		AlgoNpR algo = new AlgoNpR(cons,label,num1,num2);
+		return algo.getResult();
+	}
+
+	public GeoElement Division(String label, NumberValue dividend,
+			NumberValue divisor) {
+		AlgoDivision algo = new AlgoDivision(cons,label,dividend,divisor);
+		return algo.getResult();
+	}
+
+	public GeoElement Division(String label, GeoFunction dividend,
+			GeoFunction divisor) {
+		AlgoPolynomialDivision algo = new AlgoPolynomialDivision(cons,label,dividend,divisor);
+		return algo.getResult();
+	}
 }

@@ -1054,36 +1054,50 @@ public class CommandDispatcher {
 				return new CmdDivisorsOrDivisorsSum(kernel,false);
 			case DivisorsSum:
 				return new CmdDivisorsOrDivisorsSum(kernel,true);
+			case Dimension:
+				return new CmdDimension(kernel);
+			case DivisorsList:
+				return new CmdDivisorsList(kernel);
+			case FractionalPart:
+				return new CmdFractionalPart(kernel);
+			case ImplicitDerivative:
+				return new CmdImplicitDerivative(kernel);
+			case RandomPolynomial:
+				return new CmdRandomPolynomial(kernel);
+			case IsPrime:
+				return new CmdIsPrime(kernel);
+			case LeftSide:
+				return new CmdLeftRightSide(kernel,false);
+			case RightSide:
+				return new CmdLeftRightSide(kernel,true);
+			case nPr:
+				return new CmdNpR(kernel);
+			case Division:
+				return new CmdDivision(kernel);
+			case MatrixRank:
+				return new CmdMatrixRank(kernel);
+			case NextPrime:
+				return new CmdNextPreviousPrime(kernel,true);
+			case PreviousPrime:	
+				return new CmdNextPreviousPrime(kernel,false);
 			case CFactor:
 			case CommonDenominator:
 			case CSolutions:
 			case CSolve:
-			case Decimal:
-			case Dimension:
-			case Division:
-			case DivisorsList:
+			case Decimal:			
 			case ExpandComplex:
-			case FractionalPart:
 			case Groebner:
-			case ImplicitDerivative:
-			case IsPrime:
-			case LeftSide:
-			case MatrixRank:
-			case NextPrime:
-			case NIntegral:
-			case nPr:
-			case NRoot:
 			case NSolve:
 			case NSolutions:
 			case Numeric:
-			case PreviousPrime:
 			case MixedNumber:
-			case RandomPolynomial:
 			case Rationalize:
-			case RightSide:
 			case Solutions:
 			case Solve:
 			case Substitute:
+			
+			case NIntegral:
+			case NRoot:
 			case ToComplex:
 			case ToExponential:
 			case ToPolar:

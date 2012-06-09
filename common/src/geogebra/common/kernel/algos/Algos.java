@@ -520,7 +520,9 @@ AlgoTo2D,AlgoDependentVector3D,AlgoParametricDerivative,
 	AlgoArePerpendicular(Commands.ArePerpendicular), AlgoAreEqual(Commands.AreEqual),
 	AlgoAreConcurrent(Commands.AreConcurrent), AlgoToBase(Commands.ToBase),
 	AlgoFromBase(Commands.FromBase), AlgoContinuedFraction(Commands.ContinuedFraction), AlgoAttachCopyToView(Commands.AttachCopyToView), 
-	AlgoDivisorsSum(Commands.DivisorsSum),AlgoDivisors(Commands.Divisors);
+	AlgoDivisorsSum(Commands.DivisorsSum),AlgoDivisors(Commands.Divisors), AlgoDimension(Commands.Dimension), AlgoFractionalPart(Commands.FractionalPart), 
+	AlgoDivisorsList(Commands.DivisorsList), AlgoPolynomialDivision(Commands.Division), AlgoDivision(Commands.Division), AlgoNpR(Commands.nPr), 
+	AlgoIsPrime(Commands.IsPrime), AlgoNextPrime(Commands.NextPrime),AlgoPreviousPrime(Commands.PreviousPrime);
 	private String command;
 	private Algos(){
 		this.command="Expression";

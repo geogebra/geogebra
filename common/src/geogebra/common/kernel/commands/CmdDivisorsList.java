@@ -1,21 +1,21 @@
 package geogebra.common.kernel.commands;
 
+import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.main.MyError;
 
-public class CmdDivisorsOrDivisorsSum extends CmdOneNumber {
+public class CmdDivisorsList extends CmdOneNumber {
 
-	private boolean sum;
-
-	public CmdDivisorsOrDivisorsSum(Kernel kernel,boolean sum) {
+	public CmdDivisorsList(Kernel kernel) {
 		super(kernel);
-		this.sum = sum;
 	}
 
 	@Override
 	protected GeoElement getResult(NumberValue num,String label){
-		return kernelA.DivisorsOrDivisorsSum(label, num,sum);
+		return kernelA.DivisorsList(label, num);
 	}
 
 }
