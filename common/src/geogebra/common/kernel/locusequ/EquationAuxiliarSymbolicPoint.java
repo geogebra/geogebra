@@ -4,6 +4,7 @@
 package geogebra.common.kernel.locusequ;
 
 
+import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.locusequ.arith.EquationAuxiliarSymbolicValue;
 
 import java.util.ArrayList;
@@ -59,7 +60,7 @@ public class EquationAuxiliarSymbolicPoint extends EquationSymbolicPoint {
     }
 
     @Override
-    public GeoPoint getPoint() {
+    public GeoPoint2 getPoint() {
         return null;
     }
 }
