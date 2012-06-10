@@ -215,9 +215,9 @@ public class GeoTextField extends GeoButton {
 	
 	/**
 	 * Called by a Drawable for this object when it is updated
-	 * @param textField the Drawable's text field
+	 * @param textFieldToUpdate the Drawable's text field
 	 */
-	public void updateText(TextObject textField){
+	public void updateText(TextObject textFieldToUpdate){
 		
 		if (linkedGeo != null) {
 
@@ -241,27 +241,27 @@ public class GeoTextField extends GeoButton {
 					linkedText = linkedText.replaceAll("\n", "\\\\\\\\n");
 				}
 			}
-			if (!textField.getText().equals(linkedText)) { // avoid redraw error
-				textField.setText(linkedText);
+			if (!textFieldToUpdate.getText().equals(linkedText)) { // avoid redraw error
+				textFieldToUpdate.setText(linkedText);
 			}
 
 		} else {
-			textField.setText(text);
+			textFieldToUpdate.setText(text);
 		}
 
-		setText(textField.getText());
+		setText(textFieldToUpdate.getText());
 	
 	}
 	/**
 	 * Called by a Drawable when its text object is updated
-	 * @param textField the Drawable's text field
+	 * @param textFieldToUpdate the Drawable's text field
 	 */
-	public void textObjectUpdated(TextObject textField) {
+	public void textObjectUpdated(TextObject textFieldToUpdate) {
 		if (linkedGeo != null) {
-			updateLinkedGeo(textField.getText());
-			updateText(textField);
+			updateLinkedGeo(textFieldToUpdate.getText());
+			updateText(textFieldToUpdate);
 		} else {
-			setText(textField.getText());
+			setText(textFieldToUpdate.getText());
 		}
 	}
 	
@@ -273,6 +273,11 @@ public class GeoTextField extends GeoButton {
 		runScripts(getText());
 	}
 	
+	/**
+	 * @param viewID view ID (AbstractApplication.VIEW_EUCLIDIAN2 or AbstractApplication.VIEW_EUCLIDIAN)
+	 * @param drawTextField drawable
+	 * @return autocomplete textfield
+	 */
 	public AutoCompleteTextField getTextField(int viewID, DrawTextField drawTextField) {
 		
 		if (textField == null) {

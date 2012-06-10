@@ -2046,7 +2046,9 @@ public class GeoFunction extends GeoElement implements VarString,
 	public boolean isInequality() {
 		return (isInequality != null && isInequality) ? true : false;
 	}
-
+	/**
+	 * @return whether this function was obtained via freehand tool/command
+	 */
 	public boolean isFreehandFunction() {
 		return getParentAlgorithm() instanceof AlgoFunctionFreehand;
 	}

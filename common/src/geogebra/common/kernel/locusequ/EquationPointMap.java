@@ -6,7 +6,7 @@ import geogebra.common.kernel.geos.GeoLocus;
 import geogebra.common.kernel.geos.GeoPoint2;
 
 import java.util.Collection;
-import java.util.Hashtable;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -34,8 +34,8 @@ public class EquationPointMap {
      */
     public EquationPointMap(EquationScope scope) {
         this.curInd = 1;
-        this.container = new Hashtable<GeoPoint2,EquationPoint>();
-        this.identifications = new Hashtable<GeoPoint2, GeoPoint2>();
+        this.container = new HashMap<GeoPoint2,EquationPoint>();
+        this.identifications = new HashMap<GeoPoint2, GeoPoint2>();
         this.scope = scope;
     }
 

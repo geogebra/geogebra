@@ -16,7 +16,6 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.commands.CmdScripting;
-import geogebra.common.main.AbstractApplication;
 import geogebra.common.plugin.GeoClass;
 
 /**

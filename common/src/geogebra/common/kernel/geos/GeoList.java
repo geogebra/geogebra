@@ -1504,6 +1504,7 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture {
 
 	/**
 	 * @param selectedIndex0 new selected index
+	 * @param update t
 	 */
 	public void setSelectedIndex(final int selectedIndex0, boolean update) {
 		selectedIndex = selectedIndex0;
