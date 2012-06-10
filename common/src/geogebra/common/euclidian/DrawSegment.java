@@ -28,6 +28,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.main.AbstractApplication;
 import geogebra.common.util.MyMath;
 
 import java.util.ArrayList;
@@ -340,7 +341,8 @@ public class DrawSegment extends Drawable implements Previewable {
 			g2.draw(line);
 
 			// added by Lo�c BEGIN
-			if (geo.decorationType != GeoElement.DECORATION_NONE) {
+			//decoTicks is null for zero length segments
+			if (geo.decorationType != GeoElement.DECORATION_NONE && decoTicks!=null) {
 				g2.setStroke(decoStroke);
 
 				switch (geo.decorationType) {
