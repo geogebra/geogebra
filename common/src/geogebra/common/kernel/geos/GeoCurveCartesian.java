@@ -546,21 +546,40 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 				 new StringBuilder(80);
 			
 			String param = getVarString(tpl);
+			
+			if (app.isHTML5Applet()) {
+				// mathquill friendly
+				sbTemp.append("\\binom{x}{y} = \\binom{");
+				sbTemp.append(funX.toLaTeXString(symbolic, tpl));
+				sbTemp.append("}{");
+				sbTemp.append(funY.toLaTeXString(symbolic, tpl));
+				sbTemp.append("} ");
+				if (!hideRangeInFormula) {
+					sbTemp.append(",");
+					sbTemp.append(kernel.format(startParam, tpl));
+					sbTemp.append(" \\le ");
+					sbTemp.append(param);
+					sbTemp.append(" \\le ");
+					sbTemp.append(kernel.format(endParam, tpl));
+				}
+			} else {
 
-			if (!hideRangeInFormula)
-				sbTemp.append("\\left.");
-			sbTemp.append("\\begin{array}{ll} x = ");
-			sbTemp.append(funX.toLaTeXString(symbolic, tpl));
-			sbTemp.append("\\\\ y = ");
-			sbTemp.append(funY.toLaTeXString(symbolic, tpl));
-			sbTemp.append(" \\end{array}");
-			if (!hideRangeInFormula) {
-				sbTemp.append("\\right} \\; ");
-				sbTemp.append(kernel.format(startParam, tpl));
-				sbTemp.append(" \\le ");
-				sbTemp.append(param);
-				sbTemp.append(" \\le ");
-				sbTemp.append(kernel.format(endParam, tpl));
+				if (!hideRangeInFormula) {
+					sbTemp.append("\\left.");
+				}
+				sbTemp.append("\\begin{array}{ll} x = ");
+				sbTemp.append(funX.toLaTeXString(symbolic, tpl));
+				sbTemp.append("\\\\ y = ");
+				sbTemp.append(funY.toLaTeXString(symbolic, tpl));
+				sbTemp.append(" \\end{array}");
+				if (!hideRangeInFormula) {
+					sbTemp.append("\\right} \\; ");
+					sbTemp.append(kernel.format(startParam, tpl));
+					sbTemp.append(" \\le ");
+					sbTemp.append(param);
+					sbTemp.append(" \\le ");
+					sbTemp.append(kernel.format(endParam, tpl));
+				}
 			}
 			return sbTemp.toString();
 		}
