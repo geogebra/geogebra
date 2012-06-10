@@ -8,6 +8,5 @@
 	<classpathentry kind="con" path="org.maven.ide.eclipse.MAVEN2_CLASSPATH_CONTAINER"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/common"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/desktop"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/web"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
