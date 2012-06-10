@@ -121,20 +121,44 @@ implements DragGestureListener, DragSourceListener {
 
 		// if we have something ... do the drag! 
 		if(geoLabelList.size() > 0){
+
+			String latex;
 			
-			// create drag image 
-			StringBuilder sb = new StringBuilder();
-			sb.append("\\fbox{\\begin{array}{l}"); 
-			for(GeoElement geo:app.getSelectedGeos()){
-				sb.append(geo.getLaTeXAlgebraDescription(true,StringTemplate.latexTemplate));
-				sb.append("\\\\");
+			boolean showJustFirstGeoInDrag = false;
+
+			if (app.getSelectedGeos().size() == 1) {
+				showJustFirstGeoInDrag = true;
+			} else {
+
+				// workaround for http://forge.scilab.org/index.php/p/jlatexmath/issues/749/#preview
+				for(GeoElement geo:app.getSelectedGeos()){
+					if (geo.isGeoCurveCartesian()) {
+						showJustFirstGeoInDrag = true;
+						break;
+					}
+				}
 			}
-			sb.append("\\end{array}}");
-			ImageIcon ic  = GeoGebraIcon.createLatexIcon((Application)app, sb.toString(), ((Application)app).getPlainFont(), false, Color.DARK_GRAY, null);
-			
+
+
+			if (showJustFirstGeoInDrag) {
+				latex = app.getSelectedGeos().get(0).getLaTeXAlgebraDescription(true,StringTemplate.latexTemplate);
+			} else {
+
+				// create drag image 
+				StringBuilder sb = new StringBuilder();
+				sb.append("\\fbox{\\begin{array}{l}"); 
+				for(GeoElement geo:app.getSelectedGeos()){
+					sb.append(geo.getLaTeXAlgebraDescription(true,StringTemplate.latexTemplate));
+					sb.append("\\\\");
+				}
+				sb.append("\\end{array}}");
+				latex = sb.toString();
+			}
+			ImageIcon ic  = GeoGebraIcon.createLatexIcon((Application)app, latex, ((Application)app).getPlainFont(), false, Color.DARK_GRAY, null);
+
 			// start drag
 			ds.startDrag(dge, DragSource.DefaultCopyDrop, ic.getImage(), 
-					new Point(-5,-ic.getIconHeight()+5), new TransferableAlgebraView(geoLabelList),  this);
+					new Point(-5, -30), new TransferableAlgebraView(geoLabelList),  this);
 		}
 
 	}
