@@ -6,7 +6,7 @@ package geogebra.common.kernel.locusequ;
 
 import geogebra.common.kernel.geos.GeoElement;
 
-//import java.util.Hashtable;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -25,7 +25,7 @@ public class EquationElementMap {
      * @param scope {@link EquationScope} associated to this map.
      */
     public EquationElementMap(EquationScope scope) {
-        //this.container = new Hashtable<GeoElement, EquationElement>();
+        this.container = new HashMap<GeoElement, EquationElement>();
         this.scope = scope;
         //this.parser = new EquationParser(this.scope);
     }
