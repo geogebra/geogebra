@@ -715,6 +715,8 @@ var commandKeysVar = {
 	SetPointSize_Syntax:'',
 	SetPointStyle:'',
 	SetPointStyle_Syntax:'',
+	SetSeed:'',
+	SetSeed_Syntax:'',
 	SetTooltipMode:'',
 	SetTooltipMode_Syntax:'',
 	SetTrace:'',

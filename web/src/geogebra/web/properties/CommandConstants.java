@@ -1630,7 +1630,7 @@ public interface CommandConstants extends ConstantsWithLookup {
     @DefaultStringValue("RandomBetween")
     String Random();
 
-    @DefaultStringValue("[ <Minimum Integer>, <Maximum Integer> ]")
+    @DefaultStringValue("[ <Minimum Integer>, <Maximum Integer> ]\n[ <Minimum Integer>, <Maximum Integer>, <Boolean Fixed> ]")
     String Random_Syntax();
 
     @DefaultStringValue("[ <Minimum Integer>, <Maximum Integer> ]")
@@ -2040,6 +2040,12 @@ public interface CommandConstants extends ConstantsWithLookup {
 
     @DefaultStringValue("[ <Point>, <Number> ]")
     String SetPointStyle_Syntax();
+
+    @DefaultStringValue("SetSeed")
+    String SetSeed();
+
+    @DefaultStringValue("[ <Integer> ]")
+    String SetSeed_Syntax();
 
     @DefaultStringValue("SetTooltipMode")
     String SetTooltipMode();
