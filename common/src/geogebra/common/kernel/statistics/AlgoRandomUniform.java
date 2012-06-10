@@ -41,7 +41,7 @@ public class AlgoRandomUniform extends AlgoTwoNumFunction implements SetRandomVa
 	@Override
 	public final void compute() {
 		if (input[0].isDefined() && input[1].isDefined()) {
-			num.setValue(a.getDouble() + Math.random() *( b.getDouble() - a.getDouble()));
+			num.setValue(a.getDouble() + app.getRandomNumber() *( b.getDouble() - a.getDouble()));
 		} else
 			num.setUndefined();
 		

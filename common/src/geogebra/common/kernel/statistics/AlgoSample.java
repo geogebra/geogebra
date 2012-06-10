@@ -101,7 +101,7 @@ public class AlgoSample extends AlgoElement {
 	       {
 	    	   NumberValue geo;
 	    	   
-	    	   try { geo = (NumberValue)inputList.get((int)Math.floor(Math.random()*inputListSize));
+	    	   try { geo = (NumberValue)inputList.get((int)Math.floor(cons.getApplication().getRandomNumber()*inputListSize));
 	    	   } catch (ClassCastException e) {
 		   			outputList.setUndefined();
 		    		return;			   		   
@@ -128,7 +128,7 @@ public class AlgoSample extends AlgoElement {
 	        // copy the geos back into a GeoList in a random order
 	        for (int i=0 ; i<size ; i++)
 	        {
-	        	int pos = (int) Math.floor(Math.random() * (inputListSize - i));
+	        	int pos = (int) Math.floor(cons.getApplication().getRandomNumber() * (inputListSize - i));
 	        	outputList.add(list.get(pos));
 	        	list.remove(pos);
 	        }

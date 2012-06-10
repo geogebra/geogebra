@@ -87,7 +87,7 @@ public class AlgoShuffle extends AlgoElement {
         outputList.clear();
         for (int i=0 ; i<size ; i++)
         {
-        	int pos = (int) Math.floor(Math.random() * (size - i));
+        	int pos = (int) Math.floor(cons.getApplication().getRandomNumber() * (size - i));
         	outputList.add(list.get(pos));
         	list.remove(pos);
         }

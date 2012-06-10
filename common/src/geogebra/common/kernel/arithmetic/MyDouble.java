@@ -188,7 +188,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	 * @return random MyDouble
 	 */
 	final public MyDouble random() {
-		val = Math.random();
+		val = kernel.getApplication().getRandomNumber();
 		isAngle = false;
 		return this;
 	}

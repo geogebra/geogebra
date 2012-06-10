@@ -1011,7 +1011,7 @@ public class GeoNumeric extends GeoElement implements NumberValue,
 		double max = getIntervalMax();
 		double increment = getAnimationStep();
 		int n = 1 + (int) Math.round((max - min) / increment);
-		return Kernel.checkDecimalFraction(Math.floor(Math.random() * n)
+		return Kernel.checkDecimalFraction(Math.floor(app.getRandomNumber() * n)
 				* increment + min);
 	}
 
@@ -1219,7 +1219,7 @@ public class GeoNumeric extends GeoElement implements NumberValue,
 	@Override
 	final public void updateRandomGeo() {
 		// set random value (for numbers used in trees using random())
-		setValue(Math.random());
+		setValue(app.getRandomNumber());
 
 		super.updateRandomGeo();
 	}

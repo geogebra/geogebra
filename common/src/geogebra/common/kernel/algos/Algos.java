@@ -293,6 +293,7 @@ public enum Algos {
 	AlgoSumFunctions(Commands.Sum),
 	AlgoIsInteger(Commands.IsInteger),
 	AlgoRandom(Commands.Random),
+	AlgoRandomFixed(Commands.Random),
 	AlgoRandomUniform(Commands.RandomUniform),
 	AlgoRandomBinomial(Commands.RandomBinomial),
 	AlgoRandomPoisson(Commands.RandomPoisson),

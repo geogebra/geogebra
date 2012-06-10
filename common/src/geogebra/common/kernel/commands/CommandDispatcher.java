@@ -894,6 +894,8 @@ public class CommandDispatcher {
 				return new CmdCenterView(kernel);
 			case ZoomIn:
 				return new CmdZoomIn(kernel);
+			case SetSeed:
+				return new CmdSetSeed(kernel);
 			case ZoomOut:
 				return new CmdZoomOut(kernel);
 			case SetActiveView:

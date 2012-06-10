@@ -1,14 +1,15 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.arithmetic.BooleanValue;
+import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.main.MyError;
 
 /**
- * Random[ <Number>, <Number> ]
  */
-public class CmdRandom extends CmdTwoNumFunction {
-
+public class CmdRandom extends CommandProcessor {
 	/**
 	 * Creates new command processor
 	 * @param kernel kernel
@@ -18,9 +19,44 @@ public class CmdRandom extends CmdTwoNumFunction {
 	}
 
 	@Override
-	protected GeoElement doCommand(String a, NumberValue b, NumberValue c)
-	{
-		return kernelA.Random(a, b, c);
-	}
+	public GeoElement[] process(Command c) throws MyError {
+		int n = c.getArgumentNumber();
+		GeoElement[] arg;
+		
+		switch (n) {
+		
+		case 3:			
+			arg = resArgs(c);
+			if (arg[2].isBooleanValue()) {
+				
+				if (((BooleanValue) arg[2]).getBoolean()) {
+					// don't pass (BooleanValue)arg[2] (dummy variable, always true)
+					GeoElement[] ret = kernelA.RandomFixed(c.getLabel(), (NumberValue)arg[0], (NumberValue)arg[1]);
+					return ret;					
+				} else {
+					// fall through to case 2:
+				}
+				
+			} else {
+				throw argErr(app, c.getName(), arg[2]);				
+			}
+			
+			// fall through if arg[2] == false
 
+		case 2:			
+			arg = resArgs(c);
+			if ((arg[0].isNumberValue()) &&
+				(arg[1].isNumberValue())) 
+			{
+				GeoElement[] ret = kernelA.Random(c.getLabel(), (NumberValue)arg[0], (NumberValue)arg[1]);
+				return ret;
+				
+			}
+			throw argErr(app, c.getName(), arg[0].isNumberValue() ? arg[1] : arg[0]);
+
+		default:
+			throw argNumErr(app, c.getName(), n);
+		}
+	}
+	
 }

@@ -82,7 +82,7 @@ public class AlgoRandomElement extends AlgoElement {
     		return;
     	}
 
-		GeoElement randElement = geoList.get((int)Math.floor((Math.random() * geoList.size())));
+		GeoElement randElement = geoList.get((int)Math.floor((cons.getApplication().getRandomNumber() * geoList.size())));
 		
 		// check type:
 		if (randElement.getGeoClassType() == element.getGeoClassType()) {

@@ -49,19 +49,18 @@ import geogebra.common.plugin.ScriptManagerCommon;
 import geogebra.common.plugin.jython.PythonBridge;
 import geogebra.common.sound.SoundManager;
 import geogebra.common.util.AbstractImageManager;
-import geogebra.common.util.Country;
 import geogebra.common.util.GeoGebraLogger;
 import geogebra.common.util.LowerCaseDictionary;
 import geogebra.common.util.NormalizerMinimal;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
 
-import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Locale;
 import java.util.MissingResourceException;
+import java.util.Random;
 import java.util.Set;
 import java.util.TreeSet;
 @SuppressWarnings("javadoc")
@@ -128,7 +127,7 @@ public abstract class AbstractApplication {
 		return CASVersionString;
 
 	}
-
+	
     /*
      * Prover settings (see handleHelpVersionArgs for details)
      */
@@ -2964,4 +2963,44 @@ public abstract class AbstractApplication {
 
 	public abstract String getCountryFromGeoIP() throws Exception;
 
+	private Random random = new Random();
+
+	/**
+	 * allows use of seeds to generate the same sequence for a ggb file
+	 * 
+	 * @return random number in [0,1]
+	 */
+	public double getRandomNumber() {
+		return random.nextDouble();
+	}
+	
+	/**
+	 * allows use of seeds to generate the same sequence for a ggb file
+	 * @param a 
+	 * @param b
+	 * 
+	 * @return random integer between a and b inclusive
+	 * 
+	 */
+	public int getRandomIntegerBetween(double a, double b) {
+		// make sure 4.000000001 is not rounded up to 5
+		a = Kernel.checkInteger(a);
+		b = Kernel.checkInteger(b);
+		
+		// Math.floor/ceil to make sure
+		// RandomBetween[3.2, 4.7] is between 3.2 and 4.7
+		int min = (int)Math.ceil(Math.min(a, b));
+		int max = (int)Math.floor(Math.max(a, b));
+
+		return  random.nextInt(max - min + 1) + min;
+	}
+	
+	/**
+	 * allows use of seeds to generate the same sequence for a ggb file
+	 * @param seed new seed 
+	 */
+	public void setRandomSeed(int seed) {
+		random = new Random(seed);
+	}
+	
 }

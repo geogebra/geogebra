@@ -17,6 +17,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.algos.AlgoTwoNumFunction;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.main.AbstractApplication;
 
 /**
  * Computes RandomNormal[a, b]
@@ -42,23 +43,10 @@ public class AlgoRandom extends AlgoTwoNumFunction implements SetRandomValue {
 	@Override
 	public final void compute() {
 		if (input[0].isDefined() && input[1].isDefined()) {
-			num.setValue(random(a.getDouble(), b.getDouble()));
+			num.setValue(cons.getApplication().getRandomIntegerBetween(a.getDouble(), b.getDouble()));
 		} else
 			num.setUndefined();
 		
-	}
-
-	private static double random(double a, double b) {
-		// make sure 4.000000001 is not rounded up to 5
-		a = Kernel.checkInteger(a);
-		b = Kernel.checkInteger(b);
-		
-		// Math.floor/ceil to make sure
-		// RandomBetween[3.2, 4.7] is between 3.2 and 4.7
-		double min = Math.ceil(Math.min(a, b));
-		double max = Math.floor(Math.max(a, b));
-		return Math.floor(Math.random()*(max - min +1)) + min;
-
 	}
 
 	public void setRandomValue(double d) {

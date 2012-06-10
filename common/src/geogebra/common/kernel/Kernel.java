@@ -5860,11 +5860,20 @@ public class Kernel {
 	}
 
 	/**
-	 * Random[max,min] Michael Borcherds
+	 * RandomBetween[max,min] Michael Borcherds
 	 */
-	final public GeoNumeric Random(String label, NumberValue a, NumberValue b) {
+	final public GeoElement[] Random(String label, NumberValue a, NumberValue b) {
 		AlgoRandom algo = new AlgoRandom(cons, label, a, b);
-		GeoNumeric num = algo.getResult();
+		GeoElement[] num = { algo.getResult() };
+		return num;
+	}
+
+	/**
+	 * RandomBetween[max,min, true] Michael Borcherds
+	 */
+	final public GeoElement[] RandomFixed(String label, NumberValue a, NumberValue b) {
+		AlgoRandomFixed algo = new AlgoRandomFixed(cons, label, a, b);
+		GeoElement[] num = { algo.getResult() };
 		return num;
 	}
 

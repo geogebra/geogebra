@@ -100,8 +100,8 @@ public class AlgoRandomBinomial extends AlgoTwoNumFunction implements SetRandomV
 
 			int k = -1;
 			while (k < 0 || k > n) {
-				double u = Math.random() - 0.5;
-				v = Math.random();
+				double u = app.getRandomNumber() - 0.5;
+				v = app.getRandomNumber();
 				us = 0.5 - Math.abs(u);
 				k = (int)Math.floor((2 * a / us + b) * u + c);
 				if (us >= 0.07 && v < v_r) return k;
@@ -119,11 +119,11 @@ public class AlgoRandomBinomial extends AlgoTwoNumFunction implements SetRandomV
 
 	}
 
-	private static int randomBinomial(double n, double p) {
+	private int randomBinomial(double n, double p) {
 
 		int count = 0;
 		for (int i = 0 ; i < n ; i++) {
-			if (Math.random() < p) count ++;
+			if (app.getRandomNumber() < p) count ++;
 		}
 
 		return count;

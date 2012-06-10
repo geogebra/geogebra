@@ -79,13 +79,13 @@ protected void setInputOutput() {
 	/*
 	 * poisson random number (Knuth)
 	 */
-	private static int randomPoisson(double lambda) {
+	private int randomPoisson(double lambda) {
 		double L = Math.exp(-lambda);
 		double p = 1;
 		int k = 0;
 		do {
 			k++;
-			p *= Math.random();
+			p *= app.getRandomNumber();
 		} while (p >= L);
 		
 		return k - 1;
@@ -100,7 +100,7 @@ protected void setInputOutput() {
 	 * http://statmath.wu-wien.ac.at/papers/92-04-13.wh.ps.gz
 	 * http://epub.wu-wien.ac.at/dyn/virlib/wp/eng/mediate/epub-wu-01_6f2.pdf?ID=epub-wu-01_6f2
 	 */
-	private static int randomPoissonTRS(double mu) {
+	private int randomPoissonTRS(double mu) {
 		
 		
 		if (mu < 10) return randomPoisson(mu);
@@ -116,8 +116,8 @@ protected void setInputOutput() {
 		
 			int k = -1;
 			while ( k < 0 || (us < 0.013 && v > us)) {
-				double u = Math.random() - 0.5;
-				v = Math.random();
+				double u = app.getRandomNumber() - 0.5;
+				v = app.getRandomNumber();
 				us = 0.5 - Math.abs(u);
 				k = (int)Math.floor((2 * a / us + b) * u + mu + 0.43);
 				if (us >= 0.07 && v < v_r) return k;
