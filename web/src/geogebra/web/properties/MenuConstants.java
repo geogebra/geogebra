@@ -2379,6 +2379,8 @@ public interface MenuConstants extends ConstantsWithLookup {
 
     @DefaultStringValue("On")
     String on();
-
-
+    
+    @DefaultStringValue("Login")
+    String Login();
+    
 }

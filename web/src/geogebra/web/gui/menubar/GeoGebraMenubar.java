@@ -88,7 +88,7 @@ public class GeoGebraMenubar extends MenuBar {
 			String email = getNativeEmailSet();
 			if (email.equals("")) {
 				c = createLoginCommand();
-				menuHtml = getMenuBarHtml(AppResources.INSTANCE.drive_icon_16().getSafeUri().asString(), "Login");
+				menuHtml = getMenuBarHtml(AppResources.INSTANCE.drive_icon_16().getSafeUri().asString(), app.getMenu("Login"));
 			} else {
 				menuHtml =  getMenuBarHtml(AppResources.INSTANCE.drive_icon_16().getSafeUri().asString(), email);
 				c = createLogOutCommand();

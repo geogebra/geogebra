@@ -14,9 +14,11 @@
   
  <inherits name="com.google.gwt.i18n.I18N"/>
  
+ <!-- query param's name is locale, cookie paramname is also locale. 
+ The application searches for the user agent locale if queryparam i.e. URL parameter and the cookie parameter are not set -->
  <set-configuration-property name='locale.cookie' value='locale' />
  <set-configuration-property name='locale.useragent' value='Y' />
- <set-configuration-property name='locale.searchorder' value='queryparam, cookie, useragent' />
+ <set-configuration-property name='locale.searchorder' value='cookie, queryparam, useragent' />
  
    
    
