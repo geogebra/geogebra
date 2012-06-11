@@ -206,9 +206,6 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener, geoge
 	public void updateStyleBar() {
 
 		
-		if (mode == EuclidianConstants.MODE_VISUAL_STYLE)
-			return;
-
 		// -----------------------------------------------------
 		// Create activeGeoList, a list of geos the stylebar can adjust.
 		// These are either the selected geos or the current default geo.
@@ -645,8 +642,7 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener, geoge
 
 			@Override
 			public void update(Object[] geos) {
-				this.setVisible((geos.length > 0 && mode == EuclidianConstants.MODE_MOVE)
-						|| mode == EuclidianConstants.MODE_VISUAL_STYLE);
+				this.setVisible((geos.length > 0 && mode == EuclidianConstants.MODE_MOVE));
 			}
 		};
 		btnCopyVisualStyle.addActionListener(this);
@@ -1446,9 +1442,6 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener, geoge
 			break;
 		case EuclidianConstants.MODE_SHOW_HIDE_LABEL:
 			btnMode.setSelectedIndex(3);
-			break;
-		case EuclidianConstants.MODE_VISUAL_STYLE:
-			btnMode.setSelectedIndex(4);
 			break;
 		}
 		btnMode.addActionListener(this);

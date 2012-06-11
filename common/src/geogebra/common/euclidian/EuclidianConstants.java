@@ -197,8 +197,8 @@ public final class EuclidianConstants {
 	/** Pen Tool */
 	public static final int MODE_PEN = 62;
 
-	/** Visual Style */
-	public static final int MODE_VISUAL_STYLE = 63;
+	/** Visual Style, removed */
+	//public static final int MODE_VISUAL_STYLE = 63;
 
 	/** Rigid Polygon */
 	public static final int MODE_RIGID_POLYGON = 64;
@@ -229,6 +229,10 @@ public final class EuclidianConstants {
 
 	/** Freehand */
 	public static final int MODE_FREEHAND_FUNCTION = 73;
+	
+	/** Freehand */
+	public static final int MODE_PENCIL = 74;
+	
 	/** Point on Object */
 	public static final int MODE_POINT_ON_OBJECT = 501;
 

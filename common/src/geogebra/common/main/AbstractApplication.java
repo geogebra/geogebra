@@ -2357,12 +2357,6 @@ public abstract class AbstractApplication {
 		if (getGuiManager() != null)
 			getGuiManager().updateMenubarSelection();
 
-		if (getActiveEuclidianView().getMode() == EuclidianConstants.MODE_VISUAL_STYLE) {
-			if (selectedGeos.size() > 0) {
-				getActiveEuclidianView().getStyleBar().applyVisualStyle(selectedGeos);
-			}
-		}
-
 		if (getActiveEuclidianView().getMode() == EuclidianConstants.MODE_MOVE) {
 			updateStyleBars();
 		}

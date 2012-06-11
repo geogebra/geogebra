@@ -16,12 +16,12 @@ public class Normalizer extends NormalizerMinimal {
 	 * 
 	 * @return an instance (java 5 or 6 compatible) 
 	 */
-	public static Normalizer getInstance() {
+	public static NormalizerMinimal getInstance() {
 		return INSTANCE;
 	}
 	
 
-	private static final Normalizer INSTANCE;
+	private static final NormalizerMinimal INSTANCE;
 	
 	static {
 		try {
@@ -31,13 +31,13 @@ public class Normalizer extends NormalizerMinimal {
 		}
 	}
 
-	private static Normalizer getNormalizerClass() {
+	private static NormalizerMinimal getNormalizerClass() {
 		try {
 			Class.forName("java.text.Normalizer");
 			return new Normalizer6();
 		} catch (final Exception e) {
-			AbstractApplication.debug("Java6 Normalizer not supported");
+			return new NormalizerMinimal();
 		}
-		return new Normalizer();
 	}
+
 }

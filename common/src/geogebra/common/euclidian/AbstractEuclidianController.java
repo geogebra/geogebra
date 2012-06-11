@@ -581,6 +581,7 @@ public abstract class AbstractEuclidianController {
 			break;
 	
 		case EuclidianConstants.MODE_PEN:
+		case EuclidianConstants.MODE_PENCIL:
 		case EuclidianConstants.MODE_FREEHAND_FUNCTION:
 			pen.resetPenOffsets();
 	
@@ -4855,7 +4856,7 @@ public abstract class AbstractEuclidianController {
 		GeoElement[] ret = null;
 	
 		switch (mode) {
-		case EuclidianConstants.MODE_VISUAL_STYLE:
+		//case EuclidianConstants.MODE_VISUAL_STYLE:
 		case EuclidianConstants.MODE_MOVE:
 			// move() is for highlighting and selecting
 			if (selectionPreview) {
@@ -5149,6 +5150,7 @@ public abstract class AbstractEuclidianController {
 			break;
 	
 		case EuclidianConstants.MODE_PEN:
+		case EuclidianConstants.MODE_PENCIL:
 		case EuclidianConstants.MODE_FREEHAND_FUNCTION:
 			changedKernel = pen();
 			break;
@@ -5839,8 +5841,7 @@ public abstract class AbstractEuclidianController {
 	}
 
 	protected boolean moveMode(int evMode) {
-		if ((evMode == EuclidianConstants.MODE_MOVE)
-				|| (evMode == EuclidianConstants.MODE_VISUAL_STYLE)) {
+		if ((evMode == EuclidianConstants.MODE_MOVE)) {
 			return true;
 		}
 		return false;
@@ -6072,7 +6073,7 @@ public abstract class AbstractEuclidianController {
 		case EuclidianConstants.MODE_RECORD_TO_SPREADSHEET:
 			clearSelections();
 			break;
-		case EuclidianConstants.MODE_VISUAL_STYLE:
+		//case EuclidianConstants.MODE_VISUAL_STYLE:
 		case EuclidianConstants.MODE_MOVE:
 		case EuclidianConstants.MODE_SELECTION_LISTENER:
 			switch (event.getClickCount()) {
@@ -6112,8 +6113,7 @@ public abstract class AbstractEuclidianController {
 
 	protected void wrapMouseclicked(AbstractEvent event) {
 		
-		if ((mode == EuclidianConstants.MODE_PEN)
-				|| (mode == EuclidianConstants.MODE_FREEHAND_FUNCTION)) {
+		if (penMode(mode)) {
 			return;
 		}
 	
@@ -7017,7 +7017,7 @@ public abstract class AbstractEuclidianController {
 		case EuclidianConstants.MODE_ROTATE_BY_ANGLE:
 		case EuclidianConstants.MODE_FITLINE:
 		case EuclidianConstants.MODE_CREATE_LIST:
-		case EuclidianConstants.MODE_VISUAL_STYLE:
+		//case EuclidianConstants.MODE_VISUAL_STYLE:
 		case EuclidianConstants.MODE_COPY_VISUAL_STYLE:
 			return true;
 	
@@ -7132,8 +7132,7 @@ public abstract class AbstractEuclidianController {
 		if(pressedButton!=null){
 			pressedButton.setDraggedOrContext(true);
 		}
-		if ((mode == EuclidianConstants.MODE_PEN)
-				|| (mode == EuclidianConstants.MODE_FREEHAND_FUNCTION)) {
+		if (penMode(mode)) {
 			pen.handleMousePressedForPenMode(event, null);
 			return;
 		}
@@ -7416,6 +7415,17 @@ public abstract class AbstractEuclidianController {
 		}
 	
 		handleMouseDragged(true);
+	}
+
+	private boolean penMode(int mode2) {
+		switch (mode2) {
+		case EuclidianConstants.MODE_PEN:
+		case EuclidianConstants.MODE_PENCIL:
+		case EuclidianConstants.MODE_FREEHAND_FUNCTION:
+			return true;
+		}
+
+	return false;
 	}
 
 	/**
@@ -7707,7 +7717,7 @@ public abstract class AbstractEuclidianController {
 	
 		// move an object
 		case EuclidianConstants.MODE_MOVE:
-		case EuclidianConstants.MODE_VISUAL_STYLE:
+		//case EuclidianConstants.MODE_VISUAL_STYLE:
 			handleMousePressedForMoveMode(e, false);
 			break;
 	
@@ -7749,8 +7759,7 @@ public abstract class AbstractEuclidianController {
 	
 		Hits hits;
 	
-		if ((mode == EuclidianConstants.MODE_PEN)
-				|| (mode == EuclidianConstants.MODE_FREEHAND_FUNCTION)) {
+		if (penMode(mode)) {
 			view.setHits(mouseLoc);
 			hits = view.getHits();
 			hits.removeAllButImages();
@@ -8045,8 +8054,7 @@ public abstract class AbstractEuclidianController {
 			return;
 		}
 	
-		if ((mode == EuclidianConstants.MODE_PEN)
-				|| (mode == EuclidianConstants.MODE_FREEHAND_FUNCTION)) {
+		if (penMode(mode)) {
 			pen.handleMouseReleasedForPenMode(event);
 			return;
 		}
@@ -8354,8 +8362,7 @@ public abstract class AbstractEuclidianController {
 			return;
 		}
 	
-		if ((mode == EuclidianConstants.MODE_PEN)
-				|| (mode == EuclidianConstants.MODE_FREEHAND_FUNCTION)) {
+		if (penMode(mode)) {
 			return;
 		}
 	
@@ -8466,6 +8473,12 @@ public abstract class AbstractEuclidianController {
 			break;
 		case EuclidianConstants.MODE_PEN:
 			pen.setFreehand(false);
+			pen.setAbsoluteScreenPosition(true);
+			break;
+		case EuclidianConstants.MODE_PENCIL:
+			pen.setFreehand(false);
+			pen.setAbsoluteScreenPosition(false);
+			break;
 	
 			/*
 			 * boolean createUndo = true; // scale both EVs 1:1 if
@@ -8478,6 +8491,7 @@ public abstract class AbstractEuclidianController {
 			 * app.getEuclidianView2().zoomAxesRatio(1, createUndo); }//
 			 */
 	
+			/*
 			ArrayList<GeoElement> selection = app.getSelectedGeos();
 			pen.setPenGeo(null);
 			if (selection.size() == 1) {
@@ -8501,15 +8515,15 @@ public abstract class AbstractEuclidianController {
 				} else if (geo instanceof GeoPolyLine) {
 					pen.setPenGeo(geo);
 				}
-			}
+			}*/
 	
 			// no break;
 	
-		case EuclidianConstants.MODE_VISUAL_STYLE:
+		//case EuclidianConstants.MODE_VISUAL_STYLE:
 	
 			// openMiniPropertiesPanel();
 	
-			break;
+		//	break;
 	
 		case EuclidianConstants.MODE_PARALLEL:
 			previewDrawable = view.createPreviewParallelLine(selectedPoints,

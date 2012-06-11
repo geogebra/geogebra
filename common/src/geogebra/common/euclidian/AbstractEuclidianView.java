@@ -393,8 +393,9 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 	 */
 	final private static boolean clearRectangle(int mode) {
 		switch (mode) {
+		case EuclidianConstants.MODE_PENCIL:
 		case EuclidianConstants.MODE_PEN:
-			return false;
+			return true; // changed
 		case EuclidianConstants.MODE_MIRROR_AT_LINE:
 			return false;
 		case EuclidianConstants.MODE_MIRROR_AT_POINT:
@@ -2160,6 +2161,7 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 		case EuclidianConstants.MODE_DILATE_FROM_POINT:
 		case EuclidianConstants.MODE_ROTATE_BY_ANGLE:
 		case EuclidianConstants.MODE_PEN:
+		case EuclidianConstants.MODE_PENCIL:
 			return true;
 		default:
 			return false;
@@ -2182,10 +2184,9 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 	 */
 	final public static boolean usesSelectionRectangleAsInput(int mode) {
 		switch (mode) {
-		case EuclidianConstants.MODE_VISUAL_STYLE:
 		case EuclidianConstants.MODE_FITLINE:
 		case EuclidianConstants.MODE_CREATE_LIST:
-		case EuclidianConstants.MODE_PEN:
+		//case EuclidianConstants.MODE_PEN:
 		case EuclidianConstants.MODE_MIRROR_AT_LINE:
 		case EuclidianConstants.MODE_MIRROR_AT_POINT:
 		case EuclidianConstants.MODE_ROTATE_BY_ANGLE:

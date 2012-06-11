@@ -372,6 +372,9 @@ public class GGWToolBar extends Composite {
 		case EuclidianConstants.MODE_PEN:
 			return myIconResourceBundle.mode_pen_32().getSafeUri().asString();
 
+		case EuclidianConstants.MODE_PENCIL:
+			return myIconResourceBundle.mode_pencil_32().getSafeUri().asString();
+
 		case EuclidianConstants.MODE_POINT:
 			return myIconResourceBundle.mode_point_32().getSafeUri().asString();
 
@@ -467,9 +470,6 @@ public class GGWToolBar extends Composite {
 
 		case EuclidianConstants.MODE_VECTOR_POLYGON:
 			return myIconResourceBundle.mode_vectorpolygon_32().getSafeUri().asString();
-
-		case EuclidianConstants.MODE_VISUAL_STYLE:
-			return myIconResourceBundle.mode_visualstyle_32().getSafeUri().asString();
 
 		case EuclidianConstants.MODE_ZOOM_IN:
 			return myIconResourceBundle.mode_zoomin_32().getSafeUri().asString();

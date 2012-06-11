@@ -5,9 +5,12 @@ import geogebra.common.euclidian.Hits;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.algos.AlgoAttachCopyToView;
 import geogebra.common.kernel.algos.AlgoCircleThreePoints;
+import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoJoinPointsSegment;
 import geogebra.common.kernel.algos.AlgoPolyLine;
+import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoPoint2;
@@ -786,14 +789,45 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 		}
 		
 		
-    	AlgoPolyLine newPolyLine = new AlgoPolyLine(cons, null, newPts);
+    	AlgoElement newPolyLine;
     	
+    	if (!absoluteScreenPosition) {
+    		
+    		// set label
+        	newPolyLine = new AlgoPolyLine(cons, null, newPts, null);
+    	
+    	} else {
+    		
+    		// don't set label
+        	newPolyLine = new AlgoPolyLine(cons, newPts, null);
+
+        	EuclidianViewND ev = app.getActiveEuclidianView();
+			
+			Kernel kernelA = app.getKernel();
+	
+			GeoPoint2 corner1 = new GeoPoint2(kernelA.getConstruction());
+			GeoPoint2 corner3 = new GeoPoint2(kernelA.getConstruction());
+			GeoPoint2 screenCorner1 = new GeoPoint2(kernelA.getConstruction());
+			GeoPoint2 screenCorner3 = new GeoPoint2(kernelA.getConstruction());
+			if(ev!=null){
+				corner1.setCoords(ev.getXmin(), ev.getYmin(), 1);
+				corner3.setCoords(ev.getXmax(), ev.getYmax(), 1);
+				screenCorner1.setCoords(0, ev.getHeight(), 1);
+				screenCorner3.setCoords(ev.getWidth(), 0, 1);
+			}
+	
+			MyDouble evNo = new MyDouble(kernelA, ev.getViewID());
+			
+			cons.removeFromConstructionList(newPolyLine);
+	    	
+	    	newPolyLine = new AlgoAttachCopyToView(cons, null, newPolyLine.getGeoElements()[0], evNo, corner1, corner3, screenCorner1,screenCorner3);
+    	}
     	
 		if (lastPolyLine == null) {
 			//lastPolyLine = new AlgoPolyLine(cons, null, newPts);
 		} else {
 	    	try {
-				cons.replace(lastPolyLine.getPoly(), newPolyLine.getPoly());
+				cons.replace(lastPolyLine.getPoly(), ((AlgoPolyLine) newPolyLine).getPoly());
 				//String label = lastPolyLine.getPoly().getLabelSimple();
 				//lastPolyLine.getPoly().remove();
 				//lastPolyLine.remove();
@@ -805,9 +839,13 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 			//lastPolyLine.setPointsList(newPts);
 		}
 		
-		lastPolyLine = newPolyLine;
+		if (newPolyLine instanceof AlgoPolyLine) {
+			lastPolyLine = (AlgoPolyLine)newPolyLine;
+		} else {
+			lastPolyLine = null;
+		}
 		
-		GeoPolyLine poly = lastPolyLine.getPoly();
+		GeoPolyLine poly = (GeoPolyLine) newPolyLine.getGeoElements()[0];
 		
 		poly.setLineThickness(penSize * 2);
 		poly.setLineType(penLineStyle);
@@ -816,9 +854,11 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 		
 		app.clearSelectedGeos();
 		app.addSelectedGeo(poly);
+		
+		//app.getKernel().getAlgebraProcessor().processAlgebraCommandNoExceptionsOrErrors("AttachCopyToView["+poly.getLabelSimple()+",1]", false);
 
 		
-		lastPolyLine.getPoly().updateRepaint();
+		poly.updateRepaint();
 		
 		app.storeUndoInfo();
 	}

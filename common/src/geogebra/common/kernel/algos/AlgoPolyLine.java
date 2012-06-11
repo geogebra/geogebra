@@ -54,7 +54,7 @@ public class AlgoPolyLine extends AlgoElement {
      * @param points vertices of the polygon
      * @param geoList list of vertices of the polygon (alternative to points)
      */
-    protected AlgoPolyLine(Construction cons, String [] labels, 
+    public AlgoPolyLine(Construction cons, String [] labels, 
     		GeoPointND [] points, GeoList geoList) {
 
     	this(cons, points, geoList);
@@ -66,7 +66,7 @@ public class AlgoPolyLine extends AlgoElement {
         
     }   
     
-    protected AlgoPolyLine(Construction cons,  
+    public AlgoPolyLine(Construction cons,  
     		GeoPointND [] points, GeoList geoList) {
         super(cons);
         this.points = points;           

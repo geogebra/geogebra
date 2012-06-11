@@ -5,6 +5,7 @@ import geogebra.common.awt.Point;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoImage;
+import geogebra.common.main.AbstractApplication;
 
 import java.util.List;
 /**
@@ -71,4 +72,12 @@ public abstract class EuclidianPen {
 	 * @return pen color as geogebra.common.awt.Color
 	 */
 	public abstract Color getPenColorCommon();
+
+	protected boolean absoluteScreenPosition;
+	
+	public void setAbsoluteScreenPosition(boolean b) {
+		AbstractApplication.debug("jhgjhjh"+b);
+		absoluteScreenPosition = b;
+		
+	}
 }

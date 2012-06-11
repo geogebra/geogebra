@@ -190,6 +190,9 @@ public interface MyIconResourceBundle extends ClientBundle{
 	@Source("mode_pen_32.gif")
 	ImageResource mode_pen_32();
 	
+	@Source("mode_pencil_32.gif")
+	ImageResource mode_pencil_32();
+	
 	@Source("mode_point_32.gif")
     ImageResource mode_point_32();
 

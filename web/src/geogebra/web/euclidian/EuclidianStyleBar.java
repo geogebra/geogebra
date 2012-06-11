@@ -230,9 +230,6 @@ public class EuclidianStyleBar extends HorizontalPanel
 	 */
 	public void updateStyleBar() {
 
-		if (mode == EuclidianConstants.MODE_VISUAL_STYLE)
-			return;
-
 		// -----------------------------------------------------
 		// Create activeGeoList, a list of geos the stylebar can adjust.
 		// These are either the selected geos or the current default geo.
@@ -648,8 +645,7 @@ public class EuclidianStyleBar extends HorizontalPanel
 
 			@Override
 			public void update(Object[] geos) {
-				this.setVisible((geos.length > 0 && mode == EuclidianConstants.MODE_MOVE)
-						|| mode == EuclidianConstants.MODE_VISUAL_STYLE);
+				this.setVisible((geos.length > 0 && mode == EuclidianConstants.MODE_MOVE));
 			}
 		};
 		btnCopyVisualStyle.addValueChangeHandler(this);
@@ -1307,6 +1303,7 @@ public class EuclidianStyleBar extends HorizontalPanel
 			btnMode.setSelectedIndex(0);
 			break;
 		case EuclidianConstants.MODE_PEN:
+		case EuclidianConstants.MODE_PENCIL:
 			btnMode.setSelectedIndex(1);
 			break;
 		case EuclidianConstants.MODE_DELETE:
@@ -1314,9 +1311,6 @@ public class EuclidianStyleBar extends HorizontalPanel
 			break;
 		case EuclidianConstants.MODE_SHOW_HIDE_LABEL:
 			btnMode.setSelectedIndex(3);
-			break;
-		case EuclidianConstants.MODE_VISUAL_STYLE:
-			btnMode.setSelectedIndex(4);
 			break;
 		}
 		btnMode.addActionListener(this);
