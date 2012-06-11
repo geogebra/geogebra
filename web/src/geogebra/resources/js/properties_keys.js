@@ -1320,6 +1320,7 @@ var menuKeysVar = {
 	Locus:'',
 	Locus_Help:'',
 	Log:'',
+	Login:'',
 	Logistic:'',
 	LookAndFeel:'',
 	LowQuality:'',
