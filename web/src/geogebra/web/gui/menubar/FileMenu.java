@@ -78,7 +78,7 @@ public class FileMenu extends MenuBar {
 			});
 
 		// this is enabled always
-	    addItem(GeoGebraMenubar.getMenuBarHtml(AppResources.INSTANCE.GeoGebraTube().getSafeUri().asString(),app.getMenu("Share")),true,new Command() {
+	    addItem(GeoGebraMenubar.getMenuBarHtml(AppResources.INSTANCE.export_small().getSafeUri().asString(),app.getMenu("Share")),true,new Command() {
 	    	public void execute() {
 	    		app.uploadToGeoGebraTube();
 	    	}
