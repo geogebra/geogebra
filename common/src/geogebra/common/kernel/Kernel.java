@@ -9930,4 +9930,10 @@ public class Kernel {
 		AlgoPolynomialDivision algo = new AlgoPolynomialDivision(cons,label,dividend,divisor);
 		return algo.getResult();
 	}
+
+	public GeoFunction RandomPolynomial(String label, NumberValue degree,
+			NumberValue min, NumberValue max) {
+		AlgoRandomPolynomial algo = new AlgoRandomPolynomial(cons,label,degree, min,max);
+		return algo.getResult();
+	}
 }
