@@ -15,6 +15,14 @@ public class Equation {
 	private boolean algebraic;
 
 	/**
+	 * Simple constructor.
+	 * @param equ expression to be "equated".
+	 */
+	public Equation(final EquationExpression equ) {
+		this.equ = equ;
+	}
+	
+	/**
 	 * Checks if the element producing this equation is or not algebraic.
 	 * It is important to distinguish between the equation algebraicity
 	 * (they are always algebraic, otherwise they cannot be computed),
@@ -31,17 +39,25 @@ public class Equation {
     
 	/**
 	 * Sets algebraicity of current element.
-	 * @param algebraic
+	 * @param algebraic indicates algebraicity.
 	 */
     protected void setAlgebraic(boolean algebraic) { this.algebraic = algebraic; }
     
     /**
      * Returns an {@link EquationList} containing only this {@link Equation}.
-     * @return
+     * @return a list with only one equation.
      */
     public EquationList toList() {
     	EquationList list = new EquationList(1);
     	list.add(this);
     	return list;
+    }
+    
+    /**
+     * Accesses undelying expression.
+     * @return an expression.
+     */
+    public EquationExpression getExpression() {
+    	return this.equ;
     }
 }
