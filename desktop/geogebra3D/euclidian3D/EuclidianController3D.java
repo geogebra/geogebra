@@ -1676,7 +1676,7 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 	// PROCESS MODE
 	
 	@Override
-	protected boolean switchModeForProcessMode(Hits hits, AbstractEvent e){
+	protected boolean switchModeForProcessMode(Hits hits, AbstractEvent e, boolean fromAlgebraView){
 		
 		boolean changedKernel = false;
 		
@@ -1732,7 +1732,7 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 		
 
 		default:
-			changedKernel = super.switchModeForProcessMode(hits, e);
+			changedKernel = super.switchModeForProcessMode(hits, e, fromAlgebraView);
 		}
 		
 		

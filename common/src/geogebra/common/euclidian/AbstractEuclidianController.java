@@ -2466,7 +2466,7 @@ public abstract class AbstractEuclidianController {
 	}
 
 	protected final GeoElement[] threePoints(Hits hits, int threePointsMode) {
-	
+		
 		if (hits.isEmpty()) {
 			return null;
 		}
@@ -4845,7 +4845,7 @@ public abstract class AbstractEuclidianController {
 		}
 		return false;
 	}
-	protected boolean switchModeForProcessMode(Hits hits, AbstractEvent event) {
+	final protected boolean switchModeForProcessMode(Hits hits, AbstractEvent event) {
 		return switchModeForProcessMode(hits, event, false);
 	}
 	
