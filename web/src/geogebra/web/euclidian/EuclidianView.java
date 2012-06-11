@@ -403,6 +403,7 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 	@Override
     public boolean requestFocusInWindow() {
 		g2p.getCanvas().getCanvasElement().focus();	
+		focusGained();
 		return true;
     }
 	
