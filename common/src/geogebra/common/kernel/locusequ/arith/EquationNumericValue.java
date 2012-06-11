@@ -30,7 +30,7 @@ public class EquationNumericValue extends EquationTerm {
     
     /**
      * Initializes current object with a value.
-     * @param value
+     * @param value represented in this numeric value
      */
     protected EquationNumericValue(final double value) {
         super();
