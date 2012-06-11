@@ -192,6 +192,8 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 						handlePopupActionEvent();
 					}
 				});		
+				
+				myPopup.getPanel().add(myTable);
 			}
 		
 		
@@ -352,5 +354,7 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 	public void setToolTipArray(String[] toolTipArray){
 		myTable.setToolTipArray(toolTipArray);
 	}
+	
+	
 	
 }
