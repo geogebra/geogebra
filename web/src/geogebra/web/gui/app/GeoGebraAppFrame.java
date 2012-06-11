@@ -42,6 +42,7 @@ public class GeoGebraAppFrame extends Composite {
 	//declared in uibinder xml!
 	public static int GGWVIewWrapper_WIDTH = 300;
 	public static int GGWToolBar_HEIGHT = 50;
+	private static final int GGWStyleBar_HEIGHT = 65;
 	public static int GGWCommandLine_HEIGHT = 50;
 	
 	@UiField GGWToolBar ggwToolBar;
@@ -84,7 +85,7 @@ public class GeoGebraAppFrame extends Composite {
 		Date creationDate = new Date();
 		article.setId(GeoGebraConstants.GGM_CLASS_NAME+creationDate.getTime());
 		cw = (Window.getClientWidth() - (GGWVIewWrapper_WIDTH + ggwSplitLayoutPanel.getSplitLayoutPanel().getSplitterSize())); 
-		ch = (Window.getClientHeight() - (GGWToolBar_HEIGHT + GGWCommandLine_HEIGHT));
+		ch = (Window.getClientHeight() - (GGWToolBar_HEIGHT + GGWCommandLine_HEIGHT + GGWStyleBar_HEIGHT));
 		app = createApplication(article,this);
 		ggwSplitLayoutPanel.attachApp(app);
 		ggwCommandLine.attachApp(app);

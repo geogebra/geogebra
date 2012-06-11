@@ -23,6 +23,7 @@ import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.dom.client.Style;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -401,11 +402,7 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 
 	@Override
     public boolean requestFocusInWindow() {
-		if (!AbstractApplication.isFullAppGui()) {
-			//somehow this hides EuclidianStylebar, probably CSS bug
-			g2p.getCanvas().getCanvasElement().focus();
-		}
-		focusGained();
+		g2p.getCanvas().getCanvasElement().focus();	
 		return true;
     }
 	
