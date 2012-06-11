@@ -1,36 +1,71 @@
 package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.util.GgbMat;
 
 public class AlgoMatrixRank extends AlgoElement {
 
+	private GeoList inputList;
+	private GeoNumeric rank;
+	
 	public AlgoMatrixRank(Construction cons, String label, GeoList matrix) {
-		super(cons);
+		 super(cons);
+	     this.inputList = matrix;
+	               
+	     rank = new GeoNumeric(cons);
+
+	     setInputOutput();
+	     compute();
+	     rank.setLabel(label);
 	}
 
 	@Override
 	protected void setInputOutput() {
-		// TODO Auto-generated method stub
-
+		setOnlyOutput(rank);
+		input = new GeoElement[]{inputList};
+		setDependencies();
 	}
 
 	@Override
 	public void compute() {
-		// TODO Auto-generated method stub
+   		GgbMat matrix = new GgbMat(inputList);
+   		
+   		if (matrix.isUndefined()) {
+  			rank.setUndefined();
+	   		return;   		
+	   	}
+   
+   		matrix.reducedRowEchelonFormImmediate();
+   		int rows = matrix.getRowDimension();
+   		int cols = matrix.getColumnDimension();
+   		for(int i=0;i<rows;i++){
+   			boolean onlyZeros = true;
+   			for(int j=0;j<cols;j++){
+   				if(!Kernel.isZero(matrix.getEntry(i, j))){
+   					onlyZeros = false;
+   					break;
+   				}   				
+   			}
+   			if(onlyZeros){
+				rank.setValue(i);
+				return;
+			}
+   		}
+   		rank.setValue(rows);
 
 	}
 
 	@Override
 	public Algos getClassName() {
-		// TODO Auto-generated method stub
-		return null;
+		return Algos.AlgoMatrixRank;
 	}
 
 	public GeoNumeric getResult() {
-		// TODO Auto-generated method stub
-		return null;
+		return rank;
 	}
 
 }
