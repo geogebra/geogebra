@@ -13,7 +13,7 @@
 -injars build/geogebra_3d.jar
 -injars build/geogebra_usb.jar
 -injars build/jlatexmath.jar
-
+-injars build/OpenGeoProver.jar
 
 -outjars build/temp
 
@@ -24,6 +24,7 @@
 -libraryjars lib/build/jogl1/jar/jogl.jar
 -libraryjars lib/build/jogl1/jar/gluegen-rt.jar
 -libraryjars lib/jython.jar
+-libraryjars lib/OpenGeoProver.jar
 #-libraryjars ../java150-rt.jar
 
 # Rhino Javascript is not obfuscated
