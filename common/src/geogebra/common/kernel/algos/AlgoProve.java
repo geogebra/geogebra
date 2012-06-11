@@ -13,6 +13,8 @@ the Free Software Foundation.
 package geogebra.common.kernel.algos;
 
 import java.util.Date;
+import java.util.Iterator;
+import java.util.TreeSet;
 
 import geogebra.common.factories.UtilFactory;
 import geogebra.common.kernel.Construction;
@@ -20,6 +22,7 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.util.Prover;
+import geogebra.common.util.Prover.ProofResult;
 import geogebra.common.util.Prover.ProverEngine;
 import geogebra.common.main.AbstractApplication;
 
@@ -31,7 +34,7 @@ public class AlgoProve extends AlgoElement {
 
     private GeoElement root;  // input
     private GeoBoolean bool;     // output
-    private Boolean result;
+    private Prover.ProofResult result;
         
     /**
      * Proves the given statement and gives a yes/no answer (boolean)
@@ -103,7 +106,7 @@ public class AlgoProve extends AlgoElement {
     	long elapsedTime = date.getTime() - startTime;
     	AbstractApplication.debug("Benchmarking: " + elapsedTime + " ms");
     	
-    	result = p.getYesNoAnswer();
+    	result = p.getProofResult();
     	
     	AbstractApplication.debug("Statement is " + result);
     }   
@@ -121,10 +124,15 @@ public class AlgoProve extends AlgoElement {
     
     @Override
 	public void compute(){
-    	if (result != null)
-    		bool.setValue(result);
-    	else
-    		bool.setUndefined();
+    	if (result != null) {
+    		if (result == ProofResult.TRUE)
+    			bool.setValue(true);
+    		if (result == ProofResult.FALSE)
+    			bool.setValue(false);
+    		if (result == ProofResult.UNKNOWN) {
+    			bool.setUndefined();
+    		}
+    	}  	
     }
 }
 

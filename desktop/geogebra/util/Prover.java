@@ -4,8 +4,13 @@ package geogebra.util;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.main.AbstractApplication;
 
+import com.ogprover.api.GeoGebraOGPInterface;
 import com.ogprover.main.OGPConfigurationSettings;
 import com.ogprover.main.OGPParameters;
+import com.ogprover.main.OpenGeoProver;
+import com.ogprover.pp.GeoGebraOGPInputProverProtocol;
+import com.ogprover.pp.GeoGebraOGPOutputProverProtocol;
+import com.ogprover.utilities.logger.ILogger;
 
 /**
  * @author Zoltan Kovacs <zoltan@geogebra.org>
@@ -63,13 +68,35 @@ public class Prover extends geogebra.common.util.Prover {
 		AbstractApplication.debug("OGP is about to run...");
 		String c = simplifiedXML(construction);
 		AbstractApplication.trace("Construction: " + c);
-		// getCASString may also be used 
-		String cd = statement.getCommandDescription(StringTemplate.ogpTemplate);
-		AbstractApplication.debug("Statement to prove: " + cd);
-		OGPConfigurationSettings ogpcs = new OGPConfigurationSettings();
-		ogpcs.setMaxNumOfTerms(AbstractApplication.maxTerms);
-		OGPParameters ogpp = new OGPParameters();
-		// TODO: Call OGP with the needed parameters.
+
+        OpenGeoProver.settings = new OGPConfigurationSettings();
+        ILogger logger = OpenGeoProver.settings.getLogger();
+		
+		// Input prover object
+		GeoGebraOGPInputProverProtocol inputObject = new GeoGebraOGPInputProverProtocol();
+		inputObject.setGeometryTheoremText(c);
+		inputObject.setMethod(GeoGebraOGPInputProverProtocol.OGP_METHOD_WU);
+		inputObject.setTimeOut(AbstractApplication.proverTimeout);
+		inputObject.setMaxTerms(AbstractApplication.maxTerms);
+		
+        // OGP API
+        GeoGebraOGPInterface ogpInterface = new GeoGebraOGPInterface();
+        GeoGebraOGPOutputProverProtocol outputObject = (GeoGebraOGPOutputProverProtocol)ogpInterface.prove(inputObject); // safe cast
+		
+        AbstractApplication.debug("Prover results");
+        AbstractApplication.debug(GeoGebraOGPOutputProverProtocol.OGP_OUTPUT_RES_SUCCESS + ": " + outputObject.getOutputResult(GeoGebraOGPOutputProverProtocol.OGP_OUTPUT_RES_SUCCESS));
+        AbstractApplication.debug(GeoGebraOGPOutputProverProtocol.OGP_OUTPUT_RES_FAILURE_MSG + ": " + outputObject.getOutputResult(GeoGebraOGPOutputProverProtocol.OGP_OUTPUT_RES_FAILURE_MSG));
+        AbstractApplication.debug(GeoGebraOGPOutputProverProtocol.OGP_OUTPUT_RES_PROVER + ": " + outputObject.getOutputResult(GeoGebraOGPOutputProverProtocol.OGP_OUTPUT_RES_PROVER));
+        AbstractApplication.debug(GeoGebraOGPOutputProverProtocol.OGP_OUTPUT_RES_PROVER_MSG + ": " + outputObject.getOutputResult(GeoGebraOGPOutputProverProtocol.OGP_OUTPUT_RES_PROVER_MSG));
+        AbstractApplication.debug(GeoGebraOGPOutputProverProtocol.OGP_OUTPUT_RES_TIME + ": " + outputObject.getOutputResult(GeoGebraOGPOutputProverProtocol.OGP_OUTPUT_RES_TIME));
+        AbstractApplication.debug(GeoGebraOGPOutputProverProtocol.OGP_OUTPUT_RES_NUMTERMS + ": " + outputObject.getOutputResult(GeoGebraOGPOutputProverProtocol.OGP_OUTPUT_RES_NUMTERMS));
+        
+        if (outputObject.getOutputResult(GeoGebraOGPOutputProverProtocol.OGP_OUTPUT_RES_SUCCESS).equals("true")) {
+        	if (outputObject.getOutputResult(GeoGebraOGPOutputProverProtocol.OGP_OUTPUT_RES_PROVER).equals("true"))
+        		return ProofResult.TRUE;
+        	if (outputObject.getOutputResult(GeoGebraOGPOutputProverProtocol.OGP_OUTPUT_RES_PROVER).equals("false"))
+        		return ProofResult.FALSE;
+        }
 		return ProofResult.UNKNOWN;
 	}
 
