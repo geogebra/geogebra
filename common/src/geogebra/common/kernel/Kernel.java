@@ -33,6 +33,7 @@ import geogebra.common.kernel.cas.AlgoDerivative;
 import geogebra.common.kernel.cas.AlgoExpand;
 import geogebra.common.kernel.cas.AlgoFactor;
 import geogebra.common.kernel.cas.AlgoFactors;
+import geogebra.common.kernel.cas.AlgoImplicitDerivative;
 import geogebra.common.kernel.cas.AlgoIntegral;
 import geogebra.common.kernel.cas.AlgoIntegralDefinite;
 import geogebra.common.kernel.cas.AlgoLengthCurve;
@@ -9934,6 +9935,12 @@ public class Kernel {
 	public GeoFunction RandomPolynomial(String label, NumberValue degree,
 			NumberValue min, NumberValue max) {
 		AlgoRandomPolynomial algo = new AlgoRandomPolynomial(cons,label,degree, min,max);
+		return algo.getResult();
+	}
+
+	public GeoElement ImplicitDerivative(String label,
+			FunctionalNVar functional) {
+		AlgoImplicitDerivative algo = new AlgoImplicitDerivative(cons,label,functional);
 		return algo.getResult();
 	}
 }

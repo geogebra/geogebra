@@ -21,7 +21,7 @@ import geogebra.common.kernel.StringTemplate;
  * @author Markus
  *
  */
-public interface FunctionalNVar {
+public interface FunctionalNVar extends ExpressionValue{
 	/**
 	 * @param vals values of variables
 	 * @return value at vals

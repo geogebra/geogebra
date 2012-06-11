@@ -40,6 +40,7 @@ import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
+import geogebra.common.kernel.geos.GeoFunctionNVar;
 import geogebra.common.kernel.geos.GeoFunctionable;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoList;
@@ -617,6 +618,67 @@ public class AlgebraProcessor {
 				GeoFunctionable f = (GeoFunctionable) temp[0];
 				func = f.getGeoFunction();
 			} else if (!suppressErrors)
+				app.showError("InvalidInput", str);
+
+		} catch (CircularDefinitionException e) {
+			AbstractApplication.debug("CircularDefinition");
+			if (!suppressErrors)
+				app.showError("CircularDefinition");
+		} catch (Exception e) {
+			e.printStackTrace();
+			if (!suppressErrors)
+				app.showError("InvalidInput", str);
+		} catch (MyError e) {
+			e.printStackTrace();
+			if (!suppressErrors)
+				app.showError(e);
+		} catch (Error e) {
+			e.printStackTrace();
+			if (!suppressErrors)
+				app.showError("InvalidInput", str);
+		}
+
+		cons.setSuppressLabelCreation(oldMacroMode);
+		return func;
+	}
+	
+	public GeoFunctionNVar evaluateToFunctionNVar(String str, boolean suppressErrors) {
+		boolean oldMacroMode = cons.isSuppressLabelsActive();
+		cons.setSuppressLabelCreation(true);
+
+		GeoFunctionNVar func = null;
+		try {
+			ValidExpression ve = parser.parseGeoGebraExpression(str);
+			GeoElement[] temp = processValidExpression(ve);
+
+			if (temp[0]instanceof GeoFunctionNVar) {
+				func = (GeoFunctionNVar)temp[0];
+			} else
+				if (temp[0]instanceof GeoFunction) {
+					FunctionVariable[] funVars;
+					if(((GeoFunction)temp[0]).isFunctionOfY()){
+					
+					 funVars = new FunctionVariable[]{((GeoFunction)temp[0]).getFunction().getFunctionVariable(),
+							new FunctionVariable(kernel,"y")};
+					}else{
+						funVars = new FunctionVariable[]{new FunctionVariable(kernel,"y"),
+								((GeoFunction)temp[0]).getFunction().getFunctionVariable()};					
+						}
+					
+				FunctionNVar fn = new FunctionNVar(((GeoFunction)temp[0]).getFunctionExpression(),
+					funVars);
+					func = new GeoFunctionNVar(cons,fn);
+				} else if(temp[0] instanceof GeoNumeric){
+					FunctionVariable[] funVars = new FunctionVariable[]{new FunctionVariable(kernel,"x"),
+							new FunctionVariable(kernel,"y")};
+					FunctionNVar fn = new FunctionNVar(
+							new ExpressionNode(kernel,temp[0]),funVars);
+					func = new GeoFunctionNVar(cons,fn);
+					
+				
+					
+				}
+				if (!suppressErrors)
 				app.showError("InvalidInput", str);
 
 		} catch (CircularDefinitionException e) {
