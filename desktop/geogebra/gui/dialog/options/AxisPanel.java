@@ -354,7 +354,8 @@ public class AxisPanel extends JPanel implements ActionListener, ItemListener, F
 		        
 			}
 
-			public void focusGained(FocusEvent e) {	
+			public void focusGained(FocusEvent e) {
+				//do nothing
 			}
 
 			public void focusLost(FocusEvent e) {
@@ -381,8 +382,7 @@ public class AxisPanel extends JPanel implements ActionListener, ItemListener, F
 			protected double parseDouble(String text) {	
 				if (text == null || text.equals("")) 
 					return Double.NaN;
-				else
-					return app.getKernel().getAlgebraProcessor().evaluateToDouble(text);	
+				return app.getKernel().getAlgebraProcessor().evaluateToDouble(text);	
 			}	
 
 }

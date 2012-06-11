@@ -436,7 +436,7 @@ public class DynamicTextInputPane extends JTextPane {
 			item.addActionListener(new ActionListener(){
 				public void actionPerformed(ActionEvent arg0) {
 					mode = MODE_VALUE;
-					id.handleDocumentEvent(null);
+					id.handleDocumentEvent();
 
 				}
 			});
@@ -447,7 +447,7 @@ public class DynamicTextInputPane extends JTextPane {
 			item.addActionListener(new ActionListener(){
 				public void actionPerformed(ActionEvent arg0) {
 					mode = MODE_DEFINITION;
-					id.handleDocumentEvent(null);
+					id.handleDocumentEvent();
 
 				}
 			});

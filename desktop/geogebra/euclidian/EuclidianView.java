@@ -18,7 +18,6 @@ import geogebra.common.euclidian.AbstractEuclidianController;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.GetViewId;
 import geogebra.common.euclidian.event.AbstractEvent;
-import geogebra.common.factories.FormatFactory;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.main.AbstractApplication;

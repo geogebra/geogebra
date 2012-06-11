@@ -1,6 +1,5 @@
 package geogebra.euclidian.event;
 
-import geogebra.common.euclidian.event.ActionEvent;
 
 public class ActionListener extends geogebra.common.euclidian.event.ActionListener
 implements java.awt.event.ActionListener{

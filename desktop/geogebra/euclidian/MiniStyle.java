@@ -179,10 +179,6 @@ public class MiniStyle {
 		return colorList[index];
 	}
 
-	public Color[] getStyleBarColorList(int index) {
-		return colorList;
-	}
-
 	private static Color[] createStyleBarColorList() {
 
 		Color[] primaryColors = new Color[] { new Color(255, 0, 0), // Red

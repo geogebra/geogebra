@@ -1,8 +1,5 @@
 package geogebra.euclidian.event;
 
-import geogebra.common.main.AbstractApplication;
-
-import java.util.LinkedList;
 
 public class ActionEvent extends geogebra.common.euclidian.event.ActionEvent{
 

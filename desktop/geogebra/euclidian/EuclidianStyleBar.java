@@ -1,5 +1,6 @@
 package geogebra.euclidian;
 
+import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.kernel.Construction;
@@ -22,7 +23,6 @@ import geogebra.gui.color.ColorPopupMenuButton;
 import geogebra.gui.util.GeoGebraIcon;
 import geogebra.gui.util.MyToggleButton;
 import geogebra.gui.util.PopupMenuButton;
-import geogebra.gui.util.SelectionTable;
 import geogebra.main.Application;
 
 import java.awt.Color;
@@ -144,12 +144,12 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener, geoge
 
 		// init button-specific fields
 		// TODO: put these in button classes
-		pointStyleArray = EuclidianView.getPointStyles();
+		pointStyleArray = AbstractEuclidianView.getPointStyles();
 		pointStyleMap = new HashMap<Integer, Integer>();
 		for (int i = 0; i < pointStyleArray.length; i++)
 			pointStyleMap.put(pointStyleArray[i], i);
 
-		lineStyleArray = EuclidianView.getLineTypes();
+		lineStyleArray = AbstractEuclidianView.getLineTypes();
 		lineStyleMap = new HashMap<Integer, Integer>();
 		for (int i = 0; i < lineStyleArray.length; i++)
 			lineStyleMap.put(lineStyleArray[i], i);
@@ -554,7 +554,7 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener, geoge
 	}
 
 	protected void addBtnRotateView() {
-
+		//do nothing here (overridden function)
 	}
 
 	// =====================================================

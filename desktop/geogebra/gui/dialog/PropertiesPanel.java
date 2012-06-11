@@ -4190,7 +4190,7 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 
 				// update preview panel
 				if (textEditPanel != null)
-					textEditPanel.td.handleDocumentEvent(null);
+					textEditPanel.td.handleDocumentEvent();
 			} else if (source == cbFont) {
 				boolean serif = cbFont.getSelectedIndex() == 1;
 				TextProperties text;
@@ -4201,7 +4201,7 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 
 					// update preview panel
 					if (textEditPanel != null)
-						textEditPanel.td.handleDocumentEvent(null);
+						textEditPanel.td.handleDocumentEvent();
 				}
 			} else if (source == cbDecimalPlaces) {
 				int decimals = cbDecimalPlaces.getSelectedIndex();
@@ -4225,7 +4225,7 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 
 					// update preview panel
 					if (textEditPanel != null)
-						textEditPanel.td.handleDocumentEvent(null);
+						textEditPanel.td.handleDocumentEvent();
 				}
 			} else if (source == btBold || source == btItalic) {
 				int style = 0;
@@ -4243,7 +4243,7 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 
 				// update preview panel
 				if (textEditPanel != null)
-					textEditPanel.td.handleDocumentEvent(null);
+					textEditPanel.td.handleDocumentEvent();
 			}
 		}
 	}

@@ -10,10 +10,8 @@ import geogebra.common.kernel.algos.AlgoJoinPointsSegment;
 import geogebra.common.kernel.algos.AlgoPolyLine;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoImage;
-import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoPolyLine;
-import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.util.Unicode;
@@ -126,10 +124,12 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 
 	private int penSize;
 
+	@Override
 	public int getPenSize() {
 		return penSize;
 	}
 
+	@Override
 	public void setPenSize(int penSize) {
 		this.penSize = penSize;
 	}
@@ -146,6 +146,7 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 		return penColor;
 	}
 	
+	@Override
 	public geogebra.common.awt.Color getPenColorCommon() {
 		return new geogebra.awt.Color(penColor);
 	}
@@ -166,7 +167,6 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 	
 	// being used for vector (makes GeoPolyLine) or bitmap (makes GeoImage)
 	private boolean vector = true;
-	private String vectorName = "sketch";
 	
 	
 
@@ -216,7 +216,7 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 			lastPolyLine = null;
 		} else if (penGeo.isGeoImage()) {
 			this.penGeo = (GeoImage) penGeo;
-			penWritingToExistingImage = penGeo!= null;
+			penWritingToExistingImage = true;
 		} else if (penGeo.getParentAlgorithm() instanceof AlgoPolyLine) {
 			lastPolyLine = (AlgoPolyLine) penGeo.getParentAlgorithm();
 		}
@@ -424,8 +424,8 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 		java.awt.Point point  = e.getPoint();
 		if (startPoint == null)
 			startPoint = e.getPoint();
-		deltaX = this.getDeltaX(startPoint, point);
-	    deltaY = this.getDeltaY(startPoint, point);
+		deltaX = getDeltaX(startPoint, point);
+	    deltaY = getDeltaY(startPoint, point);
 	    absDeltaX = Math.abs(deltaX);
 	    absDeltaY = Math.abs(deltaY);
 	    absTangent = ((float) absDeltaX) / absDeltaY;
@@ -503,7 +503,7 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 			// exception
 			penPoints.clear();
 			if (vector) {
-				Application.warn("TODO");
+				AbstractApplication.warn("TODO");
 			} else {
 				app.getScriptManager().notifyDraw(lastPenImage.getLabelSimple(), x, y);
 			}
@@ -681,7 +681,6 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 				}
 				else
 				{
-					double y_diff=(y_first-y_last);
 					double x_diff=(x_last-x_first);
 					if(x_diff<0)
 					{
@@ -1324,7 +1323,7 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
      * @param point Second point
      * @return Delta x
      */
-    private int getDeltaX(java.awt.Point startPoint2, java.awt.Point point)
+    private static int getDeltaX(java.awt.Point startPoint2, java.awt.Point point)
     {
         return point.x - startPoint2.x;
     }
@@ -1336,7 +1335,7 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
      * @param point Second point
      * @return Delta y
      */
-    private int getDeltaY(java.awt.Point startPoint2, java.awt.Point point) 
+    private static int getDeltaY(java.awt.Point startPoint2, java.awt.Point point) 
     {
         return point.y - startPoint2.y;
     }
@@ -1792,7 +1791,7 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
     	int i,j;
     	double alpha[] = new double[3];
     	double pt[] = new double[2];
-    	double dist, tmp, delta;
+    	double dist, delta;
     	double x1, y1, x2, y2, angle;
     	boolean rev[] = new boolean[3];
     	Construction cons = app.getKernel().getConstruction();

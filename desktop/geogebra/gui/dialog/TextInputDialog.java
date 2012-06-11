@@ -859,6 +859,7 @@ public class TextInputDialog extends InputDialog implements DocumentListener {
 	// =============================================================
 
 	public void changedUpdate(DocumentEvent e) {
+		//do nothing
 	}
 
 	/**
@@ -868,7 +869,7 @@ public class TextInputDialog extends InputDialog implements DocumentListener {
 	 *            the event
 	 */
 	public void insertUpdate(DocumentEvent e) {
-		handleDocumentEvent(e);
+		handleDocumentEvent();
 	}
 
 	/**
@@ -878,10 +879,10 @@ public class TextInputDialog extends InputDialog implements DocumentListener {
 	 *            the event
 	 */
 	public void removeUpdate(DocumentEvent e) {
-		handleDocumentEvent(e);
+		handleDocumentEvent();
 	}
 
-	public void handleDocumentEvent(DocumentEvent e) {
+	public void handleDocumentEvent() {
 
 		textPreviewer.updatePreviewText(editGeo,
 				editor.buildGeoGebraString(isLaTeX), isLaTeX);

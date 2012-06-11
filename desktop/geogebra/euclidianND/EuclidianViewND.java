@@ -7,7 +7,6 @@ import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.main.settings.EuclidianSettings;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.euclidian.EuclidianController;
-import geogebra.euclidian.EuclidianStatic;
 import geogebra.euclidian.EuclidianStyleBar;
 import geogebra.euclidian.EuclidianViewJPanel;
 import geogebra.euclidian.EuclidianViewTransferHandler;
@@ -92,6 +91,7 @@ public abstract class EuclidianViewND extends AbstractEuclidianView implements E
 		evjpanel.repaint();
 	}
 
+	@Override
 	public void paintBackground(geogebra.common.awt.Graphics2D g2) {
 		g2.drawImage(bgImage, null, 0, 0);
 	}
@@ -100,6 +100,7 @@ public abstract class EuclidianViewND extends AbstractEuclidianView implements E
 		evjpanel.add(comp);
 	}
 	
+	@Override
 	public void add(geogebra.common.javax.swing.Box box){
 		evjpanel.add(((geogebra.javax.swing.Box)box).getImpl());
 	}
@@ -108,6 +109,7 @@ public abstract class EuclidianViewND extends AbstractEuclidianView implements E
 		evjpanel.remove(comp);
 	}
 
+	@Override
 	public void remove(geogebra.common.javax.swing.Box box) {
 		evjpanel.remove(((geogebra.javax.swing.Box)box).getImpl());
 	}
@@ -156,6 +158,7 @@ public abstract class EuclidianViewND extends AbstractEuclidianView implements E
 		evjpanel.setPreferredSize(preferredSize);
 	}
 	
+	@Override
 	public void setPreferredSize(geogebra.common.awt.Dimension preferredSize) {
 		evjpanel.setPreferredSize(geogebra.awt.Dimension.getAWTDimension(preferredSize));
 	}
@@ -293,11 +296,12 @@ public abstract class EuclidianViewND extends AbstractEuclidianView implements E
 	}
 	
 
+	@Override
 	public void drawActionObjects(geogebra.common.awt.Graphics2D g2){
 		// TODO layers for Buttons and Textfields
 		// for cross-platform UI the stroke must be reset to show buttons
 		// properly, see #442
-		g2.setStroke(EuclidianStatic.getDefaultStroke());
+		g2.setStroke(geogebra.common.euclidian.EuclidianStatic.getDefaultStroke());
 		evjpanel.paintChildren(
 				geogebra.awt.Graphics2D.getAwtGraphics(g2)); // draws Buttons and Textfields
 	}
@@ -320,6 +324,7 @@ public abstract class EuclidianViewND extends AbstractEuclidianView implements E
 		return new geogebra.awt.Color(evjpanel.getBackground());
 	}
 
+	@Override
 	public void setBackground(geogebra.common.awt.Color bgColor) {
 		evjpanel.setBackground(geogebra.awt.Color.getAwtColor(bgColor));
 	}

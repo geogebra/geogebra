@@ -937,8 +937,7 @@ public class OptionsEuclidian extends JPanel implements OptionPanel, ActionListe
 	protected double parseDouble(String text) {
 		if (text == null || text.equals(""))
 			return Double.NaN;
-		else
-			return kernel.getAlgebraProcessor().evaluateToDouble(text);
+		return kernel.getAlgebraProcessor().evaluateToDouble(text);
 	}
 
 	public void itemStateChanged(ItemEvent e) {

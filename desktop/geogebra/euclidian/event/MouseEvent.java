@@ -4,6 +4,7 @@ import geogebra.common.awt.Point;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.main.AbstractApplication;
 
+import java.awt.event.InputEvent;
 import java.util.LinkedList;
 
 public class MouseEvent extends AbstractEvent {
@@ -69,7 +70,7 @@ public class MouseEvent extends AbstractEvent {
 
 	@Override
 	public boolean isRightClick() {
-		return (event.getModifiers() & java.awt.event.MouseEvent.BUTTON3_MASK) == java.awt.event.MouseEvent.BUTTON3_MASK;
+		return (event.getModifiers() & InputEvent.BUTTON3_MASK) == InputEvent.BUTTON3_MASK;
 	}
 
 	@Override

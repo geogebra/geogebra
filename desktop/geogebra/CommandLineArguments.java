@@ -118,9 +118,8 @@ public class CommandLineArguments {
 		
 		if(strValue == null || !isBoolean(name)) {
 			return defaultValue;
-		} else {
-			return strValue.toLowerCase().equals("true");
 		}
+		return strValue.toLowerCase().equals("true");
 	}
 	
 	/**
@@ -135,10 +134,9 @@ public class CommandLineArguments {
 		
 		if(strValue == null) {
 			return false;
-		} else {
-			strValue = strValue.toLowerCase();
-			return strValue.equals("true") || strValue.equals("false");
 		}
+		strValue = strValue.toLowerCase();
+		return strValue.equals("true") || strValue.equals("false");
 	}
 	
 	public boolean containsArg(String name) {

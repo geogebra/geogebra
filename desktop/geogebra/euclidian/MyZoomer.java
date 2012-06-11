@@ -16,10 +16,12 @@ public class MyZoomer extends AbstractZoomer implements ActionListener {
 		timer = new Timer(DELAY, this);
 	}
 
+	@Override
 	protected void stopTimer(){
 		timer.stop();
 	}
 	
+	@Override
 	protected boolean hasTimer(){
 		return timer != null;
 	}

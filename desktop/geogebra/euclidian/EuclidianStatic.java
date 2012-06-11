@@ -47,7 +47,7 @@ public class EuclidianStatic extends geogebra.common.euclidian.EuclidianStatic{
 		boolean isLaTeX = (elements.length == 1);
 
 		// calculate the required space of every element
-		for (int i = 0, currentLine = 0, currentElement = 0; i < elements.length; ++i) {
+		for (int i = 0, currentLine = 0; i < elements.length; ++i) {
 			if (isLaTeX) {
 				// save the height of this element by drawing it to a temporary
 				// buffer
@@ -66,8 +66,6 @@ public class EuclidianStatic extends geogebra.common.euclidian.EuclidianStatic{
 				// check if this element is taller than every else in the line
 				if (height > (lineHeights.get(currentLine)).intValue())
 					lineHeights.set(currentLine, new Integer(height));
-
-				++currentElement;
 			} else {
 				elements[i] = elements[i].replaceAll("\\\\\\$", "\\$");
 				String[] lines = elements[i].split("\\n", -1);
@@ -81,8 +79,6 @@ public class EuclidianStatic extends geogebra.common.euclidian.EuclidianStatic{
 
 						lineHeights.add(new Integer(lineSpread + lineSpace));
 					}
-
-					++currentElement;
 				}
 			}
 
@@ -224,10 +220,12 @@ public class EuclidianStatic extends geogebra.common.euclidian.EuclidianStatic{
 		g2.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, oldHint);
 	}
 
+	@Override
 	protected void doDrawWithValueStrokePure(geogebra.common.awt.Shape shape, geogebra.common.awt.Graphics2D g2) {
 		drawWithValueStrokePure(geogebra.awt.GenericShape.getAwtShape(shape), geogebra.awt.Graphics2D.getAwtGraphics(g2));
 	}
 	
+	@Override
 	protected void doFillWithValueStrokePure(geogebra.common.awt.Shape shape, geogebra.common.awt.Graphics2D g3) {
 		Graphics2D awtg2 = geogebra.awt.Graphics2D.getAwtGraphics(g3);
 		Object oldHint = awtg2.getRenderingHint(RenderingHints.KEY_STROKE_CONTROL);

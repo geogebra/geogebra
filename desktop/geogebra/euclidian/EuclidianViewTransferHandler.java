@@ -196,10 +196,8 @@ public class EuclidianViewTransferHandler extends TransferHandler implements
 
 					// multiple geos, wrap in TableText
 					else {
-						GeoElement geo;
 						text = "TableText[";
 						for (int i = 0; i < list.size(); i++) {
-							geo = app.getKernel().lookupLabel(list.get(i));
 
 							text += "{FormulaText[" + list.get(i)
 									+ ", true, true]}";

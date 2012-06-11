@@ -111,9 +111,6 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 	private int dragIndex = -1; // dragged construction index
 	private int dropIndex = -1;
 
-	// for printing
-	private int maxNumPage = 1;
-
 	// registered navigation bars that should be informed about updates of the
 	// protocol
 	private boolean isViewAttached;
@@ -122,8 +119,6 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 														// protocol window
 	private ConstructionProtocolView view=this;
 	public JScrollPane scrollPane;
-	private ConstructionTableCellEditor cellEditor;
-	
 	private ConstructionProtocolStyleBar helperBar;
 	private AbstractAction exportHtmlAction, printPreviewAction;
 	
@@ -490,8 +485,7 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 							title = app.getPlain("UntitledConstruction");
 						if (author.equals(""))
 							return title + " (" + date + ")";
-						else
-							return author + ": " + title + " (" + date + ")";
+						return author + ": " + title + " (" + date + ")";
 
 					}
 				};
@@ -679,12 +673,15 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 		}
 
 		public void mouseMoved(MouseEvent e) {
+			//do nothing
 		}
 
 		public void mouseEntered(MouseEvent e) {
+			//do nothing
 		}
 
 		public void mouseExited(MouseEvent arg0) {
+			//do nothing
 		}
 	}
 
@@ -799,7 +796,7 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 			else if (isImage)
 				comp = iTemp;
 			else
-				comp = (Component) this;
+				comp = this;
 			
 			int step = kernel.getConstructionStep();
 			RowData rd = data.getRow(row);
@@ -952,10 +949,10 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 			int m;
 			// Markus' idea to find the correct icon:
 			// 1) check if an object has a parent algorithm:
-			if (((GeoElement)geo).getParentAlgorithm() != null) {
+			if (geo.getParentAlgorithm() != null) {
 				// 2) if it has a parent algorithm and its modeID returned
 				// is > -1, then use this one:
-				m = ((GeoElement)geo).getParentAlgorithm().getRelatedModeID();
+				m = geo.getParentAlgorithm().getRelatedModeID();
 			}
 			// 3) otherwise use the modeID of the GeoElement itself:
 			else
@@ -1126,7 +1123,7 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 		}
 
 		public GeoElement getGeoElement(int row) {
-			return (GeoElement) rowList.get(row).geo;
+			return rowList.get(row).geo;
 		}
 
 		public int getConstructionIndex(int row) {
@@ -1210,7 +1207,7 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 		private Color getColorAt(int nRow, int nCol) {
 			try {
 				if (useColors)
-					return geogebra.awt.Color.getAwtColor((geogebra.awt.Color) ((GeoElement)rowList.get(nRow).geo).getObjectColor());
+					return geogebra.awt.Color.getAwtColor(rowList.get(nRow).geo.getObjectColor());
 				else
 					return Color.black;
 			} catch (Exception e) {
@@ -1302,7 +1299,7 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 				int m;
 				// Markus' idea to find the correct icon:
 				// 1) check if an object has a parent algorithm:
-				GeoElement ge = (GeoElement)rowList.get(nRow).geo;
+				GeoElement ge = rowList.get(nRow).geo;
 				if (ge.getParentAlgorithm() != null) {
 					// 2) if it has a parent algorithm and its modeID returned
 					// is > -1, then use this one:
@@ -1532,10 +1529,10 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 				// (this is still better than 1 lines of text in a row)
 				if (row.includesIndex) {
 					table.setRowHeight(i, Math.max(
-							(int) (table.getFont().getSize() * 2 + 16), toolbarIconHeight));
+							(table.getFont().getSize() * 2 + 16), toolbarIconHeight));
 				} else {
 					table.setRowHeight(i, Math.max(
-							(int) (table.getFont().getSize() * 2 + 12), toolbarIconHeight));
+							(table.getFont().getSize() * 2 + 12), toolbarIconHeight));
 				}
 			}
 			fireTableRowsUpdated(0, size - 1);
