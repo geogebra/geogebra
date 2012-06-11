@@ -192,6 +192,7 @@ echo "* Compilation style: $STYLE"
 # 5. (Re)creating parser
 cd ../desktop
 export JAVA_HOME
+export ANT_OPTS="-Xmx2048m" # Maybe this helps having big enough Java heap space
 $ANT compile-grammar-cl || exit 5
 
 # 6. Compiling web with javac
