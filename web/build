@@ -192,7 +192,6 @@ echo "* Compilation style: $STYLE"
 # 5. (Re)creating parser
 cd ../desktop
 export JAVA_HOME
-export ANT_OPTS="-Xmx2048m" # Maybe this helps having big enough Java heap space
 $ANT compile-grammar-cl || exit 5
 
 # 6. Compiling web with javac
@@ -236,7 +235,7 @@ classpath
 if [ $VERBOSE = 1 ]; then
  echo "Classpath for GWT Compiler is $CLASSPATH"
  fi
-java -Xmx512m com.google.gwt.dev.Compiler\
+java -Xmx2048m com.google.gwt.dev.Compiler\
  -style $STYLE -war $GGDIR/web/war -strict $OTHEROPTS geogebra.Web || exit 8
 
 # 9. Done!
