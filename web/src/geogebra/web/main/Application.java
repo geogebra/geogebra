@@ -1640,6 +1640,12 @@ public class Application extends AbstractApplication {
 		timer.tout = $wnd.setInterval(intervalTask, 700);
 	}-*/;
 
+	public void copyEVtoClipboard() {
+		Window.open(
+			getEuclidianView1().getDataUrl(800, 600),
+			"_blank", null);
+	}
+
 	@Override
 	public void uploadToGeoGebraTube() {
 		showURLinBrowserWaiterFixedDelay();

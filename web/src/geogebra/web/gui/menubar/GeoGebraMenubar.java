@@ -41,6 +41,7 @@ public class GeoGebraMenubar extends MenuBar {
 	
 		private AbstractApplication app;
 		private FileMenu fileMenu;
+		private EditMenu editMenu;
 		private HelpMenu helpMenu;
 		private OptionsMenu optionsMenu;
 
@@ -61,6 +62,8 @@ public class GeoGebraMenubar extends MenuBar {
 		private void init() {
 
 			createFileMenu(!getNativeEmailSet().equals(""));
+			
+			createEditMenu();
 			
 			//Creation of Options Menu
 			 createOptionsMenu(); // Later we'll put back.
@@ -232,6 +235,11 @@ public class GeoGebraMenubar extends MenuBar {
 	        fileMenu = new FileMenu(app, enabled);
 			addItem(app.getMenu("File"),fileMenu);
         }
+
+		private void createEditMenu() {
+			editMenu = new EditMenu(app);
+			addItem(app.getMenu("Edit"), editMenu);
+		}
 		
 		private void createHelpMenu() {
 	        helpMenu = new HelpMenu(app);

@@ -253,7 +253,8 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 	/** true if painting this for the first time*/
 	protected boolean firstPaint = true;
 
-	
+	/** used in GeoGebraWeb to get EV image in a given size as data URL*/
+	protected boolean gettingDataUrl = false;
 
 
 	private AbstractApplication app;

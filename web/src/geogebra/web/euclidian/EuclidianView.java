@@ -48,6 +48,7 @@ import com.google.gwt.user.client.ui.AbsolutePanel;
 public class EuclidianView extends AbstractEuclidianView implements SettingListener{
 	
 	public geogebra.web.awt.Graphics2D g2p = null;
+	public geogebra.web.awt.Graphics2D g4copy = null;
 	public boolean isInFocus = false;
 
 	protected static final long serialVersionUID = 1L;
@@ -227,6 +228,8 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 	 * @return the logical width
 	 */
 	public int getWidth() {
+		if (gettingDataUrl)
+			return g4copy.getCoordinateSpaceWidth();
 		return g2p.getCoordinateSpaceWidth();
 	}
 
@@ -236,6 +239,8 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 	 * @return the logical height
 	 */
 	public int getHeight() {
+		if (gettingDataUrl)
+			g4copy.getCoordinateSpaceHeight();
 		return g2p.getCoordinateSpaceHeight();
 	}
 	
@@ -367,6 +372,29 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 				return kernel.needToShowAnimationButton() && (e.getX() - g2p.getAbsoluteLeft() + Window.getScrollLeft() <= 20)
 						&& (e.getY() - g2p.getAbsoluteTop() + Window.getScrollTop() >= (getHeight() - 20));
     }
+
+
+	public String getDataUrl(int width, int height) {
+		Canvas c4 = Canvas.createIfSupported();
+		c4.setCoordinateSpaceWidth(width);
+		c4.setCoordinateSpaceHeight(height);
+		c4.setWidth(width+"px");
+		c4.setHeight(height+"px");
+		g4copy = new geogebra.web.awt.Graphics2D(c4);
+
+		gettingDataUrl = true;
+		setReIniting(true);
+		setReIniting(false);
+		geogebra.web.main.DrawEquationWeb.clearLaTeXes(this);
+		paint(g4copy);
+		gettingDataUrl = false;
+
+		setReIniting(true);
+		setReIniting(false);
+		repaint();
+
+		return g4copy.getCanvas().toDataUrl();
+	}
 
 
 	@Override
