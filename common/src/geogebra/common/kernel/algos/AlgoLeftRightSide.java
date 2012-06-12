@@ -2,6 +2,7 @@ package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.FunctionNVar;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
@@ -47,66 +48,14 @@ public class AlgoLeftRightSide extends AlgoElement {
 			return;
 		}
 		ExpressionNode expr;
-		if(left)
-			expr = computeLeft();
-		else
-			expr = computeRight();
-		if(expr==null){
-			side.setUndefined();
-			return;
-		}
-		FunctionNVar fun = new FunctionNVar(expr,fv);
-		side.setFunction(fun);
+		String str = equation.toValueString(StringTemplate.maxPrecision);
+		String[] sides = str.split("=");
+		String sideStr = left ? sides[0]:sides[1];
+		GeoFunctionNVar processed = kernel.getAlgebraProcessor().evaluateToFunctionNVar(sideStr, true);
+		side.set(processed);
 
 	}
 
-	private ExpressionNode computeLeft() {
-		if(equation instanceof GeoLine){
-			GeoLine line = (GeoLine)equation;
-			
-			switch(line.getMode()){
-			case GeoLine.PARAMETRIC:
-			case GeoLine.EQUATION_IMPLICIT:
-				return
-				new ExpressionNode(kernel,fv[0]).multiply(new MyDouble(kernel,line.getX())).plus(
-				new ExpressionNode(kernel,fv[1]).multiply(new MyDouble(kernel,line.getY())));
-			/** explicit equation */
-			case GeoLine.EQUATION_EXPLICIT:
-				if(Kernel.isZero(line.getY()))
-					return new ExpressionNode(kernel,fv[0]);
-				return new ExpressionNode(kernel,fv[1]);
-			
-			
-			/** non-canonical implicit equation */
-			case GeoLine.EQUATION_IMPLICIT_NON_CANONICAL:
-				
-			}
-		}
-
-		return null;
-	}
-
-	private ExpressionNode computeRight() {
-		if(equation instanceof GeoLine){
-			GeoLine line = (GeoLine)equation;
-			
-			switch(line.getMode()){
-			case GeoLine.PARAMETRIC:
-			case GeoLine.EQUATION_IMPLICIT:
-				return new ExpressionNode(kernel,-line.getZ());
-			/** explicit equation */
-			case GeoLine.EQUATION_EXPLICIT:
-				if(Kernel.isZero(line.getY()))
-					return new ExpressionNode(kernel,-line.getZ()/line.getX());
-				return new ExpressionNode(kernel,fv[0]).multiply(new MyDouble(kernel,-line.getX()/line.getY())).plus(
-							new MyDouble(kernel,-line.getZ()/line.getY()));
-			/** non-canonical implicit equation */
-			case GeoLine.EQUATION_IMPLICIT_NON_CANONICAL:
-				
-			}
-		}
-		return null;
-	}
 
 	@Override
 	public Algos getClassName() {
