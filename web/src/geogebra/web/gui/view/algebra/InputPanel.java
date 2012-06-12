@@ -18,6 +18,7 @@ public class InputPanel extends HorizontalPanel {
 	private boolean autoComplete;
 	private AutoCompleteTextField textComponent;
 	private boolean showSymbolPopup;
+	public enum DialogType  { TextArea, DynamicText, GeoGebraEditor };
 
 	public InputPanel(String initText, Application app, int columns, boolean autoComplete) {
 	   super();
@@ -32,7 +33,7 @@ public class InputPanel extends HorizontalPanel {
     }
 
 	public InputPanel(String initText, Application app, int rows, int columns, boolean showSymbolPopupIcon) {
-		this(initText, app, rows, columns, showSymbolPopupIcon, false/*, null, DialogType.GeoGebraEditor*/);
+		this(initText, app, rows, columns, showSymbolPopupIcon, false/*, null*/, DialogType.GeoGebraEditor);
 		if (textComponent instanceof AutoCompleteTextField) {
 			AutoCompleteTextField atf = (AutoCompleteTextField) textComponent;
 			atf.setAutoComplete(false);
@@ -40,8 +41,8 @@ public class InputPanel extends HorizontalPanel {
 	}
 	
 	public InputPanel(String initText, Application app, int rows, int columns,
-	        boolean showSymbolPopupIcon, boolean showSymbolButtons/*,
-	        KeyListener keyListener, DialogType type*/) {
+	        boolean showSymbolPopupIcon, boolean showSymbolButtons,
+	        /*KeyListener keyListener,*/ DialogType type) {
 
 		this.app = app;
 		this.showSymbolPopup = showSymbolPopupIcon;
@@ -66,8 +67,9 @@ public class InputPanel extends HorizontalPanel {
 //		} else {
 
 			textComponent = new AutoCompleteTextField(columns, app);
-//			((MyTextField) textComponent)
-//			        .setShowSymbolTableIcon(showSymbolPopup);
+			
+			//textComponent.setShowSymbolTableIcon(showSymbolPopup);
+			if (!showSymbolPopup) textComponent.removeSymbolButton();
 //		}
 
 //		textComponent.addFocusListener(this);

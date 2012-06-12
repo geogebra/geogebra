@@ -18,10 +18,21 @@ import geogebra.common.gui.dialog.DialogManager;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.main.AbstractApplication;
+import geogebra.common.util.Base64;
 
+import java.net.URL;
 import java.util.ArrayList;
 
+import com.google.gwt.user.client.Window;
+
 public abstract class GuiManager {
+
+	private static final String ggbTube = "geogebratube.org/";
+	private static final String ggbTubeShort = "ggbtu.be/";
+	private static final String material = "/material/show/id/";
+	protected String strCustomToolbarDefinition;
+	public AbstractApplication app;
 
 	public abstract void removeSpreadsheetTrace(GeoElement recordObject);
 
@@ -148,4 +159,119 @@ public abstract class GuiManager {
 	 * tells the properties view to show slider tab
 	 */
 	public abstract void showPropertiesViewSliderTab();
+	
+	public abstract void openURL();
+
+	public boolean loadURL(String urlString) {
+		return loadURL(urlString, true);
+	}
+
+	public void setToolBarDefinition(String toolBarDefinition) {
+		strCustomToolbarDefinition = toolBarDefinition;
+	}
+
+	public boolean loadURL(String urlString, boolean suppressErrorMsg) {
+		urlString = urlString.trim();
+	
+		boolean success = false;
+		boolean isMacroFile = false;
+		app.setWaitCursor();
+	
+		try {
+			// check first for ggb/ggt file
+			if (urlString.endsWith(".ggb") || urlString.endsWith(".ggt")) {
+				loadURL_GGB(urlString);
+				
+	
+				// special case: urlString is from GeoGebraTube
+				// eg http://www.geogebratube.org/student/105 changed to
+				// http://www.geogebratube.org/files/material-105.ggb	
+			} else if (urlString.indexOf(ggbTube) > -1
+					|| urlString.indexOf(ggbTubeShort) > -1) {
+	
+				// remove eg http:// if it's there
+				if (urlString.indexOf("://") > -1) {
+					urlString = urlString.substring(
+							urlString.indexOf("://") + 3, urlString.length());
+				}
+				// remove hostname
+				urlString = urlString.substring(urlString.indexOf('/'),
+						urlString.length());
+	
+				// remove ?mobile=true or ?mobile=false on end
+				if (urlString.endsWith("?mobile=true") || urlString.endsWith("?mobile=false") ) {
+					int i = urlString.lastIndexOf('?');
+					urlString = urlString.substring(0, i);
+				}
+	
+				String id;
+	
+				// determine the start position of ID in the URL
+				int start = -1;
+	
+				if (urlString.startsWith(material)) {
+					start = material.length();
+				} else {
+					start = urlString.lastIndexOf("/m") + 2;
+				}
+	
+				// no valid URL?
+				if (start == -1) {
+					AbstractApplication.debug("problem parsing: " + urlString);
+					return false;
+				}
+	
+				// the end position is either before the next slash or at the
+				// end of the string
+				int end = -1;
+				if (start > -1) {
+					end = urlString.indexOf('/', start);
+				}
+	
+				if (end == -1) {
+					end = urlString.length();
+				}
+	
+				// fetch ID
+				id = urlString.substring(start, end);
+	
+				urlString = "http://www.geogebratube.org/files/material-" + id
+						+ ".ggb";
+	
+				AbstractApplication.debug(urlString);
+				success = loadURL_GGB(urlString);
+	
+				// special case: urlString is actually a base64 encoded ggb file
+			} else if (urlString.startsWith("UEs")) {
+				success = loadURL_base64(urlString);
+	
+				// special case: urlString is actually a GeoGebra XML file
+			} else if (urlString.startsWith("<?xml ")
+					&& urlString.endsWith("</geogebra>")) {
+				success = app.loadXML(urlString);
+	
+				// 'standard' case: url with GeoGebra applet (Java or HTML5)
+			} else {
+				// try to load from GeoGebra applet
+				loadFromApplet(urlString);
+				isMacroFile = urlString.contains(".ggt");
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	
+		if (!success && !suppressErrorMsg) {
+			app.showError(app.getError("LoadFileFailed") + "\n" + urlString);
+		}
+	
+		updateGUIafterLoadFile(success, isMacroFile);
+	
+		app.setDefaultCursor();
+		return success;
+	}
+	
+	protected abstract boolean loadURL_GGB(String url) throws Exception;
+	protected abstract boolean loadURL_base64(String url) throws Exception;
+	protected abstract boolean loadFromApplet(String url) throws Exception;
+	public abstract void updateGUIafterLoadFile(boolean success, boolean isMacroFile);
 }

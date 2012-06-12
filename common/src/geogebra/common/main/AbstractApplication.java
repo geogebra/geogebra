@@ -2997,4 +2997,6 @@ public abstract class AbstractApplication {
 		random = new Random(seed);
 	}
 	
+	public abstract boolean loadXML(String xml) throws Exception;	
+	
 }

@@ -1134,4 +1134,8 @@ public class AutoCompleteTextField extends HorizontalPanel implements AutoComple
 	public SuggestBox getTextField() {
 		return textField;
 	}
+	
+	public void removeSymbolButton(){
+		remove(showSymbolButton);
+	}
 }

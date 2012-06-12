@@ -13,6 +13,9 @@ import java.util.List;
  */
 public abstract class MyTextField {
 
+	private boolean showSymbolTableIcon = false;
+
+	
 	/**
 	 * Locates bracket positions in a given string with given caret position.
 	 */
@@ -459,4 +462,12 @@ public abstract class MyTextField {
 		return ret;
 	}
 
+	/**
+	 * Sets a flag to show the symbol table icon when the field is focused
+	 * 
+	 * @param showSymbolTableIcon
+	 */
+	public void setShowSymbolTableIcon(boolean showSymbolTableIcon) {
+		this.showSymbolTableIcon = showSymbolTableIcon;
+	}
 }

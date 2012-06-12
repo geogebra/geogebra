@@ -1880,6 +1880,11 @@ public class Application extends AbstractApplication {
 	    warn("unimplemented");
 	    return null;
     }
+	
+	public boolean loadXML(String xml) throws Exception{
+		myXMLio.processXMLString(xml, true, false);
+		return true;
+	}
 
 
 }

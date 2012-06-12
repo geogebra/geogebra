@@ -46,13 +46,13 @@ public class InputDialogOpenURL extends InputDialog{
 
 		try {
 			if (source == btOK || source == inputPanel.getTextComponent()) {
-					setVisible(!processInput());
-				} else if (source == btApply) {
-					processInput();
-					//app.setDefaultCursor();
-				} else if (source == btCancel) {
-					setVisible(false);
-			} 
+				setVisible(!processInput());
+			} else if (source == btApply) {
+				processInput();
+				// app.setDefaultCursor();
+			} else if (source == btCancel) {
+				setVisible(false);
+			}
 		} catch (Exception ex) {
 			// do nothing on uninitializedValue		
 			ex.printStackTrace();

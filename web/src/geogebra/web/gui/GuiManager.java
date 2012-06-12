@@ -1,34 +1,27 @@
 package geogebra.web.gui;
 
 import geogebra.common.awt.Point;
-import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.gui.dialog.DialogManager;
-import geogebra.common.gui.toolbar.ToolBar;
-import geogebra.common.io.layout.Perspective;
 import geogebra.common.javax.swing.JTextComponent;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.main.AbstractApplication;
-import geogebra.common.main.settings.ProbabilityCalculatorSettings;
-import geogebra.web.gui.util.GeoGebraFileChooser;
-import geogebra.web.gui.view.algebra.AlgebraController;
-import geogebra.web.gui.view.algebra.AlgebraView;
-import geogebra.web.euclidian.EuclidianView;
 import geogebra.web.gui.app.GGWToolBar;
+import geogebra.web.gui.dialog.InputDialogOpenURL;
 import geogebra.web.gui.inputbar.AlgebraInput;
 import geogebra.web.gui.inputbar.InputBarHelpPanel;
 import geogebra.web.gui.layout.Layout;
-import geogebra.web.gui.menubar.FileMenu;
-import geogebra.web.helper.MyGoogleApis;
+import geogebra.web.gui.util.GeoGebraFileChooser;
+import geogebra.web.gui.view.algebra.AlgebraController;
+import geogebra.web.gui.view.algebra.AlgebraView;
 import geogebra.web.main.Application;
 
 import java.util.ArrayList;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 
@@ -36,7 +29,6 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 
 	private DialogManagerWeb dialogManager;
 
-	public AbstractApplication app;
 	protected Kernel kernel;
 
 	private AlgebraController algebraController;
@@ -46,8 +38,6 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 
 	private int width;
 	private int height;
-
-	private String strCustomToolbarDefinition;
 
 	private Layout layout;
 
@@ -458,7 +448,36 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 	    // TODO Auto-generated method stub
 	    return null;
     }
+
+	@Override
+    public void openURL() {
+		InputDialogOpenURL id = new InputDialogOpenURL((Application)app);
+		id.setVisible(true);	    
+    }
 	
+	@Override
+    protected boolean loadURL_GGB(String url){
+		((Application)app).getAppFrame().fileLoader.getView().processFileName(url);
+		return true;
+	}
 	
-	
+	@Override
+    protected boolean loadURL_base64(String url){
+    	// TODO Auto-generated method stub
+		AbstractApplication.debug("implementation needed");  
+		return true;
+	}
+
+	@Override
+    protected boolean loadFromApplet(String url) throws Exception {
+	    // TODO Auto-generated method stub
+		AbstractApplication.debug("implementation needed");
+	    return false;
+    }
+
+	@Override
+    public void updateGUIafterLoadFile(boolean success, boolean isMacroFile) {
+	    // TODO Auto-generated method stub
+	    
+    }
 }

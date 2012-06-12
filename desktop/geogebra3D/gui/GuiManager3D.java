@@ -65,7 +65,7 @@ public class GuiManager3D extends GuiManager {
 	@Override
 	protected void initLayoutPanels() {
 		super.initLayoutPanels();
-		EuclidianDockPanel3D panel = new EuclidianDockPanel3D(app);
+		EuclidianDockPanel3D panel = new EuclidianDockPanel3D((Application)app);
 		getLayout().registerPanel(panel);
 	}
 	
@@ -80,7 +80,7 @@ public class GuiManager3D extends GuiManager {
 		if (!super.initActions())
 			return false;
 		showAxes3DAction = new AbstractAction(app.getMenu("Axes"),
-				app.getImageIcon("axes.gif")) {
+				((Application)app).getImageIcon("axes.gif")) {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
@@ -94,7 +94,7 @@ public class GuiManager3D extends GuiManager {
 		};
 
 		showGrid3DAction = new AbstractAction(app.getMenu("Grid"),
-				app.getImageIcon("grid.gif")) {
+				((Application)app).getImageIcon("grid.gif")) {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
@@ -108,7 +108,7 @@ public class GuiManager3D extends GuiManager {
 		};
 		
 		showPlaneAction = new AbstractAction(app.getMenu("Plane"),
-				app.getImageIcon("plane.gif")) {
+				((Application)app).getImageIcon("plane.gif")) {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
@@ -171,7 +171,7 @@ public class GuiManager3D extends GuiManager {
 		
 		// menu for drawing pane context menu
 		ContextMenuGraphicsWindow3D popupMenu = new ContextMenuGraphicsWindow3D(
-				app, p.x, p.y);
+				(Application)app, p.x, p.y);
 		popupMenu.show(((EuclidianViewND) view).getJPanel(), p.x, p.y);
 	}
 	
@@ -203,7 +203,7 @@ public class GuiManager3D extends GuiManager {
 		screenPos.translate(p.x, p.y);
 
 
-		ContextMenuChooseGeo popupMenu = new ContextMenuChooseGeo(app, view, selectedGeos, geos, screenPos, p);
+		ContextMenuChooseGeo popupMenu = new ContextMenuChooseGeo((Application)app, view, selectedGeos, geos, screenPos, p);
 		popupMenu.show(invoker, p.x, p.y);
 
 

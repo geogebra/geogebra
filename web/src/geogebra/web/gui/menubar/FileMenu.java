@@ -65,6 +65,13 @@ public class FileMenu extends MenuBar {
 				
 		});*/
 	    
+		// this is enabled always
+	    addItem(GeoGebraMenubar.getMenuBarHtml(AppResources.INSTANCE.document_open().getSafeUri().asString(),app.getMenu("OpenWebpage")),true,new Command() {
+	    	public void execute() {
+	    		app.getGuiManager().openURL();
+	    	}
+	    });
+		
 		if (enabled)
 			addItem(GeoGebraMenubar.getMenuBarHtml(AppResources.INSTANCE.document_save().getSafeUri().asString(), app.getMenu("SaveAs")),true,new Command() {
 			
