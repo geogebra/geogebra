@@ -1069,9 +1069,9 @@ public class CommandDispatcher {
 			case IsPrime:
 				return new CmdIsPrime(kernel);
 			case LeftSide:
-				return new CmdLeftRightSide(kernel,false);
-			case RightSide:
 				return new CmdLeftRightSide(kernel,true);
+			case RightSide:
+				return new CmdLeftRightSide(kernel,false);
 			case nPr:
 				return new CmdNpR(kernel);
 			case Division:

@@ -3,21 +3,28 @@ package geogebra.common.kernel.commands;
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
+import geogebra.common.kernel.geos.GeoConic;
+import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyError;
 
 public class CmdLeftRightSide extends CommandProcessor {
-
+	private boolean left;
 	public CmdLeftRightSide(Kernel kernel,boolean left) {
 		super(kernel);
-		// TODO Auto-generated constructor stub
+		this.left = left;
 	}
 
 	@Override
 	public GeoElement[] process(Command c) throws MyError,
 			CircularDefinitionException {
-		// TODO Auto-generated method stub
-		return null;
+		GeoElement[] args = resArgs(c);
+		if(args.length!=1)
+			throw argNumErr(app,c.getName(),args.length);
+		if(!args[0].isGeoImplicitPoly() &&
+				!(args[0] instanceof GeoConic) && !(args[0] instanceof GeoLine))
+		throw argErr(app,c.getName(),args[0]);
+		return new GeoElement[]{kernelA.LeftRightSide(c.getLabel(),args[0], left)};
 	}
 
 }
