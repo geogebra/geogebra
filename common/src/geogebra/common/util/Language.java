@@ -99,7 +99,7 @@ public enum Language {
 	Persian(true, false, "fa","fa", "Persian / \u0641\u0627\u0631\u0633\u06CC", Country.IranIslamicRepublicof, Country.Afghanistan, Country.Tajikistan),
 	Polish(true, false, "pl","pl", "Polish / J\u0119zyk polski", Country.Poland),
 	// use Brazilian as the root (ie not ptBR) as there are more speakers
-	Portuguese_Brazil(true, false, "pt","pt", "Portuguese (Brazil) / Portugu\u00EAs (Brasil)", Country.Brazil),
+	Portuguese_Brazil(true, true, "pt","pt", "Portuguese (Brazil) / Portugu\u00EAs (Brasil)", Country.Brazil),
 	Portuguese_Portugal(true, false, "ptPT","pt_PT", "Portuguese (Portugal) / Portugu\u00EAs (Portugal)", Country.Portugal, Country.Mozambique, Country.Angola, Country.CapeVerde, Country.GuineaBissau, Country.SaoTomePrincipe, Country.Macau, Country.EastTimor),
 	Romanian(false, false, "ro","ro", "Romanian /  Rom\u00E2n\u0103", Country.Romania, Country.MoldovaRepublicof),
 	Russian(true, false, "ru","ru", "Russian / \u0420\u0443\u0441\u0441\u043A\u0438\u0439 \u044F\u0437\u044B\u043A", Country.RussianFederation, Country.Kazakhstan, Country.Belarus, Country.Kyrgyzstan, Country.Tajikistan),
