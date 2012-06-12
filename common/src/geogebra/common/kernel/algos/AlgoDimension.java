@@ -4,6 +4,8 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.kernelND.GeoPointND;
 
 public class AlgoDimension extends AlgoElement {
 	
@@ -11,6 +13,7 @@ public class AlgoDimension extends AlgoElement {
 	private GeoNumeric firstDimension, secondDimension;
 	private boolean matrix;
 	private GeoList list;
+	private GeoPointND point;
 	public AlgoDimension(Construction cons, String label, GeoList geoList) {
 		super(cons);
 		list = geoList;
@@ -30,9 +33,24 @@ public class AlgoDimension extends AlgoElement {
 		
 	}
 
+	public AlgoDimension(Construction cons, String label, GeoPointND geoList) {
+		super(cons);
+		point = geoList;
+		
+		firstDimension = new GeoNumeric(cons);
+		matrix = false;
+		
+		
+		setInputOutput();
+		compute();
+		getResult().setLabel(label);
+	}
+
 	@Override
 	protected void setInputOutput() {
-		input = new GeoElement[]{list};
+		input = new GeoElement[1];
+		input[0] = point==null ?list:point.toGeoElement();
+			
 		
 		if(matrix){
 			setOnlyOutput(matrixDimension);
@@ -44,6 +62,20 @@ public class AlgoDimension extends AlgoElement {
 
 	@Override
 	public void compute() {
+		if(point!=null){
+			if(!point.isDefined()){
+				firstDimension.setUndefined();
+				return;
+			}
+			firstDimension.setValue(point instanceof GeoPoint2 ? 2:3);
+			return;
+		}
+		
+		if(!list.isDefined()){
+			getResult().setUndefined();
+			return;
+		}
+		
 		int size = list.size();
 		firstDimension.setValue(size);
 		if(matrix){

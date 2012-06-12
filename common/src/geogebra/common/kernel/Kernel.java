@@ -9906,6 +9906,10 @@ public class Kernel {
 		AlgoDimension algo = new AlgoDimension(cons,label,geoList);
 		return algo.getResult();
 	}	
+	public GeoElement Dimension(String label, GeoPointND geoList) {
+		AlgoDimension algo = new AlgoDimension(cons,label,geoList);
+		return algo.getResult();
+	}	
 	public GeoNumeric FractionalPart(String label, NumberValue num) {
 		AlgoFractionalPart algo = new AlgoFractionalPart(cons,label,num);
 		return algo.getResult();
