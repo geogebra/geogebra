@@ -144,12 +144,12 @@ public class EuclidianStyleBar extends HorizontalPanel
 
 		// init button-specific fields
 		// TODO: put these in button classes
-		pointStyleArray = EuclidianView.getPointStyles();
+		pointStyleArray = AbstractEuclidianView.getPointStyles();
 		pointStyleMap = new HashMap<Integer, Integer>();
 		for (int i = 0; i < pointStyleArray.length; i++)
 			pointStyleMap.put(pointStyleArray[i], i);
 
-		lineStyleArray = EuclidianView.getLineTypes();
+		lineStyleArray = AbstractEuclidianView.getLineTypes();
 		lineStyleMap = new HashMap<Integer, Integer>();
 		for (int i = 0; i < lineStyleArray.length; i++)
 			lineStyleMap.put(lineStyleArray[i], i);
@@ -696,7 +696,7 @@ public class EuclidianStyleBar extends HorizontalPanel
 		ImageData [] lineStyleIcons = new ImageData[lineStyleArray.length];
 		for (int i = 0; i < lineStyleArray.length; i++)
 			lineStyleIcons[i] = GeoGebraIcon.createLineStyleIcon(
-					lineStyleArray[i], 2, lineStyleIconSize, Color.BLACK, null);
+					lineStyleArray[i], 2, lineStyleIconSize, geogebra.common.awt.Color.BLACK, null);
 
 		// create button
 		btnLineStyle = new PopupMenuButton((Application) app, lineStyleIcons, -1, 1,
@@ -728,14 +728,14 @@ public class EuclidianStyleBar extends HorizontalPanel
 							geosOK = false;
 							break;
 						}
-					//}
+					}
 
 					this.setVisible(geosOK);
 
 					if (geosOK) {
 						// setFgColor(((GeoElement)geos[0]).getObjectColor());
 
-						setFgColor((Color) Color.black);
+						setFgColor((Color) geogebra.common.awt.Color.black);
 						setSliderValue(((GeoElement) geos[0])
 								.getLineThickness());
 
@@ -744,7 +744,7 @@ public class EuclidianStyleBar extends HorizontalPanel
 
 						this.setKeepVisible(mode == EuclidianConstants.MODE_MOVE);
 					}
-				}
+				//}
 			}
 
 			@Override
@@ -753,7 +753,7 @@ public class EuclidianStyleBar extends HorizontalPanel
 					return GeoGebraIcon.createLineStyleIcon(
 							lineStyleArray[this.getSelectedIndex()],
 							this.getSliderValue(), lineStyleIconSize,
-							Color.BLACK, null);
+							geogebra.common.awt.Color.BLACK, null);
 				}
 				return GeoGebraIcon.createEmptyIcon(lineStyleIconSize.getWidth(),
 						lineStyleIconSize.getHeight());
@@ -776,7 +776,7 @@ public class EuclidianStyleBar extends HorizontalPanel
 		ImageData[] pointStyleIcons = new ImageData[pointStyleArray.length];
 		for (int i = 0; i < pointStyleArray.length; i++)
 			pointStyleIcons[i] = GeoGebraIcon.createPointStyleIcon(
-					pointStyleArray[i], 4, pointStyleIconSize, Color.BLACK,
+					pointStyleArray[i], 4, pointStyleIconSize, geogebra.common.awt.Color.BLACK,
 					null);
 
 		// create button
@@ -802,7 +802,7 @@ public class EuclidianStyleBar extends HorizontalPanel
 
 				if (geosOK) {
 					// setFgColor(((GeoElement)geos[0]).getObjectColor());
-					setFgColor((Color) Color.black);
+					setFgColor((Color) geogebra.common.awt.Color.black);
 
 					// if geo is a matrix, this will return a GeoNumeric...
 					geo = ((GeoElement) geos[0])
@@ -827,7 +827,7 @@ public class EuclidianStyleBar extends HorizontalPanel
 					return GeoGebraIcon.createPointStyleIcon(
 							pointStyleArray[this.getSelectedIndex()],
 							this.getSliderValue(), pointStyleIconSize,
-							Color.BLACK, null);
+							geogebra.common.awt.Color.BLACK, null);
 				}
 				return GeoGebraIcon.createEmptyIcon(pointStyleIconSize.getWidth(),
 						pointStyleIconSize.getHeight());
@@ -968,7 +968,8 @@ public class EuclidianStyleBar extends HorizontalPanel
 		};
 		ImageResource ic = AppResources.INSTANCE.mode_showhidelabel_16();
 		btnLabelStyle.setIconSize(new Dimension(ic.getWidth(), iconHeight));
-		btnLabelStyle.setIcon(ic);
+		//must be done with callback btnLabelStyle.setIcon(ic);
+		AppResourcesConverter.setIcon(ic, btnLabelStyle);
 		btnLabelStyle.addActionListener(this);
 		btnLabelStyle.setKeepVisible(false);
 
@@ -1001,7 +1002,8 @@ public class EuclidianStyleBar extends HorizontalPanel
 		ImageResource ptCaptureIcon = AppResources.INSTANCE.magnet2();
 		btnPointCapture.setIconSize(new Dimension(ptCaptureIcon.getWidth(),
 				iconHeight));
-		btnPointCapture.setIcon(ptCaptureIcon);
+		//must be done in callback btnPointCapture.setIcon(ptCaptureIcon);
+		AppResourcesConverter.setIcon(ptCaptureIcon, btnPointCapture);
 		btnPointCapture.addActionListener(this);
 		btnPointCapture.setKeepVisible(false);
 	}
@@ -1221,7 +1223,7 @@ public class EuclidianStyleBar extends HorizontalPanel
 							.getGeoElementForPropertiesDialog();
 					int style = ((TextProperties) geo).getFontStyle();
 					btnBold.setValue(style == Font.BOLD
-							|| style == (Font.BOLD + Font.ITALIC));
+							|| style == (Font.BOLD + geogebra.common.awt.Font.ITALIC));
 				}
 			}
 		};
@@ -1248,8 +1250,8 @@ public class EuclidianStyleBar extends HorizontalPanel
 					GeoElement geo = ((GeoElement) geos[0])
 							.getGeoElementForPropertiesDialog();
 					int style = ((TextProperties) geo).getFontStyle();
-					btnItalic.setValue(style == Font.ITALIC
-							|| style == (Font.BOLD + Font.ITALIC));
+					btnItalic.setValue(style == geogebra.common.awt.Font.ITALIC
+							|| style == (Font.BOLD + geogebra.common.awt.Font.ITALIC));
 				}
 			}
 

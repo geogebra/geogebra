@@ -1,5 +1,6 @@
 package geogebra.web.gui.util;
 
+
 import geogebra.common.awt.Color;
 import geogebra.common.awt.RenderingHints;
 import geogebra.common.euclidian.EuclidianStatic;
@@ -15,6 +16,9 @@ import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.canvas.dom.client.ImageData;
 import com.google.gwt.canvas.dom.client.TextMetrics;
 import com.google.gwt.dom.client.CanvasElement;
+import com.google.gwt.dom.client.ImageElement;
+import com.google.gwt.resources.client.ImageResource;
+import com.google.gwt.user.client.ui.Image;
 
 public class GeoGebraIcon {
 
@@ -295,5 +299,49 @@ public class GeoGebraIcon {
 		
 		return c.getContext2d().getImageData(0, 0, w, h);
 	}
+	
+	public static ImageData ensureIconSize(ImageData icon, Dimension iconSize){
+
+		int h = iconSize.getHeight();
+		int w = iconSize.getWidth();
+		int h2 = icon.getHeight();
+		int w2 = icon.getWidth();
+		if(h2 == h && w2 == w) 
+			return icon;
+
+		int wInset = (w - w2) > 0 ? (w-w2)/2 : 0;
+		int hInset = (h - h2) > 0 ? (h-h2)/2 : 0;
+		
+
+		Graphics2D g2 = new Graphics2D(getTmpCanvas(w, h));
+		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+		try {	
+			if(icon !=null){
+				g2.putImageData(icon, wInset, hInset);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return g2.getImageData(0, 0, w, h);
+	}
+
+	public static ImageData joinIcons(ImageData leftIcon,
+            ImageResource rightIcon) {
+		int w1 = leftIcon.getWidth();
+		int w2 = rightIcon.getWidth();
+		int h1 = leftIcon.getHeight();
+		int h2 = rightIcon.getHeight();
+		int h = Math.max(h1, h2);
+		int mid = h/2;
+		Canvas c = getTmpCanvas(w1 + w2, h);
+		Graphics2D g2 = new Graphics2D(c);
+		g2.putImageData(leftIcon, 0, mid - h1/2);
+		g2.getCanvas().getContext2d().drawImage(ImageElement.as(new Image(rightIcon.getSafeUri()).getElement()), w1, mid - h2 / 2, w2, h2);
+
+		return g2.getImageData(0, 0, w1 +  w2, h);
+    }
 
 }

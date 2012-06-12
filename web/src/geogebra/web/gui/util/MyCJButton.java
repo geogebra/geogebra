@@ -32,7 +32,7 @@ import com.google.gwt.user.client.ui.RootPanel;
  * MyCanvasJbutton a Canvas that used as a button
  *
  */
-public class MyCJButton extends Composite implements MouseDownHandler, MouseUpHandler {
+public class MyCJButton extends Composite implements MouseDownHandler, MouseUpHandler, HasSetIcon {
 	
 	
 	public static final String DEFAULT_BACKGROUND_STYLE = "white";
@@ -141,7 +141,7 @@ public class MyCJButton extends Composite implements MouseDownHandler, MouseUpHa
 		return button.addClickHandler(handler);
     }
 	
-	public void setIcon(ImageResource is) {
+	/*AG tmppublic void setIcon(ImageResource is) {
 		if (is.getWidth() > 0 && is.getHeight() > 0) {
 			final Image img = new Image(is.getSafeUri());
 			img.addLoadHandler(new LoadHandler() {
@@ -168,7 +168,7 @@ public class MyCJButton extends Composite implements MouseDownHandler, MouseUpHa
 	    	icon = ctx.getImageData(0, 0, iwidth, iheight);
 	    	setDownState(false);
 	    }
-    }
+    }*/
 
 	private Context2d getTempContext2D() {
 	    if (tempContext == null); {
@@ -180,10 +180,14 @@ public class MyCJButton extends Composite implements MouseDownHandler, MouseUpHa
 	
 	public void setIcon(ImageData ir) {
 		icon = ir;
+		buttonWidth = ir.getWidth();
+		buttonHeight = ir.getHeight();
+		button.setWidth(buttonWidth + "px");
+		button.setCoordinateSpaceWidth(buttonWidth);
 		setDownState(false);
 	}
 
-	public void setIcon(CanvasElement ce) {
+	/*AG tmppublic void setIcon(CanvasElement ce) {
 		int cwidth = ce.getWidth();
 		int cheight = ce.getHeight();
 	    if (cwidth > 0 && cheight > 0) {
@@ -196,7 +200,7 @@ public class MyCJButton extends Composite implements MouseDownHandler, MouseUpHa
 	    	icon = ctx.getImageData(0, 0, cwidth, cheight);
 	    	setDownState(false);
 	    }
-    }
+    }*/
 
 	public Object getButton() {
 	    return button;

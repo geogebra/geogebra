@@ -1,7 +1,5 @@
 package geogebra.web.gui.util;
 
-
-
 import com.google.gwt.canvas.dom.client.ImageData;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
@@ -11,11 +9,14 @@ import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.PopupPanel;
+
 import geogebra.web.awt.Color;
 import geogebra.web.awt.Dimension;
 import geogebra.web.awt.Font;
 import geogebra.web.awt.Point;
 import geogebra.web.euclidian.EuclidianStyleBar;
+import geogebra.web.gui.images.AppResources;
+import geogebra.web.gui.images.AppResourcesConverter;
 import geogebra.web.main.Application;
 
 
@@ -205,7 +206,17 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 	 * must pass action events from the popup to the invoker
 	 */
 	public void handlePopupActionEvent(){
-		button.fireEvent(new ClickEvent(){});
+		button.fireEvent(new ClickEvent(){
+			
+				public int getClientX() {
+					return 0;
+				}
+				
+				public int getClientY() {
+					return 0;
+				}
+			
+		});
 		updateGUI();
 		if(!keepVisible) {
 			myPopup.hide();
@@ -264,7 +275,49 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 				}
 			}
 			return icon;
+	}
+		
+	/**
+	 * Append a downward triangle image to the right hand side of an input icon.
+	 */
+	@Override
+	public void setIcon(ImageData icon) {
+
+		if(isFixedIcon) {			
+			super.setIcon(icon);
+			return;
 		}
+
+		if(iconSize == null) 
+			if(icon != null)
+				iconSize = new Dimension(icon.getWidth(), icon.getHeight());
+			else
+				iconSize = new Dimension(1,1);
+
+		if(icon == null){
+			//icon = GeoGebraIcon.createEmptyIcon(1, iconSize.height);
+		}else{
+			icon = GeoGebraIcon.ensureIconSize((ImageData) icon, iconSize);
+		}
+
+		// add a down_triangle image to the left of the icon
+		if(icon != null) {
+			super.setIcon(GeoGebraIcon.joinIcons((ImageData)icon, AppResources.INSTANCE.triangle_down()));
+		} else {
+			AppResourcesConverter.setIcon(AppResources.INSTANCE.triangle_down(), this);
+			//must be done in callback super.setIcon(AppResources.INSTANCE.triangle_down());
+		}
+	}
+
+
+	public void setFixedIcon(ImageData icon){
+		isFixedIcon = true;
+		setIcon(icon);
+	}
+
+	public void setIndex(int mode) {
+		myTable.setSelectedIndex(mode);
+	}
 
 	public boolean prepareToShowPopup(){
 		return true;

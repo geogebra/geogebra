@@ -824,5 +824,12 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 	public ImageData getImageData(int x, int y, int width, int height) {
 		return context.getImageData(x, y, width, height);
 	}
+	
+	/**
+	 * @param data Imagedata to put on the canvas
+	 */
+	public void putImageData(ImageData data, double x, double y) {
+		context.putImageData(data, x, y);
+	}
 
 }
