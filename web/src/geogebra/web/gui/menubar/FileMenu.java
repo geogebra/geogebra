@@ -43,20 +43,17 @@ public class FileMenu extends MenuBar {
     }
 
 	private void initActions(boolean enabled) {
-		if (enabled)
-			addItem(GeoGebraMenubar.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),app.getMenu("New")),true,new Command() {
-			
-				public void execute() {
-					app.setWaitCursor();
-					app.fileNew();
-					app.setDefaultCursor();
-				}
-			});
-		else
-			addItem(GeoGebraMenubar.getMenuBarHtmlGrayout(AppResources.INSTANCE.empty().getSafeUri().asString(),app.getMenu("New")),true,new Command() {
-				public void execute() {	}
-			});
-	    
+
+		// this is enabled always
+		addItem(GeoGebraMenubar.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),app.getMenu("New")),true,new Command() {
+
+			public void execute() {
+				app.setWaitCursor();
+				app.fileNew();
+				app.setDefaultCursor();
+			}
+		});
+
 	    /*addItem(GeoGebraMenubar.getMenuBarHtml(AppResources.INSTANCE.document_open().getSafeUri().asString(), app.getMenu("Load")), true, new Command() {
 			
 			public void execute() {
