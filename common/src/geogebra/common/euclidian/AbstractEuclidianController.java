@@ -31,6 +31,7 @@ import geogebra.common.kernel.algos.AlgoPolygon;
 import geogebra.common.kernel.algos.AlgoTranslate;
 import geogebra.common.kernel.algos.AlgoVector;
 import geogebra.common.kernel.algos.AlgoVectorPoint;
+import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
@@ -5713,6 +5714,24 @@ public abstract class AbstractEuclidianController {
 			kernel.notifyRepaint();
 		}
 	}
+	
+	protected void moveAttached(boolean repaint) {
+		
+		AlgoElement algo = movedGeoElement.getParentAlgorithm();
+		GeoPoint2 pt1 = (GeoPoint2)algo.getInput()[4];
+		GeoPoint2 pt2 = (GeoPoint2)algo.getInput()[5];
+		double dx = view.getXscale()*(xRW - startPoint.x);
+		double dy = view.getYscale()*(yRW - startPoint.y);
+		startPoint.setLocation(xRW, yRW);
+		pt1.setCoords(pt1.getX()+dx,pt1.getY()-dy,1);
+		pt2.setCoords(pt2.getX()+dx,pt2.getY()-dy,1);
+		AbstractApplication.debug(xRW+","+yRW+":"+startPoint.x+","+startPoint.y);
+		algo.update();
+		 
+		if (repaint) {
+			kernel.notifyRepaint();
+		}
+	}
 
 	protected ArrayList<GeoElement> removeParentsOfView(ArrayList<GeoElement> list) {
 		return list;
@@ -6910,7 +6929,12 @@ public abstract class AbstractEuclidianController {
 			break;
 	
 		case MOVE_DEPENDENT:
-			moveDependent(repaint);
+			if(movedGeoElement.getParentAlgorithm().getClassName()==Algos.AlgoAttachCopyToView){
+				moveAttached(repaint);
+			}
+			else {
+				moveDependent(repaint);
+			}
 			break;
 	
 		case MOVE_MULTIPLE_OBJECTS:
@@ -7417,7 +7441,7 @@ public abstract class AbstractEuclidianController {
 		handleMouseDragged(true);
 	}
 
-	private boolean penMode(int mode2) {
+	private static boolean penMode(int mode2) {
 		switch (mode2) {
 		case EuclidianConstants.MODE_PEN:
 		case EuclidianConstants.MODE_PENCIL:
