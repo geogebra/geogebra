@@ -30,7 +30,6 @@ import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoPolyLineInterface;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.common.main.AbstractApplication;
 import geogebra.common.util.MyMath;
 
 /**
@@ -185,7 +184,6 @@ public class AlgoAttachCopyToView extends AlgoTransformation {
 		double c1y = ev.toRealWorldCoordY(c5.getY() / c5.getZ());
 		double c3x = ev.toRealWorldCoordX(c7.getX() / c7.getZ());
 		double c3y = ev.toRealWorldCoordY(c7.getY() / c7.getZ());
-		AbstractApplication.debug(c1x + "," + c1y + "," + c3x + "," + c3y);
 		double[][] m = MyMath.adjoint(c1.getX() / c1.getZ(),
 				c3.getX() / c3.getZ(), c1.getX() / c1.getZ(),
 				c1.getY() / c1.getZ(), c3.getY() / c3.getZ(),
