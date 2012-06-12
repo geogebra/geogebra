@@ -56,6 +56,8 @@ public class LanguageCommand implements Command {
 	public void setCookies(String cookieParameter, String localeCode) {
 		if (Cookies.getCookie(cookieParameter) == null) {
 			Cookies.setCookie(cookieParameter, localeCode);
+		} else if(!Cookies.getCookie(cookieParameter).equals(localeCode)) {
+			Cookies.setCookie(cookieParameter, localeCode);
 		}
 	}
 }

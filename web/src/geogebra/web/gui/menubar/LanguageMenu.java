@@ -72,6 +72,8 @@ public class LanguageMenu extends MenuBar {
 				if(languageName != null) {
 
 					char ch = languageName.toUpperCase().charAt(0);
+					
+					Application.debug("Supported Languages: " + languageCode);
 
 					if(ch <= 'D') {
 

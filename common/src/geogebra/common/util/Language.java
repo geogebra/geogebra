@@ -74,8 +74,8 @@ public enum Language {
 	Galician(true, false, "gl","gl", "Galician / Galego", "Galician"), // fudge to get right flag
 	Georgian(true, false, "ka","ka", "Georgian / \u10E5\u10D0\u10E0\u10D7\u10E3\u10DA\u10D8 \u10D4\u10DC\u10D0", Country.Georgia),
 	// German must be before German_Austria
-	German(true, false, "de","de", "German / Deutsch", Country.Germany, Country.Liechtenstein, Country.Luxembourg, Country.Switzerland, Country.Belgium),
-	German_Austria(true, false, "deAT","de_AT", "German (Austria) / Deutsch (\u00D6sterreich)", Country.Austria),
+	German(true, true, "de","de", "German / Deutsch", Country.Germany, Country.Liechtenstein, Country.Luxembourg, Country.Switzerland, Country.Belgium),
+	German_Austria(true, true, "deAT","de_AT", "German (Austria) / Deutsch (\u00D6sterreich)", Country.Austria),
 	
 	Greek(true, false, "el","el", "Greek / \u0395\u03BB\u03BB\u03B7\u03BD\u03B9\u03BA\u03AC", Country.Greece, Country.Cyprus),
 	Hebrew(true, false, "iw","iw", "Hebrew / \u05E2\u05B4\u05D1\u05B0\u05E8\u05B4\u05D9\u05EA", Country.Israel),
