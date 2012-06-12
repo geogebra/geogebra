@@ -251,7 +251,8 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 			ArrayList<GeoElement> selGeos = app.getSelectedGeos();
 			
 			if (selGeos.size() == 1 && selGeos.get(0) instanceof GeoPolyLine) {
-				lastPolyLine = (AlgoPolyLine) selGeos.get(0).getParentAlgorithm();
+				AlgoElement ge = selGeos.get(0).getParentAlgorithm().getInput()[0].getParentAlgorithm();
+				lastPolyLine = (AlgoPolyLine) ge;
 			}
 		}
 
