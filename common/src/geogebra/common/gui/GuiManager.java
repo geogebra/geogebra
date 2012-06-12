@@ -19,12 +19,8 @@ import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.main.AbstractApplication;
-import geogebra.common.util.Base64;
 
-import java.net.URL;
 import java.util.ArrayList;
-
-import com.google.gwt.user.client.Window;
 
 public abstract class GuiManager {
 
@@ -179,7 +175,10 @@ public abstract class GuiManager {
 	
 		try {
 			// check first for ggb/ggt file
-			if (urlString.endsWith(".ggb") || urlString.endsWith(".ggt")) {
+			if ((urlString.endsWith(".ggb") || urlString.endsWith(".ggt"))
+					&& (urlString.indexOf("?") == -1)) { // This isn't a ggb file,
+														// however ends with ".ggb":
+														// http://www.geogebra.org/web/test42/?f=_circles5.ggb
 				loadURL_GGB(urlString);
 				
 	
