@@ -49,7 +49,7 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 	private BufferedImage penImage = null;
 	private GeoImage penGeo = null; // used if drawing to existing GeoImage
 	private GeoImage lastPenImage = null;
-	private AlgoPolyLine lastPolyLine = null;
+	private AlgoElement lastAlgo = null;
 	private boolean penWritingToExistingImage = false;
 	private ArrayList<Point> penPoints = new ArrayList<Point>();
 	private ArrayList<Point> temp = null;
@@ -216,12 +216,12 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 		
 		if (penGeo == null) {
 			this.penGeo = null;
-			lastPolyLine = null;
+			lastAlgo = null;
 		} else if (penGeo.isGeoImage()) {
 			this.penGeo = (GeoImage) penGeo;
 			penWritingToExistingImage = true;
 		} else if (penGeo.getParentAlgorithm() instanceof AlgoPolyLine) {
-			lastPolyLine = (AlgoPolyLine) penGeo.getParentAlgorithm();
+			lastAlgo = (AlgoPolyLine) penGeo.getParentAlgorithm();
 		}
 	}
 
@@ -233,7 +233,7 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 		penImage = null;
 		penGeo = null;
 		lastPenImage = null;
-		lastPolyLine = null;
+		lastAlgo = null;
 	}
 
 	// ===========================================
@@ -251,8 +251,7 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 			ArrayList<GeoElement> selGeos = app.getSelectedGeos();
 			
 			if (selGeos.size() == 1 && selGeos.get(0) instanceof GeoPolyLine) {
-				AlgoElement ge = selGeos.get(0).getParentAlgorithm().getInput()[0].getParentAlgorithm();
-				lastPolyLine = (AlgoPolyLine) ge;
+				lastAlgo = selGeos.get(0).getParentAlgorithm();
 			}
 		}
 
@@ -307,7 +306,7 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 					(int) rect.getHeight(), Transparency.BITMASK);
 
 			lastPenImage = null;
-			lastPolyLine = null;
+			lastAlgo = null;
 			
 			penOffsetX = rect.x;
 			penOffsetY = rect.y;
@@ -726,11 +725,11 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 		int offset;
 		if (erasing) {
 			
-			if (lastPolyLine == null) {
+			if (lastAlgo == null) {
 				return;
 			}
 			
-			GeoPoint2[] pts = lastPolyLine.getPoints();
+			GeoPoint2[] pts = getAlgoPolyline(lastAlgo).getPoints();
 			
 			newPts = new GeoPoint2[pts.length];
 			
@@ -754,7 +753,7 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 			}
 			
 		} else {
-			if (lastPolyLine == null) {
+			if (lastAlgo == null) {
 				//lastPolyLine = new GeoPolyLine(cons, "hello");
 				newPts = new GeoPoint2[penPoints2.size()];
 				//newPts = new GeoList(cons);
@@ -766,7 +765,7 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 				//newPts.add(new GeoPoint2(cons, Double.NaN, Double.NaN, 1));
 				
 				
-				GeoPoint2[] pts = lastPolyLine.getPoints();
+				GeoPoint2[] pts = getAlgoPolyline(lastAlgo).getPoints();
 				
 				newPts = new GeoPoint2[penPoints2.size() + 1 + pts.length];
 				
@@ -790,13 +789,13 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 		}
 		
 		
-    	AlgoElement newPolyLine;
-    	
+    	AlgoElement algo;
+    	AlgoPolyLine newPolyLine;
     	if (!absoluteScreenPosition) {
     		
     		// set label
         	newPolyLine = new AlgoPolyLine(cons, null, newPts, null);
-    	
+        	algo = newPolyLine;
     	} else {
     		
     		// don't set label
@@ -821,14 +820,14 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 			
 			cons.removeFromConstructionList(newPolyLine);
 	    	
-	    	newPolyLine = new AlgoAttachCopyToView(cons, null, newPolyLine.getGeoElements()[0], evNo, corner1, corner3, screenCorner1,screenCorner3);
+	    	algo = new AlgoAttachCopyToView(cons, null, newPolyLine.getGeoElements()[0], evNo, corner1, corner3, screenCorner1,screenCorner3);
     	}
     	
-		if (lastPolyLine == null) {
+		if (lastAlgo == null) {
 			//lastPolyLine = new AlgoPolyLine(cons, null, newPts);
 		} else {
 	    	try {
-				cons.replace(lastPolyLine.getPoly(), ((AlgoPolyLine) newPolyLine).getPoly());
+				cons.replace(lastAlgo.getOutput(0), algo.getOutput(0));
 				//String label = lastPolyLine.getPoly().getLabelSimple();
 				//lastPolyLine.getPoly().remove();
 				//lastPolyLine.remove();
@@ -840,13 +839,11 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 			//lastPolyLine.setPointsList(newPts);
 		}
 		
-		if (newPolyLine instanceof AlgoPolyLine) {
-			lastPolyLine = (AlgoPolyLine)newPolyLine;
-		} else {
-			lastPolyLine = null;
-		}
 		
-		GeoPolyLine poly = (GeoPolyLine) newPolyLine.getGeoElements()[0];
+		lastAlgo = algo;
+		
+		
+		GeoPolyLine poly = (GeoPolyLine) algo.getOutput(0);
 		
 		poly.setLineThickness(penSize * 2);
 		poly.setLineType(penLineStyle);
@@ -862,6 +859,12 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 		poly.updateRepaint();
 		
 		app.storeUndoInfo();
+	}
+
+	private AlgoPolyLine getAlgoPolyline(AlgoElement al) {
+		if(al instanceof AlgoPolyLine)
+			return (AlgoPolyLine)al;
+		return (AlgoPolyLine)al.getInput()[0].getParentAlgorithm();
 	}
 
 	@Override
