@@ -23,7 +23,6 @@ import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.cas.CASGenericInterface;
-import geogebra.common.main.AbstractApplication;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.plugin.Operation;
 import geogebra.common.util.Unicode;
@@ -920,18 +919,26 @@ public class GeoFunctionConditional extends GeoFunction {
 						: elseFun.threadSafeCopy());
 	}
 
-	public void setElseFunction(GeoFunction elseFun2) {
-		this.elseFun = elseFun2;
+	/**
+	 * @param elseFun else function
+	 */
+	public void setElseFunction(GeoFunction elseFun) {
+		this.elseFun = elseFun;
 		
 	}
-
-	public void setConditionalFunction(GeoFunction condFun2) {
-		this.condFun = condFun2;
+	/**
+	 * 
+	 * @param condFun condition as function
+	 */
+	public void setConditionalFunction(GeoFunction condFun) {
+		this.condFun = condFun;
 		
 	}
-
-	public void setIfFunction(GeoFunction ifFun2) {
-		this.ifFun = ifFun2;
+	/**
+	 * @param ifFun if function
+	 */
+	public void setIfFunction(GeoFunction ifFun) {
+		this.ifFun = ifFun;
 		
 	}
 

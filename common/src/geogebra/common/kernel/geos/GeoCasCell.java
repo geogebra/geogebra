@@ -244,9 +244,16 @@ public class GeoCasCell extends GeoElement implements VarString {
 				// kernel.setInsertLineBreaks(true);
 
 				// create LaTeX string
+				if(nativeOutput)
 				latex = outputVE.toAssignmentLaTeXString(includesNumericCommand() ? StringTemplate.numericLatex:
 					StringTemplate.latexTemplate);
-
+				else{
+					GeoElement geo = ((GeoElement)((ExpressionNode)outputVE).getLeft());
+					if(this.getAssignmentVariable()==null)
+						latex = geo.toValueString(StringTemplate.latexTemplate);
+					else
+						latex = this.getAssignmentVariable()+" := "+geo.toValueString(StringTemplate.latexTemplate);
+				}
 				// TODO Uncomment once support for latex line breaking is
 				// implemented.
 				// kernel.setInsertLineBreaks(oldLineBreaks);
@@ -2007,14 +2014,22 @@ public class GeoCasCell extends GeoElement implements VarString {
 		this.inputVE = inputVE;
 	}
 	
+	@Override
 	public Color getAlgebraColor() {
 		if(twinGeo==null)
 			return Color.BLACK;
 		return twinGeo.getAlgebraColor();
 	}
+	/**
+	 * @param b whether this cell was stored as native in XML
+	 */
 	public void setNative(boolean b){
 		nativeOutput = b;
 	}
+	
+	/**
+	 * @return whether output was computed without using GeoGebra fallback
+	 */
 	public boolean isNative(){
 		return nativeOutput;
 	}

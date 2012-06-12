@@ -12,13 +12,15 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.geos;
 
+import geogebra.common.kernel.kernelND.GeoElementND;
+
 
 
 /**
  * Interface for GeoElements that have an absolute screen position
  * (GeoImage, GeoText, GeoNumeric)
  */
-public interface AbsoluteScreenLocateable extends ToGeoElement{
+public interface AbsoluteScreenLocateable extends GeoElementND{
 	/**
 	 * @param x x offset (in pixels)
 	 * @param y y offset (in pixels)

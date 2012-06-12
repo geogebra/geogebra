@@ -1941,15 +1941,23 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture {
 	public int find(GeoElement needle) {
 		return geoList.indexOf(needle);
 	}
-
+	/**
+	 * @return whether this list should be drawn as combobox
+	 */
 	public boolean drawAsComboBox() {
 		return drawAsComboBox;
 	}
-
+	/**
+	 * @param b whether this list should be drawn as combobox
+	 */
 	public void setDrawAsComboBox(boolean b) {
 		drawAsComboBox = b;
 	}
-
+	/**
+	 * 
+	 * @param viewID view ID (AbstractApplication.VIEW_EUCLIDIAN or AbstractApplication.VIEW_EUCLIDIAN2)
+	 * @return combobox for given view
+	 */
 	public AbstractJComboBox getComboBox(int viewID) {
 
 		if (comboBox == null) {
@@ -1999,7 +2007,10 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture {
 	private AbstractJComboBox buildComboBox() {
 		return buildComboBox(SwingFactory.prototype.newJComboBox());
 	}
-
+	/**
+	 * Rebuilds combobox if some items changed
+	 * @param cb combo box
+	 */
 	public void rebuildComboxBoxIfNecessary(AbstractJComboBox cb) {
 
 		if (cb.getItemCount() != size()) {
@@ -2064,10 +2075,12 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture {
 		return labelOffsetY;
 	}
 
-	public void setAbsoluteScreenLocActive(boolean flag) {				
+	public void setAbsoluteScreenLocActive(boolean flag) {
+		//do nothing
 	}
 
 	public void setRealWorldLoc(double x, double y) {
+		//do nothing
 	}
 
 	public double getRealWorldLocX() {

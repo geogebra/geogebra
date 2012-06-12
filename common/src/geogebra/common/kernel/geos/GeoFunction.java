@@ -1158,7 +1158,7 @@ public class GeoFunction extends GeoElement implements VarString,
 	private static ExpressionNode toExpr(FunctionalNVar lt,
 			HashMap<String, FunctionVariable> varMap, Kernel kernel) {
 		if (lt instanceof GeoFunction)
-			return new ExpressionNode(kernel, (GeoFunction) lt,
+			return new ExpressionNode(kernel, lt,
 					Operation.FUNCTION, varMap.get(lt
 							.getVarString(StringTemplate.defaultTemplate)));
 		if (lt instanceof GeoFunctionNVar) {
@@ -1167,7 +1167,7 @@ public class GeoFunction extends GeoElement implements VarString,
 				varList.addListElement(varMap.get(lt.getFunction()
 						.getVarString(i,StringTemplate.defaultTemplate)));
 			}
-			return new ExpressionNode(kernel, (GeoFunctionNVar) lt,
+			return new ExpressionNode(kernel, lt,
 					Operation.FUNCTION_NVAR, varList);
 		}
 		if (lt instanceof FunctionNVar) {

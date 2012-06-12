@@ -1,6 +1,8 @@
 package geogebra.common.kernel.geos;
 
-public interface Furniture {
+import geogebra.common.kernel.kernelND.GeoElementND;
+
+public interface Furniture extends GeoElementND {
 
 	int getAbsoluteScreenLocX();
 
@@ -9,9 +11,5 @@ public interface Furniture {
 	void setAbsoluteScreenLoc(int screenCoordX, int screenCoordY);
 
 	boolean isFurniture();
-
-	void updateCascade();
-
-	void updateRepaint();
 
 }

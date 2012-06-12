@@ -147,5 +147,13 @@ public interface GeoElementND extends ExpressionValue, ToGeoElement{
 	 * @return distance from point
 	 */
 	public double distance(GeoPointND p);
-
+	
+	/**
+	 * Update this geo and all its descendants
+	 */
+	void updateCascade();
+	/**
+	 * Update and repaint this geo
+	 */
+	void updateRepaint();
 }
