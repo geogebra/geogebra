@@ -59,10 +59,15 @@ public class AlgoHyperbolaFociPoint extends AlgoElement {
             setInputOutput(); // for AlgoElement
 
             compute();
-    		setIncidence();
+    		addIncidence();
         }
 
-	private void setIncidence() {
+    /**
+     * @author Tam
+     * 
+     * for special cases of e.g. AlgoIntersectLineConic
+     */
+	private void addIncidence() {
 		if (C instanceof GeoPoint2)
 			((GeoPoint2) C).addIncidence(hyperbola);
 

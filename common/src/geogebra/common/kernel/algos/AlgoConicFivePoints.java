@@ -59,11 +59,7 @@ public class AlgoConicFivePoints extends AlgoElement {
         this.P = P;
         conic = new GeoConic(cons);
         
-        for (int i=0; i < P.length; i++) {
-        	conic.addPointOnConic(P[i]); //TODO: move into setIncidence()
-        }
-        
-        setIncidence();
+      
         
         setInputOutput(); // for AlgoElement
 
@@ -79,6 +75,14 @@ public class AlgoConicFivePoints extends AlgoElement {
 
         checkCriticalCase();
         compute();
+        addIncidence();
+        
+        /* moved into addIncidence()
+        for (int i=0; i < P.length; i++) {
+        	conic.addPointOnConic(P[i]); 
+        }
+        */
+        
     }
 
     private void checkCriticalCase() {
@@ -105,7 +109,12 @@ public class AlgoConicFivePoints extends AlgoElement {
     	}
     }
 
-	private void setIncidence() {
+    /**
+     * @author Tam
+     * 
+     * for special cases of e.g. AlgoIntersectLineConic
+     */
+	private void addIncidence() {
 		for (int i=0; i< P.length; ++i) {
 			P[i].addIncidence(conic);
 		}	

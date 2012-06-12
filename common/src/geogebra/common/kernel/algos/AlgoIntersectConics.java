@@ -145,11 +145,16 @@ public class AlgoIntersectConics extends AlgoIntersect {
         
         initForNearToRelationship();
         compute(); 
-        setIncidence();
+        addIncidence();
 
     }
     
-    private void setIncidence() {
+	 /**
+     * @author Tam
+     * 
+     * for special cases of e.g. AlgoIntersectLineConic
+     */
+    private void addIncidence() {
         for (int i=0; i < 4; i++) {
         	P[i].addIncidence(A);
     		P[i].addIncidence(B);

@@ -51,7 +51,19 @@ public class AlgoIntersectFunctionLineNewton extends AlgoRootNewton {
         setInputOutput(); // for AlgoElement    
         compute();
         rootPoint.setLabel(label);
+        
+        addIncidence();
     }
+    
+	 /**
+     * @author Tam
+     * 
+     * for special cases of e.g. AlgoIntersectLineConic
+     */
+    private void addIncidence() {
+    	rootPoint.addIncidence(f);
+    	rootPoint.addIncidence(line);
+	}
     
     @Override
 	public Algos getClassName() {

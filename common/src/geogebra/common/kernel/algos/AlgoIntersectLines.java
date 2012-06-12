@@ -60,12 +60,18 @@ public class AlgoIntersectLines extends AlgoIntersectAbstract implements Symboli
 
         // compute line through P, Q
         compute();
-        setIncidence();
-        
+
         S.setLabel(label);
+        addIncidence();
+        
     }
 
-    private void setIncidence() {
+	 /**
+     * @author Tam
+     * 
+     * for special cases of e.g. AlgoIntersectLineConic
+     */
+    private void addIncidence() {
 		S.addIncidence(g);
 		S.addIncidence(h);
 	}

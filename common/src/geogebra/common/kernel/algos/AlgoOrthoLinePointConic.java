@@ -77,6 +77,8 @@ public class AlgoOrthoLinePointConic extends AlgoElement {
         compute();
         for(int i=0;i<4;i++)
         	g[0].setLabel(label);
+        
+        addIncidence();
     }
 
     @Override
@@ -88,6 +90,18 @@ public class AlgoOrthoLinePointConic extends AlgoElement {
 	public int getRelatedModeID() {
     	return EuclidianConstants.MODE_ORTHOGONAL;
     }
+    
+    /**
+     * @author Tam
+     * 
+     * for special cases of e.g. AlgoIntersectLineConic
+     */
+    private void addIncidence() {
+    	//for (int i=0; i<4; i++)
+    		P.addIncidence(g[0]);
+	}
+
+    
     
     // for AlgoElement
     @Override

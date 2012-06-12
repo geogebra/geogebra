@@ -61,6 +61,8 @@ public class AlgoJoinPoints extends AlgoElement implements SymbolicParametersAlg
         g = new GeoLine(cons); 
         g.setStartPoint(P);
         g.setEndPoint(Q);
+        
+
         setInputOutput(); // for AlgoElement
         
         // compute line through P, Q
@@ -68,6 +70,11 @@ public class AlgoJoinPoints extends AlgoElement implements SymbolicParametersAlg
         addIncidence();
     }   
     
+    /**
+     * @author Tam
+     * 
+     * for special cases of e.g. AlgoIntersectLineConic
+     */
     private void addIncidence() {
         P.addIncidence(g);
         Q.addIncidence(g);

@@ -44,15 +44,23 @@ public class AlgoJoinPointsRay extends AlgoElement {
         this.Q = Q;                
         ray = new GeoRay(cons, P); 
         ray.setEndPoint(Q);
+        
+
         setInputOutput(); // for AlgoElement
         
         // compute line through P, Q
         compute();      
-        setIncidence();
+
         ray.setLabel(label);
+        addIncidence();
     }   
     
-    private void setIncidence() {
+    /**
+     * @author Tam
+     * 
+     * for special cases of e.g. AlgoIntersectLineConic
+     */
+    private void addIncidence() {
     	P.addIncidence(ray);
     	Q.addIncidence(ray);
 	}

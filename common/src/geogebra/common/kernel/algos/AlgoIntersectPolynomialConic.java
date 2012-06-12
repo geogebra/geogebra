@@ -57,8 +57,19 @@ public class AlgoIntersectPolynomialConic extends AlgoSimpleRootsPolynomial {
 		this.h=h;
 		this.c=c;
         compute();
+        
+        addIncidence();
 	}
 
+	 /**
+     * @author Tam
+     * 
+     * for special cases of e.g. AlgoIntersectLineConic
+     */
+    private void addIncidence() {
+    	//TODO
+	}
+    
 	@Override
 	public void compute() {
 		

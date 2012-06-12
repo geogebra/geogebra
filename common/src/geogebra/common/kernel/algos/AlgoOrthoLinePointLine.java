@@ -70,11 +70,17 @@ SymbolicParametersBotanaAlgo {
 
         // compute line 
         compute();
-        setIncidence();
+
         g.setLabel(label);
+        addIncidence();
     }
 
-    private void setIncidence() {
+    /**
+     * @author Tam
+     * 
+     * for special cases of e.g. AlgoIntersectLineConic
+     */
+    private void addIncidence() {
     	P.addIncidence(g);
 	}
 

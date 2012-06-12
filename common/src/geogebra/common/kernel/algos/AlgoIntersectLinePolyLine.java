@@ -82,6 +82,17 @@ public class AlgoIntersectLinePolyLine extends AlgoElement{
         update();    
 	}
 
+	 /**
+     * @author Tam
+     * 
+     * for special cases of e.g. AlgoIntersectLineConic
+     */
+    private void addIncidence() {
+    	//TODO: should be called dynamically
+
+	}
+
+    
     protected void setLabels(String[] labels) {
         //if only one label (e.g. "A") for more than one output, new labels will be A_1, A_2, ...
         if (labels!=null &&

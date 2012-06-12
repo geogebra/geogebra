@@ -50,11 +50,17 @@ public class AlgoOrthoLinePointVector extends AlgoElement {
         
         // compute line through P, Q
         compute();      
-        setIncidence();
+        
         g.setLabel(label);
+        addIncidence();
     }   
     
-    private void setIncidence() {
+    /**
+     * @author Tam
+     * 
+     * for special cases of e.g. AlgoIntersectLineConic
+     */
+    private void addIncidence() {
     	P.addIncidence(g);
 	}
     

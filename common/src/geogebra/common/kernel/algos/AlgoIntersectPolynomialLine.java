@@ -30,8 +30,18 @@ import geogebra.common.kernel.geos.GeoPoint2;
 public class AlgoIntersectPolynomialLine extends AlgoRootsPolynomial {
                 
     public AlgoIntersectPolynomialLine(Construction cons, GeoFunction f, GeoLine g) {
-        super(cons, f, g);                      
+        super(cons, f, g);     
+        addIncidence();
     }
+    
+	 /**
+     * @author Tam
+     * 
+     * for special cases of e.g. AlgoIntersectLineConic
+     */
+    private void addIncidence() {
+    	//TODO
+	}
     
     @Override
 	public Algos getClassName() {

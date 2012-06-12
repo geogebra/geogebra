@@ -58,7 +58,12 @@ public class AlgoPointOnPath extends AlgoElement implements PathAlgo, SymbolicPa
         P.setLabel(label);
     }
 
-    private void setIncidence() {
+    /**
+     * @author Tam
+     * 
+     * for special cases of e.g. AlgoIntersectLineConic
+     */
+    private void addIncidence() {
     	P.addIncidence((GeoElement) path);
 		
 	}
@@ -78,8 +83,11 @@ public class AlgoPointOnPath extends AlgoElement implements PathAlgo, SymbolicPa
         P.setPath(path);
         P.setCoords(x, y, 1.0);
 		this.param = param;
+		
+
 		setInputOutput(); // for AlgoElement	       	        
 		compute();		
+		addIncidence();
 	}
 
 	public AlgoPointOnPath(Construction cons, Path path, double x, double y) {
@@ -89,11 +97,11 @@ public class AlgoPointOnPath extends AlgoElement implements PathAlgo, SymbolicPa
         // create point on path and compute current location
         P = new GeoPoint2(cons);
         P.setPath(path);
-        setIncidence();
+        P.setCoords(x, y, 1.0); 
         
-        P.setCoords(x, y, 1.0);                   
-        
+
         setInputOutput(); // for AlgoElement
+        addIncidence();
 	}
 
 	@Override

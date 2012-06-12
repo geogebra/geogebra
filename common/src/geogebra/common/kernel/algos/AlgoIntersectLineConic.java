@@ -42,7 +42,7 @@ import java.util.Iterator;
  * @author Markus
  * @version
  */
-public class AlgoIntersectLineConic extends AlgoIntersect implements SymbolicParametersBotanaAlgo {
+public class AlgoIntersectLineConic extends AlgoIntersect implements SymbolicParametersBotanaAlgo{
 
 	protected GeoLine g; // input
 	protected GeoConic c;
@@ -116,11 +116,16 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements SymbolicPar
 		setInputOutput(); // for AlgoElement
 		initForNearToRelationship();
 		compute();
-		setIncidence();
+		addIncidence(); //must be after compute()
 
 	}
 
-	private void setIncidence() {
+    /**
+     * @author Tam
+     * 
+     * for special cases of e.g. AlgoIntersectLineConic
+     */
+	private void addIncidence() {
 		for (int i = 0; i < P.length; ++i) {
 			P[i].addIncidence(g);
 			P[i].addIncidence(c);
@@ -246,13 +251,29 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements SymbolicPar
 	 * section c is intersected with a line passing through a point A on c. In
 	 * this case the first intersection point should always be A.
 	 * 
+	 * Definition of special case:
+	 * There is a pre-exist point which is both dependent and incident to the conic and the line.
+	 * 
+	 * i.e. there is a special case if and only if there exists one point S such that 
+	 * (1) the conic was constructed through S, or S is already some intersection point of the conic with other object;
+	 * (2) the line was constructed through S, or S is already some intersection point of the line with other object.
+	 * 
+	 * Therefore, "addIncidence()" should be called in the following Algos:
+	 * AlgoJoinPoints, AlgoJoinPointsRay, AlgoJoinPointsSegment
+	 * AlgoLinePointLine, AlgoLinePointVector, AlgoOrthoLinePointLine, AlgoOrthoLinePointVector, AlgoOrthoLinePointConic
+	 * AlgoConicFivePoints, AlgoEllipseFociPoint, AlgoHyperbolaFociPoint
+	 * AlgoIntersectLineXXX, AlgoIntersectXXXLine
+	 * AlgoIntersectConicXXX, AlgoIntersectXXXConic
+	 * AlgoPointOnPath
+	 * GeoLine.setStartPoint, GeoLine.setEndPoint
+	 * 
 	 * @return true if this special case was handled.
 	 */
 	private boolean handleSpecialCase() {
 		// see the use in this.compute()
 		handlingSpecialCase = true;
 
-		// When a point incidentally stands on g and c, it may not be considered
+		// Numerical check does not work, because when a point incidentally stands on g and c, it may not be considered
 		// as special case
 		/*
 		 * if (g.startPoint != null && c.isOnPath(g.startPoint,
@@ -280,18 +301,19 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements SymbolicPar
 							&& p.getIncidenceList().contains(g)) {
 
 						// TODO: this is just a TEMPORARY FIX for #94.
-						if (g.isOnPath(p, Kernel.EPSILON)
-								&& c.isOnPath(p, Kernel.EPSILON))
-							existingIntersection = p;
+						//if (g.isOnPath(p, Kernel.EPSILON)
+							//	&& c.isOnPath(p, Kernel.EPSILON))
+							//existingIntersection = p;
 
-						// existingIntersection = p;
-						break;
-					} else if (!(p.getNonIncidenceList() != null && p
-							.getNonIncidenceList().contains(g))
-							&& p.addIncidenceWithProbabilisticChecking(g)) {
 						existingIntersection = p;
 						break;
-					}
+					} /* else if (!(p.getNonIncidenceList() != null && p //no probabilistic checking anymore. See #1044
+							.getNonIncidenceList().contains(g))
+							&& p.addIncidenceWithProbabilisticChecking(g) 
+							) {
+						existingIntersection = p;
+						break;
+					} */
 				}
 			}
 		}
@@ -311,17 +333,17 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements SymbolicPar
 								&& p.getIncidenceList().contains(c)) {
 
 							// TODO: this is just a TEMPORARY FIX for #94.
-							if (g.isOnPath(p, Kernel.EPSILON)
-									&& c.isOnPath(p, Kernel.EPSILON))
-								existingIntersection = p;
+							//if (g.isOnPath(p, Kernel.EPSILON)
+								//	&& c.isOnPath(p, Kernel.EPSILON))
+							//	existingIntersection = p;
 
-							// existingIntersection = p;
+							existingIntersection = p;
 							break;
-						} else if (p.addIncidenceWithProbabilisticChecking(c)) {
+						} /* else if (p.addIncidenceWithProbabilisticChecking(c)) { //no probabilistic checking anymore. See #1044
 							existingIntersection = p;
 							AbstractApplication.debug(p);
 							break;
-						}
+						} */
 					}
 				}
 			}
@@ -777,5 +799,4 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements SymbolicPar
 		throw new NoSymbolicParametersException();
 	}
 
-	
 }
