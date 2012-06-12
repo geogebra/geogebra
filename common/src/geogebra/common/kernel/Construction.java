@@ -1236,7 +1236,13 @@ public class Construction {
 	public void replace(GeoElement oldGeo, GeoElement newGeo) throws Exception {
 		if (oldGeo == null || newGeo == null || oldGeo == newGeo)
 			return;
-
+		//assignment v=? should make v undefined, not change its type
+		if (oldGeo.isIndependent() && newGeo instanceof GeoNumeric
+				&& newGeo.isIndependent() && !newGeo.isDefined()) {
+			oldGeo.setUndefined();
+			oldGeo.updateRepaint();
+			return;
+		}
 		// if oldGeo does not have any children, we can simply
 		// delete oldGeo and give newGeo the name of oldGeo
 		if (!oldGeo.hasChildren()) {
@@ -1266,7 +1272,7 @@ public class Construction {
 
 			return;
 		}
-
+		
 		// check for circular definition
 		if (newGeo.isChildOf(oldGeo)) {
 
