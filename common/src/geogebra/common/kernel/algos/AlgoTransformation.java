@@ -6,7 +6,7 @@ import geogebra.common.kernel.geos.GeoConicPart;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoPoint2;
-import geogebra.common.kernel.geos.GeoPolyLineInterface;
+import geogebra.common.kernel.geos.GeoPoly;
 import geogebra.common.kernel.geos.GeoRay;
 import geogebra.common.kernel.geos.GeoSegment;
 
@@ -54,7 +54,7 @@ public abstract class AlgoTransformation extends AlgoElement {
 	}
 
 	protected GeoElement getResultTemplate(GeoElement geo) {
-		if (geo instanceof GeoPolyLineInterface || geo.isLimitedPath())
+		if (geo instanceof GeoPoly || geo.isLimitedPath())
 			return copyInternal(cons, geo);
 		if (geo.isGeoList())
 			return new GeoList(cons);

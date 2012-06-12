@@ -6,7 +6,7 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoImage;
-import geogebra.common.kernel.geos.GeoPolyLineInterface;
+import geogebra.common.kernel.geos.GeoPoly;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.MyError;
 
@@ -37,8 +37,8 @@ public class CmdVertex extends CommandProcessor {
 			arg = resArgs(c);
 			if (arg[0].isGeoConic())
 				return kernelA.Vertex(c.getLabels(), (GeoConic) arg[0]);
-			if (arg[0] instanceof GeoPolyLineInterface)
-				return kernelA.Vertex(c.getLabels(), (GeoPolyLineInterface) arg[0]);
+			if (arg[0] instanceof GeoPoly)
+				return kernelA.Vertex(c.getLabels(), (GeoPoly) arg[0]);
 			else if (arg[0].isNumberValue()) {
 				GeoElement[] ret = { kernelA.CornerOfDrawingPad(c.getLabel(),
 						(NumberValue) arg[0], null) };
@@ -49,10 +49,10 @@ public class CmdVertex extends CommandProcessor {
 			// Corner[ <Image>, <number> ]
 		case 2:
 			arg = resArgs(c);
-			if ((ok[0] = (arg[0] instanceof GeoPolyLineInterface))
+			if ((ok[0] = (arg[0] instanceof GeoPoly))
 					&& (ok[1] = (arg[1].isNumberValue()))) {
 				GeoElement[] ret = { kernelA.Vertex(c.getLabel(),
-						(GeoPolyLineInterface) arg[0], (NumberValue) arg[1]) };
+						(GeoPoly) arg[0], (NumberValue) arg[1]) };
 				return ret;
 			} else if ((ok[0] = (arg[0].isGeoImage()))
 					&& (ok[1] = (arg[1].isNumberValue()))) {

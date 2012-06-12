@@ -133,6 +133,8 @@ public class GeoText extends GeoElement implements Locateable,
 
 	@Override
 	public void set(GeoElement geo) {
+		if(!geo.isGeoText())
+			return;
 		GeoText gt = (GeoText) geo;
 		// macro output: don't set start point
 		// but update to desired number format

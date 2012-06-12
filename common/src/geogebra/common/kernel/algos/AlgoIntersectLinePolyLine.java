@@ -27,7 +27,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoPolyLine;
-import geogebra.common.kernel.geos.GeoPolyLineInterface;
+import geogebra.common.kernel.geos.GeoPoly;
 import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.kernelND.GeoLineND;
@@ -45,7 +45,7 @@ public class AlgoIntersectLinePolyLine extends AlgoElement{
 
     protected GeoLineND g; // input
 	protected GeoPolyLine p; //input
-	protected GeoPolyLineInterface pi;
+	protected GeoPoly pi;
 	protected OutputHandler<GeoElement> outputPoints; // output
 	//protected OutputHandler<GeoElement> outputSegments; // output 
     
@@ -62,7 +62,7 @@ public class AlgoIntersectLinePolyLine extends AlgoElement{
      * @param g
      * @param p
      */
-    public AlgoIntersectLinePolyLine(Construction c, String[] labels, GeoLineND g, GeoPolyLineInterface p) {
+    public AlgoIntersectLinePolyLine(Construction c, String[] labels, GeoLineND g, GeoPoly p) {
 
     	super(c);
         

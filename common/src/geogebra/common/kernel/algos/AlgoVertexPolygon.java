@@ -23,7 +23,7 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
-import geogebra.common.kernel.geos.GeoPolyLineInterface;
+import geogebra.common.kernel.geos.GeoPoly;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.AbstractApplication;
 
@@ -33,7 +33,7 @@ import geogebra.common.main.AbstractApplication;
  */
 public class AlgoVertexPolygon extends AlgoElement {
 
-	private GeoPolyLineInterface p; // input		
+	private GeoPoly p; // input		
 	private NumberValue index;
 	private GeoPoint2 oneVertex;
 	private OutputHandler<GeoElement> outputPoints;
@@ -44,7 +44,7 @@ public class AlgoVertexPolygon extends AlgoElement {
 	 * @param p polygon or polyline
 	 */
 
-	public AlgoVertexPolygon(Construction cons, String[] labels, GeoPolyLineInterface p) {
+	public AlgoVertexPolygon(Construction cons, String[] labels, GeoPoly p) {
 
 		this(cons, p);
 		// if only one label (e.g. "A"), new labels will be A_1, A_2, ...
@@ -77,7 +77,7 @@ public class AlgoVertexPolygon extends AlgoElement {
 	 * @param p polygon or polyline
 	 * @param v vertex index
 	 */
-	public AlgoVertexPolygon(Construction cons, String label, GeoPolyLineInterface p,
+	public AlgoVertexPolygon(Construction cons, String label, GeoPoly p,
 			NumberValue v) {
 
 		this(cons, p, v);
@@ -90,7 +90,7 @@ public class AlgoVertexPolygon extends AlgoElement {
 	 * @param cons construction
 	 * @param p polygon or polyline
 	 */
-	AlgoVertexPolygon(Construction cons, GeoPolyLineInterface p) {
+	AlgoVertexPolygon(Construction cons, GeoPoly p) {
 		super(cons);
 		this.p = p;
 		outputPoints=createOutputPoints();
@@ -104,7 +104,7 @@ public class AlgoVertexPolygon extends AlgoElement {
 	 * @param p polygon or polyline
 	 * @param v vertrex index
 	 */
-	AlgoVertexPolygon(Construction cons, GeoPolyLineInterface p, NumberValue v) {
+	AlgoVertexPolygon(Construction cons, GeoPoly p, NumberValue v) {
 		super(cons);
 		this.p = p;
 		this.index = v;
@@ -140,7 +140,7 @@ public class AlgoVertexPolygon extends AlgoElement {
 	 * 
 	 * @return input polygon
 	 */
-	public GeoPolyLineInterface getPolygon() {
+	public GeoPoly getPolygon() {
 		return p;
 	}
 

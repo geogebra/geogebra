@@ -87,7 +87,7 @@ import geogebra.common.kernel.geos.GeoLocus;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoPolyLine;
-import geogebra.common.kernel.geos.GeoPolyLineInterface;
+import geogebra.common.kernel.geos.GeoPoly;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoRay;
 import geogebra.common.kernel.geos.GeoSegment;
@@ -4392,7 +4392,7 @@ public class Kernel {
 	/**
 	 * Vertices of polygon. returns 3+ GeoPoints
 	 */
-	final public GeoElement[] Vertex(String[] labels, GeoPolyLineInterface p) {
+	final public GeoElement[] Vertex(String[] labels, GeoPoly p) {
 		AlgoVertexPolygon algo = new AlgoVertexPolygon(cons, labels, p);
 		GeoElement[] vertex = algo.getVertex();
 		return vertex;
@@ -4401,7 +4401,7 @@ public class Kernel {
 	/**
 	 * Vertex of polygon. returns a GeoPoint
 	 */
-	final public GeoPoint2 Vertex(String label, GeoPolyLineInterface p,
+	final public GeoPoint2 Vertex(String label, GeoPoly p,
 			NumberValue v) {
 		AlgoVertexPolygon algo = new AlgoVertexPolygon(cons, label, p, v);
 		GeoPoint2 vertex = algo.getOneVertex();

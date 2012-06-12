@@ -33,7 +33,7 @@ import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoPoint2;
-import geogebra.common.kernel.geos.GeoPolyLineInterface;
+import geogebra.common.kernel.geos.GeoPoly;
 import geogebra.common.kernel.geos.GeoRay;
 import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoVec2D;
@@ -186,8 +186,8 @@ public class AlgoMirror extends AlgoTransformation {
     	else if(inGeo instanceof GeoFunction && mirror != mirrorPoint){
     		((GeoFunction)inGeo).toGeoCurveCartesian((GeoCurveCartesian)outGeo);
     	}
-    	else if(inGeo instanceof GeoPolyLineInterface && mirror == mirrorConic){
-    		((GeoPolyLineInterface)inGeo).toGeoCurveCartesian((GeoCurveCartesian)outGeo);    		
+    	else if(inGeo instanceof GeoPoly && mirror == mirrorConic){
+    		((GeoPoly)inGeo).toGeoCurveCartesian((GeoCurveCartesian)outGeo);    		
     	}
     	else outGeo.set(inGeo);
     	
@@ -228,7 +228,7 @@ public class AlgoMirror extends AlgoTransformation {
     
     @Override
 	protected GeoElement getResultTemplate(GeoElement geo) {
-    	if((geo instanceof GeoPolyLineInterface) && mirror == mirrorConic)
+    	if((geo instanceof GeoPoly) && mirror == mirrorConic)
 			return new GeoCurveCartesian(cons);
 		if((geo instanceof GeoFunction) && mirror != mirrorPoint)
 			return new GeoCurveCartesian(cons);
@@ -240,7 +240,7 @@ public class AlgoMirror extends AlgoTransformation {
         if (mirror instanceof GeoConic && geo instanceof GeoConic && 
         		(!((GeoConic)geo).isCircle()||!((GeoConic)geo).keepsType()))
         	return new GeoImplicitPoly(cons);
-		if(geo instanceof GeoPolyLineInterface  || (geo.isLimitedPath() && mirror!=mirrorConic))
+		if(geo instanceof GeoPoly  || (geo.isLimitedPath() && mirror!=mirrorConic))
 			return geo.copyInternal(cons);		
 		if(geo.isGeoList())        	
         	return new GeoList(cons);

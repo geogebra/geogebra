@@ -28,7 +28,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoPoint2;
-import geogebra.common.kernel.geos.GeoPolyLineInterface;
+import geogebra.common.kernel.geos.GeoPoly;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.util.MyMath;
 
@@ -100,7 +100,7 @@ public class AlgoAttachCopyToView extends AlgoTransformation {
 		this.screenCorner3 = screenCorner3;
 
 		inGeo = in.toGeoElement();
-		if ((inGeo instanceof GeoPolyLineInterface) || inGeo.isLimitedPath()) {
+		if ((inGeo instanceof GeoPoly) || inGeo.isLimitedPath()) {
 			outGeo = in.copyInternal(cons);
 			out = (MatrixTransformable) outGeo;
 		} else if (inGeo.isGeoList()) {

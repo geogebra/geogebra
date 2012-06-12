@@ -3,7 +3,7 @@ package geogebra.common.kernel;
 import geogebra.common.kernel.algos.AlgoTransformation;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoPolyLineInterface;
+import geogebra.common.kernel.geos.GeoPoly;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.LimitedPath;
 import geogebra.common.kernel.kernelND.GeoLineND;
@@ -73,8 +73,8 @@ public abstract class Transform {
 	public GeoElement[] transform(GeoElement geo, String transformedLabel) {
 		String label = transformedLabel;
 		// for polygons we transform
-		if (geo instanceof GeoPolyLineInterface && this.isAffine()) {
-			GeoPolyLineInterface poly = (GeoPolyLineInterface) geo;
+		if (geo instanceof GeoPoly && this.isAffine()) {
+			GeoPoly poly = (GeoPoly) geo;
 			if (poly.isVertexCountFixed() && poly.isAllVertexLabelsSet())
 				return transformPoly(label, poly,
 						transformPoints(poly.getPointsND()));
@@ -116,7 +116,7 @@ public abstract class Transform {
 	protected abstract AlgoTransformation getTransformAlgo(GeoElement geo);
 
 	private GeoElement[] transformPoly(String label,
-			GeoPolyLineInterface oldPoly, GeoPointND[] transformedPoints) {
+			GeoPoly oldPoly, GeoPointND[] transformedPoints) {
 		// get label for polygon
 		String[] polyLabel = null;
 		if (label == null) {

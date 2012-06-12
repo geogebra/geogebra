@@ -9,7 +9,7 @@ import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoPoint2;
-import geogebra.common.kernel.geos.GeoPolyLineInterface;
+import geogebra.common.kernel.geos.GeoPoly;
 import geogebra.common.kernel.geos.Transformable;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
 import geogebra.common.kernel.kernelND.GeoConicNDConstants;
@@ -55,7 +55,7 @@ public class CmdMirror extends CommandProcessor {
 						&& arg[0].isGeoConic() || arg[0].isGeoPoint()
 						|| arg[0] instanceof GeoCurveCartesian
 						|| arg[0] instanceof GeoLine
-						|| arg[0] instanceof GeoPolyLineInterface
+						|| arg[0] instanceof GeoPoly
 						|| arg[0] instanceof GeoFunction
 						|| arg[0] instanceof GeoList
 						|| arg[0] instanceof GeoImplicitPoly) {

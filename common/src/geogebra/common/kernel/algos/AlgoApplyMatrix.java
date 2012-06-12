@@ -27,7 +27,7 @@ import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoList;
-import geogebra.common.kernel.geos.GeoPolyLineInterface;
+import geogebra.common.kernel.geos.GeoPoly;
 
 /**
  * 
@@ -67,7 +67,7 @@ public class AlgoApplyMatrix extends AlgoTransformation {
 		this.matrix = matrix;
 
 		inGeo = in.toGeoElement();
-		if ((inGeo instanceof GeoPolyLineInterface) || inGeo.isLimitedPath()) {
+		if ((inGeo instanceof GeoPoly) || inGeo.isLimitedPath()) {
 			outGeo = in.copyInternal(cons);
 			out = (MatrixTransformable) outGeo;
 		} else if (inGeo.isGeoList()) {
