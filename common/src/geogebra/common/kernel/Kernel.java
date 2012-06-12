@@ -3910,8 +3910,8 @@ public class Kernel {
 	/**
 	 * Vector (0,0) to P
 	 */
-	final public GeoVector Vector(String label, GeoPoint2 P) {
-		AlgoVectorPoint algo = new AlgoVectorPoint(cons, label, P);
+	final public GeoVector Vector(String label, GeoPointND P) {
+		AlgoVectorPoint algo = new AlgoVectorPoint(cons, label, (GeoPoint2) P);
 		GeoVector v = algo.getVector();
 		v.setEuclidianVisible(true);
 		v.update();
@@ -9906,8 +9906,8 @@ public class Kernel {
 		AlgoDimension algo = new AlgoDimension(cons,label,geoList);
 		return algo.getResult();
 	}	
-	public GeoElement Dimension(String label, GeoPointND geoList) {
-		AlgoDimension algo = new AlgoDimension(cons,label,geoList);
+	public GeoElement Dimension(String label, GeoElement pointOrVector) {
+		AlgoDimension algo = new AlgoDimension(cons,label,pointOrVector);
 		return algo.getResult();
 	}	
 	public GeoNumeric FractionalPart(String label, NumberValue num) {

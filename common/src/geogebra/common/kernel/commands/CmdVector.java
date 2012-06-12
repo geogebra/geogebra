@@ -5,6 +5,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.MyError;
 
 
@@ -31,7 +32,7 @@ public class CmdVector extends CommandProcessor {
 			arg = resArgs(c);
 			if (arg[0] .isGeoPoint()) {
 				GeoElement[] ret =
-				{ kernelA.Vector(c.getLabel(), (GeoPoint2) arg[0])};
+				{ kernelA.Vector(c.getLabel(), (GeoPointND) arg[0])};
 				return ret;
 			}
 

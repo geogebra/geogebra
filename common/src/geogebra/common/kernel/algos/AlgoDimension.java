@@ -5,6 +5,8 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoVector;
+import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 
 public class AlgoDimension extends AlgoElement {
@@ -13,7 +15,7 @@ public class AlgoDimension extends AlgoElement {
 	private GeoNumeric firstDimension, secondDimension;
 	private boolean matrix;
 	private GeoList list;
-	private GeoPointND point;
+	private GeoElement point;
 	public AlgoDimension(Construction cons, String label, GeoList geoList) {
 		super(cons);
 		list = geoList;
@@ -33,7 +35,7 @@ public class AlgoDimension extends AlgoElement {
 		
 	}
 
-	public AlgoDimension(Construction cons, String label, GeoPointND geoList) {
+	public AlgoDimension(Construction cons, String label, GeoElement geoList) {
 		super(cons);
 		point = geoList;
 		
@@ -67,7 +69,7 @@ public class AlgoDimension extends AlgoElement {
 				firstDimension.setUndefined();
 				return;
 			}
-			firstDimension.setValue(point instanceof GeoPoint2 ? 2:3);
+			firstDimension.setValue(point instanceof GeoPoint2 || point instanceof GeoVector ? 2:3);
 			return;
 		}
 		

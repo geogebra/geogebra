@@ -5,7 +5,9 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.kernel.kernelND.GeoVectorND;
 import geogebra.common.main.MyError;
 
 public class CmdDimension extends CommandProcessor {
@@ -28,10 +30,10 @@ public class CmdDimension extends CommandProcessor {
 								(GeoList) arg[0]) };
 				return ret;
 			}
-			if (arg[0].isGeoPoint()) {
+			if (arg[0] instanceof GeoPointND || arg[0] instanceof GeoVectorND) {
 				GeoElement[] ret = { 
 						kernelA.Dimension(c.getLabel(),
-								(GeoPointND) arg[0]) };
+								arg[0]) };
 				return ret;
 			}
 			throw argErr(app,c.getName(),arg[0]);
