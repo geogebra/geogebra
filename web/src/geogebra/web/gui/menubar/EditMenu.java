@@ -20,7 +20,7 @@ public class EditMenu extends MenuBar {
 	}
 
 	private void initActions() {
-	    addItem(GeoGebraMenubar.getMenuBarHtml(AppResources.INSTANCE.edit_copy().getSafeUri().asString(),app.getMenu("DrawingPadToClipboard")),true,new Command() {
+	    addItem(GeoGebraMenubar.getMenuBarHtml(AppResources.INSTANCE.edit_copy().getSafeUri().asString(),app.getMenu("CopyImage")),true,new Command() {
 	    	public void execute() {
 	    		((Application)app).copyEVtoClipboard();
 	    	}
