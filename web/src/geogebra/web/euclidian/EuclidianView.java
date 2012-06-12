@@ -240,7 +240,7 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 	 */
 	public int getHeight() {
 		if (gettingDataUrl)
-			g4copy.getCoordinateSpaceHeight();
+			return g4copy.getCoordinateSpaceHeight();
 		return g2p.getCoordinateSpaceHeight();
 	}
 	
@@ -383,12 +383,15 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 		g4copy = new geogebra.web.awt.Graphics2D(c4);
 
 		gettingDataUrl = true;
+		setSelectionRectangle(null);
+		setRealWorldCoordSystem(getXmin(), getXmax(), getYmin(), getYmax());
 		setReIniting(true);
 		setReIniting(false);
 		geogebra.web.main.DrawEquationWeb.clearLaTeXes(this);
 		paint(g4copy);
 		gettingDataUrl = false;
 
+		setRealWorldCoordSystem(getXmin(), getXmax(), getYmin(), getYmax());
 		setReIniting(true);
 		setReIniting(false);
 		repaint();

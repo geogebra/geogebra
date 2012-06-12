@@ -1641,8 +1641,10 @@ public class Application extends AbstractApplication {
 	}-*/;
 
 	public void copyEVtoClipboard() {
+		int width = getEuclidianView1().getWidth();
+		int height = getEuclidianView1().getHeight();
 		Window.open(
-			getEuclidianView1().getDataUrl(800, 600),
+			getEuclidianView1().getDataUrl(3 * width, 3 * height),
 			"_blank", null);
 	}
 
