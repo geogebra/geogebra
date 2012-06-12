@@ -370,6 +370,9 @@ public interface MenuConstants extends ConstantsWithLookup {
     @DefaultStringValue("Copy as LaTeX")
     String CopyAsLaTeX();
 
+    @DefaultStringValue("Copy Image")
+    String CopyImage();
+
     @DefaultStringValue("Copy to Clipboard")
     String CopyToClipboard();
 

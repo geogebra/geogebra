@@ -469,8 +469,8 @@ public interface CommandConstants extends ConstantsWithLookup {
     @DefaultStringValue("Dimension")
     String Dimension();
 
-    @DefaultStringValue("[ <Vector> ]")
-    String Dimension_SyntaxCAS();
+    @DefaultStringValue("[ <Object> ]")
+    String Dimension_Syntax();
 
     @DefaultStringValue("Direction")
     String Direction();
@@ -503,25 +503,25 @@ public interface CommandConstants extends ConstantsWithLookup {
     String Division();
 
     @DefaultStringValue("[ <Dividend Number>, <Divisor Number> ]\n[ <Dividend Polynomial>, <Divisor Polynomial> ]")
-    String Division_SyntaxCAS();
+    String Division_Syntax();
 
     @DefaultStringValue("Divisors")
     String Divisors();
 
     @DefaultStringValue("[ <Number> ]")
-    String Divisors_SyntaxCAS();
+    String Divisors_Syntax();
 
     @DefaultStringValue("DivisorsList")
     String DivisorsList();
 
     @DefaultStringValue("[ <Number> ]")
-    String DivisorsList_SyntaxCAS();
+    String DivisorsList_Syntax();
 
     @DefaultStringValue("DivisorsSum")
     String DivisorsSum();
 
     @DefaultStringValue("[ <Number> ]")
-    String DivisorsSum_SyntaxCAS();
+    String DivisorsSum_Syntax();
 
     @DefaultStringValue("Dot")
     String Dot();
@@ -766,6 +766,9 @@ public interface CommandConstants extends ConstantsWithLookup {
     @DefaultStringValue("FractionalPart")
     String FractionalPart();
 
+    @DefaultStringValue("[ <Number> ]")
+    String FractionalPart_Syntax();
+
     @DefaultStringValue("[ <Expression> ]")
     String FractionalPart_SyntaxCAS();
 
@@ -910,7 +913,10 @@ public interface CommandConstants extends ConstantsWithLookup {
     @DefaultStringValue("ImplicitDerivative")
     String ImplicitDerivative();
 
-    @DefaultStringValue("[ <Expression>, <Dependent Variable>, <Independent Variable> ]")
+    @DefaultStringValue("[ <f(x, y)> ]")
+    String ImplicitDerivative_Syntax();
+
+    @DefaultStringValue("[ <f(x, y) > ]\n[ <Expression>, <Dependent Variable>, <Independent Variable> ]")
     String ImplicitDerivative_SyntaxCAS();
 
     @DefaultStringValue("Incircle")
@@ -1100,7 +1106,7 @@ public interface CommandConstants extends ConstantsWithLookup {
     String IsPrime();
 
     @DefaultStringValue("[ <Number> ]")
-    String IsPrime_SyntaxCAS();
+    String IsPrime_Syntax();
 
     @DefaultStringValue("Iteration")
     String Iteration();
@@ -1153,7 +1159,10 @@ public interface CommandConstants extends ConstantsWithLookup {
     @DefaultStringValue("LeftSide")
     String LeftSide();
 
-    @DefaultStringValue("[ <Equation> ]\n[ { <Equation> } ]")
+    @DefaultStringValue("[ <Equation> ]")
+    String LeftSide_Syntax();
+
+    @DefaultStringValue("[ <Equation> ]\n[ <List of Equations> ]")
     String LeftSide_SyntaxCAS();
 
     @DefaultStringValue("LeftSum")
@@ -1244,7 +1253,7 @@ public interface CommandConstants extends ConstantsWithLookup {
     String MatrixRank();
 
     @DefaultStringValue("[ <Matrix> ]")
-    String MatrixRank_SyntaxCAS();
+    String MatrixRank_Syntax();
 
     @DefaultStringValue("Max")
     String Max();
@@ -1379,7 +1388,7 @@ public interface CommandConstants extends ConstantsWithLookup {
     String NextPrime();
 
     @DefaultStringValue("[ <Number> ]")
-    String NextPrime_SyntaxCAS();
+    String NextPrime_Syntax();
 
     @DefaultStringValue("Normal")
     String Normal();
@@ -1583,7 +1592,7 @@ public interface CommandConstants extends ConstantsWithLookup {
     String PreviousPrime();
 
     @DefaultStringValue("[ <Number> ]")
-    String PreviousPrime_SyntaxCAS();
+    String PreviousPrime_Syntax();
 
     @DefaultStringValue("PrimeFactors")
     String PrimeFactors();
@@ -1675,6 +1684,9 @@ public interface CommandConstants extends ConstantsWithLookup {
     @DefaultStringValue("RandomPolynomial")
     String RandomPolynomial();
 
+    @DefaultStringValue("[ <Degree>, <Minimum for Coefficients>, <Maximum for Coefficients> ]")
+    String RandomPolynomial_Syntax();
+
     @DefaultStringValue("[ <Degree>, <Minimum for Coefficients>, <Maximum for Coefficients> ]\n[ <Variable>, <Degree>, <Minimum for Coefficients>, <Maximum for Coefficients> ]")
     String RandomPolynomial_SyntaxCAS();
 
@@ -1750,7 +1762,10 @@ public interface CommandConstants extends ConstantsWithLookup {
     @DefaultStringValue("RightSide")
     String RightSide();
 
-    @DefaultStringValue("[ <Equation> ]\n[ { <Equation> } ]")
+    @DefaultStringValue("[ <Equation> ]")
+    String RightSide_Syntax();
+
+    @DefaultStringValue("[ <Equation> ]\n[ <List of Equations> ]")
     String RightSide_SyntaxCAS();
 
     @DefaultStringValue("RigidPolygon")
@@ -2591,7 +2606,7 @@ public interface CommandConstants extends ConstantsWithLookup {
     String nPr();
 
     @DefaultStringValue("[ <Number>, <Number> ]")
-    String nPr_SyntaxCAS();
+    String nPr_Syntax();
 
 
 }
