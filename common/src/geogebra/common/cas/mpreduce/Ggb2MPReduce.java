@@ -283,7 +283,8 @@ public class Ggb2MPReduce {
 				"<<begin scalar input!!; input!!:=(%0);return for i:=1:length(input!!) sum part(input!!,i) end>>");
 		p("Sum.4",
 				"<<begin scalar sm!!; sm!!:=if %2=-infinity and %3=infinity then limit(limit(sum(%0,%1,k!!,m!!),k!!,-infinity),m!!,infinity) else if %2=-infinity then limit(sum(%0,%1,k!!,%3),k!!,-infinity) else if %3=infinity then limit(sum(%0,%1,%2,k!!),k!!,infinity) else sum(%0,%1,%2,%3); return if freeof(sm!!,\\'sum) then sm!! else \\'? end>>");
-		p("Test.2", "solve(%0,%1)");
+		p("Tangent.2",
+				"if myvecp(%0) then mytangent(xcoord(%0),(%1)) else mytangent((%0),(%1))");
 		p("Take.3",
 				"<<begin scalar tmpret, list!!; list!!:=(%0); tmpret:=list()$ for i:=(%1):%2 do tmpret:=part(list!!,i).tmpret$ return reverse(tmpret) end>>");
 		p("TaylorSeries.3",

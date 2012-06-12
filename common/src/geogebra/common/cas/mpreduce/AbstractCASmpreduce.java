@@ -443,6 +443,8 @@ public abstract class AbstractCASmpreduce extends CASgeneric {
 						"if arglength(x)>-1 and part(x,0)='list then append(x,{y}) else append({x},y)");
 				mpreduce1.evaluate("procedure mylength(x);"
 						+ " if arglength(x)>-1 and part(x,0)='list then length(x) else sqrt(mydot(x,x));");
+				mpreduce1.evaluate("procedure mytangent(pt,f);" +
+						"currenty!!=sub(currentx!!=pt,f)+sub(currentx!!=pt,df(f,mymainvar(f)))*(currentx!!-(pt))");
 				mpreduce1.evaluate("procedure myabs(x);"
 						+ " if arglength(x!!)>-1 and part(x,0)='list then abs(x)"
 						+ " else if arglength(x)>-1 and part(x,0)='mat then <<"

@@ -54,6 +54,7 @@ public abstract class CASgeneric implements CASGenericInterface,
 	 * @param casInput
 	 *            in GeoGebraCAS syntax
 	 * @param arbconst arbitrary constant handler
+	 * @param tpl string template
 	 * @return evaluation result
 	 * @throws CASException if evaluation fails
 	 */
