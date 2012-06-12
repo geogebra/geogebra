@@ -52,7 +52,7 @@ public class AlgoFromBase extends AlgoElement {
 		
 		String in = number.getTextString();
 		int pos = in.indexOf('.');
-		String s = pos>-1? StringUtil.toLowerCase(in.substring(0,pos-1)):in;
+		String s = pos>-1? StringUtil.toLowerCase(in.substring(0,pos)):StringUtil.toLowerCase(in);
 		for(int i=0;i<s.length();i++){
 			int last = s.charAt(i)- 0x30;
 			if(last > 9)
