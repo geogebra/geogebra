@@ -55,7 +55,7 @@ public enum Language {
 			Country.Swaziland, Country.Tanzania, Country.Tonga,
 			Country.TrinidadTobago, Country.Tuvalu, Country.Uganda,
 			Country.Vanuatu, Country.Zambia, Country.Zimbabwe),
-	English_UK(true, true, "enGB", "en_GB", "English (UK)", Country.UnitedKingdom),
+	English_UK(true, false, "enGB", "en_GB", "English (UK)", Country.UnitedKingdom),
 	English_Australia(true, false, "en_AU", "enAU", "English (Australia)", Country.Australia),
 	Estonian(true, false, "et","et", "Estonian / Eesti keel", Country.Estonia),
 	Filipino(true, false, "tl","tl", "Filipino", Country.Philippines),
@@ -75,12 +75,12 @@ public enum Language {
 	Georgian(true, false, "ka","ka", "Georgian / \u10E5\u10D0\u10E0\u10D7\u10E3\u10DA\u10D8 \u10D4\u10DC\u10D0", Country.Georgia),
 	// German must be before German_Austria
 	German(true, true, "de","de", "German / Deutsch", Country.Germany, Country.Liechtenstein, Country.Luxembourg, Country.Switzerland, Country.Belgium),
-	German_Austria(true, true, "deAT","de_AT", "German (Austria) / Deutsch (\u00D6sterreich)", Country.Austria),
+	German_Austria(true, false, "deAT","de_AT", "German (Austria) / Deutsch (\u00D6sterreich)", Country.Austria),
 	
 	Greek(true, false, "el","el", "Greek / \u0395\u03BB\u03BB\u03B7\u03BD\u03B9\u03BA\u03AC", Country.Greece, Country.Cyprus),
 	Hebrew(true, false, "iw","iw", "Hebrew / \u05E2\u05B4\u05D1\u05B0\u05E8\u05B4\u05D9\u05EA", Country.Israel),
 	Hindi(false, false, "hi","hi", "Hindi / \u092E\u093E\u0928\u0915 \u0939\u093F\u0928\u094D\u0926\u0940", Country.India),
-	Hungarian(true, true, "hu","hu", "Hungarian / Magyar", Country.Hungary),
+	Hungarian(true, false, "hu","hu", "Hungarian / Magyar", Country.Hungary),
 	Icelandic(true, false, "is","is", "Icelandic / \u00CDslenska", Country.Iceland),
 	Indonesian(false, false, "in","in", "Indonesian / Bahasa Indonesia", Country.Indonesia),
 	Italian(true, false, "it","it", "Italian / Italiano", Country.Italy, Country.Switzerland, Country.SanMarino, Country.VaticanCityState),
