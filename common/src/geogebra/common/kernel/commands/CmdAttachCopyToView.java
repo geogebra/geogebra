@@ -72,9 +72,9 @@ public class CmdAttachCopyToView extends CommandProcessor {
 					else
 						throw argErr(app, c.getName(), arg[4]);
 					if (arg[5].isGeoPoint())
-						screenCorner3 = (GeoPointND) arg[4];
+						screenCorner3 = (GeoPointND) arg[5];
 					else
-						throw argErr(app, c.getName(), arg[4]);
+						throw argErr(app, c.getName(), arg[5]);
 				}
 				
 				if (arg[0].isMatrixTransformable() || arg[0].isGeoFunction()
