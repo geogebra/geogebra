@@ -36,7 +36,7 @@ import java.util.HashSet;
 public class GeoPolyLine extends GeoElement implements NumberValue, Path,
 		Traceable, LineProperties, Transformable, Mirrorable,
 		MatrixTransformable, PointRotateable, Translateable, Dilateable,
-		GeoPolyLineInterface {
+		GeoPolyLineInterface, GeoPoly {
 
 	/** maximum number of points when created by tool */
 	public static final int POLYLINE_MAX_POINTS = 500;

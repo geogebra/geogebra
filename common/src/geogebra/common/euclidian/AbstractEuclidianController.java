@@ -55,6 +55,7 @@ import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoLocus;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoly;
 import geogebra.common.kernel.geos.GeoPolyLine;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoSegment;
@@ -6243,8 +6244,8 @@ public abstract class AbstractEuclidianController {
 	
 			// allow dragging of Translate[Object, vector] if 'vector' is
 			// independent
-			if (movedGeoElement.isGeoPolygon()) {
-				GeoPolygon poly = (GeoPolygon) movedGeoElement;
+			if (movedGeoElement instanceof GeoPoly) {
+				GeoPoly poly = (GeoPoly) movedGeoElement;
 				GeoPointND[] pts = poly.getPoints();
 	
 				// get vector for first point
@@ -7224,9 +7225,9 @@ public abstract class AbstractEuclidianController {
 					moveMode = MOVE_POINT;
 				}
 	
-				if (topHit.isTranslateable() || topHit.isGeoPolygon()) {
+				if (topHit.isTranslateable() || topHit instanceof GeoPoly) {
 					GeoVector vec;
-					if (topHit.isGeoPolygon()) {
+					if (topHit instanceof GeoPoly) {
 						// for polygons, we need a labelled vector so that all
 						// the vertices move together
 						vec = kernel.Vector(null, 0, 0);
