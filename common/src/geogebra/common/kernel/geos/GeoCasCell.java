@@ -1938,6 +1938,9 @@ public class GeoCasCell extends GeoElement implements VarString {
 
 		super.doRemove();
 		cons.removeFromGeoSetWithCasCells(this);
+		if(plotAlgo!=null){
+			plotAlgo.getOutput(0).remove();
+		}
 		setTwinGeo(null);
 	}
 
