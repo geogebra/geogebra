@@ -473,6 +473,7 @@ public abstract class AbstractCASmpreduce extends CASgeneric {
 						+ "      if freeof(x,=) then x else subtraction(lhs(x),rhs(x))"
 						+ "  else if freeof(eqn,=) then 1 else eqn:=subtraction(lhs(eqn),rhs(eqn));"
 						+ "  solutions!!:=solve(eqn,var);"
+						+ "  if not(arglength(solutions!!)>-1 and part(solutions!!,0)='list) then solutions!!:={solutions!!};"
 						+ "	 if depth(solutions!!)<2 then"
 						+ "		solutions!!:=for each x in solutions!! collect {x};"
 						+ "	 solutions!!:=for each sol in solutions!! join <<"
