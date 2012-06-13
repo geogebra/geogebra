@@ -63,7 +63,7 @@ public class AlgoIntersectSingle extends AlgoIntersect {
 		setInputOutput();
 		initForNearToRelationship();
 		compute();
-		setIncidence();
+		//setIncidence();
 		point.setLabel(label);
 	}
 
