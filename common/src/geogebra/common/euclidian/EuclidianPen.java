@@ -76,7 +76,6 @@ public abstract class EuclidianPen {
 	protected boolean absoluteScreenPosition;
 	
 	public void setAbsoluteScreenPosition(boolean b) {
-		AbstractApplication.debug("jhgjhjh"+b);
 		absoluteScreenPosition = b;
 		
 	}
