@@ -158,6 +158,7 @@ public class SelectionTable extends Grid implements ClickHandler {
 	}
 	
 	boolean useColorSwatchBorder = false;
+	private boolean isIniting = true;
 	public void setUseColorSwatchBorder(boolean useColorSwatchBorder) {
 		this.useColorSwatchBorder = useColorSwatchBorder;
 		setCellDimensions();
@@ -221,16 +222,29 @@ public class SelectionTable extends Grid implements ClickHandler {
 
 	public void populateModelCallback(Object[] data) {
 	    int r=0;
-		int c=0;
-		
-		for(int i=0; i < Math.min(data.length, this.numRows * this.numColumns); i++){
-			setWidget(r, c, createWidget(data[i]));
-			++c;
-			if(c == this.numColumns){
-				c = 0;
-				++r;
+	    int c=0;
+	    if (isIniting ) {
+			for(int i=0; i < Math.min(data.length, this.numRows * this.numColumns); i++){
+				setWidget(r, c, createWidget(data[i]));
+				++c;
+				if(c == this.numColumns){
+					c = 0;
+					++r;
+				}
 			}
-		}
+			isIniting = false;
+	    } else {
+	    	for(int i=0; i < Math.min(data.length, this.numRows * this.numColumns); i++){
+				Canvas canvas = (Canvas) getWidget(r, c);
+				canvas.getContext2d().putImageData((ImageData) data[i], 0, 0);
+				
+				++c;
+				if(c == this.numColumns){
+					c = 0;
+					++r;
+				}
+			}
+	    }
     }
 
 	private Widget createWidget(Object object) {

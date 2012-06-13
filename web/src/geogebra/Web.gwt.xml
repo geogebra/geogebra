@@ -28,6 +28,7 @@
   <!-- any one of the following lines.    -->
   <!--Changed to our Own THEME, that is basically the Clean theme-->
   <inherits name='geogebra.theme.Clean'/>
+  <!--<inherits name='geogebra.theme.CleanRTL'/>-->
   <!-- <inherits name='com.google.gwt.user.theme.standard.Standard'/> -->
   <!-- <inherits name='com.google.gwt.user.theme.chrome.Chrome'/> -->
   <!-- <inherits name='com.google.gwt.user.theme.dark.Dark'/>     -->
@@ -38,7 +39,7 @@
   <entry-point class='geogebra.web.Web'/>
 
   <!-- compile only for Firefox / Chrome / Safari - choose one: reduces permutation time --> 
-  <set-property name="user.agent" value="safari, ie9, opera, gecko1_8" />
+  <set-property name="user.agent" value="safari" />
   <!--<set-property name="user.agent" value="safari, gecko1_8" />-->
   <add-linker name="xsiframe" />
   <!-- Specify the paths for translatable code                    -->
@@ -47,27 +48,27 @@
   
   <!-- support of other languages -->
   <!-- This will be commented to reduce compilation time -->
-  <!-- 
+
   <extend-property name='locale' values='ar' />
-  <extend-property name='locale' values='bg' />
+  <!--<extend-property name='locale' values='bg' />
   <extend-property name='locale' values='bs' />
   <extend-property name='locale' values='ca' />
   <extend-property name='locale' values='cs' />
   <extend-property name='locale' values='cy' />
   <extend-property name='locale' values='da' />
-  <extend-property name='locale' values='de_AT' />
+  <extend-property name='locale' values='de_AT' /> -->
   <extend-property name='locale' values='de' />
-  <extend-property name='locale' values='el' />
+ <!--<extend-property name='locale' values='el' />
   <extend-property name='locale' values='en_AU' />
-  <extend-property name='locale' values='en_GB' />
+  <extend-property name='locale' values='en_GB' />-->
   
   <extend-property name='locale' values='es' />
-  <extend-property name='locale' values='et' />
+  <!--<extend-property name='locale' values='et' />
   <extend-property name='locale' values='eu' />
   <extend-property name='locale' values='fa' />
-  <extend-property name='locale' values='fi' />
+  <extend-property name='locale' values='fi' />-->
   <extend-property name='locale' values='fr' />
-  <extend-property name='locale' values='gl' />
+ <!--<extend-property name='locale' values='gl' />
   <extend-property name='locale' values='hi' />
   <extend-property name='locale' values='hr' />
   <extend-property name='locale' values='hu' />

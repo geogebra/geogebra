@@ -11,22 +11,6 @@
  *      property: rule applies to all versions of IE
  *    }
  */
- 
- .geogebraweb {
-	display:inline-block;
-	border:1px solid black;
-}
-
-/*not let user select the canvas*/
-.geogebraweb canvas {
-	-webkit-touch-callout: none;
-	-webkit-user-select: none;
-	-khtml-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	-o-user-select: none;
-	user-select: none;
-} 
 
 /**
  * The reference theme can be used to determine when this style sheet has
@@ -1247,4 +1231,251 @@ td.datePickerMonth {
 .gwt-SplitLayoutPanel-VDragger {
   background: #e7e7e7 url(images/thumb_horz.png) center center no-repeat;
   cursor: row-resize;
+}
+
+/*GeoGebraWeb styles from here*/
+
+ .cursor_wait {
+ 	cursor:wait;
+ }
+ 
+ .cursor_default {
+ 	cursor:crosshair;
+ }
+ 
+ .cursor_hit {
+ 	cursor:default;
+ }
+ 
+ .cursor_drag {
+ 	cursor:pointer;
+ 	cursor:hand;
+ }
+ 
+ .cursor_resizeXAxis {
+ 	cursor:e-resize;
+ }
+ 
+ .cursor_resizeYAxis {
+ 	cursor:n-resize;
+ }
+ 
+ .cursor_move {
+ 	cursor:move;
+ }
+ 
+ .geogebraweb {
+	display:inline-block;
+  }
+
+ .geogebraweb .jsloaded {
+ 	border:1px solid black;
+ 	position:relative;
+  }
+  
+ .geogebraweb .splash {
+  	position:absolute;
+  }
+ 
+/*not let user select the canvas*/
+.geogebraweb canvas {
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	-o-user-select: none;
+	user-select: none;
+}
+
+/* App common styles */
+.GeoGebraAppFrame {
+	font: 100%/120% Frutiger, "Frutiger Linotype", Univers, Calibri, "Gill Sans", "Gill Sans MT", "Myriad Pro", Myriad, "DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma, Geneva, "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+/*GeoGebraMenuBar styles*/
+.GeoGebraMenuBar {
+	font-size:80%;
+}
+
+.linktoggbtube {
+	position:absolute;
+	left:20px;
+	top:10px;
+}
+
+.logintogoogle {
+	position:absolute;
+	left:44px;
+}
+
+.logintogoogle img {
+	vertical-align:bottom;
+}
+
+/* EuclidianStyleBar styles */
+.SelectionTable a {
+	text-decoration:none;
+	color:black;
+	border-radius:none;
+    display:block;
+    padding:1px;
+	
+}
+
+.SelectionTable a:hover, SelectionTable a:focus {
+	background: #D5E2FF;
+}
+/* AlgebraInput styles */
+.AlgebraInput {
+    margin:auto 20px;
+}
+
+.SymbolToggleButton {
+    width:18px;
+    height:18px;
+}
+
+.SymbolTable a {
+	text-decoration:none;
+	color:black;
+	border-radius:none;
+    display:block;
+    padding:1px;
+}
+
+.SymbolTable a:hover, .SymbolTable a.focus {
+	background: #D5E2FF;
+}
+
+.InputPanel {
+    overflow:auto;
+}
+
+.InputPanel input.TextField {
+    display:block;
+}
+
+.historyList a {
+	text-decoration:none;
+	color:black;
+	display:block;
+}
+ 
+.historyList a:hover, .historyList a:focus, .historyList a.highlight {
+	background: #D5E2FF;
+}
+
+/* ToolBar Styles */
+.undoPanel {
+	position:absolute;
+	left:0px;
+	margin:4px 10px;
+	display:block;
+}
+
+
+.undoPanel button.gwt-Button {
+	padding:2px;
+}
+
+.undoButton {
+	position: relative;
+	top: 10px;
+	left: 5px;
+	padding: 1px
+}
+
+.redoButton {
+	position: relative;
+	top: 10px;
+	left: 5px;
+	padding: 1px;
+}
+
+[isSelected=true] .toolbar_icon{
+	border: 2px solid blue;
+}
+
+[isSelected=false] .toolbar_icon{
+	border: 1px solid lightgray;
+}
+
+.red_triangle{
+	position: relative;
+	top: -15px;
+	left: -4px;
+}
+
+.toolbar_item{
+	width: 40px;
+}
+
+.toolbar_menuitem_label{
+	position: relative;
+	top: -7px;
+	margin-left: 5px;
+}
+
+.captionPanel td{
+	vertical-align: middle;
+}
+
+.tdForCaptionLabel{
+	vertical-align: middle;
+}
+
+.buttonPanel {
+	margin: auto;
+}
+
+.GeoGebraFileChooser .fileNamePanel {
+    width: 100%;
+    padding:5px;
+}
+
+.GeoGebraFileChooser .fileNamePanel input {
+    float:left;
+    min-width:300px;
+}
+
+.GeoGebraFileChooser .fileNamePanel .gwt-Label {
+    padding-left:10px;
+}
+
+.GeoGebraFileChooser .descriptionPanel {
+    width: 100%;
+    padding:5px;
+}
+
+.GeoGebraFileChooser .descriptionPanel textarea {
+    float:left;
+    min-width:300px;
+}
+
+.GeoGebraFileChooser .descriptionPanel .gwt-Label {
+    padding-left:10px;
+}
+
+.GeoGebraFileChooser .buttonPanel {
+    padding:5px;
+    float:left;
+}
+
+.GeoGebraFileChooser .buttonPanel button {
+    float:left;
+    margin-right:5px;
+}
+
+.GoogleFileDescriptors {
+	font-size:80%;
+}
+
+.GoogleFileDescriptors .fileLabel {
+	padding-left: 3px;
+	font-weight:bold;
+}
+
+.GoogleFileDescriptors .fileName {
+	text-decoration: underline;
 }
