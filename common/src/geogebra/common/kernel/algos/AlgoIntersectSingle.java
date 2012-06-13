@@ -38,9 +38,10 @@ public class AlgoIntersectSingle extends AlgoIntersect {
 		setInputOutput();
 		initForNearToRelationship();
 		compute();
-		setIncidence();
+		
 
 		point.setLabel(label);
+		addIncidence();
 	}
 
 	// intersection point is index-th intersection point of algo
@@ -66,7 +67,7 @@ public class AlgoIntersectSingle extends AlgoIntersect {
 		point.setLabel(label);
 	}
 
-	private void setIncidence() {
+	private void addIncidence() {
 		// point's incidence with parent algo's two intersectable objects
 		if (algo instanceof AlgoIntersectConics) {
 			point.addIncidence(((AlgoIntersectConics) algo).getA());
@@ -172,11 +173,7 @@ public class AlgoIntersectSingle extends AlgoIntersect {
 																		// compatability
 				algo.setIntersectionPoint(index, point);
 				point.hasUpdatePrevilege = false;
-			} else if (kernel.isContinuous()) {
-				int cpi = algo.getClosestPointIndex(point);
-				if (cpi != index)
-					algo.setIntersectionPoint(index, parentOutput[cpi]);
-			}
+			} 
 		}
 
 		// update index if reference point has been defined

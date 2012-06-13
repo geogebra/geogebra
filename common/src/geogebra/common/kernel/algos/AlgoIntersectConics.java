@@ -217,7 +217,16 @@ public class AlgoIntersectConics extends AlgoIntersect {
    	   			P[i].setUndefined();
    	   		}
    	   		return;
-   	   	}               	
+   	   	}            
+   	   	
+   	   	/*
+   	   	 * for debugging
+   	   	
+        if (this.getA().getLabelSimple().getBytes()[0] == 'c' && getB().getLabelSimple().getBytes()[0] == 'd') {
+        	AbstractApplication.debug("");
+
+        }
+         */
     	
     	// check for special case of two circles with common point
         if (possibleSpecialCase) {
@@ -471,7 +480,7 @@ public class AlgoIntersectConics extends AlgoIntersect {
         
         // calc distance table of defined points D and new points Q
         distanceTable(D, age, Q, distTable);           
-                
+        
         // find permutation     
         setNearTo(P, isPalive, Q, isQonPath, distTable, pointList, permutation);
         isPermutationNeeded = false;
@@ -575,11 +584,15 @@ public class AlgoIntersectConics extends AlgoIntersect {
     	boolean ok = false;
     	int i = 0;    	
     	
-        // equal conics have no intersection points
+        // equal conics have no intersection points, unless they are themselves single points.
         if (conic1.equals(conic2)) {
+	
             for (i=0; i < points.length; i++) {
                 points[i].setUndefined();
-            }            
+            } /* TODO
+        	if (conic1.type == GeoConicNDConstants.CONIC_SINGLE_POINT){
+        		points[0].setCoords(conic1.getSinglePoint());
+        	} */
             return;
         } 
     	

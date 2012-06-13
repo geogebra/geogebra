@@ -213,11 +213,18 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements SymbolicPar
 	// calc intersections of conic c and line g
 	@Override
 	public void compute() {
+		
+		
+		/*
+		 * no probabilistic checking anymore, see #1044
+		 */
 		// within addIncidenceWithProbabilisticChecking(), updateCascade() is
 		// called
 		// and we don't what this.compute() to be invoked repeatedly.
+		/*
 		if (handlingSpecialCase)
 			return;
+		*/
 
 		// g is defined as tangent of c
 		if (isDefinedAsTangent) {
@@ -486,9 +493,9 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements SymbolicPar
 				}
 			}
 
-			for (i = count; i < P.length; i++) {
-				P[i].setUndefined();
-			}
+			//for (i = count; i < P.length; i++) {
+				//P[i].setUndefined();
+			//}
 			return;
 		}
 
