@@ -236,7 +236,7 @@ public enum Language {
 		
 		AbstractApplication.debug("looking for: "+ggbLangCode);
 		for (Language l : Language.values()) {
-			if (l.locale.equals(ggbLangCode)) {
+			if (l.locale.equals(ggbLangCode) || l.localeGWT.replaceAll("_", "").equals(ggbLangCode)) {
 				return l.name;
 			}
 		}
@@ -245,6 +245,7 @@ public enum Language {
 		
 		return null;
 	}
+	
 	public static boolean isEnabledInGWT(String ggbLangCode) {
 		
 		// eg change en_GB to enGB
@@ -252,7 +253,7 @@ public enum Language {
 		
 		AbstractApplication.debug("looking for: "+ggbLangCode);
 		for (Language l : Language.values()) {
-			if (l.locale.equals(ggbLangCode)) {
+			if (l.localeGWT.replaceAll("_", "").equals(ggbLangCode)) {
 				return l.enableInGWT;
 			}
 		}
