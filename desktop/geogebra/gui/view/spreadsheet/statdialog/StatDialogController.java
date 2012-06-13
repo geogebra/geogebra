@@ -425,11 +425,13 @@ public class StatDialogController {
 	}
 
 	public void removeRegressionGeo(){
-		if(geoRegression != null)
-			removeStatGeo(geoRegression);
+		if(geoRegression != null){
+			geoRegression.remove();
+			geoRegression = null;
+		}
 	}
 
-	public void removeDataListSelected(){
+	public void disposeDataListSelected(){
 		dataSelected = null;
 	}
 	
@@ -439,8 +441,12 @@ public class StatDialogController {
 	 */
 	public void removeStatGeos(){
 
-		removeStatGeo(dataSelected);
-		removeStatGeo(geoRegression);
+		if(dataSelected != null){
+			dataSelected.remove();
+			dataSelected = null;
+		}
+		
+		removeRegressionGeo();
 
 		if(sd.comboStatPanel != null) {
 			sd.comboStatPanel.removeGeos();
@@ -451,12 +457,7 @@ public class StatDialogController {
 		}
 	}
 
-	private static void removeStatGeo(GeoElement statGeo){
-		if(statGeo != null){
-			statGeo.remove();
-			statGeo = null;
-		}
-	}
+
 
 	public SummaryStatistics getSummaryStatistics(GeoList dataList){
 

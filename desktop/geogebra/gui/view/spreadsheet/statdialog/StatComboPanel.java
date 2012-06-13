@@ -1095,7 +1095,7 @@ StatPanelInterface{
 			boxPlot = null;
 
 			statDialog.getStatDialogController().removeRegressionGeo();
-			statDialog.getStatDialogController().removeDataListSelected();
+			statDialog.getStatDialogController().disposeDataListSelected();
 			plotGeoList.clear();
 		
 			// =================================================================
