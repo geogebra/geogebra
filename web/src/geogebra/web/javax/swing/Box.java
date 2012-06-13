@@ -63,8 +63,17 @@ public class Box extends geogebra.common.javax.swing.Box{
 
 	@Override
     public Rectangle getBounds() {
-	    return new geogebra.web.awt.Rectangle(impl.getAbsoluteLeft(), impl.getAbsoluteTop(),
-	    		impl.getOffsetWidth(), impl.getOffsetHeight());
+		int left = impl.getAbsoluteLeft();
+		int top = impl.getAbsoluteTop();
+		
+		if (impl.getParent() != null){
+			left -= impl.getParent().getAbsoluteLeft();
+			top -= impl.getParent().getAbsoluteTop();			
+		}
+		
+		return new geogebra.web.awt.Rectangle(
+				left, top,
+				impl.getOffsetWidth(), impl.getOffsetHeight());
     }
 
 	@Override
