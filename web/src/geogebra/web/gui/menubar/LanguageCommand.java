@@ -54,10 +54,10 @@ public class LanguageCommand implements Command {
 	}
 	
 	public void setCookies(String cookieParameter, String localeCode) {
-		if (Cookies.getCookie(cookieParameter) == null) {
+		if (Cookies.getCookie(cookieParameter) == null || "".equals(Cookies.getCookie(cookieParameter))) {
 			Cookies.setCookie(cookieParameter, localeCode);
 		} else if(!Cookies.getCookie(cookieParameter).equals(localeCode)) {
-			Cookies.removeCookie(LOCALE_PARAMETER);
+			Cookies.removeCookie(cookieParameter);
 			Cookies.setCookie(cookieParameter, localeCode);
 		}
 	}

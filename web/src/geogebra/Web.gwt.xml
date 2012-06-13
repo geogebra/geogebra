@@ -99,7 +99,9 @@
   <extend-property name='locale' values='no' />
   <extend-property name='locale' values='pl' />
   <extend-property name='locale' values='pt_PT' />
+  -->
   <extend-property name='locale' values='pt' />
+  <!--
   <extend-property name='locale' values='ro' />
   <extend-property name='locale' values='ru' />
   <extend-property name='locale' values='si' />
