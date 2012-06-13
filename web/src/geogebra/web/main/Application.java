@@ -21,7 +21,9 @@ import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
+import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.AbstractFontManager;
@@ -36,6 +38,8 @@ import geogebra.common.util.GeoGebraLogger.LogDestination;
 import geogebra.common.util.Language;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
+import geogebra.common.util.MD5EncrypterGWTImpl;
+
 import geogebra.web.css.GuiResources;
 import geogebra.web.euclidian.EuclidianController;
 import geogebra.web.euclidian.EuclidianView;
@@ -63,7 +67,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.MissingResourceException;
@@ -79,8 +82,6 @@ import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.dom.client.CanvasElement;
 import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.Dictionary;
 import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.user.client.Window;
@@ -357,9 +358,19 @@ public class Application extends AbstractApplication {
 						var reader = new FileReader();
 						reader.onloadend = function(ev) {
 							if (reader.readyState === reader.DONE) {
-								var fileStr = reader.result;
-								var fileName = fileToHandle.name;
-								appl.@geogebra.web.main.Application::imageDropHappened(Ljava/lang/String;Ljava/lang/String;II)(fileName, fileStr, e.clientX, e.clientY);
+								var reader2 = new FileReader();
+								var base64result = reader.result;
+								reader2.onloadend = function(eev) {
+									if (reader2.readyState === reader2.DONE) {
+										var fileStr = base64result;
+										var fileStr2 = reader2.result;
+										var fileName = fileToHandle.name;
+										var coordx = e.offsetX ? e.offsetX : e.layerX;
+										var coordy = e.offsetY ? e.offsetY : e.layerY;
+										appl.@geogebra.web.main.Application::imageDropHappened(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;II)(fileName, fileStr, fileStr2, coordx, coordy);
+									}
+								}
+								reader2.readAsBinaryString(fileToHandle);
 							}
 						};
 						reader.readAsDataURL(fileToHandle);
@@ -394,11 +405,27 @@ public class Application extends AbstractApplication {
 	 * 
 	 * @param imgFileName - the file name of the image
 	 * @param fileStr - the image data url
+	 * @param fileStr2 - the image binary string
 	 * @param clientx - desired position on the canvas (x)
 	 * @param clienty - desired position on the canvas (y)
 	 */
-	public void imageDropHappened(String imgFileName, String fileStr, int clientx, int clienty) {
-		/*
+	public void imageDropHappened(String imgFileName, String fileStr, String fileStr2, int clientx, int clienty) {
+
+		MD5EncrypterGWTImpl md5e = new MD5EncrypterGWTImpl();
+		String zip_directory = md5e.encrypt(fileStr2);
+
+		String fn = imgFileName;
+		int index = imgFileName.lastIndexOf('/');
+		if (index != -1) {
+			fn = fn.substring(index + 1, fn.length()); // filename without
+		}
+		// path
+		fn = geogebra.common.util.Util.processFilename(fn);
+
+		// filename will be of form
+		// "a04c62e6a065b47476607ac815d022cc\liar.gif"
+		imgFileName = zip_directory + '/' + fn;
+
 		((ImageManager)getImageManager()).addExternalImage(imgFileName, fileStr);
 		((ImageManager)getImageManager()).triggerSingleImageLoading(imgFileName);
 		GeoImage geoImage = new GeoImage(getKernel().getConstruction());
@@ -409,7 +436,7 @@ public class Application extends AbstractApplication {
 		geoImage.setCorner(gsp, 0);
 		geoImage.setLabel(null);
 		GeoImage.updateInstances();
-		*/
+		
 		//Application.debug("image dropped");
 		//Window.alert("Image dropped at client position ("+clientx+","+clienty+")");
 	}
