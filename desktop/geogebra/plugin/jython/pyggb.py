@@ -39,7 +39,9 @@ class Interface(PythonScriptInterface):
             'input': functions.input,
             'debug': functions.debug,
             'alert': functions.alert,
+            'dialog': functions.dialog,
             'command': functions.command,
+            'pyfunc': functions.pyfunc,
             'sleep': time.sleep,
             'in_new_thread': in_new_thread,
             'in_main_thread': in_main_thread,
@@ -232,6 +234,23 @@ class interactive(object):
             self.f(*self.objs)
 
 
+from javax.swing import JOptionPane
+
+message_types = {
+    'error': JOptionPane.ERROR_MESSAGE,
+    'info': JOptionPane.INFORMATION_MESSAGE,
+    'warning': JOptionPane.WARNING_MESSAGE,
+    'question': JOptionPane.QUESTION_MESSAGE,
+    'plain': JOptionPane.PLAIN_MESSAGE
+}
+
+option_types = {
+    'yes/no': JOptionPane.YES_NO_OPTION,
+    'yes/no/cancel': JOptionPane.YES_NO_CANCEL_OPTION,
+    'ok/cancel': JOptionPane.OK_CANCEL_OPTION,
+    'default': JOptionPane.DEFAULT_OPTION
+}
+
 class Functions(object):
     def __init__(self, api, factory):
         self.api = api
@@ -239,8 +258,38 @@ class Functions(object):
     @property
     def ggbapi(self):
         return self.api.getGgbApi()
-    def input(self, s, t=""):
-        return self.ggbapi.prompt(s, t) or ""
+    def dialog(self, message, options=None,
+                      default=0, title="GeoGebra", message_type='question'):
+        message_type = message_types[message_type]
+        if options is None:
+            return JOptionPane.showMessageDialog(
+                self.api.app.frame,
+                message, title, message_type
+            )
+        if isinstance(options, basestring):
+            if options in option_types:
+                option_type = option_types[options]
+                return JOptionPane.showConfirmDialog(
+                    self.api.app.frame,
+                    message, title, option_type, message_type
+                )
+            options = options.split("/")
+        default = options[default]
+        return JOptionPane.showOptionDialog(
+            self.api.app.frame,
+            message, title, 0, message_type, None, options, default
+        )
+    def input(self, message, options=None,
+                     default=0, title="GeoGebra", message_type='question'):
+        message_type = message_types[message_type]
+        if options is not None:
+            if isinstance(options, basestring):
+                options = options.split("/")
+            default = options[default]
+        return JOptionPane.showInputDialog(
+           self.api.app.frame,
+            message, title, message_type, None, options, default or ""
+        )
     def alert(self, s):
         self.ggbapi.alert(s)
     def debug(self, s):
@@ -257,6 +306,9 @@ class Functions(object):
         if geos is None:
             return None
         return map(self.factory.get_element, geos)
+    def pyfunc(self, f):
+        geo = self.api.newPythonFunction(f)
+        return self.factory.get_element(geo)
 
 
 # This is to update the atime of the modules I want to keep in the jython jar
