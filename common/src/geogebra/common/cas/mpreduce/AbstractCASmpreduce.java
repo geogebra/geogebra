@@ -464,6 +464,13 @@ public abstract class AbstractCASmpreduce extends CASgeneric {
 
 				mpreduce1.evaluate("procedure depth a; if arglength(a)>0 and part(a,0)='list then 1+depth(part(a,1)) else 0;");
 
+				mpreduce1.evaluate("operator ggbinterval;");
+				mpreduce1.evaluate("procedure mkinterval(var,eqn,a,b);" +
+						"begin scalar ineqtype;" +
+						"ineqtype:=if sub(var=a,part(eqn,1))=sub(var=a,part(eqn,2)) then 2 else 0 +" +
+						"if sub(var=b,part(eqn,1))=sub(var=b,part(eqn,2)) then 1 else 0;" +
+						"return ggbinterval(var,a,b,ineqtype);" +
+						"end;");
 				mpreduce1.evaluate("procedure mysolve(eqn, var);"
 						+ " begin scalar solutions!!, bool!!;"
 						+ "  eqn:=mkdepthone({eqn});"
@@ -479,13 +486,15 @@ public abstract class AbstractCASmpreduce extends CASgeneric {
 						+ "	 solutions!!:=for each sol in solutions!! join <<"
 						+ "    bool!!:=1;"
 						+ "    for each solution!! in sol do"
-						+ "      if freeof(solution!!,'root_of) and freeof(solution!!,'one_of) then <<"
+						+"     if freeof(solution!!,'root_of) and freeof(solution!!,'one_of) then <<"
 						+ "		   on rounded, roundall, numval, complex;"
 						+ "		   if freeof(solution!!,'i) or aeval(impart(rhs(solution!!)))=0 then 1 else bool!!:=0;"
 						+ "		   off complex;"
 						+ "		   if numeric!!=0 then off rounded, roundall, numval"
 						+ "      >>" + "      else" + "	       bool!!:=2*bool!!;"
-						+ "    if bool!!=1 then" + "  	 {sol}"
+						+" 	   firstsol!!:=part(sol,1);"
+						+"     if arglength(part(firstsol!!,2))>-1 and part(part(firstsol!!,2),0)=!*interval!* then {mkinterval(var,part(eqn,1),part(part(firstsol!!,2),1),part(part(firstsol!!,2),2))}"
+						+ "    else if bool!!=1 then" + "  	 {sol}"
 						+ "	   else if bool!!>1 then " + "  	 {{var='?}}" + "    else "
 						+ "		 {} >>;" + "  clearrules solverules;"
 						+ "  return mkset(solutions!!);" + " end;");
