@@ -155,5 +155,6 @@ public interface ExpressionValue {
 	 * @return changed value
 	 */
 	public ExpressionValue traverse(Traversing t);
+	public ExpressionValue unwrap();
 }
 

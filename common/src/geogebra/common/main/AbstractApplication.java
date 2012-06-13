@@ -1458,6 +1458,7 @@ public abstract class AbstractApplication {
 	public static void debug(Object s) {
 		if(s instanceof ExpressionValue){
 			debug(ValidExpression.debugString((ExpressionValue)s));
+			return;
 		}
 		if (s == null) {
 			debug("<null>");

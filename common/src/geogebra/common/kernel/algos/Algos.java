@@ -525,7 +525,8 @@ AlgoTo2D,AlgoDependentVector3D,AlgoParametricDerivative,
 	AlgoDivisorsList(Commands.DivisorsList), AlgoPolynomialDivision(Commands.Division), AlgoDivision(Commands.Division), AlgoNpR(Commands.nPr), 
 	AlgoIsPrime(Commands.IsPrime), AlgoNextPrime(Commands.NextPrime),AlgoPreviousPrime(Commands.PreviousPrime), 
 	AlgoMatrixRank(Commands.MatrixRank),AlgoRandomPolynomial(Commands.RandomPolynomial),
-	AlgoLeftSide(Commands.LeftSide),AlgoRightSide(Commands.RightSide),AlgoImplicitDerivative(Commands.ImplicitDerivative);
+	AlgoLeftSide(Commands.LeftSide),AlgoRightSide(Commands.RightSide),AlgoImplicitDerivative(Commands.ImplicitDerivative),
+	AlgoCASPlot(Commands.CASPlot);
 	private String command;
 	private Algos(){
 		this.command="Expression";

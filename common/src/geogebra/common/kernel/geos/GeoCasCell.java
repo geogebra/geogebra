@@ -6,6 +6,7 @@ import geogebra.common.cas.CASException;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.VarString;
+import geogebra.common.kernel.algos.AlgoCASPlot;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
@@ -1655,6 +1656,8 @@ public class GeoCasCell extends GeoElement implements VarString {
 		}
 		// set back firstComputeOutput, see setInput()
 		firstComputeOutput = false;
+		if(plotAlgo!=null)
+			plotAlgo.update();
 		return success;
 	}
 
@@ -2032,6 +2035,12 @@ public class GeoCasCell extends GeoElement implements VarString {
 	 */
 	public boolean isNative(){
 		return nativeOutput;
+	}
+
+	private AlgoCASPlot plotAlgo;
+	public void registerPlotAlgo(AlgoCASPlot algoCASPlot) {
+		plotAlgo = algoCASPlot;
+		
 	}
 
 }

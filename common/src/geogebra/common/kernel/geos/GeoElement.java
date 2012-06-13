@@ -7087,5 +7087,9 @@ public abstract class GeoElement extends ConstructionElement implements
 	public boolean isFromMeta(){
 		return false;
 	}
+	
+	public final GeoElement unwrap(){
+		return this;
+	}
 
 }

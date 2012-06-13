@@ -5040,4 +5040,11 @@ public class ExpressionNode extends ValidExpression implements
 		tempFun.initFunction();
 		return new GeoFunction(kernel.getConstruction(), tempFun);
 	}
+	
+	@Override
+	public ExpressionValue unwrap(){
+		if(isLeaf())
+			return getLeft();
+		return this;
+	}
 }

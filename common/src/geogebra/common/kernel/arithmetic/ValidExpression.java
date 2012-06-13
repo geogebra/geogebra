@@ -271,4 +271,8 @@ public abstract class ValidExpression implements ExpressionValue {
 		return s.getClass().getName().replaceAll("geogebra.common.kernel.arithmetic.", "")+"("+s.toString(StringTemplate.defaultTemplate)+")";
 	}
 
+	public ExpressionValue unwrap() {
+		return this;
+	}
+
 }
