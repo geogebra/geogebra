@@ -4795,10 +4795,6 @@ public class Application extends AbstractApplication implements
 		return drawEquation;
 	}
 
-	/** flag to test whether to draw Equations full resolution */
-	public boolean exporting = false;
-
-
 	// random id to identify ggb files
 	// eg so that GeoGebraTube can notice it's a version of the same file
 	private String uniqueId = "" + UUID.randomUUID();

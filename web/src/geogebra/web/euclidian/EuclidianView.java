@@ -3,6 +3,7 @@ package geogebra.web.euclidian;
 import geogebra.common.awt.Dimension;
 import geogebra.common.awt.Font;
 import geogebra.common.awt.Graphics2D;
+import geogebra.common.awt.Rectangle;
 import geogebra.common.euclidian.AbstractEuclidianController;
 import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.euclidian.AbstractZoomer;
@@ -11,6 +12,7 @@ import geogebra.common.factories.AwtFactory;
 import geogebra.common.gui.inputfield.AutoCompleteTextField;
 import geogebra.common.io.MyXMLio;
 import geogebra.common.javax.swing.Box;
+import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.settings.EuclidianSettings;
 import geogebra.common.main.settings.SettingListener;
@@ -228,8 +230,6 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 	 * @return the logical width
 	 */
 	public int getWidth() {
-		if (gettingDataUrl)
-			return g4copy.getCoordinateSpaceWidth();
 		return g2p.getCoordinateSpaceWidth();
 	}
 
@@ -239,8 +239,6 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 	 * @return the logical height
 	 */
 	public int getHeight() {
-		if (gettingDataUrl)
-			return g4copy.getCoordinateSpaceHeight();
 		return g2p.getCoordinateSpaceHeight();
 	}
 	
@@ -372,32 +370,6 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 				return kernel.needToShowAnimationButton() && (e.getX() - g2p.getAbsoluteLeft() + Window.getScrollLeft() <= 20)
 						&& (e.getY() - g2p.getAbsoluteTop() + Window.getScrollTop() >= (getHeight() - 20));
     }
-
-
-	public String getDataUrl(int width, int height) {
-		Canvas c4 = Canvas.createIfSupported();
-		c4.setCoordinateSpaceWidth(width);
-		c4.setCoordinateSpaceHeight(height);
-		c4.setWidth(width+"px");
-		c4.setHeight(height+"px");
-		g4copy = new geogebra.web.awt.Graphics2D(c4);
-
-		gettingDataUrl = true;
-		setSelectionRectangle(null);
-		setRealWorldCoordSystem(getXmin(), getXmax(), getYmin(), getYmax());
-		setReIniting(true);
-		setReIniting(false);
-		geogebra.web.main.DrawEquationWeb.clearLaTeXes(this);
-		paint(g4copy);
-		gettingDataUrl = false;
-
-		setRealWorldCoordSystem(getXmin(), getXmax(), getYmin(), getYmax());
-		setReIniting(true);
-		setReIniting(false);
-		repaint();
-
-		return g4copy.getCanvas().toDataUrl();
-	}
 
 
 	@Override
@@ -645,5 +617,80 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 		Context2d c2 = canv.getContext2d();
 		c2.drawImage(g2p.getCanvas().getCanvasElement(), 0, 0, (int)thx, (int)thy);
 		return canv.toDataUrl();
+	}
+
+	public void exportPaintPre(geogebra.common.awt.Graphics2D g2d, double scale,
+			boolean transparency) {
+		g2d.scale(scale, scale);
+
+		// clipping on selection rectangle
+		if (getSelectionRectangle() != null) {
+			Rectangle rect = getSelectionRectangle();
+			g2d.setClip(0, 0, (int)rect.getWidth(), (int)rect.getHeight());
+			g2d.translate(-rect.getX(), -rect.getY());
+			// Application.debug(rect.x+" "+rect.y+" "+rect.width+" "+rect.height);
+		} else {
+			// use points Export_1 and Export_2 to define corner
+			try {
+				// Construction cons = kernel.getConstruction();
+				GeoPoint2 export1 = (GeoPoint2) kernel.lookupLabel(EXPORT1);
+				GeoPoint2 export2 = (GeoPoint2) kernel.lookupLabel(EXPORT2);
+				double[] xy1 = new double[2];
+				double[] xy2 = new double[2];
+				export1.getInhomCoords(xy1);
+				export2.getInhomCoords(xy2);
+				double x1 = xy1[0];
+				double x2 = xy2[0];
+				double y1 = xy1[1];
+				double y2 = xy2[1];
+				x1 = (x1 / getInvXscale()) + getxZero();
+				y1 = getyZero() - (y1 / getInvYscale());
+				x2 = (x2 / getInvXscale()) + getxZero();
+				y2 = getyZero() - (y2 / getInvYscale());
+				int x = (int) Math.min(x1, x2);
+				int y = (int) Math.min(y1, y2);
+				int exportWidth = (int) Math.abs(x1 - x2) + 2;
+				int exportHeight = (int) Math.abs(y1 - y2) + 2;
+
+				g2d.setClip(0, 0, exportWidth, exportHeight);
+				g2d.translate(-x, -y);
+			} catch (Exception e) {
+				// or take full euclidian view
+				g2d.setClip(0, 0, getWidth(), getHeight());
+			}
+		}
+
+		// DRAWING
+		if (isTracing() || hasBackgroundImages()) {
+			// draw background image to get the traces
+			if (bgImage == null) {
+				drawBackgroundWithImages(g2d, transparency);
+			} else {
+				paintBackground(g2d);
+			}
+		} else {
+			// just clear the background if transparency is disabled (clear =
+			// draw background color)
+			drawBackground(g2d, !transparency);
+		}
+
+		setAntialiasing(g2d);
+	}
+
+	public String getExportImageDataUrl(double scale, boolean transparency) {
+		int width = (int) Math.floor(getExportWidth() * scale);
+		int height = (int) Math.floor(getExportHeight() * scale);
+
+		Canvas c4 = Canvas.createIfSupported();
+		c4.setCoordinateSpaceWidth(width);
+		c4.setCoordinateSpaceHeight(height);
+		c4.setWidth(width+"px");
+		c4.setHeight(height+"px");
+		g4copy = new geogebra.web.awt.Graphics2D(c4);
+		getApplication().exporting = true;
+		exportPaintPre(g4copy, scale, transparency);
+		drawObjects(g4copy);
+		getApplication().exporting = false;
+		return g4copy.getCanvas().toDataUrl();
 	}
 }

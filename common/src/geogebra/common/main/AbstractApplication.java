@@ -116,6 +116,9 @@ public abstract class AbstractApplication {
 	 */
 	public boolean showAuxiliaryObjects = false;
 
+	/** flag to test whether to draw Equations full resolution */
+	public boolean exporting = false;
+
 	private static String CASVersionString = "";
 
 	public static void setCASVersionString(String string) {
