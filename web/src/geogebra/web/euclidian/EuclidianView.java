@@ -437,13 +437,6 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 		focusGained();
 		return true;
     }
-	
-	@Override
-    public boolean requestFocusInWindowTemp() {
-		g2p.getCanvas().getCanvasElement().focus();
-		focusGained();
-		return true;
-    }	
 
 	public void focusLost() {
 		if (isInFocus) {

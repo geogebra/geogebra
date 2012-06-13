@@ -2565,12 +2565,11 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 	 * Size changed, make sure our settings reflect that
 	 */
 	public abstract void updateSize();
-	public abstract boolean requestFocusInWindow();
 	/**
 	 * Try to focus this view
 	 * @return true if successful
 	 */
-	public abstract boolean requestFocusInWindowTemp();
+	public abstract boolean requestFocusInWindow();
 	
 	// Michael Borcherds 2008-03-01
 		/**

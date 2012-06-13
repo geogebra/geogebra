@@ -149,11 +149,6 @@ public abstract class EuclidianViewND extends AbstractEuclidianView implements E
 		return evjpanel.requestFocusInWindow();	
 	}
 	
-	@Override
-	public boolean requestFocusInWindowTemp() {
-		return requestFocusInWindow();	
-	}
-	
 	public void setPreferredSize(Dimension preferredSize) {
 		evjpanel.setPreferredSize(preferredSize);
 	}

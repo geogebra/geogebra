@@ -174,7 +174,7 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 				//view.getEuclidianController().textfieldHasFocus(false);
 				//geoTextField.textObjectUpdated(textField);
 				//geoTextField.textSubmitted();
-				view.requestFocusInWindowTemp();
+				view.requestFocusInWindow();
 			} else {
 				GeoElement linkedGeo = ((GeoTextField) geo).getLinkedGeo();
 				
