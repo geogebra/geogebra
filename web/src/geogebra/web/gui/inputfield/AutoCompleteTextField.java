@@ -985,7 +985,7 @@ public class AutoCompleteTextField extends HorizontalPanel implements AutoComple
 	public void onValueChange(ValueChangeEvent<String> event) {
 	  isSuggestionClickJustHappened = true;
 	  
-	  textField.getTextBox().getElement().focus();
+	  //textField.getTextBox().getElement().focus();
     }
 
 	public void onSelection(SelectionEvent<Suggestion> event) {
