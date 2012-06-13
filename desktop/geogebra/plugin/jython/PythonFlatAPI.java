@@ -37,8 +37,8 @@ import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoLocus;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoly;
 import geogebra.common.kernel.geos.GeoPolyLine;
-import geogebra.common.kernel.geos.GeoPolyLineInterface;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoRay;
 import geogebra.common.kernel.geos.GeoSegment;
@@ -758,7 +758,7 @@ public class PythonFlatAPI {
 		 * @param poly the polygon
 		 * @return the polygon's boundary
 		 */
-		public static Path getPolygonBoundary(GeoPolyLineInterface poly) {
+		public static Path getPolygonBoundary(GeoPoly poly) {
 			return poly.getBoundary();
 		}
 		
@@ -767,7 +767,7 @@ public class PythonFlatAPI {
 		 * @param poly the polygon
 		 * @return an array containing all the polygon's points
 		 */
-		public static GeoPointND[] getPolygonPoints(GeoPolyLineInterface poly) {
+		public static GeoPointND[] getPolygonPoints(GeoPoly poly) {
 			return poly.getPoints();
 		}
 		
