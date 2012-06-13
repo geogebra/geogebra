@@ -52,7 +52,9 @@ public class CommandDispatcherMPReduce {
 		taylor(Operation.NO_OPERATION),
 		//we should also have int here, but the name clashes with Java's int
 		/** sub(x=y,int(x,x)) */
-		sub(Operation.SUBSTITUTION);
+		sub(Operation.SUBSTITUTION),
+		/** interval returned from Solve[x^2<4]*/
+		ggbinterval(Operation.NO_OPERATION);
 		private Operation op;
 		private commands(Operation op){
 			this.op = op;
@@ -87,7 +89,17 @@ public class CommandDispatcherMPReduce {
 				ret = new ExpressionNode(kernel,args.getItem(0),Operation.INTEGRAL,args.getItem(1));
 			}
 			else switch (commands.valueOf(cmdName)) {
-			
+			case ggbinterval:
+				int type = (int) args.getItem(3).evaluateNum().getDouble();
+				boolean leftClosed = type >1;
+				boolean rightClosed = type%2==1;
+				ret = new ExpressionNode(kernel,
+						new ExpressionNode(kernel,args.getItem(0),leftClosed?Operation.GREATER_EQUAL:Operation.GREATER,args.getItem(1)),
+						Operation.AND,
+						new ExpressionNode(kernel,args.getItem(0),rightClosed?Operation.LESS_EQUAL:Operation.LESS,args.getItem(2))
+						);
+				
+				break;
 			case taylor:
 				ret = args.getItem(0);
 				break;

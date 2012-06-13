@@ -467,8 +467,7 @@ public abstract class AbstractCASmpreduce extends CASgeneric {
 				mpreduce1.evaluate("operator ggbinterval;");
 				mpreduce1.evaluate("procedure mkinterval(var,eqn,a,b);" +
 						"begin scalar ineqtype;" +
-						"ineqtype:=if sub(var=a,part(eqn,1))=sub(var=a,part(eqn,2)) then 2 else 0 +" +
-						"if sub(var=b,part(eqn,1))=sub(var=b,part(eqn,2)) then 1 else 0;" +
+						"ineqtype:= if part(eqn,0)= 'leq or part(eqn,0)= 'geq then 3 else 0;" +
 						"return ggbinterval(var,a,b,ineqtype);" +
 						"end;");
 				mpreduce1.evaluate("procedure mysolve(eqn, var);"
@@ -493,7 +492,7 @@ public abstract class AbstractCASmpreduce extends CASgeneric {
 						+ "		   if numeric!!=0 then off rounded, roundall, numval"
 						+ "      >>" + "      else" + "	       bool!!:=2*bool!!;"
 						+" 	   firstsol!!:=part(sol,1);"
-						+"     if arglength(part(firstsol!!,2))>-1 and part(part(firstsol!!,2),0)=!*interval!* then {mkinterval(var,part(eqn,1),part(part(firstsol!!,2),1),part(part(firstsol!!,2),2))}"
+						+"     if arglength(part(firstsol!!,2))>-1 and part(part(firstsol!!,2),0)=!*interval!* then {{mkinterval(var,part(eqn,1),part(part(firstsol!!,2),1),part(part(firstsol!!,2),2))}}"
 						+ "    else if bool!!=1 then" + "  	 {sol}"
 						+ "	   else if bool!!>1 then " + "  	 {{var='?}}" + "    else "
 						+ "		 {} >>;" + "  clearrules solverules;"
