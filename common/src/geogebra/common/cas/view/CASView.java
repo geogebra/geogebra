@@ -92,10 +92,16 @@ public abstract class CASView implements View{
 		String command = kernel.getModeText(mode); // e.g. "Derivative"
 
 		switch (mode) {
-		case EuclidianConstants.MODE_CAS_PLOT:			
+		case EuclidianConstants.MODE_CAS_PLOT:
 			int[]sel =getConsoleTable().getSelectedRows();
-			for(int i=0;i<sel.length;i++){
-				new CmdCASPlot(kernel).getResult(new MyDouble(kernel,sel[i]+1),null);
+			if(sel.length==1){
+				processInput(kernel.getModeText(EuclidianConstants.MODE_CAS_EVALUATE), null);
+				new CmdCASPlot(kernel).getResult(new MyDouble(kernel,getConsoleTable().getSelectedRow()),null);
+			}
+			else{
+				for(int i=0;i<sel.length;i++){
+					new CmdCASPlot(kernel).getResult(new MyDouble(kernel,sel[i]+1),null);
+				}
 			}
 			break;
 		case EuclidianConstants.MODE_CAS_EVALUATE:
