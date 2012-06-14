@@ -146,8 +146,9 @@ public abstract class GuiManager {
 	
 	/**
 	 * tells the properties view that mouse has been released
+	 * @param creatorMode tells if ev is in creator mode (ie not move mode)
 	 */
-	public abstract void mouseReleasedForPropertiesView();
+	public abstract void mouseReleasedForPropertiesView(boolean creatorMode);
 	
 	public abstract boolean save();
 

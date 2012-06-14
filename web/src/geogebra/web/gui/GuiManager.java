@@ -404,7 +404,7 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 	}
 
 	@Override
-    public void mouseReleasedForPropertiesView() {
+    public void mouseReleasedForPropertiesView(boolean creatorMode) {
 	    // TODO Auto-generated method stub
 	    
     }

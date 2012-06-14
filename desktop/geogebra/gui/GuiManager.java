@@ -2863,9 +2863,9 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 	}
 	
 	@Override
-	public void mouseReleasedForPropertiesView(){
+	public void mouseReleasedForPropertiesView(boolean creatorMode){
 		if(propertiesView !=null){
-			propertiesView.mouseReleasedForPropertiesView();
+			propertiesView.mouseReleasedForPropertiesView(creatorMode);
 		}
 	}
 	

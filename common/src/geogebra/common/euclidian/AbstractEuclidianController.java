@@ -8391,8 +8391,9 @@ public abstract class AbstractEuclidianController {
 		view.setShowAxesRatio(false);
 		
 		
-		if (app.isUsingFullGui() && app.getGuiManager() != null) {			
-			app.getGuiManager().mouseReleasedForPropertiesView();
+		if (app.isUsingFullGui() && app.getGuiManager() != null) {	
+			//prevent objects created by a script
+			app.getGuiManager().mouseReleasedForPropertiesView(mode!=EuclidianConstants.MODE_MOVE && mode!=EuclidianConstants.MODE_MOVE_ROTATE);
 		}
 		
 		

@@ -314,18 +314,24 @@ public class PropertiesView extends JPanel implements
 	
 	/**
 	 * acts when mouse has been released in euclidian controller
+	 * @param creatorMode says if euclidian view is in creator mode (ie not move mode)
 	 */
-	public void mouseReleasedForPropertiesView(){
+	public void mouseReleasedForPropertiesView(boolean creatorMode){
 
 		GeoElement geo = objectPanel.consumeGeoAdded();
+		
 		
 		//AbstractApplication.debug("\ngeo="+geo+"\nsel0="+app.getSelectedGeos().get(0));
 		if (app.getSelectedGeos().size()>0) //selected geo is the most important
 			updatePropertiesViewCheckConstants(app.getSelectedGeos());
 		else if (geo!=null){ //last created geo
-			ArrayList<GeoElement> geos = new ArrayList<GeoElement>();
-			geos.add(geo);
-			setOptionPanel(OptionType.OBJECTS,geos);
+			if (creatorMode){ //if euclidian view is e.g. in move mode, then geo was created by a script, so just show object properties
+				ArrayList<GeoElement> geos = new ArrayList<GeoElement>();
+				geos.add(geo);
+				setOptionPanel(OptionType.OBJECTS,geos);
+			}else{
+				setOptionPanel(OptionType.OBJECTS,null);
+			}
 		}else{ //focus
 			updateSelectedTab(Construction.Constants.NOT);
 			setOptionPanelRegardingFocus(true);
@@ -365,8 +371,10 @@ public class PropertiesView extends JPanel implements
 
 		//update selection
 		if (type==OptionType.OBJECTS){
-			objectPanel.updateSelection(geos);	
+			if (geos!=null)
+				objectPanel.updateSelection(geos);	
 			styleBar.setObjectsToolTip();
+			
 		}
 
 		if (!isIniting && selectedOptionType == type) {

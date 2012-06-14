@@ -3338,6 +3338,9 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 		public JPanel update(Object[] geos) {
 			if (geos.length != 1 || !checkGeos(geos))
 				return null;
+			
+			// remember selected tab
+			Component selectedTab = tabbedPane.getSelectedComponent();			
 
 			GeoElement button = (GeoElement) geos[0];
 			clickDialog.setGeo(button);
@@ -3350,6 +3353,11 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 				tabbedPane.addTab(app.getPlain("OnUpdate"), updateScriptPanel);
 			tabbedPane.addTab(app.getPlain("GlobalJavaScript"),
 					globalScriptPanel);
+			
+
+			//select tab as before
+			tabbedPane.setSelectedIndex(Math.max(0, tabbedPane.indexOfComponent(selectedTab)));
+			
 			return this;
 		}
 
