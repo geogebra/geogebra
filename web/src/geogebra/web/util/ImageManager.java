@@ -15,6 +15,7 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.RootPanel;
 
 import geogebra.common.awt.BufferedImage;
+import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.util.AbstractImageManager;
 import geogebra.web.gui.applet.GeoGebraFrame;
@@ -93,9 +94,20 @@ public class ImageManager extends AbstractImageManager {
 	    return new geogebra.web.awt.BufferedImage(im);
     }
 
-	public void triggerSingleImageLoading(String imageFileName) {
-		externalImageTable.get(imageFileName).setSrc(
-		   externalImageSrcs.get(imageFileName));
+	class ImageLoadCallback2 implements ImageLoadCallback {
+		public GeoImage gi;
+		public ImageLoadCallback2(GeoImage gi2) {
+			this.gi = gi2;
+		}
+		public void onLoad() {
+			gi.updateRepaint();
+		}
+	}
+
+	public void triggerSingleImageLoading(String imageFileName, GeoImage geoi) {
+		ImageElement img = externalImageTable.get(imageFileName);
+		ImageWrapper.nativeon(img, "load", new ImageLoadCallback2(geoi));
+		img.setSrc(externalImageSrcs.get(imageFileName));
 	}
 
 	public void triggerImageLoading(String construction, MyXMLio myXMLio, Application app) {

@@ -49,6 +49,7 @@ import geogebra.web.gui.SplashDialog;
 import geogebra.web.gui.app.GeoGebraAppFrame;
 import geogebra.web.gui.applet.GeoGebraFrame;
 import geogebra.web.gui.inputbar.AlgebraInput;
+import geogebra.web.helper.ImageLoadCallback;
 import geogebra.web.html5.ArticleElement;
 import geogebra.web.io.ConstructionException;
 import geogebra.web.io.MyXMLio;
@@ -427,8 +428,8 @@ public class Application extends AbstractApplication {
 		imgFileName = zip_directory + '/' + fn;
 
 		((ImageManager)getImageManager()).addExternalImage(imgFileName, fileStr);
-		((ImageManager)getImageManager()).triggerSingleImageLoading(imgFileName);
 		GeoImage geoImage = new GeoImage(getKernel().getConstruction());
+		((ImageManager)getImageManager()).triggerSingleImageLoading(imgFileName, geoImage);
 		geoImage.setImageFileName(imgFileName);
 		double cx = getActiveEuclidianView().toRealWorldCoordX(clientx);
 		double cy = getActiveEuclidianView().toRealWorldCoordY(clienty);
