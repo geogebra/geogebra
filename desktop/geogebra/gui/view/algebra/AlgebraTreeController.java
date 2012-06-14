@@ -16,6 +16,8 @@ import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.main.AbstractApplication;
+import geogebra.euclidian.EuclidianView;
 import geogebra.gui.GuiManager;
 import geogebra.main.Application;
 
@@ -168,10 +170,7 @@ implements MouseListener, MouseMotionListener{
 			}
 		} 
 		else if (mode != EuclidianConstants.MODE_SELECTION_LISTENER) {
-			// let euclidianView know about the click
-			AbstractEvent event = geogebra.euclidian.event.MouseEvent.wrapEvent(e);
-			ev.clickedGeo(geo, event);
-			event.release();
+			euclidianViewClick(ev, geo, e);
 		} else 
 			// tell selection listener about click
 			app.geoElementSelected(geo, false);
@@ -184,6 +183,17 @@ implements MouseListener, MouseMotionListener{
 		}
 
 		ev.mouseMovedOver(null);		
+	}
+	
+	
+	/**
+	 * let euclidianView know about the click
+	 * @param ev euclidian view
+	 * @param geo geo clicked
+	 * @param e mouse event
+	 */
+	protected void euclidianViewClick(EuclidianViewInterfaceCommon ev, GeoElement geo, MouseEvent e){
+		setSelectedGeo(geo);
 	}
 	
 	/**
@@ -252,13 +262,7 @@ implements MouseListener, MouseMotionListener{
 			if ( (mode == EuclidianConstants.MODE_MOVE || mode == EuclidianConstants.MODE_SELECTION_LISTENER)  && 
 					!Application.isControlDown(e) && !e.isShiftDown())
 			{
-				if( geo != null  && !app.containsSelectedGeo(geo)) 
-				{					
-					app.clearSelectedGeos(false); //repaint will be done next step
-					app.addSelectedGeo(geo);
-					lastSelectedGeo = geo;
-					skipSelection = true;
-				}else{
+				if( !setSelectedGeo(geo)) {
 					ArrayList<GeoElement> groupedGeos = groupAction(e,tp,true);
 					if (groupedGeos!=null && !app.containsSelectedGeos(groupedGeos)){
 						app.clearSelectedGeos(false); //repaint will be done next step
@@ -269,6 +273,25 @@ implements MouseListener, MouseMotionListener{
 			}
 
 		}
+	}
+	
+	/**
+	 * set the geo selected
+	 * @param geo geo
+	 * @return true if geo is not null and wasn't yet selected
+	 */
+	private boolean setSelectedGeo(GeoElement geo){
+		if( geo != null  && !app.containsSelectedGeo(geo)) 
+		{					
+			app.clearSelectedGeos(false); //repaint will be done next step
+			app.addSelectedGeo(geo);
+			lastSelectedGeo = geo;
+			skipSelection = true;
+			
+			return true;
+		}
+		
+		return false;
 	}
 	
 
@@ -337,8 +360,10 @@ implements MouseListener, MouseMotionListener{
 		// tell EuclidianView to handle mouse over
 		//EuclidianView ev = app.getEuclidianView();
 		EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
-		ev.mouseMovedOver(geo,true);								
+		//ev.mouseMovedOver(geo,true);		
 
+		highlight(ev, geo);
+		
 		if (geo != null) {
 			app.setTooltipFlag();
 			tree.setToolTipText(geo.getLongDescriptionHTML(true, true));
@@ -355,12 +380,30 @@ implements MouseListener, MouseMotionListener{
 						for (int i=0; i<node.getChildCount(); i++){
 							groupedGeos.add((GeoElement) ((DefaultMutableTreeNode) node.getChildAt(i)).getUserObject());
 						}
-						ev.mouseMovedOverList(groupedGeos);
+						highlight(ev, groupedGeos);
 					}
 				}
 			}
 			
 		}
+	}
+	
+	/**
+	 * highlight this geo using euclidian view
+	 * @param ev euclidian view
+	 * @param geo geo
+	 */
+	protected void highlight(EuclidianViewInterfaceCommon ev, GeoElement geo){
+		ev.highlight(geo);
+	}
+	
+	/**
+	 * highlight these geos using euclidian view
+	 * @param ev euclidian view
+	 * @param geos geos
+	 */
+	protected void highlight(EuclidianViewInterfaceCommon ev, ArrayList<GeoElement> geos){
+		ev.highlight(geos);
 	}
 	
 	

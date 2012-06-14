@@ -18,7 +18,9 @@ the Free Software Foundation.
 
 package geogebra.gui.view.algebra;
 
+import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
+import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
@@ -192,5 +194,31 @@ implements DragGestureListener, DragSourceListener {
 				return geoLabelList;
 			throw new UnsupportedFlavorException(flavor);
 		}
+	}
+	
+	
+	
+	@Override
+	protected void euclidianViewClick(EuclidianViewInterfaceCommon ev, GeoElement geo, MouseEvent e){
+		// let euclidianView know about the click
+		AbstractEvent event = geogebra.euclidian.event.MouseEvent.wrapEvent(e);
+		ev.clickedGeo(geo, event);
+		event.release();
+	}
+	
+	@Override
+	protected void highlight(EuclidianViewInterfaceCommon ev, GeoElement geo){
+		if (ev.getMode()==EuclidianConstants.MODE_MOVE)
+			super.highlight(ev, geo);
+		else
+			ev.mouseMovedOver(geo);
+	}
+	
+	@Override
+	protected void highlight(EuclidianViewInterfaceCommon ev, ArrayList<GeoElement> geos){
+		if (ev.getMode()==EuclidianConstants.MODE_MOVE)
+			super.highlight(ev, geos);
+		else
+			ev.mouseMovedOverList(geos);
 	}
 }

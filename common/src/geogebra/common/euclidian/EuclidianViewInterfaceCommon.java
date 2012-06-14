@@ -684,11 +684,21 @@ public interface EuclidianViewInterfaceCommon extends EuclidianViewInterfaceSlim
 	 */
 	public void mouseMovedOver(GeoElement geo);
 	
+
+	
 	/**
-	 * @param geo geo that mouse moved over
-	 * @param fromAlgebraView says if algebra view is calling (for highlight in move mode)
+	 * highlight this geo
+	 * @param geo geo
 	 */
-	public void mouseMovedOver(GeoElement geo, boolean fromAlgebraView);
+	public void highlight(GeoElement geo);
+	
+	
+	/**
+	 * highlight list of geos
+	 * @param geos geos
+	 */
+	public void highlight(ArrayList<GeoElement> geos);
+	
 	
 	/**
 	 * Warning: only called by AlgebraTreeController

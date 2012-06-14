@@ -2888,14 +2888,8 @@ public abstract class AbstractEuclidianController {
 	}
 	
 	protected boolean move(Hits hits){
-		return move(hits,false);
-	}
-
-	protected boolean move(Hits hits, boolean fromAlgebraView) {
-		if (fromAlgebraView) //highlight also not movable hits
-			addSelectedGeo(hits, 1, false);
-		else
-			addSelectedGeo(hits.getMoveableHits(view), 1, false);
+		
+		addSelectedGeo(hits.getMoveableHits(view), 1, false);
 		return false;
 	}
 
@@ -3280,13 +3274,11 @@ public abstract class AbstractEuclidianController {
 		return null;
 	}
 	
-	public boolean refreshHighlighting(Hits hits, AbstractEvent event) {
-		return refreshHighlighting(hits, event, false);
-	}
 	
-	public boolean refreshHighlighting(Hits hits, AbstractEvent event, boolean fromAlgebraView) {
+	private boolean clearHighlightedGeos(){
+
 		boolean repaintNeeded = false;
-	
+
 		// clear old highlighting
 		if (highlightedGeos.size() > 0) {
 			setHighlightedGeos(false);
@@ -3294,9 +3286,18 @@ public abstract class AbstractEuclidianController {
 		}
 		// find new objects to highlight
 		highlightedGeos.clear();
+
+		return repaintNeeded;
+	}
+	
+	public boolean refreshHighlighting(Hits hits, AbstractEvent event) {
+	
+		// clear old highlighting
+		boolean repaintNeeded = clearHighlightedGeos();		
+
 		selectionPreview = true; // only preview selection, see also
 		// mouseReleased()
-		processMode(hits, event, fromAlgebraView); // build highlightedGeos List
+		processMode(hits, event); // build highlightedGeos List
 	
 		if (highlightJustCreatedGeos) {
 			highlightedGeos.addAll(justCreatedGeos); // we also highlight just
@@ -3310,6 +3311,31 @@ public abstract class AbstractEuclidianController {
 			setHighlightedGeos(true);
 			repaintNeeded = true;
 		}
+		return repaintNeeded;
+	}
+
+	public boolean highlight(GeoElement geo){
+		boolean repaintNeeded = clearHighlightedGeos();	
+
+		if (geo!=null){
+			highlightedGeos.add(geo);
+			setHighlightedGeos(true);
+			repaintNeeded = true;
+		}
+
+		return repaintNeeded;
+	}
+	
+	public boolean highlight(ArrayList<GeoElement> geos){
+		boolean repaintNeeded = clearHighlightedGeos();	
+
+		if (geos!=null && geos.size()>0){
+			for (GeoElement geo : geos)
+				highlightedGeos.add(geo);
+			setHighlightedGeos(true);
+			repaintNeeded = true;
+		}
+
 		return repaintNeeded;
 	}
 
@@ -4848,11 +4874,8 @@ public abstract class AbstractEuclidianController {
 		}
 		return false;
 	}
-	final protected boolean switchModeForProcessMode(Hits hits, AbstractEvent event) {
-		return switchModeForProcessMode(hits, event, false);
-	}
 	
-	protected boolean switchModeForProcessMode(Hits hits, AbstractEvent event, boolean fromAlgebraView) {
+	protected boolean switchModeForProcessMode(Hits hits, AbstractEvent event) {
 	
 		Boolean changedKernel = false;
 		GeoElement[] ret = null;
@@ -4862,7 +4885,7 @@ public abstract class AbstractEuclidianController {
 		case EuclidianConstants.MODE_MOVE:
 			// move() is for highlighting and selecting
 			if (selectionPreview) {
-				move(hits.getTopHits(), fromAlgebraView);
+				move(hits.getTopHits());
 			} else {
 				if (DRAGGING_OCCURED && (app.selectedGeosSize() == 1)) {
 					app.clearSelectedGeos();
@@ -5222,12 +5245,9 @@ public abstract class AbstractEuclidianController {
 			}
 		}
 	}
+
 	
 	public final boolean processMode(Hits processHits, AbstractEvent event) {
-		return processMode(processHits, event, false);
-	}
-	
-	public final boolean processMode(Hits processHits, AbstractEvent event, boolean fromAlgebraView) {
 		Hits hits = processHits;
 		boolean changedKernel = false;
 	
@@ -5235,7 +5255,7 @@ public abstract class AbstractEuclidianController {
 			hits = new Hits();
 		}
 	
-		changedKernel = switchModeForProcessMode(hits, event, fromAlgebraView);
+		changedKernel = switchModeForProcessMode(hits, event);
 	
 		// update preview
 		if (view.getPreviewDrawable() != null) {

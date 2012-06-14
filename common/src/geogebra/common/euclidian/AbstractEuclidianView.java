@@ -4607,32 +4607,40 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 	private AbstractZoomer zoomerRW;
 
 	// for use in AlgebraController
-	final public void mouseMovedOver(GeoElement geo, boolean fromAlgebraView){
+	final public void mouseMovedOver(GeoElement geo){
 		Hits geos = null;
 		if (geo != null) {
 			tempArrayList.clear();
 			tempArrayList.add(geo);
 			geos = tempArrayList;
 		}
-		boolean repaintNeeded = getEuclidianController().refreshHighlighting(geos, null, fromAlgebraView);
+		boolean repaintNeeded = getEuclidianController().refreshHighlighting(geos, null);
 		if (repaintNeeded) {
 			kernel.notifyRepaint();
 		}
 		
 	}
 	
-	
-	final public void mouseMovedOver(GeoElement geo) {
-		mouseMovedOver(geo,false);
+	public void highlight(GeoElement geo){
+		if (getEuclidianController().highlight(geo))
+			kernel.notifyRepaint();
 	}
+	
+	
+	public void highlight(ArrayList<GeoElement> geos){
+		if (getEuclidianController().highlight(geos))
+			kernel.notifyRepaint();
+	}
+
+
 
 	final public void mouseMovedOverList(ArrayList<GeoElement> geoList) {
 		Hits geos = null;
 		tempArrayList.clear();
 		tempArrayList.addAll(geoList);
 		geos = tempArrayList;
-
-		boolean repaintNeeded = getEuclidianController().refreshHighlighting(geos, null, true);
+		
+		boolean repaintNeeded = getEuclidianController().refreshHighlighting(geos, null);
 		if (repaintNeeded) {
 			kernel.notifyRepaint();
 		}
