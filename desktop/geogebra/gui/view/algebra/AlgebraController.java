@@ -78,9 +78,17 @@ implements DragGestureListener, DragSourceListener {
 		return view.isEditing();
 	}
 	
+
 	@Override
-	protected void viewCancelEditing(){
+	public void mousePressed(java.awt.event.MouseEvent e) {
 		view.cancelEditing();
+		boolean rightClick = app.isRightClickEnabled() && Application.isRightClick(e);
+		if (rightClick) {// RIGHT CLICK
+			geogebra.common.awt.Point mouseCoords = new geogebra.common.awt.Point(e.getPoint().x,e.getPoint().y);
+			rightPress(e, mouseCoords);
+		} else {// LEFT CLICK	
+			leftPress(e);
+		}
 	}
 
 	@Override	

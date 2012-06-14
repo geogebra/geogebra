@@ -196,82 +196,80 @@ implements MouseListener, MouseMotionListener{
 		setSelectedGeo(geo);
 	}
 	
-	/**
-	 * cancel editing in the view
-	 */
-	protected void viewCancelEditing(){
-		//nothing to do here
+
+
+	public void mousePressed(java.awt.event.MouseEvent e) {		
+		leftPress(e);		
 	}
+	
+	/**
+	 * right mouse pressed
+	 * @param e event
+	 * @param mouseCoords mouse coords
+	 */
+	final protected void rightPress(java.awt.event.MouseEvent e, geogebra.common.awt.Point mouseCoords){
+		e.consume();
 
-	public void mousePressed(java.awt.event.MouseEvent e) {
-		viewCancelEditing();
-		
-		geogebra.common.awt.Point mouseCoords = new geogebra.common.awt.Point(e.getPoint().x,e.getPoint().y);
+		// get GeoElement at mouse location		
+		TreePath tp = tree.getPathForLocation(e.getX(), e.getY());
+		GeoElement geo = AlgebraTree.getGeoElementForPath(tp);
 
-		boolean rightClick = app.isRightClickEnabled() && Application.isRightClick(e);
-		
-		
-		// RIGHT CLICK
-		if (rightClick) {
-			e.consume();
+		if (geo != null && !app.containsSelectedGeo(geo)) {
+			app.clearSelectedGeos();					
+		}
 
-			// get GeoElement at mouse location		
-			TreePath tp = tree.getPathForLocation(e.getX(), e.getY());
-			GeoElement geo = AlgebraTree.getGeoElementForPath(tp);
-
-			if (geo != null && !app.containsSelectedGeo(geo)) {
-				app.clearSelectedGeos();					
+		// single selection: popup menu
+		if (app.selectedGeosSize() < 2) {				
+			if(geo == null) {
+				AlgebraContextMenu contextMenu = new AlgebraContextMenu((Application)app);
+				contextMenu.show(tree, e.getPoint().x, e.getPoint().y);
+			} else {
+				ArrayList<GeoElement> temp = new ArrayList<GeoElement>();
+				temp.add(geo);
+				((GuiManager)app.getGuiManager()).showPopupMenu(temp, tree, mouseCoords);
 			}
+		} 
+		// multiple selection: popup menu (several geos)
+		else {
+			if(geo != null) {
+				((GuiManager)app.getGuiManager()).showPopupMenu(app.getSelectedGeos(), tree, mouseCoords);
+			}
+		}	
 
-			// single selection: popup menu
-			if (app.selectedGeosSize() < 2) {				
-				if(geo == null) {
-					AlgebraContextMenu contextMenu = new AlgebraContextMenu((Application)app);
-					contextMenu.show(tree, e.getPoint().x, e.getPoint().y);
-				} else {
-					ArrayList<GeoElement> temp = new ArrayList<GeoElement>();
-					temp.add(geo);
-					((GuiManager)app.getGuiManager()).showPopupMenu(temp, tree, mouseCoords);
-				}
-			} 
-			// multiple selection: popup menu (several geos)
-			else {
-				if(geo != null) {
-					((GuiManager)app.getGuiManager()).showPopupMenu(app.getSelectedGeos(), tree, mouseCoords);
-				}
-			}	
+	}
+	
+	/**
+	 * left press
+	 * @param e event
+	 */
+	final protected void leftPress(java.awt.event.MouseEvent e){
 
-			// LEFT CLICK	
-		} else {
+		// When a single, new selection is made with no key modifiers
+		// we need to handle selection in mousePressed, not mouseClicked.
+		// By doing this selection early, a DnD drag will come afterwards
+		// and grab the new selection. 
+		// All other selection types must be handled later in mouseClicked. 
+		// In this case a DnD drag starts first and grabs the previously selected 
+		// geos (e.g. cntrl-selected or EV selected) as the user expects.
 
-			// When a single, new selection is made with no key modifiers
-			// we need to handle selection in mousePressed, not mouseClicked.
-			// By doing this selection early, a DnD drag will come afterwards
-			// and grab the new selection. 
-			// All other selection types must be handled later in mouseClicked. 
-			// In this case a DnD drag starts first and grabs the previously selected 
-			// geos (e.g. cntrl-selected or EV selected) as the user expects.
+		skipSelection = false; // flag to prevent duplicate selection in MouseClicked
 
-			skipSelection = false; // flag to prevent duplicate selection in MouseClicked
+		TreePath tp = tree.getPathForLocation(e.getX(), e.getY());
+		GeoElement geo = AlgebraTree.getGeoElementForPath(tp);	
+		EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
+		int mode = ev.getMode();
 
-			TreePath tp = tree.getPathForLocation(e.getX(), e.getY());
-			GeoElement geo = AlgebraTree.getGeoElementForPath(tp);	
-			EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
-			int mode = ev.getMode();
-
-			if ( (mode == EuclidianConstants.MODE_MOVE || mode == EuclidianConstants.MODE_SELECTION_LISTENER)  && 
-					!Application.isControlDown(e) && !e.isShiftDown())
-			{
-				if( !setSelectedGeo(geo)) {
-					ArrayList<GeoElement> groupedGeos = groupAction(e,tp,true);
-					if (groupedGeos!=null && !app.containsSelectedGeos(groupedGeos)){
-						app.clearSelectedGeos(false); //repaint will be done next step
-						app.addSelectedGeos(groupedGeos, true);
-						skipSelection = true;
-					}
+		if ( (mode == EuclidianConstants.MODE_MOVE || mode == EuclidianConstants.MODE_SELECTION_LISTENER)  && 
+				!Application.isControlDown(e) && !e.isShiftDown())
+		{
+			if( !setSelectedGeo(geo)) {
+				ArrayList<GeoElement> groupedGeos = groupAction(e,tp,true);
+				if (groupedGeos!=null && !app.containsSelectedGeos(groupedGeos)){
+					app.clearSelectedGeos(false); //repaint will be done next step
+					app.addSelectedGeos(groupedGeos, true);
+					skipSelection = true;
 				}
 			}
-
 		}
 	}
 	
