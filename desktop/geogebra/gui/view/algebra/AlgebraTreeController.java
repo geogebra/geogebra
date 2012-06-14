@@ -329,7 +329,7 @@ implements MouseListener, MouseMotionListener{
 	
 
 	public void mouseExited(java.awt.event.MouseEvent p1) {		
-		//
+		highlight(app.getActiveEuclidianView(), (GeoElement) null);
 	}
 
 	// MOUSE MOTION LISTENER
