@@ -37,7 +37,7 @@ public abstract class Layout {
 		dpData[1] = new DockPanelData(AbstractApplication.VIEW_ALGEBRA, null, true, false, false, AwtFactory.prototype.newRectangle(100, 100, 250, 400), "3", 200);
 		dpData[2] = new DockPanelData(AbstractApplication.VIEW_SPREADSHEET, null, false, false, false, AwtFactory.prototype.newRectangle(100, 100, 600, 400), "1,1", 300);
 		dpData[3] = new DockPanelData(AbstractApplication.VIEW_CAS, null, false, false, false, AwtFactory.prototype.newRectangle(100, 100, 600, 400), "1,3", 300);
-		dpData[4] = new DockPanelData(AbstractApplication.VIEW_PROPERTIES, null, false, true, false, AwtFactory.prototype.newRectangle(100, 100, 700, 500), "1,1,1", 400);
+		dpData[4] = new DockPanelData(AbstractApplication.VIEW_PROPERTIES, null, false, true, false, AwtFactory.prototype.newRectangle(100, 100, 700, 550), "1,1,1", 400);
 	
 		spData = new DockSplitPaneData[1];
 		spData[0] = new DockSplitPaneData("", 0.25, JSplitPane.HORIZONTAL_SPLIT);
@@ -52,7 +52,7 @@ public abstract class Layout {
 		dpData[1] = new DockPanelData(AbstractApplication.VIEW_ALGEBRA, null, false, false, false, AwtFactory.prototype.newRectangle(100, 100, 250, 400), "3", 200);
 		dpData[2] = new DockPanelData(AbstractApplication.VIEW_SPREADSHEET, null, false, false, false, AwtFactory.prototype.newRectangle(100, 100, 600, 400), "1,1", 300);
 		dpData[3] = new DockPanelData(AbstractApplication.VIEW_CAS, null, false, false, false, AwtFactory.prototype.newRectangle(100, 100, 600, 400), "1,3", 300);
-		dpData[4] = new DockPanelData(AbstractApplication.VIEW_PROPERTIES, null, false, true, false, AwtFactory.prototype.newRectangle(100, 100, 700, 500), "1,1,1", 400);
+		dpData[4] = new DockPanelData(AbstractApplication.VIEW_PROPERTIES, null, false, true, false, AwtFactory.prototype.newRectangle(100, 100, 700, 550), "1,1,1", 400);
 		
 		defaultPerspectives[1] = new Perspective("BasicGeometry", spData, dpData, "0 | 40 | 1 | 19 | 15 | 2 | 10 | 3 | 4 | 5 | 16 | 64 | 70 | 51 | 17 | 36 | 30 | 32 ", true, false, false, false, false, false);
 		defaultPerspectives[1].setUnitAxesRatio(true);
@@ -69,7 +69,7 @@ public abstract class Layout {
 		dpData[1] = new DockPanelData(AbstractApplication.VIEW_ALGEBRA, null, false, false, false, AwtFactory.prototype.newRectangle(100, 100, 250, 400), "3,3", 200);
 		dpData[2] = new DockPanelData(AbstractApplication.VIEW_SPREADSHEET, null, true, false, false, AwtFactory.prototype.newRectangle(100, 100, 600, 400), "3", 300);
 		dpData[3] = new DockPanelData(AbstractApplication.VIEW_CAS, null, false, false, false, AwtFactory.prototype.newRectangle(100, 100, 600, 400), "3,1", 300);
-		dpData[4] = new DockPanelData(AbstractApplication.VIEW_PROPERTIES, null, false, true, false, AwtFactory.prototype.newRectangle(100, 100, 700, 500), "1,1", 400);
+		dpData[4] = new DockPanelData(AbstractApplication.VIEW_PROPERTIES, null, false, true, false, AwtFactory.prototype.newRectangle(100, 100, 700, 550), "1,1", 400);
 		
 		defaultPerspectives[3] = new Perspective("TableAndGraphics", spData, dpData, defToolbar, true, false, true, false, true, false);
 		
@@ -79,7 +79,7 @@ public abstract class Layout {
 		dpData[1] = new DockPanelData(AbstractApplication.VIEW_ALGEBRA, null, false, false, false, AwtFactory.prototype.newRectangle(100, 100, 250, 400), "3,3", 200);
 		dpData[2] = new DockPanelData(AbstractApplication.VIEW_SPREADSHEET, null, false, false, false, AwtFactory.prototype.newRectangle(100, 100, 600, 400), "3,1", 300);
 		dpData[3] = new DockPanelData(AbstractApplication.VIEW_CAS, null, true, false, false, AwtFactory.prototype.newRectangle(100, 100, 600, 400), "3", 300);
-		dpData[4] = new DockPanelData(AbstractApplication.VIEW_PROPERTIES, null, false, true, false, AwtFactory.prototype.newRectangle(100, 100, 700, 500), "1,1", 400);
+		dpData[4] = new DockPanelData(AbstractApplication.VIEW_PROPERTIES, null, false, true, false, AwtFactory.prototype.newRectangle(100, 100, 700, 550), "1,1", 400);
 		
 		defaultPerspectives[4] = new Perspective("CASAndGraphics", spData, dpData, defToolbar, true, false, true, false, true, false);
 	

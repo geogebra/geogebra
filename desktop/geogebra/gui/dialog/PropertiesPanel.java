@@ -193,6 +193,8 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 	private ColorFunctionPanel colorFunctionPanel;
 
 	private GraphicsViewLocationPanel graphicsViewLocationPanel;
+	
+	private DeletePanel deletePanel;
 
 	// private CoordinateFunctionPanel coordinateFunctionPanel;
 
@@ -287,6 +289,12 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 		animSpeedPanel = new AnimationSpeedPanel(app);
 		allowOutlyingIntersectionsPanel = new AllowOutlyingIntersectionsPanel();
 
+		//delete button
+		if (app.letDelete())
+			deletePanel = new DeletePanel(app);
+
+				
+
 		// tabbed pane for properties
 		tabs = new JTabbedPane();
 		initTabs();
@@ -349,6 +357,14 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 		basicTabList.add(rightAnglePanel);
 		basicTabList.add(allowOutlyingIntersectionsPanel);
 		basicTabList.add(showTrimmedIntersectionLines);
+		
+		//delete button
+		if (app.letDelete()){
+			basicTabList.add(deletePanel);
+		}
+		
+		
+		
 		//basicTabList.add(showView2D);
 		basicTab = new TabPanel(basicTabList);
 		tabPanelList.add(basicTab);
@@ -540,6 +556,9 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 			showConditionPanel.setLabels();
 			colorFunctionPanel.setLabels();
 		}
+		
+		if (app.letDelete())
+			deletePanel.setLabels();
 
 		// remember selected tab
 		Component selectedTab = tabs.getSelectedComponent();
@@ -1910,6 +1929,52 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 				}
 			}
 		}
+	}
+	
+	/**
+	 * Panel for delete button
+	 * @author matthieu
+	 *
+	 */
+	private class DeletePanel extends JPanel implements SetLabels, UpdateablePropertiesPanel, ActionListener{
+
+		private JButton delButton;
+		private Application app1;
+		
+		/**
+		 * constructor
+		 * @param app application
+		 */
+		public DeletePanel(Application app){
+			
+			super(new FlowLayout(FlowLayout.LEFT));
+			
+			this.app1 = app;
+			
+			// delete button
+			delButton = new JButton(app.getImageIcon("delete_small.gif"));
+			delButton.addActionListener(this);
+			
+			add(delButton);
+		}
+		
+		public JPanel update(Object[] geos) {
+			//if at least one geo is deleteable, show button
+			for (int i=0; i<geos.length; i++){
+				if (!((GeoElement) geos[i]).isFixed())
+					return this;
+			}
+			return null;
+		}
+
+		public void setLabels() {
+			delButton.setText(app1.getPlain("Delete"));			
+		}
+
+		public void actionPerformed(ActionEvent arg0) {
+			app1.deleteSelectedObjects();
+		}
+		
 	}
 
 	/**

@@ -14,7 +14,6 @@ package geogebra.gui.view.properties;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.Construction.Constants;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
 import geogebra.gui.dialog.options.OptionPanel;
@@ -27,7 +26,6 @@ import geogebra.gui.dialog.options.OptionsObject;
 import geogebra.gui.dialog.options.OptionsSpreadsheet;
 import geogebra.main.Application;
 import geogebra.main.GeoGebraPreferences;
-import geogebra.plugin.jython.PythonAPI.Geo;
 
 import java.awt.BorderLayout;
 import java.awt.Cursor;

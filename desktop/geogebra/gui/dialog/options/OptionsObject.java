@@ -50,7 +50,7 @@ public class OptionsObject extends JPanel implements OptionPanel, SetLabels {
 	private static final long serialVersionUID = 1L;
 	private Application app;
 	private Kernel kernel;
-	private JButton defaultsButton, delButton;
+	private JButton defaultsButton;
 	private PropertiesPanel propPanel;
 	private GeoGebraColorChooser colChooser;
 	
@@ -103,13 +103,6 @@ public class OptionsObject extends JPanel implements OptionPanel, SetLabels {
 		listScroller.setMinimumSize(new Dimension(MIN_LIST_WIDTH, 200));
 		listScroller.setBackground(Color.white);
 
-		// delete button
-		delButton = new JButton(app.getImageIcon("delete_small.gif"));
-		delButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				deleteSelectedGeos();
-			}
-		});
 
 		// apply defaults button
 		defaultsButton = new JButton();
@@ -133,9 +126,6 @@ public class OptionsObject extends JPanel implements OptionPanel, SetLabels {
 		leftButtonPanel.add(defaultsButton);
 		
 
-		// right buttons
-		if (app.letDelete())
-			rightButtonPanel.add(delButton);
 
 
 		// PROPERTIES PANEL
@@ -196,7 +186,6 @@ public class OptionsObject extends JPanel implements OptionPanel, SetLabels {
 	 */
 	public void setLabels() {
 		
-		delButton.setText(app.getPlain("Delete"));
 		defaultsButton.setText(app.getMenu("ApplyDefaults"));
 		
 		propPanel.setLabels();
@@ -283,14 +272,6 @@ public class OptionsObject extends JPanel implements OptionPanel, SetLabels {
 
 
 
-	/**
-	 * deletes all selected GeoElements from Kernel
-	 */
-	private void deleteSelectedGeos() {
-		
-		app.deleteSelectedObjects();
-		
-	}
 
 	
 	private int dividerLocation = MIN_LIST_WIDTH;
