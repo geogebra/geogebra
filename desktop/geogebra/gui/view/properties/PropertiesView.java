@@ -670,15 +670,14 @@ public class PropertiesView extends JPanel implements
 	
 
 	public void repaintView() {
+			
+		if (objectPanel!=null){		
+			if (app.getSelectedGeos()!=null && app.getSelectedGeos().size()==1)
+				objectPanel.updateOneGeoDefinition(app.getSelectedGeos().get(0));
+			
+			objectPanel.getTree().repaint();
+		}
 		
-		if (objectPanel==null 
-				|| app.getSelectedGeos()==null
-				|| app.getSelectedGeos().size()==0)
-			return;
-		
-		if (app.getSelectedGeos().size()==1)
-			objectPanel.updateOneGeoDefinition(app.getSelectedGeos().get(0));
-		objectPanel.getTree().repaint();
 		
 	}
 
