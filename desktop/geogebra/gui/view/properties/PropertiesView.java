@@ -700,9 +700,12 @@ public class PropertiesView extends JPanel implements
 	// //////////////////////////////////////////////////////
 
 	public void updateSelection() {
-		
-		
-		ArrayList<GeoElement> geos = removeAllConstants(app.getSelectedGeos());
+
+		updateSelection(removeAllConstants(app.getSelectedGeos()));
+	}
+
+
+	public void updateSelection(ArrayList<GeoElement> geos) {
 
 		if (geos.size()>0){
 			if (selectedOptionType!=OptionType.OBJECTS)

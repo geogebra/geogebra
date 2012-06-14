@@ -11,7 +11,10 @@ the Free Software Foundation.
 */
 package geogebra.common.gui.view.properties;
 
+import java.util.ArrayList;
+
 import geogebra.common.kernel.View;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.GeoElementSelectionListener;
 
 /**
@@ -32,6 +35,14 @@ public interface PropertiesView extends View{
 	 * Update selection
 	 */
 	public void updateSelection();
+	
+	
+	/**
+	 * update the properties view as if geos where selected
+	 * @param geos geos
+	 */
+	public void updateSelection(ArrayList<GeoElement> geos);
+	
 	
 	
 	/**

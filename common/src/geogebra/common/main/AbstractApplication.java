@@ -2369,6 +2369,16 @@ public abstract class AbstractApplication {
 			propertiesView.updateSelection();
 		}
 	}
+	
+	
+	public void setPropertiesViewSelection(ArrayList<GeoElement> geos){
+		if (propertiesView != null) {
+			propertiesView.updateSelection(geos);
+		}
+	}
+	
+	
+	
 	final public boolean containsSelectedGeo(GeoElement geo) {
 		return selectedGeos.contains(geo);
 	}

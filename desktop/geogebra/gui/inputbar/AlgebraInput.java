@@ -19,6 +19,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoText;
+import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
 import geogebra.gui.app.GeoGebraFrame;
 import geogebra.gui.inputfield.AutoCompleteTextField;
@@ -36,6 +37,7 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
@@ -299,6 +301,11 @@ public class AlgebraInput extends  JPanel implements ActionListener, KeyListener
 					if (geos.length == 1 && !geos[0].labelSet) {
 						geos[0].setLabel(geos[0].getDefaultLabel());
 					}
+					
+					//set first output as selected geo in properties view
+					ArrayList<GeoElement> list = new ArrayList<GeoElement>();
+					list.add(geos[0]);
+					app.setPropertiesViewSelection(list);
 
 				}
 			} catch (Exception ee) {
