@@ -945,5 +945,13 @@ public class AlgebraView extends AlgebraTree implements LayerView, Gridable, Set
 		return getPathBounds((TreePath)tp);
 	}
 	// temporary proxies end
+	
+	
+
+	@Override
+	protected boolean show(GeoElement geo){
+		return super.show(geo) && geo.showInAlgebraView()
+				&& geo.isSetAlgebraVisible();
+	}
 
 } // AlgebraView

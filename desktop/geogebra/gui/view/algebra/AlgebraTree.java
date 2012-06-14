@@ -225,11 +225,19 @@ public class AlgebraTree extends JTree {
 		add(geo,-1);
 	}
 	
+	/**
+	 * do we show this geo here ?
+	 * @param geo geo
+	 * @return true if geo has to be shown
+	 */
+	protected boolean show(GeoElement geo){
+		return geo.isLabelSet();
+	}
+	
 	protected void add(GeoElement geo,int forceLayer) {
 		cancelEditing();
 
-		if (geo.isLabelSet() && geo.showInAlgebraView()
-				&& geo.isSetAlgebraVisible()) {
+		if (show(geo)) {
 			// don't add auxiliary objects if the tree is categorized by type
 			if (!getTreeMode().equals(SortMode.DEPENDENCY) && !showAuxiliaryObjects()
 					&& geo.isAuxiliaryObject()) {
