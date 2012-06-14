@@ -1540,7 +1540,8 @@ _.text = function() {
       && !(this.next.cmd === '^')
       && !(this.next.cmd === ')')
       && !(this.next.cmd === '(')
-      && !(this.next.cmd === '\\left('))
+      && !(this.next.cmd === '\\left(')
+      && !(this.next.cmd === ' '))
     text += '*';
 
   return text;
