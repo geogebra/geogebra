@@ -4,6 +4,9 @@
 package geogebra.cas.view;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.arithmetic.MyDouble;
+import geogebra.common.kernel.commands.CmdCASPlot;
+import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.GeoGebraColorConstants;
@@ -48,12 +51,7 @@ import javax.swing.table.TableCellRenderer;
 public class CASTable extends JTable implements geogebra.common.cas.view.CASTable{
 
 	private static final long serialVersionUID = 1L;
-	/** column of the table containing CAS cells */
-	public final static int COL_CAS_CELLS = 0;
-
-	public final static int COPY_OFF = 0;
-	public final static int COPY_STATIC = 1;
-	public final static int COPY_DYNAMIC = 2;
+	
 	protected int copyMode = COPY_OFF;
 	
 	
@@ -229,7 +227,11 @@ public class CASTable extends JTable implements geogebra.common.cas.view.CASTabl
 						if (copyMode == COPY_STATIC) {
 							getEditor().insertText(
 									view.getRowOutputValue(getClickedRow()));
-						} else {
+						} else if (copyMode == COPY_PLOT) {
+							new CmdCASPlot(kernel).plot(null, new MyDouble(kernel,getClickedRow()+1), new GeoBoolean(kernel.getConstruction(),true));
+							getEditor().insertText(
+									view.getRowOutputValue(getClickedRow()));
+						}else {
 							getEditor().insertText("$" + (getClickedRow()+1));
 						}
 
@@ -239,6 +241,10 @@ public class CASTable extends JTable implements geogebra.common.cas.view.CASTabl
 						if (copyMode == COPY_STATIC) {
 							getEditor().insertText(
 									view.getRowInputValue(getClickedRow()));
+						} else if (copyMode == COPY_PLOT) {
+							new CmdCASPlot(kernel).plot(null, new MyDouble(kernel,getClickedRow()+1), new GeoBoolean(kernel.getConstruction(),false));
+							getEditor().insertText(
+									view.getRowOutputValue(getClickedRow()));
 						} else {
 							getEditor().insertText("$" + (getClickedRow() + 1));
 						}

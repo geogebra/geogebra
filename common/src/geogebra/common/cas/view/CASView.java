@@ -93,16 +93,7 @@ public abstract class CASView implements View{
 
 		switch (mode) {
 		case EuclidianConstants.MODE_CAS_PLOT:
-			int[]sel =getConsoleTable().getSelectedRows();
-			if(sel.length==1){
-				processInput(kernel.getModeText(EuclidianConstants.MODE_CAS_EVALUATE), null);
-				new CmdCASPlot(kernel).getResult(new MyDouble(kernel,getConsoleTable().getSelectedRow()),null);
-			}
-			else{
-				for(int i=0;i<sel.length;i++){
-					new CmdCASPlot(kernel).getResult(new MyDouble(kernel,sel[i]+1),null);
-				}
-			}
+			getConsoleTable().setCopyMode(geogebra.common.cas.view.CASTable.COPY_PLOT);
 			break;
 		case EuclidianConstants.MODE_CAS_EVALUATE:
 		case EuclidianConstants.MODE_CAS_NUMERIC:
