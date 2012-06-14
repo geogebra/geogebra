@@ -336,7 +336,9 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 
 	@Override
     protected void setStyleBarMode(int mode) {
-	    AbstractApplication.debug("implementation needed for GUI"); // TODO
+		if (hasStyleBar()) {
+			getStyleBar().setMode(mode);
+		}
     }
 
 

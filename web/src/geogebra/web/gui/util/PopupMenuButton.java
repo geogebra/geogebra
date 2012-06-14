@@ -206,7 +206,7 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 	 * must pass action events from the popup to the invoker
 	 */
 	public void handlePopupActionEvent(){
-		button.fireEvent(new ClickEvent(){
+		/*button.fireEvent(new ClickEvent(){
 			
 				public int getClientX() {
 					return 0;
@@ -216,7 +216,8 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 					return 0;
 				}
 			
-		});
+		})*/
+		((EuclidianStyleBar)app.getEuclidianView1().getStyleBar()).fireActionPerformed(this);
 		updateGUI();
 		if(!keepVisible) {
 			myPopup.hide();

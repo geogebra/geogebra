@@ -707,13 +707,14 @@ public class EuclidianStyleBar extends HorizontalPanel
 			@Override
 			public void update(Object[] geos) {
 
-				/*AGif (mode == EuclidianConstants.MODE_PEN) {
-					this.setVisible(true);
+				if (mode == EuclidianConstants.MODE_PEN) {
+					/*this.setVisible(true);
 					setFgColor(ec.getPen().getPenColor());
 					setSliderValue(ec.getPen().getPenSize());
 					setSelectedIndex(lineStyleMap.get(ec.getPen()
-							.getPenLineStyle()));
-				} else {*/
+							.getPenLineStyle()));*/
+					AbstractApplication.debug("Not MODE_PEN in EuclidianStyleBar yet");
+				} else {
 					boolean geosOK = (geos.length > 0);
 					for (int i = 0; i < geos.length; i++) {
 						GeoElement geo = ((GeoElement) geos[i])
@@ -744,7 +745,7 @@ public class EuclidianStyleBar extends HorizontalPanel
 
 						this.setKeepVisible(mode == EuclidianConstants.MODE_MOVE);
 					}
-				//}
+				}
 			}
 
 			@Override
@@ -1022,15 +1023,16 @@ public class EuclidianStyleBar extends HorizontalPanel
 				@Override
 				public void update(Object[] geos) {
 
-					/*if (mode == EuclidianConstants.MODE_PEN) {
-						this.setVisible(true);
+					if (mode == EuclidianConstants.MODE_PEN) {
+						/*this.setVisible(true);
 
 						setSelectedIndex(getColorIndex(ec.getPen().getPenColor()));
 
 						setSliderValue(100);
-						getMySlider().setVisible(false);
+						getMySlider().setVisible(false);*/
+						AbstractApplication.debug("not MODE_PEN_working yet in StyleBar");
 
-					} else {*/
+					} else {
 						boolean geosOK = (geos.length > 0 || mode == EuclidianConstants.MODE_PEN);
 						for (int i = 0; i < geos.length; i++) {
 							GeoElement geo = ((GeoElement) geos[i])
@@ -1079,7 +1081,7 @@ public class EuclidianStyleBar extends HorizontalPanel
 
 							this.setKeepVisible(mode == EuclidianConstants.MODE_MOVE);
 						}
-					//}
+					}
 				}
 
 			};
@@ -1417,16 +1419,17 @@ public class EuclidianStyleBar extends HorizontalPanel
 		} else if (source == btnItalic) {
 			applyFontStyle(targetGeos);
 		} else if (source == btnColor) {
-			/*if (mode == EuclidianConstants.MODE_PEN) {
-				ec.getPen().setPenColor(
+			if (mode == EuclidianConstants.MODE_PEN) {
+				AbstractApplication.debug("Not MODE_PEN in EuclidianStyleBar yet");
+				/*ec.getPen().setPenColor(
 						geogebra.awt.Color.getAwtColor(btnColor
 								.getSelectedColor()));
-				// btnLineStyle.setFgColor((Color)btnColor.getSelectedValue());
-			} else {*/
+				// btnLineStyle.setFgColor((Color)btnColor.getSelectedValue());*/
+			} else {
 				applyColor(targetGeos);
 				// btnLineStyle.setFgColor((Color)btnColor.getSelectedValue());
 				// btnPointStyle.setFgColor((Color)btnColor.getSelectedValue());
-			//}
+			}
 		} else if (source == btnBgColor) {
 			if (btnBgColor.getSelectedIndex() >= 0) {
 				applyBgColor(targetGeos);
@@ -1442,13 +1445,14 @@ public class EuclidianStyleBar extends HorizontalPanel
 			}
 		} else if (source == btnLineStyle) {
 			if (btnLineStyle.getSelectedValue() != null) {
-				/*if (mode == EuclidianConstants.MODE_PEN) {
-					ec.getPen().setPenLineStyle(
+				if (mode == EuclidianConstants.MODE_PEN) {
+					/*ec.getPen().setPenLineStyle(
 							lineStyleArray[btnLineStyle.getSelectedIndex()]);
-					ec.getPen().setPenSize(btnLineStyle.getSliderValue());
-				} else {*/
+					ec.getPen().setPenSize(btnLineStyle.getSliderValue());*/
+					AbstractApplication.debug("Not MODE_PEN in EuclidianStyleBar yet");
+				} else {
 					applyLineStyle(targetGeos);
-				//}
+				}
 
 			}
 		} else if (source == btnPointStyle) {
@@ -1744,5 +1748,11 @@ public class EuclidianStyleBar extends HorizontalPanel
 	public void fireActionPerformed(Object actionButton) {
 		handleEventHandlers(actionButton);
     }
-
+	
+	/**
+	 *  programatically runs update on all buttons
+	 */
+	public void updateAllButtons() {
+	
+	}
 }

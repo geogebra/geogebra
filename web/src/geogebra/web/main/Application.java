@@ -140,6 +140,8 @@ public class Application extends AbstractApplication {
 	private ArticleElement articleElement;
 	private GeoGebraFrame frame;
 	private GeoGebraAppFrame appFrame;
+	
+	private String ORIGINAL_BODY_CLASSNAME = "";
 	// convenience method
 	public Application(ArticleElement ae, GeoGebraFrame gf) {
 		this(ae, gf, true);
@@ -827,6 +829,9 @@ public class Application extends AbstractApplication {
 		geogebra.common.euclidian.clipping.DoubleArrayFactory.prototype = new geogebra.common.euclidian.clipping.DoubleArrayFactoryImpl();
     
 		AbstractApplication.initializeSingularWS();
+		
+		//neded to not overwrite anything already exists
+		ORIGINAL_BODY_CLASSNAME = RootPanel.getBodyElement().getClassName();
 	}
 
 	private void showSplashImageOnCanvas() {
@@ -1689,12 +1694,12 @@ public class Application extends AbstractApplication {
 
 	@Override
     public void setWaitCursor() {
-		RootPanel.get().setStyleName("");
+		RootPanel.get().setStyleName(ORIGINAL_BODY_CLASSNAME);
 		RootPanel.get().addStyleName("cursor_wait");
     }
 
 	public void resetCursor() {
-		RootPanel.get().setStyleName("");
+		RootPanel.get().setStyleName(ORIGINAL_BODY_CLASSNAME);
     }
 
 	@Override
