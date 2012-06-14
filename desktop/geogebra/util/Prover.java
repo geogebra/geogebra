@@ -75,7 +75,10 @@ public class Prover extends geogebra.common.util.Prover {
 		// Input prover object
 		GeoGebraOGPInputProverProtocol inputObject = new GeoGebraOGPInputProverProtocol();
 		inputObject.setGeometryTheoremText(c);
-		inputObject.setMethod(GeoGebraOGPInputProverProtocol.OGP_METHOD_WU);
+		inputObject.setMethod(GeoGebraOGPInputProverProtocol.OGP_METHOD_WU); // default
+		if (AbstractApplication.proverMethod.equalsIgnoreCase("wu"))
+			inputObject.setMethod(GeoGebraOGPInputProverProtocol.OGP_METHOD_WU);
+		// TODO: Set the method here.
 		inputObject.setTimeOut(AbstractApplication.proverTimeout);
 		inputObject.setMaxTerms(AbstractApplication.maxTerms);
 		
