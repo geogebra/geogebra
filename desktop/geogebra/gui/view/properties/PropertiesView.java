@@ -510,22 +510,22 @@ public class PropertiesView extends JPanel implements
 	public String getTypeString(OptionType type) {
 		switch (type) {
 		case DEFAULTS:
-			return app.getPlain("PropertiesOfA","Defaults");
+			return app.getPlain("PropertiesOfA",app.getPlain("Defaults"));
 		case SPREADSHEET:
-			return app.getPlain("PropertiesOfA","Spreadsheet");
+			return app.getPlain("PropertiesOfA",app.getPlain("Spreadsheet"));
 		case EUCLIDIAN:
-			return app.getPlain("PropertiesOfA","DrawingPad");
+			return app.getPlain("PropertiesOfA",app.getPlain("DrawingPad"));
 		case EUCLIDIAN2:
-			return app.getPlain("PropertiesOfA","DrawingPad2");
+			return app.getPlain("PropertiesOfA",app.getPlain("DrawingPad2"));
 		case CAS:
-			return app.getPlain("PropertiesOfA","CAS");
+			return app.getPlain("PropertiesOfA",app.getPlain("CAS"));
 		case ADVANCED:
-			return app.getPlain("PropertiesOfA","Advanced");
+			return app.getPlain("PropertiesOfA",app.getPlain("Advanced"));
 		case OBJECTS:
 			//return app.getMenu("Objects");
 			return objectPanel.getSelectionDescription();
 		case LAYOUT:
-			return app.getPlain("PropertiesOfA","Layout");
+			return app.getPlain("PropertiesOfA",app.getPlain("Layout"));
 		}
 		return null;
 	}
