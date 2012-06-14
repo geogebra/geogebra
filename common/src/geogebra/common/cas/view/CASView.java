@@ -5,7 +5,9 @@ import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.View;
+import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.ValidExpression;
+import geogebra.common.kernel.commands.CmdCASPlot;
 import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
@@ -90,6 +92,12 @@ public abstract class CASView implements View{
 		String command = kernel.getModeText(mode); // e.g. "Derivative"
 
 		switch (mode) {
+		case EuclidianConstants.MODE_CAS_PLOT:			
+			int[]sel =getConsoleTable().getSelectedRows();
+			for(int i=0;i<sel.length;i++){
+				new CmdCASPlot(kernel).getResult(new MyDouble(kernel,sel[i]+1),null);
+			}
+			break;
 		case EuclidianConstants.MODE_CAS_EVALUATE:
 		case EuclidianConstants.MODE_CAS_NUMERIC:
 		case EuclidianConstants.MODE_CAS_KEEP_INPUT:

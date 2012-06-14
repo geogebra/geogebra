@@ -12,7 +12,7 @@ public class CmdCASPlot extends CmdOneNumber {
 	}
 
 	@Override
-	protected GeoElement getResult(NumberValue num, String label) {
+	public GeoElement getResult(NumberValue num, String label) {
 		AlgoCASPlot algo = new AlgoCASPlot(kernelA.getConstruction(),label,num);
 		return algo.getResult();
 	}
