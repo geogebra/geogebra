@@ -194,10 +194,10 @@ public class GeoGebraEditorPane extends JEditorPane implements CaretListener,
 	public Dimension getPreferredSizeFromRowColumn(int row, int column) {
 		
 		Dimension dim = new Dimension(400, 400); 
-		if (cols != 0) {
+		if (column != 0) {
 			dim.width = cols * columnWidth;
 		}
-		if (rows != 0) {
+		if (row != 0) {
 			dim.height = rows * rowHeight;
 		}
 

@@ -3297,11 +3297,11 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 			tabbedPane = new JTabbedPane();
 
 			clickDialog = new ScriptInputDialog(app, app.getPlain("Script"),
-					null, 35, 15, false, false);
+					null, row, column, false, false);
 			updateDialog = new ScriptInputDialog(app,
-					app.getPlain("JavaScript"), null, 35, 15, true, false);
+					app.getPlain("JavaScript"), null, row, column, true, false);
 			globalDialog = new ScriptInputDialog(app,
-					app.getPlain("GlobalJavaScript"), null, 35, 15, false, true);
+					app.getPlain("GlobalJavaScript"), null, row, column, false, true);
 			setLayout(new BorderLayout());
 			// add(td.getInputPanel(), BorderLayout.NORTH);
 			// add(td2.getInputPanel(), BorderLayout.CENTER);

@@ -3,6 +3,7 @@
 package geogebra.gui.view.algebra;
 
 import geogebra.common.gui.VirtualKeyboardListener;
+import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.gui.DynamicTextInputPane;
 import geogebra.gui.editor.GeoGebraEditorPane;
@@ -77,7 +78,7 @@ public class InputPanel extends JPanel implements FocusListener, VirtualKeyboard
 		
 		this.app = app;
 		this.showSymbolPopup = showSymbolPopupIcon;
-
+		
 		// set up the text component: 
 		// either a textArea, textfield or HTML textpane
 		if (rows > 1) {
