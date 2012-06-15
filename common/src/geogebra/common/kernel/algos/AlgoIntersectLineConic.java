@@ -504,7 +504,7 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements SymbolicPar
 
 		// find permutation and calculate new mean distances
 		AlgoIntersectConics.setNearTo(P, isPalive, Q, isQonPath, distTable,
-				pointList, permutation);
+				pointList, permutation, !isPermutationNeeded, 0.000001);
 		isPermutationNeeded = false;
 
 		/*

@@ -12,7 +12,9 @@ package geogebra.common.kernel;
  */
 public class PointPairList {
 	private PointPair head;
-
+	private int size = 0;
+	private boolean isStrict = true;
+	
 	/**
 	 * @return whether this list is empty
 	 */
@@ -25,6 +27,8 @@ public class PointPairList {
 	 */
 	public final void clear() {
 		head = null;
+		isStrict=true;
+		size = 0;
 	}
 
 	/**
@@ -45,6 +49,7 @@ public class PointPairList {
 		if (head == null || smallerThan(newPair, head)) {
 			newPair.next = head;
 			head = newPair;
+			size++;
 			return;
 		}
 
@@ -54,9 +59,16 @@ public class PointPairList {
 				break;
 			currentPair = currentPair.next;
 		}
+		
+		//check strictness
+		//TODO: check relevance of isQonPath
+		//if (currentPair.isPalive && newPair.isPalive && !reallySmallerThan(currentPair,newPair)) 
+		//	isStrict = false;
+		
 		// add after currentPair
 		newPair.next = currentPair.next;
 		currentPair.next = newPair;
+		size++;
 	}
 
 	/**
@@ -101,6 +113,21 @@ public class PointPairList {
 		// both not on path
 		return (a.dist < b.dist);
 	}
+	
+	/**
+	 * Checks if a is "really smaller than" b, which means
+	 * (1) they do not share indexD nor indexQ
+	 * (2) a.dist < b.dist
+	 */
+	private static boolean reallySmallerThan(PointPair a, PointPair b) { 
+
+		if (a.indexP == b.indexP || a.indexQ == b.indexQ)
+			return false;
+		
+		return (a.dist < b.dist);
+	}
+	
+	
 
 	/**
 	 * Removes all PointPairs where indexP == pair.indexP or indexQ ==
@@ -123,6 +150,7 @@ public class PointPairList {
 				// remove currentPair
 				prevPair.next = currentPair.next;
 				currentPair = currentPair.next;
+				size--;
 			} else {
 				// move on to next pair
 				prevPair = currentPair;
@@ -137,7 +165,53 @@ public class PointPairList {
 	public final PointPair getHead() {
 		return head;
 	}
+	
+	/**
+	 * @return
+	 */
+	public final boolean isStrict() {
+		isStrict = true;
+		
+		
+		return isStrict;
+	}
 
+	/**
+	 * @return
+	 */
+	public final int size() {
+		return size;
+	}
+	
+	/*
+	 * already assumed that the list is sorted.
+	 */
+	public final int getClosestPWithindexQ(int indexQ) {
+		
+		PointPair pair = this.getHead();
+		while (pair!=null) {
+			if (pair.indexQ==indexQ)
+				return pair.indexP;
+			else
+				pair = pair.next;
+		}
+		return -1; //indexQ not found
+	}
+	
+	/*
+	 * already assumed that the list is sorted.
+	 */
+	public final int getClosestQWithindexP(int indexP) {
+		
+		PointPair pair = this.getHead();
+		while (pair!=null) {
+			if (pair.indexP==indexP)
+				return pair.indexP;
+			else
+				pair = pair.next;
+		}
+		return -1; //indexQ not found
+	}
 	/*
 	 * final public String toString() { StringBuilder sb = new StringBuilder();
 	 * PointPair currentPair = head; while (currentPair != null) {

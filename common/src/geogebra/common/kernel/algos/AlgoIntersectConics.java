@@ -30,6 +30,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.kernelND.GeoConicNDConstants;
+import geogebra.common.main.AbstractApplication;
 import geogebra.common.kernel.prover.NoSymbolicParametersException;
 import geogebra.common.kernel.prover.Polynomial;
 import geogebra.common.kernel.prover.Variable;
@@ -62,6 +63,7 @@ public class AlgoIntersectConics extends AlgoIntersect  implements SymbolicParam
     private GeoConic degConic;  
     private GeoLine tempLine;
     private int [] age; // for points in D   
+    private int originalPermutation[]; //for backward compatibility. See #945
     private int permutation[]; // of computed intersection points Q to output points P
     private double [][] distTable;   
     private boolean [] isQonPath;
@@ -117,13 +119,14 @@ public class AlgoIntersectConics extends AlgoIntersect  implements SymbolicParam
         P  = new GeoPoint2[4]; // output
         D  = new GeoPoint2[4];
         Q  = new GeoPoint2[4];       
-       preexistPoints = new ArrayList<GeoPoint2>();
-       newPoints = new ArrayList<GeoPoint2>();
-                
+        
+        preexistPoints = new ArrayList<GeoPoint2>();
+        newPoints = new ArrayList<GeoPoint2>();
+        originalPermutation = new int[] {0,1,2,3};
         isQonPath = new boolean[4];    
         isPalive = new boolean[4];
         age = new int[4];
-        permutation = new int[4];
+        permutation = new int[] {0,1,2,3};
         distTable = new double[4][4];
         for (int i=0; i < 4; i++) {
             P[i] = new GeoPoint2(cons);                    
@@ -219,6 +222,25 @@ public class AlgoIntersectConics extends AlgoIntersect  implements SymbolicParam
 	 // calc intersections of conics A and B
 	@Override
 	public final void compute() {
+		
+		
+		if (permutation[3] == 0) {
+			AbstractApplication.debug("error");
+		}
+		/*
+		if (this.getA().getLabelSimple().equals("c") && getB().getLabelSimple().equals("g"))
+		{
+			AbstractApplication.debug("");
+			for (int i=0; i<4; i++) {
+			System.out.print(permutation[i]+"\t");
+			}
+			System.out.println("");
+			for (int i=0; i<4; i++) {
+			System.out.println(D[i].toString() + "\t" + P[i].toString() + "\t" + Q[i].toString());
+			}
+		}*/
+		
+		
     	// check if conics A and B are defined	   
    	   	if (!(A.isDefined() && B.isDefined())) {
    	   		for (int i=0; i < P.length; i++) {
@@ -244,13 +266,13 @@ public class AlgoIntersectConics extends AlgoIntersect  implements SymbolicParam
         // continous: use near-to-heuristic between old and new intersection points
         // non-continous: use computeContinous() to init a permutation and then
         //                always use this permutation
-        boolean continous = isPermutationNeeded || kernel.isContinuous();   
-        if (continous) {
-        	computeContinous();        	        	        	        	
+        boolean continuous = isPermutationNeeded || kernel.isContinuous();   
+        if (continuous) {
+        	computeContinuous();
         } else {
         	computeNonContinous();
         }        	
-        
+
         matchExistingIntersections();
         avoidDoubleTangentPoint();
     }	   
@@ -429,8 +451,10 @@ public class AlgoIntersectConics extends AlgoIntersect  implements SymbolicParam
     	 }
      }
     
-    // calc intersections of conics A and B
-    final private void computeContinous() {     
+    // calc intersections of conics A and B, with the permutation
+    // according to a near-to relationship with the old permutation
+    // then store the current permutation to int[] storePermutation.
+    final private void computeContinuous() {     
         /* D ... old defined points
          * P ... current points
          * Q ... new points
@@ -444,11 +468,12 @@ public class AlgoIntersectConics extends AlgoIntersect  implements SymbolicParam
     	// if there are only two points P[i] that are defined and equal
     	// we are in a singularity situation     
     	boolean noSingularity = !isSingularitySituation();    	    
-                     
+
 		// remember the defined points D, so that Di = Pi if Pi is finite        
 		// and set age
 		for (int i=0; i < 4; i++) {
 			boolean finite = P[i].isFinite();
+		
 			
 			if (noSingularity && finite)  { 
 				D[i].setCoords(P[i]);   
@@ -475,7 +500,7 @@ public class AlgoIntersectConics extends AlgoIntersect  implements SymbolicParam
         // init points in order P[0], P[1] , ...
             int count=0;
             for (int i=0; i < Q.length; i++) {
-            	// 	make sure interesection points lie on limited paths   
+            	// 	make sure intersection points lie on limited paths   
                 if (Q[i].isDefined() && pointLiesOnBothPaths(Q[i])) {              
                     P[count].setCoords(Q[i]);
                     D[count].setCoords(P[count]);
@@ -490,7 +515,11 @@ public class AlgoIntersectConics extends AlgoIntersect  implements SymbolicParam
         distanceTable(D, age, Q, distTable);           
         
         // find permutation     
-        setNearTo(P, isPalive, Q, isQonPath, distTable, pointList, permutation);
+        setNearTo(P, isPalive, Q, isQonPath, distTable, pointList, permutation,
+        		!isPermutationNeeded,
+        		1.0/Math.min(getKernel().getXscale(), getKernel().getYscale())
+        		);
+
         isPermutationNeeded = false;
         
         /*
@@ -500,8 +529,26 @@ public class AlgoIntersectConics extends AlgoIntersect  implements SymbolicParam
     	}
     	Application.debug();
     	*/  
+    	
+		if (this.getA().getLabelSimple().equals("c") && getB().getLabelSimple().equals("g"))
+		{
+			AbstractApplication.debug("");
+			for (int i=0; i<2; i++) {
+			System.out.print(permutation[i]+"\t");
+			}
+			System.out.println("");
+			for (int i=0; i<2; i++) {
+			System.out.println(D[i].toString() + "\t" + P[i].toString() + "\t" + Q[i].toString());
+			}
+			for (int i=0; i<2; i++) {
+				for (int j=0; j<2; j++) {
+					System.out.print(distTable[i][j] + "\t");
+				}
+				System.out.println("");
+			}
+		}
         
-        // 	make sure interesection points lie on limited paths
+        // 	make sure intersection points lie on limited paths
         if (isLimitedPathSituation)   
         	handleLimitedPaths();        
     }    
@@ -561,7 +608,7 @@ public class AlgoIntersectConics extends AlgoIntersect  implements SymbolicParam
     			index[count] = i;
     			count++;
     			if (count > 2) return false;
-    		}
+    		}	
     	}
     	
     	// we have a singularity if there are two defined points
@@ -1071,9 +1118,106 @@ public class AlgoIntersectConics extends AlgoIntersect  implements SymbolicParam
          */
     }
     
-    
 
-    
+    /**
+     * Sets Pi = Qj according to near to heuristic (using the closest
+     * pairs of points in ascending distance order).               
+     *    
+     *  For limitedPaths we also have to make sure that we only use points from Q 
+     *  to set P that really lie on both paths.
+     * @param P 
+     * @param isPalive 
+     * @param Q 
+     * @param isQonPath 
+     * @param distTable 
+     * @param pointList 
+     *  
+     *  @param permutation is an output parameter for the permutation
+     *  of points Q used to set points P, e.g. permuation {1,0} 
+     *  means that P[0]=Q[1] and P[1]=Q[0]
+     */
+    final static void setNearTo(GeoPoint2[] P, boolean [] isPalive,
+    							GeoPoint2[] Q, boolean [] isQonPath,    							    							
+    							double[][] distTable, 
+    							PointPairList pointList,
+								int [] permutation,
+								boolean needStrict,
+								double eps) {
+    	int indexP, indexQ;
+    	
+    	pointList.clear();
+    	for (indexP = 0; indexP < P.length; indexP++) {        		
+    		for (indexQ = 0; indexQ < Q.length; indexQ++) {    		    		    	        	
+        		// sorted inserting
+        		pointList.insertPointPair(
+        				indexP, 
+        				isPalive[indexP],
+						indexQ, 						
+						isQonPath[indexQ],
+        				distTable[indexP][indexQ]);
+        	}        	
+    	}    	    
+    	
+    	//Application.debug(pointList.toString());
+    	//System.out.flush();
+   
+    	if ( !needStrict ||
+    			(!pointList.isEmpty() && pointList.getHead().dist > eps) ) {
+    //		AbstractApplication.debug("strict list");
+    		
+    	PointPair pair;    	
+    	int currentSize=-1; 
+        //while (!pointList.isEmpty()) {
+    	
+    	while (!pointList.isEmpty() && pointList.size()!=currentSize) {
+    		currentSize = pointList.size();
+        	// take first pair from pointList
+        	pair = pointList.getHead();	
+        	indexP = pair.indexP;
+        	indexQ = pair.indexQ;
+        	
+        	
+        	if (pair.isPalive && pair.isQonPath &&
+        			pointList.getClosestPWithindexQ(pair.indexQ) == pair.indexP 
+        			&& pointList.getClosestQWithindexP(pair.indexP) == pair.indexQ) {
+        		//workingList.insertPointPair(pair.indexP, isPalive, indexQ, isQonPath, distance)
+        	
+        	// remove all other pairs with P[indexP] or Q[indexQ] from list
+        	pointList.removeAllPairs(pair);
+         	
+        	}
+        	// P[indexP] = Q[indexQ]
+            P[indexP].setCoords(Q[indexQ]);
+            permutation[indexP] = indexQ;                      
+        }   
+    	
+    	while (!pointList.isEmpty()) {
+    		
+        	// take first pair from pointList
+        	pair = pointList.getHead();	
+        	indexP = pair.indexP;
+        	indexQ = pair.indexQ;
+        	
+        	// remove all other pairs with P[indexP] or Q[indexQ] from list
+        	pointList.removeAllPairs(pair);             	        	
+         	
+        	// P[indexP] = Q[indexQ]
+            P[indexP].setCoords(Q[indexQ]);
+            permutation[indexP] = indexQ;                      
+        }   
+        
+
+    	} else {
+    		//AbstractApplication.debug("non strict list");
+    		
+    		//keep permutations
+    		for (int i = 0; i< P.length; i++ ) {
+    			P[i].setCoords(Q[permutation[i]]);
+    		}
+    	}
+    		
+    	
+    }
     /**
      * Sets Pi = Qj according to near to heuristic (using the closest
      * pairs of points in ascending distance order).               
@@ -1113,6 +1257,9 @@ public class AlgoIntersectConics extends AlgoIntersect  implements SymbolicParam
     	//Application.debug(pointList.toString());
     	//System.out.flush();
    
+    	if (pointList.isStrict()) {
+    		AbstractApplication.debug("strict list");
+    		
     	PointPair pair;    	
         while (!pointList.isEmpty()) {
         	// take first pair from pointList
@@ -1126,76 +1273,21 @@ public class AlgoIntersectConics extends AlgoIntersect  implements SymbolicParam
         	// P[indexP] = Q[indexQ]
             P[indexP].setCoords(Q[indexQ]);
             permutation[indexP] = indexQ;                      
-        }               
+        }   
+        
+
+    	} else {
+    		AbstractApplication.debug("non strict list");
+    		
+    		//keep permutations
+    		for (int i = 0; i< P.length; i++ ) {
+    			P[i] = Q[permutation[i]];
+    		}
+    	}
+    		
+    	
     }
-
-    /* This code is very similar to AlgoIntersetLineConics.
-     * TODO: Maybe commonize.
-     */
-	public Variable[] getBotanaVars(GeoElement geo) {
-		return botanaVars.get(geo);
-	}
-
-	public Polynomial[] getBotanaPolynomials(GeoElement geo) throws NoSymbolicParametersException {
-		if (botanaPolynomials != null) {
-			Polynomial[] ret = botanaPolynomials.get(geo);
-			if (ret != null)
-				return ret;
-		}
-		
-		// We cannot decide a statement properly if the "line" is a segment or the conic is not a circle:
-		if (A != null && B != null && A.isCircle() && B.isCircle()) {
-			Variable[] botanaVarsThis = new Variable[2];
-			if (botanaVars == null) {
-				botanaVars = new HashMap<GeoElement, Variable[]>();
-			}
-			if (botanaVars.containsKey(geo)) {
-				botanaVarsThis = botanaVars.get(geo);
-			} else {
-				// Intersection point (we create only one):
-				botanaVarsThis = new Variable[2];
-				botanaVarsThis[0] = new Variable();
-				botanaVarsThis[1] = new Variable();
-				botanaVars.put(geo, botanaVarsThis);
-			}
-
-			Polynomial[] botanaPolynomialsThis = null;
-			// Force NDG that the two intersection points must differ:
-			// TODO: This is very ugly.
-			Variable[] botanaVarsOther = new Variable[2];
-			Iterator<GeoElement> it = botanaVars.keySet().iterator();
-			boolean found = false;
-			while (it.hasNext()) {
-				GeoElement otherGeo = it.next();
-				// This should be one element:
-				if (!otherGeo.equals(geo)) {
-					botanaPolynomialsThis = new Polynomial[3];
-					botanaVarsOther = botanaVars.get(otherGeo);
-					botanaPolynomialsThis[2] = (Polynomial.sqrDistance(botanaVarsThis[0], botanaVarsThis[1], botanaVarsOther[0], botanaVarsOther[1])
-							.multiply(new Polynomial(new Variable()))).subtract(new Polynomial(1));
-					found = true;
-				}
-			}
-			if (!found) {
-				botanaPolynomialsThis = new Polynomial[2];
-			}
-			
-			Variable[] vA = A.getBotanaVars(geo); // 4 variables from the first circle
-			Variable[] vB = B.getBotanaVars(geo); // 4 variables from the first circle
-
-			botanaPolynomialsThis[0] = Polynomial.equidistant(vA[2], vA[3], vA[0], vA[1], botanaVarsThis[0], botanaVarsThis[1]);
-			botanaPolynomialsThis[1] = Polynomial.equidistant(vB[2], vB[3], vB[0], vB[1], botanaVarsThis[0], botanaVarsThis[1]);
-
-			if (botanaPolynomials == null) {
-				botanaPolynomials = new HashMap<GeoElement, Polynomial[]>();
-			}
-			botanaPolynomials.put(geo, botanaPolynomialsThis);
-			
-			return botanaPolynomialsThis;
-			
-		}
-		throw new NoSymbolicParametersException();
-	}
+    
     
 }
 

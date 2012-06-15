@@ -65,6 +65,7 @@ public class AlgoIntersectSingle extends AlgoIntersect {
 		compute();
 		//setIncidence();
 		point.setLabel(label);
+		addIncidence();
 	}
 
 	private void addIncidence() {
