@@ -890,8 +890,16 @@ LatexCmds.mathbf = bind(Style, '\\mathbf', '<b class="font"></b>');
 LatexCmds.mathsf = bind(Style, '\\mathsf', '<span class="sans-serif font"></span>');
 LatexCmds.mathtt = bind(Style, '\\mathtt', '<span class="monospace font"></span>');
 //text-decoration
-LatexCmds.underline = bind(Style, '\\underline', '<span class="underline"></span>');
+LatexCmds.underline = bind(Style, '\\underl--ine', '<span class="underline"></span>');
 LatexCmds.overline = LatexCmds.bar = bind(Style, '\\overline', '<span class="overline"></span>');
+// colors
+LatexCmds.yellowbg = bind(Style, '\\yellow', '<span style="background-color:#FFFF00"></span>');
+LatexCmds.yellow = bind(Style, '\\yellow', '<span style="color:#FFFF00"></span>');
+LatexCmds.red = bind(Style, '\\red', '<span style="color:#FF0000"></span>');
+LatexCmds.blue = bind(Style, '\\blue', '<span style="color:#0000FF"></span>');
+LatexCmds.green = bind(Style, '\\green', '<span style="color:#00FF00"></span>');
+LatexCmds.black = bind(Style, '\\black', '<span style="color:#00FF00"></span>');
+
 
 function SupSub(cmd, html, text, replacedFragment) {
   this.init(cmd, [ html ], [ text ], replacedFragment);
@@ -1039,7 +1047,7 @@ _.redraw = function() {
   scale(block.prev(), 1, block.innerHeight()/+block.css('fontSize').slice(0,-2) - .1);
 };
 
-LatexCmds.sqrt = LatexCmds['√'] = SquareRoot;
+LatexCmds.sqrt = LatexCmds['âˆš'] = SquareRoot;
 
 function NthRoot(replacedFragment) {
   SquareRoot.call(this, replacedFragment);
@@ -1637,7 +1645,7 @@ LatexCmds.varrho = //AMS and LaTeX
   bind(Variable,'\\varrho ','&#1009;');
 
 //Greek constants, look best in un-italicised Times New Roman
-LatexCmds.pi = LatexCmds['π'] = bind(NonSymbolaSymbol,'\\pi ','&pi;');
+LatexCmds.pi = LatexCmds['Ï€'] = bind(NonSymbolaSymbol,'\\pi ','&pi;');
 LatexCmds.lambda = bind(NonSymbolaSymbol,'\\lambda ','&lambda;');
 
 //uppercase greek letters
@@ -1691,8 +1699,8 @@ _.respace = function() {
 
 LatexCmds['+'] = bind(PlusMinus, '+', '+');
 //yes, these are different dashes, I think one is an en dash and the other is a hyphen
-LatexCmds['–'] = LatexCmds['-'] = bind(PlusMinus, '-', '&minus;');
-LatexCmds['±'] = LatexCmds.pm = LatexCmds.plusmn = LatexCmds.plusminus =
+LatexCmds['â€“'] = LatexCmds['-'] = bind(PlusMinus, '-', '&minus;');
+LatexCmds['Â±'] = LatexCmds.pm = LatexCmds.plusmn = LatexCmds.plusminus =
   bind(PlusMinus,'\\pm ','&plusmn;');
 LatexCmds.mp = LatexCmds.mnplus = LatexCmds.minusplus =
   bind(PlusMinus,'\\mp ','&#8723;');
@@ -1720,10 +1728,10 @@ LatexCmds.times = proto(BinaryOperator, function(replacedFragment, latex) {
   BinaryOperator.call(this, '\\times ', '&times;', '[x]')
 });
 
-LatexCmds['÷'] = LatexCmds.div = LatexCmds.divide = LatexCmds.divides =
+LatexCmds['Ã·'] = LatexCmds.div = LatexCmds.divide = LatexCmds.divides =
   bind(BinaryOperator,'\\div ','&divide;', '[/]');
 
-LatexCmds['≠'] = LatexCmds.ne = LatexCmds.neq = bind(BinaryOperator,'\\ne ','&ne;');
+LatexCmds['â‰ '] = LatexCmds.ne = LatexCmds.neq = bind(BinaryOperator,'\\ne ','&ne;');
 
 LatexCmds.ast = LatexCmds.star = LatexCmds.loast = LatexCmds.lowast =
   bind(BinaryOperator,'\\ast ','&lowast;');
@@ -1736,15 +1744,15 @@ LatexCmds.because = bind(BinaryOperator,'\\because ','&#8757;');
 
 LatexCmds.prop = LatexCmds.propto = bind(BinaryOperator,'\\propto ','&prop;');
 
-LatexCmds['≈'] = LatexCmds.asymp = LatexCmds.approx = bind(BinaryOperator,'\\approx ','&asymp;');
+LatexCmds['â‰ˆ'] = LatexCmds.asymp = LatexCmds.approx = bind(BinaryOperator,'\\approx ','&asymp;');
 
 LatexCmds.lt = bind(BinaryOperator,'<','&lt;');
 
 LatexCmds.gt = bind(BinaryOperator,'>','&gt;');
 
-LatexCmds['≤'] = LatexCmds.le = LatexCmds.leq = bind(BinaryOperator,'\\le ','&le;');
+LatexCmds['â‰¤'] = LatexCmds.le = LatexCmds.leq = bind(BinaryOperator,'\\le ','&le;');
 
-LatexCmds['≥'] = LatexCmds.ge = LatexCmds.geq = bind(BinaryOperator,'\\ge ','&ge;');
+LatexCmds['â‰¥'] = LatexCmds.ge = LatexCmds.geq = bind(BinaryOperator,'\\ge ','&ge;');
 
 LatexCmds.isin = LatexCmds['in'] = bind(BinaryOperator,'\\in ','&isin;');
 
@@ -1796,10 +1804,10 @@ function BigSymbol(ch, html) {
 }
 BigSymbol.prototype = new Symbol; //so instanceof will work
 
-LatexCmds['∑'] = LatexCmds.sum = LatexCmds.summation = bind(BigSymbol,'\\sum ','&sum;');
-LatexCmds['∏'] = LatexCmds.prod = LatexCmds.product = bind(BigSymbol,'\\prod ','&prod;');
+LatexCmds['âˆ‘'] = LatexCmds.sum = LatexCmds.summation = bind(BigSymbol,'\\sum ','&sum;');
+LatexCmds['âˆ�'] = LatexCmds.prod = LatexCmds.product = bind(BigSymbol,'\\prod ','&prod;');
 LatexCmds.coprod = LatexCmds.coproduct = bind(BigSymbol,'\\coprod ','&#8720;');
-LatexCmds['∫'] = LatexCmds.int = LatexCmds.integral = bind(BigSymbol,'\\int ','&int;');
+LatexCmds['âˆ«'] = LatexCmds.int = LatexCmds.integral = bind(BigSymbol,'\\int ','&int;');
 
 
 
@@ -1967,9 +1975,9 @@ LatexCmds.setminus = LatexCmds.smallsetminus =
   bind(VanillaSymbol,'\\setminus ','&#8726;');
 
 LatexCmds.not = //bind(Symbol,'\\not ','<span class="not">/</span>');
-LatexCmds['¬'] = LatexCmds.neg = bind(VanillaSymbol,'\\neg ','&not;');
+LatexCmds['Â¬'] = LatexCmds.neg = bind(VanillaSymbol,'\\neg ','&not;');
 
-LatexCmds['…'] = LatexCmds.dots = LatexCmds.ellip = LatexCmds.hellip =
+LatexCmds['â€¦'] = LatexCmds.dots = LatexCmds.ellip = LatexCmds.hellip =
 LatexCmds.ellipsis = LatexCmds.hellipsis =
   bind(VanillaSymbol,'\\dots ','&hellip;');
 
