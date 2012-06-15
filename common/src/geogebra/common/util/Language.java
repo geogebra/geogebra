@@ -84,6 +84,7 @@ public enum Language {
 	Icelandic(true, false, "is","is", "Icelandic / \u00CDslenska", Country.Iceland),
 	Indonesian(false, false, "in","in", "Indonesian / Bahasa Indonesia", Country.Indonesia),
 	Italian(true, false, "it","it", "Italian / Italiano", Country.Italy, Country.Switzerland, Country.SanMarino, Country.VaticanCityState),
+	Irish(false, false, "ga", "ga", "Irish / Gaeilge", Country.Ireland),
 	Japanese(true, false, "ja","ja", "Japanese / \u65E5\u672C\u8A9E", Country.Japan),
 	Kazakh(true, false, "kk","kk", "Kazakh / \u049A\u0430\u0437\u0430\u049B \u0442\u0456\u043B\u0456", Country.Kazakhstan),
 	Korean(true, false, "ko","ko", "Korean / \uD55C\uAD6D\uB9D0", Country.KoreaRepublicof, Country.KoreaDemocraticPeoplesRepublicof),
