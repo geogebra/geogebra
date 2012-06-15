@@ -388,6 +388,13 @@ public class Application extends AbstractApplication {
 						reader.readAsDataURL(fileToHandle);
 					}
 					//console.log(fileToHandle.name);
+				} else {
+					var gdat = dt.getData("URL");
+					if (gdat && gdat != " ") {
+						var coordx = e.offsetX ? e.offsetX : e.layerX;
+						var coordy = e.offsetY ? e.offsetY : e.layerY;
+						appl.@geogebra.web.main.Application::urlDropHappened(Ljava/lang/String;II)(gdat, coordx, coordy);
+					}
 				}
 			}, false);
 		}
@@ -402,6 +409,52 @@ public class Application extends AbstractApplication {
 			e.stopPropagation();
 		}, false);
 	}-*/;
+
+	/**
+	 * Loads an image and puts it on the canvas (this happens by drag & drop)
+	 * 
+	 * @param url - the file url of the image
+	 * @param clientx - desired position on the canvas (x)
+	 * @param clienty - desired position on the canvas (y)
+	 */
+	public void urlDropHappened(String url, int clientx, int clienty) {
+
+		// Filename is temporarily set until a better solution is found
+		// TODO: image file name should be reset after the file data is available
+
+		MD5EncrypterGWTImpl md5e = new MD5EncrypterGWTImpl();
+		String zip_directory = md5e.encrypt(url);
+
+		// with dummy extension, maybe gif or jpg in real
+		String imgFileName = zip_directory+".png";
+
+		String fn = imgFileName;
+		int index = imgFileName.lastIndexOf('/');
+		if (index != -1) {
+			fn = fn.substring(index + 1, fn.length()); // filename without
+		}
+		// path
+		fn = geogebra.common.util.Util.processFilename(fn);
+
+		// filename will be of form
+		// "a04c62e6a065b47476607ac815d022cc\liar.gif"
+		imgFileName = zip_directory + '/' + fn;
+
+
+		((ImageManager)getImageManager()).addExternalImage(imgFileName, url);
+		GeoImage geoImage = new GeoImage(getKernel().getConstruction());
+		((ImageManager)getImageManager()).triggerSingleImageLoading(imgFileName, geoImage);
+		geoImage.setImageFileName(imgFileName);
+		double cx = getActiveEuclidianView().toRealWorldCoordX(clientx);
+		double cy = getActiveEuclidianView().toRealWorldCoordY(clienty);
+		GeoPoint2 gsp = new GeoPoint2(getKernel().getConstruction(), cx, cy, 1);
+		geoImage.setCorner(gsp, 0);
+		geoImage.setLabel(null);
+		GeoImage.updateInstances();
+		
+		//Application.debug("image dropped");
+		//Window.alert("Image dropped at client position ("+clientx+","+clienty+")");
+	}
 
 	/**
 	 * Loads an image and puts it on the canvas (this happens by drag & drop)
