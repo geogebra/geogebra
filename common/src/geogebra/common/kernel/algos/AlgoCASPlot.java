@@ -6,11 +6,13 @@ import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.MyList;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.main.MyError;
 
 /**
@@ -64,7 +66,33 @@ public class AlgoCASPlot extends AlgoElement {
 	}
 
 	private void plotInput(GeoCasCell cell) {
-		// TODO Auto-generated method stub
+		ValidExpression in = cell.getInputVE();
+		if(in.getTopLevelCommand()==null)
+			return;
+		switch(Commands.valueOf(in.getTopLevelCommand().getName())){
+		case Solutions:
+		case Solve:
+			boolean oldMode = kernel.isSilentMode();
+			try {
+				kernel.setSilentMode(true);
+				GeoElement[] geos = kernel.getAlgebraProcessor().processValidExpression(in.getTopLevelCommand().getArgument(0));
+				if(geos.length==1 && geos[0] instanceof GeoList){
+					result.set(geos[0]);
+				}
+				else{
+					result.clear();
+					for(int i =0;i<geos.length;i++)
+						result.add(geos[i]);
+				}
+				
+			} catch (MyError e) {
+				e.printStackTrace();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			kernel.setSilentMode(oldMode);
+		}
+		
 		
 	}
 
