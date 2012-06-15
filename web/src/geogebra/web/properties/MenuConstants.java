@@ -154,6 +154,12 @@ public interface MenuConstants extends ConstantsWithLookup {
     @DefaultStringValue("By layering")
     String ByLayering();
 
+    @DefaultStringValue("Plot CAS cell")
+    String CASPlot();
+
+    @DefaultStringValue("Click input or output of a CAS cell to draw its content in the Graphics View")
+    String CASPlot_Help();
+
     @DefaultStringValue("Calculate")
     String Calculate();
 

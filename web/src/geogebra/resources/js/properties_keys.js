@@ -1017,6 +1017,8 @@ var menuKeysVar = {
 	ButtonAction:'',
 	ButtonAction_Help:'',
 	ByLayering:'',
+	CASPlot:'',
+	CASPlot_Help:'',
 	Calculate:'',
 	CalligraphicLetters:'',
 	Cancel:'',
