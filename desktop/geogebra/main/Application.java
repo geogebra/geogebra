@@ -1352,7 +1352,7 @@ public class Application extends AbstractApplication implements
 	}
 
     private static void setProverOption(String option) {
-        String[] str = option.split(":");
+        String[] str = option.split(":", 2);
         if ("engine".equalsIgnoreCase(str[0])) {
             if ("OpenGeoProver".equalsIgnoreCase(str[1]) 
                     || "Recio".equalsIgnoreCase(str[1])
