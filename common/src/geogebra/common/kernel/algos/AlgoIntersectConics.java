@@ -1287,7 +1287,75 @@ public class AlgoIntersectConics extends AlgoIntersect  implements SymbolicParam
     		
     	
     }
-    
+ 
+
+    /* This code is very similar to AlgoIntersetLineConics.
+     * TODO: Maybe commonize.
+     */
+	public Variable[] getBotanaVars(GeoElement geo) {
+		return botanaVars.get(geo);
+	}
+
+	public Polynomial[] getBotanaPolynomials(GeoElement geo) throws NoSymbolicParametersException {
+		if (botanaPolynomials != null) {
+			Polynomial[] ret = botanaPolynomials.get(geo);
+			if (ret != null)
+				return ret;
+		}
+		
+		// We cannot decide a statement properly if the "line" is a segment or the conic is not a circle:
+		if (A != null && B != null && A.isCircle() && B.isCircle()) {
+			Variable[] botanaVarsThis = new Variable[2];
+			if (botanaVars == null) {
+				botanaVars = new HashMap<GeoElement, Variable[]>();
+			}
+			if (botanaVars.containsKey(geo)) {
+				botanaVarsThis = botanaVars.get(geo);
+			} else {
+				// Intersection point (we create only one):
+				botanaVarsThis = new Variable[2];
+				botanaVarsThis[0] = new Variable();
+				botanaVarsThis[1] = new Variable();
+				botanaVars.put(geo, botanaVarsThis);
+			}
+
+			Polynomial[] botanaPolynomialsThis = null;
+			// Force NDG that the two intersection points must differ:
+			// TODO: This is very ugly.
+			Variable[] botanaVarsOther = new Variable[2];
+			Iterator<GeoElement> it = botanaVars.keySet().iterator();
+			boolean found = false;
+			while (it.hasNext()) {
+				GeoElement otherGeo = it.next();
+				// This should be one element:
+				if (!otherGeo.equals(geo)) {
+					botanaPolynomialsThis = new Polynomial[3];
+					botanaVarsOther = botanaVars.get(otherGeo);
+					botanaPolynomialsThis[2] = (Polynomial.sqrDistance(botanaVarsThis[0], botanaVarsThis[1], botanaVarsOther[0], botanaVarsOther[1])
+							.multiply(new Polynomial(new Variable()))).subtract(new Polynomial(1));
+					found = true;
+				}
+			}
+			if (!found) {
+				botanaPolynomialsThis = new Polynomial[2];
+			}
+			
+			Variable[] vA = A.getBotanaVars(geo); // 4 variables from the first circle
+			Variable[] vB = B.getBotanaVars(geo); // 4 variables from the first circle
+
+			botanaPolynomialsThis[0] = Polynomial.equidistant(vA[2], vA[3], vA[0], vA[1], botanaVarsThis[0], botanaVarsThis[1]);
+			botanaPolynomialsThis[1] = Polynomial.equidistant(vB[2], vB[3], vB[0], vB[1], botanaVarsThis[0], botanaVarsThis[1]);
+   			
+   			if (botanaPolynomials == null) {
+				botanaPolynomials = new HashMap<GeoElement, Polynomial[]>();
+			}
+			botanaPolynomials.put(geo, botanaPolynomialsThis);
+			
+			return botanaPolynomialsThis;
+			
+		}
+		throw new NoSymbolicParametersException();
+	}
     
 }
 
