@@ -1,6 +1,7 @@
 package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.Equation;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.MyDouble;
@@ -12,6 +13,7 @@ import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.main.MyError;
 
@@ -67,8 +69,10 @@ public class AlgoCASPlot extends AlgoElement {
 
 	private void plotInput(GeoCasCell cell) {
 		ValidExpression in = cell.getInputVE();
-		if(in.getTopLevelCommand()==null)
+		if(in.getTopLevelCommand()==null){
+			plotFormula(in);
 			return;
+		}
 		switch(Commands.valueOf(in.getTopLevelCommand().getName())){
 		case Solutions:
 		case Solve:
@@ -91,9 +95,21 @@ public class AlgoCASPlot extends AlgoElement {
 				e.printStackTrace();
 			}
 			kernel.setSilentMode(oldMode);
+			break;
+		default: plotFormula(in);	
 		}
+	
 		
 		
+	}
+
+	private void plotFormula(ValidExpression in) {
+		String text = in.toString(StringTemplate.latexTemplate);
+		GeoText txt = new GeoText(cons);
+		txt.setTextString(text);
+		txt.setLaTeX(true, false);
+		result.clear();
+		result.add(txt);
 	}
 
 	private void plotOutput(GeoCasCell cell) {
