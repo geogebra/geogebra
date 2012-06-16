@@ -499,6 +499,9 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	 * @param P start point
 	 */
 	public final void setStartPoint(GeoPoint2 P) {
+		if (startPoint == P)
+			return;
+		
 		startPoint = P;
 		if (P != null)
 			P.addIncidence(this);
@@ -508,6 +511,9 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	 * @param Q end point
 	 */
 	public final void setEndPoint(GeoPoint2 Q) {
+		if (endPoint == Q)
+			return;
+		
 		endPoint = Q;
 		if (Q != null)
 			Q.addIncidence(this);

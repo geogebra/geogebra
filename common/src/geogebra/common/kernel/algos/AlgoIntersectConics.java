@@ -228,7 +228,7 @@ public class AlgoIntersectConics extends AlgoIntersect  implements SymbolicParam
 			AbstractApplication.debug("error");
 		}
 		/*
-		if (this.getA().getLabelSimple().equals("c") && getB().getLabelSimple().equals("g"))
+		if (this.getA().getLabelSimple().equals("c") && getB().getLabelSimple().equals("g"))*/
 		{
 			AbstractApplication.debug("");
 			for (int i=0; i<4; i++) {
@@ -238,7 +238,7 @@ public class AlgoIntersectConics extends AlgoIntersect  implements SymbolicParam
 			for (int i=0; i<4; i++) {
 			System.out.println(D[i].toString() + "\t" + P[i].toString() + "\t" + Q[i].toString());
 			}
-		}*/
+		}
 		
 		
     	// check if conics A and B are defined	   
@@ -1161,8 +1161,19 @@ public class AlgoIntersectConics extends AlgoIntersect  implements SymbolicParam
     	//Application.debug(pointList.toString());
     	//System.out.flush();
    
+        double gap = Double.POSITIVE_INFINITY;
+        double temp;
+        for (int i=0; i<Q.length; i++) {
+        	for (int j=i+1; j<Q.length; j++) {
+        		temp = Q[i].distanceSqr(Q[j]);
+        		if (temp < gap)
+        			gap = temp;
+        	} 
+        }
+        
+    	
     	if ( !needStrict ||
-    			(!pointList.isEmpty() && pointList.getHead().dist > eps) ) {
+    			(gap > eps * eps) ) {
     //		AbstractApplication.debug("strict list");
     		
     	PointPair pair;    	
