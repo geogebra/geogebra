@@ -198,6 +198,9 @@ public class Application extends AbstractApplication implements
 	// supported GUI languages (from properties files)
 	private static ArrayList<Locale> supportedLocales = null;
 	public static ArrayList<Locale> getSupportedLocales() {
+		return getSupportedLocales(GeoGebraConstants.IS_PRE_RELEASE);
+	}
+	public static ArrayList<Locale> getSupportedLocales(boolean prerelease) {
 		
 		if (supportedLocales != null) {
 			return supportedLocales;
@@ -211,7 +214,7 @@ public class Application extends AbstractApplication implements
 			
 			Language language = languages[i];
 			
-			if (language.fullyTranslated || GeoGebraConstants.IS_PRE_RELEASE) {
+			if (language.fullyTranslated || prerelease) {
 			
 				if (language.locale.length() == 2) {
 					// eg "en"
