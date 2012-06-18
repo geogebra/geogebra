@@ -440,20 +440,7 @@ public class Application extends AbstractApplication {
 		// "a04c62e6a065b47476607ac815d022cc\liar.gif"
 		imgFileName = zip_directory + '/' + fn;
 
-
-		((ImageManager)getImageManager()).addExternalImage(imgFileName, url);
-		GeoImage geoImage = new GeoImage(getKernel().getConstruction());
-		((ImageManager)getImageManager()).triggerSingleImageLoading(imgFileName, geoImage);
-		geoImage.setImageFileName(imgFileName);
-		double cx = getActiveEuclidianView().toRealWorldCoordX(clientx);
-		double cy = getActiveEuclidianView().toRealWorldCoordY(clienty);
-		GeoPoint2 gsp = new GeoPoint2(getKernel().getConstruction(), cx, cy, 1);
-		geoImage.setCorner(gsp, 0);
-		geoImage.setLabel(null);
-		GeoImage.updateInstances();
-		
-		//Application.debug("image dropped");
-		//Window.alert("Image dropped at client position ("+clientx+","+clienty+")");
+		doDropHappened(imgFileName, url);
 	}
 
 	/**
@@ -482,6 +469,10 @@ public class Application extends AbstractApplication {
 		// "a04c62e6a065b47476607ac815d022cc\liar.gif"
 		imgFileName = zip_directory + '/' + fn;
 
+		doDropHappened(imgFileName, fileStr);
+	}
+
+	protected void doDropHappened(String imgFileName, String fileStr) {
 		((ImageManager)getImageManager()).addExternalImage(imgFileName, fileStr);
 		GeoImage geoImage = new GeoImage(getKernel().getConstruction());
 		((ImageManager)getImageManager()).triggerSingleImageLoading(imgFileName, geoImage);
