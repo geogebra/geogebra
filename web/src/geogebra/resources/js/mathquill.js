@@ -890,15 +890,41 @@ LatexCmds.mathbf = bind(Style, '\\mathbf', '<b class="font"></b>');
 LatexCmds.mathsf = bind(Style, '\\mathsf', '<span class="sans-serif font"></span>');
 LatexCmds.mathtt = bind(Style, '\\mathtt', '<span class="monospace font"></span>');
 //text-decoration
-LatexCmds.underline = bind(Style, '\\underl--ine', '<span class="underline"></span>');
+LatexCmds.underline = bind(Style, '\\underline', '<span class="underline"></span>');
 LatexCmds.overline = LatexCmds.bar = bind(Style, '\\overline', '<span class="overline"></span>');
 // colors
-LatexCmds.yellowbg = bind(Style, '\\yellow', '<span style="background-color:#FFFF00"></span>');
+LatexCmds.lightviolet = bind(Style, '\\lightviolet', '<span style="color:#E0B0FF"></span>');
+LatexCmds.lightyellow = bind(Style, '\\lightyellow', '<span style="color:#FFFACD"></span>');
+LatexCmds.lightgreen = bind(Style, '\\lightgreen', '<span style="color:#D0F0C0"></span>');
+LatexCmds.lightorange = bind(Style, '\\lightorange', '<span style="color:#FFEFD5"></span>');
 LatexCmds.yellow = bind(Style, '\\yellow', '<span style="color:#FFFF00"></span>');
-LatexCmds.red = bind(Style, '\\red', '<span style="color:#FF0000"></span>');
-LatexCmds.blue = bind(Style, '\\blue', '<span style="color:#0000FF"></span>');
+LatexCmds.darkblue = bind(Style, '\\darkblue', '<span style="color:#1C39BB"></span>');
+LatexCmds.lightpurple = bind(Style, '\\lightpurple', '<span style="color:#CCCCFF"></span>');
+LatexCmds.lightblue = bind(Style, '\\lightblue', '<span style="color:#7D7DFF"></span>');
+LatexCmds.maroon = bind(Style, '\\maroon', '<span style="color:#800000"></span>');
+LatexCmds.lightgray = bind(Style, '\\lightgray', '<span style="color:#A0A0A0"></span>');
+LatexCmds.pink = bind(Style, '\\pink', '<span style="color:#FFC0CB"></span>');
+LatexCmds.gold = bind(Style, '\\gold', '<span style="color:#FFD700"></span>');
+LatexCmds.black = bind(Style, '\\black', '<span style="color:#000000"></span>');
+LatexCmds.orange = bind(Style, '\\orange', '<span style="color:#FF7F00"></span>');
+LatexCmds.indigo = bind(Style, '\\indigo', '<span style="color:#4B0082"></span>');
+LatexCmds.purple = bind(Style, '\\purple', '<span style="color:#800080"></span>');
+LatexCmds.darkgray = bind(Style, '\\darkgray', '<span style="color:#202020"></span>');
 LatexCmds.green = bind(Style, '\\green', '<span style="color:#00FF00"></span>');
-LatexCmds.black = bind(Style, '\\black', '<span style="color:#00FF00"></span>');
+LatexCmds.silver = bind(Style, '\\silver', '<span style="color:#404040"></span>');
+LatexCmds.white = bind(Style, '\\white', '<span style="color:#FFFFFF"></span>');
+LatexCmds.lime = bind(Style, '\\lime', '<span style="color:#BFFF00"></span>');
+LatexCmds.gray = bind(Style, '\\gray', '<span style="color:#808080"></span>');
+LatexCmds.darkgreen = bind(Style, '\\darkgreen', '<span style="color:#006400"></span>');
+LatexCmds.magenta = bind(Style, '\\magenta', '<span style="color:#FF00FF"></span>');
+LatexCmds.cyan = bind(Style, '\\cyan', '<span style="color:#00FFFF"></span>');
+LatexCmds.red = bind(Style, '\\red', '<span style="color:#FF0000"></span>');
+LatexCmds.crimson = bind(Style, '\\crimson', '<span style="color:#DC143C"></span>');
+LatexCmds.turquoise = bind(Style, '\\turquoise', '<span style="color:#AFEEEE"></span>');
+LatexCmds.blue = bind(Style, '\\blue', '<span style="color:#0000FF"></span>');
+LatexCmds.violet = bind(Style, '\\violet', '<span style="color:#7F00FF"></span>');
+LatexCmds.brown = bind(Style, '\\brown', '<span style="color:#993300"></span>');
+LatexCmds.aqua = bind(Style, '\\aqua', '<span style="color:#BCD4E6"></span>');
 
 
 function SupSub(cmd, html, text, replacedFragment) {
@@ -1047,7 +1073,7 @@ _.redraw = function() {
   scale(block.prev(), 1, block.innerHeight()/+block.css('fontSize').slice(0,-2) - .1);
 };
 
-LatexCmds.sqrt = LatexCmds['âˆš'] = SquareRoot;
+LatexCmds.sqrt = LatexCmds['\u221A'] = SquareRoot;
 
 function NthRoot(replacedFragment) {
   SquareRoot.call(this, replacedFragment);
@@ -1645,7 +1671,7 @@ LatexCmds.varrho = //AMS and LaTeX
   bind(Variable,'\\varrho ','&#1009;');
 
 //Greek constants, look best in un-italicised Times New Roman
-LatexCmds.pi = LatexCmds['Ï€'] = bind(NonSymbolaSymbol,'\\pi ','&pi;');
+LatexCmds.pi = LatexCmds['\u03C0'] = bind(NonSymbolaSymbol,'\\pi ','&pi;');
 LatexCmds.lambda = bind(NonSymbolaSymbol,'\\lambda ','&lambda;');
 
 //uppercase greek letters
@@ -1699,8 +1725,8 @@ _.respace = function() {
 
 LatexCmds['+'] = bind(PlusMinus, '+', '+');
 //yes, these are different dashes, I think one is an en dash and the other is a hyphen
-LatexCmds['â€“'] = LatexCmds['-'] = bind(PlusMinus, '-', '&minus;');
-LatexCmds['Â±'] = LatexCmds.pm = LatexCmds.plusmn = LatexCmds.plusminus =
+LatexCmds['\u2013'] = LatexCmds['-'] = bind(PlusMinus, '-', '&minus;');
+LatexCmds['\u00B1'] = LatexCmds.pm = LatexCmds.plusmn = LatexCmds.plusminus =
   bind(PlusMinus,'\\pm ','&plusmn;');
 LatexCmds.mp = LatexCmds.mnplus = LatexCmds.minusplus =
   bind(PlusMinus,'\\mp ','&#8723;');
@@ -1728,10 +1754,10 @@ LatexCmds.times = proto(BinaryOperator, function(replacedFragment, latex) {
   BinaryOperator.call(this, '\\times ', '&times;', '[x]')
 });
 
-LatexCmds['Ã·'] = LatexCmds.div = LatexCmds.divide = LatexCmds.divides =
+LatexCmds['\u00F7'] = LatexCmds.div = LatexCmds.divide = LatexCmds.divides =
   bind(BinaryOperator,'\\div ','&divide;', '[/]');
 
-LatexCmds['â‰ '] = LatexCmds.ne = LatexCmds.neq = bind(BinaryOperator,'\\ne ','&ne;');
+LatexCmds['\u2260'] = LatexCmds.ne = LatexCmds.neq = bind(BinaryOperator,'\\ne ','&ne;');
 
 LatexCmds.ast = LatexCmds.star = LatexCmds.loast = LatexCmds.lowast =
   bind(BinaryOperator,'\\ast ','&lowast;');
@@ -1744,15 +1770,15 @@ LatexCmds.because = bind(BinaryOperator,'\\because ','&#8757;');
 
 LatexCmds.prop = LatexCmds.propto = bind(BinaryOperator,'\\propto ','&prop;');
 
-LatexCmds['â‰ˆ'] = LatexCmds.asymp = LatexCmds.approx = bind(BinaryOperator,'\\approx ','&asymp;');
+LatexCmds['\u2248'] = LatexCmds.asymp = LatexCmds.approx = bind(BinaryOperator,'\\approx ','&asymp;');
 
 LatexCmds.lt = bind(BinaryOperator,'<','&lt;');
 
 LatexCmds.gt = bind(BinaryOperator,'>','&gt;');
 
-LatexCmds['â‰¤'] = LatexCmds.le = LatexCmds.leq = bind(BinaryOperator,'\\le ','&le;');
+LatexCmds['\u2264'] = LatexCmds.le = LatexCmds.leq = bind(BinaryOperator,'\\le ','&le;');
 
-LatexCmds['â‰¥'] = LatexCmds.ge = LatexCmds.geq = bind(BinaryOperator,'\\ge ','&ge;');
+LatexCmds['\u2265'] = LatexCmds.ge = LatexCmds.geq = bind(BinaryOperator,'\\ge ','&ge;');
 
 LatexCmds.isin = LatexCmds['in'] = bind(BinaryOperator,'\\in ','&isin;');
 
@@ -1804,10 +1830,10 @@ function BigSymbol(ch, html) {
 }
 BigSymbol.prototype = new Symbol; //so instanceof will work
 
-LatexCmds['âˆ‘'] = LatexCmds.sum = LatexCmds.summation = bind(BigSymbol,'\\sum ','&sum;');
-LatexCmds['âˆ�'] = LatexCmds.prod = LatexCmds.product = bind(BigSymbol,'\\prod ','&prod;');
+LatexCmds['\u2211'] = LatexCmds.sum = LatexCmds.summation = bind(BigSymbol,'\\sum ','&sum;');
+LatexCmds['\u220F'] = LatexCmds.prod = LatexCmds.product = bind(BigSymbol,'\\prod ','&prod;');
 LatexCmds.coprod = LatexCmds.coproduct = bind(BigSymbol,'\\coprod ','&#8720;');
-LatexCmds['âˆ«'] = LatexCmds.int = LatexCmds.integral = bind(BigSymbol,'\\int ','&int;');
+LatexCmds['\u222B'] = LatexCmds.int = LatexCmds.integral = bind(BigSymbol,'\\int ','&int;');
 
 
 
@@ -1975,9 +2001,9 @@ LatexCmds.setminus = LatexCmds.smallsetminus =
   bind(VanillaSymbol,'\\setminus ','&#8726;');
 
 LatexCmds.not = //bind(Symbol,'\\not ','<span class="not">/</span>');
-LatexCmds['Â¬'] = LatexCmds.neg = bind(VanillaSymbol,'\\neg ','&not;');
+LatexCmds['\u00AC'] = LatexCmds.neg = bind(VanillaSymbol,'\\neg ','&not;');
 
-LatexCmds['â€¦'] = LatexCmds.dots = LatexCmds.ellip = LatexCmds.hellip =
+LatexCmds['\u2026'] = LatexCmds.dots = LatexCmds.ellip = LatexCmds.hellip =
 LatexCmds.ellipsis = LatexCmds.hellipsis =
   bind(VanillaSymbol,'\\dots ','&hellip;');
 
