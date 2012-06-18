@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # Creates a benchmark output for the prover in CSV format to stdout,
 # and also in HTML format into html/.
 # @author Zoltan Kovacs <zoltan@geogebra.org>
@@ -8,9 +8,10 @@ TIMEOUT=120
 IMGSCALE=25
 IMGHEIGHT=25
 HTML=html/index.html
-PROVERS="Auto Recio Botana PureSymbolic"
+PROVERS="Auto Recio Botana PureSymbolic OpenGeoProver"
 TESTGGBURLBASE=http://dev.geogebra.org/trac/browser/trunk
 GGBDIR=geogebra/test/scripts/benchmark/prover
+SINGULARWSREMOTEURL=http://ggb1.idm.jku.at:8085
 
 THISDIR=`dirname $0`
 MYDIR=`cd $THISDIR; pwd`
@@ -65,10 +66,21 @@ for i in `find -name '*.ggb' | sort`; do
  mv geogebra_thumbnail.png html/$TEST.png
  echo -n "$TEST;"
  echo "<tr><td class=\"ex\"><a href=\"$TESTGGBURLBASE/$GGBDIR/$i\">$TEST</a></td><td class=\"eximg\"><a href=\"$TEST.png\"><img src=\"$TEST.png\" style=\"height:${IMGHEIGHT}px;width:auto;\"></a></td>" >> $MYDIR/$HTML
+
+ declare -A RESULTDATA
+ declare -A RESULTCLASSDATA
+ declare -A TIMEDATA
+ BESTTIME=""
+ WORSTTIME=""
+ BESTPROVER=""
+ WORSTPROVER=""
+
  for j in $PROVERS; do
   cd $MYDIR; cd $BUILDDIR
   # Testing:
-  timeout $TIMEOUT java -jar geogebra.jar --prover=engine:$j,timeout:$TIMEOUT --logFile=$LOGFILE \
+  timeout $TIMEOUT java -jar geogebra.jar \
+   --prover=engine:$j,timeout:$TIMEOUT,singularwsremoteurl:$SINGULARWSREMOTEURL \
+   --logFile=$LOGFILE \
    --regressionFile=$REGRESSIONFILE $MYDIR/$i --language=en \
    >$MYDIR/tmp/.test.stdout 2>$MYDIR/tmp/.test.stderr
   
@@ -90,7 +102,11 @@ for i in `find -name '*.ggb' | sort`; do
   echo -n "$RESULT;$TIME;"
   RESULTCLASS=" class=\"o6\""
   if [ "$RESULT" != "$DIRNAME" ]; then
-   RESULTCLASS=" class=\"error\""
+   if [ "$RESULT" = "undefined" ]; then
+    RESULTCLASS=" class=\"undefined\""
+   else
+    RESULTCLASS=" class=\"error\""
+    fi
   else
    VARNAME=$`echo $j`
    VALUE=`eval echo $VARNAME`
@@ -111,8 +127,53 @@ for i in `find -name '*.ggb' | sort`; do
     RESULTCLASS=" class=\"o1\""
     fi
    fi
-  echo "<td$RESULTCLASS>$RESULT</td><td$RESULTCLASS>$TIME</td>" >> $MYDIR/$HTML
+  RESULTCLASSDATA[$j]=$RESULTCLASS
+  RESULTDATA[$j]=$RESULT
+  TIMEDATA[$j]=$TIME
+
+  # Storing best and worst results
+  if [ "$TIME" != "" -a "$RESULT" = "$DIRNAME" -a $j != Auto ]; then
+   # First time result
+   if [ "$BESTTIME" = "" ]; then
+    BESTTIME=$TIME
+    BESTPROVER=$j
+   else
+    # At least second time result
+    if [ $TIME -lt $BESTTIME ]; then
+     BESTTIME=$TIME
+     BESTPROVER=$j
+    else
+     if [ "$WORSTTIME" = "" ]; then
+      # Exactly the second time result
+      WORSTTIME=$TIME 
+      WORSTPROVER=$j
+     else
+      if [ $WORSTTIME -lt $TIME ]; then
+       # More than second time result with worst current time
+       WORSTTIME=$TIME
+       WORSTPROVER=$j
+       fi # end of >2, worst current
+      fi # end of >2, not worst current
+     fi # end of >=2
+    fi # end of >=1, not best time current
+   fi # end of >=1 (all cases)
+  # echo "<td$RESULTCLASS>$RESULT</td><td$RESULTCLASS>$TIME</td>" >> $MYDIR/$HTML
   done # All provers done for this tests
+
+ for j in $PROVERS; do
+  RESULTCLASS=${RESULTCLASSDATA[$j]}
+  RESULT=${RESULTDATA[$j]}
+  TIME=${TIMEDATA[$j]}
+  SUMCLASS=""
+  if [ "$WORSTPROVER" = "$j" ]; then
+   SUMCLASS="worst"
+   fi
+  if [ "$BESTPROVER" = "$j" ]; then
+   SUMCLASS="best"
+   fi
+  echo "<td$RESULTCLASS>$RESULT</td><td$RESULTCLASS><p class=\"$SUMCLASS\">$TIME</p></td>" >> $MYDIR/$HTML
+  done
+
  echo
  echo "</tr>" >> $MYDIR/$HTML
  done # All tests done
