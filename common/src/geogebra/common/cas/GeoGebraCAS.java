@@ -70,9 +70,12 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		
 		return cas;
 	}
-
+	/**
+	 * Initializes underlying CAS
+	 */
 	public synchronized void initCurrentCAS() {
-		setCurrentCAS(Kernel.DEFAULT_CAS);
+		if (cas == null)
+			setCurrentCAS(Kernel.DEFAULT_CAS);
 	}
 
 	public StringType getCurrentCASstringType() {

@@ -147,7 +147,7 @@ public class InputBarHelpPanel extends JPanel implements TreeSelectionListener,
 		this.add(createButtonPanel(), BorderLayout.SOUTH);
 		// this.setBorder(BorderFactory.createEmptyBorder(0, 1, 0, 4));
 
-		setLabels();
+		setLabels(false);
 		updateFonts();
 	}
 
@@ -311,7 +311,12 @@ public class InputBarHelpPanel extends JPanel implements TreeSelectionListener,
 	}
 
 	public void setLabels() {
-		setCommands();
+		setLabels(true);
+	}
+	
+	private void setLabels(boolean setCommands) {
+		if(setCommands)
+			setCommands();
 		cmdTreeModel.setRoot(rootSubCommands);
 		cmdTreeModel.reload();
 
@@ -395,9 +400,8 @@ public class InputBarHelpPanel extends JPanel implements TreeSelectionListener,
 			}
 		});
 	}
-
+	
 	public void setCommands() {
-
 		if (rootSubCommands == null)
 			rootSubCommands = new DefaultMutableTreeNode();
 		if (rootAllCommands == null)
@@ -411,7 +415,6 @@ public class InputBarHelpPanel extends JPanel implements TreeSelectionListener,
 
 		// load the sub-command nodes
 		for (int i = 0; i < subDict.length; i++) {
-
 			if (subDict[i].isEmpty())
 			    continue;
 

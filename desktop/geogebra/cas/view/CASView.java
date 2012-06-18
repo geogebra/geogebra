@@ -3,6 +3,7 @@ package geogebra.cas.view;
 import geogebra.common.cas.view.CASInputHandler;
 import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.gui.GuiManager;
 import geogebra.gui.inputbar.InputBarHelpPanel;
@@ -15,6 +16,8 @@ import java.awt.Component;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.sql.Date;
+import java.sql.Time;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
@@ -61,24 +64,21 @@ public class CASView  extends geogebra.common.cas.view.CASView implements Gridab
 	 * @param app application
 	 */
 	public CASView(Application app) {
+		long a = System.currentTimeMillis(); 
 		component = new CASComponent();
 		kernel = app.getKernel();
 		this.app = app;
-		listSelModel = new DefaultListSelectionModel();
-		getCAS();
-		
+		listSelModel = new DefaultListSelectionModel();	
+		getCAS();	
 
 		// init commands subtable for cas-commands in inputbar-help
 		kernel.getAlgebraProcessor().enableCAS();
-
 		GuiManager gm = app.getGuiManager();
 		if (gm != null) {
-			((InputBarHelpPanel) gm.getInputHelpPanel()).setCommands();
+			gm.reInitHelpPanel();
 		}
-
 		// CAS input/output cells
 		createCASTable();
-
 		// row header
 		rowHeader = new RowHeader(consoleTable, false, listSelModel);
 		getConsoleTable().setSelectionModel(listSelModel);
@@ -90,7 +90,6 @@ public class CASView  extends geogebra.common.cas.view.CASView implements Gridab
 		scrollPane.setViewportView(consoleTable);
 		scrollPane.setBackground(Color.white);
 		scrollPane.setBorder(BorderFactory.createEmptyBorder());
-
 		// set the lower left corner so that the horizontal scroller looks good
 		JPanel p = new JPanel();
 		p.setBorder(BorderFactory.createMatteBorder(1, 0, 0, 1,
@@ -112,7 +111,6 @@ public class CASView  extends geogebra.common.cas.view.CASView implements Gridab
 
 		// listen to clicks below last row in consoleTable: create new row
 		scrollPane.addMouseListener(scrollPaneListener());
-
 		// input handler
 		casInputHandler = new CASInputHandler(this);
 
@@ -284,7 +282,9 @@ public class CASView  extends geogebra.common.cas.view.CASView implements Gridab
 		component.repaint();
 		// ensureOneEmptyRow();
 	}
-	
+	/**
+	 * Repaints the view
+	 */
 	public void repaint() {
 		component.repaint();
 		// ensureOneEmptyRow();

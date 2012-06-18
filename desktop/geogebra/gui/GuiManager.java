@@ -2810,7 +2810,12 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 			return false;
 		return true;
 	}
+	public void reInitHelpPanel() {
 
+		if (inputHelpPanel == null)
+			inputHelpPanel = new InputBarHelpPanel((Application)app);
+		else inputHelpPanel.setCommands();
+	}
 
 	public Component getInputHelpPanel() {
 
