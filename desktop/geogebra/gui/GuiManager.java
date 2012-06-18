@@ -1273,7 +1273,7 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 	 * 
 	 * @return whether a new image was created or not
 	 */
-	public boolean loadImage(GeoPoint2 loc, Transferable transfer,
+	public boolean loadImage(GeoPoint2 loc, GeoPoint2 loc2, Transferable transfer,
 			boolean fromClipboard) {
 		app.setWaitCursor();
 
@@ -1298,12 +1298,13 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 				geoImage = new GeoImage(app.getKernel().getConstruction());
 				geoImage.setImageFileName(fileName[i]);
 				geoImage.setCorner(loc, 0);
+				geoImage.setCorner(loc2, 1);
 				geoImage.setLabel(null);
 
 				GeoImage.updateInstances();
 			}
 			// make sure only the last image will be selected
-			GeoElement[] geos = { geoImage };
+			GeoElement[] geos = { geoImage, loc, loc2 };
 			app.getActiveEuclidianView().getEuclidianController()
 					.clearSelections();
 			app.getActiveEuclidianView().getEuclidianController()

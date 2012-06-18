@@ -486,13 +486,25 @@ public class Application extends AbstractApplication {
 		GeoImage geoImage = new GeoImage(getKernel().getConstruction());
 		((ImageManager)getImageManager()).triggerSingleImageLoading(imgFileName, geoImage);
 		geoImage.setImageFileName(imgFileName);
-		double cx = getActiveEuclidianView().toRealWorldCoordX(clientx);
-		double cy = getActiveEuclidianView().toRealWorldCoordY(clienty);
+		//double cx = getActiveEuclidianView().toRealWorldCoordX(clientx);
+		//double cy = getActiveEuclidianView().toRealWorldCoordY(clienty);
+		double cx = getActiveEuclidianView().getXmin()+
+			(getActiveEuclidianView().getXmax()-getActiveEuclidianView().getXmin())/4;
+		double cy = getActiveEuclidianView().getYmin()+
+			(getActiveEuclidianView().getYmax()-getActiveEuclidianView().getYmin())/4;
 		GeoPoint2 gsp = new GeoPoint2(getKernel().getConstruction(), cx, cy, 1);
+		gsp.setLabel(null);
 		geoImage.setCorner(gsp, 0);
+
+		cx = getActiveEuclidianView().getXmax()-
+			(getActiveEuclidianView().getXmax()-getActiveEuclidianView().getXmin())/4;
+		GeoPoint2 gsp2 = new GeoPoint2(getKernel().getConstruction(), cx, cy, 1);
+		gsp2.setLabel(null);
+		geoImage.setCorner(gsp2, 1);
+
 		geoImage.setLabel(null);
 		GeoImage.updateInstances();
-		
+
 		//Application.debug("image dropped");
 		//Window.alert("Image dropped at client position ("+clientx+","+clienty+")");
 	}
