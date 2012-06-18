@@ -30,12 +30,10 @@ import geogebra.gui.color.GeoGebraColorChooser;
 import geogebra.gui.dialog.DialogManagerDesktop;
 import geogebra.gui.dialog.InputDialog;
 import geogebra.gui.dialog.InputDialogOpenURL;
-import geogebra.gui.dialog.PropertiesDialog;
 import geogebra.gui.inputbar.AlgebraInput;
 import geogebra.gui.inputbar.InputBarHelpPanel;
 import geogebra.gui.layout.Layout;
 import geogebra.gui.layout.panels.AlgebraDockPanel;
-import geogebra.gui.layout.panels.AssignmentDockPanel;
 import geogebra.gui.layout.panels.CasDockPanel;
 import geogebra.gui.layout.panels.ConstructionProtocolDockPanel;
 import geogebra.gui.layout.panels.Euclidian2DockPanel;
@@ -2911,8 +2909,57 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 
 	@Override
 	public void loadImage(GeoPoint2 loc, Object transfer, boolean fromClipboard) {
-		loadImage(loc, (Transferable)transfer, fromClipboard);
+		loadImage(loc, fromClipboard, (Transferable)transfer);
 		
+	}
+
+	/**
+	 * Creates a new GeoImage, using an image provided by either a Transferable
+	 * object or the clipboard contents, then places it at the given location
+	 * (real world coords). If the transfer content is a list of images, then
+	 * multiple GeoImages will be created.
+	 * 
+	 * @return whether a new image was created or not
+	 */
+	public boolean loadImage(GeoPoint2 loc, boolean fromClipboard, Transferable transfer) {
+		app.setWaitCursor();
+
+		String[] fileName = null;
+
+		if (fromClipboard) {
+			fileName = getImageFromTransferable(null);
+		} else if (transfer != null) {
+			fileName = getImageFromTransferable(transfer);
+		} else {
+			fileName = new String[1];
+			fileName[0] = getImageFromFile(); // opens file chooser dialog
+		}
+
+		boolean ret;
+		if (fileName.length == 0) {
+			ret = false;
+		} else {
+			// create GeoImage object(s) for this fileName
+			GeoImage geoImage = null;
+			for (int i = 0; i < fileName.length; i++) {
+				geoImage = new GeoImage(app.getKernel().getConstruction());
+				geoImage.setImageFileName(fileName[i]);
+				geoImage.setCorner(loc, 0);
+				geoImage.setLabel(null);
+
+				GeoImage.updateInstances();
+			}
+			// make sure only the last image will be selected
+			GeoElement[] geos = { geoImage };
+			app.getActiveEuclidianView().getEuclidianController()
+					.clearSelections();
+			app.getActiveEuclidianView().getEuclidianController()
+					.memorizeJustCreatedGeos(geos);
+			ret = true;
+		}
+
+		app.setDefaultCursor();
+		return ret;
 	}
 
 	@Override
