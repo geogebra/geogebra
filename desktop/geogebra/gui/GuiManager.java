@@ -2814,7 +2814,9 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 
 		if (inputHelpPanel == null)
 			inputHelpPanel = new InputBarHelpPanel((Application)app);
-		else inputHelpPanel.setCommands();
+		else{
+			inputHelpPanel.setLabels();
+		}
 	}
 
 	public Component getInputHelpPanel() {

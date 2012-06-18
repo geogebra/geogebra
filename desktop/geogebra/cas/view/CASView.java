@@ -63,26 +63,18 @@ public class CASView  extends geogebra.common.cas.view.CASView implements Gridab
 	 * Creates new CAS view
 	 * @param app application
 	 */
-	public CASView(Application app) {
-		long a = System.currentTimeMillis(); 
+	public CASView(final Application app) { 
 		component = new CASComponent();
 		kernel = app.getKernel();
 		this.app = app;
 		listSelModel = new DefaultListSelectionModel();	
-		getCAS();
-	AbstractApplication.debug(System.currentTimeMillis()-a);	
+		getCAS();	
 
 		// init commands subtable for cas-commands in inputbar-help
 		kernel.getAlgebraProcessor().enableCAS();
-	AbstractApplication.debug(System.currentTimeMillis()-a);
-		GuiManager gm = app.getGuiManager();
-		if (gm != null && gm.hasInputHelpPanel()) {
-			gm.reInitHelpPanel();
-		}
-	AbstractApplication.debug(System.currentTimeMillis()-a);
+		
 		// CAS input/output cells
 		createCASTable();
-	AbstractApplication.debug(System.currentTimeMillis()-a);
 		// row header
 		rowHeader = new RowHeader(consoleTable, false, listSelModel);
 		getConsoleTable().setSelectionModel(listSelModel);
@@ -94,7 +86,6 @@ public class CASView  extends geogebra.common.cas.view.CASView implements Gridab
 		scrollPane.setViewportView(consoleTable);
 		scrollPane.setBackground(Color.white);
 		scrollPane.setBorder(BorderFactory.createEmptyBorder());
-	AbstractApplication.debug(System.currentTimeMillis()-a);
 		// set the lower left corner so that the horizontal scroller looks good
 		JPanel p = new JPanel();
 		p.setBorder(BorderFactory.createMatteBorder(1, 0, 0, 1,
@@ -116,18 +107,21 @@ public class CASView  extends geogebra.common.cas.view.CASView implements Gridab
 
 		// listen to clicks below last row in consoleTable: create new row
 		scrollPane.addMouseListener(scrollPaneListener());
-	AbstractApplication.debug(System.currentTimeMillis()-a);
 		// input handler
 		casInputHandler = new CASInputHandler(this);
 
 		// addFocusListener(this);
 		
 		updateFonts();
-	AbstractApplication.debug(System.currentTimeMillis()-a);
+
 		Thread initCAS = new Thread() {
 			@Override
 			public void run() {
 				getCAS().initCurrentCAS();
+				GuiManager gm = app.getGuiManager();
+				if (gm != null && gm.hasInputHelpPanel()) {
+					gm.reInitHelpPanel();
+				}
 				
 			}
 		};
