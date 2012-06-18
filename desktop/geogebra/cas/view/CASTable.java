@@ -229,8 +229,6 @@ public class CASTable extends JTable implements geogebra.common.cas.view.CASTabl
 									view.getRowOutputValue(getClickedRow()));
 						} else if (copyMode == COPY_PLOT) {
 							new CmdCASPlot(kernel).plot(null, new MyDouble(kernel,getClickedRow()+1), new GeoBoolean(kernel.getConstruction(),true));
-							getEditor().insertText(
-									view.getRowOutputValue(getClickedRow()));
 						}else {
 							getEditor().insertText("$" + (getClickedRow()+1));
 						}
@@ -243,8 +241,6 @@ public class CASTable extends JTable implements geogebra.common.cas.view.CASTabl
 									view.getRowInputValue(getClickedRow()));
 						} else if (copyMode == COPY_PLOT) {
 							new CmdCASPlot(kernel).plot(null, new MyDouble(kernel,getClickedRow()+1), new GeoBoolean(kernel.getConstruction(),false));
-							getEditor().insertText(
-									view.getRowOutputValue(getClickedRow()));
 						} else {
 							getEditor().insertText("$" + (getClickedRow() + 1));
 						}
