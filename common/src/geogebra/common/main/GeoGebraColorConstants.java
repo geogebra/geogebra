@@ -136,7 +136,7 @@ public class GeoGebraColorConstants {
 																// Color>();
 
 	// static
-	private static HashMap<String, Color> getGeoGebraColors() {
+	public static HashMap<String, Color> getGeoGebraColors() {
 
 		if (geogebraColor != null)
 			return geogebraColor;

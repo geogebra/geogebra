@@ -3,7 +3,9 @@ package geogebra.euclidian;
 import geogebra.common.euclidian.DrawEquationInterface;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.common.main.MyError;
+import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
 import geogebra.main.Application;
 
@@ -15,6 +17,7 @@ import java.awt.Image;
 import java.awt.Insets;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
+import java.util.HashMap;
 import java.util.Iterator;
 
 import javax.swing.ImageIcon;
@@ -65,8 +68,45 @@ public class DrawEquation implements DrawEquationInterface {
 
 			// initialise definitions
 			if (initJLaTeXMath == null) {
-				initJLaTeXMath = new TeXFormula(
-						"\\DeclareMathOperator{\\sech}{sech} \\DeclareMathOperator{\\csch}{csch} \\DeclareMathOperator{\\erf}{erf}");
+				
+				StringBuilder initJLM = new StringBuilder();
+				
+				initJLM.append("\\DeclareMathOperator{\\sech}{sech} ");
+				initJLM.append("\\DeclareMathOperator{\\csch}{csch} ");
+				initJLM.append("\\DeclareMathOperator{\\erf}{erf} ");
+				
+				HashMap<String, geogebra.common.awt.Color> ggbCols = GeoGebraColorConstants.getGeoGebraColors();
+				
+				Iterator<String> it = ggbCols.keySet().iterator();
+				
+				// add commands eg \red{text}
+				// same commands added to MathQuill
+				while (it.hasNext()) {
+					String colStr = it.next();
+					
+					// can't have command eg \grey2
+					if (!Character.isDigit(colStr.charAt(colStr.length() - 1))) {
+						geogebra.common.awt.Color col = ggbCols.get(colStr);
+
+						//eg initJLM.append("\\newcommand{\\red}[1]{\\textcolor{255,0,0}{#1}} ");
+						initJLM.append("\\newcommand{\\");
+						initJLM.append(colStr);
+						initJLM.append("}[1]{\\textcolor{");
+						initJLM.append(col.getRed());
+						initJLM.append(',');
+						initJLM.append(col.getGreen());
+						initJLM.append(',');
+						initJLM.append(col.getBlue());
+						initJLM.append("}{#1}} ");
+						
+						// generate JavaScript code for MathQuill
+						//System.out.println("LatexCmds."+colStr+" = bind(Style, '\\\\"+colStr+"', '<span style=\"color:#"+StringUtil.toHexString(col)+"\"></span>');");
+
+					}
+				}
+				//AbstractApplication.debug(initJLM.toString());
+				
+				initJLaTeXMath = new TeXFormula(initJLM.toString());
 			}
 
 			// make sure cache doesn't get too big
