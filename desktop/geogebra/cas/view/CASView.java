@@ -65,15 +65,8 @@ public class CASView  extends geogebra.common.cas.view.CASView implements Gridab
 		kernel = app.getKernel();
 		this.app = app;
 		listSelModel = new DefaultListSelectionModel();
-
-		Thread initCAS = new Thread() {
-			@Override
-			public void run() {
-				// init CAS
-				getCAS();
-			}
-		};
-		initCAS.start();
+		getCAS();
+		
 
 		// init commands subtable for cas-commands in inputbar-help
 		kernel.getAlgebraProcessor().enableCAS();
@@ -126,6 +119,14 @@ public class CASView  extends geogebra.common.cas.view.CASView implements Gridab
 		// addFocusListener(this);
 		
 		updateFonts();
+		Thread initCAS = new Thread() {
+			@Override
+			public void run() {
+				getCAS().initCurrentCAS();
+				
+			}
+		};
+		initCAS.start();
 	}
 
 	public void showCalculatorPanel(boolean isVisible){

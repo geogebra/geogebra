@@ -22,7 +22,7 @@ import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
-import geogebra.common.kernel.cas.CASGenericInterface;
+import geogebra.common.kernel.cas.CASParserInterface;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.plugin.Operation;
 import geogebra.common.util.Unicode;
@@ -363,7 +363,7 @@ public class GeoFunctionConditional extends GeoFunction {
 				|| tpl.hasType(StringType.MAXIMA)
 				|| tpl.hasType(StringType.MPREDUCE)) {
 			// TODO: implement if in mpreduce
-			CASGenericInterface cas = kernel.getGeoGebraCAS().getCurrentCAS();
+			CASParserInterface cas = kernel.getGeoGebraCAS().getCASparser();
 			String cmd = cas.getTranslatedCASCommand(elseFun == null ? "If.2"
 					: "If.3");
 			if (symbolic) {

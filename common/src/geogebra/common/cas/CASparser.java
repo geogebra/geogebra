@@ -12,14 +12,23 @@
 
 package geogebra.common.cas;
 
+import java.util.List;
+import java.util.Map;
+
+import geogebra.common.cas.mpreduce.Ggb2MPReduce;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.VarString;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.Function;
+import geogebra.common.kernel.arithmetic.FunctionNVar;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.ValidExpression;
+import geogebra.common.kernel.arithmetic.Traversing.DerivativeCollector;
+import geogebra.common.kernel.cas.CASGenericInterface;
 import geogebra.common.kernel.cas.CASParserInterface;
 import geogebra.common.kernel.geos.GeoDummyVariable;
 import geogebra.common.kernel.geos.GeoElement;
@@ -322,7 +331,121 @@ public class CASparser implements CASParserInterface{
 		return parserFunctions;
 	}
 
+	/**
+	 * Translates a given expression in the format expected by the cas.
+	 * 
+	 * @param ve
+	 *            the Expression to be translated
+	 * @param casStringType
+	 *            one of StringType.{MAXIMA, MPREDUCE, MATH_PIPER}
+	 * @return the translated String.
+	 */
+	public String translateToCAS(ValidExpression ve, StringTemplate casStringType,CASGenericInterface cas) {
+		Kernel kernel = ve.getKernel();
 
-	
+		try {
+			ExpressionNode tmp = null;
+			if (!ve.isExpressionNode())
+				tmp = new ExpressionNode(kernel, ve);
+			else tmp = ((ExpressionNode)ve);
+			String body = tmp.getCASstring(casStringType,
+					true);
+			DerivativeCollector col = DerivativeCollector.getCollector();
+			tmp.traverse(col);
+			List<GeoElement> derivativeFunctions= col.getFunctions();
+			List<Integer> derivativeDegrees= col.getDegrees();
+			StringTemplate casTpl = StringTemplate.casTemplate;
+			for(int i=0;i<derivativeDegrees.size();i++){
+				GeoElement ge = derivativeFunctions.get(i);
+				VarString f = (VarString)ge;
+				StringBuilder sb = new StringBuilder(80);
+				//procedure f'(ggbcasvarx); return sub(locvarx=ggbcasvarx,df(f(locvarx),locvarx,1);
+				sb.append("<<procedure ");
+				sb.append(ge.getLabel(casTpl));
+				int deg = derivativeDegrees.get(i);
+				for(int j=0;j<deg;j++)
+					sb.append("'");
+				sb.append("(");
+				sb.append(f.getVarString(casTpl));
+				sb.append("); sub(");
+				sb.append(f.getVarString(casTpl).replace("ggbcas", "loc"));
+				sb.append("=");
+				sb.append(f.getVarString(casTpl));
+				sb.append(",df(");
+				sb.append(ge.getLabel(casTpl));
+				sb.append("(");
+				sb.append(f.getVarString(casTpl).replace("ggbcas", "loc"));
+				sb.append(")");
+				sb.append(",");
+				sb.append(f.getVarString(casTpl).replaceAll("ggbcas", "loc"));
+				sb.append(",");
+				sb.append(deg);
+				sb.append("));>>");
+				try{
+					cas.evaluateRaw(sb.toString());
+				}catch(Throwable t){
+					t.printStackTrace();
+				}
+			}
+			// handle assignments
+			String label = ve.getLabel();
+			if (label != null) { // is an assignment or a function declaration
+				// make sure to escape labels to avoid problems with reserved
+				// CAS labels
+				label = kernel.printVariableName(casStringType.getStringType(), label);
+				if (ve instanceof FunctionNVar) {
+					FunctionNVar fun = (FunctionNVar) ve;
+					return cas.translateFunctionDeclaration(label,
+							fun.getVarString(casStringType), body);
+				}
+				return cas.translateAssignment(label, body);
+			}
+			return body;
+		} finally {
+			//do nothing
+		}
+	}
+	private Map<String,String> rbCasTranslations; // translates from GeogebraCAS
+	// syntax to the internal CAS
+	// syntax.
+
+	/**
+	 * Returns the CAS command for the currently set CAS using the given key.
+	 * For example, getCASCommand"Expand.0" returns "ExpandBrackets( %0 )" when
+	 * MathPiper is the currently used CAS.
+	 * 
+	 * @param command
+	 *            The command to be translated (should end in ".n", where n is
+	 *            the number of arguments to this command).
+	 * @return The command in CAS format, where parameter n is written as %n.
+	 * 
+	 */
+	public String getTranslatedCASCommand(String command) {
+		return getTranslationRessourceBundle().get(command);
+	}
+
+	/**
+	 * Returns whether the CAS command key is available, e.g. "Expand.1"
+	 * @param commandKey command name suffixed by . and number of arguments, e.g. Derivative.2, Sum.N
+	 * @return true if available
+	 */
+	final public boolean isCommandAvailable(String commandKey) {
+		return getTranslatedCASCommand(commandKey) != null;
+	}
+
+	/**
+	 * Returns the RessourceBundle that translates from GeogebraCAS commands to
+	 * their definition in the syntax of the current CAS. Loads this bundle if
+	 * it wasn't loaded yet.
+	 * 
+	 * @return The current ResourceBundle used for translations.
+	 * 
+	 */
+	synchronized Map<String,String> getTranslationRessourceBundle() {
+		if (rbCasTranslations == null){
+			rbCasTranslations = new Ggb2MPReduce().getMap();
+			}
+		return rbCasTranslations;
+	}
 
 }

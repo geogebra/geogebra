@@ -2264,9 +2264,7 @@ public abstract class GeoElement extends ConstructionElement implements
 				final String body = toValueString(tpl);
 				retval = getAssignmentLHS(tpl) + " := " + body;
 			} else {
-
-				final CASGenericInterface cas = kernel.getGeoGebraCAS()
-						.getCurrentCAS();
+				final GeoGebraCasInterface cas = kernel.getGeoGebraCAS();
 				retval = cas.toAssignment(this,tpl);
 			}
 		} finally {

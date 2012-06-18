@@ -32,6 +32,8 @@ import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.cas.CASGenericInterface;
+import geogebra.common.kernel.cas.CASParserInterface;
+import geogebra.common.kernel.cas.GeoGebraCasInterface;
 import geogebra.common.kernel.commands.CommandDispatcher;
 import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.commands.Commands;
@@ -267,11 +269,10 @@ public abstract class AbstractApplication {
 				&& ((commandDictCAS != null) || isCommandNull())) {
 			return;
 		}		
-		CASGenericInterface cas = kernel.getGeoGebraCAS().getCurrentCAS();
+		GeoGebraCasInterface cas = kernel.getGeoGebraCAS();
 		if (cas == null) {
 			return;
 		}
-
 		setCommandChanged(false);
 
 		commandDictCAS = newLowerCaseDictionary();

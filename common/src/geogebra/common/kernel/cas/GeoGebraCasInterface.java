@@ -6,9 +6,11 @@ import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import geogebra.common.kernel.arithmetic.ValidExpression;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication.CasType;
 
 import java.util.ArrayList;
+import java.util.Set;
 
 
 public interface GeoGebraCasInterface {
@@ -45,4 +47,10 @@ public interface GeoGebraCasInterface {
 	public CasType getCurrentCASType();
 
 	public void evaluateGeoGebraCASAsync(AsynchronousCommand c);
+	
+	String toAssignment(GeoElement geoElement,StringTemplate tpl);
+
+	public Set<String> getAvailableCommandNames();
+	
+	
 }

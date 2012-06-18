@@ -3,13 +3,18 @@ package geogebra.common.cas;
 import geogebra.common.cas.mpreduce.AbstractCASmpreduce;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.VarString;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
+import geogebra.common.kernel.arithmetic.Traversing.DerivativeCollector;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
+import geogebra.common.kernel.arithmetic.FunctionNVar;
+import geogebra.common.kernel.arithmetic.FunctionalNVar;
 import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.cas.AsynchronousCommand;
+import geogebra.common.kernel.cas.CASGenericInterface;
 import geogebra.common.kernel.cas.GeoGebraCasInterface;
 import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.kernel.geos.GeoElement;
@@ -20,7 +25,10 @@ import geogebra.common.main.AbstractApplication.CasType;
 import geogebra.common.util.MaxSizeHashMap;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * This class provides an interface for GeoGebra to use an underlying computer algebra
@@ -32,7 +40,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 
 	private AbstractApplication app;
 	private CASparser casParser;
-	private CASgeneric cas;
+	private CASGenericInterface cas;
 	private AbstractCASmpreduce casMPReduce;
 	private CasType currentCAS = CasType.NO_CAS;
 
@@ -53,14 +61,18 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		return casParser;
 	}
 
-	public synchronized CASgeneric getCurrentCAS() {
+	public CASGenericInterface getCurrentCAS() {
 		if (cas == null) {
 			app.setWaitCursor();
-			setCurrentCAS(Kernel.DEFAULT_CAS);
+			initCurrentCAS();
 			app.setDefaultCursor();
 		}
 		
 		return cas;
+	}
+
+	public synchronized void initCurrentCAS() {
+		setCurrentCAS(Kernel.DEFAULT_CAS);
 	}
 
 	public StringType getCurrentCASstringType() {
@@ -345,7 +357,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		sbCASCommand.append(name);
 		sbCASCommand.append(".N");
 
-		String translation = getCurrentCAS().getTranslatedCASCommand(sbCASCommand
+		String translation = casParser.getTranslatedCASCommand(sbCASCommand
 				.toString());
 
 		// check for eg Sum.N=sum(%)
@@ -395,7 +407,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		sbCASCommand.append(args.size());
 
 		// get translation ggb -> MathPiper/Maxima
-		translation = getCurrentCAS().getTranslatedCASCommand(sbCASCommand.toString());
+		translation = casParser.getTranslatedCASCommand(sbCASCommand.toString());
 		sbCASCommand.setLength(0);
 
 		// no translation found:
@@ -462,6 +474,8 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		return sbCASCommand.toString();
 	}
 
+
+	
 	/**
 	 * Returns whether the given command is available in the underlying CAS.
 	 * 
@@ -474,16 +488,26 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		sbCASCommand.append(cmd.getName());
 		sbCASCommand.append(".");
 		sbCASCommand.append(cmd.getArgumentNumber());
-		if (getCurrentCAS().isCommandAvailable(sbCASCommand.toString()))
+		if (casParser.isCommandAvailable(sbCASCommand.toString()))
 			return true;
 
 		sbCASCommand.setLength(0);
 		sbCASCommand.append(cmd.getName());
 		sbCASCommand.append(".N");
-		if (getCurrentCAS().isCommandAvailable(sbCASCommand.toString())) {
+		if (casParser.isCommandAvailable(sbCASCommand.toString())) {
 			return true;
 		}
 		return false;
+	}
+	
+	public final String toAssignment(GeoElement ge,StringTemplate tpl) {
+		String body = ge.getCASString(tpl,false);
+		String casLabel = ge.getLabel(tpl);
+		if (ge instanceof FunctionalNVar) {
+			String params = ((FunctionalNVar) ge).getFunction().getVarString(tpl);
+			return getCurrentCAS().translateFunctionDeclaration(casLabel, params, body);
+		}
+		return getCurrentCAS().translateAssignment(casLabel, body);
 	}
 
 	/**
@@ -531,7 +555,20 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		return evaluateGeoGebraCAS(evalVE,arbconst,StringTemplate.numericDefault);
 	}
 
-	
+	/**
+	 * Returns the internal names of all the commands available in the current
+	 * CAS.
+	 * 
+	 * @return A Set of all internal CAS commands.
+	 */
+	public Set<String> getAvailableCommandNames() {
+		Set<String> cmdSet = new HashSet<String>();
+		for (String signature: casParser.getTranslationRessourceBundle().keySet()) {
+			String cmd = signature.substring(0, signature.indexOf('.'));
+			cmdSet.add(cmd);
+		}
+		return cmdSet;
+	}	
 
 
 }

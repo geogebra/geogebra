@@ -18,4 +18,6 @@ public interface CASParserInterface {
 	 */
 	void resolveVariablesForCAS(ExpressionValue outputVe);
 
+	String getTranslatedCASCommand(String string);
+
 }

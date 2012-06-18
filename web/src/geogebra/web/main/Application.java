@@ -597,7 +597,7 @@ public class Application extends AbstractApplication {
 		in passing the key, we need to cross-reference.
 		
 	 */
-	private static String crossReferencingPropertiesKeys(String key) {
+	public static String crossReferencingPropertiesKeys(String key) {
 		
 		if(key == null) {
 			return "";

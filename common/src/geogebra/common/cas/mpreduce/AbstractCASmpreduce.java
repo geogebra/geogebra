@@ -1,7 +1,6 @@
 package geogebra.common.cas.mpreduce;
 
 import geogebra.common.cas.CASException;
-import geogebra.common.cas.CASgeneric;
 import geogebra.common.cas.CASparser;
 import geogebra.common.cas.CasParserTools;
 import geogebra.common.cas.Evaluate;
@@ -13,19 +12,23 @@ import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import geogebra.common.kernel.arithmetic.Traversing.ArbconstReplacer;
 import geogebra.common.kernel.arithmetic.Traversing.PowerRootReplacer;
 import geogebra.common.kernel.arithmetic.ValidExpression;
+import geogebra.common.kernel.cas.AsynchronousCommand;
+import geogebra.common.kernel.cas.CASGenericInterface;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.settings.AbstractSettings;
+import geogebra.common.main.settings.CASSettings;
 
-import java.util.Map;
 import java.util.StringTokenizer;
 
 /**
  * Platform (Java / GWT) independent part of MPReduce CAS
  */
-public abstract class AbstractCASmpreduce extends CASgeneric {
+public abstract class AbstractCASmpreduce implements CASGenericInterface {
 	/** parser tools*/
 	protected CasParserTools parserTools;
 	private String casPrefix;
+	protected CASparser casParser;
 	/** variable ordering, e.g. for Integral[a*b] */
 	protected static StringBuilder varOrder = new StringBuilder(
 			"ggbtmpvarx, ggbtmpvary, ggbtmpvarz, ggbtmpvara, "
@@ -50,7 +53,7 @@ public abstract class AbstractCASmpreduce extends CASgeneric {
 	 * @param casPrefix prefix for CAS variables
 	 */
 	public AbstractCASmpreduce(CASparser casParser,String casPrefix) {
-		super(casParser);
+		this.casParser = casParser;
 		this.casPrefix = casPrefix;
 	}
 
@@ -60,7 +63,6 @@ public abstract class AbstractCASmpreduce extends CASgeneric {
 	 */
 	public abstract String evaluateMPReduce(String exp);
 
-	@Override
 	final public String evaluateRaw(String input) throws Throwable {
 		String exp = input;
 		// we need to escape any upper case letters and non-ascii codepoints
@@ -140,7 +142,7 @@ public abstract class AbstractCASmpreduce extends CASgeneric {
 		return result;
 	}
 
-	@Override
+	
 	final public synchronized String evaluateGeoGebraCAS(
 			ValidExpression inputExpression,MyArbitraryConstant arbconst, StringTemplate tpl) throws CASException {
 		ValidExpression casInput = inputExpression;
@@ -164,8 +166,8 @@ public abstract class AbstractCASmpreduce extends CASgeneric {
 		}
 
 		// convert parsed input to MPReduce string
-		String mpreduceInput = translateToCAS(casInput,
-				StringTemplate.casTemplate);
+		String mpreduceInput = casParser.translateToCAS(casInput,
+				StringTemplate.casTemplate,this);
 
 		// tell MPReduce whether it should use the keep input flag,
 		// e.g. important for Substitute
@@ -221,7 +223,6 @@ public abstract class AbstractCASmpreduce extends CASgeneric {
 		return toGeoGebraString(result,arbconst,tpl);
 	}
 
-	@Override
 	public String translateFunctionDeclaration(String label, String parameters,
 			String body) {
 		StringBuilder sb = new StringBuilder();
@@ -236,10 +237,7 @@ public abstract class AbstractCASmpreduce extends CASgeneric {
 		return sb.toString();
 	}
 
-	@Override
-	public Map<String, String> initTranslationMap() {
-		return new Ggb2MPReduce().getMap();
-	}
+	
 
 	/**
 	 * Tries to parse a given MPReduce string and returns a String in GeoGebra
@@ -273,7 +271,6 @@ public abstract class AbstractCASmpreduce extends CASgeneric {
 		return casParser.toGeoGebraString(ve,tpl);
 	}
 
-	@Override
 	public void unbindVariable(String var) {
 		try {
 			StringBuilder sb = new StringBuilder();
@@ -294,7 +291,6 @@ public abstract class AbstractCASmpreduce extends CASgeneric {
 	 */
 	protected abstract Evaluate getMPReduce();
 
-	@Override
 	public synchronized void reset() {
 
 		try {
@@ -313,7 +309,6 @@ public abstract class AbstractCASmpreduce extends CASgeneric {
 	 * 
 	 * @param significantNumbers new number of sig digits
 	 */
-	@Override
 	public void setSignificantFiguresForNumeric(int significantNumbers) {
 		if (this.significantNumbers == significantNumbers)
 			return;
@@ -956,5 +951,66 @@ public abstract class AbstractCASmpreduce extends CASgeneric {
 		throw new IllegalArgumentException("The given argument \"" + ggbtmpvar
 				+ "\" is not a valid ggbtmpvar.");
 	}
+	/**
+	 * Timeout for CAS in milliseconds.
+	 */
+	private long timeoutMillis = 5000;
+	/**
+	 * @return CAS timeout in seconds
+	 */
+	protected long getTimeoutMilliseconds() {
+		return timeoutMillis;
+	}
 
+	public void settingsChanged(AbstractSettings settings) {
+		CASSettings s = (CASSettings) settings;
+		timeoutMillis = s.getTimeoutMilliseconds();
+	}
+
+	public String translateAssignment(String label, String body) {
+		// default implementation works for MPReduce and MathPiper
+		return label + " := " + body;
+	}
+	
+	/**
+	 * This method is called when asynchronous CAS call is finished.
+	 * It tells the calling algo to update itself and adds the result to cache if suitable.
+	 * @param exp parsed CAS output
+	 * @param result2 output as string (for cacheing)
+	 * @param exception exception which stopped the computation (null if there wasn't one)
+	 * @param c command that called the CAS asynchronously
+	 * @param input input string (for cacheing)
+	 */
+	public void CASAsyncFinished(ValidExpression exp,String result2,
+			Throwable exception,AsynchronousCommand c,
+			String input){
+		String result=result2;
+		// pass on exception
+		if (exception != null){
+			c.handleException(exception,input.hashCode());
+			return;
+		}
+		// check if keep input command was successful
+		// e.g. for KeepInput[Substitute[...]]
+		// otherwise return input
+		if (exp.isKeepInputUsed()
+				&& ("?".equals(result))) {
+			// return original input
+			c.handleCASoutput(exp.toString(StringTemplate.maxPrecision), input.hashCode());
+		}
+
+		
+
+		// success
+		if (result2 != null) {
+			// get names of escaped global variables right
+			// e.g. "ggbcasvar1a" needs to be changed to "a"
+			// e.g. "ggbtmpvara" needs to be changed to "a"
+			result = exp.getKernel().removeCASVariablePrefix(result, " ");
+		}
+
+		c.handleCASoutput(result,input.hashCode());
+		if(c.useCacheing())
+			exp.getKernel().putToCasCache(input, result);
+	}
 }
