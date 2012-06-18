@@ -15,14 +15,17 @@ package geogebra.common.kernel.geos;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.arithmetic.BooleanValue;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
+import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.cas.CASParserInterface;
+import geogebra.common.main.AbstractApplication;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.plugin.Operation;
 import geogebra.common.util.Unicode;
@@ -677,7 +680,7 @@ public class GeoFunctionConditional extends GeoFunction {
 			b.upper = upper;
 			b.lowerSharp = lowerSharp;
 			b.upperSharp = upperSharp;
-			b.condition = condition;
+			b.condition = condition;//If[x==1,1,If[x==2,3,4]]
 			boolean simple = e.getOperation() == Operation.GREATER
 					|| e.getOperation() == Operation.GREATER_EQUAL
 					|| e.getOperation() == Operation.LESS
@@ -744,6 +747,14 @@ public class GeoFunctionConditional extends GeoFunction {
 				else
 					b.condition = condition.and(e);
 			}
+			//If[x==1,2,If[x==3,4,5]]
+			if(b.upper!=null && b.lower!=null && (b.condition!=null) && 
+					Kernel.isEqual(b.upper.doubleValue(),b.lower.doubleValue())){
+				getCondFunction().getFunction().getFunctionVariable().set(b.upper);
+				ExpressionValue v = b.condition.evaluate(StringTemplate.defaultTemplate);
+				if(v instanceof BooleanValue && ((BooleanValue)v).getBoolean())
+					b.condition = null;
+			}
 			return b;
 		}
 
@@ -792,9 +803,12 @@ public class GeoFunctionConditional extends GeoFunction {
 						ret.append(kernel.format(upper, tpl));
 					}
 				}
-				if (condition != null) {
+				//upper and lower are null, we only retrn condition right here
+				else if (condition != null) {
 					return condition.toLaTeXString(symbolic, tpl);
-				} else if (condition != null) {
+				}
+				//we may still need to append condition
+				if (condition != null) {
 					ret.insert(0, "(");
 					ret.append(")\\wedge \\left(");
 					ret.append(condition.toLaTeXString(symbolic, tpl));
@@ -874,9 +888,12 @@ public class GeoFunctionConditional extends GeoFunction {
 
 					}
 				}
-				if (condition != null) {
+				//upper and lower are null, just return condition
+				else if (condition != null) {
 					return condition.toLaTeXString(symbolic, tpl);
-				} else if (condition != null) {
+				} 
+				//we may still need to append condition
+				if (condition != null) {
 
 					// prepend
 					ret.insert(0, "<apply><and/>");
