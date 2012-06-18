@@ -20,6 +20,31 @@ public class EditMenu extends MenuBar {
 	}
 
 	private void initActions() {
+		
+//		if (enabled_undo)
+			addItem(GeoGebraMenubar.getMenuBarHtml(AppResources.INSTANCE.edit_undo().getSafeUri().asString(), app.getMenu("Undo")),true,new Command() {
+			
+				public void execute() {
+					app.getGuiManager().undo();
+				}
+			});
+//		else
+//			addItem(GeoGebraMenubar.getMenuBarHtmlGrayout(AppResources.INSTANCE.document_save().getSafeUri().asString(), app.getMenu("SaveAs")),true,new Command() {
+//				public void execute() {	}
+//			});
+//		
+//		if (enabled_redo)
+			addItem(GeoGebraMenubar.getMenuBarHtml(AppResources.INSTANCE.edit_redo().getSafeUri().asString(), app.getMenu("Redo")),true,new Command() {
+			
+				public void execute() {
+					app.getGuiManager().redo();
+				}
+			});
+//		else
+//			addItem(GeoGebraMenubar.getMenuBarHtmlGrayout(AppResources.INSTANCE.document_save().getSafeUri().asString(), app.getMenu("SaveAs")),true,new Command() {
+//				public void execute() {	}
+//			});
+		
 	    addItem(GeoGebraMenubar.getMenuBarHtml(AppResources.INSTANCE.edit_copy().getSafeUri().asString(),app.getMenu("CopyImage")),true,new Command() {
 	    	public void execute() {
 	    		((Application)app).copyEVtoClipboard();
