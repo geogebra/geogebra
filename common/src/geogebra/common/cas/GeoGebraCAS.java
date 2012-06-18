@@ -55,7 +55,9 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 
 	public synchronized CASgeneric getCurrentCAS() {
 		if (cas == null) {
+			app.setWaitCursor();
 			setCurrentCAS(Kernel.DEFAULT_CAS);
+			app.setDefaultCursor();
 		}
 		
 		return cas;
