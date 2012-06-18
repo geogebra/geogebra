@@ -25,6 +25,7 @@ import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.web.gui.color.ColorPopupMenuButton;
+import geogebra.web.gui.util.ButtonPopupMenu;
 import geogebra.web.gui.util.GeoGebraIcon;
 import geogebra.web.gui.util.MyCJButton;
 import geogebra.web.gui.util.PopupMenuButton;
@@ -54,6 +55,7 @@ import com.google.gwt.event.logical.shared.ValueChangeHandler;
 public class EuclidianStyleBar extends HorizontalPanel
 	implements geogebra.common.euclidian.EuclidianStyleBar, ValueChangeHandler, ClickHandler {
 
+	public static ButtonPopupMenu CURRENT_POP_UP = null;
 	EuclidianController ec;
 	protected EuclidianViewInterfaceCommon ev;
 	protected AbstractApplication app;

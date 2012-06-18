@@ -9,8 +9,10 @@ import com.google.gwt.canvas.dom.client.FillStrokeStyle;
 import com.google.gwt.canvas.dom.client.ImageData;
 import com.google.gwt.dom.client.CanvasElement;
 import com.google.gwt.dom.client.ImageElement;
+import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.LoadEvent;
 import com.google.gwt.event.dom.client.LoadHandler;
 import com.google.gwt.event.dom.client.MouseDownEvent;
@@ -240,6 +242,14 @@ public class MyCJButton extends Composite implements MouseDownHandler, MouseUpHa
 	
 	protected void addMouseEntered(MouseOverHandler hanlder) {
 		button.addMouseOverHandler(hanlder);
+	}
+	
+	protected void addBlurHandler(BlurHandler handler) {
+		button.addBlurHandler(handler);
+	}
+	
+	protected void addFocusHandler(FocusHandler handler) {
+		button.addFocusHandler(handler);
 	}
 	
 	protected int getWidth() {

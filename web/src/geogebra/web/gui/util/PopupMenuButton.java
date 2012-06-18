@@ -1,10 +1,14 @@
 package geogebra.web.gui.util;
 
 import com.google.gwt.canvas.dom.client.ImageData;
+import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.FocusEvent;
+import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
@@ -159,14 +163,22 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 				// default: trigger only when the mouse is over the right side of the button
 				// if isStandardButton: pressing anywhere triggers the popup
 				if( isStandardButton || event.getX() >= getWidth()-16 &&  event.getX() <= getWidth()) { 
-					if(hasTable)
+					if(hasTable) {
 						myTable.updateFonts();
-					if(isDownwardPopup)
+					}
+					if (EuclidianStyleBar.CURRENT_POP_UP != myPopup) {
+						if (EuclidianStyleBar.CURRENT_POP_UP != null) {
+							EuclidianStyleBar.CURRENT_POP_UP.hide();
+						}
+						EuclidianStyleBar.CURRENT_POP_UP = myPopup;
+					}
+					if(isDownwardPopup) {
 						// popup appears below the button
 						myPopup.showRelativeTo(getWidget());
-					else
+					} else {
 						// popup appears above the button
 						myPopup.showRelativeTo(getWidget());
+					}
 				}
 
 				popupIsVisible = myPopup.isShowing();
@@ -179,6 +191,8 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 				popupIsVisible = myPopup.isShowing();
 			}
 		});
+		
+		
 		
 		// create selection table
 			if(hasTable){			
@@ -195,6 +209,18 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 				});		
 				
 				myPopup.getPanel().add(myTable);
+			}
+			
+			// create slider
+			if(hasSlider)
+				getMySlider();
+
+			isIniting = false;
+
+
+			if(mode == geogebra.common.gui.util.SelectionTable.MODE_TEXT && iconSize.getWidth() == -1){
+				iconSize.setWidth(myTable.getColumnWidth()-4);
+				iconSize.setHeight(myTable.getRowHeight()-4);	
 			}
 		
 		
