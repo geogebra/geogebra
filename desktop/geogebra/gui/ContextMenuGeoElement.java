@@ -693,8 +693,10 @@ public class ContextMenuGeoElement extends JPopupMenu {
 							GeoElement geoRecordToSpreadSheet;
 							if (geos.size()==1)
 								geoRecordToSpreadSheet = geo;
-							else
+							else{
 								geoRecordToSpreadSheet = app.getKernel().List(null, geos, false);
+								geoRecordToSpreadSheet.setAuxiliaryObject(true);
+							}
 								
 							app.getGuiManager().getSpreadsheetView().showTraceDialog(geoRecordToSpreadSheet, null);
 						}
