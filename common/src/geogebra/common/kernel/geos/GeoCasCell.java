@@ -1501,7 +1501,6 @@ public class GeoCasCell extends GeoElement implements VarString {
 	 * @return result GeoElement or null
 	 */
 	private GeoElement silentEvalInGeoGebra(ValidExpression ve) {
-		AbstractApplication.debug(outputVE+":"+((ExpressionNode)outputVE).getLeft().getClass());
 		if(!nativeOutput && outputVE.isExpressionNode() && ((ExpressionNode)outputVE).getLeft() instanceof GeoElement){
 			GeoElement ret= (GeoElement)((ExpressionNode)outputVE).getLeft();
 			return ret;
