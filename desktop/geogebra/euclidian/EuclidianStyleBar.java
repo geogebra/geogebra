@@ -759,6 +759,7 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener, geoge
 		btnLineStyle.getMySlider().setMajorTickSpacing(2);
 		btnLineStyle.getMySlider().setMinorTickSpacing(1);
 		btnLineStyle.getMySlider().setPaintTicks(true);
+		btnLineStyle.setStandardButton(true); //popup on the whole button
 		btnLineStyle.addActionListener(this);
 
 		// ========================================
@@ -831,6 +832,7 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener, geoge
 		btnPointStyle.getMySlider().setMajorTickSpacing(2);
 		btnPointStyle.getMySlider().setMinorTickSpacing(1);
 		btnPointStyle.getMySlider().setPaintTicks(true);
+		btnPointStyle.setStandardButton(true); //popup on the whole button
 		btnPointStyle.addActionListener(this);
 
 		// ========================================
@@ -885,7 +887,6 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener, geoge
 			}
 
 		};
-
 		btnHideShowLabel.addActionListener(this);
 
 		// ========================================
@@ -994,6 +995,7 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener, geoge
 		btnPointCapture.setIconSize(new Dimension(ptCaptureIcon.getIconWidth(),
 				iconHeight));
 		btnPointCapture.setIcon(ptCaptureIcon);
+		btnPointCapture.setStandardButton(true); //popup on the whole button
 		btnPointCapture.addActionListener(this);
 		btnPointCapture.setKeepVisible(false);
 
@@ -1083,6 +1085,7 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener, geoge
 
 		};
 
+		btnColor.setStandardButton(true); //popup on the whole button
 		btnColor.addActionListener(this);
 	}
 
@@ -1146,6 +1149,7 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener, geoge
 			}
 		};
 		btnBgColor.setKeepVisible(true);
+		btnBgColor.setStandardButton(true); //popup on the whole button
 		btnBgColor.addActionListener(this);
 	}
 
@@ -1215,6 +1219,7 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener, geoge
 
 		};
 
+		btnTextColor.setStandardButton(true); //popup on the whole button
 		btnTextColor.addActionListener(this);
 
 		// ========================================
@@ -1297,6 +1302,7 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener, geoge
 			}
 		};
 		btnTextSize.addActionListener(this);
+		btnTextSize.setStandardButton(true); //popup on the whole button
 		btnTextSize.setKeepVisible(false);
 	}
 

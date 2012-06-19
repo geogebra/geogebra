@@ -35,6 +35,8 @@ public class PopupMenuButton extends JButton implements ChangeListener {
 
 	private static final long serialVersionUID = 1L;
 	
+	private static final int CLICK_DOWN_ARROW_WIDTH = 20;
+	
 	private int mode;
 	private Object[] data;	
 	private Application app;
@@ -179,7 +181,7 @@ public class PopupMenuButton extends JButton implements ChangeListener {
 				// trigger popup 
 				// default: trigger only when the mouse is over the right side of the button
 				// if isStandardButton: pressing anywhere triggers the popup
-				if( isStandardButton || e.getX() >= getWidth()-16 &&  e.getX() <= getWidth()) { 
+				if( isStandardButton || e.getX() >= getWidth()-CLICK_DOWN_ARROW_WIDTH &&  e.getX() <= getWidth()) { 
 					if(hasTable)
 						myTable.updateFonts();
 					if(isDownwardPopup)
