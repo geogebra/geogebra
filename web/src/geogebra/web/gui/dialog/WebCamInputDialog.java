@@ -56,7 +56,7 @@ public class WebCamInputDialog extends PopupPanel implements ClickHandler{
 
 		el.style.position = "relative";
 		var ihtml = "<span style='position:absolute;width:640px;height:480px;text-align:center;'><br><br>Please click 'Allow' in the pop-up bar.</span>\n";
-		ihtml += "<video width='640' height='480' autoplay><br><br>This video could not be played. 'video tag' is not supported. For more information, please check out the GeoGebra Wiki.</video>\n";
+		ihtml += "<video width='640' height='480' autoplay><br><br>This video could not be played. 'video tag' is not supported. For more information, please check out the GeoGebra Wiki.</video>";
 		el.innerHTML = ihtml;
 		var video = el.lastChild;
 
