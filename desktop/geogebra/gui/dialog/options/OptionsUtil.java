@@ -3,6 +3,8 @@ package geogebra.gui.dialog.options;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.SystemColor;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -80,10 +82,17 @@ public class OptionsUtil {
 	}
 	
 	
-	
 	public static Border titleBorder(String title) {
-		Border outsideBorder = BorderFactory.createTitledBorder(title);
-		Border insideBorder = BorderFactory.createEmptyBorder(0, 20, 0, 0);
+		Border lineBorder = BorderFactory.createCompoundBorder(
+				BorderFactory.createMatteBorder(0, 0, 1, 0, SystemColor.controlLtHighlight),
+				BorderFactory.createMatteBorder(0, 0, 1, 0, SystemColor.controlShadow));
+		TitledBorder dummyBorder = BorderFactory.createTitledBorder("");
+		Font f = dummyBorder.getTitleFont();
+		Border outsideBorder = BorderFactory.createTitledBorder(lineBorder,title,
+				TitledBorder.LEADING, TitledBorder.TOP,
+				f.deriveFont(Font.ITALIC),
+				SystemColor.DARK_GRAY);
+		Border insideBorder = BorderFactory.createEmptyBorder(0, 40, 0, 0);
 		return BorderFactory.createCompoundBorder(outsideBorder, insideBorder);
 	}
 
