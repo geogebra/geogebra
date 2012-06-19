@@ -34,7 +34,7 @@ public class PropertiesDockPanel extends DockPanel implements
 		super(AbstractApplication.VIEW_PROPERTIES, // view id
 				"Properties", // view title phrase
 				null, // toolbar string
-				false, // style bar?
+				true, // style bar?
 				7, // menu order
 				'E' // menu shortcut
 		);
@@ -167,6 +167,15 @@ public class PropertiesDockPanel extends DockPanel implements
 		// no action on properties view
 
 		setFocus(hasFocus);
+	}
+	
+	/**
+	 * update menubar (and dockbar) on visibility changes 
+	 */
+	@Override
+	public void setVisible(boolean isVisible){
+		super.setVisible(isVisible);
+		dockManager.getLayout().getApplication().updateMenubar();
 	}
 
 }

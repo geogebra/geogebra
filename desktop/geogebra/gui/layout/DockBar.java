@@ -43,7 +43,7 @@ import javax.swing.border.Border;
  * @author G. Sturr
  * 
  */
-public class DockBar extends JPanel implements SetLabels {
+public class DockBar extends JPanel implements SetLabels, ActionListener {
 
 	private static final long serialVersionUID = 1L;
 
@@ -93,12 +93,13 @@ public class DockBar extends JPanel implements SetLabels {
 		viewButtonBar = new ViewButtonBar(app);
 		viewButtonBar.setOrientation(JToolBar.VERTICAL);
 
+		JLabel lblArrow = new JLabel(app.getImageIcon("dockbar-triangle-right.png"));
 		// wrap viewButtonBar to be vertically centered
 		JPanel gluePanel = new JPanel();
 		gluePanel.setLayout(new BoxLayout(gluePanel, BoxLayout.Y_AXIS));
 		gluePanel.add(Box.createVerticalGlue());
 		gluePanel.add(viewButtonBar);
-		//gluePanel.add(Box.createVerticalStrut(30));
+		// gluePanel.add(Box.createVerticalStrut(30));
 		gluePanel.add(getGridButtonPanel());
 		gluePanel.add(Box.createVerticalGlue());
 		gluePanel.setBackground(SystemColor.control);
@@ -106,6 +107,7 @@ public class DockBar extends JPanel implements SetLabels {
 		fullPanel = new JPanel(new BorderLayout());
 		fullPanel.add(Box.createVerticalStrut(50), BorderLayout.NORTH);
 		fullPanel.add(gluePanel, BorderLayout.CENTER);
+		fullPanel.add(lblArrow, BorderLayout.EAST);
 		fullPanel.setBackground(SystemColor.control);
 		fullPanel.setOpaque(true);
 
@@ -142,15 +144,7 @@ public class DockBar extends JPanel implements SetLabels {
 		// properties button
 		btnProperties = new DockButton(app,
 				app.getImageIcon("view-properties22.png"));
-		btnProperties.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				((PropertiesView) app.getGuiManager().getPropertiesView())
-						.setOptionPanel(OptionType.LAYOUT);
-				int viewId = AbstractApplication.VIEW_PROPERTIES;
-				app.getGuiManager().setShowView(
-						!app.getGuiManager().showView(viewId), viewId, false);
-			}
-		});
+		btnProperties.addActionListener(this);
 
 		// keyboard button
 		btnKeyboard = new DockButton(app, app.getImageIcon("keyboard.png"));
@@ -204,7 +198,7 @@ public class DockBar extends JPanel implements SetLabels {
 		buttonPanel.setBackground(SystemColor.control);
 		buttonPanel.setBorder(BorderFactory.createEmptyBorder());
 
-		//buttonPanel.add(btnKeyboard);
+		// buttonPanel.add(btnKeyboard);
 		buttonPanel.add(Box.createVerticalStrut(30));
 		buttonPanel.add(btnProperties);
 
@@ -269,8 +263,11 @@ public class DockBar extends JPanel implements SetLabels {
 
 		if (isMinimized) {
 			add(minimumPanel, BorderLayout.CENTER);
+			lblIcon.setIcon(app.getImageIcon("dockbar-triangle-left.png"));
 		} else {
 			add(fullPanel, BorderLayout.CENTER);
+			//add(minimumPanel, BorderLayout.EAST);
+			lblIcon.setIcon(app.getImageIcon("dockbar-triangle-right.png"));
 		}
 		this.revalidate();
 		this.repaint();
@@ -299,6 +296,10 @@ public class DockBar extends JPanel implements SetLabels {
 	public void update() {
 		updateViewButtons();
 		btnKeyboard.setSelected(Application.isVirtualKeyboardActive());
+		btnProperties.removeActionListener(this);
+		btnProperties.setSelected(app.getGuiManager().showView(
+				AbstractApplication.VIEW_PROPERTIES));
+		btnProperties.addActionListener(this);
 	}
 
 	public void updateViewButtons() {
@@ -364,11 +365,9 @@ public class DockBar extends JPanel implements SetLabels {
 			if (e.getClickCount() > 0) {
 				if (!enablePopup) {
 					toggleMinimumFullPanel();
-					lblIcon.setIcon(app.getImageIcon("dockbar-triangle.png"));
+					minimumPanel.setBackground(null);
 				}
-				lblIcon.setIcon(app.getImageIcon("dockbar-triangle.png"));
-				minimumPanel.setBackground(null);
-				minimumPanel.setBorder(normalBorder);
+				
 			}
 		}
 
@@ -378,17 +377,30 @@ public class DockBar extends JPanel implements SetLabels {
 			if (enablePopup) {
 				showPopup();
 			}
-
-			lblIcon.setIcon(app.getImageIcon("dockbar-triangle-rollover.png"));
-			minimumPanel.setBackground(Color.LIGHT_GRAY);
+			if (e.getSource() == minimumPanel) {
+				if (isMinimized) {
+					lblIcon.setIcon(app
+							.getImageIcon("dockbar-triangle-left-rollover.png"));
+				} else {
+					lblIcon.setIcon(app
+							.getImageIcon("dockbar-triangle-right-rollover.png"));
+				}
+				minimumPanel.setBackground(Color.LIGHT_GRAY);
+			}
 		}
 
 		@Override
 		public void mouseExited(MouseEvent e) {
-
-			lblIcon.setIcon(app.getImageIcon("dockbar-triangle.png"));
-			minimumPanel.setBackground(null);
-			minimumPanel.setBorder(normalBorder);
+			if (e.getSource() == minimumPanel) {
+				if (isMinimized) {
+					lblIcon.setIcon(app
+							.getImageIcon("dockbar-triangle-left.png"));
+				} else {
+					lblIcon.setIcon(app
+							.getImageIcon("dockbar-triangle-right.png"));
+				}
+				minimumPanel.setBackground(null);
+			}
 		}
 	}
 
@@ -518,6 +530,16 @@ public class DockBar extends JPanel implements SetLabels {
 			// gs.setFullScreenWindow(null);
 		}
 
+	}
+
+	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == btnProperties) {
+			((PropertiesView) app.getGuiManager().getPropertiesView())
+					.setOptionPanel(OptionType.LAYOUT);
+			int viewId = AbstractApplication.VIEW_PROPERTIES;
+			app.getGuiManager().setShowView(
+					!app.getGuiManager().showView(viewId), viewId, false);
+		}
 	}
 
 }

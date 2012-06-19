@@ -128,7 +128,8 @@ public class PropertiesView extends JPanel implements
 	public void initGUI() {
 
 		setLayout(new BorderLayout());
-		add(getStyleBar(), BorderLayout.NORTH);
+		getStyleBar();
+		//add(getStyleBar(), BorderLayout.NORTH);
 
 		mainPanel = new JPanel(new BorderLayout());
 		add(mainPanel, BorderLayout.CENTER);
@@ -383,7 +384,6 @@ public class PropertiesView extends JPanel implements
 		}
 			
 				
-
 		selectedOptionType = type;
 
 		// clear the center panel and replace with selected option panel
@@ -392,9 +392,7 @@ public class PropertiesView extends JPanel implements
 				BorderFactory.createEmptyBorder(15, 10, 10, 10));
 		mainPanel.add((JPanel) getOptionPanel(type), BorderLayout.CENTER);
 
-		
-			
-			
+				
 		// don't show the button panel in the Objects panel (it has it's own)
 		buttonPanel.setVisible(type != OptionType.OBJECTS);
 
