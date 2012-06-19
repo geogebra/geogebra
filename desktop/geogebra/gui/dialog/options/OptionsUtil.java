@@ -88,9 +88,10 @@ public class OptionsUtil {
 				BorderFactory.createMatteBorder(0, 0, 1, 0, SystemColor.controlShadow));
 		TitledBorder dummyBorder = BorderFactory.createTitledBorder("");
 		Font f = dummyBorder.getTitleFont();
+		f = f== null ? null : f.deriveFont(Font.ITALIC);
 		Border outsideBorder = BorderFactory.createTitledBorder(lineBorder,title,
 				TitledBorder.LEADING, TitledBorder.TOP,
-				f.deriveFont(Font.ITALIC),
+				f,
 				SystemColor.DARK_GRAY);
 		Border insideBorder = BorderFactory.createEmptyBorder(0, 40, 0, 0);
 		return BorderFactory.createCompoundBorder(outsideBorder, insideBorder);
