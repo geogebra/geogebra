@@ -112,6 +112,8 @@ public class TextInputDialog extends InputDialog implements DocumentListener {
 	private JList geoList;
 
 	boolean isIniting;
+	boolean isBtnInsertLatexLoaded = false;
+	
 	UndoManager undo = null; 
 	Document doc = null;
 
@@ -231,8 +233,10 @@ public class TextInputDialog extends InputDialog implements DocumentListener {
 		// create insertion buttons
 		btInsertUnicode = new PopupMenuButton(app);
 		btInsertLaTeX = new PopupMenuButton(app);
-
-		buildInsertLaTeXButton();
+		btInsertLaTeX.setVisible(false);
+		
+		//(build the latex button on demand)
+		//buildInsertLaTeXButton();
 		buildInsertUnicodeButton();
 		buildInsertGeoButton();
 
@@ -370,8 +374,7 @@ public class TextInputDialog extends InputDialog implements DocumentListener {
 		btInsertLaTeX.setKeepVisible(false);
 		btInsertLaTeX.setStandardButton(true);
 		btInsertLaTeX.setFixedIcon(GeoGebraIcon.createDownTriangleIcon(10));
-		btInsertLaTeX.setText("LaTeX");
-		btInsertLaTeX.setEnabled(false);
+		btInsertLaTeX.setVisible(false);
 
 		laTexButtonTitleMap = new HashMap<String, JMenuItem>();
 		
@@ -451,12 +454,15 @@ public class TextInputDialog extends InputDialog implements DocumentListener {
 		});
 		btInsertLaTeX.addPopupMenuItem(menuItem);
 		
+		isBtnInsertLatexLoaded = true;
 		updateInsertLaTeXButtonLabels();
 
 	}
 	
 
 	public void updateInsertLaTeXButtonLabels(){
+		if(!isBtnInsertLatexLoaded) return;
+		
 		for(String text:laTexButtonTitleMap.keySet()){
 			laTexButtonTitleMap.get(text).setText(app.getMenu(text));
 		}
@@ -614,6 +620,12 @@ public class TextInputDialog extends InputDialog implements DocumentListener {
 		buildInsertUnicodeButton();
 		updateInsertLaTeXButtonLabels();
 
+		if(cbLaTeX.isSelected()){
+			cbLaTeX.setText(null);
+		}else{
+			// add some spacing to compensate for replacement by wider LateXButton
+			cbLaTeX.setText(" " + app.getPlain("LaTeXFormula") + "    ");
+		}
 		btInsertLaTeX.setText(app.getPlain("LaTeXFormula"));
 		btInsertUnicode.setText(app.getMenu("Symbols"));
 		btInsertGeo.setText(app.getMenu("Objects"));
@@ -739,7 +751,14 @@ public class TextInputDialog extends InputDialog implements DocumentListener {
 
 			else if (source == cbLaTeX) {
 
-				btInsertLaTeX.setEnabled(cbLaTeX.isSelected());
+				if(!isBtnInsertLatexLoaded){
+					buildInsertLaTeXButton();
+					isBtnInsertLatexLoaded = true;
+				}
+				btInsertLaTeX.setVisible(cbLaTeX.isSelected());
+				btInsertLaTeX.revalidate();
+				setLabels();
+			
 				isLaTeX = cbLaTeX.isSelected();
 				textPreviewer.updatePreviewText(editGeo,
 						editor.buildGeoGebraString(isLaTeX), isLaTeX);
