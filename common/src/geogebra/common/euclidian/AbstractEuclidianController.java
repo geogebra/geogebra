@@ -6964,7 +6964,7 @@ public abstract class AbstractEuclidianController {
 			break;
 	
 		case MOVE_DEPENDENT:
-			if(movedGeoElement.getParentAlgorithm().getClassName()==Algos.AlgoAttachCopyToView){
+			if(movedGeoElement.getParentAlgorithm() != null && movedGeoElement.getParentAlgorithm().getClassName()==Algos.AlgoAttachCopyToView){
 				moveAttached(repaint);
 			}
 			else {
