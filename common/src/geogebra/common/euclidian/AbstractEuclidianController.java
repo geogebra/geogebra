@@ -2870,6 +2870,10 @@ public abstract class AbstractEuclidianController {
 		textfieldHasFocus = hasFocus;
 	}
 	
+	public boolean hitCheckBoxOrTextfield(){
+		return checkBoxJustHitted || textfieldHasFocus;
+	}
+	
 	protected abstract void initToolTipManager();
 
 	protected void initShowMouseCoords() {
@@ -5852,7 +5856,7 @@ public abstract class AbstractEuclidianController {
 							GeoBoolean bool = (GeoBoolean) (hits.get(0));
 							if (!isCheckboxFixed(bool)) { // otherwise changed on mouse
 															// down
-								bool.setValue(!bool.getBoolean());
+								hitCheckBox(bool);
 								app.removeSelectedGeo(bool); // make sure doesn't get
 																// selected
 								bool.updateCascade();
@@ -5869,6 +5873,16 @@ public abstract class AbstractEuclidianController {
 			
 				return changedKernel;
 			}
+	
+	
+	private boolean checkBoxJustHitted = false;
+	
+	protected void hitCheckBox(GeoBoolean bool){
+		bool.setValue(!bool.getBoolean());
+		checkBoxJustHitted = true;
+	}
+	
+
 
 	protected Hits addPointCreatedForMouseReleased(Hits releasedHits) {
 		Hits hits = releasedHits;
@@ -8391,9 +8405,11 @@ public abstract class AbstractEuclidianController {
 		view.setShowAxesRatio(false);
 		
 		
-		if (app.isUsingFullGui() && app.getGuiManager() != null) {	
-			//prevent objects created by a script
-			app.getGuiManager().mouseReleasedForPropertiesView(mode!=EuclidianConstants.MODE_MOVE && mode!=EuclidianConstants.MODE_MOVE_ROTATE);
+		if (app.isUsingFullGui() && app.getGuiManager() != null) {//prevent objects created by a script
+			if (checkBoxJustHitted) //does nothing
+				checkBoxJustHitted = false;
+			else
+				app.getGuiManager().mouseReleasedForPropertiesView(mode!=EuclidianConstants.MODE_MOVE && mode!=EuclidianConstants.MODE_MOVE_ROTATE);
 		}
 		
 		

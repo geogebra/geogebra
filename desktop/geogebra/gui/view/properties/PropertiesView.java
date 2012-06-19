@@ -282,21 +282,30 @@ public class PropertiesView extends JPanel implements
 	final private void setOptionPanelRegardingFocus(boolean updateEuclidianTab){
 		int focusedViewId = app.getGuiManager().getLayout()
 				.getDockManager().getFocusedViewId();
-		
+
 
 		if (viewMap.get(focusedViewId) != null) {
 			OptionType type = viewMap.get(focusedViewId);
-			setOptionPanel(type);
-			if (updateEuclidianTab){			
-				switch(type){
-				case EUCLIDIAN:
-					euclidianPanel.setSelectedTab(selectedTab);
-					break;
-				case EUCLIDIAN2:
-					euclidianPanel2.setSelectedTab(selectedTab);
-					break;
+			if (type==OptionType.EUCLIDIAN || type==OptionType.EUCLIDIAN2){
+				if (app.getActiveEuclidianView().getEuclidianController().hitCheckBoxOrTextfield()){
+					//hit check box or text field : does nothing
+					//setOptionPanel(OptionType.OBJECTS);
+				}else{
+					//ev clicked
+					setOptionPanel(type);
+					if (updateEuclidianTab){			
+						switch(type){
+						case EUCLIDIAN:
+							euclidianPanel.setSelectedTab(selectedTab);
+							break;
+						case EUCLIDIAN2:
+							euclidianPanel2.setSelectedTab(selectedTab);
+							break;
+						}
+					}
 				}
-			}
+			}else
+				setOptionPanel(type);
 		} else {
 			if (app.getSelectedGeos().size()==0){ //does nothing if some objects are selected
 				setOptionPanel(OptionType.EUCLIDIAN);

@@ -2397,12 +2397,15 @@ public abstract class AbstractApplication {
 			return;
 		}
 
-		selectedGeos.remove(geo);
-		geo.setSelected(false);
-		if (repaint) {
-			kernel.notifyRepaint();
+		if(selectedGeos.remove(geo)){ 
+			//update only if selectedGeos contained geo
+			geo.setSelected(false);
+			updateSelection();
+			if (repaint) {
+				kernel.notifyRepaint();
+			}
+			
 		}
-		updateSelection();
 	}
 
 	final public void selectNextGeo() {
