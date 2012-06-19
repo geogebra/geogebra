@@ -442,7 +442,6 @@ public class EditMenu extends BaseMenu implements MenuListener {
 		selectAllAction.setEnabled(!kernel.isEmpty());
 	}
 
-	@Override
 	public void menuSelected(MenuEvent e) {
 		// check if there's an image on the clipboard
 		String[] fileName = app.getGuiManager().getImageFromTransferable(null);
@@ -450,12 +449,10 @@ public class EditMenu extends BaseMenu implements MenuListener {
 		
 	}
 
-	@Override
 	public void menuDeselected(MenuEvent e) {
 		//
 	}
 
-	@Override
 	public void menuCanceled(MenuEvent e) {
 		//
 	}
