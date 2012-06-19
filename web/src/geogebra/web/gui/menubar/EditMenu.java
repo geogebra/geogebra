@@ -1,6 +1,7 @@
 package geogebra.web.gui.menubar;
 
 import geogebra.common.main.AbstractApplication;
+import geogebra.web.gui.dialog.WebCamInputDialog;
 import geogebra.common.util.CopyPaste;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.main.Application;
@@ -142,5 +143,12 @@ public class EditMenu extends MenuBar {
 //					// do nothing
 //				}
 //			});
+
+	    addItem(GeoGebraMenubar.getMenuBarHtml(AppResources.INSTANCE.users().getSafeUri().asString(),app.getMenu("InsertImageFromWebCam")),true,new Command() {
+	    	public void execute() {
+	    		WebCamInputDialog dialog = new WebCamInputDialog(false, (Application) app);
+	    		dialog.setVisible(true);
+	    	}
+	    });
 	}
 }
