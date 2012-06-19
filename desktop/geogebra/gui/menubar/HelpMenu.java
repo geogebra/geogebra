@@ -25,7 +25,8 @@ class HelpMenu extends BaseMenu {
 		websiteAction,
 		forumAction,
 		geogebratubeAction,
-		infoAction
+		infoAction,
+		reportBugAction
 	;
 	/**
 	 * Creates new help menu
@@ -55,6 +56,10 @@ class HelpMenu extends BaseMenu {
 		add(geogebratubeAction);
 		
 		addSeparator();
+		
+		add(reportBugAction);
+		
+		addSeparator();
 
 		add(websiteAction);
 
@@ -73,7 +78,7 @@ class HelpMenu extends BaseMenu {
 		tutorialAction = new HelpAction(app,null,app.getMenu("Tutorials"),AbstractApplication.WIKI_TUTORIAL);
 					
 
-		forumAction = new AbstractAction("GeoGebra Forum", new ImageIcon(app
+		forumAction = new AbstractAction(app.getMenu("GeoGebraForum"), new ImageIcon(app
 				.getInternalImage("users.png"))) {
 			private static final long serialVersionUID = 1L;
 
@@ -93,6 +98,15 @@ class HelpMenu extends BaseMenu {
 			}
 		};
 
+		reportBugAction = new AbstractAction(app.getMenu("ReportBug"), app.getEmptyIcon()) {
+			private static final long serialVersionUID = 1L;
+
+			public void actionPerformed(ActionEvent e) {
+				app.getGuiManager().showURLinBrowser(
+						GeoGebraConstants.GEOGEBRA_FORUM_42);
+			}
+		};
+
 		geogebratubeAction = new AbstractAction("GeoGebraTube") {
 			private static final long serialVersionUID = 1L;
 
@@ -102,8 +116,7 @@ class HelpMenu extends BaseMenu {
 			}
 		};
 		
-		infoAction = new AbstractAction(app.getMenu("About") + " / "
-				+ app.getMenu("License"), app.getImageIcon("info.gif")) {
+		infoAction = new AbstractAction(app.getMenu("AboutLicense"), app.getImageIcon("info.gif")) {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {

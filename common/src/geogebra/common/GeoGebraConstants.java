@@ -65,6 +65,10 @@ public interface GeoGebraConstants {
 	public static final String LOADING_GIF = "http://www.geogebra.org/webstart/loading.gif";
 	/** GeoGebra URL*/
 	public final static String GEOGEBRA_WEBSITE = "http://www.geogebra.org/";
+	/** 4.2 desktop bug reports */
+	public final static String GEOGEBRA_FORUM_42 = "http://www.geogebra.org/forum/viewforum.php?f=22";
+	/** web bug reports */
+	public final static String GEOGEBRA_FORUM_WEB = "http://www.geogebra.org/forum/viewforum.php?f=48";
 	/** Help (wiki) URL */
 	public final static String HELP_URL = GEOGEBRA_WEBSITE + "help";
 	/** GeoGebraTube URL */
