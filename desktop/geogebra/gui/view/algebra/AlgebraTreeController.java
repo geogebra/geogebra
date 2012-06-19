@@ -256,21 +256,30 @@ implements MouseListener, MouseMotionListener{
 
 		TreePath tp = tree.getPathForLocation(e.getX(), e.getY());
 		GeoElement geo = AlgebraTree.getGeoElementForPath(tp);	
-		EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
-		int mode = ev.getMode();
 
-		if ( (mode == EuclidianConstants.MODE_MOVE || mode == EuclidianConstants.MODE_SELECTION_LISTENER)  && 
-				!Application.isControlDown(e) && !e.isShiftDown())
-		{
-			if( !setSelectedGeo(geo)) {
-				ArrayList<GeoElement> groupedGeos = groupAction(e,tp,true);
-				if (groupedGeos!=null && !app.containsSelectedGeos(groupedGeos)){
-					app.clearSelectedGeos(false); //repaint will be done next step
-					app.addSelectedGeos(groupedGeos, true);
-					skipSelection = true;
-				}
-			}
+		if (leftPressCanSelectGeo(e, geo)){
+			ArrayList<GeoElement> groupedGeos = groupAction(e,tp,true);
+			if (groupedGeos!=null && !app.containsSelectedGeos(groupedGeos)){
+				app.clearSelectedGeos(false); //repaint will be done next step
+				app.addSelectedGeos(groupedGeos, true);
+				skipSelection = true;
+			}			
 		}
+	}
+
+	/**
+	 * 
+	 * @param e mouse event
+	 * @param geo geo
+	 * @return true if left press can select the geo
+	 */
+	protected boolean leftPressCanSelectGeo(java.awt.event.MouseEvent e, GeoElement geo){
+
+		if( !setSelectedGeo(geo)) 
+			return true;
+
+		return false;
+
 	}
 	
 	/**
@@ -278,7 +287,7 @@ implements MouseListener, MouseMotionListener{
 	 * @param geo geo
 	 * @return true if geo is not null and wasn't yet selected
 	 */
-	private boolean setSelectedGeo(GeoElement geo){
+	protected boolean setSelectedGeo(GeoElement geo){
 		if( geo != null  && !app.containsSelectedGeo(geo)) 
 		{					
 			app.clearSelectedGeos(false); //repaint will be done next step

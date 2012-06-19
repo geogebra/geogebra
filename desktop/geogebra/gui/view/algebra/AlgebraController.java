@@ -229,4 +229,19 @@ implements DragGestureListener, DragSourceListener {
 		else
 			ev.mouseMovedOverList(geos);
 	}
+
+	@Override
+	protected boolean leftPressCanSelectGeo(java.awt.event.MouseEvent e, GeoElement geo){
+
+		int mode = app.getActiveEuclidianView().getMode();		
+		if ( (mode == EuclidianConstants.MODE_MOVE || mode == EuclidianConstants.MODE_SELECTION_LISTENER)  && 
+				!Application.isControlDown(e) && !e.isShiftDown())
+		{
+			if( !setSelectedGeo(geo)) 
+				return true;
+
+		}
+		return false;
+
+	}
 }
