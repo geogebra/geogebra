@@ -39,12 +39,12 @@ public class AlgoName extends AlgoElement {
 	 * 
 	 * @param cons
 	 *            Construction
-	 * @param label
-	 *            Label of the resulting text
 	 * @param geo
 	 *            Element whose name shoul be used
 	 */
-	public AlgoName(Construction cons, String label, GeoElement geo) {
+	public AlgoName(Construction cons, GeoElement geo) {
+
+
 		super(cons);
 		this.geo = geo;
 
@@ -54,6 +54,21 @@ public class AlgoName extends AlgoElement {
 
 		// compute value of dependent number
 		compute();
+	}
+
+	/**
+	 * Creates text containing name of the geo
+	 * 
+	 * @param cons
+	 *            Construction
+	 * @param label
+	 *            Label of the resulting text
+	 * @param geo
+	 *            Element whose name shoul be used
+	 */
+	public AlgoName(Construction cons, String label, GeoElement geo) {
+
+		this(cons,geo);
 		text.setLabel(label);
 	}
 

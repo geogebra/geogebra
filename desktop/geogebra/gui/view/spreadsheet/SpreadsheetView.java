@@ -338,8 +338,10 @@ View, ComponentListener, FocusListener, Gridable, SettingListener
 	public void rename(GeoElement geo) {
 
 
+		/*
 		if(app.getTraceManager().isTraceGeo(geo))
 			app.getTraceManager().updateTraceSettings(geo);
+		*/
 		
 		if(isTraceDialogVisible()){
 			traceDialog.updateTraceDialog();

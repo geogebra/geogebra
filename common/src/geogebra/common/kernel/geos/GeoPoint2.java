@@ -46,6 +46,7 @@ import geogebra.common.kernel.algos.SymbolicParametersAlgo;
 import geogebra.common.kernel.algos.SymbolicParametersBotanaAlgo;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
+import geogebra.common.kernel.arithmetic.MyStringBuffer;
 import geogebra.common.kernel.arithmetic.MyVecNode;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.VectorValue;
@@ -1952,18 +1953,27 @@ final public class GeoPoint2 extends GeoVec3D implements VectorValue,
 	// protected String[] spreadsheetColumnHeadings = null;
 
 	@Override
-	public ArrayList<String> getColumnHeadings() {
-		if (spreadsheetColumnHeadings == null) {
-			spreadsheetColumnHeadings = new ArrayList<String>();
-		} else {
-			spreadsheetColumnHeadings.clear();
-		}
-
-		spreadsheetColumnHeadings.add("x("
-				+ getLabel(StringTemplate.defaultTemplate) + ')');
-		spreadsheetColumnHeadings.add("y("
-				+ getLabel(StringTemplate.defaultTemplate) + ')');
-
+	public ArrayList<GeoText> getColumnHeadings() {
+		resetSpreadsheetColumnHeadings();
+		
+		spreadsheetColumnHeadings.add(
+				getColumnHeadingText( 
+						new ExpressionNode(kernel,
+								getXBracket(), // "x("
+								Operation.PLUS, 
+								new ExpressionNode(kernel,
+										getNameGeo(), // Name[this]
+										Operation.PLUS, 
+										getCloseBracket())))); // ")"
+		spreadsheetColumnHeadings.add(
+				getColumnHeadingText(
+						new ExpressionNode(kernel,
+								getYBracket(), // "y("
+								Operation.PLUS, 
+								new ExpressionNode(kernel,
+										getNameGeo(), // Name[this]
+										Operation.PLUS, 
+										getCloseBracket())))); // ")"
 		return spreadsheetColumnHeadings;
 	}
 

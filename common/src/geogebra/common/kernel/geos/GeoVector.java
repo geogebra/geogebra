@@ -33,6 +33,7 @@ import geogebra.common.kernel.algos.AlgoDependentVector;
 import geogebra.common.kernel.algos.SymbolicParameters;
 import geogebra.common.kernel.algos.SymbolicParametersAlgo;
 import geogebra.common.kernel.algos.SymbolicParametersBotanaAlgo;
+import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.VectorValue;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -42,6 +43,7 @@ import geogebra.common.kernel.prover.NoSymbolicParametersException;
 import geogebra.common.kernel.prover.Polynomial;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.plugin.GeoClass;
+import geogebra.common.plugin.Operation;
 import geogebra.common.util.MyMath;
 import geogebra.common.util.Unicode;
 
@@ -801,15 +803,27 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 	}
 	
 	@Override
-	public ArrayList<String> getColumnHeadings() {
-		if (spreadsheetColumnHeadings == null) {
-			spreadsheetColumnHeadings = new ArrayList<String>();
-		} else {
-			spreadsheetColumnHeadings.clear();
-		}
-		
-		spreadsheetColumnHeadings.add("x("+getLabel(StringTemplate.defaultTemplate)+')');
-		spreadsheetColumnHeadings.add("y("+getLabel(StringTemplate.defaultTemplate)+')');
+	public ArrayList<GeoText> getColumnHeadings() {
+		resetSpreadsheetColumnHeadings();
+
+		spreadsheetColumnHeadings.add(
+				getColumnHeadingText( 
+						new ExpressionNode(kernel,
+								getXBracket(), // "x("
+								Operation.PLUS, 
+								new ExpressionNode(kernel,
+										getNameGeo(), // Name[this]
+										Operation.PLUS, 
+										getCloseBracket())))); // ")"
+		spreadsheetColumnHeadings.add(
+				getColumnHeadingText(  
+						new ExpressionNode(kernel,
+								getYBracket(), // "y("
+								Operation.PLUS, 
+								new ExpressionNode(kernel,
+										getNameGeo(), // Name[this]
+										Operation.PLUS, 
+										getCloseBracket())))); // ")"
 		
 		return spreadsheetColumnHeadings;
 	}

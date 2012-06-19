@@ -31,6 +31,6 @@ public interface SpreadsheetTraceable extends ExpressionValue {
 	/**
 	 * @return list of column headings
 	 */
-	public ArrayList<String> getColumnHeadings();
+	public ArrayList<GeoText> getColumnHeadings();
 
 }

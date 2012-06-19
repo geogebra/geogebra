@@ -246,7 +246,7 @@ public class AlgoDependentText extends AlgoElement {
 			// and make note 
 			// ************
 			numToTrace = ev;
-			ret = new MyStringBuffer(kernel, " x ");
+			ret = new MyStringBuffer(kernel, " ... ");
 		} else if (ev.isExpressionNode()) {
 			ExpressionNode en = (ExpressionNode) ev;
 			ret = getSpecialCopy(en);

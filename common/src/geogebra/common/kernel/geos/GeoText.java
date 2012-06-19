@@ -1069,15 +1069,13 @@ public class GeoText extends GeoElement implements Locateable,
 	
 
 	@Override
-	public ArrayList<String> getColumnHeadings() {
+	public ArrayList<GeoText> getColumnHeadings() {
 
-		if (spreadsheetColumnHeadings == null) {
-			spreadsheetColumnHeadings = new ArrayList<String>();
-		}
-		else
-			spreadsheetColumnHeadings.clear();
-
-		spreadsheetColumnHeadings.add(spreadsheetTraceableLeftTree.evaluate(tpl).toValueString(tpl));
+		resetSpreadsheetColumnHeadings();
+		GeoText text = getColumnHeadingText(spreadsheetTraceableLeftTree);
+		text.setLaTeX(this.isLaTeX, false);
+		spreadsheetColumnHeadings.add(text);
+		//spreadsheetColumnHeadings.add((GeoText) this.copy());
 
 		return spreadsheetColumnHeadings;
 

@@ -8,13 +8,16 @@ import geogebra.common.kernel.Matrix.CoordMatrix;
 import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoDependentVector;
+import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic3D.Vector3DValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.SpreadsheetTraceable;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
 import geogebra.common.plugin.GeoClass;
+import geogebra.common.plugin.Operation;
 
 import java.util.ArrayList;
 
@@ -480,17 +483,37 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND,
 	}
 	
 	@Override
-	public ArrayList<String> getColumnHeadings() {
-		if (spreadsheetColumnHeadings == null) {
-			spreadsheetColumnHeadings = new ArrayList<String>();
-		} else {
-			spreadsheetColumnHeadings.clear();
-		}
+	public ArrayList<GeoText> getColumnHeadings() {
+		resetSpreadsheetColumnHeadings();
+
+		spreadsheetColumnHeadings.add(
+				getColumnHeadingText(
+						new ExpressionNode(kernel,
+								getXBracket(), // "x("
+								Operation.PLUS, 
+								new ExpressionNode(kernel,
+										getNameGeo(), // Name[this]
+										Operation.PLUS, 
+										getCloseBracket())))); // ")"
+		spreadsheetColumnHeadings.add(
+				getColumnHeadingText(
+						new ExpressionNode(kernel,
+								getYBracket(), // "y("
+								Operation.PLUS, 
+								new ExpressionNode(kernel,
+										getNameGeo(), // Name[this]
+										Operation.PLUS, 
+										getCloseBracket())))); // ")"
+		spreadsheetColumnHeadings.add(
+				getColumnHeadingText(
+						new ExpressionNode(kernel,
+								getYBracket(), // "z("
+								Operation.PLUS, 
+								new ExpressionNode(kernel,
+										getNameGeo(), // Name[this]
+										Operation.PLUS, 
+										getCloseBracket())))); // ")"
 		
-		spreadsheetColumnHeadings.add("x("+getLabel(StringTemplate.defaultTemplate)+')');
-		spreadsheetColumnHeadings.add("y("+getLabel(StringTemplate.defaultTemplate)+')');
-		spreadsheetColumnHeadings.add("z("+getLabel(StringTemplate.defaultTemplate)+')');
-			
 		return spreadsheetColumnHeadings;
 	}
 	

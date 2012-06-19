@@ -35,9 +35,11 @@ import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.CoordSys;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic3D.Vector3DValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.geos.PointProperties;
 import geogebra.common.kernel.geos.SpreadsheetTraceable;
@@ -46,6 +48,7 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.Region3D;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.plugin.GeoClass;
+import geogebra.common.plugin.Operation;
 import geogebra.common.util.StringUtil;
 import geogebra.euclidian.EuclidianView;
 import geogebra.gui.view.algebra.AlgebraView;
@@ -1085,15 +1088,38 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND,
 	}
 	
 	@Override
-	public ArrayList<String> getColumnHeadings() {
-		if (spreadsheetColumnHeadings == null) {
-			spreadsheetColumnHeadings = new ArrayList<String>();
-		} else {
-			spreadsheetColumnHeadings.clear();
-		}
-		spreadsheetColumnHeadings.add("x("+getLabel(StringTemplate.defaultTemplate)+')');
-		spreadsheetColumnHeadings.add("y("+getLabel(StringTemplate.defaultTemplate)+')');
-		spreadsheetColumnHeadings.add("z("+getLabel(StringTemplate.defaultTemplate)+')');
+	public ArrayList<GeoText> getColumnHeadings() {
+
+		resetSpreadsheetColumnHeadings();
+
+		spreadsheetColumnHeadings.add(
+				getColumnHeadingText(
+						new ExpressionNode(kernel,
+								getXBracket(), // "x("
+								Operation.PLUS, 
+								new ExpressionNode(kernel,
+										getNameGeo(), // Name[this]
+										Operation.PLUS, 
+										getCloseBracket())))); // ")"
+		spreadsheetColumnHeadings.add(
+				getColumnHeadingText(
+						new ExpressionNode(kernel,
+								getYBracket(), // "y("
+								Operation.PLUS, 
+								new ExpressionNode(kernel,
+										getNameGeo(), // Name[this]
+										Operation.PLUS, 
+										getCloseBracket())))); // ")"
+		spreadsheetColumnHeadings.add(
+				getColumnHeadingText(
+						new ExpressionNode(kernel,
+								getYBracket(), // "z("
+								Operation.PLUS, 
+								new ExpressionNode(kernel,
+										getNameGeo(), // Name[this]
+										Operation.PLUS, 
+										getCloseBracket())))); // ")"
+	
 		
 		return spreadsheetColumnHeadings;
 	}

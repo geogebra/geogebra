@@ -22,6 +22,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.GeoVec2D;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
@@ -949,7 +950,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 		return null;
 	}
 
-	public ArrayList<String> getColumnHeadings() {
+	public ArrayList<GeoText> getColumnHeadings() {
 		// dummy implementation - never used
 		return null;
 	}

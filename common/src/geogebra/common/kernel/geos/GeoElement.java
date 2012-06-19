@@ -34,18 +34,22 @@ import geogebra.common.kernel.Locateable;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoCirclePointRadiusInterface;
+import geogebra.common.kernel.algos.AlgoDependentText;
 import geogebra.common.kernel.algos.AlgoDrawInformation;
 import geogebra.common.kernel.algos.AlgoDynamicCoordinatesInterface;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoIntegralODE;
+import geogebra.common.kernel.algos.AlgoName;
 import geogebra.common.kernel.algos.AlgoSlopeField;
 import geogebra.common.kernel.algos.AlgoSolveODE;
 import geogebra.common.kernel.algos.AlgorithmSet;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.algos.ConstructionElement;
+import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.MyDouble;
+import geogebra.common.kernel.arithmetic.MyStringBuffer;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.Traversing;
 import geogebra.common.kernel.cas.CASGenericInterface;
@@ -147,7 +151,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	/**
 	 * Column headings for spreadsheet trace
 	 */
-	protected ArrayList<String> spreadsheetColumnHeadings = null;
+	protected ArrayList<GeoText> spreadsheetColumnHeadings = null;
 
 	/** min decimals or significant figures to use in editing string */
 	public static final int MIN_EDITING_PRINT_PRECISION = 5;
@@ -7025,19 +7029,76 @@ public abstract class GeoElement extends ConstructionElement implements
 		return getAlgoUpdateSet().contains(i);
 	}
 
+	
+	protected void resetSpreadsheetColumnHeadings(){
+		if (spreadsheetColumnHeadings == null) {
+			spreadsheetColumnHeadings = new ArrayList<GeoText>();
+		}
+		else
+			spreadsheetColumnHeadings.clear();
+	}
+	
 	/**
 	 * for the SpreadsheetTraceable interface. Default: just return the label
 	 * @return list of comumn headings
 	 */
-	public ArrayList<String> getColumnHeadings() {
-		if (spreadsheetColumnHeadings == null) {
-			spreadsheetColumnHeadings = new ArrayList<String>();
-		}
-
-		spreadsheetColumnHeadings.clear();
-		spreadsheetColumnHeadings.add(getLabel(StringTemplate.defaultTemplate));
-
+	public ArrayList<GeoText> getColumnHeadings() {
+		resetSpreadsheetColumnHeadings();
+		spreadsheetColumnHeadings.add(getNameGeo());
 		return spreadsheetColumnHeadings;
+	}
+	
+	/**
+	 * 
+	 * @return geo text = Name[this]
+	 */
+	protected GeoText getNameGeo(){
+		AlgoName algo = new AlgoName(cons, this);
+		GeoText ret = algo.getGeoText();
+		ret.setEuclidianVisible(false);
+		return ret;
+	}
+	
+	/**
+	 * 
+	 * @param node expression describing the text
+	 * @return GeoText linked to expression
+	 */
+	protected GeoText getColumnHeadingText(ExpressionNode node){
+		AlgoDependentText algo = new AlgoDependentText(cons, node);
+		GeoText ret = algo.getGeoText();
+		ret.setEuclidianVisible(false);
+		return ret;
+	}
+	
+	private MyStringBuffer xBracket = null, yBracket = null, zBracket = null, closeBracket = null;
+	
+	/**  @return "x(" */
+	protected MyStringBuffer getXBracket(){
+		if (xBracket == null)
+			xBracket = new MyStringBuffer(kernel, "x(");
+		return xBracket;
+	}
+	
+	/**  @return "y(" */
+	protected MyStringBuffer getYBracket(){
+		if (yBracket == null)
+			yBracket = new MyStringBuffer(kernel, "y(");
+		return yBracket;
+	}
+	
+	/**  @return "z(" */
+	protected MyStringBuffer getZBracket(){
+		if (zBracket == null)
+			zBracket = new MyStringBuffer(kernel, "z(");
+		return zBracket;
+	}
+	
+	/**  @return ")" */
+	protected MyStringBuffer getCloseBracket(){
+		if (closeBracket == null)
+			closeBracket = new MyStringBuffer(kernel, ")");
+		return closeBracket;
 	}
 
 	/**

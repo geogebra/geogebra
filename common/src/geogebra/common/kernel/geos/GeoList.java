@@ -1870,18 +1870,14 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture {
 	}
 
 	@Override
-	public ArrayList<String> getColumnHeadings() {
+	public ArrayList<GeoText> getColumnHeadings() {
 
-		if (spreadsheetColumnHeadings == null) {
-			spreadsheetColumnHeadings = new ArrayList<String>();
-		} else {
-			spreadsheetColumnHeadings.clear();
-		}
+		resetSpreadsheetColumnHeadings();
 
 		for (int i = 0; i < geoList.size(); i++) {
 			final GeoElement geo = geoList.get(i);
 			if (geo instanceof SpreadsheetTraceable) {
-				final ArrayList<String> geoHead = geo.getColumnHeadings();
+				final ArrayList<GeoText> geoHead = geo.getColumnHeadings();
 				for (int j = 0; j < geoHead.size(); j++) {
 					spreadsheetColumnHeadings.add(geoHead.get(j));
 				}

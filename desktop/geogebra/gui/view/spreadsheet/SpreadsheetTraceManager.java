@@ -133,6 +133,9 @@ public class SpreadsheetTraceManager extends geogebra.common.gui.view.spreadshee
 	}
 
 	public void updateTraceSettings(GeoElement geo) {
+		if (geo==null)
+			return;
+		
 		SpreadsheetTraceSettings t = geo.getTraceSettings();
 		// clearGeoTraceColumns(geo);
 		CopyPasteCut.delete(app, t.traceColumn1, t.traceRow1, t.traceColumn2,
@@ -452,9 +455,11 @@ public class SpreadsheetTraceManager extends geogebra.common.gui.view.spreadshee
 		app.setScrollToShow(true);
 
 		// set the headers
+		/*
 		if (t.tracingRow == t.traceRow1 && t.headerOffset > 0) {
 			setHeader(geo, cons);
 		}
+		*/
 		
 		// 'row' is the temporary row counter actually used for creating traces.
 		// 't.tracingRow' is the row counter kept in memory.
@@ -762,10 +767,10 @@ public class SpreadsheetTraceManager extends geogebra.common.gui.view.spreadshee
 
 	/** Create header cell(s) for each trace column of a geo. */
 	private void setHeader(GeoElement geo, Construction cons) {
-
+		
 		SpreadsheetTraceSettings t = traceGeoCollection.get(geo);
 		int column, row;
-		String headerText = "";
+		GeoText headerText = null;
 		GeoElement[] geos = geo.getGeoElements();
 
 		if (t.showLabel) {
@@ -774,12 +779,13 @@ public class SpreadsheetTraceManager extends geogebra.common.gui.view.spreadshee
 			for (int i = 0; i < geos.length; i++) {
 
 				if (geos[i] instanceof SpreadsheetTraceable) {
-					ArrayList<String> strings = ((SpreadsheetTraceable)geos[i]).getColumnHeadings();
+					ArrayList<GeoText> strings = ((SpreadsheetTraceable)geos[i]).getColumnHeadings();
 					
 					for (int j = 0 ; j < strings.size() ; j++) {
 						headerText = strings.get(j);
-						setTraceCell(cons, column, row, headerText,
-								GeoClass.TEXT);
+						String cellName = GeoElementSpreadsheet.getSpreadsheetCellName(
+								column, row);
+						headerText.setLabel(cellName);
 						column++;
 					}
 				} 
