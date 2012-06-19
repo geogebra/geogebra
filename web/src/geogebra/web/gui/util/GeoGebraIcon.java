@@ -9,6 +9,7 @@ import geogebra.web.awt.BasicStroke;
 import geogebra.web.awt.Dimension;
 import geogebra.web.awt.Font;
 import geogebra.web.awt.Graphics2D;
+import geogebra.web.factories.AwtFactory;
 import geogebra.web.openjdk.awt.geom.Polygon;
 
 import com.google.gwt.canvas.client.Canvas;
@@ -140,7 +141,7 @@ public class GeoGebraIcon {
 
 		// if fgColor is null then make it a transparent white
 		if(fgColor == null)
-			fgColor = geogebra.common.factories.AwtFactory.prototype.newColor(255,255,255,1);
+			fgColor = geogebra.common.factories.AwtFactory.prototype.newColor(255,255,255,255);
 		
 		Canvas c = getTmpCanvas(w,h);
 		Graphics2D g2 = new Graphics2D(c);
@@ -156,12 +157,11 @@ public class GeoGebraIcon {
 
 		// interior fill color using alpha level
 
-		//float[] rgb = new float[3];
-		//fgColor.getRGBColorComponents(rgb);
-		g2.setPaint(new geogebra.web.awt.Color(fgColor.getRed(), fgColor.getGreen(), fgColor.getBlue(),alpha*255));
+		float[] rgb = new float[3];
+		fgColor.getRGBColorComponents(rgb);
+		g2.setPaint(AwtFactory.prototype.newColor( rgb[0], rgb[1], rgb[2], alpha*255));
 		g2.fillRect(offset, offset, w-2*offset, h-2*offset);
 
-		// border color with alpha = 1
 		g2.setPaint(fgColor);
 		g2.setStroke(new BasicStroke(thickness)); 
 		g2.drawRect(offset, offset, w-2*offset, h-2*offset);

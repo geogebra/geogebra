@@ -100,11 +100,28 @@ public class SelectionTable extends Grid implements ClickHandler {
 	private void changeSelection(int row, int column, boolean b, boolean c) {
 	   selectedRow = row;
 	   selectedColumn = column;
+	   clearSelectedCells();
+	   Widget w = getWidget(row, column);
+	   if (w != null) {
+		   w.addStyleName("selected");
+	   }
     }
 
 	private void clearSelection() {
 	   selectedColumn = 0;
 	   selectedRow = 0;
+	   clearSelectedCells();
+    }
+
+	private void clearSelectedCells() {
+	    for (int i = 0; i < getRowCount(); i++) {
+	    	for (int j = 0; j < getCellCount(i); j++) {
+	    		Widget w = getWidget(i,j);
+	    		if (w != null) {
+	    			w.removeStyleName("selected");
+	    		}
+	    	}
+	    }
     }
 
 	public int getSelectedIndex() {
@@ -235,13 +252,15 @@ public class SelectionTable extends Grid implements ClickHandler {
 			isIniting = false;
 	    } else {
 	    	for(int i=0; i < Math.min(data.length, this.numRows * this.numColumns); i++){
-				Canvas canvas = (Canvas) getWidget(r, c);
-				canvas.getContext2d().putImageData((ImageData) data[i], 0, 0);
-				
-				++c;
-				if(c == this.numColumns){
-					c = 0;
-					++r;
+				if (getWidget(r, c) instanceof Canvas) {
+					Canvas canvas = (Canvas) getWidget(r, c);
+					canvas.getContext2d().putImageData((ImageData) data[i], 0, 0);
+					
+					++c;
+					if(c == this.numColumns){
+						c = 0;
+						++r;
+					}
 				}
 			}
 	    }
@@ -279,6 +298,11 @@ public class SelectionTable extends Grid implements ClickHandler {
 	   Cell clicked = getCellForEvent(event);
 	   selectedColumn = clicked.getCellIndex();
 	   selectedRow = clicked.getRowIndex();
+	   clearSelectedCells();
+	   Widget w = getWidget(clicked.getRowIndex(),clicked.getCellIndex());
+	   if (w != null) {
+		   w.addStyleName("selected");
+	   }
     }
 
 	public ImageData getSelectedValue() {

@@ -364,9 +364,16 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 			   setSliderValue(mySlider.getValue());
 		}
 		((EuclidianStyleBar)app.getEuclidianView1().getStyleBar()).fireActionPerformed(this);
+		fireActionPerformed();
 		updateGUI();
 	}
 	
+	
+	
+	protected void fireActionPerformed() {
+	    //implemented in subclass
+    }
+
 	public Slider getMySlider() {
 		if(mySlider == null)
 			initSlider();

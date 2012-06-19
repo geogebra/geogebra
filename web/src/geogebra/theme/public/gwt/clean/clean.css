@@ -1335,9 +1335,16 @@ body[dir=rtl] .logintogoogle {
 	
 }
 
-.SelectionTable a:hover, SelectionTable a:focus {
+.SelectionTable a:hover, .SelectionTable a:focus, .SelectionTable canvas:hover, .SelectionTable canvas:focus  {
 	background: #D5E2FF;
 }
+
+.SelectionTable canvas.selected {
+	border: 2px solid black;
+	margin-top: -2px;
+	margin-left: -2px;
+}
+
 /* AlgebraInput styles */
 .AlgebraInput {
     margin:auto 20px;

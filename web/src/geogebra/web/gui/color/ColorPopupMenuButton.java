@@ -160,6 +160,16 @@ public class ColorPopupMenuButton extends PopupMenuButton implements ClickHandle
 			setSelectedIndex(si);
 		}
     }
+	
+	@Override
+    protected void fireActionPerformed() {
+		if(this.hasSlider) {
+			Integer si = getSelectedIndex();
+			defaultColor = getSelectedColor();			
+			updateColorTable();
+			setSelectedIndex(si);
+		}
+    }
 
 	
 
