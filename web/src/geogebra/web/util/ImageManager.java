@@ -104,9 +104,26 @@ public class ImageManager extends AbstractImageManager {
 		}
 	}
 
+	class ImageErrorCallback2 implements ImageLoadCallback {
+		public GeoImage gi;
+		public ImageErrorCallback2(GeoImage gi2) {
+			this.gi = gi2;
+		}
+		public void onLoad() {
+			// Image onerror and onabort actually
+			gi.getCorner(0).remove();
+			gi.getCorner(1).remove();
+			gi.remove();
+			app.getKernel().notifyRepaint();
+		}
+	}
+
 	public void triggerSingleImageLoading(String imageFileName, GeoImage geoi) {
 		ImageElement img = externalImageTable.get(imageFileName);
 		ImageWrapper.nativeon(img, "load", new ImageLoadCallback2(geoi));
+		ImageErrorCallback2 i2 = new ImageErrorCallback2(geoi);
+		ImageWrapper.nativeon(img, "error", i2);
+		ImageWrapper.nativeon(img, "abort", i2);
 		img.setSrc(externalImageSrcs.get(imageFileName));
 	}
 
