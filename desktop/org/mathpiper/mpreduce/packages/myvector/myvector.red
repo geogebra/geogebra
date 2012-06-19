@@ -124,6 +124,7 @@ symbolic procedure makenewmyvector (u);
 
 symbolic procedure getmyavalue u;
    <<%debug%write("getmyavalue called with parameter ",u," # ");terpri();
+   if numberp u then u else
   (if x then cadr x else nil) where x=get(u,'avalue)>>;
 
 put('!!myvec,'setelemfn,'setmyvectorelement);
@@ -207,7 +208,7 @@ if myvecp u then myvecsm!* u else u>>;
 
 symbolic procedure myvecsm!* u;
   begin scalar y,vecopr,vargs,v;
-  %write("myvecsm!* called with parameter ",u," # ");terpri();
+  %debug%write("myvecsm!* called with parameter ",u," # ");terpri();
   if atom u then v := (if vectorp u then u else getmyavalue u)
   else if vectorp u then v := u
   else if (atom(y:= car u) and get(y,'rtype)='!!myvec) then
@@ -363,7 +364,7 @@ myvectorfn('plus,'myvectorplus);
 symbolic procedure myvectorplus vargs;
   % Add an arbitrarily-long list of vectors
   begin scalar x;
-%debug%write("myvectorplus entered with argument ", vargs);terpri();
+  %debug%write("myvectorplus entered with argument ", vargs);terpri();
   x := myvecsm!* car vargs;
   for each v in cdr vargs do x:=myvectoradd(x,if myvecp v then myvecsm!* v else v);
   return x
@@ -372,7 +373,7 @@ symbolic procedure myvectorplus vargs;
 symbolic procedure myvectoradd(u,v);
   % Add two vectors or two scalars
   begin scalar x,uisvec,visvec,n;
-%debug%write("myvectoradd entered with arguments ", u," and ",v);terpri();
+  %debug%write("myvectoradd entered with arguments ", u," and ",v);terpri();
   uisvec := myvecp u; visvec := myvecp v;
   if uisvec and visvec then
     if not eqn(upbv(u),upbv(v)) then
@@ -396,13 +397,13 @@ symbolic procedure myvectoradd(u,v);
     return aeval list('plus, u, v)
  end;
 
-% Difference of two vectors
+% Difference of two vectors or scalar and vector
 
 myvectorfn('difference,'myvectordiff);
 symbolic procedure myvectordiff vargs;
   % Vector - Vector
   begin scalar x,y;
-%debug%write("myvectordiff entered with argument ", vargs);terpri();
+  %debug%write("myvectordiff entered with argument ", vargs);terpri();
   x := myvecsm!* car vargs;
   y := myvecsm!* list('minus,cadr vargs);   % Negate the second operand
   return myvectoradd(x,y)
@@ -656,7 +657,7 @@ symbolic procedure myycoord vargs;
   
 myvectorfn('zcoord,'myzcoord);
 symbolic procedure myzcoord vargs;
-  getv(car vargs,1);
+  getv(car vargs,2);
 
 myvectorfn('get,'mygetelement);
 symbolic procedure mygetelement vargs;
