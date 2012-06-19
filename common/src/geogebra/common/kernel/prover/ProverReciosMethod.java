@@ -213,7 +213,6 @@ public class ProverReciosMethod {
 			}
 		}
 		return ProofResult.TRUE;
-
 	}
 	
 	private static ProofResult computeNd(final HashSet<Variable> freeVariables,
@@ -232,16 +231,25 @@ public class ProverReciosMethod {
 		}
 
 		boolean indicesChanged;
-		int nrOfTests = 0;
+		int nrOfTests = 0, changedIndex=n-1;
+		BigInteger[][] cache=new BigInteger[n][n];
 
 		do {
 
 			for (int i = 0; i < n; i++) {
-				BigInteger result = BigInteger.ONE;
-				for (int j = 0; j < n; j++) {
+				BigInteger result;
+
+				if (changedIndex == n - 1) {
+					result = BigInteger.ONE;
+				} else {
+					result = cache[i][changedIndex + 1];
+				}
+
+				for (int j = changedIndex; j >= 0; j--) {
 					result = result.multiply((BigInteger.valueOf(n)
 							.multiply(BigInteger.valueOf(indices[j])))
 							.subtract(BigInteger.valueOf(i)));
+					cache[i][j] = result;
 				}
 				values.put(variables[i], result);
 			}
@@ -267,6 +275,7 @@ public class ProverReciosMethod {
 					for (int j = 0; j < i; j++) {
 						indices[j] = indices[i] + i - j;
 					}
+					changedIndex=i;
 					indicesChanged = true;
 					break;
 				}
@@ -284,7 +293,7 @@ public class ProverReciosMethod {
 	}
 
 	/**
-	 * Returns the elements which are fixed by recios method prover
+	 * Returns the elements which are fixed by Recio's method prover
 	 * @return the fixed elements
 	 */
 	public static GeoElement[] getFixedPoints() {
