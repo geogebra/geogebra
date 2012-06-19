@@ -14,6 +14,7 @@ package geogebra.common.kernel.arithmetic;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.arithmetic.Traversing.VariableReplacer;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.roots.RealRootDerivFunction;
@@ -658,13 +659,13 @@ public class Function extends FunctionNVar implements RealRootFunction,
 		int terms = -1;
 		ExpressionValue evCopy=ev.deepCopy(kernel);
 		ExpressionNode replaced;
+		VariableReplacer varep = VariableReplacer.getReplacer(fVars[0].toString(StringTemplate.defaultTemplate), xVar);
 		if (evCopy instanceof ExpressionNode){
 			replaced = 
-					((ExpressionNode) ev.deepCopy(kernel)).replaceAndWrap(fVars[0], xVar);
+					((ExpressionNode) ev.deepCopy(kernel)).traverseAndWrap(varep);
 		} else {
-			replaced = (new ExpressionNode(kernel,evCopy)).replaceAndWrap(fVars[0], xVar);
+			replaced = (new ExpressionNode(kernel,evCopy)).traverseAndWrap(varep);
 		}
-				
 		Equation equ=new Equation(kernel,replaced,new MyDouble(kernel,0));				
 		try{
 			equ.initEquation();

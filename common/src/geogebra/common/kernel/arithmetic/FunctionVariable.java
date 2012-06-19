@@ -48,6 +48,10 @@ public class FunctionVariable extends MyDouble {
 		return false;
 	}
 	
+	@Override
+	final public ExpressionValue deepCopy(Kernel k){
+		return new FunctionVariable(k,varStr);
+	}
 	/**
 	 * Changes variable name
 	 * @param varStr new variable name

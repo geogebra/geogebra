@@ -91,7 +91,7 @@ public interface Traversing {
 		private String var;
 		private ExpressionValue newObj;
 		public ExpressionValue process(ExpressionValue ev) {
-				if(!(ev instanceof Variable))
+				if(!(ev instanceof Variable || ev instanceof FunctionVariable))
 					return ev;
 				if(!var.equals(ev.toString(StringTemplate.defaultTemplate)))
 					return ev;
