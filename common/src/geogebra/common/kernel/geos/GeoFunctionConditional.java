@@ -681,6 +681,7 @@ public class GeoFunctionConditional extends GeoFunction {
 			b.lowerSharp = lowerSharp;
 			b.upperSharp = upperSharp;
 			b.condition = condition;//If[x==1,1,If[x==2,3,4]]
+		
 			boolean simple = e.getOperation() == Operation.GREATER
 					|| e.getOperation() == Operation.GREATER_EQUAL
 					|| e.getOperation() == Operation.LESS
@@ -754,6 +755,21 @@ public class GeoFunctionConditional extends GeoFunction {
 				ExpressionValue v = b.condition.evaluate(StringTemplate.defaultTemplate);
 				if(v instanceof BooleanValue && ((BooleanValue)v).getBoolean())
 					b.condition = null;
+			}
+			//If[x==1,2,If[x>3,4,5]]
+			if(b.condition!=null && b.condition.getOperation() == Operation.NOT_EQUAL){
+				if (b.condition.getLeft() instanceof FunctionVariable
+						&& b.condition.getRight() instanceof MyDouble){
+					double d= ((MyDouble)b.condition.getRight()).getDouble();
+					if((b.lower!=null && d<b.lower)||(b.upper!=null && d>b.upper))
+						b.condition = null;
+				}
+				else if ( b.condition.getRight() instanceof FunctionVariable
+						&& b.condition.getLeft() instanceof MyDouble){
+					double d= ((MyDouble)b.condition.getLeft()).getDouble();
+					if((b.lower!=null && d<b.lower)||(b.upper!=null && d>b.upper))
+						b.condition = null;
+				}
 			}
 			return b;
 		}
