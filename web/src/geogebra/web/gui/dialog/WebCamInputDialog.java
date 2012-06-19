@@ -54,50 +54,65 @@ public class WebCamInputDialog extends PopupPanel implements ClickHandler{
 
 	public native Element populate(Element el) /*-{
 
-		try {
-			el.innerHTML = "<video width='640' height='480' autoplay>This video could not be played. Please check out in the GeoGebra Wiki: why.</video>\n";
-			var video = el.firstChild;
+		el.style.position = "relative";
+		var ihtml = "<span style='position:absolute;width:640px;height:480px;text-align:center;'><br><br>Please click 'Allow' in the pop-up bar.</span>\n";
+		ihtml += "<video width='640' height='480' autoplay><br><br>This video could not be played. 'video tag' is not supported. For more information, please check out the GeoGebra Wiki.</video>\n";
+		el.innerHTML = ihtml;
+		var video = el.lastChild;
 
-			$wnd.navigator.getUserMedia =
-				$wnd.navigator.getUserMedia ||
-				$wnd.navigator.webkitGetUserMedia ||
-				$wnd.navigator.msGetUserMedia ||
-				$wnd.navigator.mozGetUserMedia ||
-				$wnd.navigator.oGetUserMedia ||
-				function(){};
-			$wnd.URL =
-				$wnd.URL ||
-				$wnd.webkitURL ||
-				$wnd.msURL ||
-				$wnd.mozURL ||
-				$wnd.oURL ||
-				null;
+		$wnd.navigator.getUserMedia =
+			$wnd.navigator.getUserMedia ||
+			$wnd.navigator.webkitGetUserMedia ||
+			$wnd.navigator.msGetUserMedia ||
+			$wnd.navigator.mozGetUserMedia ||
+			$wnd.navigator.oGetUserMedia ||
+			null;
+
+		$wnd.URL =
+			$wnd.URL ||
+			$wnd.webkitURL ||
+			$wnd.msURL ||
+			$wnd.mozURL ||
+			$wnd.oURL ||
+			null;
+
+		if ($wnd.navigator.getUserMedia) {
 			try {
 				$wnd.navigator.getUserMedia({video: true}, function(bs) {
 					if ($wnd.URL && $wnd.URL.createObjectURL) {
 						video.src = $wnd.URL.createObjectURL(bs);
+						el.firstChild.style.display = "none";
 					} else {
 						video.src = bs;
+						el.firstChild.style.display = "none";
 					}
 				});
+				return video;
 			} catch (e) {
-				$wnd.navigator.getUserMedia("video", function(bs) {
-					if ($wnd.URL && $wnd.URL.createObjectURL) {
-						video.src = $wnd.URL.createObjectURL(bs);
-					} else {
-						video.src = bs;
-					}
-				});
+				try {
+					$wnd.navigator.getUserMedia("video", function(bs) {
+						if ($wnd.URL && $wnd.URL.createObjectURL) {
+							video.src = $wnd.URL.createObjectURL(bs);
+							el.firstChild.style.display = "none";
+						} else {
+							video.src = bs;
+							el.firstChild.style.display = "none";
+						}
+					});
+					return video;
+				} catch (exc) {
+					el.firstChild.innerHTML = "<br><br>This video could not be played. 'getUserMedia' is not supported. For more information, please check out the GeoGebra Wiki.";
+					return null;
+				}
 			}
-			return video;
-		} catch (ex) {
-			return null;
-		} 
+		} else {
+			el.firstChild.innerHTML = "<br><br>This video could not be played. 'getUserMedia' is not supported. For more information, please check out the GeoGebra Wiki.";
+		}
+		return null;
 	}-*/;
 
 	public native String shotcapture(Element video) /*-{
 
-		// does this work? - canvas is not part of the DOM
 		var canvas = $doc.createElement("canvas");
 		canvas.width = 640;
 		canvas.height = 480;
