@@ -90,7 +90,9 @@ public class AlgoSurdText extends AlgoElement {
 				if (frac[1]<10000)
 					Fractionappend(sb, (int)frac[0], (int)frac[1]);
 				else*/
-					PSLQappend(sb, decimal, tpl);
+					//PSLQappendQuartic(sb, decimal, tpl);
+				
+				PSLQappendGeneral(sb, decimal, tpl);
 			}
 						
 			text.setTextString(sb.toString());
@@ -102,7 +104,8 @@ public class AlgoSurdText extends AlgoElement {
 	}
     
     private void Fractionappend(StringBuilder sb, int numer, int denom,StringTemplate tpl) {
-		if (denom<0) {
+    	
+    	if (denom<0) {
 			denom= -denom;
 			numer= -numer;
 		}
@@ -121,7 +124,499 @@ public class AlgoSurdText extends AlgoElement {
 		}
     }
     
-    protected void PSLQappend(StringBuilder sb, double num,StringTemplate tpl) {
+    /**
+     * Goal: modifies a StringBuilder object sb to be a radical up to quartic roots
+     * The precision is adapted, according to setting
+     * @param sb
+     * @param num
+     * @param tpl
+     */
+    protected void PSLQappendGeneral(StringBuilder sb, double num,StringTemplate tpl) {
+
+    	StringBuilder sbToCAS = new StringBuilder();
+    	
+		int numOfConsts = 1;
+		
+		//double[] constValue = new double[] {Math.sqrt(2.0), Math.sqrt(3.0), Math.PI, Math.E};
+		//String[] constName = new String[] {"sqrt(2)", "sqrt(3)", "pi", "exp(1)"}; //ℯ e
+		
+		double[] constValue = new double[] {Math.sqrt(2.0)};
+		String[] constName = new String[] {"sqrt(2)"}; //ℯ e
+		
+		double[] numList = new double[(1+numOfConsts)*3]; //(numOfConsts+1)(degree+1)
+		
+		
+		double temp;
+
+		for (int j=0; j<numOfConsts; j++) {
+			temp = constValue[j];
+			for (int i=0; i<3; i++) {
+				numList[j*3+i] = temp;
+				temp *=num;
+			}
+		}
+		
+		temp = 1.0;
+		//Note: it turns out to be better to put the 1 term at the end instead of in the front 
+		for (int i=0; i<3; i++) {
+			numList[numOfConsts*3+i] = temp;
+			temp *=num;
+		}
+		
+		int[] coeffs = PSLQ(numList,getKernel().getEpsilon(),10);
+		
+		//Suppose A+Bx+Cx^2 = 0, where A,B,C are linear combinations of 1 and values in constValue
+
+		
+		boolean isAZero = true;
+		boolean isARational = true;
+		int numOfTermsInA = 0;
+		
+		boolean isBZero = true;
+		boolean isBRational = true;
+		int numOfTermsInB = 0;
+		
+		boolean isCZero = true;
+		boolean isCRational = true;
+		int numOfTermsInC = 0;
+
+		if (coeffs[numOfConsts*3]!=0)	{isAZero = false; numOfTermsInA++;}
+		if (coeffs[numOfConsts*3+1]!=0)	{isBZero = false; numOfTermsInB++;}
+		if (coeffs[numOfConsts*3+2]!=0)	{isCZero = false; numOfTermsInC++;}
+		
+		for (int j = 0; j<numOfConsts; j++) {
+			if (coeffs[j*3]!=0) {
+				isAZero = false;
+				isARational = false;
+				numOfTermsInA++;
+			}
+			if (coeffs[j*3+1]!=0) {
+				isBZero = false;
+				isBRational = false;
+				numOfTermsInB++;
+			}
+			if (coeffs[j*3+2]!=0) {
+				isCZero = false;
+				isCRational = false;
+				numOfTermsInC++;
+			}
+		}
+		
+		if (isARational && isBRational && isCRational) 
+		{ //TODO: optimize this
+			PSLQappendQuadratic(sb, num, tpl);
+			return;
+		}
+		
+		
+		if (isAZero && isBZero && isCZero) {
+			appendUndefined();
+		} else if (isCZero) {
+			if (isBZero) {
+				appendUndefined();
+			} else {
+				
+				StringBuilder AString = new StringBuilder();
+				StringBuilder BString = new StringBuilder();
+								
+				AString.append(kernel.format(coeffs[numOfConsts*3], tpl));
+				if(!isARational) {
+					AString.append("+");
+					appendCombination(AString,(coeffs[numOfConsts*3]==0)? numOfTermsInA : numOfTermsInA-1, constName, coeffs, 0, 3, tpl);
+				}
+				
+				BString.append(kernel.format(coeffs[numOfConsts*3+1], tpl));
+				if(!isBRational) {
+				BString.append("+");
+				appendCombination(BString,(coeffs[numOfConsts*3+1]==0)? numOfTermsInB : numOfTermsInB-1, constName, coeffs, 1, 3, tpl);
+				}
+				
+				sbToCAS.append("-(");
+				sbToCAS.append(AString.toString());
+				sbToCAS.append(")/(");
+				sbToCAS.append(BString.toString());
+				sbToCAS.append(")");
+			}
+		} else {
+			
+		
+			double Avalue = coeffs[numOfConsts*3] + evaluateCombination(constValue, coeffs, 0, 3);
+			double Bvalue = coeffs[numOfConsts*3+1] + evaluateCombination(constValue, coeffs, 1, 3);
+			double Cvalue = coeffs[numOfConsts*3+2] + evaluateCombination(constValue, coeffs, 2, 3);
+			double discr = Bvalue*Bvalue - 4*Avalue*Cvalue;
+			StringBuilder AString = new StringBuilder();
+			StringBuilder BString = new StringBuilder();
+			StringBuilder CString = new StringBuilder();
+			
+			AString.append(kernel.format(coeffs[numOfConsts*3], tpl));
+			if(!isARational) {
+				AString.append("+");
+				appendCombination(AString,(coeffs[numOfConsts*3]==0)? numOfTermsInA : numOfTermsInA-1, constName, coeffs, 0, 3, tpl);
+			}
+			
+			BString.append(kernel.format(coeffs[numOfConsts*3+1], tpl));
+			if(!isBRational) {
+			BString.append("+");
+			appendCombination(BString,(coeffs[numOfConsts*3+1]==0)? numOfTermsInB : numOfTermsInB-1, constName, coeffs, 1, 3, tpl);
+			}
+			
+			CString.append(kernel.format(coeffs[numOfConsts*3+2], tpl));
+			if(!isCRational) {
+				CString.append("+");
+				appendCombination(CString,(coeffs[numOfConsts*3+2]==0)? numOfTermsInC : numOfTermsInC-1, constName, coeffs, 2, 3, tpl);
+			}
+			
+			
+			sbToCAS.append("(");
+			
+			sbToCAS.append("-(");
+			sbToCAS.append(BString.toString());
+			sbToCAS.append(")");
+			
+			if (!Kernel.isZero(discr)) {
+				if (num * 2 * Cvalue + Bvalue >= 0 ) {
+					sbToCAS.append("+");
+				} else
+					sbToCAS.append("-");
+			
+				sbToCAS.append("sqrt(");
+				
+				sbToCAS.append("(");
+				sbToCAS.append(BString.toString());
+				sbToCAS.append(")^2");
+				
+				sbToCAS.append("-4*(");
+				sbToCAS.append(CString.toString());
+				sbToCAS.append(")*(");
+				sbToCAS.append(AString.toString());
+				sbToCAS.append(")");
+				
+				sbToCAS.append(")");
+		
+			}
+
+			sbToCAS.append(")/(");
+
+			sbToCAS.append("2*(");
+			sbToCAS.append(CString.toString());
+			sbToCAS.append(")");
+			sbToCAS.append(")");
+			
+		}
+		
+		sb.append(
+		kernel.getGeoGebraCAS().evaluateGeoGebraCAS(
+		
+				kernel.getGeoGebraCAS().getCASparser().parseGeoGebraCASInputAndResolveDummyVars(sbToCAS.toString())
+		
+		, null,tpl)
+		);
+		
+		/*
+		if (isAZero && isBZero && isCZero) {
+			appendUndefined();
+		} else if (isCZero) {
+			if (isBZero) {
+				appendUndefined();
+			} else if (isARational && isBRational) {
+				//coeffs[1]: denominator;  -coeffs[0]: numerator
+				int numer = -coeffs[0];
+				int denom = coeffs[1];
+				Fractionappend(sb, numer, denom,tpl);
+			} else {
+				
+				boolean hasDenominator = !(isBRational && (coeffs[1] == 1 || coeffs[1]==-1));
+				
+				if (hasDenominator) sb.append("\\frac{ ");
+				
+				if (!hasDenominator && coeffs[1]==-1) sb.append("-(");
+				
+				if (numOfTermsInA==0) {
+					sb.append(kernel.format(0, tpl));
+				} else {
+					if (coeffs[0]!=0) {
+						sb.append(kernel.format(coeffs[0], tpl));
+						if (numOfTermsInA>1) {
+							sb.append("+");
+							appendCombination(numOfTermsInA-1, constName, coeffs, 0, 3, tpl);
+						}
+					} else {
+						appendCombination(numOfTermsInA, constName, coeffs, 0, 3, tpl);
+					}
+				}
+				
+				if (!hasDenominator && coeffs[1]==-1) sb.append(")");
+				
+				if (hasDenominator) {
+					sb.append(" }{ ");
+					
+					if (coeffs[1]!=0) {
+						sb.append(kernel.format(coeffs[1], tpl));
+						if (numOfTermsInB>1) {
+							sb.append("+");
+							appendCombination(numOfTermsInB-1, constName, coeffs, 1, 3, tpl);
+						}
+					} else {
+						appendCombination(numOfTermsInB, constName, coeffs, 1, 3, tpl);
+					}
+
+					sb.append(" }");
+				}
+				
+			}
+		} else {
+			double Avalue = coeffs[0] + evaluateCombination(constValue, coeffs, 3, 3);
+			double Bvalue = coeffs[1] + evaluateCombination(constValue, coeffs, 4, 3);
+			double Cvalue = coeffs[2] + evaluateCombination(constValue, coeffs, 5, 3);
+			double discr = Bvalue*Bvalue - 4*Avalue*Cvalue;
+			
+			sb.append("\\frac{");
+			
+			if (numOfTermsInB!=0) {
+				sb.append("-");
+			}
+			
+			if (numOfTermsInB == 1) {
+				for (int j=0; j<1+numOfConsts; j++) {
+					if (constValue[1+j*3]!=0) {
+						sb.append(kernel.format(constValue[1+j*3], tpl));
+						break;
+					}
+				}
+			} else if (numOfTermsInB >1){
+				sb.append("(");
+				if (coeffs[1]!=0) {
+					sb.append(kernel.format(coeffs[1], tpl));
+					sb.append("+");
+					appendCombination(numOfTermsInB-1, constName, coeffs, 1, 3, tpl);
+				} else {
+					appendCombination(numOfTermsInB, constName, coeffs, 1, 3, tpl);
+				}
+				sb.append(")");
+			}
+			
+			
+			if (!Kernel.isZero(discr)) {
+				
+				if (num >= -Bvalue / 2 / Cvalue) {
+					if (!isBZero) 
+						sb.append("+");
+				} else
+					sb.append("-");
+				
+				sb.append("\\sqrt{");
+				
+				sb.append("Todo...");
+				
+				sb.append("}");
+			
+				
+			}
+			
+			sb.append(" }{ ");
+			
+			sb.append("Todo...");
+			
+			sb.append(" }");
+		}
+		*/
+	}
+			
+	
+    // returns the sum of constValue[j] * coeffs[offset+j*step] over j
+    private static double evaluateCombination(double[] constValue, int[] coeffs, int offset, int step) {
+    	double sum = 0;
+    	
+    	for (int j=0; j<constValue.length; j++) {
+    		sum+= constValue[j] * coeffs[offset + j*step];
+    	}
+    	
+    	return sum;
+	}
+
+	//append a linear combination coeffs[offset + j*step] * vars[j] to the StringBuilder sb 
+    private void appendCombination(StringBuilder sbToCAS, int numOfTerms, String[] vars, int[] coeffs, int offset, int step, StringTemplate tpl) {
+	
+    	int numOfAllTerms = vars.length;
+    	if (numOfAllTerms-1 != Math.floor((coeffs.length-1-step-offset)/step)) { //checksum
+    		appendUndefined();
+    		return;
+    	}
+    	
+    	if (numOfTerms==0) {    		
+    		return;
+    	}
+    	
+    	int counter = numOfTerms-1; //number of pluses
+			
+			for (int j=0; j<numOfAllTerms; j++) {
+				
+				if (coeffs[offset+j*step]==0) {
+					continue;
+				} else if (coeffs[offset+j*step]!=1) {
+					sbToCAS.append(kernel.format(coeffs[offset+j*step], tpl)); sbToCAS.append("*");
+				}
+				
+				sbToCAS.append(vars[j]);
+				
+				
+				if (counter>0) {
+					sbToCAS.append(" + ");
+					counter--;
+				}
+				
+			}
+		
+	}
+
+	private void appendUndefined() {
+		
+    	sb.append("\\text{"+app.getPlain("undefined")+"}");
+	}
+
+	/**
+     * Goal: modifies a StringBuilder object sb to be a radical up to quartic roots
+     * The precision is adapted, according to setting
+     * @param sb
+     * @param num
+     * @param tpl
+     */
+    protected void PSLQappendQuartic(StringBuilder sb, double num,StringTemplate tpl) {
+		double[] numPowers = new double[5];
+		double temp = 1.0;
+		
+		for (int i=4; i>=0; i--) {
+			numPowers[i] = temp;
+			temp *=num;
+		}
+		
+		int[] coeffs = PSLQ(numPowers,getKernel().getEpsilon(),10);
+		
+		if (coeffs[0] == 0 && coeffs[1] ==0) {
+
+			if (coeffs[2] == 0 && coeffs[3] == 0 && coeffs[4] == 0 ) {
+				sb.append("\\text{"+app.getPlain("undefined")+"}");
+			} else if (coeffs[2] == 0) {
+				//coeffs[1]: denominator;  coeffs[2]: numerator
+				int denom = coeffs[3];
+				int numer = -coeffs[4];
+				Fractionappend(sb, numer, denom,tpl);
+				
+			} else {
+				
+				//coeffs, if found, shows the equation coeffs[2]+coeffs[1]x+coeffs[0]x^2=0"
+				//We want x=\frac{a +/- b1\sqrt{b2}}{c}
+				//where  c=coeffs[0], a=-coeffs[1], b=coeffs[1]^2 - 4*coeffs[0]*coeffs[2]
+				int a = -coeffs[3];
+				int b2 = coeffs[3]*coeffs[3] - 4*coeffs[2]*coeffs[4];
+				int b1 =1;
+				int c = 2*coeffs[2];
+
+				if (b2 <= 0) { //should not happen!
+					sb.append("\\text{"+app.getPlain("undefined")+"}");
+					return;
+				}
+				
+				//free the squares of b2
+				while (b2 % 4==0) {
+					b2 = b2 / 4;
+					b1 = b1 * 2;
+				}
+				for (int s = 3; s<=Math.sqrt(b2); s+=2)
+					while (b2 % (s*s) ==0) {
+						b2 = b2 / (s*s);
+						b1 = b1 * s;
+					}
+				
+				if (c<0) {
+					a=-a;
+					c=-c;
+				}
+				
+				boolean positive;
+				if (num > (a+0.0)/c) {
+					positive=true;
+					if (b2==1) {
+						a+=b1;
+						b1=0;
+						b2=0;
+					}
+				} else {
+					positive=false;
+					if (b2==1) {
+						a-=b1;
+						b1=0;
+						b2=0;
+					}
+				}
+				
+				int gcd = MathUtils.gcd(MathUtils.gcd(a,b1),c);
+				if (gcd!=1) {
+					a=a/gcd;
+					b1=b1/gcd;
+					c=c/gcd;
+				}
+				
+				//when fraction is needed
+				if (c!=1) sb.append("\\frac{");
+				
+				if (a!=0) sb.append(kernel.format(a,tpl));
+				
+				//when the radical is surd
+				if (b2!=0) {
+					if (positive) {
+						if (a!=0) sb.append("+");
+					} else {
+						sb.append("-");
+					}
+					
+					if (b1!=1)
+						sb.append(kernel.format(b1,tpl));
+					sb.append("\\sqrt{");
+					sb.append(kernel.format(b2,tpl));
+					sb.append("}");
+				}
+				
+				//when fraction is needed
+				if (c!=1) {
+					sb.append("}{");
+					sb.append(kernel.format(c,tpl));
+			    	sb.append("}");
+				}
+			}
+		} else if (coeffs[0] ==0){
+			sb.append("Root of a cubic equation: ");
+			sb.append(kernel.format(coeffs[1], tpl));
+			sb.append("x^3 + ");
+			sb.append(kernel.format(coeffs[2], tpl));
+			sb.append("x^2 + ");
+			sb.append(kernel.format(coeffs[3], tpl));
+			sb.append("x + ");
+			sb.append(kernel.format(coeffs[4], tpl));
+		} else {
+			sb.append("Root of a quartic equation: ");
+			sb.append(kernel.format(coeffs[0], tpl));
+			sb.append("x^4 + ");
+			sb.append(kernel.format(coeffs[1], tpl));
+			sb.append("x^3 + ");
+			sb.append(kernel.format(coeffs[2], tpl));
+			sb.append("x^2 + ");
+			sb.append(kernel.format(coeffs[3], tpl));
+			sb.append("x + ");
+			sb.append(kernel.format(coeffs[4], tpl));
+		}
+		
+
+    }
+    
+    
+    /**
+     * Quadratic Case. modifies a StringBuilder object sb to be the quadratic-radical expression of num, within certain precision.
+     * @param sb
+     * @param num
+     * @param tpl
+     */
+    protected void PSLQappendQuadratic(StringBuilder sb, double num,StringTemplate tpl) {
 		double[] numPowers = {num * num, num, 1.0};
 		int[] coeffs = PSLQ(numPowers,Kernel.STANDARD_PRECISION,10);
 		
