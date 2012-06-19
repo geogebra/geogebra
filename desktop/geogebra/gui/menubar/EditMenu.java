@@ -1,23 +1,30 @@
 package geogebra.gui.menubar;
 
 import geogebra.common.gui.view.properties.PropertiesView.OptionType;
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.util.CopyPaste;
+import geogebra.euclidianND.EuclidianViewND;
 import geogebra.main.Application;
 
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
 import javax.swing.AbstractAction;
+import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JSeparator;
 import javax.swing.KeyStroke;
+import javax.swing.event.MenuEvent;
+import javax.swing.event.MenuListener;
 
 /**
  * The "Edit" menu.
  */
-public class EditMenu extends BaseMenu {
+public class EditMenu extends BaseMenu implements MenuListener {
 	private static final long serialVersionUID = -2649808771324470803L;
 
 	private AbstractAction
@@ -32,7 +39,9 @@ public class EditMenu extends BaseMenu {
 		selectCurrentLayerAction,
 		copyToClipboardAction,
 		copyAction,
-		pasteAction
+		pasteAction,
+		insertImageFromClipboardAction,
+		insertImageFromFileAction
 	;
 	
 	private JMenuItem
@@ -46,7 +55,9 @@ public class EditMenu extends BaseMenu {
 		selectCurrentLayerItem,
 		copyToClipboardItem,
 		copyItem,
-		pasteItem
+		pasteItem,
+		insertImageFrom,
+		clipboardMenu
 	;
 	
 	private JSeparator
@@ -94,7 +105,17 @@ public class EditMenu extends BaseMenu {
 		setMenuShortCutShiftAccelerator(copyToClipboardItem, 'C');
 		
 		addSeparator();
+		
+		// insert image from...
+		JMenu submenu = new JMenu(app.getMenu("InsertImageFrom"));
+		submenu.addMenuListener(this);
+		submenu.setIcon(app.getEmptyIcon());
+		add(submenu);
+		
+		submenu.add(insertImageFromFileAction);
+		clipboardMenu = submenu.add(insertImageFromClipboardAction);
 
+		addSeparator();
 		
 		if (app.letShowPropertiesDialog()) {
 			mi = add(propertiesAction);
@@ -259,6 +280,78 @@ public class EditMenu extends BaseMenu {
 			}
 		};
 		
+		insertImageFromClipboardAction = new AbstractAction(
+				app.getMenu("Clipboard"),
+				app.getEmptyIcon()) {
+			private static final long serialVersionUID = 1L;
+
+			public void actionPerformed(ActionEvent e) {			
+				app.setWaitCursor();
+				// get context info
+				EuclidianViewND ev = app.getActiveEuclidianView();
+				Construction cons = ev.getApplication().getKernel().getConstruction();
+				Point mousePos = ev.getMousePosition();
+				GeoPoint2 startPoint = new GeoPoint2(cons);
+
+				//double x = ev.toRealWorldCoordX(mousePos.x);
+				//double y = ev.toRealWorldCoordY(mousePos.y);
+				//startPoint.setCoords(x, y, 1.0);
+
+				startPoint.setCoords(
+					ev.getXmin()+(ev.getXmax()-ev.getXmin())/4,
+					ev.getYmin()+(ev.getYmax()-ev.getYmin())/4,
+					1.0);
+				startPoint.setLabel(null);
+
+				GeoPoint2 zoomPoint = new GeoPoint2(cons);
+				zoomPoint.setCoords(
+					ev.getXmax()-(ev.getXmax()-ev.getXmin())/4,
+					ev.getYmin()+(ev.getYmax()-ev.getYmin())/4,
+					1.0
+				);
+				zoomPoint.setLabel(null);
+
+				app.getGuiManager().loadImage(startPoint, zoomPoint, null, true);
+				app.setDefaultCursor();
+			}
+		};
+		
+		insertImageFromFileAction = new AbstractAction(
+				app.getMenu("File"),
+				app.getEmptyIcon()) {
+			private static final long serialVersionUID = 1L;
+
+			public void actionPerformed(ActionEvent e) {			
+				app.setWaitCursor();
+				// get context info
+				EuclidianViewND ev = app.getActiveEuclidianView();
+				Construction cons = ev.getApplication().getKernel().getConstruction();
+				Point mousePos = ev.getMousePosition();
+				GeoPoint2 startPoint = new GeoPoint2(cons);
+
+				//double x = ev.toRealWorldCoordX(mousePos.x);
+				//double y = ev.toRealWorldCoordY(mousePos.y);
+				//startPoint.setCoords(x, y, 1.0);
+
+				startPoint.setCoords(
+					ev.getXmin()+(ev.getXmax()-ev.getXmin())/4,
+					ev.getYmin()+(ev.getYmax()-ev.getYmin())/4,
+					1.0);
+				startPoint.setLabel(null);
+
+				GeoPoint2 zoomPoint = new GeoPoint2(cons);
+				zoomPoint.setCoords(
+					ev.getXmax()-(ev.getXmax()-ev.getXmin())/4,
+					ev.getYmin()+(ev.getYmax()-ev.getYmin())/4,
+					1.0
+				);
+				zoomPoint.setLabel(null);
+
+				app.getGuiManager().loadImage(startPoint, zoomPoint, null, false);
+				app.setDefaultCursor();
+			}
+		};
+		
 		deleteAction = new AbstractAction(app.getPlain("Delete"), app
 				.getImageIcon("delete_small.gif")) {
 			private static final long serialVersionUID = 1L;
@@ -347,5 +440,23 @@ public class EditMenu extends BaseMenu {
 		Kernel kernel = app.getKernel();
 		propertiesAction.setEnabled(!kernel.isEmpty());
 		selectAllAction.setEnabled(!kernel.isEmpty());
+	}
+
+	@Override
+	public void menuSelected(MenuEvent e) {
+		// check if there's an image on the clipboard
+		String[] fileName = app.getGuiManager().getImageFromTransferable(null);
+		clipboardMenu.setEnabled(fileName.length > 0);
+		
+	}
+
+	@Override
+	public void menuDeselected(MenuEvent e) {
+		//
+	}
+
+	@Override
+	public void menuCanceled(MenuEvent e) {
+		//
 	}
 }
