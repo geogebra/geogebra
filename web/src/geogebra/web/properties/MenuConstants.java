@@ -16,6 +16,9 @@ public interface MenuConstants extends ConstantsWithLookup {
     @DefaultStringValue("About")
     String About();
 
+    @DefaultStringValue("About / License")
+    String AboutLicense();
+
     @DefaultStringValue("Accents")
     String Accents();
 
@@ -805,6 +808,9 @@ public interface MenuConstants extends ConstantsWithLookup {
     @DefaultStringValue("Generate Code")
     String GenerateCode();
 
+    @DefaultStringValue("GeoGebra Forum")
+    String GeoGebraForum();
+
     @DefaultStringValue("GeoGebra to Asymptote Export")
     String GeogebraToAsymptoteExport();
 
@@ -813,6 +819,9 @@ public interface MenuConstants extends ConstantsWithLookup {
 
     @DefaultStringValue("Deutsch")
     String German();
+
+    @DefaultStringValue("Google Drive")
+    String GoogleDrive();
 
     @DefaultStringValue("Graph")
     String Graph();
@@ -927,6 +936,9 @@ public interface MenuConstants extends ConstantsWithLookup {
 
     @DefaultStringValue("Insert Below")
     String InsertBelow();
+
+    @DefaultStringValue("Insert Image from")
+    String InsertImageFrom();
 
     @DefaultStringValue("Insert Left")
     String InsertLeft();
@@ -1584,6 +1596,9 @@ public interface MenuConstants extends ConstantsWithLookup {
 
     @DefaultStringValue("Replace all cells")
     String ReplaceAll();
+
+    @DefaultStringValue("Report Bug")
+    String ReportBug();
 
     @DefaultStringValue("Require \"=\" Before Commands")
     String RequireEquals();
@@ -2334,6 +2349,9 @@ public interface MenuConstants extends ConstantsWithLookup {
 
     @DefaultStringValue("Click on objects or drag a rectangle to change their properties")
     String VisualStyle_Help();
+
+    @DefaultStringValue("Webcam")
+    String Webcam();
 
     @DefaultStringValue("Width")
     String Width();
