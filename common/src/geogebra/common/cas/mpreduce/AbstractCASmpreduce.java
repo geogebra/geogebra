@@ -685,7 +685,7 @@ public abstract class AbstractCASmpreduce implements CASGenericInterface {
 						+ "		 else if b=-infinity then"
 						+ "		   if (numberp(a) and a>0) or a=infinity then -infinity"
 						+ "		   else if (numberp(a) and a<0) or a=infinity then infinity"
-						+ "		   else '?" + "		 else" + "        a*b;");
+						+ "		   else '?" + "		 else" + "        a*b;");				
 				
 				mpreduce1.evaluate("procedure applyfunction(a,b);"
 						+ "if(arglength(b)<0) then a(b) else " +
@@ -701,7 +701,7 @@ public abstract class AbstractCASmpreduce implements CASGenericInterface {
 						"else a(b,p)");
 
 				mpreduce1.evaluate("operator multiplication;");
-
+				mpreduce1.evaluate("procedure mydivision(a,b); multiplication(a,1/b)");
 				mpreduce1.evaluate("procedure addition(a,b);"
 						+ "  if arglength(a)>-1 and part(a,0)='list and arglength(b)>-1 and part(b,0)='list then"
 						+ "    for i:=1:length(a) collect part(a,i)+part(b,i)"

@@ -54,7 +54,9 @@ public class CommandDispatcherMPReduce {
 		/** sub(x=y,int(x,x)) */
 		sub(Operation.SUBSTITUTION),
 		/** interval returned from Solve[x^2<4]*/
-		ggbinterval(Operation.NO_OPERATION);
+		ggbinterval(Operation.NO_OPERATION),
+		/** division */
+		mydivision(Operation.DIVIDE);
 		private Operation op;
 		private commands(Operation op){
 			this.op = op;
@@ -137,6 +139,7 @@ public class CommandDispatcherMPReduce {
 			case subtraction:
 			case addition:
 			case applyfunction:	
+			case mydivision:	
 				// e.g. addition[x,3] becomes x + 3
 				ret = new ExpressionNode(kernel,
 						 args.getItem(0),commands.valueOf(cmdName).getOperation(),

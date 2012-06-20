@@ -179,6 +179,7 @@ public class Ggb2MPReduce {
 		p("Median.1",
 				"<<begin scalar list!!; list!!:=(%0)$ list!!:= mysort list!!$ return if remainder(length(list!!),2)=0 then (part(list!!,length(list!!)/2)+part(list!!,1+length(list!!)/2))/2 else part(list!!,(length(list!!)+1)/2) end>>");
 		p("Min.N", "min(%)");
+		p("Midpoint.2", "multiplication((%0)+(%1),1/2)");
 		p("Mod.2", "mod!!(%0,%1)");
 		p("NextPrime.1", "if %0<2 then 2 else nextprime(%0)");
 		p("NIntegral.3",

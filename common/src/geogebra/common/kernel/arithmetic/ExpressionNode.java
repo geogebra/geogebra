@@ -2523,9 +2523,9 @@ public class ExpressionNode extends ValidExpression implements
 			case MATH_PIPER:
 			case MAXIMA:
 			case MPREDUCE:
-				sb.append('(');
+				sb.append("mydivision(");
 				sb.append(leftStr);
-				sb.append(")/(");
+				sb.append(",");
 				sb.append(rightStr);
 				sb.append(')');
 				break;
