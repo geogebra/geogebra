@@ -75,6 +75,12 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 		GGWMenuBar.getMenubar().updateSelection();
 
 	}
+	
+	@Override
+	public void updateActions() {
+		GGWMenuBar.getMenubar().updateSelection();
+
+	}
 
 	@Override
 	public DialogManager getDialogManager() {
