@@ -617,6 +617,12 @@ public class AlgoSurdText extends AlgoElement {
      * @param tpl
      */
     protected void PSLQappendQuadratic(StringBuilder sb, double num,StringTemplate tpl) {
+    	
+    	if (Kernel.isZero(num)) {
+    		sb.append('0');
+    		return;
+    	}
+    	
 		double[] numPowers = {num * num, num, 1.0};
 		int[] coeffs = PSLQ(numPowers,Kernel.STANDARD_PRECISION,10);
 		
@@ -803,10 +809,10 @@ public class AlgoSurdText extends AlgoElement {
 			P[i][i]+=1;
 		
 		//debug: |P|^2=|H|^2 = n-1
-		AbstractApplication.debug("Frobenius Norm Squares: \n"
-				+ "|P|^2 = " + frobNormSq(P,n,n)
-				+ "|H|^2 = " + frobNormSq(H,n,n-1)
-				);
+		//AbstractApplication.debug("Frobenius Norm Squares: \n"
+		//		+ "|P|^2 = " + frobNormSq(P,n,n)
+		//		+ "|H|^2 = " + frobNormSq(H,n,n-1)
+		//		);
 		
 
 		//initialize matrices R
@@ -843,7 +849,7 @@ public class AlgoSurdText extends AlgoElement {
 		//iteration
 		int itCount = 0;
 		double itBound = 2.0*gamma/deltaSq * n*n*(n+1)*Math.log(Math.sqrt(bound*bound*n)*n*n)/Math.log(2);
-		AbstractApplication.debug("itBound = " + itBound);
+		//AbstractApplication.debug("itBound = " + itBound);
 		while (itCount < itBound){
 			
 			//0. test if we have found a relation in a column of B
