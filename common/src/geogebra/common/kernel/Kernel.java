@@ -86,8 +86,8 @@ import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoLocus;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
-import geogebra.common.kernel.geos.GeoPolyLine;
 import geogebra.common.kernel.geos.GeoPoly;
+import geogebra.common.kernel.geos.GeoPolyLine;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoRay;
 import geogebra.common.kernel.geos.GeoSegment;
@@ -5973,10 +5973,19 @@ public class Kernel {
 	}
 
 	/**
-	 * ToFraction[number] Michael Borcherds
+	 * FractionText[number] Michael Borcherds
 	 */
 	final public GeoText FractionText(String label, GeoNumeric num) {
 		AlgoFractionText algo = new AlgoFractionText(cons, label, num);
+		GeoText text = algo.getResult();
+		return text;
+	}
+	
+	/**
+	 * FractionText[Point] Michael Borcherds
+	 */
+	final public GeoText FractionText(String label, GeoPointND p) {
+		AlgoFractionTextPoint algo = new AlgoFractionTextPoint(cons, label, p);
 		GeoText text = algo.getResult();
 		return text;
 	}

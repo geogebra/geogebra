@@ -4,6 +4,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.MyError;
 
 /**
@@ -33,6 +34,10 @@ public class CmdFractionText extends CommandProcessor {
 			if (arg[0].isGeoNumeric()) {
 				GeoElement[] ret = { kernelA.FractionText(c.getLabel(),
 						(GeoNumeric) arg[0]) };
+				return ret;
+			} else if (arg[0].isGeoPoint()) {
+				GeoElement[] ret = { kernelA.FractionText(c.getLabel(),
+						(GeoPointND) arg[0]) };
 				return ret;
 			}
 			throw argErr(app, c.getName(), arg[0]);

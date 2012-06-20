@@ -2126,4 +2126,9 @@ final public class GeoPoint2 extends GeoVec3D implements VectorValue,
 		return null;
 	}
 
+	@Override
+	public int getDimension() {
+		return 2;
+	}
+
 }

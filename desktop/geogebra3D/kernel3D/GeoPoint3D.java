@@ -1170,6 +1170,11 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND,
 		setCoords(x1, y1, z1, getW());
 
 	}
+
+	@Override
+	public int getDimension() {
+		return 3;
+	}
 	
 	
 	

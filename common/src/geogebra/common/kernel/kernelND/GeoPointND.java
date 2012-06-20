@@ -228,6 +228,8 @@ public interface GeoPointND extends GeoElementND, PointProperties{
 	public boolean getTrace();
 	//private boolean movePointMode = MOVE_POINT_MODE_XY;
 
+	public int getDimension();
+
 	
 
 	

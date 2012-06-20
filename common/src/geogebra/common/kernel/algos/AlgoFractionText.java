@@ -66,7 +66,7 @@ public class AlgoFractionText extends AlgoElement {
     }
 
     @Override
-	public final void compute() {
+	public void compute() {
     	StringTemplate tpl = StringTemplate.get(app.getFormulaRenderingType());
 		if (input[0].isDefined()) {
 			frac = DecimalToFraction(num.getDouble(),Kernel.STANDARD_PRECISION);
@@ -98,21 +98,9 @@ public class AlgoFractionText extends AlgoElement {
 				}
 		    	break;
 			case LATEX:
-				if (frac[1] == 1) { // integer
-			    	text.setTextString(kernel.format(frac[0],tpl));				
-				} else if (frac[1] == 0) { // 1 / 0 or -1 / 0
-			    	text.setTextString(frac[0] < 0 ? "-"+Unicode.Infinity : ""+Unicode.Infinity);				
-				} else {
-					sb.setLength(0);
-			    	sb.append("{\\frac{");
-			    	// checkDecimalFraction() needed for eg FractionText[20.0764]
-			    	sb.append(kernel.format(Kernel.checkDecimalFraction(frac[0]),tpl));
-			    	sb.append("}{");
-			    	sb.append(kernel.format(Kernel.checkDecimalFraction(frac[1]),tpl));
-			    	sb.append("}}");
-			    	
-			    	text.setTextString(sb.toString());
-				}
+				sb.setLength(0);
+				appendLaTeX(sb, frac, tpl, kernel);			    	
+		    	text.setTextString(sb.toString());
 		    	break;
 				
 			}
@@ -204,5 +192,28 @@ public class AlgoFractionText extends AlgoElement {
 	public boolean isLaTeXTextCommand() {
 		return true;
 	}
+	
+	protected static void appendLaTeX(StringBuilder sb, double[] num, StringTemplate tpl, Kernel kernel) {
+		if (num[1] == 1) { // integer
+	    	sb.append(kernel.format(num[0],tpl));				
+		} else if (num[1] == 0) { // 1 / 0 or -1 / 0
+
+			if (num[0] < 0) {
+				sb.append('-');
+			}
+			sb.append(Unicode.Infinity);
+
+		} else {
+	    	sb.append("\\frac{");
+	    	// checkDecimalFraction() needed for eg FractionText[20.0764]
+	    	sb.append(kernel.format(Kernel.checkDecimalFraction(num[0]),tpl));
+	    	sb.append("}{");
+	    	sb.append(kernel.format(Kernel.checkDecimalFraction(num[1]),tpl));
+	    	sb.append("}");
+	    	
+		}
+		
+	}
+
 
 }
