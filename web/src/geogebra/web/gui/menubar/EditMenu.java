@@ -19,6 +19,8 @@ public class EditMenu extends MenuBar {
 	 */
 	AbstractApplication app;
 
+	InsertImageMenu iim;
+
 	/**
 	 * Constructs the "Edit" menu
 	 * @param app Application instance
@@ -28,6 +30,7 @@ public class EditMenu extends MenuBar {
 		super(true);
 		this.app = app;
 		addStyleName("GeoGebraMenuBar");
+		iim = new InsertImageMenu(app);
 		initActions();
 	}
 
@@ -124,8 +127,12 @@ public class EditMenu extends MenuBar {
 				        ((Application) app).copyEVtoClipboard();
 			        }
 		        });
-	
+
 		// separator
+		addSeparator();
+
+		addItem(app.getMenu("InsertImageFrom"), iim);
+
 		addSeparator();
 
 		// select all menu
@@ -144,11 +151,5 @@ public class EditMenu extends MenuBar {
 //				}
 //			});
 
-	    addItem(GeoGebraMenubar.getMenuBarHtml(AppResources.INSTANCE.users().getSafeUri().asString(),app.getMenu("InsertImageFromWebCam")),true,new Command() {
-	    	public void execute() {
-	    		WebCamInputDialog dialog = new WebCamInputDialog(false, (Application) app);
-	    		dialog.setVisible(true);
-	    	}
-	    });
 	}
 }
