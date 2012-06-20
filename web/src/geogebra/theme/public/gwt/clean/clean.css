@@ -1335,14 +1335,18 @@ body[dir=rtl] .logintogoogle {
 	
 }
 
+
+
 .SelectionTable a:hover, .SelectionTable a:focus, .SelectionTable canvas:hover, .SelectionTable canvas:focus  {
 	background: #D5E2FF;
 }
 
+.SelectionTable canvas {
+	border:1px solid transparent;
+}
+
 .SelectionTable canvas.selected {
-	border: 2px solid black;
-	margin-top: -2px;
-	margin-left: -2px;
+	border: 1px solid black;
 }
 
 /* AlgebraInput styles */

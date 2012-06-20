@@ -687,6 +687,7 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 	@Override
 	public void drawRect(int x, int y, int width, int height) {
 	   context.rect(x, y, width, height);
+	   context.stroke();
 	}
 
 	@Override

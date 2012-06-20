@@ -101,7 +101,8 @@ public class GeoGebraIcon {
 
 		// draw dashed line
 		g2.setPaint(fgColor);
-		g2.setStroke(new geogebra.web.awt.BasicStroke(EuclidianStatic.getStroke(thickness, dashStyle)));
+		g2.setStroke(EuclidianStatic.getStroke(thickness, dashStyle));
+		//g2.getCanvas().getContext2d().setLineWidth(thickness);
 		int mid = h / 2;
 		g2.drawLine(4, mid, w - 4, mid);
 
@@ -159,11 +160,11 @@ public class GeoGebraIcon {
 
 		float[] rgb = new float[3];
 		fgColor.getRGBColorComponents(rgb);
-		g2.setPaint(AwtFactory.prototype.newColor( rgb[0], rgb[1], rgb[2], alpha*255));
+		g2.setPaint(geogebra.common.factories.AwtFactory.prototype.newColor( rgb[0], rgb[1], rgb[2], alpha));
 		g2.fillRect(offset, offset, w-2*offset, h-2*offset);
-
+		
 		g2.setPaint(fgColor);
-		g2.setStroke(new BasicStroke(thickness)); 
+		g2.getCanvas().getContext2d().setLineWidth(thickness);
 		g2.drawRect(offset, offset, w-2*offset, h-2*offset);
 
 		return g2.getImageData(0, 0, iconSize.getWidth(), iconSize.getHeight());
@@ -258,7 +259,7 @@ public class GeoGebraIcon {
 		if(isBold)
 			font = (Font) font.deriveFont(Font.BOLD);
 		if(isItalic)
-			font = (Font) font.deriveFont(Font.ITALIC);
+			font = (Font) font.deriveFont(geogebra.common.awt.Font.ITALIC);
 		g2.setFont (font);
 
 
