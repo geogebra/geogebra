@@ -17,6 +17,7 @@ import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import geogebra.common.kernel.arithmetic.Traversing.ArbconstReplacer;
 import geogebra.common.kernel.arithmetic.Traversing.CommandCollector;
+import geogebra.common.kernel.arithmetic.Traversing.CommandReplacer;
 import geogebra.common.kernel.arithmetic.Traversing.GeoDummyReplacer;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.main.AbstractApplication;
@@ -1103,7 +1104,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 						geo);
 				fun.getExpression().traverse(ge);
 			}
-		}
+		}				
 	}
 
 	/**
@@ -1304,6 +1305,8 @@ public class GeoCasCell extends GeoElement implements VarString {
 	
 			// parse output into valid expression
 			outputVE = parseGeoGebraCASInputAndResolveDummyVars(res);
+			CommandReplacer cr = CommandReplacer.getReplacer();
+			outputVE.traverse(cr);
 		}
 		if (isFunctionDeclaration) {
 			// replace GeoDummyVariable objects in outputVE by the function

@@ -47,6 +47,37 @@ public interface Traversing {
 			return replacer;
 		}
 	}
+	
+	/**
+	 * Replaces dummy variable with given name
+	 *
+	 */
+	public class CommandReplacer implements Traversing {
+
+		public ExpressionValue process(ExpressionValue ev) {
+			if(ev instanceof Command){
+				Command c= (Command)ev;
+				MyList argList = new MyList(c.getKernel()); 
+				for(int i=0;i<c.getArgumentNumber();i++){
+					argList.addListElement(c.getItem(i));
+				}
+				return new ExpressionNode(c.getKernel(),
+						new GeoDummyVariable(c.getKernel().getConstruction(),c.getName()),
+						Operation.FUNCTION_NVAR,
+						argList);
+			}
+			return ev;
+		}
+		private static CommandReplacer replacer = new CommandReplacer();
+		/**
+		 * @return replacer
+		 */
+		public static CommandReplacer getReplacer(){
+			return replacer;
+		}
+	}
+	
+	
 	/**
 	 * Replaces dummy variable with given name
 	 *
@@ -56,6 +87,7 @@ public interface Traversing {
 		private ExpressionValue newObj;
 		private boolean didReplacement;
 		public ExpressionValue process(ExpressionValue ev) {
+				
 				if(!(ev instanceof GeoDummyVariable) ||
 						!var.equals(((GeoDummyVariable) ev).toString(StringTemplate.defaultTemplate)))
 					return ev;
