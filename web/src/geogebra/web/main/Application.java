@@ -476,7 +476,7 @@ public class Application extends AbstractApplication {
 		Construction cons = getKernel().getConstruction();
 		EuclidianViewInterfaceCommon ev = getActiveEuclidianView();
 		((ImageManager)getImageManager()).addExternalImage(imgFileName, fileStr);
-		GeoImage geoImage = new GeoImage(getKernel().getConstruction());
+		GeoImage geoImage = new GeoImage(cons);
 		((ImageManager)getImageManager()).triggerSingleImageLoading(imgFileName, geoImage);
 		geoImage.setImageFileName(imgFileName);
 		double cx = ev.getXmin() + (ev.getXmax() - ev.getXmin()) / 4;
