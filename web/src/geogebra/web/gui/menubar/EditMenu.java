@@ -131,7 +131,9 @@ public class EditMenu extends MenuBar {
 		// separator
 		addSeparator();
 
-		addItem(app.getMenu("InsertImageFrom"), iim);
+		addItem(GeoGebraMenubar.getMenuBarHtml(AppResources.INSTANCE
+		        .empty().getSafeUri().asString(), app.getMenu("InsertImageFrom")),
+		        true, iim);
 
 		addSeparator();
 
