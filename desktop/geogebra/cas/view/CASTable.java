@@ -294,6 +294,9 @@ public class CASTable extends JTable implements geogebra.common.cas.view.CASTabl
 				rollOverRow = row;
 				isOutputRollOver = isOutputPanelClicked(e.getPoint());
 				repaint();
+				if(!e.isControlDown() && !isOutputRollOver)
+					rollOverRow = -1;
+					
 			}
 		}
 		
