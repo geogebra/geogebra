@@ -52,7 +52,7 @@ public class CASTable extends JTable implements geogebra.common.cas.view.CASTabl
 
 	private static final long serialVersionUID = 1L;
 	
-	protected int copyMode = COPY_OFF;
+	protected int copyMode = COPY_STATIC;
 	
 	
 	private CASTableModel tableModel;
@@ -768,6 +768,8 @@ public class CASTable extends JTable implements geogebra.common.cas.view.CASTabl
 	}
 
 	public void setCopyMode(int copyMode) {
+		if(copyMode == COPY_OFF)
+			this.copyMode = COPY_STATIC;	
 		this.copyMode = copyMode;
 	}
 
