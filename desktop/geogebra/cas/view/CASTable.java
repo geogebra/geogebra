@@ -237,6 +237,12 @@ public class CASTable extends JTable implements geogebra.common.cas.view.CASTabl
 					} else {
 
 						if (copyMode == COPY_STATIC) {
+							if(!e.isControlDown()){
+								getSelectionModel().setSelectionInterval(getClickedRow(),
+										getClickedRow());
+								startEditingRow(getClickedRow());
+								return;
+							}
 							getEditor().insertText(
 									view.getRowInputValue(getClickedRow()));
 						} else if (copyMode == COPY_PLOT) {
