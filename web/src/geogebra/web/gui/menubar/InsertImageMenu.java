@@ -19,7 +19,7 @@ public class InsertImageMenu extends MenuBar {
 	AbstractApplication app;
 
 	/**
-	 * Constructs the "Edit" menu
+	 * Constructs the "Insert Image" menu
 	 * @param app Application instance
 	 */
 	public InsertImageMenu(AbstractApplication app) {
