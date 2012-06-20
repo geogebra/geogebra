@@ -42,7 +42,8 @@ import javax.swing.JToolBar;
  * 
  * @author G. Sturr
  */
-public class EuclidianStyleBar extends JToolBar implements ActionListener, geogebra.common.euclidian.EuclidianStyleBar {
+public class EuclidianStyleBar extends JToolBar implements ActionListener,
+		geogebra.common.euclidian.EuclidianStyleBar {
 
 	/***/
 	private static final long serialVersionUID = 1L;
@@ -56,38 +57,17 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener, geoge
 	// buttons and lists of buttons
 	private ColorPopupMenuButton btnColor, btnBgColor, btnTextColor;
 
-	private PopupMenuButton btnLineStyle, btnPointStyle, btnTextSize, btnMode;
+	private PopupMenuButton btnLineStyle, btnPointStyle, btnTextSize,
+			btnTableTextJustify, btnTableTextBracket, btnLabelStyle,
+			btnPointCapture;
 
-	PopupMenuButton btnTableTextJustify;
-
-	PopupMenuButton btnTableTextBracket;
-
-	private PopupMenuButton btnLabelStyle;
-
-	private PopupMenuButton btnPointCapture;
-
-	private MyToggleButton btnCopyVisualStyle, btnPen, btnShowGrid,
-			btnShowAxes;
-
-	MyToggleButton btnBold;
-
-	MyToggleButton btnItalic;
-
-	private MyToggleButton btnDelete;
-
-	private MyToggleButton btnLabel;
-
-	private MyToggleButton btnPenEraser;
-
-	MyToggleButton btnHideShowLabel;
-
-	private MyToggleButton btnTableTextLinesV;
-
-	private MyToggleButton btnTableTextLinesH;
+	private MyToggleButton btnPen, btnShowGrid, btnShowAxes, btnBold,
+			btnItalic, btnDelete, btnPenEraser, btnTableTextLinesV,
+			btnTableTextLinesH;
 
 	private PopupMenuButton[] popupBtnList;
 	private MyToggleButton[] toggleBtnList;
-	private JButton btnPenDelete, btnDeleteGeo;
+	private JButton btnPenDelete;
 
 	// fields for setting/unsetting default geos
 	private HashMap<Integer, Integer> defaultGeoMap;
@@ -205,7 +185,6 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener, geoge
 	 */
 	public void updateStyleBar() {
 
-		
 		// -----------------------------------------------------
 		// Create activeGeoList, a list of geos the stylebar can adjust.
 		// These are either the selected geos or the current default geo.
@@ -300,9 +279,9 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener, geoge
 		// show the pen delete button
 		// TODO: handle pen mode in code above
 		btnPenDelete.setVisible((mode == EuclidianConstants.MODE_PEN));
-		
+
 		addButtons();
-		
+
 	}
 
 	private void updateTableText(Object[] geos) {
@@ -465,9 +444,9 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener, geoge
 		createBgColorButton();
 		createTextButtons();
 		createTableTextButtons();
-		
+
 		addButtons();
-		
+
 		popupBtnList = newPopupBtnList();
 		toggleBtnList = newToggleBtnList();
 
@@ -476,35 +455,35 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener, geoge
 		}
 
 	}
-	
+
 	/**
-	 * adds/removes buttons 
-	 * (must be called on updates so that separators are drawn only when needed)
+	 * adds/removes buttons (must be called on updates so that separators are
+	 * drawn only when needed)
 	 */
 	private void addButtons() {
 
 		removeAll();
 
-		//--- order matters here
-		
+		// --- order matters here
+
 		// add graphics decoration buttons
 		addGraphicsDecorationsButtons();
 		addBtnPointCapture();
 
 		// add color and style buttons
-		if(btnColor.isVisible() || btnTextColor.isVisible())
+		if (btnColor.isVisible() || btnTextColor.isVisible())
 			addSeparator();
-		
+
 		add(btnColor);
 		add(btnBgColor);
 		add(btnTextColor);
 		add(btnLineStyle);
 		add(btnPointStyle);
-		
+
 		// add text decoration buttons
-		if(btnBold.isVisible())
+		if (btnBold.isVisible())
 			addSeparator();
-		
+
 		add(btnBold);
 		add(btnItalic);
 		add(btnTextSize);
@@ -515,24 +494,22 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener, geoge
 		add(btnTableTextBracket);
 
 		// add(btnPenEraser);
-		// add(btnHideShowLabel);
+
 		add(btnLabelStyle);
 		// add(btnPointCapture);
 		addBtnRotateView();
 		// add(btnPenDelete);
 
 	}
-	
-	
+
 	/**
 	 * add axes, grid, ... buttons
 	 */
-	protected void addGraphicsDecorationsButtons(){
+	protected void addGraphicsDecorationsButtons() {
 		add(btnShowAxes);
 		add(btnShowGrid);
 	}
-	
-	
+
 	protected PopupMenuButton[] newPopupBtnList() {
 		return new PopupMenuButton[] { btnColor, btnBgColor, btnTextColor,
 				btnLineStyle, btnPointStyle, btnTextSize, btnTableTextJustify,
@@ -540,10 +517,9 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener, geoge
 	}
 
 	protected MyToggleButton[] newToggleBtnList() {
-		return new MyToggleButton[] { btnCopyVisualStyle, btnPen, btnShowGrid,
-				btnShowAxes, btnBold, btnItalic, btnDelete, btnLabel,
-				btnPenEraser, btnHideShowLabel, btnTableTextLinesV,
-				btnTableTextLinesH };
+		return new MyToggleButton[] { btnPen, btnShowGrid, btnShowAxes,
+				btnBold, btnItalic, btnDelete, btnPenEraser,
+				btnTableTextLinesV, btnTableTextLinesH };
 	}
 
 	protected void addBtnPointCapture() {
@@ -551,7 +527,7 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener, geoge
 	}
 
 	protected void addBtnRotateView() {
-		//do nothing here (overridden function)
+		// do nothing here (overridden function)
 	}
 
 	// =====================================================
@@ -569,12 +545,6 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener, geoge
 				app.getImageIcon("delete_small.gif"),
 				app.getImageIcon("mode_point_16.gif"),
 				app.getImageIcon("mode_copyvisualstyle_16.png") };
-		btnMode = new PopupMenuButton((Application) ev.getApplication(),
-				modeArray, -1, 1, new Dimension(20, iconHeight),
-				geogebra.common.gui.util.SelectionTable.MODE_ICON);
-		btnMode.addActionListener(this);
-		btnMode.setKeepVisible(false);
-		// add(btnMode);
 
 		// ========================================
 		// pen button
@@ -610,43 +580,7 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener, geoge
 			}
 		};
 		btnDelete.addActionListener(this);
-		// add(btnDelete);
-
-		// ========================================
-		// hide/show labels button
-		btnLabel = new MyToggleButton(
-				((Application) ev.getApplication())
-						.getImageIcon("mode_copyvisualstyle_16.png"),
-				iconHeight) {
-
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void update(Object[] geos) {
-				this.setVisible((geos.length == 0 && mode == EuclidianConstants.MODE_MOVE)
-						|| mode == EuclidianConstants.MODE_SHOW_HIDE_LABEL);
-			}
-		};
-		btnLabel.addActionListener(this);
-		// add(btnLabel);
-
-		// ========================================
-		// visual style button
-
-		btnCopyVisualStyle = new MyToggleButton(
-				((Application) ev.getApplication())
-						.getImageIcon("mode_copyvisualstyle_16.png"),
-				iconHeight) {
-
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void update(Object[] geos) {
-				this.setVisible((geos.length > 0 && mode == EuclidianConstants.MODE_MOVE));
-			}
-		};
-		btnCopyVisualStyle.addActionListener(this);
-		// add(this.btnCopyVisualStyle);
+		add(btnDelete);
 
 		// ========================================
 		// show axes button
@@ -693,7 +627,8 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener, geoge
 
 		// create button
 		btnLineStyle = new PopupMenuButton(app, lineStyleIcons, -1, 1,
-				lineStyleIconSize, geogebra.common.gui.util.SelectionTable.MODE_ICON) {
+				lineStyleIconSize,
+				geogebra.common.gui.util.SelectionTable.MODE_ICON) {
 
 			private static final long serialVersionUID = 1L;
 
@@ -759,7 +694,7 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener, geoge
 		btnLineStyle.getMySlider().setMajorTickSpacing(2);
 		btnLineStyle.getMySlider().setMinorTickSpacing(1);
 		btnLineStyle.getMySlider().setPaintTicks(true);
-		btnLineStyle.setStandardButton(true); //popup on the whole button
+		btnLineStyle.setStandardButton(true); // popup on the whole button
 		btnLineStyle.addActionListener(this);
 
 		// ========================================
@@ -775,7 +710,8 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener, geoge
 
 		// create button
 		btnPointStyle = new PopupMenuButton(app, pointStyleIcons, 2, -1,
-				pointStyleIconSize, geogebra.common.gui.util.SelectionTable.MODE_ICON) {
+				pointStyleIconSize,
+				geogebra.common.gui.util.SelectionTable.MODE_ICON) {
 
 			private static final long serialVersionUID = 1L;
 
@@ -832,7 +768,7 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener, geoge
 		btnPointStyle.getMySlider().setMajorTickSpacing(2);
 		btnPointStyle.getMySlider().setMinorTickSpacing(1);
 		btnPointStyle.getMySlider().setPaintTicks(true);
-		btnPointStyle.setStandardButton(true); //popup on the whole button
+		btnPointStyle.setStandardButton(true); // popup on the whole button
 		btnPointStyle.addActionListener(this);
 
 		// ========================================
@@ -851,45 +787,6 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener, geoge
 		btnPenEraser.addActionListener(this);
 
 		// ========================================
-		// delete geo button
-		btnDeleteGeo = new JButton(app.getImageIcon("delete_small.gif"));
-		btnDeleteGeo.addActionListener(this);
-		// add(btnDeleteGeo);
-
-		// ========================================
-		// hide/show label button
-		btnHideShowLabel = new MyToggleButton(
-				app.getImageIcon("mode_showhidelabel_16.gif"), iconHeight) {
-
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void update(Object[] geos) {
-				// only show this button when handling selection, do not use it
-				// for defaults
-				if (mode != EuclidianConstants.MODE_MOVE) {
-					this.setVisible(false);
-					return;
-				}
-				boolean geosOK = (geos.length > 0);
-				for (int i = 0; i < geos.length; i++) {
-					if ((((GeoElement) geos[i])
-							.getGeoElementForPropertiesDialog().isGeoText())) {
-						geosOK = false;
-						break;
-					}
-				}
-				this.setVisible(geosOK);
-				if (geosOK) {
-					btnHideShowLabel.setSelected(((GeoElement) geos[0])
-							.isLabelVisible());
-				}
-			}
-
-		};
-		btnHideShowLabel.addActionListener(this);
-
-		// ========================================
 		// caption style button
 
 		String[] captionArray = new String[] { app.getPlain("stylebar.Hidden"), // index
@@ -901,7 +798,8 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener, geoge
 		};
 
 		btnLabelStyle = new PopupMenuButton(app, captionArray, -1, 1,
-				new Dimension(0, iconHeight), geogebra.common.gui.util.SelectionTable.MODE_TEXT) {
+				new Dimension(0, iconHeight),
+				geogebra.common.gui.util.SelectionTable.MODE_TEXT) {
 
 			private static final long serialVersionUID = 1L;
 
@@ -963,6 +861,7 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener, geoge
 		ImageIcon ic = app.getImageIcon("mode_showhidelabel_16.gif");
 		btnLabelStyle.setIconSize(new Dimension(ic.getIconWidth(), iconHeight));
 		btnLabelStyle.setIcon(ic);
+		btnLabelStyle.setStandardButton(true);
 		btnLabelStyle.addActionListener(this);
 		btnLabelStyle.setKeepVisible(false);
 
@@ -974,7 +873,8 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener, geoge
 				app.getMenu("off") };
 
 		btnPointCapture = new PopupMenuButton(app, strPointCapturing, -1, 1,
-				new Dimension(0, iconHeight), geogebra.common.gui.util.SelectionTable.MODE_TEXT) {
+				new Dimension(0, iconHeight),
+				geogebra.common.gui.util.SelectionTable.MODE_TEXT) {
 
 			private static final long serialVersionUID = 1L;
 
@@ -995,7 +895,7 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener, geoge
 		btnPointCapture.setIconSize(new Dimension(ptCaptureIcon.getIconWidth(),
 				iconHeight));
 		btnPointCapture.setIcon(ptCaptureIcon);
-		btnPointCapture.setStandardButton(true); //popup on the whole button
+		btnPointCapture.setStandardButton(true); // popup on the whole button
 		btnPointCapture.addActionListener(this);
 		btnPointCapture.setKeepVisible(false);
 
@@ -1061,7 +961,7 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener, geoge
 								break;
 							}
 						}
-						
+
 						if (hasFillable)
 							setToolTipText(app
 									.getPlain("stylebar.ColorTransparency"));
@@ -1085,7 +985,7 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener, geoge
 
 		};
 
-		btnColor.setStandardButton(true); //popup on the whole button
+		btnColor.setStandardButton(true); // popup on the whole button
 		btnColor.addActionListener(this);
 	}
 
@@ -1149,7 +1049,7 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener, geoge
 			}
 		};
 		btnBgColor.setKeepVisible(true);
-		btnBgColor.setStandardButton(true); //popup on the whole button
+		btnBgColor.setStandardButton(true); // popup on the whole button
 		btnBgColor.addActionListener(this);
 	}
 
@@ -1219,7 +1119,7 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener, geoge
 
 		};
 
-		btnTextColor.setStandardButton(true); //popup on the whole button
+		btnTextColor.setStandardButton(true); // popup on the whole button
 		btnTextColor.addActionListener(this);
 
 		// ========================================
@@ -1280,7 +1180,8 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener, geoge
 		String[] textSizeArray = app.getFontSizeStrings();
 
 		btnTextSize = new PopupMenuButton(app, textSizeArray, -1, 1,
-				new Dimension(-1, iconHeight), geogebra.common.gui.util.SelectionTable.MODE_TEXT) {
+				new Dimension(-1, iconHeight),
+				geogebra.common.gui.util.SelectionTable.MODE_TEXT) {
 
 			private static final long serialVersionUID = 1L;
 
@@ -1302,7 +1203,7 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener, geoge
 			}
 		};
 		btnTextSize.addActionListener(this);
-		btnTextSize.setStandardButton(true); //popup on the whole button
+		btnTextSize.setStandardButton(true); // popup on the whole button
 		btnTextSize.setKeepVisible(false);
 	}
 
@@ -1321,7 +1222,8 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener, geoge
 				app.getImageIcon("format-justify-right.png") };
 		btnTableTextJustify = new PopupMenuButton(
 				(Application) ev.getApplication(), justifyIcons, 1, -1,
-				new Dimension(20, iconHeight), geogebra.common.gui.util.SelectionTable.MODE_ICON) {
+				new Dimension(20, iconHeight),
+				geogebra.common.gui.util.SelectionTable.MODE_ICON) {
 
 			private static final long serialVersionUID = 1L;
 
@@ -1358,7 +1260,8 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener, geoge
 
 		btnTableTextBracket = new PopupMenuButton(
 				(Application) ev.getApplication(), bracketIcons, 2, -1,
-				new Dimension(30, iconHeight), geogebra.common.gui.util.SelectionTable.MODE_ICON) {
+				new Dimension(30, iconHeight),
+				geogebra.common.gui.util.SelectionTable.MODE_ICON) {
 
 			private static final long serialVersionUID = 1L;
 
@@ -1435,23 +1338,6 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener, geoge
 		if (isIniting)
 			return;
 
-		btnMode.removeActionListener(this);
-		switch (mode) {
-		case EuclidianConstants.MODE_MOVE:
-			btnMode.setSelectedIndex(0);
-			break;
-		case EuclidianConstants.MODE_PEN:
-			btnMode.setSelectedIndex(1);
-			break;
-		case EuclidianConstants.MODE_DELETE:
-			btnMode.setSelectedIndex(2);
-			break;
-		case EuclidianConstants.MODE_SHOW_HIDE_LABEL:
-			btnMode.setSelectedIndex(3);
-			break;
-		}
-		btnMode.addActionListener(this);
-
 		btnPen.removeActionListener(this);
 		btnPen.setSelected(mode == EuclidianConstants.MODE_PEN);
 		btnPen.addActionListener(this);
@@ -1459,10 +1345,6 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener, geoge
 		btnDelete.removeActionListener(this);
 		btnDelete.setSelected(mode == EuclidianConstants.MODE_DELETE);
 		btnDelete.addActionListener(this);
-
-		btnLabel.removeActionListener(this);
-		btnLabel.setSelected(mode == EuclidianConstants.MODE_SHOW_HIDE_LABEL);
-		btnLabel.addActionListener(this);
 
 		btnShowAxes.removeActionListener(this);
 		btnShowAxes.setSelected(ev.getShowXaxis());
@@ -1475,37 +1357,6 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener, geoge
 
 	public void actionPerformed(ActionEvent e) {
 		Object source = e.getSource();
-
-		// mode changing buttons, removed for now?
-		/*
-		 * if (source.equals(btnMode)) { switch (btnMode.getSelectedIndex()){
-		 * case 0: ev.getApplication().setMoveMode(); break; case 1:
-		 * ev.getApplication().setMode(EuclidianConstants.MODE_PEN); break; case
-		 * 2: ev.getApplication().setMode(EuclidianConstants.MODE_DELETE);
-		 * break; case 3:
-		 * ev.getApplication().setMode(EuclidianConstants.MODE_SHOW_HIDE_LABEL);
-		 * break; case 4:
-		 * ev.getApplication().setMode(EuclidianConstants.MODE_VISUAL_STYLE); }
-		 * }
-		 * 
-		 * if (source.equals(btnCopyVisualStyle)) {
-		 * if(btnCopyVisualStyle.isSelected())
-		 * ev.getApplication().setMode(EuclidianConstants.MODE_VISUAL_STYLE);
-		 * else ev.getApplication().setMoveMode(); }
-		 * 
-		 * 
-		 * if (source.equals(btnPen)) { if(btnPen.isSelected())
-		 * ev.getApplication().setMode(EuclidianConstants.MODE_PEN); else
-		 * ev.getApplication().setMoveMode(); }
-		 * 
-		 * if (source.equals(btnDelete)) { if(btnDelete.isSelected())
-		 * ev.getApplication().setMode(EuclidianConstants.MODE_DELETE); else
-		 * ev.getApplication().setMoveMode(); }
-		 * 
-		 * if (source.equals(btnLabel)) { if(btnLabel.isSelected())
-		 * ev.getApplication().setMode(EuclidianConstants.MODE_SHOW_HIDE_LABEL);
-		 * else ev.getApplication().setMoveMode(); }
-		 */
 
 		needUndo = false;
 
@@ -1565,10 +1416,10 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener, geoge
 			if (mode == 3 || mode == 0)
 				mode = 3 - mode; // swap 0 and 3
 			ev.setPointCapturing(mode);
-			
-			// update other EV stylebars since this is a global property 
+
+			// update other EV stylebars since this is a global property
 			app.updateStyleBars();
-			
+
 		}
 
 		else if (source == btnColor) {
@@ -1618,9 +1469,6 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener, geoge
 			applyFontStyle(targetGeos);
 		} else if (source == btnTextSize) {
 			applyTextSize(targetGeos);
-		} else if (source == btnHideShowLabel) {
-			applyHideShowLabel(targetGeos);
-			updateStyleBar();
 		} else if (source == btnLabelStyle) {
 			applyCaptionStyle(targetGeos);
 		}
@@ -1727,7 +1575,8 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener, geoge
 			if (geo instanceof TextProperties)
 				if (geogebra.awt.Color.getAwtColor(geo.getBackgroundColor()) != color
 						|| geo.getAlphaValue() != alpha) {
-					geo.setBackgroundColor(color == null ? null : new geogebra.awt.Color(color));
+					geo.setBackgroundColor(color == null ? null
+							: new geogebra.awt.Color(color));
 					// TODO apply background alpha
 					// --------
 					geo.updateRepaint();
@@ -1780,18 +1629,6 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener, geoge
 			if (geo instanceof TextProperties
 					&& ((TextProperties) geo).getFontSize() != fontSize) {
 				((TextProperties) geo).setFontSize(fontSize);
-				geo.updateRepaint();
-				needUndo = true;
-			}
-		}
-	}
-
-	private void applyHideShowLabel(ArrayList<GeoElement> geos) {
-		boolean visible = btnHideShowLabel.isSelected();
-		for (int i = 0; i < geos.size(); i++) {
-			GeoElement geo = geos.get(i);
-			if (geo.isLabelVisible() != visible) {
-				geo.setLabelVisible(visible);
 				geo.updateRepaint();
 				needUndo = true;
 			}
@@ -1895,8 +1732,6 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener, geoge
 			applyTextColor(geos);
 		if (btnTextSize.isVisible())
 			applyTextSize(geos);
-		if (btnHideShowLabel.isVisible())
-			applyHideShowLabel(geos);
 
 		if (needUndo) {
 			app.storeUndoInfo();
@@ -1967,8 +1802,6 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener, geoge
 		btnPen.setToolTipText(app.getPlainTooltip("stylebar.Pen"));
 		btnPenEraser.setToolTipText(app.getPlainTooltip("stylebar.Eraser"));
 
-		btnCopyVisualStyle.setToolTipText(app
-				.getPlainTooltip("stylebar.CopyVisualStyle"));
 	}
 
 }
