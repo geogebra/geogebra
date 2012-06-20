@@ -249,7 +249,7 @@ public class GeoGebraMenuBar extends JMenuBar {
 
 		helpMenu.update();
 
-		updateSelection();
+		//updateSelection();  //it's redundant here, look at editMenu.update();
 	}
 
 	/**
