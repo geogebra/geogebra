@@ -245,15 +245,13 @@ public class GeoCasCell extends GeoElement implements VarString {
 				// kernel.setInsertLineBreaks(true);
 
 				// create LaTeX string
-				if(nativeOutput)
-				latex = outputVE.toAssignmentLaTeXString(includesNumericCommand() ? StringTemplate.numericLatex:
+				if(nativeOutput || !(outputVE instanceof ExpressionNode)){
+					latex = outputVE.toAssignmentLaTeXString(includesNumericCommand() ? StringTemplate.numericLatex:
 					StringTemplate.latexTemplate);
+				}
 				else{
 					GeoElement geo = ((GeoElement)((ExpressionNode)outputVE).getLeft());
-					if(this.getAssignmentVariable()==null)
-						latex = geo.toValueString(StringTemplate.latexTemplate);
-					else
-						latex = this.getAssignmentVariable()+" := "+geo.toValueString(StringTemplate.latexTemplate);
+					latex = this.getAssignmentVariable()+" := "+geo.toValueString(StringTemplate.latexTemplate);
 				}
 				// TODO Uncomment once support for latex line breaking is
 				// implemented.
@@ -1952,7 +1950,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 			GeoElement oldTwinGeo = twinGeo;
 			twinGeo = null;
 			oldTwinGeo.setCorrespondingCasCell(null);
-			oldTwinGeo.remove(true);
+			oldTwinGeo.remove();
 		}
 
 		twinGeo = newTwinGeo;

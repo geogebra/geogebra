@@ -81,12 +81,12 @@ public class TextPreviewPanel extends EuclidianView {
 	public void removePreviewGeoText() {
 		if (previewGeoIndependent != null) {
 			this.remove(previewGeoIndependent);
-			previewGeoIndependent.remove(true);
+			previewGeoIndependent.remove();
 			previewGeoIndependent = null;
 		}
 		if (previewGeoDependent != null) {
 			this.remove(previewGeoDependent);
-			previewGeoDependent.remove(true);
+			previewGeoDependent.remove();
 			previewGeoDependent = null;
 			textAlgo.remove();
 		}

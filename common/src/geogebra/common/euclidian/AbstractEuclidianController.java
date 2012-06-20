@@ -380,7 +380,7 @@ public abstract class AbstractEuclidianController {
 			while (!pastePreviewSelected.isEmpty()) {
 				GeoElement geo = pastePreviewSelected.get(0);
 				pastePreviewSelected.remove(geo);
-				geo.remove(true);
+				geo.remove();
 			}
 		} else {
 			pastePreviewSelected = new ArrayList<GeoElement>();
@@ -508,7 +508,7 @@ public abstract class AbstractEuclidianController {
 			while (!pastePreviewSelected.isEmpty()) {
 				GeoElement geo = pastePreviewSelected.get(0);
 				pastePreviewSelected.remove(geo);
-				geo.remove(true);
+				geo.remove();
 			}
 			pastePreviewSelected = null;
 		}
@@ -4588,7 +4588,7 @@ public abstract class AbstractEuclidianController {
 							// intersection point
 							if (!point.showInEuclidianView()) {
 								//hits are labeled
-								point.remove(true);
+								point.remove();
 							} else {
 								createPoint = false;
 							}

@@ -76,9 +76,8 @@ public interface GeoElementND extends ExpressionValue, ToGeoElement{
 
 	/**
 	 * Remove this from construction
-	 * @param unlabeledInput true to remove unlabeled input objects of parent algo
 	 */
-	public void remove(boolean unlabeledInput);
+	public void remove();
 	
 	/**
 	 * @return true if tracing to spreadsheet

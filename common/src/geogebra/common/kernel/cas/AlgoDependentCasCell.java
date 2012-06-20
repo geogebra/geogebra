@@ -29,7 +29,7 @@ public class AlgoDependentCasCell extends AlgoElement {
 	public AlgoDependentCasCell(GeoCasCell casCell) {
 		super(casCell.getConstruction());		
 		this.casCell = casCell;
-		
+		protectedInput = true;
 		// make sure all input geos' values are present in the CAS
 		initInput();
         

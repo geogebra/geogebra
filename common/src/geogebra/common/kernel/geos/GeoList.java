@@ -534,7 +534,7 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture {
 			for (int i = 0; i < cacheList.size(); i++) {
 				final GeoElement geo = cacheList.get(i);
 				if ((geo != null) && !geo.isLabelSet()) {
-					geo.remove(false);
+					geo.remove();
 				}
 			}
 		}

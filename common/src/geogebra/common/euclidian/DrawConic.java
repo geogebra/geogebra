@@ -1335,7 +1335,7 @@ final public class DrawConic extends Drawable implements Previewable {
 
 	public void disposePreview() {
 		if (conic != null) {
-			conic.remove(true);
+			conic.remove();
 		}
 	}
 

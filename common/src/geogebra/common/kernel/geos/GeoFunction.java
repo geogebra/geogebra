@@ -117,7 +117,7 @@ public class GeoFunction extends GeoElement implements VarString,
 		// functions of y are created
 		if (isLabelSet() && !isBooleanFunction()
 				&& this.isFunctionOfY()) {
-			this.remove(true);
+			this.remove();
 			throw new MyError(app, "InvalidFunction");
 		}
 	}

@@ -264,7 +264,7 @@ public abstract class CASView implements View{
 		for (int i=selRows.length-1; i >= 0; i--) {
 			GeoCasCell casCell = getConsoleTable().getGeoCasCell(selRows[i]);
 			if (casCell != null) {
-				casCell.remove(true);
+				casCell.remove();
 				undoNeeded = true;
 			}
 		}

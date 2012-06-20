@@ -610,7 +610,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 
 		}
      	// Fix bug with Slider
-     	tempPoint.remove(true); 
+     	tempPoint.remove(); 
      	/////////////////
      	
 		double angSt = Math.atan2(firstVec[1], firstVec[0]);
@@ -867,7 +867,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
     	drawGeoPoint(geoPoint);
     	drawLabel(geoPoint,drawPoint);
     	// Bug fixed with Slider
-    	geoPoint.remove(true); 
+    	geoPoint.remove(); 
 
     	//draw Line or Slider
 		startBeamer(code);

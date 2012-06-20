@@ -40,7 +40,7 @@ public abstract class CmdScripting extends CommandProcessor {
 		perform(c);
 		for(int i=0;arg!=null && i<arg.length;i++)
 			if(arg[i]!=null && !arg[i].isLabelSet())
-				arg[i].remove(true);
+				arg[i].remove();
 	}
 	@Override
 	public final GeoElement[] process (Command c) throws MyError,

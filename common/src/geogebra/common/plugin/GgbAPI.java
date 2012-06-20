@@ -654,7 +654,7 @@ public abstract class GgbAPI implements JavaScriptAPI{
 	public synchronized void deleteObject(String objName) {			
 		GeoElement geo = kernel.lookupLabel(objName);
 		if (geo == null) return;		
-		geo.remove(true);
+		geo.remove();
 		kernel.notifyRepaint();
 	}	
 	

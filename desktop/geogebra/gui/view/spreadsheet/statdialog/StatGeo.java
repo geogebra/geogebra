@@ -776,7 +776,7 @@ public class StatGeo   {
 		removeFromConstructionList(sp);
 
 		String latex = tempGeo.getLaTeXdescription();
-		tempGeo.remove(false);
+		tempGeo.remove();
 
 		return latex;		
 	}
