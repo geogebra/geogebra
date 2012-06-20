@@ -6,8 +6,10 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoDummyVariable;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.main.AbstractApplication;
 import geogebra.common.plugin.Operation;
 /**
  *  Traversing objects are allowed to traverse through Equation,
@@ -53,10 +55,19 @@ public interface Traversing {
 	 *
 	 */
 	public class CommandReplacer implements Traversing {
-
+		AbstractApplication app;
 		public ExpressionValue process(ExpressionValue ev) {
 			if(ev instanceof Command){
 				Command c= (Command)ev;
+				String cmdName = app.translateCommand(c.getName());
+				Throwable t = null;
+				try{
+					Commands.valueOf(cmdName);
+				}catch(Throwable t1){
+					t= t1;
+				}
+				if(t == null)
+					return ev;
 				MyList argList = new MyList(c.getKernel()); 
 				for(int i=0;i<c.getArgumentNumber();i++){
 					argList.addListElement(c.getItem(i));
@@ -72,7 +83,8 @@ public interface Traversing {
 		/**
 		 * @return replacer
 		 */
-		public static CommandReplacer getReplacer(){
+		public static CommandReplacer getReplacer(AbstractApplication app){
+			replacer.app = app;
 			return replacer;
 		}
 	}

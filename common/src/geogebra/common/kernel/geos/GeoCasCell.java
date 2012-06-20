@@ -1305,7 +1305,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 	
 			// parse output into valid expression
 			outputVE = parseGeoGebraCASInputAndResolveDummyVars(res);
-			CommandReplacer cr = CommandReplacer.getReplacer();
+			CommandReplacer cr = CommandReplacer.getReplacer(app);
 			outputVE.traverse(cr);
 		}
 		if (isFunctionDeclaration) {
