@@ -764,13 +764,15 @@ public class CASTable extends JTable implements geogebra.common.cas.view.CASTabl
 	
 	
 	public int getCopyMode() {
-		return copyMode;
+		return COPY_STATIC;
 	}
 
 	public void setCopyMode(int copyMode) {
-		if(copyMode == COPY_OFF)
-			this.copyMode = COPY_STATIC;	
-		this.copyMode = copyMode;
+		if(copyMode == COPY_OFF){
+			this.copyMode = COPY_STATIC;
+		}else{
+			this.copyMode = copyMode;
+		}
 	}
 
 	
