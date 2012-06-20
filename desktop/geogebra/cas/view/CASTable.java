@@ -245,7 +245,7 @@ public class CASTable extends JTable implements geogebra.common.cas.view.CASTabl
 							getEditor().insertText("$" + (getClickedRow() + 1));
 						}
 					}
-					copyMode = COPY_OFF;
+					setCopyMode(COPY_OFF);
 					view.styleBar.updateStyleBar();
 					repaint();
 					// set clickedRow selected
