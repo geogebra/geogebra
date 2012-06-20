@@ -472,25 +472,26 @@ public class Application extends AbstractApplication {
 		doDropHappened(imgFileName, fileStr);
 	}
 
-	protected void doDropHappened(String imgFileName, String fileStr) {
+	private void doDropHappened(String imgFileName, String fileStr) {
+		Construction cons = getKernel().getConstruction();
+		EuclidianViewInterfaceCommon ev = getActiveEuclidianView();
 		((ImageManager)getImageManager()).addExternalImage(imgFileName, fileStr);
 		GeoImage geoImage = new GeoImage(getKernel().getConstruction());
 		((ImageManager)getImageManager()).triggerSingleImageLoading(imgFileName, geoImage);
 		geoImage.setImageFileName(imgFileName);
-		//double cx = getActiveEuclidianView().toRealWorldCoordX(clientx);
-		//double cy = getActiveEuclidianView().toRealWorldCoordY(clienty);
-		double cx = getActiveEuclidianView().getXmin()+
-			(getActiveEuclidianView().getXmax()-getActiveEuclidianView().getXmin())/4;
-		double cy = getActiveEuclidianView().getYmin()+
-			(getActiveEuclidianView().getYmax()-getActiveEuclidianView().getYmin())/4;
-		GeoPoint2 gsp = new GeoPoint2(getKernel().getConstruction(), cx, cy, 1);
+		double cx = ev.getXmin() + (ev.getXmax() - ev.getXmin()) / 4;
+		double cy = ev.getYmin() + (ev.getYmax() - ev.getYmin()) / 4;
+		GeoPoint2 gsp = new GeoPoint2(cons, cx, cy, 1);
 		gsp.setLabel(null);
+		gsp.setLabelVisible(false);
+		gsp.update();
 		geoImage.setCorner(gsp, 0);
 
-		cx = getActiveEuclidianView().getXmax()-
-			(getActiveEuclidianView().getXmax()-getActiveEuclidianView().getXmin())/4;
-		GeoPoint2 gsp2 = new GeoPoint2(getKernel().getConstruction(), cx, cy, 1);
+		cx = ev.getXmax() - (ev.getXmax() - ev.getXmin()) / 4;
+		GeoPoint2 gsp2 = new GeoPoint2(cons, cx, cy, 1);
 		gsp2.setLabel(null);
+		gsp2.setLabelVisible(false);
+		gsp2.update();
 		geoImage.setCorner(gsp2, 1);
 
 		geoImage.setLabel(null);
