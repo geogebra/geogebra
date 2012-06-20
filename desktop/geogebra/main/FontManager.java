@@ -1,6 +1,7 @@
 package geogebra.main;
 
 import geogebra.common.main.AbstractFontManager;
+import geogebra.common.util.Language;
 import geogebra.common.util.Unicode;
 
 import java.awt.Font;
@@ -59,7 +60,7 @@ public class FontManager extends AbstractFontManager {
 		final LinkedList<String> tryFontsSansSerif = new LinkedList<String>(Arrays.asList(FONT_NAMES_SANSSERIF));
 		final LinkedList<String> tryFontsSerif = new LinkedList<String>(Arrays.asList(FONT_NAMES_SERIF));
 
-		final String testChar = Unicode.getTestChar(lang);
+		final String testChar = Language.getTestChar(lang);
 		if (testChar != null) {
 			testCharacters.append(testChar);
 			// Application.debug("Using test char:"+Util.toHexString(testChar.charValue()));

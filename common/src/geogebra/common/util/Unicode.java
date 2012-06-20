@@ -200,53 +200,5 @@ public class Unicode {
 				|| (c == Superscript_3);
 	}
 
-	static HashMap<String, String> testCharMap = null;
-
-	public static String getTestChar(final String lang) {
-		initCharMap();
-
-		return testCharMap.get(lang);
-	}
-
-	public static Iterator<String> getCharMapIterator() {
-		initCharMap();
-
-		return testCharMap.keySet().iterator();
-	}
-
-	/*
-	 * test characters to get a font that can display the correct symbols for
-	 * each language Also used to register the fonts so that JLaTeXMath can
-	 * display other Unicode blocks
-	 */
-	private static void initCharMap() {
-		if (testCharMap == null) {
-			testCharMap = new HashMap<String, String>();
-			testCharMap.put("zh", "\u984F");// Chinese, last CJK unified
-											// ideograph in unicode alphabet
-			testCharMap.put("ka", "\u10d8"); // Georgian
-			testCharMap.put("iw", "\u05d9"); // Hebrew
-			testCharMap.put("ji", "\u05d9\u05b4"); // Yiddish, compound
-													// character YOD
-			testCharMap.put("ja", "\uff9d"); // Japanese
-			testCharMap.put("ta", "\u0be7"); // Tamil
-			testCharMap.put("pa", "\u0be7"); // Punjabi
-			testCharMap.put("hi", "\u0be7"); // Hindi
-			testCharMap.put("ur", "\u0be7"); // Urdu
-			testCharMap.put("gu", "\u0be7"); // Gujarati
-			testCharMap.put("si", "\u0d9a"); // Sinhala
-			// Arabic is in standard Java fonts, so we don't need to search for
-			// a font
-			// testCharMap.put("ar", '\u0681'); // Arabic
-			testCharMap.put("ml", "\u0D2E"); // Malayalam
-			testCharMap.put("ko", "\u1103"); // Korean, changed from \uD55C
-												// (doesn't work in Ubuntu)
-			testCharMap.put("ru", "\u0439"); // Russian
-			testCharMap.put("mr", "\u092e"); // Marathi
-			testCharMap.put("ne", "\u0947"); // Nepalese
-			testCharMap.put("hy", "\u0570"); // Armenian
-
-		}
-	}
 
 }

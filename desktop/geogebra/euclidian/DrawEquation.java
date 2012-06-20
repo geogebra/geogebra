@@ -5,6 +5,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.common.main.MyError;
+import geogebra.common.util.Language;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
 import geogebra.main.Application;
@@ -114,36 +115,28 @@ public class DrawEquation implements DrawEquationInterface {
 
 			// disable \magnification{factor} (makes Algebra View not work)
 			DefaultTeXFont.enableMagnification(false);
-
-			final Iterator<String> it = Unicode.getCharMapIterator();
-
-			while (it.hasNext()) {
-				final String lang = it.next();
-				final String str = Unicode.getTestChar(lang);
-				final Font testFont = app.getFontCanDisplayAwt(str, true,
-						Font.PLAIN, 12);
-				if (testFont != null)
-				{
-					TeXFormula.registerExternalFont(
-							Character.UnicodeBlock.of(str.charAt(0)),
-							testFont.getFontName());
-					// Application.debug("LaTeX font registering: "+lang+" "+testFont.getFontName());
+			
+			for (Language l : Language.values()) {
+				
+				if (l.testChar != null) {
+					final Font testFont = app.getFontCanDisplayAwt(l.testChar, true,
+							Font.PLAIN, 12);
+					if (testFont != null)
+					{
+						TeXFormula.registerExternalFont(
+								Character.UnicodeBlock.of(l.testChar.charAt(0)),
+								testFont.getFontName());
+						//Application.debug("LaTeX font registering: "+l.name+" "+testFont.getFontName());
+					}
+					
 				}
-
 			}
+
 
 			// Arabic is in standard Java fonts, so we don't need to search for
 			// a font
 			TeXFormula.registerExternalFont(
 					Character.UnicodeBlock.of('\u0681'), "Sans Serif", "Serif");
-			// Korean is in standard Java fonts, so we don't need to search for
-			// a font
-			TeXFormula.registerExternalFont(
-					Character.UnicodeBlock.of('\uB458'), "Sans Serif", "Serif");
-			// Japanese is in standard Java fonts, so we don't need to search for
-			// a font
-			TeXFormula.registerExternalFont(
-					Character.UnicodeBlock.of('\u30ea'), "Sans Serif", "Serif");
 
 			// Other codeblocks (currency, symbols etc)
 			TeXFormula.registerExternalFont(

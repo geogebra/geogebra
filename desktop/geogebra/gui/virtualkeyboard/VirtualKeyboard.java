@@ -17,7 +17,7 @@ import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.settings.AbstractSettings;
 import geogebra.common.main.settings.KeyboardSettings;
 import geogebra.common.main.settings.SettingListener;
-import geogebra.common.util.Unicode;
+import geogebra.common.util.Language;
 import geogebra.main.Application;
 import geogebra.main.MyResourceBundle;
 
@@ -229,7 +229,7 @@ public class VirtualKeyboard extends JFrame implements ActionListener, SettingLi
 	private void setFonts() {
 		
 		
-		String fName = app.getFontCanDisplay(""+Unicode.getTestChar(app.getLocale().getLanguage())).getFontName();
+		String fName = app.getFontCanDisplay(""+Language.getTestChar(app.getLocale().getLanguage())).getFontName();
 
 		if (fName.equals(this.fontName)) return;
 		
