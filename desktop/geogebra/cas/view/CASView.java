@@ -76,7 +76,7 @@ public class CASView  extends geogebra.common.cas.view.CASView implements Gridab
 		// CAS input/output cells
 		createCASTable();
 		// row header
-		rowHeader = new RowHeader(consoleTable, false, listSelModel);
+		rowHeader = new RowHeader(consoleTable, true, listSelModel);
 		getConsoleTable().setSelectionModel(listSelModel);
 		// init the scroll panel
 		JScrollPane scrollPane = new JScrollPane(

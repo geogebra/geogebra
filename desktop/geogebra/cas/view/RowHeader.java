@@ -12,9 +12,6 @@ public class RowHeader extends JList implements geogebra.common.cas.view.RowHead
 
 	public static final int ROW_HEADER_WIDTH = 30;
 
-	public RowHeader(CASTable table) {
-		this(table, false, null);
-	}
 
 	public RowHeader(CASTable table, boolean multipleIntervalSelection, ListSelectionModel lsModel) {
 		setModel(new RowHeaderListModel(table));
@@ -37,10 +34,10 @@ public class RowHeader extends JList implements geogebra.common.cas.view.RowHead
 		addMouseListener(rhl);
 		addMouseMotionListener(rhl);
 		addKeyListener(rhl);
-		this.getSelectionModel().addListSelectionListener(rhl);
-		// table.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-		// table.getSelectionModel().addListSelectionListener(this);
-		// table.setRowSelectionAllowed(true);
+		//this.getSelectionModel().addListSelectionListener(rhl);
+		table.getSelectionModel().setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+		//table.getSelectionModel().addListSelectionListener(this);
+		table.setRowSelectionAllowed(true);
 	}
 
 }

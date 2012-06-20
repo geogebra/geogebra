@@ -54,8 +54,10 @@ public class RowHeaderListener extends MouseAdapter implements KeyListener, List
 			table.stopEditing();
 			mousePressedRow = mouseDraggedRow;
 		}
-
-		rowHeader.setSelectionInterval(mousePressedRow, mouseDraggedRow);
+		if(e.isControlDown())
+			rowHeader.addSelectionInterval(mousePressedRow, mouseDraggedRow);
+		else
+			rowHeader.setSelectionInterval(mousePressedRow, mouseDraggedRow);
 	}
 
 	@Override
