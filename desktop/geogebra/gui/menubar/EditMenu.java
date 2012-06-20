@@ -287,31 +287,7 @@ public class EditMenu extends BaseMenu implements MenuListener {
 
 			public void actionPerformed(ActionEvent e) {			
 				app.setWaitCursor();
-				// get context info
-				EuclidianViewND ev = app.getActiveEuclidianView();
-				Construction cons = ev.getApplication().getKernel().getConstruction();
-				Point mousePos = ev.getMousePosition();
-				GeoPoint2 startPoint = new GeoPoint2(cons);
-
-				//double x = ev.toRealWorldCoordX(mousePos.x);
-				//double y = ev.toRealWorldCoordY(mousePos.y);
-				//startPoint.setCoords(x, y, 1.0);
-
-				startPoint.setCoords(
-					ev.getXmin()+(ev.getXmax()-ev.getXmin())/4,
-					ev.getYmin()+(ev.getYmax()-ev.getYmin())/4,
-					1.0);
-				startPoint.setLabel(null);
-
-				GeoPoint2 zoomPoint = new GeoPoint2(cons);
-				zoomPoint.setCoords(
-					ev.getXmax()-(ev.getXmax()-ev.getXmin())/4,
-					ev.getYmin()+(ev.getYmax()-ev.getYmin())/4,
-					1.0
-				);
-				zoomPoint.setLabel(null);
-
-				app.getGuiManager().loadImage(startPoint, zoomPoint, null, true);
+				app.getGuiManager().loadImage(null, true);
 				app.setDefaultCursor();
 			}
 		};
@@ -323,31 +299,7 @@ public class EditMenu extends BaseMenu implements MenuListener {
 
 			public void actionPerformed(ActionEvent e) {			
 				app.setWaitCursor();
-				// get context info
-				EuclidianViewND ev = app.getActiveEuclidianView();
-				Construction cons = ev.getApplication().getKernel().getConstruction();
-				Point mousePos = ev.getMousePosition();
-				GeoPoint2 startPoint = new GeoPoint2(cons);
-
-				//double x = ev.toRealWorldCoordX(mousePos.x);
-				//double y = ev.toRealWorldCoordY(mousePos.y);
-				//startPoint.setCoords(x, y, 1.0);
-
-				startPoint.setCoords(
-					ev.getXmin()+(ev.getXmax()-ev.getXmin())/4,
-					ev.getYmin()+(ev.getYmax()-ev.getYmin())/4,
-					1.0);
-				startPoint.setLabel(null);
-
-				GeoPoint2 zoomPoint = new GeoPoint2(cons);
-				zoomPoint.setCoords(
-					ev.getXmax()-(ev.getXmax()-ev.getXmin())/4,
-					ev.getYmin()+(ev.getYmax()-ev.getYmin())/4,
-					1.0
-				);
-				zoomPoint.setLabel(null);
-
-				app.getGuiManager().loadImage(startPoint, zoomPoint, null, false);
+				app.getGuiManager().loadImage(null, false);
 				app.setDefaultCursor();
 			}
 		};

@@ -9,6 +9,7 @@ import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.gui.SetLabels;
 import geogebra.common.gui.VirtualKeyboardListener;
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoElement;
@@ -1271,7 +1272,7 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 	 * 
 	 * @return whether a new image was created or not
 	 */
-	public boolean loadImage(GeoPoint2 loc, GeoPoint2 loc2, Transferable transfer,
+	public boolean loadImage(Transferable transfer,
 			boolean fromClipboard) {
 		app.setWaitCursor();
 
@@ -1290,6 +1291,34 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 		if (fileName.length == 0) {
 			ret = false;
 		} else {
+			
+				
+			EuclidianViewND ev = (EuclidianViewND) app.getActiveEuclidianView();
+			Construction cons = ev.getApplication().getKernel().getConstruction();
+			Point mousePos = ev.getMousePosition();
+			GeoPoint2 loc = new GeoPoint2(cons);
+
+
+			// create corner points (bottom right/left)
+			loc.setCoords(
+					ev.getXmin() + (ev.getXmax() - ev.getXmin()) / 4,
+					ev.getYmin() + (ev.getYmax() - ev.getYmin()) / 4,
+					1.0);
+			loc.setLabel(null);
+			loc.setLabelVisible(false);
+			loc.update();
+
+			GeoPoint2 loc2 = new GeoPoint2(cons);
+			loc2.setCoords(
+					ev.getXmax() - (ev.getXmax() - ev.getXmin()) / 4,
+					ev.getYmin() + (ev.getYmax() - ev.getYmin()) / 4,
+					1.0
+					);
+			loc2.setLabel(null);
+			loc2.setLabelVisible(false);
+			loc2.update();
+
+
 			// create GeoImage object(s) for this fileName
 			GeoImage geoImage = null;
 			for (int i = 0; i < fileName.length; i++) {
