@@ -2640,9 +2640,11 @@ public class ExpressionNode extends ValidExpression implements
 				case MATH_PIPER:
 				case MAXIMA:
 				case MPREDUCE:
-					sb.append(leftBracket(STRING_TYPE));
+					sb.append("mypower(");
 					sb.append(leftStr);
-					sb.append(rightBracket(STRING_TYPE));
+					sb.append(",");
+					sb.append(rightStr);
+					sb.append(')');
 					break;
 					
 				case LIBRE_OFFICE:
@@ -2694,12 +2696,13 @@ public class ExpressionNode extends ValidExpression implements
 					sb.append('}');
 					break;
 
-				
+				case MPREDUCE:
+					break;
 				case JASYMCA:
 				case GEOGEBRA_XML:
 				case MATH_PIPER:
 				case MAXIMA:
-				case MPREDUCE:
+				
 					sb.append('^');
 					sb.append('(');
 					sb.append(rightStr);

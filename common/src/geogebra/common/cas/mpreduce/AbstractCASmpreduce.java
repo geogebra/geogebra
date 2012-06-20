@@ -702,6 +702,10 @@ public abstract class AbstractCASmpreduce implements CASGenericInterface {
 
 				mpreduce1.evaluate("operator multiplication;");
 				mpreduce1.evaluate("procedure mydivision(a,b); multiplication(a,1/b)");
+				mpreduce1.evaluate("operator mydivision;");
+				mpreduce1.evaluate("procedure mypower(a,b); if myvecp(a) then if b=2 then multiplication(a,a) else '? else a^b;");
+				mpreduce1.evaluate("operator mypower;");
+				
 				mpreduce1.evaluate("procedure addition(a,b);"
 						+ "  if arglength(a)>-1 and part(a,0)='list and arglength(b)>-1 and part(b,0)='list then"
 						+ "    for i:=1:length(a) collect part(a,i)+part(b,i)"

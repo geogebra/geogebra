@@ -56,7 +56,9 @@ public class CommandDispatcherMPReduce {
 		/** interval returned from Solve[x^2<4]*/
 		ggbinterval(Operation.NO_OPERATION),
 		/** division */
-		mydivision(Operation.DIVIDE);
+		mydivision(Operation.DIVIDE),
+		/** power*/
+		mypower(Operation.POWER);
 		private Operation op;
 		private commands(Operation op){
 			this.op = op;
