@@ -760,7 +760,7 @@ public interface CommandConstants extends ConstantsWithLookup {
     @DefaultStringValue("FractionText")
     String FractionText();
 
-    @DefaultStringValue("[ <Number> ]")
+    @DefaultStringValue("[ <Number> ]\n[ <Point> ]")
     String FractionText_Syntax();
 
     @DefaultStringValue("FractionalPart")
