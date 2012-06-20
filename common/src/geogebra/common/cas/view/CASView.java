@@ -248,9 +248,9 @@ public abstract class CASView implements View{
 	 */
 	public String resolveCASrowReferences(String inputExp, int row) {
 		String result = getInputHandler().resolveCASrowReferences(inputExp, row,
-				CASInputHandler.ROW_REFERENCE_STATIC, false);
+				GeoCasCell.ROW_REFERENCE_STATIC, false);
 		return getInputHandler().resolveCASrowReferences(result, row,
-				CASInputHandler.ROW_REFERENCE_DYNAMIC, false);
+				GeoCasCell.ROW_REFERENCE_DYNAMIC, false);
 	}
 	
 	/**

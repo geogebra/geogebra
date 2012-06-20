@@ -36,6 +36,16 @@ import java.util.TreeSet;
  */
 
 public class GeoCasCell extends GeoElement implements VarString {
+	
+	/**
+	 * Symbol for static reference
+	 */
+	public static final char ROW_REFERENCE_STATIC = '#';
+
+	/**
+	 * Symbol for dynamic reference
+	 */
+	public static final char ROW_REFERENCE_DYNAMIC = '$';
 
 	private ValidExpression inputVE, evalVE, outputVE;
 	private String input, prefix, postfix, error, latex;
@@ -834,17 +844,10 @@ public class GeoCasCell extends GeoElement implements VarString {
 		if (var == null || cons.isFreeLabel(var)) {
 			// check for invalid assignment variables containing # or $ (used
 			// for references)
-			if (var.contains("#") || var.contains("$")) {
-				setError("CAS.VaribleContainsReferenceSymbol");
+			if(var.contains(ROW_REFERENCE_STATIC+"") || var.contains(ROW_REFERENCE_DYNAMIC+"")) {
+				setError("CAS.VaribleContainsReferenceSymbol"); 
 			}
-
-			// TODO replace the last 3 lines by the following lines as soon as
-			// CASInputHandler.java has been moved to common
-			/*
-			 * if(var.contains(CASInputHandler.ROW_REFERENCE_STATIC+"") || var.contains(CASInputHandler.ROW_REFERENCE_DYNAMIC+"")) {
-			 * 		setError("CAS.VaribleContainsReferenceSymbol"); 
-			 * }
-			 */
+			
 			assignmentVar = var;
 		} else {
 			changeAssignmentVar(var, getDefaultLabel());
@@ -1394,47 +1397,6 @@ public class GeoCasCell extends GeoElement implements VarString {
 		return true;
 	}
 
-	// /**
-	// * Redefine twinGeo using current output
-	// */
-	// private void redefineTwinGeo() {
-	// if (!isAssignment()) {
-	// // remove twinGeo when we no longer have an assignment
-	// setTwinGeo(null);
-	// return;
-	// }
-	// else if (isError() || !includesOnlyDefinedVariables()) {
-	// if (twinGeo.hasChildren()) {
-	// // set twinGeo to undefined
-	// twinGeo.setUndefined();
-	// } else {
-	// // remove twinGeo when we no longer have an assignment
-	// setTwinGeo(null);
-	// }
-	// return;
-	// }
-	//
-	// // try simple evaluation of independent output first
-	// if (twinGeo.isIndependent() && getGeoElementVariables() == null) {
-	// simpleUpdateTwinGeo();
-	// if (twinGeo.isDefined())
-	// return; // success
-	// }
-	//
-	// // redefine twinGeo using outputVE
-	// GeoElement newTwinGeo =
-	// kernel.getAlgebraProcessor().changeGeoElement(twinGeo, outputVE, true,
-	// false);
-	// if (newTwinGeo != null) {
-	// // redefinition successful
-	// app.doAfterRedefine(newTwinGeo);
-	// setTwinGeo(newTwinGeo);
-	// }
-	// else {
-	// // redefinition failed
-	// twinGeo.setUndefined();
-	// }
-	// }
 
 	/**
 	 * Sets twinGeo using current output
@@ -1471,27 +1433,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 		}
 	}
 
-	// /**
-	// * Evaluates the given expression in GeoGebra and returns one GeoElement
-	// or null.
-	// *
-	// * @param ve
-	// * @return result GeoElement or null
-	// */
-	// private GeoElement silentEvalInGeoGebra(String exp) {
-	// ValidExpression ve;
-	//
-	// try {
-	// ve = kernel.getParser().parseGeoGebraExpression(exp);
-	// } catch (Throwable e) {
-	// System.err.println("GeoCasCell.silentEvalInGeoGebra: " + exp +
-	// "\n\terror: " + e.getMessage());
-	// return null;
-	// }
-	//
-	// return silentEvalInGeoGebra(ve);
-	// }
-
+	
 	/**
 	 * Evaluates ValidExpression in GeoGebra and returns one GeoElement or null.
 	 * 
@@ -1581,8 +1523,6 @@ public class GeoCasCell extends GeoElement implements VarString {
 			}
 		}
 
-		// TODO make fallback more efficient to only use algebra processor once
-		// then just use output geos to set twin geo
 		// GEOGEBRA FALLBACK
 		else {
 			// EVALUATE evalVE in GeoGebra
@@ -2038,6 +1978,10 @@ public class GeoCasCell extends GeoElement implements VarString {
 	}
 
 	private AlgoCASPlot plotAlgo;
+	/**
+	 * TODO probably remove this
+	 * @param algoCASPlot plot algo
+	 */
 	public void registerPlotAlgo(AlgoCASPlot algoCASPlot) {
 		plotAlgo = algoCASPlot;
 		

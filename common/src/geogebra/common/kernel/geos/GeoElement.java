@@ -52,7 +52,6 @@ import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.MyStringBuffer;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.Traversing;
-import geogebra.common.kernel.cas.CASGenericInterface;
 import geogebra.common.kernel.cas.GeoGebraCasInterface;
 import geogebra.common.kernel.commands.AlgebraProcessor;
 import geogebra.common.kernel.discrete.GraphAlgo;
@@ -3101,13 +3100,6 @@ public abstract class GeoElement extends ConstructionElement implements
 				correspondingCasCell.doRemove();
 			}
 		}
-	}
-	
-	/**
-	 * Remove this element and its dependents
-	 */
-	public final void remove(boolean dummy) {
-		remove();
 	}
 
 	/**

@@ -11,16 +11,6 @@ import geogebra.common.main.AbstractApplication;
 
 public class CASInputHandler {
 
-	/**
-	 * Symbol for static reference
-	 */
-	public static final char ROW_REFERENCE_STATIC = '#';
-
-	/**
-	 * Symbol for dynamic reference
-	 */
-	public static final char ROW_REFERENCE_DYNAMIC = '$';
-
 	private CASView casView;
 	private Kernel kernel;
 	private CASTable consoleTable;
@@ -138,19 +128,19 @@ public class CASInputHandler {
 			// resolve static row references and change input field accordingly
 			boolean staticReferenceFound = false;
 			String newPrefix = resolveCASrowReferences(prefix, selRow,
-					ROW_REFERENCE_STATIC, false);
+					GeoCasCell.ROW_REFERENCE_STATIC, false);
 			if (!newPrefix.equals(prefix)) {
 				staticReferenceFound = true;
 				prefix = newPrefix;
 			}
 			String newEvalText = resolveCASrowReferences(evalText, selRow,
-					ROW_REFERENCE_STATIC, hasSelectedText);
+					GeoCasCell.ROW_REFERENCE_STATIC, hasSelectedText);
 			if (!newEvalText.equals(evalText)) {
 				staticReferenceFound = true;
 				evalText = newEvalText;
 			}
 			String newPostfix = resolveCASrowReferences(postfix, selRow,
-					ROW_REFERENCE_STATIC, false);
+					GeoCasCell.ROW_REFERENCE_STATIC, false);
 			if (!newPostfix.equals(postfix)) {
 				staticReferenceFound = true;
 				postfix = newPostfix;
@@ -354,7 +344,7 @@ public class CASInputHandler {
 					.getGeoCasCell(selectedIndices[i]);
 			cellText = selCellValue.getInputVE().toString(tpl);
 			cellText = resolveCASrowReferences(cellText, selectedIndices[i],
-					ROW_REFERENCE_STATIC, false);
+					GeoCasCell.ROW_REFERENCE_STATIC, false);
 			int depth = 0;
 			for (int j = 0; j < cellText.length(); j++) {
 				switch (cellText.charAt(j)) {
@@ -387,11 +377,11 @@ public class CASInputHandler {
 				references[counter] = assignedVariable;
 				equations[counter++] = resolveCASrowReferences(selCellValue
 						.getInputVE().toString(tpl), selectedIndices[i],
-						ROW_REFERENCE_STATIC, false);
+						GeoCasCell.ROW_REFERENCE_STATIC, false);
 			} else {
 				cellText = selCellValue.getInputVE().toString(tpl);
 				cellText = resolveCASrowReferences(cellText,
-						selectedIndices[i], ROW_REFERENCE_STATIC, false);
+						selectedIndices[i], GeoCasCell.ROW_REFERENCE_STATIC, false);
 				if (!inTheSelectedRow)
 					references[counter] = "$" + (selectedIndices[i] + 1);
 				if (!cellText.startsWith("{")) {
@@ -438,9 +428,9 @@ public class CASInputHandler {
 		StringBuilder equationsVariablesResolved = new StringBuilder("{");
 		for (int i = 0; i < equations.length; i++) {
 			equations[i] = resolveCASrowReferences(equations[i], currentRow,
-					ROW_REFERENCE_DYNAMIC, false);
+					GeoCasCell.ROW_REFERENCE_DYNAMIC, false);
 			equations[i] = resolveCASrowReferences(equations[i], currentRow,
-					ROW_REFERENCE_STATIC, false);
+					GeoCasCell.ROW_REFERENCE_STATIC, false);
 			GeoCasCell v = new GeoCasCell(kernel.getConstruction());
 			if (equations[i].startsWith("(")) {
 				equations[i] = equations[i].substring(1,
@@ -711,9 +701,9 @@ public class CASInputHandler {
 	// // resolve dynamic references for prefix and postfix
 	// // dynamic references for evalText is handled in evaluateGeoGebraCAS()
 	// String prefix = resolveCASrowReferences(cellValue.getPrefix(), row,
-	// ROW_REFERENCE_DYNAMIC);
+	// GeoCasCell.ROW_REFERENCE_DYNAMIC);
 	// String postfix = resolveCASrowReferences(cellValue.getPostfix(), row,
-	// ROW_REFERENCE_DYNAMIC);
+	// GeoCasCell.ROW_REFERENCE_DYNAMIC);
 	//
 	// // process evalText
 	// String result = null;
@@ -759,7 +749,7 @@ public class CASInputHandler {
 	// // resolve dynamic row references
 	// String eval = evalVE.toAssignmentString();
 	// String rowRefEval = resolveCASrowReferences(eval, row,
-	// ROW_REFERENCE_DYNAMIC);
+	// GeoCasCell.ROW_REFERENCE_DYNAMIC);
 	// if (!rowRefEval.equals(eval)) {
 	// eval = rowRefEval;
 	// evalVE = casParser.parseGeoGebraCASInput(rowRefEval);
@@ -783,7 +773,7 @@ public class CASInputHandler {
 	// int end; // position AFTER the reference.
 	// int referencedRow;
 	// boolean isInputReference;
-	// char referenceChar; // ROW_REFERENCE_STATIC or ROW_REFERENCE_DYNAMIC
+	// char referenceChar; // GeoCasCell.ROW_REFERENCE_STATIC or GeoCasCell.ROW_REFERENCE_DYNAMIC
 	//
 	// public RowReference(int start, int end, int refRow, boolean
 	// isInputReference, char refChar)
@@ -821,7 +811,7 @@ public class CASInputHandler {
 	// char curDelimiter;
 	// for (int i = 0; i < length; i++) {
 	// char ch = str.charAt(i);
-	// if (ch == ROW_REFERENCE_STATIC || ch == ROW_REFERENCE_DYNAMIC) {
+	// if (ch == GeoCasCell.ROW_REFERENCE_STATIC || ch == GeoCasCell.ROW_REFERENCE_DYNAMIC) {
 	// curDelimiter = ch;
 	// int start = i;
 	// int end = start+1;
@@ -881,8 +871,8 @@ public class CASInputHandler {
 
 		StringBuilder sb = new StringBuilder();
 		switch (delimiter) {
-		case ROW_REFERENCE_DYNAMIC:
-		case ROW_REFERENCE_STATIC:
+		case GeoCasCell.ROW_REFERENCE_DYNAMIC:
+		case GeoCasCell.ROW_REFERENCE_STATIC:
 			AbstractApplication.debug(selectedRow + ": " + str);
 
 			boolean foundReference = false;
