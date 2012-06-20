@@ -6,22 +6,11 @@ import geogebra.web.Web;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.helper.GoogleApiCallback;
 import geogebra.web.helper.MyGoogleApis;
-import geogebra.web.main.Application;
 import geogebra.web.util.JSON;
 
-import com.google.api.gwt.oauth2.client.Auth;
 import com.google.api.gwt.oauth2.client.AuthRequest;
 import com.google.gwt.core.client.Callback;
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
-import com.google.gwt.core.client.RunAsyncCallback;
-import com.google.gwt.http.client.Request;
-import com.google.gwt.http.client.RequestBuilder;
-import com.google.gwt.http.client.RequestCallback;
-import com.google.gwt.http.client.RequestException;
-import com.google.gwt.http.client.Response;
-import com.google.gwt.http.client.URL;
-import com.google.gwt.storage.client.Storage;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -261,5 +250,13 @@ public class GeoGebraMenubar extends MenuBar {
 			return "<img width=\"16\" height=\"16\" alt=\""+text+"\" src=\""+url+"\" />"+" "+
 					"<span style=\"color:gray;\">"+text+"</span>";
 		}
+		
+		/**
+		 * Update the "Edit" menu
+		 */
+
+		public void updateSelection() {
+			editMenu.initActions();	        
+        }
 	
 }

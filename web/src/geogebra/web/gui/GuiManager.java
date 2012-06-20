@@ -10,6 +10,7 @@ import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.main.AbstractApplication;
+import geogebra.web.gui.app.GGWMenuBar;
 import geogebra.web.gui.app.GGWToolBar;
 import geogebra.web.gui.dialog.InputDialogOpenURL;
 import geogebra.web.gui.inputbar.AlgebraInput;
@@ -71,8 +72,7 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 
 	@Override
 	public void updateMenubarSelection() {
-		// TODO Auto-generated method stub
-		AbstractApplication.debug("unimplemented method");
+		GGWMenuBar.getMenubar().updateSelection();
 
 	}
 

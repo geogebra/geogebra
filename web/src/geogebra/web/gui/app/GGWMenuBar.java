@@ -19,7 +19,8 @@ public class GGWMenuBar extends Composite {
 	}
 	
 	@UiField
-	HorizontalPanel ggbmenubarwrapper;
+	static HorizontalPanel ggbmenubarwrapper;
+	private static GeoGebraMenubar menubar;
 
 	public GGWMenuBar() {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -28,8 +29,13 @@ public class GGWMenuBar extends Composite {
 	}
 	
 	public void init(AbstractApplication app) {
-		GeoGebraMenubar menubar = new GeoGebraMenubar(app);
+		menubar = new GeoGebraMenubar(app);
 		ggbmenubarwrapper.add(menubar);
 	}
+
+	public static GeoGebraMenubar getMenubar(){
+		return menubar;
+	}
+	
 
 }

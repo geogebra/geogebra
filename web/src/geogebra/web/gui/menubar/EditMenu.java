@@ -34,10 +34,12 @@ public class EditMenu extends MenuBar {
 		initActions();
 	}
 
-	private void initActions() {
+	void initActions() {
 
+		clearItems();
+		
 		// undo menu
-//		if (app.getKernel().undoPossible())
+		if (app.getKernel().undoPossible())
 			addItem(GeoGebraMenubar.getMenuBarHtml(AppResources.INSTANCE
 			        .edit_undo().getSafeUri().asString(), app.getMenu("Undo")),
 			        true, new Command() {
@@ -45,18 +47,18 @@ public class EditMenu extends MenuBar {
 					        app.getGuiManager().undo();
 				        }
 			        });
-//		else
-//			addItem(GeoGebraMenubar.getMenuBarHtmlGrayout(AppResources.INSTANCE
-//			        .edit_undo().getSafeUri().asString(), app.getMenu("Undo")),
-//			        true, new Command() {
-//				public void execute() {
-//					// do nothing
-//				}
-//			});
+		else
+			addItem(GeoGebraMenubar.getMenuBarHtmlGrayout(AppResources.INSTANCE
+			        .edit_undo().getSafeUri().asString(), app.getMenu("Undo")),
+			        true, new Command() {
+				public void execute() {
+					// do nothing
+				}
+			});
 
 
 		// redo menu
-//		if (app.getKernel().redoPossible())
+		if (app.getKernel().redoPossible())
 			addItem(GeoGebraMenubar.getMenuBarHtml(AppResources.INSTANCE
 			        .edit_redo().getSafeUri().asString(), app.getMenu("Redo")),
 			        true, new Command() {
@@ -64,20 +66,20 @@ public class EditMenu extends MenuBar {
 					        app.getGuiManager().redo();
 				        }
 			        });
-//		else
-//			addItem(GeoGebraMenubar.getMenuBarHtmlGrayout(AppResources.INSTANCE
-//			        .edit_redo().getSafeUri().asString(), app.getMenu("Redo")),
-//			        true, new Command() {
-//				public void execute() {
-//					// do nothing
-//				}
-//			});
+		else
+			addItem(GeoGebraMenubar.getMenuBarHtmlGrayout(AppResources.INSTANCE
+			        .edit_redo().getSafeUri().asString(), app.getMenu("Redo")),
+			        true, new Command() {
+				public void execute() {
+					// do nothing
+				}
+			});
 
 		// separator
 		addSeparator();
 			
 		// copy menu
-//		if (!app.getSelectedGeos().isEmpty())
+		if (!app.getSelectedGeos().isEmpty())
 			addItem(GeoGebraMenubar.getMenuBarHtml(AppResources.INSTANCE
 			        .edit_copy().getSafeUri().asString(), app.getMenu("Copy")),
 			        true, new Command() {
@@ -88,17 +90,17 @@ public class EditMenu extends MenuBar {
 					        app.setDefaultCursor();
 				        }
 			        });
-//		else
-//			addItem(GeoGebraMenubar.getMenuBarHtmlGrayout(AppResources.INSTANCE
-//			        .edit_copy().getSafeUri().asString(), app.getMenu("Copy")),
-//			        true, new Command() {
-//				        public void execute() {
-//					        // do nothing
-//				        }
-//			        });
+		else
+			addItem(GeoGebraMenubar.getMenuBarHtmlGrayout(AppResources.INSTANCE
+			        .edit_copy().getSafeUri().asString(), app.getMenu("Copy")),
+			        true, new Command() {
+				        public void execute() {
+					        // do nothing
+				        }
+			        });
 
 		// paste menu
-//		if (!CopyPaste.isEmpty())
+		if (!CopyPaste.isEmpty())
 			addItem(GeoGebraMenubar
 			        .getMenuBarHtml(AppResources.INSTANCE.edit_paste()
 			                .getSafeUri().asString(), app.getMenu("Paste")),
@@ -109,15 +111,15 @@ public class EditMenu extends MenuBar {
 					        app.setDefaultCursor();
 				        }
 			        });
-//		else
-//			addItem(GeoGebraMenubar
-//			        .getMenuBarHtmlGrayout(AppResources.INSTANCE.edit_paste()
-//			                .getSafeUri().asString(), app.getMenu("Paste")),
-//			        true, new Command() {
-//				        public void execute() {
-//					        // do nothing
-//				        }
-//			        });
+		else
+			addItem(GeoGebraMenubar
+			        .getMenuBarHtmlGrayout(AppResources.INSTANCE.edit_paste()
+			                .getSafeUri().asString(), app.getMenu("Paste")),
+			        true, new Command() {
+				        public void execute() {
+					        // do nothing
+				        }
+			        });
 
 		// copy graphics view menu
 		addItem(GeoGebraMenubar.getMenuBarHtml(AppResources.INSTANCE
@@ -138,20 +140,21 @@ public class EditMenu extends MenuBar {
 		addSeparator();
 
 		// select all menu
-//		if (app.getKernel().isEmpty())
+		if (!app.getKernel().isEmpty())
 			addItem(GeoGebraMenubar.getMenuBarHtml(null,
 			        app.getMenu("SelectAll")), true, new Command() {
 				public void execute() {
 					app.selectAll(-1);
 				}
 			});
-//		else
-//			addItem(GeoGebraMenubar.getMenuBarHtmlGrayout(null,
-//			        app.getMenu("SelectAll")), true, new Command() {
-//				public void execute() {
-//					// do nothing
-//				}
-//			});
+		else
+			addItem(GeoGebraMenubar.getMenuBarHtmlGrayout(null,
+			        app.getMenu("SelectAll")), true, new Command() {
+				public void execute() {
+					// do nothing
+				}
+			});
 
 	}
+	
 }
