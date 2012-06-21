@@ -2,6 +2,7 @@ package geogebra.web.gui.menubar;
 
 import geogebra.common.main.AbstractApplication;
 import geogebra.web.gui.dialog.WebCamInputDialog;
+import geogebra.web.gui.dialog.ImageFileInputDialog;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.main.Application;
 
@@ -31,6 +32,13 @@ public class InsertImageMenu extends MenuBar {
 	}
 
 	private void initActions() {
+
+	    addItem(GeoGebraMenubar.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),app.getMenu("File")),true,new Command() {
+	    	public void execute() {
+	    		ImageFileInputDialog dialog = new ImageFileInputDialog((Application) app, true);
+	    		dialog.setVisible(true);
+	    	}
+	    });
 
 	    addItem(GeoGebraMenubar.getMenuBarHtml(AppResources.INSTANCE.users().getSafeUri().asString(),app.getMenu("WebCam")),true,new Command() {
 	    	public void execute() {
