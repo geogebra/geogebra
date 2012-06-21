@@ -225,7 +225,7 @@ public class CASStyleBar extends JToolBar implements ActionListener{
 		btnCopyStatic = new MyToggleButton(app.getImageIcon("cascopy-static.png"), iconHeight);
 		btnCopyStatic.addActionListener(this);
 		btnCopyStatic.setFocusable(false);
-		add(btnShowKeyboard);
+		//add(btnShowKeyboard);
 		add(btnCopyStatic);
 
 		
