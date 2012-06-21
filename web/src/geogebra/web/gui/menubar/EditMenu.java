@@ -35,6 +35,8 @@ public class EditMenu extends MenuBar {
 	}
 
 	void initActions() {
+		
+		String noIcon = AppResources.INSTANCE.empty().getSafeUri().asString();
 
 		clearItems();
 		
@@ -133,22 +135,21 @@ public class EditMenu extends MenuBar {
 		// separator
 		addSeparator();
 
-		addItem(GeoGebraMenubar.getMenuBarHtml(AppResources.INSTANCE
-		        .empty().getSafeUri().asString(), app.getMenu("InsertImageFrom")),
+		addItem(GeoGebraMenubar.getMenuBarHtml(noIcon, app.getMenu("InsertImageFrom")),
 		        true, iim);
 
 		addSeparator();
 
 		// select all menu
 		if (!app.getKernel().isEmpty())
-			addItem(GeoGebraMenubar.getMenuBarHtml(null,
+			addItem(GeoGebraMenubar.getMenuBarHtml(noIcon,
 			        app.getMenu("SelectAll")), true, new Command() {
 				public void execute() {
 					app.selectAll(-1);
 				}
 			});
 		else
-			addItem(GeoGebraMenubar.getMenuBarHtmlGrayout(null,
+			addItem(GeoGebraMenubar.getMenuBarHtmlGrayout(noIcon,
 			        app.getMenu("SelectAll")), true, new Command() {
 				public void execute() {
 					// do nothing
