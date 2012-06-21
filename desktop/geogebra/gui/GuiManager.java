@@ -1280,15 +1280,16 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 
 		if (fromClipboard)
 			fileName = getImageFromTransferable(null);
-		else if (transfer != null)
+		else if (transfer != null) {
 			fileName = getImageFromTransferable(transfer);
-		else {
+		} else {
 			fileName = new String[1];
 			fileName[0] = getImageFromFile(); // opens file chooser dialog
+			
 		}
 
 		boolean ret;
-		if (fileName.length == 0) {
+		if (fileName.length == 0 || fileName[0] == null) {
 			ret = false;
 		} else {
 			
