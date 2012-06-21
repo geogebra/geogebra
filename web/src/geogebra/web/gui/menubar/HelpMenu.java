@@ -41,13 +41,6 @@ public class HelpMenu extends MenuBar {
             }
 	    });
 	    
-	    // Forum
-	    addItem(app.getMenu("GeoGebraForum"), new Command() {
-			public void execute() {
-				Window.open(GeoGebraConstants.GEOGEBRA_WEBSITE + "forum/", "_blank","");
-            }
-	    });
-	    
 	    // GeoGebraTube
 	    addItem("GeoGebraTube", new Command() {
 			public void execute() {
@@ -65,13 +58,6 @@ public class HelpMenu extends MenuBar {
 	    });
 	    
 	    addSeparator();
-	    
-	    // GeoGebra.org
-	    addItem("GeoGebra.org", new Command() {
-			public void execute() {
-				Window.open(GeoGebraConstants.GEOGEBRA_WEBSITE, "_blank","");
-            }
-	    });
 	    
 	    addItem(app.getMenu("AboutLicense"), new Command() {
 			public void execute() {

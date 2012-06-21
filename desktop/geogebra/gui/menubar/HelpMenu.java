@@ -22,8 +22,6 @@ class HelpMenu extends BaseMenu {
 	private AbstractAction
 		helpAction,
 		tutorialAction,
-		websiteAction,
-		forumAction,
 		geogebratubeAction,
 		infoAction,
 		reportBugAction
@@ -52,7 +50,6 @@ class HelpMenu extends BaseMenu {
 		mi.setAccelerator(ks);
 
 		add(tutorialAction);
-		add(forumAction);
 		add(geogebratubeAction);
 		
 		addSeparator();
@@ -60,8 +57,6 @@ class HelpMenu extends BaseMenu {
 		add(reportBugAction);
 		
 		addSeparator();
-
-		add(websiteAction);
 
 		add(infoAction);
 	}
@@ -76,27 +71,6 @@ class HelpMenu extends BaseMenu {
 					
 		
 		tutorialAction = new HelpAction(app,null,app.getMenu("Tutorials"),AbstractApplication.WIKI_TUTORIAL);
-					
-
-		forumAction = new AbstractAction(app.getMenu("GeoGebraForum"), new ImageIcon(app
-				.getInternalImage("users.png"))) {
-			private static final long serialVersionUID = 1L;
-
-			public void actionPerformed(ActionEvent e) {
-				app.getGuiManager().showURLinBrowser(
-						GeoGebraConstants.GEOGEBRA_WEBSITE + "forum/");
-			}
-		};
-		
-		websiteAction = new AbstractAction("GeoGebra.org", new ImageIcon(
-				app.getInternalImage("geogebra.png"))) {
-			private static final long serialVersionUID = 1L;
-
-			public void actionPerformed(ActionEvent e) {
-				app.getGuiManager().showURLinBrowser(
-						GeoGebraConstants.GEOGEBRA_WEBSITE);
-			}
-		};
 
 		reportBugAction = new AbstractAction(app.getMenu("ReportBug"), app.getEmptyIcon()) {
 			private static final long serialVersionUID = 1L;
