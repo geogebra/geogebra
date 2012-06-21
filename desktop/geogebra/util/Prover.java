@@ -81,6 +81,7 @@ public class Prover extends geogebra.common.util.Prover {
 		// TODO: Set the method here.
 		inputObject.setTimeOut(AbstractApplication.proverTimeout);
 		inputObject.setMaxTerms(AbstractApplication.maxTerms);
+		inputObject.setReportFormat(GeoGebraOGPInputProverProtocol.OGP_REPORT_FORMAT_NONE);
 		
         // OGP API
         GeoGebraOGPInterface ogpInterface = new GeoGebraOGPInterface();
