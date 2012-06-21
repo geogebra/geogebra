@@ -9,14 +9,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
 import javax.swing.AbstractAction;
-import javax.swing.ImageIcon;
 import javax.swing.JMenuItem;
 import javax.swing.KeyStroke;
+import javax.swing.event.MenuEvent;
+import javax.swing.event.MenuListener;
 
 /**
  * The "Help" menu.
  */
-class HelpMenu extends BaseMenu {
+class HelpMenu extends BaseMenu implements MenuListener {
 	private static final long serialVersionUID = 1125756553396593316L;
 
 	private AbstractAction
@@ -33,10 +34,9 @@ class HelpMenu extends BaseMenu {
 	public HelpMenu(Application app) {
 		super(app, app.getMenu("Help"));
 		
-		initActions();
-		initItems();
-		
-		update();
+		// don't add any menu items until menu is opened
+		// makes GeoGebra load faster
+		addMenuListener(this);
 	}
 	
 	/**
@@ -66,43 +66,69 @@ class HelpMenu extends BaseMenu {
 	 */
 	private void initActions()
 	{
-		helpAction = new HelpAction(app, app
-				.getImageIcon("help.png"),app.getMenu("Help"),AbstractApplication.WIKI_MANUAL);
-					
+		if (helpAction == null) {
+			helpAction = new HelpAction(app, app
+					.getImageIcon("help.png"),app.getMenu("Help"),AbstractApplication.WIKI_MANUAL);
+						
+			
+			tutorialAction = new HelpAction(app,null,app.getMenu("Tutorials"),AbstractApplication.WIKI_TUTORIAL);
+	
+			reportBugAction = new AbstractAction(app.getMenu("ReportBug"), app.getEmptyIcon()) {
+				private static final long serialVersionUID = 1L;
+	
+				public void actionPerformed(ActionEvent e) {
+					GeoGebraMenuBar.copyDebugInfoToClipboard(app);
+					app.getGuiManager().showURLinBrowser(
+							GeoGebraConstants.GEOGEBRA_REPORT_BUG_DESKTOP);
+				}
+			};
+	
+			geogebratubeAction = new AbstractAction("GeoGebraTube") {
+				private static final long serialVersionUID = 1L;
+	
+				public void actionPerformed(ActionEvent e) {
+					app.getGuiManager().showURLinBrowser(
+							GeoGebraConstants.GEOGEBRATUBE_WEBSITE);
+				}
+			};
+			
+			infoAction = new AbstractAction(app.getMenu("AboutLicense"), app.getImageIcon("info.gif")) {
+				private static final long serialVersionUID = 1L;
+	
+				public void actionPerformed(ActionEvent e) {
+					GeoGebraMenuBar.showAboutDialog(app);
+				}
+			};
 		
-		tutorialAction = new HelpAction(app,null,app.getMenu("Tutorials"),AbstractApplication.WIKI_TUTORIAL);
-
-		reportBugAction = new AbstractAction(app.getMenu("ReportBug"), app.getEmptyIcon()) {
-			private static final long serialVersionUID = 1L;
-
-			public void actionPerformed(ActionEvent e) {
-				GeoGebraMenuBar.copyDebugInfoToClipboard(app);
-				app.getGuiManager().showURLinBrowser(
-						GeoGebraConstants.GEOGEBRA_REPORT_BUG_DESKTOP);
-			}
-		};
-
-		geogebratubeAction = new AbstractAction("GeoGebraTube") {
-			private static final long serialVersionUID = 1L;
-
-			public void actionPerformed(ActionEvent e) {
-				app.getGuiManager().showURLinBrowser(
-						GeoGebraConstants.GEOGEBRATUBE_WEBSITE);
-			}
-		};
-		
-		infoAction = new AbstractAction(app.getMenu("AboutLicense"), app.getImageIcon("info.gif")) {
-			private static final long serialVersionUID = 1L;
-
-			public void actionPerformed(ActionEvent e) {
-				GeoGebraMenuBar.showAboutDialog(app);
-			}
-		};
+		}
 	}
 
 	@Override
 	public void update() {
 		// TODO update labels
+	}
+
+	@Override
+	public void menuSelected(MenuEvent e) {
+		AbstractApplication.debug("Help Menu opening");
+		if (getItemCount() == 0) {
+			AbstractApplication.debug("building Help Menu");
+			initActions();
+			initItems();
+			
+			update();
+		}
+		
+	}
+
+	@Override
+	public void menuDeselected(MenuEvent e) {
+		// nothing to do here		
+	}
+
+	@Override
+	public void menuCanceled(MenuEvent e) {
+		// nothing to do here		
 	}
 
 }
