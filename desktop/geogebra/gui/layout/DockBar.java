@@ -219,7 +219,7 @@ public class DockBar extends JPanel implements SetLabels, ActionListener {
 		if (minimumPanel == null) {
 			minimumPanel = new JPanel(new BorderLayout(0, 0));
 
-			lblIcon = new JLabel(app.getImageIcon("dockbar-triangle.png"));
+			lblIcon = new JLabel(app.getImageIcon("dockbar-triangle-left.png"));
 			lblIcon.setPreferredSize(new Dimension(10, 0));
 			minimumPanel.add(lblIcon, BorderLayout.CENTER);
 
