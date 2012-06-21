@@ -22,11 +22,12 @@ public interface GeoGebraConstants {
 	
 	//********* start hacks TODO remove it when branched  *************
 	/** eg HKEY_CURRENT_USER/Software/JavaSoft/Prefs/geogebra42/ */
-	public static final String PREFERENCES_ROOT = VERSION_STRING
-			.startsWith("4.9") ? "/geogebra50" : "/geogebra42";
+	public static final boolean IS_FIVE_POINT_ZERO = VERSION_STRING
+			.startsWith("4.9") ? true : false;
+	
+	public static final String PREFERENCES_ROOT = IS_FIVE_POINT_ZERO ? "/geogebra50" : "/geogebra42";
 	/** File format version */
-	public static final String XML_FILE_FORMAT = VERSION_STRING
-			.startsWith("4.9") ? "5.0" : "4.2";
+	public static final String XML_FILE_FORMAT = IS_FIVE_POINT_ZERO ? "5.0" : "4.2";
 	/* end hacks */
 	/** Splash filename -- used for online */
 	public static final String SPLASH_STRING = "splash42beta.png";
@@ -66,9 +67,9 @@ public interface GeoGebraConstants {
 	/** GeoGebra URL*/
 	public final static String GEOGEBRA_WEBSITE = "http://www.geogebra.org/";
 	/** 4.2 desktop bug reports */
-	public final static String GEOGEBRA_FORUM_42 = "http://www.geogebra.org/forum/viewforum.php?f=22";
+	public final static String GEOGEBRA_REPORT_BUG_DESKTOP = IS_FIVE_POINT_ZERO ? "http://www.geogebra.org/bugs/?v=5.0" : "http://www.geogebra.org/bugs/";
 	/** web bug reports */
-	public final static String GEOGEBRA_FORUM_WEB = "http://www.geogebra.org/forum/viewforum.php?f=48";
+	public final static String GEOGEBRA_REPORT_BUG_WEB = "http://www.geogebra.org/bugs/?v=web";
 	/** Help (wiki) URL */
 	public final static String HELP_URL = GEOGEBRA_WEBSITE + "help";
 	/** GeoGebraTube URL */

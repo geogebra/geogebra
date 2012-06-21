@@ -102,8 +102,9 @@ class HelpMenu extends BaseMenu {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
+				GeoGebraMenuBar.copyDebugInfoToClipboard(app);
 				app.getGuiManager().showURLinBrowser(
-						GeoGebraConstants.GEOGEBRA_FORUM_42);
+						GeoGebraConstants.GEOGEBRA_REPORT_BUG_DESKTOP);
 			}
 		};
 

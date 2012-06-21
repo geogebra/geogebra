@@ -60,7 +60,7 @@ public class HelpMenu extends MenuBar {
 	    // Report Bug
 	    addItem(app.getMenu("ReportBug"), new Command() {
 			public void execute() {
-				Window.open(GeoGebraConstants.GEOGEBRA_FORUM_WEB, "_blank","");
+				Window.open(GeoGebraConstants.GEOGEBRA_REPORT_BUG_WEB, "_blank","");
             }
 	    });
 	    

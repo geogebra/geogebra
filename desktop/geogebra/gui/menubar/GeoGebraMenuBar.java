@@ -395,30 +395,18 @@ public class GeoGebraMenuBar extends JMenuBar {
 	 * @param app
 	 */
 	public static void showAboutDialog(final Application app) {
-		final StringBuilder vsb = new StringBuilder();
-		vsb.append(app.getPlain("ApplicationName"));
-		vsb.append(" ");
-		vsb.append(GeoGebraConstants.VERSION_STRING);
-		switch (Kernel.DEFAULT_CAS) {
-		case MAXIMA:
-			vsb.append('m');
-			break;
-			// default: do nothing
-		}
-		if (app.getApplet() != null) vsb.append(" Applet");
-		else if (Application.isWebstartDebug()) vsb.append(" Debug");
-		else if (Application.isWebstart()) vsb.append(" Webstart");
+		
 
 		StringBuilder sb = new StringBuilder();
 		sb.append("<html><b>");
-		sb.append(vsb);
+		appendVersion(sb, app);
 		sb.append("</b>  (");
 		sb.append("Java "); 
 		sb.append(System.getProperty("java.version")); 
 		sb.append(", ");
 		sb.append(app.getHeapSize()/1024/1024);
 		sb.append("MB, ");
-		sb.append(Application.getCASVersionString());
+		sb.append(AbstractApplication.getCASVersionString());
 		sb.append(")<br>");	
 		sb.append(GeoGebraConstants.BUILD_DATE);
 
@@ -444,56 +432,9 @@ public class GeoGebraMenuBar extends JMenuBar {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent arg0) {
-				StringBuilder systemInfo = new StringBuilder();
-				systemInfo.append("[code]");
-				systemInfo.append(vsb);
-				systemInfo.append(" (");
-				systemInfo.append(GeoGebraConstants.BUILD_DATE);
-				systemInfo.append(")\nJava: ");
-				systemInfo.append(System.getProperty("java.version"));
-				systemInfo.append(")\nCodebase: ");
-				systemInfo.append(Application.getCodeBase());
-				systemInfo.append("\nOS: ");
-				systemInfo.append(System.getProperty("os.name"));
-				systemInfo.append("\nArchitecture: ");
-				systemInfo.append(System.getProperty("os.arch")); // tells us 32 or 64 bit (Java)
-				systemInfo.append("\nHeap: ");
-				systemInfo.append(app.getHeapSize()/1024/1024);
-				systemInfo.append("MB\nCAS: ");
-				systemInfo.append(Application.getCASVersionString());
-				systemInfo.append("\n\n");
 
-				// copy log file to systemInfo
-				if (app.logFile != null) {
-					String NL = System.getProperty("line.separator");
-					Scanner scanner = null;
-					try {
-						scanner = new Scanner(new File(app.logFile.toString()));
-						while (scanner.hasNextLine()){
-							systemInfo.append(scanner.nextLine() + NL);
-						}
-					} catch (FileNotFoundException e) {
-
-					}
-					finally{
-						if (scanner != null) scanner.close();
-					}
-				}
-
-				// append ggb file (except images)
-				systemInfo.append(app.getXML());
-				systemInfo.append("\n\n");
-				systemInfo.append(app.getMacroXML());
-				systemInfo.append("\n\nLibraryJavaScript:\n");
-				app.getKernel().getLibraryJavaScript();
-
-				systemInfo.append("\n\nPreferences:\n");
-				systemInfo.append(GeoGebraPreferences.getPref().getXMLPreferences());
-				systemInfo.append("[/code]");
-				Toolkit.getDefaultToolkit().getSystemClipboard().setContents(
-						new StringSelection(systemInfo.toString()), null
-						);
-
+				copyDebugInfoToClipboard(app);
+				
 				app.showMessage(app.getPlain("SystemInformationMessage"));
 			}
 		}), BorderLayout.EAST);
@@ -509,5 +450,74 @@ public class GeoGebraMenuBar extends JMenuBar {
 				app.getMenu("About") + " / " + app.getMenu("License"));
 
 		dialog.setVisible(true);
+	}
+	
+	private static void appendVersion(StringBuilder sb, Application app) {
+		sb.append(app.getPlain("ApplicationName"));
+		sb.append(" ");
+		sb.append(GeoGebraConstants.VERSION_STRING);
+		switch (Kernel.DEFAULT_CAS) {
+		case MAXIMA:
+			sb.append('m');
+			break;
+			// default: do nothing
+		}
+		if (app.getApplet() != null) sb.append(" Applet");
+		else if (Application.isWebstartDebug()) sb.append(" Debug");
+		else if (Application.isWebstart()) sb.append(" Webstart");		
+	}
+
+
+	public static void copyDebugInfoToClipboard(Application app) {
+		StringBuilder sb = new StringBuilder();
+		sb.append("[code]");
+		appendVersion(sb, app);
+		sb.append(" (");
+		sb.append(GeoGebraConstants.BUILD_DATE);
+		sb.append(")\nJava: ");
+		sb.append(System.getProperty("java.version"));
+		sb.append(")\nCodebase: ");
+		sb.append(Application.getCodeBase());
+		sb.append("\nOS: ");
+		sb.append(System.getProperty("os.name"));
+		sb.append("\nArchitecture: ");
+		sb.append(System.getProperty("os.arch")); // tells us 32 or 64 bit (Java)
+		sb.append("\nHeap: ");
+		sb.append(app.getHeapSize()/1024/1024);
+		sb.append("MB\nCAS: ");
+		sb.append(Application.getCASVersionString());
+		sb.append("\n\n");
+
+		// copy log file to systemInfo
+		if (app.logFile != null) {
+			String NL = System.getProperty("line.separator");
+			Scanner scanner = null;
+			try {
+				scanner = new Scanner(new File(app.logFile.toString()));
+				while (scanner.hasNextLine()){
+					sb.append(scanner.nextLine() + NL);
+				}
+			} catch (FileNotFoundException e) {
+
+			}
+			finally{
+				if (scanner != null) scanner.close();
+			}
+		}
+
+		// append ggb file (except images)
+		sb.append(app.getXML());
+		sb.append("\n\n");
+		sb.append(app.getMacroXML());
+		sb.append("\n\nLibraryJavaScript:\n");
+		app.getKernel().getLibraryJavaScript();
+
+		sb.append("\n\nPreferences:\n");
+		sb.append(GeoGebraPreferences.getPref().getXMLPreferences());
+		sb.append("[/code]");
+		Toolkit.getDefaultToolkit().getSystemClipboard().setContents(
+				new StringSelection(sb.toString()), null
+				);
+
 	}
 }
