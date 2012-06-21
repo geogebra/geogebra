@@ -135,7 +135,7 @@ implements ActionListener {
     
     protected void addMiProperties(){
         JMenuItem miProperties = new JMenuItem(app.getPlain("DrawingPad") + " ...");
-        miProperties.setIcon(app.getImageIcon("document-properties.png"));
+        miProperties.setIcon(app.getImageIcon("view-properties16.png"));
         miProperties.setActionCommand("properties");
         miProperties.addActionListener(this);
         miProperties.setBackground(bgColor);
