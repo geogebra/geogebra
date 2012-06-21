@@ -108,7 +108,6 @@ class HelpMenu extends BaseMenu implements MenuListener {
 		// TODO update labels
 	}
 
-	@Override
 	public void menuSelected(MenuEvent e) {
 		AbstractApplication.debug("Help Menu opening");
 		if (getItemCount() == 0) {
@@ -121,12 +120,10 @@ class HelpMenu extends BaseMenu implements MenuListener {
 		
 	}
 
-	@Override
 	public void menuDeselected(MenuEvent e) {
 		// nothing to do here		
 	}
 
-	@Override
 	public void menuCanceled(MenuEvent e) {
 		// nothing to do here		
 	}
