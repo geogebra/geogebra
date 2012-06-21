@@ -368,9 +368,7 @@ public class Application extends AbstractApplication {
 										var fileStr = base64result;
 										var fileStr2 = reader2.result;
 										var fileName = fileToHandle.name;
-										var coordx = e.offsetX ? e.offsetX : e.layerX;
-										var coordy = e.offsetY ? e.offsetY : e.layerY;
-										appl.@geogebra.web.main.Application::imageDropHappened(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;II)(fileName, fileStr, fileStr2, coordx, coordy);
+										appl.@geogebra.web.main.Application::imageDropHappened(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lgeogebra/common/kernel/geos/GeoPoint2;)(fileName, fileStr, fileStr2, null);
 									}
 								}
 								reader2.readAsBinaryString(fileToHandle);
@@ -440,7 +438,7 @@ public class Application extends AbstractApplication {
 		// "a04c62e6a065b47476607ac815d022cc\liar.gif"
 		imgFileName = zip_directory + '/' + fn;
 
-		doDropHappened(imgFileName, url);
+		doDropHappened(imgFileName, url, null);
 	}
 
 	/**
@@ -452,7 +450,7 @@ public class Application extends AbstractApplication {
 	 * @param clientx - desired position on the canvas (x)
 	 * @param clienty - desired position on the canvas (y)
 	 */
-	public void imageDropHappened(String imgFileName, String fileStr, String fileStr2, int clientx, int clienty) {
+	public void imageDropHappened(String imgFileName, String fileStr, String fileStr2, GeoPoint2 loc) {
 
 		MD5EncrypterGWTImpl md5e = new MD5EncrypterGWTImpl();
 		String zip_directory = md5e.encrypt(fileStr2);
@@ -469,36 +467,45 @@ public class Application extends AbstractApplication {
 		// "a04c62e6a065b47476607ac815d022cc\liar.gif"
 		imgFileName = zip_directory + '/' + fn;
 
-		doDropHappened(imgFileName, fileStr);
+		doDropHappened(imgFileName, fileStr, loc);
 	}
 
-	private void doDropHappened(String imgFileName, String fileStr) {
+	private void doDropHappened(String imgFileName, String fileStr, GeoPoint2 loc) {
+
 		Construction cons = getKernel().getConstruction();
 		EuclidianViewInterfaceCommon ev = getActiveEuclidianView();
 		((ImageManager)getImageManager()).addExternalImage(imgFileName, fileStr);
 		GeoImage geoImage = new GeoImage(cons);
 		((ImageManager)getImageManager()).triggerSingleImageLoading(imgFileName, geoImage);
 		geoImage.setImageFileName(imgFileName);
-		double cx = ev.getXmin() + (ev.getXmax() - ev.getXmin()) / 4;
-		double cy = ev.getYmin() + (ev.getYmax() - ev.getYmin()) / 4;
-		GeoPoint2 gsp = new GeoPoint2(cons, cx, cy, 1);
-		gsp.setLabel(null);
-		gsp.setLabelVisible(false);
-		gsp.update();
-		geoImage.setCorner(gsp, 0);
 
-		cx = ev.getXmax() - (ev.getXmax() - ev.getXmin()) / 4;
-		GeoPoint2 gsp2 = new GeoPoint2(cons, cx, cy, 1);
-		gsp2.setLabel(null);
-		gsp2.setLabelVisible(false);
-		gsp2.update();
-		geoImage.setCorner(gsp2, 1);
+		if (loc == null) {
+			double cx = ev.getXmin() + (ev.getXmax() - ev.getXmin()) / 4;
+			double cy = ev.getYmin() + (ev.getYmax() - ev.getYmin()) / 4;
+			GeoPoint2 gsp = new GeoPoint2(cons, cx, cy, 1);
+			gsp.setLabel(null);
+			gsp.setLabelVisible(false);
+			gsp.update();
+			geoImage.setCorner(gsp, 0);
+
+			cx = ev.getXmax() - (ev.getXmax() - ev.getXmin()) / 4;
+			GeoPoint2 gsp2 = new GeoPoint2(cons, cx, cy, 1);
+			gsp2.setLabel(null);
+			gsp2.setLabelVisible(false);
+			gsp2.update();
+			geoImage.setCorner(gsp2, 1);
+		} else {
+			geoImage.setCorner(loc, 0);
+		}
 
 		geoImage.setLabel(null);
 		GeoImage.updateInstances();
 
-		//Application.debug("image dropped");
-		//Window.alert("Image dropped at client position ("+clientx+","+clienty+")");
+		// these things are done in Desktop GuiManager.loadImage too
+		GeoElement[] geos = { geoImage };
+		getActiveEuclidianView().getEuclidianController().clearSelections();
+		getActiveEuclidianView().getEuclidianController().memorizeJustCreatedGeos(geos);
+		setDefaultCursor();
 	}
 
 	@Override

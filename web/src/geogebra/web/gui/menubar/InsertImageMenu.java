@@ -35,7 +35,7 @@ public class InsertImageMenu extends MenuBar {
 
 	    addItem(GeoGebraMenubar.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),app.getMenu("File")),true,new Command() {
 	    	public void execute() {
-	    		ImageFileInputDialog dialog = new ImageFileInputDialog((Application) app, true);
+	    		ImageFileInputDialog dialog = new ImageFileInputDialog((Application) app, null);
 	    		dialog.setVisible(true);
 	    	}
 	    });

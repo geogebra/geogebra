@@ -1,5 +1,6 @@
 package geogebra.web.gui.dialog;
 
+import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.web.main.Application;
 
 import com.google.gwt.dom.client.Element;
@@ -14,13 +15,15 @@ import com.google.gwt.user.client.ui.FileUpload;
 public class ImageFileInputDialog extends PopupPanel implements ClickHandler{
 
 	protected Application app;
+	protected GeoPoint2 location;
 
 	protected FileUpload inputWidget;
 	protected Button btCancel;
 
-	public ImageFileInputDialog(Application app, boolean centering) {
+	public ImageFileInputDialog(Application app, GeoPoint2 location) {
 	    super(false, true);
 	    this.app = app;
+	    this.location = location;
 	    createGUI();
 	    setGlassEnabled(true);
 	    center();
@@ -64,9 +67,8 @@ public class ImageFileInputDialog extends PopupPanel implements ClickHandler{
 									var fileStr = base64result;
 									var fileStr2 = reader2.result;
 									var fileName = fileToHandle.name;
-									var coordx = 0;//e.offsetX ? e.offsetX : e.layerX;
-									var coordy = 0;//e.offsetY ? e.offsetY : e.layerY;
-									appl.@geogebra.web.main.Application::imageDropHappened(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;II)(fileName, fileStr, fileStr2, coordx, coordy);
+									var loc = dialog.@geogebra.web.gui.dialog.ImageFileInputDialog::location;
+									appl.@geogebra.web.main.Application::imageDropHappened(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lgeogebra/common/kernel/geos/GeoPoint2;)(fileName, fileStr, fileStr2, loc);
 									dialog.@geogebra.web.gui.dialog.ImageFileInputDialog::hide()();
 								}
 							}

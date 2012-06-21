@@ -159,9 +159,10 @@ public class ToolBar {
 		sb.append(EuclidianConstants.MODE_TEXT);
 		sb.append(" ");
 		
-		if(showAllMenu){
+		//if(showAllMenu){
 			sb.append(EuclidianConstants.MODE_IMAGE);
 			sb.append(" ");
+		if(showAllMenu){
 			sb.append(EuclidianConstants.MODE_PEN);
 			sb.append(" ");
 			sb.append(EuclidianConstants.MODE_PENCIL);

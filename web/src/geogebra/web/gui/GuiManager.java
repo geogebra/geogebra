@@ -13,6 +13,7 @@ import geogebra.common.main.AbstractApplication;
 import geogebra.web.gui.app.GGWMenuBar;
 import geogebra.web.gui.app.GGWToolBar;
 import geogebra.web.gui.dialog.InputDialogOpenURL;
+import geogebra.web.gui.dialog.ImageFileInputDialog;
 import geogebra.web.gui.inputbar.AlgebraInput;
 import geogebra.web.gui.inputbar.InputBarHelpPanel;
 import geogebra.web.gui.layout.Layout;
@@ -121,6 +122,10 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 		// TODO Auto-generated method stub
 		AbstractApplication.debug("unimplemented method");
 
+		app.setWaitCursor();
+
+		ImageFileInputDialog dialog = new ImageFileInputDialog((Application) app, loc);
+		dialog.setVisible(true);
 	}
 
 	@Override
