@@ -839,7 +839,7 @@ public class ContextMenuGeoElement extends JPopupMenu {
 		}
 
 
-
+/*
 		// EDIT: copy to input bar       
 		if (geos.size() == 1 && app.showAlgebraInput() && !geo.isGeoImage() && geo.isDefined()) {
 			addAction(new AbstractAction(
@@ -859,7 +859,7 @@ public class ContextMenuGeoElement extends JPopupMenu {
 			});
 			addSeparator();
 		}
-
+*/
 		/*
         // EDIT in AlgebraView
         else if (app.showAlgebraView() && geo.isChangeable() && !geo.isGeoImage()) { 
