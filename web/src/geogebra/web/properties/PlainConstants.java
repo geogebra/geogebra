@@ -1234,7 +1234,7 @@ public interface PlainConstants extends ConstantsWithLookup {
     @DefaultStringValue("Object Properties")
     String Properties();
 
-    @DefaultStringValue("Properties of %0")
+    @DefaultStringValue("Properties - %0")
     String PropertiesOfA();
 
     @DefaultStringValue("Quadrilateral")
