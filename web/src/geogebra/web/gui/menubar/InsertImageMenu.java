@@ -40,7 +40,7 @@ public class InsertImageMenu extends MenuBar {
 	    	}
 	    });
 
-	    addItem(GeoGebraMenubar.getMenuBarHtml(AppResources.INSTANCE.users().getSafeUri().asString(),app.getMenu("WebCam")),true,new Command() {
+	    addItem(GeoGebraMenubar.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),app.getMenu("Webcam")),true,new Command() {
 	    	public void execute() {
 	    		WebCamInputDialog dialog = new WebCamInputDialog(false, (Application) app);
 	    		dialog.setVisible(true);
