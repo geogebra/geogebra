@@ -75,6 +75,7 @@ public class DrawEquation implements DrawEquationInterface {
 				initJLM.append("\\DeclareMathOperator{\\sech}{sech} ");
 				initJLM.append("\\DeclareMathOperator{\\csch}{csch} ");
 				initJLM.append("\\DeclareMathOperator{\\erf}{erf} ");
+				initJLM.append("\\newcommand{\\space}[0]{\\ } ");
 				
 				HashMap<String, geogebra.common.awt.Color> ggbCols = GeoGebraColorConstants.getGeoGebraColors();
 				
