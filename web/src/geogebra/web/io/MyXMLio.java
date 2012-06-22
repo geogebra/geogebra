@@ -83,7 +83,7 @@ public class MyXMLio extends geogebra.common.io.MyXMLio {
 		//sb.append("<geogebra format=\"" + GeoGebra.XML_FILE_FORMAT + "\">\n");
 
 		// save euclidianView settings
-		//app.getEuclidianView().getXML(sb);
+		app.getEuclidianViewXML(sb,false);
 		
 		// save kernel settings
 		c.getKernel().getKernelXML(sb, false);
