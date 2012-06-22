@@ -33,7 +33,7 @@ public class OptionsMenu extends MenuBar {
 	
 	private void initItems(){
 		//"Algebra Descriptions" menu
-		addAlgebraDescriptionMenu();
+		//addAlgebraDescriptionMenu();
 		
 		//language menu
 		addLanguageMenu();
