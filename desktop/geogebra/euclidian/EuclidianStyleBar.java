@@ -8,6 +8,8 @@ import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoTableText;
+import geogebra.common.kernel.geos.AbsoluteScreenLocateable;
+import geogebra.common.kernel.geos.Furniture;
 import geogebra.common.kernel.geos.GeoButton;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoImage;
@@ -63,7 +65,7 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener,
 
 	private MyToggleButton btnPen, btnShowGrid, btnShowAxes, btnBold,
 			btnItalic, btnDelete, btnPenEraser, btnTableTextLinesV,
-			btnTableTextLinesH;
+			btnTableTextLinesH, btnFixPosition;
 
 	private PopupMenuButton[] popupBtnList;
 	private MyToggleButton[] toggleBtnList;
@@ -227,8 +229,8 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener,
 
 			// Save the current default geo state in oldDefaultGeo.
 			// Stylebar buttons can temporarily change a default geo, but this
-			// default
-			// geo is always restored to its previous state after a mode change.
+			// default geo is always restored to its previous state after a mode
+			// change.
 
 			if (oldDefaultGeo != null && modeChanged) {
 				// add oldDefaultGeo to the default map so that the old default
@@ -499,6 +501,10 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener,
 		// add(btnPointCapture);
 		addBtnRotateView();
 		// add(btnPenDelete);
+		
+		if (btnFixPosition.isVisible())
+			addSeparator();
+		add(btnFixPosition);
 
 	}
 
@@ -519,7 +525,7 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener,
 	protected MyToggleButton[] newToggleBtnList() {
 		return new MyToggleButton[] { btnPen, btnShowGrid, btnShowAxes,
 				btnBold, btnItalic, btnDelete, btnPenEraser,
-				btnTableTextLinesV, btnTableTextLinesH };
+				btnTableTextLinesV, btnTableTextLinesH, btnFixPosition };
 	}
 
 	protected void addBtnPointCapture() {
@@ -906,6 +912,48 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener,
 		btnPenDelete.setPreferredSize(d);
 		btnPenDelete.setMaximumSize(d);
 		btnPenDelete.addActionListener(this);
+
+		// ========================================
+		// fixed position button
+		btnFixPosition = new MyToggleButton(app.getImageIcon("pin.png"),
+				iconHeight) {
+
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void update(Object[] geos) {
+
+				boolean geosOK = checkGeos(geos);
+
+				setVisible(geosOK);
+				if (geosOK) {
+					AbsoluteScreenLocateable geo = (AbsoluteScreenLocateable) ((GeoElement) geos[0])
+							.getGeoElementForPropertiesDialog();
+					btnFixPosition.setSelected(geo.isAbsoluteScreenLocActive());
+				}
+			}
+
+			private boolean checkGeos(Object[] geos) {
+				if(geos.length <= 0){
+					return false;
+				}
+				for (int i = 0; i < geos.length; i++) {
+					GeoElement geo = (GeoElement) geos[i];
+					if (geo instanceof AbsoluteScreenLocateable) {
+						AbsoluteScreenLocateable absLoc = (AbsoluteScreenLocateable) geo;
+						if (!absLoc.isAbsoluteScreenLocateable()
+								|| geo.isGeoBoolean()
+								|| geo instanceof Furniture)
+							return false;
+					} else
+						return false;
+				}
+				return true;
+			}
+
+		};
+		btnFixPosition.addActionListener(this);
+
 	}
 
 	// ========================================
@@ -1491,6 +1539,8 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener,
 
 			// add code here to toggle between pen and eraser mode;
 
+		} else if (source == btnFixPosition) {
+			applyFixPosition(targetGeos);
 		}
 	}
 
@@ -1744,6 +1794,33 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener,
 
 	}
 
+	private void applyFixPosition(ArrayList<GeoElement> geos) {
+
+		boolean flag = btnFixPosition.isSelected();
+		AbsoluteScreenLocateable geo;
+		EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
+
+		for (int i = 0; i < geos.size(); i++) {
+			geo = (AbsoluteScreenLocateable) geos.get(i);
+			if (flag) {
+				// convert real world to screen coords
+				int x = ev.toScreenCoordX(geo.getRealWorldLocX());
+				int y = ev.toScreenCoordY(geo.getRealWorldLocY());
+				if (!geo.isAbsoluteScreenLocActive())
+					geo.setAbsoluteScreenLoc(x, y);
+			} else {
+				// convert screen coords to real world
+				double x = ev.toRealWorldCoordX(geo.getAbsoluteScreenLocX());
+				double y = ev.toRealWorldCoordY(geo.getAbsoluteScreenLocY());
+				if (geo.isAbsoluteScreenLocActive())
+					geo.setRealWorldLoc(x, y);
+			}
+			geo.setAbsoluteScreenLocActive(flag);
+			geo.toGeoElement().updateRepaint();
+		}
+		needUndo = true;
+	}
+
 	public GeoElement redefineGeo(GeoElement geo, String cmdtext) {
 		GeoElement newGeo = null;
 
@@ -1801,6 +1878,7 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener,
 
 		btnPen.setToolTipText(app.getPlainTooltip("stylebar.Pen"));
 		btnPenEraser.setToolTipText(app.getPlainTooltip("stylebar.Eraser"));
+		btnFixPosition.setToolTipText(app.getPlain("AbsoluteScreenLocation"));
 
 	}
 
