@@ -2590,6 +2590,13 @@ public class ExpressionNode extends ValidExpression implements
 				}
 
 				switch (STRING_TYPE) {
+				case MPREDUCE:
+					sb.append("mypower(");
+					sb.append(leftStr);
+					sb.append(",");
+					sb.append(rightStr);
+					sb.append(')');
+					break;
 				case LATEX:
 
 					// checks if the basis is leaf and if so
@@ -2603,13 +2610,7 @@ public class ExpressionNode extends ValidExpression implements
 				case JASYMCA:
 				case MATH_PIPER:
 				case MAXIMA:
-				case MPREDUCE:
-					sb.append("mypower(");
-					sb.append(leftStr);
-					sb.append(",");
-					sb.append(rightStr);
-					sb.append(')');
-					break;
+				
 					
 				case LIBRE_OFFICE:
 				default:
