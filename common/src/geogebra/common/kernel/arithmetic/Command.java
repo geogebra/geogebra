@@ -402,7 +402,7 @@ public class Command extends ValidExpression implements ReplaceChildrenByValues,
 		if(v!=this)
 			return v;
 		for (int i = 0; i < args.size(); i++) {
-			ExpressionNode en = args.get(i).traverseAndWrap(t);
+			ExpressionNode en = args.get(i).traverse(t).wrap();
 			args.set(i, en);
 		}
 		return this;

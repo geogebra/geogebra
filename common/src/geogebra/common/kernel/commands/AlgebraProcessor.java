@@ -32,6 +32,7 @@ import geogebra.common.kernel.arithmetic.Parametric;
 import geogebra.common.kernel.arithmetic.Polynomial;
 import geogebra.common.kernel.arithmetic.TextValue;
 import geogebra.common.kernel.arithmetic.Traversing.FVarCollector;
+import geogebra.common.kernel.arithmetic.Traversing.PolyReplacer;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.arithmetic.VectorValue;
 import geogebra.common.kernel.geos.GeoAngle;
@@ -1260,8 +1261,9 @@ public class AlgebraProcessor {
 			default:
 				// test for "y= <rhs>" here as well
 				if (equ.getLHS().toString(StringTemplate.defaultTemplate).trim().equals("y")) {
-					Function fun = new Function(equ.getRHS());
-					// try to use label of equation
+					PolyReplacer rep = PolyReplacer.getReplacer();
+					Function fun = new Function(equ.getRHS().traverse(rep).wrap());
+					// try to use label of equation					
 					fun.setLabel(equ.getLabel());
 					return processFunction(fun);
 				}
@@ -1275,7 +1277,8 @@ public class AlgebraProcessor {
 			if (lhsStr.equals("y")) {
 				try {
 					// try to create function from right hand side
-					Function fun = new Function(equ.getRHS());
+					PolyReplacer rep = PolyReplacer.getReplacer();
+					Function fun = new Function(equ.getRHS().traverse(rep).wrap());
 
 					// try to use label of equation
 					fun.setLabel(equ.getLabel());

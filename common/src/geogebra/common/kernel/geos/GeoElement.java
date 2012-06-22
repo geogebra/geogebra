@@ -7142,5 +7142,9 @@ public abstract class GeoElement extends ConstructionElement implements
 	public final GeoElement unwrap(){
 		return this;
 	}
+	
+	public ExpressionNode wrap(){
+		return new ExpressionNode(getKernel(),this);
+	}
 
 }

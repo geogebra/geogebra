@@ -225,7 +225,7 @@ public class Function extends FunctionNVar implements RealRootFunction,
 					temp = Kernel.checkDecimalFraction(num.getDouble()
 							- vx);
 					if (Kernel.isZero(temp)) {
-						expression = expression.replaceAndWrap(en, fVars[0]);
+						expression = expression.replace(en, fVars[0]).wrap();
 					} else if (temp < 0) {
 						en.setOperation(Operation.MINUS);
 						num.set(-temp);
@@ -238,7 +238,7 @@ public class Function extends FunctionNVar implements RealRootFunction,
 					temp = Kernel.checkDecimalFraction(num.getDouble()
 							+ vx);
 					if (Kernel.isZero(temp)) {
-						expression = expression.replaceAndWrap(en, fVars[0]);
+						expression = expression.replace(en, fVars[0]).wrap();
 					} else if (temp < 0) {
 						en.setOperation(Operation.PLUS);
 						num.set(-temp);
@@ -662,9 +662,9 @@ public class Function extends FunctionNVar implements RealRootFunction,
 		VariableReplacer varep = VariableReplacer.getReplacer(fVars[0].toString(StringTemplate.defaultTemplate), xVar);
 		if (evCopy instanceof ExpressionNode){
 			replaced = 
-					((ExpressionNode) ev.deepCopy(kernel)).traverseAndWrap(varep);
+					((ExpressionNode) ev.deepCopy(kernel)).traverse(varep).wrap();
 		} else {
-			replaced = (new ExpressionNode(kernel,evCopy)).traverseAndWrap(varep);
+			replaced = (new ExpressionNode(kernel,evCopy)).traverse(varep).wrap();
 		}
 		Equation equ=new Equation(kernel,replaced,new MyDouble(kernel,0));				
 		try{
@@ -856,7 +856,7 @@ public class Function extends FunctionNVar implements RealRootFunction,
 
 		// replace b.fVar in right by a.fVar to have only one function
 		// variable in our function
-		right.replaceAndWrap(b.fVars[0], a.fVars[0]);
+		right.replace(b.fVars[0], a.fVars[0]);
 
 		ExpressionNode diffExp = new ExpressionNode(a.kernel, left,
 				Operation.MINUS, right);

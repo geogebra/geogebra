@@ -274,5 +274,9 @@ public abstract class ValidExpression implements ExpressionValue {
 	public ExpressionValue unwrap() {
 		return this;
 	}
+	
+	public ExpressionNode wrap(){
+		return new ExpressionNode(getKernel(),this);
+	}
 
 }

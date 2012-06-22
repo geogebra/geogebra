@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoDummyVariable;
@@ -85,6 +86,36 @@ public interface Traversing {
 		 */
 		public static CommandReplacer getReplacer(AbstractApplication app){
 			replacer.app = app;
+			return replacer;
+		}
+	}
+	
+	/**
+	 * Replaces dummy variable with given name
+	 *
+	 */
+	public class PolyReplacer implements Traversing {
+		public ExpressionValue process(ExpressionValue ev) {
+			if(ev instanceof Polynomial && ((Polynomial)ev).length()==1){
+				int[] exponents = new int[]{0,0,0};
+				String xyz = ((Polynomial)ev).getTerm(0).getVars();
+				for(int i=0;i<xyz.length();i++){
+					exponents[xyz.charAt(i)-'x']++;
+				}
+				Kernel kernel = ev.getKernel();
+				
+				return new ExpressionNode(kernel,new FunctionVariable(kernel,"x")).power(new MyDouble(kernel,exponents[0])).
+						multiply(new ExpressionNode(kernel,new FunctionVariable(kernel,"y")).power(new MyDouble(kernel,exponents[1]))).
+						multiply(new ExpressionNode(kernel,new FunctionVariable(kernel,"z")).power(new MyDouble(kernel,exponents[2]))).multiply(((Polynomial)ev).getTerm(0).getCoefficient());
+			
+			}
+			return ev;
+		}
+		private static PolyReplacer replacer = new PolyReplacer();
+		/**
+		 * @return replacer
+		 */
+		public static PolyReplacer getReplacer(){
 			return replacer;
 		}
 	}

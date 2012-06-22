@@ -101,9 +101,9 @@ public class Inequality {
 			return;
 		}
 		if(zeroDummy0!=null)
-			normal.replaceAndWrap(zeroDummy0, fv[0]);
+			normal.replace(zeroDummy0, fv[0]).wrap();
 		if(zeroDummy1!=null)
-			normal.replaceAndWrap(zeroDummy1, fv[1]);
+			normal.replace(zeroDummy1, fv[1]).wrap();
 		Double coefY = normal.getCoefficient(fv[1]);
 		Double coefX = normal.getCoefficient(fv[0]);
 		Function fun = null;
@@ -129,13 +129,13 @@ public class Inequality {
 			type = INEQUALITY_PARAMETRIC_X;
 		} else if (coefX != null && Kernel.isZero(coefX) && coefY == null) {
 			zeroDummy0 = new MyDouble(kernel, 0);
-			normal.replaceAndWrap(fv[0], zeroDummy0 );
+			normal.replace(fv[0], zeroDummy0 ).wrap();
 			init1varFunction(1);
 			type = funBorder.isPolynomialFunction(false) ?				
 				INEQUALITY_1VAR_Y:INEQUALITY_INVALID;
 		} else if (coefY != null && Kernel.isZero(coefY) && coefX == null) {
 			zeroDummy1 = new MyDouble(kernel, 0);
-			normal.replaceAndWrap(fv[1], zeroDummy1);
+			normal.replace(fv[1], zeroDummy1).wrap();
 			init1varFunction(0);
 			type = funBorder.isPolynomialFunction(false) ?				
 					INEQUALITY_1VAR_X:INEQUALITY_INVALID;
@@ -145,8 +145,8 @@ public class Inequality {
 			Polynomial xVar=new Polynomial(kernel,"x");
 			Polynomial yVar=new Polynomial(kernel,"y");
 			ExpressionNode replaced = 
-					((ExpressionNode) normal.deepCopy(kernel)).replaceAndWrap(fv[0], xVar).
-					replaceAndWrap(fv[1], yVar);
+					((ExpressionNode) normal.deepCopy(kernel)).replace(fv[0], xVar).wrap().
+					replace(fv[1], yVar).wrap();
 			Equation equ=new Equation(kernel,replaced,new MyDouble(kernel,0));				
 			try{
 				equ.initEquation();			

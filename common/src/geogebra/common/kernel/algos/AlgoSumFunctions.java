@@ -117,7 +117,7 @@ public class AlgoSumFunctions  extends AlgoElement {
 
         	ExpressionNode left = fun1.getFunctionExpression().getCopy(fun1.getKernel());
         	
-        	Function f = new Function(left.replaceAndWrap(x1,x),x);
+        	Function f = new Function(left.replace(x1,x).wrap(),x);
         	
            	resultFun.setFunction(f);
            	resultFun.setDefined(true);

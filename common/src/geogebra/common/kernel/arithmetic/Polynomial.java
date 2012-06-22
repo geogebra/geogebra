@@ -87,7 +87,7 @@ public class Polynomial extends ValidExpression implements Serializable
 	/**
 	 * @return number of terms
 	 */
-	int length() {
+	public int length() {
 		return terms.size();
 	}
 

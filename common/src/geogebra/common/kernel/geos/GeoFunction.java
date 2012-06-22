@@ -1089,8 +1089,8 @@ public class GeoFunction extends GeoElement implements VarString,
 		ExpressionNode right = fun2.getFunctionExpression().getCopy(kernel);
 
 		ExpressionNode sum = new ExpressionNode(fun1.getKernel(),
-				left.replaceAndWrap(x1, x), Operation.PLUS,
-				right.replaceAndWrap(x2, x));
+				left.replace(x1, x), Operation.PLUS,
+				right.replace(x2, x));
 
 		Function f = new Function(sum, x);
 
@@ -1173,9 +1173,9 @@ public class GeoFunction extends GeoElement implements VarString,
 		if (lt instanceof FunctionNVar) {
 			ExpressionNode ret = ((FunctionNVar) lt).getExpression();
 			for (int i = 0; i < ((FunctionNVar) lt).getVarNumber(); i++)
-				ret = ret.replaceAndWrap(
+				ret = ret.replace(
 						((FunctionNVar) lt).getFunctionVariables()[i],
-						varMap.get(((FunctionNVar) lt).getVarString(i,StringTemplate.defaultTemplate)));
+						varMap.get(((FunctionNVar) lt).getVarString(i,StringTemplate.defaultTemplate))).wrap();
 			return ret;
 		}
 		return null;
@@ -1246,8 +1246,8 @@ public class GeoFunction extends GeoElement implements VarString,
 		ExpressionNode right = fun2.getFunctionExpression().getCopy(kernel);
 
 		ExpressionNode sum = new ExpressionNode(fun1.getKernel(),
-				left.replaceAndWrap(x1, x), Operation.MINUS,
-				right.replaceAndWrap(x2, x));
+				left.replace(x1, x), Operation.MINUS,
+				right.replace(x2, x));
 
 		Function f = new Function(sum, x);
 
@@ -1287,7 +1287,7 @@ public class GeoFunction extends GeoElement implements VarString,
 		ExpressionNode right = fun.getFunctionExpression().getCopy(kernel);
 
 		ExpressionNode product = new ExpressionNode(kernel, left,
-				Operation.MULTIPLY, right.replaceAndWrap(xold, x));
+				Operation.MULTIPLY, right.replace(xold, x).wrap());
 
 		Function f = new Function(product, x);
 
@@ -1819,7 +1819,7 @@ public class GeoFunction extends GeoElement implements VarString,
 		ExpressionNode newX = new ExpressionNode(kernel, new MyDouble(kernel,
 				1 / rd), Operation.MULTIPLY, new ExpressionNode(kernel, oldX,
 				Operation.PLUS, new MyDouble(kernel, a * rd - a)));
-		ExpressionNode oldY = fun.getExpression().replaceAndWrap(oldX, newX);
+		ExpressionNode oldY = fun.getExpression().replace(oldX, newX).wrap();
 		if (!isBooleanFunction()) {
 
 			fun.setExpression(new ExpressionNode(kernel, new ExpressionNode(

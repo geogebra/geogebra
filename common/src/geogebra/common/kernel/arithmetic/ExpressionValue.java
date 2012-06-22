@@ -156,5 +156,6 @@ public interface ExpressionValue {
 	 */
 	public ExpressionValue traverse(Traversing t);
 	public ExpressionValue unwrap();
+	public ExpressionNode wrap();
 }
 

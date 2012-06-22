@@ -202,8 +202,8 @@ public class AlgoDependentFunction extends AlgoElement {
 				ExpressionNode funcExpression = fun.getExpression().getCopy(
 						fun.getKernel());
 				// now replace every x in function by the expanded argument
-				return funcExpression.replaceAndWrap(x,
-						expandFunctionDerivativeNodes(node.getRight()));
+				return funcExpression.replace(x,
+						expandFunctionDerivativeNodes(node.getRight())).wrap();
 			case FUNCTION_NVAR:
 				AbstractApplication.debug("replacing");
 				
@@ -219,8 +219,8 @@ public class AlgoDependentFunction extends AlgoElement {
 					return ev;
 				// now replace every x in function by the expanded argument
 				for(int i=0;i<xy.length;i++)
-					funNExpression = funNExpression.replaceAndWrap(xy[i],
-						expandFunctionDerivativeNodes( ((MyList)node.getRight()).getListElement(i)));
+					funNExpression = funNExpression.replace(xy[i],
+						expandFunctionDerivativeNodes( ((MyList)node.getRight()).getListElement(i))).wrap();
 				return(funNExpression);
 			case DERIVATIVE:
 				// don't expand derivative of GeoFunctionConditional

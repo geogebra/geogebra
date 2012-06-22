@@ -790,7 +790,7 @@ public class FunctionNVar extends ValidExpression implements FunctionalNVar, Var
 					temp = num.getDouble() - vx;
 					if (Kernel.isZero(temp)) {
 						expression = expression
-								.replaceAndWrap(en, fVars[varNo]);
+								.replace(en, fVars[varNo]).wrap();
 					} else if (temp < 0) {
 						en.setOperation(Operation.MINUS);
 						num.set(-temp);
@@ -803,7 +803,7 @@ public class FunctionNVar extends ValidExpression implements FunctionalNVar, Var
 					temp = num.getDouble() + vx;
 					if (Kernel.isZero(temp)) {
 						expression = expression
-								.replaceAndWrap(en, fVars[varNo]);
+								.replace(en, fVars[varNo]).wrap();
 					} else if (temp < 0) {
 						en.setOperation(Operation.PLUS);
 						num.set(-temp);
@@ -852,7 +852,7 @@ public class FunctionNVar extends ValidExpression implements FunctionalNVar, Var
 	 */
 	public void matrixTransform(double a00, double a01, double a10, double a11) {
 		ExpressionNode dummy = new ExpressionNode();
-		expression.replaceAndWrap(fVars[0], dummy);
+		expression.replace(fVars[0], dummy).wrap();
 		MyDouble ma00 = new MyDouble(kernel, a00);
 		MyDouble ma01 = new MyDouble(kernel, a01);
 		MyDouble ma10 = new MyDouble(kernel, a10);
@@ -864,8 +864,8 @@ public class FunctionNVar extends ValidExpression implements FunctionalNVar, Var
 		ExpressionNode newY = new ExpressionNode(kernel, ma10,
 				Operation.MULTIPLY, fVars[0]).plus(new ExpressionNode(kernel,
 				ma11, Operation.MULTIPLY, fVars[1]));
-		expression = expression.replaceAndWrap(fVars[1], newY);
-		expression = expression.replaceAndWrap(dummy, newX);
+		expression = expression.replace(fVars[1], newY).wrap();
+		expression = expression.replace(dummy, newX).wrap();
 		this.initIneqs(expression, this);
 	}
 	/**
@@ -883,7 +883,7 @@ public class FunctionNVar extends ValidExpression implements FunctionalNVar, Var
 	public void matrixTransform(double a00, double a01, double a02, double a10,
 			double a11, double a12, double a20, double a21, double a22) {
 		ExpressionNode dummy = new ExpressionNode();
-		expression = expression.replaceAndWrap(fVars[0], dummy);
+		expression = expression.replace(fVars[0], dummy).wrap();
 		double[][] b = MyMath.adjoint(a00, a01, a02, a10, a11, a12, a20, a21,
 				a22);
 		MyDouble[][] mbTrans = new MyDouble[3][3];
@@ -902,8 +902,8 @@ public class FunctionNVar extends ValidExpression implements FunctionalNVar, Var
 				Operation.MULTIPLY, fVars[0]).plus(
 				new ExpressionNode(kernel, mbTrans[1][1], Operation.MULTIPLY,
 						fVars[1])).plus(mbTrans[1][2]);
-		expression = expression.replaceAndWrap(fVars[1], newY.divide(newZ));
-		expression = expression.replaceAndWrap(dummy, newX.divide(newZ));
+		expression = expression.replace(fVars[1], newY.divide(newZ)).wrap();
+		expression = expression.replace(dummy, newX.divide(newZ)).wrap();
 		this.initIneqs(expression, this);
 	}
 
@@ -912,7 +912,7 @@ public class FunctionNVar extends ValidExpression implements FunctionalNVar, Var
 		ExpressionValue ev = t.process(this);
 		if(ev!=this)
 			return ev;
-		expression = expression.traverseAndWrap(t);
+		expression = expression.traverse(t).wrap();
 		return this;
 	}
 

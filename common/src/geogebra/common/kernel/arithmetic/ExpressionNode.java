@@ -885,28 +885,6 @@ public class ExpressionNode extends ValidExpression implements
 		return undecided.size();
 	}
 
-	/**
-	 * Replaces every oldOb by newOb in this ExpressionNode tree and makes sure
-	 * that the result is again an ExpressionNode object.
-	 * 
-	 * @param oldOb
-	 *            old object
-	 * @param newOb
-	 *            new object
-	 * 
-	 * @return resulting ExpressionNode
-	 */
-	public ExpressionNode replaceAndWrap(ExpressionValue oldOb,
-			ExpressionValue newOb) {
-		ExpressionValue ev = replace(oldOb, newOb);
-
-		// replace root by new object
-		if (ev.isExpressionNode()) {
-			return (ExpressionNode) ev;
-		}
-		return new ExpressionNode(kernel, ev);
-	}
-
 	@Override
 	public ExpressionValue traverse(Traversing t) {
 		ExpressionValue ev = t.process(this);
@@ -914,20 +892,6 @@ public class ExpressionNode extends ValidExpression implements
 		if (right != null)
 			right = right.traverse(t);
 		return ev;
-	}
-
-	/**
-	 * Traverse + wrap if necessary
-	 * 
-	 * @param t
-	 *            traversing object
-	 * @return resulting expression
-	 */
-	public ExpressionNode traverseAndWrap(Traversing t) {
-		ExpressionValue ev = traverse(t);
-		if (ev.isExpressionNode())
-			return (ExpressionNode) ev;
-		return new ExpressionNode(kernel, ev);
 	}
 
 	public void replaceChildrenByValues(GeoElement geo) {
@@ -1058,8 +1022,8 @@ public class ExpressionNode extends ValidExpression implements
 								.isPolynomialInstance()) {
 							equ.setFunctionDependent(true);
 						}
-						expr = expr.replaceAndWrap(
-								func.getFunctionVariables()[i], ev);
+						expr = expr.replace(
+								func.getFunctionVariables()[i], ev).wrap();
 					}
 				} else {
 					throw new MyError(app,
@@ -1084,7 +1048,7 @@ public class ExpressionNode extends ValidExpression implements
 				} else if (right.isPolynomialInstance()) {
 					equ.setFunctionDependent(true);
 				}
-				expr = expr.replaceAndWrap(func.getFunctionVariable(), right);
+				expr = expr.replace(func.getFunctionVariable(), right).wrap();
 				expr.makePolynomialTree(equ);
 				left = expr.left;
 				right = expr.right;
@@ -5048,6 +5012,11 @@ public class ExpressionNode extends ValidExpression implements
 	public ExpressionValue unwrap(){
 		if(isLeaf())
 			return getLeft();
+		return this;
+	}
+	
+	@Override
+	public ExpressionNode wrap(){
 		return this;
 	}
 }
