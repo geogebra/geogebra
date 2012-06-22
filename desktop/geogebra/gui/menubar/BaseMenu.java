@@ -1,6 +1,5 @@
 package geogebra.gui.menubar;
 
-import geogebra.common.main.AbstractApplication;
 import geogebra.main.Application;
 
 import java.awt.Event;
