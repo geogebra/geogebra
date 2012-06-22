@@ -47,6 +47,7 @@ public class ImageFileInputDialog extends PopupPanel implements ClickHandler{
 
 	public native void addGgbChangeHandler(Element el, Application appl) /*-{
 		var dialog = this;
+		el.setAttribute("accept", "image/*");
 		el.onchange = function(event) {
 			var files = this.files;
 			if (files.length) {
