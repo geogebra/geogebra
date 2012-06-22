@@ -138,7 +138,7 @@ public class Variable extends ValidExpression {
 					resolve(true);
 				
 			}
-			AbstractApplication.printStacktrace(name+":"+forEquation);
+			//AbstractApplication.printStacktrace(name+":"+forEquation);
 			if(forEquation)
 				return new Polynomial(kernel,new Term(geo2, StringUtil.repeat('x',exponents[0])+StringUtil.repeat('y',exponents[1])+StringUtil.repeat('z',exponents[2])));
 			return new ExpressionNode(kernel,geo2,Operation.MULTIPLY,new ExpressionNode(kernel,new FunctionVariable(kernel,"x")).power(new MyDouble(kernel,exponents[0])).
