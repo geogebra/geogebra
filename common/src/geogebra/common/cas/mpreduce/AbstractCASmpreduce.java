@@ -465,6 +465,14 @@ public abstract class AbstractCASmpreduce implements CASGenericInterface {
 						"ineqtype:= if part(eqn,0)= 'leq or part(eqn,0)= 'geq then 3 else 0;" +
 						"return ggbinterval(var,a,b,ineqtype);" +
 						"end;");
+				
+				mpreduce1.evaluate("procedure xcoord(a); if myvecp(a) then xvcoord(a) else xscoord(a)");
+				mpreduce1.evaluate("operator xscoord");
+				mpreduce1.evaluate("procedure ycoord(a); if myvecp(a) then yvcoord(a) else yscoord(a)");
+				mpreduce1.evaluate("operator yscoord");
+				mpreduce1.evaluate("procedure zcoord(a); if myvecp(a) then zvcoord(a) else zscoord(a)");
+				mpreduce1.evaluate("operator zscoord");
+				
 				mpreduce1.evaluate("procedure mysolve(eqn, var);"
 						+ " begin scalar solutions!!, bool!!;"
 						+ "  eqn:=mkdepthone({eqn});"

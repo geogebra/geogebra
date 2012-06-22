@@ -48,6 +48,12 @@ public class CommandDispatcherMPReduce {
 		ci(Operation.CI),
 		/** cosine integral */
 		ei(Operation.EI),
+		/** symbolic x coord*/
+		xscoord(Operation.XCOORD),
+		/** symbolic y coord*/
+		yscoord(Operation.YCOORD),
+		/** symbolic z coord*/
+		zscoord(Operation.ZCOORD),
 		/** taylor(sin(x),0,3) returns taylor(x-x^3/6,x,0,3)*/
 		taylor(Operation.NO_OPERATION),
 		//we should also have int here, but the name clashes with Java's int
@@ -119,6 +125,9 @@ public class CommandDispatcherMPReduce {
 			case ci:
 			case si:
 			case ei:
+			case xscoord:
+			case yscoord:
+			case zscoord:
 				// e.g. logb[x,3] becomes log(3,x)
 				ret = new ExpressionNode(kernel,
 						 args.getItem(0),commands.valueOf(cmdName).getOperation(),
