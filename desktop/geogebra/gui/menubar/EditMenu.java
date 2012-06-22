@@ -56,7 +56,6 @@ public class EditMenu extends BaseMenu implements MenuListener {
 		copyToClipboardItem,
 		copyItem,
 		pasteItem,
-		insertImageFrom,
 		clipboardMenu
 	;
 	
@@ -68,16 +67,15 @@ public class EditMenu extends BaseMenu implements MenuListener {
 	public EditMenu(Application app) {
 		super(app, app.getMenu("Edit"));
 
-		initActions();
-		initItems();
-		
-		update();
+		// items are added to the menu when it's opened, see BaseMenu: addMenuListener(this);
+
 	}
 	
 	/**
 	 * Initialize the items.
 	 */
-	private void initItems()
+	@Override
+	protected void initItems()
 	{
 		JMenuItem mi;
 		
@@ -168,7 +166,8 @@ public class EditMenu extends BaseMenu implements MenuListener {
 	/**
 	 * Initialize the actions.
 	 */
-	private void initActions()
+	@Override
+	protected void initActions()
 	{
 		propertiesAction = new AbstractAction(app.getPlain("Properties")
 				+ " ...", app.getImageIcon("view-properties16.png")) {
@@ -323,12 +322,14 @@ public class EditMenu extends BaseMenu implements MenuListener {
 	};
 }
 
-	/*
-	 * Michael Borcherds 2008-03-03 return -1 if nothing selected return -2 if
+	/**
+	 * Michael Borcherds 2008-03-03
+	 * 
+	 * @return -1 if nothing selected return -2 if
 	 * objects from more than one layer selected return layer number if objects
 	 * from exactly one layer are selected
 	 */
-	private int getSelectedLayer() {
+	int getSelectedLayer() {
 		Object[] geos = app.getSelectedGeos().toArray();
 		if (geos.length == 0)
 			return -1; // return -1 if nothing selected
@@ -346,14 +347,17 @@ public class EditMenu extends BaseMenu implements MenuListener {
 	@Override
 	public void update() {
 		updateSelection();
-		
-		// TODO update labels
 	}
 	
 	/**
 	 * Called if the user changes the selected items.
 	 */
 	public void updateSelection() {
+		
+		if (!initialized) {
+			return;
+		}		
+		
 		int layer = getSelectedLayer();
 		
 		/* layer values:
@@ -394,18 +398,19 @@ public class EditMenu extends BaseMenu implements MenuListener {
 		selectAllAction.setEnabled(!kernel.isEmpty());
 	}
 
+	@Override
 	public void menuSelected(MenuEvent e) {
-		// check if there's an image on the clipboard
-		String[] fileName = app.getGuiManager().getImageFromTransferable(null);
-		clipboardMenu.setEnabled(fileName.length > 0);
+		
+		// build menu if necessary
+		super.menuSelected(e);
+		
+		if (!e.getSource().equals(this)) { // ie submenu opened
+					
+			// check if there's an image on the clipboard
+			String[] fileName = app.getGuiManager().getImageFromTransferable(null);
+			clipboardMenu.setEnabled(fileName.length > 0);
+		}
 		
 	}
 
-	public void menuDeselected(MenuEvent e) {
-		//
-	}
-
-	public void menuCanceled(MenuEvent e) {
-		//
-	}
 }

@@ -24,9 +24,8 @@ class WindowMenu extends BaseMenu {
 
 	public WindowMenu(Application app) {
 		super(app, app.getMenu("Window"));
-		
-		initActions();
-		update();
+
+		// items are added to the menu when it's opened, see BaseMenu: addMenuListener(this);
 	}
 	
 	/**
@@ -34,6 +33,10 @@ class WindowMenu extends BaseMenu {
 	 */
 	private void updateItems()
 	{
+		if (!initialized) {
+			return;
+		}
+		
 		removeAll();
 		JMenuItem mit = add(newWindowAction);
 		setMenuShortCutAccelerator(mit, 'N');
@@ -83,7 +86,7 @@ class WindowMenu extends BaseMenu {
 	/**
 	 * Initialize the actions.
 	 */
-	private void initActions()
+	protected void initActions()
 	{
 		newWindowAction = new AbstractAction(app.getMenu("NewWindow"), app
 				.getImageIcon("document-new.png")) {
@@ -106,7 +109,11 @@ class WindowMenu extends BaseMenu {
 	@Override
 	public void update() {
 		updateItems();
-		
-		// TODO update labels
+	}
+
+
+	@Override
+	protected void initItems() {
+		//
 	}
 }

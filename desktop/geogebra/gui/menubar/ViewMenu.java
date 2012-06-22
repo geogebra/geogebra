@@ -61,21 +61,19 @@ public class ViewMenu extends BaseMenu {
 
 		this.layout = layout;
 
-		initActions();
-		initItems();
-
-		update();
+		// items are added to the menu when it's opened, see BaseMenu: addMenuListener(this);
 	}
 
 
 	/**
 	 * Initialize the menu items.
 	 */
-	private void initItems() {
+	protected void initItems() {
 		
+		if (!initialized) {
+			return;
+		}
 		initViewItems(this);
-		add(this);
-		addSeparator();
 
 		JMenuItem mi;
 
@@ -189,7 +187,7 @@ public class ViewMenu extends BaseMenu {
 	/**
 	 * Initialize the actions.
 	 */
-	private void initActions() {
+	protected void initActions() {
 		initViewActions();
 
 		showKeyboardAction = new AbstractAction(app.getPlain("Keyboard")) {
@@ -248,7 +246,7 @@ public class ViewMenu extends BaseMenu {
 							Thread.sleep(7000);
 						} 
 						catch(InterruptedException e1) 
-						{ // TODO Auto-generated catch block
+						{ 
 							e1.printStackTrace(); } 
 						app2.run(); 
 					}
@@ -452,6 +450,10 @@ public class ViewMenu extends BaseMenu {
 
 	@Override
 	public void update() {
+		if (!initialized) {
+			return;
+		}
+
 		GuiManager guiMananager = app.getGuiManager();
 
 		updateViews();
@@ -487,10 +489,12 @@ public class ViewMenu extends BaseMenu {
 		// menuInput.setEnabled(app.showAlgebraInput());
 		// menuToolBar.setEnabled(app.showToolBar());
 
-		// TODO update labels
 	}
 
 	private void initViewActions() {
+		if (!initialized) {
+			return;
+		}
 		DockPanel[] dockPanels = layout.getDockManager().getPanels();
 		Arrays.sort(dockPanels, new DockPanel.MenuOrderComparator());
 		int viewsInMenu = 0;
@@ -535,6 +539,9 @@ public class ViewMenu extends BaseMenu {
 	}
 
 	private void initViewItems(JMenu menu) {
+		if (!initialized) {
+			return;
+		}
 		DockPanel[] dockPanels = layout.getDockManager().getPanels();
 		Arrays.sort(dockPanels, new DockPanel.MenuOrderComparator());
 		int viewsInMenu = 0;
@@ -575,6 +582,11 @@ public class ViewMenu extends BaseMenu {
 	}
 
 	private void updateViews() {
+		
+		if (!initialized) {
+			return;
+		}
+		
 		DockPanel[] dockPanels = layout.getDockManager().getPanels();
 		Arrays.sort(dockPanels, new DockPanel.MenuOrderComparator());
 

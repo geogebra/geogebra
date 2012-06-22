@@ -1,5 +1,6 @@
 package geogebra.gui.menubar;
 
+import geogebra.common.main.AbstractApplication;
 import geogebra.main.Application;
 
 import java.awt.Event;
@@ -8,19 +9,23 @@ import java.awt.Toolkit;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.KeyStroke;
+import javax.swing.event.MenuEvent;
+import javax.swing.event.MenuListener;
 
 /**
  * The base class for the sub-menus.
  * 
  * @author Florian Sonner
  */
-abstract class BaseMenu extends JMenu {
+abstract class BaseMenu extends JMenu implements MenuListener {
 	private static final long serialVersionUID = 2394839950861976156L;
 	
 	/**
 	 * An instance of the application.
 	 */
 	protected Application app;
+	
+	protected boolean initialized = false;
 	
 	/**
 	 * Construct a new sub-menu and assign the application attribute.
@@ -33,6 +38,10 @@ abstract class BaseMenu extends JMenu {
 		super(text);
 		
 		this.app = app;
+		
+		// don't add any menu items until menu is opened
+		// makes GeoGebra load faster
+		addMenuListener(this);
 	}
 	
 	/**
@@ -78,4 +87,28 @@ abstract class BaseMenu extends JMenu {
 				+ Event.SHIFT_MASK + Event.ALT_MASK);
 		mi.setAccelerator(ks);
 	}
+	
+	final public void menuDeselected(MenuEvent e) {
+		// nothing to do here		
+	}
+
+	final public void menuCanceled(MenuEvent e) {
+		// nothing to do here		
+	}
+
+	public void menuSelected(MenuEvent e) {
+		//AbstractApplication.debug("Menu opening: "+getClass());
+		if (getItemCount() == 0) {
+			initialized = true;
+			//AbstractApplication.debug("building menu");
+			initActions();
+			initItems();
+			update();
+		}
+		
+	}
+
+	protected abstract void initActions();
+	protected abstract void initItems();
+
 }

@@ -27,8 +27,7 @@ class ToolsMenu extends BaseMenu {
 	public ToolsMenu(Application app) {
 		super(app, app.getMenu("Tools"));
 		
-		initActions();
-		update();
+		// items are added to the menu when it's opened, see BaseMenu: addMenuListener(this);
 	}
 	
 	/**
@@ -36,6 +35,11 @@ class ToolsMenu extends BaseMenu {
 	 */
 	private void updateItems()
 	{
+		if (!initialized) {
+			// menus not created yet, so nothing to do
+			return;
+		}
+
 		removeAll();
 
 		add(toolbarConfigAction);
@@ -48,7 +52,7 @@ class ToolsMenu extends BaseMenu {
 	/**
 	 * Initialize the actions.
 	 */
-	private void initActions()
+	protected void initActions()
 	{
 		toolbarConfigAction = new AbstractAction(app
 				.getMenu("Toolbar.Customize")
@@ -85,7 +89,10 @@ class ToolsMenu extends BaseMenu {
 	@Override
 	public void update() {		
 		updateItems();
-		
-		// TODO update labels
+	}
+
+	@Override
+	protected void initItems() {
+		//
 	}
 }

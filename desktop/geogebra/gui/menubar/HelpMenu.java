@@ -34,15 +34,14 @@ class HelpMenu extends BaseMenu implements MenuListener {
 	public HelpMenu(Application app) {
 		super(app, app.getMenu("Help"));
 		
-		// don't add any menu items until menu is opened
-		// makes GeoGebra load faster
-		addMenuListener(this);
+		// items are added to the menu when it's opened, see BaseMenu: addMenuListener(this);
 	}
 	
 	/**
 	 * Initialize the menu items.
 	 */
-	private void initItems()
+	@Override
+	protected void initItems()
 	{
 		JMenuItem mi = add(helpAction);
 		KeyStroke ks = KeyStroke.getKeyStroke(KeyEvent.VK_F1,
@@ -64,7 +63,8 @@ class HelpMenu extends BaseMenu implements MenuListener {
 	/**
 	 * Initialize the actions.
 	 */
-	private void initActions()
+	@Override
+	protected void initActions()
 	{
 		if (helpAction == null) {
 			helpAction = new HelpAction(app, app
@@ -105,27 +105,9 @@ class HelpMenu extends BaseMenu implements MenuListener {
 
 	@Override
 	public void update() {
-		// TODO update labels
+		//
 	}
 
-	public void menuSelected(MenuEvent e) {
-		AbstractApplication.debug("Help Menu opening");
-		if (getItemCount() == 0) {
-			AbstractApplication.debug("building Help Menu");
-			initActions();
-			initItems();
-			
-			update();
-		}
-		
-	}
 
-	public void menuDeselected(MenuEvent e) {
-		// nothing to do here		
-	}
-
-	public void menuCanceled(MenuEvent e) {
-		// nothing to do here		
-	}
 
 }

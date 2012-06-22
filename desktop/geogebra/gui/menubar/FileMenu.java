@@ -15,6 +15,8 @@ import javax.swing.JDialog;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.KeyStroke;
+import javax.swing.event.MenuEvent;
+import javax.swing.event.MenuListener;
 
 /**
  * The "File" menu.
@@ -35,19 +37,24 @@ class FileMenu extends BaseMenu {
 		exportAnimationAction,
 		exportPgfAction,
 		exportPSTricksAction,
-		exportAsymptoteAction,
-		exportGeoGebraTubeAction,
-		drawingPadToClipboardAction,
-		printEuclidianViewAction,
-		exitAction,
-		exitAllAction
+		exportAsymptoteAction
 	;
+
+	AbstractAction exportGeoGebraTubeAction;
+
+	private AbstractAction drawingPadToClipboardAction;
+
+	private AbstractAction printEuclidianViewAction;
+
+	private AbstractAction exitAction;
+
+	private AbstractAction exitAllAction;
 
 	public FileMenu(Application app) {
 		super(app, app.getMenu("File"));
 		
-		initActions();
-		update();
+		// items are added to the menu when it's opened, see BaseMenu: addMenuListener(this);
+		
 	}
 	
 	/**
@@ -55,6 +62,10 @@ class FileMenu extends BaseMenu {
 	 */
 	private void updateItems()
 	{
+		if (!initialized) {
+			return;
+		}
+
 		removeAll();
 		
 		JMenuItem mi;
@@ -163,7 +174,8 @@ class FileMenu extends BaseMenu {
 	/**
 	 * Initialize all actions of this menu.
 	 */
-	private void initActions()
+	@Override
+	protected void initActions()
 	{
 		deleteAll = new AbstractAction(app.getMenu("New"), app.getEmptyIcon()) {
 			private static final long serialVersionUID = 1L;
@@ -343,7 +355,7 @@ class FileMenu extends BaseMenu {
 
 								d.setVisible(true);
 
-							} catch (Exception e) {
+							} catch (Exception e1) {
 								AbstractApplication
 										.debug("GraphicExportDialog not available");
 							}
@@ -364,6 +376,7 @@ class FileMenu extends BaseMenu {
 		exportAnimationAction = new AbstractAction(app.getPlain("ExportAnimatedGIF")+" ...") {	
 			private static final long serialVersionUID = 1L;
 			
+			@SuppressWarnings("unused")
 			public void actionPerformed(ActionEvent e) {
 				try {
 					new geogebra.export.AnimationExportDialog(app);
@@ -381,6 +394,7 @@ class FileMenu extends BaseMenu {
 				+ " ...", app.getEmptyIcon()) {
 			private static final long serialVersionUID = 1L;
 
+			@SuppressWarnings("unused")
 			public void actionPerformed(ActionEvent e) {
 				try {
 					new geogebra.export.pstricks.GeoGebraToPstricks(app);
@@ -397,6 +411,7 @@ class FileMenu extends BaseMenu {
 				+ " ...", app.getEmptyIcon()) {
 			private static final long serialVersionUID = 1L;
 
+			@SuppressWarnings("unused")
 			public void actionPerformed(ActionEvent e) {
 				try {
 					new geogebra.export.pstricks.GeoGebraToPgf(app);
@@ -414,6 +429,7 @@ class FileMenu extends BaseMenu {
 				+ " ...", app.getEmptyIcon()) {
 			private static final long serialVersionUID = 1L;
 
+			@SuppressWarnings("unused")
 			public void actionPerformed(ActionEvent e) {
 				try {
 					new geogebra.export.pstricks.GeoGebraToAsymptote(app);
@@ -447,10 +463,10 @@ class FileMenu extends BaseMenu {
 										app);
 
 								d.setVisible(true);
-							} catch (Exception e) {
+							} catch (Exception e1) {
 								AbstractApplication
 										.debug("WorksheetExportDialog not available");
-								e.printStackTrace();
+								e1.printStackTrace();
 							}
 							app.setDefaultCursor();
 						}
@@ -487,9 +503,9 @@ class FileMenu extends BaseMenu {
 								
 								exporter.uploadWorksheet(null);
 								
-							} catch (Exception e) {
+							} catch (Exception e1) {
 								AbstractApplication.debug("Uploading failed");
-								e.printStackTrace();
+								e1.printStackTrace();
 							}
 							app.setDefaultCursor();
 						}
@@ -507,8 +523,13 @@ class FileMenu extends BaseMenu {
 
 	@Override
 	public void update() {
-		// TODO Auto-generated method stub
-
 		updateItems();
 	}
+	
+	@Override
+	protected void initItems() {
+		// 
+	}
+
+
 }

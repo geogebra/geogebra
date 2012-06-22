@@ -2,6 +2,7 @@ package geogebra.gui.menubar;
 
 import geogebra.common.io.MyXMLHandler;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.main.AbstractApplication;
 import geogebra.common.util.Language;
 import geogebra.main.Application;
 import geogebra.main.GeoGebraPreferences;
@@ -38,19 +39,16 @@ public class LanguageMenu extends BaseMenu implements ActionListener {
 	public LanguageMenu(Application app) {
 		super(app, "hello");
 		
-		
-		
 		kernel = app.getKernel();
-		initActions();
-		initItems();
-		
-		update();
+
+		// items are added to the menu when it's opened, see BaseMenu: addMenuListener(this);
 	}
 	
 	/**
 	 * Initialize the menu items.
 	 */
-	private void initItems()
+	@Override
+	protected void initItems()
 	{
 		JMenu submenu;
 		int pos;
@@ -99,7 +97,7 @@ public class LanguageMenu extends BaseMenu implements ActionListener {
 		String[] strDecimalSpaces = app.getRoundingMenu();
 
 		addRadioButtonMenuItems(menuDecimalPlaces, this,
-				strDecimalSpaces, Application.strDecimalSpacesAC, 0);
+				strDecimalSpaces, AbstractApplication.strDecimalSpacesAC, 0);
 		add(menuDecimalPlaces);
 		updateMenuDecimalPlaces();
 
@@ -263,11 +261,13 @@ public class LanguageMenu extends BaseMenu implements ActionListener {
 	/**
 	 * Initialize the actions.
 	 */
-	private void initActions()
+	@Override
+	protected void initActions()
 	{
 		// display the options dialog
 		showOptionsAction = new AbstractAction(app
 				.getMenu("Settings")+"...", app.getImageIcon("document-properties.png")) {
+			@SuppressWarnings("hiding")
 			public static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
@@ -278,8 +278,6 @@ public class LanguageMenu extends BaseMenu implements ActionListener {
 
 	@Override
 	public void update() {
-		// TODO update labels
-		
 		updateMenuDecimalPlaces();
 		updateMenuPointCapturing();
 		updateMenuViewDescription();
@@ -336,13 +334,13 @@ public class LanguageMenu extends BaseMenu implements ActionListener {
 
 		if (kernel.useSignificantFigures) {
 			int figures = kernel.getPrintFigures();
-			if (figures > 0 && figures < Application.figuresLookup.length)
-				pos = Application.figuresLookup[figures];
+			if (figures > 0 && figures < AbstractApplication.figuresLookup.length)
+				pos = AbstractApplication.figuresLookup[figures];
 		} else {
 			int decimals = kernel.getPrintDecimals();
 
-			if (decimals > 0 && decimals < Application.decimalsLookup.length)
-				pos = Application.decimalsLookup[decimals];
+			if (decimals > 0 && decimals < AbstractApplication.decimalsLookup.length)
+				pos = AbstractApplication.decimalsLookup[decimals];
 
 		}
 
@@ -350,6 +348,7 @@ public class LanguageMenu extends BaseMenu implements ActionListener {
 			((JRadioButtonMenuItem) menuDecimalPlaces.getMenuComponent(pos))
 					.setSelected(true);
 		} catch (Exception e) {
+			//
 		}
 
 	}
@@ -456,4 +455,6 @@ public class LanguageMenu extends BaseMenu implements ActionListener {
 			app.setUnsaved();
 		}
 	}
+	
+	
 }

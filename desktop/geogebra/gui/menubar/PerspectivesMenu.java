@@ -15,7 +15,7 @@ import javax.swing.JMenuItem;
 class PerspectivesMenu extends BaseMenu {
 	private static final long serialVersionUID = 1125756553396593316L;
 
-	private Layout layout;
+	Layout layout;
 
 	private AbstractAction
 	changePerspectiveAction,
@@ -31,18 +31,23 @@ class PerspectivesMenu extends BaseMenu {
 		super(app, app.getMenu("Perspectives"));
 		
 		this.layout = layout;
-		
-		initActions();
-		initItems();
-		
-		update();
+
+		// items are added to the menu when it's opened, see BaseMenu: addMenuListener(this);
 	}
 	
 	/**
 	 * Initialize the menu items.
 	 */
-	private void initItems()
+	@Override
+	protected void initItems()
 	{
+		
+		if (!initialized) {
+			// menus not created yet, so nothing to do
+			return;
+		}
+
+		
 		Perspective[] defaultPerspectives = geogebra.common.gui.Layout.defaultPerspectives;
 
 		for (int i = 0; i < defaultPerspectives.length; ++i) {
@@ -80,7 +85,8 @@ class PerspectivesMenu extends BaseMenu {
 	/**
 	 * Initialize the actions.
 	 */
-	private void initActions()
+	@Override
+	protected void initActions()
 	{
 		savePerspectiveAction = new AbstractAction(app
 				.getMenu("SaveCurrentPerspective"), app.getEmptyIcon()) {
@@ -101,6 +107,7 @@ class PerspectivesMenu extends BaseMenu {
 		};
 
 		changePerspectiveAction = new AbstractAction() {
+			@SuppressWarnings("hiding")
 			public static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {

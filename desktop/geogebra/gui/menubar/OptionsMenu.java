@@ -10,7 +10,6 @@ import geogebra.main.Application;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Locale;
 
 import javax.swing.AbstractAction;
 import javax.swing.ButtonGroup;
@@ -18,14 +17,16 @@ import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JMenu;
 import javax.swing.JRadioButtonMenuItem;
+import javax.swing.event.MenuEvent;
+import javax.swing.event.MenuListener;
 
 /**
  * The "Options" menu.
  */
-public class OptionsMenu extends BaseMenu implements ActionListener {
+public class OptionsMenu extends BaseMenu implements ActionListener, MenuListener {
 	private static final long serialVersionUID = -8032696074032177289L;
 	
-	private Kernel kernel;
+	Kernel kernel;
 	private AbstractAction
 		//drawingPadPropAction,
 		showOptionsAction
@@ -42,14 +43,13 @@ public class OptionsMenu extends BaseMenu implements ActionListener {
 		super(app, app.getMenu("Options"));
 		
 		kernel = app.getKernel();
-		initActions();
-		initItems(null);
-		
-		update();
+
+		// items are added to the menu when it's opened, see BaseMenu: addMenuListener(this);
 	}
 	
 	/**
 	 * Initialize the menu items.
+	 * @param flag 
 	 */
 	void initItems(ImageIcon flag)
 	{
@@ -100,7 +100,7 @@ public class OptionsMenu extends BaseMenu implements ActionListener {
 		String[] strDecimalSpaces = app.getRoundingMenu();
 
 		addRadioButtonMenuItems(menuDecimalPlaces, this,
-				strDecimalSpaces, Application.strDecimalSpacesAC, 0);
+				strDecimalSpaces, AbstractApplication.strDecimalSpacesAC, 0);
 		add(menuDecimalPlaces);
 		updateMenuDecimalPlaces();
 
@@ -255,9 +255,6 @@ public class OptionsMenu extends BaseMenu implements ActionListener {
 	public static void addLanguageMenuItems(Application app, JComponent menu, ActionListener al) {
 		JRadioButtonMenuItem mi;
 		ButtonGroup bg = new ButtonGroup();
-		// String label;
-		String ggbLangCode;
-
 		JMenu submenu1 = new JMenu("A - D");
 		JMenu submenu2 = new JMenu("E - I");
 		JMenu submenu3 = new JMenu("J - Q");
@@ -307,11 +304,13 @@ public class OptionsMenu extends BaseMenu implements ActionListener {
 	/**
 	 * Initialize the actions.
 	 */
-	private void initActions()
+	@Override
+	protected void initActions()
 	{
 		// display the options dialog
 		showOptionsAction = new AbstractAction(app
 				.getMenu("Advanced")+" ...", app.getImageIcon("view-properties16.png")) {
+			@SuppressWarnings("hiding")
 			public static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
@@ -322,8 +321,6 @@ public class OptionsMenu extends BaseMenu implements ActionListener {
 
 	@Override
 	public void update() {
-		// TODO update labels
-		
 		updateMenuDecimalPlaces();
 		updateMenuPointCapturing();
 		updateMenuViewDescription();
@@ -380,13 +377,13 @@ public class OptionsMenu extends BaseMenu implements ActionListener {
 
 		if (kernel.useSignificantFigures) {
 			int figures = kernel.getPrintFigures();
-			if (figures > 0 && figures < Application.figuresLookup.length)
-				pos = Application.figuresLookup[figures];
+			if (figures > 0 && figures < AbstractApplication.figuresLookup.length)
+				pos = AbstractApplication.figuresLookup[figures];
 		} else {
 			int decimals = kernel.getPrintDecimals();
 
-			if (decimals > 0 && decimals < Application.decimalsLookup.length)
-				pos = Application.decimalsLookup[decimals];
+			if (decimals > 0 && decimals < AbstractApplication.decimalsLookup.length)
+				pos = AbstractApplication.decimalsLookup[decimals];
 
 		}
 
@@ -394,6 +391,7 @@ public class OptionsMenu extends BaseMenu implements ActionListener {
 			((JRadioButtonMenuItem) menuDecimalPlaces.getMenuComponent(pos))
 					.setSelected(true);
 		} catch (Exception e) {
+			//
 		}
 
 	}
@@ -482,4 +480,11 @@ public class OptionsMenu extends BaseMenu implements ActionListener {
 			app.setUnsaved();
 		}
 	}
+
+	@Override
+	protected void initItems() {
+		initItems(null);
+	}
+
+
 }
