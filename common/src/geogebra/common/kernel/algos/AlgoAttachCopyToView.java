@@ -21,6 +21,8 @@ package geogebra.common.kernel.algos;
 import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.MatrixTransformable;
+import geogebra.common.kernel.arithmetic.ExpressionNode;
+import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoConicPart;
 import geogebra.common.kernel.geos.GeoCurveCartesian;
@@ -31,6 +33,8 @@ import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoPoly;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.main.AbstractApplication;
+import geogebra.common.plugin.Operation;
 import geogebra.common.util.MyMath;
 
 /**
@@ -107,8 +111,7 @@ public class AlgoAttachCopyToView extends AlgoTransformation {
 		} else if (inGeo.isGeoList()) {
 			outGeo = new GeoList(cons);
 		} else if (inGeo instanceof GeoFunction) {
-			out = new GeoCurveCartesian(cons);
-			outGeo = out.toGeoElement();
+			outGeo = inGeo.copy();
 		} else {
 			out = (MatrixTransformable) inGeo.copy();
 			outGeo = out.toGeoElement();
@@ -168,8 +171,7 @@ public class AlgoAttachCopyToView extends AlgoTransformation {
 			return;
 		}
 		if (inGeo.isGeoFunction()) {
-			((GeoFunction) inGeo)
-					.toGeoCurveCartesian((GeoCurveCartesian) outGeo);
+			//skip this
 		} else {
 			outGeo.set(inGeo);
 		}
@@ -191,12 +193,23 @@ public class AlgoAttachCopyToView extends AlgoTransformation {
 				c1.getX() / c1.getZ(), c3.getY() / c3.getZ(), 1);
 		double[][] m2 = new double[][]{{c1x,c3x,c1x},{c1y,c3y,c3y},{1,1,1}};
 		double[][] m = MyMath.multiply(m2,m1);
-		out.matrixTransform(m[0][0], m[0][1], m[0][2], m[1][0], m[1][1],
+		if(!(inGeo instanceof GeoFunction)){
+				out.matrixTransform(m[0][0], m[0][1], m[0][2], m[1][0], m[1][1],
 				m[1][2], m[2][0], m[2][1], m[2][2]);
+				//TODO check why we need this when result has points on it
+				
+				outGeo.updateCascade();
+		}else{
+			transformFunction(m[0][0]/m[2][2],m[0][2]/m[2][2],m[1][1]/m[2][2],m[1][2]/m[2][2]);
+		}
+	}
 
-		//out.matrixTransform(c1x, c3x, c1x, c1y, c3y, c3y, 1, 1, 1);
-		// TODO find out why this is needed
-		outGeo.updateCascade();
+	private void transformFunction(double d, double e, double f, double g) {
+		Function fun = ((GeoFunction)inGeo).getFunction();
+		ExpressionNode expr = fun.getExpression().getCopy(kernel);
+		expr = expr.replace(fun.getFunctionVariable(), new ExpressionNode(kernel,fun.getFunctionVariable()).multiply(1/d).plus(-e/d)).wrap();
+		Function fun2 = new Function(expr.multiply(f).plus(g),fun.getFunctionVariable());
+		((GeoFunction)outGeo).setFunction(fun2);
 	}
 
 	@Override
