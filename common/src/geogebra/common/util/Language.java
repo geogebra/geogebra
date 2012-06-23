@@ -72,7 +72,7 @@ public enum Language {
 			Country.Djibouti, Country.Luxembourg, Country.Vanuatu,
 			Country.Seychelles, Country.Monaco),
 	Galician(null, true, false, "gl","gl", "Galician / Galego", "Galician"), // fudge to get right flag
-	Georgian("\u10d8", true, false, "ka","ka", "Georgian / \u10E5\u10D0\u10E0\u10D7\u10E3\u10DA\u10D8 \u10D4\u10DC\u10D0", Country.Georgia),
+	Georgian("\u10d8", false, false, "ka","ka", "Georgian / \u10E5\u10D0\u10E0\u10D7\u10E3\u10DA\u10D8 \u10D4\u10DC\u10D0", Country.Georgia),
 	// German must be before German_Austria
 	German(null, true, true, "de","de", "German / Deutsch", Country.Germany, Country.Liechtenstein, Country.Luxembourg, Country.Switzerland, Country.Belgium),
 	German_Austria(null, true, false, "deAT","de_AT", "German (Austria) / Deutsch (\u00D6sterreich)", Country.Austria),
@@ -106,7 +106,7 @@ public enum Language {
 	Russian("\u0439", true, false, "ru","ru", "Russian / \u0420\u0443\u0441\u0441\u043A\u0438\u0439 \u044F\u0437\u044B\u043A", Country.RussianFederation, Country.Kazakhstan, Country.Belarus, Country.Kyrgyzstan, Country.Tajikistan),
 	Sinhala("\u0d9a", false, false, "si","si", "Sinhala / \u0DC3\u0DD2\u0D82\u0DC4\u0DBD", Country.SriLanka),
 	Serbian(null, true, false, "sr","sr", "Serbian / \u0441\u0440\u043F\u0441\u043A\u0438", Country.Serbia, Country.BosniaandHerzegovina),
-	Slovakian(null, true, false, "sk","sk", "Slovakian / Slovensk\u00FD jazyk", Country.Slovakia),
+	Slovak(null, true, false, "sk","sk", "Slovak / Slovensk\u00FD jazyk", Country.Slovakia),
 	Slovenian(null, true, false, "sl","sl", "Slovenian / Sloven\u0161\u010Dina", Country.Slovenia),
 	Spanish(null, true, true, "es", "es", "Spanish / Espa\u00F1ol", Country.Spain,
 			Country.EquatorialGuinea, Country.Argentina, Country.Bolivia,
@@ -116,7 +116,7 @@ public enum Language {
 			Country.Panama, Country.Paraguay, Country.Ecuador, Country.Peru,
 			Country.Uruguay, Country.Venezuela, Country.PuertoRico),
 	Swedish(null, true, false, "sv","sv", "Swedish / Svenska", Country.Sweden, Country.Finland),
-	Tamil("\u0be7", true, false, "ta","ta", "Tamil / \u0BA4\u0BAE\u0BBF\u0BB4\u0BCD", Country.India, Country.Singapore),
+	Tamil("\u0be7", false, false, "ta","ta", "Tamil / \u0BA4\u0BAE\u0BBF\u0BB4\u0BCD", Country.India, Country.Singapore),
 	Thai(null, false, false, "th","th", "Thai / \u0E20\u0E32\u0E29\u0E32\u0E44\u0E17\u0E22", Country.Thailand),
 	Turkish(null, false, false, "tr","tr", "Turkish / T\u00FCrk\u00E7e", Country.Turkey, Country.Cyprus),
 	Ukrainian(null, false, false, "uk","uk", "Ukrainian / \u0423\u043A\u0440\u0430\u0457\u043D\u0441\u044C\u043A\u0430 \u043C\u043E\u0432\u0430", Country.Ukraine),
