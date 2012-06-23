@@ -185,14 +185,16 @@ public class AlgoAttachCopyToView extends AlgoTransformation {
 		double c1y = ev.toRealWorldCoordY(c5.getY() / c5.getZ());
 		double c3x = ev.toRealWorldCoordX(c7.getX() / c7.getZ());
 		double c3y = ev.toRealWorldCoordY(c7.getY() / c7.getZ());
-		double[][] m = MyMath.adjoint(c1.getX() / c1.getZ(),
-				c3.getX() / c3.getZ(), c1.getX() / c1.getZ(),
-				c1.getY() / c1.getZ(), c3.getY() / c3.getZ(),
-				c3.getY() / c3.getZ(), 1, 1, 1);
-		out.matrixTransform(m[0][0], m[1][0], m[2][0], m[0][1], m[1][1],
-				m[2][1], m[0][2], m[1][2], m[2][2]);
+		double[][] m1 = MyMath.adjoint(
+				c1.getX() / c1.getZ(), c1.getY() / c1.getZ(), 1,
+				c3.getX() / c3.getZ(), c3.getY() / c3.getZ(), 1, 
+				c1.getX() / c1.getZ(), c3.getY() / c3.getZ(), 1);
+		double[][] m2 = new double[][]{{c1x,c3x,c1x},{c1y,c3y,c3y},{1,1,1}};
+		double[][] m = MyMath.multiply(m2,m1);
+		out.matrixTransform(m[0][0], m[0][1], m[0][2], m[1][0], m[1][1],
+				m[1][2], m[2][0], m[2][1], m[2][2]);
 
-		out.matrixTransform(c1x, c3x, c1x, c1y, c3y, c3y, 1, 1, 1);
+		//out.matrixTransform(c1x, c3x, c1x, c1y, c3y, c3y, 1, 1, 1);
 		// TODO find out why this is needed
 		outGeo.updateCascade();
 	}

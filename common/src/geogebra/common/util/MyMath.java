@@ -198,6 +198,20 @@ public final class MyMath {
 
 	}
 
+	public static double[][] multiply(double[][] m1, double[][] m2) {
+		int l1 = m1.length;
+		int l2 = m2[0].length;
+		int l3 = m1[0].length;
+		double[][] result = new double[l1][l2];
+		for(int i=0;i<l1;i++)
+			for(int j=0;j<l2;j++){
+				result[i][j] = 0;
+				for(int k =0;k < l3;k++)
+					result[i][j] += m1[i][k]*m2[k][j];
+			}
+		return result;
+	}
+
 	
 
 }
