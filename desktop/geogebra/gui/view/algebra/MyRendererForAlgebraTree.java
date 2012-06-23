@@ -52,20 +52,15 @@ public class MyRendererForAlgebraTree extends DefaultTreeCellRenderer {
 		this.view = view;
 	}
 	
-	
+
+	/**
+	 * 
+	 * @param geo geo
+	 * @return description of the geo
+	 */
 	protected String getDescription(GeoElement geo){
 
-		String text = null;
-		if (geo.isIndependent()) {
-			text = getAlgebraDescriptionTextOrHTML(geo);
-		} else {
-			text = geo
-					.addLabelTextOrHTML(geo
-							.getDefinitionDescription(StringTemplate.defaultTemplate));
-
-		}
-		
-		return text;
+		return geo.getLabelTextOrHTML();
 	}
 
 	@Override
