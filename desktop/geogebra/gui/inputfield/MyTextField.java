@@ -64,9 +64,8 @@ public class MyTextField extends JTextField implements ActionListener,
 
 	private boolean enableColoring = true;
 	
-	// matched brackets color = web color "Light sea green"
-	private static Color COLOR_MATCHED = geogebra.awt.Color
-			.getAwtColor(AwtFactory.prototype.newColor(32, 178, 170));
+	// matched brackets color = cyan (better contrast than "Light sea green")
+	private static Color COLOR_MATCHED = Color.cyan;
 	
 	// unmatched brackets color = red
 	private static Color COLOR_UNMATCHED = Color.red;
