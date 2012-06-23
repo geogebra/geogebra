@@ -70,7 +70,9 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener,
 
 	private MyToggleButton btnPen, btnShowGrid, btnShowAxes, btnBold,
 			btnItalic, btnDelete, btnPenEraser, btnTableTextLinesV,
-			btnTableTextLinesH, btnFixPosition;
+			btnTableTextLinesH;
+
+	MyToggleButton btnFixPosition;
 
 	private PopupMenuButton[] popupBtnList;
 	private MyToggleButton[] toggleBtnList;
@@ -932,9 +934,15 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener,
 
 				setVisible(geosOK);
 				if (geosOK) {
-					//AbsoluteScreenLocateable geo = (AbsoluteScreenLocateable) ((GeoElement) geos[0])
-					//		.getGeoElementForPropertiesDialog();
-					//btnFixPosition.setSelected(geo.isAbsoluteScreenLocActive());
+					if (geos[0] instanceof AbsoluteScreenLocateable) {
+						AbsoluteScreenLocateable geo = (AbsoluteScreenLocateable) ((GeoElement) geos[0])
+								.getGeoElementForPropertiesDialog();
+						btnFixPosition.setSelected(geo.isAbsoluteScreenLocActive());
+					} else if (((GeoElement) geos[0]).getParentAlgorithm() instanceof AlgoAttachCopyToView) {
+						btnFixPosition.setSelected(true);								
+					} else {
+						btnFixPosition.setSelected(false);						
+					}
 				}
 			}
 
@@ -947,9 +955,17 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener,
 					GeoElement geo = (GeoElement) geos[i];
 
 					if (geo.isGeoBoolean()
-							|| geo instanceof Furniture)
+							|| geo instanceof Furniture) {
 						return false;
+					}
 
+					if (geo.isGeoSegment()) {
+						if (geo.getParentAlgorithm() != null && geo.getParentAlgorithm().getInput().length == 3) {
+							// segment is output from a Polygon
+							return false;
+						}
+					}
+					
 				}
 				return true;
 			}
