@@ -236,6 +236,7 @@ public class Ggb2MPReduce {
 		p("RandomPolynomial.4",
 				"<<begin scalar a, b, min!!, max!!; min!!:=myround(%2); max!!:=myround(%3); a:=for i:=0:%1-1 sum (random(max!!-min!!+1)+min!!)*(%0)^i; return a+(%0)^(%1)*if min!!<=0 and max!!>0 then <<b:=random(max!!-min!!)+min!!; if b>=0 then b+1 else b>> else random(max!!-min!!+1)+min!! end>>");
 		p("Rationalize.1", "<<off rounded; %0 >>");
+		p("Reverse.1","reverse(%0)");
 		p("Real.1", "repart(%0)");
 		p("RightSide.1",
 				"<<begin scalar input!!; input!!:=(%0); return if arglength(input!!) and part(%0,0)=\\'list then map(rhs,input!!) else rhs(input!!) end>>");
