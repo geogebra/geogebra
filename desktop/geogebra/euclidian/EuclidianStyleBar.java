@@ -5,7 +5,9 @@ import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.ConstructionDefaults;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.algos.AlgoAttachCopyToView;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoTableText;
 import geogebra.common.kernel.geos.AbsoluteScreenLocateable;
@@ -15,9 +17,12 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.PointProperties;
 import geogebra.common.kernel.geos.TextProperties;
+import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.euclidianND.EuclidianViewND;
@@ -927,9 +932,9 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener,
 
 				setVisible(geosOK);
 				if (geosOK) {
-					AbsoluteScreenLocateable geo = (AbsoluteScreenLocateable) ((GeoElement) geos[0])
-							.getGeoElementForPropertiesDialog();
-					btnFixPosition.setSelected(geo.isAbsoluteScreenLocActive());
+					//AbsoluteScreenLocateable geo = (AbsoluteScreenLocateable) ((GeoElement) geos[0])
+					//		.getGeoElementForPropertiesDialog();
+					//btnFixPosition.setSelected(geo.isAbsoluteScreenLocActive());
 				}
 			}
 
@@ -937,16 +942,14 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener,
 				if(geos.length <= 0){
 					return false;
 				}
+				
 				for (int i = 0; i < geos.length; i++) {
 					GeoElement geo = (GeoElement) geos[i];
-					if (geo instanceof AbsoluteScreenLocateable) {
-						AbsoluteScreenLocateable absLoc = (AbsoluteScreenLocateable) geo;
-						if (!absLoc.isAbsoluteScreenLocateable()
-								|| geo.isGeoBoolean()
-								|| geo instanceof Furniture)
-							return false;
-					} else
+
+					if (geo.isGeoBoolean()
+							|| geo instanceof Furniture)
 						return false;
+
 				}
 				return true;
 			}
@@ -1797,35 +1800,88 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener,
 	private void applyFixPosition(ArrayList<GeoElement> geos) {
 
 		boolean flag = btnFixPosition.isSelected();
-		AbsoluteScreenLocateable geo;
-		EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
+		AbsoluteScreenLocateable geoASL;
 
-		for (int i = 0; i < geos.size(); i++) {
-			geo = (AbsoluteScreenLocateable) geos.get(i);
-			if (flag) {
-				// convert real world to screen coords
-				int x = ev.toScreenCoordX(geo.getRealWorldLocX());
-				int y = ev.toScreenCoordY(geo.getRealWorldLocY());
-				if (!geo.isAbsoluteScreenLocActive())
-					geo.setAbsoluteScreenLoc(x, y);
-			} else {
-				// convert screen coords to real world
-				double x = ev.toRealWorldCoordX(geo.getAbsoluteScreenLocX());
-				double y = ev.toRealWorldCoordY(geo.getAbsoluteScreenLocY());
-				if (geo.isAbsoluteScreenLocActive())
-					geo.setRealWorldLoc(x, y);
+		for (int i = 0; i < geos.size() ; i++) {
+			GeoElement geo = geos.get(i);
+
+			if (!geo.isLabelSet()) {
+				AbstractApplication.warn("label not set "+geo.getLabelSimple());
+				continue;
+				
 			}
-			geo.setAbsoluteScreenLocActive(flag);
-			geo.toGeoElement().updateRepaint();
+			
+			if (geo.isGeoSegment()) {
+				if (geo.getParentAlgorithm() != null && geo.getParentAlgorithm().getInput().length == 3) {
+					// segment is output from a Polygon
+					//AbstractApplication.warn("segment from poly");
+					continue;
+				}
+			}
+			
+			if (geo.getParentAlgorithm() instanceof AlgoAttachCopyToView) {
+				
+				AlgoAttachCopyToView algo = (AlgoAttachCopyToView)geo.getParentAlgorithm();
+				
+				if (!flag) {
+					redefineGeo(geo, algo.getInput()[0].getFormulaString(StringTemplate.maxPrecision, false));
+
+				} else {
+					algo.setEV(ev.getEuclidianViewNo()); // 1 or 2
+				}
+				
+				geo.updateRepaint();
+				
+			} else if (geo instanceof AbsoluteScreenLocateable) {
+				geoASL = (AbsoluteScreenLocateable) geo;
+				if (flag) {
+					// convert real world to screen coords
+					int x = ev.toScreenCoordX(geoASL.getRealWorldLocX());
+					int y = ev.toScreenCoordY(geoASL.getRealWorldLocY());
+					if (!geoASL.isAbsoluteScreenLocActive())
+						geoASL.setAbsoluteScreenLoc(x, y);
+				} else {
+					// convert screen coords to real world
+					double x = ev.toRealWorldCoordX(geoASL.getAbsoluteScreenLocX());
+					double y = ev.toRealWorldCoordY(geoASL.getAbsoluteScreenLocY());
+					if (geoASL.isAbsoluteScreenLocActive())
+						geoASL.setRealWorldLoc(x, y);
+				}
+				geoASL.setAbsoluteScreenLocActive(flag);
+				geo.updateRepaint();
+				
+			} else if (!(geo instanceof Furniture) && !geo.isGeoBoolean()) {
+				Kernel kernelA = app.getKernel();
+				
+				GeoPoint2 corner1 = new GeoPoint2(kernelA.getConstruction());
+				GeoPoint2 corner3 = new GeoPoint2(kernelA.getConstruction());
+				GeoPoint2 screenCorner1 = new GeoPoint2(kernelA.getConstruction());
+				GeoPoint2 screenCorner3 = new GeoPoint2(kernelA.getConstruction());
+				if(ev!=null){
+					corner1.setCoords(ev.getXmin(), ev.getYmin(), 1);
+					corner3.setCoords(ev.getXmax(), ev.getYmax(), 1);
+					screenCorner1.setCoords(0, ev.getHeight(), 1);
+					screenCorner3.setCoords(ev.getWidth(), 0, 1);
+				}
+						
+				redefineGeo(geo, "AttachCopyToView["+geo.getFormulaString(StringTemplate.maxPrecision, true)+","+ev.getEuclidianViewNo()+"]");
+				
+			} else {
+				// can't pin
+				AbstractApplication.debug("not pinnable");
+			}
+			
 		}
 		needUndo = true;
 	}
 
-	public GeoElement redefineGeo(GeoElement geo, String cmdtext) {
+	private GeoElement redefineGeo(GeoElement geo, String cmdtext) {
 		GeoElement newGeo = null;
 
 		if (cmdtext == null)
 			return newGeo;
+		
+		AbstractApplication.debug("redefining "+geo+" as "+cmdtext);
 
 		try {
 			newGeo = app.getKernel().getAlgebraProcessor()

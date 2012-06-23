@@ -3263,8 +3263,10 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @param algorithm algorithm to be removed
 	 */
 	public final void removeAlgorithm(final AlgoElement algorithm) {
-		algorithmList.remove(algorithm);
-		removeFromUpdateSets(algorithm);
+		if (algorithmList != null) {
+			algorithmList.remove(algorithm);
+			removeFromUpdateSets(algorithm);
+		}
 	}
 
 	/**

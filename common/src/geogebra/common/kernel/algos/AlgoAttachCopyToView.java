@@ -27,6 +27,7 @@ import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoPoly;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -228,6 +229,13 @@ public class AlgoAttachCopyToView extends AlgoTransformation {
 			super.transformLimitedConic(a, b);
 		}
 
+	}
+
+	public void setEV(int viewID2) {
+		input[1].removeAlgorithm(this);
+		viewID = new GeoNumeric(cons, viewID2);
+		input[1] = viewID.toGeoElement();
+		
 	}
 
 }
