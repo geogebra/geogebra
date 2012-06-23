@@ -254,16 +254,18 @@ public class GeoCasCell extends GeoElement implements VarString {
 				// Kernel kernel = app.getKernel();
 				// boolean oldLineBreaks = kernel.isInsertLineBreaks();
 				// kernel.setInsertLineBreaks(true);
-
+				StringBuilder sb = new StringBuilder("\\mathbf{");
 				// create LaTeX string
 				if(nativeOutput || !(outputVE instanceof ExpressionNode)){
-					latex = outputVE.toAssignmentLaTeXString(includesNumericCommand() ? StringTemplate.numericLatex:
-					StringTemplate.latexTemplate);
+					sb.append(outputVE.toAssignmentLaTeXString(includesNumericCommand() ? StringTemplate.numericLatex:
+					StringTemplate.latexTemplate));
 				}
 				else{
 					GeoElement geo = ((GeoElement)((ExpressionNode)outputVE).getLeft());
-					latex = this.getAssignmentVariable()+" := "+geo.toValueString(StringTemplate.latexTemplate);
+					sb.append(this.getAssignmentVariable()+" := "+geo.toValueString(StringTemplate.latexTemplate));
 				}
+				sb.append("}");
+				latex = sb.toString();
 				// TODO Uncomment once support for latex line breaking is
 				// implemented.
 				// kernel.setInsertLineBreaks(oldLineBreaks);
