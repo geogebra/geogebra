@@ -1864,7 +1864,8 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener,
 					screenCorner3.setCoords(ev.getWidth(), 0, 1);
 				}
 						
-				redefineGeo(geo, "AttachCopyToView["+geo.getFormulaString(StringTemplate.maxPrecision, true)+","+ev.getEuclidianViewNo()+"]");
+				// "false" here so that pinning works for eg polygons
+				redefineGeo(geo, "AttachCopyToView["+geo.getFormulaString(StringTemplate.maxPrecision, false)+","+ev.getEuclidianViewNo()+"]");
 				
 			} else {
 				// can't pin
