@@ -214,16 +214,18 @@ implements MouseListener, MouseMotionListener{
 		TreePath tp = tree.getPathForLocation(e.getX(), e.getY());
 		GeoElement geo = AlgebraTree.getGeoElementForPath(tp);
 
-		if (geo != null && !app.containsSelectedGeo(geo)) {
-			app.clearSelectedGeos();					
-		}
-
+		
 		// single selection: popup menu
 		if (app.selectedGeosSize() < 2) {				
 			if(geo == null) {
+				app.clearSelectedGeos();	
 				AlgebraContextMenu contextMenu = new AlgebraContextMenu((Application)app);
 				contextMenu.show(tree, e.getPoint().x, e.getPoint().y);
 			} else {
+				if (!app.containsSelectedGeo(geo)){
+					app.clearSelectedGeos(false);	
+					app.addSelectedGeo(geo, true);
+				}
 				ArrayList<GeoElement> temp = new ArrayList<GeoElement>();
 				temp.add(geo);
 				((GuiManager)app.getGuiManager()).showPopupMenu(temp, tree, mouseCoords);
