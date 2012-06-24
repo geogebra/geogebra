@@ -18,6 +18,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.main.AbstractApplication;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.util.Unicode;
 import geogebra.euclidian.EuclidianView;
@@ -27,6 +28,7 @@ import geogebra.gui.dialog.DashListRenderer;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.gui.util.FullWidthLayout;
 import geogebra.main.Application;
+import geogebra.main.GeoGebraPreferences;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -99,6 +101,9 @@ public class OptionsEuclidian extends JPanel implements OptionPanel, ActionListe
 	private boolean isIniting;
 
 	private JToggleButton cbLockRatio;
+	
+	
+	//private JButton restoreDefaultsButton;
 
 	/***********************************************
 	 * Creates a new dialog for the properties of the Euclidian view.
@@ -154,6 +159,26 @@ public class OptionsEuclidian extends JPanel implements OptionPanel, ActionListe
 		setLayout(new BorderLayout());
 		addCbView();
 		add(tabbedPane, BorderLayout.CENTER);
+		
+		/*
+		//restore default button	
+		if (!app.isApplet()) {
+			JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+			
+			restoreDefaultsButton = new JButton();
+			restoreDefaultsButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+				
+					AbstractApplication.error("not implemented yet");
+
+				}
+			});
+
+			panel.add(restoreDefaultsButton);
+			add(panel, BorderLayout.SOUTH);
+		}
+		*/
+		
 	}
 
 	protected void createCbView() {
@@ -603,6 +628,11 @@ public class OptionsEuclidian extends JPanel implements OptionPanel, ActionListe
 		setLabelsForCbView();
 
 		cbShowMouseCoords.setText(app.getMenu("ShowMouseCoordinates"));
+		
+		/*
+		if (!app.isApplet()) 
+			restoreDefaultsButton.setText(app.getMenu("ApplyDefaults"));
+			*/
 	}
 
 	protected void setTabLabels() {

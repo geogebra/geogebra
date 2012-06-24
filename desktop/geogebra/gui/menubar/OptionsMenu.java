@@ -6,6 +6,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.util.Language;
 import geogebra.main.Application;
+import geogebra.main.GeoGebraPreferences;
 
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -29,7 +30,9 @@ public class OptionsMenu extends BaseMenu implements ActionListener, MenuListene
 	Kernel kernel;
 	private AbstractAction
 		//drawingPadPropAction,
-		showOptionsAction
+		showOptionsAction,
+		saveSettings,
+		restoreDefaultSettings
 	;
 	
 	private JMenu
@@ -210,8 +213,17 @@ public class OptionsMenu extends BaseMenu implements ActionListener, MenuListene
 
 		addSeparator();
 
-		// drawing pad properties	
+		// advanced properties	
 		add(showOptionsAction);
+		
+		addSeparator();
+
+		// save settings	
+		add(saveSettings);
+
+		// restore default settings	
+		add(restoreDefaultSettings);
+
 	}
 
 	/**
@@ -315,6 +327,59 @@ public class OptionsMenu extends BaseMenu implements ActionListener, MenuListene
 
 			public void actionPerformed(ActionEvent e) {
 				app.getDialogManager().showPropertiesDialog(OptionType.ADVANCED, null);
+			}
+		};
+		
+		// save settings
+		saveSettings = new AbstractAction(app
+				.getMenu("Settings.Save"),app.getImageIcon("document-save.png")) {
+			@SuppressWarnings("hiding")
+			public static final long serialVersionUID = 1L;
+
+			public void actionPerformed(ActionEvent e) {
+				GeoGebraPreferences.getPref().saveXMLPreferences(app);
+			}
+		};
+
+		// restore default settings
+		restoreDefaultSettings = new AbstractAction(app
+				.getMenu("Settings.ResetDefault"),app.getEmptyIcon()) {
+			@SuppressWarnings("hiding")
+			public static final long serialVersionUID = 1L;
+
+			public void actionPerformed(ActionEvent e) {
+				GeoGebraPreferences.getPref().clearPreferences();
+
+				// reset defaults for GUI, views etc
+				// this has to be called before load XML preferences,
+				// in order to avoid overwrite
+				app.getSettings().resetSettings();
+
+				// for geoelement defaults, this will do nothing, so it is
+				// OK here
+				GeoGebraPreferences.getPref().loadXMLPreferences(app);
+
+				// reset default line thickness etc
+				app.getKernel().getConstruction().getConstructionDefaults()
+				.resetDefaults();
+
+				// reset defaults for geoelements; this will create brand
+				// new objects
+				// so the options defaults dialog should be reset later
+				app.getKernel().getConstruction().getConstructionDefaults()
+				.createDefaultGeoElementsFromScratch();
+
+				// reset the stylebar defaultGeo
+				if (app.getEuclidianView1().hasStyleBar())
+					app.getEuclidianView1().getStyleBar()
+					.restoreDefaultGeo();
+				if (app.hasEuclidianView2EitherShowingOrNot())
+					if (app.getEuclidianView2().hasStyleBar())
+						app.getEuclidianView2().getStyleBar()
+						.restoreDefaultGeo();
+
+
+
 			}
 		};
 	}

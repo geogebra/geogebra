@@ -86,7 +86,7 @@ public class PropertiesView extends JPanel implements
 
 	// GUI elements
 	private JPanel mainPanel, buttonPanel;
-	private JButton restoreDefaultsButton, saveButton;
+	//private JButton restoreDefaultsButton, saveButton;
 
 	private boolean isIniting = true;
 
@@ -134,16 +134,17 @@ public class PropertiesView extends JPanel implements
 		mainPanel = new JPanel(new BorderLayout());
 		add(mainPanel, BorderLayout.CENTER);
 
-		createButtonPanel();
-		add(buttonPanel, BorderLayout.SOUTH);
+		//createButtonPanel();
+		//add(buttonPanel, BorderLayout.SOUTH);
 		
 	}
 
 	
-	/**
+	/*
 	 * Creates the button panel for all option panels except the Object Panel
-	 */
+	 *
 	private void createButtonPanel() {
+	
 		// panel with buttons at the bottom
 		buttonPanel = new JPanel(new BorderLayout());
 
@@ -202,10 +203,12 @@ public class PropertiesView extends JPanel implements
 
 		buttonPanel.add(panel, BorderLayout.WEST);
 
+		
 		// (save and close on the right side)
 		panel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 		// panel.setBackground(Color.white);
 
+		
 		if (!app.isApplet()) {
 			saveButton = new JButton();
 			saveButton.addActionListener(new ActionListener() {
@@ -215,10 +218,14 @@ public class PropertiesView extends JPanel implements
 			});
 			panel.add(saveButton);
 		}
+		
 
 		buttonPanel.add(panel, BorderLayout.EAST);
-
+		
+	
 	}
+	
+	*/
 
 	/**
 	 * Restores default settings in option dialogs
@@ -403,7 +410,7 @@ public class PropertiesView extends JPanel implements
 
 				
 		// don't show the button panel in the Objects panel (it has it's own)
-		buttonPanel.setVisible(type != OptionType.OBJECTS);
+		//buttonPanel.setVisible(type != OptionType.OBJECTS);
 
 		// update GUI
 		//updateGUI();
@@ -569,10 +576,12 @@ public class PropertiesView extends JPanel implements
 	 */
 	public void setLabels() {
 
+		/*
 		if (!app.isApplet()) {
 			saveButton.setText(app.getMenu("Settings.Save"));
 			restoreDefaultsButton.setText(app.getMenu("Settings.ResetDefault"));
 		}
+		*/
 
 		//GuiManager.setLabelsRecursive(this);
 
