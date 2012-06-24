@@ -3,9 +3,7 @@ package geogebra.gui.view.spreadsheet;
 import geogebra.common.gui.view.spreadsheet.CellRange;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementSpreadsheet;
-import geogebra.common.main.AbstractApplication;
 import geogebra.gui.dialog.options.OptionsDialog;
-import geogebra.gui.view.spreadsheet.statdialog.StatDialog;
 import geogebra.main.Application;
 
 import java.awt.Color;
@@ -375,22 +373,6 @@ public class SpreadsheetContextMenu extends JPopupMenu {
 			item = new JMenuItem(app.getMenu("OperationTable"));
 			item.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-
-					// GeoElement geo = RelativeCopy.getValue(table, column1,
-					// row1);
-					// String str = geo.getRedefineString(false, true);
-					// InputHandler handler = new RedefineInputHandler(app, geo,
-					// str);
-
-					// InputDialog id = new InputDialog(app,
-					// geo.getNameDescription(), app.getPlain("Redefine"),
-					// "str", true, handler, geo);
-					// id.showSpecialCharacters(true);
-					// id.setVisible(true);
-
-					// InputDialogOpTable dialog = new
-					// InputDialogOpTable(view,app,null);
-					// dialog.setVisible(true);
 					cp.createOperationTable(selectedCellRanges.get(0), null);
 				}
 			});
@@ -415,110 +397,6 @@ public class SpreadsheetContextMenu extends JPopupMenu {
 				}
 			});
 			addItem(item);
-		}
-
-		/*
-		if (app.selectedGeosSize() >= 0) {
-			addSeparator();
-
-			item = new JMenu(app.getPlain("Import Data File") + " ...");
-			item.setIcon(app.getImageIcon("document-open.png"));
-			item.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					File dataFile = app.getGuiManager().getDataFile();				
-					table.getView().loadSpreadsheetFromURL(dataFile);
-				}
-			});
-			add(item);
-
-
-
-			subMenu = new JMenu(app.getPlain("Import Data") + "...");
-			subMenu.setIcon(app.getEmptyIcon());
-			add(subMenu);
-
-			item = new JMenuItem(app.getMenu(app.getPlain("File"))+"...", app.getEmptyIcon());
-			item.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					File dataFile = app.getGuiManager().getDataFile();				
-					table.getView().loadSpreadsheetFromURL(dataFile);
-				}
-			});	 
-			subMenu.add(item);
-
-
-
-			item = new JMenuItem(app.getMenu(app.getPlain("URL"))+"...", app.getEmptyIcon());
-			item.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					InputDialog id = new InputDialogOpenDataURL(app,view);
-					id.setVisible(true);
-				}
-			});	 
-			subMenu.add(item);
-
-
-			subMenu.addSeparator();
-			item = new JMenuItem(app.getMenu(app.getPlain("Browser")),app.getEmptyIcon());
-			item.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					table.getView().setShowBrowserPanel(true);
-				}
-			});	 
-			subMenu.add(item);
-
-
-
-			subMenu.addSeparator();
-			item = new JMenuItem(app.getMenu(app.getPlain("ProbCalc")),app.getEmptyIcon());
-			item.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					ProbabilityCalculator pc = new ProbabilityCalculator(app);
-					pc.setVisible(true);
-				}
-			});	 
-			subMenu.add(item);
-
-
-		}
-		 */
-
-		// ===============================================
-		// Data analysis
-		// ===============================================
-
-		// if(!isEmptySelection())
-		// this.addSeparator();
-
-		if (!isEmptySelection()) { // && selectionType ==
-									// MyTable.COLUMN_SELECT){ // &&
-									// isShiftDown){
-			subMenu = new JMenu(app.getMenu("DataAnalysis"));
-			subMenu.setIcon(app.getEmptyIcon());
-			// addItem(subMenu);
-
-			item = new JMenuItem(app.getMenu(app.getMenu("OneVariable")),
-					app.getEmptyIcon());
-			item.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					view.showStatDialog(StatDialog.MODE_ONEVAR);
-				}
-			});
-			addSubItem(subMenu, item);
-			item.setEnabled((cp.isOneVarStatsPossible(selectedCellRanges)));
-
-			item = new JMenuItem(app.getMenu(app.getMenu("TwoVariable")),
-					app.getEmptyIcon());
-			item.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					view.showStatDialog(StatDialog.MODE_REGRESSION);
-				}
-			});
-			addSubItem(subMenu, item);
-			item.setEnabled((cp.isCreatePointListPossible(selectedCellRanges))); // &&
-																					// isShiftDown
-																					// );
-
 		}
 
 		// ===============================================
