@@ -1814,15 +1814,20 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener,
 	}
 
 	private void applyFixPosition(ArrayList<GeoElement> geos) {
-
+		
 		boolean flag = btnFixPosition.isSelected();
 		AbsoluteScreenLocateable geoASL;
+		
+		// workaround to make sure pin icon disappears
+		// see applyFixPosition() called with a geo with label not set below
+		app.clearSelectedGeos();
 
 		for (int i = 0; i < geos.size() ; i++) {
 			GeoElement geo = geos.get(i);
 
+			// problem with ghost geos
 			if (!geo.isLabelSet()) {
-				AbstractApplication.warn("label not set "+geo.getLabelSimple());
+				AbstractApplication.warn("applyFixPosition() called with a geo with label not set: "+geo.getLabelSimple());
 				continue;
 				
 			}
@@ -1840,6 +1845,7 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener,
 				AlgoAttachCopyToView algo = (AlgoAttachCopyToView)geo.getParentAlgorithm();
 				
 				if (!flag) {
+					
 					redefineGeo(geo, algo.getInput()[0].getFormulaString(StringTemplate.maxPrecision, false));
 
 				} else {
@@ -1886,9 +1892,12 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener,
 			} else {
 				// can't pin
 				AbstractApplication.debug("not pinnable");
+				needUndo = false;
+				return;
 			}
 			
 		}
+		
 		needUndo = true;
 	}
 
