@@ -3,6 +3,7 @@ package geogebra.gui.view.spreadsheet;
 import geogebra.common.gui.view.spreadsheet.CellRange;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementSpreadsheet;
+import geogebra.common.main.AbstractApplication;
 import geogebra.gui.dialog.options.OptionsDialog;
 import geogebra.gui.view.spreadsheet.statdialog.StatDialog;
 import geogebra.main.Application;
@@ -57,15 +58,15 @@ public class SpreadsheetContextMenu extends JPopupMenu {
 	protected ArrayList<CellRange> selectedCellRanges;
 	private int selectionType;
 
-	/** application */ 
+	/** application */
 	protected Application app;
-	
-	/** menu spreadsheet View */ 
+
+	/** menu spreadsheet View */
 	protected SpreadsheetView view;
-	
+
 	private ArrayList<GeoElement> geos;
-	
-	/** spreadsheet cell range processor */ 
+
+	/** spreadsheet cell range processor */
 	protected CellRangeProcessor cp;
 
 	// for testing
@@ -113,12 +114,12 @@ public class SpreadsheetContextMenu extends JPopupMenu {
 		setTitle(getTitleString());
 
 		// ===============================================
-		// Show Object
+		// Show Object, Show Label
 		// ===============================================
 
 		if (!isEmptySelection()) {
 			addSeparator();
-			GeoElement geo = geos.get(0);
+			final GeoElement geo = geos.get(0);
 			if (geo.isEuclidianShowable()
 					&& geo.getShowObjectCondition() == null
 					&& (!geo.isGeoBoolean() || geo.isIndependent())) {
@@ -139,6 +140,66 @@ public class SpreadsheetContextMenu extends JPopupMenu {
 				});
 				addItem(cbItem);
 			}
+
+			// Show Label
+
+			if (geo.isLabelShowable()) {
+				// show label
+				cbItem = new JCheckBoxMenuItem(app.getPlain("ShowLabel"));
+				cbItem.setSelected(geo.isLabelVisible());
+				cbItem.setIcon(app.getImageIcon("mode_showhidelabel_16.gif"));
+				cbItem.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						for (int i = geos.size() - 1; i >= 0; i--) {
+							GeoElement geo1 = geos.get(i);
+							geo1.setLabelVisible(!geo1.isLabelVisible());
+							geo1.updateRepaint();
+
+						}
+						app.storeUndoInfo();
+					}
+				});
+				addItem(cbItem);
+			}
+
+			// Trace to spreadsheet
+
+			if (geo.isSpreadsheetTraceable()
+					&& selectionType != MyTable.ROW_SELECT) {
+
+				boolean showRecordToSpreadsheet = true;
+				// check if other geos are recordable
+				for (int i = 1; i < geos.size() && showRecordToSpreadsheet; i++)
+					showRecordToSpreadsheet &= geos.get(i)
+							.isSpreadsheetTraceable();
+
+				if (showRecordToSpreadsheet) {
+					cbItem = new JCheckBoxMenuItem(
+							app.getMenu("RecordToSpreadsheet"));
+					cbItem.setIcon(app.getImageIcon("spreadsheettrace.gif"));
+					cbItem.setSelected(geo.getSpreadsheetTrace());
+
+					cbItem.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							GeoElement geoRecordToSpreadSheet;
+							if (geos.size() == 1)
+								geoRecordToSpreadSheet = geo;
+							else {
+								geoRecordToSpreadSheet = app.getKernel().List(
+										null, geos, false);
+								geoRecordToSpreadSheet.setAuxiliaryObject(true);
+							}
+
+							app.getGuiManager()
+									.getSpreadsheetView()
+									.showTraceDialog(geoRecordToSpreadSheet,
+											null);
+						}
+					});
+					addItem(cbItem);
+				}
+			}
+
 		}
 
 		// ===============================================
@@ -340,29 +401,10 @@ public class SpreadsheetContextMenu extends JPopupMenu {
 		}
 
 		// ===============================================
-		// Trace to spreadsheet
-		// ===============================================
-
-		if (selectionType != MyTable.ROW_SELECT) {
-			// addSeparator();
-			cbItem = new JCheckBoxMenuItem(app.getMenu("RecordToSpreadsheet")
-					+ " ...");
-			cbItem.setIcon(app.getImageIcon("spreadsheettrace.gif"));
-			cbItem.setSelected(app.getTraceManager().isTraceColumn(
-					table.minSelectionColumn));
-			cbItem.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					view.showTraceDialog(null, selectedCellRanges.get(0));
-				}
-			});
-			addItem(cbItem);
-		}
-
-		// ===============================================
 		// Import Data
 		// ===============================================
 
-		if (Application.hasFullPermissions()) {
+		if (isEmptySelection() && Application.hasFullPermissions()) {
 			item = new JMenuItem(app.getMenu("ImportDataFile") + " ...");
 			item.setIcon(app.getImageIcon("document-open.png"));
 			item.addActionListener(new ActionListener() {
@@ -376,53 +418,69 @@ public class SpreadsheetContextMenu extends JPopupMenu {
 		}
 
 		/*
-		 * if (app.selectedGeosSize() >= 0) { addSeparator();
-		 * 
-		 * item = new JMenu(app.getPlain("Import Data File") + " ...");
-		 * item.setIcon(app.getImageIcon("document-open.png"));
-		 * item.addActionListener(new ActionListener() { public void
-		 * actionPerformed(ActionEvent e) { File dataFile =
-		 * app.getGuiManager().getDataFile();
-		 * table.getView().loadSpreadsheetFromURL(dataFile); } }); add(item);
-		 * 
-		 * 
-		 * 
-		 * subMenu = new JMenu(app.getPlain("Import Data") + "...");
-		 * subMenu.setIcon(app.getEmptyIcon()); add(subMenu);
-		 * 
-		 * item = new JMenuItem(app.getMenu(app.getPlain("File"))+"...",
-		 * app.getEmptyIcon()); item.addActionListener(new ActionListener() {
-		 * public void actionPerformed(ActionEvent e) { File dataFile =
-		 * app.getGuiManager().getDataFile();
-		 * table.getView().loadSpreadsheetFromURL(dataFile); } });
-		 * subMenu.add(item);
-		 * 
-		 * 
-		 * 
-		 * item = new JMenuItem(app.getMenu(app.getPlain("URL"))+"...",
-		 * app.getEmptyIcon()); item.addActionListener(new ActionListener() {
-		 * public void actionPerformed(ActionEvent e) { InputDialog id = new
-		 * InputDialogOpenDataURL(app,view); id.setVisible(true); } });
-		 * subMenu.add(item);
-		 * 
-		 * 
-		 * subMenu.addSeparator(); item = new
-		 * JMenuItem(app.getMenu(app.getPlain("Browser")),app.getEmptyIcon());
-		 * item.addActionListener(new ActionListener() { public void
-		 * actionPerformed(ActionEvent e) {
-		 * table.getView().setShowBrowserPanel(true); } }); subMenu.add(item);
-		 * 
-		 * 
-		 * 
-		 * subMenu.addSeparator(); item = new
-		 * JMenuItem(app.getMenu(app.getPlain("ProbCalc")),app.getEmptyIcon());
-		 * item.addActionListener(new ActionListener() { public void
-		 * actionPerformed(ActionEvent e) { ProbabilityCalculator pc = new
-		 * ProbabilityCalculator(app); pc.setVisible(true); } });
-		 * subMenu.add(item);
-		 * 
-		 * 
-		 * }
+		if (app.selectedGeosSize() >= 0) {
+			addSeparator();
+
+			item = new JMenu(app.getPlain("Import Data File") + " ...");
+			item.setIcon(app.getImageIcon("document-open.png"));
+			item.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					File dataFile = app.getGuiManager().getDataFile();				
+					table.getView().loadSpreadsheetFromURL(dataFile);
+				}
+			});
+			add(item);
+
+
+
+			subMenu = new JMenu(app.getPlain("Import Data") + "...");
+			subMenu.setIcon(app.getEmptyIcon());
+			add(subMenu);
+
+			item = new JMenuItem(app.getMenu(app.getPlain("File"))+"...", app.getEmptyIcon());
+			item.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					File dataFile = app.getGuiManager().getDataFile();				
+					table.getView().loadSpreadsheetFromURL(dataFile);
+				}
+			});	 
+			subMenu.add(item);
+
+
+
+			item = new JMenuItem(app.getMenu(app.getPlain("URL"))+"...", app.getEmptyIcon());
+			item.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					InputDialog id = new InputDialogOpenDataURL(app,view);
+					id.setVisible(true);
+				}
+			});	 
+			subMenu.add(item);
+
+
+			subMenu.addSeparator();
+			item = new JMenuItem(app.getMenu(app.getPlain("Browser")),app.getEmptyIcon());
+			item.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					table.getView().setShowBrowserPanel(true);
+				}
+			});	 
+			subMenu.add(item);
+
+
+
+			subMenu.addSeparator();
+			item = new JMenuItem(app.getMenu(app.getPlain("ProbCalc")),app.getEmptyIcon());
+			item.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					ProbabilityCalculator pc = new ProbabilityCalculator(app);
+					pc.setVisible(true);
+				}
+			});	 
+			subMenu.add(item);
+
+
+		}
 		 */
 
 		// ===============================================
