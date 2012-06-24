@@ -68,11 +68,6 @@ public class AlgoAxisStepX extends AlgoElement {
     	return false;
    	
     }
-    
-    final public static boolean wantsEuclidianViewUpdate() {
-    	return true;
-    }
-    
     // calc the current value of the arithmetic tree
     @Override
 	public final void compute() {  

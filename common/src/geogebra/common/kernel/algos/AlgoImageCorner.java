@@ -60,10 +60,6 @@ public class AlgoImageCorner extends AlgoElement {
 		img.calculateCornerPoint(corner, (int) number.getDouble());	    	
     }
     
-    final public static boolean wantsEuclidianViewUpdate() {
-    	return true;
-    }
-    
     @Override
 	final public String toString(StringTemplate tpl) {
         return getCommandDescription(tpl);

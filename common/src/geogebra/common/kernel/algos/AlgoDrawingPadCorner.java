@@ -124,10 +124,6 @@ public class AlgoDrawingPadCorner extends AlgoElement {
 		}
 	}
 
-	final public static boolean wantsEuclidianViewUpdate() {
-		return true;
-	}
-
 	@Override
 	public final boolean euclidianViewUpdate() {
 		compute();

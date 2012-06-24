@@ -85,10 +85,6 @@ public class AlgoTextCorner extends AlgoElement {
     	return true; //update cascade of dependent objects done in Construction
     }
     
-    final public static boolean wantsEuclidianViewUpdate() {
-    	return true;
-    }
-    
     @Override
 	final public String toString(StringTemplate tpl) {
         return getCommandDescription(tpl);
