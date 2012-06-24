@@ -234,8 +234,9 @@ StatPanelInterface{
 
 		plotPanelNorth = new JPanel();
 		plotPanelSouth = new JPanel();
-		plotPanelNorth.setBackground(plotPanel.getBackground());
-		plotPanelSouth.setBackground(plotPanel.getBackground());
+		Color bgColor = geogebra.awt.Color.getAwtColor(plotPanel.getBackgroundCommon());
+		plotPanelNorth.setBackground(bgColor);
+		plotPanelSouth.setBackground(bgColor);
 		lblTitleX = new JLabel();
 		lblTitleY = new JLabel();
 		fldTitleX = new MyTextField(app,20);
@@ -257,7 +258,7 @@ StatPanelInterface{
 		// put display panels into a card layout
 
 		displayCardPanel = new JPanel(new CardLayout());
-		displayCardPanel.setBackground(plotPanel.getBackground());
+		displayCardPanel.setBackground(bgColor);
 
 		displayCardPanel.add("plotPanel", metaPlotPanel);
 		displayCardPanel.add("imagePanel", new JScrollPane(imagePanel));

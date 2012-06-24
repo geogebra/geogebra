@@ -3,7 +3,6 @@ package geogebra.euclidianND;
 import geogebra.common.awt.Font;
 import geogebra.common.euclidian.AbstractEuclidianController;
 import geogebra.common.euclidian.AbstractEuclidianView;
-import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.main.settings.EuclidianSettings;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.euclidian.EuclidianController;
@@ -13,8 +12,7 @@ import geogebra.euclidian.EuclidianViewTransferHandler;
 import geogebra.euclidian.MyZoomer;
 import geogebra.main.Application;
 
-import java.awt.Color;
-import java.awt.Component;
+import java.awt.AWTEvent;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FontMetrics;
@@ -38,7 +36,7 @@ import javax.swing.border.Border;
  * @author matthieu
  *
  */
-public abstract class EuclidianViewND extends AbstractEuclidianView implements EuclidianViewInterfaceCommon{
+public abstract class EuclidianViewND extends AbstractEuclidianView{
 	
 	private EuclidianViewJPanel evjpanel;
 
@@ -71,14 +69,17 @@ public abstract class EuclidianViewND extends AbstractEuclidianView implements E
 	}
 	
 	
-
+	/**
+	 * @return graphics of the underlying component
+	 */
 	public Graphics2D getGraphicsForPen() {
 		return (Graphics2D) evjpanel.getGraphics();
 
 	}
 
-	
-	
+	/**
+	 * @param cursor new cursor
+	 */
 	public void setCursor(Cursor cursor) {
 		evjpanel.setCursor(cursor);
 	}
@@ -95,29 +96,25 @@ public abstract class EuclidianViewND extends AbstractEuclidianView implements E
 	public void paintBackground(geogebra.common.awt.Graphics2D g2) {
 		g2.drawImage(bgImage, null, 0, 0);
 	}
-
-	public void add(Component comp) {
-		evjpanel.add(comp);
-	}
 	
 	@Override
 	public void add(geogebra.common.javax.swing.Box box){
 		evjpanel.add(((geogebra.javax.swing.Box)box).getImpl());
 	}
 	
-	public void remove(Component comp) {
-		evjpanel.remove(comp);
-	}
-
 	@Override
 	public void remove(geogebra.common.javax.swing.Box box) {
 		evjpanel.remove(((geogebra.javax.swing.Box)box).getImpl());
 	}
-	
+	/**
+	 * @return underlying component
+	 */
 	public JPanel getJPanel() {
 		return evjpanel;
 	}
-
+	/**
+	 * This view should be focused
+	 */
 	public void requestFocus() {
 		evjpanel.requestFocus();		
 	}
@@ -127,19 +124,23 @@ public abstract class EuclidianViewND extends AbstractEuclidianView implements E
 		// TODO Auto-generated method stub
 		return new geogebra.awt.Font(evjpanel.getFont());
 	}
-
-	public Graphics2D getGraphics() {
-		return (Graphics2D) evjpanel.getGraphics();
-	}
-
+	/**
+	 * @return mouse position
+	 */
 	public java.awt.Point getMousePosition() {
 		return evjpanel.getMousePosition();
 	}
-
+	/**
+	 * @see JPanel#getFontMetrics(java.awt.Font)
+	 * @param font font
+	 * @return font metrics
+	 */
 	public FontMetrics getFontMetrics(java.awt.Font font) {
 		return evjpanel.getFontMetrics(font);
 	}
-
+	/**
+	 * @return whethe this view is visible
+	 */
 	public boolean isShowing() {
 		return evjpanel.isShowing();
 	}
@@ -148,7 +149,10 @@ public abstract class EuclidianViewND extends AbstractEuclidianView implements E
 	public boolean requestFocusInWindow() {
 		return evjpanel.requestFocusInWindow();	
 	}
-	
+	/**
+	 * @see JPanel#setPreferredSize(Dimension)
+	 * @param preferredSize prefered size
+	 */
 	public void setPreferredSize(Dimension preferredSize) {
 		evjpanel.setPreferredSize(preferredSize);
 	}
@@ -158,57 +162,103 @@ public abstract class EuclidianViewND extends AbstractEuclidianView implements E
 		evjpanel.setPreferredSize(geogebra.awt.Dimension.getAWTDimension(preferredSize));
 	}
 	
+	/**
+	 * @see JPanel#revalidate()
+	 */
 	public void revalidate() {
 		evjpanel.revalidate();
 	}
 	
+	/**
+	 * @see JPanel#addMouseListener(MouseListener)
+	 * @param ml mouse listener
+	 */
 	public void addMouseListener(MouseListener ml) {
 		evjpanel.addMouseListener(ml);
 	}
 	
+	/**
+	 * @see JPanel#removeComponentListener(ComponentListener)
+	 * @param ml mouse listener
+	 */
 	public void removeMouseListener(MouseListener ml) {
 		evjpanel.removeMouseListener(ml);
 	}
 	
+	/**
+	 * @see JPanel#addMouseMotionListener(MouseMotionListener)
+	 * @param mml mouse motion listener
+	 */
 	public void addMouseMotionListener(MouseMotionListener mml) {
 		evjpanel.addMouseMotionListener(mml);
 	}
 	
+	/**
+	 * @see JPanel#removeMouseMotionListener(MouseMotionListener)
+	 * @param mml mouse motion listener
+	 */
 	public void removeMouseMotionListener(MouseMotionListener mml) {
 		evjpanel.removeMouseMotionListener(mml);
 	}
 	
+	/**
+	 * @see JPanel#addMouseWheelListener(MouseWheelListener)
+	 * @param mwl mouse wheel listener
+	 */
 	public void addMouseWheelListener(MouseWheelListener mwl) {
 		evjpanel.addMouseWheelListener(mwl);
 	}
 	
+	/**
+	 * @see JPanel#removeMouseWheelListener(MouseWheelListener)
+	 * @param mwl mouse wheel listener
+	 */
 	public void removeMouseWheelListener(MouseWheelListener mwl) {
 		evjpanel.removeMouseWheelListener(mwl);
 	}
-
+	/**
+	 * @see JPanel#dispatchEvent(AWTEvent)
+	 * @param componentEvent component event
+	 */
 	public void dispatchEvent(ComponentEvent componentEvent) {
 		evjpanel.dispatchEvent(componentEvent);
 	}
 	
+	/**
+	 * @see JPanel#setBorder(Border)
+	 * @param border new border
+	 */
 	public void setBorder(Border border) {
 		evjpanel.setBorder(border)	;
 	}
 	
+	/**
+	 * @see JPanel#addComponentListener(ComponentListener)
+	 * @param componentListener component listener
+	 */
 	public void addComponentListener(
 			ComponentListener componentListener) {
 		evjpanel.addComponentListener(componentListener);
 		
 	}
 	
+	/**
+	 * @param dimension new size
+	 */
 	public void setSize(Dimension dimension) {
 		evjpanel.setSize(dimension);
 		
 	}
-
+	/**
+	 * @return prefered size
+	 */
 	public Dimension getPreferredSize() {
 		return evjpanel.getPreferredSize();
 	}
-
+	/**
+	 * @see EuclidianViewJPanel#processMouseEventImpl(MouseEvent)
+	 * @param e mouse event
+	 */
 	protected void processMouseEvent(MouseEvent e) {
 		evjpanel.processMouseEventImpl(e);
 	}
@@ -220,6 +270,10 @@ public abstract class EuclidianViewND extends AbstractEuclidianView implements E
 	}
 	
 	
+	/**
+	 * Initializes this panel
+	 * @param repaint ignored parameter
+	 */
 	protected void initPanel(boolean repaint) {
 		// preferred size
 		evjpanel.setPreferredSize(null);
@@ -309,11 +363,7 @@ public abstract class EuclidianViewND extends AbstractEuclidianView implements E
 		updateBackgroundImage(); // clear traces and images
 		// resetMode();
 	}
-	
-
-	public Color getBackground() {
-		return evjpanel.getBackground();
-	}
+		
 	
 	public geogebra.common.awt.Color getBackgroundCommon() {
 		return new geogebra.awt.Color(evjpanel.getBackground());
@@ -336,7 +386,9 @@ public abstract class EuclidianViewND extends AbstractEuclidianView implements E
 	// temp image
 	private final Graphics2D g2Dtemp = new BufferedImage(5, 5,
 			BufferedImage.TYPE_INT_RGB).createGraphics();
-	
+	/**
+	 * @return temporary graphics that is stored in this view
+	 */
 	final public Graphics2D getTempGraphics2D() {
 		g2Dtemp.setFont(getApplication().getPlainFont());
 		return g2Dtemp;
@@ -350,6 +402,11 @@ public abstract class EuclidianViewND extends AbstractEuclidianView implements E
 	}
 
 
+	/**
+	 * Sets antialiasing of given graphics to ON
+	 * (both for text and drawings)
+	 * @param g2 graphics
+	 */
 	final public static void setAntialiasing(Graphics2D g2) {
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 				RenderingHints.VALUE_ANTIALIAS_ON);
@@ -395,6 +452,9 @@ public abstract class EuclidianViewND extends AbstractEuclidianView implements E
 		return styleBar;
 	}
 
+	/**
+	 * @return whether stylebar of this view exists
+	 */
 	final public boolean hasStyleBar() {
 		return styleBar != null;
 	}
