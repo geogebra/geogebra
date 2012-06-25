@@ -61,8 +61,6 @@ public class CASControlPanel extends JPanel implements ActionListener,
 	private JButton btnClear;
 	private JButton btnBack;
 	private JPanel specialCharPad;
-	private MyButton btnCopyStatic;
-	private MyButton btnCopyDynamic;
 	private JPanel copyPad;
 	private JPanel calculatorPanel;
 	private JPanel evaluatePad;
@@ -256,33 +254,19 @@ public class CASControlPanel extends JPanel implements ActionListener,
 	private void createCopyPad() {
 		Font font = app.getBoldFont();
 		java.awt.Color fgColor = geogebra.awt.Color.getAwtColor(Color.BLACK);
-
-		btnCopyStatic = new MyButton(app.getImageIcon("cascopy-static.png"));
-		btnCopyDynamic = new MyButton(app.getImageIcon("cascopy-dynamic.png"));
-		
+	
 
 		btnShowKeyboard = 	new MyButton(app.getImageIcon("cas-keyboard.png"));	
 		btnShowKeyboard.addActionListener(this);
 		
 		
 		btnShowKeyboard.setFocusable(false);
-		btnCopyStatic.setFocusable(false);
-		btnCopyDynamic.setFocusable(false);
-
-		// btnCopyDynamic.setBorderPainted(false);
-		// btnCopyDynamic.setContentAreaFilled(false);
-		// btnCopyStatic.setBorderPainted(false);
-		// btnCopyStatic.setContentAreaFilled(false);
-
-		btnCopyDynamic.addActionListener(this);
-		btnCopyStatic.addActionListener(this);
-
+	
+		
 		btnShowKeyboard.setMargin(new Insets(0, 0, 0, 0));
-		btnCopyDynamic.setMargin(new Insets(0, 0, 0, 0));
-		btnCopyStatic.setMargin(new Insets(0, 0, 0, 0));
-
+		
 		JPanel westPanel = OptionsUtil.flowPanel(4, 0, 0, btnShowKeyboard,
-				Box.createHorizontalStrut(10), btnCopyStatic, btnCopyDynamic);
+				Box.createHorizontalStrut(10));
 
 		copyPad = new JPanel(new BorderLayout());
 		copyPad.add(westPanel, BorderLayout.WEST);
@@ -307,24 +291,7 @@ public class CASControlPanel extends JPanel implements ActionListener,
 		} else if (source == btnNumeric) {
 			view.processInput("Numeric", null);
 
-		} else if (source == btnCopyStatic) {
-
-			if (btnCopyStatic.isSelected()) {
-				view.getConsoleTable().setCopyMode(CASTable.COPY_STATIC);
-			} else {
-				view.getConsoleTable().setCopyMode(CASTable.COPY_OFF);
-			}
-			view.repaint();
-
-		} else if (source == btnCopyDynamic) {
-
-			if (btnCopyDynamic.isSelected()) {
-				view.getConsoleTable().setCopyMode(CASTable.COPY_DYNAMIC);
-			} else {
-				view.getConsoleTable().setCopyMode(CASTable.COPY_OFF);
-			}
-			view.repaint();
-		}
+		} 
 		
 		else if (source == btnShowKeyboard) {
 			calculatorPanel.setVisible(btnShowKeyboard.isSelected());
@@ -335,16 +302,7 @@ public class CASControlPanel extends JPanel implements ActionListener,
 
 	private void updateGUI() {
 
-		btnCopyStatic.removeActionListener(this);
-		btnCopyDynamic.removeActionListener(this);
-
-		btnCopyDynamic
-				.setSelected(view.getConsoleTable().getCopyMode() == CASTable.COPY_DYNAMIC);
-		btnCopyStatic
-				.setSelected(view.getConsoleTable().getCopyMode() == CASTable.COPY_STATIC);
-
-		btnCopyStatic.addActionListener(this);
-		btnCopyDynamic.addActionListener(this);
+		
 	}
 
 	/***********************************************

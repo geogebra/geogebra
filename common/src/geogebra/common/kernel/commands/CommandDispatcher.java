@@ -1082,8 +1082,7 @@ public class CommandDispatcher {
 				return new CmdNextPreviousPrime(kernel,true);
 			case PreviousPrime:
 				return new CmdNextPreviousPrime(kernel,false);
-			case CASPlot:	
-				return new CmdCASPlot(kernel);	
+		
 			case CFactor:
 			case CommonDenominator:
 			case CSolutions:

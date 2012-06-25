@@ -5,7 +5,6 @@ package geogebra.cas.view;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.MyDouble;
-import geogebra.common.kernel.commands.CmdCASPlot;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.main.AbstractApplication;
@@ -52,7 +51,7 @@ public class CASTable extends JTable implements geogebra.common.cas.view.CASTabl
 
 	private static final long serialVersionUID = 1L;
 	
-	protected int copyMode = COPY_STATIC;
+	protected int copyMode = COPY_DEFAULT;
 	
 	
 	private CASTableModel tableModel;
@@ -216,42 +215,25 @@ public class CASTable extends JTable implements geogebra.common.cas.view.CASTabl
 					return;
 				}
 				
-			
-				// in copy mode and currently editing: insert into editing row
-				if (!(copyMode == CASTable.COPY_OFF) && isEditing()
+				
+				if (isEditing()
 						&& getEditor().getEditingRow() != getClickedRow()) {
-
+					if(e.isAltDown()){
+						getEditor().insertText("$" + (getClickedRow()+1));
+					}
 					// output panel click
-					if (isOutputPanelClicked(e.getPoint())) {
-
-						if (copyMode == COPY_STATIC) {
-							getEditor().insertText(
-									view.getRowOutputValue(getClickedRow()));
-						} else if (copyMode == COPY_PLOT) {
-							new CmdCASPlot(kernel).plot(null, new MyDouble(kernel,getClickedRow()+1), new GeoBoolean(kernel.getConstruction(),true));
-						}else {
-							getEditor().insertText("$" + (getClickedRow()+1));
-						}
-
-						// input panel click
-					} else {
-
-						if (copyMode == COPY_STATIC) {
-							if(!e.isControlDown()){
+					else if (copyMode == COPY_PLOT) {
+						getTable().getGeoCasCell(getClickedRow()).plot();
+					} else if (isOutputPanelClicked(e.getPoint())){
+						getEditor().insertText(view.getRowOutputValue(getClickedRow()));
+					}else{
 								getSelectionModel().setSelectionInterval(getClickedRow(),
 										getClickedRow());
 								startEditingRow(getClickedRow());
 								return;
-							}
-							getEditor().insertText(
-									view.getRowInputValue(getClickedRow()));
-						} else if (copyMode == COPY_PLOT) {
-							new CmdCASPlot(kernel).plot(null, new MyDouble(kernel,getClickedRow()+1), new GeoBoolean(kernel.getConstruction(),false));
-						} else {
-							getEditor().insertText("$" + (getClickedRow() + 1));
-						}
 					}
-					setCopyMode(COPY_OFF);
+					
+					
 					view.styleBar.updateStyleBar();
 					repaint();
 					// set clickedRow selected
@@ -261,9 +243,8 @@ public class CASTable extends JTable implements geogebra.common.cas.view.CASTabl
 							getClickedRow());
 					startEditingRow(getClickedRow());
 				}
-				
-			}
 			
+			}				
 			e.consume();
 		}
 
@@ -294,7 +275,7 @@ public class CASTable extends JTable implements geogebra.common.cas.view.CASTabl
 				rollOverRow = row;
 				isOutputRollOver = isOutputPanelClicked(e.getPoint());
 				repaint();
-				if(!e.isControlDown() && !isOutputRollOver)
+				if(!e.isAltDown() && !isOutputRollOver && copyMode!=COPY_PLOT)
 					rollOverRow = -1;
 					
 			}
@@ -773,15 +754,11 @@ public class CASTable extends JTable implements geogebra.common.cas.view.CASTabl
 	
 	
 	public int getCopyMode() {
-		return COPY_STATIC;
+		return copyMode;
 	}
 
 	public void setCopyMode(int copyMode) {
-		if(copyMode == COPY_OFF){
-			this.copyMode = COPY_STATIC;
-		}else{
 			this.copyMode = copyMode;
-		}
 	}
 
 	
@@ -829,14 +806,12 @@ public class CASTable extends JTable implements geogebra.common.cas.view.CASTabl
 		CASTableCell rollOverCell = null;
 		CASTableCell selectedCell = null;
 
-		if (copyMode != COPY_OFF) {
+		{
 			
 			// shade the all rows except the editing row
-			Area mask = new Area(this.getVisibleRect());
-			Shape c = getCellRect(getOpenRow(), CASTable.COL_CAS_CELLS, true);
-			mask.subtract(new Area(c));
+			
 			g2.setColor(new Color(0, 100, 100, 15));
-			g2.fill(mask);
+			
 			
 			if (rollOverRow >= 0) {
 			
@@ -858,15 +833,10 @@ public class CASTable extends JTable implements geogebra.common.cas.view.CASTabl
 					r.height = offset;
 				}
 		
-				if (copyMode == COPY_STATIC) {
+		
 					g2.setColor(new Color(0, 0, 200, 40));
 					g2.fillRect(r.x+2,r.y+2,r.width-6,r.height-6);
-					g2.setColor(Color.GRAY);
-				} else {
-					g2.setColor(new Color(200, 0, 0, 40));
-					g2.fillRect(r.x+2,r.y+2,r.width-6,r.height-6);
-					g2.setColor(Color.RED);
-				}
+					g2.setColor(copyMode == COPY_DEFAULT? Color.GRAY:Color.BLUE);
 				g2.setStroke(dashed);
 				g2.drawRect(r.x + 1, r.y + 1, r.width - 4, r.height - 4);
 			}

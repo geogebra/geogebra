@@ -526,7 +526,7 @@ AlgoTo2D,AlgoDependentVector3D,AlgoParametricDerivative,
 	AlgoIsPrime(Commands.IsPrime), AlgoNextPrime(Commands.NextPrime),AlgoPreviousPrime(Commands.PreviousPrime), 
 	AlgoMatrixRank(Commands.MatrixRank),AlgoRandomPolynomial(Commands.RandomPolynomial),
 	AlgoLeftSide(Commands.LeftSide),AlgoRightSide(Commands.RightSide),AlgoImplicitDerivative(Commands.ImplicitDerivative),
-	AlgoCASPlot(Commands.CASPlot);
+	;
 	private String command;
 	private Algos(){
 		this.command="Expression";

@@ -42,7 +42,6 @@ public class CASStyleBar extends JToolBar implements ActionListener{
 	private MyToggleButton btnUseAsText;
 	
 	private MyToggleButton btnShowKeyboard;
-	private MyToggleButton btnCopyStatic;
 
 	protected int iconHeight = 18;
 	private Dimension iconDimension = new Dimension(16, iconHeight);
@@ -82,14 +81,6 @@ public class CASStyleBar extends JToolBar implements ActionListener{
 		needUndo = false;
 		if(source == btnShowKeyboard){
 			casView.showCalculatorPanel(btnShowKeyboard.isSelected());
-		}else if (source == btnCopyStatic) {
-
-			if (btnCopyStatic.isSelected()) {
-				casView.getConsoleTable().setCopyMode(CASTable.COPY_STATIC);
-			} else {
-				casView.getConsoleTable().setCopyMode(CASTable.COPY_OFF);
-			}
-			casView.repaint();
 		}
 		
 		
@@ -136,12 +127,8 @@ public class CASStyleBar extends JToolBar implements ActionListener{
 				try{
 				toggleBtnList[i].update(selectedRows.toArray());
 				}catch(Exception e){}//TODO: find problem
-			}
+			}			
 			
-			btnCopyStatic.removeActionListener(this);
-			btnCopyStatic.setSelected(casView.getConsoleTable().getCopyMode() == CASTable.COPY_STATIC);
-			btnCopyStatic.addActionListener(this);
-	
 	}
 	
 	private void applyTextColor(ArrayList<GeoElement> geos) {
@@ -222,12 +209,6 @@ public class CASStyleBar extends JToolBar implements ActionListener{
 		btnShowKeyboard.addActionListener(this);
 		
 		
-		btnCopyStatic = new MyToggleButton(app.getImageIcon("cascopy-static.png"), iconHeight);
-		btnCopyStatic.addActionListener(this);
-		btnCopyStatic.setFocusable(false);
-		//add(btnShowKeyboard);
-		add(btnCopyStatic);
-
 		
 		createTextButtons();
 

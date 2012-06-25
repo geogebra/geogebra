@@ -7,9 +7,8 @@ public interface CASTable {
 	/** column of the table containing CAS cells */
 	public final static int COL_CAS_CELLS = 0;
 
-	public final static int COPY_OFF = 0;
-	public final static int COPY_STATIC = 1;
-	public final static int COPY_DYNAMIC = 2;
+	public final static int COPY_DEFAULT = 0;
+	
 	public final static int COPY_PLOT = 3;
 
 	int getRowCount();
