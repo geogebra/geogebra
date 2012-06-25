@@ -1846,7 +1846,7 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener,
 				
 				if (!flag) {
 					
-					redefineGeo(geo, algo.getInput()[0].getFormulaString(StringTemplate.maxPrecision, false));
+					redefineGeo(geo, getDefinitonString(algo.getInput()[0]));
 
 				} else {
 					algo.setEV(ev.getEuclidianViewNo()); // 1 or 2
@@ -1885,9 +1885,10 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener,
 					screenCorner1.setCoords(0, ev.getHeight(), 1);
 					screenCorner3.setCoords(ev.getWidth(), 0, 1);
 				}
+				
 						
 				// "false" here so that pinning works for eg polygons
-				redefineGeo(geo, "AttachCopyToView["+geo.getFormulaString(StringTemplate.maxPrecision, false)+","+ev.getEuclidianViewNo()+"]");
+				redefineGeo(geo, "AttachCopyToView["+ getDefinitonString(geo) +"," + ev.getEuclidianViewNo() + "]");
 				
 			} else {
 				// can't pin
@@ -1899,6 +1900,19 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener,
 		}
 		
 		needUndo = true;
+	}
+	
+	private String getDefinitonString(GeoElement geo) {
+		// needed for eg freehand functions
+		String definitonStr = geo.getCommandDescription(StringTemplate.maxPrecision);
+		
+		// everything else
+		if (definitonStr.equals("")) {
+			definitonStr = geo.getFormulaString(StringTemplate.maxPrecision, false);
+		}
+		
+		return definitonStr;
+
 	}
 
 	private GeoElement redefineGeo(GeoElement geo, String cmdtext) {
