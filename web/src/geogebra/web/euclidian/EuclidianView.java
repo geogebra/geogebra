@@ -523,7 +523,11 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 	public void setDragCursor() {
 		getApplication().resetCursor();
 		g2p.getCanvas().setStyleName("");
-		g2p.getCanvas().addStyleName("cursor_drag");
+		if (getApplication().useTransparentCursorWhenDragging) {
+			g2p.getCanvas().addStyleName("cursor_transparent");
+		} else {
+			g2p.getCanvas().addStyleName("cursor_drag");
+		}
     }
 
 	public void setToolTipText(String plainTooltip) {
@@ -542,18 +546,31 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 		g2p.getCanvas().setStyleName("");
 		g2p.getCanvas().addStyleName("cursor_resizeYAxis");
     }
-
-	@Override
-    public void updatePreviewable() {
-	    // TODO Auto-generated method stub
-	    
-    }
+	
 
 	public void setMoveCursor() {
 		getApplication().resetCursor();
 		g2p.getCanvas().setStyleName("");
 		g2p.getCanvas().addStyleName("cursor_move");
     }
+
+	@Override
+    public void setTransparentCursor() {
+		getApplication().resetCursor();
+		g2p.getCanvas().setStyleName("");
+		g2p.getCanvas().addStyleName("cursor_transparent");
+    }
+
+	@Override
+    public void setEraserCursor() {
+	    AbstractApplication.warn("setEraserCursor() unimplemented");	    
+    }
+
+	@Override
+    public void updatePreviewable() {
+	    AbstractApplication.warn("updatePreviewable() unimplemented");	    
+    }
+
 
 	@Override
     protected AbstractZoomer newZoomer() {
@@ -695,4 +712,5 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 		getApplication().exporting = false;
 		return g4copy.getCanvas().toDataUrl();
 	}
+
 }

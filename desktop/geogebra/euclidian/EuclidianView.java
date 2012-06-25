@@ -165,6 +165,20 @@ public class EuclidianView extends EuclidianViewND implements
 
 	}
 
+	@Override
+	public void setTransparentCursor() {
+
+		setCursor(getApplication().getTransparentCursor());
+
+	}
+
+	@Override
+	public void setEraserCursor() {
+
+		setCursor(getApplication().getEraserCursor());
+
+	}
+
 	public void setMoveCursor() {
 		setCursor(Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR));
 	}

@@ -1260,7 +1260,11 @@ td.datePickerMonth {
  	cursor:n-resize;
  }
  
- .cursor_move {
+.cursor_transparent {
+ 	cursor:none;
+ }
+ 
+.cursor_move {
  	cursor:move;
  }
  

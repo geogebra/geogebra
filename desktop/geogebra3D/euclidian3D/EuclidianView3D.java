@@ -3443,6 +3443,18 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 		setShowAxis(1,  show, false);
 		setShowAxis(2,  show, true);
 	}
+
+	@Override
+	public void setTransparentCursor() {
+		AbstractApplication.warn("unimplemented");
+		
+	}
+
+	@Override
+	public void setEraserCursor() {
+		AbstractApplication.warn("unimplemented");
+		
+	}
 	
 }
 

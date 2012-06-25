@@ -4746,4 +4746,8 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 			setShowAxis(1,  show, true);
 		}
 
+		public abstract void setTransparentCursor();
+
+		public abstract void setEraserCursor();
+
 }

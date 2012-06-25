@@ -1,6 +1,7 @@
 package geogebra.euclidian;
 
 import geogebra.common.awt.Point;
+import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.euclidian.Hits;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.kernel.Construction;
@@ -41,7 +42,7 @@ import java.util.List;
 public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 
 	private Application app;
-	private EuclidianViewND view;
+	private AbstractEuclidianView view;
 
 	private int penOffsetX = 0;
 	private int penOffsetY = 0;
@@ -256,10 +257,10 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 		}
 
 		if (Application.isRightClick(e) && !freehand) {
-			view.setCursor(app.getEraserCursor());
+			view.setEraserCursor();
 			erasing = true;
 		} else {
-			view.setCursor(app.getTransparentCursor());
+			view.setTransparentCursor();
 			erasing = false;
 		}
 
@@ -398,7 +399,7 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 		// if (g2D == null) g2D = penImage.createGraphics();
 
 		Point newPoint = new Point(e.getX() - penOffsetX, e.getY() - penOffsetY);
-		Graphics2D g2D = view.getGraphicsForPen();
+		Graphics2D g2D = ((EuclidianView)view).getGraphicsForPen();
 		Shape circle;
 		if (Application.isRightClick(e) && !freehand) {
 			g2D.setColor(Color.white);
