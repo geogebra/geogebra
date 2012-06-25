@@ -504,10 +504,6 @@ public interface JavaScriptAPI {
 	public void drawToImage(String label,double[] x, double[] y);
 	
 	public void clearImage(String label);
-	
-	public void registerPenListener(String JSFunctionName);
-	
-	public void unregisterPenListener(String JSFunctionName);
 
 
 	

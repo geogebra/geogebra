@@ -242,9 +242,20 @@ public class GeoGebraApplet extends JApplet implements JavaScriptAPI {
 	public synchronized void deleteObject(String objName) {
 		getAppletImplementation().deleteObject(objName);
 	}
-
-	public synchronized boolean evalCommand(String cmdString) {
-		return getAppletImplementation().evalCommand(cmdString);
+	/** to be called from the swing thread */
+	protected boolean success;
+	public synchronized boolean evalCommand(final String cmdString) {
+		
+		try {
+			SwingUtilities.invokeAndWait(new Runnable(){
+				public void run(){
+					success =getAppletImplementation().evalCommand(cmdString);
+				}
+			});
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return success;
 	}
 
 	public synchronized void evalXML(String xmlString) {
@@ -599,15 +610,6 @@ public class GeoGebraApplet extends JApplet implements JavaScriptAPI {
 	
 	public void clearImage(String label) {
 		getAppletImplementation().clearImage(label);		
-	}
-
-	public void registerPenListener(String JSFunctionName) {
-		getAppletImplementation().unregisterPenListener(JSFunctionName);
-		
-	}
-
-	public void unregisterPenListener(String JSFunctionName) {
-		getAppletImplementation().unregisterPenListener(JSFunctionName);		
 	}
 
 	public void uploadToGeoGebraTube() {

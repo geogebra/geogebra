@@ -1413,16 +1413,6 @@ public class AppletImplementation implements AppletImplementationInterface {
 
 	}
 
-	public void registerPenListener(String JSFunctionName) {
-		app.getScriptManager().registerPenListener(JSFunctionName);
-
-	}
-
-	public void unregisterPenListener(String JSFunctionName) {
-		app.getScriptManager().unregisterPenListener(JSFunctionName);
-
-	}
-
 	public void clearImage(String label) {
 		ggbApi.clearImage(label);
 	}
