@@ -74,10 +74,7 @@ public class EuclidianStyleBar extends HorizontalPanel
 	HashMap<Integer, Integer> lineStyleMap;
 
 	HashMap<Integer, Integer> pointStyleMap;
-	final String[] bracketArray = { "\u00D8", "{ }", "( )", "[ ]", "| |",
-			"|| ||" };
-	private final String[] bracketArray2 = { "\u00D8", "{ }", "( )", "[ ]",
-			"||", "||||" };
+
 
 	// buttons and lists of buttons
 	private ColorPopupMenuButton btnColor, btnBgColor, btnTextColor;
