@@ -16,6 +16,7 @@ import geogebra.common.awt.Font;
 import geogebra.common.awt.Rectangle;
 import geogebra.common.euclidian.AbstractEuclidianController;
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.euclidian.EuclidianPen;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.euclidian.GetViewId;
 import geogebra.common.euclidian.event.AbstractEvent;
@@ -31,7 +32,6 @@ import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.euclidianND.EuclidianViewND;
 import geogebra.main.Application;
 
-import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
