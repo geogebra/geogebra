@@ -493,6 +493,8 @@ public abstract class AbstractCASmpreduce implements CASGenericInterface {
 				mpreduce1.evaluate("procedure zcoord(a); if myvecp(a) then zvcoord(a) else zscoord(a)");
 				mpreduce1.evaluate("operator zscoord");
 				
+				mpreduce1.evaluate("operator condfun");
+				
 				mpreduce1.evaluate("procedure mysolve(eqn, var);"
 						+ " begin scalar solutions!!, bool!!;"
 						+ "  eqn:=mkdepthone({eqn});"
