@@ -1978,11 +1978,14 @@ public class GeoCasCell extends GeoElement implements VarString {
 	}
 
 	public void plot() {
-		assignmentVar = "plot";
-		inputVE.setLabel(assignmentVar);
+		assignmentVar = "ggbmpvarPlot";
 		this.firstComputeOutput = true;
-		this.computeOutput();
-		twinGeo.setLabel(assignmentVar);
+		this.computeOutput(true);
+		twinGeo.setLabel(null);
+		changeAssignmentVar(assignmentVar,twinGeo.getLabelSimple());
+		inputVE.setLabel(assignmentVar);
+		outputVE.setLabel(assignmentVar);
+		latex = null;
 		
 	}
 
