@@ -10,10 +10,13 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.algos.AlgoAttachCopyToView;
 import geogebra.common.kernel.algos.AlgoCircleThreePoints;
 import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.algos.AlgoFunctionFreehand;
 import geogebra.common.kernel.algos.AlgoJoinPointsSegment;
 import geogebra.common.kernel.algos.AlgoPolyLine;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoPolyLine;
 import geogebra.common.main.AbstractApplication;
@@ -670,64 +673,59 @@ public class EuclidianPen {
 		return (AlgoPolyLine)al.getInput()[0].getParentAlgorithm();
 	}
 
+	@SuppressWarnings("unused")
 	private void mouseReleasedFreehand() {
 		int n = maxX - minX + 1;
-		double[] freehand = new double[n];
+		double[] freehand1 = new double[n];
 
 		for (int i = 0; i < n; i++)
-			freehand[i] = Double.NaN;
+			freehand1[i] = Double.NaN;
 
 		for (int i = 0; i < penPoints.size(); i++) {
 			Point p = penPoints.get(i);
-			if (Double.isNaN(freehand[p.x - minX])) {
-				freehand[p.x - minX] = view.toRealWorldCoordY(p.y);
+			if (Double.isNaN(freehand1[p.x - minX])) {
+				freehand1[p.x - minX] = view.toRealWorldCoordY(p.y);
 			}
 		}
 
 		// fill in any gaps (eg from fast mouse movement)
-		double val = freehand[0];
+		double val = freehand1[0];
 		int valIndex = 0;
 		double nextVal = Double.NaN;
 		int nextValIndex = -1;
 		for (int i = 0; i < n; i++) {
-			if (Double.isNaN(freehand[i])) {
+			if (Double.isNaN(freehand1[i])) {
 				if (i > nextValIndex) {
 					nextValIndex = i;
 					while (nextValIndex < n
-							&& Double.isNaN(freehand[nextValIndex]))
+							&& Double.isNaN(freehand1[nextValIndex]))
 						nextValIndex++;
 				}
 				if (nextValIndex >= n)
-					freehand[i] = val;
+					freehand1[i] = val;
 				else {
-					nextVal = freehand[nextValIndex];
-					freehand[i] = (val * (nextValIndex - i) + nextVal
+					nextVal = freehand1[nextValIndex];
+					freehand1[i] = (val * (nextValIndex - i) + nextVal
 							* (i - valIndex))
 							/ (nextValIndex - valIndex);
 				}
 			} else {
-				val = freehand[i];
+				val = freehand1[i];
 				valIndex = i;
 			}
 		}
-
-		StringBuilder sb = new StringBuilder();
-
-		sb.append("Function[{");
-		sb.append(view.toRealWorldCoordX(minX));
-		sb.append(",");
-		sb.append(view.toRealWorldCoordX(maxX));
-		sb.append(",");
+		
+		Construction cons = app.getKernel().getConstruction();
+		
+		GeoList list = new GeoList(cons);
+		list.add(new GeoNumeric(cons, view.toRealWorldCoordX(minX)));
+		list.add(new GeoNumeric(cons, view.toRealWorldCoordX(maxX)));
 		for (int i = 0; i < n; i++) {
-			sb.append(freehand[i]);
-			if (i < n - 1)
-				sb.append(",");
+			list.add(new GeoNumeric(cons, (freehand1[i])));
 		}
-		sb.append("}]");
-
-		app.getKernel().getAlgebraProcessor()
-		.processAlgebraCommand(sb.toString(), true);
-
+		
+		new AlgoFunctionFreehand(cons, null, list);
+		
 		penPoints.clear();
 
 		app.refreshViews(); // clear trace
@@ -744,7 +742,7 @@ public class EuclidianPen {
 	/*
 	 * ported from xournal by Neel Shah
 	 */
-	public int findPolygonal(int start, int end, int nsides,int offset1,int offset2)
+	private int findPolygonal(int start, int end, int nsides,int offset1,int offset2)
 	{
 		Inertia s=new Inertia();
 		Inertia s1=new Inertia();
@@ -879,7 +877,7 @@ public class EuclidianPen {
 			n2=0;
 		return n1+n2+1;
 	}
-	public void calc_inertia(int start,int end,Inertia s)
+	private void calc_inertia(int start,int end,Inertia s)
 	{
 		int i;
 		int coeff=1;
@@ -917,7 +915,7 @@ public class EuclidianPen {
 			s.syy=s.syy+(dm*temp[1]*temp[1]);
 		}
 	}
-	final double I_det(Inertia s)
+	private final double I_det(Inertia s)
 	{
 		double ixx=I_xx(s);
 		double iyy=I_yy(s);
@@ -928,25 +926,25 @@ public class EuclidianPen {
 			return 0.;
 		return 4*(ixx*iyy-ixy*ixy)/(ixx+iyy)/(ixx+iyy);
 	}
-	double I_xx(Inertia s)
+	private double I_xx(Inertia s)
 	{
 		if(s.mass <= 0.)
 			return 0.;
 		return (s.sxx - s.sx*s.sx/s.mass)/s.mass;
 	}
-	double I_xy(Inertia s)
+	private double I_xy(Inertia s)
 	{
 		if (s.mass <= 0.) 
 			return 0.;
 		return (s.sxy - s.sx*s.sy/s.mass)/s.mass;
 	}
-	double I_yy(Inertia s)
+	private double I_yy(Inertia s)
 	{
 		if (s.mass <= 0.) 
 			return 0.;
 		return (s.syy - s.sy*s.sy/s.mass)/s.mass;
 	}
-	double score_circle(int start, int end, Inertia s)
+	private double score_circle(int start, int end, Inertia s)
 	{
 		double sum, x0, y0, r0, dm, deltar;
 		int i;
@@ -965,17 +963,17 @@ public class EuclidianPen {
 		return sum/(s.mass*r0);
 	}
 	
-	double center_x(Inertia s)
+	private double center_x(Inertia s)
 	{
 		return s.sx/s.mass;
 	}
 	
-	double center_y(Inertia s)
+	private double center_y(Inertia s)
 	{
 		return s.sy/s.mass;
 	}
 	
-	double I_rad(Inertia s)
+	private double I_rad(Inertia s)
 	{
 		double ixx=this.I_xx(s);
 		double iyy=this.I_yy(s);
@@ -984,7 +982,7 @@ public class EuclidianPen {
 		return Math.sqrt(ixx+iyy);
 	}
 	
-	void makeACircle(double x, double y, double r)
+	private void makeACircle(double x, double y, double r)
 	{
 		temp = new ArrayList<Point>();
 		int npts, i=0;
@@ -1090,16 +1088,18 @@ public class EuclidianPen {
      * @return String representation of mouse gesture. "L" for left, "R" for right,
      *         "U" for up, "D" for down movements. For example: "ULD".
      */
-    String getGesture()
+    private String getGesture()
     {
         return gesture.toString();
     }
-    void clearTemporaryInfo()
+    
+    private void clearTemporaryInfo()
     {
         startPoint = null;
         gesture.delete(0, gesture.length());
     }
-    void optimize_polygonal(int nsides)
+    
+    private void optimize_polygonal(int nsides)
     {
     	int i;
     	double cost, newcost;
@@ -1315,7 +1315,8 @@ public class EuclidianPen {
     		}
     	}
     }
-    void incr_inertia(int start, Inertia s, int coeff)
+    
+    private void incr_inertia(int start, Inertia s, int coeff)
     {
     	double pt1_x = penPoints.get(start).x;
     	double pt1_y = penPoints.get(start).y;
@@ -1330,7 +1331,8 @@ public class EuclidianPen {
     	s.syy = s.syy + (dm*pt1_y*pt1_y);
     	s.sxy = s.sxy + (dm*pt1_x*pt1_y);
     }
-    void get_segment_geometry(int start, int end, Inertia s,RecoSegment r)
+    
+    private void get_segment_geometry(int start, int end, Inertia s,RecoSegment r)
     {
     	double a, b, c, lmin, lmax, l;
     	int i;
@@ -1356,7 +1358,8 @@ public class EuclidianPen {
     	r.x2 = r.xcenter + lmax*Math.cos(r.angle);
     	r.y2 = r.ycenter + lmax*Math.sin(r.angle);
     }
-    boolean try_rectangle()
+    
+    private boolean try_rectangle()
     {
     	RecoSegment rs = null;
     	RecoSegment r1 = null;
@@ -1512,7 +1515,8 @@ public class EuclidianPen {
     	}
     	return true;
     }
-    boolean try_arrow()
+    
+    private boolean try_arrow()
     {
     	RecoSegment rs = null;
     	RecoSegment temp = null;
@@ -1732,7 +1736,8 @@ public class EuclidianPen {
 		line.updateRepaint();
 		return true;
     }
-    boolean try_closed_polygon(int nsides)
+    
+    private boolean try_closed_polygon(int nsides)
     {
     	RecoSegment rs = null;
     	RecoSegment r1 = null;
@@ -1862,7 +1867,8 @@ public class EuclidianPen {
     	}
     	return true;
     }
-    void calc_edge_isect(RecoSegment r1, RecoSegment r2, double pt[])
+    
+    private void calc_edge_isect(RecoSegment r1, RecoSegment r2, double pt[])
     {
     	double t;
     	t = (r2.xcenter - r1.xcenter)*Math.sin(r2.angle) - (r2.ycenter - r1.ycenter)*Math.cos(r2.angle);
