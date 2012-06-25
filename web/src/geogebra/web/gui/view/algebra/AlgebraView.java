@@ -803,8 +803,8 @@ public class AlgebraView extends Tree implements LayerView, SetLabels, geogebra.
 	}
 
 	public void repaintView() {
-		//ensureSelectedItemVisible();
-		//repaint();
+		clearView();
+		kernel.notifyAddAll(this);
 	}
 
 	/**

@@ -33,7 +33,7 @@ public class OptionsMenu extends MenuBar {
 	
 	private void initItems(){
 		//"Algebra Descriptions" menu
-		//addAlgebraDescriptionMenu();
+		addAlgebraDescriptionMenu();
 		
 		//language menu
 		addLanguageMenu();
@@ -41,7 +41,8 @@ public class OptionsMenu extends MenuBar {
 	
 	private void addLanguageMenu() {
 		languageMenu = new LanguageMenu(app);
-		addItem(app.getMenu("Language"), languageMenu);
+		addItem(GeoGebraMenubar.getMenuBarHtml(AppResources.INSTANCE
+		        .empty().getSafeUri().asString(), app.getMenu("Language")), true, languageMenu);
 	}
 	
 	private void addAlgebraDescriptionMenu(){
@@ -52,7 +53,6 @@ public class OptionsMenu extends MenuBar {
 
 			@Override
 			public void exec() {
-				Window.alert("algebra style: 0");
 				kernel.setAlgebraStyle(0);
 				kernel.updateConstruction();
 			}
@@ -60,7 +60,6 @@ public class OptionsMenu extends MenuBar {
 		submenu.addItem(app.getPlain("Definition"), new RadioButtonCommand(submenu, 1) {
 			@Override
 			public void exec() {
-				Window.alert("algebra style: 1");
 				kernel.setAlgebraStyle(1);
 				kernel.updateConstruction();
 			}
@@ -68,14 +67,11 @@ public class OptionsMenu extends MenuBar {
 		submenu.addItem(app.getPlain("Command"), new RadioButtonCommand(submenu, 2) {
 			@Override
 			public void exec() {
-				Window.alert("algebra style: 2");
 				kernel.setAlgebraStyle(2);
 				kernel.updateConstruction();
 			}
 		});
-		
-		submenu.setSelected(0);
-		
+				
 		MenuItem algebraDescription = new MenuItem(GeoGebraMenubar.getMenuBarHtml(AppResources.INSTANCE
 		        .empty().getSafeUri().asString(), app.getMenu("AlgebraDescriptions")),
 		        true, submenu);		
