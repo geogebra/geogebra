@@ -374,11 +374,14 @@ public abstract class AbstractCASmpreduce implements CASGenericInterface {
 						+ "int(~w+csc(~x),~x) => int(w,x)+log(abs(tan(x / 2))),"
 						+ "int(~a+~w*csc(~x),~x) => int(a,x)+w*log(abs(tan(x / 2))) when freeof(w,x)"
 						+ "};");
-
+				mpreduce1.evaluate("operator iffun;");
+				mpreduce1.evaluate("operator ifelsefun;");
 				mpreduce1.evaluate("let {" + "df(asin(~x),x) => 1/sqrt(1-x^2),"
 						+ "df(acosh(~x),x) => 1/(sqrt(x-1)*sqrt(x+1)),"
 						+ "df(asinh(~x),x) => 1/sqrt(1+x^2),"
-						+ "df(acos(~x),x) => -1/sqrt(1-x^2)};");
+						+ "df(acos(~x),x) => -1/sqrt(1-x^2),"
+						+ "df(ifelsefun(~a,~b,~c),~x) => ifelsefun(a,df(b,x),df(c,x))," 
+						+ "df(iffun(~a,~b,~c),~x) => iffun(a,df(b,x),df(c,x))};");
 
 				mpreduce1.evaluate("let {impart(arbint(~w)) => 0, arbint(~w)*i =>  0};");
 				mpreduce1.evaluate("let {atan(sin(~x)/cos(~x))=>x, "
@@ -493,7 +496,6 @@ public abstract class AbstractCASmpreduce implements CASGenericInterface {
 				mpreduce1.evaluate("procedure zcoord(a); if myvecp(a) then zvcoord(a) else zscoord(a)");
 				mpreduce1.evaluate("operator zscoord");
 				
-				mpreduce1.evaluate("operator condfun");
 				
 				mpreduce1.evaluate("procedure mysolve(eqn, var);"
 						+ " begin scalar solutions!!, bool!!;"
