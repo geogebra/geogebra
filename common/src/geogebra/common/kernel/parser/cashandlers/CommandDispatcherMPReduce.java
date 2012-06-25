@@ -64,7 +64,18 @@ public class CommandDispatcherMPReduce {
 		/** division */
 		mydivision(Operation.DIVIDE),
 		/** power*/
-		mypower(Operation.POWER);
+		mypower(Operation.POWER),
+		
+		sand(Operation.AND),
+		sor(Operation.OR),
+		simplies(Operation.IMPLICATION),
+		snot(Operation.NOT),
+		sgreater(Operation.GREATER),
+		sgreaterequal(Operation.GREATER_EQUAL),
+		sless(Operation.LESS),
+		slessequal(Operation.LESS_EQUAL),
+		
+		;
 		private Operation op;
 		private commands(Operation op){
 			this.op = op;
@@ -128,6 +139,7 @@ public class CommandDispatcherMPReduce {
 			case xscoord:
 			case yscoord:
 			case zscoord:
+			case snot:	
 				// e.g. logb[x,3] becomes log(3,x)
 				ret = new ExpressionNode(kernel,
 						 args.getItem(0),commands.valueOf(cmdName).getOperation(),
@@ -151,6 +163,13 @@ public class CommandDispatcherMPReduce {
 			case addition:
 			case applyfunction:	
 			case mydivision:	
+			case sand:
+			case sor:
+			case simplies:
+			case sgreater:
+			case sless:
+			case sgreaterequal:
+			case slessequal:	
 				// e.g. addition[x,3] becomes x + 3
 				ret = new ExpressionNode(kernel,
 						 args.getItem(0),commands.valueOf(cmdName).getOperation(),

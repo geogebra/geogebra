@@ -1542,6 +1542,10 @@ public class ExpressionNode extends ValidExpression implements
 
 			if (STRING_TYPE.equals(StringType.MATHML)) {
 				mathml(sb, "<not/>", leftStr, null);
+			}else if (STRING_TYPE.equals(StringType.MPREDUCE)) {
+				sb.append("mynot(");
+				sb.append(leftStr);
+				sb.append(')');
 			} else {
 
 				switch (STRING_TYPE) {
@@ -1576,7 +1580,9 @@ public class ExpressionNode extends ValidExpression implements
 		case OR:
 			if (STRING_TYPE.equals(StringType.MATHML)) {
 				mathml(sb, "<or/>", leftStr, rightStr);
-			} else {
+			} else if (STRING_TYPE.equals(StringType.MPREDUCE)) {
+				appendOp(sb,"myor", leftStr, rightStr);
+			}else {
 				append(sb, leftStr, left, operation, STRING_TYPE);
 				sb.append(' ');
 
@@ -1613,6 +1619,8 @@ public class ExpressionNode extends ValidExpression implements
 		case AND:
 			if (STRING_TYPE.equals(StringType.MATHML)) {
 				mathml(sb, "<and/>", leftStr, rightStr);
+			}else if (STRING_TYPE.equals(StringType.MPREDUCE)) {
+				appendOp(sb,"myand", leftStr, rightStr);
 			} else {
 				append(sb, leftStr, left, operation, STRING_TYPE);
 
@@ -1648,6 +1656,8 @@ public class ExpressionNode extends ValidExpression implements
 		case IMPLICATION:
 			if (STRING_TYPE.equals(StringType.MATHML)) {
 				mathml(sb, "<implies/>", leftStr, rightStr);
+			}else if (STRING_TYPE.equals(StringType.MPREDUCE)) {
+				appendOp(sb,"myimplies", leftStr, rightStr);
 			} else {
 				if (STRING_TYPE != StringType.MPREDUCE)
 					append(sb, leftStr, left, operation, STRING_TYPE);
@@ -1663,14 +1673,6 @@ public class ExpressionNode extends ValidExpression implements
 
 				case LIBRE_OFFICE:
 					sb.append("toward"); //don't know if it is correct TAM 5/28/2012
-					break;
-					
-				case MPREDUCE:
-					sb.append("(not(");
-					sb.append(leftStr);
-					sb.append(") or ");
-					sb.append(rightStr);
-					sb.append(")");
 					break;
 
 				default:
@@ -1688,7 +1690,9 @@ public class ExpressionNode extends ValidExpression implements
 				mathml(sb, "<eq/>", leftStr, rightStr);
 			} else if (STRING_TYPE.equals(StringType.OGP)) {
 				sb.append("AreEqual[" + leftStr + "," + rightStr + "]");
-			} else {
+			} else if (STRING_TYPE.equals(StringType.MPREDUCE)) {
+				appendOp(sb,"myequal", leftStr, rightStr);
+			}else {
 				append(sb, leftStr, left, operation, STRING_TYPE);
 				// sb.append(leftStr);
 				sb.append(' ');
@@ -1716,6 +1720,8 @@ public class ExpressionNode extends ValidExpression implements
 		case NOT_EQUAL:
 			if (STRING_TYPE.equals(StringType.MATHML)) {
 				mathml(sb, "<neq/>", leftStr, rightStr);
+			}else if (STRING_TYPE.equals(StringType.MPREDUCE)) {
+				appendOp(sb,"myneq", leftStr, rightStr);
 			} else {
 				append(sb, leftStr, left, operation, STRING_TYPE);
 				// sb.append(leftStr);
@@ -1732,10 +1738,6 @@ public class ExpressionNode extends ValidExpression implements
 					break;
 				case MATH_PIPER:
 					sb.append("!=");
-					break;
-
-				case MPREDUCE:
-					sb.append("neq");
 					break;
 
 				default:
@@ -1854,7 +1856,9 @@ public class ExpressionNode extends ValidExpression implements
 		case LESS:
 			if (STRING_TYPE.equals(StringType.MATHML)) {
 				mathml(sb, "<lt/>", leftStr, rightStr);
-			} else {
+			} else if (STRING_TYPE.equals(StringType.MPREDUCE)) {
+				appendOp(sb,"myless", leftStr, rightStr);
+			}else {
 				append(sb, leftStr, left, operation, STRING_TYPE);
 				// sb.append(leftStr);
 				if (STRING_TYPE.equals(StringType.LATEX)
@@ -1871,6 +1875,8 @@ public class ExpressionNode extends ValidExpression implements
 		case GREATER:
 			if (STRING_TYPE.equals(StringType.MATHML)) {
 				mathml(sb, "<gt/>", leftStr, rightStr);
+			}else if (STRING_TYPE.equals(StringType.MPREDUCE)) {
+				appendOp(sb,"mygreater", leftStr, rightStr);
 			} else {
 				append(sb, leftStr, left, operation, STRING_TYPE);
 				// sb.append(leftStr);
@@ -1888,7 +1894,9 @@ public class ExpressionNode extends ValidExpression implements
 		case LESS_EQUAL:
 			if (STRING_TYPE.equals(StringType.MATHML)) {
 				mathml(sb, "<leq/>", leftStr, rightStr);
-			} else {
+			} else if (STRING_TYPE.equals(StringType.MPREDUCE)) {
+				appendOp(sb,"mylessequal", leftStr, rightStr);
+			}else {
 				append(sb, leftStr, left, operation, STRING_TYPE);
 				// sb.append(leftStr);
 				sb.append(' ');
@@ -1917,7 +1925,9 @@ public class ExpressionNode extends ValidExpression implements
 		case GREATER_EQUAL:
 			if (STRING_TYPE.equals(StringType.MATHML)) {
 				mathml(sb, "<qeq/>", leftStr, rightStr);
-			} else {
+			} else if (STRING_TYPE.equals(StringType.MPREDUCE)) {
+				appendOp(sb,"mygreaterequal", leftStr, rightStr);
+			} else  {
 				append(sb, leftStr, left, operation, STRING_TYPE);
 				// sb.append(leftStr);
 				sb.append(' ');
@@ -1930,7 +1940,6 @@ public class ExpressionNode extends ValidExpression implements
 					break;
 				case LIBRE_OFFICE:
 				case MATH_PIPER:
-				case MPREDUCE:
 					sb.append(">=");
 					break;
 
@@ -4176,6 +4185,17 @@ public class ExpressionNode extends ValidExpression implements
 			sb.append("unhandled operation " + operation);
 		}
 		return sb.toString();
+	}
+
+	private static void appendOp(StringBuilder sb, String string, String leftStr,
+			String rightStr) {
+		sb.append(string);
+		sb.append('(');
+		sb.append(leftStr);
+		sb.append(',');
+		sb.append(rightStr);
+		sb.append(')');
+		
 	}
 
 	private void trig(String leftStr, StringBuilder sb, String mathml, String latex,

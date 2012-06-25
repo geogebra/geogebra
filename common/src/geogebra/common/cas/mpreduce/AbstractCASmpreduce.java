@@ -409,7 +409,27 @@ public abstract class AbstractCASmpreduce implements CASGenericInterface {
 						+ "   if freeof(elem!!,x) then 1 else 0 then"
 						+ "   return reverse(coefflist)" + " else" + "   return '?"
 						+ " end;");
-
+				mpreduce1.evaluate("procedure myand (a,b); if a=true and b=true then true else if (a=true or a=false) and (b=true or b=false) then false else sand(a,b)");
+				mpreduce1.evaluate("operator sand");
+				mpreduce1.evaluate("procedure myor (a,b); if a=true or b=true then true else if (a=true or a=false) and (b=true or b=false) then false else sor(a,b)");
+				mpreduce1.evaluate("operator sor");
+				mpreduce1.evaluate("procedure myimplies (a,b); if a=false or b=true then true else  if (a=true or a=false) and (b=true or b=false) then false else simplies(a,b)");
+				mpreduce1.evaluate("operator simplies");
+				mpreduce1.evaluate("procedure mynot a; if a=false then true else  if (a=true or a=false) then false else sand(a,b)");
+				mpreduce1.evaluate("operator snot");
+				
+				mpreduce1.evaluate("procedure mygreater (a,b); if numberp(a) and numberp(b) then" +
+						"(if a>b then true else false) else sgreater(a,b)");
+				mpreduce1.evaluate("operator sgreater");
+				mpreduce1.evaluate("procedure myless (a,b);if numberp(a) and numberp(b) then" +
+						"(if a<b then true else false) else sless(a,b)");
+				mpreduce1.evaluate("operator sless");
+				mpreduce1.evaluate("procedure mygreaterequal (a,b); if numberp(a) and numberp(b) then" +
+						"(if a>=b then true else false) else sgreaterequal(a,b)");
+				mpreduce1.evaluate("operator sgreater");
+				mpreduce1.evaluate("procedure myless (a,b);if numberp(a) and numberp(b) then" +
+						"(if a<=b then true else false) else slessequal(a,b)");
+				mpreduce1.evaluate("operator slessequal");
 				mpreduce1.evaluate(" Degree := pi/180;");
 
 				mpreduce1.evaluate("procedure myround(x);" + "floor(x+0.5);");
