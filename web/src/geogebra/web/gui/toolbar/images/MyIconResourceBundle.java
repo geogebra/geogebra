@@ -109,8 +109,8 @@ public interface MyIconResourceBundle extends ClientBundle{
 	@Source("mode_fitline_32.gif")
 	ImageResource mode_fitline_32();
 
-	@Source("mode_freehand_32.gif")
-	ImageResource mode_freehand_32();
+	@Source("mode_freehandfunction_32.gif")
+	ImageResource mode_freehandfunction_32();
 
 	@Source("mode_functioninspector_32.gif")
 	ImageResource mode_functioninspector_32();
