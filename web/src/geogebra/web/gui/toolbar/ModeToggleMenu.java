@@ -154,7 +154,7 @@ public class ModeToggleMenu extends MenuBar implements DoubleClickHandler,
 		String actionText = Integer.toString(mode);
 		//mi.setIcon(icon);
 		mi.getElement().setAttribute("mode", actionText);
-		mi.setStyleName("toolbar_menuitem");
+		//mi.setStyleName("toolbar_menuitem");
 		//mi.addActionListener(popupMenuItemListener);
 
 		//popMenu.add(mi);

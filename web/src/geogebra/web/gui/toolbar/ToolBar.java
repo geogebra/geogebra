@@ -201,7 +201,7 @@ public class ToolBar extends MenuBar {
 						};
 						item.setCommand(com);
 						item.getElement().setAttribute("mode", addMode+"");
-						item.setStyleName("toolbar_menuitem");
+						//item.setStyleName("toolbar_menuitem");
 						tm.addItem(item);
 						//tm.addItem(GGWToolBar.getImageHtml(addMode)+app.getToolName(addMode), true, com);
 						
