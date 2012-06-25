@@ -2,10 +2,10 @@ package geogebra.euclidian;
 
 import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.euclidian.EuclidianStyleBarStatic;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.ConstructionDefaults;
-import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoAttachCopyToView;
 import geogebra.common.kernel.algos.AlgoElement;
@@ -17,13 +17,9 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.kernel.geos.GeoPoint2;
-import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.PointProperties;
 import geogebra.common.kernel.geos.TextProperties;
-import geogebra.common.main.AbstractApplication;
-import geogebra.common.main.MyError;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.euclidianND.EuclidianViewND;
 import geogebra.gui.color.ColorPopupMenuButton;
@@ -101,10 +97,6 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener,
 	HashMap<Integer, Integer> lineStyleMap;
 
 	HashMap<Integer, Integer> pointStyleMap;
-	final String[] bracketArray = { "\u00D8", "{ }", "( )", "[ ]", "| |",
-			"|| ||" };
-	private final String[] bracketArray2 = { "\u00D8", "{ }", "( )", "[ ]",
-			"||", "||||" };
 
 	/*************************************************
 	 * Constructs a styleBar
@@ -1318,9 +1310,9 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener,
 		// ==============================
 		// bracket style popup
 
-		ImageIcon[] bracketIcons = new ImageIcon[bracketArray.length];
+		ImageIcon[] bracketIcons = new ImageIcon[EuclidianStyleBarStatic.bracketArray.length];
 		for (int i = 0; i < bracketIcons.length; i++) {
-			bracketIcons[i] = GeoGebraIcon.createStringIcon(bracketArray[i],
+			bracketIcons[i] = GeoGebraIcon.createStringIcon(EuclidianStyleBarStatic.bracketArray[i],
 					app.getPlainFont(), true, false, true, new Dimension(30,
 							iconHeight), Color.BLACK, null);
 		}
@@ -1339,8 +1331,8 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener,
 					String s = tableText.getOpenSymbol() + " "
 							+ tableText.getCloseSymbol();
 					int index = 0;
-					for (int i = 0; i < bracketArray.length; i++) {
-						if (s.equals(bracketArray[i])) {
+					for (int i = 0; i < EuclidianStyleBarStatic.bracketArray.length; i++) {
+						if (s.equals(EuclidianStyleBarStatic.bracketArray[i])) {
 							index = i;
 							break;
 						}
@@ -1537,17 +1529,11 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener,
 		} else if (source == btnTextSize) {
 			applyTextSize(targetGeos);
 		} else if (source == btnLabelStyle) {
-			applyCaptionStyle(targetGeos);
+			needUndo = EuclidianStyleBarStatic.applyCaptionStyle(targetGeos, mode, btnLabelStyle.getSelectedIndex());
 		}
 
-		else if (source == btnTableTextJustify) {
-			applyTableTextFormat(targetGeos);
-		} else if (source == btnTableTextLinesH) {
-			applyTableTextFormat(targetGeos);
-		} else if (source == btnTableTextLinesV) {
-			applyTableTextFormat(targetGeos);
-		} else if (source == btnTableTextBracket) {
-			applyTableTextFormat(targetGeos);
+		else if (source == btnTableTextJustify || source == btnTableTextLinesH || source == btnTableTextLinesV || source == btnTableTextBracket) {
+			EuclidianStyleBarStatic.applyTableTextFormat(targetGeos, btnTableTextJustify.getSelectedIndex(), btnTableTextLinesH.isSelected(), btnTableTextLinesV.isSelected(), btnTableTextBracket.getSelectedIndex(), app);
 		}
 
 		else if (source == btnPenDelete) {
@@ -1559,7 +1545,7 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener,
 			// add code here to toggle between pen and eraser mode;
 
 		} else if (source == btnFixPosition) {
-			applyFixPosition(targetGeos);
+			needUndo = EuclidianStyleBarStatic.applyFixPosition(targetGeos, btnFixPosition.isSelected(), ev);
 		}
 	}
 
@@ -1704,81 +1690,6 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener,
 		}
 	}
 
-	private void applyCaptionStyle(ArrayList<GeoElement> geos) {
-		for (int i = 0; i < geos.size(); i++) {
-			GeoElement geo = geos.get(i);
-			if ((mode == EuclidianConstants.MODE_MOVE && (geo.isLabelShowable()
-					|| geo.isGeoAngle() || (geo.isGeoNumeric() ? ((GeoNumeric) geo)
-					.isSliderFixed() : false)))
-					|| (app.getLabelingStyle() == ConstructionDefaults.LABEL_VISIBLE_POINTS_ONLY
-							&& geo.isLabelShowable() && geo.isGeoPoint())
-					|| (app.getLabelingStyle() == ConstructionDefaults.LABEL_VISIBLE_ALWAYS_ON
-							&& geo.isLabelShowable() || geo.isGeoAngle() || (geo
-								.isGeoNumeric() ? ((GeoNumeric) geo)
-							.isSliderFixed() : false))
-					|| (app.getLabelingStyle() == ConstructionDefaults.LABEL_VISIBLE_AUTOMATIC
-							&& geo.isLabelShowable() || geo.isGeoAngle() || (geo
-								.isGeoNumeric() ? ((GeoNumeric) geo)
-							.isSliderFixed() : false))) {
-				if (btnLabelStyle.getSelectedIndex() == 0) {
-					if (mode == EuclidianConstants.MODE_MOVE
-							|| app.getLabelingStyle() != ConstructionDefaults.LABEL_VISIBLE_ALWAYS_ON) {
-						geo.setLabelVisible(false);
-					}
-				} else {
-					geo.setLabelVisible(true);
-					geo.setLabelMode(btnLabelStyle.getSelectedIndex() - 1);
-				}
-			}
-			geo.updateRepaint();
-			needUndo = true;
-		}
-	}
-
-	private void applyTableTextFormat(ArrayList<GeoElement> geos) {
-
-		AlgoElement algo = null;
-		GeoElement[] input;
-		GeoElement geo;
-		String arg = null;
-
-		String[] justifyArray = { "l", "c", "r" };
-		arg = justifyArray[btnTableTextJustify.getSelectedIndex()];
-		if (this.btnTableTextLinesH.isSelected())
-			arg += "_";
-		if (this.btnTableTextLinesV.isSelected())
-			arg += "|";
-		if (btnTableTextBracket.getSelectedIndex() > 0)
-			arg += this.bracketArray2[btnTableTextBracket.getSelectedIndex()];
-		ArrayList<GeoElement> newGeos = new ArrayList<GeoElement>();
-
-		StringBuilder cmdText = new StringBuilder();
-
-		for (int i = 0; i < geos.size(); i++) {
-
-			// get the TableText algo for this geo and its input
-			geo = geos.get(i);
-			algo = geo.getParentAlgorithm();
-			input = algo.getInput();
-
-			// create a new TableText cmd
-			cmdText.setLength(0);
-			cmdText.append("TableText[");
-			cmdText.append(((GeoList) input[0]).getFormulaString(
-					StringTemplate.defaultTemplate, false));
-			cmdText.append(",\"");
-			cmdText.append(arg);
-			cmdText.append("\"]");
-
-			// use the new cmd to redefine the geo and save it to a list.
-			// (the list is needed to reselect the geo)
-			newGeos.add(redefineGeo(geo, cmdText.toString()));
-		}
-
-		// reset the selection
-		app.setSelectedGeos(newGeos);
-	}
-
 	public void applyVisualStyle(ArrayList<GeoElement> geos) {
 
 		if (geos == null || geos.size() < 1)
@@ -1811,131 +1722,6 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener,
 		// see code in PropertiesDialog.applyDefaults
 		// propPanel.updateSelection(selectionList.toArray());
 
-	}
-
-	private void applyFixPosition(ArrayList<GeoElement> geos) {
-		
-		boolean flag = btnFixPosition.isSelected();
-		AbsoluteScreenLocateable geoASL;
-		
-		// workaround to make sure pin icon disappears
-		// see applyFixPosition() called with a geo with label not set below
-		app.clearSelectedGeos();
-
-		for (int i = 0; i < geos.size() ; i++) {
-			GeoElement geo = geos.get(i);
-
-			// problem with ghost geos
-			if (!geo.isLabelSet()) {
-				AbstractApplication.warn("applyFixPosition() called with a geo with label not set: "+geo.getLabelSimple());
-				continue;
-				
-			}
-			
-			if (geo.isGeoSegment()) {
-				if (geo.getParentAlgorithm() != null && geo.getParentAlgorithm().getInput().length == 3) {
-					// segment is output from a Polygon
-					//AbstractApplication.warn("segment from poly");
-					continue;
-				}
-			}
-			
-			if (geo.getParentAlgorithm() instanceof AlgoAttachCopyToView) {
-				
-				AlgoAttachCopyToView algo = (AlgoAttachCopyToView)geo.getParentAlgorithm();
-				
-				if (!flag) {
-					
-					redefineGeo(geo, getDefinitonString(algo.getInput()[0]));
-
-				} else {
-					algo.setEV(ev.getEuclidianViewNo()); // 1 or 2
-				}
-				
-				geo.updateRepaint();
-				
-			} else if (geo instanceof AbsoluteScreenLocateable) {
-				geoASL = (AbsoluteScreenLocateable) geo;
-				if (flag) {
-					// convert real world to screen coords
-					int x = ev.toScreenCoordX(geoASL.getRealWorldLocX());
-					int y = ev.toScreenCoordY(geoASL.getRealWorldLocY());
-					if (!geoASL.isAbsoluteScreenLocActive())
-						geoASL.setAbsoluteScreenLoc(x, y);
-				} else {
-					// convert screen coords to real world
-					double x = ev.toRealWorldCoordX(geoASL.getAbsoluteScreenLocX());
-					double y = ev.toRealWorldCoordY(geoASL.getAbsoluteScreenLocY());
-					if (geoASL.isAbsoluteScreenLocActive())
-						geoASL.setRealWorldLoc(x, y);
-				}
-				geoASL.setAbsoluteScreenLocActive(flag);
-				geo.updateRepaint();
-				
-			} else if (!(geo instanceof Furniture) && !geo.isGeoBoolean()) {
-				Kernel kernelA = app.getKernel();
-				
-				GeoPoint2 corner1 = new GeoPoint2(kernelA.getConstruction());
-				GeoPoint2 corner3 = new GeoPoint2(kernelA.getConstruction());
-				GeoPoint2 screenCorner1 = new GeoPoint2(kernelA.getConstruction());
-				GeoPoint2 screenCorner3 = new GeoPoint2(kernelA.getConstruction());
-				if(ev!=null){
-					corner1.setCoords(ev.getXmin(), ev.getYmin(), 1);
-					corner3.setCoords(ev.getXmax(), ev.getYmax(), 1);
-					screenCorner1.setCoords(0, ev.getHeight(), 1);
-					screenCorner3.setCoords(ev.getWidth(), 0, 1);
-				}
-				
-						
-				// "false" here so that pinning works for eg polygons
-				redefineGeo(geo, "AttachCopyToView["+ getDefinitonString(geo) +"," + ev.getEuclidianViewNo() + "]");
-				
-			} else {
-				// can't pin
-				AbstractApplication.debug("not pinnable");
-				needUndo = false;
-				return;
-			}
-			
-		}
-		
-		needUndo = true;
-	}
-	
-	private String getDefinitonString(GeoElement geo) {
-		// needed for eg freehand functions
-		String definitonStr = geo.getCommandDescription(StringTemplate.maxPrecision);
-		
-		// everything else
-		if (definitonStr.equals("")) {
-			definitonStr = geo.getFormulaString(StringTemplate.maxPrecision, false);
-		}
-		
-		return definitonStr;
-
-	}
-
-	private GeoElement redefineGeo(GeoElement geo, String cmdtext) {
-		GeoElement newGeo = null;
-
-		if (cmdtext == null)
-			return newGeo;
-		
-		AbstractApplication.debug("redefining "+geo+" as "+cmdtext);
-
-		try {
-			newGeo = app.getKernel().getAlgebraProcessor()
-					.changeGeoElement(geo, cmdtext, true, true);
-			app.doAfterRedefine(newGeo);
-			newGeo.updateRepaint();
-			return newGeo;
-
-		} catch (Exception e) {
-			app.showError("ReplaceFailed");
-		} catch (MyError err) {
-			app.showError(err);
-		}
-		return newGeo;
 	}
 
 	/**

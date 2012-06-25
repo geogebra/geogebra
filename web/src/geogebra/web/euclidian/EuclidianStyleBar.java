@@ -1,12 +1,8 @@
 package geogebra.web.euclidian;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
-import javax.swing.ImageIcon;
-
 import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.euclidian.EuclidianStyleBarStatic;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.ConstructionDefaults;
@@ -22,35 +18,30 @@ import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.PointProperties;
 import geogebra.common.kernel.geos.TextProperties;
 import geogebra.common.main.AbstractApplication;
-import geogebra.common.main.MyError;
 import geogebra.common.plugin.EuclidianStyleConstants;
+import geogebra.web.awt.Color;
+import geogebra.web.awt.Dimension;
+import geogebra.web.awt.Font;
 import geogebra.web.gui.color.ColorPopupMenuButton;
+import geogebra.web.gui.images.AppResources;
+import geogebra.web.gui.images.AppResourcesConverter;
 import geogebra.web.gui.util.ButtonPopupMenu;
 import geogebra.web.gui.util.GeoGebraIcon;
 import geogebra.web.gui.util.MyCJButton;
-import geogebra.web.gui.util.PopupMenuButton;
-import geogebra.web.awt.Color;
-import geogebra.web.awt.Font;
-import geogebra.web.gui.images.AppResources;
-import geogebra.web.gui.images.AppResourcesConverter;
 import geogebra.web.gui.util.MyToggleButton;
-import geogebra.web.euclidian.EuclidianController;
-import geogebra.web.euclidian.EuclidianView;
+import geogebra.web.gui.util.PopupMenuButton;
 import geogebra.web.main.Application;
-import geogebra.web.awt.Dimension;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 
-import com.google.gwt.resources.client.ImageResource;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.PushButton;
-import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.ImageData;
-import com.google.gwt.dom.client.CanvasElement;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.resources.client.ImageResource;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 
 public class EuclidianStyleBar extends HorizontalPanel
 	implements geogebra.common.euclidian.EuclidianStyleBar, ValueChangeHandler, ClickHandler {
@@ -1471,17 +1462,11 @@ public class EuclidianStyleBar extends HorizontalPanel
 			applyHideShowLabel(targetGeos);
 			updateStyleBar();
 		} else if (source == btnLabelStyle) {
-			applyCaptionStyle(targetGeos);
+			needUndo = EuclidianStyleBarStatic.applyCaptionStyle(targetGeos, mode, btnLabelStyle.getSelectedIndex());
 		}
 
-		else if (source == btnTableTextJustify) {
-			applyTableTextFormat(targetGeos);
-		} else if (source == btnTableTextLinesH) {
-			applyTableTextFormat(targetGeos);
-		} else if (source == btnTableTextLinesV) {
-			applyTableTextFormat(targetGeos);
-		} else if (source == btnTableTextBracket) {
-			applyTableTextFormat(targetGeos);
+		else if (source == btnTableTextJustify || source == btnTableTextLinesH|| source == btnTableTextLinesV || source == btnTableTextBracket) {
+			EuclidianStyleBarStatic.applyTableTextFormat(targetGeos, btnTableTextJustify.getSelectedIndex(), btnTableTextLinesH.isSelected(), btnTableTextLinesV.isSelected(), btnTableTextBracket.getSelectedIndex(), app);
 		}
 
 		//else if (source == btnPenDelete) {
@@ -1640,103 +1625,6 @@ public class EuclidianStyleBar extends HorizontalPanel
 			}
 		}
 
-		private void applyCaptionStyle(ArrayList<GeoElement> geos) {
-			for (int i = 0; i < geos.size(); i++) {
-				GeoElement geo = geos.get(i);
-				if ((mode == EuclidianConstants.MODE_MOVE && (geo.isLabelShowable()
-						|| geo.isGeoAngle() || (geo.isGeoNumeric() ? ((GeoNumeric) geo)
-						.isSliderFixed() : false)))
-						|| (app.getLabelingStyle() == ConstructionDefaults.LABEL_VISIBLE_POINTS_ONLY
-								&& geo.isLabelShowable() && geo.isGeoPoint())
-						|| (app.getLabelingStyle() == ConstructionDefaults.LABEL_VISIBLE_ALWAYS_ON
-								&& geo.isLabelShowable() || geo.isGeoAngle() || (geo
-									.isGeoNumeric() ? ((GeoNumeric) geo)
-								.isSliderFixed() : false))
-						|| (app.getLabelingStyle() == ConstructionDefaults.LABEL_VISIBLE_AUTOMATIC
-								&& geo.isLabelShowable() || geo.isGeoAngle() || (geo
-									.isGeoNumeric() ? ((GeoNumeric) geo)
-								.isSliderFixed() : false))) {
-					if (btnLabelStyle.getSelectedIndex() == 0) {
-						if (mode == EuclidianConstants.MODE_MOVE
-								|| app.getLabelingStyle() != ConstructionDefaults.LABEL_VISIBLE_ALWAYS_ON) {
-							geo.setLabelVisible(false);
-						}
-					} else {
-						geo.setLabelVisible(true);
-						geo.setLabelMode(btnLabelStyle.getSelectedIndex() - 1);
-					}
-				}
-				geo.updateRepaint();
-				needUndo = true;
-			}
-		}
-
-		private void applyTableTextFormat(ArrayList<GeoElement> geos) {
-
-			AlgoElement algo = null;
-			GeoElement[] input;
-			GeoElement geo;
-			String arg = null;
-
-			String[] justifyArray = { "l", "c", "r" };
-			arg = justifyArray[btnTableTextJustify.getSelectedIndex()];
-			if (this.btnTableTextLinesH.isSelected())
-				arg += "_";
-			if (this.btnTableTextLinesV.isSelected())
-				arg += "|";
-			if (btnTableTextBracket.getSelectedIndex() > 0)
-				arg += this.bracketArray2[btnTableTextBracket.getSelectedIndex()];
-			ArrayList<GeoElement> newGeos = new ArrayList<GeoElement>();
-
-			StringBuilder cmdText = new StringBuilder();
-
-			for (int i = 0; i < geos.size(); i++) {
-
-				// get the TableText algo for this geo and its input
-				geo = geos.get(i);
-				algo = geo.getParentAlgorithm();
-				input = algo.getInput();
-
-				// create a new TableText cmd
-				cmdText.setLength(0);
-				cmdText.append("TableText[");
-				cmdText.append(((GeoList) input[0]).getFormulaString(
-						StringTemplate.defaultTemplate, false));
-				cmdText.append(",\"");
-				cmdText.append(arg);
-				cmdText.append("\"]");
-
-				// use the new cmd to redefine the geo and save it to a list.
-				// (the list is needed to reselect the geo)
-				newGeos.add(redefineGeo(geo, cmdText.toString()));
-			}
-
-			// reset the selection
-			app.setSelectedGeos(newGeos);
-		}
-
-		
-		public GeoElement redefineGeo(GeoElement geo, String cmdtext) {
-			GeoElement newGeo = null;
-
-			if (cmdtext == null)
-				return newGeo;
-
-			try {
-				newGeo = app.getKernel().getAlgebraProcessor()
-						.changeGeoElement(geo, cmdtext, true, true);
-				app.doAfterRedefine(newGeo);
-				newGeo.updateRepaint();
-				return newGeo;
-
-			} catch (Exception e) {
-				app.showError("ReplaceFailed");
-			} catch (MyError err) {
-				app.showError(err);
-			}
-			return newGeo;
-		}
-	
 
 	public void onClick(ClickEvent event) {
 			Object source = event.getSource();
