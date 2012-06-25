@@ -1349,6 +1349,10 @@ body[dir=rtl] .logintogoogle {
 	border: 1px solid black;
 }
 
+.EuclidianStyleBar {
+	height: 25px;
+}
+
 /* AlgebraInput styles */
 .AlgebraInput {
     margin:auto 20px;
@@ -1507,3 +1511,5 @@ body[dir=rtl] .undoPanel {
 .GoogleFileDescriptors .fileName {
 	text-decoration: underline;
 }
+
+

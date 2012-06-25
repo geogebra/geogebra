@@ -721,7 +721,7 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 
 	@Override
     public geogebra.common.awt.Graphics2D getGraphicsForPen() {
-	    return new geogebra.web.awt.Graphics2D(Canvas.createIfSupported());
+	    return g2p;
     }
 
 

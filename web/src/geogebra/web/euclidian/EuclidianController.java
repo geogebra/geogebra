@@ -46,6 +46,17 @@ import com.google.gwt.user.client.Window;
 
 public class EuclidianController extends geogebra.common.euclidian.AbstractEuclidianController implements MouseDownHandler, MouseUpHandler, MouseMoveHandler, MouseOutHandler, MouseOverHandler, MouseWheelHandler, ClickHandler, DoubleClickHandler, TouchStartHandler, TouchEndHandler, TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, GestureChangeHandler {
 
+	/**
+	 * Static to get correct getX() in mouseEvents
+	 */
+	public static int EuclidianViewXOffset;
+	/**
+	 * Static to get correct getY() in mouseEvents
+	 */
+	public static int EuclidianViewYOffset;
+	
+	public static boolean EuclidianOffsetsInited = false;
+	
 	public EuclidianController(Kernel kernel) {
 		setKernel(kernel);
 		setApplication(kernel.getApplication());
@@ -53,29 +64,6 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 		tempNum = new MyDouble(kernel);
 	}
 	
-	@Override
-	protected void setMouseLocation(AbstractEvent event) {
-		mouseLoc = event.getPoint();
-		
-		
-		setAltDown(event.isAltDown());
-		
-		mouseLoc.x = mouseLoc.x - ((EuclidianView) view).getAbsoluteLeft() + Window.getScrollLeft();
-		mouseLoc.y = mouseLoc.y - ((EuclidianView) view).getAbsoluteTop() + Window.getScrollTop();
-
-	
-		if (mouseLoc.x < 0) {
-			mouseLoc.x = 0;
-		} else if (mouseLoc.x > view.getViewWidth()) {
-			mouseLoc.x = view.getViewWidth();
-		}
-		if (mouseLoc.y < 0) {
-			mouseLoc.y = 0;
-		} else if (mouseLoc.y > view.getViewHeight()) {
-			mouseLoc.y = view.getViewHeight();
-		}
-		
-	}
 	
 	public void setApplication(AbstractApplication app) {
 		this.app = app;
@@ -231,6 +219,12 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 	protected boolean hitResetIcon() {
 		return app.showResetIcon()
 				&& ((mouseLoc.y < 20) && (mouseLoc.x > (view.getViewWidth() - 18)));
+	}
+	
+	public static void initEuclidianOffsets() {
+		EuclidianViewXOffset = ((EuclidianView) view).getAbsoluteLeft() + Window.getScrollLeft();
+		EuclidianViewYOffset = ((EuclidianView) view).getAbsoluteTop() + Window.getScrollTop();
+		
 	}
 
 

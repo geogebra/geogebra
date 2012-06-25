@@ -2,6 +2,7 @@ package geogebra.web.euclidian.event;
 
 import geogebra.common.awt.Point;
 import geogebra.common.euclidian.event.AbstractEvent;
+import geogebra.web.euclidian.EuclidianController;
 
 import java.util.LinkedList;
 
@@ -23,7 +24,7 @@ public class TouchEvent extends AbstractEvent {
 	@Override
 	public Point getPoint() {
 		
-		return new Point(event.getClientX(),event.getClientY());
+		return new Point(event.getClientX() - EuclidianController.EuclidianViewXOffset ,event.getClientY() - EuclidianController.EuclidianViewYOffset);
 	}
 
 	@Override
@@ -49,13 +50,13 @@ public class TouchEvent extends AbstractEvent {
 	@Override
 	public int getX() {
 		
-		return event.getClientX();
+		return event.getClientX()- EuclidianController.EuclidianViewXOffset;
 	}
 
 	@Override
 	public int getY() {
 		
-		return event.getClientY();
+		return event.getClientY() - EuclidianController.EuclidianViewYOffset;
 	}
 
 	@Override
@@ -94,6 +95,9 @@ public class TouchEvent extends AbstractEvent {
 			wrap.event = touch;
 			pool.removeLast();
 			return wrap;
+		}
+		if (!EuclidianController.EuclidianOffsetsInited) {
+			EuclidianController.initEuclidianOffsets();
 		}
 		return new TouchEvent(touch);
 	}

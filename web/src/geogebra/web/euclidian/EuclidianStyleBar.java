@@ -148,6 +148,7 @@ public class EuclidianStyleBar extends HorizontalPanel
 		isIniting = false;
 
 		setMode(ev.getMode()); // this will also update the stylebar
+		addStyleName("EuclidianStyleBar");
 	}
 
 	public int getMode() {
