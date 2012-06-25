@@ -1,8 +1,12 @@
 package geogebra.common.kernel.commands;
 
+import java.util.HashSet;
+import java.util.Iterator;
+
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.Command;
+import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.CasEvaluableFunction;
 import geogebra.common.kernel.geos.GeoElement;
@@ -46,53 +50,80 @@ public class CmdDerivative extends CommandProcessor {
 			throw argErr(app, c.getName(), arg[0]);
 
 		case 2:
-			arg = resArgs(c);
-			// Derivative[ f(x), 2]
-			if ((arg[0].isGeoFunction()||arg[0].isGeoCurveCartesian())
-					&& arg[1].isNumberValue()) {
-				double order = ((NumberValue) arg[1]).getDouble();
-				
-				// default for arg[1] not GeoNumeric (eg Segment)
-				// don't want f''' for name
-				boolean constant = false;
-				
-				if (arg[1].isGeoNumeric()) {
-					if (arg[1].getParentAlgorithm() == null) {
-						// Derivative[f,n] -> don't want f'' for name
-						// Derivative[f,2] -> do want f'' for name
-						constant = !arg[1].isLabelSet(); 
-					} else {
-						// eg Derivative[f,n+2] -> don't want f'''' for name
-						constant = false;
+			try {
+				arg = resArgs(c);
+				// Derivative[ f(x), 2]
+				if ((arg[0].isGeoFunction()||arg[0].isGeoCurveCartesian())
+						&& arg[1].isNumberValue()) {
+					double order = ((NumberValue) arg[1]).getDouble();
+
+					// default for arg[1] not GeoNumeric (eg Segment)
+					// don't want f''' for name
+					boolean constant = false;
+
+					if (arg[1].isGeoNumeric()) {
+						if (arg[1].getParentAlgorithm() == null) {
+							// Derivative[f,n] -> don't want f'' for name
+							// Derivative[f,2] -> do want f'' for name
+							constant = !arg[1].isLabelSet(); 
+						} else {
+							// eg Derivative[f,n+2] -> don't want f'''' for name
+							constant = false;
+						}
 					}
-				}
 
-				CasEvaluableFunction f = (CasEvaluableFunction) arg[0];
-				if (label == null && constant) {
-					int iorder = (int) Math.round(order);
-					label = getDerivLabel(f.toGeoElement(), iorder);
-				}
-				GeoElement[] ret = { kernelA.Derivative(label, f, null,
-						(NumberValue) arg[1]) };
-				return ret;
+					CasEvaluableFunction f = (CasEvaluableFunction) arg[0];
+					if (label == null && constant) {
+						int iorder = (int) Math.round(order);
+						label = getDerivLabel(f.toGeoElement(), iorder);
+					}
+					GeoElement[] ret = { kernelA.Derivative(label, f, null,
+							(NumberValue) arg[1]) };
+					return ret;
 
+				}
+			} catch (Throwable t) {
+				t.printStackTrace();
 			}
-			
+
 			// Derivative[ f(a,b), a ]
+			// but disallow Derivative[ f(t), t ]
 			try {
 				arg2 = resArgsLocalNumVar(c, 1, 1);
-				if (arg2[0] instanceof CasEvaluableFunction
+
+				if (arg2[0] instanceof CasEvaluableFunction && !arg2[0].isGeoFunction()
 						&& arg2[1].isGeoNumeric()) {
-					GeoElement[] ret = { kernelA.Derivative(label,
-							(CasEvaluableFunction) arg2[0], // function
-							(GeoNumeric) arg2[1], null) }; // var
-					return ret;
+
+					CasEvaluableFunction f = (CasEvaluableFunction)arg2[0];
+					FunctionVariable[] vars = f.getFunctionVariables();
+
+					String var = arg2[1].getLabelSimple();
+
+					// distinguish between Derivative[ f, a] and Derivative[ f, p] for f(a,b) = a + b and slider 'p'
+					boolean ok = false;
+					if (vars != null) {
+						for (int i = 0 ; i < vars.length ; i++) {
+							if (vars[i].getSetVarString().equals(var)) {
+								ok = true;
+								break;
+							}
+						}
+					}
+
+					if (ok) {
+						GeoElement[] ret = { kernelA.Derivative(label,
+								(CasEvaluableFunction) arg2[0], // function
+								(GeoNumeric) arg2[1], null) }; // var
+						return ret;
+					}  // else fall through
+
 				}
 			} catch (Throwable t) {
 				t.printStackTrace();
 			}
 
 			// Derivative[ f(x, y), x]
+			arg = resArgs(c);
 			if (arg[0] instanceof CasEvaluableFunction
 					&& arg[1].isGeoFunction()) {
 				GeoNumeric var = new GeoNumeric(cons);
