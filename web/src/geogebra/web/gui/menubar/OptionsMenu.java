@@ -37,6 +37,8 @@ public class OptionsMenu extends MenuBar {
 		
 		//language menu
 		addLanguageMenu();
+		
+		//addPointCapturingMenu();
 	}
 	
 	private void addLanguageMenu() {
@@ -48,7 +50,7 @@ public class OptionsMenu extends MenuBar {
 	private void addAlgebraDescriptionMenu(){
 		RadioButtonMenuBar submenu = new RadioButtonMenuBar();
 		
-		submenu.addItem(app.getPlain("Value"), new RadioButtonCommand(submenu, 0) {
+		submenu.addItem(app.getMenu("Value"), new RadioButtonCommand(submenu, 0) {
 			
 
 			@Override
@@ -57,14 +59,14 @@ public class OptionsMenu extends MenuBar {
 				kernel.updateConstruction();
 			}
 		});
-		submenu.addItem(app.getPlain("Definition"), new RadioButtonCommand(submenu, 1) {
+		submenu.addItem(app.getMenu("Definition"), new RadioButtonCommand(submenu, 1) {
 			@Override
 			public void exec() {
 				kernel.setAlgebraStyle(1);
 				kernel.updateConstruction();
 			}
 		});
-		submenu.addItem(app.getPlain("Command"), new RadioButtonCommand(submenu, 2) {
+		submenu.addItem(app.getMenu("Command"), new RadioButtonCommand(submenu, 2) {
 			@Override
 			public void exec() {
 				kernel.setAlgebraStyle(2);
@@ -77,6 +79,50 @@ public class OptionsMenu extends MenuBar {
 		        true, submenu);		
 		
 		addItem(algebraDescription);		
+	}
+
+	private void addPointCapturingMenu(){
+		RadioButtonMenuBar submenu = new RadioButtonMenuBar();
+		
+		submenu.addItem(app.getMenu("Labeling.automatic"), new RadioButtonCommand(submenu, 0) {
+			@Override
+			public void exec() {
+				setPointCapturing(3);
+			}
+		});
+		submenu.addItem(app.getMenu("SnapToGrid"), new RadioButtonCommand(submenu, 1) {
+			@Override
+			public void exec() {
+				setPointCapturing(0);
+			}
+		});
+		submenu.addItem(app.getMenu("FixedToGrid"), new RadioButtonCommand(submenu, 2) {
+			@Override
+			public void exec() {
+				setPointCapturing(1);
+			}
+		});
+	
+		submenu.addItem(app.getMenu("off"), new RadioButtonCommand(submenu, 3) {
+			@Override
+			public void exec() {
+				setPointCapturing(2);
+			}
+		});
+		
+		MenuItem algebraDescription = new MenuItem(GeoGebraMenubar.getMenuBarHtml(AppResources.INSTANCE
+		        .magnet2().getSafeUri().asString(), app.getMenu("PointCapturing")),
+		        true, submenu);		
+		
+		addItem(algebraDescription);		
+	}
+	
+	void setPointCapturing(int mode){
+		app.getEuclidianView1().setPointCapturing(mode);
+		if (app.hasEuclidianView2EitherShowingOrNot()) {
+			app.getEuclidianView2().setPointCapturing(mode);
+		}
+		app.setUnsaved();		
 	}
 
 }
