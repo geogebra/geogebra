@@ -22,6 +22,7 @@ import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoMacroInterface;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.FunctionNVar;
+import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.FunctionalNVar;
 import geogebra.common.kernel.arithmetic.IneqTree;
 import geogebra.common.kernel.arithmetic.Inequality;
@@ -824,6 +825,10 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 		@Override
 		public int getMinimumLineThickness() {
 			return isInequality ? 0 : 1;
+		}
+
+		public FunctionVariable[] getFunctionVariables() {
+			return fun.getFunctionVariables();
 		}
 
 

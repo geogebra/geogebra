@@ -968,4 +968,8 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 		return true;
 	}
 
+	public FunctionVariable[] getFunctionVariables() {
+		return funX.getFunctionVariables();
+	}
+
 }

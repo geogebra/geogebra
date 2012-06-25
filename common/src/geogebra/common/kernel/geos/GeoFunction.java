@@ -2053,4 +2053,8 @@ public class GeoFunction extends GeoElement implements VarString,
 		return getParentAlgorithm() instanceof AlgoFunctionFreehand;
 	}
 
+	public FunctionVariable[] getFunctionVariables() {
+		return fun.getFunctionVariables();
+	}
+
 }
