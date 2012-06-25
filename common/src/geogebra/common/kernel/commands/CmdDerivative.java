@@ -87,11 +87,10 @@ public class CmdDerivative extends CommandProcessor {
 			}
 
 			// Derivative[ f(a,b), a ]
-			// but disallow Derivative[ f(t), t ]
 			try {
 				arg2 = resArgsLocalNumVar(c, 1, 1);
 
-				if (arg2[0] instanceof CasEvaluableFunction && !arg2[0].isGeoFunction()
+				if (arg2[0] instanceof CasEvaluableFunction
 						&& arg2[1].isGeoNumeric()) {
 
 					CasEvaluableFunction f = (CasEvaluableFunction)arg2[0];
