@@ -33,6 +33,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Locateable;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.algos.AlgoAttachCopyToView;
 import geogebra.common.kernel.algos.AlgoCirclePointRadiusInterface;
 import geogebra.common.kernel.algos.AlgoDependentText;
 import geogebra.common.kernel.algos.AlgoDrawInformation;
@@ -1123,6 +1124,9 @@ public abstract class GeoElement extends ConstructionElement implements
 		case AXIS:
 			typePriority = 10;
 			break;
+		case PENSTROKE:
+			typePriority = 15;
+			break;
 		case IMAGE:
 		case TURTLE:
 		case TEXTFIELD:
@@ -1723,7 +1727,11 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @return tooltip text as HTML
 	 */
 	public String getTooltipText(final boolean colored, final boolean alwaysOn) {
-		// sbToolTipDesc.append(geo.getLongDescriptionHTML(colored, false));
+
+		if (getParentAlgorithm() instanceof AlgoAttachCopyToView) {
+			return "";
+		}
+		
 		StringTemplate tpl = StringTemplate.defaultTemplate;
 		switch (tooltipMode) {
 		default:
@@ -1966,6 +1974,7 @@ public abstract class GeoElement extends ConstructionElement implements
 
 		case POLYGON:
 		case POLYLINE:
+		case PENSTROKE:
 			return containsOnlyMoveableGeos(getFreeInputPoints(view));
 
 		case VECTOR:

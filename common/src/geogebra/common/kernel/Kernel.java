@@ -2670,6 +2670,8 @@ public class Kernel {
 				return GeoClass.POLYGON;
 			} else if (type.equals("polyline")) {
 				return GeoClass.POLYLINE;
+			} else if (type.equals("penstroke")) {
+				return GeoClass.PENSTROKE;
 			} else {
 				return GeoClass.CONIC;
 			}
@@ -8130,13 +8132,18 @@ public class Kernel {
 	 * polygon P[0], ..., P[n-1] The labels name the polygon itself and its
 	 * segments
 	 */
-	final public GeoElement[] PolyLine(String[] labels, GeoPointND[] P) {
-		AlgoPolyLine algo = new AlgoPolyLine(cons, labels, P);
+	final public GeoElement[] PolyLine(String[] labels, GeoPointND[] P, boolean penStroke) {
+		AlgoPolyLine algo = new AlgoPolyLine(cons, labels, P, penStroke);
 		return algo.getOutput();
 	}
 
 	final public GeoElement[] PolyLine(String[] labels, GeoList pointList) {
 		AlgoPolyLine algo = new AlgoPolyLine(cons, labels, pointList);
+		return algo.getOutput();
+	}
+
+	final public GeoElement[] PenStroke(String[] labels, GeoList pointList) {
+		AlgoPolyLine algo = new AlgoPolyLine(cons, labels, pointList, true);
 		return algo.getOutput();
 	}
 
@@ -8236,7 +8243,7 @@ public class Kernel {
 	}
 
 	public GeoElement[] PolyLineND(String[] labels, GeoPointND[] P) {
-		return PolyLine(labels, P);
+		return PolyLine(labels, P, false);
 	}
 
 	final public GeoElement[] VectorPolygon(String[] labels, GeoPoint2[] points) {

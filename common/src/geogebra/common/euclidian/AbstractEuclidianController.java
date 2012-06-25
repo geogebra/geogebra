@@ -1176,6 +1176,7 @@ public abstract class AbstractEuclidianController {
 				}
 				break;
 	
+			case PENSTROKE:
 			case POLYLINE:
 				// remove points and segments of poly
 				GeoPolyLine polyl = (GeoPolyLine) geo;
@@ -1939,7 +1940,7 @@ public abstract class AbstractEuclidianController {
 					&& hits.contains(selectedPoints.get(0));
 			if (finished) {
 				// build polygon
-				return kernel.PolyLine(null, getSelectedPoints());
+				return kernel.PolyLine(null, getSelectedPoints(), false);
 			}
 		}
 	
@@ -6027,6 +6028,11 @@ public abstract class AbstractEuclidianController {
 			
 			String text = GeoElement.getToolTipDescriptionHTML(hits, true,
 					true, alwaysOn);
+			
+			if ("<html></html>".equals(text)) {
+				text = null;
+			}
+			
 			view.setToolTipText(text);
 		} else {
 			view.setToolTipText(null);

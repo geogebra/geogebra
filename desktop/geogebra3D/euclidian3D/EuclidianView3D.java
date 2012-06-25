@@ -527,6 +527,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 				d = new DrawPolygon3D(this, (GeoPolygon) geo);
 				break;									
 
+			case PENSTROKE:
 			case POLYLINE:
 			case POLYLINE3D:
 				d = new DrawPolyLine3D(this, (GeoPolyLine) geo);

@@ -2003,6 +2003,7 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 			d = new DrawPolygon(this, (GeoPolygon) geo);
 			break;
 
+		case PENSTROKE:
 		case POLYLINE:
 			d = new DrawPolyLine(this, (GeoPolyLine) geo);
 			break;

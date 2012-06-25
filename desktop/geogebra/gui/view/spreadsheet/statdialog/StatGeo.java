@@ -306,7 +306,7 @@ public class StatGeo   {
 		}	
 		cons.setSuppressLabelCreation(suppressLabelCreation);
 
-		AlgoPolyLine polyLine = new AlgoPolyLine(cons, null, points);
+		AlgoPolyLine polyLine = new AlgoPolyLine(cons, null, points, false);
 		
 		return polyLine;
 	}

@@ -3,6 +3,7 @@ package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
+import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoPoint2;
@@ -20,33 +21,55 @@ public class CmdPolyLine extends CommandProcessor {
 	public CmdPolyLine(Kernel kernel) {
 		super(kernel);
 	}
-	
-@Override
-public GeoElement[] process(Command c) throws MyError {
-    int n = c.getArgumentNumber();
-    GeoElement[] arg;
 
-    arg = resArgs(c);
-    switch (n) {
-	    case 0 :
-	    	throw argNumErr(app, c.getName(), n);
-    	//G.Sturr 2010-3-14
+	@Override
+	public GeoElement[] process(Command c) throws MyError {
+		int n = c.getArgumentNumber();
+		GeoElement[] arg;
+
+		arg = resArgs(c);
+		switch (n) {
+		case 0 :
+			throw argNumErr(app, c.getName(), n);
 		case 1:
-		if (arg[0].isGeoList())
+			if (arg[0].isGeoList())
+				return kernelA.PolyLine(c.getLabels(), (GeoList) arg[0]);
+			throw argErr(app, c.getName(), arg[0]);
+
+		case 2:
+			if (!arg[0].isGeoList()) {
+				throw argErr(app, c.getName(), arg[0]);
+			}
+			if (!arg[1].isGeoBoolean()) {
+				throw argErr(app, c.getName(), arg[1]);
+			}
+
 			return kernelA.PolyLine(c.getLabels(), (GeoList) arg[0]);
-		//END G.Sturr
-		
-       default:
-			// polygon for given points
-	        GeoPoint2[] points = new GeoPoint2[n];
-	        // check arguments
-	        for (int i = 0; i < n; i++) {
-	            if (!(arg[i].isGeoPoint()))
-					throw argErr(app, c.getName(), arg[i]);
-				points[i] = (GeoPoint2) arg[i];
-	        }
-	        // everything ok
-	        return kernelA.PolyLine(c.getLabels(), points);
-		}	
-}
+
+
+		default:
+			
+			int size = n;
+			boolean penStroke = false;
+
+			if (arg[arg.length - 1].isGeoBoolean()) {
+				// pen stroke
+				// last argument is boolean (normally true)
+				size = size - 1;
+				penStroke = ((GeoBoolean)arg[arg.length - 1]).getBoolean();
+			} 
+
+				// polygon for given points
+				GeoPoint2[] points = new GeoPoint2[size];
+				// check arguments
+				for (int i = 0; i < size; i++) {
+					if (!(arg[i].isGeoPoint()))
+						throw argErr(app, c.getName(), arg[i]);
+					points[i] = (GeoPoint2) arg[i];
+				}
+				// everything ok
+				return kernelA.PolyLine(c.getLabels(), points, penStroke);
+			
+		}
+	}
 }

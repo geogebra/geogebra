@@ -1341,7 +1341,7 @@ public class PythonFlatAPI {
 	 * @return new polyline
 	 */
 	public GeoPolyLine geoPolyLine(GeoPointND[] points) {
-		return (GeoPolyLine) kernel.PolyLine(null, points)[0];
+		return (GeoPolyLine) kernel.PolyLine(null, points, false)[0];
 	}
 	/*
 	 * Creating expressions

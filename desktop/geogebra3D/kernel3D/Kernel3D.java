@@ -472,7 +472,7 @@ public class Kernel3D extends Kernel {
 
 		if (is3D)
 			return getManager3D().PolyLine3D(labels, P);
-		return super.PolyLine(labels, P);
+		return super.PolyLine(labels, P, false);
 
 	}
 

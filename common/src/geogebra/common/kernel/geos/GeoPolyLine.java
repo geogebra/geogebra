@@ -204,7 +204,7 @@ public class GeoPolyLine extends GeoElement implements NumberValue, Path,
 	}
 
 	@Override
-	final public String toString(StringTemplate tpl) {
+	public String toString(StringTemplate tpl) {
 		sbToString.setLength(0);
 		sbToString.append(label);
 		sbToString.append(" = ");

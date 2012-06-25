@@ -15,8 +15,10 @@ package geogebra.common.kernel.algos;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.kernel.geos.GeoPenStroke;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoPolyLine;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -35,17 +37,22 @@ public class AlgoPolyLine extends AlgoElement {
 	protected GeoPointND [] points;  // input
 	protected GeoList geoList;  // alternative input
     protected GeoPolyLine poly;     // output
+	private boolean penStroke;
        
     public AlgoPolyLine(Construction cons, String [] labels, GeoList geoList) {
     	this(cons, labels, null, geoList);
     }
     
-    public AlgoPolyLine(Construction cons, GeoList geoList) {
-    	this(cons, (GeoPointND [])null, geoList);
+    public AlgoPolyLine(Construction cons, String [] labels, GeoList geoList, boolean penStroke) {
+    	this(cons, labels, null, geoList, penStroke);
     }
     
-    public AlgoPolyLine(Construction cons, String [] labels, GeoPointND [] points) {
-    	this(cons, labels, points, null);
+    public AlgoPolyLine(Construction cons, GeoList geoList) {
+    	this(cons, (GeoPointND [])null, geoList, false);
+    }
+    
+    public AlgoPolyLine(Construction cons, String [] labels, GeoPointND [] points, boolean penStroke) {
+    	this(cons, labels, points, null, penStroke);
     }
  
     /**
@@ -57,7 +64,19 @@ public class AlgoPolyLine extends AlgoElement {
     public AlgoPolyLine(Construction cons, String [] labels, 
     		GeoPointND [] points, GeoList geoList) {
 
-    	this(cons, points, geoList);
+    	this(cons, points, geoList, false);
+        
+        if (labels != null)
+        	poly.setLabel(labels[0]);
+        else
+        	poly.setLabel(null);
+        
+    }   
+    
+    public AlgoPolyLine(Construction cons, String [] labels, 
+    		GeoPointND [] points, GeoList geoList, boolean penStroke) {
+
+    	this(cons, points, geoList, penStroke);
         
         if (labels != null)
         	poly.setLabel(labels[0]);
@@ -67,10 +86,13 @@ public class AlgoPolyLine extends AlgoElement {
     }   
     
     public AlgoPolyLine(Construction cons,  
-    		GeoPointND [] points, GeoList geoList) {
+    		GeoPointND [] points, GeoList geoList, boolean penStroke) {
         super(cons);
         this.points = points;           
         this.geoList = geoList;
+        this.penStroke = penStroke;
+        
+        app.debug(penStroke);
           
         //poly = new GeoPolygon(cons, points);
         createPolyLine();  
@@ -86,7 +108,11 @@ public class AlgoPolyLine extends AlgoElement {
      * create the polygon
      */
     protected void createPolyLine(){
-    	poly = new GeoPolyLine(this.cons, this.points);
+    	if (penStroke) {
+    		poly = new GeoPenStroke(this.cons, this.points);
+    	} else {
+    		poly = new GeoPolyLine(this.cons, this.points);
+    	}
     }
         
     @Override
@@ -124,14 +150,27 @@ public class AlgoPolyLine extends AlgoElement {
     @Override
 	protected void setInputOutput() {
     	if (geoList != null) {
-    		// list as input
-			input = new GeoElement[1];
-			input[0] = geoList;
-
+    		
+    		if (penStroke) {
+	    		// list as input
+				input = new GeoElement[2];
+				input[0] = geoList;    			
+				input[1] = new GeoBoolean(cons, true); // dummy to force PolyLine[list, true]     			
+    		} else {
+	    		// list as input
+				input = new GeoElement[1];
+				input[0] = geoList;
+    		}
     	} else {    	
-    		input = new GeoElement[points.length];
-    		for (int i=0; i<points.length; i++)
+    		input = new GeoElement[points.length + (penStroke ? 1 : 0)];
+    		for (int i = 0; i < points.length; i++) {
     			input[i] = (GeoElement) points[i];
+    		}
+    		
+    		if (penStroke) {
+				input[points.length] = new GeoBoolean(cons, true); // dummy to force PolyLine[..., true]     			    			
+    		}
+    		
     	}    	
     	// set dependencies
         for (int i = 0; i < input.length; i++) {

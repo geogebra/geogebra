@@ -600,12 +600,12 @@ public class EuclidianPen {
     	if (!absoluteScreenPosition) {
     		
     		// set label
-        	newPolyLine = new AlgoPolyLine(cons, null, newPts, null);
+        	newPolyLine = new AlgoPolyLine(cons, null, newPts, null, true);
         	algo = newPolyLine;
     	} else {
     		
     		// don't set label
-        	newPolyLine = new AlgoPolyLine(cons, newPts, null);
+        	newPolyLine = new AlgoPolyLine(cons, newPts, null, true);
 
         	EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
 			
@@ -628,6 +628,9 @@ public class EuclidianPen {
 	    	
 	    	algo = new AlgoAttachCopyToView(cons, null, newPolyLine.getGeoElements()[0], evNo, corner1, corner3, screenCorner1,screenCorner3);
     	}
+    	
+    	newPolyLine.getGeoElements()[0].setTooltipMode(GeoElement.TOOLTIP_OFF);
+
     	
 		if (lastAlgo == null) {
 			//lastPolyLine = new AlgoPolyLine(cons, null, newPts);
