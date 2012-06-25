@@ -287,7 +287,6 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 		this.euclidianController3D = ec;
 		this.kernel3D = (Kernel3D) ec.getKernel();
 		euclidianController3D.setView(this);
-		euclidianController3D.setPen(new EuclidianPen(app,this));
 		app = ec.getApplication();	
 		
 		start();

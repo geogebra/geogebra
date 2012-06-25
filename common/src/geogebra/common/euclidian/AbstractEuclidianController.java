@@ -55,8 +55,8 @@ import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoLocus;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
-import geogebra.common.kernel.geos.GeoPolyLine;
 import geogebra.common.kernel.geos.GeoPoly;
+import geogebra.common.kernel.geos.GeoPolyLine;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoText;
@@ -115,10 +115,6 @@ public abstract class AbstractEuclidianController {
 		}
 	}
 
-	protected static final boolean pen() {
-		// Application.debug(app.getEuclidianView().getHeight()+" "+app.getEuclidianView().getWidth());
-		return false;
-	}
 
 	protected int mx; protected int my; //mouse coordinates
 
@@ -585,7 +581,7 @@ public abstract class AbstractEuclidianController {
 		case EuclidianConstants.MODE_PEN:
 		case EuclidianConstants.MODE_PENCIL:
 		case EuclidianConstants.MODE_FREEHAND_FUNCTION:
-			pen.resetPenOffsets();
+			getPen().resetPenOffsets();
 	
 			view.setSelectionRectangle(null);
 			break;
@@ -5181,7 +5177,7 @@ public abstract class AbstractEuclidianController {
 		case EuclidianConstants.MODE_PEN:
 		case EuclidianConstants.MODE_PENCIL:
 		case EuclidianConstants.MODE_FREEHAND_FUNCTION:
-			changedKernel = pen();
+			//changedKernel = pen();
 			break;
 	
 		// Michael Borcherds 2008-03-13
@@ -7192,7 +7188,7 @@ public abstract class AbstractEuclidianController {
 			pressedButton.setDraggedOrContext(true);
 		}
 		if (penMode(mode)) {
-			pen.handleMousePressedForPenMode(event, null);
+			getPen().handleMousePressedForPenMode(event, null);
 			return;
 		}
 	
@@ -7822,7 +7818,7 @@ public abstract class AbstractEuclidianController {
 			view.setHits(mouseLoc);
 			hits = view.getHits();
 			hits.removeAllButImages();
-			pen.handleMousePressedForPenMode(event, hits);
+			getPen().handleMousePressedForPenMode(event, hits);
 			return;
 		}
 		this.pressedButton = view.getHitButton(mouseLoc);
@@ -8114,7 +8110,7 @@ public abstract class AbstractEuclidianController {
 		}
 	
 		if (penMode(mode)) {
-			pen.handleMouseReleasedForPenMode(event);
+			getPen().handleMouseReleasedForPenMode(event);
 			return;
 		}
 	
@@ -8530,16 +8526,16 @@ public abstract class AbstractEuclidianController {
 		switch (mode1) {
 	
 		case EuclidianConstants.MODE_FREEHAND_FUNCTION:
-			pen.setFreehand(true);
+			getPen().setFreehand(true);
 	
 			break;
 		case EuclidianConstants.MODE_PEN:
-			pen.setFreehand(false);
-			pen.setAbsoluteScreenPosition(true);
+			getPen().setFreehand(false);
+			getPen().setAbsoluteScreenPosition(true);
 			break;
 		case EuclidianConstants.MODE_PENCIL:
-			pen.setFreehand(false);
-			pen.setAbsoluteScreenPosition(false);
+			getPen().setFreehand(false);
+			getPen().setAbsoluteScreenPosition(false);
 			break;
 	
 			/*
@@ -8798,8 +8794,6 @@ public abstract class AbstractEuclidianController {
 		kernel.notifyRepaint();
 	}
 
-	public abstract EuclidianPen getPen();
-	
 	public void zoomInOut(boolean altPressed, boolean minusPressed) {
 		boolean allowZoom = !app.isApplet()
 				|| (mode == EuclidianConstants.MODE_ZOOM_IN)
@@ -8853,6 +8847,25 @@ public abstract class AbstractEuclidianController {
 				hits,
 				view, mouseLoc);
 
+	}
+	
+
+	final public EuclidianPen getPen() {
+		
+		if (pen == null) {
+			pen = new EuclidianPen(app, view);
+
+		}	
+		
+		return pen;
+	}
+	
+
+	public void resetPen() {
+		if (pen != null) {
+			pen.resetPenOffsets();
+		}
+		
 	}
 	
 }

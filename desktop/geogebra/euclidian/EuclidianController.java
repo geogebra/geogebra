@@ -90,13 +90,6 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 	}
 
 
-	public void setPen(EuclidianPen pen) {
-		this.pen = pen;
-	}
-
-	public EuclidianPen getPen() {
-		return (EuclidianPen) pen;
-	}
 
 	public void mouseClicked(MouseEvent e) {
 		AbstractEvent event = geogebra.euclidian.event.MouseEvent.wrapEvent(e);
@@ -243,12 +236,6 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 		event.release();
 	}
 
-	public void resetPen() {
-		if (pen != null) {
-			pen.resetPenOffsets();
-		}
-		
-	}
 
 
 	

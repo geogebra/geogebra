@@ -233,10 +233,5 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 				&& ((mouseLoc.y < 20) && (mouseLoc.x > (view.getViewWidth() - 18)));
 	}
 
-	@Override
-    public EuclidianPen getPen() {
-		AbstractApplication.debug("implementation needed");
-	    return null;
-    }
 
 }

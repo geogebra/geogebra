@@ -130,7 +130,6 @@ public class EuclidianView extends EuclidianViewND implements
 		// algebra controller will take care of our key events
 
 		((EuclidianController)euclidianController).setView(this);
-		((EuclidianController)euclidianController).setPen(new EuclidianPen(getApplication(), this));
 
 		attachView();
 
