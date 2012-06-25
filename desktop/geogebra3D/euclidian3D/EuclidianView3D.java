@@ -22,6 +22,7 @@ import geogebra.common.kernel.geos.GeoButton;
 import geogebra.common.kernel.geos.GeoConicPart;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunctionNVar;
+import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint2;
@@ -75,6 +76,7 @@ import java.awt.print.PageFormat;
 import java.awt.print.Printable;
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
@@ -3366,11 +3368,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	
 	//////////////////////////////////////
 	// SOME LINKS WITH 2D VIEW
-	
-	public Graphics2D getGraphicsForPen(){
-		return app.getEuclidianView1().getGraphicsForPen();
-		
-	}
+
 
 
 	public int getFontSize() {
@@ -3453,6 +3451,19 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	@Override
 	public void setEraserCursor() {
 		AbstractApplication.warn("unimplemented");
+		
+	}
+
+	@Override
+	public geogebra.common.awt.Graphics2D getGraphicsForPen() {
+		return null;
+	}
+
+	@Override
+	protected void doDrawPoints(GeoImage gi,
+			List<geogebra.common.awt.Point> penPoints2,
+			geogebra.common.awt.Color penColor, int penLineStyle, int penSize) {
+		// TODO Auto-generated method stub
 		
 	}
 	

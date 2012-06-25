@@ -14,11 +14,6 @@ import java.util.List;
 public abstract class EuclidianPen {
 
 	/**
-	 * @return image used fordrawing
-	 */
-	public abstract GeoImage getPenGeo();
-
-	/**
 	 * @param geo image or PolyLine for drawing
 	 * If geo is not null, marks true to mark this as writing to existing image
 	 */
@@ -44,13 +39,6 @@ public abstract class EuclidianPen {
 	 * @param event mouse released event
 	 */
 	public abstract void handleMouseReleasedForPenMode(AbstractEvent event);
-	
-	/**
-	 * Draws bezier curve connecting given points to image
-	 * @param ge image
-	 * @param list points
-	 */
-	public abstract void doDrawPoints(GeoImage ge,List<Point> list); 
 	
 	/**
 	 * Changes pen color

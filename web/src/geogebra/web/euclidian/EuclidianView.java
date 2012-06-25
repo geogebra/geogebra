@@ -1,8 +1,12 @@
 package geogebra.web.euclidian;
 
+import java.util.List;
+
+import geogebra.common.awt.Color;
 import geogebra.common.awt.Dimension;
 import geogebra.common.awt.Font;
 import geogebra.common.awt.Graphics2D;
+import geogebra.common.awt.Point;
 import geogebra.common.awt.Rectangle;
 import geogebra.common.euclidian.AbstractEuclidianController;
 import geogebra.common.euclidian.AbstractEuclidianView;
@@ -12,6 +16,7 @@ import geogebra.common.factories.AwtFactory;
 import geogebra.common.gui.inputfield.AutoCompleteTextField;
 import geogebra.common.io.MyXMLio;
 import geogebra.common.javax.swing.Box;
+import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.settings.EuclidianSettings;
@@ -712,5 +717,19 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 		getApplication().exporting = false;
 		return g4copy.getCanvas().toDataUrl();
 	}
+
+
+	@Override
+    public geogebra.common.awt.Graphics2D getGraphicsForPen() {
+	    return new geogebra.web.awt.Graphics2D(Canvas.createIfSupported());
+    }
+
+
+	@Override
+    protected void doDrawPoints(GeoImage gi, List<Point> penPoints2,
+            Color penColor, int penLineStyle, int penSize) {
+	    AbstractApplication.debug("doDrawPoints() unimplemented");
+	    
+    }
 
 }

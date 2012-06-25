@@ -38,7 +38,7 @@ import javax.swing.border.Border;
  */
 public abstract class EuclidianViewND extends AbstractEuclidianView{
 	
-	private EuclidianViewJPanel evjpanel;
+	protected EuclidianViewJPanel evjpanel;
 
 
 	/**
@@ -69,14 +69,6 @@ public abstract class EuclidianViewND extends AbstractEuclidianView{
 	}
 	
 	
-	/**
-	 * @return graphics of the underlying component
-	 */
-	public Graphics2D getGraphicsForPen() {
-		return (Graphics2D) evjpanel.getGraphics();
-
-	}
-
 	/**
 	 * @param cursor new cursor
 	 */

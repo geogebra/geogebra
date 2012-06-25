@@ -23,6 +23,10 @@ public class Ellipse2DDouble implements geogebra.awt.RectangularShape, geogebra.
 			impl = ellipse;
 		}
 
+		public Ellipse2DDouble(int i, int j, int k, int l) {
+			impl = new java.awt.geom.Ellipse2D.Double(i, j, k, l);
+		}
+
 		public void setFrame(double xUL, double yUL, double diameter, double diameter2) {
 			impl.setFrame(xUL, yUL, diameter, diameter2);	
 		}

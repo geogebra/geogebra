@@ -72,6 +72,7 @@ import geogebra.common.util.Unicode;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.TreeSet;
 
 /**
@@ -253,7 +254,7 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 	/** true if painting this for the first time*/
 	protected boolean firstPaint = true;
 
-	private AbstractApplication app;
+	protected AbstractApplication app;
 
 	private EuclidianSettings settings;
 
@@ -4220,9 +4221,12 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 				}
 				ptList.add(new geogebra.common.awt.Point(xi, yi));
 			}
-			euclidianController.getPen().doDrawPoints(ge, ptList);
+			doDrawPoints(ge, ptList, Color.black, EuclidianStyleConstants.LINE_TYPE_FULL, 1);
 
 		}
+
+		@SuppressWarnings("javadoc")
+		protected abstract void doDrawPoints(GeoImage gi, List<geogebra.common.awt.Point> penPoints2, Color penColor, int penLineStyle, int penSize);
 
 		/**
 		 * Keeps the zoom, but makes sure the bound objects are free.
@@ -4749,5 +4753,7 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 		public abstract void setTransparentCursor();
 
 		public abstract void setEraserCursor();
+
+		public abstract Graphics2D getGraphicsForPen();
 
 }

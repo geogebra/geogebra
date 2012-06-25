@@ -642,7 +642,7 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener,
 
 				if (mode == EuclidianConstants.MODE_PEN) {
 					this.setVisible(true);
-					setFgColor(ec.getPen().getPenColor());
+					setFgColor(geogebra.awt.Color.getAwtColor(ec.getPen().getPenColor()));
 					setSliderValue(ec.getPen().getPenSize());
 					setSelectedIndex(lineStyleMap.get(ec.getPen()
 							.getPenLineStyle()));
@@ -984,7 +984,7 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener,
 				if (mode == EuclidianConstants.MODE_PEN) {
 					this.setVisible(true);
 
-					setSelectedIndex(getColorIndex(ec.getPen().getPenColor()));
+					setSelectedIndex(getColorIndex(geogebra.awt.Color.getAwtColor(ec.getPen().getPenColor())));
 
 					setSliderValue(100);
 					getMySlider().setVisible(false);
@@ -1483,9 +1483,7 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener,
 
 		else if (source == btnColor) {
 			if (mode == EuclidianConstants.MODE_PEN) {
-				ec.getPen().setPenColor(
-						geogebra.awt.Color.getAwtColor(btnColor
-								.getSelectedColor()));
+				ec.getPen().setPenColor((btnColor.getSelectedColor()));
 				// btnLineStyle.setFgColor((Color)btnColor.getSelectedValue());
 			} else {
 				applyColor(targetGeos);

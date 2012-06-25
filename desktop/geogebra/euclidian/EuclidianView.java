@@ -16,15 +16,22 @@ import geogebra.common.awt.Font;
 import geogebra.common.awt.Rectangle;
 import geogebra.common.euclidian.AbstractEuclidianController;
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.euclidian.GetViewId;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.settings.EuclidianSettings;
 import geogebra.common.main.settings.SettingListener;
+import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.euclidianND.EuclidianViewND;
+import geogebra.main.Application;
 
+import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
@@ -43,6 +50,7 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.awt.print.PageFormat;
 import java.awt.print.Printable;
+import java.util.List;
 
 /**
  * 
@@ -604,6 +612,98 @@ public class EuclidianView extends EuclidianViewND implements
 		return (EuclidianController)euclidianController;
 	}
 
-	
+	/**
+	 * @return graphics of the underlying component
+	 */
+	@Override
+	public geogebra.common.awt.Graphics2D getGraphicsForPen() {
+			return new geogebra.awt.Graphics2D((Graphics2D) evjpanel.getGraphics());
+
+	}
+
+	@Override
+	protected void doDrawPoints(GeoImage gi, List<geogebra.common.awt.Point> penPoints2, geogebra.common.awt.Color penColor, int penLineStyle, int penSize) {
+		PolyBezier pb = new PolyBezier(penPoints2);
+		BufferedImage penImage2 = geogebra.awt.BufferedImage.getAwtBufferedImage(gi
+						.getFillImage());
+		boolean giNeedsInit = false;
+		if (penImage2 == null) {
+			giNeedsInit = true;
+			GraphicsEnvironment ge = GraphicsEnvironment
+					.getLocalGraphicsEnvironment();
+
+			GraphicsDevice gs = ge.getDefaultScreenDevice();
+
+			GraphicsConfiguration gc = gs.getDefaultConfiguration();
+			penImage2 = gc.createCompatibleImage(Math.max(300,getWidth()),
+					Math.max(getHeight(),200), Transparency.BITMASK);
+		}
+		Graphics2D g2d = (Graphics2D) penImage2.getGraphics();
+
+		EuclidianViewND.setAntialiasing(g2d);
+		g2d.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL,
+				RenderingHints.VALUE_STROKE_PURE);
+
+		g2d.setStroke(geogebra.awt.BasicStroke.getAwtStroke(geogebra.common.euclidian.EuclidianStatic.getStroke(2 * penSize, (penPoints2
+					.size() <= 2) ? EuclidianStyleConstants.LINE_TYPE_FULL
+							: penLineStyle)));
+		g2d.setColor(geogebra.awt.Color.getAwtColor(penColor));
+
+		g2d.draw(pb.gp);
+		EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
+
+		app.refreshViews(); // clear trace
+		//TODO -- did we need the following line?
+		//ev.getGraphics().drawImage(penImage2, penOffsetX, penOffsetY, null);
+
+		if (giNeedsInit
+				|| (gi == null)) {
+			String fileName = ((Application)app).createImage(penImage2, "penimage.png");
+			// Application.debug(fileName);
+			GeoImage geoImage = null;
+			if (gi == null)
+				geoImage = new GeoImage(app.getKernel().getConstruction());
+			else
+				geoImage = gi;
+			geoImage.setImageFileName(fileName);
+			geoImage.setTooltipMode(GeoElement.TOOLTIP_OFF);
+			GeoPoint2 corner = (new GeoPoint2(
+					app.getKernel().getConstruction(), null,
+					ev.toRealWorldCoordX(0),
+					ev.toRealWorldCoordY(penImage2.getHeight()),
+					1.0));
+			GeoPoint2 corner2 = (new GeoPoint2(app.getKernel()
+					.getConstruction(), null, ev.toRealWorldCoordX(penImage2.getWidth()), ev.toRealWorldCoordY(penImage2.getHeight()), 1.0));
+			corner.setLabelVisible(false);
+			corner2.setLabelVisible(false);
+			corner.update();
+			corner2.update();
+			if (gi == null)
+				geoImage.setLabel(null);
+			geoImage.setCorner(corner, 0);
+			geoImage.setCorner(corner2, 1);
+
+			// need 3 corner points if axes ratio isn't 1:1
+			if (!Kernel.isEqual(ev.getXscale(), ev.getYscale())) {
+				GeoPoint2 corner4 = (new GeoPoint2(app.getKernel()
+						.getConstruction(), null,
+						ev.toRealWorldCoordX(0),
+						ev.toRealWorldCoordY(0), 1.0));
+				corner4.setLabelVisible(false);
+				corner4.update();
+				geoImage.setCorner(corner4, 2);
+			}
+
+			geoImage.update();
+
+			GeoImage.updateInstances();
+
+		}
+
+		// doesn't work as all changes are in the image not the XML
+		// app.storeUndoInfo();
+		app.setUnsaved();
+
+	}
 
 }

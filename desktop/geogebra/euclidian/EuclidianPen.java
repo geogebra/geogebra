@@ -1,6 +1,10 @@
 package geogebra.euclidian;
 
+import geogebra.awt.Ellipse2DDouble;
+import geogebra.common.awt.Color;
+import geogebra.common.awt.Graphics2D;
 import geogebra.common.awt.Point;
+import geogebra.common.awt.Shape;
 import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.euclidian.Hits;
@@ -20,39 +24,18 @@ import geogebra.common.kernel.geos.GeoPolyLine;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.util.Unicode;
-import geogebra.euclidianND.EuclidianViewND;
-import geogebra.main.Application;
 
-import java.awt.AlphaComposite;
-import java.awt.Color;
-import java.awt.Graphics2D;
-import java.awt.GraphicsConfiguration;
-import java.awt.GraphicsDevice;
-import java.awt.GraphicsEnvironment;
-import java.awt.Rectangle;
-import java.awt.RenderingHints;
-import java.awt.Shape;
-import java.awt.Transparency;
-import java.awt.event.MouseEvent;
-import java.awt.geom.Ellipse2D;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
+public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen {
 
 	private AbstractApplication app;
 	private AbstractEuclidianView view;
 
-	private int penOffsetX = 0;
-	private int penOffsetY = 0;
 	private boolean penUsingOffsets = false;
-	private BufferedImage penImage = null;
-	private GeoImage penGeo = null; // used if drawing to existing GeoImage
-	private GeoImage lastPenImage = null;
 	private AlgoElement lastAlgo = null;
-	private boolean penWritingToExistingImage = false;
 	private ArrayList<Point> penPoints = new ArrayList<Point>();
 	private ArrayList<Point> temp = null;
 	int minX = Integer.MAX_VALUE, maxX = Integer.MIN_VALUE;
@@ -113,7 +96,7 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
      * Grid size. Default is 30.
      */
     private int gridSize = 15;
-    private java.awt.Point startPoint = null;
+    private Point startPoint = null;
     /**
      * String representation of gesture.
      */
@@ -153,11 +136,7 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 	
 	@Override
 	public geogebra.common.awt.Color getPenColorCommon() {
-		return new geogebra.awt.Color(penColor);
-	}
-
-	public void setPenColor(Color penColor) {
-		this.penColor = penColor;
+		return penColor;
 	}
 
 	private int eraserSize;
@@ -169,11 +148,6 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 	
 	// being used for Freehand Shape tool (not done yet)
 	private boolean recognizeShapes = false;
-	
-	// being used for vector (makes GeoPolyLine) or bitmap (makes GeoImage)
-	private boolean vector = true;
-	
-	
 
 	/************************************************
 	 * Construct EuclidianPen
@@ -204,24 +178,11 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 		this.erasing = erasing;
 	}
 
-	public boolean isPenWritingToExistingImage() {
-		return penWritingToExistingImage;
-	}
-	
-	@Override
-	public GeoImage getPenGeo() {
-		return penGeo;
-	}
-
 	@Override
 	public void setPenGeo(GeoElement penGeo) {
 		
 		if (penGeo == null) {
-			this.penGeo = null;
 			lastAlgo = null;
-		} else if (penGeo.isGeoImage()) {
-			this.penGeo = (GeoImage) penGeo;
-			penWritingToExistingImage = true;
 		} else if (penGeo.getParentAlgorithm() instanceof AlgoPolyLine) {
 			lastAlgo = (AlgoPolyLine) penGeo.getParentAlgorithm();
 		}
@@ -229,12 +190,7 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 
 	@Override
 	public void resetPenOffsets() {
-		penOffsetX = 0;
-		penOffsetY = 0;
 		penUsingOffsets = false;
-		penImage = null;
-		penGeo = null;
-		lastPenImage = null;
 		lastAlgo = null;
 	}
 
@@ -242,22 +198,21 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 	// Mouse Event Handlers
 	// ===========================================
 
-	public void handleMousePressedForPenMode(MouseEvent e, Hits hits) {
+	public void handleMousePressedForPenMode(AbstractEvent e, Hits hits) {
 
-		Rectangle rect = vector ? null : geogebra.awt.Rectangle.getAWTRectangle(view.getSelectionRectangle());
 		
-		if (vector) {
+
 			
-			// if a PolyLine is selected, we can append to it.
-			
-			ArrayList<GeoElement> selGeos = app.getSelectedGeos();
-			
-			if (selGeos.size() == 1 && selGeos.get(0) instanceof GeoPolyLine) {
-				lastAlgo = selGeos.get(0).getParentAlgorithm();
-			}
+		// if a PolyLine is selected, we can append to it.
+
+		ArrayList<GeoElement> selGeos = app.getSelectedGeos();
+
+		if (selGeos.size() == 1 && selGeos.get(0) instanceof GeoPolyLine) {
+			lastAlgo = selGeos.get(0).getParentAlgorithm();
 		}
 
-		if (app.isRightClick(geogebra.euclidian.event.MouseEvent.wrapEvent(e)) && !freehand) {
+
+		if (app.isRightClick(e) && !freehand) {
 			view.setEraserCursor();
 			erasing = true;
 		} else {
@@ -265,150 +220,20 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 			erasing = false;
 		}
 
-		// Graphics2D g2D = null;
 
-		if (penGeo != null) {
-			// image was selected before Pen Tool selected
-
-			penUsingOffsets = true;
-			penImage = geogebra.awt.BufferedImage.getAwtBufferedImage(penGeo
-					.getFillImage());
-			// lastPenImage = penGeo;
-
-			penWritingToExistingImage = true;
-
-			if (penGeo.isAbsoluteScreenLocActive()) {
-				penOffsetX = penGeo.getAbsoluteScreenLocX();
-				penOffsetY = penGeo.getAbsoluteScreenLocY();
-			} else {
-				GeoPoint2 startPoint = penGeo.getStartPoint();
-				penOffsetX = view.toScreenCoordX(startPoint.inhomX);
-				penOffsetY = view.toScreenCoordY(startPoint.inhomY)
-						- penImage.getHeight();
-
-			}
-
-			app.addSelectedGeo(penGeo);
-
-			penGeo = null;
-		} else if (rect != null
-				&& rect.getWidth() > 1
-				&& rect.getHeight() > 1
-				&& (!penUsingOffsets || penOffsetX != rect.x || penOffsetY != rect.y)) {
-			// just draw on a subset of the Graphics View
-
-			GraphicsEnvironment ge = GraphicsEnvironment
-					.getLocalGraphicsEnvironment();
-
-			GraphicsDevice gs = ge.getDefaultScreenDevice();
-
-			GraphicsConfiguration gc = gs.getDefaultConfiguration();
-
-			penImage = gc.createCompatibleImage((int) rect.getWidth(),
-					(int) rect.getHeight(), Transparency.BITMASK);
-
-			lastPenImage = null;
-			lastAlgo = null;
-			
-			penOffsetX = rect.x;
-			penOffsetY = rect.y;
-			penUsingOffsets = true;
-
-			penWritingToExistingImage = false;
-
-			// view.setSelectionRectangle(null);
-		} else if (lastPenImage != null && !penWritingToExistingImage) {
-
-			penImage = geogebra.awt.BufferedImage
-					.getAwtBufferedImage(lastPenImage.getFillImage());
-
-			GeoPoint2 corner = lastPenImage.getCorner(0);
-			int x = view.toScreenCoordX(corner.getInhomX());
-			int y = view.toScreenCoordY(corner.getInhomY());
-			int width = penImage.getWidth();
-			int height = penImage.getHeight();
-
-			// check if image is still the same size as the current euclidian
-			// view window
-			if ((penOffsetX > 0 && penOffsetY > 0)
-					|| (x == 0 && y == height && height == view.getHeight() && width == view
-					.getWidth()))
-				penImage = geogebra.awt.BufferedImage
-				.getAwtBufferedImage(lastPenImage.getFillImage());
-			else {
-				penImage = null;
-				lastPenImage = null;
-			}
-
-			penWritingToExistingImage = false;
-
-		}
-
-		// check if mouse pressed over existing image
-		if (penImage == null && hits != null && hits.size() > 0 && hits.get(0).isGeoImage()) {
-			GeoImage hit = (GeoImage) hits.get(0);
-
-			GeoPoint2 c1 = hit.getCorner(0);
-			GeoPoint2 c2 = hit.getCorner(1);
-
-			int width = hit.getFillImage().getWidth();
-
-			int x1 = view.toScreenCoordX(c1.getInhomX());
-			int y1 = view.toScreenCoordY(c1.getInhomY());
-			int x2 = c2 == null ? x1 + width : view.toScreenCoordX(c2
-					.getInhomX());
-			int y2 = c2 == null ? y1 : view.toScreenCoordY(c2.getInhomY());
-
-			if (y1 == y2 && x1 + width == x2) { // check image isn't rotated /
-				// scaled
-				penGeo = hit;
-				penUsingOffsets = true;
-				penImage = geogebra.awt.BufferedImage
-						.getAwtBufferedImage(penGeo.getFillImage());
-				// lastPenImage = penGeo;
-
-				penWritingToExistingImage = true;
-
-				if (penGeo.isAbsoluteScreenLocActive()) {
-					penOffsetX = penGeo.getAbsoluteScreenLocX();
-					penOffsetY = penGeo.getAbsoluteScreenLocY();
-				} else {
-					GeoPoint2 startPoint = penGeo.getStartPoint();
-					penOffsetX = view.toScreenCoordX(startPoint.inhomX);
-					penOffsetY = view.toScreenCoordY(startPoint.inhomY)
-							- penImage.getHeight();
-
-				}
-
-				app.addSelectedGeo(penGeo);
-			}
-		}
-
-		if (penImage == null) {
-			view.setSelectionRectangle(null);
-			GraphicsEnvironment ge = GraphicsEnvironment
-					.getLocalGraphicsEnvironment();
-
-			GraphicsDevice gs = ge.getDefaultScreenDevice();
-
-			GraphicsConfiguration gc = gs.getDefaultConfiguration();
-			penImage = gc.createCompatibleImage(view.getWidth(),
-					view.getHeight(), Transparency.BITMASK);
-
-		}
 
 		// if (g2D == null) g2D = penImage.createGraphics();
 
-		Point newPoint = new Point(e.getX() - penOffsetX, e.getY() - penOffsetY);
-		Graphics2D g2D = ((EuclidianView)view).getGraphicsForPen();
+		Point newPoint = new Point(e.getX(), e.getY());
+		Graphics2D g2D = view.getGraphicsForPen();
 		Shape circle;
-		if (app.isRightClick(geogebra.euclidian.event.MouseEvent.wrapEvent(e)) && !freehand) {
+		if (app.isRightClick(e) && !freehand) {
 			g2D.setColor(Color.white);
-			circle = new Ellipse2D.Float(e.getX() - eraserSize, e.getY()
+			circle = new Ellipse2DDouble(e.getX() - eraserSize, e.getY()
 					- eraserSize, eraserSize * 2, eraserSize * 2);
 		} else {
 			g2D.setColor(penColor);
-			circle = new Ellipse2D.Float(e.getX() - penSize,
+			circle = new Ellipse2DDouble(e.getX() - penSize,
 					e.getY() - penSize, penSize * 2, penSize * 2);
 		}
 		// g2D.drawOval(e.getX(), e.getY(), penSize, penSize);
@@ -426,7 +251,7 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 			if (lastPoint.distance(newPoint) > 3)
 				penPoints.add(newPoint);
 		}
-		java.awt.Point point  = e.getPoint();
+		Point point  = e.getPoint();
 		if (startPoint == null)
 			startPoint = e.getPoint();
 		deltaX = getDeltaX(startPoint, point);
@@ -467,16 +292,13 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 	    }
 	}
 
-	public void handleMouseReleasedForPenMode(MouseEvent e) {
+	public void handleMouseReleasedForPenMode(AbstractEvent e) {
 
 		if (freehand) {
 			mouseReleasedFreehand();
 
 			return;
 		}
-
-		if (penImage == null)
-			return; // right click
 
 		app.setDefaultCursor();
 
@@ -489,41 +311,31 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 
 		// Application.debug(penPoints.size()+"");
 
-		if (vector) {
-			addPointsToPolyLine(penPoints);
-		} else {
-			doDrawPoints(null, penPoints);
-		}
+		addPointsToPolyLine(penPoints);
 		
 		if (app.getScriptManager() != null) {
 			double x[] = new double[penPoints.size()], y[] = new double[penPoints
 			                                                            .size()];
 			for (int i = 0; i < penPoints.size(); i++) {
-				x[i] = view.toRealWorldCoordX(penPoints.get(i).getX()
-						+ penOffsetX);
-				y[i] = view.toRealWorldCoordY(penPoints.get(i).getY()
-						+ penOffsetY);
+				x[i] = view.toRealWorldCoordX(penPoints.get(i).getX());
+				y[i] = view.toRealWorldCoordY(penPoints.get(i).getY());
 			}
 			// we want to clear the points before notifyDraw throws potential
 			// exception
 			penPoints.clear();
-			if (vector) {
-				AbstractApplication.warn("TODO");
-			} else {
-				app.getScriptManager().notifyDraw(lastPenImage.getLabelSimple(), x, y);
-			}
+
 		} else {
 			penPoints.clear();
 		}
 	}
 
-	private void checkShapes(MouseEvent e) {
+	private void checkShapes(AbstractEvent e) {
 
 		String gesture = this.getGesture();
 		count = 0;
 		AbstractApplication.debug(gesture);
 		this.clearTemporaryInfo();
-		Point newPoint = new Point(e.getX() - penOffsetX, e.getY() - penOffsetY);
+		Point newPoint = new Point(e.getX(), e.getY());
 		penPoints.add(newPoint);
 		//AbstractApplication.debug(penPoints);
 		//if recognize_shape option is checked
@@ -661,10 +473,10 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 				}
 				//	line1=new Line2D();
 				//System.out.println(penOffsetX);
-				double x_first=view.toRealWorldCoordX(rs.x1 + penOffsetX);
-				double y_first=view.toRealWorldCoordY(rs.y1 + penOffsetY);
-				double x_last=view.toRealWorldCoordX(rs.x2 + penOffsetX);
-				double y_last=view.toRealWorldCoordY(rs.y2 + penOffsetY);
+				double x_first=view.toRealWorldCoordX(rs.x1);
+				double y_first=view.toRealWorldCoordY(rs.y1);
+				double x_last=view.toRealWorldCoordX(rs.x2);
+				double y_last=view.toRealWorldCoordY(rs.y2);
 				AlgoJoinPointsSegment algo = null;
 				//	line1=new Line2D();
 				//System.out.println(penOffsetX);
@@ -704,7 +516,7 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 				GeoElement line = algo.getGeoElements()[0];
 				line.setLineThickness(penSize * 2);
 				line.setLineType(penLineStyle);
-				line.setObjColor(new geogebra.awt.Color(penColor));
+				line.setObjColor(penColor);
 				line.setLayer(1);
 				line.updateRepaint();
 			}
@@ -849,7 +661,7 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 		
 		poly.setLineThickness(penSize * 2);
 		poly.setLineType(penLineStyle);
-		poly.setObjColor(new geogebra.awt.Color(penColor));
+		poly.setObjColor(penColor);
 		poly.setLayer(1);
 		
 		app.clearSelectedGeos();
@@ -867,114 +679,6 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 		if(al instanceof AlgoPolyLine)
 			return (AlgoPolyLine)al;
 		return (AlgoPolyLine)al.getInput()[0].getParentAlgorithm();
-	}
-
-	@Override
-	public void doDrawPoints(GeoImage gi, List<Point> penPoints2) {
-		PolyBezier pb = new PolyBezier(penPoints2);
-		BufferedImage penImage2 = gi == null ? penImage
-				: geogebra.awt.BufferedImage.getAwtBufferedImage(gi
-						.getFillImage());
-		boolean giNeedsInit = false;
-		if (penImage2 == null) {
-			giNeedsInit = true;
-			GraphicsEnvironment ge = GraphicsEnvironment
-					.getLocalGraphicsEnvironment();
-
-			GraphicsDevice gs = ge.getDefaultScreenDevice();
-
-			GraphicsConfiguration gc = gs.getDefaultConfiguration();
-			penImage2 = gc.createCompatibleImage(Math.max(300,view.getWidth()),
-					Math.max(view.getHeight(),200), Transparency.BITMASK);
-		}
-		Graphics2D g2d = (Graphics2D) penImage2.getGraphics();
-
-		EuclidianViewND.setAntialiasing(g2d);
-		g2d.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL,
-				RenderingHints.VALUE_STROKE_PURE);
-
-		if (erasing) {
-			g2d.setStroke(geogebra.awt.BasicStroke.getAwtStroke(geogebra.common.euclidian.EuclidianStatic.getStroke(2 * eraserSize,
-					EuclidianStyleConstants.LINE_TYPE_FULL)));
-			g2d.setColor(new Color(0, 0, 0, 0)); // transparent
-			g2d.setComposite(AlphaComposite.Src);
-		} else {
-			g2d.setStroke(geogebra.awt.BasicStroke.getAwtStroke(geogebra.common.euclidian.EuclidianStatic.getStroke(2 * penSize, (penPoints2
-					.size() <= 2) ? EuclidianStyleConstants.LINE_TYPE_FULL
-							: penLineStyle)));
-			g2d.setColor(penColor);
-		}
-		g2d.draw(pb.gp);
-		EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
-
-		app.refreshViews(); // clear trace
-		//TODO -- did we need the following line?
-		//ev.getGraphics().drawImage(penImage2, penOffsetX, penOffsetY, null);
-
-		if (giNeedsInit
-				|| (gi == null && lastPenImage == null && !penWritingToExistingImage)) {
-			String fileName = ((Application)app).createImage(penImage2, "penimage.png");
-			// Application.debug(fileName);
-			GeoImage geoImage = null;
-			if (gi == null)
-				geoImage = new GeoImage(app.getKernel().getConstruction());
-			else
-				geoImage = gi;
-			geoImage.setImageFileName(fileName);
-			geoImage.setTooltipMode(GeoElement.TOOLTIP_OFF);
-			GeoPoint2 corner = (new GeoPoint2(
-					app.getKernel().getConstruction(), null,
-					ev.toRealWorldCoordX(penOffsetX),
-					ev.toRealWorldCoordY(penOffsetY + penImage2.getHeight()),
-					1.0));
-			GeoPoint2 corner2 = (new GeoPoint2(app.getKernel()
-					.getConstruction(), null, ev.toRealWorldCoordX(penOffsetX
-							+ penImage2.getWidth()), ev.toRealWorldCoordY(penOffsetY
-									+ penImage2.getHeight()), 1.0));
-			corner.setLabelVisible(false);
-			corner2.setLabelVisible(false);
-			corner.setAuxiliaryObject(!penUsingOffsets);
-			corner2.setAuxiliaryObject(!penUsingOffsets);
-			corner.update();
-			corner2.update();
-			if (gi == null)
-				geoImage.setLabel(null);
-			geoImage.setCorner(corner, 0);
-			geoImage.setCorner(corner2, 1);
-
-			// need 3 corner points if axes ratio isn't 1:1
-			if (!Kernel.isEqual(ev.getXscale(), ev.getYscale())) {
-				GeoPoint2 corner4 = (new GeoPoint2(app.getKernel()
-						.getConstruction(), null,
-						ev.toRealWorldCoordX(penOffsetX),
-						ev.toRealWorldCoordY(penOffsetY), 1.0));
-				corner4.setLabelVisible(false);
-				corner4.setAuxiliaryObject(!penUsingOffsets);
-				corner4.update();
-				geoImage.setCorner(corner4, 2);
-			}
-
-			geoImage.setFixed(!penUsingOffsets);
-			geoImage.setSelectionAllowed(penUsingOffsets);
-			geoImage.setAuxiliaryObject(!penUsingOffsets);
-			geoImage.update();
-
-			GeoImage.updateInstances();
-
-			lastPenImage = geoImage;
-		}
-
-		// doesn't work as all changes are in the image not the XML
-		// app.storeUndoInfo();
-		app.setUnsaved();
-
-		if (!penWritingToExistingImage)
-			penImage = null;
-		// penWritingToExistingImage = false;
-
-		minX = Integer.MAX_VALUE;
-		maxX = Integer.MIN_VALUE;
-
 	}
 
 	private void mouseReleasedFreehand() {
@@ -1048,15 +752,6 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 		freehand = b;
 	}
 
-	@Override
-	public void handleMouseReleasedForPenMode(AbstractEvent event) {
-		handleMouseReleasedForPenMode(geogebra.euclidian.event.MouseEvent.getEvent(event));
-	}
-
-	@Override
-	public void handleMousePressedForPenMode(AbstractEvent e, Hits hits) {
-		handleMousePressedForPenMode(geogebra.euclidian.event.MouseEvent.getEvent(e), hits);
-	}
 	
 	/*
 	 * ported from xournal by Neel Shah
@@ -1318,24 +1013,24 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 		}
 		int size=temp.size();
 		String equation=null;
-		double x1=view.toRealWorldCoordX(temp.get(0).x + penOffsetX);
-		double y1=view.toRealWorldCoordY(temp.get(0).y + penOffsetY);
-		double x2=view.toRealWorldCoordX(temp.get(size/3).x + penOffsetX);
-		double y2=view.toRealWorldCoordY(temp.get(size/3).y + penOffsetY);
-		double x3=view.toRealWorldCoordX(temp.get(2*size/3).x + penOffsetX);
-		double y3=view.toRealWorldCoordY(temp.get(2*size/3).y + penOffsetY);
+		double x1=view.toRealWorldCoordX(temp.get(0).x);
+		double y1=view.toRealWorldCoordY(temp.get(0).y);
+		double x2=view.toRealWorldCoordX(temp.get(size/3).x);
+		double y2=view.toRealWorldCoordY(temp.get(size/3).y);
+		double x3=view.toRealWorldCoordX(temp.get(2*size/3).x);
+		double y3=view.toRealWorldCoordY(temp.get(2*size/3).y);
 		double m1=(y2-y1)/(x2-x1);
 		double m2=(y3-y2)/(x3-x2); 
 		if(x2 == x1)
 		{
-			x1=view.toRealWorldCoordX(temp.get(size/4).x + penOffsetX);
-			y1=view.toRealWorldCoordY(temp.get(size/4).y + penOffsetY);
+			x1=view.toRealWorldCoordX(temp.get(size/4).x);
+			y1=view.toRealWorldCoordY(temp.get(size/4).y);
 			m1=(y2-y1)/(x2-x1);
 		}
 		if(x2 == x3)
 		{
-			x3=view.toRealWorldCoordX(temp.get(11*size/12).x + penOffsetX);
-			y3=view.toRealWorldCoordY(temp.get(11*size/12).y + penOffsetY);
+			x3=view.toRealWorldCoordX(temp.get(11*size/12).x);
+			y3=view.toRealWorldCoordY(temp.get(11*size/12).y);
 			m2=(y3-y2)/(x3-x2);
 		}
 		double x_center=(((m1*m2)*(y1-y3)) + (m2*(x1+x2)) - (m1*(x2+x3)))/(2*(m2-m1));
@@ -1357,7 +1052,7 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 		GeoElement circle = algo.getGeoElements()[0];
 		circle.setLineThickness(penSize * 2);
 		circle.setLineType(penLineStyle);
-		circle.setObjColor(new geogebra.awt.Color(penColor));
+		circle.setObjColor(penColor);
 		circle.setLayer(1);
 		circle.updateRepaint();
 		
@@ -1369,7 +1064,7 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
      * @param point Second point
      * @return Delta x
      */
-    private static int getDeltaX(java.awt.Point startPoint2, java.awt.Point point)
+    private static int getDeltaX(Point startPoint2, Point point)
     {
         return point.x - startPoint2.x;
     }
@@ -1381,7 +1076,7 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
      * @param point Second point
      * @return Delta y
      */
-    private static int getDeltaY(java.awt.Point startPoint2, java.awt.Point point) 
+    private static int getDeltaY(Point startPoint2, Point point) 
     {
         return point.y - startPoint2.y;
     }
@@ -1813,17 +1508,17 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
     	points[1] = points[9];
     	for(i=0; i<4; ++i)
     	{
-    		x_first = view.toRealWorldCoordX(points[2*i] + penOffsetX);
-    		y_first = view.toRealWorldCoordY(points[2*i + 1] + penOffsetY);
-    		x_last = view.toRealWorldCoordX(points[2*i + 2] + penOffsetX);
-    		y_last = view.toRealWorldCoordY(points[2*i + 3] + penOffsetY);
+    		x_first = view.toRealWorldCoordX(points[2*i]);
+    		y_first = view.toRealWorldCoordY(points[2*i + 1]);
+    		x_last = view.toRealWorldCoordX(points[2*i + 2]);
+    		y_last = view.toRealWorldCoordY(points[2*i + 3]);
     		p =new GeoPoint2(cons, x_first, y_first, 1.0);
     		q =new GeoPoint2(cons, x_last, y_last, 1.0);
     		algo = new AlgoJoinPointsSegment(cons, null, p, q);
     		GeoElement line = algo.getGeoElements()[0];
 			line.setLineThickness(penSize * 2);
 			line.setLineType(penLineStyle);
-			line.setObjColor(new geogebra.awt.Color(penColor));
+			line.setObjColor(penColor);
 			line.setLayer(1);
 			line.updateRepaint();
     	}
@@ -2012,39 +1707,39 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 		}
 		delta = Math.abs(alpha[1] - alpha[2])/2;
 		dist = (Math.hypot(temp.x1 - temp.x2, temp.y1 - temp.y2) + Math.hypot(temp2.x1 - temp2.x2, temp2.y1 - temp2.y2))/2;
-		x_first = view.toRealWorldCoordX(x1 + penOffsetX);
-		y_first = view.toRealWorldCoordY(y1 + penOffsetY);
-		x_last = view.toRealWorldCoordX(x2 + penOffsetX);
-		y_last = view.toRealWorldCoordY(y2 + penOffsetY);
+		x_first = view.toRealWorldCoordX(x1);
+		y_first = view.toRealWorldCoordY(y1);
+		x_last = view.toRealWorldCoordX(x2);
+		y_last = view.toRealWorldCoordY(y2);
 		p = new GeoPoint2(cons, x_first, y_first, 1.0);
 		q = new GeoPoint2(cons, x_last, y_last, 1.0);
 		algo = new AlgoJoinPointsSegment(cons, null, p, q);
 		GeoElement line = algo.getGeoElements()[0];
 		line.setLineThickness(penSize * 2);
 		line.setLineType(penLineStyle);
-		line.setObjColor(new geogebra.awt.Color(penColor));
+		line.setObjColor(penColor);
 		line.setLayer(1);
 		line.updateRepaint();
 		
-		x_first = view.toRealWorldCoordX((x2 - dist*Math.cos(angle + delta)) + penOffsetX);
-		y_first = view.toRealWorldCoordY((y2 - dist*Math.sin(angle + delta)) + penOffsetY);
+		x_first = view.toRealWorldCoordX((x2 - dist*Math.cos(angle + delta)));
+		y_first = view.toRealWorldCoordY((y2 - dist*Math.sin(angle + delta)));
 		p = new GeoPoint2(cons, x_first, y_first, 1.0);
 		algo = new AlgoJoinPointsSegment(cons, null, p, q);
 		line = algo.getGeoElements()[0];
 		line.setLineThickness(penSize * 2);
 		line.setLineType(penLineStyle);
-		line.setObjColor(new geogebra.awt.Color(penColor));
+		line.setObjColor(penColor);
 		line.setLayer(1);
 		line.updateRepaint();
 		
-		x_first = view.toRealWorldCoordX((x2 - dist*Math.cos(angle - delta)) + penOffsetX);
-		y_first = view.toRealWorldCoordY((y2 - dist*Math.sin(angle - delta)) + penOffsetY);
+		x_first = view.toRealWorldCoordX((x2 - dist*Math.cos(angle - delta)));
+		y_first = view.toRealWorldCoordY((y2 - dist*Math.sin(angle - delta)));
 		p = new GeoPoint2(cons, x_first, y_first, 1.0);
 		algo = new AlgoJoinPointsSegment(cons, null, p, q);
 		line = algo.getGeoElements()[0];
 		line.setLineThickness(penSize * 2);
 		line.setLineType(penLineStyle);
-		line.setObjColor(new geogebra.awt.Color(penColor));
+		line.setObjColor(penColor);
 		line.setLayer(1);
 		line.updateRepaint();
 		return true;
@@ -2163,17 +1858,17 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
     	points[1] = points[2*nsides + 1];
     	for(i=0; i<nsides; ++i)
     	{
-    		x_first = view.toRealWorldCoordX(points[2*i] + penOffsetX);
-    		y_first = view.toRealWorldCoordY(points[2*i + 1] + penOffsetY);
-    		x_last = view.toRealWorldCoordX(points[2*i + 2] + penOffsetX);
-    		y_last = view.toRealWorldCoordY(points[2*i + 3] + penOffsetY);
+    		x_first = view.toRealWorldCoordX(points[2*i]);
+    		y_first = view.toRealWorldCoordY(points[2*i + 1]);
+    		x_last = view.toRealWorldCoordX(points[2*i + 2]);
+    		y_last = view.toRealWorldCoordY(points[2*i + 3]);
     		p =new GeoPoint2(cons, x_first, y_first, 1.0);
     		q =new GeoPoint2(cons, x_last, y_last, 1.0);
     		algo = new AlgoJoinPointsSegment(cons, null, p, q);
     		GeoElement line = algo.getGeoElements()[0];
 			line.setLineThickness(penSize * 2);
 			line.setLineType(penLineStyle);
-			line.setObjColor(new geogebra.awt.Color(penColor));
+			line.setObjColor(penColor);
 			line.setLayer(1);
 			line.updateRepaint();
     	}
@@ -2190,8 +1885,9 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 
 	@Override
 	public void setPenColor(geogebra.common.awt.Color color) {
-		setPenColor(geogebra.awt.Color.getAwtColor(color));
+		this.penColor = color;
 		
 	}
+
 
 }
