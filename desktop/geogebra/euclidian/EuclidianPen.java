@@ -2,6 +2,7 @@ package geogebra.euclidian;
 
 import geogebra.common.awt.Point;
 import geogebra.common.euclidian.AbstractEuclidianView;
+import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.euclidian.Hits;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.kernel.Construction;
@@ -41,7 +42,7 @@ import java.util.List;
 
 public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 
-	private Application app;
+	private AbstractApplication app;
 	private AbstractEuclidianView view;
 
 	private int penOffsetX = 0;
@@ -177,7 +178,7 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 	/************************************************
 	 * Construct EuclidianPen
 	 */
-	public EuclidianPen(Application app, EuclidianViewND view) {
+	public EuclidianPen(AbstractApplication app, AbstractEuclidianView view) {
 		this.view = view;
 		this.app = app;
 
@@ -256,7 +257,7 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 			}
 		}
 
-		if (Application.isRightClick(e) && !freehand) {
+		if (app.isRightClick(geogebra.euclidian.event.MouseEvent.wrapEvent(e)) && !freehand) {
 			view.setEraserCursor();
 			erasing = true;
 		} else {
@@ -401,7 +402,7 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 		Point newPoint = new Point(e.getX() - penOffsetX, e.getY() - penOffsetY);
 		Graphics2D g2D = ((EuclidianView)view).getGraphicsForPen();
 		Shape circle;
-		if (Application.isRightClick(e) && !freehand) {
+		if (app.isRightClick(geogebra.euclidian.event.MouseEvent.wrapEvent(e)) && !freehand) {
 			g2D.setColor(Color.white);
 			circle = new Ellipse2D.Float(e.getX() - eraserSize, e.getY()
 					- eraserSize, eraserSize * 2, eraserSize * 2);
@@ -802,7 +803,7 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
     		// don't set label
         	newPolyLine = new AlgoPolyLine(cons, newPts, null);
 
-        	EuclidianViewND ev = app.getActiveEuclidianView();
+        	EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
 			
 			Kernel kernelA = app.getKernel();
 	
@@ -904,7 +905,7 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 			g2d.setColor(penColor);
 		}
 		g2d.draw(pb.gp);
-		EuclidianViewND ev = app.getActiveEuclidianView();
+		EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
 
 		app.refreshViews(); // clear trace
 		//TODO -- did we need the following line?
@@ -912,7 +913,7 @@ public class EuclidianPen extends geogebra.common.euclidian.EuclidianPen{
 
 		if (giNeedsInit
 				|| (gi == null && lastPenImage == null && !penWritingToExistingImage)) {
-			String fileName = app.createImage(penImage2, "penimage.png");
+			String fileName = ((Application)app).createImage(penImage2, "penimage.png");
 			// Application.debug(fileName);
 			GeoImage geoImage = null;
 			if (gi == null)

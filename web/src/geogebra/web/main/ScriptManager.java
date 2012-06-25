@@ -370,6 +370,12 @@ public class ScriptManager extends ScriptManagerCommon {
 		// String getHostname()
 		// void debug(String string)
 	}-*/;
+
+	@Override
+    public void notifyDraw(String labelSimple, double[] x, double[] y) {
+	    AbstractApplication.warn("notifyDraw() unimplemented");
+	    
+    }
 	
 
 }
