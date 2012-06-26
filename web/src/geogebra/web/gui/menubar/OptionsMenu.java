@@ -4,7 +4,6 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.main.AbstractApplication;
 import geogebra.web.gui.images.AppResources;
 
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
 
@@ -38,7 +37,7 @@ public class OptionsMenu extends MenuBar {
 		//language menu
 		addLanguageMenu();
 		
-		//addPointCapturingMenu();
+		addPointCapturingMenu();
 	}
 	
 	private void addLanguageMenu() {
@@ -93,20 +92,20 @@ public class OptionsMenu extends MenuBar {
 		submenu.addItem(app.getMenu("SnapToGrid"), new RadioButtonCommand(submenu, 1) {
 			@Override
 			public void exec() {
-				setPointCapturing(0);
+				setPointCapturing(1);
 			}
 		});
 		submenu.addItem(app.getMenu("FixedToGrid"), new RadioButtonCommand(submenu, 2) {
 			@Override
 			public void exec() {
-				setPointCapturing(1);
+				setPointCapturing(2);
 			}
 		});
 	
 		submenu.addItem(app.getMenu("off"), new RadioButtonCommand(submenu, 3) {
 			@Override
 			public void exec() {
-				setPointCapturing(2);
+				setPointCapturing(0);
 			}
 		});
 		
