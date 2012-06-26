@@ -28,8 +28,9 @@ public class MouseEvent extends AbstractEvent {
 	public static final int MOUSE_RELEASED = 502;
 	public static final int MOUSE_WHEEL = 507;*/
 
-	private MouseEvent(NativeEvent event) {
+	private MouseEvent(NativeEvent event, HasOffsets h) {
 		this.event = event;
+		this.off = h;
 	}
 	private HasOffsets off;
 	public static MouseEvent wrapEvent(NativeEvent nativeEvent,HasOffsets h) {
@@ -37,14 +38,13 @@ public class MouseEvent extends AbstractEvent {
 		if(!pool.isEmpty()){
 			MouseEvent wrap = pool.getLast();
 			wrap.event = nativeEvent;
-			wrap.off = h;
 			pool.removeLast();
 			return wrap;
 		}
 		if (!h.isOffsetsUpToDate()) {
 			h.updateOffsets();
 		}
-		return new MouseEvent(nativeEvent);
+		return new MouseEvent(nativeEvent,h);
 	}
 
 	@Override

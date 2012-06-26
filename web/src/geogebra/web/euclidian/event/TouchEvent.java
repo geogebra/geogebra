@@ -16,7 +16,8 @@ public class TouchEvent extends AbstractEvent {
 	private Touch event;
 	private Integer id;
 	
-	private TouchEvent(Touch touch) {
+	private TouchEvent(Touch touch,HasOffsets h) {
+		this.off = h;
 		this.event = touch;
 	}
 
@@ -94,14 +95,13 @@ public class TouchEvent extends AbstractEvent {
 		if(!pool.isEmpty()){
 			TouchEvent wrap = pool.getLast();
 			wrap.event = touch;
-			wrap.off = h;
 			pool.removeLast();
 			return wrap;
 		}
 		if (!h.isOffsetsUpToDate()) {
 			h.updateOffsets();
 		}
-		return new TouchEvent(touch);
+		return new TouchEvent(touch,h);
 	}
 
 	@Override
