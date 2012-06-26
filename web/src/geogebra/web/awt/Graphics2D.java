@@ -98,6 +98,7 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 		}
 		doDrawShape(shape);
 		context.stroke();
+		
 	}
 
 	protected void doDrawShape(Shape shape) {
@@ -307,7 +308,12 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 			this.@geogebra.web.awt.Graphics2D::nativeDashUsed = true;
 			
 		} else if (typeof ctx.webkitLineDash != 'undefined') {
-			ctx.webkitLineDash = dasharray;
+			
+			if (dasharray == undefined) {
+				ctx.webkitLineDash = [];
+			} else {
+				ctx.webkitLineDash = dasharray;
+			}
 			this.@geogebra.web.awt.Graphics2D::nativeDashUsed = true;
 		}
 	}-*/;
@@ -688,6 +694,9 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 	public void drawRect(int x, int y, int width, int height) {
 	   context.rect(x, y, width, height);
 	   context.stroke();
+	   
+   	setStrokeDash(context, null);
+
 	}
 
 	@Override
@@ -736,6 +745,7 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
             int arcWidth, int arcHeight) {
 	    roundRect(x,y,width,height,arcHeight);
 	    context.stroke();
+	    
 	    
     }
 	
