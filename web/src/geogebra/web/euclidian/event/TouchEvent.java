@@ -13,7 +13,6 @@ public class TouchEvent extends AbstractEvent {
 	private static final Integer TOUCHSTART = 1;
 	private static final Integer TOUCHMOVE = 2;
 	private static final Integer TOUCHEND = 3;
-	public static LinkedList<TouchEvent> pool = new LinkedList<TouchEvent>();
 	private Touch event;
 	private Integer id;
 	
@@ -40,7 +39,7 @@ public class TouchEvent extends AbstractEvent {
 
 	@Override
 	public void release() {
-		TouchEvent.pool.remove(this);
+		off.getTouchEventPool().add(this);
 	}
 
 	@Override
@@ -91,6 +90,7 @@ public class TouchEvent extends AbstractEvent {
 	}
 	private HasOffsets off;
 	public static AbstractEvent wrapEvent(Touch touch,HasOffsets h) {
+		LinkedList<TouchEvent> pool = h.getTouchEventPool();
 		if(!pool.isEmpty()){
 			TouchEvent wrap = pool.getLast();
 			wrap.event = touch;

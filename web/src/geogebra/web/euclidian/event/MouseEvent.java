@@ -12,7 +12,7 @@ import com.google.gwt.event.dom.client.MouseWheelEvent;
 
 public class MouseEvent extends AbstractEvent {
 
-	public static LinkedList<MouseEvent> pool = new LinkedList<MouseEvent>();
+	
 	private NativeEvent event;
 	private Integer id;
 	private double rotation;
@@ -33,6 +33,7 @@ public class MouseEvent extends AbstractEvent {
 	}
 	private HasOffsets off;
 	public static MouseEvent wrapEvent(NativeEvent nativeEvent,HasOffsets h) {
+		LinkedList<MouseEvent> pool = h.getMouseEventPool();
 		if(!pool.isEmpty()){
 			MouseEvent wrap = pool.getLast();
 			wrap.event = nativeEvent;
@@ -68,7 +69,7 @@ public class MouseEvent extends AbstractEvent {
 
 	@Override
 	public void release() {
-		MouseEvent.pool.add(this);
+		off.getMouseEventPool().add(this);
 	}
 
 	@Override

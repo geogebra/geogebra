@@ -1,5 +1,7 @@
 package geogebra.web.euclidian;
 
+import java.util.LinkedList;
+
 import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.euclidian.EuclidianPen;
 import geogebra.common.euclidian.event.AbstractEvent;
@@ -9,6 +11,8 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.AbstractApplication;
 import geogebra.web.euclidian.event.HasOffsets;
+import geogebra.web.euclidian.event.MouseEvent;
+import geogebra.web.euclidian.event.TouchEvent;
 import geogebra.web.main.Application;
 
 import com.google.gwt.core.client.JsArray;
@@ -239,7 +243,14 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 		return app.showResetIcon()
 				&& ((mouseLoc.y < 20) && (mouseLoc.x > (view.getViewWidth() - 18)));
 	}
-	
+	private LinkedList<MouseEvent> mousePool = new LinkedList<MouseEvent>();
+	public LinkedList<MouseEvent> getMouseEventPool() {
+	    return mousePool;
+    }
+	private LinkedList<TouchEvent> touchPool = new LinkedList<TouchEvent>();
+	public LinkedList<TouchEvent> getTouchEventPool() {
+	    return touchPool;
+    }
 
 
 }

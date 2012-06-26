@@ -1,5 +1,7 @@
 package geogebra.web.euclidian.event;
 
+import java.util.LinkedList;
+
 public class ZeroOffset implements HasOffsets {
 
 	public int getXoffset() {
@@ -18,4 +20,12 @@ public class ZeroOffset implements HasOffsets {
 	    // nothing to update
     }
 	public static final ZeroOffset instance = new ZeroOffset();
+	private LinkedList<MouseEvent> mousePool = new LinkedList<MouseEvent>();
+	public LinkedList<MouseEvent> getMouseEventPool() {
+	    return mousePool;
+    }
+	private LinkedList<TouchEvent> touchPool = new LinkedList<TouchEvent>();
+	public LinkedList<TouchEvent> getTouchEventPool() {
+	    return touchPool;
+    }
 }
