@@ -17,6 +17,7 @@ import geogebra.web.gui.dialog.ImageFileInputDialog;
 import geogebra.web.gui.inputbar.AlgebraInput;
 import geogebra.web.gui.inputbar.InputBarHelpPanel;
 import geogebra.web.gui.layout.Layout;
+import geogebra.web.gui.menubar.GeoGebraMenubar;
 import geogebra.web.gui.util.GeoGebraFileChooser;
 import geogebra.web.gui.view.algebra.AlgebraController;
 import geogebra.web.gui.view.algebra.AlgebraView;
@@ -75,6 +76,13 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 	public void updateMenubarSelection() {
 		GGWMenuBar.getMenubar().updateSelection();
 
+	}
+	
+	@Override
+	public void updateMenubar() {
+		GeoGebraMenubar menuBar = GGWMenuBar.getMenubar();
+		if (menuBar != null)
+			menuBar.updateMenubar();
 	}
 	
 	@Override

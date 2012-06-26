@@ -277,7 +277,7 @@ public class EuclidianStyleBarStatic {
 			ev.repaint();
 		}
 
-		else if (actionCommand == "pointCapture") {
+		else if (actionCommand.equals("pointCapture")) {
 			//int mode = btnPointCapture.getSelectedIndex();
 			int mode = ev.getStyleBar().getPointCaptureSelectedIndex();
 			

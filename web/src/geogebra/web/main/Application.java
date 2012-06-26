@@ -1447,7 +1447,7 @@ public class Application extends AbstractApplication {
 
 	@Override
 	public void updateMenubar() {
-		getGuiManager().updateMenubar();
+//		getGuiManager().updateMenubar();
 		AbstractApplication.debug("implementation needed - just finishing"); // TODO Auto-generated
 	}
 

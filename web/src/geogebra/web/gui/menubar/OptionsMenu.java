@@ -16,6 +16,7 @@ public class OptionsMenu extends MenuBar {
 	Kernel kernel;
 	
 	private LanguageMenu languageMenu;
+	private MenuItem menuPointCapturing;
 	
 	/**
 	 * Constructs the "Option" menu
@@ -109,11 +110,11 @@ public class OptionsMenu extends MenuBar {
 			}
 		});
 		
-		MenuItem algebraDescription = new MenuItem(GeoGebraMenubar.getMenuBarHtml(AppResources.INSTANCE
+		menuPointCapturing = new MenuItem(GeoGebraMenubar.getMenuBarHtml(AppResources.INSTANCE
 		        .magnet2().getSafeUri().asString(), app.getMenu("PointCapturing")),
 		        true, submenu);		
 		
-		addItem(algebraDescription);		
+		addItem(menuPointCapturing);		
 	}
 	
 	void setPointCapturing(int mode){
@@ -123,5 +124,23 @@ public class OptionsMenu extends MenuBar {
 		}
 		app.setUnsaved();		
 	}
+	
+	public void update() {
+		//updateMenuDecimalPlaces();
+		updateMenuPointCapturing();
+		//updateMenuViewDescription();
+	}
 
+	/**
+	 * Update the point capturing menu.
+	 */
+	private void updateMenuPointCapturing() {
+		if (menuPointCapturing == null)
+			return;
+
+		int mode = app.getActiveEuclidianView().getPointCapturingMode();	
+		((RadioButtonMenuBar) menuPointCapturing.getSubMenu()).setSelected(mode);
+	}
+
+	
 }

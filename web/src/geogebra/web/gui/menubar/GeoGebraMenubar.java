@@ -258,5 +258,10 @@ public class GeoGebraMenubar extends MenuBar {
 		public void updateSelection() {
 			editMenu.initActions();	        
         }
+
+		public void updateMenubar() {
+			AbstractApplication.debug("implementation needed - just finishing");
+			optionsMenu.update();        
+        }
 	
 }
