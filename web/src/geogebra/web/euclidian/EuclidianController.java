@@ -54,7 +54,7 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 	 * Static to get correct getY() in mouseEvents
 	 */
 	public static int EuclidianViewYOffset;
-	
+	private static EuclidianController singleton;
 	public static boolean EuclidianOffsetsInited = false;
 	
 	public EuclidianController(Kernel kernel) {
@@ -62,6 +62,7 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 		setApplication(kernel.getApplication());
 		
 		tempNum = new MyDouble(kernel);
+		singleton = this;
 	}
 	
 	
@@ -222,8 +223,8 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 	}
 	
 	public static void initEuclidianOffsets() {
-		EuclidianViewXOffset = ((EuclidianView) view).getAbsoluteLeft() + Window.getScrollLeft();
-		EuclidianViewYOffset = ((EuclidianView) view).getAbsoluteTop() + Window.getScrollTop();
+		EuclidianViewXOffset = ((EuclidianView) singleton.view).getAbsoluteLeft() + Window.getScrollLeft();
+		EuclidianViewYOffset = ((EuclidianView) singleton.view).getAbsoluteTop() + Window.getScrollTop();
 		
 	}
 
