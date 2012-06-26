@@ -1,6 +1,7 @@
 package geogebra.web.gui.app;
 
 import geogebra.common.main.AbstractApplication;
+import geogebra.web.euclidian.event.HasOffsets;
 import geogebra.web.gui.view.algebra.AlgebraView;
 
 import com.google.gwt.core.client.GWT;
@@ -51,6 +52,8 @@ public class AlgebraPanel extends Composite implements RequiresResize {
     }
 
 	public void onResize() {
+		if(application.getActiveEuclidianView().getEuclidianController() instanceof HasOffsets)
+			((HasOffsets)application.getActiveEuclidianView().getEuclidianController()).updateOffsets();
 		AbstractApplication.debug("resized");
     }
 
