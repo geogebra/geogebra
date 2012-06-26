@@ -48,7 +48,7 @@ public class AlgoAreConcurrent extends AlgoElement implements SymbolicParameters
 
         setInputOutput();
         compute();
-        outputBoolean.setLabel(label);
+        // outputBoolean.setLabel(label);
     }
 
     @Override

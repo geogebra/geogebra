@@ -51,7 +51,7 @@ public class AlgoDependentBoolean extends AlgoElement implements SymbolicParamet
         // compute value of dependent number
         compute();      
         bool.setLabel(label);
-    }   
+    }
     
 	@Override
 	public Algos getClassName() {

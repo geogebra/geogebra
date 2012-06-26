@@ -46,7 +46,7 @@ public class AlgoAreCollinear extends AlgoElement implements SymbolicParametersA
 
         setInputOutput();
         compute();
-        outputBoolean.setLabel(label);
+        // outputBoolean.setLabel(label);
     }
 
     @Override

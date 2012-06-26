@@ -48,9 +48,9 @@ public class AlgoAreEqual extends AlgoElement implements
 
 		setInputOutput();
 		compute();
-		outputBoolean.setLabel(label);
+		// outputBoolean.setLabel(label);
 	}
-
+		
 	@Override
 	public Algos getClassName() {
 		return Algos.AlgoAreEqual;
