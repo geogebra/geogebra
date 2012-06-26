@@ -695,8 +695,6 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 	   context.rect(x, y, width, height);
 	   context.stroke();
 	   
-   	setStrokeDash(context, null);
-
 	}
 
 	@Override
