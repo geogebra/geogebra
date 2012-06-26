@@ -444,6 +444,7 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener,
 		createBgColorButton();
 		createTextButtons();
 		createTableTextButtons();
+		setActionCommands();
 
 		addButtons();
 
@@ -454,6 +455,12 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener,
 			// popupBtnList[i].setStandardButton(true);
 		}
 
+	}
+	
+	protected void setActionCommands(){
+		btnShowAxes.setActionCommand("showAxes");
+		btnShowGrid.setActionCommand("showGrid");
+		btnPointCapture.setActionCommand("pointCapture");
 	}
 
 	/**
@@ -1443,42 +1450,10 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener,
 	 */
 	protected void processSource(Object source, ArrayList<GeoElement> targetGeos) {
 
-		if (source.equals(btnShowAxes)) {
-			if (app.getEuclidianView1() == ev)
-				app.getSettings().getEuclidian(1)
-						.setShowAxes(!ev.getShowXaxis(), !ev.getShowXaxis());
-			else if (!app.hasEuclidianView2EitherShowingOrNot())
-				ev.setShowAxes(!ev.getShowXaxis(), true);
-			else if (app.getEuclidianView2() == ev)
-				app.getSettings().getEuclidian(2)
-						.setShowAxes(!ev.getShowXaxis(), !ev.getShowXaxis());
-			else
-				ev.setShowAxes(!ev.getShowXaxis(), true);
-			ev.repaint();
-		}
-
-		else if (source.equals(btnShowGrid)) {
-			if (app.getEuclidianView1() == ev)
-				app.getSettings().getEuclidian(1).showGrid(!ev.getShowGrid());
-			else if (!app.hasEuclidianView2EitherShowingOrNot())
-				ev.showGrid(!ev.getShowGrid());
-			else if (app.getEuclidianView2() == ev)
-				app.getSettings().getEuclidian(2).showGrid(!ev.getShowGrid());
-			else
-				ev.showGrid(!ev.getShowGrid());
-			ev.repaint();
-		}
-
-		else if (source == btnPointCapture) {
-			int mode = btnPointCapture.getSelectedIndex();
-			if (mode == 3 || mode == 0)
-				mode = 3 - mode; // swap 0 and 3
-			ev.setPointCapturing(mode);
-
-			// update other EV stylebars since this is a global property
-			app.updateStyleBars();
-
-		}
+		if ((source instanceof JButton)
+				&& (EuclidianStyleBarStatic.processSourceCommon(
+						((JButton) source).getActionCommand(), targetGeos, ev)))
+			return;
 
 		else if (source == btnColor) {
 			if (mode == EuclidianConstants.MODE_PEN) {
@@ -1760,5 +1735,11 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener,
 		btnFixPosition.setToolTipText(app.getPlain("AbsoluteScreenLocation"));
 
 	}
+
+	public int getPointCaptureSelectedIndex() {
+		return btnPointCapture.getSelectedIndex();
+	}
+	
+
 
 }

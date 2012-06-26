@@ -236,5 +236,65 @@ public class EuclidianStyleBarStatic {
 		return needUndo;
 	}
 
+
+	/**
+	 * process the action performed
+	 * @param actionCommand
+	 * @param targetGeos
+	 * @param ev 
+	 * @return 
+	 */
+	// if all cases will be processed here, instead of
+	// EuclidianStyleBar.processSource, the return value will be unnecessary
+	public static boolean processSourceCommon(String actionCommand, ArrayList<GeoElement> targetGeos, EuclidianViewInterfaceCommon ev) {
+		AbstractEuclidianController ec = ev.getEuclidianController();
+		AbstractApplication app = ev.getApplication();
+		//cons = app.getKernel().getConstruction();
+		
+		if (actionCommand.equals("showAxes")) {
+			if (app.getEuclidianView1() == ev)
+				app.getSettings().getEuclidian(1)
+						.setShowAxes(!ev.getShowXaxis(), !ev.getShowXaxis());
+			else if (!app.hasEuclidianView2EitherShowingOrNot())
+				ev.setShowAxes(!ev.getShowXaxis(), true);
+			else if (app.getEuclidianView2() == ev)
+				app.getSettings().getEuclidian(2)
+						.setShowAxes(!ev.getShowXaxis(), !ev.getShowXaxis());
+			else
+				ev.setShowAxes(!ev.getShowXaxis(), true);
+			ev.repaint();
+		}
+
+		else if (actionCommand.equals("showGrid")) {
+			if (app.getEuclidianView1() == ev)
+				app.getSettings().getEuclidian(1).showGrid(!ev.getShowGrid());
+			else if (!app.hasEuclidianView2EitherShowingOrNot())
+				ev.showGrid(!ev.getShowGrid());
+			else if (app.getEuclidianView2() == ev)
+				app.getSettings().getEuclidian(2).showGrid(!ev.getShowGrid());
+			else
+				ev.showGrid(!ev.getShowGrid());
+			ev.repaint();
+		}
+
+		else if (actionCommand == "pointCapture") {
+			//int mode = btnPointCapture.getSelectedIndex();
+			int mode = ev.getStyleBar().getPointCaptureSelectedIndex();
+			
+			if (mode == 3 || mode == 0)
+				mode = 3 - mode; // swap 0 and 3
+			ev.setPointCapturing(mode);
+
+			// update other EV stylebars since this is a global property
+			app.updateStyleBars();
+
+		} else {
+			return false;
+		}
+		
+		return true;
+	}
+		
+	
 	
 }

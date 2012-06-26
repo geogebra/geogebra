@@ -35,6 +35,8 @@ import geogebra.web.main.Application;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import javax.swing.JButton;
+
 import com.google.gwt.canvas.dom.client.ImageData;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -42,6 +44,7 @@ import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 public class EuclidianStyleBar extends HorizontalPanel
 	implements geogebra.common.euclidian.EuclidianStyleBar, ValueChangeHandler, ClickHandler {
@@ -146,7 +149,7 @@ public class EuclidianStyleBar extends HorizontalPanel
 
 		initGUI();
 		isIniting = false;
-
+		
 		setMode(ev.getMode()); // this will also update the stylebar
 		addStyleName("EuclidianStyleBar");
 	}
@@ -481,11 +484,18 @@ public class EuclidianStyleBar extends HorizontalPanel
 		createColorButton();
 		createBgColorButton();
 		createTextButtons();
+		setActionCommands();
 
 		addButtons();
 	
 		popupBtnList = newPopupBtnList();
 		toggleBtnList = newToggleBtnList();
+	}
+	
+	protected void setActionCommands(){
+		setActionCommand(btnShowAxes, "showAxes");
+		setActionCommand(btnShowGrid, "showGrid");
+		setActionCommand(btnPointCapture, "pointCapture");
 	}
 
 	/**
@@ -1375,6 +1385,12 @@ public class EuclidianStyleBar extends HorizontalPanel
 	 */
 	protected void processSource(Object source, ArrayList<GeoElement> targetGeos) {
 
+		if ((source instanceof Widget)
+				&& (EuclidianStyleBarStatic.processSourceCommon(
+						getActionCommand((Widget) source), targetGeos, ev)))
+			return;
+
+		
 		if (source.equals(btnShowAxes)) {
 			if (app.getEuclidianView1() == ev)
 				app.getSettings().getEuclidian(1)
@@ -1643,4 +1659,18 @@ public class EuclidianStyleBar extends HorizontalPanel
 	public void updateAllButtons() {
 	
 	}
+
+	public int getPointCaptureSelectedIndex() {
+	    return btnPointCapture.getSelectedIndex();
+    }
+	
+	private void setActionCommand(Widget widget, String actionCommand){
+		widget.getElement().setAttribute("actionCommand", actionCommand);
+	}
+
+	private String getActionCommand(Widget widget){
+		return widget.getElement().getAttribute("actionCommand");
+	}
+
+	
 }

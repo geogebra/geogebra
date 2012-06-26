@@ -1,6 +1,7 @@
 package geogebra.common.euclidian;
 
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoList;
 
 import java.util.ArrayList;
 
@@ -40,5 +41,7 @@ public interface EuclidianStyleBar {
 	 * Updates the state of the stylebar buttons and the defaultGeo field.
 	 */
 	void updateStyleBar();
+
+	int getPointCaptureSelectedIndex();
 
 }
