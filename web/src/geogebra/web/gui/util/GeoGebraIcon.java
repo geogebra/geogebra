@@ -16,6 +16,7 @@ import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.canvas.dom.client.ImageData;
 import com.google.gwt.canvas.dom.client.TextMetrics;
+import java.util.HashMap;
 import com.google.gwt.dom.client.CanvasElement;
 import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.resources.client.ImageResource;
@@ -328,6 +329,8 @@ public class GeoGebraIcon {
 
 		return g2.getImageData(0, 0, w, h);
 	}
+	
+	private static HashMap<String, ImageElement> rightIcons = new HashMap<String, ImageElement>();
 
 	public static ImageData joinIcons(ImageData leftIcon,
             ImageResource rightIcon) {
@@ -340,7 +343,11 @@ public class GeoGebraIcon {
 		Canvas c = getTmpCanvas(w1 + w2, h);
 		Graphics2D g2 = new Graphics2D(c);
 		g2.putImageData(leftIcon, 0, mid - h1/2);
-		g2.getCanvas().getContext2d().drawImage(ImageElement.as(new Image(rightIcon.getSafeUri()).getElement()), w1, mid - h2 / 2, w2, h2);
+		String url = rightIcon.getSafeUri().asString();
+		if (!rightIcons.containsKey(rightIcon.getSafeUri().asString())) {
+			rightIcons.put(url,ImageElement.as(new Image(url).getElement()));
+		}
+		g2.getCanvas().getContext2d().drawImage(rightIcons.get(url), w1, mid - h2 / 2, w2, h2);
 
 		return g2.getImageData(0, 0, w1 +  w2, h);
     }
