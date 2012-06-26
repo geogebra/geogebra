@@ -8,6 +8,7 @@ import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.AbstractApplication;
+import geogebra.web.euclidian.event.HasOffsets;
 import geogebra.web.main.Application;
 
 import com.google.gwt.core.client.JsArray;
@@ -44,25 +45,42 @@ import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.dom.client.TouchStartHandler;
 import com.google.gwt.user.client.Window;
 
-public class EuclidianController extends geogebra.common.euclidian.AbstractEuclidianController implements MouseDownHandler, MouseUpHandler, MouseMoveHandler, MouseOutHandler, MouseOverHandler, MouseWheelHandler, ClickHandler, DoubleClickHandler, TouchStartHandler, TouchEndHandler, TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, GestureChangeHandler {
+public class EuclidianController extends geogebra.common.euclidian.AbstractEuclidianController implements MouseDownHandler, MouseUpHandler, 
+MouseMoveHandler, MouseOutHandler, MouseOverHandler, MouseWheelHandler, ClickHandler, DoubleClickHandler, TouchStartHandler, TouchEndHandler, 
+TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, GestureChangeHandler, HasOffsets {
 
 	/**
-	 * Static to get correct getX() in mouseEvents
+	 * @return offset to get correct getX() in mouseEvents
 	 */
-	public static int EuclidianViewXOffset;
+	public int getXoffset(){
+		return EuclidianViewXOffset;
+	}
+	private int EuclidianViewXOffset;
+	
+	private int EuclidianViewYOffset;
 	/**
-	 * Static to get correct getY() in mouseEvents
+	 * @return offset to get correct getY() in mouseEvents
 	 */
-	public static int EuclidianViewYOffset;
-	private static EuclidianController singleton;
-	public static boolean EuclidianOffsetsInited = false;
+	public int getYoffset(){
+		return EuclidianViewYOffset;
+	}
+
+	private boolean EuclidianOffsetsInited = false;
+	
+	public boolean isOffsetsUpToDate(){
+		return EuclidianOffsetsInited;
+	}
+	
+	public void updateOffsets(){
+		EuclidianViewXOffset = ((EuclidianView) view).getAbsoluteLeft() + Window.getScrollLeft();
+		EuclidianViewYOffset = ((EuclidianView) view).getAbsoluteTop() + Window.getScrollTop();	
+	}
 	
 	public EuclidianController(Kernel kernel) {
 		setKernel(kernel);
 		setApplication(kernel.getApplication());
 		
 		tempNum = new MyDouble(kernel);
-		singleton = this;
 	}
 	
 	
@@ -103,7 +121,7 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 	public void onTouchMove(TouchMoveEvent event) {
 		JsArray<Touch> targets = event.getTargetTouches();
 		for (int i = 0; i < targets.length(); i++) {
-			AbstractEvent e = geogebra.web.euclidian.event.TouchEvent.wrapEvent(targets.get(i));
+			AbstractEvent e = geogebra.web.euclidian.event.TouchEvent.wrapEvent(targets.get(i),this);
 			wrapMouseDragged(e);
 			e.release();
 		}
@@ -115,7 +133,7 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 	public void onTouchEnd(TouchEndEvent event) {
 		JsArray<Touch> targets = event.getTargetTouches();
 		for (int i = 0; i < targets.length(); i++) {
-			 AbstractEvent e = geogebra.web.euclidian.event.TouchEvent.wrapEvent(targets.get(i));
+			 AbstractEvent e = geogebra.web.euclidian.event.TouchEvent.wrapEvent(targets.get(i),this);
 			 e.release();
 			 //should be substracted the event just ended, and call mouseevent for that.
 			 //later :-)
@@ -128,7 +146,7 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 	public void onTouchStart(TouchStartEvent event) {
 		JsArray<Touch> targets = event.getTargetTouches();
 		for (int i = 0; i < targets.length(); i++) {
-			AbstractEvent e = geogebra.web.euclidian.event.TouchEvent.wrapEvent(targets.get(i));
+			AbstractEvent e = geogebra.web.euclidian.event.TouchEvent.wrapEvent(targets.get(i),this);
 			wrapMousePressed(e);
 			e.release();
 		}
@@ -140,13 +158,13 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 	private boolean DRAGMODE_MUST_BE_SELECTED = false;
 
 	public void onDoubleClick(DoubleClickEvent event) {
-		 AbstractEvent e = geogebra.web.euclidian.event.MouseEvent.wrapEvent(event.getNativeEvent());
+		 AbstractEvent e = geogebra.web.euclidian.event.MouseEvent.wrapEvent(event.getNativeEvent(),this);
 		 wrapMouseclicked(e);
 		 e.release();
 	}
 
 	public void onClick(ClickEvent event) {
-		 AbstractEvent e = geogebra.web.euclidian.event.MouseEvent.wrapEvent(event.getNativeEvent());
+		 AbstractEvent e = geogebra.web.euclidian.event.MouseEvent.wrapEvent(event.getNativeEvent(),this);
 		 wrapMouseclicked(e);
 		 e.release();
 	}
@@ -154,7 +172,7 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 	public void onMouseWheel(MouseWheelEvent event) {
 		//don't want to roll the scrollbar
 		 event.preventDefault();
-		 AbstractEvent e = geogebra.web.euclidian.event.MouseEvent.wrapEvent(event.getNativeEvent(),event.getDeltaY());
+		 AbstractEvent e = geogebra.web.euclidian.event.MouseEvent.wrapEvent(event.getNativeEvent(),event.getDeltaY(),this);
 		 wrapMouseWheelMoved(e);
 		 e.release();
 	}
@@ -164,14 +182,14 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 	}
 
 	public void onMouseOut(MouseOutEvent event) {
-		AbstractEvent e = geogebra.web.euclidian.event.MouseEvent.wrapEvent(event.getNativeEvent());
+		AbstractEvent e = geogebra.web.euclidian.event.MouseEvent.wrapEvent(event.getNativeEvent(),this);
 		wrapMouseExited(e);
 		e.release();
 	}
 
 	public void onMouseMove(MouseMoveEvent event) {
 		event.preventDefault();
-		 AbstractEvent e = geogebra.web.euclidian.event.MouseEvent.wrapEvent(event.getNativeEvent());
+		 AbstractEvent e = geogebra.web.euclidian.event.MouseEvent.wrapEvent(event.getNativeEvent(),this);
 		 if (!DRAGMODE_MUST_BE_SELECTED) {
 			 wrapMouseMoved(e);
 		 } else {
@@ -184,7 +202,7 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 		DRAGMODE_MUST_BE_SELECTED = false;
 		event.preventDefault();		 
 
-		AbstractEvent e = geogebra.web.euclidian.event.MouseEvent.wrapEvent(event.getNativeEvent());
+		AbstractEvent e = geogebra.web.euclidian.event.MouseEvent.wrapEvent(event.getNativeEvent(),this);
 		wrapMouseReleased(e);
 		e.release();
 	}
@@ -193,7 +211,7 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 		DRAGMODE_MUST_BE_SELECTED = true;
 		if(!textfieldHasFocus) event.preventDefault();
 			
-		AbstractEvent e = geogebra.web.euclidian.event.MouseEvent.wrapEvent(event.getNativeEvent());
+		AbstractEvent e = geogebra.web.euclidian.event.MouseEvent.wrapEvent(event.getNativeEvent(),this);
 		wrapMousePressed(e);
 		e.release();
 	}
@@ -222,11 +240,6 @@ public class EuclidianController extends geogebra.common.euclidian.AbstractEucli
 				&& ((mouseLoc.y < 20) && (mouseLoc.x > (view.getViewWidth() - 18)));
 	}
 	
-	public static void initEuclidianOffsets() {
-		EuclidianViewXOffset = ((EuclidianView) singleton.view).getAbsoluteLeft() + Window.getScrollLeft();
-		EuclidianViewYOffset = ((EuclidianView) singleton.view).getAbsoluteTop() + Window.getScrollTop();
-		
-	}
 
 
 }

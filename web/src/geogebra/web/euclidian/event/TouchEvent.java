@@ -24,7 +24,8 @@ public class TouchEvent extends AbstractEvent {
 	@Override
 	public Point getPoint() {
 		
-		return new Point(event.getClientX() - EuclidianController.EuclidianViewXOffset ,event.getClientY() - EuclidianController.EuclidianViewYOffset);
+		return new Point(event.getClientX() - off.getXoffset() ,
+				event.getClientY() - off.getYoffset());
 	}
 
 	@Override
@@ -50,13 +51,13 @@ public class TouchEvent extends AbstractEvent {
 	@Override
 	public int getX() {
 		
-		return event.getClientX()- EuclidianController.EuclidianViewXOffset;
+		return event.getClientX()- off.getXoffset();
 	}
 
 	@Override
 	public int getY() {
 		
-		return event.getClientY() - EuclidianController.EuclidianViewYOffset;
+		return event.getClientY() - off.getYoffset();
 	}
 
 	@Override
@@ -88,16 +89,17 @@ public class TouchEvent extends AbstractEvent {
 	public boolean isMiddleClick() {
 		return false;
 	}
-
-	public static AbstractEvent wrapEvent(Touch touch) {
+	private HasOffsets off;
+	public static AbstractEvent wrapEvent(Touch touch,HasOffsets h) {
 		if(!pool.isEmpty()){
 			TouchEvent wrap = pool.getLast();
 			wrap.event = touch;
+			wrap.off = h;
 			pool.removeLast();
 			return wrap;
 		}
-		if (!EuclidianController.EuclidianOffsetsInited) {
-			EuclidianController.initEuclidianOffsets();
+		if (!h.isOffsetsUpToDate()) {
+			h.updateOffsets();
 		}
 		return new TouchEvent(touch);
 	}

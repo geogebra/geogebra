@@ -21,6 +21,7 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.web.euclidian.event.MouseEvent;
+import geogebra.web.euclidian.event.ZeroOffset;
 import geogebra.web.main.Application;
 import geogebra.web.main.DrawEquationWeb;
 
@@ -378,7 +379,7 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		} 
 		else if (mode != EuclidianConstants.MODE_SELECTION_LISTENER) {
 			// let euclidianView know about the click
-			AbstractEvent event2 = MouseEvent.wrapEvent(evt.getNativeEvent());
+			AbstractEvent event2 = MouseEvent.wrapEvent(evt.getNativeEvent(),ZeroOffset.instance);
 			app.getActiveEuclidianView().clickedGeo(geo, event2);
 			//event.release();
 		} else 

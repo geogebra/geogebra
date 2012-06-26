@@ -31,16 +31,17 @@ public class MouseEvent extends AbstractEvent {
 	private MouseEvent(NativeEvent event) {
 		this.event = event;
 	}
-
-	public static MouseEvent wrapEvent(NativeEvent nativeEvent) {
+	private HasOffsets off;
+	public static MouseEvent wrapEvent(NativeEvent nativeEvent,HasOffsets h) {
 		if(!pool.isEmpty()){
 			MouseEvent wrap = pool.getLast();
 			wrap.event = nativeEvent;
+			wrap.off = h;
 			pool.removeLast();
 			return wrap;
 		}
-		if (!EuclidianController.EuclidianOffsetsInited) {
-			EuclidianController.initEuclidianOffsets();
+		if (!h.isOffsetsUpToDate()) {
+			h.updateOffsets();
 		}
 		return new MouseEvent(nativeEvent);
 	}
@@ -48,7 +49,7 @@ public class MouseEvent extends AbstractEvent {
 	@Override
 	public Point getPoint() {
 
-		return new Point(event.getClientX() - EuclidianController.EuclidianViewXOffset, event.getClientY() - EuclidianController.EuclidianViewYOffset);
+		return new Point(event.getClientX() - off.getXoffset(), event.getClientY() - off.getYoffset());
 	}
 
 	@Override
@@ -77,12 +78,12 @@ public class MouseEvent extends AbstractEvent {
 
 	@Override
 	public int getX() {
-		return event.getClientX() - EuclidianController.EuclidianViewXOffset;
+		return event.getClientX() - off.getXoffset();
 	}
 
 	@Override
 	public int getY() {
-		return event.getClientY() - EuclidianController.EuclidianViewYOffset;
+		return event.getClientY() - off.getYoffset();
 	}
 
 	@Override
@@ -120,8 +121,8 @@ public class MouseEvent extends AbstractEvent {
 		return (event.getButton() == NativeEvent.BUTTON_MIDDLE);
 	}
 
-	public static AbstractEvent wrapEvent(NativeEvent nativeEvent, int deltaY) {
-	    MouseEvent e = wrapEvent(nativeEvent);
+	public static AbstractEvent wrapEvent(NativeEvent nativeEvent, int deltaY,HasOffsets h) {
+	    MouseEvent e = wrapEvent(nativeEvent,h);
 	    e.rotation = deltaY;
 	    return e;
     }
