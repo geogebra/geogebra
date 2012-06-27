@@ -134,7 +134,8 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener,
 		for (int i = 0; i < lineStyleArray.length; i++)
 			lineStyleMap.put(lineStyleArray[i], i);
 
-		initGUI();
+		setLabels(); // this will also init the GUI
+		
 		isIniting = false;
 
 		setMode(ev.getMode()); // this will also update the stylebar
