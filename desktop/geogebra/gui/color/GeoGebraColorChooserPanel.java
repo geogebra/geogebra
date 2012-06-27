@@ -314,10 +314,11 @@ public class GeoGebraColorChooserPanel extends AbstractColorChooserPanel {
 
 			chooser = new JColorChooser();
 			chooser.setColor(myChooser.getColorFromModel());
-			AbstractColorChooserPanel panels[] = { new DefaultRGBChooserPanel(
-					app) };
+			DefaultRGBChooserPanel rgb = new DefaultRGBChooserPanel(
+					app);
+			AbstractColorChooserPanel panels[] = { rgb };
 			chooser.setChooserPanels(panels);
-			chooser.setPreviewPanel(new JLabel());
+			chooser.setPreviewPanel(rgb.getPreview());
 
 			// show the chooser dialog
 			JDialog dialog = JColorChooser.createDialog(app.getMainComponent(),

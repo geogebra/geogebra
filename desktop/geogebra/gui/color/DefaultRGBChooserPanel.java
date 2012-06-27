@@ -50,6 +50,7 @@ import java.awt.GridBagLayout;
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.JColorChooser;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
@@ -84,7 +85,6 @@ public class DefaultRGBChooserPanel extends AbstractColorChooserPanel
 			int color = R.getValue() << 16 | G.getValue() << 8 | B.getValue();
 
 			getColorSelectionModel().setSelectedColor(new Color(color));
-			updatePreviewPanel();
 		}
 	}
 
@@ -107,7 +107,6 @@ public class DefaultRGBChooserPanel extends AbstractColorChooserPanel
 			int color = red << 16 | green << 8 | blue;
 
 			getColorSelectionModel().setSelectedColor(new Color(color));
-			updatePreviewPanel();
 		}
 	}
 
@@ -155,7 +154,9 @@ public class DefaultRGBChooserPanel extends AbstractColorChooserPanel
 	private MyPreviewPanel previewPanel;
 	protected Application app;
 
-
+	public JComponent getPreview(){
+		return previewPanel;
+	}
 
 
 	/*****************************************************
@@ -205,7 +206,6 @@ public class DefaultRGBChooserPanel extends AbstractColorChooserPanel
 				BSpinner.setValue(new Integer(blue));
 
 			internalChange = false;
-			updatePreviewPanel();
 			setLabels();
 			
 			revalidate();
@@ -410,14 +410,6 @@ public class DefaultRGBChooserPanel extends AbstractColorChooserPanel
 	}
 
 
-
-	/**
-	 * Updates the preview panel to display the currently selected color 
-	 */
-	private void updatePreviewPanel(){
-		previewPanel.setBackground(getColorSelectionModel().getSelectedColor());
-	}
-
 	/**
 	 * Extension of JPanel the displays the currently selected color next to the
 	 * originally chosen color.
@@ -436,10 +428,10 @@ public class DefaultRGBChooserPanel extends AbstractColorChooserPanel
 		@Override
 		public void paintComponent(Graphics g) {
 			super.paintComponent(g);
-			g.setColor(this.getBackground());
+			g.setColor(this.getForeground());
 			g.fillRect(0, 0, getWidth() - 1, getHeight() - 1);
 
-			g.setColor(this.getForeground());
+			g.setColor(this.getBackground());
 			g.fillRect(0, 0, (getWidth() - 1)/2, (getHeight() - 1));
 		}
 	}
