@@ -279,7 +279,7 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener,
 
 		// show the pen delete button
 		// TODO: handle pen mode in code above
-		btnPenDelete.setVisible((mode == EuclidianConstants.MODE_PEN));
+		btnPenDelete.setVisible(AbstractEuclidianView.isPenMode(mode));
 
 		addButtons();
 
@@ -289,7 +289,7 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener,
 
 		tableText = null;
 		if (geos == null || geos.length == 0
-				|| mode == EuclidianConstants.MODE_PEN)
+				|| AbstractEuclidianView.isPenMode(mode))
 			return;
 
 		boolean geosOK = true;
@@ -570,7 +570,7 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener,
 			@Override
 			public void update(Object[] geos) {
 				this.setVisible((geos.length == 0 && mode == EuclidianConstants.MODE_MOVE)
-						|| mode == EuclidianConstants.MODE_PEN);
+						|| AbstractEuclidianView.isPenMode(mode));
 			}
 		};
 		btnPen.addActionListener(this);
@@ -604,7 +604,7 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener,
 			@Override
 			public void update(Object[] geos) {
 				// always show this button unless in pen mode
-				this.setVisible(mode != EuclidianConstants.MODE_PEN);
+				this.setVisible(!AbstractEuclidianView.isPenMode(mode));
 			}
 		};
 
@@ -621,7 +621,7 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener,
 			@Override
 			public void update(Object[] geos) {
 				// always show this button unless in pen mode
-				this.setVisible(mode != EuclidianConstants.MODE_PEN);
+				this.setVisible(!AbstractEuclidianView.isPenMode(mode));
 			}
 		};
 		// btnShowGrid.setPreferredSize(new Dimension(16,16));
@@ -647,7 +647,7 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener,
 			@Override
 			public void update(Object[] geos) {
 
-				if (mode == EuclidianConstants.MODE_PEN) {
+				if (AbstractEuclidianView.isPenMode(mode)) {
 					this.setVisible(true);
 					setFgColor(geogebra.awt.Color.getAwtColor(ec.getPen().getPenColor()));
 					setSliderValue(ec.getPen().getPenSize());
@@ -792,7 +792,7 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener,
 
 			@Override
 			public void update(Object[] geos) {
-				this.setVisible(mode == EuclidianConstants.MODE_PEN);
+				this.setVisible(AbstractEuclidianView.isPenMode(mode));
 			}
 		};
 
@@ -893,7 +893,7 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener,
 			@Override
 			public void update(Object[] geos) {
 				// always show this button unless in pen mode
-				this.setVisible(mode != EuclidianConstants.MODE_PEN);
+				this.setVisible(!AbstractEuclidianView.isPenMode(mode));
 
 			}
 
@@ -988,7 +988,7 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener,
 			@Override
 			public void update(Object[] geos) {
 
-				if (mode == EuclidianConstants.MODE_PEN) {
+				if (AbstractEuclidianView.isPenMode(mode)) {
 					this.setVisible(true);
 
 					setSelectedIndex(getColorIndex(geogebra.awt.Color.getAwtColor(ec.getPen().getPenColor())));
@@ -997,7 +997,7 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener,
 					getMySlider().setVisible(false);
 
 				} else {
-					boolean geosOK = (geos.length > 0 || mode == EuclidianConstants.MODE_PEN);
+					boolean geosOK = (geos.length > 0 || AbstractEuclidianView.isPenMode(mode));
 					for (int i = 0; i < geos.length; i++) {
 						GeoElement geo = ((GeoElement) geos[i])
 								.getGeoElementForPropertiesDialog();
@@ -1405,7 +1405,7 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener,
 			return;
 
 		btnPen.removeActionListener(this);
-		btnPen.setSelected(mode == EuclidianConstants.MODE_PEN);
+		btnPen.setSelected(AbstractEuclidianView.isPenMode(mode));
 		btnPen.addActionListener(this);
 
 		btnDelete.removeActionListener(this);
@@ -1457,7 +1457,7 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener,
 			return;
 
 		else if (source == btnColor) {
-			if (mode == EuclidianConstants.MODE_PEN) {
+			if (AbstractEuclidianView.isPenMode(mode)) {
 				ec.getPen().setPenColor((btnColor.getSelectedColor()));
 				// btnLineStyle.setFgColor((Color)btnColor.getSelectedValue());
 			} else {
@@ -1482,7 +1482,7 @@ public class EuclidianStyleBar extends JToolBar implements ActionListener,
 			}
 		} else if (source == btnLineStyle) {
 			if (btnLineStyle.getSelectedValue() != null) {
-				if (mode == EuclidianConstants.MODE_PEN) {
+				if (AbstractEuclidianView.isPenMode(mode)) {
 					ec.getPen().setPenLineStyle(
 							lineStyleArray[btnLineStyle.getSelectedIndex()]);
 					ec.getPen().setPenSize(btnLineStyle.getSliderValue());

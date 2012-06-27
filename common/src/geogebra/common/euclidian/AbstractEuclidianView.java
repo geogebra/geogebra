@@ -4762,5 +4762,9 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 		 * @return graphics object (for pen)
 		 */
 		public abstract Graphics2D getGraphicsForPen();
+		
+		public static boolean isPenMode(int mode) {
+			return mode == EuclidianConstants.MODE_PEN || mode == EuclidianConstants.MODE_PENCIL || mode == EuclidianConstants.MODE_FREEHAND_FUNCTION;
+		}
 
 }

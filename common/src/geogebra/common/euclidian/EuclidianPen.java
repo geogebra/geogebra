@@ -727,7 +727,14 @@ public class EuclidianPen {
 			list.add(new GeoNumeric(cons, (freehand1[i])));
 		}
 		
-		new AlgoFunctionFreehand(cons, null, list);
+		AlgoFunctionFreehand algo = new AlgoFunctionFreehand(cons, null, list);
+		
+		GeoElement fun = algo.getGeoElements()[0];
+		
+		fun.setLineThickness(penSize * 2);
+		fun.setLineType(penLineStyle);
+		fun.setObjColor(penColor);
+		fun.setLayer(1);
 		
 		penPoints.clear();
 

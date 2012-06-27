@@ -329,7 +329,7 @@ public class EuclidianStyleBar extends HorizontalPanel
 
 		tableText = null;
 		if (geos == null || geos.length == 0
-				|| mode == EuclidianConstants.MODE_PEN)
+				|| AbstractEuclidianView.isPenMode(mode))
 			return;
 
 		boolean geosOK = true;
@@ -665,7 +665,7 @@ public class EuclidianStyleBar extends HorizontalPanel
 			@Override
 			public void update(Object[] geos) {
 				// always show this button unless in pen mode
-				this.setVisible(mode != EuclidianConstants.MODE_PEN);
+				this.setVisible(!AbstractEuclidianView.isPenMode(mode));
 			}
 		};
 
@@ -683,7 +683,7 @@ public class EuclidianStyleBar extends HorizontalPanel
 			@Override
 			public void update(Object[] geos) {
 				// always show this button unless in pen mode
-				this.setVisible(mode != EuclidianConstants.MODE_PEN);
+				this.setVisible(!AbstractEuclidianView.isPenMode(mode));
 			}
 		};
 		// btnShowGrid.setPreferredSize(new Dimension(16,16));
@@ -708,7 +708,7 @@ public class EuclidianStyleBar extends HorizontalPanel
 			@Override
 			public void update(Object[] geos) {
 
-				if (mode == EuclidianConstants.MODE_PEN) {
+				if (AbstractEuclidianView.isPenMode(mode)) {
 					/*this.setVisible(true);
 					setFgColor(ec.getPen().getPenColor());
 					setSliderValue(ec.getPen().getPenSize());
@@ -851,7 +851,7 @@ public class EuclidianStyleBar extends HorizontalPanel
 
 			@Override
 			public void update(Object[] geos) {
-				this.setVisible(mode == EuclidianConstants.MODE_PEN);
+				this.setVisible(AbstractEuclidianView.isPenMode(mode));
 			}
 		};
 
@@ -990,7 +990,7 @@ public class EuclidianStyleBar extends HorizontalPanel
 			@Override
 			public void update(Object[] geos) {
 				// always show this button unless in pen mode
-				this.setVisible(mode != EuclidianConstants.MODE_PEN);
+				this.setVisible(!AbstractEuclidianView.isPenMode(mode));
 
 			}
 
@@ -1024,7 +1024,7 @@ public class EuclidianStyleBar extends HorizontalPanel
 				@Override
 				public void update(Object[] geos) {
 
-					if (mode == EuclidianConstants.MODE_PEN) {
+					if (AbstractEuclidianView.isPenMode(mode)) {
 						/*this.setVisible(true);
 
 						setSelectedIndex(getColorIndex(ec.getPen().getPenColor()));
@@ -1034,7 +1034,7 @@ public class EuclidianStyleBar extends HorizontalPanel
 						AbstractApplication.debug("not MODE_PEN_working yet in StyleBar");
 
 					} else {
-						boolean geosOK = (geos.length > 0 || mode == EuclidianConstants.MODE_PEN);
+						boolean geosOK = (geos.length > 0 || AbstractEuclidianView.isPenMode(mode));
 						for (int i = 0; i < geos.length; i++) {
 							GeoElement geo = ((GeoElement) geos[i])
 									.getGeoElementForPropertiesDialog();
@@ -1309,6 +1309,7 @@ public class EuclidianStyleBar extends HorizontalPanel
 			break;
 		case EuclidianConstants.MODE_PEN:
 		case EuclidianConstants.MODE_PENCIL:
+		case EuclidianConstants.MODE_FREEHAND_FUNCTION:
 			btnMode.setSelectedIndex(1);
 			break;
 		case EuclidianConstants.MODE_DELETE:
@@ -1452,7 +1453,7 @@ public class EuclidianStyleBar extends HorizontalPanel
 			}
 		} else if (source == btnLineStyle) {
 			if (btnLineStyle.getSelectedValue() != null) {
-				if (mode == EuclidianConstants.MODE_PEN) {
+				if (AbstractEuclidianView.isPenMode(mode)) {
 					/*ec.getPen().setPenLineStyle(
 							lineStyleArray[btnLineStyle.getSelectedIndex()]);
 					ec.getPen().setPenSize(btnLineStyle.getSliderValue());*/
