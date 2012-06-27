@@ -7097,7 +7097,7 @@ public abstract class AbstractEuclidianController {
 	
 		// long t0 = System.currentTimeMillis();
 	
-		// Application.debug("start");
+		AbstractApplication.debug("start");
 	
 		// view.resetTraceRow(); // for trace/spreadsheet
 	
@@ -7634,7 +7634,10 @@ public abstract class AbstractEuclidianController {
 	protected void switchModeForMousePressed(AbstractEvent e) {
 	
 		Hits hits;
-	
+		//TODO we shall never get mode > 1000 here
+		if(mode>1000)
+			app.setMode(EuclidianConstants.MODE_MOVE);
+		AbstractApplication.debug(mode);
 		switch (mode) {
 		// create new point at mouse location
 		// this point can be dragged: see mouseDragged() and mouseReleased()
