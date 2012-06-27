@@ -246,6 +246,7 @@ public class MyTextField extends JTextField implements ActionListener,
 			setCaretPosition(start);
 		}
 
+		// insert the string
 		int pos = getCaretPosition();
 		String oldText = getText();
 		StringBuilder sb = new StringBuilder();
@@ -254,8 +255,8 @@ public class MyTextField extends JTextField implements ActionListener,
 		sb.append(oldText.substring(pos));
 		setText(sb.toString());
 
-		// setCaretPosition(pos + text.length());
-		final int newPos = pos + text.length();
+		// reset the caret position
+		setCaretPosition(pos + text.length());
 
 		// make sure AutoComplete works
 		if (this instanceof AutoCompleteTextField) {
