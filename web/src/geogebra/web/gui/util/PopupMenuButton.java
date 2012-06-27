@@ -41,6 +41,8 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 	private Color fgColor;
 	private int fontStyle = 0;
 	
+	private boolean sliderIniting = true;
+	
 
 	public void setFontStyle(int fontStyle) {
 		this.fontStyle = fontStyle;
@@ -397,9 +399,12 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 	
 	public void setSliderValue(int value) {
 
-		mySlider.removeChangeListener(this);
-		mySlider.setValue(value);
-		mySlider.addChangeListener(this);
+		//mySlider.removeChangeListener(this);
+		if (sliderIniting) {
+			mySlider.setValue(value);
+			sliderIniting = false;
+		}
+		//mySlider.addChangeListener(this);
 
 		if(hasTable)
 			myTable.setSliderValue(value);
