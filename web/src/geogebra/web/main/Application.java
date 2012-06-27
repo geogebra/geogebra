@@ -1867,6 +1867,7 @@ public class Application extends AbstractApplication {
 				getEuclidianView1().setDisableRepaint(false);
 				getEuclidianView1().synCanvasSize();
 				getEuclidianView1().repaintView();
+				((EuclidianController) getActiveEuclidianView().getEuclidianController()).updateOffsets();
     }
 	
 	public static native void console(String string) /*-{
