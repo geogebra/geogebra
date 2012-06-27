@@ -2,6 +2,7 @@ package geogebra.web.gui.menubar;
 
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.main.AbstractApplication;
+import geogebra.web.gui.images.AppResources;
 
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Window;
@@ -27,21 +28,24 @@ public class HelpMenu extends MenuBar {
 	    //});
 	    
 	    // Help
-	    addItem(app.getMenu("Help"), new Command() {
+	    addItem(GeoGebraMenubar.getMenuBarHtml(AppResources.INSTANCE.help().getSafeUri().asString(),
+	    		app.getMenu("Help")),true,new Command() {
 			public void execute() {
 				Window.open("http://www.geogebra.org/help/en/article/Manual:Main%20Page", "_blank","");
             }
 	    });
 	    
 	    // Tutorials
-	    addItem(app.getMenu("Tutorials"), new Command() {
+	    addItem(GeoGebraMenubar.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),
+	    		app.getMenu("Tutorials")),true,new Command() {
 			public void execute() {
 				Window.open("http://www.geogebra.org/help/en/article/Tutorial:Main%20Page", "_blank","");
             }
 	    });
 	    
 	    // GeoGebraTube
-	    addItem("GeoGebraTube", new Command() {
+	    addItem(GeoGebraMenubar.getMenuBarHtml(AppResources.INSTANCE.GeoGebraTube().getSafeUri().asString(),
+	    		app.getMenu("GeoGebraTube")),true,new Command() {
 			public void execute() {
 				Window.open(GeoGebraConstants.GEOGEBRATUBE_WEBSITE, "_blank","");
             }
@@ -50,15 +54,17 @@ public class HelpMenu extends MenuBar {
 	    addSeparator();
 	    
 	    // Report Bug
-	    addItem(app.getMenu("ReportBug"), new Command() {
+	    addItem(GeoGebraMenubar.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),
+	    		app.getMenu("ReportBug")),true,new Command() {
 			public void execute() {
 				Window.open(GeoGebraConstants.GEOGEBRA_REPORT_BUG_WEB, "_blank","");
             }
 	    });
 	    
 	    addSeparator();
-	    
-	    addItem(app.getMenu("AboutLicense"), new Command() {
+
+	    addItem(GeoGebraMenubar.getMenuBarHtml(AppResources.INSTANCE.info().getSafeUri().asString(),
+	    		app.getMenu("AboutLicense")),true,new Command() {
 			public void execute() {
 				Window.open(GeoGebraConstants.GGW_ABOUT_LICENSE_URL + "&version=" +
 						GeoGebraConstants.VERSION_STRING + "&date=" +
