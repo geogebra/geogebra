@@ -3254,7 +3254,7 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 									sb.append(axesUnitLabels[0]);
 								}
 								
-								TextLayout layout = geogebra.common.factories.AwtFactory.prototype.newTextLayout(strNum,
+								TextLayout layout = geogebra.common.factories.AwtFactory.prototype.newTextLayout(sb.toString(),
 										getFontAxes(), frc);
 								int x, y = (int) (yCrossPix + yoffset);
 
@@ -3401,7 +3401,7 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 								}
 								
 
-								TextLayout layout = geogebra.common.factories.AwtFactory.prototype.newTextLayout(strNum,
+								TextLayout layout = geogebra.common.factories.AwtFactory.prototype.newTextLayout(sb.toString(),
 										getFontAxes(), frc);
 								int x = (int) ((xCrossPix + xoffset) - layout
 										.getAdvance());
