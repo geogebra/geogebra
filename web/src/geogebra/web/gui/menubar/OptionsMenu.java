@@ -1,22 +1,28 @@
 package geogebra.web.gui.menubar;
 
+import geogebra.common.euclidian.event.ActionListener;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.main.AbstractApplication;
 import geogebra.web.gui.images.AppResources;
+import geogebra.web.main.Application;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
 
 /**
  * The "Options" menu.
  */
-public class OptionsMenu extends MenuBar {
+public class OptionsMenu extends MenuBar{
 	
-	private AbstractApplication app;
-	Kernel kernel;
+	private static AbstractApplication app;
+	static Kernel kernel;
 	
 	private LanguageMenu languageMenu;
 	private MenuItem menuPointCapturing;
+	private RadioButtonMenuBar menuDecimalPlaces;
 	
 	/**
 	 * Constructs the "Option" menu
@@ -39,6 +45,7 @@ public class OptionsMenu extends MenuBar {
 		addLanguageMenu();
 		
 		addPointCapturingMenu();
+		addDecimalPlacesMenu();
 	}
 	
 	private void addLanguageMenu() {
@@ -142,5 +149,80 @@ public class OptionsMenu extends MenuBar {
 		((RadioButtonMenuBar) menuPointCapturing.getSubMenu()).setSelected(mode);
 	}
 
+	public void addDecimalPlacesMenu(){
+		menuDecimalPlaces = new RadioButtonMenuBar();
+
+		/*
+		 * int max_dec = 15; String[] strDecimalSpaces = new String[max_dec +
+		 * 1]; String[] strDecimalSpacesAC = new String[max_dec + 1]; for (int
+		 * i=0; i <= max_dec; i++){ strDecimalSpaces[i] = Integer.toString(i);
+		 * strDecimalSpacesAC[i] = i + " decimals"; }
+		 */
+		String[] strDecimalSpaces = app.getRoundingMenu();
+
+		for(String item : strDecimalSpaces ){
+			if (item != "---")
+				item = app.getMenu(item);
+		}
+		
+		menuDecimalPlaces.addRadioButtonMenuItems(this,
+				strDecimalSpaces, AbstractApplication.strDecimalSpacesAC, 0);
+
+		
+		addItem(GeoGebraMenubar.getMenuBarHtml(AppResources.INSTANCE
+		        .empty().getSafeUri().asString(), app.getMenu("Rounding")),
+		        true, menuDecimalPlaces);
+		
+		updateMenuDecimalPlaces();		
+	}
 	
+
+
+	private void updateMenuDecimalPlaces() {
+	    // TODO Auto-generated method stub
+		AbstractApplication.debug("implementation needed - really");
+	    
+    }
+
+	public static void actionPerformed(String cmd) {
+		// decimal places
+		if (cmd.endsWith("decimals")) {
+			try {
+				String decStr = cmd.substring(0, 2).trim();
+				int decimals = Integer.parseInt(decStr);
+				// Application.debug("decimals " + decimals);
+
+				kernel.setPrintDecimals(decimals);
+				kernel.updateConstruction();
+				((Application)app).refreshViews();
+				
+				// see ticket 79
+				kernel.updateConstruction();
+
+				app.setUnsaved();
+			} catch (Exception e) {
+				app.showError(e.toString());
+			}
+		}
+
+		// significant figures
+		else if (cmd.endsWith("figures")) {
+			try {
+				String decStr = cmd.substring(0, 2).trim();
+				int figures = Integer.parseInt(decStr);
+				// Application.debug("figures " + figures);
+
+				kernel.setPrintFigures(figures);
+				kernel.updateConstruction();
+				app.refreshViews();
+				
+				// see ticket 79
+				kernel.updateConstruction();
+
+				app.setUnsaved();
+			} catch (Exception e) {
+				app.showError(e.toString());
+			}
+		}
+    }
 }
