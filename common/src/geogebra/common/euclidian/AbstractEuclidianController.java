@@ -8729,13 +8729,6 @@ public abstract class AbstractEuclidianController {
 	}
 
 
-	private boolean noZoomNeeded(GeoPoint2 c1, GeoPoint2 c2, GeoImage geo) {
-		return (c1.inhomY == c2.inhomY) && ((view
-				.toScreenCoordX(c2.inhomX) - view
-				.toScreenCoordX(c1.inhomX)) == geo.getFillImage().getWidth());
-		
-	}
-
 	protected void initNewMode(int newMode) {
 		this.mode = newMode;
 		initShowMouseCoords();

@@ -253,7 +253,7 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 	private Previewable previewDrawable;
 	/** true if painting this for the first time*/
 	protected boolean firstPaint = true;
-
+	/** application */
 	protected AbstractApplication app;
 
 	private EuclidianSettings settings;
@@ -4750,11 +4750,17 @@ public abstract class AbstractEuclidianView implements EuclidianViewInterfaceCom
 			setShowAxis(0,  show, false);
 			setShowAxis(1,  show, true);
 		}
-
+		/**
+		 * Makes the cursor transparent (for pen)
+		 */
 		public abstract void setTransparentCursor();
-
+		/**
+		 * Swithes the cursor to eraser (for pen)
+		 */
 		public abstract void setEraserCursor();
-
+		/**
+		 * @return graphics object (for pen)
+		 */
 		public abstract Graphics2D getGraphicsForPen();
 
 }
