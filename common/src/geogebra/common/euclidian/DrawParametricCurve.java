@@ -1045,8 +1045,18 @@ public class DrawParametricCurve extends Drawable {
 				return t.intersects(x - hitThreshold, y - hitThreshold,
 						2 * hitThreshold, 2 * hitThreshold);
 			}
+			
+			// workaround for #2364
+			if (geo.isGeoFunction()) {
+				return gp.intersects(x - hitThreshold, y - hitThreshold,
+					2 * hitThreshold, 2 * hitThreshold) && !gp.contains(x - hitThreshold, y - hitThreshold,
+							2 * hitThreshold, 2 * hitThreshold);
+			}
+			
+			// not GeoFunction, eg parametric
 			return strokedShape.intersects(x - hitThreshold, y - hitThreshold,
-					2 * hitThreshold, 2 * hitThreshold);
+						2 * hitThreshold, 2 * hitThreshold);			
+			
 		}
 		return false;
 		/*
