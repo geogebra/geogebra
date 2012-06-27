@@ -1,5 +1,7 @@
 package geogebra.web.gui.menubar;
 
+import javax.swing.JRadioButtonMenuItem;
+
 import geogebra.common.euclidian.event.ActionListener;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.main.AbstractApplication;
@@ -177,12 +179,34 @@ public class OptionsMenu extends MenuBar{
 	}
 	
 
-
+	/**
+	 * Update the menu with all decimal places.
+	 */
 	private void updateMenuDecimalPlaces() {
-	    // TODO Auto-generated method stub
-		AbstractApplication.debug("implementation needed - really");
-	    
-    }
+		if (menuDecimalPlaces == null)
+			return;
+		int pos = -1;
+
+		if (kernel.useSignificantFigures) {
+			int figures = kernel.getPrintFigures();
+			if (figures > 0 && figures < AbstractApplication.figuresLookup.length)
+				pos = AbstractApplication.figuresLookup[figures];
+		} else {
+			int decimals = kernel.getPrintDecimals();
+
+			if (decimals > 0 && decimals < AbstractApplication.decimalsLookup.length)
+				pos = AbstractApplication.decimalsLookup[decimals];
+
+		}
+
+		try {
+			menuDecimalPlaces.setSelected(pos);
+		} catch (Exception e) {
+			//
+		}
+
+	}
+
 
 	public static void actionPerformed(String cmd) {
 		// decimal places
