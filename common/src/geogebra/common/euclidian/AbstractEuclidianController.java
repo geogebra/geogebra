@@ -7095,12 +7095,6 @@ public abstract class AbstractEuclidianController {
 
 	protected void handleMousePressedForMoveMode(AbstractEvent e, boolean drag) {
 	
-		// long t0 = System.currentTimeMillis();
-	
-		AbstractApplication.debug("start");
-	
-		// view.resetTraceRow(); // for trace/spreadsheet
-	
 		// fix for meta-click to work on Mac/Linux
 		if (app.isControlDown(e)) {
 			return;
@@ -7117,8 +7111,6 @@ public abstract class AbstractEuclidianController {
 			view.setDragCursor();
 			return;
 		}
-	
-		// Application.debug("laps("+(System.currentTimeMillis()-t0)+")");
 	
 		// find and set movedGeoElement
 		view.setHits(mouseLoc);
@@ -7149,9 +7141,6 @@ public abstract class AbstractEuclidianController {
 	
 		Hits hits = moveableList.getTopHits();
 		
-	
-		// Application.debug("end("+(System.currentTimeMillis()-t0)+")");
-	
 		ArrayList<GeoElement> selGeos = app.getSelectedGeos();
 	
 		// if object was chosen before, take it now!
@@ -7637,7 +7626,6 @@ public abstract class AbstractEuclidianController {
 		//TODO we shall never get mode > 1000 here
 		if(mode>1000)
 			app.setMode(EuclidianConstants.MODE_MOVE);
-		AbstractApplication.debug(mode);
 		switch (mode) {
 		// create new point at mouse location
 		// this point can be dragged: see mouseDragged() and mouseReleased()
