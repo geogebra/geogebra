@@ -803,8 +803,15 @@ public class AlgebraView extends Tree implements LayerView, SetLabels, geogebra.
 	}
 
 	public void repaintView() {
-		clearView();
-		kernel.notifyAddAll(this);
+
+		// suppose that the add operations have been already done elsewhere
+		for (int i = 0; i < getItemCount(); i++) {
+			if (getItem(i).getUserObject() instanceof GeoElement)
+				((RadioButtonTreeItem)getItem(i).getWidget()).update();
+			else
+				getItem(i).setText(getItem(i).getUserObject().toString());
+		}
+		setSelectedItem(null);
 	}
 
 	/**
