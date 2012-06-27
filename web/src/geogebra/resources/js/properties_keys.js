@@ -1428,6 +1428,8 @@ var menuKeysVar = {
 	PasteSpecial:'',
 	Pen:'',
 	Pen_Help:'',
+	Pencil:'',
+	Pencil_Help:'',
 	Perspective_AlgebraAndGraphics:'',
 	Perspective_BasicGeometry:'',
 	Perspective_CASAndGraphics:'',

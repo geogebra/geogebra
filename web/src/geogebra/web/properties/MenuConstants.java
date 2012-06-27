@@ -1384,8 +1384,14 @@ public interface MenuConstants extends ConstantsWithLookup {
     @DefaultStringValue("Pen")
     String Pen();
 
-    @DefaultStringValue("Draw in the Graphics View. Select a different Tool to finish")
+    @DefaultStringValue("Write in the Graphics View. Change color using the Stylebar")
     String Pen_Help();
+
+    @DefaultStringValue("Pencil")
+    String Pencil();
+
+    @DefaultStringValue("Draw in the Graphics View. Change color using the Stylebar")
+    String Pencil_Help();
 
     @DefaultStringValue("Algebra & Graphics")
     String Perspective_AlgebraAndGraphics();
