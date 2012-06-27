@@ -65,7 +65,7 @@ public class MyArbitraryConstant  {
 	 * @return complex constant
 	 */
 	public ExpressionValue nextComplex(MyDouble myDouble) {
-		return nextConst(complexNumbers,complexNumbersM,"z",myDouble);
+		return nextConst(complexNumbers,complexNumbersM,"c",myDouble);
 	}
 	
 	private ExpressionValue nextConst(ArrayList<GeoNumeric> consts2,Map<Integer, GeoNumeric> map, String prefix, MyDouble myDouble) {
