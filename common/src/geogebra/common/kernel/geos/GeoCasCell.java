@@ -1140,27 +1140,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 		return true;
 	}
 
-	/**
-	 * Returns whether this object depends on x and/or y
-	 * 
-	 * @return whether this object depends on x and/or y
-	 */
-	final public boolean includesXYVariables() {
-		if (invars == null)
-			return false;
-
-		for (String varLabel : invars) {
-			if (varLabel.equals("x") || varLabel.equals("y")) // provide
-																// definitions
-																// of funktions
-																// like f: x+y =
-																// 1 //TODO:
-																// find a better
-																// way
-				return true;
-		}
-		return false;
-	}
+	
 
 	/**
 	 * Returns whether var is an input variable of this cell. For example, "b"
@@ -1343,8 +1323,6 @@ public class GeoCasCell extends GeoElement implements VarString {
 	private void createTwinGeo() {
 		if (isError())
 			return;
-		boolean isXY = includesXYVariables(); // are there x and/or y in
-												// formular
 		if (!isAssignmentVariableDefined())
 			return;
 		if((inputVE instanceof Function) && (outputVE instanceof ExpressionNode)){
@@ -1358,8 +1336,6 @@ public class GeoCasCell extends GeoElement implements VarString {
 			outputVE.setLabels(labels);
 		}
 		
-		if(!includesOnlyDefinedVariables(true))
-			return;
 		// check that assignment variable is not a reserved name in GeoGebra
 		if (app.getParserFunctions().isReserved(assignmentVar))
 			return;
@@ -1370,12 +1346,6 @@ public class GeoCasCell extends GeoElement implements VarString {
 		outputVE.traverse(repl);
 		GeoElement newTwinGeo = silentEvalInGeoGebra(outputVE);
 		if (newTwinGeo != null) {
-			if (isXY)
-				// only allow x and y for TwinGeo elements of functional type,
-				if (!(newTwinGeo instanceof geogebra.common.kernel.arithmetic.Functional)
-						//or conics and implicit polys
-						&& !newTwinGeo.isPath())
-					return;
 			setTwinGeo(newTwinGeo);
 		}
 	}
@@ -1898,6 +1868,25 @@ public class GeoCasCell extends GeoElement implements VarString {
 		if (twinGeo != null) {
 			twinGeo.setCorrespondingCasCell(this);
 		}
+		if(dependsOnDummy(twinGeo)){
+			twinGeo.setUndefined();
+			twinGeo.setAlgebraVisible(false);
+		}
+		else{
+			twinGeo.setAlgebraVisible(true);
+		}
+	}
+
+	private boolean dependsOnDummy(GeoElement geo) {
+		if(geo instanceof GeoDummyVariable)
+			return true;
+		if(geo.isIndependent())
+			return false;
+		AlgoElement algo = geo.getParentAlgorithm();
+		for(int i=0;i<algo.getInput().length;i++)
+			if(dependsOnDummy(algo.getInput()[i]))
+				return true;
+		return false;
 	}
 
 	/**
