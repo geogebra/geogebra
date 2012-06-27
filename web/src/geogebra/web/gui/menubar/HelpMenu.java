@@ -2,7 +2,6 @@ package geogebra.web.gui.menubar;
 
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.main.AbstractApplication;
-import geogebra.web.gui.images.AppResources;
 
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Window;
@@ -61,7 +60,9 @@ public class HelpMenu extends MenuBar {
 	    
 	    addItem(app.getMenu("AboutLicense"), new Command() {
 			public void execute() {
-				Window.open(GeoGebraConstants.GGW_ABOUT_LICENSE_URL, "_blank",
+				Window.open(GeoGebraConstants.GGW_ABOUT_LICENSE_URL + "&version=" +
+						GeoGebraConstants.VERSION_STRING + "&date=" +
+						GeoGebraConstants.BUILD_DATE, "_blank",
 						"width=720,height=600,scrollbars=no,toolbar=no,location=no,directories=no,menubar=no,status=no,copyhistory=no");
             }
 	    });
