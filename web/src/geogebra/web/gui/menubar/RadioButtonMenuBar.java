@@ -11,7 +11,6 @@ public class RadioButtonMenuBar extends MenuBar {
 
 	final private String menubarID;
 	private ArrayList<RadioButton> radioButtons;
-	private RadioButtonCommand lastCommand;
 
 	public RadioButtonMenuBar() {
 		super(true);
@@ -23,7 +22,6 @@ public class RadioButtonMenuBar extends MenuBar {
 		RadioButton radioButton = new RadioButton(menubarID, text, true);		
 		if (radioButtons.size()==0) radioButton.setValue(true);		
 		radioButtons.add(radioButton);
-		lastCommand = com; //temp
 		return super.addItem(radioButton.toString(), true, com);
 	}
 
