@@ -25,7 +25,16 @@ public enum Commands implements CommandsConstants{
    	Mod(TABLE_ALGEBRA), Div(TABLE_ALGEBRA), Min(TABLE_ALGEBRA), Max(TABLE_ALGEBRA),
    	LCM(TABLE_ALGEBRA), GCD(TABLE_ALGEBRA), Expand(TABLE_ALGEBRA), Factor(TABLE_ALGEBRA),
    	Simplify(TABLE_ALGEBRA), PrimeFactors(TABLE_ALGEBRA), CompleteSquare(TABLE_ALGEBRA),
-   	ToBase(TABLE_ALGEBRA),FromBase(TABLE_ALGEBRA),
+   	ToBase(TABLE_ALGEBRA),FromBase(TABLE_ALGEBRA),Division(TABLE_ALGEBRA),
+   	Divisors(TABLE_ALGEBRA),
+   	DivisorsList(TABLE_ALGEBRA),
+   	DivisorsSum(TABLE_ALGEBRA),
+   	FractionalPart(TABLE_ALGEBRA),
+   	IsPrime(TABLE_ALGEBRA),
+   	LeftSide(TABLE_ALGEBRA),
+   	NextPrime(TABLE_ALGEBRA),
+   	RightSide(TABLE_ALGEBRA),
+   	PreviousPrime(TABLE_ALGEBRA),
 
   	//=================================================================
   	// Geometry
@@ -70,7 +79,7 @@ public enum Commands implements CommandsConstants{
    	Denominator(TABLE_FUNCTION), ComplexRoot(TABLE_FUNCTION), SolveODE(TABLE_FUNCTION), SlopeField(TABLE_FUNCTION), Iteration(TABLE_FUNCTION),
    	PathParameter(TABLE_FUNCTION), Asymptote(TABLE_FUNCTION), CurvatureVector(TABLE_FUNCTION), Curvature(TABLE_FUNCTION),
    	OsculatingCircle(TABLE_FUNCTION), IterationList(TABLE_FUNCTION), RootList(TABLE_FUNCTION),
-   	ImplicitCurve(TABLE_FUNCTION),
+   	ImplicitCurve(TABLE_FUNCTION),ImplicitDerivative(TABLE_FUNCTION),
 
 	//=============================================================
 	// conics
@@ -132,14 +141,16 @@ public enum Commands implements CommandsConstants{
    	InverseExponential(TABLE_PROBABILITY), HyperGeometric(TABLE_PROBABILITY), InverseHyperGeometric(TABLE_PROBABILITY), Pascal(TABLE_PROBABILITY),
    	InversePascal(TABLE_PROBABILITY), Poisson(TABLE_PROBABILITY), InversePoisson(TABLE_PROBABILITY), Weibull(TABLE_PROBABILITY),
    	InverseWeibull(TABLE_PROBABILITY), Zipf(TABLE_PROBABILITY), InverseZipf(TABLE_PROBABILITY), Triangular(TABLE_PROBABILITY),
-   	Uniform(TABLE_PROBABILITY), Erlang(TABLE_PROBABILITY), InverseLogNormal(TABLE_PROBABILITY),
+   	Uniform(TABLE_PROBABILITY), Erlang(TABLE_PROBABILITY), InverseLogNormal(TABLE_PROBABILITY),RandomPolynomial(TABLE_PROBABILITY),
+   	nPr(TABLE_PROBABILITY),
    	
 	//=============================================================
 	// vector & matrix
 	//=============================================================
    	ApplyMatrix(TABLE_VECTOR), UnitVector(TABLE_VECTOR), Vector(TABLE_VECTOR), UnitOrthogonalVector(TABLE_VECTOR),
    	OrthogonalVector(TABLE_VECTOR), Invert(TABLE_VECTOR), Transpose(TABLE_VECTOR), ReducedRowEchelonForm(TABLE_VECTOR),
-   	Determinant(TABLE_VECTOR), Identity(TABLE_VECTOR),
+   	Determinant(TABLE_VECTOR), Identity(TABLE_VECTOR),Dimension(TABLE_VECTOR),
+   	MatrixRank(TABLE_VECTOR),
    	
 	//=============================================================
 	// transformations
@@ -204,45 +215,30 @@ public enum Commands implements CommandsConstants{
    	Octahedron(TABLE_3D),Plane(TABLE_3D),QuadricSide(TABLE_3D),SurfaceCartesian(TABLE_3D),Tetrahedron(TABLE_3D),Top(TABLE_3D),CylinderInfinite(TABLE_ENGLISH),Sphere(TABLE_3D),
    	OrthogonalPlane(TABLE_ENGLISH),PerpendicularPlane(TABLE_3D), Prism(TABLE_3D), Pyramid(TABLE_3D), PlaneBisector(TABLE_3D),IntersectionPaths(TABLE_3D),ConeInfinite(TABLE_ENGLISH),
    	//==
+   	
+   	
    	CFactor(TABLE_ENGLISH),
    	CommonDenominator(TABLE_ENGLISH),
    	Cross(TABLE_ENGLISH),
    	CSolutions(TABLE_ENGLISH),
    	CSolve(TABLE_ENGLISH),
    	Decimal(TABLE_ENGLISH),
-   	Dimension(TABLE_ENGLISH),
-   	Division(TABLE_ENGLISH),
-   	Divisors(TABLE_ALGEBRA),
-   	DivisorsList(TABLE_ENGLISH),
-   	DivisorsSum(TABLE_ALGEBRA),
    	Dot(TABLE_ENGLISH),
    	ExpandComplex(TABLE_ENGLISH),
-   	FractionalPart(TABLE_ENGLISH),
    	Groebner(TABLE_ENGLISH),
    	Imaginary(TABLE_ENGLISH),
-   	ImplicitDerivative(TABLE_ENGLISH),
    	IntegerPart(TABLE_ENGLISH),
-   	IsPrime(TABLE_ENGLISH),
-   	LeftSide(TABLE_ENGLISH),
-   	MatrixRank(TABLE_ENGLISH),
-   	NextPrime(TABLE_ENGLISH),
    	NIntegral(TABLE_ENGLISH),
-   	nPr(TABLE_ENGLISH),
    	NRoot(TABLE_ENGLISH),
    	NSolve(TABLE_ENGLISH),
    	NSolutions(TABLE_ENGLISH),
-   	Numeric(TABLE_ENGLISH),
-   	PreviousPrime(TABLE_ENGLISH),
+   	Numeric(TABLE_ENGLISH),   	
    	MixedNumber(TABLE_ENGLISH),
-   	RandomPolynomial(TABLE_ENGLISH),
    	Rationalize(TABLE_ENGLISH),
    	Real(TABLE_ENGLISH),
-   	RightSide(TABLE_ENGLISH),
-   	SetSignificantNumbersNumeric(TABLE_ENGLISH),
    	Solutions(TABLE_ENGLISH),
    	Solve(TABLE_ENGLISH),
    	Substitute(TABLE_ENGLISH),
-   	Test(TABLE_ENGLISH),
    	ToComplex(TABLE_ENGLISH),
    	ToExponential(TABLE_ENGLISH),
    	ToPolar(TABLE_ENGLISH),
