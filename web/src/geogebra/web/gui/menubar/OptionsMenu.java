@@ -1,16 +1,10 @@
 package geogebra.web.gui.menubar;
 
-import javax.swing.JRadioButtonMenuItem;
-
-import geogebra.common.euclidian.event.ActionListener;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.main.AbstractApplication;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.main.Application;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
 
