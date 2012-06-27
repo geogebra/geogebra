@@ -7,6 +7,8 @@ import java.util.Date;
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.kernel.commands.AlgebraProcessor;
 import geogebra.common.main.AbstractApplication;
+import geogebra.web.asyncservices.GeoIPService;
+import geogebra.web.asyncservices.GeoIPServiceAsync;
 import geogebra.web.asyncservices.HandleGoogleDriveService;
 import geogebra.web.asyncservices.HandleGoogleDriveServiceAsync;
 import geogebra.web.asyncservices.HandleOAuth2Service;
@@ -14,9 +16,9 @@ import geogebra.web.asyncservices.HandleOAuth2ServiceAsync;
 import geogebra.web.css.GuiResources;
 import geogebra.web.gui.app.GeoGebraAppFrame;
 import geogebra.web.helper.JavaScriptInjector;
-import geogebra.web.helper.MyGoogleApis;
 import geogebra.web.html5.ArticleElement;
 import geogebra.web.html5.Dom;
+import geogebra.web.main.Application;
 
 import com.google.api.gwt.oauth2.client.Auth;
 import com.google.gwt.core.client.EntryPoint;
@@ -25,6 +27,7 @@ import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.dom.client.StyleInjector;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.RootPanel;
 
 
@@ -89,6 +92,8 @@ public class Web implements EntryPoint {
 		}
 		JavaScriptInjector.inject(GuiResources.INSTANCE.dataViewJs().getText());
 		JavaScriptInjector.inject(GuiResources.INSTANCE.base64Js().getText());
+		
+//		setLocaleToQueryParam();
 				
 		if (!Web.loadedAsApp) {
 			//we dont want to parse out of the box sometimes...
@@ -101,6 +106,13 @@ public class Web implements EntryPoint {
 			loadAppAsync();
 		}
 	}
+	
+//	private void setLocaleToQueryParam() {
+//		String currLocale = Cookies.getCookie(LanguageCommand.LOCALE_PARAMETER);
+//		if(currLocale != null || "".equals(currLocale)) {
+//			LanguageCommand.changeLocale(LanguageCommand.LOCALE_PARAMETER, currLocale);
+//		}
+//	}
 	
 	private void loadAppAsync() {
 	    GWT.runAsync(new RunAsyncCallback() {

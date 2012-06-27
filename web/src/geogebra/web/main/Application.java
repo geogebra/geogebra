@@ -40,6 +40,8 @@ import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
 import geogebra.common.util.MD5EncrypterGWTImpl;
 
+import geogebra.web.asyncservices.GeoIPService;
+import geogebra.web.asyncservices.GeoIPServiceAsync;
 import geogebra.web.css.GuiResources;
 import geogebra.web.euclidian.EuclidianController;
 import geogebra.web.euclidian.EuclidianView;
@@ -63,7 +65,12 @@ import geogebra.web.properties.PlainConstants;
 import geogebra.web.properties.SymbolsConstants;
 import geogebra.web.util.GeoGebraLogger;
 import geogebra.web.util.ImageManager;
+import geogebra.web.util.JSON;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -86,7 +93,9 @@ import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.i18n.client.Dictionary;
 import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.AbsolutePanel;
+import com.google.gwt.user.client.ui.InlineHyperlink;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -113,6 +122,8 @@ public class Application extends AbstractApplication {
 	public final static String LANGUAGE_NORWEGIAN_NYNORSK_BCP47 = "nn"; //Nynorsk Norwegian language BCP47
 
 	public final static String syntaxStr = "_Syntax";
+	
+	public static String geoIPCountryName = "Test";
 	
 	private FontManager fontManager;
 
@@ -1971,9 +1982,31 @@ public class Application extends AbstractApplication {
 
 
 	@Override
-    public String getCountryFromGeoIP() throws Exception {
-	    warn("unimplemented");
-	    return null;
+    public String getCountryFromGeoIP() {
+//	    warn("unimplemented");
+		
+			    
+	    GeoIPServiceAsync geoIPAsync = (GeoIPServiceAsync) GWT.create(GeoIPService.class);
+	    
+	    AsyncCallback<String> callback = new AsyncCallback<String>() {
+
+			public void onFailure(Throwable caught) {
+	            // TODO Auto-generated method stub
+	            
+            }
+
+			public void onSuccess(String result) {
+	            // TODO Auto-generated method stub
+				Application.geoIPCountryName = result;
+	            
+            }
+	    	
+		};
+		
+		geoIPAsync.getCountry(callback);
+	    
+	    Application.debug("GeoIPCountry: " + Application.geoIPCountryName);
+	    return Application.geoIPCountryName;
     }
 	
 	public boolean loadXML(String xml) throws Exception{
