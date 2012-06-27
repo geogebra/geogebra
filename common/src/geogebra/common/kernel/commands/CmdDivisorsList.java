@@ -1,14 +1,18 @@
 package geogebra.common.kernel.commands;
 
-import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.main.MyError;
-
+/**
+ * DivisorsList[number]
+ * @author zbynek
+ *
+ */
 public class CmdDivisorsList extends CmdOneNumber {
-
+	/**
+	 * Creates new command processor
+	 * @param kernel kernel
+	 */
 	public CmdDivisorsList(Kernel kernel) {
 		super(kernel);
 	}

@@ -7,8 +7,16 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.main.MyError;
 
+/**
+ * MatrixRank[Matrix]
+ * @author zbynek
+ *
+ */
 public class CmdMatrixRank extends CommandProcessor {
 
+	/**
+	 * @param kernel kernel
+	 */
 	public CmdMatrixRank(Kernel kernel) {
 		super(kernel);
 	}

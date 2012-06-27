@@ -5,7 +5,11 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyError;
-
+/**
+ * Handles CAS commands in input bar by showing appropriate message
+ * @author zbynek
+ *
+ */
 public class CAScmdProcessor extends CommandProcessor {
 
 	/**

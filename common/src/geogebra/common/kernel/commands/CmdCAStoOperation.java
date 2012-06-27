@@ -8,10 +8,19 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyError;
 import geogebra.common.plugin.Operation;
 
+/**
+ * CAS command that gets rewritten as operation in input bar
+ * @author zbynek
+ *
+ */
 public class CmdCAStoOperation extends CommandProcessor{
 
 	private Operation op;
 
+	/**
+	 * @param kernel kernel
+	 * @param op operation this command should be rewritten to
+	 */
 	public CmdCAStoOperation(Kernel kernel,Operation op) {
 		super(kernel);
 		this.op = op;

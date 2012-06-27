@@ -642,7 +642,12 @@ public class AlgebraProcessor {
 		cons.setSuppressLabelCreation(oldMacroMode);
 		return func;
 	}
-	
+	/**
+	 * 
+	 * @param str input string
+	 * @param suppressErrors true to suppress error messages
+	 * @return str parsed to multivariate function
+	 */
 	public GeoFunctionNVar evaluateToFunctionNVar(String str, boolean suppressErrors) {
 		boolean oldMacroMode = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(true);

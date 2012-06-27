@@ -6,9 +6,14 @@ import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyError;
-
+/**
+ * RandomPolynomial[degree, min, max]
+ */
 public class CmdRandomPolynomial extends CommandProcessor {
 
+	/**
+	 * @param kernel kernel
+	 */
 	public CmdRandomPolynomial(Kernel kernel) {
 		super(kernel);
 	}

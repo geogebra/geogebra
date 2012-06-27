@@ -7,9 +7,19 @@ import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyError;
-
+/**
+ * LeftSide[equation]
+ * RightSide[equation]
+ * @author Zbynek Konecny
+ *
+ */
 public class CmdLeftRightSide extends CommandProcessor {
 	private boolean left;
+	/**
+	 * 
+	 * @param kernel kernel
+	 * @param left true for LeftSide, false for RightSide
+	 */
 	public CmdLeftRightSide(Kernel kernel,boolean left) {
 		super(kernel);
 		this.left = left;

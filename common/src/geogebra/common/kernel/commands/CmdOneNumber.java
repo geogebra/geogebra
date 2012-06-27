@@ -7,11 +7,17 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyError;
 
+/**
+ * Commands with only one syntax that allows only one numeric input
+ * @author zbynek
+ */
 public abstract class CmdOneNumber extends CommandProcessor {
 
+	/**
+	 * @param kernel kernel
+	 */
 	public CmdOneNumber(Kernel kernel) {
 		super(kernel);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
@@ -25,6 +31,12 @@ public abstract class CmdOneNumber extends CommandProcessor {
 		return new GeoElement[]{getResult((NumberValue)args[0],c.getLabel())};
 	}
 	
+	/**
+	 * Returns output of the computation
+	 * @param num input number
+	 * @param label label for output
+	 * @return resulting geo
+	 */
 	protected abstract GeoElement getResult(NumberValue num,String label);
 
 }

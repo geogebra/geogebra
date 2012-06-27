@@ -4,10 +4,19 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 
+/**
+ * Divisors[number]
+ * DivisorsSum[number]
+ * @author Zbynek
+ */
 public class CmdDivisorsOrDivisorsSum extends CmdOneNumber {
 
 	private boolean sum;
 
+	/**
+	 * @param kernel kernel
+	 * @param sum true for DivisorsSum
+	 */
 	public CmdDivisorsOrDivisorsSum(Kernel kernel,boolean sum) {
 		super(kernel);
 		this.sum = sum;

@@ -3,11 +3,15 @@ package geogebra.common.kernel.commands;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
-
+/**
+ * IsPrime[number]
+ * @author Zbynek Konecny
+ *
+ */
 public class CmdIsPrime extends CmdOneNumber {
 
 	/**
-	 * @param kernel
+	 * @param kernel kernel
 	 */
 	public CmdIsPrime(Kernel kernel) {
 		super(kernel);

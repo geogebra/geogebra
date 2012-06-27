@@ -1,6 +1,5 @@
 package geogebra.common.kernel.commands;
 
-import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
@@ -8,13 +7,22 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.main.MyError;
 
+/**
+ * Division[number, number]
+ * Division[number, polynomial]
+ * @author zbynek
+ *
+ */
 public class CmdDivision extends CommandProcessor {
 
+	/**
+	 * @param kernel kernel
+	 */
 	public CmdDivision(Kernel kernel) {
 		super(kernel);
-		// TODO Auto-generated constructor stub
 	}
 
+	@Override
 	final public GeoElement[] process(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];

@@ -1,14 +1,18 @@
 package geogebra.common.kernel.commands;
 
-import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.main.MyError;
-
+/**
+ * FractionalPart[number]
+ * @author Zbynek Konecny
+ *
+ */
 public class CmdFractionalPart extends CmdOneNumber {
 
+	/**
+	 * @param kernel kernel
+	 */
 	public CmdFractionalPart(Kernel kernel) {
 		super(kernel);
 	}

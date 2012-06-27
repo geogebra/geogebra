@@ -8,6 +8,8 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyError;
 
 /**
+ * RandomBetween[a,b]
+ * RandomBetween[a,b,fixed]
  */
 public class CmdRandom extends CommandProcessor {
 	/**
@@ -33,9 +35,9 @@ public class CmdRandom extends CommandProcessor {
 					// don't pass (BooleanValue)arg[2] (dummy variable, always true)
 					GeoElement[] ret = kernelA.RandomFixed(c.getLabel(), (NumberValue)arg[0], (NumberValue)arg[1]);
 					return ret;					
-				} else {
-					// fall through to case 2:
-				}
+				} 
+				//else fall through to case 2:
+				
 				
 			} else {
 				throw argErr(app, c.getName(), arg[2]);				

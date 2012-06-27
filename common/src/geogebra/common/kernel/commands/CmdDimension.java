@@ -1,17 +1,22 @@
 package geogebra.common.kernel.commands;
 
-import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
-import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
 import geogebra.common.main.MyError;
-
+/**
+ * Dimension[&lt;Object>]
+ * @author zbynek
+ *
+ */
 public class CmdDimension extends CommandProcessor {
 
+	/**
+	 * @param kernel kernel
+	 */
 	public CmdDimension(Kernel kernel) {
 		super(kernel);
 	}

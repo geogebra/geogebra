@@ -5,12 +5,15 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.FunctionalNVar;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoFunction;
-import geogebra.common.kernel.geos.GeoFunctionNVar;
 import geogebra.common.main.MyError;
-
+/**
+ * ImplicitDerivative[f(x,y)] 
+ */
 public class CmdImplicitDerivative extends CommandProcessor {
 
+	/**
+	 * @param kernel kernel
+	 */
 	public CmdImplicitDerivative(Kernel kernel) {
 		super(kernel);
 	}
