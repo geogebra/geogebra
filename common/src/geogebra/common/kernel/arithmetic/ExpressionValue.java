@@ -125,6 +125,7 @@ public interface ExpressionValue {
     public String toLaTeXString(boolean symbolic,StringTemplate tpl);   
     /**
      * Resolve variables
+     * @param forEquation true to resolve xx as polynomial rather than product of function variables
      */
     public void resolveVariables(boolean forEquation);
     /**
@@ -155,7 +156,16 @@ public interface ExpressionValue {
 	 * @return changed value
 	 */
 	public ExpressionValue traverse(Traversing t);
+	/**
+	 * If this is an expression node wrapping some other ExpressionValue, retur its content, 
+	 * otherwise return this.
+	 * @return unwrapped content
+	 */
 	public ExpressionValue unwrap();
+	/**
+	 * Wraps this value in ExpressionNode if it's not already one.
+	 * @return wrapped value
+	 */
 	public ExpressionNode wrap();
 }
 

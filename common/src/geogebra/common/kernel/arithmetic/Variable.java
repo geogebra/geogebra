@@ -22,15 +22,11 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoDummyVariable;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyParseError;
 import geogebra.common.plugin.Operation;
 import geogebra.common.util.StringUtil;
 
 import java.util.HashSet;
-
-import com.google.gwt.regexp.shared.MatchResult;
-import com.google.gwt.regexp.shared.RegExp;
 
 /**
  * 
@@ -107,13 +103,13 @@ public class Variable extends ValidExpression {
 		throw new MyParseError(kernel.getApplication(), str);
 	}
 
-	private static final RegExp polyPattern = RegExp
-			.compile("^([a-wA-Z0-9_]*)([x-z]+)$");
+	
 	/**
 	 * Looks up the name of this variable in the kernel and returns the
 	 * according GeoElement object. For absolute spreadsheet reference names
 	 * like A$1 or $A$1 a special ExpressionNode wrapper object is returned that
 	 * preserves this special name for displaying of the expression.
+	 * @param forEquation true to resolve xx as polynomial rather than product of function variables
 	 * 
 	 * @return GeoElement whose label is name of this variable or ExpressionNode
 	 * wrapping spreadsheet reference 
@@ -121,23 +117,27 @@ public class Variable extends ValidExpression {
 	final public ExpressionValue resolveAsExpressionValue(boolean forEquation) {
 		GeoElement geo = resolve(false);
 		if(geo==null){
-			MatchResult res = polyPattern.exec(name);
-			if(res==null)
-				resolve(true);
-			String xyz = res.getGroup(2);
+		
+			
 			//holds powers of x,y,z: eg {"xxx","y","zzzzz"}
 			int[] exponents = new int[]{0,0,0};
-			for(int i=0;i<xyz.length();i++){
-				exponents[xyz.charAt(i)-'x']++;
-			}
-			String coeff =res.getGroup(1);
-			ExpressionValue geo2 = new MyDouble(kernel,1.0);
-			if(coeff.length()!=0){
-				geo2 =kernel.lookupLabel(coeff);
-				if(geo2==null)
-					resolve(true);
+			int i;
+			ExpressionValue geo2 = null;
+			for(i=name.length()-1;i>=0;i--){
+				if(name.charAt(i)<'x' || name.charAt(i)>'z')
+					break;
+				exponents[name.charAt(i)-'x']++;
 				
+				
+					geo2 =kernel.lookupLabel(name.substring(0,i));
+				
+				if(geo2!=null)
+					break;
 			}
+			if(i>-1 && !(geo2 instanceof GeoElement))
+				resolve(true);
+			if(geo2==null)
+				geo2 = new MyDouble(kernel,1.0);
 			//AbstractApplication.printStacktrace(name+":"+forEquation);
 			if(forEquation)
 				return new Polynomial(kernel,new Term(geo2, StringUtil.repeat('x',exponents[0])+StringUtil.repeat('y',exponents[1])+StringUtil.repeat('z',exponents[2])));

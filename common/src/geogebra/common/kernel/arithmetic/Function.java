@@ -432,6 +432,7 @@ public class Function extends FunctionNVar implements RealRootFunction,
 	 * @param rootFindingSimplification
 	 *            for root finding factors may be simplified, e.g. sqrt(x) may
 	 *            be simplified to x
+	 * @param assumeFalseIfCASNeeded if we can't resolve this as polynomial without CAS and this flag is tue, we assume it's not a polynomial
 	 * @return all symbolic non-constant polynomial factors of this function
 	 */
 	public LinkedList<PolyFunction> getSymbolicPolynomialFactors(

@@ -56,7 +56,7 @@ public interface Traversing {
 	 *
 	 */
 	public class CommandReplacer implements Traversing {
-		AbstractApplication app;
+		private AbstractApplication app;
 		public ExpressionValue process(ExpressionValue ev) {
 			if(ev instanceof Command){
 				Command c= (Command)ev;
@@ -82,6 +82,7 @@ public interface Traversing {
 		}
 		private static CommandReplacer replacer = new CommandReplacer();
 		/**
+		 * @param app application (needed to check which commands are valid)
 		 * @return replacer
 		 */
 		public static CommandReplacer getReplacer(AbstractApplication app){
