@@ -47,7 +47,7 @@ public class LanguageCommand implements Command {
 		setCookies(LOCALE_PARAMETER, localeCode);
 	}
 	
-	public void changeLocale(String localeParamName, String newLocale) {
+	public static void changeLocale(String localeParamName, String newLocale) {
 		UrlBuilder newUrl = Window.Location.createUrlBuilder();
 		newUrl.setParameter(localeParamName, newLocale);
 		Window.Location.assign(newUrl.buildString());
