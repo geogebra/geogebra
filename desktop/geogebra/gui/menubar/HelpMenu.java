@@ -83,7 +83,7 @@ class HelpMenu extends BaseMenu implements MenuListener {
 				}
 			};
 	
-			geogebratubeAction = new AbstractAction("GeoGebraTube") {
+			geogebratubeAction = new AbstractAction("GeoGebraTube", app.getImageIcon("GeoGebraTube.png")) {
 				private static final long serialVersionUID = 1L;
 	
 				public void actionPerformed(ActionEvent e) {
