@@ -542,7 +542,7 @@ public class PropertiesView extends JPanel implements
 		case CAS:
 			return app.getPlain("PropertiesOfA",app.getPlain("CAS"));
 		case ADVANCED:
-			return app.getPlain("PropertiesOfA",app.getPlain("Advanced"));
+			return app.getPlain("PropertiesOfA",app.getMenu("Advanced"));
 		case OBJECTS:
 			//return app.getMenu("Objects");
 			return objectPanel.getSelectionDescription();
