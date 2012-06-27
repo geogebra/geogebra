@@ -2,6 +2,7 @@ package geogebra.web.main;
 
 import geogebra.common.awt.Color;
 import geogebra.common.euclidian.AbstractEuclidianController;
+import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.kernel.ConstructionDefaults;
@@ -469,9 +470,7 @@ public class GlobalKeyDispatcher extends
 				EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
 
 				// disable zooming in PEN mode
-				if (ev.getMode() != EuclidianConstants.MODE_PEN
-						&& ev.getMode() != EuclidianConstants.MODE_PENCIL
-						&& ev.getMode() != EuclidianConstants.MODE_FREEHAND_FUNCTION) {
+				if (!AbstractEuclidianView.isPenMode(app.getActiveEuclidianView().getMode())) {
 
 					//TCO boolean spanish = app.getLocale().toString()
 					//		.startsWith("es");

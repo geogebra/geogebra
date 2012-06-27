@@ -1,6 +1,7 @@
 package geogebra.main;
 
 import geogebra.common.euclidian.AbstractEuclidianController;
+import geogebra.common.euclidian.AbstractEuclidianView;
 import geogebra.common.euclidian.DrawTextField;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
@@ -553,9 +554,7 @@ public class GlobalKeyDispatcher extends geogebra.common.main.GlobalKeyDispatche
 			case KeyEvent.VK_EQUALS:
 
 				// disable zooming in PEN mode
-				if (app.getActiveEuclidianView().getMode() != EuclidianConstants.MODE_PEN
-						&& app.getActiveEuclidianView().getMode() != EuclidianConstants.MODE_PENCIL
-						&& app.getActiveEuclidianView().getMode() != EuclidianConstants.MODE_FREEHAND_FUNCTION) {
+				if (!AbstractEuclidianView.isPenMode(app.getActiveEuclidianView().getMode())) {
 
 					boolean spanish = ((Application)app).getLocale().toString()
 							.startsWith("es");
