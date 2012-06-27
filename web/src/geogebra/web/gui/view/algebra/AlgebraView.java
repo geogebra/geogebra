@@ -811,7 +811,6 @@ public class AlgebraView extends Tree implements LayerView, SetLabels, geogebra.
 			else
 				getItem(i).setText(getItem(i).getUserObject().toString());
 		}
-		setSelectedItem(null);
 	}
 
 	/**
@@ -904,8 +903,11 @@ public class AlgebraView extends Tree implements LayerView, SetLabels, geogebra.
 
 			 */
 			try {
-				node.setSelected(true);
-				ensureSelectedItemVisible();
+				// it may be enough that clicking selects an item,
+				// we want to avoid every item selected on changing algebra descriptions
+				//node.setSelected(true);
+				//ensureSelectedItemVisible();
+
 				((RadioButtonTreeItem)node.getWidget()).update();
 			} catch (Exception e) {
 				e.printStackTrace();
