@@ -78,7 +78,8 @@ public class Prover extends geogebra.common.util.Prover {
 		inputObject.setMethod(GeoGebraOGPInputProverProtocol.OGP_METHOD_WU); // default
 		if (AbstractApplication.proverMethod.equalsIgnoreCase("wu"))
 			inputObject.setMethod(GeoGebraOGPInputProverProtocol.OGP_METHOD_WU);
-		// TODO: Set the method here.
+		if (AbstractApplication.proverMethod.equalsIgnoreCase("area"))
+			inputObject.setMethod(GeoGebraOGPInputProverProtocol.OGP_METHOD_AREA);
 		inputObject.setTimeOut(AbstractApplication.proverTimeout);
 		inputObject.setMaxTerms(AbstractApplication.maxTerms);
 		inputObject.setReportFormat(GeoGebraOGPInputProverProtocol.OGP_REPORT_FORMAT_NONE);
