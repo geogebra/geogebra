@@ -73,14 +73,7 @@ public class LanguageMenu extends MenuBar {
 
 					char ch = languageName.toUpperCase().charAt(0);
 					
-					Application.debug("Supported Languages: " + languageCode);
-					
-					try{
-						app.getCountryFromGeoIP();
-					} catch(Exception ex) {
-						Application.error("GetCountryFromGeoIP error");
-					}
-					
+					AbstractApplication.debug("Supported Languages: " + languageCode);										
 
 					if(ch <= 'D') {
 
