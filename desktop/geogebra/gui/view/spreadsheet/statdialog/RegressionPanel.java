@@ -41,7 +41,8 @@ public class RegressionPanel extends JPanel implements  ActionListener, StatPane
 	private JLabel lblRegEquation, lblEqn;
 	private JLabel lblTitleX, lblTitleY;
 	private MyTextField fldTitleX, fldTitleY;
-	private JComboBox<String> cbRegression, cbPolyOrder;
+	@SuppressWarnings("rawtypes")
+	private JComboBox cbRegression, cbPolyOrder;
 	private JButton btnSwapXY;
 	private JLabel lblEvaluate;
 	private MyTextField fldInputX;
@@ -66,18 +67,19 @@ public class RegressionPanel extends JPanel implements  ActionListener, StatPane
 	}
 
 	private JPanel regressionPanel;
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private JPanel createRegressionPanel(){
 
 		// components
 		String[] orders = {"2","3","4","5","6","7","8","9"};
-		cbPolyOrder = new JComboBox<String>(orders);
+		cbPolyOrder = new JComboBox(orders);
 		cbPolyOrder.setSelectedIndex(0);
 		cbPolyOrder.addActionListener(this);
 		cbPolyOrder.setFocusable(false);
 		
 		regressionLabels = new String[Regression.values().length];
 		setRegressionLabels();
-		cbRegression = new JComboBox<String>(regressionLabels);
+		cbRegression = new JComboBox(regressionLabels);
 		cbRegression.addActionListener(this);
 		cbRegression.setFocusable(false);
 		
