@@ -27,6 +27,8 @@ import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.dom.client.StyleInjector;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.Window.ClosingEvent;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.RootPanel;
 
@@ -71,6 +73,15 @@ public class Web implements EntryPoint {
 		if (Web.loadedAsApp) {
 			JavaScriptInjector.inject(GuiResources.INSTANCE.propertiesKeysJS().getText());
 		}
+		
+		// popup when the user wants to exit accidentally
+        Window.addWindowClosingHandler(new Window.ClosingHandler() {
+            public void onWindowClosing(ClosingEvent event) {
+            	// TODO: Localize this, or omit message completely,
+            	// and maybe put this somewhere else (where i18n is already available).
+                event.setMessage("Now you are about to close the GeoGebra window and lose any unsaved data.");
+            }
+        });
 		
 		// insert mathquill css
 		StyleInjector.inject(GuiResources.INSTANCE.mathquillCss().getText());
