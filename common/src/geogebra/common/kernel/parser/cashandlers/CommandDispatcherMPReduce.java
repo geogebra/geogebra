@@ -142,7 +142,7 @@ public class CommandDispatcherMPReduce {
 			case snot:	
 				// e.g. logb[x,3] becomes log(3,x)
 				ret = new ExpressionNode(kernel,
-						 args.getItem(0),commands.valueOf(cmdName).getOperation(),
+						 args.getItem(0).unwrap(),commands.valueOf(cmdName).getOperation(),
 								null);
 				break;
 			case sub:	
