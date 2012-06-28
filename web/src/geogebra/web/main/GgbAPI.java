@@ -30,6 +30,8 @@ import java.util.Iterator;
 import java.util.TreeSet;
 import java.util.Map.Entry;
 
+import javax.swing.SwingUtilities;
+
 import org.apache.tools.ant.taskdefs.Java;
 
 public class GgbAPI  extends geogebra.common.plugin.GgbAPI {
@@ -430,4 +432,15 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI {
     private void addImageToZip(String filename, String base64img) {
     	archiveContent.put(filename, base64img);
     }
+    
+    /*
+     * waitForResult = false not implemented in web
+     * (non-Javadoc)
+     * @see geogebra.common.plugin.JavaScriptAPI#evalCommand(java.lang.String, boolean)
+     */
+	public synchronized boolean evalCommand(final String cmdString, boolean waitForResult) {
+			return evalCommand(cmdString);
+	}
+
+
 }

@@ -35,6 +35,7 @@ import javax.imageio.ImageIO;
 import javax.imageio.ImageWriter;
 import javax.imageio.stream.ImageOutputStream;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 
 
 /** 
@@ -219,6 +220,24 @@ public class GgbAPI extends geogebra.common.plugin.GgbAPI {
 	}//getCurrentCas()
 	*/
 	
+	public synchronized boolean evalCommand(final String cmdString, boolean waitForResult) {
+		if (waitForResult) {
+			return evalCommand(cmdString);
+		}
+		
+		try {
+			SwingUtilities.invokeLater(new Runnable(){
+				public void run(){
+					evalCommand(cmdString);
+				}
+			});
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return true;
+
+	}
 	
 	/**
 	 * Turns showing of error dialogs on (true) or (off). 

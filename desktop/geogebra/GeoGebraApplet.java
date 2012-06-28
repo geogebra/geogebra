@@ -242,20 +242,31 @@ public class GeoGebraApplet extends JApplet implements JavaScriptAPI {
 	public synchronized void deleteObject(String objName) {
 		getAppletImplementation().deleteObject(objName);
 	}
-	/** to be called from the swing thread */
-	protected boolean success;
+	
 	public synchronized boolean evalCommand(final String cmdString) {
+		return evalCommand(cmdString, true);
+	}
+
+	public synchronized boolean evalCommand(final String cmdString, boolean waitForResult) {
 		
+		if (waitForResult) {
+			return getAppletImplementation().evalCommand(cmdString);
+		}
+
+		// see #106
+		// (redraw error if evalCommand() is called again before it's finished)
 		try {
-			SwingUtilities.invokeAndWait(new Runnable(){
+			SwingUtilities.invokeLater(new Runnable(){
 				public void run(){
-					success =getAppletImplementation().evalCommand(cmdString);
+					getAppletImplementation().evalCommand(cmdString);
 				}
 			});
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return success;
+		
+		return true;
+		
 	}
 
 	public synchronized void evalXML(String xmlString) {

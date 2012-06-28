@@ -677,11 +677,15 @@ public class AppletImplementation implements AppletImplementationInterface {
 		app.setXML(sb.toString(), false);
 	}
 
+	public synchronized boolean evalCommand(final String cmdString) {
+		return evalCommand(cmdString, true);
+	}
+
 	/**
 	 * Evaluates the given string as if it was entered into GeoGebra's input
 	 * text field.
 	 */
-	public synchronized boolean evalCommand(final String cmdString) {
+	public synchronized boolean evalCommand(final String cmdString, final boolean waitForResult) {
 		// waitForCAS();
 
 		// avoid security problems calling from JavaScript
@@ -694,7 +698,7 @@ public class AppletImplementation implements AppletImplementationInterface {
 						app.initTranslatedCommands();
 
 						return new MyBoolean(kernel, app.getGgbApi()
-								.evalCommand(cmdString));
+								.evalCommand(cmdString, waitForResult));
 
 					}
 				});

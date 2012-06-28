@@ -25,6 +25,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.TreeSet;
 
+import javax.swing.SwingUtilities;
+
 /** 
 <h3>GgbAPI - API for PlugLets </h3>
 <pre>
@@ -94,7 +96,7 @@ public abstract class GgbAPI implements JavaScriptAPI{
 		sb.append("</geogebra>\n");
 		getApplication().setXML(sb.toString(), false);
 	}
-
+	
 	/**
 	 * Evaluates the given string as if it was entered into GeoGebra's input
 	 * text field.
