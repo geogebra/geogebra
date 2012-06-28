@@ -1,5 +1,7 @@
 package geogebra.web.gui.menubar;
 
+import geogebra.common.main.AbstractApplication;
+
 import java.util.ArrayList;
 
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -28,10 +30,15 @@ public class RadioButtonMenuBar extends MenuBar {
 		return super.addItem(radioButton.toString(), true, com);
 	}
 
-	public void setSelected(int itemIndex) {		
-		boolean val;		
+	public void setSelected(int itemIndex) {
 		radioButtons.get(itemIndex).setValue(true);
-		this.getItems().get(itemIndex).setHTML(radioButtons.get(itemIndex).toString());
+		MenuItem selectedItem;
+		if (getSelectedItem() != null){
+			selectedItem = this.getSelectedItem(); 
+		} else {
+			selectedItem = this.getItems().get(itemIndex);
+		}
+		selectedItem.setHTML(radioButtons.get(itemIndex).toString());
 	}
 	
 	/**
