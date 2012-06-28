@@ -69,7 +69,7 @@ public class MyArbitraryConstant  {
 	}
 	
 	private ExpressionValue nextConst(ArrayList<GeoNumeric> consts2,Map<Integer, GeoNumeric> map, String prefix, MyDouble myDouble) {
-		Integer index = new Integer((int)myDouble.getDouble());
+		Integer index = new Integer((int)Math.round(myDouble.getDouble()));
 		GeoNumeric found = map.get(index);
 		if(found!=null)
 			return found;
@@ -84,11 +84,12 @@ public class MyArbitraryConstant  {
 			AlgoDependentArbconst algo = new AlgoDependentArbconst(c,add,ce);
 			c.removeFromConstructionList(algo);
 			consts2.add(position,add);
-			map.put(index,add);
 			position++;
+			map.put(index,add);
 			return add;
 		}
 		GeoNumeric ret = consts2.get(position);
+		map.put(index,ret);
 		position++;
 		return ret;
 	}
@@ -99,6 +100,9 @@ public class MyArbitraryConstant  {
 	 */
 	public void reset(){
 		position=0;
+		constsM.clear();
+		complexNumbersM.clear();
+		intsM.clear();
 	}
 	
 	/**
