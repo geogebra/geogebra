@@ -4131,7 +4131,7 @@ public class ExpressionNode extends ValidExpression implements
 			break;
 		case INTEGRAL:
 			if (STRING_TYPE == StringType.LATEX) {
-				sb.append("\\int");
+				sb.append("\\int ");
 				sb.append(leftStr);
 				sb.append("d");
 				sb.append(rightStr);

@@ -152,8 +152,8 @@ private void reset(){
 	put(1,"expIntegral", Operation.EI);
 	put(1,"ExpIntegral", Operation.EI);
 	
-	put(1,"gGbInTeGrAl", Operation.INTEGRAL);
-	put(1,"gGbSuBsTiTuTiOn", Operation.SUBSTITUTION);
+	put(2,"gGbInTeGrAl", Operation.INTEGRAL);
+	put(2,"gGbSuBsTiTuTiOn", Operation.SUBSTITUTION);
 	
 	put(1,"arbint", Operation.ARBINT);
 	
