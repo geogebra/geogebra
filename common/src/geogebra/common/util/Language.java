@@ -117,6 +117,7 @@ public enum Language {
 			Country.Uruguay, Country.Venezuela, Country.PuertoRico),
 	Swedish(null, true, false, "sv","sv", "Swedish / Svenska", Country.Sweden, Country.Finland),
 	Tamil("\u0be7", false, false, "ta","ta", "Tamil / \u0BA4\u0BAE\u0BBF\u0BB4\u0BCD", Country.India, Country.Singapore),
+	Tajik(null, false, false, "tg","tg", "Tajik", Country.Tajikistan),
 	Thai(null, false, false, "th","th", "Thai / \u0E20\u0E32\u0E29\u0E32\u0E44\u0E17\u0E22", Country.Thailand),
 	Turkish(null, false, false, "tr","tr", "Turkish / T\u00FCrk\u00E7e", Country.Turkey, Country.Cyprus),
 	Ukrainian(null, false, false, "uk","uk", "Ukrainian / \u0423\u043A\u0440\u0430\u0457\u043D\u0441\u044C\u043A\u0430 \u043C\u043E\u0432\u0430", Country.Ukraine),
