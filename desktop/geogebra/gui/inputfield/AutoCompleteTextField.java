@@ -363,33 +363,33 @@ public AutoCompleteTextField(int columns, Application app,
       case KeyEvent.VK_F1:
     	String helpURL = isCASInput ?  AbstractApplication.WIKI_CAS_VIEW:AbstractApplication.WIKI_MANUAL;
         if (autoComplete) {
-          if (getText().equals("")) {
+          boolean commandFound = false;
+          if (!getText().equals("")) {
+        	  int pos = getCaretPosition();
+              while (pos > 0 && getText().charAt(pos - 1) == '[') {
+                pos--;
+              }
+              String word = getWordAtPos(getText(), pos);
+              String lowerCurWord = word.toLowerCase();
+              String closest = dict.lookup(lowerCurWord);
 
-            Object[] options = { app.getPlain("OK"),
-                app.getPlain("ShowOnlineHelp") };
-            int n = JOptionPane.showOptionDialog(app.getMainComponent(),
-                app.getPlain(isCASInput ?"CASFieldHelp":"InputFieldHelp"), app.getPlain("ApplicationName")
-                    + " - " + app.getMenu("Help"), JOptionPane.YES_NO_OPTION,
-                JOptionPane.QUESTION_MESSAGE, null, // do not use a custom Icon
-                options, // the titles of buttons
-                options[0]); // default button title
+              if (closest != null){// && lowerCurWord.equals(closest.toLowerCase()))
+                showCommandHelp(app.getInternalCommand(closest),isCASInput);
+                commandFound = true;
+              }
+          } 
+          if(!commandFound){
+        	  Object[] options = { app.getPlain("OK"),
+                      app.getPlain("ShowOnlineHelp") };
+                  int n = JOptionPane.showOptionDialog(app.getMainComponent(),
+                      app.getPlain(isCASInput ?"CASFieldHelp":"InputFieldHelp"), app.getPlain("ApplicationName")
+                          + " - " + app.getMenu("Help"), JOptionPane.YES_NO_OPTION,
+                      JOptionPane.QUESTION_MESSAGE, null, // do not use a custom Icon
+                      options, // the titles of buttons
+                      options[0]); // default button title
 
-            if (n == 1)
-              app.getGuiManager().openHelp(helpURL);
-
-          } else {
-            int pos = getCaretPosition();
-            while (pos > 0 && getText().charAt(pos - 1) == '[') {
-              pos--;
-            }
-            String word = getWordAtPos(getText(), pos);
-            String lowerCurWord = word.toLowerCase();
-            String closest = dict.lookup(lowerCurWord);
-
-            if (closest != null)// && lowerCurWord.equals(closest.toLowerCase()))
-              showCommandHelp(app.getInternalCommand(closest),true);
-            else
-              app.getGuiManager().openHelp(helpURL);
+                  if (n == 1)
+                    app.getGuiManager().openHelp(helpURL);
 
           }
         } else
@@ -871,8 +871,7 @@ public AutoCompleteTextField(int columns, Application app,
       ++historyIndex;
     if (historyIndex == history.size())
       return null;
-    else
-      return history.get(historyIndex);
+	return history.get(historyIndex);
   }
 
   /**
