@@ -16,6 +16,7 @@ import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.util.StringUtil;
 import geogebra.io.MyImageIO;
+import geogebra.kernel.EvalCommandQueue;
 import geogebra.main.Application;
 import geogebra.util.Util;
 
@@ -35,7 +36,6 @@ import javax.imageio.ImageIO;
 import javax.imageio.ImageWriter;
 import javax.imageio.stream.ImageOutputStream;
 import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
 
 
 /** 
@@ -225,20 +225,24 @@ public class GgbAPI extends geogebra.common.plugin.GgbAPI {
 			return evalCommand(cmdString);
 		}
 		
-		try {
-			SwingUtilities.invokeLater(new Runnable(){
-				public void run(){
-					evalCommand(cmdString);
-				}
-			});
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		//evalCommand(cmdString);
+		getEvalCommandQueue().addCommand(cmdString);
+		
 		
 		return true;
 
 	}
 	
+	EvalCommandQueue evq;
+	
+	private EvalCommandQueue getEvalCommandQueue() {
+		if (evq == null) {
+			evq = new EvalCommandQueue(this);
+		}
+		
+		return evq;
+	}
+
 	/**
 	 * Turns showing of error dialogs on (true) or (off). 
 	 * Note: this is especially useful together with evalCommand().
