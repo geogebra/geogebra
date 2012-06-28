@@ -7,16 +7,16 @@ import java.util.Date;
 
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.main.AbstractApplication;
-import geogebra.web.asyncservices.GeoIPService;
-import geogebra.web.asyncservices.GeoIPServiceAsync;
 import geogebra.web.html5.ArticleElement;
 import geogebra.web.html5.Dom;
 import geogebra.web.html5.View;
 import geogebra.web.main.Application;
 import geogebra.web.presenter.LoadFilePresenter;
+import geogebra.web.util.JSON;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestBuilder;
 import com.google.gwt.http.client.RequestCallback;
@@ -82,6 +82,7 @@ public class GeoGebraAppFrame extends Composite {
 	@Override
     protected void onLoad() {
 //		init();
+		setVisible(false);
 		geoIPCall();
 		
 	}
@@ -100,9 +101,10 @@ public class GeoGebraAppFrame extends Composite {
 				
 				public void onResponseReceived(Request request, Response response) {
 					if (200 == response.getStatusCode()) {
-						//parse response here
-						Application.geoIPCountryName = "";
-						Application.geoIPLanguage = "";
+						JavaScriptObject geoIpInfos = JSON.parse(response.getText());
+						Application.geoIPCountryName = JSON.get(geoIpInfos, "geoIp");
+						String acceptLanguage = (JSON.get(geoIpInfos,"acceptLanguage") != null) ? JSON.get(geoIpInfos,"acceptLanguage") : "" ;
+						Application.geoIPLanguage = JSON.get(geoIpInfos, "acceptLanguage").substring(0, acceptLanguage.indexOf(","));
 						init();
 					} else {
 						Application.geoIPCountryName = "";
@@ -113,28 +115,10 @@ public class GeoGebraAppFrame extends Composite {
 			});
 		} catch (Exception e) {
 		       AbstractApplication.error(e.getLocalizedMessage());
+		       Application.geoIPCountryName = "";
+		       Application.geoIPLanguage = "";
+			   init();
 	    }
-	    
-	    /*AGAsyncCallback<GeoIPInformation> callback = new AsyncCallback<GeoIPInformation>() {
-
-			public void onFailure(Throwable caught) {
-	            // TODO Auto-generated method stub
-				AbstractApplication.debug("geoIPAsync Error: " + caught.getMessage());
-	            
-	        }
-
-			public void onSuccess(GeoIPInformation result) {
-	            // TODO Auto-generated method stub
-				Application.geoIPCountryName = result.getCountry();
-				Application.geoIPLanguage = result.getLanguage();
-				
-				init();
-	            
-	        }
-	    	
-		};
-		
-		geoIPAsync.getGeoIPInformation(callback);*/		
 	}
 	
 	
@@ -144,6 +128,7 @@ public class GeoGebraAppFrame extends Composite {
 
 
 	protected void init() {
+		setVisible(true);
 		ArticleElement article = ArticleElement.as(Dom.querySelector(GeoGebraConstants.GGM_CLASS_NAME));
 		Date creationDate = new Date();
 		article.setId(GeoGebraConstants.GGM_CLASS_NAME+creationDate.getTime());

@@ -44,15 +44,6 @@
     <url-pattern>/svc</url-pattern>
   </servlet-mapping>
   
-  <servlet>
-  	<servlet-name>GeoIPImpl</servlet-name>
-  	<servlet-class>geogebra.server.GeoIPImpl</servlet-class>
-  </servlet>
-  <servlet-mapping>
-  <servlet-name>GeoIPImpl</servlet-name>
-  <url-pattern>/web/geoIPService</url-pattern>
-  </servlet-mapping>
-  
   <!-- Default page to serve -->
   <!--<welcome-file-list>
     <welcome-file>index.html</welcome-file>

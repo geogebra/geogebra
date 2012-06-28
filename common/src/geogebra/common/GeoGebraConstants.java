@@ -113,5 +113,5 @@ public interface GeoGebraConstants {
 
 	public static final String APPENGINE_REDIRECT_URL = "http://geogebraweb.appspot.com";
 	public static final String APPENGINE_TEST_URL = "http://127.0.0.1:8888/";
-	public static final String GEOIP_URL = "http://www.geogebra.org/geoip/";
+	public static final String GEOIP_URL = "http://www.geogebra.org/geoip/geoip_json.php";
 }

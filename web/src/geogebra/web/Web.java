@@ -7,8 +7,6 @@ import java.util.Date;
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.kernel.commands.AlgebraProcessor;
 import geogebra.common.main.AbstractApplication;
-import geogebra.web.asyncservices.GeoIPService;
-import geogebra.web.asyncservices.GeoIPServiceAsync;
 import geogebra.web.asyncservices.HandleGoogleDriveService;
 import geogebra.web.asyncservices.HandleGoogleDriveServiceAsync;
 import geogebra.web.asyncservices.HandleOAuth2Service;
