@@ -156,11 +156,6 @@ public class OptionsMenu extends MenuBar{
 		 */
 		String[] strDecimalSpaces = app.getRoundingMenu();
 
-		for(String item : strDecimalSpaces ){
-			if (item != "---")
-				item = app.getMenu(item);
-		}
-		
 		menuDecimalPlaces.addRadioButtonMenuItems(this,
 				strDecimalSpaces, AbstractApplication.strDecimalSpacesAC, 0);
 
