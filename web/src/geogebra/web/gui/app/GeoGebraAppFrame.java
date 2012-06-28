@@ -17,6 +17,11 @@ import geogebra.web.presenter.LoadFilePresenter;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.http.client.Request;
+import com.google.gwt.http.client.RequestBuilder;
+import com.google.gwt.http.client.RequestCallback;
+import com.google.gwt.http.client.Response;
+import com.google.gwt.http.client.URL;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.Window;
@@ -83,9 +88,34 @@ public class GeoGebraAppFrame extends Composite {
 	
 	private void geoIPCall() {
 		
-		GeoIPServiceAsync geoIPAsync = (GeoIPServiceAsync) GWT.create(GeoIPService.class);
+		RequestBuilder builder = new RequestBuilder(RequestBuilder.GET, URL.encode(GeoGebraConstants.GEOIP_URL));
+		
+		try {
+			Request request = builder.sendRequest(null, new RequestCallback() {
+				public void onError(Request request, Throwable exception) {
+					Application.geoIPCountryName = "";
+					Application.geoIPLanguage = "";
+					init();
+				}
+				
+				public void onResponseReceived(Request request, Response response) {
+					if (200 == response.getStatusCode()) {
+						//parse response here
+						Application.geoIPCountryName = "";
+						Application.geoIPLanguage = "";
+						init();
+					} else {
+						Application.geoIPCountryName = "";
+						Application.geoIPLanguage = "";
+						init();
+					}
+				}
+			});
+		} catch (Exception e) {
+		       AbstractApplication.error(e.getLocalizedMessage());
+	    }
 	    
-	    AsyncCallback<GeoIPInformation> callback = new AsyncCallback<GeoIPInformation>() {
+	    /*AGAsyncCallback<GeoIPInformation> callback = new AsyncCallback<GeoIPInformation>() {
 
 			public void onFailure(Throwable caught) {
 	            // TODO Auto-generated method stub
@@ -104,7 +134,7 @@ public class GeoGebraAppFrame extends Composite {
 	    	
 		};
 		
-		geoIPAsync.getGeoIPInformation(callback);		
+		geoIPAsync.getGeoIPInformation(callback);*/		
 	}
 	
 	

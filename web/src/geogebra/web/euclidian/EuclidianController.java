@@ -217,6 +217,12 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 			
 		AbstractEvent e = geogebra.web.euclidian.event.MouseEvent.wrapEvent(event.getNativeEvent(),this);
 		wrapMousePressed(e);
+		//hide PopUp if no hits was found.
+		if (view.getHits().isEmpty()) {
+			if (EuclidianStyleBar.CURRENT_POP_UP != null) {
+				EuclidianStyleBar.CURRENT_POP_UP.hide();
+			}
+		}
 		e.release();
 	}
 	

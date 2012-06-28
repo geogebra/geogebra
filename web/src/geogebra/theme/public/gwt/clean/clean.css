@@ -1326,6 +1326,11 @@ body[dir=rtl] .logintogoogle {
 }
 
 /* EuclidianStyleBar styles */
+
+.ButtonPopupMenu div:focus {
+	border:1px solid transparent;
+}
+
 .SelectionTable a {
 	text-decoration:none;
 	color:black;

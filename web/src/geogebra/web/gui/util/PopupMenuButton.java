@@ -164,7 +164,7 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 				// trigger popup 
 				// default: trigger only when the mouse is over the right side of the button
 				// if isStandardButton: pressing anywhere triggers the popup
-				if( isStandardButton || event.getX() >= getWidth()-16 &&  event.getX() <= getWidth()) { 
+				//if( isStandardButton || event.getX() >= getWidth()-16 &&  event.getX() <= getWidth()) { 
 					if(hasTable) {
 						myTable.updateFonts();
 					}
@@ -174,14 +174,10 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 						}
 						EuclidianStyleBar.CURRENT_POP_UP = myPopup;
 					}
-					if(isDownwardPopup) {
-						// popup appears below the button
-						myPopup.showRelativeTo(getWidget());
-					} else {
-						// popup appears above the button
-						myPopup.showRelativeTo(getWidget());
-					}
-				}
+
+					myPopup.showRelativeTo(getWidget());
+					myPopup.getFocusPanel().getElement().focus();
+				//}
 
 				popupIsVisible = myPopup.isShowing();
 			}

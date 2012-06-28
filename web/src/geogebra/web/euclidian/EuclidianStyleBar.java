@@ -6,7 +6,6 @@ import geogebra.common.euclidian.EuclidianStyleBarStatic;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.ConstructionDefaults;
-import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoTableText;
 import geogebra.common.kernel.geos.GeoButton;
@@ -34,8 +33,6 @@ import geogebra.web.main.Application;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-
-import javax.swing.JButton;
 
 import com.google.gwt.canvas.dom.client.ImageData;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -195,6 +192,10 @@ public class EuclidianStyleBar extends HorizontalPanel
 		if (mode == EuclidianConstants.MODE_SELECTION_LISTENER) {
 			modeChanged = false;
 			return;
+		}
+		
+		if (CURRENT_POP_UP != null) {
+			CURRENT_POP_UP.hide();
 		}
 
 		updateStyleBar();
@@ -505,6 +506,7 @@ public class EuclidianStyleBar extends HorizontalPanel
 	private void addButtons() {
 
 		clear();
+		
 
 		//--- order matters here
 
