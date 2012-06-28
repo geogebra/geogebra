@@ -8,6 +8,7 @@ import geogebra.common.main.AbstractApplication;
 import geogebra.gui.inputfield.AutoCompleteTextField;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.gui.util.GeoGebraIcon;
+import geogebra.gui.view.spreadsheet.statdialog.StatDialog.Regression;
 import geogebra.main.Application;
 import geogebra.util.Validation;
 
@@ -706,7 +707,7 @@ StatPanelInterface{
 				plotGeoList.add(scatterPlot);
 
 				if(statDialog.getRegressionModel()!=null 
-						&& statDialog.getRegressionMode() != statDialog.REG_NONE){
+						&& !statDialog.getRegressionMode().equals(Regression.NONE)){
 					plotGeoList.add(statDialog.getRegressionModel());  
 				}
 
@@ -731,7 +732,7 @@ StatPanelInterface{
 
 		case PLOT_RESIDUAL:
 			if(doCreate){
-				if(statDialog.getRegressionMode() != statDialog.REG_NONE){
+				if(!statDialog.getRegressionMode().equals(Regression.NONE)){
 					residualPlot = statGeo.createRegressionPlot(dataListSelected, statDialog.getRegressionMode(), 
 							statDialog.getRegressionOrder(), true);
 					plotGeoList.add(residualPlot);
@@ -1052,7 +1053,7 @@ StatPanelInterface{
 			// the regression geo is maintained by StatDialog, so we create a
 			// copy and prepare this for the EV
 			if (statDialog.getMode() == StatDialog.MODE_REGRESSION
-					&& statDialog.getRegressionMode() != StatDialog.REG_NONE) {
+					&& !statDialog.getRegressionMode().equals(Regression.NONE)) {
 				
 				regressionCopy = statGeo.createRegressionPlot(
 						(GeoList) scatterPlot, statDialog.getRegressionMode(),

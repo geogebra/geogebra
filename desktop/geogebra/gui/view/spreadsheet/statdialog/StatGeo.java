@@ -37,12 +37,14 @@ import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.statistics.AlgoFitExp;
+import geogebra.common.kernel.statistics.AlgoFitGrowth;
 import geogebra.common.kernel.statistics.AlgoFitLineY;
 import geogebra.common.kernel.statistics.AlgoFitLog;
 import geogebra.common.kernel.statistics.AlgoFitLogistic;
 import geogebra.common.kernel.statistics.AlgoMean;
 import geogebra.common.kernel.statistics.AlgoStandardDeviation;
 import geogebra.common.plugin.Operation;
+import geogebra.gui.view.spreadsheet.statdialog.StatDialog.Regression;
 import geogebra.main.Application;
 
 import java.awt.Color;
@@ -621,35 +623,38 @@ public class StatGeo   {
 
 
 
-	public GeoElement createRegressionPlot(GeoList dataList, int regType, int order, boolean residual){
+	public GeoElement createRegressionPlot(GeoList dataList, Regression reg, int order, boolean residual){
 
 		boolean regNone = false;
 
 		AlgoElement algo;
 
-		switch (regType) {
-		case StatDialog.REG_LOG:
+		switch (reg) {
+		case LOG:
 			algo = new AlgoFitLog(cons, dataList);
 			break;
-		case StatDialog.REG_POLY:
+		case POLY:
 			algo = new AlgoFitPoly(cons, dataList, new MyDouble(kernel, order));
 			break;
-		case StatDialog.REG_POW:
+		case POW:
 			algo = new AlgoFitPow(cons, dataList);
 			break;
-		case StatDialog.REG_EXP:
+		case EXP:
 			algo = new AlgoFitExp(cons, dataList);
 			break;
-		case StatDialog.REG_SIN:
+		case GROWTH:
+			algo = new AlgoFitGrowth(cons, dataList);
+			break;
+		case SIN:
 			algo = new AlgoFitSin(cons, dataList);
 			break;
-		case StatDialog.REG_LOGISTIC:
+		case LOGISTIC:
 			algo = new AlgoFitLogistic(cons, dataList);
 			break;
-		case StatDialog.REG_NONE:
+		case NONE:
 			regNone = true;
 			// fall through to linear
-		case StatDialog.REG_LINEAR:
+		case LINEAR:
 		default:
 			algo = new AlgoFitLineY(cons, dataList);
 			break;
@@ -669,9 +674,10 @@ public class StatGeo   {
 
 			// set geo options
 			geo.setObjColor(new geogebra.awt.Color(StatDialog.REGRESSION_COLOR));
-			if(regType == StatDialog.REG_LINEAR)	
+			if(reg.equals(Regression.LINEAR)) {	
 				((GeoLine)geo).setToExplicit();	
-
+			}
+			
 			// hide the dummy geo
 			if(regNone) geo.setEuclidianVisible(false);
 		}

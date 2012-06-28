@@ -41,6 +41,11 @@ public class AlgoFitGrowth extends AlgoElement {
 	private RegressionMath regMath;
 
 	public AlgoFitGrowth(Construction cons, String label, GeoList geolist) {
+		this(cons, geolist);
+		geofunction.setLabel(label);
+	}// Constructor
+
+	public AlgoFitGrowth(Construction cons, GeoList geolist) {
 		super(cons);
 
 		regMath = kernel.getRegressionMath();
@@ -49,7 +54,6 @@ public class AlgoFitGrowth extends AlgoElement {
 		geofunction = new GeoFunction(cons);
 		setInputOutput();
 		compute();
-		geofunction.setLabel(label);
 	}// Constructor
 
 	@Override

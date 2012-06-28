@@ -5,8 +5,10 @@ import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoFunctionable;
 import geogebra.common.kernel.geos.GeoLine;
+import geogebra.common.util.Language;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.gui.util.GeoGebraIcon;
+import geogebra.gui.view.spreadsheet.statdialog.StatDialog.Regression;
 import geogebra.main.Application;
 
 import java.awt.BorderLayout;
@@ -39,7 +41,7 @@ public class RegressionPanel extends JPanel implements  ActionListener, StatPane
 	private JLabel lblRegEquation, lblEqn;
 	private JLabel lblTitleX, lblTitleY;
 	private MyTextField fldTitleX, fldTitleY;
-	private JComboBox cbRegression, cbPolyOrder;
+	private JComboBox<String> cbRegression, cbPolyOrder;
 	private JButton btnSwapXY;
 	private JLabel lblEvaluate;
 	private MyTextField fldInputX;
@@ -68,14 +70,14 @@ public class RegressionPanel extends JPanel implements  ActionListener, StatPane
 
 		// components
 		String[] orders = {"2","3","4","5","6","7","8","9"};
-		cbPolyOrder = new JComboBox(orders);
+		cbPolyOrder = new JComboBox<String>(orders);
 		cbPolyOrder.setSelectedIndex(0);
 		cbPolyOrder.addActionListener(this);
 		cbPolyOrder.setFocusable(false);
 		
-		regressionLabels = new String[StatDialog.regressionTypes];
+		regressionLabels = new String[Regression.values().length];
 		setRegressionLabels();
-		cbRegression = new JComboBox(regressionLabels);
+		cbRegression = new JComboBox<String>(regressionLabels);
 		cbRegression.addActionListener(this);
 		cbRegression.setFocusable(false);
 		
@@ -191,14 +193,12 @@ public class RegressionPanel extends JPanel implements  ActionListener, StatPane
 	}
 
 	private void setRegressionLabels(){	
-		regressionLabels[StatDialog.REG_NONE] = app.getMenu("None");
-		regressionLabels[StatDialog.REG_LINEAR] = app.getMenu("Linear");
-		regressionLabels[StatDialog.REG_LOG] = app.getMenu("Log");
-		regressionLabels[StatDialog.REG_POLY] = app.getMenu("Polynomial");
-		regressionLabels[StatDialog.REG_POW] = app.getMenu("Power");
-		regressionLabels[StatDialog.REG_EXP] = app.getMenu("Exponential");
-		regressionLabels[StatDialog.REG_SIN] = app.getMenu("Sin");
-		regressionLabels[StatDialog.REG_LOGISTIC] = app.getMenu("Logistic");	
+		
+		for (Regression r : Regression.values()) {
+
+			regressionLabels[r.ordinal()] = r.getLabel();
+		}
+			
 	}
 
 
@@ -206,7 +206,7 @@ public class RegressionPanel extends JPanel implements  ActionListener, StatPane
 	 * Sets the labels according to current locale 
 	 */
 	public void setLabels(){		
-		regressionLabels = new String[StatDialog.regressionTypes];
+		regressionLabels = new String[Regression.values().length];
 		setRegressionLabels();
 		
 		//we need to remove old labels from combobox and we don't want the listener to
@@ -215,8 +215,11 @@ public class RegressionPanel extends JPanel implements  ActionListener, StatPane
 		ActionListener al = cbRegression.getActionListeners()[0];
 		cbRegression.removeActionListener(al);
 		cbRegression.removeAllItems();
-		for(int i=0;i<regressionLabels.length;i++)
+		
+		for(int i = 0 ; i < regressionLabels.length ; i++) {
 			cbRegression.addItem(regressionLabels[i]);
+		}
+		
 		cbRegression.setSelectedIndex(j);
 		cbRegression.addActionListener(al);		
 		((TitledBorder)regressionPanel.getBorder()).setTitle(app.getMenu("RegressionModel"));
@@ -254,12 +257,12 @@ public class RegressionPanel extends JPanel implements  ActionListener, StatPane
 			
 
 			// no regression 
-			if(statDialog.getRegressionMode() == StatDialog.REG_NONE || statDialog.getRegressionModel() == null){
+			if(statDialog.getRegressionMode().equals(Regression.NONE) || statDialog.getRegressionModel() == null){
 				eqn = app.getPlain("");
 			}
 
 			// linear 
-			else if(statDialog.getRegressionMode() == StatDialog.REG_LINEAR){
+			else if(statDialog.getRegressionMode().equals(Regression.LINEAR)){
 				((GeoLine)statDialog.getRegressionModel()).setToExplicit();	
 				eqn = statDialog.getRegressionModel().getFormulaString(highPrecision, true);
 			}
@@ -293,8 +296,8 @@ public class RegressionPanel extends JPanel implements  ActionListener, StatPane
 
 	private void updateGUI(){
 
-		cbPolyOrder.setVisible(statDialog.getRegressionMode() == StatDialog.REG_POLY);	
-		predictionPanel.setVisible(!(statDialog.getRegressionMode() == StatDialog.REG_NONE));	
+		cbPolyOrder.setVisible(statDialog.getRegressionMode().equals(Regression.POLY));	
+		predictionPanel.setVisible(!(statDialog.getRegressionMode().equals(Regression.NONE)));	
 		repaint();		
 
 	}

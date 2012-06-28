@@ -7,6 +7,7 @@ import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.GeoGebraColorConstants;
+import geogebra.common.util.Language;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.gui.util.GeoGebraIcon;
 import geogebra.gui.util.PopupMenuButton;
@@ -77,21 +78,29 @@ SpecialNumberFormatInterface {
 	public static final int thicknessCurve = 4;
 	public static final int thicknessBarChart = 3;
 	
-	
-	
+	/**
+	 * @author mrb
+	 * 
+	 * order determines order in menu (Two Variable Regression Analysis Tool.
+	 * 
+	 * For each String, getMenu(s) must be defined
+	 *
+	 */
+	public enum Regression {NONE("None"), LINEAR("Linear"), LOG("Log"), POLY("Polynomial"), POW("Power"), EXP("Exponential"), GROWTH("Growth"), SIN("Sin"), LOGISTIC("Logistic");
 
-	// regression types
-	public static final int REG_NONE = 0;
-	public static final int REG_LINEAR = 1;
-	public static final int REG_LOG = 2;
-	public static final int REG_POLY = 3;
-	public static final int REG_POW = 4;
-	public static final int REG_EXP = 5;
-	public static final int REG_SIN = 6;
-	public static final int REG_LOGISTIC = 7;
+	// getMenu(label) must be defined
+	private String label;
 
-	public static final int regressionTypes = 8;
-	private int regressionMode = REG_NONE;
+	Regression(String s) {
+		this.label = s;
+	}
+	
+	public String getLabel() {
+		return label;
+	}};
+
+	//public static final int regressionTypes = 9;
+	private Regression regressionMode = Regression.NONE;
 	private int regressionOrder = 2;
 
 	// oneVar title panel objects
@@ -439,10 +448,21 @@ SpecialNumberFormatInterface {
 
 
 	public void setRegressionMode(int regressionMode) {
-		this.regressionMode = regressionMode;
+		
+		for (Regression l : Regression.values()) {
+			if (l.ordinal() == regressionMode) {
+				this.regressionMode = l;
+				return;
+			}
+		}
+		
+		AbstractApplication.warn("no mode set in setRegressionMode()");
+		this.regressionMode = Regression.NONE;
+		
+		 
 	}
 
-	public int getRegressionMode() {
+	public Regression getRegressionMode() {
 		return regressionMode;
 	}
 

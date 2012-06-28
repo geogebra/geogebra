@@ -30,6 +30,7 @@ import geogebra.common.kernel.statistics.AlgoSpearman;
 import geogebra.common.kernel.statistics.AlgoStandardDeviation;
 import geogebra.common.kernel.statistics.AlgoSum;
 import geogebra.common.kernel.statistics.AlgoSumSquaredErrors;
+import geogebra.gui.view.spreadsheet.statdialog.StatDialog.Regression;
 import geogebra.main.Application;
 
 import java.awt.BorderLayout;
@@ -165,7 +166,9 @@ public class BasicStatTable extends JPanel implements StatPanelInterface {
 		
 		GeoElement geoRegression = statDialog.getRegressionModel();
 		// when the regr. mode is none geoRegression is a dummy linear model, so reset it to null 
-		if(statDialog.getRegressionMode() == statDialog.REG_NONE) geoRegression = null;
+		if(statDialog.getRegressionMode().equals(Regression.NONE)) {
+			geoRegression = null;
+		}
 		
 		DefaultTableModel model = statTable.getModel();
 		
