@@ -841,6 +841,9 @@ public interface MenuConstants extends ConstantsWithLookup {
     @DefaultStringValue("Group Objects")
     String GroupObjects();
 
+    @DefaultStringValue("Growth")
+    String Growth();
+
     @DefaultStringValue("HSL")
     String HSL();
 

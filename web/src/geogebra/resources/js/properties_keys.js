@@ -1246,6 +1246,7 @@ var menuKeysVar = {
 	Grid:'',
 	Gridlines:'',
 	GroupObjects:'',
+	Growth:'',
 	HSL:'',
 	HSV:'',
 	HTML5Only:'',
