@@ -79,7 +79,7 @@ public class Web implements EntryPoint {
             public void onWindowClosing(ClosingEvent event) {
             	// TODO: Localize this, or omit message completely,
             	// and maybe put this somewhere else (where i18n is already available).
-                event.setMessage("Now you are about to close the GeoGebra window and lose any unsaved data.");
+                event.setMessage("Now you are about to close the GeoGebra application and lose all unsaved data.");
             }
         });
 		
