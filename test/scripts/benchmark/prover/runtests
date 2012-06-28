@@ -8,7 +8,7 @@ TIMEOUT=120
 IMGSCALE=25
 IMGHEIGHT=25
 HTML=html/index.html
-PROVERS="Auto Recio Botana PureSymbolic OpenGeoProver"
+PROVERS="Auto Recio Botana PureSymbolic OpenGeoProver_Wu OpenGeoProver_Area"
 TESTGGBURLBASE=http://dev.geogebra.org/trac/browser/trunk
 GGBDIR=geogebra/test/scripts/benchmark/prover
 SINGULARWSREMOTEURL=http://ggb1.idm.jku.at:8085
@@ -42,8 +42,9 @@ echo -n "Test file;"
 cat style.html >> $MYDIR/$HTML
 echo "<table><tr><th rowspan=\"2\" colspan=\"2\">Test file</th>" >> $MYDIR/$HTML
 for j in $PROVERS; do
- echo -n "$j result;Speed;"
- echo "<th colspan=\"2\">$j</th>" >> $MYDIR/$HTML
+ TOPRINT=`echo $j | sed s/"_"/" "/`
+ echo -n "$TOPRINT result;Speed;"
+ echo "<th colspan=\"2\">$TOPRINT</th>" >> $MYDIR/$HTML
  done
 echo "</tr><tr>" >> $MYDIR/$HTML
 
@@ -77,9 +78,14 @@ for i in `find -name '*.ggb' | sort`; do
 
  for j in $PROVERS; do
   cd $MYDIR; cd $BUILDDIR
+  ENGINE=`echo $j | cut -f1 -d_`
+  METHOD=""
+  if [ $ENGINE = OpenGeoProver ]; then
+   METHOD=`echo $j | cut -f2 -d_`
+   fi
   # Testing:
   timeout $TIMEOUT java -jar geogebra.jar \
-   --prover=engine:$j,timeout:$TIMEOUT,singularwsremoteurl:$SINGULARWSREMOTEURL \
+   --prover=engine:$ENGINE,method:$METHOD,timeout:$TIMEOUT,singularwsremoteurl:$SINGULARWSREMOTEURL \
    --logFile=$LOGFILE \
    --regressionFile=$REGRESSIONFILE $MYDIR/$i --language=en \
    >$MYDIR/tmp/.test.stdout 2>$MYDIR/tmp/.test.stderr
@@ -97,6 +103,8 @@ for i in `find -name '*.ggb' | sort`; do
    if [ $DEBUG = 1 ]; then
     cp $REGRESSIONFILE $REGRESSIONFILE-$TEST-$j
     cp $LOGFILE $LOGFILE-$TEST-$j
+    cp $MYDIR/tmp/.test.stdout $MYDIR/tmp/.test.stdout-$TEST-$j
+    cp $MYDIR/tmp/.test.stderr $MYDIR/tmp/.test.stderr-$TEST-$j
     fi
    fi # No timeout
   echo -n "$RESULT;$TIME;"
