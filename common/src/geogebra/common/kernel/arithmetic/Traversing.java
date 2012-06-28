@@ -194,12 +194,15 @@ public interface Traversing {
 			if(!ev.isExpressionNode())
 				return ev;
 			ExpressionNode en = (ExpressionNode)ev;
-			if(en.getOperation()==Operation.ARBCONST)
-				return arbconst.nextConst((MyDouble)en.getRight());
-			if(en.getOperation()==Operation.ARBINT)
-				return arbconst.nextInt((MyDouble)en.getRight());
-			if(en.getOperation()==Operation.ARBCOMPLEX)
-				return arbconst.nextComplex((MyDouble)en.getRight());
+			if(en.getOperation()==Operation.ARBCONST){
+				return arbconst.nextConst((MyDouble)en.getLeft());
+			}
+			if(en.getOperation()==Operation.ARBINT){
+				return arbconst.nextInt((MyDouble)en.getLeft());
+			}
+			if(en.getOperation()==Operation.ARBCOMPLEX){
+				return arbconst.nextComplex((MyDouble)en.getLeft());
+			}
 			return en;
 		}
 		private static ArbconstReplacer replacer = new ArbconstReplacer();
