@@ -43,9 +43,9 @@ public class HelpMenu extends MenuBar {
             }
 	    });
 	    
-	    // GeoGebraTube
+	    // GeoGebraTube (no translation, deliberate)
 	    addItem(GeoGebraMenubar.getMenuBarHtml(AppResources.INSTANCE.GeoGebraTube().getSafeUri().asString(),
-	    		app.getMenu("GeoGebraTube")),true,new Command() {
+	    		"GeoGebraTube"),true,new Command() {
 			public void execute() {
 				Window.open(GeoGebraConstants.GEOGEBRATUBE_WEBSITE, "_blank","");
             }
