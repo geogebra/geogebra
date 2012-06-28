@@ -7,6 +7,8 @@ import java.util.Date;
 
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.main.AbstractApplication;
+import geogebra.web.asyncservices.GeoIPService;
+import geogebra.web.asyncservices.GeoIPServiceAsync;
 import geogebra.web.html5.ArticleElement;
 import geogebra.web.html5.Dom;
 import geogebra.web.html5.View;
@@ -18,6 +20,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
@@ -73,14 +76,44 @@ public class GeoGebraAppFrame extends Composite {
 	
 	@Override
     protected void onLoad() {
-		init();
+//		init();
+		geoIPCall();
+		
 	}
+	
+	private void geoIPCall() {
+		
+		GeoIPServiceAsync geoIPAsync = (GeoIPServiceAsync) GWT.create(GeoIPService.class);
+	    
+	    AsyncCallback<GeoIPInformation> callback = new AsyncCallback<GeoIPInformation>() {
+
+			public void onFailure(Throwable caught) {
+	            // TODO Auto-generated method stub
+				AbstractApplication.debug("geoIPAsync Error: " + caught.getMessage());
+	            
+	        }
+
+			public void onSuccess(GeoIPInformation result) {
+	            // TODO Auto-generated method stub
+				Application.geoIPCountryName = result.getCountry();
+				Application.geoIPLanguage = result.getLanguage();
+				
+				init();
+	            
+	        }
+	    	
+		};
+		
+		geoIPAsync.getGeoIPInformation(callback);		
+	}
+	
+	
 	
 	private int cw;
 	private int ch;
 
 
-	private void init() {
+	protected void init() {
 		ArticleElement article = ArticleElement.as(Dom.querySelector(GeoGebraConstants.GGM_CLASS_NAME));
 		Date creationDate = new Date();
 		article.setId(GeoGebraConstants.GGM_CLASS_NAME+creationDate.getTime());

@@ -123,7 +123,8 @@ public class Application extends AbstractApplication {
 
 	public final static String syntaxStr = "_Syntax";
 	
-	public static String geoIPCountryName = "Test";
+	public static String geoIPCountryName;
+	public static String geoIPLanguage;
 	
 	private FontManager fontManager;
 
@@ -1985,28 +1986,9 @@ public class Application extends AbstractApplication {
 	@Override
     public String getCountryFromGeoIP() {
 //	    warn("unimplemented");
-		
-			    
-	    GeoIPServiceAsync geoIPAsync = (GeoIPServiceAsync) GWT.create(GeoIPService.class);
-	    
-	    AsyncCallback<String> callback = new AsyncCallback<String>() {
-
-			public void onFailure(Throwable caught) {
-	            // TODO Auto-generated method stub
-	            
-            }
-
-			public void onSuccess(String result) {
-	            // TODO Auto-generated method stub
-				Application.geoIPCountryName = result;
-	            
-            }
-	    	
-		};
-		
-		geoIPAsync.getCountry(callback);
 	    
 	    Application.debug("GeoIPCountry: " + Application.geoIPCountryName);
+	    Application.debug("GeoIPLanguage: " + Application.geoIPLanguage);
 	    return Application.geoIPCountryName;
     }
 	

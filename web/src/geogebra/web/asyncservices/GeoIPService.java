@@ -1,13 +1,19 @@
 package geogebra.web.asyncservices;
 
+import geogebra.web.gui.app.GeoIPInformation;
+
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
+/**
+ * @author Rana
+ *
+ */
 @RemoteServiceRelativePath("geoIPService")
 public interface GeoIPService extends RemoteService {
 	
-	public String getCountry();
-	
-	public String getLanguage();
-
+	/**
+	 * @return GeoIPInformation
+	 */
+	public GeoIPInformation getGeoIPInformation();
 }
