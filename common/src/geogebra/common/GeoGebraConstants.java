@@ -70,8 +70,6 @@ public interface GeoGebraConstants {
 	public final static String GEOGEBRA_REPORT_BUG_DESKTOP = IS_FIVE_POINT_ZERO ? "http://www.geogebra.org/bugs/?v=5.0" : "http://www.geogebra.org/bugs/";
 	/** web bug reports */
 	public final static String GEOGEBRA_REPORT_BUG_WEB = "http://www.geogebra.org/bugs/?v=web";
-	/** Help (wiki) URL */
-	public final static String HELP_URL = GEOGEBRA_WEBSITE + "help";
 	/** GeoGebraTube URL */
 	public final static String GEOGEBRATUBE_WEBSITE = "http://www.geogebratube.org/";
 	/** max possible heap space for applets in MB */

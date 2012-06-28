@@ -361,21 +361,21 @@ public AutoCompleteTextField(int columns, Application app,
         break;
 
       case KeyEvent.VK_F1:
-
+    	String helpURL = isCASInput ?  AbstractApplication.WIKI_CAS_VIEW:AbstractApplication.WIKI_MANUAL;
         if (autoComplete) {
           if (getText().equals("")) {
 
             Object[] options = { app.getPlain("OK"),
                 app.getPlain("ShowOnlineHelp") };
             int n = JOptionPane.showOptionDialog(app.getMainComponent(),
-                app.getPlain("InputFieldHelp"), app.getPlain("ApplicationName")
+                app.getPlain(isCASInput ?"CASFieldHelp":"InputFieldHelp"), app.getPlain("ApplicationName")
                     + " - " + app.getMenu("Help"), JOptionPane.YES_NO_OPTION,
                 JOptionPane.QUESTION_MESSAGE, null, // do not use a custom Icon
                 options, // the titles of buttons
                 options[0]); // default button title
 
             if (n == 1)
-              app.getGuiManager().openHelp(AbstractApplication.WIKI_MANUAL);
+              app.getGuiManager().openHelp(helpURL);
 
           } else {
             int pos = getCaretPosition();
@@ -387,13 +387,13 @@ public AutoCompleteTextField(int columns, Application app,
             String closest = dict.lookup(lowerCurWord);
 
             if (closest != null)// && lowerCurWord.equals(closest.toLowerCase()))
-              showCommandHelp(app.getInternalCommand(closest));
+              showCommandHelp(app.getInternalCommand(closest),true);
             else
-              app.getGuiManager().openHelp(AbstractApplication.WIKI_MANUAL);
+              app.getGuiManager().openHelp(helpURL);
 
           }
         } else
-          app.getGuiManager().openHelp(AbstractApplication.WIKI_MANUAL);
+          app.getGuiManager().openHelp(helpURL);
 
         e.consume();
         break;
@@ -881,9 +881,9 @@ public AutoCompleteTextField(int columns, Application app,
    * @param cmd
    *          is the internal command name
    */
-  private void showCommandHelp(String cmd) {
+  private void showCommandHelp(String cmd,boolean cas) {
     // show help for current command (current word)
-    String help = app.getCommandSyntax(cmd);
+    String help = cas ? app.getCommandSyntaxCAS(cmd) :app.getCommandSyntax(cmd);
 
     // show help if available
     if (help != null) {

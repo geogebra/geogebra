@@ -75,6 +75,7 @@ public abstract class AbstractApplication {
 
 	public static final String WIKI_OPERATORS = "Predefined Functions and Operators";
 	public static final String WIKI_MANUAL = "Manual:Main Page";
+	public static final String WIKI_CAS_VIEW = "CAS_View";
 	public static final String WIKI_TUTORIAL = "Tutorial:Main Page";
 	public static final String WIKI_EXPORT_WORKSHEET = "Export_Worksheet_Dialog";
 	public static final String WIKI_ADVANCED = "Advanced Features";
