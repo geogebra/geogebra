@@ -1,5 +1,8 @@
 package geogebra.web.gui.menubar;
 
+import javax.swing.JMenu;
+import javax.swing.JRadioButtonMenuItem;
+
 import geogebra.common.kernel.Kernel;
 import geogebra.common.main.AbstractApplication;
 import geogebra.web.gui.images.AppResources;
@@ -17,7 +20,7 @@ public class OptionsMenu extends MenuBar{
 	static Kernel kernel;
 	
 	private LanguageMenu languageMenu;
-	private MenuItem menuPointCapturing;
+	private RadioButtonMenuBar menuPointCapturing;
 	private RadioButtonMenuBar menuDecimalPlaces;
 	
 	/**
@@ -85,39 +88,51 @@ public class OptionsMenu extends MenuBar{
 	}
 
 	private void addPointCapturingMenu(){
-		RadioButtonMenuBar submenu = new RadioButtonMenuBar();
+//		RadioButtonMenuBar submenu = new RadioButtonMenuBar();
+//		
+//		submenu.addItem(app.getMenu("Labeling.automatic"), new RadioButtonCommand(submenu, 0) {
+//			@Override
+//			public void exec() {
+//				setPointCapturing(3);
+//			}
+//		});
+//		submenu.addItem(app.getMenu("SnapToGrid"), new RadioButtonCommand(submenu, 1) {
+//			@Override
+//			public void exec() {
+//				setPointCapturing(1);
+//			}
+//		});
+//		submenu.addItem(app.getMenu("FixedToGrid"), new RadioButtonCommand(submenu, 2) {
+//			@Override
+//			public void exec() {
+//				setPointCapturing(2);
+//			}
+//		});
+//	
+//		submenu.addItem(app.getMenu("off"), new RadioButtonCommand(submenu, 3) {
+//			@Override
+//			public void exec() {
+//				setPointCapturing(0);
+//			}
+//		});
+//		
+//		menuPointCapturing = new MenuItem(GeoGebraMenubar.getMenuBarHtml(AppResources.INSTANCE
+//		        .magnet2().getSafeUri().asString(), app.getMenu("PointCapturing")),
+//		        true, submenu);		
+//		
+//		addItem(menuPointCapturing);
 		
-		submenu.addItem(app.getMenu("Labeling.automatic"), new RadioButtonCommand(submenu, 0) {
-			@Override
-			public void exec() {
-				setPointCapturing(3);
-			}
-		});
-		submenu.addItem(app.getMenu("SnapToGrid"), new RadioButtonCommand(submenu, 1) {
-			@Override
-			public void exec() {
-				setPointCapturing(1);
-			}
-		});
-		submenu.addItem(app.getMenu("FixedToGrid"), new RadioButtonCommand(submenu, 2) {
-			@Override
-			public void exec() {
-				setPointCapturing(2);
-			}
-		});
-	
-		submenu.addItem(app.getMenu("off"), new RadioButtonCommand(submenu, 3) {
-			@Override
-			public void exec() {
-				setPointCapturing(0);
-			}
-		});
-		
-		menuPointCapturing = new MenuItem(GeoGebraMenubar.getMenuBarHtml(AppResources.INSTANCE
+		menuPointCapturing = new RadioButtonMenuBar();
+		String[] strPointCapturing = { app.getMenu("Labeling.automatic"), app.getMenu("SnapToGrid"),
+				app.getMenu("FixedToGrid"), app.getMenu("off") };
+		String[] strPointCapturingAC = { "3 PointCapturing",
+				"1 PointCapturing", "2 PointCapturing", "0 PointCapturing" };
+		menuPointCapturing.addRadioButtonMenuItems(this,
+				strPointCapturing, strPointCapturingAC, 0);		
+		addItem(GeoGebraMenubar.getMenuBarHtml(AppResources.INSTANCE
 		        .magnet2().getSafeUri().asString(), app.getMenu("PointCapturing")),
-		        true, submenu);		
-		
-		addItem(menuPointCapturing);		
+		        true, menuPointCapturing);
+		updateMenuPointCapturing();
 	}
 	
 	void setPointCapturing(int mode){
@@ -138,12 +153,19 @@ public class OptionsMenu extends MenuBar{
 	 * Update the point capturing menu.
 	 */
 	private void updateMenuPointCapturing() {
+//		if (menuPointCapturing == null)
+//			return;
+//
+//		int mode = app.getActiveEuclidianView().getPointCapturingMode();	
+//		((RadioButtonMenuBar) menuPointCapturing.getSubMenu()).setSelected(mode);
+		
 		if (menuPointCapturing == null)
 			return;
 
-		int mode = app.getActiveEuclidianView().getPointCapturingMode();	
-		((RadioButtonMenuBar) menuPointCapturing.getSubMenu()).setSelected(mode);
+		int pos = app.getActiveEuclidianView().getPointCapturingMode();
+		menuPointCapturing.setSelected(pos);
 	}
+
 
 	public void addDecimalPlacesMenu(){
 		menuDecimalPlaces = new RadioButtonMenuBar();
@@ -236,6 +258,17 @@ public class OptionsMenu extends MenuBar{
 			} catch (Exception e) {
 				app.showError(e.toString());
 			}
+		}
+		
+
+		// Point capturing
+		else if (cmd.endsWith("PointCapturing")) {
+			int mode = Integer.parseInt(cmd.substring(0, 1));
+			app.getEuclidianView1().setPointCapturing(mode);
+			if (app.hasEuclidianView2EitherShowingOrNot()) {
+				app.getEuclidianView2().setPointCapturing(mode);
+			}
+			app.setUnsaved();
 		}
     }
 }

@@ -21,7 +21,7 @@ public abstract class RadioButtonCommand implements Command {
 	public abstract void exec();
 	
 	private void setSelection(){
-		menuBar.setSelected(itemIndex);
+		menuBar.setSelected_old(itemIndex);
 	}
 
 
