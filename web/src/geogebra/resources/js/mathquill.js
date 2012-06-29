@@ -1221,7 +1221,7 @@ _.redraw = function() {
   scale(block.prev(), 1, block.innerHeight()/+block.css('fontSize').slice(0,-2) - .1);
 };
 
-LatexCmds.sqrt = LatexCmds['√'] = SquareRoot;
+LatexCmds.Sqrt = LatexCmds.sqrt = LatexCmds['√'] = SquareRoot;
 
 function NthRoot(replacedFragment) {
   SquareRoot.call(this, replacedFragment);
@@ -1827,32 +1827,83 @@ _.insertAt = function(cursor) {
 //backslashless commands, words where adjacent letters (Variables)
 //that form them automatically are turned into commands
 var UnItalicizedCmds = {
+  // GeoGebra+MathQuill
+  erf: 1,
+  Erf: 1,
+  psi: 1,
+  polygamma: 1,
   ln: 1,
   log: 1,
+  Ln: 1,
+  ld: 1,
+  log2: 1,
+  lg: 1,
+  log10: 1,
+  beta: 1,
+  Beta: 1,
+  betaRegularized: 1,
+  ibeta: 1,
+  gamma: 1,
+  igamma: 1,
+  Gamma: 1,
+  gammaRegularized: 1,
+  cosIntegral: 1,
+  CosIntegral: 1,
+  sinIntegral: 1,
+  SinIntegral: 1,
+  expIntegral: 1,
+  ExpIntegral: 1,
+  gGbInTeGrAl: 1,
+  gGbSuBsTiTuTiOn: 1,
+  arbint: 1,
+  arbconst: 1,
+  arbcomplex: 1,
+  cbrt: 1,
+  Cbrt: 1,	
+  abs: 1,
+  Abs: 1,
+  sgn: 1,
+  sign: 1,
+  Sign: 1,
+  floor: 1,
+  Floor: 1,
+  ceil: 1,
+  Ceil: 1,
+  round: 1,
+  Round: 1,
+  conjugate: 1,
+  Conjugate: 1,
+  arg: 1,
+  Arg: 1,
+  random: 1,
+  exp: 1,
+  Exp: 1,
+  x: 1,
+  y: 1,
+
+  // MathQuill
   min: 1,
   nCr: 1,
   nPr: 1,
   gcd: 1,
   lcm: 1,
-  ceil: 1,
-  exp: 1,
-  abs: 1,
   max: 1,
   mod: 1,
   lcm: 1,
   gcd: 1,
-  gcf: 1,
-  exp: 1,
+  gcf: 1
   //line: 1,
   //polygon: 1,
   //dottedline: 1,
   //dottedpolygon:1,
   //stroke:1,
   //fill:1,
-  floor: 1,
-  sign: 1
 }, MAX_UNITALICIZED_LEN = 9, AutoCmds = {
+  // GeoGebra+MathQuill
   sqrt: 1,
+  Sqrt: 1,
+
+  // MathQuill
   sum: 1,
   pi: 1,
   theta: 1/*,
