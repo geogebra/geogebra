@@ -1804,7 +1804,7 @@ _.text = function() {
       && !(this.jQ.hasClass('un-italicized'))
       && !(this.next.cmd === '(')
       && !(this.next.cmd === '\\left(')
-	  && !(this.prev.cmd === ' ')
+	  && !(this.next.cmd === ' ')
       && !(this.next.cmd === '^'))
     text += '*';
   return text;
