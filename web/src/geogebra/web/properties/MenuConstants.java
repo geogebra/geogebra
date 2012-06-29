@@ -1150,6 +1150,9 @@ public interface MenuConstants extends ConstantsWithLookup {
     @DefaultStringValue("Mean")
     String Mean();
 
+    @DefaultStringValue("μ")
+    String Mean_short();
+
     @DefaultStringValue("Mean")
     String MeanCells();
 
@@ -1719,6 +1722,9 @@ public interface MenuConstants extends ConstantsWithLookup {
 
     @DefaultStringValue("Select All")
     String SelectAll();
+
+    @DefaultStringValue("Select an Object")
+    String SelectAnObject();
 
     @DefaultStringValue("Select an object to trace")
     String SelectAnObjectToTrace();
