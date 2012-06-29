@@ -10,10 +10,10 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.MyError;
+import geogebra.common.main.GWTKeycodes;
 import geogebra.web.gui.inputfield.AutoCompleteTextField;
 import geogebra.web.gui.view.algebra.InputPanel;
 import geogebra.web.main.Application;
-import geogebra.web.main.MyKeyCodes;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -173,7 +173,7 @@ public class AlgebraInput extends HorizontalPanel implements KeyUpHandler, Focus
 				//then it don't come here if (e.isConsumed()) return;
 
 				int keyCode = event.getNativeKeyCode();
-				if (keyCode == MyKeyCodes.KEY_ENTER && !inputField.isSuggestionJustHappened()) {
+				if (keyCode == GWTKeycodes.KEY_ENTER && !inputField.isSuggestionJustHappened()) {
 					app.getKernel().clearJustCreatedGeosInViews();
 					String input = inputField.getText();					   
 					if (input == null || input.length() == 0)

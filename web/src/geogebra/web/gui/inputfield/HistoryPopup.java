@@ -11,7 +11,7 @@ import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 import geogebra.common.main.AbstractApplication;
-import geogebra.web.main.MyKeyCodes;
+import geogebra.common.main.GWTKeycodes;
 
 public class HistoryPopup extends PopupPanel implements ClickHandler, KeyUpHandler {
 
@@ -72,7 +72,7 @@ public class HistoryPopup extends PopupPanel implements ClickHandler, KeyUpHandl
 	    }
 	    Anchor a = null;
 	    switch (charCode) {
-		case MyKeyCodes.KEY_DOWN:
+		case GWTKeycodes.KEY_DOWN:
 			highlighted++;
 			if (highlighted >= historyList.getWidgetCount()) {
 				highlighted = historyList.getWidgetCount() -1;
@@ -81,7 +81,7 @@ public class HistoryPopup extends PopupPanel implements ClickHandler, KeyUpHandl
 			a.addStyleName("highlight");
 			a.getElement().focus();
 		break;
-		case MyKeyCodes.KEY_UP:
+		case GWTKeycodes.KEY_UP:
 			highlighted--;
 			if (highlighted < 0) {
 				highlighted = 0;
@@ -90,12 +90,12 @@ public class HistoryPopup extends PopupPanel implements ClickHandler, KeyUpHandl
 			a.addStyleName("highlight");
 			a.getElement().focus();
 		break;
-		case MyKeyCodes.KEY_ENTER: 
+		case GWTKeycodes.KEY_ENTER: 
 			a = (Anchor) historyList.getWidget(highlighted);
 			 textField.setText(a.getText());
 			 hide();
 		break;
-		case MyKeyCodes.KEY_ESCAPE:
+		case GWTKeycodes.KEY_ESCAPE:
 			hide();
 		break;
 	    }

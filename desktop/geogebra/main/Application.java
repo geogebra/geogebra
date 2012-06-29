@@ -300,7 +300,7 @@ public class Application extends AbstractApplication implements
 
 	
 
-	private GlobalKeyDispatcher globalKeyDispatcher;
+	private GlobalKeyDispatcherD globalKeyDispatcher;
 
 	// For language specific settings 
 	private Locale currentLocale;
@@ -1298,7 +1298,7 @@ public class Application extends AbstractApplication implements
 			if (primary) {
 
 				getGuiManager().getLayout().applyPerspective("BasicGeometry");
-				GlobalKeyDispatcher.changeFontsAndGeoElements(this, 20, false);
+				GlobalKeyDispatcherD.changeFontsAndGeoElements(this, 20, false);
 				setLabelingStyle(ConstructionDefaults.LABEL_VISIBLE_ALWAYS_OFF);
 				getEuclidianView1().setCapturingThreshold(10);
 				kernel.setPrintDecimals(0); // rounding to 0dp
@@ -2067,11 +2067,6 @@ public class Application extends AbstractApplication implements
 	public final void zoomAxesRatio(double axesratio) {
 		getGuiManager().getActiveEuclidianView()
 				.zoomAxesRatio(axesratio, true);
-	}
-
-	public final void setStandardView() {
-		getGuiManager().getActiveEuclidianView()
-				.setStandardView(true);
 	}
 
 	public final void setViewShowAllObjects() {
@@ -3926,15 +3921,15 @@ public class Application extends AbstractApplication implements
 	}
 
 	@Override
-	final public GlobalKeyDispatcher getGlobalKeyDispatcher() {
+	final public GlobalKeyDispatcherD getGlobalKeyDispatcher() {
 		if (globalKeyDispatcher == null) {
 			globalKeyDispatcher = newGlobalKeyDispatcher();
 		}
 		return globalKeyDispatcher;
 	}
 
-	protected GlobalKeyDispatcher newGlobalKeyDispatcher() {
-		return new GlobalKeyDispatcher(this);
+	protected GlobalKeyDispatcherD newGlobalKeyDispatcher() {
+		return new GlobalKeyDispatcherD(this);
 	}
 
 	public boolean isPrintScaleString() {

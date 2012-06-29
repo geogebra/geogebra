@@ -730,5 +730,7 @@ public interface EuclidianViewInterfaceCommon extends EuclidianViewInterfaceSlim
 	 */
 	public void setShowAxis(boolean b);
 
+	public void setStandardView(boolean b);
+
 
 }

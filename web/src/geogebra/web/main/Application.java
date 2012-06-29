@@ -1372,18 +1372,18 @@ public class Application extends AbstractApplication {
 		return false;
 	}
 
-	private GlobalKeyDispatcher globalKeyDispatcher;
+	private GlobalKeyDispatcherW globalKeyDispatcher;
 
 	@Override
-	final public GlobalKeyDispatcher getGlobalKeyDispatcher() {
+	final public GlobalKeyDispatcherW getGlobalKeyDispatcher() {
 		if (globalKeyDispatcher == null) {
 			globalKeyDispatcher = newGlobalKeyDispatcher();
 		}
 		return globalKeyDispatcher;
 	}
 
-	protected GlobalKeyDispatcher newGlobalKeyDispatcher() {
-		return new GlobalKeyDispatcher(this);
+	protected GlobalKeyDispatcherW newGlobalKeyDispatcher() {
+		return new GlobalKeyDispatcherW(this);
 	}
 
 	@Override
@@ -1986,5 +1986,16 @@ public class Application extends AbstractApplication {
 		return true;
 	}
 
+	@Override
+    public void exportToLMS(boolean b) {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+	@Override
+    public void copyGraphicsViewToClipboard() {
+	    // TODO Auto-generated method stub
+	    
+    }
 
 }

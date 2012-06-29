@@ -28,7 +28,7 @@ import geogebra.euclidian.EuclidianController;
 import geogebra.gui.GuiManager;
 import geogebra.main.AppletImplementation;
 import geogebra.main.Application;
-import geogebra.main.GlobalKeyDispatcher;
+import geogebra.main.GlobalKeyDispatcherD;
 import geogebra3D.euclidian3D.EuclidianController3D;
 import geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra3D.euclidianFor3D.EuclidianControllerFor3D;
@@ -323,7 +323,7 @@ public class Application3D extends Application {
 	// FOR TESTING : TODO remove all
 
 	@Override
-	protected GlobalKeyDispatcher newGlobalKeyDispatcher() {
+	protected GlobalKeyDispatcherD newGlobalKeyDispatcher() {
 		return new GlobalKeyDispatcher3D(this);
 	}
 

@@ -2,10 +2,10 @@ package geogebra.web.gui;
 
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.GWTKeycodes;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
 import geogebra.web.main.Application;
-import geogebra.web.main.MyKeyCodes;
 
 import com.google.gwt.event.dom.client.HasKeyPressHandlers;
 import com.google.gwt.event.dom.client.KeyDownEvent;

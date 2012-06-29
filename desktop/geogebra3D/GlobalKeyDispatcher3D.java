@@ -1,10 +1,10 @@
 package geogebra3D;
 
 import geogebra.main.Application;
-import geogebra.main.GlobalKeyDispatcher;
+import geogebra.main.GlobalKeyDispatcherD;
 
 
-public class GlobalKeyDispatcher3D extends GlobalKeyDispatcher {
+public class GlobalKeyDispatcher3D extends GlobalKeyDispatcherD {
 
 	public GlobalKeyDispatcher3D(Application app) {
 		super(app);

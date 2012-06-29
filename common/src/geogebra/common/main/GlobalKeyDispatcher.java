@@ -1,11 +1,20 @@
 package geogebra.common.main;
 
+import geogebra.common.awt.Color;
+import geogebra.common.euclidian.AbstractEuclidianView;
+import geogebra.common.kernel.ConstructionDefaults;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.PointProperties;
+import geogebra.common.plugin.EuclidianStyleConstants;
+import geogebra.common.util.CopyPaste;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.TreeSet;
 
 /**
@@ -21,7 +30,7 @@ public abstract class GlobalKeyDispatcher {
 	public abstract void handleFunctionKeyForAlgebraInput(int i, GeoElement geo);
 	/** application */
 	protected AbstractApplication app;
-	
+
 	private TreeSet<AlgoElement> tempSet;
 	/**
 	 * @return temporary set of algos
@@ -94,6 +103,472 @@ public abstract class GlobalKeyDispatcher {
 			app.getKernel().notifyRepaint();
 
 		return moved;
+	}
+
+	/**
+	 * Handles general keys like ESC and function keys that don't involved
+	 * selected GeoElements.
+	 * 
+	 * @param event
+	 * @return if key was consumed
+	 */
+	public boolean handleGeneralKeys(KeyCodes key, boolean isShiftDown, boolean isControlDown, boolean isAltDown, boolean fromSpreadsheet, boolean fromEuclidianView) {
+		boolean consumed = false;
+
+		// ESC and function keys
+		switch (key) {
+		case ESCAPE:
+			// ESC: set move mode
+			app.setMoveMode();
+			app.getActiveEuclidianView().getEuclidianController()
+			.deletePastePreviewSelected();
+			consumed = true;
+			break;
+
+		case ENTER:
+			// check not spreadsheet
+			if (!fromSpreadsheet) {
+
+				// ENTER: set focus to input field
+				consumed = handleEnter();
+
+			}
+			break;
+
+			// toggle boolean or run script when Spacebar pressed
+		case SPACE:
+			// check not spreadsheet
+			if (!fromSpreadsheet) {
+
+				ArrayList<GeoElement> selGeos = app.getSelectedGeos();
+				if (selGeos.size() == 1) {
+					if (selGeos.get(0).isGeoBoolean()) {
+						GeoBoolean geoBool = (GeoBoolean) selGeos.get(0);
+						geoBool.setValue(!geoBool.getBoolean());
+						geoBool.updateRepaint();
+					} else {
+						selGeos.get(0).runScripts(null);
+					}
+
+					consumed = true;
+
+				}
+
+			}
+			break;
+
+		case TAB:
+
+
+			consumed = handleTab(isControlDown, isShiftDown);
+
+			break;
+
+			// open Tool Help
+		case F1:
+			app.getDialogManager().openToolHelp();
+			return true;
+
+			// F9 updates construction
+			// cmd-f9 on Mac OS
+		case F9:
+			if (!app.isApplet() || app.isRightClickEnabled()) {
+				app.getKernel().updateConstruction();
+				app.setUnsaved();
+				consumed = true;
+			}
+			break;
+		}
+
+
+		/*
+		// make sure Ctrl-1/2/3 works on the Numeric Keypad even with Numlock
+		// off
+		// **** NB if NumLock on, event.isShiftDown() always returns false with
+		// Numlock on!!! (Win 7)
+		if (event.getKeyLocation() == KeyEvent.KEY_LOCATION_NUMPAD) {
+			String keyText = KeyEvent.getKeyText(keyCode);
+			if (keyText.equals("End")) {
+				keyCode = KeyEvent.VK_1;
+			} else if (keyText.equals("Down")) {
+				keyCode = KeyEvent.VK_2;
+			} else if (keyText.equals("Page Down")) {
+				keyCode = KeyEvent.VK_3;
+			}
+
+		}
+		 */
+
+		// Ctrl key down (and not Alt, so that AltGr works for special
+		// characters)
+		if (isControlDown && !isAltDown) {
+
+			switch (key) {
+			case K1:
+			case NUMPAD1:
+				// event.isShiftDown() doesn't work if NumLock on
+				// however .isAltDown() stops AltGr-1 from working (| on some
+				// keyboards)
+				if (isShiftDown) {// || event.isAltDown()) {
+					app.getGuiManager().setShowView(
+							!app.getGuiManager().showView(
+									AbstractApplication.VIEW_EUCLIDIAN),
+									AbstractApplication.VIEW_EUCLIDIAN);
+					consumed = true;
+
+				} else if (!isAltDown) { // make sure not triggered on
+					// AltGr
+					// Ctrl-1: set objects back to the default size (for font
+					// size 12)
+					changeFontsAndGeoElements(app, 12, false);
+					consumed = true;
+				}
+				break;
+
+			case NUMPAD2:
+			case K2:
+				// event.isShiftDown() doesn't work if NumLock on
+				// however .isAltDown() stops AltGr-2 from working (superscript
+				// 2 on some keyboards)
+				if (isShiftDown) {// || event.isAltDown()) {
+					app.getGuiManager().setShowView(
+							!app.getGuiManager().showView(
+									AbstractApplication.VIEW_EUCLIDIAN2),
+									AbstractApplication.VIEW_EUCLIDIAN2);
+					consumed = true;
+
+				} else if (!isAltDown) { // make sure not triggered on
+					// AltGr
+					// Ctrl-2: large font size and thicker lines for projectors
+					// etc
+					int fontSize = Math.min(32, app.getFontSize() + 4);
+					changeFontsAndGeoElements(app, fontSize, false);
+					consumed = true;
+				}
+				break;
+
+			case NUMPAD3:
+			case K3:
+				// event.isShiftDown() doesn't work if NumLock on
+				// however .isAltDown() stops AltGr-3 from working (^ on
+				// Croatian keyboard)
+				if (isShiftDown) { // || event.isAltDown()) {
+					app.getGuiManager().setShowView(
+							!app.getGuiManager().showView(
+									AbstractApplication.VIEW_EUCLIDIAN3D),
+									AbstractApplication.VIEW_EUCLIDIAN3D);
+					consumed = true;
+
+				} else if (!isAltDown) { // make sure not triggered on
+					// AltGr
+					// Ctrl-3: set black/white mode printing and visually
+					// impaired users
+					changeFontsAndGeoElements(app, app.getFontSize(), true);
+					consumed = true;
+				}
+				break;
+
+				// export to GeoGebraWeb
+			case B:
+				if (!app.isApplet() && isShiftDown) {
+					app.exportToLMS(true);
+					consumed = true;
+				} 
+				break;
+
+			case C:
+				// Ctrl-shift-c: copy graphics view to clipboard
+				// should also work in applets with no menubar
+				if (isShiftDown) {
+					app.copyGraphicsViewToClipboard();
+					consumed = true;
+				} else {
+					// check not spreadsheet
+					if (!fromSpreadsheet) {
+						handleCtrlC();
+					}
+
+				}
+				break;
+
+				// Ctrl + H / G: Show Hide objects (labels)
+			case G:
+			case H:
+				if (isShiftDown)
+					app.showHideSelectionLabels();
+				else
+					app.showHideSelection();
+				consumed = true;
+				break;
+
+				// Ctrl + E: open object properties (needed here for spreadsheet)
+			case E:
+				app.getGuiManager().setShowView(
+						!app.getGuiManager().showView(AbstractApplication.VIEW_PROPERTIES), AbstractApplication.VIEW_PROPERTIES, false);
+				consumed = true;
+				break;
+
+				// Ctrl + F: refresh views
+			case F:
+				app.refreshViews();
+				consumed = true;
+				break;
+
+			case M:
+				if (!app.isApplet() && isShiftDown) {
+					app.exportToLMS(false);
+					consumed = true;
+				} else if (!app.isApplet() || app.isRightClickEnabled()) {
+					app.setStandardView();
+					consumed = true;
+				}
+				break;
+
+				/*
+				 * send next instance to front (alt - last)
+				 */
+			case N:
+				if (isShiftDown) {
+					handleCtrlShiftN(isAltDown);
+				}
+				break;
+
+				// needed for detached views and MacOS
+				// Cmd + Y: Redo
+			case Y:
+				app.getGuiManager().redo();
+				consumed = true;
+				break;
+
+				// needed for detached views and MacOS
+				// Ctrl + Z: Undo
+			case Z:
+				if (isShiftDown)
+					app.getGuiManager().redo();
+				else
+					app.getGuiManager().undo();
+				consumed = true;
+				break;
+
+			case V:
+				// check not spreadsheet, not inputbar
+				if (!(fromSpreadsheet)) {
+					handleCtrlV();
+				}
+				break;
+
+				// ctrl-R updates construction
+				// make sure it works in applets without a menubar
+			case R:
+				if (!app.isApplet() || app.isRightClickEnabled()) {
+					app.getKernel().updateConstruction();
+					app.setUnsaved();
+					consumed = true;
+				}
+				break;
+
+				// ctrl-shift-s (toggle spreadsheet)
+			case S:
+				if (isShiftDown && app.isUsingFullGui()) {
+					app.getGuiManager().setShowView(
+							!app.getGuiManager().showView(
+									AbstractApplication.VIEW_SPREADSHEET),
+									AbstractApplication.VIEW_SPREADSHEET);
+					consumed = true;
+				}
+				break;
+
+				// Ctrl-(shift)-Q (deprecated - doesn't work on MacOS)
+				// Ctrl-(shift)-J
+			case J:
+			case Q:
+				if (isShiftDown)
+					app.selectAllDescendants();
+				else
+					app.selectAllPredecessors();
+				consumed = true;
+				break;
+
+				// Ctrl + "+", Ctrl + "-" zooms in or out in graphics view
+			case NUMPADPLUS: // web
+			case NUMPADMINUS: // web
+			case PLUS:
+			case ADD:
+			case SUBTRACT:
+			case MINUS:
+			case EQUALS:
+
+				// disable zooming in PEN mode
+				if (!AbstractEuclidianView.isPenMode(app.getActiveEuclidianView().getMode())) {
+
+					boolean spanish = app.getLanguage().startsWith("es");
+
+					// AltGr+ on Spanish keyboard is ] so
+					// allow <Ctrl>+ (zoom) but not <Ctrl><Alt>+ (fast zoom)
+					// from eg Input Bar
+					if (!spanish || !isAltDown
+							|| (fromEuclidianView)) {
+						( app.getActiveEuclidianView())
+						.getEuclidianController().zoomInOut(isAltDown, key.equals(KeyCodes.MINUS) || key.equals(KeyCodes.SUBTRACT) || key.equals(KeyCodes.NUMPADMINUS));
+						app.setUnsaved();
+						consumed = true;
+					}
+				}
+				break;
+
+				// Ctrl + D: toggles algebra style: value, definition, command
+			case D:
+			case BACK_QUOTE:
+				if (!isShiftDown) {
+					Kernel kernel = app.getKernel();
+					kernel.setAlgebraStyle((kernel.getAlgebraStyle() + 1) % 3);
+					kernel.updateConstruction();
+					app.setUnsaved();
+					consumed = true;
+					break;
+				}
+			}
+		}
+
+		return consumed;
+	}
+
+	/*
+	 * overridden in desktop
+	 */
+	protected boolean handleCtrlV() {
+		app.setWaitCursor();
+		CopyPaste.pasteFromXML(app);
+		app.setDefaultCursor();
+		return true;		
+	}
+
+	protected abstract boolean handleCtrlShiftN(boolean isAltDown);
+
+	/*
+	 * overridden in desktop
+	 */
+	protected boolean handleCtrlC() {
+		// Copy selected geos
+		app.setWaitCursor();
+		CopyPaste.copyToXML(app, app.getSelectedGeos());
+		app.updateMenubar();
+		app.setDefaultCursor();
+		return true;		
+	}
+
+	protected abstract boolean handleTab(boolean isControlDown, boolean isShiftDown);
+
+	protected abstract boolean handleEnter();
+
+	/**
+	 * Changes the font size of the user interface and construction element
+	 * styles (thickness, size) for a given fontSize.
+	 * 
+	 * @param app
+	 * @param fontSize
+	 *            12-32pt
+	 * @param blackWhiteMode
+	 *            whether only black should be used as a color
+	 * @return whether change was performed
+	 */
+	public static boolean changeFontsAndGeoElements(AbstractApplication app,
+			int fontSize, boolean blackWhiteMode) {
+		if (app.isApplet())
+			return false;
+
+		app.setWaitCursor();
+
+		// determine styles
+		// set new default line thickness
+		int oldFontSize = app.getFontSize();
+		int angleSizeIncr = fontSize - oldFontSize;
+		int incr = getPointSizeInc(oldFontSize, fontSize);
+
+		// construction defaults
+		ConstructionDefaults cd = app.getKernel().getConstruction()
+				.getConstructionDefaults();
+		cd.setDefaultLineThickness(EuclidianStyleConstants.DEFAULT_LINE_THICKNESS
+				+ incr);
+		cd.setDefaultPointSize(EuclidianStyleConstants.DEFAULT_POINT_SIZE
+				+ incr);
+		cd.setDefaultAngleSize(EuclidianStyleConstants.DEFAULT_ANGLE_SIZE
+				+ angleSizeIncr);
+		// blackWhiteMode: set defaults for new GeoElements
+		cd.setBlackWhiteMode(blackWhiteMode);
+
+		// change application font size
+		app.setFontSize(fontSize);
+		if (app.isUsingFullGui())
+			app.getGuiManager().updateSpreadsheetColumnWidths();
+
+		// apply styles to to selected or all geos
+		Iterator<GeoElement> it = null;
+		if (app.getSelectedGeos().size() == 0) {
+			// change all geos
+			it = app.getKernel().getConstruction().getGeoSetConstructionOrder()
+					.iterator();
+		} else {
+			// just change selected geos
+			it = app.getSelectedGeos().iterator();
+		}
+		while (it.hasNext()) {
+			GeoElement geo = it.next();
+			setGeoProperties(geo, incr, incr, angleSizeIncr, blackWhiteMode);
+		}
+
+		app.getKernel().updateConstruction();
+		app.setUnsaved();
+		app.storeUndoInfo();
+
+		app.setDefaultCursor();
+		return true;
+	}
+
+	private static int getPointSizeInc(int oldFontSize, int newFontSize) {
+		if (oldFontSize == newFontSize)
+			return 0;
+		int step = newFontSize > oldFontSize ? 1 : -1;
+
+		int left = Math.min(oldFontSize, newFontSize);
+		int right = Math.max(oldFontSize, newFontSize);
+		int[] borders = { 16, 22, 28 };
+		int incr = 0;
+		for (int i = 0; i < borders.length; i++) {
+			if (left < borders[i] && borders[i] <= right) {
+				incr = incr + step;
+			}
+		}
+
+		return incr;
+	}
+
+	private static void setGeoProperties(GeoElement geo, int lineThicknessIncr,
+			int pointSizeIncr, int angleSizeIncr, boolean blackWhiteMode) {
+		if (!geo.isGeoText() && !geo.isGeoImage() && !geo.isGeoPolygon()) { // affects
+			// bounding
+			// box
+			int lineThickness = Math.max(0, geo.getLineThickness()
+					+ lineThicknessIncr);
+			geo.setLineThickness(lineThickness);
+		}
+
+		if (geo instanceof PointProperties) {
+			PointProperties p = (PointProperties) geo;
+			int pointSize = Math.max(0, p.getPointSize() + pointSizeIncr);
+			p.setPointSize(pointSize);
+		}
+
+		if (geo.isGeoAngle()) {
+			GeoAngle angle = (GeoAngle) geo;
+			int angleSize = Math.max(0, angle.getArcSize() + angleSizeIncr);
+			angle.setArcSize(angleSize);
+		}
+
+		if (blackWhiteMode) {
+			geo.setAlphaValue(0f);
+			geo.setObjColor(Color.black);
+		}
 	}
 
 }

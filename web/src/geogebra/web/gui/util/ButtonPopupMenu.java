@@ -1,6 +1,6 @@
 package geogebra.web.gui.util;
 
-import geogebra.web.main.MyKeyCodes;
+import geogebra.common.main.GWTKeycodes;
 
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
@@ -23,7 +23,7 @@ public class ButtonPopupMenu extends PopupPanel {
 		container.addKeyUpHandler(new KeyUpHandler() {
 			
 			public void onKeyUp(KeyUpEvent event) {
-				if (event.getNativeKeyCode() == MyKeyCodes.KEY_ESCAPE) {
+				if (event.getNativeKeyCode() == GWTKeycodes.KEY_ESCAPE) {
 					hide();
 				}
 			}

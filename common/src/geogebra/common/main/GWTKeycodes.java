@@ -1,6 +1,6 @@
-package geogebra.web.main;
+package geogebra.common.main;
 
-public interface MyKeyCodes {
+public interface GWTKeycodes {
 	
 	/**
 	 * Contains the native key codes previously defined in

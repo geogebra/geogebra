@@ -16,13 +16,13 @@ import geogebra.common.kernel.commands.MyException;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
+import geogebra.common.main.GWTKeycodes;
 import geogebra.common.util.AutoCompleteDictionary;
 import geogebra.common.util.Korean;
 import geogebra.common.util.Unicode;
 import geogebra.web.gui.autocompletion.CompletionsPopup;
 import geogebra.web.gui.util.GeoGebraIcon;
 import geogebra.web.main.Application;
-import geogebra.web.main.MyKeyCodes;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -738,7 +738,7 @@ public class AutoCompleteTextField extends HorizontalPanel implements AutoComple
 
 	public void onKeyDown(KeyDownEvent e) {
 		int keyCode = e.getNativeKeyCode();
-		if (keyCode == MyKeyCodes.KEY_TAB) {
+		if (keyCode == GWTKeycodes.KEY_TAB) {
 			e.preventDefault();
 		}
     }
@@ -761,14 +761,14 @@ public class AutoCompleteTextField extends HorizontalPanel implements AutoComple
 
 		    switch (keyCode) {
 
-		      case MyKeyCodes.KEY_Z:
-		      case MyKeyCodes.KEY_Y:
+		      case GWTKeycodes.KEY_Z:
+		      case GWTKeycodes.KEY_Y:
 		        if (e.isControlKeyDown()) {
 		          app.getGlobalKeyDispatcher().handleGeneralKeys(e);
 		          e.stopPropagation();
 		        }
 		        break;
-		      case MyKeyCodes.KEY_C:
+		      case GWTKeycodes.KEY_C:
 		        if (e.isControlKeyDown()) // workaround for MAC_OS
 		        {
 		          ctrlC = true;
@@ -778,7 +778,7 @@ public class AutoCompleteTextField extends HorizontalPanel implements AutoComple
 
 		      // process input
 
-		      case MyKeyCodes.KEY_ESCAPE:
+		      case GWTKeycodes.KEY_ESCAPE:
 		        if (!handleEscapeKey) {
 		          break;
 		        }
@@ -792,10 +792,10 @@ public class AutoCompleteTextField extends HorizontalPanel implements AutoComple
 		        display.hideSuggestions();
 		        break;
 
-		      case MyKeyCodes.KEY_LEFT_PARENTHESIS:
+		      case GWTKeycodes.KEY_LEFT_PARENTHESIS:
 		        break;
 
-		      case MyKeyCodes.KEY_UP:
+		      case GWTKeycodes.KEY_UP:
 		    	  if (!isSuggesting()) {
 			        if (!handleEscapeKey) {
 			          break;
@@ -810,7 +810,7 @@ public class AutoCompleteTextField extends HorizontalPanel implements AutoComple
 		    	  }
 		        break;
 
-		      case MyKeyCodes.KEY_DOWN:
+		      case GWTKeycodes.KEY_DOWN:
 		        if (!handleEscapeKey) {
 		          break;
 		        }
@@ -824,26 +824,26 @@ public class AutoCompleteTextField extends HorizontalPanel implements AutoComple
 		        }
 		        break;
 
-		      case MyKeyCodes.KEY_F9:
+		      case GWTKeycodes.KEY_F9:
 		        // needed for applets
 		        if (app.isApplet())
 		          app.getGlobalKeyDispatcher().handleGeneralKeys(e);
 		        break;
 
-		      case MyKeyCodes.KEY_RIGHT:
+		      case GWTKeycodes.KEY_RIGHT:
 		        if (moveToNextArgument(false)) {
 		          e.stopPropagation();
 		        }
 		        break;
 
-		      case MyKeyCodes.KEY_TAB:
+		      case GWTKeycodes.KEY_TAB:
 		    	e.preventDefault();
 		        if (moveToNextArgument(true)) {
 		          e.stopPropagation();
 		        }
 		        break;
 
-		      case MyKeyCodes.KEY_F1:
+		      case GWTKeycodes.KEY_F1:
 
 		        if (autoComplete) {
 		          if (getText().equals("")) {
@@ -881,16 +881,16 @@ public class AutoCompleteTextField extends HorizontalPanel implements AutoComple
 		        e.stopPropagation();
 		        break;
 		        
-			      case MyKeyCodes.KEY_0:
-			      case MyKeyCodes.KEY_1:
-			      case MyKeyCodes.KEY_2:
-			      case MyKeyCodes.KEY_3:
-			      case MyKeyCodes.KEY_4:
-			      case MyKeyCodes.KEY_5:
-			      case MyKeyCodes.KEY_6:
-			      case MyKeyCodes.KEY_7:
-			      case MyKeyCodes.KEY_8:
-			      case MyKeyCodes.KEY_9:
+			      case GWTKeycodes.KEY_0:
+			      case GWTKeycodes.KEY_1:
+			      case GWTKeycodes.KEY_2:
+			      case GWTKeycodes.KEY_3:
+			      case GWTKeycodes.KEY_4:
+			      case GWTKeycodes.KEY_5:
+			      case GWTKeycodes.KEY_6:
+			      case GWTKeycodes.KEY_7:
+			      case GWTKeycodes.KEY_8:
+			      case GWTKeycodes.KEY_9:
 			        if (e.isControlKeyDown() && e.isShiftKeyDown())
 			          app.getGlobalKeyDispatcher().handleGeneralKeys(e);
 			       
@@ -933,7 +933,7 @@ public class AutoCompleteTextField extends HorizontalPanel implements AutoComple
 
 		    		    if ((isLetterOrDigit(charPressed) || modifierKeyPressed)
 		    		        && !(ctrlC)
-		    		        && !(e.getNativeKeyCode() == MyKeyCodes.KEY_A)) {
+		    		        && !(e.getNativeKeyCode() == GWTKeycodes.KEY_A)) {
 		    		      clearSelection();
 		    		    }
 
