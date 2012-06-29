@@ -315,36 +315,17 @@ public class RadioButtonTreeItem extends HorizontalPanel
 
 		if (newValue != null) {
 			// Formula Hacks ... Currently only functions are considered
-			int ieq = newValue.indexOf('=');
-			String newValueFirst = "";
-			String newValueLast = "";
-			if (ieq != -1) {
-				newValueFirst = newValue.substring(0,ieq);
-				newValueLast = newValue.substring(ieq);
-			} else {
-				newValueFirst = "";
-				newValueLast = newValue;
-			}
-			//newValueLast = newValueLast.replace("**","^");
-			//newValueLast = newValueLast.replace("cdot","*");
-
 			StringBuilder sb = new StringBuilder();
-			for (int i = 0; i < newValueFirst.length(); i++)
-				//i+=2 is not good because it can be f(*x*) or g*(*x*) 
-				// if (newValueFirst.charAt(i) != '*')
-				sb.append(newValueFirst.charAt(i));
-
 			boolean switchw = false;
-			for (int i = 0; i < newValueLast.length(); i++)
-				if (newValueLast.charAt(i) != ' ') {
-					if (newValueLast.charAt(i) != '|')
-						sb.append(newValueLast.charAt(i));
+			for (int i = 0; i < newValue.length(); i++)
+				if (newValue.charAt(i) != ' ') {
+					if (newValue.charAt(i) != '|')
+						sb.append(newValue.charAt(i));
 					else if (switchw = !switchw)
 						sb.append("abs(");
 					else
 						sb.append(")");
 				}
-
 			newValue = sb.toString();
 
 			// Formula Hacks ended.
