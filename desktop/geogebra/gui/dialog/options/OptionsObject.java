@@ -327,7 +327,7 @@ public class OptionsObject extends JPanel implements OptionPanel, SetLabels {
 	 */
 	public String getSelectionDescription(){
 		if (selection == null || selection.size() == 0)
-			return app.getPlain("PropertiesSelectAnObject");
+			return app.getMenu("SelectAnObject");
 		else if (selection.size() == 1){
 			GeoElement geo = selection.get(0);
 			sb.setLength(0);
