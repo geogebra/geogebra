@@ -1,6 +1,7 @@
 package geogebra.gui.color;
 
 import geogebra.common.main.GeoGebraColorConstants;
+import geogebra.gui.dialog.options.OptionsUtil;
 import geogebra.main.Application;
 
 import java.awt.BorderLayout;
@@ -118,7 +119,7 @@ public class GeoGebraColorChooserPanel extends AbstractColorChooserPanel {
 		// create a panel to hold all of our GUI
 		JPanel mainPanel = new JPanel(gb);
 
-		// add the primary swatch panel on the far right
+		// add the primary swatch panel on the far left
 		gbc.gridheight = 2;
 		gbc.gridx = 0;
 		gbc.gridy = 0;
@@ -130,29 +131,19 @@ public class GeoGebraColorChooserPanel extends AbstractColorChooserPanel {
 		gbc.gridy = 0;
 		mainPanel.add(mainSwatchPanel, gbc);
 
-		// stack the recent panel, custom panel and RGB button on the far left
+		// stack the recent panel, custom panel and RGB button on the far right
 		gbc.insets = new Insets(0, 0, 0, 0);
 		gbc.weighty = 0;
 		gbc.gridheight = 1;
-		gbc.gridwidth = 2;
 		gbc.gridx = 2;
 		gbc.gridy = 0;
 		mainPanel.add(recentPanel, gbc);
 
 		gbc.insets = new Insets(10, 0, 0, 0);
 		gbc.weighty = 1;
-		gbc.gridwidth = 1;
-		gbc.anchor = GridBagConstraints.CENTER;
 		gbc.gridx = 2;
 		gbc.gridy = 1;
 		mainPanel.add(customPanel, gbc);
-
-		gbc.insets = new Insets(10, 0, 0, 0);
-		gbc.weighty = 1;
-		gbc.anchor = GridBagConstraints.CENTER;
-		gbc.gridx = 3;
-		gbc.gridy = 1;
-		mainPanel.add(btnCustomColor, gbc);
 
 		add(mainPanel);
 
@@ -197,6 +188,7 @@ public class GeoGebraColorChooserPanel extends AbstractColorChooserPanel {
 		// create a button to open a RGB color chooser for custom colors
 		btnCustomColor = new JButton(app.getImageIcon("list-add.png"));
 		btnCustomColor.addActionListener(new CustomButtonActionListener());
+		btnCustomColor.setPreferredSize(new Dimension(24,18));
 		btnCustomColor.setFocusPainted(false);
 
 		// create a panel with label to contain the custom swatch panel
@@ -204,7 +196,8 @@ public class GeoGebraColorChooserPanel extends AbstractColorChooserPanel {
 		lblCustom.setLabelFor(customSwatchPanel);
 		customPanel = new JPanel(new BorderLayout());
 		customPanel.add(lblCustom, BorderLayout.NORTH);
-		customPanel.add(customSwatchPanel, BorderLayout.SOUTH);
+		customPanel.add(customSwatchPanel, BorderLayout.CENTER);
+		customPanel.add(OptionsUtil.flowPanel(0,2,0, btnCustomColor), BorderLayout.SOUTH);
 		customPanel.setMaximumSize(getPreferredSize());
 
 		// set the labels
