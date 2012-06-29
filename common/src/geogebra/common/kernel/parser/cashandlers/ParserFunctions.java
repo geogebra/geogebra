@@ -38,75 +38,130 @@ private void reset(){
 		stringToOp.get(i).clear();
 	put(1,"sin", Operation.SIN);
 	put(1,"Sin", Operation.SIN);
-
 	put(1,"cos", Operation.COS);
 	put(1,"Cos", Operation.COS);
-	
 	put(1,"tan", Operation.TAN);
 	put(1,"Tan", Operation.TAN);
-	
 	put(1,"csc", Operation.CSC);
 	put(1,"Csc", Operation.CSC);
 	put(1,"cosec", Operation.CSC);
 	put(1,"Cosec", Operation.CSC);
-	
 	put(1,"sec", Operation.SEC);
 	put(1,"Sec", Operation.SEC);
-	
 	put(1,"cot", Operation.COT);
 	put(1,"Cot", Operation.COT);
-	
+	put(1,"cotan", Operation.COT);
+	put(1,"Cotan", Operation.COT);
+	put(1,"ctg", Operation.COT);
+	put(1,"Ctg", Operation.COT);
+
+	put(1,"sinh", Operation.SINH);
+	put(1,"Sinh", Operation.SINH);
+	put(1,"cosh", Operation.COSH);
+	put(1,"Cosh", Operation.COSH);
+	put(1,"tanh", Operation.TANH);
+	put(1,"Tanh", Operation.TANH);
 	put(1,"csch", Operation.CSCH);
 	put(1,"Csch", Operation.CSCH);
-	
+	put(1,"cosech", Operation.CSCH);
+	put(1,"Cosech", Operation.CSCH);
 	put(1,"sech", Operation.SECH);
 	put(1,"Sech", Operation.SECH);
-	
 	put(1,"coth", Operation.COTH);
 	put(1,"Coth", Operation.COTH);
-	
-	put(1,"acos", Operation.ARCCOS);
-	put(1,"arccos", Operation.ARCCOS);
-	put(1,"arcos", Operation.ARCCOS);
-	put(1,"ArcCos", Operation.ARCCOS);
-	
+	put(1,"cotanh", Operation.COTH);
+	put(1,"Cotanh", Operation.COTH);
+	put(1,"ctgh", Operation.COTH);
+	put(1,"Ctgh", Operation.COTH);
+
 	put(1,"asin", Operation.ARCSIN);
-	put(1,"arcsin", Operation.ARCSIN);
-	put(1,"ArcSin", Operation.ARCSIN);
-	
+	put(1,"aSin", Operation.ARCSIN);
+	put(1,"acos", Operation.ARCCOS);
+	put(1,"aCos", Operation.ARCCOS);
 	put(1,"atan", Operation.ARCTAN);
+	put(1,"aTan", Operation.ARCTAN);
+
+	put(1,"Asin", Operation.ARCSIN);
+	put(1,"ASin", Operation.ARCSIN);
+	put(1,"Acos", Operation.ARCCOS);
+	put(1,"ACos", Operation.ARCCOS);
+	put(1,"Atan", Operation.ARCTAN);
+	put(1,"ATan", Operation.ARCTAN);
+
+	put(1,"arcsin", Operation.ARCSIN);
+	put(1,"arcSin", Operation.ARCSIN);
+	put(1,"arccos", Operation.ARCCOS);
+	put(1,"arcCos", Operation.ARCCOS);
 	put(1,"arctan", Operation.ARCTAN);
+	put(1,"arcTan", Operation.ARCTAN);
+
+	put(1,"arsin", Operation.ARCSIN);
+	put(1,"arSin", Operation.ARCSIN);
+	put(1,"arcos", Operation.ARCCOS);
+	put(1,"arCos", Operation.ARCCOS);
+	put(1,"artan", Operation.ARCTAN);
+	put(1,"arTan", Operation.ARCTAN);
+
+	put(1,"Arcsin", Operation.ARCSIN);
+	put(1,"ArcSin", Operation.ARCSIN);
+	put(1,"Arccos", Operation.ARCCOS);
+	put(1,"ArcCos", Operation.ARCCOS);
+	put(1,"Arctan", Operation.ARCTAN);
 	put(1,"ArcTan", Operation.ARCTAN);
-	
+
+	put(1,"asinh", Operation.ASINH);
+	put(1,"aSinh", Operation.ASINH);
+	put(1,"acosh", Operation.ACOSH);
+	put(1,"aCosh", Operation.ACOSH);
+	put(1,"atanh", Operation.ATANH);
+	put(1,"aTanh", Operation.ATANH);
+
+	put(1,"Asinh", Operation.ASINH);
+	put(1,"ASinh", Operation.ASINH);
+	put(1,"Acosh", Operation.ACOSH);
+	put(1,"ACosh", Operation.ACOSH);
+	put(1,"Atanh", Operation.ATANH);
+	put(1,"ATanh", Operation.ATANH);
+
+	put(1,"arcsinh", Operation.ASINH);
+	put(1,"arcSinh", Operation.ASINH);
+	put(1,"arccosh", Operation.ACOSH);
+	put(1,"arcCosh", Operation.ACOSH);
+	put(1,"arctanh", Operation.ATANH);
+	put(1,"arcTanh", Operation.ATANH);
+
+	put(1,"arsinh", Operation.ASINH);
+	put(1,"arSinh", Operation.ASINH);
+	put(1,"arcosh", Operation.ACOSH);
+	put(1,"arCosh", Operation.ACOSH);
+	put(1,"artanh", Operation.ATANH);
+	put(1,"arTanh", Operation.ATANH);
+
+	put(1,"Arcsinh", Operation.ASINH);
+	put(1,"ArcSinh", Operation.ASINH);
+	put(1,"Arccosh", Operation.ACOSH);
+	put(1,"ArcCosh", Operation.ACOSH);
+	put(1,"Arctanh", Operation.ATANH);
+	put(1,"ArcTanh", Operation.ATANH);
+
 	put(1,"atan2", Operation.ARCTAN2);
+	put(1,"Atan2", Operation.ARCTAN2);
+	put(1,"artan2", Operation.ARCTAN2);
 	put(1,"arctan2", Operation.ARCTAN2);
+	put(1,"Arctan2", Operation.ARCTAN2);
+	put(1,"aTan2", Operation.ARCTAN2);
+	put(1,"ATan2", Operation.ARCTAN2);
+	put(1,"arTan2", Operation.ARCTAN2);
+	put(1,"arcTan2", Operation.ARCTAN2);
 	put(1,"ArcTan2", Operation.ARCTAN2);
-	
+
 	put(1,"erf", Operation.ERF);
 	put(1,"Erf", Operation.ERF);
 	
 	put(1,"psi", Operation.PSI);
 	
 	put(1,"polygamma", Operation.POLYGAMMA);
-	
-	put(1,"cosh", Operation.COSH);
-	put(1,"Cosh", Operation.COSH);
-	
-	put(1,"sinh", Operation.SINH);
-	put(1,"Sinh", Operation.SINH);
-	
-	put(1,"tanh", Operation.TANH);
-	put(1,"Tanh", Operation.TANH);
-	
-	put(1,"acosh", Operation.ACOSH);
-	put(1,"Acosh", Operation.ACOSH);
-	
-	put(1,"asinh", Operation.ASINH);
-	put(1,"Asinh", Operation.ASINH);
-	
-	put(1,"atanh", Operation.ATANH);
-	put(1,"Atanh", Operation.ATANH);
-	
+
 	put(1,"exp", Operation.EXP);
 	put(1,"Exp", Operation.EXP);
 	

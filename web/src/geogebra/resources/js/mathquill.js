@@ -1860,12 +1860,40 @@ var UnItalicizedCmds = {
 }, MAX_AUTOCMD_LEN = 5;
 
 (function() {
-  var trigs = { sin: 1, cos: 1, tan: 1, sec: 1, cosec: 1, csc: 1, cotan: 1, cot: 1, ctg: 1 };
+  var trigs = {
+    sin: 1, cos: 1, tan: 1,
+    Sin: 1, Cos: 1, Tan: 1};
   for (var trig in trigs) {
     UnItalicizedCmds[trig] =
     UnItalicizedCmds['arc'+trig] =
+    UnItalicizedCmds['Arc'+trig] =
+    UnItalicizedCmds['a'+trig] =
+    UnItalicizedCmds['A'+trig] =
+    UnItalicizedCmds['ar'+trig] =
     UnItalicizedCmds[trig+'h'] =
-    UnItalicizedCmds['arc'+trig+'h'] = 1;
+    UnItalicizedCmds['arc'+trig+'h'] =
+    UnItalicizedCmds['Arc'+trig+'h'] =
+    UnItalicizedCmds['a'+trig+'h'] =
+    UnItalicizedCmds['A'+trig+'h'] =
+    UnItalicizedCmds['ar'+trig+'h'] = 1;
+  }
+ 
+  trigs = {
+	sec: 1, cosec: 1, csc: 1,
+	Sec: 1, Cosec: 1, Csc: 1,
+	cotan: 1, cot: 1, ctg: 1,
+	Cotan: 1, Cot: 1, Ctg: 1};
+  for (var trig in trigs) {
+    UnItalicizedCmds[trig] =
+    UnItalicizedCmds[trig+'h'] = 1;
+  }
+  trigs = { tan2: 1, Tan2: 1 };
+  for (var trig in trigs) {
+    UnItalicizedCmds['a'+trig] =
+    UnItalicizedCmds['A'+trig] =
+    UnItalicizedCmds['ar'+trig] =
+    UnItalicizedCmds['Arc'+trig] =
+    UnItalicizedCmds['arc'+trig] = 1;
   }
 
   for (var fn in UnItalicizedCmds)
