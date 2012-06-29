@@ -1879,19 +1879,19 @@ var UnItalicizedCmds = {
   exp: 1,
   Exp: 1,
   x: 1,
-  y: 1,
+  y: 1
 
   // MathQuill
-  min: 1,
-  nCr: 1,
-  nPr: 1,
-  gcd: 1,
-  lcm: 1,
-  max: 1,
-  mod: 1,
-  lcm: 1,
-  gcd: 1,
-  gcf: 1
+  //min: 1,
+  //nCr: 1,
+  //nPr: 1,
+  //gcd: 1,
+  //lcm: 1,
+  //max: 1,
+  //mod: 1,
+  //lcm: 1,
+  //gcd: 1,
+  //gcf: 1
   //line: 1,
   //polygon: 1,
   //dottedline: 1,
@@ -1904,10 +1904,10 @@ var UnItalicizedCmds = {
   Sqrt: 1,
 
   // MathQuill
-  sum: 1,
-  pi: 1,
-  theta: 1/*,
-  int: 1*/
+  //sum: 1,
+  pi: 1
+  //theta: 1,
+  //int: 1
 }, MAX_AUTOCMD_LEN = 5;
 
 (function() {
