@@ -88,8 +88,8 @@ public enum KeyCodes {
 	INSERT(JavaKeyCodes.VK_INSERT, GWTKeycodes.KEY_INSERT),
 	TAB(JavaKeyCodes.VK_TAB, GWTKeycodes.KEY_TAB),
 	UP(JavaKeyCodes.VK_UP, GWTKeycodes.KEY_UP),
-	SPACE(JavaKeyCodes.VK_SPACE, GWTKeycodes.KEY_SPACE);
-
+	SPACE(JavaKeyCodes.VK_SPACE, GWTKeycodes.KEY_SPACE),
+	CONTEXT_MENU(JavaKeyCodes.VK_CONTEXT_MENU, -1);
 
 	private int javaKey;
 	private int GWTKey;

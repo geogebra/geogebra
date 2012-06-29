@@ -194,5 +194,8 @@ public class PythonBridge extends geogebra.common.plugin.jython.PythonBridge imp
 	public void execScript() {
 		pyInterface.reset();
 	}
+	public boolean hasFocus() {
+		return false;
+	}
 }
 

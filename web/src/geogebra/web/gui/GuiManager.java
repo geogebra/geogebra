@@ -496,7 +496,19 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 
 	@Override
     public void updateGUIafterLoadFile(boolean success, boolean isMacroFile) {
-	    // TODO Auto-generated method stub
+	    AbstractApplication.debug("unimplemented");
 	    
+    }
+
+	@Override
+    public void startEditing(GeoElement geoElement) {
+	    AbstractApplication.debug("unimplemented");
+	    
+    }
+
+	@Override
+    public boolean noMenusOpen() {
+	    AbstractApplication.debug("unimplemented");
+	    return true;
     }
 }

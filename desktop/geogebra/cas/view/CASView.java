@@ -327,4 +327,9 @@ public class CASView  extends geogebra.common.cas.view.CASView implements Gridab
 	protected CASStyleBar newCASStyleBar() {
 		return new CASStyleBar(this, app);
 	}
+
+	public boolean hasFocus() {
+	    AbstractApplication.debug("unimplemented");
+		return false;
+	}
 }

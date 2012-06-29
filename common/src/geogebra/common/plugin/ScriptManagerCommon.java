@@ -398,6 +398,10 @@ public abstract class ScriptManagerCommon {
 			return AbstractApplication.VIEW_NONE;
 		}
 
+		public boolean hasFocus() {
+			return false;
+		}
+
 	}
 
 	public abstract void notifyDraw(String labelSimple, double[] x, double[] y);

@@ -69,4 +69,6 @@ public interface View {
 	 * @return unique ID of this view
 	 */
 	public int getViewID();
+	
+	public boolean hasFocus();
 }

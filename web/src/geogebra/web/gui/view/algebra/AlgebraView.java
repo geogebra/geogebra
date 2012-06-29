@@ -1253,4 +1253,9 @@ public class AlgebraView extends Tree implements LayerView, SetLabels, geogebra.
 		if (!editing)
 			super.onBrowserEvent(event);
 	}
+
+	public boolean hasFocus() {
+	    AbstractApplication.debug("unimplemented");
+	    return false;
+    }
 } // AlgebraView

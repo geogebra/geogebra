@@ -1,7 +1,9 @@
 package geogebra.common.main;
 
 import geogebra.common.awt.Color;
+import geogebra.common.euclidian.AbstractEuclidianController;
 import geogebra.common.euclidian.AbstractEuclidianView;
+import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Matrix.Coords;
@@ -9,6 +11,8 @@ import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.PointProperties;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.util.CopyPaste;
@@ -461,7 +465,15 @@ public abstract class GlobalKeyDispatcher {
 		return true;		
 	}
 
-	protected abstract boolean handleTab(boolean isControlDown, boolean isShiftDown);
+	protected boolean handleTab(boolean isControlDown, boolean isShiftDown) {
+		if (isShiftDown) {
+			app.selectLastGeo();
+		} else {
+			app.selectNextGeo();
+		}
+		
+		return true;
+	}
 
 	protected abstract boolean handleEnter();
 
@@ -574,5 +586,362 @@ public abstract class GlobalKeyDispatcher {
 			geo.setObjColor(Color.black);
 		}
 	}
+	
+	/**
+	 * Handle pressed key for selected GeoElements
+	 * 
+	 * @return if key was consumed
+	 */
+	protected boolean handleSelectedGeosKeys(KeyCodes key,
+			ArrayList<GeoElement> geos, boolean isShiftDown, boolean isControlDown, boolean isAltDown, boolean fromSpreadsheet) {
+
+		// SPECIAL KEYS
+		double changeVal = 0; // later: changeVal = base or -base
+		// Shift : base = 0.1
+		// Default : base = 1
+		// Ctrl : base = 10
+		// Alt : base = 100
+		double base = 1;
+		if (isShiftDown)
+			base = 0.1;
+		if (isControlDown)
+			base = 10;
+		if (isAltDown)
+			base = 100;
+		
+		app.debug("AAAA");
+
+		if (geos == null || geos.size() == 0) {
+
+			// Get the EuclidianView which has the focus
+			EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
+			int width = ev.getWidth();
+			int height = ev.getHeight();
+			if (ev.hasFocus() && app.isShiftDragZoomEnabled())
+				switch (key) {
+
+				case PAGEUP:
+					ev.rememberOrigins();
+					ev.setCoordSystemFromMouseMove(0, (int) (height * base),
+							AbstractEuclidianController.MOVE_VIEW);
+					return true;
+				case PAGEDOWN:
+					ev.rememberOrigins();
+					ev.setCoordSystemFromMouseMove(0, -(int) (height * base),
+							AbstractEuclidianController.MOVE_VIEW);
+					return true;
+				case INSERT:
+					ev.rememberOrigins();
+					ev.setCoordSystemFromMouseMove((int) (height * base), 0,
+							AbstractEuclidianController.MOVE_VIEW);
+					return true;
+				case HOME:
+					ev.rememberOrigins();
+					ev.setCoordSystemFromMouseMove(-(int) (height * base), 0,
+							AbstractEuclidianController.MOVE_VIEW);
+					return true;
+				case DOWN:
+					if (app.isUsingFullGui()
+							&& app.getGuiManager().noMenusOpen()) {
+						ev.rememberOrigins();
+						ev.setCoordSystemFromMouseMove(0,
+								(int) (height / 100.0 * base),
+								AbstractEuclidianController.MOVE_VIEW);
+						return true;
+					}
+				case UP:
+					app.debug("BBBB");
+					if (app.isUsingFullGui()
+							&& app.getGuiManager().noMenusOpen()) {
+						app.debug("CCCCC");
+						ev.rememberOrigins();
+						ev.setCoordSystemFromMouseMove(0,
+								-(int) (height / 100.0 * base),
+								AbstractEuclidianController.MOVE_VIEW);
+						return true;
+					}
+				case LEFT:
+					ev.rememberOrigins();
+					ev.setCoordSystemFromMouseMove(
+							-(int) (width / 100.0 * base), 0,
+							AbstractEuclidianController.MOVE_VIEW);
+					return true;
+				case RIGHT:
+					ev.rememberOrigins();
+					ev.setCoordSystemFromMouseMove(
+							(int) (width / 100.0 * base), 0,
+							AbstractEuclidianController.MOVE_VIEW);
+					return true;
+				}
+
+			return false;
+		}
+
+		// FUNCTION and DELETE keys
+		switch (key) {
+
+		case PAGEUP:
+			Iterator<GeoElement> it = geos.iterator();
+			while (it.hasNext()) {
+				GeoElement geo = it.next();
+				geo.setLayer(geo.getLayer() + 1);
+			}
+			break;
+
+		case PAGEDOWN:
+			it = geos.iterator();
+			while (it.hasNext()) {
+				GeoElement geo = it.next();
+				geo.setLayer(geo.getLayer() - 1);
+			}
+			break;
+
+		case F3:
+			// F3 key: copy definition to input field
+			if (geos.size() == 1)
+				handleFunctionKeyForAlgebraInput(3, geos.get(0));
+			else {
+				// F3 key: copy definitions to input field as list
+				copyDefinitionsToInputBarAsList(geos);
+				break;
+
+			}
+			return true;
+
+		case F1:
+			app.getDialogManager().openToolHelp();
+			return true;
+
+		case F4:
+			// F4 key: copy value to input field
+			handleFunctionKeyForAlgebraInput(4, geos.get(0));
+			return true;
+
+		case F5:
+			// F5 key: copy label to input field
+			handleFunctionKeyForAlgebraInput(5, geos.get(0));
+			return true;
+
+		case DELETE:
+			// G.Sturr 2010-5-2: let the spreadsheet handle delete
+			if (app.getGuiManager().hasSpreadsheetView() && app.getGuiManager().getSpreadsheetView().hasFocus())
+				return false;
+			// DELETE selected objects
+			if (!app.isApplet() || app.isRightClickEnabled()) {
+				app.deleteSelectedObjects();
+				return true;
+			}
+
+		case BACKSPACE:
+			// G.Sturr 2010-5-2: let the spreadsheet handle delete
+			if (app.getGuiManager().getSpreadsheetView().hasFocus())
+				return false;
+			// DELETE selected objects
+			// Note: ctrl-h generates a KeyEvent.VK_BACK_SPACE event, so check
+			// for ctrl too
+			if (!isControlDown
+					&& (!app.isApplet() || app.isRightClickEnabled())) {
+				app.deleteSelectedObjects();
+				return true;
+			}
+			break;
+		}
+		
+		app.debug("PPPP");
+
+		// ignore key events coming from tables like the spreadsheet to
+		// allow start editing, moving etc
+		if (fromSpreadsheet
+				|| (app.isUsingFullGui()
+						&& app.getGuiManager().hasSpreadsheetView() && app
+						.getGuiManager().getSpreadsheetView().hasFocus())) {
+			return false;
+		}
+
+		// check for arrow keys: try to move objects accordingly
+		boolean moved = false;
+		app.debug("QQQQQ");
+
+		switch (key) {
+		case UP:
+			app.debug("RRRR");
+
+			// make sure arrow keys work in menus
+			if (app.isUsingFullGui() && !app.getGuiManager().noMenusOpen())
+				return false;
+			app.debug("SSSS");
+
+			changeVal = base;
+			moved = handleArrowKeyMovement(geos, 0, changeVal, 0);
+			break;
+
+		case DOWN:
+
+			// make sure arrow keys work in menus
+			if (app.isUsingFullGui() && !app.getGuiManager().noMenusOpen())
+				return false;
+
+			changeVal = -base;
+			moved = handleArrowKeyMovement(geos, 0, changeVal, 0);
+			break;
+
+		case RIGHT:
+
+			// make sure arrow keys work in menus
+			if (app.isUsingFullGui() && !app.getGuiManager().noMenusOpen())
+				return false;
+
+			changeVal = base;
+			moved = handleArrowKeyMovement(geos, changeVal, 0, 0);
+			break;
+
+		case LEFT:
+
+			// make sure arrow keys work in menus
+			if (app.isUsingFullGui() && !app.getGuiManager().noMenusOpen())
+				return false;
+
+			changeVal = -base;
+			moved = handleArrowKeyMovement(geos, changeVal, 0, 0);
+			break;
+
+		case PAGEUP:
+			changeVal = base;
+			moved = handleArrowKeyMovement(geos, 0, 0, changeVal);
+			break;
+
+		case PAGEDOWN:
+			changeVal = -base;
+			moved = handleArrowKeyMovement(geos, 0, 0, changeVal);
+			break;
+
+		}
+
+		if (moved)
+			return true;
+
+		boolean vertical = true;
+
+		// F2, PLUS, MINUS keys
+		switch (key) {
+		case F2:
+			// handle F2 key to start editing first selected element
+			if (app.isUsingFullGui()) {
+				app.getGuiManager().startEditing(geos.get(0));
+				return true;
+			}
+			break;
+
+		case NUMPADPLUS:
+		case PLUS:
+		case ADD: // can be own key on some keyboard
+		case EQUALS: // same key as plus (on most keyboards)
+		case UP:
+			changeVal = base;
+			vertical = true;
+			break;
+		case RIGHT:
+			changeVal = base;
+			vertical = false;
+			break;
+
+		case NUMPADMINUS:
+		case MINUS:
+		case SUBTRACT:
+		case DOWN:
+			changeVal = -base;
+			vertical = true;
+			break;
+		case LEFT:
+			changeVal = -base;
+			vertical = false;
+			break;
+		}
+
+		/*
+		if (changeVal == 0) {
+			char keyChar = event.getKeyChar();
+			if (keyChar == '+')
+				changeVal = base;
+			else if (keyChar == '-')
+				changeVal = -base;
+		}
+		*/
+
+		// change all geoelements
+		if (changeVal != 0) {
+
+			boolean twoSliders = geos.size() == 2 && geos.get(0).isGeoNumeric()
+					&& geos.get(1).isGeoNumeric();
+
+			for (int i = geos.size() - 1; i >= 0; i--) {
+
+				GeoElement geo = geos.get(i);
+
+				if (geo.isChangeable()) {
+
+					// update number
+					if (geo.isGeoNumeric()
+							&& (!twoSliders || ((vertical && i == 0) || (!vertical && i == 1)))) {
+						GeoNumeric num = (GeoNumeric) geo;
+						double newValue = num.getValue() + changeVal
+								* num.getAnimationStep();
+						if (num.getAnimationStep() > Kernel.MIN_PRECISION) {
+							// round to decimal fraction, e.g. 2.800000000001 to
+							// 2.8
+							if (num.isGeoAngle()) {
+								app.getKernel();
+								app.getKernel();
+								newValue = Kernel.PI_180
+										* Kernel
+										.checkDecimalFraction(
+												newValue
+												* Kernel.CONST_180_PI,
+												1 / num.getAnimationStep());
+							} else
+								newValue = Kernel.checkDecimalFraction(
+										newValue, 1 / num.getAnimationStep());
+						}
+						num.setValue(newValue);
+					}
+
+					// update point on path
+					else if (geo.isGeoPoint() && !geo.isGeoElement3D()) {
+						GeoPoint2 p = (GeoPoint2) geo;
+						if (p.hasPath()) {
+							p.addToPathParameter(changeVal
+									* p.getAnimationStep());
+						}
+					}
+				}
+
+				// update parent algo of dependent geo to update randomNumbers
+				else if (!geo.isIndependent()) {
+					// update labeled random number
+					if (geo.isLabelSet() && geo.isGeoNumeric()) {
+						GeoNumeric num = (GeoNumeric) geo;
+						if (num.isRandomGeo()) {
+							num.updateRandomGeo();
+						}
+					}
+
+					// update parent algorithm for unlabeled random numbers
+					// and all other algorithms
+					geo.getParentAlgorithm().update();
+				}
+			}
+
+			// update all geos together
+			GeoElement.updateCascade(geos, getTempSet(), false);
+			app.getKernel().notifyRepaint();
+
+			return true;
+		}
+
+		return false;
+	}
+
+	protected abstract void copyDefinitionsToInputBarAsList(ArrayList<GeoElement> geos);
+
 
 }

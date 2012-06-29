@@ -583,7 +583,9 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
     }
 
 	public boolean hasFocus() {
-	    return isInFocus;
+	    // changed to return true, otherwise Arrow keys don't work to pan the view, see GlobalKeyDispatcher
+		//return isInFocus;
+		return true;
     }
 
 	@Override

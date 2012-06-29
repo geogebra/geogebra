@@ -274,4 +274,8 @@ public abstract class GuiManager {
 	protected abstract boolean loadURL_base64(String url) throws Exception;
 	protected abstract boolean loadFromApplet(String url) throws Exception;
 	public abstract void updateGUIafterLoadFile(boolean success, boolean isMacroFile);
+
+	public abstract void startEditing(GeoElement geoElement);
+
+	public abstract boolean noMenusOpen();
 }

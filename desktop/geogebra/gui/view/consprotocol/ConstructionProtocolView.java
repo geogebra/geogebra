@@ -1610,6 +1610,11 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 			return AbstractApplication.VIEW_CONSTRUCTION_PROTOCOL;
 		}
 
+		public boolean hasFocus() {
+		    AbstractApplication.debug("unimplemented");
+			return false;
+		}
+
 	}
 
 	/************
