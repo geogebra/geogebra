@@ -8,7 +8,7 @@
  * 
  * This file was modified by Arpad Fekete on behalf of GeoGebra Inc.
  * The file became part of the web version of the software GeoGebra.
- * (2012.03.30.) Appropriate license terms apply.
+ * (2012.03.30.-2012.06.28.) Appropriate license terms apply.
  */
 
 @font-face {
@@ -20,6 +20,7 @@
     url(web/font/Symbola.svg#Symbola) format("svg");
 }
 
+
 .mathquill-editable,
 .mathquill-rendered-math,
 .mathquill-rendered-math .cursor,
@@ -28,7 +29,10 @@
 .mathquill-rendered-math .font,
 .mathquill-rendered-math sup,
 .mathquill-rendered-math sub,
+.mathquill-rendered-math .sup,
+.mathquill-rendered-math .sub,
 .mathquill-rendered-math .fraction,
+.mathquill-rendered-math .large-operator,
 .mathquill-rendered-math .sqrt-prefix,
 .mathquill-rendered-math .sqrt-stem,
 .mathquill-rendered-math .paren,
@@ -38,8 +42,14 @@
   display: inline-block;
   padding-top: .075em;
 }
+.mathquill-rendered-math .fraction, .mathquill-rendered-math .large-operator, x:-moz-any-link { /* Firefox 2 (and older?) only */
+  display: -moz-groupbox; /* because display:inline-block is FUBAR in Gecko < 1.9.0 */
+}
+.mathquill-rendered-math .fraction, .mathquill-rendered-math .large-operator, x:-moz-any-link, x:default { /* Firefox 3+ (Gecko 1.9.0+) */
+  display: inline-block;
+}
 .mathquill-editable, .mathquill-embedded-latex .mathquill-editable {
-  border: 1px solid gray;
+  /*border: 1px solid gray;*/
   padding: 2px;
 }
 .mathquill-embedded-latex .mathquill-editable {
@@ -96,7 +106,10 @@
 .mathquill-rendered-math .selection .font,
 .mathquill-rendered-math .selection sup,
 .mathquill-rendered-math .selection sub,
+.mathquill-rendered-math .selection .sup,
+.mathquill-rendered-math .selection .sub,
 .mathquill-rendered-math .selection .fraction,
+.mathquill-rendered-math .selection .large-operator,
 .mathquill-rendered-math .selection .sqrt-prefix,
 .mathquill-rendered-math .selection .sqrt-stem,
 .mathquill-rendered-math .selection .paren,
@@ -117,7 +130,10 @@
 .mathquill-rendered-math .selection.blur .font,
 .mathquill-rendered-math .selection.blur sup,
 .mathquill-rendered-math .selection.blur sub,
+.mathquill-rendered-math .selection.blur .sup,
+.mathquill-rendered-math .selection.blur .sub,
 .mathquill-rendered-math .selection.blur .fraction,
+.mathquill-rendered-math .selection.blur .large-operator,
 .mathquill-rendered-math .selection.blur .sqrt-prefix,
 .mathquill-rendered-math .selection.blur .sqrt-stem,
 .mathquill-rendered-math .selection.blur .paren,
@@ -137,7 +153,10 @@
 .mathquill-rendered-math .selection .selection.blur .font,
 .mathquill-rendered-math .selection .selection.blur sup,
 .mathquill-rendered-math .selection .selection.blur sub,
+.mathquill-rendered-math .selection .selection.blur .sup,
+.mathquill-rendered-math .selection .selection.blur .sub,
 .mathquill-rendered-math .selection .selection.blur .fraction,
+.mathquill-rendered-math .selection .selection.blur .large-operator,
 .mathquill-rendered-math .selection .selection.blur .sqrt-prefix,
 .mathquill-rendered-math .selection .selection.blur .sqrt-stem,
 .mathquill-rendered-math .selection .selection.blur .paren,
@@ -155,7 +174,10 @@
 .mathquill-rendered-math .selection.blur .selection.blur .font,
 .mathquill-rendered-math .selection.blur .selection.blur sup,
 .mathquill-rendered-math .selection.blur .selection.blur sub,
+.mathquill-rendered-math .selection.blur .selection.blur .sup,
+.mathquill-rendered-math .selection.blur .selection.blur .sub,
 .mathquill-rendered-math .selection.blur .selection.blur .fraction,
+.mathquill-rendered-math .selection.blur .selection.blur .large-operator,
 .mathquill-rendered-math .selection.blur .selection.blur .sqrt-prefix,
 .mathquill-rendered-math .selection.blur .selection.blur .sqrt-stem,
 .mathquill-rendered-math .selection.blur .selection.blur .paren,
@@ -266,22 +288,28 @@
 .mathquill-rendered-math sup {
   vertical-align: .5em;
 }
+.mathquill-rendered-math .sup {
+  vertical-align: bottom;
+}
 .mathquill-rendered-math sub {
   vertical-align: -.4em;
+}
+.mathquill-rendered-math .sub {
+  vertical-align: top;
 }
 .mathquill-rendered-math sup.nthroot {
   margin-right: -.6em;
   margin-left: .2em;
   min-width: .5em;
 }
-.mathquill-rendered-math sup.limit, .mathquill-rendered-math sub.limit,
+.mathquill-rendered-math sup.int, .mathquill-rendered-math sub.int,
 .mathquill-rendered-math sup.nthroot {
   font-size: 80%;
 }
-.mathquill-rendered-math sup.limit, .mathquill-rendered-math sup.nthroot {
+.mathquill-rendered-math sup.int, .mathquill-rendered-math sup.nthroot {
   vertical-align: .8em;
 }
-.mathquill-rendered-math sub.limit {
+.mathquill-rendered-math sub.int {
   vertical-align: -.6em;
 }
 
@@ -306,12 +334,6 @@
   vertical-align: -.5em;
   padding: 0 .1em;
 }
-.mathquill-rendered-math .fraction, x:-moz-any-link { /* Firefox 2 (and older?) only */
-  display: -moz-groupbox; /* because display:inline-block is FUBAR in Gecko < 1.9.0 */
-}
-.mathquill-rendered-math .fraction, x:-moz-any-link, x:default { /* Firefox 3+ (Gecko 1.9.0+) */
-  display: inline-block;
-}
 .mathquill-rendered-math .numerator, .mathquill-rendered-math .denominator {
   display: block;
   padding-top: .075em;
@@ -335,6 +357,24 @@
 }
 .mathquill-rendered-math sup .denominator, .mathquill-rendered-math sub .denominator {
   padding-top: 0;
+}
+
+.mathquill-rendered-math .large-operator {
+  text-align: center;
+}
+.mathquill-rendered-math .large-operator .from, .mathquill-rendered-math .large-operator .to  {
+  display: block;
+}
+.mathquill-rendered-math big {
+  display: inline-block;
+}
+.mathquill-rendered-math .large-operator .from, .mathquill-rendered-math .large-operator .to  {
+  font-size: 80%;
+}
+.mathquill-rendered-math .large-operator .from {
+  margin-top: -.1em;
+  float: right; /* take out of normal flow to manipulate baseline */
+  width: 100%;
 }
 
 .mathquill-rendered-math .latex-command-input {
@@ -387,7 +427,11 @@
   display: block;
 }
 
-.mathquill-rendered-math .non-italicized-function {
+.mathquill-rendered-math var.un-italicized {
+  font-family: Symbola, "Times New Roman", serif;
+  font-style: normal;
+}
+.mathquill-rendered-math var.un-italicized.last {
   padding-right: .2em;
 }
 
