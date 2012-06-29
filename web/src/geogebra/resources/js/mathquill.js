@@ -1898,7 +1898,7 @@ var UnItalicizedCmds = {
   //dottedpolygon:1,
   //stroke:1,
   //fill:1,
-}, MAX_UNITALICIZED_LEN = 9, AutoCmds = {
+}, MAX_UNITALICIZED_LEN = 16, AutoCmds = {
   // GeoGebra+MathQuill
   sqrt: 1,
   Sqrt: 1,
