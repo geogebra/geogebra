@@ -306,11 +306,23 @@ public class DrawEquationWeb implements DrawEquationInterface {
 			}
 			if (code == 13) {
 				@geogebra.web.main.DrawEquationWeb::endEditingEquationMathQuill(Lgeogebra/web/gui/view/algebra/RadioButtonTreeItem;Lcom/google/gwt/dom/client/Element;)(rbti,parentElement);
+			} else if (code == 27) {
+				@geogebra.web.main.DrawEquationWeb::escEditingEquationMathQuill(Lgeogebra/web/gui/view/algebra/RadioButtonTreeItem;Lcom/google/gwt/dom/client/Element;)(rbti,parentElement);
 			}
 			event.stopPropagation();
 			event.preventDefault();
 			return false;
 		});
+	}-*/;
+
+	public static native void escEditingEquationMathQuill(RadioButtonTreeItem rbti, Element parentElement) /*-{
+		var elsecond = parentElement.firstChild.firstChild.nextSibling;
+
+		var thisjq = $wnd.jQuery(elsecond);
+		var latexq = null;
+		elsecond.previousSibling.style.display = "block";
+		@geogebra.web.main.DrawEquationWeb::endEditingEquationMathQuill(Lgeogebra/web/gui/view/algebra/RadioButtonTreeItem;Ljava/lang/String;)(rbti,latexq);
+		thisjq.mathquill('revert').mathquill();
 	}-*/;
 
 	public static native void endEditingEquationMathQuill(RadioButtonTreeItem rbti, Element parentElement) /*-{
