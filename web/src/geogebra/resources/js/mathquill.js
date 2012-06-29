@@ -1804,7 +1804,7 @@ _.text = function() {
       && !(this.jQ.hasClass('un-italicized'))
       && !(this.next.cmd === '(')
       && !(this.next.cmd === '\\left(')
-      && !(this.next.cmd === ' ')
+	  && !(this.prev.cmd === ' ')
       && !(this.next.cmd === '^'))
     text += '*';
   return text;
@@ -2238,8 +2238,8 @@ LatexCmds.preceq = bind(VanillaSymbol, '\\preceq ', '&#8828;');
 LatexCmds.succeq = bind(VanillaSymbol, '\\succeq ', '&#8829;');
 LatexCmds.simeq = bind(VanillaSymbol, '\\simeq ', '&#8771;');
 LatexCmds.mid = bind(VanillaSymbol, '\\mid ', '&#8739;');
-LatexCmds.ll = bind(VanillaSymbol, '\\ll ', '&#8810;');
-LatexCmds.gg = bind(VanillaSymbol, '\\gg ', '&#8811;');
+//LatexCmds.ll = bind(VanillaSymbol, '\\ll ', '&#8810;');//disturbing in GeoGebraWeb
+//LatexCmds.gg = bind(VanillaSymbol, '\\gg ', '&#8811;');//disturbing in GeoGebraWeb
 LatexCmds.parallel = bind(VanillaSymbol, '\\parallel ', '&#8741;');
 LatexCmds.bowtie = bind(VanillaSymbol, '\\bowtie ', '&#8904;');
 LatexCmds.sqsubset = bind(VanillaSymbol, '\\sqsubset ', '&#8847;');
