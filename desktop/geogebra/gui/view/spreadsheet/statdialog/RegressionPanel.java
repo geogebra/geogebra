@@ -198,7 +198,7 @@ public class RegressionPanel extends JPanel implements  ActionListener, StatPane
 		
 		for (Regression r : Regression.values()) {
 
-			regressionLabels[r.ordinal()] = r.getLabel();
+			regressionLabels[r.ordinal()] = app.getMenu(r.getLabel());
 		}
 			
 	}
