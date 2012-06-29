@@ -1800,13 +1800,20 @@ _.text = function() {
 	  && !(this.prev.cmd === ' ')
       && !(this.prev instanceof BinaryOperator))
     text = '*' + text;
-  if (this.next && !(this.next instanceof BinaryOperator)
-      && !(this.jQ.hasClass('un-italicized'))
-      && !(this.next.cmd === '(')
-      && !(this.next.cmd === '\\left(')
-	  && !(this.next.cmd === ' ')
-      && !(this.next.cmd === '^'))
+
+  // skip spaces
+  var nex = this;
+  while ((nex.next) && (nex.next.cmd === ' '))
+	nex = nex.next;
+
+  if (nex.next && !(nex.next instanceof BinaryOperator)
+      && !(nex.jQ.hasClass('un-italicized'))
+      && !(nex.next.cmd === '(')
+      && !(nex.next.cmd === '\\left(')
+      && !(nex.next.cmd === '^')) {
     text += '*';
+  }
+
   return text;
 };
 
