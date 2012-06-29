@@ -374,8 +374,8 @@ public class EuclidianView extends AbstractEuclidianView implements SettingListe
 					return false;
 				}
 
-				return kernel.needToShowAnimationButton() && (e.getX() - g2p.getAbsoluteLeft() + Window.getScrollLeft() <= 20)
-						&& (e.getY() - g2p.getAbsoluteTop() + Window.getScrollTop() >= (getHeight() - 20));
+				return kernel.needToShowAnimationButton() && (e.getX() <= 20)
+						&& (e.getY() >= (getHeight() - 20));
     }
 
 

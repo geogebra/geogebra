@@ -95,6 +95,9 @@ public class HistoryPopup extends PopupPanel implements ClickHandler, KeyUpHandl
 			 textField.setText(a.getText());
 			 hide();
 		break;
+		case MyKeyCodes.KEY_ESCAPE:
+			hide();
+		break;
 	    }
     }
 

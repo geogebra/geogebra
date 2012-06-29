@@ -129,6 +129,7 @@ public class AutoCompleteTextField extends HorizontalPanel implements AutoComple
 		    }
 		    setVerticalAlignment(ALIGN_MIDDLE);
 		    
+		    
 		    textField.addStyleName("TextField");
 		    
 		    showSymbolButton = new ToggleButton();
@@ -167,7 +168,8 @@ public class AutoCompleteTextField extends HorizontalPanel implements AutoComple
 		    textField.getTextBox().addKeyPressHandler(this);
 		    textField.addValueChangeHandler(this);
 		    textField.addSelectionHandler(this);
-		    setDictionary(dict);
+		    
+		   
 		    init();
 	}
 	
@@ -789,8 +791,8 @@ public class AutoCompleteTextField extends HorizontalPanel implements AutoComple
 		          ((JDialog) comp).setVisible(false);
 		          return;
 		        }*/
-		        AbstractApplication.debug("Implementation needed if some kind of Dialog open");
-		        setText(null);
+		        SuggestBox.DefaultSuggestionDisplay display = (SuggestBox.DefaultSuggestionDisplay) textField.getSuggestionDisplay();
+		        display.hideSuggestions();
 		        break;
 
 		      case MyKeyCodes.KEY_LEFT_PARENTHESIS:
