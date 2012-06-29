@@ -267,6 +267,10 @@ public abstract class GlobalKeyDispatcher {
 					consumed = true;
 				}
 				break;
+				
+			case A:
+				app.selectAll(-1);
+				break;
 
 				// export to GeoGebraWeb
 			case B:
