@@ -151,7 +151,7 @@ public class ProbabilityManager {
 		parameterLabels[ProbabilityCalculatorSettings.DIST.F.ordinal()][0] = app.getMenu("DegreesOfFreedom1.short");
 		parameterLabels[ProbabilityCalculatorSettings.DIST.F.ordinal()][1] = app.getMenu("DegreesOfFreedom2.short");
 
-		parameterLabels[ProbabilityCalculatorSettings.DIST.EXPONENTIAL.ordinal()][0] = app.getMenu("Mean");
+		parameterLabels[ProbabilityCalculatorSettings.DIST.EXPONENTIAL.ordinal()][0] = app.getMenu("Mean.short");
 
 		parameterLabels[ProbabilityCalculatorSettings.DIST.CAUCHY.ordinal()][0] = app.getMenu("Median");
 		parameterLabels[ProbabilityCalculatorSettings.DIST.CAUCHY.ordinal()][1] = app.getMenu("Distribution.Scale");
@@ -159,7 +159,7 @@ public class ProbabilityManager {
 		parameterLabels[ProbabilityCalculatorSettings.DIST.WEIBULL.ordinal()][0] = app.getMenu("Distribution.Shape");
 		parameterLabels[ProbabilityCalculatorSettings.DIST.WEIBULL.ordinal()][1] = app.getMenu("Distribution.Scale");
 
-		parameterLabels[ProbabilityCalculatorSettings.DIST.LOGISTIC.ordinal()][0] = app.getMenu("Mean");
+		parameterLabels[ProbabilityCalculatorSettings.DIST.LOGISTIC.ordinal()][0] = app.getMenu("Mean.short");
 		parameterLabels[ProbabilityCalculatorSettings.DIST.LOGISTIC.ordinal()][1] = app.getMenu("Distribution.Scale");
 
 		parameterLabels[ProbabilityCalculatorSettings.DIST.LOGNORMAL.ordinal()][0] = app.getMenu("Mean.short");
@@ -174,7 +174,7 @@ public class ProbabilityManager {
 		parameterLabels[ProbabilityCalculatorSettings.DIST.PASCAL.ordinal()][0] = app.getMenu("Binomial.number");
 		parameterLabels[ProbabilityCalculatorSettings.DIST.PASCAL.ordinal()][1] = app.getMenu("Binomial.probability");
 
-		parameterLabels[ProbabilityCalculatorSettings.DIST.POISSON.ordinal()][0] = app.getMenu("Mean");
+		parameterLabels[ProbabilityCalculatorSettings.DIST.POISSON.ordinal()][0] = app.getMenu("Mean.short");
 
 		parameterLabels[ProbabilityCalculatorSettings.DIST.HYPERGEOMETRIC.ordinal()][0] = app.getMenu("Hypergeometric.population");
 		parameterLabels[ProbabilityCalculatorSettings.DIST.HYPERGEOMETRIC.ordinal()][1] = app.getMenu("Hypergeometric.number");
