@@ -137,13 +137,13 @@ public class GlobalKeyDispatcherD extends geogebra.common.main.GlobalKeyDispatch
 
 	public boolean handleGeneralKeys(KeyEvent event) {
 
-		return handleGeneralKeys(KeyCodes.translateJavacode(event.getKeyCode()), event.isShiftDown(), event.isControlDown(), event.isAltDown(), event.getSource() instanceof JTable, event.getSource() instanceof EuclidianView);
+		return handleGeneralKeys(KeyCodes.translateJavacode(event.getKeyCode()), event.isShiftDown(), Application.isControlDown(event), Application.isAltDown(event), event.getSource() instanceof JTable, event.getSource() instanceof EuclidianView);
 	}
 
 	private boolean handleSelectedGeosKeys(KeyEvent event,
 			ArrayList<GeoElement> geos) {
 		
-		return handleSelectedGeosKeys(KeyCodes.translateJavacode(event.getKeyCode()), geos, event.isShiftDown(), event.isControlDown(), event.isAltDown(), event.getSource() instanceof JTable);
+		return handleSelectedGeosKeys(KeyCodes.translateJavacode(event.getKeyCode()), geos, event.isShiftDown(), Application.isControlDown(event), Application.isAltDown(event), event.getSource() instanceof JTable);
 	}
 
 
