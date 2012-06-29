@@ -2,8 +2,6 @@ package geogebra.common.main;
 
 import geogebra.common.util.Language;
 
-import com.google.gwt.event.dom.client.KeyUpEvent;
-
 public enum KeyCodes {
 	
 	A(JavaKeyCodes.VK_A, GWTKeycodes.KEY_A),
