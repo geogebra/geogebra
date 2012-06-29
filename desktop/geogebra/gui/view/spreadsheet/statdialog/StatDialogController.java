@@ -417,6 +417,7 @@ public class StatDialogController {
 
 		if(geoRegression != null){
 			geoRegression.remove();
+			geoRegression.doRemove();
 		}
 
 		geoRegression = statGeo.createRegressionPlot(dataSelected, sd.getRegressionMode(), sd.getRegressionOrder(), false);
