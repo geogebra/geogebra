@@ -447,7 +447,7 @@ public class GeoGebraMenuBar extends JMenuBar {
 				JOptionPane.PLAIN_MESSAGE, JOptionPane.DEFAULT_OPTION);
 
 		final JDialog dialog = infoPane.createDialog(app.getMainComponent(),
-				app.getMenu("About") + " / " + app.getMenu("License"));
+				app.getMenu("AboutLicense"));
 
 		dialog.setVisible(true);
 	}
