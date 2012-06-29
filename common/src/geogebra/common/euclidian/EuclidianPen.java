@@ -292,6 +292,10 @@ public class EuclidianPen {
 			penPoints.clear();
 
 			app.refreshViews(); // clear trace
+			
+			minX = Integer.MAX_VALUE;
+			maxX = Integer.MIN_VALUE;
+
 
 			return;
 		}
@@ -732,8 +736,9 @@ public class EuclidianPen {
 		
 		
 
-		for (int i = 0; i < n; i++)
+		for (int i = 0; i < n; i++) {
 			freehand1[i] = Double.NaN;
+		}
 
 		for (int i = 0; i < penPoints.size(); i++) {
 			Point p = penPoints.get(i);
