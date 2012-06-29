@@ -27,9 +27,7 @@ import geogebra.web.main.MyKeyCodes;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.ImageData;
-import com.google.gwt.dom.client.CanvasElement;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyDownEvent;
@@ -45,8 +43,6 @@ import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.regexp.shared.MatchResult;
-import com.google.gwt.regexp.shared.RegExp;
-import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.FocusWidget;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.SuggestBox;
@@ -94,7 +90,7 @@ public class AutoCompleteTextField extends HorizontalPanel implements AutoComple
 	   */
 	  // private static Pattern syntaxArgPattern = Pattern.compile("[,\\[] *(?:<[\\(\\) \\-\\p{L}]*>|\\.\\.\\.) *(?=[,\\]])");
 	  // Simplified to this as there are too many non-alphabetic character in parameter descriptions:
-	  private static RegExp syntaxArgPattern = RegExp
+	  private static com.google.gwt.regexp.shared.RegExp syntaxArgPattern = com.google.gwt.regexp.shared.RegExp
 	      .compile("[,\\[] *(?:<.*?>|\"<.*?>\"|\\.\\.\\.) *(?=[,\\]])");
 
 	  /**
@@ -670,6 +666,7 @@ public class AutoCompleteTextField extends HorizontalPanel implements AutoComple
 		        // of the argument.
 		        if (moveToNextArgument(false)) {
 		          e.stopPropagation();
+		          e.preventDefault();
 		        }
 		        return;
 		      }
