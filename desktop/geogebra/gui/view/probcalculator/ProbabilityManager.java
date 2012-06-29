@@ -141,7 +141,7 @@ public class ProbabilityManager {
 
 		String[][] parameterLabels = new String[ProbabilityCalculatorSettings.distCount][4];
 
-		parameterLabels[ProbabilityCalculatorSettings.DIST.NORMAL.ordinal()][0] = app.getMenu("Mean");
+		parameterLabels[ProbabilityCalculatorSettings.DIST.NORMAL.ordinal()][0] = app.getMenu("Mean.short");
 		parameterLabels[ProbabilityCalculatorSettings.DIST.NORMAL.ordinal()][1] = app.getMenu("StandardDeviation.short");
 
 		parameterLabels[ProbabilityCalculatorSettings.DIST.STUDENT.ordinal()][0] = app.getMenu("DegreesOfFreedom.short");
@@ -162,7 +162,7 @@ public class ProbabilityManager {
 		parameterLabels[ProbabilityCalculatorSettings.DIST.LOGISTIC.ordinal()][0] = app.getMenu("Mean");
 		parameterLabels[ProbabilityCalculatorSettings.DIST.LOGISTIC.ordinal()][1] = app.getMenu("Distribution.Scale");
 
-		parameterLabels[ProbabilityCalculatorSettings.DIST.LOGNORMAL.ordinal()][0] = app.getMenu("Mean");
+		parameterLabels[ProbabilityCalculatorSettings.DIST.LOGNORMAL.ordinal()][0] = app.getMenu("Mean.short");
 		parameterLabels[ProbabilityCalculatorSettings.DIST.LOGNORMAL.ordinal()][1] = app.getMenu("StandardDeviation.short");
 
 		parameterLabels[ProbabilityCalculatorSettings.DIST.GAMMA.ordinal()][0] = app.getMenu("Alpha.short");
