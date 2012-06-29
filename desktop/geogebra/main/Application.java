@@ -3885,7 +3885,8 @@ public class Application extends AbstractApplication implements
 		Component eventPane = SwingUtilities.getRootPane(e.getComponent());
 		Component mainPane = SwingUtilities.getRootPane(mainComp);
 		if ((eventPane != mainPane)
-				&& !getGuiManager().getLayout().inExternalWindow(eventPane)) {
+				// no layout in applets
+				&& (isApplet() || !getGuiManager().getLayout().inExternalWindow(eventPane))) {
 			// ESC from dialog: close it
 			if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
 				Component rootComp = SwingUtilities.getRoot(e.getComponent());
@@ -3897,7 +3898,7 @@ public class Application extends AbstractApplication implements
 
 			// key event came from another window or applet: ignore it
 			return false;
-		}else if (e.getKeyCode() == KeyEvent.VK_SHIFT) {
+		} else if (e.getKeyCode() == KeyEvent.VK_SHIFT) {
 			handleShiftEvent(shiftDown);
 		}
 
