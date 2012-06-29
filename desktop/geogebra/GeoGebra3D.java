@@ -17,8 +17,6 @@
  */
 package geogebra;
 
-import geogebra3D.euclidian3D.opengl.Component3DCapabilities;
-
 import java.awt.Frame;
 import java.awt.Toolkit;
 import java.net.URL;
@@ -30,9 +28,6 @@ public class GeoGebra3D extends GeoGebra
 	// File format versions
 	public static final String XML_FILE_FORMAT = "5.0";
 	
-	static {
-		Component3DCapabilities.initSingleton();
-	}
 	
 
 	public static void main(String[] cmdArgs) {  
