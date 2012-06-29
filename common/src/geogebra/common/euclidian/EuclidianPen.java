@@ -14,6 +14,7 @@ import geogebra.common.kernel.algos.AlgoFunctionFreehand;
 import geogebra.common.kernel.algos.AlgoJoinPointsSegment;
 import geogebra.common.kernel.algos.AlgoPolyLine;
 import geogebra.common.kernel.arithmetic.MyDouble;
+import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -35,37 +36,37 @@ public class EuclidianPen {
 	private AlgoElement lastAlgo = null;
 	private ArrayList<Point> penPoints = new ArrayList<Point>();
 	private ArrayList<Point> temp = null;
-	int minX = Integer.MAX_VALUE, maxX = Integer.MIN_VALUE;
-	double CIRCLE_MIN_DET=0.95;
-	double CIRCLE_MAX_SCORE=0.10;
-	double score=0;
-	double ARROW_MAXSIZE =  0.8; // max size of arrow tip relative to main segment
-	double ARROW_ANGLE_MIN  = (5*Math.PI/180); // arrow tip angles relative to main segment
-	double ARROW_ANGLE_MAX = (50*Math.PI/180);
-	double ARROW_ASYMMETRY_MAX_ANGLE = (30*Math.PI/180);
-	double ARROW_ASYMMETRY_MAX_LINEAR =  1.0; // size imbalance of two legs of tip
-	double ARROW_TIP_LINEAR_TOLERANCE = 0.30; // gap tolerance on tip segments
-	double ARROW_SIDEWAYS_GAP_TOLERANCE = 0.25; // gap tolerance in lateral direction
-	double ARROW_MAIN_LINEAR_GAP_MIN = -0.3; // gap tolerance on main segment
-	double ARROW_MAIN_LINEAR_GAP_MAX = 0.7; // gap tolerance on main segment
-	int brk[];
-	int count = 0;
-	int recognizer_queue_length = 0;
-	int MAX_POLYGON_SIDES=4;
-	double LINE_MAX_DET=0.015;
-	double SLANT_TOLERANCE=5*Math.PI/180;
-	double RECTANGLE_ANGLE_TOLERANCE = 15*Math.PI/180;
-	double RECTANGLE_LINEAR_TOLERANCE = 0.20;
-	double POLYGON_LINEAR_TOLERANCE = 0.20;
-	Inertia a = null;
-	Inertia b = null;
-	Inertia c = null;
-	Inertia d = null;
-	RecoSegment reco_queue_a = new RecoSegment();
-	RecoSegment reco_queue_b = new RecoSegment();
-	RecoSegment reco_queue_c = new RecoSegment();
-	RecoSegment reco_queue_d = new RecoSegment();
-	RecoSegment reco_queue_e = new RecoSegment();
+	private int minX = Integer.MAX_VALUE, maxX = Integer.MIN_VALUE;
+	private double CIRCLE_MIN_DET=0.95;
+	private double CIRCLE_MAX_SCORE=0.10;
+	private double score=0;
+	private double ARROW_MAXSIZE =  0.8; // max size of arrow tip relative to main segment
+	private double ARROW_ANGLE_MIN  = (5*Math.PI/180); // arrow tip angles relative to main segment
+	private double ARROW_ANGLE_MAX = (50*Math.PI/180);
+	private double ARROW_ASYMMETRY_MAX_ANGLE = (30*Math.PI/180);
+	private double ARROW_ASYMMETRY_MAX_LINEAR =  1.0; // size imbalance of two legs of tip
+	private double ARROW_TIP_LINEAR_TOLERANCE = 0.30; // gap tolerance on tip segments
+	private double ARROW_SIDEWAYS_GAP_TOLERANCE = 0.25; // gap tolerance in lateral direction
+	private double ARROW_MAIN_LINEAR_GAP_MIN = -0.3; // gap tolerance on main segment
+	private double ARROW_MAIN_LINEAR_GAP_MAX = 0.7; // gap tolerance on main segment
+	private int brk[];
+	private int count = 0;
+	private int recognizer_queue_length = 0;
+	private int MAX_POLYGON_SIDES=4;
+	private double LINE_MAX_DET=0.015;
+	private double SLANT_TOLERANCE=5*Math.PI/180;
+	private double RECTANGLE_ANGLE_TOLERANCE = 15*Math.PI/180;
+	private double RECTANGLE_LINEAR_TOLERANCE = 0.20;
+	private double POLYGON_LINEAR_TOLERANCE = 0.20;
+	private Inertia a = null;
+	private Inertia b = null;
+	private Inertia c = null;
+	private Inertia d = null;
+	private RecoSegment reco_queue_a = new RecoSegment();
+	private RecoSegment reco_queue_b = new RecoSegment();
+	private RecoSegment reco_queue_c = new RecoSegment();
+	private RecoSegment reco_queue_d = new RecoSegment();
+	private RecoSegment reco_queue_e = new RecoSegment();
 	/**
      * String representation of slant movement.
      */
@@ -98,11 +99,11 @@ public class EuclidianPen {
      * String representation of gesture.
      */
     private StringBuffer gesture = new StringBuffer();
-    int deltaX = 0;
-    int deltaY = 0;
-    int absDeltaX = 0;
-    int absDeltaY = 0;
-    float absTangent = 0;
+    private int deltaX = 0;
+    private int deltaY = 0;
+    private int absDeltaX = 0;
+    private int absDeltaY = 0;
+    private float absTangent = 0;
 
 
 	private boolean erasing = false;
@@ -141,7 +142,7 @@ public class EuclidianPen {
 	private boolean freehand = false;
 	
 	// being used for Freehand Shape tool (not done yet)
-	private boolean recognizeShapes = false;
+	//private boolean recognizeShapes = false;
 
 	/************************************************
 	 * Construct EuclidianPen
@@ -285,18 +286,21 @@ public class EuclidianPen {
 	}
 
 	public void handleMouseReleasedForPenMode(AbstractEvent e) {
-
+		
 		if (freehand) {
-			mouseReleasedFreehand();
+			mouseReleasedFreehand(e);
+			penPoints.clear();
+
+			app.refreshViews(); // clear trace
 
 			return;
 		}
 
 		app.setDefaultCursor();
 
-		if (!erasing && recognizeShapes) {
-			checkShapes(e);
-		}
+		//if (!erasing && recognizeShapes) {
+		//	checkShapes(e);
+		//}
 		
 		// if (lastPenImage != null) penImage = lastPenImage.getImage();
 		// //app.getExternalImage(lastPenImage);
@@ -321,7 +325,7 @@ public class EuclidianPen {
 		}
 	}
 
-	private void checkShapes(AbstractEvent e) {
+	private GeoElement checkShapes(AbstractEvent e) {
 
 		String gesture = this.getGesture();
 		count = 0;
@@ -511,6 +515,8 @@ public class EuclidianPen {
 				line.setObjColor(penColor);
 				line.setLayer(1);
 				line.updateRepaint();
+				
+				return line;
 			}
 		}
 		if(this.I_det(s) > CIRCLE_MIN_DET)
@@ -518,9 +524,11 @@ public class EuclidianPen {
 			score=this.score_circle(0,penPoints.size()-1,s);
 			if(score<CIRCLE_MAX_SCORE)
 			{
-				this.makeACircle(this.center_x(s), this.center_y(s), this.I_rad(s));
+				return this.makeACircle(this.center_x(s), this.center_y(s), this.I_rad(s));
 			}
 		}		
+		
+		return null;
 	}
 
 	private void addPointsToPolyLine(ArrayList<Point> penPoints2) {
@@ -676,10 +684,53 @@ public class EuclidianPen {
 		return (AlgoPolyLine)al.getInput()[0].getParentAlgorithm();
 	}
 
-	@SuppressWarnings("unused")
-	private void mouseReleasedFreehand() {
+	private void mouseReleasedFreehand(AbstractEvent e) {
 		int n = maxX - minX + 1;
 		double[] freehand1 = new double[n];
+		
+		GeoElement shape = checkShapes(e);
+		
+		if (shape != null && shape.isGeoLine()) {
+			// lines take priority over functions
+			penPoints.clear();
+			return;
+		}
+		
+		// now check if it can be a function (increasing or decreasing x)
+		
+		double monotonicTest = 0;
+		
+		for (int i = 0; i < penPoints.size() - 1; i++) {
+
+			Point p1 = penPoints.get(i);
+			Point p2 = penPoints.get(i + 1);
+			
+			if (Math.signum(p2.x - p1.x) != 1) {
+				monotonicTest ++;
+			}
+			
+		}
+		
+		AbstractApplication.debug("mono"+monotonicTest + " "+monotonicTest/penPoints.size());
+		
+		monotonicTest = monotonicTest/penPoints.size();
+		
+		// allow 10% error
+		boolean monotonic = monotonicTest > 0.9 || monotonicTest < 0.1;
+		
+		if (!monotonic) {
+			// may or may not have recognized a shape eg circle in checkShapes() earlier
+			penPoints.clear();
+			return;
+		}
+		
+		// now definitely a function
+		
+		if (shape != null) {
+			shape.remove();
+		}
+		
+		
 
 		for (int i = 0; i < n; i++)
 			freehand1[i] = Double.NaN;
@@ -736,9 +787,6 @@ public class EuclidianPen {
 		fun.setObjColor(penColor);
 		fun.setLayer(1);
 		
-		penPoints.clear();
-
-		app.refreshViews(); // clear trace
 
 		minX = Integer.MAX_VALUE;
 		maxX = Integer.MIN_VALUE;
@@ -992,7 +1040,7 @@ public class EuclidianPen {
 		return Math.sqrt(ixx+iyy);
 	}
 	
-	private void makeACircle(double x, double y, double r)
+	private GeoConic makeACircle(double x, double y, double r)
 	{
 		temp = new ArrayList<Point>();
 		int npts, i=0;
@@ -1045,12 +1093,14 @@ public class EuclidianPen {
 	    GeoPoint2 z = new GeoPoint2(app.getKernel().getConstruction(), x3, y3, 1.0);
 		AlgoCircleThreePoints algo=new AlgoCircleThreePoints(app.getKernel().getConstruction() , equation, p1, q, z);
 		
-		GeoElement circle = algo.getGeoElements()[0];
+		GeoConic circle = (GeoConic) algo.getCircle();
 		circle.setLineThickness(penSize * 2);
 		circle.setLineType(penLineStyle);
 		circle.setObjColor(penColor);
 		circle.setLayer(1);
 		circle.updateRepaint();
+		
+		return circle;
 		
 	}
 	/**
@@ -1867,6 +1917,9 @@ public class EuclidianPen {
     		y_last = view.toRealWorldCoordY(points[2*i + 3]);
     		p =new GeoPoint2(cons, x_first, y_first, 1.0);
     		q =new GeoPoint2(cons, x_last, y_last, 1.0);
+    		
+    		// TODO: make GeoPolygon
+    		
     		algo = new AlgoJoinPointsSegment(cons, null, p, q);
     		GeoElement line = algo.getGeoElements()[0];
 			line.setLineThickness(penSize * 2);
@@ -1901,6 +1954,9 @@ public class EuclidianPen {
 
 	private class RecoSegment 
 	{
+		public RecoSegment() {
+			// TODO Auto-generated constructor stub
+		}
 		int startpt = 0, endpt = 0;
 		double xcenter = 0, ycenter = 0, angle = 0, radius = 0;
 		double x1 = 0, y1 = 0, x2 = 0, y2 = 0;
