@@ -7929,6 +7929,8 @@ public abstract class AbstractEuclidianController {
 		view.setHits(view.getSelectionRectangle());
 		Hits hits = view.getHits();
 	
+		boolean changedKernel = false;
+		
 		switch (mode) {
 		case EuclidianConstants.MODE_SELECTION_LISTENER:
 			break;
@@ -7959,7 +7961,7 @@ public abstract class AbstractEuclidianController {
 			removeParentPoints(hits);
 			selectedGeos.addAll(hits);
 			app.setSelectedGeos(hits);
-			processMode(hits, e);
+			changedKernel = processMode(hits, e);
 			view.setSelectionRectangle(null);
 			break;
 	
@@ -7970,7 +7972,7 @@ public abstract class AbstractEuclidianController {
 				if (hits.get(0).isGeoList()) {
 					selectedGeos.addAll(hits);
 					app.setSelectedGeos(hits);
-					processMode(hits, e);
+					changedKernel = processMode(hits, e);
 					view.setSelectionRectangle(null);
 					break;
 				}
@@ -7991,7 +7993,7 @@ public abstract class AbstractEuclidianController {
 				removeParentPoints(hits);
 				selectedGeos.addAll(hits);
 				app.setSelectedGeos(hits);
-				processMode(hits, e);
+				changedKernel = processMode(hits, e);
 				view.setSelectionRectangle(null);
 			}
 			break;
@@ -8022,6 +8024,10 @@ public abstract class AbstractEuclidianController {
 				textComponent.replaceSelection(sb.toString());
 			}
 			break;
+		}
+		
+		if (changedKernel) {
+			app.storeUndoInfo();
 		}
 	
 		kernel.notifyRepaint();
