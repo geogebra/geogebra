@@ -20,7 +20,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.MyBoolean;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.util.StringUtil;
-import geogebra.euclidian.EuclidianView;
+import geogebra.euclidian.EuclidianViewD;
 import geogebra.plugin.GgbAPI;
 import geogebra.util.Util;
 
@@ -61,7 +61,7 @@ public class AppletImplementation implements AppletImplementationInterface {
 	protected Kernel kernel;
 	private JButton btOpen;
 	private DoubleClickListener dcListener;
-	private EuclidianView ev;
+	private EuclidianViewD ev;
 	public boolean undoActive;
 	public boolean showToolBar, showToolBarHelp, showAlgebraInput,
 			allowStyleBar;

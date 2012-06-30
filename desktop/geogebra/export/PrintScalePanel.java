@@ -1,6 +1,6 @@
 package geogebra.export;
 
-import geogebra.common.euclidian.AbstractEuclidianView;
+import geogebra.common.euclidian.EuclidianView;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.main.Application;
 
@@ -31,11 +31,11 @@ public class PrintScalePanel extends JPanel {
 	
 	private JTextField tfScale1, tfScale2;
 	private Vector<ActionListener> listeners = new Vector<ActionListener>();
-	private AbstractEuclidianView ev;	
+	private EuclidianView ev;	
 	private NumberFormat nf;
 	private ActionListener al; 
 
-	public PrintScalePanel(Application app, AbstractEuclidianView ev) {		
+	public PrintScalePanel(Application app, EuclidianView ev) {		
 		this.ev = ev;		
 		
 		nf = NumberFormat.getInstance(Locale.ENGLISH);

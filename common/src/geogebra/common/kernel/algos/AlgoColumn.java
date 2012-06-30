@@ -13,7 +13,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.algos;
 
 
-import geogebra.common.awt.Point;
+import geogebra.common.awt.GPoint;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -62,7 +62,7 @@ public class AlgoColumn extends AlgoElement {
     // calc the current value of the arithmetic tree
     @Override
 	public final void compute() {    	
-    	Point p = geo.getSpreadsheetCoords();
+    	GPoint p = geo.getSpreadsheetCoords();
     	if (p != null) num.setValue(p.x + 1);
     	else num.setUndefined();
     }         

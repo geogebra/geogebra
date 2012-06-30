@@ -1,6 +1,6 @@
 package geogebra.common.kernel.geos;
 
-import geogebra.common.awt.Point;
+import geogebra.common.awt.GPoint;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.FunctionalNVar;
@@ -74,12 +74,12 @@ public class GeoElementSpreadsheet {
 	 *            given cell name
 	 * @return coordinates of spreadsheet cell
 	 */
-	public static Point spreadsheetIndices(String cellName) {
+	public static GPoint spreadsheetIndices(String cellName) {
 
 		MatchResult matcher = spreadsheetPattern.exec(cellName);
 
 		// return (-1,-1) if not a spreadsheet cell name
-		return new Point(getSpreadsheetColumn(matcher),
+		return new GPoint(getSpreadsheetColumn(matcher),
 				getSpreadsheetRow(matcher));
 	}
 
@@ -140,10 +140,10 @@ public class GeoElementSpreadsheet {
 	 *            label of spredsheet cell
 	 * @return null for non-spreadsheet names
 	 */
-	public static Point getSpreadsheetCoordsForLabel(String inputLabel) {
+	public static GPoint getSpreadsheetCoordsForLabel(String inputLabel) {
 		// we need to also support wrapped GeoElements like
 		// $A4 that are implemented as dependent geos (using ExpressionNode)
-		Point p = spreadsheetIndices(inputLabel);
+		GPoint p = spreadsheetIndices(inputLabel);
 		if (p.x >= 0 && p.y >= 0) {
 			return p;
 		}

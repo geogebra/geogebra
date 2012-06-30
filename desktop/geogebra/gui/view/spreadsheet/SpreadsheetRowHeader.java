@@ -1,7 +1,7 @@
 package geogebra.gui.view.spreadsheet;
 
 
-import geogebra.common.awt.Point;
+import geogebra.common.awt.GPoint;
 import geogebra.common.main.AbstractApplication;
 import geogebra.main.Application;
 
@@ -184,7 +184,7 @@ implements MouseListener, MouseMotionListener, KeyListener, ListSelectionListene
 	// near a row boundary (within 3 pixels) 
 	private int getResizingRow(java.awt.Point p){ 
 		int resizeRow = -1;
-		Point point = table.getIndexFromPixel(p.x, p.y);
+		GPoint point = table.getIndexFromPixel(p.x, p.y);
 		if (point != null) {
 			// test if mouse is 3 pixels from row boundary
 			int cellRow = (int) point.getY();
@@ -256,7 +256,7 @@ implements MouseListener, MouseMotionListener, KeyListener, ListSelectionListene
 			
 			if(resizingRow >=0) return; //GSTURR 2010-1-9
 			
-			Point point = table.getIndexFromPixel(x, y);
+			GPoint point = table.getIndexFromPixel(x, y);
 			if (point != null) {
 				//G.STURR 2010-1-29
 				if(table.getSelectionType() != table.ROW_SELECT){
@@ -293,7 +293,7 @@ implements MouseListener, MouseMotionListener, KeyListener, ListSelectionListene
 			if (!app.letShowPopupMenu()) return; 
 
 
-			Point p = table.getIndexFromPixel(e.getX(), e.getY());
+			GPoint p = table.getIndexFromPixel(e.getX(), e.getY());
 			if (p == null) return;
 
 			// if click is outside current selection then change selection
@@ -354,7 +354,7 @@ implements MouseListener, MouseMotionListener, KeyListener, ListSelectionListene
 			}
 
 		} else { // select row
-			Point point = table.getIndexFromPixel(x, y);
+			GPoint point = table.getIndexFromPixel(x, y);
 			if (point != null) {
 				int row = (int) point.getY();
 				table.setRowSelectionInterval(row0, row);

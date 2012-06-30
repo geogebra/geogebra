@@ -1,9 +1,9 @@
 package geogebra.common.euclidian;
 
-import geogebra.common.awt.Color;
+import geogebra.common.awt.GColor;
 import geogebra.common.awt.Graphics2D;
-import geogebra.common.awt.Point;
-import geogebra.common.awt.Shape;
+import geogebra.common.awt.GPoint;
+import geogebra.common.awt.GShape;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
@@ -30,12 +30,12 @@ import java.util.Iterator;
 public class EuclidianPen {
 
 	private AbstractApplication app;
-	private AbstractEuclidianView view;
+	private EuclidianView view;
 
 	private boolean penUsingOffsets = false;
 	private AlgoElement lastAlgo = null;
-	private ArrayList<Point> penPoints = new ArrayList<Point>();
-	private ArrayList<Point> temp = null;
+	private ArrayList<GPoint> penPoints = new ArrayList<GPoint>();
+	private ArrayList<GPoint> temp = null;
 	private int minX = Integer.MAX_VALUE, maxX = Integer.MIN_VALUE;
 	private double CIRCLE_MIN_DET=0.95;
 	private double CIRCLE_MAX_SCORE=0.10;
@@ -94,7 +94,7 @@ public class EuclidianPen {
      * Grid size. Default is 30.
      */
     private int gridSize = 15;
-    private Point startPoint = null;
+    private GPoint startPoint = null;
     /**
      * String representation of gesture.
      */
@@ -126,17 +126,17 @@ public class EuclidianPen {
 		this.penLineStyle = penLineStyle;
 	}
 
-	public Color getPenColor() {
+	public GColor getPenColor() {
 		return penColor;
 	}
 	
-	public geogebra.common.awt.Color getPenColorCommon() {
+	public geogebra.common.awt.GColor getPenColorCommon() {
 		return penColor;
 	}
 
 	private int eraserSize;
 	private int penLineStyle;
-	private Color penColor;
+	private GColor penColor;
 	
 	// being used for Freehand Function tool
 	private boolean freehand = false;
@@ -147,7 +147,7 @@ public class EuclidianPen {
 	/************************************************
 	 * Construct EuclidianPen
 	 */
-	public EuclidianPen(AbstractApplication app, AbstractEuclidianView view) {
+	public EuclidianPen(AbstractApplication app, EuclidianView view) {
 		this.view = view;
 		this.app = app;
 
@@ -162,7 +162,7 @@ public class EuclidianPen {
 		penSize = 3;
 		eraserSize = 16;
 		penLineStyle = EuclidianStyleConstants.LINE_TYPE_FULL;
-		penColor = Color.black;
+		penColor = GColor.black;
 	}
 
 	public boolean isErasing() {
@@ -217,11 +217,11 @@ public class EuclidianPen {
 
 		// if (g2D == null) g2D = penImage.createGraphics();
 
-		Point newPoint = new Point(e.getX(), e.getY());
+		GPoint newPoint = new GPoint(e.getX(), e.getY());
 		Graphics2D g2D = view.getGraphicsForPen();
-		Shape circle;
+		GShape circle;
 		if (app.isRightClick(e) && !freehand) {
-			g2D.setColor(Color.white);
+			g2D.setColor(GColor.white);
 			circle = geogebra.common.factories.AwtFactory.prototype.newEllipse2DFloat(e.getX() - eraserSize, e.getY()
 					- eraserSize, eraserSize * 2, eraserSize * 2);
 		} else {
@@ -240,11 +240,11 @@ public class EuclidianPen {
 		if (penPoints.size() == 0)
 			penPoints.add(newPoint);
 		else {
-			Point lastPoint = penPoints.get(penPoints.size() - 1);
+			GPoint lastPoint = penPoints.get(penPoints.size() - 1);
 			if (lastPoint.distance(newPoint) > 3)
 				penPoints.add(newPoint);
 		}
-		Point point  = e.getPoint();
+		GPoint point  = e.getPoint();
 		if (startPoint == null)
 			startPoint = e.getPoint();
 		deltaX = getDeltaX(startPoint, point);
@@ -335,7 +335,7 @@ public class EuclidianPen {
 		count = 0;
 		AbstractApplication.debug(gesture);
 		this.clearTemporaryInfo();
-		Point newPoint = new Point(e.getX(), e.getY());
+		GPoint newPoint = new GPoint(e.getX(), e.getY());
 		penPoints.add(newPoint);
 		//AbstractApplication.debug(penPoints);
 		//if recognize_shape option is checked
@@ -535,7 +535,7 @@ public class EuclidianPen {
 		return null;
 	}
 
-	private void addPointsToPolyLine(ArrayList<Point> penPoints2) {
+	private void addPointsToPolyLine(ArrayList<GPoint> penPoints2) {
 		
 		Construction cons = app.getKernel().getConstruction();
 		//GeoList newPts;// = new GeoList(cons);
@@ -557,10 +557,10 @@ public class EuclidianPen {
 				
 				// check if each point is inside eraser
 				
-		    	Iterator<geogebra.common.awt.Point> it = penPoints2.iterator();
+		    	Iterator<geogebra.common.awt.GPoint> it = penPoints2.iterator();
 		    	boolean erase = false;
 		    	while (it.hasNext() && !erase) {
-		    		Point p = it.next();
+		    		GPoint p = it.next();
 		    		if (p.distance(view.toScreenCoordXd(pts[i].inhomX), view.toScreenCoordYd(pts[i].inhomY)) < eraserSize) {
 		    			erase = true;
 		    		}		    			    		
@@ -598,9 +598,9 @@ public class EuclidianPen {
 				
 			}
 			
-	    	Iterator<geogebra.common.awt.Point> it = penPoints2.iterator();
+	    	Iterator<geogebra.common.awt.GPoint> it = penPoints2.iterator();
 	    	while (it.hasNext()) {
-	    		Point p = it.next();
+	    		GPoint p = it.next();
 	    		//newPts.add(new GeoPoint2(cons, view.toRealWorldCoordX(p.getX()), view.toRealWorldCoordY(p.getY()), 1));
 	    		newPts[offset++] = new GeoPoint2(cons, view.toRealWorldCoordX(p.getX()), view.toRealWorldCoordY(p.getY()), 1);
 			}
@@ -706,8 +706,8 @@ public class EuclidianPen {
 		
 		for (int i = 0; i < penPoints.size() - 1; i++) {
 
-			Point p1 = penPoints.get(i);
-			Point p2 = penPoints.get(i + 1);
+			GPoint p1 = penPoints.get(i);
+			GPoint p2 = penPoints.get(i + 1);
 			
 			if (Math.signum(p2.x - p1.x) != 1) {
 				monotonicTest ++;
@@ -741,7 +741,7 @@ public class EuclidianPen {
 		}
 
 		for (int i = 0; i < penPoints.size(); i++) {
-			Point p = penPoints.get(i);
+			GPoint p = penPoints.get(i);
 			if (Double.isNaN(freehand1[p.x - minX])) {
 				freehand1[p.x - minX] = view.toRealWorldCoordY(p.y);
 			}
@@ -1047,15 +1047,15 @@ public class EuclidianPen {
 	
 	private GeoConic makeACircle(double x, double y, double r)
 	{
-		temp = new ArrayList<Point>();
+		temp = new ArrayList<GPoint>();
 		int npts, i=0;
 		npts = (int)(2*r);
 		if (npts<12) 
 			npts = 12;
-		Point p;
+		GPoint p;
 		for(i=0; i<=npts; i++)
 		{			
-			p = new Point();
+			p = new GPoint();
 			p.x = (int) (x + r*Math.cos((2*i*Math.PI)/npts));
 			p.y = (int) (y + r*Math.sin((2*i*Math.PI)/npts));
 			temp.add(p);
@@ -1115,7 +1115,7 @@ public class EuclidianPen {
      * @param point Second point
      * @return Delta x
      */
-    private static int getDeltaX(Point startPoint2, Point point)
+    private static int getDeltaX(GPoint startPoint2, GPoint point)
     {
         return point.x - startPoint2.x;
     }
@@ -1127,7 +1127,7 @@ public class EuclidianPen {
      * @param point Second point
      * @return Delta y
      */
-    private static int getDeltaY(Point startPoint2, Point point) 
+    private static int getDeltaY(GPoint startPoint2, GPoint point) 
     {
         return point.y - startPoint2.y;
     }
@@ -1945,7 +1945,7 @@ public class EuclidianPen {
     	pt[1] = r1.ycenter + t*Math.sin(r1.angle);
     }
 
-	public void setPenColor(geogebra.common.awt.Color color) {
+	public void setPenColor(geogebra.common.awt.GColor color) {
 		this.penColor = color;
 		
 	}

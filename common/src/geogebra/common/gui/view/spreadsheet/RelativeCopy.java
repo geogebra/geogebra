@@ -1,6 +1,6 @@
 package geogebra.common.gui.view.spreadsheet;
 
-import geogebra.common.awt.Point;
+import geogebra.common.awt.GPoint;
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
@@ -289,7 +289,7 @@ public class RelativeCopy {
 			while (iterator.hasNext()) {
 				GeoElement geo = (iterator.next());
 				if (geo != null) {
-					Point p = geo.getSpreadsheetCoords();
+					GPoint p = geo.getSpreadsheetCoords();
 					doCopyNoStoringUndoInfo0(kernel, app, geo,
 							getValue(app, p.x, dy1 + iy), 0, y - sy);
 					// Application.debug(p.x+"");
@@ -335,7 +335,7 @@ public class RelativeCopy {
 				GeoElement geo = (iterator.next());
 
 				if (geo != null) {
-					Point p = geo.getSpreadsheetCoords();
+					GPoint p = geo.getSpreadsheetCoords();
 					doCopyNoStoringUndoInfo0(kernel, app, geo,
 							getValue(app, dx1 + ix, p.y), x - sx, 0);
 					// Application.debug(p.y+"");

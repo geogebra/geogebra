@@ -12,9 +12,9 @@ the Free Software Foundation.
 
 package geogebra.common.euclidian;
 
-import geogebra.common.awt.Point;
-import geogebra.common.awt.Point2D;
-import geogebra.common.awt.Shape;
+import geogebra.common.awt.GPoint;
+import geogebra.common.awt.GPoint2D;
+import geogebra.common.awt.GShape;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
@@ -110,7 +110,7 @@ public class DrawParametricCurve extends Drawable {
 	 * @param curve
 	 *            Curve to be drawn
 	 */
-	public DrawParametricCurve(AbstractEuclidianView view, ParametricCurve curve) {
+	public DrawParametricCurve(EuclidianView view, ParametricCurve curve) {
 		this.view = view;
 		hitThreshold = view.getCapturingThreshold();
 		this.curve = curve;
@@ -143,12 +143,12 @@ public class DrawParametricCurve extends Drawable {
 			if (max > maxView)
 				max = maxView;
 		}
-		Point labelPoint;
+		GPoint labelPoint;
 		if (Kernel.isEqual(min, max)) {
 			double[] eval = new double[2];
 			curve.evaluateCurve(min, eval);
 			view.toScreenCoords(eval);
-			labelPoint = new Point((int) eval[0], (int) eval[1]);
+			labelPoint = new GPoint((int) eval[0], (int) eval[1]);
 		} else {
 			labelPoint = plotCurve(curve, min, max, view, gp, labelVisible,
 					fillCurve ? Gap.LINE_TO : Gap.MOVE_TO);
@@ -234,8 +234,8 @@ public class DrawParametricCurve extends Drawable {
 	 * @return label position as Point
 	 * @author Markus Hohenwarter, based on an algorithm by John Gillam
 	 */
-	final public static Point plotCurve(ParametricCurve curve, double t1,
-			double t2, AbstractEuclidianView view, GeneralPathClipped gp,
+	final public static GPoint plotCurve(ParametricCurve curve, double t1,
+			double t2, EuclidianView view, GeneralPathClipped gp,
 			boolean calcLabelPos, Gap moveToAllowed) {
 
 		countPoints = 0;
@@ -247,7 +247,7 @@ public class DrawParametricCurve extends Drawable {
 		// ensure MIN_PLOT_POINTS
 		double max_param_step = Math.abs(t2 - t1) / MIN_SAMPLE_POINTS;
 		// plot Interval [t1, t2]
-		Point labelPoint = plotInterval(curve, t1, t2, 0, max_param_step, view,
+		GPoint labelPoint = plotInterval(curve, t1, t2, 0, max_param_step, view,
 				gp, calcLabelPos, moveToAllowed);
 
 		// System.out.println(" plot points: " + countPoints + ", evaluations: "
@@ -288,9 +288,9 @@ public class DrawParametricCurve extends Drawable {
 	 * @return label position as Point
 	 * @author Markus Hohenwarter, based on an algori5thm by John Gillam
 	 */
-	private static Point plotInterval(ParametricCurve curve, double t1,
+	private static GPoint plotInterval(ParametricCurve curve, double t1,
 			double t2, int intervalDepth, double max_param_step,
-			AbstractEuclidianView view, GeneralPathClipped gp, boolean calcLabelPos,
+			EuclidianView view, GeneralPathClipped gp, boolean calcLabelPos,
 			Gap moveToAllowed) {
 		// plot interval for t in [t1, t2]
 		// If we run into a problem, i.e. an undefined point f(t), we bisect
@@ -299,7 +299,7 @@ public class DrawParametricCurve extends Drawable {
 		// see catch block
 
 		boolean needLabelPos = calcLabelPos;
-		Point labelPoint = null;
+		GPoint labelPoint = null;
 
 		// The following algorithm by John Gillam avoids multiple
 		// evaluations of the curve for the same parameter value t
@@ -540,7 +540,7 @@ public class DrawParametricCurve extends Drawable {
 				else if (yLabel > view.getHeight() - 30)
 					yLabel = view.getHeight() - 5;
 
-				labelPoint = new Point((int) xLabel, (int) yLabel);
+				labelPoint = new GPoint((int) xLabel, (int) yLabel);
 				needLabelPos = false;
 			}
 
@@ -679,7 +679,7 @@ public class DrawParametricCurve extends Drawable {
 	 * Performs a quick test whether the segment (x1, y1) to (x2, y2) is off
 	 * screen.
 	 */
-	private static boolean isSegmentOffScreen(AbstractEuclidianView view, double x1,
+	private static boolean isSegmentOffScreen(EuclidianView view, double x1,
 			double y1, double x2, double y2) {
 		// top;
 		if (y1 < -EuclidianStatic.CLIP_DISTANCE
@@ -737,17 +737,17 @@ public class DrawParametricCurve extends Drawable {
 	/**
 	 * Plots an interval where f(t1) or f(t2) is undefined.
 	 */
-	private static Point plotProblemInterval(ParametricCurve curve, double t1,
+	private static GPoint plotProblemInterval(ParametricCurve curve, double t1,
 			double t2, int intervalDepth, double max_param_step,
-			AbstractEuclidianView view, GeneralPathClipped gp, boolean calcLabelPos,
-			Gap moveToAllowed, Point labelPoint) {
+			EuclidianView view, GeneralPathClipped gp, boolean calcLabelPos,
+			Gap moveToAllowed, GPoint labelPoint) {
 		boolean calcLabel = calcLabelPos;
 		// stop recursion for too many intervals
 		if (intervalDepth > MAX_PROBLEM_BISECTIONS || t1 == t2) {
 			return labelPoint;
 		}
 
-		Point labelPoint1, labelPoint2;
+		GPoint labelPoint1, labelPoint2;
 
 		// plot interval for t in [t1, t2]
 		// If we run into a problem, i.e. an undefined point f(t), we bisect
@@ -881,7 +881,7 @@ public class DrawParametricCurve extends Drawable {
 	 */
 	private static void drawTo(GeneralPathClipped gp, double x, double y,
 			boolean lineTo) {
-		Point2D point = gp.getCurrentPoint();
+		GPoint2D point = gp.getCurrentPoint();
 
 		// no points in path yet
 		if (point == null) {
@@ -1036,7 +1036,7 @@ public class DrawParametricCurve extends Drawable {
 	@Override
 	final public boolean hit(int x, int y) {
 		if (isVisible) {
-			Shape t = geo.isInverseFill() ? getShape() : gp;
+			GShape t = geo.isInverseFill() ? getShape() : gp;
 			if (strokedShape == null) {
 				//strokedShape = new geogebra.awt.GenericShape(geogebra.awt.BasicStroke.getAwtStroke(objStroke).createStrokedShape(geogebra.awt.GenericShape.getAwtShape(gp)));
 				strokedShape = objStroke.createStrokedShape(gp);

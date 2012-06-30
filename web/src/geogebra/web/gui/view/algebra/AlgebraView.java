@@ -12,7 +12,7 @@ the Free Software Foundation.
 
 package geogebra.web.gui.view.algebra;
 
-import geogebra.common.awt.Font;
+import geogebra.common.awt.GFont;
 import geogebra.common.gui.SetLabels;
 import geogebra.common.gui.view.algebra.AbstractAlgebraController;
 import geogebra.common.kernel.Kernel;
@@ -20,7 +20,7 @@ import geogebra.common.kernel.LayerView;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
-import geogebra.web.euclidian.EuclidianView;
+import geogebra.web.euclidian.EuclidianViewW;
 import geogebra.web.main.Application;
 
 import java.util.HashMap;
@@ -273,7 +273,7 @@ public class AlgebraView extends Tree implements LayerView, SetLabels, geogebra.
 	}
 
 	public void updateFonts() {
-		Font font = app.getPlainFontCommon();
+		GFont font = app.getPlainFontCommon();
 		getStyleElement().getStyle().setFontStyle(Style.FontStyle.valueOf(font.isItalic()?"ITALIC":"NORMAL"));
 		getStyleElement().getStyle().setFontSize(font.getSize(), Style.Unit.PX);
 		getStyleElement().getStyle().setFontWeight(Style.FontWeight.valueOf(font.isBold()?"BOLD":"NORMAL"));
@@ -878,7 +878,7 @@ public class AlgebraView extends Tree implements LayerView, SetLabels, geogebra.
 	/**
 	 * updates node of GeoElement geo (needed for highlighting)
 	 * 
-	 * @see EuclidianView#setHighlighted()
+	 * @see EuclidianViewW#setHighlighted()
 	 */
 	 public void update(GeoElement geo) {
 		TreeItem node = nodeTable.get(geo);

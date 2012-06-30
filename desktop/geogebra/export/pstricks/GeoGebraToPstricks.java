@@ -7,7 +7,7 @@ the Free Software Foundation.
  */
 
 package geogebra.export.pstricks;
-import geogebra.awt.Color;
+import geogebra.awt.GColorD;
 import geogebra.common.euclidian.DrawPoint;
 import geogebra.common.euclidian.DrawableND;
 import geogebra.common.kernel.Kernel;
@@ -99,7 +99,7 @@ public class GeoGebraToPstricks extends GeoGebraExport {
     	codeFilledObject=new StringBuilder();
 		codeBeginDoc=new StringBuilder();
 		codeBeginPic=new StringBuilder();
-		CustomColor=new HashMap<geogebra.common.awt.Color,String>();
+		CustomColor=new HashMap<geogebra.common.awt.GColor,String>();
  		if (format==GeoGebraToPstricks.FORMAT_BEAMER){
  	    	codePreamble.append("\\documentclass[" +
  	    			frame.getFontSize()+"pt]{beamer}\n");
@@ -445,20 +445,20 @@ public class GeoGebraToPstricks extends GeoGebraExport {
     	float xLabelHor = (x + xright) /2;
         float yLabelHor = y -(float)(
         		(euclidianView.getFont().getSize() + 2)/euclidianView.getYscale());
-		Color geocolor=((geogebra.awt.Color) geo.getObjectColor());
+		GColorD geocolor=((geogebra.awt.GColorD) geo.getObjectColor());
 		startBeamer(codePoint);
 		codePoint.append("\\rput[bl](");
 		codePoint.append(format(xLabelHor));
 		codePoint.append(",");
 		codePoint.append(format(yLabelHor));
 		codePoint.append("){");
-		if (!geocolor.equals(Color.BLACK)){
+		if (!geocolor.equals(GColorD.BLACK)){
 			codePoint.append("\\");
 			ColorCode(geocolor,codePoint);
 			codePoint.append("{");
 		}
 		codePoint.append(slopeTriangleSize);
-		if (!geocolor.equals(Color.BLACK)){
+		if (!geocolor.equals(GColorD.BLACK)){
 			codePoint.append("}");
 		}
 		codePoint.append("}\n");	
@@ -813,7 +813,7 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 			st=st.replaceAll("\\u20ac", "\\\\euro{}");
 			if (!eurosym) codePreamble.append("\\usepackage{eurosym}\n");
 		}
-		Color geocolor=((geogebra.awt.Color) geo.getObjectColor());
+		GColorD geocolor=((geogebra.awt.GColorD) geo.getObjectColor());
 		int style=geo.getFontStyle();
 		int size=geo.getFontSize()+app.getGUIFontSize();
 		GeoPoint2 gp;
@@ -883,7 +883,7 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 		double startAngle=geo.getParameterStart();
 		double endAngle=geo.getParameterEnd();
 		// Get all coefficients form the transform matrix
-		AffineTransform af=geogebra.awt.AffineTransform.getAwtAffineTransform((geogebra.awt.AffineTransform)geo.getAffineTransform());
+		AffineTransform af=geogebra.awt.GAffineTransformD.getAwtAffineTransform((geogebra.awt.GAffineTransformD)geo.getAffineTransform());
 		double m11=af.getScaleX();
 		double m22=af.getScaleY();
 		double m12=af.getShearX();
@@ -1177,7 +1177,7 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 			// if conic is an ellipse
 			case GeoConicNDConstants.CONIC_ELLIPSE:
 //	command:  \rput{angle}(x_center,y_center){\psellipse(0,0)(20.81,-10.81)}
-				AffineTransform at=geogebra.awt.AffineTransform.getAwtAffineTransform((geogebra.awt.AffineTransform)geo.getAffineTransform());
+				AffineTransform at=geogebra.awt.GAffineTransformD.getAwtAffineTransform((geogebra.awt.GAffineTransformD)geo.getAffineTransform());
 				double eigenvecX=at.getScaleX();
 				double eigenvecY=at.getShearY();
 				double x1=geo.getTranslationVector().getX();
@@ -1208,7 +1208,7 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 				
 				// parameter of the parabola
 				double p=geo.p;
-				at=geogebra.awt.AffineTransform.getAwtAffineTransform((geogebra.awt.AffineTransform)geo.getAffineTransform());
+				at=geogebra.awt.GAffineTransformD.getAwtAffineTransform((geogebra.awt.GAffineTransformD)geo.getAffineTransform());
 				// first eigenvec
 				eigenvecX=at.getScaleX();
 				eigenvecY=at.getShearY();
@@ -1260,7 +1260,7 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 			break;
 			case GeoConicNDConstants.CONIC_HYPERBOLA:
 // command: \rput{angle_rotation}(x_origin,y_origin){\parametric{-1}{1}{a(1+t^2)/(1-t^2)|2bt/(1-t^2)}
-				at=geogebra.awt.AffineTransform.getAwtAffineTransform((geogebra.awt.AffineTransform)geo.getAffineTransform());
+				at=geogebra.awt.GAffineTransformD.getAwtAffineTransform((geogebra.awt.GAffineTransformD)geo.getAffineTransform());
 				eigenvecX=at.getScaleX();
 				eigenvecY=at.getShearY();
 				x1=geo.getTranslationVector().getX();
@@ -1557,20 +1557,20 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 				xLabel=euclidianView.toRealWorldCoordX(Math.round(xLabel));
 				yLabel=euclidianView.toRealWorldCoordY(Math.round(yLabel));
 				
-				Color geocolor=((geogebra.awt.Color) geo.getObjectColor());
+				GColorD geocolor=((geogebra.awt.GColorD) geo.getObjectColor());
 				startBeamer(codePoint);
 				codePoint.append("\\rput[bl](");
 				codePoint.append(format(xLabel));
 				codePoint.append(",");
 				codePoint.append(format(yLabel));
 				codePoint.append("){");
-				if (!geocolor.equals(Color.BLACK)){
+				if (!geocolor.equals(GColorD.BLACK)){
 					codePoint.append("\\");
 					ColorCode(geocolor,codePoint);
 					codePoint.append("{");
 				}
 				codePoint.append(name);
-				if (!geocolor.equals(Color.BLACK)){
+				if (!geocolor.equals(GColorD.BLACK)){
 					codePoint.append("}");
 				}
 				codePoint.append("}\n");
@@ -1586,7 +1586,7 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 	
     // Draw the grid 
 	private void drawGrid(){
-		geogebra.common.awt.Color GridCol=euclidianView.getGridColor();
+		geogebra.common.awt.GColor GridCol=euclidianView.getGridColor();
 		double[] GridDist=euclidianView.getGridDistances();
 //		int GridLine=euclidianView.getGridLineStyle();
 
@@ -1679,7 +1679,7 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 		codeBeginPic.append("\n");
 	}
 	private void PointOptionCode(GeoPoint2 geo){
-		Color dotcolor=((geogebra.awt.Color) geo.getObjectColor());
+		GColorD dotcolor=((geogebra.awt.GColorD) geo.getObjectColor());
 		int dotsize=geo.getPointSize();
 		int dotstyle=geo.getPointStyle();
 		if (dotstyle == -1) { // default
@@ -1736,7 +1736,7 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 			break;
 			}
 		}
-		if (!dotcolor.equals(Color.BLACK)){
+		if (!dotcolor.equals(GColorD.BLACK)){
 			if (coma) codePoint.append(",");
 			if (!bracket) codePoint.append("[");
 			bracket=true;
@@ -1750,7 +1750,7 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 	}
 	private String LineOptionCode(GeoElement geo,boolean transparency){
 		StringBuilder sb=new StringBuilder(); 
-		Color linecolor=((geogebra.awt.Color) geo.getObjectColor());
+		GColorD linecolor=((geogebra.awt.GColorD) geo.getObjectColor());
 		int linethickness=geo.getLineThickness();
 		int linestyle=geo.getLineType();
 
@@ -1772,7 +1772,7 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 		bracket=true;
 		LinestyleCode(linestyle,sb);
 	}
-	if (!linecolor.equals(Color.BLACK)){
+	if (!linecolor.equals(GColorD.BLACK)){
 		if (coma) sb.append(",");
 		else coma=true;
 		if (!bracket) sb.append("[");
@@ -1858,14 +1858,14 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 		}
 	}
 	// Append the name color to StringBuilder sb 
-	protected void ColorCode(geogebra.common.awt.Color c,StringBuilder sb){
+	protected void ColorCode(geogebra.common.awt.GColor c,StringBuilder sb){
 		if (frame.isGrayscale()){
 			String colorname="";
 			int red=c.getRed();
 			int green=c.getGreen();
 			int blue=c.getBlue();
 			int grayscale=(red+green+blue)/3;
-			c=new Color(grayscale,grayscale,grayscale);
+			c=new GColorD(grayscale,grayscale,grayscale);
 			if (CustomColor.containsKey(c)){
 				colorname=CustomColor.get(c).toString();
 			}
@@ -1877,26 +1877,26 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 					+format(grayscale/255d)+"}\n");
 				CustomColor.put(c,colorname);
 			}
-			if (c.equals(Color.BLACK)) sb.append("black");
-			else if (c.equals(Color.DARK_GRAY)) sb.append("darkgray");
-			else if (c.equals(Color.GRAY)) sb.append("gray");
-			else if (c.equals(Color.LIGHT_GRAY)) sb.append("lightgray");
-			else if (c.equals(Color.WHITE)) sb.append("white");
+			if (c.equals(GColorD.BLACK)) sb.append("black");
+			else if (c.equals(GColorD.DARK_GRAY)) sb.append("darkgray");
+			else if (c.equals(GColorD.GRAY)) sb.append("gray");
+			else if (c.equals(GColorD.LIGHT_GRAY)) sb.append("lightgray");
+			else if (c.equals(GColorD.WHITE)) sb.append("white");
 			else sb.append(colorname);
 		}
 		else {
 			//	final String suffix="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-			if (c.equals(Color.BLACK)) sb.append("black");
-			else if (c.equals(Color.DARK_GRAY)) sb.append("darkgray");
-			else if (c.equals(Color.GRAY)) sb.append("gray");
-			else if (c.equals(Color.LIGHT_GRAY)) sb.append("lightgray");
-			else if (c.equals(Color.WHITE)) sb.append("white");
-			else if (c.equals(Color.RED)) sb.append("red");
-			else if (c.equals(Color.GREEN)) sb.append("green");
-			else if (c.equals(Color.BLUE)) sb.append("blue");
-			else if (c.equals(Color.CYAN)) sb.append("cyan");
-			else if (c.equals(Color.MAGENTA)) sb.append("magenta");
-			else if (c.equals(Color.YELLOW)) sb.append("yellow");
+			if (c.equals(GColorD.BLACK)) sb.append("black");
+			else if (c.equals(GColorD.DARK_GRAY)) sb.append("darkgray");
+			else if (c.equals(GColorD.GRAY)) sb.append("gray");
+			else if (c.equals(GColorD.LIGHT_GRAY)) sb.append("lightgray");
+			else if (c.equals(GColorD.WHITE)) sb.append("white");
+			else if (c.equals(GColorD.RED)) sb.append("red");
+			else if (c.equals(GColorD.GREEN)) sb.append("green");
+			else if (c.equals(GColorD.BLUE)) sb.append("blue");
+			else if (c.equals(GColorD.CYAN)) sb.append("cyan");
+			else if (c.equals(GColorD.MAGENTA)) sb.append("magenta");
+			else if (c.equals(GColorD.YELLOW)) sb.append("yellow");
 			else {
 				String colorname="";
 				if (CustomColor.containsKey(c)){
@@ -1976,7 +1976,7 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 		transparency=true;
 	}
 	*/
-	private void addText(String st,boolean isLatex,int style,int size,Color geocolor){
+	private void addText(String st,boolean isLatex,int style,int size,GColorD geocolor){
 		if (isLatex)code.append("$");
 		// Replace all backslash symbol with \textbackslash
 		else {
@@ -1996,7 +1996,7 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 				else code.append("\\textit{\\textbf{");
 			break;
 		}
-		if (!geocolor.equals(Color.BLACK)){
+		if (!geocolor.equals(GColorD.BLACK)){
 			code.append("\\");
 			ColorCode(geocolor,code);
 			code.append("{");
@@ -2008,7 +2008,7 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 		}*/
 		code.append(st);
 //		if (size!=app.getFontSize()) code.append("}");
-		if (!geocolor.equals(Color.BLACK)){
+		if (!geocolor.equals(GColorD.BLACK)){
 			code.append("}");
 		}
 		switch(style){

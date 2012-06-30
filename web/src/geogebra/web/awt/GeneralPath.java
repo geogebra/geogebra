@@ -1,19 +1,19 @@
 package geogebra.web.awt;
 
-import geogebra.common.awt.AffineTransform;
-import geogebra.common.awt.PathIterator;
-import geogebra.common.awt.Point2D;
+import geogebra.common.awt.GAffineTransform;
+import geogebra.common.awt.GPathIterator;
+import geogebra.common.awt.GPoint2D;
 import geogebra.common.awt.Rectangle;
-import geogebra.common.awt.Rectangle2D;
+import geogebra.common.awt.GRectangle2D;
 
-public class GeneralPath extends geogebra.common.awt.GeneralPath implements
-        Shape {
+public class GeneralPath extends geogebra.common.awt.GGeneralPath implements
+        GShapeW {
 	
-    static final byte SEG_MOVETO  = (byte) PathIterator.SEG_MOVETO;
-    static final byte SEG_LINETO  = (byte) PathIterator.SEG_LINETO;
-    static final byte SEG_QUADTO  = (byte) PathIterator.SEG_QUADTO;
-    static final byte SEG_CUBICTO = (byte) PathIterator.SEG_CUBICTO;
-    static final byte SEG_CLOSE   = (byte) PathIterator.SEG_CLOSE;
+    static final byte SEG_MOVETO  = (byte) GPathIterator.SEG_MOVETO;
+    static final byte SEG_LINETO  = (byte) GPathIterator.SEG_LINETO;
+    static final byte SEG_QUADTO  = (byte) GPathIterator.SEG_QUADTO;
+    static final byte SEG_CUBICTO = (byte) GPathIterator.SEG_CUBICTO;
+    static final byte SEG_CLOSE   = (byte) GPathIterator.SEG_CLOSE;
 
     private geogebra.web.openjdk.awt.geom.GeneralPath impl = new geogebra.web.openjdk.awt.geom.GeneralPath();
 
@@ -45,8 +45,8 @@ public class GeneralPath extends geogebra.common.awt.GeneralPath implements
 	}
 
 	
-	public Rectangle2D getBounds2D() {
-		return new geogebra.web.awt.Rectangle2D(impl.getBounds2D());
+	public GRectangle2D getBounds2D() {
+		return new geogebra.web.awt.GRectangle2DW(impl.getBounds2D());
 	}
 
 	
@@ -60,13 +60,13 @@ public class GeneralPath extends geogebra.common.awt.GeneralPath implements
 	}
 
 	
-	public PathIterator getPathIterator(AffineTransform affineTransform) {
-		return new geogebra.web.awt.PathIterator(impl.getPathIterator(geogebra.web.awt.AffineTransform.getGawtAffineTransform(affineTransform)));
+	public GPathIterator getPathIterator(GAffineTransform affineTransform) {
+		return new geogebra.web.awt.GPathIteratorW(impl.getPathIterator(geogebra.web.awt.GAffineTransformW.getGawtAffineTransform(affineTransform)));
 	}
 
 	
-	public PathIterator getPathIterator(AffineTransform at, double flatness) {
-		return new geogebra.web.awt.PathIterator(impl.getPathIterator(geogebra.web.awt.AffineTransform.getGawtAffineTransform(at), flatness));
+	public GPathIterator getPathIterator(GAffineTransform at, double flatness) {
+		return new geogebra.web.awt.GPathIteratorW(impl.getPathIterator(geogebra.web.awt.GAffineTransformW.getGawtAffineTransform(at), flatness));
 	}
 
 	
@@ -75,7 +75,7 @@ public class GeneralPath extends geogebra.common.awt.GeneralPath implements
 	}
 
 	
-	public boolean intersects(Rectangle2D r) {
+	public boolean intersects(GRectangle2D r) {
 		return impl.intersects(r.getX(), r.getY(), r.getWidth(), r.getHeight());
 	}
 
@@ -110,22 +110,22 @@ public class GeneralPath extends geogebra.common.awt.GeneralPath implements
 
 	
 	@Override
-    public geogebra.common.awt.Shape createTransformedShape(
-	        AffineTransform affineTransform) {
-		return (geogebra.common.awt.Shape) impl.createTransformedShape(geogebra.web.awt.AffineTransform.getGawtAffineTransform(affineTransform));
+    public geogebra.common.awt.GShape createTransformedShape(
+	        GAffineTransform affineTransform) {
+		return (geogebra.common.awt.GShape) impl.createTransformedShape(geogebra.web.awt.GAffineTransformW.getGawtAffineTransform(affineTransform));
 	}
 
 	
 	@Override
-    public Point2D getCurrentPoint() {
+    public GPoint2D getCurrentPoint() {
 		if(impl.getCurrentPoint()==null)
 			return null;
-		return new geogebra.web.awt.Point2D(impl.getCurrentPoint().getX(),impl.getCurrentPoint().getY());
+		return new geogebra.web.awt.GPoint2DW(impl.getCurrentPoint().getX(),impl.getCurrentPoint().getY());
 	}
 
 	@Override
-    public boolean contains(Rectangle2D p) {
-	    return impl.contains(geogebra.web.awt.Rectangle2D.getGawtRectangle2D(p));
+    public boolean contains(GRectangle2D p) {
+	    return impl.contains(geogebra.web.awt.GRectangle2DW.getGawtRectangle2D(p));
     }
 
 	@Override
@@ -134,7 +134,7 @@ public class GeneralPath extends geogebra.common.awt.GeneralPath implements
     }
 
 	@Override
-    public boolean contains(Point2D p) {
+    public boolean contains(GPoint2D p) {
 		if (p==null) return false;
 		return impl.contains(p.getX(), p.getY());
     }

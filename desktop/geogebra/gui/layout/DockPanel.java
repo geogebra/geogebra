@@ -1062,7 +1062,7 @@ implements ActionListener, WindowListener, MouseListener, geogebra.common.gui.la
 			visible,
 			openInFrame, 
 			showStyleBar, 
-			new geogebra.awt.Rectangle(frameBounds), 
+			new geogebra.awt.GRectangleD(frameBounds), 
 			embeddedDef, 
 			embeddedSize
 		);

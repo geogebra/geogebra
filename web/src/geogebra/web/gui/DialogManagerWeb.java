@@ -1,6 +1,6 @@
 package geogebra.web.gui;
 
-import geogebra.common.awt.Point;
+import geogebra.common.awt.GPoint;
 import geogebra.common.gui.dialog.DialogManager;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Matrix.Coords;
@@ -51,7 +51,7 @@ public class DialogManagerWeb extends DialogManager {
     }
 
 	@Override
-    public void showBooleanCheckboxCreationDialog(Point loc, GeoBoolean bool) {
+    public void showBooleanCheckboxCreationDialog(GPoint loc, GeoBoolean bool) {
 	    // TODO Auto-generated method stub
 	    
     }

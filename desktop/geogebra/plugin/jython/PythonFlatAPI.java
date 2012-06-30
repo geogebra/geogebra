@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.TreeSet;
 
-import geogebra.common.awt.Color;
+import geogebra.common.awt.GColor;
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Path;
@@ -291,7 +291,7 @@ public class PythonFlatAPI {
 		/**
 		 * @return the Geo's color
 		 */
-		public static Color getColor(GeoElement geo) {
+		public static GColor getColor(GeoElement geo) {
 			return geo.getObjectColor();
 		}
 		
@@ -299,7 +299,7 @@ public class PythonFlatAPI {
 		 * Set the Geo's color
 		 * @param color the new color
 		 */
-		public static void setColor(GeoElement geo, Color color) {
+		public static void setColor(GeoElement geo, GColor color) {
 			geo.setObjColor(color);
 		}
 		
@@ -353,7 +353,7 @@ public class PythonFlatAPI {
 		/**
 		 * @return the color of the Geo's label
 		 */
-		public static Color getLabelColor(GeoElement geo) {
+		public static GColor getLabelColor(GeoElement geo) {
 			return geo.getLabelColor();
 		}
 
@@ -361,7 +361,7 @@ public class PythonFlatAPI {
 		 * Set the color of the Geo's label
 		 * @param color the new color for the label
 		 */
-		public static void setLabelColor(GeoElement geo, Color color) {
+		public static void setLabelColor(GeoElement geo, GColor color) {
 			geo.setLabelColor(color);
 		}
 		
@@ -384,7 +384,7 @@ public class PythonFlatAPI {
 		/**
 		 * @return the background color for the Geo
 		 */
-		public static Color getBackgroundColor(GeoElement geo) {
+		public static GColor getBackgroundColor(GeoElement geo) {
 			return geo.getBackgroundColor();
 		}
 		
@@ -392,7 +392,7 @@ public class PythonFlatAPI {
 		 * Set the background color for the Geo
 		 * @param color the new background color for the Geo
 		 */
-		public static void setBackgroundColor(GeoElement geo, Color color) {
+		public static void setBackgroundColor(GeoElement geo, GColor color) {
 			geo.setBackgroundColor(color);
 		}
 
@@ -857,7 +857,7 @@ public class PythonFlatAPI {
 		 * @param t the GeoTurtle
 		 * @return the color of the turtle pen
 		 */
-		public static Color getTurtlePenColor(GeoTurtle t) {
+		public static GColor getTurtlePenColor(GeoTurtle t) {
 			return t.getPenColor();
 		}
 		
@@ -866,7 +866,7 @@ public class PythonFlatAPI {
 		 * @param t the GeoTurtle
 		 * @param c the new color
 		 */
-		public static void setTurtlePenColor(GeoTurtle t, Color c) {
+		public static void setTurtlePenColor(GeoTurtle t, GColor c) {
 			t.setPenColor(c);
 		}
 		

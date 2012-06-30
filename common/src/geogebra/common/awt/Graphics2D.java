@@ -64,7 +64,7 @@ public abstract class Graphics2D {
 	 * @see #setClip
 	 * @see #setComposite
 	 */
-	public abstract void draw(Shape s);
+	public abstract void draw(GShape s);
 
 	/**
 	 * Renders an image, applying a transform from image space into user space
@@ -80,7 +80,7 @@ public abstract class Graphics2D {
 	 * @param img the specified image to be rendered.
 	 *            This method does nothing if <code>img</code> is null.
 	 * @param xform the transformation from image space into user space
-	 * @param obs the {@link ImageObserver}
+	 * @param obs the {@link GImageObserver}
 	 * to be notified as more of the <code>Image</code>
 	 * is converted
 	 * @return <code>true</code> if the <code>Image</code> is
@@ -92,12 +92,12 @@ public abstract class Graphics2D {
 	 * @see #clip
 	 * @see #setClip
 	 */
-	public abstract boolean drawImage(Image img, AffineTransform xform,
-			ImageObserver obs);
+	public abstract boolean drawImage(GImage img, GAffineTransform xform,
+			GImageObserver obs);
 	/**
 	 * Renders a <code>BufferedImage</code> that is
 	 * filtered with a
-	 * {@link BufferedImageOp}.
+	 * {@link GBufferedImageOp}.
 	 * The rendering attributes applied include the <code>Clip</code>,
 	 * <code>Transform</code>
 	 * and <code>Composite</code> attributes.  This is equivalent to:
@@ -119,12 +119,12 @@ public abstract class Graphics2D {
 	 * @see #clip
 	 * @see #setClip
 	 */
-	public abstract void drawImage(BufferedImage img, BufferedImageOp op,
+	public abstract void drawImage(GBufferedImage img, GBufferedImageOp op,
 			int x, int y);
 	
 
 	/**
-	 * Renders a {@link RenderedImage},
+	 * Renders a {@link GRenderedImage},
 	 * applying a transform from image
 	 * space into user space before drawing.
 	 * The transformation from user space into device space is done with
@@ -144,12 +144,12 @@ public abstract class Graphics2D {
 	 * @see #clip
 	 * @see #setClip
 	 */
-	public abstract void drawRenderedImage(RenderedImage img,
-			AffineTransform xform);
+	public abstract void drawRenderedImage(GRenderedImage img,
+			GAffineTransform xform);
 
 	/**
 	 * Renders a
-	 * {@link RenderableImage},
+	 * {@link GRenderableImage},
 	 * applying a transform from image space into user space before drawing.
 	 * The transformation from user space into device space is done with
 	 * the current <code>Transform</code> in the <code>Graphics2D</code>.
@@ -167,7 +167,7 @@ public abstract class Graphics2D {
 	 * are used is required, then a <code>RenderedImage</code> should be
 	 * obtained directly from the <code>RenderableImage</code>
 	 * and rendered using
-	 *{@link #drawRenderedImage(RenderedImage, AffineTransform) drawRenderedImage}.
+	 *{@link #drawRenderedImage(GRenderedImage, GAffineTransform) drawRenderedImage}.
 	 * @param img the image to be rendered. This method does
 	 *            nothing if <code>img</code> is null.
 	 * @param xform the transformation from image space into user space
@@ -178,8 +178,8 @@ public abstract class Graphics2D {
 	 * @see #setClip
 	 * @see #drawRenderedImage
 	 */
-	public abstract void drawRenderableImage(RenderableImage img,
-			AffineTransform xform);
+	public abstract void drawRenderableImage(GRenderableImage img,
+			GAffineTransform xform);
 
 	/**
 	 * Renders the text of the specified <code>String</code>, using the
@@ -256,7 +256,7 @@ public abstract class Graphics2D {
 	 * @see #setComposite
 	 * @see #setClip
 	 */
-	public abstract void drawString(AttributedCharacterIterator iterator,
+	public abstract void drawString(GAttributedCharacterIterator iterator,
 			int x, int y);
 
 	/**
@@ -282,17 +282,17 @@ public abstract class Graphics2D {
 	 * @see #setComposite
 	 * @see #setClip
 	 */
-	public abstract void drawString(AttributedCharacterIterator iterator,
+	public abstract void drawString(GAttributedCharacterIterator iterator,
 			float x, float y);
 
 	/**
 	 * Renders the text of the specified
-	 * {@link GlyphVector} using
+	 * {@link GGlyphVector} using
 	 * the <code>Graphics2D</code> context's rendering attributes.
 	 * The rendering attributes applied include the <code>Clip</code>,
 	 * <code>Transform</code>, <code>Paint</code>, and
 	 * <code>Composite</code> attributes.  The <code>GlyphVector</code>
-	 * specifies individual glyphs from a {@link Font}.
+	 * specifies individual glyphs from a {@link GFont}.
 	 * The <code>GlyphVector</code> can also contain the glyph positions.
 	 * This is the fastest way to render a set of characters to the
 	 * screen.
@@ -311,7 +311,7 @@ public abstract class Graphics2D {
 	 * @see #setComposite
 	 * @see #setClip
 	 */
-	public abstract void drawGlyphVector(GlyphVector g, float x, float y);
+	public abstract void drawGlyphVector(GGlyphVector g, float x, float y);
 
 	/**
 	 * Fills the interior of a <code>Shape</code> using the settings of the
@@ -327,7 +327,7 @@ public abstract class Graphics2D {
 	 * @see #clip
 	 * @see #setClip
 	 */
-	public abstract void fill(Shape s);
+	public abstract void fill(GShape s);
 
 	/*//* Currently, this is not needed but the comment is left here in case it were needed
 	 * Checks whether or not the specified <code>Shape</code> intersects
@@ -365,7 +365,7 @@ public abstract class Graphics2D {
 	 * <code>Graphics2D</code>.
 	 * @return the device configuration of this <code>Graphics2D</code>.
 	 */
-	public abstract GraphicsConfiguration getDeviceConfiguration();
+	public abstract GGraphicsConfiguration getDeviceConfiguration();
 
 	/**
 	 * Sets the <code>Composite</code> for the <code>Graphics2D</code> context.
@@ -394,7 +394,7 @@ public abstract class Graphics2D {
 	 * @see SecurityManager#checkPermission
 	 * @see java.awt.AWTPermission
 	 */
-	public abstract void setComposite(Composite comp);
+	public abstract void setComposite(GComposite comp);
 
 	/**
 	 * Sets the <code>Paint</code> attribute for the
@@ -409,16 +409,16 @@ public abstract class Graphics2D {
 	 * @see java.awt.GradientPaint
 	 * @see java.awt.TexturePaint
 	 */
-	public abstract void setPaint(Paint paint);
+	public abstract void setPaint(GPaint paint);
 
 	/**
 	 * Sets the <code>Stroke</code> for the <code>Graphics2D</code> context.
 	 * @param s the <code>Stroke</code> object to be used to stroke a
 	 * <code>Shape</code> during the rendering process
-	 * @see BasicStroke
+	 * @see GBasicStroke
 	 * @see #getStroke
 	 */
-	public abstract void setStroke(BasicStroke s);
+	public abstract void setStroke(GBasicStroke s);
 
 	/**
 	 * Sets the value of a single preference for the rendering algorithms.
@@ -429,10 +429,10 @@ public abstract class Graphics2D {
 	 * @param hintKey the key of the hint to be set.
 	 * @param hintValue the value indicating preferences for the specified
 	 * hint category.
-	 * @see #getRenderingHint(Key)
-	 * @see RenderingHints
+	 * @see #getRenderingHint(GKey)
+	 * @see GRenderingHints
 	 */
-	public abstract void setRenderingHint(Key hintKey, Object hintValue);
+	public abstract void setRenderingHint(GKey hintKey, Object hintValue);
 
 	/**
 	 * Returns the value of a single preference for the rendering algorithms.
@@ -444,10 +444,10 @@ public abstract class Graphics2D {
 	 * @return an object representing the value for the specified hint key.
 	 * Some of the keys and their associated values are defined in the
 	 * <code>RenderingHints</code> class.
-	 * @see RenderingHints
-	 * @see #setRenderingHint(Key, Object)
+	 * @see GRenderingHints
+	 * @see #setRenderingHint(GKey, Object)
 	 */
-	public abstract Object getRenderingHint(Key hintKey);
+	public abstract Object getRenderingHint(GKey hintKey);
 
 	/**
 	 * Replaces the values of all preferences for the rendering
@@ -461,7 +461,7 @@ public abstract class Graphics2D {
 	 * some common keys and values.
 	 * @param hints the rendering hints to be set
 	 * @see #getRenderingHints
-	 * @see RenderingHints
+	 * @see GRenderingHints
 	 */
 	public abstract void setRenderingHints(Map<?, ?> hints);
 
@@ -477,7 +477,7 @@ public abstract class Graphics2D {
 	 * Refer to the <code>RenderingHints</code> class for definitions of
 	 * some common keys and values.
 	 * @param hints the rendering hints to be set
-	 * @see RenderingHints
+	 * @see GRenderingHints
 	 */
 	public abstract void addRenderingHints(Map<?, ?> hints);
 
@@ -491,10 +491,10 @@ public abstract class Graphics2D {
 	 * keys and values.
 	 * @return a reference to an instance of <code>RenderingHints</code>
 	 * that contains the current preferences.
-	 * @see RenderingHints
+	 * @see GRenderingHints
 	 * @see #setRenderingHints(Map)
 	 */
-	public abstract RenderingHints getRenderingHints();
+	public abstract GRenderingHints getRenderingHints();
 
 	/**
 	 * Translates the origin of the <code>Graphics2D</code> context to the
@@ -623,9 +623,9 @@ public abstract class Graphics2D {
 	 * @param Tx the <code>AffineTransform</code> object to be composed with
 	 * the current <code>Transform</code>
 	 * @see #setTransform
-	 * @see AffineTransform
+	 * @see GAffineTransform
 	 */
-	public abstract void transform(AffineTransform Tx);
+	public abstract void transform(GAffineTransform Tx);
 
 	/**
 	 * Overwrites the Transform in the <code>Graphics2D</code> context.
@@ -656,9 +656,9 @@ public abstract class Graphics2D {
 	 *           from the <code>getTransform</code> method
 	 * @see #transform
 	 * @see #getTransform
-	 * @see AffineTransform
+	 * @see GAffineTransform
 	 */
-	public abstract void setTransform(AffineTransform Tx);
+	public abstract void setTransform(GAffineTransform Tx);
 
 	/**
 	 * Returns a copy of the current <code>Transform</code> in the
@@ -668,7 +668,7 @@ public abstract class Graphics2D {
 	 * @see #transform
 	 * @see #setTransform
 	 */
-	public abstract AffineTransform getTransform();
+	public abstract GAffineTransform getTransform();
 
 	/**
 	 * Returns the current <code>Paint</code> of the
@@ -678,7 +678,7 @@ public abstract class Graphics2D {
 	 * @see #setPaint
 	 * @see java.awt.Graphics#setColor
 	 */
-	public abstract Paint getPaint();
+	public abstract GPaint getPaint();
 
 	/**
 	 * Returns the current <code>Composite</code> in the
@@ -687,7 +687,7 @@ public abstract class Graphics2D {
 	 *              which defines a compositing style.
 	 * @see #setComposite
 	 */
-	public abstract Composite getComposite();
+	public abstract GComposite getComposite();
 
 	/**
 	 * Sets the background color for the <code>Graphics2D</code> context.
@@ -705,7 +705,7 @@ public abstract class Graphics2D {
 	 * @see #getBackground
 	 * @see java.awt.Graphics#clearRect
 	 */
-	public abstract void setBackground(Color color);
+	public abstract void setBackground(GColor color);
 
 	/**
 	 * Returns the background color used for clearing a region.
@@ -713,7 +713,7 @@ public abstract class Graphics2D {
 	 * which defines the background color.
 	 * @see #setBackground
 	 */
-	public abstract Color getBackground();
+	public abstract GColor getBackground();
 
 	/**
 	 * Returns the current <code>Stroke</code> in the
@@ -722,7 +722,7 @@ public abstract class Graphics2D {
 	 *                 which defines the line style.
 	 * @see #setStroke
 	 */
-	public abstract BasicStroke getStroke();
+	public abstract GBasicStroke getStroke();
 
 	/**
 	 * Intersects the current <code>Clip</code> with the interior of the
@@ -743,12 +743,12 @@ public abstract class Graphics2D {
 	 *          <code>Clip</code>.  If <code>s</code> is <code>null</code>,
 	 *          this method clears the current <code>Clip</code>.
 	 */
-	public abstract void clip(geogebra.common.awt.Shape s);
+	public abstract void clip(geogebra.common.awt.GShape s);
 
 	/**
 	 * Get the rendering context of the <code>Font</code> within this
 	 * <code>Graphics2D</code> context.
-	 * The {@link FontRenderContext}
+	 * The {@link GFontRenderContext}
 	 * encapsulates application hints such as anti-aliasing and
 	 * fractional metrics, as well as target device specific information
 	 * such as dots-per-inch.  This information should be provided by the
@@ -767,16 +767,16 @@ public abstract class Graphics2D {
 	 * @since     1.2
 	 */
 
-	public abstract FontRenderContext getFontRenderContext();
-	public abstract Color getColor();
-	public abstract Font getFont();
-	public abstract void setFont(Font font);
+	public abstract GFontRenderContext getFontRenderContext();
+	public abstract GColor getColor();
+	public abstract GFont getFont();
+	public abstract void setFont(GFont font);
 	
-	public abstract void setColor(Color selColor);
+	public abstract void setColor(GColor selColor);
 	public abstract void fillRect(int i, int j, int k, int l);
 	public abstract void drawLine(int x1, int y1, int x2, int y2);
-	public abstract void setClip(Shape shape);
-	public abstract Shape getClip();
+	public abstract void setClip(GShape shape);
+	public abstract GShape getClip();
 
 	public abstract void drawRect(int i, int j, int k, int l);
 
@@ -786,7 +786,7 @@ public abstract class Graphics2D {
 
 	public abstract void fillRoundRect(int x, int y, int width, int height, int arcWidth, int arcHeight);
 
-	public void drawImage(Image img, int x, int y) {
+	public void drawImage(GImage img, int x, int y) {
 		// TODO Auto-generated method stub
 		
 	}

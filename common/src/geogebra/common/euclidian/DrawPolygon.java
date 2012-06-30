@@ -48,7 +48,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 	 * @param poly
 	 *            Polygon to be drawn
 	 */
-	public DrawPolygon(AbstractEuclidianView view, GeoPolygon poly) {
+	public DrawPolygon(EuclidianView view, GeoPolygon poly) {
 		this.view = view;
 		hitThreshold = view.getCapturingThreshold();
 		this.poly = poly;
@@ -65,7 +65,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 	 * @param points
 	 *            vertices
 	 */
-	public DrawPolygon(AbstractEuclidianView view, ArrayList<GeoPointND> points) {
+	public DrawPolygon(EuclidianView view, ArrayList<GeoPointND> points) {
 		this.view = view;
 		this.points = points;
 
@@ -202,7 +202,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 		}
 	}
 
-	private geogebra.common.awt.Point2D endPoint = 
+	private geogebra.common.awt.GPoint2D endPoint = 
 			geogebra.common.factories.AwtFactory.prototype.newPoint2D();
 
 	final public void updateMousePos(double mouseRWx, double mouseRWy) {
@@ -316,7 +316,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 
 	@Override
 	final public boolean hit(int x, int y) {
-		geogebra.common.awt.Shape t = geo.isInverseFill() ? getShape() : gp;
+		geogebra.common.awt.GShape t = geo.isInverseFill() ? getShape() : gp;
 		return t != null
 				&& (t.contains(x, y) || t.intersects(x - hitThreshold, y
 						- hitThreshold, 2 * hitThreshold, 2 * hitThreshold));

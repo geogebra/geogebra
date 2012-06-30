@@ -1,7 +1,7 @@
 package geogebra.web.gui.util;
 
 import geogebra.common.main.AbstractApplication;
-import geogebra.web.awt.Dimension;
+import geogebra.web.awt.GDimensionW;
 
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
@@ -96,8 +96,8 @@ public class Slider extends FocusWidget implements HasChangeHandlers, HasValue<I
 		AbstractApplication.debug("not applicable for range");
     }
 
-	public Dimension getPreferredSize() {
-	   return new Dimension(100,10);
+	public GDimensionW getPreferredSize() {
+	   return new GDimensionW(100,10);
     }
 
 	public HandlerRegistration addValueChangeHandler(

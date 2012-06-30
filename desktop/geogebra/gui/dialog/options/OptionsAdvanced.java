@@ -9,7 +9,7 @@ import geogebra.common.main.settings.KeyboardSettings;
 import geogebra.common.main.settings.Settings;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.util.Language;
-import geogebra.euclidian.EuclidianView;
+import geogebra.euclidian.EuclidianViewD;
 import geogebra.gui.util.FullWidthLayout;
 import geogebra.main.Application;
 
@@ -727,7 +727,7 @@ public class OptionsAdvanced extends JPanel implements OptionPanel, ActionListen
 		}
 	}
 
-	private void handleEVOption(Object source, EuclidianView view) {
+	private void handleEVOption(Object source, EuclidianViewD view) {
 		if (source == checkboxSizeRadioRegular) {
 			view.setBooleanSize(13);
 		} else if (source == checkboxSizeRadioLarge) {

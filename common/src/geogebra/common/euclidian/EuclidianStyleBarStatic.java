@@ -247,7 +247,7 @@ public class EuclidianStyleBarStatic {
 	// if all cases will be processed here, instead of
 	// EuclidianStyleBar.processSource, the return value will be unnecessary
 	public static boolean processSourceCommon(String actionCommand, ArrayList<GeoElement> targetGeos, EuclidianViewInterfaceCommon ev) {
-		AbstractEuclidianController ec = ev.getEuclidianController();
+		EuclidianController ec = ev.getEuclidianController();
 		AbstractApplication app = ev.getApplication();
 		//cons = app.getKernel().getConstruction();
 		

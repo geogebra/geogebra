@@ -1,6 +1,6 @@
 package geogebra.common.kernel.algos;
 
-import geogebra.common.euclidian.AbstractEuclidianView;
+import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.MyPoint;
 import geogebra.common.kernel.EuclidianViewCE;
@@ -132,7 +132,7 @@ public class AlgoIntegralODE extends AlgoElement {
 			cons.removeFromAlgorithmList(numAlgo);
 			cons.removeFromAlgorithmList(denAlgo);
 			
-			AbstractEuclidianView view = kernel.getApplication().getEuclidianView1();
+			EuclidianView view = kernel.getApplication().getEuclidianView1();
 
 			if (view.isVisibleInThisView(locus)) {
 				xmax = Math.max(xmax,  view.toRealWorldCoordX((view.getWidth())));
@@ -143,7 +143,7 @@ public class AlgoIntegralODE extends AlgoElement {
 
 			app = kernel.getApplication();
 			if (app.hasEuclidianView2()) {
-				AbstractEuclidianView view2 = app.getEuclidianView2();
+				EuclidianView view2 = app.getEuclidianView2();
 				if (view2.isVisibleInThisView(locus)) {
 					xmax = Math.max(xmax,  view2.toRealWorldCoordX((view.getWidth())));
 					ymax = Math.max(ymax,  view2.toRealWorldCoordY(0));

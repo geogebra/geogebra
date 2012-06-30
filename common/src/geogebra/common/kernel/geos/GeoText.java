@@ -11,8 +11,8 @@ the Free Software Foundation.
  */
 package geogebra.common.kernel.geos;
 
-import geogebra.common.awt.Font;
-import geogebra.common.awt.Rectangle2D;
+import geogebra.common.awt.GFont;
+import geogebra.common.awt.GRectangle2D;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Construction;
@@ -48,7 +48,7 @@ public class GeoText extends GeoElement implements Locateable,
 	private GeoPointND startPoint; // location of Text on screen
 	private boolean isLaTeX; // text is a LaTeX formula
 	// corners of the text Michael Borcherds 2007-11-26, see AlgoTextCorner
-	private Rectangle2D boundingBox;
+	private GRectangle2D boundingBox;
 	private boolean needsUpdatedBoundingBox = false;
 
 	// font options
@@ -820,7 +820,7 @@ public class GeoText extends GeoElement implements Locateable,
 		this.fontStyle = fontStyle;
 
 		// needed for eg \sqrt in latex
-		if ((fontStyle & Font.BOLD) != 0)
+		if ((fontStyle & GFont.BOLD) != 0)
 			lineThickness = EuclidianStyleConstants.DEFAULT_LINE_THICKNESS * 2;
 		else
 			lineThickness = EuclidianStyleConstants.DEFAULT_LINE_THICKNESS;
@@ -909,7 +909,7 @@ public class GeoText extends GeoElement implements Locateable,
 	/**
 	 * @return Bounding box of this text
 	 */
-	public Rectangle2D getBoundingBox() {
+	public GRectangle2D getBoundingBox() {
 		return boundingBox;
 	}
 

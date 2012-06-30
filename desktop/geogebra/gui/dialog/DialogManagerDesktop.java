@@ -1,6 +1,6 @@
 package geogebra.gui.dialog;
 
-import geogebra.common.euclidian.AbstractEuclidianView;
+import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.gui.InputHandler;
 import geogebra.common.gui.dialog.handler.NumberChangeSignInputHandler;
@@ -317,7 +317,7 @@ public class DialogManagerDesktop extends geogebra.common.gui.dialog.DialogManag
 	 * Creates a new checkbox at given startPoint
 	 */
 	@Override
-	public void showBooleanCheckboxCreationDialog(geogebra.common.awt.Point loc, GeoBoolean bool) {
+	public void showBooleanCheckboxCreationDialog(geogebra.common.awt.GPoint loc, GeoBoolean bool) {
 		Point location = new Point(loc.x, loc.y);
 		CheckboxCreationDialog d = new CheckboxCreationDialog(((Application) app), location, bool);
 		d.setVisible(true);
@@ -380,7 +380,7 @@ public class DialogManagerDesktop extends geogebra.common.gui.dialog.DialogManag
 
 	@Override
 	public void showNumberInputDialogCirclePointRadius(String title,
-			GeoPointND geoPoint1,  AbstractEuclidianView view) {
+			GeoPointND geoPoint1,  EuclidianView view) {
 
 		NumberInputHandler handler = new NumberInputHandler(app.getKernel()
 				.getAlgebraProcessor());

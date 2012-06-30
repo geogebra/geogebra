@@ -1,8 +1,8 @@
 package geogebra.web.main;
 
-import geogebra.common.awt.Color;
-import geogebra.common.euclidian.AbstractEuclidianController;
-import geogebra.common.euclidian.AbstractEuclidianView;
+import geogebra.common.awt.GColor;
+import geogebra.common.euclidian.EuclidianController;
+import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.Kernel;
@@ -18,7 +18,7 @@ import geogebra.common.main.GWTKeycodes;
 import geogebra.common.main.KeyCodes;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.util.CopyPaste;
-import geogebra.web.euclidian.EuclidianView;
+import geogebra.web.euclidian.EuclidianViewW;
 import geogebra.web.gui.applet.GeoGebraFrame;
 
 import java.awt.event.KeyEvent;

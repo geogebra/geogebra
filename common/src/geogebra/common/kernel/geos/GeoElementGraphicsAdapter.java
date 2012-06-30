@@ -1,6 +1,6 @@
 package geogebra.common.kernel.geos;
 
-import geogebra.common.awt.BufferedImage;
+import geogebra.common.awt.GBufferedImage;
 
 /**
  * Handles fill image of GeoElement
@@ -10,19 +10,19 @@ public abstract class GeoElementGraphicsAdapter {
 	/** image filename */
 	protected String imageFileName = "";
 	/** fill image */
-	protected BufferedImage image;
+	protected GBufferedImage image;
 
 	/**
 	 * @return fill image
 	 */
-	public BufferedImage getImageOnly() {
+	public GBufferedImage getImageOnly() {
 		return image;
 	}
 
 	/**
 	 * @param ba new fill image
 	 */
-	public void setImageOnly(BufferedImage ba) {
+	public void setImageOnly(GBufferedImage ba) {
 		image = ba;
 	}
 
@@ -43,7 +43,7 @@ public abstract class GeoElementGraphicsAdapter {
 	/**
 	 * @return fill image
 	 */
-	public abstract BufferedImage getFillImage();
+	public abstract GBufferedImage getFillImage();
 	
 	/**
 	 * @param fileName filename

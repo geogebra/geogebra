@@ -1,6 +1,6 @@
 package geogebra.javax.swing;
 
-import geogebra.common.awt.Dimension;
+import geogebra.common.awt.GDimension;
 import geogebra.common.awt.Rectangle;
 import geogebra.common.gui.inputfield.AutoCompleteTextField;
 import geogebra.common.javax.swing.AbstractJComboBox;
@@ -47,17 +47,17 @@ public class Box extends geogebra.common.javax.swing.Box {
 
 	@Override
 	public void setBounds(Rectangle rect) {
-		impl.setBounds(geogebra.awt.Rectangle.getAWTRectangle(rect));
+		impl.setBounds(geogebra.awt.GRectangleD.getAWTRectangle(rect));
 	}
 
 	@Override
-	public Dimension getPreferredSize() {
-		return new geogebra.awt.Dimension(impl.getPreferredSize());
+	public GDimension getPreferredSize() {
+		return new geogebra.awt.GDimensionD(impl.getPreferredSize());
 	}
 
 	@Override
 	public Rectangle getBounds() {
-		return new geogebra.awt.Rectangle(impl.getBounds());
+		return new geogebra.awt.GRectangleD(impl.getBounds());
 	}
 
 	@Override

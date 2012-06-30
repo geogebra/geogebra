@@ -1,15 +1,15 @@
 package geogebra.euclidianND;
 
-import geogebra.common.awt.Font;
-import geogebra.common.euclidian.AbstractEuclidianController;
-import geogebra.common.euclidian.AbstractEuclidianView;
+import geogebra.common.awt.GFont;
+import geogebra.common.euclidian.EuclidianController;
+import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.main.settings.EuclidianSettings;
 import geogebra.common.plugin.EuclidianStyleConstants;
-import geogebra.euclidian.EuclidianController;
-import geogebra.euclidian.EuclidianStyleBar;
+import geogebra.euclidian.EuclidianControllerD;
+import geogebra.euclidian.EuclidianStyleBarD;
 import geogebra.euclidian.EuclidianViewJPanel;
 import geogebra.euclidian.EuclidianViewTransferHandler;
-import geogebra.euclidian.MyZoomer;
+import geogebra.euclidian.MyZoomerD;
 import geogebra.main.Application;
 
 import java.awt.AWTEvent;
@@ -36,7 +36,7 @@ import javax.swing.border.Border;
  * @author matthieu
  *
  */
-public abstract class EuclidianViewND extends AbstractEuclidianView{
+public abstract class EuclidianViewND extends EuclidianView{
 	
 	protected EuclidianViewJPanel evjpanel;
 
@@ -45,7 +45,7 @@ public abstract class EuclidianViewND extends AbstractEuclidianView{
 	 * @param ec euclidian controller
 	 * @param settings euclidian settings
 	 */
-	public EuclidianViewND(AbstractEuclidianController ec,
+	public EuclidianViewND(EuclidianController ec,
 			EuclidianSettings settings) {
 		super(ec, settings);
 
@@ -58,10 +58,10 @@ public abstract class EuclidianViewND extends AbstractEuclidianView{
 		evjpanel.setMinimumSize(new Dimension(20, 20));
 		
 		// register Listener
-		evjpanel.addMouseMotionListener((EuclidianController)euclidianController);
-		evjpanel.addMouseListener((EuclidianController)euclidianController);
-		evjpanel.addMouseWheelListener((EuclidianController)euclidianController);
-		evjpanel.addComponentListener((EuclidianController)euclidianController);
+		evjpanel.addMouseMotionListener((EuclidianControllerD)euclidianController);
+		evjpanel.addMouseListener((EuclidianControllerD)euclidianController);
+		evjpanel.addMouseWheelListener((EuclidianControllerD)euclidianController);
+		evjpanel.addComponentListener((EuclidianControllerD)euclidianController);
 		
 		
 		// enable drop transfers
@@ -112,9 +112,9 @@ public abstract class EuclidianViewND extends AbstractEuclidianView{
 	}
 
 	@Override
-	public Font getFont() {
+	public GFont getFont() {
 		// TODO Auto-generated method stub
-		return new geogebra.awt.Font(evjpanel.getFont());
+		return new geogebra.awt.GFontD(evjpanel.getFont());
 	}
 	/**
 	 * @return mouse position
@@ -150,8 +150,8 @@ public abstract class EuclidianViewND extends AbstractEuclidianView{
 	}
 	
 	@Override
-	public void setPreferredSize(geogebra.common.awt.Dimension preferredSize) {
-		evjpanel.setPreferredSize(geogebra.awt.Dimension.getAWTDimension(preferredSize));
+	public void setPreferredSize(geogebra.common.awt.GDimension preferredSize) {
+		evjpanel.setPreferredSize(geogebra.awt.GDimensionD.getAWTDimension(preferredSize));
 	}
 	
 	/**
@@ -328,7 +328,7 @@ public abstract class EuclidianViewND extends AbstractEuclidianView{
 	
 	private void createImage(GraphicsConfiguration gc) {
 		if (gc != null) {
-			bgImage = new geogebra.awt.BufferedImage(gc.createCompatibleImage(getWidth(), getHeight()));
+			bgImage = new geogebra.awt.GBufferedImageD(gc.createCompatibleImage(getWidth(), getHeight()));
 			bgGraphics = bgImage.createGraphics();
 			if (antiAliasing) {
 				setAntialiasing(bgGraphics);
@@ -357,13 +357,13 @@ public abstract class EuclidianViewND extends AbstractEuclidianView{
 	}
 		
 	
-	public geogebra.common.awt.Color getBackgroundCommon() {
-		return new geogebra.awt.Color(evjpanel.getBackground());
+	public geogebra.common.awt.GColor getBackgroundCommon() {
+		return new geogebra.awt.GColorD(evjpanel.getBackground());
 	}
 
 	@Override
-	public void setBackground(geogebra.common.awt.Color bgColor) {
-		evjpanel.setBackground(geogebra.awt.Color.getAwtColor(bgColor));
+	public void setBackground(geogebra.common.awt.GColor bgColor) {
+		evjpanel.setBackground(geogebra.awt.GColorD.getAwtColor(bgColor));
 	}
 	
 	
@@ -387,8 +387,8 @@ public abstract class EuclidianViewND extends AbstractEuclidianView{
 	}
 	
 	@Override
-	final public geogebra.common.awt.Graphics2D getTempGraphics2D(geogebra.common.awt.Font font) {
-		g2Dtemp.setFont(geogebra.awt.Font.getAwtFont(font)); // Michael Borcherds 2008-06-11 bugfix for
+	final public geogebra.common.awt.Graphics2D getTempGraphics2D(geogebra.common.awt.GFont font) {
+		g2Dtemp.setFont(geogebra.awt.GFontD.getAwtFont(font)); // Michael Borcherds 2008-06-11 bugfix for
 								// Corner[text,n]
 		return new geogebra.awt.Graphics2D(g2Dtemp);
 	}
@@ -431,8 +431,8 @@ public abstract class EuclidianViewND extends AbstractEuclidianView{
 	 * 
 	 * @return new euclidian style bar
 	 */
-	protected EuclidianStyleBar newEuclidianStyleBar(){
-		return new EuclidianStyleBar(this);
+	protected EuclidianStyleBarD newEuclidianStyleBar(){
+		return new EuclidianStyleBarD(this);
 	}
 
 
@@ -457,11 +457,11 @@ public abstract class EuclidianViewND extends AbstractEuclidianView{
 	 * ANIMATED ZOOMING
 	 **************************************************************************/
 	@Override
-	protected MyZoomer newZoomer() {
-		return new MyZoomer(this);
+	protected MyZoomerD newZoomer() {
+		return new MyZoomerD(this);
 	}
 		
-	public abstract EuclidianController getEuclidianController();
+	public abstract EuclidianControllerD getEuclidianController();
 
 
 }

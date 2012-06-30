@@ -1,6 +1,6 @@
 package geogebra.common.main;
 
-import geogebra.common.awt.Color;
+import geogebra.common.awt.GColor;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.util.StringUtil;
 
@@ -13,135 +13,135 @@ public class GeoGebraColorConstants {
 
 	// table colors
 	/** background of selected cell */
-	public static final Color TABLE_SELECTED_BACKGROUND_COLOR = AwtFactory.prototype
+	public static final GColor TABLE_SELECTED_BACKGROUND_COLOR = AwtFactory.prototype
 			.newColor(214, 224, 245);
 	/** background of selected row / column header */
-	public static final Color TABLE_SELECTED_BACKGROUND_COLOR_HEADER = Color.lightGray;
+	public static final GColor TABLE_SELECTED_BACKGROUND_COLOR_HEADER = GColor.lightGray;
 	/** background of row / column header */
-	public static final Color TABLE_BACKGROUND_COLOR_HEADER = AwtFactory.prototype
+	public static final GColor TABLE_BACKGROUND_COLOR_HEADER = AwtFactory.prototype
 			.newColor(232, 238, 247);
 	/** grid color for spreadsheet */
-	public static final Color TABLE_GRID_COLOR = Color.gray;
+	public static final GColor TABLE_GRID_COLOR = GColor.gray;
 
 	// ggb color constants
 	/** red */
-	public static final Color RED = AwtFactory.prototype.newColor(255, 0, 0);
+	public static final GColor RED = AwtFactory.prototype.newColor(255, 0, 0);
 	/** orange */
-	public static final Color ORANGE = AwtFactory.prototype.newColor(255, 127,
+	public static final GColor ORANGE = AwtFactory.prototype.newColor(255, 127,
 			0);
 	/** yellow */
-	public static final Color YELLOW = AwtFactory.prototype.newColor(255, 255,
+	public static final GColor YELLOW = AwtFactory.prototype.newColor(255, 255,
 			0);
 	/** green */
-	public static final Color GREEN = AwtFactory.prototype.newColor(0, 255, 0);
+	public static final GColor GREEN = AwtFactory.prototype.newColor(0, 255, 0);
 	/** cyan */
-	public static final Color CYAN = AwtFactory.prototype.newColor(0, 255, 255);
+	public static final GColor CYAN = AwtFactory.prototype.newColor(0, 255, 255);
 	/** blue */
-	public static final Color BLUE = AwtFactory.prototype.newColor(0, 0, 255);
+	public static final GColor BLUE = AwtFactory.prototype.newColor(0, 0, 255);
 	/** violet */
-	public static final Color VIOLET = AwtFactory.prototype.newColor(127, 0,
+	public static final GColor VIOLET = AwtFactory.prototype.newColor(127, 0,
 			255);
 	/** magenta */
-	public static final Color MAGENTA = AwtFactory.prototype.newColor(255, 0,
+	public static final GColor MAGENTA = AwtFactory.prototype.newColor(255, 0,
 			255);
 	/** lime */
-	public static final Color LIME = AwtFactory.prototype.newColor(191, 255, 0);
+	public static final GColor LIME = AwtFactory.prototype.newColor(191, 255, 0);
 	/** pink */
-	public static final Color PINK = AwtFactory.prototype.newColor(255, 192,
+	public static final GColor PINK = AwtFactory.prototype.newColor(255, 192,
 			203);
 	/** light orange (wikipedia papaya whip)*/
-	public static final Color LIGHTORANGE = AwtFactory.prototype.newColor(255,
+	public static final GColor LIGHTORANGE = AwtFactory.prototype.newColor(255,
 			239, 213); 
 	/** light yellow (wikipedia lemon chiffon)*/
-	public static final Color LIGHTYELLOW = AwtFactory.prototype.newColor(255,
+	public static final GColor LIGHTYELLOW = AwtFactory.prototype.newColor(255,
 			250, 205);
 	/** aqua (wikipedia pale aqua)*/
-	public static final Color AQUA = AwtFactory.prototype.newColor(188, 212,
+	public static final GColor AQUA = AwtFactory.prototype.newColor(188, 212,
 			230); 
 	/** light purple (wikipedia periwinkle)*/
-	public static final Color LIGHTPURPLE = AwtFactory.prototype.newColor(204,
+	public static final GColor LIGHTPURPLE = AwtFactory.prototype.newColor(204,
 			204, 255); 
 	/** light violet (wikipedia mauve)*/
-	public static final Color LIGHTVIOLET = AwtFactory.prototype.newColor(224,
+	public static final GColor LIGHTVIOLET = AwtFactory.prototype.newColor(224,
 			176, 255); 
 	/** turqoise (wikipedia pale turquoise)*/
-	public static final Color TURQUOISE = AwtFactory.prototype.newColor(175,
+	public static final GColor TURQUOISE = AwtFactory.prototype.newColor(175,
 			238, 238); 
 	/** light green (wikipedia tea green) */
-	public static final Color LIGHTGREEN = AwtFactory.prototype.newColor(208,
+	public static final GColor LIGHTGREEN = AwtFactory.prototype.newColor(208,
 			240, 192);
 	/** maroon */
-	public static final Color MAROON = AwtFactory.prototype.newColor(128, 0, 0);
+	public static final GColor MAROON = AwtFactory.prototype.newColor(128, 0, 0);
 
 	/**
 	 * Brown: don't change: default Polygon color
 	 */
-	public static final Color BROWN = AwtFactory.prototype.newColor(153, 51, 0);
+	public static final GColor BROWN = AwtFactory.prototype.newColor(153, 51, 0);
 	/**
 	 * Dark green: don't change: default Angle color
 	 */
-	public static final Color DARKGREEN = AwtFactory.prototype.newColor(0, 100,
+	public static final GColor DARKGREEN = AwtFactory.prototype.newColor(0, 100,
 			0);
 	/**
 	 * Light blue: don't change: default Point on path color
 	 */
-	public static final Color LIGHTBLUE = AwtFactory.prototype.newColor(125,
+	public static final GColor LIGHTBLUE = AwtFactory.prototype.newColor(125,
 			125, 255);
 	/** gold */
-	public static final Color GOLD = AwtFactory.prototype.newColor(255, 215, 0);
+	public static final GColor GOLD = AwtFactory.prototype.newColor(255, 215, 0);
 	/** dark blue (wikipedia persian blue)*/
-	public static final Color DARKBLUE = AwtFactory.prototype.newColor(28, 57,
+	public static final GColor DARKBLUE = AwtFactory.prototype.newColor(28, 57,
 			187); 
 	/** indigo */
-	public static final Color INDIGO = AwtFactory.prototype
+	public static final GColor INDIGO = AwtFactory.prototype
 			.newColor(75, 0, 130);
 	/** purple */
-	public static final Color PURPLE = AwtFactory.prototype.newColor(128, 0,
+	public static final GColor PURPLE = AwtFactory.prototype.newColor(128, 0,
 			128);
 	/** crimson */
-	public static final Color CRIMSON = AwtFactory.prototype.newColor(220, 20,
+	public static final GColor CRIMSON = AwtFactory.prototype.newColor(220, 20,
 			60);
 	/** white */
-	public static final Color WHITE = AwtFactory.prototype.newColor(255, 255,
+	public static final GColor WHITE = AwtFactory.prototype.newColor(255, 255,
 			255);
 	/** black */
-	public static final Color BLACK = AwtFactory.prototype.newColor(0, 0, 0);
+	public static final GColor BLACK = AwtFactory.prototype.newColor(0, 0, 0);
 	/** 87.5% gray */
-	public static final Color GRAY7 = grayN(7);
+	public static final GColor GRAY7 = grayN(7);
 	/** 75% gray (silver)*/
-	public static final Color GRAY6 = grayN(6); 
+	public static final GColor GRAY6 = grayN(6); 
 	/** 62.5% gray */
-	public static final Color GRAY5 = grayN(5);
+	public static final GColor GRAY5 = grayN(5);
 	/** 50% gray */
-	public static final Color GRAY4 = grayN(4);
+	public static final GColor GRAY4 = grayN(4);
 	/** 37.5% gray */
-	public static final Color GRAY3 = grayN(3);
+	public static final GColor GRAY3 = grayN(3);
 	/** 25% gray */
-	public static final Color GRAY2 = grayN(2);
+	public static final GColor GRAY2 = grayN(2);
 	/** 12.5% gray */
-	public static final Color GRAY1 = grayN(1);
+	public static final GColor GRAY1 = grayN(1);
 	/** 87.5% gray */
-	public static final Color DARKGRAY = GRAY7;
+	public static final GColor DARKGRAY = GRAY7;
 	/** 37.5% gray */
-	public static final Color LIGHTGRAY = GRAY3;
+	public static final GColor LIGHTGRAY = GRAY3;
 	/** 75% gray */
-	public static final Color SILVER = GRAY6;
+	public static final GColor SILVER = GRAY6;
 
 	/**
 	 * HashMap recording RGB color values with named colors key = color name
 	 * from colors.properties value = RBG color
 	 */
-	private static HashMap<String, Color> geogebraColor = null;// new
+	private static HashMap<String, GColor> geogebraColor = null;// new
 																// HashMap<String,
 																// Color>();
 
 	// static
-	public static HashMap<String, Color> getGeoGebraColors() {
+	public static HashMap<String, GColor> getGeoGebraColors() {
 
 		if (geogebraColor != null)
 			return geogebraColor;
 
-		geogebraColor = new HashMap<String, Color>();
+		geogebraColor = new HashMap<String, GColor>();
 
 		// primary
 		geogebraColor.put("red", RED);
@@ -201,17 +201,17 @@ public class GeoGebraColorConstants {
 	 * Reverse lookup for GeoGebraColors key = RBG color value = color name from
 	 * colors.properties
 	 */
-	private static HashMap<Color, String> geogebraColorReverse = null;// new
+	private static HashMap<GColor, String> geogebraColorReverse = null;// new
 																		// HashMap<Color,
 																		// String>();
 
-	private static HashMap<Color, String> getGeoGebraColorReverse() {
+	private static HashMap<GColor, String> getGeoGebraColorReverse() {
 		if (geogebraColorReverse != null)
 			return geogebraColorReverse;
 
-		geogebraColorReverse = new HashMap<Color, String>();
+		geogebraColorReverse = new HashMap<GColor, String>();
 
-		for (Entry<String, Color> entry : getGeoGebraColors().entrySet())
+		for (Entry<String, GColor> entry : getGeoGebraColors().entrySet())
 			geogebraColorReverse.put(entry.getValue(), entry.getKey());
 
 		return geogebraColorReverse;
@@ -226,12 +226,12 @@ public class GeoGebraColorConstants {
 	 *            localized color name
 	 * @return Color object corresponding with given GeoGebra color name string
 	 */
-	public static Color getGeogebraColor(AbstractApplication app,
+	public static GColor getGeogebraColor(AbstractApplication app,
 			String colorName) {
 
 		getGeoGebraColors();
 
-		Color ret = geogebraColor.get(StringUtil.toLowerCase(colorName));
+		GColor ret = geogebraColor.get(StringUtil.toLowerCase(colorName));
 
 		if (ret == null) {
 			ret = geogebraColor.get(app.reverseGetColor(colorName));
@@ -252,7 +252,7 @@ public class GeoGebraColorConstants {
 	 * @return GeoGebra color name string corresponding with given Color object
 	 */
 	public static String getGeogebraColorName(AbstractApplication app,
-			Color color) {
+			GColor color) {
 		return app.getColor(getGeoGebraColorReverse().get(color));
 	}
 
@@ -265,21 +265,21 @@ public class GeoGebraColorConstants {
 	 * @param n
 	 * @return
 	 */
-	private static Color grayN(int n) {
+	private static GColor grayN(int n) {
 		int grayN = 256 - 32 * n;
 		return AwtFactory.prototype.newColor(grayN, grayN, grayN);
 	}
 
-	private static Color[] primaryColors = null;
+	private static GColor[] primaryColors = null;
 
-	private static Color[] getPrimaryColors() {
+	private static GColor[] getPrimaryColors() {
 
 		if (primaryColors != null)
 			return primaryColors;
 
 		getGeoGebraColors();
 
-		primaryColors = new Color[9];
+		primaryColors = new GColor[9];
 		primaryColors[0] = geogebraColor.get("red");
 		primaryColors[1] = geogebraColor.get("orange");
 		primaryColors[2] = geogebraColor.get("yellow");
@@ -293,16 +293,16 @@ public class GeoGebraColorConstants {
 		return primaryColors;
 	}
 
-	private static Color[] lightPrimaryColors = null;
+	private static GColor[] lightPrimaryColors = null;
 
-	private static Color[] getLightPrimaryColors() {
+	private static GColor[] getLightPrimaryColors() {
 
 		if (lightPrimaryColors != null)
 			return lightPrimaryColors;
 
 		getGeoGebraColors();
 
-		lightPrimaryColors = new Color[9];
+		lightPrimaryColors = new GColor[9];
 		lightPrimaryColors[0] = null; // for the null icon symbol (for removing
 										// bgcolor)
 		lightPrimaryColors[1] = geogebraColor.get("pink");
@@ -317,16 +317,16 @@ public class GeoGebraColorConstants {
 		return lightPrimaryColors;
 	}
 
-	private static Color[] darkPrimaryColors = null;
+	private static GColor[] darkPrimaryColors = null;
 
-	private static Color[] getDarkPrimaryColors() {
+	private static GColor[] getDarkPrimaryColors() {
 
 		if (darkPrimaryColors != null)
 			return darkPrimaryColors;
 
 		getGeoGebraColors();
 
-		darkPrimaryColors = new Color[9];
+		darkPrimaryColors = new GColor[9];
 		darkPrimaryColors[0] = geogebraColor.get("maroon");
 		darkPrimaryColors[1] = geogebraColor.get("brown");
 		darkPrimaryColors[2] = geogebraColor.get("gold");
@@ -340,14 +340,14 @@ public class GeoGebraColorConstants {
 		return darkPrimaryColors;
 	}
 
-	private static Color[] grayColors = null;
+	private static GColor[] grayColors = null;
 
-	private static Color[] getGrayColors() {
+	private static GColor[] getGrayColors() {
 
 		if (grayColors != null)
 			return grayColors;
 
-		grayColors = new Color[9];
+		grayColors = new GColor[9];
 		grayColors[0] = getGeoGebraColors().get("white");
 		grayColors[1] = grayN(1);
 		grayColors[2] = grayN(2);
@@ -370,7 +370,7 @@ public class GeoGebraColorConstants {
 	 *            colors
 	 * @return array of localized color names
 	 */
-	public static String[] getColorNames(AbstractApplication app, Color[] color) {
+	public static String[] getColorNames(AbstractApplication app, GColor[] color) {
 		String[] s = new String[color.length];
 		for (int i = 0; i < s.length; i++) {
 			s[i] = getGeogebraColorName(app, color[i]);
@@ -385,9 +385,9 @@ public class GeoGebraColorConstants {
 	 *            COLORSET_* (background or primary)
 	 * @return array of colors for color popup menus
 	 */
-	public static Color[] getPopupArray(int colorSetType) {
+	public static GColor[] getPopupArray(int colorSetType) {
 
-		Color[] popupColors = new Color[27];
+		GColor[] popupColors = new GColor[27];
 
 		for (int i = 0; i < 9; i++) {
 			if (colorSetType == COLORSET_STANDARD) {
@@ -418,9 +418,9 @@ public class GeoGebraColorConstants {
 	 * 
 	 * @return array of colors intended for the primary color swatch panel
 	 */
-	public static Color[] getPrimarySwatchColors() {
+	public static GColor[] getPrimarySwatchColors() {
 
-		Color[] primColors = new Color[18];
+		GColor[] primColors = new GColor[18];
 
 		for (int i = 0; i < 18; i = i + 2) {
 			// first row
@@ -436,7 +436,7 @@ public class GeoGebraColorConstants {
 	 * Array of colors intended for the main color swatch panel of the
 	 * GeoGebraColorChooser class.
 	 */
-	public static Color[] mainColorSwatchColors = {
+	public static GColor[] mainColorSwatchColors = {
 
 			// Row 1 RED related colors
 
@@ -535,17 +535,17 @@ public class GeoGebraColorConstants {
 			AwtFactory.prototype.newColor(153, 0, 51),
 			AwtFactory.prototype.newColor(102, 0, 153), };
 
-	private static HashMap<String, Color> colors = null;
+	private static HashMap<String, GColor> colors = null;
 
 	/**
 	 * @return map HTML name => color
 	 */
-	public static final HashMap<String, Color> htmlColorMap() {
+	public static final HashMap<String, GColor> htmlColorMap() {
 
 		if (colors != null)
 			return colors;
 
-		colors = new HashMap<String, Color>();
+		colors = new HashMap<String, GColor>();
 
 		// HTML 3.2
 		// colors.put("AQUA", AwtFactory.prototype.newColor(0x00FFFF));

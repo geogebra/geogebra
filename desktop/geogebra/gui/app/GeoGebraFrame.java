@@ -20,12 +20,12 @@ package geogebra.gui.app;
 import geogebra.CommandLineArguments;
 import geogebra.GeoGebra;
 import geogebra.common.GeoGebraConstants;
-import geogebra.common.awt.Color;
+import geogebra.common.awt.GColor;
 import geogebra.common.factories.UtilFactory;
 import geogebra.common.kernel.Macro;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.util.HttpRequest;
-import geogebra.euclidian.EuclidianView;
+import geogebra.euclidian.EuclidianViewD;
 import geogebra.export.GraphicExportDialog;
 import geogebra.export.epsgraphics.ColorMode;
 import geogebra.gui.FileDropTargetListener;
@@ -466,8 +466,8 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 			Graphics2D g2d = this.app.getEuclidianView1().getTempGraphics2D();
 			app.getDrawEquation().drawEquation(this.app, null,
 					new geogebra.awt.Graphics2D(g2d), 0, 0, "x^{2}",
-					new geogebra.awt.Font(g2d.getFont()), false, Color.BLACK,
-					Color.WHITE, false);
+					new geogebra.awt.GFontD(g2d.getFont()), false, GColor.BLACK,
+					GColor.WHITE, false);
 
 			if (!app.isApplet()) {
 				app.getPythonBridge();
@@ -675,7 +675,7 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 			SwingUtilities.invokeLater( new Runnable(){ 
 				public void run() { 
 
-					EuclidianView ev = app.getEuclidianView1();
+					EuclidianViewD ev = app.getEuclidianView1();
 					double printingScale = ev.getPrintingScale();
 					double exportScale = (printingScale * dpi) / 2.54 / ev.getXscale();
 					boolean transparent = true;

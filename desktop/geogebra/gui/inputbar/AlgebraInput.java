@@ -12,7 +12,7 @@ the Free Software Foundation.
 
 package geogebra.gui.inputbar;
 
-import geogebra.common.euclidian.AbstractEuclidianView;
+import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.gui.SetLabels;
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Construction;
@@ -326,7 +326,7 @@ public class AlgebraInput extends  JPanel implements ActionListener, KeyListener
 				if (!text.isTextCommand() && text.getStartPoint() == null) {
 
 					Construction cons = text.getConstruction();
-					AbstractEuclidianView ev = app.getActiveEuclidianView();
+					EuclidianView ev = app.getActiveEuclidianView();
 
 					boolean oldSuppressLabelsStatus = cons.isSuppressLabelsActive();
 					cons.setSuppressLabelCreation(true);

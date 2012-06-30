@@ -3,8 +3,8 @@ package geogebra.web.javax.swing;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Widget;
 
-import geogebra.common.awt.Color;
-import geogebra.common.awt.Font;
+import geogebra.common.awt.GColor;
+import geogebra.common.awt.GFont;
 import geogebra.common.euclidian.event.ActionListener;
 import geogebra.common.javax.swing.AbstractJComboBox;
 
@@ -31,19 +31,19 @@ public class JComboBox extends geogebra.common.javax.swing.AbstractJComboBox {
     }
 
 	@Override
-    public void setFont(Font font) {
+    public void setFont(GFont font) {
 	    // TODO Auto-generated method stub
 	    
     }
 
 	@Override
-    public void setForeground(Color objectColor) {
+    public void setForeground(GColor objectColor) {
 	    // TODO Auto-generated method stub
 	    
     }
 
 	@Override
-    public void setBackground(Color color) {
+    public void setBackground(GColor color) {
 	    // TODO Auto-generated method stub
 	    
     }

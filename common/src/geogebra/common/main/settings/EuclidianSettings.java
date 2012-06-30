@@ -1,7 +1,7 @@
 package geogebra.common.main.settings;
 
-import geogebra.common.awt.Color;
-import geogebra.common.awt.Dimension;
+import geogebra.common.awt.GColor;
+import geogebra.common.awt.GDimension;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -16,17 +16,17 @@ public class EuclidianSettings extends AbstractSettings {
 	/**
 	 * Color of the euclidian view's background.
 	 */
-	private Color backgroundColor;
+	private GColor backgroundColor;
 
 	/**
 	 * Color of the axes.
 	 */
-	private Color axesColor;
+	private GColor axesColor;
 
 	/**
 	 * Color of the grid lines.
 	 */
-	private Color gridColor;
+	private GColor gridColor;
 
 	/**
 	 * Line style of axes.
@@ -69,9 +69,9 @@ public class EuclidianSettings extends AbstractSettings {
 
 		setGridLineStyle(EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT);
 		setAxesLineStyle(EuclidianStyleConstants.AXES_LINE_TYPE_ARROW);
-		setAxesColor(Color.black); // Michael Borcherds 2008-01-26 was darkgray
-		setGridColor(Color.lightGray);
-		setBackground(Color.white);
+		setAxesColor(GColor.black); // Michael Borcherds 2008-01-26 was darkgray
+		setGridColor(GColor.lightGray);
+		setBackground(GColor.white);
 
 		pointCapturingMode = EuclidianStyleConstants.POINT_CAPTURING_AUTOMATIC;
 
@@ -105,7 +105,7 @@ public class EuclidianSettings extends AbstractSettings {
 	 * 
 	 * @param col
 	 */
-	public void setBackground(Color col) {
+	public void setBackground(GColor col) {
 		if (!col.equals(backgroundColor)) {
 			backgroundColor = col;
 			settingChanged();
@@ -115,7 +115,7 @@ public class EuclidianSettings extends AbstractSettings {
 	/**
 	 * @return background color
 	 */
-	public Color getBackground() {
+	public GColor getBackground() {
 		return backgroundColor;
 	}
 
@@ -124,7 +124,7 @@ public class EuclidianSettings extends AbstractSettings {
 	 * 
 	 * @param col
 	 */
-	public void setAxesColor(Color col) {
+	public void setAxesColor(GColor col) {
 		if (!col.equals(axesColor)) {
 			axesColor = col;
 			settingChanged();
@@ -134,7 +134,7 @@ public class EuclidianSettings extends AbstractSettings {
 	/**
 	 * @return axes color
 	 */
-	public Color getAxesColor() {
+	public GColor getAxesColor() {
 		return axesColor;
 	}
 
@@ -143,7 +143,7 @@ public class EuclidianSettings extends AbstractSettings {
 	 * 
 	 * @param col
 	 */
-	public void setGridColor(Color col) {
+	public void setGridColor(GColor col) {
 		if (!col.equals(gridColor)) {
 			gridColor = col;
 			settingChanged();
@@ -153,7 +153,7 @@ public class EuclidianSettings extends AbstractSettings {
 	/**
 	 * @return color of the grid
 	 */
-	public Color getGridColor() {
+	public GColor getGridColor() {
 		return gridColor;
 	}
 
@@ -283,7 +283,7 @@ public class EuclidianSettings extends AbstractSettings {
 
 	private double yscale;
 
-	private Dimension preferredSize;
+	private GDimension preferredSize;
 
 	private boolean showGrid;
 
@@ -627,13 +627,13 @@ public class EuclidianSettings extends AbstractSettings {
 
 	}
 
-	public void setPreferredSize(Dimension dimension) {
+	public void setPreferredSize(GDimension dimension) {
 		preferredSize = dimension;
 		settingChanged();
 
 	}
 
-	public Dimension getPreferredSize() {
+	public GDimension getPreferredSize() {
 		return preferredSize;
 	}
 

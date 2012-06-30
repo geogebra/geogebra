@@ -22,7 +22,7 @@ public class DrawBoxPlot extends Drawable {
 	 * @param view view
 	 * @param n number (boxplot)
 	 */
-	public DrawBoxPlot(AbstractEuclidianView view, GeoNumeric n) {
+	public DrawBoxPlot(EuclidianView view, GeoNumeric n) {
 		this.view = view;
 		sum = n;
 		geo = n;

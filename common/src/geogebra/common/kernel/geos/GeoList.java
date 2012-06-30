@@ -12,8 +12,8 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.geos;
 
-import geogebra.common.awt.Color;
-import geogebra.common.awt.Font;
+import geogebra.common.awt.GColor;
+import geogebra.common.awt.GFont;
 import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import geogebra.common.factories.SwingFactory;
 import geogebra.common.javax.swing.AbstractJComboBox;
@@ -389,7 +389,7 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture {
 	}
 
 	@Override
-	public void setObjColor(final Color color) {
+	public void setObjColor(final GColor color) {
 		super.setObjColor(color);
 
 		if ((geoList == null) || (geoList.size() == 0)) {
@@ -406,7 +406,7 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture {
 	}
 
 	@Override
-	public void setBackgroundColor(final Color color) {
+	public void setBackgroundColor(final GColor color) {
 		super.setBackgroundColor(color);
 
 		if ((geoList == null) || (geoList.size() == 0)) {
@@ -1235,7 +1235,7 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture {
 
 	// font options
 	private boolean serifFont = false;
-	private int fontStyle = Font.PLAIN;
+	private int fontStyle = GFont.PLAIN;
 	private int fontSize = 0; // size relative to default font size
 	private int printDecimals = -1;
 	private int printFigures = -1;

@@ -28,8 +28,8 @@ public interface DrawEquationInterface {
 	 * @param useCache true to cache
 	 * @return dimensions of result
 	 */
-	public geogebra.common.awt.Dimension drawEquation(AbstractApplication app,
+	public geogebra.common.awt.GDimension drawEquation(AbstractApplication app,
 			GeoElement geo, geogebra.common.awt.Graphics2D g2, int x, int y, String text,
-			geogebra.common.awt.Font font, boolean serif, geogebra.common.awt.Color fgColor, geogebra.common.awt.Color bgColor,
+			geogebra.common.awt.GFont font, boolean serif, geogebra.common.awt.GColor fgColor, geogebra.common.awt.GColor bgColor,
 			boolean useCache); 
 }

@@ -1,6 +1,6 @@
 package geogebra.gui.view.spreadsheet;
 
-import geogebra.common.awt.Point;
+import geogebra.common.awt.GPoint;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.gui.view.spreadsheet.CellRange;
@@ -63,7 +63,7 @@ public class SpreadsheetMouseListener implements MouseListener, MouseMotionListe
 
 		boolean doubleClick = (e.getClickCount() != 1);
 
-		Point point = table.getIndexFromPixel(e.getX(), e.getY());
+		GPoint point = table.getIndexFromPixel(e.getX(), e.getY());
 		if (point != null) {
 
 			if (doubleClick) {
@@ -202,7 +202,7 @@ public class SpreadsheetMouseListener implements MouseListener, MouseMotionListe
 
 			//force column selection
 			if(view.isColumnSelect()){
-				Point point = table.getIndexFromPixel(e.getX(), e.getY());
+				GPoint point = table.getIndexFromPixel(e.getX(), e.getY());
 				if (point != null) {
 					int column = (int)point.getX();
 					table.setColumnSelectionInterval(column, column);
@@ -218,7 +218,7 @@ public class SpreadsheetMouseListener implements MouseListener, MouseMotionListe
 			}
 			 */
 
-			Point point1 = table.getMaxSelectionPixel();
+			GPoint point1 = table.getMaxSelectionPixel();
 			if (point1 == null) return;
 			
 			// Handle click in another cell while editing a cell:
@@ -227,7 +227,7 @@ public class SpreadsheetMouseListener implements MouseListener, MouseMotionListe
 			if (editor.isEditing()) {
 				String text = editor.getEditingValue();
 				if (text.startsWith("=")) {
-					Point point = table.getIndexFromPixel(e.getX(), e.getY());
+					GPoint point = table.getIndexFromPixel(e.getX(), e.getY());
 					if (point != null) {
 						int column = (int)point.getX();
 						int row = (int)point.getY();
@@ -289,7 +289,7 @@ public class SpreadsheetMouseListener implements MouseListener, MouseMotionListe
 			if (editor.isEditing()) {
 				String text = editor.getEditingValue();
 				if (text.startsWith("=")) {
-					Point point = table.getIndexFromPixel(e.getX(), e.getY());
+					GPoint point = table.getIndexFromPixel(e.getX(), e.getY());
 					if (point != null) {
 						int column = (int)point.getX();
 						int row = (int)point.getY();
@@ -390,7 +390,7 @@ public class SpreadsheetMouseListener implements MouseListener, MouseMotionListe
 		if (rightClick){
 			if (!((Application) kernel.getApplication()).letShowPopupMenu()) return;
 
-			Point p = table.getIndexFromPixel(e.getX(), e.getY());
+			GPoint p = table.getIndexFromPixel(e.getX(), e.getY());
 
 			// change selection if right click is outside current selection
 			if(p.getY() < table.minSelectionRow ||  p.getY() > table.maxSelectionRow 
@@ -427,7 +427,7 @@ public class SpreadsheetMouseListener implements MouseListener, MouseMotionListe
 		
 		// handle editing mode drag 
 		if (editor.isEditing()) {
-			Point point = table.getIndexFromPixel(e.getX(), e.getY());
+			GPoint point = table.getIndexFromPixel(e.getX(), e.getY());
 			if (point != null && selectedCellName != null) {
 				int column2 = (int)point.getX();
 				int row2 = (int)point.getY();
@@ -470,7 +470,7 @@ public class SpreadsheetMouseListener implements MouseListener, MouseMotionListe
 			e.consume();
 			int mouseX = e.getX();
 			int mouseY = e.getY();
-			Point mouseCell = table.getIndexFromPixel(mouseX, mouseY);
+			GPoint mouseCell = table.getIndexFromPixel(mouseX, mouseY);
 
 			//save the selected cell position so it can be re-selected if needed
 			CellRange oldSelection = table.getSelectedCellRanges().get(0);
@@ -579,8 +579,8 @@ public class SpreadsheetMouseListener implements MouseListener, MouseMotionListe
 			table.setToolTipText(null);	
 
 		//check if over the dragging dot and update accordingly
-		Point maxPoint = table.getMaxSelectionPixel();
-		Point minPoint = table.getMinSelectionPixel();
+		GPoint maxPoint = table.getMaxSelectionPixel();
+		GPoint minPoint = table.getMinSelectionPixel();
 
 		if (maxPoint != null) {
 			int dotX = maxPoint.getX();
@@ -596,7 +596,7 @@ public class SpreadsheetMouseListener implements MouseListener, MouseMotionListe
 		}
 
 		//check if over the DnD region and update accordingly
-		Point testPoint = table.getMinSelectionPixel();
+		GPoint testPoint = table.getMinSelectionPixel();
 		if (testPoint != null) {
 			int minX = minPoint.getX();
 			int minY = minPoint.getY();

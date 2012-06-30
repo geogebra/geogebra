@@ -12,8 +12,8 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.algos;
 
-import geogebra.common.awt.Point2D;
-import geogebra.common.awt.Rectangle2D;
+import geogebra.common.awt.GPoint2D;
+import geogebra.common.awt.GRectangle2D;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
@@ -64,7 +64,7 @@ public class AlgoLocus extends AlgoElement {
 	private double lastX, lastY, maxXdist, maxYdist, xmin, xmax, ymin, ymax,
 			farXmin, farXmax, farYmin, farYmax;
 	// private Line2D.Double tempLine = new Line2D.Double();
-	private Rectangle2D nearToScreenRect = geogebra.common.factories.AwtFactory.prototype
+	private GRectangle2D nearToScreenRect = geogebra.common.factories.AwtFactory.prototype
 			.newRectangle2D();
 	private boolean continuous;
 	private boolean lastFarAway;
@@ -554,7 +554,7 @@ public class AlgoLocus extends AlgoElement {
 			// NON-CONTINOUS construction
 			// check if the path parameter's resulting Qcopy is already in cache
 			double param = Pcopy.getPathParameter().t;
-			Point2D cachedPoint = getCachedPoint(param);
+			GPoint2D cachedPoint = getCachedPoint(param);
 
 			if (cachedPoint == null) {
 				// measure time needed for update of construction
@@ -616,7 +616,7 @@ public class AlgoLocus extends AlgoElement {
 		}
 	}
 
-	private Point2D getCachedPoint(double param) {
+	private GPoint2D getCachedPoint(double param) {
 		// search for cached parameter
 		for (int i = 0; i < paramCache.length; i++) {
 			if (param == paramCache[i])
@@ -638,7 +638,7 @@ public class AlgoLocus extends AlgoElement {
 
 	// small cache of 3 last parameters and Qcopy positions
 	private double[] paramCache = new double[3];
-	private Point2D[] qcopyCache = new Point2D[paramCache.length];
+	private GPoint2D[] qcopyCache = new GPoint2D[paramCache.length];
 	private int cacheIndex = 0;
 	private long useCache = 0;
 

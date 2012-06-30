@@ -1,7 +1,7 @@
 package geogebra3D.euclidian3D.opengl;
 
 import geogebra.common.plugin.EuclidianStyleConstants;
-import geogebra.euclidian.EuclidianView;
+import geogebra.euclidian.EuclidianViewD;
 import geogebra.util.ImageManager;
 
 import java.awt.Transparency;

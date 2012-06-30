@@ -1,6 +1,6 @@
 package geogebra.web.gui;
 
-import geogebra.common.awt.Point;
+import geogebra.common.awt.GPoint;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.gui.dialog.DialogManager;
@@ -102,7 +102,7 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 
 	@Override
 	public void showPopupMenu(ArrayList<GeoElement> selectedGeos,
-			EuclidianViewInterfaceCommon euclidianViewInterfaceCommon, Point mouseLoc) {
+			EuclidianViewInterfaceCommon euclidianViewInterfaceCommon, GPoint mouseLoc) {
 		// TODO Auto-generated method stub
 		AbstractApplication.debug("unimplemented method");
 
@@ -112,7 +112,7 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 	@Override
 	public void showPopupChooseGeo(ArrayList<GeoElement> selectedGeos,
 			ArrayList<GeoElement> geos, EuclidianViewInterfaceCommon view,
-			geogebra.common.awt.Point p) {
+			geogebra.common.awt.GPoint p) {
 		// TODO Auto-generated method stub
 		AbstractApplication.debug("unimplemented method");
 		
@@ -168,7 +168,7 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 
 	@Override
 	public void showDrawingPadPopup(EuclidianViewInterfaceCommon view,
-			Point mouseLoc) {
+			GPoint mouseLoc) {
 		// TODO Auto-generated method stub
 		AbstractApplication.debug("unimplemented method");
 

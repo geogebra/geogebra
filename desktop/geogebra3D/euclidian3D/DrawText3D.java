@@ -49,7 +49,7 @@ public class DrawText3D extends Drawable3DCurves {
 				
 		label.update(text.getTextString(), 
 				getFont(), 
-				geogebra.awt.Color.getAwtColor(getGeoElement().getObjectColor()),
+				geogebra.awt.GColorD.getAwtColor(getGeoElement().getObjectColor()),
 				getLabelPosition(),
 				getLabelOffsetX(),-getLabelOffsetY());
 

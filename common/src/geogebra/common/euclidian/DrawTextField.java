@@ -12,9 +12,9 @@
 
 package geogebra.common.euclidian;
 
-import geogebra.common.awt.Color;
-import geogebra.common.awt.Dimension;
-import geogebra.common.awt.Font;
+import geogebra.common.awt.GColor;
+import geogebra.common.awt.GDimension;
+import geogebra.common.awt.GFont;
 import geogebra.common.euclidian.event.FocusEvent;
 import geogebra.common.euclidian.event.KeyEvent;
 import geogebra.common.factories.AwtFactory;
@@ -57,7 +57,7 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 	 * @param view view
 	 * @param geo textfield
 	 */
-	public DrawTextField(AbstractEuclidianView view, GeoTextField geo) {
+	public DrawTextField(EuclidianView view, GeoTextField geo) {
 		this.view = view;
 		this.geoTextField = geo;
 		this.geo = geo;
@@ -349,8 +349,8 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 		int fontSize = view.getFontSize() + geoTextField.getFontSize();
 		AbstractApplication app = view.getApplication();
 
-		Font vFont = view.getFont();
-		Font font = app.getFontCanDisplay(textField.getText(), false,
+		GFont vFont = view.getFont();
+		GFont font = app.getFontCanDisplay(textField.getText(), false,
 				vFont.getStyle(), fontSize);
 
 		textField.setOpaque(true);
@@ -359,7 +359,7 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 		label.setFont(font);
 		textField.setForeground(geo.getObjectColor());
 		label.setForeground(geo.getObjectColor());
-		Color bgCol = geo.getBackgroundColor();
+		GColor bgCol = geo.getBackgroundColor();
 		textField.setBackground(bgCol != null ? bgCol : view.getBackgroundCommon());
 
 		textField.setFocusable(true);
@@ -370,7 +370,7 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 
 		xLabel = geo.labelOffsetX;
 		yLabel = geo.labelOffsetY;
-		Dimension prefSize = box.getPreferredSize();
+		GDimension prefSize = box.getPreferredSize();
 		labelRectangle.setBounds(xLabel, yLabel, prefSize.getWidth(),
 				prefSize.getHeight());
 		box.setBounds(labelRectangle);
@@ -393,7 +393,7 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 		if (isVisible) {
 			if (geo.doHighlighting()) {
 				label.setOpaque(true);
-				label.setBackground(Color.lightGray);
+				label.setBackground(GColor.lightGray);
 
 			} else {
 				label.setOpaque(false);

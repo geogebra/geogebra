@@ -1,12 +1,12 @@
 package geogebra.common.main;
 
-import geogebra.common.awt.BufferedImage;
-import geogebra.common.awt.Dimension;
-import geogebra.common.awt.Font;
-import geogebra.common.awt.Image;
+import geogebra.common.awt.GBufferedImage;
+import geogebra.common.awt.GDimension;
+import geogebra.common.awt.GFont;
+import geogebra.common.awt.GImage;
 import geogebra.common.cas.singularws.SingularWebService;
-import geogebra.common.euclidian.AbstractEuclidianController;
-import geogebra.common.euclidian.AbstractEuclidianView;
+import geogebra.common.euclidian.EuclidianController;
+import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.DrawEquationInterface;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
@@ -200,8 +200,8 @@ public abstract class AbstractApplication {
 	private LowerCaseDictionary commandDict;
 	private LowerCaseDictionary commandDictCAS;
 	
-	protected AbstractEuclidianView euclidianView;
-	protected AbstractEuclidianController euclidianController;
+	protected EuclidianView euclidianView;
+	protected EuclidianController euclidianController;
 	protected GeoElementSelectionListener currentSelectionListener;
 	protected boolean showMenuBar = true;
 	// array of dictionaries corresponding to the sub command tables
@@ -1390,7 +1390,7 @@ public abstract class AbstractApplication {
 
 	
 	public double countPixels(double min, double max) {
-		AbstractEuclidianView ev = getEuclidianView1();
+		EuclidianView ev = getEuclidianView1();
 		return ev.toScreenCoordXd(max) - ev.toScreenCoordXd(min);
 	}
 
@@ -1398,7 +1398,7 @@ public abstract class AbstractApplication {
 	public abstract AlgebraView getAlgebraView();
 
 	
-	public AbstractEuclidianView getEuclidianView1(){
+	public EuclidianView getEuclidianView1(){
 		notice("AbstrEuclView");
 		return euclidianView;
 	}
@@ -1622,7 +1622,7 @@ public abstract class AbstractApplication {
 		// Application.debug("miniprops active:"+miniPropertiesActive);
 	}
 
-	public abstract AbstractEuclidianView createEuclidianView();
+	public abstract EuclidianView createEuclidianView();
 	
 	final public int getMode() {
 		return this.createEuclidianView().getMode();
@@ -1657,7 +1657,7 @@ public abstract class AbstractApplication {
 		return 32;
 	}
 
-	public abstract BufferedImage getExternalImageAdapter(String filename);
+	public abstract GBufferedImage getExternalImageAdapter(String filename);
 
 	protected abstract String getSyntaxString();
 	
@@ -2008,7 +2008,7 @@ public abstract class AbstractApplication {
 	/**
 	 * @param size preferred size 
 	 */
-	public void setPreferredSize(Dimension size) {
+	public void setPreferredSize(GDimension size) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -2088,7 +2088,7 @@ public abstract class AbstractApplication {
 
 	
 
-	public AbstractEuclidianView getEuclidianView2() {
+	public EuclidianView getEuclidianView2() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -2108,12 +2108,12 @@ public abstract class AbstractApplication {
 	 * @param size
 	 * @return
 	 */
-	public Font getFontCommon(boolean serif, int style, int size) {
+	public GFont getFontCommon(boolean serif, int style, int size) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public abstract Font getPlainFontCommon();
+	public abstract GFont getPlainFontCommon();
 
 	public boolean isExporting() {
 		// TODO Auto-generated method stub
@@ -2186,8 +2186,8 @@ public abstract class AbstractApplication {
 		euclidianView = newEuclidianView(showAxes, showGrid);
 		euclidianView.setAntialiasing(antialiasing);
 	}
-	abstract protected AbstractEuclidianView newEuclidianView(boolean[] showAxes1,boolean showGrid1);
-	abstract protected AbstractEuclidianController newEuclidianController(Kernel kernel1);
+	abstract protected EuclidianView newEuclidianView(boolean[] showAxes1,boolean showGrid1);
+	abstract protected EuclidianController newEuclidianController(Kernel kernel1);
 	/**
 	 * 
 	 * @param cons
@@ -2576,21 +2576,21 @@ public abstract class AbstractApplication {
 	/**
 	 * Returns a font that can display testString.
 	 */
-	public Font getFontCanDisplay(String testString) {
-		return getFontCanDisplay(testString, false, Font.PLAIN, getFontSize());
+	public GFont getFontCanDisplay(String testString) {
+		return getFontCanDisplay(testString, false, GFont.PLAIN, getFontSize());
 	}
 
 	/**
 	 * Returns a font that can display testString.
 	 */
-	public Font getFontCanDisplay(String testString, int fontStyle) {
+	public GFont getFontCanDisplay(String testString, int fontStyle) {
 		return getFontCanDisplay(testString, false, fontStyle, getFontSize());
 	}
 
 	/**
 	 * Returns a font that can display testString.
 	 */
-	public Font getFontCanDisplay(String testString, boolean serif,
+	public GFont getFontCanDisplay(String testString, boolean serif,
 			int fontStyle, int fontSize) {
 		return getFontManager().getFontCanDisplay(testString, serif, fontStyle,
 				fontSize);
@@ -2861,7 +2861,7 @@ public abstract class AbstractApplication {
 	/**
 	 * @param filename filename (without /gui/images prefix) 
 	 */
-	public Image getInternalImageAdapter(String filename) {
+	public GImage getInternalImageAdapter(String filename) {
 		return null;
 	}
 	

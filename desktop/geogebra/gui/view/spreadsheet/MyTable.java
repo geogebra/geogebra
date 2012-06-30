@@ -1,6 +1,6 @@
 package geogebra.gui.view.spreadsheet;
 
-import geogebra.common.awt.Point;
+import geogebra.common.awt.GPoint;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.gui.view.spreadsheet.CellRange;
 import geogebra.common.gui.view.spreadsheet.RelativeCopy;
@@ -60,15 +60,15 @@ public class MyTable extends JTable implements FocusListener {
 	public static final int DOT_SIZE = 7;
 	public static final int LINE_THICKNESS1 = 3;
 	public static final int LINE_THICKNESS2 = 2;
-	public static final Color SELECTED_BACKGROUND_COLOR = geogebra.awt.Color
+	public static final Color SELECTED_BACKGROUND_COLOR = geogebra.awt.GColorD
 			.getAwtColor(GeoGebraColorConstants.TABLE_SELECTED_BACKGROUND_COLOR);
-	public static final Color SELECTED_BACKGROUND_COLOR_HEADER = geogebra.awt.Color
+	public static final Color SELECTED_BACKGROUND_COLOR_HEADER = geogebra.awt.GColorD
 			.getAwtColor(GeoGebraColorConstants.TABLE_SELECTED_BACKGROUND_COLOR_HEADER);
-	public static final Color BACKGROUND_COLOR_HEADER = geogebra.awt.Color
+	public static final Color BACKGROUND_COLOR_HEADER = geogebra.awt.GColorD
 			.getAwtColor(GeoGebraColorConstants.TABLE_BACKGROUND_COLOR_HEADER);
-	public static final Color TABLE_GRID_COLOR = geogebra.awt.Color
+	public static final Color TABLE_GRID_COLOR = geogebra.awt.GColorD
 			.getAwtColor(GeoGebraColorConstants.GRAY2);
-	public static final Color HEADER_GRID_COLOR = geogebra.awt.Color
+	public static final Color HEADER_GRID_COLOR = geogebra.awt.GColorD
 			.getAwtColor(GeoGebraColorConstants.GRAY4);
 	public static final Color SELECTED_RECTANGLE_COLOR = Color.BLUE;
 
@@ -150,23 +150,23 @@ public class MyTable extends JTable implements FocusListener {
 	// Cells to be resized on next repaint are put in these HashSets.
 	// A cell is added to a set when editing is done. The cells are removed
 	// after a repaint in MyTable.
-	public HashSet<Point> cellResizeHeightSet;
-	public HashSet<Point> cellResizeWidthSet;
+	public HashSet<GPoint> cellResizeHeightSet;
+	public HashSet<GPoint> cellResizeWidthSet;
 
-	private ArrayList<Point> adjustedRowHeights = new ArrayList<Point>();
+	private ArrayList<GPoint> adjustedRowHeights = new ArrayList<GPoint>();
 	private boolean doRecordRowHeights = true;
 
 	public int preferredColumnWidth = SpreadsheetSettings.TABLE_CELL_WIDTH;
 
 	// Collection of cells that contain geos that can be edited with one click,
 	// e.g. booleans, buttons, lists
-	protected HashMap<Point, GeoElement> oneClickEditMap = new HashMap<Point, GeoElement>();
+	protected HashMap<GPoint, GeoElement> oneClickEditMap = new HashMap<GPoint, GeoElement>();
 
-	public HashMap<Point, GeoElement> getOneClickEditMap() {
+	public HashMap<GPoint, GeoElement> getOneClickEditMap() {
 		return oneClickEditMap;
 	}
 
-	public void setOneClickEditMap(HashMap<Point, GeoElement> oneClickEditMap) {
+	public void setOneClickEditMap(HashMap<GPoint, GeoElement> oneClickEditMap) {
 		this.oneClickEditMap = oneClickEditMap;
 	}
 
@@ -184,8 +184,8 @@ public class MyTable extends JTable implements FocusListener {
 	public MyTable(SpreadsheetView view, DefaultTableModel tableModel) {
 		super(tableModel);
 
-		cellResizeHeightSet = new HashSet<Point>();
-		cellResizeWidthSet = new HashSet<Point>();
+		cellResizeHeightSet = new HashSet<GPoint>();
+		cellResizeWidthSet = new HashSet<GPoint>();
 
 		app = view.getApplication();
 		kernel = app.getKernel();
@@ -389,7 +389,7 @@ public class MyTable extends JTable implements FocusListener {
 	@Override
 	public TableCellEditor getCellEditor(int row, int column) {
 
-		Point p = new Point(column, row);
+		GPoint p = new GPoint(column, row);
 		if (view.allowSpecialEditor() && oneClickEditMap.containsKey(p)
 				&& kernel.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_VALUE) {
 
@@ -714,7 +714,7 @@ public class MyTable extends JTable implements FocusListener {
 		if (cellName == null)
 			return setSelection(-1, -1, -1, -1);
 
-		Point newCell = GeoElementSpreadsheet.spreadsheetIndices(cellName);
+		GPoint newCell = GeoElementSpreadsheet.spreadsheetIndices(cellName);
 		if (newCell.x != -1 && newCell.y != -1) {
 			return setSelection(newCell.x, newCell.y);
 		} else {
@@ -949,27 +949,27 @@ public class MyTable extends JTable implements FocusListener {
 		selectionRectangleColor = color;
 	}
 
-	protected Point getPixel(int column, int row, boolean min) {
+	protected GPoint getPixel(int column, int row, boolean min) {
 		if (column < 0 || row < 0) {
 			return null;
 		}
 		if (min && column == 0 && row == 0) {
-			return new Point(0, 0);
+			return new GPoint(0, 0);
 		}
 
 		Rectangle cellRect = getCellRect(row, column, false);
 		if (min)
-			return new Point(cellRect.x, cellRect.y);
+			return new GPoint(cellRect.x, cellRect.y);
 		else
-			return new Point(cellRect.x + cellRect.width, cellRect.y
+			return new GPoint(cellRect.x + cellRect.width, cellRect.y
 					+ cellRect.height);
 	}
 
-	protected Point getMinSelectionPixel() {
+	protected GPoint getMinSelectionPixel() {
 		return getPixel(minSelectionColumn, minSelectionRow, true);
 	}
 
-	protected Point getMaxSelectionPixel() {
+	protected GPoint getMaxSelectionPixel() {
 		return getPixel(maxSelectionColumn, maxSelectionRow, false);
 	}
 
@@ -977,13 +977,13 @@ public class MyTable extends JTable implements FocusListener {
 	 * Returns Point(columnIndex, rowIndex), cell indices for the given pixel
 	 * location
 	 */
-	public Point getIndexFromPixel(int x, int y) {
+	public GPoint getIndexFromPixel(int x, int y) {
 		if (x < 0 || y < 0)
 			return null;
 		int indexX = -1;
 		int indexY = -1;
 		for (int i = 0; i < getColumnCount(); ++i) {
-			Point point = getPixel(i, 0, false);
+			GPoint point = getPixel(i, 0, false);
 			if (x < point.getX()) {
 				indexX = i;
 				break;
@@ -993,7 +993,7 @@ public class MyTable extends JTable implements FocusListener {
 			return null;
 		}
 		for (int i = 0; i < getRowCount(); ++i) {
-			Point point = getPixel(0, i, false);
+			GPoint point = getPixel(0, i, false);
 			if (y < point.getY()) {
 				indexY = i;
 				break;
@@ -1002,7 +1002,7 @@ public class MyTable extends JTable implements FocusListener {
 		if (indexY == -1) {
 			return null;
 		}
-		return new Point(indexX, indexY);
+		return new GPoint(indexX, indexY);
 	}
 
 	public Rectangle getCellBlockRect(int column1, int row1, int column2,
@@ -1055,7 +1055,7 @@ public class MyTable extends JTable implements FocusListener {
 
 		// draw special target cell frame
 		if (targetcellFrame != null) {
-			g2.setColor(geogebra.awt.Color
+			g2.setColor(geogebra.awt.GColorD
 					.getAwtColor(GeoGebraColorConstants.DARKBLUE));
 			g2.setStroke(dashed);
 			g2.draw(targetcellFrame);
@@ -1071,8 +1071,8 @@ public class MyTable extends JTable implements FocusListener {
 
 		// draw special dragging frame for cell editor
 		if (isDragging2) {
-			Point point1 = getPixel(minColumn2, minRow2, true);
-			Point point2 = getPixel(maxColumn2, maxRow2, false);
+			GPoint point1 = getPixel(minColumn2, minRow2, true);
+			GPoint point2 = getPixel(maxColumn2, maxRow2, false);
 			int x1 = (int) point1.getX();
 			int y1 = (int) point1.getY();
 			int x2 = (int) point2.getX();
@@ -1102,8 +1102,8 @@ public class MyTable extends JTable implements FocusListener {
 			// -|4|-
 			graphics.setColor(Color.gray);
 			if (dragingToColumn < minSelectionColumn) { // 2
-				Point point1 = getPixel(dragingToColumn, minSelectionRow, true);
-				Point point2 = getPixel(minSelectionColumn - 1,
+				GPoint point1 = getPixel(dragingToColumn, minSelectionRow, true);
+				GPoint point2 = getPixel(minSelectionColumn - 1,
 						maxSelectionRow, false);
 				int x1 = (int) point1.getX();
 				int y1 = (int) point1.getY();
@@ -1114,9 +1114,9 @@ public class MyTable extends JTable implements FocusListener {
 				graphics.fillRect(x1, y2 - LINE_THICKNESS1, x2 - x1,
 						LINE_THICKNESS1);
 			} else if (dragingToRow > maxSelectionRow) { // 4
-				Point point1 = getPixel(minSelectionColumn,
+				GPoint point1 = getPixel(minSelectionColumn,
 						maxSelectionRow + 1, true);
-				Point point2 = getPixel(maxSelectionColumn, dragingToRow, false);
+				GPoint point2 = getPixel(maxSelectionColumn, dragingToRow, false);
 				int x1 = (int) point1.getX();
 				int y1 = (int) point1.getY();
 				int x2 = (int) point2.getX();
@@ -1127,8 +1127,8 @@ public class MyTable extends JTable implements FocusListener {
 				graphics.fillRect(x2 - LINE_THICKNESS1, y1, LINE_THICKNESS1, y2
 						- y1);
 			} else if (dragingToRow < minSelectionRow) { // 1
-				Point point1 = getPixel(minSelectionColumn, dragingToRow, true);
-				Point point2 = getPixel(maxSelectionColumn,
+				GPoint point1 = getPixel(minSelectionColumn, dragingToRow, true);
+				GPoint point2 = getPixel(maxSelectionColumn,
 						minSelectionRow - 1, false);
 				int x1 = (int) point1.getX();
 				int y1 = (int) point1.getY();
@@ -1139,9 +1139,9 @@ public class MyTable extends JTable implements FocusListener {
 				graphics.fillRect(x2 - LINE_THICKNESS1, y1, LINE_THICKNESS1, y2
 						- y1);
 			} else if (dragingToColumn > maxSelectionColumn) { // 3
-				Point point1 = getPixel(maxSelectionColumn + 1,
+				GPoint point1 = getPixel(maxSelectionColumn + 1,
 						minSelectionRow, true);
-				Point point2 = getPixel(dragingToColumn, maxSelectionRow, false);
+				GPoint point2 = getPixel(dragingToColumn, maxSelectionRow, false);
 				int x1 = (int) point1.getX();
 				int y1 = (int) point1.getY();
 				int x2 = (int) point2.getX();
@@ -1155,7 +1155,7 @@ public class MyTable extends JTable implements FocusListener {
 		}
 
 		// draw dragging dot
-		Point pixel1 = getMaxSelectionPixel();
+		GPoint pixel1 = getMaxSelectionPixel();
 		if (doShowDragHandle && pixel1 != null && !editor.isEditing()) {
 
 			// Highlight the dragging dot if mouseover
@@ -1174,8 +1174,8 @@ public class MyTable extends JTable implements FocusListener {
 
 		if (minSelectionRow != -1 && maxSelectionRow != -1
 				&& minSelectionColumn != -1 && maxSelectionColumn != -1) {
-			Point min = this.getMinSelectionPixel();
-			Point max = this.getMaxSelectionPixel();
+			GPoint min = this.getMinSelectionPixel();
+			GPoint max = this.getMaxSelectionPixel();
 			int x1 = (int) min.getX();
 			int y1 = (int) min.getY();
 			int x2 = (int) max.getX();
@@ -1330,7 +1330,7 @@ public class MyTable extends JTable implements FocusListener {
 
 		// allow use of special editors for e.g. buttons, lists
 		if (view.allowSpecialEditor()
-				&& oneClickEditMap.containsKey(new Point(column, row)))
+				&& oneClickEditMap.containsKey(new GPoint(column, row)))
 			return true;
 
 		// normal case: return false so we can handle double click in our
@@ -1379,7 +1379,7 @@ public class MyTable extends JTable implements FocusListener {
 			if (view != null) {
 				view.updateRowHeader();
 				if (doRecordRowHeights)
-					adjustedRowHeights.add(new Point(row, rowHeight));
+					adjustedRowHeights.add(new GPoint(row, rowHeight));
 				view.updateRowHeightSetting(row, rowHeight);
 			}
 		} catch (Exception e) {
@@ -1404,7 +1404,7 @@ public class MyTable extends JTable implements FocusListener {
 	// Reset the row heights --- used after addColumn destroys the row heights
 	public void resetRowHeights() {
 		doRecordRowHeights = false;
-		for (Point p : adjustedRowHeights) {
+		for (GPoint p : adjustedRowHeights) {
 			setRowHeight(p.x, p.y);
 		}
 		doRecordRowHeights = true;
@@ -1424,7 +1424,7 @@ public class MyTable extends JTable implements FocusListener {
 	public void resizeMarkedCells() {
 
 		if (!cellResizeHeightSet.isEmpty()) {
-			for (Point cellPoint : cellResizeHeightSet) {
+			for (GPoint cellPoint : cellResizeHeightSet) {
 				setPreferredCellSize((int) cellPoint.getY(),
 						(int) cellPoint.getX(), false, true);
 			}
@@ -1432,7 +1432,7 @@ public class MyTable extends JTable implements FocusListener {
 		}
 
 		if (!cellResizeWidthSet.isEmpty()) {
-			for (Point cellPoint : cellResizeWidthSet) {
+			for (GPoint cellPoint : cellResizeWidthSet) {
 				setPreferredCellSize((int) cellPoint.getY(),
 						(int) cellPoint.getX(), true, false);
 			}
@@ -1776,7 +1776,7 @@ public class MyTable extends JTable implements FocusListener {
 		if (createAutoFunctionCell(targetCell, selectedCellRanges.get(0))) {
 			// select the new geo
 			app.setMoveMode();
-			Point coords = targetCell.getSpreadsheetCoords();
+			GPoint coords = targetCell.getSpreadsheetCoords();
 			changeSelection(coords.y, coords.x, false, false);
 			repaint();
 		}

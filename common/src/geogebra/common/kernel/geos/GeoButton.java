@@ -12,7 +12,7 @@
 
 package geogebra.common.kernel.geos;
 
-import geogebra.common.awt.Font;
+import geogebra.common.awt.GFont;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
@@ -28,7 +28,7 @@ public class GeoButton extends GeoElement implements AbsoluteScreenLocateable, T
 	private boolean buttonFixed = false;
 	
 	private int fontSize = 0;
-	private int fontStyle = Font.PLAIN;
+	private int fontStyle = GFont.PLAIN;
 
 	private boolean serifFont = false;
 	

@@ -1,10 +1,10 @@
 package geogebra.common.euclidian.event;
 
-import geogebra.common.awt.Point;
+import geogebra.common.awt.GPoint;
 
 public abstract class AbstractEvent {
 
-	public abstract Point getPoint();
+	public abstract GPoint getPoint();
 
 	public abstract boolean isAltDown();
 

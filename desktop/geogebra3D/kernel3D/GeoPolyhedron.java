@@ -1,6 +1,6 @@
 package geogebra3D.kernel3D;
 
-import geogebra.common.awt.Color;
+import geogebra.common.awt.GColor;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.ConstructionElementCycle;
 import geogebra.common.kernel.StringTemplate;
@@ -683,7 +683,7 @@ public class GeoPolyhedron extends GeoElement3D {// implements Path {
 	}
 
 	@Override
-	public void setObjColor(Color color) {
+	public void setObjColor(GColor color) {
 
 		super.setObjColor(color);
 

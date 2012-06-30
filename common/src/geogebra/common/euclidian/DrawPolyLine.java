@@ -37,7 +37,7 @@ public class DrawPolyLine extends Drawable implements Previewable {
 	 * @param view view 
 	 * @param poly polyline
 	 */
-	public DrawPolyLine(AbstractEuclidianView view, GeoPolyLine poly) {
+	public DrawPolyLine(EuclidianView view, GeoPolyLine poly) {
 		this.view = view;
 		this.poly = poly;
 		geo = poly;
@@ -50,7 +50,7 @@ public class DrawPolyLine extends Drawable implements Previewable {
 	 * @param view view
 	 * @param points preview points
 	 */
-	public DrawPolyLine(AbstractEuclidianView view, ArrayList<?> points) {
+	public DrawPolyLine(EuclidianView view, ArrayList<?> points) {
 		this.view = view;
 		hitThreshold = view.getCapturingThreshold();
 		this.points = points;
@@ -184,7 +184,7 @@ public class DrawPolyLine extends Drawable implements Previewable {
 		}
 	}
 
-	private geogebra.common.awt.Point2D endPoint = 
+	private geogebra.common.awt.GPoint2D endPoint = 
 			geogebra.common.factories.AwtFactory.prototype.newPoint2D();
 
 	final public void updateMousePos(double mouseRWx, double mouseRWy) {

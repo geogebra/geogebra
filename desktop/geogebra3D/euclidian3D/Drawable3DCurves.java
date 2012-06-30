@@ -2,7 +2,7 @@ package geogebra3D.euclidian3D;
 
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.plugin.EuclidianStyleConstants;
-import geogebra.euclidian.EuclidianView;
+import geogebra.euclidian.EuclidianViewD;
 import geogebra.main.Application;
 import geogebra3D.euclidian3D.opengl.Renderer;
 

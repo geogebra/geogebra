@@ -1,7 +1,7 @@
 package geogebra.common.gui.view.spreadsheet;
 
 
-import geogebra.common.awt.Point;
+import geogebra.common.awt.GPoint;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
@@ -285,19 +285,19 @@ public class CellRange {
 	/**
 	 * ArrayList of all cells found in the cell range 
 	 */
-	public ArrayList<Point> toCellList(boolean scanByColumn) {
+	public ArrayList<GPoint> toCellList(boolean scanByColumn) {
 
-		ArrayList<Point> list = new ArrayList<Point>();
+		ArrayList<GPoint> list = new ArrayList<GPoint>();
 		if (scanByColumn) {
 			for (int col = minColumn; col <= maxColumn; ++col) {
 				for (int row = minRow; row <= maxRow; ++row) {
-					list.add(new Point(col, row));
+					list.add(new GPoint(col, row));
 				}
 			}
 		} else {
 			for (int row = minRow; row <= maxRow; ++row) {
 				for (int col = minColumn; col <= maxColumn; ++col) {
-					list.add(new Point(col, row));
+					list.add(new GPoint(col, row));
 				}
 			}
 		}
@@ -366,7 +366,7 @@ public class CellRange {
 			return (this.toCellList(true).containsAll(cr.toCellList(true)));
 
 		} else if (obj instanceof GeoElement){	
-			Point location = ((GeoElement) obj).getSpreadsheetCoords();
+			GPoint location = ((GeoElement) obj).getSpreadsheetCoords();
 			// if the geo is a cell then test if inside the cell range
 			if(location != null && location.x < Kernel.MAX_SPREADSHEET_COLUMNS && location.y < Kernel.MAX_SPREADSHEET_ROWS){
 				setActualRange();

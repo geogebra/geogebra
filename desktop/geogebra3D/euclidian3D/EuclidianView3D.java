@@ -1,7 +1,7 @@
 package geogebra3D.euclidian3D;
 
 import geogebra.common.GeoGebraConstants;
-import geogebra.common.euclidian.AbstractEuclidianController;
+import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.DrawableND;
 import geogebra.common.euclidian.EuclidianConstants;
@@ -41,7 +41,7 @@ import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.settings.EuclidianSettings;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.util.Unicode;
-import geogebra.euclidian.EuclidianStyleBar;
+import geogebra.euclidian.EuclidianStyleBarD;
 import geogebra.euclidianND.EuclidianViewND;
 import geogebra.main.Application;
 import geogebra3D.euclidian3D.opengl.PlotterCursor;
@@ -374,7 +374,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 		//clipping cube
 		clippingCube = kernel3D.getClippingCube();
 		clippingCube.setEuclidianVisible(true);
-		clippingCube.setObjColor(new geogebra.awt.Color(0.5f,0.5f,0.5f));
+		clippingCube.setObjColor(new geogebra.awt.GColorD(0.5f,0.5f,0.5f));
 		clippingCube.setLineThickness(1);
 		clippingCube.setIsPickable(false);
 		clippingCubeDrawable = (DrawClippingCube3D) createDrawable(clippingCube);
@@ -796,13 +796,13 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	/** Sets coord system from mouse move */
 	final public void setCoordSystemFromMouseMove(int dx, int dy, int mode) {	
 		switch(mode){
-		case AbstractEuclidianController.MOVE_ROTATE_VIEW:
+		case EuclidianController.MOVE_ROTATE_VIEW:
 			setRotXYinDegrees(aOld - dx, bOld + dy);
 			updateMatrix();
 			setViewChangedByRotate();
 			setWaitForUpdate();	
 			break;
-		case AbstractEuclidianController.MOVE_VIEW:			
+		case EuclidianController.MOVE_VIEW:			
 			Coords v = new Coords(dx,-dy,0,0);
 			toSceneCoords3D(v);
 
@@ -1220,7 +1220,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 
 
 
-	public GeoElement getLabelHit(geogebra.common.awt.Point p) {
+	public GeoElement getLabelHit(geogebra.common.awt.GPoint p) {
 		
 		return hits.getLabelHit();
 	}
@@ -1231,7 +1231,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	}
 
 	public geogebra.common.awt.Rectangle getSelectionRectangle() {
-		return new geogebra.awt.Rectangle(selectionRectangle);
+		return new geogebra.awt.GRectangleD(selectionRectangle);
 	}
 
 	public boolean getShowMouseCoords() {
@@ -1641,7 +1641,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	*/
 	
 	// empty method : setHits3D() used instead
-	public void setHits(geogebra.common.awt.Point p) {
+	public void setHits(geogebra.common.awt.GPoint p) {
 		
 	}
 	
@@ -1832,7 +1832,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	public Previewable createPreviewLine(){
 		if (previewDrawLine3D==null) {
 			previewLine = new GeoLine3D(getKernel().getConstruction());
-			previewLine.setObjColor(new geogebra.awt.Color(Color.YELLOW));
+			previewLine.setObjColor(new geogebra.awt.GColorD(Color.YELLOW));
 			previewLine.setIsPickable(false);
 			previewDrawLine3D = new DrawLine3D(this, previewLine);
 		}
@@ -1845,7 +1845,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	public Previewable createPreviewConic(){
 		if (previewDrawConic3D==null) {
 			previewConic = new GeoConic3D(getKernel().getConstruction());
-			previewConic.setObjColor(new geogebra.awt.Color(Color.YELLOW));
+			previewConic.setObjColor(new geogebra.awt.GColorD(Color.YELLOW));
 			previewConic.setIsPickable(false);
 			previewDrawConic3D = new DrawConic3D(this, previewConic);
 		}
@@ -2950,13 +2950,13 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	}
 
 
-	public void setAxesColor(geogebra.common.awt.Color showColorChooser) {
+	public void setAxesColor(geogebra.common.awt.GColor showColorChooser) {
 		// TODO Auto-generated method stub
 		
 	}
 
 
-	public void setGridColor(geogebra.common.awt.Color showColorChooser) {
+	public void setGridColor(geogebra.common.awt.GColor showColorChooser) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -3375,12 +3375,12 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	
 
 	
-	public void setBackground(geogebra.common.awt.Color color) {
-		setBackground(geogebra.awt.Color.getAwtColor(color));
+	public void setBackground(geogebra.common.awt.GColor color) {
+		setBackground(geogebra.awt.GColorD.getAwtColor(color));
 		
 	}
-	public geogebra.common.awt.Color getBackgroundCommon() {
-		return new geogebra.awt.Color(getBackground());
+	public geogebra.common.awt.GColor getBackgroundCommon() {
+		return new geogebra.awt.GColorD(getBackground());
 		
 	}
 	
@@ -3408,7 +3408,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	// EUCLIDIANVIEWND
 	//////////////////////////////////////////
 	
-	protected EuclidianStyleBar newEuclidianStyleBar(){
+	protected EuclidianStyleBarD newEuclidianStyleBar(){
 		return new EuclidianStyleBar3D(this);
 	}
 	
@@ -3457,8 +3457,8 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 
 	@Override
 	protected void doDrawPoints(GeoImage gi,
-			List<geogebra.common.awt.Point> penPoints2,
-			geogebra.common.awt.Color penColor, int penLineStyle, int penSize) {
+			List<geogebra.common.awt.GPoint> penPoints2,
+			geogebra.common.awt.GColor penColor, int penLineStyle, int penSize) {
 		// TODO Auto-generated method stub
 		
 	}

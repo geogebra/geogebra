@@ -1,6 +1,6 @@
 package geogebra.euclidian.event;
 
-import geogebra.common.awt.Point;
+import geogebra.common.awt.GPoint;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.main.AbstractApplication;
 
@@ -29,9 +29,9 @@ public class MouseEvent extends AbstractEvent {
 	}
 
 	@Override
-	public Point getPoint() {
+	public GPoint getPoint() {
 		
-		return new Point(event.getPoint().x,event.getPoint().y);
+		return new GPoint(event.getPoint().x,event.getPoint().y);
 	}
 
 	@Override

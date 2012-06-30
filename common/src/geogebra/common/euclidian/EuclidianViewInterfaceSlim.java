@@ -63,7 +63,7 @@ public interface EuclidianViewInterfaceSlim extends LayerView{
 	/**
 	 * @return euclidian controller
 	 */
-	AbstractEuclidianController getEuclidianController();
+	EuclidianController getEuclidianController();
 	/**
 	 * @return grid distance: {x-distance,y-distance}
 	 */

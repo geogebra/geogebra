@@ -35,7 +35,7 @@ public final class DrawText extends Drawable {
 	private int fontSize = -1;
 	private int fontStyle = -1;
 	private boolean serifFont;
-	private geogebra.common.awt.Font textFont;
+	private geogebra.common.awt.GFont textFont;
 	private GeoPointND loc; // text location
 
 	// private Image eqnImage;
@@ -48,13 +48,13 @@ public final class DrawText extends Drawable {
 	 * @param view view
 	 * @param text text
 	 */
-	public DrawText(AbstractEuclidianView view, GeoText text) {
+	public DrawText(EuclidianView view, GeoText text) {
 		this.view = view;
 		this.text = text;
 		geo = text;
 
 		textFont = view.getApplication().getPlainFontCommon()
-				.deriveFont(geogebra.common.awt.Font.PLAIN, view.getFontSize());
+				.deriveFont(geogebra.common.awt.GFont.PLAIN, view.getFontSize());
 
 		// this is needed as (bold) LaTeX texts are created with isLaTeX = false
 		// at this stage
@@ -193,7 +193,7 @@ public final class DrawText extends Drawable {
 	final public void draw(geogebra.common.awt.Graphics2D g2) {
 		if (isVisible) {
 
-			geogebra.common.awt.Color bg = geo.getBackgroundColor();
+			geogebra.common.awt.GColor bg = geo.getBackgroundColor();
 
 			if (bg != null) {
 
@@ -226,7 +226,7 @@ public final class DrawText extends Drawable {
 			// draw label rectangle
 			if (geo.doHighlighting()) {
 				g2.setStroke(objStroke);
-				g2.setPaint(geogebra.common.awt.Color.lightGray);
+				g2.setPaint(geogebra.common.awt.GColor.lightGray);
 				g2.draw(labelRectangle);
 			}
 		}

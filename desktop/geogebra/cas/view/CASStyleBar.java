@@ -133,13 +133,13 @@ public class CASStyleBar extends JToolBar implements ActionListener{
 	
 	private void applyTextColor(ArrayList<GeoElement> geos) {
 
-		Color color = geogebra.awt.Color.getAwtColor(btnTextColor
+		Color color = geogebra.awt.GColorD.getAwtColor(btnTextColor
 				.getSelectedColor());
 		for (int i = 0; i < geos.size(); i++) {
 			GeoElement geo = geos.get(i);
 			if (geo instanceof GeoCasCell
-					&& geogebra.awt.Color.getAwtColor(geo.getObjectColor()) != color) {
-				((GeoCasCell)geo).setFontColor(new geogebra.awt.Color(color));
+					&& geogebra.awt.GColorD.getAwtColor(geo.getObjectColor()) != color) {
+				((GeoCasCell)geo).setFontColor(new geogebra.awt.GColorD(color));
 				geo.updateRepaint();
 				needUndo = true;
 			}
@@ -264,7 +264,7 @@ public class CASStyleBar extends JToolBar implements ActionListener{
 				if (geosOK) {
 					GeoElement geo = ((GeoElement) geos[0])
 							.getGeoElementForPropertiesDialog();
-					geoColor = geogebra.awt.Color.getAwtColor(((GeoCasCell)geo)
+					geoColor = geogebra.awt.GColorD.getAwtColor(((GeoCasCell)geo)
 							.getFontColor());
 					updateColorTable();
 
@@ -287,7 +287,7 @@ public class CASStyleBar extends JToolBar implements ActionListener{
 			public ImageIcon getButtonIcon() {
 				return GeoGebraIcon.createTextSymbolIcon("A",
 						app.getPlainFont(), textColorIconSize,
-						geogebra.awt.Color.getAwtColor(getSelectedColor()),
+						geogebra.awt.GColorD.getAwtColor(getSelectedColor()),
 						null);
 			}
 

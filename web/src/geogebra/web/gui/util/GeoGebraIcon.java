@@ -1,13 +1,13 @@
 package geogebra.web.gui.util;
 
 
-import geogebra.common.awt.Color;
-import geogebra.common.awt.RenderingHints;
+import geogebra.common.awt.GColor;
+import geogebra.common.awt.GRenderingHints;
 import geogebra.common.euclidian.EuclidianStatic;
 import geogebra.common.main.AbstractApplication;
-import geogebra.web.awt.BasicStroke;
-import geogebra.web.awt.Dimension;
-import geogebra.web.awt.Font;
+import geogebra.web.awt.GBasicStrokeW;
+import geogebra.web.awt.GDimensionW;
+import geogebra.web.awt.GFontW;
 import geogebra.web.awt.Graphics2D;
 import geogebra.web.factories.AwtFactory;
 import geogebra.web.openjdk.awt.geom.Polygon;
@@ -39,16 +39,16 @@ public class GeoGebraIcon {
 	    }
 	    
 	    if (isRollOver) {
-	    	g2.setColor(Color.LIGHT_GRAY);
+	    	g2.setColor(GColor.LIGHT_GRAY);
 	    	g2.fillRect(0, 0, w-1, h-1);
 	    }
 	    
-	    g2.setColor(Color.GRAY);
+	    g2.setColor(GColor.GRAY);
 	    
 	    if(isRollOver)
-			g2.setColor(Color.BLACK);
+			g2.setColor(GColor.BLACK);
 		else
-			g2.setColor(Color.DARK_GRAY);
+			g2.setColor(GColor.DARK_GRAY);
 		
 		int midx = w/2;
 		int midy = h/2;
@@ -87,13 +87,13 @@ public class GeoGebraIcon {
 	 * @param bgColor
 	 * @return Canvas with icon drawn
 	 */
-	public static ImageData createLineStyleIcon(int dashStyle, int thickness, Dimension iconSize, Color fgColor, Color bgColor) {
+	public static ImageData createLineStyleIcon(int dashStyle, int thickness, GDimensionW iconSize, GColor fgColor, GColor bgColor) {
 		int h = iconSize.getHeight();
 		int w = iconSize.getWidth();
 
 		Canvas c = getTmpCanvas(w, h);
 	    Graphics2D g2 = new Graphics2D(c);
-		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		g2.setRenderingHint(GRenderingHints.KEY_ANTIALIASING, GRenderingHints.VALUE_ANTIALIAS_ON);
 
 		if(bgColor != null){
 			g2.setPaint(bgColor);
@@ -128,13 +128,13 @@ public class GeoGebraIcon {
 	 * @param bgColor
 	 * @return
 	 */
-	public static ImageData createPointStyleIcon(int pointStyle, int pointSize, Dimension iconSize, Color fgColor, Color bgColor) {
+	public static ImageData createPointStyleIcon(int pointStyle, int pointSize, GDimensionW iconSize, GColor fgColor, GColor bgColor) {
 		GeoGebraIcon g = new GeoGebraIcon();
 		PointStyleImage image = new PointStyleImage(iconSize, pointStyle, pointSize,  fgColor,  bgColor);
 		return image.getCanvas().getContext2d().getImageData(0, 0, image.getCanvas().getCanvasElement().getWidth(), image.getCanvas().getCanvasElement().getHeight());
     }
 	
-	public static ImageData createColorSwatchIcon(float alpha, Dimension iconSize, Color fgColor, Color bgColor){
+	public static ImageData createColorSwatchIcon(float alpha, GDimensionW iconSize, GColor fgColor, GColor bgColor){
 
 		int h = iconSize.getHeight();
 		int w = iconSize.getWidth();
@@ -147,7 +147,7 @@ public class GeoGebraIcon {
 		
 		Canvas c = getTmpCanvas(w,h);
 		Graphics2D g2 = new Graphics2D(c);
-		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		g2.setRenderingHint(GRenderingHints.KEY_ANTIALIASING, GRenderingHints.VALUE_ANTIALIAS_ON);
 
 		--h;
 		--w;
@@ -171,20 +171,20 @@ public class GeoGebraIcon {
 		return g2.getImageData(0, 0, iconSize.getWidth(), iconSize.getHeight());
 	}
 
-	public static ImageData createTextSymbolIcon(String symbol,Font font, Dimension iconSize, Color fgColor, Color bgColor){
+	public static ImageData createTextSymbolIcon(String symbol,GFontW font, GDimensionW iconSize, GColor fgColor, GColor bgColor){
 
 		int h = iconSize.getHeight();
 		int w = iconSize.getWidth();
 
 		Canvas c = getTmpCanvas(w, h);
 		Graphics2D g2 = new Graphics2D(c);
-		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		g2.setRenderingHint(GRenderingHints.KEY_ANTIALIASING, GRenderingHints.VALUE_ANTIALIAS_ON);
 
 		if(bgColor != null)
 			g2.setBackground(bgColor);
 
 		g2.setColor (fgColor);
-		g2.setFont (new Font (font.getFontFamily()));
+		g2.setFont (new GFontW (font.getFontFamily()));
 
 		//fm = g2.getFontMetrics ();
 		int symbolWidth = (int) g2.getCanvas().getContext2d().measureText(symbol).getWidth();
@@ -208,9 +208,9 @@ public class GeoGebraIcon {
 		Canvas c = getTmpCanvas(width, height);
 
 		Graphics2D g2 = new Graphics2D(c);
-		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		g2.setRenderingHint(GRenderingHints.KEY_ANTIALIASING, GRenderingHints.VALUE_ANTIALIAS_ON);
 
-		g2.setPaint(Color.GRAY);
+		g2.setPaint(GColor.GRAY);
 		// draw a rectangle with an x inside
 		g2.drawRect(3, 3, width-6, height-6);
 		int k = 7;
@@ -227,9 +227,9 @@ public class GeoGebraIcon {
 	    icon.setCoordinateSpaceHeight(h);
 	    icon.setCoordinateSpaceWidth(w);
 	    Graphics2D g2 = new Graphics2D(icon);
-	    g2.setColor(Color.WHITE);
+	    g2.setColor(GColor.WHITE);
 	    g2.fillRect(0, 0, g2.getCanvas().getCoordinateSpaceWidth(), g2.getCanvas().getCoordinateSpaceHeight());
-	    g2.setColor(Color.GRAY);
+	    g2.setColor(GColor.GRAY);
 	    
 	    int midx = w/2;
 		int midy = h/2;
@@ -243,14 +243,14 @@ public class GeoGebraIcon {
 	    return g2.getImageData(0, 0, w, h);
     }
 
-	public static ImageData createStringIcon(String str, Font font, boolean isBold, boolean isItalic, 
-			boolean isCentered, Dimension iconSize, Color fgColor, Color bgColor){
+	public static ImageData createStringIcon(String str, GFontW font, boolean isBold, boolean isItalic, 
+			boolean isCentered, GDimensionW iconSize, GColor fgColor, GColor bgColor){
 		int h = iconSize.getHeight();
 		int w = iconSize.getWidth();
 
 		Canvas c = getTmpCanvas(w,h);
 		Graphics2D g2 = new Graphics2D(c);
-		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		g2.setRenderingHint(GRenderingHints.KEY_ANTIALIASING, GRenderingHints.VALUE_ANTIALIAS_ON);
 
 		if(bgColor != null)
 			g2.setBackground(bgColor);
@@ -258,9 +258,9 @@ public class GeoGebraIcon {
 		g2.setColor (fgColor);
 		//font = font.deriveFont((h-6)*1.0f);
 		if(isBold)
-			font = (Font) font.deriveFont(Font.BOLD);
+			font = (GFontW) font.deriveFont(GFontW.BOLD);
 		if(isItalic)
-			font = (Font) font.deriveFont(geogebra.common.awt.Font.ITALIC);
+			font = (GFontW) font.deriveFont(geogebra.common.awt.GFont.ITALIC);
 		g2.setFont (font);
 
 
@@ -290,7 +290,7 @@ public class GeoGebraIcon {
 	    return tmpCanvas;
     }
 
-	public static ImageData createFileImageIcon(AbstractApplication app, String fileName, float alpha, Dimension iconSize){
+	public static ImageData createFileImageIcon(AbstractApplication app, String fileName, float alpha, GDimensionW iconSize){
 
 		int h = iconSize.getHeight();
 		int w = iconSize.getWidth();
@@ -302,7 +302,7 @@ public class GeoGebraIcon {
 		return c.getContext2d().getImageData(0, 0, w, h);
 	}
 	
-	public static ImageData ensureIconSize(ImageData icon, Dimension iconSize){
+	public static ImageData ensureIconSize(ImageData icon, GDimensionW iconSize){
 
 		int h = iconSize.getHeight();
 		int w = iconSize.getWidth();
@@ -316,7 +316,7 @@ public class GeoGebraIcon {
 		
 
 		Graphics2D g2 = new Graphics2D(getTmpCanvas(w, h));
-		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		g2.setRenderingHint(GRenderingHints.KEY_ANTIALIASING, GRenderingHints.VALUE_ANTIALIAS_ON);
 
 		try {	
 			if(icon !=null){

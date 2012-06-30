@@ -14,7 +14,7 @@ package geogebra.common.kernel.algos;
 
 
 
-import geogebra.common.awt.Point;
+import geogebra.common.awt.GPoint;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -70,7 +70,7 @@ public class AlgoRow extends AlgoElement {
     // calc the current value of the arithmetic tree
     @Override
 	public final void compute() {    	
-    	Point p = geo.getSpreadsheetCoords();
+    	GPoint p = geo.getSpreadsheetCoords();
     	if (p != null) num.setValue(p.y + 1);
     	else num.setUndefined();
     }         

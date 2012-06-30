@@ -20,7 +20,7 @@ the Free Software Foundation.
 
 package geogebra3D.kernel3D;
 
-import geogebra.common.euclidian.AbstractEuclidianView;
+import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.Kernel;
@@ -50,7 +50,7 @@ import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.plugin.Operation;
 import geogebra.common.util.StringUtil;
-import geogebra.euclidian.EuclidianView;
+import geogebra.euclidian.EuclidianViewD;
 import geogebra.gui.view.algebra.AlgebraView;
 
 import java.util.ArrayList;
@@ -780,8 +780,8 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND,
 		boolean isVisibleInView2D = false;
 		Coords p = getInhomCoordsInD(3);
 
-		if (getViewForValueString() instanceof EuclidianView) {
-			Coords p2D = ((AbstractEuclidianView) getViewForValueString())
+		if (getViewForValueString() instanceof EuclidianViewD) {
+			Coords p2D = ((EuclidianView) getViewForValueString())
 					.getCoordsForView(getInhomCoordsInD(3));
 			if (Kernel.isZero(p2D.getZ())) {
 				isVisibleInView2D = true;

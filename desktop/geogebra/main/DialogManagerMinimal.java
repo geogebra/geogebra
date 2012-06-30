@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
-import geogebra.common.awt.Point;
-import geogebra.common.euclidian.AbstractEuclidianView;
+import geogebra.common.awt.GPoint;
+import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.gui.dialog.DialogManager;
 import geogebra.common.gui.view.properties.PropertiesView.OptionType;
 import geogebra.common.kernel.arithmetic.NumberValue;
@@ -83,14 +83,14 @@ public class DialogManagerMinimal extends DialogManager {
 	}
 
 	@Override
-	public void showBooleanCheckboxCreationDialog(Point loc, GeoBoolean bool) {
+	public void showBooleanCheckboxCreationDialog(GPoint loc, GeoBoolean bool) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void showNumberInputDialogCirclePointRadius(String menu,
-			GeoPointND geoPointND, AbstractEuclidianView view) {
+			GeoPointND geoPointND, EuclidianView view) {
 		// TODO Auto-generated method stub
 		
 	}

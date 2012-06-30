@@ -1,6 +1,6 @@
 package geogebra.common.euclidian;
 
-import geogebra.common.awt.Point;
+import geogebra.common.awt.GPoint;
 import geogebra.common.awt.Rectangle;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.kernel.arithmetic.NumberValue;
@@ -209,7 +209,7 @@ public interface EuclidianViewInterfaceCommon extends EuclidianViewInterfaceSlim
 	/**
 	 * @return background color of this view
 	 */
-	public geogebra.common.awt.Color getBackgroundCommon();
+	public geogebra.common.awt.GColor getBackgroundCommon();
 	/**
 	 * @return array of flags determining whether axes are drawn next to border
 	 */
@@ -479,7 +479,7 @@ public interface EuclidianViewInterfaceCommon extends EuclidianViewInterfaceSlim
 	 * Set the hits regarding to the mouse location 
 	 * @param mouseLoc update hits using mouse position
 	 */
-	public void setHits(Point mouseLoc);
+	public void setHits(GPoint mouseLoc);
 
 	/**
 	 * Get the hits recorded 
@@ -490,7 +490,7 @@ public interface EuclidianViewInterfaceCommon extends EuclidianViewInterfaceSlim
 	 * @param p mouse coords
 	 * @return hit button (or null)
 	 */
-	public MyButton getHitButton(geogebra.common.awt.Point p);
+	public MyButton getHitButton(geogebra.common.awt.GPoint p);
 	/**
 	 * Switch to default cursor
 	 */
@@ -566,7 +566,7 @@ public interface EuclidianViewInterfaceCommon extends EuclidianViewInterfaceSlim
 	 * @param mouseLoc mouse location
 	 * @return hit geo (or null)
 	 */
-	public GeoElement getLabelHit(Point mouseLoc);
+	public GeoElement getLabelHit(GPoint mouseLoc);
 
 	/**
 	 * Switch to x-resize cursor
@@ -708,15 +708,15 @@ public interface EuclidianViewInterfaceCommon extends EuclidianViewInterfaceSlim
 	/**
 	 * @param bgColor new background color
 	 */
-	public void setBackground(geogebra.common.awt.Color bgColor);
+	public void setBackground(geogebra.common.awt.GColor bgColor);
 	/**
 	 * @param axesColor new axes color
 	 */
-	public void setAxesColor(geogebra.common.awt.Color axesColor);
+	public void setAxesColor(geogebra.common.awt.GColor axesColor);
 	/**
 	 * @param gridColor new grid color
 	 */
-	public void setGridColor(geogebra.common.awt.Color gridColor);
+	public void setGridColor(geogebra.common.awt.GColor gridColor);
 	
 
 	/**

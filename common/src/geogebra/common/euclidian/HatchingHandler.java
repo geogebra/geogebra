@@ -20,8 +20,8 @@ public abstract class HatchingHandler {
 	 * @param dist distance between hatches
 	 * @param angle hatching angle in degrees
 	 */
-	protected abstract void dosetHatching(geogebra.common.awt.Graphics2D g3, geogebra.common.awt.BasicStroke objStroke,
-			geogebra.common.awt.Color color, geogebra.common.awt.Color bgColor, float backgroundTransparency,
+	protected abstract void dosetHatching(geogebra.common.awt.Graphics2D g3, geogebra.common.awt.GBasicStroke objStroke,
+			geogebra.common.awt.GColor color, geogebra.common.awt.GColor bgColor, float backgroundTransparency,
 			double dist, double angle);
 	/**
 	 * @param g3 graphics
@@ -32,8 +32,8 @@ public abstract class HatchingHandler {
 	 * @param dist distance between hatches
 	 * @param angle hatching angle in degrees
 	 */
-	public static void setHatching(geogebra.common.awt.Graphics2D g3, geogebra.common.awt.BasicStroke objStroke,
-			geogebra.common.awt.Color color, geogebra.common.awt.Color bgColor, float backgroundTransparency,
+	public static void setHatching(geogebra.common.awt.Graphics2D g3, geogebra.common.awt.GBasicStroke objStroke,
+			geogebra.common.awt.GColor color, geogebra.common.awt.GColor bgColor, float backgroundTransparency,
 			double dist, double angle) {
 		prototype.dosetHatching(g3, objStroke, color, bgColor, backgroundTransparency, dist, angle);
 	}

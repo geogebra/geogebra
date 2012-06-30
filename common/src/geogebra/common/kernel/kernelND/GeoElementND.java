@@ -11,7 +11,7 @@ the Free Software Foundation.
 */
 package geogebra.common.kernel.kernelND;
 
-import geogebra.common.awt.Color;
+import geogebra.common.awt.GColor;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoElement;
@@ -36,7 +36,7 @@ public interface GeoElementND extends ExpressionValue, ToGeoElement{
 	/**
 	 * @param objectColor object color
 	 */
-	void setObjColor(Color objectColor);
+	void setObjColor(GColor objectColor);
 
 	/**
 	 * @param visible whether should be visible in EV

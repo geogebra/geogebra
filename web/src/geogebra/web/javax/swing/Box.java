@@ -1,6 +1,6 @@
 package geogebra.web.javax.swing;
 
-import geogebra.common.awt.Dimension;
+import geogebra.common.awt.GDimension;
 import geogebra.common.awt.Rectangle;
 import geogebra.common.gui.inputfield.AutoCompleteTextField;
 import geogebra.common.javax.swing.AbstractJComboBox;
@@ -57,8 +57,8 @@ public class Box extends geogebra.common.javax.swing.Box{
     }
 
 	@Override
-    public Dimension getPreferredSize() {
-	    return new geogebra.web.awt.Dimension(impl.getOffsetWidth(), impl.getOffsetHeight());
+    public GDimension getPreferredSize() {
+	    return new geogebra.web.awt.GDimensionW(impl.getOffsetWidth(), impl.getOffsetHeight());
     }
 
 	@Override

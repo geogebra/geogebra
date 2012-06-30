@@ -5,7 +5,7 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoTextField;
 import geogebra.common.main.KeyCodes;
-import geogebra.euclidian.EuclidianView;
+import geogebra.euclidian.EuclidianViewD;
 import geogebra.gui.GuiManager;
 import geogebra.gui.app.GeoGebraFrame;
 import geogebra.gui.app.MyFileFilter;
@@ -137,7 +137,7 @@ public class GlobalKeyDispatcherD extends geogebra.common.main.GlobalKeyDispatch
 
 	public boolean handleGeneralKeys(KeyEvent event) {
 
-		return handleGeneralKeys(KeyCodes.translateJavacode(event.getKeyCode()), event.isShiftDown(), Application.isControlDown(event), Application.isAltDown(event), event.getSource() instanceof JTable, event.getSource() instanceof EuclidianView);
+		return handleGeneralKeys(KeyCodes.translateJavacode(event.getKeyCode()), event.isShiftDown(), Application.isControlDown(event), Application.isAltDown(event), event.getSource() instanceof JTable, event.getSource() instanceof EuclidianViewD);
 	}
 
 	private boolean handleSelectedGeosKeys(KeyEvent event,

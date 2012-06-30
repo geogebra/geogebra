@@ -4,8 +4,8 @@ import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.plugin.EuclidianStyleConstants;
-import geogebra.euclidian.EuclidianController;
-import geogebra.euclidian.EuclidianView;
+import geogebra.euclidian.EuclidianControllerD;
+import geogebra.euclidian.EuclidianViewD;
 import geogebra.main.Application;
 
 import java.awt.Cursor;
@@ -49,10 +49,10 @@ import javax.swing.JPopupMenu;
  * @author G.Sturr 2010-6-30
  * 
  */
-public class PlotPanelEuclidianView extends EuclidianView implements
+public class PlotPanelEuclidianView extends EuclidianViewD implements
 		ComponentListener, DragGestureListener, DragSourceListener {
 
-	private final EuclidianController ec;
+	private final EuclidianControllerD ec;
 	private final PlotPanelEuclidianView plotPanelEV;
 
 	private static boolean[] showAxes = { true, true };

@@ -1,7 +1,7 @@
 package geogebra.common.plugin;
 
 import geogebra.common.GeoGebraConstants;
-import geogebra.common.euclidian.AbstractEuclidianView;
+import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.Construction;
@@ -620,7 +620,7 @@ public abstract class GgbAPI implements JavaScriptAPI{
 		// convert from 0,10,15,20,30
 		// to 0,1,2,3,4
 		
-		Integer[] types = AbstractEuclidianView.getLineTypes();
+		Integer[] types = EuclidianView.getLineTypes();
 		for (int i = 0 ; i < types.length ; i++) {
 			if (type == types[i].intValue())
 				return i;
@@ -630,7 +630,7 @@ public abstract class GgbAPI implements JavaScriptAPI{
 	}	
 	
 	public synchronized void setLineStyle(String objName, int style) {
-		Integer[] types = AbstractEuclidianView.getLineTypes();
+		Integer[] types = EuclidianView.getLineTypes();
 		
 		if (style < 0 || style >= types.length)
 			return;

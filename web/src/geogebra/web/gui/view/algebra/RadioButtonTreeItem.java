@@ -12,7 +12,7 @@ the Free Software Foundation.
 
 package geogebra.web.gui.view.algebra;
 
-import geogebra.common.awt.Color;
+import geogebra.common.awt.GColor;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.euclidian.event.AbstractEvent;
@@ -111,7 +111,7 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		SpanElement se = DOM.createSpan().cast();
 		se.getStyle().setProperty("display", "-moz-inline-box");
 		se.getStyle().setDisplay(Style.Display.INLINE_BLOCK);
-		se.getStyle().setColor( Color.getColorString( geo.getAlgebraColor() ) );
+		se.getStyle().setColor( GColor.getColorString( geo.getAlgebraColor() ) );
 		ihtml = new InlineHTML();
 		ihtml.addDoubleClickHandler(this);
 		ihtml.addClickHandler(this);
@@ -154,7 +154,7 @@ public class RadioButtonTreeItem extends HorizontalPanel
 				latexStr = inputLatexCosmetics(latexStr);
 				seMayLatex = se;
 				DrawEquationWeb.drawEquationAlgebraView(seMayLatex, latexStr,
-					geo.getAlgebraColor(), Color.white);
+					geo.getAlgebraColor(), GColor.white);
 				LaTeX = true;
 			} else {
 				seNoLatex = se;
@@ -215,17 +215,17 @@ public class RadioButtonTreeItem extends HorizontalPanel
 			SpanElement se = DOM.createSpan().cast();
 			se.getStyle().setProperty("display", "-moz-inline-box");
 			se.getStyle().setDisplay(Style.Display.INLINE_BLOCK);
-			se.getStyle().setColor( Color.getColorString( geo.getAlgebraColor() ) );
+			se.getStyle().setColor( GColor.getColorString( geo.getAlgebraColor() ) );
 			ihtml.getElement().replaceChild(se, seNoLatex);
 			text = inputLatexCosmetics(text);
 			seMayLatex = se;
-			DrawEquationWeb.drawEquationAlgebraView(seMayLatex, text, geo.getAlgebraColor(), Color.white);
+			DrawEquationWeb.drawEquationAlgebraView(seMayLatex, text, geo.getAlgebraColor(), GColor.white);
 			LaTeX = true;
 		} else {
 			SpanElement se = DOM.createSpan().cast();
 			se.getStyle().setProperty("display", "-moz-inline-box");
 			se.getStyle().setDisplay(Style.Display.INLINE_BLOCK);
-			se.getStyle().setColor( Color.getColorString( geo.getAlgebraColor() ) );
+			se.getStyle().setColor( GColor.getColorString( geo.getAlgebraColor() ) );
 			ihtml.getElement().replaceChild(se, seMayLatex);
 			seNoLatex = se;
 			seNoLatex.setInnerHTML(text);

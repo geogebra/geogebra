@@ -1,6 +1,6 @@
 package geogebra.common.euclidian;
 
-import geogebra.common.awt.Point;
+import geogebra.common.awt.GPoint;
 import geogebra.common.euclidian.DrawParametricCurve.Gap;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.FunctionalNVar;
@@ -38,7 +38,7 @@ public class DrawInequality extends Drawable {
 	 * @param function
 	 *            boolean 2-var function
 	 */
-	public DrawInequality(AbstractEuclidianView view, FunctionalNVar function) {
+	public DrawInequality(EuclidianView view, FunctionalNVar function) {
 		this.view = view;
 		hitThreshold = view.getCapturingThreshold();
 		geo = (GeoElement) function;
@@ -55,7 +55,7 @@ public class DrawInequality extends Drawable {
 
 	}
 
-	private DrawInequality(IneqTree tree, AbstractEuclidianView view,
+	private DrawInequality(IneqTree tree, EuclidianView view,
 			GeoElement geo) {
 		this.view = view;
 		this.geo = geo;
@@ -135,7 +135,7 @@ public class DrawInequality extends Drawable {
 			yLabel = drawable.yLabel;
 		}
 		if (geo.isInverseFill() && !isForceNoFill()) {
-			geogebra.common.awt.Area b = geogebra.common.factories.AwtFactory.prototype.newArea(view.getBoundingPath());
+			geogebra.common.awt.GArea b = geogebra.common.factories.AwtFactory.prototype.newArea(view.getBoundingPath());
 			b.subtract(getShape());
 			setShape(b);
 		}
@@ -316,7 +316,7 @@ public class DrawInequality extends Drawable {
 		private Inequality paramIneq;
 		private GeneralPathClipped gp;
 
-		protected DrawParametricInequality(Inequality ineq, AbstractEuclidianView view,
+		protected DrawParametricInequality(Inequality ineq, EuclidianView view,
 				GeoElement geo) {
 			this.view = view;
 			this.paramIneq = ineq;
@@ -324,7 +324,7 @@ public class DrawInequality extends Drawable {
 		}
 
 		@Override
-		public geogebra.common.awt.Area getShape() {
+		public geogebra.common.awt.GArea getShape() {
 			return geogebra.common.factories.AwtFactory.prototype.newArea(gp);
 		}
 
@@ -386,7 +386,7 @@ public class DrawInequality extends Drawable {
 			GeoFunction border = paramIneq.getFunBorder();
 			border.setLineThickness(geo.lineThickness);
 			updateStrokes(border);
-			Point labelPos;
+			GPoint labelPos;
 			if (paramIneq.getType() == Inequality.INEQUALITY_PARAMETRIC_X) {
 				double bx = view.toRealWorldCoordY(-10);
 				double ax = view.toRealWorldCoordY(view.getHeight() + 10);				

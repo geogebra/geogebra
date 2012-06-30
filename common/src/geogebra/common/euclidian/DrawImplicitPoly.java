@@ -32,7 +32,7 @@ public class DrawImplicitPoly extends DrawLocus {
 	 * @param view view
 	 * @param implicitPoly implicit polynomial
 	 */
-	public DrawImplicitPoly(AbstractEuclidianView view,GeoImplicitPoly implicitPoly) {
+	public DrawImplicitPoly(EuclidianView view,GeoImplicitPoly implicitPoly) {
 		super(view, implicitPoly.getLocus());
 		this.view=view;
     	hitThreshold = view.getCapturingThreshold();
@@ -42,7 +42,7 @@ public class DrawImplicitPoly extends DrawLocus {
 	}
 	
 	@Override
-	public geogebra.common.awt.Area getShape(){
+	public geogebra.common.awt.GArea getShape(){
 		return geogebra.common.factories.AwtFactory.prototype.newArea();
 	}
 	/**

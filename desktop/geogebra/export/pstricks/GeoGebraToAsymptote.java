@@ -7,7 +7,7 @@ the Free Software Foundation.
  */
 
 package geogebra.export.pstricks;
-import geogebra.common.awt.Color;
+import geogebra.common.awt.GColor;
 import geogebra.common.euclidian.DrawPoint;
 import geogebra.common.euclidian.DrawableND;
 import geogebra.common.kernel.Kernel;
@@ -138,7 +138,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
         pairNameTable     = new HashMap<String, String>(); // map of coordinates -> point's name 
         functionTable     = new HashMap<String, Integer>(); // function(x) return value to function #
         implicitPolyTable = new HashMap<String, Integer>(); // function(x,y) return value to function #
-        CustomColor       = new HashMap<geogebra.common.awt.Color, String>();  // map of rgb -> alphabet pen names
+        CustomColor       = new HashMap<geogebra.common.awt.GColor, String>();  // map of rgb -> alphabet pen names
         
         // retrieve flags from frame
         format      = frame.getFormat();
@@ -230,7 +230,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
         // Clip frame
         codeEndDoc.append("\nclip((xmin,ymin)--(xmin,ymax)--(xmax,ymax)--(xmax,ymin)--cycle); ");
         // Background color
-        if(!euclidianView.getBackgroundCommon().equals(Color.WHITE)) {
+        if(!euclidianView.getBackgroundCommon().equals(GColor.WHITE)) {
             if(!compact)
                 codeEndDoc.append("\n");
             codeEndDoc.append("shipout(bbox(");
@@ -561,7 +561,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
         float xLabelHor = (x + xright) /2;
         float yLabelHor = y - (float)(
                 (euclidianView.getFont().getSize() + 2)/euclidianView.getYscale());
-        geogebra.common.awt.Color geocolor =  geo.getObjectColor();
+        geogebra.common.awt.GColor geocolor =  geo.getObjectColor();
 
         if(!compact)
             codePoint.append("\n");
@@ -571,7 +571,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
             codePoint.append("lsf");
         else
             codePoint.append("labelscalefactor");
-        if (!geocolor.equals(Color.BLACK)){
+        if (!geocolor.equals(GColor.BLACK)){
             codePoint.append(",");
             ColorCode(geocolor,codePoint);
         }
@@ -889,7 +889,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
             st = st.replaceAll("\\u20ac", "\\\\euro{}");
             if (!eurosym) codePreamble.append("usepackage(\"eurosym\"); ");
         }
-        geogebra.common.awt.Color geocolor = geo.getObjectColor();
+        geogebra.common.awt.GColor geocolor = geo.getObjectColor();
         int style = geo.getFontStyle();
         int size = geo.getFontSize()+app.getGUIFontSize();
         GeoPoint2 gp;
@@ -933,7 +933,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
                 code.append("lsf");
             else
                 code.append("labelscalefactor");
-            if(!geocolor.equals(Color.BLACK)) { // color
+            if(!geocolor.equals(GColor.BLACK)) { // color
                 code.append(","); comma = true;
                 ColorCode(geocolor,code);
             }
@@ -979,7 +979,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
                 code.append("lsf");
             else
                 code.append("labelscalefactor");
-            if(!geocolor.equals(Color.BLACK)) { // color
+            if(!geocolor.equals(GColor.BLACK)) { // color
                 code.append(","); comma = true;
                 ColorCode(geocolor,code);
             }
@@ -1007,7 +1007,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
         double startAngle = geo.getParameterStart();
         double endAngle = geo.getParameterEnd();
         // Get all coefficients form the transform matrix
-        AffineTransform af = geogebra.awt.AffineTransform.getAwtAffineTransform(geo.getAffineTransform());
+        AffineTransform af = geogebra.awt.GAffineTransformD.getAwtAffineTransform(geo.getAffineTransform());
         double m11 = af.getScaleX();
         double m22 = af.getScaleY();
         double m12 = af.getShearX();
@@ -1379,7 +1379,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
             break;
         // if conic is an ellipse
             case GeoConicNDConstants.CONIC_ELLIPSE:
-                AffineTransform at=geogebra.awt.AffineTransform.getAwtAffineTransform(geo.getAffineTransform());
+                AffineTransform at=geogebra.awt.GAffineTransformD.getAwtAffineTransform(geo.getAffineTransform());
                 double eigenvecX = at.getScaleX();
                 double eigenvecY = at.getShearY();
                 double x1 = geo.getTranslationVector().getX();
@@ -1408,7 +1408,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
             case GeoConicNDConstants.CONIC_PARABOLA:       
                  // parameter of the parabola
                 double p = geo.p;
-                at = geogebra.awt.AffineTransform.getAwtAffineTransform(geo.getAffineTransform());
+                at = geogebra.awt.GAffineTransformD.getAwtAffineTransform(geo.getAffineTransform());
                  // first eigenvector
                 eigenvecX = at.getScaleX();
                 eigenvecY = at.getShearY();
@@ -1482,7 +1482,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
             
             case GeoConicNDConstants.CONIC_HYPERBOLA:
 //              parametric: (a(1+t^2)/(1-t^2), 2bt/(1-t^2))
-                at = geogebra.awt.AffineTransform.getAwtAffineTransform(geo.getAffineTransform());
+                at = geogebra.awt.GAffineTransformD.getAwtAffineTransform(geo.getAffineTransform());
                 eigenvecX = at.getScaleX();
                 eigenvecY = at.getShearY();
                 x1 = geo.getTranslationVector().getX();
@@ -1602,7 +1602,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
                z = geo.getZ();
         x = x/z;
         y = y/z;
-        geogebra.common.awt.Color dotcolor = geo.getObjectColor();
+        geogebra.common.awt.GColor dotcolor = geo.getObjectColor();
         
         switch(dotstyle){
             case EuclidianStyleConstants.POINT_STYLE_CROSS:
@@ -2109,7 +2109,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
                 yLabel = euclidianView.toRealWorldCoordY(Math.round(yLabel));
                 boolean isPointLabel = false;
                 
-                geogebra.common.awt.Color geocolor = geo.getObjectColor();
+                geogebra.common.awt.GColor geocolor = geo.getObjectColor();
 
                 if(!compact)
                     codePoint.append("\n");
@@ -2133,7 +2133,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
                     codePoint.append("labelscalefactor");
             
                 // check if label is of point
-                isPointLabel = (geocolor.equals(Color.BLUE) || ColorEquals(geocolor,geogebra.common.factories.AwtFactory.prototype.newColor(124,124,255))) // xdxdff
+                isPointLabel = (geocolor.equals(GColor.BLUE) || ColorEquals(geocolor,geogebra.common.factories.AwtFactory.prototype.newColor(124,124,255))) // xdxdff
                                     // is of the form "A" or "$A$"
                             && ( ((name.length() == 1) && Character.isUpperCase(name.charAt(0)))
                             || ( ((name.length() == 3) && name.charAt(0) == '$' && name.charAt(2) == '$' 
@@ -2147,7 +2147,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
                     // configurable or default black?
                     // temp empty
                 }
-                else if(!geocolor.equals(Color.BLACK)){
+                else if(!geocolor.equals(GColor.BLACK)){
                     if(compactcse5)
                         codePoint.append(",fp+");
                     else
@@ -2169,7 +2169,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
      * @param c2 The second Color object to compare with.
      * @return Whether c1 and c2 are equivalent colors, to rounding.
      */
-    boolean ColorEquals(geogebra.common.awt.Color c1, geogebra.common.awt.Color c2) {
+    boolean ColorEquals(geogebra.common.awt.GColor c1, geogebra.common.awt.GColor c2) {
         return format(c1.getRed()  /255d).equals(format(c2.getRed()  /255d))
             && format(c1.getGreen()/255d).equals(format(c2.getGreen()/255d))
             && format(c1.getBlue() /255d).equals(format(c2.getBlue() /255d));
@@ -2177,7 +2177,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
     
     // Draw the grid 
     private void drawGrid(){
-        geogebra.common.awt.Color GridCol = euclidianView.getGridColor();
+        geogebra.common.awt.GColor GridCol = euclidianView.getGridColor();
         double[] GridDist = euclidianView.getGridDistances();
         boolean GridBold = euclidianView.getGridIsBold();
         int GridLine = euclidianView.getGridLineStyle();
@@ -2291,7 +2291,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
         String[] units   = euclidianView.getAxesUnitLabels();
         int axisStyle    = euclidianView.getAxesLineStyle();
         int[] tickStyle  = euclidianView.getAxesTickStyles();
-        geogebra.common.awt.Color axisColor  = euclidianView.getAxesColor();
+        geogebra.common.awt.GColor axisColor  = euclidianView.getAxesColor();
         boolean axisBold =  (axisStyle == EuclidianStyleConstants.AXES_LINE_TYPE_ARROW_BOLD) 
                          || (axisStyle == EuclidianStyleConstants.AXES_LINE_TYPE_FULL_BOLD);
         boolean axisArrow = (axisStyle == EuclidianStyleConstants.AXES_LINE_TYPE_ARROW_BOLD) 
@@ -2424,7 +2424,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
             packSpaceBetween(codeBeginPic, "xmin,", "xmax"); // non-fixed axes?
                                                              // TODO: remove if !compact? priority: minor
             // axis pen style
-            if(axisColor != geogebra.awt.Color.BLACK) {
+            if(axisColor != geogebra.awt.GColorD.BLACK) {
                 codeBeginPic.append(",");
                 // catch for other options not changing.
                 if(compactcse5)
@@ -2485,7 +2485,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
             packSpaceBetween(codeBeginPic, "ymin,", "ymax"); // non-fixed axes?
             
             // axis pen style
-            if(axisColor != geogebra.awt.Color.BLACK) {
+            if(axisColor != geogebra.awt.GColorD.BLACK) {
                 if(compactcse5)
                     codeBeginPic.append(",pathpen+");
                 else
@@ -2540,7 +2540,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
     }
     // Returns point style code with size dotsize. Includes comma.
     private void PointOptionCode(GeoPoint2 geo, StringBuilder sb, double dotsize){
-        geogebra.common.awt.Color dotcolor = geo.getObjectColor();
+        geogebra.common.awt.GColor dotcolor = geo.getObjectColor();
         int dotstyle   = geo.getPointStyle();
         if (dotstyle == -1) { // default
             dotstyle = EuclidianStyleConstants.POINT_STYLE_DOT;
@@ -2557,7 +2557,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
             sb.append(format(dotsize));
             sb.append("pt)");
         }
-        if (!dotcolor.equals(Color.BLACK) && frame.getKeepDotColors()){
+        if (!dotcolor.equals(GColor.BLACK) && frame.getKeepDotColors()){
             if (comma) packSpace(sb,"+");
             else sb.append(",");
             comma=true;
@@ -2590,7 +2590,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
     // Line style code; does not include comma.
     private String LineOptionCode(GeoElement geo,boolean transparency){
         StringBuilder sb = new StringBuilder(); 
-        geogebra.common.awt.Color linecolor = geo.getObjectColor();
+        geogebra.common.awt.GColor linecolor = geo.getObjectColor();
         int linethickness = geo.getLineThickness();
         int linestyle = geo.getLineType();
 
@@ -2608,7 +2608,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
             else noPlus = false;
             LinestyleCode(linestyle,sb);
         }
-        if (!linecolor.equals(Color.BLACK)){
+        if (!linecolor.equals(GColor.BLACK)){
             if (!noPlus) 
                 packSpace(sb,"+");
             else noPlus = false;
@@ -2675,7 +2675,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
     
     // Append the name color to StringBuilder sb 
     @Override
-	protected void ColorCode(geogebra.common.awt.Color c, StringBuilder sb){
+	protected void ColorCode(geogebra.common.awt.GColor c, StringBuilder sb){
         int red = c.getRed(),
           green = c.getGreen(),
            blue = c.getBlue();
@@ -2706,23 +2706,23 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
                     codeColors.append("; ");
                 CustomColor.put(c,colorname);
             }
-            if (c.equals(Color.BLACK))       sb.append("black");
+            if (c.equals(GColor.BLACK))       sb.append("black");
             //else if (c.equals(Color.DARK_GRAY)) sb.append("darkgray");
-            else if (c.equals(Color.GRAY))   sb.append("gray");
+            else if (c.equals(GColor.GRAY))   sb.append("gray");
             //else if (c.equals(Color.LIGHT_GRAY)) sb.append("lightgray");
-            else if (c.equals(Color.WHITE))  sb.append("white");
+            else if (c.equals(GColor.WHITE))  sb.append("white");
             else sb.append(colorname);
         }
         else {
-            if (c.equals(Color.BLACK))       sb.append("black");
+            if (c.equals(GColor.BLACK))       sb.append("black");
             //else if (c.equals(Color.DARK_GRAY)) sb.append("darkgray");
-            else if (c.equals(Color.GRAY))   sb.append("gray");
+            else if (c.equals(GColor.GRAY))   sb.append("gray");
             //else if (c.equals(Color.LIGHT_GRAY)) sb.append("lightgray");
-            else if (c.equals(Color.WHITE))  sb.append("white");
-            else if (c.equals(Color.RED))    sb.append("red");
-            else if (c.equals(Color.GREEN))  sb.append("green");
-            else if (c.equals(Color.BLUE))   sb.append("blue");
-            else if (c.equals(Color.YELLOW)) sb.append("yellow");
+            else if (c.equals(GColor.WHITE))  sb.append("white");
+            else if (c.equals(GColor.RED))    sb.append("red");
+            else if (c.equals(GColor.GREEN))  sb.append("green");
+            else if (c.equals(GColor.BLUE))   sb.append("blue");
+            else if (c.equals(GColor.YELLOW)) sb.append("yellow");
             else {
                 String colorname = "";
                 if (CustomColor.containsKey(c)){
@@ -2754,9 +2754,9 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
      * @param opacity Double value from 0 to 1, with 0 being completely transparent.
      * @param sb StringBuilder to attach code to.
      */
-    protected void ColorLightCode(geogebra.common.awt.Color c, double opacity, StringBuilder sb){
+    protected void ColorLightCode(geogebra.common.awt.GColor c, double opacity, StringBuilder sb){
         // new Color object so that c is not overriden.
-        geogebra.common.awt.Color tempc; 
+        geogebra.common.awt.GColor tempc; 
         int red = c.getRed(),
           green = c.getGreen(),
            blue = c.getBlue();
@@ -2786,24 +2786,24 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
                     codeColors.append("; ");
                 CustomColor.put(tempc,colorname);
             }
-            if (tempc.equals(Color.BLACK))       sb.append("black");
+            if (tempc.equals(GColor.BLACK))       sb.append("black");
             //else if (tempc.equals(Color.DARK_GRAY)) sb.append("darkgray");
-            else if (tempc.equals(Color.GRAY))   sb.append("gray");
+            else if (tempc.equals(GColor.GRAY))   sb.append("gray");
             //else if (tempc.equals(Color.LIGHT_GRAY)) sb.append("lightgray");
-            else if (tempc.equals(Color.WHITE))  sb.append("white");
+            else if (tempc.equals(GColor.WHITE))  sb.append("white");
             else sb.append(colorname);
         }
         else {
             tempc = geogebra.common.factories.AwtFactory.prototype.newColor(red,green,blue);
-            if (tempc.equals(Color.BLACK))       sb.append("black");
+            if (tempc.equals(GColor.BLACK))       sb.append("black");
             //else if (tempc.equals(Color.DARK_GRAY)) sb.append("darkgray");
-            else if (tempc.equals(Color.GRAY))   sb.append("gray");
+            else if (tempc.equals(GColor.GRAY))   sb.append("gray");
             //else if (tempc.equals(Color.LIGHT_GRAY)) sb.append("lightgray");
-            else if (tempc.equals(Color.WHITE))  sb.append("white");
-            else if (tempc.equals(Color.RED))    sb.append("red");
-            else if (tempc.equals(Color.GREEN))  sb.append("green");
-            else if (tempc.equals(Color.BLUE))   sb.append("blue");
-            else if (tempc.equals(Color.YELLOW)) sb.append("yellow");
+            else if (tempc.equals(GColor.WHITE))  sb.append("white");
+            else if (tempc.equals(GColor.RED))    sb.append("red");
+            else if (tempc.equals(GColor.GREEN))  sb.append("green");
+            else if (tempc.equals(GColor.BLUE))   sb.append("blue");
+            else if (tempc.equals(GColor.YELLOW)) sb.append("yellow");
             else {
                 String colorname = "";
                 if (CustomColor.containsKey(tempc)){
@@ -2835,7 +2835,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
      * @param sb Code to add the command to. 
      */
     // Adds LaTeX: 
-    protected void ColorCode2(Color c,StringBuilder sb){
+    protected void ColorCode2(GColor c,StringBuilder sb){
         int red=c.getRed(), green=c.getGreen(), blue=c.getBlue();
         if (grayscale){
             int grayscale = (red+green+blue)/3;
@@ -2844,18 +2844,18 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
                 +format(grayscale/255d)+","
                 +format(grayscale/255d)+","
                 +format(grayscale/255d)+"}");
-            if (c.equals(Color.BLACK))       sb.append("black");
-            else if (c.equals(Color.GRAY))   sb.append("gray");
-            else if (c.equals(Color.WHITE))  sb.append("white");
+            if (c.equals(GColor.BLACK))       sb.append("black");
+            else if (c.equals(GColor.GRAY))   sb.append("gray");
+            else if (c.equals(GColor.WHITE))  sb.append("white");
         }
         else {
-            if (c.equals(Color.BLACK))       sb.append("black");
-            else if (c.equals(Color.GRAY))   sb.append("gray");
-            else if (c.equals(Color.WHITE))  sb.append("white");
-            else if (c.equals(Color.RED))    sb.append("red");
-            else if (c.equals(Color.GREEN))  sb.append("green");
-            else if (c.equals(Color.BLUE))   sb.append("blue");
-            else if (c.equals(Color.YELLOW)) sb.append("yellow");
+            if (c.equals(GColor.BLACK))       sb.append("black");
+            else if (c.equals(GColor.GRAY))   sb.append("gray");
+            else if (c.equals(GColor.WHITE))  sb.append("white");
+            else if (c.equals(GColor.RED))    sb.append("red");
+            else if (c.equals(GColor.GREEN))  sb.append("green");
+            else if (c.equals(GColor.BLUE))   sb.append("blue");
+            else if (c.equals(GColor.YELLOW)) sb.append("yellow");
             else {
                 sb.append("\\color[rgb]{"
                     +format(red/255d)  +","
@@ -2914,7 +2914,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
     }*/
 //  private void defineTransparency(){} 
     
-    private void addText(String st,boolean isLatex,int style,int size,geogebra.common.awt.Color geocolor){
+    private void addText(String st,boolean isLatex,int style,int size,geogebra.common.awt.GColor geocolor){
         if (isLatex) code.append("$");
         if (isLatex && st.charAt(0) == '$') st = st.substring(1);
         
@@ -3126,8 +3126,8 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
     /** For use with drawSpecialPoint() function, appends dot styles
      * @param c
      */
-    protected void endPoint(geogebra.common.awt.Color c) {
-        if (!c.equals(Color.BLACK) && dotColors){
+    protected void endPoint(geogebra.common.awt.GColor c) {
+        if (!c.equals(GColor.BLACK) && dotColors){
             code.append(",");
             if(!compact) code.append(" ");
             ColorCode(c,code);

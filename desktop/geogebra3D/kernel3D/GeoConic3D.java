@@ -1,6 +1,6 @@
 package geogebra3D.kernel3D;
 
-import geogebra.common.euclidian.AbstractEuclidianView;
+import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
@@ -13,7 +13,7 @@ import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.plugin.GeoClass;
-import geogebra.euclidian.EuclidianView;
+import geogebra.euclidian.EuclidianViewD;
 import geogebra3D.euclidian3D.Drawable3D;
 
 /**
@@ -220,10 +220,10 @@ public class GeoConic3D extends GeoConicND implements GeoElement3DInterface {// 
 	@Override
 	protected StringBuilder buildValueString(StringTemplate tpl) {
 
-		if (!(getViewForValueString() instanceof EuclidianView))
+		if (!(getViewForValueString() instanceof EuclidianViewD))
 			return new StringBuilder("todo-GeoConic3D");
 
-		AbstractEuclidianView view = (AbstractEuclidianView) getViewForValueString();
+		EuclidianView view = (EuclidianView) getViewForValueString();
 
 		// check if in view
 		Coords M = view.getCoordsForView(getMidpoint3D());

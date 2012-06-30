@@ -74,7 +74,7 @@ public class MyRendererForAlgebraTree extends DefaultTreeCellRenderer {
 
 		if (ob instanceof GeoElement) {
 			GeoElement geo = (GeoElement) ob;
-			setForeground(geogebra.awt.Color.getAwtColor(geo.getAlgebraColor()));
+			setForeground(geogebra.awt.GColorD.getAwtColor(geo.getAlgebraColor()));
 
 			String text = getDescription(geo);
 			

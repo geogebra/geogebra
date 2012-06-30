@@ -1,6 +1,6 @@
 package geogebra.gui.view.spreadsheet;
 
-import geogebra.common.awt.Point;
+import geogebra.common.awt.GPoint;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoBoolean;
@@ -43,7 +43,7 @@ public class MyCellRenderer extends DefaultTableCellRenderer {
 
 	// Cell formats
 	private CellFormat formatHandler;
-	private Point cellPoint;
+	private GPoint cellPoint;
 	private Integer alignment = -1;
 	private Integer traceBorder = -1;
 	private Integer fontStyle;
@@ -94,7 +94,7 @@ public class MyCellRenderer extends DefaultTableCellRenderer {
 		latexIcon = new ImageIcon();
 		emptyIcon = new ImageIcon();
 
-		cellPoint = new Point(); // used for cell format calls
+		cellPoint = new GPoint(); // used for cell format calls
 
 		// Rendering for booleans, buttons and lists
 		checkBox = new JCheckBox();
@@ -160,7 +160,7 @@ public class MyCellRenderer extends DefaultTableCellRenderer {
 				// button.setBackground(table.getBackground());
 				button.setHorizontalAlignment(CENTER);
 				button.setText(geo.getCaption(StringTemplate.defaultTemplate));
-				button.setForeground(geogebra.awt.Color.getAwtColor(geo
+				button.setForeground(geogebra.awt.GColorD.getAwtColor(geo
 						.getObjectColor()));
 				return button;
 			}
@@ -220,7 +220,7 @@ public class MyCellRenderer extends DefaultTableCellRenderer {
 
 		// use geo bgColor if there is no format bgColor
 		if (geo.getBackgroundColor() != null && !isCustomBGColor) {
-			bgColor = geogebra.awt.Color.getAwtColor(geo.getBackgroundColor());
+			bgColor = geogebra.awt.GColorD.getAwtColor(geo.getBackgroundColor());
 			isCustomBGColor = true;
 		}
 
@@ -233,7 +233,7 @@ public class MyCellRenderer extends DefaultTableCellRenderer {
 			}
 		}
 		setBackground(bgColor);
-		setForeground(geogebra.awt.Color.getAwtColor(geo.getLabelColor()));
+		setForeground(geogebra.awt.GColorD.getAwtColor(geo.getLabelColor()));
 
 		// Set horizontal alignment
 		// ===============================================
@@ -250,7 +250,7 @@ public class MyCellRenderer extends DefaultTableCellRenderer {
 		// Set icons for LaTeX and images
 		// ===============================================
 		if (geo.isGeoImage()) {
-			latexIcon.setImage(geogebra.awt.BufferedImage
+			latexIcon.setImage(geogebra.awt.GBufferedImageD
 					.getAwtBufferedImage(((GeoImage) geo).getFillImage()));
 			setIcon(latexIcon);
 			setHorizontalAlignment(SwingConstants.CENTER);
@@ -275,7 +275,7 @@ public class MyCellRenderer extends DefaultTableCellRenderer {
 								latexStr,
 								getFont(),
 								isSerif,
-								geogebra.awt.Color.getAwtColor(geo
+								geogebra.awt.GColorD.getAwtColor(geo
 										.getAlgebraColor()), bgColor);
 						setIcon(latexIcon);
 						setText("");

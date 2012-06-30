@@ -1,6 +1,6 @@
 package geogebra.common.javax.swing;
 
-import geogebra.common.awt.Dimension;
+import geogebra.common.awt.GDimension;
 import geogebra.common.awt.Rectangle;
 import geogebra.common.gui.inputfield.AutoCompleteTextField;
 
@@ -14,7 +14,7 @@ public abstract class Box {
 
 	public abstract void setBounds(Rectangle labelRectangle);
 
-	public abstract Dimension getPreferredSize();
+	public abstract GDimension getPreferredSize();
 
 	public abstract Rectangle getBounds();
 

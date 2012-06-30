@@ -12,8 +12,8 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.geos;
 
-import geogebra.common.awt.Color;
-import geogebra.common.awt.Image;
+import geogebra.common.awt.GColor;
+import geogebra.common.awt.GImage;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
@@ -33,7 +33,7 @@ public class GeoTurtle extends GeoElement {
 	// private GeoPointND[] points;
 	private boolean defined = true;
 
-	private ArrayList<Image> turtleImageList;
+	private ArrayList<GImage> turtleImageList;
 
 	// List to store sequential turtle drawing commands.
 	// TODO: use a better data structure?
@@ -43,7 +43,7 @@ public class GeoTurtle extends GeoElement {
 	private GeoPointND startPoint = new GeoPoint2(cons, 0d, 0d, 1d);
 	protected double[] position = { 0d, 0d, 1d };
 	protected GeoPointND currentPoint = new GeoPoint2(cons, 0d, 0d, 1d);
-	protected Color penColor = Color.BLACK;
+	protected GColor penColor = GColor.BLACK;
 	protected int penThickness = 1;
 	protected boolean penDown = true;
 	protected double turnAngle = 0d;
@@ -77,10 +77,10 @@ public class GeoTurtle extends GeoElement {
 		cmdList = new ArrayList<Command>();
 		
 		// TODO: put this in default construction?
-		this.setObjColor(Color.GRAY);
+		this.setObjColor(GColor.GRAY);
 
 		// this.turn(turnAngle);
-		turtleImageList = new ArrayList<Image>();
+		turtleImageList = new ArrayList<GImage>();
 		turtleImageList.add(c.getApplication().getInternalImageAdapter("/gui/images/go-next.png"));
 
 	}
@@ -173,7 +173,7 @@ public class GeoTurtle extends GeoElement {
 	/**
 	 * @return current pen color
 	 */
-	public Color getPenColor() {
+	public GColor getPenColor() {
 		return penColor;
 	}
 
@@ -188,16 +188,16 @@ public class GeoTurtle extends GeoElement {
 		return startPoint;
 	}
 
-	public ArrayList<Image> getTurtleImageList() {
+	public ArrayList<GImage> getTurtleImageList() {
 		return turtleImageList;
 	}
 
-	public void addTurtleImage(Image image) {
+	public void addTurtleImage(GImage image) {
 		turtleImageList.add(image);
 	}
 
 	
-	public void setTurtleImageList(Image image) {
+	public void setTurtleImageList(GImage image) {
 		
 		turtleImageList.add(image);
 	}
@@ -324,7 +324,7 @@ public class GeoTurtle extends GeoElement {
 	 * Changes pen color used by the turtle
 	 * @param penColor new pen color
 	 */
-	public void setPenColor(Color penColor) {
+	public void setPenColor(GColor penColor) {
 		addCommand(new CmdSetColor(penColor));
 	}
 	
@@ -501,7 +501,7 @@ public class GeoTurtle extends GeoElement {
 		 * Set the pen color
 		 * @param color new color
 		 */
-		public void setColor(Color color);
+		public void setColor(GColor color);
 		/**
 		 * Set the pen thickness
 		 * @param th new thickness
@@ -653,12 +653,12 @@ public class GeoTurtle extends GeoElement {
 	 * Command: set pen color
 	 */
 	public class CmdSetColor implements Command {
-		private Color color;
+		private GColor color;
 		
 		/**
 		 * @param c the new pen color
 		 */
-		public CmdSetColor(Color c) {
+		public CmdSetColor(GColor c) {
 			color = c;
 		}
 		

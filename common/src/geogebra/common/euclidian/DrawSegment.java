@@ -18,7 +18,7 @@ the Free Software Foundation.
 
 package geogebra.common.euclidian;
 
-import geogebra.common.awt.Line2D;
+import geogebra.common.awt.GLine2D;
 import geogebra.common.euclidian.clipping.ClipLine;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.ConstructionDefaults;
@@ -43,12 +43,12 @@ public class DrawSegment extends Drawable implements Previewable {
 	private boolean isVisible, labelVisible;
 	private ArrayList<GeoPointND> points;
 
-	private Line2D line;
+	private GLine2D line;
 	private double[] coordsA = new double[2];
 	private double[] coordsB = new double[2];
 
 	// For drawing ticks
-	private Line2D[] decoTicks;
+	private GLine2D[] decoTicks;
 
 	/**
 	 * Creates new DrawSegment
@@ -58,7 +58,7 @@ public class DrawSegment extends Drawable implements Previewable {
 	 * @param s
 	 *            Segment to be drawn
 	 */
-	public DrawSegment(AbstractEuclidianView view, GeoLineND s) {
+	public DrawSegment(EuclidianView view, GeoLineND s) {
 		this.view = view;
 		hitThreshold = view.getCapturingThreshold();
 		this.s = s;
@@ -75,7 +75,7 @@ public class DrawSegment extends Drawable implements Previewable {
 	 * @param points
 	 *            endpoints of the segment
 	 */
-	public DrawSegment(AbstractEuclidianView view, ArrayList<GeoPointND> points) {
+	public DrawSegment(EuclidianView view, ArrayList<GeoPointND> points) {
 		this.view = view;
 		this.points = points;
 
@@ -122,7 +122,7 @@ public class DrawSegment extends Drawable implements Previewable {
 		} else {
 			// A or B off screen
 			// clip at screen, that's important for huge coordinates
-			geogebra.common.awt.Point2D[] clippedPoints = ClipLine.getClipped(coordsA[0],
+			geogebra.common.awt.GPoint2D[] clippedPoints = ClipLine.getClipped(coordsA[0],
 					coordsA[1], coordsB[0], coordsB[1],
 					-EuclidianStatic.CLIP_DISTANCE, view.getWidth()
 							+ EuclidianStatic.CLIP_DISTANCE,
@@ -179,7 +179,7 @@ public class DrawSegment extends Drawable implements Previewable {
 		if (geo.decorationType != GeoElement.DECORATION_NONE && nLength > 0) {
 			if (decoTicks == null) {
 				// only create these object when they are really needed
-				decoTicks = new Line2D[6]; // Michael Borcherds 20071006
+				decoTicks = new GLine2D[6]; // Michael Borcherds 20071006
 													// changed from 3 to 6
 				for (int i = 0; i < decoTicks.length; i++)
 					decoTicks[i] = AwtFactory.prototype.newLine2D();
@@ -417,7 +417,7 @@ public class DrawSegment extends Drawable implements Previewable {
 		}
 	}
 
-	private geogebra.common.awt.Point2D endPoint = geogebra.common.factories.AwtFactory.prototype.newPoint2D();
+	private geogebra.common.awt.GPoint2D endPoint = geogebra.common.factories.AwtFactory.prototype.newPoint2D();
 
 	final public void updateMousePos(double mouseRWx, double mouseRWy) {
 		double xRW = mouseRWx;

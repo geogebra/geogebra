@@ -3,7 +3,7 @@ package geogebra.web.kernel.geos;
 
 import com.google.gwt.dom.client.ImageElement;
 
-import geogebra.common.awt.BufferedImage;
+import geogebra.common.awt.GBufferedImage;
 import geogebra.common.main.AbstractApplication;
 import geogebra.web.util.ImageManager;
 
@@ -16,7 +16,7 @@ public class GeoElementGraphicsAdapter extends
 		app = (AbstractApplication) appl;
 	}
 	
-	public BufferedImage getFillImage() {
+	public GBufferedImage getFillImage() {
 		if (image != null) return image;
 		
 		if (imageFileName.startsWith("/geogebra")) {

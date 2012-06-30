@@ -59,7 +59,7 @@ public class DrawLine extends Drawable implements Previewable {
     private GeoLineND g;    
     //private double [] coeffs = new double[3];
     
-    private geogebra.common.awt.Line2D line;
+    private geogebra.common.awt.GLine2D line;
     /** y-coord of first endpoint*/
     public double y1;
     /** y-coord of second endpoint*/
@@ -89,7 +89,7 @@ public class DrawLine extends Drawable implements Previewable {
     /** Creates new DrawLine 
      * @param view view
      * @param g line*/
-    public DrawLine(AbstractEuclidianView view, GeoLineND g) {      
+    public DrawLine(EuclidianView view, GeoLineND g) {      
     	this.view = view;   
     	hitThreshold = view.getCapturingThreshold();
         this.g = g;
@@ -103,7 +103,7 @@ public class DrawLine extends Drawable implements Previewable {
 	 * @param points preview points
 	 * @param previewMode preview mode
 	 */
-	public DrawLine(AbstractEuclidianView view, ArrayList<GeoPointND> points, PreviewType previewMode) {
+	public DrawLine(EuclidianView view, ArrayList<GeoPointND> points, PreviewType previewMode) {
 		this.previewMode = previewMode;
 		this.view = view; 
 		this.points = points;
@@ -124,7 +124,7 @@ public class DrawLine extends Drawable implements Previewable {
 	 * @param lines preview lines
 	 * @param parallel true for paralel, false for perpendicular
 	 */
-    public DrawLine(AbstractEuclidianView view, ArrayList<GeoPointND> points,
+    public DrawLine(EuclidianView view, ArrayList<GeoPointND> points,
 			ArrayList<GeoLineND> lines, boolean parallel) {
     	if (parallel) previewMode = PreviewType.PARALLEL;
     	else previewMode = PreviewType.PERPENDICULAR;
@@ -424,7 +424,7 @@ public class DrawLine extends Drawable implements Previewable {
 	                              			                                           
 	}
 	
-	private geogebra.common.awt.Point2D endPoint = geogebra.common.factories.AwtFactory.prototype.newPoint2D();
+	private geogebra.common.awt.GPoint2D endPoint = geogebra.common.factories.AwtFactory.prototype.newPoint2D();
 
 	public void updateMousePos(double mouseRWx, double mouseRWy) {
 		double xRW = mouseRWx;

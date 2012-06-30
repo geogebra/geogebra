@@ -40,7 +40,7 @@ public class GeoAxis3D extends GeoLine3D implements GeoAxisND {
 			setCoord(EuclidianView3D.o,EuclidianView3D.vx);
 			label = "xAxis3D";
 			setAxisLabel("x");
-			setObjColor(new geogebra.awt.Color(Color.RED));
+			setObjColor(new geogebra.awt.GColorD(Color.RED));
 			break;
 
 		case Y_AXIS_3D:
@@ -48,14 +48,14 @@ public class GeoAxis3D extends GeoLine3D implements GeoAxisND {
 			label = "yAxis3D";
 			setAxisLabel("y");
 			//setObjColor(Color.GREEN);
-			setObjColor(new geogebra.awt.Color(0,0.5f,0));
+			setObjColor(new geogebra.awt.GColorD(0,0.5f,0));
 			break;
 			
 		case Z_AXIS_3D:
 			setCoord(EuclidianView3D.o,EuclidianView3D.vz);
 			label = "zAxis3D";
 			setAxisLabel("z");
-			setObjColor(new geogebra.awt.Color(Color.BLUE));
+			setObjColor(new geogebra.awt.GColorD(Color.BLUE));
 			break;
 		}
 		

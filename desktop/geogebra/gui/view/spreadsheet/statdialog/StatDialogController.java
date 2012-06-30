@@ -1,6 +1,6 @@
 package geogebra.gui.view.spreadsheet.statdialog;
 
-import geogebra.common.awt.Point;
+import geogebra.common.awt.GPoint;
 import geogebra.common.gui.view.spreadsheet.CellRange;
 import geogebra.common.gui.view.spreadsheet.RelativeCopy;
 import geogebra.common.kernel.Construction;
@@ -139,7 +139,7 @@ public class StatDialogController {
 			return geo.equals(dataSource);
 		}else{
 
-			Point location = geo.getSpreadsheetCoords();
+			GPoint location = geo.getSpreadsheetCoords();
 			boolean isCell = (location != null && location.x < Kernel.MAX_SPREADSHEET_COLUMNS && location.y < Kernel.MAX_SPREADSHEET_ROWS);
 
 			if(isCell){	

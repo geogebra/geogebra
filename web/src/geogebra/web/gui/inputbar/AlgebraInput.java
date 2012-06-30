@@ -2,7 +2,7 @@ package geogebra.web.gui.inputbar;
 
 import java.awt.TextField;
 
-import geogebra.common.euclidian.AbstractEuclidianView;
+import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Construction;

@@ -15,9 +15,9 @@ import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Widget;
 
-import geogebra.common.awt.Color;
+import geogebra.common.awt.GColor;
 import geogebra.common.main.AbstractApplication;
-import geogebra.web.awt.Dimension;
+import geogebra.web.awt.GDimensionW;
 import geogebra.web.gui.images.AppResourcesConverter;
 import geogebra.web.main.Application;
 
@@ -30,7 +30,7 @@ public class SelectionTable extends Grid implements ClickHandler {
 	private int rollOverColumn = -1;
 	private int mode;
 	private int numRows, numColumns, rowHeight, columnWidth;
-	private Dimension iconSize;
+	private GDimensionW iconSize;
 	private Application app;
 	
 	private float alpha;
@@ -40,7 +40,7 @@ public class SelectionTable extends Grid implements ClickHandler {
 	}
 	
 	public SelectionTable(Application app, Object[] data, Integer rows,
-            Integer columns, Dimension iconSize, Integer mode) {
+            Integer columns, GDimensionW iconSize, Integer mode) {
 		super();
 		this.app = app;	
 		this.mode = mode;
@@ -76,7 +76,7 @@ public class SelectionTable extends Grid implements ClickHandler {
 		addStyleName("SelectionTable");
     }
 	
-	public void setFgColor(Color fgColor) {
+	public void setFgColor(GColor fgColor) {
 	    // TODO Auto-generated method stub
 	    
     }

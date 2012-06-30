@@ -589,8 +589,8 @@ public class Hits extends ArrayList<GeoElement> {
 	 * hits is returned.
 	 * @return list of hit points
 	 * 
-	 * @see AbstractEuclidianController#wrapMousePressed(AbstractEvent)
-	 * @see AbstractEuclidianController#wrapMouseMoved(AbstractEvent)
+	 * @see EuclidianController#wrapMousePressed(AbstractEvent)
+	 * @see EuclidianController#wrapMouseMoved(AbstractEvent)
 	 */
 	public Hits getTopHits() {
 		

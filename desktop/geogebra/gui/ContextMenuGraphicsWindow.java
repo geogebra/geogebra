@@ -18,7 +18,7 @@ the Free Software Foundation.
 
 package geogebra.gui;
 
-import geogebra.common.euclidian.AbstractEuclidianView;
+import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.main.AbstractApplication;
@@ -230,7 +230,7 @@ implements ActionListener {
         };  
   	    
         // get current axes ratio
-        double scaleRatio = ((AbstractEuclidianView)app.getActiveEuclidianView()).getScaleRatio();        
+        double scaleRatio = ((EuclidianView)app.getActiveEuclidianView()).getScaleRatio();        
         
         JMenuItem mi;		
         //int perc;   	         

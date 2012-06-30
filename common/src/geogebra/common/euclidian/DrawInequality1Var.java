@@ -17,7 +17,7 @@ public class DrawInequality1Var extends Drawable {
 	public static final double DOT_RADIUS = 1;
 	private Inequality ineq;
 	private GeneralPathClipped[] gp;
-	private geogebra.common.awt.Ellipse2DDouble[] circle;
+	private geogebra.common.awt.GEllipse2DDouble[] circle;
 	private boolean varIsY;
 
 	/**
@@ -28,7 +28,7 @@ public class DrawInequality1Var extends Drawable {
 	 * @param ineq inequality
 	 * @param varIsY true if this is inequality in Y
 	 */
-	public DrawInequality1Var(Inequality ineq, AbstractEuclidianView view,
+	public DrawInequality1Var(Inequality ineq, EuclidianView view,
 			GeoElement geo, boolean varIsY) {
 		super();
 		this.ineq = ineq;
@@ -132,7 +132,7 @@ public class DrawInequality1Var extends Drawable {
 				gp = new GeneralPathClipped[numOfX / 2];
 			int j = ineq.getFunBorder().evaluate(
 					view.toRealWorldCoordY(view.getHeight() + 10)) <= 0 ? 1 : 0;
-			geogebra.common.awt.Area a = 
+			geogebra.common.awt.GArea a = 
 					geogebra.common.factories.AwtFactory.prototype.newArea();
 			for (int i = 0; 2 * i + j + 1 < numOfX; i++) {
 				gp[i] = new GeneralPathClipped(view);
@@ -165,10 +165,10 @@ public class DrawInequality1Var extends Drawable {
 			if (gp == null)
 				gp = new GeneralPathClipped[numOfX / 2];
 
-			geogebra.common.awt.Area a = geogebra.common.factories.AwtFactory.prototype.newArea();
+			geogebra.common.awt.GArea a = geogebra.common.factories.AwtFactory.prototype.newArea();
 			int circleCount = 0;
 			if ((geo instanceof GeoFunction)&&((GeoFunction) geo).showOnAxis()) {
-				circle = new geogebra.common.awt.Ellipse2DDouble[numOfX];
+				circle = new geogebra.common.awt.GEllipse2DDouble[numOfX];
 				for (int i = 0; i < numOfX; i++) {					
 					if (x[i] < 0)
 						continue;

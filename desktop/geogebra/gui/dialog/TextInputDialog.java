@@ -561,7 +561,7 @@ public class TextInputDialog extends InputDialog implements DocumentListener {
 		recentSymbolTable.setSelectedIndex(0);
 		// this.setUseColorSwatchBorder(true);
 		recentSymbolTable.setShowGrid(true);
-		recentSymbolTable.setGridColor(geogebra.awt.Color
+		recentSymbolTable.setGridColor(geogebra.awt.GColorD
 				.getAwtColor(GeoGebraColorConstants.TABLE_GRID_COLOR));
 		recentSymbolTable.setBorder(BorderFactory.createLoweredBevelBorder());
 		recentSymbolTable.setShowSelection(false);

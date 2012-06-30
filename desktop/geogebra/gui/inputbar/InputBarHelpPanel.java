@@ -104,7 +104,7 @@ public class InputBarHelpPanel extends JPanel implements TreeSelectionListener,
 		thisPanel = this;
 		this.setOpaque(true);
 		// this.setBackground(Color.blue);
-		titleColor = geogebra.awt.Color.getAwtColor(GeoGebraColorConstants.TABLE_BACKGROUND_COLOR_HEADER);
+		titleColor = geogebra.awt.GColorD.getAwtColor(GeoGebraColorConstants.TABLE_BACKGROUND_COLOR_HEADER);
 		bgColor = this.getBackground().brighter();
 
 		createFunctionPanel();
@@ -707,7 +707,7 @@ public class InputBarHelpPanel extends JPanel implements TreeSelectionListener,
 			setClosedIcon(app.getImageIcon("tree-open.png"));
 			setLeafIcon(GeoGebraIcon.createEmptyIcon(5, 1));
 
-			selectionColor = geogebra.awt.Color.getAwtColor(GeoGebraColorConstants.TABLE_SELECTED_BACKGROUND_COLOR);
+			selectionColor = geogebra.awt.GColorD.getAwtColor(GeoGebraColorConstants.TABLE_SELECTED_BACKGROUND_COLOR);
 			 // this.getBackgroundSelectionColor()
 			rollOverColor = Color.LIGHT_GRAY;
 

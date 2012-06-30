@@ -1,6 +1,6 @@
 package geogebra.gui.view.probcalculator;
 
-import geogebra.common.euclidian.AbstractEuclidianView;
+import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Path;
@@ -189,9 +189,9 @@ public class ProbabilityCalculator extends JPanel implements View,
 	boolean validProb;
 
 	// colors
-	private static final Color COLOR_PDF = geogebra.awt.Color
+	private static final Color COLOR_PDF = geogebra.awt.GColorD
 			.getAwtColor(GeoGebraColorConstants.DARKBLUE);
-	private static final Color COLOR_PDF_FILL = geogebra.awt.Color
+	private static final Color COLOR_PDF_FILL = geogebra.awt.GColorD
 			.getAwtColor(GeoGebraColorConstants.BLUE);
 	private static final Color COLOR_POINT = Color.BLACK;
 
@@ -584,7 +584,7 @@ public class ProbabilityCalculator extends JPanel implements View,
 
 		lowPoint = (GeoPoint2) algoLow.getGeoElements()[0];
 
-		lowPoint.setObjColor(new geogebra.awt.Color(COLOR_POINT));
+		lowPoint.setObjColor(new geogebra.awt.GColorD(COLOR_POINT));
 		lowPoint.setPointSize(4);
 		lowPoint.setPointStyle(EuclidianStyleConstants.POINT_STYLE_TRIANGLE_NORTH);
 		lowPoint.setLayer(5);
@@ -598,7 +598,7 @@ public class ProbabilityCalculator extends JPanel implements View,
 
 		highPoint = (GeoPoint2) algoHigh.getGeoElements()[0];
 
-		highPoint.setObjColor(new geogebra.awt.Color(COLOR_POINT));
+		highPoint.setObjColor(new geogebra.awt.GColorD(COLOR_POINT));
 		highPoint.setPointSize(4);
 		highPoint
 				.setPointStyle(EuclidianStyleConstants.POINT_STYLE_TRIANGLE_NORTH);
@@ -636,7 +636,7 @@ public class ProbabilityCalculator extends JPanel implements View,
 			cons.removeFromConstructionList(algoBarChart);
 
 			discreteGraph = algoBarChart.getGeoElements()[0];
-			discreteGraph.setObjColor(new geogebra.awt.Color(COLOR_PDF));
+			discreteGraph.setObjColor(new geogebra.awt.GColorD(COLOR_PDF));
 			discreteGraph.setAlphaValue(opacityDiscrete);
 			discreteGraph.setLineThickness(thicknessBarChart);
 			discreteGraph.setLayer(1);
@@ -704,11 +704,11 @@ public class ProbabilityCalculator extends JPanel implements View,
 
 			// System.out.println(text);
 			if (isLineGraph) {
-				discreteIntervalGraph.setObjColor(new geogebra.awt.Color(
+				discreteIntervalGraph.setObjColor(new geogebra.awt.GColorD(
 						ProbabilityCalculator.COLOR_PDF_FILL));
 				discreteIntervalGraph.setLineThickness(thicknessBarChart + 2);
 			} else {
-				discreteIntervalGraph.setObjColor(new geogebra.awt.Color(
+				discreteIntervalGraph.setObjColor(new geogebra.awt.GColorD(
 						ProbabilityCalculator.COLOR_PDF_FILL));
 				discreteIntervalGraph.setAlphaValue(opacityDiscreteInterval);
 				discreteIntervalGraph.setLineThickness(thicknessBarChart);
@@ -737,7 +737,7 @@ public class ProbabilityCalculator extends JPanel implements View,
 			// create density curve
 			densityCurve = buildDensityCurveExpression(selectedDist);
 
-			densityCurve.setObjColor(new geogebra.awt.Color(COLOR_PDF));
+			densityCurve.setObjColor(new geogebra.awt.GColorD(COLOR_PDF));
 			densityCurve.setLineThickness(thicknessCurve);
 			densityCurve.setFixed(true);
 			densityCurve.setEuclidianVisible(true);
@@ -766,7 +766,7 @@ public class ProbabilityCalculator extends JPanel implements View,
 				cons.removeFromConstructionList(algoIntegral);
 
 				integral = algoIntegral.getGeoElements()[0];
-				integral.setObjColor(new geogebra.awt.Color(COLOR_PDF_FILL));
+				integral.setObjColor(new geogebra.awt.GColorD(COLOR_PDF_FILL));
 				integral.setAlphaValue(opacityIntegral);
 				integral.setEuclidianVisible(true);
 				plotGeoList.add(integral);
@@ -791,7 +791,7 @@ public class ProbabilityCalculator extends JPanel implements View,
 				cons.removeFromConstructionList(pAlgo);
 
 				curvePoint = (GeoPoint2) pAlgo.getGeoElements()[0];
-				curvePoint.setObjColor(new geogebra.awt.Color(COLOR_POINT));
+				curvePoint.setObjColor(new geogebra.awt.GColorD(COLOR_POINT));
 				curvePoint.setPointSize(4);
 				curvePoint.setLayer(f.getLayer() + 1);
 				plotGeoList.add(curvePoint);
@@ -813,7 +813,7 @@ public class ProbabilityCalculator extends JPanel implements View,
 						null);
 				cons.removeFromConstructionList(seg1);
 				xSegment = (GeoSegment) seg1.getGeoElements()[0];
-				xSegment.setObjColor(new geogebra.awt.Color(Color.blue));
+				xSegment.setObjColor(new geogebra.awt.GColorD(Color.blue));
 				xSegment.setLineThickness(3);
 				xSegment.setLineType(EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT);
 				xSegment.setEuclidianVisible(true);
@@ -835,7 +835,7 @@ public class ProbabilityCalculator extends JPanel implements View,
 						curvePoint, v);
 				cons.removeFromConstructionList(seg2);
 				ySegment = (GeoRay) seg2.getGeoElements()[0];
-				ySegment.setObjColor(new geogebra.awt.Color(Color.red));
+				ySegment.setObjColor(new geogebra.awt.GColorD(Color.red));
 				ySegment.setLineThickness(3);
 				ySegment.setLineType(EuclidianStyleConstants.LINE_TYPE_FULL);
 				ySegment.setEuclidianVisible(true);
@@ -2300,7 +2300,7 @@ public class ProbabilityCalculator extends JPanel implements View,
 			// set the window dimensions of the target EV to match the prob calc
 			// dimensions
 
-			AbstractEuclidianView ev = (AbstractEuclidianView) app
+			EuclidianView ev = (EuclidianView) app
 					.getView(euclidianViewID);
 
 			ev.setRealWorldCoordSystem(plotSettings.xMin, plotSettings.xMax,

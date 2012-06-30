@@ -12,8 +12,8 @@ the Free Software Foundation.
 
 package geogebra.gui.dialog;
 
-import geogebra.euclidian.EuclidianStatic;
-import geogebra.euclidian.EuclidianView;
+import geogebra.euclidian.EuclidianStaticD;
+import geogebra.euclidian.EuclidianViewD;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -44,12 +44,12 @@ public class DashListRenderer extends JPanel implements ListCellRenderer {
 	public DashListRenderer() {
 		//	init stroke map 
 		dashStrokeMap = new HashMap<Integer, BasicStroke>();
-		Integer[] types = EuclidianView.getLineTypes();
+		Integer[] types = EuclidianViewD.getLineTypes();
 		int type;
 		BasicStroke stroke;
 		for (int i = 0; i < types.length; i++) {
 			type = types[i];
-			stroke = geogebra.awt.BasicStroke.getAwtStroke(EuclidianStatic.getStroke(1.0f, type));
+			stroke = geogebra.awt.GBasicStrokeD.getAwtStroke(EuclidianStaticD.getStroke(1.0f, type));
 			dashStrokeMap.put(type, stroke);
 		}
 	}

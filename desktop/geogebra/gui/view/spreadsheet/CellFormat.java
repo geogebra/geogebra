@@ -1,6 +1,6 @@
 package geogebra.gui.view.spreadsheet;
 
-import geogebra.common.awt.Point;
+import geogebra.common.awt.GPoint;
 import geogebra.common.gui.view.spreadsheet.CellRange;
 
 import java.awt.Color;
@@ -141,7 +141,7 @@ public class CellFormat {
 	 * @param formatType
 	 * @return
 	 */
-	public HashMap<Point, Object> getFormatMap(int formatType) {
+	public HashMap<GPoint, Object> getFormatMap(int formatType) {
 		return formatMapArray[formatType];
 	}
 
@@ -149,13 +149,13 @@ public class CellFormat {
 	 * Returns the format object for a given cell and a given format type. If
 	 * format does not exist, returns null.
 	 */
-	public Object getCellFormat(Point cellKey, int formatType) {
+	public Object getCellFormat(GPoint cellKey, int formatType) {
 
 		Object formatObject = null;
 
 		// Create special keys for the row and column of the cell
-		Point rowKey = new Point(-1, cellKey.y);
-		Point columnKey = new Point(cellKey.x, -1);
+		GPoint rowKey = new GPoint(-1, cellKey.y);
+		GPoint columnKey = new GPoint(cellKey.x, -1);
 
 		// Get the format table
 		HashMap formatMap = formatMapArray[formatType];
@@ -188,7 +188,7 @@ public class CellFormat {
 	public Object getCellFormat(CellRange cr, int formatType) {
 
 		// Get the format in the upper left cell
-		Point cell = new Point(cr.getMinColumn(), cr.getMinRow());
+		GPoint cell = new GPoint(cr.getMinColumn(), cr.getMinRow());
 		Object format = getCellFormat(cell, formatType);
 
 		if (format == null)
@@ -215,7 +215,7 @@ public class CellFormat {
 	/**
 	 * Add a format value to a single cell.
 	 */
-	public void setFormat(Point cell, int formatType, Object formatValue) {
+	public void setFormat(GPoint cell, int formatType, Object formatValue) {
 		ArrayList<CellRange> crList = new ArrayList<CellRange>();
 		crList.add(new CellRange(table.app, cell.x, cell.y));
 		setFormat(crList, formatType, formatValue);
@@ -236,7 +236,7 @@ public class CellFormat {
 	public void setFormat(ArrayList<CellRange> crList, int formatType,
 			Object value) {
 
-		HashMap<Point, Object> formatTable = formatMapArray[formatType];
+		HashMap<GPoint, Object> formatTable = formatMapArray[formatType];
 
 		// handle select all case first, then exit
 		if (table.isSelectAll() && value == null) {
@@ -244,9 +244,9 @@ public class CellFormat {
 			return;
 		}
 
-		Point testCell = new Point();
-		Point testRow = new Point();
-		Point testColumn = new Point();
+		GPoint testCell = new GPoint();
+		GPoint testRow = new GPoint();
+		GPoint testColumn = new GPoint();
 
 		for (CellRange cr : crList) {
 			// cr.debug();
@@ -256,7 +256,7 @@ public class CellFormat {
 				for (int r = cr.getMinRow(); r <= cr.getMaxRow(); ++r) {
 
 					// format the row
-					formatTable.put(new Point(-1, r), value);
+					formatTable.put(new GPoint(-1, r), value);
 
 					// handle cells in the row with prior formatting
 					for (int col = 0; col < table.getColumnCount(); col++) {
@@ -275,7 +275,7 @@ public class CellFormat {
 				for (int c = cr.getMinColumn(); c <= cr.getMaxColumn(); ++c) {
 
 					// format the column
-					formatTable.put(new Point(c, -1), value);
+					formatTable.put(new GPoint(c, -1), value);
 
 					// handle cells in the column with prior formatting
 					for (int row = 0; row < table.getRowCount(); row++) {
@@ -294,7 +294,7 @@ public class CellFormat {
 
 			else {
 				// System.out.println("other");
-				for (Point cellPoint : cr.toCellList(true))
+				for (GPoint cellPoint : cr.toCellList(true))
 					formatTable.put(cellPoint, value);
 			}
 		}
@@ -340,8 +340,8 @@ public class CellFormat {
 		int c1 = cr.getMinColumn();
 		int c2 = cr.getMaxColumn();
 
-		Point cell = new Point();
-		Point cell2 = new Point();
+		GPoint cell = new GPoint();
+		GPoint cell2 = new GPoint();
 
 		// handle select all case first, then exit
 		if (table.isSelectAll() && borderStyle == BORDER_STYLE_NONE) {
@@ -657,7 +657,7 @@ public class CellFormat {
 		StringBuilder sb = new StringBuilder();
 
 		// create a set containing all cells with formats
-		HashSet<Point> masterKeySet = new HashSet<Point>();
+		HashSet<GPoint> masterKeySet = new HashSet<GPoint>();
 		for (int i = 0; i < formatMapArray.length; i++)
 			masterKeySet.addAll(formatMapArray[i].keySet());
 		if (masterKeySet.size() == 0)
@@ -665,7 +665,7 @@ public class CellFormat {
 
 		// iterate through the set creating XML tags for each cell and its
 		// formats
-		for (Point cell : masterKeySet) {
+		for (GPoint cell : masterKeySet) {
 
 			sb.append(cellDelimiter);
 
@@ -745,7 +745,7 @@ public class CellFormat {
 	private void processCellFormatString(String formatStr) {
 		// System.out.println("cellFormat:  " + formatStr);
 		String[] f = formatStr.split(formatDelimiter);
-		Point cell = new Point(Integer.parseInt(f[0]), Integer.parseInt(f[1]));
+		GPoint cell = new GPoint(Integer.parseInt(f[0]), Integer.parseInt(f[1]));
 		int formatType;
 		Object formatValue;
 		for (int i = 2; i < f.length; i = i + 2) {

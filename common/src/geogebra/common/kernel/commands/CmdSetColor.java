@@ -1,6 +1,6 @@
 package geogebra.common.kernel.commands;
 
-import geogebra.common.awt.Color;
+import geogebra.common.awt.GColor;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
@@ -46,7 +46,7 @@ public class CmdSetColor extends CmdScripting {
 				//HashMap<String, Color> colors = app.getColorsHashMap();
 				//Color col = colors.get(color);
 				
-				Color col = GeoGebraColorConstants.getGeogebraColor(app,  color);
+				GColor col = GeoGebraColorConstants.getGeogebraColor(app,  color);
 
 				// support for translated color names
 				//if (col == null) {

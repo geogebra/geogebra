@@ -3,7 +3,7 @@ package geogebra3D.euclidian3D;
 
 
 import geogebra.common.euclidian.EuclidianConstants;
-import geogebra.common.euclidian.AbstractEuclidianView;
+import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.euclidian.GetViewId;
 import geogebra.common.euclidian.Hits;
@@ -30,7 +30,7 @@ import geogebra.common.kernel.kernelND.GeoQuadricND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
 import geogebra.common.kernel.kernelND.Region3D;
 import geogebra.common.main.AbstractApplication;
-import geogebra.euclidian.EuclidianController;
+import geogebra.euclidian.EuclidianControllerD;
 import geogebra.main.Application;
 import geogebra3D.euclidian3D.opengl.PlotterBrush;
 import geogebra3D.euclidianFor3D.EuclidianControllerFor3D;
@@ -1932,7 +1932,7 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 	
 	
 	@Override
-	public void showDrawingPadPopup(geogebra.common.awt.Point mouseLoc){
+	public void showDrawingPadPopup(geogebra.common.awt.GPoint mouseLoc){
 		((GuiManager3D) ((Application)app).getGuiManager()).showDrawingPadPopup3D(view, mouseLoc);
 	}
 	

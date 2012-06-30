@@ -106,11 +106,11 @@ DocumentListener, PropertyChangeListener {
 		setDigitAlignment(RIGHT);
 		setMinimumDisplayDigits(minimumDisplayDigits);
 
-		setCurrentLineForeground(geogebra.awt.Color
+		setCurrentLineForeground(geogebra.awt.GColorD
 				.getAwtColor(GeoGebraColorConstants.BLACK));
-		this.setForeground(geogebra.awt.Color
+		this.setForeground(geogebra.awt.GColorD
 				.getAwtColor(GeoGebraColorConstants.GRAY6));
-		this.setBackground(geogebra.awt.Color
+		this.setBackground(geogebra.awt.GColorD
 				.getAwtColor(GeoGebraColorConstants.GRAY1));
 
 		component.getDocument().addDocumentListener(this);

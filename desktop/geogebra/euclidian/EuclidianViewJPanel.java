@@ -1,6 +1,6 @@
 package geogebra.euclidian;
 
-import geogebra.common.euclidian.AbstractEuclidianView;
+import geogebra.common.euclidian.EuclidianView;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -13,9 +13,9 @@ public class EuclidianViewJPanel extends JPanel implements geogebra.common.eucli
 
 	private static final long serialVersionUID = 1L;
 	
-	AbstractEuclidianView view;
+	EuclidianView view;
 
-	public EuclidianViewJPanel(AbstractEuclidianView view) {
+	public EuclidianViewJPanel(EuclidianView view) {
 		this.view = view;
 	}
 
@@ -53,7 +53,7 @@ public class EuclidianViewJPanel extends JPanel implements geogebra.common.eucli
 
 	@Override
 	public Rectangle getBounds() {
-		return geogebra.awt.Rectangle.getAWTRectangle(view.getBounds());
+		return geogebra.awt.GRectangleD.getAWTRectangle(view.getBounds());
 	}
 
 	@Override

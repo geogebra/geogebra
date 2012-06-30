@@ -12,10 +12,10 @@
 
 package geogebra.common.euclidian;
 
-import geogebra.common.awt.Color;
-import geogebra.common.awt.Dimension;
+import geogebra.common.awt.GColor;
+import geogebra.common.awt.GDimension;
 import geogebra.common.awt.Graphics2D;
-import geogebra.common.awt.Point;
+import geogebra.common.awt.GPoint;
 import geogebra.common.awt.Rectangle;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.StringTemplate;
@@ -39,14 +39,14 @@ public final class DrawBoolean extends Drawable {
 	private String oldCaption;
 	//private BooleanCheckBoxListener cbl;
 	
-	private Point textSize = new Point(0,0);
+	private GPoint textSize = new GPoint(0,0);
 	
 	private CheckBoxIcon checkBoxIcon;
 
 	/** Creates new DrawText 
 	 * @param view view
 	 * @param geoBool boolean (checkbox)*/
-	public DrawBoolean(AbstractEuclidianView view, GeoBoolean geoBool) {
+	public DrawBoolean(EuclidianView view, GeoBoolean geoBool) {
 		this.view = view;
 		this.geoBool = geoBool;
 		geo = geoBool;
@@ -114,7 +114,7 @@ public final class DrawBoolean extends Drawable {
 		xLabel = geo.labelOffsetX;
 		yLabel = geo.labelOffsetY;		
 		int size = view.getBooleanSize();
-		Dimension prefSize = AwtFactory.prototype.newDimension(size + 12,size + 12);//checkBox.getPreferredSize();
+		GDimension prefSize = AwtFactory.prototype.newDimension(size + 12,size + 12);//checkBox.getPreferredSize();
 		labelRectangle.setBounds(xLabel, yLabel,
 				prefSize.getWidth() + ((textSize == null) ? 0 : textSize.x),
 				prefSize.getHeight());
@@ -214,16 +214,16 @@ public final class DrawBoolean extends Drawable {
 		
 		//int csize = 13;
 		
-		private AbstractEuclidianView ev;
+		private EuclidianView ev;
 		
 		/** background color when highlighted*/
-		public static Color highlightBackground = AwtFactory.prototype.newColor(230, 230, 230);
+		public static GColor highlightBackground = AwtFactory.prototype.newColor(230, 230, 230);
 		
 		/**
 		 * Creates new checkbox icon
 		 * @param ev view
 		 */
-		public CheckBoxIcon(AbstractEuclidianView ev)
+		public CheckBoxIcon(EuclidianView ev)
 		{
 			this.ev=ev;
 		}
@@ -250,7 +250,7 @@ public final class DrawBoolean extends Drawable {
                     g.drawLine(x, y + 1, x, y + (csize-2));
 
                     // Outer bottom/right
-                    g.setColor(Color.white);
+                    g.setColor(GColor.white);
                     g.drawLine(x + (csize-1), y, x + (csize-1), y + (csize-1));
                     g.drawLine(x, y + (csize-1), x + (csize-2), y + (csize-1));
 
@@ -268,7 +268,7 @@ public final class DrawBoolean extends Drawable {
                     if (highlighted) {
                         g.setColor(highlightBackground);
                     } else {
-                        g.setColor(Color.white);
+                        g.setColor(GColor.white);
                     }
                     g.fillRect(x + 2, y + 2, csize - 4, csize - 4);
                 } 

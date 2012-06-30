@@ -42,9 +42,9 @@ public class InspectorTable extends JTable{
 
 		// set visual appearance
 		setShowGrid(true);
-		setGridColor(geogebra.awt.Color.getAwtColor(GeoGebraColorConstants.TABLE_GRID_COLOR));
+		setGridColor(geogebra.awt.GColorD.getAwtColor(GeoGebraColorConstants.TABLE_GRID_COLOR));
 		//setSelectionBackground(new Color(255, 130, 171));
-		setSelectionBackground(geogebra.awt.Color.getAwtColor(GeoGebraColorConstants.PINK));
+		setSelectionBackground(geogebra.awt.GColorD.getAwtColor(GeoGebraColorConstants.PINK));
 		setBorder(BorderFactory.createEmptyBorder());
 
 		// set resizing fields

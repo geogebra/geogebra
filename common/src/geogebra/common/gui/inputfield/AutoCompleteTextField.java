@@ -1,7 +1,7 @@
 package geogebra.common.gui.inputfield;
 
-import geogebra.common.awt.Color;
-import geogebra.common.awt.Font;
+import geogebra.common.awt.GColor;
+import geogebra.common.awt.GFont;
 import geogebra.common.euclidian.event.FocusListener;
 import geogebra.common.euclidian.event.KeyListener;
 import geogebra.common.javax.swing.JLabel;
@@ -23,13 +23,13 @@ public interface AutoCompleteTextField extends GeoElementSelectionListener, Text
 	void setOpaque(boolean b);
 
     //javax.swing.JTextField
-	void setFont(Font font);
+	void setFont(GFont font);
 
     //javax.swing.JComponent
-	void setForeground(Color color);
+	void setForeground(GColor color);
     
 	//javax.swing.JComponent
-	void setBackground(Color color);
+	void setBackground(GColor color);
 
 	//java.awt.Component
 	void setFocusable(boolean b);

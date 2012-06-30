@@ -1,6 +1,6 @@
 package geogebra.gui.view.spreadsheet;
 
-import geogebra.common.awt.Point;
+import geogebra.common.awt.GPoint;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementSpreadsheet;
@@ -42,7 +42,7 @@ public class SpreadsheetViewDnD implements DragGestureListener, DragSourceListen
 	private DropTarget dt;
 
 	// current drag over cell
-	private Point currentCell = new Point(0,0);
+	private GPoint currentCell = new GPoint(0,0);
 
 	// flags
 	private boolean isTranspose = false;
@@ -178,7 +178,7 @@ public class SpreadsheetViewDnD implements DragGestureListener, DragSourceListen
 	 */
 	public void dragOver(DropTargetDragEvent dte) {
 
-		Point overCell = table.getIndexFromPixel(dte.getLocation().x, dte.getLocation().y) ;
+		GPoint overCell = table.getIndexFromPixel(dte.getLocation().x, dte.getLocation().y) ;
 
 		// if mouse over a new cell then update currentCell and repaint the target cell border
 		if(!overCell.equals(currentCell)){

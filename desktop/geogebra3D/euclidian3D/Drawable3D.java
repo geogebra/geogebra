@@ -295,7 +295,7 @@ public abstract class Drawable3D extends DrawableND {
 	protected void updateLabel(){
 		
 		label.update(getGeoElement().getLabelDescription(), getView3D().getApplication().getPlainFont(), 
-				geogebra.awt.Color.getAwtColor(getGeoElement().getObjectColor()),
+				geogebra.awt.GColorD.getAwtColor(getGeoElement().getObjectColor()),
 				getLabelPosition(),
 				getLabelOffsetX(),-getLabelOffsetY());
 
@@ -808,7 +808,7 @@ public abstract class Drawable3D extends DrawableND {
 	}
 	
 	protected void setColors(double alpha, Coords color, Coords colorHighlighted){
-		Color c = geogebra.awt.Color.getAwtColor(getGeoElement().getObjectColor());
+		Color c = geogebra.awt.GColorD.getAwtColor(getGeoElement().getObjectColor());
 		color.set(new Coords((double) c.getRed()/255, (double) c.getGreen()/255, (double) c.getBlue()/255,alpha));
 
 		if (getView3D().isGrayScaled())

@@ -2,8 +2,8 @@ package geogebra.web.javax.swing;
 
 import com.google.gwt.user.client.DOM;
 
-import geogebra.common.awt.Color;
-import geogebra.common.awt.Font;
+import geogebra.common.awt.GColor;
+import geogebra.common.awt.GFont;
 import geogebra.common.main.AbstractApplication;
 
 public class JLabel extends geogebra.common.javax.swing.JLabel {
@@ -62,20 +62,20 @@ public class JLabel extends geogebra.common.javax.swing.JLabel {
     }
 
 	@Override
-    public void setFont(Font font) {
+    public void setFont(GFont font) {
 	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 	    
     }
 
 	@Override
-    public void setForeground(Color color) {
+    public void setForeground(GColor color) {
 	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
 	    
     }
 
 	@Override
-    public void setBackground(Color color) {
-		DOM.setStyleAttribute(impl.getElement(), "background", Color.getColorString(color));
+    public void setBackground(GColor color) {
+		DOM.setStyleAttribute(impl.getElement(), "background", GColor.getColorString(color));
 		//DOM.setStyleAttribute(impl.getElement(), "background", "rgba("+ color.getRed()+", "+color.getGreen()+", "+color.getBlue()+", 1)");
 		
     }

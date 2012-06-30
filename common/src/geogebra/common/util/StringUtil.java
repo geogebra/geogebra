@@ -1,6 +1,6 @@
 package geogebra.common.util;
 
-import geogebra.common.awt.Color;
+import geogebra.common.awt.GColor;
 import geogebra.common.main.AbstractApplication;
 
 public class StringUtil {
@@ -45,7 +45,7 @@ public class StringUtil {
     	return hexSB.toString();
     }
     
-    final public static String toHexString(Color col) {
+    final public static String toHexString(GColor col) {
     	byte r = (byte) col.getRed();
     	byte g = (byte) col.getGreen();
     	byte b = (byte) col.getBlue();

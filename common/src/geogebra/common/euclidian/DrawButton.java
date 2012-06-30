@@ -39,7 +39,7 @@ public final class DrawButton extends Drawable implements RemoveNeeded {
 	 * @param view view
 	 * @param geoButton button
 	 */
-	public DrawButton(AbstractEuclidianView view, GeoButton geoButton) {
+	public DrawButton(EuclidianView view, GeoButton geoButton) {
 		this.view = view;
 		this.geoButton = geoButton;
 		geo = geoButton;

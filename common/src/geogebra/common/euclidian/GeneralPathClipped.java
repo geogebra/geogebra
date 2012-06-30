@@ -15,14 +15,14 @@ import java.util.ArrayList;
  * @author Markus Hohenwarter
  * @version October 2009
  */
-public class GeneralPathClipped  implements geogebra.common.awt.Shape {
+public class GeneralPathClipped  implements geogebra.common.awt.GShape {
 
 	private static final float MAX_COORD_VALUE = 10000;
 	private static final double TOLERANCE = 0.01; // pixel distance for equal
 													// points
 
 	private ArrayList<MyPoint> pathPoints;
-	private geogebra.common.awt.GeneralPath gp;
+	private geogebra.common.awt.GGeneralPath gp;
 	private EuclidianViewInterfaceSlim view;
 	private double largestCoord;
 	private boolean needClosePath;
@@ -63,7 +63,7 @@ public class GeneralPathClipped  implements geogebra.common.awt.Shape {
 	/**
 	 * @return this as GeneralPath
 	 */
-	public geogebra.common.awt.GeneralPath getGeneralPath() {
+	public geogebra.common.awt.GGeneralPath getGeneralPath() {
 		if (pathPoints.size() == 0)
 			return gp;
 
@@ -104,7 +104,7 @@ public class GeneralPathClipped  implements geogebra.common.awt.Shape {
 			curP = pathPoints.get(i);
 			if (!curP.getLineTo() || prevP == null) {
 				// moveTo point, make sure it is only slightly outside screen
-				geogebra.common.awt.Point2D p = getPointCloseToScreen(curP.getX(), curP.getY());
+				geogebra.common.awt.GPoint2D p = getPointCloseToScreen(curP.getX(), curP.getY());
 				addToGeneralPath(p, false);
 			} else {
 				// clip line at screen
@@ -129,7 +129,7 @@ public class GeneralPathClipped  implements geogebra.common.awt.Shape {
 		}
 
 		// at least one point is not on screen: clip line at screen
-		geogebra.common.awt.Point2D[] clippedPoints = ClipLine.getClipped(prevP.getX(), prevP.getY(),
+		geogebra.common.awt.GPoint2D[] clippedPoints = ClipLine.getClipped(prevP.getX(), prevP.getY(),
 				curP.getX(), curP.getY(), -10, view.getWidth() + 10, -10, view.getHeight() + 10);
 
 		if (clippedPoints != null) {
@@ -160,7 +160,7 @@ public class GeneralPathClipped  implements geogebra.common.awt.Shape {
 		}
 	}
 
-	private geogebra.common.awt.Point2D getPointCloseToScreen(double ptx, double pty) {
+	private geogebra.common.awt.GPoint2D getPointCloseToScreen(double ptx, double pty) {
 		double x = ptx;
 		double y =pty;
 		double border = 10;
@@ -179,8 +179,8 @@ public class GeneralPathClipped  implements geogebra.common.awt.Shape {
 		return AwtFactory.prototype.newPoint2D(x, y);
 	}
 
-	private void addToGeneralPath(geogebra.common.awt.Point2D q, boolean lineTo) {
-		geogebra.common.awt.Point2D p = gp.getCurrentPoint();
+	private void addToGeneralPath(geogebra.common.awt.GPoint2D q, boolean lineTo) {
+		geogebra.common.awt.GPoint2D p = gp.getCurrentPoint();
 		if (p != null && p.distance(q) < TOLERANCE) {
 			return;
 		}
@@ -257,7 +257,7 @@ public class GeneralPathClipped  implements geogebra.common.awt.Shape {
 	/**
 	 * @return current point
 	 */
-	public geogebra.common.awt.Point2D getCurrentPoint() {
+	public geogebra.common.awt.GPoint2D getCurrentPoint() {
 		if (pathPoints.size() == 0) {
 			return null;
 		}
@@ -268,7 +268,7 @@ public class GeneralPathClipped  implements geogebra.common.awt.Shape {
 	 * Transforms this path
 	 * @param af transformation
 	 */
-	public void transform(geogebra.common.awt.AffineTransform af) {
+	public void transform(geogebra.common.awt.GAffineTransform af) {
 		int size = pathPoints.size();
 		for (int i = 0; i < size; i++) {
 			MyPoint p = pathPoints.get(i);
@@ -280,7 +280,7 @@ public class GeneralPathClipped  implements geogebra.common.awt.Shape {
 	 * @param p point
 	 * @return true if contains given point
 	 */
-	public boolean contains(geogebra.common.awt.Point2D p) {
+	public boolean contains(geogebra.common.awt.GPoint2D p) {
 		return getGeneralPath().contains(p);
 	}
 
@@ -288,7 +288,7 @@ public class GeneralPathClipped  implements geogebra.common.awt.Shape {
 	 * @param rect rectangle
 	 * @return true if contains given rectangle
 	 */
-	public boolean contains(geogebra.common.awt.Rectangle2D rect) {
+	public boolean contains(geogebra.common.awt.GRectangle2D rect) {
 		return getGeneralPath().contains(rect);
 	}
 
@@ -321,7 +321,7 @@ public class GeneralPathClipped  implements geogebra.common.awt.Shape {
 		return bounds;
 	}
 
-	public geogebra.common.awt.Rectangle2D getBounds2D() {
+	public geogebra.common.awt.GRectangle2D getBounds2D() {
 		return bounds;
 	}
 
@@ -330,8 +330,8 @@ public class GeneralPathClipped  implements geogebra.common.awt.Shape {
 		return geogebra.awt.GeneralPath.getAwtGeneralPath(getGeneralPath()).getPathIterator(arg0);
 	}*/
 
-	public geogebra.common.awt.PathIterator getPathIterator(
-			geogebra.common.awt.AffineTransform arg0) {
+	public geogebra.common.awt.GPathIterator getPathIterator(
+			geogebra.common.awt.GAffineTransform arg0) {
 		// TODO Auto-generated method stub
 		return getGeneralPath().getPathIterator(arg0);
 	}
@@ -341,13 +341,13 @@ public class GeneralPathClipped  implements geogebra.common.awt.Shape {
 		return geogebra.awt.GeneralPath.getAwtGeneralPath(getGeneralPath()).getPathIterator(at, flatness);
 	}*/
 	
-	public geogebra.common.awt.PathIterator getPathIterator(
-			geogebra.common.awt.AffineTransform at, double flatness) {
+	public geogebra.common.awt.GPathIterator getPathIterator(
+			geogebra.common.awt.GAffineTransform at, double flatness) {
 		// TODO Auto-generated method stub
 		return getGeneralPath().getPathIterator(at, flatness);
 	}
 
-	public boolean intersects(geogebra.common.awt.Rectangle2D arg0) {
+	public boolean intersects(geogebra.common.awt.GRectangle2D arg0) {
 		return getGeneralPath().intersects(arg0);
 	}
 

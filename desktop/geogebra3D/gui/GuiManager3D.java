@@ -5,7 +5,7 @@ import geogebra.common.gui.dialog.handler.NumberInputHandler;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.euclidian.EuclidianView;
+import geogebra.euclidian.EuclidianViewD;
 import geogebra.euclidianND.EuclidianViewND;
 import geogebra.gui.ContextMenuChooseGeo;
 import geogebra.gui.GuiManager;
@@ -165,7 +165,7 @@ public class GuiManager3D extends GuiManager {
 	 * Displays the zoom menu at the position p in the coordinate space of
 	 * euclidianView
 	 */
-	public void showDrawingPadPopup3D(EuclidianViewInterfaceCommon view, geogebra.common.awt.Point p) {
+	public void showDrawingPadPopup3D(EuclidianViewInterfaceCommon view, geogebra.common.awt.GPoint p) {
 		// clear highlighting and selections in views		
 		((Application3D) app).getEuclidianView3D().resetMode();
 		
@@ -188,7 +188,7 @@ public class GuiManager3D extends GuiManager {
 	@Override
 	public void showPopupChooseGeo(ArrayList<GeoElement> selectedGeos,
 			ArrayList<GeoElement> geos, EuclidianViewND view,
-			geogebra.common.awt.Point p) {
+			geogebra.common.awt.GPoint p) {
 		
 		if (selectedGeos == null || selectedGeos.get(0) == null)
 			return;
@@ -222,7 +222,7 @@ public class GuiManager3D extends GuiManager {
 	}
 	
 	@Override
-	protected EuclidianView newEuclidianView(boolean[] showAxis, boolean showGrid, int id){
+	protected EuclidianViewD newEuclidianView(boolean[] showAxis, boolean showGrid, int id){
 		return new EuclidianViewFor3D(new EuclidianControllerFor3D(kernel), showAxis, showGrid, id);
 	}
 }

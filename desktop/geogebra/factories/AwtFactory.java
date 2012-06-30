@@ -1,96 +1,96 @@
 package geogebra.factories;
 
-import geogebra.awt.Ellipse2DDouble;
-import geogebra.common.awt.AffineTransform;
-import geogebra.common.awt.AlphaComposite;
-import geogebra.common.awt.Arc2D;
-import geogebra.common.awt.Area;
-import geogebra.common.awt.BasicStroke;
-import geogebra.common.awt.BufferedImage;
-import geogebra.common.awt.Color;
+import geogebra.awt.GEllipse2DDoubleD;
+import geogebra.common.awt.GAffineTransform;
+import geogebra.common.awt.GAlphaComposite;
+import geogebra.common.awt.GArc2D;
+import geogebra.common.awt.GArea;
+import geogebra.common.awt.GBasicStroke;
+import geogebra.common.awt.GBufferedImage;
+import geogebra.common.awt.GColor;
 import geogebra.common.awt.Component;
-import geogebra.common.awt.CubicCurve2D;
-import geogebra.common.awt.Dimension;
-import geogebra.common.awt.Ellipse2DFloat;
-import geogebra.common.awt.Font;
-import geogebra.common.awt.FontRenderContext;
-import geogebra.common.awt.GeneralPath;
-import geogebra.common.awt.GradientPaint;
-import geogebra.common.awt.Line2D;
-import geogebra.common.awt.Point2D;
-import geogebra.common.awt.QuadCurve2D;
+import geogebra.common.awt.GCubicCurve2D;
+import geogebra.common.awt.GDimension;
+import geogebra.common.awt.GEllipse2DFloat;
+import geogebra.common.awt.GFont;
+import geogebra.common.awt.GFontRenderContext;
+import geogebra.common.awt.GGeneralPath;
+import geogebra.common.awt.GGradientPaint;
+import geogebra.common.awt.GLine2D;
+import geogebra.common.awt.GPoint2D;
+import geogebra.common.awt.GQuadCurve2D;
 import geogebra.common.awt.Rectangle;
-import geogebra.common.awt.Rectangle2D;
-import geogebra.common.awt.Shape;
-import geogebra.common.awt.font.TextLayout;
+import geogebra.common.awt.GRectangle2D;
+import geogebra.common.awt.GShape;
+import geogebra.common.awt.font.GTextLayout;
 import geogebra.common.euclidian.event.FocusListener;
 import geogebra.euclidian.event.KeyListener;
 
 public class AwtFactory extends geogebra.common.factories.AwtFactory{
 	
 	public AwtFactory(){
-		Color.initColors(this);
+		GColor.initColors(this);
 	}
 	@Override
-	public Color newColor(int RGB) {
-		return new geogebra.awt.Color(RGB);
-	}
-	
-	@Override
-	public Color newColor(int red, int green, int blue) {
-		return new geogebra.awt.Color(red, green, blue);
+	public GColor newColor(int RGB) {
+		return new geogebra.awt.GColorD(RGB);
 	}
 	
 	@Override
-	public Color newColor(int red, int green, int blue, int alpha) {
-		return new geogebra.awt.Color(red, green, blue, alpha);
+	public GColor newColor(int red, int green, int blue) {
+		return new geogebra.awt.GColorD(red, green, blue);
 	}
 	
 	@Override
-	public Color newColor(float red, float green, float blue, float alpha) {
-		return new geogebra.awt.Color(red, green, blue, alpha);
+	public GColor newColor(int red, int green, int blue, int alpha) {
+		return new geogebra.awt.GColorD(red, green, blue, alpha);
+	}
+	
+	@Override
+	public GColor newColor(float red, float green, float blue, float alpha) {
+		return new geogebra.awt.GColorD(red, green, blue, alpha);
 	}
 
 	@Override
-	public Color newColor(float red, float green, float blue) {
-		return new geogebra.awt.Color(red, green, blue);
+	public GColor newColor(float red, float green, float blue) {
+		return new geogebra.awt.GColorD(red, green, blue);
 	}
 	
 	@Override
-	public AffineTransform newAffineTransform() {
-		return new geogebra.awt.AffineTransform();
+	public GAffineTransform newAffineTransform() {
+		return new geogebra.awt.GAffineTransformD();
 	}
 
 	@Override
-	public Rectangle2D newRectangle2D() {
-		return new geogebra.awt.GenericRectangle2D();
+	public GRectangle2D newRectangle2D() {
+		return new geogebra.awt.GGenericRectangle2DD();
 	}
 	
 	@Override
 	public Rectangle newRectangle(int x,int y,int w, int h) {
-		return new geogebra.awt.Rectangle(x,y,w,h);
+		return new geogebra.awt.GRectangleD(x,y,w,h);
 	}
 
 	@Override
-	public BufferedImage newBufferedImage(int pixelWidth,
+	public GBufferedImage newBufferedImage(int pixelWidth,
 			int pixelHeight, int type) {
 		// TODO Auto-generated method stub
-		return new geogebra.awt.BufferedImage(pixelWidth,pixelHeight,type);
+		return new geogebra.awt.GBufferedImageD(pixelWidth,pixelHeight,type);
 	}
 
 	@Override
-	public Dimension newDimension(int width, int height) {
-		return new geogebra.awt.Dimension(width, height);
+	public GDimension newDimension(int width, int height) {
+		return new geogebra.awt.GDimensionD(width, height);
 	}
 
 	@Override
-	public Point2D newPoint2D() {
-		return new geogebra.awt.Point2D();
+	public GPoint2D newPoint2D() {
+		return new geogebra.awt.GPoint2DD();
 	}
 	
 	@Override
-	public Point2D newPoint2D(double x,double y) {
-		return new geogebra.awt.Point2D(x,y);
+	public GPoint2D newPoint2D(double x,double y) {
+		return new geogebra.awt.GPoint2DD(x,y);
 	}
 
 	/*@Override
@@ -105,75 +105,75 @@ public class AwtFactory extends geogebra.common.factories.AwtFactory{
 
 	@Override
 	public Rectangle newRectangle(int i, int j) {
-		return new geogebra.awt.Rectangle(i, j);
+		return new geogebra.awt.GRectangleD(i, j);
 	}
 	
 	@Override
-	public GeneralPath newGeneralPath(){
-		return new geogebra.awt.GeneralPath();
+	public GGeneralPath newGeneralPath(){
+		return new geogebra.awt.GGeneralPathD();
 	}
 
 	@Override
-	public BasicStroke newMyBasicStroke(float f) {
-		return new geogebra.awt.BasicStroke(f,
-				BasicStroke.CAP_ROUND,BasicStroke.JOIN_ROUND);
+	public GBasicStroke newMyBasicStroke(float f) {
+		return new geogebra.awt.GBasicStrokeD(f,
+				GBasicStroke.CAP_ROUND,GBasicStroke.JOIN_ROUND);
 	}
 
 	@Override
-	public BasicStroke newBasicStroke(float width, int endCap, int lineJoin,
+	public GBasicStroke newBasicStroke(float width, int endCap, int lineJoin,
 			float miterLimit, float[] dash, float f) {
 		java.awt.BasicStroke s = new java.awt.BasicStroke(width,endCap,lineJoin,
 				miterLimit,dash,f);
-		return new geogebra.awt.BasicStroke(s);
+		return new geogebra.awt.GBasicStrokeD(s);
 	}
 
 	@Override
-	public BasicStroke newBasicStroke(float f) {
-		return new geogebra.awt.BasicStroke(f);
+	public GBasicStroke newBasicStroke(float f) {
+		return new geogebra.awt.GBasicStrokeD(f);
 	}
 	
 	@Override
 	// CAP_BUTT, JOIN_MITER behaves differently on JRE & GWT
 	// see #1699
-	public BasicStroke newBasicStrokeJoinMitre(float f) {
-		return new geogebra.awt.BasicStroke(f, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER);
+	public GBasicStroke newBasicStrokeJoinMitre(float f) {
+		return new geogebra.awt.GBasicStrokeD(f, GBasicStroke.CAP_SQUARE, GBasicStroke.JOIN_MITER);
 	}
 	
 	@Override
-	public Line2D newLine2D() {
-		return new geogebra.awt.Line2D();
+	public GLine2D newLine2D() {
+		return new geogebra.awt.GLine2DD();
 	}
 
 	@Override
 	public Rectangle newRectangle(Rectangle bb) {
-		return new geogebra.awt.Rectangle(bb);
+		return new geogebra.awt.GRectangleD(bb);
 	}
 	
 	@Override
 	public Rectangle newRectangle() {
-		return new geogebra.awt.Rectangle();
+		return new geogebra.awt.GRectangleD();
 	}
 
 	@Override
-	public Ellipse2DDouble newEllipse2DDouble() {
-		return new geogebra.awt.Ellipse2DDouble();
+	public GEllipse2DDoubleD newEllipse2DDouble() {
+		return new geogebra.awt.GEllipse2DDoubleD();
 				
 				
 	}
 
 	@Override
-	public Ellipse2DFloat newEllipse2DFloat(int i, int j, int k, int l) {
-		return new geogebra.awt.Ellipse2DFloat(i,j,k,l);
+	public GEllipse2DFloat newEllipse2DFloat(int i, int j, int k, int l) {
+		return new geogebra.awt.GEllipse2DFloatD(i,j,k,l);
 	}
 
 	@Override
-	public Arc2D newArc2D() {
-		return new geogebra.awt.Arc2D();
+	public GArc2D newArc2D() {
+		return new geogebra.awt.GArc2DD();
 	}
 
 	@Override
-	public QuadCurve2D newQuadCurve2D() {
-		return new geogebra.awt.QuadCurve2D();
+	public GQuadCurve2D newQuadCurve2D() {
+		return new geogebra.awt.GQuadCurve2DD();
 	}
 
 	/*
@@ -184,45 +184,45 @@ public class AwtFactory extends geogebra.common.factories.AwtFactory{
 	*/
 
 	@Override
-	public Area newArea() {
-		return new geogebra.awt.Area();
+	public GArea newArea() {
+		return new geogebra.awt.GAreaD();
 	}
 
 	@Override
-	public Area newArea(Shape shape) {
-		return new geogebra.awt.Area(shape);
+	public GArea newArea(GShape shape) {
+		return new geogebra.awt.GAreaD(shape);
 	}
 
 	@Override
-	public GeneralPath newGeneralPath(int rule) {
-		return new geogebra.awt.GeneralPath(rule);
+	public GGeneralPath newGeneralPath(int rule) {
+		return new geogebra.awt.GGeneralPathD(rule);
 	}
 
 	@Override
-	public CubicCurve2D newCubicCurve2D() {
-		return new geogebra.awt.CubicCurve2D();
+	public GCubicCurve2D newCubicCurve2D() {
+		return new geogebra.awt.GCubicCurve2DD();
 	}
 
 	@Override
-	public BasicStroke newBasicStroke(float f, int cap, int join) {
-		return new geogebra.awt.BasicStroke(f, cap, join);
+	public GBasicStroke newBasicStroke(float f, int cap, int join) {
+		return new geogebra.awt.GBasicStrokeD(f, cap, join);
 	}
 
 	@Override
-	public TextLayout newTextLayout(String string, Font fontLine,
-			FontRenderContext frc) {
-		return new geogebra.awt.TextLayout(string,fontLine,frc);
+	public GTextLayout newTextLayout(String string, GFont fontLine,
+			GFontRenderContext frc) {
+		return new geogebra.awt.GTextLayoutD(string,fontLine,frc);
 	}
 
 	@Override
-	public AlphaComposite newAlphaComposite(int rule, float alpha) {
-		return new geogebra.awt.AlphaComposite(java.awt.AlphaComposite.getInstance(rule, alpha));
+	public GAlphaComposite newAlphaComposite(int rule, float alpha) {
+		return new geogebra.awt.GAlphaCompositeD(java.awt.AlphaComposite.getInstance(rule, alpha));
 	}
 
 	@Override
-	public GradientPaint newGradientPaint(int x, int y, Color bg2, int x2,
-			int i, Color bg) {
-		return new geogebra.awt.GradientPaint(x, y, bg2, x2, i, bg);
+	public GGradientPaint newGradientPaint(int x, int y, GColor bg2, int x2,
+			int i, GColor bg) {
+		return new geogebra.awt.GGradientPaintD(x, y, bg2, x2, i, bg);
 	}
 	@Override
 	public FocusListener newFocusListener(Object listener) {
@@ -234,7 +234,7 @@ public class AwtFactory extends geogebra.common.factories.AwtFactory{
 	}
 	@Override
 	public Component newComponent(Object component) {
-		return new geogebra.awt.Component(component);
+		return new geogebra.awt.GComponentD(component);
 	}
 	
 	@Override

@@ -1,6 +1,6 @@
 package geogebra.web.gui.util;
 
-import geogebra.web.euclidian.EuclidianStyleBar;
+import geogebra.web.euclidian.EuclidianStyleBarW;
 import geogebra.web.gui.images.AppResources;
 
 import com.google.gwt.canvas.client.Canvas;
@@ -139,7 +139,7 @@ public class MyCJButton extends Composite implements MouseDownHandler, MouseUpHa
 
 	
 
-	public HandlerRegistration addClickHandler(EuclidianStyleBar handler) {
+	public HandlerRegistration addClickHandler(EuclidianStyleBarW handler) {
 		return button.addClickHandler(handler);
     }
 	
@@ -260,7 +260,7 @@ public class MyCJButton extends Composite implements MouseDownHandler, MouseUpHa
 		return button.getCanvasElement().getHeight();
 	}
 	
-	public void addActionListener(EuclidianStyleBar euclidianStyleBar) {
+	public void addActionListener(EuclidianStyleBarW euclidianStyleBar) {
 		button.addClickHandler(euclidianStyleBar);
 	}
 

@@ -65,14 +65,14 @@ SpecialNumberFormatInterface {
 	protected boolean leftToRight = true;
 
 	// colors
-	public static final Color TABLE_GRID_COLOR = geogebra.awt.Color.getAwtColor(GeoGebraColorConstants.TABLE_GRID_COLOR);
+	public static final Color TABLE_GRID_COLOR = geogebra.awt.GColorD.getAwtColor(GeoGebraColorConstants.TABLE_GRID_COLOR);
 	public static final Color TABLE_HEADER_COLOR = new Color(240,240,240);   
-	public static final Color HISTOGRAM_COLOR = geogebra.awt.Color.getAwtColor(GeoGebraColorConstants.BLUE);    
-	public static final Color BOXPLOT_COLOR = geogebra.awt.Color.getAwtColor(GeoGebraColorConstants.CRIMSON);
-	public static final Color DOTPLOT_COLOR = geogebra.awt.Color.getAwtColor(GeoGebraColorConstants.GRAY5);    
-	public static final Color NQPLOT_COLOR =  geogebra.awt.Color.getAwtColor(GeoGebraColorConstants.GRAY5);    
+	public static final Color HISTOGRAM_COLOR = geogebra.awt.GColorD.getAwtColor(GeoGebraColorConstants.BLUE);    
+	public static final Color BOXPLOT_COLOR = geogebra.awt.GColorD.getAwtColor(GeoGebraColorConstants.CRIMSON);
+	public static final Color DOTPLOT_COLOR = geogebra.awt.GColorD.getAwtColor(GeoGebraColorConstants.GRAY5);    
+	public static final Color NQPLOT_COLOR =  geogebra.awt.GColorD.getAwtColor(GeoGebraColorConstants.GRAY5);    
 	public static final Color REGRESSION_COLOR = Color.RED;   
-	public static final Color OVERLAY_COLOR = geogebra.awt.Color.getAwtColor(GeoGebraColorConstants.DARKBLUE);    
+	public static final Color OVERLAY_COLOR = geogebra.awt.GColorD.getAwtColor(GeoGebraColorConstants.DARKBLUE);    
 	
 	public static final float opacityBarChart = 0.3f; 
 	public static final int thicknessCurve = 4;

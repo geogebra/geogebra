@@ -1,8 +1,8 @@
 package geogebra.common.main;
 
-import geogebra.common.awt.Color;
-import geogebra.common.euclidian.AbstractEuclidianController;
-import geogebra.common.euclidian.AbstractEuclidianView;
+import geogebra.common.awt.GColor;
+import geogebra.common.euclidian.EuclidianController;
+import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.Kernel;
@@ -407,7 +407,7 @@ public abstract class GlobalKeyDispatcher {
 			case EQUALS:
 
 				// disable zooming in PEN mode
-				if (!AbstractEuclidianView.isPenMode(app.getActiveEuclidianView().getMode())) {
+				if (!EuclidianView.isPenMode(app.getActiveEuclidianView().getMode())) {
 
 					boolean spanish = app.getLanguage().startsWith("es");
 
@@ -583,7 +583,7 @@ public abstract class GlobalKeyDispatcher {
 
 		if (blackWhiteMode) {
 			geo.setAlphaValue(0f);
-			geo.setObjColor(Color.black);
+			geo.setObjColor(GColor.black);
 		}
 	}
 	
@@ -621,22 +621,22 @@ public abstract class GlobalKeyDispatcher {
 				case PAGEUP:
 					ev.rememberOrigins();
 					ev.setCoordSystemFromMouseMove(0, (int) (height * base),
-							AbstractEuclidianController.MOVE_VIEW);
+							EuclidianController.MOVE_VIEW);
 					return true;
 				case PAGEDOWN:
 					ev.rememberOrigins();
 					ev.setCoordSystemFromMouseMove(0, -(int) (height * base),
-							AbstractEuclidianController.MOVE_VIEW);
+							EuclidianController.MOVE_VIEW);
 					return true;
 				case INSERT:
 					ev.rememberOrigins();
 					ev.setCoordSystemFromMouseMove((int) (height * base), 0,
-							AbstractEuclidianController.MOVE_VIEW);
+							EuclidianController.MOVE_VIEW);
 					return true;
 				case HOME:
 					ev.rememberOrigins();
 					ev.setCoordSystemFromMouseMove(-(int) (height * base), 0,
-							AbstractEuclidianController.MOVE_VIEW);
+							EuclidianController.MOVE_VIEW);
 					return true;
 				case DOWN:
 					if (app.isUsingFullGui()
@@ -644,7 +644,7 @@ public abstract class GlobalKeyDispatcher {
 						ev.rememberOrigins();
 						ev.setCoordSystemFromMouseMove(0,
 								(int) (height / 100.0 * base),
-								AbstractEuclidianController.MOVE_VIEW);
+								EuclidianController.MOVE_VIEW);
 						return true;
 					}
 				case UP:
@@ -653,20 +653,20 @@ public abstract class GlobalKeyDispatcher {
 						ev.rememberOrigins();
 						ev.setCoordSystemFromMouseMove(0,
 								-(int) (height / 100.0 * base),
-								AbstractEuclidianController.MOVE_VIEW);
+								EuclidianController.MOVE_VIEW);
 						return true;
 					}
 				case LEFT:
 					ev.rememberOrigins();
 					ev.setCoordSystemFromMouseMove(
 							-(int) (width / 100.0 * base), 0,
-							AbstractEuclidianController.MOVE_VIEW);
+							EuclidianController.MOVE_VIEW);
 					return true;
 				case RIGHT:
 					ev.rememberOrigins();
 					ev.setCoordSystemFromMouseMove(
 							(int) (width / 100.0 * base), 0,
-							AbstractEuclidianController.MOVE_VIEW);
+							EuclidianController.MOVE_VIEW);
 					return true;
 				}
 

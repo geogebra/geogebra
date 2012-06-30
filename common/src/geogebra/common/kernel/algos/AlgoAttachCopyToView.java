@@ -18,7 +18,7 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.algos;
 
-import geogebra.common.euclidian.AbstractEuclidianView;
+import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.MatrixTransformable;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
@@ -157,7 +157,7 @@ public class AlgoAttachCopyToView extends AlgoTransformation {
 	@Override
 	public final void compute() {
 		int view = (int) viewID.getDouble();
-		AbstractEuclidianView ev = null;
+		EuclidianView ev = null;
 		if (view == 2)
 			ev = app.getEuclidianView2();
 		else if (view == 1)

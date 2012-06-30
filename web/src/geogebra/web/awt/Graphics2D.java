@@ -1,22 +1,22 @@
 package geogebra.web.awt;
 
-import geogebra.common.awt.AffineTransform;
-import geogebra.common.awt.AttributedCharacterIterator;
-import geogebra.common.awt.BasicStroke;
-import geogebra.common.awt.BufferedImageOp;
-import geogebra.common.awt.Color;
-import geogebra.common.awt.Composite;
-import geogebra.common.awt.Dimension;
-import geogebra.common.awt.FontRenderContext;
-import geogebra.common.awt.GlyphVector;
-import geogebra.common.awt.GraphicsConfiguration;
-import geogebra.common.awt.Image;
-import geogebra.common.awt.ImageObserver;
-import geogebra.common.awt.Key;
-import geogebra.common.awt.Paint;
-import geogebra.common.awt.RenderableImage;
-import geogebra.common.awt.RenderedImage;
-import geogebra.common.awt.RenderingHints;
+import geogebra.common.awt.GAffineTransform;
+import geogebra.common.awt.GAttributedCharacterIterator;
+import geogebra.common.awt.GBasicStroke;
+import geogebra.common.awt.GBufferedImageOp;
+import geogebra.common.awt.GColor;
+import geogebra.common.awt.GComposite;
+import geogebra.common.awt.GDimension;
+import geogebra.common.awt.GFontRenderContext;
+import geogebra.common.awt.GGlyphVector;
+import geogebra.common.awt.GGraphicsConfiguration;
+import geogebra.common.awt.GImage;
+import geogebra.common.awt.GImageObserver;
+import geogebra.common.awt.GKey;
+import geogebra.common.awt.GPaint;
+import geogebra.common.awt.GRenderableImage;
+import geogebra.common.awt.GRenderedImage;
+import geogebra.common.awt.GRenderingHints;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.main.AbstractApplication;
 import geogebra.web.kernel.gawt.BufferedImage;
@@ -41,14 +41,14 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 	
 	protected final Canvas canvas;
 	private final Context2d context;
-	protected geogebra.common.awt.Shape clipShape = null;
+	protected geogebra.common.awt.GShape clipShape = null;
 
-	private Font currentFont = new Font("normal");
-	private Color color, bgColor;
-	private AffineTransform savedTransform;
+	private GFontW currentFont = new GFontW("normal");
+	private GColor color, bgColor;
+	private GAffineTransform savedTransform;
 	private float [] dash_array = null;
 
-	Paint currentPaint = new geogebra.web.awt.Color(255,255,255,255);
+	GPaint currentPaint = new geogebra.web.awt.GColorW(255,255,255,255);
 	private JsArrayNumber jsarrn;
 
 	/**
@@ -57,7 +57,7 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 	public Graphics2D(Canvas canvas) {
 	    this.canvas = canvas;
 	    this.context = canvas.getContext2d();
-	    savedTransform = new geogebra.web.awt.AffineTransform();
+	    savedTransform = new geogebra.web.awt.GAffineTransformW();
 	    preventContextMenu (canvas.getElement());
     }
 
@@ -156,16 +156,16 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 
 
 	@Override
-    public boolean drawImage(Image img, AffineTransform xform, ImageObserver obs) {
+    public boolean drawImage(GImage img, GAffineTransform xform, GImageObserver obs) {
 		AbstractApplication.debug("drawImage: implementation needed for beauty"); // TODO Auto-generated
 		return false;
 	}
 
 	//
 	@Override
-    public void drawImage(geogebra.common.awt.BufferedImage img, BufferedImageOp op, int x,
+    public void drawImage(geogebra.common.awt.GBufferedImage img, GBufferedImageOp op, int x,
 	        int y) {
-    	BufferedImage bi = geogebra.web.awt.BufferedImage.getGawtImage(img);
+    	BufferedImage bi = geogebra.web.awt.GBufferedImageW.getGawtImage(img);
     	if(bi==null)
     		return;
     	try{
@@ -177,14 +177,14 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 
 	
 	@Override
-    public void drawRenderedImage(RenderedImage img, AffineTransform xform) {
+    public void drawRenderedImage(GRenderedImage img, GAffineTransform xform) {
 		AbstractApplication.debug("drawRenderedImage: implementation needed"); // TODO Auto-generated
 
 	}
 
 	
 	@Override
-    public void drawRenderableImage(RenderableImage img, AffineTransform xform) {
+    public void drawRenderableImage(GRenderableImage img, GAffineTransform xform) {
 		AbstractApplication.debug("drawRenderableImage: implementation needed"); // TODO Auto-generated
 
 	}
@@ -203,14 +203,14 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 
 	
 	@Override
-    public void drawString(AttributedCharacterIterator iterator, int x, int y) {
+    public void drawString(GAttributedCharacterIterator iterator, int x, int y) {
 		AbstractApplication.debug("drawString: implementation needed"); // TODO Auto-generated
 
 	}
 
 	
 	@Override
-    public void drawString(AttributedCharacterIterator iterator, float x,
+    public void drawString(GAttributedCharacterIterator iterator, float x,
 	        float y) {
 		AbstractApplication.debug("drawString: implementation needed 2"); // TODO Auto-generated
 
@@ -218,7 +218,7 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 
 	
 	@Override
-    public void drawGlyphVector(GlyphVector g, float x, float y) {
+    public void drawGlyphVector(GGlyphVector g, float x, float y) {
 		AbstractApplication.debug("drawGlyphVector: implementation needed"); // TODO Auto-generated
 
 	}
@@ -238,15 +238,15 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 
 
 	@Override
-    public GraphicsConfiguration getDeviceConfiguration() {
+    public GGraphicsConfiguration getDeviceConfiguration() {
 		AbstractApplication.debug("getDeviceConfiguration: implementation needed"); // TODO Auto-generated
 		return null;
 	}
 
 	
 	@Override
-    public void setComposite(Composite comp) {
-		context.setGlobalAlpha(((geogebra.web.awt.AlphaComposite)comp).getAlpha());
+    public void setComposite(GComposite comp) {
+		context.setGlobalAlpha(((geogebra.web.awt.GAlphaCompositeW)comp).getAlpha());
 		
 //		if (comp != null) {
 //			float alpha  = ((geogebra.web.awt.AlphaComposite) comp).getAlpha();
@@ -260,18 +260,18 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 
 	
 	@Override
-    public void setPaint(Paint paint) {
-		if(paint  instanceof Color){
-			context.setFillStyle(Color.getColorString((Color)paint));	
-			context.setStrokeStyle(Color.getColorString((Color)paint));
-			currentPaint = new geogebra.web.awt.Color((geogebra.web.awt.Color)paint);
+    public void setPaint(GPaint paint) {
+		if(paint  instanceof GColor){
+			context.setFillStyle(GColor.getColorString((GColor)paint));	
+			context.setStrokeStyle(GColor.getColorString((GColor)paint));
+			currentPaint = new geogebra.web.awt.GColorW((geogebra.web.awt.GColorW)paint);
 		}
-		else if(paint instanceof GradientPaint){
-			context.setFillStyle(((GradientPaint)paint).getGradient(context));
-			currentPaint = new GradientPaint((GradientPaint)paint);
-		} else if (paint instanceof TexturePaint) {
-			currentPaint = new TexturePaint((TexturePaint)paint);
-			CanvasPattern ptr = context.createPattern(((TexturePaint)paint).getImg(), Repetition.REPEAT);
+		else if(paint instanceof GGradientPaintW){
+			context.setFillStyle(((GGradientPaintW)paint).getGradient(context));
+			currentPaint = new GGradientPaintW((GGradientPaintW)paint);
+		} else if (paint instanceof GTexturePaintW) {
+			currentPaint = new GTexturePaintW((GTexturePaintW)paint);
+			CanvasPattern ptr = context.createPattern(((GTexturePaintW)paint).getImg(), Repetition.REPEAT);
 			context.setFillStyle(ptr);
 			//why we get null here sometimes?
 		}
@@ -280,13 +280,13 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 
 	
 	@Override
-    public void setStroke(BasicStroke stroke) {
+    public void setStroke(GBasicStroke stroke) {
 		if (stroke != null) {
-			context.setLineWidth(((geogebra.web.awt.BasicStroke)stroke).getLineWidth());
-			context.setLineCap(((geogebra.web.awt.BasicStroke)stroke).getEndCapString());
-			context.setLineJoin(((geogebra.web.awt.BasicStroke)stroke).getLineJoinString());
+			context.setLineWidth(((geogebra.web.awt.GBasicStrokeW)stroke).getLineWidth());
+			context.setLineCap(((geogebra.web.awt.GBasicStrokeW)stroke).getEndCapString());
+			context.setLineJoin(((geogebra.web.awt.GBasicStrokeW)stroke).getLineJoinString());
 
-			float [] dasharr = ((geogebra.web.awt.BasicStroke)stroke).getDashArray();
+			float [] dasharr = ((geogebra.web.awt.GBasicStrokeW)stroke).getDashArray();
 			if (dasharr != null) {
 				jsarrn = JavaScriptObject.createArray().cast();
 				jsarrn.setLength(dasharr.length);
@@ -320,14 +320,14 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 
 
 	@Override
-    public void setRenderingHint(Key hintKey, Object hintValue) {
+    public void setRenderingHint(GKey hintKey, Object hintValue) {
 		AbstractApplication.debug("setRenderingHint: implementation needed"); // TODO Auto-generated
 
 	}
 
 	
 	@Override
-    public Object getRenderingHint(Key hintKey) {
+    public Object getRenderingHint(GKey hintKey) {
 		AbstractApplication.debug("getRenderingHint: implementation needed"); // TODO Auto-generated
 		return null;
 	}
@@ -348,7 +348,7 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 
 	
 	@Override
-    public RenderingHints getRenderingHints() {
+    public GRenderingHints getRenderingHints() {
 		AbstractApplication.debug("getRenderingHints: implementation needed"); // TODO Auto-generated
 		return null;
 	}
@@ -373,7 +373,7 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
     public void rotate(double theta) {
 		context.rotate(theta);
 		savedTransform.concatenate(
-				new geogebra.web.awt.AffineTransform(
+				new geogebra.web.awt.GAffineTransformW(
 						Math.cos(theta), Math.sin(theta), -Math.sin(theta), Math.cos(theta), 0, 0));
 
 	}
@@ -385,7 +385,7 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 		context.rotate(theta);
 		context.translate(-x, -y);
 		savedTransform.concatenate(
-				new geogebra.web.awt.AffineTransform(
+				new geogebra.web.awt.GAffineTransformW(
 						Math.cos(theta), Math.sin(theta), -Math.sin(theta), Math.cos(theta), x, y));
 	}
 
@@ -399,43 +399,43 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 	
 	@Override
     public void shear(double shx, double shy) {
-		transform(new geogebra.web.awt.AffineTransform(
+		transform(new geogebra.web.awt.GAffineTransformW(
 			1, shy, shx, 1, 0, 0
 		));
 	}
 
 
 	@Override
-    public void transform(AffineTransform Tx) {
+    public void transform(GAffineTransform Tx) {
 		context.transform(Tx.getScaleX(), Tx.getShearY(),
 				Tx.getShearX(), Tx.getScaleY(),
-				((geogebra.web.awt.AffineTransform)Tx).getTranslateX(),
-				((geogebra.web.awt.AffineTransform)Tx).getTranslateY());
+				((geogebra.web.awt.GAffineTransformW)Tx).getTranslateX(),
+				((geogebra.web.awt.GAffineTransformW)Tx).getTranslateY());
 		savedTransform.concatenate(Tx);
 	}
 
 	
 	@Override
-    public void setTransform(AffineTransform Tx) {
+    public void setTransform(GAffineTransform Tx) {
 		context.setTransform(Tx.getScaleX(), Tx.getShearY(),
 		Tx.getShearX(), Tx.getScaleY(),
-		((geogebra.web.awt.AffineTransform)Tx).getTranslateX(),
-		((geogebra.web.awt.AffineTransform)Tx).getTranslateY());
+		((geogebra.web.awt.GAffineTransformW)Tx).getTranslateX(),
+		((geogebra.web.awt.GAffineTransformW)Tx).getTranslateY());
 		savedTransform = Tx;
 
 	}
 
 	
 	@Override
-    public AffineTransform getTransform() {
-		AffineTransform ret = new geogebra.web.awt.AffineTransform();
+    public GAffineTransform getTransform() {
+		GAffineTransform ret = new geogebra.web.awt.GAffineTransformW();
 		ret.setTransform(savedTransform);
 		return ret;
 	}
 	
 
 	@Override
-    public Paint getPaint() {
+    public GPaint getPaint() {
 		return currentPaint;
 		/* The other possible solution would be:
 
@@ -455,8 +455,8 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 
 	
 	@Override
-    public Composite getComposite() {
-		return new geogebra.web.awt.AlphaComposite(3, (float) context.getGlobalAlpha());
+    public GComposite getComposite() {
+		return new geogebra.web.awt.GAlphaCompositeW(3, (float) context.getGlobalAlpha());
 	
 //		context.save();
 //		//just to not return null;
@@ -466,26 +466,26 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 
 
 	@Override
-    public void setBackground(Color color) {
+    public void setBackground(GColor color) {
 		// This method only affects Graphics2D.clearRect (if there will be present)
 		// and getBackground calls - currently Drawable.drawLabel
-		this.bgColor = new geogebra.web.awt.Color((geogebra.web.awt.Color)color);
+		this.bgColor = new geogebra.web.awt.GColorW((geogebra.web.awt.GColorW)color);
 	}
 
 
 	@Override
-    public Color getBackground() {
+    public GColor getBackground() {
 		return bgColor;
 	}
 
 
 	@Override
-    public BasicStroke getStroke() {
+    public GBasicStroke getStroke() {
 
-		return new geogebra.web.awt.BasicStroke(
+		return new geogebra.web.awt.GBasicStrokeW(
 			(float) context.getLineWidth(), 
-			geogebra.web.awt.BasicStroke.getCap(context.getLineCap()),
-			geogebra.web.awt.BasicStroke.getJoin(context.getLineJoin()),
+			geogebra.web.awt.GBasicStrokeW.getCap(context.getLineCap()),
+			geogebra.web.awt.GBasicStrokeW.getJoin(context.getLineJoin()),
 			0,
 			dash_array,
 			0
@@ -508,19 +508,19 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 
 	
 	@Override
-    public FontRenderContext getFontRenderContext() {
-		return new geogebra.web.awt.FontRenderContext(context);
+    public GFontRenderContext getFontRenderContext() {
+		return new geogebra.web.awt.GFontRenderContextW(context);
 	}
 
 	
 	@Override
-    public Color getColor() {
+    public GColor getColor() {
 		return color;
 	}
 
 	
 	@Override
-    public geogebra.common.awt.Font getFont() {
+    public geogebra.common.awt.GFont getFont() {
 		return currentFont;
 	}
 
@@ -560,9 +560,9 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 
 	
 	@Override
-	public void setFont(geogebra.common.awt.Font font) {
-		if(font instanceof geogebra.web.awt.Font){
-			currentFont=(geogebra.web.awt.Font)font;
+	public void setFont(geogebra.common.awt.GFont font) {
+		if(font instanceof geogebra.web.awt.GFontW){
+			currentFont=(geogebra.web.awt.GFontW)font;
 			//TODO: pass other parameters here as well
 			try {
 				context.setFont(currentFont.getFullFontString());
@@ -576,15 +576,15 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 
 	
     @Override
-    public void setColor(Color fillColor) {
+    public void setColor(GColor fillColor) {
     	context.setStrokeStyle("rgba("+fillColor.getRed()+","+fillColor.getGreen()+","+fillColor.getBlue()+","+(fillColor.getAlpha()/255d)+")");
     	context.setFillStyle("rgba("+fillColor.getRed()+","+fillColor.getGreen()+","+fillColor.getBlue()+","+(fillColor.getAlpha()/255d)+")");
     	this.color=fillColor;
-    	this.currentPaint = new geogebra.web.awt.Color((geogebra.web.awt.Color)fillColor);
+    	this.currentPaint = new geogebra.web.awt.GColorW((geogebra.web.awt.GColorW)fillColor);
     }
 
 	@Override
-    public void clip(geogebra.common.awt.Shape shape) {
+    public void clip(geogebra.common.awt.GShape shape) {
 		if (shape == null) {
 			AbstractApplication.error("Error in Graphics2D.clip");
 			return;
@@ -601,7 +601,7 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
     }
 
     public void drawGraphics(geogebra.web.awt.Graphics2D gother, int x, int y,
-            BufferedImageOp op) {
+            GBufferedImageOp op) {
 
     	if (gother==null)
     		return;
@@ -651,7 +651,7 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 
 
 	@Override
-    public void setClip(geogebra.common.awt.Shape shape) {
+    public void setClip(geogebra.common.awt.GShape shape) {
 		clipShape = shape;
 		if (shape == null) {
 			// this may be an intentional call to restore the context
@@ -675,18 +675,18 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
 
 
 	@Override
-    public void draw(geogebra.common.awt.Shape s) {
+    public void draw(geogebra.common.awt.GShape s) {
 		draw(geogebra.web.awt.GenericShape.getGawtShape(s));
     }
 
 
 	@Override
-    public void fill(geogebra.common.awt.Shape s) {
+    public void fill(geogebra.common.awt.GShape s) {
 		fill(geogebra.web.awt.GenericShape.getGawtShape(s));
     }
 
 	@Override
-    public geogebra.common.awt.Shape getClip() {
+    public geogebra.common.awt.GShape getClip() {
 		return clipShape;
     }
 
@@ -726,7 +726,7 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D {
     }
 
 
-	public void setPreferredSize(Dimension preferredSize) {
+	public void setPreferredSize(GDimension preferredSize) {
 	    setWidth((int) preferredSize.getWidth());
 	    setHeight((int) preferredSize.getHeight());
 	    setCoordinateSpaceHeight(getOffsetHeight());

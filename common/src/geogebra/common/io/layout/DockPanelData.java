@@ -1,7 +1,7 @@
 package geogebra.common.io.layout;
 
-import geogebra.common.awt.Dimension;
-import geogebra.common.awt.Point;
+import geogebra.common.awt.GDimension;
+import geogebra.common.awt.GPoint;
 import geogebra.common.awt.Rectangle;
 
 /**
@@ -69,7 +69,7 @@ public class DockPanelData {
 	 * @param embeddedDef	The definition string for the location of the view in the main window.
 	 * @param embeddedSize	The size of the view in the main window.
 	 */
-	public DockPanelData(int viewId, String toolbar, boolean isVisible, boolean inFrame, boolean showStyleBar, Point windowLoc, Dimension windowSize, String embeddedDef, int embeddedSize) {
+	public DockPanelData(int viewId, String toolbar, boolean isVisible, boolean inFrame, boolean showStyleBar, GPoint windowLoc, GDimension windowSize, String embeddedDef, int embeddedSize) {
 		this(viewId, toolbar, isVisible, inFrame, showStyleBar, geogebra.common.factories.AwtFactory.prototype.newRectangle(windowLoc.getX(), windowLoc.getY(),windowSize.getWidth(),windowSize.getHeight()), embeddedDef, embeddedSize);
 	}
 

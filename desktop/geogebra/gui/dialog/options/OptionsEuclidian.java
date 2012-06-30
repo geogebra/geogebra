@@ -12,7 +12,7 @@ the Free Software Foundation.
 
 package geogebra.gui.dialog.options;
 
-import geogebra.common.euclidian.AbstractEuclidianView;
+import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.gui.SetLabels;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
@@ -21,7 +21,7 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.util.Unicode;
-import geogebra.euclidian.EuclidianView;
+import geogebra.euclidian.EuclidianViewD;
 import geogebra.euclidianND.EuclidianViewND;
 import geogebra.gui.NumberComboBox;
 import geogebra.gui.dialog.DashListRenderer;
@@ -337,11 +337,11 @@ public class OptionsEuclidian extends JPanel implements OptionPanel, ActionListe
 
 		// grid type combo box
 		String[] gridTypeLabel = new String[3];
-		gridTypeLabel[AbstractEuclidianView.GRID_CARTESIAN] = app
+		gridTypeLabel[EuclidianView.GRID_CARTESIAN] = app
 				.getMenu("Cartesian");
-		gridTypeLabel[AbstractEuclidianView.GRID_ISOMETRIC] = app
+		gridTypeLabel[EuclidianView.GRID_ISOMETRIC] = app
 				.getMenu("Isometric");
-		gridTypeLabel[AbstractEuclidianView.GRID_POLAR] = app.getMenu("Polar");
+		gridTypeLabel[EuclidianView.GRID_POLAR] = app.getMenu("Polar");
 		cbGridType = new JComboBox(gridTypeLabel);
 		cbGridType.addActionListener(this);
 
@@ -390,7 +390,7 @@ public class OptionsEuclidian extends JPanel implements OptionPanel, ActionListe
 		// line style
 		DashListRenderer renderer = new DashListRenderer();
 		renderer.setPreferredSize(new Dimension(80, app.getGUIFontSize() + 6));
-		cbGridStyle = new JComboBox(EuclidianView.getLineTypes());
+		cbGridStyle = new JComboBox(EuclidianViewD.getLineTypes());
 		cbGridStyle.setRenderer(renderer);
 		cbGridStyle.addActionListener(this);
 
@@ -470,11 +470,11 @@ public class OptionsEuclidian extends JPanel implements OptionPanel, ActionListe
 
 	public void updateGUI() {
 
-		btBackgroundColor.setForeground(geogebra.awt.Color.getAwtColor(view
+		btBackgroundColor.setForeground(geogebra.awt.GColorD.getAwtColor(view
 				.getBackgroundCommon()));
-		btAxesColor.setForeground(geogebra.awt.Color.getAwtColor(view
+		btAxesColor.setForeground(geogebra.awt.GColorD.getAwtColor(view
 				.getAxesColor()));
-		btGridColor.setForeground(geogebra.awt.Color.getAwtColor(view
+		btGridColor.setForeground(geogebra.awt.GColorD.getAwtColor(view
 				.getGridColor()));
 
 		cbShowAxes.removeActionListener(this);
@@ -485,9 +485,9 @@ public class OptionsEuclidian extends JPanel implements OptionPanel, ActionListe
 		cbShowGrid.setSelected(view.getShowGrid());
 		cbShowGrid.addActionListener(this);
 
-		if (view instanceof EuclidianView) {
+		if (view instanceof EuclidianViewD) {
 			cbTooltips.removeActionListener(this);
-			int ind = ((AbstractEuclidianView) view).getAllowToolTips();
+			int ind = ((EuclidianView) view).getAllowToolTips();
 			if (ind == EuclidianStyleConstants.TOOLTIPS_ON)
 				cbTooltips.setSelectedIndex(0);
 			else if (ind == EuclidianStyleConstants.TOOLTIPS_AUTOMATIC)
@@ -542,7 +542,7 @@ public class OptionsEuclidian extends JPanel implements OptionPanel, ActionListe
 		cbGridTickAngle.removeItemListener(this);
 		double[] gridTicks = view.getGridDistances();
 
-		if (view.getGridType() != AbstractEuclidianView.GRID_POLAR) {
+		if (view.getGridType() != EuclidianView.GRID_POLAR) {
 
 			ncbGridTickY.setVisible(true);
 			gridLabel2.setVisible(true);
@@ -685,7 +685,7 @@ public class OptionsEuclidian extends JPanel implements OptionPanel, ActionListe
 				app.getSettings()
 						.getEuclidian(1)
 						.setBackground(
-								new geogebra.awt.Color(app.getGuiManager()
+								new geogebra.awt.GColorD(app.getGuiManager()
 										.showColorChooser(
 												app.getSettings()
 														.getEuclidian(1)
@@ -696,7 +696,7 @@ public class OptionsEuclidian extends JPanel implements OptionPanel, ActionListe
 				app.getSettings()
 						.getEuclidian(2)
 						.setBackground(
-								new geogebra.awt.Color(app.getGuiManager()
+								new geogebra.awt.GColorD(app.getGuiManager()
 										.showColorChooser(
 												app.getSettings()
 														.getEuclidian(2)
@@ -705,7 +705,7 @@ public class OptionsEuclidian extends JPanel implements OptionPanel, ActionListe
 				view.setBackground(view.getBackgroundCommon());
 			}
 		} else if (source == btAxesColor) {
-			geogebra.common.awt.Color col = new geogebra.awt.Color(app
+			geogebra.common.awt.GColor col = new geogebra.awt.GColorD(app
 					.getGuiManager().showColorChooser(view.getAxesColor()));
 			if (view == app.getEuclidianView1()) {
 				app.getSettings().getEuclidian(1).setAxesColor(col);
@@ -717,7 +717,7 @@ public class OptionsEuclidian extends JPanel implements OptionPanel, ActionListe
 				view.setAxesColor(col);
 			}
 		} else if (source == btGridColor) {
-			geogebra.common.awt.Color col = new geogebra.awt.Color(app
+			geogebra.common.awt.GColor col = new geogebra.awt.GColorD(app
 					.getGuiManager().showColorChooser(view.getGridColor()));
 			if (view == app.getEuclidianView1()) {
 				app.getSettings().getEuclidian(1).setGridColor(col);
@@ -737,15 +737,15 @@ public class OptionsEuclidian extends JPanel implements OptionPanel, ActionListe
 			} else if (ind == 2) {
 				ind = EuclidianStyleConstants.TOOLTIPS_OFF;
 			}
-			if (view instanceof EuclidianView) {
+			if (view instanceof EuclidianViewD) {
 				if (view == app.getEuclidianView1()) {
 					app.getSettings().getEuclidian(1).setAllowToolTips(ind);
 				} else if (!app.hasEuclidianView2EitherShowingOrNot()) {
-					((AbstractEuclidianView) view).setAllowToolTips(ind);
+					((EuclidianView) view).setAllowToolTips(ind);
 				} else if (view == app.getEuclidianView2()) {
 					app.getSettings().getEuclidian(2).setAllowToolTips(ind);
 				} else {
-					((AbstractEuclidianView) view).setAllowToolTips(ind);
+					((EuclidianView) view).setAllowToolTips(ind);
 				}
 			}
 		} else if (source == cbShowAxes) {

@@ -1,6 +1,6 @@
 package geogebra.gui.view.spreadsheet;
 
-import geogebra.common.awt.Point;
+import geogebra.common.awt.GPoint;
 import geogebra.common.gui.view.spreadsheet.AbstractSpreadsheetTableModel;
 import geogebra.common.gui.view.spreadsheet.CellRange;
 import geogebra.common.gui.view.spreadsheet.RelativeCopy;
@@ -641,11 +641,11 @@ public class CellRangeProcessor {
 		else
 			list = new ArrayList<GeoElement>();
 
-		ArrayList<Point> cellList = new ArrayList<Point>();
+		ArrayList<GPoint> cellList = new ArrayList<GPoint>();
 
 		// temporary fix for catching duplicate cells caused by ctrl-seelct
 		// will not be needed when sorting of cells by row/column is done
-		HashSet<Point> usedCells = new HashSet<Point>();
+		HashSet<GPoint> usedCells = new HashSet<GPoint>();
 
 		try {
 
@@ -657,7 +657,7 @@ public class CellRangeProcessor {
 
 			// iterate through the cells and add their contents to the
 			// expression string
-			for (Point cell : cellList) {
+			for (GPoint cell : cellList) {
 				if (!usedCells.contains(cell)) {
 					GeoElement geo = RelativeCopy.getValue(app, cell.x, cell.y);
 					if (geo != null
@@ -1172,7 +1172,7 @@ public class CellRangeProcessor {
 
 	private static void consolidateRangeList(ArrayList<CellRange> rangeList) {
 
-		ArrayList<ArrayList<Point>> matrix = new ArrayList<ArrayList<Point>>();
+		ArrayList<ArrayList<GPoint>> matrix = new ArrayList<ArrayList<GPoint>>();
 		int minRow = rangeList.get(0).getMinRow();
 		int maxRow = rangeList.get(0).getMaxRow();
 		int minColumn = rangeList.get(0).getMinColumn();
@@ -1190,9 +1190,9 @@ public class CellRangeProcessor {
 
 				// add columns from this cell range to the matrix
 				if (matrix.get(col) == null) {
-					matrix.add(col, new ArrayList<Point>());
+					matrix.add(col, new ArrayList<GPoint>());
 					matrix.get(col).add(
-							new Point(cr.getMinColumn(), cr.getMaxColumn()));
+							new GPoint(cr.getMinColumn(), cr.getMaxColumn()));
 				} else {
 					// Point p = matrix.get(col).get(1);
 					// if(cr.getMinColumn()>)

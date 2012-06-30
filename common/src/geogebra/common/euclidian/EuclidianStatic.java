@@ -1,6 +1,6 @@
 package geogebra.common.euclidian;
 
-import geogebra.common.awt.BasicStroke;
+import geogebra.common.awt.GBasicStroke;
 import geogebra.common.awt.Graphics2D;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.geos.GeoElement;
@@ -23,23 +23,23 @@ public abstract class EuclidianStatic {
 		 */
 	public static EuclidianStatic prototype;
 	/** standardstroke*/
-	protected static BasicStroke standardStroke = 
+	protected static GBasicStroke standardStroke = 
 			geogebra.common.factories.AwtFactory.prototype.newMyBasicStroke(1.0f);
 	/** stroke for selected geos*/
-	protected static BasicStroke selStroke = 
+	protected static GBasicStroke selStroke = 
 			geogebra.common.factories.AwtFactory.prototype.newMyBasicStroke(
 			1.0f + EuclidianStyleConstants.SELECTION_ADD);
 
 	/**
 	 * @return default stroke
 	 */
-	static public BasicStroke getDefaultStroke() {
+	static public GBasicStroke getDefaultStroke() {
 		return standardStroke;
 	}
 	/**
 	 * @return stroke for selected geos
 	 */
-	static public BasicStroke getDefaultSelectionStroke() {
+	static public GBasicStroke getDefaultSelectionStroke() {
 		return selStroke;
 	}
 	
@@ -50,11 +50,11 @@ public abstract class EuclidianStatic {
 	 * @param frc rendering context
 	 * @return text width
 	 */
-	public final static float textWidth(String str, geogebra.common.awt.Font font, 
-			geogebra.common.awt.FontRenderContext frc) {
+	public final static float textWidth(String str, geogebra.common.awt.GFont font, 
+			geogebra.common.awt.GFontRenderContext frc) {
 		if (str.equals(""))
 			return 0f;
-		geogebra.common.awt.font.TextLayout layout = geogebra.common.factories.AwtFactory.prototype.newTextLayout(str, font, frc);
+		geogebra.common.awt.font.GTextLayout layout = geogebra.common.factories.AwtFactory.prototype.newTextLayout(str, font, frc);
 		return layout.getAdvance();
 
 	}
@@ -66,7 +66,7 @@ public abstract class EuclidianStatic {
 	 * @param type stroke type (EuclidianStyleConstants.LINE_TYPE_*)
 	 * @return stroke
 	 */
-	public static geogebra.common.awt.BasicStroke getStroke(float width, int type) {
+	public static geogebra.common.awt.GBasicStroke getStroke(float width, int type) {
 		float[] dash;
 
 		switch (type) {
@@ -101,7 +101,7 @@ public abstract class EuclidianStatic {
 			dash = null;
 		}
 
-		int endCap = dash != null ? BasicStroke.CAP_BUTT : standardStroke
+		int endCap = dash != null ? GBasicStroke.CAP_BUTT : standardStroke
 				.getEndCap();
 
 		return geogebra.common.factories.AwtFactory.prototype.newBasicStroke(width, endCap, standardStroke.getLineJoin(),
@@ -190,8 +190,8 @@ public abstract class EuclidianStatic {
 	 * @return bounds of resulting LaTeX formula
 	 */
 	public static final geogebra.common.awt.Rectangle drawMultilineLaTeX(AbstractApplication app,
-			geogebra.common.awt.Graphics2D tempGraphics, GeoElement geo, geogebra.common.awt.Graphics2D g2, geogebra.common.awt.Font font,
-			geogebra.common.awt.Color fgColor, geogebra.common.awt.Color bgColor, String labelDesc, int xLabel,
+			geogebra.common.awt.Graphics2D tempGraphics, GeoElement geo, geogebra.common.awt.Graphics2D g2, geogebra.common.awt.GFont font,
+			geogebra.common.awt.GColor fgColor, geogebra.common.awt.GColor bgColor, String labelDesc, int xLabel,
 			int yLabel, boolean serif) {
 		return prototype.doDrawMultilineLaTeX(app, tempGraphics, geo, g2, font, fgColor, bgColor, labelDesc, xLabel, yLabel, serif);
 	}
@@ -214,11 +214,11 @@ public abstract class EuclidianStatic {
 	 * @return bounds of resulting LaTeX formula
 	 */
 	protected abstract geogebra.common.awt.Rectangle doDrawMultilineLaTeX(AbstractApplication app,
-			geogebra.common.awt.Graphics2D tempGraphics, GeoElement geo, geogebra.common.awt.Graphics2D g2, geogebra.common.awt.Font font,
-			geogebra.common.awt.Color fgColor, geogebra.common.awt.Color bgColor, String labelDesc, int xLabel,
+			geogebra.common.awt.Graphics2D tempGraphics, GeoElement geo, geogebra.common.awt.Graphics2D g2, geogebra.common.awt.GFont font,
+			geogebra.common.awt.GColor fgColor, geogebra.common.awt.GColor bgColor, String labelDesc, int xLabel,
 			int yLabel, boolean serif);
 	
-	private static geogebra.common.awt.Font getIndexFont(geogebra.common.awt.Font f) {
+	private static geogebra.common.awt.GFont getIndexFont(geogebra.common.awt.GFont f) {
 		// index font size should be at least 8pt
 		int newSize = Math.max((int) (f.getSize() * 0.9), 8);
 		return f.deriveFont(f.getStyle(), newSize);
@@ -237,16 +237,16 @@ public abstract class EuclidianStatic {
 	 * @param serif true to use serif font
 	 * @return additional pixel needed to draw str (x-offset, y-offset)
 	 */
-	public static geogebra.common.awt.Point drawIndexedString(AbstractApplication app, geogebra.common.awt.Graphics2D g3,
+	public static geogebra.common.awt.GPoint drawIndexedString(AbstractApplication app, geogebra.common.awt.Graphics2D g3,
 			String str, float xPos, float yPos, boolean serif) {
 
-		geogebra.common.awt.Font g2font = g3.getFont();
+		geogebra.common.awt.GFont g2font = g3.getFont();
 		g2font = app.getFontCanDisplay(str, serif, g2font.getStyle(),
 				g2font.getSize());
-		geogebra.common.awt.Font indexFont = getIndexFont(g2font);
-		geogebra.common.awt.Font font = g2font;
-		geogebra.common.awt.font.TextLayout layout;
-		geogebra.common.awt.FontRenderContext frc = g3.getFontRenderContext();
+		geogebra.common.awt.GFont indexFont = getIndexFont(g2font);
+		geogebra.common.awt.GFont font = g2font;
+		geogebra.common.awt.font.GTextLayout layout;
+		geogebra.common.awt.GFontRenderContext frc = g3.getFontRenderContext();
 
 		int indexOffset = indexFont.getSize() / 2;
 		float maxY = 0;
@@ -326,7 +326,7 @@ public abstract class EuclidianStatic {
 			x += layout.getAdvance();
 		}
 		g3.setFont(g2font);
-		return new geogebra.common.awt.Point(Math.round(x - xPos), Math.round(maxY - yPos));
+		return new geogebra.common.awt.GPoint(Math.round(x - xPos), Math.round(maxY - yPos));
 
 	}
 	
@@ -335,12 +335,12 @@ public abstract class EuclidianStatic {
 	 * @param shape shape tobe filled
 	 * @param g3 graphics
 	 */
-	protected abstract  void doFillWithValueStrokePure(geogebra.common.awt.Shape shape, geogebra.common.awt.Graphics2D g3);
+	protected abstract  void doFillWithValueStrokePure(geogebra.common.awt.GShape shape, geogebra.common.awt.Graphics2D g3);
 	/**
 	 * @param shape shape to be filled
 	 * @param g3 graphics
 	 */
-	public static void fillWithValueStrokePure(geogebra.common.awt.Shape shape, geogebra.common.awt.Graphics2D g3){
+	public static void fillWithValueStrokePure(geogebra.common.awt.GShape shape, geogebra.common.awt.Graphics2D g3){
 		prototype.doFillWithValueStrokePure(shape, g3);
 		
 	}
@@ -360,11 +360,11 @@ public abstract class EuclidianStatic {
 		int fontSize = g2.getFont().getSize();
 		float lineSpread = fontSize * 1.5f;
 
-		geogebra.common.awt.Font font = g2.getFont();
+		geogebra.common.awt.GFont font = g2.getFont();
 		font = app.getFontCanDisplay(labelDesc, serif, font.getStyle(),
 				font.getSize());
 
-		geogebra.common.awt.FontRenderContext frc = g2.getFontRenderContext();
+		geogebra.common.awt.GFontRenderContext frc = g2.getFontRenderContext();
 		int xoffset = 0;
 
 		// draw text line by line
@@ -407,7 +407,7 @@ public abstract class EuclidianStatic {
 	 * @param shape shape to be drawn
 	 * @param g2 graphics
 	 */
-	public static void drawWithValueStrokePure(geogebra.common.awt.Shape shape, Graphics2D g2) {
+	public static void drawWithValueStrokePure(geogebra.common.awt.GShape shape, Graphics2D g2) {
 		prototype.doDrawWithValueStrokePure(shape, g2);
 		
 	}
@@ -415,7 +415,7 @@ public abstract class EuclidianStatic {
 	 * @param shape shapeto be drawn
 	 * @param g2 graphics
 	 */
-	protected abstract void doDrawWithValueStrokePure(geogebra.common.awt.Shape shape, Graphics2D g2);
+	protected abstract void doDrawWithValueStrokePure(geogebra.common.awt.GShape shape, Graphics2D g2);
 	/**
 	 * @param g3 graphics
 	 * @param needsInterpolation true to turn interpolation on

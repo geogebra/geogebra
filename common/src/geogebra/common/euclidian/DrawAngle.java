@@ -12,12 +12,12 @@
 
 package geogebra.common.euclidian;
 
-import geogebra.common.awt.Arc2D;
-import geogebra.common.awt.Ellipse2DDouble;
-import geogebra.common.awt.GeneralPath;
-import geogebra.common.awt.Line2D;
+import geogebra.common.awt.GArc2D;
+import geogebra.common.awt.GEllipse2DDouble;
+import geogebra.common.awt.GGeneralPath;
+import geogebra.common.awt.GLine2D;
 import geogebra.common.awt.Rectangle;
-import geogebra.common.awt.Shape;
+import geogebra.common.awt.GShape;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
@@ -68,11 +68,11 @@ public class DrawAngle extends Drawable implements Previewable {
 	private int angleDrawMode;
 
 	// private Arc2D.Double fillArc = new Arc2D.Double();
-	private Arc2D drawArc = geogebra.common.factories.AwtFactory.prototype.newArc2D();
-	private GeneralPath polygon = AwtFactory.prototype.newGeneralPath(); // Michael Borcherds
+	private GArc2D drawArc = geogebra.common.factories.AwtFactory.prototype.newArc2D();
+	private GGeneralPath polygon = AwtFactory.prototype.newGeneralPath(); // Michael Borcherds
 														// 2007-11-19
-	private Ellipse2DDouble dot90degree;
-	private Shape shape;
+	private GEllipse2DDouble dot90degree;
+	private GShape shape;
 	private double m[] = new double[2];
 	private double coords[] = new double[2];
 	private double[] firstVec = new double[2];
@@ -82,13 +82,13 @@ public class DrawAngle extends Drawable implements Previewable {
 
 	// For decoration
 	// added by Lo�c BEGIN
-	private Shape shapeArc1, shapeArc2;
-	private Arc2D decoArc = geogebra.common.factories.AwtFactory.prototype.newArc2D();
-	private Line2D[] tick;
+	private GShape shapeArc1, shapeArc2;
+	private GArc2D decoArc = geogebra.common.factories.AwtFactory.prototype.newArc2D();
+	private GLine2D[] tick;
 	private double[] angleTick = new double[2];
 	/** maximum angle distance between two ticks. */
 	public static final double MAX_TICK_DISTANCE = Math.toRadians(15);
-	private GeneralPath square;
+	private GGeneralPath square;
 
 	private ArrayList<GeoPointND> prevPoints;
 
@@ -100,7 +100,7 @@ public class DrawAngle extends Drawable implements Previewable {
 	 * @param angle
 	 *            Angle to be drawn
 	 */
-	public DrawAngle(AbstractEuclidianView view, GeoAngle angle) {
+	public DrawAngle(EuclidianView view, GeoAngle angle) {
 		this.view = view;
 		this.angle = angle;
 		geo = angle;
@@ -121,7 +121,7 @@ public class DrawAngle extends Drawable implements Previewable {
 	 * @param view view
 	 * @param points list of points
 	 */
-	public DrawAngle(AbstractEuclidianView view, ArrayList<GeoPointND> points) {
+	public DrawAngle(EuclidianView view, ArrayList<GeoPointND> points) {
 		this.view = view;
 		prevPoints = points;
 
@@ -478,7 +478,7 @@ public class DrawAngle extends Drawable implements Previewable {
 						- geo.lineThickness, diameter, diameter);
 
 				// set arc in real world coords and transform to screen coords
-				drawArc.setArcByCenter(m[0], m[1], r, -as, -ae, Arc2D.PIE);
+				drawArc.setArcByCenter(m[0], m[1], r, -as, -ae, GArc2D.PIE);
 				shape = view.getCoordTransform().createTransformedShape(drawArc);
 				break;
 			}
@@ -486,7 +486,7 @@ public class DrawAngle extends Drawable implements Previewable {
 		// STANDARE case: draw arc with possible decoration
 		else {
 			// set arc in real world coords and transform to screen coords
-			drawArc.setArcByCenter(m[0], m[1], r, -as, -ae, Arc2D.PIE);
+			drawArc.setArcByCenter(m[0], m[1], r, -as, -ae, GArc2D.PIE);
 			shape = view.getCoordTransform().createTransformedShape(drawArc);
 
 			double rdiff;
@@ -497,7 +497,7 @@ public class DrawAngle extends Drawable implements Previewable {
 			case GeoElement.DECORATION_ANGLE_TWO_ARCS:
 				rdiff = 4 + geo.lineThickness / 2d;
 				r = (arcSize - rdiff) * view.getInvXscale();
-				decoArc.setArcByCenter(m[0], m[1], r, -as, -ae, Arc2D.OPEN);
+				decoArc.setArcByCenter(m[0], m[1], r, -as, -ae, GArc2D.OPEN);
 				// transform arc to screen coords
 				shapeArc1 = view.getCoordTransform().createTransformedShape(decoArc);
 				break;
@@ -505,11 +505,11 @@ public class DrawAngle extends Drawable implements Previewable {
 			case GeoElement.DECORATION_ANGLE_THREE_ARCS:
 				rdiff = 4 + geo.lineThickness / 2d;
 				r = (arcSize - rdiff) * view.getInvXscale();
-				decoArc.setArcByCenter(m[0], m[1], r, -as, -ae, Arc2D.OPEN);
+				decoArc.setArcByCenter(m[0], m[1], r, -as, -ae, GArc2D.OPEN);
 				// transform arc to screen coords
 				shapeArc1 = view.getCoordTransform().createTransformedShape(decoArc);
 				r = (arcSize - 2 * rdiff) * view.getInvXscale();
-				decoArc.setArcByCenter(m[0], m[1], r, -as, -ae, Arc2D.OPEN);
+				decoArc.setArcByCenter(m[0], m[1], r, -as, -ae, GArc2D.OPEN);
 				// transform arc to screen coords
 				shapeArc2 = view.getCoordTransform().createTransformedShape(decoArc);
 				break;
@@ -734,7 +734,7 @@ public class DrawAngle extends Drawable implements Previewable {
 		// coords have to be set to screen coords of m before calling this
 		// method
 		if (tick == null) {
-			tick = new Line2D[3];
+			tick = new GLine2D[3];
 			for (int i = 0; i < tick.length; i++) {
 				tick[i] = AwtFactory.prototype.newLine2D();
 			}

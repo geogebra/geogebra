@@ -12,9 +12,9 @@ the Free Software Foundation.
 
 package geogebra.common.euclidian;
 
-import geogebra.common.awt.AffineTransform;
-import geogebra.common.awt.Arc2D;
-import geogebra.common.awt.Shape;
+import geogebra.common.awt.GAffineTransform;
+import geogebra.common.awt.GArc2D;
+import geogebra.common.awt.GShape;
 import geogebra.common.euclidian.clipping.ClipShape;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.Construction;
@@ -40,8 +40,8 @@ public class DrawConicPart extends Drawable implements Previewable {
 
 	private boolean isVisible, labelVisible;
 
-	private Arc2D arc = AwtFactory.prototype.newArc2D();
-	private Shape shape;
+	private GArc2D arc = AwtFactory.prototype.newArc2D();
+	private GShape shape;
 	// private GeoVec2D transVec;
 	private double[] halfAxes;
 	// private GeoVec2D center;
@@ -51,7 +51,7 @@ public class DrawConicPart extends Drawable implements Previewable {
 	private static final int DRAW_TYPE_SEGMENT = 2;
 	private static final int DRAW_TYPE_RAYS = 3;
 	private int draw_type;
-	private AffineTransform transform = AwtFactory.prototype.newAffineTransform();
+	private GAffineTransform transform = AwtFactory.prototype.newAffineTransform();
 
 	// these are needed for degenerate arcs
 	private DrawRay drawRay1, drawRay2;
@@ -69,7 +69,7 @@ public class DrawConicPart extends Drawable implements Previewable {
 	 * @param view view
 	 * @param conicPart conic part
 	 */
-	public DrawConicPart(AbstractEuclidianView view, GeoConicPart conicPart) {
+	public DrawConicPart(EuclidianView view, GeoConicPart conicPart) {
 		this.view = view;
 		hitThreshold = view.getCapturingThreshold();
 		initConicPart(conicPart);
@@ -83,8 +83,8 @@ public class DrawConicPart extends Drawable implements Previewable {
 		// center = conicPart.getTranslationVector();
 		halfAxes = initConicPart.getHalfAxes();
 		// arc or sector?
-		closure = initConicPart.getConicPartType() == GeoConicPart.CONIC_PART_SECTOR ? Arc2D.PIE
-				: Arc2D.OPEN;
+		closure = initConicPart.getConicPartType() == GeoConicPart.CONIC_PART_SECTOR ? GArc2D.PIE
+				: GArc2D.OPEN;
 	}
 
 	/**
@@ -93,7 +93,7 @@ public class DrawConicPart extends Drawable implements Previewable {
 	 * @param mode preview mode
 	 * @param points points
 	 */
-	public DrawConicPart(AbstractEuclidianView view, int mode, ArrayList<GeoPointND> points) {
+	public DrawConicPart(EuclidianView view, int mode, ArrayList<GeoPointND> points) {
 		this.view = view;
 		prevPoints = points;
 		previewMode = mode;

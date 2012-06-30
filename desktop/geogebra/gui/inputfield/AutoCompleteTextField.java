@@ -1,7 +1,7 @@
 package geogebra.gui.inputfield;
 
-import geogebra.common.awt.Color;
-import geogebra.common.awt.Font;
+import geogebra.common.awt.GColor;
+import geogebra.common.awt.GFont;
 import geogebra.common.euclidian.DrawTextField;
 import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.event.FocusListener;
@@ -966,8 +966,8 @@ public AutoCompleteTextField(int columns, Application app,
     app.showError(e);
   }
 
-  public void setFont(Font font) {
-    super.setFont(geogebra.awt.Font.getAwtFont(font));
+  public void setFont(GFont font) {
+    super.setFont(geogebra.awt.GFontD.getAwtFont(font));
   }
   
   /**
@@ -983,13 +983,13 @@ public AutoCompleteTextField(int columns, Application app,
 	  }
   }
   
-  public void setForeground(Color color) {
-    super.setForeground(geogebra.awt.Color.getAwtColor(color));
+  public void setForeground(GColor color) {
+    super.setForeground(geogebra.awt.GColorD.getAwtColor(color));
 
   }
 
-  public void setBackground(Color color) {
-    super.setBackground(geogebra.awt.Color.getAwtColor(color));
+  public void setBackground(GColor color) {
+    super.setBackground(geogebra.awt.GColorD.getAwtColor(color));
 
   }
 

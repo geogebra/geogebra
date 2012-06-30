@@ -20,7 +20,7 @@ package geogebra.main;
 import geogebra.CommandLineArguments;
 import geogebra.GeoGebra;
 import geogebra.common.GeoGebraConstants;
-import geogebra.common.euclidian.AbstractEuclidianView;
+import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.factories.AwtFactory;
@@ -55,9 +55,9 @@ import geogebra.common.util.Language;
 import geogebra.common.util.LowerCaseDictionary;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
-import geogebra.euclidian.DrawEquation;
-import geogebra.euclidian.EuclidianController;
-import geogebra.euclidian.EuclidianView;
+import geogebra.euclidian.DrawEquationD;
+import geogebra.euclidian.EuclidianControllerD;
+import geogebra.euclidian.EuclidianViewD;
 import geogebra.euclidianND.EuclidianViewND;
 import geogebra.export.GeoGebraTubeExportDesktop;
 import geogebra.export.WorksheetExportDialog;
@@ -579,8 +579,8 @@ public class Application extends AbstractApplication implements
 		geogebra.common.factories.UtilFactory.prototype = new geogebra.factories.UtilFactory();
 		geogebra.common.util.StringUtil.prototype = new geogebra.util.StringUtil();
 		
-		geogebra.common.euclidian.HatchingHandler.prototype = new geogebra.euclidian.HatchingHandler();
-		geogebra.common.euclidian.EuclidianStatic.prototype = new geogebra.euclidian.EuclidianStatic();
+		geogebra.common.euclidian.HatchingHandler.prototype = new geogebra.euclidian.HatchingHandlerD();
+		geogebra.common.euclidian.EuclidianStatic.prototype = new geogebra.euclidian.EuclidianStaticD();
 		
 		geogebra.common.euclidian.clipping.DoubleArrayFactory.prototype = new geogebra.euclidian.clipping.DoubleArrayFactory();
 		
@@ -654,14 +654,14 @@ public class Application extends AbstractApplication implements
 	}
 	
 	@Override
-	protected EuclidianController newEuclidianController(Kernel kernel1) {
-		return new EuclidianController(kernel1);
+	protected EuclidianControllerD newEuclidianController(Kernel kernel1) {
+		return new EuclidianControllerD(kernel1);
 	}
 
 	@Override
-	protected AbstractEuclidianView newEuclidianView(boolean[] showAxesFlags,
+	protected EuclidianView newEuclidianView(boolean[] showAxesFlags,
 			boolean showGridFlags) {
-		return new EuclidianView(euclidianController, showAxesFlags, showGridFlags,
+		return new EuclidianViewD(euclidianController, showAxesFlags, showGridFlags,
 				getSettings().getEuclidian(1));
 	}
 
@@ -729,8 +729,8 @@ public class Application extends AbstractApplication implements
 	}
 	
 	@Override
-	final public geogebra.common.awt.Font getPlainFontCommon() {
-		return new geogebra.awt.Font(fontManager.getPlainFont());
+	final public geogebra.common.awt.GFont getPlainFontCommon() {
+		return new geogebra.awt.GFontD(fontManager.getPlainFont());
 	}
 
 	final public Font getSerifFont() {
@@ -1804,8 +1804,8 @@ public class Application extends AbstractApplication implements
 	}
 
 	@Override
-	public void setPreferredSize(geogebra.common.awt.Dimension size) {
-		preferredSize = geogebra.awt.Dimension.getAWTDimension(size);
+	public void setPreferredSize(geogebra.common.awt.GDimension size) {
+		preferredSize = geogebra.awt.GDimensionD.getAWTDimension(size);
 	}
 
 	
@@ -1849,8 +1849,8 @@ public class Application extends AbstractApplication implements
 	}
 
 	@Override
-	public EuclidianView getEuclidianView1() {
-		return (EuclidianView)euclidianView;
+	public EuclidianViewD getEuclidianView1() {
+		return (EuclidianViewD)euclidianView;
 	}
 
 	@Override
@@ -1865,7 +1865,7 @@ public class Application extends AbstractApplication implements
 
 
 	@Override
-	public EuclidianView getEuclidianView2() {
+	public EuclidianViewD getEuclidianView2() {
 		return getGuiManager().getEuclidianView2();
 	}
 
@@ -2031,19 +2031,19 @@ public class Application extends AbstractApplication implements
 	}
 
 	@Override
-	public geogebra.common.awt.BufferedImage getExternalImageAdapter(String filename) {
+	public geogebra.common.awt.GBufferedImage getExternalImageAdapter(String filename) {
 		BufferedImage im = ImageManager.getExternalImage(filename);
 		if(im==null)
 			return null;
-		return new geogebra.awt.BufferedImage(im);
+		return new geogebra.awt.GBufferedImageD(im);
 	}
 	
 	@Override
-	public geogebra.common.awt.Image getInternalImageAdapter(String filename) {
+	public geogebra.common.awt.GImage getInternalImageAdapter(String filename) {
 		Image im = imageManager.getInternalImage(filename);
 		if(im==null)
 			return null;
-		return new geogebra.awt.GenericImage(im);
+		return new geogebra.awt.GGenericImageD(im);
 	}
 
 	public void addExternalImage(String filename, BufferedImage image) {
@@ -3348,7 +3348,7 @@ public class Application extends AbstractApplication implements
 
 	
 	@Override
-	public AbstractEuclidianView createEuclidianView() {
+	public EuclidianView createEuclidianView() {
 		return this.euclidianView;
 	}
 
@@ -4362,11 +4362,11 @@ public class Application extends AbstractApplication implements
 
 	public void copyGraphicsViewToClipboard() {
 
-		copyGraphicsViewToClipboard((EuclidianView) getGuiManager()
+		copyGraphicsViewToClipboard((EuclidianViewD) getGuiManager()
 				.getActiveEuclidianView());
 	}
 
-	public void copyGraphicsViewToClipboard(final EuclidianView ev) {
+	public void copyGraphicsViewToClipboard(final EuclidianViewD ev) {
 
 		clearSelectedGeos();
 
@@ -4411,7 +4411,7 @@ public class Application extends AbstractApplication implements
 
 	}
 
-	static void simpleExportToClipboard(EuclidianView ev) {
+	static void simpleExportToClipboard(EuclidianViewD ev) {
 		double scale = 2d;
 		double size = ev.getExportWidth() * ev.getExportHeight();
 
@@ -4484,7 +4484,7 @@ public class Application extends AbstractApplication implements
 					RenderingHints.VALUE_STROKE_PURE);
 
 			g.setColor(Color.DARK_GRAY);
-			g.setStroke(geogebra.awt.BasicStroke.getAwtStroke(geogebra.common.euclidian.EuclidianStatic.getStroke(2,
+			g.setStroke(geogebra.awt.GBasicStrokeD.getAwtStroke(geogebra.common.euclidian.EuclidianStatic.getStroke(2,
 					EuclidianStyleConstants.LINE_TYPE_FULL)));
 
 			g.drawOval((10 * size) / 48, (10 * size) / 48, (30 * size) / 48,
@@ -4784,12 +4784,12 @@ public class Application extends AbstractApplication implements
 
 	
 	
-	DrawEquation drawEquation;
+	DrawEquationD drawEquation;
 
 	@Override
-	public DrawEquation getDrawEquation() {
+	public DrawEquationD getDrawEquation() {
 		if (drawEquation == null) {
-			drawEquation = new DrawEquation();
+			drawEquation = new DrawEquationD();
 		}
 		return drawEquation;
 	}
@@ -4931,12 +4931,12 @@ public class Application extends AbstractApplication implements
 	}
 
 	@Override
-	public geogebra.common.awt.Font getFontCommon(boolean b, int i, int size) {
-		return new geogebra.awt.Font(getFont(b,i,size));
+	public geogebra.common.awt.GFont getFontCommon(boolean b, int i, int size) {
+		return new geogebra.awt.GFontD(getFont(b,i,size));
 	}
 
-	public geogebra.common.awt.Font getBoldFontCommon() {
-		return new geogebra.awt.Font(getBoldFont());
+	public geogebra.common.awt.GFont getBoldFontCommon() {
+		return new geogebra.awt.GFontD(getBoldFont());
 	}
 	
 	@Override
@@ -5037,15 +5037,15 @@ public class Application extends AbstractApplication implements
 	}
 
 	public Font getFontCanDisplayAwt(String string, boolean b, int plain, int i) {
-		return geogebra.awt.Font.getAwtFont(getFontCanDisplay(string,b,plain,i));
+		return geogebra.awt.GFontD.getAwtFont(getFontCanDisplay(string,b,plain,i));
 	}
 
 	public Font getFontCanDisplayAwt(String string) {
-		return geogebra.awt.Font.getAwtFont(getFontCanDisplay(string));
+		return geogebra.awt.GFontD.getAwtFont(getFontCanDisplay(string));
 	}
 
 	public Font getFontCanDisplayAwt(String value, int plain) {
-		return geogebra.awt.Font.getAwtFont(getFontCanDisplay(value,plain));
+		return geogebra.awt.GFontD.getAwtFont(getFontCanDisplay(value,plain));
 	}
 	
 

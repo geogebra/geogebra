@@ -39,7 +39,7 @@ public class DrawIntegralFunctions extends Drawable {
 	 * @param view view
 	 * @param n integral between functions
 	 */
-	public DrawIntegralFunctions(AbstractEuclidianView view, GeoNumeric n) {
+	public DrawIntegralFunctions(EuclidianView view, GeoNumeric n) {
 		this.view = view;
 		this.n = n;
 		geo = n;

@@ -24,7 +24,7 @@ public class RowHeader extends JList implements geogebra.common.cas.view.RowHead
 		setFixedCellWidth(ROW_HEADER_WIDTH);
 		setFocusable(true);
 		setBorder(BorderFactory.createMatteBorder(0, 0, 0, 1,
-				geogebra.awt.Color
+				geogebra.awt.GColorD
 						.getAwtColor(GeoGebraColorConstants.TABLE_GRID_COLOR)));
 		// renderer
 		setCellRenderer(new RowHeaderRenderer(table));

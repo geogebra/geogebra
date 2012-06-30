@@ -44,7 +44,7 @@ public class DrawUpperLowerSum extends Drawable {
 	 * @param n
 	 *            The sum / barchart / boxplot / histogram to be drawn
 	 */
-	public DrawUpperLowerSum(AbstractEuclidianView view, GeoNumeric n) {
+	public DrawUpperLowerSum(EuclidianView view, GeoNumeric n) {
 		this.view = view;
 		sum = n;
 		geo = n;

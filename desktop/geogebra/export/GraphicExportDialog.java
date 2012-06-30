@@ -13,10 +13,10 @@ the Free Software Foundation.
 package geogebra.export;
 
 import geogebra.GeoGebra;
-import geogebra.common.euclidian.AbstractEuclidianView;
+import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.util.Unicode;
-import geogebra.euclidian.EuclidianView;
+import geogebra.euclidian.EuclidianViewD;
 import geogebra.export.epsgraphics.ColorMode;
 import geogebra.gui.util.FileTransferable;
 import geogebra.gui.util.ImageSelection;
@@ -89,7 +89,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 	private final int FORMAT_SVG = 3;
 	private final int FORMAT_EMF = 4;
 
-	private EuclidianView specifiedEuclidianView;
+	private EuclidianViewD specifiedEuclidianView;
 	
 	
 	/**
@@ -108,7 +108,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 	 * @param app
 	 * @param specifiedEuclidianView
 	 */
-	public GraphicExportDialog(Application app, EuclidianView specifiedEuclidianView) {
+	public GraphicExportDialog(Application app, EuclidianViewD specifiedEuclidianView) {
 		super(app.getFrame(), false);
 		this.app = app;
 		this.specifiedEuclidianView = specifiedEuclidianView;
@@ -121,11 +121,11 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 	}
 
 	
-	private EuclidianView getEuclidianView(){
+	private EuclidianViewD getEuclidianView(){
 		if(specifiedEuclidianView != null){
 			return specifiedEuclidianView;
 		}
-		return (EuclidianView) app.getActiveEuclidianView();
+		return (EuclidianViewD) app.getActiveEuclidianView();
 	}
 	
 	
@@ -170,7 +170,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 		p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
 
 		// scale
-		AbstractEuclidianView ev = getEuclidianView();
+		EuclidianView ev = getEuclidianView();
 
 		final PrintScalePanel psp = new PrintScalePanel(app, ev);
 		psp.addActionListener(new ActionListener() {
@@ -458,7 +458,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 	}
 
 	private void updateSizeLabel() {
-		EuclidianView ev = getEuclidianView();
+		EuclidianViewD ev = getEuclidianView();
 		double printingScale = ev.getPrintingScale();
 		// takes dpi into account (note: eps has 72dpi)
 		exportScale = (printingScale * getDPI()) / 2.54 / ev.getXscale();
@@ -504,7 +504,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 	 */
 	final private boolean exportEPS(final boolean exportToClipboard) {
 
-		final EuclidianView ev = getEuclidianView();
+		final EuclidianViewD ev = getEuclidianView();
 		final double printingScale = ev.getPrintingScale();
 
 		// set dpi to 72
@@ -633,7 +633,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 	 */
 	final private boolean exportSVG(boolean exportToClipboard) {
 
-		EuclidianView ev = getEuclidianView();
+		EuclidianViewD ev = getEuclidianView();
 		double printingScale = ev.getPrintingScale();
 
 		// set dpi to 72
@@ -706,7 +706,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 
 		try {
 			// draw graphics view into image
-			EuclidianView ev = getEuclidianView();
+			EuclidianViewD ev = getEuclidianView();
 			
 			exportPNG(ev, file, showError, getDPI(), exportScale);
 			
@@ -783,7 +783,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 	 * @param pixelHeight
 	 * @param exportScale
 	 */
-	public static void exportSVG(Application app, EuclidianView ev, File file, boolean textAsShapes, int pixelWidth, int pixelHeight, double exportScale) {
+	public static void exportSVG(Application app, EuclidianViewD ev, File file, boolean textAsShapes, int pixelWidth, int pixelHeight, double exportScale) {
 		UserProperties props = (UserProperties) SVGGraphics2D
 				.getDefaultProperties();
 		props.setProperty(SVGGraphics2D.EMBED_FONTS, !textAsShapes);
@@ -836,7 +836,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 	 * @param pixelHeight
 	 * @param exportScale
 	 */
-	public static void exportEMF(Application app, EuclidianView ev, File file,
+	public static void exportEMF(Application app, EuclidianViewD ev, File file,
 			boolean useEMFplus, int pixelWidth, int pixelHeight,
 			double exportScale) {
 
@@ -872,7 +872,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 	 * @param pixelHeight
 	 * @param exportScale
 	 */
-	public static void exportPDF(Application app, EuclidianView ev, File file,
+	public static void exportPDF(Application app, EuclidianViewD ev, File file,
 			boolean textAsShapes, int pixelWidth, int pixelHeight,
 			double exportScale) {
 
@@ -918,7 +918,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 	 * @param pixelHeight
 	 * @param exportScale
 	 */
-	public static void exportEPS(Application app, EuclidianView ev, File file,
+	public static void exportEPS(Application app, EuclidianViewD ev, File file,
 			boolean textAsShapes, int pixelWidth, int pixelHeight,
 			double exportScale) {
 		geogebra.export.epsgraphics.EpsGraphics g;
@@ -947,7 +947,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 	 * @param dpi
 	 * @param exportScale
 	 */
-	public static void exportPNG(EuclidianView ev, File file,
+	public static void exportPNG(EuclidianViewD ev, File file,
 			boolean transparent, int dpi,
 			double exportScale) {
 		// write image to file

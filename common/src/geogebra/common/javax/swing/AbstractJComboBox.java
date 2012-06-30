@@ -1,6 +1,6 @@
 package geogebra.common.javax.swing;
 
-import geogebra.common.awt.Font;
+import geogebra.common.awt.GFont;
 import geogebra.common.kernel.geos.GeoElement;
 
 public abstract class AbstractJComboBox {
@@ -9,11 +9,11 @@ public abstract class AbstractJComboBox {
 
 	public abstract Object getItemAt(int i);
 
-	public abstract void setFont(Font font);
+	public abstract void setFont(GFont font);
 
-	public abstract void setForeground(geogebra.common.awt.Color objectColor);
+	public abstract void setForeground(geogebra.common.awt.GColor objectColor);
 
-	public abstract void setBackground(geogebra.common.awt.Color color);
+	public abstract void setBackground(geogebra.common.awt.GColor color);
 
 	public abstract void setFocusable(boolean b);
 

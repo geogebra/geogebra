@@ -64,7 +64,7 @@ public abstract class GeoGebraExport  {
 	protected Construction construction;
 	protected EuclidianViewND euclidianView;
 	protected ExportFrame frame;
-	protected HashMap<geogebra.common.awt.Color, String> CustomColor;
+	protected HashMap<geogebra.common.awt.GColor, String> CustomColor;
 	protected double xunit, yunit, xmin, xmax, ymin, ymax;
 	// The exported format: Latex, tex, ConTexT, Beamer
 	protected int format = 0;
@@ -690,7 +690,7 @@ public abstract class GeoGebraExport  {
 	 *            The StringBuilder to complete
 	 */
 
-	abstract protected void ColorCode(geogebra.common.awt.Color color, StringBuilder sb);
+	abstract protected void ColorCode(geogebra.common.awt.GColor color, StringBuilder sb);
 
 	/**
 	 * Export as PSTricks or PGF/TikZ PolyLine objects polyline[A,B,C,D,E]

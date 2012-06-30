@@ -18,13 +18,13 @@ the Free Software Foundation.
 package geogebra3D;
 
 import geogebra.CommandLineArguments;
-import geogebra.common.euclidian.AbstractEuclidianView;
+import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.commands.CommandsConstants;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import geogebra.common.kernel.kernelND.ViewCreator;
-import geogebra.euclidian.EuclidianController;
+import geogebra.euclidian.EuclidianControllerD;
 import geogebra.gui.GuiManager;
 import geogebra.main.AppletImplementation;
 import geogebra.main.Application;
@@ -110,14 +110,14 @@ public class Application3D extends Application {
 	}
 
 	@Override
-	protected EuclidianController newEuclidianController(Kernel kernel) {
+	protected EuclidianControllerD newEuclidianController(Kernel kernel) {
 		return new EuclidianControllerFor3D(kernel);
 	}
 
 	@Override
-	protected AbstractEuclidianView newEuclidianView(boolean[] showAxes,
+	protected EuclidianView newEuclidianView(boolean[] showAxes,
 			boolean showGrid) {
-		return new EuclidianViewFor3D((EuclidianController)euclidianController, showAxes, showGrid,
+		return new EuclidianViewFor3D((EuclidianControllerD)euclidianController, showAxes, showGrid,
 				1);
 	}
 
@@ -188,7 +188,7 @@ public class Application3D extends Application {
 	 */
 	public EuclidianViewForPlane createEuclidianViewForPlane(ViewCreator plane) {
 		// create new view for plane and controller
-		EuclidianController ec = new EuclidianControllerForPlane(kernel3D);
+		EuclidianControllerD ec = new EuclidianControllerForPlane(kernel3D);
 		euclidianViewForPlane = new EuclidianViewForPlane(ec, plane);
 		euclidianViewForPlane.updateFonts();
 		euclidianViewForPlane.addExistingGeos();

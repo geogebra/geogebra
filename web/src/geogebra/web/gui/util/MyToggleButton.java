@@ -1,6 +1,6 @@
 package geogebra.web.gui.util;
 
-import geogebra.web.euclidian.EuclidianStyleBar;
+import geogebra.web.euclidian.EuclidianStyleBarW;
 
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasValue;
@@ -201,7 +201,7 @@ public class MyToggleButton extends Composite implements ClickHandler, HasValue<
 	    return isDown;
     }
 
-	public void removeValueChangeHandler(EuclidianStyleBar euclidianStyleBar) {
+	public void removeValueChangeHandler(EuclidianStyleBarW euclidianStyleBar) {
 		if (actionListener != null) {
 			actionListener.removeHandler();
 		}

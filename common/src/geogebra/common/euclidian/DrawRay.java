@@ -18,7 +18,7 @@ the Free Software Foundation.
 
 package geogebra.common.euclidian;
 
-import geogebra.common.awt.Line2D;
+import geogebra.common.awt.GLine2D;
 import geogebra.common.euclidian.clipping.ClipLine;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.ConstructionDefaults;
@@ -43,14 +43,14 @@ public class DrawRay extends Drawable implements Previewable {
 	private boolean isVisible, labelVisible;
 	private ArrayList<GeoPointND> points;
 
-	private Line2D line = AwtFactory.prototype.newLine2D();
+	private GLine2D line = AwtFactory.prototype.newLine2D();
 	private double[] a = new double[2];
 	private double[] v = new double[2];
 
 	/** Creates new DrawRay 
 	 * @param view view
 	 * @param ray ray*/
-	public DrawRay(AbstractEuclidianView view, GeoLineND ray) {
+	public DrawRay(EuclidianView view, GeoLineND ray) {
 		this.view = view;
 		hitThreshold = view.getCapturingThreshold();
 		this.ray = ray;
@@ -65,7 +65,7 @@ public class DrawRay extends Drawable implements Previewable {
 	 * @param view view
 	 * @param points preview points
 	 */
-	public DrawRay(AbstractEuclidianView view, ArrayList<GeoPointND> points) {
+	public DrawRay(EuclidianView view, ArrayList<GeoPointND> points) {
 		this.view = view;
 		this.points = points;
 
@@ -176,7 +176,7 @@ public class DrawRay extends Drawable implements Previewable {
 		} else {
 			// A off screen
 			// clip ray at screen, that's important for huge coordinates of A
-			geogebra.common.awt.Point2D[] clippedPoints = ClipLine.getClipped(a[0], a[1],
+			geogebra.common.awt.GPoint2D[] clippedPoints = ClipLine.getClipped(a[0], a[1],
 					a[0] + lambda * v[0], a[1] + lambda * v[1],
 					-EuclidianStatic.CLIP_DISTANCE, view.getWidth()
 							+ EuclidianStatic.CLIP_DISTANCE,
@@ -215,7 +215,7 @@ public class DrawRay extends Drawable implements Previewable {
 	/**
 	 * @param objStroke stroke
 	 */
-	final public void setStroke(geogebra.common.awt.BasicStroke objStroke) {
+	final public void setStroke(geogebra.common.awt.GBasicStroke objStroke) {
 		this.objStroke = objStroke;
 	}
 
@@ -240,7 +240,7 @@ public class DrawRay extends Drawable implements Previewable {
 		}
 	}
 
-	private geogebra.common.awt.Point2D endPoint = 
+	private geogebra.common.awt.GPoint2D endPoint = 
 			geogebra.common.factories.AwtFactory.prototype.newPoint2D();
 
 	final public void updateMousePos(double mouseRWx, double mouseRWy) {

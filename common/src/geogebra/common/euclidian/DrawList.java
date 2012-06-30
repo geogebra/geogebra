@@ -18,7 +18,7 @@ the Free Software Foundation.
 
 package geogebra.common.euclidian;
 
-import geogebra.common.awt.Color;
+import geogebra.common.awt.GColor;
 import geogebra.common.euclidian.event.ActionEvent;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.factories.SwingFactory;
@@ -53,7 +53,7 @@ public final class DrawList extends Drawable implements RemoveNeeded {
 	 * @param view view
 	 * @param geoList list
 	 */
-	public DrawList(AbstractEuclidianView view, GeoList geoList) {
+	public DrawList(EuclidianView view, GeoList geoList) {
 		this.view = view;
 		this.geoList = geoList;
 		geo = geoList;
@@ -128,15 +128,15 @@ public final class DrawList extends Drawable implements RemoveNeeded {
 			int fontSize = view.getFontSize() + geoList.getFontSize();
 			AbstractApplication app = view.getApplication();
 
-			geogebra.common.awt.Font vFont = view.getFont();
-			geogebra.common.awt.Font font = app.getFontCanDisplay(comboBox.getItemAt(0).toString(), false, vFont.getStyle(), fontSize);
+			geogebra.common.awt.GFont vFont = view.getFont();
+			geogebra.common.awt.GFont font = app.getFontCanDisplay(comboBox.getItemAt(0).toString(), false, vFont.getStyle(), fontSize);
 
 			label.setOpaque(false);
 			comboBox.setFont(font);
 			label.setFont(font);
 			comboBox.setForeground(geo.getObjectColor());
 			label.setForeground(geo.getObjectColor());
-			geogebra.common.awt.Color bgCol = geo.getBackgroundColor();
+			geogebra.common.awt.GColor bgCol = geo.getBackgroundColor();
 			comboBox.setBackground(bgCol != null ? bgCol : view.getBackgroundCommon());
 
 			comboBox.setFocusable(true);
@@ -146,7 +146,7 @@ public final class DrawList extends Drawable implements RemoveNeeded {
 
 			xLabel = geo.labelOffsetX;
 			yLabel = geo.labelOffsetY;
-			geogebra.common.awt.Dimension prefSize = box.getPreferredSize();
+			geogebra.common.awt.GDimension prefSize = box.getPreferredSize();
 			labelRectangle.setBounds(xLabel, yLabel, prefSize.getWidth(), prefSize.getHeight());
 			box.setBounds(labelRectangle);			
 		} else {
@@ -247,7 +247,7 @@ public final class DrawList extends Drawable implements RemoveNeeded {
 			if (isVisible) {
 				if (geo.doHighlighting()) {
 					label.setOpaque(true);
-					label.setBackground(Color.lightGray);
+					label.setBackground(GColor.lightGray);
 
 				} else {
 					label.setOpaque(false);

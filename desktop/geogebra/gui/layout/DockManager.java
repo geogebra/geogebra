@@ -123,7 +123,7 @@ public class DockManager implements AWTEventListener, SetLabels {
 					// TODO insert error panel
 				}else{
 					panel.setToolbarString(dpData[i].getToolbarString());
-					panel.setFrameBounds(geogebra.awt.Rectangle.getAWTRectangle(dpData[i].getFrameBounds()));
+					panel.setFrameBounds(geogebra.awt.GRectangleD.getAWTRectangle(dpData[i].getFrameBounds()));
 					panel.setEmbeddedDef(dpData[i].getEmbeddedDef());
 					panel.setEmbeddedSize(dpData[i].getEmbeddedSize());
 					panel.setShowStyleBar(dpData[i].showStyleBar());

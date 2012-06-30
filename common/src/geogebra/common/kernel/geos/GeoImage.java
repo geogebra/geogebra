@@ -12,7 +12,7 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.geos;
 
-import geogebra.common.awt.BufferedImage;
+import geogebra.common.awt.GBufferedImage;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import geogebra.common.kernel.CircularDefinitionException;
@@ -973,7 +973,7 @@ public class GeoImage extends GeoElement implements Locateable,
 		this.getGraphicsAdapter().setImageOnly(
 				geogebra.common.factories.AwtFactory.prototype
 						.newBufferedImage(pixelWidth, pixelHeight,
-								BufferedImage.TYPE_INT_ARGB));
+								GBufferedImage.TYPE_INT_ARGB));
 		this.updateRepaint();
 
 	}

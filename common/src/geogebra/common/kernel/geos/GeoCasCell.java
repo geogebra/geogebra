@@ -1,7 +1,7 @@
 package geogebra.common.kernel.geos;
 
-import geogebra.common.awt.Color;
-import geogebra.common.awt.Font;
+import geogebra.common.awt.GColor;
+import geogebra.common.awt.GFont;
 import geogebra.common.cas.CASException;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
@@ -303,7 +303,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 	 * @param ft
 	 *            font
 	 */
-	public void setFont(Font ft) {
+	public void setFont(GFont ft) {
 		setFontSize(ft.getSize());
 		setFontStyle(ft.getStyle());
 	}
@@ -319,7 +319,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 	/**
 	 * @return font color
 	 */
-	public geogebra.common.awt.Color getFontColor() {
+	public geogebra.common.awt.GColor getFontColor() {
 		return this.getObjectColor();
 	}
 
@@ -327,7 +327,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 	 * @param c
 	 *            font color
 	 */
-	public void setFontColor(geogebra.common.awt.Color c) {
+	public void setFontColor(geogebra.common.awt.GColor c) {
 		this.setObjColor(c);
 	}
 
@@ -1947,9 +1947,9 @@ public class GeoCasCell extends GeoElement implements VarString {
 	}
 	
 	@Override
-	public Color getAlgebraColor() {
+	public GColor getAlgebraColor() {
 		if(twinGeo==null)
-			return Color.BLACK;
+			return GColor.BLACK;
 		return twinGeo.getAlgebraColor();
 	}
 	/**

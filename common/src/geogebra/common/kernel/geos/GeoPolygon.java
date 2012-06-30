@@ -12,7 +12,7 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.geos;
 
-import geogebra.common.awt.Color;
+import geogebra.common.awt.GColor;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.Kernel;
@@ -844,7 +844,7 @@ public class GeoPolygon extends GeoElement implements NumberValue, Path,
 	}
 
 	@Override
-	public void setObjColor(Color color) {
+	public void setObjColor(GColor color) {
 		super.setObjColor(color);
 		if (segments != null && createSegments) {
 			for (int i = 0; i < segments.length; i++) {

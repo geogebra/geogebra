@@ -1,6 +1,6 @@
 package geogebra.common.kernel.commands;
 
-import geogebra.common.euclidian.AbstractEuclidianView;
+import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
@@ -40,7 +40,7 @@ public class CmdAttachCopyToView extends CommandProcessor {
 			if (arg[1].isNumberValue()) {
 				GeoPointND corner1, corner3, screenCorner1,screenCorner3;
 				int viewID = (int) ((NumberValue) arg[1]).getDouble();
-				AbstractEuclidianView ev;
+				EuclidianView ev;
 				if (viewID == 2)
 					ev = app.getEuclidianView2();
 				else

@@ -45,7 +45,7 @@ import geogebra.common.kernel.algos.AlgoFunctionAreaSums;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.main.Application;
 
-import geogebra.common.awt.Color;
+import geogebra.common.awt.GColor;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.util.ArrayList;
@@ -90,7 +90,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
     	codePreamble=new StringBuilder();
     	codeFilledObject=new StringBuilder();
 		codeBeginDoc=new StringBuilder();
-		CustomColor=new HashMap<geogebra.common.awt.Color,String>();
+		CustomColor=new HashMap<geogebra.common.awt.GColor,String>();
  		if (format==GeoGebraToPgf.FORMAT_LATEX){
  	    	codePreamble.append("\\documentclass[" +
  	    			frame.getFontSize()+"pt]{article}\n" +
@@ -536,7 +536,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
     	float xLabelHor = (x + xright) /2;
         float yLabelHor = y -(float)(
         		(euclidianView.getFont().getSize() + 2)/euclidianView.getYscale());
-		Color geocolor=geo.getObjectColor();
+		GColor geocolor=geo.getObjectColor();
 		codePoint.append("\\draw[color=");
 		ColorCode(geocolor,codePoint);
 		codePoint.append("] ");
@@ -950,8 +950,8 @@ public class GeoGebraToPgf extends GeoGebraExport {
 			startBeamer(code);
 			code.append("\\draw ");
 			// Color
-			Color geocolor = geo.getObjectColor();
-			if (!geocolor.equals(Color.BLACK)) {
+			GColor geocolor = geo.getObjectColor();
+			if (!geocolor.equals(GColor.BLACK)) {
 				code.append("[color=");
 				ColorCode(geocolor, code);
 				code.append("]");
@@ -979,8 +979,8 @@ public class GeoGebraToPgf extends GeoGebraExport {
 			code.append("\\draw ");
 			
 			// Color
-			Color geocolor=geo.getObjectColor();
-			if (!geocolor.equals(Color.BLACK)){
+			GColor geocolor=geo.getObjectColor();
+			if (!geocolor.equals(GColor.BLACK)){
 				code.append("[color=");
 				ColorCode(geocolor,code);
 				code.append("]");
@@ -1095,7 +1095,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 		double startAngle=geo.getParameterStart();
 		double endAngle=geo.getParameterEnd();
 		// Get all coefficients form the transform matrix
-		geogebra.common.awt.AffineTransform af=geo.getAffineTransform();
+		geogebra.common.awt.GAffineTransform af=geo.getAffineTransform();
 		double m11=af.getScaleX();
 		double m22=af.getScaleY();
 		double m12=af.getShearX();
@@ -1533,7 +1533,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 			// if conic is an ellipse
 			case GeoConicNDConstants.CONIC_ELLIPSE:
 //	command:  \draw[rotate around={angle:center},lineOptions](x_center,y_center) ellipse (R1 and R2)
-				geogebra.common.awt.AffineTransform at=geo.getAffineTransform();
+				geogebra.common.awt.GAffineTransform at=geo.getAffineTransform();
 				double eigenvecX=at.getScaleX();
 				double eigenvecY=at.getShearY();
 				double x1=geo.getTranslationVector().getX();
@@ -1692,7 +1692,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 			double z=gp.getZ();
 			x=x/z;
 			y=y/z;
-			Color dotcolor=gp.getObjectColor();
+			GColor dotcolor=gp.getObjectColor();
 			double dotsize=gp.getPointSize();
 			int dotstyle=gp.getPointStyle();
 			
@@ -2155,9 +2155,9 @@ public class GeoGebraToPgf extends GeoGebraExport {
 				double yLabel=drawGeo.getyLabel();
 				xLabel=euclidianView.toRealWorldCoordX(Math.round(xLabel));
 				yLabel=euclidianView.toRealWorldCoordY(Math.round(yLabel));
-				Color geocolor=geo.getObjectColor();
+				GColor geocolor=geo.getObjectColor();
 				startBeamer(codePoint);			
-				FontMetrics fm=euclidianView.getFontMetrics(geogebra.awt.Font.getAwtFont(euclidianView.getFont()));
+				FontMetrics fm=euclidianView.getFontMetrics(geogebra.awt.GFontD.getAwtFont(euclidianView.getFont()));
 				int width=fm.stringWidth(StringUtil.toLaTeXString(geo.getLabelDescription(),true));
 				int height=fm.getHeight();
 				double translation[] =new double[2];
@@ -2186,7 +2186,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 	
 	private void drawGrid(){
 //		resizeFont(codeBeginDoc);
-		geogebra.common.awt.Color gridCol=euclidianView.getGridColor();
+		geogebra.common.awt.GColor gridCol=euclidianView.getGridColor();
 		double[] GridDist=euclidianView.getGridDistances();
 		int gridLine=euclidianView.getGridLineStyle();
 		codeBeginDoc.append("\\draw [color=");
@@ -2208,7 +2208,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 	 */
 
 	private void drawAxis(){
-		geogebra.common.awt.Color color=euclidianView.getAxesColor();
+		geogebra.common.awt.GColor color=euclidianView.getAxesColor();
 		// Drawing X Axis
 		boolean showAxis=euclidianView.getShowXaxis();
 		String[] label=euclidianView.getAxesLabels();
@@ -2250,7 +2250,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 				codeBeginDoc.append("\\draw[color=");
 				ColorCode(color,codeBeginDoc);
 				codeBeginDoc.append("] ");
-				FontMetrics fm=euclidianView.getFontMetrics(geogebra.awt.Font.getAwtFont(euclidianView.getFont()));
+				FontMetrics fm=euclidianView.getFontMetrics(geogebra.awt.GFontD.getAwtFont(euclidianView.getFont()));
 				int width=fm.stringWidth(label[0]);
 			   	geogebra.common.awt.Rectangle rect = euclidianView.getSelectionRectangle();
 		    	double x=euclidianView.toRealWorldCoordX(euclidianView.getWidth()-10-width);
@@ -2304,7 +2304,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 				codeBeginDoc.append("\\draw[color=");
 				ColorCode(color,codeBeginDoc);
 				codeBeginDoc.append("] ");
-				FontMetrics fm=euclidianView.getFontMetrics(geogebra.awt.Font.getAwtFont(euclidianView.getFont()));
+				FontMetrics fm=euclidianView.getFontMetrics(geogebra.awt.GFontD.getAwtFont(euclidianView.getFont()));
 			   	geogebra.common.awt.Rectangle rect = euclidianView.getSelectionRectangle();
 				double x=euclidianView.toRealWorldCoordX(euclidianView.getXZero()+5);
 				double y=euclidianView.toRealWorldCoordY(5+fm.getHeight());
@@ -2355,7 +2355,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 	
 	private String LineOptionCode(GeoElement geo,boolean transparency){
 		StringBuilder sb=new StringBuilder(); 
-		Color linecolor=geo.getObjectColor();
+		GColor linecolor=geo.getObjectColor();
 		int linethickness=geo.getLineThickness();
 		int linestyle=geo.getLineType();
 
@@ -2373,7 +2373,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 		else coma=true;
 		LinestyleCode(linestyle,sb);
 	}
-	if (!linecolor.equals(Color.BLACK)){
+	if (!linecolor.equals(GColor.BLACK)){
 		if (coma) sb.append(",");
 		else coma=true;
 		if (transparency&&geo.isFillable()&&geo.getFillType()==GeoElement.FILL_HATCH)
@@ -2471,9 +2471,9 @@ public class GeoGebraToPgf extends GeoGebraExport {
  * @param c The Choosen color
  * @param sb  The StringBuilder where the color has to be added
  */
-	protected void ColorCode(geogebra.common.awt.Color c,StringBuilder sb){
+	protected void ColorCode(geogebra.common.awt.GColor c,StringBuilder sb){
 		if (frame.isGrayscale()){
-			if (c.equals(Color.BLACK)) {sb.append("black");return;}
+			if (c.equals(GColor.BLACK)) {sb.append("black");return;}
 			String colorname="";
 			int red=c.getRed();
 			int green=c.getGreen();
@@ -2484,10 +2484,10 @@ public class GeoGebraToPgf extends GeoGebraExport {
 				colorname=CustomColor.get(c).toString();
 			}
 			else {
-				if (c.equals(Color.BLACK)) {sb.append("black");return;}
-				else if(c.equals(Color.RED)) {sb.append("red");return;}
-				else if(c.equals(Color.BLUE)) {sb.append("blue");return;}
-				else if(c.equals(Color.GREEN)) {sb.append("green");return;}
+				if (c.equals(GColor.BLACK)) {sb.append("black");return;}
+				else if(c.equals(GColor.RED)) {sb.append("red");return;}
+				else if(c.equals(GColor.BLUE)) {sb.append("blue");return;}
+				else if(c.equals(GColor.GREEN)) {sb.append("green");return;}
 				colorname=createCustomColor(red,green,blue);
 				// Example: \definecolor{orange}{rgb}{1,0.5,0}
 				if (format==GeoGebraToPgf.FORMAT_LATEX||format==GeoGebraToPgf.FORMAT_PLAIN_TEX){
@@ -2506,11 +2506,11 @@ public class GeoGebraToPgf extends GeoGebraExport {
 				
 				}
 			}
-			if (c.equals(Color.BLACK)) {sb.append("black");return;}
+			if (c.equals(GColor.BLACK)) {sb.append("black");return;}
 			else sb.append(colorname);
 		}
 		else {
-			if (c.equals(Color.BLACK)) {sb.append("black");return;}
+			if (c.equals(GColor.BLACK)) {sb.append("black");return;}
 			String colorname="";
 			if (CustomColor.containsKey(c)){
 				colorname=CustomColor.get(c).toString();

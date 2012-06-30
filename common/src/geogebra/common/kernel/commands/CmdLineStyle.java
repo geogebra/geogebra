@@ -1,6 +1,6 @@
 package geogebra.common.kernel.commands;
 
-import geogebra.common.euclidian.AbstractEuclidianView;
+import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
@@ -32,7 +32,7 @@ public class CmdLineStyle extends CmdScripting {
 			if (arg[1].isNumberValue()) {
 
 				int style = (int) ((NumberValue) arg[1]).getDouble();
-				Integer[] types = AbstractEuclidianView.getLineTypes();
+				Integer[] types = EuclidianView.getLineTypes();
 
 				//For invalid number we assume it's 0
 				//We do this also for SetPointStyle

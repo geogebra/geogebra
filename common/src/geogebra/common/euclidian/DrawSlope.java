@@ -47,7 +47,7 @@ public class DrawSlope extends Drawable {
 	 * @param view view
 	 * @param slope slope number
 	 */
-	public DrawSlope(AbstractEuclidianView view, GeoNumeric slope) {
+	public DrawSlope(EuclidianView view, GeoNumeric slope) {
 		this.view = view;
 		kernel = view.getKernel();
 		this.slope = slope;

@@ -14,7 +14,7 @@ import com.google.gwt.safehtml.shared.SafeUri;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.RootPanel;
 
-import geogebra.common.awt.BufferedImage;
+import geogebra.common.awt.GBufferedImage;
 import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.util.AbstractImageManager;
@@ -90,8 +90,8 @@ public class ImageManager extends AbstractImageManager {
 	   return externalImageTable.get(imageFileName);
     }
 
-	public static BufferedImage toBufferedImage(ImageElement im) {
-	    return new geogebra.web.awt.BufferedImage(im);
+	public static GBufferedImage toBufferedImage(ImageElement im) {
+	    return new geogebra.web.awt.GBufferedImageW(im);
     }
 
 	class ImageLoadCallback2 implements ImageLoadCallback {

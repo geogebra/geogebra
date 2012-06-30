@@ -1,14 +1,14 @@
 package geogebra.web.main;
 
 import geogebra.common.GeoGebraConstants;
-import geogebra.common.awt.Color;
-import geogebra.common.awt.Dimension;
-import geogebra.common.awt.Font;
+import geogebra.common.awt.GColor;
+import geogebra.common.awt.GDimension;
+import geogebra.common.awt.GFont;
 import geogebra.common.awt.Graphics2D;
 import geogebra.common.euclidian.DrawEquationInterface;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
-import geogebra.web.euclidian.EuclidianView;
+import geogebra.web.euclidian.EuclidianViewW;
 import geogebra.web.gui.view.algebra.RadioButtonTreeItem;
 import geogebra.web.helper.ScriptLoadCallback;
 import geogebra.web.html5.DynamicScriptElement;
@@ -80,7 +80,7 @@ public class DrawEquationWeb implements DrawEquationInterface {
 	 * 
 	 * @param ev: latexes of only this EuclidianView - TODO: implement
 	 */
-	public static void clearLaTeXes(EuclidianView ev) {
+	public static void clearLaTeXes(EuclidianViewW ev) {
 		Iterator<String> eei = equations.keySet().iterator();
 		ArrayList<String> eeii = new ArrayList<String>();
 		while(eei.hasNext()) {
@@ -109,7 +109,7 @@ public class DrawEquationWeb implements DrawEquationInterface {
 	 * 
 	 * @param ev: latexes of only this EuclidianView - TODO: implement
 	 */
-	public static void deleteLaTeXes(EuclidianView ev) {
+	public static void deleteLaTeXes(EuclidianViewW ev) {
 		Iterator<SpanElement> eei = equations.values().iterator();
 		while(eei.hasNext()) {
 			Element toclear = eei.next();
@@ -128,7 +128,7 @@ public class DrawEquationWeb implements DrawEquationInterface {
 	 * @param fgColor: foreground color
 	 * @param bgColor: background color
 	 */
-	public static void drawEquationAlgebraView(Element parentElement, String eqstring, Color fgColor, Color bgColor) {
+	public static void drawEquationAlgebraView(Element parentElement, String eqstring, GColor fgColor, GColor bgColor) {
 		// no scriptloaded check yet (is it necessary?)
 		// no EuclidianView 1,2 yet
 
@@ -140,12 +140,12 @@ public class DrawEquationWeb implements DrawEquationInterface {
 		drawEquationMathQuill(ih, eqstring, parentElement);
 
 		//ih.getStyle().setBackgroundColor(Color.getColorString(bgColor));
-		ih.getStyle().setColor(Color.getColorString(fgColor));
+		ih.getStyle().setColor(GColor.getColorString(fgColor));
 	}
 
-	public Dimension drawEquation(AbstractApplication app, GeoElement geo,
-            Graphics2D g2, int x, int y, String eqstring, Font font, boolean serif,
-            Color fgColor, Color bgColor, boolean useCache) {
+	public GDimension drawEquation(AbstractApplication app, GeoElement geo,
+            Graphics2D g2, int x, int y, String eqstring, GFont font, boolean serif,
+            GColor fgColor, GColor bgColor, boolean useCache) {
 		
 
 		 // the new way to draw an Equation (latex)
@@ -181,9 +181,9 @@ public class DrawEquationWeb implements DrawEquationInterface {
 			}
 			ih.getStyle().setLeft(x, Style.Unit.PX);
 			ih.getStyle().setTop(y, Style.Unit.PX);
-			ih.getStyle().setBackgroundColor(Color.getColorString(bgColor));
-			ih.getStyle().setColor(Color.getColorString(fgColor));
-			return new geogebra.web.awt.Dimension(ih.getOffsetWidth(), ih.getOffsetHeight());
+			ih.getStyle().setBackgroundColor(GColor.getColorString(bgColor));
+			ih.getStyle().setColor(GColor.getColorString(fgColor));
+			return new geogebra.web.awt.GDimensionW(ih.getOffsetWidth(), ih.getOffsetHeight());
 		
     }
 

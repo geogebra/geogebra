@@ -1,7 +1,7 @@
 package geogebra.web.main;
 
 
-import geogebra.common.awt.Font;
+import geogebra.common.awt.GFont;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.AbstractFontManager;
 /**
@@ -18,9 +18,9 @@ public class FontManager extends AbstractFontManager{
 	}
 
 	@Override
-    public Font getFontCanDisplay(String testString, boolean serif,
+    public GFont getFontCanDisplay(String testString, boolean serif,
             int fontStyle, int fontSize) {
-	    geogebra.web.awt.Font ret = new geogebra.web.awt.Font("normal");
+	    geogebra.web.awt.GFontW ret = new geogebra.web.awt.GFontW("normal");
 	    ret.setFontStyle(fontStyle);
 	    ret.setFontSize(fontSize);
 	    ret.setFontFamily(serif?"serif":"sans-serif");

@@ -9,7 +9,7 @@ import geogebra.common.kernel.Kernel;
 public abstract class AbstractZoomer {
 	private enum ZoomerMode{ZOOM,ZOOM_RW,AXES,MOVE}
 	
-	private final AbstractEuclidianView view;
+	private final EuclidianView view;
 
 	private static final int MAX_STEPS = 15; // frames
 
@@ -41,7 +41,7 @@ public abstract class AbstractZoomer {
 	 * Creates new zoomer
 	 * @param view view
 	 */
-	public AbstractZoomer(AbstractEuclidianView view){
+	public AbstractZoomer(EuclidianView view){
 		this.view = view;
 	}
 	
@@ -178,7 +178,7 @@ public abstract class AbstractZoomer {
 		if(setStandard){
 			setStandard = false;
 			view.setAnimatedCoordSystem(standardX, standardY, 0, 
-					AbstractEuclidianView.SCALE_STANDARD, MAX_STEPS, storeUndo);
+					EuclidianView.SCALE_STANDARD, MAX_STEPS, storeUndo);
 		}
 		if (storeUndo) {
 			view.getApplication().storeUndoInfo();

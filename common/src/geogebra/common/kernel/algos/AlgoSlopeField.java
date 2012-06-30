@@ -1,6 +1,6 @@
 package geogebra.common.kernel.algos;
 
-import geogebra.common.euclidian.AbstractEuclidianView;
+import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.EuclidianViewCE;
 import geogebra.common.kernel.Kernel;
@@ -151,7 +151,7 @@ public class AlgoSlopeField extends AlgoElement {
 
 			// make sure it covers all of EV1 & EV2 if appropriate
 
-			AbstractEuclidianView view = kernel.getApplication().getEuclidianView1();
+			EuclidianView view = kernel.getApplication().getEuclidianView1();
 
 			if (view.isVisibleInThisView(locus)) {
 				xmax = Math.max(xmax,  view.toRealWorldCoordX((view.getWidth())));
@@ -162,7 +162,7 @@ public class AlgoSlopeField extends AlgoElement {
 
 			app = kernel.getApplication();
 			if (app.hasEuclidianView2()) {
-				AbstractEuclidianView view2 = app.getEuclidianView2();
+				EuclidianView view2 = app.getEuclidianView2();
 				if (view2.isVisibleInThisView(locus)) {
 					xmax = Math.max(xmax,  view2.toRealWorldCoordX((view.getWidth())));
 					ymax = Math.max(ymax,  view2.toRealWorldCoordY(0));

@@ -1,6 +1,6 @@
 package geogebra.common.main;
 
-import geogebra.common.awt.Font;
+import geogebra.common.awt.GFont;
 /**
  * Handles different fonts used by application
  */
@@ -20,7 +20,7 @@ public abstract class AbstractFontManager {
 	 * @param fontSize size
 	 * @return usable font
 	 */
-	public abstract Font getFontCanDisplay(String testString, boolean serif,
+	public abstract GFont getFontCanDisplay(String testString, boolean serif,
 			int fontStyle, int fontSize);
 
 }

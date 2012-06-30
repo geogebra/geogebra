@@ -1,0 +1,61 @@
+package geogebra.web.euclidian;
+
+import geogebra.common.awt.GColor;
+import geogebra.common.awt.GDimension;
+import geogebra.common.awt.GFont;
+import geogebra.common.awt.Graphics2D;
+import geogebra.common.awt.Rectangle;
+import geogebra.common.awt.GShape;
+import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.main.AbstractApplication;
+
+public class EuclidianStaticW extends geogebra.common.euclidian.EuclidianStatic {
+
+	@Override
+	protected Rectangle doDrawMultilineLaTeX(AbstractApplication app,
+	        Graphics2D tempGraphics, GeoElement geo, Graphics2D g2, GFont font,
+	        GColor fgColor, GColor bgColor, String labelDesc, int x,
+	        int y, boolean serif) {
+		GDimension dim = app.getDrawEquation().drawEquation(app, geo, g2, x, y, labelDesc, font, serif, fgColor, bgColor, false);
+		
+		// TODO: dimension
+		return new geogebra.web.awt.Rectangle(x, y, dim.getWidth(), dim.getHeight());
+	}
+
+	private static GFont getIndexFont(GFont f) {
+		// index font size should be at least 8pt
+		int newSize = Math.max((int) (f.getSize() * 0.9), 8);
+		return f.deriveFont(f.getStyle(), newSize);
+	}
+
+	
+	@Override
+	protected void doFillWithValueStrokePure(GShape shape, Graphics2D g2) {
+		g2.fill(shape);
+
+		AbstractApplication.debug("implementation needed or OK");
+		// TODO can we emulate somehow the "pure stroke" behavior?
+	}
+
+	@Override
+	protected void doDrawWithValueStrokePure(GShape shape, Graphics2D g2) {
+		g2.draw(shape);
+
+		AbstractApplication.debug("implementation needed or OK");
+		// TODO can we emulate somehow the "pure stroke" behavior?
+	}
+
+	@Override
+    protected Object doSetInterpolationHint(Graphics2D g3,
+            boolean needsInterpolationRenderingHint) {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
+
+	@Override
+    protected void doResetInterpolationHint(Graphics2D g3, Object hint) {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+}

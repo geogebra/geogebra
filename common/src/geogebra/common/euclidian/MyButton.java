@@ -1,8 +1,8 @@
 package geogebra.common.euclidian;
 
-import geogebra.common.awt.Font;
+import geogebra.common.awt.GFont;
 import geogebra.common.awt.Rectangle;
-import geogebra.common.awt.font.TextLayout;
+import geogebra.common.awt.font.GTextLayout;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoButton;
 
@@ -14,7 +14,7 @@ import geogebra.common.kernel.geos.GeoButton;
 public class MyButton {
 
 	private GeoButton geoButton;
-	private AbstractEuclidianView view;
+	private EuclidianView view;
 	private int x, y, width, height;
 	private boolean selected;
 	private String text;
@@ -23,7 +23,7 @@ public class MyButton {
 	private final static int minSize = 24;
 	private final static int arcSize = 9;
 
-	private Font font;
+	private GFont font;
 
 	private boolean pressed, draggedOrContext;
 
@@ -33,7 +33,7 @@ public class MyButton {
 	 * @param view
 	 *            view
 	 */
-	public MyButton(GeoButton button, AbstractEuclidianView view) {
+	public MyButton(GeoButton button, EuclidianView view) {
 		this.geoButton = button;
 		this.view = view;
 		this.x = 20;
@@ -75,7 +75,7 @@ public class MyButton {
 			if (hasText)
 				imgGap = 4;
 		}
-		TextLayout t = null;
+		GTextLayout t = null;
 
 		// get dimensions
 		if (hasText) {
@@ -91,10 +91,10 @@ public class MyButton {
 
 		// prepare colors and paint
 		g.setColor(view.getBackgroundCommon());
-		geogebra.common.awt.Paint p;
-		geogebra.common.awt.Color bg = geoButton.getBackgroundColor(), bg2;
+		geogebra.common.awt.GPaint p;
+		geogebra.common.awt.GColor bg = geoButton.getBackgroundColor(), bg2;
 		if (bg == null)
-			bg = geogebra.common.awt.Color.lightGray;
+			bg = geogebra.common.awt.GColor.lightGray;
 		if (isSelected()) {
 			bg2 = bg;
 			bg = bg.darker();
@@ -108,7 +108,7 @@ public class MyButton {
 			p = geogebra.common.factories.AwtFactory.prototype
 					.newGradientPaint(x, y, bg, x, y + getHeight(), bg2);
 		}
-		geogebra.common.awt.Paint oldPaint = g.getPaint();
+		geogebra.common.awt.GPaint oldPaint = g.getPaint();
 
 		// =======================================
 		// Drawing
@@ -121,13 +121,13 @@ public class MyButton {
 
 		// draw border
 		g.setPaint(oldPaint);
-		g.setColor(geogebra.common.awt.Color.DARK_GRAY);
+		g.setColor(geogebra.common.awt.GColor.DARK_GRAY);
 		g.setStroke(EuclidianStatic.getDefaultStroke());
 		g.drawRoundRect(x, y, getWidth() - 1, getHeight() - 1, arcSize, arcSize);
 
 		// prepare to draw text
 		g.setColor(geoButton.getObjectColor());
-		this.setForeground(geogebra.common.awt.Color.white);
+		this.setForeground(geogebra.common.awt.GColor.white);
 
 		// draw image
 		if (geoButton.getFillImage() != null) {
@@ -149,7 +149,7 @@ public class MyButton {
 	 * @param white
 	 *            color
 	 */
-	private void setForeground(geogebra.common.awt.Color white) {
+	private void setForeground(geogebra.common.awt.GColor white) {
 		// TODO Auto-generated method stub
 
 	}
@@ -236,7 +236,7 @@ public class MyButton {
 	 * @param font
 	 *            new font
 	 */
-	public void setFont(Font font) {
+	public void setFont(GFont font) {
 		this.font = font;
 
 	}

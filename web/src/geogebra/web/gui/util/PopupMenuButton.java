@@ -14,11 +14,11 @@ import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.PopupPanel;
 
-import geogebra.web.awt.Color;
-import geogebra.web.awt.Dimension;
-import geogebra.web.awt.Font;
-import geogebra.web.awt.Point;
-import geogebra.web.euclidian.EuclidianStyleBar;
+import geogebra.web.awt.GColorW;
+import geogebra.web.awt.GDimensionW;
+import geogebra.web.awt.GFontW;
+import geogebra.web.awt.GPointW;
+import geogebra.web.euclidian.EuclidianStyleBarW;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.images.AppResourcesConverter;
 import geogebra.web.main.Application;
@@ -38,7 +38,7 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 	
 	private Slider mySlider;
 	
-	private Color fgColor;
+	private GColorW fgColor;
 	private int fontStyle = 0;
 	
 	private boolean sliderIniting = true;
@@ -48,7 +48,7 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 		this.fontStyle = fontStyle;
 	}
 
-	public void setFgColor(Color fgColor) {
+	public void setFgColor(GColorW fgColor) {
 		this.fgColor = fgColor;
 		if(myTable != null)
 			myTable.setFgColor(fgColor);
@@ -61,9 +61,9 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 		return myTable;
 	}
 
-	private Dimension iconSize;
+	private GDimensionW iconSize;
 
-	public void setIconSize(Dimension iconSize) {
+	public void setIconSize(GDimensionW iconSize) {
 		this.iconSize = iconSize;
 	}
 
@@ -108,7 +108,7 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 	 * @param iconSize
 	 * @param mode
 	 */
-	public PopupMenuButton(Application app, Object[] data, Integer rows, Integer columns, Dimension iconSize, Integer mode){
+	public PopupMenuButton(Application app, Object[] data, Integer rows, Integer columns, GDimensionW iconSize, Integer mode){
 		this( app, data, rows, columns, iconSize, mode,  true,  false);	
 	}
 	
@@ -122,7 +122,7 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 	 * @param hasTable
 	 * @param hasSlider
 	 */
-	public PopupMenuButton(Application app, Object[] data, Integer rows, Integer columns, Dimension iconSize, 
+	public PopupMenuButton(Application app, Object[] data, Integer rows, Integer columns, GDimensionW iconSize, 
 			Integer mode, final boolean hasTable, boolean hasSlider){
 		super(); 
 		this.app = app;
@@ -159,7 +159,7 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 					return;
 				}
 				
-				Point locButton = new Point(event.getX(),event.getY());
+				GPointW locButton = new GPointW(event.getX(),event.getY());
 				
 				// trigger popup 
 				// default: trigger only when the mouse is over the right side of the button
@@ -168,11 +168,11 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 					if(hasTable) {
 						myTable.updateFonts();
 					}
-					if (EuclidianStyleBar.CURRENT_POP_UP != myPopup) {
-						if (EuclidianStyleBar.CURRENT_POP_UP != null) {
-							EuclidianStyleBar.CURRENT_POP_UP.hide();
+					if (EuclidianStyleBarW.CURRENT_POP_UP != myPopup) {
+						if (EuclidianStyleBarW.CURRENT_POP_UP != null) {
+							EuclidianStyleBarW.CURRENT_POP_UP.hide();
 						}
-						EuclidianStyleBar.CURRENT_POP_UP = myPopup;
+						EuclidianStyleBarW.CURRENT_POP_UP = myPopup;
 					}
 
 					myPopup.showRelativeTo(getWidget());
@@ -241,7 +241,7 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 				}
 			
 		})*/
-		((EuclidianStyleBar)app.getEuclidianView1().getStyleBar()).fireActionPerformed(this);
+		((EuclidianStyleBarW)app.getEuclidianView1().getStyleBar()).fireActionPerformed(this);
 		updateGUI();
 		if(!keepVisible) {
 			myPopup.hide();
@@ -285,8 +285,8 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 					// Strings are converted to icons. We don't use setText so that the button size can be controlled
 					// regardless of the layout manager.
 
-					icon = GeoGebraIcon.createStringIcon((String)data[getSelectedIndex()], (Font) app.getPlainFontCommon(), 
-							false, false, true, iconSize, Color.BLACK, null);
+					icon = GeoGebraIcon.createStringIcon((String)data[getSelectedIndex()], (GFontW) app.getPlainFontCommon(), 
+							false, false, true, iconSize, GColorW.BLACK, null);
 
 					break;
 
@@ -315,9 +315,9 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 
 		if(iconSize == null) 
 			if(icon != null)
-				iconSize = new Dimension(icon.getWidth(), icon.getHeight());
+				iconSize = new GDimensionW(icon.getWidth(), icon.getHeight());
 			else
-				iconSize = new Dimension(1,1);
+				iconSize = new GDimensionW(1,1);
 
 		if(icon == null){
 			//icon = GeoGebraIcon.createEmptyIcon(1, iconSize.height);
@@ -361,7 +361,7 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 		if(mySlider != null) {
 			   setSliderValue(mySlider.getValue());
 		}
-		((EuclidianStyleBar)app.getEuclidianView1().getStyleBar()).fireActionPerformed(this);
+		((EuclidianStyleBarW)app.getEuclidianView1().getStyleBar()).fireActionPerformed(this);
 		fireActionPerformed();
 		updateGUI();
 	}
@@ -424,7 +424,7 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 	
 	private HandlerRegistration actionListener;
 	
-	public void removeActionListener(EuclidianStyleBar euclidianStyleBar) {
+	public void removeActionListener(EuclidianStyleBarW euclidianStyleBar) {
 		if (actionListener != null) {
 			actionListener.removeHandler();
 		}

@@ -16,7 +16,7 @@ the Free Software Foundation.
 
 package geogebra.common.euclidian;
 
-import geogebra.common.awt.Line2D;
+import geogebra.common.awt.GLine2D;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -35,7 +35,7 @@ public class DrawSlider extends Drawable {
 
 	private double[] coordsRW = new double[2];
 	private double[] coordsScreen = new double[2];
-	private Line2D line = AwtFactory.prototype.newLine2D();
+	private GLine2D line = AwtFactory.prototype.newLine2D();
 	private GeoPoint2 geoPoint;
 	private DrawPoint drawPoint;
 
@@ -45,7 +45,7 @@ public class DrawSlider extends Drawable {
 	 * @param view view
 	 * @param number slider
 	 */
-	public DrawSlider(AbstractEuclidianView view, GeoNumeric number) {
+	public DrawSlider(EuclidianView view, GeoNumeric number) {
 		this.view = view;
 		hitThreshold = view.getCapturingThreshold();
 		this.number = number;

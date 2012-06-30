@@ -1,23 +1,23 @@
 package geogebra.awt;
 
-import geogebra.common.awt.AffineTransform;
-import geogebra.common.awt.AttributedCharacterIterator;
-import geogebra.common.awt.BasicStroke;
-import geogebra.common.awt.BufferedImage;
-import geogebra.common.awt.BufferedImageOp;
-import geogebra.common.awt.Color;
-import geogebra.common.awt.Composite;
-import geogebra.common.awt.Font;
-import geogebra.common.awt.FontRenderContext;
-import geogebra.common.awt.GlyphVector;
-import geogebra.common.awt.GraphicsConfiguration;
-import geogebra.common.awt.Image;
-import geogebra.common.awt.ImageObserver;
-import geogebra.common.awt.Key;
-import geogebra.common.awt.Paint;
-import geogebra.common.awt.RenderableImage;
-import geogebra.common.awt.RenderedImage;
-import geogebra.common.awt.RenderingHints;
+import geogebra.common.awt.GAffineTransform;
+import geogebra.common.awt.GAttributedCharacterIterator;
+import geogebra.common.awt.GBasicStroke;
+import geogebra.common.awt.GBufferedImage;
+import geogebra.common.awt.GBufferedImageOp;
+import geogebra.common.awt.GColor;
+import geogebra.common.awt.GComposite;
+import geogebra.common.awt.GFont;
+import geogebra.common.awt.GFontRenderContext;
+import geogebra.common.awt.GGlyphVector;
+import geogebra.common.awt.GGraphicsConfiguration;
+import geogebra.common.awt.GImage;
+import geogebra.common.awt.GImageObserver;
+import geogebra.common.awt.GKey;
+import geogebra.common.awt.GPaint;
+import geogebra.common.awt.GRenderableImage;
+import geogebra.common.awt.GRenderedImage;
+import geogebra.common.awt.GRenderingHints;
 import geogebra.common.euclidian.GeneralPathClipped;
 
 import java.util.Map;
@@ -47,19 +47,19 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D{
 	}
 
 	@Override
-	public boolean drawImage(Image img, AffineTransform xform, ImageObserver obs) {
+	public boolean drawImage(GImage img, GAffineTransform xform, GImageObserver obs) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public void drawRenderedImage(RenderedImage img, AffineTransform xform) {
+	public void drawRenderedImage(GRenderedImage img, GAffineTransform xform) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void drawRenderableImage(RenderableImage img, AffineTransform xform) {
+	public void drawRenderableImage(GRenderableImage img, GAffineTransform xform) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -77,54 +77,54 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D{
 	}
 
 	@Override
-	public void drawString(AttributedCharacterIterator iterator, int x, int y) {
+	public void drawString(GAttributedCharacterIterator iterator, int x, int y) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void drawString(AttributedCharacterIterator iterator, float x,
+	public void drawString(GAttributedCharacterIterator iterator, float x,
 			float y) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void drawGlyphVector(GlyphVector g, float x, float y) {
+	public void drawGlyphVector(GGlyphVector g, float x, float y) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public GraphicsConfiguration getDeviceConfiguration() {
+	public GGraphicsConfiguration getDeviceConfiguration() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void setComposite(Composite comp) {
-		impl.setComposite(geogebra.awt.Composite.getAwtComposite(comp));
+	public void setComposite(GComposite comp) {
+		impl.setComposite(geogebra.awt.GCompositeD.getAwtComposite(comp));
 	}
 
 	@Override
-	public void setPaint(Paint paint) {
-		if(paint instanceof geogebra.awt.GradientPaint){
-			impl.setPaint(((geogebra.awt.GradientPaint)paint).getPaint());
+	public void setPaint(GPaint paint) {
+		if(paint instanceof geogebra.awt.GGradientPaintD){
+			impl.setPaint(((geogebra.awt.GGradientPaintD)paint).getPaint());
 			return;
-		}else if(paint instanceof Color){
-			impl.setPaint(geogebra.awt.Color.getAwtColor((Color)paint));
+		}else if(paint instanceof GColor){
+			impl.setPaint(geogebra.awt.GColorD.getAwtColor((GColor)paint));
 		}
 		
 	}
 
 	@Override
-	public void setRenderingHint(Key hintKey, Object hintValue) {
+	public void setRenderingHint(GKey hintKey, Object hintValue) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public Object getRenderingHint(Key hintKey) {
+	public Object getRenderingHint(GKey hintKey) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -142,7 +142,7 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D{
 	}
 
 	@Override
-	public RenderingHints getRenderingHints() {
+	public GRenderingHints getRenderingHints() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -184,62 +184,62 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D{
 	}
 
 	@Override
-	public void transform(AffineTransform Tx) {
-		impl.transform(geogebra.awt.AffineTransform.getAwtAffineTransform(Tx));
+	public void transform(GAffineTransform Tx) {
+		impl.transform(geogebra.awt.GAffineTransformD.getAwtAffineTransform(Tx));
 		
 	}
 
 	@Override
-	public void setTransform(AffineTransform Tx) {
-		impl.setTransform(geogebra.awt.AffineTransform.getAwtAffineTransform(Tx));
+	public void setTransform(GAffineTransform Tx) {
+		impl.setTransform(geogebra.awt.GAffineTransformD.getAwtAffineTransform(Tx));
 		
 	}
 
 	@Override
-	public AffineTransform getTransform() {
-		return new geogebra.awt.AffineTransform(impl.getTransform());
+	public GAffineTransform getTransform() {
+		return new geogebra.awt.GAffineTransformD(impl.getTransform());
 	}
 
 	@Override
-	public Paint getPaint() {
+	public GPaint getPaint() {
 		java.awt.Paint paint = impl.getPaint();
 		if (paint instanceof java.awt.Color)
-			return new geogebra.awt.Color((java.awt.Color)paint);
+			return new geogebra.awt.GColorD((java.awt.Color)paint);
 		else if (paint instanceof java.awt.GradientPaint)
-			return new geogebra.awt.GradientPaint((java.awt.GradientPaint)paint);
+			return new geogebra.awt.GGradientPaintD((java.awt.GradientPaint)paint);
 
 		// other types of paint are currently not used in setPaint
 		return null;
 	}
 
 	@Override
-	public Composite getComposite() {
-		return new geogebra.awt.Composite(impl.getComposite());
+	public GComposite getComposite() {
+		return new geogebra.awt.GCompositeD(impl.getComposite());
 	}
 
 	@Override
-	public void setBackground(Color color) {
-		impl.setBackground(geogebra.awt.Color.getAwtColor(color));
+	public void setBackground(GColor color) {
+		impl.setBackground(geogebra.awt.GColorD.getAwtColor(color));
 	}
 
 	@Override
-	public Color getBackground() {
-		return new geogebra.awt.Color(impl.getBackground());
+	public GColor getBackground() {
+		return new geogebra.awt.GColorD(impl.getBackground());
 	}
 
 	@Override
-	public FontRenderContext getFontRenderContext() {
-		return new geogebra.awt.FontRenderContext(impl.getFontRenderContext());
+	public GFontRenderContext getFontRenderContext() {
+		return new geogebra.awt.GFontRenderContextD(impl.getFontRenderContext());
 	}
 
 	@Override
-	public Color getColor() {
-		return new geogebra.awt.Color(impl.getColor());
+	public GColor getColor() {
+		return new geogebra.awt.GColorD(impl.getColor());
 	}
 
 	@Override
-	public Font getFont() {
-		return new geogebra.awt.Font(impl.getFont());
+	public GFont getFont() {
+		return new geogebra.awt.GFontD(impl.getFont());
 	}
 
 	
@@ -249,43 +249,43 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D{
 	}
 
 	@Override
-	public void setFont(Font font) {
-		impl.setFont(geogebra.awt.Font.getAwtFont(font));
+	public void setFont(GFont font) {
+		impl.setFont(geogebra.awt.GFontD.getAwtFont(font));
 		
 	}
 
 	@Override
-	public void setStroke(BasicStroke s) {
-		impl.setStroke(geogebra.awt.BasicStroke.getAwtStroke(s));
+	public void setStroke(GBasicStroke s) {
+		impl.setStroke(geogebra.awt.GBasicStrokeD.getAwtStroke(s));
 		
 	}
 
 	@Override
-	public void setColor(Color selColor) {
-		impl.setColor(geogebra.awt.Color.getAwtColor(selColor));
+	public void setColor(GColor selColor) {
+		impl.setColor(geogebra.awt.GColorD.getAwtColor(selColor));
 		
 	}
 
 	@Override
-	public BasicStroke getStroke() {
-		return (geogebra.awt.BasicStroke) impl.getStroke();
+	public GBasicStroke getStroke() {
+		return (geogebra.awt.GBasicStrokeD) impl.getStroke();
 	}
 
 	@Override
-	public void clip(geogebra.common.awt.Shape shape) {
-		impl.clip(((geogebra.awt.Shape)shape).getAwtShape());
+	public void clip(geogebra.common.awt.GShape shape) {
+		impl.clip(((geogebra.awt.GShapeD)shape).getAwtShape());
 	}
 
 	@Override
-	public void drawImage(BufferedImage img, BufferedImageOp op, int x,
+	public void drawImage(GBufferedImage img, GBufferedImageOp op, int x,
 			int y) {
-		impl.drawImage(geogebra.awt.BufferedImage.getAwtBufferedImage(img), (geogebra.awt.BufferedImageOp) op, x, y);
+		impl.drawImage(geogebra.awt.GBufferedImageD.getAwtBufferedImage(img), (geogebra.awt.GBufferedImageOpD) op, x, y);
 		
 	}
 	
 	@Override
-	public void drawImage(geogebra.common.awt.Image img, int x, int y) {
-		impl.drawImage(GenericImage.getAwtImage(img), x, y, null);
+	public void drawImage(geogebra.common.awt.GImage img, int x, int y) {
+		impl.drawImage(GGenericImageD.getAwtImage(img), x, y, null);
 		
 	}
 
@@ -300,35 +300,35 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D{
 	}
 
 	@Override
-	public void setClip(geogebra.common.awt.Shape shape) {
+	public void setClip(geogebra.common.awt.GShape shape) {
 		if (shape == null){
 			impl.setClip(null);
-		} else if (shape instanceof geogebra.awt.Shape){
-			impl.setClip(geogebra.awt.GenericShape.getAwtShape(shape));
+		} else if (shape instanceof geogebra.awt.GShapeD){
+			impl.setClip(geogebra.awt.GGenericShapeD.getAwtShape(shape));
 		}
 	}
 
 	@Override
-	public void draw(geogebra.common.awt.Shape s) {
-		if (s instanceof geogebra.awt.Shape)
-			impl.draw(((geogebra.awt.Shape)s).getAwtShape());
+	public void draw(geogebra.common.awt.GShape s) {
+		if (s instanceof geogebra.awt.GShapeD)
+			impl.draw(((geogebra.awt.GShapeD)s).getAwtShape());
 		if(s instanceof GeneralPathClipped)
-			impl.draw(geogebra.awt.GeneralPath.getAwtGeneralPath(((GeneralPathClipped)s).getGeneralPath()));
+			impl.draw(geogebra.awt.GGeneralPathD.getAwtGeneralPath(((GeneralPathClipped)s).getGeneralPath()));
 
 		
 	}
 
 	@Override
-	public void fill(geogebra.common.awt.Shape s) {
-		if (s instanceof geogebra.awt.Shape)
-			impl.fill(((geogebra.awt.Shape)s).getAwtShape());
+	public void fill(geogebra.common.awt.GShape s) {
+		if (s instanceof geogebra.awt.GShapeD)
+			impl.fill(((geogebra.awt.GShapeD)s).getAwtShape());
 		if(s instanceof GeneralPathClipped)
-			impl.fill(geogebra.awt.GeneralPath.getAwtGeneralPath(((GeneralPathClipped)s).getGeneralPath()));
+			impl.fill(geogebra.awt.GGeneralPathD.getAwtGeneralPath(((GeneralPathClipped)s).getGeneralPath()));
 	}
 
 	@Override
-	public geogebra.common.awt.Shape getClip() {
-		return new geogebra.awt.GenericShape(impl.getClip());
+	public geogebra.common.awt.GShape getClip() {
+		return new geogebra.awt.GGenericShapeD(impl.getClip());
 	}
 
 	@Override

@@ -3,7 +3,7 @@ package geogebra.gui.util;
 import geogebra.common.euclidian.DrawText;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.plugin.EuclidianStyleConstants;
-import geogebra.euclidian.EuclidianStatic;
+import geogebra.euclidian.EuclidianStaticD;
 import geogebra.main.Application;
 import geogebra.util.ImageManager;
 
@@ -413,7 +413,7 @@ public class GeoGebraIcon {
 
 		// draw dashed line
 		g2.setPaint(fgColor);
-		g2.setStroke(geogebra.awt.BasicStroke.getAwtStroke(EuclidianStatic.getStroke(thickness, dashStyle)));
+		g2.setStroke(geogebra.awt.GBasicStrokeD.getAwtStroke(EuclidianStaticD.getStroke(thickness, dashStyle)));
 		int mid = h / 2;
 		g2.drawLine(4, mid, w - 4, mid);
 
@@ -586,7 +586,7 @@ public class GeoGebraIcon {
 		private Ellipse2D.Double circle = new Ellipse2D.Double();
 		private Line2D.Double line1, line2, line3, line4;
 		private GeneralPath gp = null;
-		private BasicStroke borderStroke = EuclidianStatic.getDefaultStrokeAwt();
+		private BasicStroke borderStroke = EuclidianStaticD.getDefaultStrokeAwt();
 		private BasicStroke[] crossStrokes = new BasicStroke[10];
 		private int h,w;
 
@@ -847,9 +847,9 @@ public class GeoGebraIcon {
 		GeoText geo = new GeoText(app.getKernel().getConstruction(), latex);
 		geo.setSerifFont(serif);
 		DrawText draw = new DrawText(app.getActiveEuclidianView(), geo);		
-		draw.drawMultilineLaTeX(app.getActiveEuclidianView().getTempGraphics2D(new geogebra.awt.Font(font)),
-				new geogebra.awt.Font(font), new geogebra.awt.Color(fgColor), new geogebra.awt.Color(bgColor));
-		Rectangle d = geogebra.awt.Rectangle.getAWTRectangle(draw.getBounds());
+		draw.drawMultilineLaTeX(app.getActiveEuclidianView().getTempGraphics2D(new geogebra.awt.GFontD(font)),
+				new geogebra.awt.GFontD(font), new geogebra.awt.GColorD(fgColor), new geogebra.awt.GColorD(bgColor));
+		Rectangle d = geogebra.awt.GRectangleD.getAWTRectangle(draw.getBounds());
 		
 		// Now use this size and draw again to get the final image
 		if(d.width == -1 || d.height == -1)
@@ -862,8 +862,8 @@ public class GeoGebraIcon {
 				RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 		g2image.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 				RenderingHints.VALUE_ANTIALIAS_ON);
-		draw.drawMultilineLaTeX(new geogebra.awt.Graphics2D(g2image), new geogebra.awt.Font(font), 
-				new geogebra.awt.Color(fgColor), new geogebra.awt.Color(bgColor));
+		draw.drawMultilineLaTeX(new geogebra.awt.Graphics2D(g2image), new geogebra.awt.GFontD(font), 
+				new geogebra.awt.GColorD(fgColor), new geogebra.awt.GColorD(bgColor));
 
 		latexIcon.setImage(image);
 	}

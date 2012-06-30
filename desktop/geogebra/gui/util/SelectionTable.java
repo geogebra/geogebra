@@ -386,7 +386,7 @@ public class SelectionTable extends JTable {
 
 			//TODO --- selection color should be centralized, not from spreadsheet
 
-			selectionColor =  geogebra.awt.Color.getAwtColor(GeoGebraColorConstants.TABLE_SELECTED_BACKGROUND_COLOR) ;
+			selectionColor =  geogebra.awt.GColorD.getAwtColor(GeoGebraColorConstants.TABLE_SELECTED_BACKGROUND_COLOR) ;
 			rollOverColor =  Color.LIGHT_GRAY;
 
 			paddingBorder = BorderFactory.createEmptyBorder(0,5,0,5);

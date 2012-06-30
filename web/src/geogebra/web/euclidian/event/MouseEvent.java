@@ -1,9 +1,9 @@
 package geogebra.web.euclidian.event;
 
-import geogebra.common.awt.Point;
+import geogebra.common.awt.GPoint;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.main.AbstractApplication;
-import geogebra.web.euclidian.EuclidianController;
+import geogebra.web.euclidian.EuclidianControllerW;
 
 import java.util.LinkedList;
 
@@ -48,9 +48,9 @@ public class MouseEvent extends AbstractEvent {
 	}
 
 	@Override
-	public Point getPoint() {
+	public GPoint getPoint() {
 
-		return new Point(event.getClientX() - off.getXoffset(), event.getClientY() - off.getYoffset());
+		return new GPoint(event.getClientX() - off.getXoffset(), event.getClientY() - off.getYoffset());
 	}
 
 	@Override

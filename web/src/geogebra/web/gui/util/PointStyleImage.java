@@ -2,13 +2,13 @@ package geogebra.web.gui.util;
 
 import com.google.gwt.canvas.client.Canvas;
 
-import geogebra.common.awt.Color;
-import geogebra.common.awt.RenderingHints;
+import geogebra.common.awt.GColor;
+import geogebra.common.awt.GRenderingHints;
 import geogebra.common.plugin.EuclidianStyleConstants;
-import geogebra.web.awt.BasicStroke;
-import geogebra.web.awt.Dimension;
+import geogebra.web.awt.GBasicStrokeW;
+import geogebra.web.awt.GDimensionW;
 import geogebra.web.awt.Graphics2D;
-import geogebra.web.euclidian.EuclidianStatic;
+import geogebra.web.euclidian.EuclidianStaticW;
 import geogebra.web.openjdk.awt.geom.Ellipse2D;
 import geogebra.web.openjdk.awt.geom.GeneralPath;
 import geogebra.web.openjdk.awt.geom.Line2D;
@@ -22,13 +22,13 @@ public class PointStyleImage {
 	private Ellipse2D.Double circle = new Ellipse2D.Double();
 	private Line2D.Double line1, line2, line3, line4;
 	private GeneralPath gp = null;
-	private BasicStroke borderStroke = (BasicStroke) EuclidianStatic.getDefaultStroke();
-	private BasicStroke[] crossStrokes = new BasicStroke[10];
+	private GBasicStrokeW borderStroke = (GBasicStrokeW) EuclidianStaticW.getDefaultStroke();
+	private GBasicStrokeW[] crossStrokes = new GBasicStrokeW[10];
 	private int h,w;
 	Canvas c = null;
 
-	public PointStyleImage(Dimension d, int pointStyle, int pointSize,
-            Color fgColor, Color bgColor) {
+	public PointStyleImage(GDimensionW d, int pointStyle, int pointSize,
+            GColor fgColor, GColor bgColor) {
 		this.h = d.getHeight();
 		this.w = d.getWidth();
 		this.pointStyle = pointStyle;
@@ -42,11 +42,11 @@ public class PointStyleImage {
 		drawPointStyle(fgColor, bgColor);
     }
 	
-	public void drawPointStyle(Color fgColor, Color bgColor) {
+	public void drawPointStyle(GColor fgColor, GColor bgColor) {
 		
 		Graphics2D g2 = new Graphics2D(c);
-		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-				RenderingHints.VALUE_ANTIALIAS_ON);
+		g2.setRenderingHint(GRenderingHints.KEY_ANTIALIASING,
+				GRenderingHints.VALUE_ANTIALIAS_ON);
 
 		// set background
 		if (bgColor != null) 
@@ -136,7 +136,7 @@ public class PointStyleImage {
 			gp.closePath();
 
 			if (crossStrokes[pointSize] == null)
-				crossStrokes[pointSize] = new BasicStroke(pointSize / 2f);
+				crossStrokes[pointSize] = new GBasicStrokeW(pointSize / 2f);
 			break;
 
 		case EuclidianStyleConstants.POINT_STYLE_TRIANGLE_SOUTH:
@@ -160,7 +160,7 @@ public class PointStyleImage {
 			gp.closePath();
 
 			if (crossStrokes[pointSize] == null)
-				crossStrokes[pointSize] = new BasicStroke(pointSize / 2f);
+				crossStrokes[pointSize] = new GBasicStrokeW(pointSize / 2f);
 			break;
 
 		case EuclidianStyleConstants.POINT_STYLE_TRIANGLE_EAST:
@@ -184,7 +184,7 @@ public class PointStyleImage {
 			gp.closePath();
 
 			if (crossStrokes[pointSize] == null)
-				crossStrokes[pointSize] = new BasicStroke(pointSize / 2f);
+				crossStrokes[pointSize] = new GBasicStrokeW(pointSize / 2f);
 			break;
 
 		case EuclidianStyleConstants.POINT_STYLE_EMPTY_DIAMOND:
@@ -205,7 +205,7 @@ public class PointStyleImage {
 			line4.setLine(xR, (yB + yUL) / 2, (xUL + xR) / 2, yUL);
 
 			if (crossStrokes[pointSize] == null)
-				crossStrokes[pointSize] = new BasicStroke(pointSize / 2f);
+				crossStrokes[pointSize] = new GBasicStrokeW(pointSize / 2f);
 			break;
 
 		case EuclidianStyleConstants.POINT_STYLE_PLUS:
@@ -220,7 +220,7 @@ public class PointStyleImage {
 			line2.setLine(xUL, (yB + yUL) / 2, xR, (yB + yUL) / 2);
 
 			if (crossStrokes[pointSize] == null)
-				crossStrokes[pointSize] = new BasicStroke(pointSize / 2f);
+				crossStrokes[pointSize] = new GBasicStrokeW(pointSize / 2f);
 			break;
 
 		case EuclidianStyleConstants.POINT_STYLE_CROSS:
@@ -235,12 +235,12 @@ public class PointStyleImage {
 			line2.setLine(xUL, yB, xR, yUL);
 
 			if (crossStrokes[pointSize] == null)
-				crossStrokes[pointSize] = new BasicStroke(pointSize / 2f);
+				crossStrokes[pointSize] = new GBasicStrokeW(pointSize / 2f);
 			break;
 
 		case EuclidianStyleConstants.POINT_STYLE_CIRCLE:
 			if (crossStrokes[pointSize] == null)
-				crossStrokes[pointSize] = new BasicStroke(pointSize / 2f);
+				crossStrokes[pointSize] = new GBasicStrokeW(pointSize / 2f);
 			break;
 		}
 		// for circle points

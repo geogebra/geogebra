@@ -12,7 +12,7 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.algos;
 
-import geogebra.common.awt.Point;
+import geogebra.common.awt.GPoint;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
@@ -86,9 +86,9 @@ public class AlgoCellRange extends AlgoElement {
 		String startLabel = startCell.getLabel(StringTemplate.defaultTemplate);
 		String endLabel = endCell.getLabel(StringTemplate.defaultTemplate);
 
-		Point startCoords = GeoElementSpreadsheet
+		GPoint startCoords = GeoElementSpreadsheet
 				.getSpreadsheetCoordsForLabel(startLabel);
-		Point endCoords = GeoElementSpreadsheet
+		GPoint endCoords = GeoElementSpreadsheet
 				.getSpreadsheetCoordsForLabel(endLabel);
 		toStringOutput = startLabel + ":" + endLabel;
 
@@ -124,8 +124,8 @@ public class AlgoCellRange extends AlgoElement {
 	 * @param startCoords
 	 * @param endCoords
 	 */
-	private ArrayList<GeoElement> initCellRangeList(Point startCoords,
-			Point endCoords) {
+	private ArrayList<GeoElement> initCellRangeList(GPoint startCoords,
+			GPoint endCoords) {
 		ArrayList<GeoElement> listItems = new ArrayList<GeoElement>();
 
 		// check if we have valid spreadsheet coordinates
@@ -186,15 +186,15 @@ public class AlgoCellRange extends AlgoElement {
 		return toStringOutput;
 	}
 
-	public Point[] getRectangle() {
+	public GPoint[] getRectangle() {
 		String startLabel = startCell.getLabel(StringTemplate.defaultTemplate);
 		String endLabel = endCell.getLabel(StringTemplate.defaultTemplate);
-		Point startCoords = GeoElementSpreadsheet
+		GPoint startCoords = GeoElementSpreadsheet
 				.getSpreadsheetCoordsForLabel(startLabel);
-		Point endCoords = GeoElementSpreadsheet
+		GPoint endCoords = GeoElementSpreadsheet
 				.getSpreadsheetCoordsForLabel(endLabel);
 
-		Point[] ret = { startCoords, endCoords };
+		GPoint[] ret = { startCoords, endCoords };
 		return ret;
 	}
 

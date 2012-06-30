@@ -1,8 +1,8 @@
 package geogebra.common.main.settings;
 
 
-import geogebra.common.awt.Dimension;
-import geogebra.common.awt.Point;
+import geogebra.common.awt.GDimension;
+import geogebra.common.awt.GPoint;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -44,11 +44,11 @@ public class SpreadsheetSettings extends AbstractSettings {
 	private String cellFormat;
 	
 	// initial selection
-	private Point scrollPosition = new Point(0,0);
-	private Point selectedCell = new Point(0,0);
+	private GPoint scrollPosition = new GPoint(0,0);
+	private GPoint selectedCell = new GPoint(0,0);
 	
 	// preferred size
-	private Dimension preferredSize;
+	private GDimension preferredSize;
 	
 	
 	//============================================
@@ -323,14 +323,14 @@ public class SpreadsheetSettings extends AbstractSettings {
 	/**
 	 * @return the scrollPosition
 	 */
-	public Point scrollPosition() {
+	public GPoint scrollPosition() {
 		return scrollPosition;
 	}
 
 	/**
 	 * @param scrollPosition the scrollPosition to set
 	 */
-	public void setScrollPosition(Point scrollPosition) {
+	public void setScrollPosition(GPoint scrollPosition) {
 		if(this.scrollPosition == null || !this.scrollPosition.equals(scrollPosition)) {
 			this.scrollPosition = scrollPosition;
 			settingChanged();
@@ -340,14 +340,14 @@ public class SpreadsheetSettings extends AbstractSettings {
 	/**
 	 * @return the selectedCell
 	 */
-	public Point selectedCell() {
+	public GPoint selectedCell() {
 		return selectedCell;
 	}
 
 	/**
 	 * @param selectedCell the selectedCell to set
 	 */
-	public void setSelectedCell(Point selectedCell) {
+	public void setSelectedCell(GPoint selectedCell) {
 		if(this.selectedCell == null || !this.selectedCell.equals(selectedCell)) {
 			this.selectedCell = selectedCell;
 			settingChanged();
@@ -361,14 +361,14 @@ public class SpreadsheetSettings extends AbstractSettings {
 	/**
 	 * @return the preferredSize
 	 */
-	public Dimension preferredSize() {
+	public GDimension preferredSize() {
 		return preferredSize;
 	}
 
 	/**
 	 * @param preferredSize the preferredSize to set
 	 */
-	public void setPreferredSize(Dimension preferredSize) {
+	public void setPreferredSize(GDimension preferredSize) {
 		if(this.preferredSize == null || !this.preferredSize.equals(preferredSize)) {
 			this.preferredSize = preferredSize;
 			settingChanged();

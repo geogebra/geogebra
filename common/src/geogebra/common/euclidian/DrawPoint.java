@@ -51,16 +51,16 @@ public final class DrawPoint extends Drawable {
 	private int diameter, hightlightDiameter, selDiameter, pointSize;
 	private boolean isVisible, labelVisible;
 	// for dot and selection
-	private geogebra.common.awt.Ellipse2DDouble circle = geogebra.common.factories.AwtFactory.prototype.newEllipse2DDouble();
-	private geogebra.common.awt.Ellipse2DDouble circleHighlight = geogebra.common.factories.AwtFactory.prototype.newEllipse2DDouble();
-	private geogebra.common.awt.Ellipse2DDouble circleSel = geogebra.common.factories.AwtFactory.prototype.newEllipse2DDouble();
-	private geogebra.common.awt.Line2D line1, line2, line3, line4;// for cross
-	private geogebra.common.awt.GeneralPath gp = null;
+	private geogebra.common.awt.GEllipse2DDouble circle = geogebra.common.factories.AwtFactory.prototype.newEllipse2DDouble();
+	private geogebra.common.awt.GEllipse2DDouble circleHighlight = geogebra.common.factories.AwtFactory.prototype.newEllipse2DDouble();
+	private geogebra.common.awt.GEllipse2DDouble circleSel = geogebra.common.factories.AwtFactory.prototype.newEllipse2DDouble();
+	private geogebra.common.awt.GLine2D line1, line2, line3, line4;// for cross
+	private geogebra.common.awt.GGeneralPath gp = null;
 
-	private static geogebra.common.awt.BasicStroke borderStroke = EuclidianStatic
+	private static geogebra.common.awt.GBasicStroke borderStroke = EuclidianStatic
 			.getDefaultStroke();
-	private static geogebra.common.awt.BasicStroke[] fillStrokes = new geogebra.common.awt.BasicStroke[10];
-	private static geogebra.common.awt.BasicStroke[] emptyStrokes = new geogebra.common.awt.BasicStroke[10];
+	private static geogebra.common.awt.GBasicStroke[] fillStrokes = new geogebra.common.awt.GBasicStroke[10];
+	private static geogebra.common.awt.GBasicStroke[] emptyStrokes = new geogebra.common.awt.GBasicStroke[10];
 
 	private boolean isPreview;
 
@@ -70,7 +70,7 @@ public final class DrawPoint extends Drawable {
 	 * @param view view
 	 * @param P point to be drawn
 	 */
-	public DrawPoint(AbstractEuclidianView view, GeoPointND P) {
+	public DrawPoint(EuclidianView view, GeoPointND P) {
 		this(view, P, false);
 	}
 
@@ -81,7 +81,7 @@ public final class DrawPoint extends Drawable {
 	 * @param P point to be drawn
 	 * @param isPreview true iff preview
 	 */
-	public DrawPoint(AbstractEuclidianView view, GeoPointND P, boolean isPreview) {
+	public DrawPoint(EuclidianView view, GeoPointND P, boolean isPreview) {
 		this.view = view;
 		this.P = P;
 		geo = (GeoElement) P;
@@ -353,7 +353,7 @@ public final class DrawPoint extends Drawable {
 
 			view.toScreenCoords(coords);
 
-			geogebra.common.awt.Ellipse2DFloat circleClip = 
+			geogebra.common.awt.GEllipse2DFloat circleClip = 
 					geogebra.common.factories.AwtFactory.prototype.newEllipse2DFloat((int) coords[0] - 30,
 					(int) coords[1] - 30, 60, 60);
 			g2.clip(circleClip);
@@ -437,7 +437,7 @@ public final class DrawPoint extends Drawable {
 				g2.fill(circle);
 
 				// black stroke
-				g2.setPaint(geogebra.common.awt.Color.black);
+				g2.setPaint(geogebra.common.awt.GColor.black);
 				g2.setStroke(borderStroke);
 				g2.draw(circle);
 			}
@@ -511,7 +511,7 @@ public final class DrawPoint extends Drawable {
 	 * CAP_BUTT, JOIN_MITER behaves differently on JRE & GWT
 	 * see #1699
 	 */
-	final private static geogebra.common.awt.BasicStroke getEmptyStroke(int pointSize) {
+	final private static geogebra.common.awt.GBasicStroke getEmptyStroke(int pointSize) {
 		if (pointSize > 9)
 			return AwtFactory.prototype.newBasicStrokeJoinMitre(pointSize / 2f);
 
@@ -526,7 +526,7 @@ public final class DrawPoint extends Drawable {
 	 * CAP_BUTT, JOIN_MITER behaves differently on JRE & GWT
 	 * see #1699
 	 */
-	final private static geogebra.common.awt.BasicStroke getFillStroke(int pointSize) {
+	final private static geogebra.common.awt.GBasicStroke getFillStroke(int pointSize) {
 
 		if (pointSize > 9)
 			return AwtFactory.prototype.newBasicStroke(pointSize / 2f);

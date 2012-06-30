@@ -12,7 +12,7 @@ the Free Software Foundation.
 
 package geogebra.gui.view.functioninspector;
 
-import geogebra.common.euclidian.AbstractEuclidianView;
+import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Path;
@@ -112,7 +112,7 @@ KeyListener, ActionListener, SpecialNumberFormatInterface {
 	private static final Color DISPLAY_GEO2_COLOR = Color.RED;
 
 	private static final Color EVEN_ROW_COLOR = new Color(241, 245, 250);
-	private static final Color TABLE_GRID_COLOR = geogebra.awt.Color.getAwtColor(GeoGebraColorConstants.TABLE_GRID_COLOR);
+	private static final Color TABLE_GRID_COLOR = geogebra.awt.GColorD.getAwtColor(GeoGebraColorConstants.TABLE_GRID_COLOR);
 
 	private static final int minRows = 12;
 
@@ -126,7 +126,7 @@ KeyListener, ActionListener, SpecialNumberFormatInterface {
 	// ggb fields
 	private Kernel kernel;
 	private Construction cons;
-	private AbstractEuclidianView activeEV;
+	private EuclidianView activeEV;
 
 	// table fields
 	private InspectorTable tableXY, tableInterval;
@@ -1222,7 +1222,7 @@ KeyListener, ActionListener, SpecialNumberFormatInterface {
 		AlgoPointOnPath pAlgo = new AlgoPointOnPath(cons, f, (activeEV.getXmin() + activeEV.getXmax()) / 2, 0);
 		cons.removeFromConstructionList(pAlgo);
 		testPoint = (GeoPoint2) pAlgo.getGeoElements()[0];
-		testPoint.setObjColor(new geogebra.awt.Color(DISPLAY_GEO_COLOR));
+		testPoint.setObjColor(new geogebra.awt.GColorD(DISPLAY_GEO_COLOR));
 		testPoint.setPointSize(4);
 		testPoint.setLayer(f.getLayer()+1);
 		pointTabGeoList.add(testPoint);
@@ -1239,7 +1239,7 @@ KeyListener, ActionListener, SpecialNumberFormatInterface {
 		AlgoJoinPointsSegment seg1 = new AlgoJoinPointsSegment(cons, testPoint, (GeoPoint2)pointAlgo.getGeoElements()[0], null);
 		cons.removeFromConstructionList(seg1);	
 		xSegment = seg1.getGeoElements()[0];
-		xSegment.setObjColor(new geogebra.awt.Color(DISPLAY_GEO_COLOR));
+		xSegment.setObjColor(new geogebra.awt.GColorD(DISPLAY_GEO_COLOR));
 		xSegment.setLineThickness(3);
 		xSegment.setLineType(EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT);
 		xSegment.setEuclidianVisible(true);
@@ -1259,7 +1259,7 @@ KeyListener, ActionListener, SpecialNumberFormatInterface {
 		cons.removeFromConstructionList(seg2);
 
 		ySegment = seg2.getGeoElements()[0];
-		ySegment.setObjColor(new geogebra.awt.Color(DISPLAY_GEO_COLOR));
+		ySegment.setObjColor(new geogebra.awt.GColorD(DISPLAY_GEO_COLOR));
 		ySegment.setLineThickness(3);
 		ySegment.setLineType(EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT);
 		ySegment.setEuclidianVisible(true);
@@ -1271,7 +1271,7 @@ KeyListener, ActionListener, SpecialNumberFormatInterface {
 		AlgoTangentFunctionPoint tangent = new AlgoTangentFunctionPoint(cons, testPoint, f);
 		cons.removeFromConstructionList(tangent);
 		tangentLine = tangent.getGeoElements()[0];
-		tangentLine.setObjColor(new geogebra.awt.Color(DISPLAY_GEO_COLOR));
+		tangentLine.setObjColor(new geogebra.awt.GColorD(DISPLAY_GEO_COLOR));
 		tangentLine.setEuclidianVisible(false);
 		pointTabGeoList.add(tangentLine);
 
@@ -1280,7 +1280,7 @@ KeyListener, ActionListener, SpecialNumberFormatInterface {
 		AlgoOsculatingCircle oc = new AlgoOsculatingCircle(cons, testPoint, f);
 		cons.removeFromConstructionList(oc);
 		oscCircle = oc.getGeoElements()[0];
-		oscCircle.setObjColor(new geogebra.awt.Color(DISPLAY_GEO_COLOR));
+		oscCircle.setObjColor(new geogebra.awt.GColorD(DISPLAY_GEO_COLOR));
 		oscCircle.setEuclidianVisible(false);
 		pointTabGeoList.add(oscCircle);
 
@@ -1322,7 +1322,7 @@ KeyListener, ActionListener, SpecialNumberFormatInterface {
 		lowPoint = (GeoPoint2) pxAlgo.getGeoElements()[0];
 		lowPoint.setEuclidianVisible(false);
 		lowPoint.setPointSize(4);
-		lowPoint.setObjColor(new geogebra.awt.Color(DISPLAY_GEO_COLOR));
+		lowPoint.setObjColor(new geogebra.awt.GColorD(DISPLAY_GEO_COLOR));
 		lowPoint.setLayer(f.getLayer()+1);
 		intervalTabGeoList.add(lowPoint);
 
@@ -1332,7 +1332,7 @@ KeyListener, ActionListener, SpecialNumberFormatInterface {
 		highPoint = (GeoPoint2) pyAlgo.getGeoElements()[0];
 		highPoint.setEuclidianVisible(false);
 		highPoint.setPointSize(4);
-		highPoint.setObjColor(new geogebra.awt.Color(DISPLAY_GEO_COLOR));
+		highPoint.setObjColor(new geogebra.awt.GColorD(DISPLAY_GEO_COLOR));
 		highPoint.setLayer(f.getLayer()+1);
 		intervalTabGeoList.add(highPoint);
 
@@ -1351,7 +1351,7 @@ KeyListener, ActionListener, SpecialNumberFormatInterface {
 		functionInterval = interval.getGeoElements()[0];
 		functionInterval.setEuclidianVisible(false);
 		functionInterval.setLineThickness(selectedGeo.getLineThickness()+5);
-		functionInterval.setObjColor(new geogebra.awt.Color(DISPLAY_GEO_COLOR));
+		functionInterval.setObjColor(new geogebra.awt.GColorD(DISPLAY_GEO_COLOR));
 		functionInterval.setLayer(f.getLayer()+1);
 		intervalTabGeoList.add(functionInterval);
 
@@ -1359,7 +1359,7 @@ KeyListener, ActionListener, SpecialNumberFormatInterface {
 		cons.removeFromConstructionList(inte);
 		integralGeo = inte.getGeoElements()[0];
 		integralGeo.setEuclidianVisible(false);
-		integralGeo.setObjColor(new geogebra.awt.Color(DISPLAY_GEO_COLOR));
+		integralGeo.setObjColor(new geogebra.awt.GColorD(DISPLAY_GEO_COLOR));
 		intervalTabGeoList.add(integralGeo);
 		
 		ExpressionNode en = new ExpressionNode(kernel, selectedGeo, Operation.ABS, null);
@@ -1383,7 +1383,7 @@ KeyListener, ActionListener, SpecialNumberFormatInterface {
 		minPoint.setEuclidianVisible(false);
 		minPoint.setPointSize(4);
 		minPoint.setPointStyle(EuclidianStyleConstants.POINT_STYLE_FILLED_DIAMOND);
-		minPoint.setObjColor(new geogebra.awt.Color(DISPLAY_GEO_COLOR).darker());
+		minPoint.setObjColor(new geogebra.awt.GColorD(DISPLAY_GEO_COLOR).darker());
 		minPoint.setLayer(f.getLayer()+1);
 		minPoint.setFixed(true);
 		intervalTabGeoList.add(minPoint);
@@ -1392,7 +1392,7 @@ KeyListener, ActionListener, SpecialNumberFormatInterface {
 		maxPoint.setEuclidianVisible(false);
 		maxPoint.setPointSize(4);
 		maxPoint.setPointStyle(EuclidianStyleConstants.POINT_STYLE_FILLED_DIAMOND);
-		maxPoint.setObjColor(new geogebra.awt.Color(DISPLAY_GEO_COLOR).darker());
+		maxPoint.setObjColor(new geogebra.awt.GColorD(DISPLAY_GEO_COLOR).darker());
 		maxPoint.setLayer(f.getLayer()+1);
 		maxPoint.setFixed(true);
 		intervalTabGeoList.add(maxPoint);

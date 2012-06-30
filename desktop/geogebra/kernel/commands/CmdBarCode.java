@@ -13,7 +13,7 @@ import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
-import geogebra.euclidian.EuclidianView;
+import geogebra.euclidian.EuclidianViewD;
 import geogebra.main.Application;
 import geogebra.util.BarcodeFactory;
 
@@ -61,7 +61,7 @@ public class CmdBarCode extends CommandProcessor {
 			// decode barcode from active Graphics View
 			BufferedImage image;
 
-			EuclidianView ev = (EuclidianView) app.getActiveEuclidianView();
+			EuclidianViewD ev = (EuclidianViewD) app.getActiveEuclidianView();
 			if (ev.getSelectedWidth() > 600 || ev.getSelectedHeight() > 600) {
 				// if it's too big, get scaled image
 				image = ((Application) app).getExportImage(600, 600);
@@ -91,7 +91,7 @@ public class CmdBarCode extends CommandProcessor {
 					throw argErr(app, c.getName(), arg[0]);
 				}
 
-				image = geogebra.awt.BufferedImage
+				image = geogebra.awt.GBufferedImageD
 						.getAwtBufferedImage(((GeoImage) arg[0]).getFillImage());
 
 				return decode(image, c);

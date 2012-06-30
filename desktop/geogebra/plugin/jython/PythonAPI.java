@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.TreeSet;
 
-import geogebra.common.awt.Color;
+import geogebra.common.awt.GColor;
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Path;
@@ -299,7 +299,7 @@ public class PythonAPI {
 		/**
 		 * @return the Geo's color
 		 */
-		public Color getColor() {
+		public GColor getColor() {
 			return geo.getObjectColor();
 		}
 		
@@ -307,7 +307,7 @@ public class PythonAPI {
 		 * Set the Geo's color
 		 * @param color the new color
 		 */
-		public void setColor(Color color) {
+		public void setColor(GColor color) {
 			geo.setObjColor(color);
 		}
 		
@@ -344,7 +344,7 @@ public class PythonAPI {
 		/**
 		 * @return the color of the Geo's label
 		 */
-		public Color getLabelColor() {
+		public GColor getLabelColor() {
 			return geo.getLabelColor();
 		}
 
@@ -352,7 +352,7 @@ public class PythonAPI {
 		 * Set the color of the Geo's label
 		 * @param color the new color for the label
 		 */
-		public void setLabelColor(Color color) {
+		public void setLabelColor(GColor color) {
 			geo.setLabelColor(color);
 		}
 		
@@ -375,7 +375,7 @@ public class PythonAPI {
 		/**
 		 * @return the background color for the Geo
 		 */
-		public Color getBackgroundColor() {
+		public GColor getBackgroundColor() {
 			return geo.getBackgroundColor();
 		}
 		
@@ -383,7 +383,7 @@ public class PythonAPI {
 		 * Set the background color for the Geo
 		 * @param color the new background color for the Geo
 		 */
-		public void setBackgroundColor(Color color) {
+		public void setBackgroundColor(GColor color) {
 			geo.setBackgroundColor(color);
 		}
 

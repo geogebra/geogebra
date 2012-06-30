@@ -2,7 +2,7 @@ package geogebra.web.gui.app;
 
 import geogebra.common.main.AbstractApplication;
 import geogebra.web.gui.view.algebra.AlgebraView;
-import geogebra.web.euclidian.EuclidianStyleBar;
+import geogebra.web.euclidian.EuclidianStyleBarW;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -24,7 +24,7 @@ public class EuclidianStyleBarPanel extends Composite implements RequiresResize 
 	}
 
 	@UiField AbsolutePanel simplep;
-	EuclidianStyleBar eviewsb = null;
+	EuclidianStyleBarW eviewsb = null;
 
 	public EuclidianStyleBarPanel() {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -35,7 +35,7 @@ public class EuclidianStyleBarPanel extends Composite implements RequiresResize 
 		//algebrapanel.add(aview);
 	}
 
-	public void setStyleBar(EuclidianStyleBar evs) {
+	public void setStyleBar(EuclidianStyleBarW evs) {
 		if (evs != eviewsb) {
 			if (eviewsb != null)
 				simplep.remove(eviewsb);
@@ -55,7 +55,7 @@ public class EuclidianStyleBarPanel extends Composite implements RequiresResize 
 	public void attachApp(AbstractApplication app) {
 		if (application != app) {
 			application = app;
-			setStyleBar((EuclidianStyleBar)application.getActiveEuclidianView().getStyleBar());
+			setStyleBar((EuclidianStyleBarW)application.getActiveEuclidianView().getStyleBar());
 		}
 	}
 }

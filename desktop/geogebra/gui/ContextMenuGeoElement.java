@@ -31,7 +31,7 @@ import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import geogebra.common.kernel.kernelND.ViewCreator;
 import geogebra.common.main.AbstractApplication;
-import geogebra.euclidian.EuclidianView;
+import geogebra.euclidian.EuclidianViewD;
 import geogebra.gui.dialog.options.OptionsUtil;
 import geogebra.gui.inputbar.AlgebraInput;
 import geogebra.gui.layout.DockPanel;
@@ -577,7 +577,7 @@ public class ContextMenuGeoElement extends JPopupMenu {
 			if (newView==app.getEuclidianView1() || newView==app.getEuclidianView2()){
 				if (!geo.isGeoElement3D()) // if 2D geo and new view is 2D standard view, no changes
 					return;
-			}else if (!(newView instanceof EuclidianView))
+			}else if (!(newView instanceof EuclidianViewD))
 				if (geo.isGeoElement3D()) // if 3D geo and new view is 3D view, no changes
 					return;
 		

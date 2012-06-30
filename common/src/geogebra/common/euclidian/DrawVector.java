@@ -18,8 +18,8 @@ the Free Software Foundation.
 
 package geogebra.common.euclidian;
 
-import geogebra.common.awt.GeneralPath;
-import geogebra.common.awt.Line2D;
+import geogebra.common.awt.GGeneralPath;
+import geogebra.common.awt.GLine2D;
 import geogebra.common.euclidian.clipping.ClipLine;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.ConstructionDefaults;
@@ -45,18 +45,18 @@ public class DrawVector extends Drawable implements Previewable {
 	private boolean isVisible, labelVisible;
 	private boolean traceDrawingNeeded = false;
 
-	private Line2D line;
+	private GLine2D line;
 	private double[] coordsA = new double[2];
 	private double[] coordsB = new double[2];
 	private double[] coordsV = new double[2];
-	private GeneralPath gp; // for arrow
+	private GGeneralPath gp; // for arrow
 	private boolean arrowheadVisible, lineVisible;
 	private ArrayList<GeoPointND> points;
 
 	/** Creates new DrawVector 
 	 * @param view view
 	 * @param v vector*/
-	public DrawVector(AbstractEuclidianView view, GeoVectorND v) {
+	public DrawVector(EuclidianView view, GeoVectorND v) {
 		this.view = view;
 		this.v = v;
 		geo = (GeoElement) v;
@@ -68,7 +68,7 @@ public class DrawVector extends Drawable implements Previewable {
 	 * @param view view
 	 * @param points start point and end point
 	 */
-	public DrawVector(AbstractEuclidianView view, ArrayList<GeoPointND> points) {
+	public DrawVector(EuclidianView view, ArrayList<GeoPointND> points) {
 		this.view = view;
 		this.points = points;
 		updatePreview();
@@ -176,7 +176,7 @@ public class DrawVector extends Drawable implements Previewable {
 			// A or B off screen
 			// clip at screen, that's important for huge coordinates
 			// check if any of vector is on-screen
-			geogebra.common.awt.Point2D[] clippedPoints = ClipLine.getClipped(coordsA[0],
+			geogebra.common.awt.GPoint2D[] clippedPoints = ClipLine.getClipped(coordsA[0],
 					coordsA[1], coordsB[0], coordsB[1],
 					-EuclidianStatic.CLIP_DISTANCE, view.getWidth()
 							+ EuclidianStatic.CLIP_DISTANCE,
@@ -287,7 +287,7 @@ public class DrawVector extends Drawable implements Previewable {
 		}
 	}
 
-	private geogebra.common.awt.Point2D endPoint = 
+	private geogebra.common.awt.GPoint2D endPoint = 
 			geogebra.common.factories.AwtFactory.prototype.newPoint2D();
 
 	final public void updateMousePos(double xRWmouse, double yRWmouse) {

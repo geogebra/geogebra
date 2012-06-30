@@ -43,7 +43,7 @@ public class StatTable extends JScrollPane {
 	// layout
 	private static final Color TABLE_GRID_COLOR = StatDialog.TABLE_GRID_COLOR ;
 	private static final Color TABLE_HEADER_COLOR = StatDialog.TABLE_HEADER_COLOR;  
-	private static final Color SELECTED_BACKGROUND_COLOR = geogebra.awt.Color.getAwtColor(GeoGebraColorConstants.TABLE_SELECTED_BACKGROUND_COLOR);  
+	private static final Color SELECTED_BACKGROUND_COLOR = geogebra.awt.GColorD.getAwtColor(GeoGebraColorConstants.TABLE_SELECTED_BACKGROUND_COLOR);  
 
 	protected DefaultTableModel tableModel;
 	private HashMap<Point,MyComboBoxEditor> comboBoxEditorMap;

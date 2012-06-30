@@ -1,6 +1,6 @@
 package geogebra.common.kernel.discrete;
 
-import geogebra.common.awt.Point2D;
+import geogebra.common.awt.GPoint2D;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
@@ -103,10 +103,10 @@ public class AlgoDelauneyTriangulation extends AlgoHull{
 			lineComparator = new Comparator<MyLine>() {
 				public int compare(MyLine itemA, MyLine itemB) {
 		        
-					Point2D p1A = itemA.p1;
-					Point2D p2A = itemA.p2;
-					Point2D p1B = itemB.p1;
-					Point2D p2B = itemB.p2;
+					GPoint2D p1A = itemA.p1;
+					GPoint2D p2A = itemA.p2;
+					GPoint2D p1B = itemB.p1;
+					GPoint2D p2B = itemB.p2;
 					
 					// return 0 if endpoints the same
 					// so no duplicates in the TreeMap

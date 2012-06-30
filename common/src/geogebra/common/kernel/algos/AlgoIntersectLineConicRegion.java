@@ -18,7 +18,7 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.algos;
 
-import geogebra.common.awt.Color;
+import geogebra.common.awt.GColor;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
@@ -77,7 +77,7 @@ public class AlgoIntersectLineConicRegion extends AlgoIntersectLineConic {
         tMin = g.getMinParameter();
         tMax = g.getMaxParameter();
         
-        Color BLUE_VIOLET= geogebra.common.factories.AwtFactory.prototype.newColor(153,0,255);
+        GColor BLUE_VIOLET= geogebra.common.factories.AwtFactory.prototype.newColor(153,0,255);
         int THICK_LINE_WITHIN_LINE = 4;
         
         //TODO: this initialization of input assumes the type 

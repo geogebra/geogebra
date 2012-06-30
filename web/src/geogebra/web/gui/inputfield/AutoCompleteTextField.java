@@ -1,7 +1,7 @@
 package geogebra.web.gui.inputfield;
 
-import geogebra.common.awt.Color;
-import geogebra.common.awt.Font;
+import geogebra.common.awt.GColor;
+import geogebra.common.awt.GFont;
 import geogebra.common.euclidian.DrawTextField;
 import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.event.FocusListener;
@@ -336,17 +336,17 @@ public class AutoCompleteTextField extends HorizontalPanel implements AutoComple
 	    
     }
 
-	public void setFont(Font font) {
+	public void setFont(GFont font) {
 	    AbstractApplication.debug("implementation needed"); //TODO Auto-generated
 	    
     }
 
-	public void setForeground(Color color) {
+	public void setForeground(GColor color) {
 	    AbstractApplication.debug("implementation needed"); //TODO Auto-generated
 	    
     }
 
-	public void setBackground(Color color) {
+	public void setBackground(GColor color) {
 	    AbstractApplication.debug("implementation needed"); //TODO Auto-generated
 	    
     }

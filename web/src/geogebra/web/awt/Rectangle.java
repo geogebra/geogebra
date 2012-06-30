@@ -1,8 +1,8 @@
 package geogebra.web.awt;
 
-import geogebra.common.awt.Point2D;
+import geogebra.common.awt.GPoint2D;
 
-public class Rectangle extends geogebra.web.awt.Rectangle2D implements geogebra.common.awt.Rectangle {
+public class Rectangle extends geogebra.web.awt.GRectangle2DW implements geogebra.common.awt.Rectangle {
 	
 	private geogebra.web.openjdk.awt.geom.Rectangle impl;
 	
@@ -109,7 +109,7 @@ public class Rectangle extends geogebra.web.awt.Rectangle2D implements geogebra.
 		return ((Rectangle)r).impl;
 	}
 
-	public boolean contains(Point2D p) {
+	public boolean contains(GPoint2D p) {
 		if (p==null) return false;
 		return impl.contains(p.getX(), p.getY());
     }

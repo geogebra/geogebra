@@ -18,9 +18,9 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.geos;
 
-import geogebra.common.awt.BufferedImage;
-import geogebra.common.awt.Color;
-import geogebra.common.awt.Point;
+import geogebra.common.awt.GBufferedImage;
+import geogebra.common.awt.GColor;
+import geogebra.common.awt.GPoint;
 import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.factories.FormatFactory;
@@ -253,15 +253,15 @@ public abstract class GeoElement extends ConstructionElement implements
 	/** cartesian, polar or complex */
 	public int toStringMode = Kernel.COORD_CARTESIAN;
 	/** default (foreground) color */
-	protected Color objColor = Color.black;
+	protected GColor objColor = GColor.black;
 	/** background color*/
-	protected Color bgColor = null; // none by default
+	protected GColor bgColor = null; // none by default
 	/** color when selected */
-	protected Color selColor = objColor;
+	protected GColor selColor = objColor;
 	/** color for label */
-	protected Color labelColor = objColor;
+	protected GColor labelColor = objColor;
 	/** color for fill*/
-	protected Color fillColor = objColor;
+	protected GColor fillColor = objColor;
 	private int layer = 0; // Michael Borcherds 2008-02-23
 	private NumberValue animationIncrement;
 	private NumberValue animationSpeedObj;
@@ -350,7 +350,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	// on change: see setVisualValues()
 
 	// spreadsheet specific properties
-	private Point spreadsheetCoords, oldSpreadsheetCoords;
+	private GPoint spreadsheetCoords, oldSpreadsheetCoords;
 	// number of AlgoCellRange using this cell: don't allow renaming when
 	// greater 0
 	private int cellRangeUsers = 0;
@@ -822,7 +822,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * 
 	 * @param color new color for this object
 	 */
-	public void setObjColor(final Color color) {
+	public void setObjColor(final GColor color) {
 		isColorSet = true;
 
 		objColor = color;
@@ -847,7 +847,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	}
 
 	// Michael Borcherds 2008-04-02
-	private Color getRGBFromList(float alpha1) {
+	private GColor getRGBFromList(float alpha1) {
 		float alpha2 = alpha1;
 		if (alpha2 > 1f) {
 			alpha2 = 1f;
@@ -861,7 +861,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	}
 
 	// Michael Borcherds 2008-04-02
-	private Color getRGBFromList(int withAlpha) {
+	private GColor getRGBFromList(int withAlpha) {
 		int alpha = withAlpha;
 		if (alpha > 255) {
 			alpha = 255;
@@ -925,7 +925,7 @@ public abstract class GeoElement extends ConstructionElement implements
 
 		case GeoElement.COLORSPACE_HSB:
 
-			final int rgb = Color.HSBtoRGB((float) redD, (float) greenD,
+			final int rgb = GColor.HSBtoRGB((float) redD, (float) greenD,
 					(float) blueD);
 			redD = (rgb >> 16) & 0xFF;
 			greenD = (rgb >> 8) & 0xFF;
@@ -977,7 +977,7 @@ public abstract class GeoElement extends ConstructionElement implements
 
 			final double m = L - (.5 * C);
 
-			final Color c = AwtFactory.prototype.newColor(
+			final GColor c = AwtFactory.prototype.newColor(
 					(int) ((R1 + m) * 255.0), (int) ((G1 + m) * 255.0),
 					(int) ((B1 + m) * 255.0), alpha);
 			return c;
@@ -995,7 +995,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @return color of object for selection
 	 */
 	// Michael Borcherds 2008-04-02
-	public Color getSelColor() {
+	public GColor getSelColor() {
 		if (colFunction == null) {
 			return selColor;
 		}
@@ -1006,7 +1006,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @return color of fill
 	 */
 	// Michael Borcherds 2008-04-02
-	public Color getFillColor() {
+	public GColor getFillColor() {
 		if (colFunction == null) {
 			return fillColor;
 		}
@@ -1018,9 +1018,9 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * 
 	 * @return color for algebra view (same as label or black)
 	 */
-	public Color getAlgebraColor() {
-		final Color col = getLabelColor();
-		return col.equals(Color.white) ? Color.black : col;
+	public GColor getAlgebraColor() {
+		final GColor col = getLabelColor();
+		return col.equals(GColor.white) ? GColor.black : col;
 	}
 
 	/**
@@ -1028,7 +1028,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @return color of label
 	 */
 	// Michael Borcherds 2008-04-01
-	public Color getLabelColor() {
+	public GColor getLabelColor() {
 		if (colFunction == null) {
 			return labelColor;
 		}
@@ -1039,21 +1039,21 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @param color new color for label
 	 */
 	// Michael Borcherds 2008-04-01
-	public void setLabelColor(final Color color) {
+	public void setLabelColor(final GColor color) {
 		labelColor = color;
 	}
 	/**
 	 * 
 	 * @return color of background
 	 */
-	public Color getBackgroundColor() {
+	public GColor getBackgroundColor() {
 		return bgColor;
 	}
 	/**
 	 * 
 	 * @param bgCol new background color
 	 */
-	public void setBackgroundColor(final Color bgCol) {
+	public void setBackgroundColor(final GColor bgCol) {
 		bgColor = bgCol;
 	}
 	/**
@@ -1061,8 +1061,8 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @return current color for this object
 	 */
 	// Michael Borcherds 2008-04-02
-	public Color getObjectColor() {
-		Color col = objColor;
+	public GColor getObjectColor() {
+		GColor col = objColor;
 
 		try {
 			if (colFunction != null) {
@@ -1758,7 +1758,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		case TOOLTIP_NEXTCELL: // tooltip is the next cell to the right
 								// (spreadsheet objects only)
 			String cellLabel = getLabel(tpl);
-			final Point coords = GeoElementSpreadsheet
+			final GPoint coords = GeoElementSpreadsheet
 					.getSpreadsheetCoordsForLabel(cellLabel);
 			if (coords == null) {
 				return "";
@@ -2681,17 +2681,17 @@ public abstract class GeoElement extends ConstructionElement implements
 			// init old and current spreadsheet coords
 			if (spreadsheetCoords == null) {
 				oldSpreadsheetCoords = null;
-				spreadsheetCoords = new Point();
+				spreadsheetCoords = new GPoint();
 			} else {
 				if (oldSpreadsheetCoords == null) {
-					oldSpreadsheetCoords = new Point();
+					oldSpreadsheetCoords = new GPoint();
 				}
 				oldSpreadsheetCoords.setLocation(spreadsheetCoords);
 			}
 
 			// we need to also support wrapped GeoElements like
 			// $A4 that are implemented as dependent geos (using ExpressionNode)
-			final Point p = GeoElementSpreadsheet
+			final GPoint p = GeoElementSpreadsheet
 					.spreadsheetIndices(getLabel(StringTemplate.defaultTemplate));
 
 			if ((p.x >= 0) && (p.y >= 0)) {
@@ -2746,9 +2746,9 @@ public abstract class GeoElement extends ConstructionElement implements
 
 		if (GeoElementSpreadsheet.isSpreadsheetLabel(label1)
 				&& GeoElementSpreadsheet.isSpreadsheetLabel(label2)) {
-			final Point p1 = GeoElementSpreadsheet
+			final GPoint p1 = GeoElementSpreadsheet
 					.getSpreadsheetCoordsForLabel(label1);
-			final Point p2 = GeoElementSpreadsheet
+			final GPoint p2 = GeoElementSpreadsheet
 					.getSpreadsheetCoordsForLabel(label2);
 			// Application.debug(label1+" "+p1.x+" "+p1.y+" "+label2+" "+p2.x+" "+p2.y);
 			if (p1.x != p2.x) {
@@ -2835,7 +2835,7 @@ public abstract class GeoElement extends ConstructionElement implements
 
 		default:
 			// is this a spreadsheet label?
-			final Point p = GeoElementSpreadsheet
+			final GPoint p = GeoElementSpreadsheet
 					.spreadsheetIndices(labelPrefix);
 			if ((p.x >= 0) && (p.y >= 0)) {
 				// more than one visible geo and it's a spreadsheet cell
@@ -4059,7 +4059,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		}
 
 		if (colored) {
-			final Color colorAdapter = AwtFactory.prototype.newColor(
+			final GColor colorAdapter = AwtFactory.prototype.newColor(
 					getAlgebraColor().getRed(), getAlgebraColor()
 							.getGreen(), getAlgebraColor().getBlue());
 			sbLongDescHTML.append("<b><font color=\"#");
@@ -4574,7 +4574,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		}
 
 		if (colored) {
-			final Color colorAdapter = AwtFactory.prototype.newColor(
+			final GColor colorAdapter = AwtFactory.prototype.newColor(
 					getAlgebraColor().getRed(), getAlgebraColor().getGreen(),
 					getAlgebraColor().getBlue());
 			sbNameDescriptionHTML.append(" <b><font color=\"#");
@@ -5869,7 +5869,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * 
 	 * @return position of this GeoElement in GeoGebra's spreadsheet view.
 	 */
-	public Point getSpreadsheetCoords() {
+	public GPoint getSpreadsheetCoords() {
 		if (spreadsheetCoords == null) {
 			updateSpreadsheetCoordinates();
 		}
@@ -5883,14 +5883,14 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * 
 	 * @param spreadsheetCoords point (col,row)
 	 */
-	public void setSpreadsheetCoords(final Point spreadsheetCoords) {
+	public void setSpreadsheetCoords(final GPoint spreadsheetCoords) {
 		this.spreadsheetCoords = spreadsheetCoords;
 	}
 
 	/**
 	 * @return old spreadsheet coords
 	 */
-	public Point getOldSpreadsheetCoords() {
+	public GPoint getOldSpreadsheetCoords() {
 		return oldSpreadsheetCoords;
 	}
 	/**
@@ -6713,7 +6713,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	/**
 	 * @return fill image
 	 */
-	public BufferedImage getFillImage() {
+	public GBufferedImage getFillImage() {
 
 		return graphicsadapter.getFillImage();
 	}

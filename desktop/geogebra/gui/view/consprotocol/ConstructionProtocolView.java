@@ -550,7 +550,7 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 			Object ob = e.getSource();
 			if (ob == table) {
 				Point origin = e.getPoint();
-				geogebra.common.awt.Point mouseCoords = new geogebra.common.awt.Point(e.getPoint().x,e.getPoint().y);
+				geogebra.common.awt.GPoint mouseCoords = new geogebra.common.awt.GPoint(e.getPoint().x,e.getPoint().y);
 				int row = table.rowAtPoint(origin);
 				if (row < 0)
 					return;
@@ -802,7 +802,7 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 			RowData rd = data.getRow(row);
 			int index = rd.geo.getConstructionIndex();
 			if (useColors)
-				comp.setForeground(geogebra.awt.Color.getAwtColor(rd.geo.getObjectColor()));
+				comp.setForeground(geogebra.awt.GColorD.getAwtColor(rd.geo.getObjectColor()));
 			else
 				comp.setForeground(Color.black);
 
@@ -864,10 +864,10 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 			// setBorder(UIManager.getBorder("TableHeader.cellBorder"));
 			// better for Macs?
 			setForeground(Color.black);
-			setBackground(geogebra.awt.Color.getAwtColor(GeoGebraColorConstants.TABLE_BACKGROUND_COLOR_HEADER));
+			setBackground(geogebra.awt.GColorD.getAwtColor(GeoGebraColorConstants.TABLE_BACKGROUND_COLOR_HEADER));
 			// setBorder(BorderFactory.createBevelBorder(0));
 			setBorder(BorderFactory.createMatteBorder(0, 0, 1, 1,
-					geogebra.awt.Color.getAwtColor(GeoGebraColorConstants.TABLE_GRID_COLOR)));
+					geogebra.awt.GColorD.getAwtColor(GeoGebraColorConstants.TABLE_GRID_COLOR)));
 
 		}
 
@@ -1207,7 +1207,7 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 		private Color getColorAt(int nRow, int nCol) {
 			try {
 				if (useColors)
-					return geogebra.awt.Color.getAwtColor(rowList.get(nRow).geo.getObjectColor());
+					return geogebra.awt.GColorD.getAwtColor(rowList.get(nRow).geo.getObjectColor());
 				else
 					return Color.black;
 			} catch (Exception e) {
@@ -1880,7 +1880,7 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 						Color color = data.getColorAt(nRow, col);
 						if (color != Color.black) {
 							sb.append("<span style=\"color:#");
-							sb.append(StringUtil.toHexString(new geogebra.awt.Color(color)));
+							sb.append(StringUtil.toHexString(new geogebra.awt.GColorD(color)));
 							sb.append("\">");
 							sb.append(str);
 							sb.append("</span>");

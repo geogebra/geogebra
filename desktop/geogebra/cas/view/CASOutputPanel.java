@@ -48,12 +48,12 @@ public class CASOutputPanel extends JPanel {
 		add(centerPanel, BorderLayout.CENTER);
 	}
 	
-	public void setForeground(geogebra.common.awt.Color c){
-		outputArea.setForeground(geogebra.awt.Color.getAwtColor(c));	
-		latexPanel.setForeground(geogebra.awt.Color.getAwtColor(c));
+	public void setForeground(geogebra.common.awt.GColor c){
+		outputArea.setForeground(geogebra.awt.GColorD.getAwtColor(c));	
+		latexPanel.setForeground(geogebra.awt.GColorD.getAwtColor(c));
 	}
 	
-	public void setOutput(String output, String latexOutput, String cmd, boolean isError,geogebra.common.awt.Color c){
+	public void setOutput(String output, String latexOutput, String cmd, boolean isError,geogebra.common.awt.GColor c){
 		boolean useLaTeXpanel = latexOutput != null && !isError;
 		outputArea.setVisible(!useLaTeXpanel);
 		latexPanel.setVisible(useLaTeXpanel);		

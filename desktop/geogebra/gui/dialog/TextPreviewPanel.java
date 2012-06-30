@@ -1,6 +1,6 @@
 package geogebra.gui.dialog;
 
-import geogebra.common.euclidian.AbstractEuclidianView;
+import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.Kernel;
@@ -16,8 +16,8 @@ import geogebra.common.kernel.parser.ParseException;
 import geogebra.common.kernel.parser.TokenMgrError;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
-import geogebra.euclidian.EuclidianController;
-import geogebra.euclidian.EuclidianView;
+import geogebra.euclidian.EuclidianControllerD;
+import geogebra.euclidian.EuclidianViewD;
 import geogebra.gui.util.GeoGebraIcon;
 
 import java.awt.Color;
@@ -42,9 +42,9 @@ import javax.swing.text.StyleConstants;
  * @author gsturr 2010-6-30
  * 
  */
-public class TextPreviewPanel extends EuclidianView {
+public class TextPreviewPanel extends EuclidianViewD {
 
-	private final EuclidianController ec;
+	private final EuclidianControllerD ec;
 	private static boolean[] showAxes = { false, false };
 	private static boolean showGrid = false;
 	private GeoText previewGeoIndependent, previewGeoDependent;
@@ -55,8 +55,8 @@ public class TextPreviewPanel extends EuclidianView {
 
 	public TextPreviewPanel(Kernel kernel) {
 
-		super(new EuclidianController(kernel), showAxes, showGrid,
-				AbstractEuclidianView.EVNO_GENERAL, null);
+		super(new EuclidianControllerD(kernel), showAxes, showGrid,
+				EuclidianView.EVNO_GENERAL, null);
 		this.ec = this.getEuclidianController();
 
 		this.cons = kernel.getConstruction();
@@ -325,8 +325,8 @@ public class TextPreviewPanel extends EuclidianView {
 		if (isErrorMessage) {
 			geo.setVisualStyle(cons.getConstructionDefaults().getDefaultGeo(
 					ConstructionDefaults.DEFAULT_TEXT));
-			geo.setObjColor(new geogebra.awt.Color(Color.red));
-			geo.setBackgroundColor(new geogebra.awt.Color(Color.white));
+			geo.setObjColor(new geogebra.awt.GColorD(Color.red));
+			geo.setBackgroundColor(new geogebra.awt.GColorD(Color.white));
 			// geo.setFontSize(app.getFontSize());
 			geo.setFontStyle(Font.ITALIC);
 			geo.setLaTeX(false, true);
@@ -340,7 +340,7 @@ public class TextPreviewPanel extends EuclidianView {
 				if (isLaTeX) {
 					geo.setSerifFont(true);
 				}
-				geo.setObjColor(new geogebra.awt.Color(Color.black));
+				geo.setObjColor(new geogebra.awt.GColorD(Color.black));
 			}
 			geo.setLaTeX(isLaTeX, true);
 		}

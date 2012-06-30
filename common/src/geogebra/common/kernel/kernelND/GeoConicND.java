@@ -11,7 +11,7 @@ the Free Software Foundation.
 */
 package geogebra.common.kernel.kernelND;
 
-import geogebra.common.awt.AffineTransform;
+import geogebra.common.awt.GAffineTransform;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
@@ -102,9 +102,9 @@ Translateable, GeoConicNDConstants,MatrixTransformable, PointRotateable,Region
 	/** maximum absolute value of coeffs in matrix A[]*/
 	protected double maxCoeffAbs; 
 	/** eigenvector-real world transformation*/
-	protected AffineTransform transform;
+	protected GAffineTransform transform;
 	/** old value of transform */
-	protected AffineTransform oldTransform;
+	protected GAffineTransform oldTransform;
 	/** true if should be traced */
 	public boolean trace;	
 
@@ -1024,7 +1024,7 @@ Translateable, GeoConicNDConstants,MatrixTransformable, PointRotateable,Region
 			matrix[i] = co.matrix[i]; // flat matrix A   
 		
 		if (co.transform != null) {
-			AffineTransform at = getAffineTransform();
+			GAffineTransform at = getAffineTransform();
 			at.setTransform(co.transform);
 		}
 		
@@ -1556,7 +1556,7 @@ Translateable, GeoConicNDConstants,MatrixTransformable, PointRotateable,Region
 	 * Returns the eigenvector-real worl transformation
 	 * @return eigenvector-real worl transformation
 	 */
-	final public AffineTransform getAffineTransform() {
+	final public GAffineTransform getAffineTransform() {
 		if (transform == null)
 			transform = AwtFactory.prototype.newAffineTransform();
 		return transform;
@@ -1564,7 +1564,7 @@ Translateable, GeoConicNDConstants,MatrixTransformable, PointRotateable,Region
 
 	@Override
 	final protected void setAffineTransform() {	
-		AffineTransform at = getAffineTransform();	
+		GAffineTransform at = getAffineTransform();	
 		
 		/*      ( v1x   v2x     bx )
 		 *      ( v1y   v2y     by )

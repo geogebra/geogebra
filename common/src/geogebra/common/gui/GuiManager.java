@@ -11,7 +11,7 @@ the Free Software Foundation.
 */
 package geogebra.common.gui;
 
-import geogebra.common.awt.Point;
+import geogebra.common.awt.GPoint;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.gui.dialog.DialogManager;
@@ -40,11 +40,11 @@ public abstract class GuiManager {
 
 	public abstract void showPopupMenu(ArrayList<GeoElement> selectedGeos,
 			EuclidianViewInterfaceCommon euclidianViewInterfaceCommon,
-			Point mouseLoc);
+			GPoint mouseLoc);
 	
 	public abstract void showPopupChooseGeo(ArrayList<GeoElement> selectedGeos,
 			ArrayList<GeoElement> geos, EuclidianViewInterfaceCommon view,
-			Point p);
+			GPoint p);
 
 	public abstract void setMode(int mode);
 
@@ -80,7 +80,7 @@ public abstract class GuiManager {
 	public abstract geogebra.common.javax.swing.JTextComponent getAlgebraInputTextField();
 
 	public abstract void showDrawingPadPopup(EuclidianViewInterfaceCommon view,
-			Point mouseLoc);
+			GPoint mouseLoc);
 
 	public abstract boolean hasSpreadsheetView();
 

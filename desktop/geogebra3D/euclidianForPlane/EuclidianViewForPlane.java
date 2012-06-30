@@ -13,7 +13,7 @@ import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoPlaneND;
-import geogebra.euclidian.EuclidianController;
+import geogebra.euclidian.EuclidianControllerD;
 import geogebra3D.euclidianFor3D.DrawAngleFor3D;
 import geogebra3D.euclidianFor3D.EuclidianViewFor3D;
 
@@ -37,7 +37,7 @@ public class EuclidianViewForPlane extends EuclidianViewFor3D {
 	 * @param ec controller
 	 * @param plane plane creating this view
 	 */
-	public EuclidianViewForPlane(EuclidianController ec, GeoCoordSys2D plane) {
+	public EuclidianViewForPlane(EuclidianControllerD ec, GeoCoordSys2D plane) {
 		super(ec, new boolean[]{ true, true }, true, 1); //TODO ev id
 		
 		this.plane = plane;
@@ -236,7 +236,7 @@ public class EuclidianViewForPlane extends EuclidianViewFor3D {
 	}
 	
 	@Override
-	public geogebra.common.awt.AffineTransform getTransform(GeoConicND conic, Coords M, Coords[] ev){
+	public geogebra.common.awt.GAffineTransform getTransform(GeoConicND conic, Coords M, Coords[] ev){
 
 		//use already computed for this view middlepoint M and eigen vecs ev
 		AffineTransform transform = new AffineTransform();			
@@ -248,7 +248,7 @@ public class EuclidianViewForPlane extends EuclidianViewFor3D {
 				M.getX(),
 				M.getY());
 
-		return new geogebra.awt.AffineTransform(transform);
+		return new geogebra.awt.GAffineTransformD(transform);
 	}
 	
 	@Override

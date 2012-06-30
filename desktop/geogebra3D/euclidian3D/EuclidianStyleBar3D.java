@@ -2,7 +2,7 @@ package geogebra3D.euclidian3D;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.euclidian.EuclidianStyleBar;
+import geogebra.euclidian.EuclidianStyleBarD;
 import geogebra.gui.util.MyToggleButton;
 import geogebra.gui.util.PopupMenuButton;
 import geogebra.gui.util.SelectionTable;
@@ -24,7 +24,7 @@ import javax.swing.ImageIcon;
  * @author matthieu
  *
  */
-public class EuclidianStyleBar3D extends EuclidianStyleBar {
+public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 
 	/**
 	 * 

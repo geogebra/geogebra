@@ -19,7 +19,7 @@ import geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
-import geogebra.euclidian.EuclidianController;
+import geogebra.euclidian.EuclidianControllerD;
 import geogebra3D.kernel3D.AlgoIntersectCS1D2D;
 import geogebra3D.kernel3D.AlgoIntersectCS2D2D;
 import geogebra3D.kernel3D.GeoPoint3D;
@@ -30,7 +30,7 @@ import geogebra3D.kernel3D.GeoQuadric3D;
  * @author matthieu
  *
  */
-public class EuclidianControllerFor3D extends EuclidianController {
+public class EuclidianControllerFor3D extends EuclidianControllerD {
 
 	/**
 	 * constructor

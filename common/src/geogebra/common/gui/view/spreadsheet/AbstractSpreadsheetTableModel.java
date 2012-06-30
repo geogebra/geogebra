@@ -1,6 +1,6 @@
 package geogebra.common.gui.view.spreadsheet;
 
-import geogebra.common.awt.Point;
+import geogebra.common.awt.GPoint;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoElement;
@@ -145,14 +145,14 @@ public abstract class AbstractSpreadsheetTableModel implements View {
 	}
 
 	public void remove(GeoElement geo) {
-		Point location = geo.getSpreadsheetCoords();
+		GPoint location = geo.getSpreadsheetCoords();
 		if (location != null) {
 			doRemove(geo, location.y, location.x);
 		}
 	}
 
 	public void rename(GeoElement geo) {
-		Point location = geo.getOldSpreadsheetCoords();
+		GPoint location = geo.getOldSpreadsheetCoords();
 		if (location != null) {
 			doRemove(geo, location.y, location.x);
 		}
@@ -165,7 +165,7 @@ public abstract class AbstractSpreadsheetTableModel implements View {
 	}
 
 	public void update(GeoElement geo) {
-		Point location = geo.getSpreadsheetCoords();
+		GPoint location = geo.getSpreadsheetCoords();
 		if (location != null && location.x < Kernel.MAX_SPREADSHEET_COLUMNS
 				&& location.y < Kernel.MAX_SPREADSHEET_ROWS) {
 

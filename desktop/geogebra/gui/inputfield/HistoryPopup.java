@@ -303,7 +303,7 @@ public class HistoryPopup implements ListSelectionListener{
 
 		// create grid lines with this border
 		private Border gridBorder = BorderFactory.createCompoundBorder(
-				BorderFactory.createMatteBorder(0, 0, 1, 0, geogebra.awt.Color.getAwtColor(GeoGebraColorConstants.TABLE_GRID_COLOR)),
+				BorderFactory.createMatteBorder(0, 0, 1, 0, geogebra.awt.GColorD.getAwtColor(GeoGebraColorConstants.TABLE_GRID_COLOR)),
 				BorderFactory.createEmptyBorder(2, 5, 2, 5));
 
 		@Override

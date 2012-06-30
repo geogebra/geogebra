@@ -84,7 +84,7 @@ implements DragGestureListener, DragSourceListener {
 		view.cancelEditing();
 		boolean rightClick = app.isRightClickEnabled() && Application.isRightClick(e);
 		if (rightClick) {// RIGHT CLICK
-			geogebra.common.awt.Point mouseCoords = new geogebra.common.awt.Point(e.getPoint().x,e.getPoint().y);
+			geogebra.common.awt.GPoint mouseCoords = new geogebra.common.awt.GPoint(e.getPoint().x,e.getPoint().y);
 			rightPress(e, mouseCoords);
 		} else {// LEFT CLICK	
 			leftPress(e);

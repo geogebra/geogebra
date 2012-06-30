@@ -36,7 +36,7 @@ public class DrawLocus extends Drawable {
 	 * @param view view
 	 * @param locus locus
 	 */
-	public DrawLocus(AbstractEuclidianView view, GeoLocus locus) {
+	public DrawLocus(EuclidianView view, GeoLocus locus) {
 		this.view = view;
 		hitThreshold = view.getCapturingThreshold();
 		this.locus = locus;
@@ -183,7 +183,7 @@ public class DrawLocus extends Drawable {
 	 */
 	@Override
 	final public boolean hit(int x, int y) {
-		geogebra.common.awt.Shape t = geo.isInverseFill() ? getShape() : gp;
+		geogebra.common.awt.GShape t = geo.isInverseFill() ? getShape() : gp;
 		if (t == null)
 			return false; // hasn't been drawn yet (hidden)
 

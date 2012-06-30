@@ -1,7 +1,7 @@
 package geogebra.gui.dialog;
 
 import geogebra.common.plugin.EuclidianStyleConstants;
-import geogebra.euclidian.EuclidianStatic;
+import geogebra.euclidian.EuclidianStaticD;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -32,7 +32,7 @@ public class PointStyleListRenderer extends JPanel implements ListCellRenderer {
 	private Ellipse2D.Double circle = new Ellipse2D.Double();
 	private Line2D.Double line1, line2, line3, line4;
 	private GeneralPath gp = null;
-	private static BasicStroke borderStroke = EuclidianStatic.getDefaultStrokeAwt();
+	private static BasicStroke borderStroke = EuclidianStaticD.getDefaultStrokeAwt();
 	private static BasicStroke[] crossStrokes = new BasicStroke[10];
 
 	

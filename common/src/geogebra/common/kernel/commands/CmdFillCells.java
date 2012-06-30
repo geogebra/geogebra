@@ -1,6 +1,6 @@
 package geogebra.common.kernel.commands;
 
-import geogebra.common.awt.Point;
+import geogebra.common.awt.GPoint;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.MyPoint;
 import geogebra.common.kernel.StringTemplate;
@@ -55,10 +55,10 @@ public class CmdFillCells extends CommandProcessor {
 				AlgoCellRange algo = (AlgoCellRange) cellRange
 						.getParentAlgorithm();
 
-				Point[] points = algo.getRectangle();
+				GPoint[] points = algo.getRectangle();
 
-				Point startCoords = points[0];
-				Point endCoords = points[1];
+				GPoint startCoords = points[0];
+				GPoint endCoords = points[1];
 
 				int minCol = Math.min(startCoords.x, endCoords.x);
 				int maxCol = Math.max(startCoords.x, endCoords.x);

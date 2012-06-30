@@ -1,7 +1,7 @@
 package geogebra.common.javax.swing;
 
-import geogebra.common.awt.Color;
-import geogebra.common.awt.Font;
+import geogebra.common.awt.GColor;
+import geogebra.common.awt.GFont;
 
 public abstract class JLabel {
 
@@ -11,11 +11,11 @@ public abstract class JLabel {
 
 	public abstract void setOpaque(boolean b);
 
-	public abstract void setFont(Font font);
+	public abstract void setFont(GFont font);
 
-	public abstract void setForeground(Color objectColor);
+	public abstract void setForeground(GColor objectColor);
 
-	public abstract void setBackground(Color lightGray);
+	public abstract void setBackground(GColor lightGray);
 
 
 }

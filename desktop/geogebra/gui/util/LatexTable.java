@@ -39,7 +39,7 @@ public class LatexTable extends SelectionTable implements MenuElement{
 		setSelectedIndex(0);
 		//	this.setUseColorSwatchBorder(true);
 		this.setShowGrid(true);
-		this.setGridColor(geogebra.awt.Color.getAwtColor(GeoGebraColorConstants.TABLE_GRID_COLOR));
+		this.setGridColor(geogebra.awt.GColorD.getAwtColor(GeoGebraColorConstants.TABLE_GRID_COLOR));
 		this.setBorder(BorderFactory.createLineBorder(MyTable.TABLE_GRID_COLOR));
 		//this.setBorder(BorderFactory.createEmptyBorder());
 		this.setShowSelection(false);

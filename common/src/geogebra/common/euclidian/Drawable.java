@@ -18,15 +18,15 @@ the Free Software Foundation.
 
 package geogebra.common.euclidian;
 
-import geogebra.common.awt.Area;
-import geogebra.common.awt.BasicStroke;
-import geogebra.common.awt.Color;
-import geogebra.common.awt.Dimension;
-import geogebra.common.awt.Font;
+import geogebra.common.awt.GArea;
+import geogebra.common.awt.GBasicStroke;
+import geogebra.common.awt.GColor;
+import geogebra.common.awt.GDimension;
+import geogebra.common.awt.GFont;
 import geogebra.common.awt.Graphics2D;
-import geogebra.common.awt.Point;
+import geogebra.common.awt.GPoint;
 import geogebra.common.awt.Rectangle;
-import geogebra.common.awt.Shape;
+import geogebra.common.awt.GShape;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.GeoElement;
@@ -46,15 +46,15 @@ public abstract class Drawable extends DrawableND {
 	/**
 	 * Default stroke for this drawable
 	 */
-	protected BasicStroke objStroke = EuclidianStatic.getDefaultStroke();
+	protected GBasicStroke objStroke = EuclidianStatic.getDefaultStroke();
 	/**
 	 * Stroke for this drawable in case referenced geo is selected
 	 */
-	protected BasicStroke selStroke = EuclidianStatic.getDefaultSelectionStroke();
+	protected GBasicStroke selStroke = EuclidianStatic.getDefaultSelectionStroke();
 	/**
 	 * Stroke for decorations; always full
 	 */
-	protected BasicStroke decoStroke = EuclidianStatic.getDefaultStroke();
+	protected GBasicStroke decoStroke = EuclidianStatic.getDefaultStroke();
 
 	private int lineThickness = -1;
 	private int lineType = -1;
@@ -62,7 +62,7 @@ public abstract class Drawable extends DrawableND {
 	/**
 	 * View in which this is drawn
 	 */
-	protected AbstractEuclidianView view;
+	protected EuclidianView view;
 	/**
 	 * Hit tolerance
 	 */
@@ -88,13 +88,13 @@ public abstract class Drawable extends DrawableND {
 	/**
 	 * Stroked shape for hits testing of conics, loci ... with alpha = 0
 	 */
-	protected Shape strokedShape;
+	protected GShape strokedShape;
 	/**
 	 * Stroked shape for hits testing of hyperbolas
 	 */
-	protected Shape strokedShape2;
+	protected GShape strokedShape2;
 
-	private Area shape;
+	private GArea shape;
 
 	private int lastFontSize = -1;
 
@@ -167,7 +167,7 @@ public abstract class Drawable extends DrawableND {
 		if (labelDesc == null)
 			return;
 		String label = labelDesc;
-		Font oldFont = null;
+		GFont oldFont = null;
 
 		// allow LaTeX caption surrounded by $ $
 		if ((label.charAt(0)=='$') && label.endsWith("$")) {
@@ -177,7 +177,7 @@ public abstract class Drawable extends DrawableND {
 			int offsetY = 10 + view.getFontSize(); // make sure LaTeX labels don't go
 												// off bottom of screen
 			AbstractApplication app = view.getApplication();
-			Dimension dim = app.getDrawEquation().
+			GDimension dim = app.getDrawEquation().
 					drawEquation(geo.getKernel()
 					.getApplication(), geo, g2, xLabel, yLabel - offsetY, label
 					.substring(1, label.length() - 1), g2.getFont(), serif, g2
@@ -198,7 +198,7 @@ public abstract class Drawable extends DrawableND {
 
 				// use Serif font so that we can get a nice curly italic x
 				g2.setFont(view.getApplication().getFontCommon(true,
-						oldFont.getStyle() | Font.ITALIC, oldFont.getSize()));
+						oldFont.getStyle() | GFont.ITALIC, oldFont.getSize()));
 				label = label.substring(3, label.length() - 4);
 				italic = true;
 			}
@@ -207,7 +207,7 @@ public abstract class Drawable extends DrawableND {
 				oldFont = g2.getFont();
 
 				g2.setFont(g2.getFont().deriveFont(
-						Font.BOLD + (italic ? Font.ITALIC : 0)));
+						GFont.BOLD + (italic ? GFont.ITALIC : 0)));
 				label = label.substring(3, label.length() - 4);
 			}
 		}
@@ -223,7 +223,7 @@ public abstract class Drawable extends DrawableND {
 					// do the slower index drawing routine and check for indices
 			oldLabelDesc = labelDesc;
 
-			Point p = EuclidianStatic.drawIndexedString(view.getApplication(),
+			GPoint p = EuclidianStatic.drawIndexedString(view.getApplication(),
 					g2, label, xLabel, yLabel, isSerif());
 			labelHasIndex = p.y > 0;
 			labelRectangle.setBounds(xLabel, yLabel - fontSize, p.x, fontSize
@@ -263,8 +263,8 @@ public abstract class Drawable extends DrawableND {
 	 * @param fgColor text color
 	 * @param bgColor background color
 	 */
-	public final void drawMultilineLaTeX(Graphics2D g2, Font font,
-			Color fgColor, Color bgColor) {
+	public final void drawMultilineLaTeX(Graphics2D g2, GFont font,
+			GColor fgColor, GColor bgColor) {
 		labelRectangle.setBounds(EuclidianStatic.drawMultilineLaTeX(
 				view.getApplication(), view.getTempGraphics2D(font), geo, g2,
 				font, fgColor, bgColor, labelDesc, xLabel, yLabel, isSerif()));
@@ -310,7 +310,7 @@ public abstract class Drawable extends DrawableND {
 			for (int i = 0; i < length - 1; i++) {
 				if (labelDesc.charAt(i) == '\n') {
 					// end of line reached: draw this line
-					Point p = EuclidianStatic.drawIndexedString(
+					GPoint p = EuclidianStatic.drawIndexedString(
 							view.getApplication(), g2,
 							labelDesc.substring(lineBegin, i), xLabel, yLabel
 									+ lines * lineSpread, isSerif());
@@ -324,7 +324,7 @@ public abstract class Drawable extends DrawableND {
 			}
 
 			float ypos = yLabel + lines * lineSpread;
-			Point p = EuclidianStatic
+			GPoint p = EuclidianStatic
 					.drawIndexedString(view.getApplication(), g2,
 							labelDesc.substring(lineBegin), xLabel, ypos,
 							isSerif());
@@ -493,7 +493,7 @@ public abstract class Drawable extends DrawableND {
 	 * @param fillShape shape to be filled
 	 * @param usePureStroke true to use pure stroke
 	 */
-	protected void fill(Graphics2D g2, Shape fillShape, boolean usePureStroke) {
+	protected void fill(Graphics2D g2, GShape fillShape, boolean usePureStroke) {
 		if (isForceNoFill())
 			return;
 		if (geo.getFillType() == GeoElement.FILL_HATCH) {
@@ -549,14 +549,14 @@ public abstract class Drawable extends DrawableND {
 	 * @param shape
 	 *            the shape to set
 	 */
-	public void setShape(Area shape) {
+	public void setShape(GArea shape) {
 		this.shape = shape;
 	}
 
 	/**
 	 * @return the shape
 	 */
-	public Area getShape() {
+	public GArea getShape() {
 		return shape;
 	}
 

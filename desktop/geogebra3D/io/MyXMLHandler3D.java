@@ -315,19 +315,19 @@ public class MyXMLHandler3D extends MyXMLHandler {
 		
 		Application.debug("TODO: remove this");
 		
-		geogebra.common.awt.Color col = handleColorAttrs(attrs);
+		geogebra.common.awt.GColor col = handleColorAttrs(attrs);
 		if (col == null)
 			return false;
 		ev.setBackground(col);
 		return true;
 	}
 	
-	private static geogebra.common.awt.Color handleColorAttrs(LinkedHashMap<String, String> attrs) {
+	private static geogebra.common.awt.GColor handleColorAttrs(LinkedHashMap<String, String> attrs) {
 		try {
 			int red = Integer.parseInt(attrs.get("r"));
 			int green = Integer.parseInt(attrs.get("g"));
 			int blue = Integer.parseInt(attrs.get("b"));
-			return new geogebra.awt.Color(red, green, blue);
+			return new geogebra.awt.GColorD(red, green, blue);
 		} catch (Exception e) {
 			return null;
 		}

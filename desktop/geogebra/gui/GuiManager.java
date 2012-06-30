@@ -3,7 +3,7 @@ package geogebra.gui;
 import geogebra.CommandLineArguments;
 import geogebra.cas.view.CASView;
 import geogebra.common.GeoGebraConstants;
-import geogebra.common.euclidian.AbstractEuclidianView;
+import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.euclidian.event.AbstractEvent;
@@ -22,8 +22,8 @@ import geogebra.common.main.settings.ProbabilityCalculatorSettings.DIST;
 import geogebra.common.util.Base64;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
-import geogebra.euclidian.EuclidianController;
-import geogebra.euclidian.EuclidianView;
+import geogebra.euclidian.EuclidianControllerD;
+import geogebra.euclidian.EuclidianViewD;
 import geogebra.euclidianND.EuclidianViewND;
 import geogebra.gui.app.GeoGebraFrame;
 import geogebra.gui.app.MyFileFilter;
@@ -127,7 +127,7 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 	private AlgebraView algebraView;
 	private CASView casView;
 	private SpreadsheetView spreadsheetView;
-	private EuclidianView euclidianView2;
+	private EuclidianViewD euclidianView2;
 	private ConstructionProtocolView constructionProtocolView;
 	private AssignmentView assignmentView;
 	protected ConstructionProtocolNavigation constProtocolNavigation;
@@ -549,7 +549,7 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 		return getPlotPanelIDMap().get(viewID);
 	}
 
-	public EuclidianView getEuclidianView2() {
+	public EuclidianViewD getEuclidianView2() {
 		if (euclidianView2 == null) {
 			boolean[] showAxis = { true, true };
 			boolean showGrid = false;
@@ -562,9 +562,9 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 		return euclidianView2;
 	}
 
-	protected EuclidianView newEuclidianView(boolean[] showAxis,
+	protected EuclidianViewD newEuclidianView(boolean[] showAxis,
 			boolean showGrid, int id) {
-		return new EuclidianView(new EuclidianController(kernel), showAxis,
+		return new EuclidianViewD(new EuclidianControllerD(kernel), showAxis,
 				showGrid, id, app.getSettings().getEuclidian(id));
 	}
 
@@ -1164,7 +1164,7 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 	 * Displays the Graphics View menu at the position p in the coordinate space
 	 * of euclidianView
 	 */
-	public void showDrawingPadPopup(Component invoker, geogebra.common.awt.Point p) {
+	public void showDrawingPadPopup(Component invoker, geogebra.common.awt.GPoint p) {
 		// clear highlighting and selections in views
 		app.getActiveEuclidianView().resetMode();
 
@@ -1178,7 +1178,7 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 	 * of euclidianView
 	 */
 	public void toggleDrawingPadPopup(Component invoker, Point p) {
-		geogebra.common.awt.Point loc = new geogebra.common.awt.Point(p.x, p.y);
+		geogebra.common.awt.GPoint loc = new geogebra.common.awt.GPoint(p.x, p.y);
 		if (drawingPadpopupMenu == null || !drawingPadpopupMenu.isVisible()) {
 			showDrawingPadPopup(invoker, loc);
 			return;
@@ -1194,7 +1194,7 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 	 * of the component invoker
 	 */
 	public void showPopupMenu(ArrayList<GeoElement> geos, Component invoker,
-			geogebra.common.awt.Point p) {
+			geogebra.common.awt.GPoint p) {
 		
 		if (geos == null || !((Application)app).letShowPopupMenu())
 			return;
@@ -1222,7 +1222,7 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 	 */
 	public void showPopupChooseGeo(ArrayList<GeoElement> selectedGeos,
 			ArrayList<GeoElement> geos, EuclidianViewND view,
-			geogebra.common.awt.Point p) {
+			geogebra.common.awt.GPoint p) {
 		
 		if (geos == null || !((Application)app).letShowPopupMenu())
 			return;
@@ -1254,7 +1254,7 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 	 */
 	public void togglePopupMenu(ArrayList<GeoElement> geos, Component invoker,
 			Point p) {
-		geogebra.common.awt.Point loc = new geogebra.common.awt.Point(p.x,p.y);
+		geogebra.common.awt.GPoint loc = new geogebra.common.awt.GPoint(p.x,p.y);
 		if (popupMenu == null || !popupMenu.isVisible()) {
 			showPopupMenu(geos, invoker, loc);
 			return;
@@ -1344,11 +1344,11 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 		return ret;
 	}
 
-	public Color showColorChooser(geogebra.common.awt.Color currentColor) {
+	public Color showColorChooser(geogebra.common.awt.GColor currentColor) {
 
 		try {
 			GeoGebraColorChooser chooser = new GeoGebraColorChooser((Application)app);
-			chooser.setColor(geogebra.awt.Color.getAwtColor(currentColor));
+			chooser.setColor(geogebra.awt.GColorD.getAwtColor(currentColor));
 			JDialog dialog = JColorChooser.createDialog(((Application)app).getMainComponent(),
 					app.getPlain("ChooseColor"), true, chooser, null, null);
 			dialog.setVisible(true);
@@ -2215,7 +2215,7 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 
 			public void actionPerformed(ActionEvent e) {
 				// get ev with focus
-				AbstractEuclidianView ev = getActiveEuclidianView();
+				EuclidianView ev = getActiveEuclidianView();
 
 				if (app.getEuclidianView1() == ev)
 					app.getSettings().getEuclidian(1)
@@ -2916,7 +2916,7 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 	@Override
 	public void showPopupMenu(ArrayList<GeoElement> selectedGeos,
 			EuclidianViewInterfaceCommon view,
-			geogebra.common.awt.Point mouseLoc) {
+			geogebra.common.awt.GPoint mouseLoc) {
 		showPopupMenu(selectedGeos, ((EuclidianViewND) view).getJPanel(), mouseLoc);
 		
 	}
@@ -2926,7 +2926,7 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 	@Override
 	public void showPopupChooseGeo(ArrayList<GeoElement> selectedGeos,
 			ArrayList<GeoElement> geos, EuclidianViewInterfaceCommon view,
-			geogebra.common.awt.Point p) {
+			geogebra.common.awt.GPoint p) {
 		
 		showPopupChooseGeo(selectedGeos, geos, (EuclidianViewND) view, p);
 		
@@ -2994,8 +2994,8 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 
 	@Override
 	public void showDrawingPadPopup(EuclidianViewInterfaceCommon view,
-			geogebra.common.awt.Point mouseLoc) {
-		showDrawingPadPopup(((EuclidianView)view).getJPanel(), mouseLoc);
+			geogebra.common.awt.GPoint mouseLoc) {
+		showDrawingPadPopup(((EuclidianViewD)view).getJPanel(), mouseLoc);
 	}
 	
 	@Override

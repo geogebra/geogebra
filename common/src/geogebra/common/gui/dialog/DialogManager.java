@@ -11,8 +11,8 @@ the Free Software Foundation.
 */
 package geogebra.common.gui.dialog;
 
-import geogebra.common.awt.Point;
-import geogebra.common.euclidian.AbstractEuclidianView;
+import geogebra.common.awt.GPoint;
+import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.gui.view.properties.PropertiesView.OptionType;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
@@ -185,10 +185,10 @@ public abstract class DialogManager {
 		makeRegularPolygon(app, inputString, geoPoint1, geoPoint2);
 	}
 
-	public abstract void showBooleanCheckboxCreationDialog(Point loc, GeoBoolean bool);
+	public abstract void showBooleanCheckboxCreationDialog(GPoint loc, GeoBoolean bool);
 
 	public void showNumberInputDialogCirclePointRadius(String menu,
-			GeoPointND geoPointND, AbstractEuclidianView view) {
+			GeoPointND geoPointND, EuclidianView view) {
 		
 		Kernel kernel = geoPointND.getKernel();
 		

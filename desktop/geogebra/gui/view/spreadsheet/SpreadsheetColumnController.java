@@ -1,6 +1,6 @@
 package geogebra.gui.view.spreadsheet;
 
-import geogebra.common.awt.Point;
+import geogebra.common.awt.GPoint;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.main.AbstractApplication;
 import geogebra.main.Application;
@@ -67,8 +67,8 @@ public class SpreadsheetColumnController implements KeyListener, MouseListener, 
 			// get column to adjust
 			int x = e.getX();
 			int y = e.getY();
-			Point point = table.getIndexFromPixel(x, y);
-			Point testPoint = table.getIndexFromPixel(x-4, y);
+			GPoint point = table.getIndexFromPixel(x, y);
+			GPoint testPoint = table.getIndexFromPixel(x-4, y);
 			int col = (int) point.getX();
 			if(point.getX()!= testPoint.getX()){
 				col = col-1;
@@ -103,13 +103,13 @@ public class SpreadsheetColumnController implements KeyListener, MouseListener, 
 
 
 		if (!rightClick) {
-			Point point = table.getIndexFromPixel(x, y);
+			GPoint point = table.getIndexFromPixel(x, y);
 			if (point != null) {
 
 
 				// check if the cursor is within the resizing region (i.e. border +- 3pixels)
-				Point point2 = table.getPixel((int)point.getX(), (int)point.getY(), true);
-				Point point3 = table.getPixel((int)point.getX(), (int)point.getY(), false);
+				GPoint point2 = table.getPixel((int)point.getX(), (int)point.getY(), true);
+				GPoint point3 = table.getPixel((int)point.getX(), (int)point.getY(), false);
 				int x2 = point2.getX();
 				int x3 = point3.getX();
 				isResizing = ! (x > x2 + 2 && x < x3 - 3);
@@ -162,7 +162,7 @@ public class SpreadsheetColumnController implements KeyListener, MouseListener, 
 
 			if (!app.letShowPopupMenu()) return; 
 
-			Point p = table.getIndexFromPixel(e.getX(), e.getY());	
+			GPoint p = table.getIndexFromPixel(e.getX(), e.getY());	
 			if (p == null) return;
 
 			// if click is outside current selection then change selection
@@ -189,9 +189,9 @@ public class SpreadsheetColumnController implements KeyListener, MouseListener, 
 
 			int x = e.getX();
 			int y = e.getY();
-			Point point = table.getIndexFromPixel(x, y);
+			GPoint point = table.getIndexFromPixel(x, y);
 			if (point == null) return;
-			Point point2 = table.getPixel((int)point.getX(), (int)point.getY(), false);
+			GPoint point2 = table.getPixel((int)point.getX(), (int)point.getY(), false);
 			int column = (int)point.getX();
 			if (x < (int)point2.getX() - 3) {
 				-- column;
@@ -229,7 +229,7 @@ public class SpreadsheetColumnController implements KeyListener, MouseListener, 
 		if (isResizing) return;
 		int x = e.getX();
 		int y = e.getY();
-		Point point = table.getIndexFromPixel(x, y);
+		GPoint point = table.getIndexFromPixel(x, y);
 		if (point != null) {
 			int column = (int)point.getX();
 			table.setColumnSelectionInterval(column0, column);
@@ -245,7 +245,7 @@ public class SpreadsheetColumnController implements KeyListener, MouseListener, 
 		int column = -1;
 		boolean isOver = false;
 		java.awt.Point mouseLoc = e.getPoint();
-		Point cellLoc = table.getIndexFromPixel(mouseLoc.x, mouseLoc.y);
+		GPoint cellLoc = table.getIndexFromPixel(mouseLoc.x, mouseLoc.y);
 		if (cellLoc != null ) {
 			column = cellLoc.x;
 			if(app.getTraceManager().isTraceColumn(column)){

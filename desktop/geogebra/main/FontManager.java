@@ -406,9 +406,9 @@ public class FontManager extends AbstractFontManager {
 	}
 
 	@Override
-	public geogebra.common.awt.Font getFontCanDisplay(final String testString,
+	public geogebra.common.awt.GFont getFontCanDisplay(final String testString,
 			final boolean serif, final int fontStyle, final int fontSize) {
-		return new geogebra.awt.Font(getFontCanDisplayAwt(testString, serif, fontStyle, fontSize));
+		return new geogebra.awt.GFontD(getFontCanDisplayAwt(testString, serif, fontStyle, fontSize));
 	}
 
 }

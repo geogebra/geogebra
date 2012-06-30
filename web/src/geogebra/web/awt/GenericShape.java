@@ -1,14 +1,14 @@
 package geogebra.web.awt;
 
-import geogebra.common.awt.AffineTransform;
-import geogebra.common.awt.PathIterator;
+import geogebra.common.awt.GAffineTransform;
+import geogebra.common.awt.GPathIterator;
 import geogebra.common.awt.Rectangle;
-import geogebra.common.awt.Rectangle2D;
-import geogebra.common.awt.Shape;
+import geogebra.common.awt.GRectangle2D;
+import geogebra.common.awt.GShape;
 import geogebra.common.euclidian.GeneralPathClipped;
 import geogebra.common.main.AbstractApplication;
 
-public class GenericShape implements geogebra.web.awt.Shape {
+public class GenericShape implements geogebra.web.awt.GShapeW {
 
 	private geogebra.web.openjdk.awt.geom.Shape impl;
 	
@@ -35,8 +35,8 @@ public class GenericShape implements geogebra.web.awt.Shape {
 	}
 
 	
-	public Rectangle2D getBounds2D() {
-		return new geogebra.web.awt.Rectangle2D(impl.getBounds2D());
+	public GRectangle2D getBounds2D() {
+		return new geogebra.web.awt.GRectangle2DW(impl.getBounds2D());
 	}
 
 	
@@ -50,13 +50,13 @@ public class GenericShape implements geogebra.web.awt.Shape {
 	}
 
 	
-	public PathIterator getPathIterator(AffineTransform affineTransform) {
-		return new geogebra.web.awt.PathIterator(impl.getPathIterator(geogebra.web.awt.AffineTransform.getGawtAffineTransform(affineTransform)));
+	public GPathIterator getPathIterator(GAffineTransform affineTransform) {
+		return new geogebra.web.awt.GPathIteratorW(impl.getPathIterator(geogebra.web.awt.GAffineTransformW.getGawtAffineTransform(affineTransform)));
 	}
 
 	
-	public PathIterator getPathIterator(AffineTransform at, double flatness) {
-		return (PathIterator) impl.getPathIterator(geogebra.web.awt.AffineTransform.getGawtAffineTransform(at),flatness);
+	public GPathIterator getPathIterator(GAffineTransform at, double flatness) {
+		return (GPathIterator) impl.getPathIterator(geogebra.web.awt.GAffineTransformW.getGawtAffineTransform(at),flatness);
 	}
 
 	
@@ -65,19 +65,19 @@ public class GenericShape implements geogebra.web.awt.Shape {
 	}
 
 	
-	public boolean intersects(Rectangle2D r) {
+	public boolean intersects(GRectangle2D r) {
 		return impl.intersects(r.getX(),r.getY(),r.getWidth(),r.getHeight());
 	}
 
 
-	public static geogebra.web.openjdk.awt.geom.Shape getGawtShape(Shape shape) {
+	public static geogebra.web.openjdk.awt.geom.Shape getGawtShape(GShape shape) {
 		if (shape == null)
 			return null;
-		Shape shapeCommon = shape instanceof GeneralPathClipped ?
+		GShape shapeCommon = shape instanceof GeneralPathClipped ?
 			((GeneralPathClipped)shape).getGeneralPath() : shape;
 				
-		if((shapeCommon instanceof geogebra.web.awt.Shape)){
-			return ((geogebra.web.awt.Shape)shapeCommon).getGawtShape();
+		if((shapeCommon instanceof geogebra.web.awt.GShapeW)){
+			return ((geogebra.web.awt.GShapeW)shapeCommon).getGawtShape();
 		}
 		AbstractApplication.debug("unimplemented class in GenericShape.getGawtShape() "+shapeCommon.getClass());
 		return null;

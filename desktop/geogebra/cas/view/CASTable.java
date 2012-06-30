@@ -82,7 +82,7 @@ public class CASTable extends JTable implements geogebra.common.cas.view.CASTabl
 		kernel = app.getKernel();
 
 		setShowGrid(true);
-		setGridColor(geogebra.awt.Color
+		setGridColor(geogebra.awt.GColorD
 				.getAwtColor(GeoGebraColorConstants.TABLE_GRID_COLOR));
 		setBackground(Color.white);
 

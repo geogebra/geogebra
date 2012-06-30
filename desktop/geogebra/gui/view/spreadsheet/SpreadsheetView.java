@@ -1,7 +1,7 @@
 
 package geogebra.gui.view.spreadsheet;
 
-import geogebra.common.awt.Point;
+import geogebra.common.awt.GPoint;
 import geogebra.common.gui.view.spreadsheet.CellRange;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.View;
@@ -305,7 +305,7 @@ View, ComponentListener, FocusListener, Gridable, SettingListener
 		//Application.debug(new Date() + " ADD: " + geo);				
 
 		update(geo);	
-		Point location = geo.getSpreadsheetCoords();
+		GPoint location = geo.getSpreadsheetCoords();
 
 		// autoscroll to new cell's location
 		if (scrollToShow && location != null )
@@ -323,7 +323,7 @@ View, ComponentListener, FocusListener, Gridable, SettingListener
 				traceDialog.updateTraceDialog();
 		}
 
-		Point location = geo.getSpreadsheetCoords();
+		GPoint location = geo.getSpreadsheetCoords();
 
 		switch (geo.getGeoClassType()){
 			case BOOLEAN:
@@ -423,7 +423,7 @@ View, ComponentListener, FocusListener, Gridable, SettingListener
 
 
 	public void update(GeoElement geo) {
-		Point location = geo.getSpreadsheetCoords();
+		GPoint location = geo.getSpreadsheetCoords();
 		if (location != null && location.x < Kernel.MAX_SPREADSHEET_COLUMNS && location.y < Kernel.MAX_SPREADSHEET_ROWS) {
 
 
@@ -443,7 +443,7 @@ View, ComponentListener, FocusListener, Gridable, SettingListener
 			}
 
 			//Mark this cell to be resized by height
-			table.cellResizeHeightSet.add(new Point(location.x, location.y));
+			table.cellResizeHeightSet.add(new GPoint(location.x, location.y));
 
 			// put geos with special editors in the oneClickEditMap 
 			if(geo.isGeoBoolean() || geo.isGeoButton() || geo.isGeoList()){
@@ -1367,7 +1367,7 @@ View, ComponentListener, FocusListener, Gridable, SettingListener
 		getTable().getCellFormatHandler().processXMLString(settings().cellFormat());	
 
 		// preferredSize
-		this.setPreferredSize(geogebra.awt.Dimension.getAWTDimension(settings().preferredSize()));
+		this.setPreferredSize(geogebra.awt.GDimensionD.getAWTDimension(settings().preferredSize()));
 
 
 		// initial position

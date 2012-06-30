@@ -484,7 +484,7 @@ public class MyXMLio extends geogebra.common.io.MyXMLio{
 			// MD5 code put in the correct place!)
 			String fileName = geo.getImageFileName();
 			if (fileName != null) {
-				BufferedImage img = geogebra.awt.BufferedImage.getAwtBufferedImage(geo.getFillImage());
+				BufferedImage img = geogebra.awt.GBufferedImageD.getAwtBufferedImage(geo.getFillImage());
 				if (img != null)
 					writeImageToZip(zip, filePath + fileName, img);
 			}

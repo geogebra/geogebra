@@ -1,7 +1,7 @@
 package geogebra.javax.swing;
 
-import geogebra.common.awt.Color;
-import geogebra.common.awt.Font;
+import geogebra.common.awt.GColor;
+import geogebra.common.awt.GFont;
 /**
  * Wrapper for javax.swing.JLabel
  * @author Judit Elias
@@ -51,20 +51,20 @@ public class JLabel extends geogebra.common.javax.swing.JLabel{
 	}
 
 	@Override
-	public void setFont(Font font) {
-		impl.setFont(geogebra.awt.Font.getAwtFont(font));
+	public void setFont(GFont font) {
+		impl.setFont(geogebra.awt.GFontD.getAwtFont(font));
 		
 	}
 
 	@Override
-	public void setForeground(Color color) {
-		impl.setForeground(geogebra.awt.Color.getAwtColor(color));
+	public void setForeground(GColor color) {
+		impl.setForeground(geogebra.awt.GColorD.getAwtColor(color));
 		
 	}
 
 	@Override
-	public void setBackground(Color color) {
-		impl.setBackground(geogebra.awt.Color.getAwtColor(color));
+	public void setBackground(GColor color) {
+		impl.setBackground(geogebra.awt.GColorD.getAwtColor(color));
 		
 	}
 }

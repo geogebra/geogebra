@@ -1,6 +1,6 @@
 package geogebra.gui.view.spreadsheet;
 
-import geogebra.common.awt.Point;
+import geogebra.common.awt.GPoint;
 import geogebra.common.main.GeoGebraColorConstants;
 
 import java.awt.BasicStroke;
@@ -27,14 +27,14 @@ public class SpreadsheetBorders {
 	 */
 	public static void drawFormatBorders(Graphics2D g2, MyTable table){
 
-		g2.setColor(geogebra.awt.Color.getAwtColor(GeoGebraColorConstants.BLACK));
+		g2.setColor(geogebra.awt.GColorD.getAwtColor(GeoGebraColorConstants.BLACK));
 		g2.setStroke(new BasicStroke(1));
 
-		HashMap<Point,Object> map = table.getCellFormatHandler().getFormatMap(CellFormat.FORMAT_BORDER);
-		Set<Point> formatCell = map.keySet();
+		HashMap<GPoint,Object> map = table.getCellFormatHandler().getFormatMap(CellFormat.FORMAT_BORDER);
+		Set<GPoint> formatCell = map.keySet();
 
 		int c = 0,r = 0;
-		for(Point cell:formatCell){
+		for(GPoint cell:formatCell){
 
 			Byte b = (Byte) table.getCellFormatHandler().getCellFormat(cell, CellFormat.FORMAT_BORDER);
 			if(b != null){

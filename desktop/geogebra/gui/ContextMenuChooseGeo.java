@@ -1,6 +1,6 @@
 package geogebra.gui;
 
-import geogebra.common.euclidian.AbstractEuclidianView;
+import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.kernel.geos.FromMeta;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
@@ -39,7 +39,7 @@ public class ContextMenuChooseGeo extends ContextMenuGeoElement {
 	/**
 	 * 
 	 */
-	protected AbstractEuclidianView view;
+	protected EuclidianView view;
 	
 	/**
 	 * polygons/polyhedra parents of segments, polygons, ...
@@ -48,7 +48,7 @@ public class ContextMenuChooseGeo extends ContextMenuGeoElement {
 	
 	private ArrayList<GeoElement> selectedGeos;
 	private ArrayList<GeoElement> geos;
-	private geogebra.common.awt.Point loc;
+	private geogebra.common.awt.GPoint loc;
 	
 	private JMenu selectAnotherMenu;
 
@@ -62,7 +62,7 @@ public class ContextMenuChooseGeo extends ContextMenuGeoElement {
 	 */
 	public ContextMenuChooseGeo(Application app, EuclidianViewND view, 
 			ArrayList<GeoElement> selectedGeos,
-			ArrayList<GeoElement> geos, Point location, geogebra.common.awt.Point invokerLocation) {
+			ArrayList<GeoElement> geos, Point location, geogebra.common.awt.GPoint invokerLocation) {
 
 		super(app, selectedGeos, location);
 

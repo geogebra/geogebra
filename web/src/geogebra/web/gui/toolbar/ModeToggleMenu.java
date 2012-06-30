@@ -1,6 +1,6 @@
 package geogebra.web.gui.toolbar;
 
-import geogebra.common.awt.Color;
+import geogebra.common.awt.GColor;
 import geogebra.common.main.AbstractApplication;
 import geogebra.web.awt.GeneralPath;
 import geogebra.web.gui.app.GGWToolBar;
@@ -41,7 +41,7 @@ public class ModeToggleMenu extends MenuBar implements DoubleClickHandler,
 	private ToolBar toolbar;
 	private AbsolutePanel imagePanel;
 
-	final static Color bgColor = Color.white;
+	final static GColor bgColor = GColor.white;
 
 	public ModeToggleMenu(Application app, ToolBar toolbar,
 			ModeToggleButtonGroup bg) {

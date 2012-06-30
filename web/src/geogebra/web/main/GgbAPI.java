@@ -17,7 +17,7 @@ import geogebra.common.main.AbstractApplication;
 import geogebra.common.plugin.JavaScriptAPI;
 import geogebra.common.io.MyXMLio;
 
-import geogebra.web.euclidian.EuclidianView;
+import geogebra.web.euclidian.EuclidianViewW;
 import geogebra.web.gui.applet.GeoGebraFrame;
 import geogebra.web.helper.ScriptLoadCallback;
 import geogebra.web.html5.DynamicScriptElement;
@@ -174,7 +174,7 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI {
 		// write construction thumbnails
     	if (includeThumbnail)
     		addImageToZip(MyXMLio.XML_FILE_THUMBNAIL,
-    			((EuclidianView)app.getEuclidianView1()).getCanvasBase64WithTypeString());
+    			((EuclidianViewW)app.getEuclidianView1()).getCanvasBase64WithTypeString());
 
 
     	if (!macroXml.equals("")) {
@@ -407,7 +407,7 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI {
 			// MD5 code put in the correct place!)
 			String fileName = geo.getImageFileName();
 			if (fileName != null) {
-				BufferedImage img = geogebra.web.awt.BufferedImage.getGawtImage(geo.getFillImage());
+				BufferedImage img = geogebra.web.awt.GBufferedImageW.getGawtImage(geo.getFillImage());
 				if (img != null && img.getImageElement() != null) {
 					Canvas cv = Canvas.createIfSupported();
 					cv.setCoordinateSpaceWidth(img.getWidth());

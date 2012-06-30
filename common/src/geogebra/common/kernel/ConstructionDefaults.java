@@ -13,7 +13,7 @@ the Free Software Foundation.
 package geogebra.common.kernel;
 
 import geogebra.common.GeoGebraConstants;
-import geogebra.common.awt.Color;
+import geogebra.common.awt.GColor;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoConic;
@@ -100,36 +100,36 @@ public class ConstructionDefaults {
 	// DEFAULT COLORs
 	// points
 	/** default color for points*/
-	public static final Color colPoint = Color.blue;
+	public static final GColor colPoint = GColor.blue;
 	/** default color for dependent points*/
-	public static final Color colDepPoint = Color.darkGray;
+	public static final GColor colDepPoint = GColor.darkGray;
 	/** default color for points on path*/
-	public static final Color colPathPoint = GeoGebraColorConstants.LIGHTBLUE; //new Color(125, 125, 255);
+	public static final GColor colPathPoint = GeoGebraColorConstants.LIGHTBLUE; //new Color(125, 125, 255);
 	/** default color for points in region*/
-	public static final Color colRegionPoint = colPathPoint;
+	public static final GColor colRegionPoint = colPathPoint;
 	/** default color for complex numbers*/
-	public static final Color colComplexPoint = colPoint;
+	public static final GColor colComplexPoint = colPoint;
 	
 	// lines
 	/** default color for lines*/
-	private static final Color colLine = Color.black;
+	private static final GColor colLine = GColor.black;
 	/** default color for inequalities*/
-	private static final Color colInequality= Color.blue;
+	private static final GColor colInequality= GColor.blue;
 
 	// conics
-	private static final Color colConic = Color.black;
+	private static final GColor colConic = GColor.black;
 	/** default alpha for conics*/
 	public static final float DEFAULT_CONIC_ALPHA = 0f;
 
 	// polygons
 	/** default color for polygons*/
-	protected static final Color colPolygon = GeoGebraColorConstants.BROWN; //new Color(153, 51, 0);	
+	protected static final GColor colPolygon = GeoGebraColorConstants.BROWN; //new Color(153, 51, 0);	
 	/** default alpha for inequalities*/
 	public static final float DEFAULT_INEQUALITY_ALPHA = 0.25f;
 
 	// angles
 	/** default color for angles*/
-	private static final Color colAngle = GeoGebraColorConstants.DARKGREEN; //new Color(0, 100, 0);
+	private static final GColor colAngle = GeoGebraColorConstants.DARKGREEN; //new Color(0, 100, 0);
 	/** default alpha for angles*/
 	public static final float DEFAULT_ANGLE_ALPHA = 0.1f;
 	
@@ -138,19 +138,19 @@ public class ConstructionDefaults {
 	public static final float DEFAULT_NUMBER_ALPHA = 0.1f;
 
 	// locus lines	
-	private static final Color colLocus = Color.black;
+	private static final GColor colLocus = GColor.black;
 	
 	// functions
-	private static final Color colFunction = Color.black;
+	private static final GColor colFunction = GColor.black;
 	
 	// lists
-	private static final Color colList = GeoGebraColorConstants.DARKGREEN; //new Color(0, 110, 0);
+	private static final GColor colList = GeoGebraColorConstants.DARKGREEN; //new Color(0, 110, 0);
 
 		
 	/** preview color */
-	public static final Color colPreview = Color.darkGray;
+	public static final GColor colPreview = GColor.darkGray;
 	/** preview fill color */
-	public static final Color colPreviewFill = geogebra.common.factories.AwtFactory.prototype.newColor(
+	public static final GColor colPreviewFill = geogebra.common.factories.AwtFactory.prototype.newColor(
 			colPolygon.getRed(), 
 			colPolygon.getGreen(), 
 			colPolygon.getBlue(), 
@@ -638,7 +638,7 @@ public class ConstructionDefaults {
 		
 		if (blackWhiteMode) {
 			// use black color and no filling
-			geo.setObjColor(Color.black);
+			geo.setObjColor(GColor.black);
 			geo.setAlphaValue(0f);
 		}
 		

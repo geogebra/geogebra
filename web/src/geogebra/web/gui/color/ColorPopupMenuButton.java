@@ -13,10 +13,10 @@ import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.resources.client.ImageResource;
 
-import geogebra.common.awt.Color;
+import geogebra.common.awt.GColor;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.GeoGebraColorConstants;
-import geogebra.web.awt.Dimension;
+import geogebra.web.awt.GDimensionW;
 import geogebra.web.gui.util.GeoGebraIcon;
 import geogebra.web.gui.util.PopupMenuButton;
 import geogebra.web.main.Application;
@@ -28,14 +28,14 @@ public class ColorPopupMenuButton extends PopupMenuButton implements ClickHandle
 	public static final int COLORSET_DEFAULT = 0;
 	public static final int COLORSET_BGCOLOR = 1;
 	private int colorSetType;
-	private geogebra.common.awt.Color[]  colorSet; 
-	private geogebra.common.awt.Color defaultColor;
-	private HashMap<Color,Integer> lookupMap; 
+	private geogebra.common.awt.GColor[]  colorSet; 
+	private geogebra.common.awt.GColor defaultColor;
+	private HashMap<GColor,Integer> lookupMap; 
 
 	private boolean hasSlider;
-	private Dimension iconSize;
+	private GDimensionW iconSize;
 
-	public ColorPopupMenuButton(Application app, Dimension iconSize, int colorSetType, boolean hasSlider) {
+	public ColorPopupMenuButton(Application app, GDimensionW iconSize, int colorSetType, boolean hasSlider) {
 
 		super(app, createDummyIcons(iconSize), -1, 9, iconSize, geogebra.common.gui.util.SelectionTable.MODE_ICON);
 		this.app = app;
@@ -45,7 +45,7 @@ public class ColorPopupMenuButton extends PopupMenuButton implements ClickHandle
 		colorSet = getColorArray(colorSetType);
 		defaultColor = colorSet[0];
 
-		lookupMap = new HashMap<Color,Integer>();
+		lookupMap = new HashMap<GColor,Integer>();
 		for(int i = 0; i < colorSet.length; i++) {
 			lookupMap.put(colorSet[i], i);
 		}
@@ -77,7 +77,7 @@ public class ColorPopupMenuButton extends PopupMenuButton implements ClickHandle
 		return icon;
 	}
 
-	public int getColorIndex(Color color){
+	public int getColorIndex(GColor color){
 		int index = -1;
 
 		if(color == null && colorSetType == COLORSET_BGCOLOR){
@@ -93,7 +93,7 @@ public class ColorPopupMenuButton extends PopupMenuButton implements ClickHandle
 	}
 
 
-	public geogebra.common.awt.Color getSelectedColor(){
+	public geogebra.common.awt.GColor getSelectedColor(){
 		int index = getSelectedIndex();
 		if(index <= -1) {
 			return defaultColor;
@@ -104,11 +104,11 @@ public class ColorPopupMenuButton extends PopupMenuButton implements ClickHandle
 		}
 	}
 
-	private static geogebra.common.awt.Color[] getColorArray(int colorSetType){
+	private static geogebra.common.awt.GColor[] getColorArray(int colorSetType){
 		return GeoGebraColorConstants.getPopupArray(colorSetType);
 	}
 
-	public void setDefaultColor(float alpha, geogebra.common.awt.Color gc) {
+	public void setDefaultColor(float alpha, geogebra.common.awt.GColor gc) {
 		defaultColor = gc;
 		if(gc!=null)
 			this.setIcon(GeoGebraIcon.createColorSwatchIcon( alpha, iconSize,gc, null));
@@ -132,7 +132,7 @@ public class ColorPopupMenuButton extends PopupMenuButton implements ClickHandle
 		return toolTipArray;
 	}
 
-	private static ImageData[] getColorSwatchIcons(geogebra.common.awt.Color[] colorArray, float alpha, Dimension iconSize, int colorSetType){
+	private static ImageData[] getColorSwatchIcons(geogebra.common.awt.GColor[] colorArray, float alpha, GDimensionW iconSize, int colorSetType){
 		ImageData[] a = new ImageData[colorArray.length];
 		for(int i = 0; i < colorArray.length; i++)
 			if(colorArray[i] != null) {
@@ -143,7 +143,7 @@ public class ColorPopupMenuButton extends PopupMenuButton implements ClickHandle
 		return a;
 	}
 
-	private static  ImageData[] createDummyIcons( Dimension iconSize){
+	private static  ImageData[] createDummyIcons( GDimensionW iconSize){
 
 		ImageData[] a = new ImageData[27];
 		for(int i = 0; i < 27; i++) {

@@ -55,7 +55,7 @@ public class MyCellEditorButton extends AbstractCellEditor implements TableCellE
 			delegate.setOpaque(true);
 			delegate.setHorizontalAlignment(SwingConstants.CENTER);
 		//	delegate.setFont(view.fontPoint);
-			delegate.setForeground(geogebra.awt.Color.getAwtColor(editGeo.getObjectColor()));
+			delegate.setForeground(geogebra.awt.GColorD.getAwtColor(editGeo.getObjectColor()));
 		  
 	    return delegate;
 	  }

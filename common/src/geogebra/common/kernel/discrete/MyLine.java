@@ -1,12 +1,12 @@
 package geogebra.common.kernel.discrete;
 
-import geogebra.common.awt.Point2D;
+import geogebra.common.awt.GPoint2D;
 
 public class MyLine {
-	public Point2D p1;
-	public Point2D p2;
+	public GPoint2D p1;
+	public GPoint2D p2;
 
-	public  MyLine(Point2D p1, Point2D p2) {
+	public  MyLine(GPoint2D p1, GPoint2D p2) {
 		this.p1 = p1;
 		this.p2 = p2;
 	}

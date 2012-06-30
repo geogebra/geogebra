@@ -18,7 +18,7 @@ the Free Software Foundation.
 
 package geogebra.common.euclidian;
 
-import geogebra.common.awt.BufferedImage;
+import geogebra.common.awt.GBufferedImage;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoImage;
@@ -32,24 +32,24 @@ public final class DrawImage extends Drawable {
 
 	private GeoImage geoImage;
 	private boolean isVisible;
-	private BufferedImage image;
+	private GBufferedImage image;
 
 	private boolean absoluteLocation;
-	private geogebra.common.awt.AlphaComposite alphaComp;
+	private geogebra.common.awt.GAlphaComposite alphaComp;
 	private float alpha = -1;
 	private boolean isInBackground = false;
-	private geogebra.common.awt.AffineTransform at, atInverse, tempAT;
+	private geogebra.common.awt.GAffineTransform at, atInverse, tempAT;
 	private boolean needsInterpolationRenderingHint;
 	private int screenX, screenY;
 	private geogebra.common.awt.Rectangle boundingBox;
-	private geogebra.common.awt.GeneralPath highlighting;
+	private geogebra.common.awt.GGeneralPath highlighting;
 
 	/**
 	 * Creates new drawble image
 	 * @param view view
 	 * @param geoImage image
 	 */
-	public DrawImage(AbstractEuclidianView view, GeoImage geoImage) {
+	public DrawImage(EuclidianView view, GeoImage geoImage) {
 		this.view = view;
 		this.geoImage = geoImage;
 		geo = geoImage;
@@ -74,7 +74,7 @@ public final class DrawImage extends Drawable {
 		if (geo.getAlphaValue() != alpha) {
 			alpha = geo.getAlphaValue();
 			alphaComp = geogebra.common.factories.AwtFactory.prototype.newAlphaComposite(
-					geogebra.common.awt.AlphaComposite.SRC_OVER,alpha);
+					geogebra.common.awt.GAlphaComposite.SRC_OVER,alpha);
 		}
 
 		image = geoImage
@@ -176,7 +176,7 @@ public final class DrawImage extends Drawable {
 
 			// calculate bounding box for isInside
 			boundingBox.setBounds(0, 0, width, height);
-			geogebra.common.awt.Shape shape = at.createTransformedShape(boundingBox);
+			geogebra.common.awt.GShape shape = at.createTransformedShape(boundingBox);
 			boundingBox = shape.getBounds();
 
 			try {
@@ -218,11 +218,11 @@ public final class DrawImage extends Drawable {
 	@Override
 	final public void draw(geogebra.common.awt.Graphics2D g3) {
 		if (isVisible) {
-			geogebra.common.awt.Composite oldComp = g3.getComposite();
+			geogebra.common.awt.GComposite oldComp = g3.getComposite();
 			if (alpha >= 0f && alpha < 1f) {
 				if (alphaComp == null)
 					alphaComp = geogebra.common.factories.AwtFactory.prototype.newAlphaComposite(
-							geogebra.common.awt.AlphaComposite.SRC_OVER, alpha);
+							geogebra.common.awt.GAlphaComposite.SRC_OVER, alpha);
 				g3.setComposite(alphaComp);
 			}
 
@@ -231,11 +231,11 @@ public final class DrawImage extends Drawable {
 				if (!isInBackground && geo.doHighlighting()) {
 					// draw rectangle around image
 					g3.setStroke(selStroke);
-					g3.setPaint(geogebra.common.awt.Color.lightGray);
+					g3.setPaint(geogebra.common.awt.GColor.lightGray);
 					g3.draw(labelRectangle);
 				}
 			} else {
-				geogebra.common.awt.AffineTransform oldAT = g3.getTransform();
+				geogebra.common.awt.GAffineTransform oldAT = g3.getTransform();
 				g3.transform(at);
 
 				// improve rendering quality for transformed images
@@ -247,7 +247,7 @@ public final class DrawImage extends Drawable {
 				if (!isInBackground && geo.doHighlighting()) {
 					// draw rectangle around image
 					g3.setStroke(selStroke);
-					g3.setPaint(geogebra.common.awt.Color.lightGray);
+					g3.setPaint(geogebra.common.awt.GColor.lightGray);
 
 					// changed to code below so that the line thicknesses aren't
 					// transformed
@@ -255,13 +255,13 @@ public final class DrawImage extends Drawable {
 
 					// draw parallelogram around edge
 					drawHighlighting(at, g3);
-					geogebra.common.awt.Point2D corner1 = geogebra.common.factories.AwtFactory.prototype.newPoint2D(
+					geogebra.common.awt.GPoint2D corner1 = geogebra.common.factories.AwtFactory.prototype.newPoint2D(
 							labelRectangle.getMinX(), labelRectangle.getMinY());
-					geogebra.common.awt.Point2D corner2 = geogebra.common.factories.AwtFactory.prototype.newPoint2D(
+					geogebra.common.awt.GPoint2D corner2 = geogebra.common.factories.AwtFactory.prototype.newPoint2D(
 							labelRectangle.getMinX(), labelRectangle.getMaxY());
-					geogebra.common.awt.Point2D corner3 = geogebra.common.factories.AwtFactory.prototype.newPoint2D(
+					geogebra.common.awt.GPoint2D corner3 = geogebra.common.factories.AwtFactory.prototype.newPoint2D(
 							labelRectangle.getMaxX(), labelRectangle.getMaxY());
-					geogebra.common.awt.Point2D corner4 = geogebra.common.factories.AwtFactory.prototype.newPoint2D(
+					geogebra.common.awt.GPoint2D corner4 = geogebra.common.factories.AwtFactory.prototype.newPoint2D(
 							labelRectangle.getMaxX(), labelRectangle.getMinY());
 					at.transform(corner1, corner1);
 					at.transform(corner2, corner2);
@@ -300,7 +300,7 @@ public final class DrawImage extends Drawable {
 	 * @param at2 transform
 	 * @param g2 graphics 
 	 */
-	private void drawHighlighting(geogebra.common.awt.AffineTransform at2,
+	private void drawHighlighting(geogebra.common.awt.GAffineTransform at2,
 			geogebra.common.awt.Graphics2D g2) {
 		// TODO Auto-generated method stub
 

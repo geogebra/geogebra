@@ -89,7 +89,7 @@ public class CASView  extends geogebra.common.cas.view.CASView implements Gridab
 		// set the lower left corner so that the horizontal scroller looks good
 		JPanel p = new JPanel();
 		p.setBorder(BorderFactory.createMatteBorder(1, 0, 0, 1,
-				geogebra.awt.Color
+				geogebra.awt.GColorD
 						.getAwtColor(GeoGebraColorConstants.TABLE_GRID_COLOR)));
 		p.setBackground(Color.white);
 		scrollPane.setCorner(ScrollPaneConstants.LOWER_LEFT_CORNER, p);

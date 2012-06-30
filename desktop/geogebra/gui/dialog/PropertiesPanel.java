@@ -12,7 +12,7 @@ the Free Software Foundation.
 
 package geogebra.gui.dialog;
 
-import geogebra.common.euclidian.AbstractEuclidianView;
+import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.gui.SetLabels;
 import geogebra.common.gui.dialog.handler.RedefineInputHandler;
@@ -57,7 +57,7 @@ import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.plugin.GeoClass;
-import geogebra.euclidian.EuclidianView;
+import geogebra.euclidian.EuclidianViewD;
 import geogebra.gui.color.GeoGebraColorChooser;
 import geogebra.gui.inputfield.AutoCompleteTextField;
 import geogebra.gui.inputfield.GeoGebraComboBoxEditor;
@@ -1306,7 +1306,7 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 			float alpha = 1;
 
 			if (equalObjColorBackground) {
-				selectedBGColor = geogebra.awt.Color.getAwtColor(geo0
+				selectedBGColor = geogebra.awt.GColorD.getAwtColor(geo0
 						.getBackgroundColor());
 			}
 
@@ -1316,11 +1316,11 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 				// set selectedColor if all selected geos have the same color
 				if (equalObjColor) {
 					if (allFillable) {
-						selectedColor = geogebra.awt.Color.getAwtColor(geo0
+						selectedColor = geogebra.awt.GColorD.getAwtColor(geo0
 								.getFillColor());
 						alpha = geo0.getAlphaValue();
 					} else {
-						selectedColor = geogebra.awt.Color.getAwtColor(geo0
+						selectedColor = geogebra.awt.GColorD.getAwtColor(geo0
 								.getObjectColor());
 					}
 				}
@@ -1379,7 +1379,7 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 		 */
 		public String getToolTipText(Color color) {
 			String name = GeoGebraColorConstants.getGeogebraColorName(app,
-					new geogebra.awt.Color(color));
+					new geogebra.awt.GColorD(color));
 			String rgbStr = color.getRed() + ", " + color.getGreen() + ", "
 					+ color.getBlue();
 			if (name != null)
@@ -1406,10 +1406,10 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 				geo = (GeoElement) geos[i];
 
 				if (hasBackground && rbtnBackgroundColor.isSelected()) {
-					geo.setBackgroundColor(new geogebra.awt.Color(col));
+					geo.setBackgroundColor(new geogebra.awt.GColorD(col));
 				} else {
 					if (!updateAlphaOnly)
-						geo.setObjColor(new geogebra.awt.Color(col));
+						geo.setObjColor(new geogebra.awt.GColorD(col));
 					if (allFillable)
 						geo.setAlphaValue(alpha);
 				}
@@ -3921,7 +3921,7 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 
 			PointStyleListRenderer renderer = new PointStyleListRenderer();
 			renderer.setPreferredSize(new Dimension(18, 18));
-			cbStyle = new JComboBox(EuclidianView.getPointStyles());
+			cbStyle = new JComboBox(EuclidianViewD.getPointStyles());
 			cbStyle.setRenderer(renderer);
 			cbStyle.setMaximumRowCount(EuclidianStyleConstants.MAX_POINT_STYLE + 1);
 			cbStyle.setBackground(getBackground());
@@ -5045,7 +5045,7 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 			DashListRenderer renderer = new DashListRenderer();
 			renderer.setPreferredSize(new Dimension(130,
 					app.getGUIFontSize() + 6));
-			dashCB = new JComboBox(EuclidianView.getLineTypes());
+			dashCB = new JComboBox(EuclidianViewD.getLineTypes());
 			dashCB.setRenderer(renderer);
 			dashCB.addActionListener(this);
 
@@ -6214,7 +6214,7 @@ class ColorFunctionPanel extends JPanel implements ActionListener,
 
 		// set default field values
 		GeoElement geo = (GeoElement) geos[0];
-		Color col = geogebra.awt.Color.getAwtColor(geo.getObjectColor());
+		Color col = geogebra.awt.GColorD.getAwtColor(geo.getObjectColor());
 		defaultR = "" + col.getRed() / 255.0;
 		defaultG = "" + col.getGreen() / 255.0;
 		defaultB = "" + col.getBlue() / 255.0;
@@ -6494,7 +6494,7 @@ class GraphicsViewLocationPanel extends JPanel implements ActionListener,
 			for (int i = 0; i < geos.length; i++) {
 				GeoElement geo = (GeoElement) geos[i];
 
-				AbstractEuclidianView ev2 = app.getEuclidianView2();
+				EuclidianView ev2 = app.getEuclidianView2();
 
 				if (cbGraphicsView2.isSelected()) {
 					geo.addView(AbstractApplication.VIEW_EUCLIDIAN2);

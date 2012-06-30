@@ -101,7 +101,7 @@ public class RowContentPopupMenu extends JPopupMenu implements ActionListener {
 
 			app.getDrawEquation().drawLatexImageIcon(app,
 					latexIcon, value.getLaTeXOutput(), latexFont, false,
-					geogebra.awt.Color.getAwtColor(value.getAlgebraColor()), table.getBackground());
+					geogebra.awt.GColorD.getAwtColor(value.getAlgebraColor()), table.getBackground());
 
 			data = new ImageSelection(latexIcon.getImage());
 		}

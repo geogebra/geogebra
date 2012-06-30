@@ -10,7 +10,7 @@ import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import geogebra.common.awt.Color;
+import geogebra.common.awt.GColor;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.gui.SetLabels;
 import geogebra.common.main.GeoGebraColorConstants;
@@ -147,10 +147,10 @@ public class CASControlPanel extends JPanel implements ActionListener,
 	
 	
 	private JPanel createPad(String[][] btnData, int rows, int columns,
-			boolean isBold, Color textColor) {
+			boolean isBold, GColor textColor) {
 
 		if (textColor == null) {
-			textColor = Color.BLACK;
+			textColor = GColor.BLACK;
 		}
 		JPanel padGrid = new JPanel(new GridLayout(rows, columns));
 		GridLayout l = (GridLayout) padGrid.getLayout();
@@ -162,7 +162,7 @@ public class CASControlPanel extends JPanel implements ActionListener,
 			} else {
 				final ControlButton btn = new ControlButton();
 				btn.setPreferredSize(new Dimension(30, 30));
-				btn.setForeground(geogebra.awt.Color.getAwtColor(textColor));
+				btn.setForeground(geogebra.awt.GColorD.getAwtColor(textColor));
 				if (isBold) {
 					Font f = app.getBoldFont();
 					btn.setFont(f.deriveFont((float) (f.getSize() + 2)));
@@ -253,7 +253,7 @@ public class CASControlPanel extends JPanel implements ActionListener,
 
 	private void createCopyPad() {
 		Font font = app.getBoldFont();
-		java.awt.Color fgColor = geogebra.awt.Color.getAwtColor(Color.BLACK);
+		java.awt.Color fgColor = geogebra.awt.GColorD.getAwtColor(GColor.BLACK);
 	
 
 		btnShowKeyboard = 	new MyButton(app.getImageIcon("cas-keyboard.png"));	

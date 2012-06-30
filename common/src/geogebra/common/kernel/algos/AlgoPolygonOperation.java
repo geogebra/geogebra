@@ -14,8 +14,8 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.algos;
 
-import geogebra.common.awt.Area;
-import geogebra.common.awt.PathIterator;
+import geogebra.common.awt.GArea;
+import geogebra.common.awt.GPathIterator;
 import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import geogebra.common.euclidian.GeneralPathClipped;
 import geogebra.common.kernel.Construction;
@@ -174,7 +174,7 @@ public abstract class AlgoPolygonOperation extends AlgoElement {
 	/**
 	 * Convert array of polygon GeoPoints to an Area object
 	 */
-	private Area getArea(GeoPointND[] pts) {
+	private GArea getArea(GeoPointND[] pts) {
 
 		double [] coords = new double[2]; 
 		GeneralPathClipped gp = new GeneralPathClipped(ev);
@@ -204,9 +204,9 @@ public abstract class AlgoPolygonOperation extends AlgoElement {
 		double[] coords = new double[6];
 				
 		// Convert input polygons to Area objects
-		Area a1 = getArea(inPoly0.getPoints());
-		Area a2 = getArea(inPoly1.getPoints());
-		Area testArea = null;
+		GArea a1 = getArea(inPoly0.getPoints());
+		GArea a2 = getArea(inPoly1.getPoints());
+		GArea testArea = null;
 		if(a1 != null && a2 != null){
 		// test for empty intersection
 			testArea = getArea(inPoly0.getPoints());
@@ -233,7 +233,7 @@ public abstract class AlgoPolygonOperation extends AlgoElement {
 			// Iterate through the path of the result 
 			// and recover the polygon vertices.
 			
-			PathIterator it = a1.getPathIterator(null);
+			GPathIterator it = a1.getPathIterator(null);
 
 			int type = it.currentSegment(coords);
 			it.next();
@@ -242,7 +242,7 @@ public abstract class AlgoPolygonOperation extends AlgoElement {
 
 			while (!it.isDone()) {
 				type = it.currentSegment(coords);
-				if (type == PathIterator.SEG_CLOSE) {
+				if (type == GPathIterator.SEG_CLOSE) {
 					break;
 				}
 				// Sometimes the Path iterator gives two almost identical points and 

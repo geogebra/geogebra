@@ -17,7 +17,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
-import geogebra.euclidian.EuclidianView;
+import geogebra.euclidian.EuclidianViewD;
 import geogebra.gui.GuiManager;
 import geogebra.main.Application;
 
@@ -207,7 +207,7 @@ implements MouseListener, MouseMotionListener{
 	 * @param e event
 	 * @param mouseCoords mouse coords
 	 */
-	final protected void rightPress(java.awt.event.MouseEvent e, geogebra.common.awt.Point mouseCoords){
+	final protected void rightPress(java.awt.event.MouseEvent e, geogebra.common.awt.GPoint mouseCoords){
 		e.consume();
 
 		// get GeoElement at mouse location		

@@ -29,12 +29,12 @@ public interface LineProperties {
 	 */
 	public int getLineThickness();
 	/**
-	 * Set line type (see {@link geogebra.common.euclidian.AbstractEuclidianView#getLineTypes})
+	 * Set line type (see {@link geogebra.common.euclidian.EuclidianView#getLineTypes})
 	 * @param type line type
 	 */
 	public void setLineType(int type);
 	/**
-	 * Get line type (see {@link geogebra.common.euclidian.AbstractEuclidianView#getLineTypes})
+	 * Get line type (see {@link geogebra.common.euclidian.EuclidianView#getLineTypes})
 	 * @return line type
 	 */
 	public int getLineType();

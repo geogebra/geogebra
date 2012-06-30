@@ -1,6 +1,6 @@
 package geogebra.gui.view.spreadsheet.statdialog;
 
-import geogebra.common.euclidian.AbstractEuclidianView;
+import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.kernel.algos.AlgoHistogram;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
@@ -235,7 +235,7 @@ StatPanelInterface{
 
 		plotPanelNorth = new JPanel();
 		plotPanelSouth = new JPanel();
-		Color bgColor = geogebra.awt.Color.getAwtColor(plotPanel.getBackgroundCommon());
+		Color bgColor = geogebra.awt.GColorD.getAwtColor(plotPanel.getBackgroundCommon());
 		plotPanelNorth.setBackground(bgColor);
 		plotPanelSouth.setBackground(bgColor);
 		lblTitleX = new JLabel();
@@ -1018,7 +1018,7 @@ StatPanelInterface{
 		app.setWaitCursor();
 		//app.storeUndoInfo();	
 		GeoElement regressionCopy = null;
-		AbstractEuclidianView targetEV  = (AbstractEuclidianView) app.getView(euclidianViewID);
+		EuclidianView targetEV  = (EuclidianView) app.getView(euclidianViewID);
 
 		try {
 

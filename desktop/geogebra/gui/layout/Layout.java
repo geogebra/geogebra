@@ -1,6 +1,6 @@
 package geogebra.gui.layout;
 
-import geogebra.common.euclidian.AbstractEuclidianView;
+import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.gui.InputHandler;
 import geogebra.common.io.layout.DockPanelData;
 import geogebra.common.io.layout.Perspective;
@@ -167,7 +167,7 @@ public class Layout extends geogebra.common.gui.Layout implements SettingListene
 		
 		// return the default perspective in case we're creating new preferences of
 		// a virgin application.		
-		AbstractEuclidianView ev = app.getEuclidianView1();
+		EuclidianView ev = app.getEuclidianView1();
 		Perspective perspective = new Perspective(id);
 
 		// get the information about the split panes

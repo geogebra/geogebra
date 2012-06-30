@@ -1,10 +1,10 @@
 package geogebra.web.main;
 
 import geogebra.common.GeoGebraConstants;
-import geogebra.common.awt.BufferedImage;
-import geogebra.common.awt.Font;
-import geogebra.common.euclidian.AbstractEuclidianController;
-import geogebra.common.euclidian.AbstractEuclidianView;
+import geogebra.common.awt.GBufferedImage;
+import geogebra.common.awt.GFont;
+import geogebra.common.euclidian.EuclidianController;
+import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.DrawEquationInterface;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.gui.view.algebra.AlgebraView;
@@ -40,8 +40,8 @@ import geogebra.common.util.MD5EncrypterGWTImpl;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
 import geogebra.web.css.GuiResources;
-import geogebra.web.euclidian.EuclidianController;
-import geogebra.web.euclidian.EuclidianView;
+import geogebra.web.euclidian.EuclidianControllerW;
+import geogebra.web.euclidian.EuclidianViewW;
 import geogebra.web.gui.DialogManagerWeb;
 import geogebra.web.gui.GuiManager;
 import geogebra.web.gui.SplashDialog;
@@ -836,8 +836,8 @@ public class Application extends AbstractApplication {
 	}
 
 	@Override
-	public EuclidianView getEuclidianView1() {
-		return (EuclidianView) euclidianView;
+	public EuclidianViewW getEuclidianView1() {
+		return (EuclidianViewW) euclidianView;
 	}
 
 	@Override
@@ -889,8 +889,8 @@ public class Application extends AbstractApplication {
 		geogebra.common.factories.UtilFactory.prototype = new geogebra.web.factories.UtilFactory();
 		geogebra.common.util.StringUtil.prototype = new geogebra.common.util.StringUtil();
 
-		geogebra.common.euclidian.HatchingHandler.prototype = new geogebra.web.euclidian.HatchingHandler();
-		geogebra.common.euclidian.EuclidianStatic.prototype = new geogebra.web.euclidian.EuclidianStatic();
+		geogebra.common.euclidian.HatchingHandler.prototype = new geogebra.web.euclidian.HatchingHandlerW();
+		geogebra.common.euclidian.EuclidianStatic.prototype = new geogebra.web.euclidian.EuclidianStaticW();
 		geogebra.common.euclidian.clipping.DoubleArrayFactory.prototype = new geogebra.common.euclidian.clipping.DoubleArrayFactoryImpl();
     
 		AbstractApplication.initializeSingularWS();
@@ -939,7 +939,7 @@ public class Application extends AbstractApplication {
 	public void loadGgbFileAgain(String dataUrl) {
 
 		geogebra.web.main.DrawEquationWeb.deleteLaTeXes(
-			(EuclidianView)getActiveEuclidianView());
+			(EuclidianViewW)getActiveEuclidianView());
 		imageManager.reset();
 		if (useFullAppGui)
 			GeoGebraAppFrame.fileLoader.getView().processBase64String(dataUrl);
@@ -1084,8 +1084,8 @@ public class Application extends AbstractApplication {
 	}
 
 	@Override
-	public EuclidianView createEuclidianView() {
-		return (EuclidianView) this.euclidianView;
+	public EuclidianViewW createEuclidianView() {
+		return (EuclidianViewW) this.euclidianView;
 	}
 
 	@Override
@@ -1218,7 +1218,7 @@ public class Application extends AbstractApplication {
 		return canvas.getCanvasElement().getHeight();
 	}
 
-	public Font getFontCanDisplay(String testString, boolean serif, int style,
+	public GFont getFontCanDisplay(String testString, boolean serif, int style,
 			int size) {
 		return fontManager.getFontCanDisplay(testString, serif, style, size);
 	}
@@ -1274,7 +1274,7 @@ public class Application extends AbstractApplication {
 			getEuclidianView1().getStyleBar().updateStyleBar();
 		}
 
-		if (hasEuclidianView2() && ((EuclidianView)getEuclidianView2()).hasStyleBar()) {
+		if (hasEuclidianView2() && ((EuclidianViewW)getEuclidianView2()).hasStyleBar()) {
 			getEuclidianView2().getStyleBar().updateStyleBar();
 		}
 	}
@@ -1354,15 +1354,15 @@ public class Application extends AbstractApplication {
 	}
 
 	@Override
-	protected AbstractEuclidianView newEuclidianView(boolean[] showAxes,
+	protected EuclidianView newEuclidianView(boolean[] showAxes,
 			boolean showGrid) {
-		return euclidianView = new EuclidianView(euclidianViewPanel,
+		return euclidianView = new EuclidianViewW(euclidianViewPanel,
 				euclidianController, showAxes, showGrid, getSettings().getEuclidian(1));
 	}
 
 	@Override
-	protected AbstractEuclidianController newEuclidianController(Kernel kernel) {
-		return new EuclidianController(kernel);
+	protected EuclidianController newEuclidianController(Kernel kernel) {
+		return new EuclidianControllerW(kernel);
 
 	}
 
@@ -1453,8 +1453,8 @@ public class Application extends AbstractApplication {
 	}
 
 	@Override
-	public Font getPlainFontCommon() {
-		return new geogebra.web.awt.Font("normal");
+	public GFont getPlainFontCommon() {
+		return new geogebra.web.awt.GFontW("normal");
 	}
 
 	@Override
@@ -1550,7 +1550,7 @@ public class Application extends AbstractApplication {
 		setMoveMode();
 
 		geogebra.web.main.DrawEquationWeb.deleteLaTeXes(
-				(EuclidianView)getActiveEuclidianView());
+				(EuclidianViewW)getActiveEuclidianView());
 		// }
 	}
 
@@ -1647,11 +1647,11 @@ public class Application extends AbstractApplication {
 	}
 
 	@Override
-	public BufferedImage getExternalImageAdapter(String fileName) {
+	public GBufferedImage getExternalImageAdapter(String fileName) {
 		ImageElement im = ImageManager.getExternalImage(fileName);
 		if(im==null)
 			return null;
-		return new geogebra.web.awt.BufferedImage(im);
+		return new geogebra.web.awt.GBufferedImageW(im);
 	}
 
 	// random id to identify ggb files
@@ -1857,7 +1857,7 @@ public class Application extends AbstractApplication {
 				getEuclidianView1().setDisableRepaint(false);
 				getEuclidianView1().synCanvasSize();
 				getEuclidianView1().repaintView();
-				((EuclidianController) getActiveEuclidianView().getEuclidianController()).updateOffsets();
+				((EuclidianControllerW) getActiveEuclidianView().getEuclidianController()).updateOffsets();
     }
 	
 	public static native void console(String string) /*-{

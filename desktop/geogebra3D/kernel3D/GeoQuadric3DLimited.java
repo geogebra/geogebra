@@ -1,6 +1,6 @@
 package geogebra3D.kernel3D;
 
-import geogebra.common.awt.Color;
+import geogebra.common.awt.GColor;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
@@ -277,7 +277,7 @@ public class GeoQuadric3DLimited extends GeoQuadricND implements NumberValue {
 	// ///////////////////////
 
 	@Override
-	public void setObjColor(Color color) {
+	public void setObjColor(GColor color) {
 		super.setObjColor(color);
 		if (bottom == null)
 			return;

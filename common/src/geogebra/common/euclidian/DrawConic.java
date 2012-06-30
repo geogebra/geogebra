@@ -18,14 +18,14 @@ the Free Software Foundation.
 
 package geogebra.common.euclidian;
 
-import geogebra.common.awt.AffineTransform;
-import geogebra.common.awt.Arc2D;
-import geogebra.common.awt.Area;
-import geogebra.common.awt.Ellipse2DDouble;
-import geogebra.common.awt.GeneralPath;
+import geogebra.common.awt.GAffineTransform;
+import geogebra.common.awt.GArc2D;
+import geogebra.common.awt.GArea;
+import geogebra.common.awt.GEllipse2DDouble;
+import geogebra.common.awt.GGeneralPath;
 import geogebra.common.awt.Rectangle;
-import geogebra.common.awt.RectangularShape;
-import geogebra.common.awt.Shape;
+import geogebra.common.awt.GRectangularShape;
+import geogebra.common.awt.GShape;
 import geogebra.common.euclidian.clipping.ClipShape;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.Construction;
@@ -88,26 +88,26 @@ final public class DrawConic extends Drawable implements Previewable {
 	// CONIC_CIRCLE
 	private boolean firstCircle = true;
 	private GeoVec2D midpoint;
-	private Arc2D arc;
+	private GArc2D arc;
 	private GeneralPathClipped arcFiller, gp;
-	private RectangularShape circle;
+	private GRectangularShape circle;
 	private double mx, my, radius, yradius, angSt, angEnd;
 
 	// for ellipse, hyperbola, parabola
-	private AffineTransform transform = AwtFactory.prototype.newAffineTransform();
-	private Shape shape;
+	private GAffineTransform transform = AwtFactory.prototype.newAffineTransform();
+	private GShape shape;
 
 	// CONIC_ELLIPSE
 	private boolean firstEllipse = true;
 	private double[] halfAxes;
-	private Ellipse2DDouble ellipse;
+	private GEllipse2DDouble ellipse;
 
 	// CONIC_PARABOLA
 	private boolean firstParabola = true;
 	private double x0, y0;
 	private double k2;
 	private GeoVec2D vertex;
-	private GeneralPath parabola;
+	private GGeneralPath parabola;
 	private double[] parpoints = new double[8];
 
 	// CONIC_HYPERBOLA
@@ -128,11 +128,11 @@ final public class DrawConic extends Drawable implements Previewable {
 	private boolean isPreview = false;
 
 	@Override
-	public geogebra.common.awt.Area getShape() {
-		geogebra.common.awt.Area area = super.getShape() != null ? super.getShape()
+	public geogebra.common.awt.GArea getShape() {
+		geogebra.common.awt.GArea area = super.getShape() != null ? super.getShape()
 				: (shape == null ? AwtFactory.prototype.newArea() : AwtFactory.prototype.newArea(shape));
 		if (conic.isInverseFill()) {
-			Area complement = AwtFactory.prototype.newArea(view.getBoundingPath());
+			GArea complement = AwtFactory.prototype.newArea(view.getBoundingPath());
 			complement.subtract(area);
 			return complement;
 		}
@@ -145,7 +145,7 @@ final public class DrawConic extends Drawable implements Previewable {
 	 * @param view view
 	 * @param c conic
 	 */
-	public DrawConic(AbstractEuclidianView view, GeoConicND c) {
+	public DrawConic(EuclidianView view, GeoConicND c) {
 		this.view = view;
 		isPreview = false;
 		hitThreshold = view.getCapturingThreshold();
@@ -170,7 +170,7 @@ final public class DrawConic extends Drawable implements Previewable {
 	 * @param mode preview mode
 	 * @param points preview points
 	 */
-	public DrawConic(AbstractEuclidianView view, int mode, ArrayList<GeoPointND> points) {
+	public DrawConic(EuclidianView view, int mode, ArrayList<GeoPointND> points) {
 		this.view = view;
 		prevPoints = points;
 		previewMode = mode;
@@ -213,7 +213,7 @@ final public class DrawConic extends Drawable implements Previewable {
 	 * @param segments  preview segments
 	 * @param conics preview conics
 	 */
-	public DrawConic(AbstractEuclidianView view, int mode, ArrayList<GeoPointND> points,
+	public DrawConic(EuclidianView view, int mode, ArrayList<GeoPointND> points,
 			ArrayList<GeoSegment> segments, ArrayList<GeoConicND> conics) {
 		this.view = view;
 		prevPoints = points;
@@ -395,12 +395,12 @@ final public class DrawConic extends Drawable implements Previewable {
 
 			shape = lineToGpc(drawLines[0]);
 			if (conic.type != GeoConicNDConstants.CONIC_LINE)
-				((geogebra.common.awt.Area)shape).exclusiveOr(lineToGpc(drawLines[1]));
+				((geogebra.common.awt.GArea)shape).exclusiveOr(lineToGpc(drawLines[1]));
 			// FIXME: buggy when conic(RW(0),RW(0))=0
 
 			if (negativeColored()) {
-				geogebra.common.awt.Area complement = AwtFactory.prototype.newArea(view.getBoundingPath());
-				complement.subtract((geogebra.common.awt.Area)shape);
+				geogebra.common.awt.GArea complement = AwtFactory.prototype.newArea(view.getBoundingPath());
+				complement.subtract((geogebra.common.awt.GArea)shape);
 				shape = complement;
 
 			}
@@ -425,7 +425,7 @@ final public class DrawConic extends Drawable implements Previewable {
 		return false;
 	}
 
-	private geogebra.common.awt.Area lineToGpc(DrawLine drawLine) {
+	private geogebra.common.awt.GArea lineToGpc(DrawLine drawLine) {
 		GeneralPathClipped gpc = new GeneralPathClipped(view);
 		boolean invert = false;
 		if (drawLine.x1 > drawLine.x2) {
@@ -466,10 +466,10 @@ final public class DrawConic extends Drawable implements Previewable {
 
 		}
 		gpc.closePath();
-		geogebra.common.awt.Area gpcArea = AwtFactory.prototype.newArea(gpc);
+		geogebra.common.awt.GArea gpcArea = AwtFactory.prototype.newArea(gpc);
 		if (!invert)
 			return gpcArea;
-		geogebra.common.awt.Area complement = AwtFactory.prototype.newArea(view.getBoundingPath());
+		geogebra.common.awt.GArea complement = AwtFactory.prototype.newArea(view.getBoundingPath());
 		complement.subtract(gpcArea);
 		return complement;
 
@@ -624,7 +624,7 @@ final public class DrawConic extends Drawable implements Previewable {
 			circle = arc;
 			arc.setArc(mx - radius, my - yradius, 2.0 * radius, 2.0 * yradius,
 					Math.toDegrees(angSt), Math.toDegrees(angEnd - angSt),
-					Arc2D.OPEN);
+					GArc2D.OPEN);
 
 			// set general path for filling the arc to screen borders
 			if (conic.getAlphaValue() > 0.0f || conic.isHatchingEnabled()) {
@@ -632,8 +632,8 @@ final public class DrawConic extends Drawable implements Previewable {
 					gp = new GeneralPathClipped(view);
 				else
 					gp.reset();
-				geogebra.common.awt.Point2D sp = arc.getStartPoint();
-				geogebra.common.awt.Point2D ep = arc.getEndPoint();
+				geogebra.common.awt.GPoint2D sp = arc.getStartPoint();
+				geogebra.common.awt.GPoint2D ep = arc.getEndPoint();
 
 				switch (i) { // case number
 				case 0: // left top
@@ -1022,9 +1022,9 @@ final public class DrawConic extends Drawable implements Previewable {
 
 		case GeoConicNDConstants.CONIC_HYPERBOLA:
 			if (conic.isInverseFill()) {
-				geogebra.common.awt.Area a1 = AwtFactory.prototype.newArea(hypLeft);
-				geogebra.common.awt.Area a2 = AwtFactory.prototype.newArea(hypRight);
-				geogebra.common.awt.Area complement = AwtFactory.prototype.newArea(view.getBoundingPath());
+				geogebra.common.awt.GArea a1 = AwtFactory.prototype.newArea(hypLeft);
+				geogebra.common.awt.GArea a2 = AwtFactory.prototype.newArea(hypRight);
+				geogebra.common.awt.GArea complement = AwtFactory.prototype.newArea(view.getBoundingPath());
 				complement.subtract(a1);
 				complement.subtract(a2);
 				fill(g2, complement, false);

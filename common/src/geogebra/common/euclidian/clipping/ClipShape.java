@@ -22,12 +22,12 @@
 package geogebra.common.euclidian.clipping;
 
 
-import geogebra.common.awt.AffineTransform;
-import geogebra.common.awt.GeneralPath;
+import geogebra.common.awt.GAffineTransform;
+import geogebra.common.awt.GGeneralPath;
 import geogebra.common.awt.Graphics2D;
-import geogebra.common.awt.PathIterator;
-import geogebra.common.awt.Rectangle2D;
-import geogebra.common.awt.Shape;
+import geogebra.common.awt.GPathIterator;
+import geogebra.common.awt.GRectangle2D;
+import geogebra.common.awt.GShape;
 import geogebra.common.factories.AwtFactory;
 
 import java.util.Arrays;
@@ -63,7 +63,7 @@ public class ClipShape {
 	 * a smaller interval from an arbitary [t0,t1].
 	 */
 	static class ClippedPath {
-		public final GeneralPath g;
+		public final GGeneralPath g;
 		private Stack<double[]> uncommittedPoints = new Stack<double[]>();
 		private double initialX, initialY;
 		
@@ -333,7 +333,7 @@ public class ClipShape {
 	 * @param r the rectangle to clip it to
 	 * @return a <code>GeneralPath</code> enclosing the new shape.
 	 */
-	public static GeneralPath clipToRect(Shape s,Rectangle2D r) {
+	public static GGeneralPath clipToRect(GShape s,GRectangle2D r) {
 		return clipToRect(s,null,r);
 	}
 
@@ -370,8 +370,8 @@ public class ClipShape {
 	 * @param r the rectangle to clip to
 	 * @return a <code>GeneralPath</code> enclosing the new shape.
 	 */
-	public static GeneralPath clipToRect(Shape s,AffineTransform t,Rectangle2D r) {
-		PathIterator i = s.getPathIterator(t);
+	public static GGeneralPath clipToRect(GShape s,GAffineTransform t,GRectangle2D r) {
+		GPathIterator i = s.getPathIterator(t);
 		ClippedPath p = new ClippedPath(i.getWindingRule());
 		double initialX = 0;
 		double initialY = 0;
@@ -403,7 +403,7 @@ public class ClipShape {
 		
 		while(i.isDone()==false) {
 			k = i.currentSegment(f);
-			if(k==PathIterator.SEG_MOVETO) {
+			if(k==GPathIterator.SEG_MOVETO) {
 				initialX = f[0];
 				initialY = f[1];
 				cappedX = f[0];
@@ -419,26 +419,26 @@ public class ClipShape {
 				p.moveTo(cappedX,cappedY);
 				lastX = f[0];
 				lastY = f[1];
-			} else if(k==PathIterator.SEG_CLOSE) {
+			} else if(k==GPathIterator.SEG_CLOSE) {
 				f[0] = initialX;
 				f[1] = initialY;
-				k = PathIterator.SEG_LINETO;
+				k = GPathIterator.SEG_LINETO;
 				shouldClose = true;
 			}
 			xf = null;
-			if(k==PathIterator.SEG_LINETO) {
+			if(k==GPathIterator.SEG_LINETO) {
 				lxf.define(lastX,f[0]);
 				lyf.define(lastY,f[1]);
 				
 				xf = lxf;
 				yf = lyf;
-			} else if(k==PathIterator.SEG_QUADTO) {
+			} else if(k==GPathIterator.SEG_QUADTO) {
 				qxf.define(lastX,f[0],f[2]);
 				qyf.define(lastY,f[1],f[3]);
 				
 				xf = qxf;
 				yf = qyf;
-			} else if(k==PathIterator.SEG_CUBICTO) {
+			} else if(k==GPathIterator.SEG_CUBICTO) {
 				cxf.define(lastX,f[0],f[2],f[4]);
 				cyf.define(lastY,f[1],f[3],f[5]);
 				
@@ -532,19 +532,19 @@ public class ClipShape {
 	 * @param g the graphics2D to clip to
 	 * @param newClip the new clip
 	 */
-	public static void clip(Graphics2D g,Shape newClip) {
-		Shape oldClip = g.getClip();
+	public static void clip(Graphics2D g,GShape newClip) {
+		GShape oldClip = g.getClip();
 		if(oldClip==null) {
 			g.setClip(newClip);
 			return;
 		}
-		Rectangle2D oldRect = null;
-		Rectangle2D newRect = null;
-		if(oldClip instanceof Rectangle2D) {
-			oldRect = (Rectangle2D)oldClip;
+		GRectangle2D oldRect = null;
+		GRectangle2D newRect = null;
+		if(oldClip instanceof GRectangle2D) {
+			oldRect = (GRectangle2D)oldClip;
 		}
-		if(newClip instanceof Rectangle2D) {
-			newRect = (Rectangle2D)newClip;
+		if(newClip instanceof GRectangle2D) {
+			newRect = (GRectangle2D)newClip;
 		}
 		
 		if(oldRect!=null && newRect!=null) {

@@ -10,7 +10,7 @@ package geogebra.plugin;
  the Free Software Foundation.
  
  */
-import geogebra.common.euclidian.AbstractEuclidianView;
+import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.main.AbstractApplication;
@@ -529,7 +529,7 @@ public class GgbAPI extends geogebra.common.plugin.GgbAPI {
 	 * @return dimensions of the real world coordinate system
 	 */
 	public synchronized Rectangle2D.Double getCoordSystemRectangle() {
-		AbstractEuclidianView ev = app.getEuclidianView1();
+		EuclidianView ev = app.getEuclidianView1();
 		return new Rectangle2D.Double(ev.getXmin(), ev.getYmin(), 
 				ev.getXmax() - ev.getXmin(), ev.getYmax() - ev.getYmin());
 	}

@@ -4,7 +4,7 @@ import geogebra.common.gui.view.algebra.AlgebraView.SortMode;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.euclidian.EuclidianView;
+import geogebra.euclidian.EuclidianViewD;
 import geogebra.main.Application;
 
 import java.util.HashMap;
@@ -296,7 +296,7 @@ public class AlgebraTree extends JTree {
 	/**
 	 * updates node of GeoElement geo (needed for highlighting)
 	 * 
-	 * @see EuclidianView#setHighlighted()
+	 * @see EuclidianViewD#setHighlighted()
 	 */
 	 public void update(GeoElement geo) {
 		DefaultMutableTreeNode node = nodeTable

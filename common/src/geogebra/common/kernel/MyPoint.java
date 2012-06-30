@@ -17,7 +17,7 @@ import geogebra.common.util.MyMath;
 /**
  * Lightweight point with lineTo flag that can be easily transformed into GeoPoint 
  */
-public class MyPoint extends geogebra.common.awt.Point2D{
+public class MyPoint extends geogebra.common.awt.GPoint2D{
 	/** x-coord */
 	public double x;
 	/** y-coord */
@@ -99,7 +99,7 @@ public class MyPoint extends geogebra.common.awt.Point2D{
 
 	@Override
 	public double distance(double x1, double y1) {
-	    return geogebra.common.awt.Point2D.distanceSq(getX(), getY(), x1, y1);
+	    return geogebra.common.awt.GPoint2D.distanceSq(getX(), getY(), x1, y1);
 	}
 
 
@@ -114,7 +114,7 @@ public class MyPoint extends geogebra.common.awt.Point2D{
 	}
 	
 	@Override
-	public double distance(geogebra.common.awt.Point2D q) {
+	public double distance(geogebra.common.awt.GPoint2D q) {
 		return distance(q.getX(), q.getY());
 	}
 }
