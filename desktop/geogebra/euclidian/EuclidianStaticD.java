@@ -1,6 +1,14 @@
 package geogebra.euclidian;
 
+import geogebra.common.awt.GColor;
+import geogebra.common.awt.GDimension;
+import geogebra.common.awt.GFont;
+import geogebra.common.awt.GGraphics2D;
+import geogebra.common.awt.GPoint;
+import geogebra.common.awt.GRectangle;
+import geogebra.common.awt.GShape;
 import geogebra.common.euclidian.DrawEquationInterface;
+import geogebra.common.euclidian.EuclidianStatic;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
@@ -22,9 +30,9 @@ public class EuclidianStaticD extends geogebra.common.euclidian.EuclidianStatic{
 
 
 	@Override
-	public final geogebra.common.awt.GRectangle doDrawMultilineLaTeX(AbstractApplication app,
-			geogebra.common.awt.GGraphics2D tempGraphics, GeoElement geo, geogebra.common.awt.GGraphics2D g2, geogebra.common.awt.GFont font,
-			geogebra.common.awt.GColor fgColor, geogebra.common.awt.GColor bgColor, String labelDesc, int xLabel,
+	public final GRectangle doDrawMultilineLaTeX(AbstractApplication app,
+			GGraphics2D tempGraphics, GeoElement geo, GGraphics2D g2, GFont font,
+			GColor fgColor, GColor bgColor, String labelDesc, int xLabel,
 			int yLabel, boolean serif) {
 		int fontSize = g2.getFont().getSize();
 		int lineSpread = (int) (fontSize * 1.0f);
@@ -51,7 +59,7 @@ public class EuclidianStaticD extends geogebra.common.euclidian.EuclidianStatic{
 			if (isLaTeX) {
 				// save the height of this element by drawing it to a temporary
 				// buffer
-				geogebra.common.awt.GDimension dim = new geogebra.awt.GDimensionD();
+				GDimension dim = new geogebra.awt.GDimensionD();
 				dim = app.getDrawEquation().
 						drawEquation(app, geo, tempGraphics, 0, 0,
 						elements[i], font, ((GeoText) geo).isSerifFont(),
@@ -160,8 +168,8 @@ public class EuclidianStaticD extends geogebra.common.euclidian.EuclidianStatic{
 	}
 
 
-	public final static geogebra.common.awt.GRectangle drawMultiLineIndexedText(Application app,
-			String labelDesc, int xLabel, int yLabel, geogebra.common.awt.GGraphics2D g2,
+	public final static GRectangle drawMultiLineIndexedText(Application app,
+			String labelDesc, int xLabel, int yLabel, GGraphics2D g2,
 			boolean serif) {
 		int lines = 0;
 		int fontSize = g2.getFont().getSize();
@@ -177,7 +185,7 @@ public class EuclidianStaticD extends geogebra.common.euclidian.EuclidianStatic{
 		for (int i = 0; i < length - 1; i++) {
 			if (labelDesc.charAt(i) == '\n') {
 				// end of line reached: draw this line
-				geogebra.common.awt.GPoint p = drawIndexedString(app, g2,
+				GPoint p = drawIndexedString(app, g2,
 						labelDesc.substring(lineBegin, i), xLabel, yLabel
 								+ lines * lineSpread, serif);
 				if (p.x > xoffset)
@@ -190,7 +198,7 @@ public class EuclidianStaticD extends geogebra.common.euclidian.EuclidianStatic{
 		}
 
 		float ypos = yLabel + lines * lineSpread;
-		geogebra.common.awt.GPoint p = drawIndexedString(app, g2, labelDesc.substring(lineBegin),
+		GPoint p = drawIndexedString(app, g2, labelDesc.substring(lineBegin),
 				xLabel, ypos, serif);
 		if (p.x > xoffset)
 			xoffset = p.x;
@@ -221,12 +229,12 @@ public class EuclidianStaticD extends geogebra.common.euclidian.EuclidianStatic{
 	}
 
 	@Override
-	protected void doDrawWithValueStrokePure(geogebra.common.awt.GShape shape, geogebra.common.awt.GGraphics2D g2) {
+	protected void doDrawWithValueStrokePure(GShape shape, GGraphics2D g2) {
 		drawWithValueStrokePure(geogebra.awt.GGenericShapeD.getAwtShape(shape), geogebra.awt.GGraphics2DD.getAwtGraphics(g2));
 	}
 	
 	@Override
-	protected void doFillWithValueStrokePure(geogebra.common.awt.GShape shape, geogebra.common.awt.GGraphics2D g3) {
+	protected void doFillWithValueStrokePure(GShape shape, GGraphics2D g3) {
 		Graphics2D awtg2 = geogebra.awt.GGraphics2DD.getAwtGraphics(g3);
 		Object oldHint = awtg2.getRenderingHint(RenderingHints.KEY_STROKE_CONTROL);
 		awtg2.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL,
@@ -239,17 +247,17 @@ public class EuclidianStaticD extends geogebra.common.euclidian.EuclidianStatic{
 	 * @param shape
 	 * @param g3
 	 */
-	final public static void doDrawWithValueStrokePure(Shape shape, geogebra.common.awt.GGraphics2D g3) {
+	final public static void doDrawWithValueStrokePure(Shape shape, GGraphics2D g3) {
 		drawWithValueStrokePure(shape, geogebra.awt.GGraphics2DD.getAwtGraphics(g3));
 	}
 
 	
 	static public java.awt.BasicStroke getDefaultStrokeAwt() {
-		return geogebra.awt.GBasicStrokeD.getAwtStroke(geogebra.common.euclidian.EuclidianStatic.getDefaultStroke());
+		return geogebra.awt.GBasicStrokeD.getAwtStroke(EuclidianStatic.getDefaultStroke());
 	}
 
 	@Override
-	public Object doSetInterpolationHint(geogebra.common.awt.GGraphics2D g3,
+	public Object doSetInterpolationHint(GGraphics2D g3,
 			boolean needsInterpolationRenderingHint) {
 		java.awt.Graphics2D g2 = geogebra.awt.GGraphics2DD.getAwtGraphics(g3);
 		Object oldInterpolationHint = g2
@@ -270,7 +278,7 @@ public class EuclidianStaticD extends geogebra.common.euclidian.EuclidianStatic{
 	}
 
 	@Override
-	protected void doResetInterpolationHint(geogebra.common.awt.GGraphics2D g3,
+	protected void doResetInterpolationHint(GGraphics2D g3,
 			Object hint) {
 		java.awt.Graphics2D g2 = geogebra.awt.GGraphics2DD.getAwtGraphics(g3);
 		g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
