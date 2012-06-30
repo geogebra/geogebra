@@ -609,8 +609,6 @@ public abstract class GlobalKeyDispatcher {
 		if (isAltDown)
 			base = 100;
 		
-		app.debug("AAAA");
-
 		if (geos == null || geos.size() == 0) {
 
 			// Get the EuclidianView which has the focus
@@ -650,10 +648,8 @@ public abstract class GlobalKeyDispatcher {
 						return true;
 					}
 				case UP:
-					app.debug("BBBB");
 					if (app.isUsingFullGui()
 							&& app.getGuiManager().noMenusOpen()) {
-						app.debug("CCCCC");
 						ev.rememberOrigins();
 						ev.setCoordSystemFromMouseMove(0,
 								-(int) (height / 100.0 * base),
@@ -747,8 +743,6 @@ public abstract class GlobalKeyDispatcher {
 			break;
 		}
 		
-		app.debug("PPPP");
-
 		// ignore key events coming from tables like the spreadsheet to
 		// allow start editing, moving etc
 		if (fromSpreadsheet
@@ -760,17 +754,12 @@ public abstract class GlobalKeyDispatcher {
 
 		// check for arrow keys: try to move objects accordingly
 		boolean moved = false;
-		app.debug("QQQQQ");
-
 		switch (key) {
 		case UP:
-			app.debug("RRRR");
-
 			// make sure arrow keys work in menus
-			if (app.isUsingFullGui() && !app.getGuiManager().noMenusOpen())
+			if (app.isUsingFullGui() && !app.getGuiManager().noMenusOpen()) {
 				return false;
-			app.debug("SSSS");
-
+			}
 			changeVal = base;
 			moved = handleArrowKeyMovement(geos, 0, changeVal, 0);
 			break;
