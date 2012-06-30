@@ -58,7 +58,7 @@ public interface ErrorConstants extends ConstantsWithLookup {
     @DefaultStringValue("Every exponent has to be an integer")
     String ExponentMustBeInteger();
 
-    @DefaultStringValue("Sorry, the geogebra_exportjar file is missing or corrupt")
+    @DefaultStringValue("Sorry, the geogebra_export.jar file is missing or corrupt")
     String ExportJarMissing();
 
     @DefaultStringValue("Please upgrade to a newer version of GeoGebra\nThis file format is not supported")
