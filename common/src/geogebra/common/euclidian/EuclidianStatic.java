@@ -1,7 +1,7 @@
 package geogebra.common.euclidian;
 
 import geogebra.common.awt.GBasicStroke;
-import geogebra.common.awt.Graphics2D;
+import geogebra.common.awt.GGraphics2D;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
@@ -189,8 +189,8 @@ public abstract class EuclidianStatic {
 	 * @param serif true touseserif font
 	 * @return bounds of resulting LaTeX formula
 	 */
-	public static final geogebra.common.awt.Rectangle drawMultilineLaTeX(AbstractApplication app,
-			geogebra.common.awt.Graphics2D tempGraphics, GeoElement geo, geogebra.common.awt.Graphics2D g2, geogebra.common.awt.GFont font,
+	public static final geogebra.common.awt.GRectangle drawMultilineLaTeX(AbstractApplication app,
+			geogebra.common.awt.GGraphics2D tempGraphics, GeoElement geo, geogebra.common.awt.GGraphics2D g2, geogebra.common.awt.GFont font,
 			geogebra.common.awt.GColor fgColor, geogebra.common.awt.GColor bgColor, String labelDesc, int xLabel,
 			int yLabel, boolean serif) {
 		return prototype.doDrawMultilineLaTeX(app, tempGraphics, geo, g2, font, fgColor, bgColor, labelDesc, xLabel, yLabel, serif);
@@ -213,8 +213,8 @@ public abstract class EuclidianStatic {
 	 * @param serif true touseserif font
 	 * @return bounds of resulting LaTeX formula
 	 */
-	protected abstract geogebra.common.awt.Rectangle doDrawMultilineLaTeX(AbstractApplication app,
-			geogebra.common.awt.Graphics2D tempGraphics, GeoElement geo, geogebra.common.awt.Graphics2D g2, geogebra.common.awt.GFont font,
+	protected abstract geogebra.common.awt.GRectangle doDrawMultilineLaTeX(AbstractApplication app,
+			geogebra.common.awt.GGraphics2D tempGraphics, GeoElement geo, geogebra.common.awt.GGraphics2D g2, geogebra.common.awt.GFont font,
 			geogebra.common.awt.GColor fgColor, geogebra.common.awt.GColor bgColor, String labelDesc, int xLabel,
 			int yLabel, boolean serif);
 	
@@ -237,7 +237,7 @@ public abstract class EuclidianStatic {
 	 * @param serif true to use serif font
 	 * @return additional pixel needed to draw str (x-offset, y-offset)
 	 */
-	public static geogebra.common.awt.GPoint drawIndexedString(AbstractApplication app, geogebra.common.awt.Graphics2D g3,
+	public static geogebra.common.awt.GPoint drawIndexedString(AbstractApplication app, geogebra.common.awt.GGraphics2D g3,
 			String str, float xPos, float yPos, boolean serif) {
 
 		geogebra.common.awt.GFont g2font = g3.getFont();
@@ -335,12 +335,12 @@ public abstract class EuclidianStatic {
 	 * @param shape shape tobe filled
 	 * @param g3 graphics
 	 */
-	protected abstract  void doFillWithValueStrokePure(geogebra.common.awt.GShape shape, geogebra.common.awt.Graphics2D g3);
+	protected abstract  void doFillWithValueStrokePure(geogebra.common.awt.GShape shape, geogebra.common.awt.GGraphics2D g3);
 	/**
 	 * @param shape shape to be filled
 	 * @param g3 graphics
 	 */
-	public static void fillWithValueStrokePure(geogebra.common.awt.GShape shape, geogebra.common.awt.Graphics2D g3){
+	public static void fillWithValueStrokePure(geogebra.common.awt.GShape shape, geogebra.common.awt.GGraphics2D g3){
 		prototype.doFillWithValueStrokePure(shape, g3);
 		
 	}
@@ -353,8 +353,8 @@ public abstract class EuclidianStatic {
 	 * @param serif true for serif font
 	 * @return border of resulting text drawing
 	 */
-	public final static geogebra.common.awt.Rectangle drawMultiLineText(AbstractApplication app,
-			String labelDesc, int xLabel, int yLabel, geogebra.common.awt.Graphics2D g2,
+	public final static geogebra.common.awt.GRectangle drawMultiLineText(AbstractApplication app,
+			String labelDesc, int xLabel, int yLabel, geogebra.common.awt.GGraphics2D g2,
 			boolean serif) {
 		int lines = 0;
 		int fontSize = g2.getFont().getSize();
@@ -407,7 +407,7 @@ public abstract class EuclidianStatic {
 	 * @param shape shape to be drawn
 	 * @param g2 graphics
 	 */
-	public static void drawWithValueStrokePure(geogebra.common.awt.GShape shape, Graphics2D g2) {
+	public static void drawWithValueStrokePure(geogebra.common.awt.GShape shape, GGraphics2D g2) {
 		prototype.doDrawWithValueStrokePure(shape, g2);
 		
 	}
@@ -415,14 +415,14 @@ public abstract class EuclidianStatic {
 	 * @param shape shapeto be drawn
 	 * @param g2 graphics
 	 */
-	protected abstract void doDrawWithValueStrokePure(geogebra.common.awt.GShape shape, Graphics2D g2);
+	protected abstract void doDrawWithValueStrokePure(geogebra.common.awt.GShape shape, GGraphics2D g2);
 	/**
 	 * @param g3 graphics
 	 * @param needsInterpolation true to turn interpolation on
 	 * @return hint
 	 */
 	public static Object setInterpolationHint(
-			geogebra.common.awt.Graphics2D g3,
+			geogebra.common.awt.GGraphics2D g3,
 			boolean needsInterpolation) {
 		
 		return prototype.doSetInterpolationHint(g3,needsInterpolation);
@@ -432,7 +432,7 @@ public abstract class EuclidianStatic {
 	 * @param hint old hint value
 	 */
 	public static void resetInterpolationHint(
-			geogebra.common.awt.Graphics2D g3,
+			geogebra.common.awt.GGraphics2D g3,
 			Object hint) {
 		
 		prototype.doResetInterpolationHint(g3,hint);
@@ -442,14 +442,14 @@ public abstract class EuclidianStatic {
 	 * @param needsInterpolation true to turn interpolation on
 	 * @return hint
 	 */
-	protected abstract Object doSetInterpolationHint(Graphics2D g3,
+	protected abstract Object doSetInterpolationHint(GGraphics2D g3,
 			boolean needsInterpolation);
 	/**
 	 * @param g3 graphics
 	 * @param hint old hint value
 	 */
 	protected abstract void doResetInterpolationHint(
-			geogebra.common.awt.Graphics2D g3,
+			geogebra.common.awt.GGraphics2D g3,
 			Object hint);
 		
 }

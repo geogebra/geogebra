@@ -1,6 +1,6 @@
 package geogebra.common.euclidian;
 
-import geogebra.common.awt.Rectangle;
+import geogebra.common.awt.GRectangle;
 import geogebra.common.euclidian.clipping.ClipLine;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.MyPoint;
@@ -26,7 +26,7 @@ public class GeneralPathClipped  implements geogebra.common.awt.GShape {
 	private EuclidianViewInterfaceSlim view;
 	private double largestCoord;
 	private boolean needClosePath;
-	private geogebra.common.awt.Rectangle bounds;
+	private geogebra.common.awt.GRectangle bounds;
 	
 	/**
 	 * Creates new clipped general path
@@ -95,7 +95,7 @@ public class GeneralPathClipped  implements geogebra.common.awt.GShape {
 	 * coordinates. This is especially important for fill the GeneralPath.
 	 */
 	private void addClippedSegments() {
-		geogebra.common.awt.Rectangle viewRect = AwtFactory.prototype.newRectangle(0, 0, view.getWidth(), view.getHeight());
+		geogebra.common.awt.GRectangle viewRect = AwtFactory.prototype.newRectangle(0, 0, view.getWidth(), view.getHeight());
 		MyPoint curP = null, prevP;
 
 		int size = pathPoints.size();
@@ -120,7 +120,7 @@ public class GeneralPathClipped  implements geogebra.common.awt.GShape {
 	}
 
 	private void addClippedLine(MyPoint prevP, MyPoint curP,
-			geogebra.common.awt.Rectangle viewRect) {
+			geogebra.common.awt.GRectangle viewRect) {
 		// check if both points on screen
 		if (viewRect.contains(prevP) && viewRect.contains(curP)) {
 			// draw line to point
@@ -312,12 +312,12 @@ public class GeneralPathClipped  implements geogebra.common.awt.GShape {
 		return getGeneralPath().contains(x, y);
 	}
 
-	public boolean contains(Rectangle rectangle) {
+	public boolean contains(GRectangle rectangle) {
 		// TODO Auto-generated method stub
 		return getGeneralPath().contains(rectangle);
 	}
 	
-	public geogebra.common.awt.Rectangle getBounds() {
+	public geogebra.common.awt.GRectangle getBounds() {
 		return bounds;
 	}
 

@@ -23,9 +23,9 @@ import geogebra.common.awt.GBasicStroke;
 import geogebra.common.awt.GColor;
 import geogebra.common.awt.GDimension;
 import geogebra.common.awt.GFont;
-import geogebra.common.awt.Graphics2D;
+import geogebra.common.awt.GGraphics2D;
 import geogebra.common.awt.GPoint;
-import geogebra.common.awt.Rectangle;
+import geogebra.common.awt.GRectangle;
 import geogebra.common.awt.GShape;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.Construction;
@@ -84,7 +84,7 @@ public abstract class Drawable extends DrawableND {
 	private String oldLabelDesc;
 	private boolean labelHasIndex = false;
 	/** for label hit testing */
-	protected Rectangle labelRectangle = AwtFactory.prototype.newRectangle(0, 0);
+	protected GRectangle labelRectangle = AwtFactory.prototype.newRectangle(0, 0);
 	/**
 	 * Stroked shape for hits testing of conics, loci ... with alpha = 0
 	 */
@@ -110,7 +110,7 @@ public abstract class Drawable extends DrawableND {
 	 * Draws this drawable to given graphics
 	 * @param g2 graphics
 	 */
-	public abstract void draw(Graphics2D g2);
+	public abstract void draw(GGraphics2D g2);
 
 	/**
 	 * @param x mouse x-coord
@@ -123,7 +123,7 @@ public abstract class Drawable extends DrawableND {
 	 * @param rect rectangle
 	 * @return true if tthe whole drawable is inside
 	 */
-	public abstract boolean isInside(Rectangle rect);
+	public abstract boolean isInside(GRectangle rect);
 
 	@Override
 	public abstract GeoElement getGeoElement();
@@ -155,7 +155,7 @@ public abstract class Drawable extends DrawableND {
 	 * 
 	 * @return null when this Drawable is infinite or undefined
 	 */
-	public Rectangle getBounds() {
+	public GRectangle getBounds() {
 		return null;
 	}
 
@@ -163,7 +163,7 @@ public abstract class Drawable extends DrawableND {
 	 * Draws label of referenced geo
 	 * @param g2 graphics
 	 */
-	final protected void drawLabel(Graphics2D g2) {
+	final protected void drawLabel(GGraphics2D g2) {
 		if (labelDesc == null)
 			return;
 		String label = labelDesc;
@@ -263,7 +263,7 @@ public abstract class Drawable extends DrawableND {
 	 * @param fgColor text color
 	 * @param bgColor background color
 	 */
-	public final void drawMultilineLaTeX(Graphics2D g2, GFont font,
+	public final void drawMultilineLaTeX(GGraphics2D g2, GFont font,
 			GColor fgColor, GColor bgColor) {
 		labelRectangle.setBounds(EuclidianStatic.drawMultilineLaTeX(
 				view.getApplication(), view.getTempGraphics2D(font), geo, g2,
@@ -281,7 +281,7 @@ public abstract class Drawable extends DrawableND {
 	/**
 	 * @param g2 graphics
 	 */
-	protected final void drawMultilineText(Graphics2D g2) {
+	protected final void drawMultilineText(GGraphics2D g2) {
 
 		if (labelDesc == null)
 			return;
@@ -493,7 +493,7 @@ public abstract class Drawable extends DrawableND {
 	 * @param fillShape shape to be filled
 	 * @param usePureStroke true to use pure stroke
 	 */
-	protected void fill(Graphics2D g2, GShape fillShape, boolean usePureStroke) {
+	protected void fill(GGraphics2D g2, GShape fillShape, boolean usePureStroke) {
 		if (isForceNoFill())
 			return;
 		if (geo.getFillType() == GeoElement.FILL_HATCH) {
@@ -568,7 +568,7 @@ public abstract class Drawable extends DrawableND {
 	}
 	/** draw trace of this geo into given Graphics2D 
 	 * @param g2 graphics*/
-	void drawTrace(geogebra.common.awt.Graphics2D g2){
+	void drawTrace(geogebra.common.awt.GGraphics2D g2){
 		//do nothing, overriden in drawbles
 	}
 

@@ -1,7 +1,7 @@
 package geogebra.common.euclidian;
 
 import geogebra.common.awt.GFont;
-import geogebra.common.awt.Rectangle;
+import geogebra.common.awt.GRectangle;
 import geogebra.common.awt.font.GTextLayout;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoButton;
@@ -55,7 +55,7 @@ public class MyButton {
 	 * @param g
 	 *            graphics
 	 */
-	protected void paintComponent(geogebra.common.awt.Graphics2D g) {
+	protected void paintComponent(geogebra.common.awt.GGraphics2D g) {
 
 		// Graphics2D g2 = geogebra.awt.Graphics2D.getAwtGraphics(g);
 
@@ -178,7 +178,7 @@ public class MyButton {
 	 * @param labelRectangle
 	 *            new bounds
 	 */
-	public void setBounds(Rectangle labelRectangle) {
+	public void setBounds(GRectangle labelRectangle) {
 		x = (int) labelRectangle.getMinX();
 		y = (int) labelRectangle.getMinY();
 		width = (int) labelRectangle.getWidth();
@@ -189,7 +189,7 @@ public class MyButton {
 	/**
 	 * @return bounds of this button
 	 */
-	public Rectangle getBounds() {
+	public GRectangle getBounds() {
 		return geogebra.common.factories.AwtFactory.prototype.newRectangle(x,
 				y, width, height);
 	}

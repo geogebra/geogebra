@@ -23,7 +23,7 @@ import geogebra.common.awt.GArc2D;
 import geogebra.common.awt.GArea;
 import geogebra.common.awt.GEllipse2DDouble;
 import geogebra.common.awt.GGeneralPath;
-import geogebra.common.awt.Rectangle;
+import geogebra.common.awt.GRectangle;
 import geogebra.common.awt.GRectangularShape;
 import geogebra.common.awt.GShape;
 import geogebra.common.euclidian.clipping.ClipShape;
@@ -276,7 +276,7 @@ final public class DrawConic extends Drawable implements Previewable {
 			return;
 
 		// shape on screen?
-		Rectangle viewRect = AwtFactory.prototype.newRectangle(0, 0, view.getWidth(), view.getHeight());
+		GRectangle viewRect = AwtFactory.prototype.newRectangle(0, 0, view.getWidth(), view.getHeight());
 		switch (type) {
 		case GeoConicNDConstants.CONIC_CIRCLE:
 		case GeoConicNDConstants.CONIC_ELLIPSE:
@@ -316,7 +316,7 @@ final public class DrawConic extends Drawable implements Previewable {
 		// draw trace
 		if (conic.trace) {
 			isTracing = true;
-			geogebra.common.awt.Graphics2D g2 = view.getBackgroundGraphics();
+			geogebra.common.awt.GGraphics2D g2 = view.getBackgroundGraphics();
 			if (g2 != null)
 				drawTrace(g2);
 		} else {
@@ -968,7 +968,7 @@ final public class DrawConic extends Drawable implements Previewable {
 	}
 
 	@Override
-	final public void draw(geogebra.common.awt.Graphics2D g2) {
+	final public void draw(geogebra.common.awt.GGraphics2D g2) {
 		if (!isVisible)
 			return;
 		g2.setColor(geo.getObjectColor());
@@ -1066,7 +1066,7 @@ final public class DrawConic extends Drawable implements Previewable {
 	 * @return null when this Drawable is infinite or undefined
 	 */
 	@Override
-	final public geogebra.common.awt.Rectangle getBounds() {
+	final public geogebra.common.awt.GRectangle getBounds() {
 		if (!geo.isDefined() || !geo.isEuclidianVisible())
 			return null;
 
@@ -1084,7 +1084,7 @@ final public class DrawConic extends Drawable implements Previewable {
 	}
 
 	@Override
-	final public void drawTrace(geogebra.common.awt.Graphics2D g2) {
+	final public void drawTrace(geogebra.common.awt.GGraphics2D g2) {
 		g2.setColor(conic.getObjectColor());
 		switch (type) {
 		case GeoConicNDConstants.CONIC_SINGLE_POINT:
@@ -1195,7 +1195,7 @@ final public class DrawConic extends Drawable implements Previewable {
 	}
 
 	@Override
-	final public boolean isInside(geogebra.common.awt.Rectangle rect) {
+	final public boolean isInside(geogebra.common.awt.GRectangle rect) {
 		switch (type) {
 		case GeoConicNDConstants.CONIC_SINGLE_POINT:
 			return drawPoint.isInside(rect);
@@ -1329,7 +1329,7 @@ final public class DrawConic extends Drawable implements Previewable {
 		}
 	}
 
-	final public void drawPreview(geogebra.common.awt.Graphics2D g2) {
+	final public void drawPreview(geogebra.common.awt.GGraphics2D g2) {
 		draw(g2);
 	}
 

@@ -6,19 +6,19 @@ import geogebra.common.awt.GColor;
 import geogebra.common.awt.GFont;
 import geogebra.common.main.AbstractApplication;
 
-public class JLabel extends geogebra.common.javax.swing.JLabel {
+public class GLabelW extends geogebra.common.javax.swing.GLabel {
 
 	private com.google.gwt.user.client.ui.HTML impl;
 	
-	JLabel(){
+	GLabelW(){
 		impl = new com.google.gwt.user.client.ui.HTML();
 	}
 	
-	public JLabel(String string) {
+	public GLabelW(String string) {
 		impl = new com.google.gwt.user.client.ui.HTML(string);
     }
 
-	public static com.google.gwt.user.client.ui.Label getImpl(JLabel label){
+	public static com.google.gwt.user.client.ui.Label getImpl(GLabelW label){
 		if (label==null) return null;
 		return label.impl;
 	}

@@ -85,18 +85,18 @@ public abstract class EuclidianViewND extends EuclidianView{
 	}
 
 	@Override
-	public void paintBackground(geogebra.common.awt.Graphics2D g2) {
+	public void paintBackground(geogebra.common.awt.GGraphics2D g2) {
 		g2.drawImage(bgImage, null, 0, 0);
 	}
 	
 	@Override
-	public void add(geogebra.common.javax.swing.Box box){
-		evjpanel.add(((geogebra.javax.swing.Box)box).getImpl());
+	public void add(geogebra.common.javax.swing.GBox box){
+		evjpanel.add(((geogebra.javax.swing.BoxD)box).getImpl());
 	}
 	
 	@Override
-	public void remove(geogebra.common.javax.swing.Box box) {
-		evjpanel.remove(((geogebra.javax.swing.Box)box).getImpl());
+	public void remove(geogebra.common.javax.swing.GBox box) {
+		evjpanel.remove(((geogebra.javax.swing.BoxD)box).getImpl());
 	}
 	/**
 	 * @return underlying component
@@ -338,13 +338,13 @@ public abstract class EuclidianViewND extends EuclidianView{
 	
 
 	@Override
-	public void drawActionObjects(geogebra.common.awt.Graphics2D g2){
+	public void drawActionObjects(geogebra.common.awt.GGraphics2D g2){
 		// TODO layers for Buttons and Textfields
 		// for cross-platform UI the stroke must be reset to show buttons
 		// properly, see #442
 		g2.setStroke(geogebra.common.euclidian.EuclidianStatic.getDefaultStroke());
 		evjpanel.paintChildren(
-				geogebra.awt.Graphics2D.getAwtGraphics(g2)); // draws Buttons and Textfields
+				geogebra.awt.GGraphics2DD.getAwtGraphics(g2)); // draws Buttons and Textfields
 	}
 
 
@@ -387,10 +387,10 @@ public abstract class EuclidianViewND extends EuclidianView{
 	}
 	
 	@Override
-	final public geogebra.common.awt.Graphics2D getTempGraphics2D(geogebra.common.awt.GFont font) {
+	final public geogebra.common.awt.GGraphics2D getTempGraphics2D(geogebra.common.awt.GFont font) {
 		g2Dtemp.setFont(geogebra.awt.GFontD.getAwtFont(font)); // Michael Borcherds 2008-06-11 bugfix for
 								// Corner[text,n]
-		return new geogebra.awt.Graphics2D(g2Dtemp);
+		return new geogebra.awt.GGraphics2DD(g2Dtemp);
 	}
 
 
@@ -407,8 +407,8 @@ public abstract class EuclidianViewND extends EuclidianView{
 	}
 
 	@Override
-	final public void setAntialiasing(geogebra.common.awt.Graphics2D g2) {
-		setAntialiasing(geogebra.awt.Graphics2D.getAwtGraphics(g2));
+	final public void setAntialiasing(geogebra.common.awt.GGraphics2D g2) {
+		setAntialiasing(geogebra.awt.GGraphics2DD.getAwtGraphics(g2));
 	}
 	
 	@Override

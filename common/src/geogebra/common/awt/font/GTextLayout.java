@@ -1,6 +1,6 @@
 package geogebra.common.awt.font;
 
-import geogebra.common.awt.Graphics2D;
+import geogebra.common.awt.GGraphics2D;
 import geogebra.common.awt.GRectangle2D;
 
 /**
@@ -29,7 +29,7 @@ public interface GTextLayout {
 	 * @param x x-coordinate
 	 * @param y y-coordinate
 	 */
-	void draw(Graphics2D g2, int x, int y);
+	void draw(GGraphics2D g2, int x, int y);
 	
 	/**
 	 * @return distance between baseline and deepest bottom of a character

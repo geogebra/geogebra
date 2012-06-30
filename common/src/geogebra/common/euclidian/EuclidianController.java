@@ -15,7 +15,7 @@ package geogebra.common.euclidian;
 import geogebra.common.awt.GColor;
 import geogebra.common.awt.GPoint;
 import geogebra.common.awt.GPoint2D;
-import geogebra.common.awt.Rectangle;
+import geogebra.common.awt.GRectangle;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
@@ -6872,7 +6872,7 @@ public abstract class EuclidianController {
 			}
 		}
 	
-		Rectangle rect = view.getSelectionRectangle();
+		GRectangle rect = view.getSelectionRectangle();
 		if (height >= 0) {
 			if (width >= 0) {
 				rect.setLocation(selectionStartPoint.x,selectionStartPoint.y);
@@ -7879,7 +7879,7 @@ public abstract class EuclidianController {
 	}
 
 	protected boolean processZoomRectangle() {
-		Rectangle rect = view.getSelectionRectangle();
+		GRectangle rect = view.getSelectionRectangle();
 		if (rect == null) {
 			return false;
 		}
@@ -8008,7 +8008,7 @@ public abstract class EuclidianController {
 					&& e.isAltDown() && app.isUsingFullGui()
 					&& app.showAlgebraInput()) {
 	
-				geogebra.common.javax.swing.JTextComponent textComponent = app.getGuiManager()
+				geogebra.common.javax.swing.GTextComponent textComponent = app.getGuiManager()
 						.getAlgebraInputTextField();
 	
 				StringBuilder sb = new StringBuilder();

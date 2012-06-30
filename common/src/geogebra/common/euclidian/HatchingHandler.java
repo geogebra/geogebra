@@ -20,7 +20,7 @@ public abstract class HatchingHandler {
 	 * @param dist distance between hatches
 	 * @param angle hatching angle in degrees
 	 */
-	protected abstract void dosetHatching(geogebra.common.awt.Graphics2D g3, geogebra.common.awt.GBasicStroke objStroke,
+	protected abstract void dosetHatching(geogebra.common.awt.GGraphics2D g3, geogebra.common.awt.GBasicStroke objStroke,
 			geogebra.common.awt.GColor color, geogebra.common.awt.GColor bgColor, float backgroundTransparency,
 			double dist, double angle);
 	/**
@@ -32,7 +32,7 @@ public abstract class HatchingHandler {
 	 * @param dist distance between hatches
 	 * @param angle hatching angle in degrees
 	 */
-	public static void setHatching(geogebra.common.awt.Graphics2D g3, geogebra.common.awt.GBasicStroke objStroke,
+	public static void setHatching(geogebra.common.awt.GGraphics2D g3, geogebra.common.awt.GBasicStroke objStroke,
 			geogebra.common.awt.GColor color, geogebra.common.awt.GColor bgColor, float backgroundTransparency,
 			double dist, double angle) {
 		prototype.dosetHatching(g3, objStroke, color, bgColor, backgroundTransparency, dist, angle);
@@ -42,13 +42,13 @@ public abstract class HatchingHandler {
 	 * @param geo geo
 	 * @param alpha alpha value
 	 */
-	protected abstract void doSetTexture(geogebra.common.awt.Graphics2D g3, GeoElement geo, float alpha);
+	protected abstract void doSetTexture(geogebra.common.awt.GGraphics2D g3, GeoElement geo, float alpha);
 	/**
 	 * @param g3 graphics
 	 * @param geo geo
 	 * @param alpha alpha value
 	 */
-	public static void setTexture(geogebra.common.awt.Graphics2D g3, GeoElement geo, float alpha) {
+	public static void setTexture(geogebra.common.awt.GGraphics2D g3, GeoElement geo, float alpha) {
 		prototype.doSetTexture(g3, geo, alpha);
 	}
 }

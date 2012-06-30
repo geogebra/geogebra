@@ -7,11 +7,11 @@ public interface GShape {
 
 	boolean contains(int x, int y);
 
-	Rectangle getBounds();
+	GRectangle getBounds();
 
 	GRectangle2D getBounds2D();
 
-	boolean contains(geogebra.common.awt.Rectangle rectangle);
+	boolean contains(geogebra.common.awt.GRectangle rectangle);
 	
 	boolean contains(double xTry, double yTry);
 

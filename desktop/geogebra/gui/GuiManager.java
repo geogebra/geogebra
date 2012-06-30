@@ -771,9 +771,9 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 		return algebraInput;
 	}
 
-	public geogebra.common.javax.swing.JTextComponent getAlgebraInputTextField() {
+	public geogebra.common.javax.swing.GTextComponent getAlgebraInputTextField() {
 		getAlgebraInput();
-		return geogebra.javax.swing.JTextComponent.wrap(algebraInput.getTextField());
+		return geogebra.javax.swing.GTextComponentD.wrap(algebraInput.getTextField());
 	}
 
 	/**

@@ -13,7 +13,7 @@
 package geogebra.euclidian;
 
 import geogebra.common.awt.GFont;
-import geogebra.common.awt.Rectangle;
+import geogebra.common.awt.GRectangle;
 import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianPen;
@@ -261,7 +261,7 @@ public class EuclidianViewD extends EuclidianViewND implements
 	}
 
 	@Override
-	public void setDefRenderingHints(geogebra.common.awt.Graphics2D g2){
+	public void setDefRenderingHints(geogebra.common.awt.GGraphics2D g2){
 		g2.setRenderingHints(defRenderingHints);
 	}
 
@@ -380,7 +380,7 @@ public class EuclidianViewD extends EuclidianViewND implements
 	}
 
 	public void exportPaint(Graphics2D g2d, double scale) {
-		exportPaint(new geogebra.awt.Graphics2D(g2d), scale, false);
+		exportPaint(new geogebra.awt.GGraphics2DD(g2d), scale, false);
 	}
 
 	/**
@@ -394,24 +394,24 @@ public class EuclidianViewD extends EuclidianViewND implements
 	 *            set to false, no traces are drawn.
 	 * 
 	 */
-	public void exportPaint(geogebra.common.awt.Graphics2D g2d, double scale, boolean transparency) {
+	public void exportPaint(geogebra.common.awt.GGraphics2D g2d, double scale, boolean transparency) {
 		getApplication().exporting = true;
 		exportPaintPre(g2d, scale, transparency);
 		drawObjects(g2d);
 		getApplication().exporting = false;
 	}
 
-	public void exportPaintPre(geogebra.common.awt.Graphics2D g2d, double scale) {
+	public void exportPaintPre(geogebra.common.awt.GGraphics2D g2d, double scale) {
 		exportPaintPre(g2d, scale, false);
 	}
 
-	public void exportPaintPre(geogebra.common.awt.Graphics2D g2d, double scale,
+	public void exportPaintPre(geogebra.common.awt.GGraphics2D g2d, double scale,
 			boolean transparency) {
 		g2d.scale(scale, scale);
 
 		// clipping on selection rectangle
 		if (getSelectionRectangle() != null) {
-			Rectangle rect = getSelectionRectangle();
+			GRectangle rect = getSelectionRectangle();
 			g2d.setClip(0, 0, (int)rect.getWidth(), (int)rect.getHeight());
 			g2d.translate(-rect.getX(), -rect.getY());
 			// Application.debug(rect.x+" "+rect.y+" "+rect.width+" "+rect.height);
@@ -452,7 +452,7 @@ public class EuclidianViewD extends EuclidianViewND implements
 			if (bgImage == null) {
 				drawBackgroundWithImages(g2d, transparency);
 			} else {
-				geogebra.awt.Graphics2D.getAwtGraphics(g2d).drawImage(geogebra.awt.GBufferedImageD.getAwtBufferedImage(bgImage), 0, 0, getJPanel());
+				geogebra.awt.GGraphics2DD.getAwtGraphics(g2d).drawImage(geogebra.awt.GBufferedImageD.getAwtBufferedImage(bgImage), 0, 0, getJPanel());
 			}
 		} else {
 			// just clear the background if transparency is disabled (clear =
@@ -460,7 +460,7 @@ public class EuclidianViewD extends EuclidianViewND implements
 			drawBackground(g2d, !transparency);
 		}
 
-		geogebra.awt.Graphics2D.getAwtGraphics(g2d).setRenderingHint(RenderingHints.KEY_RENDERING,
+		geogebra.awt.GGraphics2DD.getAwtGraphics(g2d).setRenderingHint(RenderingHints.KEY_RENDERING,
 				RenderingHints.VALUE_RENDER_QUALITY);
 
 		setAntialiasing(g2d);
@@ -482,7 +482,7 @@ public class EuclidianViewD extends EuclidianViewND implements
 		int width = (int) Math.floor(getExportWidth() * scale);
 		int height = (int) Math.floor(getExportHeight() * scale);
 		BufferedImage img = createBufferedImage(width, height, transparency);
-		exportPaint(new geogebra.awt.Graphics2D(img.createGraphics()), scale, transparency);
+		exportPaint(new geogebra.awt.GGraphics2DD(img.createGraphics()), scale, transparency);
 		img.flush();
 		return img;
 	}
@@ -521,12 +521,12 @@ public class EuclidianViewD extends EuclidianViewND implements
 
 
 	@Override
-	protected void drawResetIcon(geogebra.common.awt.Graphics2D g){
+	protected void drawResetIcon(geogebra.common.awt.GGraphics2D g){
 		// need to use getApplet().width rather than width so that
 					// it works with applet rescaling
 					int w = getApplication().onlyGraphicsViewShowing() ? getApplication().getApplet().width
 							: getWidth() + 2;
-					geogebra.awt.Graphics2D.getAwtGraphics(g).drawImage(getResetImage(), w - 18, 2, null);
+					geogebra.awt.GGraphics2DD.getAwtGraphics(g).drawImage(getResetImage(), w - 18, 2, null);
 	}
 	private Image getResetImage() {
 		if (resetImage == null) {
@@ -551,7 +551,7 @@ public class EuclidianViewD extends EuclidianViewND implements
 
 	
 	@Override
-	final protected void drawAnimationButtons(geogebra.common.awt.Graphics2D g2) {
+	final protected void drawAnimationButtons(geogebra.common.awt.GGraphics2D g2) {
 
 		// draw button in focused EV only
 		if (!drawPlayButtonInThisView()) {
@@ -574,7 +574,7 @@ public class EuclidianViewD extends EuclidianViewND implements
 		g2.drawRect(x - 2, y - 2, 18, 18);
 		Image img = kernel.isAnimationRunning() ? getPauseImage()
 				: getPlayImage();
-		geogebra.awt.Graphics2D.getAwtGraphics(g2).drawImage(img, x, y, null);
+		geogebra.awt.GGraphics2DD.getAwtGraphics(g2).drawImage(img, x, y, null);
 	}
 
 	public final boolean hitAnimationButton(AbstractEvent e) {
@@ -615,8 +615,8 @@ public class EuclidianViewD extends EuclidianViewND implements
 	 * @return graphics of the underlying component
 	 */
 	@Override
-	public geogebra.common.awt.Graphics2D getGraphicsForPen() {
-			return new geogebra.awt.Graphics2D((Graphics2D) evjpanel.getGraphics());
+	public geogebra.common.awt.GGraphics2D getGraphicsForPen() {
+			return new geogebra.awt.GGraphics2DD((Graphics2D) evjpanel.getGraphics());
 
 	}
 

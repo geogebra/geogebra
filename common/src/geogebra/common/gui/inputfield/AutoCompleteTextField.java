@@ -4,7 +4,7 @@ import geogebra.common.awt.GColor;
 import geogebra.common.awt.GFont;
 import geogebra.common.euclidian.event.FocusListener;
 import geogebra.common.euclidian.event.KeyListener;
-import geogebra.common.javax.swing.JLabel;
+import geogebra.common.javax.swing.GLabel;
 import geogebra.common.main.GeoElementSelectionListener;
 import geogebra.common.util.AutoCompleteDictionary;
 import geogebra.common.util.TextObject;
@@ -40,7 +40,7 @@ public interface AutoCompleteTextField extends GeoElementSelectionListener, Text
 	//javax.swing.JComponent
 	void requestFocus();
 
-	void setLabel(JLabel label);
+	void setLabel(GLabel label);
 
 	void setVisible(boolean b);
 

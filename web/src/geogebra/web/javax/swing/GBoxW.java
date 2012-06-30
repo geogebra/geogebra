@@ -1,34 +1,34 @@
 package geogebra.web.javax.swing;
 
 import geogebra.common.awt.GDimension;
-import geogebra.common.awt.Rectangle;
+import geogebra.common.awt.GRectangle;
 import geogebra.common.gui.inputfield.AutoCompleteTextField;
 import geogebra.common.javax.swing.AbstractJComboBox;
-import geogebra.common.javax.swing.JLabel;
+import geogebra.common.javax.swing.GLabel;
 import geogebra.common.main.AbstractApplication;
 
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 
-public class Box extends geogebra.common.javax.swing.Box{
+public class GBoxW extends geogebra.common.javax.swing.GBox{
 
 	private HorizontalPanel impl;
 	
-	public Box(){
+	public GBoxW(){
 		impl = new HorizontalPanel();
 		impl.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
 	}
 	
-	public static HorizontalPanel getImpl(Box box){
+	public static HorizontalPanel getImpl(GBoxW box){
 		if (box == null) return null;
 		return box.impl;
 	}
 	
 	@Override
-    public void add(JLabel label) {
-	    impl.add(geogebra.web.javax.swing.JLabel.getImpl(
-	    		(geogebra.web.javax.swing.JLabel)label));
+    public void add(GLabel label) {
+	    impl.add(geogebra.web.javax.swing.GLabelW.getImpl(
+	    		(geogebra.web.javax.swing.GLabelW)label));
 	    
     }
 
@@ -44,7 +44,7 @@ public class Box extends geogebra.common.javax.swing.Box{
     }
 
 	@Override
-    public void setBounds(Rectangle rect) {
+    public void setBounds(GRectangle rect) {
 	    AbstractApplication.debug("implementation needed - just finishing"); // TODO
 	    impl.setWidth(rect.getWidth() + "");
 	    impl.setHeight(rect.getHeight() + "");
@@ -62,7 +62,7 @@ public class Box extends geogebra.common.javax.swing.Box{
     }
 
 	@Override
-    public Rectangle getBounds() {
+    public GRectangle getBounds() {
 		int left = impl.getAbsoluteLeft();
 		int top = impl.getAbsoluteTop();
 		
@@ -71,7 +71,7 @@ public class Box extends geogebra.common.javax.swing.Box{
 			top -= impl.getParent().getAbsoluteTop();			
 		}
 		
-		return new geogebra.web.awt.Rectangle(
+		return new geogebra.web.awt.GRectangleW(
 				left, top,
 				impl.getOffsetWidth(), impl.getOffsetHeight());
     }
@@ -82,7 +82,7 @@ public class Box extends geogebra.common.javax.swing.Box{
 
 	@Override
     public void add(AbstractJComboBox comboBox) {
-	    impl.add(JComboBox.getImpl(comboBox));	    
+	    impl.add(GComboBoxW.getImpl(comboBox));	    
     }
 
 }

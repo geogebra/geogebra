@@ -1,6 +1,6 @@
 package geogebra.awt;
 
-import geogebra.common.awt.Graphics2D;
+import geogebra.common.awt.GGraphics2D;
 
 public class GBufferedImageD implements geogebra.common.awt.GBufferedImage {
 	public int TYPE_INT_ARGB = java.awt.image.BufferedImage.TYPE_INT_ARGB;
@@ -29,8 +29,8 @@ public class GBufferedImageD implements geogebra.common.awt.GBufferedImage {
 		return ((GBufferedImageD)im).impl;
 	}
 
-	public Graphics2D createGraphics() {
-		return new geogebra.awt.Graphics2D((java.awt.Graphics2D)impl.getGraphics());
+	public GGraphics2D createGraphics() {
+		return new geogebra.awt.GGraphics2DD((java.awt.Graphics2D)impl.getGraphics());
 	}
 
 }

@@ -3,8 +3,8 @@ package geogebra.web.factories;
 import geogebra.common.euclidian.Drawable;
 import geogebra.common.gui.inputfield.AutoCompleteTextField;
 import geogebra.common.javax.swing.AbstractJComboBox;
-import geogebra.common.javax.swing.Box;
-import geogebra.common.javax.swing.JLabel;
+import geogebra.common.javax.swing.GBox;
+import geogebra.common.javax.swing.GLabel;
 import geogebra.common.main.AbstractApplication;
 
 public class SwingFactory extends geogebra.common.factories.SwingFactory {
@@ -16,18 +16,18 @@ public class SwingFactory extends geogebra.common.factories.SwingFactory {
 	}
 
 	@Override
-	public JLabel newJLabel(String string) {
-		return new geogebra.web.javax.swing.JLabel(string);
+	public GLabel newJLabel(String string) {
+		return new geogebra.web.javax.swing.GLabelW(string);
 	}
 
 	@Override
-	public Box createHorizontalBox() {
-		return new geogebra.web.javax.swing.Box();
+	public GBox createHorizontalBox() {
+		return new geogebra.web.javax.swing.GBoxW();
 	}
 
 	@Override
     public AbstractJComboBox newJComboBox() {
-	    return new geogebra.web.javax.swing.JComboBox();
+	    return new geogebra.web.javax.swing.GComboBoxW();
     }
 
 }

@@ -27,8 +27,6 @@
 
 package geogebra.web.openjdk.awt.geom;
 
-import com.google.gwt.core.client.JavaScriptObject;
-
 import geogebra.web.kernel.external.Crossings;
 import geogebra.web.kernel.external.Curve;
 import geogebra.web.openjdk.awt.geom.Rectangle;
@@ -406,7 +404,7 @@ public final class GeneralPath implements Shape, Cloneable {
 	/**
 	 * Return the bounding box of the path.
 	 *
-	 * @return a {@link awt.client.Rectangle} object that bounds the current
+	 * @return a {@link GRectangleW.client.Rectangle} object that bounds the current
 	 *         path.
 	 */
 	public Rectangle getBounds() {

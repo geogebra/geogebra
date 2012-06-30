@@ -63,7 +63,7 @@ public class LaTeXPanel extends JPanel {
 		
 
 		geogebra.common.awt.GDimension fd = app.getDrawEquation().
-				drawEquation(app, null, new geogebra.awt.Graphics2D(g2image), 0, 0, latex, 
+				drawEquation(app, null, new geogebra.awt.GGraphics2DD(g2image), 0, 0, latex, 
 				app.getPlainFontCommon(), false, new geogebra.awt.GColorD(getForeground()), 
 				new geogebra.awt.GColorD(getBackground()), true);	
 
@@ -84,7 +84,7 @@ public class LaTeXPanel extends JPanel {
 		if (app.exporting){
 			app.getDrawEquation();
 			//draw full resolution image directly on g
-			app.getDrawEquation().drawEquation(app, null, new geogebra.awt.Graphics2D((Graphics2D) g), 0, 0, latex, app.getPlainFontCommon(), 
+			app.getDrawEquation().drawEquation(app, null, new geogebra.awt.GGraphics2DD((Graphics2D) g), 0, 0, latex, app.getPlainFontCommon(), 
 					false, new geogebra.awt.GColorD(getForeground()), new geogebra.awt.GColorD(getBackground()), true);
 		} else {
 			// draw part of image that contains equation

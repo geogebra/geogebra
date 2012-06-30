@@ -1,6 +1,6 @@
 package geogebra.web.gui.view.algebra;
 
-import geogebra.common.awt.Rectangle;
+import geogebra.common.awt.GRectangle;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.euclidian.event.AbstractEvent;
@@ -54,7 +54,7 @@ implements MouseOverHandler, MouseMoveHandler, MouseDownHandler, MouseUpHandler,
 
 		// check if we clicked on the 16x16 show/hide icon
 		if (geo != null) {
-			Rectangle rect = (Rectangle)view.getPathBounds(tp);
+			GRectangle rect = (GRectangle)view.getPathBounds(tp);
 			boolean iconClicked = rect != null && e.getX() - rect.getX() < 16; // distance from left border				
 			if (iconClicked) {
 				// icon clicked: toggle show/hide

@@ -8,6 +8,6 @@ public interface GBufferedImage {
 
 	int getHeight();
 
-	geogebra.common.awt.Graphics2D createGraphics();
+	geogebra.common.awt.GGraphics2D createGraphics();
 
 }

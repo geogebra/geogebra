@@ -1,7 +1,7 @@
 package geogebra.awt;
 
 import geogebra.common.awt.GFont;
-import geogebra.common.awt.Graphics2D;
+import geogebra.common.awt.GGraphics2D;
 
 public class GTextLayoutD implements geogebra.common.awt.font.GTextLayout {
 	private java.awt.font.TextLayout impl;
@@ -27,8 +27,8 @@ public class GTextLayoutD implements geogebra.common.awt.font.GTextLayout {
 		return impl.getDescent();
 	}
 
-	public void draw(Graphics2D g2, int x, int y) {
-		impl.draw(geogebra.awt.Graphics2D.getAwtGraphics(g2), x, y);
+	public void draw(GGraphics2D g2, int x, int y) {
+		impl.draw(geogebra.awt.GGraphics2DD.getAwtGraphics(g2), x, y);
 
 	}
 

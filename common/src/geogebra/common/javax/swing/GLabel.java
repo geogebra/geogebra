@@ -3,7 +3,7 @@ package geogebra.common.javax.swing;
 import geogebra.common.awt.GColor;
 import geogebra.common.awt.GFont;
 
-public abstract class JLabel {
+public abstract class GLabel {
 
 	public abstract void setVisible(boolean b);
 

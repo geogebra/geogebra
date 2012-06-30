@@ -11,7 +11,7 @@ public interface GRectangle2D extends GRectangularShape{
 	public void setFrame(double x,double y,double width,double height);
 	public boolean intersects(double minX, double minY, double lengthX,
 			double lengthY);
-	public boolean intersects(Rectangle viewRect);
+	public boolean intersects(GRectangle viewRect);
 	public GRectangle2D createIntersection(GRectangle2D r);
 
 }

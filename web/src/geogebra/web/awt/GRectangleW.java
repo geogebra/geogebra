@@ -2,27 +2,27 @@ package geogebra.web.awt;
 
 import geogebra.common.awt.GPoint2D;
 
-public class Rectangle extends geogebra.web.awt.GRectangle2DW implements geogebra.common.awt.Rectangle {
+public class GRectangleW extends geogebra.web.awt.GRectangle2DW implements geogebra.common.awt.GRectangle {
 	
 	private geogebra.web.openjdk.awt.geom.Rectangle impl;
 	
-	public Rectangle() {
+	public GRectangleW() {
 		impl = new geogebra.web.openjdk.awt.geom.Rectangle();
 	}
 	
-	public Rectangle(geogebra.common.awt.Rectangle r) {
-		impl = ((Rectangle)r).impl;
+	public GRectangleW(geogebra.common.awt.GRectangle r) {
+		impl = ((GRectangleW)r).impl;
 	}
 	
-	public Rectangle(int w, int h) {
+	public GRectangleW(int w, int h) {
 		impl = new geogebra.web.openjdk.awt.geom.Rectangle(w, h);
 	}
 	
-	public Rectangle(geogebra.web.openjdk.awt.geom.Rectangle r) {
+	public GRectangleW(geogebra.web.openjdk.awt.geom.Rectangle r) {
 	    impl = new geogebra.web.openjdk.awt.geom.Rectangle(r.x, r.y, r.width, r.height);    
 	}
 
-	public Rectangle(int x, int y, int w, int h) {
+	public GRectangleW(int x, int y, int w, int h) {
 	    impl = new geogebra.web.openjdk.awt.geom.Rectangle(x, y, w, h);
     }
 
@@ -60,18 +60,18 @@ public class Rectangle extends geogebra.web.awt.GRectangle2DW implements geogebr
 	}
 
 	
-	public void setBounds(geogebra.common.awt.Rectangle rectangle) {
+	public void setBounds(geogebra.common.awt.GRectangle rectangle) {
 		impl.setBounds((int) rectangle.getX(), (int) rectangle.getY(), (int) rectangle.getWidth(), (int) rectangle.getHeight());
 	}
 
 	
 	@Override
-    public boolean contains(geogebra.common.awt.Rectangle r) {
+    public boolean contains(geogebra.common.awt.GRectangle r) {
 		return impl.contains(r.getX(), r.getY(), r.getWidth(), r.getHeight());
 	}
 
 	
-	public void add(geogebra.common.awt.Rectangle r) {
+	public void add(geogebra.common.awt.GRectangle r) {
 		 int x1 = (int) Math.min(impl.x, r.getX());
 	     int x2 = (int) Math.max(impl.x + impl.width, r.getX() + r.getWidth());
 	     int y1 = (int) Math.min(impl.y, r.getY());
@@ -103,10 +103,10 @@ public class Rectangle extends geogebra.web.awt.GRectangle2DW implements geogebr
 		impl.add(x, y);
 	}
 	
-	public static geogebra.web.openjdk.awt.geom.Rectangle getGawtRectangle(geogebra.common.awt.Rectangle r) {
-		if(!(r instanceof Rectangle))
+	public static geogebra.web.openjdk.awt.geom.Rectangle getGawtRectangle(geogebra.common.awt.GRectangle r) {
+		if(!(r instanceof GRectangleW))
 			return null;
-		return ((Rectangle)r).impl;
+		return ((GRectangleW)r).impl;
 	}
 
 	public boolean contains(GPoint2D p) {
@@ -114,10 +114,10 @@ public class Rectangle extends geogebra.web.awt.GRectangle2DW implements geogebr
 		return impl.contains(p.getX(), p.getY());
     }
 
-	public geogebra.common.awt.Rectangle union(
-            geogebra.common.awt.Rectangle bounds) {
-	    return new geogebra.web.awt.Rectangle(
-	    		impl.union(geogebra.web.awt.Rectangle.getGawtRectangle(bounds)));
+	public geogebra.common.awt.GRectangle union(
+            geogebra.common.awt.GRectangle bounds) {
+	    return new geogebra.web.awt.GRectangleW(
+	    		impl.union(geogebra.web.awt.GRectangleW.getGawtRectangle(bounds)));
     }
 
 	

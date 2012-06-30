@@ -16,7 +16,7 @@ public interface Previewable {
 	 * Draws preview on given graphics
 	 * @param g2 graphics
 	 */
-	public void drawPreview(geogebra.common.awt.Graphics2D g2);
+	public void drawPreview(geogebra.common.awt.GGraphics2D g2);
 	/**
 	 * Called when preview is not needed anymore
 	 */

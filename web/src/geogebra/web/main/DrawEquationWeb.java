@@ -4,7 +4,7 @@ import geogebra.common.GeoGebraConstants;
 import geogebra.common.awt.GColor;
 import geogebra.common.awt.GDimension;
 import geogebra.common.awt.GFont;
-import geogebra.common.awt.Graphics2D;
+import geogebra.common.awt.GGraphics2D;
 import geogebra.common.euclidian.DrawEquationInterface;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
@@ -144,7 +144,7 @@ public class DrawEquationWeb implements DrawEquationInterface {
 	}
 
 	public GDimension drawEquation(AbstractApplication app, GeoElement geo,
-            Graphics2D g2, int x, int y, String eqstring, GFont font, boolean serif,
+            GGraphics2D g2, int x, int y, String eqstring, GFont font, boolean serif,
             GColor fgColor, GColor bgColor, boolean useCache) {
 		
 

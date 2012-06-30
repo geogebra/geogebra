@@ -143,7 +143,7 @@ public class DrawConicPart extends Drawable implements Previewable {
 			// draw trace
 			if (conicPart.trace) {
 				isTracing = true;
-				geogebra.common.awt.Graphics2D g2 = view.getBackgroundGraphics();
+				geogebra.common.awt.GGraphics2D g2 = view.getBackgroundGraphics();
 				if (g2 != null)
 					drawTrace(g2);
 			} else {
@@ -227,7 +227,7 @@ public class DrawConicPart extends Drawable implements Previewable {
 	}
 
 	@Override
-	final public void draw(geogebra.common.awt.Graphics2D g2) {
+	final public void draw(geogebra.common.awt.GGraphics2D g2) {
 		if (isVisible) {
 			switch (draw_type) {
 			case DRAW_TYPE_ELLIPSE:
@@ -271,7 +271,7 @@ public class DrawConicPart extends Drawable implements Previewable {
 	 * Returns the bounding box of this DrawPoint in screen coordinates.
 	 */
 	@Override
-	final public geogebra.common.awt.Rectangle getBounds() {
+	final public geogebra.common.awt.GRectangle getBounds() {
 		if (!geo.isDefined() || !geo.isEuclidianVisible())
 			return null;
 
@@ -288,7 +288,7 @@ public class DrawConicPart extends Drawable implements Previewable {
 	}
 
 	@Override
-	final void drawTrace(geogebra.common.awt.Graphics2D g2) {
+	final void drawTrace(geogebra.common.awt.GGraphics2D g2) {
 		switch (draw_type) {
 		case DRAW_TYPE_ELLIPSE:
 			g2.setPaint(geo.getObjectColor());
@@ -370,7 +370,7 @@ public class DrawConicPart extends Drawable implements Previewable {
 		}
 	}
 
-	final public void drawPreview(geogebra.common.awt.Graphics2D g2) {
+	final public void drawPreview(geogebra.common.awt.GGraphics2D g2) {
 		draw(g2);
 	}
 
@@ -421,7 +421,7 @@ public class DrawConicPart extends Drawable implements Previewable {
 	}
 
 	@Override
-	final public boolean isInside(geogebra.common.awt.Rectangle rect) {
+	final public boolean isInside(geogebra.common.awt.GRectangle rect) {
 		switch (draw_type) {
 		case DRAW_TYPE_ELLIPSE:
 			return rect.contains(shape.getBounds());

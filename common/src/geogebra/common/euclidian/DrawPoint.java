@@ -299,7 +299,7 @@ public final class DrawPoint extends Drawable {
 		// draw trace
 		if (P.getTrace()) {
 			isTracing = true;
-			geogebra.common.awt.Graphics2D g2 = view.getBackgroundGraphics();
+			geogebra.common.awt.GGraphics2D g2 = view.getBackgroundGraphics();
 			if (g2 != null)
 				drawTrace(g2);
 		} else {
@@ -319,7 +319,7 @@ public final class DrawPoint extends Drawable {
 
 	private Drawable drawable;
 
-	private void drawClippedSection(GeoElement geo2, geogebra.common.awt.Graphics2D g2) {
+	private void drawClippedSection(GeoElement geo2, geogebra.common.awt.GGraphics2D g2) {
 
 		switch (geo2.getGeoClassType()) {
 		case LINE:
@@ -366,7 +366,7 @@ public final class DrawPoint extends Drawable {
 	}
 
 	@Override
-	final public void draw(geogebra.common.awt.Graphics2D g2) {
+	final public void draw(geogebra.common.awt.GGraphics2D g2) {
 		if (isVisible) {
 			if (geo.doHighlighting()) {
 				g2.setPaint(geo.getSelColor());
@@ -452,7 +452,7 @@ public final class DrawPoint extends Drawable {
 	}
 
 	@Override
-	final void drawTrace(geogebra.common.awt.Graphics2D g2) {
+	final void drawTrace(geogebra.common.awt.GGraphics2D g2) {
 		g2.setPaint(geo.getObjectColor());
 
 		// Florian Sonner 2008-07-17
@@ -480,7 +480,7 @@ public final class DrawPoint extends Drawable {
 	}
 
 	@Override
-	final public boolean isInside(geogebra.common.awt.Rectangle rect) {
+	final public boolean isInside(geogebra.common.awt.GRectangle rect) {
 		return rect.contains(circle.getBounds());
 	}
 
@@ -488,7 +488,7 @@ public final class DrawPoint extends Drawable {
 	 * Returns the bounding box of this DrawPoint in screen coordinates.
 	 */
 	@Override
-	final public geogebra.common.awt.Rectangle getBounds() {
+	final public geogebra.common.awt.GRectangle getBounds() {
 		// return selection circle's bounding box
 		if (!geo.isEuclidianVisible()) {
 			return null;

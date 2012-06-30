@@ -173,7 +173,7 @@ public class DrawableList {
 	 * @param g2
 	 *            Graphic to be used
 	 */
-	public final void drawAll(geogebra.common.awt.Graphics2D g2) {
+	public final void drawAll(geogebra.common.awt.GGraphics2D g2) {
 		Link cur = head;
 		while (cur != null) {
 			// defined check needed in case the GeoList changed its size

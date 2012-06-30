@@ -196,7 +196,7 @@ public class ModeToggleMenu extends JPanel {
 
 	public void mouseOver() {
 		// popup menu is showing
-		JPopupMenu activeMenu = geogebra.javax.swing.JPopupMenu.getImpl(bg.getActivePopupMenu());
+		JPopupMenu activeMenu = geogebra.javax.swing.GPopupMenuD.getImpl(bg.getActivePopupMenu());
 		if (activeMenu != null && activeMenu.isShowing()) {
 			setPopupVisible(true);
 		}
@@ -205,7 +205,7 @@ public class ModeToggleMenu extends JPanel {
 	// shows popup menu
 	public void setPopupVisible(boolean flag) {
 		if (flag) {
-			bg.setActivePopupMenu(new geogebra.javax.swing.JPopupMenu(popMenu));
+			bg.setActivePopupMenu(new geogebra.javax.swing.GPopupMenuD(popMenu));
 			if (popMenu.isShowing())
 				return;
 			Point locButton = tbutton.getLocationOnScreen();

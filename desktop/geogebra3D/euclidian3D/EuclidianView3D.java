@@ -1230,7 +1230,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 		return previewDrawable;
 	}
 
-	public geogebra.common.awt.Rectangle getSelectionRectangle() {
+	public geogebra.common.awt.GRectangle getSelectionRectangle() {
 		return new geogebra.awt.GRectangleD(selectionRectangle);
 	}
 
@@ -1717,7 +1717,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	}
 
 
-	public void setSelectionRectangle(geogebra.common.awt.Rectangle selectionRectangle) {
+	public void setSelectionRectangle(geogebra.common.awt.GRectangle selectionRectangle) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -3399,7 +3399,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	//////////////////////////////////////////
 	// ABSTRACTEUCLIDIANVIEW
 	//////////////////////////////////////////
-	protected void drawAxes(geogebra.common.awt.Graphics2D g2) {
+	protected void drawAxes(geogebra.common.awt.GGraphics2D g2) {
 		
 		
 	}
@@ -3451,7 +3451,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	}
 
 	@Override
-	public geogebra.common.awt.Graphics2D getGraphicsForPen() {
+	public geogebra.common.awt.GGraphics2D getGraphicsForPen() {
 		return null;
 	}
 

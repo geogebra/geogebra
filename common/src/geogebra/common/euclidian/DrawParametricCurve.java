@@ -203,7 +203,7 @@ public class DrawParametricCurve extends Drawable {
 		// draw trace
 		if (curve.getTrace()) {
 			isTracing = true;
-			geogebra.common.awt.Graphics2D g2 = view.getBackgroundGraphics();
+			geogebra.common.awt.GGraphics2D g2 = view.getBackgroundGraphics();
 			if (g2 != null)
 				drawTrace(g2);
 		} else {
@@ -990,7 +990,7 @@ public class DrawParametricCurve extends Drawable {
 	 */
 
 	@Override
-	final public void draw(geogebra.common.awt.Graphics2D g2) {
+	final public void draw(geogebra.common.awt.GGraphics2D g2) {
 		if (isVisible) {
 			if (geo.doHighlighting()) {
 				g2.setPaint(geo.getSelColor());
@@ -1026,7 +1026,7 @@ public class DrawParametricCurve extends Drawable {
 
 
 	@Override
-	final void drawTrace(geogebra.common.awt.Graphics2D g2) {
+	final void drawTrace(geogebra.common.awt.GGraphics2D g2) {
 		g2.setPaint(geo
 				.getObjectColor());
 		g2.setStroke(objStroke);
@@ -1065,7 +1065,7 @@ public class DrawParametricCurve extends Drawable {
 	}
 
 	@Override
-	final public boolean isInside(geogebra.common.awt.Rectangle rect) {
+	final public boolean isInside(geogebra.common.awt.GRectangle rect) {
 		return gp != null && rect.contains(gp.getBounds());
 	}
 
@@ -1083,7 +1083,7 @@ public class DrawParametricCurve extends Drawable {
 	 * Returns the bounding box of this DrawPoint in screen coordinates.
 	 */
 	@Override
-	final public geogebra.common.awt.Rectangle getBounds() {
+	final public geogebra.common.awt.GRectangle getBounds() {
 		if (!geo.isDefined() || !curve.isClosedPath()
 				|| !geo.isEuclidianVisible()) {
 			return null;

@@ -5,7 +5,7 @@ import geogebra.common.gui.toolbar.ToolBar;
 import geogebra.common.io.layout.DockPanelData;
 import geogebra.common.io.layout.DockSplitPaneData;
 import geogebra.common.io.layout.Perspective;
-import geogebra.common.javax.swing.JSplitPane;
+import geogebra.common.javax.swing.GSplitPane;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.settings.LayoutSettings;
 
@@ -40,7 +40,7 @@ public abstract class Layout {
 		dpData[4] = new DockPanelData(AbstractApplication.VIEW_PROPERTIES, null, false, true, false, AwtFactory.prototype.newRectangle(100, 100, 700, 550), "1,1,1", 400);
 	
 		spData = new DockSplitPaneData[1];
-		spData[0] = new DockSplitPaneData("", 0.25, JSplitPane.HORIZONTAL_SPLIT);
+		spData[0] = new DockSplitPaneData("", 0.25, GSplitPane.HORIZONTAL_SPLIT);
 	
 		defToolbar = ToolBar.getAllToolsNoMacros(showAllTools);
 	
@@ -62,7 +62,7 @@ public abstract class Layout {
 		
 		// Table & Graphics - spreadsheet and euclidian view
 		spData = new DockSplitPaneData[1];
-		spData[0] = new DockSplitPaneData("", 0.45, JSplitPane.HORIZONTAL_SPLIT);
+		spData[0] = new DockSplitPaneData("", 0.45, GSplitPane.HORIZONTAL_SPLIT);
 		
 		dpData = new DockPanelData[5];
 		dpData[0] = new DockPanelData(AbstractApplication.VIEW_EUCLIDIAN, null, true, false, false, AwtFactory.prototype.newRectangle(100, 100, 600, 400), "1", 500);

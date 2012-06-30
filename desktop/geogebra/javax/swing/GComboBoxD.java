@@ -5,7 +5,7 @@ import java.awt.Component;
 import geogebra.common.awt.GColor;
 import geogebra.common.awt.GDimension;
 import geogebra.common.awt.GFont;
-import geogebra.common.awt.Rectangle;
+import geogebra.common.awt.GRectangle;
 import geogebra.common.euclidian.event.ActionListener;
 import geogebra.common.gui.inputfield.AutoCompleteTextField;
 import geogebra.common.javax.swing.AbstractJComboBox;
@@ -15,7 +15,7 @@ import geogebra.common.main.AbstractApplication;
  * Wrapper for javax.swing.Box
  * @author Judit Elias, Michael
  */
-public class JComboBoxDesktop extends geogebra.common.javax.swing.AbstractJComboBox {
+public class GComboBoxD extends geogebra.common.javax.swing.AbstractJComboBox {
 	
 	private javax.swing.JComboBox impl = null; 
 	
@@ -24,7 +24,7 @@ public class JComboBoxDesktop extends geogebra.common.javax.swing.AbstractJCombo
 	/**
 	 * Creates new wrapper Box
 	 */
-	public JComboBoxDesktop() {
+	public GComboBoxD() {
 		this.impl = new javax.swing.JComboBox();
 	}
 
@@ -89,9 +89,9 @@ public class JComboBoxDesktop extends geogebra.common.javax.swing.AbstractJCombo
 
 
 	public static Component getJComboBox(AbstractJComboBox comboBox) {
-		if(!(comboBox instanceof JComboBoxDesktop))
+		if(!(comboBox instanceof GComboBoxD))
 			return null;
-		return ((JComboBoxDesktop)comboBox).impl;
+		return ((GComboBoxD)comboBox).impl;
 	}
 
 	@Override

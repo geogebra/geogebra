@@ -3,12 +3,12 @@ package geogebra.web.euclidian;
 import geogebra.common.awt.GBasicStroke;
 import geogebra.common.awt.GColor;
 import geogebra.common.awt.GComposite;
-import geogebra.common.awt.Graphics2D;
+import geogebra.common.awt.GGraphics2D;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.web.awt.GAlphaCompositeW;
 import geogebra.web.awt.GBufferedImageW;
-import geogebra.web.awt.Rectangle;
+import geogebra.web.awt.GRectangleW;
 import geogebra.web.awt.GRectangle2DW;
 import geogebra.web.awt.GTexturePaintW;
 
@@ -16,10 +16,10 @@ public class HatchingHandlerW extends geogebra.common.euclidian.HatchingHandler 
 
 	private static GBufferedImageW bufferedImage = null;
 	@Override
-	protected void dosetHatching(Graphics2D g3, GBasicStroke objStroke,
+	protected void dosetHatching(GGraphics2D g3, GBasicStroke objStroke,
 	        GColor color, GColor bgColor, float backgroundTransparency,
 	        double dist, double angle) {
-		Graphics2D g2 = (geogebra.web.awt.Graphics2D) g3;
+		GGraphics2D g2 = (geogebra.web.awt.Graphics2D) g3;
 		// round to nearest 5 degrees
 		angle = Math.round(angle / 5) * Math.PI / 36;
 
@@ -60,7 +60,7 @@ public class HatchingHandlerW extends geogebra.common.euclidian.HatchingHandler 
 					Math.max(currentHeight, yInt * 3),
 					GBufferedImageW.TYPE_INT_ARGB);
 
-		Graphics2D g2d = bufferedImage.createGraphics();
+		GGraphics2D g2d = bufferedImage.createGraphics();
 
 		// enable anti-aliasing
 		EuclidianViewW.setAntialiasingStatic(g2d);
@@ -102,7 +102,7 @@ public class HatchingHandlerW extends geogebra.common.euclidian.HatchingHandler 
 		}
 
 		// paint with the texturing brush
-		Rectangle rect = new Rectangle(0, 0, xInt, yInt);
+		GRectangleW rect = new GRectangleW(0, 0, xInt, yInt);
 
 		// use the middle square of our 3 x 3 grid to fill with
 		g2.setPaint(new GTexturePaintW(bufferedImage.getSubimage(xInt, yInt, xInt, yInt), rect));
@@ -113,8 +113,8 @@ public class HatchingHandlerW extends geogebra.common.euclidian.HatchingHandler 
 	}
 
 	@Override
-	protected void doSetTexture(Graphics2D g3, GeoElement geo, float alpha) {
-		Graphics2D g2= (geogebra.web.awt.Graphics2D) g3;
+	protected void doSetTexture(GGraphics2D g3, GeoElement geo, float alpha) {
+		GGraphics2D g2= (geogebra.web.awt.Graphics2D) g3;
 		if (geo.getFillImage() == null) {
 			g2.setPaint(geo.getFillColor());
 			return;
@@ -130,7 +130,7 @@ public class HatchingHandlerW extends geogebra.common.euclidian.HatchingHandler 
 			GBufferedImageW copy = new GBufferedImageW(image.getWidth(),
 					image.getHeight(), GBufferedImageW.TYPE_INT_ARGB);
 
-			Graphics2D g2d = copy.createGraphics();
+			GGraphics2D g2d = copy.createGraphics();
 
 			// enable anti-aliasing
 			EuclidianViewW.setAntialiasingStatic(g2d);

@@ -120,7 +120,7 @@ public class DrawIntegralFunctions extends Drawable {
 	}
 
 	@Override
-	final public void draw(geogebra.common.awt.Graphics2D g2) {
+	final public void draw(geogebra.common.awt.GGraphics2D g2) {
 		if (isVisible) {
 			if (geo.doHighlighting()) {
 				g2.setPaint(n.getSelColor());
@@ -150,7 +150,7 @@ public class DrawIntegralFunctions extends Drawable {
 	}
 
 	@Override
-	final public boolean isInside(geogebra.common.awt.Rectangle rect) {
+	final public boolean isInside(geogebra.common.awt.GRectangle rect) {
 		return false;
 	}
 
@@ -158,7 +158,7 @@ public class DrawIntegralFunctions extends Drawable {
 	 * Returns the bounding box of this DrawPoint in screen coordinates.
 	 */
 	@Override
-	final public geogebra.common.awt.Rectangle getBounds() {
+	final public geogebra.common.awt.GRectangle getBounds() {
 		if (!geo.isDefined() || !geo.isEuclidianVisible()) {
 			return null;
 		}

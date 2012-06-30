@@ -4,7 +4,7 @@ import geogebra.common.awt.GPoint;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.gui.dialog.DialogManager;
-import geogebra.common.javax.swing.JTextComponent;
+import geogebra.common.javax.swing.GTextComponent;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoElement;
@@ -160,7 +160,7 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 
 
 	@Override
-	public JTextComponent getAlgebraInputTextField() {
+	public GTextComponent getAlgebraInputTextField() {
 		AbstractApplication.debug("unimplemented method");
 		// TODO Auto-generated method stub
 		return null;

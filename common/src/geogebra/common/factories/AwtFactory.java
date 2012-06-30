@@ -17,7 +17,7 @@ import geogebra.common.awt.GGradientPaint;
 import geogebra.common.awt.GLine2D;
 import geogebra.common.awt.GPoint2D;
 import geogebra.common.awt.GQuadCurve2D;
-import geogebra.common.awt.Rectangle;
+import geogebra.common.awt.GRectangle;
 import geogebra.common.awt.GRectangle2D;
 import geogebra.common.awt.GShape;
 import geogebra.common.awt.font.GTextLayout;
@@ -34,14 +34,14 @@ public abstract class AwtFactory {
 	public abstract GColor newColor(float red, float green, float blue);
 	public abstract GAffineTransform newAffineTransform();
 	public abstract GRectangle2D newRectangle2D();
-	public abstract Rectangle newRectangle(int x,int y,int w,int h);
+	public abstract GRectangle newRectangle(int x,int y,int w,int h);
 	public abstract GBufferedImage newBufferedImage(int pixelWidth,
 			int pixelHeight, int typeIntArgb);
 	public abstract GDimension newDimension(int width,
 			int height);
 	public abstract GPoint2D newPoint2D();
-	public abstract Rectangle newRectangle(int i, int j);
-	public abstract Rectangle newRectangle();
+	public abstract GRectangle newRectangle(int i, int j);
+	public abstract GRectangle newRectangle();
 	public abstract GPoint2D newPoint2D(double d, double coord);
 	public abstract GGeneralPath newGeneralPath();
 	public abstract GBasicStroke newMyBasicStroke(float f);
@@ -50,7 +50,7 @@ public abstract class AwtFactory {
 			float miterLimit, float[] dash, float f);
 	public abstract GBasicStroke newBasicStroke(float f);
 	public abstract GLine2D newLine2D();
-	public abstract Rectangle newRectangle(Rectangle bb);
+	public abstract GRectangle newRectangle(GRectangle bb);
 	public abstract GEllipse2DDouble newEllipse2DDouble();
 	public abstract GEllipse2DFloat newEllipse2DFloat(int i, int j, int k, int l);
 	public abstract GArc2D newArc2D();

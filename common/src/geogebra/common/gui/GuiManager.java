@@ -77,7 +77,7 @@ public abstract class GuiManager {
 	public abstract void addSpreadsheetTrace(GeoElement tracegeo);
 
 
-	public abstract geogebra.common.javax.swing.JTextComponent getAlgebraInputTextField();
+	public abstract geogebra.common.javax.swing.GTextComponent getAlgebraInputTextField();
 
 	public abstract void showDrawingPadPopup(EuclidianViewInterfaceCommon view,
 			GPoint mouseLoc);

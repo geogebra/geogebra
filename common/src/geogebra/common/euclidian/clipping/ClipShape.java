@@ -24,7 +24,7 @@ package geogebra.common.euclidian.clipping;
 
 import geogebra.common.awt.GAffineTransform;
 import geogebra.common.awt.GGeneralPath;
-import geogebra.common.awt.Graphics2D;
+import geogebra.common.awt.GGraphics2D;
 import geogebra.common.awt.GPathIterator;
 import geogebra.common.awt.GRectangle2D;
 import geogebra.common.awt.GShape;
@@ -532,7 +532,7 @@ public class ClipShape {
 	 * @param g the graphics2D to clip to
 	 * @param newClip the new clip
 	 */
-	public static void clip(Graphics2D g,GShape newClip) {
+	public static void clip(GGraphics2D g,GShape newClip) {
 		GShape oldClip = g.getClip();
 		if(oldClip==null) {
 			g.setClip(newClip);

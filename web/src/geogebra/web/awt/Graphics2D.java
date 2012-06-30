@@ -37,7 +37,7 @@ import com.google.gwt.core.client.JsArrayNumber;
 import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.user.client.Element;
 
-public class Graphics2D extends geogebra.common.awt.Graphics2D {
+public class Graphics2D extends geogebra.common.awt.GGraphics2D {
 	
 	protected final Canvas canvas;
 	private final Context2d context;

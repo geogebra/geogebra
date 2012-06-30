@@ -12,7 +12,7 @@ the Free Software Foundation.
 package geogebra.gui.toolbar;
 
 import javax.swing.ButtonGroup;
-import geogebra.common.javax.swing.JPopupMenu;
+import geogebra.common.javax.swing.GPopupMenu;
 
 /**
  * Group of buttons for mode groups
@@ -23,14 +23,14 @@ public class ModeToggleButtonGroup extends ButtonGroup {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private JPopupMenu activePopMenu;
+	private GPopupMenu activePopMenu;
 	
 	
 	/**
 	 * Activates given mode group
 	 * @param popMenu popup menu that should become active
 	 */
-	public void setActivePopupMenu(JPopupMenu popMenu) {
+	public void setActivePopupMenu(GPopupMenu popMenu) {
 		activePopMenu = popMenu;			
 	}	
 	
@@ -38,7 +38,7 @@ public class ModeToggleButtonGroup extends ButtonGroup {
 	 * Returns active mode group
 	 * @return active popup menu
 	 */
-	public JPopupMenu getActivePopupMenu() {
+	public GPopupMenu getActivePopupMenu() {
 		return activePopMenu;
 	}
 	

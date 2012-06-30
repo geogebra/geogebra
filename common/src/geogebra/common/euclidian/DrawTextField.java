@@ -20,8 +20,8 @@ import geogebra.common.euclidian.event.KeyEvent;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.factories.SwingFactory;
 import geogebra.common.gui.inputfield.AutoCompleteTextField;
-import geogebra.common.javax.swing.Box;
-import geogebra.common.javax.swing.JLabel;
+import geogebra.common.javax.swing.GBox;
+import geogebra.common.javax.swing.GLabel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoElement;
@@ -47,11 +47,11 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 	private String oldCaption;
 	/** textfield component*/
 	AutoCompleteTextField textField;
-	private JLabel label;
+	private GLabel label;
 	//ButtonListener bl;
 	private InputFieldListener ifListener;
 	private InputFieldKeyListener ifKeyListener;
-	private Box box = SwingFactory.prototype.createHorizontalBox();
+	private GBox box = SwingFactory.prototype.createHorizontalBox();
 
 	/**
 	 * @param view view
@@ -389,7 +389,7 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 	}
 
 	@Override
-	final public void draw(geogebra.common.awt.Graphics2D g2) {
+	final public void draw(geogebra.common.awt.GGraphics2D g2) {
 		if (isVisible) {
 			if (geo.doHighlighting()) {
 				label.setOpaque(true);
@@ -419,7 +419,7 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 	}
 
 	@Override
-	final public boolean isInside(geogebra.common.awt.Rectangle rect) {
+	final public boolean isInside(geogebra.common.awt.GRectangle rect) {
 		return rect.contains(labelRectangle);
 	}
 

@@ -162,7 +162,7 @@ public class GlobalKeyDispatcherD extends geogebra.common.main.GlobalKeyDispatch
 	public void handleFunctionKeyForAlgebraInput(int fkey, GeoElement geo) {
 		if (!app.isUsingFullGui() || !app.showAlgebraInput())
 			return;
-		JTextComponent textComponent = ((geogebra.javax.swing.JTextComponent)app.getGuiManager()
+		JTextComponent textComponent = ((geogebra.javax.swing.GTextComponentD)app.getGuiManager()
 				.getAlgebraInputTextField()).getImpl();
 
 		switch (fkey) {
@@ -332,7 +332,7 @@ public class GlobalKeyDispatcherD extends geogebra.common.main.GlobalKeyDispatch
 
 	@Override
 	protected void copyDefinitionsToInputBarAsList(ArrayList<GeoElement> geos) {
-		JTextComponent textComponent = ((geogebra.javax.swing.JTextComponent)app.getGuiManager()
+		JTextComponent textComponent = ((geogebra.javax.swing.GTextComponentD)app.getGuiManager()
 				.getAlgebraInputTextField()).getImpl();
 
 		StringBuilder sb = new StringBuilder();

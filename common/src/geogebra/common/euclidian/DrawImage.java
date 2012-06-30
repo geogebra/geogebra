@@ -41,7 +41,7 @@ public final class DrawImage extends Drawable {
 	private geogebra.common.awt.GAffineTransform at, atInverse, tempAT;
 	private boolean needsInterpolationRenderingHint;
 	private int screenX, screenY;
-	private geogebra.common.awt.Rectangle boundingBox;
+	private geogebra.common.awt.GRectangle boundingBox;
 	private geogebra.common.awt.GGeneralPath highlighting;
 
 	/**
@@ -216,7 +216,7 @@ public final class DrawImage extends Drawable {
 	}
 
 	@Override
-	final public void draw(geogebra.common.awt.Graphics2D g3) {
+	final public void draw(geogebra.common.awt.GGraphics2D g3) {
 		if (isVisible) {
 			geogebra.common.awt.GComposite oldComp = g3.getComposite();
 			if (alpha >= 0f && alpha < 1f) {
@@ -301,7 +301,7 @@ public final class DrawImage extends Drawable {
 	 * @param g2 graphics 
 	 */
 	private void drawHighlighting(geogebra.common.awt.GAffineTransform at2,
-			geogebra.common.awt.Graphics2D g2) {
+			geogebra.common.awt.GGraphics2D g2) {
 		// TODO Auto-generated method stub
 
 	}
@@ -335,7 +335,7 @@ public final class DrawImage extends Drawable {
 	private double[] hitCoords = new double[2];
 
 	@Override
-	final public boolean isInside(geogebra.common.awt.Rectangle rect) {
+	final public boolean isInside(geogebra.common.awt.GRectangle rect) {
 		if (!isVisible || geoImage.isInBackground())
 			return false;
 		return rect.contains(boundingBox);
@@ -345,7 +345,7 @@ public final class DrawImage extends Drawable {
 	 * Returns the bounding box of this DrawPoint in screen coordinates.
 	 */
 	@Override
-	final public geogebra.common.awt.Rectangle getBounds() {
+	final public geogebra.common.awt.GRectangle getBounds() {
 		if (!geo.isDefined() || !geo.isEuclidianVisible()) {
 			return null;
 		}

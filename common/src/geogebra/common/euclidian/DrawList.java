@@ -43,8 +43,8 @@ public final class DrawList extends Drawable implements RemoveNeeded {
 	private String oldCaption;
 	/** combobox */
 	geogebra.common.javax.swing.AbstractJComboBox comboBox;
-	private geogebra.common.javax.swing.JLabel label;
-	private geogebra.common.javax.swing.Box box;
+	private geogebra.common.javax.swing.GLabel label;
+	private geogebra.common.javax.swing.GBox box;
 
 
 	/**
@@ -187,7 +187,7 @@ public final class DrawList extends Drawable implements RemoveNeeded {
 			// draw trace
 			if (geoList.getTrace()) {
 				isTracing = true;
-				geogebra.common.awt.Graphics2D g2 = view.getBackgroundGraphics();
+				geogebra.common.awt.GGraphics2D g2 = view.getBackgroundGraphics();
 				if (g2 != null)
 					drawTrace(g2);
 			} else {
@@ -219,7 +219,7 @@ public final class DrawList extends Drawable implements RemoveNeeded {
 	}
 
 	@Override
-	final void drawTrace(geogebra.common.awt.Graphics2D g2) {
+	final void drawTrace(geogebra.common.awt.GGraphics2D g2) {
 		if (!geoList.drawAsComboBox()) {
 
 			g2.setPaint(geo.getObjectColor());
@@ -242,7 +242,7 @@ public final class DrawList extends Drawable implements RemoveNeeded {
 
 
 	@Override
-	final public void draw(geogebra.common.awt.Graphics2D g2) {
+	final public void draw(geogebra.common.awt.GGraphics2D g2) {
 		if (geoList.drawAsComboBox()) {
 			if (isVisible) {
 				if (geo.doHighlighting()) {
@@ -298,7 +298,7 @@ public final class DrawList extends Drawable implements RemoveNeeded {
 	}
 
 	@Override
-	final public boolean isInside(geogebra.common.awt.Rectangle rect) {
+	final public boolean isInside(geogebra.common.awt.GRectangle rect) {
 
 		if (geoList.drawAsComboBox()) {
 			return rect.contains(labelRectangle);			
@@ -318,7 +318,7 @@ public final class DrawList extends Drawable implements RemoveNeeded {
 	 * Returns the bounding box of this DrawPoint in screen coordinates.
 	 */
 	@Override
-	final public geogebra.common.awt.Rectangle getBounds() {
+	final public geogebra.common.awt.GRectangle getBounds() {
 		if (geoList.drawAsComboBox()) {
 			return null;
 		} 
@@ -326,12 +326,12 @@ public final class DrawList extends Drawable implements RemoveNeeded {
 		if (!geo.isEuclidianVisible())
 			return null;
 
-		geogebra.common.awt.Rectangle result = null;
+		geogebra.common.awt.GRectangle result = null;
 
 		int size = drawables.size();
 		for (int i = 0; i < size; i++) {
 			Drawable d = (Drawable) drawables.get(i);
-			geogebra.common.awt.Rectangle bb = d.getBounds();
+			geogebra.common.awt.GRectangle bb = d.getBounds();
 			if (bb != null) {
 				if (result == null)
 					result = geogebra.common.factories.AwtFactory.prototype.newRectangle(bb); // changed () to (bb) bugfix,

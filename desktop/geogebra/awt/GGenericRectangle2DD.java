@@ -2,7 +2,7 @@ package geogebra.awt;
 
 import geogebra.common.awt.GAffineTransform;
 import geogebra.common.awt.GPathIterator;
-import geogebra.common.awt.Rectangle;
+import geogebra.common.awt.GRectangle;
 import geogebra.common.awt.GRectangle2D;
 import geogebra.main.Application;
 
@@ -58,7 +58,7 @@ public class GGenericRectangle2DD implements geogebra.awt.GRectangle2DD{
 	}
 
 	
-	public boolean intersects(Rectangle viewRect) {
+	public boolean intersects(GRectangle viewRect) {
 		return impl.intersects(geogebra.awt.GRectangleD.getAWTRectangle(viewRect));
 	}
 	
@@ -90,7 +90,7 @@ public class GGenericRectangle2DD implements geogebra.awt.GRectangle2DD{
 	public GRectangle2D getBounds2D() {
 		return new geogebra.awt.GGenericRectangle2DD(impl.getBounds2D());
 	}
-	public boolean contains(Rectangle rectangle) {
+	public boolean contains(GRectangle rectangle) {
 		return impl.contains(geogebra.awt.GRectangleD.getAWTRectangle(rectangle));
 	}
 	

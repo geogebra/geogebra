@@ -1,7 +1,7 @@
 package geogebra.common.euclidian;
 
 import geogebra.common.awt.GPoint;
-import geogebra.common.awt.Rectangle;
+import geogebra.common.awt.GRectangle;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
@@ -535,7 +535,7 @@ public interface EuclidianViewInterfaceCommon extends EuclidianViewInterfaceSlim
 	/**
 	 * @return selection rectangle
 	 */
-	public Rectangle getSelectionRectangle();
+	public GRectangle getSelectionRectangle();
 
 	/**
 	 * Sets real world coord system using min and max values for both axes in
@@ -555,7 +555,7 @@ public interface EuclidianViewInterfaceCommon extends EuclidianViewInterfaceSlim
 	 * Sets hits using given rectangle
 	 * @param rect rectangle
 	 */
-	public void setHits(geogebra.common.awt.Rectangle rect);
+	public void setHits(geogebra.common.awt.GRectangle rect);
 
 	/**
 	 * @param plainTooltip sets tooltip text

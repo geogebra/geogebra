@@ -10,7 +10,7 @@ import geogebra.common.gui.inputfield.AltKeys;
 import geogebra.common.gui.inputfield.AutoComplete;
 import geogebra.common.gui.inputfield.MyTextField;
 import geogebra.common.gui.inputfield.ValidateAutocompletionResult;
-import geogebra.common.javax.swing.JLabel;
+import geogebra.common.javax.swing.GLabel;
 import geogebra.common.kernel.Macro;
 import geogebra.common.kernel.commands.MyException;
 import geogebra.common.kernel.geos.GeoElement;
@@ -365,7 +365,7 @@ public class AutoCompleteTextField extends HorizontalPanel implements AutoComple
 		textField.setFocus(true);
     }
 
-	public void setLabel(JLabel label) {
+	public void setLabel(GLabel label) {
 	    AbstractApplication.debug("implementation needed"); //TODO Auto-generated
 	    
     }

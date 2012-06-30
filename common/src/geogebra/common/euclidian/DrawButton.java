@@ -12,7 +12,7 @@
 
 package geogebra.common.euclidian;
 
-import geogebra.common.awt.Rectangle;
+import geogebra.common.awt.GRectangle;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoButton;
 import geogebra.common.kernel.geos.GeoElement;
@@ -168,7 +168,7 @@ public final class DrawButton extends Drawable implements RemoveNeeded {
 	}
 
 	@Override
-	final public void draw(geogebra.common.awt.Graphics2D g2) {
+	final public void draw(geogebra.common.awt.GGraphics2D g2) {
 
 		if (isVisible) {		
 			myButton.setSelected(geo.doHighlighting());
@@ -198,7 +198,7 @@ public final class DrawButton extends Drawable implements RemoveNeeded {
 	}
 
 	@Override
-	final public boolean isInside(Rectangle rect) {
+	final public boolean isInside(GRectangle rect) {
 		return rect.contains(labelRectangle);
 	}
 

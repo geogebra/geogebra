@@ -1,6 +1,6 @@
 package geogebra.common.awt;
 
-public interface Rectangle extends GRectangle2D {
+public interface GRectangle extends GRectangle2D {
 	
 	public double getY();
 	public double getX();
@@ -11,10 +11,10 @@ public interface Rectangle extends GRectangle2D {
 
 	public void setLocation(int xLabel, int i);
 
-	public void setBounds(Rectangle rectangle);
+	public void setBounds(GRectangle rectangle);
 
-	public boolean contains(Rectangle labelRectangle);
-	public void add(Rectangle bb);
+	public boolean contains(GRectangle labelRectangle);
+	public void add(GRectangle bb);
 	public double getMinX();
 	public double getMinY();
 	public double getMaxX();
@@ -23,7 +23,7 @@ public interface Rectangle extends GRectangle2D {
 	public void add(double x, double y);
 	//public boolean contains(PathPoint prevP);
 	public boolean contains(GPoint2D p1);
-	public Rectangle union(Rectangle bounds);
+	public GRectangle union(GRectangle bounds);
 	public void setSize(int width, int height);
 
 }

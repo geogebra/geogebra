@@ -1,7 +1,7 @@
 package geogebra.javax.swing;
 
 import geogebra.common.awt.GDimension;
-import geogebra.common.awt.Rectangle;
+import geogebra.common.awt.GRectangle;
 import geogebra.common.gui.inputfield.AutoCompleteTextField;
 import geogebra.common.javax.swing.AbstractJComboBox;
 
@@ -9,7 +9,7 @@ import geogebra.common.javax.swing.AbstractJComboBox;
  * Wrapper for javax.swing.Box
  * @author Judit Elias
  */
-public class Box extends geogebra.common.javax.swing.Box {
+public class BoxD extends geogebra.common.javax.swing.GBox {
 	
 	private javax.swing.Box impl = null; 
 	
@@ -17,7 +17,7 @@ public class Box extends geogebra.common.javax.swing.Box {
 	 * Creates new wrapper Box
 	 * @param box box to be wrapped
 	 */
-	public Box(javax.swing.Box box) {
+	public BoxD(javax.swing.Box box) {
 		this.impl = box;
 	}
 		
@@ -30,8 +30,8 @@ public class Box extends geogebra.common.javax.swing.Box {
 	}
 
 	@Override
-	public void add(geogebra.common.javax.swing.JLabel label) {
-		impl.add(((geogebra.javax.swing.JLabel)label).getImpl());
+	public void add(geogebra.common.javax.swing.GLabel label) {
+		impl.add(((geogebra.javax.swing.GLabelD)label).getImpl());
 	}
 
 	@Override
@@ -46,7 +46,7 @@ public class Box extends geogebra.common.javax.swing.Box {
 	}
 
 	@Override
-	public void setBounds(Rectangle rect) {
+	public void setBounds(GRectangle rect) {
 		impl.setBounds(geogebra.awt.GRectangleD.getAWTRectangle(rect));
 	}
 
@@ -56,7 +56,7 @@ public class Box extends geogebra.common.javax.swing.Box {
 	}
 
 	@Override
-	public Rectangle getBounds() {
+	public GRectangle getBounds() {
 		return new geogebra.awt.GRectangleD(impl.getBounds());
 	}
 
@@ -68,7 +68,7 @@ public class Box extends geogebra.common.javax.swing.Box {
 
 	@Override
 	public void add(AbstractJComboBox comboBox) {
-		impl.add(JComboBoxDesktop.getJComboBox(comboBox));
+		impl.add(GComboBoxD.getJComboBox(comboBox));
 		
 	}
 

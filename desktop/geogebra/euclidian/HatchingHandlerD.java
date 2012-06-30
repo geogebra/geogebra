@@ -34,11 +34,11 @@ public class HatchingHandlerD extends geogebra.common.euclidian.HatchingHandler{
 	public static HatchingHandlerD prototype;
 	
 	@Override
-	protected void dosetHatching(geogebra.common.awt.Graphics2D g3, geogebra.common.awt.GBasicStroke objStroke,
+	protected void dosetHatching(geogebra.common.awt.GGraphics2D g3, geogebra.common.awt.GBasicStroke objStroke,
 			geogebra.common.awt.GColor color, geogebra.common.awt.GColor bgColor, float backgroundTransparency,
 			double dist, double angle)
 	{
-		Graphics2D g2 = geogebra.awt.Graphics2D.getAwtGraphics(g3);
+		Graphics2D g2 = geogebra.awt.GGraphics2DD.getAwtGraphics(g3);
 		// round to nearest 5 degrees
 		angle = Math.round(angle / 5) * Math.PI / 36;
 
@@ -130,8 +130,8 @@ public class HatchingHandlerD extends geogebra.common.euclidian.HatchingHandler{
 	}
 
 	@Override
-	protected void doSetTexture(geogebra.common.awt.Graphics2D g3, GeoElement geo, float alpha) {
-		Graphics2D g2= geogebra.awt.Graphics2D.getAwtGraphics(g3);
+	protected void doSetTexture(geogebra.common.awt.GGraphics2D g3, GeoElement geo, float alpha) {
+		Graphics2D g2= geogebra.awt.GGraphics2DD.getAwtGraphics(g3);
 		if (geo.getFillImage() == null) {
 			g2.setPaint(geogebra.awt.GColorD.getAwtColor(geo.getFillColor()));
 			return;

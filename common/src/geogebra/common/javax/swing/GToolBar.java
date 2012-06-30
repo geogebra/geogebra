@@ -1,5 +1,5 @@
 package geogebra.common.javax.swing;
 
-public interface JToolBar {
+public interface GToolBar {
 
 }

@@ -2,7 +2,7 @@ package geogebra.common.io.layout;
 
 import geogebra.common.awt.GDimension;
 import geogebra.common.awt.GPoint;
-import geogebra.common.awt.Rectangle;
+import geogebra.common.awt.GRectangle;
 
 /**
  * A storage container with all information which need to
@@ -15,7 +15,7 @@ public class DockPanelData {
 	private boolean isVisible;
 	private boolean openInFrame;
 	private boolean showStyleBar;
-	private Rectangle frameBounds;
+	private GRectangle frameBounds;
 	private String embeddedDef;
 	private String toolbarString;
 	private int embeddedSize;
@@ -30,7 +30,7 @@ public class DockPanelData {
 	 * @param embeddedDef	The definition string for the location of the view in the main window.
 	 * @param embeddedSize	The size of the view in the main window.
 	 */
-	public DockPanelData(int viewId, String toolbar, boolean isVisible, boolean openInFrame, boolean showStyleBar, Rectangle windowRect, String embeddedDef, int embeddedSize) {
+	public DockPanelData(int viewId, String toolbar, boolean isVisible, boolean openInFrame, boolean showStyleBar, GRectangle windowRect, String embeddedDef, int embeddedSize) {
 		this.viewId = viewId;
 		this.toolbarString = toolbar;
 		this.isVisible = isVisible;
@@ -112,7 +112,7 @@ public class DockPanelData {
 	/**
 	 * @return the frameBounds
 	 */
-	public Rectangle getFrameBounds() {
+	public GRectangle getFrameBounds() {
 		return frameBounds;
 	}
 

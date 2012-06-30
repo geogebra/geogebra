@@ -1,5 +1,5 @@
 package geogebra.javax.swing;
 
-public class JToolBar {
+public class GToolBarD {
 	private javax.swing.JToolBar impl;
 }

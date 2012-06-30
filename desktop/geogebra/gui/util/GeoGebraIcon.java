@@ -862,7 +862,7 @@ public class GeoGebraIcon {
 				RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 		g2image.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 				RenderingHints.VALUE_ANTIALIAS_ON);
-		draw.drawMultilineLaTeX(new geogebra.awt.Graphics2D(g2image), new geogebra.awt.GFontD(font), 
+		draw.drawMultilineLaTeX(new geogebra.awt.GGraphics2DD(g2image), new geogebra.awt.GFontD(font), 
 				new geogebra.awt.GColorD(fgColor), new geogebra.awt.GColorD(bgColor));
 
 		latexIcon.setImage(image);

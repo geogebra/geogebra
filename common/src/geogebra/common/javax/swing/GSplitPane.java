@@ -1,6 +1,6 @@
 package geogebra.common.javax.swing;
 
-public abstract class JSplitPane {
+public abstract class GSplitPane {
 
 	/**
 	 * The value of HORIZONTAL_SPLIT must be the same as javax.swing.JSplitPane.HORIZONTAL_SPLIT

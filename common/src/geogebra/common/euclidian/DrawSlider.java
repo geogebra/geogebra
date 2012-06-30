@@ -140,7 +140,7 @@ public class DrawSlider extends Drawable {
 	}
 
 	@Override
-	final public void draw(geogebra.common.awt.Graphics2D g2) {
+	final public void draw(geogebra.common.awt.GGraphics2D g2) {
 		if (isVisible) {
 			// horizontal line
 			g2.setPaint(geo.getObjectColor());
@@ -158,7 +158,7 @@ public class DrawSlider extends Drawable {
 	}
 
 	@Override
-	final public boolean isInside(geogebra.common.awt.Rectangle rect) {
+	final public boolean isInside(geogebra.common.awt.GRectangle rect) {
 		return drawPoint.isInside(rect);
 	}
 
@@ -205,7 +205,7 @@ public class DrawSlider extends Drawable {
 	 * Returns the bounding box of this Drawable in screen coordinates.
 	 */
 	@Override
-	final public geogebra.common.awt.Rectangle getBounds() {
+	final public geogebra.common.awt.GRectangle getBounds() {
 		if (!geo.isDefined() || ((GeoNumeric) geo).isAbsoluteScreenLocActive()
 				|| !geo.isEuclidianVisible()) {
 			return null;

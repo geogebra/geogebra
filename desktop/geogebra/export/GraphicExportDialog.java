@@ -800,10 +800,10 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 			app.exporting = true;
 
 			g.startExport();
-			ev.exportPaintPre(new geogebra.awt.Graphics2D(g), exportScale);
+			ev.exportPaintPre(new geogebra.awt.GGraphics2DD(g), exportScale);
 
 			g.startGroup("misc");
-			ev.drawActionObjects(new geogebra.awt.Graphics2D(g));
+			ev.drawActionObjects(new geogebra.awt.GGraphics2DD(g));
 			g.endGroup("misc");
 
 			for (int layer = 0; layer <= app.getMaxLayerUsed(); layer++) // draw
@@ -813,7 +813,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 				// need
 			{
 				g.startGroup("layer" + layer);
-				ev.drawLayers[layer].drawAll(new geogebra.awt.Graphics2D(g));
+				ev.drawLayers[layer].drawAll(new geogebra.awt.GGraphics2DD(g));
 				g.endGroup("layer" + layer);
 			}
 

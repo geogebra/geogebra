@@ -22,8 +22,8 @@ public class EuclidianStaticD extends geogebra.common.euclidian.EuclidianStatic{
 
 
 	@Override
-	public final geogebra.common.awt.Rectangle doDrawMultilineLaTeX(AbstractApplication app,
-			geogebra.common.awt.Graphics2D tempGraphics, GeoElement geo, geogebra.common.awt.Graphics2D g2, geogebra.common.awt.GFont font,
+	public final geogebra.common.awt.GRectangle doDrawMultilineLaTeX(AbstractApplication app,
+			geogebra.common.awt.GGraphics2D tempGraphics, GeoElement geo, geogebra.common.awt.GGraphics2D g2, geogebra.common.awt.GFont font,
 			geogebra.common.awt.GColor fgColor, geogebra.common.awt.GColor bgColor, String labelDesc, int xLabel,
 			int yLabel, boolean serif) {
 		int fontSize = g2.getFont().getSize();
@@ -160,8 +160,8 @@ public class EuclidianStaticD extends geogebra.common.euclidian.EuclidianStatic{
 	}
 
 
-	public final static geogebra.common.awt.Rectangle drawMultiLineIndexedText(Application app,
-			String labelDesc, int xLabel, int yLabel, geogebra.common.awt.Graphics2D g2,
+	public final static geogebra.common.awt.GRectangle drawMultiLineIndexedText(Application app,
+			String labelDesc, int xLabel, int yLabel, geogebra.common.awt.GGraphics2D g2,
 			boolean serif) {
 		int lines = 0;
 		int fontSize = g2.getFont().getSize();
@@ -221,13 +221,13 @@ public class EuclidianStaticD extends geogebra.common.euclidian.EuclidianStatic{
 	}
 
 	@Override
-	protected void doDrawWithValueStrokePure(geogebra.common.awt.GShape shape, geogebra.common.awt.Graphics2D g2) {
-		drawWithValueStrokePure(geogebra.awt.GGenericShapeD.getAwtShape(shape), geogebra.awt.Graphics2D.getAwtGraphics(g2));
+	protected void doDrawWithValueStrokePure(geogebra.common.awt.GShape shape, geogebra.common.awt.GGraphics2D g2) {
+		drawWithValueStrokePure(geogebra.awt.GGenericShapeD.getAwtShape(shape), geogebra.awt.GGraphics2DD.getAwtGraphics(g2));
 	}
 	
 	@Override
-	protected void doFillWithValueStrokePure(geogebra.common.awt.GShape shape, geogebra.common.awt.Graphics2D g3) {
-		Graphics2D awtg2 = geogebra.awt.Graphics2D.getAwtGraphics(g3);
+	protected void doFillWithValueStrokePure(geogebra.common.awt.GShape shape, geogebra.common.awt.GGraphics2D g3) {
+		Graphics2D awtg2 = geogebra.awt.GGraphics2DD.getAwtGraphics(g3);
 		Object oldHint = awtg2.getRenderingHint(RenderingHints.KEY_STROKE_CONTROL);
 		awtg2.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL,
 				RenderingHints.VALUE_STROKE_PURE);
@@ -239,8 +239,8 @@ public class EuclidianStaticD extends geogebra.common.euclidian.EuclidianStatic{
 	 * @param shape
 	 * @param g3
 	 */
-	final public static void doDrawWithValueStrokePure(Shape shape, geogebra.common.awt.Graphics2D g3) {
-		drawWithValueStrokePure(shape, geogebra.awt.Graphics2D.getAwtGraphics(g3));
+	final public static void doDrawWithValueStrokePure(Shape shape, geogebra.common.awt.GGraphics2D g3) {
+		drawWithValueStrokePure(shape, geogebra.awt.GGraphics2DD.getAwtGraphics(g3));
 	}
 
 	
@@ -249,9 +249,9 @@ public class EuclidianStaticD extends geogebra.common.euclidian.EuclidianStatic{
 	}
 
 	@Override
-	public Object doSetInterpolationHint(geogebra.common.awt.Graphics2D g3,
+	public Object doSetInterpolationHint(geogebra.common.awt.GGraphics2D g3,
 			boolean needsInterpolationRenderingHint) {
-		java.awt.Graphics2D g2 = geogebra.awt.Graphics2D.getAwtGraphics(g3);
+		java.awt.Graphics2D g2 = geogebra.awt.GGraphics2DD.getAwtGraphics(g3);
 		Object oldInterpolationHint = g2
 				.getRenderingHint(RenderingHints.KEY_INTERPOLATION);
 
@@ -270,9 +270,9 @@ public class EuclidianStaticD extends geogebra.common.euclidian.EuclidianStatic{
 	}
 
 	@Override
-	protected void doResetInterpolationHint(geogebra.common.awt.Graphics2D g3,
+	protected void doResetInterpolationHint(geogebra.common.awt.GGraphics2D g3,
 			Object hint) {
-		java.awt.Graphics2D g2 = geogebra.awt.Graphics2D.getAwtGraphics(g3);
+		java.awt.Graphics2D g2 = geogebra.awt.GGraphics2DD.getAwtGraphics(g3);
 		g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
 				hint);
 		

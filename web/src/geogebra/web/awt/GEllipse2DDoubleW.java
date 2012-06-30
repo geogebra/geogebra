@@ -3,7 +3,7 @@ package geogebra.web.awt;
 import geogebra.common.awt.GAffineTransform;
 import geogebra.common.awt.GPathIterator;
 import geogebra.common.awt.GPoint2D;
-import geogebra.common.awt.Rectangle;
+import geogebra.common.awt.GRectangle;
 import geogebra.common.awt.GRectangle2D;
 import geogebra.common.main.AbstractApplication;
 import geogebra.web.openjdk.awt.geom.Shape;
@@ -25,8 +25,8 @@ geogebra.web.awt.GShapeW{
 	    return impl.contains(x,y);
     }
 
-	public geogebra.common.awt.Rectangle getBounds() {
-	    return new geogebra.web.awt.Rectangle(impl.getBounds());
+	public geogebra.common.awt.GRectangle getBounds() {
+	    return new geogebra.web.awt.GRectangleW(impl.getBounds());
     }
 
 	public GRectangle2D getBounds2D() {
@@ -34,8 +34,8 @@ geogebra.web.awt.GShapeW{
     }
 	
 
-	public boolean contains(Rectangle rectangle) {
-		return impl.contains(geogebra.web.awt.Rectangle.getGawtRectangle(rectangle));
+	public boolean contains(GRectangle rectangle) {
+		return impl.contains(geogebra.web.awt.GRectangleW.getGawtRectangle(rectangle));
 	}
 
 	public boolean contains(double xTry, double yTry) {

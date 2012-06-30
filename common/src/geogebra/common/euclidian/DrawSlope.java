@@ -16,7 +16,7 @@ the Free Software Foundation.
 
 package geogebra.common.euclidian;
 
-import geogebra.common.awt.Graphics2D;
+import geogebra.common.awt.GGraphics2D;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoSlope;
@@ -151,7 +151,7 @@ public class DrawSlope extends Drawable {
 	}
 
 	@Override
-	final public void draw(Graphics2D g2) {
+	final public void draw(GGraphics2D g2) {
 		if (isVisible) {
 			fill(g2, gp, false); // fill using default/hatching/image as
 									// appropriate
@@ -186,7 +186,7 @@ public class DrawSlope extends Drawable {
 	}
 
 	@Override
-	final public boolean isInside(geogebra.common.awt.Rectangle rect) {
+	final public boolean isInside(geogebra.common.awt.GRectangle rect) {
 		return false;
 	}
 
@@ -204,7 +204,7 @@ public class DrawSlope extends Drawable {
 	 * Returns the bounding box of this Drawable in screen coordinates.
 	 */
 	@Override
-	final public geogebra.common.awt.Rectangle getBounds() {
+	final public geogebra.common.awt.GRectangle getBounds() {
 		if (!geo.isDefined() || !geo.isEuclidianVisible()) {
 			return null;
 		}

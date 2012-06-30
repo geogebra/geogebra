@@ -114,7 +114,7 @@ public class DrawRay extends Drawable implements Previewable {
 			// draw trace
 			if (ray.getTrace()) {
 				isTracing = true;
-				geogebra.common.awt.Graphics2D g2 = view.getBackgroundGraphics();
+				geogebra.common.awt.GGraphics2D g2 = view.getBackgroundGraphics();
 				if (g2 != null)
 					drawTrace(g2);
 			} else {
@@ -192,7 +192,7 @@ public class DrawRay extends Drawable implements Previewable {
 	}
 
 	@Override
-	final public void draw(geogebra.common.awt.Graphics2D g2) {
+	final public void draw(geogebra.common.awt.GGraphics2D g2) {
 		if (isVisible) {
 			if (geo.doHighlighting()) {
 				g2.setPaint(geo.getSelColor());
@@ -220,7 +220,7 @@ public class DrawRay extends Drawable implements Previewable {
 	}
 
 	@Override
-	final public void drawTrace(geogebra.common.awt.Graphics2D g2) {
+	final public void drawTrace(geogebra.common.awt.GGraphics2D g2) {
 		g2.setPaint(geo.getObjectColor());
 		g2.setStroke(objStroke);
 		g2.draw(line);
@@ -290,7 +290,7 @@ public class DrawRay extends Drawable implements Previewable {
 		}
 	}
 
-	final public void drawPreview(geogebra.common.awt.Graphics2D g2) {
+	final public void drawPreview(geogebra.common.awt.GGraphics2D g2) {
 		if (isVisible) {
 			g2.setPaint(ConstructionDefaults.colPreview);
 			g2.setStroke(objStroke);
@@ -309,7 +309,7 @@ public class DrawRay extends Drawable implements Previewable {
 	}
 
 	@Override
-	final public boolean isInside(geogebra.common.awt.Rectangle rect) {
+	final public boolean isInside(geogebra.common.awt.GRectangle rect) {
 		return false;
 	}
 

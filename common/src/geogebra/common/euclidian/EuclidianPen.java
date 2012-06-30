@@ -1,7 +1,7 @@
 package geogebra.common.euclidian;
 
 import geogebra.common.awt.GColor;
-import geogebra.common.awt.Graphics2D;
+import geogebra.common.awt.GGraphics2D;
 import geogebra.common.awt.GPoint;
 import geogebra.common.awt.GShape;
 import geogebra.common.euclidian.event.AbstractEvent;
@@ -218,7 +218,7 @@ public class EuclidianPen {
 		// if (g2D == null) g2D = penImage.createGraphics();
 
 		GPoint newPoint = new GPoint(e.getX(), e.getY());
-		Graphics2D g2D = view.getGraphicsForPen();
+		GGraphics2D g2D = view.getGraphicsForPen();
 		GShape circle;
 		if (app.isRightClick(e) && !freehand) {
 			g2D.setColor(GColor.white);

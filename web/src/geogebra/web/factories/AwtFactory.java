@@ -19,7 +19,7 @@ import geogebra.common.awt.GGradientPaint;
 import geogebra.common.awt.GLine2D;
 import geogebra.common.awt.GPoint2D;
 import geogebra.common.awt.GQuadCurve2D;
-import geogebra.common.awt.Rectangle;
+import geogebra.common.awt.GRectangle;
 import geogebra.common.awt.GRectangle2D;
 import geogebra.common.awt.GShape;
 import geogebra.common.awt.font.GTextLayout;
@@ -74,8 +74,8 @@ public class AwtFactory extends geogebra.common.factories.AwtFactory {
 	}
 
 	@Override
-	public Rectangle newRectangle(int x, int y, int w, int h) {
-		return new geogebra.web.awt.Rectangle(x, y, w, h);
+	public GRectangle newRectangle(int x, int y, int w, int h) {
+		return new geogebra.web.awt.GRectangleW(x, y, w, h);
 	}
 
 	@Override
@@ -110,8 +110,8 @@ public class AwtFactory extends geogebra.common.factories.AwtFactory {
 	}*/
 
 	@Override
-	public Rectangle newRectangle(int x, int y) {
-		return new geogebra.web.awt.Rectangle(x, y);
+	public GRectangle newRectangle(int x, int y) {
+		return new geogebra.web.awt.GRectangleW(x, y);
 	}
 
 	@Override
@@ -136,8 +136,8 @@ public class AwtFactory extends geogebra.common.factories.AwtFactory {
 	}
 
 	@Override
-	public Rectangle newRectangle(Rectangle bb) {
-		return new geogebra.web.awt.Rectangle(bb);
+	public GRectangle newRectangle(GRectangle bb) {
+		return new geogebra.web.awt.GRectangleW(bb);
 	}
 
 	@Override
@@ -163,8 +163,8 @@ public class AwtFactory extends geogebra.common.factories.AwtFactory {
     }
 
 	@Override
-    public Rectangle newRectangle() {
-		return new geogebra.web.awt.Rectangle();
+    public GRectangle newRectangle() {
+		return new geogebra.web.awt.GRectangleW();
     }
 
 	@Override

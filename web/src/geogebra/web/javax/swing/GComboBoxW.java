@@ -8,14 +8,14 @@ import geogebra.common.awt.GFont;
 import geogebra.common.euclidian.event.ActionListener;
 import geogebra.common.javax.swing.AbstractJComboBox;
 
-public class JComboBox extends geogebra.common.javax.swing.AbstractJComboBox {
+public class GComboBoxW extends geogebra.common.javax.swing.AbstractJComboBox {
 
 	private ListBox impl = null;
 
 	/**
 	 * Creates new wrapper Box
 	 */
-	public JComboBox() {
+	public GComboBoxW() {
 		this.impl = new ListBox();
 	}
 	
@@ -85,9 +85,9 @@ public class JComboBox extends geogebra.common.javax.swing.AbstractJComboBox {
     }
 
 	public static Widget getImpl(AbstractJComboBox comboBox) {
-	    if(!(comboBox instanceof JComboBox))
+	    if(!(comboBox instanceof GComboBoxW))
 	    	return null;
-	    return ((JComboBox)comboBox).impl;
+	    return ((GComboBoxW)comboBox).impl;
     }
 
 	@Override

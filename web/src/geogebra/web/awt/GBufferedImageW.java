@@ -6,7 +6,7 @@ import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.canvas.dom.client.ImageData;
 
-import geogebra.common.awt.Graphics2D;
+import geogebra.common.awt.GGraphics2D;
 import geogebra.common.main.AbstractApplication;
 import geogebra.web.main.Application;
 
@@ -56,7 +56,7 @@ public class GBufferedImageW implements geogebra.common.awt.GBufferedImage {
 		return impl.getHeight();
 	}
 
-	public Graphics2D createGraphics() {
+	public GGraphics2D createGraphics() {
 		return new geogebra.web.awt.Graphics2D(impl.getCanvas());
     }
 

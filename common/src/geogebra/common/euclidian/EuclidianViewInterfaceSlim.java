@@ -1,6 +1,6 @@
 package geogebra.common.euclidian;
 
-import geogebra.common.awt.Rectangle;
+import geogebra.common.awt.GRectangle;
 import geogebra.common.kernel.LayerView;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoElement;
@@ -129,7 +129,7 @@ public interface EuclidianViewInterfaceSlim extends LayerView{
 	/**
 	 * @param r new selection rectangle
 	 */
-	void setSelectionRectangle(Rectangle r);
+	void setSelectionRectangle(GRectangle r);
 	/**
 	 * Set real world bounds of this view
 	 * @param xmin x min

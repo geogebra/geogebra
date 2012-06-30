@@ -29,7 +29,7 @@ public interface DrawEquationInterface {
 	 * @return dimensions of result
 	 */
 	public geogebra.common.awt.GDimension drawEquation(AbstractApplication app,
-			GeoElement geo, geogebra.common.awt.Graphics2D g2, int x, int y, String text,
+			GeoElement geo, geogebra.common.awt.GGraphics2D g2, int x, int y, String text,
 			geogebra.common.awt.GFont font, boolean serif, geogebra.common.awt.GColor fgColor, geogebra.common.awt.GColor bgColor,
 			boolean useCache); 
 }

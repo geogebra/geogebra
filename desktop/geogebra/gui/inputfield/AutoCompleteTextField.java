@@ -7,7 +7,7 @@ import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.event.FocusListener;
 import geogebra.common.gui.inputfield.AutoComplete;
 import geogebra.common.gui.inputfield.ValidateAutocompletionResult;
-import geogebra.common.javax.swing.JLabel;
+import geogebra.common.javax.swing.GLabel;
 import geogebra.common.kernel.Macro;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.commands.MyException;
@@ -993,8 +993,8 @@ public AutoCompleteTextField(int columns, Application app,
 
   }
 
-  public void setLabel(JLabel label) {
-    ((geogebra.javax.swing.JLabel) label).getImpl().setLabelFor(this);
+  public void setLabel(GLabel label) {
+    ((geogebra.javax.swing.GLabelD) label).getImpl().setLabelFor(this);
   }
 
   public void addFocusListener(FocusListener focusListener) {

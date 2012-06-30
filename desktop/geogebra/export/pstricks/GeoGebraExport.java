@@ -102,7 +102,7 @@ public abstract class GeoGebraExport  {
 		int x2 = euclidianView.toScreenCoordX(xmax);
 		int y1 = euclidianView.toScreenCoordY(ymin);
 		int y2 = euclidianView.toScreenCoordY(ymax);
-		geogebra.common.awt.Rectangle rec = geogebra.common.factories.AwtFactory.prototype
+		geogebra.common.awt.GRectangle rec = geogebra.common.factories.AwtFactory.prototype
 				.newRectangle(x1, y2, x2 - x1, y1 - y2);
 		// Application.debug(x1+" "+x2+" "+y1+" "+y2);
 		euclidianView.setSelectionRectangle(rec);
@@ -154,7 +154,7 @@ public abstract class GeoGebraExport  {
 		// Changes to make xmin,xmax,ymin,ymax be defined by the selection
 		// rectangle
 		// when this one is defined.
-		geogebra.common.awt.Rectangle rect = this.euclidianView.getSelectionRectangle();
+		geogebra.common.awt.GRectangle rect = this.euclidianView.getSelectionRectangle();
 		if (rect != null) {
 			xmin = euclidianView.toRealWorldCoordX(rect.getMinX());
 			xmax = euclidianView.toRealWorldCoordX(rect.getMaxX());

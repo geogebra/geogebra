@@ -5,9 +5,9 @@ import java.util.List;
 import geogebra.common.awt.GColor;
 import geogebra.common.awt.GDimension;
 import geogebra.common.awt.GFont;
-import geogebra.common.awt.Graphics2D;
+import geogebra.common.awt.GGraphics2D;
 import geogebra.common.awt.GPoint;
-import geogebra.common.awt.Rectangle;
+import geogebra.common.awt.GRectangle;
 import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.AbstractZoomer;
@@ -15,7 +15,7 @@ import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.gui.inputfield.AutoCompleteTextField;
 import geogebra.common.io.MyXMLio;
-import geogebra.common.javax.swing.Box;
+import geogebra.common.javax.swing.GBox;
 import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoPoint2;
 import geogebra.common.main.AbstractApplication;
@@ -135,7 +135,7 @@ public class EuclidianViewW extends EuclidianView implements SettingListener{
     }
 
 
-	public void paintBackground(geogebra.common.awt.Graphics2D g2) {
+	public void paintBackground(geogebra.common.awt.GGraphics2D g2) {
 		((geogebra.web.awt.Graphics2D)g2).drawGraphics(
 				(geogebra.web.awt.Graphics2D)bgGraphics, 0, 0, null);
 	}
@@ -210,7 +210,7 @@ public class EuclidianViewW extends EuclidianView implements SettingListener{
 				standardStroke.getMiterLimit(), dash, 0.0f);
 	}
 
-	public static void setAntialiasingStatic(Graphics2D g2d) {
+	public static void setAntialiasingStatic(GGraphics2D g2d) {
 		// In GWT, everything is anti-aliased by default, so we don't need to do anything here.
     }
 
@@ -292,11 +292,11 @@ public class EuclidianViewW extends EuclidianView implements SettingListener{
     }
 
 	
-	private Graphics2D g2dtemp;
+	private GGraphics2D g2dtemp;
 
 	private geogebra.common.awt.GColor backgroundColor = geogebra.web.awt.GColorW.white;
 	@Override
-    public Graphics2D getTempGraphics2D(GFont plainFontCommon) {
+    public GGraphics2D getTempGraphics2D(GFont plainFontCommon) {
 	    if(g2dtemp==null)
 	    	g2dtemp = new geogebra.web.awt.Graphics2D(Canvas.createIfSupported());
 	    g2dtemp.setFont(plainFontCommon);
@@ -461,7 +461,7 @@ public class EuclidianViewW extends EuclidianView implements SettingListener{
 	}
 	
 	@Override
-	final protected void drawAnimationButtons(geogebra.common.awt.Graphics2D g2) {
+	final protected void drawAnimationButtons(geogebra.common.awt.GGraphics2D g2) {
 
 		// draw button in focused EV only
 		if (!drawPlayButtonInThisView()) {
@@ -488,14 +488,14 @@ public class EuclidianViewW extends EuclidianView implements SettingListener{
 	}
 
 	@Override
-    protected void drawActionObjects(Graphics2D g) {
+    protected void drawActionObjects(GGraphics2D g) {
 	    // draws buttons and textfields in desktop
 		// not needed in web
     }
 
 
 	@Override
-    protected void setAntialiasing(Graphics2D g2) {
+    protected void setAntialiasing(GGraphics2D g2) {
 		// In GWT, everything is anti-aliased by default, so we don't need to do anything here.
     }
 
@@ -589,23 +589,23 @@ public class EuclidianViewW extends EuclidianView implements SettingListener{
     }
 
 	@Override
-    public void add(Box box) {
+    public void add(GBox box) {
 	    getApplication().getEuclidianViewpanel().add(
-	    		geogebra.web.javax.swing.Box.getImpl((geogebra.web.javax.swing.Box) box),
+	    		geogebra.web.javax.swing.GBoxW.getImpl((geogebra.web.javax.swing.GBoxW) box),
 	    		(int)box.getBounds().getX(), (int)box.getBounds().getY());
 	    
     }
 
 	@Override
-    public void remove(Box box) {
+    public void remove(GBox box) {
 		AbstractApplication.debug("implementation needed - just finishing"); // TODO
 	    getApplication().getEuclidianViewpanel().remove(
-	    		geogebra.web.javax.swing.Box.getImpl((geogebra.web.javax.swing.Box) box));
+	    		geogebra.web.javax.swing.GBoxW.getImpl((geogebra.web.javax.swing.GBoxW) box));
 	    
     }
 
 	@Override
-	protected void drawResetIcon(geogebra.common.awt.Graphics2D g){
+	protected void drawResetIcon(geogebra.common.awt.GGraphics2D g){
 		int w = getWidth() + 2;
 		((geogebra.web.awt.Graphics2D)g).getCanvas().getContext2d().drawImage(
 			getResetImage(), w - 18, 2);
@@ -645,13 +645,13 @@ public class EuclidianViewW extends EuclidianView implements SettingListener{
 		return canv.toDataUrl();
 	}
 
-	public void exportPaintPre(geogebra.common.awt.Graphics2D g2d, double scale,
+	public void exportPaintPre(geogebra.common.awt.GGraphics2D g2d, double scale,
 			boolean transparency) {
 		g2d.scale(scale, scale);
 
 		// clipping on selection rectangle
 		if (getSelectionRectangle() != null) {
-			Rectangle rect = getSelectionRectangle();
+			GRectangle rect = getSelectionRectangle();
 			g2d.setClip(0, 0, (int)rect.getWidth(), (int)rect.getHeight());
 			g2d.translate(-rect.getX(), -rect.getY());
 			// Application.debug(rect.x+" "+rect.y+" "+rect.width+" "+rect.height);
@@ -722,7 +722,7 @@ public class EuclidianViewW extends EuclidianView implements SettingListener{
 
 
 	@Override
-    public geogebra.common.awt.Graphics2D getGraphicsForPen() {
+    public geogebra.common.awt.GGraphics2D getGraphicsForPen() {
 	    return g2p;
     }
 

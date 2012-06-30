@@ -228,11 +228,11 @@ public class DrawVector extends Drawable implements Previewable {
 	}
 
 	@Override
-	public void draw(geogebra.common.awt.Graphics2D g2) {
+	public void draw(geogebra.common.awt.GGraphics2D g2) {
 		if (isVisible) {
 			if (traceDrawingNeeded) {
 				traceDrawingNeeded = false;
-				geogebra.common.awt.Graphics2D g2d = view.getBackgroundGraphics();
+				geogebra.common.awt.GGraphics2D g2d = view.getBackgroundGraphics();
 				if (g2d != null)
 					drawTrace(g2d);
 			}
@@ -263,7 +263,7 @@ public class DrawVector extends Drawable implements Previewable {
 	}
 
 	@Override
-	final void drawTrace(geogebra.common.awt.Graphics2D g2) {
+	final void drawTrace(geogebra.common.awt.GGraphics2D g2) {
 		g2.setPaint(((GeoElement) v)
 				.getObjectColor());
 		g2.setStroke(objStroke);
@@ -329,7 +329,7 @@ public class DrawVector extends Drawable implements Previewable {
 		}
 	}
 
-	final public void drawPreview(geogebra.common.awt.Graphics2D g2) {
+	final public void drawPreview(geogebra.common.awt.GGraphics2D g2) {
 		if (isVisible) {
 			g2.setPaint(ConstructionDefaults.colPreview);
 			g2.setStroke(objStroke);
@@ -351,7 +351,7 @@ public class DrawVector extends Drawable implements Previewable {
 	}
 
 	@Override
-	final public boolean isInside(geogebra.common.awt.Rectangle rect) {
+	final public boolean isInside(geogebra.common.awt.GRectangle rect) {
 		return (lineVisible && rect.contains(line.getBounds()))
 				|| (arrowheadVisible && rect.contains(gp.getBounds()));
 	}
@@ -370,10 +370,10 @@ public class DrawVector extends Drawable implements Previewable {
 	 * Returns the bounding box of this Drawable in screen coordinates.
 	 */
 	@Override
-	final public geogebra.common.awt.Rectangle getBounds() {
+	final public geogebra.common.awt.GRectangle getBounds() {
 		if (!geo.isDefined() || !geo.isEuclidianVisible())
 			return null;
-		geogebra.common.awt.Rectangle ret = null;
+		geogebra.common.awt.GRectangle ret = null;
 		if (lineVisible)
 			ret = line.getBounds();
 

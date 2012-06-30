@@ -1,22 +1,22 @@
 package geogebra.common.javax.swing;
 
 import geogebra.common.awt.GDimension;
-import geogebra.common.awt.Rectangle;
+import geogebra.common.awt.GRectangle;
 import geogebra.common.gui.inputfield.AutoCompleteTextField;
 
-public abstract class Box {
+public abstract class GBox {
 
-	public abstract void add(JLabel label);
+	public abstract void add(GLabel label);
 
 	public abstract void add(AutoCompleteTextField textField);
 
 	public abstract void setVisible(boolean isVisible);
 
-	public abstract void setBounds(Rectangle labelRectangle);
+	public abstract void setBounds(GRectangle labelRectangle);
 
 	public abstract GDimension getPreferredSize();
 
-	public abstract Rectangle getBounds();
+	public abstract GRectangle getBounds();
 
 	public abstract void validate();
 

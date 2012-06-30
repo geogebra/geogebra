@@ -301,12 +301,12 @@ public class DrawEquationD implements DrawEquationInterface {
 	}
 
 	final public geogebra.common.awt.GDimension drawEquation(final AbstractApplication app,
-			final GeoElement geo, final geogebra.common.awt.Graphics2D g2, final int x, final int y, final String text,
+			final GeoElement geo, final geogebra.common.awt.GGraphics2D g2, final int x, final int y, final String text,
 			final geogebra.common.awt.GFont font, final boolean serif, final geogebra.common.awt.GColor fgColor,
 			final geogebra.common.awt.GColor bgColor,
 			final boolean useCache) {
 		return new geogebra.awt.GDimensionD(drawEquation((Application) app, geo,
-				geogebra.awt.Graphics2D.getAwtGraphics(g2), x, y, text, font, serif, fgColor,
+				geogebra.awt.GGraphics2DD.getAwtGraphics(g2), x, y, text, font, serif, fgColor,
 				bgColor, useCache, null, null));
 	}
 
@@ -353,7 +353,7 @@ public class DrawEquationD implements DrawEquationInterface {
 
 		geogebra.common.awt.GDimension d = new geogebra.awt.GDimensionD();
 		d = drawEquation(app, null,
-				new geogebra.awt.Graphics2D(g2image), 0, 0, latex,
+				new geogebra.awt.GGraphics2DD(g2image), 0, 0, latex,
 				new geogebra.awt.GFontD(font), serif,
 				new geogebra.awt.GColorD(fgColor),
 				new geogebra.awt.GColorD(bgColor), true);
@@ -369,7 +369,7 @@ public class DrawEquationD implements DrawEquationInterface {
 		g2image.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 				RenderingHints.VALUE_ANTIALIAS_ON);
 		d = drawEquation(app, null,
-				new geogebra.awt.Graphics2D(g2image), 0, 0, latex,
+				new geogebra.awt.GGraphics2DD(g2image), 0, 0, latex,
 				new geogebra.awt.GFontD(font), serif,
 				new geogebra.awt.GColorD(fgColor),
 				new geogebra.awt.GColorD(bgColor), true);

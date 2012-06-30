@@ -3,7 +3,7 @@ package geogebra.awt;
 import geogebra.common.awt.GAffineTransform;
 import geogebra.common.awt.GPathIterator;
 import geogebra.common.awt.GPoint2D;
-import geogebra.common.awt.Rectangle;
+import geogebra.common.awt.GRectangle;
 import geogebra.common.awt.GRectangle2D;
 
 import java.awt.Shape;
@@ -38,7 +38,7 @@ public class GArc2DD extends geogebra.common.awt.GArc2D implements GRectangularS
 	public GRectangle2D getBounds2D() {
 		return new geogebra.awt.GGenericRectangle2DD(impl.getBounds2D());
 	}
-	public boolean contains(Rectangle rectangle) {
+	public boolean contains(GRectangle rectangle) {
 		return impl.contains(geogebra.awt.GRectangleD.getAWTRectangle(rectangle));
 	}
 	

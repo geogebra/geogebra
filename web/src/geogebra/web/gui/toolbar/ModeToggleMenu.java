@@ -4,7 +4,7 @@ import geogebra.common.awt.GColor;
 import geogebra.common.main.AbstractApplication;
 import geogebra.web.awt.GeneralPath;
 import geogebra.web.gui.app.GGWToolBar;
-import geogebra.web.javax.swing.JPopupMenu;
+import geogebra.web.javax.swing.GPopupMenuW;
 import geogebra.web.main.Application;
 
 import java.util.ArrayList;
@@ -32,7 +32,7 @@ public class ModeToggleMenu extends MenuBar implements DoubleClickHandler,
 	ModeToggleButtonGroup bg;
 	//private MyJToggleButton tbutton, mouseOverButton;
 	private MyJToggleButton tbutton;
-	private JPopupMenu popMenu;
+	private GPopupMenuW popMenu;
 	private ArrayList<MenuItem> menuItemList;
 
 //	private ActionListener popupMenuItemListener;
@@ -59,7 +59,7 @@ public class ModeToggleMenu extends MenuBar implements DoubleClickHandler,
 //		tbutton.setAlignmentY(BOTTOM_ALIGNMENT);
 //		addItem(tbutton);
 
-		popMenu = new JPopupMenu();
+		popMenu = new GPopupMenuW();
 //		popMenu.setBackground(bgColor);
 		menuItemList = new ArrayList<MenuItem>();
 		//popupMenuItemListener = new MenuItemListener();

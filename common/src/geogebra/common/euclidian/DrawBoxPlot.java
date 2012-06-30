@@ -1,6 +1,6 @@
 package geogebra.common.euclidian;
 
-import geogebra.common.awt.Rectangle;
+import geogebra.common.awt.GRectangle;
 import geogebra.common.kernel.algos.AlgoBoxPlot;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
@@ -40,7 +40,7 @@ public class DrawBoxPlot extends Drawable {
 	}
 
 	@Override
-	public void draw(geogebra.common.awt.Graphics2D g2) {
+	public void draw(geogebra.common.awt.GGraphics2D g2) {
 		if (isVisible) {
 			try {
 				if (geo.doHighlighting()) {
@@ -91,7 +91,7 @@ public class DrawBoxPlot extends Drawable {
 	}
 
 	@Override
-	public boolean isInside(Rectangle rect) {
+	public boolean isInside(GRectangle rect) {
 		// TODO Auto-generated method stub
 		return false;
 	}

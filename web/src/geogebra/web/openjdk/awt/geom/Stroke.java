@@ -30,7 +30,7 @@ package geogebra.web.openjdk.awt.geom;
 /**
  * The <code>BasicStroke</code> class defines a basic set of rendering
  * attributes for the outlines of graphics primitives, which are rendered with a
- * {@link Graphics2D} object that has its Stroke attribute set to this
+ * {@link GGraphics2D} object that has its Stroke attribute set to this
  * <code>BasicStroke</code>. The rendering attributes defined by
  * <code>BasicStroke</code> describe the shape of the mark made by a pen drawn
  * along the outline of a {@link Shape} and the decorations applied at the ends
@@ -97,7 +97,7 @@ package geogebra.web.openjdk.awt.geom;
  * For more information on the user space coordinate system and the rendering
  * process, see the <code>Graphics2D</code> class comments.
  * 
- * @see Graphics2D
+ * @see GGraphics2D
  * @version 1.40, 12/19/03
  * @author Jim Graham
  */

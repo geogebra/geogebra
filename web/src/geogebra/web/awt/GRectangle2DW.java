@@ -2,7 +2,7 @@ package geogebra.web.awt;
 
 import geogebra.common.awt.GAffineTransform;
 import geogebra.common.awt.GPathIterator;
-import geogebra.common.awt.Rectangle;
+import geogebra.common.awt.GRectangle;
 import geogebra.web.openjdk.awt.geom.Shape;
 
 public class GRectangle2DW implements geogebra.common.awt.GRectangle2D, geogebra.web.awt.GShapeW {
@@ -58,8 +58,8 @@ public class GRectangle2DW implements geogebra.common.awt.GRectangle2D, geogebra
 	}
 
 	
-	public boolean intersects(Rectangle r) {
-		return getImpl().intersects(geogebra.web.awt.Rectangle.getGawtRectangle(r));
+	public boolean intersects(GRectangle r) {
+		return getImpl().intersects(geogebra.web.awt.GRectangleW.getGawtRectangle(r));
 	}
 	
 	
@@ -71,16 +71,16 @@ public class GRectangle2DW implements geogebra.common.awt.GRectangle2D, geogebra
 	    return getImpl().contains(x,y);
     }
 
-	public Rectangle getBounds() {
-	    return new geogebra.web.awt.Rectangle(getImpl().getBounds());
+	public GRectangle getBounds() {
+	    return new geogebra.web.awt.GRectangleW(getImpl().getBounds());
     }
 
 	public geogebra.common.awt.GRectangle2D getBounds2D() {
 		return new geogebra.web.awt.GRectangle2DW(getImpl().getBounds2D());
     }
 
-	public boolean contains(Rectangle rectangle) {
-	    return getImpl().contains(geogebra.web.awt.Rectangle.getGawtRectangle(rectangle));
+	public boolean contains(GRectangle rectangle) {
+	    return getImpl().contains(geogebra.web.awt.GRectangleW.getGawtRectangle(rectangle));
     }
 
 	public boolean contains(double xTry, double yTry) {

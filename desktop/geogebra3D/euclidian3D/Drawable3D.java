@@ -954,7 +954,7 @@ public abstract class Drawable3D extends DrawableND {
 	/** unused for 3D
 	 * @param g2
 	 */
-	public void drawPreview(geogebra.common.awt.Graphics2D g2) {
+	public void drawPreview(geogebra.common.awt.GGraphics2D g2) {
 		
 	}
 	

@@ -17,9 +17,9 @@ import geogebra.common.awt.GBasicStroke;
 import geogebra.common.awt.GColor;
 import geogebra.common.awt.GEllipse2DDouble;
 import geogebra.common.awt.GGeneralPath;
-import geogebra.common.awt.Graphics2D;
+import geogebra.common.awt.GGraphics2D;
 import geogebra.common.awt.GImage;
-import geogebra.common.awt.Rectangle;
+import geogebra.common.awt.GRectangle;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoTurtle;
@@ -39,11 +39,11 @@ public class DrawTurtle extends Drawable {
 
 	protected ArrayList<PartialPath> pathList;
 	
-	private Rectangle boundRect;
+	private GRectangle boundRect;
 
 	private double turnAngle = 0.0;
 
-	private geogebra.common.awt.Rectangle turtleImageBounds = AwtFactory.prototype.newRectangle();
+	private geogebra.common.awt.GRectangle turtleImageBounds = AwtFactory.prototype.newRectangle();
 	private double imageSize = 10;
 	private double[] currentCoords = new double[2];
 
@@ -74,7 +74,7 @@ public class DrawTurtle extends Drawable {
 			stroke =  AwtFactory.prototype.newBasicStroke(thickness);
 		}
 		
-		public void draw(Graphics2D g2) {
+		public void draw(GGraphics2D g2) {
 			g2.setColor(color);
 			g2.setStroke(stroke);
 			g2.draw(path);
@@ -211,7 +211,7 @@ public class DrawTurtle extends Drawable {
 	}
 
 	@Override
-	final public void draw(geogebra.common.awt.Graphics2D g2) {
+	final public void draw(geogebra.common.awt.GGraphics2D g2) {
 
 		if (isVisible) {
 
@@ -260,7 +260,7 @@ public class DrawTurtle extends Drawable {
 	}
 
 	@Override
-	final public boolean isInside(geogebra.common.awt.Rectangle rect) {
+	final public boolean isInside(geogebra.common.awt.GRectangle rect) {
 		return pathList != null && rect.contains(getBounds());
 	}
 
@@ -278,7 +278,7 @@ public class DrawTurtle extends Drawable {
 	 * Returns the bounding box of this Drawable in screen coordinates.
 	 */
 	@Override
-	final public geogebra.common.awt.Rectangle getBounds() {
+	final public geogebra.common.awt.GRectangle getBounds() {
 
 		if (!geo.isDefined() || !geo.isEuclidianVisible()) {
 			return null;
@@ -308,7 +308,7 @@ public class DrawTurtle extends Drawable {
 	 * 
 	 * @param g2
 	 */
-	private void drawTurtleShape(geogebra.common.awt.Graphics2D g2,
+	private void drawTurtleShape(geogebra.common.awt.GGraphics2D g2,
 			int shapeNumber, GColor penColor) {
 
 		int r = 8; // turtle radius

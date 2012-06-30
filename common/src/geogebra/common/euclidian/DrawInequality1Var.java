@@ -39,7 +39,7 @@ public class DrawInequality1Var extends Drawable {
 	}
 
 	@Override
-	public void draw(geogebra.common.awt.Graphics2D g2) {
+	public void draw(geogebra.common.awt.GGraphics2D g2) {
 		if (gp == null)
 			return;
 		int i = 0;
@@ -99,7 +99,7 @@ public class DrawInequality1Var extends Drawable {
 	}
 
 	@Override
-	public boolean isInside(geogebra.common.awt.Rectangle rect) {
+	public boolean isInside(geogebra.common.awt.GRectangle rect) {
 		// TODO Auto-generated method stub
 		return false;
 	}

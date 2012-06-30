@@ -2,7 +2,7 @@ package geogebra.awt;
 
 import geogebra.common.awt.GAffineTransform;
 import geogebra.common.awt.GPathIterator;
-import geogebra.common.awt.Rectangle;
+import geogebra.common.awt.GRectangle;
 import geogebra.common.awt.GRectangle2D;
 import geogebra.main.Application;
 
@@ -61,7 +61,7 @@ public class GAreaD implements geogebra.common.awt.GArea, geogebra.awt.GShapeD{
 		return impl.contains(x, y);
 	}
 
-	public Rectangle getBounds() {
+	public GRectangle getBounds() {
 		return new geogebra.awt.GRectangleD(impl.getBounds());
 	}
 
@@ -69,7 +69,7 @@ public class GAreaD implements geogebra.common.awt.GArea, geogebra.awt.GShapeD{
 		return new geogebra.awt.GGenericRectangle2DD(impl.getBounds2D());
 	}
 
-	public boolean contains(Rectangle rectangle) {
+	public boolean contains(GRectangle rectangle) {
 		return impl.contains(geogebra.awt.GRectangleD.getAWTRectangle(rectangle));
 	}
 

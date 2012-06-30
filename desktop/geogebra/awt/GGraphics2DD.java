@@ -27,10 +27,10 @@ import java.util.Map;
  * @author kondr
  *
  */
-public class Graphics2D extends geogebra.common.awt.Graphics2D{
+public class GGraphics2DD extends geogebra.common.awt.GGraphics2D{
 	private java.awt.Graphics2D impl;
 
-	public Graphics2D(java.awt.Graphics2D g2Dtemp) {
+	public GGraphics2DD(java.awt.Graphics2D g2Dtemp) {
 		impl = g2Dtemp;
 	}
 
@@ -244,8 +244,8 @@ public class Graphics2D extends geogebra.common.awt.Graphics2D{
 
 	
 
-	public static java.awt.Graphics2D getAwtGraphics(geogebra.common.awt.Graphics2D g2) {
-		return ((Graphics2D)g2).impl;
+	public static java.awt.Graphics2D getAwtGraphics(geogebra.common.awt.GGraphics2D g2) {
+		return ((GGraphics2DD)g2).impl;
 	}
 
 	@Override

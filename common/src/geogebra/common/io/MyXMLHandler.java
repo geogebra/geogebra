@@ -2345,7 +2345,7 @@ public class MyXMLHandler implements DocHandler {
 
 			// the window rectangle is given in the format "x,y,width,height"
 			String[] window = attrs.get("window").split(",");
-			geogebra.common.awt.Rectangle windowRect = geogebra.common.factories.AwtFactory.prototype
+			geogebra.common.awt.GRectangle windowRect = geogebra.common.factories.AwtFactory.prototype
 					.newRectangle(Integer.parseInt(window[0]),
 							Integer.parseInt(window[1]),
 							Integer.parseInt(window[2]),

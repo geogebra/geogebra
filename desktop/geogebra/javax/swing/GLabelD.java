@@ -6,21 +6,21 @@ import geogebra.common.awt.GFont;
  * Wrapper for javax.swing.JLabel
  * @author Judit Elias
  */
-public class JLabel extends geogebra.common.javax.swing.JLabel{
+public class GLabelD extends geogebra.common.javax.swing.GLabel{
 	private javax.swing.JLabel impl;
 
 	/**
 	 * Creates label wrapper 
 	 * @param string text of the label
 	 */
-	public JLabel(String string) {
+	public GLabelD(String string) {
 		impl = new javax.swing.JLabel(string);
 	}
 
 	/**
 	 * Creates new label wrapper 
 	 */
-	public JLabel() {
+	public GLabelD() {
 		impl = new javax.swing.JLabel();
 		
 	}

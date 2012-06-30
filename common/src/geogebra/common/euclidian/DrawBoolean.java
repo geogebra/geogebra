@@ -14,9 +14,9 @@ package geogebra.common.euclidian;
 
 import geogebra.common.awt.GColor;
 import geogebra.common.awt.GDimension;
-import geogebra.common.awt.Graphics2D;
+import geogebra.common.awt.GGraphics2D;
 import geogebra.common.awt.GPoint;
-import geogebra.common.awt.Rectangle;
+import geogebra.common.awt.GRectangle;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoBoolean;
@@ -123,7 +123,7 @@ public final class DrawBoolean extends Drawable {
 	}
 
 	@Override
-	final public void draw(geogebra.common.awt.Graphics2D g2) {
+	final public void draw(geogebra.common.awt.GGraphics2D g2) {
 
 		if (isVisible) {		
 			
@@ -175,7 +175,7 @@ public final class DrawBoolean extends Drawable {
     }
     
 	@Override
-	final public boolean isInside(Rectangle rect) {
+	final public boolean isInside(GRectangle rect) {
 		return rect.contains(labelRectangle);
 	}
 
@@ -236,7 +236,7 @@ public final class DrawBoolean extends Drawable {
          * @param x x coordinate (left edge)
          * @param y y coordinate (upper edge)
          */
-        public void paintIcon(boolean checked, boolean highlighted, Graphics2D g, int x, int y) {
+        public void paintIcon(boolean checked, boolean highlighted, GGraphics2D g, int x, int y) {
 
             
             int csize = ev.getBooleanSize();

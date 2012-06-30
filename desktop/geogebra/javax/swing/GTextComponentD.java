@@ -4,11 +4,11 @@ package geogebra.javax.swing;
  * Wrapper for javax.swing.JTextComponent
  * @author Judit Elias
  */
-public class JTextComponent extends geogebra.common.javax.swing.JTextComponent {
+public class GTextComponentD extends geogebra.common.javax.swing.GTextComponent {
 	
 	private javax.swing.text.JTextComponent impl = null; 
 	
-	private JTextComponent(javax.swing.text.JTextComponent impl) {
+	private GTextComponentD(javax.swing.text.JTextComponent impl) {
 		this.impl = impl;
 	}
 	
@@ -22,8 +22,8 @@ public class JTextComponent extends geogebra.common.javax.swing.JTextComponent {
 	 * @param textField text component to be wrapped
 	 * @return wrapped text component
 	 */
-	public static JTextComponent wrap(javax.swing.text.JTextComponent textField) {
-		return new JTextComponent(textField);
+	public static GTextComponentD wrap(javax.swing.text.JTextComponent textField) {
+		return new GTextComponentD(textField);
 	}
 	
 	/**

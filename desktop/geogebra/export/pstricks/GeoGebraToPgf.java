@@ -2252,7 +2252,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 				codeBeginDoc.append("] ");
 				FontMetrics fm=euclidianView.getFontMetrics(geogebra.awt.GFontD.getAwtFont(euclidianView.getFont()));
 				int width=fm.stringWidth(label[0]);
-			   	geogebra.common.awt.Rectangle rect = euclidianView.getSelectionRectangle();
+			   	geogebra.common.awt.GRectangle rect = euclidianView.getSelectionRectangle();
 		    	double x=euclidianView.toRealWorldCoordX(euclidianView.getWidth()-10-width);
 			   	if( rect != null){
 		        	x=euclidianView.toRealWorldCoordX(rect.getMaxX()-10-width);		        	
@@ -2305,7 +2305,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 				ColorCode(color,codeBeginDoc);
 				codeBeginDoc.append("] ");
 				FontMetrics fm=euclidianView.getFontMetrics(geogebra.awt.GFontD.getAwtFont(euclidianView.getFont()));
-			   	geogebra.common.awt.Rectangle rect = euclidianView.getSelectionRectangle();
+			   	geogebra.common.awt.GRectangle rect = euclidianView.getSelectionRectangle();
 				double x=euclidianView.toRealWorldCoordX(euclidianView.getXZero()+5);
 				double y=euclidianView.toRealWorldCoordY(5+fm.getHeight());
 			   	if( rect != null){

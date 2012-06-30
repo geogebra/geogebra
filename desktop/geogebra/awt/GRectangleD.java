@@ -7,13 +7,13 @@ import geogebra.main.Application;
 
 import java.awt.Shape;
 
-public class GRectangleD implements geogebra.awt.GRectangle2DD, geogebra.common.awt.Rectangle{
+public class GRectangleD implements geogebra.awt.GRectangle2DD, geogebra.common.awt.GRectangle{
 
 	java.awt.Rectangle impl;
 	public GRectangleD(){
 		impl = new java.awt.Rectangle();
 	}
-	public GRectangleD(geogebra.common.awt.Rectangle r){
+	public GRectangleD(geogebra.common.awt.GRectangle r){
 		impl = ((GRectangleD)r).impl;
 	}
 	public GRectangleD(int x, int y, int w, int h){
@@ -61,7 +61,7 @@ public class GRectangleD implements geogebra.awt.GRectangle2DD, geogebra.common.
 	}
 
 	
-	public void setBounds(geogebra.common.awt.Rectangle r) {
+	public void setBounds(geogebra.common.awt.GRectangle r) {
 		impl.setBounds((int)r.getX(),(int)r.getY(),(int)r.getWidth(),(int)r.getHeight());
 		
 	}
@@ -74,7 +74,7 @@ public class GRectangleD implements geogebra.awt.GRectangle2DD, geogebra.common.
 	 * @param rect Common rectangle to unwrap
 	 * @return java.awt.Rectangle from the wrapper or null for wrong input type 
 	 */
-	public static java.awt.Rectangle getAWTRectangle(geogebra.common.awt.Rectangle rect) {
+	public static java.awt.Rectangle getAWTRectangle(geogebra.common.awt.GRectangle rect) {
 		if(!(rect instanceof GRectangleD)){
 			if (rect!= null) Application.debug("other type");
 			return null;
@@ -82,14 +82,14 @@ public class GRectangleD implements geogebra.awt.GRectangle2DD, geogebra.common.
 		return ((GRectangleD)rect).impl;
 	}
 	
-	public boolean contains(geogebra.common.awt.Rectangle labelRectangle) {
+	public boolean contains(geogebra.common.awt.GRectangle labelRectangle) {
 		// TODO Auto-generated method stub
 		return impl.contains(getAWTRectangle(labelRectangle));
 		
 		//return false;
 	}
 	
-	public void add(geogebra.common.awt.Rectangle bb) {
+	public void add(geogebra.common.awt.GRectangle bb) {
 		impl.add(((GRectangleD)bb).impl);
 		
 	}
@@ -127,7 +127,7 @@ public class GRectangleD implements geogebra.awt.GRectangle2DD, geogebra.common.
 		return impl.intersects(x, y, lengthX, lengthY);
 	}
 	
-	public boolean intersects(geogebra.common.awt.Rectangle viewRect) {
+	public boolean intersects(geogebra.common.awt.GRectangle viewRect) {
 		return impl.intersects(GRectangleD.getAWTRectangle(viewRect)) ;
 	}
 
@@ -171,8 +171,8 @@ public class GRectangleD implements geogebra.awt.GRectangle2DD, geogebra.common.
 	public boolean contains(geogebra.common.awt.GPoint2D p1) {
 		return impl.contains(geogebra.awt.GPoint2DD.getAwtPoint2D(p1));
 	}
-	public geogebra.common.awt.Rectangle union(
-			geogebra.common.awt.Rectangle bounds) {
+	public geogebra.common.awt.GRectangle union(
+			geogebra.common.awt.GRectangle bounds) {
 		return new geogebra.awt.GRectangleD(
 				impl.union(GRectangleD.getAWTRectangle(bounds)));
 	}

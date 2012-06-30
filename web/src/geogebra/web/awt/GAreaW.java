@@ -2,7 +2,7 @@ package geogebra.web.awt;
 
 import geogebra.common.awt.GAffineTransform;
 import geogebra.common.awt.GPathIterator;
-import geogebra.common.awt.Rectangle;
+import geogebra.common.awt.GRectangle;
 import geogebra.common.awt.GRectangle2D;
 import geogebra.common.awt.GShape;
 
@@ -37,8 +37,8 @@ public class GAreaW implements geogebra.common.awt.GArea, geogebra.web.awt.GShap
 	}
 
 	
-	public Rectangle getBounds() {
-		return new geogebra.web.awt.Rectangle(impl.getBounds());
+	public GRectangle getBounds() {
+		return new geogebra.web.awt.GRectangleW(impl.getBounds());
 	}
 
 	
@@ -47,7 +47,7 @@ public class GAreaW implements geogebra.common.awt.GArea, geogebra.web.awt.GShap
 	}
 
 	
-	public boolean contains(Rectangle r) {
+	public boolean contains(GRectangle r) {
 		return impl.contains(r.getX(), r.getY(), r.getWidth(), r.getHeight());
 	}
 
