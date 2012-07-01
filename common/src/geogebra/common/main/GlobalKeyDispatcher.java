@@ -594,7 +594,9 @@ public abstract class GlobalKeyDispatcher {
 			ArrayList<GeoElement> geos, boolean isShiftDown, boolean isControlDown, boolean isAltDown, boolean fromSpreadsheet) {
 
 		// SPECIAL KEYS
-		double changeVal = 0; // later: changeVal = base or -base
+		double changeValX = 0; // later: changeVal = base or -base
+		double changeValY = 0; // later: changeVal = base or -base
+		double changeValZ = 0; // later: changeVal = base or -base
 		// Shift : base = 0.1
 		// Default : base = 1
 		// Ctrl : base = 10
@@ -758,57 +760,61 @@ public abstract class GlobalKeyDispatcher {
 			if (app.isUsingFullGui() && !app.getGuiManager().noMenusOpen()) {
 				return false;
 			}
-			changeVal = base;
-			moved = handleArrowKeyMovement(geos, 0, changeVal, 0);
+			changeValY = base;
 			break;
 
 		case DOWN:
 
 			// make sure arrow keys work in menus
-			if (app.isUsingFullGui() && !app.getGuiManager().noMenusOpen())
+			if (app.isUsingFullGui() && !app.getGuiManager().noMenusOpen()) {
 				return false;
+			}
 
-			changeVal = -base;
-			moved = handleArrowKeyMovement(geos, 0, changeVal, 0);
+			changeValY = -base;
 			break;
 
 		case RIGHT:
 
 			// make sure arrow keys work in menus
-			if (app.isUsingFullGui() && !app.getGuiManager().noMenusOpen())
+			if (app.isUsingFullGui() && !app.getGuiManager().noMenusOpen()) {
 				return false;
+			}
 
-			changeVal = base;
-			moved = handleArrowKeyMovement(geos, changeVal, 0, 0);
+			changeValX = base;
 			break;
 
 		case LEFT:
 
 			// make sure arrow keys work in menus
-			if (app.isUsingFullGui() && !app.getGuiManager().noMenusOpen())
+			if (app.isUsingFullGui() && !app.getGuiManager().noMenusOpen()) {
 				return false;
-
-			changeVal = -base;
-			moved = handleArrowKeyMovement(geos, changeVal, 0, 0);
+			}
+			
+			changeValX = -base;
 			break;
 
 		case PAGEUP:
-			changeVal = base;
-			moved = handleArrowKeyMovement(geos, 0, 0, changeVal);
+			changeValZ = base;
 			break;
 
 		case PAGEDOWN:
-			changeVal = -base;
-			moved = handleArrowKeyMovement(geos, 0, 0, changeVal);
+			changeValZ = -base;
+			
 			break;
 
 		}
+		
+		if (changeValX != 0 || changeValY != 0 || changeValZ != 0) {
+			moved = handleArrowKeyMovement(geos, changeValX, changeValY, changeValZ);
+		}
 
-		if (moved)
+		if (moved) {
 			return true;
+		}
 
 		boolean vertical = true;
 
+		double changeVal = 0;
 		// F2, PLUS, MINUS keys
 		switch (key) {
 		case F2:
@@ -823,7 +829,7 @@ public abstract class GlobalKeyDispatcher {
 		case ADD: // can be own key on some keyboard
 		case EQUALS: // same key as plus (on most keyboards)
 		case UP:
-			changeVal = base;
+			changeVal  = base;
 			vertical = true;
 			break;
 		case RIGHT:
