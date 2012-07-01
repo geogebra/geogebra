@@ -94,6 +94,7 @@ public enum KeyCodes {
 	COMMA(JavaKeyCodes.VK_COMMA, GWTKeycodes.KEY_COMMA),
 	NUMPADASTERISK(JavaKeyCodes.VK_MULTIPLY, GWTKeycodes.KEY_NUMPADASTERISK),
 	NUMLOCK(JavaKeyCodes.VK_NUM_LOCK, GWTKeycodes.KEY_NUMPADASTERISK),
+	META(JavaKeyCodes.VK_META, -1), // Mac Meta/Apple TODO: what is GWT code
 	CLEAR(JavaKeyCodes.VK_CLEAR, GWTKeycodes.KEY_CLEAR), // middle key of NumPad (with NumLock off)
 	PERIOD(JavaKeyCodes.VK_PERIOD, GWTKeycodes.KEY_PERIOD);
 	
