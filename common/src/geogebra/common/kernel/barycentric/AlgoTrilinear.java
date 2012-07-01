@@ -5,7 +5,7 @@ import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 
 
 /**
@@ -18,9 +18,9 @@ import geogebra.common.kernel.geos.GeoPoint2;
 
 public class AlgoTrilinear extends AlgoElement {
 
-	private GeoPoint2 P1, P2, P3; // input
+	private GeoPoint P1, P2, P3; // input
 	private NumberValue v1, v2, v3; // input
-	private GeoPoint2 point; // output
+	private GeoPoint point; // output
 	
 	/**
 	 * Creates new trilinear algo
@@ -33,7 +33,7 @@ public class AlgoTrilinear extends AlgoElement {
 	 * @param b second trilinear coord
 	 * @param c third trilinear coord
 	 */
-	public AlgoTrilinear(Construction cons, String label, GeoPoint2 A, GeoPoint2 B, GeoPoint2 C,
+	public AlgoTrilinear(Construction cons, String label, GeoPoint A, GeoPoint B, GeoPoint C,
 			NumberValue a, NumberValue b, NumberValue c) {
 		super(cons);
 		this.P1 = A;
@@ -43,7 +43,7 @@ public class AlgoTrilinear extends AlgoElement {
 		this.v2 = b;
 		this.v3 = c;
 		
-		point = new GeoPoint2(cons);
+		point = new GeoPoint(cons);
 		setInputOutput();
 		compute();		
 		point.setLabel(label);
@@ -73,7 +73,7 @@ public class AlgoTrilinear extends AlgoElement {
 	/**
 	 * @return resulting point
 	 */
-	public GeoPoint2 getResult() {
+	public GeoPoint getResult() {
 		return point;
 	}
 

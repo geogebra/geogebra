@@ -33,7 +33,7 @@ public interface GeoPoly extends GeoElementND{
 	 * @param i index
 	 * @return i-th vertex
 	 */
-	public GeoPoint2 getPoint(int i);
+	public GeoPoint getPoint(int i);
 	
 	/**
 	 * Converts polyline to cartesian curve

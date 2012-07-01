@@ -4,7 +4,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -69,7 +69,7 @@ public class AlgoDimension extends AlgoElement {
 				firstDimension.setUndefined();
 				return;
 			}
-			firstDimension.setValue(point instanceof GeoPoint2 || point instanceof GeoVector ? 2:3);
+			firstDimension.setValue(point instanceof GeoPoint || point instanceof GeoVector ? 2:3);
 			return;
 		}
 		

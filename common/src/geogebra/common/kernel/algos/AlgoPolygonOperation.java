@@ -21,7 +21,7 @@ import geogebra.common.euclidian.GeneralPathClipped;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
@@ -48,7 +48,7 @@ public abstract class AlgoPolygonOperation extends AlgoElement {
 	private GeoPolygon inPoly1; //input
 	private GeoPolygon poly; //output	
 
-	private GeoPoint2 [] points;
+	private GeoPoint [] points;
 	private PolyOperation operationType;
 	private EuclidianViewInterfaceSlim ev;
 
@@ -81,7 +81,7 @@ public abstract class AlgoPolygonOperation extends AlgoElement {
 		this.operationType = operationType;
 		this.inPoly0 = inPoly0;
 		this.inPoly1 = inPoly1;
-		points = new GeoPoint2[0];
+		points = new GeoPoint[0];
 		poly = new GeoPolygon(cons, points);
 
 		labelPointsAndSegments = true;
@@ -347,12 +347,12 @@ public abstract class AlgoPolygonOperation extends AlgoElement {
 	 */
 	private void updatePointsArray(int n) {
 
-		GeoPoint2[] oldPoints = points;
+		GeoPoint[] oldPoints = points;
 		int oldPointsLength = oldPoints == null ? 0 : oldPoints.length;
 		//System.out.println("update points: " + n + "  old length: " + oldPointsLength);
 
 		// new points
-		points = new GeoPoint2[n];
+		points = new GeoPoint[n];
 
 		// reuse old points
 		for (int i = 0; i < oldPointsLength; i++) {
@@ -366,7 +366,7 @@ public abstract class AlgoPolygonOperation extends AlgoElement {
 
 		// create new points if needed
 		for (int i = oldPointsLength; i < points.length; i++) {
-			GeoPoint2 newPoint = new GeoPoint2(cons);
+			GeoPoint newPoint = new GeoPoint(cons);
 			newPoint.setCoords(0, 0, 1); // set defined
 			newPoint.setParentAlgorithm(this);
 			newPoint.setEuclidianVisible(true);
@@ -375,7 +375,7 @@ public abstract class AlgoPolygonOperation extends AlgoElement {
 		}
 	}
 
-	private void removePoint(GeoPoint2 oldPoint) {
+	private void removePoint(GeoPoint oldPoint) {
 
 		// remove dependent algorithms (e.g. segments) from update sets of
 		// objects further up (e.g. polygon) the tree

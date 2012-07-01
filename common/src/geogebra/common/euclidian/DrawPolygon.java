@@ -18,7 +18,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -219,16 +219,16 @@ public class DrawPolygon extends Drawable implements Previewable {
 			// round angle to nearest 15 degrees if alt pressed
 			if (view.getEuclidianController().isAltDown()) {
 
-				GeoPoint2 p = (GeoPoint2) points.get(points.size() - 1);
+				GeoPoint p = (GeoPoint) points.get(points.size() - 1);
 				double px = p.inhomX;
 				double py = p.inhomY;
 
 				if (points.size() > 1) {
 					Construction cons = view.getKernel().getConstruction();
-					GeoPoint2 intersection = new GeoPoint2(cons);
+					GeoPoint intersection = new GeoPoint(cons);
 					GeoLine l = new GeoLine(cons);
 					GeoLine l2 = new GeoLine(cons);
-					GeoPoint2 p2 = (GeoPoint2) points.get(0);
+					GeoPoint p2 = (GeoPoint) points.get(0);
 					double px2 = p2.inhomX;
 					double py2 = p2.inhomY;
 					double nearestX = Double.MAX_VALUE;

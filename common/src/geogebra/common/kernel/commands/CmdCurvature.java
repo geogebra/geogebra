@@ -5,7 +5,7 @@ import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.main.MyError;
 
 /**
@@ -36,12 +36,12 @@ public class CmdCurvature extends CommandProcessor {
 			if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoFunctionable()))) {
 				GeoElement[] ret = { kernelA.Curvature(c.getLabel(),
-						(GeoPoint2) arg[0], (GeoFunction) arg[1]) };
+						(GeoPoint) arg[0], (GeoFunction) arg[1]) };
 				return ret;
 			} else if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoCurveCartesian()))) {
 				GeoElement[] ret = { kernelA.CurvatureCurve(c.getLabel(),
-						(GeoPoint2) arg[0], (GeoCurveCartesian) arg[1]) };
+						(GeoPoint) arg[0], (GeoCurveCartesian) arg[1]) };
 				return ret;
 			} else {
 				if (!ok[0])

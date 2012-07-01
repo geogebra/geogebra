@@ -21,7 +21,7 @@ import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoList;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.statistics.RegressionMath;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.plugin.Operation;
@@ -569,21 +569,21 @@ public class AlgoFitSin extends AlgoElement {
 		GeoElement geoelement;
 		// GeoList newlist;
 		// This is code duplication of AlgoSort, but for the time being:
-		TreeSet<GeoPoint2> sortedSet;
-		sortedSet = new TreeSet<GeoPoint2>(GeoPoint2.getComparatorX());
+		TreeSet<GeoPoint> sortedSet;
+		sortedSet = new TreeSet<GeoPoint>(GeoPoint.getComparatorX());
 		for (int i = 0; i < size; i++) {
 			geoelement = geolist.get(i);
-			if (geoelement instanceof GeoPoint2) {
-				sortedSet.add((GeoPoint2)geoelement);
+			if (geoelement instanceof GeoPoint) {
+				sortedSet.add((GeoPoint)geoelement);
 			} else {
 				error = true;
 			}// if point
 		}// for all points
-		Iterator<GeoPoint2> iter = sortedSet.iterator();
+		Iterator<GeoPoint> iter = sortedSet.iterator();
 		int i = 0;
 		xlist = new double[size];
 		ylist = new double[size];
-		GeoPoint2 gp;
+		GeoPoint gp;
 		while (iter.hasNext()) {
 			gp = iter.next();
 			gp.getInhomCoords(xy);

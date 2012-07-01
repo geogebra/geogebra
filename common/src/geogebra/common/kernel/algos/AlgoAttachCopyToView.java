@@ -30,7 +30,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPoly;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.AbstractApplication;
@@ -178,10 +178,10 @@ public class AlgoAttachCopyToView extends AlgoTransformation {
 		if (view == 0)
 			return;
 
-		GeoPoint2 c1 = (GeoPoint2) corner1;
-		GeoPoint2 c3 = (GeoPoint2) corner3;
-		GeoPoint2 c5 = (GeoPoint2) screenCorner1;
-		GeoPoint2 c7 = (GeoPoint2) screenCorner3;
+		GeoPoint c1 = (GeoPoint) corner1;
+		GeoPoint c3 = (GeoPoint) corner3;
+		GeoPoint c5 = (GeoPoint) screenCorner1;
+		GeoPoint c7 = (GeoPoint) screenCorner3;
 
 		double c1x = ev.toRealWorldCoordX(c5.getX() / c5.getZ());
 		double c1y = ev.toRealWorldCoordY(c5.getY() / c5.getZ());

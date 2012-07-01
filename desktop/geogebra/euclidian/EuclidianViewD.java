@@ -24,7 +24,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoImage;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.settings.EuclidianSettings;
 import geogebra.common.main.settings.SettingListener;
@@ -419,8 +419,8 @@ public class EuclidianViewD extends EuclidianViewND implements
 			// use points Export_1 and Export_2 to define corner
 			try {
 				// Construction cons = kernel.getConstruction();
-				GeoPoint2 export1 = (GeoPoint2) kernel.lookupLabel(EXPORT1);
-				GeoPoint2 export2 = (GeoPoint2) kernel.lookupLabel(EXPORT2);
+				GeoPoint export1 = (GeoPoint) kernel.lookupLabel(EXPORT1);
+				GeoPoint export2 = (GeoPoint) kernel.lookupLabel(EXPORT2);
 				double[] xy1 = new double[2];
 				double[] xy2 = new double[2];
 				export1.getInhomCoords(xy1);
@@ -666,12 +666,12 @@ public class EuclidianViewD extends EuclidianViewND implements
 				geoImage = gi;
 			geoImage.setImageFileName(fileName);
 			geoImage.setTooltipMode(GeoElement.TOOLTIP_OFF);
-			GeoPoint2 corner = (new GeoPoint2(
+			GeoPoint corner = (new GeoPoint(
 					app.getKernel().getConstruction(), null,
 					ev.toRealWorldCoordX(0),
 					ev.toRealWorldCoordY(penImage2.getHeight()),
 					1.0));
-			GeoPoint2 corner2 = (new GeoPoint2(app.getKernel()
+			GeoPoint corner2 = (new GeoPoint(app.getKernel()
 					.getConstruction(), null, ev.toRealWorldCoordX(penImage2.getWidth()), ev.toRealWorldCoordY(penImage2.getHeight()), 1.0));
 			corner.setLabelVisible(false);
 			corner2.setLabelVisible(false);
@@ -684,7 +684,7 @@ public class EuclidianViewD extends EuclidianViewND implements
 
 			// need 3 corner points if axes ratio isn't 1:1
 			if (!Kernel.isEqual(ev.getXscale(), ev.getYscale())) {
-				GeoPoint2 corner4 = (new GeoPoint2(app.getKernel()
+				GeoPoint corner4 = (new GeoPoint(app.getKernel()
 						.getConstruction(), null,
 						ev.toRealWorldCoordX(0),
 						ev.toRealWorldCoordY(0), 1.0));

@@ -28,7 +28,7 @@ import geogebra.common.kernel.arithmetic.Variable;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
 import geogebra.common.plugin.GeoClass;
@@ -437,7 +437,7 @@ public abstract class CommandProcessor {
 
 		ArrayList<GeoElement> geoElementList = new ArrayList<GeoElement>();
 		for (int i = 0; i < size; i++) {
-			GeoPoint2 p = new GeoPoint2(cons, start + i * step, ((NumberValue)list.get(2 + i)).getDouble(), 1.0);
+			GeoPoint p = new GeoPoint(cons, start + i * step, ((NumberValue)list.get(2 + i)).getDouble(), 1.0);
 			geoElementList.add(p);
 		}
 

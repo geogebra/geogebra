@@ -19,7 +19,7 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoVec3D;
 
 /**
@@ -27,13 +27,13 @@ import geogebra.common.kernel.geos.GeoVec3D;
  */
 public class AlgoTangentPoint extends AlgoElement implements TangentAlgo {
 
-	private GeoPoint2 P; // input
+	private GeoPoint P; // input
     private GeoConic c; // input
     private GeoLine[] tangents; // output  
 
     private GeoLine polar;
     private AlgoIntersectLineConic algoIntersect;
-    private GeoPoint2[] tangentPoints;
+    private GeoPoint[] tangentPoints;
     private boolean equalLines = false;
 
     /*  
@@ -45,13 +45,13 @@ public class AlgoTangentPoint extends AlgoElement implements TangentAlgo {
     public AlgoTangentPoint(
         Construction cons,
         String[] labels,
-        GeoPoint2 P,
+        GeoPoint P,
         GeoConic c) {
         this(cons, P, c);
         GeoElement.setLabels(labels, tangents);
     }
 
-    AlgoTangentPoint(Construction cons, GeoPoint2 P, GeoConic c) {
+    AlgoTangentPoint(Construction cons, GeoPoint P, GeoConic c) {
         super(cons);
         this.P = P;
         this.c = c;
@@ -110,7 +110,7 @@ public class AlgoTangentPoint extends AlgoElement implements TangentAlgo {
     public GeoLine[] getTangents() {
         return tangents;
     }
-    GeoPoint2 getPoint() {
+    GeoPoint getPoint() {
         return P;
     }
     GeoConic getConic() {
@@ -121,7 +121,7 @@ public class AlgoTangentPoint extends AlgoElement implements TangentAlgo {
      * return intersection point of tangent line and conic c.
      * return null if line is not defined as tangent of conic c.
      */
-    GeoPoint2 getTangentPoint(GeoConic conic, GeoLine line) {
+    GeoPoint getTangentPoint(GeoConic conic, GeoLine line) {
         if (conic != c)
             return null;
 

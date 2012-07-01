@@ -23,7 +23,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 
 
 /**
@@ -33,24 +33,24 @@ import geogebra.common.kernel.geos.GeoPoint2;
  */
 public class AlgoHyperbolaFociPoint extends AlgoElement {
 
-    private GeoPoint2 A, B, C; // input    
+    private GeoPoint A, B, C; // input    
     private GeoConic hyperbola; // output             
 
     public AlgoHyperbolaFociPoint(
             Construction cons,
             String label,
-            GeoPoint2 A,
-            GeoPoint2 B,
-            GeoPoint2 C) {
+            GeoPoint A,
+            GeoPoint B,
+            GeoPoint C) {
     		this(cons, A, B, C);
             hyperbola.setLabel(label);
         }
 
     public AlgoHyperbolaFociPoint(
             Construction cons,
-            GeoPoint2 A,
-            GeoPoint2 B,
-            GeoPoint2 C) {
+            GeoPoint A,
+            GeoPoint B,
+            GeoPoint C) {
             super(cons);
             this.A = A;
             this.B = B;
@@ -68,8 +68,8 @@ public class AlgoHyperbolaFociPoint extends AlgoElement {
      * for special cases of e.g. AlgoIntersectLineConic
      */
 	private void addIncidence() {
-		if (C instanceof GeoPoint2)
-			((GeoPoint2) C).addIncidence(hyperbola);
+		if (C instanceof GeoPoint)
+			((GeoPoint) C).addIncidence(hyperbola);
 
 	}
     
@@ -100,10 +100,10 @@ public class AlgoHyperbolaFociPoint extends AlgoElement {
     public GeoConic getHyperbola() {
         return hyperbola;
     }
-    GeoPoint2 getFocus1() {
+    GeoPoint getFocus1() {
         return A;
     }
-    GeoPoint2 getFocus2() {
+    GeoPoint getFocus2() {
         return B;
     }
 

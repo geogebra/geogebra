@@ -23,7 +23,7 @@ import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoList;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.plugin.Operation;
 
 import java.math.BigDecimal;
@@ -92,7 +92,7 @@ public class AlgoPolynomialFromCoordinates extends AlgoElement {
         {
       	  GeoElement geo = inputList.get(i); 
    		  if (geo.isGeoPoint()) {
-       		GeoPoint2 listElement = (GeoPoint2) inputList.getCached(i); 
+       		GeoPoint listElement = (GeoPoint) inputList.getCached(i); 
        		listElement.getInhomCoords(xy);
        		x[i]=xy[0];
    			y[i]=xy[1];

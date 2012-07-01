@@ -19,7 +19,7 @@ import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoPenStroke;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPolyLine;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.plugin.GeoClass;
@@ -138,9 +138,9 @@ public class AlgoPolyLine extends AlgoElement {
     	
     	// create new points array
     	int size = pointList.size();
-    	points = new GeoPoint2[size];
+    	points = new GeoPoint[size];
     	for (int i=0; i < size; i++) {    		
-    		points[i] = (GeoPoint2) pointList.get(i);
+    		points[i] = (GeoPoint) pointList.get(i);
     	}
     	poly.setPoints(points);
     	
@@ -192,8 +192,8 @@ public class AlgoPolyLine extends AlgoElement {
     
     
     public GeoPolyLine getPoly() { return poly; }    
-    public GeoPoint2 [] getPoints() {
-    	return (GeoPoint2[]) points;
+    public GeoPoint [] getPoints() {
+    	return (GeoPoint[]) points;
     }
     
     public GeoList getPointsList() {

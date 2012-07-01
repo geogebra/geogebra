@@ -23,7 +23,7 @@ import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.geos.GeoVector;
 
@@ -35,11 +35,11 @@ import geogebra.common.kernel.geos.GeoVector;
  */
 public class AlgoTranslateVector extends AlgoElement {
 
-    private GeoPoint2 A;   // input
+    private GeoPoint A;   // input
     private GeoVec3D v;  // input
     private GeoVector w;     // output        
             
-    public AlgoTranslateVector(Construction cons, String label,  GeoVec3D v, GeoPoint2 A) {
+    public AlgoTranslateVector(Construction cons, String label,  GeoVec3D v, GeoPoint A) {
         super(cons);
         this.A = A;        
         this.v = v;
@@ -79,7 +79,7 @@ public class AlgoTranslateVector extends AlgoElement {
         setDependencies(); // done by AlgoElement
     }           
         
-    GeoPoint2 getPoint() { return A; }
+    GeoPoint getPoint() { return A; }
     GeoVec3D getVector() { return v; }
     public GeoVector getTranslatedVector() { return w; }
         

@@ -27,7 +27,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.prover.Variable;
 import geogebra.common.kernel.prover.NoSymbolicParametersException;
@@ -43,18 +43,18 @@ import geogebra.common.main.AbstractApplication;
 public class AlgoJoinPoints extends AlgoElement implements SymbolicParametersAlgo,
 	SymbolicParametersBotanaAlgo {
 
-    private GeoPoint2 P, Q;  // input
+    private GeoPoint P, Q;  // input
     private GeoLine  g;     // output       
 	private Polynomial[] polynomials;
 	private Variable[] botanaVars;
         
     /** Creates new AlgoJoinPoints */
-    public AlgoJoinPoints(Construction cons, String label, GeoPoint2 P, GeoPoint2 Q) {
+    public AlgoJoinPoints(Construction cons, String label, GeoPoint P, GeoPoint Q) {
         this(cons, P, Q);
         g.setLabel(label);
     }   
     
-    public AlgoJoinPoints(Construction cons, GeoPoint2 P, GeoPoint2 Q) {
+    public AlgoJoinPoints(Construction cons, GeoPoint P, GeoPoint Q) {
         super(cons);
         this.P = P;
         this.Q = Q;                
@@ -103,8 +103,8 @@ public class AlgoJoinPoints extends AlgoElement implements SymbolicParametersAlg
     }    
     
     public GeoLine getLine() { return g; }
-    GeoPoint2 getP() { return P; }
-    GeoPoint2 getQ() { return Q; }
+    GeoPoint getP() { return P; }
+    GeoPoint getQ() { return Q; }
     
     // calc the line g through P and Q    
     @Override

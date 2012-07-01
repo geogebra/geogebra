@@ -19,7 +19,7 @@ import geogebra.common.kernel.algos.AlgoPointOnPath;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 
 /**
  *	Algorithm to calculate all tangents to the implicit polynomial equation
@@ -28,10 +28,10 @@ import geogebra.common.kernel.geos.GeoPoint2;
 public class AlgoTangentImplicitpoly extends AlgoElement {
 	
 	private GeoImplicitPoly p;
-	private GeoPoint2 R;
+	private GeoPoint R;
 	private GeoLine g;
 	
-	private GeoPoint2[] ip; //tangent points.
+	private GeoPoint[] ip; //tangent points.
 	private OutputHandler<GeoLine> tangents;
 	
 	private boolean pointOnPath;
@@ -60,7 +60,7 @@ public class AlgoTangentImplicitpoly extends AlgoElement {
 	 * @param p implicit polynomial
 	 * @param R point on tangent
 	 */
-	public AlgoTangentImplicitpoly(Construction c,String[] labels,GeoImplicitPoly p,GeoPoint2 R) {
+	public AlgoTangentImplicitpoly(Construction c,String[] labels,GeoImplicitPoly p,GeoPoint R) {
 		this(c,labels,p);
 		this.R=R;
 		
@@ -216,7 +216,7 @@ public class AlgoTangentImplicitpoly extends AlgoElement {
 	/**
 	 * @return tangent points
 	 */
-	public GeoPoint2[] getTangentPoints() {
+	public GeoPoint[] getTangentPoints() {
 		return ip;
 	}
 }

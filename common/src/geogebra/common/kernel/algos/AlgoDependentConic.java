@@ -25,7 +25,7 @@ import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.Polynomial;
 import geogebra.common.kernel.geos.GeoConic;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.main.AbstractApplication;
 
 /**
@@ -107,7 +107,7 @@ public class AlgoDependentConic extends AlgoElement implements EvaluateAtPoint{
 		}
     }   
     
-    final public double evaluate(GeoPoint2 P) {
+    final public double evaluate(GeoPoint P) {
     	double mat0 = ev[0].evaluateNum().getDouble(); // x\u00b2
 		double mat1 = ev[2].evaluateNum().getDouble(); // y\u00b2
 		double mat2 = ev[5].evaluateNum().getDouble(); // constant

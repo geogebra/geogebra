@@ -24,7 +24,7 @@ import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoText;
@@ -83,19 +83,19 @@ public abstract class DialogManager {
 	}
 
 	public void showNumberInputDialogSegmentFixed(String menu,
-			GeoPoint2 geoPoint2) {
+			GeoPoint geoPoint2) {
 		doSegmentFixed(app.getKernel(), geoPoint2, getNumber(app.getKernel(), menu + " " + app.getPlain("Length"), ""));
 	}
 
 	public void showNumberInputDialogAngleFixed(String menu,
-			GeoSegment[] selectedSegments, GeoPoint2[] selectedPoints,
+			GeoSegment[] selectedSegments, GeoPoint[] selectedPoints,
 			GeoElement[] selGeos) {
 		doAngleFixed(app.getKernel(), selectedSegments, selectedPoints, selGeos, getNumber(app.getKernel(), menu + " " + app.getPlain("Length"), ""), false);
 		
 	}
 
 	public static void doAngleFixed(Kernel kernel, GeoSegment[] segments,
-			GeoPoint2[] points, GeoElement[] selGeo2s, NumberValue num, boolean clockWise) {
+			GeoPoint[] points, GeoElement[] selGeo2s, NumberValue num, boolean clockWise) {
 		//GeoElement circle = kernel.Circle(null, geoPoint1, ((NumberInputHandler)inputHandler).getNum());
 		//geogebra.gui.AngleInputDialog dialog = (geogebra.gui.AngleInputDialog) ob[1];
 		//String angleText = getText();
@@ -163,7 +163,7 @@ public abstract class DialogManager {
     protected abstract boolean confirm(String string);
 
 	public void showNumberInputDialogRotate(String menu,
-            GeoPolygon[] selectedPolygons, GeoPoint2[] selectedPoints,
+            GeoPolygon[] selectedPolygons, GeoPoint[] selectedPoints,
             GeoElement[] selGeos) {
 		String inputString = prompt(menu + " " + app.getPlain("Angle"), defaultAngle);
 		
@@ -172,13 +172,13 @@ public abstract class DialogManager {
     }
 
 	public  void showNumberInputDialogDilate(String menu,
-			GeoPolygon[] selectedPolygons, GeoPoint2[] selectedPoints,
+			GeoPolygon[] selectedPolygons, GeoPoint[] selectedPoints,
 			GeoElement[] selGeos) {
 		doDilate(app.getKernel(), getNumber(app.getKernel(), menu + " " + app.getPlain("Numeric"), ""), selectedPoints, selGeos);
 	}
 
 	public void showNumberInputDialogRegularPolygon(String menu,
-			GeoPoint2 geoPoint1, GeoPoint2 geoPoint2) {
+			GeoPoint geoPoint1, GeoPoint geoPoint2) {
 		
 		String inputString = prompt(menu + " " + app.getPlain("Points"), "4");
 		
@@ -194,7 +194,7 @@ public abstract class DialogManager {
 		
 		NumberValue num = getNumber(kernel, menu, "");
 		
-		GeoConic circle = geoPointND.getKernel().Circle(null, (GeoPoint2) geoPointND, num);
+		GeoConic circle = geoPointND.getKernel().Circle(null, (GeoPoint) geoPointND, num);
 		
 		GeoElement[] geos = { circle };
 		app.storeUndoInfo();
@@ -214,7 +214,7 @@ public abstract class DialogManager {
 	public abstract boolean showButtonCreationDialog(int x, int y, boolean textfield);
 
 	public static String rotateObject(AbstractApplication app, String inputText,
-			boolean clockwise, GeoPolygon[] polys, GeoPoint2[] points,
+			boolean clockwise, GeoPolygon[] polys, GeoPoint[] points,
 			GeoElement[] selGeos) {	
 		String defaultRotateAngle = "45" + "\u00b0";		String angleText = inputText;
 		Kernel kernel = app.getKernel();
@@ -284,7 +284,7 @@ public abstract class DialogManager {
 	}
 
 
-	public static boolean makeRegularPolygon(AbstractApplication app, String inputString, GeoPoint2 geoPoint1, GeoPoint2 geoPoint2) {
+	public static boolean makeRegularPolygon(AbstractApplication app, String inputString, GeoPoint geoPoint1, GeoPoint geoPoint2) {
 		if (inputString == null || "".equals(inputString) ) {
 			return false;
 		}
@@ -365,12 +365,12 @@ public abstract class DialogManager {
 	
 	public abstract void showToolbarConfigDialog();
 
-	public static boolean doDilate(Kernel kernel, NumberValue num, GeoPoint2[] points, GeoElement[] selGeos) {
+	public static boolean doDilate(Kernel kernel, NumberValue num, GeoPoint[] points, GeoElement[] selGeos) {
 
 		if (selGeos.length > 0) {					
 			// mirror all selected geos
 			//GeoElement [] selGeos = getSelectedGeos();
-			GeoPoint2 point = points[0];
+			GeoPoint point = points[0];
 			ArrayList<GeoElement> ret = new ArrayList<GeoElement>();
 			for (int i=0; i < selGeos.length; i++) {				
 				if (selGeos[i] != point) {
@@ -387,7 +387,7 @@ public abstract class DialogManager {
 		return false;
 	}
 	
-	public static void doSegmentFixed(Kernel kernel, GeoPoint2 geoPoint1, NumberValue num) {
+	public static void doSegmentFixed(Kernel kernel, GeoPoint geoPoint1, NumberValue num) {
 		GeoElement[] segment = kernel.Segment(null, geoPoint1, num);
 		GeoElement[] onlysegment = { null };
 		if (segment != null) {

@@ -23,7 +23,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 
 
@@ -33,12 +33,12 @@ import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 public class AlgoCenterConic extends AlgoElement {
 
     private GeoConic c; // input
-    private GeoPoint2 midpoint; // output                 
+    private GeoPoint midpoint; // output                 
 
     public AlgoCenterConic(Construction cons, String label, GeoConic c) {
         super(cons);
         this.c = c;
-        midpoint = new GeoPoint2(cons);
+        midpoint = new GeoPoint(cons);
         setInputOutput(); // for AlgoElement
 
         compute();
@@ -69,7 +69,7 @@ public class AlgoCenterConic extends AlgoElement {
     GeoConic getConic() {
         return c;
     }
-    public GeoPoint2 getPoint() {
+    public GeoPoint getPoint() {
         return midpoint;
     }
 

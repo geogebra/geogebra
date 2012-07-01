@@ -12,7 +12,7 @@ the Free Software Foundation.
 
 package geogebra.common.kernel;
 
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.util.MyMath;
 /**
  * Lightweight point with lineTo flag that can be easily transformed into GeoPoint 
@@ -76,8 +76,8 @@ public class MyPoint extends geogebra.common.awt.GPoint2D{
 	 * @param cons construction for the new point 
 	 * @return GeoPoint equivalent
 	 */
-	public GeoPoint2 getGeoPoint(Construction cons) {
-		return new GeoPoint2(cons, null, x, y, 1.0);
+	public GeoPoint getGeoPoint(Construction cons) {
+		return new GeoPoint(cons, null, x, y, 1.0);
 	}
 	
 	/**

@@ -22,7 +22,7 @@ import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoRay;
 import geogebra.common.kernel.geos.GeoVec3D;
 
@@ -34,11 +34,11 @@ import geogebra.common.kernel.geos.GeoVec3D;
  */
 public class AlgoJoinPointsRay extends AlgoElement {
 
-    private GeoPoint2 P, Q;  // input
+    private GeoPoint P, Q;  // input
     private GeoRay  ray;     // output       
         
     /** Creates new AlgoJoinPoints */
-    public AlgoJoinPointsRay(Construction cons, String label, GeoPoint2 P, GeoPoint2 Q) {
+    public AlgoJoinPointsRay(Construction cons, String label, GeoPoint P, GeoPoint Q) {
         super(cons);
         this.P = P;
         this.Q = Q;                
@@ -88,8 +88,8 @@ public class AlgoJoinPointsRay extends AlgoElement {
     }    
     
     public GeoRay getRay() { return ray; }
-    public GeoPoint2 getP() { return P; }
-    public GeoPoint2 getQ() { return Q; }
+    public GeoPoint getP() { return P; }
+    public GeoPoint getQ() { return Q; }
     
     // calc the line g through P and Q    
     @Override

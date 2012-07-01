@@ -8,7 +8,7 @@ import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.CoordSys;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
@@ -310,7 +310,7 @@ public class GeoConic3D extends GeoConicND implements GeoElement3DInterface {// 
 	}
 
 	@Override
-	public void setCircle(GeoPoint2 M, GeoPoint2 P) {
+	public void setCircle(GeoPoint M, GeoPoint P) {
 		// TODO Auto-generated method stub
 
 	}

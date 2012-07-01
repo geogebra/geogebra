@@ -22,7 +22,7 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoList;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.main.AbstractApplication;
 
 import org.apache.commons.math.linear.Array2DRowRealMatrix;
@@ -152,7 +152,7 @@ public class AlgoFit extends AlgoElement {
 	// Get info from lists into matrixes and functionarray
 	private final void makeMatrixes() throws Exception {
 		GeoElement geo = null;
-		GeoPoint2 point = null;
+		GeoPoint point = null;
 		double x, y;
 
 		// Make array of functions:
@@ -171,7 +171,7 @@ public class AlgoFit extends AlgoElement {
 			if (!geo.isGeoPoint()) {
 				throw (new Exception("Not points in function list..."));
 			}// if not point
-			point = (GeoPoint2) geo;
+			point = (GeoPoint) geo;
 			x = point.getX();
 			y = point.getY();
 			Y.setEntry(r, 0, y);

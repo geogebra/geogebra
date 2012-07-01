@@ -5,7 +5,7 @@ import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
 import geogebra.common.main.MyError;
 /**
@@ -52,7 +52,7 @@ public class CmdTriangleCurve extends CommandProcessor {
 				
 				
 				GeoElement[] ret = { kernelA.TriangleCubic(c.getLabel(),
-						(GeoPoint2)arg[0], (GeoPoint2)arg[1], (GeoPoint2)arg[2],
+						(GeoPoint)arg[0], (GeoPoint)arg[1], (GeoPoint)arg[2],
 						(GeoImplicitPoly) arg[3],ta,tb,tc)} ;
 				cons.removeLocalVariable("A");
 				cons.removeLocalVariable("B");

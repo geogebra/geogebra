@@ -3,7 +3,7 @@ package geogebra.common.kernel.algos;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 
 /**
  * @author  Victor Franco Espino
@@ -14,10 +14,10 @@ import geogebra.common.kernel.geos.GeoPoint2;
 
 public class AlgoAffineRatio extends AlgoElement {
 
-	private GeoPoint2 A, B, C; // input
+	private GeoPoint A, B, C; // input
     private GeoNumeric M; // output
 
-    public AlgoAffineRatio(Construction cons, String label, GeoPoint2 A, GeoPoint2 B, GeoPoint2 C) {
+    public AlgoAffineRatio(Construction cons, String label, GeoPoint A, GeoPoint B, GeoPoint C) {
     	super(cons);
         this.A = A;
         this.B = B;
@@ -54,11 +54,11 @@ public class AlgoAffineRatio extends AlgoElement {
     @Override
 	public final void compute() {
         //Check if the points are aligned
-        if (GeoPoint2.collinear(A, B, C)){
+        if (GeoPoint.collinear(A, B, C)){
         	if (B.isEqual(C)) {
         		M.setValue(1.0); // changed, was undefined
         	}else{ 
-        		M.setValue(GeoPoint2.affineRatio(A, B, C));
+        		M.setValue(GeoPoint.affineRatio(A, B, C));
         	}
         }else{
         	M.setUndefined();

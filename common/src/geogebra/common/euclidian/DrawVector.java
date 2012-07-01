@@ -26,7 +26,7 @@ import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
 import geogebra.common.util.MyMath;
@@ -299,7 +299,7 @@ public class DrawVector extends Drawable implements Previewable {
 
 			// round angle to nearest 15 degrees if alt pressed
 			if (points.size() == 1 && view.getEuclidianController().isAltDown()) {
-				GeoPoint2 p = (GeoPoint2) points.get(0);
+				GeoPoint p = (GeoPoint) points.get(0);
 				double px = p.inhomX;
 				double py = p.inhomY;
 				double angle = Math.atan2(yRW - py, xRW - px) * 180 / Math.PI;

@@ -23,7 +23,7 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoVec2D;
 import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 
@@ -41,7 +41,7 @@ public class AlgoAsymptote extends AlgoElement implements AlgoAsymptoteInterface
     private GeoVec2D[] eigenvec;
     private double[] halfAxes;
     private GeoVec2D b;
-    private GeoPoint2 P; // point on asymptotes = b
+    private GeoPoint P; // point on asymptotes = b
 
     /** Creates new AlgoJoinPoints */
     AlgoAsymptote(Construction cons, String label, GeoConic c) {
@@ -71,7 +71,7 @@ public class AlgoAsymptote extends AlgoElement implements AlgoAsymptoteInterface
         asymptotes[0] = new GeoLine(cons);
         asymptotes[1] = new GeoLine(cons);
 
-        P = new GeoPoint2(cons);
+        P = new GeoPoint(cons);
         asymptotes[0].setStartPoint(P);
         asymptotes[1].setStartPoint(P);
 

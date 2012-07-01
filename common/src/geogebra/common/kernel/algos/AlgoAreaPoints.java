@@ -20,20 +20,20 @@ package geogebra.common.kernel.algos;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPolygon;
 
 public class AlgoAreaPoints extends AlgoElement {
 
-	private GeoPoint2 [] P;  // input
+	private GeoPoint [] P;  // input
     private GeoNumeric area;     // output           
         
-    public AlgoAreaPoints(Construction cons, String label, GeoPoint2 [] P) {       
+    public AlgoAreaPoints(Construction cons, String label, GeoPoint [] P) {       
         this(cons, P);
         area.setLabel(label);
     }   
     
-    AlgoAreaPoints(Construction cons, GeoPoint2 [] P) {      
+    AlgoAreaPoints(Construction cons, GeoPoint [] P) {      
         super(cons); 
         this.P = P;
         area = new GeoNumeric(cons); 
@@ -64,7 +64,7 @@ public class AlgoAreaPoints extends AlgoElement {
     }    
     
     public GeoNumeric getArea() { return area; }
-    GeoPoint2 [] getPoints() { return P; }    
+    GeoPoint [] getPoints() { return P; }    
     
     // calc area of polygon P[0], ..., P[n]  
     // angle in range [0, pi]

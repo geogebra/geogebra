@@ -577,10 +577,10 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 		}
 
 		public void pointChangedForRegion(GeoPointND P) {
-			if(!((GeoPoint2)P).isDefined())
+			if(!((GeoPoint)P).isDefined())
 				return;
 			RegionParameters rp = P.getRegionParameters();
-			if(!isInRegion(P) && ((GeoPoint2)P).isDefined()){
+			if(!isInRegion(P) && ((GeoPoint)P).isDefined()){
 				double bestX = rp.getT1(), bestY = rp.getT2(), 
 				myX = P.getX2D(), myY = P.getY2D();
 				double bestDist = (bestY-myY)*(bestY-myY)+(bestX-myX)*(bestX-myX);
@@ -610,7 +610,7 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 				if(isInRegion(bestX,bestY)){
 					rp.setT1(bestX);
 					rp.setT2(bestY);
-					((GeoPoint2)P).setCoords(bestX, bestY, 1);
+					((GeoPoint)P).setCoords(bestX, bestY, 1);
 				}
 				else tryLocateInEV(P); 
 					
@@ -640,13 +640,13 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 				double q =i/SEARCH_SAMPLES;
 				double ry = q*ymin+(1-q)*ymax;
 				if (isInRegion(rx, ry)) {
-					((GeoPoint2) P).setCoords(rx, ry, 1);
+					((GeoPoint) P).setCoords(rx, ry, 1);
 					//Application.debug("Desperately found"+rx+","+ry);
 					found = true;
 				}
 			}	
 		if(!found)
-			((GeoPoint2)P).setUndefined();
+			((GeoPoint)P).setUndefined();
 			
 	}
 
@@ -711,7 +711,7 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 				fun.matrixTransform(a11/d,-a01/d,-a10/d,a00/d);				
 		}
 
-		public void dilate(NumberValue r, GeoPoint2 S) {
+		public void dilate(NumberValue r, GeoPoint S) {
 			fun.translate(-S.getX(),-S.getY());
 			fun.matrixTransform(1/r.getDouble(),0,0,1/r.getDouble());
 			fun.translate(S.getX(),S.getY());
@@ -724,14 +724,14 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 			matrixTransform(cosPhi,-sinPhi,sinPhi,cosPhi);			
 		}
 
-		public void rotate(NumberValue phi, GeoPoint2 P) {
+		public void rotate(NumberValue phi, GeoPoint P) {
 			fun.translate(-P.getX(),-P.getY());
 			rotate(phi);
 			fun.translate(P.getX(),P.getY());
 			
 		}
 
-		public void mirror(GeoPoint2 Q) {
+		public void mirror(GeoPoint Q) {
 			dilate(new MyDouble(kernel,-1.0),Q);
 			
 		}

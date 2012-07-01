@@ -25,7 +25,7 @@ import geogebra.common.kernel.arithmetic.PolyFunction;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
 import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 
@@ -130,7 +130,7 @@ public class AlgoIntersectPolynomialConic extends AlgoSimpleRootsPolynomial {
 						new GeoNumeric(cons, h.getMinParameter()),
 						new GeoNumeric(cons, h.getMaxParameter()));
 			}
-			GeoPoint2[] points = algo.getRootPoints();
+			GeoPoint[] points = algo.getRootPoints();
 			List<double[]> valPairs=new ArrayList<double[]>();
 			for (int i=0;i<points.length;i++){
 				double t = points[i].getX();

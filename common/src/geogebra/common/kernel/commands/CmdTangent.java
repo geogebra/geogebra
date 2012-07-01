@@ -8,7 +8,7 @@ import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunctionable;
 import geogebra.common.kernel.geos.GeoLine;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
 import geogebra.common.main.MyError;
 
@@ -43,11 +43,11 @@ public class CmdTangent extends CommandProcessor {
 			// tangents through point
 			if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoConic())))
-				return kernelA.Tangent(c.getLabels(), (GeoPoint2) arg[0],
+				return kernelA.Tangent(c.getLabels(), (GeoPoint) arg[0],
 						(GeoConic) arg[1]);
 			else if ((ok[0] = (arg[0].isGeoConic()))
 					&& (ok[1] = (arg[1].isGeoPoint())))
-				return kernelA.Tangent(c.getLabels(), (GeoPoint2) arg[1],
+				return kernelA.Tangent(c.getLabels(), (GeoPoint) arg[1],
 						(GeoConic) arg[0]);
 			else if ((ok[0] = (arg[0].isGeoLine()))
 					&& (ok[1] = (arg[1].isGeoConic())))
@@ -65,13 +65,13 @@ public class CmdTangent extends CommandProcessor {
 			else if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoFunctionable()))) {
 				GeoElement[] ret = { kernelA.Tangent(c.getLabel(),
-						(GeoPoint2) arg[0], ((GeoFunctionable) arg[1])
+						(GeoPoint) arg[0], ((GeoFunctionable) arg[1])
 								.getGeoFunction()) };
 				return ret;
 			} else if ((ok[0] = (arg[0].isGeoFunctionable()))
 					&& (ok[1] = (arg[1].isGeoPoint()))) {
 				GeoElement[] ret = { kernelA.Tangent(c.getLabel(),
-						(GeoPoint2) arg[1], ((GeoFunctionable) arg[0])
+						(GeoPoint) arg[1], ((GeoFunctionable) arg[0])
 								.getGeoFunction()) };
 				return ret;
 			}
@@ -80,19 +80,19 @@ public class CmdTangent extends CommandProcessor {
 					&& (ok[1] = (arg[1].isGeoCurveCartesian()))) {
 
 				GeoElement[] ret = { kernelA.Tangent(c.getLabel(),
-						(GeoPoint2) arg[0], (GeoCurveCartesian) arg[1]) };
+						(GeoPoint) arg[0], (GeoCurveCartesian) arg[1]) };
 				return ret;
 			}
 			// Victor Franco 11-02-2007: end for curve's
 			else if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoImplicitPoly()))) {
 				GeoElement[] ret = kernelA.Tangent(c.getLabels(),
-						(GeoPoint2) arg[0], (GeoImplicitPoly) arg[1]);
+						(GeoPoint) arg[0], (GeoImplicitPoly) arg[1]);
 				return ret;
 			} else if ((ok[1] = (arg[1].isGeoPoint()))
 					&& (ok[0] = (arg[0].isGeoImplicitPoly()))) {
 				GeoElement[] ret = kernelA.Tangent(c.getLabels(),
-						(GeoPoint2) arg[1], (GeoImplicitPoly) arg[0]);
+						(GeoPoint) arg[1], (GeoImplicitPoly) arg[0]);
 				return ret;
 			} else if ((ok[0] = (arg[0].isGeoLine()))
 					&& (ok[1] = (arg[1].isGeoImplicitPoly()))) {

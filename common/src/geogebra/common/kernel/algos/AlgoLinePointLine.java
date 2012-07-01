@@ -29,7 +29,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.prover.NoSymbolicParametersException;
 import geogebra.common.kernel.prover.Polynomial;
@@ -43,7 +43,7 @@ import geogebra.common.kernel.prover.Variable;
 public class AlgoLinePointLine extends AlgoElement implements SymbolicParametersAlgo,
 	SymbolicParametersBotanaAlgo {
 
-    private GeoPoint2 P; // input
+    private GeoPoint P; // input
     private GeoLine l; // input
     private GeoLine g; // output       
 	private Polynomial[] polynomials;
@@ -51,7 +51,7 @@ public class AlgoLinePointLine extends AlgoElement implements SymbolicParameters
 	private Variable[] botanaVars;
 	
     /** Creates new AlgoLinePointLine */
-    public AlgoLinePointLine(Construction cons, String label, GeoPoint2 P, GeoLine l) {
+    public AlgoLinePointLine(Construction cons, String label, GeoPoint P, GeoLine l) {
         super(cons);
         this.P = P;
         this.l = l;
@@ -102,7 +102,7 @@ public class AlgoLinePointLine extends AlgoElement implements SymbolicParameters
         return g;
     }
     
-    GeoPoint2 getP() {
+    GeoPoint getP() {
         return P;
     }
     

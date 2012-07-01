@@ -27,7 +27,7 @@ import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoVec3D;
 
 
@@ -38,7 +38,7 @@ import geogebra.common.kernel.geos.GeoVec3D;
  */
 public class AlgoOrthoLinePointConic extends AlgoElement {
 
-    private GeoPoint2 P; // input
+    private GeoPoint P; // input
     private GeoConic l; // input
     private GeoLine[] g; // output      
     
@@ -54,7 +54,7 @@ public class AlgoOrthoLinePointConic extends AlgoElement {
     public AlgoOrthoLinePointConic(
         Construction cons,
         String label,
-        GeoPoint2 P,
+        GeoPoint P,
         GeoConic l) {
         super(cons);
         this.P = P;
@@ -125,7 +125,7 @@ public class AlgoOrthoLinePointConic extends AlgoElement {
         return g;
     }
     
-    GeoPoint2 getP() {
+    GeoPoint getP() {
         return P;
     }
     

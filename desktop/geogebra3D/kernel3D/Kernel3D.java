@@ -22,7 +22,7 @@ import geogebra.common.kernel.arithmetic.ExpressionNodeEvaluator;
 import geogebra.common.kernel.commands.AlgebraProcessor;
 import geogebra.common.kernel.commands.CommandDispatcher;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.kernelND.GeoAxisND;
 import geogebra.common.kernel.kernelND.GeoConicND;
@@ -437,7 +437,7 @@ public class Kernel3D extends Kernel {
 		if (((GeoElement) P).isGeoElement3D()
 				|| ((GeoElement) P).isGeoElement3D())
 			return getManager3D().Ray3D(label, P, Q);
-		return super.Ray(label, (GeoPoint2) P, (GeoPoint2) Q);
+		return super.Ray(label, (GeoPoint) P, (GeoPoint) Q);
 	}
 
 	@Override
@@ -446,7 +446,7 @@ public class Kernel3D extends Kernel {
 		if (((GeoElement) P).isGeoElement3D()
 				|| ((GeoElement) P).isGeoElement3D())
 			return getManager3D().Segment3D(label, P, Q);
-		return super.Segment(label, (GeoPoint2) P, (GeoPoint2) Q);
+		return super.Segment(label, (GeoPoint) P, (GeoPoint) Q);
 	}
 
 	@Override

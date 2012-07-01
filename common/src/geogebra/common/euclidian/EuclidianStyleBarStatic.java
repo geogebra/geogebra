@@ -10,7 +10,7 @@ import geogebra.common.kernel.geos.Furniture;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
 
@@ -87,10 +87,10 @@ public class EuclidianStyleBarStatic {
 			} else if (!(geo instanceof Furniture) && !geo.isGeoBoolean()) {
 				Kernel kernelA = app.getKernel();
 				
-				GeoPoint2 corner1 = new GeoPoint2(kernelA.getConstruction());
-				GeoPoint2 corner3 = new GeoPoint2(kernelA.getConstruction());
-				GeoPoint2 screenCorner1 = new GeoPoint2(kernelA.getConstruction());
-				GeoPoint2 screenCorner3 = new GeoPoint2(kernelA.getConstruction());
+				GeoPoint corner1 = new GeoPoint(kernelA.getConstruction());
+				GeoPoint corner3 = new GeoPoint(kernelA.getConstruction());
+				GeoPoint screenCorner1 = new GeoPoint(kernelA.getConstruction());
+				GeoPoint screenCorner3 = new GeoPoint(kernelA.getConstruction());
 				if(ev!=null){
 					corner1.setCoords(ev.getXmin(), ev.getYmin(), 1);
 					corner3.setCoords(ev.getXmax(), ev.getYmax(), 1);

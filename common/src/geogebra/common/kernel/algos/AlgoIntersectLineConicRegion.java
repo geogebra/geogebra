@@ -27,7 +27,7 @@ import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoRay;
 import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.kernelND.GeoConicNDConstants;
@@ -47,7 +47,7 @@ public class AlgoIntersectLineConicRegion extends AlgoIntersectLineConic {
 	private Double tMin, tMax;
 	//private GeoPoint[] outputPoints;
 	private boolean currentPartIsInRegion;
-	private GeoPoint2[] outputPoints;
+	private GeoPoint[] outputPoints;
 	private GeoLine[] outputLines;
 	
     @Override
@@ -323,7 +323,7 @@ public class AlgoIntersectLineConicRegion extends AlgoIntersectLineConic {
 	@Override
 	protected void refreshOutput() {
         super.setOutputLength(numberOfPoints + numberOfOutputLines);
-        outputPoints =  new GeoPoint2[numberOfPoints];
+        outputPoints =  new GeoPoint[numberOfPoints];
         outputLines =  new GeoLine[numberOfOutputLines];
         
         int index=0;

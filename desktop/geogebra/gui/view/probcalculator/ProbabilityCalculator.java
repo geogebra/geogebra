@@ -42,7 +42,7 @@ import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoRay;
 import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoVector;
@@ -140,7 +140,7 @@ public class ProbabilityCalculator extends JPanel implements View,
 
 	// GeoElements
 	private ArrayList<GeoElement> plotGeoList;
-	private GeoPoint2 lowPoint, highPoint, curvePoint;
+	private GeoPoint lowPoint, highPoint, curvePoint;
 	private GeoElement densityCurve, integral, ySegment, xSegment;
 	private GeoElement discreteGraph, discreteIntervalGraph;
 	private GeoList discreteValueList, discreteProbList, intervalProbList,
@@ -582,7 +582,7 @@ public class ProbabilityCalculator extends JPanel implements View,
 		AlgoPointOnPath algoLow = new AlgoPointOnPath(cons, (Path) path, 0d, 0d);
 		cons.removeFromConstructionList(algoLow);
 
-		lowPoint = (GeoPoint2) algoLow.getGeoElements()[0];
+		lowPoint = (GeoPoint) algoLow.getGeoElements()[0];
 
 		lowPoint.setObjColor(new geogebra.awt.GColorD(COLOR_POINT));
 		lowPoint.setPointSize(4);
@@ -596,7 +596,7 @@ public class ProbabilityCalculator extends JPanel implements View,
 				0d);
 		cons.removeFromConstructionList(algoHigh);
 
-		highPoint = (GeoPoint2) algoHigh.getGeoElements()[0];
+		highPoint = (GeoPoint) algoHigh.getGeoElements()[0];
 
 		highPoint.setObjColor(new geogebra.awt.GColorD(COLOR_POINT));
 		highPoint.setPointSize(4);
@@ -790,7 +790,7 @@ public class ProbabilityCalculator extends JPanel implements View,
 						curvePointNode, false);
 				cons.removeFromConstructionList(pAlgo);
 
-				curvePoint = (GeoPoint2) pAlgo.getGeoElements()[0];
+				curvePoint = (GeoPoint) pAlgo.getGeoElements()[0];
 				curvePoint.setObjColor(new geogebra.awt.GColorD(COLOR_POINT));
 				curvePoint.setPointSize(4);
 				curvePoint.setLayer(f.getLayer() + 1);
@@ -809,7 +809,7 @@ public class ProbabilityCalculator extends JPanel implements View,
 				cons.removeFromConstructionList(pointAlgo);
 
 				AlgoJoinPointsSegment seg1 = new AlgoJoinPointsSegment(cons,
-						curvePoint, (GeoPoint2) pointAlgo.getGeoElements()[0],
+						curvePoint, (GeoPoint) pointAlgo.getGeoElements()[0],
 						null);
 				cons.removeFromConstructionList(seg1);
 				xSegment = (GeoSegment) seg1.getGeoElements()[0];
@@ -2178,7 +2178,7 @@ public class ProbabilityCalculator extends JPanel implements View,
 
 			// create low point
 			expr = "Point[" + app.getPlain("xAxis") + "]";
-			GeoPoint2 lowPointCopy = (GeoPoint2) createGeoFromString(expr,
+			GeoPoint lowPointCopy = (GeoPoint) createGeoFromString(expr,
 					false);
 			lowPointCopy.setVisualStyle(lowPoint);
 			lowPointCopy.setLabelVisible(false);
@@ -2187,7 +2187,7 @@ public class ProbabilityCalculator extends JPanel implements View,
 			newGeoList.add(lowPointCopy);
 
 			// create high point
-			GeoPoint2 highPointCopy = (GeoPoint2) createGeoFromString(expr,
+			GeoPoint highPointCopy = (GeoPoint) createGeoFromString(expr,
 					false);
 			highPointCopy.setVisualStyle(lowPoint);
 			highPointCopy.setLabelVisible(false);

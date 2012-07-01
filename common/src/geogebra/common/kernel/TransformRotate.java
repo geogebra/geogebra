@@ -5,7 +5,7 @@ import geogebra.common.kernel.algos.AlgoRotatePoint;
 import geogebra.common.kernel.algos.AlgoTransformation;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 
 /**
  * Rotation
@@ -15,7 +15,7 @@ import geogebra.common.kernel.geos.GeoPoint2;
  */
 public class TransformRotate extends Transform {
 
-	private GeoPoint2 center;
+	private GeoPoint center;
 	private NumberValue angle;
 
 	/**
@@ -32,7 +32,7 @@ public class TransformRotate extends Transform {
 	 * @param angle rotation angle
 	 * @param center rotation center
 	 */
-	public TransformRotate(Construction cons,NumberValue angle,GeoPoint2 center) {
+	public TransformRotate(Construction cons,NumberValue angle,GeoPoint center) {
 		this.angle = angle;
 		this.center = center;
 		this.cons = cons;

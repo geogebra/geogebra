@@ -46,7 +46,7 @@ import geogebra.common.kernel.geos.GeoFunctionable;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoScriptAction;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.GeoUserInputElement;
@@ -1429,7 +1429,7 @@ public class AlgebraProcessor {
 		ExpressionNode node = par.getP();
 		node.setForcePoint();
 		GeoElement[] temp = processExpressionNode(node);
-		GeoPoint2 P = (GeoPoint2) temp[0];
+		GeoPoint P = (GeoPoint) temp[0];
 
 		// get vector
 		node = par.getv();

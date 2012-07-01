@@ -23,7 +23,7 @@ import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoText;
 
 
@@ -36,7 +36,7 @@ public class AlgoText extends AlgoElement {
 
 	private GeoElement geo;  // input
 	private GeoBoolean substituteVars, latex; // optional input
-	private GeoPoint2 startPoint, startPointCopy; // optional input
+	private GeoPoint startPoint, startPointCopy; // optional input
 	private GeoText text;     // output              
 
 	public AlgoText(Construction cons, String label, GeoElement geo) {
@@ -47,20 +47,20 @@ public class AlgoText extends AlgoElement {
 		this(cons, label, geo, null, substituteVars, null);
 	}   
 	
-	public AlgoText(Construction cons, String label, GeoElement geo, GeoPoint2 p) {
+	public AlgoText(Construction cons, String label, GeoElement geo, GeoPoint p) {
 		this(cons, label, geo, p, null, null);
 	}   
 
-	public AlgoText(Construction cons, String label, GeoElement geo, GeoPoint2 p, GeoBoolean substituteVars) {
+	public AlgoText(Construction cons, String label, GeoElement geo, GeoPoint p, GeoBoolean substituteVars) {
 		this(cons, label, geo, p, substituteVars, null);
 	}   
 
-	public AlgoText(Construction cons, String label, GeoElement geo, GeoPoint2 p, GeoBoolean substituteVars, GeoBoolean latex) {
+	public AlgoText(Construction cons, String label, GeoElement geo, GeoPoint p, GeoBoolean substituteVars, GeoBoolean latex) {
 		this(cons, geo, p, substituteVars, latex);
 		text.setLabel(label);		
 	}
 
-	public AlgoText(Construction cons, GeoElement geo, GeoPoint2 p, GeoBoolean substituteVars, GeoBoolean latex) {
+	public AlgoText(Construction cons, GeoElement geo, GeoPoint p, GeoBoolean substituteVars, GeoBoolean latex) {
 		super(cons);
 		this.geo = geo;
 		this.startPoint = p;
@@ -72,7 +72,7 @@ public class AlgoText extends AlgoElement {
 		
 		// set startpoint
 		if (startPoint != null) {
-			startPointCopy = (GeoPoint2) startPoint.copyInternal(cons);
+			startPointCopy = (GeoPoint) startPoint.copyInternal(cons);
 			
 			try {
 				text.setStartPoint(startPointCopy);

@@ -8,7 +8,7 @@ import geogebra.common.javax.swing.GTextComponent;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.main.AbstractApplication;
 import geogebra.web.gui.app.GGWMenuBar;
 import geogebra.web.gui.app.GGWToolBar;
@@ -126,7 +126,7 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 	}
 
 	@Override
-	public void loadImage(GeoPoint2 loc, Object object, boolean altDown) {
+	public void loadImage(GeoPoint loc, Object object, boolean altDown) {
 		// TODO Auto-generated method stub
 		AbstractApplication.debug("unimplemented method");
 

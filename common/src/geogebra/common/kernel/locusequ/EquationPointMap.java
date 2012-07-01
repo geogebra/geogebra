@@ -3,7 +3,7 @@ package geogebra.common.kernel.locusequ;
 import geogebra.common.kernel.algos.AlgoIntersectLines;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.geos.GeoLocus;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -22,10 +22,10 @@ public class EquationPointMap {
      */
     private static final int GEOGEBRA_DIMENSION = 2;
     private GeoLocus locus;
-    private GeoPoint2 locusPoint, movingPoint; // TODO: Look into using GeoPointND
+    private GeoPoint locusPoint, movingPoint; // TODO: Look into using GeoPointND
     private int curInd;
-    private Map<GeoPoint2,EquationPoint> container;
-    private Map<GeoPoint2,GeoPoint2> identifications;
+    private Map<GeoPoint,EquationPoint> container;
+    private Map<GeoPoint,GeoPoint> identifications;
     private EquationScope scope;
     
     /**
@@ -34,8 +34,8 @@ public class EquationPointMap {
      */
     public EquationPointMap(EquationScope scope) {
         this.curInd = 1;
-        this.container = new HashMap<GeoPoint2,EquationPoint>();
-        this.identifications = new HashMap<GeoPoint2, GeoPoint2>();
+        this.container = new HashMap<GeoPoint,EquationPoint>();
+        this.identifications = new HashMap<GeoPoint, GeoPoint>();
         this.scope = scope;
     }
 
@@ -44,7 +44,7 @@ public class EquationPointMap {
      * @param movingPoint movingPoint from locus.
      * @param scope scope.
      */
-    public EquationPointMap(GeoPoint2 locusPoint, GeoPoint2 movingPoint, EquationScope scope){
+    public EquationPointMap(GeoPoint locusPoint, GeoPoint movingPoint, EquationScope scope){
         this(scope);
         
         this.locusPoint  = locusPoint;
@@ -55,7 +55,7 @@ public class EquationPointMap {
      * @param p The point whose {@link EquationPoint} you are looking for.
      * @return The {@link EquationPoint} for p. If p is not in the map, returns null.
      */
-    public EquationPoint get(GeoPoint2 p) {
+    public EquationPoint get(GeoPoint p) {
         return this.container.get(p);
     }
     
@@ -63,7 +63,7 @@ public class EquationPointMap {
      * @param p The point whose {@link EquationPoint} you are looking for.
      * @return A {@link EquationPoint} for p. If there was none, it is created.
      */
-    public EquationPoint getOrCreate(GeoPoint2 p) {
+    public EquationPoint getOrCreate(GeoPoint p) {
         
     	// get
     	EquationPoint res = this.get(p);
@@ -77,7 +77,7 @@ public class EquationPointMap {
 		return res;
     }
     
-    private EquationPoint constructEquationPoint(GeoPoint2 geoPoint) {
+    private EquationPoint constructEquationPoint(GeoPoint geoPoint) {
         EquationPoint point;
         
         if(mustTakeNumericCoordinates(geoPoint)) {
@@ -93,12 +93,12 @@ public class EquationPointMap {
     }
     
     /**
-     * Restricts two different {@link GeoPoint2} to use the same
+     * Restricts two different {@link GeoPoint} to use the same
      * variables.
      * @param orig Original point.
      * @param target Target point. Its coordinates will be preserved.
      */
-    public void identify(final GeoPoint2 orig, final GeoPoint2 target) {
+    public void identify(final GeoPoint orig, final GeoPoint target) {
     	this.identifications.put(orig, target);
         EquationPoint formerPoint = this.container.get(orig);
         EquationPoint newPoint = this.getOrCreate(target);
@@ -116,7 +116,7 @@ public class EquationPointMap {
      * @param p point
      * @return true iff p symbolic representation will be still symbolic.
      */
-    protected boolean mustTakeNumericCoordinates(final GeoPoint2 p) {
+    protected boolean mustTakeNumericCoordinates(final GeoPoint p) {
         return p.isIndependent() ||
                (isPointOnPath(p) &&
                        p != this.movingPoint &&
@@ -130,7 +130,7 @@ public class EquationPointMap {
      * @param p
      * @return true iff point's been created by an AlgoPolygonRegular
      */
-    private boolean isAuxiliarPointOnAPolygon(GeoPoint2 p) {
+    private boolean isAuxiliarPointOnAPolygon(GeoPoint p) {
         return Algos.AlgoPolygonRegular == getParentAlgorithmName(p);
     }
 
@@ -139,7 +139,7 @@ public class EquationPointMap {
      * @param p point to check
      * @return true iff p is an intersection with an axis.
      */
-    protected boolean isIntersectionOfAxis(GeoPoint2 p) {
+    protected boolean isIntersectionOfAxis(GeoPoint p) {
         if(Algos.AlgoIntersectLines != getParentAlgorithmName(p)) {
             return false;
         }
@@ -157,7 +157,7 @@ public class EquationPointMap {
      * @param p point to check
      * @return true iff is a point on a path object.
      */
-    protected boolean isPointOnPath(GeoPoint2 p) {
+    protected boolean isPointOnPath(GeoPoint p) {
         return Algos.AlgoPointOnPath == getParentAlgorithmName(p);
     }
     
@@ -166,7 +166,7 @@ public class EquationPointMap {
      * @param p current point.
      * @return true iff p contains moving point as predecessor.
      */
-    protected boolean hasMovingPointAsPredecessor(GeoPoint2 p) {
+    protected boolean hasMovingPointAsPredecessor(GeoPoint p) {
         return this.movingPoint != null &&
                p.getAllPredecessors().contains(this.movingPoint);
     }
@@ -183,16 +183,16 @@ public class EquationPointMap {
      * @param p point
      * @return an {@link Algos}
      */
-    protected Algos getParentAlgorithmName(final GeoPoint2 p) {
+    protected Algos getParentAlgorithmName(final GeoPoint p) {
         return p.getParentAlgorithm() == null ? null : p.getParentAlgorithm().getClassName();
     }
 
     /**
-     * Adds a map between {@link GeoPoint2} midpoint to {@link EquationPoint} m.
-     * @param midpoint {@link GeoPoint2}
+     * Adds a map between {@link GeoPoint} midpoint to {@link EquationPoint} m.
+     * @param midpoint {@link GeoPoint}
      * @param m {@link EquationPoint}
      */
-    public void put(final GeoPoint2 midpoint, final EquationPoint m) {
+    public void put(final GeoPoint midpoint, final EquationPoint m) {
         if(midpoint != null){
             this.container.put(midpoint, m);
         }
@@ -204,7 +204,7 @@ public class EquationPointMap {
      * @param p point to check.
      * @return true iff p == this.movingPoint.
      */
-    public boolean isMovingPoint(GeoPoint2 p) {
+    public boolean isMovingPoint(GeoPoint p) {
         return this.movingPoint == p; // Yes, it has to be the exact same point.
     }
     
@@ -213,7 +213,7 @@ public class EquationPointMap {
      * @param p point to check.
      * @return true iff p == this.locusPoint.
      */
-    public boolean isLocusPoint(GeoPoint2 p) {
+    public boolean isLocusPoint(GeoPoint p) {
         return this.locusPoint == p; // Yes, it has to be the exact same point.
     }
 }

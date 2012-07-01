@@ -4,7 +4,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.prover.Variable;
 import geogebra.common.kernel.prover.NoSymbolicParametersException;
 import geogebra.common.kernel.prover.Polynomial;
@@ -20,7 +20,7 @@ import java.util.HashSet;
 public class AlgoAreCollinear extends AlgoElement implements SymbolicParametersAlgo,
 	SymbolicParametersBotanaAlgoAre {
 
-	private GeoPoint2 inputPoint1, inputPoint2, inputPoint3; //input
+	private GeoPoint inputPoint1, inputPoint2, inputPoint3; //input
 	
     private GeoBoolean outputBoolean; //output	
 	private Polynomial[] polynomials;
@@ -35,8 +35,8 @@ public class AlgoAreCollinear extends AlgoElement implements SymbolicParametersA
      * @param inputPoint3 the third point
      */
 	public AlgoAreCollinear(final Construction cons, final String label,
-			final GeoPoint2 inputPoint1, final GeoPoint2 inputPoint2,
-			final GeoPoint2 inputPoint3) {
+			final GeoPoint inputPoint1, final GeoPoint inputPoint2,
+			final GeoPoint inputPoint3) {
 		super(cons);
         this.inputPoint1=inputPoint1;
         this.inputPoint2=inputPoint2;

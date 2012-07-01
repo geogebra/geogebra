@@ -3,7 +3,7 @@ package geogebra.common.kernel.commands;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.main.MyError;
 
 /**
@@ -36,8 +36,8 @@ public class CmdCrossRatio extends CommandProcessor {
 					&& (ok[2] = (arg[2].isGeoPoint()))
 					&& (ok[3] = (arg[3].isGeoPoint()))) {
 				GeoElement[] ret = { kernelA.CrossRatio(c.getLabel(),
-						(GeoPoint2) arg[0], (GeoPoint2) arg[1],
-						(GeoPoint2) arg[2], (GeoPoint2) arg[3]) };
+						(GeoPoint) arg[0], (GeoPoint) arg[1],
+						(GeoPoint) arg[2], (GeoPoint) arg[3]) };
 				return ret;
 			}
 			

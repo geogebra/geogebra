@@ -37,7 +37,7 @@ import geogebra.common.kernel.geos.GeoFunctionNVar;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoLocus;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPolyLine;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoRay;
@@ -94,7 +94,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
      // Code for beginning of picture, for points, for Colors, and for background fill
     private StringBuilder codeBeginPic, codePointDecl, codeColors, codeEndDoc;
      // Contains list of points
-    private ArrayList<GeoPoint2> pointList;
+    private ArrayList<GeoPoint> pointList;
      // Maps unicode expressions to text equivalents
     private Map<String, String> unicodeTable, pairNameTable;
      // Maps function return expressions to function #
@@ -133,7 +133,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
          * usepackage_amssymb  = false; usepackage_amsmath = false; usepackage_mathrsfs = false; */
         usepackage    = new TreeSet<String>();
         importpackage = new TreeSet<String>();
-        pointList         = new ArrayList<GeoPoint2>();     // list of pairs, for cse5
+        pointList         = new ArrayList<GeoPoint>();     // list of pairs, for cse5
         unicodeTable      = new HashMap<String, String>(); // map of unicode -> LaTeX commands
         pairNameTable     = new HashMap<String, String>(); // map of coordinates -> point's name 
         functionTable     = new HashMap<String, Integer>(); // function(x) return value to function #
@@ -186,7 +186,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
                 for (int j = 0; j < geos.length; j++){
                     GeoElement g = geos[j];
                     if (g.isEuclidianVisible() && g.isGeoPoint()) 
-                        pointList.add((GeoPoint2) g);
+                        pointList.add((GeoPoint) g);
                 }
             }
         }
@@ -585,7 +585,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
         GeoPointND vertex, point;
         GeoVector v;
         GeoLine line, line2;
-        GeoPoint2 tempPoint = new GeoPoint2(construction);        
+        GeoPoint tempPoint = new GeoPoint(construction);        
         tempPoint.setCoords(0.0, 0.0, 1.0);
         double[] firstVec = new double[2];
         double[] m = new double[2];
@@ -632,8 +632,8 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
                 vertex = v.getStartPoint();             
                 if (vertex == null) vertex = tempPoint;
                 vertex.getInhomCoords(m);
-            } else if (vec instanceof GeoPoint2) {
-                point = (GeoPoint2) vec;             
+            } else if (vec instanceof GeoPoint) {
+                point = (GeoPoint) vec;             
                 vertex = tempPoint;
                 // vertex
                 vertex.getInhomCoords(m);
@@ -823,7 +823,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
                         width / euclidianView.getYscale();
         }
         // create point for slider
-        GeoPoint2 geoPoint = new GeoPoint2(construction);
+        GeoPoint geoPoint = new GeoPoint(construction);
         geoPoint.setObjColor(geo.getObjectColor());
         String label=StringUtil.toLaTeXString(geo.getLabelDescription(),true);
         geoPoint.setLabel(label);
@@ -892,7 +892,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
         geogebra.common.awt.GColor geocolor = geo.getObjectColor();
         int style = geo.getFontStyle();
         int size = geo.getFontSize()+app.getGUIFontSize();
-        GeoPoint2 gp;
+        GeoPoint gp;
         double x,y;
           // compute location of text       
         if (geo.isAbsoluteScreenLocActive()) {
@@ -900,7 +900,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
             y = geo.getAbsoluteScreenLocY(); 
         } 
         else {
-            gp = (GeoPoint2) geo.getStartPoint();
+            gp = (GeoPoint) geo.getStartPoint();
             if (gp == null) {
                 x = (int) euclidianView.getXZero();
                 y = (int) euclidianView.getYZero();
@@ -1267,7 +1267,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
     // draw vector with EndArrow(6)
     @Override
 	protected void drawGeoVector(GeoVector geo){
-        GeoPoint2 pointStart = geo.getStartPoint();
+        GeoPoint pointStart = geo.getStartPoint();
         String x1, y1;
         if (pointStart == null){
             x1 = "0"; y1 = "0";
@@ -1558,7 +1558,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
     }
     // draws dot
     @Override
-	protected void drawGeoPoint(GeoPoint2 gp){
+	protected void drawGeoPoint(GeoPoint gp){
         if (frame.getExportPointSymbol()){
             double x = gp.getX(),
                    y = gp.getY(),
@@ -1589,7 +1589,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
     /** Draws a point with a special point style (usually uses draw() or filldraw() command).
      * @param geo GeoPoint with style not equal to the standard dot style.
      */
-    protected void drawSpecialPoint(GeoPoint2 geo){
+    protected void drawSpecialPoint(GeoPoint geo){
         // radius = dotsize (pt) * (2.54 cm)/(72 pt per inch) * XUnit / cm
         double dotsize = geo.getPointSize();
         double radius = dotsize * (2.54/72) * (frame.getXUnit());
@@ -1760,8 +1760,8 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
 	protected void drawGeoSegment(GeoSegment geo){
         double[] A = new double[2],
                  B = new double[2];
-        GeoPoint2 pointStart = geo.getStartPoint();
-        GeoPoint2 pointEnd = geo.getEndPoint();
+        GeoPoint pointStart = geo.getStartPoint();
+        GeoPoint pointEnd = geo.getEndPoint();
         pointStart.getInhomCoords(A);
         pointEnd.getInhomCoords(B);
         String x1 = format(A[0]),
@@ -1800,7 +1800,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
     
     @Override
 	protected void drawGeoRay(GeoRay geo){
-        GeoPoint2 pointStart = geo.getStartPoint();
+        GeoPoint pointStart = geo.getStartPoint();
         double x1 = pointStart.getX();
         double z1 = pointStart.getZ();
         x1 = x1/z1;
@@ -2033,7 +2033,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
     // Generate list of pairs for cse5 code to use
     private void initPointDeclarations(){
         if(!pairName) return;
-        Iterator<GeoPoint2> it = pointList.iterator();
+        Iterator<GeoPoint> it = pointList.iterator();
         boolean comma = false;    // flag for determining whether to add comma
         // pre-defined pair names in base module plain. Do not re-write to save hassle
         String predefinedNames[] = {"N", "S", "E", "W", "NE", "SE", "NW", "SW",
@@ -2041,7 +2041,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
                 "left", "right", "up", "down"};
         
         while(it.hasNext()) {
-            GeoPoint2 gp = it.next();
+            GeoPoint gp = it.next();
             if(gp.getPointStyle() == EuclidianStyleConstants.POINT_STYLE_DOT
             || gp.getPointStyle() == EuclidianStyleConstants.POINT_STYLE_CIRCLE) {
                 double x = gp.getX(), y = gp.getY(), z = gp.getZ();
@@ -2539,7 +2539,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
             codeBeginPic.append("/* draws axes; NoZero hides '0' label */ ");
     }
     // Returns point style code with size dotsize. Includes comma.
-    private void PointOptionCode(GeoPoint2 geo, StringBuilder sb, double dotsize){
+    private void PointOptionCode(GeoPoint geo, StringBuilder sb, double dotsize){
         geogebra.common.awt.GColor dotcolor = geo.getObjectColor();
         int dotstyle   = geo.getPointStyle();
         if (dotstyle == -1) { // default
@@ -2584,7 +2584,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
         }
     }
     // Returns point style code. Includes comma.
-    private void PointOptionCode(GeoPoint2 geo, StringBuilder sb){
+    private void PointOptionCode(GeoPoint geo, StringBuilder sb){
         PointOptionCode(geo, sb, geo.getPointSize());
     }
     // Line style code; does not include comma.

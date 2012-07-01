@@ -14,7 +14,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoImage;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
 import geogebra.common.main.settings.KeyboardSettings;
@@ -1297,7 +1297,7 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 			EuclidianViewND ev = (EuclidianViewND) app.getActiveEuclidianView();
 			Construction cons = ev.getApplication().getKernel().getConstruction();
 			Point mousePos = ev.getMousePosition();
-			GeoPoint2 loc = new GeoPoint2(cons);
+			GeoPoint loc = new GeoPoint(cons);
 
 
 			// create corner points (bottom right/left)
@@ -1309,7 +1309,7 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 			loc.setLabelVisible(false);
 			loc.update();
 
-			GeoPoint2 loc2 = new GeoPoint2(cons);
+			GeoPoint loc2 = new GeoPoint(cons);
 			loc2.setCoords(
 					ev.getXmax() - (ev.getXmax() - ev.getXmin()) / 4,
 					ev.getYmin() + (ev.getYmax() - ev.getYmin()) / 4,
@@ -2938,7 +2938,7 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 	}
 
 	@Override
-	public void loadImage(GeoPoint2 loc, Object transfer, boolean fromClipboard) {
+	public void loadImage(GeoPoint loc, Object transfer, boolean fromClipboard) {
 		loadImage(loc, fromClipboard, (Transferable)transfer);
 		
 	}
@@ -2951,7 +2951,7 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 	 * 
 	 * @return whether a new image was created or not
 	 */
-	public boolean loadImage(GeoPoint2 loc, boolean fromClipboard, Transferable transfer) {
+	public boolean loadImage(GeoPoint loc, boolean fromClipboard, Transferable transfer) {
 		app.setWaitCursor();
 
 		String[] fileName = null;

@@ -25,7 +25,7 @@ import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -373,8 +373,8 @@ implements AlgoMacroInterface {
 	 * in its construction (if the line has this kind of information).
 	 */			
 	private void initLine(GeoLine macroLine, GeoLine line) {				
-		GeoPoint2 startPoint = (GeoPoint2) getAlgoGeo(macroLine.getStartPoint());
-		GeoPoint2 endPoint   = (GeoPoint2) getAlgoGeo(macroLine.getEndPoint());						
+		GeoPoint startPoint = (GeoPoint) getAlgoGeo(macroLine.getStartPoint());
+		GeoPoint endPoint   = (GeoPoint) getAlgoGeo(macroLine.getEndPoint());						
 		line.setStartPoint(startPoint);
 		line.setEndPoint(endPoint);					
 	}
@@ -384,13 +384,13 @@ implements AlgoMacroInterface {
 	 * in its construction.
 	 */			
 	private void initConic(GeoConic macroConic, GeoConic conic) {
-		ArrayList<GeoPoint2> macroPoints = macroConic.getPointsOnConic();
+		ArrayList<GeoPoint> macroPoints = macroConic.getPointsOnConic();
 		if (macroPoints == null) return;
 		
 		int size = macroPoints.size();
-		ArrayList<GeoPoint2> points = new ArrayList<GeoPoint2>(size);		
+		ArrayList<GeoPoint> points = new ArrayList<GeoPoint>(size);		
 		for (int i=0; i < size; i++) {
-			points.add((GeoPoint2)getAlgoGeo(macroPoints.get(i)));
+			points.add((GeoPoint)getAlgoGeo(macroPoints.get(i)));
 		}
 		conic.setPointsOnConic(points);					
 	}
@@ -424,9 +424,9 @@ implements AlgoMacroInterface {
 	private void initPolygon(GeoPolygon macroPoly, GeoPolygon poly) {								
 		// points
 		GeoPointND [] macroPolyPoints = macroPoly.getPoints();
-		GeoPoint2 [] polyPoints = new GeoPoint2[macroPolyPoints.length];										
+		GeoPoint [] polyPoints = new GeoPoint[macroPolyPoints.length];										
 		for (int i=0; i < macroPolyPoints.length; i++) {
-			polyPoints[i] = (GeoPoint2) getAlgoGeo( (GeoElement) macroPolyPoints[i] );	
+			polyPoints[i] = (GeoPoint) getAlgoGeo( (GeoElement) macroPolyPoints[i] );	
 		}
 		poly.setPoints(polyPoints);
 		

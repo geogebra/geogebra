@@ -15,7 +15,7 @@ import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoText;
@@ -368,7 +368,7 @@ public class DialogManagerDesktop extends geogebra.common.gui.dialog.DialogManag
 
 	@Override
 	public void showNumberInputDialogRegularPolygon(String title,
-			GeoPoint2 geoPoint1, GeoPoint2 geoPoint2) {
+			GeoPoint geoPoint1, GeoPoint geoPoint2) {
 
 		NumberInputHandler handler = new NumberInputHandler(app.getKernel()
 				.getAlgebraProcessor());
@@ -385,14 +385,14 @@ public class DialogManagerDesktop extends geogebra.common.gui.dialog.DialogManag
 		NumberInputHandler handler = new NumberInputHandler(app.getKernel()
 				.getAlgebraProcessor());
 		InputDialog id = new InputDialogCirclePointRadius(((Application) app), title, handler,
-				(GeoPoint2) geoPoint1, app.getKernel());
+				(GeoPoint) geoPoint1, app.getKernel());
 		id.setVisible(true);
 
 	}
 
 	@Override
 	public void showNumberInputDialogRotate(String title, GeoPolygon[] polys,
-			GeoPoint2[] points, GeoElement[] selGeos) {
+			GeoPoint[] points, GeoElement[] selGeos) {
 
 		NumberInputHandler handler = new NumberInputHandler(app.getKernel()
 				.getAlgebraProcessor());
@@ -404,7 +404,7 @@ public class DialogManagerDesktop extends geogebra.common.gui.dialog.DialogManag
 
 	@Override
 	public void showNumberInputDialogAngleFixed(String title,
-			GeoSegment[] segments, GeoPoint2[] points, GeoElement[] selGeos) {
+			GeoSegment[] segments, GeoPoint[] points, GeoElement[] selGeos) {
 
 		NumberInputHandler handler = new NumberInputHandler(app.getKernel()
 				.getAlgebraProcessor());
@@ -416,7 +416,7 @@ public class DialogManagerDesktop extends geogebra.common.gui.dialog.DialogManag
 
 	@Override
 	public void showNumberInputDialogDilate(String title, GeoPolygon[] polys,
-			GeoPoint2[] points, GeoElement[] selGeos) {
+			GeoPoint[] points, GeoElement[] selGeos) {
 
 		NumberInputHandler handler = new NumberInputHandler(app.getKernel()
 				.getAlgebraProcessor());
@@ -428,7 +428,7 @@ public class DialogManagerDesktop extends geogebra.common.gui.dialog.DialogManag
 
 	@Override
 	public void showNumberInputDialogSegmentFixed(String title,
-			GeoPoint2 geoPoint1) {
+			GeoPoint geoPoint1) {
 
 		NumberInputHandler handler = new NumberInputHandler(app.getKernel()
 				.getAlgebraProcessor());

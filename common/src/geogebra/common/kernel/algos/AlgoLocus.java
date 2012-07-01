@@ -24,7 +24,7 @@ import geogebra.common.kernel.PathMover;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLocus;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
 import geogebra.common.main.AbstractApplication;
 
@@ -49,7 +49,7 @@ public class AlgoLocus extends AlgoElement {
 	private static int MAX_X_PIXEL_DIST = 5;
 	private static int MAX_Y_PIXEL_DIST = 5;
 
-	private GeoPoint2 movingPoint, locusPoint; // input
+	private GeoPoint movingPoint, locusPoint; // input
 	private GeoLocus locus; // output
 
 	// for efficient dependency handling
@@ -60,7 +60,7 @@ public class AlgoLocus extends AlgoElement {
 	private int pointCount;
 
 	// copies of P and Q in a macro kernel
-	private GeoPoint2 Pcopy, Qcopy, PstartPos, QstartPos;
+	private GeoPoint Pcopy, Qcopy, PstartPos, QstartPos;
 	private double lastX, lastY, maxXdist, maxYdist, xmin, xmax, ymin, ymax,
 			farXmin, farXmax, farYmin, farYmax;
 	// private Line2D.Double tempLine = new Line2D.Double();
@@ -81,7 +81,7 @@ public class AlgoLocus extends AlgoElement {
 
 	// private Updater updater;
 
-	public AlgoLocus(Construction cons, String label, GeoPoint2 Q, GeoPoint2 P) {
+	public AlgoLocus(Construction cons, String label, GeoPoint Q, GeoPoint P) {
 		super(cons);
 		this.movingPoint = P;
 		this.locusPoint = Q;
@@ -89,8 +89,8 @@ public class AlgoLocus extends AlgoElement {
 		path = P.getPath();
 		pathMover = path.createPathMover();
 
-		QstartPos = new GeoPoint2(cons);
-		PstartPos = new GeoPoint2(cons);
+		QstartPos = new GeoPoint(cons);
+		PstartPos = new GeoPoint(cons);
 
 		init();
 		updateScreenBorders();
@@ -140,7 +140,7 @@ public class AlgoLocus extends AlgoElement {
 	 * 
 	 * @return dependent point Q
 	 */
-	public GeoPoint2 getQ() {
+	public GeoPoint getQ() {
 		return locusPoint;
 	}
 
@@ -275,11 +275,11 @@ public class AlgoLocus extends AlgoElement {
 			macroKernel.loadXML(locusConsXML);
 
 			// get the copies of P and Q from the macro kernel
-			Pcopy = (GeoPoint2) macroKernel.lookupLabel(movingPoint.getLabelSimple());
+			Pcopy = (GeoPoint) macroKernel.lookupLabel(movingPoint.getLabelSimple());
 			Pcopy.setFixed(false);
 			Pcopy.setPath(movingPoint.getPath());
 
-			Qcopy = (GeoPoint2) macroKernel.lookupLabel(locusPoint.getLabelSimple());
+			Qcopy = (GeoPoint) macroKernel.lookupLabel(locusPoint.getLabelSimple());
 			macroCons = macroKernel.getConstruction();
 
 			/*
@@ -626,7 +626,7 @@ public class AlgoLocus extends AlgoElement {
 		return null;
 	}
 
-	private void putCachedPoint(double param, GeoPoint2 Qcopy) {
+	private void putCachedPoint(double param, GeoPoint Qcopy) {
 		cacheIndex++;
 		if (cacheIndex >= paramCache.length)
 			cacheIndex = 0;
@@ -658,7 +658,7 @@ public class AlgoLocus extends AlgoElement {
 		return farAway;
 	}
 
-	private boolean distanceOK(GeoPoint2 Q) {
+	private boolean distanceOK(GeoPoint Q) {
 		boolean distanceOK;
 
 		if (lastFarAway && isFarAway(Q.inhomX, Q.inhomY)) {
@@ -689,7 +689,7 @@ public class AlgoLocus extends AlgoElement {
 		return distanceOK;
 	}
 
-	private boolean distanceSmall(GeoPoint2 Q) {
+	private boolean distanceSmall(GeoPoint Q) {
 		boolean distSmall = Math.abs(Q.inhomX - lastX) < maxXdist
 				&& Math.abs(Q.inhomY - lastY) < maxYdist;
 		return distSmall;

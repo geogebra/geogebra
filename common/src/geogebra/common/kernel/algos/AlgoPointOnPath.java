@@ -27,7 +27,7 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.prover.Variable;
 import geogebra.common.kernel.prover.NoSymbolicParametersException;
@@ -38,7 +38,7 @@ public class AlgoPointOnPath extends AlgoElement implements PathAlgo, SymbolicPa
 	SymbolicParametersBotanaAlgo {
 
 	private Path path; // input
-    private GeoPoint2 P; // output      
+    private GeoPoint P; // output      
     private NumberValue param;
 	private Polynomial[] polynomials;
 	private Polynomial[] botanaPolynomials;
@@ -79,7 +79,7 @@ public class AlgoPointOnPath extends AlgoElement implements PathAlgo, SymbolicPa
     	super(cons);
         this.path = path;
         // create point on path and compute current location
-        P = new GeoPoint2(cons);
+        P = new GeoPoint(cons);
         P.setPath(path);
         P.setCoords(x, y, 1.0);
 		this.param = param;
@@ -95,7 +95,7 @@ public class AlgoPointOnPath extends AlgoElement implements PathAlgo, SymbolicPa
         this.path = path;
         
         // create point on path and compute current location
-        P = new GeoPoint2(cons);
+        P = new GeoPoint(cons);
         P.setPath(path);
         P.setCoords(x, y, 1.0); 
         
@@ -131,7 +131,7 @@ public class AlgoPointOnPath extends AlgoElement implements PathAlgo, SymbolicPa
         setDependencies(); // done by AlgoElement
     }
 
-    public GeoPoint2 getP() {
+    public GeoPoint getP() {
         return P;
     }
     public Path getPath() {

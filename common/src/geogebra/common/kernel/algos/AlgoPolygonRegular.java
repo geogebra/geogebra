@@ -19,7 +19,7 @@ import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -33,18 +33,18 @@ import java.util.ArrayList;
  */
 public class AlgoPolygonRegular extends AlgoElement {
 	/** first input point */
-	final GeoPoint2 A; // input
+	final GeoPoint A; // input
 	/** second input point */
-	final GeoPoint2 B;
+	final GeoPoint B;
 	private NumberValue num; // input
 
 	private int numOld = 2;
 	/** output handler */
 	OutputHandler<GeoPolygon> outputPolygon;
-	private OutputHandler<GeoPoint2> outputPoints;
+	private OutputHandler<GeoPoint> outputPoints;
 	private OutputHandler<GeoSegment> outputSegments;
 
-	private GeoPoint2 centerPoint;
+	private GeoPoint centerPoint;
 	private MyDouble rotAngle;
 
 	private boolean labelPointsAndSegments;
@@ -69,8 +69,8 @@ public class AlgoPolygonRegular extends AlgoElement {
 	 * @param num
 	 *            number of vertices
 	 */
-	public AlgoPolygonRegular(Construction c, String[] labels, GeoPoint2 A1,
-			GeoPoint2 B1, NumberValue num) {
+	public AlgoPolygonRegular(Construction c, String[] labels, GeoPoint A1,
+			GeoPoint B1, NumberValue num) {
 		super(c);
 
 		labelsNeedIniting = true;
@@ -89,7 +89,7 @@ public class AlgoPolygonRegular extends AlgoElement {
 		showNewPointsLabels = false;
 
 		// temp center point of regular polygon
-		centerPoint = new GeoPoint2(c);
+		centerPoint = new GeoPoint(c);
 		rotAngle = new MyDouble(kernel);
 
 		outputPolygon = new OutputHandler<GeoPolygon>(
@@ -115,10 +115,10 @@ public class AlgoPolygonRegular extends AlgoElement {
 		if (!labelPointsAndSegments)
 			outputSegments.removeFromHandler(); // no segments has output
 
-		outputPoints = new OutputHandler<GeoPoint2>(
-				new elementFactory<GeoPoint2>() {
-					public GeoPoint2 newElement() {
-						GeoPoint2 newPoint = new GeoPoint2(cons);
+		outputPoints = new OutputHandler<GeoPoint>(
+				new elementFactory<GeoPoint>() {
+					public GeoPoint newElement() {
+						GeoPoint newPoint = new GeoPoint(cons);
 						newPoint.setCoords(0, 0, 1);
 						newPoint.setParentAlgorithm(AlgoPolygonRegular.this);
 						newPoint.setAuxiliaryObject(true);
@@ -290,7 +290,7 @@ public class AlgoPolygonRegular extends AlgoElement {
 			outputPoints.getElement(k).rotate(rotAngle, centerPoint);
 		}
 
-		GeoPoint2[] points = new GeoPoint2[n];
+		GeoPoint[] points = new GeoPoint[n];
 		points[0] = A;
 		points[1] = B;
 		for (int i = 2; i < n; i++)
@@ -361,7 +361,7 @@ public class AlgoPolygonRegular extends AlgoElement {
 
 	}
 
-	private void removePoint(GeoPoint2 oldPoint) {
+	private void removePoint(GeoPoint oldPoint) {
 
 		// remove dependent algorithms (e.g. segments) from update sets of
 		// objects further up (e.g. polygon) the tree
@@ -405,7 +405,7 @@ public class AlgoPolygonRegular extends AlgoElement {
 			GeoElement geo = super.getOutput(i);
 			if (geo != keepGeo) {
 				if (geo.isGeoPoint()) {
-					removePoint((GeoPoint2) geo);
+					removePoint((GeoPoint) geo);
 				} else {
 					geo.doRemove();
 				}

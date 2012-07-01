@@ -17,7 +17,7 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.VarString;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
 import geogebra.common.plugin.Operation;
@@ -730,7 +730,7 @@ public class FunctionNVar extends ValidExpression implements FunctionalNVar, Var
 	 * @param pt point for evaluation
 	 * @return function value
 	 */
-	public double evaluate(GeoPoint2 pt) {
+	public double evaluate(GeoPoint pt) {
 		if (fVars.length == 1 && "y".equals(fVars[0].toString(StringTemplate.defaultTemplate)))
 			return evaluate(new double[] { pt.y / pt.z });
 		return evaluate(new double[] { pt.x / pt.z, pt.y / pt.z });
@@ -742,7 +742,7 @@ public class FunctionNVar extends ValidExpression implements FunctionalNVar, Var
 	 * @param pt point for evaluation
 	 * @return function value
 	 */
-	public boolean evaluateBoolean(GeoPoint2 pt) {
+	public boolean evaluateBoolean(GeoPoint pt) {
 		if (fVars.length == 1 && "y".equals(fVars[0].toString(StringTemplate.defaultTemplate)))
 			return evaluateBoolean(new double[] { pt.y / pt.z });
 		return evaluateBoolean(new double[] { pt.x / pt.z, pt.y / pt.z });

@@ -21,7 +21,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.prover.NoSymbolicParametersException;
 import geogebra.common.kernel.prover.Polynomial;
@@ -34,7 +34,7 @@ public class AlgoLineBisectorSegment extends AlgoElement implements
     private GeoSegment s;  // input   
     private GeoLine  g;     // output        
     
-    private GeoPoint2 midPoint;
+    private GeoPoint midPoint;
     private Polynomial[] polynomials;
     private Polynomial[] botanaPolynomials;
 	private Variable[] botanaVars;
@@ -45,7 +45,7 @@ public class AlgoLineBisectorSegment extends AlgoElement implements
         super(cons);
         this.s = s;             
         g = new GeoLine(cons); 
-        midPoint = new GeoPoint2(cons);
+        midPoint = new GeoPoint(cons);
         g.setStartPoint(midPoint);
         setInputOutput(); // for AlgoElement
         
@@ -81,8 +81,8 @@ public class AlgoLineBisectorSegment extends AlgoElement implements
     // line through P normal to v
     @Override
 	public final void compute() { 
-    	 GeoPoint2 A = s.getStartPoint();     
-    	 GeoPoint2 B = s.getEndPoint();
+    	 GeoPoint A = s.getStartPoint();     
+    	 GeoPoint B = s.getEndPoint();
     	
         // get inhomogenous coords
         double ax = A.inhomX;
@@ -111,8 +111,8 @@ public class AlgoLineBisectorSegment extends AlgoElement implements
 
 	public void getFreeVariables(HashSet<Variable> variables)
 			throws NoSymbolicParametersException {
-		GeoPoint2 A = (GeoPoint2) s.getStartPointAsGeoElement();
-		GeoPoint2 B = (GeoPoint2) s.getEndPointAsGeoElement();
+		GeoPoint A = (GeoPoint) s.getStartPointAsGeoElement();
+		GeoPoint B = (GeoPoint) s.getEndPointAsGeoElement();
 		// TODO: Common code with AlgoLineBisector.java, maybe commonize.
 		if (A != null && B != null) {
 			A.getFreeVariables(variables);
@@ -124,8 +124,8 @@ public class AlgoLineBisectorSegment extends AlgoElement implements
 	
 	public int[] getDegrees()
 			throws NoSymbolicParametersException {
-		GeoPoint2 A = (GeoPoint2) s.getStartPointAsGeoElement();
-		GeoPoint2 B = (GeoPoint2) s.getEndPointAsGeoElement();
+		GeoPoint A = (GeoPoint) s.getStartPointAsGeoElement();
+		GeoPoint B = (GeoPoint) s.getEndPointAsGeoElement();
 		// TODO: Common code with AlgoLineBisector.java, maybe commonize.
 		if (A != null && B != null) {
 			int[] degree1=A.getDegrees();
@@ -141,8 +141,8 @@ public class AlgoLineBisectorSegment extends AlgoElement implements
 
 	public BigInteger[] getExactCoordinates(HashMap<Variable, BigInteger> values)
 			throws NoSymbolicParametersException {
-		GeoPoint2 A = (GeoPoint2) s.getStartPointAsGeoElement();
-		GeoPoint2 B = (GeoPoint2) s.getEndPointAsGeoElement();
+		GeoPoint A = (GeoPoint) s.getStartPointAsGeoElement();
+		GeoPoint B = (GeoPoint) s.getEndPointAsGeoElement();
 		// TODO: Common code with AlgoLineBisector.java, maybe commonize.
 		if (A != null && B != null) {
 			BigInteger[] coords1 = A.getExactCoordinates(values);
@@ -169,8 +169,8 @@ public class AlgoLineBisectorSegment extends AlgoElement implements
 		if (polynomials !=null){
 			return polynomials;
 		}
-		GeoPoint2 A = (GeoPoint2) s.getStartPointAsGeoElement();
-		GeoPoint2 B = (GeoPoint2) s.getEndPointAsGeoElement();
+		GeoPoint A = (GeoPoint) s.getStartPointAsGeoElement();
+		GeoPoint B = (GeoPoint) s.getEndPointAsGeoElement();
 		// TODO: Common code with AlgoLineBisector.java, maybe commonize.
 		if (A != null && B != null) {
 			Polynomial[] coords1 = A.getPolynomials();

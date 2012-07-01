@@ -13,7 +13,7 @@ import geogebra.common.kernel.commands.AlgebraProcessor;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.geos.PointProperties;
@@ -443,7 +443,7 @@ public abstract class GgbAPI implements JavaScriptAPI{
 			return -1;
 		}
 		if (geo.isGeoPoint()) {
-			return ((GeoPoint2) geo).getPointStyle();
+			return ((GeoPoint) geo).getPointStyle();
 		}
 		return -1;
 	}
@@ -464,7 +464,7 @@ public abstract class GgbAPI implements JavaScriptAPI{
 			return -1;
 		}
 		if (geo.isGeoPoint()) {
-			return ((GeoPoint2) geo).getPointSize();
+			return ((GeoPoint) geo).getPointSize();
 		}
 		return -1;
 	}
@@ -476,7 +476,7 @@ public abstract class GgbAPI implements JavaScriptAPI{
 		if (geo == null)
 			return;
 		if (geo.isGeoPoint()) {
-			((GeoPoint2) geo).setPointSize(style);
+			((GeoPoint) geo).setPointSize(style);
 			geo.updateRepaint();
 		}
 	}
@@ -737,7 +737,7 @@ public abstract class GgbAPI implements JavaScriptAPI{
 		if (geo == null) return 0;
 		
 		if (geo.isGeoPoint())
-			return ((GeoPoint2) geo).inhomX;
+			return ((GeoPoint) geo).inhomX;
 		else if (geo.isGeoVector())
 			return ((GeoVector) geo).x;
 		else
@@ -753,7 +753,7 @@ public abstract class GgbAPI implements JavaScriptAPI{
 		if (geo == null) return 0;
 		
 		if (geo.isGeoPoint())
-			return ((GeoPoint2) geo).inhomY;
+			return ((GeoPoint) geo).inhomY;
 		else if (geo.isGeoVector())
 			return ((GeoVector) geo).y;
 		else
@@ -769,7 +769,7 @@ public abstract class GgbAPI implements JavaScriptAPI{
 		if (geo == null) return;
 		
 		if (geo.isGeoPoint()) {
-			((GeoPoint2) geo).setCoords(x, y, 1);
+			((GeoPoint) geo).setCoords(x, y, 1);
 			geo.updateRepaint();
 		}
 		else if (geo.isGeoVector()) {

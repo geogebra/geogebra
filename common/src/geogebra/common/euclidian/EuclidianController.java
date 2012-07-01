@@ -54,7 +54,7 @@ import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoLocus;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPoly;
 import geogebra.common.kernel.geos.GeoPolyLine;
 import geogebra.common.kernel.geos.GeoPolygon;
@@ -138,7 +138,7 @@ public abstract class EuclidianController {
 
 	protected GeoImplicitPoly tempImplicitPoly;
 
-	protected ArrayList<GeoPoint2> moveDependentPoints;
+	protected ArrayList<GeoPoint> moveDependentPoints;
 
 	protected GeoFunction tempFunction;
 
@@ -272,7 +272,7 @@ public abstract class EuclidianController {
 
 	protected GeoElement rotStartGeo;
 
-	protected GeoPoint2 rotationCenter;
+	protected GeoPoint rotationCenter;
 
 	protected int polygonMode = POLYGON_NORMAL;
 
@@ -392,12 +392,12 @@ public abstract class EuclidianController {
 				pastePreviewSelected.add(geo);
 				if (firstMoveable) {
 					if (geo.isGeoPoint()) {
-						startPoint.setLocation(((GeoPoint2) geo).inhomX,
-								((GeoPoint2) geo).inhomY);
+						startPoint.setLocation(((GeoPoint) geo).inhomX,
+								((GeoPoint) geo).inhomY);
 						firstMoveable = false;
 					} else if (geo.isGeoText()) {
 						if (((GeoText) geo).hasAbsoluteLocation()) {
-							GeoPoint2 loc = (GeoPoint2) ((GeoText) geo)
+							GeoPoint loc = (GeoPoint) ((GeoText) geo)
 									.getStartPoint();
 							startPoint.setLocation(loc.inhomX, loc.inhomY);
 							firstMoveable = false;
@@ -418,7 +418,7 @@ public abstract class EuclidianController {
 						}
 					} else if (geo.isGeoImage()) {
 						if (((GeoImage) geo).hasAbsoluteLocation()) {
-							GeoPoint2 loc = ((GeoImage) geo).getStartPoints()[2];
+							GeoPoint loc = ((GeoImage) geo).getStartPoints()[2];
 							if (loc != null) { // top left defined
 								// transformCoordsOffset[0]=loc.inhomX-xRW;
 								// transformCoordsOffset[1]=loc.inhomY-yRW;
@@ -520,12 +520,12 @@ public abstract class EuclidianController {
 			GeoElement geo = pastePreviewSelected.get(i);
 			if (geo.isGeoPoint() && geo.isIndependent()) {
 				for (int j = 0; j < persistentStickyPointList.size(); j++) {
-					GeoPoint2 geo2 = (GeoPoint2) persistentStickyPointList
+					GeoPoint geo2 = (GeoPoint) persistentStickyPointList
 							.get(j);
 					if (Kernel.isEqual(geo2.getInhomX(),
-							((GeoPoint2) geo).getInhomX())
+							((GeoPoint) geo).getInhomX())
 							&& Kernel.isEqual(geo2.getInhomY(),
-									((GeoPoint2) geo).getInhomY())) {
+									((GeoPoint) geo).getInhomY())) {
 						geo.setEuclidianVisible(false);
 						String geolabel = geo.getLabelSimple();
 						kernel.getAlgebraProcessor().processAlgebraCommand(
@@ -648,7 +648,7 @@ public abstract class EuclidianController {
 					return kernel.IntersectPolynomialLineSingle(null, f,
 							(GeoLine) a, xRW, yRW);
 				}
-				GeoPoint2 initPoint = new GeoPoint2(
+				GeoPoint initPoint = new GeoPoint(
 						kernel.getConstruction());
 				initPoint.setCoords(xRW, yRW, 1.0);
 				return kernel.IntersectFunctionLine(null, f, (GeoLine) a,
@@ -678,7 +678,7 @@ public abstract class EuclidianController {
 					return kernel.IntersectPolynomialLineSingle(null, aFun,
 							(GeoLine) b, xRW, yRW);
 				}
-				GeoPoint2 initPoint = new GeoPoint2(
+				GeoPoint initPoint = new GeoPoint(
 						kernel.getConstruction());
 				initPoint.setCoords(xRW, yRW, 1.0);
 				return kernel.IntersectFunctionLine(null, aFun,
@@ -690,7 +690,7 @@ public abstract class EuclidianController {
 					return kernel.IntersectPolynomialsSingle(null, aFun, bFun,
 							xRW, yRW);
 				}
-				GeoPoint2 initPoint = new GeoPoint2(
+				GeoPoint initPoint = new GeoPoint(
 						kernel.getConstruction());
 				initPoint.setCoords(xRW, yRW, 1.0);
 				return kernel.IntersectFunctions(null, aFun, bFun,
@@ -740,9 +740,9 @@ public abstract class EuclidianController {
 		return ret;
 	}
 
-	protected final GeoPoint2[] getSelectedPoints() {
+	protected final GeoPoint[] getSelectedPoints() {
 	
-		GeoPoint2[] ret = new GeoPoint2[selectedPoints.size()];
+		GeoPoint[] ret = new GeoPoint[selectedPoints.size()];
 		getSelectedPointsND(ret);
 	
 		return ret;
@@ -1158,7 +1158,7 @@ public abstract class EuclidianController {
 	
 			case CONICPART:
 				GeoConicPart cp = (GeoConicPart) geo;
-				ArrayList<GeoPoint2> ip = cp.getParentAlgorithm()
+				ArrayList<GeoPoint> ip = cp.getParentAlgorithm()
 						.getInputPoints();
 				tempArrayList.removeAll(ip);
 				break;
@@ -1795,8 +1795,8 @@ public abstract class EuclidianController {
 			ret[0] = getKernel().getManager3D().Line3D(null, points[0],
 					points[1]);
 		} else {
-			ret[0] = getKernel().Line(null, (GeoPoint2) points[0],
-					(GeoPoint2) points[1]);
+			ret[0] = getKernel().Line(null, (GeoPoint) points[0],
+					(GeoPoint) points[1]);
 		}
 		return ret;
 	}
@@ -1813,8 +1813,8 @@ public abstract class EuclidianController {
 			ret[0] = getKernel().getManager3D().Ray3D(null,
 					points[0], points[1]).toGeoElement();
 		} else {
-			ret[0] = getKernel().Ray(null, (GeoPoint2) points[0],
-					(GeoPoint2) points[1]);
+			ret[0] = getKernel().Ray(null, (GeoPoint) points[0],
+					(GeoPoint) points[1]);
 		}
 		return ret;
 	}
@@ -1845,8 +1845,8 @@ public abstract class EuclidianController {
 			ret[0] = (GeoElement) getKernel().getManager3D().Segment3D(null,
 					points[0], points[1]);
 		} else {
-			ret[0] = getKernel().Segment(null, (GeoPoint2) points[0],
-					(GeoPoint2) points[1]);
+			ret[0] = getKernel().Segment(null, (GeoPoint) points[0],
+					(GeoPoint) points[1]);
 		}
 		return ret;
 	}
@@ -1872,7 +1872,7 @@ public abstract class EuclidianController {
 				|| ((GeoElement) b).isGeoElement3D()) {
 			return kernel.getManager3D().Vector3D(null, a, b);
 		}
-		return kernel.Vector(null, (GeoPoint2) a, (GeoPoint2) b);
+		return kernel.Vector(null, (GeoPoint) a, (GeoPoint) b);
 	}
 
 	protected final GeoElement[] ray(Hits hits) {
@@ -1967,13 +1967,13 @@ public abstract class EuclidianController {
 		} else {
 			// check if there is a 3D point
 			GeoPointND[] pointsND = getSelectedPointsND();
-			GeoPoint2[] points = new GeoPoint2[pointsND.length];
+			GeoPoint[] points = new GeoPoint[pointsND.length];
 			boolean point3D = false;
 			for (int i = 0; (i < pointsND.length) && !point3D; i++) {
 				if (((GeoElement) pointsND[i]).isGeoElement3D()) {
 					point3D = true;
 				} else {
-					points[i] = (GeoPoint2) pointsND[i];
+					points[i] = (GeoPoint) pointsND[i];
 				}
 			}
 			if (point3D) {
@@ -2086,7 +2086,7 @@ public abstract class EuclidianController {
 			boolean polynomials = fun[0].isPolynomialFunction(false)
 					&& fun[1].isPolynomialFunction(false);
 			if (!polynomials) {
-				GeoPoint2 initPoint = new GeoPoint2(kernel.getConstruction());
+				GeoPoint initPoint = new GeoPoint(kernel.getConstruction());
 				initPoint.setCoords(xRW, yRW, 1.0);
 				return new GeoElement[] { kernel.IntersectFunctions(null,
 						fun[0], fun[1], initPoint) };
@@ -2144,7 +2144,7 @@ public abstract class EuclidianController {
 					ret = kernel.IntersectPolynomialLine(null, fun[0], line[0]);
 				}
 			} else {
-				GeoPoint2 initPoint = new GeoPoint2(kernel.getConstruction());
+				GeoPoint initPoint = new GeoPoint(kernel.getConstruction());
 				initPoint.setCoords(xRW, yRW, 1.0);
 				ret[0] = kernel.IntersectFunctionLine(null, fun[0], line[0],
 						initPoint);
@@ -2233,7 +2233,7 @@ public abstract class EuclidianController {
 					ret[0] = (GeoElement) getKernel().getManager3D().Line3D(
 							null, points[0], vectors[0]);
 				} else {
-					ret[0] = kernel.Line(null, (GeoPoint2) points[0],
+					ret[0] = kernel.Line(null, (GeoPoint) points[0],
 							(GeoVector) vectors[0]);
 				}
 				return ret;
@@ -2247,7 +2247,7 @@ public abstract class EuclidianController {
 					ret[0] = (GeoElement) getKernel().getManager3D().Line3D(
 							null, points[0], lines[0]);
 				} else {
-					ret[0] = getKernel().Line(null, (GeoPoint2) points[0],
+					ret[0] = getKernel().Line(null, (GeoPoint) points[0],
 							(GeoLine) lines[0]);
 				}
 				return ret;
@@ -2269,7 +2269,7 @@ public abstract class EuclidianController {
 		if (selPoints() == 1) {
 			if (selLines() == 1) {
 				// fetch selected point and line
-				GeoPoint2[] points = getSelectedPoints();
+				GeoPoint[] points = getSelectedPoints();
 				GeoLine[] lines = getSelectedLines();
 				// create new parabola
 				GeoElement[] ret = { null };
@@ -2314,7 +2314,7 @@ public abstract class EuclidianController {
 				if (((GeoElement) points[0]).isGeoElement3D()) {
 					return null;
 				}
-				ret[0] = kernel.OrthogonalLine(null, (GeoPoint2) points[0],
+				ret[0] = kernel.OrthogonalLine(null, (GeoPoint) points[0],
 						(GeoVector) vectors[0]);
 				return ret;
 	
@@ -2341,7 +2341,7 @@ public abstract class EuclidianController {
 
 	protected GeoElement[] orthogonal2D(GeoPointND point, GeoLineND line) {
 		return new GeoElement[] { getKernel().OrthogonalLine(null,
-				(GeoPoint2) point, (GeoLine) line) };
+				(GeoPoint) point, (GeoLine) line) };
 	}
 
 	protected final GeoElement[] midpoint(Hits hits) {
@@ -2368,8 +2368,8 @@ public abstract class EuclidianController {
 				ret[0] = (GeoElement) kernel.getManager3D().Midpoint(null,
 						points[0], points[1]);
 			} else {
-				ret[0] = kernel.Midpoint(null, (GeoPoint2) points[0],
-						(GeoPoint2) points[1]);
+				ret[0] = kernel.Midpoint(null, (GeoPoint) points[0],
+						(GeoPoint) points[1]);
 			}
 			return ret;
 		} else if (selSegments() == 1) {
@@ -2425,7 +2425,7 @@ public abstract class EuclidianController {
 		GeoElement[] ret = { null };
 		if (selPoints() == 2) {
 			// fetch the two selected points
-			GeoPoint2[] points = getSelectedPoints();
+			GeoPoint[] points = getSelectedPoints();
 			ret[0] = kernel.LineBisector(null, points[0], points[1]);
 			return ret;
 		} else if (selSegments() == 1) {
@@ -2452,7 +2452,7 @@ public abstract class EuclidianController {
 	
 		if (selPoints() == 3) {
 			// fetch the three selected points
-			GeoPoint2[] points = getSelectedPoints();
+			GeoPoint[] points = getSelectedPoints();
 			GeoElement[] ret = { null };
 			ret[0] = kernel.AngularBisector(null, points[0], points[1],
 					points[2]);
@@ -2491,39 +2491,39 @@ public abstract class EuclidianController {
 				ret[0] = kernel.getManager3D().Circle3D(null, points[0],
 						points[1], points[2]);
 			} else {
-				ret[0] = kernel.Circle(null, (GeoPoint2) points[0],
-						(GeoPoint2) points[1], (GeoPoint2) points[2]);
+				ret[0] = kernel.Circle(null, (GeoPoint) points[0],
+						(GeoPoint) points[1], (GeoPoint) points[2]);
 			}
 			break;
 	
 		case EuclidianConstants.MODE_ELLIPSE_THREE_POINTS:
-			ret[0] = kernel.Ellipse(null, (GeoPoint2) points[0],
-					(GeoPoint2) points[1], (GeoPoint2) points[2]);
+			ret[0] = kernel.Ellipse(null, (GeoPoint) points[0],
+					(GeoPoint) points[1], (GeoPoint) points[2]);
 			break;
 	
 		case EuclidianConstants.MODE_HYPERBOLA_THREE_POINTS:
-			ret[0] = kernel.Hyperbola(null, (GeoPoint2) points[0],
-					(GeoPoint2) points[1], (GeoPoint2) points[2]);
+			ret[0] = kernel.Hyperbola(null, (GeoPoint) points[0],
+					(GeoPoint) points[1], (GeoPoint) points[2]);
 			break;
 	
 		case EuclidianConstants.MODE_CIRCUMCIRCLE_ARC_THREE_POINTS:
-			ret[0] = kernel.CircumcircleArc(null, (GeoPoint2) points[0],
-					(GeoPoint2) points[1], (GeoPoint2) points[2]);
+			ret[0] = kernel.CircumcircleArc(null, (GeoPoint) points[0],
+					(GeoPoint) points[1], (GeoPoint) points[2]);
 			break;
 	
 		case EuclidianConstants.MODE_CIRCUMCIRCLE_SECTOR_THREE_POINTS:
-			ret[0] = kernel.CircumcircleSector(null, (GeoPoint2) points[0],
-					(GeoPoint2) points[1], (GeoPoint2) points[2]);
+			ret[0] = kernel.CircumcircleSector(null, (GeoPoint) points[0],
+					(GeoPoint) points[1], (GeoPoint) points[2]);
 			break;
 	
 		case EuclidianConstants.MODE_CIRCLE_ARC_THREE_POINTS:
-			ret[0] = kernel.CircleArc(null, (GeoPoint2) points[0],
-					(GeoPoint2) points[1], (GeoPoint2) points[2]);
+			ret[0] = kernel.CircleArc(null, (GeoPoint) points[0],
+					(GeoPoint) points[1], (GeoPoint) points[2]);
 			break;
 	
 		case EuclidianConstants.MODE_CIRCLE_SECTOR_THREE_POINTS:
-			ret[0] = kernel.CircleSector(null, (GeoPoint2) points[0],
-					(GeoPoint2) points[1], (GeoPoint2) points[2]);
+			ret[0] = kernel.CircleSector(null, (GeoPoint) points[0],
+					(GeoPoint) points[1], (GeoPoint) points[2]);
 			break;
 	
 		default:
@@ -2559,7 +2559,7 @@ public abstract class EuclidianController {
 	
 		if (selPoints() == 2) {
 			// fetch the two selected points
-			GeoPoint2[] points = getSelectedPoints();
+			GeoPoint[] points = getSelectedPoints();
 			GeoLocus locus;
 			if (points[0].getPath() == null) {
 				locus = kernel.Locus(null, points[0], points[1]);
@@ -2570,7 +2570,7 @@ public abstract class EuclidianController {
 			ret[0] = locus;
 			return ret;
 		} else if ((selPoints() == 1) && (selNumbers() == 1)) {
-			GeoPoint2[] points = getSelectedPoints();
+			GeoPoint[] points = getSelectedPoints();
 			GeoNumeric[] numbers = getSelectedNumbers();
 			GeoLocus locus = kernel.Locus(null, points[0], numbers[0]);
 			GeoElement[] ret = { locus };
@@ -2588,7 +2588,7 @@ public abstract class EuclidianController {
 		addSelectedPoint(hits, 5, false);
 		if (selPoints() == 5) {
 			// fetch the three selected points
-			GeoPoint2[] points = getSelectedPoints();
+			GeoPoint[] points = getSelectedPoints();
 			GeoElement[] ret = { null };
 			ret[0] = kernel.Conic(null, points);
 			return ret;
@@ -2670,7 +2670,7 @@ public abstract class EuclidianController {
 		if (selConics() == 1) {
 			if (selPoints() == 1) {
 				GeoConic[] conics = getSelectedConics();
-				GeoPoint2[] points = getSelectedPoints();
+				GeoPoint[] points = getSelectedPoints();
 				// create new tangents
 				return kernel.Tangent(null, points[0], conics[0]);
 			} else if (selLines() == 1) {
@@ -2686,7 +2686,7 @@ public abstract class EuclidianController {
 		} else if (selFunctions() == 1) {
 			if (selPoints() == 1) {
 				GeoFunction[] functions = getSelectedFunctions();
-				GeoPoint2[] points = getSelectedPoints();
+				GeoPoint[] points = getSelectedPoints();
 				// create new tangents
 				GeoElement[] ret = { null };
 				ret[0] = kernel.Tangent(null, points[0], functions[0]);
@@ -2695,7 +2695,7 @@ public abstract class EuclidianController {
 		} else if (selCurves() == 1) {
 			if (selPoints() == 1) {
 				GeoCurveCartesian[] curves = getSelectedCurves();
-				GeoPoint2[] points = getSelectedPoints();
+				GeoPoint[] points = getSelectedPoints();
 				// create new tangents
 				GeoElement[] ret = { null };
 				ret[0] = kernel.Tangent(null, points[0], curves[0]);
@@ -2704,7 +2704,7 @@ public abstract class EuclidianController {
 		} else if (selImplicitpoly() == 1) {
 			if (selPoints() == 1) {
 				GeoImplicitPoly implicitPoly = getSelectedImplicitpoly()[0];
-				GeoPoint2[] points = getSelectedPoints();
+				GeoPoint[] points = getSelectedPoints();
 				// create new tangents
 				return kernel.Tangent(null, points[0], implicitPoly);
 			} else if (selLines() == 1) {
@@ -2756,7 +2756,7 @@ public abstract class EuclidianController {
 			GeoElement[] ret = { null };
 			if (selPoints() == 1) {
 				GeoConic[] conics = getSelectedConics();
-				GeoPoint2[] points = getSelectedPoints();
+				GeoPoint[] points = getSelectedPoints();
 				// create new tangents
 				ret[0] = kernel.PolarLine(null, points[0], conics[0]);
 				return ret;
@@ -2974,15 +2974,15 @@ public abstract class EuclidianController {
 				|| ((GeoElement) p1).isGeoElement3D()) {
 			return createCircle2ForPoints3D(p0, p1);
 		}
-		return new GeoElement[] { kernel.Circle(null, (GeoPoint2) p0,
-				(GeoPoint2) p1) };
+		return new GeoElement[] { kernel.Circle(null, (GeoPoint) p0,
+				(GeoPoint) p1) };
 	}
 
 	protected GeoElement[] switchModeForCircleOrSphere2(int sphereMode) {
 		GeoPointND[] points = getSelectedPointsND();
 		if (sphereMode == EuclidianConstants.MODE_SEMICIRCLE) {
 			return new GeoElement[] { kernel.Semicircle(null,
-					(GeoPoint2) points[0], (GeoPoint2) points[1]) };
+					(GeoPoint) points[0], (GeoPoint) points[1]) };
 		}
 		return createCircle2(points[0], points[1]);
 	
@@ -3044,7 +3044,7 @@ public abstract class EuclidianController {
 				return false;
 			}
 			// create new Point
-			loc = new GeoPoint2(kernel.getConstruction());
+			loc = new GeoPoint(kernel.getConstruction());
 			loc.setCoords(xRW, yRW, 1.0);
 		} else {
 			
@@ -3055,7 +3055,7 @@ public abstract class EuclidianController {
 				GeoPointND[] points = getSelectedPointsND();
 				loc = points[0];
 			} else if (!selectionPreview) {
-				loc = new GeoPoint2(kernel.getConstruction());
+				loc = new GeoPoint(kernel.getConstruction());
 				loc.setCoords(xRW, yRW, 1.0);
 			}
 		}
@@ -3086,24 +3086,24 @@ public abstract class EuclidianController {
 	}
 
 	protected final boolean image(Hits hits) {
-		GeoPoint2 loc = null; // location
+		GeoPoint loc = null; // location
 	
 		if (hits.isEmpty()) {
 			if (selectionPreview) {
 				return false;
 			}
 			// create new Point
-			loc = new GeoPoint2(kernel.getConstruction());
+			loc = new GeoPoint(kernel.getConstruction());
 			loc.setCoords(xRW, yRW, 1.0);
 		} else {
 			// points needed
 			addSelectedPoint(hits, 1, false);
 			if (selPoints() >= 1) {
 				// fetch the selected point
-				GeoPoint2[] points = getSelectedPoints();
+				GeoPoint[] points = getSelectedPoints();
 				loc = points[0];
 			} else if (!selectionPreview) {
-				loc = new GeoPoint2(kernel.getConstruction());
+				loc = new GeoPoint(kernel.getConstruction());
 				loc.setCoords(xRW, yRW, 1.0);
 			}
 		}
@@ -3143,12 +3143,12 @@ public abstract class EuclidianController {
 		if (selPoints() == 1) {
 			if (selPolygons() == 1) {
 				GeoPolygon[] polys = getSelectedPolygons();
-				GeoPoint2[] points = getSelectedPoints();
+				GeoPoint[] points = getSelectedPoints();
 				return kernel.Mirror(null, polys[0], points[0]);
 			} else if (selGeos() > 0) {
 				// mirror all selected geos
 				GeoElement[] geos = getSelectedGeos();
-				GeoPoint2 point = getSelectedPoints()[0];
+				GeoPoint point = getSelectedPoints()[0];
 				ArrayList<GeoElement> ret = new ArrayList<GeoElement>();
 				for (int i = 0; i < geos.length; i++) {
 					if (geos[i] != point) {
@@ -3369,13 +3369,13 @@ public abstract class EuclidianController {
 
 	protected boolean attach(GeoPointND p, Path path) {
 		
-		GeoPoint2 point = (GeoPoint2) p;
+		GeoPoint point = (GeoPoint) p;
 	
 		try {
 			Construction cons = kernel.getConstruction();
 			boolean oldLabelCreationFlag = cons.isSuppressLabelsActive();
 			cons.setSuppressLabelCreation(true);
-			GeoPoint2 newPoint = kernel.Point(null, path,
+			GeoPoint newPoint = kernel.Point(null, path,
 					view.toRealWorldCoordX(mx), view.toRealWorldCoordY(my),
 					false, false);
 			cons.setSuppressLabelCreation(oldLabelCreationFlag);
@@ -3390,13 +3390,13 @@ public abstract class EuclidianController {
 
 	protected boolean attach(GeoPointND p, Region region) {
 	
-		GeoPoint2 point = (GeoPoint2) p;
+		GeoPoint point = (GeoPoint) p;
 		
 		try {
 			Construction cons = kernel.getConstruction();
 			boolean oldLabelCreationFlag = cons.isSuppressLabelsActive();
 			cons.setSuppressLabelCreation(true);
-			GeoPoint2 newPoint = kernel.PointIn(null, region,
+			GeoPoint newPoint = kernel.PointIn(null, region,
 					view.toRealWorldCoordX(mx), view.toRealWorldCoordY(my),
 					false, false);
 			cons.setSuppressLabelCreation(oldLabelCreationFlag);
@@ -3411,7 +3411,7 @@ public abstract class EuclidianController {
 	
 	protected boolean detach(GeoPointND point) {
 		
-		GeoPoint2 p = (GeoPoint2) point;
+		GeoPoint p = (GeoPoint) point;
 		
 		getSelectedPoints();
 		getSelectedRegions();
@@ -3426,7 +3426,7 @@ public abstract class EuclidianController {
 			boolean oldLabelCreationFlag = cons
 					.isSuppressLabelsActive();
 			cons.setSuppressLabelCreation(true);
-			GeoPoint2 newPoint = new GeoPoint2(
+			GeoPoint newPoint = new GeoPoint(
 					kernel.getConstruction(), null,
 					view.toRealWorldCoordX(x),
 					view.toRealWorldCoordY(y), 1.0);
@@ -3688,7 +3688,7 @@ public abstract class EuclidianController {
 			addSelectedPoint(hits, 999, true);
 	
 			if (selPoints() > 1) {
-				GeoPoint2[] points = getSelectedPoints();
+				GeoPoint[] points = getSelectedPoints();
 				list = geogebra.common.kernel.commands.CommandProcessor
 						.wrapInList(kernel, points, points.length,
 								GeoClass.POINT);
@@ -3778,7 +3778,7 @@ public abstract class EuclidianController {
 			boolean captured = false;
 			if (spl != null) {
 				for (int i = 0; i < spl.size(); i++) {
-					GeoPoint2 gp = (GeoPoint2) spl.get(i);
+					GeoPoint gp = (GeoPoint) spl.get(i);
 					if ((Math.abs(gp.getInhomX() - xRW) < (view.getGridDistances(0) * pointCapturingPercentage))
 							&& (Math.abs(gp.getInhomY() - yRW) < (view.getGridDistances(1) * pointCapturingPercentage))) {
 						xRW = gp.getInhomX();
@@ -3942,7 +3942,7 @@ public abstract class EuclidianController {
 	}
 
 	protected GeoAngle createAngle(GeoPointND A, GeoPointND B, GeoPointND C) {
-		return kernel.Angle(null, (GeoPoint2) A, (GeoPoint2) B, (GeoPoint2) C);
+		return kernel.Angle(null, (GeoPoint) A, (GeoPoint) B, (GeoPoint) C);
 	}
 
 	protected GeoAngle createLineAngle(GeoLine[] lines) {
@@ -3955,10 +3955,10 @@ public abstract class EuclidianController {
 			GeoSegment a = (GeoSegment) lines[0];
 			GeoSegment b = (GeoSegment) lines[1];
 			// get endpoints
-			GeoPoint2 a1 = a.getStartPoint();
-			GeoPoint2 a2 = a.getEndPoint();
-			GeoPoint2 b1 = b.getStartPoint();
-			GeoPoint2 b2 = b.getEndPoint();
+			GeoPoint a1 = a.getStartPoint();
+			GeoPoint a2 = a.getEndPoint();
+			GeoPoint b1 = b.getStartPoint();
+			GeoPoint b2 = b.getEndPoint();
 	
 			if (a1 == b1) {
 				angle = kernel.Angle(null, a2, a1, b2);
@@ -4021,7 +4021,7 @@ public abstract class EuclidianController {
 	 * Creates a text that shows the distance length between geoA and geoB at
 	 * the given startpoint.
 	 */
-	protected GeoText createDistanceText(GeoElement geoA, GeoElement geoB, GeoPoint2 textCorner,
+	protected GeoText createDistanceText(GeoElement geoA, GeoElement geoB, GeoPoint textCorner,
 			GeoNumeric length) {
 				StringTemplate tpl = StringTemplate.defaultTemplate;
 				// create text that shows length
@@ -4137,7 +4137,7 @@ public abstract class EuclidianController {
 		StringBuilder descText = new StringBuilder();
 	
 		// use points for polygon with static points (i.e. no list of points)
-		GeoPoint2[] points = null;
+		GeoPoint[] points = null;
 		if (poly.getParentAlgorithm() instanceof AlgoPolygon) {
 			points = ((AlgoPolygon) poly.getParentAlgorithm()).getPoints();
 		}
@@ -4177,7 +4177,7 @@ public abstract class EuclidianController {
 		addSelectedPoint(hits, 2, false);
 	
 		if (selPoints() == 2) {
-			GeoPoint2[] points = getSelectedPoints();
+			GeoPoint[] points = getSelectedPoints();
 			app.getDialogManager()
 					.showNumberInputDialogRegularPolygon(
 							app.getMenu(getKernel().getModeText(mode)),
@@ -4281,12 +4281,12 @@ public abstract class EuclidianController {
 		// TWO POINTS
 		if (selPoints() == 2) {
 			// length
-			GeoPoint2[] points = getSelectedPoints();
+			GeoPoint[] points = getSelectedPoints();
 			GeoNumeric length = kernel.Distance(null, (GeoPointND) points[0],
 					(GeoPointND) points[1]);
 	
 			// set startpoint of text to midpoint of two points
-			GeoPoint2 midPoint = kernel.Midpoint(points[0], points[1]);
+			GeoPoint midPoint = kernel.Midpoint(points[0], points[1]);
 			GeoElement[] ret = { null };
 			ret[0] = createDistanceText(points[0], points[1], midPoint, length);
 			return ret;
@@ -4319,12 +4319,12 @@ public abstract class EuclidianController {
 	
 		// POINT AND LINE
 		else if ((selPoints() == 1) && (selLines() == 1)) {
-			GeoPoint2[] points = getSelectedPoints();
+			GeoPoint[] points = getSelectedPoints();
 			GeoLine[] lines = getSelectedLines();
 			GeoNumeric length = kernel.Distance(null, points[0], lines[0]);
 	
 			// set startpoint of text to midpoint between point and line
-			GeoPoint2 midPoint = kernel.Midpoint(points[0],
+			GeoPoint midPoint = kernel.Midpoint(points[0],
 					kernel.ClosestPoint(points[0], lines[0]));
 			GeoElement[] ret = { null };
 			ret[0] = createDistanceText(points[0], lines[0], midPoint, length);
@@ -4407,12 +4407,12 @@ public abstract class EuclidianController {
 	
 		// we already have two points that define the radius
 		if (selPoints() == 2) {
-			GeoPoint2[] points = new GeoPoint2[2];
-			points[0] = (GeoPoint2) selectedPoints.get(0);
-			points[1] = (GeoPoint2) selectedPoints.get(1);
+			GeoPoint[] points = new GeoPoint[2];
+			points[0] = (GeoPoint) selectedPoints.get(0);
+			points[1] = (GeoPoint) selectedPoints.get(1);
 	
 			// check for centerPoint
-			GeoPoint2 centerPoint = (GeoPoint2) chooseGeo(hits, Test.GEOPOINT2);
+			GeoPoint centerPoint = (GeoPoint) chooseGeo(hits, Test.GEOPOINT2);
 	
 			if (centerPoint != null) {
 				if (selectionPreview) {
@@ -4436,7 +4436,7 @@ public abstract class EuclidianController {
 			GeoConic circle = (GeoConic) selectedConicsND.get(0);
 	
 			// check for centerPoint
-			GeoPoint2 centerPoint = (GeoPoint2) chooseGeo(hits, Test.GEOPOINT2);
+			GeoPoint centerPoint = (GeoPoint) chooseGeo(hits, Test.GEOPOINT2);
 	
 			if (centerPoint != null) {
 				if (selectionPreview) {
@@ -4459,7 +4459,7 @@ public abstract class EuclidianController {
 			GeoSegment segment = selectedSegments.get(0);
 	
 			// check for centerPoint
-			GeoPoint2 centerPoint = (GeoPoint2) chooseGeo(hits, Test.GEOPOINT2);
+			GeoPoint centerPoint = (GeoPoint) chooseGeo(hits, Test.GEOPOINT2);
 	
 			if (centerPoint != null) {
 				if (selectionPreview) {
@@ -4512,8 +4512,8 @@ public abstract class EuclidianController {
 	
 		if ((selPoints() == 1) && (selVectors() == 1)) {
 			GeoVector[] vecs = getSelectedVectors();
-			GeoPoint2[] points = getSelectedPoints();
-			GeoPoint2 endPoint = (GeoPoint2) kernel.Translate(null, points[0],
+			GeoPoint[] points = getSelectedPoints();
+			GeoPoint endPoint = (GeoPoint) kernel.Translate(null, points[0],
 					vecs[0])[0];
 			GeoElement[] ret = { null };
 			ret[0] = kernel.Vector(null, points[0], endPoint);
@@ -5208,7 +5208,7 @@ public abstract class EuclidianController {
 	}
 
 	protected void processModeLock(Path path) {
-		GeoPoint2 p = kernel.Point(null, path, xRW, yRW, false, false);
+		GeoPoint p = kernel.Point(null, path, xRW, yRW, false, false);
 		p.update();
 		xRW = p.inhomX;
 		yRW = p.inhomY;
@@ -5360,7 +5360,7 @@ public abstract class EuclidianController {
 	}
 
 	protected final void moveVector(boolean repaint) {
-		GeoPoint2 P = movedGeoVector.getStartPoint();
+		GeoPoint P = movedGeoVector.getStartPoint();
 		if (P == null) {
 			movedGeoVector.setCoords(xRW - transformCoordsOffset[0], yRW
 					- transformCoordsOffset[1], 0.0);
@@ -5376,7 +5376,7 @@ public abstract class EuclidianController {
 	}
 
 	protected final void moveVectorStartPoint(boolean repaint) {
-		GeoPoint2 P = movedGeoVector.getStartPoint();
+		GeoPoint P = movedGeoVector.getStartPoint();
 		P.setCoords(xRW, yRW, 1.0);
 	
 		if (repaint) {
@@ -5415,7 +5415,7 @@ public abstract class EuclidianController {
 	}
 	
 	protected void moveTextAbsoluteLocation(){
-		GeoPoint2 loc = (GeoPoint2) movedGeoText.getStartPoint();
+		GeoPoint loc = (GeoPoint) movedGeoText.getStartPoint();
 		loc.setCoords(xRW - startPoint.x, yRW - startPoint.y, 1.0);
 	}
 
@@ -5441,7 +5441,7 @@ public abstract class EuclidianController {
 				double vy = yRW - startPoint.y;
 				movedGeoImage.set(oldImage);
 				for (int i = 0; i < 3; i++) {
-					GeoPoint2 corner = movedGeoImage.getCorner(i);
+					GeoPoint corner = movedGeoImage.getCorner(i);
 					if (corner != null) {
 						corner.setCoords(corner.inhomX + vx,
 								corner.inhomY + vy, 1.0);
@@ -5507,7 +5507,7 @@ public abstract class EuclidianController {
 	
 		// set points
 		for (int i = 0; i < moveDependentPoints.size(); i++) {
-			GeoPoint2 g = moveDependentPoints.get(i);
+			GeoPoint g = moveDependentPoints.get(i);
 			g.setCoords2D(tempDependentPointX.get(i),
 					tempDependentPointY.get(i), 1);
 			g.translate(new Coords(xRW - startPoint.x, yRW - startPoint.y, 1));
@@ -5740,8 +5740,8 @@ public abstract class EuclidianController {
 	protected void moveAttached(boolean repaint) {
 		
 		AlgoElement algo = movedGeoElement.getParentAlgorithm();
-		GeoPoint2 pt1 = (GeoPoint2)algo.getInput()[4];
-		GeoPoint2 pt2 = (GeoPoint2)algo.getInput()[5];
+		GeoPoint pt1 = (GeoPoint)algo.getInput()[4];
+		GeoPoint pt2 = (GeoPoint)algo.getInput()[5];
 		double dx = view.getXscale()*(xRW - startPoint.x);
 		double dy = view.getYscale()*(yRW - startPoint.y);
 		startPoint.setLocation(xRW, yRW);
@@ -6423,8 +6423,8 @@ public abstract class EuclidianController {
 			if (translateableGeos != null) {
 				moveMode = MOVE_DEPENDENT;
 	
-				if (translateableGeos.get(0) instanceof GeoPoint2) {
-					GeoPoint2 point = ((GeoPoint2) translateableGeos.get(0));
+				if (translateableGeos.get(0) instanceof GeoPoint) {
+					GeoPoint point = ((GeoPoint) translateableGeos.get(0));
 					if (point.getParentAlgorithm() != null) {
 						// make sure snap-to-grid works for dragging (a + x(A),
 						// b + x(B))
@@ -6479,7 +6479,7 @@ public abstract class EuclidianController {
 			// point
 			// then move the startpoint of the vector
 			if (movedGeoVector.hasAbsoluteLocation()) {
-				GeoPoint2 sP = movedGeoVector.getStartPoint();
+				GeoPoint sP = movedGeoVector.getStartPoint();
 				double sx = 0;
 				double sy = 0;
 				if (sP != null) {
@@ -6493,7 +6493,7 @@ public abstract class EuclidianController {
 					// startPoint
 					moveMode = MOVE_VECTOR_STARTPOINT;
 					if (sP == null) {
-						sP = new GeoPoint2(kernel.getConstruction());
+						sP = new GeoPoint(kernel.getConstruction());
 						sP.setCoords(xRW, xRW, 1.0);
 						try {
 							movedGeoVector.setStartPoint(sP);
@@ -6535,9 +6535,9 @@ public abstract class EuclidianController {
 			} else if (movedGeoText.hasAbsoluteLocation()) {
 
 				// absolute location: change location
-				GeoPoint2 loc = (GeoPoint2) movedGeoText.getStartPoint();
+				GeoPoint loc = (GeoPoint) movedGeoText.getStartPoint();
 				if (loc == null) {
-					loc = new GeoPoint2(kernel.getConstruction());
+					loc = new GeoPoint(kernel.getConstruction());
 					loc.setCoords(0, 0, 1.0);
 					try {
 						movedGeoText.setStartPoint(loc);
@@ -6548,7 +6548,7 @@ public abstract class EuclidianController {
 				} else {
 					setStartPointLocationWithOrigin(loc.inhomX, loc.inhomY);
 	
-					GeoPoint2 loc2 = new GeoPoint2(loc);
+					GeoPoint loc2 = new GeoPoint(loc);
 					movedGeoText.setNeedsUpdatedBoundingBox(true);
 					movedGeoText.update();
 					loc2.setCoords(movedGeoText.getBoundingBox().getX(),
@@ -6613,7 +6613,7 @@ public abstract class EuclidianController {
 			}
 	
 			if (moveDependentPoints == null) {
-				moveDependentPoints = new ArrayList<GeoPoint2>();
+				moveDependentPoints = new ArrayList<GeoPoint>();
 			} else {
 				moveDependentPoints.clear();
 			}
@@ -6622,9 +6622,9 @@ public abstract class EuclidianController {
 				// if (f instanceof GeoPoint &&
 				// f.getParentAlgorithm().getInput().length==1 &&
 				// f.getParentAlgorithm().getInput()[0] instanceof Path){
-				if ((f instanceof GeoPoint2)
+				if ((f instanceof GeoPoint)
 						&& movedGeoImplicitPoly.isParentOf(f)) {
-					GeoPoint2 g = (GeoPoint2) f;
+					GeoPoint g = (GeoPoint) f;
 					if (!Kernel.isZero(g.getZ())) {
 						moveDependentPoints.add(g);
 						tempDependentPointX.add(g.getX() / g.getZ());
@@ -6808,7 +6808,7 @@ public abstract class EuclidianController {
 				setStartPointLocation();
 				oldImage = new GeoImage(movedGeoImage);
 	
-				GeoPoint2 loc = movedGeoImage.getStartPoints()[2];
+				GeoPoint loc = movedGeoImage.getStartPoints()[2];
 				if (loc != null) { // top left defined
 					transformCoordsOffset[0] = loc.inhomX - xRW;
 					transformCoordsOffset[1] = loc.inhomY - yRW;
@@ -7206,8 +7206,8 @@ public abstract class EuclidianController {
 					if ((topHit.getParentAlgorithm() instanceof AlgoVector)) { // Vector[A,B]
 						AlgoVector algo = (AlgoVector) topHit
 								.getParentAlgorithm();
-						GeoPoint2 p = algo.getInputPoints().get(0);
-						GeoPoint2 q = algo.getInputPoints().get(1);
+						GeoPoint p = algo.getInputPoints().get(0);
+						GeoPoint q = algo.getInputPoints().get(1);
 						GeoVector vec = kernel.Vector(null, 0, 0);
 						vec.setEuclidianVisible(false);
 						vec.setAuxiliaryObject(true);
@@ -7230,19 +7230,19 @@ public abstract class EuclidianController {
 						moveMode = MOVE_VECTOR_NO_GRID;
 						return;
 					}
-					movedGeoPoint = new GeoPoint2(kernel.getConstruction(),
+					movedGeoPoint = new GeoPoint(kernel.getConstruction(),
 							null, 0, 0, 0);
 					AlgoTranslate algoTP = new AlgoTranslate(
 							kernel.getConstruction(), null,
 							(GeoElement) movedGeoPoint, (GeoVec3D) topHit);
-					GeoPoint2 p = (GeoPoint2) algoTP.getGeoElements()[0];
+					GeoPoint p = (GeoPoint) algoTP.getGeoElements()[0];
 
 					AlgoVector newVecAlgo = new AlgoVector(kernel.getConstruction(), null,
 							movedGeoPoint, p);
 					
 					// make sure vector looks the same when translated
-					((GeoPoint2) movedGeoPoint).setEuclidianVisible(false);
-					((GeoPoint2) movedGeoPoint).update();
+					((GeoPoint) movedGeoPoint).setEuclidianVisible(false);
+					((GeoPoint) movedGeoPoint).update();
 					p.setEuclidianVisible(false);
 					p.update();
 					newVecAlgo.getGeoElements()[0].setVisualStyleForTransformations(topHit);
@@ -7525,7 +7525,7 @@ public abstract class EuclidianController {
 		// we need the center of the rotation
 		if (rotationCenter == null) {
 			view.setHits(mouseLoc);
-			rotationCenter = (GeoPoint2) chooseGeo(
+			rotationCenter = (GeoPoint) chooseGeo(
 					view.getHits().getHits(Test.GEOPOINT2, tempArrayList),
 					true);
 			app.addSelectedGeo(rotationCenter);

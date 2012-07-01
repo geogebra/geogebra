@@ -25,7 +25,7 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLocus;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.main.AbstractApplication;
 
 import java.util.ArrayList;
@@ -49,7 +49,7 @@ public class AlgoLocusSlider extends AlgoElement implements AlgoLocusSliderInter
 	private static int MAX_X_PIXEL_DIST = 5;
 	private static int MAX_Y_PIXEL_DIST = 5;
 
-	private GeoPoint2 locusPoint; // input (Q)
+	private GeoPoint locusPoint; // input (Q)
 	private GeoNumeric movingSlider; // input (P)
 	private GeoLocus locus; // output
 
@@ -60,7 +60,7 @@ public class AlgoLocusSlider extends AlgoElement implements AlgoLocusSliderInter
 	private int pointCount;
 
 	// copies of P and Q in a macro kernel
-	private GeoPoint2 Qcopy, QstartPos;
+	private GeoPoint Qcopy, QstartPos;
 	private GeoNumeric Pcopy, PstartPos;
 	private double lastX, lastY, maxXdist, maxYdist, xmin, xmax, ymin, ymax,
 			farXmin, farXmax, farYmin, farYmax;
@@ -82,7 +82,7 @@ public class AlgoLocusSlider extends AlgoElement implements AlgoLocusSliderInter
 
 	// private Updater updater;
 
-	public AlgoLocusSlider(Construction cons, String label, GeoPoint2 Q,
+	public AlgoLocusSlider(Construction cons, String label, GeoPoint Q,
 			GeoNumeric P) {
 		super(cons);
 		this.movingSlider = P;
@@ -90,7 +90,7 @@ public class AlgoLocusSlider extends AlgoElement implements AlgoLocusSliderInter
 
 		sliderMover = new SliderMover(P);
 
-		QstartPos = new GeoPoint2(cons);
+		QstartPos = new GeoPoint(cons);
 		PstartPos = new GeoNumeric(cons);
 
 		init();
@@ -141,7 +141,7 @@ public class AlgoLocusSlider extends AlgoElement implements AlgoLocusSliderInter
 	 * 
 	 * @return dependent point Q
 	 */
-	public GeoPoint2 getQ() {
+	public GeoPoint getQ() {
 		return locusPoint;
 	}
 
@@ -281,7 +281,7 @@ public class AlgoLocusSlider extends AlgoElement implements AlgoLocusSliderInter
 			Pcopy.setFixed(false);
 			// Pcopy.setPath(movingSlider.getPath());
 
-			Qcopy = (GeoPoint2) macroKernel.lookupLabel(locusPoint.getLabelSimple());
+			Qcopy = (GeoPoint) macroKernel.lookupLabel(locusPoint.getLabelSimple());
 			macroCons = macroKernel.getConstruction();
 
 			/*
@@ -626,7 +626,7 @@ public class AlgoLocusSlider extends AlgoElement implements AlgoLocusSliderInter
 		return null;
 	}
 
-	private void putCachedPoint(double param, GeoPoint2 Qcopy) {
+	private void putCachedPoint(double param, GeoPoint Qcopy) {
 		cacheIndex++;
 		if (cacheIndex >= paramCache.length)
 			cacheIndex = 0;
@@ -658,7 +658,7 @@ public class AlgoLocusSlider extends AlgoElement implements AlgoLocusSliderInter
 		return farAway;
 	}
 
-	private boolean distanceOK(GeoPoint2 Q) {
+	private boolean distanceOK(GeoPoint Q) {
 		boolean distanceOK;
 
 		if (lastFarAway && isFarAway(Q.inhomX, Q.inhomY)) {
@@ -689,7 +689,7 @@ public class AlgoLocusSlider extends AlgoElement implements AlgoLocusSliderInter
 		return distanceOK;
 	}
 
-	private boolean distanceSmall(GeoPoint2 Q) {
+	private boolean distanceSmall(GeoPoint Q) {
 		boolean distSmall = Math.abs(Q.inhomX - lastX) < maxXdist
 				&& Math.abs(Q.inhomY - lastY) < maxYdist;
 		return distSmall;

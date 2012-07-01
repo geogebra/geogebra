@@ -23,7 +23,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.util.MyMath;
@@ -42,7 +42,7 @@ public class AlgoAngularBisectorLines extends AlgoElement {
     // temp
     private double gx, gy, hx, hy, wx, wy, bx, by, lenH, lenG, length, ip;
     private GeoVector[] wv; // direction of bisector line bisector
-    private GeoPoint2 B; // intersection point of g, h
+    private GeoPoint B; // intersection point of g, h
     private boolean infiniteB;
     private int index;
 
@@ -93,7 +93,7 @@ public class AlgoAngularBisectorLines extends AlgoElement {
         wv[0].setCoords(0, 0, 0);
         wv[1] = new GeoVector(cons);
         wv[1].setCoords(0, 0, 0);
-        B = new GeoPoint2(cons);
+        B = new GeoPoint(cons);
 
         bisector[0].setStartPoint(B);
         bisector[1].setStartPoint(B);
@@ -122,7 +122,7 @@ public class AlgoAngularBisectorLines extends AlgoElement {
     GeoLine geth() {
         return h;
     }
-    GeoPoint2 getB() {
+    GeoPoint getB() {
         return B;
     }
     

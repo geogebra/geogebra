@@ -22,7 +22,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.kernelND.GeoAxisND;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -177,16 +177,16 @@ public class Construction {
 	// axis objects
 	private GeoAxis xAxis, yAxis;
 	private String xAxisLocalName, yAxisLocalName;
-	private GeoPoint2 origin;
+	private GeoPoint origin;
 
 	/**
 	 * Returns the point (0,0)
 	 * 
 	 * @return point (0,0)
 	 */
-	public final GeoPoint2 getOrigin() {
+	public final GeoPoint getOrigin() {
 		if (origin == null) {
-			origin = new GeoPoint2(this);
+			origin = new GeoPoint(this);
 			origin.setCoords(0.0, 0.0, 1.0);
 		}
 		return origin;
@@ -1284,9 +1284,9 @@ public class Construction {
 				oldGeo.updateRepaint();
 				return;
 
-			} else if (oldGeo.isIndependent() && oldGeo instanceof GeoPoint2) {
+			} else if (oldGeo.isIndependent() && oldGeo instanceof GeoPoint) {
 
-				((GeoPoint2) oldGeo).set(newGeo);
+				((GeoPoint) oldGeo).set(newGeo);
 				oldGeo.updateRepaint();
 				return;
 
@@ -2236,7 +2236,7 @@ public class Construction {
 		} else if (label.length() == 1) {
 			if (label.equals("O")) {
 				
-				createdGeo = new GeoPoint2(this, 0d, 0d, 1d);
+				createdGeo = new GeoPoint(this, 0d, 0d, 1d);
 				label = "O";
 				auxilliary = true;
 				fix = true;

@@ -6,7 +6,7 @@ import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 
 
 /**
@@ -21,8 +21,8 @@ import geogebra.common.kernel.geos.GeoPoint2;
 public class AlgoKimberling extends AlgoElement {
 
 	
-	private GeoPoint2 A, B, C; // input
-	private GeoPoint2 M; // output
+	private GeoPoint A, B, C; // input
+	private GeoPoint M; // output
 	private NumberValue n;
 	/**
 	 * Creates new algo for triangle center
@@ -33,14 +33,14 @@ public class AlgoKimberling extends AlgoElement {
 	 * @param C third point
 	 * @param n index in ETC
 	 */
-	public AlgoKimberling(Construction cons, String label, GeoPoint2 A, GeoPoint2 B,
-			GeoPoint2 C, NumberValue n) {
+	public AlgoKimberling(Construction cons, String label, GeoPoint A, GeoPoint B,
+			GeoPoint C, NumberValue n) {
 		super(cons);
 		this.A = A;
 		this.B = B;
 		this.C = C;
 		this.n = n;
-		M = new GeoPoint2(cons);
+		M = new GeoPoint(cons);
 		setInputOutput();
 		compute();		
 		M.setLabel(label);
@@ -67,7 +67,7 @@ public class AlgoKimberling extends AlgoElement {
 	/**
 	 * @return resulting point
 	 */
-	public GeoPoint2 getResult() {
+	public GeoPoint getResult() {
 		return M;
 	}
 

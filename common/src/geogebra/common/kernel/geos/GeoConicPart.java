@@ -285,8 +285,8 @@ public class GeoConicPart extends GeoConic implements LimitedPath, NumberValue {
 			if (conic_part_type == CONIC_PART_ARC && posOrientation) {
 				// length of segment
 				// bugfix Michael Borcherds 2008-05-27
-				GeoPoint2 startPoint = lines[0].getStartPoint();
-				GeoPoint2 endPoint = lines[0].getEndPoint();
+				GeoPoint startPoint = lines[0].getStartPoint();
+				GeoPoint endPoint = lines[0].getEndPoint();
 				if (startPoint != null && endPoint != null) {
 					value = startPoint.distance(endPoint);
 				} else {
@@ -393,7 +393,7 @@ public class GeoConicPart extends GeoConic implements LimitedPath, NumberValue {
 	}
 
 	@Override
-	public boolean isIntersectionPointIncident(GeoPoint2 pt, double eps) {
+	public boolean isIntersectionPointIncident(GeoPoint pt, double eps) {
 		if (allowOutlyingIntersections) {
 			return isOnFullConic(pt, eps);
 		}
@@ -406,7 +406,7 @@ public class GeoConicPart extends GeoConic implements LimitedPath, NumberValue {
 	@Override
 	public boolean isOnPath(GeoPointND PI, double precision) {
 		double eps = precision;
-		GeoPoint2 P = (GeoPoint2) PI;
+		GeoPoint P = (GeoPoint) PI;
 
 		if (P.getPath() == this)
 			return true;
@@ -737,7 +737,7 @@ public class GeoConicPart extends GeoConic implements LimitedPath, NumberValue {
 
 			// create circle with center through startPoint
 			AlgoCircleTwoPoints algoCircle = new AlgoCircleTwoPoints(cons,
-					(GeoPoint2) points[0], (GeoPoint2) points[1]);
+					(GeoPoint) points[0], (GeoPoint) points[1]);
 			cons.removeFromConstructionList(algoCircle);
 			GeoConic circle = algoCircle.getCircle();
 
@@ -751,8 +751,8 @@ public class GeoConicPart extends GeoConic implements LimitedPath, NumberValue {
 			// create a new arc from the transformed circle using startPoint and
 			// endPoint
 			AlgoConicPartConicPoints algoResult = new AlgoConicPartConicPoints(
-					cons, transformedLabel, transformedCircle, (GeoPoint2) points[1],
-					(GeoPoint2) points[2], conic_part_type);
+					cons, transformedLabel, transformedCircle, (GeoPoint) points[1],
+					(GeoPoint) points[2], conic_part_type);
 			GeoConicPart conicPart = algoResult.getConicPart();
 			conicPart.setVisualStyleForTransformations(this);
 			GeoElement[] geos = { conicPart, (GeoElement) points[0],
@@ -760,14 +760,14 @@ public class GeoConicPart extends GeoConic implements LimitedPath, NumberValue {
 
 			return geos;
 		} else if (algoParent instanceof AlgoConicPartCircumcircle) {
-			GeoPointND[] points = { (GeoPoint2) algoParent.input[0],
-					(GeoPoint2) algoParent.input[1],
-					(GeoPoint2) algoParent.input[2] };
+			GeoPointND[] points = { (GeoPoint) algoParent.input[0],
+					(GeoPoint) algoParent.input[1],
+					(GeoPoint) algoParent.input[2] };
 			points = t.transformPoints(points);
 
 			AlgoConicPartCircumcircle algo = new AlgoConicPartCircumcircle(
-					cons, transformedLabel, (GeoPoint2) points[0], (GeoPoint2) points[1],
-					(GeoPoint2) points[2], conic_part_type);
+					cons, transformedLabel, (GeoPoint) points[0], (GeoPoint) points[1],
+					(GeoPoint) points[2], conic_part_type);
 			GeoConicPart res = algo.getConicPart();
 			res.setLabel(transformedLabel);
 			res.setVisualStyleForTransformations(this);
@@ -801,12 +801,12 @@ public class GeoConicPart extends GeoConic implements LimitedPath, NumberValue {
 					.getParentAlgorithm());
 
 			algo = new AlgoConicPartConicPoints(cons, transformedLabel, transformedConic,
-					(GeoPoint2) points[0], (GeoPoint2) points[1],
+					(GeoPoint) points[0], (GeoPoint) points[1],
 					conic_part_type);
 			GeoConicPart conicPart = algo.getConicPart();
 			conicPart.setVisualStyleForTransformations(this);
-			GeoElement[] geos = { conicPart, (GeoPoint2) points[0],
-					(GeoPoint2) points[1] };
+			GeoElement[] geos = { conicPart, (GeoPoint) points[0],
+					(GeoPoint) points[1] };
 			return geos;
 		} else if (algoParent instanceof AlgoSemicircle) {
 			AlgoElement algo = algoParent;
@@ -817,10 +817,10 @@ public class GeoConicPart extends GeoConic implements LimitedPath, NumberValue {
 			GeoConic semCirc;
 			if (t instanceof TransformMirror && t.changesOrientation()) {
 				semCirc = kernel.Semicircle(transformedLabel,
-						(GeoPoint2) points[1], (GeoPoint2) points[0]);
+						(GeoPoint) points[1], (GeoPoint) points[0]);
 			} else if (t.isSimilar()) {
 				semCirc = kernel.Semicircle(transformedLabel,
-						(GeoPoint2) points[0], (GeoPoint2) points[1]);
+						(GeoPoint) points[0], (GeoPoint) points[1]);
 			} else {
 
 				GeoConic orgConic = ((AlgoSemicircle) algo).getConic();
@@ -830,12 +830,12 @@ public class GeoConicPart extends GeoConic implements LimitedPath, NumberValue {
 						.getParentAlgorithm());
 				if (t.changesOrientation()) {
 					algo = new AlgoConicPartConicPoints(cons, transformedLabel,
-							transformedConic, (GeoPoint2) points[0],
-							(GeoPoint2) points[1], conic_part_type);
+							transformedConic, (GeoPoint) points[0],
+							(GeoPoint) points[1], conic_part_type);
 				} else
 					algo = new AlgoConicPartConicPoints(cons, transformedLabel,
-							transformedConic, (GeoPoint2) points[1],
-							(GeoPoint2) points[0], conic_part_type);
+							transformedConic, (GeoPoint) points[1],
+							(GeoPoint) points[0], conic_part_type);
 				GeoConicPart conicPart = ((AlgoConicPartConicPoints) algo)
 						.getConicPart();
 				conicPart.setVisualStyleForTransformations(this);
@@ -1029,8 +1029,8 @@ public class GeoConicPart extends GeoConic implements LimitedPath, NumberValue {
 	 * @param param path parameter from 0 to 1
 	 * @return point with this parameter
 	 */
-	public GeoPoint2 getPointParam(double param) {
-		GeoPoint2 ret = new GeoPoint2(cons);
+	public GeoPoint getPointParam(double param) {
+		GeoPoint ret = new GeoPoint(cons);
 		this.pathChanged(ret);
 		ret.getPathParameter().setT(param);
 		this.pathChanged(ret);

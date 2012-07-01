@@ -16,7 +16,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoText;
 
 import java.util.Iterator;
@@ -129,7 +129,7 @@ public class AlgoSort extends AlgoElement {
     	TreeSet<GeoElement> sortedSet;
     	
     	if (geo0.isGeoPoint()) {
-    		sortedSet = new TreeSet(GeoPoint2.getComparatorX());
+    		sortedSet = new TreeSet(GeoPoint.getComparatorX());
     		
     	} else if (geo0.isGeoText()) {
     		sortedSet = new TreeSet(GeoText.getComparator());

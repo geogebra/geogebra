@@ -4,7 +4,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 
 /**
  * @author  Victor Franco Espino, Markus Hohenwarter
@@ -14,11 +14,11 @@ import geogebra.common.kernel.geos.GeoPoint2;
  */
 public class AlgoCurvatureCurve extends AlgoElement {
 
-	private GeoPoint2 A; // input
+	private GeoPoint A; // input
 	private GeoCurveCartesian f;
     private GeoNumeric K; //output
     
-    public AlgoCurvatureCurve(Construction cons, String label, GeoPoint2 A, GeoCurveCartesian f){
+    public AlgoCurvatureCurve(Construction cons, String label, GeoPoint A, GeoCurveCartesian f){
     	this(cons, A, f);
     	
     	if (label != null) {
@@ -29,7 +29,7 @@ public class AlgoCurvatureCurve extends AlgoElement {
     	}    	
     }
     
-    public AlgoCurvatureCurve(Construction cons, GeoPoint2 A, GeoCurveCartesian f) {
+    public AlgoCurvatureCurve(Construction cons, GeoPoint A, GeoCurveCartesian f) {
         super(cons);
         this.f = f;
         this.A = A;

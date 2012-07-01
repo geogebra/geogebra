@@ -5,7 +5,7 @@ package geogebra.common.kernel.locusequ;
 
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.locusequ.arith.EquationSymbolicValue;
 
 import java.util.Collection;
@@ -30,7 +30,7 @@ public class EquationScope {
         this.initAuxiliarPoints();
     }
     
-    public EquationScope(GeoPoint2 locusPoint, GeoPoint2 movingPoint) {
+    public EquationScope(GeoPoint locusPoint, GeoPoint movingPoint) {
         this.pointMap = new EquationPointMap(locusPoint, movingPoint, this);
         this.elementsMap = new EquationElementMap(this);
         this.initAuxiliarPoints();
@@ -59,7 +59,7 @@ public class EquationScope {
         return set;
     }
     
-    public EquationPoint getPoint(GeoPoint2 p) {
+    public EquationPoint getPoint(GeoPoint p) {
         return this.pointMap.getOrCreate(p);
     }
     
@@ -76,7 +76,7 @@ public class EquationScope {
      * @param orig The point that will be replaced
      * @param target The point that will replace orig.
      */
-    public void identifyPoints(GeoPoint2 orig, GeoPoint2 target) {
+    public void identifyPoints(GeoPoint orig, GeoPoint target) {
         this.pointMap.identify(orig, target);
     }
     
@@ -93,25 +93,25 @@ public class EquationScope {
      * @param point to be added
      * @param symbolic representation
      */
-    public void addPoint(GeoPoint2 point, EquationPoint symbolic) {
+    public void addPoint(GeoPoint point, EquationPoint symbolic) {
         this.pointMap.put(point, symbolic);
     }
 
     /**
      * Check if p is the moving point.
-     * @param p {@link GeoPoint2}
+     * @param p {@link GeoPoint}
      * @return true iff they are the exact same point.
      */
-    public boolean isMovingPoint(GeoPoint2 p) {
+    public boolean isMovingPoint(GeoPoint p) {
         return this.pointMap.isMovingPoint(p);
     }
 
     /**
      * Check if p is the locus point.
-     * @param p {@link GeoPoint2}
+     * @param p {@link GeoPoint}
      * @return true iff they are the exact same point.
      */
-    public boolean isLocusPoint(GeoPoint2 p) {
+    public boolean isLocusPoint(GeoPoint p) {
         return this.pointMap.isLocusPoint(p);
     }
 

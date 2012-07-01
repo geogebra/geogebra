@@ -28,7 +28,7 @@ import geogebra.common.kernel.geos.GeoFunctionNVar;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoLocus;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPolyLine;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoRay;
@@ -552,7 +552,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
     	GeoPointND vertex,point;
     	GeoVector v;
     	GeoLine line,line2;
-     	GeoPoint2 tempPoint = new GeoPoint2(construction);     	
+     	GeoPoint tempPoint = new GeoPoint(construction);     	
      	tempPoint.setCoords(0.0, 0.0, 1.0);
      	double[] firstVec=new double[2];
      	double[] m=new double[2];
@@ -599,8 +599,8 @@ public class GeoGebraToPgf extends GeoGebraExport {
         		vertex = v.getStartPoint();        		
         		if (vertex == null) vertex = tempPoint;
         		vertex.getInhomCoords(m);
-			} else if (vec instanceof GeoPoint2) {
-				point = (GeoPoint2) vec;				
+			} else if (vec instanceof GeoPoint) {
+				point = (GeoPoint) vec;				
 				vertex = tempPoint;
         		// vertex
 		        vertex.getInhomCoords(m);
@@ -843,7 +843,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
     					width / euclidianView.getYscale();
     	}
         // create point for slider
-        GeoPoint2 geoPoint = new GeoPoint2(construction);
+        GeoPoint geoPoint = new GeoPoint(construction);
         geoPoint.setObjColor(geo.getObjectColor());
         String label=StringUtil.toLaTeXString(geo.getLabelDescription(),true);
         geoPoint.setLabel(label);
@@ -920,14 +920,14 @@ public class GeoGebraToPgf extends GeoGebraExport {
 		String st = geo.getTextString();
 		int style = geo.getFontStyle();
 		int size = geo.getFontSize() + app.getGUIFontSize();
-		GeoPoint2 gp;
+		GeoPoint gp;
 		double x, y;
 		// compute location of text
 		if (geo.isAbsoluteScreenLocActive()) {
 			x = geo.getAbsoluteScreenLocX();
 			y = geo.getAbsoluteScreenLocY();
 		} else {
-			gp = (GeoPoint2) geo.getStartPoint();
+			gp = (GeoPoint) geo.getStartPoint();
 			if (gp == null) {
 				x = (int) euclidianView.getXZero();
 				y = (int) euclidianView.getYZero();
@@ -1448,7 +1448,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 	}
 	
 	protected void drawGeoVector(GeoVector geo){
-		GeoPoint2 pointStart=geo.getStartPoint();
+		GeoPoint pointStart=geo.getStartPoint();
 		double x1,y1;
 		if (null==pointStart){
 			x1=0;y1=0;
@@ -1685,7 +1685,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 	 * into the StringBuilder PointCode
 	 * @param gp The choosen GeoPoint
 	 */		
-	protected void drawGeoPoint(GeoPoint2 gp){
+	protected void drawGeoPoint(GeoPoint gp){
 		if (frame.getExportPointSymbol()){
 			double x=gp.getX();
 			double y=gp.getY();
@@ -2050,8 +2050,8 @@ public class GeoGebraToPgf extends GeoGebraExport {
 	protected void drawGeoSegment(GeoSegment geo){
 		double[] A=new double[2];
 		double[] B=new double[2];
-		GeoPoint2 pointStart=geo.getStartPoint();
-		GeoPoint2 pointEnd=geo.getEndPoint();
+		GeoPoint pointStart=geo.getStartPoint();
+		GeoPoint pointEnd=geo.getEndPoint();
 		pointStart.getInhomCoords(A);
 		pointEnd.getInhomCoords(B);
 		startBeamer(code);
@@ -2080,7 +2080,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 	}
 
 	protected void drawGeoRay(GeoRay geo){
-		GeoPoint2 pointStart=geo.getStartPoint();
+		GeoPoint pointStart=geo.getStartPoint();
 		double x1=pointStart.getX();
 		double z1=pointStart.getZ();
 		x1=x1/z1;

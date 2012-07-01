@@ -14,7 +14,7 @@ package geogebra.common.euclidian;
 
 import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPolyLine;
 import geogebra.common.kernel.kernelND.GeoPointND;
 
@@ -176,9 +176,9 @@ public class DrawPolyLine extends Drawable implements Previewable {
 		isVisible = size > 0;
 
 		if (isVisible) {
-			GeoPoint2[] pointsArray = new GeoPoint2[size];
+			GeoPoint[] pointsArray = new GeoPoint[size];
 			for (int i = 0; i < size; i++) {
-				pointsArray[i] = (GeoPoint2) points.get(i);
+				pointsArray[i] = (GeoPoint) points.get(i);
 			}
 			addPointsToPath(pointsArray);
 		}
@@ -199,7 +199,7 @@ public class DrawPolyLine extends Drawable implements Previewable {
 
 			// round angle to nearest 15 degrees if alt pressed
 			if (view.getEuclidianController().isAltDown()) {
-				GeoPoint2 p = (GeoPoint2) points.get(points.size() - 1);
+				GeoPoint p = (GeoPoint) points.get(points.size() - 1);
 				double px = p.inhomX;
 				double py = p.inhomY;
 				double angle = Math.atan2(yRW - py, xRW - px) * 180 / Math.PI;

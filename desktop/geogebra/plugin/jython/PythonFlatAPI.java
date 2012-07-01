@@ -36,7 +36,7 @@ import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoLocus;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPoly;
 import geogebra.common.kernel.geos.GeoPolyLine;
 import geogebra.common.kernel.geos.GeoPolygon;
@@ -72,7 +72,7 @@ public class PythonFlatAPI {
 	 */
 
 	@SuppressWarnings("javadoc")
-	public static final Class<GeoPoint2> GeoPointClass = GeoPoint2.class;
+	public static final Class<GeoPoint> GeoPointClass = GeoPoint.class;
 	@SuppressWarnings("javadoc")
 	public static final Class<GeoElement> GeoElementClass = GeoElement.class;
 	@SuppressWarnings("javadoc")
@@ -554,7 +554,7 @@ public class PythonFlatAPI {
 		 * @param geo the point
 		 * @return the size of the point
 		 */
-		public static int getPointSize(GeoPoint2 geo) {
+		public static int getPointSize(GeoPoint geo) {
 			return geo.getPointSize();
 		}
 		
@@ -563,7 +563,7 @@ public class PythonFlatAPI {
 		 * @param geo the point
 		 * @param size the new size for the point
 		 */
-		public static void setPointSize(GeoPoint2 geo, int size) {
+		public static void setPointSize(GeoPoint geo, int size) {
 			geo.setPointSize(size);
 		}
 		
@@ -595,7 +595,7 @@ public class PythonFlatAPI {
 		/**
 		 * @return the start point of the wrapped geoLine
 		 */
-		public static GeoPoint2 getStartPoint(GeoLine geo) {
+		public static GeoPoint getStartPoint(GeoLine geo) {
 			return geo.getStartPoint();
 		}
 		
@@ -603,14 +603,14 @@ public class PythonFlatAPI {
 		 * Set the start point of the wrapped GeoLine
 		 * @param point the new start point
 		 */
-		public static void setStartPoint(GeoLine geo, GeoPoint2 point) {
+		public static void setStartPoint(GeoLine geo, GeoPoint point) {
 			geo.setStartPoint(point);
 		}
 		
 		/**
 		 * @return the end point of the wrapped GeoLine
 		 */
-		public static GeoPoint2 getEndPoint(GeoLine geo) {
+		public static GeoPoint getEndPoint(GeoLine geo) {
 			return geo.getEndPoint();
 		}
 		
@@ -618,7 +618,7 @@ public class PythonFlatAPI {
 		 * Set the end point of the wrapped GeoLine
 		 * @param point the new end point
 		 */
-		public static void setEndPoint(GeoLine geo, GeoPoint2 point) {
+		public static void setEndPoint(GeoLine geo, GeoPoint point) {
 			geo.setEndPoint(point);
 		}
 
@@ -902,7 +902,7 @@ public class PythonFlatAPI {
 		 * @param t the GeoTurtle
 		 * @param p the new position of the turtle
 		 */
-		public static void setTurtlePosition(GeoTurtle t, GeoPoint2 p) {
+		public static void setTurtlePosition(GeoTurtle t, GeoPoint p) {
 			t.setPosition(p.getInhomX(), p.getInhomY());
 		}
 		
@@ -1052,7 +1052,7 @@ public class PythonFlatAPI {
 	 * @param end the vector's end point
 	 * @return new vector Geo from start to end
 	 */
-	public GeoVector geoVector(GeoPoint2 start, GeoPoint2 end) {
+	public GeoVector geoVector(GeoPoint start, GeoPoint end) {
 		return kernel.Vector(null, start, end);
 	}
 
@@ -1061,7 +1061,7 @@ public class PythonFlatAPI {
 	 * @param pos the point
 	 * @return new vector Geo from O to pos
 	 */
-	public GeoVector geoVector(GeoPoint2 pos) {
+	public GeoVector geoVector(GeoPoint pos) {
 		return kernel.Vector(null, pos);
 	}
 
@@ -1078,7 +1078,7 @@ public class PythonFlatAPI {
 	 * @param expr expression giving the coordinates of the point
 	 * @return new Geo point
 	 */
-	public GeoPoint2 geoPoint(ExpressionValue expr) {
+	public GeoPoint geoPoint(ExpressionValue expr) {
 		AlgoDependentPoint algo = new AlgoDependentPoint(cons, getNode(expr), false);
 		return algo.getPoint();
 	}
@@ -1089,7 +1089,7 @@ public class PythonFlatAPI {
 	 * @param y the y-coordinate
 	 * @return new Geo point with coordinates (x, y)
 	 */
-	public GeoPoint2 geoPoint(double x, double y) {
+	public GeoPoint geoPoint(double x, double y) {
 		return kernel.Point(null, x, y);
 	}
 
@@ -1099,7 +1099,7 @@ public class PythonFlatAPI {
 	 * @param param parameter to set the location of the point on the path
 	 * @return new Geo on path
 	 */
-	public GeoPoint2 geoPointOnPath(Path path, NumberValue param) {
+	public GeoPoint geoPointOnPath(Path path, NumberValue param) {
 		return kernel.Point(null, path, param);
 	}
 
@@ -1109,7 +1109,7 @@ public class PythonFlatAPI {
 	 * @param q second point on the line
 	 * @return new Geo line
 	 */
-	public GeoLine geoLinePP(GeoPoint2 p, GeoPoint2 q) {
+	public GeoLine geoLinePP(GeoPoint p, GeoPoint q) {
 		return kernel.Line(null, p, q);
 	}
 
@@ -1119,7 +1119,7 @@ public class PythonFlatAPI {
 	 * @param q direction vector for the line
 	 * @return new Geo line
 	 */
-	public GeoLine geoLinePV(GeoPoint2 p, GeoVector q) {
+	public GeoLine geoLinePV(GeoPoint p, GeoVector q) {
 		return kernel.Line(null, p, q);
 	}
 
@@ -1129,7 +1129,7 @@ public class PythonFlatAPI {
 	 * @param l line parallel to the new line
 	 * @return new Geo line
 	 */
-	public GeoLine geoLinePL(GeoPoint2 p, GeoLine l) {
+	public GeoLine geoLinePL(GeoPoint p, GeoLine l) {
 		return kernel.Line(null, p, l);
 	}
 
@@ -1139,7 +1139,7 @@ public class PythonFlatAPI {
 	 * @param q the second end point
 	 * @return new Geo segment
 	 */
-	public GeoSegment geoSegment(GeoPoint2 p, GeoPoint2 q) {
+	public GeoSegment geoSegment(GeoPoint p, GeoPoint q) {
 		return kernel.Segment(null, p, q);
 	}
 
@@ -1149,7 +1149,7 @@ public class PythonFlatAPI {
 	 * @param q a point on the ray
 	 * @return new Geo ray
 	 */
-	public GeoRay geoRayPP(GeoPoint2 p, GeoPoint2 q) {
+	public GeoRay geoRayPP(GeoPoint p, GeoPoint q) {
 		return kernel.Ray(null, p, q);
 	}
 
@@ -1200,7 +1200,7 @@ public class PythonFlatAPI {
 	 * @param geos array of points
 	 * @return the new Geo conic
 	 */
-	public GeoConic geoConic(GeoPoint2[] points) {
+	public GeoConic geoConic(GeoPoint[] points) {
 		return kernel.Conic(null, points);
 	}
 
@@ -1210,7 +1210,7 @@ public class PythonFlatAPI {
 	 * @param point point on the circumference
 	 * @return new Geo circle
 	 */
-	public GeoConic geoCircleCP(GeoPoint2 center, GeoPoint2 point) {
+	public GeoConic geoCircleCP(GeoPoint center, GeoPoint point) {
 		return kernel.Circle(null, center, point);
 	}
 
@@ -1221,7 +1221,7 @@ public class PythonFlatAPI {
 	 * @param r third point on the circumference
 	 * @return new Geo circle
 	 */
-	public GeoConic geoCirclePPP(GeoPoint2 p, GeoPoint2 q, GeoPoint2 r) {
+	public GeoConic geoCirclePPP(GeoPoint p, GeoPoint q, GeoPoint r) {
 		return kernel.Circle(null, p, q, r);
 	}
 
@@ -1231,7 +1231,7 @@ public class PythonFlatAPI {
 	 * @param s segment giving the radius of the circle
 	 * @return new Geo circle
 	 */
-	public GeoConic geoCircleCS(GeoPoint2 c, GeoSegment s) {
+	public GeoConic geoCircleCS(GeoPoint c, GeoSegment s) {
 		return kernel.Circle(null, c, s);
 	}
 
@@ -1241,7 +1241,7 @@ public class PythonFlatAPI {
 	 * @param r radius of the circle
 	 * @return new Geo circle
 	 */
-	public GeoConic geoCircleCR(GeoPoint2 c, NumberValue r) {
+	public GeoConic geoCircleCR(GeoPoint c, NumberValue r) {
 		return kernel.Circle(null, c, r);
 	}
 
@@ -1252,7 +1252,7 @@ public class PythonFlatAPI {
 	 * @param p point on the ellipse
 	 * @return new Geo ellipse
 	 */
-	public GeoConic geoEllipseFFP(GeoPoint2 s1, GeoPoint2 s2, GeoPoint2 p) {
+	public GeoConic geoEllipseFFP(GeoPoint s1, GeoPoint s2, GeoPoint p) {
 		return kernel.Ellipse(null, s1, s2, p);
 	}
 
@@ -1263,7 +1263,7 @@ public class PythonFlatAPI {
 	 * @param a length of semi-major axis
 	 * @return new Geo ellipse
 	 */
-	public GeoConic geoEllipseFFA(GeoPoint2 s1, GeoPoint2 s2, NumberValue a) {
+	public GeoConic geoEllipseFFA(GeoPoint s1, GeoPoint s2, NumberValue a) {
 		return kernel.Ellipse(null, s1, s2, a);
 	}
 
@@ -1275,7 +1275,7 @@ public class PythonFlatAPI {
 	 * @param p point on the ellipse
 	 * @return new Geo hyperbola
 	 */
-	public GeoConic geoHyperbolaFFP(GeoPoint2 s1, GeoPoint2 s2, GeoPoint2 p) {
+	public GeoConic geoHyperbolaFFP(GeoPoint s1, GeoPoint s2, GeoPoint p) {
 		return kernel.Hyperbola(null, s1, s2, p);
 	}
 
@@ -1286,7 +1286,7 @@ public class PythonFlatAPI {
 	 * @param a length of semi-major axis
 	 * @return new Geo hyperbola
 	 */
-	public GeoConic geoHyperbolaFFA(GeoPoint2 s1, GeoPoint2 s2, NumberValue a) {
+	public GeoConic geoHyperbolaFFA(GeoPoint s1, GeoPoint s2, NumberValue a) {
 		return kernel.Hyperbola(null, s1, s2, a);
 	}
 
@@ -1296,7 +1296,7 @@ public class PythonFlatAPI {
 	 * @param l the directrix
 	 * @return new Geo parabola
 	 */
-	public GeoConic geoParabola(GeoPoint2 s, GeoLine l) {
+	public GeoConic geoParabola(GeoPoint s, GeoLine l) {
 		return kernel.Parabola(null, s, l);
 	}
 	
@@ -1488,7 +1488,7 @@ public class PythonFlatAPI {
 	 *            conic
 	 * @return intersection points of l and c
 	 */
-	public GeoPoint2[] intersectLineConic(GeoLine l, GeoConic c) {
+	public GeoPoint[] intersectLineConic(GeoLine l, GeoConic c) {
 		return kernel.IntersectLineConic(null, l, c);
 	}
 

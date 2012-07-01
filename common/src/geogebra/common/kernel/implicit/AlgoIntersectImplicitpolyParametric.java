@@ -26,7 +26,7 @@ import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +44,7 @@ public class AlgoIntersectImplicitpolyParametric extends
 	private GeoImplicitPoly p;
 	private GeoLine l;
 	private GeoFunction f;
-	private GeoPoint2[] tangentPoints;
+	private GeoPoint[] tangentPoints;
 
 	/**
 	 * To compute intersection of polynomial and line
@@ -136,7 +136,7 @@ public class AlgoIntersectImplicitpolyParametric extends
 						new GeoNumeric(cons, f.getMinParameter()),
 						new GeoNumeric(cons, f.getMaxParameter()));
 				
-				GeoPoint2[] rootPoints = algo.getRootPoints();
+				GeoPoint[] rootPoints = algo.getRootPoints();
 				List<double[]> valPairs=new ArrayList<double[]>();
 				for (int i=0;i<rootPoints.length;i++){
 					double t = rootPoints[i].getX();

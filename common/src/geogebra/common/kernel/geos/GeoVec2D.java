@@ -129,7 +129,7 @@ final public class GeoVec2D extends ValidExpression implements
 	 * @param q
 	 *            end point
 	 */
-	public GeoVec2D(Kernel kernel, GeoPoint2 p, GeoPoint2 q) {
+	public GeoVec2D(Kernel kernel, GeoPoint p, GeoPoint q) {
 		this(kernel);
 		x = q.getX() - p.getX();
 		y = q.getY() - p.getY();
@@ -359,7 +359,7 @@ final public class GeoVec2D extends ValidExpression implements
 	 * @param Q
 	 *            mirror point
 	 */
-	final public void mirror(GeoPoint2 Q) {
+	final public void mirror(GeoPoint Q) {
 		x = 2.0 * Q.getInhomX() - x;
 		y = 2.0 * Q.getInhomY() - y;
 	}
@@ -1050,7 +1050,7 @@ final public class GeoVec2D extends ValidExpression implements
 
 		boolean vector = false;
 
-		if ((rt instanceof GeoPoint2) || (rt instanceof GeoLine)) {
+		if ((rt instanceof GeoPoint) || (rt instanceof GeoLine)) {
 			GeoVec3D p = (GeoVec3D) rt;
 			// use homogeneous coordinates if available
 			xx = p.x;

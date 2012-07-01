@@ -4,7 +4,7 @@ import geogebra.common.kernel.algos.AlgoApplyMatrix;
 import geogebra.common.kernel.algos.AlgoTransformation;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 
 /**
  * Generic affine transform
@@ -39,7 +39,7 @@ public class TransformApplyMatrix extends Transform {
 	
 	@Override
 	public boolean changesOrientation() {
-		AlgoTransformation at = getTransformAlgo(new GeoPoint2(cons));
+		AlgoTransformation at = getTransformAlgo(new GeoPoint(cons));
 		cons.removeFromConstructionList(at);
 		return at.swapOrientation(true);
 	}

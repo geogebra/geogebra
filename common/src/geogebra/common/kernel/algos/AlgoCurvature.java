@@ -4,7 +4,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 
 
 /**
@@ -16,11 +16,11 @@ import geogebra.common.kernel.geos.GeoPoint2;
 
 public class AlgoCurvature extends AlgoElement {
 
-	private GeoPoint2 A; // input
+	private GeoPoint A; // input
 	private GeoFunction f;
     private GeoNumeric K; //output
     
-    public AlgoCurvature(Construction cons, String label, GeoPoint2 A, GeoFunction f){
+    public AlgoCurvature(Construction cons, String label, GeoPoint A, GeoFunction f){
     	this(cons, A, f);
     	
     	if (label != null) {
@@ -31,7 +31,7 @@ public class AlgoCurvature extends AlgoElement {
     	}    	
     }
     
-    public AlgoCurvature(Construction cons, GeoPoint2 A, GeoFunction f) {
+    public AlgoCurvature(Construction cons, GeoPoint A, GeoFunction f) {
         super(cons);
         this.f = f;
         this.A = A;

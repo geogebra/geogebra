@@ -11,7 +11,7 @@ import geogebra.common.kernel.geos.CasEvaluableFunction;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.AbstractApplication;
 
@@ -108,7 +108,7 @@ public class AlgoSolveODECas extends AlgoElement {
 		c1.setAlgebraVisible(false);
 		//we have dependent function
 		if(g instanceof GeoFunction && helper!=null){
-			GeoPoint2 ptt = (GeoPoint2)pt;
+			GeoPoint ptt = (GeoPoint)pt;
 			c1.setValue(0);
 			double val0 = ((GeoFunction)g).evaluate(ptt.getX()/ptt.getZ());
 			c1.setValue(1);
@@ -123,7 +123,7 @@ public class AlgoSolveODECas extends AlgoElement {
 		}
 		//we have dependent conic or line
 		else if(helper instanceof EvaluateAtPoint){
-			GeoPoint2 ptt = (GeoPoint2)pt;
+			GeoPoint ptt = (GeoPoint)pt;
 			EvaluateAtPoint dep = (EvaluateAtPoint)helper;
 			c1.setValue(0);
 			double val0 = dep.evaluate(ptt);

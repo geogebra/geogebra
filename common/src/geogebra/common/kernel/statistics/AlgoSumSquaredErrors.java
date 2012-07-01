@@ -20,7 +20,7 @@ import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoFunctionable;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 
 
 /**
@@ -100,12 +100,12 @@ public class AlgoSumSquaredErrors extends AlgoElement {
         //Calculate sse:
     	double	errorsum	=	0.0d;
     	GeoElement geo		=	null;
-    	GeoPoint2  point	=	null;
+    	GeoPoint  point	=	null;
     	double	x,y,v;
     	for(int i=0;i<size;i++){
     		geo=inputList.get(i);
     		if(geo.isGeoPoint()){
-    			point=(GeoPoint2)geo;
+    			point=(GeoPoint)geo;
     			x=point.getX();
     			y=point.getY();
     			v=funGeo.evaluate(x);

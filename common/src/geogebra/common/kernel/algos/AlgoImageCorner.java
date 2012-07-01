@@ -17,12 +17,12 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoImage;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 
 public class AlgoImageCorner extends AlgoElement {
     
     private GeoImage img;  // input
-    private GeoPoint2 corner;     // output    
+    private GeoPoint corner;     // output    
     private NumberValue number;
     
     public AlgoImageCorner(Construction cons, String label, GeoImage img, NumberValue number) {        
@@ -30,7 +30,7 @@ public class AlgoImageCorner extends AlgoElement {
         this.img = img;   
         this.number = number;
         
-        corner = new GeoPoint2(cons);                
+        corner = new GeoPoint(cons);                
         setInputOutput(); // for AlgoElement                
         compute();              
         corner.setLabel(label);           
@@ -53,7 +53,7 @@ public class AlgoImageCorner extends AlgoElement {
         setDependencies(); // done by AlgoElement
     }       
          
-    public GeoPoint2 getCorner() { return corner; }        
+    public GeoPoint getCorner() { return corner; }        
     
     @Override
 	public final void compute() {         	

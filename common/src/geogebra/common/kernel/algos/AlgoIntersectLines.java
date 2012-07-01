@@ -28,7 +28,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.prover.Variable;
@@ -45,7 +45,7 @@ public class AlgoIntersectLines extends AlgoIntersectAbstract implements Symboli
 	SymbolicParametersBotanaAlgo {
 
     private GeoLine g, h; // input
-    private GeoPoint2 S; // output       
+    private GeoPoint S; // output       
 	private Polynomial[] polynomials;
 	private Polynomial[] botanaPolynomials;
 	private Variable[] botanaVars;
@@ -55,7 +55,7 @@ public class AlgoIntersectLines extends AlgoIntersectAbstract implements Symboli
         super(cons);
         this.g = g;
         this.h = h;
-        S = new GeoPoint2(cons);
+        S = new GeoPoint(cons);
         setInputOutput(); // for AlgoElement
 
         // compute line through P, Q
@@ -98,7 +98,7 @@ public class AlgoIntersectLines extends AlgoIntersectAbstract implements Symboli
         setDependencies(); // done by AlgoElement
     }
 
-    public GeoPoint2 getPoint() {
+    public GeoPoint getPoint() {
         return S;
     }
     

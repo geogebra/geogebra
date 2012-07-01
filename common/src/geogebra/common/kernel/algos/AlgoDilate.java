@@ -26,7 +26,7 @@ import geogebra.common.kernel.geos.Dilateable;
 import geogebra.common.kernel.geos.GeoConicPart;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPolyLine;
 import geogebra.common.kernel.geos.GeoPolygon;
 
@@ -37,7 +37,7 @@ import geogebra.common.kernel.geos.GeoPolygon;
  */
 public class AlgoDilate extends AlgoTransformation {
 
-	private GeoPoint2 S;
+	private GeoPoint S;
 	private Dilateable out;
 	private NumberValue r;
 	private GeoElement inGeo, outGeo, rgeo;
@@ -52,7 +52,7 @@ public class AlgoDilate extends AlgoTransformation {
 	 * @param S
 	 */
 	AlgoDilate(Construction cons, String label, GeoElement A, NumberValue r,
-			GeoPoint2 S) {
+			GeoPoint S) {
 		this(cons, A, r, S);
 		outGeo.setLabel(label);
 	}
@@ -66,7 +66,7 @@ public class AlgoDilate extends AlgoTransformation {
 	 * @param S
 	 */
 	public AlgoDilate(Construction cons, GeoElement A, NumberValue r,
-			GeoPoint2 S) {
+			GeoPoint S) {
 		super(cons);
 		this.r = r;
 		this.S = S;

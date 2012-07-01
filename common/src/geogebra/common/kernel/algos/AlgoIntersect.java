@@ -14,7 +14,7 @@ package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.kernelND.AlgoIntersectND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 
@@ -31,7 +31,7 @@ public abstract class AlgoIntersect extends AlgoIntersectND {
 	 */
 	@Override
 	protected void avoidDoubleTangentPoint() {
-		GeoPoint2 [] points = getIntersectionPoints();
+		GeoPoint [] points = getIntersectionPoints();
 	    if (!points[1].isLabelSet() && points[0].isEqual(points[1])) {
 	    	points[1].setUndefined();	        
 	    }
@@ -43,7 +43,7 @@ public abstract class AlgoIntersect extends AlgoIntersectND {
      */
     public int getClosestPointIndex(double xRW, double yRW) {
     	//AbstractApplication.debug("\nxRW="+xRW+"\nyRW="+yRW);
-        GeoPoint2[] P = getIntersectionPoints();
+        GeoPoint[] P = getIntersectionPoints();
         double x, y, lengthSqr, mindist = Double.POSITIVE_INFINITY;
         int minIndex = 0;
         for (int i = 0; i < P.length; i++) {
@@ -64,8 +64,8 @@ public abstract class AlgoIntersect extends AlgoIntersectND {
      * Returns the index in output[] of the intersection point
      * that is closest to the GeoPoint refPoint
      */
-    int getClosestPointIndex(GeoPoint2 refPoint) {
-        GeoPoint2[] P = getIntersectionPoints();
+    int getClosestPointIndex(GeoPoint refPoint) {
+        GeoPoint[] P = getIntersectionPoints();
         double x, y, lengthSqr, mindist = Double.POSITIVE_INFINITY;
         int minIndex = 0;
         for (int i = 0; i < P.length; i++) {
@@ -83,14 +83,14 @@ public abstract class AlgoIntersect extends AlgoIntersectND {
     }
 
     @Override
-	protected abstract GeoPoint2[] getIntersectionPoints();
+	protected abstract GeoPoint[] getIntersectionPoints();
     
     @Override
-	protected abstract GeoPoint2[] getLastDefinedIntersectionPoints();
+	protected abstract GeoPoint[] getLastDefinedIntersectionPoints();
 
     @Override
 	protected void setCoords(GeoPointND destination, GeoPointND source){
-    	((GeoPoint2) destination).setCoords((GeoPoint2) source);
+    	((GeoPoint) destination).setCoords((GeoPoint) source);
     }
 
 }

@@ -43,7 +43,7 @@ import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoLocus;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPolyLine;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoText;
@@ -1823,7 +1823,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 		return geo.isMoveable();
 	}
 
-	public ArrayList<GeoPoint2> getFreeInputPoints(
+	public ArrayList<GeoPoint> getFreeInputPoints(
 			AlgoElement algoParent) {
 		return algoParent.getFreeInputPoints();
 	}
@@ -3821,9 +3821,9 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 			ymaxTemp = getYmax();
 
 			try {
-				GeoPoint2 export1 = (GeoPoint2) getApplication().getKernel().lookupLabel(
+				GeoPoint export1 = (GeoPoint) getApplication().getKernel().lookupLabel(
 						EuclidianView.EXPORT1);
-				GeoPoint2 export2 = (GeoPoint2) getApplication().getKernel().lookupLabel(
+				GeoPoint export2 = (GeoPoint) getApplication().getKernel().lookupLabel(
 						EuclidianView.EXPORT2);
 
 				if ((export1 == null) || (export2 == null)) {
@@ -4406,8 +4406,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 				return (int)selectionRectangle.getWidth();
 			}
 			try {
-				GeoPoint2 export1 = (GeoPoint2) kernel.lookupLabel(EXPORT1);
-				GeoPoint2 export2 = (GeoPoint2) kernel.lookupLabel(EXPORT2);
+				GeoPoint export1 = (GeoPoint) kernel.lookupLabel(EXPORT1);
+				GeoPoint export2 = (GeoPoint) kernel.lookupLabel(EXPORT2);
 				double[] xy1 = new double[2];
 				double[] xy2 = new double[2];
 				export1.getInhomCoords(xy1);
@@ -4433,8 +4433,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 			}
 
 			try {
-				GeoPoint2 export1 = (GeoPoint2) kernel.lookupLabel(EXPORT1);
-				GeoPoint2 export2 = (GeoPoint2) kernel.lookupLabel(EXPORT2);
+				GeoPoint export1 = (GeoPoint) kernel.lookupLabel(EXPORT1);
+				GeoPoint export2 = (GeoPoint) kernel.lookupLabel(EXPORT2);
 				double[] xy1 = new double[2];
 				double[] xy2 = new double[2];
 				export1.getInhomCoords(xy1);

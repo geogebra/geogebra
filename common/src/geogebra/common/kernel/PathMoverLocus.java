@@ -13,7 +13,7 @@ the Free Software Foundation.
 package geogebra.common.kernel;
 
 import geogebra.common.kernel.geos.GeoLocus;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 
 import java.util.ArrayList;
 
@@ -36,7 +36,7 @@ public class PathMoverLocus extends PathMoverGeneric {
 	}
 
 	@Override
-	public void init(GeoPoint2 p) {
+	public void init(GeoPoint p) {
 		if (p.getPath() instanceof GeoLocus) {
 			myPointList = ((GeoLocus) p.getPath()).getPoints();
 		}
@@ -51,7 +51,7 @@ public class PathMoverLocus extends PathMoverGeneric {
 	}
 
 	@Override
-	protected void calcPoint(GeoPoint2 p) {
+	protected void calcPoint(GeoPoint p) {
 		// curr_param is between 0 and myPointList.size()-1 now
 		double param = curr_param;
 		PathParameter pp = p.getPathParameter();
@@ -76,7 +76,7 @@ public class PathMoverLocus extends PathMoverGeneric {
 	}
 
 	@Override
-	public boolean getNext(GeoPoint2 p) {
+	public boolean getNext(GeoPoint p) {
 		// check if we are in our interval
 		boolean lineTo = true;
 		last_param = curr_param;

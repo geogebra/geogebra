@@ -18,7 +18,7 @@ import geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import geogebra.common.kernel.geos.GeoFunctionNVar;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.plugin.GeoClass;
@@ -392,16 +392,16 @@ public class CellRangeProcessor {
 							|| !xCoord.isGeoNumeric() || !yCoord.isGeoNumeric())
 						continue;
 
-					GeoPoint2 geoPoint;
+					GeoPoint geoPoint;
 					AlgoDependentPoint pointAlgo = null;
 
 					if (byValue) {
 						if (leftToRight)
-							geoPoint = new GeoPoint2(cons,
+							geoPoint = new GeoPoint(cons,
 									((GeoNumeric) xCoord).getDouble(),
 									((GeoNumeric) yCoord).getDouble(), 1.0);
 						else
-							geoPoint = new GeoPoint2(cons,
+							geoPoint = new GeoPoint(cons,
 									((GeoNumeric) yCoord).getDouble(),
 									((GeoNumeric) xCoord).getDouble(), 1.0);
 
@@ -416,7 +416,7 @@ public class CellRangeProcessor {
 
 						pointAlgo = new AlgoDependentPoint(cons, point, false);
 
-						geoPoint = (GeoPoint2) pointAlgo.getGeoElements()[0];
+						geoPoint = (GeoPoint) pointAlgo.getGeoElements()[0];
 
 					}
 
@@ -447,11 +447,11 @@ public class CellRangeProcessor {
 							|| !xCoord.isGeoNumeric() || !yCoord.isGeoNumeric())
 						continue;
 
-					GeoPoint2 geoPoint;
+					GeoPoint geoPoint;
 					AlgoDependentPoint pointAlgo = null;
 
 					if (byValue) {
-						geoPoint = new GeoPoint2(cons,
+						geoPoint = new GeoPoint(cons,
 								((GeoNumeric) xCoord).getDouble(),
 								((GeoNumeric) yCoord).getDouble(), 1.0);
 					} else {
@@ -465,7 +465,7 @@ public class CellRangeProcessor {
 
 						pointAlgo = new AlgoDependentPoint(cons, point, false);
 
-						geoPoint = (GeoPoint2) pointAlgo.getGeoElements()[0];
+						geoPoint = (GeoPoint) pointAlgo.getGeoElements()[0];
 
 					}
 

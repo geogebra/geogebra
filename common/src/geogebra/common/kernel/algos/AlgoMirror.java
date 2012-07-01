@@ -32,7 +32,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoList;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPoly;
 import geogebra.common.kernel.geos.GeoRay;
 import geogebra.common.kernel.geos.GeoSegment;
@@ -50,11 +50,11 @@ public class AlgoMirror extends AlgoTransformation {
     private Mirrorable out;   
     private GeoElement inGeo, outGeo; 
     private GeoLine mirrorLine;   
-    private GeoPoint2 mirrorPoint;      
+    private GeoPoint mirrorPoint;      
     private GeoConic mirrorConic;      
     private GeoElement mirror;
     
-    private GeoPoint2 transformedPoint;
+    private GeoPoint transformedPoint;
     
     /**
      * Creates new "mirror at point" algo
@@ -63,7 +63,7 @@ public class AlgoMirror extends AlgoTransformation {
      * @param in
      * @param p
      */
-    AlgoMirror(Construction cons, String label,GeoElement in,GeoPoint2 p) {
+    AlgoMirror(Construction cons, String label,GeoElement in,GeoPoint p) {
     	this(cons, in, null, p, null);  
     	 outGeo.setLabel(label);
     }
@@ -101,7 +101,7 @@ public class AlgoMirror extends AlgoTransformation {
      * @param p
      * @param c
      */
-    public AlgoMirror(Construction cons, GeoElement in, GeoLine g, GeoPoint2 p, GeoConic c) {
+    public AlgoMirror(Construction cons, GeoElement in, GeoLine g, GeoPoint p, GeoConic c) {
         super(cons);
         //this.in = in;      
         mirrorLine = g;
@@ -122,7 +122,7 @@ public class AlgoMirror extends AlgoTransformation {
         setInputOutput();
               
         cons.registerEuclidianViewCE(this);
-        transformedPoint = new GeoPoint2(cons);
+        transformedPoint = new GeoPoint(cons);
         compute();        
         if(inGeo.isGeoFunction())
         	cons.registerEuclidianViewCE(this);

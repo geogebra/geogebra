@@ -23,7 +23,7 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoVec2D;
 
 
@@ -39,7 +39,7 @@ public class AlgoAxes extends AlgoElement {
 
     private GeoVec2D[] eigenvec;
     private GeoVec2D b;
-    private GeoPoint2 P;
+    private GeoPoint P;
 
     AlgoAxes(Construction cons, String label, GeoConic c) {
         this(cons, c);
@@ -67,7 +67,7 @@ public class AlgoAxes extends AlgoElement {
         axes[0] = new GeoLine(cons);
         axes[1] = new GeoLine(cons);
 
-        P = new GeoPoint2(cons);
+        P = new GeoPoint(cons);
         axes[0].setStartPoint(P);
         axes[1].setStartPoint(P);
 

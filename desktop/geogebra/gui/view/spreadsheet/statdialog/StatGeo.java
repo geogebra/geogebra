@@ -33,7 +33,7 @@ import geogebra.common.kernel.geos.GeoFunctionable;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.statistics.AlgoFitExp;
@@ -294,17 +294,17 @@ public class StatGeo   {
 		double[] leftBorder = histogram.getLeftBorder();
 		double yValue[] = histogram.getYValue();
 		int size = doCumulative ? yValue.length : yValue.length-1;
-		GeoPointND[] points = new GeoPoint2[size];
+		GeoPointND[] points = new GeoPoint[size];
 
 		boolean suppressLabelCreation = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(true);
 		if(doCumulative)
-			points[0] = new GeoPoint2(cons, null, leftBorder[0], 0.0, 1.0);
+			points[0] = new GeoPoint(cons, null, leftBorder[0], 0.0, 1.0);
 		for (int i = 0; i < yValue.length-1; i++) {
 			if(doCumulative)
-				points[i+1] = new GeoPoint2(cons, null, leftBorder[i+1], yValue[i], 1.0);
+				points[i+1] = new GeoPoint(cons, null, leftBorder[i+1], yValue[i], 1.0);
 			else
-				points[i] = new GeoPoint2(cons, null, (leftBorder[i+1] + leftBorder[i])/2, yValue[i], 1.0);
+				points[i] = new GeoPoint(cons, null, (leftBorder[i+1] + leftBorder[i])/2, yValue[i], 1.0);
 		}	
 		cons.setSuppressLabelCreation(suppressLabelCreation);
 
@@ -467,7 +467,7 @@ public class StatGeo   {
 		GeoElement[] ret = new GeoElement[length];
 
 		for (int i = 0; i < dataTitles.length; i++){
-			GeoPoint2 p = new GeoPoint2(cons, settings.xMin, i+1d, 1d);
+			GeoPoint p = new GeoPoint(cons, settings.xMin, i+1d, 1d);
 			GeoText t = new GeoText(cons, "  "+dataTitles[dataTitles.length - i - 1]);
 			AlgoText text = new AlgoText(cons, t, p, null, null);
 			cons.removeFromAlgorithmList(text);

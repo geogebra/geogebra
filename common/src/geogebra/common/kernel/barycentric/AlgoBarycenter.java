@@ -6,7 +6,7 @@ import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 
 
 /**
@@ -21,7 +21,7 @@ public class AlgoBarycenter extends AlgoElement {
 
 		private GeoList poly; // input
 	private GeoList list; // input
-	private GeoPoint2 point; // output
+	private GeoPoint point; // output
 	/**
 	 * 
 	 * @param cons construction
@@ -33,7 +33,7 @@ public class AlgoBarycenter extends AlgoElement {
 		super(cons);
 		this.poly = A;
 		this.list = B;
-		point = new GeoPoint2(cons);
+		point = new GeoPoint(cons);
 		setInputOutput();
 		compute();		
 		point.setLabel(label);
@@ -59,7 +59,7 @@ public class AlgoBarycenter extends AlgoElement {
 	 * Returns the resulting point
 	 * @return the resulting point
 	 */
-	public GeoPoint2 getResult() {
+	public GeoPoint getResult() {
 		return point;
 	}
 
@@ -87,8 +87,8 @@ public class AlgoBarycenter extends AlgoElement {
 		double x = 0, y = 0, sum = 0;
 		for(int i=0; i<numberOfVertices; i++)
 		{
-			x += ((GeoPoint2)poly.get(i)).inhomX * ((GeoNumeric)(list.get(i))).getDouble();
-			y += ((GeoPoint2)poly.get(i)).inhomY * ((GeoNumeric)(list.get(i))).getDouble();
+			x += ((GeoPoint)poly.get(i)).inhomX * ((GeoNumeric)(list.get(i))).getDouble();
+			y += ((GeoPoint)poly.get(i)).inhomY * ((GeoNumeric)(list.get(i))).getDouble();
 			sum += ((GeoNumeric)(list.get(i))).getDouble();
 		}
 		

@@ -1,6 +1,6 @@
 package geogebra.common.awt;
 
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 
 /** Class for integer tuples **/
 public class GPoint {

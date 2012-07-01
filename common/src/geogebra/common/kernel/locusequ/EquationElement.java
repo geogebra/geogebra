@@ -1,7 +1,7 @@
 package geogebra.common.kernel.locusequ;
 
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 
 /**
  * Represents an equation.
@@ -56,11 +56,11 @@ public abstract class EquationElement {
     }
     
     /**
-     * @param p A {@link GeoPoint2} in the element.
+     * @param p A {@link GeoPoint} in the element.
      * @param scope2 The {@link EquationPointMap} where the {@link EquationPoint} for p is.
      * @return A {@link EquationList} containing the restriction for point.
      */
-    public EquationList forPoint(GeoPoint2 p, EquationScope scope2) {
+    public EquationList forPoint(GeoPoint p, EquationScope scope2) {
         return this.forPoint(scope2.getPoint(p));
     }
     

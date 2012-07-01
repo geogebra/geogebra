@@ -116,7 +116,7 @@ public class GeoConic extends GeoConicND implements Traceable,
 	 * makes this conic a circle with midpoint M through Point P
 	 */
 	@Override
-	final public void setCircle(GeoPoint2 M, GeoPoint2 P) {
+	final public void setCircle(GeoPoint M, GeoPoint P) {
 		defined = M.isDefined() && P.isDefined() && !P.isInfinite();
 		if (!defined) {
 			return;
@@ -183,7 +183,7 @@ public class GeoConic extends GeoConicND implements Traceable,
 	 *            number of points
 	 * @return Array list of points
 	 */
-	public ArrayList<GeoPoint2> getPointsOnConic(int n) {
+	public ArrayList<GeoPoint> getPointsOnConic(int n) {
 		GeoCurveCartesian curve = new GeoCurveCartesian(cons);
 		this.toGeoCurveCartesian(curve);
 
@@ -258,7 +258,7 @@ public class GeoConic extends GeoConicND implements Traceable,
 
 			// double sf=r1*r1/((x2-x1)*(x2-x1)+(y2-y1)*(y2-y1));
 			// setCoords( x1+sf*(x2-x1), y1+sf*(y2-y1) ,1.0);
-			GeoPoint2 tmp = new GeoPoint2(cons, null, centerX, centerY, 1.0);
+			GeoPoint tmp = new GeoPoint(cons, null, centerX, centerY, 1.0);
 			setCircleMatrix(tmp, r3);
 			tmp.removeOrSetUndefinedIfHasFixedDescendent();
 		} else if (mirror.isCircle()
@@ -296,7 +296,7 @@ public class GeoConic extends GeoConicND implements Traceable,
 					double sf = r * r / dist2;
 					// GeoPoint p =new GeoPoint(cons,null,a+sf*(perpX-a),
 					// b+sf*(perpY-b) ,1.0);
-					GeoPoint2 m = new GeoPoint2(cons);
+					GeoPoint m = new GeoPoint(cons);
 					m.setCoords(mx + sf * (perpX - mx) / 2, my + sf * (perpY - my)
 							/ 2, 1.0);
 					setSphereND(
@@ -319,7 +319,7 @@ public class GeoConic extends GeoConicND implements Traceable,
 	/**
 	 * mirror this conic at point Q
 	 */
-	final public void mirror(GeoPoint2 Q) {
+	final public void mirror(GeoPoint Q) {
 		double qx = Q.getInhomX();
 		double qy = Q.getInhomY();
 

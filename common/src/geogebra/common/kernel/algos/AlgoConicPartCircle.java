@@ -16,7 +16,7 @@ import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.GeoConicPart;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 
 /**
  * Circular arc or sector defined by the circle's center, one point on the
@@ -24,22 +24,22 @@ import geogebra.common.kernel.geos.GeoPoint2;
  */
 public class AlgoConicPartCircle extends AlgoConicPart {
 
-	private GeoPoint2 center, startPoint, endPoint;
+	private GeoPoint center, startPoint, endPoint;
 
-	private GeoPoint2 P, Q;
+	private GeoPoint P, Q;
 
 	/**
 	 * Creates a new arc or sector algorithm. The type is either
 	 * GeoConicPart.CONIC_PART_ARC or GeoConicPart.CONIC_PART_ARC
 	 */
 	public AlgoConicPartCircle(Construction cons, String label,
-			GeoPoint2 center, GeoPoint2 startPoint, GeoPoint2 endPoint, int type) {
+			GeoPoint center, GeoPoint startPoint, GeoPoint endPoint, int type) {
 		this(cons, center, startPoint, endPoint, type);
 		conicPart.setLabel(label);
 	}
 
-	public AlgoConicPartCircle(Construction cons, GeoPoint2 center,
-			GeoPoint2 startPoint, GeoPoint2 endPoint, int type) {
+	public AlgoConicPartCircle(Construction cons, GeoPoint center,
+			GeoPoint startPoint, GeoPoint endPoint, int type) {
 		super(cons, type);
 		this.center = center;
 		this.startPoint = startPoint;
@@ -52,8 +52,8 @@ public class AlgoConicPartCircle extends AlgoConicPart {
 		conic = algo.getCircle();
 
 		// temp Points
-		P = new GeoPoint2(cons);
-		Q = new GeoPoint2(cons);
+		P = new GeoPoint(cons);
+		Q = new GeoPoint(cons);
 
 		conicPart = new GeoConicPart(cons, type);
 		conicPart.addPointOnConic(startPoint);
@@ -69,15 +69,15 @@ public class AlgoConicPartCircle extends AlgoConicPart {
 
 	}
 
-	public GeoPoint2 getStartPoint() {
+	public GeoPoint getStartPoint() {
 		return startPoint;
 	}
 
-	public GeoPoint2 getEndPoint() {
+	public GeoPoint getEndPoint() {
 		return endPoint;
 	}
 
-	public GeoPoint2 getCenter() {
+	public GeoPoint getCenter() {
 		return center;
 	}
 

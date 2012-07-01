@@ -22,7 +22,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPoly;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.AbstractApplication;
@@ -35,7 +35,7 @@ public class AlgoVertexPolygon extends AlgoElement {
 
 	private GeoPoly p; // input		
 	private NumberValue index;
-	private GeoPoint2 oneVertex;
+	private GeoPoint oneVertex;
 	private OutputHandler<GeoElement> outputPoints;
 	/**
 	 * Creates new vertex algo
@@ -108,7 +108,7 @@ public class AlgoVertexPolygon extends AlgoElement {
 		super(cons);
 		this.p = p;
 		this.index = v;
-		oneVertex = new GeoPoint2(cons);
+		oneVertex = new GeoPoint(cons);
 		setInputOutput(); // for AlgoElement
 		compute();
 	}
@@ -201,14 +201,14 @@ public class AlgoVertexPolygon extends AlgoElement {
 	/**
 	 * @return the vertex when called as Vertex[poly,number]
 	 */
-	public GeoPoint2 getOneVertex(){
+	public GeoPoint getOneVertex(){
 		return oneVertex;
 	}
 	
 	 private OutputHandler<GeoElement> createOutputPoints(){
 	    	return new OutputHandler<GeoElement>(new elementFactory<GeoElement>() {
-				public GeoPoint2 newElement() {
-					GeoPoint2 pt=new GeoPoint2(cons);
+				public GeoPoint newElement() {
+					GeoPoint pt=new GeoPoint(cons);
 					pt.setCoords(0, 0, 1);
 					pt.setParentAlgorithm(AlgoVertexPolygon.this);
 					return pt;

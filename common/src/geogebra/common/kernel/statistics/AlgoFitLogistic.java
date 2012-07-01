@@ -24,7 +24,7 @@ import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoList;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.plugin.Operation;
 
@@ -492,7 +492,7 @@ public final class AlgoFitLogistic extends AlgoElement {
 		// This is code duplication of AlgoSort, but for the time being:
 		Class<? extends GeoElement> geoClass = geolist.get(0).getClass();
 		TreeSet sortedSet;
-		sortedSet = new TreeSet(GeoPoint2.getComparatorX());
+		sortedSet = new TreeSet(GeoPoint.getComparatorX());
 		for (int i = 0; i < size; i++) {
 			geoelement = geolist.get(i);
 			if (geoelement.getClass().equals(geoClass)) {
@@ -509,7 +509,7 @@ public final class AlgoFitLogistic extends AlgoElement {
 		ylist = new double[size];
 		while (iter.hasNext()) {
 			geoelement = (GeoElement) iter.next();
-			((GeoPoint2) geoelement).getInhomCoords(xy);
+			((GeoPoint) geoelement).getInhomCoords(xy);
 			xlist[i] = xy[0];
 			ylist[i] = xy[1];
 			if (ylist[i] < 0) {

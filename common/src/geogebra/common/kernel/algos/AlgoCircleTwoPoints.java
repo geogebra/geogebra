@@ -23,7 +23,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoQuadricND;
 import geogebra.common.kernel.prover.NoSymbolicParametersException;
@@ -40,19 +40,19 @@ public class AlgoCircleTwoPoints extends AlgoSphereNDTwoPoints implements
 
 	private Variable[] botanaVars;
 	
-	public AlgoCircleTwoPoints(Construction cons, GeoPoint2 M, GeoPoint2 P) {
+	public AlgoCircleTwoPoints(Construction cons, GeoPoint M, GeoPoint P) {
 		super(cons, M, P);
 		setIncidence();
 	}
 
-	public AlgoCircleTwoPoints(Construction cons, String label, GeoPoint2 M,
-			GeoPoint2 P) {
+	public AlgoCircleTwoPoints(Construction cons, String label, GeoPoint M,
+			GeoPoint P) {
 		super(cons, label, M, P);
 		setIncidence();
 	}
 
 	private void setIncidence() {
-		((GeoPoint2) getP()).addIncidence(getCircle());
+		((GeoPoint) getP()).addIncidence(getCircle());
 	}
 
 	@Override

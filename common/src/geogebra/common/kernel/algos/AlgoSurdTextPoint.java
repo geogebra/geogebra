@@ -16,21 +16,21 @@ import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.AbstractApplication;
 
 public class AlgoSurdTextPoint extends AlgoSurdText {
 
-	private GeoPoint2 p; //input
+	private GeoPoint p; //input
     private GeoText text; //output	
     
-    public AlgoSurdTextPoint(Construction cons, String label, GeoPoint2 p) {
+    public AlgoSurdTextPoint(Construction cons, String label, GeoPoint p) {
     	this(cons, p);
         text.setLabel(label);
     }
 
-    AlgoSurdTextPoint(Construction cons, GeoPoint2 p) {
+    AlgoSurdTextPoint(Construction cons, GeoPoint p) {
         super(cons);
         this.p = p;
                

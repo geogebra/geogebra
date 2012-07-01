@@ -1,6 +1,6 @@
 package geogebra.common.kernel.arithmetic;
 
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.plugin.Operation;
 
 import java.util.Set;
@@ -143,7 +143,7 @@ public class IneqTree {
 	 */
 	public void getZeros(Set<Double> zeros) {
 		if (ineq != null) {
-			GeoPoint2[] zeroPoints = ineq.getZeros();
+			GeoPoint[] zeroPoints = ineq.getZeros();
 			for (int i = 0; i < zeroPoints.length; i++) {
 				zeros.add(zeroPoints[i].getX());
 			}

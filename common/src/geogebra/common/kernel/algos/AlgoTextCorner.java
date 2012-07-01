@@ -18,13 +18,13 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoText;
 
 public class AlgoTextCorner extends AlgoElement {
 
 	private GeoText txt;  // input
-    private GeoPoint2 corner;     // output    
+    private GeoPoint corner;     // output    
     private NumberValue number;
     
     public AlgoTextCorner(Construction cons, String label, GeoText txt, NumberValue number) {        
@@ -37,7 +37,7 @@ public class AlgoTextCorner extends AlgoElement {
         txt.setNeedsUpdatedBoundingBox(true);
     	txt.update(); 
 
-        corner = new GeoPoint2(cons);                
+        corner = new GeoPoint(cons);                
         setInputOutput(); // for AlgoElement  
            	
         compute();              
@@ -63,7 +63,7 @@ public class AlgoTextCorner extends AlgoElement {
         setDependencies(); // done by AlgoElement
     }       
          
-    public GeoPoint2 getCorner() { return corner; }        
+    public GeoPoint getCorner() { return corner; }        
     
     @Override
 	public final void compute() {  

@@ -77,7 +77,7 @@ import java.util.TreeSet;
  * 
  * @author Markus
  */
-final public class GeoPoint2 extends GeoVec3D implements VectorValue,
+final public class GeoPoint extends GeoVec3D implements VectorValue,
 		PathOrPoint, Translateable, PointRotateable, Mirrorable, Dilateable,
 		MatrixTransformable, ConicMirrorable, GeoPointND, Animatable,
 		Transformable, SpreadsheetTraceable, SymbolicParametersAlgo,
@@ -120,7 +120,7 @@ final public class GeoPoint2 extends GeoVec3D implements VectorValue,
 	 * 
 	 * @param c construction
 	 */
-	public GeoPoint2(Construction c) {
+	public GeoPoint(Construction c) {
 		super(c);
 		setAnimationType(ANIMATION_INCREASING);
 		setUndefined();
@@ -136,7 +136,7 @@ final public class GeoPoint2 extends GeoVec3D implements VectorValue,
 	 * @param y homogeneous y-coord
 	 * @param z homogeneous z-coord
 	 */
-	public GeoPoint2(Construction c, String label, double x, double y, double z) {
+	public GeoPoint(Construction c, String label, double x, double y, double z) {
 		this(c, x, y, z);
 		setLabel(label);
 	}
@@ -149,7 +149,7 @@ final public class GeoPoint2 extends GeoVec3D implements VectorValue,
 	 * @param y homogeneous y-coord
 	 * @param z homogeneous z-coord
 	 */
-	public GeoPoint2(Construction c, double x, double y, double z) {
+	public GeoPoint(Construction c, double x, double y, double z) {
 		super(c, x, y, z); // GeoVec3D constructor
 		setAnimationType(ANIMATION_INCREASING);
 	}
@@ -158,7 +158,7 @@ final public class GeoPoint2 extends GeoVec3D implements VectorValue,
 	 * @param c construction
 	 * @param path path
 	 */
-	public GeoPoint2(Construction c, Path path) {
+	public GeoPoint(Construction c, Path path) {
 		super(c);
 		setAnimationType(ANIMATION_INCREASING);
 		this.path = path;
@@ -169,7 +169,7 @@ final public class GeoPoint2 extends GeoVec3D implements VectorValue,
 	 * @param c construction
 	 * @param region region
 	 */
-	public GeoPoint2(Construction c, Region region) {
+	public GeoPoint(Construction c, Region region) {
 		super(c);
 		this.region = region;
 	}
@@ -225,7 +225,7 @@ final public class GeoPoint2 extends GeoVec3D implements VectorValue,
 	 * Copy constructor
 	 * @param point point to copy
 	 */
-	public GeoPoint2(GeoPoint2 point) {
+	public GeoPoint(GeoPoint point) {
 		super(point.cons);
 		set((GeoElement) point);
 	}
@@ -237,7 +237,7 @@ final public class GeoPoint2 extends GeoVec3D implements VectorValue,
 	@Override
 	public void set(GeoElement geo) {
 		if (geo.isGeoPoint()) {
-			GeoPoint2 p = (GeoPoint2) geo;
+			GeoPoint p = (GeoPoint) geo;
 			if (p.pathParameter != null) {
 				pathParameter = getPathParameter();
 				pathParameter.set(p.pathParameter);
@@ -254,8 +254,8 @@ final public class GeoPoint2 extends GeoVec3D implements VectorValue,
 	}
 
 	@Override
-	public GeoPoint2 copy() {
-		return new GeoPoint2(this);
+	public GeoPoint copy() {
+		return new GeoPoint(this);
 	}
 
 	/*
@@ -763,7 +763,7 @@ final public class GeoPoint2 extends GeoVec3D implements VectorValue,
 		if (!geo.isGeoPoint())
 			return false;
 
-		GeoPoint2 P = (GeoPoint2) geo;
+		GeoPoint P = (GeoPoint) geo;
 
 		if (!(isDefined() && P.isDefined()))
 			return false;
@@ -810,7 +810,7 @@ final public class GeoPoint2 extends GeoVec3D implements VectorValue,
 	}
 
 	final public double[] vectorTo(GeoPointND QI) {
-		GeoPoint2 Q = (GeoPoint2) QI;
+		GeoPoint Q = (GeoPoint) QI;
 		return new double[] { Q.getInhomX() - getInhomX(),
 				Q.getInhomY() - getInhomY(), 0 };
 	}
@@ -823,7 +823,7 @@ final public class GeoPoint2 extends GeoVec3D implements VectorValue,
 
 	// euclidian distance between this GeoPoint and P
 	@Override
-	final public double distance(GeoPoint2 P) {
+	final public double distance(GeoPoint P) {
 		return MyMath.length(P.inhomX - inhomX, P.inhomY - inhomY);
 	}
 
@@ -833,7 +833,7 @@ final public class GeoPoint2 extends GeoVec3D implements VectorValue,
 	 * @param P other point
 	 * @return square distance to other point
 	 */
-	final public double distanceSqr(GeoPoint2 P) {
+	final public double distanceSqr(GeoPoint P) {
 		double vx = P.inhomX - inhomX;
 		double vy = P.inhomY - inhomY;
 		return vx * vx + vy * vy;
@@ -845,7 +845,7 @@ final public class GeoPoint2 extends GeoVec3D implements VectorValue,
 	 * @param C third point
 	 * @return whether the three points A, B and C are collinear.
 	 */
-	public static boolean collinear(GeoPoint2 A, GeoPoint2 B, GeoPoint2 C) {
+	public static boolean collinear(GeoPoint A, GeoPoint B, GeoPoint C) {
 		// A, B, C are collinear iff det(ABC) == 0
 
 		// calculate the determinante of ABC
@@ -870,7 +870,7 @@ final public class GeoPoint2 extends GeoVec3D implements VectorValue,
 	 * @param Q second point
 	 * @return determinant
 	 */
-	public static final double det(GeoPoint2 P, GeoPoint2 Q) {
+	public static final double det(GeoPoint P, GeoPoint Q) {
 		return (P.x * Q.y - Q.x * P.y) / (P.z * Q.z);
 	}
 
@@ -883,7 +883,7 @@ final public class GeoPoint2 extends GeoVec3D implements VectorValue,
 	 * @param C C
 	 * @return lambda = AC/AB.
 	 */
-	public static final double affineRatio(GeoPoint2 A, GeoPoint2 B, GeoPoint2 C) {
+	public static final double affineRatio(GeoPoint A, GeoPoint B, GeoPoint C) {
 		double ABx = B.inhomX - A.inhomX;
 		double ABy = B.inhomY - A.inhomY;
 
@@ -913,7 +913,7 @@ final public class GeoPoint2 extends GeoVec3D implements VectorValue,
 	/**
 	 * dilate from S by r
 	 */
-	final public void dilate(NumberValue rval, GeoPoint2 S) {
+	final public void dilate(NumberValue rval, GeoPoint S) {
 		double r = rval.getDouble();
 		double temp = (1 - r);
 		setCoords(r * x + temp * S.getInhomX() * z,
@@ -934,7 +934,7 @@ final public class GeoPoint2 extends GeoVec3D implements VectorValue,
 	/**
 	 * rotate this point by angle phi around Q
 	 */
-	final public void rotate(NumberValue phiValue, GeoPoint2 Q) {
+	final public void rotate(NumberValue phiValue, GeoPoint Q) {
 		double phi = phiValue.getDouble();
 		double cos = Math.cos(phi);
 		double sin = Math.sin(phi);
@@ -948,7 +948,7 @@ final public class GeoPoint2 extends GeoVec3D implements VectorValue,
 	/**
 	 * mirror this point at point Q
 	 */
-	final public void mirror(GeoPoint2 Q) {
+	final public void mirror(GeoPoint Q) {
 		double qx = z * Q.getInhomX();
 		double qy = z * Q.getInhomY();
 
@@ -1383,10 +1383,10 @@ final public class GeoPoint2 extends GeoVec3D implements VectorValue,
 	 * 
 	 * @return comparator for GeoPoint objects.
 	 */
-	public static Comparator<GeoPoint2> getComparatorX() {
+	public static Comparator<GeoPoint> getComparatorX() {
 		if (comparatorX == null) {
-			comparatorX = new Comparator<GeoPoint2>() {
-				public int compare(GeoPoint2 itemA, GeoPoint2 itemB) {
+			comparatorX = new Comparator<GeoPoint>() {
+				public int compare(GeoPoint itemA, GeoPoint itemB) {
 
 					double compX = itemA.inhomX - itemB.inhomX;
 
@@ -1411,7 +1411,7 @@ final public class GeoPoint2 extends GeoVec3D implements VectorValue,
 		return comparatorX;
 	}
 
-	private static volatile Comparator<GeoPoint2> comparatorX;
+	private static volatile Comparator<GeoPoint> comparatorX;
 
 	// ///////////////////////////////////////////
 	// REGION
@@ -1701,17 +1701,17 @@ final public class GeoPoint2 extends GeoVec3D implements VectorValue,
 
 	@Override
 	public void moveDependencies(GeoElement oldGeo) {
-		if (oldGeo.isGeoPoint() && ((GeoPoint2) oldGeo).locateableList != null) {
+		if (oldGeo.isGeoPoint() && ((GeoPoint) oldGeo).locateableList != null) {
 
-			locateableList = ((GeoPoint2) oldGeo).locateableList;
+			locateableList = ((GeoPoint) oldGeo).locateableList;
 			for (Locateable loc : locateableList) {
 				GeoPointND[] pts = loc.getStartPoints();
 				for (int i = 0; i < pts.length; i++)
-					if (pts[i] == (GeoPoint2) oldGeo)
+					if (pts[i] == (GeoPoint) oldGeo)
 						pts[i] = this;
 				loc.toGeoElement().updateRepaint();
 			}
-			((GeoPoint2) oldGeo).locateableList = null;
+			((GeoPoint) oldGeo).locateableList = null;
 		}
 	}
 

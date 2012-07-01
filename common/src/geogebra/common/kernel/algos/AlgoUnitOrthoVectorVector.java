@@ -22,7 +22,7 @@ import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.util.MyMath;
 
@@ -45,7 +45,7 @@ public class AlgoUnitOrthoVectorVector extends AlgoElement {
         this.v = v;                
         n = new GeoVector(cons);
         
-        GeoPoint2 possStartPoint = v.getStartPoint();
+        GeoPoint possStartPoint = v.getStartPoint();
         if (possStartPoint != null && possStartPoint.isLabelSet()) {
 	        try{
 	            n.setStartPoint(possStartPoint);

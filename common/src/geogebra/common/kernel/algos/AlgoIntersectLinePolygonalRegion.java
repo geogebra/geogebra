@@ -26,7 +26,7 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoVec3D;
@@ -110,8 +110,8 @@ public class AlgoIntersectLinePolygonalRegion extends AlgoElement {
 	 */
 	protected OutputHandler<GeoElement> createOutputPoints() {
 		return new OutputHandler<GeoElement>(new elementFactory<GeoElement>() {
-			public GeoPoint2 newElement() {
-				GeoPoint2 p = new GeoPoint2(cons);
+			public GeoPoint newElement() {
+				GeoPoint p = new GeoPoint(cons);
 				p.setCoords(0, 0, 1);
 				p.setParentAlgorithm(AlgoIntersectLinePolygonalRegion.this);
 				return p;
@@ -123,9 +123,9 @@ public class AlgoIntersectLinePolygonalRegion extends AlgoElement {
 		return new OutputHandler<GeoElement>(new elementFactory<GeoElement>() {
 			public GeoSegment newElement() {
 				GeoSegment a = new GeoSegment(cons);
-				GeoPoint2 aS = new GeoPoint2(cons);
+				GeoPoint aS = new GeoPoint(cons);
 				aS.setCoords(0, 0, 1);
-				GeoPoint2 aE = new GeoPoint2(cons);
+				GeoPoint aE = new GeoPoint(cons);
 				aE.setCoords(0, 0, 1);
 				a.setPoints(aS, aE);
 				a.setParentAlgorithm(AlgoIntersectLinePolygonalRegion.this);

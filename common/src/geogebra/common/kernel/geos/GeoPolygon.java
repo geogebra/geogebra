@@ -63,11 +63,11 @@ public class GeoPolygon extends GeoElement implements NumberValue, Path,
 	protected GeoSegmentND[] segments;
 
 	/** first point for region coord sys */
-	protected GeoPoint2 p0;
+	protected GeoPoint p0;
 	/** second point for region coord sys */
-	protected GeoPoint2 p1;
+	protected GeoPoint p1;
 	/** third point for region coord sys */
-	protected GeoPoint2 p2;
+	protected GeoPoint p2;
 	/** number of points in coord sys */
 	protected int numCS = 0;
 
@@ -439,7 +439,7 @@ public class GeoPolygon extends GeoElement implements NumberValue, Path,
 			GeoPointND endPoint, boolean euclidianVisible) {
 
 		AlgoJoinPointsSegment algoSegment = new AlgoJoinPointsSegment(cons,
-				(GeoPoint2) startPoint, (GeoPoint2) endPoint, this);
+				(GeoPoint) startPoint, (GeoPoint) endPoint, this);
 		cons.removeFromConstructionList(algoSegment);
 
 		return createSegment(algoSegment.getSegment(), euclidianVisible);
@@ -513,7 +513,7 @@ public class GeoPolygon extends GeoElement implements NumberValue, Path,
 	 * @return new point
 	 */
 	protected GeoPointND newGeoPoint() {
-		return new GeoPoint2(cons);
+		return new GeoPoint(cons);
 	}
 
 	@Override
@@ -552,8 +552,8 @@ public class GeoPolygon extends GeoElement implements NumberValue, Path,
 	 *            number of point
 	 * @return the i-th point
 	 */
-	public GeoPoint2 getPoint(int i) {
-		return (GeoPoint2) points[i];
+	public GeoPoint getPoint(int i) {
+		return (GeoPoint) points[i];
 	}
 
 	/**
@@ -677,7 +677,7 @@ public class GeoPolygon extends GeoElement implements NumberValue, Path,
 	 *            vertices of polygon
 	 * @return undirected area
 	 */
-	final static public double calcArea(GeoPoint2[] P) {
+	final static public double calcArea(GeoPoint[] P) {
 		return Math.abs(calcAreaWithSign(P));
 	}
 
@@ -705,10 +705,10 @@ public class GeoPolygon extends GeoElement implements NumberValue, Path,
 		int last = points2.length - 1;
 		double sum = 0;
 		for (i = 0; i < last; i++) {
-			sum += GeoPoint2.det((GeoPoint2) points2[i],
-					(GeoPoint2) points2[i + 1]);
+			sum += GeoPoint.det((GeoPoint) points2[i],
+					(GeoPoint) points2[i + 1]);
 		}
-		sum += GeoPoint2.det((GeoPoint2) points2[last], (GeoPoint2) points2[0]);
+		sum += GeoPoint.det((GeoPoint) points2[last], (GeoPoint) points2[0]);
 		return sum / 2.0; // positive (anticlockwise points) or negative
 							// (clockwise)
 	}
@@ -721,7 +721,7 @@ public class GeoPolygon extends GeoElement implements NumberValue, Path,
 	 * 
 	 * @param centroid point to store result
 	 */
-	public void calcCentroid(GeoPoint2 centroid) {
+	public void calcCentroid(GeoPoint centroid) {
 		if (!defined) {
 			centroid.setUndefined();
 			return;
@@ -1029,7 +1029,7 @@ public class GeoPolygon extends GeoElement implements NumberValue, Path,
 
 	public boolean isOnPath(GeoPointND PI, double eps) {
 
-		GeoPoint2 P = (GeoPoint2) PI;
+		GeoPoint P = (GeoPoint) PI;
 
 		if (P.getPath() == this)
 			return true;
@@ -1206,7 +1206,7 @@ public class GeoPolygon extends GeoElement implements NumberValue, Path,
 	 *            y-coord
 	 */
 	public void setRegionChanged(GeoPointND PI, double x, double y) {
-		GeoPoint2 P = (GeoPoint2) PI;
+		GeoPoint P = (GeoPoint) PI;
 		P.x = x;
 		P.y = y;
 		P.z = 1;
@@ -1253,7 +1253,7 @@ public class GeoPolygon extends GeoElement implements NumberValue, Path,
 	 * @param newp1 new 2nd point for region coords
 	 * @param newp2 new 3rd point for region coords
 	 */
-	final public void updateRegionCS(GeoPoint2 newp0, GeoPoint2 newp1, GeoPoint2 newp2) {
+	final public void updateRegionCS(GeoPoint newp0, GeoPoint newp1, GeoPoint newp2) {
 		this.p0 = newp0;
 		this.p1 = newp1;
 		this.p2 = newp2;
@@ -1265,7 +1265,7 @@ public class GeoPolygon extends GeoElement implements NumberValue, Path,
 	 */
 	final public void updateRegionCS() {
 		// TODO add condition to calculate it
-		if (p2 == null || GeoPoint2.collinear(p0, p1, p2)) {
+		if (p2 == null || GeoPoint.collinear(p0, p1, p2)) {
 			p0 = getPoint(0);
 			numCS = 1;
 			// Application.debug(" p0 = "+p0.inhomX+","+p0.inhomY);
@@ -1293,7 +1293,7 @@ public class GeoPolygon extends GeoElement implements NumberValue, Path,
 				for (thirdPoint = getPoints().length - 1; thirdPoint > secondPoint
 						&& !thirdPointFound; thirdPoint--) {
 					p2 = getPoint(thirdPoint);
-					if (!GeoPoint2.collinear(p0, p1, p2)) {
+					if (!GeoPoint.collinear(p0, p1, p2)) {
 						thirdPointFound = true;
 						numCS++;
 					}
@@ -1539,17 +1539,17 @@ public class GeoPolygon extends GeoElement implements NumberValue, Path,
 	
 	public void rotate(NumberValue r) {
 		for (int i = 0; i < points.length; i++)
-			((GeoPoint2) points[i]).rotate(r);
+			((GeoPoint) points[i]).rotate(r);
 	}
 
-	public void rotate(NumberValue r, GeoPoint2 S) {
+	public void rotate(NumberValue r, GeoPoint S) {
 		for (int i = 0; i < points.length; i++)
-			((GeoPoint2) points[i]).rotate(r, S);
+			((GeoPoint) points[i]).rotate(r, S);
 	}
 
 	public void matrixTransform(double a00, double a01, double a10, double a11) {
 		for (int i = 0; i < points.length; i++)
-			((GeoPoint2) points[i]).matrixTransform(a00, a01, a10, a11);
+			((GeoPoint) points[i]).matrixTransform(a00, a01, a10, a11);
 		this.calcArea();
 	}
 
@@ -1558,20 +1558,20 @@ public class GeoPolygon extends GeoElement implements NumberValue, Path,
 			((Translateable) points[i]).translate(v);
 	}
 
-	public void dilate(NumberValue r, GeoPoint2 S) {
+	public void dilate(NumberValue r, GeoPoint S) {
 		for (int i = 0; i < points.length; i++)
-			((GeoPoint2) points[i]).dilate(r, S);
+			((GeoPoint) points[i]).dilate(r, S);
 		this.calcArea();
 	}
 
-	public void mirror(GeoPoint2 Q) {
+	public void mirror(GeoPoint Q) {
 		for (int i = 0; i < points.length; i++)
-			((GeoPoint2) points[i]).mirror(Q);
+			((GeoPoint) points[i]).mirror(Q);
 	}
 
 	public void mirror(GeoLine g) {
 		for (int i = 0; i < points.length; i++)
-			((GeoPoint2) points[i]).mirror(g);
+			((GeoPoint) points[i]).mirror(g);
 	}
 
 	/**
@@ -1611,7 +1611,7 @@ public class GeoPolygon extends GeoElement implements NumberValue, Path,
 	public void matrixTransform(double a00, double a01, double a02, double a10,
 			double a11, double a12, double a20, double a21, double a22) {
 		for (int i = 0; i < points.length; i++)
-			((GeoPoint2) points[i]).matrixTransform(a00, a01, a02, a10, a11,
+			((GeoPoint) points[i]).matrixTransform(a00, a01, a02, a10, a11,
 					a12, a20, a21, a22);
 	}
 

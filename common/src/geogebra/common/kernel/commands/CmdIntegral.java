@@ -9,7 +9,7 @@ import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunctionable;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.main.MyError;
 
 /**
@@ -55,7 +55,7 @@ public class CmdIntegral extends CommandProcessor {
 			if ((ok[0]=(arg[0] instanceof FunctionalNVar) || arg[0].isGeoLocus()) && (ok[1]=arg[1].isGeoPoint())) {
 				GeoElement[] ret = { kernelA.IntegralODE(c.getLabel(),
 						 arg[0], // function or SlopeField/locus
-						(GeoPoint2) arg[1]) }; // var
+						(GeoPoint) arg[1]) }; // var
 				return ret;
 			}
 			

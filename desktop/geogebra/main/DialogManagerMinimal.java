@@ -12,7 +12,7 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoText;
@@ -60,14 +60,14 @@ public class DialogManagerMinimal extends DialogManager {
 
 	@Override
 	public void showNumberInputDialogSegmentFixed(String menu,
-			GeoPoint2 geoPoint2) {
+			GeoPoint geoPoint2) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void showNumberInputDialogAngleFixed(String menu,
-			GeoSegment[] selectedSegments, GeoPoint2[] selectedPoints,
+			GeoSegment[] selectedSegments, GeoPoint[] selectedPoints,
 			GeoElement[] selGeos) {
 		// TODO Auto-generated method stub
 		
@@ -76,7 +76,7 @@ public class DialogManagerMinimal extends DialogManager {
 
 	@Override
 	public void showNumberInputDialogDilate(String menu,
-			GeoPolygon[] selectedPolygons, GeoPoint2[] selectedPoints,
+			GeoPolygon[] selectedPolygons, GeoPoint[] selectedPoints,
 			GeoElement[] selGeos) {
 		// TODO Auto-generated method stub
 		

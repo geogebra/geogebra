@@ -5,7 +5,7 @@ import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.roots.RealRootFunction;
 
 /**
@@ -18,14 +18,14 @@ import geogebra.common.kernel.roots.RealRootFunction;
 
 public class AlgoLengthCurve2Points extends AlgoUsingTempCASalgo {
 
-	private GeoPoint2 A, B; // input
+	private GeoPoint A, B; // input
 	private GeoCurveCartesian c;
 	GeoCurveCartesian derivative;
 	private GeoNumeric length; // output
 	private RealRootFunction lengthCurve; // is T = sqrt(a'(t)^2+b'(t)^2)
 
 	public AlgoLengthCurve2Points(Construction cons, String label,
-			GeoCurveCartesian c, GeoPoint2 A, GeoPoint2 B) {
+			GeoCurveCartesian c, GeoPoint A, GeoPoint B) {
 		super(cons);
 		this.A = A;
 		this.B = B;

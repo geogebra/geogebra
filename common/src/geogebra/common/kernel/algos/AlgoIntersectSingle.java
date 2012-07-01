@@ -4,7 +4,7 @@ import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 
 import java.util.ArrayList;
 
@@ -17,23 +17,23 @@ public class AlgoIntersectSingle extends AlgoIntersect {
 	private AlgoIntersect algo;
 	private int index; // index of point in algo, can be input directly or be
 						// calculated from refPoint
-	private GeoPoint2 refPoint; // reference point in algo to calculate index;
+	private GeoPoint refPoint; // reference point in algo to calculate index;
 								// can be null or undefined
 
 	// output
-	private GeoPoint2 point;
+	private GeoPoint point;
 
-	private GeoPoint2[] parentOutput;
+	private GeoPoint[] parentOutput;
 
 	// intersection point is the (a) nearest to refPoint
 	public AlgoIntersectSingle(String label, AlgoIntersect algo,
-			GeoPoint2 refPoint) {
+			GeoPoint refPoint) {
 		super(algo.cons);
 		this.algo = algo;
 		algo.addUser(); // this algorithm is a user of algo
 		this.refPoint = refPoint;
 
-		point = new GeoPoint2(algo.cons);
+		point = new GeoPoint(algo.cons);
 
 		setInputOutput();
 		initForNearToRelationship();
@@ -58,7 +58,7 @@ public class AlgoIntersectSingle extends AlgoIntersect {
 
 		refPoint = null;
 
-		point = new GeoPoint2(algo.cons);
+		point = new GeoPoint(algo.cons);
 
 		setInputOutput();
 		initForNearToRelationship();
@@ -132,17 +132,17 @@ public class AlgoIntersectSingle extends AlgoIntersect {
 		setDependencies(); // done by AlgoElement
 	}
 
-	public GeoPoint2 getPoint() {
+	public GeoPoint getPoint() {
 		return point;
 	}
 
 	@Override
-	protected GeoPoint2[] getIntersectionPoints() {
-		return (GeoPoint2[]) super.getOutput();
+	protected GeoPoint[] getIntersectionPoints() {
+		return (GeoPoint[]) super.getOutput();
 	}
 
 	@Override
-	protected GeoPoint2[] getLastDefinedIntersectionPoints() {
+	protected GeoPoint[] getLastDefinedIntersectionPoints() {
 		return null;
 	}
 

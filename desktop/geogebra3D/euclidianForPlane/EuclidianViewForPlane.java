@@ -8,7 +8,7 @@ import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
@@ -296,10 +296,10 @@ public class EuclidianViewForPlane extends EuclidianViewFor3D {
 	}	
 
 	@Override
-	public ArrayList<GeoPoint2> getFreeInputPoints(AlgoElement algoParent){
-		ArrayList<GeoPoint2> list = algoParent.getFreeInputPoints();
-		ArrayList<GeoPoint2> ret = new ArrayList<GeoPoint2>();	
-		for (GeoPoint2 p : list)
+	public ArrayList<GeoPoint> getFreeInputPoints(AlgoElement algoParent){
+		ArrayList<GeoPoint> list = algoParent.getFreeInputPoints();
+		ArrayList<GeoPoint> ret = new ArrayList<GeoPoint>();	
+		for (GeoPoint p : list)
 			if (!hasForParent(p))
 				ret.add(p);
 		return ret;

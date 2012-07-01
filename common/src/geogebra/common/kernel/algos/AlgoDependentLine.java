@@ -26,7 +26,7 @@ import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.Polynomial;
 import geogebra.common.kernel.geos.GeoLine;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 
 /**
  *
@@ -121,7 +121,7 @@ public class AlgoDependentLine extends AlgoElement implements EvaluateAtPoint {
     	return equation.toRealString(tpl);
     }
     
-    final public double evaluate(GeoPoint2 P) {
+    final public double evaluate(GeoPoint P) {
     	double mat0 = ev[0].evaluateNum().getDouble(); // x\u00b2
 		double mat1 = ev[1].evaluateNum().getDouble(); // y\u00b2
 		double mat2 = ev[2].evaluateNum().getDouble(); // constant

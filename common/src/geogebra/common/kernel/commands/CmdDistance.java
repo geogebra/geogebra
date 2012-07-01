@@ -4,7 +4,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.MyError;
 
@@ -45,14 +45,14 @@ public class CmdDistance extends CommandProcessor {
 			// distance between point and line
 			else if (arg[0].isGeoPoint()) {
 				GeoElement[] ret = { kernelA.Distance(c.getLabel(),
-						(GeoPoint2) arg[0], arg[1]) };
+						(GeoPoint) arg[0], arg[1]) };
 				return ret;
 			}
 
 			// distance between line and point
 			else if (arg[1].isGeoPoint()) {
 				GeoElement[] ret = { kernelA.Distance(c.getLabel(),
-						(GeoPoint2) arg[1], arg[0]) };
+						(GeoPoint) arg[1], arg[0]) };
 				return ret;
 			}
 

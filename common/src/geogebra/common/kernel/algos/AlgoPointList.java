@@ -16,7 +16,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 
 
 
@@ -85,7 +85,7 @@ public class AlgoPointList extends AlgoElement {
         			GeoElement geoX = list.get(0);
         			GeoElement geoY = list.get(1);
         			if (geoX.isGeoNumeric() && geoY.isGeoNumeric()) {
-        				outputList.add(new GeoPoint2(cons, null, ((GeoNumeric)geoX).getDouble(), ((GeoNumeric)geoY).getDouble(), 1.0));
+        				outputList.add(new GeoPoint(cons, null, ((GeoNumeric)geoX).getDouble(), ((GeoNumeric)geoY).getDouble(), 1.0));
         			}
         		}
         		

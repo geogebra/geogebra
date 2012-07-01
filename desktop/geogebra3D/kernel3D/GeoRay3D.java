@@ -6,7 +6,7 @@ import geogebra.common.kernel.Transform;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.LimitedPath;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoRayND;
@@ -186,7 +186,7 @@ public class GeoRay3D extends GeoLine3D implements GeoRayND, LimitedPath {
 		return startPoint.isLabelSet();
 	}
 
-	public boolean isIntersectionPointIncident(GeoPoint2 p, double eps) {
+	public boolean isIntersectionPointIncident(GeoPoint p, double eps) {
 		if (allowOutlyingIntersections)
 			return isOnFullLine(p.getCoordsInD(3), eps);
 		else

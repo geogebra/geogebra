@@ -19,7 +19,7 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 
 import org.apache.commons.math.stat.correlation.SpearmansCorrelation;
 
@@ -112,9 +112,9 @@ public class AlgoSpearman extends AlgoElement {
 			{
 				GeoElement geo = geoListPts.get(i); 
 				if (geo.isGeoPoint()) {
-					double x=((GeoPoint2)geo).getX();
-					double y=((GeoPoint2)geo).getY();
-					double z=((GeoPoint2)geo).getZ();
+					double x=((GeoPoint)geo).getX();
+					double y=((GeoPoint)geo).getY();
+					double z=((GeoPoint)geo).getZ();
 					valX[i] = x/z;
 					valY[i] = y/z;
 				}else{

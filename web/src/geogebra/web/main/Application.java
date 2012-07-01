@@ -23,7 +23,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoList;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.AbstractFontManager;
@@ -369,7 +369,7 @@ public class Application extends AbstractApplication {
 										var fileStr = base64result;
 										var fileStr2 = reader2.result;
 										var fileName = fileToHandle.name;
-										appl.@geogebra.web.main.Application::imageDropHappened(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lgeogebra/common/kernel/geos/GeoPoint2;)(fileName, fileStr, fileStr2, null);
+										appl.@geogebra.web.main.Application::imageDropHappened(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lgeogebra/common/kernel/geos/GeoPoint;)(fileName, fileStr, fileStr2, null);
 									}
 								}
 								reader2.readAsBinaryString(fileToHandle);
@@ -451,7 +451,7 @@ public class Application extends AbstractApplication {
 	 * @param clientx - desired position on the canvas (x)
 	 * @param clienty - desired position on the canvas (y)
 	 */
-	public void imageDropHappened(String imgFileName, String fileStr, String fileStr2, GeoPoint2 loc) {
+	public void imageDropHappened(String imgFileName, String fileStr, String fileStr2, GeoPoint loc) {
 
 		MD5EncrypterGWTImpl md5e = new MD5EncrypterGWTImpl();
 		String zip_directory = md5e.encrypt(fileStr2);
@@ -471,7 +471,7 @@ public class Application extends AbstractApplication {
 		doDropHappened(imgFileName, fileStr, loc);
 	}
 
-	private void doDropHappened(String imgFileName, String fileStr, GeoPoint2 loc) {
+	private void doDropHappened(String imgFileName, String fileStr, GeoPoint loc) {
 
 		Construction cons = getKernel().getConstruction();
 		EuclidianViewInterfaceCommon ev = getActiveEuclidianView();
@@ -483,14 +483,14 @@ public class Application extends AbstractApplication {
 		if (loc == null) {
 			double cx = ev.getXmin() + (ev.getXmax() - ev.getXmin()) / 4;
 			double cy = ev.getYmin() + (ev.getYmax() - ev.getYmin()) / 4;
-			GeoPoint2 gsp = new GeoPoint2(cons, cx, cy, 1);
+			GeoPoint gsp = new GeoPoint(cons, cx, cy, 1);
 			gsp.setLabel(null);
 			gsp.setLabelVisible(false);
 			gsp.update();
 			geoImage.setCorner(gsp, 0);
 
 			cx = ev.getXmax() - (ev.getXmax() - ev.getXmin()) / 4;
-			GeoPoint2 gsp2 = new GeoPoint2(cons, cx, cy, 1);
+			GeoPoint gsp2 = new GeoPoint(cons, cx, cy, 1);
 			gsp2.setLabel(null);
 			gsp2.setLabelVisible(false);
 			gsp2.update();

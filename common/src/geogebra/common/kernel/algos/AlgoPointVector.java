@@ -16,21 +16,21 @@ import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoVector;
 
 
 public class AlgoPointVector extends AlgoElement {
 
-    private GeoPoint2 P;  // input
+    private GeoPoint P;  // input
     private GeoVector v; // input
-    private GeoPoint2 Q;     // output       
+    private GeoPoint Q;     // output       
         
-    public AlgoPointVector(Construction cons, String label, GeoPoint2 P, GeoVector v) {
+    public AlgoPointVector(Construction cons, String label, GeoPoint P, GeoVector v) {
         super(cons);
         this.P = P;
         this.v = v;         
-        Q = new GeoPoint2(cons); 
+        Q = new GeoPoint(cons); 
         
         setInputOutput(); // for AlgoElement
         
@@ -61,7 +61,7 @@ public class AlgoPointVector extends AlgoElement {
         setDependencies(); // done by AlgoElement
     }    
     
-    public GeoPoint2 getQ() { return Q; }
+    public GeoPoint getQ() { return Q; }
     
     @Override
 	public final void compute() {

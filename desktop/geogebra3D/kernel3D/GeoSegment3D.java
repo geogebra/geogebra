@@ -8,7 +8,7 @@ import geogebra.common.kernel.Transform;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.plugin.GeoClass;
@@ -369,7 +369,7 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 				&& endPoint.isLabelSet();
 	}
 
-	public boolean isIntersectionPointIncident(GeoPoint2 p, double eps) {
+	public boolean isIntersectionPointIncident(GeoPoint p, double eps) {
 		if (allowOutlyingIntersections)
 			return isOnFullLine(p.getCoordsInD(3), eps);
 		return isOnPath(p, eps);

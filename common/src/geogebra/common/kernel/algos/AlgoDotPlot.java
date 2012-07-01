@@ -16,7 +16,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 
 import java.util.Arrays;
 
@@ -135,9 +135,9 @@ public class AlgoDotPlot extends AlgoElement {
         
         // first point
         if(outputList.size()>0)
-			((GeoPoint2)outputList.get(0)).setCoords(sortedData[0], k, 1.0);
+			((GeoPoint)outputList.get(0)).setCoords(sortedData[0], k, 1.0);
     	else
-    	 outputList.add(new GeoPoint2(cons, null, sortedData[0], k, 1.0));
+    	 outputList.add(new GeoPoint(cons, null, sortedData[0], k, 1.0));
         
         // remaining points
         for(int i = 1; i< size; i++){
@@ -147,9 +147,9 @@ public class AlgoDotPlot extends AlgoElement {
         	else
         		k = 1;
         	if(i<oldListSize)
-				((GeoPoint2)outputList.get(i)).setCoords(sortedData[i], k, 1.0);
+				((GeoPoint)outputList.get(i)).setCoords(sortedData[i], k, 1.0);
         	else
-        	 outputList.add(new GeoPoint2(cons, null, sortedData[i], k, 1.0));
+        	 outputList.add(new GeoPoint(cons, null, sortedData[i], k, 1.0));
         }      
 		
         cons.setSuppressLabelCreation(suppressLabelCreation); 

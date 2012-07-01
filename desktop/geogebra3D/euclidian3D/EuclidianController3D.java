@@ -17,7 +17,7 @@ import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoSurfaceFinite;
 import geogebra.common.kernel.geos.Test;
@@ -332,7 +332,7 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 		o = o.projectPlaneThruVIfPossible(CoordMatrix4x4.IDENTITY, view3D.getViewDirection())[0];
 		//Application.debug(o);
 		//((GeoPoint2) movedGeoText.getStartPoint()).setCoords(o.getX(),o.getY(), 1.0);
-		((GeoPoint2) movedGeoText.getStartPoint()).setCoords(o.getX()-startPoint3DxOy.getX(),o.getY()-startPoint3DxOy.getY(), 1.0);
+		((GeoPoint) movedGeoText.getStartPoint()).setCoords(o.getX()-startPoint3DxOy.getX(),o.getY()-startPoint3DxOy.getY(), 1.0);
 	}
 	
 	

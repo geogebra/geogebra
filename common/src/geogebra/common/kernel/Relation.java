@@ -27,7 +27,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoList;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoVec3D;
@@ -70,8 +70,8 @@ public class Relation {
 		// decide what relation method can be used
 
 		// point, point
-		if (a instanceof GeoPoint2 && b instanceof GeoPoint2)
-			return relation((GeoPoint2) a, (GeoPoint2) b);
+		if (a instanceof GeoPoint && b instanceof GeoPoint)
+			return relation((GeoPoint) a, (GeoPoint) b);
 		else if (a instanceof GeoVector && b instanceof GeoVector)
 			return relation((GeoVector) a, (GeoVector) b);
 		else if (a instanceof GeoSegment && b instanceof GeoSegment)
@@ -85,15 +85,15 @@ public class Relation {
 		else if (a instanceof GeoFunction && b instanceof GeoFunction)
 			return relation((GeoFunction) a, (GeoFunction) b);
 
-		else if (a instanceof GeoPoint2 && b instanceof GeoPolygon)
-			return relation((GeoPoint2) a, (GeoPolygon) b);
-		else if (a instanceof GeoPolygon && b instanceof GeoPoint2)
-			return relation((GeoPoint2) b, (GeoPolygon) a);
+		else if (a instanceof GeoPoint && b instanceof GeoPolygon)
+			return relation((GeoPoint) a, (GeoPolygon) b);
+		else if (a instanceof GeoPolygon && b instanceof GeoPoint)
+			return relation((GeoPoint) b, (GeoPolygon) a);
 
-		else if (a instanceof GeoPoint2 && b instanceof Path)
-			return relation((GeoPoint2) a, (Path) b);
-		else if (a instanceof Path && b instanceof GeoPoint2)
-			return relation((GeoPoint2) b, (Path) a);
+		else if (a instanceof GeoPoint && b instanceof Path)
+			return relation((GeoPoint) a, (Path) b);
+		else if (a instanceof Path && b instanceof GeoPoint)
+			return relation((GeoPoint) b, (Path) a);
 
 		else if (a instanceof GeoConic && b instanceof GeoLine)
 			return relation((GeoLine) b, (GeoConic) a);
@@ -153,7 +153,7 @@ public class Relation {
 	/**
 	 * description of the relation between two points A, B (equal, unequal)
 	 */
-	final private String relation(GeoPoint2 A, GeoPoint2 B) {
+	final private String relation(GeoPoint A, GeoPoint B) {
 		String str = equalityString(A, B, A.isEqual(B));
 		return str;
 	}
@@ -176,7 +176,7 @@ public class Relation {
 	 * description of the relation between point A and a polygon ((not) on
 	 * perimeter)
 	 */
-	final private String relation(GeoPoint2 A, GeoPolygon p) {
+	final private String relation(GeoPoint A, GeoPolygon p) {
 		return incidencePerimeterString(A, p.toGeoElement(),
 				p.isOnPath(A, Kernel.STANDARD_PRECISION));
 	}
@@ -185,7 +185,7 @@ public class Relation {
 	 * description of the relation between point A and a path (incident, not
 	 * incident)
 	 */
-	final private String relation(GeoPoint2 A, Path path) {
+	final private String relation(GeoPoint A, Path path) {
 		return incidenceString(A, path.toGeoElement(),
 				path.isOnPath(A, Kernel.STANDARD_PRECISION));
 	}
@@ -207,7 +207,7 @@ public class Relation {
 			else {
 				// check if intersection point really lies on both objects (e.g.
 				// segments)
-				GeoPoint2 tempPoint = new GeoPoint2(g.cons);
+				GeoPoint tempPoint = new GeoPoint(g.cons);
 				GeoVec3D.cross(g, h, tempPoint);
 				boolean isIntersection = g.isIntersectionPointIncident(
 						tempPoint, Kernel.STANDARD_PRECISION)
@@ -233,7 +233,7 @@ public class Relation {
 			// intersect line and conic
 			// precision setting is not needed here (done by algorithm)
 			AlgoIntersectLineConic algo = new AlgoIntersectLineConic(cons, g, c);
-			GeoPoint2[] points = algo.getIntersectionPoints();
+			GeoPoint[] points = algo.getIntersectionPoints();
 			cons.removeFromConstructionList(algo);
 
 			// check for defined intersection points
@@ -261,7 +261,7 @@ public class Relation {
 					AlgoIntersectLineConic.INTERSECTION_ASYMPTOTIC_LINE);
 		} else {
 			// intersect line and conic
-			GeoPoint2[] points = { new GeoPoint2(cons), new GeoPoint2(cons) };
+			GeoPoint[] points = { new GeoPoint(cons), new GeoPoint(cons) };
 			type = AlgoIntersectLineConic.intersectLineConic(g, c, points);
 			str = lineConicString(g, c, type);
 		}
@@ -317,7 +317,7 @@ public class Relation {
 			// intersect conics
 			// precision setting is not needed here (done by algorithm)
 			AlgoIntersectConics algo = new AlgoIntersectConics(cons, a, b);
-			GeoPoint2[] points = algo.getIntersectionPoints();
+			GeoPoint[] points = algo.getIntersectionPoints();
 			cons.removeFromConstructionList(algo);
 
 			// check for defined intersection points
@@ -375,7 +375,7 @@ public class Relation {
 
 	// "a lies on b"
 	// "a does not lie on b"
-	final private String incidenceString(GeoPoint2 a, GeoElement b,
+	final private String incidenceString(GeoPoint a, GeoElement b,
 			boolean incident) {
 		if (incident) {
 			return getPlainNumerical("AliesOnB", a.getNameDescription(),
@@ -387,7 +387,7 @@ public class Relation {
 
 	// "a lies on the perimeter of b"
 	// "a does not lie on the perimeter of b"
-	final private String incidencePerimeterString(GeoPoint2 a, GeoElement b,
+	final private String incidencePerimeterString(GeoPoint a, GeoElement b,
 			boolean incident) {
 		if (incident) {
 			return getPlainNumerical("AliesOnThePerimeterOfB",

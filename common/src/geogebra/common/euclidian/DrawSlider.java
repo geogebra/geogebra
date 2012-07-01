@@ -20,7 +20,7 @@ import geogebra.common.awt.GLine2D;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.plugin.EuclidianStyleConstants;
 
 /**
@@ -36,7 +36,7 @@ public class DrawSlider extends Drawable {
 	private double[] coordsRW = new double[2];
 	private double[] coordsScreen = new double[2];
 	private GLine2D line = AwtFactory.prototype.newLine2D();
-	private GeoPoint2 geoPoint;
+	private GeoPoint geoPoint;
 	private DrawPoint drawPoint;
 
 	/**
@@ -52,7 +52,7 @@ public class DrawSlider extends Drawable {
 		geo = number;
 
 		// create point for slider
-		geoPoint = new GeoPoint2(view.getKernel().getConstruction());
+		geoPoint = new GeoPoint(view.getKernel().getConstruction());
 		geoPoint.setPointStyle(EuclidianStyleConstants.POINT_STYLE_DOT);
 		drawPoint = new DrawPoint(view, geoPoint);
 		drawPoint.setGeoElement(number);

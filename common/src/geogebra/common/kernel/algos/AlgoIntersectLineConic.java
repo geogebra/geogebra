@@ -25,7 +25,7 @@ import geogebra.common.kernel.PointPairList;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import geogebra.common.kernel.prover.NoSymbolicParametersException;
@@ -47,8 +47,8 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements SymbolicPar
 	protected GeoLine g; // input
 	protected GeoConic c;
 
-	private GeoPoint2[] D; // D: old points; Q: new points, not yet permuted
-	protected GeoPoint2[] P, Q; // output -- Q permuted according to D
+	private GeoPoint[] D; // D: old points; Q: new points, not yet permuted
+	protected GeoPoint[] P, Q; // output -- Q permuted according to D
 	protected int intersectionType;
 
 	private HashMap<GeoElement,Polynomial[]> botanaPolynomials;
@@ -68,7 +68,7 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements SymbolicPar
 	private boolean isDefinedAsTangent;
 	private boolean firstIntersection = true;
 	private boolean isPermutationNeeded = true;
-	private GeoPoint2 tangentPoint;
+	private GeoPoint tangentPoint;
 
 	private PointPairList pointList = new PointPairList();
 
@@ -136,15 +136,15 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements SymbolicPar
 	protected void initElements() {
 		// g is defined as tangent of c
 		if (isDefinedAsTangent) {
-			P = new GeoPoint2[1];
-			P[0] = new GeoPoint2(cons);
+			P = new GeoPoint[1];
+			P[0] = new GeoPoint(cons);
 			// Q and D are not defined here
 		}
 		// standard case
 		else {
-			P = new GeoPoint2[2];
-			D = new GeoPoint2[2];
-			Q = new GeoPoint2[2];
+			P = new GeoPoint[2];
+			D = new GeoPoint[2];
+			Q = new GeoPoint[2];
 			distTable = new double[2][2];
 			age = new int[2];
 			permutation = new int[2];
@@ -152,9 +152,9 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements SymbolicPar
 			isPalive = new boolean[2];
 
 			for (i = 0; i < 2; i++) {
-				Q[i] = new GeoPoint2(cons);
-				P[i] = new GeoPoint2(cons);
-				D[i] = new GeoPoint2(cons);
+				Q[i] = new GeoPoint(cons);
+				P[i] = new GeoPoint(cons);
+				D[i] = new GeoPoint(cons);
 			}
 
 			// check possible special case
@@ -175,7 +175,7 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements SymbolicPar
 	}
 
 	@Override
-	public final GeoPoint2[] getIntersectionPoints() {
+	public final GeoPoint[] getIntersectionPoints() {
 		return P;
 	}
 
@@ -188,7 +188,7 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements SymbolicPar
 	}
 
 	@Override
-	protected GeoPoint2[] getLastDefinedIntersectionPoints() {
+	protected GeoPoint[] getLastDefinedIntersectionPoints() {
 		return D;
 	}
 
@@ -294,14 +294,14 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements SymbolicPar
 		 * AbstractKernel.MIN_PRECISION)) { pointOnConic = p; break; } } } }
 		 */
 
-		GeoPoint2 existingIntersection = null;
+		GeoPoint existingIntersection = null;
 
 		// find a point from conic c on line g
-		ArrayList<GeoPoint2> pointsOnConic = c.getPointsOnConic();
+		ArrayList<GeoPoint> pointsOnConic = c.getPointsOnConic();
 		if (pointsOnConic != null) {
 			// get a point from pointsOnConic to see if it is on g.
 			for (int i = 0; i < pointsOnConic.size(); ++i) {
-				GeoPoint2 p = pointsOnConic.get(i);
+				GeoPoint p = pointsOnConic.get(i);
 				if (p.isLabelSet()) { // an existing intersection should be a
 										// labeled one
 					if (p.getIncidenceList() != null
@@ -328,12 +328,12 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements SymbolicPar
 		// if existingIntersection is still not found, find a point from line g
 		// on conic c
 		if (existingIntersection == null) {
-			ArrayList<GeoPoint2> pointsOnLine = g.getPointsOnLine();
+			ArrayList<GeoPoint> pointsOnLine = g.getPointsOnLine();
 
 			if (pointsOnLine != null) {
 				// get a point from pointsOnLine to see if it is on c.
 				for (int i = 0; i < pointsOnLine.size(); ++i) {
-					GeoPoint2 p = pointsOnLine.get(i);
+					GeoPoint p = pointsOnLine.get(i);
 					if (p.isLabelSet()) { // an existing intersection should be
 											// a labeled one
 						if (p.getIncidenceList() != null
@@ -557,7 +557,7 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements SymbolicPar
 		}
 	}
 
-	private boolean pointLiesOnBothPaths(GeoPoint2 P) {
+	private boolean pointLiesOnBothPaths(GeoPoint P) {
 		return g.isIntersectionPointIncident(P, Kernel.MIN_PRECISION)
 				&& c.isIntersectionPointIncident(P, Kernel.MIN_PRECISION);
 	}
@@ -579,7 +579,7 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements SymbolicPar
 	 * 
 	 * @returns type of intersection
 	 */
-	private int intersect(GeoConic c, GeoPoint2[] sol) {
+	private int intersect(GeoConic c, GeoPoint[] sol) {
 		boolean ok = false;
 		int ret = INTERSECTION_PASSING_LINE;
 
@@ -610,7 +610,7 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements SymbolicPar
 
 	// do the actual computations
 	public final static int intersectLineConic(GeoLine g, GeoConicND c,
-			GeoPoint2[] sol) {
+			GeoPoint[] sol) {
 		double[] A = c.matrix;
 
 		// get arbitrary point of line
@@ -729,7 +729,7 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements SymbolicPar
 	 * Tests if at least one point lies on conic c and line g.
 	 */
 	final static private boolean testPoints(GeoLine g, GeoConic c,
-			GeoPoint2[] P, double eps) {
+			GeoPoint[] P, double eps) {
 		boolean foundPoint = false;
 		for (int i = 0; i < P.length; i++) {
 			if (P[i].isDefined()) {

@@ -5,7 +5,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.MyError;
 
@@ -47,10 +47,10 @@ public class CmdAttachCopyToView extends CommandProcessor {
 					ev = app.getEuclidianView1();
 				if (n == 2) {
 
-					corner1 = new GeoPoint2(kernelA.getConstruction());
-					corner3 = new GeoPoint2(kernelA.getConstruction());
-					screenCorner1 = new GeoPoint2(kernelA.getConstruction());
-					screenCorner3 = new GeoPoint2(kernelA.getConstruction());
+					corner1 = new GeoPoint(kernelA.getConstruction());
+					corner3 = new GeoPoint(kernelA.getConstruction());
+					screenCorner1 = new GeoPoint(kernelA.getConstruction());
+					screenCorner3 = new GeoPoint(kernelA.getConstruction());
 					if(ev!=null){
 						corner1.setCoords(ev.getXmin(), ev.getYmin(), 1);
 						corner3.setCoords(ev.getXmax(), ev.getYmax(), 1);

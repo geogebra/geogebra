@@ -18,7 +18,7 @@ import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPolyLine;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.plugin.EuclidianStyleConstants;
@@ -484,16 +484,16 @@ public class EuclidianPen {
 				{
 					//equation="x" + "=" + (x_first);
 					//AbstractApplication.debug(equation);
-					GeoPoint2 p = new GeoPoint2(app.getKernel().getConstruction(), x_first, y_first, 1.0);
-					GeoPoint2 q = new GeoPoint2(app.getKernel().getConstruction(), x_last, y_last, 1.0);
+					GeoPoint p = new GeoPoint(app.getKernel().getConstruction(), x_first, y_first, 1.0);
+					GeoPoint q = new GeoPoint(app.getKernel().getConstruction(), x_last, y_last, 1.0);
 					algo = new AlgoJoinPointsSegment(app.getKernel().getConstruction(), null, p, q);
 				}
 				else if(y_last==y_first)
 				{
 					//equation="y" + "=" + " " + (y_first);
 					//AbstractApplication.debug(equation);
-					GeoPoint2 p = new GeoPoint2(app.getKernel().getConstruction(), x_first, y_first, 1.0);
-					GeoPoint2 q = new GeoPoint2(app.getKernel().getConstruction(), x_last, y_last, 1.0);
+					GeoPoint p = new GeoPoint(app.getKernel().getConstruction(), x_first, y_first, 1.0);
+					GeoPoint q = new GeoPoint(app.getKernel().getConstruction(), x_last, y_last, 1.0);
 					algo = new AlgoJoinPointsSegment(app.getKernel().getConstruction(), null, p, q);
 				}
 				else
@@ -509,8 +509,8 @@ public class EuclidianPen {
 						//equation=y_diff + "x" + "+" + x_diff + "y" + "=" + ((x_diff*y_first)+(y_diff*x_first));
 						//AbstractApplication.debug(equation);
 					}
-					GeoPoint2 p = new GeoPoint2(app.getKernel().getConstruction(), x_first, y_first, 1.0);
-					GeoPoint2 q = new GeoPoint2(app.getKernel().getConstruction(), x_last, y_last, 1.0);
+					GeoPoint p = new GeoPoint(app.getKernel().getConstruction(), x_first, y_first, 1.0);
+					GeoPoint q = new GeoPoint(app.getKernel().getConstruction(), x_last, y_last, 1.0);
 					algo = new AlgoJoinPointsSegment(app.getKernel().getConstruction(), null, p, q);
 				}	
 				GeoElement line = algo.getGeoElements()[0];
@@ -539,7 +539,7 @@ public class EuclidianPen {
 		
 		Construction cons = app.getKernel().getConstruction();
 		//GeoList newPts;// = new GeoList(cons);
-		GeoPoint2[] newPts;// = new GeoList(cons);
+		GeoPoint[] newPts;// = new GeoList(cons);
 		int offset;
 		if (erasing) {
 			
@@ -547,11 +547,11 @@ public class EuclidianPen {
 				return;
 			}
 			
-			GeoPoint2[] pts = getAlgoPolyline(lastAlgo).getPoints();
+			GeoPoint[] pts = getAlgoPolyline(lastAlgo).getPoints();
 			
-			newPts = new GeoPoint2[pts.length];
+			newPts = new GeoPoint[pts.length];
 			
-			GeoPoint2 undefinedPoint = new GeoPoint2(cons, Double.NaN, Double.NaN, 1);
+			GeoPoint undefinedPoint = new GeoPoint(cons, Double.NaN, Double.NaN, 1);
 
 			for (int i = 0 ; i < pts.length ; i++) {
 				
@@ -567,13 +567,13 @@ public class EuclidianPen {
 				}
 
 				// add undefined point to erase (creates a gap)
-				newPts[i] = erase ? undefinedPoint : (GeoPoint2) pts[i].copyInternal(cons);
+				newPts[i] = erase ? undefinedPoint : (GeoPoint) pts[i].copyInternal(cons);
 			}
 			
 		} else {
 			if (lastAlgo == null) {
 				//lastPolyLine = new GeoPolyLine(cons, "hello");
-				newPts = new GeoPoint2[penPoints2.size()];
+				newPts = new GeoPoint[penPoints2.size()];
 				//newPts = new GeoList(cons);
 				offset = 0;
 			} else {
@@ -583,15 +583,15 @@ public class EuclidianPen {
 				//newPts.add(new GeoPoint2(cons, Double.NaN, Double.NaN, 1));
 				
 				
-				GeoPoint2[] pts = getAlgoPolyline(lastAlgo).getPoints();
+				GeoPoint[] pts = getAlgoPolyline(lastAlgo).getPoints();
 				
-				newPts = new GeoPoint2[penPoints2.size() + 1 + pts.length];
+				newPts = new GeoPoint[penPoints2.size() + 1 + pts.length];
 				
 				for (int i = 0 ; i < pts.length ; i++) {
-					newPts[i] = (GeoPoint2) pts[i].copyInternal(cons);
+					newPts[i] = (GeoPoint) pts[i].copyInternal(cons);
 				}
 				
-				newPts[pts.length] = new GeoPoint2(cons, Double.NaN, Double.NaN, 1);
+				newPts[pts.length] = new GeoPoint(cons, Double.NaN, Double.NaN, 1);
 	
 				
 				offset = pts.length + 1;
@@ -602,7 +602,7 @@ public class EuclidianPen {
 	    	while (it.hasNext()) {
 	    		GPoint p = it.next();
 	    		//newPts.add(new GeoPoint2(cons, view.toRealWorldCoordX(p.getX()), view.toRealWorldCoordY(p.getY()), 1));
-	    		newPts[offset++] = new GeoPoint2(cons, view.toRealWorldCoordX(p.getX()), view.toRealWorldCoordY(p.getY()), 1);
+	    		newPts[offset++] = new GeoPoint(cons, view.toRealWorldCoordX(p.getX()), view.toRealWorldCoordY(p.getY()), 1);
 			}
 		}
 		
@@ -623,10 +623,10 @@ public class EuclidianPen {
 			
 			Kernel kernelA = app.getKernel();
 	
-			GeoPoint2 corner1 = new GeoPoint2(kernelA.getConstruction());
-			GeoPoint2 corner3 = new GeoPoint2(kernelA.getConstruction());
-			GeoPoint2 screenCorner1 = new GeoPoint2(kernelA.getConstruction());
-			GeoPoint2 screenCorner3 = new GeoPoint2(kernelA.getConstruction());
+			GeoPoint corner1 = new GeoPoint(kernelA.getConstruction());
+			GeoPoint corner3 = new GeoPoint(kernelA.getConstruction());
+			GeoPoint screenCorner1 = new GeoPoint(kernelA.getConstruction());
+			GeoPoint screenCorner3 = new GeoPoint(kernelA.getConstruction());
 			if(ev!=null){
 				corner1.setCoords(ev.getXmin(), ev.getYmin(), 1);
 				corner3.setCoords(ev.getXmax(), ev.getYmax(), 1);
@@ -1093,9 +1093,9 @@ public class EuclidianPen {
 			equation = "(x + " + -x_center + ")" + Unicode.Superscript_2 +  "+ " + "(y + " + -y_center + ")" + Unicode.Superscript_2  + "= " + rad;
 		if(x_center>0 && y_center<0)
 			equation = "(x - " + x_center + ")" + Unicode.Superscript_2 + "+ " + "(y + " + -y_center + ")" + Unicode.Superscript_2  + "= " + rad;
-		GeoPoint2 p1 = new GeoPoint2(app.getKernel().getConstruction(), x1, y1, 1.0);
-	    GeoPoint2 q = new GeoPoint2(app.getKernel().getConstruction(), x2, y2, 1.0);
-	    GeoPoint2 z = new GeoPoint2(app.getKernel().getConstruction(), x3, y3, 1.0);
+		GeoPoint p1 = new GeoPoint(app.getKernel().getConstruction(), x1, y1, 1.0);
+	    GeoPoint q = new GeoPoint(app.getKernel().getConstruction(), x2, y2, 1.0);
+	    GeoPoint z = new GeoPoint(app.getKernel().getConstruction(), x3, y3, 1.0);
 		AlgoCircleThreePoints algo=new AlgoCircleThreePoints(app.getKernel().getConstruction() , equation, p1, q, z);
 		
 		GeoConic circle = (GeoConic) algo.getCircle();
@@ -1433,8 +1433,8 @@ public class EuclidianPen {
     	double dist, avg_angle=0;
     	double pt[] = new double[2];
     	Construction cons = app.getKernel().getConstruction();
-    	GeoPoint2 p = null;
-    	GeoPoint2 q = null;
+    	GeoPoint p = null;
+    	GeoPoint q = null;
     	AlgoJoinPointsSegment algo = null;
     	double x_first = 0;
     	double y_first = 0;
@@ -1568,8 +1568,8 @@ public class EuclidianPen {
     		y_first = view.toRealWorldCoordY(points[2*i + 1]);
     		x_last = view.toRealWorldCoordX(points[2*i + 2]);
     		y_last = view.toRealWorldCoordY(points[2*i + 3]);
-    		p =new GeoPoint2(cons, x_first, y_first, 1.0);
-    		q =new GeoPoint2(cons, x_last, y_last, 1.0);
+    		p =new GeoPoint(cons, x_first, y_first, 1.0);
+    		q =new GeoPoint(cons, x_last, y_last, 1.0);
     		algo = new AlgoJoinPointsSegment(cons, null, p, q);
     		GeoElement line = algo.getGeoElements()[0];
 			line.setLineThickness(penSize * 2);
@@ -1593,8 +1593,8 @@ public class EuclidianPen {
     	double x1, y1, x2, y2, angle;
     	boolean rev[] = new boolean[3];
     	Construction cons = app.getKernel().getConstruction();
-    	GeoPoint2 p = null;
-    	GeoPoint2 q = null;
+    	GeoPoint p = null;
+    	GeoPoint q = null;
     	AlgoJoinPointsSegment algo = null;
     	double x_first = 0;
     	double y_first = 0;
@@ -1768,8 +1768,8 @@ public class EuclidianPen {
 		y_first = view.toRealWorldCoordY(y1);
 		x_last = view.toRealWorldCoordX(x2);
 		y_last = view.toRealWorldCoordY(y2);
-		p = new GeoPoint2(cons, x_first, y_first, 1.0);
-		q = new GeoPoint2(cons, x_last, y_last, 1.0);
+		p = new GeoPoint(cons, x_first, y_first, 1.0);
+		q = new GeoPoint(cons, x_last, y_last, 1.0);
 		algo = new AlgoJoinPointsSegment(cons, null, p, q);
 		GeoElement line = algo.getGeoElements()[0];
 		line.setLineThickness(penSize * 2);
@@ -1780,7 +1780,7 @@ public class EuclidianPen {
 		
 		x_first = view.toRealWorldCoordX((x2 - dist*Math.cos(angle + delta)));
 		y_first = view.toRealWorldCoordY((y2 - dist*Math.sin(angle + delta)));
-		p = new GeoPoint2(cons, x_first, y_first, 1.0);
+		p = new GeoPoint(cons, x_first, y_first, 1.0);
 		algo = new AlgoJoinPointsSegment(cons, null, p, q);
 		line = algo.getGeoElements()[0];
 		line.setLineThickness(penSize * 2);
@@ -1791,7 +1791,7 @@ public class EuclidianPen {
 		
 		x_first = view.toRealWorldCoordX((x2 - dist*Math.cos(angle - delta)));
 		y_first = view.toRealWorldCoordY((y2 - dist*Math.sin(angle - delta)));
-		p = new GeoPoint2(cons, x_first, y_first, 1.0);
+		p = new GeoPoint(cons, x_first, y_first, 1.0);
 		algo = new AlgoJoinPointsSegment(cons, null, p, q);
 		line = algo.getGeoElements()[0];
 		line.setLineThickness(penSize * 2);
@@ -1811,8 +1811,8 @@ public class EuclidianPen {
     	double dist = 0;
     	double pt[] = new double[2];
     	Construction cons = app.getKernel().getConstruction();
-    	GeoPoint2 p = null;
-    	GeoPoint2 q = null;
+    	GeoPoint p = null;
+    	GeoPoint q = null;
     	AlgoJoinPointsSegment algo = null;
     	double x_first = 0;
     	double y_first = 0;
@@ -1920,8 +1920,8 @@ public class EuclidianPen {
     		y_first = view.toRealWorldCoordY(points[2*i + 1]);
     		x_last = view.toRealWorldCoordX(points[2*i + 2]);
     		y_last = view.toRealWorldCoordY(points[2*i + 3]);
-    		p =new GeoPoint2(cons, x_first, y_first, 1.0);
-    		q =new GeoPoint2(cons, x_last, y_last, 1.0);
+    		p =new GeoPoint(cons, x_first, y_first, 1.0);
+    		q =new GeoPoint(cons, x_last, y_last, 1.0);
     		
     		// TODO: make GeoPolygon
     		

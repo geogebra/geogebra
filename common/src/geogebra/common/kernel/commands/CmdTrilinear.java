@@ -4,7 +4,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.main.MyError;
 /**
  * 
@@ -39,7 +39,7 @@ public class CmdTrilinear extends CommandProcessor {
 					(ok[4] = arg[5].isNumberValue()) &&
 					(ok[5] = arg[5].isNumberValue())) {
 				GeoElement[] ret = { kernelA.Trilinear(c.getLabel(),
-						(GeoPoint2)arg[0], (GeoPoint2)arg[1], (GeoPoint2)arg[2],
+						(GeoPoint)arg[0], (GeoPoint)arg[1], (GeoPoint)arg[2],
 						(NumberValue) arg[3], (NumberValue) arg[4], (NumberValue) arg[5])} ;
 				return ret;
 				

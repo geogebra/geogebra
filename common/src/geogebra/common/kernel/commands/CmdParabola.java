@@ -4,7 +4,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.main.MyError;
 
 /**
@@ -34,7 +34,7 @@ public class CmdParabola extends CommandProcessor {
 			if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoLine()))) {
 				GeoElement[] ret = { kernelA.Parabola(c.getLabel(),
-						(GeoPoint2) arg[0], (GeoLine) arg[1]) };
+						(GeoPoint) arg[0], (GeoLine) arg[1]) };
 				return ret;
 			} 
 			throw argErr(app, c.getName(), getBadArg(ok,arg));

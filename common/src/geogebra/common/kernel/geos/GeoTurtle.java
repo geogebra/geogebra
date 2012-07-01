@@ -40,9 +40,9 @@ public class GeoTurtle extends GeoElement {
 	private ArrayList<Command> cmdList;
 
 	// turtle status fields
-	private GeoPointND startPoint = new GeoPoint2(cons, 0d, 0d, 1d);
+	private GeoPointND startPoint = new GeoPoint(cons, 0d, 0d, 1d);
 	protected double[] position = { 0d, 0d, 1d };
-	protected GeoPointND currentPoint = new GeoPoint2(cons, 0d, 0d, 1d);
+	protected GeoPointND currentPoint = new GeoPoint(cons, 0d, 0d, 1d);
 	protected GColor penColor = GColor.BLACK;
 	protected int penThickness = 1;
 	protected boolean penDown = true;
@@ -516,7 +516,7 @@ public class GeoTurtle extends GeoElement {
 	public class CmdForward implements Command {
 		private double length;
 		private double time;
-		private GeoPoint2 destination;
+		private GeoPoint destination;
 		
 		/**
 		 * @param l how far to move
@@ -537,7 +537,7 @@ public class GeoTurtle extends GeoElement {
 		public void perform() {
 			position[0] += length*cosAngle;
 			position[1] += length*sinAngle;
-			destination = new GeoPoint2(cons, position[0], position[1], 1d);
+			destination = new GeoPoint(cons, position[0], position[1], 1d);
 			currentPoint.setCoords(position[0], position[1], 1d);
 		}
 		
@@ -563,7 +563,7 @@ public class GeoTurtle extends GeoElement {
 		double destX;
 		double destY;
 		double time;
-		GeoPoint2 destination;
+		GeoPoint destination;
 		
 		/**
 		 * @param x new x-coord
@@ -586,7 +586,7 @@ public class GeoTurtle extends GeoElement {
 		public void perform() {
 			position[0] = destX;
 			position[1] = destY;
-			destination = new GeoPoint2(cons, position[0], position[1], 1d);
+			destination = new GeoPoint(cons, position[0], position[1], 1d);
 			currentPoint.setCoords(position[0], position[1], 1d);
 		}
 

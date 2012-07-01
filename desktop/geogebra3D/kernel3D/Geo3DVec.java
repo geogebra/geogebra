@@ -30,7 +30,7 @@ import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.arithmetic3D.MyVec3DNode;
 import geogebra.common.kernel.arithmetic3D.Vector3DValue;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoVec2D;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.main.AbstractApplication;
@@ -239,7 +239,7 @@ implements Vector3DValue, geogebra.common.kernel.kernelND.Geo3DVec {
     /**
      * mirror this point at point Q
      */
-    final public void mirror(GeoPoint2 Q) {           
+    final public void mirror(GeoPoint Q) {           
         x = 2.0 * Q.inhomX - x;
         y = 2.0 * Q.inhomY - y;
     }

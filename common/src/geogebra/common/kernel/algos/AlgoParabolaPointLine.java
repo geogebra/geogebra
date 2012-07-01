@@ -24,7 +24,7 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 
 
 /**
@@ -34,11 +34,11 @@ import geogebra.common.kernel.geos.GeoPoint2;
  */
 public class AlgoParabolaPointLine extends AlgoElement {
 
-    private GeoPoint2 F;  // input    
+    private GeoPoint F;  // input    
     private GeoLine l;  // input    
     private GeoConic parabola; // output             
             
-    public AlgoParabolaPointLine(Construction cons, String label, GeoPoint2 F, GeoLine l) {
+    public AlgoParabolaPointLine(Construction cons, String label, GeoPoint F, GeoLine l) {
         super(cons);
         this.F = F;
         this.l = l;                
@@ -72,7 +72,7 @@ public class AlgoParabolaPointLine extends AlgoElement {
     }    
     
     public GeoConic getParabola() { return parabola; }
-    GeoPoint2 getFocus() { return F; }
+    GeoPoint getFocus() { return F; }
     GeoLine getLine() { return l; }
     
     // compute parabola with focus F and line l

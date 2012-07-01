@@ -6,7 +6,7 @@ import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoVector;
 
 
@@ -21,7 +21,7 @@ import geogebra.common.kernel.geos.GeoVector;
 
 public class AlgoOsculatingCircleCurve extends AlgoElement {
 
-	private GeoPoint2 A, R;// input A
+	private GeoPoint A, R;// input A
     private GeoCurveCartesian f;// input
     private GeoVector v;//curvature vector of f in point A 
     private GeoNumeric curv;//curvature of f in point A
@@ -30,12 +30,12 @@ public class AlgoOsculatingCircleCurve extends AlgoElement {
     AlgoCurvatureCurve algo;
     AlgoCurvatureVectorCurve cv;
     
-    public AlgoOsculatingCircleCurve(Construction cons, String label, GeoPoint2 A, GeoCurveCartesian f) {
+    public AlgoOsculatingCircleCurve(Construction cons, String label, GeoPoint A, GeoCurveCartesian f) {
         super(cons);
         this.A = A;
         this.f = f;
         
-        R = new GeoPoint2(cons);//R is the center of the circle
+        R = new GeoPoint(cons);//R is the center of the circle
         circle = new GeoConic(cons);
 
         //Catch curvature and curvature vector

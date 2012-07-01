@@ -25,7 +25,7 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -51,7 +51,7 @@ public class AlgoCircleThreePoints extends AlgoElement implements SymbolicParame
 
 	// line bisectors
 	private GeoLine s0, s1;
-	private GeoPoint2 center;
+	private GeoPoint center;
 	private double[] det = new double[3];
 	transient private double ax, ay, bx, by, cx, cy, ABx, ABy, ACx, ACy, BCx,
 			BCy, maxDet;
@@ -79,7 +79,7 @@ public class AlgoCircleThreePoints extends AlgoElement implements SymbolicParame
 		s0 = new GeoLine(cons);
 		s1 = new GeoLine(cons);
 
-		center = new GeoPoint2(cons);
+		center = new GeoPoint(cons);
 
 		setInputOutput(); // for AlgoElement
 
@@ -88,12 +88,12 @@ public class AlgoCircleThreePoints extends AlgoElement implements SymbolicParame
 	}
 
 	private void setIncidence() {
-		if (A instanceof GeoPoint2)
-			((GeoPoint2) A).addIncidence( circle);
-		if (B instanceof GeoPoint2)
-			((GeoPoint2) B).addIncidence( circle);
-		if (C instanceof GeoPoint2)
-			((GeoPoint2) C).addIncidence( circle);
+		if (A instanceof GeoPoint)
+			((GeoPoint) A).addIncidence( circle);
+		if (B instanceof GeoPoint)
+			((GeoPoint) B).addIncidence( circle);
+		if (C instanceof GeoPoint)
+			((GeoPoint) C).addIncidence( circle);
 
 	}
 
@@ -156,16 +156,16 @@ public class AlgoCircleThreePoints extends AlgoElement implements SymbolicParame
 		return circle;
 	}
 
-	public GeoPoint2 getA() {
-		return (GeoPoint2) A;
+	public GeoPoint getA() {
+		return (GeoPoint) A;
 	}
 
-	public GeoPoint2 getB() {
-		return (GeoPoint2) B;
+	public GeoPoint getB() {
+		return (GeoPoint) B;
 	}
 
-	public GeoPoint2 getC() {
-		return (GeoPoint2) C;
+	public GeoPoint getC() {
+		return (GeoPoint) C;
 	}
 
 	// compute circle through A, B, C

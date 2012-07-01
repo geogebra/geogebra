@@ -17,7 +17,7 @@ import geogebra.common.gui.SetLabels;
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
@@ -330,7 +330,7 @@ public class AlgebraInput extends  JPanel implements ActionListener, KeyListener
 
 					boolean oldSuppressLabelsStatus = cons.isSuppressLabelsActive();
 					cons.setSuppressLabelCreation(true);
-					GeoPoint2 p = new GeoPoint2(text.getConstruction(), null, ( ev.getXmin() + ev.getXmax() ) / 2, ( ev.getYmin() + ev.getYmax() ) / 2, 1.0);
+					GeoPoint p = new GeoPoint(text.getConstruction(), null, ( ev.getXmin() + ev.getXmax() ) / 2, ( ev.getYmin() + ev.getYmax() ) / 2, 1.0);
 					cons.setSuppressLabelCreation(oldSuppressLabelsStatus);
 
 					try {

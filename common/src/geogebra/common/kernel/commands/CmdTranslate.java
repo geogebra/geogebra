@@ -4,7 +4,7 @@ import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.geos.GeoVector;
@@ -48,7 +48,7 @@ public class CmdTranslate extends CommandProcessor {
 			if ((ok[0] = (arg[0].isGeoVector()))
 					&& (ok[1] = (arg[1].isGeoPoint()))) {
 				GeoVector v = (GeoVector) arg[0];
-				GeoPoint2 P = (GeoPoint2) arg[1];
+				GeoPoint P = (GeoPoint) arg[1];
 
 				ret[0] = kernelA.Translate(label, v, P);
 

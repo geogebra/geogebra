@@ -11,5 +11,5 @@ public interface Dilateable extends ToGeoElement{
 	 * @param r ratio
 	 * @param S point
 	 */
-	public void dilate(NumberValue r, GeoPoint2 S);
+	public void dilate(NumberValue r, GeoPoint S);
 }

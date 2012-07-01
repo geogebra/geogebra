@@ -4,7 +4,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.main.MyError;
 
 /**
@@ -61,7 +61,7 @@ public class CmdRotate extends CommandProcessor {
 					&& (ok[2] = (arg[2].isGeoPoint()))) {
 
 				NumberValue phi = (NumberValue) arg[1];
-				GeoPoint2 Q = (GeoPoint2) arg[2];
+				GeoPoint Q = (GeoPoint) arg[2];
 
 				ret = kernelA.Rotate(label, arg[0], phi, Q);
 				return ret;

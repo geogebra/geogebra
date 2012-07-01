@@ -24,7 +24,7 @@ import geogebra.common.kernel.algos.AlgoSemicircle;
 import geogebra.common.kernel.geos.GeoConicPart;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import geogebra.common.kernel.kernelND.GeoPointND;
 
@@ -62,7 +62,7 @@ public class DrawConicPart extends Drawable implements Previewable {
 
 	// preview
 	private ArrayList<GeoPointND> prevPoints;
-	private GeoPoint2[] previewTempPoints;
+	private GeoPoint[] previewTempPoints;
 	private int previewMode, neededPrevPoints;
 
 	/**
@@ -100,9 +100,9 @@ public class DrawConicPart extends Drawable implements Previewable {
 
 		Construction cons = view.getKernel().getConstruction();
 		neededPrevPoints = mode == EuclidianConstants.MODE_SEMICIRCLE ? 1 : 2;
-		previewTempPoints = new GeoPoint2[neededPrevPoints + 1];
+		previewTempPoints = new GeoPoint[neededPrevPoints + 1];
 		for (int i = 0; i < previewTempPoints.length; i++) {
-			previewTempPoints[i] = new GeoPoint2(cons);
+			previewTempPoints[i] = new GeoPoint(cons);
 		}
 
 		initPreview();
@@ -353,7 +353,7 @@ public class DrawConicPart extends Drawable implements Previewable {
 		isVisible = conicPart != null && prevPoints.size() == neededPrevPoints;
 		if (isVisible) {
 			for (int i = 0; i < prevPoints.size(); i++) {
-				previewTempPoints[i].setCoords((GeoPoint2) prevPoints.get(i));
+				previewTempPoints[i].setCoords((GeoPoint) prevPoints.get(i));
 			}
 			previewTempPoints[0].updateCascade();
 		}

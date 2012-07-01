@@ -38,7 +38,7 @@ import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.GeoTextField;
@@ -3145,7 +3145,7 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 				}
 
 				// set location textfield
-				GeoPoint2 p = geo0.getCorner(k);
+				GeoPoint p = geo0.getCorner(k);
 				if (equalLocation && p != null) {
 					cbLocation[k].setSelectedItem(p.getLabel(StringTemplate.defaultTemplate));
 				} else
@@ -3195,7 +3195,7 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 
 			for (int i = 0; i < geos.length; i++) {
 				GeoImage im = (GeoImage) geos[i];
-				im.setCorner((GeoPoint2) newLoc, number);
+				im.setCorner((GeoPoint) newLoc, number);
 				im.updateRepaint();
 			}
 
@@ -3455,7 +3455,7 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 			boolean geosOK = true;
 			// boolean allPoints = true;
 			for (int i = 0; i < geos.length; i++) {
-				if (!(geos[i] instanceof GeoPoint2 || geos[i] instanceof GeoVector)) {
+				if (!(geos[i] instanceof GeoPoint || geos[i] instanceof GeoVector)) {
 					geosOK = false;
 				}
 

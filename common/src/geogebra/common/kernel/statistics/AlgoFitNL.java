@@ -18,7 +18,7 @@ import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoList;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.optimization.FitRealFunction;
 import geogebra.common.main.AbstractApplication;
 
@@ -163,7 +163,7 @@ public class AlgoFitNL extends AlgoElement {
 	// Get info from lists into matrixes and functionarray
 	private final void makeDataArrays() throws Exception {
 		GeoElement geo = null;
-		GeoPoint2 point = null;
+		GeoPoint point = null;
 		datasize = pointlist.size();
 		xdata = new double[datasize];
 		ydata = new double[datasize];
@@ -174,7 +174,7 @@ public class AlgoFitNL extends AlgoElement {
 			if (!geo.isGeoPoint()) {
 				throw (new Exception("Not points in function list..."));
 			}// if not point
-			point = (GeoPoint2) geo;
+			point = (GeoPoint) geo;
 			xdata[i] = point.getX();
 			ydata[i] = point.getY();
 		}// for rows (=datapoints)

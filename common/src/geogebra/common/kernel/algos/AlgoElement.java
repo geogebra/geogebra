@@ -25,7 +25,7 @@ import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.ToGeoElement;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.plugin.GeoClass;
@@ -930,15 +930,15 @@ public abstract class AlgoElement extends ConstructionElement implements
 	 * 
 	 * @return list of moveable input points
 	 */
-	public ArrayList<GeoPoint2> getFreeInputPoints() {
+	public ArrayList<GeoPoint> getFreeInputPoints() {
 		if (freeInputPoints == null) {
-			freeInputPoints = new ArrayList<GeoPoint2>(input.length);
+			freeInputPoints = new ArrayList<GeoPoint>(input.length);
 
 			// don't use free points from dependent algos with expression trees
 			if (!getClassName().name().startsWith("AlgoDependent")) {
 				for (int i = 0; i < input.length; i++) {
 					if (input[i].isGeoPoint() && input[i].isIndependent()) {
-						freeInputPoints.add((GeoPoint2) input[i]);
+						freeInputPoints.add((GeoPoint) input[i]);
 					}
 				}
 			}
@@ -947,19 +947,19 @@ public abstract class AlgoElement extends ConstructionElement implements
 		return freeInputPoints;
 	}
 
-	private ArrayList<GeoPoint2> freeInputPoints;
+	private ArrayList<GeoPoint> freeInputPoints;
 
 	/**
 	 * Returns all input points of this algorithm.
 	 * 
 	 * @return list of input points
 	 */
-	public ArrayList<GeoPoint2> getInputPoints() {
+	public ArrayList<GeoPoint> getInputPoints() {
 		if (inputPoints == null) {
-			inputPoints = new ArrayList<GeoPoint2>(input.length);
+			inputPoints = new ArrayList<GeoPoint>(input.length);
 			for (int i = 0; i < input.length; i++) {
 				if (input[i].isGeoPoint()) {
-					inputPoints.add((GeoPoint2) input[i]);
+					inputPoints.add((GeoPoint) input[i]);
 				}
 			}
 		}
@@ -967,7 +967,7 @@ public abstract class AlgoElement extends ConstructionElement implements
 		return inputPoints;
 	}
 
-	private ArrayList<GeoPoint2> inputPoints;
+	private ArrayList<GeoPoint> inputPoints;
 
 	@Override
 	final public boolean isIndependent() {

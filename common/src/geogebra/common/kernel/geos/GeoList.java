@@ -1633,7 +1633,7 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture {
 	}
 
 	@Override
-	public double distance(final GeoPoint2 p) {
+	public double distance(final GeoPoint p) {
 		double distance = Double.POSITIVE_INFINITY;
 		for (int i = 0; i < geoList.size(); i++) {
 			final GeoElement geo = geoList.get(i);
@@ -1753,25 +1753,25 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture {
 	 * 4)}
 	 */
 	@Override
-	public ArrayList<GeoPoint2> getFreeInputPoints(
+	public ArrayList<GeoPoint> getFreeInputPoints(
 			final EuclidianViewInterfaceSlim view) {
-		final ArrayList<GeoPoint2> al = new ArrayList<GeoPoint2>();
+		final ArrayList<GeoPoint> al = new ArrayList<GeoPoint>();
 
 		for (int i = 0; i < geoList.size(); i++) {
 			final GeoElement geo = geoList.get(i);
 
 			if (geo.isGeoPoint()) {
-				final GeoPoint2 p = (GeoPoint2) geo;
+				final GeoPoint p = (GeoPoint) geo;
 				if (p.isMoveable() && !al.contains(p)) {
 					al.add(p);
 				}
 
 			} else {
-				final ArrayList<GeoPoint2> al2 = geo.getFreeInputPoints(view);
+				final ArrayList<GeoPoint> al2 = geo.getFreeInputPoints(view);
 
 				if (al2 != null) {
 					for (int j = 0; j < al2.size(); j++) {
-						final GeoPoint2 p = al2.get(j);
+						final GeoPoint p = al2.get(j);
 						// make sure duplicates aren't added
 						if (!al.contains(p)) {
 							al.add(p);

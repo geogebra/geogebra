@@ -11,7 +11,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoFunctionable;
 import geogebra.common.kernel.geos.GeoLine;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.kernelND.GeoConicND;
@@ -46,7 +46,7 @@ public class EuclidianControllerFor3D extends EuclidianControllerD {
 			return kernel.getManager3D().Angle3D(null, A, B, C);
 		}
 			
-		return kernel.Angle(null, (GeoPoint2) A, (GeoPoint2) B, (GeoPoint2) C);
+		return kernel.Angle(null, (GeoPoint) A, (GeoPoint) B, (GeoPoint) C);
 		
 	}
 	

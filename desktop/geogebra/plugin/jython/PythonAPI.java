@@ -34,7 +34,7 @@ import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoLocus;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoRay;
 import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoText;
@@ -63,7 +63,7 @@ public class PythonAPI {
 	 */
 
 	@SuppressWarnings("javadoc")
-	public static final Class<GeoPoint2> GeoPointClass = GeoPoint2.class;
+	public static final Class<GeoPoint> GeoPointClass = GeoPoint.class;
 	@SuppressWarnings("javadoc")
 	public static final Class<GeoElement> GeoElementClass = GeoElement.class;
 	@SuppressWarnings("javadoc")
@@ -559,7 +559,7 @@ public class PythonAPI {
 		 * @param point the new start point
 		 */
 		public void setStartPoint(Geo point) {
-			((GeoLine) geo).setStartPoint((GeoPoint2) point.geo);
+			((GeoLine) geo).setStartPoint((GeoPoint) point.geo);
 		}
 		
 		/**
@@ -574,7 +574,7 @@ public class PythonAPI {
 		 * @param point the new end point
 		 */
 		public void setEndPoint(Geo point) {
-			((GeoLine) geo).setEndPoint((GeoPoint2) point.geo);
+			((GeoLine) geo).setEndPoint((GeoPoint) point.geo);
 		}
 
 		
@@ -586,7 +586,7 @@ public class PythonAPI {
 		 */
 		public Geo getTextOrigin() {
 			GeoText txt = (GeoText) geo;
-			return new Geo((GeoPoint2) txt.getStartPoint());
+			return new Geo((GeoPoint) txt.getStartPoint());
 		}
 		
 		/* Numeric methods */
@@ -720,8 +720,8 @@ public class PythonAPI {
 	 * @return new vector Geo from start to end
 	 */
 	public Geo geoVector(Geo start, Geo end) {
-		return new Geo(kernel.Vector(null, (GeoPoint2) start.geo,
-				(GeoPoint2) end.geo));
+		return new Geo(kernel.Vector(null, (GeoPoint) start.geo,
+				(GeoPoint) end.geo));
 	}
 
 	/**
@@ -730,7 +730,7 @@ public class PythonAPI {
 	 * @return new vector Geo from O to pos
 	 */
 	public Geo geoVector(Geo pos) {
-		return new Geo(kernel.Vector(null, (GeoPoint2) pos.geo));
+		return new Geo(kernel.Vector(null, (GeoPoint) pos.geo));
 	}
 
 	/**
@@ -780,7 +780,7 @@ public class PythonAPI {
 	 * @return new Geo line
 	 */
 	public Geo geoLinePP(Geo p, Geo q) {
-		return new Geo(kernel.Line(null, (GeoPoint2) p.geo, (GeoPoint2) q.geo));
+		return new Geo(kernel.Line(null, (GeoPoint) p.geo, (GeoPoint) q.geo));
 	}
 
 	/**
@@ -790,7 +790,7 @@ public class PythonAPI {
 	 * @return new Geo line
 	 */
 	public Geo geoLinePV(Geo p, Geo q) {
-		return new Geo(kernel.Line(null, (GeoPoint2) p.geo, (GeoVector) q.geo));
+		return new Geo(kernel.Line(null, (GeoPoint) p.geo, (GeoVector) q.geo));
 	}
 
 	/**
@@ -800,7 +800,7 @@ public class PythonAPI {
 	 * @return new Geo line
 	 */
 	public Geo geoLinePL(Geo p, Geo l) {
-		return new Geo(kernel.Line(null, (GeoPoint2) p.geo, (GeoLine) l.geo));
+		return new Geo(kernel.Line(null, (GeoPoint) p.geo, (GeoLine) l.geo));
 	}
 
 	/**
@@ -810,8 +810,8 @@ public class PythonAPI {
 	 * @return new Geo segment
 	 */
 	public Geo geoSegment(Geo p, Geo q) {
-		return new Geo(kernel.Segment(null, (GeoPoint2) p.geo,
-				(GeoPoint2) q.geo));
+		return new Geo(kernel.Segment(null, (GeoPoint) p.geo,
+				(GeoPoint) q.geo));
 	}
 
 	/**
@@ -821,7 +821,7 @@ public class PythonAPI {
 	 * @return new Geo ray
 	 */
 	public Geo geoRayPP(Geo p, Geo q) {
-		return new Geo(kernel.Ray(null, (GeoPoint2) p.geo, (GeoPoint2) q.geo));
+		return new Geo(kernel.Ray(null, (GeoPoint) p.geo, (GeoPoint) q.geo));
 	}
 
 	/**
@@ -876,7 +876,7 @@ public class PythonAPI {
 	 * @return the new Geo conic
 	 */
 	public Geo geoConic(Geo[] geos) {
-		GeoPoint2[] points = (GeoPoint2[]) unwrapGeos(geos);
+		GeoPoint[] points = (GeoPoint[]) unwrapGeos(geos);
 		return new Geo(kernel.Conic(null, points));
 	}
 
@@ -887,8 +887,8 @@ public class PythonAPI {
 	 * @return new Geo circle
 	 */
 	public Geo geoCircleCP(Geo center, Geo point) {
-		return new Geo(kernel.Circle(null, (GeoPoint2) center.geo,
-				(GeoPoint2) point.geo));
+		return new Geo(kernel.Circle(null, (GeoPoint) center.geo,
+				(GeoPoint) point.geo));
 	}
 
 	/**
@@ -899,8 +899,8 @@ public class PythonAPI {
 	 * @return new Geo circle
 	 */
 	public Geo geoCirclePPP(Geo p, Geo q, Geo r) {
-		return new Geo(kernel.Circle(null, (GeoPoint2) p.geo,
-				(GeoPoint2) q.geo, (GeoPoint2) r.geo));
+		return new Geo(kernel.Circle(null, (GeoPoint) p.geo,
+				(GeoPoint) q.geo, (GeoPoint) r.geo));
 	}
 
 	/**
@@ -910,7 +910,7 @@ public class PythonAPI {
 	 * @return new Geo circle
 	 */
 	public Geo geoCircleCS(Geo c, Geo s) {
-		return new Geo(kernel.Circle(null, (GeoPoint2) c.geo,
+		return new Geo(kernel.Circle(null, (GeoPoint) c.geo,
 				(GeoSegment) s.geo));
 	}
 
@@ -921,7 +921,7 @@ public class PythonAPI {
 	 * @return new Geo circle
 	 */
 	public Geo geoCircleCR(Geo c, Geo r) {
-		return new Geo(kernel.Circle(null, (GeoPoint2) c.geo,
+		return new Geo(kernel.Circle(null, (GeoPoint) c.geo,
 				(NumberValue) r.geo));
 	}
 
@@ -933,8 +933,8 @@ public class PythonAPI {
 	 * @return new Geo ellipse
 	 */
 	public Geo geoEllipseFFP(Geo s1, Geo s2, Geo p) {
-		return new Geo(kernel.Ellipse(null, (GeoPoint2) s1.geo,
-				(GeoPoint2) s2.geo, (GeoPoint2) p.geo));
+		return new Geo(kernel.Ellipse(null, (GeoPoint) s1.geo,
+				(GeoPoint) s2.geo, (GeoPoint) p.geo));
 	}
 
 	/**
@@ -945,8 +945,8 @@ public class PythonAPI {
 	 * @return new Geo ellipse
 	 */
 	public Geo geoEllipseFFA(Geo s1, Geo s2, Geo a) {
-		return new Geo(kernel.Ellipse(null, (GeoPoint2) s1.geo,
-				(GeoPoint2) s2.geo, (NumberValue) a.geo));
+		return new Geo(kernel.Ellipse(null, (GeoPoint) s1.geo,
+				(GeoPoint) s2.geo, (NumberValue) a.geo));
 	}
 
 
@@ -958,8 +958,8 @@ public class PythonAPI {
 	 * @return new Geo hyperbola
 	 */
 	public Geo geoHyperbolaFFP(Geo s1, Geo s2, Geo p) {
-		return new Geo(kernel.Hyperbola(null, (GeoPoint2) s1.geo,
-				(GeoPoint2) s2.geo, (GeoPoint2) p.geo));
+		return new Geo(kernel.Hyperbola(null, (GeoPoint) s1.geo,
+				(GeoPoint) s2.geo, (GeoPoint) p.geo));
 	}
 
 	/**
@@ -970,8 +970,8 @@ public class PythonAPI {
 	 * @return new Geo hyperbola
 	 */
 	public Geo geoHyperbolaFFA(Geo s1, Geo s2, Geo a) {
-		return new Geo(kernel.Hyperbola(null, (GeoPoint2) s1.geo,
-				(GeoPoint2) s2.geo, (NumberValue) a.geo));
+		return new Geo(kernel.Hyperbola(null, (GeoPoint) s1.geo,
+				(GeoPoint) s2.geo, (NumberValue) a.geo));
 	}
 
 	/**
@@ -982,7 +982,7 @@ public class PythonAPI {
 	 */
 	public Geo geoParabola(Geo s, Geo l) {
 		return new Geo(
-				kernel.Parabola(null, (GeoPoint2) s.geo, (GeoLine) l.geo));
+				kernel.Parabola(null, (GeoPoint) s.geo, (GeoLine) l.geo));
 	}
 	
 	/* Lists */
@@ -1153,7 +1153,7 @@ public class PythonAPI {
 	public Geo intersectLines(Geo l1, Geo l2) {
 		GeoPointND p = kernel.IntersectLines(null, (GeoLineND) l1.geo,
 				(GeoLineND) l2.geo);
-		return new Geo((GeoPoint2) p);
+		return new Geo((GeoPoint) p);
 	}
 
 	static private Geo[] wrapGeoElements(GeoElement[] geos) {
@@ -1182,7 +1182,7 @@ public class PythonAPI {
 	 * @return intersection points of l and c
 	 */
 	public Geo[] intersectLineConic(Geo l, Geo c) {
-		GeoPoint2[] geos = kernel.IntersectLineConic(null, (GeoLine) l.geo,
+		GeoPoint[] geos = kernel.IntersectLineConic(null, (GeoLine) l.geo,
 				(GeoConic) c.geo);
 		return wrapGeoElements(geos);
 	}
@@ -1197,7 +1197,7 @@ public class PythonAPI {
 	 * @return intersection points of conics
 	 */
 	public Geo[] intersectConics(Geo c1, Geo c2) {
-		GeoPoint2[] geos = (GeoPoint2[]) kernel.IntersectConics(null,
+		GeoPoint[] geos = (GeoPoint[]) kernel.IntersectConics(null,
 				(GeoConicND) c1.geo, (GeoConicND) c2.geo);
 		return wrapGeoElements(geos);
 	}

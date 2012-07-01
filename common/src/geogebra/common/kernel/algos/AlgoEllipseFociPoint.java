@@ -27,7 +27,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 
 /**
  *
@@ -36,24 +36,24 @@ import geogebra.common.kernel.geos.GeoPoint2;
  */
 public class AlgoEllipseFociPoint extends AlgoElement {
 
-    private GeoPoint2 A, B, C; // input    
+    private GeoPoint A, B, C; // input    
     private GeoConic ellipse; // output             
 
     public AlgoEllipseFociPoint(
             Construction cons,
             String label,
-            GeoPoint2 A,
-            GeoPoint2 B,
-            GeoPoint2 C) {
+            GeoPoint A,
+            GeoPoint B,
+            GeoPoint C) {
         	this(cons, A, B, C);
             ellipse.setLabel(label);
         }
 
     public AlgoEllipseFociPoint(
             Construction cons,
-            GeoPoint2 A,
-            GeoPoint2 B,
-            GeoPoint2 C) {
+            GeoPoint A,
+            GeoPoint B,
+            GeoPoint C) {
             super(cons);
             this.A = A;
             this.B = B;
@@ -71,8 +71,8 @@ public class AlgoEllipseFociPoint extends AlgoElement {
      * for special cases of e.g. AlgoIntersectLineConic
      */
 	private void addIncidence() {
-		if (C instanceof GeoPoint2)
-			((GeoPoint2) C).addIncidence( ellipse);
+		if (C instanceof GeoPoint)
+			((GeoPoint) C).addIncidence( ellipse);
 
 	}
 
@@ -103,10 +103,10 @@ public class AlgoEllipseFociPoint extends AlgoElement {
     public GeoConic getEllipse() {
         return ellipse;
     }
-    GeoPoint2 getFocus1() {
+    GeoPoint getFocus1() {
         return A;
     }
-    GeoPoint2 getFocus2() {
+    GeoPoint getFocus2() {
         return B;
     }
 

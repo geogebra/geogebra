@@ -3,7 +3,7 @@ package geogebra.common.kernel.commands;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.main.MyError;
 
 /**
@@ -34,8 +34,8 @@ public class CmdCircumcircleArc extends CommandProcessor {
 					&& (ok[1] = (arg[1].isGeoPoint()))
 					&& (ok[2] = (arg[2].isGeoPoint()))) {
 				GeoElement[] ret = { kernelA
-						.CircumcircleArc(c.getLabel(), (GeoPoint2) arg[0],
-								(GeoPoint2) arg[1], (GeoPoint2) arg[2]) };
+						.CircumcircleArc(c.getLabel(), (GeoPoint) arg[0],
+								(GeoPoint) arg[1], (GeoPoint) arg[2]) };
 				return ret;
 			}
 			throw argErr(app, c.getName(), getBadArg(ok,arg));

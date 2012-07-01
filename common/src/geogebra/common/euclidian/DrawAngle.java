@@ -30,7 +30,7 @@ import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -76,9 +76,9 @@ public class DrawAngle extends Drawable implements Previewable {
 	private double m[] = new double[2];
 	private double coords[] = new double[2];
 	private double[] firstVec = new double[2];
-	private GeoPoint2 tempPoint;
+	private GeoPoint tempPoint;
 	private boolean drawDot;
-	private GeoPoint2[] previewTempPoints;
+	private GeoPoint[] previewTempPoints;
 
 	// For decoration
 	// added by Lo�c BEGIN
@@ -126,9 +126,9 @@ public class DrawAngle extends Drawable implements Previewable {
 		prevPoints = points;
 
 		Construction cons = view.getKernel().getConstruction();
-		previewTempPoints = new GeoPoint2[3];
+		previewTempPoints = new GeoPoint[3];
 		for (int i = 0; i < previewTempPoints.length; i++) {
-			previewTempPoints[i] = new GeoPoint2(cons);
+			previewTempPoints[i] = new GeoPoint(cons);
 		}
 
 		initPreview();
@@ -137,7 +137,7 @@ public class DrawAngle extends Drawable implements Previewable {
 	private void init() {
 		AlgoElement algo = geo.getDrawAlgorithm();
 		Construction cons = geo.getConstruction();
-		tempPoint = new GeoPoint2(cons);
+		tempPoint = new GeoPoint(cons);
 		tempPoint.setCoords(0.0, 0.0, 1.0);
 
 		// angle defined by three points
@@ -172,9 +172,9 @@ public class DrawAngle extends Drawable implements Previewable {
 			if (vec instanceof GeoVector) {
 				angleDrawMode = DRAW_MODE_SINGLE_VECTOR;
 				vector = (GeoVector) vec;
-			} else if (vec instanceof GeoPoint2) {
+			} else if (vec instanceof GeoPoint) {
 				angleDrawMode = DRAW_MODE_SINGLE_POINT;
-				point = (GeoPoint2) vec;
+				point = (GeoPoint) vec;
 				vertex = tempPoint;
 			}
 			firstVec[0] = 1;

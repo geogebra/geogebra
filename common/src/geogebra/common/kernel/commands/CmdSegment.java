@@ -5,7 +5,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.main.MyError;
 
 
@@ -38,8 +38,8 @@ public class CmdSegment extends CommandProcessor {
 	                    {
 	                         kernelA.Segment(
 	                            c.getLabel(),
-	                            (GeoPoint2) arg[0],
-	                            (GeoPoint2) arg[1])};
+	                            (GeoPoint) arg[0],
+	                            (GeoPoint) arg[1])};
 	                return ret;
 	            }
 	            
@@ -49,7 +49,7 @@ public class CmdSegment extends CommandProcessor {
 					return
 	                         kernelA.Segment(
 	                            c.getLabels(),
-	                            (GeoPoint2) arg[0],
+	                            (GeoPoint) arg[0],
 	                            (NumberValue) arg[1]);
 				else {
 	                if (!ok[0])

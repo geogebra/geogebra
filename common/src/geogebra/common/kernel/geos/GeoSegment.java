@@ -94,7 +94,7 @@ final public class GeoSegment extends GeoLine implements GeoSegmentND {
 	 * @param A first endpoint
 	 * @param B second endpoint
 	 */
-	public GeoSegment(Construction c, GeoPoint2 A, GeoPoint2 B) {
+	public GeoSegment(Construction c, GeoPoint A, GeoPoint B) {
 		this(c);
 		setPoints(A, B);
 	}
@@ -112,7 +112,7 @@ final public class GeoSegment extends GeoLine implements GeoSegmentND {
 	 * @param A start point
 	 * @param B end point
 	 */
-	public void setPoints(GeoPoint2 A, GeoPoint2 B){
+	public void setPoints(GeoPoint A, GeoPoint B){
 		setStartPoint(A);
 		setEndPoint(B);
 	}
@@ -150,8 +150,8 @@ final public class GeoSegment extends GeoLine implements GeoSegmentND {
 	@Override
 	public GeoElement copyInternal(Construction cons1) {
 		GeoSegment seg = new GeoSegment(cons1, 
-										(GeoPoint2) startPoint.copyInternal(cons1), 
-										(GeoPoint2) endPoint.copyInternal(cons1));
+										(GeoPoint) startPoint.copyInternal(cons1), 
+										(GeoPoint) endPoint.copyInternal(cons1));
 		seg.set(this);
 		return seg;
 	}		
@@ -175,7 +175,7 @@ final public class GeoSegment extends GeoLine implements GeoSegmentND {
 	 * @param e end point
 	 * @param line line
 	 */
-	public void set(GeoPoint2 s, GeoPoint2 e, GeoVec3D line) {
+	public void set(GeoPoint s, GeoPoint e, GeoVec3D line) {
 		super.set(line);		
 	
 		setStartPoint(s);
@@ -349,7 +349,7 @@ final public String toValueString(StringTemplate tpl) {
 	}
 	
     @Override
-	public boolean isIntersectionPointIncident(GeoPoint2 p, double eps) {
+	public boolean isIntersectionPointIncident(GeoPoint p, double eps) {
     	if (allowOutlyingIntersections)
 			return isOnFullLine(p, eps);
 		return isOnPath(p, eps);
@@ -593,7 +593,7 @@ final public String toValueString(StringTemplate tpl) {
      * returns distance from endpoints if appropriate
      */
     @Override
-	final public double distance(GeoPoint2 p) {     
+	final public double distance(GeoPoint p) {     
 
     	double t = getParameter(p.inhomX, p.inhomY);
 
@@ -672,7 +672,7 @@ final public String toValueString(StringTemplate tpl) {
 
     public void modifyInputPoints(GeoPointND P, GeoPointND Q){
     	AlgoJoinPointsSegment algo = (AlgoJoinPointsSegment) getParentAlgorithm();
-    	algo.modifyInputPoints((GeoPoint2) P, (GeoPoint2) Q);    	
+    	algo.modifyInputPoints((GeoPoint) P, (GeoPoint) Q);    	
     }
     
 

@@ -3,7 +3,7 @@
  */
 package geogebra.common.kernel.locusequ;
 
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.locusequ.arith.EquationExpression;
 import geogebra.common.kernel.locusequ.arith.EquationNumericValue;
 
@@ -29,12 +29,12 @@ public class EquationFreePoint extends EquationPoint {
      */
     protected EquationNumericValue z;
 
-    private GeoPoint2 p;
+    private GeoPoint p;
     
     /**
-     * @param p Free {@link GeoPoint2} to take the coordinates from.
+     * @param p Free {@link GeoPoint} to take the coordinates from.
      */
-    public EquationFreePoint(GeoPoint2 p) {
+    public EquationFreePoint(GeoPoint p) {
         super();
         this.p = p;
         this.x = EquationNumericValue.from(this.p.getX());
@@ -43,7 +43,7 @@ public class EquationFreePoint extends EquationPoint {
     }
 
     @Override
-	public GeoPoint2 getPoint() {
+	public GeoPoint getPoint() {
         return this.p;
     }
 

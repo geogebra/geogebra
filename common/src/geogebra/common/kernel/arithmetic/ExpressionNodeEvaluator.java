@@ -12,7 +12,7 @@ import geogebra.common.kernel.geos.GeoFunctionable;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoVec2D;
 import geogebra.common.kernel.geos.ParametricCurve;
 import geogebra.common.kernel.kernelND.Geo3DVec;
@@ -1789,9 +1789,9 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 					}
 					return arg.getNumber().apply((Evaluatable) lt);
 				}
-			} else if (rt instanceof GeoPoint2) {
+			} else if (rt instanceof GeoPoint) {
 				if (lt instanceof Evaluatable) {
-					GeoPoint2 pt = (GeoPoint2) rt;
+					GeoPoint pt = (GeoPoint) rt;
 					if (lt instanceof GeoFunction) {
 						FunctionNVar fun = ((GeoFunction) lt).getFunction();
 						if (fun.isBooleanFunction()) {
@@ -1842,8 +1842,8 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				} else if (list.size() == 1) {
 					ExpressionValue ev = list.getMyList().getListElement(0)
 							.evaluate(tpl);
-					if ((funN.getVarNumber() == 2) && (ev instanceof GeoPoint2)) {
-						GeoPoint2 pt = (GeoPoint2) ev;
+					if ((funN.getVarNumber() == 2) && (ev instanceof GeoPoint)) {
+						GeoPoint pt = (GeoPoint) ev;
 						if (funN.isBooleanFunction()) {
 							return new MyBoolean(kernel,
 									funN.evaluateBoolean(pt));

@@ -606,11 +606,11 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @param points array of points
 	 * @return copy of points in construction cons
 	 */
-	public static GeoPoint2[] copyPoints(final Construction cons,
+	public static GeoPoint[] copyPoints(final Construction cons,
 			final GeoPointND[] points) {
-		final GeoPoint2[] pointsCopy = new GeoPoint2[points.length];
+		final GeoPoint[] pointsCopy = new GeoPoint[points.length];
 		for (int i = 0; i < points.length; i++) {
-			pointsCopy[i] = (GeoPoint2) ((GeoPoint2) points[i])
+			pointsCopy[i] = (GeoPoint) ((GeoPoint) points[i])
 					.copyInternal(cons);
 			pointsCopy[i].set(points[i]);
 		}
@@ -1299,7 +1299,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		// if (isGeoPoint() && geo.isGeoPoint()) {
 		if (getGeoClassType().equals(GeoClass.POINT)
 				&& geo.getGeoClassType().equals(GeoClass.POINT)) {
-			((GeoPoint2) this).setSpreadsheetTrace(((GeoPoint2) geo)
+			((GeoPoint) this).setSpreadsheetTrace(((GeoPoint) geo)
 					.getSpreadsheetTrace());
 		}
 
@@ -1981,7 +1981,7 @@ public abstract class GeoElement extends ConstructionElement implements
 			if (hasOnlyFreeInputPoints(view)
 					&& containsOnlyMoveableGeos(getFreeInputPoints(view))) {
 				// check if first free input point is start point of vector
-				final ArrayList<GeoPoint2> freeInputPoints = getFreeInputPoints(view);
+				final ArrayList<GeoPoint> freeInputPoints = getFreeInputPoints(view);
 				if (freeInputPoints.size() > 0) {
 					final GeoPointND firstInputPoint = freeInputPoints.get(0);
 					final GeoPointND startPoint = ((Locateable) this)
@@ -2001,7 +2001,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @param view view
 	 * @return all free parent points of this GeoElement.
 	 */
-	public ArrayList<GeoPoint2> getFreeInputPoints(
+	public ArrayList<GeoPoint> getFreeInputPoints(
 			final EuclidianViewInterfaceSlim view) {
 		if (algoParent == null) {
 			return null;
@@ -2028,7 +2028,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	}
 
 	private static boolean containsOnlyMoveableGeos(
-			final ArrayList<GeoPoint2> geos) {
+			final ArrayList<GeoPoint> geos) {
 		if ((geos == null) || (geos.size() == 0)) {
 			return false;
 		}
@@ -5686,7 +5686,7 @@ public abstract class GeoElement extends ConstructionElement implements
 
 		boolean movedGeo = false;
 
-		final GeoPoint2 point = (GeoPoint2) this;
+		final GeoPoint point = (GeoPoint) this;
 		if (endPosition != null) {
 			point.setCoords(endPosition.getX(), endPosition.getY(), 1);
 			movedGeo = true;
@@ -5730,7 +5730,7 @@ public abstract class GeoElement extends ConstructionElement implements
 			if (isGeoPoint()) {
 
 				if (getParentAlgorithm() instanceof AlgoDynamicCoordinatesInterface) {
-					final GeoPoint2 p = ((AlgoDynamicCoordinatesInterface) getParentAlgorithm())
+					final GeoPoint p = ((AlgoDynamicCoordinatesInterface) getParentAlgorithm())
 							.getParentPoint();
 					movedGeo = p.movePoint(rwTransVec, endPosition);
 					geo = p;
@@ -5773,7 +5773,7 @@ public abstract class GeoElement extends ConstructionElement implements
 					final GeoText movedGeoText = (GeoText) this;
 					if (movedGeoText.hasAbsoluteLocation()) {
 						// absolute location: change location
-						final GeoPoint2 loc = (GeoPoint2) movedGeoText
+						final GeoPoint loc = (GeoPoint) movedGeoText
 								.getStartPoint();
 						if (loc != null) {
 							loc.translate(rwTransVec);
@@ -6801,7 +6801,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @param p other point
 	 * @return distance
 	 */
-	public double distance(final GeoPoint2 p) {
+	public double distance(final GeoPoint p) {
 		return Double.POSITIVE_INFINITY;
 	}
 
@@ -6810,8 +6810,8 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @return distance from point
 	 */
 	public double distance(final GeoPointND p) {
-		if ((p instanceof GeoElement) && (p instanceof GeoPoint2)) {
-			return distance((GeoPoint2) p);
+		if ((p instanceof GeoElement) && (p instanceof GeoPoint)) {
+			return distance((GeoPoint) p);
 		}
 		AbstractApplication.debug("TODO : distance from " + getClassName()
 				+ " to ND point");

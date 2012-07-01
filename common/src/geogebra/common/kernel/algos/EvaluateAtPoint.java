@@ -1,7 +1,7 @@
 package geogebra.common.kernel.algos;
 
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 
 public interface EvaluateAtPoint {
-	public double evaluate(GeoPoint2 P);
+	public double evaluate(GeoPoint P);
 }

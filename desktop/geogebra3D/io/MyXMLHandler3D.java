@@ -4,7 +4,7 @@ import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.io.MyXMLHandler;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.kernelND.GeoLevelOfDetail;
 import geogebra.common.kernel.kernelND.GeoPlaneND;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -305,7 +305,7 @@ public class MyXMLHandler3D extends MyXMLHandler {
 			p.setCoords(x, y, z, w);
 		} else {
 			// 2D
-			p = new GeoPoint2(cons);
+			p = new GeoPoint(cons);
 			p.setCoords(x, y, z);			
 		}
 		return p;

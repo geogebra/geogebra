@@ -11,7 +11,7 @@ import geogebra.common.kernel.arithmetic.Traversing.Replacer;
 import geogebra.common.kernel.geos.GeoDummyVariable;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.implicit.AlgoDependentImplicitPoly;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
 import geogebra.common.main.AbstractApplication;
@@ -29,7 +29,7 @@ import geogebra.common.plugin.Operation;
 public class AlgoTriangleCurve extends AlgoElement implements ExpressionNodeConstants{
 
 	
-	private GeoPoint2 A, B, C; // input
+	private GeoPoint A, B, C; // input
 	private GeoImplicitPoly n;	// number of curve
 	private GeoElement poly; // output
 	private Equation eq;
@@ -46,8 +46,8 @@ public class AlgoTriangleCurve extends AlgoElement implements ExpressionNodeCons
 	 * @param b variable "B"
 	 * @param c variable "C"
 	 */
-	public AlgoTriangleCurve(Construction cons, String label, GeoPoint2 A, GeoPoint2 B,
-			GeoPoint2 C, GeoImplicitPoly e, GeoNumeric a,GeoNumeric b,GeoNumeric c) {
+	public AlgoTriangleCurve(Construction cons, String label, GeoPoint A, GeoPoint B,
+			GeoPoint C, GeoImplicitPoly e, GeoNumeric a,GeoNumeric b,GeoNumeric c) {
 		super(cons);
 		this.A = A;
 		this.B = B;

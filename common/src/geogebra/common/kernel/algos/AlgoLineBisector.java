@@ -21,7 +21,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.prover.NoSymbolicParametersException;
 import geogebra.common.kernel.prover.Polynomial;
 import geogebra.common.kernel.prover.Variable;
@@ -30,22 +30,22 @@ import geogebra.common.kernel.prover.Variable;
 public class AlgoLineBisector extends AlgoElement implements SymbolicParametersAlgo,
 	SymbolicParametersBotanaAlgo {
 
-	private GeoPoint2 A, B;  // input    
+	private GeoPoint A, B;  // input    
     private GeoLine  g;     // output   
     
     // temp
-    private GeoPoint2 midPoint;
+    private GeoPoint midPoint;
 	private Polynomial[] polynomials;
 	private Polynomial[] botanaPolynomials;
 	private Variable[] botanaVars;
 	
     /** Creates new AlgoLineBisector */
-    public AlgoLineBisector(Construction cons, String label,GeoPoint2 A,GeoPoint2 B) {
+    public AlgoLineBisector(Construction cons, String label,GeoPoint A,GeoPoint B) {
         super(cons);
         this.A = A;
         this.B = B;        
         g = new GeoLine(cons); 
-        midPoint = new GeoPoint2(cons);
+        midPoint = new GeoPoint(cons);
         g.setStartPoint(midPoint);
         setInputOutput(); // for AlgoElement
         
@@ -78,9 +78,9 @@ public class AlgoLineBisector extends AlgoElement implements SymbolicParametersA
     }    
     
     public GeoLine getLine() { return g; }
-    GeoPoint2 getA() { return A; }
-    GeoPoint2 getB() { return B; }
-    GeoPoint2 getMidPoint() {
+    GeoPoint getA() { return A; }
+    GeoPoint getB() { return B; }
+    GeoPoint getMidPoint() {
         return midPoint;
     }
     

@@ -26,7 +26,7 @@ import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoLocus;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoText;
@@ -224,7 +224,7 @@ public class ConstructionDefaults {
 				
 						
 		// free point
-		GeoPoint2 freePoint = new GeoPoint2(cons);	
+		GeoPoint freePoint = new GeoPoint(cons);	
 //		freePoint.setLocalVariableLabel(app.getPlain("Point") + strFree);
 		freePoint.setPointSize(EuclidianStyleConstants.DEFAULT_POINT_SIZE);
 		freePoint.setPointStyle(EuclidianStyleConstants.POINT_STYLE_DOT);
@@ -235,7 +235,7 @@ public class ConstructionDefaults {
 		defaultGeoElements.put(DEFAULT_POINT_FREE, freePoint);
 		
 		// dependent point
-		GeoPoint2 depPoint = new GeoPoint2(cons);	
+		GeoPoint depPoint = new GeoPoint(cons);	
 //		depPoint.setLocalVariableLabel(app.getPlain("Point") + strDependent);
 		depPoint.setPointSize(EuclidianStyleConstants.DEFAULT_POINT_SIZE);
 		depPoint.setPointStyle(EuclidianStyleConstants.POINT_STYLE_DOT);
@@ -246,7 +246,7 @@ public class ConstructionDefaults {
 		defaultGeoElements.put(DEFAULT_POINT_DEPENDENT, depPoint);
 		
 		// point on path
-		GeoPoint2 pathPoint = new GeoPoint2(cons);	
+		GeoPoint pathPoint = new GeoPoint(cons);	
 //		pathPoint.setLocalVariableLabel(app.getPlain("PointOn"));
 		pathPoint.setPointSize(EuclidianStyleConstants.DEFAULT_POINT_SIZE);
 		pathPoint.setPointStyle(EuclidianStyleConstants.POINT_STYLE_DOT);
@@ -257,7 +257,7 @@ public class ConstructionDefaults {
 		defaultGeoElements.put(DEFAULT_POINT_ON_PATH, pathPoint);
 		
 		// point in region
-		GeoPoint2 regionPoint = new GeoPoint2(cons);	
+		GeoPoint regionPoint = new GeoPoint(cons);	
 //		regionPoint.setLocalVariableLabel(app.getPlain("PointOn"));
 		regionPoint.setPointSize(EuclidianStyleConstants.DEFAULT_POINT_SIZE);
 		regionPoint.setPointStyle(EuclidianStyleConstants.POINT_STYLE_DOT);
@@ -267,7 +267,7 @@ public class ConstructionDefaults {
 		defaultGeoElements.put(DEFAULT_POINT_IN_REGION, regionPoint);
 		
 		// complex number (handled like a point)
-		GeoPoint2 complexPoint = new GeoPoint2(cons);
+		GeoPoint complexPoint = new GeoPoint(cons);
 		complexPoint.setPointSize(EuclidianStyleConstants.DEFAULT_POINT_SIZE);
 		complexPoint.setPointStyle(EuclidianStyleConstants.POINT_STYLE_DOT);
 		complexPoint.setLocalVariableLabel("PointOn");
@@ -481,7 +481,7 @@ public class ConstructionDefaults {
 		
 		switch (geo.getGeoClassType()) {
 		case POINT:
-			GeoPoint2 p = (GeoPoint2) geo;
+			GeoPoint p = (GeoPoint) geo;
 			
 			if(p.getMode() == Kernel.COORD_COMPLEX) {
 				type = DEFAULT_POINT_COMPLEX;
@@ -715,7 +715,7 @@ public class ConstructionDefaults {
 				
 			switch (geo.getGeoClassType()) {
 			case POINT:
-				((GeoPoint2) geo).setPointSize(pointSize); 
+				((GeoPoint) geo).setPointSize(pointSize); 
 				break;
 				
 			case LIST:

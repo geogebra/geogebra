@@ -17,7 +17,7 @@ import geogebra.common.gui.inputfield.AutoCompleteTextField;
 import geogebra.common.io.MyXMLio;
 import geogebra.common.javax.swing.GBox;
 import geogebra.common.kernel.geos.GeoImage;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.settings.EuclidianSettings;
 import geogebra.common.main.settings.SettingListener;
@@ -659,8 +659,8 @@ public class EuclidianViewW extends EuclidianView implements SettingListener{
 			// use points Export_1 and Export_2 to define corner
 			try {
 				// Construction cons = kernel.getConstruction();
-				GeoPoint2 export1 = (GeoPoint2) kernel.lookupLabel(EXPORT1);
-				GeoPoint2 export2 = (GeoPoint2) kernel.lookupLabel(EXPORT2);
+				GeoPoint export1 = (GeoPoint) kernel.lookupLabel(EXPORT1);
+				GeoPoint export2 = (GeoPoint) kernel.lookupLabel(EXPORT2);
 				double[] xy1 = new double[2];
 				double[] xy2 = new double[2];
 				export1.getInhomCoords(xy1);

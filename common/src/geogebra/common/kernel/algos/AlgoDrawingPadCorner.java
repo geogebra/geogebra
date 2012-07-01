@@ -19,12 +19,12 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.main.AbstractApplication;
 
 public class AlgoDrawingPadCorner extends AlgoElement {
 
-	private GeoPoint2 corner; // output
+	private GeoPoint corner; // output
 	private NumberValue number, evNum;
 
 	public AlgoDrawingPadCorner(Construction cons, String label, NumberValue number,
@@ -33,7 +33,7 @@ public class AlgoDrawingPadCorner extends AlgoElement {
 		this.number = number;
 		this.evNum = evNum; // can be null
 
-		corner = new GeoPoint2(cons);
+		corner = new GeoPoint(cons);
 		setInputOutput(); // for AlgoElement
 		compute();
 		corner.setEuclidianVisible(false); // hidden by default
@@ -66,7 +66,7 @@ public class AlgoDrawingPadCorner extends AlgoElement {
 		setDependencies(); // done by AlgoElement
 	}
 
-	public GeoPoint2 getCorner() {
+	public GeoPoint getCorner() {
 		return corner;
 	}
 

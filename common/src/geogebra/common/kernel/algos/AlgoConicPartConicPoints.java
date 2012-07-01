@@ -16,7 +16,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoConicPart;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 
 
 
@@ -25,10 +25,10 @@ import geogebra.common.kernel.geos.GeoPoint2;
  */
 public class AlgoConicPartConicPoints extends AlgoConicPart {
 	
-	private GeoPoint2 startPoint, endPoint;
+	private GeoPoint startPoint, endPoint;
 	
 	// temp points
-	private GeoPoint2 P, Q;	
+	private GeoPoint P, Q;	
 
     /**
      * Creates a new arc or sector algorithm.
@@ -36,7 +36,7 @@ public class AlgoConicPartConicPoints extends AlgoConicPart {
      * GeoConicPart.CONIC_PART_ARC       
      */
     public AlgoConicPartConicPoints(Construction cons, String label,
-    		GeoConic circle, GeoPoint2 startPoint, GeoPoint2 endPoint,
+    		GeoConic circle, GeoPoint startPoint, GeoPoint endPoint,
     		int type) {
         super(cons, type);
         conic = circle;
@@ -44,8 +44,8 @@ public class AlgoConicPartConicPoints extends AlgoConicPart {
         this.endPoint = endPoint;                          
         
         // temp points
-        P = new GeoPoint2(cons);        
-        Q = new GeoPoint2(cons);
+        P = new GeoPoint(cons);        
+        Q = new GeoPoint(cons);
         P.setPath(conic);
         Q.setPath(conic);
         
@@ -63,11 +63,11 @@ public class AlgoConicPartConicPoints extends AlgoConicPart {
 		
 	}
 
-	public GeoPoint2 getStartPoint() {
+	public GeoPoint getStartPoint() {
     	return startPoint;
     }
 
-    public GeoPoint2 getEndPoint() {
+    public GeoPoint getEndPoint() {
     	return endPoint;
     }
     

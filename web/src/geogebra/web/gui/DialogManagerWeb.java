@@ -8,7 +8,7 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoText;
@@ -198,7 +198,7 @@ public class DialogManagerWeb extends DialogManager {
 
 	@Override
 	public void showNumberInputDialogRotate(String title, GeoPolygon[] polys,
-			GeoPoint2[] points, GeoElement[] selGeos) {
+			GeoPoint[] points, GeoElement[] selGeos) {
 
 		NumberInputHandler handler = new NumberInputHandler(app.getKernel()
 				.getAlgebraProcessor());
@@ -210,7 +210,7 @@ public class DialogManagerWeb extends DialogManager {
 
 	@Override
 	public void showNumberInputDialogAngleFixed(String title,
-			GeoSegment[] segments, GeoPoint2[] points, GeoElement[] selGeos) {
+			GeoSegment[] segments, GeoPoint[] points, GeoElement[] selGeos) {
 
 		NumberInputHandler handler = new NumberInputHandler(app.getKernel()
 				.getAlgebraProcessor());

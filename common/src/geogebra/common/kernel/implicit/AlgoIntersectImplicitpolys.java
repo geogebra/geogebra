@@ -25,7 +25,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.algos.AlgoSimpleRootsPolynomial;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.geos.GeoConic;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.polynomial.BigPolynomial;
 import geogebra.common.main.AbstractApplication;
 
@@ -55,7 +55,7 @@ public class AlgoIntersectImplicitpolys extends AlgoSimpleRootsPolynomial {
 	
 	private int univarType;
 	
-	private List<GeoPoint2> hints;
+	private List<GeoPoint> hints;
 
 	/**
 	 * To compute intersection of polynomial and conic
@@ -417,7 +417,7 @@ public class AlgoIntersectImplicitpolys extends AlgoSimpleRootsPolynomial {
 		if (hints!=null){
 			for (int i=0;i<hints.size();i++){
 				double[] pair=new double[2];
-				GeoPoint2 g=hints.get(i);
+				GeoPoint g=hints.get(i);
 				if (g.isDefined()&&!Kernel.isZero(g.getZ())){
 					pair[0]=g.getX()/g.getZ();
 					pair[1]=g.getY()/g.getZ();
@@ -683,7 +683,7 @@ public class AlgoIntersectImplicitpolys extends AlgoSimpleRootsPolynomial {
 		if (hints!=null){
 			for (int i=0;i<hints.size();i++){
 				double[] pair=new double[2];
-				GeoPoint2 g=hints.get(i);
+				GeoPoint g=hints.get(i);
 				if (g.isDefined()&&!Kernel.isZero(g.getZ())){
 					pair[0]=g.getX()/g.getZ();
 					pair[1]=g.getY()/g.getZ();
@@ -896,9 +896,9 @@ public class AlgoIntersectImplicitpolys extends AlgoSimpleRootsPolynomial {
 	 * adds a point which will always be tested if it's a solution
 	 * @param point point to be always tested
 	 */
-	public void addSolutionHint(GeoPoint2 point){
+	public void addSolutionHint(GeoPoint point){
 		if (hints==null){
-			hints=new ArrayList<GeoPoint2>();
+			hints=new ArrayList<GeoPoint>();
 		}
 		hints.add(point);
 	}

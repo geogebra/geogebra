@@ -5,7 +5,7 @@ import geogebra.common.kernel.LayerView;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.kernelND.GeoPointND;
 
 import java.util.ArrayList;
@@ -25,7 +25,7 @@ public interface EuclidianViewInterfaceSlim extends LayerView{
 	 * @param algo algorithm
 	 * @return free input points of given algorithm
 	 */
-	public ArrayList<GeoPoint2> getFreeInputPoints(AlgoElement algo);
+	public ArrayList<GeoPoint> getFreeInputPoints(AlgoElement algo);
 	
 	/**
 	 * @param geoElement element

@@ -712,9 +712,9 @@ public class GeoText extends GeoElement implements Locateable,
 	}
 
 	public void setRealWorldLoc(double x, double y) {
-		GeoPoint2 loc = (GeoPoint2) getStartPoint();
+		GeoPoint loc = (GeoPoint) getStartPoint();
 		if (loc == null) {
-			loc = new GeoPoint2(cons);
+			loc = new GeoPoint(cons);
 			try {
 				setStartPoint(loc);
 			} catch (Exception e) {
@@ -874,7 +874,7 @@ public class GeoText extends GeoElement implements Locateable,
 	 * @param result point for storing result
 	 * @param n index of corner (1 for lower left, then anticlockwise)
 	 */
-	public void calculateCornerPoint(GeoPoint2 result, int n) {
+	public void calculateCornerPoint(GeoPoint result, int n) {
 		// adapted from GeoImage by Michael Borcherds 2007-11-26
 		if (hasAbsoluteScreenLocation || boundingBox == null) {
 			result.setUndefined();

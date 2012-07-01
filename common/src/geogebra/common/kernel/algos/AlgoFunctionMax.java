@@ -17,7 +17,7 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoFunctionable;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.optimization.ExtremumFinder;
 import geogebra.common.kernel.roots.RealRootFunction;
 import geogebra.common.main.AbstractApplication;
@@ -50,7 +50,7 @@ public class AlgoFunctionMax extends AlgoElement {
 	private GeoElement geoleft;
 	private NumberValue right; // input
 	private GeoElement georight;
-	private GeoPoint2 E; // output
+	private GeoPoint E; // output
 	private ExtremumFinder extrFinder = null;
 	private static double xres; // static x for test interface
 
@@ -65,7 +65,7 @@ public class AlgoFunctionMax extends AlgoElement {
 		this.right = right;
 		this.georight = right.toGeoElement();
 
-		E = new GeoPoint2(cons); // Put an extremum point in the user interface
+		E = new GeoPoint(cons); // Put an extremum point in the user interface
 									// from the very start
 		E.setCoords(0.0, 0.0, 1.0);
 
@@ -95,7 +95,7 @@ public class AlgoFunctionMax extends AlgoElement {
 		setDependencies(); // done by AlgoElement
 	}
 
-	public GeoPoint2 getPoint() {
+	public GeoPoint getPoint() {
 		return E;
 	}// getNumericalExtremum()
 
@@ -132,7 +132,7 @@ public class AlgoFunctionMax extends AlgoElement {
 	public AlgoFunctionMax(Construction cons) {
 		super(cons);
 		this.cons = cons;
-		E = new GeoPoint2(cons); // Put an extremum point in the user interface
+		E = new GeoPoint(cons); // Put an extremum point in the user interface
 									// from the very start
 		E.setCoords(0.0, 0.0, 1.0);
 	}// test constructor

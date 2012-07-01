@@ -1,6 +1,6 @@
 package geogebra.common.kernel.locusequ;
 
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.locusequ.EquationPoint;
 import geogebra.common.kernel.locusequ.arith.EquationExpression;
 import geogebra.common.kernel.locusequ.arith.EquationFirstCoordinateValue;
@@ -72,7 +72,7 @@ public abstract class EquationPoint {
         }
 
         @Override
-        public GeoPoint2 getPoint() {
+        public GeoPoint getPoint() {
             return null;
         }
 
@@ -135,7 +135,7 @@ public abstract class EquationPoint {
             }
 
             @Override
-            public GeoPoint2 getPoint() {
+            public GeoPoint getPoint() {
                 return null;
             }
 
@@ -206,9 +206,9 @@ public abstract class EquationPoint {
     }
     
     /**
-     * @return The {@link GeoPoint2} <b>this</b> represents.
+     * @return The {@link GeoPoint} <b>this</b> represents.
      */
-    public abstract GeoPoint2 getPoint();
+    public abstract GeoPoint getPoint();
     
     public boolean isFixable() {
         return true;

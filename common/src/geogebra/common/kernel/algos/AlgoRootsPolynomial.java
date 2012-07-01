@@ -21,7 +21,7 @@ import geogebra.common.kernel.arithmetic.PolyFunction;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoLine;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.roots.RealRootFunction;
 
 import java.util.Arrays;
@@ -43,7 +43,7 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 
 	GeoFunction f, g; // input (g for intersection of polynomials)
 	private GeoLine line; // input (for intersection of polynomial with line)
-	protected GeoPoint2[] rootPoints; // output, inherited from AlgoIntersect
+	protected GeoPoint[] rootPoints; // output, inherited from AlgoIntersect
 	// private int rootPointsLength;
 
 	private String[] labels;
@@ -56,7 +56,7 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 	Function yValFunction;
 	// used for AlgoExtremumPolynomial, see setRootPoints()
 	private Function diffFunction; // used for intersection of f and g
-	private GeoPoint2 tempPoint;
+	private GeoPoint tempPoint;
 
 	/**
 	 * Computes all roots of f
@@ -86,7 +86,7 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 		this.g = g;
 		line = l;
 
-		tempPoint = new GeoPoint2(cons);
+		tempPoint = new GeoPoint(cons);
 
 		// set mode
 		if (g != null)
@@ -106,7 +106,7 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 
 		// make sure root points is not null
 		int number = labels == null ? 1 : Math.max(1, labels.length);
-		rootPoints = new GeoPoint2[0];
+		rootPoints = new GeoPoint[0];
 		initRootPoints(number);
 		initLabels = true;
 
@@ -127,7 +127,7 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 		super(f.cons);
 		this.f = f;
 
-		tempPoint = new GeoPoint2(cons);
+		tempPoint = new GeoPoint(cons);
 
 		// set mode
 		mode = MULTIPLE_ROOTS;
@@ -136,7 +136,7 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 
 		// make sure root points is not null
 		int number = labels == null ? 1 : Math.max(1, labels.length);
-		rootPoints = new GeoPoint2[0];
+		rootPoints = new GeoPoint[0];
 		initRootPoints(number);
 		initLabels = true;
 
@@ -157,7 +157,7 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 		super(cons);
 		this.f = f;
 
-		tempPoint = new GeoPoint2(cons);
+		tempPoint = new GeoPoint(cons);
 
 		// set mode
 		mode = ROOTS;
@@ -166,7 +166,7 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 
 		// make sure root points is not null
 		int number = 1;
-		rootPoints = new GeoPoint2[0];
+		rootPoints = new GeoPoint[0];
 		initRootPoints(number);
 		initLabels = true;
 
@@ -223,17 +223,17 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 		setDependencies();
 	}
 
-	public GeoPoint2[] getRootPoints() {
+	public GeoPoint[] getRootPoints() {
 		return rootPoints;
 	}
 
 	@Override
-	protected GeoPoint2[] getIntersectionPoints() {
+	protected GeoPoint[] getIntersectionPoints() {
 		return rootPoints;
 	}
 
 	@Override
-	protected GeoPoint2[] getLastDefinedIntersectionPoints() {
+	protected GeoPoint[] getLastDefinedIntersectionPoints() {
 		return null;
 	}
 
@@ -574,13 +574,13 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 	protected void initRootPoints(int number) {
 		// make sure that there are enough points
 		if (rootPoints.length < number) {
-			GeoPoint2[] temp = new GeoPoint2[number];
+			GeoPoint[] temp = new GeoPoint[number];
 			for (int i = 0; i < rootPoints.length; i++) {
 				temp[i] = rootPoints[i];
 				temp[i].setCoords(0, 0, 1); // init as defined
 			}
 			for (int i = rootPoints.length; i < temp.length; i++) {
-				temp[i] = new GeoPoint2(cons);
+				temp[i] = new GeoPoint(cons);
 				temp[i].setCoords(0, 0, 1); // init as defined
 				temp[i].setParentAlgorithm(this);
 			}
@@ -593,7 +593,7 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 		rootPoints[pos].doRemove();
 
 		// build new rootPoints array without the removed point
-		GeoPoint2[] temp = new GeoPoint2[rootPoints.length - 1];
+		GeoPoint[] temp = new GeoPoint[rootPoints.length - 1];
 		int i;
 		for (i = 0; i < pos; i++)
 			temp[i] = rootPoints[i];

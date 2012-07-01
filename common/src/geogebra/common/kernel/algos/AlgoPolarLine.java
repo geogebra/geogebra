@@ -24,7 +24,7 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 
 
 /**
@@ -35,11 +35,11 @@ import geogebra.common.kernel.geos.GeoPoint2;
 public class AlgoPolarLine extends AlgoElement {
     
     private GeoConic c;  // input
-    private GeoPoint2 P;     // input
+    private GeoPoint P;     // input
     private GeoLine polar;  // output
         
     /** Creates new AlgoPolarLine */
-    public AlgoPolarLine(Construction cons, String label, GeoConic c, GeoPoint2 P) {
+    public AlgoPolarLine(Construction cons, String label, GeoConic c, GeoPoint P) {
         super(cons);
         this.P = P;
         this.c = c;                
@@ -73,7 +73,7 @@ public class AlgoPolarLine extends AlgoElement {
         setDependencies(); // done by AlgoElement
     }    
     
-    GeoPoint2 getPoint() { return P; }    
+    GeoPoint getPoint() { return P; }    
     GeoConic getConic() { return c; }
     public GeoLine getLine() { return polar; }
     

@@ -27,7 +27,7 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoVec3D;
 
 
@@ -38,8 +38,8 @@ import geogebra.common.kernel.geos.GeoVec3D;
  */
 public class AlgoConicFivePoints extends AlgoElement {
 
-    private GeoPoint2[] P; // input  five points      
-	private GeoPoint2[] Ppert;   
+    private GeoPoint[] P; // input  five points      
+	private GeoPoint[] Ppert;   
     private GeoConic conic; // output             
     private double delta;
     private boolean criticalCase; // true when 5 points is on a parabola
@@ -49,12 +49,12 @@ public class AlgoConicFivePoints extends AlgoElement {
     private GeoVec3D[] line;
     private int i, j;
 
-    public AlgoConicFivePoints(Construction cons, String label, GeoPoint2[] P) {
+    public AlgoConicFivePoints(Construction cons, String label, GeoPoint[] P) {
         this(cons, P);
         conic.setLabel(label);
     }
 
-    public AlgoConicFivePoints(Construction cons, GeoPoint2[] P) {
+    public AlgoConicFivePoints(Construction cons, GeoPoint[] P) {
         super(cons);
         this.P = P;
         conic = new GeoConic(cons);
@@ -152,7 +152,7 @@ public class AlgoConicFivePoints extends AlgoElement {
         return conic;
     }
 
-    GeoPoint2[] getPoints() {
+    GeoPoint[] getPoints() {
         return P;
     }
 
@@ -395,7 +395,7 @@ public class AlgoConicFivePoints extends AlgoElement {
     }
 
     // computes P.A.P, where A is a (possibly not symmetric) 3x3 matrix
-    final private static double evalMatrix(double[][] A, GeoPoint2 P) {
+    final private static double evalMatrix(double[][] A, GeoPoint P) {
         return A[0][0] * P.x * P.x
             + A[1][1] * P.y * P.y
             + A[2][2] * P.z * P.z

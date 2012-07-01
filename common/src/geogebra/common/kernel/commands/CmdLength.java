@@ -10,7 +10,7 @@ import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoLocus;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
@@ -91,8 +91,8 @@ public class CmdLength extends CommandProcessor {
 					&& (ok[2] = (arg[2].isGeoPoint()))) {
 
 				GeoElement[] ret = { kernelA.FunctionLength2Points(c.getLabel(),
-						(GeoFunction) arg[0], (GeoPoint2) arg[1],
-						(GeoPoint2) arg[2]) };
+						(GeoFunction) arg[0], (GeoPoint) arg[1],
+						(GeoPoint) arg[2]) };
 				return ret;
 			}
 
@@ -112,8 +112,8 @@ public class CmdLength extends CommandProcessor {
 					&& (ok[2] = (arg[2].isGeoPoint()))) {
 
 				GeoElement[] ret = { kernelA.CurveLength2Points(c.getLabel(),
-						(GeoCurveCartesian) arg[0], (GeoPoint2) arg[1],
-						(GeoPoint2) arg[2]) };
+						(GeoCurveCartesian) arg[0], (GeoPoint) arg[1],
+						(GeoPoint) arg[2]) };
 				return ret;
 			}
 

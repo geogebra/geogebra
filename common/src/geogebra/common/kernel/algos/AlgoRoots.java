@@ -20,7 +20,7 @@ import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.roots.RealRootAdapter;
 import geogebra.common.kernel.roots.RealRootUtil;
 import geogebra.common.main.AbstractApplication;
@@ -149,7 +149,7 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 		return Algos.AlgoRoots;
 	}// getClassName()
 
-	public GeoPoint2[] getRootPoints() {
+	public GeoPoint[] getRootPoints() {
 		return getPoints(); // Points in ancestor
 	}// getRootPoints()
 
@@ -439,7 +439,7 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 		}// if not null
 	}// listLabels(a)
 
-	public final static void listPoints(GeoPoint2[] gpts) {
+	public final static void listPoints(GeoPoint[] gpts) {
 		if (gpts != null) {
 			int n = gpts.length;
 			System.out.println("Length: " + n);
@@ -452,7 +452,7 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 		}// if not null
 	}// listPoints(GeoPoint[])
 
-	public final static String testGeoPointX(GeoPoint2 geo, double answer) {
+	public final static String testGeoPointX(GeoPoint geo, double answer) {
 		double value;
 		value = geo.getX();
 		if (Math.abs(value - answer) < Kernel.MIN_PRECISION) {

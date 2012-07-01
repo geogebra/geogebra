@@ -8,7 +8,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoList;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPoly;
 import geogebra.common.kernel.geos.Transformable;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
@@ -73,7 +73,7 @@ public class CmdMirror extends CommandProcessor {
 				// mirror at point
 				if (arg[1].isGeoPoint()) {
 
-					GeoPoint2 Q = (GeoPoint2) arg[1];
+					GeoPoint Q = (GeoPoint) arg[1];
 
 					ret = kernelA.Mirror(label, arg[0], Q);
 					return ret;

@@ -26,7 +26,7 @@ import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.prover.NoSymbolicParametersException;
 import geogebra.common.kernel.prover.Polynomial;
@@ -42,8 +42,8 @@ public class AlgoMidpointSegment extends AlgoElement implements SymbolicParamete
 	SymbolicParametersBotanaAlgo {
 
     private GeoSegment segment; // input
-    private GeoPoint2 M; // output        
-    private GeoPoint2 P, Q; // endpoints of segment
+    private GeoPoint M; // output        
+    private GeoPoint P, Q; // endpoints of segment
 
 	private Polynomial[] polynomials;
 	private Variable[] botanaVars;
@@ -61,7 +61,7 @@ public class AlgoMidpointSegment extends AlgoElement implements SymbolicParamete
         this.segment = segment;
         
         // create new Point
-        M = new GeoPoint2(cons);
+        M = new GeoPoint(cons);
         setInputOutput();
         
         P = segment.getStartPoint();
@@ -92,7 +92,7 @@ public class AlgoMidpointSegment extends AlgoElement implements SymbolicParamete
         setDependencies(); // done by AlgoElement
     }
 
-    public GeoPoint2 getPoint() {
+    public GeoPoint getPoint() {
         return M;
     }
 

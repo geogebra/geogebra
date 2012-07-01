@@ -20,24 +20,24 @@ import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoLine;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 
 public class AlgoTangentFunctionPoint extends AlgoUsingTempCASalgo {
 
-	private GeoPoint2 P; // input
+	private GeoPoint P; // input
 	private GeoLine tangent; // output
 	private GeoFunction f;
-	private GeoPoint2 T;
+	private GeoPoint T;
 	private boolean pointOnFunction;
 	private GeoFunction deriv;
 
 	public AlgoTangentFunctionPoint(Construction cons, String label,
-			GeoPoint2 P, GeoFunction f) {
+			GeoPoint P, GeoFunction f) {
 		this(cons, P, f);
 		tangent.setLabel(label);
 	}
 
-	public AlgoTangentFunctionPoint(Construction cons, GeoPoint2 P,
+	public AlgoTangentFunctionPoint(Construction cons, GeoPoint P,
 			GeoFunction f) {
 		super(cons);
 		this.P = P;
@@ -55,7 +55,7 @@ public class AlgoTangentFunctionPoint extends AlgoUsingTempCASalgo {
 		if (pointOnFunction)
 			T = P;
 		else
-			T = new GeoPoint2(cons);
+			T = new GeoPoint(cons);
 		tangent.setStartPoint(T);
 
 		// derivative of f
@@ -97,11 +97,11 @@ public class AlgoTangentFunctionPoint extends AlgoUsingTempCASalgo {
 		return f;
 	}
 
-	GeoPoint2 getPoint() {
+	GeoPoint getPoint() {
 		return P;
 	}
 
-	GeoPoint2 getTangentPoint() {
+	GeoPoint getTangentPoint() {
 		return T;
 	}
 

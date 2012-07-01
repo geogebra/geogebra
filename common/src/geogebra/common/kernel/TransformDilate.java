@@ -4,7 +4,7 @@ import geogebra.common.kernel.algos.AlgoDilate;
 import geogebra.common.kernel.algos.AlgoTransformation;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 
 /**
  * Dilation
@@ -15,7 +15,7 @@ import geogebra.common.kernel.geos.GeoPoint2;
 public class TransformDilate extends Transform {
 
 	private NumberValue ratio;
-	private GeoPoint2 center;
+	private GeoPoint center;
 
 	/**
 	 * @param cons construction
@@ -31,7 +31,7 @@ public class TransformDilate extends Transform {
 	 * @param ratio dilation ratio
 	 * @param center dilation center
 	 */
-	public TransformDilate(Construction cons,NumberValue ratio, GeoPoint2 center) {
+	public TransformDilate(Construction cons,NumberValue ratio, GeoPoint center) {
 		this.ratio = ratio;
 		this.center = center;
 		this.cons = cons;

@@ -1,7 +1,7 @@
 package geogebra.common.kernel.statistics;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.main.AbstractApplication;
 
 import org.apache.commons.math.linear.Array2DRowRealMatrix;
@@ -486,7 +486,7 @@ public final  class RegressionMath {
         for(int i=0;i<size;i++){
             geoelement=geolist.get(i);
             if(geoelement.isGeoPoint()) {
-                ((GeoPoint2)geoelement).getInhomCoords(xy);
+                ((GeoPoint)geoelement).getInhomCoords(xy);
                 xlist[i]=xy[0]; ylist[i]=xy[1];
             }else{
                 error=true;

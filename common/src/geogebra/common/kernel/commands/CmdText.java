@@ -4,7 +4,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.main.MyError;
 
 /**
@@ -44,7 +44,7 @@ public class CmdText extends CommandProcessor {
 			}
 			else if (arg[1].isGeoPoint()) {
 				GeoElement[] ret2 = { kernelA.Text(c.getLabel(),
-						arg[0], (GeoPoint2)arg[1]) };
+						arg[0], (GeoPoint)arg[1]) };
 				return ret2;
 			}
 			else
@@ -55,7 +55,7 @@ public class CmdText extends CommandProcessor {
 			arg = resArgs(c);	
 			if ((ok = arg[1].isGeoPoint()) && arg[2].isGeoBoolean()) {
 				GeoElement[] ret2 = { kernelA.Text(c.getLabel(),
-						arg[0], (GeoPoint2)arg[1], (GeoBoolean)arg[2]) };
+						arg[0], (GeoPoint)arg[1], (GeoBoolean)arg[2]) };
 				return ret2;
 			}
 			throw argErr(app, c.getName(), ok ? arg[2] : arg[1]);     
@@ -65,7 +65,7 @@ public class CmdText extends CommandProcessor {
 			arg = resArgs(c);	
 			if ((ok = arg[1].isGeoPoint()) && (ok1 = arg[2].isGeoBoolean()) && arg[3].isGeoBoolean()) {
 				GeoElement[] ret2 = { kernelA.Text(c.getLabel(),
-						arg[0], (GeoPoint2)arg[1], (GeoBoolean)arg[2], (GeoBoolean)arg[3]) };
+						arg[0], (GeoPoint)arg[1], (GeoBoolean)arg[2], (GeoBoolean)arg[3]) };
 				return ret2;
 			}
 			throw argErr(app, c.getName(), ok ? (ok1 ? arg[3] : arg[2]) : arg[1]);     

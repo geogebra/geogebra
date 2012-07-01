@@ -40,7 +40,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoLocus;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoUserInputElement;
 import geogebra.common.kernel.geos.Mirrorable;
 import geogebra.common.kernel.geos.PointRotateable;
@@ -815,7 +815,7 @@ Dilateable, Transformable, EuclidianViewCE {
 						while(it!=null&&it.hasNext()){
 							AlgoElement elem=it.next();
 							if (elem instanceof AlgoPointOnPath && isIndependent()){
-								GeoPoint2 point=((AlgoPointOnPath)elem).getP();
+								GeoPoint point=((AlgoPointOnPath)elem).getP();
 								if (!Kernel.isZero(point.getZ())){
 									double x=point.getX()/point.getZ();
 									double y=point.getY()/point.getZ();
@@ -889,10 +889,10 @@ Dilateable, Transformable, EuclidianViewCE {
 	}
 	
 	@Override
-	final public double distance(GeoPoint2 p) {
+	final public double distance(GeoPoint p) {
 		AlgoClosestPoint algo = new AlgoClosestPoint(cons, this, p);
 		algo.remove();
-		GeoPoint2 pointOnCurve = algo.getP();
+		GeoPoint pointOnCurve = algo.getP();
 		return p.distance(pointOnCurve);
 	}
 	
@@ -900,9 +900,9 @@ Dilateable, Transformable, EuclidianViewCE {
 	 * Makes make curve through given points 
 	 * @param points array of points
 	 */
-	public void throughPoints(GeoPoint2[] points)
+	public void throughPoints(GeoPoint[] points)
 	{
-		ArrayList<GeoPoint2> p = new ArrayList<GeoPoint2>();
+		ArrayList<GeoPoint> p = new ArrayList<GeoPoint>();
 		for(int i=0; i<points.length; i++)
 			p.add(points[i]);
 		throughPoints(p);
@@ -914,9 +914,9 @@ Dilateable, Transformable, EuclidianViewCE {
 	 */
 	public void throughPoints(GeoList points)
 	{
-		ArrayList<GeoPoint2> p = new ArrayList<GeoPoint2>();
+		ArrayList<GeoPoint> p = new ArrayList<GeoPoint>();
 		for(int i=0; i<points.size(); i++)
-			p.add((GeoPoint2)points.get(i));
+			p.add((GeoPoint)points.get(i));
 		throughPoints(p);
 	}
 	
@@ -924,7 +924,7 @@ Dilateable, Transformable, EuclidianViewCE {
 	 * make curve through given points
 	 * @param points ArrayList of points
 	 */
-	public void throughPoints(ArrayList<GeoPoint2> points)
+	public void throughPoints(ArrayList<GeoPoint> points)
 	{
 		if((int)Math.sqrt(9+8*points.size()) != Math.sqrt(9+8*points.size()))
 		{
@@ -1091,7 +1091,7 @@ Dilateable, Transformable, EuclidianViewCE {
 		if(!PI.isDefined())
 			return false;
 
-		GeoPoint2 P = (GeoPoint2) PI;
+		GeoPoint P = (GeoPoint) PI;
 
 		double px = P.x;
 		double py = P.y;
@@ -1180,7 +1180,7 @@ Dilateable, Transformable, EuclidianViewCE {
 				new double[][]{{cx*cx + cy*cy, -2*cy, 1}, {-2*cx,0,0}, {1,0,0}});
 	}
 
-	public void mirror(GeoPoint2 Q) {
+	public void mirror(GeoPoint Q) {
 		plugInPoly(new double[][]{{2*Q.getInhomX()},{-1}},new double[][]{{2*Q.getInhomY(),-1}});
 	}
 
@@ -1222,7 +1222,7 @@ Dilateable, Transformable, EuclidianViewCE {
 		plugInPoly(new double[][]{{0,-sin},{cos,0}},new double[][]{{0,cos},{sin,0}});	
 	}
 
-	public void rotate(NumberValue phiValue, GeoPoint2 S) {
+	public void rotate(NumberValue phiValue, GeoPoint S) {
 		double phi=phiValue.getDouble();
 		double cos=Math.cos(phi);
 		double sin=Math.sin(-phi);
@@ -1231,7 +1231,7 @@ Dilateable, Transformable, EuclidianViewCE {
 		plugInPoly(new double[][]{{x*(1-cos)+y*sin,-sin},{cos,0}},new double[][]{{-x*sin+y*(1-cos),cos},{sin,0}});
 	}
 
-	public void dilate(NumberValue rval, GeoPoint2 S) {
+	public void dilate(NumberValue rval, GeoPoint S) {
 		double r=1/rval.getDouble();
 		plugInPoly(new double[][]{{(1-r)*S.getInhomX()},{r}},new double[][]{{(1-r)*S.getInhomY(),r}});
 	}

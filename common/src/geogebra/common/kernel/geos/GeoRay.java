@@ -42,7 +42,7 @@ final public class GeoRay extends GeoLine implements LimitedPath, GeoRayND {
 	 * @param c construction
 	 * @param A start point
 	 */
-	public GeoRay(Construction c, GeoPoint2 A) {
+	public GeoRay(Construction c, GeoPoint A) {
 		super(c);		
 		setStartPoint(A);
 	}
@@ -81,7 +81,7 @@ final public class GeoRay extends GeoLine implements LimitedPath, GeoRayND {
 	
 	@Override
 	public GeoElement copyInternal(Construction cons1) {
-		GeoRay ray = new GeoRay(cons1, (GeoPoint2) startPoint.copyInternal(cons1));
+		GeoRay ray = new GeoRay(cons1, (GeoPoint) startPoint.copyInternal(cons1));
 		ray.set(this);
 		return ray;
 	}
@@ -102,7 +102,7 @@ final public class GeoRay extends GeoLine implements LimitedPath, GeoRayND {
 	 * @param s start point
 	 * @param direction line
 	 */
-	public void set(GeoPoint2 s, GeoVec3D direction) {
+	public void set(GeoPoint s, GeoVec3D direction) {
 		super.set(direction);
 		setStartPoint(s);
 	}
@@ -143,7 +143,7 @@ final public class GeoRay extends GeoLine implements LimitedPath, GeoRayND {
 			return;
 		}
 		
-		GeoPoint2 P = (GeoPoint2) PI;
+		GeoPoint P = (GeoPoint) PI;
 		
 		PathParameter pp = P.getPathParameter();
 		if (pp.t < 0.0) {
@@ -178,7 +178,7 @@ final public class GeoRay extends GeoLine implements LimitedPath, GeoRayND {
 	}
 	
     @Override
-	public boolean isIntersectionPointIncident(GeoPoint2 p, double eps) {
+	public boolean isIntersectionPointIncident(GeoPoint p, double eps) {
     	if (allowOutlyingIntersections)
 			return isOnFullLine(p, eps);
 		return isOnPath(p, eps);
@@ -250,11 +250,11 @@ final public class GeoRay extends GeoLine implements LimitedPath, GeoRayND {
 				GeoElement [] geos = {ray, (GeoElement) points[0], (GeoElement) points[1]};
 			return geos;
 			}
-			GeoPoint2 inf = new GeoPoint2(cons);
+			GeoPoint inf = new GeoPoint(cons);
 			inf.setCoords(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, 1);
-			inf = (GeoPoint2)t.doTransform(inf);
+			inf = (GeoPoint)t.doTransform(inf);
 			AlgoConicPartCircumcircle ae = new AlgoConicPartCircumcircle( cons, Transform.transformedGeoLabel(this),
-					(GeoPoint2) points[0], (GeoPoint2) points[1],inf,GeoConicPart.CONIC_PART_ARC);
+					(GeoPoint) points[0], (GeoPoint) points[1],inf,GeoConicPart.CONIC_PART_ARC);
 			cons.removeFromAlgorithmList(ae);
 			GeoElement arc = ae.getConicPart();//GeoConicPart 				
 			arc.setVisualStyleForTransformations(this);
@@ -277,22 +277,22 @@ final public class GeoRay extends GeoLine implements LimitedPath, GeoRayND {
 				cons.setSuppressLabelCreation(oldSuppressLabelCreation);
 				
 				// ray through transformed point with direction of transformed line
-				GeoElement ray = kernel.Ray(transformedLabel, (GeoPoint2) points[0], direction);
+				GeoElement ray = kernel.Ray(transformedLabel, (GeoPoint) points[0], direction);
 				ray.setVisualStyleForTransformations(this);
 				GeoElement [] geos = new GeoElement[] {ray, (GeoElement) points[0]};
 				return geos;
 			}
 				AlgoTranslate at = new AlgoTranslate( cons,getStartPoint(),direction);
 				cons.removeFromAlgorithmList(at);
-				GeoPoint2 thirdPoint = (GeoPoint2) at.getResult();
-				GeoPoint2 inf = new GeoPoint2(cons);
+				GeoPoint thirdPoint = (GeoPoint) at.getResult();
+				GeoPoint inf = new GeoPoint(cons);
 				inf.setCoords(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, 1);
 						
 				GeoPointND [] points2 = new GeoPointND[] {thirdPoint,inf};
 				points2 = t.transformPoints(points2);
 				cons.setSuppressLabelCreation(oldSuppressLabelCreation);
 				AlgoConicPartCircumcircle ae = new AlgoConicPartCircumcircle(cons, Transform.transformedGeoLabel(this),
-			    		(GeoPoint2) points[0], (GeoPoint2) points2[0], (GeoPoint2) points2[1],GeoConicPart.CONIC_PART_ARC);
+			    		(GeoPoint) points[0], (GeoPoint) points2[0], (GeoPoint) points2[1],GeoConicPart.CONIC_PART_ARC);
 				GeoElement arc = ae.getConicPart();//GeoConicPart 				
 				arc.setVisualStyleForTransformations(this);
 				GeoElement [] geos = {arc, (GeoElement) points[0]};

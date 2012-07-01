@@ -16,7 +16,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 
 import java.util.Arrays;
 
@@ -36,7 +36,7 @@ public abstract class AlgoGeoPointsFunction extends AlgoElement{
 
 	protected GeoFunction f;			 // For calculation of y-values 
     
-    protected GeoPoint2[] points;		// output in subcclass  
+    protected GeoPoint[] points;		// output in subcclass  
 
     private String[] labels;
     private boolean initLabels;
@@ -60,7 +60,7 @@ public abstract class AlgoGeoPointsFunction extends AlgoElement{
         	
             //  make sure root points is not null
             int number = labels == null ? 1 : Math.max(1, labels.length);
-            points = new GeoPoint2[0];
+            points = new GeoPoint[0];
             initPoints(number);
             initLabels = true;  
             // setInputOutput, compute(), show at least one point: must be done in subclass.
@@ -74,7 +74,7 @@ public abstract class AlgoGeoPointsFunction extends AlgoElement{
             
             //  make sure root points is not null
             int number = 1;
-            points = new GeoPoint2[0];
+            points = new GeoPoint[0];
             initPoints(number);
             // setInputOutput, compute(), show at least one point: must be done in subclass.
         }//Constructor
@@ -100,7 +100,7 @@ public abstract class AlgoGeoPointsFunction extends AlgoElement{
 
 
 
-    public GeoPoint2[] getPoints() {
+    public GeoPoint[] getPoints() {
         return points;
     }//getPoints()
 
@@ -186,7 +186,7 @@ public abstract class AlgoGeoPointsFunction extends AlgoElement{
     }//updateLabels(n)
     
     
-    protected void noUndefinedPointsInAlgebraView(GeoPoint2[] gpts) {
+    protected void noUndefinedPointsInAlgebraView(GeoPoint[] gpts) {
    	 for (int i=1; i < gpts.length; i++) {
    		 gpts[i].showUndefinedInAlgebraView(false);
    	 }//for
@@ -215,13 +215,13 @@ public abstract class AlgoGeoPointsFunction extends AlgoElement{
     protected void initPoints(int number) {
         // make sure that there are enough points   
         if (points.length < number) {
-            GeoPoint2[] temp = new GeoPoint2[number];
+            GeoPoint[] temp = new GeoPoint[number];
             for (int i = 0; i < points.length; i++) {
                 temp[i] = points[i];
                 temp[i].setCoords(0, 0, 1); // init as defined
             }
             for (int i = points.length; i < temp.length; i++) {
-                temp[i] = new GeoPoint2(cons);
+                temp[i] = new GeoPoint(cons);
                 temp[i].setCoords(0, 0, 1); // init as defined
                 temp[i].setParentAlgorithm(this);
             }
@@ -234,7 +234,7 @@ public abstract class AlgoGeoPointsFunction extends AlgoElement{
     	points[pos].doRemove();
     	
     	// build new rootPoints array without the removed point
-    	GeoPoint2[] temp = new GeoPoint2[points.length - 1];
+    	GeoPoint[] temp = new GeoPoint[points.length - 1];
     	int i;
     	for (i=0; i < pos; i++) 
     		temp[i] = points[i];        		

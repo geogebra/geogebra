@@ -21,7 +21,7 @@ import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.GeoUserInputElement;
@@ -138,9 +138,9 @@ public class ContextMenuGeoElement extends JPopupMenu {
 	}
 
 	private void addPointItems() {
-		if (!(geo instanceof GeoPoint2))
+		if (!(geo instanceof GeoPoint))
 			return;
-		GeoPoint2 point = (GeoPoint2) geo;
+		GeoPoint point = (GeoPoint) geo;
 		int mode = point.getMode();
 		AbstractAction action;
 
@@ -154,8 +154,8 @@ public class ContextMenuGeoElement extends JPopupMenu {
 				public void actionPerformed(ActionEvent e) {
 					for (int i = geos.size() - 1 ; i >= 0 ; i--) {
 						GeoElement geo1 = geos.get(i);
-						if (geo1 instanceof GeoPoint2) {
-							GeoPoint2 point1 = (GeoPoint2)geo1;
+						if (geo1 instanceof GeoPoint) {
+							GeoPoint point1 = (GeoPoint)geo1;
 							point1.setMode(Kernel.COORD_CARTESIAN);
 							point1.updateRepaint();
 						}
@@ -176,8 +176,8 @@ public class ContextMenuGeoElement extends JPopupMenu {
 				public void actionPerformed(ActionEvent e) {
 					for (int i = geos.size() - 1 ; i >= 0 ; i--) {
 						GeoElement geo1 = geos.get(i);
-						if (geo1 instanceof GeoPoint2) {
-							GeoPoint2 point1 = (GeoPoint2)geo1;
+						if (geo1 instanceof GeoPoint) {
+							GeoPoint point1 = (GeoPoint)geo1;
 							point1.setMode(Kernel.COORD_POLAR);
 							point1.updateRepaint();
 						}

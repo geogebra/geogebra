@@ -28,7 +28,7 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.geos.Translateable;
@@ -161,7 +161,7 @@ public class AlgoTranslate extends AlgoTransformation implements SymbolicParamet
 
 	public void getFreeVariables(HashSet<Variable> variables)
 			throws NoSymbolicParametersException {
-		if (inGeo instanceof GeoPoint2 && v instanceof GeoVector) {
+		if (inGeo instanceof GeoPoint && v instanceof GeoVector) {
 			((SymbolicParametersAlgo) inGeo).getFreeVariables(variables);
 			((SymbolicParametersAlgo) v).getFreeVariables(variables);
 
@@ -172,7 +172,7 @@ public class AlgoTranslate extends AlgoTransformation implements SymbolicParamet
 	
 	public int[] getDegrees()
 			throws NoSymbolicParametersException {
-		if (inGeo instanceof GeoPoint2
+		if (inGeo instanceof GeoPoint
 				&& v instanceof GeoVector) {
 			int[] degree1 = ((SymbolicParametersAlgo) inGeo)
 					.getDegrees();
@@ -190,7 +190,7 @@ public class AlgoTranslate extends AlgoTransformation implements SymbolicParamet
 	}
 
 	public BigInteger[] getExactCoordinates(final HashMap<Variable,BigInteger> values) throws NoSymbolicParametersException {
-		if (inGeo instanceof GeoPoint2
+		if (inGeo instanceof GeoPoint
 				&& v instanceof GeoVector) {
 			BigInteger[] coords1 = ((SymbolicParametersAlgo) inGeo)
 					.getExactCoordinates(values);
@@ -211,7 +211,7 @@ public class AlgoTranslate extends AlgoTransformation implements SymbolicParamet
 		if (polynomials != null) {
 			return polynomials;
 		}
-		if (inGeo instanceof GeoPoint2
+		if (inGeo instanceof GeoPoint
 				&& v instanceof GeoVector) {
 			Polynomial[] coords1 = ((SymbolicParametersAlgo) inGeo)
 					.getPolynomials();

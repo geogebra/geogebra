@@ -9,7 +9,7 @@ import geogebra.common.kernel.arithmetic.FunctionalNVar;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoLocus;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 
 import java.util.ArrayList;
 
@@ -32,7 +32,7 @@ import org.apache.commons.math.ode.sampling.StepInterpolator;
 public class AlgoIntegralODE extends AlgoElement {
 
 	private GeoElement geo; // input
-	private GeoPoint2 p;
+	private GeoPoint p;
 	private GeoLocus locus; // output   
 
 	private FunctionalNVar f0 = null;
@@ -57,7 +57,7 @@ public class AlgoIntegralODE extends AlgoElement {
 	 * @param geo function(x,y) or locus from SlopeField
 	 * @param p Point
 	 */
-	public AlgoIntegralODE(Construction cons, String label, GeoElement geo, GeoPoint2 p) {
+	public AlgoIntegralODE(Construction cons, String label, GeoElement geo, GeoPoint p) {
 		super(cons);
 		this.geo = geo;            	
 		this.p = p;

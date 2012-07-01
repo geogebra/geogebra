@@ -17,7 +17,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoLine;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 
 
 
@@ -54,7 +54,7 @@ public class AlgoIntersectPolynomialLine extends AlgoRootsPolynomial {
     }
     
     @Override
-	public GeoPoint2 [] getIntersectionPoints() {
+	public GeoPoint [] getIntersectionPoints() {
         return super.getRootPoints();
     }
 

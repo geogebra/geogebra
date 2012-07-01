@@ -16,7 +16,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoSegment;
 
 import java.util.Arrays;
@@ -126,9 +126,9 @@ public class AlgoNormalQuantilePlot extends AlgoElement {
 
 		// qq line: y = (1/sd)x - mean/sd 
 		
-		GeoPoint2 startPoint = new GeoPoint2(cons);
+		GeoPoint startPoint = new GeoPoint(cons);
 		startPoint.setCoords(min, (min/sd) - mean/sd, 1.0);
-		GeoPoint2 endPoint = new GeoPoint2(cons);
+		GeoPoint endPoint = new GeoPoint(cons);
 		endPoint.setCoords(max, (max/sd) - mean/sd, 1.0);
 		GeoSegment seg = new GeoSegment(cons, startPoint, endPoint);
 		seg.calcLength();
@@ -183,9 +183,9 @@ public class AlgoNormalQuantilePlot extends AlgoElement {
 
 		for(int i = 0; i<sortedData.length; i++) {
 			if(i<oldListSize)
-				((GeoPoint2)outputList.get(i)).setCoords(sortedData[i], zValues[i], 1.0);
+				((GeoPoint)outputList.get(i)).setCoords(sortedData[i], zValues[i], 1.0);
 			else
-				outputList.add(new GeoPoint2(cons, null, sortedData[i], zValues[i], 1.0));
+				outputList.add(new GeoPoint(cons, null, sortedData[i], zValues[i], 1.0));
 		}      
 
 		// create qq line segment and add it to the list

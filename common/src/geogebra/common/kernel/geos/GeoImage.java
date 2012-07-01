@@ -37,7 +37,7 @@ public class GeoImage extends GeoElement implements Locateable,
 		Dilateable, MatrixTransformable, Transformable {
 
 	// private String imageFileName = ""; // image file
-	private GeoPoint2[] corners; // corners of the image
+	private GeoPoint[] corners; // corners of the image
 	// private BufferedImage image;
 	private int pixelWidth, pixelHeight;
 	private boolean inBackground, defined;
@@ -49,7 +49,7 @@ public class GeoImage extends GeoElement implements Locateable,
 	private boolean hasAbsoluteScreenLocation = false;
 
 	// corner points for transformations
-	private GeoPoint2[] tempPoints;
+	private GeoPoint[] tempPoints;
 
 	private static Vector<GeoImage> instances = new Vector<GeoImage>();
 
@@ -72,7 +72,7 @@ public class GeoImage extends GeoElement implements Locateable,
 		setAuxiliaryObject(true);
 
 		// three corners of the image: first, second and fourth
-		corners = new GeoPoint2[3];
+		corners = new GeoPoint[3];
 
 		instances.add(this);
 		defined = true;
@@ -123,9 +123,9 @@ public class GeoImage extends GeoElement implements Locateable,
 	private void initTempPoints() {
 		if (tempPoints == null) {
 			// temp corner points for transformations and absolute location
-			tempPoints = new GeoPoint2[3];
+			tempPoints = new GeoPoint[3];
 			for (int i = 0; i < tempPoints.length; i++) {
-				tempPoints[i] = new GeoPoint2(cons);
+				tempPoints[i] = new GeoPoint(cons);
 			}
 		}
 
@@ -246,7 +246,7 @@ public class GeoImage extends GeoElement implements Locateable,
 	// }
 
 	public void setStartPoint(GeoPointND p) throws CircularDefinitionException {
-		setCorner((GeoPoint2) p, 0);
+		setCorner((GeoPoint) p, 0);
 	}
 
 	public void removeStartPoint(GeoPointND p) {
@@ -258,7 +258,7 @@ public class GeoImage extends GeoElement implements Locateable,
 
 	public void setStartPoint(GeoPointND p, int number)
 			throws CircularDefinitionException {
-		setCorner((GeoPoint2) p, number);
+		setCorner((GeoPoint) p, number);
 	}
 
 	/**
@@ -266,7 +266,7 @@ public class GeoImage extends GeoElement implements Locateable,
 	 * macros.
 	 */
 	public void initStartPoint(GeoPointND p, int number) {
-		corners[number] = (GeoPoint2) p;
+		corners[number] = (GeoPoint) p;
 	}
 
 	/**
@@ -277,7 +277,7 @@ public class GeoImage extends GeoElement implements Locateable,
 	 * @param number
 	 *            0, 1 or 2 (first, second and fourth corner)
 	 */
-	public void setCorner(GeoPoint2 p, int number) {
+	public void setCorner(GeoPoint p, int number) {
 		// macro output uses initStartPoint() only
 		if (isAlgoMacroOutput())
 			return;
@@ -298,7 +298,7 @@ public class GeoImage extends GeoElement implements Locateable,
 
 			// copy old first corner as absolute position
 			if (number == 0 && corners[0] != null) {
-				GeoPoint2 temp = new GeoPoint2(cons);
+				GeoPoint temp = new GeoPoint(cons);
 				temp.setCoords(corners[0]);
 				corners[0] = temp;
 			} else
@@ -357,11 +357,11 @@ public class GeoImage extends GeoElement implements Locateable,
 		}
 	}
 
-	public GeoPoint2 getStartPoint() {
+	public GeoPoint getStartPoint() {
 		return corners[0];
 	}
 
-	public GeoPoint2[] getStartPoints() {
+	public GeoPoint[] getStartPoints() {
 		return corners;
 	}
 
@@ -372,7 +372,7 @@ public class GeoImage extends GeoElement implements Locateable,
 	 *            1 for boottom left, others clockwise
 	 * @return corner point
 	 */
-	final public GeoPoint2 getCorner(int number) {
+	final public GeoPoint getCorner(int number) {
 		return corners[number];
 	}
 
@@ -599,9 +599,9 @@ public class GeoImage extends GeoElement implements Locateable,
 	}
 
 	public void setRealWorldLoc(double x, double y) {
-		GeoPoint2 loc = getStartPoint();
+		GeoPoint loc = getStartPoint();
 		if (loc == null) {
-			loc = new GeoPoint2(cons);
+			loc = new GeoPoint(cons);
 			setCorner(loc, 0);
 		}
 		loc.setCoords(x, y, 1.0);
@@ -658,7 +658,7 @@ public class GeoImage extends GeoElement implements Locateable,
 	 * @param n
 	 *            number of the corner point (1, 2, 3 or 4)
 	 */
-	public void calculateCornerPoint(GeoPoint2 result, int n) {
+	public void calculateCornerPoint(GeoPoint result, int n) {
 		if (hasAbsoluteScreenLocation) {
 			result.setUndefined();
 			return;
@@ -700,9 +700,9 @@ public class GeoImage extends GeoElement implements Locateable,
 	private double[] tempCoords = new double[2];
 
 	private void getInternalCornerPointCoords(double[] coords, int n) {
-		GeoPoint2 A = corners[0];
-		GeoPoint2 B = corners[1];
-		GeoPoint2 D = corners[2];
+		GeoPoint A = corners[0];
+		GeoPoint B = corners[1];
+		GeoPoint D = corners[2];
 
 		double xscale = kernel.getXscale();
 		double yscale = kernel.getYscale();
@@ -794,7 +794,7 @@ public class GeoImage extends GeoElement implements Locateable,
 	/**
 	 * rotate this image by angle phi around Q
 	 */
-	final public void rotate(NumberValue phiValue, GeoPoint2 Q) {
+	final public void rotate(NumberValue phiValue, GeoPoint Q) {
 		if (!initTransformPoints())
 			return;
 
@@ -805,7 +805,7 @@ public class GeoImage extends GeoElement implements Locateable,
 		}
 	}
 
-	public void mirror(GeoPoint2 Q) {
+	public void mirror(GeoPoint Q) {
 		if (!initTransformPoints())
 			return;
 
@@ -825,7 +825,7 @@ public class GeoImage extends GeoElement implements Locateable,
 			GeoVec2D vec = tempPoints[i].getVector();
 			vec.matrixTransform(a, b, c, d);
 			if (corners[i] == null)
-				corners[i] = new GeoPoint2(cons);
+				corners[i] = new GeoPoint(cons);
 			corners[i].setCoords(vec);
 		}
 	}
@@ -862,7 +862,7 @@ public class GeoImage extends GeoElement implements Locateable,
 		return true;
 	}
 
-	public void dilate(NumberValue r, GeoPoint2 S) {
+	public void dilate(NumberValue r, GeoPoint S) {
 		if (!initTransformPoints())
 			return;
 
@@ -921,19 +921,19 @@ public class GeoImage extends GeoElement implements Locateable,
 		return true;
 	}
 
-	private ArrayList<GeoPoint2> al = null;
+	private ArrayList<GeoPoint> al = null;
 
 	/**
 	 * Returns all free parent points of this GeoElement.
 	 */
 	@Override
-	public ArrayList<GeoPoint2> getFreeInputPoints(
+	public ArrayList<GeoPoint> getFreeInputPoints(
 			EuclidianViewInterfaceSlim view) {
 		if (hasAbsoluteLocation())
 			return null;
 
 		if (al == null)
-			al = new ArrayList<GeoPoint2>();
+			al = new ArrayList<GeoPoint>();
 		else
 			al.clear();
 
@@ -961,7 +961,7 @@ public class GeoImage extends GeoElement implements Locateable,
 			GeoVec2D vec = tempPoints[i].getVector();
 			vec.matrixTransform(a00, a01, a02, a10, a11, a12, a20, a21, a22);
 			if (corners[i] == null)
-				corners[i] = new GeoPoint2(cons);
+				corners[i] = new GeoPoint(cons);
 			corners[i].setCoords(vec);
 		}
 

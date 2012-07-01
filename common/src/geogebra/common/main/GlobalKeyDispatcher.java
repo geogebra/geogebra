@@ -12,7 +12,7 @@ import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.PointProperties;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.util.CopyPaste;
@@ -896,7 +896,7 @@ public abstract class GlobalKeyDispatcher {
 
 					// update point on path
 					else if (geo.isGeoPoint() && !geo.isGeoElement3D()) {
-						GeoPoint2 p = (GeoPoint2) geo;
+						GeoPoint p = (GeoPoint) geo;
 						if (p.hasPath()) {
 							p.addToPathParameter(changeVal
 									* p.getAnimationStep());

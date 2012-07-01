@@ -24,7 +24,7 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoVec3D;
 
 /**
@@ -32,13 +32,13 @@ import geogebra.common.kernel.geos.GeoVec3D;
  */
 public class AlgoCommonTangents extends AlgoElement {
 
-    private GeoPoint2 P, P2; // tmp
+    private GeoPoint P, P2; // tmp
     private GeoConic c, c2; // input
     private GeoLine[] tangents; // output  
 
     private GeoLine polar, polar2;
     private AlgoIntersectLineConic algoIntersect, algoIntersect2;
-    private GeoPoint2[] tangentPoints, tangentPoints2;
+    private GeoPoint[] tangentPoints, tangentPoints2;
     private boolean equalLines = false, equalLines2 = false;
 
     public AlgoCommonTangents(
@@ -59,7 +59,7 @@ public class AlgoCommonTangents extends AlgoElement {
         double r2 = c2.getCircleRadius();
 
         // outer
-        P = new GeoPoint2(cons);
+        P = new GeoPoint(cons);
         if( Math.abs(r2-r) > Kernel.MIN_PRECISION) {
             P.setCoords((c.b.getX()*r2-c2.b.getX()*r)/(r2-r),
                         (c.b.getY()*r2-c2.b.getY()*r)/(r2-r), 1.0d);
@@ -77,7 +77,7 @@ public class AlgoCommonTangents extends AlgoElement {
         tangentPoints = algoIntersect.getIntersectionPoints();
 
         // inner
-        P2 = new GeoPoint2(cons);
+        P2 = new GeoPoint(cons);
         P2.setCoords((c.b.getX()*r2+c2.b.getX()*r)/(r2+r),
                      (c.b.getY()*r2+c2.b.getY()*r)/(r2+r), 1.0d);
         // the tangents are computed by intersecting the

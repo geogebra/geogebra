@@ -22,7 +22,7 @@ import geogebra.common.awt.GBufferedImage;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoImage;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 
 /**
  * 
@@ -92,9 +92,9 @@ public final class DrawImage extends Drawable {
 
 		// RELATIVE SCREEN POSITION
 		else {
-			GeoPoint2 A = geoImage.getCorner(0);
-			GeoPoint2 B = geoImage.getCorner(1);
-			GeoPoint2 D = geoImage.getCorner(2);
+			GeoPoint A = geoImage.getCorner(0);
+			GeoPoint B = geoImage.getCorner(1);
+			GeoPoint D = geoImage.getCorner(2);
 
 			double ax = 0;
 			double ay = 0;

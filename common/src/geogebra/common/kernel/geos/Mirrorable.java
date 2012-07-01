@@ -20,7 +20,7 @@ public interface Mirrorable extends ToGeoElement{
 	 * Miror at point
 	 * @param Q mirror
 	 */
-	public void mirror(GeoPoint2 Q);
+	public void mirror(GeoPoint Q);
 	/**
 	 * Miror at line
 	 * @param g mirror

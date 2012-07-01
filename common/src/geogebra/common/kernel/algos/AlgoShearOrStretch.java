@@ -28,7 +28,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoList;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPoly;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.geos.GeoVector;
@@ -141,7 +141,7 @@ public class AlgoShearOrStretch extends AlgoTransformation {
         n=num.getDouble();
         }
         else{
-        	GeoPoint2 sp = ((GeoVector)l).getStartPoint();
+        	GeoPoint sp = ((GeoVector)l).getStartPoint();
         	if(sp!=null){
         	 qx = -((GeoVector)l).getStartPoint().x;
         	 qy = -((GeoVector)l).getStartPoint().y;

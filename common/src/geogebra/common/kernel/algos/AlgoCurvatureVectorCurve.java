@@ -5,7 +5,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.cas.AlgoDerivative;
 import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoVector;
 
 
@@ -19,7 +19,7 @@ import geogebra.common.kernel.geos.GeoVector;
 
 public class AlgoCurvatureVectorCurve extends AlgoElement {
 
-	private GeoPoint2 A; // input
+	private GeoPoint A; // input
 	private GeoCurveCartesian f, f1, f2; // f = f(x), f1 is f'(x), f2 is f''(x)										
 	private GeoVector v; // output
 
@@ -28,7 +28,7 @@ public class AlgoCurvatureVectorCurve extends AlgoElement {
 	
     AlgoDerivative algoCAS, algoCAS2;
 
-	public AlgoCurvatureVectorCurve(Construction cons, String label, GeoPoint2 A,
+	public AlgoCurvatureVectorCurve(Construction cons, String label, GeoPoint A,
 			GeoCurveCartesian f) {
 		this(cons, A, f);
 
@@ -40,7 +40,7 @@ public class AlgoCurvatureVectorCurve extends AlgoElement {
 		}
 	}
 
-	AlgoCurvatureVectorCurve(Construction cons, GeoPoint2 A, GeoCurveCartesian f) {
+	AlgoCurvatureVectorCurve(Construction cons, GeoPoint A, GeoCurveCartesian f) {
 		super(cons);
 		this.A = A;
 		this.f = f;

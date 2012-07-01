@@ -186,7 +186,7 @@ public class GeoTextField extends GeoButton {
 		} else if (linkedGeo.isGeoText()) {
 			defineText = "\"" + defineText + "\"";
 		} else if (linkedGeo.isGeoPoint()) {
-			if (((GeoPoint2) linkedGeo).toStringMode == Kernel.COORD_COMPLEX) {
+			if (((GeoPoint) linkedGeo).toStringMode == Kernel.COORD_COMPLEX) {
 				// z=2 doesn't work for complex numbers (parses to
 				// GeoNumeric)
 				defineText = defineText + "+0" + Unicode.IMAGINARY;

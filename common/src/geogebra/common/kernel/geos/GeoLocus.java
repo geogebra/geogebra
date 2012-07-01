@@ -200,7 +200,7 @@ public class GeoLocus extends GeoElement implements Path, Traceable {
 
 	public boolean isOnPath(GeoPointND PI, double eps) {
 
-		GeoPoint2 P = (GeoPoint2) PI;
+		GeoPoint P = (GeoPoint) PI;
 
 		MyPoint closestPoint = getClosestPoint(P);
 		if (closestPoint != null) {
@@ -209,7 +209,7 @@ public class GeoLocus extends GeoElement implements Path, Traceable {
 		return false;
 	}
 
-	private MyPoint getClosestPoint(GeoPoint2 P) {
+	private MyPoint getClosestPoint(GeoPoint P) {
 		GeoLine l = getClosestLine(P);
 
 		boolean temp = cons.isSuppressLabelsActive();
@@ -247,7 +247,7 @@ public class GeoLocus extends GeoElement implements Path, Traceable {
 	/**
 	 * Returns the point of this locus that is closest to GeoPoint P.
 	 */
-	private GeoLine getClosestLine(GeoPoint2 P) {
+	private GeoLine getClosestLine(GeoPoint P) {
 		int size = myPointList.size();
 		if (size == 0)
 			return null;
@@ -265,8 +265,8 @@ public class GeoLocus extends GeoElement implements Path, Traceable {
 
 		// make a segment and points to reuse
 		GeoSegment segment = new GeoSegment(cons);
-		GeoPoint2 p1 = new GeoPoint2(cons);
-		GeoPoint2 p2 = new GeoPoint2(cons);
+		GeoPoint p1 = new GeoPoint(cons);
+		GeoPoint p2 = new GeoPoint(cons);
 		segment.setStartPoint(p1);
 		segment.setEndPoint(p2);
 
@@ -330,7 +330,7 @@ public class GeoLocus extends GeoElement implements Path, Traceable {
 		// new method
 		// keep point on same segment, the same proportion along it
 		// better for loci with very few segments eg from ShortestDistance[ ]
-		GeoPoint2 P = (GeoPoint2) PI;
+		GeoPoint P = (GeoPoint) PI;
 		PathParameter pp = P.getPathParameter();
 
 		int n = (int) Math.floor(pp.t);
@@ -354,7 +354,7 @@ public class GeoLocus extends GeoElement implements Path, Traceable {
 
 	public void pointChanged(GeoPointND PI) {
 
-		GeoPoint2 P = (GeoPoint2) PI;
+		GeoPoint P = (GeoPoint) PI;
 
 		// this updates closestPointParameter and closestPointIndex
 		MyPoint closestPoint = getClosestPoint(P);

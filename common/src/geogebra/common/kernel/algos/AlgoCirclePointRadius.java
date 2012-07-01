@@ -23,7 +23,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoConic;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.kernelND.GeoQuadricND;
 
@@ -34,25 +34,25 @@ import geogebra.common.kernel.kernelND.GeoQuadricND;
  */
 public class AlgoCirclePointRadius extends AlgoSphereNDPointRadius implements AlgoCirclePointRadiusInterface {
 
-	public AlgoCirclePointRadius(Construction cons, String label, GeoPoint2 M,
+	public AlgoCirclePointRadius(Construction cons, String label, GeoPoint M,
 			NumberValue r) {
 
 		super(cons, label, M, r);
 	}
 
-	public AlgoCirclePointRadius(Construction cons, String label, GeoPoint2 M,
+	public AlgoCirclePointRadius(Construction cons, String label, GeoPoint M,
 			GeoSegment segment, boolean dummy) {
 
 		super(cons, label, M, segment, dummy);
 	}
 
-	public AlgoCirclePointRadius(Construction cons, GeoPoint2 M, NumberValue r) {
+	public AlgoCirclePointRadius(Construction cons, GeoPoint M, NumberValue r) {
 
 		super(cons, M, r);
 
 	}
 
-	AlgoCirclePointRadius(Construction cons, GeoPoint2 M, GeoSegment rgeo) {
+	AlgoCirclePointRadius(Construction cons, GeoPoint M, GeoSegment rgeo) {
 
 		super(cons, M, rgeo);
 	}

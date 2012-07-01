@@ -6,7 +6,7 @@ import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.main.MyError;
 
 
@@ -43,16 +43,16 @@ public GeoElement[] process(Command c) throws MyError {
         if (arg[0].isGeoPoint() && 
 	        arg[1].isGeoPoint() &&
 	        arg[2].isNumberValue())
-				return kernelA.RegularPolygon(c.getLabels(), (GeoPoint2) arg[0], (GeoPoint2) arg[1], (NumberValue) arg[2]);		
+				return kernelA.RegularPolygon(c.getLabels(), (GeoPoint) arg[0], (GeoPoint) arg[1], (NumberValue) arg[2]);		
         
         default:
 			// polygon for given points
-	        GeoPoint2[] points = new GeoPoint2[n];
+	        GeoPoint[] points = new GeoPoint[n];
 	        // check arguments
 	        for (int i = 0; i < n; i++) {
 	            if (!(arg[i].isGeoPoint()))
 					throw argErr(app, c.getName(), arg[i]);
-				points[i] = (GeoPoint2) arg[i];
+				points[i] = (GeoPoint) arg[i];
 	        }
 	        // everything ok
 	        return kernelA.Polygon(c.getLabels(), points);

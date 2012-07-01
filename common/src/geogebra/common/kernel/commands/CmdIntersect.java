@@ -8,7 +8,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoFunctionable;
 import geogebra.common.kernel.geos.GeoLine;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPolyLine;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
@@ -262,7 +262,7 @@ public  GeoElement[] process(Command c) throws MyError {
                                 c.getLabel(),
                                 (GeoLine) arg[0],
                                 (GeoConic) arg[1],
-                                (GeoPoint2) arg[2])};
+                                (GeoPoint) arg[2])};
             	return ret;
             } else if (
                     (ok[0] = (arg[0] .isGeoConic()))
@@ -273,7 +273,7 @@ public  GeoElement[] process(Command c) throws MyError {
                                 c.getLabel(),
                                 (GeoLine) arg[1],
                                 (GeoConic) arg[0],
-                                (GeoPoint2) arg[2])};
+                                (GeoPoint) arg[2])};
             	return ret;
             }
          // Conic - Conic with startPoint
@@ -285,7 +285,7 @@ public  GeoElement[] process(Command c) throws MyError {
                                 c.getLabel(),
                                 (GeoConic) arg[0],
                                 (GeoConic) arg[1],
-                                (GeoPoint2) arg[2])};
+                                (GeoPoint) arg[2])};
             	return ret;
             }
             // Conic - Conic
@@ -430,7 +430,7 @@ public  GeoElement[] process(Command c) throws MyError {
                             c.getLabel(),
                             ((GeoFunctionable) arg[0]).getGeoFunction(),
                             (GeoLine) arg[1],
-                            (GeoPoint2) arg[2])};
+                            (GeoPoint) arg[2])};
                 return ret;
             }
             // Function - Function with startPoint
@@ -444,7 +444,7 @@ public  GeoElement[] process(Command c) throws MyError {
                             c.getLabel(),
                             ((GeoFunctionable) arg[0]).getGeoFunction(),
                             ((GeoFunctionable) arg[1]).getGeoFunction(),
-                            (GeoPoint2) arg[2])};
+                            (GeoPoint) arg[2])};
                 return ret;
             }
             // Line - Function with startPoint
@@ -458,7 +458,7 @@ public  GeoElement[] process(Command c) throws MyError {
                             c.getLabel(),
                             ((GeoFunctionable) arg[1]).getGeoFunction(),
                             (GeoLine) arg[0],
-                            (GeoPoint2) arg[2])};
+                            (GeoPoint) arg[2])};
                 return ret;
             }
             // Syntax Error

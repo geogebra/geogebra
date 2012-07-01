@@ -3,7 +3,7 @@ package geogebra.common.kernel.commands;
 import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.main.MyError;
 
 
@@ -28,7 +28,7 @@ public class CmdCenterView extends CmdScripting {
 		case 1:
 			arg = resArgs(c);
 			if (arg[0].isGeoPoint()) {
-				GeoPoint2 p = (GeoPoint2) arg[0];
+				GeoPoint p = (GeoPoint) arg[0];
 
 				EuclidianViewInterfaceSlim ev =  app.getActiveEuclidianView();
 				double px = (ev.toRealWorldCoordX(ev.getWidth()) - ev.toRealWorldCoordX(0)) / 2; 

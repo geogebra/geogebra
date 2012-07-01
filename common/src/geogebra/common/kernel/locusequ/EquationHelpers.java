@@ -4,7 +4,7 @@
 package geogebra.common.kernel.locusequ;
 
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -21,9 +21,9 @@ public class EquationHelpers {
      * @param element whose predecessors points will be returned.
      * @return an array of points. If element is a point it will be the last point in array.
      */
-    public static GeoPoint2[] getDependentPredecessorPointsForElement(final GeoElement element) {
+    public static GeoPoint[] getDependentPredecessorPointsForElement(final GeoElement element) {
         // Count points.
-    	List<GeoPoint2> points = new ArrayList<GeoPoint2>(10); // Lucky guess.      
+    	List<GeoPoint> points = new ArrayList<GeoPoint>(10); // Lucky guess.      
     
         Iterator<GeoElement> it = element.getAllPredecessors().iterator();
         
@@ -33,15 +33,15 @@ public class EquationHelpers {
             el = it.next();
             if(el.isGeoPoint() &&
                     !el.isIndependent()){
-                points.add((GeoPoint2) el);
+                points.add((GeoPoint) el);
             }
         }
         
         if(element.isGeoPoint()) {
-            points.add((GeoPoint2) element);
+            points.add((GeoPoint) element);
         }
         
-        return points.toArray(new GeoPoint2[points.size()]);
+        return points.toArray(new GeoPoint[points.size()]);
     }
     
     /**
@@ -49,18 +49,18 @@ public class EquationHelpers {
      * @param element whose predecessor points are returned.
      * @return an array of points. If given element is a point it won't be returned.
      */
-    public static GeoPoint2[] getPredecessorPointsForElement(final GeoElement element) {
-    	List<GeoPoint2> points = new ArrayList<GeoPoint2>(10);
+    public static GeoPoint[] getPredecessorPointsForElement(final GeoElement element) {
+    	List<GeoPoint> points = new ArrayList<GeoPoint>(10);
         
         Iterator<GeoElement> it = element.getAllPredecessors().iterator();
         GeoElement el;
         while(it.hasNext()){
             el = it.next();
             if(el.isGeoPoint()){
-                points.add((GeoPoint2) el);
+                points.add((GeoPoint) el);
             }
         }
-        return points.toArray(new GeoPoint2[points.size()]);
+        return points.toArray(new GeoPoint[points.size()]);
     }
     
     /**

@@ -6,7 +6,7 @@ import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.main.MyError;
 
 
@@ -60,12 +60,12 @@ public class CmdPolyLine extends CommandProcessor {
 			} 
 
 				// polygon for given points
-				GeoPoint2[] points = new GeoPoint2[size];
+				GeoPoint[] points = new GeoPoint[size];
 				// check arguments
 				for (int i = 0; i < size; i++) {
 					if (!(arg[i].isGeoPoint()))
 						throw argErr(app, c.getName(), arg[i]);
-					points[i] = (GeoPoint2) arg[i];
+					points[i] = (GeoPoint) arg[i];
 				}
 				// everything ok
 				return kernelA.PolyLine(c.getLabels(), points, penStroke);

@@ -4,7 +4,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.prover.Variable;
@@ -92,7 +92,7 @@ public class AlgoAreEqual extends AlgoElement implements
 			throw new NoSymbolicParametersException();
 		}
 		if (inputElement1 != null && inputElement2 != null) {
-			if (((inputElement1 instanceof GeoPoint2) && (inputElement2 instanceof GeoPoint2))||
+			if (((inputElement1 instanceof GeoPoint) && (inputElement2 instanceof GeoPoint))||
 				((inputElement1 instanceof GeoLine) && (inputElement2 instanceof GeoLine))||
 				((inputElement1 instanceof GeoVector) && (inputElement2 instanceof GeoVector))){
 				((SymbolicParametersAlgo)inputElement1).getFreeVariables(variables);
@@ -109,7 +109,7 @@ public class AlgoAreEqual extends AlgoElement implements
 			throw new NoSymbolicParametersException();
 		}
 		if (inputElement1 != null && inputElement2 != null) {
-			if (((inputElement1 instanceof GeoPoint2) && (inputElement2 instanceof GeoPoint2))||
+			if (((inputElement1 instanceof GeoPoint) && (inputElement2 instanceof GeoPoint))||
 				((inputElement1 instanceof GeoLine) && (inputElement2 instanceof GeoLine))||
 				((inputElement1 instanceof GeoVector) && (inputElement2 instanceof GeoVector))){
 				int[] degrees1=((SymbolicParametersAlgo)inputElement1).getDegrees();
@@ -130,7 +130,7 @@ public class AlgoAreEqual extends AlgoElement implements
 			throw new NoSymbolicParametersException();
 		}
 		if (inputElement1 != null && inputElement2 != null) {
-			if (((inputElement1 instanceof GeoPoint2) && (inputElement2 instanceof GeoPoint2))
+			if (((inputElement1 instanceof GeoPoint) && (inputElement2 instanceof GeoPoint))
 					|| ((inputElement1 instanceof GeoLine) && (inputElement2 instanceof GeoLine))
 					|| ((inputElement1 instanceof GeoVector) && (inputElement2 instanceof GeoVector))) {
 				BigInteger[] coords1 = ((SymbolicParametersAlgo) inputElement1)
@@ -160,7 +160,7 @@ public class AlgoAreEqual extends AlgoElement implements
 			throw new NoSymbolicParametersException();
 		}
 		if (inputElement1 != null && inputElement2 != null) {
-			if (((inputElement1 instanceof GeoPoint2) && (inputElement2 instanceof GeoPoint2))||
+			if (((inputElement1 instanceof GeoPoint) && (inputElement2 instanceof GeoPoint))||
 				((inputElement1 instanceof GeoLine) && (inputElement2 instanceof GeoLine))||
 				((inputElement1 instanceof GeoVector) && (inputElement2 instanceof GeoVector))){
 				Polynomial[] coords1=((SymbolicParametersAlgo)inputElement1).getPolynomials();
@@ -180,13 +180,13 @@ public class AlgoAreEqual extends AlgoElement implements
 			return botanaPolynomials;
 		}
 
-		if (inputElement1 instanceof GeoPoint2 && inputElement2 instanceof GeoPoint2) {
+		if (inputElement1 instanceof GeoPoint && inputElement2 instanceof GeoPoint) {
 			botanaPolynomials = new Polynomial[2][1];
 
 			Variable[] v1 = new Variable[2];
 			Variable[] v2 = new Variable[2];
-			v1 = ((GeoPoint2) inputElement1).getBotanaVars(inputElement1); // A=(x1,y1)
-			v2 = ((GeoPoint2) inputElement2).getBotanaVars(inputElement2); // B=(x2,y2)
+			v1 = ((GeoPoint) inputElement1).getBotanaVars(inputElement1); // A=(x1,y1)
+			v2 = ((GeoPoint) inputElement2).getBotanaVars(inputElement2); // B=(x2,y2)
 
 			// We want to prove: 1) x1-x2==0, 2) y1-y2==0
 			botanaPolynomials[0][0] = new Polynomial(v1[0]).subtract(new Polynomial(v2[0])); 

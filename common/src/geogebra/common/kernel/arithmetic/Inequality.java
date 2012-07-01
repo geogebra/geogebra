@@ -18,7 +18,7 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.plugin.Operation;
 
@@ -55,7 +55,7 @@ public class Inequality {
 	private ExpressionNode normal;
 	private FunctionVariable[] fv;
 	private MyDouble coef;
-	private GeoPoint2[] zeros;	
+	private GeoPoint[] zeros;	
 	// if variable x or y appears with 0 coef, we want to replace the 
 	// variable by 0 itself to avoid errors on computation
 	private MyDouble zeroDummy0,zeroDummy1;
@@ -307,7 +307,7 @@ public class Inequality {
 	/**
 	 * @return zero points for 1var ineqs
 	 */
-	public GeoPoint2[] getZeros() {
+	public GeoPoint[] getZeros() {
 		return zeros;
 	}
 

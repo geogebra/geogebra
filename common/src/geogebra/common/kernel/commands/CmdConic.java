@@ -4,7 +4,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.main.MyError;
 import geogebra.common.plugin.GeoClass;
 
@@ -38,8 +38,8 @@ public class CmdConic extends CommandProcessor {
 					throw argErr(app,"Conic",arg[i]);
 				}
 			}
-			GeoPoint2[] points = { (GeoPoint2) arg[0], (GeoPoint2) arg[1],
-					(GeoPoint2) arg[2], (GeoPoint2) arg[3], (GeoPoint2) arg[4] };
+			GeoPoint[] points = { (GeoPoint) arg[0], (GeoPoint) arg[1],
+					(GeoPoint) arg[2], (GeoPoint) arg[3], (GeoPoint) arg[4] };
 			GeoElement[] ret = { kernelA.Conic(c.getLabel(), points) };
 			return ret;
 		default:

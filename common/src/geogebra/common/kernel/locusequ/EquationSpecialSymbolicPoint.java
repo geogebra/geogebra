@@ -4,7 +4,7 @@
 package geogebra.common.kernel.locusequ;
 
 import geogebra.common.kernel.algos.AlgoLocus;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.locusequ.arith.EquationSpecialSymbolicValue;
 
 /**
@@ -14,12 +14,12 @@ import geogebra.common.kernel.locusequ.arith.EquationSpecialSymbolicValue;
  */
 public class EquationSpecialSymbolicPoint extends EquationSymbolicPoint {
 
-	private GeoPoint2 p;
+	private GeoPoint p;
     /**
      * @param v Starting value for the coordinates.
      * @param p The point to represent.
      */
-    public EquationSpecialSymbolicPoint(int v, final GeoPoint2 p) {
+    public EquationSpecialSymbolicPoint(int v, final GeoPoint p) {
         super(v);
         this.x = new EquationSpecialSymbolicValue(v+0);
         this.y = new EquationSpecialSymbolicValue(v+1);
@@ -33,7 +33,7 @@ public class EquationSpecialSymbolicPoint extends EquationSymbolicPoint {
     }
 
     @Override
-	public GeoPoint2 getPoint() {
+	public GeoPoint getPoint() {
         return this.p;
     }
 

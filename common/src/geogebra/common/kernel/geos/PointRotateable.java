@@ -22,5 +22,5 @@ public interface PointRotateable extends Rotateable {
 	 * @param r angle
 	 * @param S center
 	 */
-	public void rotate(NumberValue r, GeoPoint2 S);
+	public void rotate(NumberValue r, GeoPoint S);
 }

@@ -3,7 +3,7 @@ package geogebra.common.kernel.commands;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.main.MyError;
 
 /**
@@ -35,12 +35,12 @@ public class CmdRigidPolygon extends CommandProcessor {
 		default:
 
 			// polygon for given points
-			GeoPoint2[] points = new GeoPoint2[n];
+			GeoPoint[] points = new GeoPoint[n];
 			// check arguments
 			for (int i = 0; i < n; i++) {
 				if (!(arg[i].isGeoPoint()))
 					throw argErr(app, c.getName(), arg[i]);
-				points[i] = (GeoPoint2) arg[i];
+				points[i] = (GeoPoint) arg[i];
 			}
 
 			// everything ok

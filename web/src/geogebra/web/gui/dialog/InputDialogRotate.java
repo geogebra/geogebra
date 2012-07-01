@@ -3,7 +3,7 @@ package geogebra.web.gui.dialog;
 import geogebra.common.gui.InputHandler;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.util.Unicode;
 import geogebra.web.gui.DialogManagerWeb;
@@ -18,16 +18,16 @@ public class InputDialogRotate extends AngleInputDialog implements KeyUpHandler 
 
 	private static final long serialVersionUID = 1L;
 
-	private GeoPoint2 geoPoint1;
+	private GeoPoint geoPoint1;
 	GeoPolygon[] polys;
-	GeoPoint2[] points;
+	GeoPoint[] points;
 	GeoElement[] selGeos;
 
 	private Kernel kernel;
 	private static String defaultRotateAngle = "45\u00b0"; // 45 degrees
 
 	public InputDialogRotate(Application app, String title,
-			InputHandler handler, GeoPolygon[] polys, GeoPoint2[] points,
+			InputHandler handler, GeoPolygon[] polys, GeoPoint[] points,
 			GeoElement[] selGeos, Kernel kernel) {
 		super(app, app.getPlain("Angle"), title, defaultRotateAngle, false,
 				handler, false);

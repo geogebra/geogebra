@@ -3,7 +3,7 @@ package geogebra.common.kernel.commands;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.main.MyError;
 
@@ -50,7 +50,7 @@ public class CmdLineBisector extends CommandProcessor {
 			if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoPoint()))) {
 				GeoElement[] ret = { kernelA.LineBisector(c.getLabel(),
-						(GeoPoint2) arg[0], (GeoPoint2) arg[1]) };
+						(GeoPoint) arg[0], (GeoPoint) arg[1]) };
 				return ret;
 			}
 

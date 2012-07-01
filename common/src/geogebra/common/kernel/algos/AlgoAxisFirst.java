@@ -23,7 +23,7 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoVec2D;
 
 
@@ -39,7 +39,7 @@ public class AlgoAxisFirst extends AlgoElement {
         
     private GeoVec2D [] eigenvec;    
     private GeoVec2D b;
-    private GeoPoint2 P;
+    private GeoPoint P;
     
     public AlgoAxisFirst(Construction cons, String label,GeoConic c) {    
         super(cons);    
@@ -49,7 +49,7 @@ public class AlgoAxisFirst extends AlgoElement {
         b = c.b;                
         
         axis = new GeoLine(cons);     
-        P = new GeoPoint2(cons);
+        P = new GeoPoint(cons);
         axis.setStartPoint(P);
                    
         setInputOutput(); // for AlgoElement                

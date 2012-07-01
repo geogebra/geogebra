@@ -22,7 +22,7 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -34,8 +34,8 @@ public class AlgoIncircle extends AlgoElement {
 
     // angle bisector calculations
     private GeoLine bisectorC, bisectorB, sideBC, heightBC;
-    private GeoPoint2 heightFoot, incenter;    
-    private GeoPoint2 A1, B1, C1;
+    private GeoPoint heightFoot, incenter;    
+    private GeoPoint A1, B1, C1;
 
     public AlgoIncircle(
                            Construction cons,
@@ -63,13 +63,13 @@ public class AlgoIncircle extends AlgoElement {
 
         bisectorC = new GeoLine(cons);
         bisectorB = new GeoLine(cons);
-        heightFoot = new GeoPoint2(cons);            
+        heightFoot = new GeoPoint(cons);            
         heightBC = new GeoLine(cons);
         sideBC = new GeoLine(cons);
-        incenter = new GeoPoint2(cons);            
-        A1 = new GeoPoint2(cons);            
-        B1 = new GeoPoint2(cons);            
-        C1 = new GeoPoint2(cons);            
+        incenter = new GeoPoint(cons);            
+        A1 = new GeoPoint(cons);            
+        B1 = new GeoPoint(cons);            
+        C1 = new GeoPoint(cons);            
 
         setInputOutput();
 
@@ -97,14 +97,14 @@ public class AlgoIncircle extends AlgoElement {
     public GeoConicND getCircle() {
         return circle;
     }
-    public GeoPoint2 getA() {
-        return (GeoPoint2) A;
+    public GeoPoint getA() {
+        return (GeoPoint) A;
     }
-    public GeoPoint2 getB() {
-        return (GeoPoint2) B;
+    public GeoPoint getB() {
+        return (GeoPoint) B;
     }
-    public GeoPoint2 getC() {
-        return (GeoPoint2) C;
+    public GeoPoint getC() {
+        return (GeoPoint) C;
     }
 
     // compute incircle of triangle A, B, C

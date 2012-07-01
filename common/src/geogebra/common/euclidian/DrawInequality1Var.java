@@ -3,7 +3,7 @@ package geogebra.common.euclidian;
 import geogebra.common.kernel.arithmetic.Inequality;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.plugin.EuclidianStyleConstants;
 
 
@@ -113,7 +113,7 @@ public class DrawInequality1Var extends Drawable {
 	public void update() {
 		// get x-coords of the lines
 		if (varIsY) {
-			GeoPoint2[] roots = ineq.getZeros();
+			GeoPoint[] roots = ineq.getZeros();
 			double[] x = new double[roots.length + 2];
 			x[0] = view.getHeight() + 10;
 			int numOfX = 1;
@@ -146,7 +146,7 @@ public class DrawInequality1Var extends Drawable {
 			}
 			setShape(a);
 		} else {
-			GeoPoint2[] roots = ineq.getZeros();
+			GeoPoint[] roots = ineq.getZeros();
 			double[] x = new double[roots.length + 2];
 			x[0] = -10;
 			int numOfX = 1;

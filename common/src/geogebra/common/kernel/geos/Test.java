@@ -219,7 +219,7 @@ Test {
 	GEOPOINT2 {
 		@Override
 		public boolean check(Object ob) {
-			return ob instanceof GeoPoint2;
+			return ob instanceof GeoPoint;
 		}
 	},
 

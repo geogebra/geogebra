@@ -4,7 +4,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.main.MyError;
 
 /**
@@ -36,7 +36,7 @@ public class CmdClosestPoint extends CommandProcessor {
 			if ((ok[0] = (arg[0] instanceof Path))
 					&& (ok[1] = (arg[1].isGeoPoint()))) {
 				GeoElement[] ret = { kernelA.ClosestPoint(c.getLabel(),
-						(Path) arg[0], (GeoPoint2) arg[1]) };
+						(Path) arg[0], (GeoPoint) arg[1]) };
 				return ret;
 			}
 
@@ -44,7 +44,7 @@ public class CmdClosestPoint extends CommandProcessor {
 			else if ((ok[1] = (arg[1] instanceof Path))
 					&& (ok[0] = (arg[0].isGeoPoint()))) {
 				GeoElement[] ret = { kernelA.ClosestPoint(c.getLabel(),
-						(Path) arg[1], (GeoPoint2) arg[0]) };
+						(Path) arg[1], (GeoPoint) arg[0]) };
 				return ret;
 			}
 

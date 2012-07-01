@@ -17,7 +17,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Region;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 
 
 /**
@@ -28,7 +28,7 @@ import geogebra.common.kernel.geos.GeoPoint2;
 public class AlgoPointInRegion extends AlgoElement {
 
 	private Region region; // input
-    private GeoPoint2 P; // output       
+    private GeoPoint P; // output       
 
     public AlgoPointInRegion(
         Construction cons,
@@ -38,7 +38,7 @@ public class AlgoPointInRegion extends AlgoElement {
         double y) {
         super(cons);
         this.region = region;
-        P = new GeoPoint2(cons, region);
+        P = new GeoPoint(cons, region);
         P.setCoords(x, y, 1.0);
 
         setInputOutput(); // for AlgoElement
@@ -72,7 +72,7 @@ public class AlgoPointInRegion extends AlgoElement {
     /** returns the point 
      * @return resulting point 
      */
-    public GeoPoint2 getP() {
+    public GeoPoint getP() {
         return P;        
     }
     /**

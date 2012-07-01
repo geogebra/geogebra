@@ -23,7 +23,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.util.MyMath;
 
@@ -46,7 +46,7 @@ public class AlgoUnitVectorLine extends AlgoElement {
         this.g = g;                
         u = new GeoVector(cons); 
        
-        GeoPoint2 possStartPoint = g.getStartPoint();
+        GeoPoint possStartPoint = g.getStartPoint();
         if (possStartPoint != null && possStartPoint.isLabelSet()) {
 	        try{
 	            u.setStartPoint(possStartPoint);

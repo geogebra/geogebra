@@ -26,7 +26,7 @@ import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoVec3D;
@@ -44,7 +44,7 @@ import geogebra.common.main.AbstractApplication;
 public class AlgoJoinPointsSegment extends AlgoElement implements AlgoJoinPointsSegmentInterface,
 	SymbolicParametersBotanaAlgo, SymbolicParametersAlgo {
 
-	private GeoPoint2 P, Q; // input
+	private GeoPoint P, Q; // input
     private GeoSegment s; // output: GeoSegment subclasses GeoLine 
 
     private GeoPolygon poly; // for polygons
@@ -56,16 +56,16 @@ public class AlgoJoinPointsSegment extends AlgoElement implements AlgoJoinPoints
     public AlgoJoinPointsSegment(
         Construction cons,
         String label,
-        GeoPoint2 P,
-        GeoPoint2 Q) {
+        GeoPoint P,
+        GeoPoint Q) {
         this(cons, P, Q, null);
         s.setLabel(label);
     }
 
     public AlgoJoinPointsSegment(
         Construction cons,        
-        GeoPoint2 P,
-        GeoPoint2 Q,
+        GeoPoint P,
+        GeoPoint Q,
         GeoPolygon poly) {
     	super(cons);
     	    	 
@@ -129,7 +129,7 @@ public class AlgoJoinPointsSegment extends AlgoElement implements AlgoJoinPoints
         setEfficientDependencies(input, efficientInput);
     }
     
-    public void modifyInputPoints(GeoPoint2 A, GeoPoint2 B){
+    public void modifyInputPoints(GeoPoint A, GeoPoint B){
     	for (int i=0;i<input.length;i++)
     		input[i].removeAlgorithm(this);
     	
@@ -145,10 +145,10 @@ public class AlgoJoinPointsSegment extends AlgoElement implements AlgoJoinPoints
     public GeoSegment getSegment() {
         return s;
     }
-    GeoPoint2 getP() {
+    GeoPoint getP() {
         return P;
     }
-    GeoPoint2 getQ() {
+    GeoPoint getQ() {
         return Q;
     }
     

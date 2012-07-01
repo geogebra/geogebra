@@ -7,7 +7,7 @@ import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.main.MyError;
 
@@ -64,7 +64,7 @@ public  GeoElement[] process(Command c) throws MyError {
                     {
                          kernelA.Point(
                             c.getLabel(),
-                            (GeoPoint2) arg[0],
+                            (GeoPoint) arg[0],
                             (GeoVector) arg[1])};
                 return ret;
             } else {                

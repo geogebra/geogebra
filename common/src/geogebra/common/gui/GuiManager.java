@@ -17,7 +17,7 @@ import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.gui.dialog.DialogManager;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.main.AbstractApplication;
 
 import java.util.ArrayList;
@@ -53,7 +53,7 @@ public abstract class GuiManager {
 
 	public abstract void setFocusedPanel(AbstractEvent event, boolean updatePropertiesView);
 
-	public abstract void loadImage(GeoPoint2 loc, Object object, boolean altDown);
+	public abstract void loadImage(GeoPoint loc, Object object, boolean altDown);
 
 	public boolean hasAlgebraView() {
 		// TODO Auto-generated method stub

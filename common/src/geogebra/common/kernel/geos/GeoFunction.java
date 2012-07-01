@@ -755,7 +755,7 @@ public class GeoFunction extends GeoElement implements VarString,
 	 */
 	public void pointChanged(GeoPointND PI) {
 
-		GeoPoint2 P = (GeoPoint2) PI;
+		GeoPoint P = (GeoPoint) PI;
 
 		if (P.getZ() == 1.0) {
 			// P.x = P.x;
@@ -785,7 +785,7 @@ public class GeoFunction extends GeoElement implements VarString,
 		pp.t = P.getX();
 	}
 
-	private void pointChangedBoolean(boolean b, GeoPoint2 P) {
+	private void pointChangedBoolean(boolean b, GeoPoint P) {
 		double px;
 		boolean yfun = isFunctionOfY();
 		if (yfun) {
@@ -803,7 +803,7 @@ public class GeoFunction extends GeoElement implements VarString,
 			IneqTree ineqs = fun.getIneqs();
 			int ineqCount = ineqs.getSize();
 			for (int i = 0; i < ineqCount; i++) {
-				for (GeoPoint2 point : ineqs.get(i).getZeros()) {
+				for (GeoPoint point : ineqs.get(i).getZeros()) {
 					if (Math.abs(point.getX() - px) < bestDist) {
 						bestDist = Math.abs(point.getX() - px);
 						if (yfun) {
@@ -819,7 +819,7 @@ public class GeoFunction extends GeoElement implements VarString,
 
 	public boolean isOnPath(GeoPointND PI, double eps) {
 
-		GeoPoint2 P = (GeoPoint2) PI;
+		GeoPoint P = (GeoPoint) PI;
 
 		if (P.getPath() == this)
 			return true;
@@ -845,7 +845,7 @@ public class GeoFunction extends GeoElement implements VarString,
 			return;
 		}
 
-		GeoPoint2 P = (GeoPoint2) PI;
+		GeoPoint P = (GeoPoint) PI;
 
 		PathParameter pp = P.getPathParameter();
 		P.setX(pp.t);
@@ -1809,7 +1809,7 @@ public class GeoFunction extends GeoElement implements VarString,
 		return new GeoFunction(cons,new Function(yExp, t));
 	}
 
-	public void dilate(NumberValue r, GeoPoint2 S) {
+	public void dilate(NumberValue r, GeoPoint S) {
 		double rd = r.getNumber().getDouble(), a = S.getX(), b = S.getY();
 		if (Kernel.isZero(rd)) {
 			setUndefined();
@@ -1834,7 +1834,7 @@ public class GeoFunction extends GeoElement implements VarString,
 	 * distance for functions)
 	 */
 	@Override
-	public double distance(GeoPoint2 p) {
+	public double distance(GeoPoint p) {
 		return Math.abs(evaluate(p.getInhomX()) - p.getInhomY());
 	}
 
@@ -1856,7 +1856,7 @@ public class GeoFunction extends GeoElement implements VarString,
 	}
 
 	public void pointChangedForRegion(GeoPointND PI) {
-		GeoPoint2 P = (GeoPoint2) PI;
+		GeoPoint P = (GeoPoint) PI;
 
 		if (P.getZ() == 1.0) {
 			// P.x = P.x;

@@ -61,11 +61,11 @@ final public class GeoVector extends GeoVec3D
 implements Path, VectorValue, Translateable, PointRotateable, Mirrorable, Dilateable, MatrixTransformable, 
 Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, SymbolicParametersBotanaAlgo {
 
-	private GeoPoint2 startPoint;
+	private GeoPoint startPoint;
 
 	// for path interface we use a segment
 	private GeoSegment pathSegment;
-	private GeoPoint2 pathStartPoint, pathEndPoint;
+	private GeoPoint pathStartPoint, pathEndPoint;
 	private boolean waitingForStartPoint = false;
 	private HashSet<GeoPointND> waitingPointSet;
 
@@ -153,7 +153,7 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 			if (vec.startPoint != null) {
 				if (vec.hasAbsoluteLocation()) {
 					//	create new location point	
-					setStartPoint(new GeoPoint2(vec.startPoint));
+					setStartPoint(new GeoPoint(vec.startPoint));
 				} else {
 					//	take existing location point	
 					setStartPoint(vec.startPoint);
@@ -202,15 +202,15 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 	/**
 	 * Retuns starting point of this vector or null.
 	 */
-	final public GeoPoint2 getStartPoint() {
+	final public GeoPoint getStartPoint() {
 		return startPoint;
 	}   
 
-	public GeoPoint2 [] getStartPoints() {
+	public GeoPoint [] getStartPoints() {
 		if (startPoint == null)
 			return null;
 
-		GeoPoint2 [] ret = new GeoPoint2[1];
+		GeoPoint [] ret = new GeoPoint[1];
 		ret[0] = startPoint;
 		return ret;			
 	}
@@ -228,7 +228,7 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 	 * This is needed for macros.	 
 	 */
 	public void initStartPoint(GeoPointND p, int number) {
-		startPoint = (GeoPoint2) p;
+		startPoint = (GeoPoint) p;
 	}
 
 	public void removeStartPoint(GeoPointND p) {    
@@ -245,7 +245,7 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 
 	public void setStartPoint(GeoPointND pI) throws CircularDefinitionException {  
 
-		GeoPoint2 p = (GeoPoint2) pI;
+		GeoPoint p = (GeoPoint) pI;
 
 		if (startPoint == p) return;
 
@@ -279,10 +279,10 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 			if (waitingPointSet != null) {
 				updatePathSegment();
 
-				GeoPoint2 P;
+				GeoPoint P;
 				Iterator<GeoPointND> it = waitingPointSet.iterator();
 				while (it.hasNext()) {
-					P = (GeoPoint2) it.next();
+					P = (GeoPoint) it.next();
 					pathSegment.pointChanged(P);					
 					P.updateCoords();
 				}	
@@ -363,11 +363,11 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 		//do nothing
 	}
 
-	public void rotate(NumberValue r, GeoPoint2 S) {
+	public void rotate(NumberValue r, GeoPoint S) {
 		rotateXY(r);
 	}
 
-	public void mirror(GeoPoint2 Q) {
+	public void mirror(GeoPoint Q) {
 
 		setCoords(- x,- y, z );
 
@@ -378,7 +378,7 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 
 	}
 
-	public void dilate(NumberValue rval, GeoPoint2 S) {
+	public void dilate(NumberValue rval, GeoPoint S) {
 		double r = rval.getDouble();	
 		setCoords(r * x, r * y, z);
 
@@ -639,11 +639,11 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 		if (startPoint != null) {
 			pathStartPoint = startPoint;
 		} else {
-			pathStartPoint = new GeoPoint2(cons);
+			pathStartPoint = new GeoPoint(cons);
 			pathStartPoint.setCoords(0, 0, 1);
 		}
 
-		pathEndPoint = new GeoPoint2(cons);
+		pathEndPoint = new GeoPoint(cons);
 		pathSegment = new GeoSegment(cons, pathStartPoint, pathEndPoint);
 	}
 

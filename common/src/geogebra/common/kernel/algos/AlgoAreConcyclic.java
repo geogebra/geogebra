@@ -4,7 +4,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.prover.NoSymbolicParametersException;
 import geogebra.common.kernel.prover.Polynomial;
 import geogebra.common.kernel.prover.Variable;
@@ -21,10 +21,10 @@ import java.util.HashSet;
 public class AlgoAreConcyclic extends AlgoElement implements
 		SymbolicParametersAlgo, SymbolicParametersBotanaAlgoAre {
 
-	private GeoPoint2 inputPoint1; // input
-	private GeoPoint2 inputPoint2; // input
-	private GeoPoint2 inputPoint3; // input
-	private GeoPoint2 inputPoint4; // input
+	private GeoPoint inputPoint1; // input
+	private GeoPoint inputPoint2; // input
+	private GeoPoint inputPoint3; // input
+	private GeoPoint inputPoint4; // input
 
 	private GeoBoolean outputBoolean; // output
 	private Polynomial[] polynomials;
@@ -39,8 +39,8 @@ public class AlgoAreConcyclic extends AlgoElement implements
 	 * @param inputPoint3 the third point
 	 * @param inputPoint4 the forth point
 	 */
-	public AlgoAreConcyclic(Construction cons, String label, GeoPoint2 inputPoint1,
-			GeoPoint2 inputPoint2, GeoPoint2 inputPoint3, GeoPoint2 inputPoint4) {
+	public AlgoAreConcyclic(Construction cons, String label, GeoPoint inputPoint1,
+			GeoPoint inputPoint2, GeoPoint inputPoint3, GeoPoint inputPoint4) {
 		super(cons);
 		this.inputPoint1 = inputPoint1;
 		this.inputPoint2 = inputPoint2;

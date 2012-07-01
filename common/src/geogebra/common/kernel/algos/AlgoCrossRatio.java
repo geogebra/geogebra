@@ -3,7 +3,7 @@ package geogebra.common.kernel.algos;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 
 /**
  * @author  Victor Franco Espino
@@ -15,10 +15,10 @@ import geogebra.common.kernel.geos.GeoPoint2;
 
 public class AlgoCrossRatio extends AlgoElement {
 
-	private GeoPoint2 A, B, C, D; // input
+	private GeoPoint A, B, C, D; // input
     private GeoNumeric M; // output
     
-    public AlgoCrossRatio(Construction cons, String label, GeoPoint2 A, GeoPoint2 B, GeoPoint2 C, GeoPoint2 D) {
+    public AlgoCrossRatio(Construction cons, String label, GeoPoint A, GeoPoint B, GeoPoint C, GeoPoint D) {
     	super(cons);
         this.A = A;
         this.B = B;
@@ -57,8 +57,8 @@ public class AlgoCrossRatio extends AlgoElement {
 	public final void compute() {
         //Check if the points are aligned
     	if ( !(A.isEqual(D)) && !(B.isEqual(C)) 
-        	 && GeoPoint2.collinear(B, C, D) && GeoPoint2.collinear(A, C, D) ) {
-        		M.setValue(GeoPoint2.affineRatio(B, C, D) / GeoPoint2.affineRatio(A, C, D));
+        	 && GeoPoint.collinear(B, C, D) && GeoPoint.collinear(A, C, D) ) {
+        		M.setValue(GeoPoint.affineRatio(B, C, D) / GeoPoint.affineRatio(A, C, D));
         }else{
         	M.setUndefined();
         }

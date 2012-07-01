@@ -16,7 +16,7 @@ import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoPoint2;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoRay;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.geos.GeoVector;
@@ -27,7 +27,7 @@ import geogebra.common.kernel.geos.GeoVector;
  */
 public class AlgoRayPointVector extends AlgoElement {
 
-    private GeoPoint2 P; // input
+    private GeoPoint P; // input
     private GeoVector v; // input
     private GeoRay ray; // output       
 
@@ -35,7 +35,7 @@ public class AlgoRayPointVector extends AlgoElement {
      * Creates new ray algo
      */
     public AlgoRayPointVector(
-        Construction cons, String label, GeoPoint2 P, GeoVector v) {
+        Construction cons, String label, GeoPoint P, GeoVector v) {
     	this(cons, P, v);
         ray.setLabel(label);
     }
@@ -44,7 +44,7 @@ public class AlgoRayPointVector extends AlgoElement {
      * Creates new ray algo
      */
     public AlgoRayPointVector(
-        Construction cons, GeoPoint2 P, GeoVector v) {
+        Construction cons, GeoPoint P, GeoVector v) {
         super(cons);
         this.P = P;
         this.v = v;
@@ -93,7 +93,7 @@ public class AlgoRayPointVector extends AlgoElement {
      * Returns the endpoint
      * @return the endpoint
      */
-    GeoPoint2 getP() {
+    GeoPoint getP() {
         return P;
     }
     
