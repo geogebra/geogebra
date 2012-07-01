@@ -1898,7 +1898,38 @@ public abstract class EuclidianController {
 		if (hits.isEmpty()) {
 			return null;
 		}
-	
+		
+		if (polygonMode == POLYGON_RIGID || polygonMode == POLYGON_VECTOR) {
+			addSelectedPolygon(hits, 1, false);
+			//AbstractApplication.debug(selGeos()+"");
+			if (selPolygons() == 1) {
+				GeoPolygon[] poly = getSelectedPolygons();
+				
+				GeoPointND[] points = poly[0].getPoints();
+				
+				GeoPoint[] pointsCopy = new GeoPoint[points.length];
+
+				
+				// make a free copy of all points
+				for (int i = 0 ; i < points.length ; i++) {
+					pointsCopy[i] = (GeoPoint) points[i].copy();
+					pointsCopy[i].setLabel(null);
+					//points[i] = new GeoPoint(kernel.getConstruction(), null, points[i].inhomX, points[i].inhomY, 1.0);
+				}
+				
+				GeoElement[] ret = polygonMode == POLYGON_RIGID ? kernel.RigidPolygon(null, pointsCopy) : kernel.VectorPolygon(null, pointsCopy);
+				
+				// offset the copy slightly
+				double offset = view.toRealWorldCoordX(view.getWidth()) / 15;
+				
+				((GeoPolygon) ret[0]).getPoints()[0].setCoords(pointsCopy[0].inhomX + offset, pointsCopy[0].inhomY - offset, 1.0);
+				((GeoPolygon) ret[0]).getPoints()[0].updateRepaint();
+				
+				return ret;
+
+			}
+		}
+			
 		// if the first point is clicked again, we are finished
 		if (selPoints() > 2) {
 			// check if first point was clicked again
@@ -7674,8 +7705,16 @@ public abstract class EuclidianController {
 		case EuclidianConstants.MODE_RIGID_POLYGON:
 			view.setHits(mouseLoc);
 			hits = view.getHits();
-			hits.removePolygons();
-			createNewPoint(hits, false, false, false, false, false);
+			
+			// allow first object clicked on to be a Polygon -> create new Rigid/Vector Polygon from it
+			if (hits.size() > 1) {
+				hits.removePolygons();
+			}
+			if (hits.size() == 1 && hits.get(0).isGeoPolygon()) { 
+				// do nothing
+			} else {
+				createNewPoint(hits, false, false, false, false, false);
+			}
 			break;
 	
 		case EuclidianConstants.MODE_TRANSLATE_BY_VECTOR:
