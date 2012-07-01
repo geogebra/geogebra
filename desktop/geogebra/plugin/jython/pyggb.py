@@ -17,7 +17,7 @@ from pygeo.apiproxy import (
 )
 from pygeo.pylexing import pythonify
 
-from geogebra.awt import Color
+from geogebra.awt import GColorD as Color
 
 class Interface(PythonScriptInterface):
     
