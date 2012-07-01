@@ -63,11 +63,9 @@ public enum KeyCodes {
 	NUMPAD8(JavaKeyCodes.VK_NUMPAD8, GWTKeycodes.KEY_NUMPAD8),
 	NUMPAD9(JavaKeyCodes.VK_NUMPAD9, GWTKeycodes.KEY_NUMPAD9),
 	MINUS(JavaKeyCodes.VK_MINUS, GWTKeycodes.KEY_MINUS),
-	NUMPADMINUS(JavaKeyCodes.VK_MINUS, GWTKeycodes.KEY_NUMPADMINUS),
-	SUBTRACT(JavaKeyCodes.VK_SUBTRACT, GWTKeycodes.KEY_MINUS), // Java only
-	PLUS(JavaKeyCodes.VK_PLUS, -1), // Java only
-	ADD(JavaKeyCodes.VK_ADD, -1), // Java only
-	NUMPADPLUS(JavaKeyCodes.VK_PLUS, GWTKeycodes.KEY_NUMPADPLUS),
+	SUBTRACT(JavaKeyCodes.VK_SUBTRACT, GWTKeycodes.KEY_NUMPADMINUS), 
+	PLUS(JavaKeyCodes.VK_PLUS, GWTKeycodes.KEY_NUMPADPLUS),
+	ADD(JavaKeyCodes.VK_ADD, GWTKeycodes.KEY_NUMPADPLUS),
 	EQUALS(JavaKeyCodes.VK_EQUALS, GWTKeycodes.KEY_EQUALS),
 	BACK_QUOTE(JavaKeyCodes.VK_BACK_QUOTE, GWTKeycodes.KEY_BACK_QUOTE),
 	LEFT_PARENTHESIS(JavaKeyCodes.VK_LEFT_PARENTHESIS, GWTKeycodes.KEY_LEFT_PARENTHESIS),
@@ -89,8 +87,16 @@ public enum KeyCodes {
 	TAB(JavaKeyCodes.VK_TAB, GWTKeycodes.KEY_TAB),
 	UP(JavaKeyCodes.VK_UP, GWTKeycodes.KEY_UP),
 	SPACE(JavaKeyCodes.VK_SPACE, GWTKeycodes.KEY_SPACE),
-	CONTEXT_MENU(JavaKeyCodes.VK_CONTEXT_MENU, -1);
-
+	CONTEXT_MENU(JavaKeyCodes.VK_CONTEXT_MENU, -1),
+	WINDOWS(JavaKeyCodes.VK_WINDOWS, GWTKeycodes.KEY_WINDOWS),
+	SLASH(JavaKeyCodes.VK_SLASH, GWTKeycodes.KEY_SLASH),
+	NUMPADSLASH(JavaKeyCodes.VK_DIVIDE, GWTKeycodes.KEY_NUMPADSLASH),
+	COMMA(JavaKeyCodes.VK_COMMA, GWTKeycodes.KEY_COMMA),
+	NUMPADASTERISK(JavaKeyCodes.VK_MULTIPLY, GWTKeycodes.KEY_NUMPADASTERISK),
+	NUMLOCK(JavaKeyCodes.VK_NUM_LOCK, GWTKeycodes.KEY_NUMPADASTERISK),
+	CLEAR(JavaKeyCodes.VK_CLEAR, GWTKeycodes.KEY_CLEAR), // middle key of NumPad (with NumLock off)
+	PERIOD(JavaKeyCodes.VK_PERIOD, GWTKeycodes.KEY_PERIOD);
+	
 	private int javaKey;
 	private int GWTKey;
 
@@ -104,6 +110,7 @@ public enum KeyCodes {
 			if (l.GWTKey == gwtKeyCode) {
 				return l;
 			}
+			AbstractApplication.debug(gwtKeyCode);
 		}
 		
 		AbstractApplication.warn("GWT keycode not found:"+gwtKeyCode);

@@ -398,8 +398,6 @@ public abstract class GlobalKeyDispatcher {
 				break;
 
 				// Ctrl + "+", Ctrl + "-" zooms in or out in graphics view
-			case NUMPADPLUS: // web
-			case NUMPADMINUS: // web
 			case PLUS:
 			case ADD:
 			case SUBTRACT:
@@ -417,7 +415,7 @@ public abstract class GlobalKeyDispatcher {
 					if (!spanish || !isAltDown
 							|| (fromEuclidianView)) {
 						( app.getActiveEuclidianView())
-						.getEuclidianController().zoomInOut(isAltDown, key.equals(KeyCodes.MINUS) || key.equals(KeyCodes.SUBTRACT) || key.equals(KeyCodes.NUMPADMINUS));
+						.getEuclidianController().zoomInOut(isAltDown, key.equals(KeyCodes.MINUS) || key.equals(KeyCodes.SUBTRACT));
 						app.setUnsaved();
 						consumed = true;
 					}
@@ -821,7 +819,6 @@ public abstract class GlobalKeyDispatcher {
 			}
 			break;
 
-		case NUMPADPLUS:
 		case PLUS:
 		case ADD: // can be own key on some keyboard
 		case EQUALS: // same key as plus (on most keyboards)
@@ -834,7 +831,6 @@ public abstract class GlobalKeyDispatcher {
 			vertical = false;
 			break;
 
-		case NUMPADMINUS:
 		case MINUS:
 		case SUBTRACT:
 		case DOWN:

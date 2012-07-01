@@ -196,6 +196,18 @@ public interface GWTKeycodes {
 
 	public static final int KEY_LEFT_PARENTHESIS = 221;
 	  
+	public static final int KEY_PERIOD = 190;
+	public static final int KEY_COMMA = 188;
+	public static final int KEY_SLASH = 191;
+	public static final int KEY_BACKSLASH = 220;
+	public static final int KEY_NUMPADASTERISK = 106;
+	public static final int KEY_NUMPADSLASH = 111;
+	public static final int KEY_WINDOWS = 91;
+	public static final int KEY_NUMLOCK = 144;
+
+	public static final int KEY_CLEAR = 12;
+	  
+	  
 	  
 	  
 	  
