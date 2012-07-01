@@ -70,16 +70,15 @@ public class Web implements EntryPoint {
 		Web.loadedAsApp = checkIfNeedToLoadAsApp();
 		if (Web.loadedAsApp) {
 			JavaScriptInjector.inject(GuiResources.INSTANCE.propertiesKeysJS().getText());
+			// popup when the user wants to exit accidentally
+	        Window.addWindowClosingHandler(new Window.ClosingHandler() {
+	            public void onWindowClosing(ClosingEvent event) {
+	            	// TODO: Localize this, or omit message completely,
+	            	// and maybe put this somewhere else (where i18n is already available).
+	                event.setMessage("Now you are about to close the GeoGebra application and lose all unsaved data.");
+	            }
+	        });
 		}
-		
-		// popup when the user wants to exit accidentally
-        Window.addWindowClosingHandler(new Window.ClosingHandler() {
-            public void onWindowClosing(ClosingEvent event) {
-            	// TODO: Localize this, or omit message completely,
-            	// and maybe put this somewhere else (where i18n is already available).
-                event.setMessage("Now you are about to close the GeoGebra application and lose all unsaved data.");
-            }
-        });
 		
 		// insert mathquill css
 		StyleInjector.inject(GuiResources.INSTANCE.mathquillCss().getText());
