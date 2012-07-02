@@ -312,8 +312,9 @@ public AutoCompleteTextField(int columns, Application app,
         setText(null);
         break;
 
-      case KeyEvent.VK_LEFT_PARENTHESIS:
-        break;
+        // removed - what is this for?
+      //case KeyEvent.VK_LEFT_PARENTHESIS:
+      //  break;
 
       case KeyEvent.VK_UP:
         if (!handleEscapeKey) {
