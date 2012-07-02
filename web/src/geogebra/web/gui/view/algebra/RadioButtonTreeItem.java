@@ -34,8 +34,8 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.DoubleClickEvent;
 import com.google.gwt.event.dom.client.DoubleClickHandler;
-import com.google.gwt.event.dom.client.KeyUpEvent;
-import com.google.gwt.event.dom.client.KeyUpHandler;
+import com.google.gwt.event.dom.client.KeyDownEvent;
+import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.event.dom.client.MouseMoveHandler;
 import com.google.gwt.user.client.DOM;
@@ -275,15 +275,20 @@ public class RadioButtonTreeItem extends HorizontalPanel
 			tb.setText( geo.getAlgebraDescriptionTextOrHTMLDefault() );
 			add(tb);
 
-			tb.addKeyUpHandler(new KeyUpHandler() {
-				public void onKeyUp(KeyUpEvent kevent) {
+			tb.addKeyDownHandler(new KeyDownHandler() {
+				public void onKeyDown(KeyDownEvent kevent) {
 					if (kevent.getNativeKeyCode() == 13) {
 						remove(tb);
 						add(ihtml);
 						stopEditingSimple(tb.getText());
+					} else if (kevent.getNativeKeyCode() == 27) {
+						remove(tb);
+						add(ihtml);
+						stopEditingSimple(null);
 					}
 				}
 			});
+			tb.setFocus(true);
 		}
 	}
 
@@ -292,20 +297,17 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		thisIsEdited = false;
 		av.cancelEditing();
 
-		boolean redefine = !geo.isPointOnPath();
-		GeoElement geo2 = kernel.getAlgebraProcessor().changeGeoElement(
-				geo, newValue, redefine, true);
-		if (geo2 != null)
-			geo = geo2;
-
-		if ( geo.isGeoVector() && geo.isIndependent() ) {
-			String latexStr = geo.getLaTeXAlgebraDescription(true,
-					StringTemplate.latexTemplate);
-			latexStr = inputLatexCosmetics(latexStr);
-			DrawEquationWeb.updateEquationMathQuill(latexStr, seNoLatex);
-		} else {
-			seNoLatex.setInnerHTML(geo.getAlgebraDescriptionTextOrHTMLDefault());
+		if (newValue != null) {
+			boolean redefine = !geo.isPointOnPath();
+			GeoElement geo2 = kernel.getAlgebraProcessor().changeGeoElement(
+					geo, newValue, redefine, true);
+			if (geo2 != null)
+				geo = geo2;
 		}
+
+		// maybe it's possible to enter something which is LaTeX
+		// note: this should be OK for independent GeoVectors too
+		update();
 	}
 
 	public void stopEditing(String newValue) {
@@ -336,13 +338,8 @@ public class RadioButtonTreeItem extends HorizontalPanel
 				geo = geo2;
 		}
 
-		String latexStr = geo.getLaTeXAlgebraDescription(true,
-				StringTemplate.latexTemplate);
-
-		if (latexStr != null && geo.isLaTeXDrawableGeo(latexStr)) {
-			latexStr = inputLatexCosmetics(latexStr);
-			DrawEquationWeb.updateEquationMathQuill(latexStr, seMayLatex);
-		}
+		// maybe it's possible to enter something which is non-LaTeX
+		update();
 	}
 
 	public void onDoubleClick(DoubleClickEvent evt) {
