@@ -77,6 +77,10 @@ public class RadioButtonTreeItem extends HorizontalPanel
 
 		@Override
 		public void onBrowserEvent(Event event) {
+
+			if (av.editing)
+				return;
+
 			if (event.getTypeInt() == Event.ONCLICK) {
 				// Part of AlgebraController.mouseClicked in Desktop
 				if (Element.is(event.getEventTarget())) {
@@ -343,17 +347,22 @@ public class RadioButtonTreeItem extends HorizontalPanel
 	}
 
 	public void onDoubleClick(DoubleClickEvent evt) {
-		if (!av.editing) {
-			EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
-			app.clearSelectedGeos();
-			ev.resetMode();
-			if (geo != null && !evt.isControlKeyDown()) {
-				app.getAlgebraView().startEditing(geo, evt.isShiftKeyDown());
-			}
+
+		if (av.editing)
+			return;
+
+		EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
+		app.clearSelectedGeos();
+		ev.resetMode();
+		if (geo != null && !evt.isControlKeyDown()) {
+			app.getAlgebraView().startEditing(geo, evt.isShiftKeyDown());
 		}
 	}
 
 	public void onClick(ClickEvent evt) {
+
+		if (av.editing)
+			return;
 
 		Application app = (Application)geo.getKernel().getApplication();
 		int mode = app.getActiveEuclidianView().getMode();
@@ -433,6 +442,10 @@ public class RadioButtonTreeItem extends HorizontalPanel
 	}
 
 	public void onMouseMove(MouseMoveEvent evt) {
+
+		if (av.editing)
+			return;
+
 		// tell EuclidianView to handle mouse over
 		EuclidianViewInterfaceCommon ev = geo.getKernel().getApplication().getActiveEuclidianView();
 		ev.mouseMovedOver(geo);
