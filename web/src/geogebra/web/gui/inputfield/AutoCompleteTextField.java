@@ -792,9 +792,6 @@ public class AutoCompleteTextField extends HorizontalPanel implements AutoComple
 		        display.hideSuggestions();
 		        break;
 
-		      case GWTKeycodes.KEY_LEFT_SQUARE_BRACKET:
-		        break;
-
 		      case GWTKeycodes.KEY_UP:
 		    	  if (!isSuggesting()) {
 			        if (!handleEscapeKey) {
