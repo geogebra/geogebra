@@ -46,7 +46,7 @@ import javax.swing.JPanel;
  * @author mathieu
  * @version
  */
-public class PropertiesView extends geogebra.common.gui.view.properties.PropertiesView {
+public class PropertiesViewD extends geogebra.common.gui.view.properties.PropertiesView {
 
 	private static final long serialVersionUID = 1L;
 
@@ -90,7 +90,7 @@ public class PropertiesView extends geogebra.common.gui.view.properties.Properti
 	 * Constructor
 	 * @param app
 	 */
-	public PropertiesView(Application app) {
+	public PropertiesViewD(Application app) {
 
 		this.wrappedPanel = new JPanel();
 		this.app = app;

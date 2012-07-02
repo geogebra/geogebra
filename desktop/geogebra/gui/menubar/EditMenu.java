@@ -194,7 +194,7 @@ public class EditMenu extends BaseMenu implements MenuListener {
 
 			public void actionPerformed(ActionEvent e) {
 
-				int layer = getSelectedLayer();
+				int layer = app.getSelectedLayer();
 				if (layer != -1)
 					app.selectAll(layer); // select all objects in layer
 
@@ -322,28 +322,6 @@ public class EditMenu extends BaseMenu implements MenuListener {
 	};
 }
 
-	/**
-	 * Michael Borcherds 2008-03-03
-	 * 
-	 * @return -1 if nothing selected return -2 if
-	 * objects from more than one layer selected return layer number if objects
-	 * from exactly one layer are selected
-	 */
-	int getSelectedLayer() {
-		Object[] geos = app.getSelectedGeos().toArray();
-		if (geos.length == 0)
-			return -1; // return -1 if nothing selected
-
-		int layer = ((GeoElement) geos[0]).getLayer();
-
-		for (int i = 1; i < geos.length; i++) {
-			GeoElement geo = (GeoElement) geos[i];
-			if (geo.getLayer() != layer)
-				return -2; // return -2 if more than one layer selected
-		}
-		return layer;
-	}
-	
 	@Override
 	public void update() {
 		updateSelection();
@@ -358,7 +336,7 @@ public class EditMenu extends BaseMenu implements MenuListener {
 			return;
 		}		
 		
-		int layer = getSelectedLayer();
+		int layer = app.getSelectedLayer();
 		
 		/* layer values:
 		 *  -1 means nothing selected
@@ -381,8 +359,8 @@ public class EditMenu extends BaseMenu implements MenuListener {
 		showhideLabelsItem.setVisible(layer != -1);
 		
 		// exactly one layer selected
-		selectCurrentLayerAction.setEnabled(getSelectedLayer() >= 0);
-		selectCurrentLayerItem.setVisible(getSelectedLayer() >= 0);
+		selectCurrentLayerAction.setEnabled(app.getSelectedLayer() >= 0);
+		selectCurrentLayerItem.setVisible(app.getSelectedLayer() >= 0);
 		
 		boolean haveSelection = !app.getSelectedGeos().isEmpty();
 		invertAction.setEnabled(haveSelection);

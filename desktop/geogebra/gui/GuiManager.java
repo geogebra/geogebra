@@ -55,7 +55,7 @@ import geogebra.gui.view.assignment.AssignmentView;
 import geogebra.gui.view.consprotocol.ConstructionProtocolNavigation;
 import geogebra.gui.view.consprotocol.ConstructionProtocolView;
 import geogebra.gui.view.probcalculator.ProbabilityCalculator;
-import geogebra.gui.view.properties.PropertiesView;
+import geogebra.gui.view.properties.PropertiesViewD;
 import geogebra.gui.view.spreadsheet.SpreadsheetView;
 import geogebra.gui.view.spreadsheet.statdialog.PlotPanelEuclidianView;
 import geogebra.gui.virtualkeyboard.VirtualKeyboard;
@@ -319,14 +319,14 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 		return algebraView;
 	}
 
-	private PropertiesView propertiesView;
+	private PropertiesViewD propertiesView;
 
 	@Override
 	public View getPropertiesView() {
 
 		if (propertiesView == null) {
 			// initPropertiesDialog();
-			propertiesView = new PropertiesView((Application)app);
+			propertiesView = new PropertiesViewD((Application)app);
 		}
 
 		return propertiesView;

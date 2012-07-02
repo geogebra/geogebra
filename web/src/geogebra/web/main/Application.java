@@ -1988,14 +1988,17 @@ public class Application extends AbstractApplication {
 
 	@Override
     public void exportToLMS(boolean b) {
-	    // TODO Auto-generated method stub
-	    
+		AbstractApplication.debug("unimplemented");
     }
 
 	@Override
     public void copyGraphicsViewToClipboard() {
-	    // TODO Auto-generated method stub
-	    
+		AbstractApplication.debug("unimplemented");
+    }
+
+	@Override
+    public void exitAll() {
+		AbstractApplication.debug("unimplemented");
     }
 
 }

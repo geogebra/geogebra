@@ -6,10 +6,10 @@ import geogebra.web.gui.dialog.options.OptionsObject;
 
 import java.util.ArrayList;
 
-public class PropertiesView extends
+public class PropertiesViewW extends
         geogebra.common.gui.view.properties.PropertiesView {
 
-	public PropertiesView(AbstractApplication app) {
+	public PropertiesViewW(AbstractApplication app) {
 	    // TODO Auto-generated constructor stub
     }
 

@@ -33,7 +33,7 @@ import javax.swing.ToolTipManager;
 
 public class PropertiesStyleBar extends JPanel {
 
-	PropertiesView propertiesView;
+	PropertiesViewD propertiesView;
 	private Application app;
 
 	protected PopupMenuButton btnOption;
@@ -46,7 +46,7 @@ public class PropertiesStyleBar extends JPanel {
 
 	private static final String downTriangle = "  \u25BE  ";
 
-	public PropertiesStyleBar(PropertiesView propertiesView, Application app) {
+	public PropertiesStyleBar(PropertiesViewD propertiesView, Application app) {
 		this.propertiesView = propertiesView;
 		this.app = app;
 

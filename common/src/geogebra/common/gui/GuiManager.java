@@ -279,5 +279,7 @@ public abstract class GuiManager {
 
 	public abstract boolean noMenusOpen();
 
+	public abstract void openFile();
+
 	public abstract Layout getLayout();
 }

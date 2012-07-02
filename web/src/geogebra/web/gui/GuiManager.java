@@ -4,6 +4,7 @@ import geogebra.common.awt.GPoint;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.gui.dialog.DialogManager;
+import geogebra.common.gui.view.properties.PropertiesView;
 import geogebra.common.javax.swing.GTextComponent;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.View;
@@ -12,13 +13,13 @@ import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.main.AbstractApplication;
 import geogebra.web.gui.app.GGWMenuBar;
 import geogebra.web.gui.app.GGWToolBar;
-import geogebra.web.gui.dialog.InputDialogOpenURL;
 import geogebra.web.gui.dialog.ImageFileInputDialog;
+import geogebra.web.gui.dialog.InputDialogOpenURL;
 import geogebra.web.gui.inputbar.AlgebraInput;
 import geogebra.web.gui.inputbar.InputBarHelpPanel;
 import geogebra.web.gui.layout.Layout;
 import geogebra.web.gui.menubar.GeoGebraMenubar;
-import geogebra.web.gui.properties.PropertiesView;
+import geogebra.web.gui.properties.PropertiesViewW;
 import geogebra.web.gui.util.GeoGebraFileChooser;
 import geogebra.web.gui.view.algebra.AlgebraController;
 import geogebra.web.gui.view.algebra.AlgebraView;
@@ -26,7 +27,6 @@ import geogebra.web.main.Application;
 
 import java.util.ArrayList;
 
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 
 public class GuiManager extends geogebra.common.gui.GuiManager {
@@ -418,7 +418,7 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 
 		if (propertiesView == null) {
 			// initPropertiesDialog();
-			propertiesView = new PropertiesView(app);
+			propertiesView = new PropertiesViewW(app);
 		}
 
 		return propertiesView;
@@ -520,5 +520,10 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
     public boolean noMenusOpen() {
 	    AbstractApplication.debug("unimplemented");
 	    return true;
+    }
+
+	@Override
+    public void openFile() {
+	    AbstractApplication.debug("unimplemented");
     }
 }

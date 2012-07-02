@@ -1,15 +1,18 @@
 package geogebra.main;
 
+import geogebra.common.GeoGebraConstants;
 import geogebra.common.euclidian.DrawTextField;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoTextField;
+import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.KeyCodes;
 import geogebra.euclidian.EuclidianViewD;
 import geogebra.gui.GuiManager;
 import geogebra.gui.app.GeoGebraFrame;
 import geogebra.gui.app.MyFileFilter;
 import geogebra.gui.inputbar.AlgebraInput;
+import geogebra.gui.menubar.GeoGebraMenuBar;
 import geogebra.util.Util;
 
 import java.awt.KeyEventDispatcher;
@@ -348,6 +351,18 @@ public class GlobalKeyDispatcherD extends geogebra.common.main.GlobalKeyDispatch
 		sb.append('}');
 
 		textComponent.setText(sb.toString());	}
+
+	@Override
+	protected void createNewWindow(Object object) {
+		app.setWaitCursor();
+		GeoGebraFrame.createNewWindow(null);
+		app.setDefaultCursor();
+	}
+
+	@Override
+	protected void showPrintPreview(AbstractApplication app2) {
+		GeoGebraMenuBar.showPrintPreview((Application) app);
+	}
 
 
 }

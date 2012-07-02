@@ -994,6 +994,28 @@ public abstract class AbstractApplication {
 		updateSelection();
 	}
 
+	/**
+	 * Michael Borcherds 2008-03-03
+	 * 
+	 * @return -1 if nothing selected return -2 if
+	 * objects from more than one layer selected return layer number if objects
+	 * from exactly one layer are selected
+	 */
+	public int getSelectedLayer() {
+		Object[] geos = getSelectedGeos().toArray();
+		if (geos.length == 0)
+			return -1; // return -1 if nothing selected
+
+		int layer = ((GeoElement) geos[0]).getLayer();
+
+		for (int i = 1; i < geos.length; i++) {
+			GeoElement geo = (GeoElement) geos[i];
+			if (geo.getLayer() != layer)
+				return -2; // return -2 if more than one layer selected
+		}
+		return layer;
+	}
+	
 	/*
 	 * Michael Borcherds 2008-03-03 modified to select all of a layer pass
 	 * layer==-1 to select all objects
@@ -3026,6 +3048,8 @@ public abstract class AbstractApplication {
 		getActiveEuclidianView()
 				.setStandardView(true);
 	}
+
+	public abstract void exitAll();
 
 	
 }

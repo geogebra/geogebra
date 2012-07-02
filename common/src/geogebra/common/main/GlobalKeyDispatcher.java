@@ -271,9 +271,74 @@ public abstract class GlobalKeyDispatcher {
 					consumed = true;
 				}
 				break;
-				
+
 			case A:
-				app.selectAll(-1);
+				if (isShiftDown) {
+					if (app.isUsingFullGui()) {
+					app.getGuiManager().setShowView(
+							!app.getGuiManager().showView(
+									AbstractApplication.VIEW_ALGEBRA),
+									AbstractApplication.VIEW_ALGEBRA);
+						consumed = true;
+					}
+				} else {
+					app.selectAll(-1);
+					consumed = true;
+				}
+				break;
+
+			case K:
+				if (isShiftDown) {
+					if (app.isUsingFullGui()) {
+					app.getGuiManager().setShowView(
+							!app.getGuiManager().showView(
+									AbstractApplication.VIEW_CAS),
+									AbstractApplication.VIEW_CAS);
+						consumed = true;
+					}
+				} 
+				break;
+
+			case L:
+				if (isShiftDown) {
+					if (app.isUsingFullGui()) {
+					app.getGuiManager().setShowView(
+							!app.getGuiManager().showView(
+									AbstractApplication.VIEW_CONSTRUCTION_PROTOCOL),
+									AbstractApplication.VIEW_CONSTRUCTION_PROTOCOL);
+						consumed = true;
+					}
+				}  else 
+					{
+						app.selectAll(app.getSelectedLayer());
+						consumed = true;					
+				}
+				break;
+
+			case O: // File -> Open
+				if (!isShiftDown) {
+					app.getGuiManager().openFile();
+					consumed = true;
+				}
+				break;
+			case P: // File -> Print...
+				if (!isShiftDown) {
+					showPrintPreview(app);
+					consumed = true;
+				}
+				break;
+			case F4: // File -> Exit
+				if (!isShiftDown) {
+					app.exitAll();
+					consumed = true;
+				}
+				break;
+
+			case I: // Edit -> Invert Selection
+				if (!isShiftDown) {
+					app.invertSelection();
+					consumed = true;
+				}
 				break;
 
 				// export to GeoGebraWeb
@@ -338,6 +403,10 @@ public abstract class GlobalKeyDispatcher {
 			case N:
 				if (isShiftDown) {
 					handleCtrlShiftN(isAltDown);
+				} else {
+					app.setWaitCursor();
+					createNewWindow(null);
+					app.setDefaultCursor();
 				}
 				break;
 
@@ -377,11 +446,16 @@ public abstract class GlobalKeyDispatcher {
 
 				// ctrl-shift-s (toggle spreadsheet)
 			case S:
-				if (isShiftDown && app.isUsingFullGui()) {
+				if (isShiftDown) {
+					if (app.isUsingFullGui()) {
 					app.getGuiManager().setShowView(
 							!app.getGuiManager().showView(
 									AbstractApplication.VIEW_SPREADSHEET),
 									AbstractApplication.VIEW_SPREADSHEET);
+						consumed = true;
+					}
+				} else {
+					app.getGuiManager().save();
 					consumed = true;
 				}
 				break;
@@ -438,6 +512,10 @@ public abstract class GlobalKeyDispatcher {
 
 		return consumed;
 	}
+
+	protected abstract void createNewWindow(Object object);
+
+	protected abstract void showPrintPreview(AbstractApplication app2);
 
 	/*
 	 * overridden in desktop

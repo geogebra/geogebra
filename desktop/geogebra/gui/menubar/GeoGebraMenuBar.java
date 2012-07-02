@@ -375,6 +375,7 @@ public class GeoGebraMenuBar extends JMenuBar {
 							pre = new geogebra.export.PrintPreview(app, (Printable) app.getMainComponent(), PageFormat.LANDSCAPE);
 						pre.setVisible(true);
 					} catch (Exception e) {
+						e.printStackTrace();
 						AbstractApplication.debug("Print preview not available");
 					} finally{
 						app.setDefaultCursor();						

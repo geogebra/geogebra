@@ -114,5 +114,15 @@ public class GlobalKeyDispatcherW extends
 	    
     }
 
+	@Override
+    protected void createNewWindow(Object object) {
+		AbstractApplication.debug("unimplemented");
+    }
+
+	@Override
+    protected void showPrintPreview(AbstractApplication app2) {
+		AbstractApplication.debug("unimplemented");
+    }
+
 
 }
