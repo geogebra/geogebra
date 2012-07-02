@@ -97,8 +97,10 @@ public class Prover extends geogebra.common.util.Prover {
 			inputObject.setMethod(GeoGebraOGPInputProverProtocol.OGP_METHOD_AREA);
 		inputObject.setTimeOut(AbstractApplication.proverTimeout);
 		inputObject.setMaxTerms(AbstractApplication.maxTerms);
-		inputObject.setReportFormat(GeoGebraOGPInputProverProtocol.OGP_REPORT_FORMAT_NONE);
-		inputObject.setReportFormat(GeoGebraOGPInputProverProtocol.OGP_REPORT_FORMAT_ALL);
+		if (isReturnExtraNDGs())
+			inputObject.setReportFormat(GeoGebraOGPInputProverProtocol.OGP_REPORT_FORMAT_ALL);
+		else
+			inputObject.setReportFormat(GeoGebraOGPInputProverProtocol.OGP_REPORT_FORMAT_NONE);		
 		
         // OGP API
         GeoGebraOGPInterface ogpInterface = new GeoGebraOGPInterface();

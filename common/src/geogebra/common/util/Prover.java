@@ -112,6 +112,11 @@ public abstract class Prover {
 	protected ProofResult result;
 
 	/**
+	 * Should the prover return extra NDG conditions? If not, some computation time may be saved.
+	 */
+	private boolean returnExtraNDGs;
+	
+	/**
 	 * @author Zoltan Kovacs <zoltan@geogebra.org>
 	 * An object which contains a condition description (e.g. "AreCollinear")
 	 * and an ordered list of GeoElement's (e.g. A, B, C)
@@ -340,5 +345,21 @@ public abstract class Prover {
 	 * @return the proof result
 	 */
 	protected abstract ProofResult openGeoProver();
+
+	/**
+	 * Will the prover return extra NDGs? 
+	 * @return yes or no
+	 */
+	public boolean isReturnExtraNDGs() {
+		return returnExtraNDGs;
+	}
+
+	/**
+	 * The prover may return extra NDGs
+	 * @param returnExtraNDGs setting for the prover
+	 */
+	public void setReturnExtraNDGs(boolean returnExtraNDGs) {
+		this.returnExtraNDGs = returnExtraNDGs;
+	}
 	
 }

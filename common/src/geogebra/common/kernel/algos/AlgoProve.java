@@ -97,6 +97,8 @@ public class AlgoProve extends AlgoElement {
         p.setTimeout(AbstractApplication.proverTimeout);
     	p.setConstruction(cons);
     	p.setStatement(root);
+    	// Don't compute extra NDG's:
+    	p.setReturnExtraNDGs(false);
     	
     	// Adding benchmarking:
     	Date date = new Date();

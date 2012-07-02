@@ -101,6 +101,8 @@ public class AlgoProveDetails extends AlgoElement {
         p.setTimeout(AbstractApplication.proverTimeout);
     	p.setConstruction(cons);
     	p.setStatement(root);
+    	// Compute extra NDG's:
+    	p.setReturnExtraNDGs(true);
     	
     	// Adding benchmarking:
     	Date date = new Date();
