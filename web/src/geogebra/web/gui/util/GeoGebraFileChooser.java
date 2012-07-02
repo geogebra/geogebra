@@ -3,7 +3,7 @@ package geogebra.web.gui.util;
 import sun.awt.HorizBagLayout;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.plugin.GgbAPI;
-import geogebra.web.gui.menubar.FileMenu;
+import geogebra.web.gui.menubar.FileMenuW;
 import geogebra.web.helper.MyGoogleApis;
 import geogebra.web.main.Application;
 

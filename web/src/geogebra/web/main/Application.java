@@ -42,12 +42,12 @@ import geogebra.common.util.Unicode;
 import geogebra.web.css.GuiResources;
 import geogebra.web.euclidian.EuclidianControllerW;
 import geogebra.web.euclidian.EuclidianViewW;
-import geogebra.web.gui.DialogManagerWeb;
-import geogebra.web.gui.GuiManager;
+import geogebra.web.gui.DialogManagerW;
+import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.SplashDialog;
 import geogebra.web.gui.app.GeoGebraAppFrame;
 import geogebra.web.gui.applet.GeoGebraFrame;
-import geogebra.web.gui.inputbar.AlgebraInput;
+import geogebra.web.gui.inputbar.AlgebraInputW;
 import geogebra.web.html5.ArticleElement;
 import geogebra.web.io.ConstructionException;
 import geogebra.web.io.MyXMLio;
@@ -1186,7 +1186,7 @@ public class Application extends AbstractApplication {
 	}
 
 	DrawEquationWeb drawEquation;
-	private GuiManager guiManager;
+	private GuiManagerW guiManager;
 
 	@Override
 	public DrawEquationInterface getDrawEquation() {
@@ -1230,11 +1230,11 @@ public class Application extends AbstractApplication {
 	}
 
 	@Override
-	public GuiManager getGuiManager() {
+	public GuiManagerW getGuiManager() {
 		if (guiManager == null) {
 			// TODO: add getGuiManager(), see #1783
 			if (getUseFullGui()) {
-				guiManager = new GuiManager(this);
+				guiManager = new GuiManagerW(this);
 			}
 		}
 
@@ -1657,7 +1657,7 @@ public class Application extends AbstractApplication {
 	// random id to identify ggb files
 	// eg so that GeoGebraTube can notice it's a version of the same file
 	private String uniqueId = null;// FIXME: generate new UUID: + UUID.randomUUID();
-	private geogebra.web.gui.DialogManagerWeb dialogManager;
+	private geogebra.web.gui.DialogManagerW dialogManager;
 	public SplashDialog splash;
 
 	public String getUniqueId() {
@@ -1705,7 +1705,7 @@ public class Application extends AbstractApplication {
 	@Override
 	public geogebra.common.gui.dialog.DialogManager getDialogManager() {
 		if (dialogManager == null) {
-			dialogManager = new DialogManagerWeb(this);
+			dialogManager = new DialogManagerW(this);
 		}
 		return dialogManager;
 	}
@@ -1771,7 +1771,7 @@ public class Application extends AbstractApplication {
     protected void initGuiManager() {
 		setWaitCursor();
 		guiManager = newGuiManager();
-		guiManager.setLayout(new geogebra.web.gui.layout.Layout());
+		guiManager.setLayout(new geogebra.web.gui.layout.LayoutW());
 		guiManager.initialize();
 		setDefaultCursor();
 	    
@@ -1780,8 +1780,8 @@ public class Application extends AbstractApplication {
 	/**
 	 * @return a GuiManager for GeoGebraWeb
 	 */
-	protected GuiManager newGuiManager() {
-		return new GuiManager(Application.this);
+	protected GuiManagerW newGuiManager() {
+		return new GuiManagerW(Application.this);
 	}
 	
 	private void createSplash() {
@@ -1912,7 +1912,7 @@ public class Application extends AbstractApplication {
 		
 		// clear input bar
 		if (isUsingFullGui() && showAlgebraInput()) {
-				AlgebraInput ai = (AlgebraInput) (getGuiManager().getAlgebraInput());
+				AlgebraInputW ai = (AlgebraInputW) (getGuiManager().getAlgebraInput());
 				ai.clear();
 		}
 		
@@ -1937,7 +1937,7 @@ public class Application extends AbstractApplication {
 		driveBase64description = null;
 		driveBase64Content = null;
 		currentFileId = "";
-		((DialogManagerWeb) getDialogManager()).refreshAndShowCurrentFileDescriptors(driveBase64FileName, driveBase64description);
+		((DialogManagerW) getDialogManager()).refreshAndShowCurrentFileDescriptors(driveBase64FileName, driveBase64description);
 	    
     }
 	
@@ -1955,7 +1955,7 @@ public class Application extends AbstractApplication {
 	    driveBase64Content = fileCont;
 	    driveBase64description = desc;
 	    driveBase64FileName = fName;
-	    ((DialogManagerWeb) getDialogManager()).refreshAndShowCurrentFileDescriptors(driveBase64FileName, driveBase64description);
+	    ((DialogManagerW) getDialogManager()).refreshAndShowCurrentFileDescriptors(driveBase64FileName, driveBase64description);
 	    
     }
 	

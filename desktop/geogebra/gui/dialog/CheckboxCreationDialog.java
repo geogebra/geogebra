@@ -17,7 +17,7 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.GeoElementSelectionListener;
-import geogebra.gui.inputfield.AutoCompleteTextField;
+import geogebra.gui.inputfield.AutoCompleteTextFieldD;
 import geogebra.gui.view.algebra.InputPanel;
 import geogebra.main.Application;
 
@@ -132,8 +132,8 @@ public class CheckboxCreationDialog extends JDialog implements
 		String initString = geoBoolean == null ? "" : geoBoolean.getCaption(StringTemplate.defaultTemplate);
 		InputPanel ip = new InputPanel(initString, app, 1, 15, true);
 		tfCaption = ip.getTextComponent();
-		if (tfCaption instanceof AutoCompleteTextField) {
-			AutoCompleteTextField atf = (AutoCompleteTextField) tfCaption;
+		if (tfCaption instanceof AutoCompleteTextFieldD) {
+			AutoCompleteTextFieldD atf = (AutoCompleteTextFieldD) tfCaption;
 			atf.setAutoComplete(false);
 		}
 

@@ -2,11 +2,11 @@ package geogebra.gui.layout;
 
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.gui.InputHandler;
+import geogebra.common.gui.Layout;
 import geogebra.common.io.layout.DockPanelData;
 import geogebra.common.io.layout.Perspective;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.settings.AbstractSettings;
-import geogebra.common.main.settings.LayoutSettings;
 import geogebra.common.main.settings.SettingListener;
 import geogebra.euclidianND.EuclidianViewND;
 import geogebra.gui.dialog.InputDialog;
@@ -41,7 +41,7 @@ import javax.swing.SwingUtilities;
  * 
  * @author Florian Sonner
  */
-public class Layout extends geogebra.common.gui.Layout implements SettingListener {	
+public class LayoutD extends Layout implements SettingListener {	
 	private boolean isInitialized = false;
 	
 	private Application app;
@@ -50,7 +50,7 @@ public class Layout extends geogebra.common.gui.Layout implements SettingListene
 	/**
 	 * {@link #initialize(Application)} has to be called once in order to use this class.
 	 */
-	public Layout() {
+	public LayoutD() {
 		initializeDefaultPerspectives(true, false);
 		
 		this.perspectives = new ArrayList<Perspective>(defaultPerspectives.length);
@@ -431,9 +431,9 @@ public class Layout extends geogebra.common.gui.Layout implements SettingListene
 	}
 	
 	private class SaveInputHandler implements InputHandler {
-		private Layout layout;
+		private LayoutD layout;
 		
-		public SaveInputHandler(Layout layout) {
+		public SaveInputHandler(LayoutD layout) {
 			this.layout = layout;
 		}
 		
@@ -476,12 +476,12 @@ public class Layout extends geogebra.common.gui.Layout implements SettingListene
 		private static final long serialVersionUID = 1L;
 		
 		private Application app;
-		private Layout layout;
+		private LayoutD layout;
 		private JList list;
 		private DefaultListModel listModel;
 		private JButton cancelButton, removeButton;
 		
-		public ManagePerspectivesDialog(Application app, Layout layout) {
+		public ManagePerspectivesDialog(Application app, LayoutD layout) {
 			super(app.getFrame());
 			
 			this.app = app;

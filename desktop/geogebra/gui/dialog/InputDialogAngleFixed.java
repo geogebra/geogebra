@@ -90,7 +90,7 @@ public class InputDialogAngleFixed extends AngleInputDialog implements KeyListen
 			else defaultRotateAngle = "45"+"\u00b0";
 
 
-			DialogManagerDesktop.doAngleFixed(kernel, segments, points, selGeos, ((NumberInputHandler)inputHandler).getNum(), rbClockWise.isSelected());
+			DialogManagerD.doAngleFixed(kernel, segments, points, selGeos, ((NumberInputHandler)inputHandler).getNum(), rbClockWise.isSelected());
 
 			return true;
 		}

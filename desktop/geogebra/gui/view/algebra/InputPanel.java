@@ -7,7 +7,7 @@ import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.gui.DynamicTextInputPane;
 import geogebra.gui.editor.GeoGebraEditorPane;
-import geogebra.gui.inputfield.AutoCompleteTextField;
+import geogebra.gui.inputfield.AutoCompleteTextFieldD;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.gui.util.TextLineNumber;
 import geogebra.gui.virtualkeyboard.VirtualKeyboard;
@@ -54,15 +54,15 @@ public class InputPanel extends JPanel implements FocusListener, VirtualKeyboard
 	
 	public InputPanel(String initText, Application app, int columns, boolean autoComplete) {
 		this(initText, app, 1, columns, true, true, null, DialogType.GeoGebraEditor);
-		AutoCompleteTextField atf = (AutoCompleteTextField) textComponent;
+		AutoCompleteTextFieldD atf = (AutoCompleteTextFieldD) textComponent;
 		atf.setAutoComplete(autoComplete);
 	}		
 
 
 	public InputPanel(String initText, Application app, int rows, int columns, boolean showSymbolPopupIcon) {
 		this(initText, app, rows, columns, showSymbolPopupIcon, false, null, DialogType.GeoGebraEditor);
-		if (textComponent instanceof AutoCompleteTextField) {
-			AutoCompleteTextField atf = (AutoCompleteTextField) textComponent;
+		if (textComponent instanceof AutoCompleteTextFieldD) {
+			AutoCompleteTextFieldD atf = (AutoCompleteTextFieldD) textComponent;
 			atf.setAutoComplete(false);
 		}
 	}
@@ -99,7 +99,7 @@ public class InputPanel extends JPanel implements FocusListener, VirtualKeyboard
 			
 		} else{
 			
-			textComponent = new AutoCompleteTextField(columns, app);	
+			textComponent = new AutoCompleteTextFieldD(columns, app);	
 			((MyTextField)textComponent).setShowSymbolTableIcon(showSymbolPopup);
 		}
 		
@@ -176,10 +176,10 @@ public class InputPanel extends JPanel implements FocusListener, VirtualKeyboard
 		textComponent.replaceSelection(str);	
 		
 		// make sure autocomplete works for the Virtual Keyboard
-		if (textComponent instanceof AutoCompleteTextField) {
-			((AutoCompleteTextField)textComponent).mergeKoreanDoubles();
-			((AutoCompleteTextField)textComponent).updateCurrentWord(false);
-			((AutoCompleteTextField)textComponent).startAutoCompletion();
+		if (textComponent instanceof AutoCompleteTextFieldD) {
+			((AutoCompleteTextFieldD)textComponent).mergeKoreanDoubles();
+			((AutoCompleteTextFieldD)textComponent).updateCurrentWord(false);
+			((AutoCompleteTextFieldD)textComponent).startAutoCompletion();
 		}
 		
 		textComponent.requestFocus();

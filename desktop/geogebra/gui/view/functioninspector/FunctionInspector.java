@@ -52,7 +52,7 @@ import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.plugin.Operation;
-import geogebra.gui.GuiManager;
+import geogebra.gui.GuiManagerD;
 import geogebra.gui.dialog.InputDialog;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.gui.util.GeoGebraIcon;
@@ -1473,7 +1473,7 @@ KeyListener, ActionListener, SpecialNumberFormatInterface {
 		tableXY.setRowHeight(dummyField.getPreferredSize().height);
 		tableInterval.setRowHeight(dummyField.getPreferredSize().height);
 
-		GuiManager.setFontRecursive(this, app.getPlainFont());
+		GuiManagerD.setFontRecursive(this, app.getPlainFont());
 	}
 
 

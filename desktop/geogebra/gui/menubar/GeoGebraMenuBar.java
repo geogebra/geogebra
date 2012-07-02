@@ -5,7 +5,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.main.AbstractApplication;
 import geogebra.export.ScalingPrintGridable;
 import geogebra.gui.layout.DockManager;
-import geogebra.gui.layout.Layout;
+import geogebra.gui.layout.LayoutD;
 import geogebra.main.Application;
 import geogebra.main.GeoGebraPreferences;
 
@@ -53,7 +53,7 @@ public class GeoGebraMenuBar extends JMenuBar {
 	private BaseMenu fileMenu, editMenu, viewMenu, perspectivesMenu, optionsMenu, toolsMenu, windowMenu, helpMenu, languageMenu;
 
 	private Application app;
-	private Layout layout;
+	private LayoutD layout;
 
 
 	/**
@@ -61,7 +61,7 @@ public class GeoGebraMenuBar extends JMenuBar {
 	 * @param app Application
 	 * @param layout Layout
 	 */
-	public GeoGebraMenuBar(Application app, Layout layout) {
+	public GeoGebraMenuBar(Application app, LayoutD layout) {
 		this.layout = layout;
 
 		/**

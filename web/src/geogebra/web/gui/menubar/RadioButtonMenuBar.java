@@ -18,7 +18,7 @@ public class RadioButtonMenuBar extends MenuBar {
 	private Object cmd;
 	private String[] texts;
 	private String[] commands;
-	private OptionsMenu listener;
+	private OptionsMenuW listener;
 
 	public RadioButtonMenuBar() {
 		super(true);
@@ -70,7 +70,7 @@ public class RadioButtonMenuBar extends MenuBar {
 	 * @param actionCommands
 	 * @param selectedPos
 	 */
-	public void addRadioButtonMenuItems(OptionsMenu al,
+	public void addRadioButtonMenuItems(OptionsMenuW al,
 			String[] items, final String[] actionCommands, int selectedPos) {
 		MenuItem mi;
 		
@@ -96,7 +96,7 @@ public class RadioButtonMenuBar extends MenuBar {
 				addItem(texts[i], new Command() {
 					public void execute() {
 						setSelected(j);
-						OptionsMenu.actionPerformed(commands[j]);
+						OptionsMenuW.actionPerformed(commands[j]);
 					}
 				}, i == selectedPos);
 				

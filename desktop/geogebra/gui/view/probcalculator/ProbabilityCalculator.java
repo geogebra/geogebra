@@ -60,7 +60,7 @@ import geogebra.common.main.settings.ProbabilityCalculatorSettings.DIST;
 import geogebra.common.main.settings.SettingListener;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.plugin.Operation;
-import geogebra.gui.GuiManager;
+import geogebra.gui.GuiManagerD;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.gui.view.spreadsheet.statdialog.PlotPanelEuclidianView;
 import geogebra.gui.view.spreadsheet.statdialog.PlotSettings;
@@ -1082,7 +1082,7 @@ public class ProbabilityCalculator extends JPanel implements View,
 	public void updateFonts() {
 		Font font = app.getPlainFont();
 		setFont(font);
-		GuiManager.setFontRecursive(this, font);
+		GuiManagerD.setFontRecursive(this, font);
 		lblDist.setFont(app.getItalicFont());
 		lblProb.setFont(app.getItalicFont());
 		plotPanel.updateFonts();

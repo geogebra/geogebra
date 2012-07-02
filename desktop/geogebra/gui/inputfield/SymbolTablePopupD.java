@@ -29,7 +29,7 @@ import javax.swing.text.BadLocationException;
  * @author G. Sturr
  *
  */
-public class SymbolTablePopup {
+public class SymbolTablePopupD {
 
 	private MyTextField textField;
 	private JPopupMenu popup;
@@ -49,7 +49,7 @@ public class SymbolTablePopup {
 	 * @param app
 	 * @param textField
 	 */
-	public SymbolTablePopup(Application app, MyTextField textField){
+	public SymbolTablePopupD(Application app, MyTextField textField){
 
 		this.app = app;
 		this.textField = textField;

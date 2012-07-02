@@ -37,9 +37,9 @@ import javax.swing.event.PopupMenuListener;
  * @author G. Sturr
  *
  */
-public class HistoryPopup implements ListSelectionListener{
+public class HistoryPopupD implements ListSelectionListener{
 
-	private AutoCompleteTextField textField;
+	private AutoCompleteTextFieldD textField;
 	private JPopupMenu popup;
 	private JList historyList;
 	private boolean isDownPopup = false;
@@ -48,7 +48,7 @@ public class HistoryPopup implements ListSelectionListener{
 	private KeyListener[] textFieldKeyListeners;
 	private DefaultListModel model;
 
-	public HistoryPopup(AutoCompleteTextField autoCompleteField){
+	public HistoryPopupD(AutoCompleteTextFieldD autoCompleteField){
 
 		this.textField = autoCompleteField;	
 

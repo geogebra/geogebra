@@ -9,7 +9,7 @@ import static java.awt.event.KeyEvent.VK_TAB;
 import static java.awt.event.KeyEvent.VK_UP;
 import static java.lang.Math.max;
 import static java.lang.Math.min;
-import geogebra.gui.inputfield.AutoCompleteTextField;
+import geogebra.gui.inputfield.AutoCompleteTextFieldD;
 
 import java.awt.Font;
 import java.awt.Rectangle;
@@ -38,13 +38,13 @@ import javax.swing.event.PopupMenuListener;
 import javax.swing.text.BadLocationException;
 
 /**
- * Provides completion popup for {@link AutoCompleteTextField}.
+ * Provides completion popup for {@link AutoCompleteTextFieldD}.
  * Derived from OptionsPopup.
  * 
  * @author Arnaud Delobelle
  */
 public class CompletionsPopup {
-	private final AutoCompleteTextField textField;
+	private final AutoCompleteTextFieldD textField;
 	private final int maxPopupRowCount;
 	
 	private final JPopupMenu popup;
@@ -64,7 +64,7 @@ public class CompletionsPopup {
 	 *                         returned by the provided {@link CompletionProvider}
 	 * @param maxPopupRowCount The maximal number of rows for the options popup
 	 */
-	public CompletionsPopup(AutoCompleteTextField textField, ListCellRenderer listCellRenderer, int maxPopupRowCount) {
+	public CompletionsPopup(AutoCompleteTextFieldD textField, ListCellRenderer listCellRenderer, int maxPopupRowCount) {
 		this.textField = textField;
 		this.maxPopupRowCount = maxPopupRowCount;
 		

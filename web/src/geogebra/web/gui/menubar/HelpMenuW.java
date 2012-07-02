@@ -8,11 +8,11 @@ import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.MenuBar;
 
-public class HelpMenu extends MenuBar {
+public class HelpMenuW extends MenuBar {
 	
 	private AbstractApplication app;
 	
-	public HelpMenu(AbstractApplication app) {
+	public HelpMenuW(AbstractApplication app) {
 
 		super(true);
 	    this.app = app;
@@ -28,7 +28,7 @@ public class HelpMenu extends MenuBar {
 	    //});
 	    
 	    // Help
-	    addItem(GeoGebraMenubar.getMenuBarHtml(AppResources.INSTANCE.help().getSafeUri().asString(),
+	    addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.help().getSafeUri().asString(),
 	    		app.getMenu("Help")),true,new Command() {
 			public void execute() {
 				Window.open("http://www.geogebra.org/help/en/article/Manual:Main%20Page", "_blank","");
@@ -36,7 +36,7 @@ public class HelpMenu extends MenuBar {
 	    });
 	    
 	    // Tutorials
-	    addItem(GeoGebraMenubar.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),
+	    addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),
 	    		app.getMenu("Tutorials")),true,new Command() {
 			public void execute() {
 				Window.open("http://www.geogebra.org/help/en/article/Tutorial:Main%20Page", "_blank","");
@@ -44,7 +44,7 @@ public class HelpMenu extends MenuBar {
 	    });
 	    
 	    // GeoGebraTube (no translation, deliberate)
-	    addItem(GeoGebraMenubar.getMenuBarHtml(AppResources.INSTANCE.GeoGebraTube().getSafeUri().asString(),
+	    addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.GeoGebraTube().getSafeUri().asString(),
 	    		"GeoGebraTube"),true,new Command() {
 			public void execute() {
 				Window.open(GeoGebraConstants.GEOGEBRATUBE_WEBSITE, "_blank","");
@@ -54,7 +54,7 @@ public class HelpMenu extends MenuBar {
 	    addSeparator();
 	    
 	    // Report Bug
-	    addItem(GeoGebraMenubar.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),
+	    addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),
 	    		app.getMenu("ReportBug")),true,new Command() {
 			public void execute() {
 				Window.open(GeoGebraConstants.GEOGEBRA_REPORT_BUG_WEB, "_blank","");
@@ -63,7 +63,7 @@ public class HelpMenu extends MenuBar {
 	    
 	    addSeparator();
 
-	    addItem(GeoGebraMenubar.getMenuBarHtml(AppResources.INSTANCE.info().getSafeUri().asString(),
+	    addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.info().getSafeUri().asString(),
 	    		app.getMenu("AboutLicense")),true,new Command() {
 			public void execute() {
 				Window.open(GeoGebraConstants.GGW_ABOUT_LICENSE_URL + "&version=" +

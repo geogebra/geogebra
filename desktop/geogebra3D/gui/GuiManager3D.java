@@ -8,10 +8,10 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.euclidian.EuclidianViewD;
 import geogebra.euclidianND.EuclidianViewND;
 import geogebra.gui.ContextMenuChooseGeo;
-import geogebra.gui.GuiManager;
+import geogebra.gui.GuiManagerD;
 import geogebra.gui.dialog.InputDialog;
 import geogebra.gui.dialog.options.OptionsDialog;
-import geogebra.gui.layout.Layout;
+import geogebra.gui.layout.LayoutD;
 import geogebra.gui.view.algebra.AlgebraController;
 import geogebra.gui.view.algebra.AlgebraView;
 import geogebra.main.Application;
@@ -38,7 +38,7 @@ import javax.swing.AbstractAction;
  * @author matthieu
  *
  */
-public class GuiManager3D extends GuiManager {
+public class GuiManager3D extends GuiManagerD {
 
 	
 	private AbstractAction showAxes3DAction, showGrid3DAction, showPlaneAction;

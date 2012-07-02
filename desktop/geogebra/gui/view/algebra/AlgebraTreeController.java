@@ -18,7 +18,7 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
 import geogebra.euclidian.EuclidianViewD;
-import geogebra.gui.GuiManager;
+import geogebra.gui.GuiManagerD;
 import geogebra.main.Application;
 
 /**
@@ -228,13 +228,13 @@ implements MouseListener, MouseMotionListener{
 				}
 				ArrayList<GeoElement> temp = new ArrayList<GeoElement>();
 				temp.add(geo);
-				((GuiManager)app.getGuiManager()).showPopupMenu(temp, tree, mouseCoords);
+				((GuiManagerD)app.getGuiManager()).showPopupMenu(temp, tree, mouseCoords);
 			}
 		} 
 		// multiple selection: popup menu (several geos)
 		else {
 			if(geo != null) {
-				((GuiManager)app.getGuiManager()).showPopupMenu(app.getSelectedGeos(), tree, mouseCoords);
+				((GuiManagerD)app.getGuiManager()).showPopupMenu(app.getSelectedGeos(), tree, mouseCoords);
 			}
 		}	
 

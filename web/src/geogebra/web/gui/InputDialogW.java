@@ -11,7 +11,7 @@ import javax.swing.text.JTextComponent;
 
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.GeoElementSelectionListener;
-import geogebra.web.gui.inputfield.AutoCompleteTextField;
+import geogebra.web.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.web.gui.view.algebra.InputPanel;
 import geogebra.web.gui.view.algebra.InputPanel.DialogType;
 import geogebra.web.main.Application;
@@ -24,7 +24,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-public class InputDialog extends  PopupPanel implements ClickHandler{
+public class InputDialogW extends  PopupPanel implements ClickHandler{
 	
 	protected Application app;
 
@@ -36,7 +36,7 @@ public class InputDialog extends  PopupPanel implements ClickHandler{
 	protected Button btCancel, btOK;
 	protected String initString;
 	
-	public InputDialog(boolean modal) {
+	public InputDialogW(boolean modal) {
 	    super(false, modal);
     }
 

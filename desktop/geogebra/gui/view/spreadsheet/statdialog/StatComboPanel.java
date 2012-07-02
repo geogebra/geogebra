@@ -5,7 +5,7 @@ import geogebra.common.kernel.algos.AlgoHistogram;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.main.AbstractApplication;
-import geogebra.gui.inputfield.AutoCompleteTextField;
+import geogebra.gui.inputfield.AutoCompleteTextFieldD;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.gui.util.GeoGebraIcon;
 import geogebra.gui.view.spreadsheet.statdialog.StatDialog.Regression;
@@ -132,8 +132,8 @@ StatPanelInterface{
 	private JToolBar manualClassesPanel;
 	private JLabel lblStart;
 	private JLabel lblWidth;
-	private AutoCompleteTextField fldStart;
-	private AutoCompleteTextField fldWidth;
+	private AutoCompleteTextFieldD fldStart;
+	private AutoCompleteTextFieldD fldWidth;
 	private JLabel lblNumClasses;
 
 
@@ -497,7 +497,7 @@ StatPanelInterface{
 		lblStart = new JLabel();
 		lblWidth = new JLabel();
 
-		fldStart = new AutoCompleteTextField(4,app);
+		fldStart = new AutoCompleteTextFieldD(4,app);
 		Dimension d = fldStart.getMaximumSize();
 		d.height = fldStart.getPreferredSize().height;
 		fldStart.setMaximumSize(d);
@@ -505,7 +505,7 @@ StatPanelInterface{
 		fldStart.setText("" + (int)settings.classStart);
 		fldStart.addFocusListener(this);
 
-		fldWidth = new AutoCompleteTextField(4,app);
+		fldWidth = new AutoCompleteTextFieldD(4,app);
 		fldWidth.setMaximumSize(d);
 		fldStart.setColumns(4);
 		fldWidth.setColumns(4);

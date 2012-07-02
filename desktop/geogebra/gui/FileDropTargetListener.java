@@ -156,10 +156,10 @@ public class FileDropTargetListener implements DropTargetListener {
 					File f = it.next( );
 					al.add(f);
 				}
-			} else if (transferable.isDataFlavorSupported (GuiManager.uriListFlavor)) {
+			} else if (transferable.isDataFlavorSupported (GuiManagerD.uriListFlavor)) {
 				//Application.debug("uri-list flavor is supported"); 
 				String uris = (String)
-				transferable.getTransferData (GuiManager.uriListFlavor);
+				transferable.getTransferData (GuiManagerD.uriListFlavor);
 
 				// url-lists are defined by rfc 2483 as crlf-delimited 
 				StringTokenizer st = new StringTokenizer (uris, "\r\n");   

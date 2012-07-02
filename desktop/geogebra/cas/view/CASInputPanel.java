@@ -4,7 +4,7 @@
 
 package geogebra.cas.view;
 
-import geogebra.gui.inputfield.AutoCompleteTextField;
+import geogebra.gui.inputfield.AutoCompleteTextFieldD;
 import geogebra.main.Application;
 
 import java.awt.BorderLayout;
@@ -19,7 +19,7 @@ public class CASInputPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 
-	private AutoCompleteTextField inputArea;
+	private AutoCompleteTextFieldD inputArea;
 	
 	private Application app;
 	
@@ -32,7 +32,7 @@ public class CASInputPanel extends JPanel {
 		
 		// use autocomplete text field from input bar 
 		// but ignore Escape, Up, Down keys
-		inputArea = new AutoCompleteTextField(1, app, false, app.getCommandDictionaryCAS());
+		inputArea = new AutoCompleteTextFieldD(1, app, false, app.getCommandDictionaryCAS());
 		inputArea.setCASInput(true);
 		inputArea.setAutoComplete(true);
 		inputArea.showPopupSymbolButton(true);

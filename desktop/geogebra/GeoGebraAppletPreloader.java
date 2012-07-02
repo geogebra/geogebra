@@ -71,7 +71,7 @@ public class GeoGebraAppletPreloader extends JApplet {
 				System.out.print("loading geogebra_gui.jar... ");
 				System.out.flush();
 				try {
-					geogebra.gui.GuiManager.class.getClass();
+					geogebra.gui.GuiManagerD.class.getClass();
 					System.out.println("done");
 				} catch (Exception e) {
 					System.out.println("failed");

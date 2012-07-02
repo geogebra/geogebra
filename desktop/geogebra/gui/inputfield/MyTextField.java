@@ -45,7 +45,7 @@ public class MyTextField extends JTextField implements ActionListener,
 	private Application app;
 
 	// symbol table popup fields
-	private SymbolTablePopup tablePopup;
+	private SymbolTablePopupD tablePopup;
 	private MyTextField thisField = this;
 
 	private ImageIcon icon = GeoGebraIcon.createSymbolTableIcon(this.getFont(),
@@ -59,7 +59,7 @@ public class MyTextField extends JTextField implements ActionListener,
 	boolean caretShowing = true;
 
 	// border button fields
-	private BorderButton borderBtn;
+	private BorderButtonD borderBtn;
 	private Border defaultBorder;
 
 	private boolean enableColoring = true;
@@ -112,7 +112,7 @@ public class MyTextField extends JTextField implements ActionListener,
 
 		JTextField dummy = new JTextField();
 		defaultBorder = dummy.getBorder();
-		borderBtn = new BorderButton(this);
+		borderBtn = new BorderButtonD(this);
 		borderBtn.setBorderButton(0, icon, this);
 		setDefaultBorder();
 	}
@@ -139,7 +139,7 @@ public class MyTextField extends JTextField implements ActionListener,
 	// BorderButton
 	// ====================================================
 
-	public BorderButton getBorderButton() {
+	public BorderButtonD getBorderButton() {
 		return borderBtn;
 	}
 
@@ -215,7 +215,7 @@ public class MyTextField extends JTextField implements ActionListener,
 	public void actionPerformed(ActionEvent e) {
 
 		String cmd = e.getActionCommand();
-		if (cmd.equals(0 + BorderButton.cmdSuffix)) {
+		if (cmd.equals(0 + BorderButtonD.cmdSuffix)) {
 
 			getTablePopup().showPopup(true);
 		}
@@ -259,8 +259,8 @@ public class MyTextField extends JTextField implements ActionListener,
 		setCaretPosition(pos + text.length());
 
 		// make sure AutoComplete works
-		if (this instanceof AutoCompleteTextField) {
-			AutoCompleteTextField tf = (AutoCompleteTextField) this;
+		if (this instanceof AutoCompleteTextFieldD) {
+			AutoCompleteTextFieldD tf = (AutoCompleteTextFieldD) this;
 			tf.updateCurrentWord(false);
 			tf.startAutoCompletion();
 		}
@@ -280,9 +280,9 @@ public class MyTextField extends JTextField implements ActionListener,
 		getTablePopup().setOpenUpwards(openUpwards);
 	}
 	
-	private SymbolTablePopup getTablePopup() {
+	private SymbolTablePopupD getTablePopup() {
 		if (tablePopup == null)
-			tablePopup = new SymbolTablePopup(app, this);
+			tablePopup = new SymbolTablePopupD(app, this);
 		return tablePopup;
 	}
 

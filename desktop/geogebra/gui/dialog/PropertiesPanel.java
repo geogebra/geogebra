@@ -59,7 +59,7 @@ import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.plugin.GeoClass;
 import geogebra.euclidian.EuclidianViewD;
 import geogebra.gui.color.GeoGebraColorChooser;
-import geogebra.gui.inputfield.AutoCompleteTextField;
+import geogebra.gui.inputfield.AutoCompleteTextFieldD;
 import geogebra.gui.inputfield.GeoGebraComboBoxEditor;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.gui.properties.AnimationSpeedPanel;
@@ -5923,7 +5923,7 @@ class ShowConditionPanel extends JPanel implements ActionListener,
 
 		// non auto complete input panel
 		InputPanel inputPanel = new InputPanel(null, app, 20, false);
-		tfCondition = (AutoCompleteTextField) inputPanel.getTextComponent();
+		tfCondition = (AutoCompleteTextFieldD) inputPanel.getTextComponent();
 
 		tfCondition.addActionListener(this);
 		tfCondition.addFocusListener(this);
@@ -6077,10 +6077,10 @@ class ColorFunctionPanel extends JPanel implements ActionListener,
 		InputPanel inputPanelG = new InputPanel(null, app, 1, 20, true);
 		InputPanel inputPanelB = new InputPanel(null, app, 1, 20, true);
 		InputPanel inputPanelA = new InputPanel(null, app, 1, 20, true);
-		tfRed = (AutoCompleteTextField) inputPanelR.getTextComponent();
-		tfGreen = (AutoCompleteTextField) inputPanelG.getTextComponent();
-		tfBlue = (AutoCompleteTextField) inputPanelB.getTextComponent();
-		tfAlpha = (AutoCompleteTextField) inputPanelA.getTextComponent();
+		tfRed = (AutoCompleteTextFieldD) inputPanelR.getTextComponent();
+		tfGreen = (AutoCompleteTextFieldD) inputPanelG.getTextComponent();
+		tfBlue = (AutoCompleteTextFieldD) inputPanelB.getTextComponent();
+		tfAlpha = (AutoCompleteTextFieldD) inputPanelA.getTextComponent();
 
 		tfRed.addActionListener(this);
 		tfRed.addFocusListener(this);
@@ -6520,7 +6520,7 @@ class NamePanel extends JPanel implements ActionListener, FocusListener,
 
 	private static final long serialVersionUID = 1L;
 
-	private AutoCompleteTextField tfName, tfDefinition, tfCaption;
+	private AutoCompleteTextFieldD tfName, tfDefinition, tfCaption;
 	private JLabel nameLabel, defLabel, captionLabel;
 	private InputPanel inputPanelName, inputPanelDef, inputPanelCap;
 	private RenameInputHandler nameInputHandler;
@@ -6535,7 +6535,7 @@ class NamePanel extends JPanel implements ActionListener, FocusListener,
 
 		// non auto complete input panel
 		inputPanelName = new InputPanel(null, app, 1, 10, true);
-		tfName = (AutoCompleteTextField) inputPanelName.getTextComponent();
+		tfName = (AutoCompleteTextFieldD) inputPanelName.getTextComponent();
 		tfName.setAutoComplete(false);
 		tfName.addActionListener(this);
 		tfName.addFocusListener(this);
@@ -6547,14 +6547,14 @@ class NamePanel extends JPanel implements ActionListener, FocusListener,
 
 		// definition field: non auto complete input panel
 		inputPanelDef = new InputPanel(null, app, 1, 20, true);
-		tfDefinition = (AutoCompleteTextField) inputPanelDef.getTextComponent();
+		tfDefinition = (AutoCompleteTextFieldD) inputPanelDef.getTextComponent();
 		tfDefinition.setAutoComplete(false);
 		tfDefinition.addActionListener(this);
 		tfDefinition.addFocusListener(this);
 
 		// caption field: non auto complete input panel
 		inputPanelCap = new InputPanel(null, app, 1, 20, true);
-		tfCaption = (AutoCompleteTextField) inputPanelCap.getTextComponent();
+		tfCaption = (AutoCompleteTextFieldD) inputPanelCap.getTextComponent();
 		tfCaption.setAutoComplete(false);
 		tfCaption.addActionListener(this);
 		tfCaption.addFocusListener(this);

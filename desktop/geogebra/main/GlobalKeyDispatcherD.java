@@ -8,7 +8,7 @@ import geogebra.common.kernel.geos.GeoTextField;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.KeyCodes;
 import geogebra.euclidian.EuclidianViewD;
-import geogebra.gui.GuiManager;
+import geogebra.gui.GuiManagerD;
 import geogebra.gui.app.GeoGebraFrame;
 import geogebra.gui.app.MyFileFilter;
 import geogebra.gui.inputbar.AlgebraInput;
@@ -210,7 +210,7 @@ public class GlobalKeyDispatcherD extends geogebra.common.main.GlobalKeyDispatch
 	protected boolean handleTab(boolean isControlDown, boolean isShiftDown) {
 		if (isControlDown && app.isUsingFullGui()) {
 
-			GuiManager gui = ((Application)app).getGuiManager();
+			GuiManagerD gui = ((Application)app).getGuiManager();
 			gui.getLayout().getDockManager()
 			.moveFocus(!isShiftDown);
 

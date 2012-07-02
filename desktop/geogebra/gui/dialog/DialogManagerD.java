@@ -21,7 +21,7 @@ import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.AbstractApplication;
-import geogebra.gui.GuiManager;
+import geogebra.gui.GuiManagerD;
 import geogebra.gui.app.MyFileFilter;
 import geogebra.gui.autocompletion.AutoCompletion;
 import geogebra.gui.dialog.options.OptionsDialog;
@@ -50,7 +50,7 @@ import javax.swing.UIManager;
  * GeoGebra. Supports (explicit) lazy initialization so that dialogs have to be
  * created manually if needed.
  */
-public class DialogManagerDesktop extends geogebra.common.gui.dialog.DialogManager {
+public class DialogManagerD extends geogebra.common.gui.dialog.DialogManager {
 	/**
 	 * The option dialog where the user can change all application settings.
 	 */
@@ -90,7 +90,7 @@ public class DialogManagerDesktop extends geogebra.common.gui.dialog.DialogManag
 	 */
 	private Locale currentLocale;
 
-	public DialogManagerDesktop(AbstractApplication app) {
+	public DialogManagerD(AbstractApplication app) {
 		super(app);
 	}
 
@@ -106,7 +106,7 @@ public class DialogManagerDesktop extends geogebra.common.gui.dialog.DialogManag
 
 
 		if (optionsDialog != null) {
-			GuiManager.setFontRecursive(optionsDialog, ((Application) app).getPlainFont());
+			GuiManagerD.setFontRecursive(optionsDialog, ((Application) app).getPlainFont());
 			SwingUtilities.updateComponentTreeUI(optionsDialog);
 		}
 
@@ -638,16 +638,16 @@ public class DialogManagerDesktop extends geogebra.common.gui.dialog.DialogManag
 	}
 
 	/**
-	 * Factory for the {@link DialogManagerDesktop} class.
+	 * Factory for the {@link DialogManagerD} class.
 	 */
 	public static class Factory {
 		/**
 		 * @param app
 		 *            Application instance
-		 * @return a new {@link DialogManagerDesktop}
+		 * @return a new {@link DialogManagerD}
 		 */
-		public DialogManagerDesktop create(Application app) {
-			DialogManagerDesktop dialogManager = new DialogManagerDesktop(app);
+		public DialogManagerD create(Application app) {
+			DialogManagerD dialogManager = new DialogManagerD(app);
 			dialogManager.setOptionsDialogFactory(new OptionsDialog.Factory());
 			return dialogManager;
 		}

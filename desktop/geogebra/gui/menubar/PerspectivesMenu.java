@@ -1,7 +1,7 @@
 package geogebra.gui.menubar;
 
 import geogebra.common.io.layout.Perspective;
-import geogebra.gui.layout.Layout;
+import geogebra.gui.layout.LayoutD;
 import geogebra.main.Application;
 
 import java.awt.event.ActionEvent;
@@ -15,7 +15,7 @@ import javax.swing.JMenuItem;
 class PerspectivesMenu extends BaseMenu {
 	private static final long serialVersionUID = 1125756553396593316L;
 
-	Layout layout;
+	LayoutD layout;
 
 	private AbstractAction
 	changePerspectiveAction,
@@ -27,7 +27,7 @@ class PerspectivesMenu extends BaseMenu {
 	 * @param app
 	 * @param layout 
 	 */
-	public PerspectivesMenu(Application app, Layout layout) {
+	public PerspectivesMenu(Application app, LayoutD layout) {
 		super(app, app.getMenu("Perspectives"));
 		
 		this.layout = layout;

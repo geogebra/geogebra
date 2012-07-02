@@ -21,7 +21,7 @@ import javax.swing.border.AbstractBorder;
  * @author G. Sturr
  *
  */
-public class BorderButton extends AbstractBorder
+public class BorderButtonD extends AbstractBorder
 implements MouseListener, MouseMotionListener{
 
 	private static final long serialVersionUID = 1L;
@@ -46,7 +46,7 @@ implements MouseListener, MouseMotionListener{
 	 * Constructs a BorderButton
 	 * @param borderOwner
 	 */
-	public BorderButton(Component borderOwner) {
+	public BorderButtonD(Component borderOwner) {
 
 		this.borderOwner = borderOwner;
 

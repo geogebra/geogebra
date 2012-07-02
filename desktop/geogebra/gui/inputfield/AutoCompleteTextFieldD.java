@@ -34,7 +34,7 @@ import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
-public class AutoCompleteTextField extends MathTextField implements
+public class AutoCompleteTextFieldD extends MathTextField implements
     AutoComplete, geogebra.common.gui.inputfield.AutoCompleteTextField {
 
   private static final long serialVersionUID = 1L;
@@ -55,7 +55,7 @@ public class AutoCompleteTextField extends MathTextField implements
   private String cmdPrefix;
   private CompletionsPopup completionsPopup;
 
-  private HistoryPopup historyPopup;
+  private HistoryPopupD historyPopup;
 
   private DrawTextField drawTextField = null;
 
@@ -80,7 +80,7 @@ public class AutoCompleteTextField extends MathTextField implements
    * A default model is created and the number of columns is 0.
    * 
    */
-  public AutoCompleteTextField(int columns, AbstractApplication app) {
+  public AutoCompleteTextFieldD(int columns, AbstractApplication app) {
     this(columns, (Application) app, true);
   }
 
@@ -90,7 +90,7 @@ public class AutoCompleteTextField extends MathTextField implements
  * @param handleEscapeKey how to handle escape key
  * @param dict dictionary
  */
-public AutoCompleteTextField(int columns, Application app,
+public AutoCompleteTextFieldD(int columns, Application app,
       boolean handleEscapeKey, AutoCompleteDictionary dict) {
     super(app);
     // allow dynamic width with columns = -1
@@ -113,13 +113,13 @@ public AutoCompleteTextField(int columns, Application app,
     setDictionary(dict);
   }
 
-  public AutoCompleteTextField(int columns, Application app,
+  public AutoCompleteTextFieldD(int columns, Application app,
       boolean handleEscapeKey) {
     this(columns, app, handleEscapeKey, app.getCommandDictionary());
     // setDictionary(app.getAllCommandsDictionary());
   }
 
-  public AutoCompleteTextField(int columns, AbstractApplication app,
+  public AutoCompleteTextFieldD(int columns, AbstractApplication app,
       Drawable drawTextField) {
     this(columns, app);
     this.drawTextField = (DrawTextField) drawTextField;
@@ -140,14 +140,14 @@ public AutoCompleteTextField(int columns, Application app,
   public void addHistoryPopup(boolean isDownPopup) {
 
     if (historyPopup == null)
-      historyPopup = new HistoryPopup(this);
+      historyPopup = new HistoryPopupD(this);
 
     historyPopup.setDownPopup(isDownPopup);
 
     ActionListener al = new ActionListener() {
       public void actionPerformed(ActionEvent e) {
         String cmd = e.getActionCommand();
-        if (cmd.equals(1 + BorderButton.cmdSuffix)) {
+        if (cmd.equals(1 + BorderButtonD.cmdSuffix)) {
 
           // TODO: should up/down orientation be tied to InputBar?
           // show popup

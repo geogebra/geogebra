@@ -13,14 +13,14 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.GWTKeycodes;
 
-public class HistoryPopup extends PopupPanel implements ClickHandler, KeyUpHandler {
+public class HistoryPopupW extends PopupPanel implements ClickHandler, KeyUpHandler {
 
-	private AutoCompleteTextField textField;
+	private AutoCompleteTextFieldW textField;
 	private boolean isDownPopup;
 	private VerticalPanel historyList;
 	private int highlighted = 0;
 
-	public HistoryPopup(AutoCompleteTextField autoCompleteTextField) {
+	public HistoryPopupW(AutoCompleteTextFieldW autoCompleteTextField) {
 		 this.textField = autoCompleteTextField;
 		 historyList = new VerticalPanel();
 		 historyList.addStyleName("historyList");

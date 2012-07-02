@@ -66,7 +66,7 @@ public class InputDialogRotate extends AngleInputDialog implements KeyListener {
 
 	private boolean processInput() {
 		
-		defaultRotateAngle = DialogManagerDesktop.rotateObject(app, inputPanel.getText(), rbClockWise.isSelected(), polys, points, selGeos);
+		defaultRotateAngle = DialogManagerD.rotateObject(app, inputPanel.getText(), rbClockWise.isSelected(), polys, points, selGeos);
 		
 		return true;
 		/*

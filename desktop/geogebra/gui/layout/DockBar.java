@@ -48,7 +48,7 @@ public class DockBar extends JPanel implements SetLabels, ActionListener {
 	private static final long serialVersionUID = 1L;
 
 	Application app;
-	private Layout layout;
+	private LayoutD layout;
 
 	private MyPopup popup;
 

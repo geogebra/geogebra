@@ -25,7 +25,7 @@ import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.common.main.MyError;
 import geogebra.gui.DynamicTextInputPane;
 import geogebra.gui.DynamicTextInputPane.DynamicTextField;
-import geogebra.gui.GuiManager;
+import geogebra.gui.GuiManagerD;
 import geogebra.gui.util.GeoGebraIcon;
 import geogebra.gui.util.LatexTable;
 import geogebra.gui.util.PopupMenuButton;
@@ -865,7 +865,7 @@ public class TextInputDialog extends InputDialog implements DocumentListener {
 	}
 
 	public void updateFonts() {
-		GuiManager.setFontRecursive(this, app.getPlainFont());
+		GuiManagerD.setFontRecursive(this, app.getPlainFont());
 		buildInsertGeoButton();
 		updateInsertLaTeXButtonLabels();
 		buildInsertUnicodeButton();

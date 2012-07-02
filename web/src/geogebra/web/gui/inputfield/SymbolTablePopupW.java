@@ -9,14 +9,14 @@ import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.PopupPanel;
 
-public class SymbolTablePopup extends PopupPanel implements ClickHandler {
+public class SymbolTablePopupW extends PopupPanel implements ClickHandler {
 	
 	Grid symbolTable = null;
 	private Application app;
-	private AutoCompleteTextField textField;
+	private AutoCompleteTextFieldW textField;
 
-	public SymbolTablePopup(Application app,
-            AutoCompleteTextField autoCompleteTextField) {
+	public SymbolTablePopupW(Application app,
+            AutoCompleteTextFieldW autoCompleteTextField) {
 	   this.app = app;
 	   this.textField = autoCompleteTextField;
 	   createSymbolTable();

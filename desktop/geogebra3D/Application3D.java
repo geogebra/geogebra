@@ -25,7 +25,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import geogebra.common.kernel.kernelND.ViewCreator;
 import geogebra.euclidian.EuclidianControllerD;
-import geogebra.gui.GuiManager;
+import geogebra.gui.GuiManagerD;
 import geogebra.main.AppletImplementation;
 import geogebra.main.Application;
 import geogebra.main.GlobalKeyDispatcherD;
@@ -262,7 +262,7 @@ public class Application3D extends Application {
 	}
 
 	@Override
-	protected GuiManager newGuiManager() {
+	protected GuiManagerD newGuiManager() {
 		return new GuiManager3D(this);
 	}
 

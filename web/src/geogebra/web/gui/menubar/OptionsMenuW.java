@@ -14,12 +14,12 @@ import com.google.gwt.user.client.ui.MenuItem;
 /**
  * The "Options" menu.
  */
-public class OptionsMenu extends MenuBar{
+public class OptionsMenuW extends MenuBar{
 	
 	private static AbstractApplication app;
 	static Kernel kernel;
 	
-	private LanguageMenu languageMenu;
+	private LanguageMenuW languageMenu;
 	private RadioButtonMenuBar menuPointCapturing;
 	private RadioButtonMenuBar menuDecimalPlaces;
 	
@@ -27,7 +27,7 @@ public class OptionsMenu extends MenuBar{
 	 * Constructs the "Option" menu
 	 * @param app Application instance
 	 */
-	public OptionsMenu(AbstractApplication app) {
+	public OptionsMenuW(AbstractApplication app) {
 
 		super(true);
 	    this.app = app;
@@ -48,8 +48,8 @@ public class OptionsMenu extends MenuBar{
 	}
 	
 	private void addLanguageMenu() {
-		languageMenu = new LanguageMenu(app);
-		addItem(GeoGebraMenubar.getMenuBarHtml(AppResources.INSTANCE
+		languageMenu = new LanguageMenuW(app);
+		addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE
 		        .empty().getSafeUri().asString(), app.getMenu("Language")), true, languageMenu);
 	}
 	
@@ -80,7 +80,7 @@ public class OptionsMenu extends MenuBar{
 			}
 		});
 				
-		MenuItem algebraDescription = new MenuItem(GeoGebraMenubar.getMenuBarHtml(AppResources.INSTANCE
+		MenuItem algebraDescription = new MenuItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE
 		        .empty().getSafeUri().asString(), app.getMenu("AlgebraDescriptions")),
 		        true, submenu);		
 		
@@ -129,7 +129,7 @@ public class OptionsMenu extends MenuBar{
 				"1 PointCapturing", "2 PointCapturing", "0 PointCapturing" };
 		menuPointCapturing.addRadioButtonMenuItems(this,
 				strPointCapturing, strPointCapturingAC, 0);		
-		addItem(GeoGebraMenubar.getMenuBarHtml(AppResources.INSTANCE
+		addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE
 		        .magnet2().getSafeUri().asString(), app.getMenu("PointCapturing")),
 		        true, menuPointCapturing);
 		updateMenuPointCapturing();
@@ -182,7 +182,7 @@ public class OptionsMenu extends MenuBar{
 				strDecimalSpaces, AbstractApplication.strDecimalSpacesAC, 0);
 
 		
-		addItem(GeoGebraMenubar.getMenuBarHtml(AppResources.INSTANCE
+		addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE
 		        .empty().getSafeUri().asString(), app.getMenu("Rounding")),
 		        true, menuDecimalPlaces);
 		

@@ -18,7 +18,7 @@ import geogebra.common.kernel.geos.GeoButton;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
 import geogebra.gui.editor.GeoGebraEditorPane;
-import geogebra.gui.inputfield.AutoCompleteTextField;
+import geogebra.gui.inputfield.AutoCompleteTextFieldD;
 import geogebra.gui.view.algebra.InputPanel;
 import geogebra.gui.view.algebra.MyComboBoxListener;
 import geogebra.main.Application;
@@ -108,8 +108,8 @@ public class ButtonDialog extends JDialog
 		String initString = button == null ? "" : button.getCaption(StringTemplate.defaultTemplate);
 		InputPanel ip = new InputPanel(initString, app, 1, 25, true);				
 		tfCaption = ip.getTextComponent();
-		if (tfCaption instanceof AutoCompleteTextField) {
-			AutoCompleteTextField atf = (AutoCompleteTextField) tfCaption;
+		if (tfCaption instanceof AutoCompleteTextFieldD) {
+			AutoCompleteTextFieldD atf = (AutoCompleteTextFieldD) tfCaption;
 			atf.setAutoComplete(false);
 		}
 		
@@ -195,8 +195,8 @@ public class ButtonDialog extends JDialog
 		// add a small margin
 		tfScript.setBorder(BorderFactory.createEmptyBorder(4,4,4,4));
 		
-		if (tfScript instanceof AutoCompleteTextField) {
-			AutoCompleteTextField atf = (AutoCompleteTextField) tfScript;
+		if (tfScript instanceof AutoCompleteTextFieldD) {
+			AutoCompleteTextFieldD atf = (AutoCompleteTextFieldD) tfScript;
 			atf.setAutoComplete(false);
 		}
 		

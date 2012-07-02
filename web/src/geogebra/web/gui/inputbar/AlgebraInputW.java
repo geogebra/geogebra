@@ -11,7 +11,7 @@ import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.MyError;
 import geogebra.common.main.GWTKeycodes;
-import geogebra.web.gui.inputfield.AutoCompleteTextField;
+import geogebra.web.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.web.gui.view.algebra.InputPanel;
 import geogebra.web.main.Application;
 
@@ -32,18 +32,18 @@ import com.google.gwt.user.client.ui.ToggleButton;
  * InputBar for GeoGebraWeb
  *
  */
-public class AlgebraInput extends HorizontalPanel implements KeyUpHandler, FocusHandler, ClickHandler {
+public class AlgebraInputW extends HorizontalPanel implements KeyUpHandler, FocusHandler, ClickHandler {
 	
 	private Application app;
 	private Label inputLabel;
 	private InputPanel inputPanel;
-	private AutoCompleteTextField inputField;
+	private AutoCompleteTextFieldW inputField;
 	private ToggleButton btnHelpToggle;
 
 	/**
 	 * Creates AlgebraInput for Web
 	 */
-	AlgebraInput() {
+	AlgebraInputW() {
 		super();	
 	}
 	
@@ -246,7 +246,7 @@ public class AlgebraInput extends HorizontalPanel implements KeyUpHandler, Focus
 
 		if (source == btnHelpToggle) { 
 			if(btnHelpToggle.isDown()){
-				InputBarHelpPanel helpPanel = (InputBarHelpPanel) app.getGuiManager().getInputHelpPanel();
+				InputBarHelpPanelW helpPanel = (InputBarHelpPanelW) app.getGuiManager().getInputHelpPanel();
 				helpPanel.setLabels();
 				helpPanel.setCommands();
 				app.setShowInputHelpPanel(true);

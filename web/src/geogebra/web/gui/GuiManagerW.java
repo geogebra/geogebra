@@ -3,6 +3,7 @@ package geogebra.web.gui;
 import geogebra.common.awt.GPoint;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.euclidian.event.AbstractEvent;
+import geogebra.common.gui.GuiManager;
 import geogebra.common.gui.dialog.DialogManager;
 import geogebra.common.gui.view.properties.PropertiesView;
 import geogebra.common.javax.swing.GTextComponent;
@@ -15,10 +16,10 @@ import geogebra.web.gui.app.GGWMenuBar;
 import geogebra.web.gui.app.GGWToolBar;
 import geogebra.web.gui.dialog.ImageFileInputDialog;
 import geogebra.web.gui.dialog.InputDialogOpenURL;
-import geogebra.web.gui.inputbar.AlgebraInput;
-import geogebra.web.gui.inputbar.InputBarHelpPanel;
-import geogebra.web.gui.layout.Layout;
-import geogebra.web.gui.menubar.GeoGebraMenubar;
+import geogebra.web.gui.inputbar.AlgebraInputW;
+import geogebra.web.gui.inputbar.InputBarHelpPanelW;
+import geogebra.web.gui.layout.LayoutW;
+import geogebra.web.gui.menubar.GeoGebraMenubarW;
 import geogebra.web.gui.properties.PropertiesViewW;
 import geogebra.web.gui.util.GeoGebraFileChooser;
 import geogebra.web.gui.view.algebra.AlgebraController;
@@ -29,9 +30,9 @@ import java.util.ArrayList;
 
 import com.google.gwt.user.client.ui.AbsolutePanel;
 
-public class GuiManager extends geogebra.common.gui.GuiManager {
+public class GuiManagerW extends GuiManager {
 
-	private DialogManagerWeb dialogManager;
+	private DialogManagerW dialogManager;
 
 	protected Kernel kernel;
 
@@ -43,9 +44,9 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 	private int width;
 	private int height;
 
-	private Layout layout;
+	private LayoutW layout;
 
-	public GuiManager(AbstractApplication app) {
+	public GuiManagerW(AbstractApplication app) {
 		this.app = app;
 		this.kernel = app.getKernel();
 		
@@ -81,7 +82,7 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 	
 	@Override
 	public void updateMenubar() {
-		GeoGebraMenubar menuBar = GGWMenuBar.getMenubar();
+		GeoGebraMenubarW menuBar = GGWMenuBar.getMenubar();
 		if (menuBar != null)
 			menuBar.updateMenubar();
 	}
@@ -292,19 +293,19 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 	    
     }
 	
-	public void setLayout(Layout layout) {
+	public void setLayout(LayoutW layout) {
 		this.layout = layout;
 	}
 
-	public Layout getLayout() {
+	public LayoutW getLayout() {
 		return layout;
 	}
 	
 	private GGWToolBar toolbarPanel = null;
 
-	private InputBarHelpPanel inputHelpPanel;
+	private InputBarHelpPanelW inputHelpPanel;
 
-	private AlgebraInput algebraInput;
+	private AlgebraInputW algebraInput;
 	
 	public GGWToolBar getToolbarPanel() {
 		if (toolbarPanel == null) {
@@ -333,9 +334,9 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 	
 	
 
-	public InputBarHelpPanel getInputHelpPanel() {
+	public InputBarHelpPanelW getInputHelpPanel() {
 		if (inputHelpPanel == null)
-			inputHelpPanel = new InputBarHelpPanel(app);
+			inputHelpPanel = new InputBarHelpPanelW(app);
 		return inputHelpPanel;
     }
 
@@ -444,11 +445,11 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 	    
     }
 
-	public void addAlgebraInput(AlgebraInput ai) {
+	public void addAlgebraInput(AlgebraInputW ai) {
 	    this.algebraInput = ai;
     }
 
-	public AlgebraInput getAlgebraInput() {
+	public AlgebraInputW getAlgebraInput() {
 	    return algebraInput;
     }
 
@@ -457,7 +458,7 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 		app.setWaitCursor();
 		//String fileName = Window.prompt("File name", "Bunny");
 		//do saving here if getBase64 will be good
-		GeoGebraFileChooser fileChooser = ((DialogManagerWeb)app.getDialogManager()).getFileChooser();
+		GeoGebraFileChooser fileChooser = ((DialogManagerW)app.getDialogManager()).getFileChooser();
 		if (((Application) app).getFileName() != null) {
 			fileChooser.setFileName(((Application) app).getFileName());
 		} else {

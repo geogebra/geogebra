@@ -22,7 +22,7 @@ import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.MyError;
 import geogebra.gui.app.GeoGebraFrame;
-import geogebra.gui.inputfield.AutoCompleteTextField;
+import geogebra.gui.inputfield.AutoCompleteTextFieldD;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.gui.view.algebra.AlgebraInputDropTargetListener;
 import geogebra.gui.view.algebra.InputPanel;
@@ -55,7 +55,7 @@ public class AlgebraInput extends  JPanel implements ActionListener, KeyListener
 	private Application app;
 
 	// autocompletion text field
-	private AutoCompleteTextField inputField;
+	private AutoCompleteTextFieldD inputField;
 
 	private JLabel inputLabel;
 	private JToggleButton btnHelpToggle;
@@ -81,7 +81,7 @@ public class AlgebraInput extends  JPanel implements ActionListener, KeyListener
 		inputPanel = new InputPanel(null, app, 30, true);
 
 		// create and set up the input field
-		inputField = (AutoCompleteTextField) inputPanel.getTextComponent();			
+		inputField = (AutoCompleteTextFieldD) inputPanel.getTextComponent();			
 		inputField.setEditable(true);						
 		inputField.addKeyListener(this);
 		inputField.addFocusListener(this);
@@ -157,7 +157,7 @@ public class AlgebraInput extends  JPanel implements ActionListener, KeyListener
 		inputField.setText(null);
 	}		
 
-	public AutoCompleteTextField getTextField() {
+	public AutoCompleteTextFieldD getTextField() {
 		return inputField;
 	}
 

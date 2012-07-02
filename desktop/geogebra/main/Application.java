@@ -61,7 +61,7 @@ import geogebra.euclidian.EuclidianViewD;
 import geogebra.euclidianND.EuclidianViewND;
 import geogebra.export.GeoGebraTubeExportDesktop;
 import geogebra.export.WorksheetExportDialog;
-import geogebra.gui.GuiManager;
+import geogebra.gui.GuiManagerD;
 import geogebra.gui.app.GeoGebraFrame;
 import geogebra.gui.inputbar.AlgebraInput;
 import geogebra.gui.layout.DockBar;
@@ -292,7 +292,7 @@ public class Application extends AbstractApplication implements
 	private static AppletImplementation appletImpl;
 	private final FontManager fontManager;
 
-	protected GuiManager guiManager;
+	protected GuiManagerD guiManager;
 	
 
 	Component mainComp;
@@ -690,20 +690,20 @@ public class Application extends AbstractApplication implements
 	final protected void initGuiManager() {
 		setWaitCursor();
 		guiManager = newGuiManager();
-		guiManager.setLayout(new geogebra.gui.layout.Layout());
+		guiManager.setLayout(new geogebra.gui.layout.LayoutD());
 		guiManager.initialize();
 		setDefaultCursor();
 	}
 
-	protected GuiManager newGuiManager() {
-		return new GuiManager(Application.this);
+	protected GuiManagerD newGuiManager() {
+		return new GuiManagerD(Application.this);
 	}
 
 	/**
 	 * @return this application's GUI manager.
 	 */
 	@Override
-	final public synchronized GuiManager getGuiManager() {
+	final public synchronized GuiManagerD getGuiManager() {
 		return guiManager;
 	}
 

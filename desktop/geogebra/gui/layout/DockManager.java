@@ -30,7 +30,7 @@ import javax.swing.SwingUtilities;
  */
 public class DockManager implements AWTEventListener, SetLabels {
 	private Application app;
-	private Layout layout;
+	private LayoutD layout;
 	
 	/**
 	 * False if the application is running in unsigned mode. We can only listen to 
@@ -66,7 +66,7 @@ public class DockManager implements AWTEventListener, SetLabels {
 	/**
 	 * @param layout
 	 */
-	public DockManager(Layout layout) {
+	public DockManager(LayoutD layout) {
 		this.layout = layout;
 		this.app = layout.getApplication();
 		
@@ -102,7 +102,7 @@ public class DockManager implements AWTEventListener, SetLabels {
 	 * @param spData
 	 * @param dpData
 	 * 
-	 * @see Layout#applyPerspective(geogebra.io.layout.Perspective)
+	 * @see LayoutD#applyPerspective(geogebra.io.layout.Perspective)
 	 */
 	public void applyPerspective(DockSplitPaneData[] spData, DockPanelData[] dpData) {		
 		if(dockPanels != null) {			
@@ -1146,7 +1146,7 @@ public class DockManager implements AWTEventListener, SetLabels {
 	/**
 	 * @return GeoGebraLayout instance
 	 */
-	public Layout getLayout() {
+	public LayoutD getLayout() {
 		return layout;
 	}
 	

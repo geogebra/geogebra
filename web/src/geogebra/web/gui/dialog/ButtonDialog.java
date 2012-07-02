@@ -8,7 +8,7 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoButton;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
-import geogebra.web.gui.inputfield.AutoCompleteTextField;
+import geogebra.web.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.web.gui.view.algebra.InputPanel;
 import geogebra.web.main.Application;
 
@@ -26,7 +26,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class ButtonDialog extends PopupPanel implements ClickHandler{
 
-	private AutoCompleteTextField tfCaption; /* tfScript, tfScript2 */; 
+	private AutoCompleteTextFieldW tfCaption; /* tfScript, tfScript2 */; 
 	private HorizontalPanel btPanel;
 //	//private DefaultListModel listModel;
 //	private DefaultComboBoxModel comboModel;
@@ -69,8 +69,8 @@ public class ButtonDialog extends PopupPanel implements ClickHandler{
 		String initString = button == null ? "" : button.getCaption(StringTemplate.defaultTemplate);
 		InputPanel ip = new InputPanel(initString, app, 1, 25, true);				
 		tfCaption = ip.getTextComponent();
-		if (tfCaption instanceof AutoCompleteTextField) {
-			AutoCompleteTextField atf = (AutoCompleteTextField) tfCaption;
+		if (tfCaption instanceof AutoCompleteTextFieldW) {
+			AutoCompleteTextFieldW atf = (AutoCompleteTextFieldW) tfCaption;
 			atf.setAutoComplete(false);
 		}
 		

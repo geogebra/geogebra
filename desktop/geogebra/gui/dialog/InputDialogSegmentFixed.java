@@ -57,7 +57,7 @@ public class InputDialogSegmentFixed extends InputDialog{
 		cons.setSuppressLabelCreation(oldVal);
 
 		if (ret) { 
-			DialogManagerDesktop.doSegmentFixed(kernel, geoPoint1, ((NumberInputHandler)inputHandler).getNum());
+			DialogManagerD.doSegmentFixed(kernel, geoPoint1, ((NumberInputHandler)inputHandler).getNum());
 		}
 
 		return ret;

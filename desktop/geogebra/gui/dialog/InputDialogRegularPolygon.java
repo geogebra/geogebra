@@ -47,7 +47,7 @@ public class InputDialogRegularPolygon extends InputDialog{
 	
 	private boolean processInput() {
 		
-		return DialogManagerDesktop.makeRegularPolygon(app, inputPanel.getText(), geoPoint1, geoPoint2);
+		return DialogManagerD.makeRegularPolygon(app, inputPanel.getText(), geoPoint1, geoPoint2);
 		
 		/*
 		// avoid labeling of num

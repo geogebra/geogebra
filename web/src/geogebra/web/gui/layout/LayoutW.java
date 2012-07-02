@@ -1,16 +1,16 @@
 package geogebra.web.gui.layout;
 
-import java.util.ArrayList;
-
-
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
+import geogebra.common.gui.Layout;
 import geogebra.common.io.layout.Perspective;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.settings.AbstractSettings;
 import geogebra.common.main.settings.SettingListener;
 import geogebra.web.main.Application;
 
-public class Layout extends geogebra.common.gui.Layout implements SettingListener {
+import java.util.ArrayList;
+
+public class LayoutW extends Layout implements SettingListener {
 	
 	private boolean isInitialized = false;
 	
@@ -19,7 +19,7 @@ public class Layout extends geogebra.common.gui.Layout implements SettingListene
 	/**
 	 * instantiates layout for Web
 	 */
-	public Layout() {
+	public LayoutW() {
 		initializeDefaultPerspectives(false, true);
 		
 		this.perspectives = new ArrayList<Perspective>(defaultPerspectives.length);

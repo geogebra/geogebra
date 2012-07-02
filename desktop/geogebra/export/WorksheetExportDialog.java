@@ -19,7 +19,7 @@ import geogebra.common.main.AbstractApplication;
 import geogebra.common.util.StringUtil;
 import geogebra.euclidian.EuclidianViewD;
 import geogebra.euclidianND.EuclidianViewND;
-import geogebra.gui.GuiManager;
+import geogebra.gui.GuiManagerD;
 import geogebra.gui.TitlePanel;
 import geogebra.gui.app.GeoGebraFrame;
 import geogebra.gui.inputfield.MyTextField;
@@ -125,7 +125,7 @@ public class WorksheetExportDialog extends JDialog {
 	private boolean kernelChanged = false;
 	private JTabbedPane tabbedPane;
 	private GeoGebraPreferences ggbPref;
-	private GuiManager guiManager;
+	private GuiManagerD guiManager;
 	private boolean removeLineBreaks;
 	private MyTextField titleField;
 	private TitlePanel titlePanel;

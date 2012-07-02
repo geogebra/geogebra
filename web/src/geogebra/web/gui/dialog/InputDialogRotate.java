@@ -6,8 +6,8 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.util.Unicode;
-import geogebra.web.gui.DialogManagerWeb;
-import geogebra.web.gui.inputfield.AutoCompleteTextField;
+import geogebra.web.gui.DialogManagerW;
+import geogebra.web.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.web.main.Application;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -73,7 +73,7 @@ public class InputDialogRotate extends AngleInputDialog implements KeyUpHandler 
 
 	private boolean processInput() {
 		
-		defaultRotateAngle = DialogManagerWeb.rotateObject(app, inputPanel.getText(), rbClockWise.getValue(), polys, points, selGeos);
+		defaultRotateAngle = DialogManagerW.rotateObject(app, inputPanel.getText(), rbClockWise.getValue(), polys, points, selGeos);
 		
 		return true;
 		/*
@@ -169,7 +169,7 @@ public class InputDialogRotate extends AngleInputDialog implements KeyUpHandler 
 			e.getNativeKeyCode() > 105)
 			return;
 
-		AutoCompleteTextField tc = inputPanel.getTextComponent();
+		AutoCompleteTextFieldW tc = inputPanel.getTextComponent();
 		String text = tc.getText();
 
 		// if text already contains degree symbol or variable

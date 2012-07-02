@@ -12,7 +12,7 @@ public class SwingFactory extends geogebra.common.factories.SwingFactory {
 	@Override
 	public AutoCompleteTextField newAutoCompleteTextField(int length,
 	        AbstractApplication application, Drawable drawTextField) {
-		return new geogebra.web.gui.inputfield.AutoCompleteTextField(length, application, drawTextField);
+		return new geogebra.web.gui.inputfield.AutoCompleteTextFieldW(length, application, drawTextField);
 	}
 
 	@Override

@@ -3,7 +3,7 @@ package geogebra.web.gui.app;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.main.AbstractApplication;
 import geogebra.web.gui.images.AppResources;
-import geogebra.web.gui.menubar.GeoGebraMenubar;
+import geogebra.web.gui.menubar.GeoGebraMenubarW;
 import geogebra.web.gui.toolbar.ToolBar;
 import geogebra.web.gui.toolbar.images.MyIconResourceBundle;
 

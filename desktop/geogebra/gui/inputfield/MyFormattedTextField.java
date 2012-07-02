@@ -1,7 +1,7 @@
 package geogebra.gui.inputfield;
 
 import geogebra.common.gui.VirtualKeyboardListener;
-import geogebra.gui.GuiManager;
+import geogebra.gui.GuiManagerD;
 import geogebra.gui.virtualkeyboard.VirtualKeyboard;
 
 import java.awt.event.FocusEvent;
@@ -14,9 +14,9 @@ public class MyFormattedTextField extends JFormattedTextField implements FocusLi
 	
 	private static final long serialVersionUID = 1L;
 	
-	GuiManager guiManager;
+	GuiManagerD guiManager;
 	
-	public MyFormattedTextField(GuiManager guiManager) {
+	public MyFormattedTextField(GuiManagerD guiManager) {
 		super();
 		this.guiManager = guiManager;
 		addFocusListener(this);
@@ -24,7 +24,7 @@ public class MyFormattedTextField extends JFormattedTextField implements FocusLi
 		
 	}
 
-	public MyFormattedTextField(GuiManager guiManager, DateFormat date) {
+	public MyFormattedTextField(GuiManagerD guiManager, DateFormat date) {
 		super(date);
 		this.guiManager = guiManager;
 		addFocusListener(this);

@@ -36,7 +36,7 @@ public class BoxD extends geogebra.common.javax.swing.GBox {
 
 	@Override
 	public void add(AutoCompleteTextField textField) {
-		impl.add((geogebra.gui.inputfield.AutoCompleteTextField)textField);
+		impl.add((geogebra.gui.inputfield.AutoCompleteTextFieldD)textField);
 		
 	}
 

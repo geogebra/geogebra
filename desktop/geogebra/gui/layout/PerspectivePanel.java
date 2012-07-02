@@ -17,7 +17,7 @@ import javax.swing.SwingConstants;
 public class PerspectivePanel extends JPanel {
 
 	private Application app;
-	private Layout layout;
+	private LayoutD layout;
 	private DockBar dockBar;
 	
 	private JPanel btnPanel;

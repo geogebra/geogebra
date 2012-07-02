@@ -3,10 +3,11 @@ package geogebra.gui;
 import geogebra.CommandLineArguments;
 import geogebra.cas.view.CASView;
 import geogebra.common.GeoGebraConstants;
-import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.euclidian.event.AbstractEvent;
+import geogebra.common.gui.GuiManager;
 import geogebra.common.gui.SetLabels;
 import geogebra.common.gui.VirtualKeyboardListener;
 import geogebra.common.kernel.Construction;
@@ -28,12 +29,12 @@ import geogebra.euclidianND.EuclidianViewND;
 import geogebra.gui.app.GeoGebraFrame;
 import geogebra.gui.app.MyFileFilter;
 import geogebra.gui.color.GeoGebraColorChooser;
-import geogebra.gui.dialog.DialogManagerDesktop;
+import geogebra.gui.dialog.DialogManagerD;
 import geogebra.gui.dialog.InputDialog;
 import geogebra.gui.dialog.InputDialogOpenURL;
 import geogebra.gui.inputbar.AlgebraInput;
 import geogebra.gui.inputbar.InputBarHelpPanel;
-import geogebra.gui.layout.Layout;
+import geogebra.gui.layout.LayoutD;
 import geogebra.gui.layout.panels.AlgebraDockPanel;
 import geogebra.gui.layout.panels.CasDockPanel;
 import geogebra.gui.layout.panels.ConstructionProtocolDockPanel;
@@ -112,15 +113,15 @@ import javax.swing.SwingUtilities;
  * This is done to be able to put class files of geogebra.gui.* packages into a
  * separate gui jar file.
  */
-public class GuiManager extends geogebra.common.gui.GuiManager {
+public class GuiManagerD extends GuiManager {
 	
 	private static boolean USE_COMPRESSED_VIEW = true;
 	private static int CV_UPDATES_PER_SECOND = 10;
 
 	protected Kernel kernel;
 
-	protected DialogManagerDesktop dialogManager;
-	protected DialogManagerDesktop.Factory dialogManagerFactory;
+	protected DialogManagerD dialogManager;
+	protected DialogManagerD.Factory dialogManagerFactory;
 
 	private AlgebraInput algebraInput;
 	private AlgebraController algebraController;
@@ -137,7 +138,7 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 	private ToolbarContainer toolbarPanel;
 	private boolean htmlLoaded;// see #126
 
-	private Layout layout;
+	private LayoutD layout;
 
 	private ProbabilityCalculator probCalculator;
 
@@ -157,14 +158,14 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 	private AbstractAction showAxesAction, showGridAction, undoAction,
 			redoAction;
 
-	public GuiManager(Application app) {
+	public GuiManagerD(Application app) {
 		this.app = app;
 		this.kernel = app.getKernel();
 
 		// this flag prevents closing opened webpage without save (see #126)
 		htmlLoaded = false;
 
-		dialogManagerFactory = new DialogManagerDesktop.Factory();
+		dialogManagerFactory = new DialogManagerD.Factory();
 	}
 
 	/**
@@ -780,7 +781,7 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 	 * use Application.getDialogManager() instead
 	 */
 	@Deprecated
-	public DialogManagerDesktop getDialogManager() {
+	public DialogManagerD getDialogManager() {
 		return dialogManager;
 	}
 
@@ -794,11 +795,11 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 		}
 	}
 
-	public void setLayout(Layout layout) {
+	public void setLayout(LayoutD layout) {
 		this.layout = layout;
 	}
 
-	public Layout getLayout() {
+	public LayoutD getLayout() {
 		return layout;
 	}
 

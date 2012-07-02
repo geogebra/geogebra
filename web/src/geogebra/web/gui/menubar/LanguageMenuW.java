@@ -10,7 +10,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
 
-public class LanguageMenu extends MenuBar {
+public class LanguageMenuW extends MenuBar {
 	
 	private AbstractApplication app;
 	
@@ -21,7 +21,7 @@ public class LanguageMenu extends MenuBar {
 	
 
 	
-	public LanguageMenu(AbstractApplication app) {
+	public LanguageMenuW(AbstractApplication app) {
 		
 		super(true);
 		this.app = app;
@@ -77,13 +77,13 @@ public class LanguageMenu extends MenuBar {
 
 					if(ch <= 'D') {
 
-						atoDMenuBar.addItem(GeoGebraMenubar.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),languageName),true,new LanguageCommand(languageCode));
+						atoDMenuBar.addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),languageName),true,new LanguageCommand(languageCode));
 					} else if(ch <= 'I') {
-						etoIMenuBar.addItem(GeoGebraMenubar.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),languageName),true,new LanguageCommand(languageCode));
+						etoIMenuBar.addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),languageName),true,new LanguageCommand(languageCode));
 					} else if(ch <= 'Q') {
-						jtoQMenuBar.addItem(GeoGebraMenubar.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),languageName),true,new LanguageCommand(languageCode));
+						jtoQMenuBar.addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),languageName),true,new LanguageCommand(languageCode));
 					} else {
-						rtoZMenuBar.addItem(GeoGebraMenubar.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),languageName),true,new LanguageCommand(languageCode));
+						rtoZMenuBar.addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),languageName),true,new LanguageCommand(languageCode));
 					}
 
 				}

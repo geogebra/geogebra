@@ -2,7 +2,7 @@ package geogebra.gui.dialog.options;
 
 import geogebra.common.gui.SetLabels;
 import geogebra.common.kernel.ConstructionDefaults;
-import geogebra.gui.GuiManager;
+import geogebra.gui.GuiManagerD;
 import geogebra.gui.color.GeoGebraColorChooser;
 import geogebra.gui.dialog.PropertiesPanel;
 import geogebra.main.Application;
@@ -297,7 +297,7 @@ public class OptionsDefaults extends JPanel implements OptionPanel, TreeSelectio
 		listNode.setUserObject(app.getPlain("List"));
 		inequalitiesNode.setUserObject(app.getPlain("Inequality"));
 
-		GuiManager.setLabelsRecursive(propPanel);
+		GuiManagerD.setLabelsRecursive(propPanel);
 		// propPanel.setLabels();
 	}
 

@@ -8,13 +8,13 @@ import com.google.gwt.event.dom.client.KeyUpHandler;
 
 // Later this shall inherit from MyTextField instead of TextBox
 
-public class AngleTextField extends TextBox implements KeyUpHandler {
+public class AngleTextFieldW extends TextBox implements KeyUpHandler {
 
 	private static final long serialVersionUID = 1L;
 
 	Application app;
 
-	public AngleTextField(int columns, Application app) {
+	public AngleTextFieldW(int columns, Application app) {
 		super();
 		this.app = app;
 		setVisibleLength(columns);

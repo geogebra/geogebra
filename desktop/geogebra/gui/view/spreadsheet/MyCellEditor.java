@@ -5,7 +5,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import geogebra.common.main.AbstractApplication;
-import geogebra.gui.inputfield.AutoCompleteTextField;
+import geogebra.gui.inputfield.AutoCompleteTextFieldD;
 import geogebra.gui.virtualkeyboard.VirtualKeyboard;
 import geogebra.main.Application;
 
@@ -33,7 +33,7 @@ public class MyCellEditor extends DefaultCellEditor implements FocusListener {
 	protected Application app;
 	protected GeoElement value;
 	protected MyTable table;
-	private AutoCompleteTextField textField;
+	private AutoCompleteTextFieldD textField;
 
 	protected int column;
 	protected int row;
@@ -53,10 +53,10 @@ public class MyCellEditor extends DefaultCellEditor implements FocusListener {
 
 	public MyCellEditor(Kernel kernel) {
 
-		super(new AutoCompleteTextField(0, (Application)kernel.getApplication(), false));
+		super(new AutoCompleteTextFieldD(0, (Application)kernel.getApplication(), false));
 		this.kernel = kernel;
 		app = (Application)kernel.getApplication();
-		textField = (AutoCompleteTextField) editorComponent;
+		textField = (AutoCompleteTextFieldD) editorComponent;
 
 		editorComponent.addKeyListener(new SpreadsheetCellEditorKeyListener(false));		
 		editorComponent.addFocusListener(this);

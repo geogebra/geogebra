@@ -21,8 +21,8 @@ import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.web.gui.AngleTextField;
-import geogebra.web.gui.DialogManagerWeb;
+import geogebra.web.gui.AngleTextFieldW;
+import geogebra.web.gui.DialogManagerW;
 import geogebra.web.main.Application;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -52,7 +52,7 @@ implements ClickHandler, ChangeHandler, ValueChangeHandler<Boolean>
 	private static final long serialVersionUID = 1L;
 	private Button btApply, btCancel;
 	private RadioButton rbNumber, rbAngle, rbInteger;
-	private AngleTextField min, max, inc;
+	private AngleTextFieldW min, max, inc;
 	private InlineLabel minLabel, maxLabel, incLabel;
 	private HorizontalPanel minPanel, maxPanel, incPanel;
 
@@ -89,8 +89,8 @@ implements ClickHandler, ChangeHandler, ValueChangeHandler<Boolean>
 		
 		number = new GeoNumeric(cons);
 		angle = new GeoAngle(cons);
-		DialogManagerWeb.setSliderFromDefault(number,false);
-		DialogManagerWeb.setSliderFromDefault(angle,true);
+		DialogManagerW.setSliderFromDefault(number,false);
+		DialogManagerW.setSliderFromDefault(angle,true);
 		number.setValue(1);
 		angle.setValue(45 * Math.PI/180);
 			
@@ -144,21 +144,21 @@ implements ClickHandler, ChangeHandler, ValueChangeHandler<Boolean>
 		minPanel.setHorizontalAlignment(HorizontalPanel.ALIGN_RIGHT);
 		minPanel.setVerticalAlignment(VerticalPanel.ALIGN_MIDDLE);
 		minPanel.add(minLabel = new InlineLabel(app.getPlain("min")+": "));
-		minPanel.add(min = new AngleTextField(6, app));
+		minPanel.add(min = new AngleTextFieldW(6, app));
 		minPanel.getElement().getStyle().setMargin(3, Style.Unit.PX);
 		min.addChangeHandler(this);
 
 		maxPanel.setHorizontalAlignment(HorizontalPanel.ALIGN_RIGHT);
 		maxPanel.setVerticalAlignment(VerticalPanel.ALIGN_MIDDLE);
 		maxPanel.add(maxLabel = new InlineLabel(app.getPlain("max")+": "));
-		maxPanel.add(max = new AngleTextField(6, app));
+		maxPanel.add(max = new AngleTextFieldW(6, app));
 		maxPanel.getElement().getStyle().setMargin(3, Style.Unit.PX);
 		max.addChangeHandler(this);
 
 		incPanel.setHorizontalAlignment(HorizontalPanel.ALIGN_RIGHT);
 		incPanel.setVerticalAlignment(VerticalPanel.ALIGN_MIDDLE);
 		incPanel.add(incLabel = new InlineLabel(app.getPlain("AnimationStep") + ": "));
-		incPanel.add(inc = new AngleTextField(6, app));
+		incPanel.add(inc = new AngleTextFieldW(6, app));
 		incPanel.getElement().getStyle().setMargin(3, Style.Unit.PX);
 		inc.addChangeHandler(this);
 

@@ -25,14 +25,14 @@ import com.google.gwt.user.client.ui.MenuItem;
  */
 
 
-public class GeoGebraMenubar extends MenuBar {
+public class GeoGebraMenubarW extends MenuBar {
 	
 	
 		private AbstractApplication app;
-		private FileMenu fileMenu;
-		private EditMenu editMenu;
-		private HelpMenu helpMenu;
-		private OptionsMenu optionsMenu;
+		private FileMenuW fileMenu;
+		private EditMenuW editMenu;
+		private HelpMenuW helpMenu;
+		private OptionsMenuW optionsMenu;
 
 		/**
 		 * public static to add relative position for the descriptions.
@@ -40,7 +40,7 @@ public class GeoGebraMenubar extends MenuBar {
 		public static MenuItem loginToGoogle;
 		private MenuItem linktoggb;
 
-		public GeoGebraMenubar(AbstractApplication app) {
+		public GeoGebraMenubarW(AbstractApplication app) {
 	        super();
 	        this.app = app;
 	        init();
@@ -221,22 +221,22 @@ public class GeoGebraMenubar extends MenuBar {
         }
 
 		private void createFileMenu(boolean enabled) {
-	        fileMenu = new FileMenu(app, enabled);
+	        fileMenu = new FileMenuW(app, enabled);
 			addItem(app.getMenu("File"),fileMenu);
         }
 
 		private void createEditMenu() {
-			editMenu = new EditMenu(app);
+			editMenu = new EditMenuW(app);
 			addItem(app.getMenu("Edit"), editMenu);
 		}
 		
 		private void createHelpMenu() {
-	        helpMenu = new HelpMenu(app);
+	        helpMenu = new HelpMenuW(app);
 			addItem(app.getMenu("Help"),helpMenu);
         }
 		
 		private void createOptionsMenu() {
-			optionsMenu = new OptionsMenu(app);
+			optionsMenu = new OptionsMenuW(app);
 			addItem(app.getMenu("Options"), optionsMenu);
 		}
 		

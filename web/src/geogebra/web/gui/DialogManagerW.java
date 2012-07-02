@@ -21,7 +21,7 @@ import geogebra.web.gui.dialog.InputDialogAngleFixed;
 import geogebra.web.gui.dialog.InputDialogRotate;
 import geogebra.web.gui.dialog.AngleInputDialog;
 import geogebra.web.gui.dialog.SliderDialog;
-import geogebra.web.gui.menubar.GeoGebraMenubar;
+import geogebra.web.gui.menubar.GeoGebraMenubarW;
 import geogebra.web.gui.util.GeoGebraFileChooser;
 import geogebra.web.gui.util.GoogleFileDescriptors;
 import geogebra.web.main.Application;
@@ -32,9 +32,9 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.PopupPanel.PositionCallback;
 
-public class DialogManagerWeb extends DialogManager {
+public class DialogManagerW extends DialogManager {
 
-	public DialogManagerWeb(AbstractApplication app) {
+	public DialogManagerW(AbstractApplication app) {
 	    super(app);
     }
 
@@ -241,7 +241,7 @@ public class DialogManagerWeb extends DialogManager {
 	   } else {
 		   googleFileDescriptors.setFileName(driveBase64FileName);
 		   googleFileDescriptors.setDescription(driveBase64description);
-		   MenuItem lg = GeoGebraMenubar.loginToGoogle;
+		   MenuItem lg = GeoGebraMenubarW.loginToGoogle;
 		   final int top = lg.getElement().getOffsetTop();
 		   final int left = lg.getElement().getOffsetLeft();
 		   googleFileDescriptors.setPopupPositionAndShow(new PositionCallback() {

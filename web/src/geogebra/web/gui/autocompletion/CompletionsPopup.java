@@ -10,11 +10,11 @@ import com.google.gwt.user.client.ui.SuggestOracle;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 import geogebra.common.main.AbstractApplication;
-import geogebra.web.gui.inputfield.AutoCompleteTextField;
+import geogebra.web.gui.inputfield.AutoCompleteTextFieldW;
 
 public class CompletionsPopup extends MultiWordSuggestOracle {
 
-	private AutoCompleteTextField textField;
+	private AutoCompleteTextFieldW textField;
 	private VerticalPanel list;
 
 	public CompletionsPopup() {
@@ -38,7 +38,7 @@ public class CompletionsPopup extends MultiWordSuggestOracle {
 		}
     }
 
-	public void addTextField(AutoCompleteTextField autoCompleteTextField) {
+	public void addTextField(AutoCompleteTextFieldW autoCompleteTextField) {
 	  this.textField = autoCompleteTextField;
     }
 

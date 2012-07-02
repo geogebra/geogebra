@@ -19,7 +19,7 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.GeoElementSelectionListener;
 import geogebra.common.util.StringUtil;
-import geogebra.gui.inputfield.AutoCompleteTextField;
+import geogebra.gui.inputfield.AutoCompleteTextFieldD;
 import geogebra.gui.util.HelpAction;
 import geogebra.gui.view.algebra.InputPanel;
 import geogebra.gui.view.algebra.InputPanel.DialogType;
@@ -219,8 +219,8 @@ public class InputDialog extends JDialog implements ActionListener,
 
 		// add listeners to textfield
 		JTextComponent textComp = inputPanel.getTextComponent();
-		if (textComp instanceof AutoCompleteTextField) {
-			AutoCompleteTextField tf = (AutoCompleteTextField) textComp;
+		if (textComp instanceof AutoCompleteTextFieldD) {
+			AutoCompleteTextFieldD tf = (AutoCompleteTextFieldD) textComp;
 			tf.setAutoComplete(autoComplete);
 			tf.addActionListener(this);
 		}

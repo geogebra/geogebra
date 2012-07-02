@@ -4,11 +4,11 @@ import geogebra.common.main.AbstractApplication;
 
 import com.google.gwt.user.client.ui.HorizontalPanel;
 
-public class InputBarHelpPanel extends HorizontalPanel {
+public class InputBarHelpPanelW extends HorizontalPanel {
 
 	private AbstractApplication app;
 
-	public InputBarHelpPanel(AbstractApplication app) {
+	public InputBarHelpPanelW(AbstractApplication app) {
 		super();
 		this.app = app;
     }

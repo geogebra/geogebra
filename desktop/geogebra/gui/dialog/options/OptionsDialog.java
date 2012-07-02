@@ -1,7 +1,7 @@
 package geogebra.gui.dialog.options;
 
 import geogebra.common.gui.SetLabels;
-import geogebra.gui.GuiManager;
+import geogebra.gui.GuiManagerD;
 import geogebra.gui.util.IconTabbedPane;
 import geogebra.main.Application;
 import geogebra.main.GeoGebraPreferences;
@@ -337,7 +337,7 @@ public class OptionsDialog extends JDialog implements WindowListener, SetLabels 
 		tabbedPane.setTitleAt(TAB_CAS, app.getMenu("CAS"));
 		tabbedPane.setTitleAt(TAB_ADVANCED, app.getMenu("Advanced"));
 
-		GuiManager.setLabelsRecursive(this);
+		GuiManagerD.setLabelsRecursive(this);
 	}
 
 	/**

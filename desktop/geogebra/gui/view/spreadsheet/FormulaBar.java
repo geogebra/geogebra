@@ -3,7 +3,7 @@ package geogebra.gui.view.spreadsheet;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import geogebra.common.main.AbstractApplication;
-import geogebra.gui.inputfield.AutoCompleteTextField;
+import geogebra.gui.inputfield.AutoCompleteTextFieldD;
 import geogebra.main.Application;
 
 import java.awt.AWTException;
@@ -33,8 +33,8 @@ public class FormulaBar extends JToolBar implements ActionListener, FocusListene
 
 	private JButton btnCancelFormula;
 	private JButton btnAcceptFormula;
-	private AutoCompleteTextField fldFormula;
-	private AutoCompleteTextField fldCellName;
+	private AutoCompleteTextFieldD fldFormula;
+	private AutoCompleteTextFieldD fldCellName;
 	private boolean isIniting;
 
 	private MyCellEditor editor;
@@ -66,11 +66,11 @@ public class FormulaBar extends JToolBar implements ActionListener, FocusListene
 		btnAcceptFormula.setFocusable(false);
 		btnAcceptFormula.setBorder(BorderFactory.createEmptyBorder(0,4,0,4));	
 
-		fldFormula = new AutoCompleteTextField(-1, app, false);  
+		fldFormula = new AutoCompleteTextFieldD(-1, app, false);  
 		fldFormula.addActionListener(this);
 		fldFormula.addFocusListener(this);
 		fldFormula.setShowSymbolTableIcon(true);
-		fldCellName = new AutoCompleteTextField(5, app, false);
+		fldCellName = new AutoCompleteTextFieldD(5, app, false);
 		fldCellName.setAutoComplete(false);
 		//fldCellName.setEditable(false);
 		Dimension d = fldCellName.getMaximumSize();

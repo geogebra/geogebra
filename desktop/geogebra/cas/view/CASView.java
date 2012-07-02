@@ -5,7 +5,7 @@ import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.GeoGebraColorConstants;
-import geogebra.gui.GuiManager;
+import geogebra.gui.GuiManagerD;
 import geogebra.gui.inputbar.InputBarHelpPanel;
 import geogebra.gui.view.Gridable;
 import geogebra.main.Application;
@@ -118,7 +118,7 @@ public class CASView  extends geogebra.common.cas.view.CASView implements Gridab
 			@Override
 			public void run() {
 				getCAS().initCurrentCAS();
-				GuiManager gm = app.getGuiManager();
+				GuiManagerD gm = app.getGuiManager();
 				if (gm != null && gm.hasInputHelpPanel()) {
 					gm.reInitHelpPanel();
 				}

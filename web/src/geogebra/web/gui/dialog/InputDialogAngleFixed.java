@@ -8,8 +8,8 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.util.Unicode;
-import geogebra.web.gui.DialogManagerWeb;
-import geogebra.web.gui.inputfield.AutoCompleteTextField;
+import geogebra.web.gui.DialogManagerW;
+import geogebra.web.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.web.main.Application;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -96,7 +96,7 @@ public class InputDialogAngleFixed extends AngleInputDialog implements KeyUpHand
 			else defaultRotateAngle = "45"+"\u00b0";
 
 
-			DialogManagerWeb.doAngleFixed(kernel, segments, points, selGeos, ((NumberInputHandler)inputHandler).getNum(), rbClockWise.getValue());
+			DialogManagerW.doAngleFixed(kernel, segments, points, selGeos, ((NumberInputHandler)inputHandler).getNum(), rbClockWise.getValue());
 
 			return true;
 		}
@@ -131,7 +131,7 @@ public class InputDialogAngleFixed extends AngleInputDialog implements KeyUpHand
 			e.getNativeKeyCode() > 105)
 			return;
 		
-		AutoCompleteTextField tc = inputPanel.getTextComponent();
+		AutoCompleteTextFieldW tc = inputPanel.getTextComponent();
 		String text = tc.getText();
 		
 		// if text already contains degree symbol or variable

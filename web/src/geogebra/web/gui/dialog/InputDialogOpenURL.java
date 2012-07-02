@@ -4,7 +4,7 @@ import java.awt.BorderLayout;
 
 import geogebra.common.main.AbstractApplication;
 import geogebra.web.gui.view.algebra.InputPanel.DialogType;
-import geogebra.web.gui.InputDialog;
+import geogebra.web.gui.InputDialogW;
 import geogebra.web.gui.view.algebra.InputPanel;
 import geogebra.web.main.Application;
 
@@ -16,7 +16,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-public class InputDialogOpenURL extends InputDialog{
+public class InputDialogOpenURL extends InputDialogW{
 	
 	public InputDialogOpenURL(Application app){
 		super(true);

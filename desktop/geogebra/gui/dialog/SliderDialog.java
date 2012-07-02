@@ -77,8 +77,8 @@ public class SliderDialog extends JDialog
 		
 		number = new GeoNumeric(cons);
 		angle = new GeoAngle(cons);
-		DialogManagerDesktop.setSliderFromDefault(number,false);
-		DialogManagerDesktop.setSliderFromDefault(angle,true);
+		DialogManagerD.setSliderFromDefault(number,false);
+		DialogManagerD.setSliderFromDefault(angle,true);
 		number.setValue(1);
 		angle.setValue(45 * Math.PI/180);
 			

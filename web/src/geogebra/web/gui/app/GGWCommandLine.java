@@ -1,7 +1,7 @@
 package geogebra.web.gui.app;
 
 import geogebra.common.main.AbstractApplication;
-import geogebra.web.gui.inputbar.AlgebraInput;
+import geogebra.web.gui.inputbar.AlgebraInputW;
 import geogebra.web.main.Application;
 
 import com.google.gwt.core.client.GWT;
@@ -12,7 +12,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class GGWCommandLine extends Composite {
 	
-	@UiField AlgebraInput algebraInput;
+	@UiField AlgebraInputW algebraInput;
 
 	private static GGWCommandLineUiBinder uiBinder = GWT
 	        .create(GGWCommandLineUiBinder.class);

@@ -12,7 +12,7 @@ import com.google.gwt.user.client.ui.MenuBar;
 /**
  * The "Insert Image" menu, part of the "Edit" menu.
  */
-public class InsertImageMenu extends MenuBar {
+public class InsertImageMenuW extends MenuBar {
 
 	/**
 	 * Application instance
@@ -23,7 +23,7 @@ public class InsertImageMenu extends MenuBar {
 	 * Constructs the "Insert Image" menu
 	 * @param app Application instance
 	 */
-	public InsertImageMenu(AbstractApplication app) {
+	public InsertImageMenuW(AbstractApplication app) {
 
 		super(true);
 		this.app = app;
@@ -33,14 +33,14 @@ public class InsertImageMenu extends MenuBar {
 
 	private void initActions() {
 
-	    addItem(GeoGebraMenubar.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),app.getMenu("File")),true,new Command() {
+	    addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),app.getMenu("File")),true,new Command() {
 	    	public void execute() {
 	    		ImageFileInputDialog dialog = new ImageFileInputDialog((Application) app, null);
 	    		dialog.setVisible(true);
 	    	}
 	    });
 
-	    addItem(GeoGebraMenubar.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),app.getMenu("Webcam")),true,new Command() {
+	    addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),app.getMenu("Webcam")),true,new Command() {
 	    	public void execute() {
 	    		WebCamInputDialog dialog = new WebCamInputDialog(false, (Application) app);
 	    		dialog.setVisible(true);

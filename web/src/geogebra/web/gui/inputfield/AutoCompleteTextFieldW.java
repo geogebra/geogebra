@@ -50,7 +50,7 @@ import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.ToggleButton;
 
-public class AutoCompleteTextField extends HorizontalPanel implements AutoComplete, geogebra.common.gui.inputfield.AutoCompleteTextField, KeyDownHandler, KeyUpHandler, KeyPressHandler, ValueChangeHandler<String>, SelectionHandler<Suggestion>, VirtualKeyboardListener {
+public class AutoCompleteTextFieldW extends HorizontalPanel implements AutoComplete, geogebra.common.gui.inputfield.AutoCompleteTextField, KeyDownHandler, KeyUpHandler, KeyPressHandler, ValueChangeHandler<String>, SelectionHandler<Suggestion>, VirtualKeyboardListener {
 	
 	  private Application app;
 	  private StringBuilder curWord;
@@ -68,14 +68,14 @@ public class AutoCompleteTextField extends HorizontalPanel implements AutoComple
 	  private String cmdPrefix;
 	  private static CompletionsPopup completionsPopup;
 
-	  private HistoryPopup historyPopup;
+	  private HistoryPopupW historyPopup;
 	  SuggestBox textField = null;
 
 	  private DrawTextField drawTextField = null;
 	  
 	// symbol table popup fields
 	private ToggleButton showSymbolButton = null;
-	private SymbolTablePopup tablePopup;
+	private SymbolTablePopupW tablePopup;
 	private boolean showSymbolTableIcon = false;
 	  
 	  /**
@@ -99,23 +99,23 @@ public class AutoCompleteTextField extends HorizontalPanel implements AutoComple
 	   * A default model is created and the number of columns is 0.
 	   * 
 	   */
-	  public AutoCompleteTextField(int columns, AbstractApplication app) {
+	  public AutoCompleteTextFieldW(int columns, AbstractApplication app) {
 	    this(columns, (Application) app, true);
 	  }
 	  
-	  public AutoCompleteTextField(int columns, Application app,
+	  public AutoCompleteTextFieldW(int columns, Application app,
 		      boolean handleEscapeKey) {
 		    this(columns, app, handleEscapeKey, app.getCommandDictionary());
 		    // setDictionary(app.getAllCommandsDictionary());
 	  }
 	  
-	  public AutoCompleteTextField(int columns, AbstractApplication app,
+	  public AutoCompleteTextFieldW(int columns, AbstractApplication app,
 		      Drawable drawTextField) {
 		    this(columns, app);
 		    this.drawTextField = (DrawTextField) drawTextField;
 	  }
 
-	  public AutoCompleteTextField(int columns, Application app,
+	  public AutoCompleteTextFieldW(int columns, Application app,
 		      boolean handleEscapeKey, AutoCompleteDictionary dict) {
 		    //AG not MathTextField and Mytextfield exists yet super(app);
 		    // allow dynamic width with columns = -1
@@ -194,7 +194,7 @@ public class AutoCompleteTextField extends HorizontalPanel implements AutoComple
 	  public void addHistoryPopup(boolean isDownPopup) {
 
 	    if (historyPopup == null)
-	      historyPopup = new HistoryPopup(this);
+	      historyPopup = new HistoryPopupW(this);
 
 	    historyPopup.setDownPopup(isDownPopup);
 
@@ -1019,8 +1019,8 @@ public class AutoCompleteTextField extends HorizontalPanel implements AutoComple
 		final int newPos = pos + text.length();
 
 		// make sure AutoComplete works
-		if (this instanceof AutoCompleteTextField) {
-			AutoCompleteTextField tf = (AutoCompleteTextField) this;
+		if (this instanceof AutoCompleteTextFieldW) {
+			AutoCompleteTextFieldW tf = (AutoCompleteTextFieldW) this;
 			tf.updateCurrentWord(false);
 			tf.startAutoCompletion();
 		}
@@ -1100,9 +1100,9 @@ public class AutoCompleteTextField extends HorizontalPanel implements AutoComple
 		this.showSymbolTableIcon = showSymbolTableIcon;
 	}
 
-	private SymbolTablePopup getTablePopup() {
+	private SymbolTablePopupW getTablePopup() {
 		if (tablePopup == null)
-			tablePopup = new SymbolTablePopup(app, this);
+			tablePopup = new SymbolTablePopupW(app, this);
 		return tablePopup;
 	}
 

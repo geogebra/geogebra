@@ -1,9 +1,9 @@
 package geogebra.gui.menubar;
 
 import geogebra.common.main.settings.KeyboardSettings;
-import geogebra.gui.GuiManager;
+import geogebra.gui.GuiManagerD;
 import geogebra.gui.layout.DockPanel;
-import geogebra.gui.layout.Layout;
+import geogebra.gui.layout.LayoutD;
 import geogebra.gui.view.consprotocol.ConstructionProtocolNavigation;
 import geogebra.gui.virtualkeyboard.VirtualKeyboard;
 import geogebra.main.Application;
@@ -26,7 +26,7 @@ import javax.swing.SwingUtilities;
  */
 public class ViewMenu extends BaseMenu {
 	private static final long serialVersionUID = 1L;
-	private final Layout layout;
+	private final LayoutD layout;
 
 	private AbstractAction showAlgebraInputAction,
 			showKeyboardAction,
@@ -56,7 +56,7 @@ public class ViewMenu extends BaseMenu {
 	 * @param app app
 	 * @param layout layout
 	 */
-	public ViewMenu(Application app, Layout layout) {
+	public ViewMenu(Application app, LayoutD layout) {
 		super(app, app.getMenu("View"));
 
 		this.layout = layout;
@@ -454,7 +454,7 @@ public class ViewMenu extends BaseMenu {
 			return;
 		}
 
-		GuiManager guiMananager = app.getGuiManager();
+		GuiManagerD guiMananager = app.getGuiManager();
 
 		updateViews();
 

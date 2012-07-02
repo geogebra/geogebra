@@ -18,7 +18,7 @@ public class ViewButtonBar extends JToolBar {
 
 	private static final long serialVersionUID = 1L;
 	private Application app;
-	private Layout layout;
+	private LayoutD layout;
 
 	private ArrayList<ViewButton> viewButtons;
 
