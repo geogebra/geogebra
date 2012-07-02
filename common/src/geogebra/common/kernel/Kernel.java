@@ -8253,6 +8253,9 @@ public class Kernel {
 		GeoVec2D a = new GeoVec2D(this, xB - xA, yB - yA); // vector AB
 		GeoVec2D b = new GeoVec2D(this, yA - yB, xB - xA); // perpendicular to
 															// AB
+		// changed to use this instead of Unit(Orthoganal)Vector
+		// https://www.geogebra.org/forum/viewtopic.php?f=13&p=82764#p82764
+		double aLength = Math.sqrt(a.inner(a));
 
 		boolean oldVal = isUsingInternalCommandNames();
 		setUseInternalCommandNames(true);
@@ -8272,17 +8275,17 @@ public class Kernel {
 			sb.setLength(0);
 			sb.append(points[0].getLabel(tpl));
 			sb.append('+');
-			sb.append(format(a.inner(d), tpl));
+			sb.append(format(a.inner(d) / aLength, tpl));
 
 			// use internal command name
-			sb.append("UnitVector[Segment[");
+			sb.append("Vector[");
 			sb.append(points[0].getLabel(tpl));
 			sb.append(',');
 			sb.append(points[1].getLabel(tpl));
-			sb.append("]]+");
-			sb.append(format(b.inner(d), tpl));
+			sb.append("]+");
+			sb.append(format(b.inner(d) / aLength, tpl));
 			// use internal command name
-			sb.append("UnitOrthogonalVector[Segment[");
+			sb.append("OrthogonalVector[Segment[");
 			sb.append(points[0].getLabel(tpl));
 			sb.append(',');
 			sb.append(points[1].getLabel(tpl));
