@@ -59,7 +59,7 @@ public class PropertiesDockPanel extends DockPanel implements
 			view.windowPanel();
 		else
 			view.unwindowPanel();
-		return view;
+		return view.getWrappedPanel();
 	}
 
 	@Override

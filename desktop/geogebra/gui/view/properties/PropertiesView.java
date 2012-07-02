@@ -13,7 +13,6 @@ the Free Software Foundation.
 package geogebra.gui.view.properties;
 
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
 import geogebra.gui.dialog.options.OptionPanel;
@@ -38,7 +37,10 @@ import java.util.HashMap;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JPanel;
+
+import com.sun.xml.internal.ws.model.WrapperParameter;
 
 /**
  * View for properties
@@ -46,18 +48,14 @@ import javax.swing.JPanel;
  * @author mathieu
  * @version
  */
-public class PropertiesView extends JPanel implements
-		geogebra.common.gui.view.properties.PropertiesView {
+public class PropertiesView extends geogebra.common.gui.view.properties.PropertiesView {
 
 	private static final long serialVersionUID = 1L;
 
 	//private GeoTree geoTree;
 
-	private Application app;
-	private Kernel kernel;
-	private boolean attached;
-
 	private PropertiesStyleBar styleBar;
+	private JPanel wrappedPanel;
 
 	
 
@@ -96,8 +94,7 @@ public class PropertiesView extends JPanel implements
 	 */
 	public PropertiesView(Application app) {
 
-		super();
-
+		this.wrappedPanel = new JPanel();
 		this.app = app;
 		app.setPropertiesView(this);
 		
@@ -127,12 +124,12 @@ public class PropertiesView extends JPanel implements
 	/** */
 	public void initGUI() {
 
-		setLayout(new BorderLayout());
+		wrappedPanel.setLayout(new BorderLayout());
 		getStyleBar();
 		//add(getStyleBar(), BorderLayout.NORTH);
 
 		mainPanel = new JPanel(new BorderLayout());
-		add(mainPanel, BorderLayout.CENTER);
+		wrappedPanel.add(mainPanel, BorderLayout.CENTER);
 
 		//createButtonPanel();
 		//add(buttonPanel, BorderLayout.SOUTH);
@@ -287,7 +284,7 @@ public class PropertiesView extends JPanel implements
 	}
 	
 	final private void setOptionPanelRegardingFocus(boolean updateEuclidianTab){
-		int focusedViewId = app.getGuiManager().getLayout()
+		int focusedViewId = ((Application) app).getGuiManager().getLayout()
 				.getDockManager().getFocusedViewId();
 
 
@@ -419,8 +416,8 @@ public class PropertiesView extends JPanel implements
 		updateStyleBar();
 		updateTitleBar(); 
 		
-		this.revalidate();
-		this.repaint();
+		wrappedPanel.revalidate();
+		wrappedPanel.repaint();
 	}
 
 	public void updateGUI() {
@@ -468,22 +465,22 @@ public class PropertiesView extends JPanel implements
 		switch (type) {
 		case DEFAULTS:
 			if (defaultsPanel == null) {
-				defaultsPanel = new OptionsDefaults(app);
+				defaultsPanel = new OptionsDefaults((Application) app);
 			}
 			return defaultsPanel;
 
 		case CAS:
 			if (casPanel == null) {
-				casPanel = new OptionsCAS(app);
+				casPanel = new OptionsCAS((Application) app);
 			}
 			return casPanel;
 
 		case EUCLIDIAN:
 			if (euclidianPanel == null) {
-				euclidianPanel = new OptionsEuclidian(app,
-						app.getActiveEuclidianView());
+				euclidianPanel = new OptionsEuclidian((Application) app,
+						((Application) app).getActiveEuclidianView());
 				euclidianPanel.setLabels();
-				euclidianPanel.setView(app.getEuclidianView1());
+				euclidianPanel.setView(((Application)app).getEuclidianView1());
 				euclidianPanel.showCbView(false);
 			}
 			
@@ -491,10 +488,10 @@ public class PropertiesView extends JPanel implements
 
 		case EUCLIDIAN2:
 			if (euclidianPanel2 == null) {
-				euclidianPanel2 = new OptionsEuclidian(app,
-						app.getEuclidianView2());
+				euclidianPanel2 = new OptionsEuclidian((Application) app,
+						((Application)app).getEuclidianView2());
 				euclidianPanel2.setLabels();
-				euclidianPanel2.setView(app.getEuclidianView2());
+				euclidianPanel2.setView(((Application)app).getEuclidianView2());
 				euclidianPanel2.showCbView(false);
 			}
 			
@@ -502,26 +499,26 @@ public class PropertiesView extends JPanel implements
 
 		case SPREADSHEET:
 			if (spreadsheetPanel == null) {
-				spreadsheetPanel = new OptionsSpreadsheet(app, app
+				spreadsheetPanel = new OptionsSpreadsheet((Application)app, ((Application)app)
 						.getGuiManager().getSpreadsheetView());
 			}
 			return spreadsheetPanel;
 
 		case ADVANCED:
 			if (advancedPanel == null) {
-				advancedPanel = new OptionsAdvanced(app);
+				advancedPanel = new OptionsAdvanced((Application) app);
 			}
 			return advancedPanel;
 
 		case LAYOUT:
 			if (layoutPanel == null) {
-				layoutPanel = new OptionsLayout(app);
+				layoutPanel = new OptionsLayout((Application) app);
 			}
 			return layoutPanel;
 
 		case OBJECTS:
 			if (objectPanel == null) {
-				objectPanel = new OptionsObject(app);
+				objectPanel = new OptionsObject((Application) app);
 				objectPanel.setMinimumSize(objectPanel.getPreferredSize());
 			}
 			return objectPanel;
@@ -568,7 +565,7 @@ public class PropertiesView extends JPanel implements
 	 * @return new properties style bar
 	 */
 	protected PropertiesStyleBar newPropertiesStyleBar() {
-		return new PropertiesStyleBar(this, app);
+		return new PropertiesStyleBar(this, (Application) app);
 	}
 
 	/**
@@ -610,13 +607,13 @@ public class PropertiesView extends JPanel implements
 	
 
 	private void updateTitleBar(){
-		app.getGuiManager().getLayout().getDockManager().getPanel(AbstractApplication.VIEW_PROPERTIES).updateTitleBar();
+		((Application)app).getGuiManager().getLayout().getDockManager().getPanel(AbstractApplication.VIEW_PROPERTIES).updateTitleBar();
 	}
 
 	public void closeIfNotCurrentListener() {
 
-		if (this != app.getCurrentSelectionListener()) {
-			this.setVisible(false);
+		if (wrappedPanel != app.getCurrentSelectionListener()) {
+			wrappedPanel.setVisible(false);
 		}
 	}
 
@@ -809,15 +806,24 @@ public class PropertiesView extends JPanel implements
 
 
 	public void closeDialog() {
-		setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+		wrappedPanel.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 		app.storeUndoInfo();
-		setCursor(Cursor.getDefaultCursor());
+		wrappedPanel.setCursor(Cursor.getDefaultCursor());
 		app.getGuiManager().setShowView(false, getViewID());
 	}
 
 	
 	public void showSliderTab() {
 		objectPanel.showSliderTab();
+	}
+
+	public boolean hasFocus() {
+		return wrappedPanel.hasFocus();
+	}
+
+	public JPanel getWrappedPanel() {
+		// TODO Auto-generated method stub
+		return wrappedPanel;
 	}
 
 }

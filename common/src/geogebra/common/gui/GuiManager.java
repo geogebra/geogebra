@@ -278,4 +278,6 @@ public abstract class GuiManager {
 	public abstract void startEditing(GeoElement geoElement);
 
 	public abstract boolean noMenusOpen();
+
+	public abstract Layout getLayout();
 }

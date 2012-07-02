@@ -13,15 +13,17 @@ package geogebra.common.gui.view.properties;
 
 import java.util.ArrayList;
 
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.main.AbstractApplication;
 import geogebra.common.main.GeoElementSelectionListener;
 
 /**
  * Properties view
  *
  */
-public interface PropertiesView extends View{
+public abstract class PropertiesView implements View{
 	/**
 	 * Option panel types
 	 */
@@ -30,24 +32,30 @@ public interface PropertiesView extends View{
 		// OBJECTS and SPREADSHEET to isolate the view options
 		OBJECTS, EUCLIDIAN, EUCLIDIAN2, CAS, SPREADSHEET, LAYOUT, DEFAULTS, ADVANCED
 	}
+
+
+
+	protected Kernel kernel;
+	protected boolean attached;
+	protected AbstractApplication app;
 	
 	/**
 	 * Update selection
 	 */
-	public void updateSelection();
+	public abstract void updateSelection();
 	
 	
 	/**
 	 * update the properties view as if geos where selected
 	 * @param geos geos
 	 */
-	public void updateSelection(ArrayList<GeoElement> geos);
+	public abstract void updateSelection(ArrayList<GeoElement> geos);
 	
 	
 	
 	/**
 	 * Set the option panel to be displayed
 	 */
-	public void setOptionPanel(OptionType type);
+	public abstract void setOptionPanel(OptionType type);
 	
 }
