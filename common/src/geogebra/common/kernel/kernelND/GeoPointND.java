@@ -230,6 +230,8 @@ public interface GeoPointND extends GeoElementND, PointProperties{
 
 	public int getDimension();
 
+	public double getAnimationStep();
+
 	
 
 	

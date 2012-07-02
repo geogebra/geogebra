@@ -337,7 +337,7 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 	
 	
 	@Override
-	protected void movePoint(boolean repaint){
+	protected void movePoint(boolean repaint, AbstractEvent event){
 		
 		
 		//Application.debug("movePointMode="+movePointMode);
@@ -443,7 +443,7 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 			//view3D.toSceneCoords3D(view3D.getViewDirection());		
 			Coords coords = o.projectPlaneThruVIfPossible(CoordMatrix4x4.Identity(), view3D.getViewDirection())[1]; //TODO use current region instead of identity
 			xRW = coords.getX(); yRW = coords.getY();
-			super.movePoint(repaint);
+			super.movePoint(repaint, geogebra.euclidian.event.MouseEvent.wrapEvent(mouseEvent));
 			
 			view3D.getCursor3D().setCoords(movedGeoPoint.getCoordsInD(3),false);
 			

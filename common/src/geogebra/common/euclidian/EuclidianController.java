@@ -21,6 +21,8 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Macro;
 import geogebra.common.kernel.Path;
+import geogebra.common.kernel.PathNormalizer;
+import geogebra.common.kernel.PathParameter;
 import geogebra.common.kernel.Region;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
@@ -5355,12 +5357,58 @@ public abstract class EuclidianController {
 		kernel.notifyRepaint();
 	}
 
-	protected void movePoint(boolean repaint) {
+	protected void movePoint(boolean repaint, AbstractEvent event) {
 		movedGeoPoint.setCoords(Kernel.checkDecimalFraction(xRW),
 				Kernel.checkDecimalFraction(yRW), 1.0);
+
+		if (event.isAltDown()) {
+
+			// 1/24 -> steps of 15 degrees (for circle)
+			// otherwise use Object Properties -> Algebra -> Increment
+			//double multiplier = event.isAltDown() ? 1.0/24.0 : movedGeoPoint.getAnimationStep();
+			
+			double multiplier = movedGeoPoint.getAnimationStep();
+			
+			int n = (int) Math.ceil(1.0 / multiplier);
+			
+			if (n < 1) {
+				n = 1;
+			}
+
+			if (movedGeoPoint.hasPath()) {
+
+				double dist = Double.MAX_VALUE;
+
+				Path path = movedGeoPoint.getPath();
+
+				double t = movedGeoPoint.getPathParameter().t;
+
+				// convert to 0 <= t < 1
+				t = PathNormalizer.toNormalizedPathParameter(t, path.getMinParameter(), path.getMaxParameter());
+
+				double t_1 = t;
+
+				// find closest parameter
+				// avoid rounding errors by using an int & multiplier
+				for (int i = 0 ; i < n ; i ++) {
+					if (Math.abs(t - i * multiplier) < dist) {
+						t_1 = i * multiplier;
+						dist = Math.abs(t - i * multiplier);
+					}
+				}
+
+				movedGeoPoint.getPathParameter().t = PathNormalizer.toParentPathParameter(t_1, path.getMinParameter(), path.getMaxParameter());
+
+				path.pathChanged(movedGeoPoint);
+				movedGeoPoint.updateCoords();
+
+			}
+		}
+
+
 		((GeoElement) movedGeoPoint).updateCascade();
 		movedGeoPointDragged = true;
-	
+
 		if (repaint) {
 			kernel.notifyRepaint();
 		}
@@ -6926,7 +6974,7 @@ public abstract class EuclidianController {
 		}
 	}
 
-	protected void handleMouseDragged(boolean repaint) {
+	protected void handleMouseDragged(boolean repaint, AbstractEvent event) {
 		// moveMode was set in mousePressed()
 		switch (moveMode) {
 		case MOVE_ROTATE:
@@ -6934,7 +6982,7 @@ public abstract class EuclidianController {
 			break;
 	
 		case MOVE_POINT:
-			movePoint(repaint);
+			movePoint(repaint, event);
 			break;
 	
 		case MOVE_POINT_WITH_OFFSET:
@@ -7477,7 +7525,7 @@ public abstract class EuclidianController {
 					mouseLoc.y = (int) Math.round(lastMouseLoc.y + (i * dy));
 					calcRWcoords();
 	
-					handleMouseDragged(false);
+					handleMouseDragged(false, event);
 				}
 	
 				// set endpoint of mouse movement if we are not already there
@@ -7495,7 +7543,7 @@ public abstract class EuclidianController {
 			}
 		}
 	
-		handleMouseDragged(true);
+		handleMouseDragged(true, event);
 	}
 
 	private static boolean penMode(int mode2) {

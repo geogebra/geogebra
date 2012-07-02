@@ -20,7 +20,7 @@ public class Layout extends geogebra.common.gui.Layout implements SettingListene
 	 * instantiates layout for Web
 	 */
 	public Layout() {
-		initializeDefaultPerspectives(false);
+		initializeDefaultPerspectives(false, true);
 		
 		this.perspectives = new ArrayList<Perspective>(defaultPerspectives.length);
 	}

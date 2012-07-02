@@ -24,14 +24,15 @@ public class ToolBar {
 	 * are some tools, which don't appear.)
 	 * @return The default definition of the general tool bar without macros.
 	 */
-	public static String getAllToolsNoMacros(boolean showAllMenu) {
+	public static String getAllToolsNoMacros(boolean showAllMenu, boolean html5) {
 		StringBuilder sb = new StringBuilder();
 		
 		// move
 		sb.append(EuclidianConstants.MODE_MOVE);
-		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_MOVE_ROTATE);
-		if(showAllMenu){
+		if (!html5) {
+			// these two are old tools that we don't want to enable in HTML5
+			sb.append(" ");
+			sb.append(EuclidianConstants.MODE_MOVE_ROTATE);
 			sb.append(" ");
 			sb.append(EuclidianConstants.MODE_RECORD_TO_SPREADSHEET);
 		}

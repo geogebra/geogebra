@@ -1,6 +1,7 @@
 package geogebra3D.euclidianForPlane;
 
 import geogebra.common.euclidian.EuclidianView;
+import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.Region;
@@ -30,7 +31,7 @@ public class EuclidianControllerForPlane extends EuclidianControllerFor3D {
 	}
 		
 	@Override
-	protected void movePoint(boolean repaint) {
+	protected void movePoint(boolean repaint, AbstractEvent event) {
 		
 		Coords coords = getCoordsFromView(xRW,yRW);
 		

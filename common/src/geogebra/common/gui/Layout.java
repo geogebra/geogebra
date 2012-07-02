@@ -23,7 +23,7 @@ public abstract class Layout {
 	 * Initialize the default perspectives
 	 * 	 
 	 */
-	protected static void initializeDefaultPerspectives(boolean showAllTools) {
+	protected static void initializeDefaultPerspectives(boolean showAllTools, boolean html5) {
 		defaultPerspectives = new Perspective[5];
 		
 		DockPanelData[] dpData;
@@ -42,7 +42,7 @@ public abstract class Layout {
 		spData = new DockSplitPaneData[1];
 		spData[0] = new DockSplitPaneData("", 0.25, GSplitPane.HORIZONTAL_SPLIT);
 	
-		defToolbar = ToolBar.getAllToolsNoMacros(showAllTools);
+		defToolbar = ToolBar.getAllToolsNoMacros(showAllTools, html5);
 	
 		defaultPerspectives[0] = new Perspective("AlgebraAndGraphics", spData, dpData, defToolbar, true, false, true, true, true, false);
 		
