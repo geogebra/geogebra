@@ -1052,4 +1052,8 @@ public class OptionsEuclidian extends JPanel implements OptionPanel, ActionListe
 		tabbedPane.setSelectedIndex(index);
 	}
 
+	public JPanel getWrappedPanel() {
+		return this;
+	}
+
 }

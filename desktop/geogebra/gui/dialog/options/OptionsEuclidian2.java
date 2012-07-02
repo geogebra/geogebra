@@ -1365,4 +1365,9 @@ public class OptionsEuclidian2 extends JPanel  implements OptionPanel, ActionLis
 		
 	} // end AxisPanel class
 
+
+	public JPanel getWrappedPanel() {
+		return this;
+	}
+
 }

@@ -995,4 +995,8 @@ public class OptionsAdvanced extends JPanel implements OptionPanel, ActionListen
 		cbTooltipTimeout.setSelectedIndex(selectedIndex);
 		cbTooltipTimeout.addActionListener(this);
 	}
+
+	public JPanel getWrappedPanel() {
+		return this;
+	}
 }

@@ -393,6 +393,10 @@ public class OptionsObject extends geogebra.common.gui.dialog.options.OptionsObj
 	public void setMinimumSize(Dimension preferredSize) {
 		wrappedPanel.setMinimumSize(preferredSize);
 	}
+
+	public JPanel getWrappedPanel() {
+		return wrappedPanel;
+	}
 	 
 	 
 	 

@@ -472,4 +472,8 @@ public class OptionsLayout extends JPanel implements OptionPanel, ActionListener
 
 	}
 
+	public JPanel getWrappedPanel() {
+		return this;
+	}
+
 }

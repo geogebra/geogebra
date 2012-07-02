@@ -401,7 +401,7 @@ public class PropertiesViewD extends geogebra.common.gui.view.properties.Propert
 		mainPanel.removeAll();
 		getOptionPanel(type).setBorder(
 				BorderFactory.createEmptyBorder(15, 10, 10, 10));
-		mainPanel.add((JPanel) getOptionPanel(type), BorderLayout.CENTER);
+		mainPanel.add((JPanel) getOptionPanel(type).getWrappedPanel(), BorderLayout.CENTER);
 
 				
 		// don't show the button panel in the Objects panel (it has it's own)

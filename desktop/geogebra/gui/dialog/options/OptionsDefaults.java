@@ -339,4 +339,8 @@ public class OptionsDefaults extends JPanel implements OptionPanel, TreeSelectio
 	public void apply() {
 
 	}
+
+	public JPanel getWrappedPanel() {
+		return this;
+	}
 }

@@ -2,6 +2,7 @@ package geogebra.gui.dialog.options;
 
 import geogebra.common.kernel.geos.GeoElement;
 
+import javax.swing.JPanel;
 import javax.swing.border.Border;
 
 
@@ -26,5 +27,10 @@ public interface OptionPanel {
 	 * @param border border 
 	 */
 	public void setBorder(Border border);
+	
+	/**
+	 * @return the wrapped JPanel for Desktop
+	 */
+	public JPanel getWrappedPanel();
 	
 }

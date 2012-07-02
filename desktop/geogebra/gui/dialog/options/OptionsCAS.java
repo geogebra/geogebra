@@ -121,4 +121,8 @@ public class OptionsCAS  extends JPanel implements OptionPanel, ActionListener, 
 	 */
 	public void apply() {
 	}
+
+	public JPanel getWrappedPanel() {
+		return this;
+	}
 }

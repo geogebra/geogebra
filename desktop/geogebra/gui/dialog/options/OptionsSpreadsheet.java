@@ -464,4 +464,8 @@ public class OptionsSpreadsheet extends JPanel  implements OptionPanel, ActionLi
 		doActionPerformed(e.getSource());
 	}
 
+	public JPanel getWrappedPanel() {
+		return this;
+	}
+
 }
