@@ -181,13 +181,18 @@ if [ $DELSRC = 1 ]; then
  runstep 51 .delete-sources "Deleting sources" ant -f pack.xml delete-sources # FIXME: delete-sources must work for common as well
  fi
 
-runstep 2 .svn-update "SVN update" $SVN_COMMAND $REVISION_PARAM update --accept theirs-full --force .. org
+runstep 51 .svn-update "SVN update" $SVN_COMMAND $REVISION_PARAM update --accept theirs-full --force .. org
 $SVN_COMMAND info | grep Revision | awk '{print $2}' > scripts/autobuild/.revision
 
 # 5/2. Downloading newest 3rd party libraries and installer tools
 runstep 52 .kickstart "Downloading build/pack tools" ant -f kickstart.xml geogebra5-packager-commandline
 cd installer
 runstep 52 .installer "Downloading installer tools" ant
+
+# 5/3. Downloading/updating JOGL1
+cd ../../jogl1
+runstep 53 .svn-update "SVN update" $SVN_COMMAND $REVISION_PARAM update --accept theirs-full
+runstep 53 .kickstart "Downloading/updating JOGL1" ant -f kickstart.xml
 
 # 6. Invoking make-vanilla-jars
 cd $WORKDIR/scripts/autobuild
