@@ -3,12 +3,14 @@ package geogebra3D.euclidian3D.opengl;
 import geogebra.common.kernel.Matrix.CoordMatrix;
 import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.main.AbstractApplication;
 import geogebra.main.Application;
 import geogebra3D.euclidian3D.Drawable3D;
 import geogebra3D.euclidian3D.Drawable3DLists;
 import geogebra3D.euclidian3D.EuclidianController3D;
 import geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra3D.euclidian3D.Hits3D;
+import geogebra3D.euclidian3D.opengl.RendererJogl.GLlocal;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -26,11 +28,6 @@ import javax.media.opengl.glu.GLU;
 import javax.media.opengl.glu.GLUquadric;
 import javax.media.opengl.glu.GLUtessellator;
 
-import com.sun.opengl.util.BufferUtil; //JOGL1
-import com.sun.opengl.util.FPSAnimator; //JOGL1
-//import javax.media.opengl.GL2; //JOGL2
-//import com.jogamp.opengl.util.FPSAnimator; //JOGL2
-//import com.jogamp.opengl.util.GLBuffers; //JOGL2
 
 
 /**
@@ -46,13 +43,8 @@ import com.sun.opengl.util.FPSAnimator; //JOGL1
  * @author ggb3D
  * 
  */
-public class Renderer implements GLEventListener {
+public class Renderer extends RendererJogl implements GLEventListener {
 
-	/*
-	static {
-		GLProfile.initSingleton(false);
-	}
-	*/
 	
 	// openGL variables
 	protected GLU glu = new GLU();
@@ -68,10 +60,9 @@ public class Renderer implements GLEventListener {
 	//public GLCanvas canvas;
 	public Component3D canvas;
 
-	protected GL gl; //JOGL1
-	//protected GL2 gl; //JOGL2
+	
 	private GLUquadric quadric;
-	private FPSAnimator animator;
+	private Animator animator;
 	
 	/** for polygon tesselation */
 	private GLUtessellator tobj;
@@ -146,16 +137,19 @@ public class Renderer implements GLEventListener {
 		
 		
 		//canvas = view;
+		AbstractApplication.debug("create 3D component");
         canvas = new Component3D();
         
+        AbstractApplication.debug("add gl event listener");
 	    canvas.addGLEventListener(this);
 	    
-	    //animator : 60 frames per second
-	    
-	    
-	    animator = new FPSAnimator( canvas, 60 );
+	    AbstractApplication.debug("create animator");
+	    animator = new Animator( canvas, 60 );
         //animator.setRunAsFastAsPossible(true);	  
-        //animator.setRunAsFastAsPossible(false);	  
+        //animator.setRunAsFastAsPossible(false);	
+	    
+
+	    AbstractApplication.debug("start animator");
         animator.start();
         
 
@@ -166,16 +160,7 @@ public class Renderer implements GLEventListener {
 		textures = new Textures(view3D.getApplication().getImageManager());	
 	}
 	
-	/*
-	public GL getGL(){
-		return gl;
-	}
-	*/
 	
-	public GL getGL(GLAutoDrawable gLDrawable){
-		return gLDrawable.getGL();
-		//return gLDrawable.getGL().getGL2();
-	}	
 	
 	/**
 	 * set the list of {@link Drawable3D} to be drawn
@@ -291,8 +276,7 @@ public class Renderer implements GLEventListener {
 
     	//double displayTime = System.currentTimeMillis();
         
-        gl = getGL(gLDrawable); //JOGL1
-        //gl = getGL(gLDrawable).getGL2(); //JOGL2                   
+        gl = RendererJogl.getGL(gLDrawable);                
         
         //picking        
         if(waitForPick)
@@ -416,7 +400,7 @@ public class Renderer implements GLEventListener {
         gl.glDisable(GLlocal.GL_TEXTURE_2D);
     }
     
-    private static final int[] GL_CLIP_PLANE = {GL.GL_CLIP_PLANE0, GL.GL_CLIP_PLANE1, GL.GL_CLIP_PLANE2, GL.GL_CLIP_PLANE3, GL.GL_CLIP_PLANE4, GL.GL_CLIP_PLANE5};
+    private static final int[] GL_CLIP_PLANE = {GLlocal.GL_CLIP_PLANE0, GLlocal.GL_CLIP_PLANE1, GLlocal.GL_CLIP_PLANE2, GLlocal.GL_CLIP_PLANE3, GLlocal.GL_CLIP_PLANE4, GLlocal.GL_CLIP_PLANE5};
     
     private boolean enableClipPlanes;
     private boolean waitForUpdateClipPlanes=false;
@@ -1114,20 +1098,11 @@ public class Renderer implements GLEventListener {
 	}
 	
 	
-	public final static IntBuffer newIntBuffer(int size){
-		return BufferUtil.newIntBuffer(size); // JOGL1
-		//return GLBuffers.newDirectIntBuffer(size); // JOGL2
-	}
-	
-	public final static ByteBuffer newByteBuffer(int size){
-		return BufferUtil.newByteBuffer(size); //JOGL1
-		//return GLBuffers.newDirectByteBuffer(size); //JOGL2
-	}
 	
 	private IntBuffer createSelectBufferForPicking(int bufSize){
 		// Set Up the Selection Buffer
 		//Application.debug(bufSize);
-		IntBuffer ret = newIntBuffer(bufSize);
+		IntBuffer ret = RendererJogl.newIntBuffer(bufSize);
         gl.glSelectBuffer(bufSize, ret); // Tell OpenGL To Use Our Array For Selection
         return ret; 
 	}
@@ -1446,8 +1421,7 @@ public class Renderer implements GLEventListener {
     		
     	//Application.printStacktrace("");
 
-        gl = getGL(drawable); //JOGL1
-        //gl = getGL(drawable).getGL2(); //JOGL2
+        gl = RendererJogl.getGL(drawable);
         
         // check openGL version
         final String version = gl.glGetString(GLlocal.GL_VERSION);

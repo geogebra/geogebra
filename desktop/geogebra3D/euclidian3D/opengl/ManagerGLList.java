@@ -1,6 +1,7 @@
 package geogebra3D.euclidian3D.opengl;
 
 import geogebra3D.euclidian3D.EuclidianView3D;
+import geogebra3D.euclidian3D.opengl.RendererJogl.GLlocal;
 
 import java.nio.FloatBuffer;
 

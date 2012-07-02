@@ -1,7 +1,7 @@
 package geogebra3D.euclidian3D.opengl;
 
 import geogebra.common.plugin.EuclidianStyleConstants;
-import geogebra.euclidian.EuclidianViewD;
+// import geogebra.euclidian.EuclidianView;
 import geogebra.util.ImageManager;
 
 import java.awt.Transparency;
@@ -342,7 +342,7 @@ public class Textures {
 			}
 
 			int bytesPerPixel = storeAlphaChannel ? 4 : 3;
-			ByteBuffer unpackedPixels = Renderer.newByteBuffer(packedPixels.length * bytesPerPixel); 
+			ByteBuffer unpackedPixels = RendererJogl.newByteBuffer(packedPixels.length * bytesPerPixel); 
 
 			
 			for (int row = img.getHeight() - 1; row >= 0; row--) {

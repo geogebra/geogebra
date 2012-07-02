@@ -1,5 +1,7 @@
 package geogebra3D.euclidian3D.opengl;
 
+import geogebra3D.euclidian3D.opengl.RendererJogl.GLlocal;
+
 
 /*
 import com.sun.opengl.util.texture.Texture;

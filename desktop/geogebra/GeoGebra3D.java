@@ -17,6 +17,8 @@
  */
 package geogebra;
 
+import geogebra3D.euclidian3D.opengl.RendererJogl;
+
 import java.awt.Frame;
 import java.awt.Toolkit;
 import java.net.URL;
@@ -29,6 +31,9 @@ public class GeoGebra3D extends GeoGebra
 	public static final String XML_FILE_FORMAT = "5.0";
 	
 	
+	static {
+		RendererJogl.initSingleton();
+	}
 
 	public static void main(String[] cmdArgs) {  
 		CommandLineArguments args = new CommandLineArguments(cmdArgs);
