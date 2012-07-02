@@ -40,8 +40,6 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
-import com.sun.xml.internal.ws.model.WrapperParameter;
-
 /**
  * View for properties
  * 
