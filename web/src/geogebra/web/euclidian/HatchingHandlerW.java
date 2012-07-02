@@ -19,7 +19,7 @@ public class HatchingHandlerW extends geogebra.common.euclidian.HatchingHandler 
 	protected void dosetHatching(GGraphics2D g3, GBasicStroke objStroke,
 	        GColor color, GColor bgColor, float backgroundTransparency,
 	        double dist, double angle) {
-		GGraphics2D g2 = (geogebra.web.awt.Graphics2D) g3;
+		GGraphics2D g2 = (geogebra.web.awt.GGraphics2DW) g3;
 		// round to nearest 5 degrees
 		angle = Math.round(angle / 5) * Math.PI / 36;
 
@@ -114,7 +114,7 @@ public class HatchingHandlerW extends geogebra.common.euclidian.HatchingHandler 
 
 	@Override
 	protected void doSetTexture(GGraphics2D g3, GeoElement geo, float alpha) {
-		GGraphics2D g2= (geogebra.web.awt.Graphics2D) g3;
+		GGraphics2D g2= (geogebra.web.awt.GGraphics2DW) g3;
 		if (geo.getFillImage() == null) {
 			g2.setPaint(geo.getFillColor());
 			return;

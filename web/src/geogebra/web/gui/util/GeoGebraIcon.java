@@ -8,7 +8,7 @@ import geogebra.common.main.AbstractApplication;
 import geogebra.web.awt.GBasicStrokeW;
 import geogebra.web.awt.GDimensionW;
 import geogebra.web.awt.GFontW;
-import geogebra.web.awt.Graphics2D;
+import geogebra.web.awt.GGraphics2DW;
 import geogebra.web.factories.AwtFactory;
 import geogebra.web.openjdk.awt.geom.Polygon;
 
@@ -31,7 +31,7 @@ public class GeoGebraIcon {
 		int w = 12;
 		
 		Canvas icon = getTmpCanvas(w, h);
-	    Graphics2D g2 = new Graphics2D(icon);
+	    GGraphics2DW g2 = new GGraphics2DW(icon);
 	    if (!isEnabled) {
 	    	//AGImageIcon ic = new ImageIcon(image);
 			//AGreturn ic;
@@ -92,7 +92,7 @@ public class GeoGebraIcon {
 		int w = iconSize.getWidth();
 
 		Canvas c = getTmpCanvas(w, h);
-	    Graphics2D g2 = new Graphics2D(c);
+	    GGraphics2DW g2 = new GGraphics2DW(c);
 		g2.setRenderingHint(GRenderingHints.KEY_ANTIALIASING, GRenderingHints.VALUE_ANTIALIAS_ON);
 
 		if(bgColor != null){
@@ -146,7 +146,7 @@ public class GeoGebraIcon {
 			fgColor = geogebra.common.factories.AwtFactory.prototype.newColor(255,255,255,255);
 		
 		Canvas c = getTmpCanvas(w,h);
-		Graphics2D g2 = new Graphics2D(c);
+		GGraphics2DW g2 = new GGraphics2DW(c);
 		g2.setRenderingHint(GRenderingHints.KEY_ANTIALIASING, GRenderingHints.VALUE_ANTIALIAS_ON);
 
 		--h;
@@ -177,7 +177,7 @@ public class GeoGebraIcon {
 		int w = iconSize.getWidth();
 
 		Canvas c = getTmpCanvas(w, h);
-		Graphics2D g2 = new Graphics2D(c);
+		GGraphics2DW g2 = new GGraphics2DW(c);
 		g2.setRenderingHint(GRenderingHints.KEY_ANTIALIASING, GRenderingHints.VALUE_ANTIALIAS_ON);
 
 		if(bgColor != null)
@@ -207,7 +207,7 @@ public class GeoGebraIcon {
 
 		Canvas c = getTmpCanvas(width, height);
 
-		Graphics2D g2 = new Graphics2D(c);
+		GGraphics2DW g2 = new GGraphics2DW(c);
 		g2.setRenderingHint(GRenderingHints.KEY_ANTIALIASING, GRenderingHints.VALUE_ANTIALIAS_ON);
 
 		g2.setPaint(GColor.GRAY);
@@ -226,7 +226,7 @@ public class GeoGebraIcon {
 		Canvas icon = getTmpCanvas(w,h);
 	    icon.setCoordinateSpaceHeight(h);
 	    icon.setCoordinateSpaceWidth(w);
-	    Graphics2D g2 = new Graphics2D(icon);
+	    GGraphics2DW g2 = new GGraphics2DW(icon);
 	    g2.setColor(GColor.WHITE);
 	    g2.fillRect(0, 0, g2.getCanvas().getCoordinateSpaceWidth(), g2.getCanvas().getCoordinateSpaceHeight());
 	    g2.setColor(GColor.GRAY);
@@ -249,7 +249,7 @@ public class GeoGebraIcon {
 		int w = iconSize.getWidth();
 
 		Canvas c = getTmpCanvas(w,h);
-		Graphics2D g2 = new Graphics2D(c);
+		GGraphics2DW g2 = new GGraphics2DW(c);
 		g2.setRenderingHint(GRenderingHints.KEY_ANTIALIASING, GRenderingHints.VALUE_ANTIALIAS_ON);
 
 		if(bgColor != null)
@@ -315,7 +315,7 @@ public class GeoGebraIcon {
 		int hInset = (h - h2) > 0 ? (h-h2)/2 : 0;
 		
 
-		Graphics2D g2 = new Graphics2D(getTmpCanvas(w, h));
+		GGraphics2DW g2 = new GGraphics2DW(getTmpCanvas(w, h));
 		g2.setRenderingHint(GRenderingHints.KEY_ANTIALIASING, GRenderingHints.VALUE_ANTIALIAS_ON);
 
 		try {	
@@ -341,7 +341,7 @@ public class GeoGebraIcon {
 		int h = Math.max(h1, h2);
 		int mid = h/2;
 		Canvas c = getTmpCanvas(w1 + w2, h);
-		Graphics2D g2 = new Graphics2D(c);
+		GGraphics2DW g2 = new GGraphics2DW(c);
 		g2.putImageData(leftIcon, 0, mid - h1/2);
 		String url = rightIcon.getSafeUri().asString();
 		if (!rightIcons.containsKey(rightIcon.getSafeUri().asString())) {

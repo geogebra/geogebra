@@ -1,7 +1,7 @@
 package geogebra.web.euclidian;
 
 
-import geogebra.web.awt.Graphics2D;
+import geogebra.web.awt.GGraphics2DW;
 import geogebra.web.kernel.gawt.canvas.CssColor;
 
 import com.google.gwt.canvas.client.Canvas;

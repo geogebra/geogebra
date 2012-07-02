@@ -419,7 +419,7 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 
 	@Override
 	public void mousePressedForPropertiesView(){
-		// TODO Auto-generated method stub
+		
 	}
 
 	@Override

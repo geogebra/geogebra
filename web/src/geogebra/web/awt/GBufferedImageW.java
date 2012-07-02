@@ -57,7 +57,7 @@ public class GBufferedImageW implements geogebra.common.awt.GBufferedImage {
 	}
 
 	public GGraphics2D createGraphics() {
-		return new geogebra.web.awt.Graphics2D(impl.getCanvas());
+		return new geogebra.web.awt.GGraphics2DW(impl.getCanvas());
     }
 
 	public GBufferedImageW getSubimage(int xInt, int yInt, int xInt2, int yInt2) {

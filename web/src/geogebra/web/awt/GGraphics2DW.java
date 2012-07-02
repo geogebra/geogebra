@@ -37,7 +37,7 @@ import com.google.gwt.core.client.JsArrayNumber;
 import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.user.client.Element;
 
-public class Graphics2D extends geogebra.common.awt.GGraphics2D {
+public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 	
 	protected final Canvas canvas;
 	private final Context2d context;
@@ -54,7 +54,7 @@ public class Graphics2D extends geogebra.common.awt.GGraphics2D {
 	/**
 	 * @param canvas
 	 */
-	public Graphics2D(Canvas canvas) {
+	public GGraphics2DW(Canvas canvas) {
 	    this.canvas = canvas;
 	    this.context = canvas.getContext2d();
 	    savedTransform = new geogebra.web.awt.GAffineTransformW();
@@ -305,7 +305,7 @@ public class Graphics2D extends geogebra.common.awt.GGraphics2D {
 	public native void setStrokeDash(Context2d ctx, JsArrayNumber dasharray) /*-{
 		if (typeof ctx.mozDash != 'undefined') {
 			ctx.mozDash = dasharray;
-			this.@geogebra.web.awt.Graphics2D::nativeDashUsed = true;
+			this.@geogebra.web.awt.GGraphics2DW::nativeDashUsed = true;
 			
 		} else if (typeof ctx.webkitLineDash != 'undefined') {
 			
@@ -314,7 +314,7 @@ public class Graphics2D extends geogebra.common.awt.GGraphics2D {
 			} else {
 				ctx.webkitLineDash = dasharray;
 			}
-			this.@geogebra.web.awt.Graphics2D::nativeDashUsed = true;
+			this.@geogebra.web.awt.GGraphics2DW::nativeDashUsed = true;
 		}
 	}-*/;
 
@@ -600,7 +600,7 @@ public class Graphics2D extends geogebra.common.awt.GGraphics2D {
 		context.clip();
     }
 
-    public void drawGraphics(geogebra.web.awt.Graphics2D gother, int x, int y,
+    public void drawGraphics(geogebra.web.awt.GGraphics2DW gother, int x, int y,
             GBufferedImageOp op) {
 
     	if (gother==null)

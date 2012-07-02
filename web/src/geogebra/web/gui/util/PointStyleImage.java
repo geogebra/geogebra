@@ -7,7 +7,7 @@ import geogebra.common.awt.GRenderingHints;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.web.awt.GBasicStrokeW;
 import geogebra.web.awt.GDimensionW;
-import geogebra.web.awt.Graphics2D;
+import geogebra.web.awt.GGraphics2DW;
 import geogebra.web.euclidian.EuclidianStaticW;
 import geogebra.web.openjdk.awt.geom.Ellipse2D;
 import geogebra.web.openjdk.awt.geom.GeneralPath;
@@ -44,7 +44,7 @@ public class PointStyleImage {
 	
 	public void drawPointStyle(GColor fgColor, GColor bgColor) {
 		
-		Graphics2D g2 = new Graphics2D(c);
+		GGraphics2DW g2 = new GGraphics2DW(c);
 		g2.setRenderingHint(GRenderingHints.KEY_ANTIALIASING,
 				GRenderingHints.VALUE_ANTIALIAS_ON);
 

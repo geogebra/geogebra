@@ -54,8 +54,8 @@ import com.google.gwt.user.client.ui.AbsolutePanel;
 
 public class EuclidianViewW extends EuclidianView implements SettingListener{
 	
-	public geogebra.web.awt.Graphics2D g2p = null;
-	public geogebra.web.awt.Graphics2D g4copy = null;
+	public geogebra.web.awt.GGraphics2DW g2p = null;
+	public geogebra.web.awt.GGraphics2DW g4copy = null;
 	public boolean isInFocus = false;
 
 	protected static final long serialVersionUID = 1L;
@@ -70,7 +70,7 @@ public class EuclidianViewW extends EuclidianView implements SettingListener{
 		Canvas canvas = (Canvas)(euclidianViewPanel.getWidget(0));
 		evNo = 1;
 	    // TODO Auto-generated constructor stub
-		this.g2p = new geogebra.web.awt.Graphics2D(canvas);
+		this.g2p = new geogebra.web.awt.GGraphics2DW(canvas);
 
 		updateFonts();
 		initView(true);
@@ -136,8 +136,8 @@ public class EuclidianViewW extends EuclidianView implements SettingListener{
 
 
 	public void paintBackground(geogebra.common.awt.GGraphics2D g2) {
-		((geogebra.web.awt.Graphics2D)g2).drawGraphics(
-				(geogebra.web.awt.Graphics2D)bgGraphics, 0, 0, null);
+		((geogebra.web.awt.GGraphics2DW)g2).drawGraphics(
+				(geogebra.web.awt.GGraphics2DW)bgGraphics, 0, 0, null);
 	}
 
 	// STROKES
@@ -298,7 +298,7 @@ public class EuclidianViewW extends EuclidianView implements SettingListener{
 	@Override
     public GGraphics2D getTempGraphics2D(GFont plainFontCommon) {
 	    if(g2dtemp==null)
-	    	g2dtemp = new geogebra.web.awt.Graphics2D(Canvas.createIfSupported());
+	    	g2dtemp = new geogebra.web.awt.GGraphics2DW(Canvas.createIfSupported());
 	    g2dtemp.setFont(plainFontCommon);
 	    return g2dtemp;
     }
@@ -607,7 +607,7 @@ public class EuclidianViewW extends EuclidianView implements SettingListener{
 	@Override
 	protected void drawResetIcon(geogebra.common.awt.GGraphics2D g){
 		int w = getWidth() + 2;
-		((geogebra.web.awt.Graphics2D)g).getCanvas().getContext2d().drawImage(
+		((geogebra.web.awt.GGraphics2DW)g).getCanvas().getContext2d().drawImage(
 			getResetImage(), w - 18, 2);
 	}
 
@@ -712,7 +712,7 @@ public class EuclidianViewW extends EuclidianView implements SettingListener{
 		c4.setCoordinateSpaceHeight(height);
 		c4.setWidth(width+"px");
 		c4.setHeight(height+"px");
-		g4copy = new geogebra.web.awt.Graphics2D(c4);
+		g4copy = new geogebra.web.awt.GGraphics2DW(c4);
 		getApplication().exporting = true;
 		exportPaintPre(g4copy, scale, transparency);
 		drawObjects(g4copy);
