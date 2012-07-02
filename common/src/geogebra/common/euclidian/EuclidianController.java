@@ -1901,31 +1901,50 @@ public abstract class EuclidianController {
 			return null;
 		}
 		
-		if (polygonMode == POLYGON_RIGID || polygonMode == POLYGON_VECTOR) {
+		if (polygonMode == POLYGON_VECTOR) {
 			addSelectedPolygon(hits, 1, false);
 			//AbstractApplication.debug(selGeos()+"");
 			if (selPolygons() == 1) {
 				GeoPolygon[] poly = getSelectedPolygons();
 				
-				GeoPointND[] points = poly[0].getPoints();
+				GeoPoint[] points = (GeoPoint[]) poly[0].getPoints();
 				
 				GeoPoint[] pointsCopy = new GeoPoint[points.length];
 
 				
 				// make a free copy of all points
 				for (int i = 0 ; i < points.length ; i++) {
-					pointsCopy[i] = (GeoPoint) points[i].copy();
+					pointsCopy[i] = points[i].copy();
 					pointsCopy[i].setLabel(null);
 					//points[i] = new GeoPoint(kernel.getConstruction(), null, points[i].inhomX, points[i].inhomY, 1.0);
 				}
 				
-				GeoElement[] ret = polygonMode == POLYGON_RIGID ? kernel.RigidPolygon(null, pointsCopy) : kernel.VectorPolygon(null, pointsCopy);
+				GeoElement[] ret = kernel.VectorPolygon(null, pointsCopy);
 				
 				// offset the copy slightly
 				double offset = view.toRealWorldCoordX(view.getWidth()) / 15;
 				
 				((GeoPolygon) ret[0]).getPoints()[0].setCoords(pointsCopy[0].inhomX + offset, pointsCopy[0].inhomY - offset, 1.0);
 				((GeoPolygon) ret[0]).getPoints()[0].updateRepaint();
+				
+				return ret;
+
+			}
+		} else 	if (polygonMode == POLYGON_RIGID) {
+			addSelectedPolygon(hits, 1, false);
+			//AbstractApplication.debug(selGeos()+"");
+			if (selPolygons() == 1) {
+				GeoPolygon[] poly = getSelectedPolygons();
+								
+				GeoElement[] ret = kernel.RigidPolygon(poly[0]);
+				
+				// offset the copy slightly
+				double offset = view.toRealWorldCoordX(view.getWidth()) / 15;
+				
+				GeoPointND firstPoint = ((GeoPolygon) ret[0]).getPoints()[0];
+				
+				firstPoint.setCoords(firstPoint.getX2D() + offset, firstPoint.getY2D() - offset, 1.0);
+				firstPoint.updateRepaint();
 				
 				return ret;
 

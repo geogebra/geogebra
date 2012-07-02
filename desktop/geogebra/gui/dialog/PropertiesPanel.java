@@ -3018,7 +3018,7 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 				newLoc = null;
 			} else {
 				newLoc = kernel.getAlgebraProcessor().evaluateToPoint(strLoc,
-						true);
+						true, true);
 			}
 
 			for (int i = 0; i < geos.length; i++) {
@@ -3190,7 +3190,7 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 				newLoc = null;
 			} else {
 				newLoc = kernel.getAlgebraProcessor().evaluateToPoint(strLoc,
-						true);
+						true, true);
 			}
 
 			for (int i = 0; i < geos.length; i++) {

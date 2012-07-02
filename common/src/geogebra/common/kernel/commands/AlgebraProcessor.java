@@ -754,10 +754,12 @@ public class AlgebraProcessor {
 	 * @param showErrors true to show error messages (only stacktrace otherwise) 
 	 * @return resulting point
 	 */
-	public GeoPointND evaluateToPoint(String str, boolean showErrors) {
+	public GeoPointND evaluateToPoint(String str, boolean showErrors, boolean suppressLabels) {
 		boolean oldMacroMode = cons.isSuppressLabelsActive();
-		cons.setSuppressLabelCreation(true);
-
+		if (suppressLabels) {
+			cons.setSuppressLabelCreation(true);
+		}
+		
 		GeoPointND p = null;
 		GeoElement[] temp = null;
 		try {
@@ -791,7 +793,9 @@ public class AlgebraProcessor {
 			}
 		}
 
-		cons.setSuppressLabelCreation(oldMacroMode);
+		if (suppressLabels) {
+			cons.setSuppressLabelCreation(oldMacroMode);
+		}
 		return p;
 	}
 

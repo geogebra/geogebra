@@ -8147,6 +8147,84 @@ public class Kernel {
 		return algo.getOutput();
 	}
 
+	/**
+	 * makes a copy of a polygon that can be dragged and rotated but stays congruent to original
+	 * @param poly
+	 * @return
+	 */
+	final public GeoElement[] RigidPolygon(GeoPolygon poly) {
+		
+		GeoPointND [] p = new GeoPointND[poly.getPointsLength()];
+		
+		// create free point p0
+		p[0] = poly.getPoint(0).copy();
+		p[0].setLabel(null);
+		
+		GeoSegmentND[] segs = poly.getSegments();
+		GeoPointND[] pts = poly.getPoints();
+				
+		boolean oldMacroMode = cons.isSuppressLabelsActive();
+		cons.setSuppressLabelCreation(true);
+		// create p1 = point on circle (so it can be dragged to rotate the whole shape)
+		GeoConic circle = Circle(null, (GeoPoint) p[0], poly.getSegments()[0]);
+		cons.setSuppressLabelCreation(oldMacroMode);
+
+		p[1] = Point(null, circle, poly.getPoint(1).inhomX, poly.getPoint(1).inhomY,
+				true, false);
+		
+		p[1].setLabel(null);
+		
+		boolean oldVal = isUsingInternalCommandNames();
+		setUseInternalCommandNames(true);
+				
+		StringBuilder sb = new StringBuilder();
+		
+		for (int i = 2 ; i < poly.getPointsLength() ; i++) {
+			
+			// build string like
+			// Rotate[B_1 + (l, 0), Angle[C - B] + Angle[B_1 - A_1] - Angle[B - A], B_1]
+			//        
+			
+			sb.setLength(0);
+			sb.append("Rotate[");
+			sb.append(p[i - 1].getLabel(StringTemplate.defaultTemplate));
+			sb.append("+ (");
+			sb.append(segs[i-1].getLabel(StringTemplate.defaultTemplate));
+			sb.append(", 0), Angle[");
+			sb.append(pts[i].getLabel(StringTemplate.defaultTemplate)); // C
+			sb.append("-");
+			sb.append(pts[i - 1].getLabel(StringTemplate.defaultTemplate)); // B
+			sb.append("] + Angle[");
+			sb.append(p[i -1].getLabel(StringTemplate.defaultTemplate));
+			sb.append("-");
+			sb.append(p[i -2].getLabel(StringTemplate.defaultTemplate));
+			sb.append("] - Angle[");
+			sb.append(pts[i - 1].getLabel(StringTemplate.defaultTemplate)); // B
+			sb.append("-");
+			sb.append(pts[i - 2].getLabel(StringTemplate.defaultTemplate)); // A
+			sb.append("],");
+			sb.append(p[i - 1].getLabel(StringTemplate.defaultTemplate));
+			sb.append("]");
+			
+			//app.debug(sb.toString());
+			
+			p[i] = (GeoPoint) getAlgebraProcessor().evaluateToPoint(
+					sb.toString(), true, false);
+			p[i].setLabel(null);
+			p[i].setEuclidianVisible(false);
+			p[i].update();
+			
+		}
+		
+		setUseInternalCommandNames(oldVal);
+		
+		AlgoPolygon algo = new AlgoPolygon(cons, null, p);
+		
+		GeoElement[] ret = { algo.getGeoElements()[0] };
+		
+		return ret;
+	}
+	
 	final public GeoElement[] RigidPolygon(String[] labels, GeoPoint[] points) {
 		boolean oldMacroMode = cons.isSuppressLabelsActive();
 
@@ -8175,6 +8253,9 @@ public class Kernel {
 		GeoVec2D a = new GeoVec2D(this, xB - xA, yB - yA); // vector AB
 		GeoVec2D b = new GeoVec2D(this, yA - yB, xB - xA); // perpendicular to
 															// AB
+
+		boolean oldVal = isUsingInternalCommandNames();
+		setUseInternalCommandNames(true);
 
 		a.makeUnitVector();
 		b.makeUnitVector();
@@ -8210,7 +8291,7 @@ public class Kernel {
 			// Application.debug(sb.toString());
 
 			GeoPoint pp = (GeoPoint) getAlgebraProcessor().evaluateToPoint(
-					sb.toString(), true);
+					sb.toString(), true, true);
 
 			try {
 				(cons).replace(points[i], pp);
@@ -8222,6 +8303,9 @@ public class Kernel {
 				return null;
 			}
 		}
+		
+		setUseInternalCommandNames(oldVal);
+
 		points[0].update();
 
 		return Polygon(labels, points);
@@ -8266,8 +8350,7 @@ public class Kernel {
 
 			GeoNumeric nx = new GeoNumeric(cons, null, xC - xA);
 			GeoNumeric ny = new GeoNumeric(cons, null, yC - yA);
-			// TODO max precision ?
-			StringTemplate tpl = StringTemplate.defaultTemplate;
+			StringTemplate tpl = StringTemplate.maxPrecision;
 			// make string like this
 			// (a+x(A),b+y(A))
 			sb.setLength(0);
@@ -8284,7 +8367,7 @@ public class Kernel {
 			// Application.debug(sb.toString());
 
 			GeoPoint pp = (GeoPoint) getAlgebraProcessor().evaluateToPoint(
-					sb.toString(), true);
+					sb.toString(), true, true);
 
 			try {
 				cons.replace(points[i], pp);
