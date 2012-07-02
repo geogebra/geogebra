@@ -1,8 +1,13 @@
 package geogebra.util;
 
 
+import java.util.Iterator;
+import java.util.Vector;
+
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
+import geogebra.common.util.Prover.NDGCondition;
 
 import com.ogprover.api.GeoGebraOGPInterface;
 import com.ogprover.main.OGPConfigurationSettings;
@@ -63,6 +68,16 @@ public class Prover extends geogebra.common.util.Prover {
 		}
 	}
 	
+	private GeoElement getGeoByLabel(String label) {
+		Iterator<GeoElement> it = statement.getAllPredecessors().iterator();
+		while (it.hasNext()) {
+			GeoElement geo = it.next();
+			if (geo.getLabelSimple().equals(label))
+				return geo;
+		}
+		return null;
+	}
+	
 	@Override
 	protected ProofResult openGeoProver() {
 		AbstractApplication.debug("OGP is about to run...");
@@ -83,6 +98,7 @@ public class Prover extends geogebra.common.util.Prover {
 		inputObject.setTimeOut(AbstractApplication.proverTimeout);
 		inputObject.setMaxTerms(AbstractApplication.maxTerms);
 		inputObject.setReportFormat(GeoGebraOGPInputProverProtocol.OGP_REPORT_FORMAT_NONE);
+		inputObject.setReportFormat(GeoGebraOGPInputProverProtocol.OGP_REPORT_FORMAT_ALL);
 		
         // OGP API
         GeoGebraOGPInterface ogpInterface = new GeoGebraOGPInterface();
@@ -95,6 +111,25 @@ public class Prover extends geogebra.common.util.Prover {
         AbstractApplication.debug(GeoGebraOGPOutputProverProtocol.OGP_OUTPUT_RES_PROVER_MSG + ": " + outputObject.getOutputResult(GeoGebraOGPOutputProverProtocol.OGP_OUTPUT_RES_PROVER_MSG));
         AbstractApplication.debug(GeoGebraOGPOutputProverProtocol.OGP_OUTPUT_RES_TIME + ": " + outputObject.getOutputResult(GeoGebraOGPOutputProverProtocol.OGP_OUTPUT_RES_TIME));
         AbstractApplication.debug(GeoGebraOGPOutputProverProtocol.OGP_OUTPUT_RES_NUMTERMS + ": " + outputObject.getOutputResult(GeoGebraOGPOutputProverProtocol.OGP_OUTPUT_RES_NUMTERMS));
+        
+        // Obtaining NDG conditions:
+        Vector<String> ndgList = outputObject.getNdgList();
+        for (String ndgString : ndgList) {
+        	int i = ndgString.indexOf("[");
+        	NDGCondition ndg = new NDGCondition();
+    		ndg.setCondition(ndgString.substring(0, i));
+    		String params = ndgString.substring(i+1, ndgString.length()-1);
+    		String[] paramsArray = params.split(",");
+    		GeoElement[] geos = new GeoElement[paramsArray.length];
+    		int j = 0;
+    		for (String param : paramsArray) {
+    			geos[j] = getGeoByLabel(param.trim());
+    			j++;
+    		}
+    		ndg.setGeos(geos);
+    		addNDGcondition(ndg);
+        }
+        // This would be faster if we could simply get the objects back from OGP as they are.
         
         if (outputObject.getOutputResult(GeoGebraOGPOutputProverProtocol.OGP_OUTPUT_RES_SUCCESS).equals("true")) {
         	if (outputObject.getOutputResult(GeoGebraOGPOutputProverProtocol.OGP_OUTPUT_RES_PROVER).equals("true"))
