@@ -313,6 +313,22 @@ public class DrawEquationWeb implements DrawEquationInterface {
 			event.preventDefault();
 			return false;
 		});
+
+		// hacking to deselect the editing when the user does something else like in Desktop
+		var mousein = {};
+		mousein.mout = false;
+		$wnd.jQuery(elsecond).focusout(function(event) {
+			if (mousein.mout) {
+				@geogebra.web.main.DrawEquationWeb::escEditingEquationMathQuill(Lgeogebra/web/gui/view/algebra/RadioButtonTreeItem;Lcom/google/gwt/dom/client/Element;)(rbti,parentElement);
+			}
+			event.stopPropagation();
+			event.preventDefault();
+			return false;
+		}).mouseenter(function(event2) {
+			mousein.mout = false;
+		}).mouseleave(function(event3) {
+			mousein.mout = true;
+		});
 	}-*/;
 
 	public static native void escEditingEquationMathQuill(RadioButtonTreeItem rbti, Element parentElement) /*-{

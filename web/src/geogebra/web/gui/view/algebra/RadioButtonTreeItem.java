@@ -38,6 +38,8 @@ import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.event.dom.client.MouseMoveHandler;
+import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -290,6 +292,13 @@ public class RadioButtonTreeItem extends HorizontalPanel
 						add(ihtml);
 						stopEditingSimple(null);
 					}
+				}
+			});
+			tb.addBlurHandler(new BlurHandler() {
+				public void onBlur(BlurEvent bevent) {
+					remove(tb);
+					add(ihtml);
+					stopEditingSimple(null);
 				}
 			});
 			tb.setFocus(true);
