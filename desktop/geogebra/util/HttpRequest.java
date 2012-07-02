@@ -5,7 +5,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLConnection;
 
 /**
  * @author Zoltan Kovacs <zoltan@geogebra.org>
@@ -18,7 +17,12 @@ public class HttpRequest extends geogebra.common.util.HttpRequest {
 	public void sendRequest(String url) {
 		try {
 			URL u = new URL(url);
-			BufferedReader in = new BufferedReader(new InputStreamReader(u.openStream()));
+			HttpURLConnection huc = (HttpURLConnection) u.openConnection();
+			huc.setConnectTimeout(timeout * 1000);
+			huc.setRequestMethod("GET");
+			huc.connect();
+			BufferedReader in;
+			in = new BufferedReader(new InputStreamReader(huc.getInputStream()));
 			String s = "";
 			answer = in.readLine(); // the last line will never get a "\n" on its end
 			while ((s = in.readLine()) != null) {
@@ -42,17 +46,17 @@ public class HttpRequest extends geogebra.common.util.HttpRequest {
 		try {
 			URL u = new URL(url);
 			// Borrowed from http://www.exampledepot.com/egs/java.net/post.html:
-			HttpURLConnection uc = (HttpURLConnection) u.openConnection();
+			HttpURLConnection huc = (HttpURLConnection) u.openConnection();
 			// Borrowed from http://bytes.com/topic/java/answers/720825-how-build-http-post-request-java:
 			// uc.setRequestMethod("POST");
 			// uc.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
 			// uc.setUseCaches(false);
 			// uc.setDoInput(true);
-			uc.setDoOutput(true);
-			OutputStreamWriter osw = new OutputStreamWriter(uc.getOutputStream());
+			huc.setDoOutput(true);
+			OutputStreamWriter osw = new OutputStreamWriter(huc.getOutputStream());
 		    osw.write(post);
 		    osw.flush();
-			BufferedReader in = new BufferedReader(new InputStreamReader(uc.getInputStream()));
+			BufferedReader in = new BufferedReader(new InputStreamReader(huc.getInputStream()));
 			String s = "";
 			answer = in.readLine(); // the last line will never get a "\n" on its end
 			while ((s = in.readLine()) != null) {
