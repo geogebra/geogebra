@@ -23,11 +23,11 @@ instructions.
 <project default="geogebra5-developer">
 
 	<target name="geogebra4-developer" depends="_classpath-open, _lib-build-geogebra4, _lib-runtime, _classpath-close, info"
-	    description="For Eclipse developers: to create GeoGebra 4 builds (JOGL1 not included)">
+	    description="For Eclipse developers: to create GeoGebra 4 builds">
 	</target>
 
 	<target name="geogebra5-developer" depends="_classpath-open, _lib-build-geogebra5, _lib-runtime, _classpath-close, info"
-	    description="(DEFAULT) For Eclipse developers: to create GeoGebra 4 or 5 builds (JOGL1 included)">
+	    description="(DEFAULT) For Eclipse developers: to create GeoGebra 4 or 5 builds">
 	</target>
 
 	<target name="geogebra4-developer-commandline" depends="_classpath-open, geogebra4-developer, ecj, _classpath-close"
@@ -49,8 +49,6 @@ instructions.
 	<!-- these targets should come from the GeoGebra repository (currently) -->
 	<target name="mpreduce" depends="mpreduce-geogebra"/>
 	<target name="ogp" depends="ogp-geogebra"/>
-	<target name="jogl1" depends="jogl1-geogebra"/>
-	<target name="jogl2" depends="jogl2-geogebra"/>
 	<target name="jython" depends="jython-geogebra"/>
 	<target name="jlatexmath" depends="jlatexmath-geogebra"/>
 	<target name="p200ant" depends="p200ant-geogebra"/>
@@ -71,7 +69,7 @@ instructions.
 	    description="Internal target, please do not use manually. Downloads all packages needed for a full build for the current OS and architecture (for GeoGebra 4)">
 	</target>
 
-	<target name="_lib-build-geogebra5" depends="_lib-build-geogebra4, jogl1, jogl2"
+	<target name="_lib-build-geogebra5" depends="_lib-build-geogebra4"
 	    description="Internal target, please do not use manually. Downloads all packages needed for a full build for the current OS and architecture (for GeoGebra 5)">
 	</target>
 
@@ -273,158 +271,6 @@ instructions.
 		    dest="lib/OpenNI64.dll" usetimestamp="true"/>
 	</target>
 	
-	<!-- dowload jogl1 from GeoGebra repository -->
-	<target name="jogl1-geogebra" depends="jogl1-linux-geogebra, jogl1-macosx-geogebra, jogl1-windows-geogebra, jogl1-jar-geogebra"/>
-
-	<target name="jogl1-jar-geogebra">
-	<mkdir dir="lib/build/jogl1/jar"/>
-	<mkdir dir="lib/download"/>
-	<get 
-	    src="http://dev.geogebra.org/download/lib/build/jogl1/jogl1-jar.zip"
-	    dest="lib/download/jogl1-jar.zip" usetimestamp="true"/>
-	<unzip src="lib/download/jogl1-jar.zip" dest="lib/">
-	    <mapper type="glob" from="*" to="build/jogl1/*"/>
-	</unzip>
-        <echo file=".classpath" append="true">
-    
-        &lt;classpathentry kind="lib" path="lib/build/jogl1/jar/gluegen-rt.jar"/&gt;
-	&lt;classpathentry kind="lib" path="lib/build/jogl1/jar/jogl.jar"/&gt;
-	</echo>
-	</target>
-	
-	<target name="jogl1-linux-geogebra" depends="jogl1-linux-amd64-geogebra, jogl1-linux-i586-geogebra"/>
-	<target name="jogl1-windows-geogebra" depends="jogl1-winnt-amd64-geogebra, jogl1-winnt-i586-geogebra"/>
-
-	<target name="jogl1-linux-amd64-geogebra" if="unix-amd64">
-	<mkdir dir="lib/download"/>
-	<mkdir dir="lib/build/jogl1/linux-amd64"/>
-	<get 
-	    src="http://dev.geogebra.org/download/lib/build/jogl1/jogl1-linux-amd64.zip"
-	    dest="lib/download/jogl1-linux-amd64.zip" usetimestamp="true"/>
-	<unzip src="lib/download/jogl1-linux-amd64.zip" dest="lib/">
-	    <mapper type="glob" from="*" to="build/jogl1/*"/>
-	</unzip>
-	<move todir="lib">
-	    <fileset dir="lib/build/jogl1/linux-amd64">
-		<include name="*" />
-	    </fileset>
-	</move>
-	</target>
-
-	<target name="jogl1-linux-i586-geogebra" if="unix-i386">
-	<mkdir dir="lib/download"/>
-	<mkdir dir="lib/build/jogl1/linux-i586"/>
-	<get 
-	    src="http://dev.geogebra.org/download/lib/build/jogl1/jogl1-linux-i586.zip"
-	    dest="lib/download/jogl1-linux-i586.zip" usetimestamp="true"/>
-	<unzip src="lib/download/jogl1-linux-i586.zip" dest="lib/">
-	    <mapper type="glob" from="*" to="build/jogl1/*"/>
-	</unzip>
-	<move todir="lib">
-	    <fileset dir="lib/build/jogl1/linux-i586">
-		<include name="*" />
-	    </fileset>
-	</move>
-	</target>
-
-	<target name="jogl1-macosx-geogebra" if="mac">
-	<mkdir dir="lib/build/jogl1/macosx"/>
-	<mkdir dir="lib/download"/>
-	<get 
-	    src="http://dev.geogebra.org/download/lib/build/jogl1/jogl1-macosx.zip"
-	    dest="lib/download/jogl1-macosx.zip" usetimestamp="true"/>
-	<unzip src="lib/download/jogl1-macosx.zip" dest="lib/">
-	    <mapper type="glob" from="*" to="build/jogl1/*"/>
-	</unzip>
-	<move todir="lib">
-	    <fileset dir="lib/build/jogl1/macosx">
-		<include name="*" />
-	    </fileset>
-	</move>
-	</target>
-
-	<target name="jogl1-winnt-amd64-geogebra" if="winnt-amd64">
-	<mkdir dir="lib/download"/>
-	<mkdir dir="lib/build/jogl1/windows-amd64"/>
-	<get 
-	    src="http://dev.geogebra.org/download/lib/build/jogl1/jogl1-windows-amd64.zip"
-	    dest="lib/download/jogl1-windows-amd64.zip" usetimestamp="true"/>
-	<unzip src="lib/download/jogl1-windows-amd64.zip" dest="lib/">
-	    <mapper type="glob" from="*" to="build/jogl1/*"/>
-	</unzip>
-	<move todir="lib">
-	    <fileset dir="lib/build/jogl1/windows-amd64">
-		<include name="*" />
-	    </fileset>
-	</move>
-	</target>
-	
-	<target name="jogl1-winnt-i586-geogebra" if="winnt-x86">
-	<mkdir dir="lib/download"/>
-	<mkdir dir="lib/build/jogl1/windows-i586"/>
-	<get 
-	    src="http://dev.geogebra.org/download/lib/build/jogl1/jogl1-windows-i586.zip"
-	    dest="lib/download/jogl1-windows-i586.zip" usetimestamp="true"/>
-	<unzip src="lib/download/jogl1-windows-i586.zip" dest="lib/">
-	    <mapper type="glob" from="*" to="build/jogl1/*"/>
-	</unzip>
-	<move todir="lib">
-	    <fileset dir="lib/build/jogl1/windows-i586">
-		<include name="*" />
-	    </fileset>
-	</move>
-	</target>
-
-	<!-- dowload jogl2 from GeoGebra repository -->
-	<target name="jogl2-geogebra" depends="jogl2-linux-geogebra, jogl2-macosx-geogebra, jogl2-windows-geogebra"/>
-
-	<target name="jogl2-linux-geogebra" if="unix">
-	<mkdir dir="lib/download"/>
-	<mkdir dir="lib/build/jogl2/linux-amd64"/>
-	<get 
-	    src="http://dev.geogebra.org/download/lib/build/jogl2/jogl2-linux-amd64.zip"
-	    dest="lib/download/jogl2-linux-amd64.zip" usetimestamp="true"/>
-	<unzip src="lib/download/jogl2-linux-amd64.zip" dest="lib/">
-	    <mapper type="glob" from="*" to="build/jogl2/*"/>
-	</unzip>
-	<mkdir dir="lib/build/jogl2/linux-i586"/>
-	<get 
-	    src="http://dev.geogebra.org/download/lib/build/jogl2/jogl2-linux-i586.zip"
-	    dest="lib/download/jogl2-linux-i586.zip" usetimestamp="true"/>
-	<unzip src="lib/download/jogl2-linux-i586.zip" dest="lib/">
-	    <mapper type="glob" from="*" to="build/jogl2/*"/>
-	</unzip>
-	</target>
-
-	<target name="jogl2-macosx-geogebra" if="mac">
-	<mkdir dir="lib/build/jogl2-macosx"/>
-	<mkdir dir="lib/download"/>
-	<get 
-	    src="http://dev.geogebra.org/download/lib/build/jogl2/jogl2-macosx.zip"
-	    dest="lib/download/jogl2-macosx.zip" usetimestamp="true"/>
-	<unzip src="lib/download/jogl2-macosx.zip" dest="lib/">
-	    <mapper type="glob" from="*" to="build/jogl2/*"/>
-	</unzip>
-	</target>
-
-	<target name="jogl2-windows-geogebra" if="winnt">
-	<mkdir dir="lib/download"/>
-	<mkdir dir="lib/build/jogl2/windows-amd64"/>
-	<get 
-	    src="http://dev.geogebra.org/download/lib/build/jogl2/jogl2-windows-amd64.zip"
-	    dest="lib/download/jogl2-windows-amd64.zip" usetimestamp="true"/>
-	<unzip src="lib/download/jogl2-windows-amd64.zip" dest="lib/">
-	    <mapper type="glob" from="*" to="build/jogl2/*"/>
-	</unzip>
-	<mkdir dir="lib/build/jogl2/windows-i586"/>
-	<get 
-	    src="http://dev.geogebra.org/download/lib/build/jogl2/jogl2-windows-i586.zip"
-	    dest="lib/download/jogl2-windows-i586.zip" usetimestamp="true"/>
-	<unzip src="lib/download/jogl2-windows-i586.zip" dest="lib/">
-	    <mapper type="glob" from="*" to="build/jogl2/*"/>
-	</unzip>
-	</target>
-
 	<target name="_osarchinfo" description="Reports OS name and architecture">
 	<echo message="This is a ${os.name} running on ${os.arch}"/>
 	</target>
