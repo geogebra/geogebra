@@ -14,7 +14,6 @@ package geogebra.gui.dialog.options;
 
 import geogebra.common.gui.SetLabels;
 import geogebra.common.kernel.ConstructionDefaults;
-import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
 import geogebra.gui.color.GeoGebraColorChooser;
@@ -36,20 +35,15 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
+import javax.swing.border.Border;
 
 /**
  * @author Markus Hohenwarter
  */
-public class OptionsObject extends JPanel implements OptionPanel, SetLabels {
-
-	// private static final int MAX_OBJECTS_IN_TREE = 500;
-	private static final int MAX_GEOS_FOR_EXPAND_ALL = 15;
-	private static final int MAX_COMBOBOX_ENTRIES = 200;
-	private static final int MIN_LIST_WIDTH = 120;
+public class OptionsObject extends geogebra.common.gui.dialog.options.OptionsObject implements OptionPanel, SetLabels {
 
 	private static final long serialVersionUID = 1L;
 	private Application app;
-	private Kernel kernel;
 	private JButton defaultsButton;
 	private PropertiesPanel propPanel;
 	private GeoGebraColorChooser colChooser;
@@ -58,16 +52,7 @@ public class OptionsObject extends JPanel implements OptionPanel, SetLabels {
 
 	private JSplitPane splitPane;
 	private JScrollPane listScroller;
-
-	// stop slider increment being less than 0.00000001
-	public final static int TEXT_FIELD_FRACTION_DIGITS = 8;
-	public final static int SLIDER_MAX_WIDTH = 170;
-
-	final private static int MIN_WIDTH = 500;
-	final private static int MIN_HEIGHT = 300;
-	
-
-	
+	private JPanel wrappedPanel;
 
 	/**
 	 * Creates new PropertiesDialog.
@@ -92,7 +77,8 @@ public class OptionsObject extends JPanel implements OptionPanel, SetLabels {
 	 */
 	public void initGUI() {
 
-		boolean wasShowing = isShowing();
+		wrappedPanel = new JPanel();
+		boolean wasShowing = wrappedPanel.isShowing();
 		if (wasShowing) {
 			setVisible(false);
 		}
@@ -143,7 +129,7 @@ public class OptionsObject extends JPanel implements OptionPanel, SetLabels {
 		}
 
 		// put it all together
-		this.removeAll();
+		wrappedPanel.removeAll();
 		
 
 		splitPane = new JSplitPane();
@@ -151,10 +137,10 @@ public class OptionsObject extends JPanel implements OptionPanel, SetLabels {
 		splitPane.setLeftComponent(listScroller);
 		splitPane.setRightComponent(propPanel);
 
-		this.setLayout(new BorderLayout());
+		wrappedPanel.setLayout(new BorderLayout());
 		//this.add(propPanel, BorderLayout.CENTER);
-		this.add(splitPane, BorderLayout.CENTER);
-		this.add(buttonPanel, BorderLayout.SOUTH);
+		wrappedPanel.add(splitPane, BorderLayout.CENTER);
+		wrappedPanel.add(buttonPanel, BorderLayout.SOUTH);
 		
 
 		if (wasShowing) {
@@ -224,7 +210,7 @@ public class OptionsObject extends JPanel implements OptionPanel, SetLabels {
 		setViewActive(true);
 
 
-		if (!isShowing()) {
+		if (!wrappedPanel.isShowing()) {
 			// pack and center on first showing
 			if (firstTime) {
 				// TODO ---- is this needed?
@@ -234,28 +220,25 @@ public class OptionsObject extends JPanel implements OptionPanel, SetLabels {
 			}
 
 			// ensure min size
-			Dimension dim = getSize();
+			Dimension dim = wrappedPanel.getSize();
 			if (dim.width < MIN_WIDTH) {
 				dim.width = MIN_WIDTH;
-				setSize(dim);
+				wrappedPanel.setSize(dim);
 			}
 			if (dim.height < MIN_HEIGHT) {
 				dim.height = MIN_HEIGHT;
-				setSize(dim);
+				wrappedPanel.setSize(dim);
 			}
 
-			super.setVisible(true);
+			wrappedPanel.setVisible(true);
 		}
 	}
 
-	private boolean firstTime = true;
-
-	@Override
 	public void setVisible(boolean visible) {
 		if (visible) {
 			setVisibleWithGeos(null);
 		} else {
-			super.setVisible(false);
+			wrappedPanel.setVisible(false);
 			setViewActive(false);
 		}
 	}
@@ -393,33 +376,23 @@ public class OptionsObject extends JPanel implements OptionPanel, SetLabels {
 
 	 }
 
-	 /**
-	  * update geo just added
-	  * @param geo geo
-	  */
-	 public void add(GeoElement geo){
-		 //AbstractApplication.debug("\ngeo = "+geo);
-		 geoAdded = geo;
-	 }
-	 
-	 private GeoElement geoAdded = null;
-	 
-	 /**
-	  * consume last added geo
-	  * @return last added geo
-	  */
-	 public GeoElement consumeGeoAdded(){
-		 GeoElement ret = geoAdded;
-		 forgetGeoAdded();
-		 return ret;
-	 }
-	 
-	 /**
-	  * forget last added geo
-	  */
-	 public void forgetGeoAdded(){
-		 geoAdded = null;
-	 }
+	 public void revalidate() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setBorder(Border border) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public Dimension getPreferredSize() {
+		return wrappedPanel.getPreferredSize();
+	}
+
+	public void setMinimumSize(Dimension preferredSize) {
+		wrappedPanel.setMinimumSize(preferredSize);
+	}
 	 
 	 
 	 

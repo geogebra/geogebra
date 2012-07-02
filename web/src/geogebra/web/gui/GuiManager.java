@@ -18,6 +18,7 @@ import geogebra.web.gui.inputbar.AlgebraInput;
 import geogebra.web.gui.inputbar.InputBarHelpPanel;
 import geogebra.web.gui.layout.Layout;
 import geogebra.web.gui.menubar.GeoGebraMenubar;
+import geogebra.web.gui.properties.PropertiesView;
 import geogebra.web.gui.util.GeoGebraFileChooser;
 import geogebra.web.gui.view.algebra.AlgebraController;
 import geogebra.web.gui.view.algebra.AlgebraView;
@@ -409,6 +410,19 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 //			kernel.notifyModeChanged(mode);
 //		}
 	}
+	
+	private PropertiesView propertiesView;
+
+	@Override
+	public View getPropertiesView() {
+
+		if (propertiesView == null) {
+			// initPropertiesDialog();
+			propertiesView = new PropertiesView(app);
+		}
+
+		return propertiesView;
+	}
 
 	@Override
     public void updatePropertiesView() {
@@ -419,7 +433,9 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 
 	@Override
 	public void mousePressedForPropertiesView(){
-		
+		if(propertiesView !=null){
+			propertiesView.mousePressedForPropertiesView();
+		}
 	}
 
 	@Override
@@ -461,12 +477,6 @@ public class GuiManager extends geogebra.common.gui.GuiManager {
 	public void showPropertiesViewSliderTab(){
 		// TODO Auto-generated method stub
 	}
-
-	@Override
-    public View getPropertiesView() {
-	    // TODO Auto-generated method stub
-	    return null;
-    }
 
 	@Override
     public void openURL() {

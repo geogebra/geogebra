@@ -57,5 +57,8 @@ public abstract class PropertiesView implements View{
 	 * Set the option panel to be displayed
 	 */
 	public abstract void setOptionPanel(OptionType type);
+
+
+	public abstract void mousePressedForPropertiesView();
 	
 }

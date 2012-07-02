@@ -1,5 +1,7 @@
 package geogebra.gui.dialog.options;
 
+import geogebra.common.kernel.geos.GeoElement;
+
 import javax.swing.border.Border;
 
 
@@ -9,8 +11,6 @@ import javax.swing.border.Border;
  *
  */
 public interface OptionPanel {
-
-
 	/**
 	 * Update the GUI to take care of new settings which were applied.
 	 */
