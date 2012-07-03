@@ -248,9 +248,13 @@ office@geogebra.org
 		<!--symlink link="${src.dir}/geogebra/common" resource="${src.dir}/../common/src/geogebra/common"/-->
 		<mkdir dir="${src.dir}/geogebra/common"/>
 		<copy todir="${src.dir}/geogebra/common">
-			<fileset dir="${src.dir}/../common/src/geogebra/common">
-				<include name="**/*" />
-			</fileset>
+                        <fileset dir="${src.dir}/../common/src/geogebra/common">
+                                <include name="**/*.class" />
+                        </fileset>
+			<!-- Eclipse stores compiled files in a different place: -->                        
+                        <fileset dir="${src.dir}/../common/war/WEB-INF/classes/geogebra/common">
+                                <include name="**/*.class" />
+                        </fileset>	
 		</copy>
 		
 		<jar jarfile="${build.dir}/geogebra_main.jar"		
@@ -351,6 +355,11 @@ office@geogebra.org
 			<fileset dir="${src.dir}/../common/src/org/apache">
 				<include name="**/*.class" />
 			</fileset>
+			<!-- Eclipse stores compiled files in a different place: -->
+                        <fileset dir="${src.dir}/../common/war/WEB-INF/classes/org/apache">
+				<include name="**/*.class" />
+			</fileset>
+
 		</copy>
 		<copy todir="${src.dir}/edu">
 			<fileset dir="${src.dir}/../common/src/geogebra/jung/edu">
