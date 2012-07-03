@@ -1,14 +1,5 @@
 package geogebra.web.gui;
 
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.text.JTextComponent;
-
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.GeoElementSelectionListener;
 import geogebra.web.gui.inputfield.AutoCompleteTextFieldW;
@@ -66,10 +57,10 @@ public class InputDialogW extends  PopupPanel implements ClickHandler{
 //		btProperties = new JButton();
 //		btProperties.setActionCommand("OpenProperties");
 //		btProperties.addActionListener(this);
-		btOK = new Button("OK");
+		btOK = new Button(app.getPlain("OK"));
 		btOK.getElement().getStyle().setMargin(3, Style.Unit.PX);
 		btOK.addClickHandler(this);
-		btCancel = new Button("Cancel");
+		btCancel = new Button(app.getPlain("Cancel"));
 		btCancel.getElement().getStyle().setMargin(3, Style.Unit.PX);
 		btCancel.addClickHandler(this);
 //		btApply = new JButton();
