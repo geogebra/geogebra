@@ -1,0 +1,8 @@
+#!/bin/sh
+# This script downloads all JOGL1 files and puts them into lib/download
+
+TARGET=lib/download
+mkdir -p $TARGET
+cat kickstart.xml | grep http | grep "\.zip" | cut -f2 -d\" | xargs wget -N -P $TARGET
+cd $TARGET
+for i in *.zip; do unzip -o $i; done
