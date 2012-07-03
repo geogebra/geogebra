@@ -3,14 +3,31 @@ package geogebra.web.gui.properties;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
 import geogebra.web.gui.dialog.options.OptionsObject;
+import geogebra.web.main.Application;
 
 import java.util.ArrayList;
 
+import com.google.gwt.user.client.ui.PopupPanel;
+
+/**
+ * @author gabor
+ * 
+ * PropertiesView for Web
+ *
+ */
 public class PropertiesViewW extends
         geogebra.common.gui.view.properties.PropertiesView {
+	
+	private PopupPanel wrappedPanel;
 
-	public PropertiesViewW(AbstractApplication app) {
-	    // TODO Auto-generated constructor stub
+	public PropertiesViewW(Application app) {
+	    this.wrappedPanel = new PopupPanel();
+	    this.app = app;
+	    
+	    app.setPropertiesView(this);
+	    
+	    app.setWaitCursor();
+	    
     }
 
 	public void add(GeoElement geo) {

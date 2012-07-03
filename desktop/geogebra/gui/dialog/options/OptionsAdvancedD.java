@@ -45,7 +45,7 @@ import javax.swing.event.ChangeListener;
 /**
  * Advanced options for the options dialog.
  */
-public class OptionsAdvanced extends JPanel implements OptionPanel, ActionListener,
+public class OptionsAdvancedD extends geogebra.common.gui.dialog.options.OptionsAdvanced implements OptionPanel, ActionListener,
 		ChangeListener, FocusListener, SetLabels {
 	/** */
 	private static final long serialVersionUID = 1L;
@@ -110,13 +110,15 @@ public class OptionsAdvanced extends JPanel implements OptionPanel, ActionListen
 	private String[] tooltipTimeouts = new String[] { "1", "3", "5", "10",
 			"20", "30", "60", "-" };
 
+	private JPanel wrappedPanel;
+
 	/**
 	 * Construct advanced option panel.
 	 * 
 	 * @param app
 	 */
-	public OptionsAdvanced(Application app) {
-		super(new BorderLayout());
+	public OptionsAdvancedD(Application app) {
+		this.wrappedPanel = new JPanel(new BorderLayout());
 
 		this.app = app;
 		this.settings = app.getSettings();
@@ -168,7 +170,7 @@ public class OptionsAdvanced extends JPanel implements OptionPanel, ActionListen
 		scrollPane.getVerticalScrollBar().setUnitIncrement(20);
 		scrollPane.setBorder(BorderFactory.createEmptyBorder());
 
-		add(scrollPane, BorderLayout.CENTER);
+		wrappedPanel.add(scrollPane, BorderLayout.CENTER);
 		
 
 		setLabels();
@@ -312,7 +314,7 @@ public class OptionsAdvanced extends JPanel implements OptionPanel, ActionListen
 		twoColumns.setLayout(new BorderLayout());
 		twoColumns.add(guiPanelEast, BorderLayout.EAST);
 		twoColumns.add(guiPanelWest, BorderLayout.WEST);
-		twoColumns.setAlignmentX(LEFT_ALIGNMENT);
+		twoColumns.setAlignmentX(wrappedPanel.LEFT_ALIGNMENT);
 		miscPanel.add(twoColumns);
 
 		cbEnableScripting = new JCheckBox();
@@ -997,6 +999,15 @@ public class OptionsAdvanced extends JPanel implements OptionPanel, ActionListen
 	}
 
 	public JPanel getWrappedPanel() {
-		return this;
+		return this.wrappedPanel;
+	}
+
+	public void revalidate() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setBorder(Border border) {
+		wrappedPanel.setBorder(border);
 	}
 }

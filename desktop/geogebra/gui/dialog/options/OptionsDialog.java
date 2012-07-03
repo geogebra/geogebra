@@ -76,31 +76,31 @@ public class OptionsDialog extends JDialog implements WindowListener, SetLabels 
 	 * The panel where the user can select new default values for certain
 	 * objects.
 	 */
-	private OptionsDefaults defaultsPanel;
+	private OptionsDefaultsD defaultsPanel;
 
 	/**
 	 * The panel with all settings for the euclidian view. The
 	 * "Drawing Pad Properties" dialog is not longer used, all settings are
 	 * stored here for now.
 	 */
-	private OptionsEuclidian euclidianPanel;
+	private OptionsEuclidianD euclidianPanel;
 
 	private JScrollPane euclidianPanelScroll;
 
 	/**
 	 * The panel with all settings for the spreadsheet view.
 	 */
-	private OptionsSpreadsheet spreadsheetPanel;
+	private OptionsSpreadsheetD spreadsheetPanel;
 
 	/**
 	 * The panel with all settings for the CAS view.
 	 */
-	private OptionsCAS casPanel;
+	private OptionsCASD casPanel;
 
 	/**
 	 * The panel with general options.
 	 */
-	private OptionsAdvanced advancedPanel;
+	private OptionsAdvancedD advancedPanel;
 
 	/**
 	 * The button to apply settings without closing the window.
@@ -189,7 +189,7 @@ public class OptionsDialog extends JDialog implements WindowListener, SetLabels 
 		createTabs();
 
 		// init scroll panes for tabs (show no extra borders)
-		euclidianPanelScroll = new JScrollPane(euclidianPanel);
+		euclidianPanelScroll = new JScrollPane(euclidianPanel.getWrappedPanel());
 		euclidianPanelScroll.setBorder(BorderFactory.createEmptyBorder());
 
 		// init tabbing pane
@@ -197,7 +197,7 @@ public class OptionsDialog extends JDialog implements WindowListener, SetLabels 
 
 		// defaults
 		tabbedPane.addTab("", app.getImageIcon("options-large.png"),
-				defaultsPanel);
+				defaultsPanel.getWrappedPanel());
 
 		addTabs();
 
@@ -291,12 +291,12 @@ public class OptionsDialog extends JDialog implements WindowListener, SetLabels 
 	}
 
 	protected void createTabs() {
-		defaultsPanel = new OptionsDefaults(app);
-		euclidianPanel = new OptionsEuclidian(app, app.getActiveEuclidianView());
-		spreadsheetPanel = new OptionsSpreadsheet(app, app.getGuiManager()
+		defaultsPanel = new OptionsDefaultsD(app);
+		euclidianPanel = new OptionsEuclidianD(app, app.getActiveEuclidianView());
+		spreadsheetPanel = new OptionsSpreadsheetD(app, app.getGuiManager()
 				.getSpreadsheetView());
-		casPanel = new OptionsCAS(app);
-		advancedPanel = new OptionsAdvanced(app);
+		casPanel = new OptionsCASD(app);
+		advancedPanel = new OptionsAdvancedD(app);
 	}
 
 	protected void addTabs() {
@@ -307,14 +307,14 @@ public class OptionsDialog extends JDialog implements WindowListener, SetLabels 
 
 		// spreadsheet properties
 		tabbedPane.addTab("", app.getImageIcon("spreadsheet.png"),
-				spreadsheetPanel);
+				spreadsheetPanel.getWrappedPanel());
 
 		// CAS properties
-		tabbedPane.addTab("", app.getImageIcon("cas.png"), casPanel);
+		tabbedPane.addTab("", app.getImageIcon("cas.png"), casPanel.getWrappedPanel());
 
 		// advanced
 		tabbedPane.addTab("", app.getImageIcon("options-advanced.png"),
-				advancedPanel);
+				advancedPanel.getWrappedPanel());
 
 	}
 

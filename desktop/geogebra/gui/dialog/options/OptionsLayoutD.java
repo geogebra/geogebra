@@ -52,7 +52,7 @@ import javax.swing.event.ChangeListener;
 /**
  * Layout options for the options dialog.
  */
-public class OptionsLayout extends JPanel implements OptionPanel, ActionListener,
+public class OptionsLayoutD extends geogebra.common.gui.dialog.options.OptionsLayout implements OptionPanel, ActionListener,
 		FocusListener, SetLabels {
 	/** */
 	private static final long serialVersionUID = 1L;
@@ -80,13 +80,15 @@ public class OptionsLayout extends JPanel implements OptionPanel, ActionListener
 
 	private TitlePanel menuBarPanel;
 
+	private JPanel wrappedPanel;
+
 	/**
 	 * Construct layout option panel.
 	 * 
 	 * @param app
 	 */
-	public OptionsLayout(Application app) {
-		super(new BorderLayout());
+	public OptionsLayoutD(Application app) {
+		this.wrappedPanel = new JPanel(new BorderLayout());
 
 		this.app = app;
 		this.settings = app.getSettings();
@@ -124,7 +126,7 @@ public class OptionsLayout extends JPanel implements OptionPanel, ActionListener
 		scrollPane.getVerticalScrollBar().setUnitIncrement(20);
 		scrollPane.setBorder(BorderFactory.createEmptyBorder());
 
-		add(scrollPane, BorderLayout.CENTER);
+		wrappedPanel.add(scrollPane, BorderLayout.CENTER);
 
 	}
 
@@ -418,7 +420,7 @@ public class OptionsLayout extends JPanel implements OptionPanel, ActionListener
 			app.getGuiManager().updateMenuBarLayout();
 		}
 		
-		this.requestFocus();
+		wrappedPanel.requestFocus();
 
 	}
 
@@ -473,7 +475,16 @@ public class OptionsLayout extends JPanel implements OptionPanel, ActionListener
 	}
 
 	public JPanel getWrappedPanel() {
-		return this;
+		return this.wrappedPanel;
+	}
+
+	public void revalidate() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setBorder(Border border) {
+		this.wrappedPanel.setBorder(border);
 	}
 
 }

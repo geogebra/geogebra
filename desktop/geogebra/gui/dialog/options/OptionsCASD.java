@@ -15,10 +15,11 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.Border;
 /**
  * Options for the CAS view.
  */
-public class OptionsCAS  extends JPanel implements OptionPanel, ActionListener, SetLabels {
+public class OptionsCASD  extends geogebra.common.gui.dialog.options.OptionsCAS implements OptionPanel, ActionListener, SetLabels {
 	/** */
 	private static final long serialVersionUID = 1L;
 	
@@ -36,14 +37,16 @@ public class OptionsCAS  extends JPanel implements OptionPanel, ActionListener, 
 	private JComboBox cbTimeout;
 
 	/** show rational exponents as roots*/
-	private JCheckBox cbShowRoots;        
+	private JCheckBox cbShowRoots;
+
+	private JPanel wrappedPanel;        
 	/**
 	 * Construct CAS option panel.
 	 * 
 	 * @param app
 	 */
-	public OptionsCAS(Application app) {
-		super(new BorderLayout());
+	public OptionsCASD(Application app) {
+		this.wrappedPanel = new JPanel(new BorderLayout());
 		
 		this.app = app;
 		casSettings = app.getSettings().getCasSettings();
@@ -79,7 +82,7 @@ public class OptionsCAS  extends JPanel implements OptionPanel, ActionListener, 
 		panel.add(timeoutPanel);
 		panel.add(cbShowRoots);
 		
-		add(panel, BorderLayout.CENTER);
+		wrappedPanel.add(panel, BorderLayout.CENTER);
 	}
 	
 	/**
@@ -123,6 +126,15 @@ public class OptionsCAS  extends JPanel implements OptionPanel, ActionListener, 
 	}
 
 	public JPanel getWrappedPanel() {
-		return this;
+		return this.wrappedPanel;
+	}
+
+	public void revalidate() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setBorder(Border border) {
+		wrappedPanel.setBorder(border);
 	}
 }

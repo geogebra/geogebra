@@ -39,13 +39,14 @@ import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
+import javax.swing.border.Border;
 
 /**
  * Panel with options for the spreadsheet view.
  * G.Sturr 2010-3-5
  * 
  */
-public class OptionsSpreadsheet extends JPanel  implements OptionPanel, ActionListener, FocusListener, SetLabels {
+public class OptionsSpreadsheetD extends geogebra.common.gui.dialog.options.OptionsSpreadsheet  implements OptionPanel, ActionListener, FocusListener, SetLabels {
 	
 	private static final long serialVersionUID = 1L;
 
@@ -62,13 +63,17 @@ public class OptionsSpreadsheet extends JPanel  implements OptionPanel, ActionLi
 	private JPanel locationPanel;
 	
 	private JTabbedPane tabbedPane;
+
+	private JPanel wrappedPanel;
 	
 	/**
 	 * Creates a new dialog for the properties of the spreadsheet view.
 	 */
-	public OptionsSpreadsheet(Application app, SpreadsheetView view) {
+	public OptionsSpreadsheetD(Application app, SpreadsheetView view) {
 		this.app = app;	
 		this.view = view;
+		
+		this.wrappedPanel = new JPanel();
 		// build GUI
 		initGUI();
 		updateGUI();
@@ -81,16 +86,16 @@ public class OptionsSpreadsheet extends JPanel  implements OptionPanel, ActionLi
 		
 	private void initGUI() {
 		
-		removeAll();	
-		setLayout(new BorderLayout());
-		add(new JScrollPane(buildLayoutOptionsPanel()));
+		wrappedPanel.removeAll();	
+		wrappedPanel.setLayout(new BorderLayout());
+		wrappedPanel.add(new JScrollPane(buildLayoutOptionsPanel()));
 		
 		tabbedPane = new JTabbedPane();
 		
 		tabbedPane.addTab(app.getMenu("Layout"),null, new JScrollPane(buildLayoutOptionsPanel()));
 		if(Application.hasFullPermissions())
 			tabbedPane.addTab(app.getMenu("Browser"),null, new JScrollPane(buildBrowserOptionsPanel()));
-		add(tabbedPane);
+		wrappedPanel.add(tabbedPane);
 	}	
 	
 	private JPanel buildLayoutOptionsPanel() {
@@ -219,7 +224,7 @@ public class OptionsSpreadsheet extends JPanel  implements OptionPanel, ActionLi
         locationPanel.add(urlPanel);
         
         JPanel setButtonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        setButtonPanel.setAlignmentX(LEFT_ALIGNMENT);
+        setButtonPanel.setAlignmentX(wrappedPanel.LEFT_ALIGNMENT);
         setButtonPanel.add(Box.createHorizontalStrut(2*tab));
         setButtonPanel.add(restoreButton);
         setButtonPanel.add(setCurrentButton);
@@ -432,7 +437,7 @@ public class OptionsSpreadsheet extends JPanel  implements OptionPanel, ActionLi
 			//System.out.println("browse button");
 			JFileChooser fc = new JFileChooser();
 			fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-			int returnVal = fc.showOpenDialog(this);
+			int returnVal = fc.showOpenDialog(this.wrappedPanel);
 			if (returnVal == JFileChooser.APPROVE_OPTION) {
 				dirField.setText(fc.getSelectedFile().getName());
 			}
@@ -465,7 +470,16 @@ public class OptionsSpreadsheet extends JPanel  implements OptionPanel, ActionLi
 	}
 
 	public JPanel getWrappedPanel() {
-		return this;
+		return this.wrappedPanel;
+	}
+
+	public void revalidate() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setBorder(Border border) {
+		wrappedPanel.setBorder(border);
 	}
 
 }

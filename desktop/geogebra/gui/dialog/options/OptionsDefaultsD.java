@@ -1,6 +1,7 @@
 package geogebra.gui.dialog.options;
 
 import geogebra.common.gui.SetLabels;
+import geogebra.common.gui.dialog.options.OptionDefaults;
 import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.gui.GuiManagerD;
 import geogebra.gui.color.GeoGebraColorChooser;
@@ -17,6 +18,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
 import javax.swing.SwingUtilities;
+import javax.swing.border.Border;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -27,7 +29,7 @@ import javax.swing.tree.TreePath;
 /**
  * Options with the default settings of objects.
  */
-public class OptionsDefaults extends JPanel implements OptionPanel, TreeSelectionListener,
+public class OptionsDefaultsD extends OptionDefaults implements OptionPanel, TreeSelectionListener,
 		SetLabels {
 	/** */
 	private static final long serialVersionUID = 1L;
@@ -80,6 +82,8 @@ public class OptionsDefaults extends JPanel implements OptionPanel, TreeSelectio
 	 */
 	private ConstructionDefaults defaults;
 
+	private JPanel wrappedPanel;
+
 	/**
 	 * A dictionary which assigns a constant of the ConstructionsDefaults class
 	 * to the tree nodes.
@@ -92,8 +96,9 @@ public class OptionsDefaults extends JPanel implements OptionPanel, TreeSelectio
 	 * 
 	 * @param app
 	 */
-	public OptionsDefaults(Application app) {
+	public OptionsDefaultsD(Application app) {
 		this.app = app;
+		this.wrappedPanel = new JPanel();
 
 		defaults = app.getKernel().getConstruction().getConstructionDefaults();
 
@@ -140,7 +145,7 @@ public class OptionsDefaults extends JPanel implements OptionPanel, TreeSelectio
 
 		// define panel properties
 		setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-		setLayout(new BorderLayout());
+		wrappedPanel.setLayout(new BorderLayout());
 
 		// tree scroll pane
 		JScrollPane treeScroller = new JScrollPane(tree);
@@ -150,8 +155,8 @@ public class OptionsDefaults extends JPanel implements OptionPanel, TreeSelectio
 				SystemColor.controlDkShadow));
 
 		// add components
-		add(treeScroller, BorderLayout.WEST);
-		add(propPanel, BorderLayout.CENTER);
+		wrappedPanel.add(treeScroller, BorderLayout.WEST);
+		wrappedPanel.add(propPanel, BorderLayout.CENTER);
 	}
 
 	/**
@@ -266,7 +271,7 @@ public class OptionsDefaults extends JPanel implements OptionPanel, TreeSelectio
 	 * Update the GUI to take care of new settings which were applied.
 	 */
 	public void updateGUI() {
-		SwingUtilities.updateComponentTreeUI(this);
+		SwingUtilities.updateComponentTreeUI(this.wrappedPanel);
 	}
 
 	/**
@@ -341,6 +346,15 @@ public class OptionsDefaults extends JPanel implements OptionPanel, TreeSelectio
 	}
 
 	public JPanel getWrappedPanel() {
-		return this;
+		return this.wrappedPanel;
+	}
+
+	public void revalidate() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setBorder(Border border) {
+		wrappedPanel.setBorder(border);
 	}
 }

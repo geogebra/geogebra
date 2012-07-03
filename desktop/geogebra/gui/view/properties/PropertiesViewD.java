@@ -16,13 +16,13 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
 import geogebra.gui.dialog.options.OptionPanel;
-import geogebra.gui.dialog.options.OptionsAdvanced;
-import geogebra.gui.dialog.options.OptionsCAS;
-import geogebra.gui.dialog.options.OptionsDefaults;
-import geogebra.gui.dialog.options.OptionsEuclidian;
-import geogebra.gui.dialog.options.OptionsLayout;
-import geogebra.gui.dialog.options.OptionsObject;
-import geogebra.gui.dialog.options.OptionsSpreadsheet;
+import geogebra.gui.dialog.options.OptionsAdvancedD;
+import geogebra.gui.dialog.options.OptionsCASD;
+import geogebra.gui.dialog.options.OptionsDefaultsD;
+import geogebra.gui.dialog.options.OptionsEuclidianD;
+import geogebra.gui.dialog.options.OptionsLayoutD;
+import geogebra.gui.dialog.options.OptionsObjectD;
+import geogebra.gui.dialog.options.OptionsSpreadsheetD;
 import geogebra.main.Application;
 import geogebra.main.GeoGebraPreferences;
 
@@ -57,28 +57,16 @@ public class PropertiesViewD extends geogebra.common.gui.view.properties.Propert
 
 	
 
-	private OptionType selectedOptionType = OptionType.OBJECTS;
-
 	// option panels
-	private OptionsDefaults defaultsPanel;
-	private OptionsEuclidian euclidianPanel, euclidianPanel2;
-	private OptionsSpreadsheet spreadsheetPanel;
-	private OptionsCAS casPanel;
-	private OptionsAdvanced advancedPanel;
-	private OptionsObject objectPanel;
-	private OptionsLayout layoutPanel;
+	private OptionsDefaultsD defaultsPanel;
+	private OptionsEuclidianD euclidianPanel, euclidianPanel2;
+	private OptionsSpreadsheetD spreadsheetPanel;
+	private OptionsCASD casPanel;
+	private OptionsAdvancedD advancedPanel;
+	private OptionsObjectD objectPanel;
+	private OptionsLayoutD layoutPanel;
 
-	static HashMap<Integer, OptionType> viewMap = new HashMap<Integer, OptionType>();
-	// map to match view ID with OptionType
-	static {
-
-		viewMap = new HashMap<Integer, OptionType>();
-		viewMap.put(AbstractApplication.VIEW_CAS, OptionType.CAS);
-		viewMap.put(AbstractApplication.VIEW_SPREADSHEET,
-				OptionType.SPREADSHEET);
-		viewMap.put(AbstractApplication.VIEW_EUCLIDIAN, OptionType.EUCLIDIAN);
-		viewMap.put(AbstractApplication.VIEW_EUCLIDIAN2, OptionType.EUCLIDIAN2);
-	}
+	
 
 	// GUI elements
 	private JPanel mainPanel, buttonPanel;
@@ -227,9 +215,9 @@ public class PropertiesViewD extends geogebra.common.gui.view.properties.Propert
 	 */
 	public void restoreDefaults() {
 
-		((OptionsDefaults) getOptionPanel(OptionType.DEFAULTS))
+		((OptionsDefaultsD) getOptionPanel(OptionType.DEFAULTS))
 				.restoreDefaults();
-		((OptionsAdvanced) getOptionPanel(OptionType.ADVANCED))
+		((OptionsAdvancedD) getOptionPanel(OptionType.ADVANCED))
 				.updateAfterReset();
 
 		// TODO
@@ -463,19 +451,19 @@ public class PropertiesViewD extends geogebra.common.gui.view.properties.Propert
 		switch (type) {
 		case DEFAULTS:
 			if (defaultsPanel == null) {
-				defaultsPanel = new OptionsDefaults((Application) app);
+				defaultsPanel = new OptionsDefaultsD((Application) app);
 			}
 			return defaultsPanel;
 
 		case CAS:
 			if (casPanel == null) {
-				casPanel = new OptionsCAS((Application) app);
+				casPanel = new OptionsCASD((Application) app);
 			}
 			return casPanel;
 
 		case EUCLIDIAN:
 			if (euclidianPanel == null) {
-				euclidianPanel = new OptionsEuclidian((Application) app,
+				euclidianPanel = new OptionsEuclidianD((Application) app,
 						((Application) app).getActiveEuclidianView());
 				euclidianPanel.setLabels();
 				euclidianPanel.setView(((Application)app).getEuclidianView1());
@@ -486,7 +474,7 @@ public class PropertiesViewD extends geogebra.common.gui.view.properties.Propert
 
 		case EUCLIDIAN2:
 			if (euclidianPanel2 == null) {
-				euclidianPanel2 = new OptionsEuclidian((Application) app,
+				euclidianPanel2 = new OptionsEuclidianD((Application) app,
 						((Application)app).getEuclidianView2());
 				euclidianPanel2.setLabels();
 				euclidianPanel2.setView(((Application)app).getEuclidianView2());
@@ -497,26 +485,26 @@ public class PropertiesViewD extends geogebra.common.gui.view.properties.Propert
 
 		case SPREADSHEET:
 			if (spreadsheetPanel == null) {
-				spreadsheetPanel = new OptionsSpreadsheet((Application)app, ((Application)app)
+				spreadsheetPanel = new OptionsSpreadsheetD((Application)app, ((Application)app)
 						.getGuiManager().getSpreadsheetView());
 			}
 			return spreadsheetPanel;
 
 		case ADVANCED:
 			if (advancedPanel == null) {
-				advancedPanel = new OptionsAdvanced((Application) app);
+				advancedPanel = new OptionsAdvancedD((Application) app);
 			}
 			return advancedPanel;
 
 		case LAYOUT:
 			if (layoutPanel == null) {
-				layoutPanel = new OptionsLayout((Application) app);
+				layoutPanel = new OptionsLayoutD((Application) app);
 			}
 			return layoutPanel;
 
 		case OBJECTS:
 			if (objectPanel == null) {
-				objectPanel = new OptionsObject((Application) app);
+				objectPanel = new OptionsObjectD((Application) app);
 				objectPanel.setMinimumSize(objectPanel.getPreferredSize());
 			}
 			return objectPanel;

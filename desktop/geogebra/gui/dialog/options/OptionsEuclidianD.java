@@ -53,6 +53,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.JToggleButton;
+import javax.swing.border.Border;
 
 /**
  * Panel with options for the euclidian view. TODO: optimization: updateGUI()
@@ -61,7 +62,7 @@ import javax.swing.JToggleButton;
  * revised by G.Sturr 2010-8-15
  * 
  */
-public class OptionsEuclidian extends JPanel implements OptionPanel, ActionListener,
+public class OptionsEuclidianD extends geogebra.common.gui.dialog.options.OptionsEuclidian implements OptionPanel, ActionListener,
 		FocusListener, ItemListener, SetLabels {
 
 	private static final long serialVersionUID = 1L;
@@ -101,6 +102,8 @@ public class OptionsEuclidian extends JPanel implements OptionPanel, ActionListe
 	private boolean isIniting;
 
 	private JToggleButton cbLockRatio;
+
+	private JPanel wrappedPanel;
 	
 	
 	//private JButton restoreDefaultsButton;
@@ -111,13 +114,14 @@ public class OptionsEuclidian extends JPanel implements OptionPanel, ActionListe
 	 * @param app
 	 *            parent frame
 	 */
-	public OptionsEuclidian(Application app, EuclidianViewND view) {
+	public OptionsEuclidianD(Application app, EuclidianViewND view) {
 
 		isIniting = true;
 		this.app = app;
 		kernel = app.getKernel();
 		this.view = view;
 
+		wrappedPanel = new JPanel();
 		// build GUI
 		initGUI();
 		isIniting = false;
@@ -155,10 +159,10 @@ public class OptionsEuclidian extends JPanel implements OptionPanel, ActionListe
 		addTabs();
 
 		// put it all together
-		removeAll();
-		setLayout(new BorderLayout());
+		wrappedPanel.removeAll();
+		wrappedPanel.setLayout(new BorderLayout());
 		addCbView();
-		add(tabbedPane, BorderLayout.CENTER);
+		wrappedPanel.add(tabbedPane, BorderLayout.CENTER);
 		
 		/*
 		//restore default button	
@@ -194,7 +198,7 @@ public class OptionsEuclidian extends JPanel implements OptionPanel, ActionListe
 	}
 
 	protected void addCbView() {
-		add(selectViewPanel, BorderLayout.NORTH);
+		wrappedPanel.add(selectViewPanel, BorderLayout.NORTH);
 	}
 	
 	public void showCbView(boolean isVisible){
@@ -1053,7 +1057,16 @@ public class OptionsEuclidian extends JPanel implements OptionPanel, ActionListe
 	}
 
 	public JPanel getWrappedPanel() {
-		return this;
+		return this.wrappedPanel;
+	}
+
+	public void revalidate() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setBorder(Border border) {
+		wrappedPanel.setBorder(border);
 	}
 
 }

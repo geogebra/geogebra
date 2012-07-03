@@ -40,7 +40,7 @@ import javax.swing.border.Border;
 /**
  * @author Markus Hohenwarter
  */
-public class OptionsObject extends geogebra.common.gui.dialog.options.OptionsObject implements OptionPanel, SetLabels {
+public class OptionsObjectD extends geogebra.common.gui.dialog.options.OptionsObject implements OptionPanel, SetLabels {
 
 	private static final long serialVersionUID = 1L;
 	private Application app;
@@ -60,7 +60,7 @@ public class OptionsObject extends geogebra.common.gui.dialog.options.OptionsObj
 	 * @param app
 	 *            parent frame
 	 */
-	public OptionsObject(Application app) {
+	public OptionsObjectD(Application app) {
 		
 		this.app = app;
 		kernel = app.getKernel();

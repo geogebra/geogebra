@@ -419,7 +419,7 @@ public class GuiManagerW extends GuiManager {
 
 		if (propertiesView == null) {
 			// initPropertiesDialog();
-			propertiesView = new PropertiesViewW(app);
+			propertiesView = new PropertiesViewW((Application) app);
 		}
 
 		return propertiesView;
