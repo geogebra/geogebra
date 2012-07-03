@@ -19,7 +19,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.GeoElementSelectionListener;
 import geogebra.gui.inputfield.AutoCompleteTextFieldD;
 import geogebra.gui.view.algebra.InputPanel;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -56,13 +56,13 @@ public class CheckboxCreationDialog extends JDialog implements
 	private DefaultComboBoxModel comboModel;
 
 	private Point location;
-	private Application app;
+	private AppD app;
 	private GeoBoolean geoBoolean;
 
 	/**
 	 * Input Dialog for a GeoText object
 	 */
-	public CheckboxCreationDialog(Application app, Point location,
+	public CheckboxCreationDialog(AppD app, Point location,
 			GeoBoolean geoBoolean) {
 		super(app.getFrame(), false);
 		this.app = app;

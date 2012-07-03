@@ -1,7 +1,7 @@
 package geogebra.gui.view.probcalculator;
 
 import geogebra.gui.view.spreadsheet.statdialog.PlotSettings;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -25,14 +25,14 @@ public class ProbabiltyCalculatorStyleBar extends JToolBar implements ActionList
 
 	private static final long serialVersionUID = 1L;
 	
-	private Application app;
+	private AppD app;
 	private ProbabilityCalculator probCalc;
 	protected int iconHeight = 18;
 	private JButton btnRounding;
 	private JToggleButton btnCumulative, btnLineGraph, btnGrid;
 	private JPopupMenu roundingPopup;
 
-	public ProbabiltyCalculatorStyleBar(Application app, ProbabilityCalculator probCalc){
+	public ProbabiltyCalculatorStyleBar(AppD app, ProbabilityCalculator probCalc){
 
 		this.probCalc = probCalc;
 		this.app = app;
@@ -134,11 +134,11 @@ public class ProbabiltyCalculatorStyleBar extends JToolBar implements ActionList
 		int pos = -1;
 
 		if (printFigures >= 0) {
-			if (printFigures > 0 && printFigures < Application.figuresLookup.length)
-				pos = Application.figuresLookup[printFigures];
+			if (printFigures > 0 && printFigures < AppD.figuresLookup.length)
+				pos = AppD.figuresLookup[printFigures];
 		} else {
-			if (printDecimals > 0 && printDecimals < Application.decimalsLookup.length)
-				pos = Application.decimalsLookup[printDecimals];
+			if (printDecimals > 0 && printDecimals < AppD.decimalsLookup.length)
+				pos = AppD.decimalsLookup[printDecimals];
 		}
 
 		try {
@@ -155,7 +155,7 @@ public class ProbabiltyCalculatorStyleBar extends JToolBar implements ActionList
 		String[] strDecimalSpaces = app.getRoundingMenu();
 
 		addRadioButtonMenuItems(menu, this,
-				strDecimalSpaces, Application.strDecimalSpacesAC, 0);
+				strDecimalSpaces, AppD.strDecimalSpacesAC, 0);
 
 		return menu;
 	}

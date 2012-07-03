@@ -1,7 +1,7 @@
 package geogebra.common.euclidian.event;
 
 import geogebra.common.euclidian.DrawList;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 
 public class ActionListener {
 	
@@ -15,7 +15,7 @@ public class ActionListener {
 			((DrawList.ActionListener) listenerClass).actionPerformed(event);
 		}
 		else{
-			AbstractApplication.debug("other type: "+listenerClass.getClass());
+			App.debug("other type: "+listenerClass.getClass());
 		}
 	}
 	

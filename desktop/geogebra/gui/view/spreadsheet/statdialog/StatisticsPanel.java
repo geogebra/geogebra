@@ -1,6 +1,6 @@
 package geogebra.gui.view.spreadsheet.statdialog;
 
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -66,7 +66,7 @@ public class StatisticsPanel extends JPanel implements StatPanelInterface, Actio
 
 	// ggb fields
 	private StatDialog statDialog;
-	private Application app;
+	private AppD app;
 
 
 
@@ -75,7 +75,7 @@ public class StatisticsPanel extends JPanel implements StatPanelInterface, Actio
 	 * @param app
 	 * @param statDialog
 	 */
-	public StatisticsPanel(Application app, StatDialog statDialog)  {
+	public StatisticsPanel(AppD app, StatDialog statDialog)  {
 
 		this.app = app;
 		this.statDialog = statDialog;

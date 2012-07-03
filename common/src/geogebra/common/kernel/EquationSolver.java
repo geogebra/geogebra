@@ -15,7 +15,7 @@ package geogebra.common.kernel;
 import geogebra.common.kernel.arithmetic.PolyFunction;
 import geogebra.common.kernel.roots.RealRootAdapter;
 import geogebra.common.kernel.roots.RealRootDerivAdapter;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 
 import java.util.Arrays;
 import java.util.Comparator;
@@ -616,7 +616,7 @@ public class EquationSolver implements EquationSolverInterface {
 					// System.out.println("    find extremum successfull: " +
 					// root);
 				} catch (Exception ex) {
-					AbstractApplication.debug(ex.getMessage());
+					App.debug(ex.getMessage());
 				}
 			}
 
@@ -657,7 +657,7 @@ public class EquationSolver implements EquationSolverInterface {
 			}
 			complexRoots = laguerreSolver.solveAll(real, LAGUERRE_START);
 		} catch (Exception e) {
-			AbstractApplication.debug("Problem solving with LaguerreSolver"
+			App.debug("Problem solving with LaguerreSolver"
 					+ e.getLocalizedMessage());
 			return 0;
 		}

@@ -43,7 +43,7 @@ import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
 import geogebra.common.kernel.algos.AlgoFunctionAreaSums;
 import geogebra.common.plugin.EuclidianStyleConstants;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import geogebra.common.awt.GColor;
 import java.awt.Font;
@@ -67,7 +67,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 	private boolean forceGnuplot=false;
 	private boolean gnuplotWarning=false;
 	private boolean hatchWarning=false;
-	public GeoGebraToPgf(Application app) {
+	public GeoGebraToPgf(AppD app) {
     	super(app);
     }
  

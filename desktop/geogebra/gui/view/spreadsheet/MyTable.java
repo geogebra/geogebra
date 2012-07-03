@@ -12,7 +12,7 @@ import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.common.main.settings.SpreadsheetSettings;
 import geogebra.gui.virtualkeyboard.VirtualKeyboard;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -73,7 +73,7 @@ public class MyTable extends JTable implements FocusListener {
 	public static final Color SELECTED_RECTANGLE_COLOR = Color.BLUE;
 
 	protected Kernel kernel;
-	protected Application app;
+	protected AppD app;
 	protected MyCellEditor editor;
 	private MyCellEditorBoolean editorBoolean;
 	private MyCellEditorButton editorButton;
@@ -549,7 +549,7 @@ public class MyTable extends JTable implements FocusListener {
 
 		// update the selection list
 
-		if (!Application.getControlDown()) {
+		if (!AppD.getControlDown()) {
 			selectedCellRanges.clear();
 			selectedColumnSet.clear();
 			selectedRowSet.clear();
@@ -1357,7 +1357,7 @@ public class MyTable extends JTable implements FocusListener {
 	}
 
 	public void focusGained(FocusEvent e) {
-		if (Application.isVirtualKeyboardActive())
+		if (AppD.isVirtualKeyboardActive())
 			app.getGuiManager().toggleKeyboard(true);
 
 	}
@@ -1366,7 +1366,7 @@ public class MyTable extends JTable implements FocusListener {
 		// avoid infinite loop!
 		if (e.getOppositeComponent() instanceof VirtualKeyboard)
 			return;
-		if (Application.isVirtualKeyboardActive())
+		if (AppD.isVirtualKeyboardActive())
 			app.getGuiManager().toggleKeyboard(false);
 
 	}
@@ -1711,7 +1711,7 @@ public class MyTable extends JTable implements FocusListener {
 
 		// Case 1: Partial row, targetCell created beneath the column
 		if (cr.isPartialRow()
-				|| (!cr.isPartialColumn() && Application.getShiftDown())) {
+				|| (!cr.isPartialColumn() && AppD.getShiftDown())) {
 			targetRange = new CellRange(app, cr.getMaxColumn() + 1,
 					cr.getMinRow(), cr.getMaxColumn() + 1, cr.getMaxRow());
 			for (int row = cr.getMinRow(); row <= cr.getMaxRow(); row++) {

@@ -7,11 +7,11 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoCasCell;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.gui.layout.DockManager;
 import geogebra.gui.layout.DockPanel;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -57,7 +57,7 @@ public class CASTable extends JTable implements geogebra.common.cas.view.CASTabl
 	private CASTableModel tableModel;
 	private Kernel kernel;
 	/** application */
-	private Application app;
+	private AppD app;
 	private CASView view;
 
 	private CASTableCellEditor editor;
@@ -205,12 +205,12 @@ public class CASTable extends JTable implements geogebra.common.cas.view.CASTabl
 					.getDockManager();
 			DockPanel panel = dockManager.getFocusedPanel();
 			if (panel == null
-					|| panel.getViewId() != AbstractApplication.VIEW_CAS)
+					|| panel.getViewId() != App.VIEW_CAS)
 				app.getGuiManager().getLayout().getDockManager()
-						.setFocusedPanel(AbstractApplication.VIEW_CAS);
+						.setFocusedPanel(App.VIEW_CAS);
 
 			if (getClickedRow() >= 0) {
-				setRightClick(Application.isRightClick(e));
+				setRightClick(AppD.isRightClick(e));
 				if (isRightClick()) {
 					return;
 				}
@@ -845,7 +845,7 @@ public class CASTable extends JTable implements geogebra.common.cas.view.CASTabl
 		
 	}
 
-	public AbstractApplication getApplication() {
+	public App getApplication() {
 		return app;
 	}
 

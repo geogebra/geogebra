@@ -1,8 +1,8 @@
 package geogebra.gui.menubar;
 
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.gui.app.GeoGebraFrame;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -50,7 +50,7 @@ class FileMenu extends BaseMenu {
 
 	private AbstractAction exitAllAction;
 
-	public FileMenu(Application app) {
+	public FileMenu(AppD app) {
 		super(app, app.getMenu("File"));
 		
 		// items are added to the menu when it's opened, see BaseMenu: addMenuListener(this);
@@ -80,7 +80,7 @@ class FileMenu extends BaseMenu {
 		// "New": reset
 		add(deleteAll);
 
-		if (Application.hasFullPermissions()) {
+		if (AppD.hasFullPermissions()) {
 			mi = add(loadAction);
 			setMenuShortCutAccelerator(mi, 'O'); // open
 			add(loadURLAction);
@@ -91,10 +91,10 @@ class FileMenu extends BaseMenu {
 			add(submenuRecent);
 			
 			// Recent files list
-			int size = Application.getFileListSize();
+			int size = AppD.getFileListSize();
 			if (size > 0) {
-				for (int i = 0; i < Application.MAX_RECENT_FILES ; i++) {
-					File file = Application.getFromFileList(i);
+				for (int i = 0; i < AppD.MAX_RECENT_FILES ; i++) {
+					File file = AppD.getFromFileList(i);
 					if (file != null) {
 						mi = new JMenuItem(file.getName());
 						mi.setIcon(app.getImageIcon("geogebra.png"));
@@ -156,7 +156,7 @@ class FileMenu extends BaseMenu {
 		// close
 		addSeparator();
 		mi = add(exitAction);
-		if (Application.MAC_OS) {
+		if (AppD.MAC_OS) {
 			setMenuShortCutAccelerator(mi, 'W');
 		} else {
 			// Alt + F4
@@ -325,9 +325,9 @@ class FileMenu extends BaseMenu {
 		exportGraphicAction = new AbstractAction(app
 				.getPlain("DrawingPadAsPicture")
 				+ " ("
-				+ Application.FILE_EXT_PNG
+				+ AppD.FILE_EXT_PNG
 				+ ", "
-				+ Application.FILE_EXT_EPS + ") ...", app
+				+ AppD.FILE_EXT_EPS + ") ...", app
 				.getImageIcon("image-x-generic.png")) {
 			private static final long serialVersionUID = 1L;
 
@@ -356,7 +356,7 @@ class FileMenu extends BaseMenu {
 								d.setVisible(true);
 
 							} catch (Exception e1) {
-								AbstractApplication
+								App
 										.debug("GraphicExportDialog not available");
 							}
 							app.setDefaultCursor();
@@ -381,7 +381,7 @@ class FileMenu extends BaseMenu {
 				try {
 					new geogebra.export.AnimationExportDialog(app);
 				} catch (Exception ex) {
-					AbstractApplication.debug("AnimationExportDialog not available");
+					App.debug("AnimationExportDialog not available");
 				} catch (java.lang.NoClassDefFoundError ee) {
 					app.showError("ExportJarMissing");
 					ee.printStackTrace();
@@ -399,7 +399,7 @@ class FileMenu extends BaseMenu {
 				try {
 					new geogebra.export.pstricks.GeoGebraToPstricks(app);
 				} catch (Exception ex) {
-					AbstractApplication.debug("GeoGebraToPstricks not available");
+					App.debug("GeoGebraToPstricks not available");
 				} catch (java.lang.NoClassDefFoundError ee) {
 					app.showError("ExportJarMissing");
 					ee.printStackTrace();
@@ -416,7 +416,7 @@ class FileMenu extends BaseMenu {
 				try {
 					new geogebra.export.pstricks.GeoGebraToPgf(app);
 				} catch (Exception ex) {
-					AbstractApplication.debug("GeoGebraToPGF not available");
+					App.debug("GeoGebraToPGF not available");
 				} catch (java.lang.NoClassDefFoundError ee) {
 					app.showError("ExportJarMissing");
 					ee.printStackTrace();
@@ -434,7 +434,7 @@ class FileMenu extends BaseMenu {
 				try {
 					new geogebra.export.pstricks.GeoGebraToAsymptote(app);
 				} catch (Exception ex) {
-					AbstractApplication.debug("GeoGebraToAsymptote not available");
+					App.debug("GeoGebraToAsymptote not available");
 				} catch (java.lang.NoClassDefFoundError ee) {
 					app.showError("ExportJarMissing");
 					ee.printStackTrace();
@@ -446,7 +446,7 @@ class FileMenu extends BaseMenu {
 
 		exportWorksheet = new AbstractAction(app
 				.getPlain("DynamicWorksheetAsWebpage")
-				+ " (" + Application.FILE_EXT_HTML + ") ...", app
+				+ " (" + AppD.FILE_EXT_HTML + ") ...", app
 				.getImageIcon("text-html.png")) {
 			private static final long serialVersionUID = 1L;
 
@@ -464,7 +464,7 @@ class FileMenu extends BaseMenu {
 
 								d.setVisible(true);
 							} catch (Exception e1) {
-								AbstractApplication
+								App
 										.debug("WorksheetExportDialog not available");
 								e1.printStackTrace();
 							}
@@ -504,7 +504,7 @@ class FileMenu extends BaseMenu {
 								exporter.uploadWorksheet(null);
 								
 							} catch (Exception e1) {
-								AbstractApplication.debug("Uploading failed");
+								App.debug("Uploading failed");
 								e1.printStackTrace();
 							}
 							app.setDefaultCursor();

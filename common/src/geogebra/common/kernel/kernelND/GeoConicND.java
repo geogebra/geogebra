@@ -46,7 +46,7 @@ import geogebra.common.kernel.geos.LineProperties;
 import geogebra.common.kernel.geos.PointRotateable;
 import geogebra.common.kernel.geos.Translateable;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.plugin.Operation;
 import geogebra.common.util.MyMath;
 
@@ -3389,7 +3389,7 @@ Translateable, GeoConicNDConstants,MatrixTransformable, PointRotateable,Region
     		area=0;
     		break;
     	default:
-    		AbstractApplication.printStacktrace("TODO (type="+type+")");
+    		App.printStacktrace("TODO (type="+type+")");
     	}
     }
 
@@ -3399,7 +3399,7 @@ Translateable, GeoConicNDConstants,MatrixTransformable, PointRotateable,Region
     public double getArea(){
     	if (defined)
     		return area;
-		AbstractApplication.printStacktrace("TODO ? (type="+type+")");
+		App.printStacktrace("TODO ? (type="+type+")");
 		return Double.NaN;
     }	
 

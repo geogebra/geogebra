@@ -36,10 +36,10 @@ import geogebra.common.kernel.statistics.AlgoPascal;
 import geogebra.common.kernel.statistics.AlgoPoisson;
 import geogebra.common.kernel.statistics.AlgoTDistribution;
 import geogebra.common.kernel.statistics.AlgoWeibull;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.main.settings.ProbabilityCalculatorSettings;
 import geogebra.common.main.settings.ProbabilityCalculatorSettings.DIST;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.util.HashMap;
 
@@ -54,14 +54,14 @@ import java.util.HashMap;
  */
 public class ProbabilityManager {
 
-	private Application app;
+	private AppD app;
 	private ProbabilityCalculator probCalc;
 
 
 
 
 
-	public ProbabilityManager(Application app, ProbabilityCalculator probCalc){
+	public ProbabilityManager(AppD app, ProbabilityCalculator probCalc){
 
 		this.app = app;
 		this.probCalc = probCalc;
@@ -137,7 +137,7 @@ public class ProbabilityManager {
 	 * @param app
 	 * @return
 	 */
-	protected static String[][] getParameterLabelArray(Application app){
+	protected static String[][] getParameterLabelArray(AppD app){
 
 		String[][] parameterLabels = new String[ProbabilityCalculatorSettings.distCount][4];
 
@@ -231,7 +231,7 @@ public class ProbabilityManager {
 		if (ret != null) {
 			ret.getConstruction().removeFromConstructionList(ret);
 		} else {
-			AbstractApplication.error("missing case");
+			App.error("missing case");
 		}
 		
 		return ret;
@@ -277,13 +277,13 @@ public class ProbabilityManager {
 		break;
 
 		default:
-			AbstractApplication.error("missing case");
+			App.error("missing case");
 		}
 		
 		if (ret != null) {
 			cons.removeFromConstructionList(ret);
 		} else {
-			AbstractApplication.error("missing case");
+			App.error("missing case");
 		}
 	
 		return ret;
@@ -350,7 +350,7 @@ public class ProbabilityManager {
 		case POISSON: return  new double[] {4}; // mean = 4
 		case HYPERGEOMETRIC: return  new double[] {60, 10, 20}; // pop = 60, n = 10, sample = 20
 
-		default: Application.error("missing case");
+		default: AppD.error("missing case");
 		}
 
 		return null;

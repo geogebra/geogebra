@@ -2,7 +2,7 @@ package geogebra.gui.menubar;
 
 import geogebra.common.io.layout.Perspective;
 import geogebra.gui.layout.LayoutD;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.event.ActionEvent;
 
@@ -27,7 +27,7 @@ class PerspectivesMenu extends BaseMenu {
 	 * @param app
 	 * @param layout 
 	 */
-	public PerspectivesMenu(Application app, LayoutD layout) {
+	public PerspectivesMenu(AppD app, LayoutD layout) {
 		super(app, app.getMenu("Perspectives"));
 		
 		this.layout = layout;

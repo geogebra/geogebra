@@ -8,8 +8,8 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.common.main.AbstractApplication;
-import geogebra.main.Application;
+import geogebra.common.main.App;
+import geogebra.main.AppD;
 import geogebra3D.euclidian3D.opengl.Manager;
 import geogebra3D.euclidian3D.opengl.Renderer;
 import geogebra3D.kernel3D.GeoElement3D;
@@ -649,7 +649,7 @@ public abstract class Drawable3D extends DrawableND {
 			
 			if (DEBUG){
 				DecimalFormat df = new DecimalFormat("0.000000000");
-				AbstractApplication.debug("mixed :\n"
+				App.debug("mixed :\n"
 						+"zMin= "+df.format(this.zPickMin)+" | zMax= "+df.format(this.zPickMax)+" ("+this.getGeoElement().getLabel(StringTemplate.defaultTemplate)+")\n"
 						+"zMin= "+df.format(d.zPickMin)+" | zMax= "+df.format(d.zPickMax)+" ("+d.getGeoElement().getLabel(StringTemplate.defaultTemplate)+")\n");
 			}
@@ -697,7 +697,7 @@ public abstract class Drawable3D extends DrawableND {
 		//says that the two objects are equal for the comparator
 		if (DEBUG){
 			DecimalFormat df = new DecimalFormat("0.000000000");
-			AbstractApplication.debug("equality :\n"
+			App.debug("equality :\n"
 					+"zMin= "+df.format(this.zPickMin)
 					+" | zMax= "+df.format(this.zPickMax)
 					+" ("+this.getGeoElement().getLabel(StringTemplate.defaultTemplate)+")\n"

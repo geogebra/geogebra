@@ -2,9 +2,9 @@ package geogebra.gui.menubar;
 
 import geogebra.common.io.MyXMLHandler;
 import geogebra.common.kernel.Kernel;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.util.Language;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 import geogebra.main.GeoGebraPreferences;
 
 import java.awt.Font;
@@ -36,7 +36,7 @@ public class LanguageMenu extends BaseMenu implements ActionListener {
 		menuAlgebraStyle
 	;
 	
-	public LanguageMenu(Application app) {
+	public LanguageMenu(AppD app) {
 		super(app, "hello");
 		
 		kernel = app.getKernel();
@@ -97,7 +97,7 @@ public class LanguageMenu extends BaseMenu implements ActionListener {
 		String[] strDecimalSpaces = app.getRoundingMenu();
 
 		addRadioButtonMenuItems(menuDecimalPlaces, this,
-				strDecimalSpaces, AbstractApplication.strDecimalSpacesAC, 0);
+				strDecimalSpaces, App.strDecimalSpacesAC, 0);
 		add(menuDecimalPlaces);
 		updateMenuDecimalPlaces();
 
@@ -334,13 +334,13 @@ public class LanguageMenu extends BaseMenu implements ActionListener {
 
 		if (kernel.useSignificantFigures) {
 			int figures = kernel.getPrintFigures();
-			if (figures > 0 && figures < AbstractApplication.figuresLookup.length)
-				pos = AbstractApplication.figuresLookup[figures];
+			if (figures > 0 && figures < App.figuresLookup.length)
+				pos = App.figuresLookup[figures];
 		} else {
 			int decimals = kernel.getPrintDecimals();
 
-			if (decimals > 0 && decimals < AbstractApplication.decimalsLookup.length)
-				pos = AbstractApplication.decimalsLookup[decimals];
+			if (decimals > 0 && decimals < App.decimalsLookup.length)
+				pos = App.decimalsLookup[decimals];
 
 		}
 
@@ -362,7 +362,7 @@ public class LanguageMenu extends BaseMenu implements ActionListener {
 		}
 
 		public void actionPerformed(ActionEvent e) {
-			app.setLanguage(Application.getLocale(e.getActionCommand()));
+			app.setLanguage(AppD.getLocale(e.getActionCommand()));
 			// make sure axes labels are updated eg for Arabic 
 			app.getEuclidianView1().updateBackground();
 			if(app.hasEuclidianView2EitherShowingOrNot())

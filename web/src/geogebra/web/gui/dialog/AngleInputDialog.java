@@ -12,7 +12,7 @@ the Free Software Foundation.
 package geogebra.web.gui.dialog;
 
 import geogebra.common.gui.InputHandler;
-import geogebra.web.main.Application;
+import geogebra.web.main.AppW;
 import geogebra.web.gui.view.algebra.InputPanel;
 
 import com.google.gwt.dom.client.Style;
@@ -39,7 +39,7 @@ public class AngleInputDialog extends PopupPanel implements ClickHandler {
 	public boolean success = true;
 	protected String inputText = null;
 
-	protected Application app;
+	protected AppW app;
 	protected String initString;
 	protected InputPanel inputPanel;
 	protected InputHandler inputHandler;
@@ -47,7 +47,7 @@ public class AngleInputDialog extends PopupPanel implements ClickHandler {
 	/**
 	 * Input Dialog for a GeoAngle object.
 	 */
-	public AngleInputDialog(Application app,  String message, String title, String initString,
+	public AngleInputDialog(AppW app,  String message, String title, String initString,
 					boolean autoComplete, InputHandler handler, boolean modal) {
 		super(false, true);
 		//super(app.getFrame(), modal);

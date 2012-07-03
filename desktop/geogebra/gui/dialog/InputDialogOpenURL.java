@@ -1,7 +1,7 @@
 package geogebra.gui.dialog;
 
 import geogebra.gui.view.algebra.InputPanel.DialogType;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
@@ -9,7 +9,7 @@ import java.awt.event.ActionEvent;
 public class InputDialogOpenURL extends InputDialog{
 	private static final long serialVersionUID = 1L;
 	
-	public InputDialogOpenURL(Application app) {
+	public InputDialogOpenURL(AppD app) {
 		super(app.getFrame(), false);
 		this.app = app;	
 		

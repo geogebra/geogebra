@@ -13,7 +13,7 @@ the Free Software Foundation.
 
 package geogebra.gui.editor;
 
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.Color;
 import java.util.ArrayList;
@@ -106,7 +106,7 @@ public class JavascriptContext extends ViewContext {
      * The constructor
      * @param app the Application where this context is needed
      */
-    public JavascriptContext(Application app) {
+    public JavascriptContext(AppD app) {
         super();
         tokenFont = app.getPlainFont();
         genColors();

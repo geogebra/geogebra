@@ -5,7 +5,7 @@ import geogebra.common.awt.GRectangle;
 import geogebra.common.gui.inputfield.AutoCompleteTextField;
 import geogebra.common.javax.swing.AbstractJComboBox;
 import geogebra.common.javax.swing.GLabel;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
@@ -45,7 +45,7 @@ public class GBoxW extends geogebra.common.javax.swing.GBox{
 
 	@Override
     public void setBounds(GRectangle rect) {
-	    AbstractApplication.debug("implementation needed - just finishing"); // TODO
+	    App.debug("implementation needed - just finishing"); // TODO
 	    impl.setWidth(rect.getWidth() + "");
 	    impl.setHeight(rect.getHeight() + "");
 	    

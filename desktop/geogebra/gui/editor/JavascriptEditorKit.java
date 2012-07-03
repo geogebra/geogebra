@@ -13,7 +13,7 @@ the Free Software Foundation.
 
 package geogebra.gui.editor;
 
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -42,13 +42,13 @@ public class JavascriptEditorKit extends DefaultEditorKit {
     private static final String COMMENTLINE = "comment";
 
 	private JavascriptContext preferences;
-	private Application app;
+	private AppD app;
 	
 	/**
 	 * 
 	 * @param app the Application where this kit is used
 	 */
-	public JavascriptEditorKit(Application app) {
+	public JavascriptEditorKit(AppD app) {
 		this.app = app;
 	}
 	

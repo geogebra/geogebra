@@ -17,7 +17,7 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 
 /**
  * n-th element of a GeoList object.
@@ -120,7 +120,7 @@ public class AlgoListElement extends AlgoElement {
 			} while (current.isGeoList() && k < num2.length);
 			element = current.copyInternal(cons);
 		} catch (Exception e) {
-			AbstractApplication.debug("error initialising list");
+			App.debug("error initialising list");
 		}
 
 		// desperate case: empty list, or malformed 2D array

@@ -20,7 +20,7 @@ import geogebra.common.kernel.geos.GeoFunctionable;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.optimization.ExtremumFinder;
 import geogebra.common.kernel.roots.RealRootFunction;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 
 /**
  * Command: Max[<function>,left-x,right-x]
@@ -145,7 +145,7 @@ public class AlgoFunctionMax extends AlgoElement {
 
 	private final static void debug(String s) {
 		if (DEBUG) {
-			AbstractApplication.debug(s);
+			App.debug(s);
 		}// if()
 	}// debug()
 

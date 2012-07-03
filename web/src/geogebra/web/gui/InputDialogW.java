@@ -5,7 +5,7 @@ import geogebra.common.main.GeoElementSelectionListener;
 import geogebra.web.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.web.gui.view.algebra.InputPanel;
 import geogebra.web.gui.view.algebra.InputPanel.DialogType;
-import geogebra.web.main.Application;
+import geogebra.web.main.AppW;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -17,7 +17,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class InputDialogW extends  PopupPanel implements ClickHandler{
 	
-	protected Application app;
+	protected AppW app;
 
 	public static final int DEFAULT_COLUMNS = 30;
 	public static final int DEFAULT_ROWS = 10;

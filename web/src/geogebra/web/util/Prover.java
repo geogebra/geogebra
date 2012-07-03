@@ -1,6 +1,6 @@
 package geogebra.web.util;
 
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 
 /**
  * @author Zoltan Kovacs <zoltan@geogebra.org>
@@ -15,7 +15,7 @@ public class Prover extends geogebra.common.util.Prover {
 
 	@Override
     protected ProofResult openGeoProver() {
-	    AbstractApplication.debug("OGP is not implemented for the web");
+	    App.debug("OGP is not implemented for the web");
 	    return ProofResult.UNKNOWN;
     }
 }

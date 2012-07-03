@@ -12,7 +12,7 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 
 public class AlgoDivisorsList extends AlgoElement {
 
@@ -58,7 +58,7 @@ public class AlgoDivisorsList extends AlgoElement {
 			long power = Math.round(prime);
 			for(int k=1;k<=exp;k++){
 				for(int j=0;j<oldLength;j++){
-					AbstractApplication.debug(factList.get(j)*power);
+					App.debug(factList.get(j)*power);
 					factList.add(factList.get(j)*power);
 				}
 				power *= Math.round(prime);

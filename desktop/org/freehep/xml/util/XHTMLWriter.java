@@ -1,6 +1,6 @@
 package org.freehep.xml.util;
 
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.io.Writer;
 
@@ -32,7 +32,7 @@ public class XHTMLWriter extends XMLWriter
                        "-//W3C//DTD XHTML 1.0 Frameset//EN",
                        "http://wwww.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd");
         } else {
-            Application.debug("XHTMLWriter: unknown type: "+type+", allowed are: strict, transitional, frameset");
+            AppD.debug("XHTMLWriter: unknown type: "+type+", allowed are: strict, transitional, frameset");
         }
         setAttribute("xmlns", "http://www.w3.org/1999/xhtml");
         if (!type.equals("strict")) {

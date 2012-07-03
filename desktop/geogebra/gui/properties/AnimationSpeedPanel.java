@@ -9,7 +9,7 @@ import geogebra.common.kernel.geos.GeoButton;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.gui.dialog.PropertiesDialog;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.Component;
 import java.awt.FlowLayout;
@@ -39,10 +39,10 @@ public class AnimationSpeedPanel
 	private boolean partOfSliderPanel = false;
 	private JComboBox animationModeCB;	
 	private JLabel modeLabel, speedLabel;
-	private Application app;	
+	private AppD app;	
 	private Kernel kernel;
 
-	public AnimationSpeedPanel(Application app) {
+	public AnimationSpeedPanel(AppD app) {
 		this.app = app;
 		this.kernel = app.getKernel();
 		

@@ -3,7 +3,7 @@ package geogebra3D.gui;
 import geogebra.gui.dialog.options.OptionsEuclidianD;
 import geogebra.gui.dialog.options.OptionsEuclidian2;
 import geogebra.gui.inputfield.MyTextField;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 import geogebra3D.Application3D;
 import geogebra3D.euclidian3D.DrawClippingCube3D;
 import geogebra3D.euclidian3D.EuclidianView3D;

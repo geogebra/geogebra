@@ -226,7 +226,7 @@ public class GeoGebraColorConstants {
 	 *            localized color name
 	 * @return Color object corresponding with given GeoGebra color name string
 	 */
-	public static GColor getGeogebraColor(AbstractApplication app,
+	public static GColor getGeogebraColor(App app,
 			String colorName) {
 
 		getGeoGebraColors();
@@ -251,7 +251,7 @@ public class GeoGebraColorConstants {
 	 *            color
 	 * @return GeoGebra color name string corresponding with given Color object
 	 */
-	public static String getGeogebraColorName(AbstractApplication app,
+	public static String getGeogebraColorName(App app,
 			GColor color) {
 		return app.getColor(getGeoGebraColorReverse().get(color));
 	}
@@ -370,7 +370,7 @@ public class GeoGebraColorConstants {
 	 *            colors
 	 * @return array of localized color names
 	 */
-	public static String[] getColorNames(AbstractApplication app, GColor[] color) {
+	public static String[] getColorNames(App app, GColor[] color) {
 		String[] s = new String[color.length];
 		for (int i = 0; i < s.length; i++) {
 			s[i] = getGeogebraColorName(app, color[i]);

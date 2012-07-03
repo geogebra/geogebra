@@ -23,7 +23,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoPoint;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 
 import org.apache.commons.math.linear.Array2DRowRealMatrix;
 import org.apache.commons.math.linear.DecompositionSolver;
@@ -221,7 +221,7 @@ public class AlgoFit extends AlgoElement {
 
 	// / --- Debug --- ///
 	private final static void errorMsg(String s) {
-		AbstractApplication.debug(s);
+		App.debug(s);
 	}// errorMsg(String)
 
 	// --- SNIP --- /// *** Comment out when finished ***

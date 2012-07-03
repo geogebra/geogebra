@@ -15,12 +15,12 @@ package geogebra.gui.dialog.options;
 import geogebra.common.gui.SetLabels;
 import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.gui.color.GeoGebraColorChooser;
 import geogebra.gui.dialog.PropertiesPanel;
 import geogebra.gui.view.algebra.AlgebraTree;
 import geogebra.gui.view.algebra.AlgebraTreeController;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -43,7 +43,7 @@ import javax.swing.border.Border;
 public class OptionsObjectD extends geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelD, SetLabels {
 
 	private static final long serialVersionUID = 1L;
-	private Application app;
+	private AppD app;
 	private JButton defaultsButton;
 	private PropertiesPanel propPanel;
 	private GeoGebraColorChooser colChooser;
@@ -60,7 +60,7 @@ public class OptionsObjectD extends geogebra.common.gui.dialog.options.OptionsOb
 	 * @param app
 	 *            parent frame
 	 */
-	public OptionsObjectD(Application app) {
+	public OptionsObjectD(AppD app) {
 		
 		this.app = app;
 		kernel = app.getKernel();

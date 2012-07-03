@@ -4,7 +4,7 @@ import com.google.gwt.user.client.DOM;
 
 import geogebra.common.awt.GColor;
 import geogebra.common.awt.GFont;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 
 public class GLabelW extends geogebra.common.javax.swing.GLabel {
 
@@ -36,7 +36,7 @@ public class GLabelW extends geogebra.common.javax.swing.GLabel {
 
 	@Override
     public void setOpaque(boolean b) {
-	    AbstractApplication.debug("implementation needed - just finishing"); // TODO Auto-generated
+	    App.debug("implementation needed - just finishing"); // TODO Auto-generated
 
 
 //      The next rows set not only the background's opacity, but the text's opacity as well: 
@@ -63,13 +63,13 @@ public class GLabelW extends geogebra.common.javax.swing.GLabel {
 
 	@Override
     public void setFont(GFont font) {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
+	    App.debug("implementation needed"); // TODO Auto-generated
 	    
     }
 
 	@Override
     public void setForeground(GColor color) {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
+	    App.debug("implementation needed"); // TODO Auto-generated
 	    
     }
 

@@ -4,7 +4,7 @@ import geogebra.common.gui.SetLabels;
 import geogebra.common.util.Language;
 import geogebra.gui.TitleLabel;
 import geogebra.gui.util.SpringUtilities;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -29,7 +29,7 @@ class OptionsFont extends JPanel implements ActionListener, SetLabels {
 	/** */
 	private static final long serialVersionUID = 1L;
 
-	private Application app;
+	private AppD app;
 
 	private TitleLabel fontTitleLabel, languageTitleLabel;
 	private JLabel languageLabel, guiSizeLabel; // , axesSizeLabel,
@@ -46,7 +46,7 @@ class OptionsFont extends JPanel implements ActionListener, SetLabels {
 	 * 
 	 * @param app
 	 */
-	public OptionsFont(Application app) {
+	public OptionsFont(AppD app) {
 		this.app = app;
 
 		initGUI();
@@ -96,11 +96,11 @@ class OptionsFont extends JPanel implements ActionListener, SetLabels {
 		// panel.add(axesSizeCb);
 
 		// language panel
-		String[] languages = new String[Application.getSupportedLocales().size()];
+		String[] languages = new String[AppD.getSupportedLocales().size()];
 		String ggbLangCode;
 
-		for (int i = 0; i < Application.getSupportedLocales().size(); i++) {
-			Locale loc = Application.getSupportedLocales().get(i);
+		for (int i = 0; i < AppD.getSupportedLocales().size(); i++) {
+			Locale loc = AppD.getSupportedLocales().get(i);
 			ggbLangCode = loc.getLanguage() + loc.getCountry()
 					+ loc.getVariant();
 
@@ -174,8 +174,8 @@ class OptionsFont extends JPanel implements ActionListener, SetLabels {
 		// euclidianSizeCb.addActionListener(this);
 		// axesSizeCb.addActionListener(this);
 
-		for (int i = 0; i < Application.getSupportedLocales().size(); i++) {
-			if (app.getLocale() == Application.getSupportedLocales().get(i)) {
+		for (int i = 0; i < AppD.getSupportedLocales().size(); i++) {
+			if (app.getLocale() == AppD.getSupportedLocales().get(i)) {
 				languageCb.setSelectedIndex(i);
 				break;
 			}
@@ -192,7 +192,7 @@ class OptionsFont extends JPanel implements ActionListener, SetLabels {
 		}
 
 		if (updateLanguage) {
-			Locale loc = Application.getSupportedLocales().get(languageCb
+			Locale loc = AppD.getSupportedLocales().get(languageCb
 					.getSelectedIndex());
 			app.setLanguage(loc);
 			updateLanguage = false;

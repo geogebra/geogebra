@@ -52,7 +52,7 @@ import geogebra.common.kernel.statistics.AlgoInversePascal;
 import geogebra.common.kernel.statistics.AlgoInversePoisson;
 import geogebra.common.kernel.statistics.AlgoPascal;
 import geogebra.common.kernel.statistics.AlgoPoisson;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.common.main.settings.AbstractSettings;
 import geogebra.common.main.settings.ProbabilityCalculatorSettings;
@@ -64,7 +64,7 @@ import geogebra.gui.GuiManagerD;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.gui.view.spreadsheet.statdialog.PlotPanelEuclidianView;
 import geogebra.gui.view.spreadsheet.statdialog.PlotSettings;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -115,7 +115,7 @@ public class ProbabilityCalculator extends JPanel implements View,
 	private boolean hasIntegral = true;
 
 	// ggb fields
-	private Application app;
+	private AppD app;
 	private Construction cons;
 	private Kernel kernel;
 	private ProbabilityManager probManager;
@@ -209,7 +209,7 @@ public class ProbabilityCalculator extends JPanel implements View,
 	/*************************************************
 	 * Construct the dialog
 	 */
-	public ProbabilityCalculator(Application app) {
+	public ProbabilityCalculator(AppD app) {
 
 		isIniting = true;
 		this.app = app;
@@ -1647,7 +1647,7 @@ public class ProbabilityCalculator extends JPanel implements View,
 		// add the geo to our view and remove it from EV
 		geo.addView(plotPanel.getViewID());
 		plotPanel.add(geo);
-		geo.removeView(AbstractApplication.VIEW_EUCLIDIAN);
+		geo.removeView(App.VIEW_EUCLIDIAN);
 		app.getEuclidianView1().remove(geo);
 	}
 
@@ -1724,10 +1724,10 @@ public class ProbabilityCalculator extends JPanel implements View,
 		case PASCAL:
 		case POISSON:
 		case HYPERGEOMETRIC:
-			AbstractApplication.error("not continuous");
+			App.error("not continuous");
 			break;
 		default:
-			AbstractApplication.error("missing case");
+			App.error("missing case");
 		}
 
 		if (ret != null) {
@@ -2286,13 +2286,13 @@ public class ProbabilityCalculator extends JPanel implements View,
 			// set the EV location and auxiliary = false for all of the new geos
 			for (GeoElement geo : newGeoList) {
 				geo.setAuxiliaryObject(false);
-				if (euclidianViewID == AbstractApplication.VIEW_EUCLIDIAN) {
-					geo.addView(AbstractApplication.VIEW_EUCLIDIAN);
-					geo.removeView(AbstractApplication.VIEW_EUCLIDIAN2);
+				if (euclidianViewID == App.VIEW_EUCLIDIAN) {
+					geo.addView(App.VIEW_EUCLIDIAN);
+					geo.removeView(App.VIEW_EUCLIDIAN2);
 					geo.update();
-				} else if (euclidianViewID == AbstractApplication.VIEW_EUCLIDIAN2) {
-					geo.addView(AbstractApplication.VIEW_EUCLIDIAN2);
-					geo.removeView(AbstractApplication.VIEW_EUCLIDIAN);
+				} else if (euclidianViewID == App.VIEW_EUCLIDIAN2) {
+					geo.addView(App.VIEW_EUCLIDIAN2);
+					geo.removeView(App.VIEW_EUCLIDIAN);
 					geo.update();
 				}
 			}
@@ -2329,7 +2329,7 @@ public class ProbabilityCalculator extends JPanel implements View,
 	}
 
 	public int getViewID() {
-		return AbstractApplication.VIEW_PROBABILITY_CALCULATOR;
+		return App.VIEW_PROBABILITY_CALCULATOR;
 	}
 
 	public void settingsChanged(AbstractSettings settings) {

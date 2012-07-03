@@ -1,8 +1,8 @@
 package geogebra.gui.layout.panels;
 
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.gui.layout.DockPanel;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -19,14 +19,14 @@ import javax.swing.JScrollPane;
  */
 public class AlgebraDockPanel extends DockPanel {
 	private static final long serialVersionUID = 1L;
-	private Application app;
+	private AppD app;
 	
 	/**
 	 * @param app
 	 */
-	public AlgebraDockPanel(Application app) {
+	public AlgebraDockPanel(AppD app) {
 		super(
-			AbstractApplication.VIEW_ALGEBRA,	// view id 
+			App.VIEW_ALGEBRA,	// view id 
 			"AlgebraWindow", 			// view title phrase
 			null,						// toolbar string
 			true,						// style bar?

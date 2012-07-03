@@ -16,7 +16,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoBoolean;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 
 import org.apache.commons.math.distribution.PoissonDistribution;
 
@@ -61,7 +61,7 @@ public class AlgoPoisson extends AlgoDistribution {
 					num.setValue(dist.probability(val));   // P(X = val)
 			}
 			catch (Exception e) {
-				AbstractApplication.debug(e.getMessage());
+				App.debug(e.getMessage());
 				num.setUndefined();        			
 			}
 		} else

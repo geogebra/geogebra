@@ -16,10 +16,10 @@ import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.euclidian.EuclidianViewD;
 import geogebra.gui.GuiManagerD;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 /**
  * Controller for tree of geos
@@ -71,7 +71,7 @@ implements MouseListener, MouseMotionListener{
 		// right click is consumed in mousePressed, but in GeoGebra 3D,
 		// where heavyweight popup menus are enabled this doesn't work
 		// so make sure that this is no right click as well (ticket #302)
-		if (e.isConsumed() || Application.isRightClick(e)) {
+		if (e.isConsumed() || AppD.isRightClick(e)) {
 			return;
 		}
 
@@ -109,7 +109,7 @@ implements MouseListener, MouseMotionListener{
 		if (!skipSelection && (mode == EuclidianConstants.MODE_MOVE || mode == EuclidianConstants.MODE_RECORD_TO_SPREADSHEET) ) {
 			// update selection	
 			if (geo == null){
-				if (!Application.isControlDown(e) && !e.isShiftDown())
+				if (!AppD.isControlDown(e) && !e.isShiftDown())
 					app.clearSelectedGeos();
 				
 				if (groupedGeos!=null)
@@ -117,7 +117,7 @@ implements MouseListener, MouseMotionListener{
 					
 			}else {					
 				// handle selecting geo
-				if (Application.isControlDown(e)) {
+				if (AppD.isControlDown(e)) {
 					app.toggleSelectedGeo(geo); 													
 					if (app.getSelectedGeos().contains(geo)) lastSelectedGeo = geo;
 				} else if (e.isShiftDown() && lastSelectedGeo != null) {
@@ -219,7 +219,7 @@ implements MouseListener, MouseMotionListener{
 		if (app.selectedGeosSize() < 2) {				
 			if(geo == null) {
 				app.clearSelectedGeos();	
-				AlgebraContextMenu contextMenu = new AlgebraContextMenu((Application)app);
+				AlgebraContextMenu contextMenu = new AlgebraContextMenu((AppD)app);
 				contextMenu.show(tree, e.getPoint().x, e.getPoint().y);
 			} else {
 				if (!app.containsSelectedGeo(geo)){

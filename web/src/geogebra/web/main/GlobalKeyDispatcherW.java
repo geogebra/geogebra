@@ -13,7 +13,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.PointProperties;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.main.GWTKeycodes;
 import geogebra.common.main.KeyCodes;
 import geogebra.common.plugin.EuclidianStyleConstants;
@@ -35,7 +35,7 @@ import com.google.gwt.event.dom.client.KeyUpHandler;
 public class GlobalKeyDispatcherW extends
         geogebra.common.main.GlobalKeyDispatcher implements KeyUpHandler, KeyDownHandler {
 
-	public GlobalKeyDispatcherW(AbstractApplication app) {
+	public GlobalKeyDispatcherW(App app) {
 		this.app = app;
     }
 
@@ -98,30 +98,30 @@ public class GlobalKeyDispatcherW extends
 
 	@Override
     protected boolean handleCtrlShiftN(boolean isAltDown) {
-	    AbstractApplication.debug("unimplemented");
+	    App.debug("unimplemented");
 	    return false;
     }
 
 	@Override
     protected boolean handleEnter() {
-	    AbstractApplication.debug("unimplemented");
+	    App.debug("unimplemented");
 	    return false;
     }
 
 	@Override
     protected void copyDefinitionsToInputBarAsList(ArrayList<GeoElement> geos) {
-	    AbstractApplication.debug("unimplemented");
+	    App.debug("unimplemented");
 	    
     }
 
 	@Override
     protected void createNewWindow(Object object) {
-		AbstractApplication.debug("unimplemented");
+		App.debug("unimplemented");
     }
 
 	@Override
-    protected void showPrintPreview(AbstractApplication app2) {
-		AbstractApplication.debug("unimplemented");
+    protected void showPrintPreview(App app2) {
+		App.debug("unimplemented");
     }
 
 

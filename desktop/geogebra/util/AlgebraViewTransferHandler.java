@@ -3,7 +3,7 @@ package geogebra.util;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.gui.view.algebra.AlgebraView;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
@@ -23,7 +23,7 @@ import javax.swing.TransferHandler;
  */
 public class AlgebraViewTransferHandler extends TransferHandler implements Transferable {
 	private static final long serialVersionUID = 1L;
-	private Application app;
+	private AppD app;
 
 	public static DataFlavor algebraViewFlavor = new DataFlavor(AlgebraView.class, "algebraView");
 	private static final DataFlavor supportedFlavors[] = { algebraViewFlavor };
@@ -34,7 +34,7 @@ public class AlgebraViewTransferHandler extends TransferHandler implements Trans
 	/****************************************
 	 * Constructor
 	 */
-	public AlgebraViewTransferHandler(Application app){
+	public AlgebraViewTransferHandler(AppD app){
 		this.app = app;
 	}
 

@@ -1,7 +1,7 @@
 package geogebra.gui.view.algebra;
 
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 import geogebra.util.AlgebraViewTransferHandler;
 
 import java.awt.datatransfer.DataFlavor;
@@ -19,7 +19,7 @@ import javax.swing.text.JTextComponent;
 
 public class AlgebraInputDropTargetListener implements DropTargetListener {
 
-	private Application app;
+	private AppD app;
 	private JTextComponent textComp;
 
 	// supported data flavors
@@ -34,7 +34,7 @@ public class AlgebraInputDropTargetListener implements DropTargetListener {
 	private String textExport;
 
 
-	public AlgebraInputDropTargetListener(Application app, JTextComponent textComp){
+	public AlgebraInputDropTargetListener(AppD app, JTextComponent textComp){
 		this.app = app;
 		this.textComp = textComp;
 	}

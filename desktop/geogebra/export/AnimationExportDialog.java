@@ -4,7 +4,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.gui.util.AnimatedGifEncoder;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
 import java.awt.Container;
@@ -40,7 +40,7 @@ public class AnimationExportDialog extends JDialog {
 	/**
 	 * Application instance.
 	 */
-	private Application app;
+	private AppD app;
 	
 	/**
 	 * List with all sliders in the worksheet.
@@ -67,7 +67,7 @@ public class AnimationExportDialog extends JDialog {
 	 * 
 	 * @param app
 	 */
-	public AnimationExportDialog(Application app) {
+	public AnimationExportDialog(AppD app) {
 		super(app.getFrame(), false);
 		this.app = app;
 		

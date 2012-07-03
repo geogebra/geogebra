@@ -7,7 +7,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.FunctionalNVar;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.TextObject;
@@ -288,7 +288,7 @@ public class GeoTextField extends GeoButton {
 			
 		}
 		
-		if (viewID != AbstractApplication.VIEW_EUCLIDIAN2) {
+		if (viewID != App.VIEW_EUCLIDIAN2) {
 			return textField;			
 		}
 		

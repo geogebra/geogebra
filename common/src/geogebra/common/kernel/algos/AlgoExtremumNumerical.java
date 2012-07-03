@@ -18,7 +18,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoFunctionable;
 import geogebra.common.kernel.geos.GeoPoint;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 
 /**
  * Command: Extremum[<function>,leftx,rightx]
@@ -255,7 +255,7 @@ public class AlgoExtremumNumerical extends AlgoElement {
 
 	private final static void debug(String s) {
 		if (DEBUG) {
-			AbstractApplication.debug(s);
+			App.debug(s);
 		}// if()
 	}// debug()
 

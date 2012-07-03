@@ -1,8 +1,8 @@
 package geogebra.gui.layout.panels;
 
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.gui.layout.DockPanel;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import javax.swing.JComponent;
 
@@ -11,14 +11,14 @@ import javax.swing.JComponent;
  */
 public class ProbabilityCalculatorDockPanel extends DockPanel {
 	private static final long serialVersionUID = 1L;
-	private Application app;
+	private AppD app;
 	
 	/**
 	 * @param app
 	 */
-	public ProbabilityCalculatorDockPanel(Application app) {
+	public ProbabilityCalculatorDockPanel(AppD app) {
 		super(
-			AbstractApplication.VIEW_PROBABILITY_CALCULATOR, 		// view id
+			App.VIEW_PROBABILITY_CALCULATOR, 		// view id
 			"ProbabilityCalculator", 			// view title phrase
 			null,								// toolbar string
 			true,								// style bar?

@@ -2,8 +2,8 @@ package geogebra.gui.view.spreadsheet;
 
 import geogebra.common.awt.GPoint;
 import geogebra.common.kernel.Kernel;
-import geogebra.common.main.AbstractApplication;
-import geogebra.main.Application;
+import geogebra.common.main.App;
+import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -27,7 +27,7 @@ import javax.swing.table.TableCellRenderer;
 
 public class SpreadsheetColumnController implements KeyListener, MouseListener, MouseMotionListener {
 
-	private Application app;
+	private AppD app;
 	private SpreadsheetView view;
 	private Kernel kernel;
 	private MyTable table;
@@ -40,7 +40,7 @@ public class SpreadsheetColumnController implements KeyListener, MouseListener, 
 	private int overTraceButtonColumn = -1;
 
 
-	public SpreadsheetColumnController(Application app, MyTable table){
+	public SpreadsheetColumnController(AppD app, MyTable table){
 
 		this.app = app;
 		this.kernel = app.getKernel();
@@ -62,7 +62,7 @@ public class SpreadsheetColumnController implements KeyListener, MouseListener, 
 		// Double clicking on a column boundary auto-adjusts the 
 		// width of the column on the left
 
-		if (isResizing && !Application.isRightClick(e) && e.getClickCount() == 2) {
+		if (isResizing && !AppD.isRightClick(e) && e.getClickCount() == 2) {
 
 			// get column to adjust
 			int x = e.getX();
@@ -94,12 +94,12 @@ public class SpreadsheetColumnController implements KeyListener, MouseListener, 
 	public void mousePressed(MouseEvent e) {
 		int x = e.getX();
 		int y = e.getY();
-		boolean metaDown = Application.isControlDown(e); 	 
+		boolean metaDown = AppD.isControlDown(e); 	 
 		boolean shiftDown = e.isShiftDown(); 	 
-		boolean rightClick = Application.isRightClick(e); 	 
+		boolean rightClick = AppD.isRightClick(e); 	 
 
 		if(!view.hasViewFocus())
-			app.getGuiManager().getLayout().getDockManager().setFocusedPanel(AbstractApplication.VIEW_SPREADSHEET);
+			app.getGuiManager().getLayout().getDockManager().setFocusedPanel(App.VIEW_SPREADSHEET);
 
 
 		if (!rightClick) {
@@ -154,9 +154,9 @@ public class SpreadsheetColumnController implements KeyListener, MouseListener, 
 	}
 
 	public void mouseReleased(MouseEvent e)	{
-		boolean rightClick = Application.isRightClick(e); 	 
+		boolean rightClick = AppD.isRightClick(e); 	 
 
-		if (!((Application)kernel.getApplication()).letShowPopupMenu()) return;    
+		if (!((AppD)kernel.getApplication()).letShowPopupMenu()) return;    
 
 		if (rightClick) { 	 
 
@@ -224,7 +224,7 @@ public class SpreadsheetColumnController implements KeyListener, MouseListener, 
 
 	public void mouseDragged(MouseEvent e) {
 
-		if(Application.isRightClick(e))return; //G.Sturr 2009-9-30 
+		if(AppD.isRightClick(e))return; //G.Sturr 2009-9-30 
 
 		if (isResizing) return;
 		int x = e.getX();
@@ -289,7 +289,7 @@ public class SpreadsheetColumnController implements KeyListener, MouseListener, 
 
 	public void keyPressed(KeyEvent e) {
 
-		boolean metaDown = Application.isControlDown(e);
+		boolean metaDown = AppD.isControlDown(e);
 		boolean altDown = e.isAltDown();
 		boolean shiftDown = e.isShiftDown();
 		int keyCode = e.getKeyCode();

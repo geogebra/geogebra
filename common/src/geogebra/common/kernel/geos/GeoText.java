@@ -27,7 +27,7 @@ import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.MyStringBuffer;
 import geogebra.common.kernel.arithmetic.TextValue;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.util.StringUtil;
@@ -170,7 +170,7 @@ public class GeoText extends GeoElement implements Locateable,
 				}
 			}
 		} catch (CircularDefinitionException e) {
-			AbstractApplication
+			App
 					.debug("set GeoText: CircularDefinitionException");
 		}
 		updateTemplate();

@@ -13,7 +13,7 @@ the Free Software Foundation.
 
 package geogebra.gui.editor;
 
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.Color;
 import java.util.ArrayList;
@@ -54,7 +54,7 @@ public class GeoGebraContext extends ViewContext {
 	}
 
 	private View view;
-	private Application app;
+	private AppD app;
 	private List<Integer> typeToDefault = new ArrayList<Integer>();
 
 	private static final Map<String, Color> colorMap = new HashMap<String, Color>();
@@ -106,7 +106,7 @@ public class GeoGebraContext extends ViewContext {
 	 * @param app
 	 *            the Application where this context is needed
 	 */
-	public GeoGebraContext(Application app) {
+	public GeoGebraContext(AppD app) {
 		super();
 		this.app = app;
 		tokenFont = app.getPlainFont();

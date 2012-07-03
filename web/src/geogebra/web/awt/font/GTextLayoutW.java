@@ -3,7 +3,7 @@ package geogebra.web.awt.font;
 import geogebra.common.awt.GFont;
 import geogebra.common.awt.GGraphics2D;
 import geogebra.common.awt.GRectangle2D;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.util.Unicode;
 import geogebra.web.awt.GFontRenderContextW;
 
@@ -57,7 +57,7 @@ public class GTextLayoutW implements geogebra.common.awt.font.GTextLayout {
 		g2.setFont(font);
 		g2.drawString(str, x, y);
 		g2.setFont(tempFont);
-	    AbstractApplication.debug("implementation needed - just finishing"); // TODO
+	    App.debug("implementation needed - just finishing"); // TODO
     }
 
 }

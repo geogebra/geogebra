@@ -27,7 +27,7 @@ import geogebra.common.kernel.kernelND.ViewCreator;
 import geogebra.euclidian.EuclidianControllerD;
 import geogebra.gui.GuiManagerD;
 import geogebra.main.AppletImplementation;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 import geogebra.main.GlobalKeyDispatcherD;
 import geogebra3D.euclidian3D.EuclidianController3D;
 import geogebra3D.euclidian3D.EuclidianView3D;
@@ -49,7 +49,7 @@ import java.io.File;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFrame;
 
-public class Application3D extends Application {
+public class Application3D extends AppD {
 
 	private EuclidianView3D euclidianView3D;
 	private EuclidianController3D euclidianController3D;
@@ -302,14 +302,14 @@ public class Application3D extends Application {
 	@Override
 	public void addToEuclidianView(GeoElement geo) {
 		super.addToEuclidianView(geo);
-		geo.addView(Application.VIEW_EUCLIDIAN3D);
+		geo.addView(AppD.VIEW_EUCLIDIAN3D);
 		getEuclidianView3D().add(geo);
 	}
 
 	@Override
 	public void removeFromEuclidianView(GeoElement geo) {
 		super.removeFromEuclidianView(geo);
-		geo.removeView(Application.VIEW_EUCLIDIAN3D);
+		geo.removeView(AppD.VIEW_EUCLIDIAN3D);
 		getEuclidianView3D().remove(geo);
 	}
 

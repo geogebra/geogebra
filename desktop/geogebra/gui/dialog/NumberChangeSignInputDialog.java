@@ -2,7 +2,7 @@ package geogebra.gui.dialog;
 
 import geogebra.common.gui.dialog.handler.NumberChangeSignInputHandler;
 import geogebra.gui.view.algebra.InputPanel.DialogType;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import javax.swing.JCheckBox;
 
@@ -29,7 +29,7 @@ public class NumberChangeSignInputDialog extends InputDialog {
 	 * @param handler
 	 * @param changingSign says if the sign has to be changed
 	 */
-	public NumberChangeSignInputDialog(Application app, String message,
+	public NumberChangeSignInputDialog(AppD app, String message,
 			String title, String initString, 
 			NumberChangeSignInputHandler handler, 
 			boolean changingSign, String checkBoxText) {

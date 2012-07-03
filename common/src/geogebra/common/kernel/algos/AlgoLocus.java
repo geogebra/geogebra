@@ -26,7 +26,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLocus;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -326,7 +326,7 @@ public class AlgoLocus extends AlgoElement {
 							geoCopy.set(geoOrig);
 							geoCopy.update();
 						} catch (Exception e) {
-							AbstractApplication
+							App
 									.debug("AlgoLocus: error in resetMacroConstruction(): "
 											+ e.getMessage());
 						}
@@ -567,7 +567,7 @@ public class AlgoLocus extends AlgoElement {
 
 				// if it takes too much time to calculate a single step, we stop
 				if (updateTime > MAX_TIME_FOR_ONE_STEP) {
-					AbstractApplication.debug("AlgoLocus: max time exceeded "
+					App.debug("AlgoLocus: max time exceeded "
 							+ updateTime);
 					maxTimeExceeded = true;
 				}

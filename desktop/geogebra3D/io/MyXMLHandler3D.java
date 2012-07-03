@@ -9,9 +9,9 @@ import geogebra.common.kernel.kernelND.GeoLevelOfDetail;
 import geogebra.common.kernel.kernelND.GeoPlaneND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.LevelOfDetail;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.plugin.EuclidianStyleConstants;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 import geogebra3D.Application3D;
 import geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra3D.kernel3D.GeoPoint3D;
@@ -58,7 +58,7 @@ public class MyXMLHandler3D extends MyXMLHandler {
 				break;
 			} else if (eName.equals("axis")) {
 				ok = handleAxis(ev, attrs);
-				Application.debug("TODO: add EuclidianSettings for 3D");
+				AppD.debug("TODO: add EuclidianSettings for 3D");
 				break;
 			}
 
@@ -121,7 +121,7 @@ public class MyXMLHandler3D extends MyXMLHandler {
 	@Override
 	protected void startGeoElement(String eName, LinkedHashMap<String, String> attrs) {
 		if (geo == null) {
-			AbstractApplication.debug("no element set for <" + eName + ">");
+			App.debug("no element set for <" + eName + ">");
 			return;
 		}
 
@@ -143,7 +143,7 @@ public class MyXMLHandler3D extends MyXMLHandler {
 		}
 
 		if (!ok) {
-			AbstractApplication.debug("error in <element>: " + eName);
+			App.debug("error in <element>: " + eName);
 		}
 	}
 	
@@ -313,7 +313,7 @@ public class MyXMLHandler3D extends MyXMLHandler {
 	
 	private static boolean handleBgColor(EuclidianViewInterfaceCommon ev, LinkedHashMap<String, String> attrs) {
 		
-		Application.debug("TODO: remove this");
+		AppD.debug("TODO: remove this");
 		
 		geogebra.common.awt.GColor col = handleColorAttrs(attrs);
 		if (col == null)
@@ -335,7 +335,7 @@ public class MyXMLHandler3D extends MyXMLHandler {
 	
 	protected boolean handleAxis(EuclidianViewInterfaceCommon ev, LinkedHashMap<String, String> attrs) {
 		
-		Application.debug("TODO: remove this");
+		AppD.debug("TODO: remove this");
 		
 		try {
 			int axis = Integer.parseInt(attrs.get("id"));

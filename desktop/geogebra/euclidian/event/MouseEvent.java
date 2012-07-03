@@ -2,7 +2,7 @@ package geogebra.euclidian.event;
 
 import geogebra.common.awt.GPoint;
 import geogebra.common.euclidian.event.AbstractEvent;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 
 import java.awt.event.InputEvent;
 import java.util.LinkedList;
@@ -14,7 +14,7 @@ public class MouseEvent extends AbstractEvent {
 	private int id;
 	
 	private MouseEvent(java.awt.event.MouseEvent e) {
-		AbstractApplication.debug("possible missing release()");
+		App.debug("possible missing release()");
 		this.event = e;
 	}
 	

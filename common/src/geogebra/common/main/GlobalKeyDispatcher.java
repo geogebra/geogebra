@@ -33,7 +33,7 @@ public abstract class GlobalKeyDispatcher {
 	 */
 	public abstract void handleFunctionKeyForAlgebraInput(int i, GeoElement geo);
 	/** application */
-	protected AbstractApplication app;
+	protected App app;
 
 	private TreeSet<AlgoElement> tempSet;
 	/**
@@ -216,8 +216,8 @@ public abstract class GlobalKeyDispatcher {
 				if (isShiftDown) {// || event.isAltDown()) {
 					app.getGuiManager().setShowView(
 							!app.getGuiManager().showView(
-									AbstractApplication.VIEW_EUCLIDIAN),
-									AbstractApplication.VIEW_EUCLIDIAN);
+									App.VIEW_EUCLIDIAN),
+									App.VIEW_EUCLIDIAN);
 					consumed = true;
 
 				} else if (!isAltDown) { // make sure not triggered on
@@ -237,8 +237,8 @@ public abstract class GlobalKeyDispatcher {
 				if (isShiftDown) {// || event.isAltDown()) {
 					app.getGuiManager().setShowView(
 							!app.getGuiManager().showView(
-									AbstractApplication.VIEW_EUCLIDIAN2),
-									AbstractApplication.VIEW_EUCLIDIAN2);
+									App.VIEW_EUCLIDIAN2),
+									App.VIEW_EUCLIDIAN2);
 					consumed = true;
 
 				} else if (!isAltDown) { // make sure not triggered on
@@ -259,8 +259,8 @@ public abstract class GlobalKeyDispatcher {
 				if (isShiftDown) { // || event.isAltDown()) {
 					app.getGuiManager().setShowView(
 							!app.getGuiManager().showView(
-									AbstractApplication.VIEW_EUCLIDIAN3D),
-									AbstractApplication.VIEW_EUCLIDIAN3D);
+									App.VIEW_EUCLIDIAN3D),
+									App.VIEW_EUCLIDIAN3D);
 					consumed = true;
 
 				} else if (!isAltDown) { // make sure not triggered on
@@ -277,8 +277,8 @@ public abstract class GlobalKeyDispatcher {
 					if (app.isUsingFullGui()) {
 					app.getGuiManager().setShowView(
 							!app.getGuiManager().showView(
-									AbstractApplication.VIEW_ALGEBRA),
-									AbstractApplication.VIEW_ALGEBRA);
+									App.VIEW_ALGEBRA),
+									App.VIEW_ALGEBRA);
 						consumed = true;
 					}
 				} else {
@@ -292,8 +292,8 @@ public abstract class GlobalKeyDispatcher {
 					if (app.isUsingFullGui()) {
 					app.getGuiManager().setShowView(
 							!app.getGuiManager().showView(
-									AbstractApplication.VIEW_CAS),
-									AbstractApplication.VIEW_CAS);
+									App.VIEW_CAS),
+									App.VIEW_CAS);
 						consumed = true;
 					}
 				} 
@@ -304,8 +304,8 @@ public abstract class GlobalKeyDispatcher {
 					if (app.isUsingFullGui()) {
 					app.getGuiManager().setShowView(
 							!app.getGuiManager().showView(
-									AbstractApplication.VIEW_CONSTRUCTION_PROTOCOL),
-									AbstractApplication.VIEW_CONSTRUCTION_PROTOCOL);
+									App.VIEW_CONSTRUCTION_PROTOCOL),
+									App.VIEW_CONSTRUCTION_PROTOCOL);
 						consumed = true;
 					}
 				}  else 
@@ -377,7 +377,7 @@ public abstract class GlobalKeyDispatcher {
 				// Ctrl + E: open object properties (needed here for spreadsheet)
 			case E:
 				app.getGuiManager().setShowView(
-						!app.getGuiManager().showView(AbstractApplication.VIEW_PROPERTIES), AbstractApplication.VIEW_PROPERTIES, false);
+						!app.getGuiManager().showView(App.VIEW_PROPERTIES), App.VIEW_PROPERTIES, false);
 				consumed = true;
 				break;
 
@@ -450,8 +450,8 @@ public abstract class GlobalKeyDispatcher {
 					if (app.isUsingFullGui()) {
 					app.getGuiManager().setShowView(
 							!app.getGuiManager().showView(
-									AbstractApplication.VIEW_SPREADSHEET),
-									AbstractApplication.VIEW_SPREADSHEET);
+									App.VIEW_SPREADSHEET),
+									App.VIEW_SPREADSHEET);
 						consumed = true;
 					}
 				} else {
@@ -515,7 +515,7 @@ public abstract class GlobalKeyDispatcher {
 
 	protected abstract void createNewWindow(Object object);
 
-	protected abstract void showPrintPreview(AbstractApplication app2);
+	protected abstract void showPrintPreview(App app2);
 
 	/*
 	 * overridden in desktop
@@ -564,7 +564,7 @@ public abstract class GlobalKeyDispatcher {
 	 *            whether only black should be used as a color
 	 * @return whether change was performed
 	 */
-	public static boolean changeFontsAndGeoElements(AbstractApplication app,
+	public static boolean changeFontsAndGeoElements(App app,
 			int fontSize, boolean blackWhiteMode) {
 		if (app.isApplet())
 			return false;

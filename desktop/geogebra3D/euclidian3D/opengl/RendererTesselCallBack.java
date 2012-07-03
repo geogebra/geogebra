@@ -1,6 +1,6 @@
 package geogebra3D.euclidian3D.opengl;
 
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import javax.media.opengl.glu.GLUtessellatorCallback;
 
@@ -81,7 +81,7 @@ public class RendererTesselCallBack implements GLUtessellatorCallback
       String estring;
 
       estring = renderer.glu.gluErrorString(errnum);
-      Application.debug("Tessellation Error: " + estring);
+      AppD.debug("Tessellation Error: " + estring);
       //System.exit(0);
     }
 

@@ -3,7 +3,7 @@
 package geogebra.gui.view.algebra;
 
 import geogebra.common.gui.VirtualKeyboardListener;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.gui.DynamicTextInputPane;
 import geogebra.gui.editor.GeoGebraEditorPane;
@@ -11,7 +11,7 @@ import geogebra.gui.inputfield.AutoCompleteTextFieldD;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.gui.util.TextLineNumber;
 import geogebra.gui.virtualkeyboard.VirtualKeyboard;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -37,7 +37,7 @@ public class InputPanel extends JPanel implements FocusListener, VirtualKeyboard
 	
 	private static final long serialVersionUID = 1L;
 	
-	private Application app;	
+	private AppD app;	
 	private JTextComponent textComponent;	
 	
 	/** panel to hold the text field; needs to be a global to set the popup width */
@@ -52,14 +52,14 @@ public class InputPanel extends JPanel implements FocusListener, VirtualKeyboard
 	//=====================================
 	//Constructors
 	
-	public InputPanel(String initText, Application app, int columns, boolean autoComplete) {
+	public InputPanel(String initText, AppD app, int columns, boolean autoComplete) {
 		this(initText, app, 1, columns, true, true, null, DialogType.GeoGebraEditor);
 		AutoCompleteTextFieldD atf = (AutoCompleteTextFieldD) textComponent;
 		atf.setAutoComplete(autoComplete);
 	}		
 
 
-	public InputPanel(String initText, Application app, int rows, int columns, boolean showSymbolPopupIcon) {
+	public InputPanel(String initText, AppD app, int rows, int columns, boolean showSymbolPopupIcon) {
 		this(initText, app, rows, columns, showSymbolPopupIcon, false, null, DialogType.GeoGebraEditor);
 		if (textComponent instanceof AutoCompleteTextFieldD) {
 			AutoCompleteTextFieldD atf = (AutoCompleteTextFieldD) textComponent;
@@ -67,13 +67,13 @@ public class InputPanel extends JPanel implements FocusListener, VirtualKeyboard
 		}
 	}
 	
-	public InputPanel(String initText, Application app, int rows, int columns, boolean showSymbolPopupIcon, DialogType type) {
+	public InputPanel(String initText, AppD app, int rows, int columns, boolean showSymbolPopupIcon, DialogType type) {
 		this(initText, app, rows, columns, showSymbolPopupIcon, false, null, type);
 	}
 	
 	public enum DialogType  { TextArea, DynamicText, GeoGebraEditor }
 	
-	public InputPanel(String initText, Application app, int rows, int columns, boolean showSymbolPopupIcon,
+	public InputPanel(String initText, AppD app, int rows, int columns, boolean showSymbolPopupIcon,
 						boolean showSymbolButtons, KeyListener keyListener, DialogType type) {
 		
 		this.app = app;

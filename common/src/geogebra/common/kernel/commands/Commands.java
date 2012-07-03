@@ -12,7 +12,7 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.commands;
 
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 
 @SuppressWarnings("javadoc")
 public enum Commands implements CommandsConstants{
@@ -280,7 +280,7 @@ public enum Commands implements CommandsConstants{
 			case ConeInfinite: return InfiniteCone;
 			case OrthogonalPlane: return PerpendicularPlane;
 		}
-		AbstractApplication.debug("unhandled case"+comm.name());
+		App.debug("unhandled case"+comm.name());
 		return comm;
 	}
 	

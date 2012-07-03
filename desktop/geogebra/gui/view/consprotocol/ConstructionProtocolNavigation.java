@@ -12,11 +12,11 @@ the Free Software Foundation.
 package geogebra.gui.view.consprotocol;
 
 import geogebra.common.gui.SetLabels;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.main.settings.AbstractSettings;
 import geogebra.common.main.settings.ConstructionProtocolSettings;
 import geogebra.common.main.settings.SettingListener;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.Component;
 import java.awt.Cursor;
@@ -61,7 +61,7 @@ public class ConstructionProtocolNavigation extends JPanel implements ActionList
 	double playDelay = 2;	 
 	private JPanel playPanel;
 	/** Application */
-	Application app;
+	AppD app;
 	/** Construction protocol view */
 	ConstructionProtocolView prot;
 	private boolean showPlayButton = true, 
@@ -203,8 +203,8 @@ public class ConstructionProtocolNavigation extends JPanel implements ActionList
 		btOpenWindow.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//app.getGuiManager().showConstructionProtocol();
-				if(!app.getGuiManager().showView(AbstractApplication.VIEW_CONSTRUCTION_PROTOCOL))
-					app.getGuiManager().setShowView(true, AbstractApplication.VIEW_CONSTRUCTION_PROTOCOL);
+				if(!app.getGuiManager().showView(App.VIEW_CONSTRUCTION_PROTOCOL))
+					app.getGuiManager().setShowView(true, App.VIEW_CONSTRUCTION_PROTOCOL);
 			}				
 		});
 		

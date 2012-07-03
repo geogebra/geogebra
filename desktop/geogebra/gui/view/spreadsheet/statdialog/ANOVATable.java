@@ -3,7 +3,7 @@ package geogebra.gui.view.spreadsheet.statdialog;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -21,7 +21,7 @@ import org.apache.commons.math.stat.descriptive.summary.SumOfSquares;
 
 public class ANOVATable extends BasicStatTable {
 	private static final long serialVersionUID = 1L;
-	public ANOVATable(Application app, StatDialog statDialog){
+	public ANOVATable(AppD app, StatDialog statDialog){
 		super(app, statDialog, -1);
 		this.setMinimumSize(this.getPreferredSize());
 	}

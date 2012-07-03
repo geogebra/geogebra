@@ -1,6 +1,6 @@
 package geogebra.web.gui.app;
 
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.web.gui.view.algebra.AlgebraView;
 import geogebra.web.euclidian.EuclidianStyleBarW;
 
@@ -15,7 +15,7 @@ import com.google.gwt.dom.client.Style;
 
 public class EuclidianStyleBarPanel extends Composite implements RequiresResize {
 
-	private AbstractApplication application;
+	private App application;
 
 	private static EuclidianStyleBarPanelUiBinder uiBinder = GWT
 	        .create(EuclidianStyleBarPanelUiBinder.class);
@@ -49,10 +49,10 @@ public class EuclidianStyleBarPanel extends Composite implements RequiresResize 
     }
 
 	public void onResize() {
-		AbstractApplication.debug("resized");
+		App.debug("resized");
     }
 
-	public void attachApp(AbstractApplication app) {
+	public void attachApp(App app) {
 		if (application != app) {
 			application = app;
 			setStyleBar((EuclidianStyleBarW)application.getActiveEuclidianView().getStyleBar());

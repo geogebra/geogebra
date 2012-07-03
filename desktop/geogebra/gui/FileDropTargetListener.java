@@ -12,9 +12,9 @@
 
 package geogebra.gui;
 
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.util.StringUtil;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
@@ -43,9 +43,9 @@ public class FileDropTargetListener implements DropTargetListener {
 		}
 	}
 
-	private Application app;
+	private AppD app;
 
-	public FileDropTargetListener(Application app) {
+	public FileDropTargetListener(AppD app) {
 		this.app = app;
 	}
 
@@ -125,7 +125,7 @@ public class FileDropTargetListener implements DropTargetListener {
 	private static boolean isGGBFile(String fileName){
 		int mid = fileName.lastIndexOf(".");
 	    String ext = fileName.substring(mid+1,fileName.length());
-	    return StringUtil.toLowerCase(ext).equals(Application.FILE_EXT_GEOGEBRA);
+	    return StringUtil.toLowerCase(ext).equals(AppD.FILE_EXT_GEOGEBRA);
 	}
 
 	/**
@@ -136,7 +136,7 @@ public class FileDropTargetListener implements DropTargetListener {
 	private static boolean isGGTFile(String fileName){
 		int mid = fileName.lastIndexOf(".");
 	    String ext = fileName.substring(mid+1,fileName.length());
-	    return StringUtil.toLowerCase(ext).equals(Application.FILE_EXT_GEOGEBRA_TOOL);
+	    return StringUtil.toLowerCase(ext).equals(AppD.FILE_EXT_GEOGEBRA_TOOL);
 	}
 
 	private ArrayList<File> getGGBfiles(Transferable transferable) {
@@ -146,7 +146,7 @@ public class FileDropTargetListener implements DropTargetListener {
 		try {
 			// try to get an image
 			if (transferable.isDataFlavorSupported (DataFlavor.imageFlavor)) { 
-				AbstractApplication.debug("image flavor not supported"); 
+				App.debug("image flavor not supported"); 
 				//Image img = (Image) trans.getTransferData (DataFlavor.imageFlavor); 
 			} else if (transferable.isDataFlavorSupported (DataFlavor.javaFileListFlavor)) {
 				//Application.debug("javaFileList is supported");
@@ -173,9 +173,9 @@ public class FileDropTargetListener implements DropTargetListener {
 					}
 				}
 			} else if (transferable.isDataFlavorSupported (urlFlavor)) {
-				AbstractApplication.debug("url flavor not supported");
+				App.debug("url flavor not supported");
 				//URL url = (URL) trans.getTransferData (urlFlavor);
-			} else AbstractApplication.debug("flavor not supported: "+transferable);
+			} else App.debug("flavor not supported: "+transferable);
 		} catch (Exception e) {
 			e.printStackTrace( );
 		} 

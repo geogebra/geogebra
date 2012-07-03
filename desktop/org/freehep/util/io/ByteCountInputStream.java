@@ -1,7 +1,7 @@
 // Copyright 2001, FreeHEP.
 package org.freehep.util.io;
 
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -66,14 +66,14 @@ public class ByteCountInputStream extends ByteOrderInputStream {
      */
     public void pushBuffer(int len) {
         if (index >= size.length - 1) {
-        	Application.debug("ByteCountInputStream: trying to push more buffers than stackDepth: "
+        	AppD.debug("ByteCountInputStream: trying to push more buffers than stackDepth: "
                             + size.length);
             return;
         }
 
         if (index >= 0) {
             if (size[index] < len) {
-            	Application.debug("ByteCountInputStream: trying to set a length: "
+            	AppD.debug("ByteCountInputStream: trying to set a length: "
                                 + len
                                 + ", longer than the underlying buffer: "
                                 + size[index]);
@@ -98,7 +98,7 @@ public class ByteCountInputStream extends ByteOrderInputStream {
             if (len > 0) {
                 return readByte(len);
             } else if (len < 0) {
-                Application.debug("ByteCountInputStream: Internal Error");
+                AppD.debug("ByteCountInputStream: Internal Error");
             }
             index--;
         }

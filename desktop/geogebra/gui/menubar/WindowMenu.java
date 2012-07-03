@@ -1,7 +1,7 @@
 package geogebra.gui.menubar;
 
 import geogebra.gui.app.GeoGebraFrame;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -22,7 +22,7 @@ class WindowMenu extends BaseMenu {
 		newWindowAction
 	;
 
-	public WindowMenu(Application app) {
+	public WindowMenu(AppD app) {
 		super(app, app.getMenu("Window"));
 
 		// items are added to the menu when it's opened, see BaseMenu: addMenuListener(this);
@@ -55,13 +55,13 @@ class WindowMenu extends BaseMenu {
 		
 		for (int i = 0; i < size; i++) {
 			GeoGebraFrame ggb = (GeoGebraFrame) ggbInstances.get(i);
-			Application application = ggb.getApplication();
+			AppD application = ggb.getApplication();
 			if (app == application) current = i;
 		}
 		
 		for (int i = 0; i < size; i++) {
 			GeoGebraFrame ggb = (GeoGebraFrame) ggbInstances.get(i);
-			Application application = ggb.getApplication();
+			AppD application = ggb.getApplication();
 
 			sb.setLength(0);
 			sb.append(i + 1);

@@ -12,8 +12,8 @@ import geogebra.common.euclidian.EuclidianStatic;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
-import geogebra.common.main.AbstractApplication;
-import geogebra.main.Application;
+import geogebra.common.main.App;
+import geogebra.main.AppD;
 
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
@@ -30,7 +30,7 @@ public class EuclidianStaticD extends geogebra.common.euclidian.EuclidianStatic{
 
 
 	@Override
-	public final GRectangle doDrawMultilineLaTeX(AbstractApplication app,
+	public final GRectangle doDrawMultilineLaTeX(App app,
 			GGraphics2D tempGraphics, GeoElement geo, GGraphics2D g2, GFont font,
 			GColor fgColor, GColor bgColor, String labelDesc, int xLabel,
 			int yLabel, boolean serif) {
@@ -168,7 +168,7 @@ public class EuclidianStaticD extends geogebra.common.euclidian.EuclidianStatic{
 	}
 
 
-	public final static GRectangle drawMultiLineIndexedText(Application app,
+	public final static GRectangle drawMultiLineIndexedText(AppD app,
 			String labelDesc, int xLabel, int yLabel, GGraphics2D g2,
 			boolean serif) {
 		int lines = 0;

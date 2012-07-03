@@ -2,7 +2,7 @@ package geogebra.gui.view.algebra;
 
 
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 import geogebra.util.AlgebraViewTransferHandler;
 
 import java.awt.datatransfer.DataFlavor;
@@ -24,7 +24,7 @@ public class AlgebraInputTransferHandler extends TransferHandler implements Tran
 
 	private static final long serialVersionUID = 1L;
 	
-	private Application app;
+	private AppD app;
 	private JTextComponent ta;
 
 	// supported data flavors
@@ -42,7 +42,7 @@ public class AlgebraInputTransferHandler extends TransferHandler implements Tran
 	 * Constructor
 	 * @param ev
 	 */
-	public AlgebraInputTransferHandler(Application app, JTextComponent ta){
+	public AlgebraInputTransferHandler(AppD app, JTextComponent ta){
 		this.ta = ta;
 		this.app = app;
 	}

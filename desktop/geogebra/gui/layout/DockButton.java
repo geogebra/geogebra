@@ -1,7 +1,7 @@
 package geogebra.gui.layout;
 
 import geogebra.gui.util.GeoGebraIcon;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.Dimension;
 import java.awt.Insets;
@@ -23,15 +23,15 @@ import javax.swing.ToolTipManager;
  */
 class DockButton extends JToggleButton {
 
-	private Application app;
+	private AppD app;
 	private JToolTip tip;
 
-	public DockButton(Application app, Icon ic) {
+	public DockButton(AppD app, Icon ic) {
 		this(app);
 		setIcon(ic);
 	}
 
-	public DockButton(Application app) {
+	public DockButton(AppD app) {
 		super();
 		this.app = app;
 		

@@ -1,7 +1,7 @@
 package geogebra.plugin;
 
-import geogebra.common.main.AbstractApplication;
-import geogebra.main.Application;
+import geogebra.common.main.App;
+import geogebra.main.AppD;
 import geogebra.usb.USBLogger;
 
 import java.util.ArrayList;
@@ -40,7 +40,7 @@ public class USBFunctions {
 		
 		// add map entry
 		loggerListenerMap.add(JSFunctionName);		
-		AbstractApplication.debug("registerLoggerListener: function: " + JSFunctionName);
+		App.debug("registerLoggerListener: function: " + JSFunctionName);
 		
 		SensorDataProducer sDataProducer = logger.sDataProducer;
 		
@@ -66,13 +66,13 @@ public class USBFunctions {
 					int size = loggerListenerMap.size();
 					for (int i=0; i < size; i++) {
 						String jsFunction = (String) loggerListenerMap.get(i);
-						AbstractApplication.debug(jsFunction);
+						App.debug(jsFunction);
 						sm.callJavaScript(jsFunction, args);					
 					}			
 				}
 			} 
 			else {
-				AbstractApplication.debug("no sample");
+				App.debug("no sample");
 			}
 		}
 
@@ -107,7 +107,7 @@ public class USBFunctions {
 		if (loggerListenerMap != null) {
 			
 			loggerListenerMap.remove(JSFunctionName);		
-			AbstractApplication.debug("unregisterLoggerListener for object: " + JSFunctionName);
+			App.debug("unregisterLoggerListener for object: " + JSFunctionName);
 			
 			//Application.debug(loggerListenerMap.size()+"",1);
 			
@@ -118,7 +118,7 @@ public class USBFunctions {
 				if (sDataProducer != null) {
 		            SwingUtilities.invokeLater( new Runnable(){ public void
 		            	run() { 					
-			            	AbstractApplication.debug("stopping logging");
+			            	App.debug("stopping logging");
 							sDataProducer.stop();
 		            	} });
 				}

@@ -4,7 +4,7 @@ import geogebra.common.awt.GBasicStroke;
 import geogebra.common.awt.GGraphics2D;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.plugin.EuclidianStyleConstants;
 
 
@@ -189,7 +189,7 @@ public abstract class EuclidianStatic {
 	 * @param serif true touseserif font
 	 * @return bounds of resulting LaTeX formula
 	 */
-	public static final geogebra.common.awt.GRectangle drawMultilineLaTeX(AbstractApplication app,
+	public static final geogebra.common.awt.GRectangle drawMultilineLaTeX(App app,
 			geogebra.common.awt.GGraphics2D tempGraphics, GeoElement geo, geogebra.common.awt.GGraphics2D g2, geogebra.common.awt.GFont font,
 			geogebra.common.awt.GColor fgColor, geogebra.common.awt.GColor bgColor, String labelDesc, int xLabel,
 			int yLabel, boolean serif) {
@@ -213,7 +213,7 @@ public abstract class EuclidianStatic {
 	 * @param serif true touseserif font
 	 * @return bounds of resulting LaTeX formula
 	 */
-	protected abstract geogebra.common.awt.GRectangle doDrawMultilineLaTeX(AbstractApplication app,
+	protected abstract geogebra.common.awt.GRectangle doDrawMultilineLaTeX(App app,
 			geogebra.common.awt.GGraphics2D tempGraphics, GeoElement geo, geogebra.common.awt.GGraphics2D g2, geogebra.common.awt.GFont font,
 			geogebra.common.awt.GColor fgColor, geogebra.common.awt.GColor bgColor, String labelDesc, int xLabel,
 			int yLabel, boolean serif);
@@ -237,7 +237,7 @@ public abstract class EuclidianStatic {
 	 * @param serif true to use serif font
 	 * @return additional pixel needed to draw str (x-offset, y-offset)
 	 */
-	public static geogebra.common.awt.GPoint drawIndexedString(AbstractApplication app, geogebra.common.awt.GGraphics2D g3,
+	public static geogebra.common.awt.GPoint drawIndexedString(App app, geogebra.common.awt.GGraphics2D g3,
 			String str, float xPos, float yPos, boolean serif) {
 
 		geogebra.common.awt.GFont g2font = g3.getFont();
@@ -353,7 +353,7 @@ public abstract class EuclidianStatic {
 	 * @param serif true for serif font
 	 * @return border of resulting text drawing
 	 */
-	public final static geogebra.common.awt.GRectangle drawMultiLineText(AbstractApplication app,
+	public final static geogebra.common.awt.GRectangle drawMultiLineText(App app,
 			String labelDesc, int xLabel, int yLabel, geogebra.common.awt.GGraphics2D g2,
 			boolean serif) {
 		int lines = 0;

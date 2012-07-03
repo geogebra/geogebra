@@ -17,7 +17,7 @@ import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 
 public class DialogManagerMinimal extends DialogManager {
 
@@ -26,7 +26,7 @@ public class DialogManagerMinimal extends DialogManager {
 	 * Potentially can be used in applets without needing GuiManager
 	 * @param app
 	 */
-	public DialogManagerMinimal(AbstractApplication app) {
+	public DialogManagerMinimal(App app) {
 		this.app = app;
 
 	}

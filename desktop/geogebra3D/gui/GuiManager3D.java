@@ -14,7 +14,7 @@ import geogebra.gui.dialog.options.OptionsDialog;
 import geogebra.gui.layout.LayoutD;
 import geogebra.gui.view.algebra.AlgebraController;
 import geogebra.gui.view.algebra.AlgebraView;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 import geogebra3D.Application3D;
 import geogebra3D.euclidianFor3D.EuclidianControllerFor3D;
 import geogebra3D.euclidianFor3D.EuclidianViewFor3D;
@@ -47,7 +47,7 @@ public class GuiManager3D extends GuiManagerD {
 	 * default constructor
 	 * @param app
 	 */
-	public GuiManager3D(Application app) {
+	public GuiManager3D(AppD app) {
 		super(app);
 		javax.swing.JPopupMenu.setDefaultLightWeightPopupEnabled(false);
 		
@@ -65,7 +65,7 @@ public class GuiManager3D extends GuiManagerD {
 	@Override
 	protected void initLayoutPanels() {
 		super.initLayoutPanels();
-		EuclidianDockPanel3D panel = new EuclidianDockPanel3D((Application)app);
+		EuclidianDockPanel3D panel = new EuclidianDockPanel3D((AppD)app);
 		getLayout().registerPanel(panel);
 	}
 	
@@ -80,7 +80,7 @@ public class GuiManager3D extends GuiManagerD {
 		if (!super.initActions())
 			return false;
 		showAxes3DAction = new AbstractAction(app.getMenu("Axes"),
-				((Application)app).getImageIcon("axes.gif")) {
+				((AppD)app).getImageIcon("axes.gif")) {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
@@ -94,7 +94,7 @@ public class GuiManager3D extends GuiManagerD {
 		};
 
 		showGrid3DAction = new AbstractAction(app.getMenu("Grid"),
-				((Application)app).getImageIcon("grid.gif")) {
+				((AppD)app).getImageIcon("grid.gif")) {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
@@ -108,7 +108,7 @@ public class GuiManager3D extends GuiManagerD {
 		};
 		
 		showPlaneAction = new AbstractAction(app.getMenu("Plane"),
-				((Application)app).getImageIcon("plane.gif")) {
+				((AppD)app).getImageIcon("plane.gif")) {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
@@ -171,7 +171,7 @@ public class GuiManager3D extends GuiManagerD {
 		
 		// menu for drawing pane context menu
 		ContextMenuGraphicsWindow3D popupMenu = new ContextMenuGraphicsWindow3D(
-				(Application)app, p.x, p.y);
+				(AppD)app, p.x, p.y);
 		popupMenu.show(((EuclidianViewND) view).getJPanel(), p.x, p.y);
 	}
 	
@@ -203,7 +203,7 @@ public class GuiManager3D extends GuiManagerD {
 		screenPos.translate(p.x, p.y);
 
 
-		ContextMenuChooseGeo popupMenu = new ContextMenuChooseGeo((Application)app, view, selectedGeos, geos, screenPos, p);
+		ContextMenuChooseGeo popupMenu = new ContextMenuChooseGeo((AppD)app, view, selectedGeos, geos, screenPos, p);
 		popupMenu.show(invoker, p.x, p.y);
 
 

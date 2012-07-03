@@ -5,7 +5,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.common.util.Language;
 import geogebra.gui.inputfield.MyTextField;
@@ -14,7 +14,7 @@ import geogebra.gui.util.PopupMenuButton;
 import geogebra.gui.util.SpecialNumberFormat;
 import geogebra.gui.util.SpecialNumberFormatInterface;
 import geogebra.gui.view.spreadsheet.SpreadsheetView;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -44,7 +44,7 @@ public class StatDialog extends JDialog  implements ActionListener, View, Printa
 SpecialNumberFormatInterface {
 	private static final long serialVersionUID = 1L;
 	// ggb 
-	private Application app;
+	private AppD app;
 	private Kernel kernel; 
 	private SpreadsheetView spView;	
 	private StatGeo statGeo;
@@ -134,7 +134,7 @@ SpecialNumberFormatInterface {
 	/*************************************************
 	 * Construct the dialog
 	 */
-	public StatDialog(SpreadsheetView spView, Application app, int mode){
+	public StatDialog(SpreadsheetView spView, AppD app, int mode){
 		super(app.getFrame(),false);
 
 		isIniting = true;
@@ -456,7 +456,7 @@ SpecialNumberFormatInterface {
 			}
 		}
 		
-		AbstractApplication.warn("no mode set in setRegressionMode()");
+		App.warn("no mode set in setRegressionMode()");
 		this.regressionMode = Regression.NONE;
 		
 		 
@@ -470,7 +470,7 @@ SpecialNumberFormatInterface {
 		this.regressionOrder = regressionOrder;
 	}
 
-	public Application getApp() {
+	public AppD getApp() {
 		return app;
 	}
 
@@ -843,7 +843,7 @@ SpecialNumberFormatInterface {
 	}
 
 	public int getViewID() {
-		return AbstractApplication.VIEW_NONE;
+		return App.VIEW_NONE;
 	}
 	
 	

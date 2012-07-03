@@ -9,7 +9,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.util.Unicode;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
@@ -29,7 +29,7 @@ public class InputDialogAngleFixed extends AngleInputDialog implements KeyListen
 
 	private Kernel kernel;
 		
-	public InputDialogAngleFixed(Application app, String title, InputHandler handler, GeoSegment[] segments, GeoPoint[] points, GeoElement[] selGeos, Kernel kernel) {
+	public InputDialogAngleFixed(AppD app, String title, InputHandler handler, GeoSegment[] segments, GeoPoint[] points, GeoElement[] selGeos, Kernel kernel) {
 		super(app, app.getPlain("Angle"), title, defaultRotateAngle, false, handler, false);
 		
 		geoPoint1 = points[0];

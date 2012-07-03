@@ -6,7 +6,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.common.main.settings.SpreadsheetSettings;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -47,7 +47,7 @@ import javax.swing.table.TableModel;
 public class DataPanel extends JPanel implements ActionListener, StatPanelInterface  {
 	private static final long serialVersionUID = 1L;
 
-	private Application app;
+	private AppD app;
 	private StatDialog statDialog;
 	private StatDialogController statController;
 	
@@ -73,7 +73,7 @@ public class DataPanel extends JPanel implements ActionListener, StatPanelInterf
 	/*************************************************
 	 * Construct a DataPanel
 	 */
-	public DataPanel(Application app, StatDialog statDialog)
+	public DataPanel(AppD app, StatDialog statDialog)
 	{
 		this.app = app;	
 		this.statDialog = statDialog;

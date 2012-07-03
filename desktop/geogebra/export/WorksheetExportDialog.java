@@ -15,7 +15,7 @@ import geogebra.common.GeoGebraConstants;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.util.StringUtil;
 import geogebra.euclidian.EuclidianViewD;
 import geogebra.euclidianND.EuclidianViewND;
@@ -27,7 +27,7 @@ import geogebra.gui.util.HelpAction;
 import geogebra.gui.util.IconTabbedPane;
 import geogebra.gui.view.algebra.InputPanel;
 import geogebra.gui.view.algebra.InputPanel.DialogType;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 import geogebra.main.GeoGebraPreferences;
 import geogebra.util.DownloadManager;
 import geogebra.util.Util;
@@ -111,7 +111,7 @@ public class WorksheetExportDialog extends JDialog {
 	// final private static int TYPE_JSXGRAPH = 4;
 	// final private static int TYPE_JAVASCRIPT = 5;
 
-	private Application app;
+	private AppD app;
 	private Kernel kernel;
 	private InputPanel textAbove, textBelow, textAboveUpload, textBelowUpload;
 	private JCheckBox cbEnableRightClick, cbEnableLabelDrags,
@@ -134,7 +134,7 @@ public class WorksheetExportDialog extends JDialog {
 	private JPanel modeUploadPanel;
 	private JPanel modeHtmlPanel;
 
-	public WorksheetExportDialog(Application app) {
+	public WorksheetExportDialog(AppD app) {
 		super(app.getFrame(), true);
 		this.app = app;
 		kernel = app.getKernel();
@@ -197,7 +197,7 @@ public class WorksheetExportDialog extends JDialog {
 
 		helpButton = new JButton(app.getMenu("Help"));
 		HelpAction helpAction = new HelpAction(app, app.getImageIcon("help.png"),
-				app.getMenu("Help"), AbstractApplication.WIKI_EXPORT_WORKSHEET);
+				app.getMenu("Help"), App.WIKI_EXPORT_WORKSHEET);
 		helpButton.setAction(helpAction);
 
 		exportButton = new JButton(app.getPlain("Upload"));
@@ -236,7 +236,7 @@ public class WorksheetExportDialog extends JDialog {
 										}
 									} catch (Exception e) {
 										app.showError("SaveFileFailed");
-										AbstractApplication.debug(e.toString());
+										App.debug(e.toString());
 									}
 									break;
 
@@ -246,7 +246,7 @@ public class WorksheetExportDialog extends JDialog {
 								} catch (Exception e) {
 									app.showError("SaveFileFailed");
 									e.printStackTrace();
-									AbstractApplication.debug(e.toString());
+									App.debug(e.toString());
 								}
 								break;
 							case TYPE_MULTIPLE_FILES:
@@ -255,7 +255,7 @@ public class WorksheetExportDialog extends JDialog {
 								} catch (Exception e) {
 									app.showError("SaveFileFailed");
 									e.printStackTrace();
-									AbstractApplication.debug(e.toString());
+									App.debug(e.toString());
 								}
 								break;
 							}
@@ -835,11 +835,11 @@ public class WorksheetExportDialog extends JDialog {
 	private void exportHTMLtoFile() {
 		File htmlFile = null;
 
-		File currFile = Application.removeExtension(app.getCurrentFile());
+		File currFile = AppD.removeExtension(app.getCurrentFile());
 		if (currFile != null)
-			htmlFile = Application.addExtension(currFile, Application.FILE_EXT_HTML);
+			htmlFile = AppD.addExtension(currFile, AppD.FILE_EXT_HTML);
 
-		htmlFile = guiManager.showSaveDialog(Application.FILE_EXT_HTML, htmlFile,
+		htmlFile = guiManager.showSaveDialog(AppD.FILE_EXT_HTML, htmlFile,
 				app.getPlain("html") + " " + app.getMenu("Files"), true, false);
 		if (htmlFile == null)
 			return;
@@ -924,7 +924,7 @@ public class WorksheetExportDialog extends JDialog {
 						guiManager.showURLinBrowser(HTMLfile.toURI().toURL());
 					} catch (Exception ex) {
 						app.showError("SaveFileFailed");
-						AbstractApplication.debug(ex.toString());
+						App.debug(ex.toString());
 					}
 				}
 			};
@@ -932,7 +932,7 @@ public class WorksheetExportDialog extends JDialog {
 
 		} catch (Exception ex) {
 			app.showError("SaveFileFailed");
-			AbstractApplication.debug(ex.toString());
+			App.debug(ex.toString());
 		}
 	}
 
@@ -958,11 +958,11 @@ public class WorksheetExportDialog extends JDialog {
 
 		File htmlFile = null;
 
-		File currFile = Application.removeExtension(app.getCurrentFile());
+		File currFile = AppD.removeExtension(app.getCurrentFile());
 		if (currFile != null)
-			htmlFile = Application.addExtension(currFile, Application.FILE_EXT_HTML);
+			htmlFile = AppD.addExtension(currFile, AppD.FILE_EXT_HTML);
 
-		htmlFile = guiManager.showSaveDialog(Application.FILE_EXT_HTML, htmlFile,
+		htmlFile = guiManager.showSaveDialog(AppD.FILE_EXT_HTML, htmlFile,
 				app.getPlain("html") + " " + app.getMenu("Files"), true, false);
 
 		if (htmlFile == null)
@@ -1006,7 +1006,7 @@ public class WorksheetExportDialog extends JDialog {
 
 		for (int i = 0; i < size; i++) {
 			GeoGebraFrame ggb = ggbInstances.get(i);
-			Application application = ggb.getApplication();
+			AppD application = ggb.getApplication();
 
 			appendWithLineBreak(sb, "<div class=\"tabbertab\">");
 
@@ -1067,7 +1067,7 @@ public class WorksheetExportDialog extends JDialog {
 					guiManager.showURLinBrowser(HTMLfile.toURI().toURL());
 				} catch (Exception ex) {
 					app.showError("SaveFileFailed");
-					AbstractApplication.debug(ex.toString());
+					App.debug(ex.toString());
 				}
 			}
 		};
@@ -1089,24 +1089,24 @@ public class WorksheetExportDialog extends JDialog {
 
 		File htmlFile = null;
 
-		File currFile = Application.removeExtension(app.getCurrentFile());
+		File currFile = AppD.removeExtension(app.getCurrentFile());
 		if (currFile != null)
-			htmlFile = Application.addExtension(currFile, Application.FILE_EXT_HTML);
+			htmlFile = AppD.addExtension(currFile, AppD.FILE_EXT_HTML);
 
-		htmlFile = guiManager.showSaveDialog(Application.FILE_EXT_HTML, htmlFile,
+		htmlFile = guiManager.showSaveDialog(AppD.FILE_EXT_HTML, htmlFile,
 				app.getPlain("html") + " " + app.getMenu("Files"), false, false);
 
 		if (htmlFile == null)
 			return;
 
-		String fileBase = Application.removeExtension(htmlFile.getName());
+		String fileBase = AppD.removeExtension(htmlFile.getName());
 
 		StringBuilder next = new StringBuilder();
 		StringBuilder prev = new StringBuilder();
 
 		for (int i = 0; i < size; i++) {
 			GeoGebraFrame ggb = ggbInstances.get(i);
-			Application application = ggb.getApplication();
+			AppD application = ggb.getApplication();
 
 			htmlFile = new File(fileBase + (i + 1) + ".html");
 			// Application.debug("writing "+fileBase+(i+1)+".html");
@@ -1142,7 +1142,7 @@ public class WorksheetExportDialog extends JDialog {
 					guiManager.showURLinBrowser(HTMLfile.toURI().toURL());
 				} catch (Exception ex) {
 					app.showError("SaveFileFailed");
-					AbstractApplication.debug(ex.toString());
+					App.debug(ex.toString());
 				}
 			}
 		};
@@ -1154,10 +1154,10 @@ public class WorksheetExportDialog extends JDialog {
 	 * unsigned applet is needed for the options set.
 	 */
 	private URL getAppletCodebase() {
-		URL codebase = Application.getCodeBase();
+		URL codebase = AppD.getCodeBase();
 		if (!cbSavePrint.isSelected()) {
 			try {
-				codebase = new URL(Application.getCodeBase(), "unsigned/");
+				codebase = new URL(AppD.getCodeBase(), "unsigned/");
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -1174,10 +1174,10 @@ public class WorksheetExportDialog extends JDialog {
 	 */
 	public synchronized void copyJarsTo(URL codeBase, String destDir)
 			throws Exception {
-		for (int i = 0; i < Application.JAR_FILES.length; i++) {
+		for (int i = 0; i < AppD.JAR_FILES.length; i++) {
 			// jar file
-			URL src = new URL(codeBase, Application.JAR_FILES[i]);
-			File dest = new File(destDir, Application.JAR_FILES[i]);
+			URL src = new URL(codeBase, AppD.JAR_FILES[i]);
+			File dest = new File(destDir, AppD.JAR_FILES[i]);
 			DownloadManager.copyURLToFile(src, dest);
 
 			// jar.pack.gz file
@@ -1234,7 +1234,7 @@ public class WorksheetExportDialog extends JDialog {
 	// }
 	// }
 
-	public static boolean appendBase64(Application app, StringBuilder sb) {
+	public static boolean appendBase64(AppD app, StringBuilder sb) {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		try {
 			app.getXMLio().writeGeoGebraFile(baos, false);
@@ -1428,7 +1428,7 @@ public class WorksheetExportDialog extends JDialog {
 	 * @param ggbFile
 	 *          construction File
 	 */
-	private String getHTML(Application app2, File ggbFile, String nextLink,
+	private String getHTML(AppD app2, File ggbFile, String nextLink,
 			String previousLink) {
 		StringBuilder sb = new StringBuilder();
 
@@ -1618,7 +1618,7 @@ public class WorksheetExportDialog extends JDialog {
 		return sb.toString();
 	}
 
-	public String getAppletTag(Application app, File ggbFile, int width,
+	public String getAppletTag(AppD app, File ggbFile, int width,
 			int height, boolean mayscript, boolean RemoveLineBreaks,
 			boolean includeHTML5, boolean includeNoJavaMessage) {
 
@@ -1829,9 +1829,9 @@ public class WorksheetExportDialog extends JDialog {
 		// add caching information to help JVM with faster applet loading
 		// sb.append("\t<param name=\"cache_archive\" value=\"");
 		sb2.setLength(0);
-		for (int i = 0; i < Application.JAR_FILES.length; i++) {
-			sb2.append(Application.JAR_FILES[i]);
-			if (i < Application.JAR_FILES.length - 1)
+		for (int i = 0; i < AppD.JAR_FILES.length; i++) {
+			sb2.append(AppD.JAR_FILES[i]);
+			if (i < AppD.JAR_FILES.length - 1)
 				sb2.append(", ");
 		}
 		// sb.append("\" />");
@@ -1844,9 +1844,9 @@ public class WorksheetExportDialog extends JDialog {
 		// stamps
 		// sb.append("\t<param name=\"cache_version\" value=\"");
 		sb2.setLength(0);
-		for (int i = 0; i < Application.JAR_FILES.length; i++) {
+		for (int i = 0; i < AppD.JAR_FILES.length; i++) {
 			sb2.append(GeoGebraConstants.VERSION_STRING);
-			if (i < Application.JAR_FILES.length - 1)
+			if (i < AppD.JAR_FILES.length - 1)
 				sb2.append(", ");
 		}
 		// sb.append("\" />");

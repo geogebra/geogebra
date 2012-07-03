@@ -59,7 +59,7 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoRayND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.main.settings.AbstractSettings;
 import geogebra.common.main.settings.EuclidianSettings;
 import geogebra.common.plugin.EuclidianStyleConstants;
@@ -254,7 +254,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 	/** true if painting this for the first time*/
 	protected boolean firstPaint = true;
 	/** application */
-	protected AbstractApplication app;
+	protected App app;
 
 	private EuclidianSettings settings;
 
@@ -1776,11 +1776,11 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 	public int getViewID() {
 		switch (evNo) {
 		case 1:
-			return AbstractApplication.VIEW_EUCLIDIAN;
+			return App.VIEW_EUCLIDIAN;
 		case 2:
-			return AbstractApplication.VIEW_EUCLIDIAN2;
+			return App.VIEW_EUCLIDIAN2;
 		default:
-			return AbstractApplication.VIEW_NONE;
+			return App.VIEW_NONE;
 		}
 	}
 
@@ -1880,7 +1880,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 
 	public void setGridDistances(double[] dist) {
 		if (dist == null) {
-			AbstractApplication.debug("NULL");
+			App.debug("NULL");
 			return;
 		}
 		gridDistances = dist;
@@ -2533,11 +2533,11 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 	/**
 	 * @param application application
 	 */
-	protected void setApplication(AbstractApplication application) {
+	protected void setApplication(App application) {
 		this.app = application;
 	}
 	
-	public AbstractApplication getApplication() {
+	public App getApplication() {
 		return this.app;
 	}
 
@@ -3458,7 +3458,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 					sb.setLength(0);
 					sb.append('(');
 					sb.append(kernel.formatPiE(getXmin(), axesNumberFormat[0],StringTemplate.defaultTemplate));
-					sb.append(AbstractApplication.unicodeComma);
+					sb.append(App.unicodeComma);
 					sb.append(" ");
 					sb.append(kernel.formatPiE(getYmax(), axesNumberFormat[1],StringTemplate.defaultTemplate));
 					sb.append(')');
@@ -3471,7 +3471,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 					sb.setLength(0);
 					sb.append('(');
 					sb.append(kernel.formatPiE(getXmax(), axesNumberFormat[0],StringTemplate.defaultTemplate));
-					sb.append(AbstractApplication.unicodeComma);
+					sb.append(App.unicodeComma);
 					sb.append(" ");
 					sb.append(kernel.formatPiE(getYmin(), axesNumberFormat[1],StringTemplate.defaultTemplate));
 					sb.append(')');
@@ -3519,7 +3519,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 		 * @param g  graphics for reset icon
 		 */
 		protected void drawResetIcon(geogebra.common.awt.GGraphics2D g){
-			AbstractApplication.debug("drawResetIcon: implementation needed");
+			App.debug("drawResetIcon: implementation needed");
 		}
 		/**
 		 * Draw textfields

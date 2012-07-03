@@ -1,6 +1,6 @@
 package geogebra.common.kernel.prover;
 
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -683,17 +683,17 @@ public class Polynomial implements Comparable<Polynomial> {
 	 * @return yes if solvable, no if no solutions, or null (if cannot decide)
 	 */
 	public static Boolean solvable(Polynomial[] polys, HashMap<Variable,Integer> substitutions) {
-		if (AbstractApplication.singularWS != null && AbstractApplication.singularWS.isAvailable()) {
+		if (App.singularWS != null && App.singularWS.isAvailable()) {
 			String singularSolvableProgram = getSingularGroebnerSolvable("r", "i", polys, substitutions);
 			if (singularSolvableProgram.length()>500)
-				AbstractApplication.debug(singularSolvableProgram.length() + " bytes -> singular");
+				App.debug(singularSolvableProgram.length() + " bytes -> singular");
 			else
-				AbstractApplication.debug(singularSolvableProgram + " -> singular");
-			String singularSolvable = AbstractApplication.singularWS.directCommand(singularSolvableProgram);
+				App.debug(singularSolvableProgram + " -> singular");
+			String singularSolvable = App.singularWS.directCommand(singularSolvableProgram);
 			if (singularSolvable.length()>500)
-				AbstractApplication.debug("singular -> " + singularSolvable.length() + " bytes");
+				App.debug("singular -> " + singularSolvable.length() + " bytes");
 			else
-				AbstractApplication.debug("singular -> " + singularSolvable);
+				App.debug("singular -> " + singularSolvable);
 			if ("0".equals(singularSolvable))
 				return false; // no solution
 			return true; // at least one solution exists

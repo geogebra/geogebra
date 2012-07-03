@@ -4,7 +4,7 @@ import geogebra.common.euclidian.DrawText;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.euclidian.EuclidianStaticD;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 import geogebra.util.ImageManager;
 
 import java.awt.BasicStroke;
@@ -65,7 +65,7 @@ public class GeoGebraIcon {
 		return ic;
 	}
 
-	public static ImageIcon createFileImageIcon(Application app, String fileName, float alpha, Dimension iconSize){
+	public static ImageIcon createFileImageIcon(AppD app, String fileName, float alpha, Dimension iconSize){
 
 		int h = iconSize.height;
 		int w = iconSize.width;
@@ -555,11 +555,11 @@ public class GeoGebraIcon {
 	/**
 	 * Draw a LaTeX image in the icon.
 	 */
-	public static ImageIcon createLatexIcon(Application app, String latex, Font font, boolean serif, Color fgColor, Color bgColor) {
+	public static ImageIcon createLatexIcon(AppD app, String latex, Font font, boolean serif, Color fgColor, Color bgColor) {
 		return new ImageIcon(TeXFormula.createBufferedImage(latex, TeXConstants.STYLE_DISPLAY, font.getSize() + 3, fgColor, bgColor));
 	}
 	
-	public static ImageIcon createLatexIcon(Application app, String latex, boolean serif, Color fgColor, Color bgColor, int height) {
+	public static ImageIcon createLatexIcon(AppD app, String latex, boolean serif, Color fgColor, Color bgColor, int height) {
 		ImageIcon ic = new ImageIcon(TeXFormula.createBufferedImage(latex, TeXConstants.STYLE_DISPLAY, height-6, fgColor, bgColor));
 		ensureIconSize(ic, new Dimension(ic.getIconWidth(), height));
 		return ic;
@@ -842,7 +842,7 @@ public class GeoGebraIcon {
 	 * Drawing is done twice. First draw gives the needed size of the image.
 	 * Second draw renders the image with the correct dimensions.
 	 */
-	public static final void drawLatexImageIcon(Application app, ImageIcon latexIcon, String latex, Font font, boolean serif, Color fgColor, Color bgColor) {
+	public static final void drawLatexImageIcon(AppD app, ImageIcon latexIcon, String latex, Font font, boolean serif, Color fgColor, Color bgColor) {
 		// Create image with dummy size, then draw into it to get the correct size
 		GeoText geo = new GeoText(app.getKernel().getConstruction(), latex);
 		geo.setSerifFont(serif);

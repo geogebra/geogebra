@@ -1,8 +1,8 @@
 package geogebra.gui.layout.panels;
 
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.euclidianND.EuclidianViewND;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
@@ -12,14 +12,14 @@ import javax.swing.JComponent;
  */
 public class Euclidian2DockPanel extends EuclidianDockPanelAbstract {
 	private static final long serialVersionUID = 1L;
-	private Application app;
+	private AppD app;
 	
 	/**
 	 * @param app
 	 */
-	public Euclidian2DockPanel(Application app, String toolbar) {
+	public Euclidian2DockPanel(AppD app, String toolbar) {
 		super(
-			AbstractApplication.VIEW_EUCLIDIAN2, 	// view id
+			App.VIEW_EUCLIDIAN2, 	// view id
 			"DrawingPad2", 					// view title phrase
 			toolbar,							// toolbar string
 			true,							// style bar?

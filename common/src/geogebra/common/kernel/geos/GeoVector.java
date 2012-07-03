@@ -41,7 +41,7 @@ import geogebra.common.kernel.kernelND.GeoVectorND;
 import geogebra.common.kernel.prover.Variable;
 import geogebra.common.kernel.prover.NoSymbolicParametersException;
 import geogebra.common.kernel.prover.Polynomial;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.plugin.Operation;
 import geogebra.common.util.MyMath;
@@ -161,7 +161,7 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 			}
 		}
 		catch (CircularDefinitionException e) {
-			AbstractApplication.debug("set GeoVector: CircularDefinitionException");
+			App.debug("set GeoVector: CircularDefinitionException");
 		}		
 	}
 
@@ -254,7 +254,7 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 
 		// check for circular definition
 		if (isParentOf(p)){
-			AbstractApplication.debug(this+" startpoint "+p);
+			App.debug(this+" startpoint "+p);
 			//throw new CircularDefinitionException();
 		}
 

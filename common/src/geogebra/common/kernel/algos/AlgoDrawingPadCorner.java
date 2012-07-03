@@ -20,7 +20,7 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 
 public class AlgoDrawingPadCorner extends AlgoElement {
 
@@ -78,7 +78,7 @@ public class AlgoDrawingPadCorner extends AlgoElement {
 
 		EuclidianViewInterfaceSlim ev;
 
-		AbstractApplication app = cons.getApplication();
+		App app = cons.getApplication();
 
 		if (evNum == null || evNum.getDouble() == 1.0)
 			ev = app.getEuclidianView1();

@@ -9,7 +9,7 @@ import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.gui.dialog.InputDialog;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.gui.view.algebra.InputPanel.DialogType;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
@@ -95,7 +95,7 @@ public class CreateObjectDialog extends InputDialog implements
 	private JLabel lblPreviewHeader;
 	private JPanel namePanel;
 
-	public CreateObjectDialog(Application app, SpreadsheetView view,
+	public CreateObjectDialog(AppD app, SpreadsheetView view,
 			int objectType) {
 
 		super(app.getFrame(), false);

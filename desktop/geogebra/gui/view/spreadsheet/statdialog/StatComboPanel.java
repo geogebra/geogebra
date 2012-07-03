@@ -4,12 +4,12 @@ import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.kernel.algos.AlgoHistogram;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.gui.inputfield.AutoCompleteTextFieldD;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.gui.util.GeoGebraIcon;
 import geogebra.gui.view.spreadsheet.statdialog.StatDialog.Regression;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 import geogebra.util.Validation;
 
 import java.awt.BorderLayout;
@@ -61,7 +61,7 @@ public class StatComboPanel extends JPanel implements ActionListener, FocusListe
 StatPanelInterface{
 	private static final long serialVersionUID = 1L;
 	// ggb fields
-	private Application app;
+	private AppD app;
 	private StatDialog statDialog;
 	private StatGeo statGeo;
 
@@ -777,7 +777,7 @@ StatPanelInterface{
 				// add the geo to our view and remove it from EV		
 				listGeo.addView(plotPanel.getViewID());
 				plotPanel.add(listGeo);
-				listGeo.removeView(AbstractApplication.VIEW_EUCLIDIAN);
+				listGeo.removeView(App.VIEW_EUCLIDIAN);
 				app.getEuclidianView1().remove(listGeo);
 			}
 		}
@@ -1133,14 +1133,14 @@ StatPanelInterface{
 		geo.setLabel(null);
 		geo.setEuclidianVisible(true);
 		geo.setAuxiliaryObject(false);
-		if(euclidianViewID == AbstractApplication.VIEW_EUCLIDIAN){
-			geo.addView(AbstractApplication.VIEW_EUCLIDIAN);
-			geo.removeView(AbstractApplication.VIEW_EUCLIDIAN2);
+		if(euclidianViewID == App.VIEW_EUCLIDIAN){
+			geo.addView(App.VIEW_EUCLIDIAN);
+			geo.removeView(App.VIEW_EUCLIDIAN2);
 			geo.update();
 		}
-		if(euclidianViewID == AbstractApplication.VIEW_EUCLIDIAN2){
-			geo.addView(AbstractApplication.VIEW_EUCLIDIAN2);
-			geo.removeView(AbstractApplication.VIEW_EUCLIDIAN);
+		if(euclidianViewID == App.VIEW_EUCLIDIAN2){
+			geo.addView(App.VIEW_EUCLIDIAN2);
+			geo.removeView(App.VIEW_EUCLIDIAN);
 			geo.update();
 		}
 

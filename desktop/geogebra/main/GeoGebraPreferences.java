@@ -13,7 +13,7 @@
 package geogebra.main;
 
 import geogebra.common.GeoGebraConstants;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -130,7 +130,7 @@ public class GeoGebraPreferences {
 	
 	/* Set in geogebra.gui.app.GeoGebraFrame before first call to getPref()*/
 	public static void setPropertyFileName(String pfname){
-		PROPERTY_FILEPATH=pfname;									AbstractApplication.debug("Prferences in: "+PROPERTY_FILEPATH);
+		PROPERTY_FILEPATH=pfname;									App.debug("Prferences in: "+PROPERTY_FILEPATH);
 	}//setPropertyFileName(String)
 	
 	public synchronized static GeoGebraPreferences getPref() {
@@ -172,7 +172,7 @@ public class GeoGebraPreferences {
 		boolean systemAllows;
 		if (ggbPrefsSystem==null){
 			systemAllows = true;
-			AbstractApplication.info("No system preferences");
+			App.info("No system preferences");
 		}else{
 			systemAllows = Boolean.valueOf(ggbPrefsSystem.get(GeoGebraPreferences.VERSION_CHECK_ALLOW,defaultValue));
 		}
@@ -235,7 +235,7 @@ public class GeoGebraPreferences {
     	// language
     	String strLocale = ggbPrefs.get(APP_LOCALE, null);
     	if (strLocale != null) 
-    		return Application.getLocale(strLocale);
+    		return AppD.getLocale(strLocale);
 		return null;    	
     }
     
@@ -252,9 +252,9 @@ public class GeoGebraPreferences {
      */
     public  void loadFileList() {
     	// load last eight files
-    	for (int i=Application.MAX_RECENT_FILES; i >= 1; i--) {	
+    	for (int i=AppD.MAX_RECENT_FILES; i >= 1; i--) {	
     		File file = new File(ggbPrefs.get(APP_FILE_ + i, ""));
-    		Application.addToFileList(file);	    		
+    		AppD.addToFileList(file);	    		
     	}				    	
     }  
     	
@@ -264,8 +264,8 @@ public class GeoGebraPreferences {
     public  void saveFileList() {
     	try {    		    		    		    	
 	    	// save last four files
-	    	for (int i=1; i <= Application.MAX_RECENT_FILES; i++) {	    		
-	    		File file = Application.getFromFileList(i-1);
+	    	for (int i=1; i <= AppD.MAX_RECENT_FILES; i++) {	    		
+	    		File file = AppD.getFromFileList(i-1);
 	    		if (file != null)
 	    			ggbPrefs.put(APP_FILE_ + i, file.getCanonicalPath());
 	    		else
@@ -280,7 +280,7 @@ public class GeoGebraPreferences {
      * Inits factory default XML if there are no old preferences or if the version number changed.
      * The default XML is the preferences XML of this virgin application.
      */
-    public void initDefaultXML(Application app) {
+    public void initDefaultXML(AppD app) {
     	// already initialized?
     	if (factoryDefaultXml != null) {
     		return;
@@ -310,7 +310,7 @@ public class GeoGebraPreferences {
     /**
      * Saves preferences by taking the application's current values. 
      */
-    public  void saveXMLPreferences(Application app) {
+    public  void saveXMLPreferences(AppD app) {
     	// preferences xml
     	String xml = app.getPreferencesXML();
     	
@@ -329,7 +329,7 @@ public class GeoGebraPreferences {
     	try {
     		ggbPrefs.flush();
     	} catch (Exception e) {
-    		AbstractApplication.debug(e+"");
+    		App.debug(e+"");
     	}
     }
     
@@ -442,7 +442,7 @@ public class GeoGebraPreferences {
      * This method clears the current construction in the application.
      * Note: the XML string used is the same as for ggb files. 
      */
-    public  void loadXMLPreferences(Application app) {  
+    public  void loadXMLPreferences(AppD app) {  
     	app.setWaitCursor();  
     	
     	// load this preferences xml file in application
@@ -492,7 +492,7 @@ public class GeoGebraPreferences {
     		ggbPrefs.clear();    		
     		ggbPrefs.flush();
     	} catch (Exception e) {
-    		AbstractApplication.debug(e+"");
+    		App.debug(e+"");
     	}
     }
     

@@ -22,7 +22,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.plugin.Operation;
 import geogebra.common.util.GgbMat;
 
@@ -298,7 +298,7 @@ public class MyList extends ValidExpression implements ListValue,
 			}
 			if (power < 0) {
 				listElements = this.invert().listElements;
-				AbstractApplication.debug(this);
+				App.debug(this);
 				power *= -1;
 				if (power == 1) {
 					MyList RHlist = (MyList) this.deepCopy(kernel);
@@ -828,7 +828,7 @@ public class MyList extends ValidExpression implements ListValue,
 			// g:x=0, g isElementOf {x=0} gives null here
 			// see #1535
 			if (ev == null){
-				AbstractApplication.debug(myList.getListElement(i).getClass().getName());
+				App.debug(myList.getListElement(i).getClass().getName());
 				continue;
 			}
 

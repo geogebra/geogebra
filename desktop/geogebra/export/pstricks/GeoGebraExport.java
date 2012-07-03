@@ -44,7 +44,7 @@ import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import geogebra.common.util.MyMath;
 import geogebra.common.util.StringUtil;
 import geogebra.euclidianND.EuclidianViewND;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.util.HashMap;
 import java.util.StringTokenizer;
@@ -59,7 +59,7 @@ public abstract class GeoGebraExport  {
 	protected final double PRECISION_XRANGE_FUNCTION = 0.00001;
 	protected StringBuilder code, codePoint, codePreamble, codeFilledObject,
 			codeBeginDoc;
-	protected Application app;
+	protected AppD app;
 	protected Kernel kernel;
 	protected Construction construction;
 	protected EuclidianViewND euclidianView;
@@ -70,7 +70,7 @@ public abstract class GeoGebraExport  {
 	protected int format = 0;
 	protected boolean isBeamer = false;
 
-	public GeoGebraExport(Application app) {
+	public GeoGebraExport(AppD app) {
 		this.app = app;
 		this.kernel = app.getKernel();
 		this.construction = kernel.getConstruction();
@@ -78,7 +78,7 @@ public abstract class GeoGebraExport  {
 		initGui();
 	}
 
-	public Application getApp() {
+	public AppD getApp() {
 		return app;
 	}
 	

@@ -3,7 +3,7 @@ package geogebra.commands;
 import geogebra.CommandLineArguments;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.commands.AlgebraProcessor;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.lang.reflect.Method;
 import java.util.Locale;
@@ -19,12 +19,12 @@ import org.junit.Test;
 import junit.framework.*;
 
 public class NoExceptionsTest {
-	static Application app;
+	static AppD app;
 	static AlgebraProcessor ap;
 
 	@BeforeClass
 	public static void setupCas() {
-		app = new Application(new CommandLineArguments(
+		app = new AppD(new CommandLineArguments(
 				new String[]{"--silent"}), new JFrame(), false);
 		app.setLanguage(Locale.US);
 		// app.getKernel()

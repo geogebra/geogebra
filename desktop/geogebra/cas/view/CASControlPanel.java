@@ -17,7 +17,7 @@ import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.common.util.Unicode;
 import geogebra.gui.dialog.options.OptionsUtil;
 import geogebra.gui.inputfield.MyTextField;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -34,7 +34,7 @@ import javax.swing.border.Border;
 public class CASControlPanel extends JPanel implements ActionListener,
 		SetLabels {
 
-	private Application app;
+	private AppD app;
 	private CASView view;
 	private JPanel numPad;
 
@@ -67,7 +67,7 @@ public class CASControlPanel extends JPanel implements ActionListener,
 
 	private JPanel bottomPanel;
 	
-	public CASControlPanel(Application app, CASView view) {
+	public CASControlPanel(AppD app, CASView view) {
 		this.app = app;
 		this.view = view;
 		initGUI();

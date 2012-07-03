@@ -18,7 +18,7 @@ import geogebra.common.awt.GRenderableImage;
 import geogebra.common.awt.GRenderedImage;
 import geogebra.common.awt.GRenderingHints;
 import geogebra.common.factories.AwtFactory;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.web.kernel.gawt.BufferedImage;
 import geogebra.web.openjdk.awt.geom.PathIterator;
 import geogebra.web.openjdk.awt.geom.Polygon;
@@ -73,14 +73,14 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 
 	@Override
     public void draw3DRect(int x, int y, int width, int height, boolean raised) {
-		AbstractApplication.debug("draw3DRect: implementation needed"); 
+		App.debug("draw3DRect: implementation needed"); 
 
 	}
 
 	
 	@Override
     public void fill3DRect(int x, int y, int width, int height, boolean raised) {
-		AbstractApplication.debug("fill3DRect: implementation needed"); 
+		App.debug("fill3DRect: implementation needed"); 
 
 	}
 
@@ -93,7 +93,7 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 	 */
 	public void draw(Shape shape) {
 		if (shape == null) {
-			AbstractApplication.error("Error in EuclidianView.draw");
+			App.error("Error in EuclidianView.draw");
 			return;
 		}
 		doDrawShape(shape);
@@ -107,7 +107,7 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 		double[] coords = new double[6];
 		
 		// see #1718
-		boolean enableDashEmulation = nativeDashUsed || AbstractApplication.isFullAppGui(); 
+		boolean enableDashEmulation = nativeDashUsed || App.isFullAppGui(); 
 		
 		while (!it.isDone()) {
 			int cu = it.currentSegment(coords);
@@ -157,7 +157,7 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 
 	@Override
     public boolean drawImage(GImage img, GAffineTransform xform, GImageObserver obs) {
-		AbstractApplication.debug("drawImage: implementation needed for beauty"); // TODO Auto-generated
+		App.debug("drawImage: implementation needed for beauty"); // TODO Auto-generated
 		return false;
 	}
 
@@ -171,21 +171,21 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
     	try{
     		context.drawImage(bi.getImageElement(), x, y);
     	} catch (Exception e){
-    		AbstractApplication.error("error in context.drawImage method");
+    		App.error("error in context.drawImage method");
     	}
 	}
 
 	
 	@Override
     public void drawRenderedImage(GRenderedImage img, GAffineTransform xform) {
-		AbstractApplication.debug("drawRenderedImage: implementation needed"); // TODO Auto-generated
+		App.debug("drawRenderedImage: implementation needed"); // TODO Auto-generated
 
 	}
 
 	
 	@Override
     public void drawRenderableImage(GRenderableImage img, GAffineTransform xform) {
-		AbstractApplication.debug("drawRenderableImage: implementation needed"); // TODO Auto-generated
+		App.debug("drawRenderableImage: implementation needed"); // TODO Auto-generated
 
 	}
 
@@ -204,7 +204,7 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 	
 	@Override
     public void drawString(GAttributedCharacterIterator iterator, int x, int y) {
-		AbstractApplication.debug("drawString: implementation needed"); // TODO Auto-generated
+		App.debug("drawString: implementation needed"); // TODO Auto-generated
 
 	}
 
@@ -212,14 +212,14 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 	@Override
     public void drawString(GAttributedCharacterIterator iterator, float x,
 	        float y) {
-		AbstractApplication.debug("drawString: implementation needed 2"); // TODO Auto-generated
+		App.debug("drawString: implementation needed 2"); // TODO Auto-generated
 
 	}
 
 	
 	@Override
     public void drawGlyphVector(GGlyphVector g, float x, float y) {
-		AbstractApplication.debug("drawGlyphVector: implementation needed"); // TODO Auto-generated
+		App.debug("drawGlyphVector: implementation needed"); // TODO Auto-generated
 
 	}
 
@@ -229,7 +229,7 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 	 */
 	public void fill(Shape shape) {
 		if (shape == null) {
-			AbstractApplication.printStacktrace("Error in EuclidianView.fill");
+			App.printStacktrace("Error in EuclidianView.fill");
 			return;
 		}
 		doDrawShape(shape);
@@ -239,7 +239,7 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 
 	@Override
     public GGraphicsConfiguration getDeviceConfiguration() {
-		AbstractApplication.debug("getDeviceConfiguration: implementation needed"); // TODO Auto-generated
+		App.debug("getDeviceConfiguration: implementation needed"); // TODO Auto-generated
 		return null;
 	}
 
@@ -321,35 +321,35 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 
 	@Override
     public void setRenderingHint(GKey hintKey, Object hintValue) {
-		AbstractApplication.debug("setRenderingHint: implementation needed"); // TODO Auto-generated
+		App.debug("setRenderingHint: implementation needed"); // TODO Auto-generated
 
 	}
 
 	
 	@Override
     public Object getRenderingHint(GKey hintKey) {
-		AbstractApplication.debug("getRenderingHint: implementation needed"); // TODO Auto-generated
+		App.debug("getRenderingHint: implementation needed"); // TODO Auto-generated
 		return null;
 	}
 
 	
 	@Override
     public void setRenderingHints(Map<?, ?> hints) {
-		AbstractApplication.debug("setRenderingHints: implementation needed"); // TODO Auto-generated
+		App.debug("setRenderingHints: implementation needed"); // TODO Auto-generated
 
 	}
 
 	
 	@Override
     public void addRenderingHints(Map<?, ?> hints) {
-		AbstractApplication.debug("addRenderingHints: implementation needed"); // TODO Auto-generated
+		App.debug("addRenderingHints: implementation needed"); // TODO Auto-generated
 
 	}
 
 	
 	@Override
     public GRenderingHints getRenderingHints() {
-		AbstractApplication.debug("getRenderingHints: implementation needed"); // TODO Auto-generated
+		App.debug("getRenderingHints: implementation needed"); // TODO Auto-generated
 		return null;
 	}
 
@@ -497,7 +497,7 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 		if (shape2 == null) {
 			// for simple clip, no null is allowed
 			clipShape = null;
-			AbstractApplication.error("Error in Graphics2D.setClip");
+			App.error("Error in Graphics2D.setClip");
 			return;
 		}
 		clipShape = new geogebra.web.awt.GenericShape(shape2);
@@ -568,7 +568,7 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 				context.setFont(currentFont.getFullFontString());
 			}
 			catch(Throwable t) {
-				AbstractApplication.error("problem setting font: "+currentFont.getFullFontString());
+				App.error("problem setting font: "+currentFont.getFullFontString());
 			}
 		}
 
@@ -586,13 +586,13 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 	@Override
     public void clip(geogebra.common.awt.GShape shape) {
 		if (shape == null) {
-			AbstractApplication.error("Error in Graphics2D.clip");
+			App.error("Error in Graphics2D.clip");
 			return;
 		}
 		clipShape = shape;
 		Shape shape2 = geogebra.web.awt.GenericShape.getGawtShape(shape);
 		if (shape2 == null) {
-			AbstractApplication.error("Error in Graphics2D.clip");
+			App.error("Error in Graphics2D.clip");
 			return;
 		}
 		doDrawShape(shape2);
@@ -660,7 +660,7 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 		}
 		Shape shape2 = geogebra.web.awt.GenericShape.getGawtShape(shape);
 		if (shape2 == null) {
-			AbstractApplication.error("Error in Graphics2D.setClip");
+			App.error("Error in Graphics2D.setClip");
 			return;
 		}
 		doDrawShape(shape2);

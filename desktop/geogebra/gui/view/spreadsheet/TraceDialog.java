@@ -21,7 +21,7 @@ import geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import geogebra.common.main.GeoElementSelectionListener;
 import geogebra.common.util.SpreadsheetTraceSettings;
 import geogebra.gui.inputfield.MyTextField;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -71,7 +71,7 @@ implements
 	{
 	private static final long serialVersionUID = 1L;
 	// external components
-	private Application app;
+	private AppD app;
 	private SpreadsheetView view;
 	private SpreadsheetTraceManager traceManager;
 	
@@ -106,7 +106,7 @@ implements
 	
 	
 	/** Constructor */
-	public TraceDialog(Application app, GeoElement selectedGeo, CellRange traceCell) {
+	public TraceDialog(AppD app, GeoElement selectedGeo, CellRange traceCell) {
 		super(app.getFrame());
 		
 		this.app = app;

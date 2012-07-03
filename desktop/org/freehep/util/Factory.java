@@ -1,7 +1,7 @@
 // Copyright 2000-2004, FreeHEP.
 package org.freehep.util;
 
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -109,11 +109,11 @@ public class Factory {
     public static Object loadFactory(String name, String file, String defaultImplementation) {
         String factoryName = findFactory(name, file, defaultImplementation);
         try {
-            Application.debug("Loading factory: "+factoryName);
+            AppD.debug("Loading factory: "+factoryName);
             Class factoryClass = Class.forName(factoryName);
             return factoryClass.newInstance();
         } catch (Exception e) {
-            Application.debug("Unable to load factory: "+factoryName);
+            AppD.debug("Unable to load factory: "+factoryName);
             e.printStackTrace();
         }
         return null;

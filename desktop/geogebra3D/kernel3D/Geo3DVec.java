@@ -33,7 +33,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoVec2D;
 import geogebra.common.kernel.geos.GeoVec3D;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 
 import java.util.HashSet;
 
@@ -656,7 +656,7 @@ implements Vector3DValue, geogebra.common.kernel.kernelND.Geo3DVec {
 				zz = v.getZ();
 
 			} else {
-				AbstractApplication.debug("error in Geo3DVec");
+				App.debug("error in Geo3DVec");
 			}
 
 			a = (MyList.getCell(list, 0, 0).evaluateNum()).getDouble();

@@ -1,7 +1,7 @@
 package geogebra.common.euclidian.event;
 
 import geogebra.common.euclidian.DrawTextField;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 
 public class KeyListener {
 
@@ -20,7 +20,7 @@ public class KeyListener {
 			((DrawTextField.InputFieldKeyListener) listenerClass).keyReleased(event);
 		}
 		else{
-			AbstractApplication.debug("other type");
+			App.debug("other type");
 		}		
 	}
 	

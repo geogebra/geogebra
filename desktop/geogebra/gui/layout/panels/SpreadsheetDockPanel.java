@@ -1,10 +1,10 @@
 package geogebra.gui.layout.panels;
 
 import geogebra.common.euclidian.EuclidianConstants;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.gui.layout.DockPanel;
 import geogebra.gui.view.spreadsheet.SpreadsheetView;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
@@ -14,14 +14,14 @@ import javax.swing.JComponent;
  */
 public class SpreadsheetDockPanel extends DockPanel {
 	private static final long serialVersionUID = 1L;
-	private Application app;
+	private AppD app;
 	
 	/**
 	 * @param app
 	 */
-	public SpreadsheetDockPanel(Application app) {
+	public SpreadsheetDockPanel(AppD app) {
 		super(
-			AbstractApplication.VIEW_SPREADSHEET, 		// view id
+			App.VIEW_SPREADSHEET, 		// view id
 			"Spreadsheet", 						// view title phrase
 			getDefaultToolbar(),				// toolbar string
 			true,								// style bar?

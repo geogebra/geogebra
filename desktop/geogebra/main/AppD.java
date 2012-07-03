@@ -44,7 +44,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.main.MyError;
 import geogebra.common.main.settings.ConstructionProtocolSettings;
 import geogebra.common.main.settings.Settings;
@@ -169,7 +169,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.ToolTipManager;
 import javax.swing.WindowConstants;
 
-public class Application extends AbstractApplication implements
+public class AppD extends App implements
 		KeyEventDispatcher {
 
 	// license file
@@ -381,28 +381,28 @@ public class Application extends AbstractApplication implements
 	private CommandLineArguments args;
 	
 	
-	public Application(CommandLineArguments args, JFrame frame,
+	public AppD(CommandLineArguments args, JFrame frame,
 			boolean undoActive) {
 		this(args, frame, null, null, undoActive);
 	}
 
-	public Application(CommandLineArguments args,
+	public AppD(CommandLineArguments args,
 			AppletImplementation appletImpl, boolean undoActive) {
 		this(args, null, appletImpl, null, undoActive);
 	}
 
-	public Application(CommandLineArguments args, Container comp,
+	public AppD(CommandLineArguments args, Container comp,
 			boolean undoActive) {
 		this(args, null, null, comp, undoActive);
 	}
 
-	protected Application(CommandLineArguments args, JFrame frame,
+	protected AppD(CommandLineArguments args, JFrame frame,
 			AppletImplementation appletImpl, Container comp, boolean undoActive) {
 		
 		this.args = args;
 		
 		if(args!= null && !args.containsArg("silent")) {
-			AbstractApplication.logger = new GeoGebraLogger();
+			App.logger = new GeoGebraLogger();
 			logger.setLogDestination(LogDestination.CONSOLE);
 			if (args.containsArg("logLevel")) {
 				logger.setLogLevel(args.getStringValue("logLevel"));
@@ -624,23 +624,23 @@ public class Application extends AbstractApplication implements
 					"  --prover=OPTIONS\tset options for the prover subsystem\n"
 					+ "    where OPTIONS is a comma separated list, formed with the following available settings (defaults in brackets):\n"
 					+ "      engine:ENGINE\tset engine (Auto|OpenGeoProver|Recio|Botana|PureSymbolic) [" 
-					+ AbstractApplication.proverEngine + "]\n"
+					+ App.proverEngine + "]\n"
 					+ "      timeout:SECS\tset the maximum time attributed to the prover (in seconds) [" 
-					+ AbstractApplication.proverTimeout + "]\n"
+					+ App.proverTimeout + "]\n"
 					+ "      maxterms:NUMBER\tset the maximal number of terms ["
-					+ AbstractApplication.maxTerms + "] (OpenGeoProver only)\n"
+					+ App.maxTerms + "] (OpenGeoProver only)\n"
 					+ "      method:METHOD\tset the method (Wu|Groebner|Area) ["
-					+ AbstractApplication.proverMethod + "] (OpenGeoProver only)\n"
+					+ App.proverMethod + "] (OpenGeoProver only)\n"
 					+ "      fpnevercoll:BOOLEAN\tassume three free points are never collinear ["
-					+ AbstractApplication.freePointsNeverCollinear + "] (Botana only)\n"
+					+ App.freePointsNeverCollinear + "] (Botana only)\n"
 					+ "      usefixcoords:BOOLEAN\tuse fix coordinates for the first points ["
-					+ AbstractApplication.useFixCoordinates + "] (Botana only)\n"
+					+ App.useFixCoordinates + "] (Botana only)\n"
 					+ "      singularWS:BOOLEAN\tuse Singular WebService when possible ["
-					+ AbstractApplication.useSingularWebService + "]\n"
+					+ App.useSingularWebService + "]\n"
 					+ "      singularWSremoteURL:URL\tset the remote server URL for Singular WebService ["
-					+ AbstractApplication.singularWebServiceRemoteURL + "]\n"
+					+ App.singularWebServiceRemoteURL + "]\n"
 					+ "      singularWStimeout:SECS\tset the timeout for SingularWebService ["
-					+ AbstractApplication.singularWebServiceTimeout + "]\n\n"
+					+ App.singularWebServiceTimeout + "]\n\n"
 					+ "  Example: --prover=engine:Botana,timeout:10,fpnevercoll:false\n");
 					System.exit(0);
 		}
@@ -696,7 +696,7 @@ public class Application extends AbstractApplication implements
 	}
 
 	protected GuiManagerD newGuiManager() {
-		return new GuiManagerD(Application.this);
+		return new GuiManagerD(AppD.this);
 	}
 
 	/**
@@ -1347,7 +1347,7 @@ public class Application extends AbstractApplication implements
 				versionCheckAllowed = true;
 				return;
 			}
-            AbstractApplication.warn("Option versionCheckAllow not recognized : ".concat(versionCheckAllow));
+            App.warn("Option versionCheckAllow not recognized : ".concat(versionCheckAllow));
 		}
 		
 		versionCheckAllowed = GeoGebraPreferences.getPref().loadVersionCheckAllow("true");
@@ -1366,7 +1366,7 @@ public class Application extends AbstractApplication implements
                 proverEngine = str[1].toLowerCase();
                 return;
             }
-            AbstractApplication.warn("Option not recognized: ".concat(option));
+            App.warn("Option not recognized: ".concat(option));
             return;
         }
         if ("timeout".equalsIgnoreCase(str[0])) {
@@ -1384,7 +1384,7 @@ public class Application extends AbstractApplication implements
                 proverMethod = str[1].toLowerCase();
                 return;
             }
-            AbstractApplication.warn("Method parameter not recognized: ".concat(option));
+            App.warn("Method parameter not recognized: ".concat(option));
             return;
         }
         if ("fpnevercoll".equalsIgnoreCase(str[0])) {
@@ -1407,7 +1407,7 @@ public class Application extends AbstractApplication implements
             singularWebServiceTimeout = Integer.parseInt(str[1]);
             return;
         }
-        AbstractApplication.warn("Prover option not recognized: ".concat(option));
+        App.warn("Prover option not recognized: ".concat(option));
     }
 	
 	/**
@@ -1721,7 +1721,7 @@ public class Application extends AbstractApplication implements
 	
 	public void setApplet(AppletImplementation appletImpl) {
 		isApplet = true;
-		Application.appletImpl = appletImpl;
+		AppD.appletImpl = appletImpl;
 		mainComp = appletImpl.getJApplet();
 	}
 
@@ -1836,7 +1836,7 @@ public class Application extends AbstractApplication implements
 		boolean justEuclidianVisible = false;
 
 		for (DockPanelData panel : docPerspective.getDockPanelData()) {
-			if ((panel.getViewId() == AbstractApplication.VIEW_EUCLIDIAN)
+			if ((panel.getViewId() == App.VIEW_EUCLIDIAN)
 					&& panel.isVisible()) {
 				justEuclidianVisible = true;
 			} else if (panel.isVisible()) {
@@ -2800,7 +2800,7 @@ public class Application extends AbstractApplication implements
 			GeoGebra.splashFrame.setVisible(false);
 		}
 
-		Application.printStacktrace("showErrorDialog: " + msg);
+		AppD.printStacktrace("showErrorDialog: " + msg);
 		isErrorDialogShowing = true;
 
 		// use SwingUtilities to make sure this gets executed in the correct
@@ -2824,7 +2824,7 @@ public class Application extends AbstractApplication implements
 	}
 
 	public void showMessage(final String message) {
-		Application.printStacktrace("showMessage: " + message);
+		AppD.printStacktrace("showMessage: " + message);
 
 		// use SwingUtilities to make sure this gets executed in the correct
 		// (=GUI) thread.
@@ -3027,7 +3027,7 @@ public class Application extends AbstractApplication implements
 					icon = new ImageIcon(ImageManager.addBorder(img, border));
 				}
 			} catch (Exception e) {
-				AbstractApplication.debug("macro does not exist: ID = "
+				App.debug("macro does not exist: ID = "
 						+ macroID);
 				return null;
 			}
@@ -3039,7 +3039,7 @@ public class Application extends AbstractApplication implements
 					+ "_32.gif";
 			icon = getToolBarImage(iconName, border);
 			if (icon == null) {
-				AbstractApplication.debug("icon missing for mode " + modeText
+				App.debug("icon missing for mode " + modeText
 						+ " (" + mode + ")");
 			}
 		}
@@ -3052,7 +3052,7 @@ public class Application extends AbstractApplication implements
 		}
 
 		return getGuiManager().getLayout().isOnlyVisible(
-				AbstractApplication.VIEW_EUCLIDIAN);
+				App.VIEW_EUCLIDIAN);
 	}
 
 	@Override
@@ -3462,7 +3462,7 @@ public class Application extends AbstractApplication implements
 		try {
 
 			// make sure objects are displayed in the correct View
-			setActiveView(AbstractApplication.VIEW_EUCLIDIAN);
+			setActiveView(App.VIEW_EUCLIDIAN);
 
 			((MyXMLio)myXMLio).readZipFromString(zipFile);
 
@@ -3487,7 +3487,7 @@ public class Application extends AbstractApplication implements
 		try {
 
 			// make sure objects are displayed in the correct View
-			setActiveView(AbstractApplication.VIEW_EUCLIDIAN);
+			setActiveView(App.VIEW_EUCLIDIAN);
 
 			myXMLio.processXMLString(xml, true, false);
 
@@ -3513,7 +3513,7 @@ public class Application extends AbstractApplication implements
 			}
 
 			// make sure objects are displayed in the correct View
-			setActiveView(AbstractApplication.VIEW_EUCLIDIAN);
+			setActiveView(App.VIEW_EUCLIDIAN);
 
 			// reset unique id (for old files, in case they don't have one)
 			resetUniqueId();
@@ -3595,7 +3595,7 @@ public class Application extends AbstractApplication implements
 		try {
 
 			// make sure objects are displayed in the correct View
-			setActiveView(AbstractApplication.VIEW_EUCLIDIAN);
+			setActiveView(App.VIEW_EUCLIDIAN);
 
 			myXMLio.processXMLString(xml, clearAll, false);
 		} catch (MyError err) {
@@ -3955,7 +3955,7 @@ public class Application extends AbstractApplication implements
 	public String loadTextFile(String s) {
 		StringBuilder sb = new StringBuilder();
 		try {
-			InputStream is = Application.class.getResourceAsStream(s);
+			InputStream is = AppD.class.getResourceAsStream(s);
 			BufferedReader br = new BufferedReader(new InputStreamReader(is,
 					"UTF8"));
 			String thisLine;
@@ -4185,7 +4185,7 @@ public class Application extends AbstractApplication implements
 			try {
 				ByteArrayOutputStream baos = new ByteArrayOutputStream();
 				if (img == null) {
-					AbstractApplication.debug("image==null");
+					App.debug("image==null");
 				}
 				ImageIO.write(img, "png", baos);
 				byte[] fileData = baos.toByteArray();
@@ -4197,7 +4197,7 @@ public class Application extends AbstractApplication implements
 				md5hash = md.digest();
 				zip_directory = StringUtil.convertToHex(md5hash);
 			} catch (Exception e) {
-				AbstractApplication.debug("MD5 Error");
+				App.debug("MD5 Error");
 				zip_directory = "images";
 				// e.printStackTrace();
 			}
@@ -4269,7 +4269,7 @@ public class Application extends AbstractApplication implements
 			showError("LoadFileFailed");
 			return null;
 		} catch (java.lang.OutOfMemoryError t) {
-			AbstractApplication.debug("Out of memory");
+			App.debug("Out of memory");
 			System.gc();
 			setDefaultCursor();
 			// t.printStackTrace();
@@ -4468,7 +4468,7 @@ public class Application extends AbstractApplication implements
 			Dimension dim = Toolkit.getDefaultToolkit().getBestCursorSize(48,
 					48);
 
-			AbstractApplication.debug("getBestCursorSize = " + dim.width + " "
+			App.debug("getBestCursorSize = " + dim.width + " "
 					+ dim.width);
 
 			int size = Math.max(dim.width, dim.height);
@@ -4600,8 +4600,8 @@ public class Application extends AbstractApplication implements
             }
             logFile.append(".txt");
 
-            AbstractApplication.debug("Logging is redirected to " + logFile.toString());
-            AbstractApplication.logger.setTimeShown(false); // do not print the time twice
+            App.debug("Logging is redirected to " + logFile.toString());
+            App.logger.setTimeShown(false); // do not print the time twice
 
             // log file max size 10K, 1 file, append-on-open
             Handler fileHandler;
@@ -4663,7 +4663,7 @@ public class Application extends AbstractApplication implements
 
 		logger.setLogDestination(LogDestination.FILE);
 		logger.setLogFile(logFile.toString());
-		AbstractApplication.debug(logFile.toString());
+		App.debug(logFile.toString());
 	}
 
 	/*
@@ -4830,10 +4830,10 @@ public class Application extends AbstractApplication implements
 
 
 	@Override
-	public void evalPythonScript(AbstractApplication app, String pythonScript,
+	public void evalPythonScript(App app, String pythonScript,
 			String arg) {
 		String script= arg != null ? "arg="+arg+";"+pythonScript : pythonScript;
-		AbstractApplication.debug(script);
+		App.debug(script);
 		getPythonBridge().eval(script);
 		
 	}
@@ -4864,7 +4864,7 @@ public class Application extends AbstractApplication implements
 	}
 
 	@Override
-	public void evalJavaScript(AbstractApplication app, String script, String arg) {
+	public void evalJavaScript(App app, String script, String arg) {
 		CallJavaScript.evalScript(app, script, arg);
 
 	}

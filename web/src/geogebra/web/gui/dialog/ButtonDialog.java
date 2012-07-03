@@ -7,10 +7,10 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoButton;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.web.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.web.gui.view.algebra.InputPanel;
-import geogebra.web.main.Application;
+import geogebra.web.main.AppW;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -40,7 +40,7 @@ public class ButtonDialog extends PopupPanel implements ClickHandler{
 //	private InputPanel tfLabel;
 	private VerticalPanel optionPane;
 //	
-	private Application app;
+	private AppW app;
 	
 //	private GeoElement geoResult = null;
 	private GeoButton button = null;
@@ -48,7 +48,7 @@ public class ButtonDialog extends PopupPanel implements ClickHandler{
 //	InputPanel inputPanel, inputPanel2;
 	private int x,y;
 	
-	public ButtonDialog(Application app, int x, int y, boolean textfield) {
+	public ButtonDialog(AppW app, int x, int y, boolean textfield) {
 		super(false,true);
 		
 		this.app = app;		

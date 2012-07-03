@@ -2,7 +2,7 @@ package geogebra.gui.view.probcalculator;
 
 import geogebra.common.main.settings.ProbabilityCalculatorSettings.DIST;
 import geogebra.gui.view.spreadsheet.statdialog.StatTable;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -20,7 +20,7 @@ public class ProbabilityTable extends JPanel  implements ListSelectionListener{
 
 	private static final long serialVersionUID = 1L;
 	
-	private Application app;
+	private AppD app;
 	private ProbabilityCalculator probCalc;
 	private ProbabilityManager probManager;
 	private StatTable statTable;
@@ -32,7 +32,7 @@ public class ProbabilityTable extends JPanel  implements ListSelectionListener{
 	private double[] parms;
 	
 	
-	public ProbabilityTable(Application app, ProbabilityCalculator probCalc){
+	public ProbabilityTable(AppD app, ProbabilityCalculator probCalc){
 		this.app = app;
 		this.probCalc = probCalc;
 		this.probManager = probCalc.getProbManager();

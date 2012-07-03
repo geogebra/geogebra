@@ -1,11 +1,11 @@
 package geogebra.web.html5;
 
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.web.Web;
 import geogebra.web.css.GuiResources;
 import geogebra.web.helper.JavaScriptInjector;
 import geogebra.web.jso.JsUint8Array;
-import geogebra.web.main.Application;
+import geogebra.web.main.AppW;
 import geogebra.web.main.GeoGebraTubeExportWeb;
 import geogebra.web.presenter.LoadFilePresenter;
 
@@ -23,9 +23,9 @@ public class View extends Widget {
 	private HashMap<String, String> archiveContent;
 	
 	private Element container;
-	private Application app;
+	private AppW app;
 	
-	public View(Element container, Application app) {
+	public View(Element container, AppW app) {
 		this.app = app;
 		this.container = container;
     }
@@ -35,15 +35,15 @@ public class View extends Widget {
     }
 
 	public void promptUserForGgbFile() {		
-		AbstractApplication.debug("No data-param-fileName attribute presented");
+		App.debug("No data-param-fileName attribute presented");
     }
 
 	public void showError(String errorMessage) {
-		AbstractApplication.debug(errorMessage);    
+		App.debug(errorMessage);    
     }
 
 	public void hide() {
-		AbstractApplication.debug("View.hide called");
+		App.debug("View.hide called");
     }
 
 	public void showLoadAnimation() {
@@ -107,14 +107,14 @@ public class View extends Widget {
 		try {
 			app.loadGgbFile(archiveContent);
 		} catch (Exception ex) {
-			Application.debug(ex.getMessage());
+			AppW.debug(ex.getMessage());
 			return;
 		}
 		archiveContent = null;
 
 		app.getScriptManager().ggbOnInit();// put this here from Application constructor because we have to delay scripts until the EuclidianView is shown
 		
-		AbstractApplication.debug("file loaded");
+		App.debug("file loaded");
 		
 	}
 
@@ -123,7 +123,7 @@ public class View extends Widget {
 	    maybeLoadFile();
     }
 
-	public Application getApplication() {
+	public AppW getApplication() {
 	    return app;
     }
 
@@ -220,7 +220,7 @@ public class View extends Widget {
 		                    } else {
 		                        $wnd.console.log(entry.filename+" : text");
 		                        if ($wnd.zip.useWebWorkers === false || (typeof $wnd.zip.forceDataURIWriter !== "undefined" && $wnd.zip.forceDataURIWriter === true)) {
-		                        	@geogebra.web.main.Application::debug(Ljava/lang/String;)("no worker of forced dataURIWriter");
+		                        	@geogebra.web.main.AppW::debug(Ljava/lang/String;)("no worker of forced dataURIWriter");
 			                        entry.getData(new $wnd.zip.Data64URIWriter("text/plain"), function(data) {
 			                			var decoded = $wnd.atob(data.substr(data.indexOf(",")+1));
 			                          	view.@geogebra.web.html5.View::putIntoArciveContent(Ljava/lang/String;Ljava/lang/String;)(filename,decodeUTF8(decoded));
@@ -324,7 +324,7 @@ public class View extends Widget {
 				                    } else {
 				                        $wnd.console.log(entry.filename+" : text");
 				                        if ($wnd.zip.useWebWorkers === false || (typeof $wnd.zip.forceDataURIWriter !== "undefined" && $wnd.zip.forceDataURIWriter === true)) {
-				                            @geogebra.web.main.Application::debug(Ljava/lang/String;)("no worker of forced dataURIWriter");
+				                            @geogebra.web.main.AppW::debug(Ljava/lang/String;)("no worker of forced dataURIWriter");
 					                        entry.getData(new $wnd.zip.Data64URIWriter("text/plain"), function(data) {
 					                			var decoded = $wnd.atob(data.substr(data.indexOf(",")+1));
 					                          	view.@geogebra.web.html5.View::putIntoArciveContent(Ljava/lang/String;Ljava/lang/String;)(filename,decodeUTF8(decoded));

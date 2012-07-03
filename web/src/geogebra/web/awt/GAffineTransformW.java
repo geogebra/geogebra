@@ -23,7 +23,7 @@ package geogebra.web.awt;
 
 import geogebra.common.awt.GPoint2D;
 import geogebra.common.awt.GShape;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 
 public class GAffineTransformW implements geogebra.common.awt.GAffineTransform {
 
@@ -85,7 +85,7 @@ public class GAffineTransformW implements geogebra.common.awt.GAffineTransform {
 		ret = at.createTransformedShape(geogebra.web.awt.GenericShape
 		        .getGawtShape(shape));
 		if (ret == null)
-			AbstractApplication.debug("type of shape is: " + shape.getClass());
+			App.debug("type of shape is: " + shape.getClass());
 		return new geogebra.web.awt.GenericShape(ret);
 	}
 

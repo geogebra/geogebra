@@ -1,6 +1,6 @@
 package geogebra.gui.util;
 
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.main.GeoGebraColorConstants;
 
 import java.awt.Color;
@@ -300,7 +300,7 @@ DocumentListener, PropertyChangeListener {
 
 			} catch (Exception e) 
 			{   
-				AbstractApplication.debug(e.getMessage());
+				App.debug(e.getMessage());
 			}
 		}
 	}

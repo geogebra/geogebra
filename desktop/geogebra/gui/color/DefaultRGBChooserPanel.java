@@ -39,7 +39,7 @@ exception statement from your version. */
 
 package geogebra.gui.color;
 
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -152,7 +152,7 @@ public class DefaultRGBChooserPanel extends AbstractColorChooserPanel
 
 
 	private MyPreviewPanel previewPanel;
-	protected Application app;
+	protected AppD app;
 
 	public JComponent getPreview(){
 		return previewPanel;
@@ -162,7 +162,7 @@ public class DefaultRGBChooserPanel extends AbstractColorChooserPanel
 	/*****************************************************
 	 * Creates a new DefaultRGBChooserPanel object.
 	 */
-	public DefaultRGBChooserPanel(Application app) {
+	public DefaultRGBChooserPanel(AppD app) {
 		super();
 		this.app = app;
 	}

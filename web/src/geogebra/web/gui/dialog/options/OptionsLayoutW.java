@@ -1,11 +1,11 @@
 package geogebra.web.gui.dialog.options;
 
 import geogebra.common.gui.dialog.options.OptionsLayout;
-import geogebra.web.main.Application;
+import geogebra.web.main.AppW;
 
 public class OptionsLayoutW extends OptionsLayout implements OptionPanelW {
 
-	public OptionsLayoutW(Application app) {
+	public OptionsLayoutW(AppW app) {
 	    // TODO Auto-generated constructor stub
     }
 

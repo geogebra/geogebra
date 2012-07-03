@@ -13,7 +13,7 @@ import geogebra.common.main.MyError;
 import geogebra.common.main.GWTKeycodes;
 import geogebra.web.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.web.gui.view.algebra.InputPanel;
-import geogebra.web.main.Application;
+import geogebra.web.main.AppW;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -34,7 +34,7 @@ import com.google.gwt.user.client.ui.ToggleButton;
  */
 public class AlgebraInputW extends HorizontalPanel implements KeyUpHandler, FocusHandler, ClickHandler {
 	
-	private Application app;
+	private AppW app;
 	private Label inputLabel;
 	private InputPanel inputPanel;
 	private AutoCompleteTextFieldW inputField;
@@ -52,7 +52,7 @@ public class AlgebraInputW extends HorizontalPanel implements KeyUpHandler, Focu
 	 * 
 	 * Attaches Application and creates the GUI of AlgebraInput
 	 */
-	public void init(Application app) {
+	public void init(AppW app) {
 		this.app = app;
 		//AG I dont think we need this app.removeTraversableKeys(this);
 		addStyleName("AlgebraInput");

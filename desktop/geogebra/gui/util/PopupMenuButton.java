@@ -1,7 +1,7 @@
 package geogebra.gui.util;
 
 
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -39,7 +39,7 @@ public class PopupMenuButton extends JButton implements ChangeListener {
 	
 	private int mode;
 	private Object[] data;	
-	private Application app;
+	private AppD app;
 	private PopupMenuButton thisButton;
 
 	private JPopupMenu myPopup;
@@ -107,7 +107,7 @@ public class PopupMenuButton extends JButton implements ChangeListener {
 	/**
 	 * @param app
 	 */
-	public PopupMenuButton(Application app){
+	public PopupMenuButton(AppD app){
 		this( app, null, -1, -1, null, -1,  false,  false);
 	}
 
@@ -120,7 +120,7 @@ public class PopupMenuButton extends JButton implements ChangeListener {
 	 * @param iconSize
 	 * @param mode
 	 */
-	public PopupMenuButton(Application app, Object[] data, Integer rows, Integer columns, Dimension iconSize, Integer mode){
+	public PopupMenuButton(AppD app, Object[] data, Integer rows, Integer columns, Dimension iconSize, Integer mode){
 		this( app, data, rows, columns, iconSize, mode,  true,  false);	
 	}
 
@@ -135,7 +135,7 @@ public class PopupMenuButton extends JButton implements ChangeListener {
 	 * @param hasTable
 	 * @param hasSlider
 	 */
-	public PopupMenuButton(Application app, Object[] data, Integer rows, Integer columns, Dimension iconSize, 
+	public PopupMenuButton(AppD app, Object[] data, Integer rows, Integer columns, Dimension iconSize, 
 			Integer mode, final boolean hasTable, boolean hasSlider){
 		super(); 
 		this.app = app;

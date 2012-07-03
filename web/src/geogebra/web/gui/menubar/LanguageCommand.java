@@ -1,6 +1,6 @@
 package geogebra.web.gui.menubar;
 
-import geogebra.web.main.Application;
+import geogebra.web.main.AppW;
 
 import com.google.gwt.http.client.UrlBuilder;
 import com.google.gwt.user.client.Command;

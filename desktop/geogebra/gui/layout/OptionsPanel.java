@@ -1,7 +1,7 @@
 package geogebra.gui.layout;
 
 import geogebra.gui.dialog.options.OptionsDialog;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
 
@@ -10,13 +10,13 @@ import javax.swing.JPanel;
 
 public class OptionsPanel extends JPanel {
 
-	private Application app;
+	private AppD app;
 
 	private OptionsDialog.Factory optionsDialogFactory;
 	private OptionsDialog optionsDialog;
 
 
-	public OptionsPanel(Application app) {
+	public OptionsPanel(AppD app) {
 
 		this.app = app;
 		setLayout(new BorderLayout());

@@ -18,7 +18,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.NumberValue;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.util.Unicode;
 import geogebra.euclidian.EuclidianViewD;
@@ -27,7 +27,7 @@ import geogebra.gui.NumberComboBox;
 import geogebra.gui.dialog.DashListRenderer;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.gui.util.FullWidthLayout;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 import geogebra.main.GeoGebraPreferences;
 
 import java.awt.BorderLayout;
@@ -70,7 +70,7 @@ public class OptionsEuclidianD extends geogebra.common.gui.dialog.options.Option
 	public static final String PI_STR = "\u03c0";
 	public static final String DEGREE_STR = "\u00b0";
 
-	protected Application app;
+	protected AppD app;
 	private Kernel kernel;
 	protected EuclidianViewND view;
 
@@ -114,7 +114,7 @@ public class OptionsEuclidianD extends geogebra.common.gui.dialog.options.Option
 	 * @param app
 	 *            parent frame
 	 */
-	public OptionsEuclidianD(Application app, EuclidianViewND view) {
+	public OptionsEuclidianD(AppD app, EuclidianViewND view) {
 
 		isIniting = true;
 		this.app = app;

@@ -2,7 +2,7 @@ package geogebra.gui.color;
 
 import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.gui.dialog.options.OptionsUtil;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -39,7 +39,7 @@ public class GeoGebraColorChooserPanel extends AbstractColorChooserPanel {
 
 	private static final long serialVersionUID = 1L;
 	
-	protected Application app;
+	protected AppD app;
 	protected GeoGebraColorChooser enclosingChooser;
 	protected GeoGebraColorChooserPanel myChooser;
 
@@ -63,7 +63,7 @@ public class GeoGebraColorChooserPanel extends AbstractColorChooserPanel {
 	 * 
 	 * @param app
 	 */
-	public GeoGebraColorChooserPanel(Application app) {
+	public GeoGebraColorChooserPanel(AppD app) {
 		super();
 		this.app = app;
 		this.myChooser = this;

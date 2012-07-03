@@ -25,7 +25,7 @@ import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.optimization.ExtremumFinder;
 import geogebra.common.kernel.optimization.NegativeRealRootFunction;
 import geogebra.common.kernel.roots.RealRootFunction;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 
 import java.util.ArrayList;
 
@@ -1826,7 +1826,7 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 		}
 
 		catch (Exception e) {
-			AbstractApplication.debug(e.getMessage());
+			App.debug(e.getMessage());
 			return false;
 		}
 

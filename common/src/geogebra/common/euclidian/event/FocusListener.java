@@ -1,7 +1,7 @@
 package geogebra.common.euclidian.event;
 
 import geogebra.common.euclidian.DrawTextField;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 
 public class FocusListener {
 	
@@ -12,7 +12,7 @@ public class FocusListener {
 			((DrawTextField.InputFieldListener) listenerClass).focusGained(event);
 		}
 		else{
-			AbstractApplication.debug("other type");
+			App.debug("other type");
 		}
 	}
 	
@@ -25,7 +25,7 @@ public class FocusListener {
 			((DrawTextField.InputFieldListener) listenerClass).focusLost(event);
 		}
 		else{
-			AbstractApplication.debug("other type");
+			App.debug("other type");
 		}
 	}
 	

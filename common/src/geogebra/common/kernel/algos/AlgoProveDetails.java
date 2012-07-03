@@ -27,7 +27,7 @@ import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.util.Prover;
 import geogebra.common.util.Prover.NDGCondition;
 import geogebra.common.util.Prover.ProverEngine;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 
 /**
  *
@@ -88,17 +88,17 @@ public class AlgoProveDetails extends AlgoElement {
 	
 		// Create and initialize the prover 
 		Prover p = UtilFactory.prototype.newProver();
-        if ("OpenGeoProver".equalsIgnoreCase(AbstractApplication.proverEngine))
+        if ("OpenGeoProver".equalsIgnoreCase(App.proverEngine))
             p.setProverEngine(ProverEngine.OPENGEOPROVER);
-        else if ("Botana".equalsIgnoreCase(AbstractApplication.proverEngine))
+        else if ("Botana".equalsIgnoreCase(App.proverEngine))
             p.setProverEngine(ProverEngine.BOTANAS_PROVER);
-        else if ("Recio".equalsIgnoreCase(AbstractApplication.proverEngine))
+        else if ("Recio".equalsIgnoreCase(App.proverEngine))
             p.setProverEngine(ProverEngine.RECIOS_PROVER);
-        else if ("PureSymbolic".equalsIgnoreCase(AbstractApplication.proverEngine))
+        else if ("PureSymbolic".equalsIgnoreCase(App.proverEngine))
             p.setProverEngine(ProverEngine.PURE_SYMBOLIC_PROVER);
-        else if ("Auto".equalsIgnoreCase(AbstractApplication.proverEngine))
+        else if ("Auto".equalsIgnoreCase(App.proverEngine))
             p.setProverEngine(ProverEngine.AUTO);
-        p.setTimeout(AbstractApplication.proverTimeout);
+        p.setTimeout(App.proverTimeout);
     	p.setConstruction(cons);
     	p.setStatement(root);
     	// Compute extra NDG's:
@@ -110,12 +110,12 @@ public class AlgoProveDetails extends AlgoElement {
     	p.compute(); // the computation of the proof
     	date = new Date();
     	long elapsedTime = date.getTime() - startTime;
-    	AbstractApplication.debug("Benchmarking: " + elapsedTime + " ms");
+    	App.debug("Benchmarking: " + elapsedTime + " ms");
     	
     	result = p.getYesNoAnswer();
     	ndgresult = p.getNDGConditions();
     	
-    	AbstractApplication.debug("Statement is " + result);
+    	App.debug("Statement is " + result);
     	
    
     		

@@ -1,6 +1,6 @@
 package geogebra.common.kernel.parser.cashandlers;
 
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.plugin.Operation;
 import geogebra.common.util.Unicode;
 
@@ -256,7 +256,7 @@ private void reset(){
  * Updates local names of functions
  * @param app application
  */
-public void updateLocale(AbstractApplication app){
+public void updateLocale(App app){
 		reset();
 		put(1,app.getFunction("sin"), Operation.SIN);
 		put(1,app.getFunction("cos"), Operation.COS);

@@ -1,7 +1,7 @@
 package geogebra.awt;
 
 import geogebra.common.awt.GShape;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 
 
@@ -23,7 +23,7 @@ public class GBasicStrokeD implements geogebra.common.awt.GBasicStroke {
 	}
 	public static java.awt.BasicStroke getAwtStroke(geogebra.common.awt.GBasicStroke s){
 		if(!(s instanceof GBasicStrokeD)){
-			if (s!= null) Application.debug("other type");
+			if (s!= null) AppD.debug("other type");
 			return null;
 		}
 		else return ((GBasicStrokeD)s).impl;

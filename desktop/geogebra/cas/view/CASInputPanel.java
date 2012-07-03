@@ -5,7 +5,7 @@
 package geogebra.cas.view;
 
 import geogebra.gui.inputfield.AutoCompleteTextFieldD;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -21,9 +21,9 @@ public class CASInputPanel extends JPanel {
 
 	private AutoCompleteTextFieldD inputArea;
 	
-	private Application app;
+	private AppD app;
 	
-	public CASInputPanel(Application app) {
+	public CASInputPanel(AppD app) {
 		this.app = app;
 		
 		setBackground(Color.white);

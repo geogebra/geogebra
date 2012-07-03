@@ -1,7 +1,7 @@
 package geogebra.web.gui.menubar;
 
 import geogebra.common.GeoGebraConstants;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.web.Web;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.helper.GoogleApiCallback;
@@ -28,7 +28,7 @@ import com.google.gwt.user.client.ui.MenuItem;
 public class GeoGebraMenubarW extends MenuBar {
 	
 	
-		private AbstractApplication app;
+		private App app;
 		private FileMenuW fileMenu;
 		private EditMenuW editMenu;
 		private HelpMenuW helpMenu;
@@ -40,7 +40,7 @@ public class GeoGebraMenubarW extends MenuBar {
 		public static MenuItem loginToGoogle;
 		private MenuItem linktoggb;
 
-		public GeoGebraMenubarW(AbstractApplication app) {
+		public GeoGebraMenubarW(App app) {
 	        super();
 	        this.app = app;
 	        init();
@@ -124,7 +124,7 @@ public class GeoGebraMenubarW extends MenuBar {
 	        Web.AUTH.login(r, new Callback<String, Throwable>() {
 
 				public void onFailure(Throwable reason) {
-					AbstractApplication.error("Request failed" + " " + reason.getMessage());
+					App.error("Request failed" + " " + reason.getMessage());
                 }
 
 				public void onSuccess(String token) {
@@ -137,7 +137,7 @@ public class GeoGebraMenubarW extends MenuBar {
 						}
 						
 						public void failure(String failureText) {
-							AbstractApplication.error(failureText);
+							App.error(failureText);
 							
 						}
                        });
@@ -163,7 +163,7 @@ public class GeoGebraMenubarW extends MenuBar {
 					Web.AUTH.login(req, new Callback<String, Throwable>() {
 
 						public void onFailure(Throwable reason) {
-	                       AbstractApplication.error("Request failed" + " " + reason.getMessage());
+	                       App.error("Request failed" + " " + reason.getMessage());
                         }
 
 						public void onSuccess(String token) {
@@ -176,19 +176,19 @@ public class GeoGebraMenubarW extends MenuBar {
 								Web.oaAsync.triggerLoginToGoogle(new AsyncCallback<Boolean>() {
 									
 									public void onSuccess(Boolean result) {
-										AbstractApplication.debug(result);
+										App.debug(result);
 										
 									}
 									
 									public void onFailure(Throwable caught) {
-										AbstractApplication.error(caught.getLocalizedMessage());
+										App.error(caught.getLocalizedMessage());
 										
 									}
 								});
 							}
 							
 							public void failure(String failureText) {
-								AbstractApplication.error(failureText);
+								App.error(failureText);
 								
 							}
 	                       });
@@ -260,7 +260,7 @@ public class GeoGebraMenubarW extends MenuBar {
         }
 
 		public void updateMenubar() {
-			AbstractApplication.debug("implementation needed - just finishing");
+			App.debug("implementation needed - just finishing");
 			optionsMenu.update();        
         }
 	

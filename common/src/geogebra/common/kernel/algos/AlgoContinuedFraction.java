@@ -19,7 +19,7 @@ import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoText;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.util.Unicode;
 
 public class AlgoContinuedFraction extends AlgoElement {
@@ -178,7 +178,7 @@ public class AlgoContinuedFraction extends AlgoElement {
 		for (int i = 0; i < steps - 1; i++) {
 			sb.append("}");
 		}
-		AbstractApplication.debug(sb.toString());
+		App.debug(sb.toString());
 		text.setTextString(sb.toString());
 		
 	}
@@ -237,7 +237,7 @@ public class AlgoContinuedFraction extends AlgoElement {
 		int steps = 0;
 		dotsNeeded = true;
 		do {
-			AbstractApplication.debug(Z);
+			App.debug(Z);
 			denominators[steps] = (long) Math.floor(Z);
 			Z = 1.0 / (Z - Math.floor(Z));
 			ScratchValue = FractionDenominator;

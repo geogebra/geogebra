@@ -1,7 +1,7 @@
 package geogebra.sound;
 
 import geogebra.common.kernel.geos.GeoFunction;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioSystem;
@@ -17,7 +17,7 @@ import javax.sound.sampled.SourceDataLine;
  */
 public final class FunctionSound implements LineListener {
 
-	private Application app;
+	private AppD app;
 	
 	// threaded class to play function
 	private SoundThread soundThread;
@@ -47,7 +47,7 @@ public final class FunctionSound implements LineListener {
 	 * Constructs instance of FunctionSound
 	 * @throws Exception
 	 */
-	public FunctionSound(Application app) throws Exception { 
+	public FunctionSound(AppD app) throws Exception { 
 
 		this.app = app;
 		bitDepth = DEFAULT_BIT_RATE;

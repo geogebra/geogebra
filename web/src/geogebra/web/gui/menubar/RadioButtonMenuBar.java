@@ -1,6 +1,6 @@
 package geogebra.web.gui.menubar;
 
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 
 import java.util.ArrayList;
 

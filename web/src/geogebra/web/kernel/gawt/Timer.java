@@ -1,6 +1,6 @@
 package geogebra.web.kernel.gawt;
 
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.web.kernel.HasTimerAction;
 
 public class Timer extends com.google.gwt.user.client.Timer {
@@ -20,12 +20,12 @@ public class Timer extends com.google.gwt.user.client.Timer {
 	@Override
 	public void run() {
 		this.am.actionPerformed();
-		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
+		App.debug("implementation needed"); // TODO Auto-generated
 
 	}
 
 	public boolean isRunning() {
-		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
+		App.debug("implementation needed"); // TODO Auto-generated
 		return isrunning;
 	}
 
@@ -35,20 +35,20 @@ public class Timer extends com.google.gwt.user.client.Timer {
 			isrunning = true;
 		}
 		
-		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
+		App.debug("implementation needed"); // TODO Auto-generated
 		
 	}
 
 	public void stop() {
 		cancel();
 		isrunning = false;
-		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
+		App.debug("implementation needed"); // TODO Auto-generated
 		
 	}
 
 	public void setDelay(int delay) {
 		scheduleRepeating(delay);
-		AbstractApplication.debug("implementation needed"); // TODO Auto-generated
+		App.debug("implementation needed"); // TODO Auto-generated
 		
 	}
 

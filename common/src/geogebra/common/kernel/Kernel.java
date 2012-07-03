@@ -114,8 +114,8 @@ import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.kernel.optimization.ExtremumFinder;
 import geogebra.common.kernel.parser.Parser;
 import geogebra.common.kernel.statistics.*;
-import geogebra.common.main.AbstractApplication;
-import geogebra.common.main.AbstractApplication.CasType;
+import geogebra.common.main.App;
+import geogebra.common.main.App.CasType;
 import geogebra.common.main.MyError;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.plugin.Operation;
@@ -296,7 +296,7 @@ public class Kernel {
 	private final StringBuilder sbBuildExplicitLineEquation = new StringBuilder(
 			50);
 	/** Application */
-	protected AbstractApplication app;
+	protected App app;
 
 	private EquationSolver eqnSolver;
 	private SystemOfEquationsSolver sysEqSolv;
@@ -310,7 +310,7 @@ public class Kernel {
 	/**
 	 * @param app Application
 	 */
-	public Kernel(AbstractApplication app) {
+	public Kernel(App app) {
 		this();
 		this.app = app;
 
@@ -413,7 +413,7 @@ public class Kernel {
 		return new MyXMLHandler(kernel, cons1);
 	}
 
-	final public AbstractApplication getApplication() {
+	final public App getApplication() {
 		return app;
 	}
 
@@ -523,7 +523,7 @@ public class Kernel {
 			LinkedHashMap<String, String> attrs) {
 
 		if (!(geo instanceof GeoVec3D)) {
-			AbstractApplication.debug("wrong element type for <coords>: "
+			App.debug("wrong element type for <coords>: "
 					+ geo.getClass());
 			return false;
 		}
@@ -1056,7 +1056,7 @@ public class Kernel {
 
 		String ret = formatRaw(x, tpl);
 
-		if (AbstractApplication.unicodeZero != '0') {
+		if (App.unicodeZero != '0') {
 			ret = internationalizeDigits(ret, tpl);
 		}
 
@@ -1091,10 +1091,10 @@ public class Kernel {
 			// char c = reverseOrder ? num.charAt(length - 1 - i) :
 			// num.charAt(i);
 			if (c == '.') {
-				c = AbstractApplication.unicodeDecimalPoint;
+				c = App.unicodeDecimalPoint;
 			} else if ((c >= '0') && (c <= '9')) {
 
-				c += AbstractApplication.unicodeZero - '0'; // convert to eg
+				c += App.unicodeZero - '0'; // convert to eg
 															// Arabic Numeral
 
 			}
@@ -1123,7 +1123,7 @@ public class Kernel {
 	 */
 	final public String formatPiE(double x, NumberFormatAdapter numF,
 			StringTemplate tpl) {
-		if (AbstractApplication.unicodeZero != '0') {
+		if (App.unicodeZero != '0') {
 
 			String num = formatPiERaw(x, numF, tpl);
 
@@ -1881,7 +1881,7 @@ public class Kernel {
 	}
 	
 	public void setLibraryJavaScript(String str) {
-		AbstractApplication.debug(str);
+		App.debug(str);
 		libraryJavaScript = str;
 
 		// libraryJavaScript =
@@ -3234,7 +3234,7 @@ public class Kernel {
 			sb.append(views[i].getClass());
 		}
 		
-		AbstractApplication.debug(sb.toString());
+		App.debug(sb.toString());
 		
 	}
 
@@ -3339,7 +3339,7 @@ public class Kernel {
 	public final void notifyAdd(GeoElement geo) {
 		if (notifyViewsActive) {
 			for (int i = 0; i < viewCnt; ++i) {
-				if ((views[i].getViewID() != AbstractApplication.VIEW_CONSTRUCTION_PROTOCOL)
+				if ((views[i].getViewID() != App.VIEW_CONSTRUCTION_PROTOCOL)
 						|| isNotifyConstructionProtocolViewAboutAddRemoveActive()) {
 					views[i].add(geo);
 				}
@@ -3352,7 +3352,7 @@ public class Kernel {
 	public final void notifyRemove(GeoElement geo) {
 		if (notifyViewsActive) {
 			for (int i = 0; i < viewCnt; ++i) {
-				if ((views[i].getViewID() != AbstractApplication.VIEW_CONSTRUCTION_PROTOCOL)
+				if ((views[i].getViewID() != App.VIEW_CONSTRUCTION_PROTOCOL)
 						|| isNotifyConstructionProtocolViewAboutAddRemoveActive()) {
 					views[i].remove(geo);
 				}

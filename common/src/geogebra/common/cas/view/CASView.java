@@ -8,7 +8,7 @@ import geogebra.common.kernel.View;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 
 public abstract class CASView implements View{
 	private GeoGebraCAS cas;
@@ -17,7 +17,7 @@ public abstract class CASView implements View{
 	private boolean toolbarIsUpdatedByDockPanel;
 	public abstract CASTable getConsoleTable();
 	
-	public abstract AbstractApplication getApp();
+	public abstract App getApp();
 	public abstract RowHeader getRowHeader();
 	public abstract void showSubstituteDialog(String prefix, String evalText,
 			String postfix, int selRow);
@@ -30,7 +30,7 @@ public abstract class CASView implements View{
 	}
 
 	public int getViewID() {
-		return AbstractApplication.VIEW_CAS;
+		return App.VIEW_CAS;
 	}
 
 	/**

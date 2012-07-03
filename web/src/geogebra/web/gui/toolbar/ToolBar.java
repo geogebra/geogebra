@@ -4,10 +4,10 @@ import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.gui.toolbar.ToolbarItem;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Macro;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.web.gui.app.GGWToolBar;
 import geogebra.web.gui.toolbar.ModeToggleMenu.MyJToggleButton;
-import geogebra.web.main.Application;
+import geogebra.web.main.AppW;
 
 import java.util.ArrayList;
 import java.util.Vector;
@@ -34,7 +34,7 @@ public class ToolBar extends MenuBar {
 	 */
 	public static final Integer SEPARATOR = new Integer(-1);
 	
-	private Application app;
+	private AppW app;
 	private int mode;
 
 	private ArrayList<ModeToggleMenu> modeToggleMenus;
@@ -59,7 +59,7 @@ public class ToolBar extends MenuBar {
 	 * 
 	 * @param app
 	 */
-	public void init(Application app){
+	public void init(AppW app){
 		this.app = app;
 	}
 	
@@ -160,7 +160,7 @@ public class ToolBar extends MenuBar {
 			//AG	AbstractApplication.debug("invalid toolbar string: "
 			//AG			+ dockPanel.getToolbarString());
 			//AG} else {
-				AbstractApplication.debug("invalid toolbar string: "
+				App.debug("invalid toolbar string: "
 						+ app.getGuiManager().getToolbarDefinition());
 			//}
 			toolbarVec = parseToolbarString(getDefaultToolbarString());
@@ -290,7 +290,7 @@ public class ToolBar extends MenuBar {
 	 * @param app
 	 * @return All tools as a toolbar definition string
 	 */
-	public static String getAllTools(Application app) {
+	public static String getAllTools(AppW app) {
 		StringBuilder sb = new StringBuilder();
 	
 		sb.append(geogebra.common.gui.toolbar.ToolBar.getAllToolsNoMacros(false, true));

@@ -10,7 +10,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.plugin.GeoClass;
 
 import java.util.ArrayList;
@@ -172,7 +172,7 @@ public class GeoPolyhedron extends GeoElement3D {// implements Path {
 	@Deprecated
 	public void updateFacesDeprecated() {
 		
-		AbstractApplication.debug("old file version");
+		App.debug("old file version");
 
 		// create missing faces
 		for (ConstructionElementCycle currentFace : polygonsIndex.keySet()) {

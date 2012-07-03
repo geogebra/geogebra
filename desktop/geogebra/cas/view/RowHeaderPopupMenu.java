@@ -1,7 +1,7 @@
 package geogebra.cas.view;
 
 import geogebra.common.kernel.geos.GeoCasCell;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -21,7 +21,7 @@ public class RowHeaderPopupMenu extends JPopupMenu implements ActionListener {
 
 	private JList rowHeader;
 	private CASTable table;
-	private Application app;
+	private AppD app;
 	
 	private JMenuItem cbUseAsText;
 
@@ -33,7 +33,7 @@ public class RowHeaderPopupMenu extends JPopupMenu implements ActionListener {
 	public RowHeaderPopupMenu(JList rowHeader, CASTable table) {
 		this.rowHeader = rowHeader;
 		this.table = table;
-		app = (Application)table.getApplication();		
+		app = (AppD)table.getApplication();		
 		initMenu();
 	}
 

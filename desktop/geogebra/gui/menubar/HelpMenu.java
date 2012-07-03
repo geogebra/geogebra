@@ -1,9 +1,9 @@
 package geogebra.gui.menubar;
 
 import geogebra.common.GeoGebraConstants;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.gui.util.HelpAction;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
@@ -31,7 +31,7 @@ class HelpMenu extends BaseMenu implements MenuListener {
 	 * Creates new help menu
 	 * @param app
 	 */
-	public HelpMenu(Application app) {
+	public HelpMenu(AppD app) {
 		super(app, app.getMenu("Help"));
 		
 		// items are added to the menu when it's opened, see BaseMenu: addMenuListener(this);
@@ -68,10 +68,10 @@ class HelpMenu extends BaseMenu implements MenuListener {
 	{
 		if (helpAction == null) {
 			helpAction = new HelpAction(app, app
-					.getImageIcon("help.png"),app.getMenu("Help"),AbstractApplication.WIKI_MANUAL);
+					.getImageIcon("help.png"),app.getMenu("Help"),App.WIKI_MANUAL);
 						
 			
-			tutorialAction = new HelpAction(app,null,app.getMenu("Tutorials"),AbstractApplication.WIKI_TUTORIAL);
+			tutorialAction = new HelpAction(app,null,app.getMenu("Tutorials"),App.WIKI_TUTORIAL);
 	
 			reportBugAction = new AbstractAction(app.getMenu("ReportBug"), app.getEmptyIcon()) {
 				private static final long serialVersionUID = 1L;

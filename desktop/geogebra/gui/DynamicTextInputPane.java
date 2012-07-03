@@ -9,7 +9,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.gui.dialog.TextInputDialog;
 import geogebra.gui.inputfield.MyTextField;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -42,11 +42,11 @@ public class DynamicTextInputPane extends JTextPane {
 
 	private static final long serialVersionUID = 1L;
 	
-	private Application app;
+	private AppD app;
 	private DynamicTextInputPane thisPane;
 	public DefaultStyledDocument doc;
 
-	public DynamicTextInputPane(Application app) {
+	public DynamicTextInputPane(AppD app) {
 		super();
 		this.app = app;
 		thisPane = this;
@@ -343,7 +343,7 @@ public class DynamicTextInputPane extends JTextPane {
 
 			@Override
 			public void keyPressed(KeyEvent e) {		
-				if ((e.isAltDown() || Application.isAltDown(e))){
+				if ((e.isAltDown() || AppD.isAltDown(e))){
 					switch(e.getKeyCode()){
 					case KeyEvent.VK_LEFT:
 						id.exitTextField(tf,true);
@@ -357,7 +357,7 @@ public class DynamicTextInputPane extends JTextPane {
 		}
 
 
-		public DynamicTextField(Application app, TextInputDialog id) {
+		public DynamicTextField(AppD app, TextInputDialog id) {
 			super(app);
 			this.id = id;
 			// see ticket #1339

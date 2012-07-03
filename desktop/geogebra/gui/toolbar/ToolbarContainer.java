@@ -1,10 +1,10 @@
 package geogebra.gui.toolbar;
 
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.util.StringUtil;
 import geogebra.gui.MySmallJButton;
 import geogebra.gui.layout.DockPanel;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
 import java.awt.Cursor;
@@ -48,7 +48,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 	/**
 	 * Application instance.
 	 */
-	Application app;
+	AppD app;
 
 	/**
 	 * True if this is the main toolbar which also contains the undo buttons.
@@ -106,7 +106,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 	 * @param isMain If this container is used in the main panel, where additional
 	 * 		functions are added to the toolbar (undo buttons)
 	 */
-	public ToolbarContainer(Application app, boolean isMain) {
+	public ToolbarContainer(AppD app, boolean isMain) {
 		super(new BorderLayout(10, 0));
 
 		this.app = app;
@@ -326,7 +326,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 		btnProperties.addActionListener(new ActionListener(){
 
 			public void actionPerformed(ActionEvent arg0) {
-				int viewId = AbstractApplication.VIEW_PROPERTIES;
+				int viewId = App.VIEW_PROPERTIES;
 				app.getGuiManager().setShowView(
 						!app.getGuiManager().showView(viewId), viewId, false);
 			}

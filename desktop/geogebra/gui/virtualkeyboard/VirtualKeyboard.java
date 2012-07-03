@@ -13,12 +13,12 @@ the Free Software Foundation.
 package geogebra.gui.virtualkeyboard;
 
 import geogebra.common.gui.SetLabels;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.main.settings.AbstractSettings;
 import geogebra.common.main.settings.KeyboardSettings;
 import geogebra.common.main.settings.SettingListener;
 import geogebra.common.util.Language;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 import geogebra.main.MyResourceBundle;
 
 import java.awt.Color;
@@ -90,7 +90,7 @@ public class VirtualKeyboard extends JFrame implements ActionListener, SettingLi
 	private String altGrText = "AltG";
 	private String escText = "Esc";
 
-	private Application app;
+	private AppD app;
 
 	// max width character
 	private final static char wideCharDefault = '@';
@@ -142,7 +142,7 @@ public class VirtualKeyboard extends JFrame implements ActionListener, SettingLi
 	 * @param windowHeight 
 	 * @param opacity 
 	 */
-	public VirtualKeyboard(final Application app, int windowWidth, int windowHeight, float opacity) {
+	public VirtualKeyboard(final AppD app, int windowWidth, int windowHeight, float opacity) {
 
 		super();
 
@@ -186,7 +186,7 @@ public class VirtualKeyboard extends JFrame implements ActionListener, SettingLi
 			public void windowClosing(WindowEvent arg0) {
 				//System.out.println("Window Closing");
 				// if closed with the X, stop it auto-opening
-				Application.setVirtualKeyboardActive(false);
+				AppD.setVirtualKeyboardActive(false);
 				app.getGuiManager().updateMenubar();
 			}
 			public void windowDeactivated(WindowEvent arg0) {
@@ -794,7 +794,7 @@ public class VirtualKeyboard extends JFrame implements ActionListener, SettingLi
 		keys ret1 = myKeys.get(sb.toString());
 
 		if (ret1 == null)
-			AbstractApplication.debug("KB Error: "+sb.toString());
+			App.debug("KB Error: "+sb.toString());
 
 		sb.append(KEYBOARD_MODE); // append 'A' for acute , ' ' for default etc
 
@@ -1047,7 +1047,7 @@ public class VirtualKeyboard extends JFrame implements ActionListener, SettingLi
 		doSetLabels();
 	}
 	
-	private void readConf(Application app, Locale loc, boolean math) {
+	private void readConf(AppD app, Locale loc, boolean math) {
 
 		ResourceBundle rbKeyboard;
 

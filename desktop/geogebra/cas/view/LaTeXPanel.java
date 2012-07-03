@@ -1,6 +1,6 @@
 package geogebra.cas.view;
 
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -15,13 +15,13 @@ public class LaTeXPanel extends JPanel {
 	
 	private static final long serialVersionUID = 1L;
 	
-	private Application app;	
+	private AppD app;	
 	private String latex;	
 	private BufferedImage image;
 	private Graphics2D g2image;
 	private Dimension equSize;
 	
-	public LaTeXPanel(Application app) {
+	public LaTeXPanel(AppD app) {
 		this.app = app;
 		ensureImageSize(100, 100);
 	}

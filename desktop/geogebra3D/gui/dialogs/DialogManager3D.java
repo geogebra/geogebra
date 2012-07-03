@@ -8,7 +8,7 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.gui.dialog.DialogManagerD;
 import geogebra.gui.dialog.InputDialog;
 import geogebra.gui.dialog.options.OptionsDialog;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 import geogebra3D.Application3D;
 import geogebra3D.euclidianForPlane.EuclidianViewForPlane;
 import geogebra3D.gui.OptionsDialog3D;
@@ -20,7 +20,7 @@ public class DialogManager3D extends DialogManagerD {
 	/**
 	 * Construct 3D dialog manager.
 	 * 
-	 * Use {@link Application3D} instead of {@link Application}
+	 * Use {@link Application3D} instead of {@link AppD}
 	 * 
 	 * @param app Instance of the 3d application object
 	 */
@@ -47,7 +47,7 @@ public class DialogManager3D extends DialogManagerD {
 	 */
 	public void showNumberInputDialogCirclePointDirectionRadius(String title, GeoPointND geoPoint, GeoDirectionND forAxis) {
 		NumberInputHandler handler = new NumberInputHandler(app.getKernel().getAlgebraProcessor());
-		InputDialog id = new InputDialogCirclePointDirectionRadius((Application) app, title, handler, geoPoint, forAxis, app.getKernel());
+		InputDialog id = new InputDialogCirclePointDirectionRadius((AppD) app, title, handler, geoPoint, forAxis, app.getKernel());
 		id.setVisible(true);
 	}
 	
@@ -58,13 +58,13 @@ public class DialogManager3D extends DialogManagerD {
 	 */
 	public void showNumberInputDialogSpherePointRadius(String title, GeoPointND geoPoint) {
 		NumberInputHandler handler = new NumberInputHandler(app.getKernel().getAlgebraProcessor());
-		InputDialog id = new InputDialogSpherePointRadius((Application) app, title, handler, geoPoint, app.getKernel());
+		InputDialog id = new InputDialogSpherePointRadius((AppD) app, title, handler, geoPoint, app.getKernel());
 		id.setVisible(true);
 	}
 	
 	public static class Factory extends DialogManagerD.Factory {
 		@Override
-		public DialogManagerD create(Application app) {
+		public DialogManagerD create(AppD app) {
 			if(!(app instanceof Application3D)) {
 				throw new IllegalArgumentException();
 			}

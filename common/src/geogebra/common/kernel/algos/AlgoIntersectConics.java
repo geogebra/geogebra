@@ -30,7 +30,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.kernelND.GeoConicNDConstants;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.kernel.prover.NoSymbolicParametersException;
 import geogebra.common.kernel.prover.Polynomial;
 import geogebra.common.kernel.prover.Variable;
@@ -225,12 +225,12 @@ public class AlgoIntersectConics extends AlgoIntersect  implements SymbolicParam
 		
 		
 		if (permutation[3] == 0) {
-			AbstractApplication.debug("error");
+			App.debug("error");
 		}
 		/*
 		if (this.getA().getLabelSimple().equals("c") && getB().getLabelSimple().equals("g"))*/
 		{
-			AbstractApplication.debug("");
+			App.debug("");
 			for (int i=0; i<4; i++) {
 			System.out.print(permutation[i]+"\t");
 			}
@@ -532,7 +532,7 @@ public class AlgoIntersectConics extends AlgoIntersect  implements SymbolicParam
     	
 		if (this.getA().getLabelSimple().equals("c") && getB().getLabelSimple().equals("g"))
 		{
-			AbstractApplication.debug("");
+			App.debug("");
 			for (int i=0; i<2; i++) {
 			System.out.print(permutation[i]+"\t");
 			}
@@ -1269,7 +1269,7 @@ public class AlgoIntersectConics extends AlgoIntersect  implements SymbolicParam
     	//System.out.flush();
    
     	if (pointList.isStrict()) {
-    		AbstractApplication.debug("strict list");
+    		App.debug("strict list");
     		
     	PointPair pair;    	
         while (!pointList.isEmpty()) {
@@ -1288,7 +1288,7 @@ public class AlgoIntersectConics extends AlgoIntersect  implements SymbolicParam
         
 
     	} else {
-    		AbstractApplication.debug("non strict list");
+    		App.debug("non strict list");
     		
     		//keep permutations
     		for (int i = 0; i< P.length; i++ ) {

@@ -8,8 +8,8 @@ import geogebra.common.gui.view.spreadsheet.RelativeCopy;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementSpreadsheet;
-import geogebra.common.main.AbstractApplication;
-import geogebra.main.Application;
+import geogebra.common.main.App;
+import geogebra.main.AppD;
 
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
@@ -29,7 +29,7 @@ public class SpreadsheetMouseListener implements MouseListener, MouseMotionListe
 	protected String selectedCellName;
 	protected String prefix0, postfix0;
 
-	private Application app;
+	private AppD app;
 	private SpreadsheetView view;
 	private Kernel kernel;
 	private MyTable table;
@@ -45,7 +45,7 @@ public class SpreadsheetMouseListener implements MouseListener, MouseMotionListe
 	/*************************************************
 	 * Constructor
 	 */
-	public SpreadsheetMouseListener(Application app, MyTable table){
+	public SpreadsheetMouseListener(AppD app, MyTable table){
 
 		this.app = app;
 		this.kernel = app.getKernel();
@@ -168,10 +168,10 @@ public class SpreadsheetMouseListener implements MouseListener, MouseMotionListe
 	public void mousePressed(MouseEvent e) {
 
 		if(!view.hasViewFocus())
-			app.getGuiManager().getLayout().getDockManager().setFocusedPanel(AbstractApplication.VIEW_SPREADSHEET);
+			app.getGuiManager().getLayout().getDockManager().setFocusedPanel(App.VIEW_SPREADSHEET);
 
 
-		boolean rightClick = Application.isRightClick(e); 
+		boolean rightClick = AppD.isRightClick(e); 
 
 		// tell selection listener about click on GeoElement
 		if (!rightClick && app.getMode() == EuclidianConstants.MODE_SELECTION_LISTENER) {
@@ -278,7 +278,7 @@ public class SpreadsheetMouseListener implements MouseListener, MouseMotionListe
 
 
 	public void mouseReleased(MouseEvent e)	 {
-		boolean rightClick = Application.isRightClick(e); 	        
+		boolean rightClick = AppD.isRightClick(e); 	        
 
 		if(table.getTableMode() == table.TABLE_MODE_AUTOFUNCTION){
 			table.stopAutoFunction();
@@ -388,7 +388,7 @@ public class SpreadsheetMouseListener implements MouseListener, MouseMotionListe
 
 		//handle right click
 		if (rightClick){
-			if (!((Application) kernel.getApplication()).letShowPopupMenu()) return;
+			if (!((AppD) kernel.getApplication()).letShowPopupMenu()) return;
 
 			GPoint p = table.getIndexFromPixel(e.getX(), e.getY());
 

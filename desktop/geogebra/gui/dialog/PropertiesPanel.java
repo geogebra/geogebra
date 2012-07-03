@@ -53,7 +53,7 @@ import geogebra.common.kernel.kernelND.GeoLevelOfDetail;
 import geogebra.common.kernel.kernelND.GeoPlaneND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.ViewCreator;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.plugin.GeoClass;
@@ -72,7 +72,7 @@ import geogebra.gui.util.PopupMenuButton;
 import geogebra.gui.util.SelectionTable;
 import geogebra.gui.util.SpringUtilities;
 import geogebra.gui.view.algebra.InputPanel;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.BasicStroke;
 import java.awt.BorderLayout;
@@ -136,7 +136,7 @@ import javax.swing.event.ChangeListener;
 public class PropertiesPanel extends JPanel implements SetLabels {
 	private static final int MAX_COMBOBOX_ENTRIES = 200;
 
-	private Application app;
+	private AppD app;
 	private Kernel kernel;
 	private GeoGebraColorChooser colChooser;
 
@@ -222,7 +222,7 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 	 * @param colChooser
 	 * @param isDefaults
 	 */
-	public PropertiesPanel(Application app, GeoGebraColorChooser colChooser,
+	public PropertiesPanel(AppD app, GeoGebraColorChooser colChooser,
 			boolean isDefaults) {
 		this.isDefaults = isDefaults;
 
@@ -1939,13 +1939,13 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 	private class DeletePanel extends JPanel implements SetLabels, UpdateablePropertiesPanel, ActionListener{
 
 		private JButton delButton;
-		private Application app1;
+		private AppD app1;
 		
 		/**
 		 * constructor
 		 * @param app application
 		 */
-		public DeletePanel(Application app){
+		public DeletePanel(AppD app){
 			
 			super(new FlowLayout(FlowLayout.LEFT));
 			
@@ -4186,14 +4186,14 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 			int selItem = -1;
 
 			int decimals = geo0.getPrintDecimals();
-			if (decimals > 0 && decimals < Application.decimalsLookup.length
+			if (decimals > 0 && decimals < AppD.decimalsLookup.length
 					&& !geo0.useSignificantFigures())
-				selItem = Application.decimalsLookup[decimals];
+				selItem = AppD.decimalsLookup[decimals];
 
 			int figures = geo0.getPrintFigures();
-			if (figures > 0 && figures < Application.figuresLookup.length
+			if (figures > 0 && figures < AppD.figuresLookup.length
 					&& geo0.useSignificantFigures())
-				selItem = Application.figuresLookup[figures];
+				selItem = AppD.figuresLookup[figures];
 
 			cbDecimalPlaces.setSelectedIndex(selItem);
 
@@ -4287,12 +4287,12 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 					{
 						// Application.debug("decimals"+roundingMenuLookup[decimals]+"");
 						text.setPrintDecimals(
-								Application.roundingMenuLookup[decimals], true);
+								AppD.roundingMenuLookup[decimals], true);
 					} else // significant figures
 					{
 						// Application.debug("figures"+roundingMenuLookup[decimals]+"");
 						text.setPrintFigures(
-								Application.roundingMenuLookup[decimals], true);
+								AppD.roundingMenuLookup[decimals], true);
 					}
 					((GeoElement) text).updateRepaint();
 
@@ -5805,7 +5805,7 @@ class TextfieldSizePanel extends JPanel implements ActionListener,
 
 	private Kernel kernel;
 
-	public TextfieldSizePanel(Application app) {
+	public TextfieldSizePanel(AppD app) {
 		kernel = app.getKernel();
 
 		// text field for textfield size
@@ -5917,7 +5917,7 @@ class ShowConditionPanel extends JPanel implements ActionListener,
 	private Kernel kernel;
 	private PropertiesPanel propPanel;
 
-	public ShowConditionPanel(Application app, PropertiesPanel propPanel) {
+	public ShowConditionPanel(AppD app, PropertiesPanel propPanel) {
 		kernel = app.getKernel();
 		this.propPanel = propPanel;
 
@@ -6068,7 +6068,7 @@ class ColorFunctionPanel extends JPanel implements ActionListener,
 	private Kernel kernel;
 	private PropertiesPanel propPanel;
 
-	public ColorFunctionPanel(Application app, PropertiesPanel propPanel) {
+	public ColorFunctionPanel(AppD app, PropertiesPanel propPanel) {
 		kernel = app.getKernel();
 		this.propPanel = propPanel;
 
@@ -6156,7 +6156,7 @@ class ColorFunctionPanel extends JPanel implements ActionListener,
 	}
 
 	public void setLabels() {
-		Application app = (Application) kernel.getApplication();
+		AppD app = (AppD) kernel.getApplication();
 
 		setBorder(BorderFactory
 				.createTitledBorder(app.getMenu("DynamicColors")));
@@ -6410,10 +6410,10 @@ class GraphicsViewLocationPanel extends JPanel implements ActionListener,
 	private JCheckBox cbGraphicsView, cbGraphicsView2;
 
 	private Kernel kernel;
-	private Application app;
+	private AppD app;
 	private PropertiesPanel propPanel;
 
-	public GraphicsViewLocationPanel(Application app, PropertiesPanel propPanel) {
+	public GraphicsViewLocationPanel(AppD app, PropertiesPanel propPanel) {
 		this.app = app;
 		kernel = app.getKernel();
 		this.propPanel = propPanel;
@@ -6451,9 +6451,9 @@ class GraphicsViewLocationPanel extends JPanel implements ActionListener,
 
 		for (int i = 0; i < geos.length; i++) {
 			GeoElement geo = (GeoElement) geos[i];
-			if (geo.isVisibleInView(AbstractApplication.VIEW_EUCLIDIAN))
+			if (geo.isVisibleInView(App.VIEW_EUCLIDIAN))
 				isInEV = true;
-			if (geo.isVisibleInView(AbstractApplication.VIEW_EUCLIDIAN2))
+			if (geo.isVisibleInView(App.VIEW_EUCLIDIAN2))
 				isInEV2 = true;
 		}
 
@@ -6497,10 +6497,10 @@ class GraphicsViewLocationPanel extends JPanel implements ActionListener,
 				EuclidianView ev2 = app.getEuclidianView2();
 
 				if (cbGraphicsView2.isSelected()) {
-					geo.addView(AbstractApplication.VIEW_EUCLIDIAN2);
+					geo.addView(App.VIEW_EUCLIDIAN2);
 					ev2.add(geo);
 				} else {
-					geo.removeView(AbstractApplication.VIEW_EUCLIDIAN2);
+					geo.removeView(App.VIEW_EUCLIDIAN2);
 					ev2.remove(geo);
 				}
 			}
@@ -6526,9 +6526,9 @@ class NamePanel extends JPanel implements ActionListener, FocusListener,
 	private RenameInputHandler nameInputHandler;
 	private RedefineInputHandler defInputHandler;
 	private GeoElement currentGeo;
-	private Application app;
+	private AppD app;
 
-	public NamePanel(Application app) {
+	public NamePanel(AppD app) {
 		this.app = app;
 		// NAME PANEL
 		nameInputHandler = new RenameInputHandler(app, null, false);

@@ -16,7 +16,7 @@ import geogebra.common.factories.FormatFactory;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.util.NumberFormatAdapter;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.Dimension;
 
@@ -32,7 +32,7 @@ public class NumberComboBox extends JComboBox {
 	private NumberFormatAdapter nf;	
 	private Kernel kernel;
 	
-	public NumberComboBox(final Application app) {		
+	public NumberComboBox(final AppD app) {		
 		kernel = app.getKernel();
 		
 		addItem("1"); //pi

@@ -1,7 +1,7 @@
 package geogebra.web.gui.app;
 
-import geogebra.common.main.AbstractApplication;
-import geogebra.web.main.Application;
+import geogebra.common.main.App;
+import geogebra.web.main.AppW;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
@@ -13,7 +13,7 @@ public class MySplitLayoutPanel extends SplitLayoutPanel {
 	
 	private GGWGraphicsView ggwGraphicView;
 	private GGWViewWrapper ggwViewWrapper;
-	private AbstractApplication application;
+	private App application;
 
 	public MySplitLayoutPanel(){
 		super();
@@ -25,7 +25,7 @@ public class MySplitLayoutPanel extends SplitLayoutPanel {
     public void onResize() {
 		super.onResize();
 		Element wrapper = getWidgetContainerElement(ggwGraphicView);
-		((Application) application).ggwGraphicsViewWidthChanged(wrapper.getOffsetWidth());
+		((AppW) application).ggwGraphicsViewWidthChanged(wrapper.getOffsetWidth());
 		
 	}
 
@@ -38,7 +38,7 @@ public class MySplitLayoutPanel extends SplitLayoutPanel {
 	    return ggwGraphicView;
     }
 
-	public void attachApp(AbstractApplication app) {
+	public void attachApp(App app) {
 	   this.application = app;
 	   ggwViewWrapper.attachApp(app);
 	   ggwGraphicView.attachApp(app);

@@ -2,7 +2,7 @@ package geogebra.gui.util;
 
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -24,7 +24,7 @@ import javax.swing.JRadioButtonMenuItem;
 public class SpecialNumberFormat implements ActionListener {
 
 	
-	private Application app;
+	private AppD app;
 	private SpecialNumberFormatInterface invoker;
 	
 	private JMenu menuDecimalPlaces;
@@ -45,7 +45,7 @@ public class SpecialNumberFormat implements ActionListener {
 	 * @param invoker
 	 *            : the component utilizing this number format class
 	 */
-	public SpecialNumberFormat(Application app, SpecialNumberFormatInterface invoker){
+	public SpecialNumberFormat(AppD app, SpecialNumberFormatInterface invoker){
 		
 		this.app = app;
 		this.invoker = invoker;
@@ -94,7 +94,7 @@ public class SpecialNumberFormat implements ActionListener {
 		String[] strDecimalSpaces = app.getRoundingMenu();
 
 		addRadioButtonMenuItems(menuDecimalPlaces, this,
-				strDecimalSpaces, Application.strDecimalSpacesAC, 0);
+				strDecimalSpaces, AppD.strDecimalSpacesAC, 0);
 
 		updateMenuDecimalPlaces(); 
 		
@@ -110,11 +110,11 @@ public class SpecialNumberFormat implements ActionListener {
 		int pos = -1;
 
 		if (printFigures >= 0) {
-			if (printFigures > 0 && printFigures < Application.figuresLookup.length)
-				pos = Application.figuresLookup[printFigures];
+			if (printFigures > 0 && printFigures < AppD.figuresLookup.length)
+				pos = AppD.figuresLookup[printFigures];
 		} else {
-			if (printDecimals > 0 && printDecimals < Application.decimalsLookup.length)
-				pos = Application.decimalsLookup[printDecimals];
+			if (printDecimals > 0 && printDecimals < AppD.decimalsLookup.length)
+				pos = AppD.decimalsLookup[printDecimals];
 		}
 
 		try {

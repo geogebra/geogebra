@@ -7,8 +7,8 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.main.AbstractApplication;
-import geogebra.main.Application;
+import geogebra.common.main.App;
+import geogebra.main.AppD;
 
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
@@ -27,7 +27,7 @@ public class CopyPasteCut {
 
 	// ggb support classes
 	protected Kernel kernel;
-	protected AbstractApplication app;
+	protected App app;
 	private AbstractSpreadsheetTableModel tableModel;
 
 	private SpreadsheetView view;
@@ -57,7 +57,7 @@ public class CopyPasteCut {
 	/***************************************
 	 * Constructor
 	 */
-	public CopyPasteCut(AbstractApplication app) {
+	public CopyPasteCut(App app) {
 
 		tableModel = app.getSpreadsheetTableModel();
 		this.app = app;
@@ -303,7 +303,7 @@ public class CopyPasteCut {
 
 		} finally {
 			cons.stopCollectingRedefineCalls();
-			((Application) kernel.getApplication()).setDefaultCursor();
+			((AppD) kernel.getApplication()).setDefaultCursor();
 		}
 
 		return succ;
@@ -609,7 +609,7 @@ public class CopyPasteCut {
 		delete(0, 0, tableModel.getColumnCount(), tableModel.getRowCount());
 	}
 
-	public static boolean delete(AbstractApplication app, int column1,
+	public static boolean delete(App app, int column1,
 			int row1, int column2, int row2, int selectionType) {
 		boolean succ = false;
 		for (int column = column1; column <= column2; ++column) {
@@ -663,7 +663,7 @@ public class CopyPasteCut {
 		}
 
 		public int compareTo(Object o) {
-			AbstractApplication.debug(o.getClass() + "");
+			App.debug(o.getClass() + "");
 			// int id = ((Record) o).getId();
 			// return id - this.id;
 			return 0;

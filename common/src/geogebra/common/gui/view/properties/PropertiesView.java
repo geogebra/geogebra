@@ -17,7 +17,7 @@ import java.util.HashMap;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.main.GeoElementSelectionListener;
 
 /**
@@ -39,18 +39,18 @@ public abstract class PropertiesView implements View{
 	static {
 
 		viewMap = new HashMap<Integer, OptionType>();
-		viewMap.put(AbstractApplication.VIEW_CAS, OptionType.CAS);
-		viewMap.put(AbstractApplication.VIEW_SPREADSHEET,
+		viewMap.put(App.VIEW_CAS, OptionType.CAS);
+		viewMap.put(App.VIEW_SPREADSHEET,
 				OptionType.SPREADSHEET);
-		viewMap.put(AbstractApplication.VIEW_EUCLIDIAN, OptionType.EUCLIDIAN);
-		viewMap.put(AbstractApplication.VIEW_EUCLIDIAN2, OptionType.EUCLIDIAN2);
+		viewMap.put(App.VIEW_EUCLIDIAN, OptionType.EUCLIDIAN);
+		viewMap.put(App.VIEW_EUCLIDIAN2, OptionType.EUCLIDIAN2);
 	}
 
 
 
 	protected Kernel kernel;
 	protected boolean attached;
-	protected AbstractApplication app;
+	protected App app;
 	protected OptionType selectedOptionType = OptionType.OBJECTS;
 	
 	/**

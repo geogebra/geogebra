@@ -1,10 +1,10 @@
 package geogebra.web.gui.dialog;
 
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.web.gui.view.algebra.InputPanel.DialogType;
 import geogebra.web.gui.InputDialogW;
 import geogebra.web.gui.view.algebra.InputPanel;
-import geogebra.web.main.Application;
+import geogebra.web.main.AppW;
 
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -16,7 +16,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class InputDialogImageURL extends InputDialogW{
 
-	public InputDialogImageURL(Application app){
+	public InputDialogImageURL(AppW app){
 		super(true);
 		this.app = app;
 

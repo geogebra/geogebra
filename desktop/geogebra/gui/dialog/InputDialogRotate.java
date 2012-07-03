@@ -6,7 +6,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.util.Unicode;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
@@ -27,7 +27,7 @@ public class InputDialogRotate extends AngleInputDialog implements KeyListener {
 	private Kernel kernel;
 	private static String defaultRotateAngle = "45\u00b0"; // 45 degrees
 
-	public InputDialogRotate(Application app, String title,
+	public InputDialogRotate(AppD app, String title,
 			InputHandler handler, GeoPolygon[] polys, GeoPoint[] points,
 			GeoElement[] selGeos, Kernel kernel) {
 		super(app, app.getPlain("Angle"), title, defaultRotateAngle, false,

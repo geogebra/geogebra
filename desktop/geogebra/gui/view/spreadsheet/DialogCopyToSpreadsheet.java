@@ -1,6 +1,6 @@
 package geogebra.gui.view.spreadsheet;
 
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -26,7 +26,7 @@ import javax.swing.JRadioButton;
 public class DialogCopyToSpreadsheet extends JDialog implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	private SpreadsheetViewDnD dndHandler;
-	private Application app;
+	private AppD app;
 
 	private JButton btnCancel, btnCopy;
 	private JRadioButton rbFree, rbDependent;
@@ -38,7 +38,7 @@ public class DialogCopyToSpreadsheet extends JDialog implements ActionListener {
 	
 
 
-	public DialogCopyToSpreadsheet(Application app, SpreadsheetViewDnD dndHandler) {
+	public DialogCopyToSpreadsheet(AppD app, SpreadsheetViewDnD dndHandler) {
 
 		super(app.getFrame(), app.getMenu("CopyToSpreadsheet"), true);  // modal dialog
 		this.app = app;	

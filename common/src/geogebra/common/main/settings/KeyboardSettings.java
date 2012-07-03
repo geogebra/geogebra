@@ -1,6 +1,6 @@
 package geogebra.common.main.settings;
 
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -117,7 +117,7 @@ public class KeyboardSettings extends AbstractSettings {
 				return;
 			}
 		}
-		AbstractApplication.debug("Unsupported keyboard locale: "+string);
+		App.debug("Unsupported keyboard locale: "+string);
 	}	
 
 }

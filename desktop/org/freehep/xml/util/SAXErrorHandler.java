@@ -5,7 +5,7 @@
  */
 
 package org.freehep.xml.util;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
@@ -64,7 +64,7 @@ public class SAXErrorHandler implements ErrorHandler
         else 
         {
             message.append(": "+exception);
-            Application.debug(message+""); 
+            AppD.debug(message+""); 
         }
         
     }

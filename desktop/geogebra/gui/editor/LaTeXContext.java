@@ -1,6 +1,6 @@
 package geogebra.gui.editor;
 
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.Color;
 import java.util.ArrayList;
@@ -67,7 +67,7 @@ public class LaTeXContext extends ViewContext {
      * The constructor
      * @param app the Application where this context is needed
      */
-    public LaTeXContext(Application app) {
+    public LaTeXContext(AppD app) {
         super();
         tokenFont = app.getPlainFont();
         genColors();

@@ -1,8 +1,8 @@
 package geogebra.web.gui.app;
 
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.web.gui.inputbar.AlgebraInputW;
-import geogebra.web.main.Application;
+import geogebra.web.main.AppW;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -24,8 +24,8 @@ public class GGWCommandLine extends Composite {
 		initWidget(uiBinder.createAndBindUi(this));
 	}
 
-	public void attachApp(AbstractApplication app) {
-	    algebraInput.init((Application) app);
+	public void attachApp(App app) {
+	    algebraInput.init((AppW) app);
     }
 
 }

@@ -6,7 +6,7 @@ import geogebra.common.kernel.discrete.signalprocessor.voronoi.eventqueue.VSiteE
 import geogebra.common.kernel.discrete.signalprocessor.voronoi.representation.RepresentationInterface;
 import geogebra.common.kernel.discrete.signalprocessor.voronoi.statusstructure.AbstractStatusStructure;
 import geogebra.common.kernel.discrete.signalprocessor.voronoi.statusstructure.VLinkedNode;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 
 import java.util.Collection;
 
@@ -92,7 +92,7 @@ public class VoronoiAlgorithm {
                     VEvent nextevent = eventqueue.getFirstEvent();
                     if ( nextevent!=null && event.getY()==nextevent.getY() ) {
                         // Increment original event by small amount to fix error
-                        AbstractApplication.debug("Please note: easy fix done to prevent degrading case");
+                        App.debug("Please note: easy fix done to prevent degrading case");
                         siteevent.getPoint().y-=0.00000001;
                         
                         /*// Move remove entirely from queue and re-add - changing

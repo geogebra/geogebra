@@ -24,7 +24,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.GeoVec2D;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.main.MyError;
 import geogebra.common.util.MyMath;
 import geogebra.common.util.MyMath2;
@@ -760,7 +760,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	 * @param str string representation ending with %
 	 * @return value as fraction
 	 */
-	public static double parsePercentage(AbstractApplication app, String str) {
+	public static double parsePercentage(App app, String str) {
 		return parseDouble(app, str.substring(0, str.length() - 1)) / 100;
 	}
 
@@ -771,7 +771,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	 * @param app application for showing errors
 	 * @return value
 	 */
-	public static double parseDouble(AbstractApplication app, String str) {
+	public static double parseDouble(App app, String str) {
 		StringBuilder sb = new StringBuilder();
 		sb.setLength(0);
 		for (int i = 0; i < str.length(); i++) {

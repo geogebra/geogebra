@@ -2,7 +2,7 @@ package geogebra.web.gui.properties;
 
 import geogebra.common.gui.view.properties.PropertiesView.OptionType;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.web.gui.dialog.options.OptionPanelW;
 import geogebra.web.gui.dialog.options.OptionsAdvancedW;
 import geogebra.web.gui.dialog.options.OptionsCASW;
@@ -11,7 +11,7 @@ import geogebra.web.gui.dialog.options.OptionsEuclidianW;
 import geogebra.web.gui.dialog.options.OptionsLayoutW;
 import geogebra.web.gui.dialog.options.OptionsObjectW;
 import geogebra.web.gui.dialog.options.OptionsSpreadsheetW;
-import geogebra.web.main.Application;
+import geogebra.web.main.AppW;
 
 import java.util.ArrayList;
 
@@ -37,7 +37,7 @@ public class PropertiesViewW extends
 		private OptionsObjectW objectPanel;
 		private OptionsLayoutW layoutPanel;
 
-	public PropertiesViewW(Application app) {
+	public PropertiesViewW(AppW app) {
 	    this.wrappedPanel = new PopupPanel();
 	    this.app = app;
 	    
@@ -64,22 +64,22 @@ public class PropertiesViewW extends
 		switch (type) {
 		case DEFAULTS:
 			if (defaultsPanel == null) {
-				defaultsPanel = new OptionsDefaultsW((Application) app);
+				defaultsPanel = new OptionsDefaultsW((AppW) app);
 			}
 			return defaultsPanel;
 
 		case CAS:
 			if (casPanel == null) {
-				casPanel = new OptionsCASW((Application) app);
+				casPanel = new OptionsCASW((AppW) app);
 			}
 			return casPanel;
 
 		case EUCLIDIAN:
 			if (euclidianPanel == null) {
-				euclidianPanel = new OptionsEuclidianW((Application) app,
-						((Application) app).getActiveEuclidianView());
+				euclidianPanel = new OptionsEuclidianW((AppW) app,
+						((AppW) app).getActiveEuclidianView());
 				euclidianPanel.setLabels();
-				euclidianPanel.setView(((Application)app).getEuclidianView1());
+				euclidianPanel.setView(((AppW)app).getEuclidianView1());
 				euclidianPanel.showCbView(false);
 			}
 			
@@ -87,10 +87,10 @@ public class PropertiesViewW extends
 
 		case EUCLIDIAN2:
 			if (euclidianPanel2 == null) {
-				euclidianPanel2 = new OptionsEuclidianW((Application) app,
-						((Application)app).getEuclidianView2());
+				euclidianPanel2 = new OptionsEuclidianW((AppW) app,
+						((AppW)app).getEuclidianView2());
 				euclidianPanel2.setLabels();
-				euclidianPanel2.setView(((Application)app).getEuclidianView2());
+				euclidianPanel2.setView(((AppW)app).getEuclidianView2());
 				euclidianPanel2.showCbView(false);
 			}
 			
@@ -98,26 +98,26 @@ public class PropertiesViewW extends
 
 		case SPREADSHEET:
 			if (spreadsheetPanel == null) {
-				spreadsheetPanel = new OptionsSpreadsheetW((Application)app, ((Application)app)
+				spreadsheetPanel = new OptionsSpreadsheetW((AppW)app, ((AppW)app)
 						.getGuiManager().getSpreadsheetView());
 			}
 			return spreadsheetPanel;
 
 		case ADVANCED:
 			if (advancedPanel == null) {
-				advancedPanel = new OptionsAdvancedW((Application) app);
+				advancedPanel = new OptionsAdvancedW((AppW) app);
 			}
 			return advancedPanel;
 
 		case LAYOUT:
 			if (layoutPanel == null) {
-				layoutPanel = new OptionsLayoutW((Application) app);
+				layoutPanel = new OptionsLayoutW((AppW) app);
 			}
 			return layoutPanel;
 
 		case OBJECTS:
 			if (objectPanel == null) {
-				objectPanel = new OptionsObjectW((Application) app);
+				objectPanel = new OptionsObjectW((AppW) app);
 				objectPanel.setMinimumSize(objectPanel.getPreferredSize());
 			}
 			return objectPanel;

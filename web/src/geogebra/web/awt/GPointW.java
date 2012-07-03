@@ -1,6 +1,6 @@
 package geogebra.web.awt;
 
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 
 public class GPointW extends geogebra.common.awt.GPoint {
 	

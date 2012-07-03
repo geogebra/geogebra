@@ -14,7 +14,7 @@ import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.parser.ParseException;
 import geogebra.common.kernel.parser.TokenMgrError;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.main.MyError;
 import geogebra.euclidian.EuclidianControllerD;
 import geogebra.euclidian.EuclidianViewD;
@@ -417,7 +417,7 @@ public class TextPreviewPanel extends EuclidianViewD {
 
 	@Override
 	public int getViewID() {
-		return AbstractApplication.VIEW_TEXT_PREVIEW;
+		return App.VIEW_TEXT_PREVIEW;
 	}
 
 }

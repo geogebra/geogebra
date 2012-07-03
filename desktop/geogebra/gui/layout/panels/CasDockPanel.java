@@ -1,8 +1,8 @@
 package geogebra.gui.layout.panels;
 
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.gui.layout.DockPanel;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
@@ -13,14 +13,14 @@ import javax.swing.JComponent;
 public class CasDockPanel extends DockPanel {
 	private static final long serialVersionUID = 1L;
 	
-	private Application appCas;
+	private AppD appCas;
 	
 	/**
 	 * @param app application
 	 */
-	public CasDockPanel(Application app) {
+	public CasDockPanel(AppD app) {
 		super(
-			AbstractApplication.VIEW_CAS, 	// view id
+			App.VIEW_CAS, 	// view id
 			"CAS", 					// view title phrase 
 			getDefaultToolbar(),	// toolbar string
 			true,					// style bar?

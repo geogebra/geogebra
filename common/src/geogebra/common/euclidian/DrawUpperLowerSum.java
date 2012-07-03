@@ -16,7 +16,7 @@ import geogebra.common.kernel.algos.AlgoFunctionAreaSums;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 
 /**
  * Draws upper / lower sum of a GeoFunction
@@ -210,7 +210,7 @@ public class DrawUpperLowerSum extends Drawable {
 					g2.draw(gp);
 				}
 			} catch (Exception e) {
-				AbstractApplication.debug(e.getMessage());
+				App.debug(e.getMessage());
 			}
 
 			try {
@@ -228,7 +228,7 @@ public class DrawUpperLowerSum extends Drawable {
 					g2.draw(gp);
 				}
 			} catch (Exception e) {
-				AbstractApplication.debug(e.getMessage());
+				App.debug(e.getMessage());
 			}
 
 			if (labelVisible) {

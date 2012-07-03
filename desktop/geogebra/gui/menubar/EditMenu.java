@@ -7,7 +7,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.util.CopyPaste;
 import geogebra.euclidianND.EuclidianViewND;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.Point;
 import java.awt.event.ActionEvent;
@@ -64,7 +64,7 @@ public class EditMenu extends BaseMenu implements MenuListener {
 		deleteSeparator
 	;
 	
-	public EditMenu(Application app) {
+	public EditMenu(AppD app) {
 		super(app, app.getMenu("Edit"));
 
 		// items are added to the menu when it's opened, see BaseMenu: addMenuListener(this);
@@ -83,7 +83,7 @@ public class EditMenu extends BaseMenu implements MenuListener {
 			mi = add(app.getGuiManager().getUndoAction());
 			setMenuShortCutAccelerator(mi, 'Z');
 			mi = add(app.getGuiManager().getRedoAction());
-			if (Application.MAC_OS)
+			if (AppD.MAC_OS)
 				// Command-Shift-Z
 				setMenuShortCutShiftAccelerator(mi, 'Z');
 			else
@@ -152,7 +152,7 @@ public class EditMenu extends BaseMenu implements MenuListener {
 			
 			deleteItem = add(deleteAction);
 
-			if (Application.MAC_OS) {
+			if (AppD.MAC_OS) {
 				deleteItem.setAccelerator(KeyStroke.getKeyStroke(
 						KeyEvent.VK_BACK_SPACE, 0));
 			} else {

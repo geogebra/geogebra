@@ -14,12 +14,12 @@ package geogebra.common.gui.view.algebra;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 
 public class AbstractAlgebraController {
 
 	protected Kernel kernel;
-	protected AbstractApplication app;
+	protected App app;
 
 	protected AlgebraView view;
 
@@ -36,7 +36,7 @@ public class AbstractAlgebraController {
 		this.view = view;
 	}
 
-	public AbstractApplication getApplication() {
+	public App getApplication() {
 		return app;
 	}
 

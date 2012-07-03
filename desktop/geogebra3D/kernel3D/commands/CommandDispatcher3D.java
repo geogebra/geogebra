@@ -4,7 +4,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.commands.CommandDispatcher;
 import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.commands.Commands;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 
 /**
  * Command dispatcher for 3D
@@ -142,7 +142,7 @@ public class CommandDispatcher3D extends CommandDispatcher {
 				return super.commandTableSwitch(cmdName);
 			}
 		} catch (Exception e) {
-			AbstractApplication.debug("command not found / CAS command called");
+			App.debug("command not found / CAS command called");
 		}
 		return null;
 	}

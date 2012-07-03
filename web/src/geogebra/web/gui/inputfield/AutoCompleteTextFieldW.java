@@ -14,7 +14,7 @@ import geogebra.common.javax.swing.GLabel;
 import geogebra.common.kernel.Macro;
 import geogebra.common.kernel.commands.MyException;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.main.MyError;
 import geogebra.common.main.GWTKeycodes;
 import geogebra.common.util.AutoCompleteDictionary;
@@ -22,7 +22,7 @@ import geogebra.common.util.Korean;
 import geogebra.common.util.Unicode;
 import geogebra.web.gui.autocompletion.CompletionsPopup;
 import geogebra.web.gui.util.GeoGebraIcon;
-import geogebra.web.main.Application;
+import geogebra.web.main.AppW;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,7 +52,7 @@ import com.google.gwt.user.client.ui.ToggleButton;
 
 public class AutoCompleteTextFieldW extends HorizontalPanel implements AutoComplete, geogebra.common.gui.inputfield.AutoCompleteTextField, KeyDownHandler, KeyUpHandler, KeyPressHandler, ValueChangeHandler<String>, SelectionHandler<Suggestion>, VirtualKeyboardListener {
 	
-	  private Application app;
+	  private AppW app;
 	  private StringBuilder curWord;
 	  private int curWordStart;
 
@@ -99,23 +99,23 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements AutoCompl
 	   * A default model is created and the number of columns is 0.
 	   * 
 	   */
-	  public AutoCompleteTextFieldW(int columns, AbstractApplication app) {
-	    this(columns, (Application) app, true);
+	  public AutoCompleteTextFieldW(int columns, App app) {
+	    this(columns, (AppW) app, true);
 	  }
 	  
-	  public AutoCompleteTextFieldW(int columns, Application app,
+	  public AutoCompleteTextFieldW(int columns, AppW app,
 		      boolean handleEscapeKey) {
 		    this(columns, app, handleEscapeKey, app.getCommandDictionary());
 		    // setDictionary(app.getAllCommandsDictionary());
 	  }
 	  
-	  public AutoCompleteTextFieldW(int columns, AbstractApplication app,
+	  public AutoCompleteTextFieldW(int columns, App app,
 		      Drawable drawTextField) {
 		    this(columns, app);
 		    this.drawTextField = (DrawTextField) drawTextField;
 	  }
 
-	  public AutoCompleteTextFieldW(int columns, Application app,
+	  public AutoCompleteTextFieldW(int columns, AppW app,
 		      boolean handleEscapeKey, AutoCompleteDictionary dict) {
 		    //AG not MathTextField and Mytextfield exists yet super(app);
 		    // allow dynamic width with columns = -1
@@ -214,21 +214,21 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements AutoCompl
 	  }
 	
 	private void setBorderButtonVisible(int i, boolean b) {
-		   AbstractApplication.debug("implementation needed"); //TODO Auto-generated
+		   App.debug("implementation needed"); //TODO Auto-generated
     }
 
 	private void setBorderButton(int i, ImageData createUpDownTriangleIcon,
             ClickHandler al) {
-		   AbstractApplication.debug("implementation needed"); //TODO Auto-generated
+		   App.debug("implementation needed"); //TODO Auto-generated
     }
 
 	public void geoElementSelected(GeoElement geo, boolean addToSelection) {
-	    AbstractApplication.debug("implementation needed"); //TODO Auto-generated
+	    App.debug("implementation needed"); //TODO Auto-generated
     }
 
 
 	public void showPopupSymbolButton(boolean b) {
-	    AbstractApplication.debug("implementation needed"); //TODO Auto-generated
+	    App.debug("implementation needed"); //TODO Auto-generated
 	    
     }
 	
@@ -296,8 +296,8 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements AutoCompl
 		      } else {
 		        syntaxString = app.getCommandSyntax(cmdInt);
 		      }
-		      if (syntaxString.endsWith(isCASInput ? Application.syntaxCAS
-		          : Application.syntaxStr)) {
+		      if (syntaxString.endsWith(isCASInput ? AppW.syntaxCAS
+		          : AppW.syntaxStr)) {
 
 		        // command not found, check for macros
 		        Macro macro = isCASInput ? null : app.getKernel().getMacro(cmd);
@@ -305,7 +305,7 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements AutoCompl
 		          syntaxes.add(macro.toString());
 		        } else {
 		          // syntaxes.add(cmdInt + "[]");
-		          AbstractApplication.debug("Can't find syntax for: " + cmd);
+		          App.debug("Can't find syntax for: " + cmd);
 		        }
 
 		        continue;
@@ -327,37 +327,37 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements AutoCompl
 	}
 
 	public void enableColoring(boolean b) {
-	    AbstractApplication.debug("implementation needed"); //TODO Auto-generated
+	    App.debug("implementation needed"); //TODO Auto-generated
 	    
     }
 
 	public void setOpaque(boolean b) {
-	    AbstractApplication.debug("implementation needed"); //TODO Auto-generated
+	    App.debug("implementation needed"); //TODO Auto-generated
 	    
     }
 
 	public void setFont(GFont font) {
-	    AbstractApplication.debug("implementation needed"); //TODO Auto-generated
+	    App.debug("implementation needed"); //TODO Auto-generated
 	    
     }
 
 	public void setForeground(GColor color) {
-	    AbstractApplication.debug("implementation needed"); //TODO Auto-generated
+	    App.debug("implementation needed"); //TODO Auto-generated
 	    
     }
 
 	public void setBackground(GColor color) {
-	    AbstractApplication.debug("implementation needed"); //TODO Auto-generated
+	    App.debug("implementation needed"); //TODO Auto-generated
 	    
     }
 
 	public void setFocusable(boolean b) {
-	    AbstractApplication.debug("implementation needed"); //TODO Auto-generated
+	    App.debug("implementation needed"); //TODO Auto-generated
 	    
     }
 
 	public void setEditable(boolean b) {
-	    AbstractApplication.debug("implementation needed"); //TODO Auto-generated
+	    App.debug("implementation needed"); //TODO Auto-generated
 	    
     }
 
@@ -366,18 +366,18 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements AutoCompl
     }
 
 	public void setLabel(GLabel label) {
-	    AbstractApplication.debug("implementation needed"); //TODO Auto-generated
+	    App.debug("implementation needed"); //TODO Auto-generated
 	    
     }
 
 	public void setVisible(boolean b) {
-	    AbstractApplication.debug("implementation needed"); //TODO Auto-generated
+	    App.debug("implementation needed"); //TODO Auto-generated
 	    
     }
 
 	public void setColumns(int length) {
 	  //AG getTextBox().setWidth(length+"px");
-		AbstractApplication.debug("AutoCompleteTextField.setColumns called");
+		App.debug("AutoCompleteTextField.setColumns called");
     }
 	
 	 public String getCurrentWord() {
@@ -402,7 +402,7 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements AutoCompl
 	}
 	
 	public void wrapSetText(String s) {
-		AbstractApplication.debug("implementation needed"); //TODO Auto-generated
+		App.debug("implementation needed"); //TODO Auto-generated
 	    
     }
 
@@ -606,7 +606,7 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements AutoCompl
 		        setCaretPosition(caretPos - decrease);
 		      }
 		    }*/
-		  AbstractApplication.debug("KoreanDoubles may be needed in AutocompleteTextField");
+		  App.debug("KoreanDoubles may be needed in AutocompleteTextField");
 		  }
 	  
 	  private boolean moveToNextArgument(boolean find) {
@@ -674,7 +674,7 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements AutoCompl
 	
 		    if (!(ch == '(' || ch == '{' || ch == '[' || ch == '}' || ch == ')' || ch == ']')) {
 		      //super.keyTyped(e);
-		      AbstractApplication.debug("super.keyTyped needed in AutocompleteTextField");
+		      App.debug("super.keyTyped needed in AutocompleteTextField");
 		      return;
 		    }
 	
@@ -869,11 +869,11 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements AutoCompl
 		            if (closest != null)// && lowerCurWord.equals(closest.toLowerCase()))
 		              showCommandHelp(app.getInternalCommand(closest));
 		            else
-		              app.getGuiManager().openHelp(AbstractApplication.WIKI_MANUAL);
+		              app.getGuiManager().openHelp(App.WIKI_MANUAL);
 
 		          }
 		        } else
-		          app.getGuiManager().openHelp(AbstractApplication.WIKI_MANUAL);
+		          app.getGuiManager().openHelp(App.WIKI_MANUAL);
 
 		        e.stopPropagation();
 		        break;

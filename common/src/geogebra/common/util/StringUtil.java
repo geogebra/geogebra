@@ -1,7 +1,7 @@
 package geogebra.common.util;
 
 import geogebra.common.awt.GColor;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 
 public class StringUtil {
     private static StringBuilder hexSB = null;
@@ -505,7 +505,7 @@ public class StringUtil {
 	public static boolean isNumber(String text) {
 		for (int i = 0 ; i < text.length() ; i++) {
 			char c = text.charAt(i);
-			if (!Character.isDigit(c) && c != AbstractApplication.unicodeDecimalPoint && c != '-') return false; 
+			if (!Character.isDigit(c) && c != App.unicodeDecimalPoint && c != '-') return false; 
 		}
 		
 		return true;

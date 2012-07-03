@@ -26,7 +26,7 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoTextField;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.util.Unicode;
 
 
@@ -347,7 +347,7 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 		}
 
 		int fontSize = view.getFontSize() + geoTextField.getFontSize();
-		AbstractApplication app = view.getApplication();
+		App app = view.getApplication();
 
 		GFont vFont = view.getFont();
 		GFont font = app.getFontCanDisplay(textField.getText(), false,

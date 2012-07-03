@@ -1,6 +1,6 @@
 package geogebra.common.kernel;
 
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 
 import java.util.LinkedList;
 import java.util.ListIterator;
@@ -25,7 +25,7 @@ public abstract class AbstractUndoManager {
 	}
 	
 	/** application */
-	public AbstractApplication app;
+	public App app;
 	/** construction */
 	protected Construction construction;
 	/** list of undo steps */

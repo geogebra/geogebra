@@ -3,7 +3,7 @@ package geogebra.web.presenter;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.HasWidgets;
 
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.web.html5.View;
 import geogebra.web.jso.JsUint8Array;
 
@@ -21,32 +21,32 @@ public abstract class BasePresenter {
     }
 
 	public void onPageLoad() {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
+	    App.debug("implementation needed"); // TODO Auto-generated
 	    
     }
 
 	public void onCreateApplicationAndAddTo(Element element) {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
+	    App.debug("implementation needed"); // TODO Auto-generated
 	    
     }
 
 	public void onSyncCanvasSizeWithApplication() {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
+	    App.debug("implementation needed"); // TODO Auto-generated
 	    
     }
 
 	public void onFileContentLoaded(JsUint8Array zippedContent) {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
+	    App.debug("implementation needed"); // TODO Auto-generated
 	    
     }
 
 	public void onWorksheetConstructionFailed(String errorMessage) {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
+	    App.debug("implementation needed"); // TODO Auto-generated
 	    
     }
 
 	public void onWorksheetReady() {
-	    AbstractApplication.debug("implementation needed"); // TODO Auto-generated
+	    App.debug("implementation needed"); // TODO Auto-generated
 	    
     }
 	

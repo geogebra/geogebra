@@ -1,7 +1,7 @@
 package geogebra.gui.autocompletion;
 
-import geogebra.common.main.AbstractApplication;
-import geogebra.main.Application;
+import geogebra.common.main.App;
+import geogebra.main.AppD;
 
 import java.awt.Component;
 import java.io.File;
@@ -59,7 +59,7 @@ public class FileChooserCompletionListCellRenderer extends DefaultListCellRender
 		}
 		
 		// inclusive toLower, default is ""
-		String fileExt = Application.getExtension(file);
+		String fileExt = AppD.getExtension(file);
 		Icon icon = FILE_EXT_ICONS.get(fileExt);
 		if (icon == null) {
 			icon = UNKNOWN_FILE_ICON;
@@ -71,7 +71,7 @@ public class FileChooserCompletionListCellRenderer extends DefaultListCellRender
 	private static Icon loadIcon(String iconImage) {
 		URL iconUrl = FileChooserCompletionListCellRenderer.class.getResource(ICON_LOCATION + iconImage);
 		if (iconUrl == null) {
-			AbstractApplication.debug("Could not load icon: " + iconImage);
+			App.debug("Could not load icon: " + iconImage);
 			return new ImageIcon();
 		}
 		return new ImageIcon(iconUrl);

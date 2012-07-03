@@ -1,6 +1,6 @@
 package geogebra.web.factories;
 
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.util.NumberFormatAdapter;
 import geogebra.common.util.ScientificFormatAdapter;
 import geogebra.web.util.NumberFormatWeb;

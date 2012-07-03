@@ -1,11 +1,11 @@
 package geogebra.web.gui.applet;
 
 import geogebra.common.GeoGebraConstants;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.web.gui.SplashDialog;
 import geogebra.web.html5.ArticleElement;
 import geogebra.web.html5.View;
-import geogebra.web.main.Application;
+import geogebra.web.main.AppW;
 import geogebra.web.presenter.LoadFilePresenter;
 
 import java.util.ArrayList;
@@ -31,7 +31,7 @@ public class GeoGebraFrame extends VerticalPanel {
 	public static LoadFilePresenter fileLoader = new LoadFilePresenter();
 
 	/** The application */
-	protected Application app;
+	protected AppW app;
 
 	private boolean resize = false;
 	private boolean move = false;
@@ -92,7 +92,7 @@ public class GeoGebraFrame extends VerticalPanel {
 	}
 
 	public static void finishAsyncLoading(ArticleElement articleElement,
-            GeoGebraFrame inst, Application app) {
+            GeoGebraFrame inst, AppW app) {
 	    handleLoadFile(articleElement, app);
     }
 	
@@ -109,7 +109,7 @@ public class GeoGebraFrame extends VerticalPanel {
 	
 
 	private static void handleLoadFile(ArticleElement articleElement,
-			Application app) {
+			AppW app) {
 		View view = new View(articleElement, app);
 		fileLoader.setView(view);
 		fileLoader.onPageLoad();
@@ -118,7 +118,7 @@ public class GeoGebraFrame extends VerticalPanel {
 	/**
 	 * @return the application
 	 */
-	public AbstractApplication getApplication() {
+	public App getApplication() {
 		return app;
 	}
 
@@ -127,7 +127,7 @@ public class GeoGebraFrame extends VerticalPanel {
 	 * @param app
 	 *          the application
 	 */
-	public void setApplication(Application app) {
+	public void setApplication(AppW app) {
 		this.app = app;
 	}
 
@@ -137,8 +137,8 @@ public class GeoGebraFrame extends VerticalPanel {
 	 *          menus / ...)
 	 * @return the newly created instance of Application
 	 */
-	protected Application createApplication(ArticleElement ae, GeoGebraFrame gf) {
-		return new Application(ae, gf);
+	protected AppW createApplication(ArticleElement ae, GeoGebraFrame gf) {
+		return new AppW(ae, gf);
 	}
 
 	/**

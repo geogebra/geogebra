@@ -30,7 +30,7 @@ import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.plugin.EuclidianStyleConstants;
 
 
@@ -343,7 +343,7 @@ public final class DrawPoint extends Drawable {
 
 		default:
 			drawable = null;
-			AbstractApplication.debug("unsupported type for restriced drawing "
+			App.debug("unsupported type for restriced drawing "
 					+ geo2.getClass() + "");
 		}
 

@@ -23,7 +23,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.ParametricCurve;
 import geogebra.common.kernel.roots.RealRootUtil;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 
 
 /**
@@ -99,7 +99,7 @@ public class DrawParametricCurve extends Drawable {
 	 * Prints debug message
 	 */
 	public void  debug(){
-		AbstractApplication.debug("Pts: "+countPoints+"\nEvaluations: "+countEvaluations);
+		App.debug("Pts: "+countPoints+"\nEvaluations: "+countEvaluations);
 	}
 
 	/**

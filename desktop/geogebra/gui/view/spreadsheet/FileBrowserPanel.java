@@ -3,7 +3,7 @@ package geogebra.gui.view.spreadsheet;
 import geogebra.common.io.DocHandler;
 import geogebra.common.io.QDParser;
 import geogebra.gui.dialog.InputDialog;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -70,7 +70,7 @@ public class FileBrowserPanel extends JPanel implements ActionListener, TreeSele
 	private static final long serialVersionUID = 1L;
 	// components
 	private SpreadsheetView view;
-	private Application app;
+	private AppD app;
 	private FileBrowserPanel browserPanel;
 	private JTree tree;
 	private DefaultTreeModel treeModel;
@@ -145,7 +145,7 @@ public class FileBrowserPanel extends JPanel implements ActionListener, TreeSele
 		tree.addMouseListener ( new MouseAdapter ()
 		{
 			public void mousePressed (MouseEvent e) {
-				if(Application.isRightClick(e) && mode == MODE_FILE){		
+				if(AppD.isRightClick(e) && mode == MODE_FILE){		
 					//ContextMenu contextMenu = new ContextMenu();
 					FileBrowserMenu contextMenu = new FileBrowserMenu();
 					contextMenu.show(e.getComponent(), e.getX(),e.getY());

@@ -31,7 +31,7 @@ import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoFunctionNVar;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoVec2D;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.main.MyError;
 import geogebra.common.plugin.Operation;
 import geogebra.common.util.StringUtil;
@@ -51,7 +51,7 @@ import java.util.TreeSet;
 public class ExpressionNode extends ValidExpression implements
 		ExpressionNodeConstants, ReplaceChildrenByValues {
 
-	private AbstractApplication app;
+	private App app;
 	private Kernel kernel;
 	private ExpressionValue left, right;
 	private Operation operation = Operation.NO_OPERATION;
@@ -2168,7 +2168,7 @@ public class ExpressionNode extends ValidExpression implements
 				// check for 0 at right
 				if (valueForm
 						&& rightStr
-								.equals(AbstractApplication.unicodeZero + "")) {
+								.equals(App.unicodeZero + "")) {
 					break;
 				}
 
@@ -2257,9 +2257,9 @@ public class ExpressionNode extends ValidExpression implements
 
 				// check for degree sign or 1degree or degree1 (eg for Arabic)
 				else if (((rightStr.length() == 2) && (((rightStr.charAt(0) == Unicode.degreeChar) && (rightStr
-						.charAt(1) == (AbstractApplication.unicodeZero + 1))) || ((rightStr
+						.charAt(1) == (App.unicodeZero + 1))) || ((rightStr
 						.charAt(0) == Unicode.degreeChar) && (rightStr
-						.charAt(1) == (AbstractApplication.unicodeZero + 1)))))
+						.charAt(1) == (App.unicodeZero + 1)))))
 						|| rightStr.equals(Unicode.degree)) {
 
 					boolean rtl = app.isRightToLeftDigits(tpl);
@@ -4256,7 +4256,7 @@ public class ExpressionNode extends ValidExpression implements
 	}
 	
 	private void appendReduceFunction(StringBuilder sb, String string) {
-		AbstractApplication.debug(left.getClass());
+		App.debug(left.getClass());
 		if (left instanceof ListValue) {
 			sb.append("applyfunction(");
 			sb.append(string);

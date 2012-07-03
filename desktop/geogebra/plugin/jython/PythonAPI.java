@@ -48,7 +48,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.plugin.GgbAPI;
 import geogebra.common.plugin.Operation;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 /**
  * API for interaction with Python - could be used for other
@@ -619,7 +619,7 @@ public class PythonAPI {
 		}
 	}
 
-	public Application app;
+	public AppD app;
 	public Kernel kernel;
 	public Construction cons;
 	public AlgebraProcessor algProcessor;
@@ -632,7 +632,7 @@ public class PythonAPI {
 	 * @param app
 	 *            the running application instance
 	 */
-	private PythonAPI(Application app) {
+	private PythonAPI(AppD app) {
 		this.app = app;
 		this.kernel = app.getKernel();
 		this.cons = kernel.getConstruction();
@@ -643,7 +643,7 @@ public class PythonAPI {
 	 * Initialize the PythonAPI instance
 	 * @param app the application
 	 */
-	public static void init(Application app) {
+	public static void init(AppD app) {
 		if (instance == null) {
 			instance = new PythonAPI(app);
 		}

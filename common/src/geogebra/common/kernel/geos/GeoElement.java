@@ -58,7 +58,7 @@ import geogebra.common.kernel.commands.AlgebraProcessor;
 import geogebra.common.kernel.discrete.GraphAlgo;
 import geogebra.common.kernel.kernelND.GeoElementND;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.main.MyError;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.plugin.GeoClass;
@@ -474,10 +474,10 @@ public abstract class GeoElement extends ConstructionElement implements
 			// if ev isn't Graphics or Graphics 2, then also add 1st 2D
 			// euclidian view
 			if (!(ev.isDefault2D())) {
-				viewFlags.add(AbstractApplication.VIEW_EUCLIDIAN);
+				viewFlags.add(App.VIEW_EUCLIDIAN);
 			}
 		} else {
-			viewFlags.add(AbstractApplication.VIEW_EUCLIDIAN);
+			viewFlags.add(App.VIEW_EUCLIDIAN);
 		}
 	}
 
@@ -1193,7 +1193,7 @@ public abstract class GeoElement extends ConstructionElement implements
 			typePriority = 150;
 			break;
 		default: // shouldn't occur
-			AbstractApplication.debug("missing case in getDrawingPriority()");
+			App.debug("missing case in getDrawingPriority()");
 			typePriority = 160;
 		}
 
@@ -1707,7 +1707,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		default:
 			// case TOOLTIP_ALGEBRAVIEW_SHOWING:
 			if (!(app.isUsingFullGui() && app
-					.showView(AbstractApplication.VIEW_ALGEBRA))) {
+					.showView(App.VIEW_ALGEBRA))) {
 				return false;
 			}
 			return isAlgebraVisible(); // old behaviour
@@ -1738,7 +1738,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		case TOOLTIP_ALGEBRAVIEW_SHOWING:
 			if (!alwaysOn) {
 				if (!(app.isUsingFullGui() && app
-						.showView(AbstractApplication.VIEW_ALGEBRA))) {
+						.showView(App.VIEW_ALGEBRA))) {
 					return "";
 				}
 			}
@@ -4007,8 +4007,8 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @return localized type string for Algebra View
 	 */
 	public String translatedTypeStringForAlgebraView() {
-		AbstractApplication.debug(getTypeStringForAlgebraView());
-		AbstractApplication.debug(app.getPlain(getTypeStringForAlgebraView()));
+		App.debug(getTypeStringForAlgebraView());
+		App.debug(app.getPlain(getTypeStringForAlgebraView()));
 		return app.getPlain(getTypeStringForAlgebraView());
 	}
 
@@ -4834,12 +4834,12 @@ public abstract class GeoElement extends ConstructionElement implements
 			sb.append("\"");
 
 			int EVs = 0;
-			if (!isVisibleInView(AbstractApplication.VIEW_EUCLIDIAN)) {
+			if (!isVisibleInView(App.VIEW_EUCLIDIAN)) {
 				// Application.debug("visible in ev1");
 				EVs += 1; // bit 0
 			}
 
-			if (isVisibleInView(AbstractApplication.VIEW_EUCLIDIAN2)) {
+			if (isVisibleInView(App.VIEW_EUCLIDIAN2)) {
 				EVs += 2; // bit 1
 			}
 
@@ -6399,7 +6399,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	@SuppressWarnings("unused")
 	private void runPythonScript(final String arg, final boolean update) {
 
-		AbstractApplication.debug("running Python script: " + arg);
+		App.debug("running Python script: " + arg);
 		app.evalPythonScript(app, update ? updateScript : clickScript, arg);
 	}
 
@@ -6631,7 +6631,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 */
 	public boolean isVisibleInView3D() {
 		return hasDrawable3D()
-				&& (isGeoElement3D() || isVisibleInView(AbstractApplication.VIEW_EUCLIDIAN));
+				&& (isGeoElement3D() || isVisibleInView(App.VIEW_EUCLIDIAN));
 	}
 
 	/**
@@ -6813,7 +6813,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		if ((p instanceof GeoElement) && (p instanceof GeoPoint)) {
 			return distance((GeoPoint) p);
 		}
-		AbstractApplication.debug("TODO : distance from " + getClassName()
+		App.debug("TODO : distance from " + getClassName()
 				+ " to ND point");
 		return Double.POSITIVE_INFINITY;
 	}
@@ -7124,7 +7124,7 @@ public abstract class GeoElement extends ConstructionElement implements
 			}
 
 		} else {
-			AbstractApplication
+			App
 					.debug("error in getSpreadsheetTraceList(), not a NumberValue");
 			return null;
 		}

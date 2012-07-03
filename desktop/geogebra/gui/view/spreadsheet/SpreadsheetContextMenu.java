@@ -4,7 +4,7 @@ import geogebra.common.gui.view.spreadsheet.CellRange;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import geogebra.gui.dialog.options.OptionsDialog;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -57,7 +57,7 @@ public class SpreadsheetContextMenu extends JPopupMenu {
 	private int selectionType;
 
 	/** application */
-	protected Application app;
+	protected AppD app;
 
 	/** menu spreadsheet View */
 	protected SpreadsheetView view;
@@ -79,7 +79,7 @@ public class SpreadsheetContextMenu extends JPopupMenu {
 	public SpreadsheetContextMenu(MyTable table, boolean isShiftDown) {
 
 		this.table = table;
-		app = (Application) table.kernel.getApplication();
+		app = (AppD) table.kernel.getApplication();
 		cp = table.getCellRangeProcessor();
 		view = table.getView();
 
@@ -386,7 +386,7 @@ public class SpreadsheetContextMenu extends JPopupMenu {
 		// Import Data
 		// ===============================================
 
-		if (isEmptySelection() && Application.hasFullPermissions()) {
+		if (isEmptySelection() && AppD.hasFullPermissions()) {
 			item = new JMenuItem(app.getMenu("ImportDataFile") + " ...");
 			item.setIcon(app.getImageIcon("document-open.png"));
 			item.addActionListener(new ActionListener() {

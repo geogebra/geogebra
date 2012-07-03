@@ -1,9 +1,9 @@
 package geogebra.web.gui.menubar;
 
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.util.Language;
 import geogebra.web.gui.images.AppResources;
-import geogebra.web.main.Application;
+import geogebra.web.main.AppW;
 
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Window;
@@ -12,7 +12,7 @@ import com.google.gwt.user.client.ui.MenuItem;
 
 public class LanguageMenuW extends MenuBar {
 	
-	private AbstractApplication app;
+	private App app;
 	
 	private MenuBar atoDMenuBar;
 	private MenuBar etoIMenuBar;
@@ -21,7 +21,7 @@ public class LanguageMenuW extends MenuBar {
 	
 
 	
-	public LanguageMenuW(AbstractApplication app) {
+	public LanguageMenuW(App app) {
 		
 		super(true);
 		this.app = app;
@@ -60,10 +60,10 @@ public class LanguageMenuW extends MenuBar {
 	
 	private void addItems() {
 
-		for(int i=0; i < Application.getSupportedLanguages().size(); i++) {			
-			String languageCode = Application.getSupportedLanguages().get(i);
+		for(int i=0; i < AppW.getSupportedLanguages().size(); i++) {			
+			String languageCode = AppW.getSupportedLanguages().get(i);
 
-			String lang = Application.languageCodeVariationCrossReferencing(languageCode.replace(Application.AN_UNDERSCORE, ""));
+			String lang = AppW.languageCodeVariationCrossReferencing(languageCode.replace(AppW.AN_UNDERSCORE, ""));
 
 			if (Language.isEnabledInGWT(lang)) {
 
@@ -73,7 +73,7 @@ public class LanguageMenuW extends MenuBar {
 
 					char ch = languageName.toUpperCase().charAt(0);
 					
-					AbstractApplication.debug("Supported Languages: " + languageCode);										
+					App.debug("Supported Languages: " + languageCode);										
 
 					if(ch <= 'D') {
 

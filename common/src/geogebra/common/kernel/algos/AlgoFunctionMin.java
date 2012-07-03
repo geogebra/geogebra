@@ -20,7 +20,7 @@ import geogebra.common.kernel.geos.GeoFunctionable;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.optimization.ExtremumFinder;
 import geogebra.common.kernel.roots.RealRootFunction;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 
 
 /**
@@ -146,7 +146,7 @@ public class AlgoFunctionMin extends AlgoElement {
 	
     private final static void debug(String s) {
         if(DEBUG) {
-        	AbstractApplication.debug(s);
+        	App.debug(s);
         }//if()
     }//debug()       
     

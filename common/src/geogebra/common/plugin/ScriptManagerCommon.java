@@ -3,7 +3,7 @@ package geogebra.common.plugin;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,7 +11,7 @@ import java.util.HashMap;
 
 public abstract class ScriptManagerCommon {
 
-	protected AbstractApplication app;
+	protected App app;
 	protected boolean listenersEnabled = true;
 	// maps between GeoElement and JavaScript function names
 	protected HashMap<GeoElement, String> updateListenerMap;
@@ -83,7 +83,7 @@ public abstract class ScriptManagerCommon {
 			listenerList = new ArrayList<String>();			
 		}		
 		listenerList.add(jSFunctionName);				
-		AbstractApplication.debug(string + ": " + jSFunctionName);
+		App.debug(string + ": " + jSFunctionName);
 		
 	}
 
@@ -94,7 +94,7 @@ public abstract class ScriptManagerCommon {
 	public synchronized void unregisterAddListener(String JSFunctionName) {
 		if (addListeners != null) {
 			addListeners.remove(JSFunctionName);
-			AbstractApplication.debug("unregisterAddListener: " + JSFunctionName);
+			App.debug("unregisterAddListener: " + JSFunctionName);
 		}	
 	}	
 	
@@ -114,7 +114,7 @@ public abstract class ScriptManagerCommon {
 	public synchronized void unregisterRemoveListener(String JSFunctionName) {
 		if (removeListeners != null) {
 			removeListeners.remove(JSFunctionName);
-			AbstractApplication.debug("unregisterRemoveListener: " + JSFunctionName);
+			App.debug("unregisterRemoveListener: " + JSFunctionName);
 		}	
 	}	
 	
@@ -134,7 +134,7 @@ public abstract class ScriptManagerCommon {
 	public synchronized void unregisterClearListener(String JSFunctionName) {
 		if (clearListeners != null) {
 			clearListeners.remove(JSFunctionName);
-			AbstractApplication.debug("unregisterClearListener: " + JSFunctionName);
+			App.debug("unregisterClearListener: " + JSFunctionName);
 		}	
 	}	
 	
@@ -154,7 +154,7 @@ public abstract class ScriptManagerCommon {
 	public synchronized void unregisterRenameListener(String JSFunctionName) {
 		if (renameListeners != null) {
 			renameListeners.remove(JSFunctionName);
-			AbstractApplication.debug("unregisterRenameListener: " + JSFunctionName);
+			App.debug("unregisterRenameListener: " + JSFunctionName);
 		}	
 	}	
 	
@@ -174,7 +174,7 @@ public abstract class ScriptManagerCommon {
 	public synchronized void unregisterUpdateListener(String JSFunctionName) {
 		if (updateListeners != null) {
 			updateListeners.remove(JSFunctionName);
-			AbstractApplication.debug("unregisterUpdateListener: " + JSFunctionName);
+			App.debug("unregisterUpdateListener: " + JSFunctionName);
 		}	
 	}
 	
@@ -185,7 +185,7 @@ public abstract class ScriptManagerCommon {
 	public synchronized void unregisterPenListener(String JSFunctionName) {
 		if (penListeners != null) {
 			penListeners.remove(JSFunctionName);
-			AbstractApplication.debug("unregisterPenListener: " + JSFunctionName);
+			App.debug("unregisterPenListener: " + JSFunctionName);
 		}	
 	}
 	
@@ -218,7 +218,7 @@ public abstract class ScriptManagerCommon {
 		
 		// add map entry
 		updateListenerMap.put(geo, JSFunctionName);		
-		AbstractApplication.debug("registerUpdateListener: object: " + objName + ", function: " + JSFunctionName);
+		App.debug("registerUpdateListener: object: " + objName + ", function: " + JSFunctionName);
 	}
 	
 	/**
@@ -230,7 +230,7 @@ public abstract class ScriptManagerCommon {
 			GeoElement geo = app.getKernel().lookupLabel(objName);
 			if (geo != null) {
 				updateListenerMap.remove(geo);
-				AbstractApplication.debug("unregisterUpdateListener for object: " + objName);
+				App.debug("unregisterUpdateListener for object: " + objName);
 			}
 		}
 	}			
@@ -395,7 +395,7 @@ public abstract class ScriptManagerCommon {
 		}
 
 		public int getViewID() {
-			return AbstractApplication.VIEW_NONE;
+			return App.VIEW_NONE;
 		}
 
 		public boolean hasFocus() {

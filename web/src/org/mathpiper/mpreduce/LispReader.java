@@ -6,7 +6,7 @@ package org.mathpiper.mpreduce;
 
 import com.google.gwt.core.client.Scheduler.RepeatingCommand;
 
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 
 import java.io.IOException;
 import org.mathpiper.mpreduce.io.streams.InputStream;
@@ -544,7 +544,7 @@ public class LispReader implements RepeatingCommand {
                     	if (Jlisp.lispErr != null)
                     		Jlisp.lispErr.println(s + " not found");
                     	else
-                    		AbstractApplication.error("lispErr is null, " + s + " not found");
+                    		App.error("lispErr is null, " + s + " not found");
                     }
                 }
                 break;

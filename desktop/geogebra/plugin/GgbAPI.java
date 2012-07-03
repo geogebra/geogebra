@@ -13,11 +13,11 @@ package geogebra.plugin;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoImage;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.util.StringUtil;
 import geogebra.io.MyImageIO;
 import geogebra.kernel.EvalCommandQueue;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 import geogebra.util.Util;
 
 import java.awt.geom.Rectangle2D;
@@ -68,7 +68,7 @@ public class GgbAPI extends geogebra.common.plugin.GgbAPI {
     *  Called from GeoGebra.
     *  @param app Application
     */
-    public GgbAPI(Application app) {
+    public GgbAPI(AppD app) {
         this.app=app;
         kernel=app.getKernel();
         algebraprocessor=kernel.getAlgebraProcessor();
@@ -136,7 +136,7 @@ public class GgbAPI extends geogebra.common.plugin.GgbAPI {
 	public synchronized byte [] getGGBfile() {
 		try {
 			ByteArrayOutputStream bos = new ByteArrayOutputStream();
-			((Application) app).getXMLio().writeGeoGebraFile(bos, true);
+			((AppD) app).getXMLio().writeGeoGebraFile(bos, true);
 			bos.flush();
 			return bos.toByteArray();
 		} catch (IOException e) {
@@ -152,7 +152,7 @@ public class GgbAPI extends geogebra.common.plugin.GgbAPI {
 	public synchronized String getBase64(boolean includeThumbnail) {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		try {
-			((Application) app).getXMLio().writeGeoGebraFile(baos, includeThumbnail);
+			((AppD) app).getXMLio().writeGeoGebraFile(baos, includeThumbnail);
 			return geogebra.common.util.Base64.encode(baos.toByteArray(), 0);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -173,7 +173,7 @@ public class GgbAPI extends geogebra.common.plugin.GgbAPI {
 			e.printStackTrace();
 			return;
 		}
-		((Application) app).loadXML(zipFile);
+		((AppD) app).loadXML(zipFile);
 	}
 	
 	
@@ -248,7 +248,7 @@ public class GgbAPI extends geogebra.common.plugin.GgbAPI {
 	 * Note: this is especially useful together with evalCommand().
 	 */
 	public synchronized void setErrorDialogsActive(boolean flag) {
-		((Application) app).setErrorDialogsActive(flag);
+		((AppD) app).setErrorDialogsActive(flag);
 	}
 	
 	/**
@@ -264,7 +264,7 @@ public class GgbAPI extends geogebra.common.plugin.GgbAPI {
 	 * Clears the construction and resets all views.
 	 */
 	public synchronized void fileNew() {
-		((Application) app).fileNew();
+		((AppD) app).fileNew();
 	}
 	
 	/**
@@ -283,7 +283,7 @@ public class GgbAPI extends geogebra.common.plugin.GgbAPI {
 		try {
 			String lowerCase = StringUtil.toLowerCase(strURL);
 			URL url = new URL(strURL);
-			((Application) app).loadXML(url, lowerCase.endsWith(Application.FILE_EXT_GEOGEBRA_TOOL));
+			((AppD) app).loadXML(url, lowerCase.endsWith(AppD.FILE_EXT_GEOGEBRA_TOOL));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -315,7 +315,7 @@ public class GgbAPI extends geogebra.common.plugin.GgbAPI {
 		try {
 		
 			BufferedImage img =
-				((Application)app).getEuclidianView1().getExportImage(1);
+				((AppD)app).getEuclidianView1().getExportImage(1);
 			
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			ImageIO.write(img, StringUtil.toLowerCase(format), baos);
@@ -357,7 +357,7 @@ public class GgbAPI extends geogebra.common.plugin.GgbAPI {
 	 * signed applets only
 	 */
 	public synchronized boolean writePNGtoFile(String filename, final double exportScale, final boolean transparent, final double DPI) {
-		if (!Application.hasFullPermissions()) return false;
+		if (!AppD.hasFullPermissions()) return false;
 		File file1 = null;
 		try{
 		 file1 = new File(filename);
@@ -373,17 +373,17 @@ public class GgbAPI extends geogebra.common.plugin.GgbAPI {
 				try {			
 					// draw graphics view into image
 					BufferedImage img =
-							((Application)getApplication()).getEuclidianView1().getExportImage(exportScale, transparent); 
+							((AppD)getApplication()).getEuclidianView1().getExportImage(exportScale, transparent); 
 					
 					// write image to file
 					MyImageIO.write(img, "png", (float)DPI,  file);	
 					
 					return true;
 				} catch (Exception ex) {
-					AbstractApplication.debug(ex.toString());
+					App.debug(ex.toString());
 					return false;
 				} catch (Error ex) {
-					AbstractApplication.debug(ex.toString());
+					App.debug(ex.toString());
 					return false;
 				} 
 
@@ -400,7 +400,7 @@ public class GgbAPI extends geogebra.common.plugin.GgbAPI {
 	 */
 	public synchronized String getPNGBase64(double exportScale, boolean transparent, double DPI) {
 		BufferedImage img =
-				((Application)app).getEuclidianView1().getExportImage(exportScale, transparent); 
+				((AppD)app).getEuclidianView1().getExportImage(exportScale, transparent); 
 
 		
 	    try {
@@ -434,14 +434,14 @@ public class GgbAPI extends geogebra.common.plugin.GgbAPI {
 	 * @param JSFunctionName name of logger listener function
 	 */
 	public synchronized void registerLoggerListener(String JSFunctionName) {
-		((Application)app).getScriptManager().getUSBFunctions().registerLoggerListener(JSFunctionName);
+		((AppD)app).getScriptManager().getUSBFunctions().registerLoggerListener(JSFunctionName);
 	}
 
 	/**
 	 * @param JSFunctionName name of logger listener function
 	 */
 	public synchronized void unregisterLoggerListener(String JSFunctionName) {
-		((Application)app).getScriptManager().getUSBFunctions().unregisterLoggerListener(JSFunctionName);
+		((AppD)app).getScriptManager().getUSBFunctions().unregisterLoggerListener(JSFunctionName);
 	}
 
 	public void drawToImage(String label, double[] x, double[] y) {
@@ -461,7 +461,7 @@ public class GgbAPI extends geogebra.common.plugin.GgbAPI {
 			return;
 		}
 		
-		((Application)app).getEuclidianView1().drawPoints((GeoImage)ge,x,y);
+		((AppD)app).getEuclidianView1().drawPoints((GeoImage)ge,x,y);
 		
 	}
 
@@ -484,7 +484,7 @@ public class GgbAPI extends geogebra.common.plugin.GgbAPI {
 	 */
 	public String prompt(Object value0, Object value1) {
 		return (String)JOptionPane.showInputDialog(
-				((Application)app).getFrame(),
+				((AppD)app).getFrame(),
         value0,
         "GeoGebra",
         JOptionPane.PLAIN_MESSAGE,
@@ -502,7 +502,7 @@ public class GgbAPI extends geogebra.common.plugin.GgbAPI {
 	 */
 	public void alert(String message) {
 		Object[] options = {app.getPlain("StopScript"), app.getPlain("OK")};
-		int n = JOptionPane.showOptionDialog(((Application)app).getFrame(),
+		int n = JOptionPane.showOptionDialog(((AppD)app).getFrame(),
 				message,
 			    "GeoGebra",
 			    JOptionPane.YES_NO_OPTION,

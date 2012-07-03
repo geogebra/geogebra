@@ -2,7 +2,7 @@ package geogebra.common.util;
 
 import geogebra.common.kernel.algos.AlgoElement;
 
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 
 import java.util.Iterator;
 
@@ -223,7 +223,7 @@ public abstract class Prover {
 	public void decideStatement() {
 		// Step 1: Checking if the statement is null.
 		if (statement == null) {
-			AbstractApplication.error("No statement to prove");
+			App.error("No statement to prove");
 			result = ProofResult.UNKNOWN;
 			return;
 		}
@@ -248,7 +248,7 @@ public abstract class Prover {
 		}
 		
 		// Step 4: AUTO prover
-		AbstractApplication.debug("Using " + engine);
+		App.debug("Using " + engine);
 		Iterator<ProverEngine> it = proverAutoOrder.iterator();
 		result = ProofResult.UNKNOWN;
 		while (result == ProofResult.UNKNOWN && it.hasNext()) {
@@ -258,18 +258,18 @@ public abstract class Prover {
 	}
 
 	private void callEngine(ProverEngine currentEngine) {
-		AbstractApplication.debug("Using " + currentEngine);
+		App.debug("Using " + currentEngine);
 		ndgConditions = new HashSet<NDGCondition>(); // reset
 		if (currentEngine == ProverEngine.BOTANAS_PROVER) {
 			// Botana's prover needs singularWS.
 			// So don't try to use it if singularWS is not available:
-			if (AbstractApplication.singularWS == null) {
-				AbstractApplication.debug(currentEngine + " cannot be used, since singularWS is null");
+			if (App.singularWS == null) {
+				App.debug(currentEngine + " cannot be used, since singularWS is null");
 				result = ProofResult.UNKNOWN;
 				return;
 			}
-			if (!AbstractApplication.singularWS.isAvailable()) {
-				AbstractApplication.debug(currentEngine + " cannot be used, since singularWS is unavailable");
+			if (!App.singularWS.isAvailable()) {
+				App.debug(currentEngine + " cannot be used, since singularWS is unavailable");
 				result = ProofResult.UNKNOWN;
 				return;
 			}

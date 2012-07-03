@@ -10,7 +10,7 @@ import geogebra.common.kernel.algos.ConstructionElement;
 import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.cas.AsynchronousCommand;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -55,7 +55,7 @@ public class CASmpreduce extends AbstractCASmpreduce {
 			} catch (Throwable e) {
 			}*/
 
-			AbstractApplication.setCASVersionString(getVersionString(mpreduce_static));
+			App.setCASVersionString(getVersionString(mpreduce_static));
 		}
 
 		return mpreduce_static;
@@ -147,7 +147,7 @@ public class CASmpreduce extends AbstractCASmpreduce {
 	public void evaluateGeoGebraCASAsync(
 			 final AsynchronousCommand cmd 
 			) {
-		AbstractApplication.debug("about to start some thread");
+		App.debug("about to start some thread");
 		if(!queue.contains(cmd))
 			queue.add(cmd);
 		
@@ -155,7 +155,7 @@ public class CASmpreduce extends AbstractCASmpreduce {
 		casThread = new Thread(){
 			@Override
 			public void run(){
-				AbstractApplication.debug("thread is starting");
+				App.debug("thread is starting");
 				while(queue.size()>0){
 					AsynchronousCommand command = queue.get(0);
 					String input = command.getCasInput();
@@ -171,14 +171,14 @@ public class CASmpreduce extends AbstractCASmpreduce {
 								StringTemplate.defaultTemplate);
 						CASAsyncFinished(inVE, result, null, command,  input);
 					}catch(Throwable exception){
-						AbstractApplication.debug("exception handling ...");
+						App.debug("exception handling ...");
 						exception.printStackTrace();
 						result ="";
 						CASAsyncFinished(inVE, result,exception, command, input);
 					}
 					
 				}
-				AbstractApplication.debug("thread is quiting");
+				App.debug("thread is quiting");
 			}
 		};
 		}

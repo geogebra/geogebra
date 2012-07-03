@@ -7,12 +7,12 @@ import geogebra.common.awt.GGraphics2D;
 import geogebra.common.awt.GRectangle;
 import geogebra.common.awt.GShape;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 
 public class EuclidianStaticW extends geogebra.common.euclidian.EuclidianStatic {
 
 	@Override
-	protected GRectangle doDrawMultilineLaTeX(AbstractApplication app,
+	protected GRectangle doDrawMultilineLaTeX(App app,
 	        GGraphics2D tempGraphics, GeoElement geo, GGraphics2D g2, GFont font,
 	        GColor fgColor, GColor bgColor, String labelDesc, int x,
 	        int y, boolean serif) {
@@ -33,7 +33,7 @@ public class EuclidianStaticW extends geogebra.common.euclidian.EuclidianStatic 
 	protected void doFillWithValueStrokePure(GShape shape, GGraphics2D g2) {
 		g2.fill(shape);
 
-		AbstractApplication.debug("implementation needed or OK");
+		App.debug("implementation needed or OK");
 		// TODO can we emulate somehow the "pure stroke" behavior?
 	}
 
@@ -41,7 +41,7 @@ public class EuclidianStaticW extends geogebra.common.euclidian.EuclidianStatic 
 	protected void doDrawWithValueStrokePure(GShape shape, GGraphics2D g2) {
 		g2.draw(shape);
 
-		AbstractApplication.debug("implementation needed or OK");
+		App.debug("implementation needed or OK");
 		// TODO can we emulate somehow the "pure stroke" behavior?
 	}
 

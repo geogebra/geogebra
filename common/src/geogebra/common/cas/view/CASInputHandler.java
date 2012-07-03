@@ -7,7 +7,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 
 public class CASInputHandler {
 
@@ -720,7 +720,7 @@ public class CASInputHandler {
 		switch (delimiter) {
 		case GeoCasCell.ROW_REFERENCE_DYNAMIC:
 		case GeoCasCell.ROW_REFERENCE_STATIC:
-			AbstractApplication.debug(selectedRow + ": " + str);
+			App.debug(selectedRow + ": " + str);
 
 			boolean foundReference = false;
 			boolean addParentheses = false;

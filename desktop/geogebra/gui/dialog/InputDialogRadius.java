@@ -6,7 +6,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowEvent;
@@ -33,7 +33,7 @@ public abstract class InputDialogRadius extends InputDialog{
 	 * @param handler
 	 * @param kernel
 	 */
-	public InputDialogRadius(Application app, String title, InputHandler handler, Kernel kernel) {
+	public InputDialogRadius(AppD app, String title, InputHandler handler, Kernel kernel) {
 		super(app, app.getPlain("Radius"), title, "", false, handler);
 		
 		this.kernel = kernel;

@@ -4,7 +4,7 @@ import geogebra.common.awt.GPoint;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.FunctionalNVar;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 
 import com.google.gwt.regexp.shared.MatchResult;
 import com.google.gwt.regexp.shared.RegExp;
@@ -160,7 +160,7 @@ public class GeoElementSpreadsheet {
 	 * @param cellGeo source element
 	 */
 	
-	public void setSpreadsheetCell(AbstractApplication app, int row, int col,
+	public void setSpreadsheetCell(App app, int row, int col,
 			GeoElement cellGeo) {
 		String cellName = getSpreadsheetCellName(col, row);
 

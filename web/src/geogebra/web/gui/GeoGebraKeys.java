@@ -1,11 +1,11 @@
 package geogebra.web.gui;
 
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.main.GWTKeycodes;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
-import geogebra.web.main.Application;
+import geogebra.web.main.AppW;
 
 import com.google.gwt.event.dom.client.HasKeyPressHandlers;
 import com.google.gwt.event.dom.client.KeyDownEvent;
@@ -31,9 +31,9 @@ public class GeoGebraKeys implements KeyDownHandler, KeyUpHandler {
 
 	private boolean altPressed;
 	
-	Application app;
+	AppW app;
 
-	public GeoGebraKeys(Application app) {
+	public GeoGebraKeys(AppW app) {
 		this.app = app;
 	}
 	

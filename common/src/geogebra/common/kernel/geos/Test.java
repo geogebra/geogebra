@@ -26,7 +26,7 @@ import geogebra.common.kernel.kernelND.GeoQuadricND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
 import geogebra.common.kernel.kernelND.Region3D;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 
 
 /***
@@ -461,7 +461,7 @@ Test {
 	public static Test getSpecificTest(Object obj) {
 		for (Test t : Test.values()) {
 			if (t.check(obj)) {
-				AbstractApplication.debug(t);
+				App.debug(t);
 				return t;
 			}
 		}

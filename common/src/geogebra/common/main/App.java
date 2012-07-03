@@ -66,7 +66,7 @@ import java.util.Random;
 import java.util.Set;
 import java.util.TreeSet;
 @SuppressWarnings("javadoc")
-public abstract class AbstractApplication {
+public abstract class App {
 	protected ScriptManagerCommon scriptManager = null;
 	public static final String LOADING_GIF = "http://www.geogebra.org/webstart/loading.gif";
 
@@ -1586,7 +1586,7 @@ public abstract class AbstractApplication {
 		return Character.isSpace(charAt);
 	}
 
-	public abstract void evalJavaScript(AbstractApplication app, String script,
+	public abstract void evalJavaScript(App app, String script,
 			String arg);
 
 	private int[] version = null;
@@ -2296,12 +2296,12 @@ public abstract class AbstractApplication {
 
 
 	public void addToEuclidianView(GeoElement geo) {
-		geo.addView(AbstractApplication.VIEW_EUCLIDIAN);
+		geo.addView(App.VIEW_EUCLIDIAN);
 		getEuclidianView1().add(geo);
 	}
 
 	public void removeFromEuclidianView(GeoElement geo) {
-		geo.removeView(AbstractApplication.VIEW_EUCLIDIAN);
+		geo.removeView(App.VIEW_EUCLIDIAN);
 		getEuclidianView1().remove(geo);
 	}
 
@@ -2339,7 +2339,7 @@ public abstract class AbstractApplication {
 
 	public abstract GlobalKeyDispatcher getGlobalKeyDispatcher();
 
-	public abstract void evalPythonScript(AbstractApplication app, String string,
+	public abstract void evalPythonScript(App app, String string,
 			String arg);
 
 	public abstract void callAppletJavaScript(String string, Object[] args);
@@ -2943,7 +2943,7 @@ public abstract class AbstractApplication {
 					}
 				}
 			} catch (Exception e) {
-				AbstractApplication
+				App
 						.debug("Application.getModeText(): macro does not exist: ID = "
 								+ macroID);
 				// e.printStackTrace();

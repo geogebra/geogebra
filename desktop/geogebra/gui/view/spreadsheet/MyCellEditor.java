@@ -4,10 +4,10 @@ import geogebra.common.gui.view.spreadsheet.RelativeCopy;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementSpreadsheet;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.gui.inputfield.AutoCompleteTextFieldD;
 import geogebra.gui.virtualkeyboard.VirtualKeyboard;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.Component;
 import java.awt.event.FocusEvent;
@@ -30,7 +30,7 @@ public class MyCellEditor extends DefaultCellEditor implements FocusListener {
 	private static final long serialVersionUID = 1L;
 
 	protected Kernel kernel;
-	protected Application app;
+	protected AppD app;
 	protected GeoElement value;
 	protected MyTable table;
 	private AutoCompleteTextFieldD textField;
@@ -53,9 +53,9 @@ public class MyCellEditor extends DefaultCellEditor implements FocusListener {
 
 	public MyCellEditor(Kernel kernel) {
 
-		super(new AutoCompleteTextFieldD(0, (Application)kernel.getApplication(), false));
+		super(new AutoCompleteTextFieldD(0, (AppD)kernel.getApplication(), false));
 		this.kernel = kernel;
-		app = (Application)kernel.getApplication();
+		app = (AppD)kernel.getApplication();
 		textField = (AutoCompleteTextFieldD) editorComponent;
 
 		editorComponent.addKeyListener(new SpreadsheetCellEditorKeyListener(false));		
@@ -385,7 +385,7 @@ public class MyCellEditor extends DefaultCellEditor implements FocusListener {
 
 			case KeyEvent.VK_TAB:
 				if(isFormulaBarListener) return;
-				AbstractApplication.debug(" tab");
+				App.debug(" tab");
 				//Application.debug("RIGHT");
 				// shift-tab moves left
 				// tab moves right

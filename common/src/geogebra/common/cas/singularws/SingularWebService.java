@@ -1,7 +1,7 @@
 package geogebra.common.cas.singularws;
 
 import geogebra.common.factories.UtilFactory;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.util.HttpRequest;
 import geogebra.common.util.URLEncoder;
 
@@ -16,11 +16,11 @@ public class SingularWebService {
 
 	private final int GET_REQUEST_MAX_SIZE = 2000;
 	
-	private int timeout = AbstractApplication.singularWebServiceTimeout;
+	private int timeout = App.singularWebServiceTimeout;
 	private final String testConnectionCommand = "t";
 	private final String singularDirectCommand = "s";
 	
-	private String wsHost = AbstractApplication.singularWebServiceRemoteURL;
+	private String wsHost = App.singularWebServiceRemoteURL;
 	private Boolean available; 
 	
 	/**
@@ -115,12 +115,12 @@ public class SingularWebService {
 	 * unless it is disabled by a command line option.
 	 */
 	public void enable() {
-		if (!AbstractApplication.useSingularWebService) {
-			AbstractApplication.debug("SingularWS connection disabled by command line option");
+		if (!App.useSingularWebService) {
+			App.debug("SingularWS connection disabled by command line option");
 			this.available = false;
 			return;
 		}
-		AbstractApplication.debug("Trying to enable SingularWS connection");
+		App.debug("Trying to enable SingularWS connection");
 		Boolean tc = testConnection();
 		if (tc != null && tc) {
 			this.available = true;

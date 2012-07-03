@@ -1,7 +1,7 @@
 package geogebra.gui;
 
 import geogebra.gui.inputfield.MyTextField;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -20,7 +20,7 @@ public class AngleTextField extends MyTextField implements KeyListener {
 
 	private static final long serialVersionUID = 1L;
 
-	public AngleTextField(int columns, Application app) {
+	public AngleTextField(int columns, AppD app) {
 		super(app, columns);
 		this.addKeyListener(this);
 	}
@@ -35,7 +35,7 @@ public class AngleTextField extends MyTextField implements KeyListener {
 
 	public void keyReleased(KeyEvent e) {   
 		
-		boolean modifierKeyPressed = Application.MAC_OS ? e.isControlDown() : e.isAltDown();
+		boolean modifierKeyPressed = AppD.MAC_OS ? e.isControlDown() : e.isAltDown();
 
 		// we don't want to act when AltGr is down
 		// as it is used eg for entering {[}] is some locales

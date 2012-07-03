@@ -4,7 +4,7 @@ import geogebra.common.awt.GAffineTransform;
 import geogebra.common.awt.GPathIterator;
 import geogebra.common.awt.GRectangle;
 import geogebra.common.awt.GRectangle2D;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.Shape;
 
@@ -68,7 +68,7 @@ public class GGenericRectangle2DD implements geogebra.awt.GRectangle2DD{
 		} else if(r2d instanceof geogebra.awt.GRectangleD){
 			return ((geogebra.awt.GRectangleD)r2d).impl;
 		}
-		if (r2d!= null) Application.debug("other type");
+		if (r2d!= null) AppD.debug("other type");
 		return null;
 		
 	}

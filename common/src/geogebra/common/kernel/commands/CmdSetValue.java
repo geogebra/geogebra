@@ -11,7 +11,7 @@ import geogebra.common.kernel.geos.GeoFunctionable;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.statistics.SetRandomValue;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.main.MyError;
 import geogebra.common.plugin.Operation;
 
@@ -96,7 +96,7 @@ public class CmdSetValue extends CmdScripting {
 						geo.set(arg[2]);						
 					}
 				}
-				else AbstractApplication.debug(geo.getParentAlgorithm());
+				else App.debug(geo.getParentAlgorithm());
 
 				geo.updateRepaint();
 

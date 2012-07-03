@@ -6,7 +6,7 @@ import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.gui.GuiManagerD;
 import geogebra.gui.color.GeoGebraColorChooser;
 import geogebra.gui.dialog.PropertiesPanel;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -37,7 +37,7 @@ public class OptionsDefaultsD extends OptionsDefaults implements OptionPanelD, T
 	/**
 	 * An instance of the GeoGebra application.
 	 */
-	private Application app;
+	private AppD app;
 
 	/**
 	 * The panel with the tabs for the different properties.
@@ -96,7 +96,7 @@ public class OptionsDefaultsD extends OptionsDefaults implements OptionPanelD, T
 	 * 
 	 * @param app
 	 */
-	public OptionsDefaultsD(Application app) {
+	public OptionsDefaultsD(AppD app) {
 		this.app = app;
 		this.wrappedPanel = new JPanel();
 

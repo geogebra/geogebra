@@ -117,10 +117,10 @@ public enum KeyCodes {
 			if (l.GWTKey == gwtKeyCode) {
 				return l;
 			}
-			AbstractApplication.debug(gwtKeyCode);
+			App.debug(gwtKeyCode);
 		}
 		
-		AbstractApplication.warn("GWT keycode not found:"+gwtKeyCode);
+		App.warn("GWT keycode not found:"+gwtKeyCode);
 		return UNKNOWN;
 
 	}
@@ -132,7 +132,7 @@ public enum KeyCodes {
 			}
 		}
 		
-		AbstractApplication.warn("Java keycode not found:"+javaKeyCode);
+		App.warn("Java keycode not found:"+javaKeyCode);
 		return UNKNOWN;
 
 	}

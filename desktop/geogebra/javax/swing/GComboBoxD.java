@@ -9,7 +9,7 @@ import geogebra.common.awt.GRectangle;
 import geogebra.common.euclidian.event.ActionListener;
 import geogebra.common.gui.inputfield.AutoCompleteTextField;
 import geogebra.common.javax.swing.AbstractJComboBox;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 
 /**
  * Wrapper for javax.swing.Box

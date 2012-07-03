@@ -24,9 +24,9 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Macro;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.util.StringUtil;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 import geogebra.util.Util;
 
 import java.awt.image.BufferedImage;
@@ -158,9 +158,9 @@ public class MyXMLio extends geogebra.common.io.MyXMLio{
 				// try to load image
 				try {
 					BufferedImage img = ImageIO.read(zip);
-					((Application)app).addExternalImage(name, img);
+					((AppD)app).addExternalImage(name, img);
 				} catch (IOException e) {
-					AbstractApplication
+					App
 							.debug("readZipFromURL: image could not be loaded: "
 									+ name);
 					e.printStackTrace();
@@ -295,13 +295,13 @@ public class MyXMLio extends geogebra.common.io.MyXMLio{
 		// handle construction step stored in XMLhandler
 		// do this only if the construction protocol navigation is showing	
 		if (!isGGTFile && oldVal &&
-				((Application)app).showConsProtNavigation()) 
+				((AppD)app).showConsProtNavigation()) 
 		{
 				//app.getGuiManager().setConstructionStep(handler.getConsStep());
 
 			if (app.getGuiManager() != null)
 				// if there is a ConstructionProtocolView, then update its navigation bars
-				((Application)app).getGuiManager().getConstructionProtocolView().setConstructionStep(handler.getConsStep());
+				((AppD)app).getGuiManager().getConstructionProtocolView().setConstructionStep(handler.getConsStep());
 			else
 				// otherwise this is not needed 
 				app.getKernel().getConstruction().setStep(handler.getConsStep());
@@ -396,7 +396,7 @@ public class MyXMLio extends geogebra.common.io.MyXMLio{
 			
 			// Do the same with Python file
 			zip.putNextEntry(new ZipEntry(PYTHON_FILE));
-			osw.write(((Application) app).getCurrentPythonScript());
+			osw.write(((AppD) app).getCurrentPythonScript());
 			osw.flush();
 			zip.closeEntry();
 			
@@ -510,7 +510,7 @@ public class MyXMLio extends geogebra.common.io.MyXMLio{
 				 
 		try {
 			//BufferedImage img = app.getExportImage(exportScale);
-			BufferedImage img = ((Application)app).getExportImage(THUMBNAIL_PIXELS_X,THUMBNAIL_PIXELS_Y);
+			BufferedImage img = ((AppD)app).getExportImage(THUMBNAIL_PIXELS_X,THUMBNAIL_PIXELS_Y);
 			if (img != null)
 				writeImageToZip(zip, fileName, img);
 		} catch (Exception e) { } // catch error if size is zero
@@ -536,7 +536,7 @@ public class MyXMLio extends geogebra.common.io.MyXMLio{
 
 			// save macro icon
 			String fileName = macro.getIconFileName();
-			BufferedImage img = ((Application)app).getExternalImage(fileName);
+			BufferedImage img = ((AppD)app).getExternalImage(fileName);
 			if (img != null)
 				writeImageToZip(zip, filePath + fileName, img);
 		}
@@ -582,12 +582,12 @@ public class MyXMLio extends geogebra.common.io.MyXMLio{
 				javax.imageio.ImageIO.setUseCache(useCache);
 			}
 		} catch (Exception e) {
-			AbstractApplication.debug(e.getMessage());
+			App.debug(e.getMessage());
 			try {
 				// if this did not work save image as png
 				ImageIO.write(img, "png", os);
 			} catch (Exception ex) {
-				AbstractApplication.debug(ex.getMessage());
+				App.debug(ex.getMessage());
 				return;
 			}
 		}
@@ -612,7 +612,7 @@ public class MyXMLio extends geogebra.common.io.MyXMLio{
 	 * undo.
 	 */
 	public synchronized StringBuilder getUndoXML(Construction c) {
-		Application app = (Application) c.getApplication();
+		AppD app = (AppD) c.getApplication();
 
 		StringBuilder sb = new StringBuilder();
 		addXMLHeader(sb);

@@ -17,7 +17,7 @@ import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 
 
 
@@ -300,7 +300,7 @@ public final class DrawText extends Drawable {
 			// if (isLaTeX) {
 			// //setEqnFontSize();
 			// } else {
-			AbstractApplication app = view.getApplication();
+			App app = view.getApplication();
 			textFont = app.getFontCanDisplay(text.getTextString(), serifFont,
 					fontStyle, fontSize);
 			// }

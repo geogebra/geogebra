@@ -5,7 +5,7 @@ import geogebra.common.kernel.algos.AlgoBoxPlot;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 /**
  * Drawable representation of box plots
  *
@@ -50,7 +50,7 @@ public class DrawBoxPlot extends Drawable {
 					g2.draw(gp);
 				}
 			} catch (Exception e) {
-				AbstractApplication.debug(e.getMessage());
+				App.debug(e.getMessage());
 			}
 
 			try {
@@ -68,7 +68,7 @@ public class DrawBoxPlot extends Drawable {
 					g2.draw(gp);
 				}
 			} catch (Exception e) {
-				AbstractApplication.debug(e.getMessage());
+				App.debug(e.getMessage());
 			}
 
 			if (labelVisible) {

@@ -31,7 +31,7 @@ import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.plugin.EuclidianStyleConstants;
 
 
@@ -176,7 +176,7 @@ public abstract class Drawable extends DrawableND {
 				serif = ((GeoText) geo).isSerifFont();
 			int offsetY = 10 + view.getFontSize(); // make sure LaTeX labels don't go
 												// off bottom of screen
-			AbstractApplication app = view.getApplication();
+			App app = view.getApplication();
 			GDimension dim = app.getDrawEquation().
 					drawEquation(geo.getKernel()
 					.getApplication(), geo, g2, xLabel, yLabel - offsetY, label

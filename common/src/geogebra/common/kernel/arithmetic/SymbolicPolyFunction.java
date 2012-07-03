@@ -13,7 +13,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.arithmetic;
 
 import geogebra.common.kernel.StringTemplate;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 
 
 /**
@@ -88,11 +88,11 @@ public class SymbolicPolyFunction extends PolyFunction {
 			 }
 			 return true;
 		} catch (Exception e) {
-			AbstractApplication.debug("updateCoeffValues: ");
+			App.debug("updateCoeffValues: ");
 			e.printStackTrace();
 			return false;
 		}	catch (Error err) {
-			AbstractApplication.debug("updateCoeffValues: ");
+			App.debug("updateCoeffValues: ");
 			err.printStackTrace();
 			return false;
 		}

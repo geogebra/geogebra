@@ -1,10 +1,10 @@
 package geogebra.web.helper;
 
 import geogebra.common.GeoGebraConstants;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.web.Web;
 import geogebra.web.gui.util.GeoGebraFileChooser;
-import geogebra.web.main.Application;
+import geogebra.web.main.AppW;
 import geogebra.web.presenter.LoadFilePresenter;
 import geogebra.web.util.JSON;
 
@@ -33,7 +33,7 @@ public class MyGoogleApis {
 		try {
 			Request request = builder.sendRequest(null, new RequestCallback() {
 				public void onError(Request request, Throwable exception) {
-					AbstractApplication.error(exception.getLocalizedMessage());
+					App.error(exception.getLocalizedMessage());
 				}
 				
 				public void onResponseReceived(Request request, Response response) {
@@ -45,7 +45,7 @@ public class MyGoogleApis {
 				}
 			});
         } catch (Exception e) {
-	       AbstractApplication.error(e.getLocalizedMessage());
+	       App.error(e.getLocalizedMessage());
         }
     }
 
@@ -82,10 +82,10 @@ public class MyGoogleApis {
 		JSON.put(file, "title", fileName);
 		JSON.put(file, "description", description);
 		JSON.put(file, "mimeType", GeoGebraConstants.GGW_MIME_TYPE);
-		JSON.put(file, "resource_id", Application.currentFileId);
+		JSON.put(file, "resource_id", AppW.currentFileId);
 		
 		String url = "/svc";
-		Method method = Application.currentFileId.equals("") ? RequestBuilder.POST : RequestBuilder.PUT;
+		Method method = AppW.currentFileId.equals("") ? RequestBuilder.POST : RequestBuilder.PUT;
 		
 		RequestBuilder builder = new RequestBuilder(method, URL.encode(url));
 		builder.setHeader("Content-Type", "application/json");
@@ -94,16 +94,16 @@ public class MyGoogleApis {
 				
 				public void onResponseReceived(Request request, Response response) {
 					geogebrafilechooser.hide();
-					Application.currentFileId = response.getText().replace("\"", "");
+					AppW.currentFileId = response.getText().replace("\"", "");
 					geogebrafilechooser.saveSuccess(fileName, description, fileContent);
 				}
 				
 				public void onError(Request request, Throwable exception) {
-					AbstractApplication.error(exception.getLocalizedMessage());
+					App.error(exception.getLocalizedMessage());
 				}
 			});
         } catch (Exception e) {
-        	  AbstractApplication.error(e.getLocalizedMessage());
+        	  App.error(e.getLocalizedMessage());
         }
     }
 
@@ -133,7 +133,7 @@ public class MyGoogleApis {
 				}
 				
 				public void onError(Request request, Throwable exception) {
-					AbstractApplication.error(exception.getLocalizedMessage());
+					App.error(exception.getLocalizedMessage());
 				}
 			});
         } catch (Exception e) {

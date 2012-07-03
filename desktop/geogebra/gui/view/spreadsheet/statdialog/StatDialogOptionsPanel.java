@@ -1,6 +1,6 @@
 package geogebra.gui.view.spreadsheet.statdialog;
 
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.Dimension;
 import java.awt.Font;
@@ -17,7 +17,7 @@ import javax.swing.JPanel;
 
 public class StatDialogOptionsPanel extends JPanel implements  ActionListener, StatPanelInterface{
 	private static final long serialVersionUID = 1L;
-	private Application app;
+	private AppD app;
 	private StatDialog statDialog;
 	
 	private JCheckBox cbShowData, cbShowCombo2;
@@ -41,7 +41,7 @@ public class StatDialogOptionsPanel extends JPanel implements  ActionListener, S
 		cbShowStats.addActionListener(this);
 	}
 
-	public StatDialogOptionsPanel(Application app, StatDialog statDialog){
+	public StatDialogOptionsPanel(AppD app, StatDialog statDialog){
 
 		this.app = app;
 		this.statDialog = statDialog;

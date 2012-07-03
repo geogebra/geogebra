@@ -56,7 +56,7 @@ import geogebra.common.kernel.prover.ProverReciosMethod;
 import geogebra.common.kernel.prover.Variable;
 import geogebra.common.kernel.prover.NoSymbolicParametersException;
 import geogebra.common.kernel.prover.Polynomial;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.plugin.Operation;
@@ -1139,7 +1139,7 @@ final public class GeoPoint extends GeoVec3D implements VectorValue,
 				break;
 
 			default:
-				sbBuildValueString.append(AbstractApplication.unicodeComma);
+				sbBuildValueString.append(App.unicodeComma);
 				sbBuildValueString.append(" ");
 			}
 			sbBuildValueString.append(kernel.format(getInhomY(), tpl));

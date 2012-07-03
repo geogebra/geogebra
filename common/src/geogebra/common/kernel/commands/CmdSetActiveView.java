@@ -3,7 +3,7 @@ package geogebra.common.kernel.commands;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.main.MyError;
 
 /**
@@ -39,22 +39,22 @@ public class CmdSetActiveView extends CmdScripting {
 				// ignore all errors (eg when a view is not available etc)
 				switch (view) {
 				case 1:
-					app.setActiveView(AbstractApplication.VIEW_EUCLIDIAN);
+					app.setActiveView(App.VIEW_EUCLIDIAN);
 					 break;
 				case 2:
-					app.setActiveView(AbstractApplication.VIEW_EUCLIDIAN2);
+					app.setActiveView(App.VIEW_EUCLIDIAN2);
 					 break;
 				case 3:
-					app.setActiveView(AbstractApplication.VIEW_EUCLIDIAN3D);
+					app.setActiveView(App.VIEW_EUCLIDIAN3D);
 					 break;
 				case -1:
-					app.setActiveView(AbstractApplication.VIEW_SPREADSHEET);
+					app.setActiveView(App.VIEW_SPREADSHEET);
 					 break;
 				case -2:
-					app.setActiveView(AbstractApplication.VIEW_ALGEBRA);
+					app.setActiveView(App.VIEW_ALGEBRA);
 					 break;
 				case -3:
-					app.setActiveView(AbstractApplication.VIEW_CAS);
+					app.setActiveView(App.VIEW_CAS);
 					 break;
 				// default: // might be needed when support for more than 2 Euclidian Views added 
 				}

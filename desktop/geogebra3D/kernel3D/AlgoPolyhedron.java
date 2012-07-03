@@ -5,7 +5,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 
 /**
  * @author ggb3D
@@ -81,7 +81,7 @@ public abstract class AlgoPolyhedron extends AlgoElement3D{
 	 */
 	protected void setIsOldFileVersion(){
 		isOldFileVersion = GeoGebraConstants.IS_PRE_RELEASE 
-				&& app.fileVersionBefore(AbstractApplication.getSubValues("4.9.10.0"));
+				&& app.fileVersionBefore(App.getSubValues("4.9.10.0"));
 	}
 	
 	/**

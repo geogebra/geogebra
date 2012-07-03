@@ -3,9 +3,9 @@ package geogebra.gui.menubar;
 import geogebra.common.gui.view.properties.PropertiesView.OptionType;
 import geogebra.common.io.MyXMLHandler;
 import geogebra.common.kernel.Kernel;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.util.Language;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 import geogebra.main.GeoGebraPreferences;
 
 import java.awt.Font;
@@ -42,7 +42,7 @@ public class OptionsMenu extends BaseMenu implements ActionListener, MenuListene
 		menuAlgebraStyle
 	;
 	
-	public OptionsMenu(Application app) {
+	public OptionsMenu(AppD app) {
 		super(app, app.getMenu("Options"));
 		
 		kernel = app.getKernel();
@@ -103,7 +103,7 @@ public class OptionsMenu extends BaseMenu implements ActionListener, MenuListene
 		String[] strDecimalSpaces = app.getRoundingMenu();
 
 		addRadioButtonMenuItems(menuDecimalPlaces, this,
-				strDecimalSpaces, AbstractApplication.strDecimalSpacesAC, 0);
+				strDecimalSpaces, App.strDecimalSpacesAC, 0);
 		add(menuDecimalPlaces);
 		updateMenuDecimalPlaces();
 
@@ -175,7 +175,7 @@ public class OptionsMenu extends BaseMenu implements ActionListener, MenuListene
 			if (flag != null) {
 				flagIcon = flag;
 			} else {
-				AbstractApplication.debug("using flag: "+flagName);
+				App.debug("using flag: "+flagName);
 				flagIcon = app.getFlagIcon(flagName);
 				
 			}
@@ -199,7 +199,7 @@ public class OptionsMenu extends BaseMenu implements ActionListener, MenuListene
 								// geoIPflagname = "wales.png";
 
 								if (!geoIPflagname.equals(flagName)) {
-									AbstractApplication.debug("updating flag to: "+geoIPflagname);
+									App.debug("updating flag to: "+geoIPflagname);
 
 									// rebuild menu with new flag
 									removeAll();
@@ -264,7 +264,7 @@ public class OptionsMenu extends BaseMenu implements ActionListener, MenuListene
 	 * @param menu
 	 * @param al
 	 */
-	public static void addLanguageMenuItems(Application app, JComponent menu, ActionListener al) {
+	public static void addLanguageMenuItems(AppD app, JComponent menu, ActionListener al) {
 		JRadioButtonMenuItem mi;
 		ButtonGroup bg = new ButtonGroup();
 		JMenu submenu1 = new JMenu("A - D");
@@ -442,13 +442,13 @@ public class OptionsMenu extends BaseMenu implements ActionListener, MenuListene
 
 		if (kernel.useSignificantFigures) {
 			int figures = kernel.getPrintFigures();
-			if (figures > 0 && figures < AbstractApplication.figuresLookup.length)
-				pos = AbstractApplication.figuresLookup[figures];
+			if (figures > 0 && figures < App.figuresLookup.length)
+				pos = App.figuresLookup[figures];
 		} else {
 			int decimals = kernel.getPrintDecimals();
 
-			if (decimals > 0 && decimals < AbstractApplication.decimalsLookup.length)
-				pos = AbstractApplication.decimalsLookup[decimals];
+			if (decimals > 0 && decimals < App.decimalsLookup.length)
+				pos = App.decimalsLookup[decimals];
 
 		}
 

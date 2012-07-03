@@ -20,8 +20,8 @@ import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoFunctionNVar;
-import geogebra.common.main.AbstractApplication;
-import geogebra.common.main.AbstractApplication.CasType;
+import geogebra.common.main.App;
+import geogebra.common.main.App.CasType;
 import geogebra.common.util.MaxSizeHashMap;
 
 import java.util.ArrayList;
@@ -38,7 +38,7 @@ import java.util.Set;
  */
 public class GeoGebraCAS implements GeoGebraCasInterface {
 
-	private AbstractApplication app;
+	private App app;
 	private CASparser casParser;
 	private CASGenericInterface cas;
 	private AbstractCASmpreduce casMPReduce;
@@ -321,7 +321,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 					result);
 			return result;
 		} catch (Throwable e) {
-			AbstractApplication.debug("GeoGebraCAS.getPolynomialCoeffs(): "
+			App.debug("GeoGebraCAS.getPolynomialCoeffs(): "
 					+ e.getMessage());
 			// e.printStackTrace();
 		}

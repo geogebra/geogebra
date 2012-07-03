@@ -1,11 +1,11 @@
 package geogebra.web.gui.menubar;
 
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.web.gui.dialog.WebCamInputDialog;
 import geogebra.web.gui.dialog.ImageFileInputDialog;
 import geogebra.web.gui.dialog.InputDialogImageURL;
 import geogebra.web.gui.images.AppResources;
-import geogebra.web.main.Application;
+import geogebra.web.main.AppW;
 
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.MenuBar;
@@ -18,13 +18,13 @@ public class InsertImageMenuW extends MenuBar {
 	/**
 	 * Application instance
 	 */
-	AbstractApplication app;
+	App app;
 
 	/**
 	 * Constructs the "Insert Image" menu
 	 * @param app Application instance
 	 */
-	public InsertImageMenuW(AbstractApplication app) {
+	public InsertImageMenuW(App app) {
 
 		super(true);
 		this.app = app;
@@ -36,21 +36,21 @@ public class InsertImageMenuW extends MenuBar {
 
 	    addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),app.getMenu("File")),true,new Command() {
 	    	public void execute() {
-	    		ImageFileInputDialog dialog = new ImageFileInputDialog((Application) app, null);
+	    		ImageFileInputDialog dialog = new ImageFileInputDialog((AppW) app, null);
 	    		dialog.setVisible(true);
 	    	}
 	    });
 
 	    addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),app.getMenu("URL")),true,new Command() {
 	    	public void execute() {
-	    		InputDialogImageURL dialog = new InputDialogImageURL((Application)app);
+	    		InputDialogImageURL dialog = new InputDialogImageURL((AppW)app);
 	    		dialog.setVisible(true);
 	    	}
 	    });
 
 	    addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),app.getMenu("Webcam")),true,new Command() {
 	    	public void execute() {
-	    		WebCamInputDialog dialog = new WebCamInputDialog(false, (Application) app);
+	    		WebCamInputDialog dialog = new WebCamInputDialog(false, (AppW) app);
 	    		dialog.setVisible(true);
 	    	}
 	    });

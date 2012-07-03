@@ -12,9 +12,9 @@ the Free Software Foundation.
 
 package geogebra.util;
 
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.util.AbstractImageManager;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -159,7 +159,7 @@ public class ImageManager extends AbstractImageManager{
 		Image img = getImageResource("/geogebra"+name);
 		
 		if (img == null) {
-			AbstractApplication.error("Image " + name + " not found");			
+			App.error("Image " + name + " not found");			
 		}
 		
 		return img;
@@ -180,12 +180,12 @@ public class ImageManager extends AbstractImageManager{
 				try {
 				   tracker.waitForAll();
 				} catch (InterruptedException e) {
-				   AbstractApplication.debug("Interrupted while loading Image: " + name);
+				   App.debug("Interrupted while loading Image: " + name);
 				}
 				tracker.removeImage(img);
 			}			   
 		 } catch (Exception e) {
-		 	AbstractApplication.debug(e.toString());
+		 	App.debug(e.toString());
 		 }
 
 		 return img;
@@ -294,10 +294,10 @@ public class ImageManager extends AbstractImageManager{
 		return scaledImage;
 	}
     
-	public String createImage(String path,AbstractApplication app){
+	public String createImage(String path,App app){
 		Image im = getImageResource(path);
 		BufferedImage image = ImageManager.toBufferedImage(im);
-		String fileName = ((Application) app).createImage(image, "tool.png");
+		String fileName = ((AppD) app).createImage(image, "tool.png");
 		return fileName;
 	}
 }

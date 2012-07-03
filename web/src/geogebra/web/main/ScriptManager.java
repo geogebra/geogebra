@@ -1,12 +1,12 @@
 package geogebra.web.main;
 
 import geogebra.common.kernel.Kernel;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.plugin.ScriptManagerCommon;
 
 public class ScriptManager extends ScriptManagerCommon {
 
-	public ScriptManager(AbstractApplication app) {
+	public ScriptManager(App app) {
 	    this.app = app;
 	    ScriptManager.initAppletFunctions((geogebra.web.main.GgbAPI)(app.getGgbApi()));
     }
@@ -16,11 +16,11 @@ public class ScriptManager extends ScriptManagerCommon {
 		
 		if (app.useBrowserForJavaScript()) {
 		
-			String param = ((Application)app).getArticleElement().getDataParamGgbOnInitParam();
+			String param = ((AppW)app).getArticleElement().getDataParamGgbOnInitParam();
 			if (param == null || "".equals(param)) {
-				Application.ggbOnInit();
+				AppW.ggbOnInit();
 			} else {
-				Application.ggbOnInit(param);
+				AppW.ggbOnInit(param);
 			}
 		
 		} else {
@@ -373,7 +373,7 @@ public class ScriptManager extends ScriptManagerCommon {
 
 	@Override
     public void notifyDraw(String labelSimple, double[] x, double[] y) {
-	    AbstractApplication.warn("notifyDraw() unimplemented");
+	    App.warn("notifyDraw() unimplemented");
 	    
     }
 	

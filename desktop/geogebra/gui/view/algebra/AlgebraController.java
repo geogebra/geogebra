@@ -25,7 +25,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.gui.util.GeoGebraIcon;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.Color;
 import java.awt.Point;
@@ -65,7 +65,7 @@ implements DragGestureListener, DragSourceListener {
 		if (clicks == 2) {										
 			app.clearSelectedGeos();
 			ev.resetMode();
-			if (geo != null && !Application.isControlDown(e)) {
+			if (geo != null && !AppD.isControlDown(e)) {
 				view.startEditing(geo, e.isShiftDown());						
 			}
 			return true;
@@ -82,7 +82,7 @@ implements DragGestureListener, DragSourceListener {
 	@Override
 	public void mousePressed(java.awt.event.MouseEvent e) {
 		view.cancelEditing();
-		boolean rightClick = app.isRightClickEnabled() && Application.isRightClick(e);
+		boolean rightClick = app.isRightClickEnabled() && AppD.isRightClick(e);
 		if (rightClick) {// RIGHT CLICK
 			geogebra.common.awt.GPoint mouseCoords = new geogebra.common.awt.GPoint(e.getPoint().x,e.getPoint().y);
 			rightPress(e, mouseCoords);
@@ -164,7 +164,7 @@ implements DragGestureListener, DragSourceListener {
 				sb.append("\\end{array}}");
 				latex = sb.toString();
 			}
-			ImageIcon ic  = GeoGebraIcon.createLatexIcon((Application)app, latex, ((Application)app).getPlainFont(), false, Color.DARK_GRAY, null);
+			ImageIcon ic  = GeoGebraIcon.createLatexIcon((AppD)app, latex, ((AppD)app).getPlainFont(), false, Color.DARK_GRAY, null);
 
 			// start drag
 			ds.startDrag(dge, DragSource.DefaultCopyDrop, ic.getImage(), 
@@ -235,7 +235,7 @@ implements DragGestureListener, DragSourceListener {
 
 		int mode = app.getActiveEuclidianView().getMode();		
 		if ( (mode == EuclidianConstants.MODE_MOVE || mode == EuclidianConstants.MODE_SELECTION_LISTENER)  && 
-				!Application.isControlDown(e) && !e.isShiftDown())
+				!AppD.isControlDown(e) && !e.isShiftDown())
 		{
 			if( !setSelectedGeo(geo)) 
 				return true;

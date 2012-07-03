@@ -18,7 +18,7 @@ import geogebra.common.kernel.VarString;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoPoint;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.main.MyError;
 import geogebra.common.plugin.Operation;
 import geogebra.common.util.MaxSizeHashMap;
@@ -327,7 +327,7 @@ public class FunctionNVar extends ValidExpression implements FunctionalNVar, Var
 			expression = ((GeoFunction)ev).getFunctionExpression();
 			fVars =  ((GeoFunction)ev).getFunction().getFunctionVariables();
 		} else {
-			AbstractApplication.debug("InvalidFunction:"
+			App.debug("InvalidFunction:"
 					+ expression.toString(StringTemplate.defaultTemplate) + " " + ev.toString(StringTemplate.defaultTemplate)
 					+ ev.getClass().getName());
 			throw new MyError(kernel.getApplication(), "InvalidFunction");

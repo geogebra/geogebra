@@ -4,7 +4,7 @@ import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.gui.dialog.TextInputDialog;
 import geogebra.gui.view.algebra.InputPanel;
 import geogebra.gui.view.spreadsheet.MyTable;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.Component;
 import java.awt.Dimension;
@@ -26,7 +26,7 @@ public class LatexTable extends SelectionTable implements MenuElement{
 	private int caretPosition = 0;
 	private int mode;
 
-	public LatexTable(Application app, TextInputDialog textInputDialog, PopupMenuButton popupButton, 
+	public LatexTable(AppD app, TextInputDialog textInputDialog, PopupMenuButton popupButton, 
 			String[] latexArray, int rows, int columns, int mode ){
 
 		super(app, latexArray, rows,columns, new Dimension(24,24), mode);

@@ -4,9 +4,9 @@ import javax.swing.JMenu;
 import javax.swing.JRadioButtonMenuItem;
 
 import geogebra.common.kernel.Kernel;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.web.gui.images.AppResources;
-import geogebra.web.main.Application;
+import geogebra.web.main.AppW;
 
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
@@ -16,7 +16,7 @@ import com.google.gwt.user.client.ui.MenuItem;
  */
 public class OptionsMenuW extends MenuBar{
 	
-	private static AbstractApplication app;
+	private static App app;
 	static Kernel kernel;
 	
 	private LanguageMenuW languageMenu;
@@ -27,7 +27,7 @@ public class OptionsMenuW extends MenuBar{
 	 * Constructs the "Option" menu
 	 * @param app Application instance
 	 */
-	public OptionsMenuW(AbstractApplication app) {
+	public OptionsMenuW(App app) {
 
 		super(true);
 	    this.app = app;
@@ -179,7 +179,7 @@ public class OptionsMenuW extends MenuBar{
 		String[] strDecimalSpaces = app.getRoundingMenu();
 
 		menuDecimalPlaces.addRadioButtonMenuItems(this,
-				strDecimalSpaces, AbstractApplication.strDecimalSpacesAC, 0);
+				strDecimalSpaces, App.strDecimalSpacesAC, 0);
 
 		
 		addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE
@@ -200,13 +200,13 @@ public class OptionsMenuW extends MenuBar{
 
 		if (kernel.useSignificantFigures) {
 			int figures = kernel.getPrintFigures();
-			if (figures > 0 && figures < AbstractApplication.figuresLookup.length)
-				pos = AbstractApplication.figuresLookup[figures];
+			if (figures > 0 && figures < App.figuresLookup.length)
+				pos = App.figuresLookup[figures];
 		} else {
 			int decimals = kernel.getPrintDecimals();
 
-			if (decimals > 0 && decimals < AbstractApplication.decimalsLookup.length)
-				pos = AbstractApplication.decimalsLookup[decimals];
+			if (decimals > 0 && decimals < App.decimalsLookup.length)
+				pos = App.decimalsLookup[decimals];
 
 		}
 
@@ -229,7 +229,7 @@ public class OptionsMenuW extends MenuBar{
 
 				kernel.setPrintDecimals(decimals);
 				kernel.updateConstruction();
-				((Application)app).refreshViews();
+				((AppW)app).refreshViews();
 				
 				// see ticket 79
 				kernel.updateConstruction();

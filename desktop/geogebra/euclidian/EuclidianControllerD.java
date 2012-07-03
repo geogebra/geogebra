@@ -20,9 +20,9 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.euclidianND.EuclidianViewND;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
@@ -76,12 +76,12 @@ public class EuclidianControllerD extends geogebra.common.euclidian.EuclidianCon
 	}
 
 	@Override
-	public void setApplication(AbstractApplication app) {
+	public void setApplication(App app) {
 		this.app = app;
 	}
 
-	public Application getApplication() {
-		return (Application) app;
+	public AppD getApplication() {
+		return (AppD) app;
 	}
 
 	protected void setView(EuclidianView view) {
@@ -147,7 +147,7 @@ public class EuclidianControllerD extends geogebra.common.euclidian.EuclidianCon
 		// set tooltip manager
 		ToolTipManager ttm = ToolTipManager.sharedInstance();
 		ttm.setInitialDelay(DEFAULT_INITIAL_DELAY / 2);
-		ttm.setEnabled(((Application) app).getAllowToolTips());
+		ttm.setEnabled(((AppD) app).getAllowToolTips());
 	}
 
 	@Override

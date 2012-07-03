@@ -28,7 +28,7 @@
 
 package jd2xx;
 
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.io.IOException;
 import java.util.TooManyListenersException;
@@ -727,7 +727,7 @@ public class JD2XX implements Runnable {
 
 	static {
 		
-		if (Application.WINDOWS) {
+		if (AppD.WINDOWS) {
 		
 			String arch = System.getenv("PROCESSOR_ARCHITECTURE");
 			if ((arch != null) && ((arch.equals("AMD64")) || (arch.equals("IA64")))) {
@@ -737,7 +737,7 @@ public class JD2XX implements Runnable {
 			}
 		
 		} else {
-			Application.printStacktrace("Linux / Mac support for JD2XX not enabled");
+			AppD.printStacktrace("Linux / Mac support for JD2XX not enabled");
 		}
 	}
 

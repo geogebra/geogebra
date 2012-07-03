@@ -1,8 +1,8 @@
 package geogebra.gui.view.spreadsheet;
 
 import geogebra.common.gui.view.spreadsheet.AbstractSpreadsheetTableModel;
-import geogebra.common.main.AbstractApplication;
-import geogebra.main.Application;
+import geogebra.common.main.App;
+import geogebra.main.AppD;
 
 import javax.swing.table.DefaultTableModel;
 
@@ -29,7 +29,7 @@ public class SpreadsheetTableModel extends AbstractSpreadsheetTableModel {
 	 * @param columns
 	 *            number of columns
 	 */
-	public SpreadsheetTableModel(Application app, int rows, int columns) {
+	public SpreadsheetTableModel(AppD app, int rows, int columns) {
 		super(app, rows, columns);
 		defaultTableModel = new DefaultTableModel(rows, columns);
 		attachView();
@@ -81,7 +81,7 @@ public class SpreadsheetTableModel extends AbstractSpreadsheetTableModel {
 	}
 
 	public boolean hasFocus() {
-		AbstractApplication.debug("unimplemented");
+		App.debug("unimplemented");
 		return false;
 	}
 

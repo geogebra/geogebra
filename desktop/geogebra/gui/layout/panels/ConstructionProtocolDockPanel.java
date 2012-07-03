@@ -1,8 +1,8 @@
 package geogebra.gui.layout.panels;
 
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.gui.layout.DockPanel;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
@@ -14,9 +14,9 @@ public class ConstructionProtocolDockPanel extends DockPanel {
 	/**
 	 * @param app
 	 */
-	public ConstructionProtocolDockPanel(Application app) {
+	public ConstructionProtocolDockPanel(AppD app) {
 		super(
-			AbstractApplication.VIEW_CONSTRUCTION_PROTOCOL, 	// view id
+			App.VIEW_CONSTRUCTION_PROTOCOL, 	// view id
 			"ConstructionProtocol", 					// view title phrase 
 			null,	// toolbar string
 			true,					// style bar?

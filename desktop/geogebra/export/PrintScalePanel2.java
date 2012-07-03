@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 import geogebra.common.euclidian.EuclidianView;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -23,7 +23,7 @@ public class PrintScalePanel2 extends JPanel {
 	private static final int maxFracDigits = 5;
 	private ArrayList<ActionListener> listeners = new ArrayList<ActionListener>();
 	
-	PrintScalePanel2(Application app, ScalingPrintGridable ev) {
+	PrintScalePanel2(AppD app, ScalingPrintGridable ev) {
 		this.ev = ev;
 		nf = NumberFormat.getInstance(Locale.ENGLISH);
 		nf.setMaximumFractionDigits(maxFracDigits);

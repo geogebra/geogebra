@@ -23,14 +23,14 @@ import geogebra.common.GeoGebraConstants;
 import geogebra.common.awt.GColor;
 import geogebra.common.factories.UtilFactory;
 import geogebra.common.kernel.Macro;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.util.HttpRequest;
 import geogebra.euclidian.EuclidianViewD;
 import geogebra.export.GraphicExportDialog;
 import geogebra.export.epsgraphics.ColorMode;
 import geogebra.gui.FileDropTargetListener;
 import geogebra.io.MyImageIO;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 import geogebra.main.GeoGebraPreferences;
 import geogebra.util.Util;
 
@@ -89,7 +89,7 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 	private static GeoGebraFrame activeInstance;
 	private static FileDropTargetListener dropTargetListener;
 
-	protected Application app;
+	protected AppD app;
 
 	public GeoGebraFrame() {
 		instances.add(this);
@@ -116,11 +116,11 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 			activeInstance = null;
 	}
 
-	public Application getApplication() {
+	public AppD getApplication() {
 		return app;
 	}
 
-	public void setApplication(Application app) {
+	public void setApplication(AppD app) {
 		this.app = app;
 	}
 
@@ -201,7 +201,7 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 		Dimension size = app.getPreferredSize();
 
 		// check if frame fits on screen
-		Rectangle screenSize = Application.getScreenSize();
+		Rectangle screenSize = AppD.getScreenSize();
 
 		if (size.width > screenSize.width || size.height > screenSize.height) {
 			size.width = screenSize.width;
@@ -237,7 +237,7 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 			return;
 		}
 
-		if (Application.MAC_OS)
+		if (AppD.MAC_OS)
 			initMacSpecifics();
 
 		// set look and feel
@@ -245,7 +245,7 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 			setLAF(args.getStringValue("laf").equals("system"));
 		} else {
 			// system LAF for Windows and Mac; cross-platform for LINUX, others
-			setLAF(Application.MAC_OS || Application.WINDOWS);
+			setLAF(AppD.MAC_OS || AppD.WINDOWS);
 		}
 
 		if (args.containsArg("resetSettings")) {
@@ -281,7 +281,7 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 						.getCrossPlatformLookAndFeelClassName());
 			}
 		} catch (Exception e) {
-			AbstractApplication.debug(e + "");
+			App.debug(e + "");
 		}
 	}
 				
@@ -315,7 +315,7 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 			// System.setProperty("com.apple.macos.useScreenMenuBar", "true");
 			System.setProperty("apple.laf.useScreenMenuBar", "true");
 		} catch (Exception e) {
-			AbstractApplication.debug(e + "");
+			App.debug(e + "");
 		}
 	}
 
@@ -345,9 +345,9 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 	 * @param frame
 	 * @return the application running geogebra
 	 */
-	protected Application createApplication(CommandLineArguments args,
+	protected AppD createApplication(CommandLineArguments args,
 			JFrame frame) {
-		return new Application(args, frame, true);
+		return new AppD(args, frame, true);
 	}
 
 	public static synchronized GeoGebraFrame createNewWindow(
@@ -369,7 +369,7 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 			CommandLineArguments args, Macro macro, GeoGebraFrame wnd) {
 		// set Application's size, position and font size
 
-		Application app = wnd.createApplication(args, wnd);
+		AppD app = wnd.createApplication(args, wnd);
 
 		if (macro != null)
 			app.openMacro(macro);
@@ -393,20 +393,20 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 				boolean showAlgebraWindow = args.getBooleanValue(
 						"showAlgebraWindow", true);
 				app.getGuiManager().setShowView(showAlgebraWindow,
-						AbstractApplication.VIEW_ALGEBRA);
+						App.VIEW_ALGEBRA);
 			}
 
 			else if (args.containsArg("showSpreadsheet")) {
 				boolean showSpreadsheet = args.getBooleanValue(
 						"showSpreadsheet", true);
 				app.getGuiManager().setShowView(showSpreadsheet,
-						AbstractApplication.VIEW_SPREADSHEET);
+						App.VIEW_SPREADSHEET);
 			}
 
 			else if (args.containsArg("showCAS")) {
 				boolean showCAS = args.getBooleanValue("showCAS", true);
 				app.getGuiManager().setShowView(showCAS,
-						AbstractApplication.VIEW_CAS);
+						App.VIEW_CAS);
 			}
 		}
 
@@ -438,15 +438,15 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 		return wnd;
 	}
 
-	private AppThread createAppThread(Application app) {
+	private AppThread createAppThread(AppD app) {
 		return new AppThread(app);
 	}
 
 	private class AppThread extends Thread {
 
-		Application app;
+		AppD app;
 
-		public AppThread(Application app) {
+		public AppThread(AppD app) {
 			this.app = app;
 		}
 
@@ -475,7 +475,7 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 	
 			// check if newer version is available
 			// must be done last as internet may not be available
-			if (!app.isApplet() && !Application.isWebstart()) {
+			if (!app.isApplet() && !AppD.isWebstart()) {
 				checkVersion();
 			}
 
@@ -486,9 +486,9 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 		 * days).
 		 */
 		private void checkVersion() {
-			AbstractApplication.debug("Checking version");
+			App.debug("Checking version");
 			if (!app.getVersionCheckAllowed()) {
-				AbstractApplication.debug("Version check is not allowed");
+				App.debug("Version check is not allowed");
 				return;
 			}
 			
@@ -501,7 +501,7 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 						
 			if (lastVersionCheck == null || lastVersionCheck.equals("")) {
 				checkNeeded = true;
-				AbstractApplication.debug("version check needed: no check was done yet");
+				App.debug("version check needed: no check was done yet");
 			}
 
 			else {
@@ -509,11 +509,11 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 				if (lastVersionCheckL + 1000L * 60 * 60 * 24
 						* VERSION_CHECK_DAYS < nowL) {
 					checkNeeded = true;
-					AbstractApplication
+					App
 							.debug("version check needed: lastVersionCheckL="
 									+ lastVersionCheckL + " nowL=" + nowL);
 				} else {
-					AbstractApplication
+					App
 							.debug("no version check needed: lastVersionCheck="
 									+ lastVersionCheckL + " nowL=" + nowL);
 				}
@@ -528,7 +528,7 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 					newestVersion = newestVersion.replaceAll("-", ".");
 					Long newestVersionL = versionToLong(newestVersion);
 					Long currentVersionL = versionToLong(GeoGebraConstants.VERSION_STRING);
-					AbstractApplication.debug("current=" + currentVersionL
+					App.debug("current=" + currentVersionL
 							+ " newest=" + newestVersionL);
 					if (currentVersionL < newestVersionL) {
 						String q = app.getPlain("NewerVersionA").replaceAll(
@@ -550,7 +550,7 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 						}
 					}
 				} catch (Exception ex) {
-					AbstractApplication.error(ex.toString());
+					App.error(ex.toString());
 				}
 			}
 		}
@@ -589,7 +589,7 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 
 	public static void updateAllTitles() {
 		for (int i = 0; i < instances.size(); i++) {
-			Application app = instances.get(i).app;
+			AppD app = instances.get(i).app;
 			app.updateTitle();
 		}
 	}
@@ -609,7 +609,7 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 			String absPath = file.getCanonicalPath();
 			for (int i = 0; i < instances.size(); i++) {
 				GeoGebraFrame inst = instances.get(i);
-				Application app = inst.app;
+				AppD app = inst.app;
 
 				File currFile = app.getCurrentFile();
 				if (currFile != null) {
@@ -657,7 +657,7 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 
 	}
 	
-	public static void checkCommandLineExport(final Application app) {
+	public static void checkCommandLineExport(final AppD app) {
 		
 		CommandLineArguments args = app.getCommandLineArgs();
 		
@@ -668,7 +668,7 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 
 			final int dpi = Integer.parseInt(dpiStr == null ? "300" : dpiStr);			
 
-			Application.debug("attempting to export: "+filename+" at "+dpiStr+"dpi");
+			AppD.debug("attempting to export: "+filename+" at "+dpiStr+"dpi");
 
 			final String extension = app.getExtension(filename);
 

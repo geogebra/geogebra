@@ -5,7 +5,7 @@ import geogebra.common.kernel.discrete.delauney.Pnt;
 import geogebra.common.kernel.discrete.delauney.Triangle;
 import geogebra.common.kernel.discrete.delauney.Triangulation;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.euclidianND.EuclidianViewND;
 
 import java.awt.AlphaComposite;
@@ -440,7 +440,7 @@ public class HatchingHandlerD extends geogebra.common.euclidian.HatchingHandler{
 							|| gp.contains(bottomRight)
 							|| gp.contains(bottomLeft)) {
 						color = new Color(colCorner);
-						AbstractApplication.debug("Corner!!");
+						App.debug("Corner!!");
 					}
 				}
 

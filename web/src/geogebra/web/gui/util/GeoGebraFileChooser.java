@@ -1,11 +1,11 @@
 package geogebra.web.gui.util;
 
 import sun.awt.HorizBagLayout;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.plugin.GgbAPI;
 import geogebra.web.gui.menubar.FileMenuW;
 import geogebra.web.helper.MyGoogleApis;
-import geogebra.web.main.Application;
+import geogebra.web.main.AppW;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -26,7 +26,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class GeoGebraFileChooser extends PopupPanel {
 	
-	AbstractApplication app;
+	App app;
 	VerticalPanel p;
 	TextBox fileName;
 	TextArea description;
@@ -34,7 +34,7 @@ public class GeoGebraFileChooser extends PopupPanel {
 	Button cancel;
 	GeoGebraFileChooser _this = this;
 
-	public GeoGebraFileChooser(final AbstractApplication app) {
+	public GeoGebraFileChooser(final App app) {
 	    super();
 	    this.app = app;
 	    add(p = new VerticalPanel());
@@ -94,7 +94,7 @@ public class GeoGebraFileChooser extends PopupPanel {
     }
 
 	public void saveSuccess(String fName, String desc, String fileCont) {
-	    ((Application) app).refreshCurrentFileDescriptors(fName,desc,fileCont);
+	    ((AppW) app).refreshCurrentFileDescriptors(fName,desc,fileCont);
     }
 	
 	public void setFileName(String fName) {

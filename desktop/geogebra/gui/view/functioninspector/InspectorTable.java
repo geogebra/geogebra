@@ -2,7 +2,7 @@ package geogebra.gui.view.functioninspector;
 
 import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.gui.inputfield.MyTextField;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -23,7 +23,7 @@ public class InspectorTable extends JTable{
 
 	private static final long serialVersionUID = 1L;
 	
-	Application app;
+	AppD app;
 	FunctionInspector inspector;
 
 	boolean doRedNegative = false;	
@@ -33,7 +33,7 @@ public class InspectorTable extends JTable{
 	public static final int TYPE_XY = 1;
 	int tableType;
 
-	public InspectorTable(Application app, FunctionInspector inspector, int minRows, int tableType){
+	public InspectorTable(AppD app, FunctionInspector inspector, int minRows, int tableType){
 		super(minRows,2);
 
 		this.app = app;

@@ -18,7 +18,7 @@ import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
 import geogebra.common.kernel.kernelND.Region3D;
 import geogebra.common.plugin.GeoClass;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 /**
  * class describing quadric for 3D space
@@ -527,7 +527,7 @@ public class GeoQuadric3D extends GeoQuadricND implements
 			return parameters;
 
 		default:
-			Application.printStacktrace("TODO -- type: " + getType());
+			AppD.printStacktrace("TODO -- type: " + getType());
 			return null;
 		}
 	}

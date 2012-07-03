@@ -1,12 +1,12 @@
 package geogebra.gui.layout;
 
 import geogebra.common.io.layout.DockPanelData;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.gui.app.GeoGebraFrame;
 import geogebra.gui.layout.panels.EuclidianDockPanelAbstract;
 import geogebra.gui.toolbar.Toolbar;
 import geogebra.gui.toolbar.ToolbarContainer;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -66,7 +66,7 @@ implements ActionListener, WindowListener, MouseListener, geogebra.common.gui.la
 	private static final long serialVersionUID = 1L;
 	
 	protected DockManager dockManager;
-	protected Application app;
+	protected AppD app;
 	
 	/**
 	 * The ID of this dock panel.
@@ -316,7 +316,7 @@ implements ActionListener, WindowListener, MouseListener, geogebra.common.gui.la
 	 * 		null for Win Vista / 7 to prevent the "checkbox bug" 
 	 */
 	public ImageIcon getIcon() { 
-		if(Application.WINDOWS_VISTA_OR_LATER) {
+		if(AppD.WINDOWS_VISTA_OR_LATER) {
 			return null; 
 		} else {
 			return app.getEmptyIcon();

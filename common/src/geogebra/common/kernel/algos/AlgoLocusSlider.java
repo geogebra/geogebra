@@ -26,7 +26,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLocus;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -328,7 +328,7 @@ public class AlgoLocusSlider extends AlgoElement implements AlgoLocusSliderInter
 							geoCopy.set(geoOrig);
 							geoCopy.update();
 						} catch (Exception e) {
-							AbstractApplication
+							App
 									.debug("AlgoLocusSlider: error in resetMacroConstruction(): "
 											+ e.getMessage());
 						}
@@ -566,7 +566,7 @@ public class AlgoLocusSlider extends AlgoElement implements AlgoLocusSliderInter
 
 				// if it takes too much time to calculate a single step, we stop
 				if (updateTime > MAX_TIME_FOR_ONE_STEP) {
-					AbstractApplication
+					App
 							.debug("AlgoLocusSlider: max time exceeded "
 									+ updateTime);
 					maxTimeExceeded = true;

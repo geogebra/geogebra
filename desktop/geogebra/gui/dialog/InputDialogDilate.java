@@ -7,7 +7,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.gui.view.algebra.InputPanel.DialogType;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
@@ -23,7 +23,7 @@ public class InputDialogDilate extends InputDialog {
 
 	private Kernel kernel;
 		
-	public InputDialogDilate(Application app, String title, InputHandler handler,  GeoPoint[] points, GeoElement[] selGeos, Kernel kernel) {
+	public InputDialogDilate(AppD app, String title, InputHandler handler,  GeoPoint[] points, GeoElement[] selGeos, Kernel kernel) {
 		super(app.getFrame(), false);
 		
 		this.app = app;

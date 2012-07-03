@@ -11,7 +11,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.util.Prover;
 import geogebra.common.util.Prover.NDGCondition;
 import geogebra.common.util.Prover.ProofResult;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 
 /**
  * A prover which uses Francisco Botana's method to prove geometric theorems.
@@ -171,12 +171,12 @@ public class ProverBotanasMethod {
 						hypotheses = allPolys;
 					}
 				} catch (NoSymbolicParametersException e) {
-					AbstractApplication.debug(geo.getParentAlgorithm() + " is not fully implemented");
+					App.debug(geo.getParentAlgorithm() + " is not fully implemented");
 					return ProofResult.UNKNOWN;
 				}
 			}
 			else {
-				AbstractApplication.debug(geo.getParentAlgorithm() + " unimplemented");
+				App.debug(geo.getParentAlgorithm() + " unimplemented");
 				return ProofResult.UNKNOWN;
 			}
 		}
@@ -184,17 +184,17 @@ public class ProverBotanasMethod {
 			// The sets of statement polynomials.
 			// The last equation of each set will be negated.
 			if (!(prover.getStatement().getParentAlgorithm() instanceof SymbolicParametersBotanaAlgoAre)) {
-				AbstractApplication.debug(prover.getStatement().getParentAlgorithm() + " unimplemented");
+				App.debug(prover.getStatement().getParentAlgorithm() + " unimplemented");
 				return ProofResult.UNKNOWN;
 			}
 				
 			Polynomial[][] statements = ((SymbolicParametersBotanaAlgoAre) prover.getStatement().getParentAlgorithm()).getBotanaPolynomials();
 			// The NDG conditions (automatically created):
 			Polynomial[] ndgConditions = null;
-			if (AbstractApplication.freePointsNeverCollinear)
+			if (App.freePointsNeverCollinear)
 				ndgConditions = create3FreePointsNeverCollinearNDG(prover);
 			HashMap<Variable,Integer> substitutions = null;
-			if (AbstractApplication.useFixCoordinates)
+			if (App.useFixCoordinates)
 				substitutions = fixValues(prover.getStatement());
 			int nHypotheses = 0;
 			int nNdgConditions = 0;

@@ -1,8 +1,8 @@
 package geogebra.gui.util;
 
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.io.MyXMLio;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
@@ -74,7 +74,7 @@ public class GeoGebraFileChooser extends JFileChooser implements ComponentListen
 	/**
 	 * An instance of the GeoGebra application.
 	 */
-	private Application app;
+	private AppD app;
 	
 	/**
 	 * The current mode of the file chooser.
@@ -103,7 +103,7 @@ public class GeoGebraFileChooser extends JFileChooser implements ComponentListen
 	 * 
 	 * @param currentDirectory
 	 */
-	public GeoGebraFileChooser(Application app, File currentDirectory)
+	public GeoGebraFileChooser(AppD app, File currentDirectory)
 	{
 		this(app, currentDirectory, false);
 	}
@@ -115,7 +115,7 @@ public class GeoGebraFileChooser extends JFileChooser implements ComponentListen
 	 * @param currentDirectory
 	 * @param restricted
 	 */
-	public GeoGebraFileChooser(Application app,File currentDirectory, boolean restricted)
+	public GeoGebraFileChooser(AppD app,File currentDirectory, boolean restricted)
 	{
 		super(currentDirectory, (restricted ? new RestrictedFileSystemView() : null));
 		
@@ -158,7 +158,7 @@ public class GeoGebraFileChooser extends JFileChooser implements ComponentListen
 				&& mode != MODE_GEOGEBRA_SAVE 
 				&& mode != MODE_DATA) 
 		{
-			AbstractApplication.debug("Invalid file chooser mode, MODE_GEOGEBRA used as default.");
+			App.debug("Invalid file chooser mode, MODE_GEOGEBRA used as default.");
 			mode = MODE_GEOGEBRA;
 		}
 		
@@ -498,7 +498,7 @@ public class GeoGebraFileChooser extends JFileChooser implements ComponentListen
 				// This is thrown if you select .ico files
 				img = null;
 			} catch (Throwable t) {
-				AbstractApplication.debug(t.getClass() + "");
+				App.debug(t.getClass() + "");
 				img = null;
 			}
 		}

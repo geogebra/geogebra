@@ -1,6 +1,6 @@
 package geogebra.web.gui.app;
 
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.GWT;
@@ -36,7 +36,7 @@ public class EuclidianPanel extends Composite implements RequiresResize {
     }
 
 	public void onResize() {
-		AbstractApplication.debug("resized");
+		App.debug("resized");
     }
 
 }

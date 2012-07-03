@@ -12,7 +12,7 @@ the Free Software Foundation.
 
 package geogebra;
 
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.plugin.JavaScriptAPI;
 import geogebra.main.AppletImplementation;
 
@@ -49,7 +49,7 @@ public class GeoGebraApplet extends JApplet implements JavaScriptAPI {
 	 */
 	@Override
 	public void init() {		
-		AbstractApplication.debug("init");
+		App.debug("init");
 		try {
 			SwingUtilities.invokeAndWait(new Runnable() {
 				public void run() {										
@@ -73,7 +73,7 @@ public class GeoGebraApplet extends JApplet implements JavaScriptAPI {
 		Thread runner = new Thread() {
 			@Override
 			public void run() {						
-				AbstractApplication.debug("initAppletInBackground");
+				App.debug("initAppletInBackground");
 				// init applet
 				getAppletImplementation();
 																									

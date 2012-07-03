@@ -1,7 +1,7 @@
 package geogebra.cas.view;
 
 import geogebra.common.euclidian.EuclidianConstants;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -82,11 +82,11 @@ public class CASTableCellController implements KeyListener {
 	 * on the currently selected mode in the toolbar (Evaluate, Keep Input, Numeric).
 	 */
 	private synchronized void handleEnterKey(KeyEvent e) {
-		Application app = view.getApp();
+		AppD app = view.getApp();
 		int mode = app.getMode();
 		
 		// Ctrl + Enter toggles between the modes Evaluate and Numeric
-		if (Application.isControlDown(e)) {
+		if (AppD.isControlDown(e)) {
 			if (mode == EuclidianConstants.MODE_CAS_NUMERIC) {
 				app.setMode(EuclidianConstants.MODE_CAS_EVALUATE);
 			} else {
@@ -96,7 +96,7 @@ public class CASTableCellController implements KeyListener {
 		}
 		
 		// Alt + Enter toggles between the modes Evaluate and Keep Input
-		if (Application.isAltDown(e)) {
+		if (AppD.isAltDown(e)) {
 			if (mode == EuclidianConstants.MODE_CAS_KEEP_INPUT) {
 				app.setMode(EuclidianConstants.MODE_CAS_EVALUATE);
 			} else {

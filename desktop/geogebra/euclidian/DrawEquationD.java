@@ -2,13 +2,13 @@ package geogebra.euclidian;
 
 import geogebra.common.euclidian.DrawEquationInterface;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.common.main.MyError;
 import geogebra.common.util.Language;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -52,7 +52,7 @@ public class DrawEquationD implements DrawEquationInterface {
 	 * @param bgColor
 	 * @return dimension of rendered equation
 	 */
-	final public Dimension drawEquationJLaTeXMath(final Application app,
+	final public Dimension drawEquationJLaTeXMath(final AppD app,
 			final GeoElement geo, final Graphics2D g2, final int x, final int y, final String text,
 			final geogebra.common.awt.GFont font, final boolean serif, final Color fgColor, final Color bgColor,
 			final boolean useCache, final Integer maxWidth, final Float lineSpace) {
@@ -288,7 +288,7 @@ public class DrawEquationD implements DrawEquationInterface {
 		return new Dimension(width, height);
 	}
 
-	public void setUseJavaFontsForLaTeX(final AbstractApplication app, final boolean b) {
+	public void setUseJavaFontsForLaTeX(final App app, final boolean b) {
 		if (b != app.useJavaFontsForLaTeX) {
 			app.useJavaFontsForLaTeX = b;
 			final String serifFont = b ? "Serif" : null;
@@ -300,17 +300,17 @@ public class DrawEquationD implements DrawEquationInterface {
 		}
 	}
 
-	final public geogebra.common.awt.GDimension drawEquation(final AbstractApplication app,
+	final public geogebra.common.awt.GDimension drawEquation(final App app,
 			final GeoElement geo, final geogebra.common.awt.GGraphics2D g2, final int x, final int y, final String text,
 			final geogebra.common.awt.GFont font, final boolean serif, final geogebra.common.awt.GColor fgColor,
 			final geogebra.common.awt.GColor bgColor,
 			final boolean useCache) {
-		return new geogebra.awt.GDimensionD(drawEquation((Application) app, geo,
+		return new geogebra.awt.GDimensionD(drawEquation((AppD) app, geo,
 				geogebra.awt.GGraphics2DD.getAwtGraphics(g2), x, y, text, font, serif, fgColor,
 				bgColor, useCache, null, null));
 	}
 
-	final public static Dimension drawEquation(final Application app,
+	final public static Dimension drawEquation(final AppD app,
 			final GeoElement geo, final Graphics2D g2, final int x, final int y, final String text,
 			final geogebra.common.awt.GFont font, final boolean serif, final geogebra.common.awt.GColor fgColor,
 			final geogebra.common.awt.GColor bgColor,
@@ -328,7 +328,7 @@ public class DrawEquationD implements DrawEquationInterface {
 	 * Draw a LaTeX image in the cell icon. Drawing is done twice. First draw
 	 * gives the needed size of the image. Second draw renders the image with
 	 * the correct dimensions.
-	 * @param app needed for {@link #drawEquationJLaTeXMath(Application, GeoElement, Graphics2D, int, int, String, geogebra.common.awt.GFont, boolean, Color, Color, boolean, Integer, Float)}
+	 * @param app needed for {@link #drawEquationJLaTeXMath(AppD, GeoElement, Graphics2D, int, int, String, geogebra.common.awt.GFont, boolean, Color, Color, boolean, Integer, Float)}
 	 * @param latexIcon the LaTeX String will be drawn there
 	 * @param latex the LaTeX String to be drawn
 	 * @param font 
@@ -336,7 +336,7 @@ public class DrawEquationD implements DrawEquationInterface {
 	 * @param fgColor foreground color
 	 * @param bgColor background color
 	 */
-	public void drawLatexImageIcon(final Application app, ImageIcon latexIcon, final String latex,
+	public void drawLatexImageIcon(final AppD app, ImageIcon latexIcon, final String latex,
 			final Font font, final boolean serif, final Color fgColor, final Color bgColor) {
 
 		// Create image with dummy size, then draw into it to get the correct

@@ -30,12 +30,12 @@ import geogebra.common.kernel.geos.Traceable;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import geogebra.common.kernel.kernelND.ViewCreator;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.euclidian.EuclidianViewD;
 import geogebra.gui.dialog.options.OptionsUtil;
 import geogebra.gui.inputbar.AlgebraInput;
 import geogebra.gui.layout.DockPanel;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.Color;
 import java.awt.Point;
@@ -71,12 +71,12 @@ public class ContextMenuGeoElement extends JPopupMenu {
 	/** current element */
 	GeoElement geo;
 	/** application */
-	public Application app;
+	public AppD app;
 	/**
 	 * Creates new context menu
 	 * @param app application
 	 */
-	ContextMenuGeoElement(Application app) {
+	ContextMenuGeoElement(AppD app) {
 		this.app = app;     
 		setBackground(bgColor);
 	}
@@ -99,7 +99,7 @@ public class ContextMenuGeoElement extends JPopupMenu {
 	 * @param geos selected elements
 	 * @param location screen position
 	 */
-	public ContextMenuGeoElement(Application app, ArrayList<GeoElement> geos, Point location) {
+	public ContextMenuGeoElement(AppD app, ArrayList<GeoElement> geos, Point location) {
 		this(app);
 		this.geos = geos;
 		geo = geos.get(0);
@@ -113,7 +113,7 @@ public class ContextMenuGeoElement extends JPopupMenu {
 		}
 		setTitle(title);        
 
-		if (app.getGuiManager().showView(AbstractApplication.VIEW_ALGEBRA)) {
+		if (app.getGuiManager().showView(App.VIEW_ALGEBRA)) {
 			addPointItems();
 			addLineItems();
 			addVectorItems();
@@ -607,7 +607,7 @@ public class ContextMenuGeoElement extends JPopupMenu {
 		// SHOW, HIDE
 		
 		//G.Sturr 2010-5-14: allow menu to show spreadsheet trace for non-drawables
-        if (geo.isDrawable() || (geo.isSpreadsheetTraceable() && app.getGuiManager().showView(AbstractApplication.VIEW_SPREADSHEET))) {  			
+        if (geo.isDrawable() || (geo.isSpreadsheetTraceable() && app.getGuiManager().showView(App.VIEW_SPREADSHEET))) {  			
         	
         	JCheckBoxMenuItem cbItem;
 
@@ -675,7 +675,7 @@ public class ContextMenuGeoElement extends JPopupMenu {
 			// G.Sturr 2010-5-12 
 			// modified to use SpreadsheetTrace Dialog
 			
-			if (geo.isSpreadsheetTraceable() && app.getGuiManager().showView(AbstractApplication.VIEW_SPREADSHEET)) {
+			if (geo.isSpreadsheetTraceable() && app.getGuiManager().showView(App.VIEW_SPREADSHEET)) {
 				
 				boolean showRecordToSpreadsheet = true;
 				//check if other geos are recordable
@@ -754,7 +754,7 @@ public class ContextMenuGeoElement extends JPopupMenu {
 
 			// AUXILIARY OBJECT
 
-			if (app.getGuiManager().showView(AbstractApplication.VIEW_ALGEBRA) && app.showAuxiliaryObjects() && 
+			if (app.getGuiManager().showView(App.VIEW_ALGEBRA) && app.showAuxiliaryObjects() && 
 					geo.isAlgebraShowable()) {
 
 				// show object

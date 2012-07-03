@@ -12,7 +12,7 @@ the Free Software Foundation.
 
 package geogebra.util;
 
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -41,7 +41,7 @@ public class DownloadManager {
 			if (srcConnection.getLastModified() <= dest.lastModified() &&
 				srcConnection.getContentLength() == dest.length()) {
 				// Yes. No extra download is required. :-)
-				Application.debug("GeoGebraWeb has already been downloaded");
+				AppD.debug("GeoGebraWeb has already been downloaded");
 				return;
 			}
 			

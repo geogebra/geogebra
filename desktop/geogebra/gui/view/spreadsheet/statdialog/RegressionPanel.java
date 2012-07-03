@@ -9,7 +9,7 @@ import geogebra.common.util.Language;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.gui.util.GeoGebraIcon;
 import geogebra.gui.view.spreadsheet.statdialog.StatDialog.Regression;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -34,7 +34,7 @@ import javax.swing.border.TitledBorder;
 public class RegressionPanel extends JPanel implements  ActionListener, StatPanelInterface{
 	private static final long serialVersionUID = 1L;
 
-	private Application app;
+	private AppD app;
 	private StatDialog statDialog;
 
 	// regression panel objects
@@ -54,7 +54,7 @@ public class RegressionPanel extends JPanel implements  ActionListener, StatPane
 	private JPanel predictionPanel;
 
 
-	public RegressionPanel(Application app, StatDialog statDialog){
+	public RegressionPanel(AppD app, StatDialog statDialog){
 
 		this.app = app;
 		this.statDialog = statDialog;

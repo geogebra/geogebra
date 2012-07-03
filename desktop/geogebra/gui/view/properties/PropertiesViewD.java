@@ -14,7 +14,7 @@ package geogebra.gui.view.properties;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.gui.dialog.options.OptionPanelD;
 import geogebra.gui.dialog.options.OptionsAdvancedD;
 import geogebra.gui.dialog.options.OptionsCASD;
@@ -23,7 +23,7 @@ import geogebra.gui.dialog.options.OptionsEuclidianD;
 import geogebra.gui.dialog.options.OptionsLayoutD;
 import geogebra.gui.dialog.options.OptionsObjectD;
 import geogebra.gui.dialog.options.OptionsSpreadsheetD;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 import geogebra.main.GeoGebraPreferences;
 
 import java.awt.BorderLayout;
@@ -78,17 +78,17 @@ public class PropertiesViewD extends geogebra.common.gui.view.properties.Propert
 	 * Constructor
 	 * @param app
 	 */
-	public PropertiesViewD(Application app) {
+	public PropertiesViewD(AppD app) {
 
 		this.wrappedPanel = new JPanel();
 		this.app = app;
 		app.setPropertiesView(this);
 		
 		//init object properties
-		AbstractApplication.debug("init object properties");
+		App.debug("init object properties");
 		app.setWaitCursor();
 		getOptionPanel(OptionType.OBJECTS);
-		AbstractApplication.debug("end (init object properties)");
+		App.debug("end (init object properties)");
 		
 		kernel = app.getKernel();
 		// this.geoTree=geoTree;
@@ -270,7 +270,7 @@ public class PropertiesViewD extends geogebra.common.gui.view.properties.Propert
 	}
 	
 	final private void setOptionPanelRegardingFocus(boolean updateEuclidianTab){
-		int focusedViewId = ((Application) app).getGuiManager().getLayout()
+		int focusedViewId = ((AppD) app).getGuiManager().getLayout()
 				.getDockManager().getFocusedViewId();
 
 
@@ -451,22 +451,22 @@ public class PropertiesViewD extends geogebra.common.gui.view.properties.Propert
 		switch (type) {
 		case DEFAULTS:
 			if (defaultsPanel == null) {
-				defaultsPanel = new OptionsDefaultsD((Application) app);
+				defaultsPanel = new OptionsDefaultsD((AppD) app);
 			}
 			return defaultsPanel;
 
 		case CAS:
 			if (casPanel == null) {
-				casPanel = new OptionsCASD((Application) app);
+				casPanel = new OptionsCASD((AppD) app);
 			}
 			return casPanel;
 
 		case EUCLIDIAN:
 			if (euclidianPanel == null) {
-				euclidianPanel = new OptionsEuclidianD((Application) app,
-						((Application) app).getActiveEuclidianView());
+				euclidianPanel = new OptionsEuclidianD((AppD) app,
+						((AppD) app).getActiveEuclidianView());
 				euclidianPanel.setLabels();
-				euclidianPanel.setView(((Application)app).getEuclidianView1());
+				euclidianPanel.setView(((AppD)app).getEuclidianView1());
 				euclidianPanel.showCbView(false);
 			}
 			
@@ -474,10 +474,10 @@ public class PropertiesViewD extends geogebra.common.gui.view.properties.Propert
 
 		case EUCLIDIAN2:
 			if (euclidianPanel2 == null) {
-				euclidianPanel2 = new OptionsEuclidianD((Application) app,
-						((Application)app).getEuclidianView2());
+				euclidianPanel2 = new OptionsEuclidianD((AppD) app,
+						((AppD)app).getEuclidianView2());
 				euclidianPanel2.setLabels();
-				euclidianPanel2.setView(((Application)app).getEuclidianView2());
+				euclidianPanel2.setView(((AppD)app).getEuclidianView2());
 				euclidianPanel2.showCbView(false);
 			}
 			
@@ -485,26 +485,26 @@ public class PropertiesViewD extends geogebra.common.gui.view.properties.Propert
 
 		case SPREADSHEET:
 			if (spreadsheetPanel == null) {
-				spreadsheetPanel = new OptionsSpreadsheetD((Application)app, ((Application)app)
+				spreadsheetPanel = new OptionsSpreadsheetD((AppD)app, ((AppD)app)
 						.getGuiManager().getSpreadsheetView());
 			}
 			return spreadsheetPanel;
 
 		case ADVANCED:
 			if (advancedPanel == null) {
-				advancedPanel = new OptionsAdvancedD((Application) app);
+				advancedPanel = new OptionsAdvancedD((AppD) app);
 			}
 			return advancedPanel;
 
 		case LAYOUT:
 			if (layoutPanel == null) {
-				layoutPanel = new OptionsLayoutD((Application) app);
+				layoutPanel = new OptionsLayoutD((AppD) app);
 			}
 			return layoutPanel;
 
 		case OBJECTS:
 			if (objectPanel == null) {
-				objectPanel = new OptionsObjectD((Application) app);
+				objectPanel = new OptionsObjectD((AppD) app);
 				objectPanel.setMinimumSize(objectPanel.getPreferredSize());
 			}
 			return objectPanel;
@@ -551,7 +551,7 @@ public class PropertiesViewD extends geogebra.common.gui.view.properties.Propert
 	 * @return new properties style bar
 	 */
 	protected PropertiesStyleBar newPropertiesStyleBar() {
-		return new PropertiesStyleBar(this, (Application) app);
+		return new PropertiesStyleBar(this, (AppD) app);
 	}
 
 	/**
@@ -593,7 +593,7 @@ public class PropertiesViewD extends geogebra.common.gui.view.properties.Propert
 	
 
 	private void updateTitleBar(){
-		((Application)app).getGuiManager().getLayout().getDockManager().getPanel(AbstractApplication.VIEW_PROPERTIES).updateTitleBar();
+		((AppD)app).getGuiManager().getLayout().getDockManager().getPanel(App.VIEW_PROPERTIES).updateTitleBar();
 	}
 
 	public void closeIfNotCurrentListener() {
@@ -609,7 +609,7 @@ public class PropertiesViewD extends geogebra.common.gui.view.properties.Propert
 
 	public void attachView() {
 		if (attached){
-			AbstractApplication.debug("already attached");
+			App.debug("already attached");
 			return;
 		}
 		
@@ -697,7 +697,7 @@ public class PropertiesViewD extends geogebra.common.gui.view.properties.Propert
 	}
 
 	public int getViewID() {
-		return AbstractApplication.VIEW_PROPERTIES;
+		return App.VIEW_PROPERTIES;
 	}
 	
 

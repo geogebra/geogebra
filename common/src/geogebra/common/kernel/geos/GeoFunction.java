@@ -40,7 +40,7 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.roots.RealRootFunction;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.main.MyError;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.plugin.Operation;
@@ -1679,7 +1679,7 @@ public class GeoFunction extends GeoElement implements VarString,
 											verticalAsymptotesArray[i], true)
 									.getDouble());
 					} catch (Exception e) {
-						AbstractApplication.debug("Error parsing: "
+						App.debug("Error parsing: "
 								+ verticalAsymptotesArray[i]);
 					}
 					if (reverseCondition)

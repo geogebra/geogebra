@@ -61,7 +61,7 @@ import geogebra.common.util.Unicode;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.parser.cashandlers.CommandDispatcherMPReduce;
 import geogebra.common.kernel.parser.cashandlers.ParserFunctions;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.plugin.Operation;
 
 import java.util.ArrayList;
@@ -72,7 +72,7 @@ import java.util.Vector;
 public class Parser implements ParserInterface{
 
     private Kernel kernel;
-    private AbstractApplication app;
+    private App app;
     private boolean GeoGebraCASParsing = false;
     private boolean ExternalCASParsing = false;
 	private boolean MPReduceParsing = false;

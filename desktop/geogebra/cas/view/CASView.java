@@ -3,12 +3,12 @@ package geogebra.cas.view;
 import geogebra.common.cas.view.CASInputHandler;
 import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.gui.GuiManagerD;
 import geogebra.gui.inputbar.InputBarHelpPanel;
 import geogebra.gui.view.Gridable;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -47,7 +47,7 @@ public class CASView  extends geogebra.common.cas.view.CASView implements Gridab
 	private CASSubDialog subDialog;
 	private ListSelectionModel listSelModel;
 
-	final private Application app;
+	final private AppD app;
 	final private RowHeader rowHeader;
 	
 	/** stylebar */
@@ -63,7 +63,7 @@ public class CASView  extends geogebra.common.cas.view.CASView implements Gridab
 	 * Creates new CAS view
 	 * @param app application
 	 */
-	public CASView(final Application app) { 
+	public CASView(final AppD app) { 
 		component = new CASComponent();
 		kernel = app.getKernel();
 		this.app = app;
@@ -274,7 +274,7 @@ public class CASView  extends geogebra.common.cas.view.CASView implements Gridab
 	 * @return application of this view
 	 */
 	@Override
-	public Application getApp() {
+	public AppD getApp() {
 		return app;
 	}
 	
@@ -289,7 +289,7 @@ public class CASView  extends geogebra.common.cas.view.CASView implements Gridab
 		// ensureOneEmptyRow();
 	}
 
-	public Application getApplication() {
+	public AppD getApplication() {
 		return app;
 	}
 
@@ -329,7 +329,7 @@ public class CASView  extends geogebra.common.cas.view.CASView implements Gridab
 	}
 
 	public boolean hasFocus() {
-	    AbstractApplication.debug("unimplemented");
+	    App.debug("unimplemented");
 		return false;
 	}
 }

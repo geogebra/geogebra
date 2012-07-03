@@ -1,6 +1,6 @@
 package geogebra.web.gui;
 
-import geogebra.web.main.Application;
+import geogebra.web.main.AppW;
 
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.event.dom.client.KeyUpEvent;
@@ -12,9 +12,9 @@ public class AngleTextFieldW extends TextBox implements KeyUpHandler {
 
 	private static final long serialVersionUID = 1L;
 
-	Application app;
+	AppW app;
 
-	public AngleTextFieldW(int columns, Application app) {
+	public AngleTextFieldW(int columns, AppW app) {
 		super();
 		this.app = app;
 		setVisibleLength(columns);

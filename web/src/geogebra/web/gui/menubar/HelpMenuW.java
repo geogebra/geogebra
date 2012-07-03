@@ -1,7 +1,7 @@
 package geogebra.web.gui.menubar;
 
 import geogebra.common.GeoGebraConstants;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.web.gui.images.AppResources;
 
 import com.google.gwt.user.client.Command;
@@ -10,9 +10,9 @@ import com.google.gwt.user.client.ui.MenuBar;
 
 public class HelpMenuW extends MenuBar {
 	
-	private AbstractApplication app;
+	private App app;
 	
-	public HelpMenuW(AbstractApplication app) {
+	public HelpMenuW(App app) {
 
 		super(true);
 	    this.app = app;

@@ -2,7 +2,7 @@ package geogebra.gui.view.spreadsheet.statdialog;
 
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.gui.inputfield.MyTextField;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -40,7 +40,7 @@ import javax.swing.JTextField;
 public class OptionsPanel extends JPanel implements PropertyChangeListener, ActionListener, FocusListener, StatPanelInterface{
 	private static final long serialVersionUID = 1L;
 
-	private Application app;
+	private AppD app;
 	private StatDialog statDialog;
 	private StatPanelSettings settings;
 
@@ -76,7 +76,7 @@ public class OptionsPanel extends JPanel implements PropertyChangeListener, Acti
 	private JLabel lblClassRule;
 
 
-	public OptionsPanel(Application app, StatDialog statDialog, StatPanelSettings settings){
+	public OptionsPanel(AppD app, StatDialog statDialog, StatPanelSettings settings){
 
 		this.app = app;
 		this.statDialog = statDialog;

@@ -15,7 +15,7 @@ import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.cas.AsynchronousCommand;
 import geogebra.common.kernel.cas.CASGenericInterface;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.main.settings.AbstractSettings;
 import geogebra.common.main.settings.CASSettings;
 
@@ -102,7 +102,7 @@ public abstract class AbstractCASmpreduce implements CASGenericInterface {
 		}
 		exp = sb.toString();
 
-		AbstractApplication.debug("eval with MPReduce: " + exp);
+		App.debug("eval with MPReduce: " + exp);
 		String result = getMPReduce().evaluate(exp, getTimeoutMilliseconds());
 
 		sb.setLength(0);
@@ -111,10 +111,10 @@ public abstract class AbstractCASmpreduce implements CASGenericInterface {
 			if (s.length() == 0)
 				continue;
 			else if (s.startsWith("***")) { // MPReduce comment
-				AbstractApplication.debug("MPReduce comment: " + s);
+				App.debug("MPReduce comment: " + s);
 				continue;
 			} else if (s.startsWith("Unknown")) {
-				AbstractApplication.debug("Assumed " + s);
+				App.debug("Assumed " + s);
 				continue;
 			} else {
 				// look for any trailing $
@@ -138,7 +138,7 @@ public abstract class AbstractCASmpreduce implements CASGenericInterface {
 		result = sb.toString();
 
 		// TODO: remove
-		AbstractApplication.debug("   result: " + result);
+		App.debug("   result: " + result);
 		return result;
 	}
 
@@ -280,9 +280,9 @@ public abstract class AbstractCASmpreduce implements CASGenericInterface {
 			getMPReduce().evaluate(sb.toString());
 
 			// TODO: remove
-			AbstractApplication.debug("Cleared variable: " + sb.toString());
+			App.debug("Cleared variable: " + sb.toString());
 		} catch (Throwable e) {
-			AbstractApplication.debug("Failed to clear variable from MPReduce: " + var);
+			App.debug("Failed to clear variable from MPReduce: " + var);
 		}
 	}
 
@@ -298,7 +298,7 @@ public abstract class AbstractCASmpreduce implements CASGenericInterface {
 			getMPReduce().initialize();
 			initDependentMyMPReduceFunctions(getMPReduce());
 		} catch (Throwable e) {
-			AbstractApplication.debug("failed to reset MPReduce");
+			App.debug("failed to reset MPReduce");
 			e.printStackTrace();
 		}
 	}

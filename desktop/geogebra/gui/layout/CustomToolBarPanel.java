@@ -2,7 +2,7 @@ package geogebra.gui.layout;
 
 import geogebra.gui.dialog.options.OptionsDialog;
 import geogebra.gui.toolbar.ToolbarConfigDialog;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
 
@@ -11,7 +11,7 @@ import javax.swing.JPanel;
 
 public class CustomToolBarPanel extends JPanel {
 
-	private Application app;
+	private AppD app;
 
 	private OptionsDialog.Factory optionsDialogFactory;
 	private OptionsDialog optionsDialog;
@@ -19,7 +19,7 @@ public class CustomToolBarPanel extends JPanel {
 	private ToolbarConfigDialog toolDialog;
 
 
-	public CustomToolBarPanel(Application app) {
+	public CustomToolBarPanel(AppD app) {
 
 		this.app = app;
 		setLayout(new BorderLayout());

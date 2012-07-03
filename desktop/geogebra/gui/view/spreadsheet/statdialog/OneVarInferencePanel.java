@@ -5,7 +5,7 @@ import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.gui.inputfield.MyTextField;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -46,7 +46,7 @@ import org.apache.commons.math.stat.inference.TTestImpl;
 public class OneVarInferencePanel extends JPanel implements ActionListener,  FocusListener, StatPanelInterface {
 	private static final long serialVersionUID = 1L;
 	// ggb fields
-	private Application app;
+	private AppD app;
 	private Kernel kernel;
 	private StatDialog statDialog;
 	private StatTable resultTable;
@@ -87,7 +87,7 @@ public class OneVarInferencePanel extends JPanel implements ActionListener,  Foc
 	/***************************************
 	 * Construct a OneVarInference panel
 	 */
-	public OneVarInferencePanel(Application app, StatDialog statDialog){
+	public OneVarInferencePanel(AppD app, StatDialog statDialog){
 
 		isIniting = true;
 		this.app = app;

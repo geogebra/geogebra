@@ -27,7 +27,7 @@ import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.kernelND.GeoAxisND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.optimization.ExtremumFinder;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.main.MyError;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.plugin.Operation;
@@ -261,7 +261,7 @@ public class Construction {
 		geoTable.remove(xAxisLocalName);
 		geoTable.remove(yAxisLocalName);
 
-		AbstractApplication app = kernel.getApplication();
+		App app = kernel.getApplication();
 		xAxisLocalName = app.getPlain("xAxis");
 		yAxisLocalName = app.getPlain("yAxis");
 		geoTable.put(xAxisLocalName, xAxis);
@@ -403,7 +403,7 @@ public class Construction {
 	 * 
 	 * @return current application
 	 */
-	public AbstractApplication getApplication() {
+	public App getApplication() {
 		return kernel.getApplication();
 	}
 
@@ -616,7 +616,7 @@ public class Construction {
 		}
 
 		if (updateAlgos != null) {
-			AbstractApplication app = kernel.getApplication();
+			App app = kernel.getApplication();
 			if (app.isUsingFullGui() && app.getGuiManager() != null)
 				app.getGuiManager().updateConstructionProtocol();
 		}
@@ -693,7 +693,7 @@ public class Construction {
 
 			if (ce instanceof GeoElement) {
 				// TODO: update Algebra View
-				AbstractApplication.debug("TODO: update Algebra View");
+				App.debug("TODO: update Algebra View");
 			}
 
 			// move the construction element
@@ -1327,7 +1327,7 @@ public class Construction {
 			redefineMap.put(oldGeo, newGeo);
 			return;
 		}
-		AbstractApplication app = kernel.getApplication();
+		App app = kernel.getApplication();
 		boolean moveMode = app.getMode() == EuclidianConstants.MODE_MOVE
 				&& app.getSelectedGeos().size() > 0;
 		String oldSelection = null;
@@ -1476,7 +1476,7 @@ public class Construction {
 		int pos = consXML.indexOf(oldXML);
 		if (pos < 0) {
 			restoreCurrentUndoInfo();
-			AbstractApplication
+			App
 					.debug("replace failed: oldXML string not found:\n"
 							+ oldXML);
 			// Application.debug("consXML=\n" + consXML);

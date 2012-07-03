@@ -6,7 +6,7 @@ import java.util.Date;
 
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.kernel.commands.AlgebraProcessor;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.web.asyncservices.HandleGoogleDriveService;
 import geogebra.web.asyncservices.HandleGoogleDriveServiceAsync;
 import geogebra.web.asyncservices.HandleOAuth2Service;
@@ -16,7 +16,7 @@ import geogebra.web.gui.app.GeoGebraAppFrame;
 import geogebra.web.helper.JavaScriptInjector;
 import geogebra.web.html5.ArticleElement;
 import geogebra.web.html5.Dom;
-import geogebra.web.main.Application;
+import geogebra.web.main.AppW;
 
 import com.google.api.gwt.oauth2.client.Auth;
 import com.google.gwt.core.client.EntryPoint;
@@ -130,7 +130,7 @@ public class Web implements EntryPoint {
 			}
 
 			public void onFailure(Throwable reason) {
-				AbstractApplication.debug(reason);
+				App.debug(reason);
 			}
 		});
 	    
@@ -165,7 +165,7 @@ public class Web implements EntryPoint {
 	private static native boolean checkIfFallbackSetExplicitlyInArrayBufferJs() /*-{
 		if ($wnd.zip.useWebWorkers === false) {
 			//we set this explicitly in arraybuffer.js
-			@geogebra.web.main.Application::debug(Ljava/lang/String;)("INIT: workers maybe supported, but fallback set explicitly in arraybuffer.js");
+			@geogebra.web.main.AppW::debug(Ljava/lang/String;)("INIT: workers maybe supported, but fallback set explicitly in arraybuffer.js");
 			return true;;
 		}
 		return false;
@@ -175,11 +175,11 @@ public class Web implements EntryPoint {
 	    try {
 	    	var worker = new $wnd.Worker(workerpath+"js/workercheck.js");
 	    } catch (e) {
-	    	@geogebra.web.main.Application::debug(Ljava/lang/String;)("INIT: worker not supported, fallback for simple js");
+	    	@geogebra.web.main.AppW::debug(Ljava/lang/String;)("INIT: worker not supported, fallback for simple js");
 	    	
 	    	return false;
 	    }
-	    @geogebra.web.main.Application::debug(Ljava/lang/String;)("INIT: workers are supported");
+	    @geogebra.web.main.AppW::debug(Ljava/lang/String;)("INIT: workers are supported");
 	    	
 	    worker.terminate();
 	    return true;

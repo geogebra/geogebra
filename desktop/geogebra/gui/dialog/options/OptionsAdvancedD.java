@@ -4,14 +4,14 @@ import geogebra.common.gui.SetLabels;
 import geogebra.common.io.MyXMLHandler;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.PathRegionHandling;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.main.settings.KeyboardSettings;
 import geogebra.common.main.settings.Settings;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.util.Language;
 import geogebra.euclidian.EuclidianViewD;
 import geogebra.gui.util.FullWidthLayout;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -53,7 +53,7 @@ public class OptionsAdvancedD extends geogebra.common.gui.dialog.options.Options
 	/**
 	 * Application object.
 	 */
-	private Application app;
+	private AppD app;
 
 	/**
 	 * Settings for all kind of application components.
@@ -117,7 +117,7 @@ public class OptionsAdvancedD extends geogebra.common.gui.dialog.options.Options
 	 * 
 	 * @param app
 	 */
-	public OptionsAdvancedD(Application app) {
+	public OptionsAdvancedD(AppD app) {
 		this.wrappedPanel = new JPanel(new BorderLayout());
 
 		this.app = app;
@@ -597,15 +597,15 @@ public class OptionsAdvancedD extends geogebra.common.gui.dialog.options.Options
 	}
 
 	public void updateTooltipLanguages() {
-		if (cbTooltipLanguage.getItemCount() == Application.getSupportedLocales()
+		if (cbTooltipLanguage.getItemCount() == AppD.getSupportedLocales()
 				.size() + 1) {
 			Locale ttl = app.getTooltipLanguage();
 			if (ttl == null) {
 				cbTooltipLanguage.setSelectedIndex(0);
 			} else {
 				boolean found = false;
-				for (int i = 0; i < Application.getSupportedLocales().size(); i++) {
-					if (Application.getSupportedLocales().get(i).toString()
+				for (int i = 0; i < AppD.getSupportedLocales().size(); i++) {
+					if (AppD.getSupportedLocales().get(i).toString()
 							.equals(ttl.toString())) {
 						cbTooltipLanguage.setSelectedIndex(i + 1);
 						found = true;
@@ -633,14 +633,14 @@ public class OptionsAdvancedD extends geogebra.common.gui.dialog.options.Options
 				delay = 1000 * Integer.parseInt(tooltipTimeouts[index]);
 			}
 			ToolTipManager.sharedInstance().setDismissDelay(delay);
-			AbstractApplication.debug(delay);
+			App.debug(delay);
 
 		} else if (source == cbTooltipLanguage) {
 			int index = cbTooltipLanguage.getSelectedIndex() - 1;
 			if (index == -1)
 				app.setTooltipLanguage(null);
 			else
-				app.setTooltipLanguage(Application.getSupportedLocales().get(index)
+				app.setTooltipLanguage(AppD.getSupportedLocales().get(index)
 						.toString());
 		} else if (source == cbEnableScripting) {
 			app.setScriptingDisabled(!cbEnableScripting.isSelected());
@@ -959,17 +959,17 @@ public class OptionsAdvancedD extends geogebra.common.gui.dialog.options.Options
 	 * @see #setLabelsKeyboardLanguage()
 	 */
 	private void setLabelsTooltipLanguages() {
-		String[] languages = new String[Application.getSupportedLocales().size() + 1];
+		String[] languages = new String[AppD.getSupportedLocales().size() + 1];
 		languages[0] = app.getPlain("Default");
 		String ggbLangCode;
 
-		for (int i = 0; i < Application.getSupportedLocales().size(); i++) {
-			Locale loc = Application.getSupportedLocales().get(i);
+		for (int i = 0; i < AppD.getSupportedLocales().size(); i++) {
+			Locale loc = AppD.getSupportedLocales().get(i);
 			ggbLangCode = loc.getLanguage() + loc.getCountry()
 					+ loc.getVariant();
 
 			languages[i + 1] = Language.getDisplayName(ggbLangCode);
-			Application.debug(ggbLangCode+" "+languages[i + 1]);
+			AppD.debug(ggbLangCode+" "+languages[i + 1]);
 		}
 
 		int selectedIndex = cbTooltipLanguage.getSelectedIndex();

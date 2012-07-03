@@ -4,7 +4,7 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.gui.inputfield.MyTextField;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
 
@@ -23,7 +23,7 @@ public abstract class CASTableCell extends JPanel {
 	protected CASInputPanel inputPanel;
 	protected CASOutputPanel outputPanel;
 	protected MyTextField dummyField; // dummy label used to get preferred size;
-	protected Application app;
+	protected AppD app;
 	protected CASView view;
 
 	public CASTableCell(CASView view) {

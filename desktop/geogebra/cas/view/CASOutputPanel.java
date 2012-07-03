@@ -1,6 +1,6 @@
 package geogebra.cas.view;
 
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -27,7 +27,7 @@ public class CASOutputPanel extends JPanel {
 	private JLabel outputArea;
 	private LaTeXPanel latexPanel; 
 
-	public CASOutputPanel(Application app) {
+	public CASOutputPanel(AppD app) {
 		setBackground(Color.white);		
 		setLayout(new BorderLayout(5,0));
 		

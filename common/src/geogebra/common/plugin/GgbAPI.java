@@ -18,7 +18,7 @@ import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.geos.PointProperties;
 import geogebra.common.kernel.geos.Traceable;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.util.StringUtil;
 
 import java.util.ArrayList;
@@ -58,7 +58,7 @@ public abstract class GgbAPI implements JavaScriptAPI{
 	/** algebra processor*/
 	protected AlgebraProcessor algebraprocessor = null;
 	/** application*/
-	protected AbstractApplication app = null;
+	protected App app = null;
 
 	// private PluginManager pluginmanager= null;
 	// /// ----- Interface ----- /////
@@ -154,12 +154,12 @@ public abstract class GgbAPI implements JavaScriptAPI{
 			//TODO -- allow  to parametrize this
 			ret = ggbcas.evaluateGeoGebraCAS(cmdString,null);
 		} catch (Throwable t) {
-			AbstractApplication.debug(t.toString());
+			App.debug(t.toString());
 		}// try-catch
 
 		// useful for debugging JavaScript
 		if (debugOutput)
-			AbstractApplication.debug("evalGeoGebraCAS\n input:" + cmdString
+			App.debug("evalGeoGebraCAS\n input:" + cmdString
 					+ "\n" + "output: " + ret);
 		return ret;
 	}// evalGeoGebraCAS(String)
@@ -169,7 +169,7 @@ public abstract class GgbAPI implements JavaScriptAPI{
 	 */
 	public synchronized void debug(String string) {
 
-		AbstractApplication.debug(string);
+		App.debug(string);
 	}
 
 	/**
@@ -921,7 +921,7 @@ public abstract class GgbAPI implements JavaScriptAPI{
     /**
      * @return application
      */
-    final public AbstractApplication getApplication() {
+    final public App getApplication() {
 	    return app;
     }
 

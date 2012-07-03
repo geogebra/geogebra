@@ -1,6 +1,6 @@
 package geogebra.awt;
 
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 
 public class GComponentD implements geogebra.common.awt.Component{
 	private java.awt.Component impl;
@@ -8,7 +8,7 @@ public class GComponentD implements geogebra.common.awt.Component{
 		if (component instanceof java.awt.Component){
 			impl = (java.awt.Component) component;
 		} else {
-			AbstractApplication.warn(
+			App.warn(
 					"Function called with not the right type.");
 		}
 	}

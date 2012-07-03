@@ -16,7 +16,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 
 import java.util.TreeSet;
 
@@ -32,7 +32,7 @@ public abstract class ConstructionElement implements
 	/** parent kernel of this element */
 	public transient Kernel kernel; 
 	/** parent application of this element */
-	protected transient AbstractApplication app; 
+	protected transient App app; 
 
 
 	private int constIndex = -1; // index in construction list

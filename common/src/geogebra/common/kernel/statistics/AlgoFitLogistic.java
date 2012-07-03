@@ -25,7 +25,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoPoint;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.plugin.Operation;
 
 import java.util.Iterator;
@@ -91,7 +91,7 @@ public final class AlgoFitLogistic extends AlgoElement {
 	// private final static boolean DEBUG = false; //set false when finished
 
 	// Properties
-	private static AbstractApplication app = null;
+	private static App app = null;
 	private static Kernel k = null;
 	private static double a, b, c; // c/(1+a*exp(-bx))
 	private static double[] xd, yd; // datapoints
@@ -530,7 +530,7 @@ public final class AlgoFitLogistic extends AlgoElement {
 
 	// 20.11: ->Application.debug()
 	private final static void errorMsg(String s) {
-		AbstractApplication.debug(s);
+		App.debug(s);
 	}// errorMsg(String)
 
 	/*

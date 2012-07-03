@@ -1,7 +1,7 @@
 package geogebra.sound;
 
 import geogebra.common.kernel.geos.GeoFunction;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 /**
  * Class to handle GeoGebra sound features. Calls to midi and streaming audio
@@ -12,7 +12,7 @@ import geogebra.main.Application;
  */
 public class SoundManager implements geogebra.common.sound.SoundManager{
 
-	private Application app;
+	private AppD app;
 	private MidiSound midiSound;
 	private FunctionSound functionSound;
 
@@ -29,7 +29,7 @@ public class SoundManager implements geogebra.common.sound.SoundManager{
 	 * Constructor
 	 * @param app
 	 */
-	public SoundManager(Application app){
+	public SoundManager(AppD app){
 		this.app = app;
 	}
 

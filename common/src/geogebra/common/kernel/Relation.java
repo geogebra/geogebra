@@ -32,7 +32,7 @@ import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.geos.GeoVector;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 
 /**
  * 
@@ -40,7 +40,7 @@ import geogebra.common.main.AbstractApplication;
  */
 public class Relation {
 
-	private AbstractApplication app;
+	private App app;
 	private Construction cons;
 
 	/**

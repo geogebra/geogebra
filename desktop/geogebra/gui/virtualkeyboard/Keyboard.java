@@ -1,6 +1,6 @@
 package geogebra.gui.virtualkeyboard;
 
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 
 import java.awt.AWTException;
 import java.awt.Robot;
@@ -192,7 +192,7 @@ public class Keyboard {
 				doType(altPressed, ctrlPressed, shiftPressed, KeyEvent.VK_DOWN);
 			else if (text.equals("<backspace>"))
 				doType(altPressed, ctrlPressed, shiftPressed, KeyEvent.VK_BACK_SPACE);
-			else AbstractApplication.debug("unknown keycode:"+text);
+			else App.debug("unknown keycode:"+text);
 		}
     	
     }

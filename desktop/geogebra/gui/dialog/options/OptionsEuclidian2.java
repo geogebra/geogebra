@@ -25,7 +25,7 @@ import geogebra.euclidianND.EuclidianViewND;
 import geogebra.gui.NumberComboBox;
 import geogebra.gui.dialog.DashListRenderer;
 import geogebra.gui.inputfield.MyTextField;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -65,7 +65,7 @@ public class OptionsEuclidian2 extends JPanel  implements OptionPanelD, ActionLi
 	private static final String PI_STR = "\u03c0";
 	private static final String DEGREE_STR = "\u00b0";
 	
-	protected Application app;
+	protected AppD app;
 	private Kernel kernel;
 	protected EuclidianViewND view;
 	
@@ -120,7 +120,7 @@ public class OptionsEuclidian2 extends JPanel  implements OptionPanelD, ActionLi
 	 * Creates a new dialog for the properties of the Euclidian view.
 	 * @param app parent frame
 	 */
-	public OptionsEuclidian2(Application app, EuclidianViewND view) {
+	public OptionsEuclidian2(AppD app, EuclidianViewND view) {
 		
 		isIniting = true;
 		this.app = app;	

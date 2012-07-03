@@ -6,14 +6,14 @@ import geogebra.common.gui.view.spreadsheet.CellRange;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.main.settings.AbstractSettings;
 import geogebra.common.main.settings.SettingListener;
 import geogebra.common.main.settings.SpreadsheetSettings;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.gui.view.Gridable;
 import geogebra.gui.view.spreadsheet.statdialog.StatDialog;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -50,7 +50,7 @@ View, ComponentListener, FocusListener, Gridable, SettingListener
 	private static final long serialVersionUID = 1L;
 
 	// ggb fields
-	protected Application app;
+	protected AppD app;
 	private Kernel kernel;
 
 	// spreadsheet table and row header
@@ -112,7 +112,7 @@ View, ComponentListener, FocusListener, Gridable, SettingListener
 	 * Construct spreadsheet view as a split panel. 
 	 * Left panel holds file tree browser, right panel holds spreadsheet. 
 	 */
-	public SpreadsheetView(Application app) {
+	public SpreadsheetView(AppD app) {
 
 		this.app = app;
 		kernel = app.getKernel();
@@ -245,7 +245,7 @@ View, ComponentListener, FocusListener, Gridable, SettingListener
 	//===============================================================
 
 
-	public Application getApplication() {
+	public AppD getApplication() {
 		return app;
 	}
 
@@ -1430,7 +1430,7 @@ View, ComponentListener, FocusListener, Gridable, SettingListener
 
 
 	public int getViewID() {
-		return AbstractApplication.VIEW_SPREADSHEET;
+		return App.VIEW_SPREADSHEET;
 	}
 
 

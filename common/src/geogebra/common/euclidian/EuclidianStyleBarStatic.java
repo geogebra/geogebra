@@ -11,7 +11,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.main.MyError;
 
 import java.util.ArrayList;
@@ -28,7 +28,7 @@ public class EuclidianStyleBarStatic {
 		
 		AbsoluteScreenLocateable geoASL;
 		
-		AbstractApplication app = geos.get(0).getKernel().getApplication();
+		App app = geos.get(0).getKernel().getApplication();
 		
 		// workaround to make sure pin icon disappears
 		// see applyFixPosition() called with a geo with label not set below
@@ -39,7 +39,7 @@ public class EuclidianStyleBarStatic {
 
 			// problem with ghost geos
 			if (!geo.isLabelSet()) {
-				AbstractApplication.warn("applyFixPosition() called with a geo with label not set: "+geo.getLabelSimple());
+				App.warn("applyFixPosition() called with a geo with label not set: "+geo.getLabelSimple());
 				continue;
 				
 			}
@@ -104,7 +104,7 @@ public class EuclidianStyleBarStatic {
 				
 			} else {
 				// can't pin
-				AbstractApplication.debug("not pinnable");
+				App.debug("not pinnable");
 				return false;
 			}
 			
@@ -129,12 +129,12 @@ public class EuclidianStyleBarStatic {
 	public static GeoElement redefineGeo(GeoElement geo, String cmdtext) {
 		GeoElement newGeo = null;
 		
-		AbstractApplication app = geo.getKernel().getApplication();
+		App app = geo.getKernel().getApplication();
 
 		if (cmdtext == null)
 			return newGeo;
 		
-		AbstractApplication.debug("redefining "+geo+" as "+cmdtext);
+		App.debug("redefining "+geo+" as "+cmdtext);
 
 		try {
 			newGeo = app.getKernel().getAlgebraProcessor()
@@ -151,7 +151,7 @@ public class EuclidianStyleBarStatic {
 		return newGeo;
 	}
 	
-	public static void applyTableTextFormat(ArrayList<GeoElement> geos, int justifyIndex, boolean HisSelected, boolean VisSelected, int index, AbstractApplication app) {
+	public static void applyTableTextFormat(ArrayList<GeoElement> geos, int justifyIndex, boolean HisSelected, boolean VisSelected, int index, App app) {
 
 		AlgoElement algo = null;
 		GeoElement[] input;
@@ -202,7 +202,7 @@ public class EuclidianStyleBarStatic {
 		
 		boolean needUndo = false;
 		
-		AbstractApplication app = geos.get(0).getKernel().getApplication();
+		App app = geos.get(0).getKernel().getApplication();
 		
 		for (int i = 0; i < geos.size(); i++) {
 			GeoElement geo = geos.get(i);
@@ -248,7 +248,7 @@ public class EuclidianStyleBarStatic {
 	// EuclidianStyleBar.processSource, the return value will be unnecessary
 	public static boolean processSourceCommon(String actionCommand, ArrayList<GeoElement> targetGeos, EuclidianViewInterfaceCommon ev) {
 		EuclidianController ec = ev.getEuclidianController();
-		AbstractApplication app = ev.getApplication();
+		App app = ev.getApplication();
 		//cons = app.getKernel().getConstruction();
 		
 		if (actionCommand.equals("showAxes")) {

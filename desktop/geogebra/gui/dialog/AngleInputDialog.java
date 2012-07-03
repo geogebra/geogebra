@@ -13,7 +13,7 @@ package geogebra.gui.dialog;
 
 import geogebra.common.gui.InputHandler;
 import geogebra.gui.view.algebra.InputPanel.DialogType;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
@@ -40,7 +40,7 @@ public class AngleInputDialog extends InputDialog {
 	/**
 	 * Input Dialog for a GeoAngle object.
 	 */
-	public AngleInputDialog(Application app,  String message, String title, String initString,
+	public AngleInputDialog(AppD app,  String message, String title, String initString,
 					boolean autoComplete, InputHandler handler, boolean modal) {	
 		super(app.getFrame(), modal);
 		this.app = app;

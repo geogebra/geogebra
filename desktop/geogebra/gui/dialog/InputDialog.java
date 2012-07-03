@@ -24,7 +24,7 @@ import geogebra.gui.util.HelpAction;
 import geogebra.gui.view.algebra.InputPanel;
 import geogebra.gui.view.algebra.InputPanel.DialogType;
 import geogebra.gui.virtualkeyboard.VirtualKeyboard;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -49,7 +49,7 @@ public class InputDialog extends JDialog implements ActionListener,
 
 	private static final long serialVersionUID = 1L;
 
-	protected Application app;
+	protected AppD app;
 
 	protected GeoElement geo;
 
@@ -79,7 +79,7 @@ public class InputDialog extends JDialog implements ActionListener,
 	 * @param autoComplete
 	 * @param handler
 	 */
-	public InputDialog(Application app, String message, String title,
+	public InputDialog(AppD app, String message, String title,
 			String initString, boolean autoComplete, InputHandler handler) {
 		this(app, message, title, initString, autoComplete, handler, false,
 				false, null);
@@ -97,7 +97,7 @@ public class InputDialog extends JDialog implements ActionListener,
 	 * @param handler
 	 * @param geo
 	 */
-	public InputDialog(Application app, String message, String title,
+	public InputDialog(AppD app, String message, String title,
 			String initString, boolean autoComplete, InputHandler handler,
 			GeoElement geo) {
 		this(app, message, title, initString, autoComplete, handler, false,
@@ -116,7 +116,7 @@ public class InputDialog extends JDialog implements ActionListener,
 	 * @param selectInitText
 	 * @param geo
 	 */
-	public InputDialog(Application app, String message, String title,
+	public InputDialog(AppD app, String message, String title,
 			String initString, boolean autoComplete, InputHandler handler,
 			boolean modal, boolean selectInitText, GeoElement geo) {
 		this(app, message, title, initString, autoComplete, handler, modal,
@@ -136,7 +136,7 @@ public class InputDialog extends JDialog implements ActionListener,
 	 * @param checkBox
 	 * @param type
 	 */
-	public InputDialog(Application app, String message, String title,
+	public InputDialog(AppD app, String message, String title,
 			String initString, boolean autoComplete, InputHandler handler,
 			boolean modal, boolean selectInitText, GeoElement geo,
 			JCheckBox checkBox, DialogType type) {

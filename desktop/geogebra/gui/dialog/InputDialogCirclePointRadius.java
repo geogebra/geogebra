@@ -5,7 +5,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 /**
  * 
@@ -28,7 +28,7 @@ public class InputDialogCirclePointRadius extends InputDialogRadius{
 	 * @param point1
 	 * @param kernel
 	 */
-	public InputDialogCirclePointRadius(Application app, String title, InputHandler handler, GeoPoint point1, Kernel kernel) {
+	public InputDialogCirclePointRadius(AppD app, String title, InputHandler handler, GeoPoint point1, Kernel kernel) {
 		super(app, title, handler, kernel);
 		
 		geoPoint1 = point1;

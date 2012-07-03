@@ -1,7 +1,7 @@
 package geogebra;
 
-import geogebra.common.main.AbstractApplication;
-import geogebra.main.Application;
+import geogebra.common.main.App;
+import geogebra.main.AppD;
 
 import java.util.HashMap;
 import java.util.Locale;
@@ -55,7 +55,7 @@ public class CommandLineArguments {
 				// javaws -open "file1.ggb,file2.ggb" http://jars.geogebra.org/webstart/4.2/jnlp/geogebra-42.jnlp
 				// no -- or - prefix, therefore a filename
 				
-				if (cmdArgs[i].indexOf(',') > -1 && Application.isWebstart()) {
+				if (cmdArgs[i].indexOf(',') > -1 && AppD.isWebstart()) {
 					// process multiple files from eg
 					// javaws -open "language=en,file1.ggb,file2.ggb" http://jars.geogebra.org/webstart/4.2/jnlp/geogebra-42.jnlp
 					String[] files = cmdArgs[i].split(",");
@@ -81,7 +81,7 @@ public class CommandLineArguments {
 					args.put("file"+(noOfFiles++), cmdArgs[i]);
 				}
 			} else {
-				AbstractApplication.debug("unknown argument "+cmdArgs[i]);
+				App.debug("unknown argument "+cmdArgs[i]);
 			}
 		}
 	}

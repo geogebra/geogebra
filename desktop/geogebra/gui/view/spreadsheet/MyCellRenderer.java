@@ -8,8 +8,8 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoText;
-import geogebra.common.main.AbstractApplication;
-import geogebra.main.Application;
+import geogebra.common.main.App;
+import geogebra.main.AppD;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -33,7 +33,7 @@ public class MyCellRenderer extends DefaultTableCellRenderer {
 	private static final long serialVersionUID = 1L;
 
 	// ggb fields
-	private Application app;
+	private AppD app;
 	private Kernel kernel;
 	private SpreadsheetView view;
 
@@ -79,7 +79,7 @@ public class MyCellRenderer extends DefaultTableCellRenderer {
 	 * @param view
 	 * @param formatHandler
 	 */
-	public MyCellRenderer(Application app, SpreadsheetView view,
+	public MyCellRenderer(AppD app, SpreadsheetView view,
 			CellFormat formatHandler) {
 
 		this.app = app;
@@ -281,7 +281,7 @@ public class MyCellRenderer extends DefaultTableCellRenderer {
 						setText("");
 
 					} catch (Exception e) {
-						AbstractApplication.debug("error in drawing latex" + e);
+						App.debug("error in drawing latex" + e);
 					}
 				}
 			}

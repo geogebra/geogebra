@@ -1,7 +1,7 @@
 package geogebra3D.gui;
 
 import geogebra.gui.dialog.options.OptionsDialog;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 import geogebra3D.Application3D;
 
 import java.awt.Color;
@@ -11,7 +11,7 @@ public class OptionsDialog3D extends OptionsDialog {
 	private static final long serialVersionUID = 1L;
 	private OptionsEuclidian3D euclidianPanel3D;
 
-	public OptionsDialog3D(Application app) {
+	public OptionsDialog3D(AppD app) {
 		super(app);
 	}
 	
@@ -41,7 +41,7 @@ public class OptionsDialog3D extends OptionsDialog {
 	}
 	
 	public static class Factory extends OptionsDialog.Factory {
-		public OptionsDialog create(Application app) {
+		public OptionsDialog create(AppD app) {
 			return new OptionsDialog3D(app);
 		}
 	}

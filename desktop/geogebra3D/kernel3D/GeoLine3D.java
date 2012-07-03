@@ -8,10 +8,10 @@ import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.util.Unicode;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 public class GeoLine3D extends GeoCoordSys1D {
 
@@ -51,7 +51,7 @@ public class GeoLine3D extends GeoCoordSys1D {
 
 	@Override
 	public boolean isEqual(GeoElement Geo) {
-		AbstractApplication.debug("unimplemented");
+		App.debug("unimplemented");
 		return false;
 	}
 
@@ -159,7 +159,7 @@ public class GeoLine3D extends GeoCoordSys1D {
 	//Path3D interface
 	
 	public PathMover createPathMover() {
-		AbstractApplication.debug("unimplemented");
+		App.debug("unimplemented");
 		return null;
 	}
 

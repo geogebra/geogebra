@@ -4,10 +4,10 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoText;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.euclidianND.EuclidianViewND;
 import geogebra.gui.view.spreadsheet.statdialog.PlotPanelEuclidianView;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 import geogebra.util.AlgebraViewTransferHandler;
 
 import java.awt.Point;
@@ -36,7 +36,7 @@ public class EuclidianViewTransferHandler extends TransferHandler implements
 	private static final long serialVersionUID = 1L;
 
 	private EuclidianViewND ev;
-	private Application app;
+	private AppD app;
 
 	static DataFlavor textReaderFlavor;
 	static {
@@ -219,7 +219,7 @@ public class EuclidianViewTransferHandler extends TransferHandler implements
 							text = sb.toString();
 						}
 					} catch (Exception e) {
-						AbstractApplication
+						App
 								.debug("Caught exception decoding text transfer:"
 										+ e.getMessage());
 					}
@@ -285,10 +285,10 @@ public class EuclidianViewTransferHandler extends TransferHandler implements
 	private void requestViewFocus() {
 		if (ev.equals(app.getEuclidianView1()))
 			app.getGuiManager().getLayout().getDockManager()
-					.setFocusedPanel(AbstractApplication.VIEW_EUCLIDIAN);
+					.setFocusedPanel(App.VIEW_EUCLIDIAN);
 		else
 			app.getGuiManager().getLayout().getDockManager()
-					.setFocusedPanel(AbstractApplication.VIEW_EUCLIDIAN2);
+					.setFocusedPanel(App.VIEW_EUCLIDIAN2);
 	}
 
 	@Override

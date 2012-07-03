@@ -26,7 +26,7 @@ import geogebra.common.kernel.arithmetic.MyList;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.plugin.Operation;
 import geogebra.common.util.StringUtil;
 
@@ -143,7 +143,7 @@ public class AlgoDependentFunction extends AlgoElement {
 
 			} catch (Exception e) {
 				e.printStackTrace();
-				AbstractApplication.debug("derivative failed");
+				App.debug("derivative failed");
 			}
 
 			if (ev == null) {
@@ -205,7 +205,7 @@ public class AlgoDependentFunction extends AlgoElement {
 				return funcExpression.replace(x,
 						expandFunctionDerivativeNodes(node.getRight())).wrap();
 			case FUNCTION_NVAR:
-				AbstractApplication.debug("replacing");
+				App.debug("replacing");
 				
 
 				FunctionNVar funN =  ((FunctionalNVar) leftValue)

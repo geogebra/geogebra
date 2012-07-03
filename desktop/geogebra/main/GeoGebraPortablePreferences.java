@@ -12,7 +12,7 @@
 
 package geogebra.main;
 
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -121,7 +121,7 @@ public class GeoGebraPortablePreferences extends GeoGebraPreferences{
 				properties.store(os,COMMENT);											//Application.debug("storePreferences(): ");properties.list(System.out);
 				os.close();
 			} catch (Exception e) {
-				AbstractApplication.debug("Problem with storing of preferences.properties..."+e.toString());
+				App.debug("Problem with storing of preferences.properties..."+e.toString());
 			}//try-catch		
 		}//if not read-only. (else do nothing...)
 	}//storePreferences()
@@ -179,7 +179,7 @@ public class GeoGebraPortablePreferences extends GeoGebraPreferences{
    	// language
    	String strLocale = get(APP_LOCALE, null);
    	if (strLocale != null) 
-   		return Application.getLocale(strLocale);
+   		return AppD.getLocale(strLocale);
    	else
    		return null;    	
    }//getDefaultLocale()
@@ -197,9 +197,9 @@ public class GeoGebraPortablePreferences extends GeoGebraPreferences{
     */
    public  void loadFileList() {
    	// load last four files
-   	for (int i=Application.MAX_RECENT_FILES; i >= 1; i--) {	
+   	for (int i=AppD.MAX_RECENT_FILES; i >= 1; i--) {	
    		File file = new File(get(APP_FILE_ + i, ""));									//debug("loadFileList() called: "+file.toString());
-   		Application.addToFileList(file);	    		
+   		AppD.addToFileList(file);	    		
    	}				    	
    }//loadFileList()
    	
@@ -210,8 +210,8 @@ public class GeoGebraPortablePreferences extends GeoGebraPreferences{
 	String path;
    	try {    		    		    		    	
 	    	// save last four files
-	    	for (int i=1; i <= Application.MAX_RECENT_FILES; i++) {	    		
-	    		File file = Application.getFromFileList(i-1);
+	    	for (int i=1; i <= AppD.MAX_RECENT_FILES; i++) {	    		
+	    		File file = AppD.getFromFileList(i-1);
 	    		if (file != null){
 	    			path=file.getCanonicalPath();									//debug("saveFilelist(): "+path.toString());
 	    			set(APP_FILE_ + i, path);
@@ -232,7 +232,7 @@ public class GeoGebraPortablePreferences extends GeoGebraPreferences{
     * so no need to split up in pieces :-)
     * But we have to convert byte[]--b64-->String
     */
-   public  void saveXMLPreferences(Application app) {						//debug("saveXMLPreferences(app):");
+   public  void saveXMLPreferences(AppD app) {						//debug("saveXMLPreferences(app):");
 	// preferences xml
    	String xml = app.getPreferencesXML();
    	
@@ -264,7 +264,7 @@ public class GeoGebraPortablePreferences extends GeoGebraPreferences{
     * This method clears the current construction in the application.
     * Note: the XML string used is the same as for ggb files. 
     */
-   public  void loadXMLPreferences(Application app) {  
+   public  void loadXMLPreferences(AppD app) {  
    	app.setWaitCursor();  
    	
    	// load this preferences xml file in application
@@ -316,7 +316,7 @@ public class GeoGebraPortablePreferences extends GeoGebraPreferences{
    		//ggbPrefs.flush();
    		storePreferences();
    	} catch (Exception e) {
-   		AbstractApplication.debug(e+"");
+   		App.debug(e+"");
    	}
    }
    
@@ -339,7 +339,7 @@ public class GeoGebraPortablePreferences extends GeoGebraPreferences{
    //Just a thought:
    //b64=...<b64 encoding of current model..
    //Might be useful for some...
-   private String getB64(Application app){
+   private String getB64(AppD app){
 	   StringBuffer b64=null;
 	   try{
 		   b64=new StringBuffer();
@@ -362,7 +362,7 @@ public class GeoGebraPortablePreferences extends GeoGebraPreferences{
    
 	private final static void debug(String s) {
 		if (DEBUG) {
-			AbstractApplication.debug(s);
+			App.debug(s);
 		}// if()
 	}// debug()
 	

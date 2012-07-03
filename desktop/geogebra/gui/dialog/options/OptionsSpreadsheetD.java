@@ -17,7 +17,7 @@ import geogebra.common.main.settings.SpreadsheetSettings;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.gui.view.spreadsheet.FileBrowserPanel;
 import geogebra.gui.view.spreadsheet.SpreadsheetView;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -50,7 +50,7 @@ public class OptionsSpreadsheetD extends geogebra.common.gui.dialog.options.Opti
 	
 	private static final long serialVersionUID = 1L;
 
-	private Application app;
+	private AppD app;
 	private SpreadsheetView view;
 
 	private JCheckBox cbShowFormulaBar, cbShowGrid, cbShowRowHeader, 
@@ -69,7 +69,7 @@ public class OptionsSpreadsheetD extends geogebra.common.gui.dialog.options.Opti
 	/**
 	 * Creates a new dialog for the properties of the spreadsheet view.
 	 */
-	public OptionsSpreadsheetD(Application app, SpreadsheetView view) {
+	public OptionsSpreadsheetD(AppD app, SpreadsheetView view) {
 		this.app = app;	
 		this.view = view;
 		
@@ -93,7 +93,7 @@ public class OptionsSpreadsheetD extends geogebra.common.gui.dialog.options.Opti
 		tabbedPane = new JTabbedPane();
 		
 		tabbedPane.addTab(app.getMenu("Layout"),null, new JScrollPane(buildLayoutOptionsPanel()));
-		if(Application.hasFullPermissions())
+		if(AppD.hasFullPermissions())
 			tabbedPane.addTab(app.getMenu("Browser"),null, new JScrollPane(buildBrowserOptionsPanel()));
 		wrappedPanel.add(tabbedPane);
 	}	

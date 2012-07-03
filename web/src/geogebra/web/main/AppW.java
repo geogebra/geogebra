@@ -25,7 +25,7 @@ import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.main.AbstractFontManager;
 import geogebra.common.main.GeoElementSelectionListener;
 import geogebra.common.main.MyError;
@@ -88,7 +88,7 @@ import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class Application extends AbstractApplication {
+public class AppW extends App {
 
 	/**
 	 * Constants related to internationalization
@@ -144,7 +144,7 @@ public class Application extends AbstractApplication {
 	
 	private String ORIGINAL_BODY_CLASSNAME = "";
 	// convenience method
-	public Application(ArticleElement ae, GeoGebraFrame gf) {
+	public AppW(ArticleElement ae, GeoGebraFrame gf) {
 		this(ae, gf, true);
 	}
 
@@ -158,7 +158,7 @@ public class Application extends AbstractApplication {
 	 * @param undoActive
 	 *          if true you can undo by CTRL+Z and redo by CTRL+Y
 	 */
-	public Application(ArticleElement ae, GeoGebraFrame gf, final boolean undoActive) {
+	public AppW(ArticleElement ae, GeoGebraFrame gf, final boolean undoActive) {
 		this.articleElement = ae;
 		this.frame = gf;
 		createSplash();
@@ -174,7 +174,7 @@ public class Application extends AbstractApplication {
 		canvas.setHeight("1px");
 		canvas.setCoordinateSpaceHeight(1);
 		canvas.setCoordinateSpaceWidth(1);
-		final Application this_app = this;
+		final AppW this_app = this;
 		initing = true;
 
 		//try to async loading of kernel, maybe we got quicker...
@@ -187,13 +187,13 @@ public class Application extends AbstractApplication {
 			}
 
 			public void onFailure(Throwable reason) {
-				AbstractApplication.debug("onFailure "+reason);
+				App.debug("onFailure "+reason);
 			}
 		});
 	}
 
 	// This is called for the full GUI based GeoGebraWeb --- Zoltan
-	public Application(ArticleElement article, GeoGebraAppFrame geoGebraAppFrame, boolean undoActive) {
+	public AppW(ArticleElement article, GeoGebraAppFrame geoGebraAppFrame, boolean undoActive) {
 		this.articleElement = article;
 		this.appFrame = geoGebraAppFrame;
 		createAppSplash();
@@ -223,7 +223,7 @@ public class Application extends AbstractApplication {
     }
 
 
-	public Application(ArticleElement article, GeoGebraAppFrame geoGebraAppFrame) {
+	public AppW(ArticleElement article, GeoGebraAppFrame geoGebraAppFrame) {
 	   this(article, geoGebraAppFrame, true);
     }
 	
@@ -369,7 +369,7 @@ public class Application extends AbstractApplication {
 										var fileStr = base64result;
 										var fileStr2 = reader2.result;
 										var fileName = fileToHandle.name;
-										appl.@geogebra.web.main.Application::imageDropHappened(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lgeogebra/common/kernel/geos/GeoPoint;)(fileName, fileStr, fileStr2, null);
+										appl.@geogebra.web.main.AppW::imageDropHappened(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lgeogebra/common/kernel/geos/GeoPoint;)(fileName, fileStr, fileStr2, null);
 									}
 								}
 								reader2.readAsBinaryString(fileToHandle);
@@ -381,7 +381,7 @@ public class Application extends AbstractApplication {
 						reader.onloadend = function(ev) {
 							if (reader.readyState === reader.DONE) {
 								var fileStr = reader.result;
-								appl.@geogebra.web.main.Application::loadGgbFileAgain(Ljava/lang/String;)(fileStr);
+								appl.@geogebra.web.main.AppW::loadGgbFileAgain(Ljava/lang/String;)(fileStr);
 							}
 						};
 						reader.readAsDataURL(fileToHandle);
@@ -392,7 +392,7 @@ public class Application extends AbstractApplication {
 					if (gdat && gdat != " ") {
 						var coordx = e.offsetX ? e.offsetX : e.layerX;
 						var coordy = e.offsetY ? e.offsetY : e.layerY;
-						appl.@geogebra.web.main.Application::urlDropHappened(Ljava/lang/String;II)(gdat, coordx, coordy);
+						appl.@geogebra.web.main.AppW::urlDropHappened(Ljava/lang/String;II)(gdat, coordx, coordy);
 					}
 				}
 			}, false);
@@ -525,7 +525,7 @@ public class Application extends AbstractApplication {
 			return commandConstants.getString(crossReferencingPropertiesKeys(key));
 			
 		} catch(MissingResourceException e) {
-			AbstractApplication.error(e.toString() + " Invalid key: " + key);
+			App.error(e.toString() + " Invalid key: " + key);
 			return key;
 		}
 	}
@@ -565,7 +565,7 @@ public class Application extends AbstractApplication {
 			return null;
 
 		} catch (MissingResourceException e) {
-			AbstractApplication.error(e.toString() + " error in command " + key);
+			App.error(e.toString() + " error in command " + key);
 			return null;
 		}
 	}
@@ -591,7 +591,7 @@ public class Application extends AbstractApplication {
 			return plainConstants.getString(crossReferencingPropertiesKeys(key));
 						
 		} catch(MissingResourceException e) {
-			AbstractApplication.error(e.toString() + " Missing key: " + key);
+			App.error(e.toString() + " Missing key: " + key);
 			return key;
 		}
 	}
@@ -644,7 +644,7 @@ public class Application extends AbstractApplication {
 			return menuConstants.getString(crossReferencingPropertiesKeys(key));
 			
 		} catch(MissingResourceException e) {
-			AbstractApplication.error(e.toString() + " Invalid key: " + key);
+			App.error(e.toString() + " Invalid key: " + key);
 			return key;
 		}
 	}
@@ -665,7 +665,7 @@ public class Application extends AbstractApplication {
 			return errorConstants.getString(crossReferencingPropertiesKeys(key));
 			
 		} catch(MissingResourceException e) {
-			AbstractApplication.error(e.toString() + " Invalid key: " + key);
+			App.error(e.toString() + " Invalid key: " + key);
 			return key;
 		}
 	}
@@ -703,13 +703,13 @@ public class Application extends AbstractApplication {
 	@Override
 	public boolean isUsingFullGui() {
 		//return useFullGui;
-		AbstractApplication.debug("isUsingFullGui: implementation needed"); // TODO Auto-generated
+		App.debug("isUsingFullGui: implementation needed"); // TODO Auto-generated
 		return guiManager != null;
 	}
 
 	@Override
 	public boolean showView(int view) {
-		AbstractApplication.debug("showView: implementation needed"); // TODO Auto-generated
+		App.debug("showView: implementation needed"); // TODO Auto-generated
 		return false;
 	}
 
@@ -726,21 +726,21 @@ public class Application extends AbstractApplication {
 	@Override
 	public String getLocaleStr() {
 		String localeName = LocaleInfo.getCurrentLocale().getLocaleName();
-		if (localeName.toLowerCase().equals(Application.DEFAULT_LOCALE)) {
-			return Application.DEFAULT_LANGUAGE;
+		if (localeName.toLowerCase().equals(AppW.DEFAULT_LOCALE)) {
+			return AppW.DEFAULT_LANGUAGE;
 		}
 		return localeName.substring(0, 2);
 	}
 
 	public void setLanguage(String language) {
 		// TODO Auto-generated method stub
-		AbstractApplication.debug("setLanguage: implementation needed");
+		App.debug("setLanguage: implementation needed");
 
 	}
 
 	public void setLanguage(String language, String country) {
 		// TODO Auto-generated method stub
-		AbstractApplication.debug("setLanguage: implementation needed");
+		App.debug("setLanguage: implementation needed");
 	}
 
 	@Override
@@ -751,13 +751,13 @@ public class Application extends AbstractApplication {
 
 	@Override
 	public void traceToSpreadsheet(GeoElement o) {
-		AbstractApplication.debug("traceToSpreadsheet: implementation needed"); // TODO Auto-generated
+		App.debug("traceToSpreadsheet: implementation needed"); // TODO Auto-generated
 
 	}
 
 	@Override
 	public void resetTraceColumn(GeoElement o) {
-		AbstractApplication.debug("resetTraceColumn: implementation needed"); // TODO Auto-generated
+		App.debug("resetTraceColumn: implementation needed"); // TODO Auto-generated
 
 	}
 
@@ -773,7 +773,7 @@ public class Application extends AbstractApplication {
 
 			commandDictionary = Dictionary.getDictionary("commandKeysVar");
 		} catch(MissingResourceException e) {
-			AbstractApplication.warn("Missing Internal Command "+cmd);
+			App.warn("Missing Internal Command "+cmd);
 		}
 		
 		if(commandDictionary != null) {
@@ -811,7 +811,7 @@ public class Application extends AbstractApplication {
 
 	@Override
 	public String getTraceXML(GeoElement geoElement) {
-		AbstractApplication.debug("getTraceXML: implementation needed really"); // TODO Auto-generated
+		App.debug("getTraceXML: implementation needed really"); // TODO Auto-generated
 		return null;
 	}
 
@@ -854,12 +854,12 @@ public class Application extends AbstractApplication {
 
 	@Override
 	public boolean isShowingEuclidianView2() {
-		AbstractApplication.debug("isShowingEuclidianView2: implementation needed"); // TODO Auto-generated
+		App.debug("isShowingEuclidianView2: implementation needed"); // TODO Auto-generated
 		return false;
 	}
 
 	@Override
-	public void evalJavaScript(AbstractApplication app, String script, String arg) {
+	public void evalJavaScript(App app, String script, String arg) {
 		
 		// TODO: maybe use sandbox?
 		
@@ -897,7 +897,7 @@ public class Application extends AbstractApplication {
 		geogebra.common.euclidian.EuclidianStatic.prototype = new geogebra.web.euclidian.EuclidianStaticW();
 		geogebra.common.euclidian.clipping.DoubleArrayFactory.prototype = new geogebra.common.euclidian.clipping.DoubleArrayFactoryImpl();
     
-		AbstractApplication.initializeSingularWS();
+		App.initializeSingularWS();
 		
 		//neded to not overwrite anything already exists
 		ORIGINAL_BODY_CLASSNAME = RootPanel.getBodyElement().getClassName();
@@ -996,7 +996,7 @@ public class Application extends AbstractApplication {
 		
 		if (cmd != null) {
 		
-			AbstractApplication.debug("exectuing commands: "+cmd);
+			App.debug("exectuing commands: "+cmd);
 			
 			String[] cmds = cmd.split(";");			
 			for (int i = 0 ; i < cmds.length ; i++) {
@@ -1159,7 +1159,7 @@ public class Application extends AbstractApplication {
 			return colorConstants.getString(StringUtil.toLowerCase(key));
 			
 		} catch(MissingResourceException e) {
-			AbstractApplication.error(e.toString() + " Invalid key: " + key);
+			App.error(e.toString() + " Invalid key: " + key);
 			return key;
 		}
 
@@ -1180,7 +1180,7 @@ public class Application extends AbstractApplication {
 	@Override
 	public void showError(MyError e) {
 		Window.alert(e.getLocalizedMessage());
-		AbstractApplication.debug("showError: implementation needed with Show Online Help option "+e.toString()); 
+		App.debug("showError: implementation needed with Show Online Help option "+e.toString()); 
 
 	}
 
@@ -1204,7 +1204,7 @@ public class Application extends AbstractApplication {
 	@Override
 	public void setShowConstructionProtocolNavigation(boolean show,
 			boolean playButton, double playDelay, boolean showProtButton) {
-		AbstractApplication.debug("setShowConstructionProtocolNavigation: implementation needed"); // TODO Auto-generated
+		App.debug("setShowConstructionProtocolNavigation: implementation needed"); // TODO Auto-generated
 
 	}
 
@@ -1229,7 +1229,7 @@ public class Application extends AbstractApplication {
 
 	@Override
 	public SpreadsheetTraceManager getTraceManager() {
-		AbstractApplication.debug("getTraceManager: implementation needed"); // TODO Auto-generated
+		App.debug("getTraceManager: implementation needed"); // TODO Auto-generated
 		return null;
 	}
 
@@ -1291,7 +1291,7 @@ public class Application extends AbstractApplication {
 
 		try {
 			// make sure objects are displayed in the correct View
-			setActiveView(AbstractApplication.VIEW_EUCLIDIAN);
+			setActiveView(App.VIEW_EUCLIDIAN);
 			myXMLio.processXMLString(xml, clearAll, false);
 		} catch (MyError err) {
 			err.printStackTrace();
@@ -1313,13 +1313,13 @@ public class Application extends AbstractApplication {
 
 	@Override
 	public SoundManager getSoundManager() {
-		AbstractApplication.debug("getSoundManager: implementation needed for GUI"); // TODO Auto-generated
+		App.debug("getSoundManager: implementation needed for GUI"); // TODO Auto-generated
 		return null;
 	}
 
 	@Override
 	public CommandProcessor newCmdBarCode() {
-		AbstractApplication.debug("newCmdBarCode: remove after branch to ggb42"); // TODO
+		App.debug("newCmdBarCode: remove after branch to ggb42"); // TODO
 		return null;
 	}
 	
@@ -1347,13 +1347,13 @@ public class Application extends AbstractApplication {
 
 	@Override
 	public void initScriptingBundle() {
-		AbstractApplication.debug("initScriptingBundle: implementation needed"); // TODO Auto-generated
+		App.debug("initScriptingBundle: implementation needed"); // TODO Auto-generated
 
 	}
 
 	@Override
 	public String getScriptingCommand(String internal) {
-		AbstractApplication.debug("getScriptingCommand: implementation needed really"); // TODO Auto-generated
+		App.debug("getScriptingCommand: implementation needed really"); // TODO Auto-generated
 		return null;
 	}
 
@@ -1372,7 +1372,7 @@ public class Application extends AbstractApplication {
 
 	@Override
 	public boolean showAlgebraInput() {
-		AbstractApplication.debug("showAlgebraInput: implementation needed"); // TODO Auto-generated
+		App.debug("showAlgebraInput: implementation needed"); // TODO Auto-generated
 		return false;
 	}
 
@@ -1392,12 +1392,12 @@ public class Application extends AbstractApplication {
 
 	@Override
 	public AbstractSpreadsheetTableModel getSpreadsheetTableModel() {
-		AbstractApplication.debug("getSpreadsheetTableModel: implementation needed"); // TODO Auto-generated
+		App.debug("getSpreadsheetTableModel: implementation needed"); // TODO Auto-generated
 		return null;
 	}
 
 	@Override
-	public void evalPythonScript(AbstractApplication app, String string,
+	public void evalPythonScript(App app, String string,
 			String arg) {
 		debug("Python scripting not supported");
 
@@ -1424,7 +1424,7 @@ public class Application extends AbstractApplication {
 
 	@Override
 	public boolean isRightClickEnabled() {
-		AbstractApplication.debug("isRightClickEnabled: implementation needed"); // TODO Auto-generated
+		App.debug("isRightClickEnabled: implementation needed"); // TODO Auto-generated
 		return true;
 	}
 
@@ -1453,7 +1453,7 @@ public class Application extends AbstractApplication {
 	@Override
 	public void updateMenubar() {
 //		getGuiManager().updateMenubar();
-		AbstractApplication.debug("implementation needed - just finishing"); // TODO Auto-generated
+		App.debug("implementation needed - just finishing"); // TODO Auto-generated
 	}
 
 	@Override
@@ -1468,7 +1468,7 @@ public class Application extends AbstractApplication {
 
 	@Override
 	public void updateUI() {
-		AbstractApplication.debug("updateUI: implementation needed for GUI"); // TODO Auto-generated
+		App.debug("updateUI: implementation needed for GUI"); // TODO Auto-generated
 
 	}
 
@@ -1488,7 +1488,7 @@ public class Application extends AbstractApplication {
 
 	@Override
 	protected void getWindowLayoutXML(StringBuilder sb, boolean asPreference) {
-		AbstractApplication.debug("getWindowLayoutXML: implementation needed for GUI"); // TODO Auto-generated
+		App.debug("getWindowLayoutXML: implementation needed for GUI"); // TODO Auto-generated
 
 	}
 
@@ -1593,7 +1593,7 @@ public class Application extends AbstractApplication {
 			return ret;
 			
 		} catch(MissingResourceException e) {
-			AbstractApplication.error(e.toString() + " Invalid key number: " + key);
+			App.error(e.toString() + " Invalid key number: " + key);
 			return null;
 		}
 	}
@@ -1616,7 +1616,7 @@ public class Application extends AbstractApplication {
 			return ret;
 			
 		} catch(MissingResourceException e) {
-			AbstractApplication.error(e.toString() + " Invalid key number: " + key);
+			App.error(e.toString() + " Invalid key number: " + key);
 			return null;
 		}
 	}
@@ -1726,13 +1726,13 @@ public class Application extends AbstractApplication {
 	public String showURLinBrowserPageUrl = null;
 
 	public native void showURLinBrowserWaiterFixedDelay() /*-{
-		this.@geogebra.web.main.Application::showURLinBrowserPageUrl = null;
+		this.@geogebra.web.main.AppW::showURLinBrowserPageUrl = null;
 
 		var that = this;
 		var timer = {};
 		function intervalTask() {
-			if (that.@geogebra.web.main.Application::showURLinBrowserPageUrl != null) {
-				$wnd.open(that.@geogebra.web.main.Application::showURLinBrowserPageUrl, "_blank");
+			if (that.@geogebra.web.main.AppW::showURLinBrowserPageUrl != null) {
+				$wnd.open(that.@geogebra.web.main.AppW::showURLinBrowserPageUrl, "_blank");
 				if (timer.tout) {
 					$wnd.clearInterval(timer.tout);
 				}
@@ -1785,7 +1785,7 @@ public class Application extends AbstractApplication {
 	 * @return a GuiManager for GeoGebraWeb
 	 */
 	protected GuiManagerW newGuiManager() {
-		return new GuiManagerW(Application.this);
+		return new GuiManagerW(AppW.this);
 	}
 	
 	private void createSplash() {
@@ -1823,7 +1823,7 @@ public class Application extends AbstractApplication {
 	 * Initializes Kernel, EuclidianView, EuclidianSettings, etc..
 	 */
 	void initCoreObjects(final boolean undoActive,
-            final AbstractApplication this_app) {
+            final App this_app) {
 	    kernel = new Kernel(this_app);
 
 	    // init settings
@@ -1886,11 +1886,11 @@ public class Application extends AbstractApplication {
 
 	@Override
     public void updateApplicationLayout() {
-	    AbstractApplication.debug("updateApplicationLayout: Implementation needed...");
+	    App.debug("updateApplicationLayout: Implementation needed...");
     }
 
 	public void setShowInputHelpPanel(boolean b) {
-		 AbstractApplication.debug("setShowInputHelpPanel: Implementation needed...");
+		 App.debug("setShowInputHelpPanel: Implementation needed...");
     }
 
 	public String getCommandSyntaxCAS(String key) {
@@ -1972,7 +1972,7 @@ public class Application extends AbstractApplication {
 	}
 	
 	private static native void setCurrentFileId() /*-{
-		@geogebra.web.main.Application::currentFileId = $wnd.GGW_appengine.FILE_IDS[0];
+		@geogebra.web.main.AppW::currentFileId = $wnd.GGW_appengine.FILE_IDS[0];
 	}-*/;
 
 
@@ -1980,9 +1980,9 @@ public class Application extends AbstractApplication {
     public String getCountryFromGeoIP() {
 //	    warn("unimplemented");
 	    
-	    Application.debug("GeoIPCountry: " + Application.geoIPCountryName);
-	    Application.debug("GeoIPLanguage: " + Application.geoIPLanguage);
-	    return Application.geoIPCountryName;
+	    AppW.debug("GeoIPCountry: " + AppW.geoIPCountryName);
+	    AppW.debug("GeoIPLanguage: " + AppW.geoIPLanguage);
+	    return AppW.geoIPCountryName;
     }
 	
 	public boolean loadXML(String xml) throws Exception{
@@ -1992,17 +1992,17 @@ public class Application extends AbstractApplication {
 
 	@Override
     public void exportToLMS(boolean b) {
-		AbstractApplication.debug("unimplemented");
+		App.debug("unimplemented");
     }
 
 	@Override
     public void copyGraphicsViewToClipboard() {
-		AbstractApplication.debug("unimplemented");
+		App.debug("unimplemented");
     }
 
 	@Override
     public void exitAll() {
-		AbstractApplication.debug("unimplemented");
+		App.debug("unimplemented");
     }
 
 }

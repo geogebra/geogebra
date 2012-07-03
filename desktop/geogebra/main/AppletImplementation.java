@@ -18,7 +18,7 @@ import geogebra.GeoGebraAppletPreloader;
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.MyBoolean;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.util.StringUtil;
 import geogebra.euclidian.EuclidianViewD;
 import geogebra.plugin.GgbAPI;
@@ -57,7 +57,7 @@ public class AppletImplementation implements AppletImplementationInterface {
 
 	public JApplet applet;
 
-	protected Application app;
+	protected AppD app;
 	protected Kernel kernel;
 	private JButton btOpen;
 	private DoubleClickListener dcListener;
@@ -102,7 +102,7 @@ public class AppletImplementation implements AppletImplementationInterface {
 			public void componentResized(ComponentEvent e) {
 
 				Component c = e.getComponent();
-				AbstractApplication.debug("Applet resized to: " + c.getWidth()
+				App.debug("Applet resized to: " + c.getWidth()
 						+ ", " + c.getHeight());
 
 				if (allowRescaling && (app != null) && !app.runningInFrame
@@ -146,7 +146,7 @@ public class AppletImplementation implements AppletImplementationInterface {
 	 * separate thread.
 	 */
 	public void initInBackground() {
-		AbstractApplication.debug("initInBackground");
+		App.debug("initInBackground");
 
 		// start animation if wanted by ggb file
 		if (kernel.wantAnimationStarted()) {
@@ -158,7 +158,7 @@ public class AppletImplementation implements AppletImplementationInterface {
 		Object[] noArgs = {};
 		Object[] arg = { ggbOnInitParam };
 
-		AbstractApplication.debug("calling ggbOnInit("
+		App.debug("calling ggbOnInit("
 				+ (((ggbOnInitParam == null) ? "" : ggbOnInitParam)) + ")");
 		app.getScriptManager().callJavaScript("ggbOnInit",
 				(ggbOnInitParam == null) ? noArgs : arg);
@@ -213,7 +213,7 @@ public class AppletImplementation implements AppletImplementationInterface {
 				fileStr = "base64://" + fileBase64;
 			}
 		}
-		AbstractApplication.debug("loading " + fileStr);
+		App.debug("loading " + fileStr);
 
 		// showToolBar = "true" or parameter is not available
 		showToolBar = "true".equals(applet.getParameter("showToolBar"));
@@ -312,7 +312,7 @@ public class AppletImplementation implements AppletImplementationInterface {
 		try {
 			maxIconSize = Integer.parseInt(applet.getParameter("maxIconSize"));
 		} catch (Exception e) {
-			maxIconSize = Application.DEFAULT_ICON_SIZE;
+			maxIconSize = AppD.DEFAULT_ICON_SIZE;
 		}
 
 		// build application and open file
@@ -323,7 +323,7 @@ public class AppletImplementation implements AppletImplementationInterface {
 		 */
 
 		try {
-			if (Application.MAC_OS || Application.WINDOWS) {
+			if (AppD.MAC_OS || AppD.WINDOWS) {
 				UIManager.setLookAndFeel(UIManager
 						.getSystemLookAndFeelClassName());
 			} else {
@@ -331,7 +331,7 @@ public class AppletImplementation implements AppletImplementationInterface {
 						.getCrossPlatformLookAndFeelClassName());
 			}
 		} catch (Exception e) {
-			AbstractApplication.debug(e + "");
+			App.debug(e + "");
 		}
 
 		if (fileStr == null) {
@@ -352,12 +352,12 @@ public class AppletImplementation implements AppletImplementationInterface {
 		ggbApi = app.getGgbApi();
 	}
 
-	protected Application buildApplication(CommandLineArguments args,
+	protected AppD buildApplication(CommandLineArguments args,
 			boolean undoActive) {
-		return new Application(args, this, undoActive);
+		return new AppD(args, this, undoActive);
 	}
 
-	public Application getApplication() {
+	public AppD getApplication() {
 		return app;
 	}
 
@@ -385,7 +385,7 @@ public class AppletImplementation implements AppletImplementationInterface {
 		// replace applet's content pane
 		Container cp = applet.getContentPane();
 
-		AbstractApplication.debug("Initial size = " + cp.getWidth() + ", "
+		App.debug("Initial size = " + cp.getWidth() + ", "
 				+ cp.getHeight());
 		// Application.debug("EuclidianView size = "+app.getEuclidianView().getPreferredSize().getWidth()+", "+app.getEuclidianView().getPreferredSize().getHeight());
 
@@ -767,7 +767,7 @@ public class AppletImplementation implements AppletImplementationInterface {
 	 * prints a string to the Java Console
 	 */
 	public synchronized void debug(String string) {
-		AbstractApplication.debug(string);
+		App.debug(string);
 	}
 
 	// /**
@@ -841,7 +841,7 @@ public class AppletImplementation implements AppletImplementationInterface {
 					try {
 						URL ggbURL = new URL(fileStr);
 						app.loadXML(ggbURL, StringUtil.toLowerCase(fileStr)
-								.endsWith(Application.FILE_EXT_GEOGEBRA_TOOL));
+								.endsWith(AppD.FILE_EXT_GEOGEBRA_TOOL));
 						reinitGUI();
 						applet.validate();
 					} catch (Exception e) {
@@ -906,7 +906,7 @@ public class AppletImplementation implements AppletImplementationInterface {
 					}
 					URL ggbURL = new URL(myStrURL);
 					app.loadXML(ggbURL, lowerCase
-							.endsWith(Application.FILE_EXT_GEOGEBRA_TOOL));
+							.endsWith(AppD.FILE_EXT_GEOGEBRA_TOOL));
 					reinitGUI();
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -1106,7 +1106,7 @@ public class AppletImplementation implements AppletImplementationInterface {
 	}
 
 	public void hideCursorWhenDragging(boolean hideCursorWhenDragging) {
-		((Application) kernel.getApplication())
+		((AppD) kernel.getApplication())
 				.setUseTransparentCursorWhenDragging(hideCursorWhenDragging);
 	}
 
@@ -1322,12 +1322,12 @@ public class AppletImplementation implements AppletImplementationInterface {
 				browserWindow = JSObject.getWindow(applet);
 
 				if (browserWindow == null) {
-					AbstractApplication
+					App
 							.debug("Warning: could not initialize JSObject.getWindow() for GeoGebraApplet");
 				}
 
 			} catch (Exception e) {
-				AbstractApplication
+				App
 						.debug("Exception: could not initialize JSObject.getWindow() for GeoGebraApplet");
 			}
 		}
@@ -1340,10 +1340,10 @@ public class AppletImplementation implements AppletImplementationInterface {
 
 		try {
 			if (browserWindow != null) {
-				AbstractApplication.debug("callJavaScript: " + jsFunction);
+				App.debug("callJavaScript: " + jsFunction);
 				browserWindow.call(jsFunction, args);
 			} else {
-				AbstractApplication
+				App
 						.debug("Warning: could not initialize JSObject.getWindow() for GeoGebraApplet when calling "
 								+ jsFunction);
 			}

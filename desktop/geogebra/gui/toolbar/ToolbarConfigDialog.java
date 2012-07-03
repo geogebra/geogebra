@@ -12,7 +12,7 @@ the Free Software Foundation.
 
 package geogebra.gui.toolbar;
 import geogebra.gui.layout.DockPanel;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -37,14 +37,14 @@ public class ToolbarConfigDialog extends JDialog implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	
-	private Application app;	
+	private AppD app;	
 	public ToolbarConfigPanel confPanel;
 
 	/**
 	 * Creates new dialog
 	 * @param app application
 	 */
-	public ToolbarConfigDialog(Application app) {
+	public ToolbarConfigDialog(AppD app) {
 		super(app.getFrame(), false);
 		this.app = app;
 		

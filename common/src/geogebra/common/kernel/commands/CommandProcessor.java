@@ -29,7 +29,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.main.MyError;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.util.Unicode;
@@ -43,7 +43,7 @@ import java.util.ArrayList;
 public abstract class CommandProcessor {
 
 	/** application */
-	protected AbstractApplication app;
+	protected App app;
 	/** kernel */
 	protected Kernel kernelA;
 	/** construction */
@@ -247,7 +247,7 @@ public abstract class CommandProcessor {
 	 * @param arg faulty argument
 	 * @return wrong argument error
 	 */
-	protected final MyError argErr(AbstractApplication app1, String cmd,
+	protected final MyError argErr(App app1, String cmd,
 			ExpressionValue arg) {
 		String localName = app1.getCommand(cmd);
 		if (sb == null)
@@ -292,7 +292,7 @@ public abstract class CommandProcessor {
 	 *            (-1 for just show syntax)
 	 * @return wrong parameter count error
 	 */
-	protected final MyError argNumErr(AbstractApplication app1, String cmd,
+	protected final MyError argNumErr(App app1, String cmd,
 			int argNumber) {
 		if (sb == null)
 			sb = new StringBuilder();
@@ -312,7 +312,7 @@ public abstract class CommandProcessor {
 	 *            (-1 for just show syntax)
 	 */
 	public static void getCommandSyntax(StringBuilder sb,
-			AbstractApplication app, String cmd, int argNumber) {
+			App app, String cmd, int argNumber) {
 
 		final boolean reverseOrder = app.isReverseNameDescriptionLanguage();
 		if (!reverseOrder) {
@@ -348,7 +348,7 @@ public abstract class CommandProcessor {
 	 * @param geo dependent geo
 	 * @return change dependent error
 	 */
-	final static MyError chDepErr(AbstractApplication app1, GeoElement geo) {
+	final static MyError chDepErr(App app1, GeoElement geo) {
 		String[] strs = { "ChangeDependent", geo.getLongDescription() };
 		return new MyError(app1, strs);
 	}

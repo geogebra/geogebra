@@ -19,7 +19,7 @@ import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.roots.RealRootDerivFunction;
 import geogebra.common.kernel.roots.RealRootFunction;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.plugin.Operation;
 
 import java.util.LinkedList;
@@ -646,7 +646,7 @@ public class Function extends FunctionNVar implements RealRootFunction,
 			}
 			return polyFun;
 		} catch (Exception e) {
-			AbstractApplication.debug("error in buildPolyFunction:");
+			App.debug("error in buildPolyFunction:");
 			e.printStackTrace();
 			return null;
 		}
@@ -674,7 +674,7 @@ public class Function extends FunctionNVar implements RealRootFunction,
 			terms = coeff.length;
 		}
 		catch(Throwable t){
-			AbstractApplication.debug(ev+" couldn't be transformed to polynomial");
+			App.debug(ev+" couldn't be transformed to polynomial");
 		}
 		if(terms == -1)
 			return null;
@@ -716,7 +716,7 @@ public class Function extends FunctionNVar implements RealRootFunction,
 			e.printStackTrace();
 			return null;
 		} catch (Error e) {
-			AbstractApplication.debug("error in evaluateToExpressionNode: "
+			App.debug("error in evaluateToExpressionNode: "
 					+ str);
 			e.printStackTrace();
 			return null;

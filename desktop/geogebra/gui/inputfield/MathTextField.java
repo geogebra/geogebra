@@ -1,7 +1,7 @@
 package geogebra.gui.inputfield;
 
 import geogebra.gui.GeoGebraKeys;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -20,13 +20,13 @@ public class MathTextField extends MyTextField implements KeyListener {
 	
 	private GeoGebraKeys ggbKeys;
 	
-	public MathTextField(Application app) {
+	public MathTextField(AppD app) {
 		super(app);
 		ggbKeys = new GeoGebraKeys(app);
 		addKeyListener(this);
 	}
 	
-	public MathTextField(Application app, int length) {
+	public MathTextField(AppD app, int length) {
 		super(app, length);
 		ggbKeys = new GeoGebraKeys(app);
 		addKeyListener(this);

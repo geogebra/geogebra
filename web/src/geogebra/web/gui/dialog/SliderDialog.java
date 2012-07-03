@@ -23,7 +23,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.web.gui.AngleTextFieldW;
 import geogebra.web.gui.DialogManagerW;
-import geogebra.web.main.Application;
+import geogebra.web.main.AppW;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -64,7 +64,7 @@ implements ClickHandler, ChangeHandler, ValueChangeHandler<Boolean>
 	//private JPanel optionPane;
 	//private JCheckBox cbRandom;
 	
-	private Application app;
+	private AppW app;
 	//private SliderPanel sliderPanel;
 	
 	private GeoElement geoResult;
@@ -77,7 +77,7 @@ implements ClickHandler, ChangeHandler, ValueChangeHandler<Boolean>
 	 * @param y x-coordinate of slider in screen coords
 	 * @param app
 	 */
-	public SliderDialog(Application app, int x, int y) {
+	public SliderDialog(AppW app, int x, int y) {
 		super(false, true);
 		//super(app.getFrame(), false);
 		this.app = app;		

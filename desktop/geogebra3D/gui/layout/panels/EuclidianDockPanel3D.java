@@ -3,10 +3,10 @@ package geogebra3D.gui.layout.panels;
 import javax.swing.JComponent;
 
 import geogebra.common.gui.toolbar.ToolBar;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.euclidianND.EuclidianViewND;
 import geogebra.gui.layout.panels.EuclidianDockPanelAbstract;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 import geogebra3D.Application3D;
 
 /**
@@ -18,9 +18,9 @@ public class EuclidianDockPanel3D extends EuclidianDockPanelAbstract {
 	/**
 	 * @param app application
 	 */
-	public EuclidianDockPanel3D(Application app) {
+	public EuclidianDockPanel3D(AppD app) {
 		super(
-			AbstractApplication.VIEW_EUCLIDIAN3D,	// view id 
+			App.VIEW_EUCLIDIAN3D,	// view id 
 			"GraphicsView3D", 				// view title
 			ToolBar.getAllToolsNoMacros3D(),// toolbar string
 			true,						// style bar?

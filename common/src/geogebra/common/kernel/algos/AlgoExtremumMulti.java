@@ -20,7 +20,7 @@ import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.optimization.ExtremumFinder;
 import geogebra.common.kernel.roots.RealRootFunction;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 
 import java.util.ArrayList;
 
@@ -176,10 +176,10 @@ public class AlgoExtremumMulti extends AlgoGeoPointsFunction {
 					m = m * 2;
 				} while (m < MAX_SAMPLES);
 				if (m > MAX_SAMPLES)
-					AbstractApplication
+					App
 							.debug("We have probably lost some extremums...");
 			} catch (Exception e) {
-				AbstractApplication.debug("Exception in compute() "
+				App.debug("Exception in compute() "
 						+ e.toString());
 			}// try-catch
 			if (numberOfExtremums == 0) {

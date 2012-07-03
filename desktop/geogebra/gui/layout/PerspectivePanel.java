@@ -1,7 +1,7 @@
 package geogebra.gui.layout;
 
 import geogebra.common.io.layout.Perspective;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -16,7 +16,7 @@ import javax.swing.SwingConstants;
 
 public class PerspectivePanel extends JPanel {
 
-	private Application app;
+	private AppD app;
 	private LayoutD layout;
 	private DockBar dockBar;
 	
@@ -26,7 +26,7 @@ public class PerspectivePanel extends JPanel {
 	private AbstractAction changePerspectiveAction, managePerspectivesAction,
 			savePerspectiveAction;
 
-	public PerspectivePanel(Application app, DockBar dockBar) {
+	public PerspectivePanel(AppD app, DockBar dockBar) {
 
 		this.app = app;
 		this.layout = app.getGuiManager().getLayout();

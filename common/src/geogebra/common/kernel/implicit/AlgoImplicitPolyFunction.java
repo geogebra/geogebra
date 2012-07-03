@@ -13,7 +13,7 @@ import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.Polynomial;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunctionNVar;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.main.MyError;
 
 /**
@@ -59,7 +59,7 @@ public class AlgoImplicitPolyFunction extends AlgoElement {
 			Polynomial poly =  equ.getNormalForm();
 			implicitPoly.setCoeff(poly.getCoeff());
 		}catch(MyError e){
-			AbstractApplication.debug(e.getMessage());
+			App.debug(e.getMessage());
 			implicitPoly.setUndefined();
 		}
 	}

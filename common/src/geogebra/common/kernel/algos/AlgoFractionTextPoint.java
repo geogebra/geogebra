@@ -20,7 +20,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.util.Unicode;
 
 
@@ -84,7 +84,7 @@ public class AlgoFractionTextPoint extends AlgoElement {
 			switch (app.getFormulaRenderingType()) {
 			case MATHML:
 				sb.setLength(0);
-				AbstractApplication.warn("Not implemented");
+				App.warn("Not implemented");
 				break;
 			case LATEX:
 				

@@ -2,7 +2,7 @@ package geogebra.gui.view.algebra;
 
 import geogebra.common.gui.view.algebra.AlgebraView.SortMode;
 import geogebra.gui.util.PopupMenuButton;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -31,7 +31,7 @@ public class AlgebraHelperBar extends JToolBar implements ActionListener {
 	/**
 	 * Instance of the application.
 	 */
-	protected Application app;
+	protected AppD app;
 
 	/**
 	 * Button to show/hide auxiliary objects in the algebra view.
@@ -60,7 +60,7 @@ public class AlgebraHelperBar extends JToolBar implements ActionListener {
 	 * @param algebraView
 	 * @param app
 	 */
-	public AlgebraHelperBar(AlgebraView algebraView, Application app) {
+	public AlgebraHelperBar(AlgebraView algebraView, AppD app) {
 		this.algebraView = algebraView;
 		this.app = app;
 

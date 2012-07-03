@@ -4,12 +4,12 @@ import geogebra.common.gui.SetLabels;
 import geogebra.common.io.layout.DockPanelData;
 import geogebra.common.io.layout.DockSplitPaneData;
 import geogebra.common.io.layout.Perspective;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.euclidian.EuclidianViewJPanel;
 import geogebra.gui.layout.panels.ErrorDockPanel;
 import geogebra.gui.layout.panels.EuclidianDockPanelAbstract;
 import geogebra.gui.toolbar.ToolbarContainer;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.AWTEvent;
 import java.awt.Component;
@@ -29,7 +29,7 @@ import javax.swing.SwingUtilities;
  * @author Florian Sonner
  */
 public class DockManager implements AWTEventListener, SetLabels {
-	private Application app;
+	private AppD app;
 	private LayoutD layout;
 	
 	/**
@@ -1179,7 +1179,7 @@ public class DockManager implements AWTEventListener, SetLabels {
 		if (panel!=null)
 			return panel;
 		else{//manages case where the panel is not found (e.g. 3D view)
-			Application.printStacktrace("viewId="+viewId+" not found");
+			AppD.printStacktrace("viewId="+viewId+" not found");
 			return new ErrorDockPanel(app,viewId);
 		}
 	}

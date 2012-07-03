@@ -15,7 +15,7 @@ import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.gui.util.GeoGebraIcon;
 import geogebra.gui.util.PopupMenuButton;
 import geogebra.gui.util.SelectionTable;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -29,7 +29,7 @@ public class ColorPopupMenuButton extends PopupMenuButton implements ActionListe
 
 	private static final long serialVersionUID = 1L;
 
-	private Application app;
+	private AppD app;
 
 	public static final int COLORSET_DEFAULT = 0;
 	public static final int COLORSET_BGCOLOR = 1;
@@ -41,7 +41,7 @@ public class ColorPopupMenuButton extends PopupMenuButton implements ActionListe
 	private boolean hasSlider;
 	private Dimension iconSize;
 
-	public ColorPopupMenuButton(Application app, Dimension iconSize, int colorSetType, boolean hasSlider) {
+	public ColorPopupMenuButton(AppD app, Dimension iconSize, int colorSetType, boolean hasSlider) {
 
 		super(app, createDummyIcons(iconSize), -1, 9, iconSize, geogebra.common.gui.util.SelectionTable.MODE_ICON);
 		this.app = app;

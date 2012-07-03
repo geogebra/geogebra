@@ -4,7 +4,7 @@ import geogebra.common.euclidian.Drawable;
 import geogebra.common.gui.inputfield.AutoCompleteTextField;
 import geogebra.common.javax.swing.GBox;
 import geogebra.common.javax.swing.GLabel;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.javax.swing.GComboBoxD;
 
 public class SwingFactory extends geogebra.common.factories.SwingFactory {
@@ -12,7 +12,7 @@ public class SwingFactory extends geogebra.common.factories.SwingFactory {
 	// TODO: find another place for this function
 	@Override
 	public AutoCompleteTextField newAutoCompleteTextField(int length,
-			AbstractApplication application, Drawable drawTextField) {
+			App application, Drawable drawTextField) {
 		return new geogebra.gui.inputfield.AutoCompleteTextFieldD(length, application, drawTextField);
 	}
 

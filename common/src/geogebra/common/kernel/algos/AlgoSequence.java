@@ -28,7 +28,7 @@ import geogebra.common.kernel.geos.GeoFunctionNVar;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.kernelND.GeoCurveCartesianND;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 
 
 /**
@@ -279,7 +279,7 @@ public class AlgoSequence extends AlgoElement {
 					long mem = app.freeMemory();
 					list.clearCache();
 					kernel.initUndoInfo(); // clear all undo info
-					AbstractApplication.debug("AlgoSequence aborted: free memory reached "+mem);
+					App.debug("AlgoSequence aborted: free memory reached "+mem);
 					return;
 				}
 				
@@ -337,7 +337,7 @@ public class AlgoSequence extends AlgoElement {
 			listElement.set(expression);
 			AlgoElement drawAlgo = expression.getDrawAlgorithm();
 			if(listElement instanceof GeoNumeric && drawAlgo instanceof AlgoDrawInformation){
-				AbstractApplication.debug(expression.getDrawAlgorithm().getClass().getName());
+				App.debug(expression.getDrawAlgorithm().getClass().getName());
         		listElement.setDrawAlgorithm(((AlgoDrawInformation)drawAlgo).copy());
 				listElement.setEuclidianVisible(true);
 			}
@@ -395,7 +395,7 @@ public class AlgoSequence extends AlgoElement {
 				long mem = app.freeMemory();
 				list.clearCache();
 				kernel.initUndoInfo(); // clear all undo info
-				AbstractApplication.debug("AlgoSequence aborted: free memory reached "+mem);
+				App.debug("AlgoSequence aborted: free memory reached "+mem);
 				return;
 			}
 			

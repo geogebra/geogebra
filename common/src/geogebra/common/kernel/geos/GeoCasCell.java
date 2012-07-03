@@ -19,7 +19,7 @@ import geogebra.common.kernel.arithmetic.Traversing.CommandCollector;
 import geogebra.common.kernel.arithmetic.Traversing.CommandReplacer;
 import geogebra.common.kernel.arithmetic.Traversing.GeoDummyReplacer;
 import geogebra.common.kernel.arithmetic.ValidExpression;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.util.StringUtil;
 
@@ -725,7 +725,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 					return null;
 				return ((GeoElement)cmd.getArgument(1).getLeft()).toString(StringTemplate.defaultTemplate);//StringTemplate.defaultTemplate);
 			}
-			AbstractApplication.debug(cmd.getArgument(0).getLeft().getClass());
+			App.debug(cmd.getArgument(0).getLeft().getClass());
 			
 			Iterator<GeoElement> it = cmd.getArgument(0).getVariables().iterator();
 			while(it.hasNext()){
@@ -1016,7 +1016,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 		// make sure we have an expression node
 		ExpressionNode node;
 		if (ve.isTopLevelCommand() && getFunctionVars().iterator().hasNext()) {
-			AbstractApplication.warn("wrong function syntax");
+			App.warn("wrong function syntax");
 			String[] labels = ve.getLabels();
 			if (ve instanceof ExpressionNode){
 				node = (ExpressionNode) ve;
@@ -1419,7 +1419,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 			GeoElement ret= (GeoElement)((ExpressionNode)outputVE).getLeft();
 			return ret;
 		}
-		AbstractApplication.debug("reeval");
+		App.debug("reeval");
 		boolean oldValue = kernel.isSilentMode();
 
 		kernel.setSilentMode(true);

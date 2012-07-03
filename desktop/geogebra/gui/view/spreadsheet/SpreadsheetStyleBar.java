@@ -7,7 +7,7 @@ import geogebra.gui.util.GeoGebraIcon;
 import geogebra.gui.util.MyToggleButton;
 import geogebra.gui.util.PopupMenuButton;
 import geogebra.gui.util.SelectionTable;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -27,7 +27,7 @@ import javax.swing.JToolBar;
 public class SpreadsheetStyleBar extends JToolBar implements ActionListener{
 	private static final long serialVersionUID = 1L;
 	private SpreadsheetView view;
-	private Application app;
+	private AppD app;
 	private MyTable table;
 	private CellFormat formatHandler;
 	private ArrayList<CellRange> selectedCells;

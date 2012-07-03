@@ -3,7 +3,7 @@ package geogebra.gui.util;
 
 
 import geogebra.common.main.GeoGebraColorConstants;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -38,7 +38,7 @@ public class SelectionTable extends JTable {
 
 	private static final long serialVersionUID = 1L;
 	
-	private Application app;
+	private AppD app;
 	private MyCellRenderer renderer;
 	private DefaultTableModel model;
 
@@ -115,7 +115,7 @@ public class SelectionTable extends JTable {
 	 * @param iconSize
 	 * @param mode
 	 */
-	public SelectionTable(Application app, Object[] data, int rows, int columns, Dimension iconSize, int mode){
+	public SelectionTable(AppD app, Object[] data, int rows, int columns, Dimension iconSize, int mode){
 
 		this.app = app;	
 		this.mode = mode;

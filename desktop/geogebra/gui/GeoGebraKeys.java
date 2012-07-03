@@ -1,10 +1,10 @@
 package geogebra.gui;
 
 import geogebra.common.gui.inputfield.AltKeys;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -26,15 +26,15 @@ public class GeoGebraKeys implements KeyListener {
 
 	private boolean altPressed;
 	
-	Application app;
+	AppD app;
 
-	public GeoGebraKeys(Application app) {
+	public GeoGebraKeys(AppD app) {
 		this.app = app;
 	}
 	
 	public void keyPressed(KeyEvent e) {  
 		// swallow eg ctrl-a ctrl-b ctrl-p on Mac
-		if (Application.MAC_OS && e.isControlDown())
+		if (AppD.MAC_OS && e.isControlDown())
 			e.consume();
 		//Application.debug("keyPressed");
 	}
@@ -42,7 +42,7 @@ public class GeoGebraKeys implements KeyListener {
 	public void keyTyped(KeyEvent e) {
 		
 		//Application.debug("keyTyped"+e.getKeyChar());
-		if (Application.isAltDown(e)) {
+		if (AppD.isAltDown(e)) {
 			if (!altPressed) {
 				altCodes.setLength(0);
 				//Application.debug("alt pressed");
@@ -87,7 +87,7 @@ public class GeoGebraKeys implements KeyListener {
 		//Application.debug("keyReleased");
 		// ctrl pressed on Mac
 		// or alt on Windows
-		boolean modifierKeyPressed = Application.isAltDown(e);
+		boolean modifierKeyPressed = AppD.isAltDown(e);
 
 		if (modifierKeyPressed) {
 
@@ -117,7 +117,7 @@ public class GeoGebraKeys implements KeyListener {
 			if (!e.isAltDown() && numpad)
 				keyString = e.getKeyChar() + "";
 			
-			AbstractApplication.debug("Key pressed "+StringUtil.toHexString(e.getKeyChar())+" "+keyString);
+			App.debug("Key pressed "+StringUtil.toHexString(e.getKeyChar())+" "+keyString);
 			
 			// workaround for different Java versions!!
 			if (keyString.equals("minus"))
@@ -130,7 +130,7 @@ public class GeoGebraKeys implements KeyListener {
 				keyString = ".";
 			else if (keyString.equals("equals"))
 				keyString = "=";
-			else if (keyString.length() > 1) AbstractApplication.debug("Unknown keyString: "+keyString);
+			else if (keyString.length() > 1) App.debug("Unknown keyString: "+keyString);
 			
 			switch (e.getKeyChar()) {
 			// workaround for shifted characters:

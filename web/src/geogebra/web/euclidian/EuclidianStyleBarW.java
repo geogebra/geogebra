@@ -16,7 +16,7 @@ import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.PointProperties;
 import geogebra.common.kernel.geos.TextProperties;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.web.awt.GColorW;
 import geogebra.web.awt.GDimensionW;
@@ -29,7 +29,7 @@ import geogebra.web.gui.util.GeoGebraIcon;
 import geogebra.web.gui.util.MyCJButton;
 import geogebra.web.gui.util.MyToggleButton;
 import geogebra.web.gui.util.PopupMenuButton;
-import geogebra.web.main.Application;
+import geogebra.web.main.AppW;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -49,7 +49,7 @@ public class EuclidianStyleBarW extends HorizontalPanel
 	public static ButtonPopupMenu CURRENT_POP_UP = null;
 	EuclidianControllerW ec;
 	protected EuclidianViewInterfaceCommon ev;
-	protected AbstractApplication app;
+	protected App app;
 	private Construction cons;
 
 	private HashMap<Integer, Integer> defaultGeoMap;
@@ -217,7 +217,7 @@ public class EuclidianStyleBarW extends HorizontalPanel
 		initGUI();
 		updateStyleBar();
 
-	    AbstractApplication.debug("implementation needed for GUI"); // TODO Auto-generated
+	    App.debug("implementation needed for GUI"); // TODO Auto-generated
     }
 
 	/**
@@ -238,7 +238,7 @@ public class EuclidianStyleBarW extends HorizontalPanel
 		if (mode == EuclidianConstants.MODE_MOVE) {
 
 			boolean hasGeosInThisView = false;
-			for (GeoElement geo : ((Application) ev.getApplication())
+			for (GeoElement geo : ((AppW) ev.getApplication())
 					.getSelectedGeos()) {
 				if (isVisibleInThisView(geo) && geo.isEuclidianVisible()) {
 					hasGeosInThisView = true;
@@ -252,7 +252,7 @@ public class EuclidianStyleBarW extends HorizontalPanel
 				}
 			}
 			if (hasGeosInThisView) {
-				activeGeoList = ((Application) ev.getApplication())
+				activeGeoList = ((AppW) ev.getApplication())
 						.getSelectedGeos();
 
 				// we also update stylebars according to just created geos
@@ -551,7 +551,7 @@ public class EuclidianStyleBarW extends HorizontalPanel
 	}
 
 	private void addSeparator() {
-	    AbstractApplication.debug("Implementation needed...");
+	    App.debug("Implementation needed...");
     }
 
 	/**
@@ -597,7 +597,7 @@ public class EuclidianStyleBarW extends HorizontalPanel
 				AppResources.INSTANCE.mode_copyvisualstyle_16()
 		};
 		
-		btnMode = new PopupMenuButton((Application) ev.getApplication(),
+		btnMode = new PopupMenuButton((AppW) ev.getApplication(),
 				modeArray, -1, 1, new GDimensionW(20, iconHeight),
 				geogebra.common.gui.util.SelectionTable.MODE_ICON);
 		btnMode.addActionListener(this);
@@ -702,7 +702,7 @@ public class EuclidianStyleBarW extends HorizontalPanel
 					lineStyleArray[i], 2, lineStyleIconSize, geogebra.common.awt.GColor.BLACK, null);
 
 		// create button
-		btnLineStyle = new PopupMenuButton((Application) app, lineStyleIcons, -1, 1,
+		btnLineStyle = new PopupMenuButton((AppW) app, lineStyleIcons, -1, 1,
 				lineStyleIconSize, geogebra.common.gui.util.SelectionTable.MODE_ICON) {
 
 			private static final long serialVersionUID = 1L;
@@ -716,7 +716,7 @@ public class EuclidianStyleBarW extends HorizontalPanel
 					setSliderValue(ec.getPen().getPenSize());
 					setSelectedIndex(lineStyleMap.get(ec.getPen()
 							.getPenLineStyle()));*/
-					AbstractApplication.debug("Not MODE_PEN in EuclidianStyleBar yet");
+					App.debug("Not MODE_PEN in EuclidianStyleBar yet");
 				} else {
 					boolean geosOK = (geos.length > 0);
 					for (int i = 0; i < geos.length; i++) {
@@ -784,7 +784,7 @@ public class EuclidianStyleBarW extends HorizontalPanel
 					null);
 
 		// create button
-		btnPointStyle = new PopupMenuButton((Application) app, pointStyleIcons, 2, -1,
+		btnPointStyle = new PopupMenuButton((AppW) app, pointStyleIcons, 2, -1,
 				pointStyleIconSize, geogebra.common.gui.util.SelectionTable.MODE_ICON) {
 
 			private static final long serialVersionUID = 1L;
@@ -910,7 +910,7 @@ public class EuclidianStyleBarW extends HorizontalPanel
 				app.getPlain("Caption") // index 3
 		};
 
-		btnLabelStyle = new PopupMenuButton((Application) app, captionArray, -1, 1,
+		btnLabelStyle = new PopupMenuButton((AppW) app, captionArray, -1, 1,
 				new GDimensionW(0, iconHeight), geogebra.common.gui.util.SelectionTable.MODE_TEXT) {
 
 			private static final long serialVersionUID = 1L;
@@ -984,7 +984,7 @@ public class EuclidianStyleBarW extends HorizontalPanel
 				app.getMenu("SnapToGrid"), app.getMenu("FixedToGrid"),
 				app.getMenu("off") };
 
-		btnPointCapture = new PopupMenuButton((Application) app, strPointCapturing, -1, 1,
+		btnPointCapture = new PopupMenuButton((AppW) app, strPointCapturing, -1, 1,
 				new GDimensionW(0, iconHeight), geogebra.common.gui.util.SelectionTable.MODE_TEXT) {
 
 			private static final long serialVersionUID = 1L;
@@ -1018,7 +1018,7 @@ public class EuclidianStyleBarW extends HorizontalPanel
 		private void createColorButton() {
 
 			final GDimensionW colorIconSize = new GDimensionW(20, iconHeight);
-			btnColor = new ColorPopupMenuButton((Application) app, colorIconSize,
+			btnColor = new ColorPopupMenuButton((AppW) app, colorIconSize,
 					ColorPopupMenuButton.COLORSET_DEFAULT, true) {
 
 				private static final long serialVersionUID = 1L;
@@ -1033,7 +1033,7 @@ public class EuclidianStyleBarW extends HorizontalPanel
 
 						setSliderValue(100);
 						getMySlider().setVisible(false);*/
-						AbstractApplication.debug("not MODE_PEN_working yet in StyleBar");
+						App.debug("not MODE_PEN_working yet in StyleBar");
 
 					} else {
 						boolean geosOK = (geos.length > 0 || EuclidianView.isPenMode(mode));
@@ -1096,7 +1096,7 @@ public class EuclidianStyleBarW extends HorizontalPanel
 
 			final GDimensionW bgColorIconSize = new GDimensionW(20, iconHeight);
 
-			btnBgColor = new ColorPopupMenuButton((Application) app, bgColorIconSize,
+			btnBgColor = new ColorPopupMenuButton((AppW) app, bgColorIconSize,
 					ColorPopupMenuButton.COLORSET_BGCOLOR, false) {
 
 				private static final long serialVersionUID = 1L;
@@ -1159,7 +1159,7 @@ public class EuclidianStyleBarW extends HorizontalPanel
 		// text color button
 		final GDimensionW textColorIconSize = new GDimensionW(20, iconHeight);
 
-		btnTextColor = new ColorPopupMenuButton((Application) app, textColorIconSize,
+		btnTextColor = new ColorPopupMenuButton((AppW) app, textColorIconSize,
 				ColorPopupMenuButton.COLORSET_DEFAULT, false) {
 
 			private static final long serialVersionUID = 1L;
@@ -1269,7 +1269,7 @@ public class EuclidianStyleBarW extends HorizontalPanel
 
 		String[] textSizeArray = app.getFontSizeStrings();
 
-		btnTextSize = new PopupMenuButton((Application) app, textSizeArray, -1, 1,
+		btnTextSize = new PopupMenuButton((AppW) app, textSizeArray, -1, 1,
 				new GDimensionW(-1, iconHeight), geogebra.common.gui.util.SelectionTable.MODE_TEXT) {
 
 			private static final long serialVersionUID = 1L;
@@ -1430,7 +1430,7 @@ public class EuclidianStyleBarW extends HorizontalPanel
 			applyFontStyle(targetGeos);
 		} else if (source == btnColor) {
 			if (mode == EuclidianConstants.MODE_PEN) {
-				AbstractApplication.debug("Not MODE_PEN in EuclidianStyleBar yet");
+				App.debug("Not MODE_PEN in EuclidianStyleBar yet");
 				/*ec.getPen().setPenColor(
 						geogebra.awt.Color.getAwtColor(btnColor
 								.getSelectedColor()));
@@ -1459,7 +1459,7 @@ public class EuclidianStyleBarW extends HorizontalPanel
 					/*ec.getPen().setPenLineStyle(
 							lineStyleArray[btnLineStyle.getSelectedIndex()]);
 					ec.getPen().setPenSize(btnLineStyle.getSliderValue());*/
-					AbstractApplication.debug("Not MODE_PEN in EuclidianStyleBar yet");
+					App.debug("Not MODE_PEN in EuclidianStyleBar yet");
 				} else {
 					applyLineStyle(targetGeos);
 				}

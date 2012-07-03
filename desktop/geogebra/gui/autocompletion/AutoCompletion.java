@@ -1,6 +1,6 @@
 package geogebra.gui.autocompletion;
 
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 
 import java.awt.Component;
 import java.awt.Container;
@@ -33,7 +33,7 @@ public class AutoCompletion {
 		try {
 			return System.getProperty("os.name").toLowerCase().contains("windows");
 		} catch (SecurityException ex) {
-			AbstractApplication.debug("Could not determine underlying os: " + ex);
+			App.debug("Could not determine underlying os: " + ex);
 			return false;
 		}
 	}
@@ -62,7 +62,7 @@ public class AutoCompletion {
 		// Extract internal text field
 		JTextField textField = getInternalTextField(fileChooser);
 		if (null == textField) {
-			AbstractApplication.debug("Could not find an instance of JTextField inside the file chooser: " + fileChooser);
+			App.debug("Could not find an instance of JTextField inside the file chooser: " + fileChooser);
 			return;
 		}
 		

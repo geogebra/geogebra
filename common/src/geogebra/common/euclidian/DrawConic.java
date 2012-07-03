@@ -48,7 +48,7 @@ import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoConicND.HitType;
 import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 
 import java.util.ArrayList;
 
@@ -440,7 +440,7 @@ final public class DrawConic extends Drawable implements Previewable {
 		gpc.lineTo(drawLine.x2, drawLine.y2);
 		// cross top and bottom
 		if (drawLine.x1 > 0 && drawLine.x2 <= view.getWidth()) {
-			AbstractApplication.debug("top-bot");
+			App.debug("top-bot");
 			if (drawLines[0].y2 < drawLine.y1) {
 				gpc.lineTo(0, 0);
 				gpc.lineTo(0, view.getHeight());
@@ -1271,7 +1271,7 @@ final public class DrawConic extends Drawable implements Previewable {
 			cons.removeFromConstructionList(algo5);
 			initConic(algo5.getCircle());
 			break;
-		default: AbstractApplication.debug("unknown conic type");
+		default: App.debug("unknown conic type");
 		}
 		
 

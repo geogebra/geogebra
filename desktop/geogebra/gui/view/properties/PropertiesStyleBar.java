@@ -1,10 +1,10 @@
 package geogebra.gui.view.properties;
 
 import geogebra.common.gui.view.properties.PropertiesView.OptionType;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.gui.dialog.options.OptionsUtil;
 import geogebra.gui.util.PopupMenuButton;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -34,7 +34,7 @@ import javax.swing.ToolTipManager;
 public class PropertiesStyleBar extends JPanel {
 
 	PropertiesViewD propertiesView;
-	private Application app;
+	private AppD app;
 
 	protected PopupMenuButton btnOption;
 	private JPopupMenu menu;
@@ -46,7 +46,7 @@ public class PropertiesStyleBar extends JPanel {
 
 	private static final String downTriangle = "  \u25BE  ";
 
-	public PropertiesStyleBar(PropertiesViewD propertiesView, Application app) {
+	public PropertiesStyleBar(PropertiesViewD propertiesView, AppD app) {
 		this.propertiesView = propertiesView;
 		this.app = app;
 
@@ -133,19 +133,19 @@ public class PropertiesStyleBar extends JPanel {
 		
 		buttonMap.get(OptionType.EUCLIDIAN).setVisible(
 				app.getGuiManager()
-						.showView(AbstractApplication.VIEW_EUCLIDIAN));
+						.showView(App.VIEW_EUCLIDIAN));
 		
 		buttonMap.get(OptionType.EUCLIDIAN2).setVisible(
 				app.getGuiManager()
-						.showView(AbstractApplication.VIEW_EUCLIDIAN2));
+						.showView(App.VIEW_EUCLIDIAN2));
 		
 		buttonMap.get(OptionType.SPREADSHEET).setVisible(
 				app.getGuiManager()
-						.showView(AbstractApplication.VIEW_SPREADSHEET));
+						.showView(App.VIEW_SPREADSHEET));
 		
 		buttonMap.get(OptionType.CAS).setVisible(
 				app.getGuiManager()
-						.showView(AbstractApplication.VIEW_CAS));
+						.showView(App.VIEW_CAS));
 	}
 
 	

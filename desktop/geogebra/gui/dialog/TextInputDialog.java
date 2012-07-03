@@ -20,7 +20,7 @@ import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.common.main.MyError;
 import geogebra.gui.DynamicTextInputPane;
@@ -32,7 +32,7 @@ import geogebra.gui.util.PopupMenuButton;
 import geogebra.gui.util.SelectionTable;
 import geogebra.gui.util.TableSymbolsLaTeX;
 import geogebra.gui.view.algebra.InputPanel.DialogType;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -131,7 +131,7 @@ public class TextInputDialog extends InputDialog implements DocumentListener {
 	 * @param rows
 	 * @param isTextMode
 	 */
-	public TextInputDialog(Application app, String title, GeoText editGeo,
+	public TextInputDialog(AppD app, String title, GeoText editGeo,
 			GeoPointND startPoint, int cols, int rows, boolean isTextMode) {
 		
 		super(app.getFrame(), false);
@@ -146,7 +146,7 @@ public class TextInputDialog extends InputDialog implements DocumentListener {
 		// build input dialog GUI
 		createGUI(title, "", false, cols, rows, false, false,
 				false, false, DialogType.DynamicText);
-		addHelpButton(AbstractApplication.WIKI_TEXT_TOOL);
+		addHelpButton(App.WIKI_TEXT_TOOL);
 		editor = (DynamicTextInputPane) inputPanel.getTextComponent();
 		textPreviewer = new TextPreviewPanel(app.getKernel());
 
@@ -181,7 +181,7 @@ public class TextInputDialog extends InputDialog implements DocumentListener {
 						undo.undo();
 					}
 				}catch(CannotUndoException e1){
-					AbstractApplication.debug("Cannot Undo");
+					App.debug("Cannot Undo");
 				}
 			}
 		});
@@ -195,7 +195,7 @@ public class TextInputDialog extends InputDialog implements DocumentListener {
 						undo.redo();
 					}
 				}catch(CannotRedoException e2){
-					AbstractApplication.debug("Cannot Redo");
+					App.debug("Cannot Redo");
 				}
 			}
 		});
@@ -789,13 +789,13 @@ public class TextInputDialog extends InputDialog implements DocumentListener {
 	private class MyKeyListener extends KeyAdapter {
 		@Override
 		public void keyPressed(KeyEvent e) {
-			if ((e.isControlDown() || Application.isControlDown(e))
+			if ((e.isControlDown() || AppD.isControlDown(e))
 					&& e.getKeyCode() == KeyEvent.VK_SPACE) {
 				if (isLaTeX)
 					inputPanel.insertString("\\:");
 			}
 			
-			if ((e.isAltDown() || Application.isAltDown(e))){
+			if ((e.isAltDown() || AppD.isAltDown(e))){
 				switch(e.getKeyCode()){
 				case KeyEvent.VK_LEFT:
 					Element elem;

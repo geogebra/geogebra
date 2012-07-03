@@ -31,7 +31,7 @@ import geogebra.common.kernel.statistics.AlgoStandardDeviation;
 import geogebra.common.kernel.statistics.AlgoSum;
 import geogebra.common.kernel.statistics.AlgoSumSquaredErrors;
 import geogebra.gui.view.spreadsheet.statdialog.StatDialog.Regression;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
 import java.awt.Font;
@@ -42,7 +42,7 @@ import javax.swing.table.DefaultTableModel;
 public class BasicStatTable extends JPanel implements StatPanelInterface {
 	private static final long serialVersionUID = 1L;
 	// ggb 
-	protected Application app;
+	protected AppD app;
 	private Kernel kernel; 
 	protected StatDialog statDialog;
 	private int mode;
@@ -53,7 +53,7 @@ public class BasicStatTable extends JPanel implements StatPanelInterface {
 	/*************************************************
 	 * Construct the panel
 	 */
-	public BasicStatTable(Application app, StatDialog statDialog, int mode){
+	public BasicStatTable(AppD app, StatDialog statDialog, int mode){
 
 		this.app = app;	
 		this.kernel = app.getKernel();				

@@ -9,11 +9,11 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.web.euclidian.event.HasOffsets;
 import geogebra.web.euclidian.event.MouseEvent;
 import geogebra.web.euclidian.event.TouchEvent;
-import geogebra.web.main.Application;
+import geogebra.web.main.AppW;
 
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.dom.client.Touch;
@@ -88,7 +88,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 	}
 	
 	
-	public void setApplication(AbstractApplication app) {
+	public void setApplication(App app) {
 		this.app = app;
 	}
 	
@@ -119,7 +119,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 
 	public void onTouchCancel(TouchCancelEvent event) {
 		 //AbstractEvent e = geogebra.web.euclidian.event.TouchEvent.wrapEvent(event.getNativeEvent());
-		 Application.console(event.getAssociatedType().getName());
+		 AppW.console(event.getAssociatedType().getName());
 	}
 
 	public void onTouchMove(TouchMoveEvent event) {
@@ -228,13 +228,13 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 	
 	@Override
 	protected void initToolTipManager() {
-		AbstractApplication.debug("initToolTipManager: implementation needed really"); // TODO Auto-generated
+		App.debug("initToolTipManager: implementation needed really"); // TODO Auto-generated
 		
 	}
 
 	@Override
 	protected GeoElement[] createCircle2ForPoints3D(GeoPointND p0, GeoPointND p1) {
-		AbstractApplication.debug("implementation needed for 3D"); // TODO Auto-generated
+		App.debug("implementation needed for 3D"); // TODO Auto-generated
 		return null;
 	}
 

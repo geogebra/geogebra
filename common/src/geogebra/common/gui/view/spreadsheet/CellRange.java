@@ -5,7 +5,7 @@ import geogebra.common.awt.GPoint;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 
 import java.util.ArrayList;
 
@@ -46,16 +46,16 @@ public class CellRange {
 	
 	
 	//private MyTable table;
-	AbstractApplication app;
+	App app;
 	private AbstractSpreadsheetTableModel tableModel;
 	
 	/** Create new CellRange */
-	public CellRange(AbstractApplication app) {
+	public CellRange(App app) {
 		this.tableModel = app.getSpreadsheetTableModel();
 		this.app = app;
 	}
 
-	public CellRange(AbstractApplication app, int anchorColumn, int anchorRow, int col2, int row2) {
+	public CellRange(App app, int anchorColumn, int anchorRow, int col2, int row2) {
 		
 		this.tableModel = app.getSpreadsheetTableModel();
 		this.app = app;
@@ -64,7 +64,7 @@ public class CellRange {
 	}
 
 	/** Construct CellRange for single cell */
-	public CellRange(AbstractApplication app, int anchorColumn, int anchorRow) {
+	public CellRange(App app, int anchorColumn, int anchorRow) {
 		
 		this.tableModel = app.getSpreadsheetTableModel();
 		this.app = app;

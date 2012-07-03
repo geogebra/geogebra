@@ -3,7 +3,7 @@ package geogebra.gui.dialog.options;
 import geogebra.common.gui.SetLabels;
 import geogebra.gui.GuiManagerD;
 import geogebra.gui.util.IconTabbedPane;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 import geogebra.main.GeoGebraPreferences;
 
 import java.awt.BorderLayout;
@@ -64,7 +64,7 @@ public class OptionsDialog extends JDialog implements WindowListener, SetLabels 
 	/**
 	 * An instance of the Application object of this window.
 	 */
-	protected Application app;
+	protected AppD app;
 
 	/**
 	 * The tabbed pane which is used to switch between the different pages of
@@ -122,7 +122,7 @@ public class OptionsDialog extends JDialog implements WindowListener, SetLabels 
 	 * 
 	 * @param app
 	 */
-	public OptionsDialog(Application app) {
+	public OptionsDialog(AppD app) {
 		super(app.getFrame(), false);
 
 		this.app = app;
@@ -376,7 +376,7 @@ public class OptionsDialog extends JDialog implements WindowListener, SetLabels 
 	}
 
 	public static class Factory {
-		public OptionsDialog create(Application app) {
+		public OptionsDialog create(AppD app) {
 			return new OptionsDialog(app);
 		}
 	}

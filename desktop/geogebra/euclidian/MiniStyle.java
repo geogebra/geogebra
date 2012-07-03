@@ -5,7 +5,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.PointProperties;
 import geogebra.common.plugin.EuclidianStyleConstants;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.Color;
 import java.util.ArrayList;
@@ -18,7 +18,7 @@ import java.util.ArrayList;
  */
 public class MiniStyle {
 
-	private Application app;
+	private AppD app;
 
 	final public static int MODE_PEN = 0;
 	final public static int MODE_STANDARD = 1;
@@ -38,7 +38,7 @@ public class MiniStyle {
 	/************************************************
 	 * Constructs MiniStyle
 	 */
-	public MiniStyle(Application app, int mode) {
+	public MiniStyle(AppD app, int mode) {
 
 		this.app = app;
 		colorList = createStyleBarColorList();

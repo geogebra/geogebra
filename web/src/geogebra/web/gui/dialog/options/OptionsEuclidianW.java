@@ -3,11 +3,11 @@ package geogebra.web.gui.dialog.options;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.gui.dialog.options.OptionsEuclidian;
 import geogebra.web.euclidian.EuclidianViewW;
-import geogebra.web.main.Application;
+import geogebra.web.main.AppW;
 
 public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW {
 
-	public OptionsEuclidianW(Application app,
+	public OptionsEuclidianW(AppW app,
             EuclidianViewInterfaceCommon activeEuclidianView) {
 	    // TODO Auto-generated constructor stub
     }

@@ -3,7 +3,7 @@ package geogebra.gui.view.spreadsheet.statdialog;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoList;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.Point;
 import java.awt.event.ActionEvent;
@@ -23,7 +23,7 @@ import org.apache.commons.math.stat.descriptive.SummaryStatistics;
  */
 public class TwoVarStatPanel extends StatTable implements  ActionListener {
 	private static final long serialVersionUID = 1L;
-	protected Application app;
+	protected AppD app;
 	private Kernel kernel; 
 	protected StatDialog statDialog;
 	protected MyTable statTable;
@@ -37,7 +37,7 @@ public class TwoVarStatPanel extends StatTable implements  ActionListener {
 	private long n1, n2;
 
 
-	public TwoVarStatPanel(Application app, StatDialog statDialog, boolean isPairedData, ActionListener parentActionListener){
+	public TwoVarStatPanel(AppD app, StatDialog statDialog, boolean isPairedData, ActionListener parentActionListener){
 		super(app);	
 
 		this.app = app;

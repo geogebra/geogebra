@@ -1,6 +1,6 @@
 package geogebra.web.euclidian.event;
 
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 
 import com.google.gwt.event.dom.client.KeyPressEvent;
 
@@ -12,7 +12,7 @@ public class KeyListener extends geogebra.common.euclidian.event.KeyListener
 	}
 
 	public void onKeyPress(KeyPressEvent e) {
-		AbstractApplication.debug("implementation needed"); // TODO
+		App.debug("implementation needed"); // TODO
 															// Auto-generated
 															// method stub
 

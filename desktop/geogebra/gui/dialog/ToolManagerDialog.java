@@ -16,10 +16,10 @@ import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Macro;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.gui.ToolNameIconPanel;
 import geogebra.gui.app.GeoGebraFrame;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -54,10 +54,10 @@ public class ToolManagerDialog extends javax.swing.JDialog {
 
 	private static final long serialVersionUID = 1L;
 
-	private Application app;
+	private AppD app;
 	private DefaultListModel toolsModel;
 
-	public ToolManagerDialog(Application app) {
+	public ToolManagerDialog(AppD app) {
 		super(app.getFrame());
 		setModal(true);
 
@@ -307,7 +307,7 @@ public class ToolManagerDialog extends javax.swing.JDialog {
 			Thread runner = new Thread() {
 				@Override
 				public void run() {
-					AbstractApplication.debug("before" + app.hashCode());
+					App.debug("before" + app.hashCode());
 					app.setWaitCursor();
 					GeoGebraFrame newframe = GeoGebraFrame.createNewWindow(
 							null, macro);
@@ -423,7 +423,7 @@ public class ToolManagerDialog extends javax.swing.JDialog {
 					exporter.uploadWorksheet(macros);
 					
 				} catch (Exception e) {
-					AbstractApplication.debug("Uploading failed");
+					App.debug("Uploading failed");
 					e.printStackTrace();
 				}
 				app.setDefaultCursor();
@@ -441,7 +441,7 @@ public class ToolManagerDialog extends javax.swing.JDialog {
 			return;
 
 		File file = app.getGuiManager().showSaveDialog(
-				Application.FILE_EXT_GEOGEBRA_TOOL, null,
+				AppD.FILE_EXT_GEOGEBRA_TOOL, null,
 				app.getPlain("ApplicationName") + " " + app.getMenu("Tools"),
 				true, false);
 		if (file == null)

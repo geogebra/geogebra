@@ -3,7 +3,7 @@ package geogebra.gui.view.spreadsheet.statdialog;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import javax.swing.table.DefaultTableModel;
 
@@ -16,7 +16,7 @@ import javax.swing.table.DefaultTableModel;
 public class MultiVarStatPanel extends BasicStatTable {
 	private static final long serialVersionUID = 1L;
 
-	public MultiVarStatPanel(Application app, StatDialog statDialog){
+	public MultiVarStatPanel(AppD app, StatDialog statDialog){
 		super(app,statDialog, -1);			
 	}
 

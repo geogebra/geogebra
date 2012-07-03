@@ -32,7 +32,7 @@ import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.prover.Variable;
 import geogebra.common.kernel.prover.NoSymbolicParametersException;
 import geogebra.common.kernel.prover.Polynomial;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 
 
 /**
@@ -168,7 +168,7 @@ public class AlgoJoinPoints extends AlgoElement implements SymbolicParametersAlg
 			Polynomial[] coords2 = Q.getPolynomials();
 			if (coords1 != null && coords2 != null) {
 				polynomials = Polynomial.crossProduct(coords1, coords2);
-				AbstractApplication.debug("polys(" + g.getLabelSimple()
+				App.debug("polys(" + g.getLabelSimple()
 					+ "): "
 					+ polynomials[0].toString() + ","
 					+ polynomials[1].toString() + ","

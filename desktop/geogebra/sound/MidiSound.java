@@ -1,7 +1,7 @@
 package geogebra.sound;
 
-import geogebra.common.main.AbstractApplication;
-import geogebra.main.Application;
+import geogebra.common.main.App;
+import geogebra.main.AppD;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -35,7 +35,7 @@ import org.jfugue.Player;
  */
 public class MidiSound implements MetaEventListener {
 
-	private final Application app;
+	private final AppD app;
 	private Synthesizer synthesizer;
 	private Instrument instruments[];
 	private MidiChannel channels[];
@@ -51,7 +51,7 @@ public class MidiSound implements MetaEventListener {
 	/***********************************************
 	 * Constructor
 	 */
-	public MidiSound(Application app) {
+	public MidiSound(AppD app) {
 		this.app = app;
 	}
 
@@ -69,7 +69,7 @@ public class MidiSound implements MetaEventListener {
 
 			if (synthesizer == null) {
 				if ((synthesizer = MidiSystem.getSynthesizer()) == null) {
-					AbstractApplication.debug("getSynthesizer() failed!");
+					App.debug("getSynthesizer() failed!");
 					return false;
 				}
 

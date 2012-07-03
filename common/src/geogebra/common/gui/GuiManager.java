@@ -18,7 +18,7 @@ import geogebra.common.gui.dialog.DialogManager;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 
 import java.util.ArrayList;
 
@@ -28,7 +28,7 @@ public abstract class GuiManager {
 	private static final String ggbTubeShort = "ggbtu.be/";
 	private static final String material = "/material/show/id/";
 	protected String strCustomToolbarDefinition;
-	public AbstractApplication app;
+	public App app;
 
 	public abstract void removeSpreadsheetTrace(GeoElement recordObject);
 
@@ -217,7 +217,7 @@ public abstract class GuiManager {
 	
 				// no valid URL?
 				if (start == -1) {
-					AbstractApplication.debug("problem parsing: " + urlString);
+					App.debug("problem parsing: " + urlString);
 					return false;
 				}
 	
@@ -238,7 +238,7 @@ public abstract class GuiManager {
 				urlString = "http://www.geogebratube.org/files/material-" + id
 						+ ".ggb";
 	
-				AbstractApplication.debug(urlString);
+				App.debug(urlString);
 				success = loadURL_GGB(urlString);
 	
 				// special case: urlString is actually a base64 encoded ggb file

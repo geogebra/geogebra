@@ -80,7 +80,7 @@ import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.main.GeoElementSelectionListener;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.plugin.GeoClass;
@@ -286,7 +286,7 @@ public abstract class EuclidianController {
 
 	protected ArrayList<GeoPointND> persistentStickyPointList = new ArrayList<GeoPointND>();
 
-	protected AbstractApplication app;
+	protected App app;
 
 	protected Kernel kernel;
 
@@ -350,7 +350,7 @@ public abstract class EuclidianController {
 	protected static final int MOVE_VECTOR_NO_GRID = 122;
 	protected static final int MOVE_POINT_WITH_OFFSET = 123;
 
-	public abstract void setApplication(AbstractApplication app);
+	public abstract void setApplication(App app);
 
 	
 	
@@ -5855,7 +5855,7 @@ public abstract class EuclidianController {
 		startPoint.setLocation(xRW, yRW);
 		pt1.setCoords(pt1.getX()+dx,pt1.getY()-dy,1);
 		pt2.setCoords(pt2.getX()+dx,pt2.getY()-dy,1);
-		AbstractApplication.debug(xRW+","+yRW+":"+startPoint.x+","+startPoint.y);
+		App.debug(xRW+","+yRW+":"+startPoint.x+","+startPoint.y);
 		algo.update();
 		 
 		if (repaint) {
@@ -7488,7 +7488,7 @@ public abstract class EuclidianController {
 		if (view.getHits().isEmpty()) {
 			
 			// HTML5 applet -> no selection rectangle
-			if (app.isHTML5Applet() && !AbstractApplication.isFullAppGui()) {
+			if (app.isHTML5Applet() && !App.isFullAppGui()) {
 				
 				// alternative: could make drag move the view?
 				//TEMPORARY_MODE = true;
@@ -8859,9 +8859,9 @@ public abstract class EuclidianController {
 				app.getGuiManager().attachSpreadsheetView();
 			}
 			if (!app.getGuiManager().showView(
-					AbstractApplication.VIEW_SPREADSHEET)) {
+					App.VIEW_SPREADSHEET)) {
 				app.getGuiManager().setShowView(true,
-						AbstractApplication.VIEW_SPREADSHEET);
+						App.VIEW_SPREADSHEET);
 			}
 		}
 	
@@ -8941,7 +8941,7 @@ public abstract class EuclidianController {
 
 	}
 
-	public AbstractApplication getApplication() {
+	public App getApplication() {
 		return app;
 	}
 

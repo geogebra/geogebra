@@ -2,11 +2,11 @@ package geogebra.gui.view.spreadsheet.statdialog;
 
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.kernel.Kernel;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.euclidian.EuclidianControllerD;
 import geogebra.euclidian.EuclidianViewD;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.Cursor;
 import java.awt.Dimension;
@@ -107,7 +107,7 @@ public class PlotPanelEuclidianView extends EuclidianViewD implements
 		plotSettings = new PlotSettings();
 
 		// get viewID from GuiManager
-		viewID = ((Application) kernel.getApplication()).getGuiManager()
+		viewID = ((AppD) kernel.getApplication()).getGuiManager()
 				.assignPlotPanelID(this);
 
 		// create cursors for DnD
@@ -361,7 +361,7 @@ public class PlotPanelEuclidianView extends EuclidianViewD implements
 		public void mouseClicked(MouseEvent e) {
 			Object ob = e.getSource();
 			// right click shows context menu
-			if (Application.isRightClick(e)) {
+			if (AppD.isRightClick(e)) {
 				e.consume();
 				ContextMenu popup = new ContextMenu();
 				popup.show(e.getComponent(), e.getX(), e.getY());
@@ -369,13 +369,13 @@ public class PlotPanelEuclidianView extends EuclidianViewD implements
 		}
 
 		public void mousePressed(MouseEvent e) {
-			if (Application.isRightClick(e)) {
+			if (AppD.isRightClick(e)) {
 				e.consume();
 			}
 		}
 
 		public void mouseReleased(MouseEvent e) {
-			if (Application.isRightClick(e)) {
+			if (AppD.isRightClick(e)) {
 				e.consume();
 			}
 		}
@@ -503,7 +503,7 @@ public class PlotPanelEuclidianView extends EuclidianViewD implements
 							d.setVisible(true);
 
 						} catch (Exception e) {
-							AbstractApplication
+							App
 									.debug("GraphicExportDialog not available");
 						}
 						getApplication().setDefaultCursor();

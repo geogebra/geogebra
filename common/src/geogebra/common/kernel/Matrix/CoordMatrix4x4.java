@@ -1,6 +1,6 @@
 package geogebra.common.kernel.Matrix;
 
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 
 /**
  * 4x4 matrix for 3D transformations, planes descriptions, lines, etc.
@@ -373,7 +373,7 @@ public class CoordMatrix4x4 extends CoordMatrix {
 		rot.set(3, 3, 1);
 		rot.set(4, 4, 1);
 
-		AbstractApplication.debug(rot);
+		App.debug(rot);
 
 		return rot.mul(this);
 	}
@@ -395,7 +395,7 @@ public class CoordMatrix4x4 extends CoordMatrix {
 		rot.set(3, 3, 1);
 		rot.set(4, 4, 1);
 
-		AbstractApplication.debug(rot);
+		App.debug(rot);
 
 		return rot.mul(this);
 	}

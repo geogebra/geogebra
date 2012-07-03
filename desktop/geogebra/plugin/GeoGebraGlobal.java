@@ -1,6 +1,6 @@
 package geogebra.plugin;
 
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import javax.swing.JOptionPane;
 
@@ -18,13 +18,13 @@ import org.mozilla.javascript.Undefined;
 
 public class GeoGebraGlobal implements IdFunctionCall {
 
-	Application app;
+	AppD app;
 
-	GeoGebraGlobal(Application app) {
+	GeoGebraGlobal(AppD app) {
 		this.app = app;
 	}
 
-	public static void init(Application app, Scriptable scope, boolean sealed) {
+	public static void init(AppD app, Scriptable scope, boolean sealed) {
 		GeoGebraGlobal obj = new GeoGebraGlobal(app);
 
 		for (int id = 1; id <= LAST_SCOPE_FUNCTION_ID; ++id) {
@@ -125,7 +125,7 @@ public class GeoGebraGlobal implements IdFunctionCall {
 		return sb.toString();
 	}
 
-	public static void initStandardObjects(Application app, Scriptable scope, String arg, boolean sealed) {
+	public static void initStandardObjects(AppD app, Scriptable scope, String arg, boolean sealed) {
 		geogebra.plugin.GgbAPI ggbApi = app.getGgbApi();
 		Object wrappedOut = Context.javaToJS(ggbApi, scope);
 		ScriptableObject.putProperty(scope, "ggbApplet", wrappedOut);

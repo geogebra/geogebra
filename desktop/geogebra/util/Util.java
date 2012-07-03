@@ -18,7 +18,7 @@
 
 package geogebra.util;
 
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.Component;
 import java.awt.Container;
@@ -113,7 +113,7 @@ public class Util extends Object {
 	    con.setRequestMethod("HEAD");
 	    return (con.getResponseCode() == HttpURLConnection.HTTP_OK);
 	} catch (Exception e) {
-	    Application.debug("Exception: existsHttpURL: " + url);
+	    AppD.debug("Exception: existsHttpURL: " + url);
 	    return false;
 	}
     }

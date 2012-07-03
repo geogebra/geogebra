@@ -3,15 +3,15 @@ package geogebra.common.gui.dialog.handler;
 import geogebra.common.gui.InputHandler;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyError;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 
 public class RedefineInputHandler implements InputHandler {
 
 	private GeoElement geo;
-	private AbstractApplication app;
+	private App app;
 	private String oldString; // Michael Borcherds 2007-12-31
 
-	public RedefineInputHandler(AbstractApplication app, GeoElement geo, String oldString) {
+	public RedefineInputHandler(App app, GeoElement geo, String oldString) {
 		this.geo = geo;
 		this.app = app;
 		this.oldString=oldString; // Michael Borcherds 2007-12-31

@@ -11,10 +11,10 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoText;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.main.MyError;
 import geogebra.euclidian.EuclidianViewD;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 import geogebra.util.BarcodeFactory;
 
 import java.awt.image.BufferedImage;
@@ -64,12 +64,12 @@ public class CmdBarCode extends CommandProcessor {
 			EuclidianViewD ev = (EuclidianViewD) app.getActiveEuclidianView();
 			if (ev.getSelectedWidth() > 600 || ev.getSelectedHeight() > 600) {
 				// if it's too big, get scaled image
-				image = ((Application) app).getExportImage(600, 600);
-				AbstractApplication.debug("600x600");
+				image = ((AppD) app).getExportImage(600, 600);
+				App.debug("600x600");
 			} else {
 				// otherwise get image at 1:1
 				image = ev.getExportImage(1.0);
-				AbstractApplication.debug("1.0");
+				App.debug("1.0");
 			}
 
 			/*
@@ -281,7 +281,7 @@ public class CmdBarCode extends CommandProcessor {
 				return ret;
 			}
 
-			String fileName = ((Application) app).createImage(image, "barcode"
+			String fileName = ((AppD) app).createImage(image, "barcode"
 					+ text + ".png");
 
 			GeoImage geoImage = new GeoImage(app.getKernel().getConstruction());

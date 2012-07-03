@@ -13,10 +13,10 @@ the Free Software Foundation.
 package geogebra.export;
 
 import geogebra.common.euclidian.EuclidianView;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.gui.TitlePanel;
 import geogebra.gui.view.consprotocol.ConstructionProtocolView;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 import geogebra.util.Util;
 
 import java.awt.BorderLayout;
@@ -52,7 +52,7 @@ public class ConstructionProtocolExportDialog extends JDialog implements
 	private GraphicSizePanel sizePanel;
 	private boolean kernelChanged = false;
 	private ConstructionProtocolView prot;
-	private Application app;
+	private AppD app;
 
 	public ConstructionProtocolExportDialog(ConstructionProtocolView prot) {
 		super(prot.getApplication().getFrame(), true);
@@ -66,7 +66,7 @@ public class ConstructionProtocolExportDialog extends JDialog implements
 		setResizable(true);
 		setTitle(app.getMenu("Export") + ": "
 				+ app.getPlain("ConstructionProtocol") + " ("
-				+ Application.FILE_EXT_HTML + ")");
+				+ AppD.FILE_EXT_HTML + ")");
 
 		JPanel cp = new JPanel(new BorderLayout(5, 5));
 		cp.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
@@ -90,7 +90,7 @@ public class ConstructionProtocolExportDialog extends JDialog implements
 		cbScreenshotPicture.setSelected(false);
 
 		picPanel.add(cbDrawingPadPicture, BorderLayout.WEST);
-		if (app.getGuiManager().showView(AbstractApplication.VIEW_ALGEBRA)) {
+		if (app.getGuiManager().showView(App.VIEW_ALGEBRA)) {
 			picPanel.add(cbScreenshotPicture, BorderLayout.SOUTH);
 		}
 
@@ -182,7 +182,7 @@ public class ConstructionProtocolExportDialog extends JDialog implements
 							clipboard.setContents(stringSelection, null);
 						} catch (Exception e) {
 							app.showError("SaveFileFailed");
-							AbstractApplication.debug(e.toString());
+							App.debug(e.toString());
 						}	
 					}
 				};
@@ -290,7 +290,7 @@ public class ConstructionProtocolExportDialog extends JDialog implements
 	                        app.getGuiManager().showURLinBrowser(HTMLfile.toURI().toURL());
 	                } catch (Exception ex) {                        
 	                        app.showError("SaveFileFailed");
-	                        AbstractApplication.debug(ex.toString());
+	                        App.debug(ex.toString());
 	                } 
 	        }
 	        };
@@ -298,7 +298,7 @@ public class ConstructionProtocolExportDialog extends JDialog implements
 			
 		} catch (IOException ex) {
 			app.showError("SaveFileFailed");
-			AbstractApplication.debug(ex.toString());
+			App.debug(ex.toString());
 		}
 						
 	}

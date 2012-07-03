@@ -4,7 +4,7 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.gui.inputfield.MathTextField;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -50,7 +50,7 @@ public class CASSubDialog extends JDialog implements ActionListener {
 	private Vector<Vector<String>> data;
 
 	private CASView casView;
-	private Application app;
+	private AppD app;
 	private int editRow;
 	private String prefix, evalText, postfix;
 
@@ -346,7 +346,7 @@ public class CASSubDialog extends JDialog implements ActionListener {
 	/**
 	 * @return the app
 	 */
-	public Application getApp() {
+	public AppD getApp() {
 		return app;
 	}
 

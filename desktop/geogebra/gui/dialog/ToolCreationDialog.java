@@ -18,11 +18,11 @@ import geogebra.common.kernel.Macro;
 import geogebra.common.kernel.NameDescriptionComparator;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.main.GeoElementSelectionListener;
 import geogebra.gui.ToolNameIconPanel;
 import geogebra.gui.view.algebra.MyComboBoxListener;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -62,7 +62,7 @@ import javax.swing.event.ListDataListener;
 public class ToolCreationDialog extends javax.swing.JDialog implements
 		GeoElementSelectionListener {
 	private static final long serialVersionUID = 1L;
-	private Application app;
+	private AppD app;
 	private JTabbedPane tabbedPane;
 	private ToolNameIconPanel namePanel;
 
@@ -80,7 +80,7 @@ public class ToolCreationDialog extends javax.swing.JDialog implements
 	 * @param app
 	 *            Aplication to which this dialog belongs
 	 */
-	public ToolCreationDialog(Application app) {
+	public ToolCreationDialog(AppD app) {
 		super(app.getFrame());
 		this.app = app;
 		
@@ -214,9 +214,9 @@ public class ToolCreationDialog extends javax.swing.JDialog implements
 		newTool.setShowInToolBar(namePanel.showInToolBar());
 		newTool.setIconFileName(namePanel.getIconFileName());
 
-		Application appToSave = app;
+		AppD appToSave = app;
 		if (app.getMacro() != null)
-			appToSave = (Application) app.getMacro().getKernel()
+			appToSave = (AppD) app.getMacro().getKernel()
 					.getApplication();
 
 		Kernel kernel = appToSave.getKernel();
@@ -266,7 +266,7 @@ public class ToolCreationDialog extends javax.swing.JDialog implements
 		if (returnVal == 1)
 			return;
 		Kernel kernel = macro.getKernel();
-		Application appToSave = (Application) kernel.getApplication();
+		AppD appToSave = (AppD) kernel.getApplication();
 		boolean compatible = newTool.getNeededTypesString().equals(
 				macro.getNeededTypesString());
 		for (int i = 0; compatible && i < macro.getMacroOutput().length; i++)
@@ -286,7 +286,7 @@ public class ToolCreationDialog extends javax.swing.JDialog implements
 			}
 
 		} else {
-			AbstractApplication.debug("not compatible");
+			App.debug("not compatible");
 			JOptionPane.showMessageDialog(this, app.getError("InvalidInput")
 					+ ":\n" + macro.toString());
 		}
@@ -540,7 +540,7 @@ public class ToolCreationDialog extends javax.swing.JDialog implements
 	 *            list model containing the input/output GeoElements
 	 * @return Panel with the list, buttons and comboBox
 	 */
-	public static JPanel createInputOutputPanel(Application app,
+	public static JPanel createInputOutputPanel(AppD app,
 			final DefaultListModel listModel,
 			final DefaultComboBoxModel cbModel, boolean showUpDownButtons,
 			boolean allowMultiple, ActionListener listener) {
@@ -609,7 +609,7 @@ public class ToolCreationDialog extends javax.swing.JDialog implements
 	 *            if null)
 	 * @return Panel with the list, buttons and comboBox
 	 */
-	public static JPanel createListUpDownRemovePanel(Application app,
+	public static JPanel createListUpDownRemovePanel(AppD app,
 			final JList list, final JComboBox cbAdd, boolean showRemoveButton,
 			boolean showUpDownButtons, final boolean allowMultiple,
 			ActionListener listener) {

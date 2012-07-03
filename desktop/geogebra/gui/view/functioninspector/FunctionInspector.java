@@ -48,7 +48,7 @@ import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.optimization.ExtremumFinder;
 import geogebra.common.kernel.roots.RealRootFunction;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.plugin.Operation;
@@ -62,7 +62,7 @@ import geogebra.gui.util.SpecialNumberFormat;
 import geogebra.gui.util.SpecialNumberFormatInterface;
 import geogebra.gui.view.algebra.InputPanel.DialogType;
 import geogebra.gui.view.spreadsheet.SpreadsheetView;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -173,7 +173,7 @@ KeyListener, ActionListener, SpecialNumberFormatInterface {
 
 
 	/** Constructor */
-	public FunctionInspector(Application app, GeoFunction selectedGeo) {
+	public FunctionInspector(AppD app, GeoFunction selectedGeo) {
 
 		super(app.getFrame(), false);
 		this.app = app;	
@@ -1641,7 +1641,7 @@ KeyListener, ActionListener, SpecialNumberFormatInterface {
 	}
 
 	public int getViewID() {
-		return AbstractApplication.VIEW_FUNCTION_INSPECTOR;
+		return App.VIEW_FUNCTION_INSPECTOR;
 	}
 	
 	

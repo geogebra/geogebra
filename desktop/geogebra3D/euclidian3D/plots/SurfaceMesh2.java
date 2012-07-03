@@ -4,7 +4,7 @@ import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoLevelOfDetail;
 import geogebra.common.kernel.kernelND.SurfaceEvaluable;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 import geogebra3D.euclidian3D.BucketAssigner;
 import geogebra3D.euclidian3D.Octree;
 import geogebra3D.euclidian3D.OctreeCollection;

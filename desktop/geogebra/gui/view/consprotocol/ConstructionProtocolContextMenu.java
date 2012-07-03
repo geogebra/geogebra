@@ -13,7 +13,7 @@ package geogebra.gui.view.consprotocol;
 
 import geogebra.common.kernel.Construction;
 import geogebra.gui.view.consprotocol.ConstructionProtocolView.ColumnKeeper;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -37,7 +37,7 @@ public class ConstructionProtocolContextMenu extends JPopupMenu {
 	
 	private static final long serialVersionUID = 1L;
 	/** Application */
-	Application app;
+	AppD app;
 	private Construction cons;
 	/** Construction protocol view associated with this menu */
 	ConstructionProtocolView constprotView;
@@ -46,7 +46,7 @@ public class ConstructionProtocolContextMenu extends JPopupMenu {
 	 * Creates new context menu
 	 * @param app application
 	 */
-	public ConstructionProtocolContextMenu(Application app){
+	public ConstructionProtocolContextMenu(AppD app){
 		this.app = app;
 		this.cons = app.getKernel().getConstruction();
 		constprotView = app.getGuiManager().getConstructionProtocolView();

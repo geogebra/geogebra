@@ -14,7 +14,7 @@ package geogebra.gui.toolbar;
 import geogebra.common.gui.toolbar.ToolBar;
 import geogebra.common.gui.toolbar.ToolbarItem;
 import geogebra.gui.layout.DockPanel;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -66,13 +66,13 @@ public class ToolbarConfigPanel extends javax.swing.JPanel implements java.awt.e
 	private JPanel selectionPanel;
 	private JList toolList;	
 	private DefaultListModel toolListModel;
-	private Application app;	
+	private AppD app;	
 	
 	/**
 	 * Creates new toolbar config panel.
 	 * @param app application
 	 */
-	public ToolbarConfigPanel(Application app) {
+	public ToolbarConfigPanel(AppD app) {
 		super();	
 		this.app = app;			
 		

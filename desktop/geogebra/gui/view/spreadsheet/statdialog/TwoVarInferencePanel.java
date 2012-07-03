@@ -3,7 +3,7 @@ package geogebra.gui.view.spreadsheet.statdialog;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.gui.inputfield.MyTextField;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -36,7 +36,7 @@ import org.apache.commons.math.stat.inference.TTestImpl;
 
 public class TwoVarInferencePanel extends JPanel implements ActionListener, FocusListener, StatPanelInterface{
 	private static final long serialVersionUID = 1L;
-	private Application app;
+	private AppD app;
 	private StatDialog statDialog;
 	private StatTable resultTable;
 
@@ -84,7 +84,7 @@ public class TwoVarInferencePanel extends JPanel implements ActionListener, Focu
 	/**
 	 * Construct a TwoVarInference panel
 	 */
-	public TwoVarInferencePanel(Application app, StatDialog statDialog){
+	public TwoVarInferencePanel(AppD app, StatDialog statDialog){
 		isIniting = true;
 		this.app = app;
 		this.statDialog = statDialog;

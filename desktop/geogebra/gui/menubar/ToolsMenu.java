@@ -2,7 +2,7 @@ package geogebra.gui.menubar;
 
 import geogebra.gui.dialog.ToolCreationDialog;
 import geogebra.gui.dialog.ToolManagerDialog;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.event.ActionEvent;
 
@@ -24,7 +24,7 @@ class ToolsMenu extends BaseMenu {
 	 * Creates tools menu
 	 * @param app application
 	 */
-	public ToolsMenu(Application app) {
+	public ToolsMenu(AppD app) {
 		super(app, app.getMenu("Tools"));
 		
 		// items are added to the menu when it's opened, see BaseMenu: addMenuListener(this);

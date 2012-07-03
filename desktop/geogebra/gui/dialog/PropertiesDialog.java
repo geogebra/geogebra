@@ -20,13 +20,13 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementSpreadsheet;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.main.GeoElementSelectionListener;
 import geogebra.euclidianND.EuclidianViewND;
 import geogebra.gui.GeoTreeCellRenderer;
 import geogebra.gui.color.GeoGebraColorChooser;
 import geogebra.gui.view.algebra.AlgebraView;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
 import java.awt.Container;
@@ -75,7 +75,7 @@ public class PropertiesDialog extends JDialog implements WindowListener,
 	private static final int MAX_COMBOBOX_ENTRIES = 200;
 
 	private static final long serialVersionUID = 1L;
-	private Application app;
+	private AppD app;
 	private Kernel kernel;
 	private JTreeGeoElements geoTree;
 	private JButton closeButton, defaultsButton, delButton;
@@ -95,7 +95,7 @@ public class PropertiesDialog extends JDialog implements WindowListener,
 	 * @param app
 	 *            parent frame
 	 */
-	public PropertiesDialog(Application app) {
+	public PropertiesDialog(AppD app) {
 		super(app.getFrame(), false);
 		this.app = app;
 		kernel = app.getKernel();
@@ -870,7 +870,7 @@ public class PropertiesDialog extends JDialog implements WindowListener,
 		 * status.
 		 */
 		public void mouseClicked(MouseEvent e) {
-			if (Application.isControlDown(e) || e.isShiftDown())
+			if (AppD.isControlDown(e) || e.isShiftDown())
 				return;
 
 			// get GeoElement at mouse location
@@ -910,7 +910,7 @@ public class PropertiesDialog extends JDialog implements WindowListener,
 		}
 
 		public int getViewID() {
-			return AbstractApplication.VIEW_NONE;
+			return App.VIEW_NONE;
 		}
 
 	} // JTreeGeoElements

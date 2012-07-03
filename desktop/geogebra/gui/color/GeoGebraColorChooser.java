@@ -1,6 +1,6 @@
 package geogebra.gui.color;
 
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.Color;
 
@@ -23,9 +23,9 @@ public class GeoGebraColorChooser extends JColorChooser{
 	
 	private static final long serialVersionUID = 1L;
 	
-	private Application app;
+	private AppD app;
 	
-	public GeoGebraColorChooser(Application app){
+	public GeoGebraColorChooser(AppD app){
 		this.app = app;
 		setSelectionModel(new MyColorSelectionModel());
 		

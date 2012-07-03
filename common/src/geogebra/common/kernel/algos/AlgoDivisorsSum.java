@@ -6,7 +6,7 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 
 public class AlgoDivisorsSum extends AlgoElement {
 
@@ -46,7 +46,7 @@ public class AlgoDivisorsSum extends AlgoElement {
 			double exp = ((NumberValue)pair.get(1)).getDouble();
 			if(sum){
 				double prime = ((NumberValue)pair.get(0)).getDouble();
-				AbstractApplication.debug(prime);
+				App.debug(prime);
 				res = res * Math.round((Math.pow(prime, exp+1)-1)/(prime-1.0));
 			}
 			else{

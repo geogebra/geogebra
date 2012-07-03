@@ -4,7 +4,7 @@ import geogebra.common.gui.view.algebra.AlgebraView.SortMode;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -27,7 +27,7 @@ public class MyRendererForAlgebraTree extends DefaultTreeCellRenderer {
 
 	private static final long serialVersionUID = 1L;
 
-	protected Application app;
+	protected AppD app;
 	private AlgebraTree view;
 	protected Kernel kernel;
 	private ImageIcon iconShown, iconHidden;
@@ -37,7 +37,7 @@ public class MyRendererForAlgebraTree extends DefaultTreeCellRenderer {
 
 	private Font latexFont;
 
-	public MyRendererForAlgebraTree(Application app, AlgebraTree view) {
+	public MyRendererForAlgebraTree(AppD app, AlgebraTree view) {
 		setOpaque(true);
 		this.app = app;
 		this.kernel = app.getKernel();
@@ -85,7 +85,7 @@ public class MyRendererForAlgebraTree extends DefaultTreeCellRenderer {
 			setText(text);
 
 			if (geo.doHighlighting())
-				setBackground(Application.COLOR_SELECTION);
+				setBackground(AppD.COLOR_SELECTION);
 			else
 				setBackground(getBackgroundNonSelectionColor());
 

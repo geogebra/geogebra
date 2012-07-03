@@ -13,7 +13,7 @@ the Free Software Foundation.
 package geogebra.gui;
 
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -35,10 +35,10 @@ public class GeoTreeCellRenderer extends DefaultTreeCellRenderer {
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	private Application app;
+	private AppD app;
 	private ImageIcon iconShown, iconHidden;
 	
-	public GeoTreeCellRenderer(Application app) {
+	public GeoTreeCellRenderer(AppD app) {
 		this.app = app;
 		setOpaque(true);
 		
@@ -76,7 +76,7 @@ public class GeoTreeCellRenderer extends DefaultTreeCellRenderer {
 			setFont(app.getFontCanDisplayAwt(getText(), Font.BOLD));
 			
 			if (geo.doHighlighting())				   
-				setBackground(Application.COLOR_SELECTION);
+				setBackground(AppD.COLOR_SELECTION);
 			else 
 				setBackground(getBackgroundNonSelectionColor());								
 		} 
@@ -85,7 +85,7 @@ public class GeoTreeCellRenderer extends DefaultTreeCellRenderer {
 			setForeground(Color.black);
 			
 			if (selected)
-				setBackground(Application.COLOR_SELECTION);
+				setBackground(AppD.COLOR_SELECTION);
 			else
 				setBackground(getBackgroundNonSelectionColor());
 			

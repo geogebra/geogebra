@@ -10,7 +10,7 @@ import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.util.Unicode;
 import geogebra.web.gui.DialogManagerW;
 import geogebra.web.gui.inputfield.AutoCompleteTextFieldW;
-import geogebra.web.main.Application;
+import geogebra.web.main.AppW;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.KeyUpEvent;
@@ -27,7 +27,7 @@ public class InputDialogAngleFixed extends AngleInputDialog implements KeyUpHand
 
 	private Kernel kernel;
 		
-	public InputDialogAngleFixed(Application app, String title, InputHandler handler, GeoSegment[] segments, GeoPoint[] points, GeoElement[] selGeos, Kernel kernel) {
+	public InputDialogAngleFixed(AppW app, String title, InputHandler handler, GeoSegment[] segments, GeoPoint[] points, GeoElement[] selGeos, Kernel kernel) {
 		super(app, app.getPlain("Angle"), title, defaultRotateAngle, false, handler, false);
 		
 		geoPoint1 = points[0];

@@ -1,7 +1,7 @@
 // Copyright 2003, FreeHEP.
 package org.freehep.util;
 
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -36,7 +36,7 @@ public class Service {
     	                           ClassLoader.getSystemResources(name) :
     	                           loader.getResources(name);
         } catch (IOException ioe) {
-            Application.debug("Service: cannot load "+name);
+            AppD.debug("Service: cannot load "+name);
             return classList;
         }
 
@@ -62,13 +62,13 @@ public class Service {
 	                line = reader.readLine();
                 }
             } catch (IOException ioe) {
-                Application.debug("Service: problem with: "+url);
+                AppD.debug("Service: problem with: "+url);
             } finally {
                 try {
                     if (input != null) input.close();
                     if (reader != null) reader.close();
                 } catch (IOException ioe2) {
-                    Application.debug("Service: problem with: "+url);
+                    AppD.debug("Service: problem with: "+url);
                 }
             }
         }
@@ -79,15 +79,15 @@ public class Service {
             try {
                 classList.add(Class.forName(className, true, loader).newInstance());
             } catch (ClassNotFoundException e) {
-                Application.debug("Service: cannot find class: "+className);
+                AppD.debug("Service: cannot find class: "+className);
             } catch (InstantiationException e) {
-                Application.debug("Service: cannot instantiate: "+className);
+                AppD.debug("Service: cannot instantiate: "+className);
             } catch (IllegalAccessException e) {
-                Application.debug("Service: illegal access to: "+className);
+                AppD.debug("Service: illegal access to: "+className);
             } catch (NoClassDefFoundError e) {
-                Application.debug("Service: "+e+" for "+className);
+                AppD.debug("Service: "+e+" for "+className);
             } catch (Exception e) {
-                Application.debug("Service: exception for: "+className+" "+e);
+                AppD.debug("Service: exception for: "+className+" "+e);
             }
         }
 	    return classList;

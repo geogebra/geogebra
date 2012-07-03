@@ -14,7 +14,7 @@ package geogebra.gui.view.consprotocol;
 
 import geogebra.gui.util.PopupMenuButton;
 import geogebra.gui.view.consprotocol.ConstructionProtocolView.ColumnKeeper;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -39,7 +39,7 @@ public class ConstructionProtocolStyleBar extends JToolBar implements ActionList
 	/**
 	 * Instance of the application.
 	 */
-	protected Application app;
+	protected AppD app;
 	/** Columns button*/
 	PopupMenuButton btnColumns;
 	/** Options button*/
@@ -56,7 +56,7 @@ public class ConstructionProtocolStyleBar extends JToolBar implements ActionList
 	 * @param cpView construction protocol view
 	 * @param app application
 	 */
-	public ConstructionProtocolStyleBar(ConstructionProtocolView cpView, Application app) {
+	public ConstructionProtocolStyleBar(ConstructionProtocolView cpView, AppD app) {
 		this.cpView = cpView;
 		this.app = app;
 		

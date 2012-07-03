@@ -6,7 +6,7 @@ import geogebra.euclidian.EuclidianStyleBarD;
 import geogebra.gui.util.MyToggleButton;
 import geogebra.gui.util.PopupMenuButton;
 import geogebra.gui.util.SelectionTable;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 import geogebra3D.Application3D;
 
 import java.awt.Dimension;
@@ -221,7 +221,7 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 	
 	private class ProjectionPopup extends PopupMenuButton implements ActionListener{
 		private static final long serialVersionUID = 1L;
-		public ProjectionPopup(Application app, ImageIcon[] projectionIcons){
+		public ProjectionPopup(AppD app, ImageIcon[] projectionIcons){
 			super(app, projectionIcons, 1, projectionIcons.length, new Dimension(16, 16), geogebra.common.gui.util.SelectionTable.MODE_ICON, true, false);
 			addActionListener(this);
 			setIcon(projectionIcons[((EuclidianView3D) ev).getProjection()]);

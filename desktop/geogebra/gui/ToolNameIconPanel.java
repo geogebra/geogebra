@@ -16,7 +16,7 @@ import geogebra.common.kernel.Macro;
 import geogebra.gui.dialog.ToolManagerDialog;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.gui.toolbar.Toolbar;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -60,7 +60,7 @@ public class ToolNameIconPanel extends JPanel {
 	private String iconFileName;	
 	private JButton btIconFile;
 	
-	private Application app;
+	private AppD app;
 	private boolean editHappens = false;
 
 	// tool manager updating
@@ -71,7 +71,7 @@ public class ToolNameIconPanel extends JPanel {
 	 * Creates new ToolNameIconPanel in a Tool Creation Dialog
 	 * @param app Application to which the Tool Creation Dialog belongs
 	 */
-	public ToolNameIconPanel(final Application app, boolean edithappens) {
+	public ToolNameIconPanel(final AppD app, boolean edithappens) {
 		this.app = app;
 		this.editHappens = edithappens;
 		GridBagLayout namePanelLayout = new GridBagLayout();

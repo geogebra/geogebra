@@ -29,7 +29,7 @@ import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import geogebra.common.kernel.prover.NoSymbolicParametersException;
 import geogebra.common.kernel.prover.Polynomial;
 import geogebra.common.kernel.prover.Variable;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.util.MyMath;
 
@@ -522,10 +522,10 @@ public class GeoConic extends GeoConicND implements Traceable,
 		if (coeff.length <= 2 && coeff[0].length <= 2
 				&& Kernel.isZero(evalCoeff(coeff, 1, 1))) {
 			type = CONIC_LINE;
-			AbstractApplication.debug(matrix[4] + "," + matrix[5] + ","
+			App.debug(matrix[4] + "," + matrix[5] + ","
 					+ matrix[2]);
 		}
-		AbstractApplication.debug(this);
+		App.debug(this);
 	}
 
 	private static double evalCoeff(ExpressionValue[][] ev, int i, int j) {

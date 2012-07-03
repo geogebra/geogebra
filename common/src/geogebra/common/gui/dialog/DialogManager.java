@@ -30,7 +30,7 @@ import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.Transformable;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.util.Unicode;
 
 import java.util.ArrayList;
@@ -40,14 +40,14 @@ public abstract class DialogManager {
 
 	private String defaultAngle = "45" + Unicode.degree;
 
-	protected AbstractApplication app;
+	protected App app;
 
 	private Object oldString;
 
 	public DialogManager() {
 	}
 
-	public DialogManager(AbstractApplication app) {
+	public DialogManager(App app) {
 		this.app = app;
 
 	}
@@ -213,7 +213,7 @@ public abstract class DialogManager {
 
 	public abstract boolean showButtonCreationDialog(int x, int y, boolean textfield);
 
-	public static String rotateObject(AbstractApplication app, String inputText,
+	public static String rotateObject(App app, String inputText,
 			boolean clockwise, GeoPolygon[] polys, GeoPoint[] points,
 			GeoElement[] selGeos) {	
 		String defaultRotateAngle = "45" + "\u00b0";		String angleText = inputText;
@@ -284,7 +284,7 @@ public abstract class DialogManager {
 	}
 
 
-	public static boolean makeRegularPolygon(AbstractApplication app, String inputString, GeoPoint geoPoint1, GeoPoint geoPoint2) {
+	public static boolean makeRegularPolygon(App app, String inputString, GeoPoint geoPoint1, GeoPoint geoPoint2) {
 		if (inputString == null || "".equals(inputString) ) {
 			return false;
 		}

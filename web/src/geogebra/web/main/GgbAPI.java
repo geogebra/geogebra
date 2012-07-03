@@ -13,7 +13,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Macro;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoImage;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.plugin.JavaScriptAPI;
 import geogebra.common.io.MyXMLio;
 
@@ -36,7 +36,7 @@ import org.apache.tools.ant.taskdefs.Java;
 
 public class GgbAPI  extends geogebra.common.plugin.GgbAPI {
 
-	public GgbAPI(AbstractApplication app) {
+	public GgbAPI(App app) {
 		this.app = app;
 		this.kernel = app.getKernel();
 		this.algebraprocessor=kernel.getAlgebraProcessor();
@@ -49,7 +49,7 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI {
     }
 
     public Context2d getContext2D() {
-	    return ((Application)app).getCanvas().getContext2d();
+	    return ((AppW)app).getCanvas().getContext2d();
     }
 
 	
@@ -330,8 +330,8 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI {
 		var ret = "";
 
 		try {
-			var xmlstr = this.@geogebra.web.main.GgbAPI::getApplication()().@geogebra.common.main.AbstractApplication::getXML()();
-			var mxmlstr = this.@geogebra.web.main.GgbAPI::getApplication()().@geogebra.common.main.AbstractApplication::getMacroXMLorEmpty()();
+			var xmlstr = this.@geogebra.web.main.GgbAPI::getApplication()().@geogebra.common.main.App::getXML()();
+			var mxmlstr = this.@geogebra.web.main.GgbAPI::getApplication()().@geogebra.common.main.App::getMacroXMLorEmpty()();
 			var jsstr = this.@geogebra.web.main.GgbAPI::getKernel()().@geogebra.common.kernel.Kernel::getLibraryJavaScript()();
 			var pystr = this.@geogebra.web.main.GgbAPI::getKernel()().@geogebra.common.kernel.Kernel::getLibraryPythonScript()();
 

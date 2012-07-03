@@ -26,7 +26,7 @@ public class MyError extends java.lang.Error {
 
 	private static final long serialVersionUID = 1L;
 	/** application */
-	protected AbstractApplication app;
+	protected App app;
 	private String[] strs;
 	private String commandName = null;
 
@@ -34,7 +34,7 @@ public class MyError extends java.lang.Error {
 	 * @param app application
 	 * @param errorName error name (should be a key in error.properties)
 	 */
-	public MyError(AbstractApplication app, String errorName) {
+	public MyError(App app, String errorName) {
 		// set localized message
 		super(errorName);
 		this.app = app;
@@ -45,7 +45,7 @@ public class MyError extends java.lang.Error {
 	 * @param errorName error name (should be a key in error.properties)
 	 * @param commandName associated command name
 	 */
-	public MyError(AbstractApplication app, String errorName, String commandName) {
+	public MyError(App app, String errorName, String commandName) {
 		// set localized message
 		super(errorName);
 		this.app = app;
@@ -56,7 +56,7 @@ public class MyError extends java.lang.Error {
 	 * @param app application
 	 * @param strs lines of the error
 	 */
-	public MyError(AbstractApplication app, String[] strs) {
+	public MyError(App app, String[] strs) {
 		this.app = app;
 		// set localized message
 		this.strs = strs;

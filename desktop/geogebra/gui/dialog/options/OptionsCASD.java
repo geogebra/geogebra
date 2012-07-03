@@ -3,7 +3,7 @@ package geogebra.gui.dialog.options;
 import geogebra.common.gui.SetLabels;
 import geogebra.common.io.MyXMLHandler;
 import geogebra.common.main.settings.CASSettings;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -26,7 +26,7 @@ public class OptionsCASD  extends geogebra.common.gui.dialog.options.OptionsCAS 
 	/**
 	 * Application object.
 	 */
-	private Application app;
+	private AppD app;
 	
 	private CASSettings casSettings;
 	
@@ -45,7 +45,7 @@ public class OptionsCASD  extends geogebra.common.gui.dialog.options.OptionsCAS 
 	 * 
 	 * @param app
 	 */
-	public OptionsCASD(Application app) {
+	public OptionsCASD(AppD app) {
 		this.wrappedPanel = new JPanel(new BorderLayout());
 		
 		this.app = app;

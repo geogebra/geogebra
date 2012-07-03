@@ -35,7 +35,7 @@ import geogebra.common.kernel.arithmetic.ListValue;
 import geogebra.common.kernel.arithmetic.MyList;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.util.StringUtil;
@@ -753,7 +753,7 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture {
 			for (int i = 0; i < lastIndex; i++) {
 				final GeoElement geo = geoList.get(i);
 				sbBuildValueString.append(geo.toOutputValueString(tpl));
-				sbBuildValueString.append(AbstractApplication.unicodeComma);
+				sbBuildValueString.append(App.unicodeComma);
 				sbBuildValueString.append(" ");
 			}
 
@@ -1586,7 +1586,7 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture {
 
 		final GeoElement geo = get(closestPointIndex);
 		if (!(geo instanceof PathOrPoint)) {
-			AbstractApplication.debug("TODO: " + geo.getClassName()
+			App.debug("TODO: " + geo.getClassName()
 					+ " should implement PathOrPoint interface");
 			return;
 		}
@@ -1669,7 +1669,7 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture {
 			// t = size() when at very end of path
 			// so check == 0 is OK, just need to set n = size() - 1
 			if (check != 0.0) {
-				AbstractApplication.debug("problem with path param "
+				App.debug("problem with path param "
 						+ PI.getLabel(StringTemplate.defaultTemplate));
 			}
 			n = (n < 0) ? 0 : size() - 1;
@@ -1960,7 +1960,7 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture {
 			comboBox = buildComboBox();
 		}
 
-		if (viewID != AbstractApplication.VIEW_EUCLIDIAN2) {
+		if (viewID != App.VIEW_EUCLIDIAN2) {
 			return comboBox;		
 		}
 

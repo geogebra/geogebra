@@ -31,7 +31,7 @@ import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.GeoVector;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.common.plugin.EuclidianStyleConstants;
 
@@ -573,7 +573,7 @@ public class ConstructionDefaults {
 		return type;
 	}	
 	
-	private static void setMaxLayerUsed(GeoElement geo, AbstractApplication app){
+	private static void setMaxLayerUsed(GeoElement geo, App app){
 		if (app != null) {
 			geo.setLayer(app.getMaxLayerUsed());
 		}
@@ -595,7 +595,7 @@ public class ConstructionDefaults {
 		
 		// default
 		GeoElement defaultGeo = getDefaultGeo(type);
-		AbstractApplication app = cons.getApplication();
+		App app = cons.getApplication();
 		
 		if (defaultGeo != null) {
 			geo.setAllVisualProperties(defaultGeo, isReset);

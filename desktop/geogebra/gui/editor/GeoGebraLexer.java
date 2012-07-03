@@ -19,7 +19,7 @@ package geogebra.gui.editor;
 
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.io.IOException;
 import java.io.StringReader;
@@ -193,7 +193,7 @@ public final class GeoGebraLexer extends Lexer implements GeoGebraLexerConstants
     private Document doc;
     private Element elem;
 
-    public GeoGebraLexer(Application app) {
+    public GeoGebraLexer(AppD app) {
         variables = new HashSet<String>();
         Iterator<GeoElement> iter = app.getKernel().getConstruction().getGeoSetLabelOrder().iterator();
         while (iter.hasNext()) {
@@ -206,7 +206,7 @@ public final class GeoGebraLexer extends Lexer implements GeoGebraLexerConstants
         commands.addAll(app.getCommandDictionary().values());
     }
 
-    public GeoGebraLexer(Document doc, Application app) {
+    public GeoGebraLexer(Document doc, AppD app) {
 		this(app);
         setDocument(doc);
     }

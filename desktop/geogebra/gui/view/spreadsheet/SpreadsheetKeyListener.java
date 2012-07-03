@@ -2,7 +2,7 @@ package geogebra.gui.view.spreadsheet;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -15,7 +15,7 @@ import javax.swing.text.JTextComponent;
 public class SpreadsheetKeyListener implements KeyListener 
 {
 	
-	private Application app;
+	private AppD app;
 	private SpreadsheetView view;
 	private Kernel kernel;
 	private MyTable table;
@@ -23,7 +23,7 @@ public class SpreadsheetKeyListener implements KeyListener
 	private MyCellEditor editor;
 
 	
-	public SpreadsheetKeyListener(Application app, MyTable table){
+	public SpreadsheetKeyListener(AppD app, MyTable table){
 		
 		this.app = app;
 		this.kernel = app.getKernel();
@@ -44,7 +44,7 @@ public class SpreadsheetKeyListener implements KeyListener
 		//Application.debug(keyCode+"");
 		//boolean shiftDown = e.isShiftDown(); 	 
 		boolean altDown = e.isAltDown(); 	 
-		boolean ctrlDown = Application.isControlDown(e) // Windows ctrl/Mac Meta
+		boolean ctrlDown = AppD.isControlDown(e) // Windows ctrl/Mac Meta
 		|| e.isControlDown(); // Fudge (Mac ctrl key)	
 							
 		int row = table.getSelectedRow();
@@ -54,7 +54,7 @@ public class SpreadsheetKeyListener implements KeyListener
 		switch (keyCode) {
 		
 		case KeyEvent.VK_UP:
-			if (Application.isControlDown(e)) {
+			if (AppD.isControlDown(e)) {
 
 				if (model.getValueAt(row, column) != null) {
 					// move to top of current "block"
@@ -79,7 +79,7 @@ public class SpreadsheetKeyListener implements KeyListener
 			break;
 			
 		case KeyEvent.VK_LEFT:
-			if (Application.isControlDown(e)) {
+			if (AppD.isControlDown(e)) {
 
 				if (model.getValueAt(row, column) != null) {
 					// move to left of current "block"
@@ -111,7 +111,7 @@ public class SpreadsheetKeyListener implements KeyListener
 				//getView().getRowHeader().revalidate();   //G.STURR 2010-1-9
 			}
 			
-			else if (Application.isControlDown(e)) {
+			else if (AppD.isControlDown(e)) {
 
 				if (model.getValueAt(row, column) != null) {
 				
@@ -143,7 +143,7 @@ public class SpreadsheetKeyListener implements KeyListener
 		case KeyEvent.VK_HOME:
 
 			// if shift pressed, select cells too
-			if (Application.isControlDown(e)) {
+			if (AppD.isControlDown(e)) {
 				// move to top left of spreadsheet
 				table.changeSelection(0, 0, false, e.isShiftDown());
 			}
@@ -184,7 +184,7 @@ public class SpreadsheetKeyListener implements KeyListener
 				table.changeSelection(row, column + 1, false, false);
 				e.consume();
 			}
-			else if (Application.isControlDown(e)) {
+			else if (AppD.isControlDown(e)) {
 
 				if (model.getValueAt(row, column) != null) {
 					// move to bottom of current "block"
@@ -221,7 +221,7 @@ public class SpreadsheetKeyListener implements KeyListener
 			break;
 
 		case KeyEvent.VK_R:
-			if (Application.isControlDown(e)) {
+			if (AppD.isControlDown(e)) {
 				kernel.updateConstruction();
 				e.consume();
 			}
@@ -321,7 +321,7 @@ public class SpreadsheetKeyListener implements KeyListener
 			break;
 
 		case KeyEvent.VK_A:
-			if (Application.isControlDown(e)) {
+			if (AppD.isControlDown(e)) {
 				// select all cells
 				
 				row = 0;
@@ -383,7 +383,7 @@ public class SpreadsheetKeyListener implements KeyListener
         f.getCaret().setVisible(true);
         
         // workaround for Mac OS X 10.5 problem (first character typed deleted)
-        if (Application.MAC_OS)
+        if (AppD.MAC_OS)
             SwingUtilities.invokeLater( new Runnable(){ public void
             	run() { f.setSelectionStart(1);
 	            f.setSelectionEnd(1);} });

@@ -94,7 +94,7 @@ public class GlassPaneListener implements MouseListener, MouseMotionListener, Ke
                                                  componentPoint.x,
                                                  componentPoint.y,
                                                  e.getClickCount(),
-                                                 Application.isRightClick(e)));
+                                                 AppD.isRightClick(e)));
         } 
 	}
 

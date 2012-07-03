@@ -10,7 +10,7 @@ import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.SpreadsheetTraceable;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.util.SpreadsheetTraceSettings;
 
@@ -42,7 +42,7 @@ import java.util.TreeSet;
 public class SpreadsheetTraceManager extends geogebra.common.gui.view.spreadsheet.SpreadsheetTraceManager {
 
 	// external components
-	private AbstractApplication app;
+	private App app;
 	private Kernel kernel;
 
 
@@ -58,7 +58,7 @@ public class SpreadsheetTraceManager extends geogebra.common.gui.view.spreadshee
 	private double[] coords = new double[3];
 	private ArrayList<Double> currentTrace = new ArrayList<Double>();
 
-	public SpreadsheetTraceManager(AbstractApplication app) {
+	public SpreadsheetTraceManager(App app) {
 
 		this.app = app;
 		kernel = app.getKernel();
@@ -589,7 +589,7 @@ public class SpreadsheetTraceManager extends geogebra.common.gui.view.spreadshee
 				}
 
 			} else {
-				AbstractApplication.debug("not SpreadsheetTraceable "
+				App.debug("not SpreadsheetTraceable "
 						+ geos[i].getClassName());
 
 			}

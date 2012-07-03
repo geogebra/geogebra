@@ -21,14 +21,14 @@ import geogebra.web.awt.GPointW;
 import geogebra.web.euclidian.EuclidianStyleBarW;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.images.AppResourcesConverter;
-import geogebra.web.main.Application;
+import geogebra.web.main.AppW;
 
 
 public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 	
 	private int mode;
 	private Object[] data;	
-	private Application app;
+	private AppW app;
 	private PopupMenuButton thisButton;
 	private ButtonPopupMenu myPopup;
 	
@@ -96,7 +96,7 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 	/**
 	 * @param app
 	 */
-	public PopupMenuButton(Application app){
+	public PopupMenuButton(AppW app){
 		this( app, null, -1, -1, null, -1,  false,  false);
 	}
 	
@@ -108,7 +108,7 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 	 * @param iconSize
 	 * @param mode
 	 */
-	public PopupMenuButton(Application app, Object[] data, Integer rows, Integer columns, GDimensionW iconSize, Integer mode){
+	public PopupMenuButton(AppW app, Object[] data, Integer rows, Integer columns, GDimensionW iconSize, Integer mode){
 		this( app, data, rows, columns, iconSize, mode,  true,  false);	
 	}
 	
@@ -122,7 +122,7 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 	 * @param hasTable
 	 * @param hasSlider
 	 */
-	public PopupMenuButton(Application app, Object[] data, Integer rows, Integer columns, GDimensionW iconSize, 
+	public PopupMenuButton(AppW app, Object[] data, Integer rows, Integer columns, GDimensionW iconSize, 
 			Integer mode, final boolean hasTable, boolean hasSlider){
 		super(); 
 		this.app = app;

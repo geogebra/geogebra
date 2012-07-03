@@ -14,7 +14,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.util.Prover;
 import geogebra.common.util.Prover.NDGCondition;
 import geogebra.common.util.Prover.ProofResult;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 
 /**
  * A prover which uses Tomas Recios method to prove geometric theorems.
@@ -193,7 +193,7 @@ public class ProverReciosMethod {
 		}
 
 		int nrOfTests = ((deg + 2) * (deg + 1)) / 2;
-		AbstractApplication.debug("nr of tests: " + nrOfTests);
+		App.debug("nr of tests: " + nrOfTests);
 		for (int i = 1; i <= deg + 2; i++) {
 			for (int j = 1; j <= i; j++) {
 				values.put(variables[0],
@@ -283,9 +283,9 @@ public class ProverReciosMethod {
 
 		} while (indicesChanged);
 		
-		AbstractApplication.debug(nrOfTests + " tests performed.");
-		AbstractApplication.debug("n: " + n);
-		AbstractApplication.debug("deg: " + deg);
+		App.debug(nrOfTests + " tests performed.");
+		App.debug("n: " + n);
+		App.debug("deg: " + deg);
 		
 
 		return ProofResult.TRUE;

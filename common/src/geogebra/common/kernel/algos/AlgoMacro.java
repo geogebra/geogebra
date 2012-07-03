@@ -29,7 +29,7 @@ import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -139,7 +139,7 @@ implements AlgoMacroInterface {
     		getMacroConstructionState();
     		
     	} catch (Exception e) {
-    		AbstractApplication.debug("AlgoMacro compute():\n");
+    		App.debug("AlgoMacro compute():\n");
     		e.printStackTrace();
     		for (int i=0; i < getOutputLength(); i++) {
     			getOutput(i).setUndefined();
@@ -174,7 +174,7 @@ implements AlgoMacroInterface {
 			try{
 				if(macroInput[i]instanceof GeoVector)((GeoVector)macroInput[i]).setStartPoint(null);
 			}catch(Exception e){
-				AbstractApplication.debug("Exception while handling vector input: "+e);
+				App.debug("Exception while handling vector input: "+e);
 			}
 			macroInput[i].setRealLabel(input[i].getLabelSimple());		
 			//Application.debug("SET INPUT object: " + input[i] + " => " + macroInput[i]);
@@ -412,7 +412,7 @@ implements AlgoMacroInterface {
 				
 			}	
 		} catch (Exception e) {
-			AbstractApplication.debug("AlgoMacro.initLocateable:");
+			App.debug("AlgoMacro.initLocateable:");
 			e.printStackTrace();
 		}
 	}		

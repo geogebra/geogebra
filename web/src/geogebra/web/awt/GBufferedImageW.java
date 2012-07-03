@@ -7,8 +7,8 @@ import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.canvas.dom.client.ImageData;
 
 import geogebra.common.awt.GGraphics2D;
-import geogebra.common.main.AbstractApplication;
-import geogebra.web.main.Application;
+import geogebra.common.main.App;
+import geogebra.web.main.AppW;
 
 public class GBufferedImageW implements geogebra.common.awt.GBufferedImage {
 
@@ -29,7 +29,7 @@ public class GBufferedImageW implements geogebra.common.awt.GBufferedImage {
 	    if (impl != null)
 		    impl = impl.cloneDeep();
 	    else
-			Application.debug("BufferedImage (web) called with empty BufferedImage (web)");
+			AppW.debug("BufferedImage (web) called with empty BufferedImage (web)");
     }
 
 	// this constructor wraps the imageElement
@@ -37,7 +37,7 @@ public class GBufferedImageW implements geogebra.common.awt.GBufferedImage {
 		if (imageElement != null)
 			impl = new geogebra.web.kernel.gawt.BufferedImage(imageElement);
 		else
-			Application.debug("BufferedImage (web) called with null ImageElement");
+			AppW.debug("BufferedImage (web) called with null ImageElement");
     }
 
 	public GBufferedImageW(ImageData imageData) {

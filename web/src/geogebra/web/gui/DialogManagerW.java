@@ -13,7 +13,7 @@ import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.gui.dialog.handler.NumberInputHandler;
 import geogebra.common.gui.view.properties.PropertiesView.OptionType;
 import geogebra.web.gui.dialog.ButtonDialog;
@@ -24,7 +24,7 @@ import geogebra.web.gui.dialog.SliderDialog;
 import geogebra.web.gui.menubar.GeoGebraMenubarW;
 import geogebra.web.gui.util.GeoGebraFileChooser;
 import geogebra.web.gui.util.GoogleFileDescriptors;
-import geogebra.web.main.Application;
+import geogebra.web.main.AppW;
 
 import java.util.ArrayList;
 
@@ -34,7 +34,7 @@ import com.google.gwt.user.client.ui.PopupPanel.PositionCallback;
 
 public class DialogManagerW extends DialogManager {
 
-	public DialogManagerW(AbstractApplication app) {
+	public DialogManagerW(App app) {
 	    super(app);
     }
 
@@ -74,7 +74,7 @@ public class DialogManagerW extends DialogManager {
 
 		NumberInputHandler handler = new NumberInputHandler(app.getKernel()
 				.getAlgebraProcessor());
-		AngleInputDialog id = new AngleInputDialog(((Application) app), message, title,
+		AngleInputDialog id = new AngleInputDialog(((AppW) app), message, title,
 				initText, false, handler, true);
 		id.setVisible(true);
 
@@ -85,7 +85,7 @@ public class DialogManagerW extends DialogManager {
 
 	@Override
     public boolean showButtonCreationDialog(int x, int y, boolean textfield) {
-		ButtonDialog dialog = new ButtonDialog(((Application) app), x, y, textfield);
+		ButtonDialog dialog = new ButtonDialog(((AppW) app), x, y, textfield);
 		dialog.setVisible(true);
 		return true;
     }
@@ -188,7 +188,7 @@ public class DialogManagerW extends DialogManager {
     public boolean showSliderCreationDialog(int x, int y) {
 		app.setWaitCursor();
 
-		SliderDialog dialog = new SliderDialog(((Application) app), x, y);
+		SliderDialog dialog = new SliderDialog(((AppW) app), x, y);
 		dialog.center();
 
 		app.setDefaultCursor();
@@ -202,7 +202,7 @@ public class DialogManagerW extends DialogManager {
 
 		NumberInputHandler handler = new NumberInputHandler(app.getKernel()
 				.getAlgebraProcessor());
-		InputDialogRotate id = new InputDialogRotate(((Application) app), title, handler, polys,
+		InputDialogRotate id = new InputDialogRotate(((AppW) app), title, handler, polys,
 				points, selGeos, app.getKernel());
 		id.setVisible(true);
 
@@ -214,7 +214,7 @@ public class DialogManagerW extends DialogManager {
 
 		NumberInputHandler handler = new NumberInputHandler(app.getKernel()
 				.getAlgebraProcessor());
-		InputDialogAngleFixed id = new InputDialogAngleFixed(((Application) app), title, handler,
+		InputDialogAngleFixed id = new InputDialogAngleFixed(((AppW) app), title, handler,
 				segments, points, selGeos, app.getKernel());
 		id.setVisible(true);
 
@@ -257,12 +257,12 @@ public class DialogManagerW extends DialogManager {
 
 	@Override
     public void showPropertiesDialog(OptionType type, ArrayList<GeoElement> geos) {
-	    AbstractApplication.debug("showPropertiesDialog: unimplemented");
+	    App.debug("showPropertiesDialog: unimplemented");
 	    
     }
 
 	@Override
     public void openToolHelp() {
-	    AbstractApplication.debug("openToolHelp: unimplemented");
+	    App.debug("openToolHelp: unimplemented");
     }
 }

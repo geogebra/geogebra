@@ -37,13 +37,13 @@ import geogebra.common.kernel.kernelND.GeoQuadricNDConstants;
 import geogebra.common.kernel.kernelND.GeoRayND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.main.settings.EuclidianSettings;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.util.Unicode;
 import geogebra.euclidian.EuclidianStyleBarD;
 import geogebra.euclidianND.EuclidianViewND;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 import geogebra3D.euclidian3D.opengl.PlotterCursor;
 import geogebra3D.euclidian3D.opengl.Renderer;
 import geogebra3D.kernel3D.GeoClippingCube3D;
@@ -87,7 +87,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	
 	//private Kernel kernel;
 	private Kernel3D kernel3D;
-	protected Application app;
+	protected AppD app;
 	private EuclidianController3D euclidianController3D;
 	private Renderer renderer;
 	
@@ -294,7 +294,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 		initView(false);
 	}
 		
-	public Application getApplication() {
+	public AppD getApplication() {
 		return app;
 	}
 	
@@ -309,7 +309,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 		geosToAddToHits = new TreeSet<GeoElement>();
 		
 		//TODO replace canvas3D with GLDisplay
-		AbstractApplication.debug("create gl renderer");
+		App.debug("create gl renderer");
 		renderer = new Renderer(this);
 		renderer.setDrawable3DLists(drawable3DLists);
 		
@@ -856,7 +856,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	public void setZeroFromXML(double x, double y, double z){
 		
 		if (GeoGebraConstants.IS_PRE_RELEASE){
-			if (app.fileVersionBefore(AbstractApplication.getSubValues("4.9.14.0"))){
+			if (app.fileVersionBefore(App.getSubValues("4.9.14.0"))){
 				//new matrix multiplication (since 4.9.14)
 				CoordMatrix mRot = getRotationMatrix();
 				CoordMatrix mScale = getScaleMatrix();
@@ -3283,7 +3283,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 		return false;
 	}
 	public int getViewID() {
-		return AbstractApplication.VIEW_EUCLIDIAN3D;
+		return App.VIEW_EUCLIDIAN3D;
 	}
 	
 	private double cavAngle = 30;
@@ -3389,7 +3389,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	
 	public int getEuclidianViewNo() {
 		// TODO Auto-generated method stub
-		return AbstractApplication.VIEW_EUCLIDIAN3D;
+		return App.VIEW_EUCLIDIAN3D;
 	}
 
 	
@@ -3440,13 +3440,13 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 
 	@Override
 	public void setTransparentCursor() {
-		AbstractApplication.warn("unimplemented");
+		App.warn("unimplemented");
 		
 	}
 
 	@Override
 	public void setEraserCursor() {
-		AbstractApplication.warn("unimplemented");
+		App.warn("unimplemented");
 		
 	}
 

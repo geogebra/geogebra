@@ -2,9 +2,9 @@ package geogebra.gui.view.spreadsheet;
 
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementSpreadsheet;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.gui.inputfield.AutoCompleteTextFieldD;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.AWTException;
 import java.awt.Dimension;
@@ -27,7 +27,7 @@ import javax.swing.event.DocumentListener;
 
 public class FormulaBar extends JToolBar implements ActionListener, FocusListener{
 	private static final long serialVersionUID = 1L;
-	private Application app;
+	private AppD app;
 	private SpreadsheetView view;
 	private MyTable table;
 
@@ -44,7 +44,7 @@ public class FormulaBar extends JToolBar implements ActionListener, FocusListene
 
 
 
-	public FormulaBar(Application app, SpreadsheetView view){
+	public FormulaBar(AppD app, SpreadsheetView view){
 
 		this.app = app;
 		this.view = view;
@@ -172,7 +172,7 @@ public class FormulaBar extends JToolBar implements ActionListener, FocusListene
 
 		// make sure the spreadsheet gets the view focus in case first click is here
 		if(!view.hasViewFocus())
-			app.getGuiManager().getLayout().getDockManager().setFocusedPanel(AbstractApplication.VIEW_SPREADSHEET);
+			app.getGuiManager().getLayout().getDockManager().setFocusedPanel(App.VIEW_SPREADSHEET);
 
 		// select the upper left corner cell if nothing is selected
 		if(table.isSelectNone()){

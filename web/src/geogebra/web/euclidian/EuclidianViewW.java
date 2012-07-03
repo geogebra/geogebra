@@ -18,13 +18,13 @@ import geogebra.common.io.MyXMLio;
 import geogebra.common.javax.swing.GBox;
 import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoPoint;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.main.settings.EuclidianSettings;
 import geogebra.common.main.settings.SettingListener;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.web.awt.GBasicStrokeW;
 import geogebra.web.gui.applet.GeoGebraFrame;
-import geogebra.web.main.Application;
+import geogebra.web.main.AppW;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
@@ -221,7 +221,7 @@ public class EuclidianViewW extends EuclidianView implements SettingListener{
 			g2p.getCanvas().getElement().getParentElement().getStyle().setWidth(width, Style.Unit.PX);
 			g2p.getCanvas().getElement().getParentElement().getStyle().setHeight(height, Style.Unit.PX);
 		} catch (Exception exc) {
-			Application.debug("Problem with the parent element of the canvas");
+			AppW.debug("Problem with the parent element of the canvas");
 		}
 	}
 
@@ -287,8 +287,8 @@ public class EuclidianViewW extends EuclidianView implements SettingListener{
     }
 
     @Override
-    public Application getApplication() {
-    	return (Application)super.getApplication();
+    public AppW getApplication() {
+    	return (AppW)super.getApplication();
     }
 
 	
@@ -315,7 +315,7 @@ public class EuclidianViewW extends EuclidianView implements SettingListener{
 	@Override
     protected void setHeight(int h) {
 	    //TODO: what should this method do in Web and in Desktop? 
-	 	AbstractApplication.debug("implementation needed or OK"); 
+	 	App.debug("implementation needed or OK"); 
 	 	//g2p.setCoordinateSpaceWidth(h); 
 	 	//g2p.setWidth(h); 
     }
@@ -323,7 +323,7 @@ public class EuclidianViewW extends EuclidianView implements SettingListener{
 	@Override
     protected void setWidth(int h) {
 	    //TODO: what should this method do in Web and in Desktop? 
-	    AbstractApplication.debug("implementation needed or OK");
+	    App.debug("implementation needed or OK");
     }
 
 
@@ -568,12 +568,12 @@ public class EuclidianViewW extends EuclidianView implements SettingListener{
 
 	@Override
     public void setEraserCursor() {
-	    AbstractApplication.warn("setEraserCursor() unimplemented");	    
+	    App.warn("setEraserCursor() unimplemented");	    
     }
 
 	@Override
     public void updatePreviewable() {
-	    AbstractApplication.warn("updatePreviewable() unimplemented");	    
+	    App.warn("updatePreviewable() unimplemented");	    
     }
 
 
@@ -598,7 +598,7 @@ public class EuclidianViewW extends EuclidianView implements SettingListener{
 
 	@Override
     public void remove(GBox box) {
-		AbstractApplication.debug("implementation needed - just finishing"); // TODO
+		App.debug("implementation needed - just finishing"); // TODO
 	    getApplication().getEuclidianViewpanel().remove(
 	    		geogebra.web.javax.swing.GBoxW.getImpl((geogebra.web.javax.swing.GBoxW) box));
 	    
@@ -730,7 +730,7 @@ public class EuclidianViewW extends EuclidianView implements SettingListener{
 	@Override
     protected void doDrawPoints(GeoImage gi, List<GPoint> penPoints2,
             GColor penColor, int penLineStyle, int penSize) {
-	    AbstractApplication.debug("doDrawPoints() unimplemented");
+	    App.debug("doDrawPoints() unimplemented");
 	    
     }
 

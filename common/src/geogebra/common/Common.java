@@ -1,6 +1,6 @@
 package geogebra.common;
 
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 
 import com.google.gwt.core.client.EntryPoint;
 
@@ -11,7 +11,7 @@ public class Common implements EntryPoint {
 
 	public void onModuleLoad() {
 	
-		AbstractApplication.debug("Debug Message from GeoGebraCommon");
+		App.debug("Debug Message from GeoGebraCommon");
 		
 	}
 }

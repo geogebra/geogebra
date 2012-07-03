@@ -1,6 +1,6 @@
 package geogebra.gui.inputfield;
 
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.Component;
 import java.awt.event.ActionListener;
@@ -22,7 +22,7 @@ public class GeoGebraComboBoxEditor implements ComboBoxEditor {
 	 * 
 	 * @param app
 	 */
-	public GeoGebraComboBoxEditor(Application app) {
+	public GeoGebraComboBoxEditor(AppD app) {
 		super();
 		tf = new MyTextField(app);
 		tf.setShowSymbolTableIcon(true);
@@ -35,7 +35,7 @@ public class GeoGebraComboBoxEditor implements ComboBoxEditor {
 	 * @param app
 	 * @param columns
 	 */
-	public GeoGebraComboBoxEditor(Application app, int columns) {
+	public GeoGebraComboBoxEditor(AppD app, int columns) {
 		super();
 		tf = new MyTextField(app, columns);
 		tf.setShowSymbolTableIcon(true);

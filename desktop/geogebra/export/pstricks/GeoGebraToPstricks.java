@@ -49,7 +49,7 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.Font;
 import java.awt.FontMetrics;
@@ -70,7 +70,7 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 	 * Constructor for GeoGeBra export
 	 * @param app GeoGeBra Application 
 	 */
-	public GeoGebraToPstricks(Application app) {
+	public GeoGebraToPstricks(AppD app) {
     	super(app);
 
     }

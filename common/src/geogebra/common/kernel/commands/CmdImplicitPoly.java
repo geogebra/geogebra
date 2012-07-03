@@ -8,7 +8,7 @@ import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunctionNVar;
 import geogebra.common.kernel.geos.GeoList;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.main.MyError;
 import geogebra.common.plugin.GeoClass;
 /**
@@ -71,7 +71,7 @@ public class CmdImplicitPoly extends CommandProcessor {
 						((GeoFunctionNVar) arg[0])) };
 				return ret;
 			} else {
-				AbstractApplication.debug(arg[0] + ": " + arg[0].getClassName()
+				App.debug(arg[0] + ": " + arg[0].getClassName()
 						+ "; " + arg[0].getClass());
 				throw argErr(app, c.getName(), arg[0]);
 			}

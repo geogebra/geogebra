@@ -3,8 +3,8 @@ package geogebra.plugin;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.main.AbstractApplication;
-import geogebra.main.Application;
+import geogebra.common.main.App;
+import geogebra.main.AppD;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -39,7 +39,7 @@ public class ScriptManager extends geogebra.common.plugin.ScriptManagerCommon {
 			"ggbApplet.registerObjectUpdateListener('A','listener');" +
 			"}";*/
 	
-	public ScriptManager(AbstractApplication app) {
+	public ScriptManager(App app) {
 		this.app = app;
 		
 		//evalScript("ggbOnInit();");
@@ -49,16 +49,16 @@ public class ScriptManager extends geogebra.common.plugin.ScriptManagerCommon {
 		
 		try {
 			// call only if libraryJavaScript is not the default (ie do nothing)
-			if (!((Application)app).getKernel().getLibraryJavaScript().equals(Kernel.defaultLibraryJavaScript))
-				CallJavaScript.evalScript(((Application)app), "ggbOnInit();", null);
+			if (!((AppD)app).getKernel().getLibraryJavaScript().equals(Kernel.defaultLibraryJavaScript))
+				CallJavaScript.evalScript(((AppD)app), "ggbOnInit();", null);
 		} catch (Exception e) {
-			AbstractApplication.debug("Error calling ggbOnInit(): "+e.getMessage());
+			App.debug("Error calling ggbOnInit(): "+e.getMessage());
 		}
 		
 		// Python
 		String libraryPythonScript = app.getKernel().getLibraryPythonScript();
 		if (!libraryPythonScript.equals(Kernel.defaultLibraryPythonScript)) {
-			((Application)app).getPythonBridge().execScript();
+			((AppD)app).getPythonBridge().execScript();
 		}
 
 	}
@@ -70,14 +70,14 @@ public class ScriptManager extends geogebra.common.plugin.ScriptManagerCommon {
 	public synchronized void initJavaScript() {
 		
 		if (app.isApplet()) {
-			((Application)app).getApplet().initJavaScript();
+			((AppD)app).getApplet().initJavaScript();
 		}
 	}
 	
 	public void callJavaScript(String jsFunction, Object [] args) {		
 		
 		if (app.isApplet() && app.useBrowserForJavaScript()) {
-			((Application)app).getApplet().callJavaScript(jsFunction, args);
+			((AppD)app).getApplet().callJavaScript(jsFunction, args);
 		} else {
 
 			
@@ -92,7 +92,7 @@ public class ScriptManager extends geogebra.common.plugin.ScriptManagerCommon {
 			}
 			sb.append(");");
 			
-			AbstractApplication.debug(sb.toString());
+			App.debug(sb.toString());
 			
 			CallJavaScript.evalScript(app, sb.toString(), null);
 

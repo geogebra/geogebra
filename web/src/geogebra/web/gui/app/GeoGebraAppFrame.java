@@ -6,11 +6,11 @@ package geogebra.web.gui.app;
 import java.util.Date;
 
 import geogebra.common.GeoGebraConstants;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.web.html5.ArticleElement;
 import geogebra.web.html5.Dom;
 import geogebra.web.html5.View;
-import geogebra.web.main.Application;
+import geogebra.web.main.AppW;
 import geogebra.web.presenter.LoadFilePresenter;
 import geogebra.web.util.JSON;
 
@@ -60,7 +60,7 @@ public class GeoGebraAppFrame extends Composite {
 	
 	DockLayoutPanel outer = null;
 
-	private AbstractApplication app;
+	private App app;
 	
 	public GeoGebraAppFrame() {
 		initWidget(outer = binder.createAndBindUi(this));
@@ -94,29 +94,29 @@ public class GeoGebraAppFrame extends Composite {
 		try {
 			Request request = builder.sendRequest(null, new RequestCallback() {
 				public void onError(Request request, Throwable exception) {
-					Application.geoIPCountryName = "";
-					Application.geoIPLanguage = "";
+					AppW.geoIPCountryName = "";
+					AppW.geoIPLanguage = "";
 					init();
 				}
 				
 				public void onResponseReceived(Request request, Response response) {
 					if (200 == response.getStatusCode()) {
 						JavaScriptObject geoIpInfos = JSON.parse(response.getText());
-						Application.geoIPCountryName = JSON.get(geoIpInfos, "geoIp");
+						AppW.geoIPCountryName = JSON.get(geoIpInfos, "geoIp");
 						String acceptLanguage = (JSON.get(geoIpInfos,"acceptLanguage") != null) ? JSON.get(geoIpInfos,"acceptLanguage") : "" ;
-						Application.geoIPLanguage = JSON.get(geoIpInfos, "acceptLanguage").substring(0, acceptLanguage.indexOf(","));
+						AppW.geoIPLanguage = JSON.get(geoIpInfos, "acceptLanguage").substring(0, acceptLanguage.indexOf(","));
 						init();
 					} else {
-						Application.geoIPCountryName = "";
-						Application.geoIPLanguage = "";
+						AppW.geoIPCountryName = "";
+						AppW.geoIPLanguage = "";
 						init();
 					}
 				}
 			});
 		} catch (Exception e) {
-		       AbstractApplication.error(e.getLocalizedMessage());
-		       Application.geoIPCountryName = "";
-		       Application.geoIPLanguage = "";
+		       App.error(e.getLocalizedMessage());
+		       AppW.geoIPCountryName = "";
+		       AppW.geoIPLanguage = "";
 			   init();
 	    }
 	}
@@ -159,20 +159,20 @@ public class GeoGebraAppFrame extends Composite {
 	}
 
 
-	private AbstractApplication createApplication(ArticleElement article,
+	private App createApplication(ArticleElement article,
             GeoGebraAppFrame geoGebraAppFrame) {
-		return new Application(article, geoGebraAppFrame);
+		return new AppW(article, geoGebraAppFrame);
     }
 
 
 	public void finishAsyncLoading(ArticleElement articleElement,
-            GeoGebraAppFrame ins, Application app) {
+            GeoGebraAppFrame ins, AppW app) {
 	    handleLoadFile(articleElement,app);
 	    
     }
 	
 	private static void handleLoadFile(ArticleElement articleElement,
-			Application app) {
+			AppW app) {
 		View view = new View(articleElement, app);
 		fileLoader.setView(view);
 		fileLoader.onPageLoad();

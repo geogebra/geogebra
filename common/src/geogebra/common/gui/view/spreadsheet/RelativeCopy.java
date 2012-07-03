@@ -12,7 +12,7 @@ import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoText;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
 
@@ -27,7 +27,7 @@ public class RelativeCopy {
 
 	protected Kernel kernel;
 
-	AbstractApplication app;
+	App app;
 	//protected MyTable table;
 
 	public RelativeCopy(Kernel kernel0) {
@@ -348,7 +348,7 @@ public class RelativeCopy {
 			.compile("(::|\\$)([A-Z]+)(::|\\$)([0-9]+)");
 
 	public static GeoElement doCopyNoStoringUndoInfo0(Kernel kernel,
-			AbstractApplication app, GeoElement value, GeoElement oldValue, int dx, int dy)
+			App app, GeoElement value, GeoElement oldValue, int dx, int dy)
 			throws Exception {
 		if (value == null) {
 			if (oldValue != null) {
@@ -675,7 +675,7 @@ public class RelativeCopy {
 	 * @param row row
 	 * @throws Exception if definition of new geo fails
 	 */
-	public static void doCopyNoStoringUndoInfo1(Kernel kernel, AbstractApplication app,
+	public static void doCopyNoStoringUndoInfo1(Kernel kernel, App app,
 			String text, GeoElement geoForStyle, int column, int row)
 			throws Exception {
 		GeoElement oldValue = getValue(app, column, row);
@@ -756,7 +756,7 @@ public class RelativeCopy {
 	 * @param row2 end row
 	 * @return array of geos in given range
 	 */
-	public static GeoElement[][] getValues(AbstractApplication app, int column1,
+	public static GeoElement[][] getValues(App app, int column1,
 			int row1, int column2, int row2) {
 		GeoElement[][] values = new GeoElement[(column2 - column1) + 1][(row2 - row1) + 1];
 		for (int r = row1; r <= row2; ++r) {
@@ -785,7 +785,7 @@ public class RelativeCopy {
 	/**
 	 * Returns the GeoElement for the cell with the given column and row values.
 	 */
-	public static GeoElement getValue(AbstractApplication app, int column, int row) {
+	public static GeoElement getValue(App app, int column, int row) {
 		AbstractSpreadsheetTableModel tableModel = app.getSpreadsheetTableModel();
 		if ((row < 0) || (row >= tableModel.getRowCount())) {
 			return null;
@@ -982,7 +982,7 @@ public class RelativeCopy {
 	 * @throws Exception
 	 */
 	public static GeoElement prepareAddingValueToTableNoStoringUndoInfo(
-			Kernel kernel, AbstractApplication app, String inputText, GeoElement oldValue,
+			Kernel kernel, App app, String inputText, GeoElement oldValue,
 			int column, int row) throws Exception {
 		String text = inputText;
 		// get the cell name

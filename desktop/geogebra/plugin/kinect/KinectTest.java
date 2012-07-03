@@ -25,7 +25,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 import geogebra3D.kernel3D.GeoPoint3D;
 
 import java.awt.Color;
@@ -718,7 +718,7 @@ public class KinectTest extends Component {
 	class MyHandCreateEvent implements IObserver<ActiveHandEventArgs> {
 		public void update(IObservable<ActiveHandEventArgs> observable,
 				ActiveHandEventArgs args) {
-			Application.debug("");
+			AppD.debug("");
 			// ArrayList<Point3D> newList = new ArrayList<Point3D>();
 			// newList.add(args.getPosition());
 			// history.put(new Integer(args.getId()), newList);
@@ -729,7 +729,7 @@ public class KinectTest extends Component {
 		public void update(IObservable<ActiveHandEventArgs> observable,
 				ActiveHandEventArgs args) {
 			// ArrayList<Point3D> historyList = history.get(args.getId());
-			Application.debug("");
+			AppD.debug("");
 
 			// historyList.add(args.getPosition());
 
@@ -743,7 +743,7 @@ public class KinectTest extends Component {
 	class MyHandDestroyEvent implements IObserver<InactiveHandEventArgs> {
 		public void update(IObservable<InactiveHandEventArgs> observable,
 				InactiveHandEventArgs args) {
-			Application.debug("");
+			AppD.debug("");
 			// history.remove(args.getId());
 			// if (history.isEmpty()) {
 			// try {

@@ -1,11 +1,11 @@
 package geogebra.web.gui.toolbar;
 
 import geogebra.common.awt.GColor;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.web.awt.GeneralPath;
 import geogebra.web.gui.app.GGWToolBar;
 import geogebra.web.javax.swing.GPopupMenuW;
-import geogebra.web.main.Application;
+import geogebra.web.main.AppW;
 
 import java.util.ArrayList;
 
@@ -36,14 +36,14 @@ public class ModeToggleMenu extends MenuBar implements DoubleClickHandler,
 	private ArrayList<MenuItem> menuItemList;
 
 //	private ActionListener popupMenuItemListener;
-	private Application app;
+	private AppW app;
 	int size;
 	private ToolBar toolbar;
 	private AbsolutePanel imagePanel;
 
 	final static GColor bgColor = GColor.white;
 
-	public ModeToggleMenu(Application app, ToolBar toolbar,
+	public ModeToggleMenu(AppW app, ToolBar toolbar,
 			ModeToggleButtonGroup bg) {
 		super(true);
 		setFocusOnHoverEnabled(false);
@@ -80,7 +80,7 @@ public class ModeToggleMenu extends MenuBar implements DoubleClickHandler,
 		for (int i = 0; i < size; i++) {
 			MenuItem mi = menuItemList.get(i);
 			// found item for mode?
-			AbstractApplication.debug(mi.getElement().getAttribute("mode"));
+			App.debug(mi.getElement().getAttribute("mode"));
 			//if (mi.getActionCommand().equals(modeText)) {
 			if (mi.getElement().getAttribute("mode").equals(modeText)) {
 				selectMenuItem(mi);

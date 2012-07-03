@@ -23,7 +23,7 @@ import geogebra.common.kernel.Macro;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoVec2D;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.main.MyError;
 import geogebra.common.util.Unicode;
 
@@ -42,7 +42,7 @@ public class Command extends ValidExpression implements ReplaceChildrenByValues,
 	private String name; // internal command name (in English)
 
 	private Kernel kernel;
-	private AbstractApplication app;
+	private App app;
 	private GeoElement[] evalGeos; // evaluated Elements
 	private Macro macro; // command may correspond to a macro
 	private boolean allowEvaluationForTypeCheck = true;
@@ -256,7 +256,7 @@ public class Command extends ValidExpression implements ReplaceChildrenByValues,
 		if (evalGeos != null && evalGeos.length >= 1) {
 			return evalGeos[0];
 		}
-		AbstractApplication.debug("invalid command evaluation: " + name);
+		App.debug("invalid command evaluation: " + name);
 		throw new MyError(app, app.getError("InvalidInput") + ":\n" + this);
 
 	}

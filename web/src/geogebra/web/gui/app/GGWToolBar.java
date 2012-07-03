@@ -1,7 +1,7 @@
 package geogebra.web.gui.app;
 
 import geogebra.common.euclidian.EuclidianConstants;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.menubar.GeoGebraMenubarW;
 import geogebra.web.gui.toolbar.ToolBar;
@@ -40,7 +40,7 @@ public class GGWToolBar extends Composite {
 
 	private VerticalPanel toolbarPanel = new VerticalPanel(); // just dummy!
 	private VerticalPanel toolbars;
-	private AbstractApplication app;
+	private App app;
 	public ToolBar toolBar;
 	@UiField
 	HorizontalPanel toolBarPanel;
@@ -57,7 +57,7 @@ public class GGWToolBar extends Composite {
 	 * 
 	 * @param app
 	 */
-	public void init(AbstractApplication app) {
+	public void init(App app) {
 
 		this.app = app;
 		toolbars = new VerticalPanel();
@@ -66,7 +66,7 @@ public class GGWToolBar extends Composite {
 		toolBarPanel.add(toolBar);
 		
 		//toolBarPanel.setSize("100%", "100%");
-		toolBar.init((geogebra.web.main.Application) app);
+		toolBar.init((geogebra.web.main.AppW) app);
 		addToolbar(toolBar);
 		buildGui();
 	}

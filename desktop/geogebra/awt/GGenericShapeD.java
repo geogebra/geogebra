@@ -5,7 +5,7 @@ import geogebra.common.awt.GPathIterator;
 import geogebra.common.awt.GRectangle;
 import geogebra.common.awt.GRectangle2D;
 import geogebra.common.euclidian.GeneralPathClipped;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.Shape;
 
@@ -21,7 +21,7 @@ public class GGenericShapeD implements geogebra.awt.GShapeD{
 			return ((geogebra.awt.GShapeD)s).getAwtShape();
 		if(s instanceof GeneralPathClipped)
 			return geogebra.awt.GGeneralPathD.getAwtGeneralPath(((GeneralPathClipped)s).getGeneralPath());
-		if (s!= null) Application.debug("other type " + s);
+		if (s!= null) AppD.debug("other type " + s);
 		return null;
 	}
 	

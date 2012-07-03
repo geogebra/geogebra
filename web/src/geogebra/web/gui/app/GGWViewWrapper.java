@@ -1,6 +1,6 @@
 package geogebra.web.gui.app;
 
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -10,7 +10,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class GGWViewWrapper extends Composite {
 
-	private AbstractApplication application;
+	private App application;
 
 	private static GGWViewWrapperUiBinder uiBinder = GWT
 	        .create(GGWViewWrapperUiBinder.class);
@@ -25,7 +25,7 @@ public class GGWViewWrapper extends Composite {
 		algebrapanel.setSize("100%", "100%");
 	}
 
-	public void attachApp(AbstractApplication app) {
+	public void attachApp(App app) {
 		application = app;
 		algebrapanel.attachApp(app);
 	}

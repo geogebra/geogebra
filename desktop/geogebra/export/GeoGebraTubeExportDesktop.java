@@ -1,8 +1,8 @@
 package geogebra.export;
 
 import geogebra.common.kernel.Macro;
-import geogebra.common.main.AbstractApplication;
-import geogebra.main.Application;
+import geogebra.common.main.App;
+import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -33,7 +33,7 @@ import javax.swing.JProgressBar;
  */
 public class GeoGebraTubeExportDesktop  extends geogebra.common.export.GeoGebraTubeExport {
 
-	public GeoGebraTubeExportDesktop(AbstractApplication app) {
+	public GeoGebraTubeExportDesktop(App app) {
 		super(app);
 	}
 
@@ -187,7 +187,7 @@ public class GeoGebraTubeExportDesktop  extends geogebra.common.export.GeoGebraT
 						statusLabelSetText(app.getPlain("UploadError"));
 						setEnabled(false);
 
-						AbstractApplication.debug("Upload failed. Response: " + output.toString());
+						App.debug("Upload failed. Response: " + output.toString());
 					} else {
 						app.showURLinBrowser(uploadURL + "/" + results.getUID());
 						hideDialog();
@@ -195,7 +195,7 @@ public class GeoGebraTubeExportDesktop  extends geogebra.common.export.GeoGebraT
 
 					pack();
 				} else {
-					AbstractApplication.debug("Upload failed. Response: #" + responseCode + " - " + responseMessage);
+					App.debug("Upload failed. Response: #" + responseCode + " - " + responseMessage);
 
 					BufferedReader errors = new BufferedReader(new InputStreamReader(urlConn.getErrorStream()));
 					StringBuffer errorBuffer = new StringBuffer();
@@ -206,7 +206,7 @@ public class GeoGebraTubeExportDesktop  extends geogebra.common.export.GeoGebraT
 					}
 					errors.close();
 
-					AbstractApplication.debug(errorBuffer.toString());
+					App.debug(errorBuffer.toString());
 
 					statusLabelSetText(app.getPlain("UploadError", Integer.toString(responseCode)));
 					setEnabled(false);
@@ -217,14 +217,14 @@ public class GeoGebraTubeExportDesktop  extends geogebra.common.export.GeoGebraT
 				setEnabled(false);
 				pack();
 
-				AbstractApplication.debug(e.getMessage());
+				App.debug(e.getMessage());
 			}
 		} catch (IOException e) {
 			statusLabelSetText(app.getPlain("UploadError", Integer.toString(400)));
 			setEnabled(false);
 			pack();
 
-			AbstractApplication.debug(e.getMessage());
+			App.debug(e.getMessage());
 		}
 	}
 
@@ -289,7 +289,7 @@ public class GeoGebraTubeExportDesktop  extends geogebra.common.export.GeoGebraT
 		try {
 			return URLEncoder.encode(str, "UTF-8");
 		} catch (UnsupportedEncodingException e) {
-			AbstractApplication.debug("error from GeoGebraTubeExport.encode()");
+			App.debug("error from GeoGebraTubeExport.encode()");
 			return str;
 		}
 	}
@@ -297,7 +297,7 @@ public class GeoGebraTubeExportDesktop  extends geogebra.common.export.GeoGebraT
 	@Override
 	protected String getBase64Tools(ArrayList<Macro> macros) throws IOException {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		((Application)app).getXMLio().writeMacroStream(baos, macros);
+		((AppD)app).getXMLio().writeMacroStream(baos, macros);
 		return geogebra.common.util.Base64.encode(baos.toByteArray(), 0);
 	}
 

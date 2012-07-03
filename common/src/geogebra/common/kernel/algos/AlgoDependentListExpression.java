@@ -36,7 +36,7 @@ import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.GeoVec2D;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 
 /**
  * List expression, e.g. with L1 = {3, 2, 1}, L2 = {5, 1, 7}
@@ -290,7 +290,7 @@ public class AlgoDependentListExpression extends AlgoElement {
 				
 			}
 			else {
-				AbstractApplication.debug("unsupported list addition: "+element.getClass()+"");
+				App.debug("unsupported list addition: "+element.getClass()+"");
 			}
 		}
     }   

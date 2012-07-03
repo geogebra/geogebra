@@ -2,7 +2,7 @@ package geogebra.cas.view;
 
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoCasCell;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 import geogebra.common.util.StringUtil;
 import geogebra.gui.util.ImageSelection;
 
@@ -36,7 +36,7 @@ public class RowContentPopupMenu extends JPopupMenu implements ActionListener {
 	 * @param value
 	 *            the {@link GeoCasCell} containing the value to copy
 	 * @param table
-	 *            needed to get the {@link Application}
+	 *            needed to get the {@link AppD}
 	 */
 	public RowContentPopupMenu(GeoCasCell value, CASTable table) {
 		this.value = value;
@@ -94,7 +94,7 @@ public class RowContentPopupMenu extends JPopupMenu implements ActionListener {
 			
 		}else if (ac.equals("copyAsImage")) {
 			ImageIcon latexIcon = new ImageIcon();
-			Application app = (Application)table.getApplication();
+			AppD app = (AppD)table.getApplication();
 			Font latexFont = new Font(app.getPlainFont().getName(),
 					app.getPlainFont().getStyle(), app
 							.getPlainFont().getSize() - 1);

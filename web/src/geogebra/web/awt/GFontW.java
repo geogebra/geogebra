@@ -1,6 +1,6 @@
 package geogebra.web.awt;
 
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 
 public class GFontW extends geogebra.common.awt.GFont{
 	public static final int PLAIN = 0;
@@ -79,7 +79,7 @@ public class GFontW extends geogebra.common.awt.GFont{
 	}
 
 	public GFontW deriveFont(String fontStyle2, final int newSize) {
-		AbstractApplication.debug("implementation needed or OK"); // TODO Auto-generated
+		App.debug("implementation needed or OK"); // TODO Auto-generated
 		GFontW f = new GFontW(fontStyle2);
 		f.setFontSize(newSize);
 		return f;
@@ -147,7 +147,7 @@ public class GFontW extends geogebra.common.awt.GFont{
 
 	@Override
     public geogebra.common.awt.GFont deriveFont(int i) {
-	    AbstractApplication.debug("implementation needed or OK");
+	    App.debug("implementation needed or OK");
 	    GFontW ret = new GFontW(fontStyle);
 	    ret.setFontStyle(i);
 	    ret.setFontSize(fontSize);
@@ -156,7 +156,7 @@ public class GFontW extends geogebra.common.awt.GFont{
 
 	@Override
     public String getFontName() {
-	    AbstractApplication.debug("implementation needed or OK");
+	    App.debug("implementation needed or OK");
 	    return fontFamily;
     }
 

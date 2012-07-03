@@ -4,7 +4,7 @@ import geogebra.common.awt.GPoint;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 
 /**
  * Abstract class for managing spreadsheet GeoElement cells in a table model
@@ -20,7 +20,7 @@ public abstract class AbstractSpreadsheetTableModel implements View {
 
 	private static final long serialVersionUID = 1L;
 
-	private AbstractApplication app;
+	private App app;
 	private int highestUsedColumn = -1;
 	private int highestUsedRow = -1;
 
@@ -34,7 +34,7 @@ public abstract class AbstractSpreadsheetTableModel implements View {
 	 * @param columns
 	 *            initial number of columns
 	 */
-	public AbstractSpreadsheetTableModel(AbstractApplication app, int rows,
+	public AbstractSpreadsheetTableModel(App app, int rows,
 			int columns) {
 		this.app = app;
 	}
@@ -224,7 +224,7 @@ public abstract class AbstractSpreadsheetTableModel implements View {
 	}
 
 	public int getViewID() {
-		return AbstractApplication.VIEW_TABLE_MODEL;
+		return App.VIEW_TABLE_MODEL;
 	}
 
 }

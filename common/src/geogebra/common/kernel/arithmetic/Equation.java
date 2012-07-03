@@ -16,7 +16,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.Traversing.GeoDummyReplacer;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.plugin.Operation;
 
 import java.util.HashSet;
@@ -291,7 +291,7 @@ public class Equation extends ValidExpression {
             NumberValue nv = (NumberValue) ev;
             return nv.getDouble();
         } catch (Exception e) {
-            AbstractApplication.debug("getCoeffValue("+variables+") failed:" + e);
+            App.debug("getCoeffValue("+variables+") failed:" + e);
             return Double.NaN;
         }
     }

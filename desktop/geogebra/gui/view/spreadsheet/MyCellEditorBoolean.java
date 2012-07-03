@@ -2,7 +2,7 @@ package geogebra.gui.view.spreadsheet;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoBoolean;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.Component;
 
@@ -20,7 +20,7 @@ import javax.swing.SwingConstants;
 public class MyCellEditorBoolean extends DefaultCellEditor {
 	private static final long serialVersionUID = 1L;
 	private Kernel kernel;
-	private Application app;
+	private AppD app;
 	private GeoBoolean editGeo;
 	private JCheckBox checkBox;	
 	boolean editing = false;
@@ -30,7 +30,7 @@ public class MyCellEditorBoolean extends DefaultCellEditor {
 		
 		super(new JCheckBox());
 		checkBox = (JCheckBox) editorComponent;
-		app = (Application)kernel.getApplication();
+		app = (AppD)kernel.getApplication();
 	}
 
 	

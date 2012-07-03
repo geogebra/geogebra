@@ -1,7 +1,7 @@
 package geogebra.common.kernel.polynomial;
 
 import geogebra.common.kernel.Kernel;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -427,7 +427,7 @@ public class BigPolynomial implements Cloneable {
 				dx = (new BigComplex(BigDecimal.valueOf(n))).divide(gp, mc);
 			} else {
 				// TODO handle case
-				AbstractApplication.debug("unhandled case");
+				App.debug("unhandled case");
 				dx = BigComplex.ZERO;
 			}
 			if (dx.abs(mc).compareTo(plusEps) <= 0) {
@@ -436,7 +436,7 @@ public class BigPolynomial implements Cloneable {
 			x = x.subtract(dx, mc);
 
 		}
-		AbstractApplication.warn("Max Iterations exceeded");
+		App.warn("Max Iterations exceeded");
 		return x;
 	}
 

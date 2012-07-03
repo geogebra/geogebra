@@ -34,7 +34,7 @@ import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.plugin.EuclidianStyleConstants;
 
 import java.util.ArrayList;
@@ -183,7 +183,7 @@ public class DrawAngle extends Drawable implements Previewable {
 		case AlgoAnglePolygon:
 			break;
 		default:
-			AbstractApplication.debug("missing case in DrawAngle");
+			App.debug("missing case in DrawAngle");
 		}
 	}
 

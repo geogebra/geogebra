@@ -4,7 +4,7 @@ import javax.swing.JCheckBoxMenuItem;
 
 import geogebra.gui.ContextMenuGraphicsWindow;
 import geogebra.gui.dialog.options.OptionsDialog;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import geogebra3D.Application3D;
 
@@ -19,7 +19,7 @@ public class ContextMenuGraphicsWindow3D extends ContextMenuGraphicsWindow {
 	 * @param px
 	 * @param py
 	 */
-	public ContextMenuGraphicsWindow3D(Application app, double px, double py) {
+	public ContextMenuGraphicsWindow3D(AppD app, double px, double py) {
 		 super(app); 
 		 
 		 setTitle("<html>" + app.getPlain("GraphicsView3D") + "</html>");

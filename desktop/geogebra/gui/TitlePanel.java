@@ -15,7 +15,7 @@ package geogebra.gui;
 import geogebra.common.kernel.Construction;
 import geogebra.gui.inputfield.MyFormattedTextField;
 import geogebra.gui.inputfield.MyTextField;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 import geogebra.main.GeoGebraPreferences;
 
 import java.awt.BorderLayout;
@@ -54,7 +54,7 @@ public class TitlePanel extends JPanel {
 
 	private Construction cons;
 
-	public TitlePanel(Application app) {
+	public TitlePanel(AppD app) {
 		cons = app.getKernel().getConstruction();
 
 		setLayout(new BorderLayout(5, 5));

@@ -4,7 +4,7 @@ import static java.awt.event.KeyEvent.VK_ENTER;
 import static java.awt.event.KeyEvent.VK_ESCAPE;
 import geogebra.common.gui.util.TableSymbols;
 import geogebra.gui.util.SelectionTable;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.Dimension;
 import java.awt.Point;
@@ -38,7 +38,7 @@ public class SymbolTablePopupD {
 	private KeyListener[] textFieldKeyListeners;
 
 	private SelectionTable symbolTable;
-	private Application app;
+	private AppD app;
 	private Locale locale;
 	private boolean openUpwards = true;
 
@@ -49,7 +49,7 @@ public class SymbolTablePopupD {
 	 * @param app
 	 * @param textField
 	 */
-	public SymbolTablePopupD(Application app, MyTextField textField){
+	public SymbolTablePopupD(AppD app, MyTextField textField){
 
 		this.app = app;
 		this.textField = textField;

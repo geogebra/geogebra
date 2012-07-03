@@ -4,12 +4,12 @@ import geogebra.common.GeoGebraConstants;
 import geogebra.common.gui.SetLabels;
 import geogebra.common.gui.util.TableSymbols;
 import geogebra.common.kernel.commands.CommandProcessor;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.common.util.LowerCaseDictionary;
 import geogebra.gui.util.GeoGebraIcon;
 import geogebra.gui.util.SelectionTable;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -64,7 +64,7 @@ public class InputBarHelpPanel extends JPanel implements TreeSelectionListener,
 
 	private static final long serialVersionUID = 1L;
 	
-	private Application app;
+	private AppD app;
 	private InputBarHelpPanel thisPanel;
 	private Color bgColor = Color.WHITE;
 
@@ -98,7 +98,7 @@ public class InputBarHelpPanel extends JPanel implements TreeSelectionListener,
 	/***************************************************
 	 * Constructor
 	 */
-	public InputBarHelpPanel(Application app) {
+	public InputBarHelpPanel(AppD app) {
 
 		this.app = app;
 		thisPanel = this;
@@ -660,8 +660,8 @@ public class InputBarHelpPanel extends JPanel implements TreeSelectionListener,
 		doc.setParagraphAttributes(0, doc.getLength(), attrs, false);
 
 		if (GeoGebraConstants.CAS_VIEW_ENABLED
-				&& !descriptionCAS.equals(cmd + Application.syntaxCAS)) {
-			if (!description.equals(cmd + Application.syntaxStr))
+				&& !descriptionCAS.equals(cmd + AppD.syntaxCAS)) {
+			if (!description.equals(cmd + AppD.syntaxStr))
 				try {
 					doc.insertString(doc.getLength(), description + "\n",
 							doc.getStyle("regular"));
@@ -775,7 +775,7 @@ public class InputBarHelpPanel extends JPanel implements TreeSelectionListener,
 			if (selectedCommand != null) {
 				app.getGuiManager().openCommandHelp(selectedCommand);
 			} else if (selectedFunction != null)
-				app.getGuiManager().openHelp(AbstractApplication.WIKI_OPERATORS);
+				app.getGuiManager().openHelp(App.WIKI_OPERATORS);
 			else
 				app.getGuiManager().openHelp("InputBar");
 		}

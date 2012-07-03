@@ -18,7 +18,7 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoText;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 
 public class AlgoSurdTextPoint extends AlgoSurdText {
 
@@ -74,13 +74,13 @@ public class AlgoSurdTextPoint extends AlgoSurdText {
 			
 			sb.setLength(0);
 			sb.append(" \\left( ");
-			AbstractApplication.debug(sb.toString());
+			App.debug(sb.toString());
 			PSLQappendQuadratic(sb, p.inhomX,tpl);
-			AbstractApplication.debug(sb.toString());
+			App.debug(sb.toString());
 			sb.append(" , ");
-			AbstractApplication.debug(sb.toString());
+			App.debug(sb.toString());
 			PSLQappendQuadratic(sb, p.inhomY,tpl);
-			AbstractApplication.debug(sb.toString());
+			App.debug(sb.toString());
 			sb.append(" \\right) ");
 			
 			text.setTextString(sb.toString());

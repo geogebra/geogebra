@@ -4,7 +4,7 @@ package geogebra.web.gui.util;
 import geogebra.common.awt.GColor;
 import geogebra.common.awt.GRenderingHints;
 import geogebra.common.euclidian.EuclidianStatic;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.web.awt.GBasicStrokeW;
 import geogebra.web.awt.GDimensionW;
 import geogebra.web.awt.GFontW;
@@ -290,7 +290,7 @@ public class GeoGebraIcon {
 	    return tmpCanvas;
     }
 
-	public static ImageData createFileImageIcon(AbstractApplication app, String fileName, float alpha, GDimensionW iconSize){
+	public static ImageData createFileImageIcon(App app, String fileName, float alpha, GDimensionW iconSize){
 
 		int h = iconSize.getHeight();
 		int w = iconSize.getWidth();

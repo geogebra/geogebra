@@ -12,14 +12,14 @@ import geogebra.common.kernel.Macro;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.commands.MyException;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.main.MyError;
 import geogebra.common.util.AutoCompleteDictionary;
 import geogebra.common.util.Korean;
 import geogebra.gui.autocompletion.CommandCompletionListCellRenderer;
 import geogebra.gui.autocompletion.CompletionsPopup;
 import geogebra.gui.util.GeoGebraIcon;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.Component;
 import java.awt.event.ActionEvent;
@@ -39,7 +39,7 @@ public class AutoCompleteTextFieldD extends MathTextField implements
 
   private static final long serialVersionUID = 1L;
 
-  private Application app;
+  private AppD app;
   private StringBuilder curWord;
   private int curWordStart;
 
@@ -80,8 +80,8 @@ public class AutoCompleteTextFieldD extends MathTextField implements
    * A default model is created and the number of columns is 0.
    * 
    */
-  public AutoCompleteTextFieldD(int columns, AbstractApplication app) {
-    this(columns, (Application) app, true);
+  public AutoCompleteTextFieldD(int columns, App app) {
+    this(columns, (AppD) app, true);
   }
 
   /**
@@ -90,7 +90,7 @@ public class AutoCompleteTextFieldD extends MathTextField implements
  * @param handleEscapeKey how to handle escape key
  * @param dict dictionary
  */
-public AutoCompleteTextFieldD(int columns, Application app,
+public AutoCompleteTextFieldD(int columns, AppD app,
       boolean handleEscapeKey, AutoCompleteDictionary dict) {
     super(app);
     // allow dynamic width with columns = -1
@@ -113,13 +113,13 @@ public AutoCompleteTextFieldD(int columns, Application app,
     setDictionary(dict);
   }
 
-  public AutoCompleteTextFieldD(int columns, Application app,
+  public AutoCompleteTextFieldD(int columns, AppD app,
       boolean handleEscapeKey) {
     this(columns, app, handleEscapeKey, app.getCommandDictionary());
     // setDictionary(app.getAllCommandsDictionary());
   }
 
-  public AutoCompleteTextFieldD(int columns, AbstractApplication app,
+  public AutoCompleteTextFieldD(int columns, App app,
       Drawable drawTextField) {
     this(columns, app);
     this.drawTextField = (DrawTextField) drawTextField;
@@ -260,7 +260,7 @@ public AutoCompleteTextFieldD(int columns, Application app,
       return;
 
     // swallow eg ctrl-a ctrl-b ctrl-p on Mac
-    if (Application.MAC_OS && e.isControlDown()) {
+    if (AppD.MAC_OS && e.isControlDown()) {
       e.consume();
     }
 
@@ -270,13 +270,13 @@ public AutoCompleteTextFieldD(int columns, Application app,
 
       case KeyEvent.VK_Z:
       case KeyEvent.VK_Y:
-        if (Application.isControlDown(e)) {
+        if (AppD.isControlDown(e)) {
           app.getGlobalKeyDispatcher().handleGeneralKeys(e);
           e.consume();
         }
         break;
       case KeyEvent.VK_C:
-        if (Application.isControlDown(e)) // workaround for MAC_OS
+        if (AppD.isControlDown(e)) // workaround for MAC_OS
         {
           ctrlC = true;
         }
@@ -292,7 +292,7 @@ public AutoCompleteTextFieldD(int columns, Application app,
       case KeyEvent.VK_7:
       case KeyEvent.VK_8:
       case KeyEvent.VK_9:
-        if (Application.isControlDown(e) && e.isShiftDown())
+        if (AppD.isControlDown(e) && e.isShiftDown())
           app.getGlobalKeyDispatcher().handleGeneralKeys(e);
         break;
 
@@ -362,7 +362,7 @@ public AutoCompleteTextFieldD(int columns, Application app,
         break;
 
       case KeyEvent.VK_F1:
-    	String helpURL = isCASInput ?  AbstractApplication.WIKI_CAS_VIEW:AbstractApplication.WIKI_MANUAL;
+    	String helpURL = isCASInput ?  App.WIKI_CAS_VIEW:App.WIKI_MANUAL;
         if (autoComplete) {
           boolean commandFound = false;
           if (!getText().equals("")) {
@@ -427,7 +427,7 @@ public AutoCompleteTextFieldD(int columns, Application app,
 
     // ctrl pressed on Mac
     // or alt on Windows
-    boolean modifierKeyPressed = Application.MAC_OS ? e.isControlDown() : e
+    boolean modifierKeyPressed = AppD.MAC_OS ? e.isControlDown() : e
         .isAltDown();
 
     // we don't want to act when AltGr is down
@@ -439,8 +439,8 @@ public AutoCompleteTextFieldD(int columns, Application app,
     char charPressed = e.getKeyChar();
 
     if ((isLetterOrDigit(charPressed) || modifierKeyPressed)
-        && !(ctrlC && (Application.MAC_OS || Application.LINUX))
-        && !(e.getKeyCode() == KeyEvent.VK_A && Application.MAC_OS)) {
+        && !(ctrlC && (AppD.MAC_OS || AppD.LINUX))
+        && !(e.getKeyCode() == KeyEvent.VK_A && AppD.MAC_OS)) {
       clearSelection();
     }
 
@@ -759,8 +759,8 @@ public AutoCompleteTextFieldD(int columns, Application app,
       } else {
         syntaxString = app.getCommandSyntax(cmdInt);
       }
-      if (syntaxString.endsWith(isCASInput ? Application.syntaxCAS
-          : Application.syntaxStr)) {
+      if (syntaxString.endsWith(isCASInput ? AppD.syntaxCAS
+          : AppD.syntaxStr)) {
 
         // command not found, check for macros
         Macro macro = isCASInput ? null : app.getKernel().getMacro(cmd);
@@ -768,7 +768,7 @@ public AutoCompleteTextFieldD(int columns, Application app,
           syntaxes.add(macro.toString());
         } else {
           // syntaxes.add(cmdInt + "[]");
-          AbstractApplication.debug("Can't find syntax for: " + cmd);
+          App.debug("Can't find syntax for: " + cmd);
         }
 
         continue;
@@ -922,7 +922,7 @@ public AutoCompleteTextFieldD(int columns, Application app,
 
     // check if we really found syntax information
     // if (key.equals(syntax)) return null;
-    if (syntax.indexOf(Application.syntaxStr) == -1)
+    if (syntax.indexOf(AppD.syntaxStr) == -1)
       return null;
 
     // build html tooltip

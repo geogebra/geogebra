@@ -16,8 +16,8 @@ import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.arithmetic.Traversing.CommandCollector;
 import geogebra.common.kernel.cas.GeoGebraCasInterface;
-import geogebra.common.main.AbstractApplication;
-import geogebra.main.Application;
+import geogebra.common.main.App;
+import geogebra.main.AppD;
 
 import java.util.HashSet;
 import java.util.Locale;
@@ -43,10 +43,10 @@ public class GeoGebraCasIntegrationTest {
 	public static boolean silent = false;
 	@BeforeClass
 	public static void setupCas() {
-		Application app = new Application(new CommandLineArguments(
+		AppD app = new AppD(new CommandLineArguments(
 				silent?new String[]{"--silent"}:new String[0]), new JFrame(), false);
 		if(silent)
-			AbstractApplication.logger = null;
+			App.logger = null;
 		app.setLanguage(Locale.GERMANY);
 		//app.fillCasCommandDict();
 		// app.getKernel()
@@ -196,7 +196,7 @@ public class GeoGebraCasIntegrationTest {
 		newPattern = newPattern.replaceAll("INDEX", "\\\\{?\\\\d+\\\\}?");
 		newPattern = newPattern.replace(" ", "\\s*"); // make whitespace
 														// optional
-		AbstractApplication.debug(newPattern);
+		App.debug(newPattern);
 		r(input, newPattern, originalPattern);
 	}
 

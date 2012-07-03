@@ -18,7 +18,7 @@ import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.FunctionNVar;
 import geogebra.common.kernel.geos.GeoFunctionNVar;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 
 /**
  * This class is needed to handle dependent multivariate functions like
@@ -111,7 +111,7 @@ public class AlgoDependentFunctionNVar extends AlgoElement {
 				ev = AlgoDependentFunction.expandFunctionDerivativeNodes(expression.deepCopy(kernel));
 			} catch (Exception e) {
 				e.printStackTrace();
-				AbstractApplication.debug("derivative failed");
+				App.debug("derivative failed");
 			}
 
 			if (ev == null) {

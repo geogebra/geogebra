@@ -8,7 +8,7 @@ import geogebra.common.kernel.arithmetic.IneqTree;
 import geogebra.common.kernel.arithmetic.Inequality;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.plugin.Operation;
 
 import java.util.TreeSet;
@@ -164,7 +164,7 @@ public class DrawInequality extends Drawable {
 			drawable = new DrawImplicitPoly(view, ineq.getImpBorder());
 			break; TODO put this back when implicit polynomial can be shaded*/ 
 		default:
-			AbstractApplication.debug("Unhandled inequality type");
+			App.debug("Unhandled inequality type");
 			return;
 		}
 		drawable.setGeoElement(geo);

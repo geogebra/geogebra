@@ -25,7 +25,7 @@ import geogebra.common.factories.SwingFactory;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.util.Unicode;
 
 /**
@@ -126,7 +126,7 @@ public final class DrawList extends Drawable implements RemoveNeeded {
 			}
 
 			int fontSize = view.getFontSize() + geoList.getFontSize();
-			AbstractApplication app = view.getApplication();
+			App app = view.getApplication();
 
 			geogebra.common.awt.GFont vFont = view.getFont();
 			geogebra.common.awt.GFont font = app.getFontCanDisplay(comboBox.getItemAt(0).toString(), false, vFont.getStyle(), fontSize);

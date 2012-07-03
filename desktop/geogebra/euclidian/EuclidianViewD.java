@@ -25,12 +25,12 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoPoint;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.main.settings.EuclidianSettings;
 import geogebra.common.main.settings.SettingListener;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.euclidianND.EuclidianViewND;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.Color;
 import java.awt.Cursor;
@@ -252,7 +252,7 @@ public class EuclidianViewD extends EuclidianViewND implements
 				} catch (Exception exc) {
 					// Catch exceptions so that we don't try to set a null
 					// cursor
-					AbstractApplication
+					App
 							.debug("Unable to create custom cursor.");
 			}
 			
@@ -657,7 +657,7 @@ public class EuclidianViewD extends EuclidianViewND implements
 
 		if (giNeedsInit
 				|| (gi == null)) {
-			String fileName = ((Application)app).createImage(penImage2, "penimage.png");
+			String fileName = ((AppD)app).createImage(penImage2, "penimage.png");
 			// Application.debug(fileName);
 			GeoImage geoImage = null;
 			if (gi == null)

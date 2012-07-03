@@ -17,9 +17,9 @@ import geogebra.common.gui.toolbar.ToolBar;
 import geogebra.common.gui.toolbar.ToolbarItem;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Macro;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.gui.layout.DockPanel;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import geogebra.common.awt.Component;
 import java.util.ArrayList;
@@ -39,7 +39,7 @@ public class Toolbar extends JToolBar {
 	/**
 	 * Instance of the application.
 	 */
-	private Application app;
+	private AppD app;
 
 	/**
 	 * Dock panel associated to this toolbar or null if this is the general
@@ -60,7 +60,7 @@ public class Toolbar extends JToolBar {
 	 * 
 	 * @param app application
 	 */
-	public Toolbar(Application app) {
+	public Toolbar(AppD app) {
 		this(app, null);
 	}
 
@@ -71,7 +71,7 @@ public class Toolbar extends JToolBar {
 	 * @param app application
 	 * @param dockPanel dock panel
 	 */
-	public Toolbar(Application app, DockPanel dockPanel) {
+	public Toolbar(AppD app, DockPanel dockPanel) {
 		this.app = app;
 		this.dockPanel = dockPanel;
 
@@ -177,10 +177,10 @@ public class Toolbar extends JToolBar {
 			}
 		} catch (Exception e) {
 			if (dockPanel != null) {
-				AbstractApplication.debug("invalid toolbar string: "
+				App.debug("invalid toolbar string: "
 						+ dockPanel.getToolbarString());
 			} else {
-				AbstractApplication.debug("invalid toolbar string: "
+				App.debug("invalid toolbar string: "
 						+ app.getGuiManager().getToolbarDefinition());
 			}
 			toolbarVec = ToolBar.parseToolbarString(getDefaultToolbarString());
@@ -300,7 +300,7 @@ public class Toolbar extends JToolBar {
 	 * @param app application
 	 * @return All tools as a toolbar definition string
 	 */
-	public static String getAllTools(Application app) {
+	public static String getAllTools(AppD app) {
 		StringBuilder sb = new StringBuilder();
 
 		sb.append(ToolBar.getAllToolsNoMacros(true, false) );

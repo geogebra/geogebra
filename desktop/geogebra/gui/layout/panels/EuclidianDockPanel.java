@@ -1,10 +1,10 @@
 package geogebra.gui.layout.panels;
 
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.main.settings.ConstructionProtocolSettings;
 import geogebra.euclidianND.EuclidianViewND;
 import geogebra.gui.view.consprotocol.ConstructionProtocolNavigation;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -19,7 +19,7 @@ import javax.swing.JPanel;
  */
 public class EuclidianDockPanel extends EuclidianDockPanelAbstract {
 	private static final long serialVersionUID = 1L;
-	private Application app;
+	private AppD app;
 	
 	/**
 	 * Panel to hold euclidian view and navigation bar if necessary. 
@@ -35,9 +35,9 @@ public class EuclidianDockPanel extends EuclidianDockPanelAbstract {
 	/**
 	 * @param app
 	 */
-	public EuclidianDockPanel(Application app, String toolbar) {
+	public EuclidianDockPanel(AppD app, String toolbar) {
 		super(
-			AbstractApplication.VIEW_EUCLIDIAN,	// view id 
+			App.VIEW_EUCLIDIAN,	// view id 
 			"DrawingPad", 				// view title
 			toolbar,						// toolbar string
 			true,						// style bar?

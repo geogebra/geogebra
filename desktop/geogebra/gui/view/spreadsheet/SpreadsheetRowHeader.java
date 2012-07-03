@@ -2,8 +2,8 @@ package geogebra.gui.view.spreadsheet;
 
 
 import geogebra.common.awt.GPoint;
-import geogebra.common.main.AbstractApplication;
-import geogebra.main.Application;
+import geogebra.common.main.App;
+import geogebra.main.AppD;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -33,7 +33,7 @@ implements MouseListener, MouseMotionListener, KeyListener, ListSelectionListene
 
 {
 	private static final long serialVersionUID = 1L;
-	private Application app;
+	private AppD app;
 	private SpreadsheetView view;
 	private MyTable table;
 	private MyListModel listModel;
@@ -63,7 +63,7 @@ implements MouseListener, MouseMotionListener, KeyListener, ListSelectionListene
 	/***************************************************
 	 * Constructor
 	 */
-	public SpreadsheetRowHeader(Application app, MyTable table){
+	public SpreadsheetRowHeader(AppD app, MyTable table){
 
 		this.app = app;
 		this.table = table;
@@ -221,7 +221,7 @@ implements MouseListener, MouseMotionListener, KeyListener, ListSelectionListene
 		// Double clicking on a row boundary auto-adjusts the 
 		// height of the row above the boundary (the resizingRow)
 
-		if (resizingRow >= 0 && !Application.isRightClick(e) && e.getClickCount() == 2) {
+		if (resizingRow >= 0 && !AppD.isRightClick(e) && e.getClickCount() == 2) {
 
 			table.fitRow(resizingRow);
 			e.consume();
@@ -234,13 +234,13 @@ implements MouseListener, MouseMotionListener, KeyListener, ListSelectionListene
 
 	public void mousePressed(MouseEvent e) {						
 		boolean shiftPressed = e.isShiftDown();	
-		boolean rightClick = Application.isRightClick(e);
+		boolean rightClick = AppD.isRightClick(e);
 				
 		int x = e.getX();
 		int y = e.getY();
 		
 		if(!view.hasViewFocus())
-			app.getGuiManager().getLayout().getDockManager().setFocusedPanel(AbstractApplication.VIEW_SPREADSHEET);
+			app.getGuiManager().getLayout().getDockManager().setFocusedPanel(App.VIEW_SPREADSHEET);
 
 		
 		// Update resizingRow. If nonnegative, then mouse is over a boundary
@@ -287,7 +287,7 @@ implements MouseListener, MouseMotionListener, KeyListener, ListSelectionListene
 
 	public void mouseReleased(MouseEvent e)	{
 
-		boolean rightClick = Application.isRightClick(e);
+		boolean rightClick = AppD.isRightClick(e);
 
 		if (rightClick) { 			
 			if (!app.letShowPopupMenu()) return; 
@@ -338,7 +338,7 @@ implements MouseListener, MouseMotionListener, KeyListener, ListSelectionListene
 
 
 	public void mouseDragged(MouseEvent e) {
-		if(Application.isRightClick(e))return; //G.Sturr 2009-9-30 
+		if(AppD.isRightClick(e))return; //G.Sturr 2009-9-30 
 
 		// G.STURR 2010-1-9
 		// On mouse drag either resize or select a row
@@ -391,7 +391,7 @@ implements MouseListener, MouseMotionListener, KeyListener, ListSelectionListene
 
 		int keyCode = e.getKeyCode();
 
-		boolean metaDown = Application.isControlDown(e);				
+		boolean metaDown = AppD.isControlDown(e);				
 		boolean altDown = e.isAltDown();				
 		boolean shiftDown = e.isShiftDown();
 		

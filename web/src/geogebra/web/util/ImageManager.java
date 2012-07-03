@@ -16,13 +16,13 @@ import com.google.gwt.user.client.ui.RootPanel;
 
 import geogebra.common.awt.GBufferedImage;
 import geogebra.common.kernel.geos.GeoImage;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.util.AbstractImageManager;
 import geogebra.web.gui.applet.GeoGebraFrame;
 import geogebra.web.helper.ImageLoadCallback;
 import geogebra.web.helper.ImageWrapper;
 import geogebra.web.io.MyXMLio;
-import geogebra.web.main.Application;
+import geogebra.web.main.AppW;
 
 public class ImageManager extends AbstractImageManager {
 	
@@ -39,7 +39,7 @@ public class ImageManager extends AbstractImageManager {
 	}
 
 	@Override
-	public String createImage(String filename, AbstractApplication app) {
+	public String createImage(String filename, App app) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -56,7 +56,7 @@ public class ImageManager extends AbstractImageManager {
 
 	private String construction;
 	private MyXMLio myXMLio;
-	private Application app = null;
+	private AppW app = null;
 
 	public void addExternalImage(String fileName, String src) {
 	   if (fileName != null && src != null) {
@@ -127,7 +127,7 @@ public class ImageManager extends AbstractImageManager {
 		img.setSrc(externalImageSrcs.get(imageFileName));
 	}
 
-	public void triggerImageLoading(String construction, MyXMLio myXMLio, Application app) {
+	public void triggerImageLoading(String construction, MyXMLio myXMLio, AppW app) {
 		this.construction = construction;
 		this.myXMLio = myXMLio;	
 		this.app = app;

@@ -10,7 +10,7 @@ import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.main.GWTKeycodes;
 
 public class HistoryPopupW extends PopupPanel implements ClickHandler, KeyUpHandler {

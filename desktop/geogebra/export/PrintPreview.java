@@ -13,11 +13,11 @@ the Free Software Foundation.
 package geogebra.export;
 
 import geogebra.common.euclidian.EuclidianView;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.gui.TitlePanel;
 import geogebra.gui.layout.DockPanel;
 import geogebra.gui.view.Gridable;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 import geogebra.main.GeoGebraPreferences;
 
 import java.awt.BorderLayout;
@@ -66,7 +66,7 @@ public class PrintPreview extends JDialog {
 	//protected JCheckBox cbEVscalePanel;
 	protected JScrollPane ps;
 	protected PreviewContainer m_preview;
-	protected Application app;
+	protected AppD app;
 	protected JPanel tempPanel, panelForTitleAndScaling; //used for title and scaling of graphics view's print preview
 	protected ActionListener lst;
 	
@@ -78,22 +78,22 @@ public class PrintPreview extends JDialog {
 		tempGraphics = img.getGraphics(); 
 	}		
 	
-	public PrintPreview(Application app,Gridable target){
+	public PrintPreview(AppD app,Gridable target){
 		this(app,target,PageFormat.PORTRAIT);
 	}
 
-	public PrintPreview(Application app, Printable target) {
+	public PrintPreview(AppD app, Printable target) {
 		this(app, target, PageFormat.PORTRAIT);
 	}
 
-	public PrintPreview(Application app, Printable target, int orientation) {
+	public PrintPreview(AppD app, Printable target, int orientation) {
 		super(app.getFrame(), true); //modal=true: user shouldn't be able to change anything before actual print happened.
 		this.app = app;
 		initPrintPreview(target, orientation);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
 		
-	public PrintPreview(Application app, Gridable target, int portrait) {
+	public PrintPreview(AppD app, Gridable target, int portrait) {
 		this(app,new PrintGridable(target),portrait);
 	}
 
@@ -130,7 +130,7 @@ public class PrintPreview extends JDialog {
 							setVisible(false);
 						} catch (PrinterException ex) {
 							ex.printStackTrace();
-							AbstractApplication.debug("Printing error: " + ex.toString());
+							App.debug("Printing error: " + ex.toString());
 						}
 					}
 				};
@@ -450,7 +450,7 @@ public class PrintPreview extends JDialog {
 		pageFormat.setOrientation(m_orientation);
 	
 		if (pageFormat.getWidth() == 0 ||  pageFormat.getHeight() == 0) {
-			AbstractApplication.debug("Unable to determine default page size");
+			App.debug("Unable to determine default page size");
 			return;
 		}
 		
@@ -476,10 +476,10 @@ public class PrintPreview extends JDialog {
 		if (width > 0 &&  height > 0) {
 			//	set margins				
 			paper.setImageableArea(
-					Application.PAGE_MARGIN_X, 
-					Application.PAGE_MARGIN_Y,
-					width  - 2 * Application.PAGE_MARGIN_X, 
-					height - 2 * Application.PAGE_MARGIN_Y);
+					AppD.PAGE_MARGIN_X, 
+					AppD.PAGE_MARGIN_Y,
+					width  - 2 * AppD.PAGE_MARGIN_X, 
+					height - 2 * AppD.PAGE_MARGIN_Y);
 			pageFormat.setPaper(paper);
 		}
 				
@@ -509,7 +509,7 @@ public class PrintPreview extends JDialog {
 			PageFormat pageFormat = getDefaultPageFormat();
 			pageFormat.setOrientation(m_orientation);
 			if (pageFormat.getHeight() == 0 || pageFormat.getWidth() == 0) {
-				AbstractApplication.debug("Unable to determine default page size");
+				App.debug("Unable to determine default page size");
 				return;
 			}		
 			PagePreview pp = new PagePreview(m_target, pageFormat, comps.length);

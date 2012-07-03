@@ -1,7 +1,7 @@
 // Copyright 2001, FreeHEP.
 package org.freehep.util.io;
 
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -143,7 +143,7 @@ public class ASCII85InputStream extends InputStream implements ASCII85 {
      */
     public static void main(String[] args) throws Exception {
         if (args.length < 1) {
-            Application.debug("Usage: ASCII85InputStream filename");
+            AppD.debug("Usage: ASCII85InputStream filename");
             System.exit(1);
         }
         ASCII85InputStream in = new ASCII85InputStream(new FileInputStream(args[0]));

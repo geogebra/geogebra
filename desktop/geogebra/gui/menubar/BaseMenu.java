@@ -1,6 +1,6 @@
 package geogebra.gui.menubar;
 
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.Event;
 import java.awt.Toolkit;
@@ -22,7 +22,7 @@ abstract class BaseMenu extends JMenu implements MenuListener {
 	/**
 	 * An instance of the application.
 	 */
-	protected Application app;
+	protected AppD app;
 	
 	protected boolean initialized = false;
 	
@@ -32,7 +32,7 @@ abstract class BaseMenu extends JMenu implements MenuListener {
 	 * @param app
 	 * @param text		The title of this menu
 	 */
-	public BaseMenu(Application app, String text)
+	public BaseMenu(AppD app, String text)
 	{
 		super(text);
 		

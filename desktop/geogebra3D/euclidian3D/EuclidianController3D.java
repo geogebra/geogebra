@@ -29,9 +29,9 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoQuadricND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
 import geogebra.common.kernel.kernelND.Region3D;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.euclidian.EuclidianControllerD;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 import geogebra3D.euclidian3D.opengl.PlotterBrush;
 import geogebra3D.euclidianFor3D.EuclidianControllerFor3D;
 import geogebra3D.gui.GuiManager3D;
@@ -995,7 +995,7 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 
 		// we got the center point
 		if (selPoints() == 1) {	
-			((DialogManager3D)((Application)app).getDialogManager()).showNumberInputDialogSpherePointRadius(((Application)app).getMenu(getKernel().getModeText(mode)),
+			((DialogManager3D)((AppD)app).getDialogManager()).showNumberInputDialogSpherePointRadius(((AppD)app).getMenu(getKernel().getModeText(mode)),
 					getSelectedPointsND()[0]);
 			return true;
 		}
@@ -1091,7 +1091,7 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 
 
 		if (selPoints() == 1 && selDirections() == 1) {
-			((DialogManager3D) ((Application)app).getDialogManager()).showNumberInputDialogCirclePointDirectionRadius(((Application)app).getMenu(getKernel().getModeText(mode)),
+			((DialogManager3D) ((AppD)app).getDialogManager()).showNumberInputDialogCirclePointDirectionRadius(((AppD)app).getMenu(getKernel().getModeText(mode)),
 					getSelectedPointsND()[0],getSelectedDirections()[0]);
 
 			return true;
@@ -1656,7 +1656,7 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 			((EuclidianView3D) view).updateCursor3D();
 			
 			view.setHitCursor();
-			((Application)app).storeUndoInfo();
+			((AppD)app).storeUndoInfo();
 			
 
 			((EuclidianView3D) view).setRotContinueAnimation(
@@ -1933,7 +1933,7 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 	
 	@Override
 	public void showDrawingPadPopup(geogebra.common.awt.GPoint mouseLoc){
-		((GuiManager3D) ((Application)app).getGuiManager()).showDrawingPadPopup3D(view, mouseLoc);
+		((GuiManager3D) ((AppD)app).getGuiManager()).showDrawingPadPopup3D(view, mouseLoc);
 	}
 	
 	///////////////////////////////////////////
@@ -1948,7 +1948,7 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 	@Override
 	protected GeoElement[] intersect(Hits hits) {
 		
-		Application.debug(hits);
+		AppD.debug(hits);
 		if (hits.isEmpty())
 			return null;		
 		if (hits.containsGeoPoint()) {
@@ -2448,7 +2448,7 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 				view3D.previewConic.set(resultedGeo);
 				view3D.setPreview(view3D.previewDrawConic3D);
 			} else { //this shouldn't happen
-				Application.debug("this shouldn't happen");
+				AppD.debug("this shouldn't happen");
 			}
 
 		}
@@ -2892,7 +2892,7 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 		GeoElement.moveObjects(app.getSelectedGeos(), translationVec, new GgbVector(xRW, yRW, 0));									
 			*/
 		
-		Application.debug("TODO");
+		AppD.debug("TODO");
 	}	
 	
 	final protected int addSelectedPolygon3D(Hits hits, int max,
@@ -2958,7 +2958,7 @@ public class EuclidianController3D extends EuclidianControllerFor3D {
 
 	@Override
 	public boolean refreshHighlighting(Hits hits, AbstractEvent event) {
-		if (Application.getShiftDown())
+		if (AppD.getShiftDown())
 			return false;
 
 		return super.refreshHighlighting(hits, event);

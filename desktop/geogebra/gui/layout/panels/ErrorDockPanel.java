@@ -1,8 +1,8 @@
 package geogebra.gui.layout.panels;
 
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.gui.layout.DockPanel;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
 
@@ -19,9 +19,9 @@ public class ErrorDockPanel extends DockPanel {
 	 * @param app
 	 * @param viewId 
 	 */
-	public ErrorDockPanel(Application app, int viewId) {
+	public ErrorDockPanel(AppD app, int viewId) {
 		super(
-			AbstractApplication.VIEW_NONE,	// view id 
+			App.VIEW_NONE,	// view id 
 			"ErrorWindow (viewId="+viewId+")", 			// view title phrase
 			null,						// toolbar string
 			false,						// style bar?

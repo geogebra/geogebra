@@ -13,7 +13,7 @@
 package geogebra.export;
 
 import geogebra.gui.inputfield.MyTextField;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
@@ -56,11 +56,11 @@ public class GraphicSizePanel extends JPanel implements ActionListener,
 
     private boolean keepRatio;
 
-    public GraphicSizePanel(Application app, int width, int height) {
+    public GraphicSizePanel(AppD app, int width, int height) {
 	this(app, width, height, true);
     }
 
-    public GraphicSizePanel(Application app, int width, int height,
+    public GraphicSizePanel(AppD app, int width, int height,
 	    boolean keepRatio) {
 	//this.app = app;
 

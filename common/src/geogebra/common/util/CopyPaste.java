@@ -26,7 +26,7 @@ import geogebra.common.kernel.geos.GeoAxis;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPolyLine;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -95,7 +95,7 @@ public class CopyPaste {
 	 * 
 	 */
 	protected static void removeDependentFromAxes(
-			ArrayList<ConstructionElement> geos, AbstractApplication app) {
+			ArrayList<ConstructionElement> geos, App app) {
 
 		ConstructionElement geo;
 		for (int i = geos.size() - 1; i >= 0; i--) {
@@ -475,7 +475,7 @@ public class CopyPaste {
 	 * @param app
 	 * @param geos
 	 */
-	public static void copyToXML(AbstractApplication app,
+	public static void copyToXML(App app,
 			ArrayList<GeoElement> geos) {
 
 		if (geos.isEmpty())
@@ -613,7 +613,7 @@ public class CopyPaste {
 	 * @param app
 	 * @param labels
 	 */
-	protected static void handleLabels(AbstractApplication app,
+	protected static void handleLabels(App app,
 			ArrayList<String> labels) {
 
 		Kernel kernel = app.getKernel();
@@ -625,12 +625,12 @@ public class CopyPaste {
 				if (app.getActiveEuclidianView() == app.getEuclidianView1()) {
 					app.addToEuclidianView(geo);
 					if (app.hasEuclidianView2()) {
-						geo.removeView(AbstractApplication.VIEW_EUCLIDIAN2);
+						geo.removeView(App.VIEW_EUCLIDIAN2);
 						app.getEuclidianView2().remove(geo);
 					}
 				} else {
 					app.removeFromEuclidianView(geo);
-					geo.addView(AbstractApplication.VIEW_EUCLIDIAN2);
+					geo.addView(App.VIEW_EUCLIDIAN2);
 					app.getEuclidianView2().add(geo);
 				}
 
@@ -669,7 +669,7 @@ public class CopyPaste {
 	 * @param app
 	 * @return boolean
 	 */
-	public static boolean pasteFast(AbstractApplication app) {
+	public static boolean pasteFast(App app) {
 		if (app.getActiveEuclidianView() != copySource)
 			return false;
 		if (copyObject != copyObject2)
@@ -683,7 +683,7 @@ public class CopyPaste {
 	 * 
 	 * @param app
 	 */
-	public static void pasteFromXML(AbstractApplication app) {
+	public static void pasteFromXML(App app) {
 
 		if (copiedXML == null)
 			return;
@@ -715,11 +715,11 @@ public class CopyPaste {
 			if (ev == app.getEuclidianView1()) {
 				app.getGgbApi().evalXML(copiedXMLforSameWindow.toString());
 				app.getKernel().getConstruction().updateConstruction();
-				app.setActiveView(AbstractApplication.VIEW_EUCLIDIAN);
+				app.setActiveView(App.VIEW_EUCLIDIAN);
 			} else {
 				app.getGgbApi().evalXML(copiedXMLforSameWindow.toString());
 				app.getKernel().getConstruction().updateConstruction();
-				app.setActiveView(AbstractApplication.VIEW_EUCLIDIAN2);
+				app.setActiveView(App.VIEW_EUCLIDIAN2);
 			}
 			handleLabels(app, copiedXMLlabelsforSameWindow);
 		} else {
@@ -728,11 +728,11 @@ public class CopyPaste {
 			if (ev == app.getEuclidianView1()) {
 				app.getGgbApi().evalXML(copiedXML.toString());
 				app.getKernel().getConstruction().updateConstruction();
-				app.setActiveView(AbstractApplication.VIEW_EUCLIDIAN);
+				app.setActiveView(App.VIEW_EUCLIDIAN);
 			} else {
 				app.getGgbApi().evalXML(copiedXML.toString());
 				app.getKernel().getConstruction().updateConstruction();
-				app.setActiveView(AbstractApplication.VIEW_EUCLIDIAN2);
+				app.setActiveView(App.VIEW_EUCLIDIAN2);
 			}
 			handleLabels(app, copiedXMLlabels);
 		}
@@ -747,7 +747,7 @@ public class CopyPaste {
 	 * would be better if this were called every time when kernel.storeUndoInfo
 	 * called and there wasn't anything deleted
 	 */
-	public static void pastePutDownCallback(AbstractApplication app) {
+	public static void pastePutDownCallback(App app) {
 		if (pasteFast(app)) {
 			copyObject = app.getKernel().getConstruction().getUndoManager()
 					.getCurrentUndoInfo();

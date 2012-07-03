@@ -21,9 +21,9 @@ package geogebra.gui;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.kernel.Kernel;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.gui.dialog.options.OptionsDialog;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -58,7 +58,7 @@ implements ActionListener {
      
     private ImageIcon iconZoom;
 
-    public ContextMenuGraphicsWindow(Application app){
+    public ContextMenuGraphicsWindow(AppD app){
     	super(app);	
     }
     
@@ -66,7 +66,7 @@ implements ActionListener {
      * @param app 
      * @param px 
      * @param py */
-    public ContextMenuGraphicsWindow(Application app, double px, double py) {  
+    public ContextMenuGraphicsWindow(AppD app, double px, double py) {  
         this(app);      
         
         iconZoom      = app.getImageIcon("zoom16.gif");
@@ -173,7 +173,7 @@ implements ActionListener {
     }
     
     protected void showOptionsDialog(){
-    	app.getGuiManager().setShowView(true, AbstractApplication.VIEW_PROPERTIES);
+    	app.getGuiManager().setShowView(true, App.VIEW_PROPERTIES);
     	app.getGuiManager().setFocusedPanel(app.getActiveEuclidianView().getViewID(), true);
     	//app.getDialogManager().showOptionsDialog(OptionsDialog.TAB_EUCLIDIAN);
 		//app.getGuiManager().showDrawingPadPropertiesDialog();

@@ -1,7 +1,7 @@
 package geogebra.gui.layout;
 
 import geogebra.gui.util.GeoGebraIcon;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.Component;
 import java.awt.Dimension;
@@ -28,7 +28,7 @@ public class ViewButton extends DockButton implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 
-	private Application app;
+	private AppD app;
 	private DockPanel panel;
 	private int viewId;
 
@@ -40,7 +40,7 @@ public class ViewButton extends DockButton implements ActionListener {
 	 * @param app
 	 * @param panel
 	 */
-	public ViewButton(Application app, DockPanel panel) {
+	public ViewButton(AppD app, DockPanel panel) {
 		super(app);
 		this.app = app;
 		this.panel = panel;

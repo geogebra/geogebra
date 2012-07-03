@@ -15,7 +15,7 @@ import geogebra.common.plugin.GeoClass;
 import geogebra.gui.view.spreadsheet.CellRangeProcessor;
 import geogebra.gui.view.spreadsheet.MyTable;
 import geogebra.gui.view.spreadsheet.SpreadsheetView;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.util.ArrayList;
 
@@ -29,7 +29,7 @@ import org.apache.commons.math.stat.descriptive.SummaryStatistics;
  */
 public class StatDialogController {
 
-	private Application app;
+	private AppD app;
 	private Kernel kernel; 
 	private Construction cons;
 	private MyTable spreadsheetTable;
@@ -71,7 +71,7 @@ public class StatDialogController {
 	 * @param spView
 	 * @param statDialog
 	 */
-	public StatDialogController(Application app, SpreadsheetView spView, StatDialog statDialog){
+	public StatDialogController(AppD app, SpreadsheetView spView, StatDialog statDialog){
 
 		this.app = app;
 		this.kernel = app.getKernel();

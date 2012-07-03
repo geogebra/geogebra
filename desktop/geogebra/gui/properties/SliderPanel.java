@@ -13,7 +13,7 @@ import geogebra.gui.AngleTextField;
 import geogebra.gui.dialog.PropertiesDialog;
 import geogebra.gui.dialog.PropertiesPanel;
 import geogebra.gui.inputfield.MyTextField;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.Component;
 import java.awt.FlowLayout;
@@ -53,7 +53,7 @@ public class SliderPanel
 	private JCheckBox cbSliderFixed, cbRandom;
 	private JComboBox coSliderHorizontal;
 	
-	private Application app;
+	private AppD app;
 	private AnimationStepPanel stepPanel;
 	private AnimationSpeedPanel speedPanel;
 	private Kernel kernel;
@@ -62,7 +62,7 @@ public class SliderPanel
 	private boolean useTabbedPane, includeRandom;
 	private boolean actionPerforming;
 
-	public SliderPanel(Application app, PropertiesPanel propPanel, boolean useTabbedPane, boolean includeRandom) {
+	public SliderPanel(AppD app, PropertiesPanel propPanel, boolean useTabbedPane, boolean includeRandom) {
 		this.app = app;
 		kernel = app.getKernel();
 		this.propPanel = propPanel;

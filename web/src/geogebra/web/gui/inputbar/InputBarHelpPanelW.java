@@ -1,24 +1,24 @@
 package geogebra.web.gui.inputbar;
 
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 
 import com.google.gwt.user.client.ui.HorizontalPanel;
 
 public class InputBarHelpPanelW extends HorizontalPanel {
 
-	private AbstractApplication app;
+	private App app;
 
-	public InputBarHelpPanelW(AbstractApplication app) {
+	public InputBarHelpPanelW(App app) {
 		super();
 		this.app = app;
     }
 
 	public void setLabels() {
-		 AbstractApplication.debug("Implementation needed...");
+		 App.debug("Implementation needed...");
     }
 
 	public void setCommands() {
-		 AbstractApplication.debug("Implementation needed...");
+		 App.debug("Implementation needed...");
     }
 
 }

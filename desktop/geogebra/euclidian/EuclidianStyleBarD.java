@@ -25,7 +25,7 @@ import geogebra.gui.color.ColorPopupMenuButton;
 import geogebra.gui.util.GeoGebraIcon;
 import geogebra.gui.util.MyToggleButton;
 import geogebra.gui.util.PopupMenuButton;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -53,7 +53,7 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 	// ggb
 	EuclidianControllerD ec;
 	protected EuclidianViewInterfaceCommon ev;
-	protected Application app;
+	protected AppD app;
 	private Construction cons;
 
 	// buttons and lists of buttons
@@ -199,7 +199,7 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 		if (mode == EuclidianConstants.MODE_MOVE) {
 
 			boolean hasGeosInThisView = false;
-			for (GeoElement geo : ((Application) ev.getApplication())
+			for (GeoElement geo : ((AppD) ev.getApplication())
 					.getSelectedGeos()) {
 				if (isVisibleInThisView(geo) && geo.isEuclidianVisible()) {
 					hasGeosInThisView = true;
@@ -213,7 +213,7 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 				}
 			}
 			if (hasGeosInThisView) {
-				activeGeoList = ((Application) ev.getApplication())
+				activeGeoList = ((AppD) ev.getApplication())
 						.getSelectedGeos();
 
 				// we also update stylebars according to just created geos
@@ -561,7 +561,7 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 		// ========================================
 		// pen button
 		btnPen = new MyToggleButton(
-				((Application) ev.getApplication())
+				((AppD) ev.getApplication())
 						.getImageIcon("applications-graphics.png"),
 				iconHeight) {
 
@@ -579,7 +579,7 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 		// ========================================
 		// delete button
 		btnDelete = new MyToggleButton(
-				((Application) ev.getApplication())
+				((AppD) ev.getApplication())
 						.getImageIcon("delete_small.gif"),
 				iconHeight) {
 
@@ -1287,7 +1287,7 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 				app.getImageIcon("format-justify-center.png"),
 				app.getImageIcon("format-justify-right.png") };
 		btnTableTextJustify = new PopupMenuButton(
-				(Application) ev.getApplication(), justifyIcons, 1, -1,
+				(AppD) ev.getApplication(), justifyIcons, 1, -1,
 				new Dimension(20, iconHeight),
 				geogebra.common.gui.util.SelectionTable.MODE_ICON) {
 
@@ -1325,7 +1325,7 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 		}
 
 		btnTableTextBracket = new PopupMenuButton(
-				(Application) ev.getApplication(), bracketIcons, 2, -1,
+				(AppD) ev.getApplication(), bracketIcons, 2, -1,
 				new Dimension(30, iconHeight),
 				geogebra.common.gui.util.SelectionTable.MODE_ICON) {
 

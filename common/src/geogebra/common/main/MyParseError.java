@@ -32,14 +32,14 @@ public class MyParseError extends MyError {
 	 * @param app application
 	 * @param errorName error name (should be a key in error.properties) 
 	 */
-    public MyParseError(AbstractApplication app, String errorName) {        
+    public MyParseError(App app, String errorName) {        
         super(app, errorName);
     }
     /**
 	 * @param app application
 	 * @param strs lines of the error
 	 */
-    public MyParseError(AbstractApplication app, String [] strs) {
+    public MyParseError(App app, String [] strs) {
         // set localized message        
         super(app, strs);
     }        

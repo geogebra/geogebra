@@ -2,9 +2,9 @@ package geogebra.plugin.jython;
 
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.main.GeoElementSelectionListener;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import org.python.util.PythonInterpreter;
 
@@ -20,7 +20,7 @@ import org.python.util.PythonInterpreter;
  * @author arno
  */
 public class PythonBridge extends geogebra.common.plugin.jython.PythonBridge implements View, GeoElementSelectionListener {
-	private Application application;
+	private AppD application;
 	private PythonFlatAPI api;
 	private PythonInterpreter interpreter = null;
 	private PythonScriptInterface pyInterface = null;
@@ -35,7 +35,7 @@ public class PythonBridge extends geogebra.common.plugin.jython.PythonBridge imp
 	 * so it can take a while...
 	 * @param app the GeoGebra application
 	 */
-	public PythonBridge(Application app) {
+	public PythonBridge(AppD app) {
 		application = app;
 		// FLAT
 		api = new PythonFlatAPI(app);
@@ -53,7 +53,7 @@ public class PythonBridge extends geogebra.common.plugin.jython.PythonBridge imp
 	 */
 	public synchronized void forceInit() {
 		if (!ready) {
-			AbstractApplication.debug("Initialising Python interpreter...");
+			App.debug("Initialising Python interpreter...");
 			System.setProperty("python.cachedir.skip", "true");
 			interpreter = new PythonInterpreter();
 			interpreter.exec("import sys; sys.path.extend(['__pyclasspath__/geogebra/plugin/jython', '__pyclasspath__/Lib'])");
@@ -62,7 +62,7 @@ public class PythonBridge extends geogebra.common.plugin.jython.PythonBridge imp
 			pyInterface.init(api);
 			application.getKernel().attach(this);
 			ready = true;
-			AbstractApplication.debug("Done Initialising Python interpreter.");
+			App.debug("Done Initialising Python interpreter.");
 		}
 	}
 	

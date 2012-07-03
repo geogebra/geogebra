@@ -4,16 +4,16 @@ package geogebra.web.kernel.geos;
 import com.google.gwt.dom.client.ImageElement;
 
 import geogebra.common.awt.GBufferedImage;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.web.util.ImageManager;
 
 public class GeoElementGraphicsAdapter extends
         geogebra.common.kernel.geos.GeoElementGraphicsAdapter {
 
-	private AbstractApplication app;
+	private App app;
 
-	public GeoElementGraphicsAdapter(AbstractApplication appl) {
-		app = (AbstractApplication) appl;
+	public GeoElementGraphicsAdapter(App appl) {
+		app = (App) appl;
 	}
 	
 	public GBufferedImage getFillImage() {

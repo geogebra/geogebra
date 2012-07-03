@@ -13,7 +13,7 @@ the Free Software Foundation.
 
 package geogebra.gui.editor;
 
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import javax.swing.text.DefaultEditorKit;
 import javax.swing.text.ViewFactory;
@@ -33,13 +33,13 @@ public class GeoGebraEditorKit extends DefaultEditorKit {
     public static final String MIMETYPE = "text/geogebra";
 	
 	private GeoGebraContext preferences;
-	private Application app;
+	private AppD app;
 	
 	/**
 	 * 
 	 * @param app the Application where this kit is used
 	 */
-	public GeoGebraEditorKit(Application app) {
+	public GeoGebraEditorKit(AppD app) {
 		this.app = app;
 	}
 	

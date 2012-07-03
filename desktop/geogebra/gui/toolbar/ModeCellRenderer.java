@@ -11,7 +11,7 @@ the Free Software Foundation.
 */
 
 package geogebra.gui.toolbar;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -31,13 +31,13 @@ implements ListCellRenderer {
 	
 	private static final long serialVersionUID = 1L;
 	
-	private Application app;
+	private AppD app;
 	
 	/**
 	 * Creates new cell renderer
 	 * @param app application
 	 */
-	public ModeCellRenderer(Application app) {
+	public ModeCellRenderer(AppD app) {
 		setOpaque(true);
 		setBackgroundNonSelectionColor(Color.white);
 		this.app = app;	
@@ -116,7 +116,7 @@ implements ListCellRenderer {
 	
 	private void handleSelection(boolean select) {
 		if (select) {
-			setBackground(Application.COLOR_SELECTION);
+			setBackground(AppD.COLOR_SELECTION);
 		} else {				
 			setBackground(getBackgroundNonSelectionColor());				
 		}

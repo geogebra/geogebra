@@ -1,6 +1,6 @@
 package geogebra.cas.view;
 
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -36,7 +36,7 @@ public class RowHeaderListener extends MouseAdapter implements KeyListener, List
 	
 	@Override
 	public void mousePressed(MouseEvent e) {
-		rightClick = Application.isRightClick(e);
+		rightClick = AppD.isRightClick(e);
 		table.stopEditing();
 		mousePressedRow = rowHeader.locationToIndex(e.getPoint());
 		rowHeader.requestFocus();

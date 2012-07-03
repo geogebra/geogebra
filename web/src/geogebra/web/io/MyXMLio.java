@@ -2,7 +2,7 @@ package geogebra.web.io;
 
 import geogebra.common.io.DocHandler;
 import geogebra.common.kernel.Construction;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.kernel.Kernel;
 
 public class MyXMLio extends geogebra.common.io.MyXMLio {
@@ -74,7 +74,7 @@ public class MyXMLio extends geogebra.common.io.MyXMLio {
 	 * undo.
 	 */
 	public synchronized StringBuilder getUndoXML(Construction c) {
-		AbstractApplication app = c.getApplication();
+		App app = c.getApplication();
 
 		StringBuilder sb = new StringBuilder();
 		addXMLHeader(sb);

@@ -1,8 +1,8 @@
 package geogebra.web.gui.app;
 
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.web.gui.menubar.GeoGebraMenubarW;
-import geogebra.web.main.Application;
+import geogebra.web.main.AppW;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -28,7 +28,7 @@ public class GGWMenuBar extends Composite {
 		
 	}
 	
-	public void init(AbstractApplication app) {
+	public void init(App app) {
 		menubar = new GeoGebraMenubarW(app);
 		ggbmenubarwrapper.add(menubar);
 	}

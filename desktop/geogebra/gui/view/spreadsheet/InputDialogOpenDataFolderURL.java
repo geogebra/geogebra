@@ -2,7 +2,7 @@ package geogebra.gui.view.spreadsheet;
 
 import geogebra.gui.dialog.InputDialog;
 import geogebra.gui.view.algebra.InputPanel.DialogType;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
@@ -18,7 +18,7 @@ public class InputDialogOpenDataFolderURL extends InputDialog{
 	private static final long serialVersionUID = 1L;
 	private SpreadsheetView view;
 	
-	public InputDialogOpenDataFolderURL(Application app, SpreadsheetView view, String initString) {
+	public InputDialogOpenDataFolderURL(AppD app, SpreadsheetView view, String initString) {
 		super(app.getFrame(), false);
 		this.app = app;	
 		this.view = view;

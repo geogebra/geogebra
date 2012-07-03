@@ -18,7 +18,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Macro;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.main.MyError;
 import geogebra.common.plugin.Operation;
 
@@ -34,7 +34,7 @@ public class CommandDispatcher {
 	/** kernel **/
 	protected Kernel kernel;
 	private Construction cons;
-	private AbstractApplication app;
+	private App app;
 
 	private boolean isCasActive = false;
 
@@ -1110,11 +1110,11 @@ public class CommandDispatcher {
 			case TrigCombine:
 				return new CAScmdProcessor(kernel);
 			default:
-				AbstractApplication.debug("missing case in CommandDispatcher");
+				App.debug("missing case in CommandDispatcher");
 				return null;
 			}
 		} catch (Exception e) {
-			AbstractApplication
+			App
 					.debug("Warning: command not found / CAS command called:"
 							+ cmdName);
 		}

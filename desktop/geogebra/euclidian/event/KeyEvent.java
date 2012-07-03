@@ -1,6 +1,6 @@
 package geogebra.euclidian.event;
 
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 
 import java.util.LinkedList;
 
@@ -10,7 +10,7 @@ public class KeyEvent extends geogebra.common.euclidian.event.KeyEvent{
 	private java.awt.event.KeyEvent event;
 
 	private KeyEvent(java.awt.event.KeyEvent e) {
-		AbstractApplication.debug("possible missing release()");
+		App.debug("possible missing release()");
 		this.event = e;
 	}
 	

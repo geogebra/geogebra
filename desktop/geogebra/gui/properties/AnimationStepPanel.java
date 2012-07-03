@@ -8,7 +8,7 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.gui.AngleTextField;
 import geogebra.gui.dialog.PropertiesDialog;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.Component;
 import java.awt.FlowLayout;
@@ -38,7 +38,7 @@ public class AnimationStepPanel
 	
 	private Kernel kernel;
 
-	public AnimationStepPanel(Application app) {
+	public AnimationStepPanel(AppD app) {
 		kernel = app.getKernel();
 		
 		// text field for animation step

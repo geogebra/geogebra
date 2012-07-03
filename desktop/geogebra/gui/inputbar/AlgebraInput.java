@@ -19,14 +19,14 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoText;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.main.MyError;
 import geogebra.gui.app.GeoGebraFrame;
 import geogebra.gui.inputfield.AutoCompleteTextFieldD;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.gui.view.algebra.AlgebraInputDropTargetListener;
 import geogebra.gui.view.algebra.InputPanel;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
 import java.awt.SystemColor;
@@ -52,7 +52,7 @@ public class AlgebraInput extends  JPanel implements ActionListener, KeyListener
 	private static final long serialVersionUID = 1L;
 
 
-	private Application app;
+	private AppD app;
 
 	// autocompletion text field
 	private AutoCompleteTextFieldD inputField;
@@ -66,7 +66,7 @@ public class AlgebraInput extends  JPanel implements ActionListener, KeyListener
 	 * creates new AlgebraInput
 	 * @param app 
 	 */
-	public AlgebraInput(Application app) {		
+	public AlgebraInput(AppD app) {		
 		this.app = app;		
 
 		app.removeTraversableKeys(this);
@@ -251,7 +251,7 @@ public class AlgebraInput extends  JPanel implements ActionListener, KeyListener
 
 			// ==========================================
 			// hidden switch to toggle native/crossPlatform LAF
-			if (Application.getControlDown() && Application.getShiftDown()) {
+			if (AppD.getControlDown() && AppD.getShiftDown()) {
 				GeoGebraFrame.toggleCrossPlatformLAF();
 				SwingUtilities.updateComponentTreeUI(app.getFrame());
 				app.getFrame().pack();

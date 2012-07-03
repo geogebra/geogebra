@@ -7,7 +7,7 @@ import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoAxis;
 import geogebra.common.kernel.kernelND.GeoAxisND;
 import geogebra.common.util.NumberFormatAdapter;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 import geogebra3D.euclidian3D.opengl.PlotterBrush;
 import geogebra3D.euclidian3D.opengl.Renderer;
 
@@ -110,7 +110,7 @@ public class DrawAxis3D extends DrawLine3D {
     	//Application.debug("iMinMax="+iMin+","+iMax);
     	
     	if (nb<1){
-    		Application.debug("nb="+nb);
+    		AppD.debug("nb="+nb);
     		//labels = null;
     		return;
     	}

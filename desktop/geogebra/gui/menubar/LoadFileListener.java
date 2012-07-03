@@ -1,7 +1,7 @@
 package geogebra.gui.menubar;
 
 import geogebra.gui.app.GeoGebraFrame;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,10 +9,10 @@ import java.io.File;
 
 public class LoadFileListener implements ActionListener {
 
-		private Application app;
+		private AppD app;
 		private File file;
 		
-		public LoadFileListener(Application app, File file) {
+		public LoadFileListener(AppD app, File file) {
 			this.app = app;
 			this.file = file;
 		}

@@ -1,6 +1,6 @@
 package geogebra.common.util;
 
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 
 /**
  * Collection of which languages are official in which countries
@@ -175,7 +175,7 @@ public enum Language {
 	 * @param country 2 letter country, eg GB
 	 * @return
 	 */
-	public static String getCountry(AbstractApplication app, String language, String country, boolean useGeoIP) {
+	public static String getCountry(App app, String language, String country, boolean useGeoIP) {
 		//AbstractApplication.debug(language+" "+country);
 		
 		Language lang = Language.getLanguage(language);
@@ -210,7 +210,7 @@ public enum Language {
 			// fake for testing
 			//countryFromGeoIP="IR";
 			
-			AbstractApplication.debug("country from GeoIP: "+countryFromGeoIP);
+			App.debug("country from GeoIP: "+countryFromGeoIP);
 
 			for (int i = 0 ; i < c.length ; i++) {
 				//AbstractApplication.debug(c[i].getISO()+" "+countryFromGeoIP);
@@ -219,7 +219,7 @@ public enum Language {
 				}
 			}	
 		} catch (Exception e) {
-			AbstractApplication.warn("Getting country code from geoip failed: "+e.getMessage());
+			App.warn("Getting country code from geoip failed: "+e.getMessage());
 		}
        		
        		
@@ -236,7 +236,7 @@ public enum Language {
 				return l;
 			}
 		}
-		AbstractApplication.error("language not recognized: "+language);
+		App.error("language not recognized: "+language);
 		return null;
 	}
 	public static String getDisplayName(String ggbLangCode) {
@@ -244,14 +244,14 @@ public enum Language {
 		// eg change en_GB to enGB
 		ggbLangCode = ggbLangCode.replaceAll("_", "");
 		
-		AbstractApplication.debug("looking for: "+ggbLangCode);
+		App.debug("looking for: "+ggbLangCode);
 		for (Language l : Language.values()) {
 			if (l.locale.equals(ggbLangCode) || l.localeGWT.replaceAll("_", "").equals(ggbLangCode)) {
 				return l.name;
 			}
 		}
 		
-		AbstractApplication.error("language not found: "+ggbLangCode);
+		App.error("language not found: "+ggbLangCode);
 		
 		return null;
 	}
@@ -261,14 +261,14 @@ public enum Language {
 		// eg change en_GB to enGB
 		ggbLangCode = ggbLangCode.replaceAll("_", "");
 		
-		AbstractApplication.debug("looking for: "+ggbLangCode);
+		App.debug("looking for: "+ggbLangCode);
 		for (Language l : Language.values()) {
 			if (l.localeGWT.replaceAll("_", "").equals(ggbLangCode)) {
 				return l.enableInGWT;
 			}
 		}
 		
-		AbstractApplication.error("language not found: "+ggbLangCode);
+		App.error("language not found: "+ggbLangCode);
 		
 		return false;
 	}
@@ -284,7 +284,7 @@ public enum Language {
 			}
 		}
 		
-		AbstractApplication.error("language not found: "+language);
+		App.error("language not found: "+language);
 		return "a";
 	}
 }

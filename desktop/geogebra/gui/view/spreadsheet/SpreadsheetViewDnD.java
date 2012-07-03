@@ -6,7 +6,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.gui.view.algebra.AlgebraView;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 import geogebra.util.AlgebraViewTransferHandler;
 
 import java.awt.datatransfer.DataFlavor;
@@ -34,7 +34,7 @@ import java.util.ArrayList;
  */
 public class SpreadsheetViewDnD implements DragGestureListener, DragSourceListener, DropTargetListener{
 
-	private Application app;
+	private AppD app;
 	private SpreadsheetView view;
 	private MyTable table;
 
@@ -64,7 +64,7 @@ public class SpreadsheetViewDnD implements DragGestureListener, DragSourceListen
 	 * @param app
 	 * @param view
 	 */
-	public SpreadsheetViewDnD(Application app, SpreadsheetView view){
+	public SpreadsheetViewDnD(AppD app, SpreadsheetView view){
 		this.app = app;
 		this.view = view;
 		this.table = view.getTable();
@@ -204,7 +204,7 @@ public class SpreadsheetViewDnD implements DragGestureListener, DragSourceListen
 		if (t.isDataFlavorSupported(AlgebraViewTransferHandler.algebraViewFlavor)){
 
 			// if modifier key down, open a dialog to get user drop options 
-			if(Application.getShiftDown() || Application.getControlDown()){
+			if(AppD.getShiftDown() || AppD.getControlDown()){
 				DialogCopyToSpreadsheet id = new DialogCopyToSpreadsheet(app,this);
 				id.setVisible(true);	
 			}

@@ -1,7 +1,7 @@
 package geogebra.gui.layout;
 
-import geogebra.common.main.AbstractApplication;
-import geogebra.main.Application;
+import geogebra.common.main.App;
+import geogebra.main.AppD;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -17,7 +17,7 @@ import javax.swing.JToolBar;
 public class ViewButtonBar extends JToolBar {
 
 	private static final long serialVersionUID = 1L;
-	private Application app;
+	private AppD app;
 	private LayoutD layout;
 
 	private ArrayList<ViewButton> viewButtons;
@@ -25,7 +25,7 @@ public class ViewButtonBar extends JToolBar {
 	/**
 	 * @param app
 	 */
-	public ViewButtonBar(Application app) {
+	public ViewButtonBar(AppD app) {
 
 		this.app = app;
 		this.layout = app.getGuiManager().getLayout();
@@ -52,7 +52,7 @@ public class ViewButtonBar extends JToolBar {
 
 		// get the PropertiesView dock panel first
 		for (DockPanel panel : dockPanels) {
-			if (panel.getViewId() == Application.VIEW_PROPERTIES) {
+			if (panel.getViewId() == AppD.VIEW_PROPERTIES) {
 				viewButtons.add(new ViewButton(app, panel));
 			}
 		}
@@ -62,7 +62,7 @@ public class ViewButtonBar extends JToolBar {
 
 			// skip panels with negative order and the PropertiesView panel
 			if (panel.getMenuOrder() < 0
-					|| panel.getViewId() == Application.VIEW_PROPERTIES) {
+					|| panel.getViewId() == AppD.VIEW_PROPERTIES) {
 				continue;
 			}
 
@@ -84,8 +84,8 @@ public class ViewButtonBar extends JToolBar {
 
 				btn.setSelected(app.getGuiManager().showView(btn.getViewId()));
 
-				if (panel.getViewId() != AbstractApplication.VIEW_PROPERTIES 
-						&& panel.getViewId() != AbstractApplication.VIEW_ASSIGNMENT ) 
+				if (panel.getViewId() != App.VIEW_PROPERTIES 
+						&& panel.getViewId() != App.VIEW_ASSIGNMENT ) 
 					add(btn);
 		}
 		

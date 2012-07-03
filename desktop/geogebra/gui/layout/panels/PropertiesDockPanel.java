@@ -6,11 +6,11 @@ import java.awt.event.WindowFocusListener;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.main.GeoElementSelectionListener;
 import geogebra.gui.layout.DockPanel;
 import geogebra.gui.view.properties.PropertiesViewD;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
@@ -22,7 +22,7 @@ import javax.swing.JDialog;
 public class PropertiesDockPanel extends DockPanel implements
 		WindowFocusListener {
 	private static final long serialVersionUID = 1L;
-	private Application app;
+	private AppD app;
 	private PropertiesViewD view;
 
 	JDialog dialog = null;
@@ -30,8 +30,8 @@ public class PropertiesDockPanel extends DockPanel implements
 	/**
 	 * @param app
 	 */
-	public PropertiesDockPanel(Application app) {
-		super(AbstractApplication.VIEW_PROPERTIES, // view id
+	public PropertiesDockPanel(AppD app) {
+		super(App.VIEW_PROPERTIES, // view id
 				"Properties", // view title phrase
 				null, // toolbar string
 				true, // style bar?

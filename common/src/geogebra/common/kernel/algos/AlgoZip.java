@@ -19,7 +19,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 
 /**
  * Algorithm for the Zip[ expression of var, var, list, var, list, ... ]
@@ -192,7 +192,7 @@ public class AlgoZip extends AlgoElement {
 					long mem = app.freeMemory();
 					list.clearCache();
 					kernel.initUndoInfo(); // clear all undo info
-					AbstractApplication
+					App
 							.debug("AlgoSequence aborted: free memory reached "
 									+ mem);
 					return;
@@ -247,7 +247,7 @@ public class AlgoZip extends AlgoElement {
 			AlgoElement drawAlgo = expression.getDrawAlgorithm();
 			if (listElement instanceof GeoNumeric
 					&& drawAlgo instanceof AlgoDrawInformation) {
-				AbstractApplication.debug(expression.getDrawAlgorithm().getClass()
+				App.debug(expression.getDrawAlgorithm().getClass()
 						.getName());
 				listElement.setDrawAlgorithm(((AlgoDrawInformation) drawAlgo)
 						.copy());
@@ -301,7 +301,7 @@ public class AlgoZip extends AlgoElement {
 				long mem = app.freeMemory();
 				list.clearCache();
 				kernel.initUndoInfo(); // clear all undo info
-				AbstractApplication.debug("AlgoSequence aborted: free memory reached "
+				App.debug("AlgoSequence aborted: free memory reached "
 						+ mem);
 				return;
 			}

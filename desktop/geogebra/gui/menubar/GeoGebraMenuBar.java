@@ -2,11 +2,11 @@ package geogebra.gui.menubar;
 
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.kernel.Kernel;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.export.ScalingPrintGridable;
 import geogebra.gui.layout.DockManager;
 import geogebra.gui.layout.LayoutD;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 import geogebra.main.GeoGebraPreferences;
 
 import java.awt.BorderLayout;
@@ -52,7 +52,7 @@ public class GeoGebraMenuBar extends JMenuBar {
 
 	private BaseMenu fileMenu, editMenu, viewMenu, perspectivesMenu, optionsMenu, toolsMenu, windowMenu, helpMenu, languageMenu;
 
-	private Application app;
+	private AppD app;
 	private LayoutD layout;
 
 
@@ -61,7 +61,7 @@ public class GeoGebraMenuBar extends JMenuBar {
 	 * @param app Application
 	 * @param layout Layout
 	 */
-	public GeoGebraMenuBar(Application app, LayoutD layout) {
+	public GeoGebraMenuBar(AppD app, LayoutD layout) {
 		this.layout = layout;
 
 		/**
@@ -224,7 +224,7 @@ public class GeoGebraMenuBar extends JMenuBar {
 
 						if (!geoIPflagname.equals(flagName)) {
 							languageLabel.setIcon(app.getFlagIcon(flagName));
-							AbstractApplication.debug("updating flag to "+geoIPflagname);
+							App.debug("updating flag to "+geoIPflagname);
 						}
 					}
 				}).start();		
@@ -235,7 +235,7 @@ public class GeoGebraMenuBar extends JMenuBar {
 	 * Update the menubar.
 	 */
 	public void updateMenubar() {
-		AbstractApplication.debug("update menu");
+		App.debug("update menu");
 		fileMenu.update();
 		editMenu.update();
 		viewMenu.update();
@@ -315,7 +315,7 @@ public class GeoGebraMenuBar extends JMenuBar {
 	 * 
 	 * @param app
 	 */
-	public static void showPrintPreview(final Application app) {
+	public static void showPrintPreview(final AppD app) {
 		try {
 			Thread runner = new Thread() {
 				@Override
@@ -356,18 +356,18 @@ public class GeoGebraMenuBar extends JMenuBar {
 
 						DockManager dm=app.getGuiManager().getLayout().getDockManager();
 						geogebra.export.PrintPreview pre;
-						if (dm.getFocusedPanel()==dm.getPanel(AbstractApplication.VIEW_CAS))
+						if (dm.getFocusedPanel()==dm.getPanel(App.VIEW_CAS))
 							// TODO I think "new ScalingPrintGridable" here is not so nice. Maybe the constructor of PrintPreview should be changed
 							pre = new geogebra.export.PrintPreview(app, new ScalingPrintGridable(app.getGuiManager().getCasView()), PageFormat.LANDSCAPE);
-						else if (dm.getFocusedPanel()==dm.getPanel(AbstractApplication.VIEW_CONSTRUCTION_PROTOCOL))
+						else if (dm.getFocusedPanel()==dm.getPanel(App.VIEW_CONSTRUCTION_PROTOCOL))
 							pre = new geogebra.export.PrintPreview(app, app.getGuiManager().getConstructionProtocolView(), PageFormat.LANDSCAPE);
-						else if (dm.getFocusedPanel()==dm.getPanel(AbstractApplication.VIEW_SPREADSHEET))
+						else if (dm.getFocusedPanel()==dm.getPanel(App.VIEW_SPREADSHEET))
 							pre = new geogebra.export.PrintPreview(app, app.getGuiManager().getSpreadsheetView(), PageFormat.LANDSCAPE);
-						else if (dm.getFocusedPanel()==dm.getPanel(AbstractApplication.VIEW_EUCLIDIAN2))
+						else if (dm.getFocusedPanel()==dm.getPanel(App.VIEW_EUCLIDIAN2))
 							pre = new geogebra.export.PrintPreview(app, app.getEuclidianView2(), PageFormat.LANDSCAPE);
-						else if (dm.getFocusedPanel()==dm.getPanel(AbstractApplication.VIEW_ALGEBRA))
+						else if (dm.getFocusedPanel()==dm.getPanel(App.VIEW_ALGEBRA))
 							pre = new geogebra.export.PrintPreview(app, app.getGuiManager().getAlgebraView(), PageFormat.LANDSCAPE);
-						else if (dm.getFocusedPanel()==dm.getPanel(AbstractApplication.VIEW_EUCLIDIAN))
+						else if (dm.getFocusedPanel()==dm.getPanel(App.VIEW_EUCLIDIAN))
 							pre = new geogebra.export.PrintPreview(app, app.getEuclidianView1(), PageFormat.LANDSCAPE);
 						//if there is no view in focus (e.g. just closed the focused view),
 						// it prints the GeoGebra main window
@@ -376,7 +376,7 @@ public class GeoGebraMenuBar extends JMenuBar {
 						pre.setVisible(true);
 					} catch (Exception e) {
 						e.printStackTrace();
-						AbstractApplication.debug("Print preview not available");
+						App.debug("Print preview not available");
 					} finally{
 						app.setDefaultCursor();						
 					}
@@ -395,7 +395,7 @@ public class GeoGebraMenuBar extends JMenuBar {
 	 * 
 	 * @param app
 	 */
-	public static void showAboutDialog(final Application app) {
+	public static void showAboutDialog(final AppD app) {
 		
 
 		StringBuilder sb = new StringBuilder();
@@ -407,12 +407,12 @@ public class GeoGebraMenuBar extends JMenuBar {
 		sb.append(", ");
 		sb.append(app.getHeapSize()/1024/1024);
 		sb.append("MB, ");
-		sb.append(AbstractApplication.getCASVersionString());
+		sb.append(App.getCASVersionString());
 		sb.append(")<br>");	
 		sb.append(GeoGebraConstants.BUILD_DATE);
 
 		// license
-		String text = app.loadTextFile(Application.LICENSE_FILE);
+		String text = app.loadTextFile(AppD.LICENSE_FILE);
 		// We may want to modify the window size when the license file changes:
 		JTextArea textArea = new JTextArea(24, 72); // window size fine tuning (rows, cols)
 		JScrollPane scrollPane = new JScrollPane(textArea,
@@ -453,7 +453,7 @@ public class GeoGebraMenuBar extends JMenuBar {
 		dialog.setVisible(true);
 	}
 	
-	private static void appendVersion(StringBuilder sb, Application app) {
+	private static void appendVersion(StringBuilder sb, AppD app) {
 		sb.append(app.getPlain("ApplicationName"));
 		sb.append(" ");
 		sb.append(GeoGebraConstants.VERSION_STRING);
@@ -464,12 +464,12 @@ public class GeoGebraMenuBar extends JMenuBar {
 			// default: do nothing
 		}
 		if (app.getApplet() != null) sb.append(" Applet");
-		else if (Application.isWebstartDebug()) sb.append(" Debug");
-		else if (Application.isWebstart()) sb.append(" Webstart");		
+		else if (AppD.isWebstartDebug()) sb.append(" Debug");
+		else if (AppD.isWebstart()) sb.append(" Webstart");		
 	}
 
 
-	public static void copyDebugInfoToClipboard(Application app) {
+	public static void copyDebugInfoToClipboard(AppD app) {
 		StringBuilder sb = new StringBuilder();
 		sb.append("[code]");
 		appendVersion(sb, app);
@@ -478,7 +478,7 @@ public class GeoGebraMenuBar extends JMenuBar {
 		sb.append(")\nJava: ");
 		sb.append(System.getProperty("java.version"));
 		sb.append(")\nCodebase: ");
-		sb.append(Application.getCodeBase());
+		sb.append(AppD.getCodeBase());
 		sb.append("\nOS: ");
 		sb.append(System.getProperty("os.name"));
 		sb.append("\nArchitecture: ");
@@ -486,7 +486,7 @@ public class GeoGebraMenuBar extends JMenuBar {
 		sb.append("\nHeap: ");
 		sb.append(app.getHeapSize()/1024/1024);
 		sb.append("MB\nCAS: ");
-		sb.append(Application.getCASVersionString());
+		sb.append(AppD.getCASVersionString());
 		sb.append("\n\n");
 
 		// copy log file to systemInfo

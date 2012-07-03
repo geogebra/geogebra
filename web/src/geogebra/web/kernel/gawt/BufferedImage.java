@@ -8,7 +8,7 @@ import com.google.gwt.canvas.dom.client.ImageData;
 import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.user.client.DOM;
 
-import geogebra.web.main.Application;
+import geogebra.web.main.AppW;
 
 public class BufferedImage {
 
@@ -48,7 +48,7 @@ public class BufferedImage {
 		if (imageElement != null)// This should not called with null 
 			img = imageElement;
 		else
-			Application.debug("BufferedImage (gawt) called with null");
+			AppW.debug("BufferedImage (gawt) called with null");
     }
 
 	// this clones this bufferedimage!
@@ -67,7 +67,7 @@ public class BufferedImage {
 					0,0);
 			img = getImageElement();
 		} else {
-			Application.debug("BufferedImage (gawt) called with null Canvas");
+			AppW.debug("BufferedImage (gawt) called with null Canvas");
 		}
 	}
 

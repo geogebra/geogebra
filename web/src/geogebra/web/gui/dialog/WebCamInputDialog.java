@@ -1,6 +1,6 @@
 package geogebra.web.gui.dialog;
 
-import geogebra.web.main.Application;
+import geogebra.web.main.AppW;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -14,13 +14,13 @@ import com.google.gwt.user.client.ui.SimplePanel;
 
 public class WebCamInputDialog extends PopupPanel implements ClickHandler{
 
-	protected Application app;
+	protected AppW app;
 
 	protected SimplePanel inputWidget;
 	protected Button btCancel, btOK;
 	protected Element video;
 
-	public WebCamInputDialog(boolean modal, Application app) {
+	public WebCamInputDialog(boolean modal, AppW app) {
 	    super(false, modal);
 	    this.app = app;
 	    createGUI();

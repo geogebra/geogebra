@@ -3,7 +3,7 @@ package geogebra.gui.view.algebra;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 
 /**
@@ -22,7 +22,7 @@ public class MyRendererForAlgebraView extends MyRendererForAlgebraTree{
 	 * @param app application
 	 * @param view view
 	 */
-	public MyRendererForAlgebraView(Application app, AlgebraTree view) {
+	public MyRendererForAlgebraView(AppD app, AlgebraTree view) {
 		super(app, view);
 	}
 

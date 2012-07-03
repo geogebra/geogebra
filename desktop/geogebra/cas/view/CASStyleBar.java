@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 
-import geogebra.main.Application;
+import geogebra.main.AppD;
 import geogebra.cas.view.CASView;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.geos.GeoElement;
@@ -29,7 +29,7 @@ public class CASStyleBar extends JToolBar implements ActionListener{
 	/** */
 	private static final long serialVersionUID = 1L;
 	
-	protected Application app;
+	protected AppD app;
 	protected CASView casView;
 	
 	// buttons and lists of buttons
@@ -49,7 +49,7 @@ public class CASStyleBar extends JToolBar implements ActionListener{
 	private boolean isIniting = false;
 	private ArrayList<GeoElement> selectedRows;
 		
-	public CASStyleBar(CASView view, Application app){
+	public CASStyleBar(CASView view, AppD app){
 		isIniting = true;
 		this.app = app;
 		this.casView = view;

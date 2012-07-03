@@ -5,7 +5,7 @@ import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoList;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.main.MyError;
 
 /**
@@ -29,7 +29,7 @@ public class CmdKeepIf extends CommandProcessor {
 		boolean[] ok = new boolean[n];
 		GeoElement[] arg;
 		arg = resArgs(c);
-AbstractApplication.debug(n);
+App.debug(n);
 		switch (n) {
 		case 2:
 

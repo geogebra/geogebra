@@ -11,7 +11,7 @@ import geogebra.euclidian.EuclidianViewD;
 import geogebra.gui.dialog.options.OptionsUtil.TitlePanel;
 import geogebra.gui.util.FullWidthLayout;
 import geogebra.gui.view.consprotocol.ConstructionProtocolNavigation;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -57,7 +57,7 @@ public class OptionsLayoutD extends geogebra.common.gui.dialog.options.OptionsLa
 	/** */
 	private static final long serialVersionUID = 1L;
 
-	private Application app;
+	private AppD app;
 	private Settings settings;
 
 	/** */
@@ -87,7 +87,7 @@ public class OptionsLayoutD extends geogebra.common.gui.dialog.options.OptionsLa
 	 * 
 	 * @param app
 	 */
-	public OptionsLayoutD(Application app) {
+	public OptionsLayoutD(AppD app) {
 		this.wrappedPanel = new JPanel(new BorderLayout());
 
 		this.app = app;

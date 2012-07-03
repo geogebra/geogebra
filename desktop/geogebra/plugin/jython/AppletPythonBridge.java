@@ -1,9 +1,9 @@
 package geogebra.plugin.jython;
 
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 public class AppletPythonBridge extends PythonBridge {
-	public AppletPythonBridge(Application app) {
+	public AppletPythonBridge(AppD app) {
 		super(app);
 	}
 

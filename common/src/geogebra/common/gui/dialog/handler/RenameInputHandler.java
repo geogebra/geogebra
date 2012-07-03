@@ -5,7 +5,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.LabelManager;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.main.MyError;
 
 public class RenameInputHandler implements InputHandler {
@@ -13,11 +13,11 @@ public class RenameInputHandler implements InputHandler {
 
 	private boolean storeUndo;
 
-	private AbstractApplication app;
+	private App app;
 
 	
 
-	public RenameInputHandler(AbstractApplication app, GeoElement geo, boolean storeUndo) {
+	public RenameInputHandler(App app, GeoElement geo, boolean storeUndo) {
 		this.app = app;
 		this.geo = geo;
 		this.storeUndo = storeUndo;

@@ -45,7 +45,7 @@ import geogebra.common.kernel.statistics.AlgoMean;
 import geogebra.common.kernel.statistics.AlgoStandardDeviation;
 import geogebra.common.plugin.Operation;
 import geogebra.gui.view.spreadsheet.statdialog.StatDialog.Regression;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.Color;
 import java.util.ArrayList;
@@ -58,7 +58,7 @@ import java.util.ArrayList;
  */
 public class StatGeo   {
 
-	private Application app;
+	private AppD app;
 	private Kernel kernel; 
 	private Construction cons;
 
@@ -79,7 +79,7 @@ public class StatGeo   {
 	/*************************************************
 	 * Constructs a GeoPlot instance
 	 */
-	public StatGeo(Application app){
+	public StatGeo(AppD app){
 
 		this.app = app;	
 		kernel = app.getKernel();

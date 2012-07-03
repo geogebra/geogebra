@@ -5,7 +5,7 @@ import geogebra.common.awt.GPathIterator;
 import geogebra.common.awt.GPoint2D;
 import geogebra.common.awt.GRectangle;
 import geogebra.common.awt.GRectangle2D;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 
 public class GGeneralPathD extends geogebra.common.awt.GGeneralPath implements geogebra.awt.GShapeD{
@@ -23,7 +23,7 @@ public class GGeneralPathD extends geogebra.common.awt.GGeneralPath implements g
 	}
 	public static java.awt.geom.GeneralPath getAwtGeneralPath(geogebra.common.awt.GGeneralPath gp){
 		if(!(gp instanceof geogebra.awt.GGeneralPathD)){
-			if (gp!= null) Application.debug("other type");
+			if (gp!= null) AppD.debug("other type");
 			return null;
 		}
 		return ((geogebra.awt.GGeneralPathD)gp).impl;

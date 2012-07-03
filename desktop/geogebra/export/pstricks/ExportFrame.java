@@ -1,5 +1,5 @@
 package geogebra.export.pstricks;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -51,7 +51,7 @@ abstract public class ExportFrame extends JFrame{
 	 // end changes
 	protected JScrollPane js;
 	protected JTextArea textarea;
-	protected Application app;
+	protected AppD app;
 	protected double width,height;
 	protected JButton buttonSave;
 //	private ExportFrame ef;
@@ -151,7 +151,7 @@ abstract public class ExportFrame extends JFrame{
 			public void actionPerformed(ActionEvent e){
         		currentFile =
 		            app.getGuiManager().showSaveDialog(
-		                Application.FILE_EXT_TEX, currentFile,
+		                AppD.FILE_EXT_TEX, currentFile,
 		                "TeX " + app.getMenu("Files"), true, false);
 		        if (currentFile == null)
 		            return;

@@ -7,7 +7,7 @@ import geogebra.common.awt.GFont;
 import geogebra.common.awt.GGraphics2D;
 import geogebra.common.euclidian.DrawEquationInterface;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.web.euclidian.EuclidianViewW;
 import geogebra.web.gui.view.algebra.RadioButtonTreeItem;
 import geogebra.web.helper.ScriptLoadCallback;
@@ -34,9 +34,9 @@ public class DrawEquationWeb implements DrawEquationInterface {
 	private static HashMap<String, SpanElement> equations = new HashMap<String, SpanElement>();
 	private static HashMap<String, Integer> equationAges = new HashMap<String, Integer>();
 	private boolean needToDrawEquation = false;
-	private AbstractApplication app;
+	private App app;
 	
-	public DrawEquationWeb(AbstractApplication app) {
+	public DrawEquationWeb(App app) {
 		//export module base url;
 		exportGetModuleBaseUrl();
 		this.app = app;
@@ -71,7 +71,7 @@ public class DrawEquationWeb implements DrawEquationInterface {
 	    $wnd.cvm.box.init(moduleBaseURL);
     }-*/;
 
-	public void setUseJavaFontsForLaTeX(AbstractApplication app, boolean b) {
+	public void setUseJavaFontsForLaTeX(App app, boolean b) {
 	    // not relevant for web
     }
 
@@ -132,7 +132,7 @@ public class DrawEquationWeb implements DrawEquationInterface {
 		// no scriptloaded check yet (is it necessary?)
 		// no EuclidianView 1,2 yet
 
-		AbstractApplication.debug("Algebra View: "+eqstring);
+		App.debug("Algebra View: "+eqstring);
 
 		DivElement ih = DOM.createDiv().cast();
 		ih.getStyle().setPosition(Style.Position.RELATIVE);
@@ -143,7 +143,7 @@ public class DrawEquationWeb implements DrawEquationInterface {
 		ih.getStyle().setColor(GColor.getColorString(fgColor));
 	}
 
-	public GDimension drawEquation(AbstractApplication app, GeoElement geo,
+	public GDimension drawEquation(App app, GeoElement geo,
             GGraphics2D g2, int x, int y, String eqstring, GFont font, boolean serif,
             GColor fgColor, GColor bgColor, boolean useCache) {
 		
@@ -161,7 +161,7 @@ public class DrawEquationWeb implements DrawEquationInterface {
 			eqstring = eqstring.replace("\\;","");
 			eqstring = eqstring.replace("\\,","");
 
-			AbstractApplication.debug(eqstring);
+			App.debug(eqstring);
 
 			// remove $s
 			eqstring = eqstring.trim();
@@ -174,7 +174,7 @@ public class DrawEquationWeb implements DrawEquationInterface {
 				ih = DOM.createSpan().cast();
 				ih.getStyle().setPosition(Style.Position.ABSOLUTE);
 				drawEquationMathQuill(ih, eqstring,
-					((Application)app).getCanvas().getCanvasElement().getParentElement());
+					((AppW)app).getCanvas().getCanvasElement().getParentElement());
 				equations.put(eqstring, ih);
 			} else {
 				ih.getStyle().setDisplay(Style.Display.INLINE);

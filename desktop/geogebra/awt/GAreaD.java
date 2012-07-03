@@ -4,7 +4,7 @@ import geogebra.common.awt.GAffineTransform;
 import geogebra.common.awt.GPathIterator;
 import geogebra.common.awt.GRectangle;
 import geogebra.common.awt.GRectangle2D;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.Shape;
 
@@ -27,7 +27,7 @@ public class GAreaD implements geogebra.common.awt.GArea, geogebra.awt.GShapeD{
 	}
 	public static java.awt.geom.Area getAWTArea(geogebra.common.awt.GArea a){
 		if(!(a instanceof GAreaD)){
-			if(a!=null) Application.debug("other type");
+			if(a!=null) AppD.debug("other type");
 			return null;
 		}
 		return ((GAreaD)a).impl;

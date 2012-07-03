@@ -48,11 +48,11 @@ import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
 import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.Font;
 import java.awt.FontMetrics;
@@ -107,7 +107,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
     /**
      * @param app
      */
-    public GeoGebraToAsymptote(final Application app) {
+    public GeoGebraToAsymptote(final AppD app) {
         super(app);
     }
     @Override
@@ -2160,7 +2160,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
         // For GeoElement that don't have a Label
         // For example (created with geoList)
         catch(NullPointerException e){
-        	AbstractApplication.debug(e);
+        	App.debug(e);
         }
     }   
     

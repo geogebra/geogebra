@@ -10,7 +10,7 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoDummyVariable;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.plugin.Operation;
 /**
  *  Traversing objects are allowed to traverse through Equation,
@@ -56,7 +56,7 @@ public interface Traversing {
 	 *
 	 */
 	public class CommandReplacer implements Traversing {
-		private AbstractApplication app;
+		private App app;
 		public ExpressionValue process(ExpressionValue ev) {
 			if(ev instanceof Command){
 				Command c= (Command)ev;
@@ -85,7 +85,7 @@ public interface Traversing {
 		 * @param app application (needed to check which commands are valid)
 		 * @return replacer
 		 */
-		public static CommandReplacer getReplacer(AbstractApplication app){
+		public static CommandReplacer getReplacer(App app){
 			replacer.app = app;
 			return replacer;
 		}

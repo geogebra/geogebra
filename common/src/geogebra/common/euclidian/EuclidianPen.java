@@ -20,7 +20,7 @@ import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPolyLine;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.util.Unicode;
 
@@ -29,7 +29,7 @@ import java.util.Iterator;
 
 public class EuclidianPen {
 
-	private AbstractApplication app;
+	private App app;
 	private EuclidianView view;
 
 	private boolean penUsingOffsets = false;
@@ -147,7 +147,7 @@ public class EuclidianPen {
 	/************************************************
 	 * Construct EuclidianPen
 	 */
-	public EuclidianPen(AbstractApplication app, EuclidianView view) {
+	public EuclidianPen(App app, EuclidianView view) {
 		this.view = view;
 		this.app = app;
 
@@ -333,7 +333,7 @@ public class EuclidianPen {
 
 		String gesture = this.getGesture();
 		count = 0;
-		AbstractApplication.debug(gesture);
+		App.debug(gesture);
 		this.clearTemporaryInfo();
 		GPoint newPoint = new GPoint(e.getX(), e.getY());
 		penPoints.add(newPoint);
@@ -441,26 +441,26 @@ public class EuclidianPen {
 			if(this.try_rectangle())
 			{
 				recognizer_queue_length = 0;
-				AbstractApplication.debug("Rectangle Recognized");
+				App.debug("Rectangle Recognized");
 			}
 			if(this.try_arrow())
 			{
 				recognizer_queue_length = 0;
-				AbstractApplication.debug("Arrow Recognized");
+				App.debug("Arrow Recognized");
 			}
 			if(this.try_closed_polygon(3))
 			{
 				recognizer_queue_length = 0;
-				AbstractApplication.debug("Triangle Recognized");
+				App.debug("Triangle Recognized");
 			}
 			if(this.try_closed_polygon(4))
 			{
 				recognizer_queue_length = 0;
-				AbstractApplication.debug("Quadrilateral Recognized");
+				App.debug("Quadrilateral Recognized");
 			}
 			if(n==1)//then stroke is a line
 			{
-				AbstractApplication.debug("Current stroke is a line");
+				App.debug("Current stroke is a line");
 				if(Math.abs(rs.angle) < SLANT_TOLERANCE)
 				{
 					rs.angle = 0;
@@ -715,7 +715,7 @@ public class EuclidianPen {
 			
 		}
 		
-		AbstractApplication.debug("mono"+monotonicTest + " "+monotonicTest/penPoints.size());
+		App.debug("mono"+monotonicTest + " "+monotonicTest/penPoints.size());
 		
 		monotonicTest = monotonicTest/penPoints.size();
 		

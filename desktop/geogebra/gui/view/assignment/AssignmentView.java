@@ -3,9 +3,9 @@ package geogebra.gui.view.assignment;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.gui.view.Gridable;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -23,12 +23,12 @@ import javax.swing.JScrollPane;
  */
 public class AssignmentView extends JPanel implements View, Gridable {
 	private static final long serialVersionUID = 1L;
-	private Application app;
+	private AppD app;
 	private Kernel kernel;
 	
 	public JScrollPane scrollPane;
 
-	public AssignmentView(final Application app) {
+	public AssignmentView(final AppD app) {
 		super(new BorderLayout());
 		
 		this.app = app;
@@ -99,7 +99,7 @@ public class AssignmentView extends JPanel implements View, Gridable {
 	}
 
 	public int getViewID() {
-		return AbstractApplication.VIEW_ASSIGNMENT;
+		return App.VIEW_ASSIGNMENT;
 	}
 
 	public int print(Graphics graphics, PageFormat pageFormat, int pageIndex)
@@ -118,7 +118,7 @@ public class AssignmentView extends JPanel implements View, Gridable {
 		return null;
 	}
 
-	public Application getApplication() {
+	public AppD getApplication() {
 		// TODO Auto-generated method stub
 		return null;
 	}

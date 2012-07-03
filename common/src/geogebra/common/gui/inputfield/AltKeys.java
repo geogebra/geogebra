@@ -1,7 +1,7 @@
 package geogebra.common.gui.inputfield;
 
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.util.Unicode;
 
 import java.util.HashMap;
@@ -91,7 +91,7 @@ public class AltKeys {
 		LookupUpper.put('>', Unicode.GREATER_EQUAL+"");
 		LookupLower.put('>', Unicode.GREATER_EQUAL+"");
 		
-		if (AbstractApplication.isFullAppGui()) {
+		if (App.isFullAppGui()) {
 			
 			// these keycodes also work in Safari 5.1.2 (Win 7), Firefox 12 (Win 7) and Chrome 20 on Chromebook
 				

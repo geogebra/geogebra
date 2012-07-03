@@ -2,7 +2,7 @@ package geogebra.web.kernel;
 
 import geogebra.common.kernel.AbstractUndoManager;
 import geogebra.common.kernel.Construction;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.util.CopyPaste;
 import geogebra.web.io.MyXMLio;
 
@@ -96,10 +96,10 @@ public class UndoManager extends AbstractUndoManager {
 			pruneStateList();
 
 		} catch (Exception e) {
-			AbstractApplication.debug("storeUndoInfo: " + e.toString());
+			App.debug("storeUndoInfo: " + e.toString());
 			e.printStackTrace();
 		} catch (Error err) {
-			AbstractApplication.debug("UndoManager.storeUndoInfo: "
+			App.debug("UndoManager.storeUndoInfo: "
 					+ err.toString());
 			err.printStackTrace();
 		}
@@ -113,7 +113,7 @@ public class UndoManager extends AbstractUndoManager {
 			String tempXML = ((AppStateWeb) info).getXML();
 
 			// make sure objects are displayed in the correct View
-			app.setActiveView(AbstractApplication.VIEW_EUCLIDIAN);
+			app.setActiveView(App.VIEW_EUCLIDIAN);
 
 			// load undo info
 			app.getScriptManager().disableListeners();

@@ -5,7 +5,7 @@ import geogebra.common.gui.SetLabels;
 import geogebra.common.gui.VirtualKeyboardListener;
 import geogebra.gui.util.GeoGebraIcon;
 import geogebra.gui.virtualkeyboard.VirtualKeyboard;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -42,7 +42,7 @@ public class MyTextField extends JTextField implements ActionListener,
 
 	private static final long serialVersionUID = 1L;
 
-	private Application app;
+	private AppD app;
 
 	// symbol table popup fields
 	private SymbolTablePopupD tablePopup;
@@ -74,7 +74,7 @@ public class MyTextField extends JTextField implements ActionListener,
 	/************************************
 	 * Construct an instance of MyTextField without a fixed column width
 	 */
-	public MyTextField(Application app) {
+	public MyTextField(AppD app) {
 		super();
 		this.app = app;
 		initField();
@@ -85,7 +85,7 @@ public class MyTextField extends JTextField implements ActionListener,
 	 * 
 	 * @param columns
 	 */
-	public MyTextField(Application app, int columns) {
+	public MyTextField(AppD app, int columns) {
 		super(columns);
 		this.app = app;
 		initField();
@@ -294,7 +294,7 @@ public class MyTextField extends JTextField implements ActionListener,
 	public void processKeyEvent(KeyEvent e) {
 		int keyCode = e.getKeyCode();
 
-		if ((e.isControlDown() || Application.isControlDown(e))
+		if ((e.isControlDown() || AppD.isControlDown(e))
 				&& keyCode == KeyEvent.VK_UP) {
 			getTablePopup().showPopup(false);
 			return;

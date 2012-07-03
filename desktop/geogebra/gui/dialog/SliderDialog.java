@@ -18,7 +18,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.gui.properties.SliderPanel;
 import geogebra.gui.view.algebra.InputPanel;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -53,7 +53,7 @@ public class SliderDialog extends JDialog
 	private JPanel optionPane;
 	private JCheckBox cbRandom;
 	
-	private Application app;
+	private AppD app;
 	private SliderPanel sliderPanel;
 	
 	private GeoElement geoResult;
@@ -66,7 +66,7 @@ public class SliderDialog extends JDialog
 	 * @param y x-coordinate of slider in screen coords
 	 * @param app
 	 */
-	public SliderDialog(Application app, int x, int y) {
+	public SliderDialog(AppD app, int x, int y) {
 		super(app.getFrame(), false);
 		this.app = app;		
 		addWindowListener(this);

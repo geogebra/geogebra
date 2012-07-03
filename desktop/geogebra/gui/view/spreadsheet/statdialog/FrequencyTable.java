@@ -1,7 +1,7 @@
 package geogebra.gui.view.spreadsheet.statdialog;
 
 import geogebra.common.kernel.Kernel;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -15,7 +15,7 @@ import javax.swing.table.DefaultTableModel;
 public class FrequencyTable extends JTable implements StatPanelInterface{
 	private static final long serialVersionUID = 1L;
 
-	protected Application app;
+	protected AppD app;
 	private Kernel kernel; 
 	protected StatDialog statDialog;
 	private int mode;
@@ -25,7 +25,7 @@ public class FrequencyTable extends JTable implements StatPanelInterface{
 
 
 
-	public FrequencyTable(Application app, StatDialog statDialog){
+	public FrequencyTable(AppD app, StatDialog statDialog){
 		this.app = app;	
 		this.kernel = app.getKernel();				
 		this.statDialog = statDialog;

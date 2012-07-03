@@ -28,7 +28,7 @@ import geogebra.common.kernel.arithmetic.MyList;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.arithmetic.VectorValue;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.util.MyMath;
 import geogebra.common.util.Unicode;
 
@@ -1066,7 +1066,7 @@ final public class GeoVec2D extends ValidExpression implements
 			vector = true;
 
 		} else
-			AbstractApplication.debug("error in GeoVec2D");
+			App.debug("error in GeoVec2D");
 
 		a = (MyList.getCell(list, 0, 0).evaluateNum()).getDouble();
 		b = (MyList.getCell(list, 1, 0).evaluateNum()).getDouble();

@@ -16,10 +16,10 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Widget;
 
 import geogebra.common.awt.GColor;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.web.awt.GDimensionW;
 import geogebra.web.gui.images.AppResourcesConverter;
-import geogebra.web.main.Application;
+import geogebra.web.main.AppW;
 
 
 
@@ -31,7 +31,7 @@ public class SelectionTable extends Grid implements ClickHandler {
 	private int mode;
 	private int numRows, numColumns, rowHeight, columnWidth;
 	private GDimensionW iconSize;
-	private Application app;
+	private AppW app;
 	
 	private float alpha;
 	
@@ -39,7 +39,7 @@ public class SelectionTable extends Grid implements ClickHandler {
 		this.alpha = alpha;
 	}
 	
-	public SelectionTable(Application app, Object[] data, Integer rows,
+	public SelectionTable(AppW app, Object[] data, Integer rows,
             Integer columns, GDimensionW iconSize, Integer mode) {
 		super();
 		this.app = app;	
@@ -288,7 +288,7 @@ public class SelectionTable extends Grid implements ClickHandler {
 			ctx.putImageData((ImageData) object,0, 0);
 			break;
 		case geogebra.common.gui.util.SelectionTable.MODE_LATEX:
-			AbstractApplication.debug("SelectionTable mode latex");
+			App.debug("SelectionTable mode latex");
 			break;
 	  	}
 		return w;

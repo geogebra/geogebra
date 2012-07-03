@@ -5,7 +5,7 @@ package geogebra.gui.view.algebra;
 
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.Component;
 
@@ -19,9 +19,9 @@ import javax.swing.tree.DefaultMutableTreeNode;
 public class MyCellEditor extends DefaultCellEditor {  
     
     private static final long serialVersionUID = 1L;
-    private Application app;
+    private AppD app;
     
-    public MyCellEditor(final JTextField textField, Application app) {
+    public MyCellEditor(final JTextField textField, AppD app) {
         super(textField);           
         this.app = app;
     }

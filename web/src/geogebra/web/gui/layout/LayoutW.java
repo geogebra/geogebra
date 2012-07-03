@@ -3,10 +3,10 @@ package geogebra.web.gui.layout;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.gui.Layout;
 import geogebra.common.io.layout.Perspective;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.main.settings.AbstractSettings;
 import geogebra.common.main.settings.SettingListener;
-import geogebra.web.main.Application;
+import geogebra.web.main.AppW;
 
 import java.util.ArrayList;
 
@@ -14,7 +14,7 @@ public class LayoutW extends Layout implements SettingListener {
 	
 	private boolean isInitialized = false;
 	
-	private Application app;
+	private AppW app;
 	
 	/**
 	 * instantiates layout for Web
@@ -75,13 +75,13 @@ public class LayoutW extends Layout implements SettingListener {
 	   
     }
 
-	public void initialize(AbstractApplication app) {
+	public void initialize(App app) {
 		if(isInitialized)
 			return;
 		
 		isInitialized = true;
 		
-		this.app = (Application) app;
+		this.app = (AppW) app;
 		this.settings = app.getSettings().getLayout();
 		this.settings.addListener(this);
 		//this.dockManager = new DockManager(this);

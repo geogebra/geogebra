@@ -2,7 +2,7 @@ package geogebra.gui.view.spreadsheet;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.gui.view.spreadsheet.statdialog.StatDialog;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 /**
  * Utility class to handle toolbar menu mode changes
@@ -13,14 +13,14 @@ import geogebra.main.Application;
  */
 public class SpreadsheetToolbarManager {
 
-	private Application app;
+	private AppD app;
 	private SpreadsheetView view;
 	private MyTable table;
 
 	private CreateObjectDialog id;
 
 
-	public SpreadsheetToolbarManager(Application app, SpreadsheetView view){
+	public SpreadsheetToolbarManager(AppD app, SpreadsheetView view){
 
 		this.app = app;
 		this.view = view;

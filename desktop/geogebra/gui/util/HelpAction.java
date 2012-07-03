@@ -10,7 +10,7 @@
  */
 package geogebra.gui.util;
 
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.event.ActionEvent;
 
@@ -25,9 +25,9 @@ public class HelpAction extends AbstractAction {
 
 	private static final long serialVersionUID = 1L;
 	
-	private Application app;
+	private AppD app;
 	private String articleName;
-	public HelpAction(Application app, ImageIcon icon, String name, String articleName){
+	public HelpAction(AppD app, ImageIcon icon, String name, String articleName){
 		super(name,icon);
 		this.app=app;
 		this.articleName=articleName;

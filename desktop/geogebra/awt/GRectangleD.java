@@ -3,7 +3,7 @@ package geogebra.awt;
 import geogebra.common.awt.GAffineTransform;
 import geogebra.common.awt.GPathIterator;
 import geogebra.common.awt.GRectangle2D;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.Shape;
 
@@ -76,7 +76,7 @@ public class GRectangleD implements geogebra.awt.GRectangle2DD, geogebra.common.
 	 */
 	public static java.awt.Rectangle getAWTRectangle(geogebra.common.awt.GRectangle rect) {
 		if(!(rect instanceof GRectangleD)){
-			if (rect!= null) Application.debug("other type");
+			if (rect!= null) AppD.debug("other type");
 			return null;
 		}
 		return ((GRectangleD)rect).impl;

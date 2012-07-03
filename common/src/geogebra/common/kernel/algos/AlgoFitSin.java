@@ -23,7 +23,7 @@ import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.statistics.RegressionMath;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.plugin.Operation;
 
 import java.util.Iterator;
@@ -618,7 +618,7 @@ public class AlgoFitSin extends AlgoElement {
 
 	// 20.11: ->Application.debug()
 	private final static void errorMsg(String s) {
-		AbstractApplication.debug(s);
+		App.debug(s);
 	}// errorMsg(String)
 
 	// Is distance between abs max and abx min 1,3,5,... halfperiodes?

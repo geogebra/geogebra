@@ -16,7 +16,7 @@ import geogebra.common.awt.GRectangle;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoButton;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 
 
 /**
@@ -144,7 +144,7 @@ public final class DrawButton extends Drawable implements RemoveNeeded {
 		myButton.setText(labelDesc);
 
 		int fontSize = view.getFontSize() + geoButton.getFontSize();
-		AbstractApplication app = view.getApplication();
+		App app = view.getApplication();
 
 		//myButton.setOpaque(true);
 		myButton.setFont(app.getFontCanDisplay(myButton.getText(),

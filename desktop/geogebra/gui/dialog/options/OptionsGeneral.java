@@ -1,7 +1,7 @@
 package geogebra.gui.dialog.options;
 
 import geogebra.common.gui.SetLabels;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -29,7 +29,7 @@ public class OptionsGeneral extends JPanel implements SetLabels {
 	/**
 	 * An instance of the GeoGebra application.
 	 */
-	private Application app;
+	private AppD app;
 	
 	/**
 	 * The tabbed pane which contains the single areas which can be
@@ -52,7 +52,7 @@ public class OptionsGeneral extends JPanel implements SetLabels {
 	 * 
 	 * @param app
 	 */
-	public OptionsGeneral(Application app) {
+	public OptionsGeneral(AppD app) {
 		this.app = app;
 		
 		initGUI();

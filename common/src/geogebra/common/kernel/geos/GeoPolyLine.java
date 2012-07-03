@@ -23,7 +23,7 @@ import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.plugin.GeoClass;
 
 import java.util.HashSet;
@@ -496,7 +496,7 @@ public class GeoPolyLine extends GeoElement implements NumberValue, Path,
 	}
 	
 	public void translate(Coords v) {
-		AbstractApplication.debug("translating points");
+		App.debug("translating points");
 		for (int i = 0; i < points.length; i++) {
 			((GeoPoint) points[i]).translate(v);
 		}

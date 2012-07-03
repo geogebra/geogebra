@@ -1,6 +1,6 @@
 package geogebra.web.gui.app;
 
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.GWT;
@@ -26,7 +26,7 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class EuclidianView1 extends ResizeComposite {
 
-	AbstractApplication application = null;
+	App application = null;
 
 	private static EuclidianView1UiBinder uiBinder = GWT
 	        .create(EuclidianView1UiBinder.class);
@@ -66,14 +66,14 @@ public class EuclidianView1 extends ResizeComposite {
 	}
 
 	public void onResize() {
-		AbstractApplication.debug("Resized");
+		App.debug("Resized");
     }
 	
 	public void onLoad() {
 		//getEuclidianPanel().getElement().getStyle().setPosition(Position.RELATIVE);
 	}
 
-	public void attachApp(AbstractApplication app) {
+	public void attachApp(App app) {
 	   this.application = app;
 	   espanel.attachApp(app);
 	}

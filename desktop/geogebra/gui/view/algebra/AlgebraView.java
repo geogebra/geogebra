@@ -22,10 +22,10 @@ import geogebra.common.gui.SetLabels;
 import geogebra.common.kernel.LayerView;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.gui.inputfield.MathTextField;
 import geogebra.gui.view.Gridable;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.Component;
 import java.awt.Dimension;
@@ -150,7 +150,7 @@ public class AlgebraView extends AlgebraTree implements LayerView, Gridable, Set
 	
 	
 	@Override
-	protected MyRendererForAlgebraTree newMyRenderer(Application app) {
+	protected MyRendererForAlgebraTree newMyRenderer(AppD app) {
 		return new MyRendererForAlgebraView(app, this);
 	}
 
@@ -870,10 +870,10 @@ public class AlgebraView extends AlgebraTree implements LayerView, Gridable, Set
 
 
 	public int getViewID() {
-		return AbstractApplication.VIEW_ALGEBRA;
+		return App.VIEW_ALGEBRA;
 	}
 
-	public Application getApplication() {
+	public AppD getApplication() {
 		return app;
 	}
 

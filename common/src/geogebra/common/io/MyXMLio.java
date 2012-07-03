@@ -15,7 +15,7 @@ import geogebra.common.GeoGebraConstants;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Macro;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 
 import java.util.ArrayList;
 
@@ -47,7 +47,7 @@ public abstract class MyXMLio {
 	/** max no of vertical pixels of thumbnail */
 	final public static double THUMBNAIL_PIXELS_Y = 200.0; 
 	/** application */
-	protected AbstractApplication app;
+	protected App app;
 	/** kernel */
 	protected Kernel kernel;
 	/** construction */

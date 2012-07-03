@@ -1,7 +1,7 @@
 package geogebra.gui.layout;
 
 import geogebra.common.gui.SetLabels;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
@@ -19,7 +19,7 @@ import javax.swing.JRadioButton;
 public class ConfigurationPanel extends JPanel implements ActionListener,
 		SetLabels {
 
-	private Application app;
+	private AppD app;
 	private DockBar dockBar;
 	
 	private JPanel buttonPanel, cardPanel;
@@ -28,7 +28,7 @@ public class ConfigurationPanel extends JPanel implements ActionListener,
 	private JButton btnReturn;
 	private JRadioButton btnCustomToolBar;
 
-	public ConfigurationPanel(Application app, DockBar dockBar) {
+	public ConfigurationPanel(AppD app, DockBar dockBar) {
 
 		this.app = app;
 		this.dockBar = dockBar;

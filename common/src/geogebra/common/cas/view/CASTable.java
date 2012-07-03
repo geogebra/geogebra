@@ -1,7 +1,7 @@
 package geogebra.common.cas.view;
 
 import geogebra.common.kernel.geos.GeoCasCell;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 
 public interface CASTable {
 	/** column of the table containing CAS cells */
@@ -19,7 +19,7 @@ public interface CASTable {
 
 	GeoCasCell getGeoCasCell(int n);
 
-	AbstractApplication getApplication();
+	App getApplication();
 
 	void deleteAllRows();
 

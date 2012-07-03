@@ -6,7 +6,7 @@ import geogebra.common.awt.GRectangle;
 import geogebra.common.awt.GRectangle2D;
 import geogebra.common.awt.GShape;
 import geogebra.common.euclidian.GeneralPathClipped;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 
 public class GenericShape implements geogebra.web.awt.GShapeW {
 
@@ -79,7 +79,7 @@ public class GenericShape implements geogebra.web.awt.GShapeW {
 		if((shapeCommon instanceof geogebra.web.awt.GShapeW)){
 			return ((geogebra.web.awt.GShapeW)shapeCommon).getGawtShape();
 		}
-		AbstractApplication.debug("unimplemented class in GenericShape.getGawtShape() "+shapeCommon.getClass());
+		App.debug("unimplemented class in GenericShape.getGawtShape() "+shapeCommon.getClass());
 		return null;
 	}
 

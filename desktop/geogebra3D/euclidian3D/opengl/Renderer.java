@@ -3,8 +3,8 @@ package geogebra3D.euclidian3D.opengl;
 import geogebra.common.kernel.Matrix.CoordMatrix;
 import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.Coords;
-import geogebra.common.main.AbstractApplication;
-import geogebra.main.Application;
+import geogebra.common.main.App;
+import geogebra.main.AppD;
 import geogebra3D.euclidian3D.Drawable3D;
 import geogebra3D.euclidian3D.Drawable3DLists;
 import geogebra3D.euclidian3D.EuclidianController3D;
@@ -137,19 +137,19 @@ public class Renderer extends RendererJogl implements GLEventListener {
 		
 		
 		//canvas = view;
-		AbstractApplication.debug("create 3D component");
+		App.debug("create 3D component");
         canvas = new Component3D();
         
-        AbstractApplication.debug("add gl event listener");
+        App.debug("add gl event listener");
 	    canvas.addGLEventListener(this);
 	    
-	    AbstractApplication.debug("create animator");
+	    App.debug("create animator");
 	    animator = new Animator( canvas, 60 );
         //animator.setRunAsFastAsPossible(true);	  
         //animator.setRunAsFastAsPossible(false);	
 	    
 
-	    AbstractApplication.debug("start animator");
+	    App.debug("start animator");
         animator.start();
         
 
@@ -1433,7 +1433,7 @@ public class Renderer extends RendererJogl implements GLEventListener {
                 gl.isFunctionAvailable("glBufferDataARB") &&
                 gl.isFunctionAvailable("glDeleteBuffersARB");
         
-        Application.debug("openGL version : "+version
+        AppD.debug("openGL version : "+version
         		+", vbo supported : "+VBOsupported);
                
         //TODO use gl lists / VBOs

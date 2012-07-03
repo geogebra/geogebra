@@ -3,7 +3,7 @@ package geogebra3D.kernel3D;
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.kernelND.GeoAxisND;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 
 /**
  * @author ggb3D
@@ -114,7 +114,7 @@ public class Construction3D extends Construction {
 		geoTable.remove(zAxis3DLocalName);
 		geoTable.remove(xOyPlaneLocalName);
 
-		AbstractApplication app = getKernel().getApplication();
+		App app = getKernel().getApplication();
 		zAxis3DLocalName = app.getPlain("zAxis");
 		xOyPlaneLocalName = app.getPlain("xOyPlane");
 		

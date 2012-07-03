@@ -1,10 +1,10 @@
 package geogebra3D.gui.layout.panels;
 
 import geogebra.common.gui.toolbar.ToolBar;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.euclidianND.EuclidianViewND;
 import geogebra.gui.layout.panels.EuclidianDockPanelAbstract;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 import geogebra3D.euclidianForPlane.EuclidianViewForPlane;
 
 import javax.swing.JComponent;
@@ -17,13 +17,13 @@ public class EuclidianDockPanelForPlane extends EuclidianDockPanelAbstract {
 	private EuclidianViewForPlane view;
 	
 	//id of the first view
-	private static int viewId = AbstractApplication.VIEW_EUCLIDIAN_FOR_PLANE;
+	private static int viewId = App.VIEW_EUCLIDIAN_FOR_PLANE;
 	
 	/**
 	 * @param app application
 	 * @param view view for plane
 	 */
-	public EuclidianDockPanelForPlane(Application app, EuclidianViewForPlane view) {
+	public EuclidianDockPanelForPlane(AppD app, EuclidianViewForPlane view) {
 		super(
 			viewId,	// view id 
 			"GraphicsViewForPlaneA", 				// view title

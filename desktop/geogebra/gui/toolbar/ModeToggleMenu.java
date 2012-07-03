@@ -12,7 +12,7 @@ the Free Software Foundation.
 
 package geogebra.gui.toolbar;
 
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -56,14 +56,14 @@ public class ModeToggleMenu extends JPanel {
 	private ArrayList<JMenuItem> menuItemList;
 
 	private ActionListener popupMenuItemListener;
-	private Application app;
+	private AppD app;
 	int size;
 	
 	private Toolbar toolbar;
 
 	final static Color bgColor = Color.white;
 
-	public ModeToggleMenu(Application app, Toolbar toolbar,
+	public ModeToggleMenu(AppD app, Toolbar toolbar,
 			ModeToggleButtonGroup bg) {
 		this.app = app;
 		this.bg = bg;

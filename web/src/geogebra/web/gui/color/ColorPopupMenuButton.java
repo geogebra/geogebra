@@ -14,16 +14,16 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.resources.client.ImageResource;
 
 import geogebra.common.awt.GColor;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.web.awt.GDimensionW;
 import geogebra.web.gui.util.GeoGebraIcon;
 import geogebra.web.gui.util.PopupMenuButton;
-import geogebra.web.main.Application;
+import geogebra.web.main.AppW;
 
 public class ColorPopupMenuButton extends PopupMenuButton implements ClickHandler {
 	
-	private Application app;
+	private AppW app;
 
 	public static final int COLORSET_DEFAULT = 0;
 	public static final int COLORSET_BGCOLOR = 1;
@@ -35,7 +35,7 @@ public class ColorPopupMenuButton extends PopupMenuButton implements ClickHandle
 	private boolean hasSlider;
 	private GDimensionW iconSize;
 
-	public ColorPopupMenuButton(Application app, GDimensionW iconSize, int colorSetType, boolean hasSlider) {
+	public ColorPopupMenuButton(AppW app, GDimensionW iconSize, int colorSetType, boolean hasSlider) {
 
 		super(app, createDummyIcons(iconSize), -1, 9, iconSize, geogebra.common.gui.util.SelectionTable.MODE_ICON);
 		this.app = app;

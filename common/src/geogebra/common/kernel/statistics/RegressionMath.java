@@ -2,7 +2,7 @@ package geogebra.common.kernel.statistics;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoPoint;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 
 import org.apache.commons.math.linear.Array2DRowRealMatrix;
 import org.apache.commons.math.linear.DecompositionSolver;
@@ -140,7 +140,7 @@ public final  class RegressionMath {
    	        //System.out.println(System.currentTimeMillis()-time);
     		//diff(pararray,par);
 		} catch (Throwable t) {
-			AbstractApplication.debug(t.toString());
+			App.debug(t.toString());
 			error=true;    		
     	}//try-catch.  ToDo: A bit more fine-grained error-handling...
     	return !error;

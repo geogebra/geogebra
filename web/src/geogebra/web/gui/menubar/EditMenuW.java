@@ -1,10 +1,10 @@
 package geogebra.web.gui.menubar;
 
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.web.gui.dialog.WebCamInputDialog;
 import geogebra.common.util.CopyPaste;
 import geogebra.web.gui.images.AppResources;
-import geogebra.web.main.Application;
+import geogebra.web.main.AppW;
 
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.MenuBar;
@@ -17,7 +17,7 @@ public class EditMenuW extends MenuBar {
 	/**
 	 * Application instance
 	 */
-	AbstractApplication app;
+	App app;
 
 	InsertImageMenuW iim;
 
@@ -25,7 +25,7 @@ public class EditMenuW extends MenuBar {
 	 * Constructs the "Edit" menu
 	 * @param app Application instance
 	 */
-	public EditMenuW(AbstractApplication app) {
+	public EditMenuW(App app) {
 
 		super(true);
 		this.app = app;
@@ -128,7 +128,7 @@ public class EditMenuW extends MenuBar {
 		        .edit_copy().getSafeUri().asString(), app.getMenu("CopyImage")),
 		        true, new Command() {
 			        public void execute() {
-				        ((Application) app).copyEVtoClipboard();
+				        ((AppW) app).copyEVtoClipboard();
 			        }
 		        });
 

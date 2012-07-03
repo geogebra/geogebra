@@ -20,7 +20,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.geos.Test;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.main.MyError;
 import geogebra.common.util.StringUtil;
 
@@ -299,7 +299,7 @@ public class Macro  {
     		if (!isOutputLabeled[i])		
     			output[i].labelSet = false;        
     	}    	    	    	    	    
-    	AbstractApplication.debug(macroConsXML);
+    	App.debug(macroConsXML);
 		// 6) create a new macro-construction from this XML representation
     	Construction macroCons2 = createMacroConstruction(macroConsXML); 
     	    	
@@ -417,7 +417,7 @@ public class Macro  {
     	} 
     	catch (MyError e) {  
     		String msg = e.getLocalizedMessage();
-    		AbstractApplication.debug(msg);
+    		App.debug(msg);
     		e.printStackTrace(); 
     		throw new Exception(msg);
     	}    	

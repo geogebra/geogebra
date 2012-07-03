@@ -6,7 +6,7 @@ import geogebra.gui.layout.DockPanel;
 import geogebra.gui.layout.LayoutD;
 import geogebra.gui.view.consprotocol.ConstructionProtocolNavigation;
 import geogebra.gui.virtualkeyboard.VirtualKeyboard;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 import geogebra.plugin.kinect.KinectTest;
 import geogebra.plugin.kinect.KinectTestApplication;
 
@@ -56,7 +56,7 @@ public class ViewMenu extends BaseMenu {
 	 * @param app app
 	 * @param layout layout
 	 */
-	public ViewMenu(Application app, LayoutD layout) {
+	public ViewMenu(AppD app, LayoutD layout) {
 		super(app, app.getMenu("View"));
 
 		this.layout = layout;
@@ -90,7 +90,7 @@ public class ViewMenu extends BaseMenu {
 
 		// show Python and Kinect options in Eclipse & 5.0 Webstart only
 		// ie not 4.2
-		if (!Application.isWebstart() || app.is3D()) {
+		if (!AppD.isWebstart() || app.is3D()) {
 			// show/hide python window
 			cbShowPython = new JCheckBoxMenuItem(showPythonAction);
 			app.setEmptyIcon(cbShowPython);
@@ -195,7 +195,7 @@ public class ViewMenu extends BaseMenu {
 
 			public void actionPerformed(ActionEvent e) {
 
-				if (Application.isVirtualKeyboardActive()
+				if (AppD.isVirtualKeyboardActive()
 						&& !app.getGuiManager().showVirtualKeyboard()) {
 
 					// if keyboard is active but hidden, just show it
@@ -204,10 +204,10 @@ public class ViewMenu extends BaseMenu {
 
 				} else {
 
-					Application.setVirtualKeyboardActive(!Application
+					AppD.setVirtualKeyboardActive(!AppD
 							.isVirtualKeyboardActive());
 					app.getGuiManager().toggleKeyboard(
-							Application.isVirtualKeyboardActive());
+							AppD.isVirtualKeyboardActive());
 					update();
 				}
 
@@ -459,7 +459,7 @@ public class ViewMenu extends BaseMenu {
 		updateViews();
 
 		cbShowAlgebraInput.setSelected(app.showAlgebraInput());
-		cbShowKeyboard.setSelected(Application.isVirtualKeyboardActive());
+		cbShowKeyboard.setSelected(AppD.isVirtualKeyboardActive());
 		
 		if (cbShowPython != null) {
 			cbShowPython.setSelected(app.isPythonWindowVisible());

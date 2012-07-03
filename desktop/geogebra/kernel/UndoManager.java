@@ -14,10 +14,10 @@ package geogebra.kernel;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.AbstractUndoManager;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.util.CopyPaste;
 import geogebra.io.MyXMLio;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -143,10 +143,10 @@ public class UndoManager extends AbstractUndoManager {
 					pruneStateList();
 					
 				} catch (Exception e) {
-					AbstractApplication.debug("storeUndoInfo: " + e.toString());
+					App.debug("storeUndoInfo: " + e.toString());
 					e.printStackTrace();
 				} catch (java.lang.OutOfMemoryError err) {
-					AbstractApplication.debug("UndoManager.storeUndoInfo: "
+					App.debug("UndoManager.storeUndoInfo: "
 							+ err.toString());
 					err.printStackTrace();
 				}
@@ -190,12 +190,12 @@ public class UndoManager extends AbstractUndoManager {
 			InputStream is = new FileInputStream(tempFile);
 
 			// make sure objects are displayed in the correct View
-			app.setActiveView(AbstractApplication.VIEW_EUCLIDIAN);
+			app.setActiveView(App.VIEW_EUCLIDIAN);
 
 			// load undo info
-			((Application)app).getScriptManager().disableListeners();
+			((AppD)app).getScriptManager().disableListeners();
 			xmlio.readZipFromMemory(is);
-			((Application)app).getScriptManager().enableListeners();
+			((AppD)app).getScriptManager().enableListeners();
 
 			is.close();
 		} catch (Exception e) {

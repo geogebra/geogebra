@@ -1,8 +1,8 @@
 package geogebra;
 
 import geogebra.common.kernel.View;
-import geogebra.common.main.AbstractApplication;
-import geogebra.main.Application;
+import geogebra.common.main.App;
+import geogebra.main.AppD;
 import geogebra.plugin.GgbAPI;
 
 import java.awt.BorderLayout;
@@ -65,7 +65,7 @@ public class GeoGebraPanel extends JPanel {
     }
 	
 	
-	private Application app;
+	private AppD app;
 	
 	/**
      * Creates a GeoGebraPanel. Note that you need to 
@@ -88,7 +88,7 @@ public class GeoGebraPanel extends JPanel {
 		}
 		
 		// create GeoGebra application
-		app = new Application(new CommandLineArguments(args), this, false);
+		app = new AppD(new CommandLineArguments(args), this, false);
 	}
 	
 	/**
@@ -149,7 +149,7 @@ public class GeoGebraPanel extends JPanel {
 	 * method to update the panel's structure.
 	 */
 	public synchronized void setShowAlgebraView(boolean show) {
-		app.getGuiManager().setShowView(show, AbstractApplication.VIEW_ALGEBRA);	
+		app.getGuiManager().setShowView(show, App.VIEW_ALGEBRA);	
 	}
 	
 	/**
@@ -158,7 +158,7 @@ public class GeoGebraPanel extends JPanel {
 	 * method to update the panel's structure.
 	 */
 	public synchronized void setShowSpreadsheetView(boolean show) {
-		app.getGuiManager().setShowView(show, AbstractApplication.VIEW_SPREADSHEET);	
+		app.getGuiManager().setShowView(show, App.VIEW_SPREADSHEET);	
 	}
 	
 	/**

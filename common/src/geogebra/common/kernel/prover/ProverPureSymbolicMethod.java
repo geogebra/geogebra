@@ -5,7 +5,7 @@ import geogebra.common.kernel.algos.SymbolicParametersAlgo;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.util.Prover;
 import geogebra.common.util.Prover.ProofResult;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 
 /**
  * A prover which uses pure symbolic method to prove geometric theorems.
@@ -40,7 +40,7 @@ public class ProverPureSymbolicMethod {
 			try {
 				Polynomial[] poly = statementSymbolic.getPolynomials();
 				for (Polynomial polynomial:poly){
-					AbstractApplication.debug(polynomial);
+					App.debug(polynomial);
 					if (!polynomial.isZero()){
 						return ProofResult.FALSE;
 					}

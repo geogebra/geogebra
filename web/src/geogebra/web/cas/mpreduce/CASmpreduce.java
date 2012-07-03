@@ -8,7 +8,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.cas.AsynchronousCommand;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 
 import org.mathpiper.mpreduce.Interpretable;
 import org.mathpiper.mpreduce.InterpreterJs;
@@ -110,7 +110,7 @@ public class CASmpreduce extends AbstractCASmpreduce implements geogebra.common.
 				}
 				
 				public void onFailure(Throwable reason) {
-					AbstractApplication.debug(reason);
+					App.debug(reason);
 				}
 			});
 		}

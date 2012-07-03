@@ -5,7 +5,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.euclidian.EuclidianViewD;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.util.HashMap;
 
@@ -23,7 +23,7 @@ import javax.swing.tree.TreePath;
  */
 public class AlgebraTree extends JTree {
 
-	protected Application app; // parent appame
+	protected AppD app; // parent appame
 	protected Kernel kernel;
 
 	protected MyRendererForAlgebraTree renderer;
@@ -61,7 +61,7 @@ public class AlgebraTree extends JTree {
 	public AlgebraTree(AlgebraTreeController algCtrl) {
 
 
-		app = (Application)algCtrl.getApplication();
+		app = (AppD)algCtrl.getApplication();
 		kernel = algCtrl.getKernel();
 		this.algebraController = algCtrl;
 		
@@ -117,7 +117,7 @@ public class AlgebraTree extends JTree {
 	 * @param app
 	 * @return new renderer of a cell
 	 */
-	protected MyRendererForAlgebraTree newMyRenderer(Application app) {
+	protected MyRendererForAlgebraTree newMyRenderer(AppD app) {
 		return new MyRendererForAlgebraTree(app, this);
 	}
 	

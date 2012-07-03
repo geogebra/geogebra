@@ -19,9 +19,9 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.LayerView;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.web.euclidian.EuclidianViewW;
-import geogebra.web.main.Application;
+import geogebra.web.main.AppW;
 
 import java.util.HashMap;
 
@@ -45,7 +45,7 @@ public class AlgebraView extends Tree implements LayerView, SetLabels, geogebra.
 	 */
 	//public static final int MODE_VIEW = 2;
 
-	protected Application app; // parent appame
+	protected AppW app; // parent appame
 	private Kernel kernel;
 
 	//private MyRenderer renderer;
@@ -117,9 +117,9 @@ public class AlgebraView extends Tree implements LayerView, SetLabels, geogebra.
 
 		super();
 
-		AbstractApplication.debug("creating Algebra View");
+		App.debug("creating Algebra View");
 
-		app = (Application)algCtrl.getApplication();
+		app = (AppW)algCtrl.getApplication();
 		kernel = algCtrl.getKernel();
 		algCtrl.setView(this);
 		this.algebraController = algCtrl;
@@ -1134,10 +1134,10 @@ public class AlgebraView extends Tree implements LayerView, SetLabels, geogebra.
 
 
 	public int getViewID() {
-		return AbstractApplication.VIEW_ALGEBRA;
+		return App.VIEW_ALGEBRA;
 	}
 
-	public Application getApplication() {
+	public AppW getApplication() {
 		return app;
 	}
 
@@ -1255,7 +1255,7 @@ public class AlgebraView extends Tree implements LayerView, SetLabels, geogebra.
 	}
 
 	public boolean hasFocus() {
-	    AbstractApplication.debug("unimplemented");
+	    App.debug("unimplemented");
 	    return false;
     }
 } // AlgebraView

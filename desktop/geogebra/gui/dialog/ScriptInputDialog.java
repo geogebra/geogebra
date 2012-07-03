@@ -16,10 +16,10 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoButton;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElement.ScriptType;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.gui.editor.GeoGebraEditorPane;
 import geogebra.gui.view.algebra.InputPanel.DialogType;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -57,7 +57,7 @@ public class ScriptInputDialog extends InputDialog {
 	 * @param updateScript 
 	 * @param forceJavaScript 
 	 */
-	public ScriptInputDialog(Application app,  String title, GeoButton button,
+	public ScriptInputDialog(AppD app,  String title, GeoButton button,
 								int cols, int rows, boolean updateScript, boolean forceJavaScript) {	
 		super(app.getFrame(), false);
 		this.app = app;
@@ -77,7 +77,7 @@ public class ScriptInputDialog extends InputDialog {
 		languageSelector.addItem(app.getPlain("JavaScript"));
 		
 		// don't show in 4.2 Webstart builds
-		if (!Application.isWebstart() || app.is3D()) {
+		if (!AppD.isWebstart() || app.is3D()) {
 			languageSelector.addItem(app.getPlain("Python"));
 		}
 		languageSelector.addActionListener(this);
@@ -111,7 +111,7 @@ public class ScriptInputDialog extends InputDialog {
 		this.geo = geo;
 		
 		if (geo != null){
-			AbstractApplication.debug(updateScript ? geo.getUpdateScript() : geo.getClickScript());
+			App.debug(updateScript ? geo.getUpdateScript() : geo.getClickScript());
 			inputPanel.setText(updateScript ? geo.getUpdateScript() : geo.getClickScript());
 			//setJSMode(updateScript ? geo.updateJavaScript():geo.clickJavaScript());
 			setScriptType(updateScript ? geo.getUpdateScriptType() : geo.getClickScriptType());
@@ -212,7 +212,7 @@ public class ScriptInputDialog extends InputDialog {
 			break;
 			
 		case PYTHON:
-			Application.debug("TODO");
+			AppD.debug("TODO");
 			scriptStr = "javascript";//python";
 			index = 2;
 			break;
@@ -234,7 +234,7 @@ public class ScriptInputDialog extends InputDialog {
 	 */
 	@Override
 	public void insertGeoElement(GeoElement geo) {
-		AbstractApplication.debug("TODO: unimplemented");
+		App.debug("TODO: unimplemented");
 	}
 	
 	/**

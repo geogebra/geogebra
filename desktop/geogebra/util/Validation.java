@@ -1,6 +1,6 @@
 package geogebra.util;
 
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import javax.swing.JTextField;
 
@@ -27,7 +27,7 @@ public class Validation {
 			try {
 				val = Double.parseDouble(tf.getText());
 			} catch (NumberFormatException e) {
-				Application.debug("invalid number:" + tf.getText());
+				AppD.debug("invalid number:" + tf.getText());
 			}
 			if (!Double.isNaN(val) && !Double.isInfinite(val)
 					&& checkInterval(val))

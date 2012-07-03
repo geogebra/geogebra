@@ -32,7 +32,7 @@ public class GeoGebraAppletPreloader extends JApplet {
 				System.out.print("loading geogebra_main.jar... ");
 				System.out.flush();
 				try {
-					geogebra.main.Application.class.getClass();
+					geogebra.main.AppD.class.getClass();
 					System.out.println("done");
 				} catch (Exception e) {
 					System.out.println("failed");

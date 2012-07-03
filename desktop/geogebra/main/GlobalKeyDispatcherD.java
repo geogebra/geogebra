@@ -5,7 +5,7 @@ import geogebra.common.euclidian.DrawTextField;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoTextField;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.main.KeyCodes;
 import geogebra.euclidian.EuclidianViewD;
 import geogebra.gui.GuiManagerD;
@@ -33,7 +33,7 @@ import javax.swing.text.JTextComponent;
  */
 public class GlobalKeyDispatcherD extends geogebra.common.main.GlobalKeyDispatcher implements KeyEventDispatcher {
 
-	public GlobalKeyDispatcherD(Application app) {
+	public GlobalKeyDispatcherD(AppD app) {
 		this.app = app;
 	}
 
@@ -140,13 +140,13 @@ public class GlobalKeyDispatcherD extends geogebra.common.main.GlobalKeyDispatch
 
 	public boolean handleGeneralKeys(KeyEvent event) {
 
-		return handleGeneralKeys(KeyCodes.translateJavacode(event.getKeyCode()), event.isShiftDown(), Application.isControlDown(event), Application.isAltDown(event), event.getSource() instanceof JTable, event.getSource() instanceof EuclidianViewD);
+		return handleGeneralKeys(KeyCodes.translateJavacode(event.getKeyCode()), event.isShiftDown(), AppD.isControlDown(event), AppD.isAltDown(event), event.getSource() instanceof JTable, event.getSource() instanceof EuclidianViewD);
 	}
 
 	private boolean handleSelectedGeosKeys(KeyEvent event,
 			ArrayList<GeoElement> geos) {
 		
-		return handleSelectedGeosKeys(KeyCodes.translateJavacode(event.getKeyCode()), geos, event.isShiftDown(), Application.isControlDown(event), Application.isAltDown(event), event.getSource() instanceof JTable);
+		return handleSelectedGeosKeys(KeyCodes.translateJavacode(event.getKeyCode()), geos, event.isShiftDown(), AppD.isControlDown(event), AppD.isAltDown(event), event.getSource() instanceof JTable);
 	}
 
 
@@ -188,16 +188,16 @@ public class GlobalKeyDispatcherD extends geogebra.common.main.GlobalKeyDispatch
 
 	@Override
 	protected boolean handleEnter() {
-		if (((Application)app).isUsingFullGui() && ((Application)app).getGuiManager().noMenusOpen()) {
+		if (((AppD)app).isUsingFullGui() && ((AppD)app).getGuiManager().noMenusOpen()) {
 			if (app.showAlgebraInput()
-					&& !((Application)app).getGuiManager().getAlgebraInput()
+					&& !((AppD)app).getGuiManager().getAlgebraInput()
 					.hasFocus()) {
 				// focus this frame (needed for external view windows)
-				if (!app.isApplet() && ((Application)app).getFrame() != null) {
-					((Application)app).getFrame().toFront();
+				if (!app.isApplet() && ((AppD)app).getFrame() != null) {
+					((AppD)app).getFrame().toFront();
 				}
 
-				((Application)app).getGuiManager().getAlgebraInput().requestFocus();
+				((AppD)app).getGuiManager().getAlgebraInput().requestFocus();
 
 				return true;
 			}
@@ -210,14 +210,14 @@ public class GlobalKeyDispatcherD extends geogebra.common.main.GlobalKeyDispatch
 	protected boolean handleTab(boolean isControlDown, boolean isShiftDown) {
 		if (isControlDown && app.isUsingFullGui()) {
 
-			GuiManagerD gui = ((Application)app).getGuiManager();
+			GuiManagerD gui = ((AppD)app).getGuiManager();
 			gui.getLayout().getDockManager()
 			.moveFocus(!isShiftDown);
 
 			return true;
 
 		} else if (app.getActiveEuclidianView().hasFocus()
-				|| ((Application)app).getGuiManager().getAlgebraView().hasFocus()) {
+				|| ((AppD)app).getGuiManager().getAlgebraView().hasFocus()) {
 			
 			super.handleTab(isControlDown, isShiftDown);
 
@@ -229,9 +229,9 @@ public class GlobalKeyDispatcherD extends geogebra.common.main.GlobalKeyDispatch
 
 	@Override
 	protected boolean handleCtrlC() {
-		if (!(((Application)app).getGuiManager().getSpreadsheetView()
+		if (!(((AppD)app).getGuiManager().getSpreadsheetView()
 				.hasFocus())
-				&& !(((AlgebraInput) ((Application)app).getGuiManager()
+				&& !(((AlgebraInput) ((AppD)app).getGuiManager()
 						.getAlgebraInput()).getTextField()
 						.hasFocus())) {
 
@@ -244,9 +244,9 @@ public class GlobalKeyDispatcherD extends geogebra.common.main.GlobalKeyDispatch
 
 	@Override
 	protected boolean handleCtrlV() {
-		if (!(((Application)app).getGuiManager().getSpreadsheetView()
+		if (!(((AppD)app).getGuiManager().getSpreadsheetView()
 				.hasFocus())
-				&& !(((AlgebraInput) ((Application)app).getGuiManager()
+				&& !(((AlgebraInput) ((AppD)app).getGuiManager()
 						.getAlgebraInput()).getTextField().hasFocus())) {
 
 			super.handleCtrlV();
@@ -264,19 +264,19 @@ public class GlobalKeyDispatcherD extends geogebra.common.main.GlobalKeyDispatch
 			// load next file in folder
 
 			// ask if OK to discard current file
-			if (((Application)app).isSaved() || ((Application)app).saveCurrentFile()) {
+			if (((AppD)app).isSaved() || ((AppD)app).saveCurrentFile()) {
 
 				MyFileFilter fileFilter = new MyFileFilter();
 				fileFilter.addExtension("ggb");
 
-				File[] options = ((Application)app).getCurrentPath().listFiles(
+				File[] options = ((AppD)app).getCurrentPath().listFiles(
 						fileFilter);
 
 				// no current file, just load the first file in the
 				// folder
-				if (((Application)app).getCurrentFile() == null) {
+				if (((AppD)app).getCurrentFile() == null) {
 					if (options.length > 0) {
-						((Application)app).getGuiManager().loadFile(options[0],
+						((AppD)app).getGuiManager().loadFile(options[0],
 								false);
 						return true;
 					}
@@ -290,7 +290,7 @@ public class GlobalKeyDispatcherD extends geogebra.common.main.GlobalKeyDispatch
 						sortedSet.add(options[i]);
 				}
 
-				String currentFile = ((Application)app).getCurrentFile().getName();
+				String currentFile = ((AppD)app).getCurrentFile().getName();
 
 				Iterator<File> iterator = sortedSet.iterator();
 				File fileToLoad = null;
@@ -305,13 +305,13 @@ public class GlobalKeyDispatcherD extends geogebra.common.main.GlobalKeyDispatch
 					}
 				}
 
-				((Application)app).getGuiManager().loadFile(fileToLoad, false);
+				((AppD)app).getGuiManager().loadFile(fileToLoad, false);
 
 				return true;
 			}
 			for (int i = 0; i < size; i++) {
 				GeoGebraFrame ggb = ggbInstances.get(i);
-				Application application = ggb.getApplication();
+				AppD application = ggb.getApplication();
 
 				if (app == application) {
 					int n = isAltDown ? ((i - 1 + size) % size)
@@ -360,8 +360,8 @@ public class GlobalKeyDispatcherD extends geogebra.common.main.GlobalKeyDispatch
 	}
 
 	@Override
-	protected void showPrintPreview(AbstractApplication app2) {
-		GeoGebraMenuBar.showPrintPreview((Application) app);
+	protected void showPrintPreview(App app2) {
+		GeoGebraMenuBar.showPrintPreview((AppD) app);
 	}
 
 

@@ -27,7 +27,7 @@ import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.ToGeoElement;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.util.StringUtil;
 
@@ -1250,7 +1250,7 @@ public abstract class AlgoElement extends ConstructionElement implements
 		if ((this instanceof AlgoFunctionInterval || this instanceof AlgoIfFunction) && getOutput(0) instanceof GeoFunction ) {
 			// need to write the geo type in the XML if it's undefined 
 			// so that it's the same type when the file is loaded again
-			AbstractApplication.debug("writing var");
+			App.debug("writing var");
 			sb.append(" var=\"");
 			sb.append(((GeoFunction)getOutput(0)).getVarString(StringTemplate.defaultTemplate));
 			sb.append("\"");

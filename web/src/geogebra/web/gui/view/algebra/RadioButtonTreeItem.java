@@ -22,7 +22,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.web.euclidian.event.MouseEvent;
 import geogebra.web.euclidian.event.ZeroOffset;
-import geogebra.web.main.Application;
+import geogebra.web.main.AppW;
 import geogebra.web.main.DrawEquationWeb;
 
 import java.util.Iterator;
@@ -59,7 +59,7 @@ public class RadioButtonTreeItem extends HorizontalPanel
 
 	GeoElement geo;
 	Kernel kernel;
-	Application app;
+	AppW app;
 	AlgebraView av;
 	boolean previouslyChecked;
 	boolean LaTeX = false;
@@ -103,7 +103,7 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		super();
 		geo = ge;
 		kernel = geo.getKernel();
-		app = (Application)kernel.getApplication();
+		app = (AppW)kernel.getApplication();
 		av = (AlgebraView)app.getAlgebraView();
 
 		setHorizontalAlignment(HorizontalPanel.ALIGN_CENTER);
@@ -373,7 +373,7 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		if (av.editing)
 			return;
 
-		Application app = (Application)geo.getKernel().getApplication();
+		AppW app = (AppW)geo.getKernel().getApplication();
 		int mode = app.getActiveEuclidianView().getMode();
 		if (//!skipSelection && 
 			(mode == EuclidianConstants.MODE_MOVE || mode == EuclidianConstants.MODE_RECORD_TO_SPREADSHEET) ) {

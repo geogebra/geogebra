@@ -1,6 +1,6 @@
 package geogebra.gui.layout;
 
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 
 import java.awt.AWTEvent;
 import java.awt.BasicStroke;

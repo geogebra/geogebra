@@ -1,6 +1,6 @@
 package geogebra.web.gui.util;
 
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.web.awt.GDimensionW;
 
 import com.google.gwt.dom.client.Document;
@@ -89,11 +89,11 @@ public class Slider extends FocusWidget implements HasChangeHandlers, HasValue<I
     }
 
 	public void setPaintTicks(boolean b) {
-		AbstractApplication.debug("not applicable for range");
+		App.debug("not applicable for range");
     }
 
 	public void setPaintLabels(boolean b) {
-		AbstractApplication.debug("not applicable for range");
+		App.debug("not applicable for range");
     }
 
 	public GDimensionW getPreferredSize() {

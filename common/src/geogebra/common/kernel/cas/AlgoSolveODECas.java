@@ -13,7 +13,7 @@ import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 
 /**
  * @author zbynek
@@ -137,7 +137,7 @@ public class AlgoSolveODECas extends AlgoElement {
 			}else
 				helper.update();
 		}else{
-			AbstractApplication.debug("Unhandled case "+g.getClass());
+			App.debug("Unhandled case "+g.getClass());
 		}
 		
 	}
@@ -162,7 +162,7 @@ public class AlgoSolveODECas extends AlgoElement {
 				ok =true;
 			}
 		} catch (Throwable e) {
-			AbstractApplication.debug("AlgoDegree: " + e.getMessage());
+			App.debug("AlgoDegree: " + e.getMessage());
 		}
 		if(!ok){
 			if(g!=null)

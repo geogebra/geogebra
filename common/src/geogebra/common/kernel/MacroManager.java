@@ -12,7 +12,7 @@ the Free Software Foundation.
 
 package geogebra.common.kernel;
 
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.util.StringUtil;
 
 import java.util.ArrayList;
@@ -32,7 +32,7 @@ public class MacroManager {
 	 * Creates new macro manager
 	 * @param app application
 	 */
-	public MacroManager(AbstractApplication app) {
+	public MacroManager(App app) {
 		macroMap = new HashMap<String, Macro>();
 		macroList = new ArrayList<Macro>();
 	}

@@ -8,7 +8,7 @@ import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.main.MyError;
 
 /**
@@ -51,7 +51,7 @@ public class CmdTDistribution extends CommandProcessor {
 			if (arg[0].isNumberValue()) {
 				if (arg[1].isGeoFunction() && ((GeoFunction)arg[1]).toString(StringTemplate.defaultTemplate).equals("x")) {
 
-					AbstractApplication.debug("jhgjhgjhg");
+					App.debug("jhgjhgjhg");
 					AlgoTDistributionDF algo = new AlgoTDistributionDF(cons, c.getLabel(), (NumberValue)arg[0], cumulative);
 					return algo.getGeoElements();
 

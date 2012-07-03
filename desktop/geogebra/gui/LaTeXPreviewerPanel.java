@@ -12,7 +12,7 @@ the Free Software Foundation.
 package geogebra.gui;
 
 import geogebra.common.kernel.geos.GeoText;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -51,7 +51,7 @@ public class LaTeXPreviewerPanel extends JPanel {
 		super(false);
 	}
 
-	public void setLaTeX(Application app, String str) {
+	public void setLaTeX(AppD app, String str) {
 
 		if (str.indexOf('"') > -1) {
 

@@ -20,10 +20,10 @@ import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoText;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.plugin.Operation;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -42,14 +42,14 @@ import com.google.gwt.regexp.shared.MatchResult;
 public class CellRangeProcessor {
 
 	private MyTable table;
-	private Application app;
+	private AppD app;
 	private Construction cons;
 	private AbstractSpreadsheetTableModel tableModel;
 
 	public CellRangeProcessor(MyTable table) {
 
 		this.table = table;
-		app = (Application) table.kernel.getApplication();
+		app = (AppD) table.kernel.getApplication();
 		tableModel = app.getSpreadsheetTableModel();
 		cons = table.kernel.getConstruction();
 
@@ -489,7 +489,7 @@ public class CellRangeProcessor {
 		}
 
 		catch (Exception ex) {
-			AbstractApplication
+			App
 					.debug("Creating list of points expression failed with exception "
 							+ ex);
 		}
@@ -689,7 +689,7 @@ public class CellRangeProcessor {
 			}
 
 		} catch (Exception ex) {
-			AbstractApplication.debug("Creating list failed with exception "
+			App.debug("Creating list failed with exception "
 					+ ex);
 		}
 
@@ -755,7 +755,7 @@ public class CellRangeProcessor {
 			}
 
 		} catch (Exception ex) {
-			AbstractApplication
+			App
 					.debug("Creating list from frequency table failed with exception "
 							+ ex);
 		}
@@ -935,7 +935,7 @@ public class CellRangeProcessor {
 			geos = app.getKernel().getAlgebraProcessor()
 					.processAlgebraCommandNoExceptions(expr, false);
 		} catch (Exception ex) {
-			AbstractApplication.debug("creating matrix failed " + expr);
+			App.debug("creating matrix failed " + expr);
 			ex.printStackTrace();
 		}
 
@@ -975,7 +975,7 @@ public class CellRangeProcessor {
 					.processAlgebraCommandNoExceptions(text.toString(), false);
 
 		} catch (Exception ex) {
-			AbstractApplication.debug("creating TableText failed " + text);
+			App.debug("creating TableText failed " + text);
 			ex.printStackTrace();
 		}
 

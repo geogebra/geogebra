@@ -16,12 +16,12 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoButton;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.gui.editor.GeoGebraEditorPane;
 import geogebra.gui.inputfield.AutoCompleteTextFieldD;
 import geogebra.gui.view.algebra.InputPanel;
 import geogebra.gui.view.algebra.MyComboBoxListener;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -69,7 +69,7 @@ public class ButtonDialog extends JDialog
 	private InputPanel tfLabel;
 	private JPanel optionPane;
 	
-	private Application app;
+	private AppD app;
 	
 	private GeoElement geoResult = null;
 	private GeoButton button = null;
@@ -81,7 +81,7 @@ public class ButtonDialog extends JDialog
 	 * @param x location of slider in screen coords
 	 * @param y location of slider in screen coords
 	 */
-	public ButtonDialog(Application app, int x, int y, boolean textField) {
+	public ButtonDialog(AppD app, int x, int y, boolean textField) {
 		super(app.getFrame(), false);
 		this.app = app;		
 		this.textField = textField;
@@ -146,7 +146,7 @@ public class ButtonDialog extends JDialog
 			}	
 			
 			// make sure it's not too wide (eg long GeoList)
-			Dimension size = new Dimension(Math.min(Application.getScreenSize().width/2, width), cbAdd.getPreferredSize().height);
+			Dimension size = new Dimension(Math.min(AppD.getScreenSize().width/2, width), cbAdd.getPreferredSize().height);
 			cbAdd.setMaximumSize(size);
 			cbAdd.setPreferredSize(size);
 
@@ -272,7 +272,7 @@ public class ButtonDialog extends JDialog
 		
 	public void actionPerformed(ActionEvent e) {
 		Object source = e.getSource();
-		AbstractApplication.debug(tfScript.getText());				
+		App.debug(tfScript.getText());				
 		if (source == btApply) {		
 			Construction cons = app.getKernel().getConstruction();
 			button = textField ? app.getKernel().textfield(null, linkedGeo) : new GeoButton(cons);

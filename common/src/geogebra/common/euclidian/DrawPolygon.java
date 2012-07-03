@@ -22,7 +22,7 @@ import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.util.MyMath;
 
 import java.util.ArrayList;
@@ -324,8 +324,8 @@ public class DrawPolygon extends Drawable implements Previewable {
 
 	@Override
 	final public boolean isInside(geogebra.common.awt.GRectangle rect) {
-		AbstractApplication.debug(gp.getBounds());
-		AbstractApplication.debug(rect);
+		App.debug(gp.getBounds());
+		App.debug(rect);
 		return gp != null && gp.getBounds() != null
 				&& rect.contains(gp.getBounds());
 	}

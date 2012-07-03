@@ -9,7 +9,7 @@ import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.SuggestOracle;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.web.gui.inputfield.AutoCompleteTextFieldW;
 
 public class CompletionsPopup extends MultiWordSuggestOracle {

@@ -18,7 +18,7 @@ the Free Software Foundation.
 
 package geogebra.gui.view;
 
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.Component;
 
@@ -39,7 +39,7 @@ public interface Gridable{
 	 */
 	public int[] getGridRowHeights();
 	
-	public Application getApplication();
+	public AppD getApplication();
 	
 	/**
 	 * 

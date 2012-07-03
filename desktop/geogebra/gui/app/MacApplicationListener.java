@@ -1,7 +1,7 @@
 package geogebra.gui.app;
 
-import geogebra.common.main.AbstractApplication;
-import geogebra.main.Application;
+import geogebra.common.main.App;
+import geogebra.main.AppD;
 
 import java.io.File;
 
@@ -24,7 +24,7 @@ public class MacApplicationListener implements com.apple.eawt.ApplicationListene
 				Thread.sleep(100);			
 				wnd = GeoGebraFrame.getActiveInstance();	
 			} catch (Exception e) {
-				AbstractApplication.debug("MacApplicationListener.getGGBInstance(): " + e.getMessage());
+				App.debug("MacApplicationListener.getGGBInstance(): " + e.getMessage());
 				wnd = null;
 			}
 		}
@@ -33,18 +33,18 @@ public class MacApplicationListener implements com.apple.eawt.ApplicationListene
 	
 	public synchronized void handleQuit(com.apple.eawt.ApplicationEvent ev) {
 		// quit all frames
-		Application app = getGGBInstance().getApplication();					
+		AppD app = getGGBInstance().getApplication();					
 		app.exitAll();	
 	}			
 						
 	public synchronized void handleAbout(com.apple.eawt.ApplicationEvent event) {
 		 event.setHandled(true);
-         Application app = getGGBInstance().getApplication();	
+         AppD app = getGGBInstance().getApplication();	
          app.getGuiManager().showAboutDialog();
      }
 
 	public synchronized void handleOpenFile(com.apple.eawt.ApplicationEvent ev) {	
-		AbstractApplication.debug("handleOpenFile event, filename: " + ev.getFilename());
+		App.debug("handleOpenFile event, filename: " + ev.getFilename());
 		
 		// open file			
 		String fileName = ev.getFilename();		
@@ -54,7 +54,7 @@ public class MacApplicationListener implements com.apple.eawt.ApplicationListene
 			if (openFile.exists()) {
 				// get application instance
 				GeoGebraFrame ggb = getGGBInstance();
-				Application app = ggb.getApplication();
+				AppD app = ggb.getApplication();
 				
 				// open file 
 				File [] files = { openFile };
@@ -70,14 +70,14 @@ public class MacApplicationListener implements com.apple.eawt.ApplicationListene
 	}
 	
 	public synchronized void handlePrintFile(com.apple.eawt.ApplicationEvent event) {
-		AbstractApplication.debug("handlePrintFile event, filename: " + event.getFilename());
+		App.debug("handlePrintFile event, filename: " + event.getFilename());
 		
 		handleOpenFile(event);
 		getGGBInstance().getApplication().getGuiManager().showPrintPreview();
 	}
 
 	public synchronized void handleOpenApplication(com.apple.eawt.ApplicationEvent ev) {
-		AbstractApplication.debug("handleOpenApplication event, filename: " + ev.getFilename());
+		App.debug("handleOpenApplication event, filename: " + ev.getFilename());
 		
 		// open file			
 		String fileName = ev.getFilename();		
@@ -91,11 +91,11 @@ public class MacApplicationListener implements com.apple.eawt.ApplicationListene
 	}
 
 	public synchronized void handlePreferences(com.apple.eawt.ApplicationEvent arg0) {
-		AbstractApplication.debug("handlePreferences event, filename: " + arg0.getFilename());
+		App.debug("handlePreferences event, filename: " + arg0.getFilename());
 	}
 
 	public synchronized void handleReOpenApplication(com.apple.eawt.ApplicationEvent arg0) {
-		AbstractApplication.debug("handleReOpenApplication event, filename: " + arg0.getFilename());
+		App.debug("handleReOpenApplication event, filename: " + arg0.getFilename());
 	}
 		
 }

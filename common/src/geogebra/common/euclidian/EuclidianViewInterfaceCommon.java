@@ -8,7 +8,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 
 import java.util.ArrayList;
 
@@ -127,7 +127,7 @@ public interface EuclidianViewInterfaceCommon extends EuclidianViewInterfaceSlim
 	/**
 	 * @return application
 	 */
-	public AbstractApplication getApplication();
+	public App getApplication();
 
 	/**
 	 * @param geo geo

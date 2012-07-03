@@ -14,7 +14,7 @@ the Free Software Foundation.
 package geogebra.gui.editor;
 
 import geogebra.gui.GeoGebraKeys;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.Dimension;
 import java.awt.Font;
@@ -53,7 +53,7 @@ public class GeoGebraEditorPane extends JEditorPane implements CaretListener,
 
 	private Popup helpPopup;
 
-	private Application app;
+	private AppD app;
 	private int rows;
 	private int cols;
 	private int rowHeight;
@@ -75,7 +75,7 @@ public class GeoGebraEditorPane extends JEditorPane implements CaretListener,
 	 * @param cols
 	 *            the number of columns to use
 	 */
-	public GeoGebraEditorPane(Application app, int rows, int cols) {
+	public GeoGebraEditorPane(AppD app, int rows, int cols) {
 		super();
 		this.app = app;
 		this.rows = rows;

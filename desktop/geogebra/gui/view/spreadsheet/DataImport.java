@@ -1,8 +1,8 @@
 package geogebra.gui.view.spreadsheet;
 
 import geogebra.common.gui.view.spreadsheet.RelativeCopy;
-import geogebra.common.main.AbstractApplication;
-import geogebra.main.Application;
+import geogebra.common.main.App;
+import geogebra.main.AppD;
 
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
@@ -97,7 +97,7 @@ public class DataImport {
 						.getTransferData(DataFlavor.stringFlavor);
 				// Application.debug("pasting from String: "+buf);
 			} catch (Exception ex) {
-				AbstractApplication.debug("transferable has no String");
+				App.debug("transferable has no String");
 				// ex.printStackTrace();
 				// app.showError(ex.getMessage());
 			}
@@ -187,7 +187,7 @@ public class DataImport {
 		}
 
 		catch (Exception e) {
-			AbstractApplication.debug("clipboard: no HTML");
+			App.debug("clipboard: no HTML");
 		}
 
 		if (sbHTML.length() != 0) // found HTML table to paste as CSV
@@ -209,7 +209,7 @@ public class DataImport {
 	 *            true = comma delimited parsing, false = tab delimited parsing
 	 * @return 2D string array with values formatted for the spreadsheet.
 	 */
-	public static String[][] parseExternalData(AbstractApplication app,
+	public static String[][] parseExternalData(App app,
 			String source, String[] separator, boolean isCSV) {
 
 		String decimalSeparator, groupingSeparator;
@@ -332,7 +332,7 @@ public class DataImport {
 	 * given string is a number that Geogebra's parser recognizes. If cannot be
 	 * parsed to a number, then the original string is returned.
 	 */
-	private static String adjustNumberString(AbstractApplication app, String s,
+	private static String adjustNumberString(App app, String s,
 			String decimalSeparator, String groupingSeparator) {
 
 		if (s == null || s.equals(""))
@@ -356,13 +356,13 @@ public class DataImport {
 
 	}
 
-	private static String[] getDefaultSeparators(AbstractApplication app) {
+	private static String[] getDefaultSeparators(App app) {
 
 		String[] separators = new String[2];
 
 		// Get decimal and thousands separators
 		DecimalFormatSymbols dfs = new DecimalFormatSymbols(
-				((Application) app).getLocale());
+				((AppD) app).getLocale());
 		separators[0] = Character.toString(dfs.getDecimalSeparator());
 		separators[1] = Character.toString(dfs.getGroupingSeparator());
 

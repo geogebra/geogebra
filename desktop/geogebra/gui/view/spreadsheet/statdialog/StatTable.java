@@ -1,7 +1,7 @@
 package geogebra.gui.view.spreadsheet.statdialog;
 
 import geogebra.common.main.GeoGebraColorConstants;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -49,9 +49,9 @@ public class StatTable extends JScrollPane {
 	private HashMap<Point,MyComboBoxEditor> comboBoxEditorMap;
 	private HashMap<Point,MyComboBoxRenderer> comboBoxRendererMap;
 	private ActionListener al;
-	Application app;
+	AppD app;
 
-	public StatTable(Application app){
+	public StatTable(AppD app){
 
 		this.app = app;
 

@@ -14,14 +14,14 @@ package geogebra.export;
 
 import geogebra.GeoGebra;
 import geogebra.common.euclidian.EuclidianView;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.util.Unicode;
 import geogebra.euclidian.EuclidianViewD;
 import geogebra.export.epsgraphics.ColorMode;
 import geogebra.gui.util.FileTransferable;
 import geogebra.gui.util.ImageSelection;
 import geogebra.io.MyImageIO;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 import geogebra.main.GeoGebraPreferences;
 import geogebra.util.DownloadManager;
 import geogebra.util.Util;
@@ -70,7 +70,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 
 	private static final long serialVersionUID = 1L;
 
-	private final Application app;
+	private final AppD app;
 	private JComboBox cbFormat, cbDPI;
 	private JLabel sizeLabel;
 	private JButton cancelButton;
@@ -96,7 +96,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 	 * Creates a dialog for exporting an image of the active EuclidianView 
 	 * @param app
 	 */
-	public GraphicExportDialog(Application app) {
+	public GraphicExportDialog(AppD app) {
 		this(app, null);
 		
 	}
@@ -108,7 +108,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 	 * @param app
 	 * @param specifiedEuclidianView
 	 */
-	public GraphicExportDialog(Application app, EuclidianViewD specifiedEuclidianView) {
+	public GraphicExportDialog(AppD app, EuclidianViewD specifiedEuclidianView) {
 		super(app.getFrame(), false);
 		this.app = app;
 		this.specifiedEuclidianView = specifiedEuclidianView;
@@ -152,11 +152,11 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 		// format list
 		JPanel formatPanel = new JPanel(new FlowLayout(5));
 		String[] formats = {
-				app.getPlain("png") + " (" + Application.FILE_EXT_PNG + ")",
-				app.getPlain("pdf") + " (" + Application.FILE_EXT_PDF + ")",
-				app.getPlain("eps") + " (" + Application.FILE_EXT_EPS + ")",
-				app.getPlain("svg") + " (" + Application.FILE_EXT_SVG + ")",
-				app.getPlain("emf") + " (" + Application.FILE_EXT_EMF + ")" };
+				app.getPlain("png") + " (" + AppD.FILE_EXT_PNG + ")",
+				app.getPlain("pdf") + " (" + AppD.FILE_EXT_PDF + ")",
+				app.getPlain("eps") + " (" + AppD.FILE_EXT_EPS + ")",
+				app.getPlain("svg") + " (" + AppD.FILE_EXT_SVG + ")",
+				app.getPlain("emf") + " (" + AppD.FILE_EXT_EMF + ")" };
 
 		cbFormat = new JComboBox(formats);
 		formatPanel.add(new JLabel(app.getPlain("Format") + ":"));
@@ -522,7 +522,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 			// NB pasting into WordPad *won't* work with this method
 			file = new File(tempDir + "geogebra.eps");
 		} else {
-			file = app.getGuiManager().showSaveDialog(Application.FILE_EXT_EPS,
+			file = app.getGuiManager().showSaveDialog(AppD.FILE_EXT_EPS,
 					null, app.getPlain("eps") + " " + app.getMenu("Files"),
 					true, false);
 			
@@ -542,7 +542,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 			return true;
 		} catch (final Exception ex) {
 			app.showError("SaveFileFailed");
-			AbstractApplication.debug(ex.toString());
+			App.debug(ex.toString());
 			return false;
 		}
 	}
@@ -559,7 +559,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 		if (exportToClipboard) {
 			file = new File(tempDir + "geogebra.emf");
 		} else {
-			file = app.getGuiManager().showSaveDialog(Application.FILE_EXT_EMF,
+			file = app.getGuiManager().showSaveDialog(AppD.FILE_EXT_EMF,
 					null, app.getPlain("emf") + " " + app.getMenu("Files"),
 					true, false);
 			// Michael Borcherds 2008-03-02 END
@@ -578,11 +578,11 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 			return true;
 		} catch (Exception ex) {
 			app.showError("SaveFileFailed");
-			AbstractApplication.debug(ex.toString());
+			App.debug(ex.toString());
 			return false;
 		} catch (Error ex) {
 			app.showError("SaveFileFailed");
-			AbstractApplication.debug(ex.toString());
+			App.debug(ex.toString());
 			return false;
 		}
 	}
@@ -598,7 +598,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 			file = new File(tempDir + "geogebra.pdf");
 		} else {
 			// Michael Borcherds 2008-03-02 END
-			file = app.getGuiManager().showSaveDialog(Application.FILE_EXT_PDF,
+			file = app.getGuiManager().showSaveDialog(AppD.FILE_EXT_PDF,
 					null, app.getPlain("pdf") + " " + app.getMenu("Files"),
 					true, false);
 		}
@@ -649,7 +649,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 			file = new File(tempDir + "geogebra.svg");
 		} else {
 			// Michael Borcherds 2008-03-02 END
-			file = app.getGuiManager().showSaveDialog(Application.FILE_EXT_SVG,
+			file = app.getGuiManager().showSaveDialog(AppD.FILE_EXT_SVG,
 					null, app.getPlain("svg") + " " + app.getMenu("Files"),
 					true, false);
 		}
@@ -670,11 +670,11 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 			return true;
 		} catch (Exception ex) {
 			app.showError("SaveFileFailed");
-			AbstractApplication.debug(ex.toString());
+			App.debug(ex.toString());
 			return false;
 		} catch (Error ex) {
 			app.showError("SaveFileFailed");
-			AbstractApplication.debug(ex.toString());
+			App.debug(ex.toString());
 			return false;
 		} finally {
 			ev.restoreOldCoordSystem();
@@ -695,7 +695,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 		if (exportToClipboard) {
 			file = new File(tempDir + "geogebra.png");
 		} else {
-			file = app.getGuiManager().showSaveDialog(Application.FILE_EXT_PNG,
+			file = app.getGuiManager().showSaveDialog(AppD.FILE_EXT_PNG,
 					null, app.getPlain("png") + " " + app.getMenu("Files"),
 					true, false);
 		}
@@ -719,13 +719,13 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 			if (showError) {
 				app.showError("SaveFileFailed");
 			}
-			AbstractApplication.debug(ex.toString());
+			App.debug(ex.toString());
 			return false;
 		} catch (Error ex) {
 			if (showError) {
 				app.showError("SaveFileFailed");
 			}
-			AbstractApplication.debug(ex.toString());
+			App.debug(ex.toString());
 			return false;
 		}
 	}
@@ -783,7 +783,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 	 * @param pixelHeight
 	 * @param exportScale
 	 */
-	public static void exportSVG(Application app, EuclidianViewD ev, File file, boolean textAsShapes, int pixelWidth, int pixelHeight, double exportScale) {
+	public static void exportSVG(AppD app, EuclidianViewD ev, File file, boolean textAsShapes, int pixelWidth, int pixelHeight, double exportScale) {
 		UserProperties props = (UserProperties) SVGGraphics2D
 				.getDefaultProperties();
 		props.setProperty(SVGGraphics2D.EMBED_FONTS, !textAsShapes);
@@ -836,7 +836,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 	 * @param pixelHeight
 	 * @param exportScale
 	 */
-	public static void exportEMF(Application app, EuclidianViewD ev, File file,
+	public static void exportEMF(AppD app, EuclidianViewD ev, File file,
 			boolean useEMFplus, int pixelWidth, int pixelHeight,
 			double exportScale) {
 
@@ -872,7 +872,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 	 * @param pixelHeight
 	 * @param exportScale
 	 */
-	public static void exportPDF(Application app, EuclidianViewD ev, File file,
+	public static void exportPDF(AppD app, EuclidianViewD ev, File file,
 			boolean textAsShapes, int pixelWidth, int pixelHeight,
 			double exportScale) {
 
@@ -918,7 +918,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 	 * @param pixelHeight
 	 * @param exportScale
 	 */
-	public static void exportEPS(Application app, EuclidianViewD ev, File file,
+	public static void exportEPS(AppD app, EuclidianViewD ev, File file,
 			boolean textAsShapes, int pixelWidth, int pixelHeight,
 			double exportScale) {
 		geogebra.export.epsgraphics.EpsGraphics g;

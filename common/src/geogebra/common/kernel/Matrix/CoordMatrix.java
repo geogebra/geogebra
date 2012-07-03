@@ -17,7 +17,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 
 /**
  * Simple matrix description with basic linear algebra methods.
@@ -594,7 +594,7 @@ public class CoordMatrix {
 	/** prints the matrix to the screen */
 	public void SystemPrint() {
 
-		AbstractApplication.debug(toString());
+		App.debug(toString());
 	}
 
 	@Override
@@ -955,7 +955,7 @@ public class CoordMatrix {
 		m1.set(3, 1, 4.0);
 		m1.set(3, 2, 3.0);
 		m1.transpose();
-		AbstractApplication.debug("m1");
+		App.debug("m1");
 		m1.SystemPrint();
 
 		CoordMatrix m2 = new CoordMatrix(3, 4);
@@ -966,28 +966,28 @@ public class CoordMatrix {
 		m2.set(2, 4, 3.0);
 		m2.set(3, 4, 1.0);
 		m2.set(3, 2, -1.0);
-		AbstractApplication.debug("m2");
+		App.debug("m2");
 		m2.SystemPrint();
 
 		CoordMatrix m4 = m1.add(m2);
-		AbstractApplication.debug("m4");
+		App.debug("m4");
 		m4.SystemPrint();
 
 		CoordMatrix m5 = m1.mul(m2);
-		AbstractApplication.debug("m5");
+		App.debug("m5");
 		m5.SystemPrint();
 
-		AbstractApplication.debug("subMatrix");
+		App.debug("subMatrix");
 		m5.subMatrix(2, 3).SystemPrint();
 
 		m1.set(1, 2, -2.0);
 		m1.set(3, 1, -9.0);
 		m1.set(3, 2, -8.0);
-		AbstractApplication.debug("m1");
+		App.debug("m1");
 		m1.SystemPrint();
-		AbstractApplication.debug("det m1 = " + m1.det());
+		App.debug("det m1 = " + m1.det());
 
-		AbstractApplication.debug("inverse");
+		App.debug("inverse");
 		CoordMatrix m4inv = m4.inverse();
 		m4inv.SystemPrint();
 		m4.mul(m4inv).SystemPrint();

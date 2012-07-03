@@ -1,7 +1,7 @@
 // Copyright 2003, SLAC, Stanford, U.S.A.
 package org.freehep.util;
 
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import java.util.Iterator;
 import java.util.SortedSet;
@@ -101,16 +101,16 @@ public class DiscreteAngle {
         da.addAngle(10);
         da.addAngle(190);
 
-        Application.debug("  0 results in "+da.getAngle(  0));
-        Application.debug("  1 results in "+da.getAngle(  1));
-        Application.debug("  5 results in "+da.getAngle(  5));
-        Application.debug(" 80 results in "+da.getAngle( 80));
-        Application.debug(" 90 results in "+da.getAngle( 90));
-        Application.debug("170 results in "+da.getAngle(170));
-        Application.debug("185 results in "+da.getAngle(185));
-        Application.debug("186 results in "+da.getAngle(186));
-        Application.debug("231 results in "+da.getAngle(231));
-        Application.debug("359 results in "+da.getAngle(359));
+        AppD.debug("  0 results in "+da.getAngle(  0));
+        AppD.debug("  1 results in "+da.getAngle(  1));
+        AppD.debug("  5 results in "+da.getAngle(  5));
+        AppD.debug(" 80 results in "+da.getAngle( 80));
+        AppD.debug(" 90 results in "+da.getAngle( 90));
+        AppD.debug("170 results in "+da.getAngle(170));
+        AppD.debug("185 results in "+da.getAngle(185));
+        AppD.debug("186 results in "+da.getAngle(186));
+        AppD.debug("231 results in "+da.getAngle(231));
+        AppD.debug("359 results in "+da.getAngle(359));
 
     }
 }

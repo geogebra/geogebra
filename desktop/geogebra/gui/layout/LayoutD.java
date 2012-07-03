@@ -5,12 +5,12 @@ import geogebra.common.gui.InputHandler;
 import geogebra.common.gui.Layout;
 import geogebra.common.io.layout.DockPanelData;
 import geogebra.common.io.layout.Perspective;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.main.settings.AbstractSettings;
 import geogebra.common.main.settings.SettingListener;
 import geogebra.euclidianND.EuclidianViewND;
 import geogebra.gui.dialog.InputDialog;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 import geogebra.main.GeoGebraPreferences;
 
 import java.awt.BorderLayout;
@@ -44,11 +44,11 @@ import javax.swing.SwingUtilities;
 public class LayoutD extends Layout implements SettingListener {	
 	private boolean isInitialized = false;
 	
-	private Application app;
+	private AppD app;
 	private DockManager dockManager;
 	
 	/**
-	 * {@link #initialize(Application)} has to be called once in order to use this class.
+	 * {@link #initialize(AppD)} has to be called once in order to use this class.
 	 */
 	public LayoutD() {
 		initializeDefaultPerspectives(true, false);
@@ -61,7 +61,7 @@ public class LayoutD extends Layout implements SettingListener {
 	 * 
 	 * @param app
 	 */
-	public void initialize(Application app) {
+	public void initialize(AppD app) {
 		if(isInitialized)
 			return;
 		
@@ -287,7 +287,7 @@ public class LayoutD extends Layout implements SettingListener {
 		if(index >= 0 && index < perspectives.size()) {
 			perspectives.remove(index);
 		} else {
-			AbstractApplication.debug("Invalid perspective index: " + index);
+			App.debug("Invalid perspective index: " + index);
 		}
 	}
 	
@@ -402,7 +402,7 @@ public class LayoutD extends Layout implements SettingListener {
 	/**
 	 * @return The application object.
 	 */
-	public Application getApplication() {
+	public AppD getApplication() {
 		return app;
 	}
 	
@@ -475,13 +475,13 @@ public class LayoutD extends Layout implements SettingListener {
 	private class ManagePerspectivesDialog extends JDialog implements ActionListener {
 		private static final long serialVersionUID = 1L;
 		
-		private Application app;
+		private AppD app;
 		private LayoutD layout;
 		private JList list;
 		private DefaultListModel listModel;
 		private JButton cancelButton, removeButton;
 		
-		public ManagePerspectivesDialog(Application app, LayoutD layout) {
+		public ManagePerspectivesDialog(AppD app, LayoutD layout) {
 			super(app.getFrame());
 			
 			this.app = app;

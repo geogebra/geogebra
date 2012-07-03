@@ -4,7 +4,7 @@ import java.util.LinkedList;
 
 import com.google.gwt.event.dom.client.KeyPressEvent;
 
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 
 public class KeyEvent extends geogebra.common.euclidian.event.KeyEvent{
 
@@ -12,7 +12,7 @@ public class KeyEvent extends geogebra.common.euclidian.event.KeyEvent{
 	private com.google.gwt.event.dom.client.KeyPressEvent event;
 
 	private KeyEvent(com.google.gwt.event.dom.client.KeyPressEvent e) {
-		AbstractApplication.debug("possible missing release()");
+		App.debug("possible missing release()");
 		this.event = e;
 	}
 	
@@ -37,7 +37,7 @@ public class KeyEvent extends geogebra.common.euclidian.event.KeyEvent{
 		//but currently (2011.febr.29) this function used by
 		//DrawTextField.keyReleased(KeyEvent) only, which wants to know
 		//if we typed a '\n' or not.
-	    AbstractApplication.debug("implementation needed - just finishing"); // TODO
+	    App.debug("implementation needed - just finishing"); // TODO
 	    if (event.getNativeEvent().getKeyCode() == 13) return '\n';
 	    return event.getCharCode();
     }

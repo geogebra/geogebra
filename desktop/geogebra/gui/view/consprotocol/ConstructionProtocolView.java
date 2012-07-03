@@ -18,7 +18,7 @@ import geogebra.common.kernel.View;
 import geogebra.common.kernel.algos.ConstructionElement;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.common.main.settings.AbstractSettings;
 import geogebra.common.main.settings.ConstructionProtocolSettings;
@@ -27,7 +27,7 @@ import geogebra.common.util.StringUtil;
 import geogebra.export.WorksheetExportDialog;
 import geogebra.gui.TitlePanel;
 import geogebra.gui.view.algebra.InputPanel;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 import geogebra.util.Util;
 
 import java.awt.BorderLayout;
@@ -91,13 +91,13 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 	 * 
 	 */
 	private static final long serialVersionUID = 1152223555575098008L;
-	private static Color COLOR_STEP_HIGHLIGHT = Application.COLOR_SELECTION;
+	private static Color COLOR_STEP_HIGHLIGHT = AppD.COLOR_SELECTION;
 	private static Color COLOR_DRAG_HIGHLIGHT = new Color(250, 250, 200);
 	private static Color COLOR_DROP_HIGHLIGHT = Color.lightGray;
 
 	JTable table;
 	ConstructionTableData data;
-	Application app;
+	AppD app;
 	Kernel kernel;
 
 	private TableColumn[] tableColumns;
@@ -122,7 +122,7 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 	private ConstructionProtocolStyleBar helperBar;
 	private AbstractAction exportHtmlAction, printPreviewAction;
 	
-	public ConstructionProtocolView(final Application app) {
+	public ConstructionProtocolView(final AppD app) {
 		super(new BorderLayout());
 		
 		this.app = app;
@@ -200,7 +200,7 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 		
 	}
 
-	public Application getApplication() {
+	public AppD getApplication() {
 		return app;
 	}
 
@@ -422,7 +422,7 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 	private void initActions() {
 
 		exportHtmlAction = new AbstractAction(app.getPlain("ExportAsWebpage")
-				+ " (" + Application.FILE_EXT_HTML + ") ...") {
+				+ " (" + AppD.FILE_EXT_HTML + ") ...") {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
@@ -556,7 +556,7 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 					return;
 
 				// right click
-				if (Application.isRightClick(e)) {
+				if (AppD.isRightClick(e)) {
 					GeoElement geo = data.getGeoElement(row);
 					ArrayList<GeoElement> temp = new ArrayList<GeoElement>();
 					temp.add(geo);
@@ -607,7 +607,7 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 			} else if (ob == table.getTableHeader()&&(e.getClickCount() == 2)) {
 				setConstructionStep(-1);
 				table.repaint();
-			} else if ((e.getClickCount() == 1)&&(Application.isRightClick(e))&&((ob == table.getTableHeader())||(ob == scrollPane))){
+			} else if ((e.getClickCount() == 1)&&(AppD.isRightClick(e))&&((ob == table.getTableHeader())||(ob == scrollPane))){
 				ConstructionProtocolContextMenu contextMenu = new ConstructionProtocolContextMenu(app);
 				contextMenu.show(view, e.getPoint().x, e.getPoint().y);
 				
@@ -1029,7 +1029,7 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 			// shown
 			// in app
 			if (title.equals("Value")
-					&& !app.getGuiManager().showView(AbstractApplication.VIEW_ALGEBRA))
+					&& !app.getGuiManager().showView(App.VIEW_ALGEBRA))
 				return false;
 
 			return initShow;
@@ -1607,11 +1607,11 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
         }
 
 		public int getViewID() {
-			return AbstractApplication.VIEW_CONSTRUCTION_PROTOCOL;
+			return App.VIEW_CONSTRUCTION_PROTOCOL;
 		}
 
 		public boolean hasFocus() {
-		    AbstractApplication.debug("unimplemented");
+		    App.debug("unimplemented");
 			return false;
 		}
 

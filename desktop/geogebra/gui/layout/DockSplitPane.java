@@ -1,8 +1,8 @@
 package geogebra.gui.layout;
 
 import geogebra.common.io.layout.DockSplitPaneData;
-import geogebra.common.main.AbstractApplication;
-import geogebra.main.Application;
+import geogebra.common.main.App;
+import geogebra.main.AppD;
 
 import java.awt.Component;
 import java.beans.PropertyChangeEvent;
@@ -142,12 +142,12 @@ public class DockSplitPane extends JSplitPane implements DockComponent{
 	 */
 	public static class TreeReader
 	{
-		private Application app;
+		private AppD app;
 		private ArrayList<DockSplitPaneData> splitPaneInfo;
 		private int windowWidth;
 		private int windowHeight;
 		
-		public TreeReader(Application app) {
+		public TreeReader(AppD app) {
 			this.app = app;
 			
 			splitPaneInfo = new ArrayList<DockSplitPaneData>();

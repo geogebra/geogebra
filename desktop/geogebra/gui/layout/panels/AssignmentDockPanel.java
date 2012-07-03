@@ -1,8 +1,8 @@
 package geogebra.gui.layout.panels;
 
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.gui.layout.DockPanel;
-import geogebra.main.Application;
+import geogebra.main.AppD;
 
 import javax.swing.JComponent;
 
@@ -12,9 +12,9 @@ import javax.swing.JComponent;
  */
 public class AssignmentDockPanel extends DockPanel {
 	private static final long serialVersionUID = 1L;
-	public AssignmentDockPanel(Application app) {
+	public AssignmentDockPanel(AppD app) {
 		super(
-			AbstractApplication.VIEW_ASSIGNMENT, 	// view id
+			App.VIEW_ASSIGNMENT, 	// view id
 			"Assignment", 					// view title phrase 
 			null,	// toolbar string
 			true,					// style bar?
