@@ -26,12 +26,18 @@ import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.MyDouble;
+import geogebra.common.kernel.arithmetic.PolyFunction;
 import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint;
+import geogebra.common.main.AbstractApplication;
 import geogebra.common.plugin.Operation;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedList;
 
 
 /**
@@ -133,26 +139,77 @@ public class AlgoIntersectLineCurve extends AlgoElement{
 
 		// substitute x = x(t), y=y(t) into
 		// ax + by + c
-		ExpressionNode enx = new ExpressionNode(kernel, new MyDouble(kernel, coeffs.getX()), Operation.MULTIPLY, xFun);
-		ExpressionNode eny = new ExpressionNode(kernel, new MyDouble(kernel, coeffs.getY()), Operation.MULTIPLY, yFun);
-		enx = enx.plus(eny).plus(coeffs.getZ());
+		// Normalizing to (a/c)x + (b/c)y + 1 seems to work better
+		ExpressionNode enx = new ExpressionNode(kernel, new MyDouble(kernel, coeffs.getX() / coeffs.getZ()), Operation.MULTIPLY, xFun);
+		ExpressionNode eny = new ExpressionNode(kernel, new MyDouble(kernel, coeffs.getY() / coeffs.getZ()), Operation.MULTIPLY, yFun);
+		enx = enx.plus(eny).plus(1);
 
 		// wrap in a function
 		Function f = new Function(enx, fv);  		
 		GeoFunction geoFun = new GeoFunction(cons, f);
 
-		// solve a x(t) + b y(t) + c = 0 (for t)
-		double[] roots = AlgoRoots.findRoots(geoFun, curve.getMinParameter(), curve.getMaxParameter(), 100);
+		double[] roots = null;
+		int outputSize = -1;
+		
+		ArrayList<Double> polyRoots = new ArrayList<Double>();
 
-		int outputSize = roots == null || roots.length == 0 ? 1 : roots.length;
-				
+		if (geoFun.isPolynomialFunction(true)) {
+			//AbstractApplication.debug("trying polynomial");
+
+			LinkedList<PolyFunction> factorList = f.getPolynomialFactors(false);
+
+			if (factorList != null) {
+				// compute the roots of every single factor
+				Iterator<PolyFunction> it = factorList.iterator();
+				while (it.hasNext()) {
+					PolyFunction polyFun = it.next();
+
+					if (polyFun.updateCoeffValues()) {
+						// now let's compute the roots of this factor
+						// compute all roots of polynomial polyFun
+						roots = polyFun.getCoeffsCopy();
+						int n = cons.getKernel().getEquationSolver().polynomialRoots(roots, true);
+						
+						for (int i = 0 ; i < n ; i++) {
+							polyRoots.add(roots[i]);
+						}
+					} else {
+						outputSize = -1;
+						break;
+					}
+
+				}
+			}
+
+		}
+		
+		if (polyRoots.size() > 0) {
+			
+			outputSize = polyRoots.size();
+			
+			roots = new double[outputSize];
+			
+			for (int i = 0 ; i < outputSize ; i++) {
+				roots[i] = polyRoots.get(i);
+			}
+		} else {
+			// polynomial method hasn't worked
+			//AbstractApplication.debug("trying non-polynomial");
+
+			// solve a x(t) + b y(t) + c = 0 (for t)
+			roots = AlgoRoots.findRoots(geoFun, curve.getMinParameter(), curve.getMaxParameter(), 100);
+
+			outputSize = roots == null || roots.length == 0 ? 1 : roots.length;
+			
+		}
+
 		//update and/or create points
 		outputPoints.adjustOutputSize(outputSize);
 
 		//affect new computed points
 		int index = 0;
 		if (roots != null) {
-			for (index = 0 ; index < roots.length ; index++) {
+			for (index = 0 ; index < outputSize ; index++) {
 				double paramVal = roots[index];
 				GeoPoint point = (GeoPoint) outputPoints.getElement(index);
 
