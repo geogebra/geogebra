@@ -184,10 +184,10 @@ office@geogebra.org
 	</target>
 	<!-- copies the jogl jars  -->
 	<target name="ggb-copy-jogl" depends="clean" description="copy jogl jars">
-		<copy file="${src.dir}/lib/build/jogl1/jar/jogl.jar"
+		<copy file="${src.dir}/../jogl1/lib/jogl.jar"
 		      tofile="${build.dir}/jogl.jar">
 		</copy>
-		<copy file="${src.dir}/lib/build/jogl1/jar/gluegen-rt.jar"
+		<copy file="${src.dir}/../jogl1/lib/gluegen-rt.jar"
 		      tofile="${build.dir}/gluegen-rt.jar">
 		</copy>
 	</target>
@@ -382,22 +382,19 @@ office@geogebra.org
 	</target>
 
 	<target name="ggb-3d-jar" depends="clean" description="create unsigned geogebra_3d.jar">
-		<mkdir dir="${src.dir}/geogebra/jogl"/>
-		<copy todir="${src.dir}/geogebra/jogl">
-			<fileset dir="${src.dir}/../jogl1/src">
-				<include name="**/*" />
-			</fileset>
-		</copy>
+	        <copy todir="${src.dir}/geogebra3D">
+            		<fileset dir="${src.dir}/../jogl1/src/geogebra3D">
+                                <include name="**/*.class" />
+                        </fileset>
+                </copy>
 
 		<jar jarfile="${build.dir}/geogebra_3d.jar"
 			basedir="${src.dir}"
 			includes="geogebra3D/**,
-			jogl/geogebra3D/**,
 			com/quantimegroup/**"		
 			excludes="**/*.java,
 						geogebra3D/samples/**" 
 		/>
-		<delete dir="${src.dir}/geogebra/jogl"/>
 	</target>
 
 	<target name="ggb-properties-jar" depends="clean, stripComments" description="create unsigned geogebra_properties.jar">
