@@ -8409,6 +8409,16 @@ public class Kernel {
 	}
 
 	/**
+	 * yields intersection points named label of line g and polyLine p
+	 */
+	final public GeoElement[] IntersectLineCurve(String[] labels, GeoLine g,
+			GeoCurveCartesian p) {
+		AlgoIntersectLineCurve algo = new AlgoIntersectLineCurve(cons,
+				labels, g, p);
+		return algo.getOutput();
+	}
+
+	/**
 	 * yields intersection segments named label of line g and polygon p (as
 	 * region)
 	 */

@@ -77,6 +77,7 @@ public enum Algos {
 	AlgoIntersectLineConicRegion(Commands.IntersectionPaths),
 	AlgoIntersectLines(Commands.Intersect),
 	AlgoIntersectLinePolyLine(Commands.Intersect),
+	AlgoIntersectLineCurve(Commands.Intersect),
 	AlgoIntersectLinePolygon(Commands.Intersect),
 	AlgoIntersectLinePolygon3D(Commands.Intersect),
 	AlgoIntersectLinePolygonalRegion(Commands.IntersectionPaths),

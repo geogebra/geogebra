@@ -4,6 +4,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoConic;
+import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoFunctionable;
@@ -56,6 +57,24 @@ public  GeoElement[] process(Command c) throws MyError {
                             c.getLabel(),
                             (GeoLine) arg[0],
                             (GeoLine) arg[1])};
+                return ret;
+            }
+            // Line - Parametric Curve
+            else if ((ok[0] = (arg[0] .isGeoLine()))
+            		&& (ok[1] = (arg[1] instanceof GeoCurveCartesian))) {
+                GeoElement[] ret =
+                         kernelA.IntersectLineCurve(
+                            c.getLabels(),
+                            (GeoLine) arg[0],
+                            (GeoCurveCartesian) arg[1]);
+                return ret;
+            } else if ((ok[0] = (arg[0] instanceof GeoCurveCartesian))
+            		&& (ok[1] = (arg[1] .isGeoLine()))) {
+                GeoElement[] ret =
+                         kernelA.IntersectLineCurve(
+                            c.getLabels(),
+                            (GeoLine) arg[1],
+                            (GeoCurveCartesian) arg[0]);
                 return ret;
             }
             // Line - PolyLine
