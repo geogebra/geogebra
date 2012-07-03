@@ -19,7 +19,7 @@ import javax.swing.border.Border;
 /**
  * Options for the CAS view.
  */
-public class OptionsCASD  extends geogebra.common.gui.dialog.options.OptionsCAS implements OptionPanel, ActionListener, SetLabels {
+public class OptionsCASD  extends geogebra.common.gui.dialog.options.OptionsCAS implements OptionPanelD, ActionListener, SetLabels {
 	/** */
 	private static final long serialVersionUID = 1L;
 	

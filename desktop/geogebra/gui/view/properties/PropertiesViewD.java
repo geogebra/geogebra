@@ -15,7 +15,7 @@ package geogebra.gui.view.properties;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
-import geogebra.gui.dialog.options.OptionPanel;
+import geogebra.gui.dialog.options.OptionPanelD;
 import geogebra.gui.dialog.options.OptionsAdvancedD;
 import geogebra.gui.dialog.options.OptionsCASD;
 import geogebra.gui.dialog.options.OptionsDefaultsD;
@@ -444,7 +444,7 @@ public class PropertiesViewD extends geogebra.common.gui.view.properties.Propert
 	 * @param type
 	 * @return
 	 */
-	public OptionPanel getOptionPanel(OptionType type) {
+	public OptionPanelD getOptionPanel(OptionType type) {
 		
 		//AbstractApplication.printStacktrace("type :"+type);
 

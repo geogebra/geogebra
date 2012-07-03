@@ -45,7 +45,7 @@ import javax.swing.event.ChangeListener;
 /**
  * Advanced options for the options dialog.
  */
-public class OptionsAdvancedD extends geogebra.common.gui.dialog.options.OptionsAdvanced implements OptionPanel, ActionListener,
+public class OptionsAdvancedD extends geogebra.common.gui.dialog.options.OptionsAdvanced implements OptionPanelD, ActionListener,
 		ChangeListener, FocusListener, SetLabels {
 	/** */
 	private static final long serialVersionUID = 1L;

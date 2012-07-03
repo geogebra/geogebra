@@ -62,7 +62,7 @@ import javax.swing.border.Border;
  * revised by G.Sturr 2010-8-15
  * 
  */
-public class OptionsEuclidianD extends geogebra.common.gui.dialog.options.OptionsEuclidian implements OptionPanel, ActionListener,
+public class OptionsEuclidianD extends geogebra.common.gui.dialog.options.OptionsEuclidian implements OptionPanelD, ActionListener,
 		FocusListener, ItemListener, SetLabels {
 
 	private static final long serialVersionUID = 1L;

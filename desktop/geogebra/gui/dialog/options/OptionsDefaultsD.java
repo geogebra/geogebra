@@ -1,7 +1,7 @@
 package geogebra.gui.dialog.options;
 
 import geogebra.common.gui.SetLabels;
-import geogebra.common.gui.dialog.options.OptionDefaults;
+import geogebra.common.gui.dialog.options.OptionsDefaults;
 import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.gui.GuiManagerD;
 import geogebra.gui.color.GeoGebraColorChooser;
@@ -29,7 +29,7 @@ import javax.swing.tree.TreePath;
 /**
  * Options with the default settings of objects.
  */
-public class OptionsDefaultsD extends OptionDefaults implements OptionPanel, TreeSelectionListener,
+public class OptionsDefaultsD extends OptionsDefaults implements OptionPanelD, TreeSelectionListener,
 		SetLabels {
 	/** */
 	private static final long serialVersionUID = 1L;

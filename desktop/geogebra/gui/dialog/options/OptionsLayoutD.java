@@ -52,7 +52,7 @@ import javax.swing.event.ChangeListener;
 /**
  * Layout options for the options dialog.
  */
-public class OptionsLayoutD extends geogebra.common.gui.dialog.options.OptionsLayout implements OptionPanel, ActionListener,
+public class OptionsLayoutD extends geogebra.common.gui.dialog.options.OptionsLayout implements OptionPanelD, ActionListener,
 		FocusListener, SetLabels {
 	/** */
 	private static final long serialVersionUID = 1L;

@@ -11,7 +11,7 @@ import javax.swing.border.Border;
  * @author mathieu
  *
  */
-public interface OptionPanel {
+public interface OptionPanelD {
 	/**
 	 * Update the GUI to take care of new settings which were applied.
 	 */

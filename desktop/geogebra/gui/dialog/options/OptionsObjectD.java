@@ -40,7 +40,7 @@ import javax.swing.border.Border;
 /**
  * @author Markus Hohenwarter
  */
-public class OptionsObjectD extends geogebra.common.gui.dialog.options.OptionsObject implements OptionPanel, SetLabels {
+public class OptionsObjectD extends geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelD, SetLabels {
 
 	private static final long serialVersionUID = 1L;
 	private Application app;

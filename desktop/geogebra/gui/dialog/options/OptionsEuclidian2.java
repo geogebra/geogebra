@@ -58,7 +58,7 @@ import javax.swing.border.TitledBorder;
  * revised by G.Sturr 2010-8-15
  * 
  */
-public class OptionsEuclidian2 extends JPanel  implements OptionPanel, ActionListener, FocusListener, ItemListener, SetLabels {	
+public class OptionsEuclidian2 extends JPanel  implements OptionPanelD, ActionListener, FocusListener, ItemListener, SetLabels {	
 
 	private static final long serialVersionUID = 1L;
 

@@ -839,6 +839,10 @@ public class Application extends AbstractApplication {
 	public EuclidianViewW getEuclidianView1() {
 		return (EuclidianViewW) euclidianView;
 	}
+	
+	public EuclidianViewW getEuclidianView2() {
+		return (EuclidianViewW) null; //TODO: add euclidianview2 here later
+	}
 
 	@Override
 	public EuclidianViewInterfaceCommon getActiveEuclidianView() {

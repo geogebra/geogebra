@@ -46,7 +46,7 @@ import javax.swing.border.Border;
  * G.Sturr 2010-3-5
  * 
  */
-public class OptionsSpreadsheetD extends geogebra.common.gui.dialog.options.OptionsSpreadsheet  implements OptionPanel, ActionListener, FocusListener, SetLabels {
+public class OptionsSpreadsheetD extends geogebra.common.gui.dialog.options.OptionsSpreadsheet  implements OptionPanelD, ActionListener, FocusListener, SetLabels {
 	
 	private static final long serialVersionUID = 1L;
 

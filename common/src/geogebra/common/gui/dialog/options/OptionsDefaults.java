@@ -1,5 +1,5 @@
 package geogebra.common.gui.dialog.options;
 
-public abstract class OptionDefaults {
+public abstract class OptionsDefaults {
 
 }
