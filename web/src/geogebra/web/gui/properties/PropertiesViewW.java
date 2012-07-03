@@ -2,7 +2,7 @@ package geogebra.web.gui.properties;
 
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.AbstractApplication;
-import geogebra.web.gui.dialog.options.OptionsObject;
+import geogebra.web.gui.dialog.options.OptionsObjectW;
 import geogebra.web.main.Application;
 
 import java.util.ArrayList;
@@ -108,7 +108,7 @@ public class PropertiesViewW extends
 
 	}
 	
-	OptionsObject objectPanel;
+	OptionsObjectW objectPanel;
 	
 	@Override
 	public void mousePressedForPropertiesView() {
