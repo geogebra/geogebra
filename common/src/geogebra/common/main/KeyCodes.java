@@ -101,7 +101,8 @@ public enum KeyCodes {
 	NUMLOCK(JavaKeyCodes.VK_NUM_LOCK, GWTKeycodes.KEY_NUMPADASTERISK),
 	META(JavaKeyCodes.VK_META, GWTKeycodes.KEY_WINDOWS), // Mac Meta/Apple, same keycode as Windows key in GWT
 	CLEAR(JavaKeyCodes.VK_CLEAR, GWTKeycodes.KEY_CLEAR), // middle key of NumPad (with NumLock off)
-	PERIOD(JavaKeyCodes.VK_PERIOD, GWTKeycodes.KEY_PERIOD);
+	PERIOD(JavaKeyCodes.VK_PERIOD, GWTKeycodes.KEY_PERIOD),
+	UNKNOWN(JavaKeyCodes.VK_UNDEFINED, GWTKeycodes.KEY_UNDEFINED);
 	
 	private int javaKey;
 	private int GWTKey;
@@ -120,7 +121,7 @@ public enum KeyCodes {
 		}
 		
 		AbstractApplication.warn("GWT keycode not found:"+gwtKeyCode);
-		return null;
+		return UNKNOWN;
 
 	}
 	
@@ -132,7 +133,7 @@ public enum KeyCodes {
 		}
 		
 		AbstractApplication.warn("Java keycode not found:"+javaKeyCode);
-		return null;
+		return UNKNOWN;
 
 	}
 	

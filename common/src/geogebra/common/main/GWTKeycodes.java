@@ -211,6 +211,8 @@ public interface GWTKeycodes {
 
 	public static final int KEY_CLEAR = 12;
 
+	public static final int KEY_UNDEFINED = 0;
+
 
 
 
