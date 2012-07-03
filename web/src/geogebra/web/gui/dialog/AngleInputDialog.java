@@ -75,10 +75,10 @@ public class AngleInputDialog extends PopupPanel implements ClickHandler {
 		centerPanel.setHorizontalAlignment(VerticalPanel.ALIGN_RIGHT);
 		centerPanel.add(btPanel);
 
-		btOK = new Button("OK");
+		btOK = new Button(app.getPlain("OK"));
 		btOK.getElement().getStyle().setMargin(3, Style.Unit.PX);
 		btOK.addClickHandler(this);
-		btCancel = new Button("Cancel");
+		btCancel = new Button(app.getPlain("Cancel"));
 		btCancel.getElement().getStyle().setMargin(3, Style.Unit.PX);
 		btCancel.addClickHandler(this);
 		//btApply = new Button("Apply");

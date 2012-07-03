@@ -34,7 +34,7 @@ public class ImageFileInputDialog extends PopupPanel implements ClickHandler{
 		inputWidget = new FileUpload();
 		addGgbChangeHandler(inputWidget.getElement(), app);
 
-		btCancel = new Button("Cancel");
+		btCancel = new Button(app.getPlain("Cancel"));
 		btCancel.getElement().getStyle().setMargin(3, Style.Unit.PX);
 		btCancel.addClickHandler(this);
 

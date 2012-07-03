@@ -33,10 +33,10 @@ public class WebCamInputDialog extends PopupPanel implements ClickHandler{
 		video = populate(inputWidget.getElement());
 
 		// create buttons
-		btOK = new Button("OK");
+		btOK = new Button(app.getPlain("OK"));
 		btOK.getElement().getStyle().setMargin(3, Style.Unit.PX);
 		btOK.addClickHandler(this);
-		btCancel = new Button("Cancel");
+		btCancel = new Button(app.getPlain("Cancel"));
 		btCancel.getElement().getStyle().setMargin(3, Style.Unit.PX);
 		btCancel.addClickHandler(this);
 
