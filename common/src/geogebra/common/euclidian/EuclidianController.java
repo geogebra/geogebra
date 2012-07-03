@@ -2107,6 +2107,7 @@ public abstract class EuclidianController {
 		addSelectedImplicitpoly(hits, 10, true);
 		addSelectedPolygon(hits, 10, true);
 		addSelectedPolyLine(hits, 10, true);
+		addSelectedCurve(hits, 10, true);
 	
 		singlePointWanted = singlePointWanted && (selGeos() >= 2);
 	
@@ -2172,6 +2173,15 @@ public abstract class EuclidianController {
 			GeoElement[] ret = { null };
 			ret = kernel.IntersectLinePolyLine(new String[] { null }, line,
 					polyLine);
+			return ret;
+		}
+		// line and curve
+		else if ((selLines() >= 1) && (selCurves() >= 1)) {
+			GeoLine line = getSelectedLines()[0];
+			GeoCurveCartesian curve = getSelectedCurves()[0];
+			GeoElement[] ret = { null };
+			ret = kernel.IntersectLineCurve(new String[] { null }, line,
+					curve);
 			return ret;
 		}
 		// line and polygon
