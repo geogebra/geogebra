@@ -53,7 +53,8 @@ public class InputDialogImageURL extends InputDialogW{
     }
 
 	private boolean processInput() {
-		app.urlDropHappened(inputPanel.getText(), 0, 0);
+		// This would raise security exceptions later, so disabled - see #2301
+		//app.urlDropHappened(inputPanel.getText(), 0, 0);
 		return true;
 	}
 

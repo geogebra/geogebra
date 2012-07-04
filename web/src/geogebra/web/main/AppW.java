@@ -388,12 +388,13 @@ public class AppW extends App {
 					}
 					//console.log(fileToHandle.name);
 				} else {
-					var gdat = dt.getData("URL");
-					if (gdat && gdat != " ") {
-						var coordx = e.offsetX ? e.offsetX : e.layerX;
-						var coordy = e.offsetY ? e.offsetY : e.layerY;
-						appl.@geogebra.web.main.AppW::urlDropHappened(Ljava/lang/String;II)(gdat, coordx, coordy);
-					}
+					// This would raise security exceptions later - see ticket #2301
+					//var gdat = dt.getData("URL");
+					//if (gdat && gdat != " ") {
+					//	var coordx = e.offsetX ? e.offsetX : e.layerX;
+					//	var coordy = e.offsetY ? e.offsetY : e.layerY;
+					//	appl.@geogebra.web.main.AppW::urlDropHappened(Ljava/lang/String;II)(gdat, coordx, coordy);
+					//}
 				}
 			}, false);
 		}
@@ -410,11 +411,13 @@ public class AppW extends App {
 	}-*/;
 
 	/**
-	 * Loads an image and puts it on the canvas (this happens by drag & drop)
+	 * Loads an image and puts it on the canvas (this happens on webcam input)
+	 * On drag&drop or insert from URL this would be called too,
+	 * but that would set security exceptions
 	 * 
-	 * @param url - the file url of the image
-	 * @param clientx - desired position on the canvas (x)
-	 * @param clienty - desired position on the canvas (y)
+	 * @param url - the data url of the image
+	 * @param clientx - desired position on the canvas (x) - unused
+	 * @param clienty - desired position on the canvas (y) - unused
 	 */
 	public void urlDropHappened(String url, int clientx, int clienty) {
 
