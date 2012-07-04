@@ -45,7 +45,7 @@
 	    dest="lib/gluegen-rt.jar" usetimestamp="true"/>
 	<get 
 	    src="http://dev.geogebra.org/download/lib/build/jogl2/jogl.all.jar"
-	    dest="jogl.all.jar" usetimestamp="true"/>
+	    dest="lib/jogl.all.jar" usetimestamp="true"/>
 	</target>	    
 
 	<target name="jogl2-linux-amd64-geogebra" if="unix-amd64">
