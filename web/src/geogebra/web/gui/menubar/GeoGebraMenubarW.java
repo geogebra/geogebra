@@ -11,6 +11,8 @@ import geogebra.web.util.JSON;
 import com.google.api.gwt.oauth2.client.AuthRequest;
 import com.google.gwt.core.client.Callback;
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.resources.client.ImageResource;
+import com.google.gwt.resources.client.ClientBundle.Source;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -263,5 +265,18 @@ public class GeoGebraMenubarW extends MenuBar {
 			App.debug("implementation needed - just finishing");
 			optionsMenu.update();        
         }
-	
+		
+		
+	public static void add(MenuBar parentMenu, String filename, String name,
+	        boolean asHtml, MenuBar subMenu) {
+		
+		String funcName = filename.substring(0,filename.lastIndexOf('.'));
+		ImageResource imgRes = (ImageResource) (AppResources.INSTANCE.getResource(funcName));
+		String iconString = imgRes.getSafeUri().asString();
+		
+		parentMenu.addItem(GeoGebraMenubarW.getMenuBarHtml(
+		        iconString, name),
+		        true, subMenu);
+
+	}
 }

@@ -1,12 +1,18 @@
 package geogebra.web.gui.images;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.resources.client.ClientBundle;
+//import com.google.gwt.resources.client.ClientBundle;
+import com.google.gwt.resources.client.ClientBundleWithLookup;
 import com.google.gwt.resources.client.ImageResource;
 
-public interface AppResources extends ClientBundle {
+public interface AppResources extends ClientBundleWithLookup {
 	
 	AppResources INSTANCE = GWT.create(AppResources.class);
+//	public static String iconString = "empty.gif";
+//	
+//	@Source("geogebra/web/gui/images/" + iconString)
+//	ImageResource icon();
+//	
 	
 	@Source("geogebra/web/gui/images/GeoGebraTube.png")
 	ImageResource GeoGebraTube();

@@ -128,10 +128,9 @@ public class OptionsMenuW extends MenuBar{
 		String[] strPointCapturingAC = { "3 PointCapturing",
 				"1 PointCapturing", "2 PointCapturing", "0 PointCapturing" };
 		menuPointCapturing.addRadioButtonMenuItems(this,
-				strPointCapturing, strPointCapturingAC, 0);		
-		addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE
-		        .magnet2().getSafeUri().asString(), app.getMenu("PointCapturing")),
-		        true, menuPointCapturing);
+				strPointCapturing, strPointCapturingAC, 0);
+		GeoGebraMenubarW.add(this, "magnet2.gif", app.getMenu("PointCapturing"), true, menuPointCapturing);
+		
 		updateMenuPointCapturing();
 	}
 	
