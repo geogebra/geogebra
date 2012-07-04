@@ -1,7 +1,5 @@
 package geogebra.web.gui.menubar;
 
-import geogebra.web.main.AppW;
-
 import com.google.gwt.http.client.UrlBuilder;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Cookies;
@@ -16,6 +14,10 @@ import com.google.gwt.user.client.Window;
  */
 public class LanguageCommand implements Command {
 
+	
+	/**
+	 * LOCALE_PARAMETER: this is the name of the locale parameter for both URL Query Parameter and Cookie Parameter
+	 */
 	public static final String LOCALE_PARAMETER = "locale";
 	
 	private String localeCode;
