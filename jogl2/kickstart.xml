@@ -37,61 +37,65 @@
 
 	<!-- dowload jogl2 from GeoGebra repository -->
 	<target name="jogl2-geogebra"
-	    depends="jogl2-linux-amd64-geogebra, jogl2-linux-i586-geogebra, jogl2-macosx-geogebra, jogl2-windows-i586-geogebra, jogl2-windows-amd64-geogebra"/>
+	    depends="jogl2-linux-amd64-geogebra, jogl2-linux-i586-geogebra, jogl2-macosx-geogebra, jogl2-windows-i586-geogebra, jogl2-windows-amd64-geogebra">
+	<mkdir dir="lib"/>
+	<!-- Getting common parts -->
+	<get 
+	    src="http://dev.geogebra.org/download/lib/build/jogl2/gluegen-rt.jar"
+	    dest="lib/gluegen-rt.jar" usetimestamp="true"/>
+	<get 
+	    src="http://dev.geogebra.org/download/lib/build/jogl2/jogl.all.jar"
+	    dest="jogl.all.jar" usetimestamp="true"/>
+	</target>	    
 
 	<target name="jogl2-linux-amd64-geogebra" if="unix-amd64">
-	<mkdir dir="lib/download"/>
-	<mkdir dir="lib/linux-amd64"/>
+	<mkdir dir="lib"/>
 	<get 
-	    src="http://dev.geogebra.org/download/lib/build/jogl2/jogl2-linux-amd64.zip"
-	    dest="lib/download/jogl2-linux-amd64.zip" usetimestamp="true"/>
-	<unzip src="lib/download/jogl2-linux-amd64.zip" dest="lib/">
-	    <mapper type="glob" from="*" to="*"/>
-	</unzip>
+	    src="http://dev.geogebra.org/download/lib/build/jogl2/jogl-all-natives-linux-amd64.jar"
+	    dest="lib/jogl-all-natives-linux-amd64.jar" usetimestamp="true"/>
+	<get 
+	    src="http://dev.geogebra.org/download/lib/build/jogl2/gluegen-rt-natives-linux-amd64.jar"
+	    dest="lib/jogl-all-natives-linux-amd64.jar" usetimestamp="true"/>
 	</target>
 
 	<target name="jogl2-linux-i586-geogebra" if="unix-i386">
-	<mkdir dir="lib/download"/>
-	<mkdir dir="lib/linux-i586"/>
+	<mkdir dir="lib"/>
 	<get 
-	    src="http://dev.geogebra.org/download/lib/build/jogl2/jogl2-linux-i586.zip"
-	    dest="lib/download/jogl2-linux-i586.zip" usetimestamp="true"/>
-	<unzip src="lib/download/jogl2-linux-i586.zip" dest="lib/">
-	    <mapper type="glob" from="*" to="*"/>
-	</unzip>
+	    src="http://dev.geogebra.org/download/lib/build/jogl2/jogl-all-natives-linux-i586.jar"
+	    dest="lib/jogl-all-natives-linux-i586.jar" usetimestamp="true"/>
+	<get 
+	    src="http://dev.geogebra.org/download/lib/build/jogl2/gluegen-rt-natives-linux-i586.jar"
+	    dest="lib/jogl-all-natives-linux-i586.jar" usetimestamp="true"/>
 	</target>
 
 	<target name="jogl2-macosx-geogebra" if="mac">
-	<mkdir dir="lib/jogl2-macosx"/>
-	<mkdir dir="lib/download"/>
+	<mkdir dir="lib"/>
 	<get 
-	    src="http://dev.geogebra.org/download/lib/build/jogl2/jogl2-macosx.zip"
-	    dest="lib/download/jogl2-macosx.zip" usetimestamp="true"/>
-	<unzip src="lib/download/jogl2-macosx.zip" dest="lib/">
-	    <mapper type="glob" from="*" to="*"/>
-	</unzip>
+	    src="http://dev.geogebra.org/download/lib/build/jogl2/jogl-all-natives-macosx-universal.jar"
+	    dest="lib/jogl-all-natives-macosx-universal.jar" usetimestamp="true"/>
+	<get 
+	    src="http://dev.geogebra.org/download/lib/build/jogl2/gluegen-rt-natives-macosx-universal.jar"
+	    dest="lib/jogl-all-natives-macosx-universal.jar" usetimestamp="true"/>
 	</target>
 
 	<target name="jogl2-windows-amd64-geogebra" if="winnt-amd64">
-	<mkdir dir="lib/download"/>
-	<mkdir dir="lib/windows-amd64"/>
+	<mkdir dir="lib"/>
 	<get 
-	    src="http://dev.geogebra.org/download/lib/build/jogl2/jogl2-windows-amd64.zip"
-	    dest="lib/download/jogl2-windows-amd64.zip" usetimestamp="true"/>
-	<unzip src="lib/download/jogl2-windows-amd64.zip" dest="lib/">
-	    <mapper type="glob" from="*" to="*"/>
-	</unzip>
+	    src="http://dev.geogebra.org/download/lib/build/jogl2/jogl-all-natives-windows-amd64.jar"
+	    dest="lib/jogl-all-natives-windows-amd64.jar" usetimestamp="true"/>
+	<get 
+	    src="http://dev.geogebra.org/download/lib/build/jogl2/gluegen-rt-natives-windows-amd64.jar"
+	    dest="lib/jogl-all-natives-windows-amd64.jar" usetimestamp="true"/>
 	</target>
 	
 	<target name="jogl2-windows-i586-geogebra" if="winnt-x86">
-	<mkdir dir="lib/download"/>
-	<mkdir dir="lib/windows-i586"/>
+	<mkdir dir="lib"/>
 	<get 
-	    src="http://dev.geogebra.org/download/lib/build/jogl2/jogl2-windows-i586.zip"
-	    dest="lib/download/jogl2-windows-i586.zip" usetimestamp="true"/>
-	<unzip src="lib/download/jogl2-windows-i586.zip" dest="lib/">
-	    <mapper type="glob" from="*" to="*"/>
-	</unzip>
+	    src="http://dev.geogebra.org/download/lib/build/jogl2/jogl-all-natives-windows-i586.jar"
+	    dest="lib/jogl-all-natives-windows-i586.jar" usetimestamp="true"/>
+	<get 
+	    src="http://dev.geogebra.org/download/lib/build/jogl2/gluegen-rt-natives-windows-i586.jar"
+	    dest="lib/jogl-all-natives-windows-i586.jar" usetimestamp="true"/>
 	</target>
 
 </project>
