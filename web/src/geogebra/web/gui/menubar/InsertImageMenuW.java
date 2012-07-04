@@ -41,12 +41,13 @@ public class InsertImageMenuW extends MenuBar {
 	    	}
 	    });
 
+	    /* This causes security exceptions so it will probably be removed (Canvas.toDataURL)
 	    addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),app.getMenu("URL")),true,new Command() {
 	    	public void execute() {
 	    		InputDialogImageURL dialog = new InputDialogImageURL((AppW)app);
 	    		dialog.setVisible(true);
 	    	}
-	    });
+	    });*/
 
 	    addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),app.getMenu("Webcam")),true,new Command() {
 	    	public void execute() {
