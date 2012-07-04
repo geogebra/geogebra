@@ -72,6 +72,10 @@ public class GeoGebraFileChooser extends PopupPanel {
 			
 			public void onClick(ClickEvent event) {
 				if (fileName.getText() != "") {
+					save.setEnabled(false);
+					cancel.setEnabled(false);
+					fileName.setEnabled(false);
+					description.setEnabled(false);
 					JavaScriptObject callback = MyGoogleApis.getPutFileCallback(fileName.getText(), description.getText(), _this);
 					((geogebra.web.main.GgbAPI)app.getGgbApi()).getBase64(callback);
 					//MyGoogleApis.putNewFileToGoogleDrive(fileName.getText(),description.getText(),FileMenu.temp_base64_BUNNY,_this);
@@ -84,6 +88,10 @@ public class GeoGebraFileChooser extends PopupPanel {
 			
 			public void onClose(CloseEvent<PopupPanel> event) {
 				app.setDefaultCursor();
+				save.setEnabled(true);
+				cancel.setEnabled(true);
+				fileName.setEnabled(true);
+				description.setEnabled(true);
 			}
 		});
 	    center();

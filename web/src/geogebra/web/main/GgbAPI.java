@@ -290,13 +290,14 @@ public class GgbAPI  extends geogebra.common.plugin.GgbAPI {
 			}
 
 			function checkIfStillFilesToAdd() {
-				var item;
+				var item,
+					imgExtensions = ["jpg", "png", "gif"];
 				if (arch.archive.length > 0) {
 					item = arch.archive.shift();
 					var ind = item.fileName.lastIndexOf('.');
-					if (ind > -1 && item.fileName.substr(ind+1).toLowerCase() == "png") {
+					if (ind > -1 && imgExtensions.indexOf(item.fileName.substr(ind+1).toLowerCase()) > -1) {
 					//if (item.fileName.indexOf(".png") > -1) {
-							$wnd.console.log("image zipped");
+							$wnd.console.log("image zipped" + item.fileName);
 							addImage(item.fileName,item.fileContent,function(){checkIfStillFilesToAdd();});
 					} else {
 							$wnd.console.log("text zipped");
