@@ -107,6 +107,8 @@ public abstract class EuclidianController {
 
 	protected static int MAX_CONTINUITY_STEPS = 4;
 
+	private static boolean textBoxFocused;
+
 	protected static void removeAxes(ArrayList<GeoElement> geos) {
 	
 		for (int i = geos.size() - 1; i >= 0; i--) {
@@ -6276,6 +6278,7 @@ public abstract class EuclidianController {
 	}
 
 	protected void wrapMouseclicked(AbstractEvent event) {
+		if(textBoxFocused) return;
 		
 		if (penMode(mode)) {
 			return;
@@ -8977,6 +8980,15 @@ public abstract class EuclidianController {
 		if (pen != null) {
 			pen.resetPenOffsets();
 		}
+		
+	}
+
+
+
+
+
+	public static void textBoxFocused(boolean b) {
+		textBoxFocused = b;
 		
 	}
 	
