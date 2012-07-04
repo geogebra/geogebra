@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<eclipse-userlibraries version="2">
+    <library name="JOGL2" systemlibrary="false">
+        <archive nativelibpaths="jogl2/lib/macosx/lib" path="jogl2/lib/macosx/jar/gluegen.jar"/>
+        <archive nativelibpaths="jogl2/lib/macosx/lib" path="jogl2/lib/macosx/jar/gluegen-rt.jar"/>
+        <archive nativelibpaths="jogl2/lib/macosx/lib" path="jogl2/lib/macosx/jar/gluegen-rt-natives-macosx-universal.jar"/>
+        <archive nativelibpaths="jogl2/lib/macosx/lib" path="jogl2/lib/macosx/jar/joal.jar"/>
+        <archive nativelibpaths="jogl2/lib/macosx/lib" path="jogl2/lib/macosx/jar/joal-natives-macosx-universal.jar"/>
+        <archive nativelibpaths="jogl2/lib/macosx/lib" path="jogl2/lib/macosx/jar/joal-test.jar"/>
+        <archive nativelibpaths="jogl2/lib/macosx/lib" path="jogl2/lib/macosx/jar/jocl.jar"/>
+        <archive nativelibpaths="jogl2/lib/macosx/lib" path="jogl2/lib/macosx/jar/jocl-natives-macosx-universal.jar"/>
+        <archive nativelibpaths="jogl2/lib/macosx/lib" path="jogl2/lib/macosx/jar/jogl.all.jar"/>
+        <archive nativelibpaths="jogl2/lib/macosx/lib" path="jogl2/lib/macosx/jar/jogl.all-mobile.jar"/>
+        <archive nativelibpaths="jogl2/lib/macosx/lib" path="jogl2/lib/macosx/jar/jogl-all-natives-macosx-universal.jar"/>
+        <archive nativelibpaths="jogl2/lib/macosx/lib" path="jogl2/lib/macosx/jar/jogl.all-noawt.jar"/>
+        <archive nativelibpaths="jogl2/lib/macosx/lib" path="jogl2/lib/macosx/jar/jogl.test.jar"/>
+        <archive nativelibpaths="jogl2/lib/macosx/lib" path="jogl2/lib/macosx/jar/newt.event.jar"/>
+    </library>
+</eclipse-userlibraries>

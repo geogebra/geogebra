@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<eclipse-userlibraries version="2">
+    <library name="JOGL2" systemlibrary="false">
+        <archive nativelibpaths="jogl2/lib/linux-i586/lib" path="jogl2/lib/linux-i586/jar/gluegen.jar"/>
+        <archive nativelibpaths="jogl2/lib/linux-i586/lib" path="jogl2/lib/linux-i586/jar/gluegen-rt.jar"/>
+        <archive nativelibpaths="jogl2/lib/linux-i586/lib" path="jogl2/lib/linux-i586/jar/gluegen-rt-natives-linux-i586.jar"/>
+        <archive nativelibpaths="jogl2/lib/linux-i586/lib" path="jogl2/lib/linux-i586/jar/joal.jar"/>
+        <archive nativelibpaths="jogl2/lib/linux-i586/lib" path="jogl2/lib/linux-i586/jar/joal-natives-linux-i586.jar"/>
+        <archive nativelibpaths="jogl2/lib/linux-i586/lib" path="jogl2/lib/linux-i586/jar/joal-test.jar"/>
+        <archive nativelibpaths="jogl2/lib/linux-i586/lib" path="jogl2/lib/linux-i586/jar/jocl.jar"/>
+        <archive nativelibpaths="jogl2/lib/linux-i586/lib" path="jogl2/lib/linux-i586/jar/jocl-natives-linux-i586.jar"/>
+        <archive nativelibpaths="jogl2/lib/linux-i586/lib" path="jogl2/lib/linux-i586/jar/jogl.all.jar"/>
+        <archive nativelibpaths="jogl2/lib/linux-i586/lib" path="jogl2/lib/linux-i586/jar/jogl.all-mobile.jar"/>
+        <archive nativelibpaths="jogl2/lib/linux-i586/lib" path="jogl2/lib/linux-i586/jar/jogl-all-natives-linux-i586.jar"/>
+        <archive nativelibpaths="jogl2/lib/linux-i586/lib" path="jogl2/lib/linux-i586/jar/jogl.all-noawt.jar"/>
+        <archive nativelibpaths="jogl2/lib/linux-i586/lib" path="jogl2/lib/linux-i586/jar/jogl.test.jar"/>
+        <archive nativelibpaths="jogl2/lib/linux-i586/lib" path="jogl2/lib/linux-i586/jar/newt.event.jar"/>
+    </library>
+</eclipse-userlibraries>

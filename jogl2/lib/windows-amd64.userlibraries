@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<eclipse-userlibraries version="2">
+    <library name="JOGL2" systemlibrary="false">
+        <archive nativelibpaths="jogl2/lib/windows-amd64/lib" path="jogl2/lib/windows-amd64/jar/gluegen.jar"/>
+        <archive nativelibpaths="jogl2/lib/windows-amd64/lib" path="jogl2/lib/windows-amd64/jar/gluegen-rt.jar"/>
+        <archive nativelibpaths="jogl2/lib/windows-amd64/lib" path="jogl2/lib/windows-amd64/jar/gluegen-rt-natives-windows-amd64.jar"/>
+        <archive nativelibpaths="jogl2/lib/windows-amd64/lib" path="jogl2/lib/windows-amd64/jar/joal.jar"/>
+        <archive nativelibpaths="jogl2/lib/windows-amd64/lib" path="jogl2/lib/windows-amd64/jar/joal-natives-windows-amd64.jar"/>
+        <archive nativelibpaths="jogl2/lib/windows-amd64/lib" path="jogl2/lib/windows-amd64/jar/joal-test.jar"/>
+        <archive nativelibpaths="jogl2/lib/windows-amd64/lib" path="jogl2/lib/windows-amd64/jar/jocl.jar"/>
+        <archive nativelibpaths="jogl2/lib/windows-amd64/lib" path="jogl2/lib/windows-amd64/jar/jocl-natives-windows-amd64.jar"/>
+        <archive nativelibpaths="jogl2/lib/windows-amd64/lib" path="jogl2/lib/windows-amd64/jar/jogl.all.jar"/>
+        <archive nativelibpaths="jogl2/lib/windows-amd64/lib" path="jogl2/lib/windows-amd64/jar/jogl.all-mobile.jar"/>
+        <archive nativelibpaths="jogl2/lib/windows-amd64/lib" path="jogl2/lib/windows-amd64/jar/jogl-all-natives-windows-amd64.jar"/>
+        <archive nativelibpaths="jogl2/lib/windows-amd64/lib" path="jogl2/lib/windows-amd64/jar/jogl.all-noawt.jar"/>
+        <archive nativelibpaths="jogl2/lib/windows-amd64/lib" path="jogl2/lib/windows-amd64/jar/jogl.test.jar"/>
+        <archive nativelibpaths="jogl2/lib/windows-amd64/lib" path="jogl2/lib/windows-amd64/jar/newt.event.jar"/>
+    </library>
+</eclipse-userlibraries>
