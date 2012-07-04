@@ -8,6 +8,10 @@
 	<property name="propertiestemp.dir" location="${build.dir}/tempproperties"/>
 	<property name="temp.dir" location="${build.dir}/temp"/>
 	<property name="workspace.dir" location="../"/>
+	
+	<property name="jogl" value="1"/>
+	<property name="jogl1.dir" value="${src.dir}/../jogl1"/>
+	<property name="jogl2.dir" value="${src.dir}/../jogl2"/>
 	<!--property environment="env"/-->
 
 

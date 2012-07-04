@@ -122,10 +122,17 @@ office@geogebra.org
 		<!--	<attribute name="SplashScreen-Image" value="geogebra/splash.gif"/>	-->
 	</manifest>
 
-	<manifest file="../manifest3D.mf">
+	<manifest file="../manifest3D-jogl1.mf">
 		<attribute name="Main-Class" value="geogebra.GeoGebra3D"/>
 		<attribute name="Class-Path" 
 			value="geogebra.jar geogebra_main.jar geogebra_gui.jar geogebra_properties.jar geogebra_export.jar geogebra_cas.jar geogebra_algos.jar geogebra_3d.jar geogebra_javascript.jar geogebra_usb.jar jlatexmath.jar jlm_greek.jar jython.jar jlm_cyrillic.jar jogl.jar gluegen-rt.jar OpenGeoProver.jar"/>
+		<!--	<attribute name="SplashScreen-Image" value="geogebra/splash.gif"/>	-->
+	</manifest>
+
+	<manifest file="../manifest3D-jogl2.mf">
+		<attribute name="Main-Class" value="geogebra.GeoGebra3D"/>
+		<attribute name="Class-Path" 
+			value="geogebra.jar geogebra_main.jar geogebra_gui.jar geogebra_properties.jar geogebra_export.jar geogebra_cas.jar geogebra_algos.jar geogebra_3d.jar geogebra_javascript.jar geogebra_usb.jar jlatexmath.jar jlm_greek.jar jython.jar jlm_cyrillic.jar jogl.all.jar gluegen-rt.jar OpenGeoProver.jar"/>
 		<!--	<attribute name="SplashScreen-Image" value="geogebra/splash.gif"/>	-->
 	</manifest>
 
@@ -154,8 +161,17 @@ office@geogebra.org
 	</target>
 
 	<!-- geogebra.jar loads the geogebra_main.jar file and starts up the application/applet  -->
-	<target name="ggb-jar3D" depends="clean" description="create unsigned geogebra.jar">
-		<jar jarfile="${build.dir}/geogebra.jar" manifest="../manifest3D.mf" >
+	<target name="ggb-jar3D" depends="ggb-jar3D-jogl1, ggb-jar3D-jogl2" description="create unsigned geogebra.jar (jogl1)"/>
+
+	<target name="ggb-jar3D-jogl1" depends="clean" description="create unsigned geogebra.jar (jogl1)" if="usejogl1">
+		<jar jarfile="${build.dir}/geogebra.jar" manifest="../manifest3D-jogl1.mf" >
+			<fileset dir="${src.dir}"		   
+				includes="geogebra/*"			
+				excludes="**/*.java"/>
+		</jar>
+	</target>
+	<target name="ggb-jar3D-jogl2" depends="clean" description="create unsigned geogebra.jar (jogl2)" if="usejogl2">
+		<jar jarfile="${build.dir}/geogebra.jar" manifest="../manifest3D-jogl2.mf" >
 			<fileset dir="${src.dir}"		   
 				includes="geogebra/*"			
 				excludes="**/*.java"/>
@@ -182,12 +198,34 @@ office@geogebra.org
 			<arg value="OpenGeoProver.jar"/>
 		</exec>
 	</target>
+	
 	<!-- copies the jogl jars  -->
-	<target name="ggb-copy-jogl" depends="clean" description="copy jogl jars">
-		<copy file="${src.dir}/../jogl1/lib/jogl.jar"
+	<target name="ggb-copy-jogl" depends="clean, ggb-copy-jogl1, ggb-copy-jogl2" description="copy jogl jars"/>
+
+	<condition property="usejogl1">
+	    <equals arg1="${jogl}" arg2="1"/>
+	</condition>
+	<condition property="usejogl2">
+	    <equals arg1="${jogl}" arg2="2"/>
+	</condition>
+
+	<!-- copies the jogl1 jars  -->
+	<target name="ggb-copy-jogl1" depends="clean" description="copy jogl1 jars" if="usejogl1">
+	
+		<copy file="${src.dir}/../jogl${jogl}/lib/jogl.jar"
 		      tofile="${build.dir}/jogl.jar">
 		</copy>
-		<copy file="${src.dir}/../jogl1/lib/gluegen-rt.jar"
+		<copy file="${src.dir}/../jogl${jogl}/lib/gluegen-rt.jar"
+		      tofile="${build.dir}/gluegen-rt.jar">
+		</copy>
+	</target>
+
+	<!-- copies the jogl2 jars  -->
+	<target name="ggb-copy-jogl2" depends="clean" description="copy jogl2 jars" if="usejogl2">
+		<copy file="${src.dir}/../jogl${jogl}/lib/jogl.all.jar"
+		      tofile="${build.dir}/jogl.all.jar">
+		</copy>
+		<copy file="${src.dir}/../jogl${jogl}/lib/gluegen-rt.jar"
 		      tofile="${build.dir}/gluegen-rt.jar">
 		</copy>
 	</target>
@@ -220,7 +258,9 @@ office@geogebra.org
 	</target>
 
 	<!-- create index.list in geogebra.jar for optimized loading of other jars by Java classloader -->
-	<target name="ggb-jar-index3D" description="create index in geogebra.jar">
+	<target name="ggb-jar-index3D" description="create index in geogebra.jar"
+	    depends="ggb-jar-index3D-jogl1, ggb-jar-index3D-jogl2"/>
+	<target name="ggb-jar-index3D-jogl1" description="create index in geogebra.jar (jogl1)" if="usejogl1">
 		<exec executable="jar" dir="${build.dir}">
 			<arg value="i"/>
 			<arg value="geogebra.jar"/>
@@ -233,8 +273,30 @@ office@geogebra.org
 			<arg value="geogebra_javascript.jar"/>
 			<arg value="geogebra_properties.jar"/>
 			<arg value="geogebra_usb.jar"/>
-			<arg value="geogebra_jogl.jar"/>
-			<arg value="geogebra_gluegen-rt.jar"/>
+			<arg value="jogl.jar"/>
+			<arg value="gluegen-rt.jar"/>
+			<arg value="jlatexmath.jar"/>
+			<arg value="jlm_cyrillic.jar"/>
+			<arg value="jlm_greek.jar"/>
+			<arg value="jython.jar"/>
+			<arg value="OpenGeoProver.jar"/>
+		</exec>
+	</target>
+	<target name="ggb-jar-index3D-jogl2" description="create index in geogebra.jar (jogl2)" if="usejogl2">
+		<exec executable="jar" dir="${build.dir}">
+			<arg value="i"/>
+			<arg value="geogebra.jar"/>
+			<arg value="geogebra_main.jar"/>
+			<arg value="geogebra_gui.jar"/>
+			<arg value="geogebra_cas.jar"/>
+			<arg value="geogebra_algos.jar"/>
+			<arg value="geogebra_3d.jar"/>
+			<arg value="geogebra_export.jar"/>
+			<arg value="geogebra_javascript.jar"/>
+			<arg value="geogebra_properties.jar"/>
+			<arg value="geogebra_usb.jar"/>
+			<arg value="jogl.all.jar"/>
+			<arg value="gluegen-rt.jar"/>
 			<arg value="jlatexmath.jar"/>
 			<arg value="jlm_cyrillic.jar"/>
 			<arg value="jlm_greek.jar"/>
@@ -392,11 +454,11 @@ office@geogebra.org
 
 	<target name="ggb-3d-jar" depends="clean" description="create unsigned geogebra_3d.jar">
 	        <copy todir="${src.dir}/geogebra3D" failonerror="false">
-            		<fileset dir="${src.dir}/../jogl1/src/geogebra3D">
+            		<fileset dir="${src.dir}/../jogl${jogl}/src/geogebra3D">
                                 <include name="**/*.class" />
                         </fileset>
 			<!-- Eclipse stores compiled files in a different place: -->
-            		<fileset dir="${src.dir}/../jogl1/bin/geogebra3D">
+            		<fileset dir="${src.dir}/../jogl${jogl}/bin/geogebra3D">
                                 <include name="**/*.class" />
                         </fileset>
                 </copy>

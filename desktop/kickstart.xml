@@ -22,6 +22,8 @@ instructions.
 
 <project default="geogebra5-developer">
 
+	<import file="common.xml"/>
+
 	<target name="geogebra4-developer" depends="_classpath-open, _lib-build-geogebra4, _lib-runtime, _classpath-close, info"
 	    description="For Eclipse developers: to create GeoGebra 4 builds">
 	</target>
@@ -325,7 +327,7 @@ instructions.
 	&lt;classpathentry kind="lib" path="lib/jlm_greek.jar"/&gt;
 	&lt;classpathentry kind="lib" path="lib/jlm_cyrillic.jar"/&gt;
 	&lt;classpathentry kind="lib" path="lib/OpenGeoProver.jar"/&gt;
-	&lt;classpathentry kind="src" path="/jogl1"/&gt;
+	&lt;classpathentry kind="src" path="/jogl${jogl}"/&gt;
 
 
 	&lt;classpathentry kind="output" path=""/&gt;
