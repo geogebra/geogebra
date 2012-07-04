@@ -391,8 +391,12 @@ office@geogebra.org
 	</target>
 
 	<target name="ggb-3d-jar" depends="clean" description="create unsigned geogebra_3d.jar">
-	        <copy todir="${src.dir}/geogebra3D">
+	        <copy todir="${src.dir}/geogebra3D" failonerror="false">
             		<fileset dir="${src.dir}/../jogl1/src/geogebra3D">
+                                <include name="**/*.class" />
+                        </fileset>
+			<!-- Eclipse stores compiled files in a different place: -->
+            		<fileset dir="${src.dir}/../jogl1/bin/geogebra3D">
                                 <include name="**/*.class" />
                         </fileset>
                 </copy>
