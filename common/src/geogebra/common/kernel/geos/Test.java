@@ -17,6 +17,7 @@ import geogebra.common.kernel.implicit.GeoImplicitPoly;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoCoordSys1DInterface;
 import geogebra.common.kernel.kernelND.GeoCoordSys2D;
+import geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -31,6 +32,10 @@ import geogebra.common.main.App;
 
 /***
  * Replacement for isInstance checks
+ * 
+ * For Macro inputs, objects are tested in order so we must have eg GEOVECTOR then GEOVECTORND then MOVEABLE otherwise the test will not work
+ * see #2398
+ * 
  * @author kondr & Arpi
  *
  */
@@ -79,6 +84,14 @@ Test {
 		}
 	},
 
+	/** Test for GEOSEGMENTND */
+	GEOSEGMENTND {
+		@Override
+		public boolean check(Object ob) {
+			return ob instanceof GeoSegmentND;
+		}
+	},
+
 	/** Test for GEORAY */
 	GEORAY {
 		@Override
@@ -95,11 +108,27 @@ Test {
 		}
 	},
 
+	/** Test for GEOLINEND */
+	GEOLINEND {
+		@Override
+		public boolean check(Object ob) {
+			return ob instanceof GeoLineND;
+		}
+	},
+
 	/** Test for GEOVECTOR */
 	GEOVECTOR {
 		@Override
 		public boolean check(Object ob) {
 			return ob instanceof GeoVector;
+		}
+	},
+
+	/** Test for GEOVECTORND */
+	GEOVECTORND {
+		@Override
+		public boolean check(Object ob) {
+			return ob instanceof GeoVectorND;
 		}
 	},
 
@@ -151,11 +180,51 @@ Test {
 		}
 	},
 
+	/** Test for GEOCONICND */
+	GEOCONICND {
+		@Override
+		public boolean check(Object ob) {
+			return ob instanceof GeoConicND;
+		}
+	},
+
+	/** Test for GEOQUADRIC3D */
+	GEOQUADRIC3D {
+		@Override
+		public boolean check(Object ob) {
+			return ob instanceof GeoQuadric3DInterface;
+		}
+	},
+	
+	/** Test for GEOQUADRICND */
+	GEOQUADRICND {
+		@Override
+		public boolean check(Object ob) {
+			return ob instanceof GeoQuadricND;
+		}
+	},
+
 	/** Test for GEOCURVECARTESIAN */
 	GEOCURVECARTESIAN {
 		@Override
 		public boolean check(Object ob) {
 			return ob instanceof GeoCurveCartesian;
+		}
+	},
+
+	/** Test for GEOCURVECARTESIAN3D */
+	GEOCURVECARTESIAN3D {
+		@Override
+		public boolean check(Object ob) {
+			return ob instanceof GeoCurveCartesian3DInterface;
+		}
+	},
+
+	/** Test for GEOCURVECARTESIANND */
+	GEOCURVECARTESIANND {
+		@Override
+		public boolean check(Object ob) {
+			return ob instanceof GeoCurveCartesianND;
 		}
 	},
 
@@ -223,11 +292,27 @@ Test {
 		}
 	},
 
+	/** Test for GEOPOINTND */
+	GEOPOINTND {
+		@Override
+		public boolean check(Object ob) {
+			return ob instanceof GeoPointND;
+		}
+	},
+
 	/** Test for GEOPOLYGON */
 	GEOPOLYGON {
 		@Override
 		public boolean check(Object ob) {
 			return ob instanceof GeoPolygon;
+		}
+	},
+
+	/** Test for GEOPOLYGON3D */
+	GEOPOLYGON3D {
+		@Override
+		public boolean check(Object ob) {
+			return ob instanceof GeoPolygon3DInterface;
 		}
 	},
 
@@ -271,21 +356,67 @@ Test {
 		}
 	},
 
-	// abstract GeoElements
-
-	/** Test for GEOCONICND */
-	GEOCONICND {
+	/** Test for GEODIRECTIONND */
+	GEODIRECTIONND {
 		@Override
 		public boolean check(Object ob) {
-			return ob instanceof GeoConicND;
+			return ob instanceof GeoDirectionND;
 		}
 	},
 
-	/** Test for GEOQUADRICND */
-	GEOQUADRICND {
+	/** Test for GEOCOORDSYS2D */
+	GEOCOORDSYS2D {
 		@Override
 		public boolean check(Object ob) {
-			return ob instanceof GeoQuadricND;
+			return ob instanceof GeoCoordSys2D;
+		}
+	},
+
+	/** Test for GEOCOORDSYS1D */
+	GEOCOORDSYS1D {
+		@Override
+		public boolean check(Object ob) {
+			return ob instanceof GeoCoordSys1DInterface;
+		}
+	},
+
+	/** Test for NUMBERVALUE */
+	NUMBERVALUE {
+		@Override
+		public boolean check(Object ob) {
+			return ob instanceof NumberValue;
+		}
+	},
+
+	/** Test for PATH */
+	PATH {
+		@Override
+		public boolean check(Object ob) {
+			return ob instanceof Path;
+		}
+	},
+
+	/** Test for REGION3D */
+	REGION3D {
+		@Override
+		public boolean check(Object ob) {
+			return ob instanceof Region3D;
+		}
+	},
+
+	/** Test for DILATEABLE */
+	DILATEABLE {
+		@Override
+		public boolean check(Object ob) {
+			return ob instanceof Dilateable;
+		}
+	},
+
+	/** Test for TRANSLATEABLE */
+	TRANSLATEABLE {
+		@Override
+		public boolean check(Object ob) {
+			return ob instanceof Translateable;
 		}
 	},
 
@@ -315,109 +446,6 @@ Test {
 		}
 	},
 
-	/** Test for GEOELEMENT */
-	GEOELEMENT {
-		@Override
-		public boolean check(Object ob) {
-			return ob instanceof GeoElement;
-		}
-	},
-
-	// GeoElement-related interfaces
-
-	/** Test for GEOCOORDSYS2D */
-	GEOCOORDSYS2D {
-		@Override
-		public boolean check(Object ob) {
-			return ob instanceof GeoCoordSys2D;
-		}
-	},
-
-	/** Test for GEOSEGMENTND */
-	GEOSEGMENTND {
-		@Override
-		public boolean check(Object ob) {
-			return ob instanceof GeoSegmentND;
-		}
-	},
-
-	/** Test for GEOLINEND */
-	GEOLINEND {
-		@Override
-		public boolean check(Object ob) {
-			return ob instanceof GeoLineND;
-		}
-	},
-
-	/** Test for GEOVECTORND */
-	GEOVECTORND {
-		@Override
-		public boolean check(Object ob) {
-			return ob instanceof GeoVectorND;
-		}
-	},
-
-	/** Test for GEODIRECTIONND */
-	GEODIRECTIONND {
-		@Override
-		public boolean check(Object ob) {
-			return ob instanceof GeoDirectionND;
-		}
-	},
-
-	/** Test for GEOPOINTND */
-	GEOPOINTND {
-		@Override
-		public boolean check(Object ob) {
-			return ob instanceof GeoPointND;
-		}
-	},
-
-	/** Test for NUMBERVALUE */
-	NUMBERVALUE {
-		@Override
-		public boolean check(Object ob) {
-			return ob instanceof NumberValue;
-		}
-	},
-
-	/** Test for PATH */
-	PATH {
-		@Override
-		public boolean check(Object ob) {
-			return ob instanceof Path;
-		}
-	},
-
-	/** Test for TRANSLATEABLE */
-	TRANSLATEABLE {
-		@Override
-		public boolean check(Object ob) {
-			return ob instanceof Translateable;
-		}
-	},
-
-	/** Test for GEOQUADRIC3D */
-	GEOQUADRIC3D {
-		@Override
-		public boolean check(Object ob) {
-			return ob instanceof GeoQuadric3DInterface;
-		}
-	},
-	/** Test for GEOPOLYGON3D */
-	GEOPOLYGON3D {
-		@Override
-		public boolean check(Object ob) {
-			return ob instanceof GeoPolygon3DInterface;
-		}
-	},
-	/** Test for GEOCOORDSYS1D */
-	GEOCOORDSYS1D {
-		@Override
-		public boolean check(Object ob) {
-			return ob instanceof GeoCoordSys1DInterface;
-		}
-	},
 	/** Test for TRANSFORMABLE */
 	TRANSFORMABLE {
 		@Override
@@ -425,18 +453,12 @@ Test {
 			return ob instanceof Transformable;
 		}
 	},
-	/** Test for DILATEABLE */
-	DILATEABLE {
+
+	/** Test for GEOELEMENT */
+	GEOELEMENT {
 		@Override
 		public boolean check(Object ob) {
-			return ob instanceof Dilateable;
-		}
-	},
-	/** Test for REGION3D */
-	REGION3D {
-		@Override
-		public boolean check(Object ob) {
-			return ob instanceof Region3D;
+			return ob instanceof GeoElement;
 		}
 	},
 
