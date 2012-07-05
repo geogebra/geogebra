@@ -4003,16 +4003,16 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 			if (!isZoomable() && !asPreference) {
 				sbxml.append("\t<coordSystem");
 				sbxml.append(" xMin=\"");
-				sbxml.append(((GeoNumeric) xminObject).getLabel(tpl));
+				sbxml.append(StringUtil.encodeXML(((GeoNumeric) xminObject).getLabel(tpl)));
 				sbxml.append("\"");
 				sbxml.append(" xMax=\"");
-				sbxml.append(((GeoNumeric) xmaxObject).getLabel(tpl));
+				sbxml.append(StringUtil.encodeXML(((GeoNumeric) xmaxObject).getLabel(tpl)));
 				sbxml.append("\"");
 				sbxml.append(" yMin=\"");
-				sbxml.append(((GeoNumeric) yminObject).getLabel(tpl));
+				sbxml.append(StringUtil.encodeXML(((GeoNumeric) yminObject).getLabel(tpl)));
 				sbxml.append("\"");
 				sbxml.append(" yMax=\"");
-				sbxml.append(((GeoNumeric) ymaxObject).getLabel(tpl));
+				sbxml.append(StringUtil.encodeXML(((GeoNumeric) ymaxObject).getLabel(tpl)));
 				sbxml.append("\"");
 				sbxml.append("/>\n");
 			} else {
