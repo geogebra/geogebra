@@ -103,7 +103,7 @@ public interface CommandConstants extends ConstantsWithLookup {
     @DefaultStringValue("Barycenter")
     String Barycenter();
 
-    @DefaultStringValue("[ <List of Points>, <List of Numbers> ]")
+    @DefaultStringValue("[ <List of Points>, <List of Weights> ]")
     String Barycenter_Syntax();
 
     @DefaultStringValue("Bernoulli")
@@ -799,7 +799,7 @@ public interface CommandConstants extends ConstantsWithLookup {
     @DefaultStringValue("Function")
     String Function();
 
-    @DefaultStringValue("[ <Function>, <Start x-Value>, <End x-Value> ]")
+    @DefaultStringValue("[ <Function>, <Start x-Value>, <End x-Value> ]\n< <List of Numbers> ]")
     String Function_Syntax();
 
     @DefaultStringValue("GCD")
@@ -829,7 +829,7 @@ public interface CommandConstants extends ConstantsWithLookup {
     @DefaultStringValue("GetTime")
     String GetTime();
 
-    @DefaultStringValue("[]\n[ <Format> ]")
+    @DefaultStringValue("[]\n[ \"<Format>\" ]")
     String GetTime_Syntax();
 
     @DefaultStringValue("Groebner")
