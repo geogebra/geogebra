@@ -585,6 +585,10 @@ public abstract class GeoQuadricND extends GeoElement implements GeoQuadricNDCon
 				Coords endPosition, Coords viewDirection,
 				ArrayList<GeoElement> updateGeos,
 				ArrayList<GeoElement> tempMoveObjectList) {
+			
+			if (changeableCoordParent == null) {
+				return false;
+			}
 
 			return changeableCoordParent.move(rwTransVec, endPosition, viewDirection, updateGeos, tempMoveObjectList);
 
