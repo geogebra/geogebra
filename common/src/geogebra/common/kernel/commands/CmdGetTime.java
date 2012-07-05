@@ -1,6 +1,7 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
@@ -26,33 +27,49 @@ public class CmdGetTime extends CommandProcessor {
 	public CmdGetTime(Kernel kernel) {
 		super(kernel);
 	}
+	
+	private static final int[] month_days={31,28,31,30,31,30,31,31,30,31,30,31};
+	private GeoText monthStr1 = new GeoText(cons);
+	private GeoText dayStr1 = new GeoText(cons);
+	private Date cal;
+	private int d;
+	private int m;
+	private int date;
+	private int month;
+	private int year;
+	private int hours;
+	private int mins;
+	private int secs;
+	private int yearday;
+	private String dayStr;
+	private String monthStr;
+
 
 	@Override
 	@SuppressWarnings("deprecation")
 	final public GeoElement[] process(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 
-		Date cal = new Date();
+		cal = new Date();
 		GeoNumeric mins1 = new GeoNumeric(cons, cal.getMinutes());
-		int d = cal.getDay() + 1;
+		d = cal.getDay() + 1;
 		GeoNumeric day = new GeoNumeric(cons, d);
-		int m = cal.getMonth() + 1;
+		m = cal.getMonth() + 1;
 		GeoNumeric month1 = new GeoNumeric(cons, m);
 		GeoNumeric year1 = new GeoNumeric(cons, cal.getYear() + 1900);
 		GeoNumeric secs1 = new GeoNumeric(cons, cal.getSeconds());
 		GeoNumeric hours1 = new GeoNumeric(cons, cal.getHours());
 		GeoNumeric date1 = new GeoNumeric(cons, cal.getDate());
 		GeoNumeric ms1 = new GeoNumeric(cons, cal.getTime() % 1000);
-		int date =cal.getDate();
-		int month=cal.getMonth();
-		int year=cal.getYear()+1900;
-		int hours= cal.getHours();
-		int mins =cal.getMinutes();
-		int secs= cal.getSeconds();
-		int yearday=0;
-		int[] month_days={31,28,31,30,31,30,31,31,30,31,30,31};
-		String dayStr=app.getPlain("Day."+d);
-		String monthStr = app.getPlain("Month."+m);
+		date =cal.getDate();
+		month=cal.getMonth();
+		year=cal.getYear()+1900;
+		hours= cal.getHours();
+		mins =cal.getMinutes();
+		secs= cal.getSeconds();
+		yearday=0;
+		dayStr=app.getPlain("Day."+d);
+		monthStr = app.getPlain("Month."+m);
 		/* changed to use java.util.Date - java.util.Calendar not supported by GWT
 		Calendar cal = Calendar.getInstance();
 		GeoNumeric ms = new GeoNumeric(cons, cal.get(Calendar.MILLISECOND));
@@ -66,10 +83,8 @@ public class CmdGetTime extends CommandProcessor {
 		GeoNumeric month = new GeoNumeric(cons, m);
 		GeoNumeric year = new GeoNumeric(cons, cal.get(Calendar.YEAR));
 		*/
-		GeoText monthStr1 = new GeoText(cons);
 		monthStr1.setTextString(app.getPlain("Month."+m));
 		
-		GeoText dayStr1 = new GeoText(cons);
 		dayStr1.setTextString(app.getPlain("Day."+d));
 		
 		
@@ -96,211 +111,219 @@ public class CmdGetTime extends CommandProcessor {
 			return ret;
 
 
-			case 1:{
+			case 1:
 			
-			char[] cArray = c.getArgument(0).toString(null).toCharArray();
-			StringBuilder sb = new StringBuilder(200);
-			for (int i = 0; i < cArray.length; i++){
-				sb.append(" ");
-				switch(cArray[i]){
-			
-					case 'd': 
-						if(date<10){
-						sb.append(0).append(date);
-						}
-						else{
-							sb.append(date);
-						}
-						break;
-					case 'D': 
-						sb.append(dayStr.substring(0,3));
-						break;
-					case 'j':
-						sb.append(date);
-						break;
-					case 'l':
-						sb.append(dayStr);
-						break;
-					case 'N':
-						if(d==1){
-							sb.append(7);
-							}
-						else{
-							sb.append(d-1);
-						}
-						break;
-					case 'S':
-						String ordinal=new String(app.getOrdinalNumber(date));
-						ordinal=ordinal.replaceFirst(String.valueOf(date),"");
-						sb.append(ordinal);
-						break;
-					case 'w':
-						sb.append(d-1);
-						break;
-					case 'z': 
-						yearday=0;
-						if((year%4==0 && year%100!=0) || year%400==0)month_days[1]=29;
-						for(int j=0;j<month;j++){yearday+=month_days[i];}
-						yearday+=(date-1);
-						sb.append(yearday);
-						break;
-					case 'W': 
-						yearday=0;
-						if((year%4==0 && year%100!=0) || year%400==0)month_days[1]=29;
-						for(int j=0;j<month;j++){yearday+=month_days[i];}
-						yearday+=(date-1);
-						Date temp = new Date(cal.getYear(),0,1);
-						int d1 =temp.getDay()+1;
-						yearday-=((9-d1)%7);
-						if(yearday<0)yearday=-7;
-						sb.append((yearday/7)+1);
-						break;
-					case 'F': 
-						sb.append(monthStr);break;
-					case 'm': 
-						if(month<10){
-							sb.append(0).append(month);
-							}
-						else{
-							sb.append(month);
-							}
-						break;
-					case 'M':
-						sb.append(monthStr.substring(0,3));
-						break;
-					case 'n': 
-						sb.append(month);
-						break;
-					case 't': 
-						switch(month)
-						{
-						case 1: 
-						case 3: 
-						case 5: 
-						case 7: 
-						case 8: 
-						case 10:
-						case 12: 
-							sb.append(31);
-							break; 
-						case 2: 
-							if((year%4==0 && year%100!=0) || year%400==0){
-								sb.append(29);
-								}
-							else{
-								sb.append(28);
-								}
-							break;
-						default:
-							sb.append(30);
-							break;
-							}
-						break;
-					case 'L':
-						if((year%4==0 && year%100!=0) || year%400==0){
-							sb.append(1);
-							}
-						else{
-							sb.append(0);
-							}
-						break;
-					case 'Y':
-						sb.append(year);
-						break;
-					case 'y':
-						sb.append(year%100);
-						break;
-					case 'a':
-						if(hours>=12){
-							sb.append("pm");
-							}
-						else{
-							sb.append("am");
-							}
-						break;
-					case 'A': 
-						if(hours>=12){
-							sb.append("PM");
-							}
-						else{
-							sb.append("AM");
-							}
-						break;
-			//		case 'B': break;		Internet Swatch Time not supported
-					case 'g':
-						sb.append((hours%12)+1);
-						break;
-					case 'G':
-						sb.append(hours);
-						break;
-					case 'h':
-						if(((hours%12)+1)<10){
-							sb.append(0).append((hours%12)+1);
-							}
-						else{
-							sb.append((hours%12)+1);
-							}
-						break;
-					case 'H':
-						if(hours<10){
-							sb.append(0).append(hours);
-							}
-						else{
-							sb.append(hours);
-							}
-						break;
-					case 'i':
-						if(mins<10){
-							sb.append(0).append(mins);
-							}
-						else{
-							sb.append(mins);
-							}
-						break;
-					case 's':
-						if(secs<10){
-							sb.append(0).append(secs);
-							}
-						else{
-							sb.append(secs);
-							}
-						break;
-						
-						
-			/*
-			 Cases for TimeZone specifications cannot be dealt presently as
-			 GWT does not support  java.util.TimeZone and java.util.Date does not provide these features.
-					case 'u': break;
-					case 'e': break;	
-					case 'I': break;	
-					case 'O': break;	
-					case 'P': break;	
-					case 'T': break;	
-					case 'Z': break;	
-					case 'c': break;	
-					case 'r': break;
-			*/
-					case 'U':
-						sb.append(cal.getTime()/1000);
-						break;						
-					case '"' :
-						sb.deleteCharAt(sb.length()-1);
-						break;	
-					default:
-						sb.append(cArray[i]);
-					}	
-				}		
-			GeoText rettext = new GeoText(cons);
-			rettext.setTextString(sb.toString());
-			GeoList list1 = new GeoList(cons);
-			list1.setLabel(c.getLabel());
-			list1.add(rettext);
-			list1.update();
-			GeoElement[] ret1 = { list1 };
-			return ret1;
+			char[] cArray = c.getArgument(0).toValueString(StringTemplate.defaultTemplate).toCharArray();
+			StringBuilder sb = new StringBuilder(20);
+			for (int i = 0; i < cArray.length; i++) {
+				
+				if (cArray[i] == '\\' && i < cArray.length - 1) {
+					decode(cArray[i+1], sb);
+					i++;
+				} else {
+					sb.append(cArray[i]);
+				}
 			}
+
+			GeoText rettext = new GeoText(cons, c.getLabel(), sb.toString());
+
+			GeoElement[] ret1 = { rettext };
+			return ret1;
 		default:
 			throw argNumErr(app, c.getName(), n);
 		}
 	}
+		
+		@SuppressWarnings("deprecation")
+		private void decode(char c, StringBuilder sb) {
+			switch(c){
+			
+			case 'd': 
+				if(date<10){
+				sb.append(0).append(date);
+				}
+				else{
+					sb.append(date);
+				}
+				break;
+			case 'D': 
+				sb.append(dayStr.substring(0,3));
+				break;
+			case 'j':
+				sb.append(date);
+				break;
+			case 'l':
+				sb.append(dayStr);
+				break;
+			case 'N':
+				if(d==1){
+					sb.append(7);
+					}
+				else{
+					sb.append(d-1);
+				}
+				break;
+			case 'S':
+				String ordinal=new String(app.getOrdinalNumber(date));
+				ordinal=ordinal.replaceFirst(String.valueOf(date),"");
+				sb.append(ordinal);
+				break;
+			case 'w':
+				sb.append(d-1);
+				break;
+			case 'z': 
+				yearday=0;
+				if((year%4==0 && year%100!=0) || year%400==0)month_days[1]=29;
+				for(int j=0;j<month;j++){yearday+=month_days[j];}
+				yearday+=(date-1);
+				sb.append(yearday);
+				break;
+			case 'W': 
+				yearday=0;
+				if((year%4==0 && year%100!=0) || year%400==0)month_days[1]=29;
+				for(int j=0;j<month;j++){yearday+=month_days[j];}
+				yearday+=(date-1);
+				Date temp = new Date(cal.getYear(),0,1);
+				int d1 =temp.getDay()+1;
+				yearday-=((9-d1)%7);
+				if(yearday<0)yearday=-7;
+				sb.append((yearday/7)+1);
+				break;
+			case 'F': 
+				sb.append(monthStr);break;
+			case 'm': 
+				if(month<10){
+					sb.append(0).append(month);
+					}
+				else{
+					sb.append(month);
+					}
+				break;
+			case 'M':
+				sb.append(monthStr.substring(0,3));
+				break;
+			case 'n': 
+				sb.append(month);
+				break;
+			case 't': 
+				switch(month)
+				{
+				case 1: 
+				case 3: 
+				case 5: 
+				case 7: 
+				case 8: 
+				case 10:
+				case 12: 
+					sb.append(31);
+					break; 
+				case 2: 
+					if((year%4==0 && year%100!=0) || year%400==0){
+						sb.append(29);
+						}
+					else{
+						sb.append(28);
+						}
+					break;
+				default:
+					sb.append(30);
+					break;
+					}
+				break;
+			case 'L':
+				if((year%4==0 && year%100!=0) || year%400==0){
+					sb.append(1);
+					}
+				else{
+					sb.append(0);
+					}
+				break;
+			case 'Y':
+				sb.append(year);
+				break;
+			case 'y':
+				sb.append(year%100);
+				break;
+			case 'a':
+				if(hours>=12){
+					sb.append("pm");
+					}
+				else{
+					sb.append("am");
+					}
+				break;
+			case 'A': 
+				if(hours>=12){
+					sb.append("PM");
+					}
+				else{
+					sb.append("AM");
+					}
+				break;
+	//		case 'B': break;		Internet Swatch Time not supported
+			case 'g':
+				sb.append((hours%12)+1);
+				break;
+			case 'G':
+				sb.append(hours);
+				break;
+			case 'h':
+				if(((hours%12)+1)<10){
+					sb.append(0).append((hours%12)+1);
+					}
+				else{
+					sb.append((hours%12)+1);
+					}
+				break;
+			case 'H':
+				if(hours<10){
+					sb.append(0).append(hours);
+					}
+				else{
+					sb.append(hours);
+					}
+				break;
+			case 'i':
+				if(mins<10){
+					sb.append(0).append(mins);
+					}
+				else{
+					sb.append(mins);
+					}
+				break;
+			case 's':
+				if(secs<10){
+					sb.append(0).append(secs);
+					}
+				else{
+					sb.append(secs);
+					}
+				break;
+				
+				
+	/*
+	 Cases for TimeZone specifications cannot be dealt presently as
+	 GWT does not support  java.util.TimeZone and java.util.Date does not provide these features.
+			case 'u': break;
+			case 'e': break;	
+			case 'I': break;	
+			case 'O': break;	
+			case 'P': break;	
+			case 'T': break;	
+			case 'Z': break;	
+			case 'c': break;	
+			case 'r': break;
+	*/
+			case 'U':
+				sb.append(cal.getTime()/1000);
+				break;						
+			case '\\' :
+				sb.append('\\');
+				break;	
+			default:
+				sb.append("?");
+				break;
+			}	
+		}		
+		
 }
