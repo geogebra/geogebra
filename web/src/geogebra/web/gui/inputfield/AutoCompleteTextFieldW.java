@@ -1044,52 +1044,7 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements AutoCompl
 	   return getText().indexOf(textField.getTextBox().getSelectedText());
     }
 
-	  /**
-	   * Ticket #1167 Auto-completes input; It will keep already entered parameters<br>
-	   * and merge them in order. If chosen command has less it will output:<br>
-	   * command_name[&lt;original parameter list&gt;]<br>
-	   * <br>
-	   * e.g.:<br>
-	   * Input: der <br>
-	   * Choose: Derivative[ &lt;Function&gt; ]<br>
-	   * Output: Derivative[ &lt;Function&gt; ]<br>
-	   * <br>
-	   * Input: derivative[x^2]<br>
-	   * Choose: Derivative[ &lt;Function&gt; ]<br>
-	   * Output: Derivative[x^2]<br>
-	   * <br>
-	   * Input: derivative[x^2]<br>
-	   * Choose: Derivative[ &lt;Function>, &lt;Number&gt; ]<br>
-	   * Output: Derivative[x^2, &lt;Number&gt; ]<br>
-	   * <br>
-	   * Input: derivative[x^2, &lt;Number&gt; ]<br>
-	   * Choose: Derivative[ &lt;Function&gt;, &lt;Number&gt; ]<br>
-	   * Output: Derivative[x^2, &lt;Number&gt; ]<br>
-	   * <br>
-	   * Input: inde[x, &lt;Number&gt; ]<br>
-	   * Choose: IndexOf[ &lt;Object&gt;, &lt;List&gt;, &lt;StartIndex&gt; ]<br>
-	   * Output: IndexOf[x, &lt;Number&gt; , &lt;StartIndex&gt; ]<br>
-	   * <br>
-	   * 
-	   * @param index
-	   *          index of the chosen command in the completions list
-	   * @return false if completions list is null or index < 0 or index >
-	   *         completions.size()
-	   * @author Lucas Binter
-	   */
-	public boolean validateAutoCompletion(int index, List<String> completions) {
-		ValidateAutocompletionResult ret = geogebra.common.gui.inputfield.MyTextField.commonValidateAutocompletion(index, completions,getText(),curWordStart);
-		
-		if (!ret.returnval) {
-			return false;
-		}
-		
-		setText(ret.sb);
-		setCaretPosition(ret.carPos);
-		
-		moveToNextArgument(false);
-		return true;
-	}
+
 	
 	/**
 	 * Sets a flag to show the symbol table icon when the field is focused
@@ -1134,4 +1089,35 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements AutoCompl
 	public void removeSymbolButton(){
 		remove(showSymbolButton);
 	}
+	
+	  /**
+	   * Ticket #1167 Auto-completes input; 
+	   * <br>
+	   * 
+	   * @param index
+	   *          index of the chosen command in the completions list
+	  * @param completions 
+	   * @return false if completions list is null or index < 0 or index >
+	   *         completions.size()
+	   * @author Arnaud
+	   */
+	  public boolean validateAutoCompletion(int index, List<String> completions) {
+			if (completions == null || index < 0 || index >= completions.size()) {
+				return false;
+			}
+			String command = completions.get(index);
+			String text = getText();
+			StringBuilder sb = new StringBuilder();
+			sb.append(text.substring(0, curWordStart));
+			sb.append(command);
+			sb.append(text.substring(curWordStart + curWord.length()));
+			setText(sb.toString());
+			int bracketIndex = command.indexOf('[');// + 1;
+			
+			setCaretPosition(curWordStart + bracketIndex);
+			moveToNextArgument(false);
+			return true;
+	  }
+
+
 }
