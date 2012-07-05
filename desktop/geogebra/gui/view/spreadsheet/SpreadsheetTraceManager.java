@@ -429,11 +429,11 @@ public class SpreadsheetTraceManager extends geogebra.common.gui.view.spreadshee
 		// allowed
 		// 3) improve selection rectangle handling
 
-		// get the current trace for this geo and compare with last trace
-		// exit if no change in trace
+		// get the current trace for this geo 
+		// TRACE ALSO IF EQUAL TO LAST TRACE
 		getCurrentTrace(geo);
-		if (!t.doTraceGeoCopy && !geo.isRandomGeo()
-				&& currentTrace.equals(t.lastTrace))
+		if (!t.doTraceGeoCopy && !geo.isRandomGeo())
+				//&& currentTrace.equals(t.lastTrace))
 			return;
 		t.lastTrace = (ArrayList<Double>) currentTrace.clone();
 
