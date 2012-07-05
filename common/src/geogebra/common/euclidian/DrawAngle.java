@@ -68,7 +68,7 @@ public class DrawAngle extends Drawable implements Previewable {
 	private int angleDrawMode;
 
 	// private Arc2D.Double fillArc = new Arc2D.Double();
-	private GArc2D drawArc = geogebra.common.factories.AwtFactory.prototype.newArc2D();
+	private GArc2D drawArc = AwtFactory.prototype.newArc2D();
 	private GGeneralPath polygon = AwtFactory.prototype.newGeneralPath(); // Michael Borcherds
 														// 2007-11-19
 	private GEllipse2DDouble dot90degree;
@@ -83,7 +83,7 @@ public class DrawAngle extends Drawable implements Previewable {
 	// For decoration
 	// added by Lo�c BEGIN
 	private GShape shapeArc1, shapeArc2;
-	private GArc2D decoArc = geogebra.common.factories.AwtFactory.prototype.newArc2D();
+	private GArc2D decoArc = AwtFactory.prototype.newArc2D();
 	private GLine2D[] tick;
 	private double[] angleTick = new double[2];
 	/** maximum angle distance between two ticks. */

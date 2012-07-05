@@ -895,12 +895,12 @@ public class AppW extends App {
 	}
 
 	private void initCommonObjects() {
-	    geogebra.common.factories.AwtFactory.prototype = new geogebra.web.factories.AwtFactory();
-		geogebra.common.factories.FormatFactory.prototype = new geogebra.web.factories.FormatFactory();
-		geogebra.common.factories.CASFactory.prototype = new geogebra.web.factories.CASFactory();
-		geogebra.common.factories.SwingFactory.prototype = new geogebra.web.factories.SwingFactory();
-		geogebra.common.factories.UtilFactory.prototype = new geogebra.web.factories.UtilFactory();
-		geogebra.common.factories.Factory.prototype = new geogebra.web.factories.Factory();
+	    geogebra.common.factories.AwtFactory.prototype = new geogebra.web.factories.AwtFactoryW();
+		geogebra.common.factories.FormatFactory.prototype = new geogebra.web.factories.FormatFactoryW();
+		geogebra.common.factories.CASFactory.prototype = new geogebra.web.factories.CASFactoryW();
+		geogebra.common.factories.SwingFactory.prototype = new geogebra.web.factories.SwingFactoryW();
+		geogebra.common.factories.UtilFactory.prototype = new geogebra.web.factories.UtilFactoryW();
+		geogebra.common.factories.Factory.prototype = new geogebra.web.factories.FactoryW();
 		geogebra.common.util.StringUtil.prototype = new geogebra.common.util.StringUtil();
 
 		geogebra.common.euclidian.HatchingHandler.prototype = new geogebra.web.euclidian.HatchingHandlerW();

@@ -19,6 +19,8 @@ the Free Software Foundation.
 package geogebra.common.euclidian;
 
 import geogebra.common.awt.GBufferedImage;
+import geogebra.common.awt.GPoint2D;
+import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoImage;
@@ -55,11 +57,11 @@ public final class DrawImage extends Drawable {
 		geo = geoImage;
 
 		// temp
-		at = geogebra.common.factories.AwtFactory.prototype.newAffineTransform();
-		tempAT = geogebra.common.factories.AwtFactory.prototype.newAffineTransform();
-		boundingBox = geogebra.common.factories.AwtFactory.prototype.newRectangle();
+		at = AwtFactory.prototype.newAffineTransform();
+		tempAT = AwtFactory.prototype.newAffineTransform();
+		boundingBox = AwtFactory.prototype.newRectangle();
 
-		selStroke = geogebra.common.factories.AwtFactory.prototype.newMyBasicStroke(1.5f);
+		selStroke = AwtFactory.prototype.newMyBasicStroke(1.5f);
 
 		update();
 	}
@@ -73,7 +75,7 @@ public final class DrawImage extends Drawable {
 
 		if (geo.getAlphaValue() != alpha) {
 			alpha = geo.getAlphaValue();
-			alphaComp = geogebra.common.factories.AwtFactory.prototype.newAlphaComposite(
+			alphaComp = AwtFactory.prototype.newAlphaComposite(
 					geogebra.common.awt.GAlphaComposite.SRC_OVER,alpha);
 		}
 
@@ -221,7 +223,7 @@ public final class DrawImage extends Drawable {
 			geogebra.common.awt.GComposite oldComp = g3.getComposite();
 			if (alpha >= 0f && alpha < 1f) {
 				if (alphaComp == null)
-					alphaComp = geogebra.common.factories.AwtFactory.prototype.newAlphaComposite(
+					alphaComp = AwtFactory.prototype.newAlphaComposite(
 							geogebra.common.awt.GAlphaComposite.SRC_OVER, alpha);
 				g3.setComposite(alphaComp);
 			}
@@ -255,20 +257,20 @@ public final class DrawImage extends Drawable {
 
 					// draw parallelogram around edge
 					drawHighlighting(at, g3);
-					geogebra.common.awt.GPoint2D corner1 = geogebra.common.factories.AwtFactory.prototype.newPoint2D(
+					GPoint2D corner1 = AwtFactory.prototype.newPoint2D(
 							labelRectangle.getMinX(), labelRectangle.getMinY());
-					geogebra.common.awt.GPoint2D corner2 = geogebra.common.factories.AwtFactory.prototype.newPoint2D(
+					GPoint2D corner2 = AwtFactory.prototype.newPoint2D(
 							labelRectangle.getMinX(), labelRectangle.getMaxY());
-					geogebra.common.awt.GPoint2D corner3 = geogebra.common.factories.AwtFactory.prototype.newPoint2D(
+					GPoint2D corner3 = AwtFactory.prototype.newPoint2D(
 							labelRectangle.getMaxX(), labelRectangle.getMaxY());
-					geogebra.common.awt.GPoint2D corner4 = geogebra.common.factories.AwtFactory.prototype.newPoint2D(
+					GPoint2D corner4 = AwtFactory.prototype.newPoint2D(
 							labelRectangle.getMaxX(), labelRectangle.getMinY());
 					at.transform(corner1, corner1);
 					at.transform(corner2, corner2);
 					at.transform(corner3, corner3);
 					at.transform(corner4, corner4);
 					if (highlighting == null)
-						highlighting = geogebra.common.factories.AwtFactory.prototype.newGeneralPath();
+						highlighting = AwtFactory.prototype.newGeneralPath();
 					else
 						highlighting.reset();
 					highlighting.moveTo((float) corner1.getX(),
@@ -287,7 +289,7 @@ public final class DrawImage extends Drawable {
 				}
 
 				// reset previous values
-				geogebra.common.euclidian.EuclidianStatic.resetInterpolationHint(g3,oldInterpolationHint);
+				EuclidianStatic.resetInterpolationHint(g3,oldInterpolationHint);
 				g3.setTransform(oldAT);
 			}
 

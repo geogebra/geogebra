@@ -1,6 +1,7 @@
 package geogebra.factories;
 
 import geogebra.awt.GEllipse2DDoubleD;
+import geogebra.common.awt.Component;
 import geogebra.common.awt.GAffineTransform;
 import geogebra.common.awt.GAlphaComposite;
 import geogebra.common.awt.GArc2D;
@@ -8,7 +9,6 @@ import geogebra.common.awt.GArea;
 import geogebra.common.awt.GBasicStroke;
 import geogebra.common.awt.GBufferedImage;
 import geogebra.common.awt.GColor;
-import geogebra.common.awt.Component;
 import geogebra.common.awt.GCubicCurve2D;
 import geogebra.common.awt.GDimension;
 import geogebra.common.awt.GEllipse2DFloat;
@@ -24,11 +24,12 @@ import geogebra.common.awt.GRectangle2D;
 import geogebra.common.awt.GShape;
 import geogebra.common.awt.font.GTextLayout;
 import geogebra.common.euclidian.event.FocusListener;
+import geogebra.common.factories.AwtFactory;
 import geogebra.euclidian.event.KeyListener;
 
-public class AwtFactory extends geogebra.common.factories.AwtFactory{
+public class AwtFactoryD extends AwtFactory{
 	
-	public AwtFactory(){
+	public AwtFactoryD(){
 		GColor.initColors(this);
 	}
 	@Override

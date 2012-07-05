@@ -1,13 +1,14 @@
 package geogebra.web.factories;
 
 import geogebra.common.euclidian.Drawable;
+import geogebra.common.factories.SwingFactory;
 import geogebra.common.gui.inputfield.AutoCompleteTextField;
 import geogebra.common.javax.swing.AbstractJComboBox;
 import geogebra.common.javax.swing.GBox;
 import geogebra.common.javax.swing.GLabel;
 import geogebra.common.main.App;
 
-public class SwingFactory extends geogebra.common.factories.SwingFactory {
+public class SwingFactoryW extends SwingFactory {
 
 	@Override
 	public AutoCompleteTextField newAutoCompleteTextField(int length,

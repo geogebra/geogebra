@@ -1,5 +1,6 @@
 package geogebra.web.factories;
 
+import geogebra.common.awt.Component;
 import geogebra.common.awt.GAffineTransform;
 import geogebra.common.awt.GAlphaComposite;
 import geogebra.common.awt.GArc2D;
@@ -7,7 +8,6 @@ import geogebra.common.awt.GArea;
 import geogebra.common.awt.GBasicStroke;
 import geogebra.common.awt.GBufferedImage;
 import geogebra.common.awt.GColor;
-import geogebra.common.awt.Component;
 import geogebra.common.awt.GCubicCurve2D;
 import geogebra.common.awt.GDimension;
 import geogebra.common.awt.GEllipse2DDouble;
@@ -23,18 +23,19 @@ import geogebra.common.awt.GRectangle;
 import geogebra.common.awt.GRectangle2D;
 import geogebra.common.awt.GShape;
 import geogebra.common.awt.font.GTextLayout;
+import geogebra.common.euclidian.event.ActionListener;
 import geogebra.common.euclidian.event.FocusListener;
 import geogebra.common.euclidian.event.KeyListener;
-import geogebra.common.euclidian.event.ActionListener;
+import geogebra.common.factories.AwtFactory;
 import geogebra.common.main.App;
 
 /**
  * Creates AWT wrappers for web
  *
  */
-public class AwtFactory extends geogebra.common.factories.AwtFactory {
+public class AwtFactoryW extends AwtFactory {
 
-	public AwtFactory(){
+	public AwtFactoryW(){
 		GColor.initColors(this);
 	}
 	

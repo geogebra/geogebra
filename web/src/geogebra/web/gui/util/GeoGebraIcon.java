@@ -9,7 +9,7 @@ import geogebra.web.awt.GBasicStrokeW;
 import geogebra.web.awt.GDimensionW;
 import geogebra.web.awt.GFontW;
 import geogebra.web.awt.GGraphics2DW;
-import geogebra.web.factories.AwtFactory;
+import geogebra.web.factories.AwtFactoryW;
 import geogebra.web.openjdk.awt.geom.Polygon;
 
 import com.google.gwt.canvas.client.Canvas;

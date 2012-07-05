@@ -7,7 +7,7 @@ import geogebra.common.javax.swing.GLabel;
 import geogebra.common.main.App;
 import geogebra.javax.swing.GComboBoxD;
 
-public class SwingFactory extends geogebra.common.factories.SwingFactory {
+public class SwingFactoryD extends geogebra.common.factories.SwingFactory {
 
 	// TODO: find another place for this function
 	@Override

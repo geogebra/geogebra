@@ -1,12 +1,12 @@
 package geogebra.web.factories;
 
-import geogebra.common.main.App;
+import geogebra.common.factories.FormatFactory;
 import geogebra.common.util.NumberFormatAdapter;
 import geogebra.common.util.ScientificFormatAdapter;
 import geogebra.web.util.NumberFormatWeb;
 import geogebra.web.util.ScientificFormat;
 
-public class FormatFactory extends geogebra.common.factories.FormatFactory{
+public class FormatFactoryW extends FormatFactory{
 	@Override
     public NumberFormatAdapter getNumberFormat(int digits) {
 		switch (digits) {

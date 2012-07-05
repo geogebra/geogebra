@@ -9,7 +9,7 @@ import geogebra.common.util.URLEncoder;
  * @author Zoltan Kovacs <zoltan@geogebra.org>
  * Desktop implementations for various utils
  */
-public class UtilFactory extends geogebra.common.factories.UtilFactory {
+public class UtilFactoryD extends geogebra.common.factories.UtilFactory {
 
 	@Override
 	public HttpRequest newHttpRequest() {

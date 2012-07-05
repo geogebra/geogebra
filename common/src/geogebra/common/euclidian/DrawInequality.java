@@ -2,6 +2,7 @@ package geogebra.common.euclidian;
 
 import geogebra.common.awt.GPoint;
 import geogebra.common.euclidian.DrawParametricCurve.Gap;
+import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.FunctionalNVar;
 import geogebra.common.kernel.arithmetic.IneqTree;
@@ -135,7 +136,7 @@ public class DrawInequality extends Drawable {
 			yLabel = drawable.yLabel;
 		}
 		if (geo.isInverseFill() && !isForceNoFill()) {
-			geogebra.common.awt.GArea b = geogebra.common.factories.AwtFactory.prototype.newArea(view.getBoundingPath());
+			geogebra.common.awt.GArea b = AwtFactory.prototype.newArea(view.getBoundingPath());
 			b.subtract(getShape());
 			setShape(b);
 		}
@@ -179,14 +180,14 @@ public class DrawInequality extends Drawable {
 			setShape(left.getShape());
 			getShape().add(right.getShape());
 		} else if (operation.equals(Operation.EQUAL_BOOLEAN)) {
-			setShape(geogebra.common.factories.AwtFactory.prototype.newArea(view.getBoundingPath()));
+			setShape(AwtFactory.prototype.newArea(view.getBoundingPath()));
 			left.getShape().exclusiveOr(right.getShape());
 			getShape().subtract(left.getShape());
 		} else if (operation.equals(Operation.NOT_EQUAL)) {
 			setShape(left.getShape());
 			getShape().exclusiveOr(right.getShape());
 		} else if (operation.equals(Operation.NOT)) {
-			setShape(geogebra.common.factories.AwtFactory.prototype.newArea(view.getBoundingPath()));
+			setShape(AwtFactory.prototype.newArea(view.getBoundingPath()));
 			getShape().subtract(left.getShape());
 		}		
 	}
@@ -325,7 +326,7 @@ public class DrawInequality extends Drawable {
 
 		@Override
 		public geogebra.common.awt.GArea getShape() {
-			return geogebra.common.factories.AwtFactory.prototype.newArea(gp);
+			return AwtFactory.prototype.newArea(gp);
 		}
 
 		GeoElement getBorder() {
