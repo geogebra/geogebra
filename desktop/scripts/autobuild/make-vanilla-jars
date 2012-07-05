@@ -30,6 +30,8 @@ VERBOSE=0
 CLASSES=1
 RUN=0
 TIDYUP=0
+CV=4.2
+JOGL=1
 
 BOOTCLASSPATH=`cd $WORKDIR/..; pwd`/java150-rt.jar
 set_bootclasspath
@@ -44,6 +46,8 @@ while [ $# -gt 0 ]; do
    echo " Where options can be (defaults in parentheses):"
    echo "  -h, -help, --help         This help"
    echo "  -c, --clean               Do a cleanup first by removing *.class files"
+   echo "  -cv [version]             Set GeoGebra compilation version: 4.2 or 5.0 ($CV)"
+   echo "  -J [version]              Set JOGL version for 5.0 ($JOGL)"
    echo "  -s [dir]                  Use dir for source directory ($WORKDIR)"
    echo "  -b [file]                 Set bootclasspath for ecj ($BOOTCLASSPATH)"
    echo "  -j [dir]                  Java home directory ($JAVA_HOME)"
@@ -53,6 +57,16 @@ while [ $# -gt 0 ]; do
    echo "  -tu, --tidy-up            Tidy up the build directory after compilation"
    echo "  -v, --verbose             Be verbose whenever possible"
    exit 0
+   ;;
+
+  -cv)
+   shift
+   CV="$1"
+   ;;
+
+  -J)
+   shift
+   JOGL="$1"
    ;;
 
   -c | --clean)
@@ -141,6 +155,7 @@ if [ "$VERBOSE" = 1 ]; then
 else
  ANT="ant"
  fi
+ANT="$ANT -Djogl=$JOGL"
 
 # 6/1. Cleanup on demand
 if [ $CLEAN = 1 ]; then
@@ -153,8 +168,8 @@ if [ $GRAMMAR = 1 ]; then
  fi
 
 # 6/2. Setting classpath for ecj (required for Java 5)
-JOGL1PATH=`cd ../jogl1; pwd`
-CP=`cd scripts/autobuild; ./classpath`:`cd ../jogl1; ./classpath $JOGL1PATH/`
+JOGLPATH=`cd ../jogl$JOGL; pwd`
+CP=`cd scripts/autobuild; ./classpath`:`cd ../jogl$JOGL; ./classpath $JOGLPATH/`
 
 # 6/3. Creating *.class files
 if [ $CLASSES = 1 ]; then
@@ -164,7 +179,7 @@ if [ $CLASSES = 1 ]; then
  mv $COMMONJAVA $COMMONJAVA.temporarily_renamed
  
  $JAVACMD $ANT_OPTS -jar lib/build/ecj-3.6.2.jar -1.5 -source 1.5 -target 1.5 -classpath $CP -bootclasspath $BOOTCLASSPATH\
-  -time -proceedOnError -g ../desktop ../common/src/geogebra/common ../common/src/org ../common/src/geogebra/jung ../jogl1/src > .ecjlog 2>&1
+  -time -proceedOnError -g ../desktop ../common/src/geogebra/common ../common/src/org ../common/src/geogebra/jung ../jogl$JOGL/src > .ecjlog 2>&1
  tail -1 .ecjlog
  echo ", see .ecjlog for more details" # .ecjlog has no \n before EOF
 
@@ -173,7 +188,11 @@ if [ $CLASSES = 1 ]; then
  fi
 
 # 6/4. Packaging
-$ANT ggb-jar-files || exit 3
+TARGET=ggb-jar-files
+if [ "$CV" = "5.0" ]; then
+ TARGET=${TARGET}3D
+ fi
+$ANT $TARGET || exit 3
 
 # 6/5. Tidying up on demand
 BUILDDIR=`cd $WORKDIR/build; pwd`
@@ -182,7 +201,9 @@ if [ $TIDYUP = 1 ]; then
  for i in debug packed tempproperties unpacked unsigned; do
   rm -fR $BUILDDIR/$i
   done
- rm $BUILDDIR/geogebra_3d.jar
+ if [ "$CV" = "4.2" ]; then
+  rm $BUILDDIR/geogebra_3d.jar
+  fi
  fi
 
 # 7. Finish
