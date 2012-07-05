@@ -405,6 +405,11 @@ public AutoCompleteTextFieldD(int columns, AppD app,
   @Override
   public void keyReleased(KeyEvent e) {
 
+	  // stop autocompletion re-opening on <Escape>
+	  if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+		  e.consume();
+		  return;
+	  }
     // Application.debug(e+"");
 
     /*
