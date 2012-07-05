@@ -210,7 +210,13 @@ public class GeoConic extends GeoConicND implements Traceable,
 	 *            Circle used as mirror
 	 */
 	final public void mirror(GeoConic mirror) {
-		if (mirror.isCircle() && this.isCircle()) { // Mirror point in circle
+		
+		if (mirror.getType() == CONIC_SINGLE_POINT) {
+			setUndefined();
+			return;
+		}
+		
+		if (mirror.isCircle() && (type == CONIC_SINGLE_POINT || type == CONIC_CIRCLE)) { // Mirror point in circle
 			double r1 = mirror.getHalfAxes()[0];
 			GeoVec2D midpoint1 = mirror.getTranslationVector();
 			double x1 = midpoint1.getX();
@@ -221,9 +227,24 @@ public class GeoConic extends GeoConicND implements Traceable,
 			double x2 = midpoint2.getX();
 			double y2 = midpoint2.getY();
 
-			// distance between centres
+			// distance between centers
 			double dist = Math.sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2));
 
+			//App.debug("dist ="+dist);
+			//App.debug("r1="+r1+" x1="+x1+"y1 ="+y1);
+			//App.debug("r2="+r2+" x2="+x2+"y2 ="+y2);
+
+			// circle being reflected has zero radius
+			// and it's at center of mirror
+			if (Kernel.isZero(r2) && Kernel.isZero(dist)) {
+				
+				setUndefined();
+				update();
+				return;
+				
+			}
+			
+			
 			// does circle being inverted pass through center of the other?
 			if (Kernel.isEqual(dist, r2)) {
 				double dx = x2 - x1;
@@ -253,9 +274,20 @@ public class GeoConic extends GeoConicND implements Traceable,
 
 			// radius of new circle
 			double r3 = Math.abs(y - x) / 2.0;
-			double centerX = x1 + (x2 - x1) * (Math.min(x, y) + r3) / dist;
-			double centerY = y1 + (y2 - y1) * (Math.min(x, y) + r3) / dist;
-
+			// center of new circle
+			double centerX, centerY;
+			
+			if (Kernel.isZero(dist)) {
+				// circle being mirrored has same centre as mirror -> centre doesn't change
+				centerX = x1;
+				centerY = y1;
+			} else {
+				centerX = x1 + (x2 - x1) * (Math.min(x, y) + r3) / dist;
+				centerY = y1 + (y2 - y1) * (Math.min(x, y) + r3) / dist;
+			}
+			
+			//App.debug("r3="+r3+" centerX="+centerX+"centerY ="+centerY);
+			
 			// double sf=r1*r1/((x2-x1)*(x2-x1)+(y2-y1)*(y2-y1));
 			// setCoords( x1+sf*(x2-x1), y1+sf*(y2-y1) ,1.0);
 			GeoPoint tmp = new GeoPoint(cons, null, centerX, centerY, 1.0);
