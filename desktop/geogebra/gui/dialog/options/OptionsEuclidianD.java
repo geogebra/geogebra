@@ -633,6 +633,11 @@ public class OptionsEuclidianD extends geogebra.common.gui.dialog.options.Option
 
 		cbShowMouseCoords.setText(app.getMenu("ShowMouseCoordinates"));
 		
+		//axis
+		xAxisPanel.setLabels();
+		yAxisPanel.setLabels();
+		
+		
 		/*
 		if (!app.isApplet()) 
 			restoreDefaultsButton.setText(app.getMenu("ApplyDefaults"));
