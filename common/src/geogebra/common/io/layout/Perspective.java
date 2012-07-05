@@ -249,7 +249,7 @@ public class Perspective {
 		StringBuilder sb = new StringBuilder();
 		
 		sb.append("<perspective id=\"");
-		sb.append(StringUtil.encodeXML(getId()));
+		StringUtil.encodeXML(sb, getId());
 		sb.append("\">\n");
 		
 		sb.append("\t<panes>\n");

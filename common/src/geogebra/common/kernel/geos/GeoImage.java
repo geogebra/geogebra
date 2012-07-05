@@ -577,8 +577,8 @@ public class GeoImage extends GeoElement implements Locateable,
 			sb.append(" z=\"" + corners[number].z + "\"");
 		} else {
 			sb.append(" exp=\"");
-			sb.append(StringUtil.encodeXML(corners[number]
-					.getLabel(StringTemplate.xmlTemplate)));
+			StringUtil.encodeXML(sb, corners[number]
+					.getLabel(StringTemplate.xmlTemplate));
 			sb.append("\"");
 		}
 		sb.append("/>\n");

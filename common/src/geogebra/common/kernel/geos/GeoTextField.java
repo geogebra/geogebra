@@ -143,7 +143,7 @@ public class GeoTextField extends GeoButton {
 		if (linkedGeo != null) {
    	
 			sb.append("\t<linkedGeo exp=\"");
-			sb.append(StringUtil.encodeXML(linkedGeo.getLabel(StringTemplate.xmlTemplate)));
+			StringUtil.encodeXML(sb, linkedGeo.getLabel(StringTemplate.xmlTemplate));
 			sb.append("\"");			    		    	
 			sb.append("/>\n");
 		}

@@ -602,13 +602,13 @@ public class Macro  {
 	 */
     public void getXML(StringBuilder sb) {               
         sb.append("<macro cmdName=\"");
-        sb.append(StringUtil.encodeXML(cmdName));         
+        StringUtil.encodeXML(sb, cmdName);         
         sb.append("\" toolName=\"");
-        sb.append(StringUtil.encodeXML(toolName));
+        StringUtil.encodeXML(sb, toolName);
         sb.append("\" toolHelp=\"");
-        sb.append(StringUtil.encodeXML(toolHelp));  
+        StringUtil.encodeXML(sb, toolHelp);  
         sb.append("\" iconFile=\""); 
-        sb.append(StringUtil.encodeXML(iconFileName));  
+        StringUtil.encodeXML(sb, iconFileName);  
         sb.append("\" showInToolBar=\"");
         sb.append(showInToolBar);
         sb.append("\" copyCaptions=\"");
@@ -622,7 +622,7 @@ public class Macro  {
 	        sb.append(" a");
 	        sb.append(i);                
 	        sb.append("=\"");
-	        sb.append(StringUtil.encodeXML(macroInputLabels[i]));                                                           
+	        StringUtil.encodeXML(sb, macroInputLabels[i]);                                                           
 	        sb.append("\"");
         }
         sb.append("/>\n");
@@ -634,7 +634,7 @@ public class Macro  {
 	        sb.append(" a");
 	        sb.append(i);                
 	        sb.append("=\"");
-	        sb.append(StringUtil.encodeXML(macroOutputLabels[i]));                                                           
+	        StringUtil.encodeXML(sb, macroOutputLabels[i]);                                                           
 	        sb.append("\"");
         }        
         sb.append("/>\n");            

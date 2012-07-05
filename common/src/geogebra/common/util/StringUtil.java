@@ -3,6 +3,8 @@ package geogebra.common.util;
 import geogebra.common.awt.GColor;
 import geogebra.common.main.App;
 
+import java.util.Locale;
+
 public class StringUtil {
     private static StringBuilder hexSB = null;
     
@@ -148,39 +150,64 @@ public class StringUtil {
      * The resulting string can be used in XML files.
      */
     public static String encodeXML(String str) {
-	if (str == null)
-	    return "";
 
-	//  convert every single character and append it to sb
-	StringBuilder sb = new StringBuilder();
-	int len = str.length();
-	for (int i = 0; i < len; i++) {
-	    char c = str.charAt(i);
-	    switch (c) {
-	    case '>':
-		sb.append("&gt;");
-		break;
-	    case '<':
-		sb.append("&lt;");
-		break;
-	    case '"':
-		sb.append("&quot;");
-		break;
-	    case '\'':
-		sb.append("&apos;");
-		break;
-	    case '&':
-		sb.append("&amp;");
-		break;
-	    case '\n':
-		sb.append("&#10;");
-		break;
+    	StringBuilder sb = new StringBuilder(str.length());
+    	
+    	encodeXML(sb, str);
+    	
+    	return sb.toString();
+    }
+    
+    /**
+     * Converts the given unicode string 
+     * to a string where special characters are
+     * converted to <code>&#encoding;</code> sequences . 
+     * The resulting string can be used in XML files.
+     */
+    public static void encodeXML(StringBuilder sb, String str) {
+    	if (str == null)
+    		return;
 
-	    default:
-		sb.append(c);
-	    }
-	}
-	return sb.toString();
+    	//  convert every single character and append it to sb
+    	int len = str.length();
+    	for (int i = 0; i < len; i++) {
+    		char c = str.charAt(i);
+
+    		if (c <= '\u001a') {
+    			// #2399 all apart from U+0009, U+000A, U+000D are invalid in XML
+    			// none should appear anyway, but encode to be safe
+
+    			// eg &#10;
+    			sb.append("&#");
+    			sb.append(((int)c)+"");
+    			sb.append(';');
+
+    			App.warn("Control character being written to XML: "+sb.toString());
+
+    		} else {
+
+    			switch (c) {
+    			case '>':
+    				sb.append("&gt;");
+    				break;
+    			case '<':
+    				sb.append("&lt;");
+    				break;
+    			case '"':
+    				sb.append("&quot;");
+    				break;
+    			case '\'':
+    				sb.append("&apos;");
+    				break;
+    			case '&':
+    				sb.append("&amp;");
+    				break;
+
+    			default:
+    				sb.append(c);
+    			}
+    		}
+    	}
     }
   
     protected boolean isRightToLeftChar( char c ) {

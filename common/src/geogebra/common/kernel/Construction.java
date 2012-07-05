@@ -1035,19 +1035,19 @@ public class Construction {
 		try {
 			// save construction elements
 			sb.append("<construction title=\"");
-			sb.append(StringUtil.encodeXML(getTitle()));
+			StringUtil.encodeXML(sb, getTitle());
 			sb.append("\" author=\"");
-			sb.append(StringUtil.encodeXML(getAuthor()));
+			StringUtil.encodeXML(sb, getAuthor());
 			sb.append("\" date=\"");
-			sb.append(StringUtil.encodeXML(getDate()));
+			StringUtil.encodeXML(sb, getDate());
 			sb.append("\">\n");
 
 			// worksheet text
 			if (worksheetTextDefined()) {
 				sb.append("\t<worksheetText above=\"");
-				sb.append(StringUtil.encodeXML(getWorksheetText(0)));
+				StringUtil.encodeXML(sb,getWorksheetText(0));
 				sb.append("\" below=\"");
-				sb.append(StringUtil.encodeXML(getWorksheetText(1)));
+				StringUtil.encodeXML(sb, getWorksheetText(1));
 				sb.append("\"/>\n");
 			}
 

@@ -584,14 +584,14 @@ public class GeoNumeric extends GeoElement implements NumberValue,
 		sb.append("\t<slider");
 		if (intervalMinActive) {
 			sb.append(" min=\"");
-			sb.append(StringUtil
-					.encodeXML(getIntervalMinObject().getLabel(tpl)));
+			StringUtil
+					.encodeXML(sb, getIntervalMinObject().getLabel(tpl));
 			sb.append("\"");
 		}
 		if (intervalMaxActive) {
 			sb.append(" max=\"");
-			sb.append(StringUtil
-					.encodeXML(getIntervalMaxObject().getLabel(tpl)));
+			StringUtil
+					.encodeXML(sb, getIntervalMaxObject().getLabel(tpl));
 			sb.append("\"");
 		}
 

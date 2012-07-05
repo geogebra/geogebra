@@ -796,10 +796,10 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture {
 		if (isIndependent() && (getDefaultGeoType() < 0)) {
 			sb.append("<expression");
 			sb.append(" label =\"");
-			sb.append(StringUtil.encodeXML(label));
+			StringUtil.encodeXML(sb, label);
 			sb.append("\" exp=\"");
-			sb.append(StringUtil
-					.encodeXML(toValueString(StringTemplate.xmlTemplate)));
+			StringUtil
+					.encodeXML(sb, toValueString(StringTemplate.xmlTemplate));
 			sb.append("\"/>\n");
 		}
 

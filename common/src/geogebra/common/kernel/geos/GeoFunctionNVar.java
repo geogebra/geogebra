@@ -344,7 +344,7 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 			sb.append(" label =\"");
 			sb.append(label);
 			sb.append("\" exp=\"");
-			sb.append(StringUtil.encodeXML(toXMLString(StringTemplate.xmlTemplate)));
+			StringUtil.encodeXML(sb, toXMLString(StringTemplate.xmlTemplate));
 			// expression   
 			sb.append("\"/>\n");
 		}

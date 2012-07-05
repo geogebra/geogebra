@@ -1229,8 +1229,8 @@ final public class GeoPoint extends GeoVec3D implements VectorValue,
 			sb.append(" z=\"" + z + "\"");
 		} else {
 			sb.append("exp=\"");
-			sb.append(StringUtil
-					.encodeXML(getLabel(StringTemplate.xmlTemplate)));
+			StringUtil
+					.encodeXML(sb, getLabel(StringTemplate.xmlTemplate));
 
 			sb.append("\"");
 		}

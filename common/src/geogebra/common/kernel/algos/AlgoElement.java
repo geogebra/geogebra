@@ -1198,15 +1198,13 @@ public abstract class AlgoElement extends ConstructionElement implements
 		if (/* output != null && */getOutputLength() == 1) {
 			if (getOutput(0).isLabelSet()) {
 				sb.append(" label=\"");
-				labelStr = StringUtil.encodeXML(getOutput(0).getLabel(tpl));
-				sb.append(labelStr);
+				StringUtil.encodeXML(sb, getOutput(0).getLabel(tpl));
 				sb.append("\"");
 			}
 		}
 		// add expression
-		String expStr = StringUtil.encodeXML(toExpString(tpl));
 		sb.append(" exp=\"");
-		sb.append(expStr);
+		StringUtil.encodeXML(sb, toExpString(tpl));
 		sb.append("\"");
 
 		// make sure that a vector remains a vector and a point remains a point
@@ -1298,7 +1296,7 @@ public abstract class AlgoElement extends ConstructionElement implements
 				// attribute name is output No.
 				sb.append("=\"");
 				if (getOutput(i).isLabelSet()) {
-					sb.append(StringUtil.encodeXML(getOutput(i).getLabel(tpl)));
+					StringUtil.encodeXML(sb, getOutput(i).getLabel(tpl));
 				}
 				sb.append("\"");
 			}

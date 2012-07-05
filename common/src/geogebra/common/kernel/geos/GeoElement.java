@@ -4652,7 +4652,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		sb.append(" type=\"");
 		sb.append(type);
 		sb.append("\" label=\"");
-		sb.append(StringUtil.encodeXML(label));
+		StringUtil.encodeXML(sb, label);
 		if (defaultGeoType >= 0) {
 			sb.append("\" default=\"");
 			sb.append(defaultGeoType);
@@ -4777,7 +4777,7 @@ public abstract class GeoElement extends ConstructionElement implements
 				&& !caption.equals(label)) {
 			
 			sb.append("\t<caption val=\"");
-			sb.append(StringUtil.encodeXML(caption));
+			StringUtil.encodeXML(sb, caption);
 			sb.append("\"/>\n");
 
 		}
@@ -4882,18 +4882,18 @@ public abstract class GeoElement extends ConstructionElement implements
 			StringTemplate tpl =StringTemplate.xmlTemplate;
 			if ((colFunction != null) && kernel.getSaveScriptsToXML()) {
 				sb.append(" dynamicr=\"");
-				sb.append(StringUtil.encodeXML(colFunction.get(0).getLabel(tpl)));
+				StringUtil.encodeXML(sb, colFunction.get(0).getLabel(tpl));
 				sb.append('\"');
 				sb.append(" dynamicg=\"");
-				sb.append(StringUtil.encodeXML(colFunction.get(1).getLabel(tpl)));
+				StringUtil.encodeXML(sb, colFunction.get(1).getLabel(tpl));
 				sb.append('\"');
 				sb.append(" dynamicb=\"");
-				sb.append(StringUtil.encodeXML(colFunction.get(2).getLabel(tpl)));
+				StringUtil.encodeXML(sb, colFunction.get(2).getLabel(tpl));
 				sb.append('\"');
 				if (colFunction.size() == 4) {
 					sb.append(" dynamica=\"");
-					sb.append(StringUtil.encodeXML(colFunction.get(3)
-							.getLabel(tpl)));
+					StringUtil.encodeXML(sb, colFunction.get(3)
+							.getLabel(tpl));
 					sb.append('\"');
 				}
 				sb.append(" colorSpace=\"");
@@ -5013,10 +5013,14 @@ public abstract class GeoElement extends ConstructionElement implements
 			sb.append("\t<animation");
 			final String animStep = animationIncrement == null ? "1"
 					: getAnimationStepObject().getLabel(tpl);
-			sb.append(" step=\"" + StringUtil.encodeXML(animStep) + "\"");
+			sb.append(" step=\"");
+			StringUtil.encodeXML(sb, animStep);
+			sb.append("\"");
 			final String animSpeed = animationSpeedObj == null ? "1"
 					: getAnimationSpeedObject().getLabel(tpl);
-			sb.append(" speed=\"" + StringUtil.encodeXML(animSpeed) + "\"");
+			sb.append(" speed=\"");
+			StringUtil.encodeXML(sb, animSpeed);
+			sb.append("\"");
 			sb.append(" type=\"" + animationType + "\"");
 			sb.append(" playing=\"");
 			sb.append((isAnimating() ? "true" : "false"));
@@ -5144,7 +5148,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		if ((condShowObject != null) && kernel.getSaveScriptsToXML()) {
 			final StringBuilder sb = new StringBuilder();
 			sb.append("\t<condition showObject=\"");
-			sb.append(StringUtil.encodeXML(condShowObject.getLabel(StringTemplate.xmlTemplate)));
+			StringUtil.encodeXML(sb, condShowObject.getLabel(StringTemplate.xmlTemplate));
 			sb.append("\"/>\n");
 			return sb.toString();
 		}
@@ -6350,11 +6354,11 @@ public abstract class GeoElement extends ConstructionElement implements
 	}
 	
 	private void getXMLUpdateScript(StringBuilder sb) {
-		sb.append(StringUtil.encodeXML(updateScript));
+		StringUtil.encodeXML(sb, updateScript);
 	}
 
 	private void getXMLClickScript(StringBuilder sb) {
-		sb.append(StringUtil.encodeXML(clickScript));
+		StringUtil.encodeXML(sb, clickScript);
 	}
 
 	private void runGgbScript(final String arg, final boolean update) {

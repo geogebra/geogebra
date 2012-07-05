@@ -4003,16 +4003,16 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 			if (!isZoomable() && !asPreference) {
 				sbxml.append("\t<coordSystem");
 				sbxml.append(" xMin=\"");
-				sbxml.append(StringUtil.encodeXML(((GeoNumeric) xminObject).getLabel(tpl)));
+				StringUtil.encodeXML(sbxml, ((GeoNumeric) xminObject).getLabel(tpl));
 				sbxml.append("\"");
 				sbxml.append(" xMax=\"");
-				sbxml.append(StringUtil.encodeXML(((GeoNumeric) xmaxObject).getLabel(tpl)));
+				StringUtil.encodeXML(sbxml, ((GeoNumeric) xmaxObject).getLabel(tpl));
 				sbxml.append("\"");
 				sbxml.append(" yMin=\"");
-				sbxml.append(StringUtil.encodeXML(((GeoNumeric) yminObject).getLabel(tpl)));
+				StringUtil.encodeXML(sbxml, ((GeoNumeric) yminObject).getLabel(tpl));
 				sbxml.append("\"");
 				sbxml.append(" yMax=\"");
-				sbxml.append(StringUtil.encodeXML(((GeoNumeric) ymaxObject).getLabel(tpl)));
+				StringUtil.encodeXML(sbxml, ((GeoNumeric) ymaxObject).getLabel(tpl));
 				sbxml.append("\"");
 				sbxml.append("/>\n");
 			} else {
@@ -4106,11 +4106,13 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 				sbxml.append("\" show=\"");
 				sbxml.append(showAxes[i]);
 				sbxml.append("\" label=\"");
-				sbxml.append(axesLabels[i] == null ? "" : StringUtil
-						.encodeXML(axisLabelForXML(i)));
+				if (axesLabels[i] != null) {
+					StringUtil.encodeXML(sbxml, axisLabelForXML(i));
+				}
 				sbxml.append("\" unitLabel=\"");
-				sbxml.append(axesUnitLabels[i] == null ? "" : StringUtil
-						.encodeXML(axesUnitLabels[i]));
+				if (axesUnitLabels[i] != null) {
+					 StringUtil.encodeXML(sbxml, axesUnitLabels[i]);
+				}
 				sbxml.append("\" tickStyle=\"");
 				sbxml.append(axesTickStyles[i]);
 				sbxml.append("\" showNumbers=\"");

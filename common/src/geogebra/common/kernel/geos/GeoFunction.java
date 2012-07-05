@@ -717,7 +717,7 @@ public class GeoFunction extends GeoElement implements VarString,
 			sbxml.append(" label =\"");
 			sbxml.append(label);
 			sbxml.append("\" exp=\"");
-			sbxml.append(StringUtil.encodeXML(toString(StringTemplate.xmlTemplate)));
+			StringUtil.encodeXML(sbxml, toString(StringTemplate.xmlTemplate));
 			// expression
 			sbxml.append("\"/>\n");
 		}

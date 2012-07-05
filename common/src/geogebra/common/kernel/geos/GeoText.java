@@ -526,10 +526,10 @@ public class GeoText extends GeoElement implements Locateable,
 		if (isIndependent() && getDefaultGeoType() < 0) {
 			sb.append("<expression");
 			sb.append(" label=\"");
-			sb.append(StringUtil.encodeXML(label));
+			StringUtil.encodeXML(sb, label);
 			sb.append("\" exp=\"");
-			sb.append(StringUtil
-					.encodeXML(toOutputValueString(StringTemplate.xmlTemplate)));
+			StringUtil
+					.encodeXML(sb, toOutputValueString(StringTemplate.xmlTemplate));
 			// expression
 			sb.append("\"/>\n");
 		}
@@ -537,7 +537,7 @@ public class GeoText extends GeoElement implements Locateable,
 		sb.append("<element");
 		sb.append(" type=\"text\"");
 		sb.append(" label=\"");
-		sb.append(StringUtil.encodeXML(label));
+		StringUtil.encodeXML(sb, label);
 		if (getDefaultGeoType() >= 0) {
 			sb.append("\" default=\"");
 			sb.append(getDefaultGeoType());
