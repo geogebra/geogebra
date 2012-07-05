@@ -7,6 +7,8 @@ import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.DrawEquationInterface;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
+import geogebra.common.gui.menubar.MenuInterface;
+import geogebra.common.gui.menubar.RadioButtonMenuBar;
 import geogebra.common.gui.view.algebra.AlgebraView;
 import geogebra.common.gui.view.spreadsheet.AbstractSpreadsheetTableModel;
 import geogebra.common.gui.view.spreadsheet.SpreadsheetTraceManager;
@@ -47,7 +49,9 @@ import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.SplashDialog;
 import geogebra.web.gui.app.GeoGebraAppFrame;
 import geogebra.web.gui.applet.GeoGebraFrame;
+import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.inputbar.AlgebraInputW;
+import geogebra.web.gui.menubar.GeoGebraMenubarW;
 import geogebra.web.html5.ArticleElement;
 import geogebra.web.io.ConstructionException;
 import geogebra.web.io.MyXMLio;
@@ -83,8 +87,10 @@ import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.i18n.client.Dictionary;
 import com.google.gwt.i18n.client.LocaleInfo;
+import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbsolutePanel;
+import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -894,6 +900,7 @@ public class AppW extends App {
 		geogebra.common.factories.CASFactory.prototype = new geogebra.web.factories.CASFactory();
 		geogebra.common.factories.SwingFactory.prototype = new geogebra.web.factories.SwingFactory();
 		geogebra.common.factories.UtilFactory.prototype = new geogebra.web.factories.UtilFactory();
+		geogebra.common.factories.Factory.prototype = new geogebra.web.factories.Factory();
 		geogebra.common.util.StringUtil.prototype = new geogebra.common.util.StringUtil();
 
 		geogebra.common.euclidian.HatchingHandler.prototype = new geogebra.web.euclidian.HatchingHandlerW();
@@ -2008,4 +2015,16 @@ public class AppW extends App {
 		App.debug("unimplemented");
     }
 
+	public void addMenuItem(MenuInterface parentMenu, String filename, String name,
+	        boolean asHtml, MenuInterface subMenu) {
+		
+		String funcName = filename.substring(0,filename.lastIndexOf('.'));
+		ImageResource imgRes = (ImageResource) (AppResources.INSTANCE.getResource(funcName));
+		String iconString = imgRes.getSafeUri().asString();
+		
+		((MenuBar)parentMenu).addItem(GeoGebraMenubarW.getMenuBarHtml(
+		        iconString, name),
+		        true, (MenuBar)subMenu);
+
+	}
 }

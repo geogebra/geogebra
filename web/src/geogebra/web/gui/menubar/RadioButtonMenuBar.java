@@ -1,24 +1,24 @@
 package geogebra.web.gui.menubar;
 
+import geogebra.common.gui.menubar.MenuInterface;
 import geogebra.common.main.App;
-
 import java.util.ArrayList;
 
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.RadioButton;
 
-public class RadioButtonMenuBar extends MenuBar {
+public class RadioButtonMenuBar extends MenuBar implements
+        geogebra.common.gui.menubar.RadioButtonMenuBar {
 
 	final private String menubarID;
 	private ArrayList<RadioButton> radioButtons;
 	private Object cmd;
 	private String[] texts;
 	private String[] commands;
-	private OptionsMenuW listener;
+	private MenuInterface listener;
 
 	public RadioButtonMenuBar() {
 		super(true);
@@ -49,8 +49,7 @@ public class RadioButtonMenuBar extends MenuBar {
 //		} 
 		
 		
-		
-		
+
 		radioButtons.get(itemIndex).setValue(true);
 		MenuItem selectedItem;
 		if (getSelectedItem() != null){
@@ -64,16 +63,13 @@ public class RadioButtonMenuBar extends MenuBar {
 	/**
 	 * Create a set of radio buttons automatically.
 	 * 
-	 * @param menu
 	 * @param al
 	 * @param items
 	 * @param actionCommands
 	 * @param selectedPos
 	 */
-	public void addRadioButtonMenuItems(OptionsMenuW al,
+	public void addRadioButtonMenuItems(MenuInterface al,
 			String[] items, final String[] actionCommands, int selectedPos) {
-		MenuItem mi;
-		
 		texts = items;
 		commands = actionCommands;
 		listener = al;
@@ -105,4 +101,5 @@ public class RadioButtonMenuBar extends MenuBar {
 		}
 	    
     }
+
 }

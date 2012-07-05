@@ -13,6 +13,8 @@ import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.gui.GuiManager;
 import geogebra.common.gui.dialog.DialogManager;
+import geogebra.common.gui.menubar.MenuInterface;
+import geogebra.common.gui.menubar.RadioButtonMenuBar;
 import geogebra.common.gui.view.algebra.AlgebraView;
 import geogebra.common.gui.view.properties.PropertiesView;
 import geogebra.common.gui.view.spreadsheet.AbstractSpreadsheetTableModel;
@@ -3051,5 +3053,6 @@ public abstract class App {
 
 	public abstract void exitAll();
 
-	
+	public abstract void addMenuItem(MenuInterface parentMenu, String filename, String name,
+	        boolean asHtml, MenuInterface subMenu);
 }

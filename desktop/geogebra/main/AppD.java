@@ -25,6 +25,7 @@ import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.gui.dialog.DialogManager;
+import geogebra.common.gui.menubar.MenuInterface;
 import geogebra.common.gui.view.spreadsheet.AbstractSpreadsheetTableModel;
 import geogebra.common.io.MyXMLHandler;
 import geogebra.common.io.layout.DockPanelData;
@@ -577,6 +578,7 @@ public class AppD extends App implements
 		geogebra.common.factories.CASFactory.prototype = new geogebra.factories.CASFactory();
 		geogebra.common.factories.SwingFactory.prototype = new geogebra.factories.SwingFactory();
 		geogebra.common.factories.UtilFactory.prototype = new geogebra.factories.UtilFactory();
+		//geogebra.common.factories.Factory.prototype = new geogebra.factories.Factory();
 		geogebra.common.util.StringUtil.prototype = new geogebra.util.StringUtil();
 		
 		geogebra.common.euclidian.HatchingHandler.prototype = new geogebra.euclidian.HatchingHandlerD();
@@ -5218,6 +5220,12 @@ public class AppD extends App implements
 		getEuclidianView1().dispatchEvent(event);
 		getEuclidianView2().dispatchEvent(event);
 			
+	}
+	@Override
+	public void addMenuItem(MenuInterface parentMenu, String filename,
+			String name, boolean asHtml, MenuInterface subMenu) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

@@ -266,17 +266,4 @@ public class GeoGebraMenubarW extends MenuBar {
 			optionsMenu.update();        
         }
 		
-		
-	public static void add(MenuBar parentMenu, String filename, String name,
-	        boolean asHtml, MenuBar subMenu) {
-		
-		String funcName = filename.substring(0,filename.lastIndexOf('.'));
-		ImageResource imgRes = (ImageResource) (AppResources.INSTANCE.getResource(funcName));
-		String iconString = imgRes.getSafeUri().asString();
-		
-		parentMenu.addItem(GeoGebraMenubarW.getMenuBarHtml(
-		        iconString, name),
-		        true, subMenu);
-
-	}
 }
