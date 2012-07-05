@@ -140,7 +140,10 @@ public class GlobalKeyDispatcherD extends geogebra.common.main.GlobalKeyDispatch
 
 	public boolean handleGeneralKeys(KeyEvent event) {
 
-		return handleGeneralKeys(KeyCodes.translateJavacode(event.getKeyCode()), event.isShiftDown(), AppD.isControlDown(event), AppD.isAltDown(event), event.getSource() instanceof JTable, event.getSource() instanceof EuclidianViewD);
+		// use event.isAltDown rather than AppD.isControlDown(event)
+		// as we need to distinguish <AltGr>2 and <Ctrl>2
+		// #2390 #908
+		return handleGeneralKeys(KeyCodes.translateJavacode(event.getKeyCode()), event.isShiftDown(), AppD.isControlDown(event), event.isAltDown(), event.getSource() instanceof JTable, event.getSource() instanceof EuclidianViewD);
 	}
 
 	private boolean handleSelectedGeosKeys(KeyEvent event,
