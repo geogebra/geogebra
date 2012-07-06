@@ -42,21 +42,21 @@
   <update check="timeout" policy="always"/>
   <resources>
     <j2se version="1.5+" max-heap-size="512m" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="http://www.geogebra.org/webstart/5.2/jnlp/geogebra.jar" main="true"/>
-    <jar href="http://www.geogebra.org/webstart/5.2/jnlp/geogebra_main.jar"/>
-    <jar href="http://www.geogebra.org/webstart/5.2/jnlp/geogebra_gui.jar"/>
-    <jar href="http://www.geogebra.org/webstart/5.2/jnlp/geogebra_properties.jar"/>
-    <jar href="http://www.geogebra.org/webstart/5.2/jnlp/geogebra_export.jar"/>    
-    <jar href="http://www.geogebra.org/webstart/5.2/jnlp/geogebra_cas.jar"/>    
-    <jar href="http://www.geogebra.org/webstart/5.2/jnlp/geogebra_3d.jar"/>    
-    <jar href="http://www.geogebra.org/webstart/5.2/jnlp/geogebra_usb.jar"/>    
-    <jar href="http://www.geogebra.org/webstart/5.2/jnlp/geogebra_javascript.jar"/>    
-    <jar href="http://www.geogebra.org/webstart/5.2/jnlp/jogl.all.jar"/>    
-    <jar href="http://www.geogebra.org/webstart/5.2/jnlp/gluegen-rt.jar"/>    
-    <jar href="http://www.geogebra.org/webstart/5.2/jnlp/jlatexmath.jar"/>    
-    <jar href="http://www.geogebra.org/webstart/5.2/jnlp/jlm_greek.jar"/>    
-    <jar href="http://www.geogebra.org/webstart/5.2/jnlp/jlm_cyrillic.jar"/>    
-    <jar href="http://www.geogebra.org/webstart/5.2/jnlp/jython.jar"/>
+    <jar href="http://www.geogebra.org/webstart/5.0/jnlp/geogebra.jar" main="true"/>
+    <jar href="http://www.geogebra.org/webstart/5.0/jnlp/geogebra_main.jar"/>
+    <jar href="http://www.geogebra.org/webstart/5.0/jnlp/geogebra_gui.jar"/>
+    <jar href="http://www.geogebra.org/webstart/5.0/jnlp/geogebra_properties.jar"/>
+    <jar href="http://www.geogebra.org/webstart/5.0/jnlp/geogebra_export.jar"/>    
+    <jar href="http://www.geogebra.org/webstart/5.0/jnlp/geogebra_cas.jar"/>    
+    <jar href="http://www.geogebra.org/webstart/5.0/jnlp/geogebra_3d.jar"/>    
+    <jar href="http://www.geogebra.org/webstart/5.0/jnlp/geogebra_usb.jar"/>    
+    <jar href="http://www.geogebra.org/webstart/5.0/jnlp/geogebra_javascript.jar"/>    
+    <jar href="http://www.geogebra.org/webstart/5.0/jnlp/jogl.all.jar"/>    
+    <jar href="http://www.geogebra.org/webstart/5.0/jnlp/gluegen-rt.jar"/>    
+    <jar href="http://www.geogebra.org/webstart/5.0/jnlp/jlatexmath.jar"/>    
+    <jar href="http://www.geogebra.org/webstart/5.0/jnlp/jlm_greek.jar"/>    
+    <jar href="http://www.geogebra.org/webstart/5.0/jnlp/jlm_cyrillic.jar"/>    
+    <jar href="http://www.geogebra.org/webstart/5.0/jnlp/jython.jar"/>
 	<extension name="jogl" href="jogl.jnlp" />
   </resources>
     <resources os="Windows" arch="x86">

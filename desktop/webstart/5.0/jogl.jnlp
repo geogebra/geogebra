@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<jnlp codebase="http://www.geogebra.org/webstart/3Dbeta/"
+<jnlp codebase="http://www.geogebra.org/webstart/5.0/"
       href="jogl.jnlp">
   <information>
     <title>Java Binding to the OpenGL API</title>
@@ -13,53 +13,53 @@
       <all-permissions/>
   </security>
     <resources>
-      <jar href="jogl.jar" />
-      <extension name="gluegen-rt" href="http://download.java.net/media/gluegen/webstart/gluegen-rt.jnlp" />
+      <jar href="http://www.geogebra.org/webstart/5.0/jogl.all.jar" />
+      <extension name="gluegen-rt" href="gluegen-rt.jnlp" />
     </resources>
     <resources os="Windows" arch="x86">
-      <nativelib href = "jogl-all-natives-windows-i586.jar" />
+      <nativelib href = "http://www.geogebra.org/webstart/5.0/jogl-all-natives-windows-i586.jar" />
     </resources>
     <resources os="Windows" arch="amd64">
-      <nativelib href = "jogl-all-natives-windows-amd64.jar" />
+      <nativelib href = "http://www.geogebra.org/webstart/5.0/jogl-all-natives-windows-amd64.jar" />
     </resources>
     <resources os="Windows" arch="x86_64">
-      <nativelib href = "jogl-all-natives-windows-amd64.jar" />
+      <nativelib href = "http://www.geogebra.org/webstart/5.0/jogl-all-natives-windows-amd64.jar" />
     </resources>
     <resources os="SunOS" arch="sparc">
-      <nativelib href = "jogl-all-natives-solaris-sparc.jar" />
+      <nativelib href = "http://www.geogebra.org/webstart/5.0/jogl-all-natives-solaris-sparc.jar" />
     </resources>
     <resources os="SunOS" arch="sparcv9">
-      <nativelib href = "jogl-all-natives-solaris-sparcv9.jar" />
+      <nativelib href = "http://www.geogebra.org/webstart/5.0/jogl-all-natives-solaris-sparcv9.jar" />
     </resources>
     <resources os="SunOS" arch="x86">
-      <nativelib href = "jogl-all-natives-solaris-i586.jar" />
+      <nativelib href = "http://www.geogebra.org/webstart/5.0/jogl-all-natives-solaris-i586.jar" />
     </resources>
     <resources os="SunOS" arch="amd64">
-      <nativelib href = "jogl-all-natives-solaris-amd64.jar" />
+      <nativelib href = "http://www.geogebra.org/webstart/5.0/jogl-all-natives-solaris-amd64.jar" />
     </resources>
     <resources os="SunOS" arch="x86_64">
-      <nativelib href = "jogl-all-natives-solaris-amd64.jar" />
+      <nativelib href = "http://www.geogebra.org/webstart/5.0/jogl-all-natives-solaris-amd64.jar" />
     </resources>
     <resources os="Linux" arch="i386">
-      <nativelib href = "jogl-all-natives-linux-i586.jar" />
+      <nativelib href = "http://www.geogebra.org/webstart/5.0/jogl-all-natives-linux-i586.jar" />
     </resources>
     <resources os="Linux" arch="x86">
-      <nativelib href = "jogl-all-natives-linux-i586.jar" />
+      <nativelib href = "http://www.geogebra.org/webstart/5.0/jogl-all-natives-linux-i586.jar" />
     </resources>
     <resources os="Linux" arch="amd64">
-      <nativelib href = "jogl-all-natives-linux-amd64.jar" />
+      <nativelib href = "http://www.geogebra.org/webstart/5.0/jogl-all-natives-linux-amd64.jar" />
     </resources>
     <resources os="Linux" arch="x86_64">
-      <nativelib href = "jogl-all-natives-linux-amd64.jar" />
+      <nativelib href = "http://www.geogebra.org/webstart/5.0/jogl-all-natives-linux-amd64.jar" />
     </resources>
     <resources os="Mac OS X" arch="ppc">
-      <nativelib href = "jogl-all-natives-macosx-ppc.jar" />
+      <nativelib href = "http://www.geogebra.org/webstart/5.0/jogl-all-natives-macosx-ppc.jar" />
     </resources>
     <resources os="Mac OS X" arch="i386">
-      <nativelib href = "jogl-all-natives-macosx-universal.jar" />
+      <nativelib href = "http://www.geogebra.org/webstart/5.0/jogl-all-natives-macosx-universal.jar" />
     </resources>
     <resources os="Mac OS X" arch="x86_64">
-      <nativelib href = "jogl-all-natives-macosx-universal.jar" />
+      <nativelib href = "http://www.geogebra.org/webstart/5.0/jogl-all-natives-macosx-universal.jar" />
     </resources>
   <component-desc />
 </jnlp>
