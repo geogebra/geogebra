@@ -572,12 +572,6 @@ public class EuclidianViewW extends EuclidianView implements SettingListener{
     }
 
 	@Override
-    public void updatePreviewable() {
-	    App.warn("updatePreviewable() unimplemented");	    
-    }
-
-
-	@Override
     protected AbstractZoomer newZoomer() {
 	    return new MyZoomerW(this);
     }

@@ -712,7 +712,7 @@ public class AppW extends App {
 	@Override
 	public boolean isUsingFullGui() {
 		//return useFullGui;
-		App.debug("isUsingFullGui: implementation needed"); // TODO Auto-generated
+		// TODO
 		return guiManager != null;
 	}
 
@@ -863,7 +863,7 @@ public class AppW extends App {
 
 	@Override
 	public boolean isShowingEuclidianView2() {
-		App.debug("isShowingEuclidianView2: implementation needed"); // TODO Auto-generated
+		// TODO
 		return false;
 	}
 

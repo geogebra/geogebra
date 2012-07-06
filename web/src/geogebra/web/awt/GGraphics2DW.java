@@ -321,35 +321,35 @@ public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {
 
 	@Override
     public void setRenderingHint(GKey hintKey, Object hintValue) {
-		App.debug("setRenderingHint: implementation needed"); // TODO Auto-generated
+		//
 
 	}
 
 	
 	@Override
     public Object getRenderingHint(GKey hintKey) {
-		App.debug("getRenderingHint: implementation needed"); // TODO Auto-generated
+		//
 		return null;
 	}
 
 	
 	@Override
     public void setRenderingHints(Map<?, ?> hints) {
-		App.debug("setRenderingHints: implementation needed"); // TODO Auto-generated
+		//
 
 	}
 
 	
 	@Override
     public void addRenderingHints(Map<?, ?> hints) {
-		App.debug("addRenderingHints: implementation needed"); // TODO Auto-generated
+		//
 
 	}
 
 	
 	@Override
     public GRenderingHints getRenderingHints() {
-		App.debug("getRenderingHints: implementation needed"); // TODO Auto-generated
+		//
 		return null;
 	}
 

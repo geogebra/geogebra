@@ -20,12 +20,9 @@ public class Timer extends com.google.gwt.user.client.Timer {
 	@Override
 	public void run() {
 		this.am.actionPerformed();
-		App.debug("implementation needed"); // TODO Auto-generated
-
 	}
 
 	public boolean isRunning() {
-		App.debug("implementation needed"); // TODO Auto-generated
 		return isrunning;
 	}
 
@@ -35,21 +32,15 @@ public class Timer extends com.google.gwt.user.client.Timer {
 			isrunning = true;
 		}
 		
-		App.debug("implementation needed"); // TODO Auto-generated
-		
 	}
 
 	public void stop() {
 		cancel();
 		isrunning = false;
-		App.debug("implementation needed"); // TODO Auto-generated
-		
 	}
 
 	public void setDelay(int delay) {
 		scheduleRepeating(delay);
-		App.debug("implementation needed"); // TODO Auto-generated
-		
 	}
 
 }
