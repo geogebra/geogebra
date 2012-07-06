@@ -161,8 +161,6 @@ public abstract class GeoElement extends ConstructionElement implements
 
 	// private static int geoElementID = Integer.MIN_VALUE;
 
-	private static final char[] complexLabels = { 'z', 'w' };
-
 	private static final char[] pointLabels = { 'A', 'B', 'C', 'D', 'E', 'F',
 			'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S',
 			'T', 'U', 'V', 'W', 'Z' };
@@ -2962,7 +2960,19 @@ public abstract class GeoElement extends ConstructionElement implements
 
 				final GeoPointND point = (GeoPointND) this;
 				if (point.getMode() == Kernel.COORD_COMPLEX) {
-					chars = complexLabels;
+					String complexLabel = "z_1";
+					int i = 1;
+					while (!cons.isFreeLabel(complexLabel)) {
+						i++;
+						if (i < 9) {
+							// eg z_6
+							complexLabel = "z_" + i;
+						} else {
+							// eg z_{12}
+							complexLabel = "z_{" + i + "}";
+						}
+					}
+					return complexLabel;
 				}
 
 			} else if (isGeoFunction()) {
