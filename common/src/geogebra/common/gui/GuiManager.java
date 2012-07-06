@@ -282,4 +282,10 @@ public abstract class GuiManager {
 	public abstract void openFile();
 
 	public abstract Layout getLayout();
+
+	public abstract void showGraphicExport();
+
+	public abstract void showPSTricksExport();
+
+	public abstract void showWebpageExport();
 }

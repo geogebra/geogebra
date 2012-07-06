@@ -3003,4 +3003,30 @@ public class GuiManagerD extends GuiManager {
 	public void showPropertiesViewSliderTab(){
 		propertiesView.showSliderTab();
 	}
+
+	@Override
+	public void showGraphicExport() {
+		app.clearSelectedGeos();
+
+		JDialog d = new geogebra.export.GraphicExportDialog((AppD) app);
+
+
+		d.setVisible(true);
+		
+	}
+
+	@Override
+	public void showPSTricksExport() {
+		new geogebra.export.pstricks.GeoGebraToPstricks((AppD) app);
+		
+	}
+
+	@Override
+	public void showWebpageExport() {
+		app.clearSelectedGeos();
+		geogebra.export.WorksheetExportDialog d = new geogebra.export.WorksheetExportDialog(
+				(AppD) app);
+
+		d.setVisible(true);
+	}
 }

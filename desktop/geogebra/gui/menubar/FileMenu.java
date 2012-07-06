@@ -338,22 +338,8 @@ class FileMenu extends BaseMenu {
 						public void run() {
 							app.setWaitCursor();
 							try {
-								app.clearSelectedGeos();
-
-								// use reflection for
-								JDialog d = new geogebra.export.GraphicExportDialog(
-										app);
-								// Class casViewClass =
-								// Class.forName("geogebra.export.GraphicExportDialog");
-								// Object[] args = new Object[] { app };
-								// Class [] types = new Class[]
-								// {Application.class};
-								// Constructor constructor =
-								// casViewClass.getDeclaredConstructor(types);
-								// JDialog d = (JDialog)
-								// constructor.newInstance(args);
-
-								d.setVisible(true);
+								
+								app.getGuiManager().showGraphicExport();
 
 							} catch (Exception e1) {
 								App

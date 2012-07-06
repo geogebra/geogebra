@@ -527,4 +527,22 @@ public class GuiManagerW extends GuiManager {
     public void openFile() {
 	    App.debug("unimplemented");
     }
+
+	@Override
+    public void showGraphicExport() {
+		App.debug("unimplemented");
+	    
+    }
+
+	@Override
+    public void showPSTricksExport() {
+		App.debug("unimplemented");
+	    
+    }
+
+	@Override
+    public void showWebpageExport() {
+		App.debug("unimplemented");
+	    
+    }
 }

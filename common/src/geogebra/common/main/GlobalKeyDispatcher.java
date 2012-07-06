@@ -321,9 +321,24 @@ public abstract class GlobalKeyDispatcher {
 					consumed = true;
 				}
 				break;
-			case P: // File -> Print...
+			case P: // File -> Export -> Graphic
 				if (!isShiftDown) {
 					showPrintPreview(app);
+					consumed = true;
+				} else {
+					app.getGuiManager().showGraphicExport();
+					consumed = true;
+				}
+				break;
+			case T: // File -> Export -> PSTricks
+				if (isShiftDown) {
+					app.getGuiManager().showPSTricksExport();
+					consumed = true;
+				}
+				break;
+			case W: // File -> Export -> Webpage
+				if (isShiftDown) {
+					app.getGuiManager().showWebpageExport();
 					consumed = true;
 				}
 				break;
