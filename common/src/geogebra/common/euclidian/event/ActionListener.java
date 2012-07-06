@@ -1,29 +1,19 @@
 package geogebra.common.euclidian.event;
 
-import geogebra.common.euclidian.DrawList;
-import geogebra.common.main.App;
 
-public class ActionListener {
+public abstract class ActionListener{
 	
-	private Object listenerClass;
-	
+	private ActionListenerI listenerClass;	
 
 	protected void wrapActionPerformed(ActionEvent event) {
-		
-		
-		if (listenerClass instanceof DrawList.ActionListener){
-			((DrawList.ActionListener) listenerClass).actionPerformed(event);
-		}
-		else{
-			App.debug("other type: "+listenerClass.getClass());
-		}
+		listenerClass.actionPerformed(event);
 	}
 	
 	public Object getListenerClass() {
 		return listenerClass;
 	}
 
-	public void setListenerClass(Object listenerClass) {
+	public void setListenerClass(ActionListenerI listenerClass) {
 		this.listenerClass = listenerClass;
 	}
 }

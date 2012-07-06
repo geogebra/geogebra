@@ -1,10 +1,13 @@
 package geogebra.euclidian.event;
 
+import geogebra.common.euclidian.event.ActionEvent;
+import geogebra.common.euclidian.event.ActionListenerI;
+
 
 public class ActionListener extends geogebra.common.euclidian.event.ActionListener
 implements java.awt.event.ActionListener{
 
-	public ActionListener(Object listener) {
+	public ActionListener(ActionListenerI listener) {
 		setListenerClass(listener);
 	}
 

@@ -24,6 +24,7 @@ import geogebra.common.awt.GRectangle2D;
 import geogebra.common.awt.GShape;
 import geogebra.common.awt.font.GTextLayout;
 import geogebra.common.euclidian.event.ActionListener;
+import geogebra.common.euclidian.event.ActionListenerI;
 import geogebra.common.euclidian.event.FocusListener;
 import geogebra.common.euclidian.event.KeyListener;
 import geogebra.common.factories.AwtFactory;
@@ -245,7 +246,7 @@ public class AwtFactoryW extends AwtFactory {
     }
 
 	@Override
-    public ActionListener newActionListener(Object listener) {
+    public ActionListener newActionListener(ActionListenerI listener) {
 		App.debug("newActionListener: implementation needed really"); // TODO Auto-generated
 	    return null;
     }

@@ -21,6 +21,7 @@ import geogebra.common.awt.GRectangle;
 import geogebra.common.awt.GRectangle2D;
 import geogebra.common.awt.GShape;
 import geogebra.common.awt.font.GTextLayout;
+import geogebra.common.euclidian.event.ActionListenerI;
 import geogebra.common.euclidian.event.FocusListener;
 import geogebra.common.euclidian.event.KeyListener;
 import geogebra.common.euclidian.event.ActionListener;
@@ -69,7 +70,7 @@ public abstract class AwtFactory {
 			geogebra.common.awt.GColor bg2, int x2, int i,
 			geogebra.common.awt.GColor bg);
 	public abstract FocusListener newFocusListener(Object listener);
-	public abstract ActionListener newActionListener(Object listener);
+	public abstract ActionListener newActionListener(ActionListenerI listener);
 	public abstract KeyListener newKeyListener(Object listener);
 	public abstract geogebra.common.awt.Component newComponent(Object component);
 	

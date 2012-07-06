@@ -23,6 +23,7 @@ import geogebra.common.awt.GRectangle;
 import geogebra.common.awt.GRectangle2D;
 import geogebra.common.awt.GShape;
 import geogebra.common.awt.font.GTextLayout;
+import geogebra.common.euclidian.event.ActionListenerI;
 import geogebra.common.euclidian.event.FocusListener;
 import geogebra.common.factories.AwtFactory;
 import geogebra.euclidian.event.KeyListener;
@@ -239,7 +240,7 @@ public class AwtFactoryD extends AwtFactory{
 	}
 	
 	@Override
-	public geogebra.euclidian.event.ActionListener newActionListener(Object listener) {
+	public geogebra.euclidian.event.ActionListener newActionListener(ActionListenerI listener) {
 		return new geogebra.euclidian.event.ActionListener(listener);
 	}
 

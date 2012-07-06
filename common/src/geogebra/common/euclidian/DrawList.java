@@ -20,6 +20,7 @@ package geogebra.common.euclidian;
 
 import geogebra.common.awt.GColor;
 import geogebra.common.euclidian.event.ActionEvent;
+import geogebra.common.euclidian.event.ActionListenerI;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.factories.SwingFactory;
 import geogebra.common.kernel.StringTemplate;
@@ -374,15 +375,16 @@ public final class DrawList extends Drawable implements RemoveNeeded {
 	 * Listens to events in this combobox
 	 * @author Michael + Judit
 	 */
-	public class ActionListener extends geogebra.common.euclidian.event.ActionListener{
-
+	public class ActionListener extends
+			geogebra.common.euclidian.event.ActionListener implements
+			ActionListenerI {
 
 		/**
-		 * @param e focus event
+		 * @param e action event
 		 */
 		public void actionPerformed(ActionEvent e) {
 
-			//AbstractApplication.debug("action performed" + comboBox.getSelectedIndex());
+			App.debug("action performed" + comboBox.getSelectedIndex());
 			geoList.setSelectedIndex(comboBox.getSelectedIndex(), true);
 		}
 
