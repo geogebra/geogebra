@@ -32,17 +32,11 @@ public class EuclidianStaticW extends geogebra.common.euclidian.EuclidianStatic 
 	@Override
 	protected void doFillWithValueStrokePure(GShape shape, GGraphics2D g2) {
 		g2.fill(shape);
-
-		App.debug("implementation needed or OK");
-		// TODO can we emulate somehow the "pure stroke" behavior?
 	}
 
 	@Override
 	protected void doDrawWithValueStrokePure(GShape shape, GGraphics2D g2) {
 		g2.draw(shape);
-
-		App.debug("implementation needed or OK");
-		// TODO can we emulate somehow the "pure stroke" behavior?
 	}
 
 	@Override
