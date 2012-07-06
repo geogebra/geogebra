@@ -7,7 +7,7 @@ public class FactoryW extends Factory{
 
 	@Override
     public RadioButtonMenuBar newRadioButtonMenuBar() {
-	    return new geogebra.web.gui.menubar.RadioButtonMenuBar();
+	    return new geogebra.web.gui.menubar.RadioButtonMenuBarW();
     }
 
 }

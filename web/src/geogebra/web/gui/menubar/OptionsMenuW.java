@@ -1,10 +1,13 @@
 package geogebra.web.gui.menubar;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JMenu;
 import javax.swing.JRadioButtonMenuItem;
 
 import geogebra.common.gui.menubar.MenuInterface;
-import geogebra.common.gui.menubar.OptionsMenuStatic;
+import geogebra.common.gui.menubar.OptionsMenu;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.main.App;
 import geogebra.web.gui.images.AppResources;
@@ -22,8 +25,9 @@ public class OptionsMenuW extends MenuBar implements MenuInterface{
 	static Kernel kernel;
 	
 	private LanguageMenuW languageMenu;
-	private RadioButtonMenuBar menuPointCapturing;
-	private RadioButtonMenuBar menuDecimalPlaces;
+	private MenuBar menuAlgebraStyle;
+	private RadioButtonMenuBarW menuPointCapturing;
+	private RadioButtonMenuBarW menuDecimalPlaces;
 	
 	/**
 	 * Constructs the "Option" menu
@@ -46,7 +50,7 @@ public class OptionsMenuW extends MenuBar implements MenuInterface{
 		addLanguageMenu();
 		
 		addPointCapturingMenu();
-		OptionsMenuStatic.addDecimalPlacesMenu(this, app);
+		OptionsMenu.addDecimalPlacesMenu(this, app);
 	}
 	
 	private void addLanguageMenu() {
@@ -56,7 +60,7 @@ public class OptionsMenuW extends MenuBar implements MenuInterface{
 	}
 	
 	private void addAlgebraDescriptionMenu(){
-		RadioButtonMenuBar submenu = new RadioButtonMenuBar();
+		RadioButtonMenuBarW submenu = new RadioButtonMenuBarW();
 		
 		submenu.addItem(app.getMenu("Value"), new RadioButtonCommand(submenu, 0) {
 			
@@ -87,10 +91,35 @@ public class OptionsMenuW extends MenuBar implements MenuInterface{
 		        true, submenu);		
 		
 		addItem(algebraDescription);		
+	
+//		menuAlgebraStyle = new RadioButtonMenuBar();
+//		
+//		String[] strDescription = { app.getPlain("Value"), 
+//				app.getPlain("Definition"), 
+//				app.getPlain("Command")};
+//		String[] strDescriptionAC = { "0", "1", "2" };
+//		ActionListener descAL = new ActionListener() {
+//			public void actionPerformed(ActionEvent ae) {
+//				int desc = Integer.parseInt(ae.getActionCommand());
+//				kernel.setAlgebraStyle(desc);
+//				kernel.updateConstruction();
+//			}
+//		};
+//		addRadioButtonMenuItems(menuAlgebraStyle, descAL, strDescription, strDescriptionAC,0);
+//		app.getMenu("AlgebraDescriptions")
+//		
+//		menuAlgebraStyle.setIcon(app.getEmptyIcon());
+//		add(menuAlgebraStyle);
+//		updateMenuViewDescription();
+//	
 	}
+	
+	
+	
+	
 
 	private void addPointCapturingMenu(){		
-		menuPointCapturing = new RadioButtonMenuBar();
+		menuPointCapturing = new RadioButtonMenuBarW();
 		String[] strPointCapturing = { app.getMenu("Labeling.automatic"), app.getMenu("SnapToGrid"),
 				app.getMenu("FixedToGrid"), app.getMenu("off") };
 		String[] strPointCapturingAC = { "3 PointCapturing",
@@ -138,7 +167,7 @@ public class OptionsMenuW extends MenuBar implements MenuInterface{
 	
 
 	public static void actionPerformed(String cmd){
-		OptionsMenuStatic.processActionPerformed(cmd, app, kernel);
+		OptionsMenu.processActionPerformed(cmd, app, kernel);
 	}
 
 

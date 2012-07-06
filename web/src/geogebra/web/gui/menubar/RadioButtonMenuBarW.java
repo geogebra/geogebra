@@ -1,7 +1,8 @@
 package geogebra.web.gui.menubar;
 
 import geogebra.common.gui.menubar.MenuInterface;
-import geogebra.common.main.App;
+import geogebra.common.gui.menubar.RadioButtonMenuBar;
+
 import java.util.ArrayList;
 
 import com.google.gwt.user.client.Command;
@@ -10,8 +11,7 @@ import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.RadioButton;
 
-public class RadioButtonMenuBar extends MenuBar implements
-        geogebra.common.gui.menubar.RadioButtonMenuBar {
+public class RadioButtonMenuBarW extends MenuBar implements RadioButtonMenuBar {
 
 	final private String menubarID;
 	private ArrayList<RadioButton> radioButtons;
@@ -20,7 +20,7 @@ public class RadioButtonMenuBar extends MenuBar implements
 	private String[] commands;
 	private MenuInterface listener;
 
-	public RadioButtonMenuBar() {
+	public RadioButtonMenuBarW() {
 		super(true);
 		menubarID = DOM.createUniqueId();
 		radioButtons = new ArrayList<RadioButton>();

@@ -4,10 +4,10 @@ import com.google.gwt.user.client.Command;
 
 public abstract class RadioButtonCommand implements Command {
 	
-	private RadioButtonMenuBar menuBar;
+	private RadioButtonMenuBarW menuBar;
 	private int itemIndex;
 
-	public RadioButtonCommand(RadioButtonMenuBar menu, Integer index){
+	public RadioButtonCommand(RadioButtonMenuBarW menu, Integer index){
 		super();
 		menuBar = menu;
 		itemIndex = index;

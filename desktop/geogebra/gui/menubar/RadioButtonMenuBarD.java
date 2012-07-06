@@ -6,9 +6,10 @@ import javax.swing.JMenu;
 import javax.swing.JRadioButtonMenuItem;
 
 import geogebra.common.gui.menubar.MenuInterface;
+import geogebra.common.gui.menubar.RadioButtonMenuBar;
 import geogebra.common.main.App;
 
-public class RadioButtonMenuBar extends JMenu implements geogebra.common.gui.menubar.RadioButtonMenuBar{
+public class RadioButtonMenuBarD extends JMenu implements RadioButtonMenuBar{
 
 	public void addRadioButtonMenuItems(MenuInterface alistener,
 			String[] items, String[] actionCommands, int selectedPos) {

@@ -18,13 +18,12 @@ import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JMenu;
 import javax.swing.JRadioButtonMenuItem;
-import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
 
 /**
  * The "Options" menu.
  */
-public class OptionsMenu extends BaseMenu implements ActionListener, MenuListener {
+public class OptionsMenuD extends BaseMenu implements ActionListener, MenuListener {
 	private static final long serialVersionUID = -8032696074032177289L;
 	
 	Kernel kernel;
@@ -42,7 +41,7 @@ public class OptionsMenu extends BaseMenu implements ActionListener, MenuListene
 		menuAlgebraStyle
 	;
 	
-	public OptionsMenu(AppD app) {
+	public OptionsMenuD(AppD app) {
 		super(app, app.getMenu("Options"));
 		
 		kernel = app.getKernel();

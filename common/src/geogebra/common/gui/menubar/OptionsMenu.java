@@ -4,7 +4,10 @@ import geogebra.common.factories.Factory;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.main.App;
 
-public abstract class OptionsMenuStatic {
+/**
+ * This class is not a superclass of OptionsMenu, only  common method stack
+ */
+public abstract class OptionsMenu {
 	
 	private static RadioButtonMenuBar menuDecimalPlaces;
 

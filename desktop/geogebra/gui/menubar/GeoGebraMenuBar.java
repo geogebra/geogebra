@@ -119,7 +119,7 @@ public class GeoGebraMenuBar extends JMenuBar {
 			add(toolsMenu);			
 			
 			// "Options"
-			optionsMenu = new OptionsMenu(app);
+			optionsMenu = new OptionsMenuD(app);
 			add(optionsMenu);			
 
 			// "Perspectives"
@@ -161,7 +161,7 @@ public class GeoGebraMenuBar extends JMenuBar {
 			}
 
 			// "Options"
-			optionsMenu = new OptionsMenu(app);
+			optionsMenu = new OptionsMenuD(app);
 			add(optionsMenu);
 
 			// "Tools"
@@ -207,7 +207,7 @@ public class GeoGebraMenuBar extends JMenuBar {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				JPopupMenu myPopup = new JPopupMenu();
-				OptionsMenu.addLanguageMenuItems(app,  myPopup, new LanguageActionListener(app));
+				OptionsMenuD.addLanguageMenuItems(app,  myPopup, new LanguageActionListener(app));
 				myPopup.setVisible(true);
 				myPopup.show(languageLabel, 0, languageLabel.getHeight());
 			}
