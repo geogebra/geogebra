@@ -214,7 +214,6 @@ office@geogebra.org
 		<copy todir="${build.dir}" flatten="true">		
 			<fileset dir="${src.dir}/../jogl${jogl}/lib"
 				includes="**/*.jar, **/*.so, **/*.jnilib, **/*.dll" />
-			</fileset>
 		</copy>
 	</target>
 
