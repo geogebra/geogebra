@@ -432,9 +432,7 @@ public class SpreadsheetTraceManager extends geogebra.common.gui.view.spreadshee
 		// get the current trace for this geo 
 		// TRACE ALSO IF EQUAL TO LAST TRACE
 		getCurrentTrace(geo);
-		if (!t.doTraceGeoCopy && !geo.isRandomGeo())
-				//&& currentTrace.equals(t.lastTrace))
-			return;
+
 		t.lastTrace = (ArrayList<Double>) currentTrace.clone();
 
 		// if only collecting traces, then record this geo for later tracing and
