@@ -1483,6 +1483,12 @@ public interface CommandConstants extends ConstantsWithLookup {
     @DefaultStringValue("[ <Parabola> ]")
     String Parameter_Syntax();
 
+    @DefaultStringValue("ParametricDerivative")
+    String ParametricDerivative();
+
+    @DefaultStringValue("[ <Curve> ]")
+    String ParametricDerivative_Syntax();
+
     @DefaultStringValue("ParseToFunction")
     String ParseToFunction();
 

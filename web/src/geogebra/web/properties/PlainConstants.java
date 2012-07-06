@@ -1144,6 +1144,9 @@ public interface PlainConstants extends ConstantsWithLookup {
     @DefaultStringValue("Parameter of %0")
     String ParameterOfA();
 
+    @DefaultStringValue("Parametric Derivative of %0")
+    String ParametricDerivativeOfA();
+
     @DefaultStringValue("Parametric Form")
     String ParametricForm();
 
