@@ -6947,10 +6947,10 @@ public abstract class EuclidianController {
 	 * Dragging a fixed checkbox should change its state (important for EWB etc)
 	 * 
 	 * Also for iPads etc
-	 * TODO: change check for app.isHTML5Applet() when we have an HTML5 GUI
+	 * HTML5: don't allow dragging unless we have a GUI
 	 */
 	private boolean isCheckboxFixed(GeoBoolean geoBool) {
-		return geoBool.isCheckboxFixed() || app.isHTML5Applet();
+		return geoBool.isCheckboxFixed() || (app.isHTML5Applet() && !App.isFullAppGui());
 	}
 
 	protected void updateSelectionRectangle(boolean keepScreenRatio) {
