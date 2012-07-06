@@ -25,6 +25,7 @@ PURGE=1
 DELSRC=1
 LOGFILE=/tmp/build-pack-installer.log
 CV=4.2
+JOGL=1
 STOPONECJERR=1
 TESTURL="http://dev.geogebra.org/~build/www-autobuild"
 if [ "$WWWDIR" = "" ]; then
@@ -41,6 +42,7 @@ while [ $# -gt 0 ]; do
    echo " Where options can be (defaults in parentheses):"
    echo "  -h, -help, --help         This help"
    echo "  -cv [version]             Set GeoGebra compilation version: 4.2 (default) or 5.0"
+   echo "  -J [version]              Set JOGL version for 5.0 ($JOGL)"
    echo "  -np, --no-purge           Do not purge certain directories before SVN update"
    echo "  -nd, --no-delete-src      Do not delete sources before SVN update"
    echo "  -ng, --no-grammar         Do not compile grammar with javacc"
@@ -56,6 +58,11 @@ while [ $# -gt 0 ]; do
   -cv)
    shift
    CV="$1"
+   ;;
+
+  -J)
+   shift
+   JOGL="$1"
    ;;
 
   -ng | --no-grammar)
@@ -189,10 +196,10 @@ runstep 52 .kickstart "Downloading build/pack tools" ant -f kickstart.xml geogeb
 cd installer
 runstep 52 .installer "Downloading installer tools" ant
 
-# 5/3. Downloading/updating JOGL1
-cd ../../jogl1
+# 5/3. Downloading/updating JOGL
+cd ../../jogl$JOGL
 runstep 53 .svn-update "SVN update" $SVN_COMMAND $REVISION_PARAM update --accept theirs-full
-runstep 53 .kickstart "Downloading/updating JOGL1" ant -f kickstart.xml
+runstep 53 .kickstart "Downloading/updating JOGL$JOGL" ant -f kickstart.xml
 
 # 6. Invoking make-vanilla-jars
 cd $WORKDIR/scripts/autobuild
@@ -206,7 +213,7 @@ if [ $STOPONECJERR = 1 ]; then
  fi
 
 # 7/1. Doing the rest (packing)
-runstep 71 .pack "Packing" ant -f pack.xml $PROJECT-aftervanilla
+runstep 71 .pack "Packing" ant -f pack.xml -Djogl=$JOGL $PROJECT-aftervanilla
 
 # 7/2. Copying geogebra.map to unpacked
 cp $WORKDIR/geogebra.map $WORKDIR/build/unpacked/geogebra-map.txt
