@@ -1,5 +1,8 @@
 package geogebra.web.gui.properties;
 
+import java.util.ArrayList;
+
+import geogebra.common.gui.view.properties.PropertiesStyleBar;
 import geogebra.common.gui.view.properties.PropertiesView.OptionType;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
@@ -13,9 +16,8 @@ import geogebra.web.gui.dialog.options.OptionsObjectW;
 import geogebra.web.gui.dialog.options.OptionsSpreadsheetW;
 import geogebra.web.main.AppW;
 
-import java.util.ArrayList;
-
 import com.google.gwt.user.client.ui.PopupPanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
 
 /**
  * @author gabor
@@ -37,6 +39,10 @@ public class PropertiesViewW extends
 		private OptionsObjectW objectPanel;
 		private OptionsLayoutW layoutPanel;
 
+		private PropertiesStyleBarW styleBar;
+
+		private VerticalPanel mainPanel;
+
 	public PropertiesViewW(AppW app) {
 	    this.wrappedPanel = new PopupPanel();
 	    this.app = app;
@@ -48,7 +54,38 @@ public class PropertiesViewW extends
 	    app.setWaitCursor();   
 	    getOptionPanel(OptionType.OBJECTS);
 	    
+	    initGUI();
+	    
     }
+	
+	public void initGUI() {
+
+		wrappedPanel.addStyleName("PropertiesViewW");
+		getStyleBar();
+		//add(getStyleBar(), BorderLayout.NORTH);
+
+		mainPanel = new VerticalPanel();
+		wrappedPanel.add(mainPanel);
+
+		//createButtonPanel();
+		//add(buttonPanel, BorderLayout.SOUTH);
+		
+	}
+	
+	/**
+	 * @return the style bar for this view.
+	 */
+	public PropertiesStyleBarW getStyleBar() {
+		if (styleBar == null) {
+			styleBar = newPropertiesStyleBar();
+		}
+
+		return styleBar;
+	}
+	
+	protected PropertiesStyleBarW newPropertiesStyleBar() {
+		return new PropertiesStyleBarW(this, (AppW) app);
+	}
 	
 	/**
 	 * Returns the option panel for the given type. If the panel does not exist,
@@ -191,11 +228,6 @@ public class PropertiesViewW extends
 
 	}
 
-	@Override
-	public void updateSelection(ArrayList<GeoElement> geos) {
-		// TODO Auto-generated method stub
-
-	}
 
 	@Override
 	public void setOptionPanel(OptionType type) {
@@ -206,6 +238,12 @@ public class PropertiesViewW extends
 	@Override
 	public void mousePressedForPropertiesView() {
 		objectPanel.forgetGeoAdded();
+    }
+
+	@Override
+    public void updateSelection(ArrayList<GeoElement> geos) {
+	    // TODO Auto-generated method stub
+	    
     }
 
 }

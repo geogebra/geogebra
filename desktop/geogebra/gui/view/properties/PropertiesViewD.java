@@ -52,7 +52,7 @@ public class PropertiesViewD extends geogebra.common.gui.view.properties.Propert
 
 	//private GeoTree geoTree;
 
-	private PropertiesStyleBar styleBar;
+	private PropertiesStyleBarD styleBar;
 	private JPanel wrappedPanel;
 
 	
@@ -538,7 +538,7 @@ public class PropertiesViewD extends geogebra.common.gui.view.properties.Propert
 	/**
 	 * @return the style bar for this view.
 	 */
-	public PropertiesStyleBar getStyleBar() {
+	public PropertiesStyleBarD getStyleBar() {
 		if (styleBar == null) {
 			styleBar = newPropertiesStyleBar();
 		}
@@ -550,8 +550,8 @@ public class PropertiesViewD extends geogebra.common.gui.view.properties.Propert
 	 * 
 	 * @return new properties style bar
 	 */
-	protected PropertiesStyleBar newPropertiesStyleBar() {
-		return new PropertiesStyleBar(this, (AppD) app);
+	protected PropertiesStyleBarD newPropertiesStyleBar() {
+		return new PropertiesStyleBarD(this, (AppD) app);
 	}
 
 	/**

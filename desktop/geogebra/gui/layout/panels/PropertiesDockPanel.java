@@ -64,7 +64,7 @@ public class PropertiesDockPanel extends DockPanel implements
 
 	@Override
 	protected JComponent loadStyleBar() {
-		return getPropertiesView().getStyleBar();
+		return getPropertiesView().getStyleBar().getWrappedPanel();
 	}
 
 	@Override

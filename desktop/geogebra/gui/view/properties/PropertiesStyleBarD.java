@@ -31,7 +31,7 @@ import javax.swing.JToolTip;
 import javax.swing.SwingConstants;
 import javax.swing.ToolTipManager;
 
-public class PropertiesStyleBar extends JPanel {
+public class PropertiesStyleBarD extends geogebra.common.gui.view.properties.PropertiesStyleBar {
 
 	PropertiesViewD propertiesView;
 	private AppD app;
@@ -41,14 +41,17 @@ public class PropertiesStyleBar extends JPanel {
 	
 	private JToolBar toolbar;
 	private JLabel lblTitle;
+	private JPanel wrappedPanel;
 	
 	private HashMap<OptionType,AbstractButton> buttonMap;
 
 	private static final String downTriangle = "  \u25BE  ";
 
-	public PropertiesStyleBar(PropertiesViewD propertiesView, AppD app) {
+	public PropertiesStyleBarD(PropertiesViewD propertiesView, AppD app) {
 		this.propertiesView = propertiesView;
 		this.app = app;
+		
+		this.wrappedPanel = new JPanel();
 
 		
 
@@ -105,10 +108,10 @@ public class PropertiesStyleBar extends JPanel {
 			}
 		}
 		
-		this.setLayout(new BorderLayout());
-		this.add(toolbar, BorderLayout.NORTH);
+		this.wrappedPanel.setLayout(new BorderLayout());
+		this.wrappedPanel.add(toolbar, BorderLayout.NORTH);
 	//	this.add(titlePanel, BorderLayout.SOUTH);
-		this.setBorder(BorderFactory.createCompoundBorder(
+		this.wrappedPanel.setBorder(BorderFactory.createCompoundBorder(
 				BorderFactory.createMatteBorder(0, 0, 0, 0, SystemColor.controlShadow),
 				BorderFactory.createMatteBorder(0, 0, 1, 0, SystemColor.controlLtHighlight)));
 		//this.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
@@ -279,6 +282,10 @@ public class PropertiesStyleBar extends JPanel {
 			.setInitialDelay(defaultInitialDelay);
 
 		}
+	}
+	
+	public JPanel getWrappedPanel() {
+		return wrappedPanel; 
 	}
 	
 }
