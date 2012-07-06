@@ -459,6 +459,8 @@ public class CommandDispatcher {
 				return new CmdExtremum(kernel);
 			case CurveCartesian:
 				return new CmdCurveCartesian(kernel);
+			case ParametricDerivative:
+				return new CmdParametricDerivative(kernel);
 			case Derivative:
 				return new CmdDerivative(kernel);
 			case Integral:

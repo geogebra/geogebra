@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.cas;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.geos.GeoCurveCartesian;
@@ -73,4 +74,11 @@ public class AlgoParametricDerivative extends AlgoElement {
 		// (x(t), y'(t)/x'(t))
 		paramDeriv.setParametricDerivative(curve);
 	}
+	
+    @Override
+	final public String toString(StringTemplate tpl) {
+                
+	    return app.getPlain("ParametricDerivativeOfA",curve.toGeoElement().getLabel(tpl));
+     }
+
 }

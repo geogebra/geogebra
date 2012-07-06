@@ -71,7 +71,7 @@ public enum Commands implements CommandsConstants{
 	// functions & calculus
 	//=============================================================
    	Root(TABLE_FUNCTION), Roots(TABLE_FUNCTION), TurningPoint(TABLE_FUNCTION), Polynomial(TABLE_FUNCTION),
-   	Function(TABLE_FUNCTION), Extremum(TABLE_FUNCTION), CurveCartesian(TABLE_FUNCTION), Derivative(TABLE_FUNCTION),
+   	Function(TABLE_FUNCTION), Extremum(TABLE_FUNCTION), CurveCartesian(TABLE_FUNCTION), ParametricDerivative(TABLE_FUNCTION), Derivative(TABLE_FUNCTION),
    	Integral(TABLE_FUNCTION), IntegralBetween(TABLE_FUNCTION), LowerSum(TABLE_FUNCTION), LeftSum(TABLE_FUNCTION),
    	RectangleSum(TABLE_FUNCTION), TaylorSeries(TABLE_FUNCTION), UpperSum(TABLE_FUNCTION), TrapezoidalSum(TABLE_FUNCTION),
    	Limit(TABLE_FUNCTION), LimitBelow(TABLE_FUNCTION), LimitAbove(TABLE_FUNCTION), Factors(TABLE_FUNCTION),

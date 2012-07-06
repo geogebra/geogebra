@@ -44,6 +44,7 @@ import geogebra.common.kernel.cas.AlgoLimit;
 import geogebra.common.kernel.cas.AlgoLimitAbove;
 import geogebra.common.kernel.cas.AlgoLimitBelow;
 import geogebra.common.kernel.cas.AlgoNextPreviousPrime;
+import geogebra.common.kernel.cas.AlgoParametricDerivative;
 import geogebra.common.kernel.cas.AlgoPartialFractions;
 import geogebra.common.kernel.cas.AlgoPolynomialDiv;
 import geogebra.common.kernel.cas.AlgoPolynomialDivision;
@@ -5569,6 +5570,21 @@ public class Kernel {
 
 		AlgoDerivative algo = new AlgoDerivative(cons, label, f, var, n);
 		return algo.getResult();
+	}
+
+	/**
+	 * #1497 ParametricDerivative[(f (t), g (t))] should return ( f(t), g'(t) / f'(t) )
+	 * 
+	 * @param label
+	 * @param f
+	 * @param var
+	 * @param n
+	 * @return
+	 */
+	final public GeoElement ParametricDerivative(String label, GeoCurveCartesian f) {
+
+		AlgoParametricDerivative algo = new AlgoParametricDerivative(cons, label, f);
+		return algo.getParametricDerivative();
 	}
 
 	/**
