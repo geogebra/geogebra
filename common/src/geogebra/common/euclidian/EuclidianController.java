@@ -22,7 +22,6 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Macro;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.PathNormalizer;
-import geogebra.common.kernel.PathParameter;
 import geogebra.common.kernel.Region;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
@@ -1016,6 +1015,9 @@ public abstract class EuclidianController {
 	 * @param forPreviewable in 3D we might want a preview 
 	 */
 	protected GeoPointND createNewPoint(boolean forPreviewable, boolean complex) {
+		
+		checkZooming(forPreviewable); 
+		
 		GeoPointND ret = kernel.Point(null,
 				Kernel.checkDecimalFraction(xRW),
 				Kernel.checkDecimalFraction(yRW), complex);
@@ -1036,11 +1038,15 @@ public abstract class EuclidianController {
 
 	protected GeoPointND createNewPoint2D(boolean forPreviewable, Path path, double x,
 			double y, boolean complex) {
+		checkZooming(forPreviewable); 
+		
 				return kernel.Point(null, path, x, y, !forPreviewable, complex);
 			}
 
 	protected final GeoPointND createNewPoint2D(boolean forPreviewable, Region region, double x,
 			double y, boolean complex) {
+		checkZooming(forPreviewable); 
+		
 				GeoPointND ret = kernel.PointIn(null, region, x, y, !forPreviewable, complex);
 				return ret;
 			}
@@ -1049,6 +1055,8 @@ public abstract class EuclidianController {
 			double y, double z, boolean complex) {
 			
 				if (region.toGeoElement().isGeoElement3D()) {
+					checkZooming(forPreviewable); 
+					
 					return kernel.getManager3D().Point3DIn(null, region,
 							new Coords(x, y, z, 1), !forPreviewable);
 				}
@@ -1059,6 +1067,8 @@ public abstract class EuclidianController {
 			double y, double z, boolean complex) {
 			
 				if (path.toGeoElement().isGeoElement3D()) {
+					checkZooming(forPreviewable); 
+					
 					return kernel.getManager3D().Point3D(null, path, x, y, z,
 							!forPreviewable);
 				}
@@ -1872,6 +1882,8 @@ public abstract class EuclidianController {
 	}
 
 	protected GeoElement vector(GeoPointND a, GeoPointND b) {
+		checkZooming(); 
+		
 		if (((GeoElement) a).isGeoElement3D()
 				|| ((GeoElement) b).isGeoElement3D()) {
 			return kernel.getManager3D().Vector3D(null, a, b);
@@ -1921,6 +1933,8 @@ public abstract class EuclidianController {
 					//points[i] = new GeoPoint(kernel.getConstruction(), null, points[i].inhomX, points[i].inhomY, 1.0);
 				}
 				
+				checkZooming(); 
+				
 				GeoElement[] ret = kernel.VectorPolygon(null, pointsCopy);
 				
 				// offset the copy slightly
@@ -1938,6 +1952,8 @@ public abstract class EuclidianController {
 			if (selPolygons() == 1) {
 				GeoPolygon[] poly = getSelectedPolygons();
 								
+				checkZooming(); 
+				
 				GeoElement[] ret = kernel.RigidPolygon(poly[0]);
 				
 				// offset the copy slightly
@@ -1994,6 +2010,8 @@ public abstract class EuclidianController {
 					&& hits.contains(selectedPoints.get(0));
 			if (finished) {
 				// build polygon
+				checkZooming(); 
+				
 				return kernel.PolyLine(null, getSelectedPoints(), false);
 			}
 		}
@@ -2004,6 +2022,8 @@ public abstract class EuclidianController {
 	}
 
 	protected GeoElement[] polygon() {
+		checkZooming(); 
+		
 		if (polygonMode == POLYGON_RIGID) {
 			GeoElement[] ret = { null };
 			GeoElement[] ret0 = kernel.RigidPolygon(null, getSelectedPoints());
@@ -2120,6 +2140,8 @@ public abstract class EuclidianController {
 		if (selLines() >= 2) {
 			GeoLineND[] lines = getSelectedLinesND();
 			GeoElement[] ret = { null };
+			checkZooming(); 
+			
 			ret[0] = (GeoElement) kernel.IntersectLines(null, lines[0],
 					lines[1]);
 			return ret;
@@ -2129,6 +2151,8 @@ public abstract class EuclidianController {
 			GeoConicND[] conics = getSelectedConicsND();
 			GeoElement[] ret = { null };
 			if (singlePointWanted) {
+				checkZooming(); 
+				
 				ret[0] = kernel.IntersectConicsSingle(null,
 						(GeoConic) conics[0], (GeoConic) conics[1], xRW, yRW);
 			} else {
@@ -2143,11 +2167,15 @@ public abstract class EuclidianController {
 			if (!polynomials) {
 				GeoPoint initPoint = new GeoPoint(kernel.getConstruction());
 				initPoint.setCoords(xRW, yRW, 1.0);
+				checkZooming(); 
+				
 				return new GeoElement[] { kernel.IntersectFunctions(null,
 						fun[0], fun[1], initPoint) };
 			}
 			// polynomials
 			if (singlePointWanted) {
+				checkZooming(); 
+				
 				return new GeoElement[] { kernel
 						.IntersectPolynomialsSingle(null, fun[0], fun[1],
 								xRW, yRW) };
@@ -2159,6 +2187,8 @@ public abstract class EuclidianController {
 			GeoConic[] conic = getSelectedConics();
 			GeoLine[] line = getSelectedLines();
 			GeoElement[] ret = { null };
+			checkZooming(); 
+			
 			if (singlePointWanted) {
 				ret[0] = kernel.IntersectLineConicSingle(null, line[0],
 						conic[0], xRW, yRW);
@@ -2173,6 +2203,8 @@ public abstract class EuclidianController {
 			GeoLine line = getSelectedLines()[0];
 			GeoPolyLine polyLine = getSelectedPolyLines()[0];
 			GeoElement[] ret = { null };
+			checkZooming(); 
+			
 			ret = kernel.IntersectLinePolyLine(new String[] { null }, line,
 					polyLine);
 			return ret;
@@ -2182,6 +2214,8 @@ public abstract class EuclidianController {
 			GeoLine line = getSelectedLines()[0];
 			GeoCurveCartesian curve = getSelectedCurves()[0];
 			GeoElement[] ret = { null };
+			checkZooming(); 
+			
 			ret = kernel.IntersectLineCurve(new String[] { null }, line,
 					curve);
 			return ret;
@@ -2191,6 +2225,8 @@ public abstract class EuclidianController {
 			GeoLine line = getSelectedLines()[0];
 			GeoPolygon polygon = getSelectedPolygons()[0];
 			GeoElement[] ret = { null };
+			checkZooming(); 
+			
 			ret = kernel.IntersectLinePolygon(new String[] { null }, line,
 					polygon);
 			return ret;
@@ -2200,6 +2236,8 @@ public abstract class EuclidianController {
 			GeoLine[] line = getSelectedLines();
 			GeoFunction[] fun = getSelectedFunctions();
 			GeoElement[] ret = { null };
+			checkZooming(); 
+			
 			if (fun[0].isPolynomialFunction(false)) {
 				if (singlePointWanted) {
 					ret[0] = kernel.IntersectPolynomialLineSingle(null, fun[0],
@@ -2219,6 +2257,8 @@ public abstract class EuclidianController {
 			GeoConic[] conic = getSelectedConics();
 			GeoFunction[] fun = getSelectedFunctions();
 			// if (fun[0].isPolynomialFunction(false)){
+			checkZooming(); 
+			
 			if (singlePointWanted) {
 				return new GeoElement[] { kernel
 						.IntersectPolynomialConicSingle(null, fun[0], conic[0],
@@ -2231,6 +2271,8 @@ public abstract class EuclidianController {
 				GeoImplicitPoly p = getSelectedImplicitpoly()[0];
 				GeoFunction fun = getSelectedFunctions()[0];
 				// if (fun.isPolynomialFunction(false)){
+				checkZooming(); 
+				
 				if (singlePointWanted) {
 					return new GeoElement[] { kernel
 							.IntersectImplicitpolyPolynomialSingle(null, p,
@@ -2242,6 +2284,8 @@ public abstract class EuclidianController {
 			} else if (selLines() >= 1) {
 				GeoImplicitPoly p = getSelectedImplicitpoly()[0];
 				GeoLine l = getSelectedLines()[0];
+				checkZooming(); 
+				
 				if (singlePointWanted) {
 					return new GeoElement[] { kernel
 							.IntersectImplicitpolyLineSingle(null, p, l, xRW,
@@ -2251,6 +2295,8 @@ public abstract class EuclidianController {
 			} else if (selConics() >= 1) {
 				GeoImplicitPoly p = getSelectedImplicitpoly()[0];
 				GeoConic c = getSelectedConics()[0];
+				checkZooming(); 
+				
 				if (singlePointWanted) {
 					return new GeoElement[] { kernel
 							.IntersectImplicitpolyConicSingle(null, p, c, xRW,
@@ -2259,6 +2305,8 @@ public abstract class EuclidianController {
 				return kernel.IntersectImplicitpolyConic(null, p, c);
 			} else if (selImplicitpoly() >= 2) {
 				GeoImplicitPoly[] p = getSelectedImplicitpoly();
+				checkZooming(); 
+				
 				if (singlePointWanted) {
 					return new GeoElement[] { kernel
 							.IntersectImplicitpolysSingle(null, p[0], p[1],
@@ -2292,6 +2340,8 @@ public abstract class EuclidianController {
 				GeoPointND[] points = getSelectedPointsND();
 				GeoVectorND[] vectors = getSelectedVectorsND();
 				// create new line
+				checkZooming(); 
+				
 				if (((GeoElement) points[0]).isGeoElement3D()
 						|| ((GeoElement) vectors[0]).isGeoElement3D()) {
 					ret[0] = (GeoElement) getKernel().getManager3D().Line3D(
@@ -2337,6 +2387,8 @@ public abstract class EuclidianController {
 				GeoLine[] lines = getSelectedLines();
 				// create new parabola
 				GeoElement[] ret = { null };
+				checkZooming(); 
+				
 				ret[0] = kernel.Parabola(null, points[0], lines[0]);
 				return ret;
 			}
@@ -2378,6 +2430,8 @@ public abstract class EuclidianController {
 				if (((GeoElement) points[0]).isGeoElement3D()) {
 					return null;
 				}
+				checkZooming(); 
+				
 				ret[0] = kernel.OrthogonalLine(null, (GeoPoint) points[0],
 						(GeoVector) vectors[0]);
 				return ret;
@@ -2394,6 +2448,8 @@ public abstract class EuclidianController {
 	}
 
 	protected GeoElement[] orthogonal(GeoPointND point, GeoLineND line) {
+		checkZooming(); 
+		
 		if (((GeoElement) point).isGeoElement3D()
 				|| ((GeoElement) line).isGeoElement3D()) {
 			return new GeoElement[] { (GeoElement) getKernel().getManager3D()
@@ -2427,6 +2483,8 @@ public abstract class EuclidianController {
 		if (selPoints() == 2) {
 			// fetch the two selected points
 			GeoPointND[] points = getSelectedPointsND();
+			checkZooming(); 
+			
 			if (((GeoElement) points[0]).isGeoElement3D()
 					|| ((GeoElement) points[1]).isGeoElement3D()) {
 				ret[0] = (GeoElement) kernel.getManager3D().Midpoint(null,
@@ -2439,6 +2497,8 @@ public abstract class EuclidianController {
 		} else if (selSegments() == 1) {
 			// fetch the selected segment
 			GeoSegmentND[] segments = getSelectedSegmentsND();
+			checkZooming(); 
+			
 			if (((GeoElement) segments[0]).isGeoElement3D()) {
 				ret[0] = (GeoElement) kernel.getManager3D().Midpoint(null,
 						segments[0]);
@@ -2449,6 +2509,8 @@ public abstract class EuclidianController {
 		} else if (selConics() == 1) {
 			// fetch the selected segment
 			GeoConic[] conics = getSelectedConics();
+			checkZooming(); 
+			
 			ret[0] = kernel.Center(null, conics[0]);
 			return ret;
 		}
@@ -2490,11 +2552,15 @@ public abstract class EuclidianController {
 		if (selPoints() == 2) {
 			// fetch the two selected points
 			GeoPoint[] points = getSelectedPoints();
+			checkZooming(); 
+			
 			ret[0] = kernel.LineBisector(null, points[0], points[1]);
 			return ret;
 		} else if (selSegments() == 1) {
 			// fetch the selected segment
 			GeoSegment[] segments = getSelectedSegments();
+			checkZooming(); 
+			
 			ret[0] = kernel.LineBisector(null, segments[0]);
 			return ret;
 		}
@@ -2518,12 +2584,16 @@ public abstract class EuclidianController {
 			// fetch the three selected points
 			GeoPoint[] points = getSelectedPoints();
 			GeoElement[] ret = { null };
+			checkZooming(); 
+			
 			ret[0] = kernel.AngularBisector(null, points[0], points[1],
 					points[2]);
 			return ret;
 		} else if (selLines() == 2) {
 			// fetch the two lines
 			GeoLine[] lines = getSelectedLines();
+			checkZooming(); 
+			
 			return kernel.AngularBisector(null, lines[0], lines[1]);
 		}
 		return null;
@@ -2549,6 +2619,8 @@ public abstract class EuclidianController {
 		GeoElement[] ret = { null };
 		switch (threePointsMode) {
 		case EuclidianConstants.MODE_CIRCLE_THREE_POINTS:
+			checkZooming(); 
+			
 			if (((GeoElement) points[0]).isGeoElement3D()
 					|| ((GeoElement) points[1]).isGeoElement3D()
 					|| ((GeoElement) points[2]).isGeoElement3D()) {
@@ -2561,31 +2633,43 @@ public abstract class EuclidianController {
 			break;
 	
 		case EuclidianConstants.MODE_ELLIPSE_THREE_POINTS:
+			checkZooming(); 
+			
 			ret[0] = kernel.Ellipse(null, (GeoPoint) points[0],
 					(GeoPoint) points[1], (GeoPoint) points[2]);
 			break;
 	
 		case EuclidianConstants.MODE_HYPERBOLA_THREE_POINTS:
+			checkZooming(); 
+			
 			ret[0] = kernel.Hyperbola(null, (GeoPoint) points[0],
 					(GeoPoint) points[1], (GeoPoint) points[2]);
 			break;
 	
 		case EuclidianConstants.MODE_CIRCUMCIRCLE_ARC_THREE_POINTS:
+			checkZooming(); 
+			
 			ret[0] = kernel.CircumcircleArc(null, (GeoPoint) points[0],
 					(GeoPoint) points[1], (GeoPoint) points[2]);
 			break;
 	
 		case EuclidianConstants.MODE_CIRCUMCIRCLE_SECTOR_THREE_POINTS:
+			checkZooming(); 
+			
 			ret[0] = kernel.CircumcircleSector(null, (GeoPoint) points[0],
 					(GeoPoint) points[1], (GeoPoint) points[2]);
 			break;
 	
 		case EuclidianConstants.MODE_CIRCLE_ARC_THREE_POINTS:
+			checkZooming(); 
+			
 			ret[0] = kernel.CircleArc(null, (GeoPoint) points[0],
 					(GeoPoint) points[1], (GeoPoint) points[2]);
 			break;
 	
 		case EuclidianConstants.MODE_CIRCLE_SECTOR_THREE_POINTS:
+			checkZooming(); 
+			
 			ret[0] = kernel.CircleSector(null, (GeoPoint) points[0],
 					(GeoPoint) points[1], (GeoPoint) points[2]);
 			break;
@@ -2625,6 +2709,8 @@ public abstract class EuclidianController {
 			// fetch the two selected points
 			GeoPoint[] points = getSelectedPoints();
 			GeoLocus locus;
+			checkZooming(); 
+			
 			if (points[0].getPath() == null) {
 				locus = kernel.Locus(null, points[0], points[1]);
 			} else {
@@ -2636,6 +2722,8 @@ public abstract class EuclidianController {
 		} else if ((selPoints() == 1) && (selNumbers() == 1)) {
 			GeoPoint[] points = getSelectedPoints();
 			GeoNumeric[] numbers = getSelectedNumbers();
+			checkZooming(); 
+			
 			GeoLocus locus = kernel.Locus(null, points[0], numbers[0]);
 			GeoElement[] ret = { locus };
 			return ret;
@@ -2654,6 +2742,8 @@ public abstract class EuclidianController {
 			// fetch the three selected points
 			GeoPoint[] points = getSelectedPoints();
 			GeoElement[] ret = { null };
+			checkZooming(); 
+			
 			ret[0] = kernel.Conic(null, points);
 			return ret;
 		}
@@ -2689,6 +2779,8 @@ public abstract class EuclidianController {
 				label = i > 9 ? label + "_{" + i + "}" : label + "_" + i;
 			}
 	
+			checkZooming(); 
+			
 			slope = kernel.Slope(label, line);
 	
 			// show value
@@ -2736,16 +2828,22 @@ public abstract class EuclidianController {
 				GeoConic[] conics = getSelectedConics();
 				GeoPoint[] points = getSelectedPoints();
 				// create new tangents
+				checkZooming(); 
+				
 				return kernel.Tangent(null, points[0], conics[0]);
 			} else if (selLines() == 1) {
 				GeoConic[] conics = getSelectedConics();
 				GeoLine[] lines = getSelectedLines();
 				// create new line
+				checkZooming(); 
+				
 				return kernel.Tangent(null, lines[0], conics[0]);
 			}
 		} else if (selConics() == 2) {
 			GeoConic[] conics = getSelectedConics();
 			// create new tangents
+			checkZooming(); 
+			
 			return kernel.CommonTangents(null, conics[0], conics[1]);
 		} else if (selFunctions() == 1) {
 			if (selPoints() == 1) {
@@ -2753,6 +2851,8 @@ public abstract class EuclidianController {
 				GeoPoint[] points = getSelectedPoints();
 				// create new tangents
 				GeoElement[] ret = { null };
+				checkZooming(); 
+				
 				ret[0] = kernel.Tangent(null, points[0], functions[0]);
 				return ret;
 			}
@@ -2762,6 +2862,8 @@ public abstract class EuclidianController {
 				GeoPoint[] points = getSelectedPoints();
 				// create new tangents
 				GeoElement[] ret = { null };
+				checkZooming(); 
+				
 				ret[0] = kernel.Tangent(null, points[0], curves[0]);
 				return ret;
 			}
@@ -2770,11 +2872,15 @@ public abstract class EuclidianController {
 				GeoImplicitPoly implicitPoly = getSelectedImplicitpoly()[0];
 				GeoPoint[] points = getSelectedPoints();
 				// create new tangents
+				checkZooming(); 
+				
 				return kernel.Tangent(null, points[0], implicitPoly);
 			} else if (selLines() == 1) {
 				GeoImplicitPoly implicitPoly = getSelectedImplicitpoly()[0];
 				GeoLine[] lines = getSelectedLines();
 				// create new line
+				checkZooming(); 
+				
 				return kernel.Tangent(null, lines[0], implicitPoly);
 			}
 		}
@@ -2822,18 +2928,24 @@ public abstract class EuclidianController {
 				GeoConic[] conics = getSelectedConics();
 				GeoPoint[] points = getSelectedPoints();
 				// create new tangents
+				checkZooming(); 
+				
 				ret[0] = kernel.PolarLine(null, points[0], conics[0]);
 				return ret;
 			} else if (selLines() == 1) {
 				GeoConic[] conics = getSelectedConics();
 				GeoLine[] lines = getSelectedLines();
 				// create new line
+				checkZooming(); 
+				
 				ret[0] = kernel.DiameterLine(null, lines[0], conics[0]);
 				return ret;
 			} else if (selVectors() == 1) {
 				GeoConic[] conics = getSelectedConics();
 				GeoVector[] vecs = getSelectedVectors();
 				// create new line
+				checkZooming(); 
+				
 				ret[0] = kernel.DiameterLine(null, vecs[0], conics[0]);
 				return ret;
 			}
@@ -3034,6 +3146,8 @@ public abstract class EuclidianController {
 	protected abstract GeoElement[] createCircle2ForPoints3D(GeoPointND p0, GeoPointND p1);
 
 	protected GeoElement[] createCircle2(GeoPointND p0, GeoPointND p1) {
+		checkZooming(); 
+		
 		if (((GeoElement) p0).isGeoElement3D()
 				|| ((GeoElement) p1).isGeoElement3D()) {
 			return createCircle2ForPoints3D(p0, p1);
@@ -3043,6 +3157,8 @@ public abstract class EuclidianController {
 	}
 
 	protected GeoElement[] switchModeForCircleOrSphere2(int sphereMode) {
+		checkZooming(); 
+		
 		GeoPointND[] points = getSelectedPointsND();
 		if (sphereMode == EuclidianConstants.MODE_SEMICIRCLE) {
 			return new GeoElement[] { kernel.Semicircle(null,
@@ -3108,6 +3224,8 @@ public abstract class EuclidianController {
 				return false;
 			}
 			// create new Point
+			checkZooming(); 
+			
 			loc = new GeoPoint(kernel.getConstruction());
 			loc.setCoords(xRW, yRW, 1.0);
 		} else {
@@ -3119,6 +3237,8 @@ public abstract class EuclidianController {
 				GeoPointND[] points = getSelectedPointsND();
 				loc = points[0];
 			} else if (!selectionPreview) {
+				checkZooming(); 
+				
 				loc = new GeoPoint(kernel.getConstruction());
 				loc.setCoords(xRW, yRW, 1.0);
 			}
@@ -3157,6 +3277,8 @@ public abstract class EuclidianController {
 				return false;
 			}
 			// create new Point
+			checkZooming(); 
+			
 			loc = new GeoPoint(kernel.getConstruction());
 			loc.setCoords(xRW, yRW, 1.0);
 		} else {
@@ -3167,6 +3289,8 @@ public abstract class EuclidianController {
 				GeoPoint[] points = getSelectedPoints();
 				loc = points[0];
 			} else if (!selectionPreview) {
+				checkZooming(); 
+				
 				loc = new GeoPoint(kernel.getConstruction());
 				loc.setCoords(xRW, yRW, 1.0);
 			}
@@ -3208,12 +3332,16 @@ public abstract class EuclidianController {
 			if (selPolygons() == 1) {
 				GeoPolygon[] polys = getSelectedPolygons();
 				GeoPoint[] points = getSelectedPoints();
+				checkZooming(); 
+				
 				return kernel.Mirror(null, polys[0], points[0]);
 			} else if (selGeos() > 0) {
 				// mirror all selected geos
 				GeoElement[] geos = getSelectedGeos();
 				GeoPoint point = getSelectedPoints()[0];
 				ArrayList<GeoElement> ret = new ArrayList<GeoElement>();
+				checkZooming(); 
+				
 				for (int i = 0; i < geos.length; i++) {
 					if (geos[i] != point) {
 						if (geos[i] instanceof Transformable) {
@@ -3263,12 +3391,16 @@ public abstract class EuclidianController {
 			if (selPolygons() == 1) {
 				GeoPolygon[] polys = getSelectedPolygons();
 				GeoLine[] lines = getSelectedLines();
+				checkZooming(); 
+
 				return kernel.Mirror(null, polys[0], lines[0]);
 			} else if (selGeos() > 0) {
 				// mirror all selected geos
 				GeoElement[] geos = getSelectedGeos();
 				GeoLine line = getSelectedLines()[0];
 				ArrayList<GeoElement> ret = new ArrayList<GeoElement>();
+				checkZooming(); 
+				
 				for (int i = 0; i < geos.length; i++) {
 					if (geos[i] != line) {
 						if (geos[i] instanceof Transformable) {
@@ -3315,12 +3447,16 @@ public abstract class EuclidianController {
 			if (selPolygons() == 1) {
 				GeoPolygon[] polys = getSelectedPolygons();
 				GeoConic[] lines = getSelectedCircles();
+				checkZooming(); 
+				
 				return kernel.Mirror(null, polys[0], lines[0]);
 			} else if (selGeos() > 0) {
 				// mirror all selected geos
 				GeoElement[] geos = getSelectedGeos();
 				GeoConic line = getSelectedCircles()[0];
 				ArrayList<GeoElement> ret = new ArrayList<GeoElement>();
+				checkZooming(); 
+				
 				for (int i = 0; i < geos.length; i++) {
 					if (geos[i] != line) {
 						if (geos[i] instanceof Transformable) {
@@ -3439,6 +3575,8 @@ public abstract class EuclidianController {
 			Construction cons = kernel.getConstruction();
 			boolean oldLabelCreationFlag = cons.isSuppressLabelsActive();
 			cons.setSuppressLabelCreation(true);
+			checkZooming(); 
+			
 			GeoPoint newPoint = kernel.Point(null, path,
 					view.toRealWorldCoordX(mx), view.toRealWorldCoordY(my),
 					false, false);
@@ -3460,6 +3598,8 @@ public abstract class EuclidianController {
 			Construction cons = kernel.getConstruction();
 			boolean oldLabelCreationFlag = cons.isSuppressLabelsActive();
 			cons.setSuppressLabelCreation(true);
+			checkZooming(); 
+			
 			GeoPoint newPoint = kernel.PointIn(null, region,
 					view.toRealWorldCoordX(mx), view.toRealWorldCoordY(my),
 					false, false);
@@ -3490,6 +3630,8 @@ public abstract class EuclidianController {
 			boolean oldLabelCreationFlag = cons
 					.isSuppressLabelsActive();
 			cons.setSuppressLabelCreation(true);
+			checkZooming(); 
+			
 			GeoPoint newPoint = new GeoPoint(
 					kernel.getConstruction(), null,
 					view.toRealWorldCoordX(x),
@@ -3562,6 +3704,8 @@ public abstract class EuclidianController {
 	}
 
 	protected GeoElement[] translate(GeoElement geo, GeoVectorND vec) {
+		checkZooming(); 
+		
 		return kernel.Translate(null, geo, (GeoVector) vec);
 	}
 
@@ -3742,6 +3886,8 @@ public abstract class EuclidianController {
 		addSelectedList(hits, 1, false);
 	
 		GeoElement[] ret = { null };
+		checkZooming(); 
+		
 		if (selLists() > 0) {
 			list = getSelectedLists()[0];
 			if (list != null) {
@@ -3770,6 +3916,8 @@ public abstract class EuclidianController {
 		GeoElement[] ret = { null };
 	
 		if (!selectionPreview && (hits.size() > 1)) {
+			checkZooming(); 
+			
 			list = kernel.List(null, hits, false);
 			if (list != null) {
 				ret[0] = list;
@@ -4006,12 +4154,16 @@ public abstract class EuclidianController {
 	}
 
 	protected GeoAngle createAngle(GeoPointND A, GeoPointND B, GeoPointND C) {
+		checkZooming(); 
+		
 		return kernel.Angle(null, (GeoPoint) A, (GeoPoint) B, (GeoPoint) C);
 	}
 
 	protected GeoAngle createLineAngle(GeoLine[] lines) {
 		GeoAngle angle = null;
 	
+		checkZooming(); 
+		
 		// did we get two segments?
 		if ((lines[0] instanceof GeoSegment)
 				&& (lines[1] instanceof GeoSegment)) {
@@ -4068,6 +4220,8 @@ public abstract class EuclidianController {
 			// create dynamic text
 			String dynText = "\"" + descText + " = \" + " + value.getLabel(StringTemplate.defaultTemplate);
 	
+			checkZooming(); 
+			
 			GeoText text = kernel.getAlgebraProcessor().evaluateToText(dynText,
 					true, true);
 			text.setAbsoluteScreenLocActive(true);
@@ -4119,6 +4273,8 @@ public abstract class EuclidianController {
 					}
 			
 					// create dynamic text
+					checkZooming(); 
+					
 					GeoText text = kernel.getAlgebraProcessor().evaluateToText(strText,
 							true, true);
 					if (useLabels) {
@@ -4163,6 +4319,8 @@ public abstract class EuclidianController {
 			}
 	
 			// standard case: conic
+			checkZooming(); 
+			
 			GeoNumeric area = kernel.Area(null, conic);
 	
 			// text
@@ -4283,11 +4441,17 @@ public abstract class EuclidianController {
 			angle = createAngle(points[0], points[1], points[2]);
 		} else if (selVectors() == 2) {
 			GeoVector[] vecs = getSelectedVectors();
+			checkZooming(); 
+			
 			angle = kernel.Angle(null, vecs[0], vecs[1]);
 		} else if (selLines() == 2) {
 			GeoLine[] lines = getSelectedLines();
+			checkZooming(); 
+			
 			angle = createLineAngle(lines);
 		} else if (polyFound && (selGeos() == 1)) {
+			checkZooming(); 
+			
 			angles = kernel.Angles(null, (GeoPolygon) getSelectedGeos()[0]);
 		}
 	
@@ -4346,6 +4510,8 @@ public abstract class EuclidianController {
 		if (selPoints() == 2) {
 			// length
 			GeoPoint[] points = getSelectedPoints();
+			checkZooming(); 
+			
 			GeoNumeric length = kernel.Distance(null, (GeoPointND) points[0],
 					(GeoPointND) points[1]);
 	
@@ -4377,6 +4543,8 @@ public abstract class EuclidianController {
 		else if (selLines() == 2) {
 			GeoLine[] lines = getSelectedLines();
 			GeoElement[] ret = { null };
+			checkZooming(); 
+			
 			ret[0] = kernel.Distance(null, lines[0], lines[1]);
 			return ret; // return this not null because the kernel has changed
 		}
@@ -4387,6 +4555,8 @@ public abstract class EuclidianController {
 			GeoLine[] lines = getSelectedLines();
 			GeoNumeric length = kernel.Distance(null, points[0], lines[0]);
 	
+			checkZooming(); 
+			
 			// set startpoint of text to midpoint between point and line
 			GeoPoint midPoint = kernel.Midpoint(points[0],
 					kernel.ClosestPoint(points[0], lines[0]));
@@ -4416,6 +4586,8 @@ public abstract class EuclidianController {
 			}
 	
 			// standard case: conic
+			checkZooming(); 
+			
 			GeoNumeric circumFerence = kernel.Circumference(null, conic);
 	
 			// text
@@ -4435,6 +4607,8 @@ public abstract class EuclidianController {
 		// perimeter of CONIC
 		else if (selPolygons() == 1) {
 			GeoPolygon[] poly = getSelectedPolygons();
+			checkZooming(); 
+			
 			GeoNumeric perimeter = kernel.Perimeter(null, poly[0]);
 	
 			// text
@@ -4486,6 +4660,8 @@ public abstract class EuclidianController {
 					addToHighlightedList(selectedPoints, tempArrayList, 3);
 					return null;
 				}
+				checkZooming(); 
+				
 				// three points: center, distance between two points
 				GeoElement circle = kernel.CircleCompasses(null, centerPoint,
 						points[0], points[1]);
@@ -4510,6 +4686,8 @@ public abstract class EuclidianController {
 					addToHighlightedList(selectedPoints, tempArrayList, 3);
 					return null;
 				}
+				checkZooming(); 
+				
 				// center point and circle which defines radius
 				GeoElement circlel = kernel.Circle(null, centerPoint,
 						circle);
@@ -4533,6 +4711,8 @@ public abstract class EuclidianController {
 					addToHighlightedList(selectedPoints, tempArrayList, 3);
 					return null;
 				}
+				checkZooming(); 
+				
 				// center point and segment
 				GeoElement circlel = kernel.Circle(null, centerPoint,
 						segment);
@@ -4577,6 +4757,8 @@ public abstract class EuclidianController {
 		if ((selPoints() == 1) && (selVectors() == 1)) {
 			GeoVector[] vecs = getSelectedVectors();
 			GeoPoint[] points = getSelectedPoints();
+			checkZooming(); 
+			
 			GeoPoint endPoint = (GeoPoint) kernel.Translate(null, points[0],
 					vecs[0])[0];
 			GeoElement[] ret = { null };
@@ -4926,6 +5108,8 @@ public abstract class EuclidianController {
 	
 		// do we have everything we need?
 		if (selGeos() == macroInput.length) {
+			checkZooming(); 
+			
 			kernel.useMacro(null, macro, getSelectedGeos());
 			return true;
 		}
@@ -5272,6 +5456,8 @@ public abstract class EuclidianController {
 	}
 
 	protected void processModeLock(Path path) {
+		checkZooming();
+		
 		GeoPoint p = kernel.Point(null, path, xRW, yRW, false, false);
 		p.update();
 		xRW = p.inhomX;
@@ -7319,6 +7505,8 @@ public abstract class EuclidianController {
 								.getParentAlgorithm();
 						GeoPoint p = algo.getInputPoints().get(0);
 						GeoPoint q = algo.getInputPoints().get(1);
+						checkZooming(); 
+						
 						GeoVector vec = kernel.Vector(null, 0, 0);
 						vec.setEuclidianVisible(false);
 						vec.setAuxiliaryObject(true);
@@ -8562,7 +8750,9 @@ public abstract class EuclidianController {
 		if (!allowMouseWheel) {
 			return;
 		}
-	
+		
+		wheelZoomingOccurred = true;	
+		
 		setMouseLocation(event);
 	
 		// double px = view.width / 2d;
@@ -8983,13 +9173,31 @@ public abstract class EuclidianController {
 		
 	}
 
-
-
-
-
 	public static void textBoxFocused(boolean b) {
 		textBoxFocused = b;
 		
 	}
 	
+	private boolean wheelZoomingOccurred = false;
+
+	private void checkZooming() {
+		checkZooming(false);
+	}
+
+	/*
+	 * when object created, make undo point if scroll wheel has been used
+	 */
+	private void checkZooming(boolean forPreviewable) {
+
+		if (forPreviewable) {
+			return;
+			// Application.debug("check zooming");
+		}
+
+		if (wheelZoomingOccurred) {
+			app.storeUndoInfo();
+		}
+
+		wheelZoomingOccurred = false;
+	}	
 }
