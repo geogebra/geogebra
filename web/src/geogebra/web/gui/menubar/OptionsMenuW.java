@@ -1,17 +1,10 @@
 package geogebra.web.gui.menubar;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.JMenu;
-import javax.swing.JRadioButtonMenuItem;
-
 import geogebra.common.gui.menubar.MenuInterface;
 import geogebra.common.gui.menubar.OptionsMenu;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.main.App;
 import geogebra.web.gui.images.AppResources;
-import geogebra.web.main.AppW;
 
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
