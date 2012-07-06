@@ -409,6 +409,7 @@ public AutoCompleteTextFieldD(int columns, AppD app,
 	  if (e.getKeyCode() == KeyEvent.VK_ESCAPE
 			  || e.getKeyCode() == KeyEvent.VK_RIGHT
 			  || e.getKeyCode() == KeyEvent.VK_LEFT
+			  || e.getKeyCode() == KeyEvent.VK_ENTER
 			  ) {
 		  e.consume();
 		  return;
@@ -820,6 +821,14 @@ public AutoCompleteTextFieldD(int columns, AppD app,
 		sb.append(text.substring(curWordStart + curWord.length()));
 		setText(sb.toString());
 		int bracketIndex = command.indexOf('[');// + 1;
+		
+		if (command.indexOf("[]") > -1) {
+			// eg GetTime[]
+			bracketIndex += 2;
+		} else if (command.indexOf("[ ]") > -1) {
+			// eg GetTime[ ]
+			bracketIndex += 3;
+		}
 		
 		setCaretPosition(curWordStart + bracketIndex);
 		moveToNextArgument(false);
