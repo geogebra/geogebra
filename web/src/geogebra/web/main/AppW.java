@@ -869,11 +869,14 @@ public class AppW extends App {
 
 	@Override
 	public void evalJavaScript(App app, String script, String arg) {
-		
+
 		// TODO: maybe use sandbox?
-		
-		script = "ggbApplet = document.ggbApplet;"+script;
-		
+
+		String ggbApplet = getArticleElement().getDataParamId();
+		script = "ggbApplet = document."+ggbApplet+";"+script;
+
+		//script = "ggbApplet = document.ggbApplet;"+script;
+
 		// add eg arg="A"; to start
 		if (arg != null) {
 			script = "arg=\""+arg+"\";"+script;

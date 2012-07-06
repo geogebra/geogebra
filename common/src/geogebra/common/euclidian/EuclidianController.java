@@ -8178,11 +8178,8 @@ public abstract class EuclidianController {
 			oldMode = mode; // remember current mode
 			view.setMode(EuclidianConstants.MODE_TRANSLATEVIEW);
 		}
-	
-		switchModeForMousePressed(event);
-		
 
-	
+		switchModeForMousePressed(event);
 	}
 
 	protected boolean processZoomRectangle() {

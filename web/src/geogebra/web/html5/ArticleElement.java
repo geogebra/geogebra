@@ -47,6 +47,16 @@ public final class ArticleElement extends Element {
 	}
 
 	/**
+	 * @return the data-param-id article attribute as String if set else "ggbApplet"
+	 */
+	public String getDataParamId() {
+		String ret = this.getAttribute("data-param-id");
+		if ((ret == null) || !ret.matches("[A-Za-z0-9]+"))
+			return "ggbApplet";
+		return ret;
+	}
+
+	/**
 	 * @return the data-param-filename article attribute as String if set else empty String
 	 */
 	public String getDataParamFileName() {
