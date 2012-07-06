@@ -182,7 +182,7 @@ public class StringUtil {
     			sb.append(((int)c)+"");
     			sb.append(';');
 
-    			App.warn("Control character being written to XML: "+sb.toString());
+    			App.warn("Control character being written to XML: "+((int)c));
 
     		} else {
 
