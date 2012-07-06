@@ -161,7 +161,7 @@ office@geogebra.org
 	</target>
 
 	<!-- geogebra.jar loads the geogebra_main.jar file and starts up the application/applet  -->
-	<target name="ggb-jar3D" depends="ggb-jar3D-jogl1, ggb-jar3D-jogl2" description="create unsigned geogebra.jar (jogl1)"/>
+	<target name="ggb-jar3D" depends="ggb-jar3D-jogl1, ggb-jar3D-jogl2" description="create unsigned geogebra.jar"/>
 
 	<target name="ggb-jar3D-jogl1" depends="clean" description="create unsigned geogebra.jar (jogl1)" if="usejogl1">
 		<jar jarfile="${build.dir}/geogebra.jar" manifest="../manifest3D-jogl1.mf" >
@@ -211,22 +211,19 @@ office@geogebra.org
 
 	<!-- copies the jogl1 jars  -->
 	<target name="ggb-copy-jogl1" depends="clean" description="copy jogl1 jars" if="usejogl1">
-	
-		<copy file="${src.dir}/../jogl${jogl}/lib/jogl.jar"
-		      tofile="${build.dir}/jogl.jar">
-		</copy>
-		<copy file="${src.dir}/../jogl${jogl}/lib/gluegen-rt.jar"
-		      tofile="${build.dir}/gluegen-rt.jar">
+		<copy todir="${build.dir}" flatten="true">		
+			<fileset dir="${src.dir}/../jogl${jogl}/lib"
+				includes="**/*.jar, **/*.so, **/*.jnilib, **/*.dll" />
+			</fileset>
 		</copy>
 	</target>
 
 	<!-- copies the jogl2 jars  -->
 	<target name="ggb-copy-jogl2" depends="clean" description="copy jogl2 jars" if="usejogl2">
-		<copy file="${src.dir}/../jogl${jogl}/lib/jogl.all.jar"
-		      tofile="${build.dir}/jogl.all.jar">
-		</copy>
-		<copy file="${src.dir}/../jogl${jogl}/lib/gluegen-rt.jar"
-		      tofile="${build.dir}/gluegen-rt.jar">
+		<copy todir="${build.dir}">		
+			<fileset dir="${src.dir}/../jogl${jogl}/lib">
+				<include name="*.jar" />
+			</fileset>
 		</copy>
 	</target>
 
