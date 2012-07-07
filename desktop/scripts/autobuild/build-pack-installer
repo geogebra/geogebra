@@ -200,7 +200,7 @@ runstep 52 .installer "Downloading installer tools" ant
 cd ../../jogl$JOGL
 runstep 53 .svn-update "SVN update" $SVN_COMMAND $REVISION_PARAM update --accept theirs-full
 runstep 53 .kickstart "Downloading/updating JOGL$JOGL" ant -f kickstart.xml
-runstep 53 .get-all "Downloading all $JOGL related packages" ./get-all
+runstep 53 .get-all "Downloading all JOGL$JOGL related packages" ./get-all
 
 # 6. Invoking make-vanilla-jars
 cd $WORKDIR/scripts/autobuild
