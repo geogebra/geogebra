@@ -1,5 +1,6 @@
 package geogebra.common.kernel.algos;
 import geogebra.common.kernel.commands.Commands;
+import geogebra.common.kernel.statistics.AlgoMeanGrouped;
 public enum Algos {
 	AlgoAngleConic(Commands.Angle),
 	AlgoAngleLines(Commands.Angle),
@@ -197,6 +198,7 @@ public enum Algos {
 	AlgoReverse(Commands.Reverse),
 	AlgoSum(Commands.Sum),
 	AlgoMean(Commands.Mean),
+	AlgoMeanGrouped(Commands.MeanGrouped),
 	AlgoVariance(Commands.Variance),
 	AlgoSigmaXX(Commands.SigmaXX),
 	AlgoStandardDeviation(Commands.SD),

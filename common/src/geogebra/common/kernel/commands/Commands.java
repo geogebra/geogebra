@@ -127,8 +127,8 @@ public enum Commands implements CommandsConstants{
    	Spearman(TABLE_STATISTICS), TTest(TABLE_STATISTICS),
    	TTestPaired(TABLE_STATISTICS), TTest2(TABLE_STATISTICS), TMeanEstimate(TABLE_STATISTICS), TMean2Estimate(TABLE_STATISTICS),
    	ANOVA(TABLE_STATISTICS), Percentile(TABLE_STATISTICS), GeometricMean(TABLE_STATISTICS), HarmonicMean(TABLE_STATISTICS),
-   	RootMeanSquare(TABLE_STATISTICS),
-   	
+   	RootMeanSquare(TABLE_STATISTICS), MeanGrouped(TABLE_STATISTICS),
+   	 
 	//=============================================================
 	// probability
 	//=============================================================

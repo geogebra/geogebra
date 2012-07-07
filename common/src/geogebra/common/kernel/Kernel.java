@@ -7908,6 +7908,15 @@ public class Kernel {
 		GeoNumeric num = algo.getResult();
 		return num;
 	}
+	
+	/**
+	 * Mean[list,list] Kamalaruban Parameswaran
+	 */
+	final public GeoNumeric Mean_Grouped(String label, GeoList list, GeoList list2) {
+		AlgoMeanGrouped algo = new AlgoMeanGrouped((Construction) cons, label, list, list2);
+		GeoNumeric num = algo.getResult(); 
+		return num;
+	}
 
 	final public GeoText VerticalText(String label, GeoText args) {
 		AlgoVerticalText algo = new AlgoVerticalText(cons, label, args);

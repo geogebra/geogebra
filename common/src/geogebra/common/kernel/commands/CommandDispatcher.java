@@ -635,6 +635,8 @@ public class CommandDispatcher {
 				return new CmdSum(kernel);
 			case Mean:
 				return new CmdMean(kernel);
+			case MeanGrouped: 
+				return new CmdMeanGrouped(kernel); 
 			case Variance:
 				return new CmdVariance(kernel);
 			case SD:
