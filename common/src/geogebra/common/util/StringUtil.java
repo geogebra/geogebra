@@ -173,7 +173,7 @@ public class StringUtil {
     	for (int i = 0; i < len; i++) {
     		char c = str.charAt(i);
 
-    		if (c <= '\u001a') {
+    		if (c <= '\u001f') {
     			// #2399 all apart from U+0009, U+000A, U+000D are invalid in XML
     			// none should appear anyway, but encode to be safe
 
