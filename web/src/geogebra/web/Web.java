@@ -17,14 +17,21 @@ import geogebra.web.helper.JavaScriptInjector;
 import geogebra.web.html5.ArticleElement;
 import geogebra.web.html5.Dom;
 import geogebra.web.main.AppW;
+import geogebra.web.util.JSON;
 
 import com.google.api.gwt.oauth2.client.Auth;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.dom.client.StyleInjector;
+import com.google.gwt.http.client.Request;
+import com.google.gwt.http.client.RequestBuilder;
+import com.google.gwt.http.client.RequestCallback;
+import com.google.gwt.http.client.Response;
+import com.google.gwt.http.client.URL;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.ClosingEvent;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -115,13 +122,6 @@ public class Web implements EntryPoint {
 		}
 	}
 	
-//	private void setLocaleToQueryParam() {
-//		String currLocale = Cookies.getCookie(LanguageCommand.LOCALE_PARAMETER);
-//		if(currLocale != null || "".equals(currLocale)) {
-//			LanguageCommand.changeLocale(LanguageCommand.LOCALE_PARAMETER, currLocale);
-//		}
-//	}
-	
 	private void loadAppAsync() {
 	    GWT.runAsync(new RunAsyncCallback() {
 			
@@ -135,6 +135,7 @@ public class Web implements EntryPoint {
 		});
 	    
     }
+	
 	
 	/*
 	 * Checks, if the <body data-param-app="true" exists in html document

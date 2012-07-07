@@ -18,7 +18,7 @@
  The application searches for the user agent locale if queryparam i.e. URL parameter and the cookie parameter are not set -->
  <set-configuration-property name='locale.cookie' value='locale' />
  <set-configuration-property name='locale.useragent' value='Y' />
- <set-configuration-property name='locale.searchorder' value='cookie, queryparam, useragent' />
+ <set-configuration-property name='locale.searchorder' value='queryparam,cookie,useragent' />
  
    
    
@@ -50,25 +50,27 @@
   <!-- This will be commented to reduce compilation time -->
 
   <extend-property name='locale' values='ar' />
+  <extend-property name='locale' values='en' />
+  <extend-property name='locale' values='de' />
+  <extend-property name='locale' values='es' />
+  <extend-property name='locale' values='fr' />
+  <extend-property name='locale' values='pt' />
+  
   <!--<extend-property name='locale' values='bg' />
   <extend-property name='locale' values='bs' />
   <extend-property name='locale' values='ca' />
   <extend-property name='locale' values='cs' />
   <extend-property name='locale' values='cy' />
   <extend-property name='locale' values='da' />
-  <extend-property name='locale' values='de_AT' /> -->
-  <extend-property name='locale' values='de' />
- <!--<extend-property name='locale' values='el' />
+  <extend-property name='locale' values='de_AT' />
+  <extend-property name='locale' values='el' />
   <extend-property name='locale' values='en_AU' />
-  <extend-property name='locale' values='en_GB' />-->
-  
-  <extend-property name='locale' values='es' />
-  <!--<extend-property name='locale' values='et' />
+  <extend-property name='locale' values='en_GB' />
+  <extend-property name='locale' values='et' />
   <extend-property name='locale' values='eu' />
   <extend-property name='locale' values='fa' />
-  <extend-property name='locale' values='fi' />-->
-  <extend-property name='locale' values='fr' />
- <!--<extend-property name='locale' values='gl' />
+  <extend-property name='locale' values='fi' />
+  <extend-property name='locale' values='gl' />
   <extend-property name='locale' values='hi' />
   <extend-property name='locale' values='hr' />
   <extend-property name='locale' values='hu' />
@@ -99,9 +101,6 @@
   <extend-property name='locale' values='no' />
   <extend-property name='locale' values='pl' />
   <extend-property name='locale' values='pt_PT' />
-  -->
-  <extend-property name='locale' values='pt' />
-  <!--
   <extend-property name='locale' values='ro' />
   <extend-property name='locale' values='ru' />
   <extend-property name='locale' values='si' />
@@ -121,9 +120,10 @@
   <extend-property name='locale' values='zh_TW' />
   <extend-property name='locale' values='zh' />
   -->
+  
   <!-- default internationalization language -->
-  <extend-property name='locale' values='en' />
   <set-property-fallback name="locale" value="en"/>
+
   
   <!-- For login to Google -->
   <inherits name="com.google.api.gwt.oauth2.OAuth2" />

@@ -7,6 +7,7 @@ import java.util.Date;
 
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.main.App;
+import geogebra.web.gui.menubar.LanguageCommand;
 import geogebra.web.html5.ArticleElement;
 import geogebra.web.html5.Dom;
 import geogebra.web.html5.View;
@@ -22,15 +23,16 @@ import com.google.gwt.http.client.RequestBuilder;
 import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.Response;
 import com.google.gwt.http.client.URL;
+import com.google.gwt.http.client.UrlBuilder;
+import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
-import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SplitLayoutPanel;
 
 /**
@@ -83,9 +85,9 @@ public class GeoGebraAppFrame extends Composite {
     protected void onLoad() {
 //		init();
 		setVisible(false);
-		geoIPCall();
-		
+		geoIPCall();				
 	}
+	
 	
 	private void geoIPCall() {
 		
@@ -119,9 +121,7 @@ public class GeoGebraAppFrame extends Composite {
 		       AppW.geoIPLanguage = "";
 			   init();
 	    }
-	}
-	
-	
+	}	
 	
 	private int cw;
 	private int ch;
@@ -135,6 +135,7 @@ public class GeoGebraAppFrame extends Composite {
 		cw = (Window.getClientWidth() - (GGWVIewWrapper_WIDTH + ggwSplitLayoutPanel.getSplitLayoutPanel().getSplitterSize())); 
 		ch = (Window.getClientHeight() - (GGWToolBar_HEIGHT + GGWCommandLine_HEIGHT + GGWStyleBar_HEIGHT));
 		app = createApplication(article,this);
+//		((AppW)app).initializeLanguage();
 		ggwSplitLayoutPanel.attachApp(app);
 		ggwCommandLine.attachApp(app);
 		ggwMenuBar.init(app);

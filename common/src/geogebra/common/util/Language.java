@@ -74,8 +74,8 @@ public enum Language {
 	Galician(null, true, false, "gl","gl", "Galician / Galego", "Galician"), // fudge to get right flag
 	Georgian("\u10d8", false, false, "ka","ka", "Georgian / \u10E5\u10D0\u10E0\u10D7\u10E3\u10DA\u10D8 \u10D4\u10DC\u10D0", Country.Georgia),
 	// German must be before German_Austria
-	German(null, true, true, "de","de", "German / Deutsch", Country.Germany, Country.Liechtenstein, Country.Luxembourg, Country.Switzerland, Country.Belgium),
-	German_Austria(null, true, false, "deAT","de_AT", "German (Austria) / Deutsch (\u00D6sterreich)", Country.Austria),
+	German(null, true, false, "de","de", "German / Deutsch", Country.Germany, Country.Liechtenstein, Country.Luxembourg, Country.Switzerland, Country.Belgium),
+	German_Austria(null, true, true, "deAT","de_AT", "German (Austria) / Deutsch (\u00D6sterreich)", Country.Austria),
 	
 	Greek(null, true, false, "el","el", "Greek / \u0395\u03BB\u03BB\u03B7\u03BD\u03B9\u03BA\u03AC", Country.Greece, Country.Cyprus),
 	Hebrew("\u05d9", true, false, "iw","iw", "Hebrew / \u05E2\u05B4\u05D1\u05B0\u05E8\u05B4\u05D9\u05EA", Country.Israel),
@@ -190,7 +190,7 @@ public enum Language {
 		// if eg country = GB, must return English_UK, AT -> German_Austria
 		if (country != null) {
 			for (Language l : Language.values()) {
-				//AbstractApplication.debug(l.toString());
+//				App.debug("l.toString());
 				//if (l.countries != null) AbstractApplication.debug(l.countries[0]);
 				if (l.countries != null && l.countries[0].getISO().equals(country))
 					return l.countries[0].getISO();
@@ -286,5 +286,24 @@ public enum Language {
 		
 		App.error("language not found: "+language);
 		return "a";
+	}
+	
+	public static String getClosestGWTSupportedLanguage(String browserLangCode) {
+		
+		// browserLangCode example: en-US, en-GB, pt-BR, pt-pt, and de-DE
+		for(Language lang: Language.values()) {
+			if(lang.localeGWT.toLowerCase().equals(browserLangCode.replace("-", "_").toLowerCase())) {
+				return browserLangCode;
+			}			
+		}
+		//look for mother language in the hierarchy ie. the first two characters
+		for(Language lang: Language.values()) {
+			if(lang.localeGWT.toLowerCase().equals(browserLangCode.substring(0, 2).toLowerCase())) {
+				return lang.localeGWT;
+			}
+
+		}
+		return null;
+		
 	}
 }

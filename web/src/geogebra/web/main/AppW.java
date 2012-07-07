@@ -8,7 +8,6 @@ import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.DrawEquationInterface;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.gui.menubar.MenuInterface;
-import geogebra.common.gui.menubar.RadioButtonMenuBar;
 import geogebra.common.gui.view.algebra.AlgebraView;
 import geogebra.common.gui.view.spreadsheet.AbstractSpreadsheetTableModel;
 import geogebra.common.gui.view.spreadsheet.SpreadsheetTraceManager;
@@ -51,6 +50,7 @@ import geogebra.web.gui.app.GeoGebraAppFrame;
 import geogebra.web.gui.applet.GeoGebraFrame;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.inputbar.AlgebraInputW;
+import geogebra.web.gui.menubar.LanguageCommand;
 import geogebra.web.gui.menubar.GeoGebraMenubarW;
 import geogebra.web.html5.ArticleElement;
 import geogebra.web.io.ConstructionException;
@@ -85,8 +85,10 @@ import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.dom.client.CanvasElement;
 import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.http.client.UrlBuilder;
 import com.google.gwt.i18n.client.Dictionary;
 import com.google.gwt.i18n.client.LocaleInfo;
+import com.google.gwt.user.client.Cookies;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbsolutePanel;
@@ -302,6 +304,89 @@ public class AppW extends App {
 	private void initSymbolConstants() {
 		symbolConstants = GWT.create(SymbolsConstants.class);
 	}
+	
+	/**
+	 * This method was supposed to change the initial language depending on the GeoIP of the user-agent. 
+	 */
+	public void initializeLanguage() {
+		
+		if(colorConstants == null)
+			this.initColorConstants();
+		if(plainConstants == null)
+			this.initPlainConstants();
+		if(commandConstants == null)
+			this.initCommandConstants();
+		if(errorConstants == null)
+			this.initErrorConstants();
+		this.initErrorConstants();
+		if(menuConstants == null)
+			this.initMenuConstants();
+		if(symbolConstants == null)
+			this.initSymbolConstants();
+		
+//		App.debug("GeoIP Country: " + AppW.geoIPCountryName);
+//		App.debug("GeoIP Language: " + AppW.geoIPLanguage);
+//		
+//		App.debug("Test closeset language: " + Language.getClosestGWTSupportedLanguage(AppW.geoIPLanguage));
+		
+//		initially change the language to a one that comes from GeoIP.
+		setDefaultLanguage();
+	}
+	
+	
+	/**
+	 * 
+	 */
+	public void setDefaultLanguage() {
+//		App.debug("Browser Language: " + AppW.geoIPLanguage);
+		
+		String [] localeNames = LocaleInfo.getAvailableLocaleNames();
+		for(int i=0; i< localeNames.length; i++) {
+			App.debug("Locale Name: " + localeNames[i]);
+		}
+		
+		
+		String lCookieName = LocaleInfo.getLocaleCookieName();
+		String lCookieValue = null;
+		if(lCookieName != null) {
+			lCookieValue = Cookies.getCookie(lCookieName);
+		}
+		String currentLanguage = LocaleInfo.getCurrentLocale().getLocaleName();
+		String closestlangcodetoGeoIP = Language.getClosestGWTSupportedLanguage(AppW.geoIPLanguage);
+		
+		App.debug("Cookie Value: " + lCookieValue + ", currentLanguage: " + currentLanguage + ", Language from GeoIP: "+ AppW.geoIPLanguage + ", closest Language from GeoIP: " + closestlangcodetoGeoIP);
+		
+		if(Language.isEnabledInGWT(closestlangcodetoGeoIP)) {
+			
+			App.debug("Language is enabeled!!!");
+			
+			if (lCookieValue == null && currentLanguage != closestlangcodetoGeoIP && !AppW.DEFAULT_LANGUAGE.equals(currentLanguage)) {
+				
+				App.debug("Changing Language depending on GeoIP!");
+				
+//				Window.Location.assign( // or replace()
+//						   Window.Location.createUrlBuilder()
+//						      .setParameter(LocaleInfo.getLocaleQueryParam(), "ar")
+//						      .buildString());	
+				
+				UrlBuilder newUrl = Window.Location.createUrlBuilder();
+				newUrl.setParameter(LanguageCommand.LOCALE_PARAMETER, closestlangcodetoGeoIP);
+				Window.Location.assign(newUrl.buildString());
+				
+				Cookies.removeCookie(lCookieName);
+				Cookies.setCookie(lCookieName, closestlangcodetoGeoIP);
+						
+		}
+			
+		}
+		
+		
+		
+		
+	
+	}
+	
+	
 
 
 	
@@ -724,8 +809,8 @@ public class AppW extends App {
 
 	/**
 	 * Following Java's convention, the return string should only include the language part of the
-	 * local.
-	 * The assumption here that the "default" locale is English (for now)
+	 * locale.
+	 * The assumption here that the "default" locale is English.
 	 */
 	@Override
 	public String getLanguage() {
