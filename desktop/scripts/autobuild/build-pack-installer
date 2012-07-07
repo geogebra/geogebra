@@ -203,7 +203,7 @@ runstep 53 .kickstart "Downloading/updating JOGL$JOGL" ant -f kickstart.xml
 
 # 6. Invoking make-vanilla-jars
 cd $WORKDIR/scripts/autobuild
-runstep 6 .build "Building" ./make-vanilla-jars -c
+runstep 6 .build "Building" ./make-vanilla-jars -c -cv $CV -J $JOGL
 cd $WORKDIR
 ECJRESULT=`tail -1 .ecjlog`
 log "Eclipse Compiler for Java (ecj) found $ECJRESULT"
