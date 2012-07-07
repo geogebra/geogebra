@@ -64,7 +64,7 @@
     <jar href="http://www.geogebra.org/webstart/5.0/jnlp/gluegen-rt.jar" />
   </resources>
 
-    <!-- OpenNI natve components (architecture dependent) -->
+    <!-- OpenNI native components (architecture dependent) -->
     <resources os="Windows" arch="x86">
       <nativelib href = "openni.jar" />
     </resources>
@@ -122,7 +122,7 @@
       <nativelib href = "http://www.geogebra.org/webstart/5.0/jnlp/jogl-all-natives-macosx-universal.jar" />
     </resources>
 
-    <!-- JOGL2/GlueGen native components -->    
+    <!-- JOGL2/GlueGen native components (architecture dependent) -->
     <resources os="Windows" arch="x86">
       <nativelib href = "http://www.geogebra.org/webstart/5.0/jnlp/gluegen-rt-natives-windows-i586.jar" />
     </resources>
