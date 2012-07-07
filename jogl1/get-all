@@ -10,5 +10,5 @@ for i in *.zip; do unzip -o $i; done
 # Download the nativelib JARs again:
 cd ..
 for i in linux-amd64 linux-i586 windows-amd64 windows-i586 macosx; do
- wget -N -P http://dev.geogebra.org/download/lib/build/jogl1/jogl1-$i.jar
+ wget -N http://dev.geogebra.org/download/lib/build/jogl1/jogl1-$i.jar
  done
