@@ -2,7 +2,7 @@
 <!-- JNLP File for GeoGebra WebStart Application -->
 <jnlp spec="1.0+" codebase="http://www.geogebra.org/webstart/5.0/" href="geogebra-50.jnlp">
   <information>
-    <title>GeoGebra 5 Beta</title>
+    <title>GeoGebra 5.0 Beta</title>
     <vendor>International GeoGebra Institute</vendor>
     <homepage href="http://www.geogebra.org/"/>
     <description>Dynamic Mathematics for Everyone</description>
@@ -10,7 +10,7 @@
     <offline-allowed/>
     <shortcut online="true">
       <desktop/>
-      <menu submenu="GeoGebra 5 Beta"/>
+      <menu submenu="GeoGebra 5.0 Beta"/>
     </shortcut>
   <related-content href="http://www.geogebra.org/">
       <title>www.geogebra.org</title>
@@ -41,7 +41,7 @@
   </security>
   <update check="timeout" policy="always"/>
   <resources>
-    <j2se version="1.5+" max-heap-size="512m" href="http://java.sun.com/products/autodl/j2se"/>
+    <j2se version="1.6+" max-heap-size="512m" href="http://java.sun.com/products/autodl/j2se"/>
     <jar href="http://www.geogebra.org/webstart/5.0/jnlp/geogebra.jar" main="true"/>
     <jar href="http://www.geogebra.org/webstart/5.0/jnlp/geogebra_main.jar"/>
     <jar href="http://www.geogebra.org/webstart/5.0/jnlp/geogebra_gui.jar"/>
@@ -51,14 +51,20 @@
     <jar href="http://www.geogebra.org/webstart/5.0/jnlp/geogebra_3d.jar"/>    
     <jar href="http://www.geogebra.org/webstart/5.0/jnlp/geogebra_usb.jar"/>    
     <jar href="http://www.geogebra.org/webstart/5.0/jnlp/geogebra_javascript.jar"/>    
-    <jar href="http://www.geogebra.org/webstart/5.0/jnlp/jogl.all.jar"/>    
-    <jar href="http://www.geogebra.org/webstart/5.0/jnlp/gluegen-rt.jar"/>    
+
     <jar href="http://www.geogebra.org/webstart/5.0/jnlp/jlatexmath.jar"/>    
     <jar href="http://www.geogebra.org/webstart/5.0/jnlp/jlm_greek.jar"/>    
     <jar href="http://www.geogebra.org/webstart/5.0/jnlp/jlm_cyrillic.jar"/>    
+
     <jar href="http://www.geogebra.org/webstart/5.0/jnlp/jython.jar"/>
-	<extension name="jogl" href="jogl.jnlp" />
+
+    <jar href="http://www.geogebra.org/webstart/5.0/jnlp/OpenGeoProver.jar"/>
+
+    <jar href="http://www.geogebra.org/webstart/5.0/jnlp/jogl.all.jar"/>
+    <jar href="http://www.geogebra.org/webstart/5.0/jnlp/gluegen-rt.jar" />
   </resources>
+
+    <!-- OpenNI natve components (architecture dependent) -->
     <resources os="Windows" arch="x86">
       <nativelib href = "openni.jar" />
     </resources>
@@ -68,5 +74,100 @@
     <resources os="Windows" arch="x86_64">
       <nativelib href = "openni64.jar" />
     </resources>
+    
+    <!-- JOGL2 native components (architecture dependent) -->
+    <resources os="Windows" arch="x86">
+      <nativelib href = "http://www.geogebra.org/webstart/5.0/jogl-all-natives-windows-i586.jar" />
+    </resources>
+    <resources os="Windows" arch="amd64">
+      <nativelib href = "http://www.geogebra.org/webstart/5.0/jogl-all-natives-windows-amd64.jar" />
+    </resources>
+    <resources os="Windows" arch="x86_64">
+      <nativelib href = "http://www.geogebra.org/webstart/5.0/jogl-all-natives-windows-amd64.jar" />
+    </resources>
+    <resources os="SunOS" arch="sparc">
+      <nativelib href = "http://www.geogebra.org/webstart/5.0/jogl-all-natives-solaris-sparc.jar" />
+    </resources>
+    <resources os="SunOS" arch="sparcv9">
+      <nativelib href = "http://www.geogebra.org/webstart/5.0/jogl-all-natives-solaris-sparcv9.jar" />
+    </resources>
+    <resources os="SunOS" arch="x86">
+      <nativelib href = "http://www.geogebra.org/webstart/5.0/jogl-all-natives-solaris-i586.jar" />
+    </resources>
+    <resources os="SunOS" arch="amd64">
+      <nativelib href = "http://www.geogebra.org/webstart/5.0/jogl-all-natives-solaris-amd64.jar" />
+    </resources>
+    <resources os="SunOS" arch="x86_64">
+      <nativelib href = "http://www.geogebra.org/webstart/5.0/jogl-all-natives-solaris-amd64.jar" />
+    </resources>
+    <resources os="Linux" arch="i386">
+      <nativelib href = "http://www.geogebra.org/webstart/5.0/jogl-all-natives-linux-i586.jar" />
+    </resources>
+    <resources os="Linux" arch="x86">
+      <nativelib href = "http://www.geogebra.org/webstart/5.0/jogl-all-natives-linux-i586.jar" />
+    </resources>
+    <resources os="Linux" arch="amd64">
+      <nativelib href = "http://www.geogebra.org/webstart/5.0/jogl-all-natives-linux-amd64.jar" />
+    </resources>
+    <resources os="Linux" arch="x86_64">
+      <nativelib href = "http://www.geogebra.org/webstart/5.0/jogl-all-natives-linux-amd64.jar" />
+    </resources>
+    <resources os="Mac OS X" arch="ppc">
+      <nativelib href = "http://www.geogebra.org/webstart/5.0/jogl-all-natives-macosx-ppc.jar" />
+    </resources>
+    <resources os="Mac OS X" arch="i386">
+      <nativelib href = "http://www.geogebra.org/webstart/5.0/jogl-all-natives-macosx-universal.jar" />
+    </resources>
+    <resources os="Mac OS X" arch="x86_64">
+      <nativelib href = "http://www.geogebra.org/webstart/5.0/jogl-all-natives-macosx-universal.jar" />
+    </resources>
+
+    <!-- JOGL2/GlueGen native components -->    
+    <resources os="Windows" arch="x86">
+      <nativelib href = "http://www.geogebra.org/webstart/5.0/gluegen-rt-natives-windows-i586.jar" />
+    </resources>
+    <resources os="Windows" arch="amd64">
+      <nativelib href = "http://www.geogebra.org/webstart/5.0/gluegen-rt-natives-windows-amd64.jar" />
+    </resources>
+    <resources os="Windows" arch="x86_64">
+      <nativelib href = "http://www.geogebra.org/webstart/5.0/gluegen-rt-natives-windows-amd64.jar" />
+    </resources>
+    <resources os="SunOS" arch="sparc">
+      <nativelib href = "http://www.geogebra.org/webstart/5.0/gluegen-rt-natives-solaris-sparc.jar" />
+    </resources>
+    <resources os="SunOS" arch="sparcv9">
+      <nativelib href = "http://www.geogebra.org/webstart/5.0/gluegen-rt-natives-solaris-sparcv9.jar" />
+    </resources>
+    <resources os="SunOS" arch="x86">
+      <nativelib href = "http://www.geogebra.org/webstart/5.0/gluegen-rt-natives-solaris-i586.jar" />
+    </resources>
+    <resources os="SunOS" arch="amd64">
+      <nativelib href = "http://www.geogebra.org/webstart/5.0/gluegen-rt-natives-solaris-amd64.jar" />
+    </resources>
+    <resources os="SunOS" arch="x86_64">
+      <nativelib href = "http://www.geogebra.org/webstart/5.0/gluegen-rt-natives-solaris-amd64.jar" />
+    </resources>
+    <resources os="Linux" arch="i386">
+      <nativelib href = "http://www.geogebra.org/webstart/5.0/gluegen-rt-natives-linux-i586.jar" />
+    </resources>
+    <resources os="Linux" arch="x86">
+      <nativelib href = "http://www.geogebra.org/webstart/5.0/gluegen-rt-natives-linux-i586.jar" />
+    </resources>
+    <resources os="Linux" arch="amd64">
+      <nativelib href = "http://www.geogebra.org/webstart/5.0/gluegen-rt-natives-linux-amd64.jar" />
+    </resources>
+    <resources os="Linux" arch="x86_64">
+      <nativelib href = "http://www.geogebra.org/webstart/5.0/gluegen-rt-natives-linux-amd64.jar" />
+    </resources>
+    <resources os="Mac OS X" arch="ppc">
+      <nativelib href = "http://www.geogebra.org/webstart/5.0/gluegen-rt-natives-macosx-ppc.jar" />
+    </resources>
+    <resources os="Mac OS X" arch="i386">
+      <nativelib href = "http://www.geogebra.org/webstart/5.0/gluegen-rt-natives-macosx-universal.jar" />
+    </resources>
+    <resources os="Mac OS X" arch="x86_64">
+      <nativelib href = "http://www.geogebra.org/webstart/5.0/gluegen-rt-natives-macosx-universal.jar" />
+    </resources>
+
   <application-desc main-class="geogebra.GeoGebra3D"/>
 </jnlp>
