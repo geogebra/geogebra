@@ -9,6 +9,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
 import geogebra.common.main.GeoElementSelectionListener;
 import geogebra.gui.layout.DockPanel;
+import geogebra.gui.view.properties.PropertiesStyleBarD;
 import geogebra.gui.view.properties.PropertiesViewD;
 import geogebra.main.AppD;
 
@@ -64,7 +65,7 @@ public class PropertiesDockPanel extends DockPanel implements
 
 	@Override
 	protected JComponent loadStyleBar() {
-		return getPropertiesView().getStyleBar().getWrappedPanel();
+		return ((PropertiesStyleBarD)getPropertiesView().getStyleBar()).getWrappedPanel();
 	}
 
 	@Override

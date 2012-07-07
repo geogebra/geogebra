@@ -49,6 +49,8 @@ public class MyCJButton extends Composite implements MouseDownHandler, MouseUpHa
 	 */
 	public static int DEFAULT_BUTTON_HEIGHT = 20;
 	
+	protected static int TEXT_OFFSET = 3;
+	
 	protected Canvas button;
 	Context2d ctx = null;
 	private Canvas tempCanvas = null;

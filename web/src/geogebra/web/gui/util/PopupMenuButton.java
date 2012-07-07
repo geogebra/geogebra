@@ -1,5 +1,6 @@
 package geogebra.web.gui.util;
 
+import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.canvas.dom.client.ImageData;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
@@ -442,6 +443,18 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 	public void setToolTipArray(String[] toolTipArray){
 		myTable.setToolTipArray(toolTipArray);
 	}
+
+	public void setText(String text) {
+	    Context2d ctx = button.getContext2d();
+	    double textWidth = ctx.measureText(text).getWidth();
+	    int origWidth = ctx.getCanvas().getWidth();
+	    int origHeight = ctx.getCanvas().getHeight();
+	    ImageData data = ctx.getImageData(0, 0, origWidth, origHeight);
+	    ctx.getCanvas().setWidth((int) (origWidth + TEXT_OFFSET + textWidth + TEXT_OFFSET));
+	    ctx.putImageData(data, 0, 0);
+	    ctx.fillText(text, origWidth + TEXT_OFFSET, buttonHeight / 2);
+	    
+    }
 	
 	
 	

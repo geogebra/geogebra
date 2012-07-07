@@ -12,6 +12,8 @@ the Free Software Foundation.
 
 package geogebra.gui.view.properties;
 
+import geogebra.common.gui.SetLabels;
+import geogebra.common.gui.view.properties.PropertiesStyleBar;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
@@ -63,7 +65,6 @@ public class PropertiesViewD extends geogebra.common.gui.view.properties.Propert
 	private OptionsSpreadsheetD spreadsheetPanel;
 	private OptionsCASD casPanel;
 	private OptionsAdvancedD advancedPanel;
-	private OptionsObjectD objectPanel;
 	private OptionsLayoutD layoutPanel;
 
 	
@@ -372,7 +373,7 @@ public class PropertiesViewD extends geogebra.common.gui.view.properties.Propert
 		//update selection
 		if (type==OptionType.OBJECTS){
 			if (geos!=null)
-				objectPanel.updateSelection(geos);	
+				((OptionsObjectD) objectPanel).updateSelection(geos);	
 			styleBar.setObjectsToolTip();
 			
 		}
@@ -430,7 +431,7 @@ public class PropertiesViewD extends geogebra.common.gui.view.properties.Propert
 			layoutPanel.updateGUI();
 		}
 		if (objectPanel != null) {
-			objectPanel.setVisible(selectedOptionType == OptionType.OBJECTS);
+			((OptionsObjectD) objectPanel).setVisible(selectedOptionType == OptionType.OBJECTS);
 		}
 
 		setLabels();
@@ -505,32 +506,9 @@ public class PropertiesViewD extends geogebra.common.gui.view.properties.Propert
 		case OBJECTS:
 			if (objectPanel == null) {
 				objectPanel = new OptionsObjectD((AppD) app);
-				objectPanel.setMinimumSize(objectPanel.getPreferredSize());
+				((OptionsObjectD) objectPanel).setMinimumSize(((OptionsObjectD) objectPanel).getPreferredSize());
 			}
-			return objectPanel;
-		}
-		return null;
-	}
-
-	public String getTypeString(OptionType type) {
-		switch (type) {
-		case DEFAULTS:
-			return app.getPlain("PropertiesOfA",app.getPlain("Defaults"));
-		case SPREADSHEET:
-			return app.getPlain("PropertiesOfA",app.getPlain("Spreadsheet"));
-		case EUCLIDIAN:
-			return app.getPlain("PropertiesOfA",app.getPlain("DrawingPad"));
-		case EUCLIDIAN2:
-			return app.getPlain("PropertiesOfA",app.getPlain("DrawingPad2"));
-		case CAS:
-			return app.getPlain("PropertiesOfA",app.getPlain("CAS"));
-		case ADVANCED:
-			return app.getPlain("PropertiesOfA",app.getMenu("Advanced"));
-		case OBJECTS:
-			//return app.getMenu("Objects");
-			return objectPanel.getSelectionDescription();
-		case LAYOUT:
-			return app.getPlain("PropertiesOfA",app.getPlain("Layout"));
+			return (OptionPanelD) objectPanel;
 		}
 		return null;
 	}
@@ -538,7 +516,7 @@ public class PropertiesViewD extends geogebra.common.gui.view.properties.Propert
 	/**
 	 * @return the style bar for this view.
 	 */
-	public PropertiesStyleBarD getStyleBar() {
+	public PropertiesStyleBar getStyleBar() {
 		if (styleBar == null) {
 			styleBar = newPropertiesStyleBar();
 		}
@@ -574,7 +552,7 @@ public class PropertiesViewD extends geogebra.common.gui.view.properties.Propert
 		if (spreadsheetPanel!=null) spreadsheetPanel.setLabels();
 		if (casPanel!=null) casPanel.setLabels();
 		if (advancedPanel!=null) advancedPanel.setLabels();
-		if (objectPanel!=null) objectPanel.setLabels();
+		if (objectPanel!=null) ((SetLabels) objectPanel).setLabels();
 		if (layoutPanel!=null) layoutPanel.setLabels();
 		
 		updateStyleBar();
@@ -627,19 +605,19 @@ public class PropertiesViewD extends geogebra.common.gui.view.properties.Propert
 
 	public void add(GeoElement geo) {
 		objectPanel.add(geo);
-		objectPanel.getTree().add(geo);
+		((OptionsObjectD) objectPanel).getTree().add(geo);
 
 	}
 
 	public void remove(GeoElement geo) {
-		objectPanel.updateIfInSelection(geo);
-		objectPanel.getTree().remove(geo);
+		((OptionsObjectD) objectPanel).updateIfInSelection(geo);
+		((OptionsObjectD) objectPanel).getTree().remove(geo);
 
 	}
 
 	public void rename(GeoElement geo) {
-		objectPanel.rename(geo);
-		objectPanel.getTree().rename(geo);
+		((OptionsObjectD) objectPanel).rename(geo);
+		((OptionsObjectD) objectPanel).getTree().rename(geo);
 		updateTitleBar();
 
 	}
@@ -648,22 +626,22 @@ public class PropertiesViewD extends geogebra.common.gui.view.properties.Propert
 
 		// updateSelection();
 		// propPanel.updateSelection(new GeoElement[] {geo});
-		objectPanel.updateIfInSelection(geo);
-		objectPanel.getTree().update(geo);
+		((OptionsObjectD) objectPanel).updateIfInSelection(geo);
+		((OptionsObjectD) objectPanel).getTree().update(geo);
 
 	}
 
 	public void updateVisualStyle(GeoElement geo) {
 		// update(geo);
-		objectPanel.updateVisualStyle(geo);
-		objectPanel.getTree().updateVisualStyle(geo);
+		((OptionsObjectD) objectPanel).updateVisualStyle(geo);
+		((OptionsObjectD) objectPanel).getTree().updateVisualStyle(geo);
 
 	}
 
 	public void updateAuxiliaryObject(GeoElement geo) {
 		// TODO Auto-generated method stub
-		objectPanel.updateIfInSelection(geo);
-		objectPanel.getTree().updateAuxiliaryObject(geo);
+		((OptionsObjectD) objectPanel).updateIfInSelection(geo);
+		((OptionsObjectD) objectPanel).getTree().updateAuxiliaryObject(geo);
 
 	}
 	
@@ -672,21 +650,21 @@ public class PropertiesViewD extends geogebra.common.gui.view.properties.Propert
 			
 		if (objectPanel!=null){		
 			if (app.getSelectedGeos()!=null && app.getSelectedGeos().size()==1)
-				objectPanel.updateOneGeoDefinition(app.getSelectedGeos().get(0));
+				((OptionsObjectD) objectPanel).updateOneGeoDefinition(app.getSelectedGeos().get(0));
 			
-			objectPanel.getTree().repaint();
+			((OptionsObjectD) objectPanel).getTree().repaint();
 		}
 		
 		
 	}
 
 	public void reset() {
-		objectPanel.getTree().repaint();
+		((OptionsObjectD) objectPanel).getTree().repaint();
 
 	}
 
 	public void clearView() {
-		objectPanel.getTree().clearView();
+		((OptionsObjectD) objectPanel).getTree().clearView();
 		
 
 	}
@@ -717,7 +695,7 @@ public class PropertiesViewD extends geogebra.common.gui.view.properties.Propert
 			if (selectedOptionType!=OptionType.OBJECTS)
 				setOptionPanel(OptionType.OBJECTS);
 
-			objectPanel.updateSelection(geos);
+			((OptionsObjectD) objectPanel).updateSelection(geos);
 			updateTitleBar(); 
 			styleBar.setObjectsToolTip();
 		}else{
@@ -774,7 +752,7 @@ public class PropertiesViewD extends geogebra.common.gui.view.properties.Propert
 	// //////////////////////////////////////////////////////
 
 	public void windowPanel() {
-		objectPanel.setGeoTreeVisible();
+		((OptionsObjectD) objectPanel).setGeoTreeVisible();
 
 		// kernel.attach(geoTree);
 		// kernel.notifyAddAll(geoTree);
@@ -783,7 +761,7 @@ public class PropertiesViewD extends geogebra.common.gui.view.properties.Propert
 
 
 	public void unwindowPanel() {
-		objectPanel.setGeoTreeNotVisible();
+		((OptionsObjectD) objectPanel).setGeoTreeNotVisible();
 
 		// kernel.detach(geoTree);
 		// geoTree.clear();
@@ -800,7 +778,7 @@ public class PropertiesViewD extends geogebra.common.gui.view.properties.Propert
 
 	
 	public void showSliderTab() {
-		objectPanel.showSliderTab();
+		((OptionsObjectD) objectPanel).showSliderTab();
 	}
 
 	public boolean hasFocus() {

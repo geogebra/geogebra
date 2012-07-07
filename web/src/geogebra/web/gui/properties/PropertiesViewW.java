@@ -36,7 +36,6 @@ public class PropertiesViewW extends
 		private OptionsSpreadsheetW spreadsheetPanel;
 		private OptionsCASW casPanel;
 		private OptionsAdvancedW advancedPanel;
-		private OptionsObjectW objectPanel;
 		private OptionsLayoutW layoutPanel;
 
 		private PropertiesStyleBarW styleBar;
@@ -155,9 +154,9 @@ public class PropertiesViewW extends
 		case OBJECTS:
 			if (objectPanel == null) {
 				objectPanel = new OptionsObjectW((AppW) app);
-				objectPanel.setMinimumSize(objectPanel.getPreferredSize());
+				((OptionsObjectW) objectPanel).setMinimumSize(((OptionsObjectW) objectPanel).getPreferredSize());
 			}
-			return objectPanel;
+			return (OptionPanelW) objectPanel;
 		}
 		return null;
 	}

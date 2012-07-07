@@ -14,6 +14,7 @@ package geogebra.common.gui.view.properties;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import geogebra.common.gui.dialog.options.OptionsObject;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoElement;
@@ -52,6 +53,7 @@ public abstract class PropertiesView implements View{
 	protected boolean attached;
 	protected App app;
 	protected OptionType selectedOptionType = OptionType.OBJECTS;
+	protected OptionsObject objectPanel;
 	
 	/**
 	 * Update selection
@@ -74,5 +76,29 @@ public abstract class PropertiesView implements View{
 
 
 	public abstract void mousePressedForPropertiesView();
+
+
+	public String getTypeString(OptionType type) {
+		switch (type) {
+		case DEFAULTS:
+			return app.getPlain("PropertiesOfA",app.getPlain("Defaults"));
+		case SPREADSHEET:
+			return app.getPlain("PropertiesOfA",app.getPlain("Spreadsheet"));
+		case EUCLIDIAN:
+			return app.getPlain("PropertiesOfA",app.getPlain("DrawingPad"));
+		case EUCLIDIAN2:
+			return app.getPlain("PropertiesOfA",app.getPlain("DrawingPad2"));
+		case CAS:
+			return app.getPlain("PropertiesOfA",app.getPlain("CAS"));
+		case ADVANCED:
+			return app.getPlain("PropertiesOfA",app.getMenu("Advanced"));
+		case OBJECTS:
+			//return app.getMenu("Objects");
+			return objectPanel.getSelectionDescription();
+		case LAYOUT:
+			return app.getPlain("PropertiesOfA",app.getPlain("Layout"));
+		}
+		return null;
+	}
 	
 }

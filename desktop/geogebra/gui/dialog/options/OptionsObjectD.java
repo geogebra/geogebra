@@ -15,7 +15,6 @@ package geogebra.gui.dialog.options;
 import geogebra.common.gui.SetLabels;
 import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.main.App;
 import geogebra.gui.color.GeoGebraColorChooser;
 import geogebra.gui.dialog.PropertiesPanel;
 import geogebra.gui.view.algebra.AlgebraTree;
@@ -43,7 +42,6 @@ import javax.swing.border.Border;
 public class OptionsObjectD extends geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelD, SetLabels {
 
 	private static final long serialVersionUID = 1L;
-	private AppD app;
 	private JButton defaultsButton;
 	private PropertiesPanel propPanel;
 	private GeoGebraColorChooser colChooser;
@@ -117,14 +115,14 @@ public class OptionsObjectD extends geogebra.common.gui.dialog.options.OptionsOb
 		// PROPERTIES PANEL
 		if (colChooser == null) {
 			// init color chooser
-			colChooser = new GeoGebraColorChooser(app);
+			colChooser = new GeoGebraColorChooser((AppD) app);
 		}
 
 		// check for null added otherwise you get two listeners for the
 		// colChooser
 		// when a file is loaded
 		if (propPanel == null) {
-			propPanel = new PropertiesPanel(app, colChooser, false);
+			propPanel = new PropertiesPanel((AppD) app, colChooser, false);
 			propPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 0, 5));
 		}
 
@@ -290,8 +288,6 @@ public class OptionsObjectD extends geogebra.common.gui.dialog.options.OptionsOb
 	}
 	*/
 	
-	private ArrayList<GeoElement> selection;
-	
 	/**
 	 * update selection for properties panel
 	 * @param geos geos
@@ -300,27 +296,6 @@ public class OptionsObjectD extends geogebra.common.gui.dialog.options.OptionsOb
 		
 		selection = geos;
 		propPanel.updateSelection(geos.toArray());
-	}
-	
-	private StringBuilder sb = new StringBuilder();
-	
-	/**
-	 * 
-	 * @return description for selection
-	 */
-	public String getSelectionDescription(){
-		if (selection == null || selection.size() == 0)
-			return app.getMenu("SelectAnObject");
-		else if (selection.size() == 1){
-			GeoElement geo = selection.get(0);
-			sb.setLength(0);
-			sb.append("<html>");
-			sb.append(app.getPlain("PropertiesOfA",geo.getNameDescriptionHTML(false, false)));
-			sb.append("</html>");
-			return sb.toString();
-		} else {
-			return app.getPlain("PropertiesOfA",app.getPlain("Selection"));
-		}
 	}
 	
 	public void updateOneGeoDefinition(GeoElement geo) {

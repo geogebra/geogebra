@@ -45,8 +45,6 @@ public class PropertiesStyleBarD extends geogebra.common.gui.view.properties.Pro
 	
 	private HashMap<OptionType,AbstractButton> buttonMap;
 
-	private static final String downTriangle = "  \u25BE  ";
-
 	public PropertiesStyleBarD(PropertiesViewD propertiesView, AppD app) {
 		this.propertiesView = propertiesView;
 		this.app = app;
