@@ -799,7 +799,7 @@ public interface CommandConstants extends ConstantsWithLookup {
     @DefaultStringValue("Function")
     String Function();
 
-    @DefaultStringValue("[ <Function>, <Start x-Value>, <End x-Value> ]\n< <List of Numbers> ]")
+    @DefaultStringValue("[ <Function>, <Start x-Value>, <End x-Value> ]\n[ <List of Numbers> ]")
     String Function_Syntax();
 
     @DefaultStringValue("GCD")

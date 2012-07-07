@@ -1639,7 +1639,7 @@ public interface MenuConstants extends ConstantsWithLookup {
     @DefaultStringValue("Rigid Polygon")
     String RigidPolygon();
 
-    @DefaultStringValue("Select all vertices, then click first vertex again")
+    @DefaultStringValue("Select all vertices, then click first vertex again (or just click on a Polygon to make a rigid copy)")
     String RigidPolygon_Help();
 
     @DefaultStringValue("Roots and Fractions")
