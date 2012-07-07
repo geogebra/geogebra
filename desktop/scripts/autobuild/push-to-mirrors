@@ -9,6 +9,8 @@
 # The remote server must ensure that http://$IP/webstart
 # is the same directory as "ssh -p $PORT $RUSER@$IP; cd $DIR".
 
+# If parameters is given, it overrides version number (4.2)
+
 # @author Zoltan Kovacs <zoltan@geogebra.org>
 
 # 1. Start and loading configuration
@@ -28,6 +30,9 @@ if [ ! -r mirrors.conf ]; then
  fi
 
 MYDIR=4.2
+if [ "$1" != "" ]; then
+ MYDIR=$1
+ fi
 cd $WWWDIR/$MYDIR
 MYVER=`cat unpacked/version.txt`
 

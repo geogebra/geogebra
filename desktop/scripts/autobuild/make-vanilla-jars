@@ -97,7 +97,7 @@ while [ $# -gt 0 ]; do
    JAVA_HOME="$1"
    test -x $JAVA_HOME/bin/java || {
     echo "Cannot find $JAVA_HOME/bin/java, is Java installed?"
-    exit 4
+    exit 31
     }
    if [ "$BOOTCLASSPATH" = "not set" ]; then
     set_bootclasspath
@@ -118,7 +118,7 @@ while [ $# -gt 0 ]; do
 
   *)
    echo "Unknown parameter: $1. Use \"$0 -h\" for help."
-   exit 1
+   exit 32
    ;;
 
   esac
@@ -130,12 +130,27 @@ if [ "$JAVA_HOME" = "not set" ]; then
  echo "Java home is not set. Consider using -j followed by your selection of an item from this list:"
  export JVM_DIR=/usr/lib/jvm
  ls -1 $JVM_DIR | awk '{print "'$JVM_DIR'/" $0}'
- exit 2
+ exit 41
  fi
 
 if [ "$BOOTCLASSPATH" = "not set" ]; then
  echo "Bootclasspath is not set. Consult a Java guru to find it on your machine."
- exit 3
+ exit 42
+ fi
+
+SRCVERSION=`cat ../../../common/src/geogebra/common/GeoGebraConstants.java \
+ | grep "public static final String VERSION_STRING" | cut -f7 -d" " |\
+ sed s/\"//g | sed s/";"// | cut -f1-2 -d.`
+
+ERRORSTRING="Incompatible source version ($SRCVERSION) and compilation target ($CV)"
+if [ "$CV" = "4.2" -a "$SRCVERSION" != "4.2" -a "$SRCVERSION" != "4.1" ]; then
+ echo $ERRORSTRING
+ exit 42
+ fi
+
+if [ "$CV" = "5.0" -a "$SRCVERSION" != "5.0" -a "$SRCVERSION" != "4.9" ]; then
+ echo $ERRORSTRING
+ exit 42
  fi
 
 cd $WORKDIR
