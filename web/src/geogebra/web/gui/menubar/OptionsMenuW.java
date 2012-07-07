@@ -64,14 +64,14 @@ public class OptionsMenuW extends MenuBar implements MenuInterface{
 				kernel.updateConstruction();
 			}
 		});
-		submenu.addItem(app.getMenu("Definition"), new RadioButtonCommand(submenu, 1) {
+		submenu.addItem(app.getPlain("Definition"), new RadioButtonCommand(submenu, 1) {
 			@Override
 			public void exec() {
 				kernel.setAlgebraStyle(1);
 				kernel.updateConstruction();
 			}
 		});
-		submenu.addItem(app.getMenu("Command"), new RadioButtonCommand(submenu, 2) {
+		submenu.addItem(app.getPlain("Command"), new RadioButtonCommand(submenu, 2) {
 			@Override
 			public void exec() {
 				kernel.setAlgebraStyle(2);
