@@ -202,6 +202,16 @@ runstep 53 .svn-update "SVN update" $SVN_COMMAND $REVISION_PARAM update --accept
 runstep 53 .kickstart "Downloading/updating JOGL$JOGL" ant -f kickstart.xml
 runstep 53 .get-all "Downloading all JOGL$JOGL related packages" ./get-all
 
+# 5/4. Downloading OpenNI and jd2xx
+# This might be moved to kickstart.xml...
+cd $WORKDIR/lib
+DL=http://dev.geogebra.org/download/lib
+runstep 54 .openni wget -N $DL/kinect-OpenNI/openni.jar
+runstep 54 .openni wget -N $DL/kinect-OpenNI/openni64.jar
+runstep 54 .openni wget -N $DL/kinect-OpenNI/opennimac.jar
+runstep 54 .jd2xx wget -N $DL/ftdi/jd2xx.jar
+runstep 54 .jd2xx wget -N $DL/ftdi/jd2xx64.jar
+
 # 6. Invoking make-vanilla-jars
 cd $WORKDIR/scripts/autobuild
 runstep 6 .build "Building" ./make-vanilla-jars -c -cv $CV -J $JOGL

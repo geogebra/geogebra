@@ -61,26 +61,31 @@
     <jar href="http://www.geogebra.org/webstart/4.2/jnlp/jlm_cyrillic.jar"/>
     <jar href="http://www.geogebra.org/webstart/4.2/jnlp/jython.jar"/>
   </resources>
+  
+    <!-- USB native components (architecture dependent) -->
     <resources os="Windows" arch="x86">
-      <nativelib href = "usb/openni.jar" />
-      <nativelib href = "usb/jd2xx.jar" />
-      <nativelib href = "usb/vernier_ccsd-win.jar" />
+      <nativelib href = "http://www.geogebra.org/webstart/4.2/jnlp/openni.jar" />
+      <nativelib href = "http://www.geogebra.org/webstart/4.2/jnlp/vernier_ccsd-win.jar" />
+      <nativelib href = "http://www.geogebra.org/webstart/4.2/jnlp/jd2xx.jar" />
     </resources>
     <resources os="Windows" arch="amd64">
-      <nativelib href = "usb/openni64.jar" />
-      <nativelib href = "usb/jd2xx64.jar" />
-      <nativelib href = "usb/vernier_ccsd-win.jar" />
+      <nativelib href = "http://www.geogebra.org/webstart/4.2/jnlp/openni64.jar" />
+      <nativelib href = "http://www.geogebra.org/webstart/4.2/jnlp/vernier_ccsd-win.jar" />
+      <nativelib href = "http://www.geogebra.org/webstart/4.2/jnlp/jd2xx64.jar" />
     </resources>
     <resources os="Windows" arch="x86_64">
-      <nativelib href = "usb/openni64.jar" />
-      <nativelib href = "usb/jd2xx64.jar" />
-      <nativelib href = "usb/vernier_ccsd-win.jar" />
+      <nativelib href = "http://www.geogebra.org/webstart/4.2/jnlp/openni64.jar" />
+      <nativelib href = "http://www.geogebra.org/webstart/4.2/jnlp/vernier_ccsd-win.jar" />
+      <nativelib href = "http://www.geogebra.org/webstart/4.2/jnlp/jd2xx64.jar" />
     </resources>
-        <resources os="Mac OS X" arch="i386">
-      <nativelib href = "usb/vernier_ccsd-macintel-static.jar" />
+    <resources os="Mac OS X" arch="ppc">
+      <nativelib href = "http://www.geogebra.org/webstart/4.2/jnlp/vernier_ccsd-mac-static.jar" />
+    </resources>
+    <resources os="Mac OS X" arch="i386">
+      <nativelib href = "http://www.geogebra.org/webstart/4.2/jnlp/vernier_ccsd-macintel-static.jar" />
     </resources>
     <resources os="Mac OS X" arch="x86_64">
-      <nativelib href = "usb/vernier_ccsd-macintel-static.jar" />
+      <nativelib href = "http://www.geogebra.org/webstart/4.2/jnlp/vernier_ccsd-macintel-static.jar" />
     </resources>
     
   <application-desc main-class="geogebra.GeoGebra">
