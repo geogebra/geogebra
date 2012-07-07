@@ -56,7 +56,7 @@ your workstation.
 	<target name="gwt-oauth2">
 	<mkdir dir="lib"/>
 	<mkdir dir="lib/download"/>
-	<get src="http://gwt-oauth2.googlecode.com/files/gwt-oauth2-0.2-alpha.jar" dest="lib/gwt-oauth2-0.2-alpha.jar"
+	<get src="http://dev.geogebra.org/download/lib/web/gwt-oauth2-0.2-alpha.jar" dest="lib/gwt-oauth2-0.2-alpha.jar"
 	    usetimestamp="true"/>
 	</target>
 
@@ -64,7 +64,7 @@ your workstation.
 	<target name="google-api-java-client">
 	<mkdir dir="lib"/>
 	<mkdir dir="lib/download"/>
-	<get src="http://google-api-java-client.googlecode.com/files/google-api-java-client-1.9.0-beta.zip" dest="lib/download/google-api-java-client-1.9.0-beta.zip"
+	<get src="http://dev.geogebra.org/download/lib/web/google-api-java-client-1.9.0-beta.zip" dest="lib/download/google-api-java-client-1.9.0-beta.zip"
 	    usetimestamp="true"/>
 	<unzip src="lib/download/google-api-java-client-1.9.0-beta.zip" dest="war/WEB-INF/lib">
 	    <patternset>
@@ -92,7 +92,7 @@ your workstation.
 	<mkdir dir="lib"/>
 	<mkdir dir="lib/download"/>
 	<get
-	    src="http://google-web-toolkit.googlecode.com/files/gwt-2.4.0.zip"
+	    src="http://dev.geogebra.org/download/lib/web/gwt-2.4.0.zip"
 	    dest="lib/download/gwt-sdk.zip" usetimestamp="true"/>
 	<unzip src="lib/download/gwt-sdk.zip" dest="lib">
 	</unzip>
@@ -102,7 +102,7 @@ your workstation.
 	<mkdir dir="lib"/>
 	<mkdir dir="lib/download"/>
 	<get
-	    src="http://googleappengine.googlecode.com/files/appengine-java-sdk-1.6.3.1.zip"
+	    src="http://dev.geogebra.org/download/lib/web/appengine-java-sdk-1.6.3.1.zip"
 	    dest="lib/download/gae-sdk.zip" usetimestamp="true"/>
 	<unzip src="lib/download/gae-sdk.zip" dest="lib">
 	</unzip>
