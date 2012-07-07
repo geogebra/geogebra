@@ -245,9 +245,9 @@ office@geogebra.org
 	<!-- copies the usb native jars  -->
 	<target name="ggb-copy-usb" depends="clean" description="copy usb jar">
 
-		<copy todir="${build.dir}">		
+		<copy todir="${build.dir}" flatten="true">		
 			<fileset dir="${src.dir}/lib">
-				<include name="jd2xx*.jar, openni*.jar, vernier_ccsd*.jar" />
+				<include name="**/jd2xx*.jar, **/openni*.jar, **/vernier_ccsd*.jar" />
 			</fileset>
 		</copy>
 	</target>
