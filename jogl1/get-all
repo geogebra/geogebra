@@ -6,3 +6,9 @@ mkdir -p $TARGET
 cat kickstart.xml | grep http | grep "\.zip" | cut -f2 -d\" | xargs wget -N -P $TARGET
 cd $TARGET
 for i in *.zip; do unzip -o $i; done
+
+# Download the nativelib JARs again:
+cd ..
+for i in linux-amd64; do
+ wget http://dev.geogebra.org/download/lib/build/jogl1/jogl1-$i.jar
+ done

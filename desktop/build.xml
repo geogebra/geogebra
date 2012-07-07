@@ -200,7 +200,13 @@ office@geogebra.org
 	</target>
 	
 	<!-- copies the jogl jars  -->
-	<target name="ggb-copy-jogl" depends="clean, ggb-copy-jogl1, ggb-copy-jogl2" description="copy jogl jars"/>
+	<target name="ggb-copy-jogl" depends="clean" description="copy jogl jars">
+		<copy todir="${build.dir}" flatten="true">		
+			<fileset dir="${src.dir}/../jogl${jogl}/lib">
+				<include name="**/*.jar" />
+			</fileset>
+		</copy>
+	</target>
 
 	<condition property="usejogl1">
 	    <equals arg1="${jogl}" arg2="1"/>
@@ -208,23 +214,6 @@ office@geogebra.org
 	<condition property="usejogl2">
 	    <equals arg1="${jogl}" arg2="2"/>
 	</condition>
-
-	<!-- copies the jogl1 jars  -->
-	<target name="ggb-copy-jogl1" depends="clean" description="copy jogl1 jars" if="usejogl1">
-		<copy todir="${build.dir}" flatten="true">		
-			<fileset dir="${src.dir}/../jogl${jogl}/lib"
-				includes="**/*.jar, **/*.so, **/*.jnilib, **/*.dll" />
-		</copy>
-	</target>
-
-	<!-- copies the jogl2 jars  -->
-	<target name="ggb-copy-jogl2" depends="clean" description="copy jogl2 jars" if="usejogl2">
-		<copy todir="${build.dir}">		
-			<fileset dir="${src.dir}/../jogl${jogl}/lib">
-				<include name="*.jar" />
-			</fileset>
-		</copy>
-	</target>
 
 	<!-- copies the jlatexmath jars  -->
 	<target name="ggb-copy-jlatexmath" depends="clean" description="copy jlatexmath jars">
@@ -270,6 +259,7 @@ office@geogebra.org
 			<arg value="geogebra_properties.jar"/>
 			<arg value="geogebra_usb.jar"/>
 			<arg value="jogl.jar"/>
+			<arg value="jogl1-linux-amd64.jar"/>
 			<arg value="gluegen-rt.jar"/>
 			<arg value="jlatexmath.jar"/>
 			<arg value="jlm_cyrillic.jar"/>
