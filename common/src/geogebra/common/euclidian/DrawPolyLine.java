@@ -66,7 +66,7 @@ public class DrawPolyLine extends Drawable implements Previewable {
 			updateStrokes(poly);
 
 			// build general path for this polygon
-			addPointsToPath(poly.getPoints());
+			addPointsToPath(poly.getPointsND());
 
 			// polygon on screen?
 			if (!gp.intersects(0, 0, view.getWidth(), view.getHeight())) {

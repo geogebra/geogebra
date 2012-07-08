@@ -452,6 +452,12 @@ public class GeoPolyLine extends GeoElement implements NumberValue, Path,
 	 */
 	public void calcLength() {
 
+		if (points.length == 0) {
+			setUndefined();
+			length = Double.NaN;
+			return;
+		}		
+		
 		length = 0;
 
 		for (int i = 0; i < points.length - 1; i++) {
