@@ -2314,7 +2314,7 @@ public interface CommandConstants extends ConstantsWithLookup {
     @DefaultStringValue("Take")
     String Take();
 
-    @DefaultStringValue("[ <List>, <Start Position>, <End Position> ]\n[ <List>, <Start Position> ]\n[ <Text>, <Start Position>, <End Position> ]")
+    @DefaultStringValue("[ <List>, <Start Position>, <End Position> ]\n[ <List>, <Start Position> ]\n[ <Text>, <Start Position>, <End Position> ]\n[ <Text>, <Start Position> ]")
     String Take_Syntax();
 
     @DefaultStringValue("[ <List>, <Start Position>, <End Position> ]")
