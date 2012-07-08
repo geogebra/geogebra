@@ -40,6 +40,7 @@ public class ViewButtonBar extends JToolBar {
 		setFloatable(false);
 		createViewButtons();
 		updateViewButtonVisibility();
+		revalidate();
 	}
 
 	private void createViewButtons() {
