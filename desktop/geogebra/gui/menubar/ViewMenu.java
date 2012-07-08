@@ -78,16 +78,18 @@ public class ViewMenu extends BaseMenu {
 		JMenuItem mi;
 
 		// show/hide keyboard
-		cbShowKeyboard = new JCheckBoxMenuItem(showKeyboardAction);
-		cbShowKeyboard.setIcon(app.getImageIcon("keyboard.png"));
-		KeyboardSettings kbs = app.getSettings().getKeyboard();
-		if (kbs.isShowKeyboardOnStart()) {
-			cbShowKeyboard.setSelected(true);
-			VirtualKeyboard vk = app.getGuiManager().getVirtualKeyboard();
-			vk.setVisible(true);
+		if (!app.isApplet()) {
+			cbShowKeyboard = new JCheckBoxMenuItem(showKeyboardAction);
+			cbShowKeyboard.setIcon(app.getImageIcon("keyboard.png"));
+			KeyboardSettings kbs = app.getSettings().getKeyboard();
+			if (kbs.isShowKeyboardOnStart()) {
+				cbShowKeyboard.setSelected(true);
+				VirtualKeyboard vk = app.getGuiManager().getVirtualKeyboard();
+				vk.setVisible(true);
+			}
+			add(cbShowKeyboard);
 		}
-		add(cbShowKeyboard);
-
+		
 		// show Python and Kinect options in Eclipse & 5.0 Webstart only
 		// ie not 4.2
 		if (!AppD.isWebstart() || app.is3D()) {
@@ -459,7 +461,10 @@ public class ViewMenu extends BaseMenu {
 		updateViews();
 
 		cbShowAlgebraInput.setSelected(app.showAlgebraInput());
-		cbShowKeyboard.setSelected(AppD.isVirtualKeyboardActive());
+		
+		if (cbShowKeyboard != null) {
+			cbShowKeyboard.setSelected(AppD.isVirtualKeyboardActive());
+		}
 		
 		if (cbShowPython != null) {
 			cbShowPython.setSelected(app.isPythonWindowVisible());
