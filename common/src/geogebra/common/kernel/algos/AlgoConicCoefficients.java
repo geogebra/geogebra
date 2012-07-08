@@ -18,6 +18,8 @@ import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.kernel.locusequ.EquationElement;
+import geogebra.common.kernel.locusequ.EquationScope;
 
 /**
  * Try to expand the given function 
@@ -88,5 +90,17 @@ public class AlgoConicCoefficients extends AlgoElement {
 	final public String toString(StringTemplate tpl) {
     	return getCommandDescription(tpl);
     }
+
+	@Override
+	public EquationElement buildEquationElementForGeo(GeoElement element,
+			EquationScope scope) {
+		return null;
+	}
+
+	@Override
+	public boolean isLocusEquable() {
+		// TODO Consider locusequability
+		return false;
+	}
 
 }

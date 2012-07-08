@@ -1129,6 +1129,12 @@ public class NoExceptionsTest {
 	}
 
 	@Test
+	public void cmdLocusEquation() {
+		t("LocusEquation[ Depoint, ptonpath1 ]");
+		t("LocusEquation[ loc ]");
+	}
+
+	@Test
 	public void cmdLogistic() {
 		t("Logistic[ n1, n3, n1 ]");
 		t("Logistic[ n1, n3, x ]");

@@ -22,7 +22,10 @@ import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
+import geogebra.common.kernel.locusequ.EquationElement;
+import geogebra.common.kernel.locusequ.EquationScope;
 
 /**
  * Hyperbola for given foci and first semi-axis length
@@ -57,4 +60,16 @@ public class AlgoHyperbolaFociLength extends AlgoConicFociLength {
         return app.getPlain("HyperbolaWithFociABandFirstAxisLengthC",A.getLabel(tpl),
         		B.getLabel(tpl),a.toGeoElement().getLabel(tpl)); 
     }
+
+	@Override
+	public EquationElement buildEquationElementForGeo(GeoElement element,
+			EquationScope scope) {
+		return null;
+	}
+
+	@Override
+	public boolean isLocusEquable() {
+		// TODO Consider locusequability
+		return false;
+	}
 }

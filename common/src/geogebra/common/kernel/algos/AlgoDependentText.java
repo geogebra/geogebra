@@ -25,7 +25,10 @@ import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.MyStringBuffer;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
+import geogebra.common.kernel.locusequ.EquationElement;
+import geogebra.common.kernel.locusequ.EquationScope;
 import geogebra.common.plugin.Operation;
 
 /**
@@ -263,6 +266,18 @@ public class AlgoDependentText extends AlgoElement {
 		}
 		// Application.debug("copy ExpressionValue output: " + ev);
 		return ret;
+	}
+
+	@Override
+	public EquationElement buildEquationElementForGeo(GeoElement element,
+			EquationScope scope) {
+		return null;
+	}
+
+	@Override
+	public boolean isLocusEquable() {
+		// TODO Consider locusequability
+		return false;
 	}
 
 }

@@ -23,6 +23,10 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.kernelND.AlgoMidpointND;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.kernel.locusequ.EquationElement;
+import geogebra.common.kernel.locusequ.EquationScope;
+import geogebra.common.kernel.locusequ.RestrictionAlgoForLocusEquation;
+import geogebra.common.kernel.locusequ.elements.EquationMidpointRestriction;
 import geogebra.common.kernel.prover.NoSymbolicParametersException;
 import geogebra.common.kernel.prover.Polynomial;
 import geogebra.common.kernel.prover.Variable;
@@ -38,7 +42,7 @@ import java.util.HashSet;
  * @version 
  */
 public class AlgoMidpoint extends AlgoMidpointND implements SymbolicParametersAlgo,
-	SymbolicParametersBotanaAlgo {
+	SymbolicParametersBotanaAlgo, RestrictionAlgoForLocusEquation {
       
     private Polynomial[] polynomials;
 	private Polynomial[] botanaPolynomials;
@@ -68,6 +72,14 @@ public class AlgoMidpoint extends AlgoMidpointND implements SymbolicParametersAl
 	protected void copyCoords(GeoPointND point){
     	getPoint().setCoords((GeoPoint) point);
     }
+    
+    // Made public for LocusEqu
+    @Override
+    public GeoPoint getP() { return (GeoPoint) super.getP(); }
+    
+    // Made public for LocusEqu
+    @Override
+    public GeoPoint getQ() { return (GeoPoint) super.getQ(); }
     
     @Override
 	protected void computeMidCoords(){
@@ -173,5 +185,16 @@ public class AlgoMidpoint extends AlgoMidpointND implements SymbolicParametersAl
 		botanaPolynomials = SymbolicParameters.botanaPolynomialsMidpoint(P,Q,botanaVars);
 		return botanaPolynomials;
 		
+	}
+
+	@Override
+	public EquationElement buildEquationElementForGeo(GeoElement element,
+			EquationScope scope) {
+		return new EquationMidpointRestriction(element, this, scope);
+	}
+
+	@Override
+	public boolean isLocusEquable() {
+		return true;
 	}
 }

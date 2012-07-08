@@ -8522,6 +8522,19 @@ public class Kernel {
 		AlgoLocus algo = new AlgoLocus(cons, label, Q, P);
 		return algo.getLocus();
 	}
+	
+	/**
+	 * locus equation for Q dependent on P.
+	 */
+	final public GeoImplicitPoly LocusEquation(String label, GeoPoint locusPoint, GeoPoint movingPoint) {
+		if (movingPoint.getPath() == null || locusPoint.getPath() != null || !movingPoint.isParentOf(locusPoint))
+			return null;
+		AlgoLocusEquation algo = new AlgoLocusEquation(cons, locusPoint, movingPoint);
+		GeoImplicitPoly poly = algo.getPoly();
+		
+		poly.setLabel(label);
+		return poly;
+	}
 
 	/**
 	 * locus line for Q dependent on P. Note: P must be a visible slider

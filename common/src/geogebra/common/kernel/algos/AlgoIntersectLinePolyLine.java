@@ -32,6 +32,8 @@ import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.kernel.locusequ.EquationElement;
+import geogebra.common.kernel.locusequ.EquationScope;
 
 import java.util.TreeMap;
 
@@ -202,5 +204,17 @@ public class AlgoIntersectLinePolyLine extends AlgoElement{
         return app.getPlain("IntersectionPointOfAB",((GeoElement) g).getLabel(tpl),
         		((GeoElement)pi).getLabel(tpl));
     }  
+
+	@Override
+	public EquationElement buildEquationElementForGeo(GeoElement element,
+			EquationScope scope) {
+		return null;
+	}
+
+	@Override
+	public boolean isLocusEquable() {
+		// TODO Consider locusequability
+		return false;
+	}
     
 }

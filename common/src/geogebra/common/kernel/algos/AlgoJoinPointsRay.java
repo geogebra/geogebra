@@ -25,6 +25,9 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoRay;
 import geogebra.common.kernel.geos.GeoVec3D;
+import geogebra.common.kernel.locusequ.EquationElement;
+import geogebra.common.kernel.locusequ.EquationScope;
+import geogebra.common.kernel.locusequ.elements.EquationJoinPointsRay;
 
 
 /**
@@ -107,4 +110,15 @@ public class AlgoJoinPointsRay extends AlgoElement {
     	return app.getPlain("RayThroughAB",P.getLabel(tpl),Q.getLabel(tpl));
 
     }
+
+	@Override
+	public EquationElement buildEquationElementForGeo(GeoElement element,
+			EquationScope scope) {
+		return new EquationJoinPointsRay(element, scope);
+	}
+
+	@Override
+	public boolean isLocusEquable() {
+		return true;
+	}
 }

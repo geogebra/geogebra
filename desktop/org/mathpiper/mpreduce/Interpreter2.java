@@ -277,6 +277,19 @@ public class Interpreter2 implements geogebra.common.cas.Evaluate {
 
 			result = mpreduce.evaluate("Hold((x + x) / x);");
 			System.out.println(result + "\n");
+			
+			result = mpreduce.evaluate(
+					"algebraic;" +
+					"load cali;" +
+					"vars := {x,y,x2,x1};" +
+					"setring(vars, degreeorder vars, revlex);" +
+					"setideal(m,{((x2)-(2.0)) , ((((x2)-(3.0))*((x)-(x1)))-(((x1)-(3.0))*((y)-(x2)))) , (((1.0)*((x)**2))+(((1.0)*((y)**2))+(((((x1)**2)+((x2)**2))-((((0.0)-(0.0))*((0.0)-(0.0)))+(((3.0)-(5.0))*((3.0)-(5.0)))))+((((2.0)*(0.0))*((x)*(y)))+((((2.0)*(-(x1)))*(x))+(((2.0)*(-(x2)))*(y)))))))});" +
+					"s := eliminate(m, {x2,x1}) ;" +
+					"c := coeff(x**2*(y**2 - 4*y + 4) + x*( - 6*y**2 + 24*y - 24) + y**4 - 10*y**3 + 42*y**2 - 72*y + 36,{x,y});");
+			System.out.println("Groebner" + result + "\n");
+			
+			result = mpreduce.evaluate("coeff(x**2*(y**2 - 4*y + 4) + x*( - 6*y**2 + 24*y - 24) + y**4 - 10*y**3 + 42*y**2 - 72*y + 36, {x,y})");
+			System.out.println("Coefficients: " + result);
 
 		} catch (Throwable t) {
 			t.printStackTrace();

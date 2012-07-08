@@ -19,6 +19,8 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.locusequ.EquationElement;
+import geogebra.common.kernel.locusequ.EquationScope;
 
 
 
@@ -170,6 +172,26 @@ public abstract class AlgoIntersectCoordSys extends AlgoElement3D {
     } 
     
     abstract protected String getIntersectionTypeString();
+    
+    /*
+	 * This should apply to every subclass. In case it does not,
+	 * a case per case should be used.
+	 * It produces a GeoNumeric, so beware GeoNumeric will be
+	 * treated differently than points.
+	 */
+
+	@Override
+	public EquationElement buildEquationElementForGeo(GeoElement element,
+			EquationScope scope) {
+		return null;
+	}
+
+	@Override
+	public boolean isLocusEquable() {
+		// TODO Consider locusequability
+		return false;
+	}
+    
   
  
 

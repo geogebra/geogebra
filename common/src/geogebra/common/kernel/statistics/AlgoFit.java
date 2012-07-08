@@ -23,6 +23,8 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoPoint;
+import geogebra.common.kernel.locusequ.EquationElement;
+import geogebra.common.kernel.locusequ.EquationScope;
 import geogebra.common.main.App;
 
 import org.apache.commons.math.linear.Array2DRowRealMatrix;
@@ -274,5 +276,17 @@ public class AlgoFit extends AlgoElement {
 	}// walk node tree
 
 	// --- SNIP --- ///
+
+	@Override
+	public EquationElement buildEquationElementForGeo(GeoElement element,
+			EquationScope scope) {
+		return null;
+	}
+
+	@Override
+	public boolean isLocusEquable() {
+		// TODO Consider locusequability
+		return false;
+	}
 
 }// class AlgoFit

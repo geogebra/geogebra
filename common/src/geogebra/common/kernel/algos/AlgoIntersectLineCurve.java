@@ -32,6 +32,8 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint;
+import geogebra.common.kernel.locusequ.EquationElement;
+import geogebra.common.kernel.locusequ.EquationScope;
 import geogebra.common.plugin.Operation;
 
 import java.util.ArrayList;
@@ -231,5 +233,17 @@ public class AlgoIntersectLineCurve extends AlgoElement{
 		return app.getPlain("IntersectionPointOfAB",((GeoElement) line).getLabel(tpl),
 				((GeoElement)curve).getLabel(tpl));
 	}  
+
+	@Override
+	public EquationElement buildEquationElementForGeo(GeoElement element,
+			EquationScope scope) {
+		return null;
+	}
+
+	@Override
+	public boolean isLocusEquable() {
+		// TODO Consider locusequability
+		return false;
+	}
 
 }

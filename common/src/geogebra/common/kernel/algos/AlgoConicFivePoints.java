@@ -29,6 +29,9 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoVec3D;
+import geogebra.common.kernel.locusequ.EquationElement;
+import geogebra.common.kernel.locusequ.EquationScope;
+import geogebra.common.kernel.locusequ.elements.EquationConicFivePoints;
 
 
 /**
@@ -151,9 +154,19 @@ public class AlgoConicFivePoints extends AlgoElement {
     public GeoConic getConic() {
         return conic;
     }
-
+    
     GeoPoint[] getPoints() {
         return P;
+    }
+    
+    /**
+     * Method created for LocusEqu project.
+     * @return a copy of inner array so it cannot be manipulated from outside.
+     */
+    public GeoPoint[] getAllPoints() {
+    	GeoPoint[] copy = new GeoPoint[this.getPoints().length];
+    	System.arraycopy(this.getPoints(), 0, copy, 0, copy.length);
+    	return copy;
     }
 
     // compute conic through five points P[0] ... P[4]
@@ -425,4 +438,15 @@ public class AlgoConicFivePoints extends AlgoElement {
         return app.getPlain("ConicThroughABCDE",P[0].getLabel(tpl),
         		P[1].getLabel(tpl),P[2].getLabel(tpl),P[3].getLabel(tpl),P[4].getLabel(tpl));
     }
+
+	@Override
+	public EquationElement buildEquationElementForGeo(GeoElement element,
+			EquationScope scope) {
+		return new EquationConicFivePoints(element, scope);
+	}
+
+	@Override
+	public boolean isLocusEquable() {
+		return true;
+	}
 }

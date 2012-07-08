@@ -5,13 +5,20 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
+import geogebra.common.kernel.locusequ.EquationElement;
+import geogebra.common.kernel.locusequ.EquationList;
+import geogebra.common.kernel.locusequ.EquationPoint;
+import geogebra.common.kernel.locusequ.EquationRestriction;
+import geogebra.common.kernel.locusequ.EquationScope;
+import geogebra.common.kernel.locusequ.RestrictionAlgoForLocusEquation;
+import geogebra.common.kernel.locusequ.elements.EquationIntersectSingleRestriction;
 
 import java.util.ArrayList;
 
 /**
  * Single intersection point
  */
-public class AlgoIntersectSingle extends AlgoIntersect {
+public class AlgoIntersectSingle extends AlgoIntersect implements RestrictionAlgoForLocusEquation {
 
 	// input
 	private AlgoIntersect algo;
@@ -131,6 +138,14 @@ public class AlgoIntersectSingle extends AlgoIntersect {
 
 		setDependencies(); // done by AlgoElement
 	}
+	
+	/**
+	 * Added for LocusEqu
+	 * @return inner algo.
+	 */
+	public AlgoIntersect getAlgo() {
+		return this.algo;
+	}
 
 	public GeoPoint getPoint() {
 		return point;
@@ -220,6 +235,17 @@ public class AlgoIntersectSingle extends AlgoIntersect {
 		}
 		return app.getPlain("IntersectionPointOfABNearC", input[0].getLabel(tpl),
 				input[1].getLabel(tpl), input[2].getLabel(tpl));
+	}
+
+	@Override
+	public EquationElement buildEquationElementForGeo(GeoElement element,
+			EquationScope scope) {
+		return new EquationIntersectSingleRestriction(element, this, scope);
+	}
+
+	@Override
+	public boolean isLocusEquable() {
+		return true;
 	}
 
 }

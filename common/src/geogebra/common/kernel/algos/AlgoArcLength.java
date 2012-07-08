@@ -23,6 +23,8 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoConicPart;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.kernel.locusequ.EquationElement;
+import geogebra.common.kernel.locusequ.EquationScope;
 
 
 /**
@@ -86,4 +88,16 @@ public class AlgoArcLength extends AlgoElement {
         return app.getPlain("ArcLengthOfA",((GeoElement) arc).getLabel(tpl));
 
     }
+
+	@Override
+	public EquationElement buildEquationElementForGeo(GeoElement element,
+			EquationScope scope) {
+		return null;
+	}
+
+	@Override
+	public boolean isLocusEquable() {
+		// TODO Consider locusequability
+		return false;
+	}
 }

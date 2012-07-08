@@ -20,6 +20,8 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
+import geogebra.common.kernel.locusequ.EquationElement;
+import geogebra.common.kernel.locusequ.EquationScope;
 
 import org.apache.commons.math.stat.correlation.SpearmansCorrelation;
 
@@ -157,6 +159,18 @@ public class AlgoSpearman extends AlgoElement {
 		
 		result.setValue(sp.correlation(valX, valY));
 
+	}
+
+	@Override
+	public EquationElement buildEquationElementForGeo(GeoElement element,
+			EquationScope scope) {
+		return null;
+	}
+
+	@Override
+	public boolean isLocusEquable() {
+		// TODO Consider locusequability
+		return false;
 	}
 
 }

@@ -3,6 +3,8 @@
  */
 package geogebra.common.kernel.locusequ.arith;
 
+import geogebra.common.kernel.locusequ.EquationTranslator;
+
 /**
  * @author sergio
  *
@@ -46,5 +48,10 @@ public class EquationAbsOperator extends EquationUnaryOperator {
 	@Override
 	protected double operation(double a) {
 		return Math.abs(a);
+	}
+
+	@Override
+	protected <T> T translateImpl(EquationTranslator<T> translator) {
+		return translator.abs(this.getOriginalExpression().translate(translator));
 	}
 }

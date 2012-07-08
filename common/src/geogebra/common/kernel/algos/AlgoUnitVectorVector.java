@@ -24,6 +24,8 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoVector;
+import geogebra.common.kernel.locusequ.EquationElement;
+import geogebra.common.kernel.locusequ.EquationScope;
 import geogebra.common.util.MyMath;
 
 
@@ -92,4 +94,16 @@ public class AlgoUnitVectorVector extends AlgoElement {
         // simplified to allow better translation
     	return app.getPlain("UnitVectorOfA",v.getLabel(tpl));
     }
+
+	@Override
+	public EquationElement buildEquationElementForGeo(GeoElement element,
+			EquationScope scope) {
+		return null;
+	}
+
+	@Override
+	public boolean isLocusEquable() {
+		// TODO Consider locusequability
+		return false;
+	}
 }

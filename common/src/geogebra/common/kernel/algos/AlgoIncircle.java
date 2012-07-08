@@ -26,6 +26,8 @@ import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.kernel.locusequ.EquationElement;
+import geogebra.common.kernel.locusequ.EquationScope;
 
 public class AlgoIncircle extends AlgoElement {
 
@@ -148,6 +150,18 @@ public class AlgoIncircle extends AlgoElement {
         // simplified to allow better Chinese translation
         return app.getPlain("IncircleOfTriangleABC", A.getLabel(tpl), B.getLabel(tpl), C.getLabel(tpl));
     }
+
+	@Override
+	public EquationElement buildEquationElementForGeo(GeoElement element,
+			EquationScope scope) {
+		return null;
+	}
+
+	@Override
+	public boolean isLocusEquable() {
+		// TODO Consider locusequability
+		return false;
+	}
 }
 
 // Local Variables:

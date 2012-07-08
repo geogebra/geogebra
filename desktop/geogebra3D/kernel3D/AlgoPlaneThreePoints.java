@@ -7,6 +7,8 @@ import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.kernel.locusequ.EquationElement;
+import geogebra.common.kernel.locusequ.EquationScope;
 
 /**
  * @author ggb3D
@@ -95,5 +97,17 @@ public class AlgoPlaneThreePoints extends AlgoElement3D {
     	return app.getPlain("PlaneThroughABC",A.getLabel(tpl),B.getLabel(tpl),C.getLabel(tpl));
 
     }
+
+	@Override
+	public EquationElement buildEquationElementForGeo(GeoElement element,
+			EquationScope scope) {
+		return null;
+	}
+
+	@Override
+	public boolean isLocusEquable() {
+		// TODO Consider locusequability
+		return false;
+	}
 
 }

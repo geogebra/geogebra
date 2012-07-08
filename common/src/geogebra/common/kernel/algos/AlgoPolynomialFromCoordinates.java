@@ -24,6 +24,8 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoPoint;
+import geogebra.common.kernel.locusequ.EquationElement;
+import geogebra.common.kernel.locusequ.EquationScope;
 import geogebra.common.plugin.Operation;
 
 import java.math.BigDecimal;
@@ -327,5 +329,17 @@ public class AlgoPolynomialFromCoordinates extends AlgoElement {
     for (i=0;i<n;i++) coff[i]=cof[i].doubleValue();
   
   }
+
+	@Override
+	public EquationElement buildEquationElementForGeo(GeoElement element,
+			EquationScope scope) {
+		return null;
+	}
+
+	@Override
+	public boolean isLocusEquable() {
+		// TODO Consider locusequability
+		return false;
+	}
 
 }

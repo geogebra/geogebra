@@ -4,6 +4,8 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.locusequ.EquationElement;
+import geogebra.common.kernel.locusequ.EquationScope;
 
 /**
  * @author ggb3D
@@ -73,5 +75,23 @@ public abstract class AlgoQuadric extends AlgoElement3D {
 	public GeoQuadric3D getQuadric(){
 		return quadric;
 	}
+    
+    /*
+	 * This should apply to every subclass. In case it does not,
+	 * a case per case should be used.
+	 */
+
+	@Override
+	public EquationElement buildEquationElementForGeo(GeoElement element,
+			EquationScope scope) {
+		return null;
+	}
+
+	@Override
+	public boolean isLocusEquable() {
+		// TODO Consider locusequability
+		return false;
+	}
+    
 
 }

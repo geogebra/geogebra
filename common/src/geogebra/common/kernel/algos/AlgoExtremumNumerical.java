@@ -18,6 +18,8 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoFunctionable;
 import geogebra.common.kernel.geos.GeoPoint;
+import geogebra.common.kernel.locusequ.EquationElement;
+import geogebra.common.kernel.locusequ.EquationScope;
 import geogebra.common.main.App;
 
 /**
@@ -264,6 +266,18 @@ public class AlgoExtremumNumerical extends AlgoElement {
 				+ "     " + f.evaluate(l) + "     " + f.evaluate(m) + "     "
 				+ f.evaluate(r);
 	}// info()
+
+	@Override
+	public EquationElement buildEquationElementForGeo(GeoElement element,
+			EquationScope scope) {
+		return null;
+	}
+
+	@Override
+	public boolean isLocusEquable() {
+		// TODO Consider locusequability
+		return false;
+	}
 
 	// */ //--- SNIP end ---------------------------------------
 

@@ -16,6 +16,8 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
+import geogebra.common.kernel.locusequ.EquationElement;
+import geogebra.common.kernel.locusequ.EquationScope;
 
 
 public class AlgoUnicodeToLetter extends AlgoElement {
@@ -61,4 +63,16 @@ public class AlgoUnicodeToLetter extends AlgoElement {
     	char ss = (char)a.getDouble();
     	text.setTextString(ss+"");
     }
+
+	@Override
+	public EquationElement buildEquationElementForGeo(GeoElement element,
+			EquationScope scope) {
+		return null;
+	}
+
+	@Override
+	public boolean isLocusEquable() {
+		// TODO Consider locusequability
+		return false;
+	}
 }

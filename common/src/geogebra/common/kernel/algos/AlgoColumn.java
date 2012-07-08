@@ -17,6 +17,8 @@ import geogebra.common.awt.GPoint;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.kernel.locusequ.EquationElement;
+import geogebra.common.kernel.locusequ.EquationScope;
 
 
 /**
@@ -65,5 +67,17 @@ public class AlgoColumn extends AlgoElement {
     	GPoint p = geo.getSpreadsheetCoords();
     	if (p != null) num.setValue(p.x + 1);
     	else num.setUndefined();
-    }         
+    }
+
+	@Override
+	public EquationElement buildEquationElementForGeo(GeoElement element,
+			EquationScope scope) {
+		return null;
+	}
+
+	@Override
+	public boolean isLocusEquable() {
+		// TODO Consider locusequability
+		return false;
+	}         
 }

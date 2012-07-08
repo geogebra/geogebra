@@ -78,12 +78,32 @@ public abstract class AlgoSphereNDTwoPoints extends AlgoElement {
     public GeoQuadricND getSphereND() {
         return sphereND;
     }
+    
+
+    /**
+     * Method added for LocusEqu project.
+     * @return center of sphere.
+     */
+    public GeoPointND getCenter() {
+    	return this.getM();
+    }
+    
     protected GeoPointND getM() {
         return M;
     }
+    
+    /**
+     * Method added for LocusEqu project.
+     * @return external point of sphere.
+     */
+    public GeoPointND getExternalPoint() {
+    	return this.getP();
+    }
+    
     protected GeoPointND getP() {
         return P;
     }
+    
 
     // compute circle with midpoint M and radius r
     @Override

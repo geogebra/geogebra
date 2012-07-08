@@ -60,4 +60,9 @@ public class Equation {
     public EquationExpression getExpression() {
     	return this.equ;
     }
+    
+    @Override
+    public String toString() {
+    	return this.getExpression().toString();
+    }
 }

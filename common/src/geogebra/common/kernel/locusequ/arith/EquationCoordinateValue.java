@@ -4,12 +4,13 @@
 package geogebra.common.kernel.locusequ.arith;
 
 import geogebra.common.kernel.locusequ.EquationPoint;
+import geogebra.common.kernel.locusequ.EquationTranslator;
 
 /**
  * @author sergio
  * Represents a coordinate from a point.
  */
-public abstract class EquationCoordinateValue extends EquationTerm {
+public abstract class EquationCoordinateValue extends EquationValue {
 
 	private EquationPoint point;
 
@@ -30,14 +31,11 @@ public abstract class EquationCoordinateValue extends EquationTerm {
     protected EquationPoint getPoint() {
         return this.point;
     }
-    
-    /*
-     * FIXME: in case translator is kept
+
     @Override
     protected <T> T translateImpl(EquationTranslator<T> translator) {
         return this.getOriginalExpression().translate(translator);
     }
-    */
 
     @Override
     public long toLong() {
@@ -65,8 +63,8 @@ public abstract class EquationCoordinateValue extends EquationTerm {
     }
 
     @Override
-    public boolean containsSymbolicValues() {
-        return this.getOriginalExpression().containsSymbolicValues();
+	protected boolean containsSymbolicValuesImpl() {
+        return this.getOriginalExpression().containsSymbolicValuesImpl();
     }
 
     @Override

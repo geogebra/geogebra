@@ -13,6 +13,8 @@ import geogebra.common.kernel.arithmetic.Polynomial;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
+import geogebra.common.kernel.locusequ.EquationElement;
+import geogebra.common.kernel.locusequ.EquationScope;
 import geogebra.common.main.MyError;
 
 import java.util.HashSet;
@@ -316,6 +318,18 @@ public class AlgoDependentImplicitPoly extends AlgoElement {
 	@Override
 	protected String toExpString(StringTemplate tpl) {
 		return geoElement.getLabel(tpl)+": "+equation.toString(tpl);
+	}
+
+	@Override
+	public EquationElement buildEquationElementForGeo(GeoElement element,
+			EquationScope scope) {
+		return null;
+	}
+
+	@Override
+	public boolean isLocusEquable() {
+		// TODO Consider locusequability
+		return false;
 	}
 	
 

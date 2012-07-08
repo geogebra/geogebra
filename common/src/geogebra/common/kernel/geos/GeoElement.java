@@ -58,6 +58,8 @@ import geogebra.common.kernel.commands.AlgebraProcessor;
 import geogebra.common.kernel.discrete.GraphAlgo;
 import geogebra.common.kernel.kernelND.GeoElementND;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.kernel.locusequ.EquationElement;
+import geogebra.common.kernel.locusequ.EquationScope;
 import geogebra.common.main.App;
 import geogebra.common.main.MyError;
 import geogebra.common.plugin.EuclidianStyleConstants;
@@ -7172,4 +7174,18 @@ public abstract class GeoElement extends ConstructionElement implements
 		return new ExpressionNode(getKernel(),this);
 	}
 
+	/**
+	 * Creates a new {@link EquationElement} for this GeoElement given a {@link EquationScope}.
+	 * @param scope given {@link EquationScope}
+	 * @return a new {@link EquationElement}
+	 */
+	public EquationElement createEquationElement(final EquationScope scope) {
+		return this.getParentAlgorithm().buildEquationElementForGeo(this, scope);
+	}
+	
+	@Override
+	public boolean isLocusEquable() {
+		return this.getParentAlgorithm() != null &&
+				this.getParentAlgorithm().isLocusEquable();
+	}
 }

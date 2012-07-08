@@ -19,6 +19,8 @@ import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint;
+import geogebra.common.kernel.locusequ.EquationElement;
+import geogebra.common.kernel.locusequ.EquationScope;
 
 /**
  * @author Victor Franco Espino 
@@ -128,5 +130,17 @@ public class AlgoTangentCurve extends AlgoUsingTempCASalgo {
 
 		if (!pointOnCurve)
 			T.setCoords(feval[0], feval[1], 1.0);
+	}
+
+	@Override
+	public EquationElement buildEquationElementForGeo(GeoElement element,
+			EquationScope scope) {
+		return null;
+	}
+
+	@Override
+	public boolean isLocusEquable() {
+		// TODO Consider locusequability
+		return false;
 	}
 }

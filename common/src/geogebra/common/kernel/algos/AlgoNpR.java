@@ -7,6 +7,8 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.kernel.locusequ.EquationElement;
+import geogebra.common.kernel.locusequ.EquationScope;
 import geogebra.common.util.MyMath2;
 
 public class AlgoNpR extends AlgoElement {
@@ -102,6 +104,18 @@ public class AlgoNpR extends AlgoElement {
 		
 		return Math.floor(0.5+Math.exp(MyMath2.logGamma(n+1d)-MyMath2.logGamma(n-r+1)));
 		
+	}
+
+	@Override
+	public EquationElement buildEquationElementForGeo(GeoElement element,
+			EquationScope scope) {
+		return null;
+	}
+
+	@Override
+	public boolean isLocusEquable() {
+		// TODO Consider locusequability
+		return false;
 	}
 
 }

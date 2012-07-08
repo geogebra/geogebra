@@ -21,6 +21,9 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoVec3D;
+import geogebra.common.kernel.locusequ.EquationElement;
+import geogebra.common.kernel.locusequ.EquationScope;
+import geogebra.common.kernel.locusequ.elements.EquationTangentPoint;
 
 /**
  * Two tangents through point P to conic section c
@@ -110,10 +113,12 @@ public class AlgoTangentPoint extends AlgoElement implements TangentAlgo {
     public GeoLine[] getTangents() {
         return tangents;
     }
-    GeoPoint getPoint() {
+    // Made public for LocusEqu
+    public GeoPoint getPoint() {
         return P;
     }
-    GeoConic getConic() {
+    // Made public for LocusEqu
+    public GeoConic getConic() {
         return c;
     }       
 
@@ -210,4 +215,15 @@ public class AlgoTangentPoint extends AlgoElement implements TangentAlgo {
     	return app.getPlain("TangentToAThroughB",c.getLabel(tpl),P.getLabel(tpl));
 
     }
+
+	@Override
+	public EquationElement buildEquationElementForGeo(GeoElement element,
+			EquationScope scope) {
+		return new EquationTangentPoint(element, scope);
+	}
+
+	@Override
+	public boolean isLocusEquable() {
+		return true;
+	}
 }

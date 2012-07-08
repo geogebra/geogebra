@@ -28,6 +28,8 @@ import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.PointRotateable;
+import geogebra.common.kernel.locusequ.EquationElement;
+import geogebra.common.kernel.locusequ.EquationScope;
 
 
 /**
@@ -142,6 +144,18 @@ public class AlgoRotatePoint extends AlgoTransformation {
 		if(geo instanceof GeoFunction)
 			return new GeoCurveCartesian(cons);
 		return super.getResultTemplate(geo);
+	}
+
+	@Override
+	public EquationElement buildEquationElementForGeo(GeoElement element,
+			EquationScope scope) {
+		return null;
+	}
+
+	@Override
+	public boolean isLocusEquable() {
+		// TODO Consider locusequability
+		return false;
 	}
     
 }

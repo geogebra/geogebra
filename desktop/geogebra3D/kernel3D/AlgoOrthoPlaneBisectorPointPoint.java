@@ -18,6 +18,8 @@ import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.kernel.locusequ.EquationElement;
+import geogebra.common.kernel.locusequ.EquationScope;
 
 
 /**
@@ -62,5 +64,17 @@ public class AlgoOrthoPlaneBisectorPointPoint extends AlgoOrthoPlane {
 	protected Coords getPoint(){
     	return point1.getInhomCoordsInD(3).add(point2.getInhomCoordsInD(3)).mul(0.5);
     }
+
+	@Override
+	public EquationElement buildEquationElementForGeo(GeoElement element,
+			EquationScope scope) {
+		return null;
+	}
+
+	@Override
+	public boolean isLocusEquable() {
+		// TODO Consider locusequability
+		return false;
+	}
 
 }

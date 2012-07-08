@@ -33,6 +33,8 @@ import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPoly;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.kernel.locusequ.EquationElement;
+import geogebra.common.kernel.locusequ.EquationScope;
 import geogebra.common.main.App;
 import geogebra.common.plugin.Operation;
 import geogebra.common.util.MyMath;
@@ -251,6 +253,18 @@ public class AlgoAttachCopyToView extends AlgoTransformation {
 		viewID = new GeoNumeric(cons, viewID2);
 		input[1] = viewID.toGeoElement();
 		
+	}
+
+	@Override
+	public EquationElement buildEquationElementForGeo(GeoElement element,
+			EquationScope scope) {
+		return null;
+	}
+
+	@Override
+	public boolean isLocusEquable() {
+		// TODO Consider locusequability
+		return false;
 	}
 
 }

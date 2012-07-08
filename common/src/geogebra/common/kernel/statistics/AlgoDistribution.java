@@ -19,6 +19,8 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.kernel.locusequ.EquationElement;
+import geogebra.common.kernel.locusequ.EquationScope;
 
 import java.util.ArrayList;
 
@@ -258,6 +260,18 @@ public abstract class AlgoDistribution extends AlgoElement {
 		if (zipf == null || zipf.getNumberOfElements()!= param || zipf.getExponent()!=param2)
 			zipf = new ZipfDistributionImpl(param, param2);
 		return zipf;
+	}
+
+	@Override
+	public EquationElement buildEquationElementForGeo(GeoElement element,
+			EquationScope scope) {
+		return null;
+	}
+
+	@Override
+	public boolean isLocusEquable() {
+		// TODO Consider locusequability
+		return false;
 	}
 
 }

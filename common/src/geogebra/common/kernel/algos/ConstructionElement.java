@@ -271,4 +271,9 @@ public abstract class ConstructionElement implements
 	 * @return e.g. "A=(1,2)"
 	 */
 	public abstract String toString(StringTemplate tpl);
+	
+	/**
+	 * @return true iff this element can be used in locus equation construction.
+	 */
+	public abstract boolean isLocusEquable();
 }

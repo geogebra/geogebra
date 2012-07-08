@@ -68,8 +68,12 @@ public class EquationScope {
     }
     
     public EquationList getRestrictionsFromAlgo(AlgoElement algo) {
-        // FIXME: do it
-    	return EquationList.getEmptyList();
+    	
+    	if(algo instanceof RestrictionAlgoForLocusEquation) {
+    		return ((EquationRestriction) algo.buildEquationElementForGeo(null, this)).getEquationList();
+    	} else {
+    		return EquationList.getEmptyList();
+    	}
     }
     
     /**

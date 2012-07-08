@@ -3,6 +3,8 @@
  */
 package geogebra.common.kernel.locusequ.arith;
 
+import geogebra.common.kernel.locusequ.EquationTranslator;
+
 /**
  * @author sergio
  * Represents a special symbolic value.
@@ -22,13 +24,10 @@ public class EquationSpecialSymbolicValue extends EquationSymbolicValue {
         return true;
     }
 
-    /*
-     * FIXME: in case translator is kept.
     @Override
     protected <T> T translateImpl(EquationTranslator<T> translator) {
         return translator.specialSymbolic(this.getId());
     }
-    */
 
     @Override
     public long toLong() {

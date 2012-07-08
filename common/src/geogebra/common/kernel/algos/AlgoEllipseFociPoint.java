@@ -28,6 +28,9 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
+import geogebra.common.kernel.locusequ.EquationElement;
+import geogebra.common.kernel.locusequ.EquationScope;
+import geogebra.common.kernel.locusequ.elements.EquationEllipseFociPoint;
 
 /**
  *
@@ -103,11 +106,22 @@ public class AlgoEllipseFociPoint extends AlgoElement {
     public GeoConic getEllipse() {
         return ellipse;
     }
-    GeoPoint getFocus1() {
+    
+    public GeoPoint getFocus1() {
+    	// Public for LocusEqu
         return A;
     }
-    GeoPoint getFocus2() {
+    public GeoPoint getFocus2() {
+    	// Public for LocusEqu
         return B;
+    }
+    
+    /**
+     * Method for LocusEqu
+     * @return returns external point for ellipse.
+     */
+    public GeoPoint getExternalPoint() {
+    	return C;
     }
 
     // compute ellipse with foci A, B passing through C
@@ -132,4 +146,15 @@ public class AlgoEllipseFociPoint extends AlgoElement {
         return app.getPlain("EllipseWithFociABPassingThroughC",A.getLabel(tpl),
         		B.getLabel(tpl),C.getLabel(tpl));
     }
+
+	@Override
+	public EquationElement buildEquationElementForGeo(GeoElement element,
+			EquationScope scope) {
+		return new EquationEllipseFociPoint(element, scope);
+	}
+
+	@Override
+	public boolean isLocusEquable() {
+		return true;
+	}
 }

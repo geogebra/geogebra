@@ -21,6 +21,8 @@ import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.kernel.locusequ.EquationElement;
+import geogebra.common.kernel.locusequ.EquationScope;
 
 
 /**
@@ -151,6 +153,24 @@ public abstract class AlgoCircle3DPointDirection extends AlgoElement3D {
      * @return command string
      */
     abstract protected String getCommandString();
+    
+    /*
+	 * This should apply to every subclass. In case it does not,
+	 * a case per case should be used.
+	 */
+    
+
+	@Override
+	public EquationElement buildEquationElementForGeo(GeoElement element,
+			EquationScope scope) {
+		return null;
+	}
+
+	@Override
+	public boolean isLocusEquable() {
+		// TODO Consider locusequability
+		return false;
+	}
 
     
 }

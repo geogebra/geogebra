@@ -3,6 +3,8 @@
  */
 package geogebra.common.kernel.locusequ.arith;
 
+import geogebra.common.kernel.locusequ.EquationTranslator;
+
 /**
  * @author sergio
  * Represent expr1/expr2
@@ -70,4 +72,10 @@ public class EquationDivOperator extends EquationBinaryOperator {
             return a/b;
         }
     }
+
+	@Override
+	protected <T> T translateImpl(EquationTranslator<T> translator) {
+		return translator.div(this.getFirstExpression().translate(translator),
+							  this.getSecondExpression().translate(translator));
+	}
 }

@@ -28,6 +28,10 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoSegment;
+import geogebra.common.kernel.locusequ.EquationElement;
+import geogebra.common.kernel.locusequ.EquationScope;
+import geogebra.common.kernel.locusequ.RestrictionAlgoForLocusEquation;
+import geogebra.common.kernel.locusequ.elements.EquationMidpointSegmentRestriction;
 import geogebra.common.kernel.prover.NoSymbolicParametersException;
 import geogebra.common.kernel.prover.Polynomial;
 import geogebra.common.kernel.prover.Variable;
@@ -39,7 +43,7 @@ import geogebra.common.kernel.prover.Variable;
  * @version 
  */
 public class AlgoMidpointSegment extends AlgoElement implements SymbolicParametersAlgo,
-	SymbolicParametersBotanaAlgo {
+	SymbolicParametersBotanaAlgo, RestrictionAlgoForLocusEquation {
 
     private GeoSegment segment; // input
     private GeoPoint M; // output        
@@ -92,6 +96,16 @@ public class AlgoMidpointSegment extends AlgoElement implements SymbolicParamete
         setDependencies(); // done by AlgoElement
     }
 
+    // Created for LocusEqu
+    public GeoPoint getP() {
+    	return P;
+    }
+    
+    // Created for LocusEqu
+    public GeoPoint getQ() {
+    	return Q;
+    }
+    
     public GeoPoint getPoint() {
         return M;
     }
@@ -205,6 +219,17 @@ public class AlgoMidpointSegment extends AlgoElement implements SymbolicParamete
 		botanaPolynomials = SymbolicParameters.botanaPolynomialsMidpoint(P,Q,botanaVars);
 		return botanaPolynomials;
 		
+	}
+
+	@Override
+	public EquationElement buildEquationElementForGeo(GeoElement element,
+			EquationScope scope) {
+		return new EquationMidpointSegmentRestriction(element, this, scope);
+	}
+
+	@Override
+	public boolean isLocusEquable() {
+		return true;
 	}
 
     

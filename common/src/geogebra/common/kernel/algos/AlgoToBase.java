@@ -7,6 +7,8 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
+import geogebra.common.kernel.locusequ.EquationElement;
+import geogebra.common.kernel.locusequ.EquationScope;
 import geogebra.common.util.StringUtil;
 /**
  * Allows conversion of numbers to different bases via ToBase[number, base]
@@ -84,6 +86,18 @@ public class AlgoToBase extends AlgoElement {
 	@Override
 	public Algos getClassName() {
 		return Algos.AlgoToBase;
+	}
+
+	@Override
+	public EquationElement buildEquationElementForGeo(GeoElement element,
+			EquationScope scope) {
+		return null;
+	}
+
+	@Override
+	public boolean isLocusEquable() {
+		// TODO Consider locusequability
+		return false;
 	}
 
 }

@@ -18,6 +18,8 @@ import geogebra.common.kernel.Matrix.CoordSys;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.kernel.locusequ.EquationElement;
+import geogebra.common.kernel.locusequ.EquationScope;
 
 
 /**
@@ -81,4 +83,16 @@ public class AlgoPlaneThroughPointAndPlane extends AlgoPlaneThroughPoint {
 	protected GeoElement getSecondInput(){
     	return (GeoElement) cs;
     }
+
+	@Override
+	public EquationElement buildEquationElementForGeo(GeoElement element,
+			EquationScope scope) {
+		return null;
+	}
+
+	@Override
+	public boolean isLocusEquable() {
+		// TODO Consider locusequability
+		return false;
+	}
 }

@@ -29,13 +29,17 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoSegment;
+import geogebra.common.kernel.locusequ.EquationElement;
+import geogebra.common.kernel.locusequ.EquationScope;
+import geogebra.common.kernel.locusequ.RestrictionAlgoForLocusEquation;
+import geogebra.common.kernel.locusequ.elements.EquationPointOnPathRestriction;
 import geogebra.common.kernel.prover.Variable;
 import geogebra.common.kernel.prover.NoSymbolicParametersException;
 import geogebra.common.kernel.prover.Polynomial;
 
 
 public class AlgoPointOnPath extends AlgoElement implements PathAlgo, SymbolicParametersAlgo,
-	SymbolicParametersBotanaAlgo {
+	SymbolicParametersBotanaAlgo, RestrictionAlgoForLocusEquation {
 
 	private Path path; // input
     private GeoPoint P; // output      
@@ -279,5 +283,16 @@ public class AlgoPointOnPath extends AlgoElement implements PathAlgo, SymbolicPa
 
 	public Variable[] getBotanaVars(GeoElement geo) {
 		return botanaVars;
+	}
+
+	@Override
+	public EquationElement buildEquationElementForGeo(GeoElement element,
+			EquationScope scope) {
+		return new EquationPointOnPathRestriction(element, this, scope);
+	}
+
+	@Override
+	public boolean isLocusEquable() {
+		return true;
 	}
 }

@@ -26,6 +26,9 @@ import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.Polynomial;
+import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.locusequ.EquationElement;
+import geogebra.common.kernel.locusequ.EquationScope;
 
 /**
  *
@@ -117,5 +120,17 @@ public class AlgoDependentPlane3D extends AlgoElement3D {
 	final public String toString(StringTemplate tpl) { 
     	return equation.toString(tpl);
     } 
+
+	@Override
+	public EquationElement buildEquationElementForGeo(GeoElement element,
+			EquationScope scope) {
+		return null;
+	}
+
+	@Override
+	public boolean isLocusEquable() {
+		// TODO Consider locusequability
+		return false;
+	}
     
 }

@@ -22,6 +22,8 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
+import geogebra.common.kernel.locusequ.EquationElement;
+import geogebra.common.kernel.locusequ.EquationScope;
 
 /**
  * Returns the name of a GeoElement as a GeoText.
@@ -109,5 +111,17 @@ public class AlgoName extends AlgoElement {
 			text.setTextString(geo.getRealFormulaString(
 					StringTemplate.defaultTemplate, false));
 		}
+	}
+
+	@Override
+	public EquationElement buildEquationElementForGeo(GeoElement element,
+			EquationScope scope) {
+		return null;
+	}
+
+	@Override
+	public boolean isLocusEquable() {
+		// TODO Consider locusequability
+		return false;
 	}
 }

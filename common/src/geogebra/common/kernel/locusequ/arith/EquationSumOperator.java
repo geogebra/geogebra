@@ -3,6 +3,8 @@
  */
 package geogebra.common.kernel.locusequ.arith;
 
+import geogebra.common.kernel.locusequ.EquationTranslator;
+
 /**
  * @author sergio
  * Represents the sum of two expressions.
@@ -43,4 +45,10 @@ public class EquationSumOperator extends EquationBinaryOperator {
     protected double operation(double a, double b) {
         return a+b;
     }
+
+	@Override
+	protected <T> T translateImpl(EquationTranslator<T> translator) {
+		return translator.sum(this.getFirstExpression().translate(translator),
+				              this.getSecondExpression().translate(translator));
+	}
 }

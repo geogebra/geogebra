@@ -3,6 +3,8 @@
  */
 package geogebra.common.kernel.locusequ.arith;
 
+import geogebra.common.kernel.locusequ.EquationTranslator;
+
 /**
  * @author sergio
  * Represents the opposite of a given expression.
@@ -54,5 +56,10 @@ public class EquationOppositeOperator extends EquationUnaryOperator {
 	@Override
 	public String toString() {
 		return "-"+this.getOriginalExpression().toString();
+	}
+
+	@Override
+	protected <T> T translateImpl(EquationTranslator<T> translator) {
+		return translator.opposite(this.getOriginalExpression().translate(translator));
 	}
 }

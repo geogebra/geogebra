@@ -20,6 +20,8 @@ import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint;
+import geogebra.common.kernel.locusequ.EquationElement;
+import geogebra.common.kernel.locusequ.EquationScope;
 
 /**
  *	Algorithm to calculate all tangents to the implicit polynomial equation
@@ -218,5 +220,17 @@ public class AlgoTangentImplicitpoly extends AlgoElement {
 	 */
 	public GeoPoint[] getTangentPoints() {
 		return ip;
+	}
+
+	@Override
+	public EquationElement buildEquationElementForGeo(GeoElement element,
+			EquationScope scope) {
+		return null;
+	}
+
+	@Override
+	public boolean isLocusEquable() {
+		// TODO Consider locusequability
+		return false;
 	}
 }

@@ -3,6 +3,8 @@
  */
 package geogebra.common.kernel.locusequ.arith;
 
+import geogebra.common.kernel.locusequ.EquationTranslator;
+
 /**
  * @author sergio
  * Represent baseExpr ^ expExpr
@@ -67,4 +69,10 @@ public class EquationExpOperator extends EquationBinaryOperator {
         }
         return Math.pow(a, b);
     }
+
+	@Override
+	protected <T> T translateImpl(EquationTranslator<T> translator) {
+		return translator.exp(this.getBase().translate(translator),
+				this.getExp().toLong());
+	}
 }

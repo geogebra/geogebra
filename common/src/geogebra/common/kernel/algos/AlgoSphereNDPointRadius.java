@@ -120,9 +120,25 @@ public abstract class AlgoSphereNDPointRadius extends AlgoElement {
 	protected GeoPointND getM() {
 		return M;
 	}
+	
+	/**
+	 * Method added for LocusEqu project.
+	 * @return center of sphere.
+	 */
+	public GeoPointND getCenter() {
+		return this.getM();
+	}
 
 	protected GeoElement getRGeo() {
 		return rgeo;
+	}
+	
+	/**
+	 * Method added for LocusEqu project.
+	 * @return radius of sphere.
+	 */
+	public GeoElement getRadiusGeo() {
+		return this.getRGeo();
 	}
 
 	// compute circle with midpoint M and radius r

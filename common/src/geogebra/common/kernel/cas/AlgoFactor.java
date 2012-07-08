@@ -17,6 +17,9 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import geogebra.common.kernel.geos.CasEvaluableFunction;
+import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.locusequ.EquationElement;
+import geogebra.common.kernel.locusequ.EquationScope;
 
 /**
  * Factor a function
@@ -38,5 +41,17 @@ public class AlgoFactor extends AlgoCasBase {
 	protected void applyCasCommand(StringTemplate tpl) {
 		// factor value form of f
 		g.setUsingCasCommand("Factor(%)", f, false,arbconst);		
+	}
+
+	@Override
+	public EquationElement buildEquationElementForGeo(GeoElement element,
+			EquationScope scope) {
+		return null;
+	}
+
+	@Override
+	public boolean isLocusEquable() {
+		// TODO Consider locusequability
+		return false;
 	}
 }

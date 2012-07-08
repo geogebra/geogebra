@@ -14,6 +14,8 @@ import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.implicit.AlgoDependentImplicitPoly;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
+import geogebra.common.kernel.locusequ.EquationElement;
+import geogebra.common.kernel.locusequ.EquationScope;
 import geogebra.common.main.App;
 import geogebra.common.plugin.Operation;
 
@@ -153,6 +155,18 @@ public class AlgoTriangleCurve extends AlgoElement implements ExpressionNodeCons
 			poly.update();
 		}
 		
+	}
+
+	@Override
+	public EquationElement buildEquationElementForGeo(GeoElement element,
+			EquationScope scope) {
+		return null;
+	}
+
+	@Override
+	public boolean isLocusEquable() {
+		// TODO Consider locusequability
+		return false;
 	}
 
 	

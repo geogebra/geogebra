@@ -20,6 +20,8 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
+import geogebra.common.kernel.locusequ.EquationElement;
+import geogebra.common.kernel.locusequ.EquationScope;
 import geogebra.common.main.App;
 
 public class AlgoDrawingPadCorner extends AlgoElement {
@@ -136,6 +138,18 @@ public class AlgoDrawingPadCorner extends AlgoElement {
 	@Override
 	final public String toString(StringTemplate tpl) {
 		return getCommandDescription(tpl);
+	}
+
+	@Override
+	public EquationElement buildEquationElementForGeo(GeoElement element,
+			EquationScope scope) {
+		return null;
+	}
+
+	@Override
+	public boolean isLocusEquable() {
+		// TODO Consider locusequability
+		return false;
 	}
 
 }

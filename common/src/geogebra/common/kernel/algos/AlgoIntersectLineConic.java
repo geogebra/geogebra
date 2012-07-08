@@ -28,10 +28,13 @@ import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoConicNDConstants;
+import geogebra.common.kernel.locusequ.EquationElement;
+import geogebra.common.kernel.locusequ.EquationScope;
+import geogebra.common.kernel.locusequ.RestrictionAlgoForLocusEquation;
+import geogebra.common.kernel.locusequ.elements.EquationIntersectLineConicRestriction;
 import geogebra.common.kernel.prover.NoSymbolicParametersException;
 import geogebra.common.kernel.prover.Polynomial;
 import geogebra.common.kernel.prover.Variable;
-import geogebra.common.main.App;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -42,7 +45,8 @@ import java.util.Iterator;
  * @author Markus
  * @version
  */
-public class AlgoIntersectLineConic extends AlgoIntersect implements SymbolicParametersBotanaAlgo{
+public class AlgoIntersectLineConic extends AlgoIntersect implements SymbolicParametersBotanaAlgo,
+	RestrictionAlgoForLocusEquation{
 
 	protected GeoLine g; // input
 	protected GeoConic c;
@@ -179,11 +183,13 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements SymbolicPar
 		return P;
 	}
 
-	GeoLine getLine() {
+	// Made public for LocusEqu
+	public GeoLine getLine() {
 		return g;
 	}
 
-	GeoConic getConic() {
+	// Made public for LocusEqu
+	public GeoConic getConic() {
 		return c;
 	}
 
@@ -804,6 +810,17 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements SymbolicPar
 			
 		}
 		throw new NoSymbolicParametersException();
+	}
+
+	@Override
+	public EquationElement buildEquationElementForGeo(GeoElement element,
+			EquationScope scope) {
+		return new EquationIntersectLineConicRestriction(element, this, scope);
+	}
+
+	@Override
+	public boolean isLocusEquable() {
+		return true;
 	}
 
 }

@@ -85,6 +85,17 @@ public abstract class AlgoIntersect extends AlgoIntersectND {
     @Override
 	protected abstract GeoPoint[] getIntersectionPoints();
     
+    /**
+     * Implemented for LocusEqu.
+     * @return a new array with the exact same members as getIntersectionPoints.
+     */
+    public GeoPoint[] getCopyOfIntersectionPoints() {
+    	GeoPoint[] orig = this.getIntersectionPoints();
+    	GeoPoint[] copy = new GeoPoint[orig.length];
+    	System.arraycopy(orig, 0, copy, 0, copy.length);
+    	return copy;
+    }
+    
     @Override
 	protected abstract GeoPoint[] getLastDefinedIntersectionPoints();
 
@@ -92,5 +103,4 @@ public abstract class AlgoIntersect extends AlgoIntersectND {
 	protected void setCoords(GeoPointND destination, GeoPointND source){
     	((GeoPoint) destination).setCoords((GeoPoint) source);
     }
-
 }

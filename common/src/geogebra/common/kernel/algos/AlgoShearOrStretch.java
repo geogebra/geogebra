@@ -33,6 +33,8 @@ import geogebra.common.kernel.geos.GeoPoly;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.geos.Translateable;
+import geogebra.common.kernel.locusequ.EquationElement;
+import geogebra.common.kernel.locusequ.EquationScope;
 
 
 /**
@@ -192,6 +194,18 @@ public class AlgoShearOrStretch extends AlgoTransformation {
  		   return posOrientation;
  	   return posOrientation ^ (num.getDouble()<0);
     }
+
+	@Override
+	public EquationElement buildEquationElementForGeo(GeoElement element,
+			EquationScope scope) {
+		return null;
+	}
+
+	@Override
+	public boolean isLocusEquable() {
+		// TODO Consider locusequability
+		return false;
+	}
 
 }
 

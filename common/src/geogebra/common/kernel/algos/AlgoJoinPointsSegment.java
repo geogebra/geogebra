@@ -30,6 +30,9 @@ import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoVec3D;
+import geogebra.common.kernel.locusequ.EquationElement;
+import geogebra.common.kernel.locusequ.EquationScope;
+import geogebra.common.kernel.locusequ.elements.EquationJoinPointsSegment;
 import geogebra.common.kernel.prover.NoSymbolicParametersException;
 import geogebra.common.kernel.prover.Polynomial;
 import geogebra.common.kernel.prover.Variable;
@@ -145,10 +148,12 @@ public class AlgoJoinPointsSegment extends AlgoElement implements AlgoJoinPoints
     public GeoSegment getSegment() {
         return s;
     }
-    GeoPoint getP() {
+    // Made public for LocusEqu
+    public GeoPoint getP() {
         return P;
     }
-    GeoPoint getQ() {
+    // Made public for LocusEqu
+    public GeoPoint getQ() {
         return Q;
     }
     
@@ -261,6 +266,17 @@ public class AlgoJoinPointsSegment extends AlgoElement implements AlgoJoinPoints
 			}
 		}
 		throw new NoSymbolicParametersException();
+	}
+
+	@Override
+	public EquationElement buildEquationElementForGeo(GeoElement element,
+			EquationScope scope) {
+		return new EquationJoinPointsSegment(element, scope);
+	}
+
+	@Override
+	public boolean isLocusEquable() {
+		return true;
 	}
 	
 }

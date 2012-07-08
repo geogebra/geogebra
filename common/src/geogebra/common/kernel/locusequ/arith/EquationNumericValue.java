@@ -1,10 +1,13 @@
 package geogebra.common.kernel.locusequ.arith;
 
+import geogebra.common.kernel.locusequ.EquationElement;
+import geogebra.common.kernel.locusequ.EquationTranslator;
+
 /**
  * @author sergio
  * Represents a Numeric Value.
  */
-public class EquationNumericValue extends EquationTerm {
+public class EquationNumericValue extends EquationValue {
 	private double value;
 
     public static final EquationNumericValue ZERO = new EquationNumericValue(0);
@@ -48,13 +51,10 @@ public class EquationNumericValue extends EquationTerm {
         return true;
     }
 
-    /*
-     * FIXME: if translator is kept.
     @Override
     protected <T> T translateImpl(EquationTranslator<T> translator) {
         return translator.number(this.getValue());
     }
-    */
 
     @Override
     public long toLong() {
@@ -67,13 +67,23 @@ public class EquationNumericValue extends EquationTerm {
     }
 
     @Override
-    public boolean containsSymbolicValues() {
+	protected boolean containsSymbolicValuesImpl() {
         return false;
     }
 
     @Override
     protected double computeValueImpl() {
         return this.getValue();
+    }
+    
+    @Override
+    public EquationExpression getOpposite() {
+    	return EquationNumericValue.from(-this.getValue());
+    }
+    
+    @Override
+    public EquationExpression getInverse() {
+    	return EquationNumericValue.from(1/this.getValue());
     }
 
 }

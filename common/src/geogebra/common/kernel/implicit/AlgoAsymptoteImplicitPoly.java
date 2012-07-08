@@ -20,6 +20,8 @@ import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.kernel.locusequ.EquationElement;
+import geogebra.common.kernel.locusequ.EquationScope;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.util.Cloner;
 
@@ -389,5 +391,17 @@ public class AlgoAsymptoteImplicitPoly extends AlgoElement {
 //    			sum += mat[j][i];
 //    	return sum;
 //    }
+
+	@Override
+	public EquationElement buildEquationElementForGeo(GeoElement element,
+			EquationScope scope) {
+		return null;
+	}
+
+	@Override
+	public boolean isLocusEquable() {
+		// TODO Consider locusequability
+		return false;
+	}
  
 }

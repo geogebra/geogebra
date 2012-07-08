@@ -19,6 +19,8 @@ import geogebra.common.kernel.Matrix.CoordSys;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.kernel.locusequ.EquationElement;
+import geogebra.common.kernel.locusequ.EquationScope;
 
 
 /**
@@ -84,5 +86,17 @@ public class AlgoPlaneThroughPointAndLine extends AlgoPlaneThroughPoint {
     	return app.getPlain("PlaneThroughAB",getPoint().getLabel(tpl),getSecondInput().getLabel(tpl));
 
     }
+
+	@Override
+	public EquationElement buildEquationElementForGeo(GeoElement element,
+			EquationScope scope) {
+		return null;
+	}
+
+	@Override
+	public boolean isLocusEquable() {
+		// TODO Consider locusequability
+		return false;
+	}
 
 }

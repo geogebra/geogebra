@@ -21,6 +21,8 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.kernel.locusequ.EquationElement;
+import geogebra.common.kernel.locusequ.EquationScope;
 
 /**
  * Parent algorithm for commands that are functions of R^2 -> R
@@ -67,5 +69,24 @@ public abstract class AlgoTwoNumFunction extends AlgoElement {
 
     @Override
 	public
-	abstract void compute();     
+	abstract void compute();
+    
+    /*
+	 * This should apply to every subclass. In case it does not,
+	 * a case per case should be used.
+	 * It produces a GeoNumeric, so beware GeoNumeric will be
+	 * treated differently than points.
+	 */
+    
+	@Override
+	public EquationElement buildEquationElementForGeo(GeoElement element,
+			EquationScope scope) {
+		return null;
+	}
+
+	@Override
+	public boolean isLocusEquable() {
+		// TODO Consider locusequability
+		return false;
+	}     
 }

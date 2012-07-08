@@ -25,6 +25,8 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPoly;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.kernel.locusequ.EquationElement;
+import geogebra.common.kernel.locusequ.EquationScope;
 import geogebra.common.main.App;
 
 /**
@@ -204,16 +206,28 @@ public class AlgoVertexPolygon extends AlgoElement {
 	public GeoPoint getOneVertex(){
 		return oneVertex;
 	}
-	
-	 private OutputHandler<GeoElement> createOutputPoints(){
-	    	return new OutputHandler<GeoElement>(new elementFactory<GeoElement>() {
-				public GeoPoint newElement() {
-					GeoPoint pt=new GeoPoint(cons);
-					pt.setCoords(0, 0, 1);
-					pt.setParentAlgorithm(AlgoVertexPolygon.this);
-					return pt;
-				}
-			});
-	    }
+
+	private OutputHandler<GeoElement> createOutputPoints(){
+		return new OutputHandler<GeoElement>(new elementFactory<GeoElement>() {
+			public GeoPoint newElement() {
+				GeoPoint pt=new GeoPoint(cons);
+				pt.setCoords(0, 0, 1);
+				pt.setParentAlgorithm(AlgoVertexPolygon.this);
+				return pt;
+			}
+		});
+	}
+
+	@Override
+	public EquationElement buildEquationElementForGeo(GeoElement element,
+			EquationScope scope) {
+		return null;
+	}
+
+	@Override
+	public boolean isLocusEquable() {
+		// TODO Consider locusequability
+		return false;
+	}
 
 }

@@ -3,6 +3,8 @@
  */
 package geogebra.common.kernel.locusequ.arith;
 
+import geogebra.common.kernel.locusequ.EquationTranslator;
+
 /**
  * @author sergio
  * Represents the product of two expressions.
@@ -24,19 +26,6 @@ public class EquationProductOperator extends EquationBinaryOperator {
         return true;
     }
 
-    /*
-     * FIXME: in case translator is kept.
-    @Override
-    protected <T> T translateImpl(EquationTranslator<T> translator) {
-        T a,b;
-        
-        a = this.getFirstExpression().translate(translator);
-        b = this.getSecondExpression().translate(translator);
-        
-        return translator.product(a, b);
-    }
-    */
-
     @Override
     public long toLong() {
         
@@ -52,4 +41,10 @@ public class EquationProductOperator extends EquationBinaryOperator {
     protected double operation(double a, double b) {
         return a*b;
     }
+
+	@Override
+	protected <T> T translateImpl(EquationTranslator<T> translator) {
+		return translator.product(this.getFirstExpression().translate(translator),
+								  this.getSecondExpression().translate(translator));
+	}
 }

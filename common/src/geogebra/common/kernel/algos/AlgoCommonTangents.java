@@ -26,6 +26,8 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoVec3D;
+import geogebra.common.kernel.locusequ.EquationElement;
+import geogebra.common.kernel.locusequ.EquationScope;
 
 /**
  * Two tangents through point P to conic section c
@@ -270,6 +272,18 @@ public class AlgoCommonTangents extends AlgoElement {
         // simplified to allow better Chinese translation
         return app.getPlain("CommonTangentOfCirclesAandB", c.getLabel(tpl), c2.getLabel(tpl));
     }
+
+	@Override
+	public EquationElement buildEquationElementForGeo(GeoElement element,
+			EquationScope scope) {
+		return null;
+	}
+
+	@Override
+	public boolean isLocusEquable() {
+		// TODO Consider locusequability
+		return false;
+	}
 }
 
 // Local Variables:

@@ -18,6 +18,8 @@ import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.locusequ.EquationElement;
+import geogebra.common.kernel.locusequ.EquationScope;
 
 /**
  * Parametric derivative of a curve c. The parametric derivative of a 
@@ -74,11 +76,22 @@ public class AlgoParametricDerivative extends AlgoElement {
 		// (x(t), y'(t)/x'(t))
 		paramDeriv.setParametricDerivative(curve);
 	}
+
+	@Override
+	public EquationElement buildEquationElementForGeo(GeoElement element,
+			EquationScope scope) {
+		return null;
+	}
+
+	@Override
+	public boolean isLocusEquable() {
+		// TODO Consider locusequability
+		return false;
+	}
 	
-    @Override
+	@Override
 	final public String toString(StringTemplate tpl) {
                 
 	    return app.getPlain("ParametricDerivativeOfA",curve.toGeoElement().getLabel(tpl));
-     }
-
+    }
 }

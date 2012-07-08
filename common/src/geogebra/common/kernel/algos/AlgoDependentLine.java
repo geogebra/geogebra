@@ -25,8 +25,11 @@ import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.Polynomial;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint;
+import geogebra.common.kernel.locusequ.EquationElement;
+import geogebra.common.kernel.locusequ.EquationScope;
 
 /**
  *
@@ -126,6 +129,18 @@ public class AlgoDependentLine extends AlgoElement implements EvaluateAtPoint {
 		double mat1 = ev[1].evaluateNum().getDouble(); // y\u00b2
 		double mat2 = ev[2].evaluateNum().getDouble(); // constant
 		return P.x *mat0 + P.y * mat1 + P.z * mat2;
+	}
+
+	@Override
+	public EquationElement buildEquationElementForGeo(GeoElement element,
+			EquationScope scope) {
+		return null;
+	}
+
+	@Override
+	public boolean isLocusEquable() {
+		// TODO Consider locusequability
+		return false;
 	}
     
 }

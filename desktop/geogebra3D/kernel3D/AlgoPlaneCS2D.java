@@ -6,6 +6,8 @@ import geogebra.common.kernel.Matrix.CoordSys;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoCoordSys2D;
+import geogebra.common.kernel.locusequ.EquationElement;
+import geogebra.common.kernel.locusequ.EquationScope;
 
 /**
  * Create a plane containing a 2D coord sys
@@ -92,5 +94,17 @@ public class AlgoPlaneCS2D extends AlgoElement3D {
     	return app.getPlain("PlaneContainingA",((GeoElement) csInput).getLabel(tpl));
 
     }
+
+	@Override
+	public EquationElement buildEquationElementForGeo(GeoElement element,
+			EquationScope scope) {
+		return null;
+	}
+
+	@Override
+	public boolean isLocusEquable() {
+		// TODO Consider locusequability
+		return false;
+	}
 
 }

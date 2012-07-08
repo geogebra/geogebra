@@ -22,6 +22,8 @@ import geogebra.common.kernel.geos.GeoPenStroke;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPolyLine;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.kernel.locusequ.EquationElement;
+import geogebra.common.kernel.locusequ.EquationScope;
 import geogebra.common.plugin.GeoClass;
 
 
@@ -246,5 +248,17 @@ public class AlgoPolyLine extends AlgoElement {
 	public void setPointsList(GeoList newPts) {
 		this.geoList = newPts;
 		
+	}
+
+	@Override
+	public EquationElement buildEquationElementForGeo(GeoElement element,
+			EquationScope scope) {
+		return null;
+	}
+
+	@Override
+	public boolean isLocusEquable() {
+		// TODO Consider locusequability
+		return false;
 	}
 }

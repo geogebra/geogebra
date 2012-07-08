@@ -100,4 +100,9 @@ public abstract class EquationElement {
     protected void setResult(GeoElement result){
         this.result = result;
     }
+    
+    /**
+     * @return true iff this object is a restriction.
+     */
+    public boolean isRestriction() { return false; }
 }

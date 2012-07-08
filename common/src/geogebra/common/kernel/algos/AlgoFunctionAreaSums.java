@@ -22,6 +22,8 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.kernel.locusequ.EquationElement;
+import geogebra.common.kernel.locusequ.EquationScope;
 import geogebra.common.kernel.optimization.ExtremumFinder;
 import geogebra.common.kernel.optimization.NegativeRealRootFunction;
 import geogebra.common.kernel.roots.RealRootFunction;
@@ -1892,4 +1894,23 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 		// updateTime += (endTime - startTime );
 	}
 
+
+	/*
+	 * This should apply to every subclass. In case it does not,
+	 * a case per case should be used.
+	 * It produces a GeoNumeric, so beware GeoNumeric will be
+	 * treated differently than points.
+	 */
+
+	@Override
+	public EquationElement buildEquationElementForGeo(GeoElement element,
+			EquationScope scope) {
+		return null;
+	}
+
+	@Override
+	public boolean isLocusEquable() {
+		// TODO Consider locusequability
+		return false;
+	}
 }

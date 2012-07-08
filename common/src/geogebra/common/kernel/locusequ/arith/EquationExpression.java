@@ -1,8 +1,11 @@
 package geogebra.common.kernel.locusequ.arith;
 
+import geogebra.common.kernel.locusequ.EquationTranslator;
+
 public abstract class EquationExpression {
 	protected EquationExpression opposite = null;
     protected EquationExpression inverse = null;
+    private Boolean containsSymbolicValues = null;
     
     /**
      * Returns an expression for the opposite of current expression.
@@ -10,7 +13,7 @@ public abstract class EquationExpression {
      */
     public EquationExpression getOpposite() {
         if(this.opposite == null) {
-           // this.opposite = new EquationOppositeOperator(this);
+           this.opposite = new EquationOppositeOperator(this);
         }
         return this.opposite;
     }
@@ -21,7 +24,7 @@ public abstract class EquationExpression {
      */
     public EquationExpression getInverse() {
         if(this.inverse == null) {
-           // this.inverse = new EquationInverseOperator(this);
+           this.inverse = new EquationInverseOperator(this);
         }
         return this.inverse;
     }
@@ -160,7 +163,15 @@ public abstract class EquationExpression {
      * Check if this expression contains any kind of symbolic values.
      * @return <code>true</code> iff <code>this</code> contains any kind of symbolic value.
      */
-    public abstract boolean containsSymbolicValues();
+    public boolean containsSymbolicValues() {
+    	if(this.containsSymbolicValues == null) {
+    		this.containsSymbolicValues = this.containsSymbolicValuesImpl();
+    	}
+    	
+    	return this.containsSymbolicValues;
+    }
+    
+    protected abstract boolean containsSymbolicValuesImpl();
     
     /**
      * Computes the value of current expression. It does so iff containsSymbolicValues
@@ -169,7 +180,7 @@ public abstract class EquationExpression {
      * it returns NaN.
      */
     public double computeValue() {
-        if(this.containsSymbolicValues()) {
+        if(this.containsSymbolicValuesImpl()) {
             return Double.NaN;
         }
 		return this.computeValueImpl();
@@ -182,18 +193,22 @@ public abstract class EquationExpression {
      */
     protected abstract double computeValueImpl();
     
-    //protected abstract <T> T translateImpl(EquationTranslator<T> translator);
+    protected abstract <T> T translateImpl(EquationTranslator<T> translator);
     
-    //public <T> T translate(EquationTranslator<T> translator) {
+    public <T> T translate(EquationTranslator<T> translator) {
         // TODO: Implement memoize.
 //        if(translator.containsKey(this)) {
 //            return translator.get(this);
 //        }
         
-    //    return translateImpl(translator);
-    //}
+        return translateImpl(translator);
+    }
 
     public abstract long toLong();
+    
+    public boolean isSimplifiable() {
+    	return !this.containsSymbolicValues() && !Double.isNaN(this.computeValue()); 
+    }
     
     @Override
     public abstract String toString();

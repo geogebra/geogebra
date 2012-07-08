@@ -17,6 +17,8 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.kernel.locusequ.EquationElement;
+import geogebra.common.kernel.locusequ.EquationScope;
 
 /**
  * Returns whether an object is an integer
@@ -64,5 +66,17 @@ public class AlgoIsInteger extends AlgoElement {
 	public final void compute() {
         outputBoolean.setValue(Kernel.isInteger(inputGeo.getDouble()));
     }
+
+	@Override
+	public EquationElement buildEquationElementForGeo(GeoElement element,
+			EquationScope scope) {
+		return null;
+	}
+
+	@Override
+	public boolean isLocusEquable() {
+		// TODO Consider locusequability
+		return false;
+	}
   
 }

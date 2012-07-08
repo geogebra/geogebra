@@ -8,6 +8,8 @@ import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.kernel.locusequ.EquationElement;
+import geogebra.common.kernel.locusequ.EquationScope;
 import geogebra3D.archimedean.support.ArchimedeanSolidFactory;
 import geogebra3D.archimedean.support.IArchimedeanSolid;
 import geogebra3D.archimedean.support.IFace;
@@ -282,6 +284,18 @@ public class AlgoArchimedeanSolid extends AlgoPolyhedron{
 	@Override
 	public Algos getClassName() {
 		return Algos.valueOf(className);
+	}
+
+	@Override
+	public EquationElement buildEquationElementForGeo(GeoElement element,
+			EquationScope scope) {
+		return null;
+	}
+
+	@Override
+	public boolean isLocusEquable() {
+		// TODO Consider locusequability
+		return false;
 	}
 	
     

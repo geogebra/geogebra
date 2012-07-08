@@ -25,8 +25,8 @@ public abstract class EquationUnaryOperator extends EquationOperator{
     }
 
     @Override
-    public boolean containsSymbolicValues() {
-        return this.getOriginalExpression().containsSymbolicValues();
+	protected boolean containsSymbolicValuesImpl() {
+        return this.getOriginalExpression().containsSymbolicValuesImpl();
     }
     
     /**

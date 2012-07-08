@@ -20,6 +20,8 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoPoint;
+import geogebra.common.kernel.locusequ.EquationElement;
+import geogebra.common.kernel.locusequ.EquationScope;
 
 /**
  * FitLineY of a list. adapted from AlgoListMax
@@ -110,6 +112,18 @@ public class AlgoFitLineY extends AlgoElement {
 		g.z = size * sigmax * sigmaxy - size * sigmaxx * sigmay; // (g.x)x +
 																	// (g.y)y +
 																	// g.z = 0
+	}
+
+	@Override
+	public EquationElement buildEquationElementForGeo(GeoElement element,
+			EquationScope scope) {
+		return null;
+	}
+
+	@Override
+	public boolean isLocusEquable() {
+		// TODO Consider locusequability
+		return false;
 	}
 
 }

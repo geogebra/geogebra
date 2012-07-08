@@ -39,6 +39,8 @@ import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoVec2D;
 import geogebra.common.kernel.geos.Mirrorable;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
+import geogebra.common.kernel.locusequ.EquationElement;
+import geogebra.common.kernel.locusequ.EquationScope;
 
 /**
  *
@@ -313,5 +315,17 @@ public class AlgoMirror extends AlgoTransformation {
     @Override
 	public boolean swapOrientation(boolean positiveOrientation) {		
 		return positiveOrientation;
+	}
+
+	@Override
+	public EquationElement buildEquationElementForGeo(GeoElement element,
+			EquationScope scope) {
+		return null;
+	}
+
+	@Override
+	public boolean isLocusEquable() {
+		// TODO Consider locusequability
+		return false;
 	}
 }

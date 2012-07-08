@@ -25,7 +25,10 @@ import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.Polynomial;
 import geogebra.common.kernel.geos.GeoConic;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
+import geogebra.common.kernel.locusequ.EquationElement;
+import geogebra.common.kernel.locusequ.EquationScope;
 import geogebra.common.main.App;
 
 /**
@@ -127,5 +130,17 @@ public class AlgoDependentConic extends AlgoElement implements EvaluateAtPoint{
     @Override
 	public final String toRealString(StringTemplate tpl) {
         return equation.toRealString(tpl);
-    }           
+    }
+
+	@Override
+	public EquationElement buildEquationElementForGeo(GeoElement element,
+			EquationScope scope) {
+		return null;
+	}
+
+	@Override
+	public boolean isLocusEquable() {
+		// TODO Consider locusequability
+		return false;
+	}           
 }

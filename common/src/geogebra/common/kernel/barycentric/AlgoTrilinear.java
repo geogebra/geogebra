@@ -6,6 +6,8 @@ import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
+import geogebra.common.kernel.locusequ.EquationElement;
+import geogebra.common.kernel.locusequ.EquationScope;
 
 
 /**
@@ -89,5 +91,17 @@ public class AlgoTrilinear extends AlgoElement {
 		y = v1.getDouble()*p1 * P1.inhomY + v2.getDouble()*p2 * P2.inhomY + v3.getDouble()*p3 * P3.inhomY;
 		sum = v1.getDouble()*p1 + v2.getDouble()*p2 + v3.getDouble()*p3;
 		point.setCoords(x/sum, y/sum, 1);
+	}
+
+	@Override
+	public EquationElement buildEquationElementForGeo(GeoElement element,
+			EquationScope scope) {
+		return null;
+	}
+
+	@Override
+	public boolean isLocusEquable() {
+		// TODO Consider locusequability
+		return false;
 	}
 }

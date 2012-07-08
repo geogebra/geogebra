@@ -22,6 +22,8 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoPoint;
+import geogebra.common.kernel.locusequ.EquationElement;
+import geogebra.common.kernel.locusequ.EquationScope;
 import geogebra.common.kernel.statistics.RegressionMath;
 import geogebra.common.main.App;
 import geogebra.common.plugin.Operation;
@@ -665,5 +667,17 @@ public class AlgoFitSin extends AlgoElement {
 	 * getIterations(){return iterations;} public static double getSSE(){return
 	 * beta2(xd,yd,a,b,c,d);}
 	 */// SNIP END--------------------------------------
+
+	@Override
+	public EquationElement buildEquationElementForGeo(GeoElement element,
+			EquationScope scope) {
+		return null;
+	}
+
+	@Override
+	public boolean isLocusEquable() {
+		// TODO Consider locusequability
+		return false;
+	}
 
 }// class AlgoFitSin

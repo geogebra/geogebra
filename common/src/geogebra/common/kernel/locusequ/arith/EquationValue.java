@@ -6,7 +6,7 @@ package geogebra.common.kernel.locusequ.arith;
  * @author sergio
  *
  */
-public abstract class EquationTerm extends EquationExpression {
+public abstract class EquationValue extends EquationExpression {
 
 	@Override
     public boolean isTerm() {

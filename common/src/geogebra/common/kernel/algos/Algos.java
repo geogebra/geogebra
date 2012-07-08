@@ -111,6 +111,7 @@ public enum Algos {
 	AlgoLinePointLine(Commands.Line),
 	AlgoLinePointVector(Commands.Line),
 	AlgoLocus(Commands.Locus),
+	AlgoLocusEquation(Commands.LocusEquation),
 	AlgoLocusSlider(Commands.Locus),
 	AlgoMidpoint(Commands.Midpoint),
 	AlgoMidpointSegment(Commands.Midpoint),

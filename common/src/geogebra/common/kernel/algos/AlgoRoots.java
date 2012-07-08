@@ -21,6 +21,8 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoPoint;
+import geogebra.common.kernel.locusequ.EquationElement;
+import geogebra.common.kernel.locusequ.EquationScope;
 import geogebra.common.kernel.roots.RealRootAdapter;
 import geogebra.common.kernel.roots.RealRootUtil;
 import geogebra.common.main.App;
@@ -466,5 +468,17 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 	}// test(label,answer)
 
 	// */ //--- SNIP end ---------------------------------------
+
+	@Override
+	public EquationElement buildEquationElementForGeo(GeoElement element,
+			EquationScope scope) {
+		return null;
+	}
+
+	@Override
+	public boolean isLocusEquable() {
+		// TODO Consider locusequability
+		return false;
+	}
 
 }// class AlgoRoots

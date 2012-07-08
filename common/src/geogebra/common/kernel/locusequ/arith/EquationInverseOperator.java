@@ -3,6 +3,8 @@
  */
 package geogebra.common.kernel.locusequ.arith;
 
+import geogebra.common.kernel.locusequ.EquationTranslator;
+
 /**
  * @author sergio
  * Represents the inverse of an expression.
@@ -62,4 +64,9 @@ public class EquationInverseOperator extends EquationUnaryOperator {
     public boolean isInverse() {
         return true;
     }
+
+	@Override
+	protected <T> T translateImpl(EquationTranslator<T> translator) {
+		return translator.inverse(this.getOriginalExpression().translate(translator));
+	}
 }

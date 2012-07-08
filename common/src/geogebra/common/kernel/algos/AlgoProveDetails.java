@@ -24,6 +24,8 @@ import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoText;
+import geogebra.common.kernel.locusequ.EquationElement;
+import geogebra.common.kernel.locusequ.EquationScope;
 import geogebra.common.util.Prover;
 import geogebra.common.util.Prover.NDGCondition;
 import geogebra.common.util.Prover.ProverEngine;
@@ -179,6 +181,18 @@ public class AlgoProveDetails extends AlgoElement {
 					list.add(ndgConditionsList);
 			}
 		}
+	}
+
+	@Override
+	public EquationElement buildEquationElementForGeo(GeoElement element,
+			EquationScope scope) {
+		return null;
+	}
+
+	@Override
+	public boolean isLocusEquable() {
+		// TODO Consider locusequability
+		return false;
 	}
 
 }

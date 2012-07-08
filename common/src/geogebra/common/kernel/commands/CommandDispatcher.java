@@ -381,6 +381,8 @@ public class CommandDispatcher {
 				return new CmdPerimeter(kernel);
 			case Locus:
 				return new CmdLocus(kernel);
+			case LocusEquation:
+				return new CmdLocusEquation(kernel);
 			case Centroid:
 				return new CmdCentroid(kernel);
 			case TriangleCenter:

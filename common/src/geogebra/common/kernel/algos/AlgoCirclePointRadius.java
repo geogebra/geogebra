@@ -23,9 +23,13 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoConic;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.kernelND.GeoQuadricND;
+import geogebra.common.kernel.locusequ.EquationElement;
+import geogebra.common.kernel.locusequ.EquationScope;
+import geogebra.common.kernel.locusequ.elements.EquationCirclePointRadius;
 
 /**
  * 
@@ -87,5 +91,16 @@ public class AlgoCirclePointRadius extends AlgoSphereNDPointRadius implements Al
 		// simplified to allow better Chinese translation
 		return app.getPlain("CircleWithCenterAandRadiusB", getM().getLabel(tpl),
 				getRGeo().getLabel(tpl));
+	}
+
+	@Override
+	public EquationElement buildEquationElementForGeo(GeoElement element,
+			EquationScope scope) {
+		return new EquationCirclePointRadius(element, scope);
+	}
+
+	@Override
+	public boolean isLocusEquable() {
+		return true;
 	}
 }

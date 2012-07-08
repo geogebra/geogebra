@@ -3,6 +3,8 @@
  */
 package geogebra.common.kernel.locusequ.arith;
 
+import geogebra.common.kernel.locusequ.EquationTranslator;
+
 /**
  * @author sergio
  * Represents the subtraction of two expressions.
@@ -50,5 +52,11 @@ public class EquationDiffOperator extends EquationBinaryOperator {
     protected double operation(double a, double b) {
         return a-b;
     }
+
+	@Override
+	protected <T> T translateImpl(EquationTranslator<T> translator) {
+		return translator.diff(this.getFirstExpression().translate(translator),
+							   this.getSecondExpression().translate(translator));
+	}
 
 }

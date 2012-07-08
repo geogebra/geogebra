@@ -27,6 +27,8 @@ import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.ToGeoElement;
+import geogebra.common.kernel.locusequ.EquationElement;
+import geogebra.common.kernel.locusequ.EquationScope;
 import geogebra.common.main.App;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.util.StringUtil;
@@ -1425,4 +1427,12 @@ public abstract class AlgoElement extends ConstructionElement implements
 	public boolean isLaTeXTextCommand() {
 		return false;
 	}
+	
+	/**
+	 * Creates a new EquationElement given a {@link GeoElement} and an {@link EquationScope}.
+	 * @param element the {@link GeoElement} needed.
+	 * @param scope the scope containing the points.
+	 * @return a new EquationElement.
+	 */
+	public abstract EquationElement buildEquationElementForGeo(GeoElement element, EquationScope scope);
 }

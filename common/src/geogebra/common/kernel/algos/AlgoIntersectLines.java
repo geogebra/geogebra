@@ -31,6 +31,10 @@ import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoVec3D;
+import geogebra.common.kernel.locusequ.EquationElement;
+import geogebra.common.kernel.locusequ.EquationScope;
+import geogebra.common.kernel.locusequ.RestrictionAlgoForLocusEquation;
+import geogebra.common.kernel.locusequ.elements.EquationIntersectLinesRestriction;
 import geogebra.common.kernel.prover.Variable;
 import geogebra.common.kernel.prover.NoSymbolicParametersException;
 import geogebra.common.kernel.prover.Polynomial;
@@ -42,7 +46,7 @@ import geogebra.common.kernel.prover.Polynomial;
  * @version 
  */
 public class AlgoIntersectLines extends AlgoIntersectAbstract implements SymbolicParametersAlgo,
-	SymbolicParametersBotanaAlgo {
+	SymbolicParametersBotanaAlgo, RestrictionAlgoForLocusEquation {
 
     private GeoLine g, h; // input
     private GeoPoint S; // output       
@@ -101,12 +105,14 @@ public class AlgoIntersectLines extends AlgoIntersectAbstract implements Symboli
     public GeoPoint getPoint() {
         return S;
     }
-    
-    GeoLine geth() {
+
+    // Made public for LocusEqu
+    public GeoLine geth() {
         return g;
     }
     
-    GeoLine getg() {
+    // Made public for LocusEqu
+    public GeoLine getg() {
         return h;
     }
 
@@ -216,5 +222,16 @@ public class AlgoIntersectLines extends AlgoIntersectAbstract implements Symboli
 			return botanaPolynomials;
 		}
 		throw new NoSymbolicParametersException();
+	}
+
+	@Override
+	public EquationElement buildEquationElementForGeo(GeoElement element,
+			EquationScope scope) {
+		return new EquationIntersectLinesRestriction(element, this, scope);
+	}
+
+	@Override
+	public boolean isLocusEquable() {
+		return true;
 	}
 }

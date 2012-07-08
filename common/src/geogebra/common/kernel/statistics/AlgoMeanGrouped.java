@@ -14,7 +14,10 @@ package geogebra.common.kernel.statistics;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.Algos;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.kernel.locusequ.EquationElement;
+import geogebra.common.kernel.locusequ.EquationScope;
 
 /**
  * @author Kamalaruban Parameswaran
@@ -39,4 +42,16 @@ public class AlgoMeanGrouped extends AlgoStats1DGrouped {
 	public Algos getClassName() {
         return Algos.AlgoMeanGrouped;
     }
+
+	@Override
+	public EquationElement buildEquationElementForGeo(GeoElement element,
+			EquationScope scope) {
+		return null;
+	}
+
+	@Override
+	public boolean isLocusEquable() {
+		// TODO Consider locusequability
+		return false;
+	}
 }

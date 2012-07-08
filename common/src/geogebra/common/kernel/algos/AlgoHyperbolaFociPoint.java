@@ -24,6 +24,9 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
+import geogebra.common.kernel.locusequ.EquationElement;
+import geogebra.common.kernel.locusequ.EquationScope;
+import geogebra.common.kernel.locusequ.elements.EquationHyperbolaFociPoint;
 
 
 /**
@@ -100,11 +103,20 @@ public class AlgoHyperbolaFociPoint extends AlgoElement {
     public GeoConic getHyperbola() {
         return hyperbola;
     }
-    GeoPoint getFocus1() {
+    // Public for LocusEqu
+    public GeoPoint getFocus1() {
         return A;
     }
-    GeoPoint getFocus2() {
+    // Public for LocusEqu
+    public GeoPoint getFocus2() {
         return B;
+    }
+    /**
+     * Method added for LocusEqu
+     * @return the external point.
+     */
+    public GeoPoint getExternalPoint() {
+    	return C;
     }
 
     // compute hyperbola with foci A, B and length of half axis a
@@ -130,4 +142,15 @@ public class AlgoHyperbolaFociPoint extends AlgoElement {
         return app.getPlain("HyperbolaWithFociABPassingThroughC",A.getLabel(tpl),
         		B.getLabel(tpl),C.getLabel(tpl));               
     }
+
+	@Override
+	public EquationElement buildEquationElementForGeo(GeoElement element,
+			EquationScope scope) {
+		return new EquationHyperbolaFociPoint(element, scope);
+	}
+
+	@Override
+	public boolean isLocusEquable() {
+		return true;
+	}
 }

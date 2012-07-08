@@ -19,9 +19,12 @@ the Free Software Foundation.
 package geogebra3D.kernel3D;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.AlgoMidpointND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
+import geogebra.common.kernel.locusequ.EquationElement;
+import geogebra.common.kernel.locusequ.EquationScope;
 
 
 /**
@@ -88,5 +91,17 @@ public class AlgoMidpoint3D extends AlgoMidpointND {
         
     	getPoint().setCoords(getP().getInhomCoordsInD(3).add(getQ().getInhomCoordsInD(3)).mul(0.5));
     }
+
+	@Override
+	public EquationElement buildEquationElementForGeo(GeoElement element,
+			EquationScope scope) {
+		return null;
+	}
+
+	@Override
+	public boolean isLocusEquable() {
+		// TODO Consider locusequability
+		return false;
+	}
 
 }

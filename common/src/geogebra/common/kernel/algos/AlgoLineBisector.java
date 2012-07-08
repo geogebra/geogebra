@@ -22,6 +22,9 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint;
+import geogebra.common.kernel.locusequ.EquationElement;
+import geogebra.common.kernel.locusequ.EquationScope;
+import geogebra.common.kernel.locusequ.elements.EquationLineBisector;
 import geogebra.common.kernel.prover.NoSymbolicParametersException;
 import geogebra.common.kernel.prover.Polynomial;
 import geogebra.common.kernel.prover.Variable;
@@ -78,9 +81,12 @@ public class AlgoLineBisector extends AlgoElement implements SymbolicParametersA
     }    
     
     public GeoLine getLine() { return g; }
-    GeoPoint getA() { return A; }
-    GeoPoint getB() { return B; }
-    GeoPoint getMidPoint() {
+    // Made public for LocusEqu
+    public GeoPoint getA() { return A; }
+    // Made public for LocusEqu
+    public GeoPoint getB() { return B; }
+    // Made public for LocusEqu
+    public GeoPoint getMidPoint() {
         return midPoint;
     }
     
@@ -211,5 +217,16 @@ public class AlgoLineBisector extends AlgoElement implements SymbolicParametersA
 			return botanaPolynomials;
 		}
 		throw new NoSymbolicParametersException();
+	}
+
+	@Override
+	public EquationElement buildEquationElementForGeo(GeoElement element,
+			EquationScope scope) {
+		return new EquationLineBisector(element, scope);
+	}
+
+	@Override
+	public boolean isLocusEquable() {
+		return true;
 	}
 }

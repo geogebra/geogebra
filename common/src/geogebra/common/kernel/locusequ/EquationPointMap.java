@@ -4,6 +4,7 @@ import geogebra.common.kernel.algos.AlgoIntersectLines;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.geos.GeoLocus;
 import geogebra.common.kernel.geos.GeoPoint;
+import geogebra.common.main.App;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -87,8 +88,10 @@ public class EquationPointMap {
             point = new EquationSpecialSymbolicPoint(1, geoPoint);
         } else {
             point = new EquationDependentPoint(this.curInd, geoPoint);
+            App.info("[LocusEquation] Point "+geoPoint.getLabelSimple() + " index " + this.curInd);
             curInd +=  GEOGEBRA_DIMENSION;
         }
+        
         return point;
     }
     

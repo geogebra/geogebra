@@ -24,6 +24,8 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.kernel.locusequ.EquationElement;
+import geogebra.common.kernel.locusequ.EquationScope;
 import geogebra.common.kernel.roots.RealRootAdapter;
 import geogebra.common.kernel.roots.RealRootFunction;
 import geogebra.common.main.App;
@@ -418,6 +420,18 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo implements
 	 */
 	public boolean evaluateOnly() {
 		return evaluate != null && !evaluate.getBoolean();
+	}
+
+	@Override
+	public EquationElement buildEquationElementForGeo(GeoElement element,
+			EquationScope scope) {
+		return null;
+	}
+
+	@Override
+	public boolean isLocusEquable() {
+		// TODO Consider locusequability
+		return false;
 	}
 
 }

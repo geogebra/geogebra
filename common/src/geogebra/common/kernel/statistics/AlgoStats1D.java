@@ -20,6 +20,8 @@ import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.kernel.locusequ.EquationElement;
+import geogebra.common.kernel.locusequ.EquationScope;
 
 
 /**
@@ -32,7 +34,7 @@ import geogebra.common.kernel.geos.GeoNumeric;
 
 public abstract class AlgoStats1D extends AlgoElement {
 
-	
+
 	private GeoList geoList; //input
 	public GeoNumeric Truncate; //input	
 	public GeoNumeric result; //output	
@@ -141,69 +143,81 @@ public abstract class AlgoStats1D extends AlgoElement {
 				return;
 			default:
 				result.setUndefined();
-			return;
+				return;
 			}
 		}
 
 
-			double sumVal = 0;
-			double sumSquares = 0;
-			double product = 1;
-			double val;
-			for (int i=0; i < size; i++) {
-				GeoElement geo = geoList.get(i);
-				if (geo.isNumberValue()) {
-					NumberValue num = (NumberValue) geo;
-					val=num.getDouble();
-					sumVal += val;
-					sumSquares += val*val;
-					product *= val;
-				} else {
-					result.setUndefined();
-					return;
-				}    		    		
-			}   
+		double sumVal = 0;
+		double sumSquares = 0;
+		double product = 1;
+		double val;
+		for (int i=0; i < size; i++) {
+			GeoElement geo = geoList.get(i);
+			if (geo.isNumberValue()) {
+				NumberValue num = (NumberValue) geo;
+				val=num.getDouble();
+				sumVal += val;
+				sumSquares += val*val;
+				product *= val;
+			} else {
+				result.setUndefined();
+				return;
+			}    		    		
+		}   
 
-			double mu=sumVal/size;
-			double var;
+		double mu=sumVal/size;
+		double var;
 
-			switch (stat)
-			{
-			case STATS_MEAN:
-				result.setValue(mu);
-				break;
-			case STATS_SD:
-				var=sumSquares/size-mu*mu;
-				result.setValue(Math.sqrt(var));
-				break;
-			case STATS_SAMPLE_SD:
-				var=(sumSquares - sumVal * sumVal / size) / (size -1);
-				result.setValue(Math.sqrt(var));
-				break;
-			case STATS_VARIANCE:
-				var=sumSquares/size-mu*mu;
-				result.setValue(var);
-				break;
-			case STATS_SAMPLE_VARIANCE:
-				var=(sumSquares - sumVal * sumVal / size) / (size -1);
-				result.setValue(var);
-				break;
-			case STATS_SXX:
-				var=sumSquares - (sumVal * sumVal) / size;
-				result.setValue(var);
-				break;
-			case STATS_SIGMAX:
-				result.setValue(sumVal);
-				break;
-			case STATS_SIGMAXX:
-				result.setValue(sumSquares);
-				break;
-			case STATS_PRODUCT:
-				result.setValue(product);
-				break;
-			}
+		switch (stat)
+		{
+		case STATS_MEAN:
+			result.setValue(mu);
+			break;
+		case STATS_SD:
+			var=sumSquares/size-mu*mu;
+			result.setValue(Math.sqrt(var));
+			break;
+		case STATS_SAMPLE_SD:
+			var=(sumSquares - sumVal * sumVal / size) / (size -1);
+			result.setValue(Math.sqrt(var));
+			break;
+		case STATS_VARIANCE:
+			var=sumSquares/size-mu*mu;
+			result.setValue(var);
+			break;
+		case STATS_SAMPLE_VARIANCE:
+			var=(sumSquares - sumVal * sumVal / size) / (size -1);
+			result.setValue(var);
+			break;
+		case STATS_SXX:
+			var=sumSquares - (sumVal * sumVal) / size;
+			result.setValue(var);
+			break;
+		case STATS_SIGMAX:
+			result.setValue(sumVal);
+			break;
+		case STATS_SIGMAXX:
+			result.setValue(sumSquares);
+			break;
+		case STATS_PRODUCT:
+			result.setValue(product);
+			break;
 		}
-
 	}
+
+	@Override
+	public EquationElement buildEquationElementForGeo(GeoElement element,
+			EquationScope scope) {
+		return null;
+	}
+
+	@Override
+	public boolean isLocusEquable() {
+		// TODO Consider locusequability
+		return false;
+	}
+
+}
 
 

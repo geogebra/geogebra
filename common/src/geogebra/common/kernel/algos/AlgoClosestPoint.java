@@ -18,6 +18,8 @@ import geogebra.common.kernel.PathAlgo;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
+import geogebra.common.kernel.locusequ.EquationElement;
+import geogebra.common.kernel.locusequ.EquationScope;
 
 
 
@@ -82,6 +84,18 @@ public class AlgoClosestPoint extends AlgoElement implements PathAlgo {
     }
 
 	public boolean isChangeable() {
+		return false;
+	}
+
+	@Override
+	public EquationElement buildEquationElementForGeo(GeoElement element,
+			EquationScope scope) {
+		return null;
+	}
+
+	@Override
+	public boolean isLocusEquable() {
+		// TODO Consider locusequability
 		return false;
 	}
     

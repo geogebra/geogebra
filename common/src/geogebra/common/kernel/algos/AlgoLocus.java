@@ -26,6 +26,8 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLocus;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
+import geogebra.common.kernel.locusequ.EquationElement;
+import geogebra.common.kernel.locusequ.EquationScope;
 import geogebra.common.main.App;
 
 import java.util.ArrayList;
@@ -142,6 +144,22 @@ public class AlgoLocus extends AlgoElement {
 	 */
 	public GeoPoint getQ() {
 		return locusPoint;
+	}
+	
+	/**
+	 * A way more descriptive name for
+	 * the getter.
+	 * @return dependent point Q
+	 */
+	public GeoPoint getLocusPoint() {
+		return locusPoint;
+	}
+	
+	/**
+	 * @return moving point P.
+	 */
+	public GeoPoint getMovingPoint() {
+		return movingPoint;
 	}
 
 	private void init() {
@@ -725,6 +743,18 @@ public class AlgoLocus extends AlgoElement {
 	public boolean euclidianViewUpdate() {
 		updateScreenBorders();
 		update();
+		return false;
+	}
+
+	@Override
+	public EquationElement buildEquationElementForGeo(GeoElement element,
+			EquationScope scope) {
+		return null;
+	}
+
+	@Override
+	public boolean isLocusEquable() {
+		// TODO Consider locusequability
 		return false;
 	}
 

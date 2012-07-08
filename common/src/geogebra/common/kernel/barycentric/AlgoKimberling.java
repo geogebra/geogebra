@@ -7,6 +7,8 @@ import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
+import geogebra.common.kernel.locusequ.EquationElement;
+import geogebra.common.kernel.locusequ.EquationScope;
 
 
 /**
@@ -6299,6 +6301,20 @@ public class AlgoKimberling extends AlgoElement {
 			return a2*(3*a2-b2-c2);		default:
 			return Double.NaN;
 		}
+	}
+
+	@Override
+	public EquationElement buildEquationElementForGeo(GeoElement element,
+			EquationScope scope) {
+		return null;
+	}
+
+	@Override
+	public boolean isLocusEquable() {
+		// TODO Consider locusequability
+		// In case this is considered, I would very much like to
+		// use that perl script
+		return false;
 	}
 	
 	

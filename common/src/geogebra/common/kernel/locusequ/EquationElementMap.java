@@ -4,6 +4,7 @@
 package geogebra.common.kernel.locusequ;
 
 
+import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoElement;
 
 import java.util.HashMap;
@@ -40,7 +41,7 @@ public class EquationElementMap {
     }
     
     /**
-     * Adds a {@link GeoElement}Êand its symbolic representation.
+     * Adds a {@link GeoElement}ï¿½and its symbolic representation.
      * @param key the {@link GeoElement}
      * @param value its symbolic representation.
      * @return value if it was added.
@@ -69,8 +70,13 @@ public class EquationElementMap {
      * @return a new symbolic representation.
      */
     private EquationElement createEquationElement(final GeoElement key) {
-    	// TODO: implement it.
-        return null;//this.parser.forElement(key);
+    	AlgoElement algo = key.getParentAlgorithm();
+    	
+    	if(algo == null) {
+    		return EquationRestriction.getEmptyRestriction();
+    	} else {
+    		return algo.buildEquationElementForGeo(key, this.scope);
+    	}
     }
     
     /**

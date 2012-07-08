@@ -29,6 +29,9 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoVec3D;
+import geogebra.common.kernel.locusequ.EquationElement;
+import geogebra.common.kernel.locusequ.EquationScope;
+import geogebra.common.kernel.locusequ.elements.EquationJoinPoints;
 import geogebra.common.kernel.prover.Variable;
 import geogebra.common.kernel.prover.NoSymbolicParametersException;
 import geogebra.common.kernel.prover.Polynomial;
@@ -103,8 +106,10 @@ public class AlgoJoinPoints extends AlgoElement implements SymbolicParametersAlg
     }    
     
     public GeoLine getLine() { return g; }
-    GeoPoint getP() { return P; }
-    GeoPoint getQ() { return Q; }
+    // Made public for LocusEqu
+    public GeoPoint getP() { return P; }
+    //Made public for LocusEqu
+    public GeoPoint getQ() { return Q; }
     
     // calc the line g through P and Q    
     @Override
@@ -191,5 +196,16 @@ public class AlgoJoinPoints extends AlgoElement implements SymbolicParametersAlg
 			throws NoSymbolicParametersException {
 		// It's OK, polynomials for lines are only created when a third point is lying on them, too:
 		return null;
+	}
+
+	@Override
+	public EquationElement buildEquationElementForGeo(GeoElement element,
+			EquationScope scope) {
+		return new EquationJoinPoints(element, scope);
+	}
+
+	@Override
+	public boolean isLocusEquable() {
+		return true;
 	}
 }

@@ -5,6 +5,8 @@ import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.kernel.locusequ.EquationElement;
+import geogebra.common.kernel.locusequ.EquationScope;
 import geogebra.common.kernel.roots.RealRootFunction;
 
 /**
@@ -87,5 +89,17 @@ public class AlgoLengthCurve extends AlgoUsingTempCASalgo {
 			c1.evaluateCurve(t, f1eval);
 			return (Math.sqrt(f1eval[0] * f1eval[0] + f1eval[1] * f1eval[1]));
 		}
+	}
+
+	@Override
+	public EquationElement buildEquationElementForGeo(GeoElement element,
+			EquationScope scope) {
+		return null;
+	}
+
+	@Override
+	public boolean isLocusEquable() {
+		// TODO Consider locusequability
+		return false;
 	}
 }

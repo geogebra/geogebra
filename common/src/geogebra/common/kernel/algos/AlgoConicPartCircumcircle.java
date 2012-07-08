@@ -21,13 +21,16 @@ import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.kernelND.GeoConicNDConstants;
+import geogebra.common.kernel.locusequ.EquationElement;
+import geogebra.common.kernel.locusequ.EquationScope;
+import geogebra.common.kernel.locusequ.elements.EquationConicPartCircumcircle;
 import geogebra.common.main.App;
 
 /**
  * Circle arc or sector defined by three points.
  */
 public class AlgoConicPartCircumcircle extends AlgoConicPart {
-	
+
 	private GeoPoint A, B, C;	
 	
 	private GeoLine line; // for degenerate case
@@ -175,5 +178,40 @@ public class AlgoConicPartCircumcircle extends AlgoConicPart {
 		
 		conicPart.setParameters(alpha, beta, det > 0);
     }
-    
+
+	
+	/**
+	 * Method for LocusEqu.
+	 * @return first point.
+	 */
+	public GeoPoint getA() {
+		return A;
+	}
+
+	/**
+	 * Method for LocusEqu.
+	 * @return second point.
+	 */
+	public GeoPoint getB() {
+		return B;
+	}
+
+	/**
+	 * Method for LocusEqu.
+	 * @return third point.
+	 */
+	public GeoPoint getC() {
+		return C;
+	}
+
+	@Override
+	public EquationElement buildEquationElementForGeo(GeoElement element,
+			EquationScope scope) {
+		return new EquationConicPartCircumcircle(element, scope);
+	}
+
+	@Override
+	public boolean isLocusEquable() {
+		return true;
+	}
 }

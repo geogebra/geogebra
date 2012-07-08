@@ -19,6 +19,8 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.kernel.locusequ.EquationElement;
+import geogebra.common.kernel.locusequ.EquationScope;
 
 import org.apache.commons.math.stat.ranking.NaturalRanking;
 import org.apache.commons.math.stat.ranking.TiesStrategy;
@@ -104,6 +106,18 @@ public class AlgoTiedRank extends AlgoElement {
 		for (int i=0 ; i<size ; i++){
 			outputList.add(new GeoNumeric(cons, outputArray[i]));
 		}
+	}
+
+	@Override
+	public EquationElement buildEquationElementForGeo(GeoElement element,
+			EquationScope scope) {
+		return null;
+	}
+
+	@Override
+	public boolean isLocusEquable() {
+		// TODO Consider locusequability
+		return false;
 	}
 
 

@@ -19,6 +19,8 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.kernel.locusequ.EquationElement;
+import geogebra.common.kernel.locusequ.EquationScope;
 
 
 /**
@@ -79,4 +81,24 @@ public abstract class AlgoLinePoint extends AlgoElement3D {
 	final public String toString(StringTemplate tpl) {
     	return app.getPlain("LineThroughAParallelToB",point.getLabel(tpl),inputParallel.getLabel(tpl));
     }
+    
+    /*
+	 * This should apply to every subclass. In case it does not,
+	 * a case per case should be used.
+	 * It produces a GeoNumeric, so beware GeoNumeric will be
+	 * treated differently than points.
+	 */
+    
+
+	@Override
+	public EquationElement buildEquationElementForGeo(GeoElement element,
+			EquationScope scope) {
+		return null;
+	}
+
+	@Override
+	public boolean isLocusEquable() {
+		// TODO Consider locusequability
+		return false;
+	}
 }

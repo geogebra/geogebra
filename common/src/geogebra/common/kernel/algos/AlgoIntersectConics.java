@@ -30,6 +30,10 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.kernelND.GeoConicNDConstants;
+import geogebra.common.kernel.locusequ.EquationElement;
+import geogebra.common.kernel.locusequ.EquationScope;
+import geogebra.common.kernel.locusequ.RestrictionAlgoForLocusEquation;
+import geogebra.common.kernel.locusequ.elements.EquationIntersectConicsRestriction;
 import geogebra.common.main.App;
 import geogebra.common.kernel.prover.NoSymbolicParametersException;
 import geogebra.common.kernel.prover.Polynomial;
@@ -46,7 +50,8 @@ import java.util.Iterator;
  *  
  * @author  Markus Hohenwarter
  */
-public class AlgoIntersectConics extends AlgoIntersect  implements SymbolicParametersBotanaAlgo {
+public class AlgoIntersectConics extends AlgoIntersect  implements SymbolicParametersBotanaAlgo,
+	RestrictionAlgoForLocusEquation {
       
 	/** number of old distances that are used to 
      compute the mean distance change of one point **/
@@ -190,13 +195,15 @@ public class AlgoIntersectConics extends AlgoIntersect  implements SymbolicParam
 	}
 	
     /**
+     * Made public for LocusEqu
      * @return first conic
      */
-    GeoConic getA() { return A; }
+    public GeoConic getA() { return A; }
     /**
+     * Made public for LocusEqu
      * @return second conic
      */
-    GeoConic getB() { return B; }
+    public GeoConic getB() { return B; }
 	
 	@Override
 	protected GeoPoint [] getLastDefinedIntersectionPoints() {
@@ -1366,6 +1373,17 @@ public class AlgoIntersectConics extends AlgoIntersect  implements SymbolicParam
 			
 		}
 		throw new NoSymbolicParametersException();
+	}
+
+	@Override
+	public EquationElement buildEquationElementForGeo(GeoElement element,
+			EquationScope scope) {
+		return new EquationIntersectConicsRestriction(element, this, scope);
+	}
+
+	@Override
+	public boolean isLocusEquable() {
+		return true;
 	}
     
 }

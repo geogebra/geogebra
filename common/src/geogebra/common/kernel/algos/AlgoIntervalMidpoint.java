@@ -13,7 +13,10 @@ the Free Software Foundation.
 package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoInterval;
+import geogebra.common.kernel.locusequ.EquationElement;
+import geogebra.common.kernel.locusequ.EquationScope;
 
 
 public class AlgoIntervalMidpoint extends AlgoIntervalAbstract {
@@ -32,5 +35,17 @@ public class AlgoIntervalMidpoint extends AlgoIntervalAbstract {
 	public final void compute() {   	
     	result.setValue(interval.getMidPoint());
     }
+
+	@Override
+	public EquationElement buildEquationElementForGeo(GeoElement element,
+			EquationScope scope) {
+		return null;
+	}
+
+	@Override
+	public boolean isLocusEquable() {
+		// TODO Consider locusequability
+		return false;
+	}
     
 }

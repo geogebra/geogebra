@@ -27,6 +27,8 @@ import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.kernel.locusequ.EquationElement;
+import geogebra.common.kernel.locusequ.EquationScope;
 
 /**
  * 
@@ -213,5 +215,17 @@ public class AlgoAnglePoints extends AlgoElement implements
 		}
 		return app.getPlain("AngleBetweenABC", An.getLabel(tpl),
 				Bn.getLabel(tpl), Cn.getLabel(tpl));
+	}
+
+	@Override
+	public EquationElement buildEquationElementForGeo(GeoElement element,
+			EquationScope scope) {
+		return null;
+	}
+
+	@Override
+	public boolean isLocusEquable() {
+		// TODO Consider locusequability
+		return false;
 	}
 }

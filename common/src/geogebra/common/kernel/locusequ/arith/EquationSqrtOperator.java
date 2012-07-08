@@ -3,6 +3,8 @@
  */
 package geogebra.common.kernel.locusequ.arith;
 
+import geogebra.common.kernel.locusequ.EquationTranslator;
+
 /**
  * @author sergio
  * Represents the square root of a given expression.
@@ -47,14 +49,10 @@ public class EquationSqrtOperator extends EquationUnaryOperator {
         return true;
     }
 	
-	/*
-	 * FIXME: in case translator is kept. 
 	protected <T> T translateImpl(EquationTranslator<T> translator) {
-        if(this.getOriginalExpression().containsSymbolicValues()) {
+        if(this.getOriginalExpression().containsSymbolicValuesImpl()) {
             return translator.sqrt(this.getOriginalExpression().translate(translator));
-        } else {
-            return translator.number(Math.sqrt(this.getOriginalExpression().computeValue()));
         }
+        return translator.number(Math.sqrt(this.getOriginalExpression().computeValue()));
     }
-	*/
 }

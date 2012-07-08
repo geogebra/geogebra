@@ -40,10 +40,10 @@ public abstract class EquationOperator extends EquationExpression {
         return true;
     }
     @Override
-    public boolean containsSymbolicValues() {
+	protected boolean containsSymbolicValuesImpl() {
         
     	for(int i = 0; i < this.exprs.length; i++) {
-    		if(this.exprs[i].containsSymbolicValues()) {
+    		if(this.exprs[i].containsSymbolicValuesImpl()) {
     			return true;
     		}
     	}

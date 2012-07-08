@@ -3,6 +3,9 @@
  */
 package geogebra.common.kernel.locusequ.arith;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import geogebra.common.kernel.locusequ.EquationPoint;
 
 /**
@@ -35,7 +38,7 @@ public class EquationArithHelper {
      * @return x * x Expression.
      */
     public static EquationExpression sqr(EquationExpression x) {
-        return times(x,x);
+        return pow(x, EquationNumericValue.from(2.0));
     }
     
     /**dbl(EquationExpression x)
@@ -43,7 +46,12 @@ public class EquationArithHelper {
      * @return 2 * x Expression
      */
     public static EquationExpression dbl(EquationExpression x) {
-        return times(EquationNumericValue.from(2), x);
+    	if(!x.isSimplifiable()) {
+    		return times(EquationNumericValue.from(2), x);
+    	}
+    	
+    	double value = x.computeValue();
+    	return EquationNumericValue.from(2*value);
     }
 
     /**
@@ -51,7 +59,13 @@ public class EquationArithHelper {
      * @return Square Root of x.
      */
     public static EquationExpression sqrt(EquationExpression x) {
-        return new EquationSqrtOperator(x);
+    	if(!x.isSimplifiable()) {
+    		return new EquationSqrtOperator(x);
+    	}
+    	
+    	double value = x.computeValue();
+    	
+    	return EquationNumericValue.from(Math.sqrt(value));
     }
     
     /**
@@ -71,7 +85,16 @@ public class EquationArithHelper {
      * @return base ^ exp
      */
     public static EquationExpression pow(EquationExpression base, EquationExpression exp) {
-        return new EquationExpOperator(base, exp);
+    	if(!base.isSimplifiable()
+    			|| !exp.isSimplifiable()
+    			|| (base.computeValue() == 0.0 && exp.computeValue() == 0.0)) {
+    		return new EquationExpOperator(base, exp); 
+    	}
+    	
+    	double baseValue = base.computeValue();
+    	double expValue = exp.computeValue();
+    	
+        return EquationNumericValue.from(Math.pow(baseValue, expValue));
     }
     
     /**
@@ -79,19 +102,31 @@ public class EquationArithHelper {
      * @return |x|
      */
     public static EquationExpression abs(EquationExpression x) {
-        return new EquationAbsOperator(x);
+    	if(!x.isSimplifiable()) {
+    		return new EquationAbsOperator(x);
+    	}
+    	double value = x.computeValue();
+    	return EquationNumericValue.from(Math.abs(value));
     }
     
     /**
-     * Makes the middle param to be the middle between extrm1 and extrm2
-     * @param extrm1 one of the extremes.
-     * @param extrm2 the other extreme.
+     * @param end1 one of the ends.
+     * @param end2 other of the ends.
+     * @return (end1 + end2)/2;
+     */
+    public static EquationExpression mid(EquationExpression end1, EquationExpression end2) {
+    	return div(sum(end1, end2), EquationNumericValue.from(2));
+    }
+    
+    /**
+     * Makes the middle param to be the middle between end1 and end2
+     * @param end1 one of the ends.
+     * @param end2 the other ends.
      * @param middle the expression that will be set as the middle.
      * @return middle - (extrm1+extrm2)/2
      */
-    public static EquationExpression middle(EquationExpression extrm1, EquationExpression extrm2, EquationExpression middle) {
-        return diff(middle,
-                div(sum(extrm1, extrm2), EquationNumericValue.from(2)));
+    public static EquationExpression middle(EquationExpression end1, EquationExpression end2, EquationExpression middle) {
+        return diff(middle, mid(end1, end2));
     }
     
     /**
@@ -169,11 +204,67 @@ public class EquationArithHelper {
         case 1:
             return args[0];
         case 2:
+        	if(!args[0].isSimplifiable() || !args[1].isSimplifiable()) {
+        		if(args[0].isSimplifiable() && args[0].computeValue() == 0.0) {
+        			return args[1];
+        		} else if(args[1].isSimplifiable() && args[1].computeValue() == 0.0) {
+        			return args[0];
+        		}
+        		return new EquationSumOperator(args[0], args[1]);
+        	}
+        	
+        	double value1 = args[0].computeValue();
+        	double value2 = args[1].computeValue();
+        	
+        	return EquationNumericValue.from(value1 + value2);
+        	
+        default:
+        	List<EquationExpression> numeric = new ArrayList<EquationExpression>();
+        	List<EquationExpression> symbolic = new ArrayList<EquationExpression>();
+
+        	// Differentiate
+        	for(EquationExpression expr : args) {
+        		if(expr.isSimplifiable()) {
+        			numeric.add(expr);
+        		} else {
+        			symbolic.add(expr);
+        		}
+        	}
+        	
+        	// Compute numeric
+        	double value = 0;
+        	
+        	for(EquationExpression expr : numeric) {
+        		value += expr.computeValue();
+        	}
+        	
+        	// Return proper value
+        	if(symbolic.isEmpty()) {
+        		return EquationNumericValue.from(value);
+        	}
+        	
+			return new EquationSumOperator(EquationNumericValue.from(value),
+					sumRaw(symbolic.toArray(new EquationExpression[symbolic.size()])));
+        }
+    }
+    
+    /**
+     * Same as sum method, but with no optimizations.
+     * @param args EquationExpression to be "summed".
+     * @return A EquationExpression like "(args[0]+args[1]+...)".
+     */
+    public static EquationExpression sumRaw(EquationExpression... args) {
+        switch(args.length) {
+        case 0:
+            return EquationNumericValue.from(0);
+        case 1:
+            return args[0];
+        case 2:
             return new EquationSumOperator(args[0], args[1]);
         default:
             EquationExpression[] args2 = new EquationExpression[args.length-1];
             System.arraycopy(args, 1, args2, 0, args.length-1);
-            return new EquationSumOperator(args[0], sum(args2));
+            return new EquationSumOperator(args[0], sumRaw(args2));
         }
     }
     
@@ -188,12 +279,71 @@ public class EquationArithHelper {
         case 1:
             return args[0];
         case 2:
+        	if(!args[0].isSimplifiable() || !args[1].isSimplifiable()) {
+        		if(args[0].isSimplifiable() && args[0].computeValue() == 0.0) {
+        			return args[1].getOpposite();
+        		} else if(args[1].isSimplifiable() && args[1].computeValue() == 0.0) {
+        			return args[0];
+        		}
+        		return new EquationDiffOperator(args[0], args[1]);
+        	}
+        	
+        	double value1 = args[0].computeValue();
+        	double value2 = args[1].computeValue();
+        	
+        	return EquationNumericValue.from(value1 - value2);
+        	
+        default:
+        	List<EquationExpression> numeric = new ArrayList<EquationExpression>();
+        	List<EquationExpression> symbolic = new ArrayList<EquationExpression>();
+
+        	// Differentiate
+        	for(EquationExpression expr : args) {
+        		if(expr.isSimplifiable()) {
+        			numeric.add(expr);
+        		} else {
+        			symbolic.add(expr);
+        		}
+        	}
+        	
+        	// Compute numeric
+        	double value = 0;
+        	
+        	for(EquationExpression expr : numeric) {
+        		if(expr == args[0]) {
+        			value += expr.computeValue();
+        		} else {
+        			value -= expr.computeValue();
+        		}
+        	}
+        	
+        	// Return proper value
+        	if(symbolic.isEmpty()) {
+        		return EquationNumericValue.from(value);
+        	}
+        	
+			return new EquationDiffOperator(EquationNumericValue.from(value),
+					sumRaw(symbolic.toArray(new EquationExpression[symbolic.size()])));
+        }
+    }
+    
+    /**
+     * Same as diff but with no optimizations.
+     * @param args EquationExpression to be "substracted".
+     * @return A EquationExpression like "(args[0]-(args[1]+...+args[args.length-1]))".
+     */
+    public static EquationExpression diffRaw(EquationExpression... args) {
+        switch(args.length) {
+        case 0:
+            return EquationNumericValue.from(0);
+        case 1:
+            return args[0];
+        case 2:
             return new EquationDiffOperator(args[0], args[1]);
         default:
             EquationExpression[] args2 = new EquationExpression[args.length-1];
             System.arraycopy(args, 1, args2, 0, args.length-1);
-            return new EquationDiffOperator(args[0], sum(args2)); // You can think about this.
-                                                                  // But you cannot change it.
+            return new EquationDiffOperator(args[0], sumRaw(args2));
         }
     }
     
@@ -208,11 +358,66 @@ public class EquationArithHelper {
         case 1:
             return args[0];
         case 2:
+        	if(args[0].containsSymbolicValues() || args[1].containsSymbolicValues()) {
+        		if(!args[0].containsSymbolicValues() && args[0].computeValue() == 1.0) {
+        			return args[1];
+        		} else if(!args[1].containsSymbolicValues() && args[1].computeValue() == 1.0) {
+        			return args[0];
+        		}
+        		return new EquationProductOperator(args[0], args[1]);
+        	}
+        	
+        	double value1 = args[0].computeValue();
+        	double value2 = args[1].computeValue();
+        	
+        	return EquationNumericValue.from(value1 * value2);
+        default:
+        	List<EquationExpression> numeric = new ArrayList<EquationExpression>();
+        	List<EquationExpression> symbolic = new ArrayList<EquationExpression>();
+
+        	// Differentiate
+        	for(EquationExpression expr : args) {
+        		if(expr.containsSymbolicValues()) {
+        			symbolic.add(expr);
+        		} else {
+        			numeric.add(expr);
+        		}
+        	}
+        	
+        	// Compute numeric
+        	double value = 1.0;
+        	
+        	for(EquationExpression expr : numeric) {
+        		value *= expr.computeValue();
+        	}
+        	
+        	// Return proper value
+        	if(symbolic.isEmpty()) {
+        		return EquationNumericValue.from(value);
+        	}
+        	
+			return new EquationProductOperator(EquationNumericValue.from(value),
+					timesRaw(symbolic.toArray(new EquationExpression[symbolic.size()])));
+        }
+    }
+    
+    /**
+     * Same as sum method, but with no optimizations.
+     * @param args EquationExpression to be "summed".
+     * @return A EquationExpression like "(args[0]+args[1]+...)".
+     */
+    public static EquationExpression timesRaw(EquationExpression... args) {
+        switch(args.length) {
+        case 0:
+            return EquationNumericValue.from(1);
+        case 1:
+            return args[0];
+        case 2:
             return new EquationProductOperator(args[0], args[1]);
         default:
             EquationExpression[] args2 = new EquationExpression[args.length-1];
             System.arraycopy(args, 1, args2, 0, args.length-1);
-            return new EquationProductOperator(args[0], times(args2));
+            return new EquationProductOperator(args[0], sumRaw(args2));
         }
     }
     
@@ -222,7 +427,15 @@ public class EquationArithHelper {
      * @return A EquationExpression like "numerator/denominator".
      */
     public static EquationExpression div(EquationExpression numerator, EquationExpression denominator) {
-        return new EquationDivOperator(numerator, denominator);
+    	if(!numerator.isSimplifiable()
+    			|| !denominator.isSimplifiable()
+    			|| denominator.computeValue() == 0.0) {
+    		return new EquationDivOperator(numerator, denominator);
+    	}
+    	
+    	double numValue = numerator.computeValue();
+    	double divValue = denominator.computeValue();
+        return EquationNumericValue.from(numValue / divValue);
     }
     
     /**

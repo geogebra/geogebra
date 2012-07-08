@@ -26,6 +26,9 @@ import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.geos.GeoVector;
+import geogebra.common.kernel.locusequ.EquationElement;
+import geogebra.common.kernel.locusequ.EquationScope;
+import geogebra.common.kernel.locusequ.elements.EquationAngularBisectorLines;
 import geogebra.common.util.MyMath;
 
 
@@ -116,13 +119,16 @@ public class AlgoAngularBisectorLines extends AlgoElement {
     public GeoLine[] getLines() {
         return bisector;
     }
-    GeoLine getg() {
+    // Made public for LocusEqu
+    public GeoLine getg() {
         return g;
     }
-    GeoLine geth() {
+    // Made public for LocusEqu
+    public GeoLine geth() {
         return h;
     }
-    GeoPoint getB() {
+    // Made public for LocusEqu
+    public GeoPoint getB() {
         return B;
     }
     
@@ -288,4 +294,15 @@ public class AlgoAngularBisectorLines extends AlgoElement {
         // simplified to allow better Chinese translation
     	return app.getPlain("AngleBisectorOfAB",g.getLabel(tpl),h.getLabel(tpl));
     }
+
+	@Override
+	public EquationElement buildEquationElementForGeo(GeoElement element,
+			EquationScope scope) {
+		return new EquationAngularBisectorLines(element, scope);
+	}
+
+	@Override
+	public boolean isLocusEquable() {
+		return true;
+	}
 }

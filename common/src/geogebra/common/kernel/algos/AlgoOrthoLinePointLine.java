@@ -31,6 +31,9 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoVec3D;
+import geogebra.common.kernel.locusequ.EquationElement;
+import geogebra.common.kernel.locusequ.EquationScope;
+import geogebra.common.kernel.locusequ.elements.EquationOrthoLinePointLine;
 import geogebra.common.kernel.prover.Variable;
 import geogebra.common.kernel.prover.NoSymbolicParametersException;
 import geogebra.common.kernel.prover.Polynomial;
@@ -110,11 +113,13 @@ SymbolicParametersBotanaAlgo {
         return g;
     }
     
-    GeoPoint getP() {
+    // Made public for LocusEqu
+    public GeoPoint getP() {
         return P;
     }
     
-    GeoLine getl() {
+    // Made public for LocusEqu
+    public GeoLine getl() {
         return l;
     }
 
@@ -225,5 +230,16 @@ SymbolicParametersBotanaAlgo {
 			return botanaPolynomials;
 		}
 		throw new NoSymbolicParametersException();
+	}
+
+	@Override
+	public EquationElement buildEquationElementForGeo(GeoElement element,
+			EquationScope scope) {
+		return new EquationOrthoLinePointLine(element, scope);
+	}
+
+	@Override
+	public boolean isLocusEquable() {
+		return true;
 	}
 }
