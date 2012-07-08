@@ -1,5 +1,6 @@
 package geogebra.common.main;
 
+import geogebra.common.GeoGebraConstants;
 import geogebra.common.awt.GBufferedImage;
 import geogebra.common.awt.GDimension;
 import geogebra.common.awt.GFont;
@@ -3055,4 +3056,9 @@ public abstract class App {
 
 	public abstract void addMenuItem(MenuInterface parentMenu, String filename, String name,
 	        boolean asHtml, MenuInterface subMenu);
+	
+	public String getVersionString() {
+		return GeoGebraConstants.VERSION_STRING;
+	}
+
 }

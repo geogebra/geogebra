@@ -3,9 +3,9 @@ package geogebra.web.main;
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.awt.GBufferedImage;
 import geogebra.common.awt.GFont;
+import geogebra.common.euclidian.DrawEquationInterface;
 import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.euclidian.EuclidianView;
-import geogebra.common.euclidian.DrawEquationInterface;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.gui.menubar.MenuInterface;
 import geogebra.common.gui.view.algebra.AlgebraView;
@@ -26,8 +26,8 @@ import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.common.main.App;
 import geogebra.common.main.AbstractFontManager;
+import geogebra.common.main.App;
 import geogebra.common.main.GeoElementSelectionListener;
 import geogebra.common.main.MyError;
 import geogebra.common.main.settings.Settings;
@@ -50,8 +50,8 @@ import geogebra.web.gui.app.GeoGebraAppFrame;
 import geogebra.web.gui.applet.GeoGebraFrame;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.inputbar.AlgebraInputW;
-import geogebra.web.gui.menubar.LanguageCommand;
 import geogebra.web.gui.menubar.GeoGebraMenubarW;
+import geogebra.web.gui.menubar.LanguageCommand;
 import geogebra.web.html5.ArticleElement;
 import geogebra.web.io.ConstructionException;
 import geogebra.web.io.MyXMLio;
@@ -88,8 +88,8 @@ import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.http.client.UrlBuilder;
 import com.google.gwt.i18n.client.Dictionary;
 import com.google.gwt.i18n.client.LocaleInfo;
-import com.google.gwt.user.client.Cookies;
 import com.google.gwt.resources.client.ImageResource;
+import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.MenuBar;
@@ -2115,4 +2115,10 @@ public class AppW extends App {
 		        true, (MenuBar)subMenu);
 
 	}
+	
+	@Override
+	public String getVersionString() {
+		return super.getVersionString() + "-HTML5";
+	}
+
 }

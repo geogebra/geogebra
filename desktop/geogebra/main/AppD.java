@@ -95,6 +95,7 @@ import geogebra.util.GeoGebraLogger;
 import geogebra.util.ImageManager;
 import geogebra.util.Normalizer;
 import geogebra.util.Util;
+import geogebra3D.euclidian3D.opengl.RendererJogl;
 
 import java.awt.AWTKeyStroke;
 import java.awt.BorderLayout;
@@ -5231,5 +5232,5 @@ public class AppD extends App implements
 		// TODO Auto-generated method stub
 		
 	}
-
+	
 }

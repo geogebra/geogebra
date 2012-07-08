@@ -40,5 +40,6 @@ public class RendererJogl {
 		GLProfile.initSingleton(); 
 	}
 	
+	final public static String JOGL_VERSION="JOGL2";
 	
 }

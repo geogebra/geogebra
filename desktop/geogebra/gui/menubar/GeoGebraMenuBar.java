@@ -456,7 +456,7 @@ public class GeoGebraMenuBar extends JMenuBar {
 	private static void appendVersion(StringBuilder sb, AppD app) {
 		sb.append(app.getPlain("ApplicationName"));
 		sb.append(" ");
-		sb.append(GeoGebraConstants.VERSION_STRING);
+		sb.append(app.getVersionString());
 		switch (Kernel.DEFAULT_CAS) {
 		case MAXIMA:
 			sb.append('m');

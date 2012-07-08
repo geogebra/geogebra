@@ -22,15 +22,15 @@ import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.commands.CommandsConstants;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import geogebra.common.kernel.kernelND.ViewCreator;
 import geogebra.euclidian.EuclidianControllerD;
 import geogebra.gui.GuiManagerD;
-import geogebra.main.AppletImplementation;
 import geogebra.main.AppD;
+import geogebra.main.AppletImplementation;
 import geogebra.main.GlobalKeyDispatcherD;
 import geogebra3D.euclidian3D.EuclidianController3D;
 import geogebra3D.euclidian3D.EuclidianView3D;
+import geogebra3D.euclidian3D.opengl.RendererJogl;
 import geogebra3D.euclidianFor3D.EuclidianControllerFor3D;
 import geogebra3D.euclidianFor3D.EuclidianViewFor3D;
 import geogebra3D.euclidianForPlane.EuclidianControllerForPlane;
@@ -362,6 +362,11 @@ public class Application3D extends AppD {
 			getEuclidianView3D().setCursor(oldCursorMode);
 
 		}
+	}
+	
+	@Override
+	public String getVersionString() {
+		return super.getVersionString() + "-" + RendererJogl.JOGL_VERSION;
 	}
 	
 }
