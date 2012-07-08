@@ -201,7 +201,7 @@ public class MPReduceTranslator extends EquationTranslator<StringBuilder> {
 		String result = getResultFromRaw(rawResult);
 		App.info("[LocusEqu] to-be-parsed result: "+result);
 		
-		if(result.trim().isEmpty()) {
+		if("".equals(result.trim())) {
 			return new double[][]{{}};
 		} else {
 			return simplifyResult(parseResult(result,cas));
