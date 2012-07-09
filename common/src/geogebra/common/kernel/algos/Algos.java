@@ -401,7 +401,7 @@ public enum Algos {
 	AlgoComplexRoot(Commands.ComplexRoot),
 	AlgoSimplifyText(Commands.Simplify),
 	AlgoSolveODE(Commands.SolveODE),
-	AlgoIntegralODE(Commands.Integral),
+	AlgoIntegralODE(Commands.Locus),
 	AlgoSlopeField(Commands.SlopeField),
 	AlgoSolveODE2(Commands.SolveODE),
 	AlgoSolveODECas(Commands.SolveODE),

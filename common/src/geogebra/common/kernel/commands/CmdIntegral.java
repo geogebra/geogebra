@@ -51,14 +51,6 @@ public class CmdIntegral extends CommandProcessor {
 			throw argErr(app, internalCommandName, arg[0]);
 
 		case 2:
-			arg = resArgs(c);
-			if ((ok[0]=(arg[0] instanceof FunctionalNVar) || arg[0].isGeoLocus()) && (ok[1]=arg[1].isGeoPoint())) {
-				GeoElement[] ret = { kernelA.IntegralODE(c.getLabel(),
-						 arg[0], // function or SlopeField/locus
-						(GeoPoint) arg[1]) }; // var
-				return ret;
-			}
-			
 			// Integral[ f(x,y), x]
 			arg = resArgsLocalNumVar(c, 1, 1);
 			if ((ok[0]=arg[0] instanceof CasEvaluableFunction) && (ok[1]=arg[1].isGeoNumeric())) {

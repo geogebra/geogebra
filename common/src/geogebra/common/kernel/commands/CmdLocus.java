@@ -2,6 +2,7 @@ package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
+import geogebra.common.kernel.arithmetic.FunctionalNVar;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
@@ -30,9 +31,16 @@ public class CmdLocus extends CommandProcessor {
 
 		switch (n) {
 		case 2:
-			// second argument has to be point on path
 			arg = resArgs(c);
-			if ((ok[0] = (arg[0].isGeoPoint()))
+			if ((ok[0] = (arg[0] instanceof FunctionalNVar) || arg[0].isGeoLocus()) && (ok[1] = arg[1].isGeoPoint())) {
+				GeoElement[] ret = { kernelA.IntegralODE(c.getLabel(),
+						 arg[0], // function or SlopeField/locus
+						(GeoPoint) arg[1]) }; // var
+				return ret;
+			}
+			
+			// second argument has to be point on path
+			else if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoPoint()))) {
 
 				GeoPoint p1 = (GeoPoint) arg[0];
