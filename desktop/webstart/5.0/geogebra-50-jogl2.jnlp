@@ -92,7 +92,7 @@
     
     <!-- JOGL2 native components (architecture dependent) -->
     <resources os="Windows" arch="x86">
-      <nativelib href = "http://www.geogebra.org/webstart/5.0/jogl-all-natives-windows-i586.jar" />
+      <nativelib href = "http://www.geogebra.org/webstart/5.0/jnlp/jogl-all-natives-windows-i586.jar" />
     </resources>
     <resources os="Windows" arch="amd64">
       <nativelib href = "http://www.geogebra.org/webstart/5.0/jnlp/jogl-all-natives-windows-amd64.jar" />
