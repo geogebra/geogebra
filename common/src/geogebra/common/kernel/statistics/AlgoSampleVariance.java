@@ -11,6 +11,11 @@ public class AlgoSampleVariance extends AlgoStats1D {
         super(cons,label,geoList,AlgoStats1D.STATS_SAMPLE_VARIANCE);
     }
 
+	public AlgoSampleVariance(Construction cons, String label, GeoList geoList, GeoList freq) {
+        super(cons,label,geoList,freq,AlgoStats1D.STATS_SAMPLE_VARIANCE);
+    }
+
+	
     @Override
 	public Algos getClassName() {
         return Algos.AlgoSampleVariance;

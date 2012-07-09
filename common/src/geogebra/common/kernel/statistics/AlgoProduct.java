@@ -31,6 +31,10 @@ public class AlgoProduct extends AlgoStats1D {
         super(cons,label,geoList,AlgoStats1D.STATS_PRODUCT);
     }
     
+	public AlgoProduct(Construction cons, String label, GeoList geoList, GeoList freq) {
+        super(cons,label,geoList,freq, AlgoStats1D.STATS_PRODUCT);
+    }
+	
     public AlgoProduct(Construction cons, String label, GeoList geoList, GeoNumeric n) {
         super(cons,label,geoList,n,AlgoStats1D.STATS_PRODUCT);
     }

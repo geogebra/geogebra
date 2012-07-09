@@ -24,5 +24,8 @@ public class CmdSD extends CmdOneListFunction {
 		return kernelA.StandardDeviation(a, b);
 	}
 
-
+	@Override
+	protected GeoElement doCommand(String a, GeoList list, GeoList freq) {
+		return kernelA.StandardDeviation(a, list, freq);
+	}
 }

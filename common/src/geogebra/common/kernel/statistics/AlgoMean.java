@@ -34,6 +34,14 @@ public class AlgoMean extends AlgoStats1D {
         super(cons,geoList,AlgoStats1D.STATS_MEAN);
 	}
 
+    public AlgoMean(Construction cons, String label, GeoList geoList, GeoList geoList2) {
+        super(cons,label,geoList,geoList2,AlgoStats1D.STATS_MEAN);
+    }
+
+    public AlgoMean(Construction cons, GeoList geoList, GeoList geoList2) {
+        super(cons,geoList,geoList2,AlgoStats1D.STATS_MEAN);
+	}
+    
 	@Override
 	public Algos getClassName() {
         return Algos.AlgoMean;

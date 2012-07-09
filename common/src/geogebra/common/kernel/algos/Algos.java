@@ -1,6 +1,5 @@
 package geogebra.common.kernel.algos;
 import geogebra.common.kernel.commands.Commands;
-import geogebra.common.kernel.statistics.AlgoMeanGrouped;
 public enum Algos {
 	AlgoAngleConic(Commands.Angle),
 	AlgoAngleLines(Commands.Angle),
@@ -199,7 +198,7 @@ public enum Algos {
 	AlgoReverse(Commands.Reverse),
 	AlgoSum(Commands.Sum),
 	AlgoMean(Commands.Mean),
-	AlgoMeanGrouped(Commands.MeanGrouped),
+	AlgoMeanGrouped(Commands.Mean),
 	AlgoVariance(Commands.Variance),
 	AlgoSigmaXX(Commands.SigmaXX),
 	AlgoStandardDeviation(Commands.SD),
@@ -530,7 +529,7 @@ AlgoTo2D,AlgoDependentVector3D,
 	AlgoDivisorsList(Commands.DivisorsList), AlgoPolynomialDivision(Commands.Division), AlgoDivision(Commands.Division), AlgoNpR(Commands.nPr), 
 	AlgoIsPrime(Commands.IsPrime), AlgoNextPrime(Commands.NextPrime),AlgoPreviousPrime(Commands.PreviousPrime), 
 	AlgoMatrixRank(Commands.MatrixRank),AlgoRandomPolynomial(Commands.RandomPolynomial),
-	AlgoLeftSide(Commands.LeftSide),AlgoRightSide(Commands.RightSide),AlgoImplicitDerivative(Commands.ImplicitDerivative),
+	AlgoLeftSide(Commands.LeftSide),AlgoRightSide(Commands.RightSide),AlgoImplicitDerivative(Commands.ImplicitDerivative), 
 	;
 	private String command;
 	private Algos(){

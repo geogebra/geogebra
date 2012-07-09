@@ -47,12 +47,23 @@ public class CmdProduct extends CommandProcessor{
 				}
 			throw argErr(app, c.getName(), arg[0]);
 		case 2:
+			// Product[<List of Numbers>, <Number>]
 			if (arg[1].isGeoNumeric()) {
 
 				if (((GeoList)arg[0]).getGeoElementForPropertiesDialog().isNumberValue()) 
 				{
 					GeoElement[] ret = { 
 							kernelA.Product(c.getLabel(),list,(GeoNumeric)arg[1]) };
+					return ret;
+				}
+				throw argErr(app, c.getName(), arg[0]);
+			}
+			// Product[<List of Numbers>, <Frequency>]
+			else if (arg[1].isGeoList()){
+				if (((GeoList)arg[0]).getGeoElementForPropertiesDialog().isNumberValue()) 
+				{
+					GeoElement[] ret = { 
+							kernelA.Product(c.getLabel(),list,(GeoList)arg[1]) };
 					return ret;
 				}
 				throw argErr(app, c.getName(), arg[0]);

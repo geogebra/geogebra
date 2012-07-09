@@ -5,7 +5,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 
 /**
- * Variance[ list ]
+ * Variance[ list ] or Variance[ list, frequency ] 
  * adapted from CmdSum by Michael Borcherds 2008-02-16
  */
 public class CmdVariance extends CmdOneListFunction {
@@ -23,5 +23,9 @@ public class CmdVariance extends CmdOneListFunction {
 		return kernelA.Variance(a, b);
 	}
 	
+	@Override
+	protected GeoElement doCommand(String a, GeoList list, GeoList freq) {
+		return kernelA.Variance(a, list, freq);
+	}
 
 }

@@ -25,5 +25,9 @@ public class CmdSampleSD extends CmdOneListFunction {
 		return kernelA.SampleStandardDeviation(a, b);
 	}
 
+	@Override
+	protected GeoElement doCommand(String a, GeoList list, GeoList freq) {
+		return kernelA.SampleStandardDeviation(a, list, freq);
+	}
 
 }

@@ -8,7 +8,7 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by 
 the Free Software Foundation.
 
-*/
+ */
 
 package geogebra.common.kernel.statistics;
 
@@ -25,14 +25,20 @@ import geogebra.common.kernel.geos.GeoList;
 
 public class AlgoVariance extends AlgoStats1D {
 
-	
+
 
 	public AlgoVariance(Construction cons, String label, GeoList geoList) {
-        super(cons,label,geoList,AlgoStats1D.STATS_VARIANCE);
-    }
+		super(cons,label,geoList,AlgoStats1D.STATS_VARIANCE);
+	}
 
-    @Override
+
+	public AlgoVariance(Construction cons, String label, GeoList geoList, GeoList geoList2) {
+		super(cons,label,geoList,geoList2,AlgoStats1D.STATS_VARIANCE);
+	}
+
+
+	@Override
 	public Algos getClassName() {
-        return Algos.AlgoVariance;
-    }
+		return Algos.AlgoVariance;
+	}
 }

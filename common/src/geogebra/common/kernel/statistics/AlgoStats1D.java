@@ -12,6 +12,8 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.statistics;
 
+import java.util.ArrayList;
+
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.Algos;
@@ -23,21 +25,19 @@ import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.locusequ.EquationElement;
 import geogebra.common.kernel.locusequ.EquationScope;
 
-
 /**
- * Mean, variance, sum, sum of squares, standard deviation of a list
- * adapted from AlgoListMin
- * to replace AlgoMean, AlgoSum
+ * Mean, variance, sum, sum of squares, standard deviation of a list adapted
+ * from AlgoListMin to replace AlgoMean, AlgoSum
+ * 
  * @author Michael Borcherds
  * @version 2008-02-18
  */
 
 public abstract class AlgoStats1D extends AlgoElement {
 
-
-	private GeoList geoList; //input
-	public GeoNumeric Truncate; //input	
-	public GeoNumeric result; //output	
+	private GeoList geoList, geoList2; // input
+	public GeoNumeric Truncate; // input
+	public GeoNumeric result; // output
 
 	private int stat;
 
@@ -51,20 +51,44 @@ public abstract class AlgoStats1D extends AlgoElement {
 	final static int STATS_SAMPLE_VARIANCE = 7;
 	final static int STATS_SAMPLE_SD = 8;
 
-	public AlgoStats1D(Construction cons, String label, GeoList geoList, int stat) {
-		this(cons, label, geoList, null, stat);
+	public AlgoStats1D(Construction cons, String label, GeoList geoList,
+			int stat) {
+		this(cons, label, geoList, null, null, stat);
 	}
 
-	AlgoStats1D(Construction cons, String label, GeoList geoList, GeoNumeric Truncate, int stat) {
-		this(cons, geoList, Truncate, stat);
+	AlgoStats1D(Construction cons, String label, GeoList geoList,
+			GeoNumeric Truncate, int stat) {
+		this(cons, geoList, null, Truncate, stat);
 		result.setLabel(label);
 	}
 
-	AlgoStats1D(Construction cons, GeoList geoList, GeoNumeric Truncate, int stat) {
+	public AlgoStats1D(Construction cons, GeoList geoList, int stat) {
+		this(cons, geoList, null, null, stat);
+	}
+
+	public AlgoStats1D(Construction cons, String label, GeoList geoList,
+			GeoList geoList2, int stat) {
+		this(cons, label, geoList, geoList2, null, stat);
+	}
+
+	AlgoStats1D(Construction cons, String label, GeoList geoList,
+			GeoList geoList2, GeoNumeric Truncate, int stat) {
+		this(cons, geoList, geoList2, Truncate, stat);
+		result.setLabel(label);
+	}
+
+	public AlgoStats1D(Construction cons, GeoList geoList, GeoList geoList2,
+			int stat) {
+		this(cons, geoList, geoList2, null, stat);
+	}
+
+	AlgoStats1D(Construction cons, GeoList geoList, GeoList geoList2,
+			GeoNumeric Truncate, int stat) {
 		super(cons);
 		this.geoList = geoList;
-		this.stat=stat;
-		this.Truncate=Truncate;
+		this.geoList2 = geoList2;
+		this.stat = stat;
+		this.Truncate = Truncate;
 
 		if (geoList.size() > 0 && geoList.get(0).isAngle())
 			result = new GeoAngle(cons);
@@ -75,25 +99,23 @@ public abstract class AlgoStats1D extends AlgoElement {
 		compute();
 	}
 
-	public AlgoStats1D(Construction cons, GeoList geoList, int stat) {
-		this(cons, geoList, null, stat);
-	}
-
 	@Override
 	public abstract Algos getClassName();
 
 	@Override
-	protected void setInputOutput(){
-		if (Truncate == null) {
-			input = new GeoElement[1];
-			input[0] = geoList;
+	protected void setInputOutput() {
+		ArrayList<GeoElement> inputList = new ArrayList<GeoElement>();
+		inputList.add(geoList);
+		if (geoList2 != null) {
+			inputList.add(geoList2);
 		}
-		else {
-			input = new GeoElement[2];
-			input[0] = geoList;
-			input[1] = Truncate;
+		if (Truncate != null) {
+			inputList.add(Truncate);
 		}
-
+		input = new GeoElement[inputList.size()];
+		inputList.toArray(input);
+		inputList.clear();
+		
 		setOnlyOutput(result);
 		setDependencies(); // done by AlgoElement
 	}
@@ -102,29 +124,33 @@ public abstract class AlgoStats1D extends AlgoElement {
 		return result;
 	}
 
-
 	@Override
 	public final void compute() {
 
 		// TODO: remove
-		//Application.debug("compute: " + geoList);
+		// Application.debug("compute: " + geoList);
 		if (!geoList.isDefined()) {
 			result.setUndefined();
 			return;
 		}
 
+		if (geoList2 != null) {
+			if (!geoList2.isDefined() || (geoList.size() != geoList2.size())) {
+				result.setUndefined();
+				return;
+			}
+		}
+
 		int truncate;
 		int size = geoList.size();
 
-		if (Truncate != null)
-		{
-			truncate=(int)Truncate.getDouble();
+		if (Truncate != null) {
+			truncate = (int) Truncate.getDouble();
 			if (truncate == 0) {
 				result.setValue(0);
 				return;
 			}
-			if (truncate < 1 || truncate > size)
-			{
+			if (truncate < 1 || truncate > size) {
 				result.setUndefined();
 				return;
 			}
@@ -132,8 +158,7 @@ public abstract class AlgoStats1D extends AlgoElement {
 		}
 
 		if (size == 0) {
-			switch (stat)
-			{
+			switch (stat) {
 			case STATS_SIGMAX:
 			case STATS_SIGMAXX:
 				result.setValue(0);
@@ -147,51 +172,83 @@ public abstract class AlgoStats1D extends AlgoElement {
 			}
 		}
 
-
 		double sumVal = 0;
 		double sumSquares = 0;
 		double product = 1;
-		double val;
-		for (int i=0; i < size; i++) {
-			GeoElement geo = geoList.get(i);
-			if (geo.isNumberValue()) {
-				NumberValue num = (NumberValue) geo;
-				val=num.getDouble();
-				sumVal += val;
-				sumSquares += val*val;
-				product *= val;
-			} else {
-				result.setUndefined();
-				return;
-			}    		    		
-		}   
+		double sumFreq = 0;
+		double frequency = 1;
+		double var, mu;
+		GeoElement geo, geo2;
 
-		double mu=sumVal/size;
-		double var;
+		// list of numbers only, no frequencies
+		if (geoList2 == null) {
+			double val;
+			for (int i = 0; i < size; i++) {
+				geo = geoList.get(i);
+				if (geo.isNumberValue()) {
+					val = ((NumberValue) geo).getDouble();
+					sumVal += val;
+					sumSquares += val * val;
+					product *= val;
+				} else {
+					result.setUndefined();
+					return;
+				}
+			}
+		}
 
-		switch (stat)
-		{
+		// list of numbers with list of frequencies
+		else {
+			double val;
+			double val_by_freq;
+			for (int i = 0; i < size; i++) {
+				geo = geoList.get(i);
+				geo2 = geoList2.get(i);
+				if (geo.isNumberValue() && geo2.isNumberValue()) {
+					NumberValue num = (NumberValue) geo;
+					NumberValue freq = (NumberValue) geo2;
+					val = num.getDouble();
+					frequency = freq.getDouble();
+					val_by_freq = val * frequency;
+					sumVal += val_by_freq;
+					sumSquares += val * val_by_freq;
+					sumFreq += frequency;
+					product *= Math.pow(val, frequency);
+				} else {
+					result.setUndefined();
+					return;
+				}
+			}
+
+	
+			size = (int) sumFreq;
+		}
+		
+		mu = sumVal / size;
+
+
+		switch (stat) {
 		case STATS_MEAN:
 			result.setValue(mu);
 			break;
 		case STATS_SD:
-			var=sumSquares/size-mu*mu;
+			var = sumSquares / size - mu * mu;
 			result.setValue(Math.sqrt(var));
 			break;
 		case STATS_SAMPLE_SD:
-			var=(sumSquares - sumVal * sumVal / size) / (size -1);
+			var = (sumSquares - sumVal * sumVal / size) / (size - 1);
 			result.setValue(Math.sqrt(var));
 			break;
 		case STATS_VARIANCE:
-			var=sumSquares/size-mu*mu;
+			var = sumSquares / size - mu * mu;
 			result.setValue(var);
 			break;
 		case STATS_SAMPLE_VARIANCE:
-			var=(sumSquares - sumVal * sumVal / size) / (size -1);
+			var = (sumSquares - sumVal * sumVal / size) / (size - 1);
 			result.setValue(var);
 			break;
 		case STATS_SXX:
-			var=sumSquares - (sumVal * sumVal) / size;
+			var = sumSquares - (sumVal * sumVal) / size;
 			result.setValue(var);
 			break;
 		case STATS_SIGMAX:
@@ -219,5 +276,4 @@ public abstract class AlgoStats1D extends AlgoElement {
 	}
 
 }
-
 

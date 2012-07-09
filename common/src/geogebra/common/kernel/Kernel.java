@@ -7575,6 +7575,16 @@ public class Kernel {
 	}
 
 	/**
+	 * Product[list, freq] G. Sturr
+	 */
+	final public GeoNumeric Product(String label, GeoList list, GeoList freq) {
+		AlgoProduct algo = new AlgoProduct(cons, label, list, freq);
+		GeoNumeric num = algo.getResult();
+		return num;
+	}
+
+	
+	/**
 	 * Product[list,n] Zbynek Konecny
 	 */
 	final public GeoNumeric Product(String label, GeoList list, GeoNumeric n) {
@@ -7592,6 +7602,16 @@ public class Kernel {
 		return ret;
 	}
 
+	/**
+	 * Sum[list, freq] G. Sturr 
+	 */
+	final public GeoElement Sum(String label, GeoList list, GeoList freq) {
+		AlgoSum algo = new AlgoSum(cons, label, list, freq);
+		GeoElement ret = algo.getResult();
+		return ret;
+	}
+
+	
 	/**
 	 * Sum[list,n] Michael Borcherds
 	 */
@@ -7912,8 +7932,8 @@ public class Kernel {
 	/**
 	 * Mean[list,list] Kamalaruban Parameswaran
 	 */
-	final public GeoNumeric Mean_Grouped(String label, GeoList list, GeoList list2) {
-		AlgoMeanGrouped algo = new AlgoMeanGrouped((Construction) cons, label, list, list2);
+	final public GeoNumeric Mean(String label, GeoList list, GeoList list2) {
+		AlgoMean algo = new AlgoMean((Construction) cons, label, list, list2);
 		GeoNumeric num = algo.getResult(); 
 		return num;
 	}
@@ -7940,6 +7960,15 @@ public class Kernel {
 	}
 
 	/**
+	 * Variance[list, freq] G. Sturr
+	 */
+	final public GeoNumeric Variance(String label, GeoList list, GeoList freq) {
+		AlgoVariance algo = new AlgoVariance(cons, label, list, freq);
+		GeoNumeric num = algo.getResult();
+		return num;
+	}
+	
+	/**
 	 * SampleVariance[list] Michael Borcherds
 	 */
 	final public GeoNumeric SampleVariance(String label, GeoList list) {
@@ -7948,6 +7977,15 @@ public class Kernel {
 		return num;
 	}
 
+	/**
+	 * SampleVariance[list, freq] G. Sturr 
+	 */
+	final public GeoNumeric SampleVariance(String label, GeoList list, GeoList freq) {
+		AlgoSampleVariance algo = new AlgoSampleVariance(cons, label, list, freq);
+		GeoNumeric num = algo.getResult();
+		return num;
+	}
+	
 	/**
 	 * SD[list] Michael Borcherds
 	 */
@@ -7959,6 +7997,18 @@ public class Kernel {
 	}
 
 	/**
+	 * SD[list, freq] G. Sturr 
+	 */
+	final public GeoNumeric StandardDeviation(String label, GeoList list, GeoList freq) {
+		AlgoStandardDeviation algo = new AlgoStandardDeviation(cons, label,
+				list, freq);
+		GeoNumeric num = algo.getResult();
+		return num;
+	}
+
+	
+	
+	/**
 	 * SampleSD[list] Michael Borcherds
 	 */
 	final public GeoNumeric SampleStandardDeviation(String label, GeoList list) {
@@ -7968,6 +8018,16 @@ public class Kernel {
 		return num;
 	}
 
+	/**
+	 * SampleSD[list, freq] G. Sturr 
+	 */
+	final public GeoNumeric SampleStandardDeviation(String label, GeoList list, GeoList freq) {
+		AlgoSampleStandardDeviation algo = new AlgoSampleStandardDeviation(
+				cons, label, list, freq);
+		GeoNumeric num = algo.getResult();
+		return num;
+	}
+	
 	/**
 	 * SigmaXX[list] Michael Borcherds
 	 */
@@ -7984,6 +8044,26 @@ public class Kernel {
 		return num;
 	}
 
+	/**
+	 * SigmaXX[list, list2, grouped]   G. Sturr 
+	 * 
+	 * if grouped = true, returns 1D statistic for list with frequencies 
+	 * if grouped = false, returns 2D statistic for list of points
+	 */
+	final public GeoNumeric SigmaXX(String label, GeoList list, GeoList list2, Boolean grouped) {
+		GeoNumeric num;
+		if(grouped){
+			AlgoSigmaXX algo = new AlgoSigmaXX(cons, label, list, list2);
+			num = algo.getResult();
+		}else{
+			AlgoDoubleListSigmaXX algo = new AlgoDoubleListSigmaXX(cons, label,
+					list, list2);
+			num = algo.getResult();
+		}
+
+		return num;
+	}
+	
 	/**
 	 * Median[list] Michael Borcherds
 	 */

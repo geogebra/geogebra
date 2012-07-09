@@ -109,6 +109,15 @@ public class CmdSum extends CommandProcessor {
 					throw argErr(app, c.getName(), arg[0]);
 				}
 			}
+			else if(arg[1].isGeoList()){
+				if (((GeoList)arg[0]).getGeoElementForPropertiesDialog().isNumberValue()) 
+				{
+					GeoElement[] ret = { 
+							kernelA.Sum(c.getLabel(),list,(GeoList)arg[1]) };
+					return ret;
+				}
+				throw argErr(app, c.getName(), arg[0]);
+			}
 			throw argErr(app, c.getName(), arg[0]);
 
 		default:

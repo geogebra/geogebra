@@ -25,5 +25,8 @@ public class CmdSampleVariance extends CmdOneListFunction {
 		return kernelA.SampleVariance(a, b);
 	}
 	
-
+	@Override
+	protected GeoElement doCommand(String a, GeoList list, GeoList freq) {
+		return kernelA.SampleVariance(a, list, freq);
+	}
 }

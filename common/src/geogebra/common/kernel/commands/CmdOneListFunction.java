@@ -67,7 +67,15 @@ public abstract class CmdOneListFunction extends CommandProcessor {
 		
 		     // more than one argument
         default :
-        	if (arg[0].isNumberValue()) {
+        	
+        	// two lists (e.g. grouped mean)
+        	if(n==2 && arg[0].isGeoList() && arg[1].isGeoList()){
+        		GeoElement[] ret = { doCommand(c.getLabel(),
+								(GeoList) arg[0], (GeoList) arg[1]) };
+        		return ret;             	     	 
+        	}
+        	
+        	else if (arg[0].isNumberValue()) {
 	            // try to create list of numbers
 	       	 GeoList list = wrapInList(kernelA, arg, arg.length, GeoClass.NUMERIC);
 	            if (list != null) {
@@ -94,4 +102,8 @@ public abstract class CmdOneListFunction extends CommandProcessor {
      * @return resulting element
      */
     abstract protected GeoElement doCommand(String label, GeoList list);     
+    
+    protected GeoElement doCommand(String label, GeoList list, GeoList list2){
+    	return null;     
+    }
 }

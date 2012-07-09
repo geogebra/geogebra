@@ -18,7 +18,7 @@ import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 
 /**
- * Mean of a list
+ * Sum of a list of numbers or grouped data
  * @author Michael Borcherds
  * @version 2008-02-18
  */
@@ -35,6 +35,14 @@ public class AlgoSum extends AlgoStats1D {
         super(cons,geoList,AlgoStats1D.STATS_SIGMAX);
     }
     
+	public AlgoSum(Construction cons, String label, GeoList geoList, GeoList freq) {
+        super(cons,label,geoList,freq,AlgoStats1D.STATS_SIGMAX);
+    }
+    
+	public AlgoSum(Construction cons, GeoList geoList, GeoList freq) {
+        super(cons,geoList,freq, AlgoStats1D.STATS_SIGMAX);
+    }
+	
     public AlgoSum(Construction cons, String label, GeoList geoList, GeoNumeric n) {
         super(cons,label,geoList,n,AlgoStats1D.STATS_SIGMAX);
     }
