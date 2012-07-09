@@ -1954,15 +1954,12 @@ public abstract class EuclidianController {
 								
 				checkZooming(); 
 				
-				GeoElement[] ret = kernel.RigidPolygon(poly[0]);
-				
 				// offset the copy slightly
 				double offset = view.toRealWorldCoordX(view.getWidth()) / 15;
+
+				GeoElement[] ret = kernel.RigidPolygon(poly[0], offset, -offset);
 				
-				GeoPointND firstPoint = ((GeoPolygon) ret[0]).getPoints()[0];
 				
-				firstPoint.setCoords(firstPoint.getX2D() + offset, firstPoint.getY2D() - offset, 1.0);
-				firstPoint.updateRepaint();
 				
 				return ret;
 

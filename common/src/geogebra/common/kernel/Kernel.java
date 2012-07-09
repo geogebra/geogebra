@@ -8175,9 +8175,11 @@ public class Kernel {
 	/**
 	 * makes a copy of a polygon that can be dragged and rotated but stays congruent to original
 	 * @param poly
+	 * @param offset2 
+	 * @param offset 
 	 * @return
 	 */
-	final public GeoElement[] RigidPolygon(GeoPolygon poly) {
+	final public GeoElement[] RigidPolygon(GeoPolygon poly, double offsetX, double offsetY) {
 		
 		GeoPointND [] p = new GeoPointND[poly.getPointsLength()];
 		
@@ -8244,8 +8246,16 @@ public class Kernel {
 		setUseInternalCommandNames(oldVal);
 		
 		AlgoPolygon algo = new AlgoPolygon(cons, null, p);
-		
 		GeoElement[] ret = { algo.getGeoElements()[0] };
+		
+		GeoPointND firstPoint = ((GeoPolygon) ret[0]).getPoints()[0];
+		
+		firstPoint.updateCoords2D();
+		
+		firstPoint.setCoords(firstPoint.getX2D() + offsetX, firstPoint.getY2D() + offsetY, 1.0);
+		firstPoint.updateRepaint();
+
+		
 		
 		return ret;
 	}
