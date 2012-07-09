@@ -364,6 +364,8 @@ public class ScriptManager extends ScriptManagerCommon {
 		$wnd[ggbApplet].unregisterObjectUpdateListener = function(JSFunctionName) {
 			ggbAPI.@geogebra.web.main.GgbAPI::unregisterObjectUpdateListener(Ljava/lang/String;)(JSFunctionName);
 		};
+		
+		$doc[ggbApplet] = $wnd[ggbApplet];
 
 		// other methods from the Wiki (consider to implement here)
 		// http://wiki.geogebra.org/en/Reference:JavaScript
