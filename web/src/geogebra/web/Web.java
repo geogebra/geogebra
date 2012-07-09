@@ -13,6 +13,7 @@ import geogebra.web.asyncservices.HandleOAuth2Service;
 import geogebra.web.asyncservices.HandleOAuth2ServiceAsync;
 import geogebra.web.css.GuiResources;
 import geogebra.web.gui.app.GeoGebraAppFrame;
+import geogebra.web.gui.mobile.GeoGebraMobileFrame;
 import geogebra.web.helper.JavaScriptInjector;
 import geogebra.web.html5.ArticleElement;
 import geogebra.web.html5.Dom;
@@ -39,6 +40,10 @@ import com.google.gwt.user.client.ui.RootPanel;
 
 
 
+/**
+ * @author apa
+ *
+ */
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
  */
@@ -70,12 +75,36 @@ public class Web implements EntryPoint {
 		return articleNodes;
 	}
 	
-	public static boolean loadedAsApp = false;
+	/**
+	 * @author gabor
+	 * Describes the Gui type that needed to load
+	 *
+	 */
+	
+	public enum GuiToLoad {
+		/**
+		 * Gui For an App.
+		 */
+		APP, 
+		/**
+		 * Gui for a mobile
+		 */
+		MOBILE,
+		/**
+		 * No Gui, only euclidianView
+		 */
+		VIEWER
+	}
+	
+	/**
+	 * GUI currently Loaded
+	 */
+	public static GuiToLoad currentGUI = null;
 
 	public void onModuleLoad() {
 		//do we have an app?
-		Web.loadedAsApp = checkIfNeedToLoadAsApp();
-		if (Web.loadedAsApp) {
+		Web.currentGUI = checkIfNeedToLoadGUI();
+		if (!Web.currentGUI.equals(GuiToLoad.VIEWER)) {
 			JavaScriptInjector.inject(GuiResources.INSTANCE.propertiesKeysJS().getText());
 			// popup when the user wants to exit accidentally
 	        Window.addWindowClosingHandler(new Window.ClosingHandler() {
@@ -110,18 +139,34 @@ public class Web implements EntryPoint {
 		
 //		setLocaleToQueryParam();
 				
-		if (!Web.loadedAsApp) {
+		if (Web.currentGUI.equals(GuiToLoad.VIEWER)) {
 			//we dont want to parse out of the box sometimes...
 			if (!calledFromExtension()) {
 				startGeoGebra(getGeoGebraMobileTags());
 			} else {
 				exportArticleTagRenderer();
 			}
-		} else {
+		} else if (Web.currentGUI.equals(GuiToLoad.APP)) {
 			loadAppAsync();
+		} else if (Web.currentGUI.equals(GuiToLoad.MOBILE)) {
+			loadMobileAsync();
 		}
 	}
 	
+	private void loadMobileAsync() {
+	   GWT.runAsync(new RunAsyncCallback() {
+		
+		public void onSuccess() {
+			GeoGebraMobileFrame app = new GeoGebraMobileFrame();
+			
+		}
+		
+		public void onFailure(Throwable reason) {
+			App.debug(reason);
+		}
+	   });
+    }
+
 	private void loadAppAsync() {
 	    GWT.runAsync(new RunAsyncCallback() {
 			
@@ -143,8 +188,13 @@ public class Web implements EntryPoint {
 	 * 
 	 * @return true if bodyelement has data-param-app=true
 	 */
-	private static boolean checkIfNeedToLoadAsApp() {
-	    return ("true".equals(RootPanel.getBodyElement().getAttribute("data-param-app")));
+	private static GuiToLoad checkIfNeedToLoadGUI() {
+	    if ("true".equals(RootPanel.getBodyElement().getAttribute("data-param-app"))) {
+	    	return GuiToLoad.APP;
+	    } else if ("true".equals(RootPanel.getBodyElement().getAttribute("data-param-mobile"))) {
+	    	return GuiToLoad.MOBILE;
+	    }
+	    return GuiToLoad.VIEWER;
     }
 	
 	private native void exportArticleTagRenderer() /*-{
