@@ -403,7 +403,7 @@ public class GeoGebraMenuBar extends JMenuBar {
 		appendVersion(sb, app);
 		sb.append("</b>  (");
 		sb.append("Java "); 
-		sb.append(System.getProperty("java.version")); 
+		AppD.appendJavaVersion(sb);
 		sb.append(", ");
 		sb.append(app.getHeapSize()/1024/1024);
 		sb.append("MB, ");
@@ -521,4 +521,5 @@ public class GeoGebraMenuBar extends JMenuBar {
 				);
 
 	}
+
 }

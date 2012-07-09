@@ -654,7 +654,7 @@ public class AppD extends App implements
 		// help debug applets
 		info("GeoGebra " + GeoGebraConstants.VERSION_STRING + " "
 				+ GeoGebraConstants.BUILD_DATE + " Java "
-				+ System.getProperty("java.version"));
+				+ getJavaVersion());
 		if (args.containsArg("v")) {
 			System.exit(0);
 		}
@@ -5231,6 +5231,40 @@ public class AppD extends App implements
 			String name, boolean asHtml, MenuInterface subMenu) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	/**
+	 * 
+	 * @return eg Java 1.7.0_03-64bit
+	 */
+	public static String getJavaVersion() {
+		return appendJavaVersion(new StringBuilder(19)).toString();
+	}
+	
+	/**
+	 * 
+	 * @param sb StringBuilder
+	 * @return StringBuilder with eg "Java 1.7.0_03-64bit" added
+	 */
+	public static StringBuilder appendJavaVersion(StringBuilder sb) {
+		sb.append(System.getProperty("java.version")); 
+		
+		String arch = System.getProperty("os.arch");
+		if (arch == null || "".equals(arch)) {
+			return sb;
+		}
+		
+		sb.append('-');
+		
+		if ("x86".equals(arch) || "ppc".equals(arch) || "i386".equals(arch)) {
+			sb.append("32bit");
+		} else if ("amd64".equals(arch) || "x86_64".equals(arch)) {
+			sb.append("64bit");
+		} else {
+			sb.append(arch);
+		}
+		
+		return sb;
 	}
 	
 }
