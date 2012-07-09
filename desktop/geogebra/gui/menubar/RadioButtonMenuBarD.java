@@ -1,20 +1,52 @@
 package geogebra.gui.menubar;
 
 import java.awt.Component;
+import java.awt.Font;
+import java.awt.event.ActionListener;
 
+
+import javax.swing.ButtonGroup;
 import javax.swing.JMenu;
 import javax.swing.JRadioButtonMenuItem;
 
 import geogebra.common.gui.menubar.MenuInterface;
+import geogebra.common.gui.menubar.MyActionListener;
 import geogebra.common.gui.menubar.RadioButtonMenuBar;
 import geogebra.common.main.App;
+import geogebra.main.AppD;
 
 public class RadioButtonMenuBarD extends JMenu implements RadioButtonMenuBar{
+	
+	private AppD app;
 
-	public void addRadioButtonMenuItems(MenuInterface alistener,
+	public RadioButtonMenuBarD(App application){
+		super();
+		app = (AppD)application;
+	}
+
+	public void addRadioButtonMenuItems(MyActionListener alistener,
 			String[] items, String[] actionCommands, int selectedPos) {
-		// TODO Auto-generated method stub
 		
+		JRadioButtonMenuItem mi;
+		ButtonGroup bg = new ButtonGroup();
+		// String label;
+
+		for (int i = 0; i < items.length; i++) {
+			if (items[i] == "---") {
+				addSeparator();
+			} else {
+				//String text = app.getMenu(items[i]);
+				String text = items[i];
+				mi = new JRadioButtonMenuItem(text);
+				mi.setFont(app.getFontCanDisplayAwt(text, false, Font.PLAIN, app.getGUIFontSize()));
+				if (i == selectedPos)
+					mi.setSelected(true);
+				mi.setActionCommand(actionCommands[i]);
+				mi.addActionListener((ActionListener)alistener);
+				bg.add(mi);
+				add(mi);
+			}
+		}
 	}
 
 	public void setSelected(int pos) {

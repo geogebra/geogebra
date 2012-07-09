@@ -5,7 +5,7 @@ public abstract class ActionListener{
 	
 	private ActionListenerI listenerClass;	
 
-	protected void wrapActionPerformed(ActionEvent event) {
+	public void wrapActionPerformed(ActionEvent event) {
 		listenerClass.actionPerformed(event);
 	}
 	

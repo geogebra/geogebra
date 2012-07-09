@@ -1,6 +1,7 @@
 package geogebra.web.gui.menubar;
 
 import geogebra.common.gui.menubar.MenuInterface;
+import geogebra.common.gui.menubar.MyActionListener;
 import geogebra.common.gui.menubar.OptionsMenu;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.main.App;
@@ -12,7 +13,7 @@ import com.google.gwt.user.client.ui.MenuItem;
 /**
  * The "Options" menu.
  */
-public class OptionsMenuW extends MenuBar implements MenuInterface{
+public class OptionsMenuW extends MenuBar implements MenuInterface, MyActionListener{
 	
 	private static App app;
 	static Kernel kernel;
@@ -53,7 +54,7 @@ public class OptionsMenuW extends MenuBar implements MenuInterface{
 	}
 	
 	private void addAlgebraDescriptionMenu(){
-		RadioButtonMenuBarW submenu = new RadioButtonMenuBarW();
+		RadioButtonMenuBarW submenu = new RadioButtonMenuBarW(app);
 		
 		submenu.addItem(app.getMenu("Value"), new RadioButtonCommand(submenu, 0) {
 			
@@ -112,7 +113,7 @@ public class OptionsMenuW extends MenuBar implements MenuInterface{
 	
 
 	private void addPointCapturingMenu(){		
-		menuPointCapturing = new RadioButtonMenuBarW();
+		menuPointCapturing = new RadioButtonMenuBarW(app);
 		String[] strPointCapturing = { app.getMenu("Labeling.automatic"), app.getMenu("SnapToGrid"),
 				app.getMenu("FixedToGrid"), app.getMenu("off") };
 		String[] strPointCapturingAC = { "3 PointCapturing",
@@ -159,7 +160,7 @@ public class OptionsMenuW extends MenuBar implements MenuInterface{
 
 	
 
-	public static void actionPerformed(String cmd){
+	public void actionPerformed(String cmd){
 		OptionsMenu.processActionPerformed(cmd, app, kernel);
 	}
 

@@ -87,7 +87,7 @@ public abstract class OptionsMenu {
 	}
 	
 	public static void addDecimalPlacesMenu(MenuInterface menu, App app){
-		menuDecimalPlaces = Factory.prototype.newRadioButtonMenuBar();
+		menuDecimalPlaces = Factory.prototype.newRadioButtonMenuBar(app);
 
 		/*
 		 * int max_dec = 15; String[] strDecimalSpaces = new String[max_dec +
@@ -97,7 +97,7 @@ public abstract class OptionsMenu {
 		 */
 		String[] strDecimalSpaces = app.getRoundingMenu();
 
-		menuDecimalPlaces.addRadioButtonMenuItems(menu,
+		menuDecimalPlaces.addRadioButtonMenuItems((MyActionListener)menu,
 				strDecimalSpaces, App.strDecimalSpacesAC, 0);
 		
 		app.addMenuItem(menu, "empty.png", app.getMenu("Rounding"), true, menuDecimalPlaces);

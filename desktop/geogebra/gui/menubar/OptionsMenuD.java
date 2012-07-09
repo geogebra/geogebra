@@ -1,5 +1,8 @@
 package geogebra.gui.menubar;
 
+import geogebra.common.gui.menubar.MenuInterface;
+import geogebra.common.gui.menubar.MyActionListener;
+import geogebra.common.gui.menubar.OptionsMenu;
 import geogebra.common.gui.view.properties.PropertiesView.OptionType;
 import geogebra.common.io.MyXMLHandler;
 import geogebra.common.kernel.Kernel;
@@ -23,7 +26,7 @@ import javax.swing.event.MenuListener;
 /**
  * The "Options" menu.
  */
-public class OptionsMenuD extends BaseMenu implements ActionListener, MenuListener {
+public class OptionsMenuD extends BaseMenu implements ActionListener, MyActionListener, MenuInterface {
 	private static final long serialVersionUID = -8032696074032177289L;
 	
 	Kernel kernel;
@@ -90,21 +93,23 @@ public class OptionsMenuD extends BaseMenu implements ActionListener, MenuListen
 		add(menuPointCapturing);
 		updateMenuPointCapturing();
 
-		// decimal places
-		menuDecimalPlaces = new JMenu(app.getMenu("Rounding"));
-		menuDecimalPlaces.setIcon(app.getEmptyIcon());
-		/*
-		 * int max_dec = 15; String[] strDecimalSpaces = new String[max_dec +
-		 * 1]; String[] strDecimalSpacesAC = new String[max_dec + 1]; for (int
-		 * i=0; i <= max_dec; i++){ strDecimalSpaces[i] = Integer.toString(i);
-		 * strDecimalSpacesAC[i] = i + " decimals"; }
-		 */
-		String[] strDecimalSpaces = app.getRoundingMenu();
-
-		addRadioButtonMenuItems(menuDecimalPlaces, this,
-				strDecimalSpaces, App.strDecimalSpacesAC, 0);
-		add(menuDecimalPlaces);
-		updateMenuDecimalPlaces();
+//		// decimal places
+//		menuDecimalPlaces = new JMenu(app.getMenu("Rounding"));
+//		menuDecimalPlaces.setIcon(app.getEmptyIcon());
+//		/*
+//		 * int max_dec = 15; String[] strDecimalSpaces = new String[max_dec +
+//		 * 1]; String[] strDecimalSpacesAC = new String[max_dec + 1]; for (int
+//		 * i=0; i <= max_dec; i++){ strDecimalSpaces[i] = Integer.toString(i);
+//		 * strDecimalSpacesAC[i] = i + " decimals"; }
+//		 */
+//		String[] strDecimalSpaces = app.getRoundingMenu();
+//
+//		addRadioButtonMenuItems(menuDecimalPlaces, this,
+//				strDecimalSpaces, App.strDecimalSpacesAC, 0);
+//		add(menuDecimalPlaces);
+//		updateMenuDecimalPlaces();
+		
+		OptionsMenu.addDecimalPlacesMenu(this, app);
 
 		addSeparator();
 
@@ -548,6 +553,10 @@ public class OptionsMenuD extends BaseMenu implements ActionListener, MenuListen
 	@Override
 	protected void initItems() {
 		initItems(null);
+	}
+
+	public void actionPerformed(String command) {
+		OptionsMenu.processActionPerformed(command, app, kernel);	
 	}
 
 

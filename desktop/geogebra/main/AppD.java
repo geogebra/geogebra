@@ -64,6 +64,7 @@ import geogebra.export.GeoGebraTubeExportDesktop;
 import geogebra.export.WorksheetExportDialog;
 import geogebra.factories.AwtFactoryD;
 import geogebra.factories.CASFactoryD;
+import geogebra.factories.FactoryD;
 import geogebra.factories.FormatFactoryD;
 import geogebra.factories.LaTeXFactoryD;
 import geogebra.factories.SwingFactoryD;
@@ -167,6 +168,8 @@ import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
@@ -583,7 +586,7 @@ public class AppD extends App implements
 		geogebra.common.factories.CASFactory.prototype = new CASFactoryD();
 		geogebra.common.factories.SwingFactory.prototype = new SwingFactoryD();
 		geogebra.common.factories.UtilFactory.prototype = new UtilFactoryD();
-		//geogebra.common.factories.Factory.prototype = new FactoryD();
+		geogebra.common.factories.Factory.prototype = new FactoryD();
 		geogebra.common.util.StringUtil.prototype = new geogebra.util.StringUtil();
 		
 		geogebra.common.euclidian.HatchingHandler.prototype = new geogebra.euclidian.HatchingHandlerD();
@@ -5229,7 +5232,10 @@ public class AppD extends App implements
 	@Override
 	public void addMenuItem(MenuInterface parentMenu, String filename,
 			String name, boolean asHtml, MenuInterface subMenu) {
-		// TODO Auto-generated method stub
+		
+		((JMenuItem) subMenu).setIcon(getImageIcon(filename));
+		((JMenuItem) subMenu).setText(name);
+		((JMenu)parentMenu).add((JMenuItem) subMenu);
 		
 	}
 	

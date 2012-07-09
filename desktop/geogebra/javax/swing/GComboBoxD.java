@@ -96,7 +96,7 @@ public class GComboBoxD extends geogebra.common.javax.swing.AbstractJComboBox {
 
 	@Override
 	public void addActionListener(ActionListener newActionListener) {
-		impl.addActionListener((geogebra.euclidian.event.ActionListener) newActionListener);
+		impl.addActionListener((geogebra.euclidian.event.ActionListenerD) newActionListener);
 	}
 
 	@Override

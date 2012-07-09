@@ -2,17 +2,18 @@ package geogebra.euclidian.event;
 
 import geogebra.common.euclidian.event.ActionEvent;
 import geogebra.common.euclidian.event.ActionListenerI;
+import geogebra.common.euclidian.event.ActionListener;
 
 
-public class ActionListener extends geogebra.common.euclidian.event.ActionListener
+public class ActionListenerD extends ActionListener
 implements java.awt.event.ActionListener{
 
-	public ActionListener(ActionListenerI listener) {
+	public ActionListenerD(ActionListenerI listener) {
 		setListenerClass(listener);
 	}
 
 	public void actionPerformed(java.awt.event.ActionEvent e) {
-		geogebra.euclidian.event.ActionEvent event = geogebra.euclidian.event.ActionEvent.wrapEvent(e);
+		geogebra.euclidian.event.ActionEventD event = geogebra.euclidian.event.ActionEventD.wrapEvent(e);
 		wrapActionPerformed(event);
 	}
 	

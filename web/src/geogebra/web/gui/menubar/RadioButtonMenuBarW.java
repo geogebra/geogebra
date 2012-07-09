@@ -1,7 +1,9 @@
 package geogebra.web.gui.menubar;
 
+import geogebra.common.gui.menubar.MyActionListener;
 import geogebra.common.gui.menubar.MenuInterface;
 import geogebra.common.gui.menubar.RadioButtonMenuBar;
+import geogebra.common.main.App;
 
 import java.util.ArrayList;
 
@@ -18,9 +20,15 @@ public class RadioButtonMenuBarW extends MenuBar implements RadioButtonMenuBar {
 	private Object cmd;
 	private String[] texts;
 	private String[] commands;
-	private MenuInterface listener;
+	private MyActionListener listener;
 
-	public RadioButtonMenuBarW() {
+	/**
+	 * Creates a RadioButtonMenuBarW instance
+	 * 
+	 * @param app Application instance - this construction doesn't use this,
+	 * but it needed because of the desktop-implementation of RadioButtonMenuBar class.
+	 */
+	public RadioButtonMenuBarW(App app) {
 		super(true);
 		menubarID = DOM.createUniqueId();
 		radioButtons = new ArrayList<RadioButton>();
@@ -68,7 +76,7 @@ public class RadioButtonMenuBarW extends MenuBar implements RadioButtonMenuBar {
 	 * @param actionCommands
 	 * @param selectedPos
 	 */
-	public void addRadioButtonMenuItems(MenuInterface al,
+	public void addRadioButtonMenuItems(MyActionListener al,
 			String[] items, final String[] actionCommands, int selectedPos) {
 		texts = items;
 		commands = actionCommands;
@@ -92,7 +100,7 @@ public class RadioButtonMenuBarW extends MenuBar implements RadioButtonMenuBar {
 				addItem(texts[i], new Command() {
 					public void execute() {
 						setSelected(j);
-						OptionsMenuW.actionPerformed(commands[j]);
+						listener.actionPerformed(commands[j]);
 					}
 				}, i == selectedPos);
 				
