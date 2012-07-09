@@ -1,25 +1,20 @@
 package geogebra.util;
 
 import geogebra.cas.view.CASTable;
-import geogebra.cas.view.CASTableCellEditor;
-import geogebra.cas.view.CASTableModel;
-import geogebra.cas.view.CASView;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
+import geogebra.common.main.App;
 import geogebra.main.AppD;
 
-import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
-import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.dnd.DropTargetDragEvent;
 import java.awt.dnd.DropTargetDropEvent;
 import java.awt.dnd.DropTargetEvent;
 import java.awt.dnd.DropTargetListener;
-import java.io.IOException;
 import java.util.ArrayList;
 
 
@@ -49,11 +44,11 @@ public class CASDropTargetListener implements DropTargetListener {
 	}
 
 	public void drop(DropTargetDropEvent dropEvent) {
-		System.out.println("drop");
+		App.debug("drop");
 		
 		Transferable t = dropEvent.getTransferable();
 		int row = table.rowAtPoint(dropEvent.getLocation());
-		System.out.println("==> " + row);
+		App.debug("==> " + row);
 		
 		
 		
@@ -70,7 +65,7 @@ public class CASDropTargetListener implements DropTargetListener {
 			
 			if (t.isDataFlavorSupported(AlgebraViewTransferHandler.algebraViewFlavor)) {
 				
-				System.out.println(t.toString());
+				App.debug(t.toString());
 				String textImport;
 				// get list of selected geo labels 
 				ArrayList<String> list = (ArrayList<String>) t
@@ -109,7 +104,7 @@ public class CASDropTargetListener implements DropTargetListener {
 						 */
 						catch(Exception e) 
 						{
-							System.out.println("DEBUG: CASDropTargetListener: error in generating new cell");
+							App.debug("DEBUG: CASDropTargetListener: error in generating new cell");
 							//cell.setUseAsText(true);
 							//textImport = geo.toCasAssignment(StringTemplate.defaultTemplate);
 							//cell.setInput(textImport);
