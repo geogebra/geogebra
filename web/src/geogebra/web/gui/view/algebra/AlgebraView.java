@@ -124,7 +124,7 @@ public class AlgebraView extends Tree implements LayerView, SetLabels, geogebra.
 		algCtrl.setView(this);
 		this.algebraController = algCtrl;
 		// this is the default value
-		treeMode = SortMode.DEPENDENCY;
+		treeMode = SortMode.TYPE;
 
 		// cell renderer (tooltips) and editor
 		//ToolTipManager.sharedInstance().registerComponent(this);
@@ -199,6 +199,7 @@ public class AlgebraView extends Tree implements LayerView, SetLabels, geogebra.
 			if (rootOrder == null) {
 				rootOrder = new TreeItem();
 			}
+			setUserObject(rootOrder, "");
 
 			// always try to remove the auxiliary node
 			if (app.showAuxiliaryObjects && auxiliaryNode != null) {
@@ -214,6 +215,7 @@ public class AlgebraView extends Tree implements LayerView, SetLabels, geogebra.
 			// don't re-init anything
 			if (rootType == null) {
 				rootType = new TreeItem();
+				//setUserObject(rootType, "");
 				typeNodesMap = new HashMap<String, TreeItem>(5);
 			}
 
@@ -224,7 +226,7 @@ public class AlgebraView extends Tree implements LayerView, SetLabels, geogebra.
 
 			// set the root
 			clear();
-			addItem(rootType);
+			//addItem(rootType);
 			break;
 		case LAYER:
 			// don't re-init anything
@@ -600,19 +602,20 @@ public class AlgebraView extends Tree implements LayerView, SetLabels, geogebra.
 			if (parent == null) {
 				String transTypeString = geo.translatedTypeStringForAlgebraView();
 				parent = new TreeItem(transTypeString);
+				setUserObject(parent, transTypeString);
 				typeNodesMap.put(typeString, parent);
 
 				// find insert pos
-				int pos = rootType.getChildCount();
+				int pos = getItemCount();
 				for (int i = 0; i < pos; i++) {
-					TreeItem child = rootType.getChild(i);
+					TreeItem child = getItem(i);
 					if (transTypeString.compareTo(child.toString()) < 0) {
 						pos = i;
 						break;
 					}
 				}
 
-				rootType.insertItem(pos, parent);
+				insertItem(pos, parent);
 			}
 			break;
 		case LAYER:
@@ -790,7 +793,7 @@ public class AlgebraView extends Tree implements LayerView, SetLabels, geogebra.
 			auxiliaryNode.removeItems();
 			break;
 		case TYPE:
-			rootType.removeItems();
+			removeItems();
 			typeNodesMap.clear();
 			break;
 		case LAYER:
