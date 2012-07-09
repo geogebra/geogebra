@@ -949,7 +949,7 @@ public interface CommandConstants extends ConstantsWithLookup {
     @DefaultStringValue("Integral")
     String Integral();
 
-    @DefaultStringValue("[ <Function> ]\n[ <Slopefield>, <Point> ]\n[ <Function>, <Start x-Value>, <End x-Value> ]\n[ <Function>, <Start x-Value>, <End x-Value>, <Boolean Evaluate> ]")
+    @DefaultStringValue("[ <Function> ]\n[ <Function>, <Start x-Value>, <End x-Value> ]\n[ <Function>, <Start x-Value>, <End x-Value>, <Boolean Evaluate> ]")
     String Integral_Syntax();
 
     @DefaultStringValue("[ <Function> ]\n[ <Function>, <Variable> ]\n[ <Function>, <Start x-Value>, <End x-Value> ]\n[ <Function>, <Variable>, <Start Value>, <End Value> ]")
@@ -1228,7 +1228,7 @@ public interface CommandConstants extends ConstantsWithLookup {
     @DefaultStringValue("Locus")
     String Locus();
 
-    @DefaultStringValue("[ <Point Creating Locus Line>, <Point> ]\n[ <Point Creating Locus Line>, <Slider> ]")
+    @DefaultStringValue("[ <Point Creating Locus Line>, <Point> ]\n[ <Point Creating Locus Line>, <Slider> ]\n[ <Slopefield>, <Point> ]\n[ <f(x, y)>, <Point> ]")
     String Locus_Syntax();
 
     @DefaultStringValue("LogNormal")
@@ -1777,7 +1777,7 @@ public interface CommandConstants extends ConstantsWithLookup {
     @DefaultStringValue("RigidPolygon")
     String RigidPolygon();
 
-    @DefaultStringValue("[ <Free Point>, ..., <Free Point> ]")
+    @DefaultStringValue("[ <Polygon> ]\n[ <Polygon>, <Offset x>, <Offset y> ]\n[ <Free Point>, ..., <Free Point> ]")
     String RigidPolygon_Syntax();
 
     @DefaultStringValue("Root")
