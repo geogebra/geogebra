@@ -151,7 +151,7 @@ public class FileDropTargetListener implements DropTargetListener {
 			} else if (transferable.isDataFlavorSupported (DataFlavor.javaFileListFlavor)) {
 				//Application.debug("javaFileList is supported");
 				List<File> list = (List<File>)transferable.getTransferData(DataFlavor.javaFileListFlavor);
-				ListIterator<File> it = list.listIterator( );    
+				ListIterator<File> it = list.listIterator( );   
 				while (it.hasNext( )) {
 					File f = it.next( );
 					al.add(f);

@@ -9,10 +9,14 @@ import geogebra.gui.GuiManagerD;
 import geogebra.gui.inputbar.InputBarHelpPanel;
 import geogebra.gui.view.Gridable;
 import geogebra.main.AppD;
+import geogebra.util.CASDropTargetListener;
+import geogebra.util.CASTransferHandler;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.dnd.DnDConstants;
+import java.awt.dnd.DropTarget;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -111,6 +115,15 @@ public class CASView  extends geogebra.common.cas.view.CASView implements Gridab
 		casInputHandler = new CASInputHandler(this);
 
 		// addFocusListener(this);
+		
+		
+		// Test: DnD
+		//CASTransferHandler transferHandler = new CASTransferHandler();
+		//setTransferHandler(transferHandler);
+		//this.setDragEnabled(true);
+		CASDropTargetListener dropTargetListener = new CASDropTargetListener(app, consoleTable);
+		DropTarget dropTarget = new DropTarget(consoleTable,dropTargetListener);
+		dropTarget.setDefaultActions(DnDConstants.ACTION_COPY);//not sure if i need this
 		
 		updateFonts();
 

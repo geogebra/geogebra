@@ -163,6 +163,15 @@ public abstract class CASTableCell extends JPanel {
 		return inputPanel.getInput();
 	}
 
+	/**
+	 * change directly the text in the Input field of the cell
+	 * @param input the input string
+	*/
+	public void setInput(String input)	{
+		if(input != null)
+			inputPanel.setInput(input);
+	}
+	
 	public String getOutput() {
 		return outputPanel.getOutput();
 	}

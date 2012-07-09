@@ -7,11 +7,15 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoCasCell;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
 import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.gui.layout.DockManager;
 import geogebra.gui.layout.DockPanel;
 import geogebra.main.AppD;
+import geogebra.util.AlgebraViewTransferHandler;
+import geogebra.util.CASDropTargetListener;
+import geogebra.util.CASTransferHandler;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -25,23 +29,37 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.Shape;
 import java.awt.SystemColor;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.Transferable;
+import java.awt.datatransfer.UnsupportedFlavorException;
+import java.awt.dnd.DnDConstants;
+import java.awt.dnd.DropTarget;
+import java.awt.dnd.DropTargetDragEvent;
+import java.awt.dnd.DropTargetDropEvent;
+import java.awt.dnd.DropTargetEvent;
+import java.awt.dnd.DropTargetListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.geom.Area;
+import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.swing.CellEditor;
+import javax.swing.JComponent;
 import javax.swing.JTable;
 import javax.swing.JViewport;
 import javax.swing.ListSelectionModel;
+import javax.swing.TransferHandler;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.MouseInputAdapter;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableCellRenderer;
+import javax.swing.text.JTextComponent;
 
 /**
  * @author Quan
@@ -122,7 +140,7 @@ public class CASTable extends JTable implements geogebra.common.cas.view.CASTabl
 		addMouseListener(rollOverListener);
 				
 		
-		
+
 	
 		// keep editor value after changing width
 		addComponentListener(new ComponentAdapter() {
