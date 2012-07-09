@@ -22,10 +22,11 @@ public enum Language {
 			Country.Egypt, Country.Algeria, Country.Bahrain, Country.Chad,
 			Country.Comoros, Country.Djibouti, Country.Eritrea, Country.Iraq,
 			Country.Jordan, Country.Kuwait, Country.Lebanon, Country.Libya,
-			Country.Mauritania, Country.Morocco, Country.Oman,
+			Country.Mauritania, Country.Oman,
 			Country.Palestine, Country.Qatar, Country.SaudiArabia,
 			Country.Somalia, Country.Sudan, Country.Syria, Country.Tunisia,
 			Country.UnitedArabEmirates, Country.WesternSahara, Country.Yemen),
+	Arabic_Morocco(null, false, false, "arMA", "ar_MA", "Arabic (Morocco) / (\u0627\u0644\u0639\u0631\u0628\u064A\u0629 (\u0627\u0644\u0645\u063A\u0631\u0628", Country.Morocco),
 	Basque(null, true, false, "eu","eu", "Basque / Euskara", "basque"), // fudge to get right flag
 	Bosnian(null, true, false, "bs","bs", "Bosnian / \u0431\u043E\u0441\u0430\u043D\u0441\u043A\u0438", Country.BosniaandHerzegovina),
 	Bulgarian(null, false, false, "bg","bg", "Bulgarian / \u0431\u044A\u043B\u0433\u0430\u0440\u0441\u043A\u0438 \u0435\u0437\u0438\u043A", Country.Bulgaria),
