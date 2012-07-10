@@ -64,9 +64,10 @@ public class EuclidianStyleBarStatic {
 					algo.setEV(ev.getEuclidianViewNo()); // 1 or 2
 				}
 				
+				geo.setEuclidianVisible(true);
 				geo.updateRepaint();
 				
-			} else if (geo instanceof AbsoluteScreenLocateable) {
+			} else if (geo instanceof AbsoluteScreenLocateable && !geo.isGeoList()) {
 				geoASL = (AbsoluteScreenLocateable) geo;
 				if (flag) {
 					// convert real world to screen coords
@@ -84,7 +85,7 @@ public class EuclidianStyleBarStatic {
 				geoASL.setAbsoluteScreenLocActive(flag);
 				geo.updateRepaint();
 				
-			} else if (!(geo instanceof Furniture) && !geo.isGeoBoolean()) {
+			} else if (geo.isPinnable()) {
 				Kernel kernelA = app.getKernel();
 				
 				GeoPoint corner1 = new GeoPoint(kernelA.getConstruction());
@@ -101,6 +102,9 @@ public class EuclidianStyleBarStatic {
 						
 				// "false" here so that pinning works for eg polygons
 				redefineGeo(geo, "AttachCopyToView["+ getDefinitonString(geo) +"," + ev.getEuclidianViewNo() + "]");
+				
+				geo.setEuclidianVisible(true);
+				geo.updateRepaint();
 				
 			} else {
 				// can't pin
@@ -119,6 +123,7 @@ public class EuclidianStyleBarStatic {
 		
 		// everything else
 		if (definitonStr.equals("")) {
+			// "false" here so that pinning works for eg polygons
 			definitonStr = geo.getFormulaString(StringTemplate.maxPrecision, false);
 		}
 		

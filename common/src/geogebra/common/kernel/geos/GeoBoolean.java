@@ -426,4 +426,9 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 			((GeoBoolean) oldGeo).condListenersShowObject = null;
 		}
 	}
+	
+	public boolean isPinnable() {
+		return false;
+	}
+
 }

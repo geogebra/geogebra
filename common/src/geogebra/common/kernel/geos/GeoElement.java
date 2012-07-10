@@ -7188,4 +7188,23 @@ public abstract class GeoElement extends ConstructionElement implements
 		return this.getParentAlgorithm() != null &&
 				this.getParentAlgorithm().isLocusEquable();
 	}
+
+	/**
+	 * @return whether to show pin in stylebar/geo context menu
+	 */
+	public boolean isPinnable() {
+		return true;
+	}
+
+	public boolean isPinned() {
+		if (this instanceof AbsoluteScreenLocateable) {
+			return ((AbsoluteScreenLocateable) this).isAbsoluteScreenLocActive();
+		}
+		
+		if (!isPinnable()) {
+			return false;
+		}
+		
+		return getParentAlgorithm() instanceof AlgoAttachCopyToView;
+	}
 }

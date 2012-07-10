@@ -1,8 +1,8 @@
 package geogebra.euclidian;
 
-import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianStyleBarStatic;
+import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.ConstructionDefaults;
@@ -10,7 +10,6 @@ import geogebra.common.kernel.algos.AlgoAttachCopyToView;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoTableText;
 import geogebra.common.kernel.geos.AbsoluteScreenLocateable;
-import geogebra.common.kernel.geos.Furniture;
 import geogebra.common.kernel.geos.GeoButton;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoImage;
@@ -933,7 +932,7 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 
 				setVisible(geosOK);
 				if (geosOK) {
-					if (geos[0] instanceof AbsoluteScreenLocateable) {
+					if (geos[0] instanceof AbsoluteScreenLocateable && !((GeoElement) geos[0]).isGeoList()) {
 						AbsoluteScreenLocateable geo = (AbsoluteScreenLocateable) ((GeoElement) geos[0])
 								.getGeoElementForPropertiesDialog();
 						btnFixPosition.setSelected(geo.isAbsoluteScreenLocActive());
@@ -953,8 +952,7 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 				for (int i = 0; i < geos.length; i++) {
 					GeoElement geo = (GeoElement) geos[i];
 
-					if (geo.isGeoBoolean()
-							|| geo instanceof Furniture) {
+					if (!geo.isPinnable()) {
 						return false;
 					}
 

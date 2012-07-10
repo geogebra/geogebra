@@ -13,9 +13,11 @@ the Free Software Foundation.
 
 package geogebra.gui;
 
+import geogebra.common.euclidian.EuclidianStyleBarStatic;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.gui.view.properties.PropertiesView.OptionType;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.geos.AbsoluteScreenLocateable;
 import geogebra.common.kernel.geos.Animatable;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
@@ -28,12 +30,10 @@ import geogebra.common.kernel.geos.GeoUserInputElement;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.geos.Traceable;
 import geogebra.common.kernel.kernelND.GeoConicND;
-import geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import geogebra.common.kernel.kernelND.ViewCreator;
 import geogebra.common.main.App;
 import geogebra.euclidian.EuclidianViewD;
 import geogebra.gui.dialog.options.OptionsUtil;
-import geogebra.gui.inputbar.AlgebraInput;
 import geogebra.gui.layout.DockPanel;
 import geogebra.main.AppD;
 
@@ -494,19 +494,20 @@ public class ContextMenuGeoElement extends JPopupMenu {
 		//no items
 	}
 
-	private void addTextItems() {
-		if (geo.isGeoText()) {
+	private void addPin() {
+		if (geo.isPinnable()) {
 			//GeoText geoText = (GeoText) geo;
 			// show object
-			JCheckBoxMenuItem cbItem = new JCheckBoxMenuItem(app.getPlain("AbsoluteScreenLocation"));
+			final JCheckBoxMenuItem cbItem = new JCheckBoxMenuItem(app.getPlain("AbsoluteScreenLocation"));
 			app.setEmptyIcon(cbItem);
-			cbItem.setSelected(((GeoText) geo).isAbsoluteScreenLocActive());
+			cbItem.setIcon(app.getImageIcon("pin.png"));
+			cbItem.setSelected(geo.isPinned());
 			cbItem.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					for (int i = geos.size() - 1 ; i >= 0 ; i--) {
 						GeoElement geo1 = geos.get(i);
-						if (geo1.isGeoText()) {
-							GeoText geoText = (GeoText)geo1;
+						if (geo1 instanceof AbsoluteScreenLocateable && !geo1.isGeoList()) {
+							AbsoluteScreenLocateable geoText = (AbsoluteScreenLocateable)geo1;
 							boolean flag = !geoText.isAbsoluteScreenLocActive();
 							if (flag) {
 								// convert real world to screen coords
@@ -521,6 +522,8 @@ public class ContextMenuGeoElement extends JPopupMenu {
 							}
 							geoText.setAbsoluteScreenLocActive(flag);            		
 							geoText.updateRepaint();
+						} else if (geo.isPinnable()) {
+							EuclidianStyleBarStatic.applyFixPosition(geos, cbItem.isSelected(), app.getActiveEuclidianView());
 						}
 					}
 					app.storeUndoInfo();
@@ -830,10 +833,9 @@ public class ContextMenuGeoElement extends JPopupMenu {
 				}  
 			}
 
-			// text position
-			if (geo.isGeoText()) {
-				addTextItems();
-			}
+			// Pinnable
+			addPin();
+
 
 			addSeparator();
 		}
