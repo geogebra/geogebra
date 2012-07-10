@@ -1,0 +1,71 @@
+
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"> 
+<html> 
+<head> 
+  <head> 
+<title>GeoGebra and JavaScript</title> 
+<meta name="generator" content="GeoGebra"> 
+<style type="text/css"><!--body { font-family:Helvetica,sans-serif; margin-left:40px }--></style> 
+</head> 
+</head> 
+ 
+<body> 
+ 
+<table border="0" width="600"> 
+ 
+  <tbody> 
+ 
+    <tr> 
+ 
+      <td> 
+
+ 
+<script type="text/javascript" language="javascript" src="web/web.nocache.js"></script>
+	
+    <article class="geogebraweb" data-param-ggbOnInitParam="ggbApplet1"  data-param-id="ggbApplet1" data-param-showResetIcon="true" data-param-width="1000" data-param-height="800" style="border: 1px solid black; display:inline-block;"
+    data-param-ggbbase64="UEsDBBQACAgIAG+s6UAAAAAAAAAAAAAAAAAMAAAAZ2VvZ2VicmEueG1srVQ7b9swEJ6bX0FwSobGkh0XDSAlaNMlQNoOTjN0KEBJZ4kNRQok5cj59b0jJVsxUKBDJ+oeuvvuu0d2O7SK7cA6aXTO08uEM9ClqaSuc9777fuP/PbmLKvB1FBYwbbGtsLnfHW55KTv5c3Zu8w15oUJFVyeJLzkfCuUA85cZ0FUrgHwb/SiH6SSwu6/F7+h9O5oiEHudddjFm971JVt9SDdJC5Cwk5J/0XuZAWWKVPm/MMaoePXE1gvS6FyfpVEzTLnyxMjqlZkbYyVr0Z7cj8GV6IAhQRs/F4BYzuyrqJpi86MOfkKSNaSdNkicJBBXypZSaGpzgARnRh7kZVvcr6+vsZsIOsGy7i6GqOVxthqs3ceWjb8BGsI6ZJ6sB+ldE2SQ8iYcJ0E01wKYWC3Ae8RsGNiADfRVltZHXgl4d59Nuqo6ozU/k50vreh26tRFcrOOaayhPeTrhWMuhSb0UD5XJhhEzlYxdCP+y78EvAU9Z1RxjJL5azRYXyL+AYfAnrwSoJPEjzGGBT0YE+vl8EjvEV8Y6ekjtDGwtOp6jSZ0kjHSEEs4pBO3IQW55yzXkv/MAk4G8/HSsn/W98WuBzz6TiETP9TyGxxMjvZM1gNKk6Ixsb2pndxDGPrAo4KStmiGA0jIYKa9QMBRG0FtYUJd9ysSFewJvMpPFFniwkEYXCItfR4IrAeT7XQBnvcHvqqhCcN7cCA6+7olEQ2GALGezJ0+J4PFyxnw69znO+LkAEUtIDr5MPsbHsdMhyI3PK3HfYNUqkxPBU7/jRWEM6PCZfkpBszvtD+l4HDo9M1Ar+mhVJij2dlzlEI99VUb5kTGjsQaMEV7igA9bgDiNMxYWQdBgwrNoPzD4XhYESK6HPehXB1xot88wdQSwcI1qLCRZwCAADDBQAAUEsBAhQAFAAICAgAb6zpQNaiwkWcAgAAwwUAAAwAAAAAAAAAAAAAAAAAAAAAAGdlb2dlYnJhLnhtbFBLBQYAAAAAAQABADoAAADWAgAAAAA="></article>
+ 
+<script type="text/javascript"> 
+ 
+function ggbOnInit(param) {
+alert("ggbOnInit() called with param: "+param);
+	if (param == "ggbApplet1") {
+		// init update listeners for ggbApplet1
+		document.ggbApplet1.evalCommand("AAA=(1,1)");
+		//document.ggbApplet1.registerObjectUpdateListener("a", "abcListener");
+		//document.ggbApplet1.registerObjectUpdateListener("b", "abcListener");
+		//document.ggbApplet1.registerObjectUpdateListener("c", "abcListener");
+		document.ggbApplet1.registerUpdateListener("pointListener");
+		document.ggbApplet1.registerObjectUpdateListener("AAA", "pointListener");
+	}
+}
+ 
+function abcListener(objName) {
+alert("abcListener "+objname);
+      // get value from applet1 and set value in applet2	
+	var changedValue = document.ggbApplet1.getValue(objName);            
+	document.ggbApplet2.setValue(objName, changedValue);		
+}
+ 
+function pointListener(objName) {		
+alert("pointListener "+objname);
+	// get x-coord from the changed point A in applet1
+	// and set point B in applet2
+	xcoord = document.ggbApplet1.getXcoord("A");   
+	document.ggbApplet2.setCoords("B", xcoord, 0);			
+}
+</script> 
+ 
+      <p><span style="font-size: small;">Created
+with <a href="http://www.geogebra.at" target="_blank">GeoGebra</a> 
+by Markus Hohenwarter</span></p> 
+ 
+      </td> 
+ 
+    </tr> 
+ 
+  </tbody> 
+</table> 
+</body> 
+</html> 
