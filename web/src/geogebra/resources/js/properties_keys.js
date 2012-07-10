@@ -1226,6 +1226,8 @@ var menuKeysVar = {
 	FrakturLetters:'',
 	FreehandFunction:'',
 	FreehandFunction_Help:'',
+	FreehandShape:'',
+	FreehandShape_Help:'',
 	Frequency:'',
 	FrequencyPolygon:'',
 	FrequencyTable:'',

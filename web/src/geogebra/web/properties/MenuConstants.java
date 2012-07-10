@@ -769,10 +769,16 @@ public interface MenuConstants extends ConstantsWithLookup {
     @DefaultStringValue("Fraktur Letters")
     String FrakturLetters();
 
+    @DefaultStringValue("Freehand Function")
+    String FreehandFunction();
+
+    @DefaultStringValue("Sketch a freehand function by dragging")
+    String FreehandFunction_Help();
+
     @DefaultStringValue("Freehand Shape")
     String FreehandShape();
 
-    @DefaultStringValue("Sketch a freehand function by dragging")
+    @DefaultStringValue("Sketch either a function or a geometric object by dragging")
     String FreehandShape_Help();
 
     @DefaultStringValue("Frequency")
