@@ -115,16 +115,7 @@ public class LanguageMenu extends BaseMenu implements ActionListener {
 		add(menuLabeling);
 		updateMenuLabeling();
 		
-		//add(drawingPadPropAction);	
-
-		/*
-		 * // Graphics quality submenu = new
-		 * JMenu(app.getMenu("GraphicsQuality")); String[] gqfi = {
-		 * "LowQuality", "HighQuality" }; if
-		 * (app.getEuclidianView().getAntialiasing()) pos = 1; else pos = 0;
-		 * addRadioButtonMenuItems(submenu, this, gqfi, gqfi, pos);
-		 * add(submenu);
-		 */
+		//add(drawingPadPropAction);
 
 		addSeparator();
 
@@ -377,19 +368,8 @@ public class LanguageMenu extends BaseMenu implements ActionListener {
 	public void actionPerformed(ActionEvent event) {
 		String cmd = event.getActionCommand();
 
-		// change graphics quality
-		if (cmd.equals("LowQuality")) {
-			app.getEuclidianView1().setAntialiasing(false);
-			if(app.hasEuclidianView2EitherShowingOrNot())
-				app.getEuclidianView2().setAntialiasing(false);
-		} else if (cmd.equals("HighQuality")) {
-			app.getEuclidianView1().setAntialiasing(true);
-			if(app.hasEuclidianView2EitherShowingOrNot())
-				app.getEuclidianView2().setAntialiasing(true);
-		}
-
 		// font size
-		else if (cmd.endsWith("pt")) {
+		if (cmd.endsWith("pt")) {
 			try {
 				app.setFontSize(Integer.parseInt(cmd.substring(0, 2)));
 				app.setUnsaved();

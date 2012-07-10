@@ -117,15 +117,6 @@ public class OptionsMenuD extends BaseMenu implements ActionListener, MyActionLi
 
 		//add(drawingPadPropAction);	
 
-		/*
-		 * // Graphics quality submenu = new
-		 * JMenu(app.getMenu("GraphicsQuality")); String[] gqfi = {
-		 * "LowQuality", "HighQuality" }; if
-		 * (app.getEuclidianView().getAntialiasing()) pos = 1; else pos = 0;
-		 * addRadioButtonMenuItems(submenu, this, gqfi, gqfi, pos);
-		 * add(submenu);
-		 */
-
 		addSeparator();
 
 		// Font size
@@ -450,19 +441,7 @@ public class OptionsMenuD extends BaseMenu implements ActionListener, MyActionLi
 	 */
 	public void actionPerformed(ActionEvent event) {
 		String cmd = event.getActionCommand();
-
-		if (OptionsMenu.processActionPerformed(cmd,app, kernel)) return;
-		
-		// change graphics quality
-		if (cmd.equals("LowQuality")) {
-			app.getEuclidianView1().setAntialiasing(false);
-			if(app.hasEuclidianView2EitherShowingOrNot())
-				app.getEuclidianView2().setAntialiasing(false);
-		} else if (cmd.equals("HighQuality")) {
-			app.getEuclidianView1().setAntialiasing(true);
-			if(app.hasEuclidianView2EitherShowingOrNot())
-				app.getEuclidianView2().setAntialiasing(true);
-		}
+		OptionsMenu.processActionPerformed(cmd,app, kernel);
 	}
 
 	@Override
