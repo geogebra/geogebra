@@ -13,6 +13,7 @@ import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.PopupPanel;
 
 import geogebra.web.awt.GColorW;
@@ -454,6 +455,10 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 	    ctx.putImageData(data, 0, 0);
 	    ctx.fillText(text, origWidth + TEXT_OFFSET, buttonHeight / 2);
 	    
+    }
+
+	public void setPopupMenu(MenuBar menu) {
+	    myPopup.getPanel().add(menu);
     }
 	
 	

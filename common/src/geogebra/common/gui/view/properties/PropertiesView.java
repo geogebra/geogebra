@@ -101,4 +101,17 @@ public abstract class PropertiesView implements View{
 		return null;
 	}
 	
+	/**
+	 * Updates the Title Bar
+	 */
+	protected abstract void updateTitleBar();
+
+
+	/**
+	 * @return type of option panel currently displayed
+	 */
+	public OptionType getSelectedOptionType() {
+		return selectedOptionType;
+	}
+	
 }

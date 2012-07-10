@@ -1,5 +1,6 @@
 package geogebra.gui.view.properties;
 
+import geogebra.common.gui.view.properties.PropertiesView;
 import geogebra.common.gui.view.properties.PropertiesView.OptionType;
 import geogebra.common.main.App;
 import geogebra.gui.dialog.options.OptionsUtil;
@@ -33,19 +34,18 @@ import javax.swing.ToolTipManager;
 
 public class PropertiesStyleBarD extends geogebra.common.gui.view.properties.PropertiesStyleBar {
 
-	PropertiesViewD propertiesView;
+	PropertiesView propertiesView;
 	private AppD app;
 
 	protected PopupMenuButton btnOption;
 	private JPopupMenu menu;
 	
 	private JToolBar toolbar;
-	private JLabel lblTitle;
 	private JPanel wrappedPanel;
 	
 	private HashMap<OptionType,AbstractButton> buttonMap;
 
-	public PropertiesStyleBarD(PropertiesViewD propertiesView, AppD app) {
+	public PropertiesStyleBarD(PropertiesView propertiesView, AppD app) {
 		this.propertiesView = propertiesView;
 		this.app = app;
 		
@@ -75,10 +75,6 @@ public class PropertiesStyleBarD extends geogebra.common.gui.view.properties.Pro
 	
 	void buildGUI() {
 		
-
-		lblTitle = new JLabel();
-		JPanel titlePanel = OptionsUtil.flowPanel(10, lblTitle);
-
 		toolbar = new JToolBar();
 		toolbar.setFloatable(false);
 
@@ -128,8 +124,6 @@ public class PropertiesStyleBarD extends geogebra.common.gui.view.properties.Pro
 		btnOption.setText(propertiesView.getTypeString(propertiesView.getSelectedOptionType())
 				+ downTriangle);
 		
-		lblTitle.setFont(app.getBoldFont());
-		lblTitle.setText(propertiesView.getTypeString(seltype));
 		buttonMap.get(seltype).setSelected(true);
 		
 		buttonMap.get(OptionType.EUCLIDIAN).setVisible(

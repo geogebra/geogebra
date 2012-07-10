@@ -1,6 +1,7 @@
 package geogebra.web.gui.properties;
 
-import com.google.gwt.canvas.dom.client.ImageData;
+import java.util.HashMap;
+
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
@@ -14,6 +15,11 @@ import geogebra.web.gui.menubar.GeoGebraMenubarW;
 import geogebra.web.gui.util.PopupMenuButton;
 import geogebra.web.main.AppW;
 
+/**
+ * @author gabor
+ * Creates PropertiesStyleBar for Web
+ *
+ */
 public class PropertiesStyleBarW extends
         geogebra.common.gui.view.properties.PropertiesStyleBar {
 
@@ -22,6 +28,7 @@ public class PropertiesStyleBarW extends
 	private PopupPanel wrappedPanel;
 	private PopupMenuButton btnOption;
 	private MenuBar menu;
+	private HashMap<OptionType, MenuItem> buttonMap;
 
 	public PropertiesStyleBarW(PropertiesViewW propertiesView, App app) {
 		this.propertiesView = propertiesView;
@@ -30,9 +37,78 @@ public class PropertiesStyleBarW extends
 		this.wrappedPanel = new PopupPanel();
 		this.btnOption = new PopupMenuButton((AppW) app);
 		buildMenu();
+		btnOption.setPopupMenu(menu);
+		btnOption.setKeepVisible(true);
+		btnOption.setStandardButton(true);
+		
+		/*AGbtnOption.setHorizontalTextPosition(SwingConstants.RIGHT);
+		Dimension d = btnOption.getPreferredSize();
+		d.width = menu.getPreferredSize().width;
+		btnOption.setPreferredSize(d);*/
+		
+		buildGUI();
+		updateGUI();
 		
 		
 	}
+	
+	
+
+	private void updateGUI() {
+		OptionType seltype = propertiesView.getSelectedOptionType();
+		setIcon(propertiesView
+				.getSelectedOptionType(),btnOption);
+		btnOption.setText(propertiesView.getTypeString(propertiesView.getSelectedOptionType())
+				+ downTriangle);
+		
+		//TODO: get it in css
+		buttonMap.get(seltype).addStyleName("selected");
+		
+		buttonMap.get(OptionType.EUCLIDIAN).setVisible(
+				app.getGuiManager()
+						.showView(App.VIEW_EUCLIDIAN));
+		
+		buttonMap.get(OptionType.EUCLIDIAN2).setVisible(
+				app.getGuiManager()
+						.showView(App.VIEW_EUCLIDIAN2));
+		
+		buttonMap.get(OptionType.SPREADSHEET).setVisible(
+				app.getGuiManager()
+						.showView(App.VIEW_SPREADSHEET));
+		
+		buttonMap.get(OptionType.CAS).setVisible(
+				app.getGuiManager()
+						.showView(App.VIEW_CAS));
+    }
+
+
+
+	private void buildGUI() {
+		
+		MenuBar toolbar = new MenuBar();
+		
+		buttonMap = new HashMap<OptionType, MenuItem>();
+		
+		for (final OptionType type : OptionType.values()) {
+			final PropertiesButton btn = new PropertiesButton(getMenuHtml(type));
+			btn.setTitle(propertiesView.getTypeString(type));
+			btn.setCommand(new Command() {
+				
+				public void execute() {
+					propertiesView.setOptionPanel(type);
+				}
+			});
+			toolbar.addItem(btn);
+			buttonMap.put(type, btn);
+			
+			if (type == OptionType.OBJECTS || type == OptionType.SPREADSHEET) {
+				toolbar.addSeparator();
+			}
+		}
+		
+		this.wrappedPanel.add(toolbar);
+	    
+    }
 
 	private void buildMenu() {
 	    if (menu == null) {
@@ -41,16 +117,21 @@ public class PropertiesStyleBarW extends
 	    menu.clearItems();
 	    
 	    for (final OptionType type : OptionType.values()) {
-	    	final MenuItem mi = new MenuItem(getMenuHtml(type), true, 
+	    	final MenuItem mi = new PropertiesButton(getMenuHtml(type));
+	    	mi.setCommand( 
 	    			new Command() {
 						
 						public void execute() {
 							propertiesView.setOptionPanel(type);
 							buildMenu();
 							setIcon(type, btnOption);
-							//AG tmp ?????btnOption.setText(mi.getText() + downTriangle);
+							btnOption.setText(mi.getText() + downTriangle);
 						}
 					});
+	    	menu.addItem(mi);
+	    	if (type == OptionType.OBJECTS || type == OptionType.SPREADSHEET) {
+	    		menu.addSeparator();
+	    	}
 	    }
 	    
     }

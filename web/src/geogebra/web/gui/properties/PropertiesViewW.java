@@ -245,4 +245,10 @@ public class PropertiesViewW extends
 	    
     }
 
+	@Override
+    protected void updateTitleBar() {
+	    // TODO Auto-generated method stub
+	    
+    }
+
 }

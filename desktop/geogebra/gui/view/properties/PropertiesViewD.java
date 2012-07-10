@@ -341,14 +341,6 @@ public class PropertiesViewD extends geogebra.common.gui.view.properties.Propert
 	}
 
 	/**
-	 * @return type of option panel currently displayed
-	 */
-	public OptionType getSelectedOptionType() {
-		return selectedOptionType;
-	}
-	
-	
-	/**
 	 * Sets and shows the option panel for the given option type
 	 * 
 	 * @param type type
@@ -570,7 +562,8 @@ public class PropertiesViewD extends geogebra.common.gui.view.properties.Propert
 	}
 	
 
-	private void updateTitleBar(){
+	@Override
+	protected void updateTitleBar(){
 		((AppD)app).getGuiManager().getLayout().getDockManager().getPanel(App.VIEW_PROPERTIES).updateTitleBar();
 	}
 
