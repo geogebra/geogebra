@@ -145,15 +145,7 @@ public final class ArticleElement extends Element {
 	public String getDataParamCountry() {
 		return this.getAttribute("data-param-country");
 	}
-	
-	/**
-	 * 
-	 * @return the data-param-showResetIcon (default: null)
-	 */
-	public String getDataParamGgbOnInitParam() {
-		return this.getAttribute("data-param-ggbOnInitParam");
-	}
-	
+
 	/**
 	 * 
 	 * @return the data-param-allowJSscripting (default: true)

@@ -23,7 +23,7 @@ public class ScriptManager extends ScriptManagerCommon {
 		
 		if (app.useBrowserForJavaScript()) {
 		
-			String param = ((AppW)app).getArticleElement().getDataParamGgbOnInitParam();
+			String param = ((AppW)app).getArticleElement().getDataParamId();
 			if (param == null || "".equals(param)) {
 				AppW.ggbOnInit();
 			} else {
