@@ -189,7 +189,7 @@ public class MPReduceTranslator extends EquationTranslator<StringBuilder> {
 	 */
 	@Override
 	public double[][] eliminate(Collection<StringBuilder> translatedRestrictions) {
-		GeoGebraCAS cas = new GeoGebraCAS(this.kernel);
+		GeoGebraCAS cas = (GeoGebraCAS) kernel.getGeoGebraCAS();		
 		String script = this.createMPReduceScript(translatedRestrictions);
 		App.info("[LocusEqu] input to cas: "+script);
 		String result = cas.evaluateMPReduce(script);
