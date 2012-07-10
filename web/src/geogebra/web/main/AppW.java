@@ -1513,6 +1513,7 @@ public class AppW extends App {
 		if (args == null || args.length == 0) {
 			callNativeJavaScript(fun);
 		} else if (args.length == 1) {
+			App.debug("calling function: "+fun+"("+args[0].toString()+")");
 			callNativeJavaScript(fun, args[0].toString());
 		} else {
 			debug("callAppletJavaScript() not supported for more than 1 argument");

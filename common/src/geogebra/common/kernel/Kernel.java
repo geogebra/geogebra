@@ -2905,11 +2905,11 @@ public class Kernel {
 		case EuclidianConstants.MODE_PEN:
 			return "Pen";
 
-		case EuclidianConstants.MODE_PENCIL:
-			return "Pencil";
+		//case EuclidianConstants.MODE_PENCIL:
+		//	return "Pencil";
 
-		case EuclidianConstants.MODE_FREEHAND_FUNCTION:
-			return "FreehandFunction";
+		case EuclidianConstants.MODE_FREEHAND_SHAPE:
+			return "FreehandShape";
 
 		//case EuclidianConstants.MODE_VISUAL_STYLE:
 		//	return "VisualStyle";

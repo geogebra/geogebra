@@ -33,8 +33,9 @@ public class CmdDelete extends CmdScripting {
 			if (ok[0]) {
 				GeoElement geo = arg[0];
 				
+				if (geo.isLabelSet())
 				// delete object
-				geo.removeOrSetUndefinedIfHasFixedDescendent();
+					geo.removeOrSetUndefinedIfHasFixedDescendent();
 				return;
 			}
 			throw argErr(app, c.getName(), arg[0]);

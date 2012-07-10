@@ -166,9 +166,9 @@ public class ToolBar {
 		//if(showAllMenu){
 			sb.append(EuclidianConstants.MODE_PEN);
 			sb.append(" ");
-			sb.append(EuclidianConstants.MODE_PENCIL);
-			sb.append(" ");
-			sb.append(EuclidianConstants.MODE_FREEHAND_FUNCTION);
+			//sb.append(EuclidianConstants.MODE_PENCIL);
+			//sb.append(" ");
+			sb.append(EuclidianConstants.MODE_FREEHAND_SHAPE);
 			sb.append(" , ");
 		//}
 		

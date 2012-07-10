@@ -582,8 +582,8 @@ public abstract class EuclidianController {
 			break;
 	
 		case EuclidianConstants.MODE_PEN:
-		case EuclidianConstants.MODE_PENCIL:
-		case EuclidianConstants.MODE_FREEHAND_FUNCTION:
+		//case EuclidianConstants.MODE_PENCIL:
+		case EuclidianConstants.MODE_FREEHAND_SHAPE:
 			getPen().resetPenOffsets();
 	
 			view.setSelectionRectangle(null);
@@ -5421,8 +5421,8 @@ public abstract class EuclidianController {
 			break;
 	
 		case EuclidianConstants.MODE_PEN:
-		case EuclidianConstants.MODE_PENCIL:
-		case EuclidianConstants.MODE_FREEHAND_FUNCTION:
+		//case EuclidianConstants.MODE_PENCIL:
+		case EuclidianConstants.MODE_FREEHAND_SHAPE:
 			//changedKernel = pen();
 			break;
 	
@@ -7766,8 +7766,8 @@ public abstract class EuclidianController {
 	private static boolean penMode(int mode2) {
 		switch (mode2) {
 		case EuclidianConstants.MODE_PEN:
-		case EuclidianConstants.MODE_PENCIL:
-		case EuclidianConstants.MODE_FREEHAND_FUNCTION:
+		//case EuclidianConstants.MODE_PENCIL:
+		case EuclidianConstants.MODE_FREEHAND_SHAPE:
 			return true;
 		}
 
@@ -8831,7 +8831,7 @@ public abstract class EuclidianController {
 		// init preview drawables
 		switch (mode1) {
 	
-		case EuclidianConstants.MODE_FREEHAND_FUNCTION:
+		case EuclidianConstants.MODE_FREEHAND_SHAPE:
 			getPen().setFreehand(true);
 	
 			break;
@@ -8839,11 +8839,12 @@ public abstract class EuclidianController {
 			getPen().setFreehand(false);
 			getPen().setAbsoluteScreenPosition(true);
 			break;
+			/*
 		case EuclidianConstants.MODE_PENCIL:
 			getPen().setFreehand(false);
 			getPen().setAbsoluteScreenPosition(false);
 			break;
-	
+	*/
 			/*
 			 * boolean createUndo = true; // scale both EVs 1:1 if
 			 * (app.getEuclidianView().isVisible()) {

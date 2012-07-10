@@ -228,9 +228,9 @@ public final class EuclidianConstants {
 	public static final int MODE_COMPLEX_NUMBER = 72;
 
 	/** Freehand */
-	public static final int MODE_FREEHAND_FUNCTION = 73;
+	public static final int MODE_FREEHAND_SHAPE = 73;
 	
-	/** Freehand */
+	/** Pencil */
 	public static final int MODE_PENCIL = 74;
 	
 	/** Point on Object */

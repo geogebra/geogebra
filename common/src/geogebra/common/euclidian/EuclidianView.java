@@ -391,7 +391,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 	 */
 	final private static boolean clearRectangle(int mode) {
 		switch (mode) {
-		case EuclidianConstants.MODE_PENCIL:
+		//case EuclidianConstants.MODE_PENCIL:
 		case EuclidianConstants.MODE_PEN:
 			return true; // changed
 		case EuclidianConstants.MODE_MIRROR_AT_LINE:
@@ -2160,7 +2160,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 		case EuclidianConstants.MODE_DILATE_FROM_POINT:
 		case EuclidianConstants.MODE_ROTATE_BY_ANGLE:
 		case EuclidianConstants.MODE_PEN:
-		case EuclidianConstants.MODE_PENCIL:
+		//case EuclidianConstants.MODE_PENCIL:
 			return true;
 		default:
 			return false;
@@ -4766,7 +4766,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 		public abstract GGraphics2D getGraphicsForPen();
 		
 		public static boolean isPenMode(int mode) {
-			return mode == EuclidianConstants.MODE_PEN || mode == EuclidianConstants.MODE_PENCIL || mode == EuclidianConstants.MODE_FREEHAND_FUNCTION;
+			return mode == EuclidianConstants.MODE_PEN || mode == EuclidianConstants.MODE_PENCIL || mode == EuclidianConstants.MODE_FREEHAND_SHAPE;
 		}
 
 }
