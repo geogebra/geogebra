@@ -21,6 +21,7 @@ public class RadioButtonMenuBarW extends MenuBar implements RadioButtonMenuBar {
 	private String[] texts;
 	private String[] commands;
 	private MyActionListener listener;
+	private App app;
 
 	/**
 	 * Creates a RadioButtonMenuBarW instance
@@ -28,10 +29,11 @@ public class RadioButtonMenuBarW extends MenuBar implements RadioButtonMenuBar {
 	 * @param app Application instance - this construction doesn't use this,
 	 * but it needed because of the desktop-implementation of RadioButtonMenuBar class.
 	 */
-	public RadioButtonMenuBarW(App app) {
+	public RadioButtonMenuBarW(App application) {
 		super(true);
 		menubarID = DOM.createUniqueId();
 		radioButtons = new ArrayList<RadioButton>();
+		app = application;
 	}
 
 	public MenuItem addItem(String text, Command com) {
@@ -78,12 +80,12 @@ public class RadioButtonMenuBarW extends MenuBar implements RadioButtonMenuBar {
 	 */
 	public void addRadioButtonMenuItems(MyActionListener al,
 			String[] items, final String[] actionCommands, int selectedPos, boolean changeText) {
+
+		texts = items;
 		if (changeText){
-			for (int i=0; i<items.length; i++ ){
-				texts[i] = items[i];
+			for (int i=0; i<items.length; i++){
+				texts[i] = app.getMenu(items[i]);
 			}
-		} else {
-			texts = items;
 		}
 		commands = actionCommands;
 		listener = al;

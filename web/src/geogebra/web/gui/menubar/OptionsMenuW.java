@@ -40,11 +40,16 @@ public class OptionsMenuW extends MenuBar implements MenuInterface, MyActionList
 		//"Algebra Descriptions" menu
 		addAlgebraDescriptionMenu();
 		
-		//language menu
-		addLanguageMenu();
-		
 		addPointCapturingMenu();
 		OptionsMenu.addDecimalPlacesMenu(this, app);
+		
+		addSeparator();
+		
+		OptionsMenu.addLabelingMenu(this, app);
+		addSeparator();
+		
+		//language menu
+		addLanguageMenu();
 	}
 	
 	private void addLanguageMenu() {
