@@ -2262,12 +2262,23 @@ public class GuiManagerD extends GuiManager {
 	}
 
 	public void updateActions() {
-		if (app.isUndoActive() && undoAction != null) {
-			undoAction.setEnabled(kernel.undoPossible());
-
-			if (redoAction != null)
-				redoAction.setEnabled(kernel.redoPossible());
+		if (undoAction != null) {
+			if (app.isUndoActive()) {
+				undoAction.setEnabled(kernel.undoPossible());
+			} else {
+				// eg --enableUndo=false
+				undoAction.setEnabled(false);				
+			}
 		}
+		if (redoAction != null) {
+			if (app.isUndoActive()) {
+				redoAction.setEnabled(kernel.redoPossible());
+			} else {
+				// eg --enableUndo=false
+				redoAction.setEnabled(false);				
+			}
+		}
+
 	}
 
 	public void redo() {
