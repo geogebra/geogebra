@@ -119,7 +119,7 @@ public class OptionsMenuW extends MenuBar implements MenuInterface, MyActionList
 		String[] strPointCapturingAC = { "3 PointCapturing",
 				"1 PointCapturing", "2 PointCapturing", "0 PointCapturing" };
 		menuPointCapturing.addRadioButtonMenuItems(this,
-				strPointCapturing, strPointCapturingAC, 0);
+				strPointCapturing, strPointCapturingAC, 0, false);
 		app.addMenuItem(this, "magnet2.gif", app.getMenu("PointCapturing"), true, menuPointCapturing);
 		
 		updateMenuPointCapturing();

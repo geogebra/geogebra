@@ -25,7 +25,7 @@ public class RadioButtonMenuBarD extends JMenu implements RadioButtonMenuBar{
 	}
 
 	public void addRadioButtonMenuItems(MyActionListener alistener,
-			String[] items, String[] actionCommands, int selectedPos) {
+			String[] items, String[] actionCommands, int selectedPos, boolean changeText) {
 		
 		JRadioButtonMenuItem mi;
 		ButtonGroup bg = new ButtonGroup();
@@ -35,8 +35,7 @@ public class RadioButtonMenuBarD extends JMenu implements RadioButtonMenuBar{
 			if (items[i] == "---") {
 				addSeparator();
 			} else {
-				//String text = app.getMenu(items[i]);
-				String text = items[i];
+				String text = (changeText)? app.getMenu(items[i]) : items[i];
 				mi = new JRadioButtonMenuItem(text);
 				mi.setFont(app.getFontCanDisplayAwt(text, false, Font.PLAIN, app.getGUIFontSize()));
 				if (i == selectedPos)

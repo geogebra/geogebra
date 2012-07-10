@@ -39,7 +39,6 @@ public class OptionsMenuD extends BaseMenu implements ActionListener, MyActionLi
 	
 	private JMenu
 		menuPointCapturing,
-		menuDecimalPlaces,
 		menuLabeling, 
 		menuAlgebraStyle
 	;
@@ -114,17 +113,8 @@ public class OptionsMenuD extends BaseMenu implements ActionListener, MyActionLi
 		addSeparator();
 
 		// Labeling
-		menuLabeling = new JMenu(app.getMenu("Labeling"));
-		menuLabeling.setIcon(app.getImageIcon("mode_showhidelabel_16.gif"));
-		String[] lstr = { "Labeling.automatic", "Labeling.on", "Labeling.off",
-				"Labeling.pointsOnly" };
-		String[] lastr = { "0_labeling", "1_labeling", "2_labeling",
-				"3_labeling" };
-		addRadioButtonMenuItems(menuLabeling, this, lstr,
-				lastr, 0);
-		add(menuLabeling);
-		updateMenuLabeling();
-		
+		OptionsMenu.addLabelingMenu(this, app);
+
 		//add(drawingPadPropAction);	
 
 		/*
@@ -390,7 +380,7 @@ public class OptionsMenuD extends BaseMenu implements ActionListener, MyActionLi
 
 	@Override
 	public void update() {
-		updateMenuDecimalPlaces();
+		OptionsMenu.updateMenuDecimalPlaces(kernel);
 		updateMenuPointCapturing();
 		updateMenuViewDescription();
 	}
@@ -425,45 +415,35 @@ public class OptionsMenuD extends BaseMenu implements ActionListener, MyActionLi
 		}
 	}
 
-	/**
-	 * Update the selected item in the labeling capturing menu.
-	 */
-	private void updateMenuLabeling() {
-		if (menuLabeling == null) return;
-		
-		int pos = app.getLabelingStyle();
-		((JRadioButtonMenuItem) menuLabeling.getMenuComponent(pos))
-				.setSelected(true);
-	}
 
-	/**
-	 * Update the menu with all decimal places.
-	 */
-	private void updateMenuDecimalPlaces() {
-		if (menuDecimalPlaces == null)
-			return;
-		int pos = -1;
-
-		if (kernel.useSignificantFigures) {
-			int figures = kernel.getPrintFigures();
-			if (figures > 0 && figures < App.figuresLookup.length)
-				pos = App.figuresLookup[figures];
-		} else {
-			int decimals = kernel.getPrintDecimals();
-
-			if (decimals > 0 && decimals < App.decimalsLookup.length)
-				pos = App.decimalsLookup[decimals];
-
-		}
-
-		try {
-			((JRadioButtonMenuItem) menuDecimalPlaces.getMenuComponent(pos))
-					.setSelected(true);
-		} catch (Exception e) {
-			//
-		}
-
-	}
+//	/**
+//	 * Update the menu with all decimal places.
+//	 */
+//	private void updateMenuDecimalPlaces() {
+//		if (menuDecimalPlaces == null)
+//			return;
+//		int pos = -1;
+//
+//		if (kernel.useSignificantFigures) {
+//			int figures = kernel.getPrintFigures();
+//			if (figures > 0 && figures < App.figuresLookup.length)
+//				pos = App.figuresLookup[figures];
+//		} else {
+//			int decimals = kernel.getPrintDecimals();
+//
+//			if (decimals > 0 && decimals < App.decimalsLookup.length)
+//				pos = App.decimalsLookup[decimals];
+//
+//		}
+//
+//		try {
+//			((JRadioButtonMenuItem) menuDecimalPlaces.getMenuComponent(pos))
+//					.setSelected(true);
+//		} catch (Exception e) {
+//			//
+//		}
+//
+//	}
 
 	/**
 	 * Execute a performed action.
@@ -471,6 +451,8 @@ public class OptionsMenuD extends BaseMenu implements ActionListener, MyActionLi
 	public void actionPerformed(ActionEvent event) {
 		String cmd = event.getActionCommand();
 
+		if (OptionsMenu.processActionPerformed(cmd,app, kernel)) return;
+		
 		// change graphics quality
 		if (cmd.equals("LowQuality")) {
 			app.getEuclidianView1().setAntialiasing(false);
@@ -480,73 +462,6 @@ public class OptionsMenuD extends BaseMenu implements ActionListener, MyActionLi
 			app.getEuclidianView1().setAntialiasing(true);
 			if(app.hasEuclidianView2EitherShowingOrNot())
 				app.getEuclidianView2().setAntialiasing(true);
-		}
-
-		// font size
-		else if (cmd.endsWith("pt")) {
-			try {
-				app.setFontSize(Integer.parseInt(cmd.substring(0, 2)));
-				app.setUnsaved();
-			} catch (Exception e) {
-				app.showError(e.toString());
-			}
-		}
-
-		// decimal places
-		else if (cmd.endsWith("decimals")) {
-			try {
-				String decStr = cmd.substring(0, 2).trim();
-				int decimals = Integer.parseInt(decStr);
-				// Application.debug("decimals " + decimals);
-
-				kernel.setPrintDecimals(decimals);
-				kernel.updateConstruction();
-				app.refreshViews();
-				
-				// see ticket 79
-				kernel.updateConstruction();
-
-				app.setUnsaved();
-			} catch (Exception e) {
-				app.showError(e.toString());
-			}
-		}
-
-		// significant figures
-		else if (cmd.endsWith("figures")) {
-			try {
-				String decStr = cmd.substring(0, 2).trim();
-				int figures = Integer.parseInt(decStr);
-				// Application.debug("figures " + figures);
-
-				kernel.setPrintFigures(figures);
-				kernel.updateConstruction();
-				app.refreshViews();
-				
-				// see ticket 79
-				kernel.updateConstruction();
-
-				app.setUnsaved();
-			} catch (Exception e) {
-				app.showError(e.toString());
-			}
-		}
-
-		// Point capturing
-		else if (cmd.endsWith("PointCapturing")) {
-			int mode = Integer.parseInt(cmd.substring(0, 1));
-			app.getEuclidianView1().setPointCapturing(mode);
-			if (app.hasEuclidianView2EitherShowingOrNot()) {
-				app.getEuclidianView2().setPointCapturing(mode);
-			}
-			app.setUnsaved();
-		}
-
-		// Labeling
-		else if (cmd.endsWith("labeling")) {
-			int style = Integer.parseInt(cmd.substring(0, 1));
-			app.setLabelingStyle(style);
-			app.setUnsaved();
 		}
 	}
 

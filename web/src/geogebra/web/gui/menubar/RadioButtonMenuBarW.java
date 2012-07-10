@@ -77,8 +77,14 @@ public class RadioButtonMenuBarW extends MenuBar implements RadioButtonMenuBar {
 	 * @param selectedPos
 	 */
 	public void addRadioButtonMenuItems(MyActionListener al,
-			String[] items, final String[] actionCommands, int selectedPos) {
-		texts = items;
+			String[] items, final String[] actionCommands, int selectedPos, boolean changeText) {
+		if (changeText){
+			for (int i=0; i<items.length; i++ ){
+				texts[i] = items[i];
+			}
+		} else {
+			texts = items;
+		}
 		commands = actionCommands;
 		listener = al;
 		
