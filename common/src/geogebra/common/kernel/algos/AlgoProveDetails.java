@@ -90,8 +90,12 @@ public class AlgoProveDetails extends AlgoElement {
 	
 		// Create and initialize the prover 
 		Prover p = UtilFactory.prototype.newProver();
-        if ("OpenGeoProver".equalsIgnoreCase(App.proverEngine))
-            p.setProverEngine(ProverEngine.OPENGEOPROVER);
+        if ("OpenGeoProver".equalsIgnoreCase(App.proverEngine)) {
+        	if ("Wu".equalsIgnoreCase(App.proverMethod))
+        		p.setProverEngine(ProverEngine.OPENGEOPROVER_WU);
+        	else if ("Area".equalsIgnoreCase(App.proverMethod))
+        		p.setProverEngine(ProverEngine.OPENGEOPROVER_AREA);
+        }  	            
         else if ("Botana".equalsIgnoreCase(App.proverEngine))
             p.setProverEngine(ProverEngine.BOTANAS_PROVER);
         else if ("Recio".equalsIgnoreCase(App.proverEngine))

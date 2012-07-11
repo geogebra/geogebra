@@ -54,9 +54,12 @@ public abstract class Prover {
 	 * Francisco Botana's method
 	 */
 	BOTANAS_PROVER, /**
-	 * OpenGeoProver (http://code.google.com/p/open-geo-prover/)
+	 * OpenGeoProver (http://code.google.com/p/open-geo-prover/), Wu's method
 	 */
-	OPENGEOPROVER, /**
+	OPENGEOPROVER_WU, /**
+	 * OpenGeoProver, Area method
+	 */
+	OPENGEOPROVER_AREA, /**
 	 * pure symbolic prover (every object is calculated symbolically, also the statements)
 	 */ 
 	PURE_SYMBOLIC_PROVER,
@@ -168,8 +171,8 @@ public abstract class Prover {
 		 // Order for the AUTO prover:
 		 proverAutoOrder.add(ProverEngine.RECIOS_PROVER);
 		 proverAutoOrder.add(ProverEngine.BOTANAS_PROVER);
-		 proverAutoOrder.add(ProverEngine.PURE_SYMBOLIC_PROVER);
-		 proverAutoOrder.add(ProverEngine.OPENGEOPROVER);
+		 proverAutoOrder.add(ProverEngine.OPENGEOPROVER_WU);
+		 proverAutoOrder.add(ProverEngine.OPENGEOPROVER_AREA);
 	}
 
 	/**
@@ -281,8 +284,9 @@ public abstract class Prover {
 		} else if (currentEngine == ProverEngine.PURE_SYMBOLIC_PROVER) {
 			result = geogebra.common.kernel.prover.ProverPureSymbolicMethod.prove(this);
 			return;
-		} else if (currentEngine == ProverEngine.OPENGEOPROVER) {
-			result = openGeoProver();
+		} else if (currentEngine == ProverEngine.OPENGEOPROVER_WU || 
+				currentEngine == ProverEngine.OPENGEOPROVER_AREA ) {
+			result = openGeoProver(currentEngine);
 			return;
 		}
 
@@ -344,7 +348,7 @@ public abstract class Prover {
 	 * Calls OpenGeoProver
 	 * @return the proof result
 	 */
-	protected abstract ProofResult openGeoProver();
+	protected abstract ProofResult openGeoProver(ProverEngine pe);
 
 	/**
 	 * Will the prover return extra NDGs? 

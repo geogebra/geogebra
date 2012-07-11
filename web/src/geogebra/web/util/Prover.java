@@ -14,7 +14,7 @@ public class Prover extends geogebra.common.util.Prover {
 	}
 
 	@Override
-    protected ProofResult openGeoProver() {
+    protected ProofResult openGeoProver(ProverEngine pe) {
 	    App.debug("OGP is not implemented for the web");
 	    return ProofResult.UNKNOWN;
     }

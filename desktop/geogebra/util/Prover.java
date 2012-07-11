@@ -79,7 +79,7 @@ public class Prover extends geogebra.common.util.Prover {
 	}
 	
 	@Override
-	protected ProofResult openGeoProver() {
+	protected ProofResult openGeoProver(ProverEngine pe) {
 		App.debug("OGP is about to run...");
 		String c = simplifiedXML(construction);
 		App.trace("Construction: " + c);
@@ -91,9 +91,9 @@ public class Prover extends geogebra.common.util.Prover {
 		GeoGebraOGPInputProverProtocol inputObject = new GeoGebraOGPInputProverProtocol();
 		inputObject.setGeometryTheoremText(c);
 		inputObject.setMethod(GeoGebraOGPInputProverProtocol.OGP_METHOD_WU); // default
-		if (App.proverMethod.equalsIgnoreCase("wu"))
+		if (pe == ProverEngine.OPENGEOPROVER_WU)
 			inputObject.setMethod(GeoGebraOGPInputProverProtocol.OGP_METHOD_WU);
-		if (App.proverMethod.equalsIgnoreCase("area"))
+		if (pe == ProverEngine.OPENGEOPROVER_AREA)
 			inputObject.setMethod(GeoGebraOGPInputProverProtocol.OGP_METHOD_AREA);
 		inputObject.setTimeOut(App.proverTimeout);
 		inputObject.setMaxTerms(App.maxTerms);
