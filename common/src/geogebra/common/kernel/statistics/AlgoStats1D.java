@@ -135,7 +135,10 @@ public abstract class AlgoStats1D extends AlgoElement {
 		}
 
 		if (geoList2 != null) {
-			if (!geoList2.isDefined() || (geoList.size() != geoList2.size())) {
+			if (!geoList2.isDefined()
+					// return undefined if we can't use number * freq or midpoint * freq
+					|| !(geoList.size() == geoList2.size() || geoList.size() == geoList2
+					.size() + 1)) {
 				result.setUndefined();
 				return;
 			}
@@ -178,7 +181,7 @@ public abstract class AlgoStats1D extends AlgoElement {
 		double sumFreq = 0;
 		double frequency = 1;
 		double var, mu;
-		GeoElement geo, geo2;
+		GeoElement geo, geoFreq, geo2;
 
 		// list of numbers only, no frequencies
 		if (geoList2 == null) {
@@ -199,33 +202,45 @@ public abstract class AlgoStats1D extends AlgoElement {
 
 		// list of numbers with list of frequencies
 		else {
+			// if the number list is a list of classes, then we must use a midpoint
+			boolean useMidpoint = geoList.size() == geoList2.size() + 1;
+			size = useMidpoint?  size - 1 : size;
+			
 			double val;
 			double val_by_freq;
 			for (int i = 0; i < size; i++) {
 				geo = geoList.get(i);
-				geo2 = geoList2.get(i);
-				if (geo.isNumberValue() && geo2.isNumberValue()) {
-					NumberValue num = (NumberValue) geo;
-					NumberValue freq = (NumberValue) geo2;
-					val = num.getDouble();
-					frequency = freq.getDouble();
-					val_by_freq = val * frequency;
-					sumVal += val_by_freq;
-					sumSquares += val * val_by_freq;
-					sumFreq += frequency;
-					product *= Math.pow(val, frequency);
-				} else {
+				geoFreq = geoList2.get(i);
+				if (!geo.isNumberValue() || !geoFreq.isNumberValue()) {
 					result.setUndefined();
 					return;
 				}
+				
+				val = ((NumberValue) geo).getDouble();
+				
+				// compute midpoint value if needed
+				if (useMidpoint) {
+					geo2 = geoList.get(i + 1);
+					if (!geo2.isNumberValue()) {
+						result.setUndefined();
+						return;
+					}
+					val = (val + (((NumberValue) geo2).getDouble())) / 2;
+				}
+
+				frequency = ((NumberValue) geoFreq).getDouble();
+				val_by_freq = val * frequency;
+				sumVal += val_by_freq;
+				sumSquares += val * val_by_freq;
+				sumFreq += frequency;
+				product *= Math.pow(val, frequency);
+
 			}
 
-	
 			size = (int) sumFreq;
 		}
-		
-		mu = sumVal / size;
 
+		mu = sumVal / size;
 
 		switch (stat) {
 		case STATS_MEAN:
