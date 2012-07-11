@@ -832,9 +832,6 @@ public interface MenuConstants extends ConstantsWithLookup {
     @DefaultStringValue("Graph")
     String Graph();
 
-    @DefaultStringValue("Graphics")
-    String GraphicsQuality();
-
     @DefaultStringValue("Green")
     String Green();
 
@@ -876,9 +873,6 @@ public interface MenuConstants extends ConstantsWithLookup {
 
     @DefaultStringValue("Hidden Line Style")
     String HiddenLineStyle();
-
-    @DefaultStringValue("High Quality")
-    String HighQuality();
 
     @DefaultStringValue("Histogram")
     String Histogram();
@@ -1116,9 +1110,6 @@ public interface MenuConstants extends ConstantsWithLookup {
 
     @DefaultStringValue("Look and Feel")
     String LookAndFeel();
-
-    @DefaultStringValue("Low Quality")
-    String LowQuality();
 
     @DefaultStringValue("Lower Limit")
     String LowerLimit();
