@@ -1117,8 +1117,10 @@ implements ActionListener, WindowListener, MouseListener, geogebra.common.gui.la
 	 * @return If the style bar should be visible.
 	 */
 	private boolean isStyleBarVisible() {
-		if (!app.getSettings().getLayout().isAllowingStyleBar()){
-			return false;
+		if (id == App.VIEW_EUCLIDIAN || id == App.VIEW_EUCLIDIAN2) {
+			if (!app.getSettings().getLayout().isAllowingStyleBar()){
+				return false;
+			}
 		}
 		return (showStyleBar || !titlePanel.isVisible());
 	}
