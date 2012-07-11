@@ -6185,6 +6185,8 @@ public abstract class EuclidianController {
 	
 	
 	private boolean checkBoxJustHitted = false;
+
+	private boolean penDragged;
 	
 	protected void hitCheckBox(GeoBoolean bool){
 		bool.setValue(!bool.getBoolean());
@@ -6571,6 +6573,10 @@ public abstract class EuclidianController {
 	public void handleMovedElement(GeoElement geo, boolean multiple) {
 		resetMovedGeoPoint();
 		movedGeoElement = geo;
+		
+		// default if nothing matches
+		moveMode = MOVE_NONE;
+		
 		// multiple geos selected
 		if ((movedGeoElement != null) && multiple) {
 			moveMode = MOVE_MULTIPLE_OBJECTS;
@@ -7150,8 +7156,6 @@ public abstract class EuclidianController {
 					}
 				}
 			}
-		} else {
-			moveMode = MOVE_NONE;
 		}
 	
 	}
@@ -7512,6 +7516,7 @@ public abstract class EuclidianController {
 			pressedButton.setDraggedOrContext(true);
 		}
 		if (penMode(mode)) {
+			penDragged = true;
 			getPen().handleMousePressedForPenMode(event, null);
 			return;
 		}
@@ -8127,6 +8132,8 @@ public abstract class EuclidianController {
 	protected void wrapMousePressed(AbstractEvent event) {
 		
 
+		penDragged = false;
+		
 		if (app.isUsingFullGui() && app.getGuiManager() != null) {
 			// determine parent panel to change focus
 			// EuclidianDockPanelAbstract panel =
@@ -8448,7 +8455,7 @@ public abstract class EuclidianController {
 			return;
 		}
 	
-		if (penMode(mode)) {
+		if (penMode(mode) && penDragged) {
 			getPen().handleMouseReleasedForPenMode(event);
 			return;
 		}
