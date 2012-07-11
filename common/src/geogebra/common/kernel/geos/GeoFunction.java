@@ -534,7 +534,27 @@ public class GeoFunction extends GeoElement implements VarString,
 	 *            vertical shift
 	 */
 	public void translate(double vx, double vy) {
-		fun.translate(vx, vy);
+		
+		if (getParentAlgorithm() instanceof AlgoFunctionFreehand) {
+			AlgoFunctionFreehand algo = (AlgoFunctionFreehand) getParentAlgorithm();
+			GeoList list = algo.getList();
+			
+			// left/right boundaries
+			((GeoNumeric)list.get(0)).setValue(((GeoNumeric) list.get(0)).getDouble() + vx);
+			((GeoNumeric)list.get(1)).setValue(((GeoNumeric) list.get(1)).getDouble() + vx);
+			
+			// heights
+			for (int i = 2 ; i < list.size() ; i++) {
+				((GeoNumeric)list.get(i)).setValue(((GeoNumeric) list.get(i)).getDouble() + vy);
+				
+			}
+			
+			algo.compute();
+			
+			
+		} else {
+			fun.translate(vx, vy);
+		}
 	}
 
 	/**

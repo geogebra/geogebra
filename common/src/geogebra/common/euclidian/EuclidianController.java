@@ -28,6 +28,7 @@ import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoArcLength;
 import geogebra.common.kernel.algos.AlgoDynamicCoordinates;
 import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.algos.AlgoFunctionFreehand;
 import geogebra.common.kernel.algos.AlgoPolygon;
 import geogebra.common.kernel.algos.AlgoTranslate;
 import geogebra.common.kernel.algos.AlgoVector;
@@ -350,6 +351,7 @@ public abstract class EuclidianController {
 	protected static final int MOVE_IMPLICITPOLY = 121;
 	protected static final int MOVE_VECTOR_NO_GRID = 122;
 	protected static final int MOVE_POINT_WITH_OFFSET = 123;
+	protected static final int MOVE_FREEHAND = 124;
 
 	public abstract void setApplication(App app);
 
@@ -5831,6 +5833,23 @@ public abstract class EuclidianController {
 
 	double vertexX = Double.NaN, vertexY = Double.NaN;
 
+	protected final void moveFreehand(boolean repaint) {
+	
+		movedGeoFunction.set(tempFunction);
+		movedGeoFunction.translate(xRW - startPoint.x, yRW - startPoint.y);
+	
+		startPoint.x = xRW;
+		startPoint.y = yRW;
+		
+	if (repaint) {
+		movedGeoFunction.updateRepaint();
+	} else {
+		movedGeoFunction.updateCascade();
+	}
+	
+	}
+	
+	
 	protected final void moveFunction(boolean repaint) {
 		
 		boolean quadratic = false;
@@ -6552,7 +6571,6 @@ public abstract class EuclidianController {
 	public void handleMovedElement(GeoElement geo, boolean multiple) {
 		resetMovedGeoPoint();
 		movedGeoElement = geo;
-	
 		// multiple geos selected
 		if ((movedGeoElement != null) && multiple) {
 			moveMode = MOVE_MULTIPLE_OBJECTS;
@@ -6563,6 +6581,8 @@ public abstract class EuclidianController {
 				translationVec = new Coords(2);
 			}
 		}
+		
+		
 	
 		// DEPENDENT object: changeable parents?
 		// move free parent points (e.g. for segments)
@@ -6934,31 +6954,41 @@ public abstract class EuclidianController {
 			// }
 			// }
 	
-		} else if (movedGeoElement.isGeoFunction()) {
-			moveMode = MOVE_FUNCTION;
-			
-			movedGeoFunction = (GeoFunction) movedGeoElement;
-			vertexX = Double.NaN;
-			vertexY = Double.NaN;
-			
-			if (movedGeoFunction.getFunction().getSymbolicPolynomialFactors(false,true) != null) {
-				LinkedList<PolyFunction> factors= movedGeoFunction.getFunction().getPolynomialFactors(false);
-				if(factors.size() == 1 && factors.get(0).getDegree() == 2){
-					double c = movedGeoFunction.evaluate(0);
-					double s = movedGeoFunction.evaluate(1);		
-					double a = 0.5*(s+movedGeoFunction.evaluate(-1))-c;
-					double b = s-a-c;
+		}
+		// else removed otherwise AlgoFunctionFreehand can't be dragged
+		if (movedGeoElement.isGeoFunction()) {
 
-					// cordinates of vertex (just calculated once)
-					// used for alt-drag as well
-					vertexX = -b/a/2.0;
-					vertexY = -(b * b - 4.0 * a * c) / (4.0 * a );
-					
-					// make sure vertex snaps to grid for parabolas
-					transformCoordsOffset[0] = vertexX - xRW;
-					transformCoordsOffset[1] = vertexY - yRW;
+			if (movedGeoElement.getParentAlgorithm() instanceof AlgoFunctionFreehand) {
+				
+				moveMode = MOVE_FREEHAND;
+				movedGeoFunction = (GeoFunction) movedGeoElement;
+				
+			} else {
+				moveMode = MOVE_FUNCTION;
+
+				movedGeoFunction = (GeoFunction) movedGeoElement;
+				vertexX = Double.NaN;
+				vertexY = Double.NaN;
+
+				if (movedGeoFunction.getFunction().getSymbolicPolynomialFactors(false,true) != null) {
+					LinkedList<PolyFunction> factors= movedGeoFunction.getFunction().getPolynomialFactors(false);
+					if(factors.size() == 1 && factors.get(0).getDegree() == 2){
+						double c = movedGeoFunction.evaluate(0);
+						double s = movedGeoFunction.evaluate(1);		
+						double a = 0.5*(s+movedGeoFunction.evaluate(-1))-c;
+						double b = s-a-c;
+
+						// cordinates of vertex (just calculated once)
+						// used for alt-drag as well
+						vertexX = -b/a/2.0;
+						vertexY = -(b * b - 4.0 * a * c) / (4.0 * a );
+
+						// make sure vertex snaps to grid for parabolas
+						transformCoordsOffset[0] = vertexX - xRW;
+						transformCoordsOffset[1] = vertexY - yRW;
 
 
+					}
 				}
 			}
 			
@@ -7225,9 +7255,14 @@ public abstract class EuclidianController {
 			moveImplicitPoly(repaint);
 			break;
 	
+		case MOVE_FREEHAND:
+			moveFreehand(repaint);
+			break;
+		
 		case MOVE_FUNCTION:
 			moveFunction(repaint);
 			break;
+	
 	
 		case MOVE_LABEL:
 			moveLabel();
