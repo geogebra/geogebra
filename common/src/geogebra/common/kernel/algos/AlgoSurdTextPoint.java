@@ -75,11 +75,11 @@ public class AlgoSurdTextPoint extends AlgoSurdText {
 			sb.setLength(0);
 			sb.append(" \\left( ");
 			App.debug(sb.toString());
-			PSLQappendQuadratic(sb, p.inhomX,tpl);
+			PSLQappendGeneral(sb, p.inhomX,tpl);
 			App.debug(sb.toString());
 			sb.append(" , ");
 			App.debug(sb.toString());
-			PSLQappendQuadratic(sb, p.inhomY,tpl);
+			PSLQappendGeneral(sb, p.inhomY,tpl);
 			App.debug(sb.toString());
 			sb.append(" \\right) ");
 			
