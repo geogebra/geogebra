@@ -1077,7 +1077,7 @@ public class AppW extends App {
 		getEuclidianView1().repaintView();
 
 		// Well, it may cause freeze if we attach this too early
-		getGuiManager().attachAlgebraView();
+		attachViews();
 		
 	}
 
@@ -1085,7 +1085,7 @@ public class AppW extends App {
 		splashDialog.canNowHide();
 
 		// Well, it may cause freeze if we attach this too early
-		getGuiManager().attachAlgebraView();
+		attachViews();
 		
 		
 		
@@ -1104,6 +1104,12 @@ public class AppW extends App {
 		}
 
 	}
+
+	private void attachViews() {
+	    getGuiManager().attachView(VIEW_ALGEBRA);
+	    getGuiManager().attachView(VIEW_PROPERTIES);
+	    
+    }
 
 	private void loadFile(HashMap<String, String> archiveContent) throws Exception {
 

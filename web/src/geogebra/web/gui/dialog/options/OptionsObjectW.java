@@ -7,7 +7,17 @@ public class OptionsObjectW extends
         geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW {
 
 	public OptionsObjectW(AppW app) {
-	    // TODO Auto-generated constructor stub
+	    this.app = app;
+	    
+	    kernel = app.getKernel();
+	    
+	    // build GUI
+	    initGUI();
+    }
+
+	private void initGUI() {
+	    // TODO Auto-generated method stub
+	    
     }
 
 	public Dimension getPreferredSize() {
