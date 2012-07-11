@@ -143,4 +143,3 @@ public class Prover extends geogebra.common.util.Prover {
 	}
 
 }
-
