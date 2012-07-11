@@ -61,16 +61,13 @@ public class LanguageMenuW extends MenuBar {
 	
 	private void addItems() {
 
-		for(int i=0; i < AppW.getSupportedLanguages().size(); i++) {			
-			String languageCode = AppW.getSupportedLanguages().get(i);
-
-			String lang = AppW.languageCodeVariationCrossReferencing(languageCode.replace(AppW.AN_UNDERSCORE, ""));
+		for (Language l : Language.values()) {
 			
 			StringBuilder sb = new StringBuilder();
 
-			if (Language.isEnabledInGWT(lang)) {
+			if (l.enableInGWT) {
 
-				String text = Language.getDisplayName(lang);
+				String text = l.name;
 
 				if(text != null) {
 
@@ -86,17 +83,17 @@ public class LanguageMenuW extends MenuBar {
 						text = sb.toString();
 					}	
 					
-					App.debug("Supported Languages: " + languageCode);										
+					App.debug("Supported Languages: " + l.localeGWT);										
 
 					if(ch <= 'D') {
 
-						atoDMenuBar.addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),text),true,new LanguageCommand(languageCode));
+						atoDMenuBar.addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),text),true,new LanguageCommand(l));
 					} else if(ch <= 'I') {
-						etoIMenuBar.addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),text),true,new LanguageCommand(languageCode));
+						etoIMenuBar.addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),text),true,new LanguageCommand(l));
 					} else if(ch <= 'Q') {
-						jtoQMenuBar.addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),text),true,new LanguageCommand(languageCode));
+						jtoQMenuBar.addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),text),true,new LanguageCommand(l));
 					} else {
-						rtoZMenuBar.addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),text),true,new LanguageCommand(languageCode));
+						rtoZMenuBar.addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),text),true,new LanguageCommand(l));
 					}
 
 				}

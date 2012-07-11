@@ -106,10 +106,7 @@ public class AppW extends App {
 	public final static String DEFAULT_LOCALE = "default";
 	public final static String A_DOT = ".";
 	public final static String AN_UNDERSCORE = "_";
-	public final static String NORWEGIAN_NYNORSK_JAVA_CODE = "noNONY";
-	public final static String NORWEGIAN_BOKMAL_JAVA_CODE = "noNO";
-	public final static String NORWEGIAN_NYNORSK_GWT_CODE = "noNN";
-	public final static String NORWEGIAN_BOKMAL_GWT_CODE = "noNB";
+
 	/*
 	 * The representation of no_NO_NY (Norwegian Nynorsk) is illegal in a BCP47 language tag: 
 	 * it should actually use "nn" (Norwegian Nynorsk) for the language field
@@ -263,20 +260,6 @@ public class AppW extends App {
 		
 	}
 	
-	public final static String languageCodeVariationCrossReferencing(String javaLanguageCode) {
-
-		String gwtLanguageCode = javaLanguageCode;
-		
-			if(NORWEGIAN_BOKMAL_JAVA_CODE.equals(javaLanguageCode)) {
-				gwtLanguageCode = NORWEGIAN_BOKMAL_GWT_CODE;
-			} else if(NORWEGIAN_NYNORSK_JAVA_CODE.equals(javaLanguageCode)) {
-				gwtLanguageCode = NORWEGIAN_NYNORSK_GWT_CODE;
-			}
-		return gwtLanguageCode;
-		
-	}
-
-
 	/**
 	 * Inernationalization: instantiation using GWT.create() properties interfaces
 	 * @author Rana

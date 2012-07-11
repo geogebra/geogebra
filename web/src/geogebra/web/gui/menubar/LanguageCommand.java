@@ -1,5 +1,7 @@
 package geogebra.web.gui.menubar;
 
+import geogebra.common.util.Language;
+
 import com.google.gwt.http.client.UrlBuilder;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Cookies;
@@ -35,8 +37,8 @@ public class LanguageCommand implements Command {
 	/**
 	 * @param newLocaleCode
 	 */
-	public LanguageCommand(String newLocaleCode) {
-		this.localeCode = newLocaleCode;
+	public LanguageCommand(Language newLocaleCode) {
+		this.localeCode = newLocaleCode.localeGWT;
 		this.localeParameter = LOCALE_PARAMETER;
 	}
 	

@@ -263,16 +263,13 @@ public class OptionsMenuD extends BaseMenu implements ActionListener, MyActionLi
 		menu.add(submenu3);
 		menu.add(submenu4);
 
-		Language[] languages = Language.values();
-		
 		String currentLocale = app.getLocale().toString();
 		
 		// change en_GB into enGB
 		currentLocale = currentLocale.replaceAll("_", "");
 		StringBuilder sb = new StringBuilder(20);
 		
-		for (int i = 0; i < languages.length; i++) {
-			Language loc = languages[i];
+		for (Language loc : Language.values()) {
 
 			// enforce to show specialLanguageNames first
 			// because here getDisplayLanguage doesn't return a good result
