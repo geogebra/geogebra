@@ -279,13 +279,11 @@ public class OptionsMenuD extends BaseMenu implements ActionListener, MyActionLi
 			String text = loc.name;
 			
 			char ch = text.charAt(0);
-			App.debug(text+" "+ch+" "+StringUtil.toHexString(ch));
 			
 			if (ch == Unicode.LeftToRightMark || ch == Unicode.RightToLeftMark) {
 				ch = text.charAt(1);
-				App.debug(text+" "+ch);
 			} else {			
-				// make sure brackets are right in Arabic, ie not )US)
+				// make sure brackets are correct in Arabic, ie not )US)
 				sb.setLength(0);
 				sb.append(Unicode.LeftToRightMark);
 				sb.append(text);
