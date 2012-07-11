@@ -6,7 +6,6 @@ import geogebra.common.main.App;
 import java.util.Locale;
 
 public class StringUtil {
-    private static StringBuilder hexSB = null;
     
  // code from freenet
  	// http://emu.freenetproject.org/pipermail/cvs/2007-June/040186.html
@@ -37,8 +36,7 @@ public class StringUtil {
     final public static String toHexString(char c) {
     	int i = c + 0;
 
-    	if (hexSB == null) hexSB = new StringBuilder(8);
-    	else hexSB.setLength(0);
+    	StringBuilder hexSB = new StringBuilder(8);
     	hexSB.append("\\u");
     	hexSB.append(hexChar[(i & 0xf000) >>> 12]);
     	hexSB.append(hexChar[(i & 0x0f00) >> 8]); // look up low nibble char
@@ -47,13 +45,26 @@ public class StringUtil {
     	return hexSB.toString();
     }
     
+    final public static String toHexString(int i) {
+
+    	StringBuilder hexSB = new StringBuilder(16);
+    	hexSB.append(hexChar[(i & 0xf0000000) >>> 28]);
+    	hexSB.append(hexChar[(i & 0xf000000) >>> 24]);
+    	hexSB.append(hexChar[(i & 0xf00000) >>> 20]);
+    	hexSB.append(hexChar[(i & 0xf0000) >>> 16]);
+    	hexSB.append(hexChar[(i & 0xf000) >>> 12]);
+    	hexSB.append(hexChar[(i & 0x0f00) >> 8]); 
+    	hexSB.append(hexChar[(i & 0xf0) >>> 4]);
+    	hexSB.append(hexChar[i & 0x0f]); 
+    	return hexSB.toString();
+    }
+    
     final public static String toHexString(GColor col) {
     	byte r = (byte) col.getRed();
     	byte g = (byte) col.getGreen();
     	byte b = (byte) col.getBlue();
 
-    	if (hexSB == null) hexSB = new StringBuilder(8);
-    	else hexSB.setLength(0);
+    	StringBuilder hexSB = new StringBuilder(8);
     	// RED      
     	hexSB.append(hexChar[(r & 0xf0) >>> 4]);
     	// look up high nibble char             

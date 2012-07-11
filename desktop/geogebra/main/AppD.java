@@ -49,7 +49,6 @@ import geogebra.common.main.App;
 import geogebra.common.main.MyError;
 import geogebra.common.main.settings.ConstructionProtocolSettings;
 import geogebra.common.main.settings.Settings;
-import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.util.Base64;
 import geogebra.common.util.GeoGebraLogger.LogDestination;
 import geogebra.common.util.Language;
@@ -96,9 +95,10 @@ import geogebra.util.GeoGebraLogger;
 import geogebra.util.ImageManager;
 import geogebra.util.Normalizer;
 import geogebra.util.Util;
-import geogebra3D.euclidian3D.opengl.RendererJogl;
 
 import java.awt.AWTKeyStroke;
+import java.awt.AlphaComposite;
+import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
@@ -4471,41 +4471,71 @@ public class AppD extends App implements
 
 	Cursor eraserCursor = null;
 
+	
 	public Cursor getEraserCursor() {
 
 		if (eraserCursor == null) {
 
-			Dimension dim = Toolkit.getDefaultToolkit().getBestCursorSize(48,
-					48);
+			
+			int size = 32;
 
-			App.debug("getBestCursorSize = " + dim.width + " "
-					+ dim.width);
-
-			int size = Math.max(dim.width, dim.height);
-
-			size = Math.max(48, size); // basically we want a size of 48
-
-			Image image = new BufferedImage(size, size,
+			/*
+			 * we need two buffered images as the cursor only supports on/off for alpha
+			 * 
+			 * so we need to draw to an image without alpha support
+			 * then draw that to one with alpha support
+			 * then make "white" transparent
+			 */
+			BufferedImage image = new BufferedImage(size, size,
+					BufferedImage.TYPE_INT_RGB);
+			BufferedImage image2 = new BufferedImage(size, size,
 					BufferedImage.TYPE_INT_ARGB);
 
-			Graphics2D g = (Graphics2D) image.getGraphics();
-			EuclidianViewND.setAntialiasing(g);
-			g.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL,
-					RenderingHints.VALUE_STROKE_PURE);
+			Graphics2D g = image.createGraphics();
+			Graphics2D g2 = image2.createGraphics();
 
-			g.setColor(Color.DARK_GRAY);
-			g.setStroke(geogebra.awt.GBasicStrokeD.getAwtStroke(geogebra.common.euclidian.EuclidianStatic.getStroke(2,
-					EuclidianStyleConstants.LINE_TYPE_FULL)));
+			g.setColor(Color.white);
+			g.fillRect(0, 0, size, size);
 
-			g.drawOval((10 * size) / 48, (10 * size) / 48, (30 * size) / 48,
-					(30 * size) / 48);
+
+		    // turn on anti-aliasing.
+		    g.setStroke(new BasicStroke(4.0f)); // 4-pixel lines
+		    g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, 
+		        RenderingHints.VALUE_ANTIALIAS_ON);
+
+			g.setColor(new Color(0.5f, 0f, 0f));
+		    g.drawOval(3, 3, size-7, size-7);
+		    
+		    g2.drawImage(image,  0, 0, Color.white, null);
+		    
+
+		    for (int y = 0 ; y < size ; y++) {
+		    	for (int x = 0 ; x < size ; x++) {
+
+		    		int rgb = image.getRGB(x, y);
+
+		    		int blue = rgb & 0xff;
+		    		int green = (rgb & 0xff00) >> 8;
+		    		int red = (rgb & 0xff0000) >> 16;
+					//int alpha = (rgb & 0xff000000) >> 24;
+					
+					if (red == 255 && green == 255 && blue == 255) {
+						// make white transparent
+						image2.setRGB(x, y, 0);
+					}
+					
+		    	}
+		    }
+
+
+		    
 
 			eraserCursor = Toolkit.getDefaultToolkit().createCustomCursor(
-					image, new Point(size / 2, size / 2), "eraserCursor");
+					image2, new Point(size / 2, size / 2), "eraserCursor");
 		}
 		return eraserCursor;
 	}
-
+	
 	private static boolean virtualKeyboardActive = false;
 
 	public static boolean isVirtualKeyboardActive() {

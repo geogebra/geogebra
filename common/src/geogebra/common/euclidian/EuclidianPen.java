@@ -160,7 +160,7 @@ public class EuclidianPen {
 
 	public void setDefaults() {
 		penSize = 3;
-		eraserSize = 10;
+		eraserSize = 16;
 		penLineStyle = EuclidianStyleConstants.LINE_TYPE_FULL;
 		penColor = GColor.black;
 	}
@@ -222,8 +222,8 @@ public class EuclidianPen {
 		GShape circle;
 		if (app.isRightClick(e) && !freehand) {
 			g2D.setColor(GColor.white);
-			circle = geogebra.common.factories.AwtFactory.prototype.newEllipse2DFloat(e.getX() - 2 * eraserSize + 2, e.getY()
-					- 2 * eraserSize + 2, eraserSize * 2, eraserSize * 2);
+			circle = geogebra.common.factories.AwtFactory.prototype.newEllipse2DFloat(e.getX() -  eraserSize , e.getY()
+					-  eraserSize , eraserSize * 2, eraserSize * 2);
 		} else {
 			g2D.setColor(penColor);
 			circle = geogebra.common.factories.AwtFactory.prototype.newEllipse2DFloat(e.getX() - penSize,
@@ -561,7 +561,7 @@ public class EuclidianPen {
 		    	boolean erase = false;
 		    	while (it.hasNext() && !erase) {
 		    		GPoint p = it.next();
-		    		if (p.distance(view.toScreenCoordXd(pts[i].inhomX) + eraserSize, eraserSize + view.toScreenCoordYd(pts[i].inhomY)) < eraserSize) {
+		    		if (p.distance(view.toScreenCoordXd(pts[i].inhomX), view.toScreenCoordYd(pts[i].inhomY)) < eraserSize) {
 		    			erase = true;
 		    		}		    			    		
 				}
