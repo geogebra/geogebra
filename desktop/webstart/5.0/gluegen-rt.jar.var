@@ -1,8 +1,0 @@
-URI: gluegen-rt.jar
-
-URI: packed/gluegen-rt.jar.pack.gz
-Content-Type: x-java-archive
-Content-Encoding: pack200-gzip
-
-URI: unpacked/gluegen-rt.jar
-Content-Type: x-java-archive

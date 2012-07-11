@@ -58,7 +58,7 @@ find . -name '*.jar' -or -name '*.jar.pack.gz' -or -name version.txt -or -name g
 # 4/3. Rewriting *.html and *.jnlp files
 # (currently the version number is not written at <\/title>"):
 cd $WWWDIR/$MYDIR
-for i in *.html *.jnlp; do
+for i in *.jnlp; do # TODO: Put back "*.html" when applets are supported in deployment
  cat $i | \
   sed s/"http:\/\/www.geogebra.org\/webstart\/5.0\/unsigned"/"http:\/\/jars.geogebra.org\/webstart\/$MYDIR\/unsigned"/g | \
   sed s/"http:\/\/www.geogebra.org\/webstart\/5.0\/usb-gomotion"/"http:\/\/jars.geogebra.org\/webstart\/$MYDIR\/usb-gomotion.ggb"/g | \
