@@ -18,7 +18,7 @@ public enum Language {
 	Armenian("\u0570", true, false, "hy","hy", "Armenian / \u0540\u0561\u0575\u0565\u0580\u0565\u0576", Country.Armenia),
 
 	Albanian(null, false, false, "sq","sq", "Albanian / Gjuha Shqipe", Country.Albania),
-	Arabic(null, true, true, "ar", "ar", "Arabic / \u0627\u0644\u0639\u0631\u0628\u064A\u0629",
+	Arabic(null, true, true, "ar", "ar", Unicode.LeftToRightMark+"Arabic"+Unicode.LeftToRightMark+" / "+Unicode.RightToLeftMark+"\u0627\u0644\u0639\u0631\u0628\u064A\u0629"+Unicode.RightToLeftMark,
 			Country.Egypt, Country.Algeria, Country.Bahrain, Country.Chad,
 			Country.Comoros, Country.Djibouti, Country.Eritrea, Country.Iraq,
 			Country.Jordan, Country.Kuwait, Country.Lebanon, Country.Libya,
@@ -26,7 +26,7 @@ public enum Language {
 			Country.Palestine, Country.Qatar, Country.SaudiArabia,
 			Country.Somalia, Country.Sudan, Country.Syria, Country.Tunisia,
 			Country.UnitedArabEmirates, Country.WesternSahara, Country.Yemen),
-	Arabic_Morocco(null, false, false, "arMA", "ar_MA", "Arabic (Morocco) / (\u0627\u0644\u0639\u0631\u0628\u064A\u0629 (\u0627\u0644\u0645\u063A\u0631\u0628", Country.Morocco),
+	Arabic_Morocco(null, false, false, "arMA", "ar_MA", Unicode.LeftToRightMark+"Arabic (Morocco)"+Unicode.LeftToRightMark+" / "+Unicode.RightToLeftMark+"\u0627\u0644\u0639\u0631\u0628\u064A\u0629 (\u0627\u0644\u0645\u063A\u0631\u0628)"+Unicode.RightToLeftMark, Country.Morocco),
 	Basque(null, true, false, "eu","eu", "Basque / Euskara", "basque"), // fudge to get right flag
 	Bosnian(null, true, false, "bs","bs", "Bosnian / \u0431\u043E\u0441\u0430\u043D\u0441\u043A\u0438", Country.BosniaandHerzegovina),
 	Bulgarian(null, false, false, "bg","bg", "Bulgarian / \u0431\u044A\u043B\u0433\u0430\u0440\u0441\u043A\u0438 \u0435\u0437\u0438\u043A", Country.Bulgaria),

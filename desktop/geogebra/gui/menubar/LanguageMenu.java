@@ -4,6 +4,8 @@ import geogebra.common.io.MyXMLHandler;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.main.App;
 import geogebra.common.util.Language;
+import geogebra.common.util.StringUtil;
+import geogebra.common.util.Unicode;
 import geogebra.main.AppD;
 import geogebra.main.GeoGebraPreferences;
 
@@ -208,10 +210,10 @@ public class LanguageMenu extends BaseMenu implements ActionListener {
 		JRadioButtonMenuItem mi;
 		ButtonGroup bg = new ButtonGroup();
 		// String label;
-		JMenu submenu1 = new JMenu("A - D");
-		JMenu submenu2 = new JMenu("E - I");
-		JMenu submenu3 = new JMenu("J - Q");
-		JMenu submenu4 = new JMenu("R - Z");
+		JMenu submenu1 = new JMenu(app.isRightToLeftReadingOrder() ? "D - A" : "A - D");
+		JMenu submenu2 = new JMenu(app.isRightToLeftReadingOrder() ? "I - E" : "E - I");
+		JMenu submenu3 = new JMenu(app.isRightToLeftReadingOrder() ? "Q - J" : "J - Q");
+		JMenu submenu4 = new JMenu(app.isRightToLeftReadingOrder() ? "Z - R" : "R - Z");
 		menu.add(submenu1);
 		menu.add(submenu2);
 		menu.add(submenu3);
@@ -222,9 +224,24 @@ public class LanguageMenu extends BaseMenu implements ActionListener {
 		for (int i = 0; i < languages.length; i++) {
 			Language loc = languages[i];
 
+			StringBuilder sb = new StringBuilder(20);
+			
 			// enforce to show specialLanguageNames first
 			// because here getDisplayLanguage doesn't return a good result
 			String text = loc.name;
+			char ch = text.charAt(0);
+			
+			if (ch == Unicode.LeftToRightMark || ch == Unicode.RightToLeftMark) {
+				ch = text.charAt(1);
+			} else {			
+				// make sure brackets are right in Arabic, ie not )US)
+				sb.setLength(0);
+				sb.append(Unicode.LeftToRightMark);
+				sb.append(text);
+				sb.append(Unicode.LeftToRightMark);
+				text = sb.toString();
+			}	
+				
 			mi = new JRadioButtonMenuItem(text);
 			
 			// make sure eg Malayalam, Georgian drawn OK (not in standard Java font)
@@ -237,7 +254,7 @@ public class LanguageMenu extends BaseMenu implements ActionListener {
 			mi.addActionListener(al);
 			bg.add(mi);
 
-			char ch = text.charAt(0);
+			
 			if (ch <= 'D')
 				submenu1.add(mi);
 			else if (ch <= 'I')

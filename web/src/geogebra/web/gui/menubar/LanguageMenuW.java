@@ -2,6 +2,7 @@ package geogebra.web.gui.menubar;
 
 import geogebra.common.main.App;
 import geogebra.common.util.Language;
+import geogebra.common.util.Unicode;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.main.AppW;
 
@@ -35,23 +36,23 @@ public class LanguageMenuW extends MenuBar {
 		//add here sub-sub menu for language from A-D
 		atoDMenuBar = new MenuBar(true);
 		atoDMenuBar.addStyleName("GeoGebraMenuBar");
-		addItem("A - D", atoDMenuBar);
+		addItem(app.isRightToLeftReadingOrder() ? "D - A" : "A - D", atoDMenuBar);
 		
 		//add here sub-sub menu for language from E-I
 		etoIMenuBar = new MenuBar(true);
 		etoIMenuBar.addStyleName("GeoGebraMenuBar");
-		addItem("E - I", etoIMenuBar);
+		addItem(app.isRightToLeftReadingOrder() ? "I - E" : "E - I", etoIMenuBar);
 		
 		
 		//add here sub-sub menu for language from J-Q
 		jtoQMenuBar = new MenuBar(true);
 		jtoQMenuBar.addStyleName("GeoGebraMenuBar");
-		addItem("J - Q", jtoQMenuBar);
+		addItem(app.isRightToLeftReadingOrder() ? "Q - J" : "J - Q", jtoQMenuBar);
 
 		//add here sub-sub menu for language from R-Z
 		rtoZMenuBar = new MenuBar(true);
 		rtoZMenuBar.addStyleName("GeoGebraMenuBar");
-		addItem("R - Z", rtoZMenuBar);
+		addItem(app.isRightToLeftReadingOrder() ? "Z - R" : "R - Z", rtoZMenuBar);
 		
 		addItems();
 	}
@@ -64,26 +65,38 @@ public class LanguageMenuW extends MenuBar {
 			String languageCode = AppW.getSupportedLanguages().get(i);
 
 			String lang = AppW.languageCodeVariationCrossReferencing(languageCode.replace(AppW.AN_UNDERSCORE, ""));
+			
+			StringBuilder sb = new StringBuilder();
 
 			if (Language.isEnabledInGWT(lang)) {
 
-				String languageName = Language.getDisplayName(lang);
+				String text = Language.getDisplayName(lang);
 
-				if(languageName != null) {
+				if(text != null) {
 
-					char ch = languageName.toUpperCase().charAt(0);
+					char ch = text.toUpperCase().charAt(0);
+					if (ch == Unicode.LeftToRightMark || ch == Unicode.RightToLeftMark) {
+						ch = text.charAt(1);
+					} else {			
+						// make sure brackets are correct in Arabic, ie not )US)
+						sb.setLength(0);
+						sb.append(Unicode.LeftToRightMark);
+						sb.append(text);
+						sb.append(Unicode.LeftToRightMark);
+						text = sb.toString();
+					}	
 					
 					App.debug("Supported Languages: " + languageCode);										
 
 					if(ch <= 'D') {
 
-						atoDMenuBar.addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),languageName),true,new LanguageCommand(languageCode));
+						atoDMenuBar.addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),text),true,new LanguageCommand(languageCode));
 					} else if(ch <= 'I') {
-						etoIMenuBar.addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),languageName),true,new LanguageCommand(languageCode));
+						etoIMenuBar.addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),text),true,new LanguageCommand(languageCode));
 					} else if(ch <= 'Q') {
-						jtoQMenuBar.addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),languageName),true,new LanguageCommand(languageCode));
+						jtoQMenuBar.addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),text),true,new LanguageCommand(languageCode));
 					} else {
-						rtoZMenuBar.addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),languageName),true,new LanguageCommand(languageCode));
+						rtoZMenuBar.addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),text),true,new LanguageCommand(languageCode));
 					}
 
 				}
