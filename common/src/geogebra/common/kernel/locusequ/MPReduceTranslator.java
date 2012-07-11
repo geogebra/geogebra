@@ -194,6 +194,14 @@ public class MPReduceTranslator extends EquationTranslator<StringBuilder> {
 		App.info("[LocusEqu] input to cas: "+script);
 		String result = cas.evaluateMPReduce(script);
 		App.info("[LocusEqu] output from cas: "+result);
+		
+		if (App.singularWS != null && App.singularWS.isAvailable()) {
+			String script2 = this.createSingularScript(translatedRestrictions);
+			App.info("[LocusEqu] input to singular: "+script2);
+			String result2 = App.singularWS.directCommand(script2);
+			App.info("[LocusEqu] output from singular: "+result2);
+		}
+		
 		return getCoefficientsFromResult(result, cas);
 	}
 
@@ -260,6 +268,17 @@ public class MPReduceTranslator extends EquationTranslator<StringBuilder> {
 				append("coeff(s,{x,y}); \n").toString();
 	}
 
+	private String createSingularScript(Collection<StringBuilder> restrictions) {
+		StringBuilder script = new StringBuilder();
+		return script.append("ring rr=real,(").
+				append(this.getVars()).
+				append("),dp;ideal m=").
+				append(this.constructRestrictions(restrictions)).
+				append(";eliminate(m,").
+				append(this.getVarsToEliminate().replaceAll(",", "*")).
+				append(");").toString();
+	}
+	
 	private String constructRestrictions(Collection<StringBuilder> restrictions) {
 		StringBuilder equations = new StringBuilder();
 		
