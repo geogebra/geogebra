@@ -13,7 +13,6 @@ import geogebra.web.asyncservices.HandleOAuth2Service;
 import geogebra.web.asyncservices.HandleOAuth2ServiceAsync;
 import geogebra.web.css.GuiResources;
 import geogebra.web.gui.app.GeoGebraAppFrame;
-import geogebra.web.gui.mobile.GeoGebraMobileFrame;
 import geogebra.web.helper.JavaScriptInjector;
 import geogebra.web.html5.ArticleElement;
 import geogebra.web.html5.Dom;
@@ -116,7 +115,24 @@ public class Web implements EntryPoint {
 	        });
 		}
 		
-		// insert mathquill css
+		injectResources();
+		
+//		setLocaleToQueryParam();
+				
+		if (Web.currentGUI.equals(GuiToLoad.VIEWER)) {
+			//we dont want to parse out of the box sometimes...
+			if (!calledFromExtension()) {
+				startGeoGebra(getGeoGebraMobileTags());
+			} else {
+				exportArticleTagRenderer();
+			}
+		} else if (Web.currentGUI.equals(GuiToLoad.APP)) {
+			loadAppAsync();
+		}
+	}
+
+	public static void injectResources() {
+	    // insert mathquill css
 		StyleInjector.inject(GuiResources.INSTANCE.mathquillCss().getText());
 
 		//insert zip.js
@@ -136,36 +152,9 @@ public class Web implements EntryPoint {
 		}
 		JavaScriptInjector.inject(GuiResources.INSTANCE.dataViewJs().getText());
 		JavaScriptInjector.inject(GuiResources.INSTANCE.base64Js().getText());
-		
-//		setLocaleToQueryParam();
-				
-		if (Web.currentGUI.equals(GuiToLoad.VIEWER)) {
-			//we dont want to parse out of the box sometimes...
-			if (!calledFromExtension()) {
-				startGeoGebra(getGeoGebraMobileTags());
-			} else {
-				exportArticleTagRenderer();
-			}
-		} else if (Web.currentGUI.equals(GuiToLoad.APP)) {
-			loadAppAsync();
-		} else if (Web.currentGUI.equals(GuiToLoad.MOBILE)) {
-			loadMobileAsync();
-		}
-	}
-	
-	private void loadMobileAsync() {
-	   GWT.runAsync(new RunAsyncCallback() {
-		
-		public void onSuccess() {
-			GeoGebraMobileFrame app = new GeoGebraMobileFrame();
-			
-		}
-		
-		public void onFailure(Throwable reason) {
-			App.debug(reason);
-		}
-	   });
     }
+	
+	
 
 	private void loadAppAsync() {
 	    GWT.runAsync(new RunAsyncCallback() {
@@ -213,6 +202,7 @@ public class Web implements EntryPoint {
 	    
     }
 	
+	
 	private static native boolean checkIfFallbackSetExplicitlyInArrayBufferJs() /*-{
 		if ($wnd.zip.useWebWorkers === false) {
 			//we set this explicitly in arraybuffer.js
@@ -221,6 +211,7 @@ public class Web implements EntryPoint {
 		}
 		return false;
 	}-*/;
+	
 	
 	private static native boolean checkWorkerSupport(String workerpath) /*-{
 	    try {

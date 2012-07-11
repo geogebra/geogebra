@@ -250,5 +250,31 @@ public class PropertiesViewW extends
 	    // TODO Auto-generated method stub
 	    
     }
+	
+	@Override
+	public void attachView() {
+		if (attached){
+			App.debug("already attached");
+			return;
+		}
+		
+		clearView();
+		kernel.notifyAddAll(this);
+		kernel.attach(this);
+		attached = true;
+	}
+	
+	@Override
+	public void detachView() {
+		kernel.detach(this);
+		clearView();
+		attached = false;
+	}
+
+	@Override
+    public void updatePropertiesView() {
+	    // TODO Auto-generated method stub
+	    
+    }
 
 }

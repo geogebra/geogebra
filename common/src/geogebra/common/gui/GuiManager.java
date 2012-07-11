@@ -288,4 +288,10 @@ public abstract class GuiManager {
 	public abstract void showPSTricksExport();
 
 	public abstract void showWebpageExport();
+
+	public abstract void detachPropertiesView();
+
+	public abstract boolean hasPropertiesView();
+
+	public abstract void attachPropertiesView();
 }

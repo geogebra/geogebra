@@ -113,5 +113,14 @@ public abstract class PropertiesView implements View{
 	public OptionType getSelectedOptionType() {
 		return selectedOptionType;
 	}
+
+
+	public abstract void updatePropertiesView();
+
+
+	public abstract void detachView();
+
+
+	public abstract void attachView();
 	
 }

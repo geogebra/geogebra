@@ -332,7 +332,7 @@ public class GuiManagerD extends GuiManager {
 
 		return propertiesView;
 	}
-
+	@Override
 	public boolean hasPropertiesView(){
 		return propertiesView != null;
 	}
@@ -741,12 +741,12 @@ public class GuiManagerD extends GuiManager {
 		if (assignmentView != null)
 			assignmentView.detachView();
 	}
-
+	@Override
 	public void attachPropertiesView() {
 		getPropertiesView();
 		propertiesView.attachView();
 	}
-
+	@Override
 	public void detachPropertiesView() {
 		if (propertiesView != null)
 			propertiesView.detachView();

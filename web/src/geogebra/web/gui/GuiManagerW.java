@@ -427,8 +427,9 @@ public class GuiManagerW extends GuiManager {
 
 	@Override
     public void updatePropertiesView() {
-	    // TODO Auto-generated method stub
-	    
+		if(propertiesView !=null){
+			propertiesView.updatePropertiesView();
+		}
     }
 	
 
@@ -544,5 +545,23 @@ public class GuiManagerW extends GuiManager {
     public void showWebpageExport() {
 		App.debug("unimplemented");
 	    
+    }
+
+	@Override
+    public void detachPropertiesView() {
+		if (propertiesView != null)
+			propertiesView.detachView();
+    }
+
+	@Override
+    public boolean hasPropertiesView() {
+	    // TODO Auto-generated method stub
+	    return false;
+    }
+
+	@Override
+    public void attachPropertiesView() {
+		getPropertiesView();
+		propertiesView.attachView();
     }
 }

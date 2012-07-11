@@ -238,6 +238,7 @@ public class PropertiesViewD extends geogebra.common.gui.view.properties.Propert
 	 * view is shown. 
 	 * Called when a view gets the focus.
 	 */
+	@Override
 	public void updatePropertiesView() {
 
 		setOptionPanelRegardingFocus(false);
@@ -577,7 +578,8 @@ public class PropertiesViewD extends geogebra.common.gui.view.properties.Propert
 	// //////////////////////////////////////////////////////
 	// VIEW INTERFACE
 	// //////////////////////////////////////////////////////
-
+	
+	@Override
 	public void attachView() {
 		if (attached){
 			App.debug("already attached");
@@ -589,7 +591,8 @@ public class PropertiesViewD extends geogebra.common.gui.view.properties.Propert
 		kernel.attach(this);
 		attached = true;
 	}
-
+	
+	@Override
 	public void detachView() {
 		kernel.detach(this);
 		clearView();
