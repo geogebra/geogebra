@@ -2993,6 +2993,9 @@ public abstract class GeoElement extends ConstructionElement implements
 					return str;
 				}
 				chars = lineLabels;
+			} else if (this instanceof GeoPenStroke) {
+				// needs to come before PolyLine (subclass)
+				return defaultNumberedLabel("Name.penStroke");
 			} else if (isGeoPolyLine()) {
 				chars = lineLabels;
 			} else if (isGeoConic()) {
