@@ -1096,7 +1096,7 @@ public class EuclidianPen {
 		GeoPoint p1 = new GeoPoint(app.getKernel().getConstruction(), x1, y1, 1.0);
 	    GeoPoint q = new GeoPoint(app.getKernel().getConstruction(), x2, y2, 1.0);
 	    GeoPoint z = new GeoPoint(app.getKernel().getConstruction(), x3, y3, 1.0);
-		AlgoCircleThreePoints algo=new AlgoCircleThreePoints(app.getKernel().getConstruction() , equation, p1, q, z);
+		AlgoCircleThreePoints algo=new AlgoCircleThreePoints(app.getKernel().getConstruction(), null, p1, q, z);
 		
 		GeoConic circle = (GeoConic) algo.getCircle();
 		circle.setLineThickness(penSize * 2);
