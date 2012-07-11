@@ -12,26 +12,23 @@ public class LayoutSettings extends AbstractSettings {
 	/**
 	 * Show the title bar of views. If disabled, the style bar is always visible.
 	 */
-	private boolean showTitleBar;
+	private boolean showTitleBar = true;
 	
 	/**
 	 * Ignore the layout of newly loaded documents. Useful for users who wish to keep
 	 * their preferred screen layout.
 	 */
-	private boolean ignoreDocumentLayout;
+	private boolean ignoreDocumentLayout = false;
 	
 	/**
 	 * Allow the style bar.
 	 */
-	private boolean allowStyleBar;
+	private boolean allowStyleBar = true;
 	
 	/**
-	 * Default values.
+	 * 
 	 */
 	public LayoutSettings() {
-		showTitleBar = true;
-		allowStyleBar = true;
-		ignoreDocumentLayout = false;
 	}
 
 	public LayoutSettings(LinkedList<SettingListener> listeners) {
