@@ -19,6 +19,10 @@ import java.awt.Toolkit;
 import java.net.URL;
  
 public class GeoGebra extends Object implements GeoGebraConstants {
+
+	/* WARNING: This code is the same as in GeoGebra3D.java.
+	 * TODO: Make the same code common.
+	 */
 	
 	public static Frame splashFrame = null;
 	

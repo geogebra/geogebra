@@ -35,17 +35,22 @@ public class GeoGebra3D extends GeoGebra
 		RendererJogl.initSingleton();
 	}
 
+	/* WARNING: This code is the same as in GeoGebra.java.
+	 * TODO: Make the same code common.
+	 */
+	
+	public static Frame splashFrame = null;
+	
 	public static void main(String[] cmdArgs) {  
 		CommandLineArguments args = new CommandLineArguments(cmdArgs);
-		
-		Frame splashFrame = null;
-		
+				
     	boolean showSplash = true;
-    	if(!args.getBooleanValue("showSplash", true)) {
+    	if (!args.getBooleanValue("showSplash", true)) {
     		showSplash = false;
     	}
     	
-    	if(args.getStringValue("help").length() > 0) {
+    	if (args.containsArg("help") || args.containsArg("proverhelp")
+    			|| args.containsArg("v") || args.containsArg("regressionFile")) {
     		showSplash = false;
     	}
     	
