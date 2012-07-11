@@ -564,4 +564,28 @@ public class GuiManagerW extends GuiManager {
 		getPropertiesView();
 		propertiesView.attachView();
     }
+
+	@Override
+    public void attachCasView() {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+	@Override
+    public void attachConstructionProtocolView() {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+	@Override
+    public void attachProbabilityCalculatorView() {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+	@Override
+    public void attachAssignmentView() {
+	    // TODO Auto-generated method stub
+	    
+    }
 }

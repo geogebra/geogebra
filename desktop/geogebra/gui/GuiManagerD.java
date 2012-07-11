@@ -603,46 +603,6 @@ public class GuiManagerD extends GuiManager {
 	}
 
 	/**
-	 * Attach a view which by using the view ID.
-	 * 
-	 * @author Florian Sonner
-	 * @version 2008-10-21
-	 * 
-	 * @param viewId
-	 */
-	public void attachView(int viewId) {
-		switch (viewId) {
-		case App.VIEW_ALGEBRA:
-			attachAlgebraView();
-			break;
-		case App.VIEW_SPREADSHEET:
-			attachSpreadsheetView();
-			break;
-		case App.VIEW_CAS:
-			attachCasView();
-			break;
-		case App.VIEW_CONSTRUCTION_PROTOCOL:
-			attachConstructionProtocolView();
-			break;
-		case App.VIEW_PROBABILITY_CALCULATOR:
-			attachProbabilityCalculatorView();
-			break;
-		case App.VIEW_ASSIGNMENT:
-			attachAssignmentView();
-			break;
-		case App.VIEW_PROPERTIES:
-			attachPropertiesView();
-			break;
-		case App.VIEW_EUCLIDIAN:
-		case App.VIEW_EUCLIDIAN2:
-			// handled elsewhere
-			break;
-		default: 
-			App.error("Error attaching VIEW: "+viewId);
-		}
-	}
-
-	/**
 	 * Detach a view which by using the view ID.
 	 * 
 	 * @author Florian Sonner
@@ -682,6 +642,7 @@ public class GuiManagerD extends GuiManager {
 		}
 	}
 
+	@Override
 	public void attachSpreadsheetView() {
 		getSpreadsheetView();
 		spreadsheetView.attachView();
@@ -692,6 +653,7 @@ public class GuiManagerD extends GuiManager {
 			spreadsheetView.detachView();
 	}
 
+	@Override
 	public void attachAlgebraView() {
 		getAlgebraView();
 		algebraView.attachView();
@@ -702,6 +664,7 @@ public class GuiManagerD extends GuiManager {
 			algebraView.detachView();
 	}
 
+	@Override
 	public void attachCasView() {
 		getCasView();
 		casView.attachView();
@@ -712,6 +675,7 @@ public class GuiManagerD extends GuiManager {
 			casView.detachView();
 	}
 
+	@Override
 	public void attachConstructionProtocolView() {
 		getConstructionProtocolView();
 		constructionProtocolView.getData().attachView();
@@ -722,6 +686,7 @@ public class GuiManagerD extends GuiManager {
 			constructionProtocolView.getData().detachView();
 	}
 
+	@Override
 	public void attachProbabilityCalculatorView() {
 		getProbabilityCalculator();
 		probCalculator.attachView();
@@ -732,6 +697,7 @@ public class GuiManagerD extends GuiManager {
 		probCalculator.detachView();
 	}
 
+	@Override
 	public void attachAssignmentView() {
 		getAssignmentView();
 		assignmentView.attachView();

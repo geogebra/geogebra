@@ -2,16 +2,17 @@ package geogebra.main;
 
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.euclidian.DrawTextField;
+import geogebra.common.gui.GuiManager;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoTextField;
 import geogebra.common.main.App;
 import geogebra.common.main.KeyCodes;
 import geogebra.euclidian.EuclidianViewD;
-import geogebra.gui.GuiManagerD;
 import geogebra.gui.app.GeoGebraFrame;
 import geogebra.gui.app.MyFileFilter;
 import geogebra.gui.inputbar.AlgebraInput;
+import geogebra.gui.layout.LayoutD;
 import geogebra.gui.menubar.GeoGebraMenuBar;
 import geogebra.util.Util;
 
@@ -213,8 +214,8 @@ public class GlobalKeyDispatcherD extends geogebra.common.main.GlobalKeyDispatch
 	protected boolean handleTab(boolean isControlDown, boolean isShiftDown) {
 		if (isControlDown && app.isUsingFullGui()) {
 
-			GuiManagerD gui = ((AppD)app).getGuiManager();
-			gui.getLayout().getDockManager()
+			GuiManager gui = ((AppD)app).getGuiManager();
+			((LayoutD)gui.getLayout()).getDockManager()
 			.moveFocus(!isShiftDown);
 
 			return true;

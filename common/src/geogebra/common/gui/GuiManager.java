@@ -294,4 +294,54 @@ public abstract class GuiManager {
 	public abstract boolean hasPropertiesView();
 
 	public abstract void attachPropertiesView();
+
+	public abstract void attachAlgebraView();
+
+	public abstract void attachCasView();
+
+	public abstract void attachConstructionProtocolView();
+
+	public abstract void attachProbabilityCalculatorView();
+
+	public abstract void attachAssignmentView();
+
+	/**
+	 * Attach a view which by using the view ID.
+	 * 
+	 * @author Florian Sonner
+	 * @version 2008-10-21
+	 * 
+	 * @param viewId
+	 */
+	public void attachView(int viewId) {
+		switch (viewId) {
+		case App.VIEW_ALGEBRA:
+			attachAlgebraView();
+			break;
+		case App.VIEW_SPREADSHEET:
+			attachSpreadsheetView();
+			break;
+		case App.VIEW_CAS:
+			attachCasView();
+			break;
+		case App.VIEW_CONSTRUCTION_PROTOCOL:
+			attachConstructionProtocolView();
+			break;
+		case App.VIEW_PROBABILITY_CALCULATOR:
+			attachProbabilityCalculatorView();
+			break;
+		case App.VIEW_ASSIGNMENT:
+			attachAssignmentView();
+			break;
+		case App.VIEW_PROPERTIES:
+			attachPropertiesView();
+			break;
+		case App.VIEW_EUCLIDIAN:
+		case App.VIEW_EUCLIDIAN2:
+			// handled elsewhere
+			break;
+		default: 
+			App.error("Error attaching VIEW: "+viewId);
+		}
+	}
 }
