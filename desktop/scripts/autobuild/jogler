@@ -1,39 +1,83 @@
 #!/bin/sh
 # The JOGL juggler. Creates a mixture of build directory from JOGL1 and JOGL2 builds.
+# Optional: first parameter - logfile, second parameter: test URL (they will
+# be passed to ./build-pack installer).
 
-COMPILE=1
+COMPILE=1 # Set it to 0 or 1, depending on you need compilation
 
-MYDIR=`dirname $0`
-cd $MYDIR
-MYDIR=`pwd`
+ORIGDIR=`dirname $0`
+cd $ORIGDIR
+ORIGDIR=`pwd`
 
+MYDIR=test50
+
+# 1. Start and loading configuration
+test -r autobuild.conf || {
+ echo "$0: Cannot find autobuild.conf (make sure you edit autobuild.conf.dist first)"
+ exit 1
+ }
+test -r autobuild.conf && . ./autobuild.conf
+
+if [ "$WWWDIR" = "" ]; then
+ WWWDIR=/home/build/www-autobuild
+ fi
+
+# 2. Compilation
 if [ $COMPILE = 1 ]; then
  for i in 1 2; do
   cd $MYDIR
-  ./build-pack-installer -l /tmp/jogler.log -cv 5.0 -J $i || exit $?
+  if [ "$1" != "" ]; then
+   L="-l $1"
+   fi
+  if [ "$2" != "" ]; then
+   TU="-tu $2"
+   fi
+  ./build-pack-installer -l /tmp/jogler.log $L $TU -cv 5.0 -J $i || exit $?
   cd ../..
   cp -a build build-jogl$i
   done
  fi
 
-cd $MYDIR/../..
+# 3. Copying files
+cd $ORIGDIR/../..
 
 copyover () {
 JOGL=$1; FILENAME=$2; NEWNAME=$3
 find build-jogl$JOGL -name $FILENAME | while read FILE; do
  DIR=`dirname $FILE`
  DIR2=`echo $DIR | sed s/build-jogl$JOGL//`
- COMMAND="cp $FILE build/$DIR2/$NEWNAME"
+ COMMAND="cp $FILE $WWWDIR/$MYDIR/$DIR2/$NEWNAME"
  echo $COMMAND
  $COMMAND
  done
 }
 
-copyover 1 geogebra.jar geogebra-jogl1.jar
-copyover 1 gluegen-rt.jar gluegen-rt-jogl1.jar
-copyover 1 geogebra_3d.jar geogebra_3d-jogl1.jar
+for i in jar jar.pack.gz; do
+ copyover 1 geogebra.$i geogebra-jogl1.$i
+ copyover 1 gluegen-rt.$i gluegen-rt-jogl1.$i
+ copyover 1 geogebra_3d.$i geogebra_3d-jogl1.$i
+ copyover 2 geogebra.$i geogebra-jogl2.$i
+ copyover 2 geogebra_3d.$i geogebra_3d-jogl2.$i
+ done
 
-copyover 2 geogebra.jar geogebra-jogl2.jar
-copyover 2 geogebra_3d.jar geogebra_3d-jogl2.jar
+# 3/2. Copying over jogl.jar and jogl1-*.jar
+find build-jogl1 -name jogl.jar -or -name 'jogl1-*' | while read FILE; do
+ DIR=`dirname $FILE`
+ DIR2=`echo $DIR | sed s/build-jogl1//`
+ COMMAND="cp $FILE $WWWDIR/$MYDIR/$DIR2"
+ echo $COMMAND
+ $COMMAND
+ done
 
-find build -name geogebra.jar -or -name geogebra_3d.jar -delete
+# 4. Deleting unnecessary files
+find $WWWDIR/$MYDIR -name geogebra.jar -or -name geogebra_3d.jar | xargs rm
+
+# 5. Changing JNLP files
+sed -i -e s/"geogebra\.jar"/geogebra-jogl1.jar/g \
+ -e s/"geogebra_3d\.jar"/geogebra_3d-jogl1.jar/g \
+ -e s/"gluegen-rt\.jar"/gluegen-rt-jogl1.jar/g \
+ $WWWDIR/$MYDIR/geogebra-50-jogl1.jnlp
+
+sed -i -e s/"geogebra\.jar"/geogebra-jogl2.jar/g \
+ -e s/"geogebra_3d\.jar"/geogebra_3d-jogl2.jar/g \
+ $WWWDIR/$MYDIR/geogebra-50-jogl2.jnlp
