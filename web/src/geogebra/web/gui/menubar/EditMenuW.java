@@ -170,6 +170,17 @@ public class EditMenuW extends MenuBar {
 				}
 			});
 		
+		//select current layer menu
+		if(app.getSelectedLayer() >= 0){
+			addItem(GeoGebraMenubarW.getMenuBarHtml(noIcon,
+			        app.getMenu("SelectCurrentLayer")), true, new Command() {
+				public void execute() {
+					int layer1 = app.getSelectedLayer();
+					if (layer1 != -1)
+						app.selectAll(layer1); // select all objects in layer
+				}
+			});			
+		}
 		
 		if(haveSelection){
 			//select descendants menu
