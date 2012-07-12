@@ -110,9 +110,15 @@ office@geogebra.org
 		</delete>
 	</target>
 
+	<target name="copy-jogl-natives">
+		<copy todir="${build.dir}">
+		    <fileset dir="../jogl${jogl}/lib" includes="*.so, *.jnilib, *.dll" />
+		</copy>
+	</target>
+
 	<!-- create all jar files -->
 	<target name="ggb-jar-files3D" 
-			depends="ggb-jar3D, ggb-main-jar, ggb-export-jar, ggb-properties-jar, ggb-cas-jar, ggb-algos-jar, ggb-gui-jar, ggb-javascript-jar, ggb-3d-jar, ggb-usb-jar, ggb-copy-jlatexmath, ggb-copy-jogl, ggb-copy-jython, ggb-copy-ogp, ggb-copy-usb">
+			depends="ggb-jar3D, ggb-main-jar, ggb-export-jar, ggb-properties-jar, ggb-cas-jar, ggb-algos-jar, ggb-gui-jar, ggb-javascript-jar, ggb-3d-jar, ggb-usb-jar, ggb-copy-jlatexmath, ggb-copy-jogl, ggb-copy-jython, ggb-copy-ogp, ggb-copy-usb, copy-jogl-natives">
 	</target>
 
 	<manifest file="../manifest.mf">

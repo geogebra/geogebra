@@ -222,9 +222,12 @@ if [ $TIDYUP = 1 ]; then
  fi
 
 # 7. Finish
+if [ "$JOGL" = "1" -a "$CV" = "5.0" ]; then
+ EXTRA="LD_LIBRARY_PATH=."
+ fi
 if [ $RUN = 0 ]; then
  echo "Vanilla *.jar files are located in $BUILDDIR directory."
- echo "To run GeoGebra, enter \"cd $BUILDDIR; java -jar geogebra.jar\"."
+ echo "To run GeoGebra, enter \"cd $BUILDDIR; $EXTRA java -jar geogebra.jar\"."
 else
  cd "$BUILDDIR"
  java -jar geogebra.jar &
