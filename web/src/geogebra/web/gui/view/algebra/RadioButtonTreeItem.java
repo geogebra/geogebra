@@ -375,9 +375,16 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		if (av.editing)
 			return;
 
+		// Make sure this remains focused in browsers except Safari
+		// safari will need an input element instead of tabindex
 		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
 			public void execute() {
 				ihtml.getElement().focus();
+				Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
+					public void execute() {
+						ihtml.getElement().focus();
+					}
+				});
 			}
 		});
 
