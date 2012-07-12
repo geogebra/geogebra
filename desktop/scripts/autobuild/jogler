@@ -1,0 +1,39 @@
+#!/bin/sh
+# The JOGL juggler. Creates a mixture of build directory from JOGL1 and JOGL2 builds.
+
+COMPILE=1
+
+MYDIR=`dirname $0`
+cd $MYDIR
+MYDIR=`pwd`
+
+if [ $COMPILE = 1 ]; then
+ for i in 1 2; do
+  cd $MYDIR
+  ./build-pack-installer -l /tmp/jogler.log -cv 5.0 -J $i || exit $?
+  cd ../..
+  cp -a build build-jogl$i
+  done
+ fi
+
+cd $MYDIR/../..
+
+copyover () {
+JOGL=$1; FILENAME=$2; NEWNAME=$3
+find build-jogl$JOGL -name $FILENAME | while read FILE; do
+ DIR=`dirname $FILE`
+ DIR2=`echo $DIR | sed s/build-jogl$JOGL//`
+ COMMAND="cp $FILE build/$DIR2/$NEWNAME"
+ echo $COMMAND
+ $COMMAND
+ done
+}
+
+copyover 1 geogebra.jar geogebra-jogl1.jar
+copyover 1 gluegen-rt.jar gluegen-rt-jogl1.jar
+copyover 1 geogebra_3d.jar geogebra_3d-jogl1.jar
+
+copyover 2 geogebra.jar geogebra-jogl2.jar
+copyover 2 geogebra_3d.jar geogebra_3d-jogl2.jar
+
+find build -name geogebra.jar -or -name geogebra_3d.jar -delete
