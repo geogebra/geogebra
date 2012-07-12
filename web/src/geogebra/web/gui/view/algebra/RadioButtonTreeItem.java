@@ -27,9 +27,11 @@ import geogebra.web.main.DrawEquationWeb;
 
 import java.util.Iterator;
 
+import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.SpanElement;
 import com.google.gwt.dom.client.Style;
+import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.DoubleClickEvent;
@@ -128,6 +130,13 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		SpanElement se2 = DOM.createSpan().cast();
 		se2.setInnerHTML("&nbsp;&nbsp;&nbsp;&nbsp;");
 		ihtml.getElement().appendChild(se2);
+
+		//inpel = InputElement.as(DOM.createInputText());
+		//inpel.getStyle().setWidth(0, Style.Unit.PX);
+		//inpel.getStyle().setHeight(0, Style.Unit.PX);
+		//inpel.getStyle().setBorderWidth(0, Style.Unit.PX);
+		//ihtml.getElement().appendChild(inpel);
+		addOurKeyUp(ihtml.getElement());
 
 		String text = "";
 		if (geo.isIndependent()) {
@@ -373,6 +382,12 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		if (av.editing)
 			return;
 
+		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
+			public void execute() {
+				ihtml.getElement().focus();
+			}
+		});
+
 		AppW app = (AppW)geo.getKernel().getApplication();
 		int mode = app.getActiveEuclidianView().getMode();
 		if (//!skipSelection && 
@@ -471,5 +486,27 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		//} else {
 		//	se.setTitle("");
 		//}
+	}
+
+	public native void addOurKeyUp(Element inpel) /*-{
+		var thisclass = this;
+		inpel.setAttribute("tabindex", 0);
+		inpel.onkeyup = function(event) {
+			var code = 13;
+			if (event.keyCode) {
+				code = event.keyCode;
+			} else if (event.which) {
+				code = event.which;
+			}
+			thisclass.@geogebra.web.gui.view.algebra.RadioButtonTreeItem::ourKeyUp(IZZZ)(code, event.ctrlKey, event.shiftKey, event.altKey);
+			return false;
+		}
+	}-*/;
+
+	public void ourKeyUp(int keyCode, boolean ctrl, boolean shift, boolean alt) {
+		if (keyCode == 46) {
+			geo.remove();
+			kernel.notifyRepaint();
+		}
 	}
 }
