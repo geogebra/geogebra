@@ -24,6 +24,12 @@ public class CmdMedian extends CmdOneListFunction {
 	{
 		return kernelA.Median(a, b);
 	}
+	
+	@Override
+	final protected GeoElement doCommand(String a, GeoList list, GeoList freq)
+	{
+		return kernelA.Median(a, list, freq);
+	}
 
 
 }

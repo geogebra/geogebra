@@ -8072,6 +8072,15 @@ public class Kernel {
 		GeoNumeric num = algo.getMedian();
 		return num;
 	}
+	
+	/**
+	 * Median[list, freq] G. Sturr
+	 */
+	final public GeoNumeric Median(String label, GeoList list, GeoList freq) {
+		AlgoMedian algo = new AlgoMedian(cons, label, list, freq);
+		GeoNumeric num = algo.getMedian();
+		return num;
+	}
 
 	/**
 	 * Q1[list] lower quartile Michael Borcherds
