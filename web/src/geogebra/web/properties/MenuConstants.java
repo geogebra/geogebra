@@ -469,6 +469,9 @@ public interface MenuConstants extends ConstantsWithLookup {
     @DefaultStringValue("Cursive Letters")
     String CursiveLetters();
 
+    @DefaultStringValue("Custom")
+    String Custom();
+
     @DefaultStringValue("Custom Tools")
     String CustomTools();
 
