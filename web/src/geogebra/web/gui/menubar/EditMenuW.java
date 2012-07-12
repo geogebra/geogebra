@@ -170,9 +170,27 @@ public class EditMenuW extends MenuBar {
 				}
 			});
 		
-		//invert selection menu
+		
 		if(haveSelection){
+			//select descendants menu
+			addItem(GeoGebraMenubarW.getMenuBarHtml(noIcon,
+			        app.getMenu("SelectDescendants")), true, new Command() {
+				public void execute() {
+					app.selectAllDescendants();
+				}
+			});
+		
+			//select ancestors menu
+			addItem(GeoGebraMenubarW.getMenuBarHtml(noIcon,
+			        app.getMenu("SelectAncestors")), true, new Command() {
+				public void execute() {
+					app.selectAllPredecessors();
+				}
+			});
+			
 			addSeparator();
+			
+			//invert selection menu
 			addItem(GeoGebraMenubarW.getMenuBarHtml(noIcon,
 			        app.getMenu("InvertSelection")), true, new Command() {
 				public void execute() {
