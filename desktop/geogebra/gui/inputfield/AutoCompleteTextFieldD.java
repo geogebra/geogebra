@@ -955,7 +955,8 @@ public AutoCompleteTextFieldD(int columns, AppD app,
       }
     }
     // can't work out anything better, just show "Invalid Input"
-    app.showError(e.getLocalizedMessage());
+    e.printStackTrace();
+    app.showError(app.getError("InvalidInput"));
 
   }
 
