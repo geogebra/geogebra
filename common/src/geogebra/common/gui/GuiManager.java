@@ -167,6 +167,29 @@ public abstract class GuiManager {
 		strCustomToolbarDefinition = toolBarDefinition;
 	}
 
+	/**
+	 * possible GeoGebraTube syntaxes
+	 * http://www.geogebratube.org/material/show/id/111
+	 * http://www.geogebratube.org/student/m111
+	 * http://www.geogebratube.org/student/cXX/m111/options
+	 * www.geogebratube.org/material/show/id/111
+	 * www.geogebratube.org/student/m111
+	 * www.geogebratube.org/student/cXX/m111/options
+	 * http://geogebratube.org/material/show/id/111
+	 * http://geogebratube.org/student/m111
+	 * http://geogebratube.org/student/cXX/m111/options http://ggbtu.be/m111
+	 * http://ggbtu.be/cXX/m111/options http://www.ggbtu.be/m111
+	 * http://www.ggbtu.be/cXX/options
+	 * 
+	 * in an iframe, src=
+	 * http://www.geogebratube.org/material/iframe/id/111
+	 * http://www.geogebratube.org/material/iframe/id/111/param1/val1/param2/val2/...
+	 * http://ggbtu.be/e111
+	 * http://ggbtu.be/e111?param1=&param2=..
+	 * 
+	 * 
+	 * also can have ?mobile=true ?mobile=false on end
+	 */
 	public boolean loadURL(String urlString, boolean suppressErrorMsg) {
 		urlString = urlString.trim();
 	

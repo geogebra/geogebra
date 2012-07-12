@@ -1661,6 +1661,33 @@ public class AppD extends App implements
 
 			return loadXML(fileUrl, false);
 		}
+		
+		final String iframeURL1 = "<iframe src='http://www.geogebratube.org/material/iframe/id/";
+		final String iframeURL2 = "<iframe src='http://ggbtu.be/e";
+		
+		// try loading from an embedded iframe
+		int index = lowerCasedPage.indexOf(iframeURL1);
+		if (index > -1) {
+			index += iframeURL1.length();
+		} else {
+			index = lowerCasedPage.indexOf(iframeURL2);
+			
+			if (index > -1) {
+				index += iframeURL2.length();
+			}		
+
+		}
+		
+		if (index > -1) {
+			StringBuilder sb = new StringBuilder("http://www.geogebratube.org/material/download/format/file/id/");
+			while (index < lowerCasedPage.length() && Character.isDigit(lowerCasedPage.charAt(index))) {
+				sb.append(lowerCasedPage.charAt(index));
+				index++;
+			}
+			
+			url = new URL(sb.toString());
+			return loadXML(url, false);
+		}
 
 		return false;
 	}
