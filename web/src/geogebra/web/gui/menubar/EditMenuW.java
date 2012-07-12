@@ -1,5 +1,9 @@
 package geogebra.web.gui.menubar;
 
+import java.awt.event.ActionEvent;
+
+import javax.swing.AbstractAction;
+
 import geogebra.common.main.App;
 import geogebra.web.gui.dialog.WebCamInputDialog;
 import geogebra.common.util.CopyPaste;
@@ -37,6 +41,16 @@ public class EditMenuW extends MenuBar {
 	void initActions() {
 		
 		String noIcon = AppResources.INSTANCE.empty().getSafeUri().asString();
+		/* layer values:
+		 *  -1 means nothing selected
+		 *  -2 means different layers selected
+		 */
+		int layer = app.getSelectedLayer();	
+		boolean justCreated = !(app.getActiveEuclidianView().getEuclidianController().getJustCreatedGeos().isEmpty());
+
+		
+		
+		
 
 		clearItems();
 		
@@ -155,6 +169,21 @@ public class EditMenuW extends MenuBar {
 					// do nothing
 				}
 			});
+		
+
+		
+		
+		if (layer != -1 || justCreated){
+			addSeparator();
+			addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE
+			        .edit_copy().getSafeUri().asString(),
+			        app.getMenu("Delete")), true, new Command() {
+				public void execute() {
+					app.deleteSelectedObjects();
+				}
+			});
+		}
+		
 
 	}
 	
