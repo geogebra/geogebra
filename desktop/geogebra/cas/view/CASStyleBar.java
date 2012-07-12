@@ -178,15 +178,15 @@ public class CASStyleBar extends JToolBar implements ActionListener{
 	
 	private void applyTextSize(ArrayList<GeoElement> geos) {
 
-		int fontSize = GeoText.getRelativeFontSize(btnTextSize
+		double fontSize = GeoText.getRelativeFontSize(btnTextSize
 				.getSelectedIndex()); // transform indices to the range -4, .. ,
 										// 4
 
 		for (int i = 0; i < geos.size(); i++) {
 			GeoElement geo = geos.get(i);
 			if (geo instanceof GeoCasCell
-					&& ((GeoCasCell) geo).getGeoText().getFontSize() != fontSize) {
-				((GeoCasCell) geo).setFontSize(fontSize);
+					&& ((GeoCasCell) geo).getGeoText().getFontSizeMultiplier() != fontSize) {
+				((GeoCasCell) geo).setFontSizeMultiplier(fontSize);
 				geo.updateRepaint();
 				needUndo = true;
 			}
@@ -390,7 +390,7 @@ public class CASStyleBar extends JToolBar implements ActionListener{
 
 				if (geosOK) {
 					GeoElement geo = ((GeoElement) geos[0]);
-					setSelectedIndex(GeoText.getFontSizeIndex(((GeoCasCell) geo).getFontSize())); // font size ranges from
+					setSelectedIndex(GeoText.getFontSizeIndex(((GeoCasCell) geo).getFontSizeMultiplier())); // font size ranges from
 														// -4 to 4, transform
 														// this to 0,1,..,4
 				}

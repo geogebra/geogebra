@@ -815,7 +815,7 @@ public class GeoGebraToPstricks extends GeoGebraExport {
 		}
 		GColorD geocolor=((geogebra.awt.GColorD) geo.getObjectColor());
 		int style=geo.getFontStyle();
-		int size=geo.getFontSize()+app.getGUIFontSize();
+		int size = (int) (geo.getFontSizeMultiplier() * app.getFontSize());
 		GeoPoint gp;
 		double x,y;
 	      // compute location of text		

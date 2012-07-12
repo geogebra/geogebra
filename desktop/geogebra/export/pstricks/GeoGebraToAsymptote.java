@@ -891,7 +891,7 @@ public class GeoGebraToAsymptote extends GeoGebraExport {
         }
         geogebra.common.awt.GColor geocolor = geo.getObjectColor();
         int style = geo.getFontStyle();
-        int size = geo.getFontSize()+app.getGUIFontSize();
+        int size = (int) (geo.getFontSizeMultiplier() * app.getFontSize());
         GeoPoint gp;
         double x,y;
           // compute location of text       

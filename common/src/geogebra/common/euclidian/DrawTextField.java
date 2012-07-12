@@ -348,7 +348,7 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 			label.setText("");
 		}
 
-		int fontSize = view.getFontSize() + geoTextField.getFontSize();
+		int fontSize = (int) (view.getFontSize() * geoTextField.getFontSizeMultiplier());
 		App app = view.getApplication();
 
 		GFont vFont = view.getFont();

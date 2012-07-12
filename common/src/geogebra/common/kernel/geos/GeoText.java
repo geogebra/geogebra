@@ -54,8 +54,11 @@ public class GeoText extends GeoElement implements Locateable,
 	// font options
 	private boolean serifFont;
 	private int fontStyle;
-	private int fontSize = 0; // must be zero, as that is the value NOT saved to
-								// XML
+	//private int fontSize = 0; // must be zero, as that is the value NOT saved to
+	//							// XML
+	
+	// changed to a multiplier from ggb42
+	private double fontSizeD = 1; 
 	private int printDecimals = -1;
 	private int printFigures = -1;
 	private boolean useSignificantFigures = false;
@@ -185,7 +188,7 @@ public class GeoText extends GeoElement implements Locateable,
 		GeoText text = (GeoText) geo;
 		serifFont = text.serifFont;
 		fontStyle = text.fontStyle;
-		fontSize = text.fontSize;
+		fontSizeD = text.fontSizeD;
 		printDecimals = text.printDecimals;
 		printFigures = text.printFigures;
 		useSignificantFigures = text.useSignificantFigures;
@@ -561,16 +564,7 @@ public class GeoText extends GeoElement implements Locateable,
 			sb.append("\t<isLaTeX val=\"true\"/>\n");
 		}
 
-		// font settings
-		if (serifFont || fontSize != 0 || fontStyle != 0 || isLaTeX) {
-			sb.append("\t<font serif=\"");
-			sb.append(serifFont);
-			sb.append("\" size=\"");
-			sb.append(fontSize);
-			sb.append("\" style=\"");
-			sb.append(fontStyle);
-			sb.append("\"/>\n");
-		}
+		appendFontTag(sb, serifFont, fontSizeD, fontStyle, isLaTeX, app);
 
 		// print decimals
 		if (printDecimals >= 0 && !useSignificantFigures) {
@@ -752,31 +746,36 @@ public class GeoText extends GeoElement implements Locateable,
 		return true;
 	}
 
-	public int getFontSize() {
-		return fontSize;
+	//public int getFontSize() {
+	//	return fontSize;
+	//}
+	
+	public double getFontSizeMultiplier() {
+		return fontSizeD;
 	}
+	
 	/**
 	 * 
 	 * @param index index of size in the settings
 	 * @return additive size modifier
 	 */
-	public static int getRelativeFontSize(int index) {
+	public static double getRelativeFontSize(int index) {
 		switch (index) {
 		case FONTSIZE_EXTRA_SMALL: // extra small
-			return -12;
+			return 0.5;
 		case FONTSIZE_VERY_SMALL: // very small
-			return -6;
+			return 0.7;
 		case FONTSIZE_SMALL: // small
-			return 0;
+			return 1;
 		default:
 		case FONTSIZE_MEDIUM: // medium
-			return 16;
+			return 1.4;
 		case FONTSIZE_LARGE: // large
-			return 32;
+			return 2;
 		case FONTSIZE_VERY_LARGE: // very large
-			return 64;
+			return 4;
 		case FONTSIZE_EXTRA_LARGE: // extra large
-			return 128;
+			return 8;
 		}
 	}
 
@@ -785,31 +784,35 @@ public class GeoText extends GeoElement implements Locateable,
 	 * @param relativeFontSize font size  modifier 
 	 * @return corresponding index
 	 */
-	public static int getFontSizeIndex(int relativeFontSize) {
-		switch (relativeFontSize) {
-		case -12: // extra small
+	public static int getFontSizeIndex(double d) {
+		if (d <= 0.5) {
 			return FONTSIZE_EXTRA_SMALL;
-		case -8: // old files
-		case -6: // very small
-			return FONTSIZE_VERY_SMALL;
-		case 0: // small
-		case -2: // old files
-		case -4: // old files
-			return FONTSIZE_SMALL;
-		default: // old files (2,4,6,8)
-		case 16: // medium
-			return FONTSIZE_MEDIUM;
-		case 32: // large
-			return FONTSIZE_LARGE;
-		case 64: // very large
-			return FONTSIZE_VERY_LARGE;
-		case 128: // extra large
-			return FONTSIZE_EXTRA_LARGE;
 		}
+		if (d <= 0.8) {
+			return FONTSIZE_VERY_SMALL;
+		}
+		if (d <= 1) {
+			return FONTSIZE_SMALL;
+		}
+		if (d <= 1.5) {
+			return FONTSIZE_MEDIUM;
+		}
+		if (d <= 2) {
+			return FONTSIZE_LARGE;
+		}
+		if (d <= 4) {
+			return FONTSIZE_VERY_LARGE;
+		}
+		return FONTSIZE_EXTRA_LARGE;
+
 	}
 
-	public void setFontSize(int size) {
-		fontSize = size;
+	//public void setFontSize(int size) {
+	//	fontSize = size;
+	//}
+
+	public void setFontSizeMultiplier(double d) {
+		fontSizeD = d;
 	}
 
 	public int getFontStyle() {
@@ -1094,6 +1097,36 @@ public class GeoText extends GeoElement implements Locateable,
 		spreadsheetTraceList.add(numeric);
 
 		return spreadsheetTraceList;
+	}
+	public static void appendFontTag(StringBuilder sb, boolean serifFont,
+			double fontSizeD, int fontStyle, boolean isLaTeX, App app) {
+		// font settings
+		if (serifFont || fontSizeD != 1 || fontStyle != 0 || isLaTeX) {
+			sb.append("\t<font serif=\"");
+			sb.append(serifFont);
+			
+			// multiplier
+			sb.append("\" sizeM=\"");
+			sb.append(fontSizeD);
+			
+			// work out an estimate (can't guarantee exact)
+			double oldFontSize = app.getFontSize() * fontSizeD - app.getFontSize();
+			
+			if (oldFontSize > 0) {
+				oldFontSize = Math.ceil(oldFontSize);
+			} else {
+				oldFontSize = Math.floor(oldFontSize);				
+			}
+			// still write this (for ggb40 compatibility)
+			sb.append("\" size=\"");
+			sb.append((int)oldFontSize);
+			
+			sb.append("\" style=\"");
+			sb.append(fontStyle);
+			sb.append("\"/>\n");
+		}
+
+		
 	}
 
 

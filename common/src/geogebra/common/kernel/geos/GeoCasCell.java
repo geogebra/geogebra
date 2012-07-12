@@ -304,7 +304,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 	 *            font
 	 */
 	public void setFont(GFont ft) {
-		setFontSize(ft.getSize());
+		setFontSizeMultiplier((double)ft.getSize() / (double)app.getFontSize());
 		setFontStyle(ft.getStyle());
 	}
 
@@ -342,15 +342,15 @@ public class GeoCasCell extends GeoElement implements VarString {
 	 * @param size
 	 *            font size
 	 */
-	public void setFontSize(int size) {
-		commentText.setFontSize(size);
+	public void setFontSizeMultiplier(double d) {
+		commentText.setFontSizeMultiplier(d);
 	}
 
 	/**
 	 * @return font size
 	 */
-	public int getFontSize() {
-		return commentText.getFontSize();
+	public double getFontSizeMultiplier() {
+		return commentText.getFontSizeMultiplier();
 	}
 
 	/**
@@ -1639,7 +1639,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 			sb.append("\t\t\t");
 			sb.append("<FontSize");
 			sb.append(" value=\"");
-			sb.append(getFontSize());
+			sb.append(getFontSizeMultiplier());
 			sb.append("\" ");
 			sb.append("/>\n");
 

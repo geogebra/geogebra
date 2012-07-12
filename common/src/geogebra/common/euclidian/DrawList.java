@@ -126,7 +126,7 @@ public final class DrawList extends Drawable implements RemoveNeeded {
 				label.setText(Unicode.NBSP + Unicode.NBSP + Unicode.NBSP);
 			}
 
-			int fontSize = view.getFontSize() + geoList.getFontSize();
+			int fontSize = (int) (view.getFontSize() * geoList.getFontSizeMultiplier());
 			App app = view.getApplication();
 
 			geogebra.common.awt.GFont vFont = view.getFont();

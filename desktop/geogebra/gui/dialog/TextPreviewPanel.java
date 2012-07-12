@@ -127,7 +127,7 @@ public class TextPreviewPanel extends EuclidianViewD {
 		// create previewGeoIndependent
 		if (previewGeoIndependent == null) {
 			previewGeoIndependent = new GeoText(kernel.getConstruction());
-			previewGeoIndependent.setFontSize(0);
+			previewGeoIndependent.setFontSizeMultiplier(1.0);
 			previewGeoIndependent.addView(this.getViewID());
 			add(previewGeoIndependent);
 		}
@@ -357,7 +357,7 @@ public class TextPreviewPanel extends EuclidianViewD {
 	 */
 	private static void locateTextGeo(GeoText geo) {
 		int xInset = 4;
-		int yInset = geo.isLaTeX() ? 4 : 18 + geo.getFontSize();
+		int yInset = (int) (geo.isLaTeX() ? 4 : 18 + 12 * (geo.getFontSizeMultiplier() - 1));
 		geo.setAbsoluteScreenLocActive(true);
 		geo.setAbsoluteScreenLoc(xInset, yInset);
 	}

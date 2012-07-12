@@ -61,7 +61,7 @@ public class DrawText3D extends Drawable3DCurves {
 		GeoText text = (GeoText) getGeoElement();
 		
 		// text's font size is relative to the global font size
-		int newFontSize = Math.max(4, getView3D().getFontSize() + text.getFontSize());		
+		int newFontSize = (int) Math.max(4, getView3D().getFontSize() * text.getFontSizeMultiplier());		
 		int newFontStyle = text.getFontStyle();	
 		boolean newSerifFont = text.isSerifFont();
 		

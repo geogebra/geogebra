@@ -246,7 +246,7 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture {
 			}
 
 			if (geo instanceof TextProperties) {
-				((TextProperties) geo).setFontSize(getFontSize());
+				((TextProperties) geo).setFontSizeMultiplier(getFontSizeMultiplier());
 				((TextProperties) geo).setFontStyle(getFontStyle());
 				((TextProperties) geo).setSerifFont(isSerifFont());
 				if (useSignificantFigures) {
@@ -833,16 +833,7 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture {
 		sb.append(pointStyle);
 		sb.append("\"/>\n");
 
-		// font settings
-		if (serifFont || (fontSize != 0) || (fontStyle != 0)) {
-			sb.append("\t<font serif=\"");
-			sb.append(serifFont);
-			sb.append("\" size=\"");
-			sb.append(fontSize);
-			sb.append("\" style=\"");
-			sb.append(fontStyle);
-			sb.append("\"/>\n");
-		}
+		GeoText.appendFontTag(sb, serifFont, fontSizeD, fontStyle, false, app);
 
 		// print decimals
 		if ((printDecimals >= 0) && !useSignificantFigures) {
@@ -1236,17 +1227,17 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture {
 	// font options
 	private boolean serifFont = false;
 	private int fontStyle = GFont.PLAIN;
-	private int fontSize = 0; // size relative to default font size
+	private double fontSizeD = 1; // size relative to default font size
 	private int printDecimals = -1;
 	private int printFigures = -1;
 	private boolean useSignificantFigures = false;
 
-	public int getFontSize() {
-		return fontSize;
+	public double getFontSizeMultiplier() {
+		return fontSizeD;
 	}
 
-	public void setFontSize(final int size) {
-		fontSize = size;
+	public void setFontSizeMultiplier(final double size) {
+		fontSizeD = size;
 
 		if ((geoList == null) || (geoList.size() == 0)) {
 			return;
@@ -1255,7 +1246,7 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture {
 		for (int i = 0; i < geoList.size(); i++) {
 			final GeoElement geo = geoList.get(i);
 			if ((geo instanceof TextProperties) && !geo.isLabelSet()) {
-				((TextProperties) geo).setFontSize(size);
+				((TextProperties) geo).setFontSizeMultiplier(size);
 			}
 		}
 	}

@@ -8,12 +8,12 @@ public interface TextProperties {
 	 * 
 	 * @return font size (relative)
 	 */
-	public int getFontSize();
+	public double getFontSizeMultiplier();
 	/**
 	 * 
 	 * @param size font size (relative)
 	 */
-	public void setFontSize(int size);
+	public void setFontSizeMultiplier(double size);
 	/**
 	 * 
 	 * @return font style

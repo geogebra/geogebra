@@ -2678,7 +2678,7 @@ public class MyXMLHandler implements DocHandler {
 				geoCasCell.setFontStyle(Integer.parseInt(style));	
 		} else if ("FontSize".equals(eName)) {
 				String size = attrs.get("value");
-				geoCasCell.setFontSize(Integer.parseInt(size));			
+				geoCasCell.setFontSizeMultiplier(StringUtil.parseDouble(size));			
 		} else if ("FontColor".equals(eName)) {
 			String r = attrs.get("r");
 			String b = attrs.get("b");
@@ -3874,7 +3874,16 @@ public class MyXMLHandler implements DocHandler {
 
 		try {
 			TextProperties text = (TextProperties) geo;
-			text.setFontSize(Integer.parseInt(attrs.get("size"))); // compulsory
+			
+			String oldSize = attrs.get("size");
+			// multiplier, new from ggb42
+			String size = attrs.get("sizeM"); 
+			
+			if (size == null) {
+				text.setFontSizeMultiplier((double)Integer.parseInt(oldSize) / ((double)app.getFontSize()) + 1.0); 
+			} else {
+				text.setFontSizeMultiplier(StringUtil.parseDouble(size));
+			}
 			if (serif != null)
 				text.setSerifFont(parseBoolean((String) serif));
 			if (style != null)

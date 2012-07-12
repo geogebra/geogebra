@@ -1260,7 +1260,7 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 							.getGeoElementForPropertiesDialog();
 					setSelectedIndex(GeoText
 							.getFontSizeIndex(((TextProperties) geo)
-									.getFontSize())); // font size ranges from
+									.getFontSizeMultiplier())); // font size ranges from
 														// -4 to 4, transform
 														// this to 0,1,..,4
 				}
@@ -1646,15 +1646,15 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 
 	private void applyTextSize(ArrayList<GeoElement> geos) {
 
-		int fontSize = GeoText.getRelativeFontSize(btnTextSize
+		double fontSize = GeoText.getRelativeFontSize(btnTextSize
 				.getSelectedIndex()); // transform indices to the range -4, .. ,
 										// 4
 
 		for (int i = 0; i < geos.size(); i++) {
 			GeoElement geo = geos.get(i);
 			if (geo instanceof TextProperties
-					&& ((TextProperties) geo).getFontSize() != fontSize) {
-				((TextProperties) geo).setFontSize(fontSize);
+					&& ((TextProperties) geo).getFontSizeMultiplier() != fontSize) {
+				((TextProperties) geo).setFontSizeMultiplier(fontSize);
 				geo.updateRepaint();
 				needUndo = true;
 			}

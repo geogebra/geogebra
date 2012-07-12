@@ -27,7 +27,7 @@ public class GeoButton extends GeoElement implements AbsoluteScreenLocateable, T
 
 	private boolean buttonFixed = false;
 	
-	private int fontSize = 0;
+	private double fontSizeD = 1;
 	private int fontStyle = GFont.PLAIN;
 
 	private boolean serifFont = false;
@@ -226,11 +226,11 @@ public class GeoButton extends GeoElement implements AbsoluteScreenLocateable, T
 		return false;
 	}
 
-	public int getFontSize() {
-		return fontSize ;
+	public double getFontSizeMultiplier() {
+		return fontSizeD ;
 	}
-	public void setFontSize(int size) {
-		fontSize = size;
+	public void setFontSizeMultiplier(double d) {
+		fontSizeD = d;
 	}
 
 	public int getFontStyle() {
@@ -278,15 +278,7 @@ public class GeoButton extends GeoElement implements AbsoluteScreenLocateable, T
 		super.getXMLtags(sb);
 
 		// font settings
-		if (serifFont || fontSize != 0 || fontStyle != 0) {
-			sb.append("\t<font serif=\"");
-			sb.append(serifFont);
-			sb.append("\" size=\"");
-			sb.append(fontSize);
-			sb.append("\" style=\"");
-			sb.append(fontStyle);
-			sb.append("\"/>\n");
-		}
+		GeoText.appendFontTag(sb, serifFont, fontSizeD, fontStyle, false, app);
 
 		// name of image file
 		if (getFillImage() != null) {

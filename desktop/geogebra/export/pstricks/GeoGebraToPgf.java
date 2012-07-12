@@ -919,7 +919,7 @@ public class GeoGebraToPgf extends GeoGebraExport {
 		boolean isLatex = geo.isLaTeX();
 		String st = geo.getTextString();
 		int style = geo.getFontStyle();
-		int size = geo.getFontSize() + app.getGUIFontSize();
+		int size = (int) (geo.getFontSizeMultiplier() * app.getFontSize());
 		GeoPoint gp;
 		double x, y;
 		// compute location of text

@@ -57,6 +57,7 @@ import geogebra.common.main.App;
 import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.plugin.GeoClass;
+import geogebra.common.util.StringUtil;
 import geogebra.euclidian.EuclidianViewD;
 import geogebra.gui.color.GeoGebraColorChooser;
 import geogebra.gui.inputfield.AutoCompleteTextFieldD;
@@ -109,6 +110,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
@@ -4111,6 +4113,8 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 			for (int i = 0; i < fontSizes.length; ++i) {
 				cbSize.addItem(fontSizes[i]);
 			}
+			
+			cbSize.addItem(app.getMenu("Custom")+"...");
 
 			cbSize.setSelectedIndex(selectedIndex);
 			cbSize.addActionListener(this);
@@ -4171,7 +4175,7 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 			// set value to first text's size and style
 			TextProperties geo0 = (TextProperties) geos[0];
 
-			cbSize.setSelectedIndex(GeoText.getFontSizeIndex(geo0.getFontSize())); // font
+			cbSize.setSelectedIndex(GeoText.getFontSizeIndex(geo0.getFontSizeMultiplier())); // font
 																					// size
 																					// ranges
 																					// from
@@ -4252,12 +4256,40 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 			Object source = e.getSource();
 
 			if (source == cbSize) {
+				
+				double multiplier;
+				
+				if (cbSize.getSelectedIndex() == 7) {
+					String percentStr = JOptionPane.showInputDialog(app.getFrame(), app.getPlain("EnterPercentage"), Math.round(((TextProperties) geos[0]).getFontSizeMultiplier()*100)+"%");
+					
+					if (percentStr == null) {
+						// Cancel
+						return;
+					}
+					percentStr = percentStr.replaceAll("%","");
+					
+					try {
+						multiplier = StringUtil.parseDouble(percentStr) / 100;
+						
+						if (multiplier < 0.01) {
+							multiplier = 0.01;
+						} else if (multiplier > 100) {
+							multiplier = 100;
+						}
+					} catch (NumberFormatException e2) {
+						app.showError("InvalidInput");
+						return;
+					}
+					
+				} else {
+					// transform indices to a multiplier
+					multiplier = GeoText.getRelativeFontSize(cbSize
+							.getSelectedIndex());
+				}
 				TextProperties text;
 				for (int i = 0; i < geos.length; i++) {
 					text = (TextProperties) geos[i];
-					text.setFontSize(GeoText.getRelativeFontSize(cbSize
-							.getSelectedIndex())); // transform indices to the
-													// range -6, .. , 6
+					text.setFontSizeMultiplier(multiplier); 
 					((GeoElement) text).updateRepaint();
 				}
 
