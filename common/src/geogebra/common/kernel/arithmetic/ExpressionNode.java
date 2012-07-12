@@ -1418,14 +1418,20 @@ public class ExpressionNode extends ValidExpression implements
 		// expression node
 		String leftStr = null, rightStr = null;
 		if (left.isGeoElement()) {
-			leftStr = ((GeoElement) left).getLabel(tpl);
+			if (tpl.getStringType().equals(StringType.OGP)) {
+				leftStr = ((GeoElement) left).getCommandDescription(tpl);
+			} else
+				leftStr = ((GeoElement) left).getLabel(tpl);
 		} else {
 			leftStr = left.toString(tpl);
 		}
 
 		if (right != null) {
 			if (right.isGeoElement()) {
-				rightStr = ((GeoElement) right).getLabel(tpl);
+				if (tpl.getStringType().equals(StringType.OGP)) {
+					rightStr = ((GeoElement) right).getCommandDescription(tpl);
+				} else
+					rightStr = ((GeoElement) right).getLabel(tpl);
 			} else {
 				rightStr = right.toString(tpl);
 			}
