@@ -47,7 +47,7 @@ public class EditMenuW extends MenuBar {
 		 */
 		int layer = app.getSelectedLayer();	
 		boolean justCreated = !(app.getActiveEuclidianView().getEuclidianController().getJustCreatedGeos().isEmpty());
-
+		boolean haveSelection = !app.getSelectedGeos().isEmpty();
 		
 		
 		
@@ -170,9 +170,35 @@ public class EditMenuW extends MenuBar {
 				}
 			});
 		
-
+		//invert selection menu
+		if(haveSelection){
+			addSeparator();
+			addItem(GeoGebraMenubarW.getMenuBarHtml(noIcon,
+			        app.getMenu("InvertSelection")), true, new Command() {
+				public void execute() {
+					app.invertSelection();
+				}
+			});
+		}
 		
+		//show/hide objects and show/hide labels menus
+		if (layer != -1){
+			addItem(GeoGebraMenubarW.getMenuBarHtml(noIcon,
+			        app.getMenu("ShowHide")), true, new Command() {
+				public void execute() {
+					app.showHideSelection();
+				}
+			});	
+			
+			addItem(GeoGebraMenubarW.getMenuBarHtml(noIcon,
+			        app.getMenu("ShowHideLabels")), true, new Command() {
+				public void execute() {
+					app.showHideSelectionLabels();
+				}
+			});
+		}
 		
+		//Delete menu
 		if (layer != -1 || justCreated){
 			addSeparator();
 			addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE
