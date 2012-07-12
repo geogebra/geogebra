@@ -117,6 +117,11 @@ public class AlgoLaTeX extends AlgoElement {
     		boolean substitute = substituteVars == null ? true : substituteVars.getBoolean();
     		boolean show = showName == null ? false : showName.getBoolean();
     		
+    		if (!geo.isLabelSet()) {
+    			// eg FormulaText[(1,1), true, true]
+    			show = false;
+    		}
+    		
     		text.setLaTeX(true, false);
     		
     		//Application.debug(geo.getFormulaString(StringType.LATEX, substitute ));
