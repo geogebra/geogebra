@@ -31,7 +31,6 @@ import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.SpanElement;
 import com.google.gwt.dom.client.Style;
-import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.DoubleClickEvent;
@@ -130,12 +129,6 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		SpanElement se2 = DOM.createSpan().cast();
 		se2.setInnerHTML("&nbsp;&nbsp;&nbsp;&nbsp;");
 		ihtml.getElement().appendChild(se2);
-
-		//inpel = InputElement.as(DOM.createInputText());
-		//inpel.getStyle().setWidth(0, Style.Unit.PX);
-		//inpel.getStyle().setHeight(0, Style.Unit.PX);
-		//inpel.getStyle().setBorderWidth(0, Style.Unit.PX);
-		//ihtml.getElement().appendChild(inpel);
 		addOurKeyUp(ihtml.getElement());
 
 		String text = "";
