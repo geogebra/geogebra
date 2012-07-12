@@ -1,6 +1,7 @@
 package geogebra.gui.layout;
 
 import geogebra.common.io.layout.Perspective;
+import geogebra.gui.dialog.options.OptionsUtil;
 import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
@@ -10,7 +11,10 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
@@ -49,22 +53,29 @@ public class PerspectivePanel extends JPanel {
 	{
 		//ArrayList<JButton> btnList = new ArrayList<JButton>();
 		
-		btnPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-		
+		btnPanel = new JPanel();
+		btnPanel.setLayout(new BoxLayout(btnPanel, BoxLayout.Y_AXIS));
 		
 		Perspective[] defaultPerspectives = geogebra.common.gui.Layout.defaultPerspectives;
 
 		for (int i = 0; i < defaultPerspectives.length; ++i) {
+			JLabel btnText = new JLabel(app.getMenu("Perspective."
+					+ defaultPerspectives[i].getId()));
 			JButton btn = new JButton(changePerspectiveAction);
 			btn.setText(app.getMenu("Perspective."
 					+ defaultPerspectives[i].getId()));
-			btn.setIcon(app.getImageIcon("geogebra64.png"));
+			btn.setIcon(app.getImageIcon("options-large.png"));
+			btn.setBorderPainted(false);
+			btn.setContentAreaFilled(false);
 			btn.setVerticalTextPosition(SwingConstants.BOTTOM);
 			btn.setHorizontalTextPosition(SwingConstants.CENTER);
 			btn.setActionCommand("d" + i);
-			//btn.setMinimumSize(new Dimension(100,100));
-			btn.setPreferredSize(new Dimension(120,120));
-			btnPanel.add(btn);
+			//btn.setPreferredSize(new Dimension(32,32));
+			JPanel p = new JPanel(new BorderLayout(0,0));
+			p.add(btn,BorderLayout.CENTER);
+			//p.add(OptionsUtil.flowPanelCenter(0, 0, 0, btnText), BorderLayout.SOUTH);
+			btnPanel.add(p);
+			btnPanel.add(Box.createVerticalStrut(30));
 		}
 
 
@@ -77,7 +88,7 @@ public class PerspectivePanel extends JPanel {
 				btn.setText(perspectives[i].getId());
 				btn.setIcon(app.getEmptyIcon());
 				btn.setActionCommand(Integer.toString(i));
-				btnPanel.add(btn);
+				//btnPanel.add(btn);
 			}
 		}
 		
@@ -122,7 +133,7 @@ public class PerspectivePanel extends JPanel {
 					layout.applyPerspective(layout.getPerspective(index));
 				}
 				
-				dockBar.update();
+				dockBar.toggleMinimumFullPanel();
 			}
 		};
 	}

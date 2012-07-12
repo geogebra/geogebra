@@ -98,16 +98,19 @@ public class DockBar extends JPanel implements SetLabels, ActionListener {
 		JPanel gluePanel = new JPanel();
 		gluePanel.setLayout(new BoxLayout(gluePanel, BoxLayout.Y_AXIS));
 		gluePanel.add(Box.createVerticalGlue());
-		gluePanel.add(viewButtonBar);
+		//gluePanel.add(viewButtonBar);
+		
+		gluePanel.add(new PerspectivePanel(app, this));
 		// gluePanel.add(Box.createVerticalStrut(30));
-		gluePanel.add(getGridButtonPanel());
+		getGridButtonPanel();
+		//gluePanel.add(getGridButtonPanel());
 		gluePanel.add(Box.createVerticalGlue());
 		gluePanel.setBackground(SystemColor.control);
 
 		fullPanel = new JPanel(new BorderLayout());
-		fullPanel.add(Box.createVerticalStrut(50), BorderLayout.NORTH);
+		fullPanel.add(Box.createVerticalStrut(20), BorderLayout.NORTH);
 		fullPanel.add(gluePanel, BorderLayout.CENTER);
-		fullPanel.add(lblArrow, BorderLayout.EAST);
+		//fullPanel.add(lblArrow, BorderLayout.EAST);
 		fullPanel.setBackground(SystemColor.control);
 		fullPanel.setOpaque(true);
 
