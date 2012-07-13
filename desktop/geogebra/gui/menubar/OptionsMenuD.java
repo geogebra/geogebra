@@ -49,6 +49,7 @@ public class OptionsMenuD extends BaseMenu implements ActionListener, MyActionLi
 		super(app, app.getMenu("Options"));
 		
 		kernel = app.getKernel();
+		OptionsMenu.init(app);
 
 		// items are added to the menu when it's opened, see BaseMenu: addMenuListener(this);
 	}
@@ -64,56 +65,11 @@ public class OptionsMenuD extends BaseMenu implements ActionListener, MyActionLi
 		
 		//G.Sturr 2009-10-18
 		// Algebra description: show value or definition of objects
-		menuAlgebraStyle = new JMenu(app.getMenu("AlgebraDescriptions"));
-		menuAlgebraStyle.setIcon(app.getEmptyIcon());
-		String[] strDescription = { app.getPlain("Value"), 
-				app.getPlain("Definition"), 
-				app.getPlain("Command")};
-		String[] strDescriptionAC = { "0", "1", "2" };
-		ActionListener descAL = new ActionListener() {
-			public void actionPerformed(ActionEvent ae) {
-				int desc = Integer.parseInt(ae.getActionCommand());
-				kernel.setAlgebraStyle(desc);
-				kernel.updateConstruction();
-			}
-		};
-		addRadioButtonMenuItems(menuAlgebraStyle, descAL, strDescription, strDescriptionAC,0);
-		add(menuAlgebraStyle);
-		updateMenuViewDescription();
-		//END G.Sturr
-		
+		OptionsMenu.addAlgebraDescriptionMenu(this);		
 		// point capturing
-		menuPointCapturing = new JMenu(app.getMenu("PointCapturing"));
-		menuPointCapturing.setIcon(app.getImageIcon("magnet.gif"));
-		String[] strPointCapturing = { "Labeling.automatic", "SnapToGrid",
-				"FixedToGrid", "off" };
-		String[] strPointCapturingAC = { "3 PointCapturing",
-				"1 PointCapturing", "2 PointCapturing", "0 PointCapturing" };
-		addRadioButtonMenuItems(menuPointCapturing, this,
-				strPointCapturing, strPointCapturingAC, 0);
-		add(menuPointCapturing);
-		updateMenuPointCapturing();
-
-//		// decimal places
-//		menuDecimalPlaces = new JMenu(app.getMenu("Rounding"));
-//		menuDecimalPlaces.setIcon(app.getEmptyIcon());
-//		/*
-//		 * int max_dec = 15; String[] strDecimalSpaces = new String[max_dec +
-//		 * 1]; String[] strDecimalSpacesAC = new String[max_dec + 1]; for (int
-//		 * i=0; i <= max_dec; i++){ strDecimalSpaces[i] = Integer.toString(i);
-//		 * strDecimalSpacesAC[i] = i + " decimals"; }
-//		 */
-//		String[] strDecimalSpaces = app.getRoundingMenu();
-//
-//		addRadioButtonMenuItems(menuDecimalPlaces, this,
-//				strDecimalSpaces, App.strDecimalSpacesAC, 0);
-//		add(menuDecimalPlaces);
-//		updateMenuDecimalPlaces();
-		
+		OptionsMenu.addPointCapturingMenu(this);		
 		OptionsMenu.addDecimalPlacesMenu(this, app);
-
 		addSeparator();
-
 		// Labeling
 		OptionsMenu.addLabelingMenu(this, app);
 
@@ -384,9 +340,9 @@ public class OptionsMenuD extends BaseMenu implements ActionListener, MyActionLi
 
 	@Override
 	public void update() {
-		OptionsMenu.updateMenuDecimalPlaces(kernel);
-		updateMenuPointCapturing();
-		updateMenuViewDescription();
+		OptionsMenu.updateMenuDecimalPlaces();
+		OptionsMenu.updateMenuPointCapturing();
+		OptionsMenu.updateMenuViewDescription();
 	}
 	
 	/**

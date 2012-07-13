@@ -2,6 +2,7 @@ package geogebra.gui.menubar;
 
 import java.awt.Component;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 
@@ -24,7 +25,7 @@ public class RadioButtonMenuBarD extends JMenu implements RadioButtonMenuBar{
 		app = (AppD)application;
 	}
 
-	public void addRadioButtonMenuItems(MyActionListener alistener,
+	public void addRadioButtonMenuItems(final MyActionListener alistener,
 			String[] items, String[] actionCommands, int selectedPos, boolean changeText) {
 		
 		JRadioButtonMenuItem mi;
@@ -41,7 +42,17 @@ public class RadioButtonMenuBarD extends JMenu implements RadioButtonMenuBar{
 				if (i == selectedPos)
 					mi.setSelected(true);
 				mi.setActionCommand(actionCommands[i]);
-				mi.addActionListener((ActionListener)alistener);
+				if (alistener instanceof ActionListener){
+					mi.addActionListener((ActionListener)alistener);	
+				}else{
+					mi.addActionListener(new ActionListener(){
+						public void actionPerformed(ActionEvent e) {
+							alistener.actionPerformed(e.getActionCommand());						
+						}
+						
+					});
+				}
+				
 				bg.add(mi);
 				add(mi);
 			}

@@ -1,6 +1,7 @@
 package geogebra.web.gui.menubar;
 
 import geogebra.common.GeoGebraConstants;
+import geogebra.common.gui.menubar.OptionsMenu;
 import geogebra.common.main.App;
 import geogebra.web.Web;
 import geogebra.web.gui.images.AppResources;
@@ -263,7 +264,7 @@ public class GeoGebraMenubarW extends MenuBar {
 
 		public void updateMenubar() {
 			App.debug("implementation needed - just finishing");
-			optionsMenu.update();        
+			OptionsMenu.update();        
         }
 		
 }

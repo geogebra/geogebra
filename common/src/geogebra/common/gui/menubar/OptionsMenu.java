@@ -1,5 +1,7 @@
 package geogebra.common.gui.menubar;
 
+import javax.swing.JRadioButtonMenuItem;
+
 import geogebra.common.factories.Factory;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.main.App;
@@ -12,6 +14,7 @@ public abstract class OptionsMenu {
 	private static RadioButtonMenuBar menuAlgebraStyle;
 	private static RadioButtonMenuBar menuDecimalPlaces;
 	private static RadioButtonMenuBar menuLabeling;
+	private static RadioButtonMenuBar menuPointCapturing;
 	private static App app;
 	static Kernel kernel;
 	
@@ -21,8 +24,7 @@ public abstract class OptionsMenu {
 	}
 	
 
-	//TODO: this will be void, if all cases will processed here
-	public static boolean processActionPerformed(String cmd,
+	public static void processActionPerformed(String cmd,
 			App app, Kernel kernel) {
 		// decimal places
 		if (cmd.endsWith("decimals")) {
@@ -91,11 +93,7 @@ public abstract class OptionsMenu {
 			int style = Integer.parseInt(cmd.substring(0, 1));
 			app.setLabelingStyle(style);
 			app.setUnsaved();
-		}	
-		else return false;
-		
-		return true;
-			
+		}			
     }
 
 	public static void addAlgebraDescriptionMenu(MenuInterface menu){	
@@ -113,19 +111,28 @@ public abstract class OptionsMenu {
 				kernel.updateConstruction();
 			}
 		}, strDescription, strDescriptionAC, 0, true);
-		app.addMenuItem(menu, "empty.png", "AlgebraDescriptions", true,
+		app.addMenuItem(menu, app.getEmptyIconFileName(), "AlgebraDescriptions", true,
 				menuAlgebraStyle);
 
 		app.getMenu("AlgebraDescriptions");
 		
-		//updateMenuViewDescription();
+		updateMenuViewDescription();
 	
+	}
+	
+	/**
+	 * Update algebra style description (switch between value / definition / command).
+	 */
+	public static void updateMenuViewDescription() {
+		if (menuAlgebraStyle != null) {
+			menuAlgebraStyle.setSelected(kernel.getAlgebraStyle());
+		}
 	}
 	
 	/**
 	 * Update the menu with all decimal places.
 	 */
-	public static void updateMenuDecimalPlaces(Kernel kernel) {
+	public static void updateMenuDecimalPlaces() {
 		if (menuDecimalPlaces == null)
 			return;
 		int pos = -1;
@@ -164,9 +171,9 @@ public abstract class OptionsMenu {
 		menuDecimalPlaces.addRadioButtonMenuItems((MyActionListener)menu,
 				strDecimalSpaces, App.strDecimalSpacesAC, 0, false);
 		
-		app.addMenuItem(menu, "empty.png", app.getMenu("Rounding"), true, menuDecimalPlaces);
+		app.addMenuItem(menu, app.getEmptyIconFileName(), app.getMenu("Rounding"), true, menuDecimalPlaces);
 		
-		updateMenuDecimalPlaces(app.getKernel());		
+		updateMenuDecimalPlaces();		
 	}
 	
 	
@@ -193,5 +200,35 @@ public abstract class OptionsMenu {
 		
 		int pos = app.getLabelingStyle();
 		menuLabeling.setSelected(pos);
+	}
+	
+	public static void addPointCapturingMenu(MenuInterface menu){		
+		menuPointCapturing = Factory.prototype.newRadioButtonMenuBar(app);
+		String[] strPointCapturing = { app.getMenu("Labeling.automatic"), app.getMenu("SnapToGrid"),
+				app.getMenu("FixedToGrid"), app.getMenu("off") };
+		String[] strPointCapturingAC = { "3 PointCapturing",
+				"1 PointCapturing", "2 PointCapturing", "0 PointCapturing" };
+		menuPointCapturing.addRadioButtonMenuItems((MyActionListener)menu,
+				strPointCapturing, strPointCapturingAC, 0, false);
+		app.addMenuItem(menu, "magnet2.gif", app.getMenu("PointCapturing"), true, menuPointCapturing);
+		
+		updateMenuPointCapturing();
+	}
+	
+	/**
+	 * Update the point capturing menu.
+	 */
+	public static void updateMenuPointCapturing() {	
+		if (menuPointCapturing == null)
+			return;
+
+		int pos = app.getActiveEuclidianView().getPointCapturingMode();
+		menuPointCapturing.setSelected(pos);
+	}
+
+	public static void update() {
+		updateMenuDecimalPlaces();
+		updateMenuPointCapturing();
+		updateMenuViewDescription();
 	}
 }

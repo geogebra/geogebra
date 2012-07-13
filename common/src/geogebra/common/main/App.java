@@ -3060,5 +3060,9 @@ public abstract class App {
 	public String getVersionString() {
 		return GeoGebraConstants.VERSION_STRING;
 	}
+	
+	public String getEmptyIconFileName(){
+		return "empty.gif";
+	}
 
 }
