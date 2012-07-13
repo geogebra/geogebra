@@ -293,6 +293,15 @@ for i in geogebra geogebra_main; do
 # 10/5. Removing .svn subdirectories from $WWWDIR
 find $WWWDIR -name .svn | xargs rm -fR
 
+# 10/6. Copying JNLP's to debug as well (5.0 only):
+if [ "$CV" = "5.0" ]; then
+ for i in 1 2; do
+  cat $WWWDIR/$MYDIR/geogebra-50-jogl$i.jnlp | sed s/unpacked/debug/g |\
+   sed s/"\" href=\"geogebra-50"/"debug\/\" href=\"geogebra-50"/ |\
+   > $WWWDIR/$MYDIR/debug/geogebra-50-jogl$i.jnlp
+  done
+ fi
+
 # Disabling since the build server should offer http access:
 # 11. rsync-www on demand
 # if [ "$WWW_REMOTEDIR" != "" ]; then
