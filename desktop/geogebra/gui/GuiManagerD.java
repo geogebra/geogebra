@@ -1125,7 +1125,7 @@ public class GuiManagerD extends GuiManager {
 		GeoGebraMenuBar.showPrintPreview((AppD)app);
 	}
 
-	ContextMenuGraphicsWindow drawingPadpopupMenu;
+	ContextMenuGraphicsWindowD drawingPadpopupMenu;
 
 	/**
 	 * Displays the Graphics View menu at the position p in the coordinate space
@@ -1136,8 +1136,8 @@ public class GuiManagerD extends GuiManager {
 		app.getActiveEuclidianView().resetMode();
 
 		// menu for drawing pane context menu
-		drawingPadpopupMenu = new ContextMenuGraphicsWindow((AppD)app, p.x, p.y);
-		drawingPadpopupMenu.show(invoker, p.x, p.y);
+		drawingPadpopupMenu = new ContextMenuGraphicsWindowD((AppD)app, p.x, p.y);
+		drawingPadpopupMenu.getWrappedPopup().show(invoker, p.x, p.y);
 	}
 
 	/**
@@ -1146,15 +1146,15 @@ public class GuiManagerD extends GuiManager {
 	 */
 	public void toggleDrawingPadPopup(Component invoker, Point p) {
 		geogebra.common.awt.GPoint loc = new geogebra.common.awt.GPoint(p.x, p.y);
-		if (drawingPadpopupMenu == null || !drawingPadpopupMenu.isVisible()) {
+		if (drawingPadpopupMenu == null || !drawingPadpopupMenu.getWrappedPopup().isVisible()) {
 			showDrawingPadPopup(invoker, loc);
 			return;
 		}
 
-		drawingPadpopupMenu.setVisible(false);
+		drawingPadpopupMenu.getWrappedPopup().setVisible(false);
 	}
 
-	ContextMenuGeoElement popupMenu;
+	ContextMenuGeoElementD popupMenu;
 
 	/**
 	 * Displays the popup menu for geo at the position p in the coordinate space
@@ -1175,8 +1175,8 @@ public class GuiManagerD extends GuiManager {
 					.getLocationOnScreen();
 			screenPos.translate(p.x, p.y);
 
-			popupMenu = new ContextMenuGeoElement((AppD)app, geos, screenPos);
-			popupMenu.show(invoker, p.x, p.y);
+			popupMenu = new ContextMenuGeoElementD((AppD)app, geos, screenPos);
+			((ContextMenuGraphicsWindowD) popupMenu).getWrappedPopup().show(invoker, p.x, p.y);
 		}
 
 	}
@@ -1206,9 +1206,9 @@ public class GuiManagerD extends GuiManager {
 					.getLocationOnScreen();
 			screenPos.translate(p.x, p.y);
 			
-			popupMenu = new ContextMenuChooseGeo((AppD)app, view, selectedGeos, geos, screenPos, p);
+			popupMenu = new ContextMenuChooseGeoD((AppD)app, view, selectedGeos, geos, screenPos, p);
 			//popupMenu = new ContextMenuGeoElement(app, geos, screenPos);
-			popupMenu.show(invoker, p.x, p.y);
+			((ContextMenuGraphicsWindowD) popupMenu).getWrappedPopup().show(invoker, p.x, p.y);
 		}
 
 	}
@@ -1222,12 +1222,12 @@ public class GuiManagerD extends GuiManager {
 	public void togglePopupMenu(ArrayList<GeoElement> geos, Component invoker,
 			Point p) {
 		geogebra.common.awt.GPoint loc = new geogebra.common.awt.GPoint(p.x,p.y);
-		if (popupMenu == null || !popupMenu.isVisible()) {
+		if (popupMenu == null || !((ContextMenuGraphicsWindowD) popupMenu).getWrappedPopup().isVisible()) {
 			showPopupMenu(geos, invoker, loc);
 			return;
 		}
 
-		popupMenu.setVisible(false);
+		((ContextMenuGraphicsWindowD) popupMenu).getWrappedPopup().setVisible(false);
 
 	}
 
@@ -2746,11 +2746,11 @@ public class GuiManagerD extends GuiManager {
 	}
 
 	public boolean noMenusOpen() {
-		if (popupMenu != null && popupMenu.isVisible()) {
+		if (popupMenu != null && ((ContextMenuGraphicsWindowD) popupMenu).getWrappedPopup().isVisible()) {
 			// Application.debug("menus open");
 			return false;
 		}
-		if (drawingPadpopupMenu != null && drawingPadpopupMenu.isVisible()) {
+		if (drawingPadpopupMenu != null && drawingPadpopupMenu.getWrappedPopup().isVisible()) {
 			// Application.debug("menus open");
 			return false;
 		}

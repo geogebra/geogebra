@@ -25,7 +25,7 @@ import javax.swing.JMenuItem;
  * @author mathieu
  *
  */
-public class ContextMenuChooseGeo extends ContextMenuGeoElement {
+public class ContextMenuChooseGeoD extends ContextMenuGeoElementD {
 	
 	
 	/**
@@ -60,7 +60,7 @@ public class ContextMenuChooseGeo extends ContextMenuGeoElement {
 	 * @param geos geos
 	 * @param location place to show
 	 */
-	public ContextMenuChooseGeo(AppD app, EuclidianViewND view, 
+	public ContextMenuChooseGeoD(AppD app, EuclidianViewND view, 
 			ArrayList<GeoElement> selectedGeos,
 			ArrayList<GeoElement> geos, Point location, geogebra.common.awt.GPoint invokerLocation) {
 
@@ -100,7 +100,7 @@ public class ContextMenuChooseGeo extends ContextMenuGeoElement {
 		}
 		
 		//TODO: clear selection is not working from here
-		this.getSelectionModel().clearSelection();
+		this.getWrappedPopup().getSelectionModel().clearSelection();
 		
 	}
 	
@@ -109,11 +109,11 @@ public class ContextMenuChooseGeo extends ContextMenuGeoElement {
 	private void addSelectAnotherMenu(){
 		selectAnotherMenu = new JMenu(app.getMenu("SelectAnother") );
 		selectAnotherMenu.setIcon(app.getEmptyIcon());
-		selectAnotherMenu.setBackground(getBackground());
+		selectAnotherMenu.setBackground(getWrappedPopup().getBackground());
 		selectAnotherMenu.setFont(app.getItalicFont());
 		
 		// add the selection menu just under the title
-		add(selectAnotherMenu,1);     
+		getWrappedPopup().add(selectAnotherMenu,1);     
 		
 	}
 	

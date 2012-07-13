@@ -59,7 +59,7 @@ import javax.swing.KeyStroke;
  * Context menu for GeoElement objects.
  * @author  Markus Hohenwarter
  */
-public class ContextMenuGeoElement extends JPopupMenu {
+public class ContextMenuGeoElementD extends geogebra.common.gui.ContextMenuGeoElement {
 
 	private static final long serialVersionUID = 1L;
 	/** background color*/
@@ -72,13 +72,15 @@ public class ContextMenuGeoElement extends JPopupMenu {
 	GeoElement geo;
 	/** application */
 	public AppD app;
+	protected JPopupMenu wrappedPopup;
 	/**
 	 * Creates new context menu
 	 * @param app application
 	 */
-	ContextMenuGeoElement(AppD app) {
-		this.app = app;     
-		setBackground(bgColor);
+	ContextMenuGeoElementD(AppD app) {
+		this.app = app;    
+		this.wrappedPopup = new JPopupMenu();
+		wrappedPopup.setBackground(bgColor);
 	}
 	
 	/**
@@ -99,7 +101,7 @@ public class ContextMenuGeoElement extends JPopupMenu {
 	 * @param geos selected elements
 	 * @param location screen position
 	 */
-	public ContextMenuGeoElement(AppD app, ArrayList<GeoElement> geos, Point location) {
+	public ContextMenuGeoElementD(AppD app, ArrayList<GeoElement> geos, Point location) {
 		this(app);
 		this.geos = geos;
 		geo = geos.get(0);
@@ -132,8 +134,8 @@ public class ContextMenuGeoElement extends JPopupMenu {
 
 		
 		
-		if (getComponentCount() > 2)
-			addSeparator();
+		if (wrappedPopup.getComponentCount() > 2)
+			wrappedPopup.addSeparator();
 		addForAllItems();
 	}
 
@@ -837,7 +839,7 @@ public class ContextMenuGeoElement extends JPopupMenu {
 			addPin();
 
 
-			addSeparator();
+			wrappedPopup.addSeparator();
 		}
 
 
@@ -942,7 +944,7 @@ public class ContextMenuGeoElement extends JPopupMenu {
 		}
 
 		if (app.letShowPropertiesDialog() && geo.hasProperties()) {
-			addSeparator();
+			wrappedPopup.addSeparator();
 
 			// open properties dialog      
 			addAction(new AbstractAction(
@@ -963,7 +965,7 @@ public class ContextMenuGeoElement extends JPopupMenu {
 	 * @param ac action
 	 */
 	void addAction(Action ac) {
-		JMenuItem mi = this.add(ac);
+		JMenuItem mi = wrappedPopup.add(ac);
 		mi.setBackground(bgColor);              
 	}
 
@@ -973,7 +975,7 @@ public class ContextMenuGeoElement extends JPopupMenu {
 	 */
 	void addItem(JMenuItem mi) {        
 		mi.setBackground(bgColor);
-		add(mi);
+		wrappedPopup.add(mi);
 	}
 
 	/**
@@ -990,13 +992,13 @@ public class ContextMenuGeoElement extends JPopupMenu {
 		title.setBorder(BorderFactory.createEmptyBorder(5, 0, 2, 15)); 
 		
 		// wrap title JLabel in a panel to prevent unneeded spacing
-		add(OptionsUtil.flowPanel(0,0,0,title));
-		addSeparator();   
+		wrappedPopup.add(OptionsUtil.flowPanel(0,0,0,title));
+		wrappedPopup.addSeparator();   
 
 		title.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				setVisible(false);
+				wrappedPopup.setVisible(false);
 			}
 		});
 	}
@@ -1010,6 +1012,13 @@ public class ContextMenuGeoElement extends JPopupMenu {
 		KeyStroke ks = KeyStroke.getKeyStroke(acc, Toolkit.getDefaultToolkit()
 				.getMenuShortcutKeyMask());
 		mi.setAccelerator(ks);
+	}
+	
+	/**
+	 * @return the wrapped PopupMenu
+	 */
+	public JPopupMenu getWrappedPopup() {
+		return this.wrappedPopup;
 	}
 
 }

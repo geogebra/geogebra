@@ -2,7 +2,7 @@ package geogebra3D.gui;
 
 import javax.swing.JCheckBoxMenuItem;
 
-import geogebra.gui.ContextMenuGraphicsWindow;
+import geogebra.gui.ContextMenuGraphicsWindowD;
 import geogebra.gui.dialog.options.OptionsDialog;
 import geogebra.main.AppD;
 
@@ -12,7 +12,7 @@ import geogebra3D.Application3D;
  * @author matthieu
  *
  */
-public class ContextMenuGraphicsWindow3D extends ContextMenuGraphicsWindow {
+public class ContextMenuGraphicsWindow3D extends ContextMenuGraphicsWindowD {
 	private static final long serialVersionUID = 1L;
 	/** default constructor
 	 * @param app
@@ -26,7 +26,7 @@ public class ContextMenuGraphicsWindow3D extends ContextMenuGraphicsWindow {
 		 
 		 addAxesAndGridCheckBoxes();
 		 
-		 addSeparator();
+		 getWrappedPopup().addSeparator();
 		 
 		 addMiProperties();
 		
@@ -39,19 +39,19 @@ public class ContextMenuGraphicsWindow3D extends ContextMenuGraphicsWindow {
         JCheckBoxMenuItem cbShowAxes = new JCheckBoxMenuItem(((GuiManager3D) app.getGuiManager()).getShowAxes3DAction());
         //cbShowAxes.setSelected(ev.getShowXaxis() && ev.getShowYaxis());
         ((Application3D) app).setShowAxesSelected3D(cbShowAxes);
-        cbShowAxes.setBackground(getBackground());
-        add(cbShowAxes);
+        cbShowAxes.setBackground(getWrappedPopup().getBackground());
+        getWrappedPopup().add(cbShowAxes);
         
         JCheckBoxMenuItem cbShowGrid = new JCheckBoxMenuItem(((GuiManager3D) app.getGuiManager()).getShowGrid3DAction());
         //cbShowGrid.setSelected(ev.getShowGrid());
         ((Application3D) app).setShowGridSelected3D(cbShowGrid);
-        cbShowGrid.setBackground(getBackground());
-        add(cbShowGrid);
+        cbShowGrid.setBackground(getWrappedPopup().getBackground());
+        getWrappedPopup().add(cbShowGrid);
 
 		JCheckBoxMenuItem cbShowPlane = new JCheckBoxMenuItem(((GuiManager3D) app.getGuiManager()).getShowPlaneAction());
 		((Application3D) app).setShowPlaneSelected(cbShowPlane);
-		cbShowPlane.setBackground(getBackground());
-		add(cbShowPlane);
+		cbShowPlane.setBackground(getWrappedPopup().getBackground());
+		getWrappedPopup().add(cbShowPlane);
 	}
 	
 	@Override

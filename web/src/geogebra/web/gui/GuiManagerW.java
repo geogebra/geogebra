@@ -12,6 +12,7 @@ import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.main.App;
+import geogebra.web.euclidian.EuclidianViewW;
 import geogebra.web.gui.app.GGWMenuBar;
 import geogebra.web.gui.app.GGWToolBar;
 import geogebra.web.gui.dialog.ImageFileInputDialog;
@@ -28,6 +29,7 @@ import geogebra.web.main.AppW;
 
 import java.util.ArrayList;
 
+import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 
 public class GuiManagerW extends GuiManager {
@@ -171,10 +173,14 @@ public class GuiManagerW extends GuiManager {
 	@Override
 	public void showDrawingPadPopup(EuclidianViewInterfaceCommon view,
 			GPoint mouseLoc) {
-		// TODO Auto-generated method stub
-		App.debug("unimplemented method");
-
+		showDrawingPadPopup(((EuclidianViewW)view).g2p.getCanvas(), mouseLoc);
 	}
+
+	private void showDrawingPadPopup(Canvas canvas, GPoint mouseLoc) {
+		// clear highlighting and selections in views
+		app.getActiveEuclidianView().resetMode();
+		//drawingPadpopupMenu = new 
+    }
 
 	@Override
 	public boolean hasSpreadsheetView() {

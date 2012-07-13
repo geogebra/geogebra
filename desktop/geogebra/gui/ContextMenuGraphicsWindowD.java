@@ -32,13 +32,14 @@ import javax.swing.ImageIcon;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
 
 /**
  *
  * @author  markus
  * @version 
  */
-public class ContextMenuGraphicsWindow extends ContextMenuGeoElement
+public class ContextMenuGraphicsWindowD extends ContextMenuGeoElementD
 implements ActionListener {
     
     /**
@@ -58,7 +59,7 @@ implements ActionListener {
      
     private ImageIcon iconZoom;
 
-    public ContextMenuGraphicsWindow(AppD app){
+    public ContextMenuGraphicsWindowD(AppD app){
     	super(app);	
     }
     
@@ -66,7 +67,7 @@ implements ActionListener {
      * @param app 
      * @param px 
      * @param py */
-    public ContextMenuGraphicsWindow(AppD app, double px, double py) {  
+    public ContextMenuGraphicsWindowD(AppD app, double px, double py) {  
         this(app);      
         
         iconZoom      = app.getImageIcon("zoom16.gif");
@@ -85,29 +86,29 @@ implements ActionListener {
         
         addAxesAndGridCheckBoxes();
         
-        addSeparator();
+        wrappedPopup.addSeparator();
         
         // zoom for both axes
         JMenu zoomMenu = new JMenu(app.getMenu("Zoom"));
         zoomMenu.setIcon(iconZoom);
-        zoomMenu.setBackground(getBackground());           
+        zoomMenu.setBackground(wrappedPopup.getBackground());           
         addZoomItems(zoomMenu);
-        add(zoomMenu);
+        wrappedPopup.add(zoomMenu);
                 
         // zoom for y-axis
         JMenu yaxisMenu = new JMenu(app.getPlain("xAxis") + " : " 
         							+ app.getPlain("yAxis"));
         yaxisMenu.setIcon(app.getEmptyIcon());
-        yaxisMenu.setBackground(getBackground());   
+        yaxisMenu.setBackground(wrappedPopup.getBackground());   
         addAxesRatioItems(yaxisMenu);
-        add(yaxisMenu);                        
+        wrappedPopup.add(yaxisMenu);                        
        
         JMenuItem miShowAllObjectsView = new JMenuItem(app.getPlain("ShowAllObjects"));
         miShowAllObjectsView.setIcon(app.getEmptyIcon());
         miShowAllObjectsView.setActionCommand("showAllObjects");
         miShowAllObjectsView.addActionListener(this);
         miShowAllObjectsView.setBackground(bgColor);
-        add(miShowAllObjectsView);                
+        wrappedPopup.add(miShowAllObjectsView);                
 
         JMenuItem miStandardView = new JMenuItem(app.getPlain("StandardView"));
         setMenuShortCutAccelerator(miStandardView, 'M');
@@ -115,9 +116,9 @@ implements ActionListener {
         miStandardView.setActionCommand("standardView");
         miStandardView.addActionListener(this);
         miStandardView.setBackground(bgColor);
-        add(miStandardView);
+        wrappedPopup.add(miStandardView);
         
-        addSeparator();          
+        wrappedPopup.addSeparator();          
         if(!ev.isZoomable()){
         	zoomMenu.setEnabled(false);
         	yaxisMenu.setEnabled(false);
@@ -139,7 +140,7 @@ implements ActionListener {
         miProperties.setActionCommand("properties");
         miProperties.addActionListener(this);
         miProperties.setBackground(bgColor);
-        add(miProperties); 
+        wrappedPopup.add(miProperties); 
     }   
     
     protected void addAxesAndGridCheckBoxes(){
@@ -148,14 +149,14 @@ implements ActionListener {
         JCheckBoxMenuItem cbShowAxes = new JCheckBoxMenuItem(app.getGuiManager().getShowAxesAction());
         //cbShowAxes.setSelected(ev.getShowXaxis() && ev.getShowYaxis());
         app.setShowAxesSelected(cbShowAxes);
-        cbShowAxes.setBackground(getBackground());
-        add(cbShowAxes);
+        cbShowAxes.setBackground(wrappedPopup.getBackground());
+        wrappedPopup.add(cbShowAxes);
         
         JCheckBoxMenuItem cbShowGrid = new JCheckBoxMenuItem(app.getGuiManager().getShowGridAction());
         //cbShowGrid.setSelected(ev.getShowGrid());
         app.setShowGridSelected(cbShowGrid);
-        cbShowGrid.setBackground(getBackground());
-        add(cbShowGrid);
+        cbShowGrid.setBackground(wrappedPopup.getBackground());
+        wrappedPopup.add(cbShowGrid);
     }
         
     public void actionPerformed(ActionEvent e) {                                            
@@ -214,7 +215,7 @@ implements ActionListener {
           mi = new JMenuItem(sb.toString());
           mi.setActionCommand("" + zoomFactors[i]);
           mi.addActionListener(al);
-          mi.setBackground(getBackground());
+          mi.setBackground(wrappedPopup.getBackground());
           menu.add(mi);
       }            	
     }   
@@ -259,7 +260,7 @@ implements ActionListener {
             mi.setSelected(Kernel.isEqual(axesRatios[i], scaleRatio));
             mi.setActionCommand("" + axesRatios[i]);
             mi.addActionListener(al);           
-            mi.setBackground(getBackground());
+            mi.setBackground(wrappedPopup.getBackground());
             menu.add(mi);
         }            	
       } 
@@ -271,5 +272,5 @@ implements ActionListener {
     // ratio: yaxis / xaxis
     private void zoomYaxis(double axesRatio) {
     	app.zoomAxesRatio(axesRatio);    	
-    }        
+    }      
 }

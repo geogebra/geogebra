@@ -7,7 +7,7 @@ import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.euclidian.EuclidianViewD;
 import geogebra.euclidianND.EuclidianViewND;
-import geogebra.gui.ContextMenuChooseGeo;
+import geogebra.gui.ContextMenuChooseGeoD;
 import geogebra.gui.GuiManagerD;
 import geogebra.gui.dialog.InputDialog;
 import geogebra.gui.dialog.options.OptionsDialog;
@@ -172,7 +172,7 @@ public class GuiManager3D extends GuiManagerD {
 		// menu for drawing pane context menu
 		ContextMenuGraphicsWindow3D popupMenu = new ContextMenuGraphicsWindow3D(
 				(AppD)app, p.x, p.y);
-		popupMenu.show(((EuclidianViewND) view).getJPanel(), p.x, p.y);
+		popupMenu.getWrappedPopup().show(((EuclidianViewND) view).getJPanel(), p.x, p.y);
 	}
 	
 	
@@ -203,8 +203,8 @@ public class GuiManager3D extends GuiManagerD {
 		screenPos.translate(p.x, p.y);
 
 
-		ContextMenuChooseGeo popupMenu = new ContextMenuChooseGeo((AppD)app, view, selectedGeos, geos, screenPos, p);
-		popupMenu.show(invoker, p.x, p.y);
+		ContextMenuChooseGeoD popupMenu = new ContextMenuChooseGeoD((AppD)app, view, selectedGeos, geos, screenPos, p);
+		popupMenu.getWrappedPopup().show(invoker, p.x, p.y);
 
 
 	}
