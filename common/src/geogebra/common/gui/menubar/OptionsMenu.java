@@ -1,8 +1,5 @@
 package geogebra.common.gui.menubar;
 
-import javax.swing.JMenu;
-import javax.swing.JRadioButtonMenuItem;
-
 import geogebra.common.factories.Factory;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.main.App;
@@ -11,9 +8,18 @@ import geogebra.common.main.App;
  * This class is not a superclass of OptionsMenu, only  common method stack
  */
 public abstract class OptionsMenu {
-	
+
+	private static RadioButtonMenuBar menuAlgebraStyle;
 	private static RadioButtonMenuBar menuDecimalPlaces;
 	private static RadioButtonMenuBar menuLabeling;
+	private static App app;
+	static Kernel kernel;
+	
+	public static void init(App application){
+		app = application;
+		kernel = app.getKernel();
+	}
+	
 
 	//TODO: this will be void, if all cases will processed here
 	public static boolean processActionPerformed(String cmd,
@@ -91,6 +97,30 @@ public abstract class OptionsMenu {
 		return true;
 			
     }
+
+	public static void addAlgebraDescriptionMenu(MenuInterface menu){	
+		menuAlgebraStyle = Factory.prototype.newRadioButtonMenuBar(app);
+		
+		String[] strDescription = { app.getPlain("Value"), 
+				app.getPlain("Definition"), 
+				app.getPlain("Command")};
+		String[] strDescriptionAC = { "0", "1", "2" };
+		
+		menuAlgebraStyle.addRadioButtonMenuItems(new MyActionListener() {
+			public void actionPerformed(String command) {
+				int desc = Integer.parseInt(command);
+				kernel.setAlgebraStyle(desc);
+				kernel.updateConstruction();
+			}
+		}, strDescription, strDescriptionAC, 0, true);
+		app.addMenuItem(menu, "empty.png", "AlgebraDescriptions", true,
+				menuAlgebraStyle);
+
+		app.getMenu("AlgebraDescriptions");
+		
+		//updateMenuViewDescription();
+	
+	}
 	
 	/**
 	 * Update the menu with all decimal places.

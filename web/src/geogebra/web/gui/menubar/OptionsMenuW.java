@@ -8,7 +8,6 @@ import geogebra.common.main.App;
 import geogebra.web.gui.images.AppResources;
 
 import com.google.gwt.user.client.ui.MenuBar;
-import com.google.gwt.user.client.ui.MenuItem;
 
 /**
  * The "Options" menu.
@@ -32,13 +31,14 @@ public class OptionsMenuW extends MenuBar implements MenuInterface, MyActionList
 		super(true);
 	    this.app = app;
 	    kernel = app.getKernel();
+	    OptionsMenu.init(app);
 	    addStyleName("GeoGebraMenuBar");
 	    initItems();
 	}
 	
 	private void initItems(){
 		//"Algebra Descriptions" menu
-		addAlgebraDescriptionMenu();
+		OptionsMenu.addAlgebraDescriptionMenu(this);
 		
 		addPointCapturingMenu();
 		OptionsMenu.addDecimalPlacesMenu(this, app);
@@ -58,60 +58,7 @@ public class OptionsMenuW extends MenuBar implements MenuInterface, MyActionList
 		        .empty().getSafeUri().asString(), app.getMenu("Language")), true, languageMenu);
 	}
 	
-	private void addAlgebraDescriptionMenu(){
-		RadioButtonMenuBarW submenu = new RadioButtonMenuBarW(app);
-		
-		submenu.addItem(app.getMenu("Value"), new RadioButtonCommand(submenu, 0) {
-			
 
-			@Override
-			public void exec() {
-				kernel.setAlgebraStyle(0);
-				kernel.updateConstruction();
-			}
-		});
-		submenu.addItem(app.getPlain("Definition"), new RadioButtonCommand(submenu, 1) {
-			@Override
-			public void exec() {
-				kernel.setAlgebraStyle(1);
-				kernel.updateConstruction();
-			}
-		});
-		submenu.addItem(app.getPlain("Command"), new RadioButtonCommand(submenu, 2) {
-			@Override
-			public void exec() {
-				kernel.setAlgebraStyle(2);
-				kernel.updateConstruction();
-			}
-		});
-				
-		MenuItem algebraDescription = new MenuItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE
-		        .empty().getSafeUri().asString(), app.getMenu("AlgebraDescriptions")),
-		        true, submenu);		
-		
-		addItem(algebraDescription);		
-	
-//		menuAlgebraStyle = new RadioButtonMenuBar();
-//		
-//		String[] strDescription = { app.getPlain("Value"), 
-//				app.getPlain("Definition"), 
-//				app.getPlain("Command")};
-//		String[] strDescriptionAC = { "0", "1", "2" };
-//		ActionListener descAL = new ActionListener() {
-//			public void actionPerformed(ActionEvent ae) {
-//				int desc = Integer.parseInt(ae.getActionCommand());
-//				kernel.setAlgebraStyle(desc);
-//				kernel.updateConstruction();
-//			}
-//		};
-//		addRadioButtonMenuItems(menuAlgebraStyle, descAL, strDescription, strDescriptionAC,0);
-//		app.getMenu("AlgebraDescriptions")
-//		
-//		menuAlgebraStyle.setIcon(app.getEmptyIcon());
-//		add(menuAlgebraStyle);
-//		updateMenuViewDescription();
-//	
-	}
 	
 	
 	
