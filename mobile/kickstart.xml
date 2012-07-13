@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<!-- README: Downloading external libraries for the mobile project
+
+This build file is about to download all necessary external libraries
+from the Internet. Most files are downloaded from the GeoGebra server
+to ensure availability.
+
+For Eclipse users:
+
+Make sure you run this build file from eclipse before start your work on
+your workstation.
+
+-->
+
+<!--
+   GeoGebra mobile kickstart build script
+   @author Zoltan Kovacs <zoltan@geogebra.org>
+-->
+
+<project default="mobile-developer">
+
+	<property name="mgwt.jar" value="mgwt-1.1.1.jar"/>
+	<property name="gwtphonegap.jar" value="gwtphonegap-1.8.1.0.jar"/>
+
+	<target name="mobile-developer"
+	    depends="mgwt, gwtphonegap"
+	    description="For Eclipse developers: to create mobile builds">
+	</target>
+
+	<target name="mgwt">
+	<mkdir dir="lib" />
+	<get
+	    src="http://dev.geogebra.org/download/lib/mobile/${mgwt.jar}"
+	    dest="lib/${mgwt.jar}"/>
+	<copy todir="war/WEB-INF/lib">	
+	 <fileset dir="lib" includes="${mgwt.jar}" />
+	</copy>
+	</target>
+
+	<target name="gwtphonegap">
+	<mkdir dir="lib" />
+	<get
+	    src="http://dev.geogebra.org/download/lib/mobile/${gwtphonegap.jar}"
+	    dest="lib/${gwtphonegap.jar}"/>
+	<copy todir="war/WEB-INF/lib">	
+	 <fileset dir="lib" includes="${gwtphonegap.jar}" />
+	</copy>
+	</target>
+
+</project>

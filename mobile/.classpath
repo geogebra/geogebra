@@ -7,7 +7,7 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/web"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/common"/>
-	<classpathentry kind="lib" path="C:/Users/cur/Dropbox/GeoGebra/workspace-tablet/gwtphonegap-1.8.1.0.jar"/>
-	<classpathentry kind="lib" path="C:/Users/cur/Dropbox/GeoGebra/workspace-tablet/mgwt-1.1.1.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/gwtphonegap-1.8.1.0.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/mgwt-1.1.1.jar"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>
