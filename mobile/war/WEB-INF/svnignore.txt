@@ -1,0 +1,4 @@
+deploy
+appengine-generated
+classes
+lib
