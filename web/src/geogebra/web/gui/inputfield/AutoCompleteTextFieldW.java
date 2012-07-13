@@ -43,9 +43,12 @@ import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.regexp.shared.MatchResult;
+import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.FocusWidget;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.SuggestBox;
+import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.ToggleButton;
@@ -125,10 +128,16 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements AutoCompl
 		    }
 		    setVerticalAlignment(ALIGN_MIDDLE);
 		    
+		    String id = DOM.createUniqueId();
+		    App.debug(id);
+		    //id = id.substring(7);
 		    
 		    textField.addStyleName("TextField");
+		    textField.getElement().setId(id);
 		    
 		    showSymbolButton = new ToggleButton();
+		    showSymbolButton.getElement().setId(id+"_SymbolButton");
+		    showSymbolButton.getElement().setAttribute("style", "display: none");
 		    showSymbolButton.setText(Unicode.alpha);
 		    showSymbolButton.addStyleName("SymbolToggleButton");
 		    showSymbolButton.addClickHandler(new ClickHandler() {
@@ -1117,6 +1126,19 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements AutoCompl
 			setCaretPosition(curWordStart + bracketIndex);
 			moveToNextArgument(false);
 			return true;
+	  }
+	  
+	  public static void showSymbolButtonIfExists(Object source, boolean show){
+			if (source instanceof Widget){
+				String id = ((Widget)source).getElement().getId();
+				if (id!=null){
+					Element element = DOM.getElementById(id+"_SymbolButton");
+					if (element != null){
+						String display = (show)? "block" : "none";
+						element.setAttribute("style", "display: "+display);
+					}
+				}
+			}
 	  }
 
 

@@ -15,16 +15,21 @@ import geogebra.web.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.web.gui.view.algebra.InputPanel;
 import geogebra.web.main.AppW;
 
+import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
+import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ToggleButton;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * @author gabor
@@ -32,7 +37,7 @@ import com.google.gwt.user.client.ui.ToggleButton;
  * InputBar for GeoGebraWeb
  *
  */
-public class AlgebraInputW extends HorizontalPanel implements KeyUpHandler, FocusHandler, ClickHandler {
+public class AlgebraInputW extends HorizontalPanel implements KeyUpHandler, FocusHandler, ClickHandler, BlurHandler {
 	
 	private AppW app;
 	private Label inputLabel;
@@ -71,6 +76,7 @@ public class AlgebraInputW extends HorizontalPanel implements KeyUpHandler, Focu
 	    
 	    inputField.getTextBox().addKeyUpHandler(this);
 	    inputField.getTextBox().addFocusHandler(this);
+	    inputField.getTextBox().addBlurHandler(this);
 	    
 	    inputField.addHistoryPopup(app.showInputTop());
 	    
@@ -164,8 +170,15 @@ public class AlgebraInputW extends HorizontalPanel implements KeyUpHandler, Focu
 		}
 
 	public void onFocus(FocusEvent event) {
+		Object source = event.getSource();
+		AutoCompleteTextFieldW.showSymbolButtonIfExists(source, true);
 		app.clearSelectedGeos();
     }
+	
+	public void onBlur(BlurEvent event) {
+		Object source = event.getSource();
+		AutoCompleteTextFieldW.showSymbolButtonIfExists(source, false);
+	}
 
 	public void onKeyUp(KeyUpEvent event) {
 				// the input field may have consumed this event
