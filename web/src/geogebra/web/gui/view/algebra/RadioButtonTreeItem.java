@@ -129,7 +129,7 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		SpanElement se2 = DOM.createSpan().cast();
 		se2.setInnerHTML("&nbsp;&nbsp;&nbsp;&nbsp;");
 		ihtml.getElement().appendChild(se2);
-		addOurKeyUp(ihtml.getElement());
+		//addOurKeyUp(ihtml.getElement());
 
 		String text = "";
 		if (geo.isIndependent()) {
@@ -374,19 +374,26 @@ public class RadioButtonTreeItem extends HorizontalPanel
 
 		if (av.editing)
 			return;
-
+/*
 		// Make sure this remains focused in browsers except Safari
 		// safari will need an input element instead of tabindex
 		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
 			public void execute() {
+				if (av.editing)
+					return;
+
 				ihtml.getElement().focus();
 				Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
 					public void execute() {
+						if (av.editing)
+							return;
+
 						ihtml.getElement().focus();
 					}
 				});
 			}
 		});
+*/
 
 		AppW app = (AppW)geo.getKernel().getApplication();
 		int mode = app.getActiveEuclidianView().getMode();
