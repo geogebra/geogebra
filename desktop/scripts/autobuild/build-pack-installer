@@ -297,7 +297,7 @@ find $WWWDIR -name .svn | xargs rm -fR
 if [ "$CV" = "5.0" ]; then
  for i in 1 2; do
   cat $WWWDIR/$MYDIR/geogebra-50-jogl$i.jnlp | sed s/unpacked/debug/g |\
-   sed s/"\" href=\"geogebra-50"/"debug\/\" href=\"geogebra-50"/ |\
+   sed s/"\" href=\"geogebra-50"/"debug\/\" href=\"geogebra-50"/ \
    > $WWWDIR/$MYDIR/debug/geogebra-50-jogl$i.jnlp
   done
  fi
