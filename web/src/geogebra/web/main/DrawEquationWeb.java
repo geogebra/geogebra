@@ -328,6 +328,7 @@ public class DrawEquationWeb implements DrawEquationInterface {
 			mousein.mout = false;
 		}).mouseleave(function(event3) {
 			mousein.mout = true;
+			$(this).focus();
 		});
 	}-*/;
 

@@ -324,6 +324,7 @@ public class RadioButtonTreeItem extends HorizontalPanel
 			tb.addMouseOutHandler(new MouseOutHandler() {
 				public void onMouseOut(MouseOutEvent moevent) {
 					mout = true;
+					tb.setFocus(true);
 				}
 			});
 		}
