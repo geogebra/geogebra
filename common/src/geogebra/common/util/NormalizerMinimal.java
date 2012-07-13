@@ -1,7 +1,5 @@
 package geogebra.common.util;
 
-import geogebra.common.main.App;
-
 import java.util.HashMap;
 
 /**

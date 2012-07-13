@@ -3061,6 +3061,8 @@ public abstract class App {
 		return GeoGebraConstants.VERSION_STRING;
 	}
 	
+	public abstract NormalizerMinimal getNormalizer();
+
 	public String getEmptyIconFileName(){
 		return "empty.gif";
 	}

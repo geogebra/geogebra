@@ -53,6 +53,7 @@ import geogebra.common.util.Base64;
 import geogebra.common.util.GeoGebraLogger.LogDestination;
 import geogebra.common.util.Language;
 import geogebra.common.util.LowerCaseDictionary;
+import geogebra.common.util.NormalizerMinimal;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
 import geogebra.euclidian.DrawEquationD;
@@ -5328,6 +5329,11 @@ public class AppD extends App implements
 		}
 		
 		return sb;
+	}
+	
+	@Override
+	public NormalizerMinimal getNormalizer() {
+		return Normalizer.getInstance();
 	}
 	
 }

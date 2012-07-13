@@ -38,6 +38,7 @@ import geogebra.common.util.AbstractImageManager;
 import geogebra.common.util.GeoGebraLogger.LogDestination;
 import geogebra.common.util.Language;
 import geogebra.common.util.MD5EncrypterGWTImpl;
+import geogebra.common.util.NormalizerMinimal;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
 import geogebra.web.css.GuiResources;
@@ -2110,5 +2111,16 @@ public class AppW extends App {
 	public String getVersionString() {
 		return super.getVersionString() + "-HTML5";
 	}
+	
+	private NormalizerMinimal normalizerMinimal;
+
+	@Override
+    public NormalizerMinimal getNormalizer() {
+	    if (normalizerMinimal == null) {
+	    	normalizerMinimal = new NormalizerMinimal();
+	    }
+	    
+	    return normalizerMinimal;
+    }
 
 }

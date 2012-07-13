@@ -30,6 +30,7 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.App;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.plugin.GeoClass;
+import geogebra.common.util.NormalizerMinimal;
 import geogebra.common.util.StringUtil;
 
 import java.util.ArrayList;
@@ -972,9 +973,20 @@ public class GeoText extends GeoElement implements Locateable,
 		if (comparator == null) {
 			comparator = new Comparator<GeoText>() {
 				public int compare(GeoText itemA, GeoText itemB) {
+					
+					NormalizerMinimal noramlizer = itemA.getKernel().getApplication().getNormalizer();
+					
+					// remove accents etc
+					String strA = noramlizer.transform(itemA.getTextString());
+					String strB = noramlizer.transform(itemB.getTextString());
 
-					int comp = itemA.getTextString().compareTo(
-							itemB.getTextString());
+					// do comparison without accents etc
+					int comp = strA.compareTo(strB);
+					
+					if (comp == 0) {
+						// try compare with accents
+						comp = itemA.getTextString().compareTo(itemB.getTextString());
+					}
 
 					if (comp == 0)
 						// if we return 0 for equal strings, the TreeSet deletes
