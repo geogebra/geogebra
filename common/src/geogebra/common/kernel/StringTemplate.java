@@ -109,11 +109,11 @@ public class StringTemplate {
 	 */
 	public static final StringTemplate ogpTemplate = new StringTemplate();
 	static {
-		ogpTemplate.forceSF=true;
+		ogpTemplate.forceSF=false;
 		ogpTemplate.internationalizeDigits = false;
 		ogpTemplate.setType(StringType.OGP);
 		ogpTemplate.localizeCmds = false;
-		ogpTemplate.sf = geogebra.common.factories.FormatFactory.prototype.getScientificFormat(15,20,false);
+		ogpTemplate.nf = geogebra.common.factories.FormatFactory.prototype.getNumberFormat(0);
 	}
 	/**
 	 * Default template, just inccreases precision to max

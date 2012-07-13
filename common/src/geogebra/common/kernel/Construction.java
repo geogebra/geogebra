@@ -1074,6 +1074,23 @@ public class Construction {
 			ce.getXML(sb);
 		}
 	}
+
+	/**
+	 * Appends minimal version of the construction XML to given string builder.
+	 * OGP version.
+	 * Only elements/commands are preserved,
+	 * the rest is ignored. 
+	 * @param sb String builder 
+	 */
+	public void getConstructionElementsXML_OGP(StringBuilder sb) {
+
+		ConstructionElement ce;
+		int size = ceList.size();
+		for (int i = 0; i < size; ++i) {
+			ce = ceList.get(i);
+			ce.getXML_OGP(sb);
+		}
+	}
 	
 	/**
 	 * Returns this construction in regression file .out format.

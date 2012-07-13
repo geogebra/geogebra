@@ -153,6 +153,15 @@ public abstract class ConstructionElement implements
 	public abstract void getXML(StringBuilder sb);
 
 	/**
+	 * Returns XML representation of this object. OGP format.
+	 * @param sb string builder
+	 */
+	public void getXML_OGP(StringBuilder sb) {
+		getXML(sb);
+	}
+
+	
+	/**
 	 * Removes this object from the current construction.
 	 */
 	public abstract void remove();

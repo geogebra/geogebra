@@ -83,8 +83,8 @@ public class Prover extends geogebra.common.util.Prover {
 		App.debug("OGP is about to run...");
 		String c = simplifiedXML(construction);
 		App.trace("Construction: " + c);
-		String cd = statement.getCommandDescription(StringTemplate.ogpTemplate);
-		App.debug("Statement in the XML should be: " + cd);
+		// String cd = statement.getCommandDescription(StringTemplate.ogpTemplate);
+		// App.debug("Statement in the XML should be: " + cd);
 
         OpenGeoProver.settings = new OGPConfigurationSettings();
         ILogger logger = OpenGeoProver.settings.getLogger();

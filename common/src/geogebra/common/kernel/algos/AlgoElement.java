@@ -1125,6 +1125,12 @@ public abstract class AlgoElement extends ConstructionElement implements
 		getXML(sb, true);
 	}
 
+	@Override
+	public void getXML_OGP(StringBuilder sb) {
+		getXML_OGP(sb, true);
+	}
+
+	
 	/**
 	 * @return XML representation of this algo, including output objects
 	 */
@@ -1153,6 +1159,42 @@ public abstract class AlgoElement extends ConstructionElement implements
 		try {
 			// command
 			StringTemplate tpl = StringTemplate.xmlTemplate;
+			String cmdname = getCommandName(tpl);
+			if (cmdname.equals("Expression")) {
+				sb.append(getExpXML(tpl));
+			} else {
+				sb.append(getCmdXML(cmdname,tpl));
+			}
+
+			if (includeOutputGeos) {// && output != null) {
+				getOutputXML(sb);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	/**
+	 * Adds XML representation of this algo to the string builder
+	 * OGP version
+	 * @param sb string builder
+	 * @param includeOutputGeos true to include output geos
+	 */
+	public final void getXML_OGP(StringBuilder sb, boolean includeOutputGeos) {
+		// this is needed for helper commands like
+		// intersect for single intersection points
+		if (!isPrintedInXML) {
+			return;
+		}
+
+		// turn off eg Arabic digits
+		
+
+		// USE INTERNAL COMMAND NAMES IN EXPRESSION
+		try {
+			// command
+			StringTemplate tpl = StringTemplate.ogpTemplate;
 			String cmdname = getCommandName(tpl);
 			if (cmdname.equals("Expression")) {
 				sb.append(getExpXML(tpl));

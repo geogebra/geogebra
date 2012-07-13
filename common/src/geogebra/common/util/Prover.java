@@ -333,7 +333,7 @@ public abstract class Prover {
 	// TODO: Cut even more unneeded parts to reduce unneeded traffic between OGP and GeoGebra.
 	protected static String simplifiedXML(Construction cons) {
 		StringBuilder sb = new StringBuilder();
-		cons.getConstructionElementsXML(sb);
+		cons.getConstructionElementsXML_OGP(sb);
 		return "<construction>\n" + sb.toString() + "</construction>";
 	}
 
