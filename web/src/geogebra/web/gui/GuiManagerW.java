@@ -437,6 +437,8 @@ public class GuiManagerW extends GuiManager {
 	public void mousePressedForPropertiesView(){
 		if(propertiesView !=null){
 			propertiesView.mousePressedForPropertiesView();
+		} else {
+			((PropertiesViewW) getPropertiesView()).mousePressedForPropertiesView();
 		}
 	}
 

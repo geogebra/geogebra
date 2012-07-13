@@ -1090,7 +1090,7 @@ public class AppW extends App {
 
 	private void attachViews() {
 	    getGuiManager().attachView(VIEW_ALGEBRA);
-	    getGuiManager().attachView(VIEW_PROPERTIES);
+	    // Attached only on first click getGuiManager().attachView(VIEW_PROPERTIES);
 	    
     }
 
