@@ -1,5 +1,10 @@
 package geogebra.mobile.gui;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.DivElement;
+import com.google.gwt.dom.client.SpanElement;
+import com.google.gwt.uibinder.client.UiBinder;
+import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.googlecode.mgwt.ui.client.MGWT;
 import com.googlecode.mgwt.ui.client.MGWTSettings;
@@ -9,6 +14,14 @@ import com.googlecode.mgwt.ui.client.widget.buttonbar.ButtonBar;
 
 public class GeoGebraMobileFrame
 {
+	interface MyUiBinder extends UiBinder<DivElement, GeoGebraMobileFrame>
+	{
+	}
+
+	private static MyUiBinder uiBinder = GWT.create(MyUiBinder.class);
+
+	@UiField
+	SpanElement nameSpan;
 
 	private RootPanel root;
 	private HeaderPanel headerPanel;
