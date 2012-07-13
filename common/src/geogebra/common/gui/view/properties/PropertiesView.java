@@ -96,7 +96,7 @@ public abstract class PropertiesView implements View{
 			//return app.getMenu("Objects");
 			return objectPanel.getSelectionDescription();
 		case LAYOUT:
-			return app.getPlain("PropertiesOfA",app.getPlain("Layout"));
+			return app.getPlain("PropertiesOfA",app.getMenu("Layout"));
 		}
 		return null;
 	}
