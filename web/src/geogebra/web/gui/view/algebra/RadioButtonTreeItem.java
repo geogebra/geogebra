@@ -533,6 +533,9 @@ public class RadioButtonTreeItem extends HorizontalPanel
 	}-*/;
 
 	public void ourKeyUp(int keyCode, boolean ctrl, boolean shift, boolean alt) {
+		if (thisIsEdited)
+			return;
+
 		if (keyCode == 46) {
 			geo.remove();
 			kernel.notifyRepaint();

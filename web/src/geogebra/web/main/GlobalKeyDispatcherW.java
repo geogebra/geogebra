@@ -31,9 +31,11 @@ import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
+import com.google.gwt.event.dom.client.KeyPressEvent;
+import com.google.gwt.event.dom.client.KeyPressHandler;
 
 public class GlobalKeyDispatcherW extends
-        geogebra.common.main.GlobalKeyDispatcher implements KeyUpHandler, KeyDownHandler {
+        geogebra.common.main.GlobalKeyDispatcher implements KeyUpHandler, KeyDownHandler, KeyPressHandler {
 
 	public GlobalKeyDispatcherW(App app) {
 		this.app = app;
@@ -43,6 +45,11 @@ public class GlobalKeyDispatcherW extends
 	public void handleFunctionKeyForAlgebraInput(int i, GeoElement geo) {
 		// TODO Auto-generated method stub
 
+	}
+	
+	public void onKeyPress(KeyPressEvent event) {
+		event.stopPropagation();
+		event.preventDefault();
 	}
 
 	public void onKeyUp(KeyUpEvent event) {

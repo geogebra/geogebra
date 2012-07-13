@@ -105,7 +105,8 @@ public class EuclidianViewW extends EuclidianView implements SettingListener{
 		});
 		canvas.addKeyDownHandler(getApplication().getGlobalKeyDispatcher());
 		canvas.addKeyUpHandler(getApplication().getGlobalKeyDispatcher());
-		
+		canvas.addKeyPressHandler(getApplication().getGlobalKeyDispatcher());
+
 		euclidianViewPanel.addDomHandler((EuclidianControllerW)euclidiancontroller, ClickEvent.getType());
 		euclidianViewPanel.addDomHandler((EuclidianControllerW)euclidiancontroller, MouseMoveEvent.getType());
 		euclidianViewPanel.addDomHandler((EuclidianControllerW)euclidiancontroller, MouseOverEvent.getType());
