@@ -169,7 +169,7 @@
 
 -keep class geogebra.plugin.jython.PythonScriptInterface { <methods>; <fields>; }
 # allow eg Color.Red
--keep class geogebra.awt.Color { <fields>; }
+-keep class geogebra.awt.GColorD { <fields>; }
 -keep class geogebra.common.plugin.EuclidianStyleConstants { <fields>; }
 -keep class geogebra.common.plugin.GeoClass { <fields>; }
 -keep class geogebra.common.plugin.Operation { <fields>; }
