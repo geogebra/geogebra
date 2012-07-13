@@ -1128,6 +1128,12 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements AutoCompl
 			return true;
 	  }
 	  
+		/**
+		 * This method inspects its first parameter - an Object, if there is a symbol button associated with
+		 * that. If there is one, this method sets the visibility of the symbol button according to the second parameter. 
+		 * @param source the scanned object
+		 * @param show true, if the source's symbol button must be visible, false otherwise. 
+		 */
 	  public static void showSymbolButtonIfExists(Object source, boolean show){
 			if (source instanceof Widget){
 				String id = ((Widget)source).getElement().getId();
