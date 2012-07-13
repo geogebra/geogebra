@@ -39,6 +39,10 @@ import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.event.dom.client.MouseMoveHandler;
+import com.google.gwt.event.dom.client.MouseOutEvent;
+import com.google.gwt.event.dom.client.MouseOutHandler;
+import com.google.gwt.event.dom.client.MouseOverEvent;
+import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.user.client.DOM;
@@ -65,6 +69,7 @@ public class RadioButtonTreeItem extends HorizontalPanel
 	boolean previouslyChecked;
 	boolean LaTeX = false;
 	boolean thisIsEdited = false;
+	boolean mout = false;
 
 	SpanElement seMayLatex;
 	SpanElement seNoLatex;
@@ -282,7 +287,13 @@ public class RadioButtonTreeItem extends HorizontalPanel
 			tb = new TextBox();
 			tb.setText( geo.getAlgebraDescriptionTextOrHTMLDefault() );
 			add(tb);
-
+			mout = false;
+			tb.setFocus(true);
+			Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
+				public void execute() {
+					tb.setFocus(true);
+				}
+			});
 			tb.addKeyDownHandler(new KeyDownHandler() {
 				public void onKeyDown(KeyDownEvent kevent) {
 					if (kevent.getNativeKeyCode() == 13) {
@@ -298,12 +309,23 @@ public class RadioButtonTreeItem extends HorizontalPanel
 			});
 			tb.addBlurHandler(new BlurHandler() {
 				public void onBlur(BlurEvent bevent) {
-					remove(tb);
-					add(ihtml);
-					stopEditingSimple(null);
+					if (mout) {
+						remove(tb);
+						add(ihtml);
+						stopEditingSimple(null);
+					}
 				}
 			});
-			tb.setFocus(true);
+			tb.addMouseOverHandler(new MouseOverHandler() {
+				public void onMouseOver(MouseOverEvent moevent) {
+					mout = false;
+				}
+			});
+			tb.addMouseOutHandler(new MouseOutHandler() {
+				public void onMouseOut(MouseOutEvent moevent) {
+					mout = true;
+				}
+			});
 		}
 	}
 
