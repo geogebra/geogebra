@@ -1176,7 +1176,7 @@ public class GuiManagerD extends GuiManager {
 			screenPos.translate(p.x, p.y);
 
 			popupMenu = new ContextMenuGeoElementD((AppD)app, geos, screenPos);
-			((ContextMenuGraphicsWindowD) popupMenu).getWrappedPopup().show(invoker, p.x, p.y);
+			popupMenu.getWrappedPopup().show(invoker, p.x, p.y);
 		}
 
 	}
