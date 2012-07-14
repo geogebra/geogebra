@@ -110,6 +110,14 @@ public class EquationArithHelper {
     }
     
     /**
+     * @param x
+     * @return x/2
+     */
+    public static EquationExpression half(final EquationExpression x) {
+    	return div(x, EquationNumericValue.from(2.0));
+    }
+    
+    /**
      * @param end1 one of the ends.
      * @param end2 other of the ends.
      * @return (end1 + end2)/2;
