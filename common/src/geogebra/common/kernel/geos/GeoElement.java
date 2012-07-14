@@ -7052,6 +7052,9 @@ public abstract class GeoElement extends ConstructionElement implements
 	}
 
 	
+	/**
+	 * Makes sure that column headings are empty list of GeoTexts
+	 */
 	protected void resetSpreadsheetColumnHeadings(){
 		if (spreadsheetColumnHeadings == null) {
 			spreadsheetColumnHeadings = new ArrayList<GeoText>();
@@ -7199,6 +7202,9 @@ public abstract class GeoElement extends ConstructionElement implements
 		return true;
 	}
 
+	/**
+	 * @return whether this element has fixed screen location in some view
+	 */
 	public boolean isPinned() {
 		if (this instanceof AbsoluteScreenLocateable) {
 			return ((AbsoluteScreenLocateable) this).isAbsoluteScreenLocActive();

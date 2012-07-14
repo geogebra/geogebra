@@ -308,6 +308,7 @@ public class GeoButton extends GeoElement implements AbsoluteScreenLocateable, T
 		return true;
 	}
 	
+	@Override
 	public boolean isPinnable() {
 		return false;
 	}

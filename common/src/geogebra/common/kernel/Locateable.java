@@ -1,13 +1,13 @@
 package geogebra.common.kernel;
 
-import geogebra.common.kernel.geos.ToGeoElement;
+import geogebra.common.kernel.kernelND.GeoElementND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 
 
 /**
  * Interface for GeoElements that have a start point (GeoText, GeoVector)
  */
-public interface Locateable extends ToGeoElement{
+public interface Locateable extends GeoElementND{
 	/**
 	 * @param p start point 
 	 * @throws CircularDefinitionException in case the start point depends on this object

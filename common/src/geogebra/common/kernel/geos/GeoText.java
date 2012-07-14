@@ -782,7 +782,7 @@ public class GeoText extends GeoElement implements Locateable,
 
 	/**
 	 * 
-	 * @param relativeFontSize font size  modifier 
+	 * @param d font size  modifier 
 	 * @return corresponding index
 	 */
 	public static int getFontSizeIndex(double d) {
@@ -1110,6 +1110,15 @@ public class GeoText extends GeoElement implements Locateable,
 
 		return spreadsheetTraceList;
 	}
+	
+	/**
+	 * @param sb string builder for appending the tag
+	 * @param serifFont serif flag
+	 * @param fontSizeD font size
+	 * @param fontStyle font style
+	 * @param isLaTeX latex flag
+	 * @param app application
+	 */
 	public static void appendFontTag(StringBuilder sb, boolean serifFont,
 			double fontSizeD, int fontStyle, boolean isLaTeX, App app) {
 		// font settings

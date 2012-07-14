@@ -208,8 +208,8 @@ public class GeoTurtle extends GeoElement {
 	}
 
 	public void setTurtle(int index) {
-		index = index % 4;
-		this.turtleImageIndex = index;
+		int index1 = index % 4;
+		this.turtleImageIndex = index1;
 	}
 
 	public boolean isAutoUpdate() {
@@ -560,10 +560,10 @@ public class GeoTurtle extends GeoElement {
 	 * Set turtle position
 	 */
 	public class CmdSetPosition implements Command {
-		double destX;
-		double destY;
-		double time;
-		GeoPoint destination;
+		private double destX;
+		private double destY;
+		private double time;
+		private GeoPoint destination;
 		
 		/**
 		 * @param x new x-coord
@@ -642,9 +642,8 @@ public class GeoTurtle extends GeoElement {
 		public String toString() {
 			if (degAngle > 0) {
 				return "tl " + degAngle;
-			} else {
-				return "tr " + (-degAngle);
 			}
+			return "tr " + (-degAngle);
 		}
 	}
 	
@@ -722,6 +721,7 @@ public class GeoTurtle extends GeoElement {
 			// nothing to do
 		}
 		
+		@Override
 		public String toString() {
 			return down ? "pd" : "pu";
 		}

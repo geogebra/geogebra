@@ -41,6 +41,9 @@ public interface EuclidianStyleBar {
 	 */
 	void updateStyleBar();
 
+	/**
+	 * @return index of selected point capturing mode
+	 */
 	int getPointCaptureSelectedIndex();
 
 }

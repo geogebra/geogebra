@@ -4765,6 +4765,10 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 		 */
 		public abstract GGraphics2D getGraphicsForPen();
 		
+		/**
+		 * @param mode mode number
+		 * @return whether the mode is pen, pencil or freehand
+		 */
 		public static boolean isPenMode(int mode) {
 			return mode == EuclidianConstants.MODE_PEN || mode == EuclidianConstants.MODE_PENCIL || mode == EuclidianConstants.MODE_FREEHAND_SHAPE;
 		}

@@ -12,12 +12,13 @@ the Free Software Foundation.
 package geogebra.common.kernel.geos;
 
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.kernelND.GeoElementND;
 
 /**
  * Elements rotateable around origin
  *
  */
-public interface Rotateable extends ToGeoElement{
+public interface Rotateable extends GeoElementND{
 	/**
 	 * Rotates this element around origin
 	 * @param r angle

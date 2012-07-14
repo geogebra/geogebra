@@ -972,10 +972,16 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 		return funX.getFunctionVariables();
 	}
 
+	/**
+	 * @return x-function
+	 */
 	public Function getFunX() {
 		return funX;
 	}
 
+	/**
+	 * @return y-function
+	 */
 	public Function getFunY() {
 		return funY;
 	}

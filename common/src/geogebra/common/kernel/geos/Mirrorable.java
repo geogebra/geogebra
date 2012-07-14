@@ -11,11 +11,13 @@ the Free Software Foundation.
 */
 package geogebra.common.kernel.geos;
 
+import geogebra.common.kernel.kernelND.GeoElementND;
+
 /**
  * Represents geos that can be mirrored atline or point
  * 
  */
-public interface Mirrorable extends ToGeoElement{
+public interface Mirrorable extends GeoElementND{
 	/**
 	 * Miror at point
 	 * @param Q mirror

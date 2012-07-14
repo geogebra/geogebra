@@ -6,7 +6,6 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoAttachCopyToView;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.AbsoluteScreenLocateable;
-import geogebra.common.kernel.geos.Furniture;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;

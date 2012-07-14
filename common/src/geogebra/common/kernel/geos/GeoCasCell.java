@@ -339,8 +339,8 @@ public class GeoCasCell extends GeoElement implements VarString {
 	}
 
 	/**
-	 * @param size
-	 *            font size
+	 * @param d
+	 *            font size multiplier
 	 */
 	public void setFontSizeMultiplier(double d) {
 		commentText.setFontSizeMultiplier(d);
@@ -1966,6 +1966,9 @@ public class GeoCasCell extends GeoElement implements VarString {
 		return nativeOutput;
 	}
 
+	/**
+	 * Assigns result to a variable
+	 */
 	public void plot() {
 		assignmentVar = "ggbmpvarPlot";
 		this.firstComputeOutput = true;

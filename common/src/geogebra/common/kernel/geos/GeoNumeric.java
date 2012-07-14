@@ -1351,6 +1351,7 @@ public class GeoNumeric extends GeoElement implements NumberValue,
 		return spreadsheetTraceList;
 	}
 	
+	@Override
 	public boolean isPinnable() {
 		return false;
 	}

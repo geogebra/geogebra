@@ -13,11 +13,12 @@ the Free Software Foundation.
 package geogebra.common.kernel.geos;
 
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.kernelND.GeoElementND;
 /**
  * Represents geos that can be translated 
  *
  */
-public interface Translateable extends ToGeoElement {
+public interface Translateable extends GeoElementND {
 	/**
 	 * Translate by vector
 	 * @param v translation vector
