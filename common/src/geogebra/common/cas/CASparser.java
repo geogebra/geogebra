@@ -338,6 +338,7 @@ public class CASparser implements CASParserInterface{
 	 *            the Expression to be translated
 	 * @param casStringType
 	 *            one of StringType.{MAXIMA, MPREDUCE, MATH_PIPER}
+	 * @param cas CAS interface
 	 * @return the translated String.
 	 */
 	public String translateToCAS(ValidExpression ve, StringTemplate casStringType,CASGenericInterface cas) {
