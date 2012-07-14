@@ -74,11 +74,13 @@ find build-jogl1 -name jogl.jar -or -name 'jogl1-*' | while read FILE; do
 find $WWWDIR/$MYDIR -name geogebra.jar -or -name geogebra_3d.jar | xargs rm
 
 # 5. Changing JNLP files
-sed -i -e s/"geogebra\.jar"/geogebra-jogl1.jar/g \
- -e s/"geogebra_3d\.jar"/geogebra_3d-jogl1.jar/g \
- -e s/"gluegen-rt\.jar"/gluegen-rt-jogl1.jar/g \
- $WWWDIR/$MYDIR/geogebra-50-jogl1.jnlp
+for i in . debug; do
+ sed -i -e s/"geogebra\.jar"/geogebra-jogl1.jar/g \
+  -e s/"geogebra_3d\.jar"/geogebra_3d-jogl1.jar/g \
+  -e s/"gluegen-rt\.jar"/gluegen-rt-jogl1.jar/g \
+  $WWWDIR/$MYDIR/$i/geogebra-50-jogl1.jnlp
 
-sed -i -e s/"geogebra\.jar"/geogebra-jogl2.jar/g \
- -e s/"geogebra_3d\.jar"/geogebra_3d-jogl2.jar/g \
- $WWWDIR/$MYDIR/geogebra-50-jogl2.jnlp
+ sed -i -e s/"geogebra\.jar"/geogebra-jogl2.jar/g \
+  -e s/"geogebra_3d\.jar"/geogebra_3d-jogl2.jar/g \
+  $WWWDIR/$MYDIR/$i/geogebra-50-jogl2.jnlp
+  done
