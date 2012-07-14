@@ -110,7 +110,7 @@ public abstract class OptionsMenu {
 				kernel.setAlgebraStyle(desc);
 				kernel.updateConstruction();
 			}
-		}, strDescription, strDescriptionAC, 0, true);
+		}, strDescription, strDescriptionAC, 0, false);
 		app.addMenuItem(menu, app.getEmptyIconFileName(), "AlgebraDescriptions", true,
 				menuAlgebraStyle);
 
