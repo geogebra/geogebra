@@ -1208,7 +1208,7 @@ public class GuiManagerD extends GuiManager {
 			
 			popupMenu = new ContextMenuChooseGeoD((AppD)app, view, selectedGeos, geos, screenPos, p);
 			//popupMenu = new ContextMenuGeoElement(app, geos, screenPos);
-			((ContextMenuChooseGeoD) popupMenu).getWrappedPopup().show(invoker, p.x, p.y);
+			popupMenu.getWrappedPopup().show(invoker, p.x, p.y);
 		}
 
 	}
@@ -1222,12 +1222,12 @@ public class GuiManagerD extends GuiManager {
 	public void togglePopupMenu(ArrayList<GeoElement> geos, Component invoker,
 			Point p) {
 		geogebra.common.awt.GPoint loc = new geogebra.common.awt.GPoint(p.x,p.y);
-		if (popupMenu == null || !((ContextMenuGraphicsWindowD) popupMenu).getWrappedPopup().isVisible()) {
+		if (popupMenu == null || ! popupMenu.getWrappedPopup().isVisible()) {
 			showPopupMenu(geos, invoker, loc);
 			return;
 		}
 
-		((ContextMenuGraphicsWindowD) popupMenu).getWrappedPopup().setVisible(false);
+		popupMenu.getWrappedPopup().setVisible(false);
 
 	}
 
