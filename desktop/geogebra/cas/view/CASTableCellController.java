@@ -6,12 +6,19 @@ import geogebra.main.AppD;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+/**
+ * Controller for CAS cell
+ *
+ */
 public class CASTableCellController implements KeyListener {
 	
 	private CASView view;
 	private CASTable table;
 	private CASTableCellEditor tableCellEditor;
 
+	/**
+	 * @param view CAS view
+	 */
 	public CASTableCellController(CASView view) {		
 		this.view = view;
 		table = view.getConsoleTable();
@@ -92,6 +99,7 @@ public class CASTableCellController implements KeyListener {
 			} else {
 				app.setMode(EuclidianConstants.MODE_CAS_NUMERIC);
 			}
+			app.setMode(mode);
 			return;
 		}
 		
@@ -102,6 +110,7 @@ public class CASTableCellController implements KeyListener {
 			} else {
 				app.setMode(EuclidianConstants.MODE_CAS_KEEP_INPUT);
 			}
+			app.setMode(mode);
 			return;
 		}
 		
@@ -121,11 +130,11 @@ public class CASTableCellController implements KeyListener {
 	}
 
 	public void keyReleased(KeyEvent arg0) {
-	
+		//do nothing; we use keyPressed
 	}
 
 	public void keyTyped(KeyEvent arg0) {
-	
+		//do nothing; we use keyPressed
 	}
 
 }
