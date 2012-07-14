@@ -1,7 +1,6 @@
 package geogebra.cas.view;
 
 import geogebra.common.kernel.StringTemplate;
-import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoCasCell;
 
 import java.awt.Component;
@@ -31,7 +30,7 @@ public class CASTableCellEditor extends CASTableCell implements TableCellEditor,
 		
 	private ArrayList<CellEditorListener> listeners = new ArrayList<CellEditorListener>();
 
-	public CASTableCellEditor(CASView view) {
+	public CASTableCellEditor(CASViewD view) {
 		super(view);
 
 		getInputArea().addKeyListener(this);

@@ -3,19 +3,14 @@
  */
 package geogebra.cas.view;
 
+import geogebra.common.cas.view.CASTable;
 import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.arithmetic.MyDouble;
-import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoCasCell;
-import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
 import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.gui.layout.DockManager;
 import geogebra.gui.layout.DockPanel;
 import geogebra.main.AppD;
-import geogebra.util.AlgebraViewTransferHandler;
-import geogebra.util.CASDropTargetListener;
-import geogebra.util.CASTransferHandler;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -27,65 +22,53 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
-import java.awt.Shape;
 import java.awt.SystemColor;
-import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.Transferable;
-import java.awt.datatransfer.UnsupportedFlavorException;
-import java.awt.dnd.DnDConstants;
-import java.awt.dnd.DropTarget;
-import java.awt.dnd.DropTargetDragEvent;
-import java.awt.dnd.DropTargetDropEvent;
-import java.awt.dnd.DropTargetEvent;
-import java.awt.dnd.DropTargetListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.geom.Area;
-import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.swing.CellEditor;
-import javax.swing.JComponent;
 import javax.swing.JTable;
 import javax.swing.JViewport;
 import javax.swing.ListSelectionModel;
-import javax.swing.TransferHandler;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.MouseInputAdapter;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableCellRenderer;
-import javax.swing.text.JTextComponent;
 
 /**
  * @author Quan
  * 
  */
-public class CASTable extends JTable implements geogebra.common.cas.view.CASTable{
+public class CASTableD extends JTable implements CASTable{
 
 	private static final long serialVersionUID = 1L;
-	
+	/** copy mode */
 	protected int copyMode = COPY_DEFAULT;
 	
 	
 	private CASTableModel tableModel;
 	private Kernel kernel;
 	/** application */
-	private AppD app;
-	private CASView view;
+	protected AppD app;
+	/** CAS view */
+	protected CASViewD view;
 
 	private CASTableCellEditor editor;
 	private CASTableCellRenderer renderer;
 	private int currentWidth;
 	private boolean rightClick = false;
 	private int clickedRow;
-	
+	/** row that was last rolled over or -1 if mouse exited CAS view*/
 	protected int rollOverRow = -1;
-	private boolean isOutputRollOver;
+	/** whether the mouse is hovering over output*/
+	protected boolean isOutputRollOver;
+	/** whether current cell input/output should be highlighted*/
+	protected boolean highlight = false;
 
 
 	/**
@@ -94,7 +77,7 @@ public class CASTable extends JTable implements geogebra.common.cas.view.CASTabl
 	 * @param view
 	 *            CASView that accommodates the table
 	 */
-	public CASTable(final CASView view) {
+	public CASTableD(final CASViewD view) {
 		this.view = view;
 		app = view.getApp();
 		kernel = app.getKernel();
@@ -207,8 +190,11 @@ public class CASTable extends JTable implements geogebra.common.cas.view.CASTabl
 	}
 	
 
-	// listen to mouse pressed on table cells, make sure to start editing
-	public class MyMouseListener extends MouseAdapter {
+	/**
+	 * listen to mouse pressed on table cells, make sure to start editing
+	 *
+	 */
+	protected class MyMouseListener extends MouseAdapter {
 
 		@Override
 		public void mousePressed(MouseEvent e) {
@@ -283,7 +269,10 @@ public class CASTable extends JTable implements geogebra.common.cas.view.CASTabl
 	}
 	
 	
-	public class RollOverListener extends MouseInputAdapter {
+	/**
+	 * Handles mouse over events
+	 */
+	protected class RollOverListener extends MouseInputAdapter {
 
 		@Override
 		public void mouseMoved(MouseEvent e) {
@@ -293,10 +282,9 @@ public class CASTable extends JTable implements geogebra.common.cas.view.CASTabl
 				rollOverRow = row;
 				isOutputRollOver = isOutputPanelClicked(e.getPoint());
 				repaint();
-				if(!e.isAltDown() && !isOutputRollOver && copyMode!=COPY_PLOT)
-					rollOverRow = -1;
-					
 			}
+			highlight = e.isAltDown() || isOutputRollOver || copyMode==COPY_PLOT;
+				
 		}
 		
 		@Override
@@ -311,8 +299,10 @@ public class CASTable extends JTable implements geogebra.common.cas.view.CASTabl
 	 * Selection listener to repaint selection frame when selection changes 
 	 */
 	public class SelectionListener implements ListSelectionListener {
-	    JTable table;
-
+	    private JTable table;
+	    /**
+	     * @param table CAS table to be listened to
+	     */
 	    SelectionListener(JTable table) {
 	        this.table = table;
 	    }
@@ -331,7 +321,7 @@ public class CASTable extends JTable implements geogebra.common.cas.view.CASTabl
 	 * 
 	 * @return CAS view
 	 */
-	public CASView getCASView() {
+	public CASViewD getCASView() {
 		return view;
 	}
 
@@ -373,6 +363,7 @@ public class CASTable extends JTable implements geogebra.common.cas.view.CASTabl
 	 * Stops editing of current cell
 	 */
 	public void stopEditing() {
+		App.printStacktrace("");
 		if (!isEditing())
 			return;
 		// stop editing
@@ -751,7 +742,7 @@ public class CASTable extends JTable implements geogebra.common.cas.view.CASTabl
 	/**
 	 * @return the table
 	 */
-	public CASTable getTable() {
+	public CASTableD getTable() {
 		return this;
 	}
 
@@ -771,6 +762,9 @@ public class CASTable extends JTable implements geogebra.common.cas.view.CASTabl
 	}
 	
 	
+	/**
+	 * @return current copy mode
+	 */
 	public int getCopyMode() {
 		return copyMode;
 	}
@@ -780,21 +774,25 @@ public class CASTable extends JTable implements geogebra.common.cas.view.CASTabl
 	}
 
 	
-	
+	/**
+	 * @return currently open row
+	 */
 	public int getOpenRow(){
 		if(getEditingRow() >= 0){
 			return getEditingRow();
 		}
 		return(getRowCount()-1);
 	}
-
+	/** dash pattern for selection */
 	final static float dash1[] = { 2f, 1f };
+	/** dashed stroke for selection */
 	final static BasicStroke dashed = new BasicStroke(1.0f,
 			BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10.0f, dash1, 0.0f);
 
 	/**
-	 * @Override Highlights the selected row
+	 * Highlights the selected row
 	 */
+	@Override
 	public void paint(Graphics graphics) {
 		super.paint(graphics);
 		Graphics2D g2 = (Graphics2D) graphics;
@@ -822,7 +820,6 @@ public class CASTable extends JTable implements geogebra.common.cas.view.CASTabl
 		
 		
 		CASTableCell rollOverCell = null;
-		CASTableCell selectedCell = null;
 
 		{
 			
@@ -831,7 +828,7 @@ public class CASTable extends JTable implements geogebra.common.cas.view.CASTabl
 			g2.setColor(new Color(0, 100, 100, 15));
 			
 			
-			if (rollOverRow >= 0) {
+			if (rollOverRow >= 0 && highlight) {
 			
 				rollOverCell = (CASTableCell) getCellRenderer(rollOverRow,
 						CASTable.COL_CAS_CELLS).getTableCellRendererComponent(
@@ -842,8 +839,7 @@ public class CASTable extends JTable implements geogebra.common.cas.view.CASTabl
 
 				Rectangle r = getCellRect(rollOverRow, CASTable.COL_CAS_CELLS,
 						true);
-				int h;
-				int w = r.width;
+				
 				if (isOutputRollOver) {
 					r.y = r.y + offset;
 					r.height = r.height - offset;

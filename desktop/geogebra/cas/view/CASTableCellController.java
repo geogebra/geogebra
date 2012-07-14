@@ -12,14 +12,14 @@ import java.awt.event.KeyListener;
  */
 public class CASTableCellController implements KeyListener {
 	
-	private CASView view;
-	private CASTable table;
+	private CASViewD view;
+	private CASTableD table;
 	private CASTableCellEditor tableCellEditor;
 
 	/**
 	 * @param view CAS view
 	 */
-	public CASTableCellController(CASView view) {		
+	public CASTableCellController(CASViewD view) {		
 		this.view = view;
 		table = view.getConsoleTable();
 		tableCellEditor = table.getEditor();		

@@ -49,7 +49,7 @@ public class CASSubDialog extends JDialog implements ActionListener {
 	private JTable replaceTable;
 	private Vector<Vector<String>> data;
 
-	private CASView casView;
+	private CASViewD casView;
 	private AppD app;
 	private int editRow;
 	private String prefix, evalText, postfix;
@@ -71,7 +71,7 @@ public class CASSubDialog extends JDialog implements ActionListener {
 	 *            after selection, not effected by the substitution
 	 * @param editRow row to edit
 	 */
-	public CASSubDialog(CASView casView, String prefix, String evalText,
+	public CASSubDialog(CASViewD casView, String prefix, String evalText,
 			String postfix, int editRow) {
 		super(casView.getApp().getFrame());
 		setModal(false);
@@ -287,7 +287,7 @@ public class CASSubDialog extends JDialog implements ActionListener {
 
 	private boolean apply(String actionCommand) {
 
-		CASTable table = casView.getConsoleTable();
+		CASTableD table = casView.getConsoleTable();
 
 		// create substitution list
 		StringBuilder substList = new StringBuilder("{");

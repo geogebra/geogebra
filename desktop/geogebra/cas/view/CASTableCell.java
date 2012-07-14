@@ -7,10 +7,10 @@ import geogebra.gui.inputfield.MyTextField;
 import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
-
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.JTable;
@@ -24,9 +24,9 @@ public abstract class CASTableCell extends JPanel {
 	protected CASOutputPanel outputPanel;
 	protected MyTextField dummyField; // dummy label used to get preferred size;
 	protected AppD app;
-	protected CASView view;
+	protected CASViewD view;
 
-	public CASTableCell(CASView view) {
+	public CASTableCell(CASViewD view) {
 		this.view = view;
 		this.app = view.getApp();
 

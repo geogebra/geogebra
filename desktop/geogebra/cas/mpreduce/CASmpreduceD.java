@@ -4,7 +4,7 @@ import geogebra.common.cas.CASException;
 import geogebra.common.cas.CASparser;
 import geogebra.common.cas.CasParserTools;
 import geogebra.common.cas.Evaluate;
-import geogebra.common.cas.mpreduce.AbstractCASmpreduce;
+import geogebra.common.cas.mpreduce.CASmpreduce;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.ConstructionElement;
 import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
@@ -23,7 +23,7 @@ import org.mathpiper.mpreduce.Interpreter2;
 /**
  * Desktop implementation of Reduce CAS
  */
-public class CASmpreduce extends AbstractCASmpreduce {
+public class CASmpreduceD extends CASmpreduce {
 
 	// using static CAS instance as a workaround for the MPReduce deadlock with
 	// multiple application windows
@@ -36,7 +36,7 @@ public class CASmpreduce extends AbstractCASmpreduce {
 	 * @param parserTools parser helper tools
 	 * @param casPrefix prefix for CAS variables
 	 */
-	public CASmpreduce(CASparser casParser, CasParserTools parserTools,String casPrefix) {
+	public CASmpreduceD(CASparser casParser, CasParserTools parserTools,String casPrefix) {
 		super(casParser,casPrefix);
 		this.parserTools = parserTools;
 		getMPReduce();

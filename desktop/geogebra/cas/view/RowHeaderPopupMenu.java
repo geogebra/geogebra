@@ -6,9 +6,9 @@ import geogebra.main.AppD;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JList;
 import javax.swing.JMenuItem;
-import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JPopupMenu;
 
 /**
@@ -20,7 +20,7 @@ public class RowHeaderPopupMenu extends JPopupMenu implements ActionListener {
 	private static final long serialVersionUID = -592258674730774706L;
 
 	private JList rowHeader;
-	private CASTable table;
+	private CASTableD table;
 	private AppD app;
 	
 	private JMenuItem cbUseAsText;
@@ -30,7 +30,7 @@ public class RowHeaderPopupMenu extends JPopupMenu implements ActionListener {
 	 * @param rowHeader row headers
 	 * @param table CAS table
 	 */
-	public RowHeaderPopupMenu(JList rowHeader, CASTable table) {
+	public RowHeaderPopupMenu(JList rowHeader, CASTableD table) {
 		this.rowHeader = rowHeader;
 		this.table = table;
 		app = (AppD)table.getApplication();		

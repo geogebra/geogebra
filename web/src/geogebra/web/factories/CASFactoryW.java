@@ -2,16 +2,16 @@ package geogebra.web.factories;
 
 import geogebra.common.cas.CASparser;
 import geogebra.common.cas.CasParserTools;
-import geogebra.common.cas.mpreduce.AbstractCASmpreduce;
+import geogebra.common.cas.mpreduce.CASmpreduce;
 import geogebra.common.factories.CASFactory;
 import geogebra.common.kernel.Kernel;
-import geogebra.web.cas.mpreduce.CASmpreduce;
+import geogebra.web.cas.mpreduce.CASmpreduceW;
 
 public class CASFactoryW extends CASFactory {
 
 	@Override
-	public AbstractCASmpreduce newMPReduce(CASparser p, CasParserTools t,Kernel kernel) {
-		return new CASmpreduce(p,t,kernel);
+	public CASmpreduce newMPReduce(CASparser p, CasParserTools t,Kernel kernel) {
+		return new CASmpreduceW(p,t,kernel);
 	}
 
 }

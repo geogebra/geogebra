@@ -25,11 +25,12 @@ import java.util.StringTokenizer;
 /**
  * Platform (Java / GWT) independent part of MPReduce CAS
  */
-public abstract class AbstractCASmpreduce implements CASGenericInterface {
+public abstract class CASmpreduce implements CASGenericInterface {
 	/** parser tools*/
 	protected CasParserTools parserTools;
 	private String casPrefix;
-	protected CASparser casParser;
+	/** CAS parser */
+	public CASparser casParser;
 	/** variable ordering, e.g. for Integral[a*b] */
 	protected static StringBuilder varOrder = new StringBuilder(
 			"ggbtmpvarx, ggbtmpvary, ggbtmpvarz, ggbtmpvara, "
@@ -53,7 +54,7 @@ public abstract class AbstractCASmpreduce implements CASGenericInterface {
 	 * @param casParser parser
 	 * @param casPrefix prefix for CAS variables
 	 */
-	public AbstractCASmpreduce(CASparser casParser,String casPrefix) {
+	public CASmpreduce(CASparser casParser,String casPrefix) {
 		this.casParser = casParser;
 		this.casPrefix = casPrefix;
 	}
@@ -935,10 +936,10 @@ public abstract class AbstractCASmpreduce implements CASGenericInterface {
 	protected final synchronized void initDependentMyMPReduceFunctions(
 			geogebra.common.cas.Evaluate mpreduce1) throws Throwable {
 		
-		if (AbstractCASmpreduce.mpreduce!=mpreduce1){
+		if (CASmpreduce.mpreduce!=mpreduce1){
 			initStaticMyMPReduceFunctions(mpreduce1);
 		}
-		AbstractCASmpreduce.mpreduce=mpreduce1;
+		CASmpreduce.mpreduce=mpreduce1;
 		
 		// user variable ordering
 		String variableOrdering = "ggbcasvarx, ggbcasvary, ggbcasvarz, ggbcasvara, "

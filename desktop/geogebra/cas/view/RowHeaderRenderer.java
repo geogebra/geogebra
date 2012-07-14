@@ -17,13 +17,13 @@ import javax.swing.SwingConstants;
 public class RowHeaderRenderer extends JLabel implements ListCellRenderer {
 		
 	private static final long serialVersionUID = 1L;    	    	
-	private CASTable casTable;	
+	private CASTableD casTable;	
 	
 	/**
 	 * Creates new renderer
 	 * @param casTable CAS table
 	 */
-	public RowHeaderRenderer(CASTable casTable) {
+	public RowHeaderRenderer(CASTableD casTable) {
 		super("", SwingConstants.CENTER);		
 		this.casTable = casTable;
 				

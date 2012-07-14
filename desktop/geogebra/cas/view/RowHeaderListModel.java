@@ -5,13 +5,20 @@ import javax.swing.JTable;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 
-public class RowHeaderListModel extends AbstractListModel implements TableModelListener {					 
+/**
+ * List model for row headers
+ */ 
+ public class RowHeaderListModel extends AbstractListModel implements TableModelListener {					 
+ 
 		 
 	private static final long serialVersionUID = 1L;
 	private JTable table;
 	private int size;
 	
-	  public RowHeaderListModel(JTable table) {
+	/**
+	 * @param table creates new model
+	 */
+	public RowHeaderListModel(JTable table) {
 		  this.table = table;
 		  table.getModel().addTableModelListener(this);
 		  size = table.getRowCount();

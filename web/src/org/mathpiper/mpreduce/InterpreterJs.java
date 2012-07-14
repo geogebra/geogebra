@@ -1,7 +1,7 @@
 package org.mathpiper.mpreduce;
 
 import geogebra.common.cas.Evaluate;
-import geogebra.web.cas.mpreduce.CASmpreduce;
+import geogebra.web.cas.mpreduce.CASmpreduceW;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -249,9 +249,9 @@ public class InterpreterJs implements EntryPoint, Interpretable, Evaluate {
 	    }-*/;
 	    //---------
 	    static JavaScriptObject callBackFunction = null;
-		private static CASmpreduce casToCallback = null;
+		private static CASmpreduceW casToCallback = null;
 
-	    public static void casLoadImage(CASmpreduce casInstance) {
+	    public static void casLoadImage(CASmpreduceW casInstance) {
 	    	casToCallback  = casInstance;
 	        try {
 

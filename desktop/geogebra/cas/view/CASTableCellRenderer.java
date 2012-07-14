@@ -3,7 +3,6 @@ package geogebra.cas.view;
 import geogebra.common.kernel.geos.GeoCasCell;
 
 import java.awt.Component;
-import java.awt.Font;
 
 import javax.swing.JTable;
 import javax.swing.table.TableCellRenderer;
@@ -13,7 +12,7 @@ public class CASTableCellRenderer extends CASTableCell implements
 
 	private static final long serialVersionUID = 1L;
 
-	CASTableCellRenderer(CASView view) {
+	CASTableCellRenderer(CASViewD view) {
 		super(view);
 	}
 

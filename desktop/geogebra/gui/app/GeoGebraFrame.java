@@ -460,7 +460,7 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 			// avoid hanging animation,
 			// see http://www.geogebra.org/trac/ticket/1565
 			// this.app.getKernel().getGeoGebraCAS();
-			geogebra.cas.mpreduce.CASmpreduce.getStaticInterpreter();
+			geogebra.cas.mpreduce.CASmpreduceD.getStaticInterpreter();
 
 			// init JLaTeXMath
 			Graphics2D g2d = this.app.getEuclidianView1().getTempGraphics2D();

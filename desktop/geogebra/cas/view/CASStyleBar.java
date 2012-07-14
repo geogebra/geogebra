@@ -1,23 +1,18 @@
 package geogebra.cas.view;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-
-import geogebra.main.AppD;
-import geogebra.cas.view.CASView;
-import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.TextProperties;
-import geogebra.common.kernel.geos.GeoCasCell;
-
 import geogebra.gui.color.ColorPopupMenuButton;
 import geogebra.gui.util.GeoGebraIcon;
 import geogebra.gui.util.MyToggleButton;
 import geogebra.gui.util.PopupMenuButton;
-import geogebra.gui.util.SelectionTable;
+import geogebra.main.AppD;
 
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -30,7 +25,7 @@ public class CASStyleBar extends JToolBar implements ActionListener{
 	private static final long serialVersionUID = 1L;
 	
 	protected AppD app;
-	protected CASView casView;
+	protected CASViewD casView;
 	
 	// buttons and lists of buttons
 	private MyToggleButton[] toggleBtnList;
@@ -49,7 +44,7 @@ public class CASStyleBar extends JToolBar implements ActionListener{
 	private boolean isIniting = false;
 	private ArrayList<GeoElement> selectedRows;
 		
-	public CASStyleBar(CASView view, AppD app){
+	public CASStyleBar(CASViewD view, AppD app){
 		isIniting = true;
 		this.app = app;
 		this.casView = view;
@@ -79,11 +74,6 @@ public class CASStyleBar extends JToolBar implements ActionListener{
 		Object source = e.getSource();
 	
 		needUndo = false;
-		if(source == btnShowKeyboard){
-			casView.showCalculatorPanel(btnShowKeyboard.isSelected());
-		}
-		
-		
 		
 		processSource(source, selectedRows);
 

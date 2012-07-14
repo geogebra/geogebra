@@ -1,16 +1,15 @@
 package geogebra.cas.view;
 
 import geogebra.common.cas.view.CASInputHandler;
+import geogebra.common.cas.view.CASView;
 import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
 import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.gui.GuiManagerD;
-import geogebra.gui.inputbar.InputBarHelpPanel;
 import geogebra.gui.view.Gridable;
 import geogebra.main.AppD;
 import geogebra.util.CASDropTargetListener;
-import geogebra.util.CASTransferHandler;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -20,8 +19,6 @@ import java.awt.dnd.DropTarget;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.sql.Date;
-import java.sql.Time;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
@@ -40,13 +37,13 @@ import javax.swing.event.ListSelectionListener;
  * 
  * @author Markus Hohenwarter, Quan Yuan
  */
-public class CASView  extends geogebra.common.cas.view.CASView implements Gridable {
+public class CASViewD  extends CASView implements Gridable {
 
 	
 	private JComponent component;
 	
 	
-	private CASTable consoleTable;
+	private CASTableD consoleTable;
 	
 	private CASSubDialog subDialog;
 	private ListSelectionModel listSelModel;
@@ -56,9 +53,11 @@ public class CASView  extends geogebra.common.cas.view.CASView implements Gridab
 	
 	/** stylebar */
 	CASStyleBar styleBar;
-
-	private CASControlPanel controlPanel;
 	
+	/**
+	 * Component representing this view
+	 * @author Zbynek Konecny
+	 */
 	class CASComponent extends JComponent{
 		private static final long serialVersionUID = 1L;
 	}
@@ -67,7 +66,7 @@ public class CASView  extends geogebra.common.cas.view.CASView implements Gridab
 	 * Creates new CAS view
 	 * @param app application
 	 */
-	public CASView(final AppD app) { 
+	public CASViewD(final AppD app) { 
 		component = new CASComponent();
 		kernel = app.getKernel();
 		this.app = app;
@@ -101,9 +100,6 @@ public class CASView  extends geogebra.common.cas.view.CASView implements Gridab
 		// put the scrollpanel in
 		component.setLayout(new BorderLayout());
 		component.add(scrollPane, BorderLayout.CENTER);
-		
-		controlPanel = new CASControlPanel(app,this);
-		component.add(controlPanel.getControlPanel(), BorderLayout.SOUTH);
 		
 		component.setBackground(Color.white);
 
@@ -139,10 +135,6 @@ public class CASView  extends geogebra.common.cas.view.CASView implements Gridab
 			}
 		};
 		initCAS.start();
-	}
-
-	public void showCalculatorPanel(boolean isVisible){
-		controlPanel.showCalculatorPanel(isVisible);
 	}
 	
 	private ListSelectionListener selectionListener() {
@@ -208,6 +200,7 @@ public class CASView  extends geogebra.common.cas.view.CASView implements Gridab
 	 * @param postfix postfix (keep as is again)
 	 * @param selRow row index (starting from 0)
 	 */
+	@Override
 	public void showSubstituteDialog(String prefix, String evalText,
 			String postfix, int selRow) {
 		if (subDialog != null && subDialog.isShowing())
@@ -245,25 +238,17 @@ public class CASView  extends geogebra.common.cas.view.CASView implements Gridab
 	}
 
 	private void createCASTable() {
-		consoleTable = new CASTable(this);
+		consoleTable = new CASTableD(this);
 
 		CASTableCellController inputListener = new CASTableCellController(this);
 		getConsoleTable().getEditor().getInputArea().addKeyListener(inputListener);
-		// getConsoleTable().addKeyListener(inputListener);
-
-		// getConsoleTable().addKeyListener(new ConsoleTableKeyListener());
-
-		// TableCellMouseListener tableCellMouseListener = new
-		// TableCellMouseListener(this);
-		// getConsoleTable().addMouseListener(tableCellMouseListener);
-
 	}
 
 	/**
 	 * @return CAS table
 	 */
 	@Override
-	public CASTable getConsoleTable() {
+	public CASTableD getConsoleTable() {
 		return consoleTable;
 	}
 
@@ -279,6 +264,7 @@ public class CASView  extends geogebra.common.cas.view.CASView implements Gridab
 	/**
 	 * @return row headers
 	 */
+	@Override
 	public RowHeader getRowHeader() {
 		return rowHeader;
 	}
@@ -293,11 +279,6 @@ public class CASView  extends geogebra.common.cas.view.CASView implements Gridab
 	
 
 	public void repaintView() {
-		component.repaint();
-		// ensureOneEmptyRow();
-	}
-	
-	public void repaint() {
 		component.repaint();
 		// ensureOneEmptyRow();
 	}

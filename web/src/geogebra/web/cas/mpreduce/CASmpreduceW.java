@@ -3,7 +3,7 @@ package geogebra.web.cas.mpreduce;
 import geogebra.common.cas.CASparser;
 import geogebra.common.cas.CasParserTools;
 import geogebra.common.cas.Evaluate;
-import geogebra.common.cas.mpreduce.AbstractCASmpreduce;
+import geogebra.common.cas.mpreduce.CASmpreduce;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.ValidExpression;
@@ -22,7 +22,7 @@ import com.google.gwt.core.client.Scheduler.RepeatingCommand;
  * @author Michael Borcherds, based on desktop version
  *
  */
-public class CASmpreduce extends AbstractCASmpreduce implements geogebra.common.cas.Evaluate {
+public class CASmpreduceW extends CASmpreduce implements geogebra.common.cas.Evaluate {
 
 	
 	
@@ -64,7 +64,7 @@ public class CASmpreduce extends AbstractCASmpreduce implements geogebra.common.
 	 * @param parserTools scientific notation convertor
 	 * @param kernel kernel
 	 */
-	public CASmpreduce(CASparser casParser, CasParserTools parserTools,Kernel kernel) {
+	public CASmpreduceW(CASparser casParser, CasParserTools parserTools,Kernel kernel) {
 		super(casParser,kernel.getCasVariablePrefix());
 		this.parserTools = parserTools;
 		this.kernel=kernel;
@@ -96,7 +96,7 @@ public class CASmpreduce extends AbstractCASmpreduce implements geogebra.common.
 	 * @param casInstance CAS instance
 	 * @return Static MPReduce interpreter shared by all CASmpreduce instances.
 	 */
-	public static synchronized Interpretable getStaticInterpreter(final CASmpreduce casInstance) {
+	public static synchronized Interpretable getStaticInterpreter(final CASmpreduceW casInstance) {
 		if (!asyncstarted ) {
 			asyncstarted = true;
 			GWT.runAsync(new RunAsyncCallback() {

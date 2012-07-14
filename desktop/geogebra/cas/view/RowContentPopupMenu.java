@@ -2,9 +2,9 @@ package geogebra.cas.view;
 
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoCasCell;
-import geogebra.main.AppD;
 import geogebra.common.util.StringUtil;
 import geogebra.gui.util.ImageSelection;
+import geogebra.main.AppD;
 
 import java.awt.Font;
 import java.awt.Toolkit;
@@ -13,6 +13,7 @@ import java.awt.datatransfer.StringSelection;
 import java.awt.datatransfer.Transferable;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import javax.swing.ImageIcon;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
@@ -28,7 +29,7 @@ public class RowContentPopupMenu extends JPopupMenu implements ActionListener {
 	private static final long serialVersionUID = 1L;
 
 	private final GeoCasCell value;
-	private final CASTable table;
+	private final CASTableD table;
 
 	/**
 	 * initializes the menu
@@ -38,7 +39,7 @@ public class RowContentPopupMenu extends JPopupMenu implements ActionListener {
 	 * @param table
 	 *            needed to get the {@link AppD}
 	 */
-	public RowContentPopupMenu(GeoCasCell value, CASTable table) {
+	public RowContentPopupMenu(GeoCasCell value, CASTableD table) {
 		this.value = value;
 		this.table = table;
 

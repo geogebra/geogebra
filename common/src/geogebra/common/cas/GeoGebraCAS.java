@@ -1,6 +1,6 @@
 package geogebra.common.cas;
 
-import geogebra.common.cas.mpreduce.AbstractCASmpreduce;
+import geogebra.common.cas.mpreduce.CASmpreduce;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.Command;
@@ -37,7 +37,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	private App app;
 	private CASparser casParser;
 	private CASGenericInterface cas;
-	private AbstractCASmpreduce casMPReduce;
+	private CASmpreduce casMPReduce;
 	private CasType currentCAS = CasType.NO_CAS;
 
 	/**
@@ -150,7 +150,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	 * CasParserToolsImpl('b')); }
 	 */
 
-	private synchronized AbstractCASmpreduce getMPReduce() {
+	private synchronized CASmpreduce getMPReduce() {
 		if (casMPReduce == null)
 			casMPReduce = geogebra.common.factories.CASFactory.prototype.newMPReduce(casParser,
 					new CasParserToolsImpl('e'),app.getKernel());

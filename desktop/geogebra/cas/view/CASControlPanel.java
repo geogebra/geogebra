@@ -1,23 +1,20 @@
 package geogebra.cas.view;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.GridLayout;
-import java.awt.Image;
-import java.awt.Insets;
-import java.awt.SystemColor;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 import geogebra.common.awt.GColor;
-import geogebra.common.factories.AwtFactory;
 import geogebra.common.gui.SetLabels;
-import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.common.util.Unicode;
 import geogebra.gui.dialog.options.OptionsUtil;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.main.AppD;
+
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridLayout;
+import java.awt.Insets;
+import java.awt.SystemColor;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -35,7 +32,7 @@ public class CASControlPanel extends JPanel implements ActionListener,
 		SetLabels {
 
 	private AppD app;
-	private CASView view;
+	private CASViewD view;
 	private JPanel numPad;
 
 	private String[][] numPadData = { { "9", "9" }, { "8", "8" }, { "7", "7" },
@@ -67,7 +64,7 @@ public class CASControlPanel extends JPanel implements ActionListener,
 
 	private JPanel bottomPanel;
 	
-	public CASControlPanel(AppD app, CASView view) {
+	public CASControlPanel(AppD app, CASViewD view) {
 		this.app = app;
 		this.view = view;
 		initGUI();
@@ -295,7 +292,7 @@ public class CASControlPanel extends JPanel implements ActionListener,
 		
 		else if (source == btnShowKeyboard) {
 			calculatorPanel.setVisible(btnShowKeyboard.isSelected());
-			view.repaint();
+			view.repaintView();
 		}
 		updateGUI();
 	}

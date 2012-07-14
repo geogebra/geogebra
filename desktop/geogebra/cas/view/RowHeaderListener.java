@@ -19,7 +19,7 @@ import javax.swing.event.ListSelectionListener;
  */
 public class RowHeaderListener extends MouseAdapter implements KeyListener, ListSelectionListener, MouseMotionListener {
 
-	private final CASTable table;
+	private final CASTableD table;
 	private final JList rowHeader;
 	private int mousePressedRow;
 	private boolean rightClick;
@@ -28,7 +28,7 @@ public class RowHeaderListener extends MouseAdapter implements KeyListener, List
 	 * @param table CAS table
 	 * @param rowHeader row headers
 	 */
-	public RowHeaderListener(CASTable table, JList rowHeader) {
+	public RowHeaderListener(CASTableD table, JList rowHeader) {
 		this.table = table;
 		this.rowHeader = rowHeader;
 	}
