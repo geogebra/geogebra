@@ -1208,7 +1208,7 @@ public class GuiManagerD extends GuiManager {
 			
 			popupMenu = new ContextMenuChooseGeoD((AppD)app, view, selectedGeos, geos, screenPos, p);
 			//popupMenu = new ContextMenuGeoElement(app, geos, screenPos);
-			((ContextMenuGraphicsWindowD) popupMenu).getWrappedPopup().show(invoker, p.x, p.y);
+			((ContextMenuChooseGeoD) popupMenu).getWrappedPopup().show(invoker, p.x, p.y);
 		}
 
 	}
