@@ -142,15 +142,15 @@ SRCVERSION=`cat ../../../common/src/geogebra/common/GeoGebraConstants.java \
  | grep "public static final String VERSION_STRING" | cut -f7 -d" " |\
  sed s/\"//g | sed s/";"// | cut -f1-2 -d.`
 
-ERRORSTRING="Incompatible source version ($SRCVERSION) and compilation target ($CV)"
+ERRORSTRING="WARNING: Incompatible source version ($SRCVERSION) and compilation target ($CV)"
 if [ "$CV" = "4.2" -a "$SRCVERSION" != "4.2" -a "$SRCVERSION" != "4.1" ]; then
  echo $ERRORSTRING
- exit 42
+ # exit 42
  fi
 
 if [ "$CV" = "5.0" -a "$SRCVERSION" != "5.0" -a "$SRCVERSION" != "4.9" ]; then
  echo $ERRORSTRING
- exit 42
+ # exit 42
  fi
 
 cd $WORKDIR
