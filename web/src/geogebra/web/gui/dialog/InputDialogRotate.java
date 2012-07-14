@@ -5,6 +5,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPolygon;
+import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
 import geogebra.web.gui.DialogManagerW;
 import geogebra.web.gui.inputfield.AutoCompleteTextFieldW;
@@ -12,7 +13,7 @@ import geogebra.web.main.AppW;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.KeyUpEvent;
-import com.google.gwt.event.dom.client.KeyUpHandler; 
+import com.google.gwt.event.dom.client.KeyUpHandler;
 
 public class InputDialogRotate extends AngleInputDialog implements KeyUpHandler {
 
@@ -174,7 +175,7 @@ public class InputDialogRotate extends AngleInputDialog implements KeyUpHandler 
 
 		// if text already contains degree symbol or variable
 		for (int i = 0; i < text.length(); i++) {
-			if (!Character.isDigit(text.charAt(i)))
+			if (!StringUtil.isDigit(text.charAt(i)))
 				return;
 		}
 

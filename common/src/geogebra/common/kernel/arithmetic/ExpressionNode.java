@@ -2354,10 +2354,10 @@ public class ExpressionNode extends ValidExpression implements
 							showMultiplicationSign =
 							// left is digit or ends with }, e.g. exponent,
 							// fraction
-							(Character.isDigit(lastLeft) || (lastLeft == '}'))
+							(StringUtil.isDigit(lastLeft) || (lastLeft == '}'))
 									&&
 									// right is digit or fraction
-									(Character.isDigit(firstRight) || rightStr
+									(StringUtil.isDigit(firstRight) || rightStr
 											.startsWith("\\frac"));
 							break;
 
@@ -2369,7 +2369,7 @@ public class ExpressionNode extends ValidExpression implements
 							// digit-digit, e.g. 3 * 5
 							showMultiplicationSign = Character
 									.isDigit(lastLeft)
-									&& (Character.isDigit(firstRight)
+									&& (StringUtil.isDigit(firstRight)
 									// 3*E23AB can't be written 3E23AB
 									|| (rightStr.charAt(0) == 'E'));
 							// check if we need a multiplication space:
@@ -2380,8 +2380,8 @@ public class ExpressionNode extends ValidExpression implements
 								// e.g. 23x
 								// need to check start and end for eg A1 * A2
 								boolean leftIsNumber = left.isLeaf()
-										&& (Character.isDigit(firstLeft) || (firstLeft == '-'))
-										&& Character.isDigit(lastLeft);
+										&& (StringUtil.isDigit(firstLeft) || (firstLeft == '-'))
+										&& StringUtil.isDigit(lastLeft);
 
 								// check if we need a multiplication space:
 								// all cases except number * character, e.g. 3x

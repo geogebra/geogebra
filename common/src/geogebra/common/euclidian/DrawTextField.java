@@ -27,6 +27,7 @@ import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoTextField;
 import geogebra.common.main.App;
+import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
 
 
@@ -177,7 +178,7 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 					
 					// return if text already contains degree symbol or variable
 					for (int i = 0 ; i < text.length() ; i++) {
-						if (!Character.isDigit(text.charAt(i))) return;
+						if (!StringUtil.isDigit(text.charAt(i))) return;
 					}
 					
 					int caretPos = textField.getCaretPosition();

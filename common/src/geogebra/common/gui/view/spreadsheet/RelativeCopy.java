@@ -1081,7 +1081,7 @@ public class RelativeCopy {
 
 		// test the first char for a digit, sign or decimal point.
 		Character c = s.charAt(0);
-		if (!(Character.isDigit(c) || c == '.' || c == '-' || c == '+' || c == '\u2212')) {
+		if (!(StringUtil.isDigit(c) || c == '.' || c == '-' || c == '+' || c == '\u2212')) {
 			return false;
 		}
 
@@ -1089,7 +1089,7 @@ public class RelativeCopy {
 		int decimalCount = 0;
 		for (int i = 1; i < s.length(); i++) {
 			c = s.charAt(i);
-			if (Character.isDigit(c)) {
+			if (StringUtil.isDigit(c)) {
 				continue;
 			}
 			if (c == '.' && decimalCount == 0) {

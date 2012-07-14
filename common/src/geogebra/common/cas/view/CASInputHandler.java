@@ -1,13 +1,14 @@
 package geogebra.common.cas.view;
 
-import java.util.ArrayList;
-
 import geogebra.common.cas.CASException;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
+import geogebra.common.util.StringUtil;
+
+import java.util.ArrayList;
 
 public class CASInputHandler {
 
@@ -734,7 +735,7 @@ public class CASInputHandler {
 				char c = str.charAt(i);
 
 				if (foundReference) {
-					if (Character.isDigit(c)) {
+					if (StringUtil.isDigit(c)) {
 						if (startOfReferenceNumber) {
 							startOfReferenceNumber = false;
 							referenceNumber = 0;

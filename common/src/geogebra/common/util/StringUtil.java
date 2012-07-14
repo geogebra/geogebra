@@ -625,14 +625,64 @@ public class StringUtil {
 	/** 
 	 * Character.isDigit() doesn't work in GWT, see
 	 * http://code.google.com/p/google-web-toolkit/issues/detail?id=1983
+	 * 
+	 * see also MyDouble.parseDouble()
 	 */
-	public static boolean isDigit(char c) {
+	public static boolean isDigit(char ch) {
 		
-		// TODO: fix for eg Arabic digits
-
-		return Character.isDigit(c);
+		// check roman first (most common)
+		if ((ch >= 0x30 && ch <= 0x39)
+		|| (ch >= 0x660 && ch <= 0x669)
+		|| (ch >= 0x6f0 && ch <= 0x6f9)
+		|| (ch >= 0x966 && ch <= 0x96f)
+		|| (ch >= 0x9e6 && ch <= 0x9ef)
+		|| (ch >= 0xa66 && ch <= 0xa6f)
+		|| (ch >= 0xae6 && ch <= 0xaef)
+		|| (ch >= 0xb66 && ch <= 0xb6f)
+		|| (ch >= 0xbe6 && ch <= 0xbef) // Java (5?) bug: \u0BE6 not recognized by Character.isDigit()
+		|| (ch >= 0xc66 && ch <= 0xc6f)
+		|| (ch >= 0xce6 && ch <= 0xcef)
+		|| (ch >= 0xd66 && ch <= 0xd6f)
+		|| (ch >= 0xe50 && ch <= 0xe59)
+		|| (ch >= 0xed0 && ch <= 0xed9)
+		|| (ch >= 0xf20 && ch <= 0xf29)
+		|| (ch >= 0x1040 && ch <= 0x1049)
+		|| (ch >= 0x17e0 && ch <= 0x17e9)
+		|| (ch >= 0x1810 && ch <= 0x1819)
+		|| (ch >= 0x1b50 && ch <= 0x1b59) // not recognized by Java's version of Character.isDigit() !
+		|| (ch >= 0x1bb0 && ch <= 0x1bb9) // not recognized by Java's version of Character.isDigit() !
+		|| (ch >= 0x1c40 && ch <= 0x1c49) // not recognized by Java's version of Character.isDigit() !
+		|| (ch >= 0x1c50 && ch <= 0x1c59) // not recognized by Java's version of Character.isDigit() !
+		 || (ch >= 0xa8d0 && ch <= 0xa8d9) // not recognized by Java's version of Character.isDigit() !
+// following not handled by GeoGebra's parser
+//		|| (ch >= 0x1369 && ch <= 0x1371) // Ethiopic
+//		|| (ch >= 0x1946 && ch <= 0x194F) // Limbu
+//		|| (ch >= 0xFF10 && ch <= 0xFF19) //"FULL WIDTH" digits
+				) {
+			return true;
+		}
+		
+		return false;
 	}
+	
+	/*
+	public static void test() {
+		App.debug("starting test");
+		
 
+		for (int c = 0; c < 65536; ++c) {
+			//System.out.println("            assert Character.isLetter((char)c) == Unicode.isLetter((char)c) : c;");
+//App.debug(c);
+			if (Character.isDigit((char)c) != isDigit((char)c)) {
+				App.debug("isDigit failed "+c + " "+toHexString((char)c)+Character.isDigit((char)c)+" "+isDigit((char)c));
+			}
+			if (Character.isLetter((char)c) != isLetter((char)c)) {
+				App.debug("isLetter failed "+c + " "+toHexString((char)c)+Character.isDigit((char)c)+" "+isDigit((char)c));
+			}
+		}
+		App.debug("ending test");
+		
+	}*/
 
 
 	/** 

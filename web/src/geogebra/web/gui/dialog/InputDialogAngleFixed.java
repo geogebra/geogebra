@@ -7,6 +7,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoSegment;
+import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
 import geogebra.web.gui.DialogManagerW;
 import geogebra.web.gui.inputfield.AutoCompleteTextFieldW;
@@ -136,7 +137,7 @@ public class InputDialogAngleFixed extends AngleInputDialog implements KeyUpHand
 		
 		// if text already contains degree symbol or variable
 		for (int i = 0 ; i < text.length() ; i++) {
-			if (!Character.isDigit(text.charAt(i))) return;
+			if (!StringUtil.isDigit(text.charAt(i))) return;
 		}
 		
 		int caretPos = tc.getCaretPosition();

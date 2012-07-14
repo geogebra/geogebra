@@ -2673,7 +2673,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	private void updateSpreadsheetCoordinates() {
 		if (labelSet && (label.length() > 0)
 				&& StringUtil.isLetter(label.charAt(0)) // starts with letter
-				&& Character.isDigit(label.charAt(label.length() - 1))) // ends
+				&& StringUtil.isDigit(label.charAt(label.length() - 1))) // ends
 																		// with
 																		// digit
 		{
@@ -7018,7 +7018,7 @@ public abstract class GeoElement extends ConstructionElement implements
 					if (closeBraceIndex > i + 2) {
 						for (int j = i+2 ; j < closeBraceIndex ; j++) {
 							char ch2 = latex.charAt(j);
-							if (!Character.isDigit(ch2) && ch2 != '-') {
+							if (!StringUtil.isDigit(ch2) && ch2 != '-') {
 								return true;
 							}
 						}

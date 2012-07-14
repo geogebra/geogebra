@@ -12,9 +12,6 @@
 
 package geogebra.common.cas;
 
-import java.util.List;
-import java.util.Map;
-
 import geogebra.common.cas.mpreduce.Ggb2MPReduce;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
@@ -26,8 +23,8 @@ import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.FunctionNVar;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
-import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.arithmetic.Traversing.DerivativeCollector;
+import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.cas.CASGenericInterface;
 import geogebra.common.kernel.cas.CASParserInterface;
 import geogebra.common.kernel.geos.GeoDummyVariable;
@@ -36,6 +33,10 @@ import geogebra.common.kernel.parser.ParseException;
 import geogebra.common.kernel.parser.Parser;
 import geogebra.common.kernel.parser.cashandlers.ParserFunctions;
 import geogebra.common.main.App;
+import geogebra.common.util.StringUtil;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * Handles parsing and evaluating of input in the CAS view.
@@ -301,7 +302,7 @@ public class CASparser implements CASParserInterface{
 					// try to get the unicode
 					int code = 0;
 					char digit;
-					while (j < len && Character.isDigit(digit = str.charAt(j))) {
+					while (j < len && StringUtil.isDigit(digit = str.charAt(j))) {
 						code = 10 * code + (digit - 48);
 						j++;
 					}

@@ -2021,7 +2021,7 @@ public class MyXMLHandler implements DocHandler {
 								converted.append(toolbarStr.charAt(lv));
 							}
 						} else if (thousande < 4) {
-							if (Character.isDigit(toolbarStr.charAt(lv))) {
+							if (StringUtil.isDigit(toolbarStr.charAt(lv))) {
 								thousande++;
 								addendum.append(toolbarStr.charAt(lv));
 							} else {
@@ -2035,7 +2035,7 @@ public class MyXMLHandler implements DocHandler {
 							if (lv + 1 == toolbarStr.length()) {
 								converted.append("100"
 										+ addendum.toString().substring(1));
-							} else if (!Character.isDigit(toolbarStr
+							} else if (!StringUtil.isDigit(toolbarStr
 									.charAt(lv + 1))) {
 								converted.append("100"
 										+ addendum.toString().substring(1));
