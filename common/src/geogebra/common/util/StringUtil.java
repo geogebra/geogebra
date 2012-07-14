@@ -615,11 +615,22 @@ public class StringUtil {
 	 * http://code.google.com/p/google-web-toolkit/issues/detail?id=1983
 	 */
 	public static boolean isLetterOrDigit(char c) {
-		if (Character.isLetterOrDigit(c)) {
+		if (isDigit(c)) {
 			return true;
 		}
 
 		return isLetter(c);
+	}
+
+	/** 
+	 * Character.isDigit() doesn't work in GWT, see
+	 * http://code.google.com/p/google-web-toolkit/issues/detail?id=1983
+	 */
+	public static boolean isDigit(char c) {
+		
+		// TODO: fix for eg Arabic digits
+
+		return Character.isDigit(c);
 	}
 
 
