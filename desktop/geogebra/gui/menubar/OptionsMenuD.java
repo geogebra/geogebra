@@ -68,10 +68,10 @@ public class OptionsMenuD extends BaseMenu implements ActionListener, MyActionLi
 		OptionsMenu.addAlgebraDescriptionMenu(this);		
 		// point capturing
 		OptionsMenu.addPointCapturingMenu(this);		
-		OptionsMenu.addDecimalPlacesMenu(this, app);
+		OptionsMenu.addDecimalPlacesMenu(this);
 		addSeparator();
 		// Labeling
-		OptionsMenu.addLabelingMenu(this, app);
+		OptionsMenu.addLabelingMenu(this);
 
 		//add(drawingPadPropAction);	
 
@@ -340,9 +340,7 @@ public class OptionsMenuD extends BaseMenu implements ActionListener, MyActionLi
 
 	@Override
 	public void update() {
-		OptionsMenu.updateMenuDecimalPlaces();
-		OptionsMenu.updateMenuPointCapturing();
-		OptionsMenu.updateMenuViewDescription();
+		OptionsMenu.update();
 	}
 	
 	/**
@@ -410,7 +408,7 @@ public class OptionsMenuD extends BaseMenu implements ActionListener, MyActionLi
 	 */
 	public void actionPerformed(ActionEvent event) {
 		String cmd = event.getActionCommand();
-		OptionsMenu.processActionPerformed(cmd,app, kernel);
+		OptionsMenu.processActionPerformed(cmd);
 	}
 
 	@Override
@@ -419,7 +417,7 @@ public class OptionsMenuD extends BaseMenu implements ActionListener, MyActionLi
 	}
 
 	public void actionPerformed(String command) {
-		OptionsMenu.processActionPerformed(command, app, kernel);	
+		OptionsMenu.processActionPerformed(command);	
 	}
 
 

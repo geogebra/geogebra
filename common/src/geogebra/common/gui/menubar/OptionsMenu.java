@@ -18,14 +18,17 @@ public abstract class OptionsMenu {
 	private static App app;
 	static Kernel kernel;
 	
+	/**
+	 * Sets the value of app field.
+	 * @param application
+	 */
 	public static void init(App application){
 		app = application;
 		kernel = app.getKernel();
 	}
 	
 
-	public static void processActionPerformed(String cmd,
-			App app, Kernel kernel) {
+	public static void processActionPerformed(String cmd) {
 		// decimal places
 		if (cmd.endsWith("decimals")) {
 			try {
@@ -96,6 +99,10 @@ public abstract class OptionsMenu {
 		}			
     }
 
+	/**
+	 * Adds the "Algebra description" menu for the menu given in parameter 
+	 * @param menu "Algebra description menu will be added for this
+	 */
 	public static void addAlgebraDescriptionMenu(MenuInterface menu){	
 		menuAlgebraStyle = Factory.prototype.newRadioButtonMenuBar(app);
 		
@@ -113,11 +120,8 @@ public abstract class OptionsMenu {
 		}, strDescription, strDescriptionAC, 0, false);
 		app.addMenuItem(menu, app.getEmptyIconFileName(), "AlgebraDescriptions", true,
 				menuAlgebraStyle);
-
-		app.getMenu("AlgebraDescriptions");
 		
-		updateMenuViewDescription();
-	
+		updateMenuViewDescription();	
 	}
 	
 	/**
@@ -157,7 +161,7 @@ public abstract class OptionsMenu {
 
 	}
 	
-	public static void addDecimalPlacesMenu(MenuInterface menu, App app){
+	public static void addDecimalPlacesMenu(MenuInterface menu){
 		menuDecimalPlaces = Factory.prototype.newRadioButtonMenuBar(app);
 
 		/*
@@ -177,7 +181,7 @@ public abstract class OptionsMenu {
 	}
 	
 	
-	public static void addLabelingMenu(MenuInterface menu, App app){	
+	public static void addLabelingMenu(MenuInterface menu){	
 		menuLabeling = Factory.prototype.newRadioButtonMenuBar(app);
 		
 		String[] lstr = { "Labeling.automatic", "Labeling.on", "Labeling.off",
@@ -189,13 +193,13 @@ public abstract class OptionsMenu {
 		
 		app.addMenuItem(menu, "mode_showhidelabel_16.gif", app.getMenu("Labeling"), true, menuLabeling);
 		
-		updateMenuLabeling(app);
+		updateMenuLabeling();
 	}
 	
 	/**
 	 * Update the selected item in the labeling capturing menu.
 	 */
-	private static void updateMenuLabeling(App app) {
+	private static void updateMenuLabeling() {
 		if (menuLabeling == null) return;
 		
 		int pos = app.getLabelingStyle();

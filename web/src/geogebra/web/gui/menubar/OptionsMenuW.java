@@ -35,9 +35,9 @@ public class OptionsMenuW extends MenuBar implements MenuInterface, MyActionList
 		//"Algebra Descriptions" menu
 		OptionsMenu.addAlgebraDescriptionMenu(this);
 		OptionsMenu.addPointCapturingMenu(this);
-		OptionsMenu.addDecimalPlacesMenu(this, app);	
+		OptionsMenu.addDecimalPlacesMenu(this);	
 		addSeparator();
-		OptionsMenu.addLabelingMenu(this, app);
+		OptionsMenu.addLabelingMenu(this);
 		addSeparator();
 		//language menu
 		addLanguageMenu();
@@ -49,22 +49,8 @@ public class OptionsMenuW extends MenuBar implements MenuInterface, MyActionList
 		        .empty().getSafeUri().asString(), app.getMenu("Language")), true, languageMenu);
 	}
 	
-	void setPointCapturing(int mode){
-		app.getEuclidianView1().setPointCapturing(mode);
-		if (app.hasEuclidianView2EitherShowingOrNot()) {
-			app.getEuclidianView2().setPointCapturing(mode);
-		}
-		app.setUnsaved();		
-	}
-	
-
-
-
-
-	
-
 	public void actionPerformed(String cmd){
-		OptionsMenu.processActionPerformed(cmd, app, kernel);
+		OptionsMenu.processActionPerformed(cmd);
 	}
 
 
