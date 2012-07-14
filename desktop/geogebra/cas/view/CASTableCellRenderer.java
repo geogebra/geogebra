@@ -1,6 +1,8 @@
 package geogebra.cas.view;
 
+import geogebra.awt.GColorD;
 import geogebra.common.kernel.geos.GeoCasCell;
+import geogebra.common.main.App;
 
 import java.awt.Component;
 
@@ -32,9 +34,12 @@ public class CASTableCellRenderer extends CASTableCell implements
 			// update font and row height
 			if (((GeoCasCell) value).isUseAsText()) {
 				setFont(view.getCASViewComponent().getFont()
-						.deriveFont(((GeoCasCell) value).getFontStyle()));// ,
+						.deriveFont(((GeoCasCell) value).getFontStyle(),(float)(12*((GeoCasCell) value).getFontSizeMultiplier())));// ,
 																			// ((GeoCasCell)
-																			// value).getFontSize()));
+				App.debug(((GeoCasCell) value).getFontColor().getBlue());
+				setForeground(GColorD.getAwtColor(((GeoCasCell) value).getFontColor()));
+				dummyField.setForeground(GColorD.getAwtColor(((GeoCasCell) value).getFontColor()));
+				this.getInputArea().setForeground(GColorD.getAwtColor(((GeoCasCell) value).getFontColor()));
 			} else
 				setFont(view.getCASViewComponent().getFont());
 			updateTableRowHeight(table, row);

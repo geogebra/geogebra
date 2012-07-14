@@ -163,7 +163,7 @@ public class CASStyleBar extends JToolBar implements ActionListener {
 		for (int i = 0; i < geos.size(); i++) {
 			GeoElement geo = geos.get(i);
 			if (geo instanceof GeoCasCell
-					&& geogebra.awt.GColorD.getAwtColor(geo.getObjectColor()) != color) {
+					) {
 				((GeoCasCell) geo)
 						.setFontColor(new geogebra.awt.GColorD(color));
 				geo.updateRepaint();
@@ -242,10 +242,10 @@ public class CASStyleBar extends JToolBar implements ActionListener {
 		createTextButtons();
 
 		add(btnUseAsText);
-		// add(btnTextColor); //TODO: Fix text color
+		add(btnTextColor); //TODO: Fix text color
 		add(btnBold);
 		add(btnItalic);
-		// add(btnTextSize); //TODO: Fix text size
+		//add(btnTextSize); //TODO: Fix text size
 
 		popupBtnList = newPopupBtnList();
 		toggleBtnList = newToggleBtnList();
