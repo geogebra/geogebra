@@ -580,7 +580,7 @@ public interface PlainConstants extends ConstantsWithLookup {
     @DefaultStringValue("Enable Scripting")
     String EnableScripting();
 
-    @DefaultStringValue("EnterPercentage")
+    @DefaultStringValue("Enter percentage")
     String EnterPercentage();
 
     @DefaultStringValue("Equation")
