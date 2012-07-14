@@ -9,16 +9,16 @@ import geogebra.common.gui.VirtualKeyboardListener;
 import geogebra.common.gui.inputfield.AltKeys;
 import geogebra.common.gui.inputfield.AutoComplete;
 import geogebra.common.gui.inputfield.MyTextField;
-import geogebra.common.gui.inputfield.ValidateAutocompletionResult;
 import geogebra.common.javax.swing.GLabel;
 import geogebra.common.kernel.Macro;
 import geogebra.common.kernel.commands.MyException;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
-import geogebra.common.main.MyError;
 import geogebra.common.main.GWTKeycodes;
+import geogebra.common.main.MyError;
 import geogebra.common.util.AutoCompleteDictionary;
 import geogebra.common.util.Korean;
+import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
 import geogebra.web.gui.autocompletion.CompletionsPopup;
 import geogebra.web.gui.util.GeoGebraIcon;
@@ -48,10 +48,10 @@ import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.FocusWidget;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.SuggestBox;
-import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.ToggleButton;
+import com.google.gwt.user.client.ui.Widget;
 
 public class AutoCompleteTextFieldW extends HorizontalPanel implements AutoComplete, geogebra.common.gui.inputfield.AutoCompleteTextField, KeyDownHandler, KeyUpHandler, KeyPressHandler, ValueChangeHandler<String>, SelectionHandler<Suggestion>, VirtualKeyboardListener {
 	
@@ -458,7 +458,7 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements AutoCompl
 		        return true;
 
 		      default:
-		        return Character.isLetterOrDigit(character);
+		        return StringUtil.isLetterOrDigit(character);
 		    }
 		  }
 	 

@@ -18,6 +18,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
 import geogebra.common.main.settings.AbstractSettings;
 import geogebra.common.main.settings.CASSettings;
+import geogebra.common.util.StringUtil;
 
 import java.util.StringTokenizer;
 
@@ -76,7 +77,7 @@ public abstract class AbstractCASmpreduce implements CASGenericInterface {
 			else {
 				for (int i = 0; i < t.length(); ++i) {
 					char c = t.charAt(i);
-					if (Character.isLetter(c) && (c < 97 || c > 122)) {
+					if (StringUtil.isLetter(c) && (c < 97 || c > 122)) {
 						sb.append('!');
 						sb.append(c);
 					} else {

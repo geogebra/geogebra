@@ -2672,7 +2672,7 @@ public abstract class GeoElement extends ConstructionElement implements
 
 	private void updateSpreadsheetCoordinates() {
 		if (labelSet && (label.length() > 0)
-				&& Character.isLetter(label.charAt(0)) // starts with letter
+				&& StringUtil.isLetter(label.charAt(0)) // starts with letter
 				&& Character.isDigit(label.charAt(label.length() - 1))) // ends
 																		// with
 																		// digit
@@ -6154,7 +6154,7 @@ public abstract class GeoElement extends ConstructionElement implements
 			return true;
 
 		default:
-			return Character.isLetterOrDigit(character);
+			return StringUtil.isLetterOrDigit(character);
 		}
 	}
 

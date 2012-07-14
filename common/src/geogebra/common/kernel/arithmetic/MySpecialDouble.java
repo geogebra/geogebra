@@ -15,6 +15,7 @@ package geogebra.common.kernel.arithmetic;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
+import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
 
 import java.math.BigDecimal;
@@ -47,7 +48,7 @@ public class MySpecialDouble extends MyDouble {
 			strToString = "0";
 		// check if this is a letter constant, e.g. Pi or Euler number
 		char firstChar = strToString.charAt(0);
-		isLetterConstant = Character.isLetter(firstChar)
+		isLetterConstant = StringUtil.isLetter(firstChar)
 				|| firstChar == Unicode.degreeChar;
 		scientificNotation = strToString.indexOf("E") > 0;
 		keepOriginalString = !isLetterConstant

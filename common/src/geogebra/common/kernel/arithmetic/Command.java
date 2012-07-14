@@ -25,6 +25,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoVec2D;
 import geogebra.common.main.App;
 import geogebra.common.main.MyError;
+import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
 
 import java.util.ArrayList;
@@ -124,7 +125,7 @@ public class Command extends ValidExpression implements ReplaceChildrenByValues,
 				return ((GeoElement) ev).getLabelSimple();
 		} else if (ev instanceof Function) {
 			String str = ev.toString(StringTemplate.defaultTemplate);
-			if (str.length() == 1 && Character.isLetter(str.charAt(0)))
+			if (str.length() == 1 && StringUtil.isLetter(str.charAt(0)))
 				return str;
 		} else if (ev instanceof GeoVec2D) {
 			if (((GeoVec2D) ev).isImaginaryUnit()) {

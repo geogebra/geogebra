@@ -1871,7 +1871,7 @@ public class Construction {
 
 		// try upper case version for spreadsheet label like a1
 		if (allowAutoCreate) {
-			if (Character.isLetter(label1.charAt(0)) // starts with letter
+			if (StringUtil.isLetter(label1.charAt(0)) // starts with letter
 					&& Character.isDigit(label1.charAt(label1.length() - 1))) // ends
 																				// with
 																				// digit
