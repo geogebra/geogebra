@@ -7,11 +7,17 @@ import java.awt.Component;
 import javax.swing.JTable;
 import javax.swing.table.TableCellRenderer;
 
+/**
+ * CAS cell renderer
+ */
 public class CASTableCellRenderer extends CASTableCell implements
 		TableCellRenderer {
 
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * @param view CAS view
+	 */
 	CASTableCellRenderer(CASViewD view) {
 		super(view);
 	}
@@ -24,9 +30,12 @@ public class CASTableCellRenderer extends CASTableCell implements
 			setValue((GeoCasCell) value);
 
 			// update font and row height
-			if(((GeoCasCell) value).isUseAsText()){
-				setFont(view.getCASViewComponent().getFont().deriveFont(((GeoCasCell) value).getFontStyle()));//, ((GeoCasCell) value).getFontSize()));
-			}else
+			if (((GeoCasCell) value).isUseAsText()) {
+				setFont(view.getCASViewComponent().getFont()
+						.deriveFont(((GeoCasCell) value).getFontStyle()));// ,
+																			// ((GeoCasCell)
+																			// value).getFontSize()));
+			} else
 				setFont(view.getCASViewComponent().getFont());
 			updateTableRowHeight(table, row);
 
@@ -38,12 +47,3 @@ public class CASTableCellRenderer extends CASTableCell implements
 	}
 
 }
-
-
-
-
-
-
-
-
-

@@ -9,7 +9,9 @@ import java.awt.Font;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-
+/**
+ * Panel for CAS output, can contain LaTeX or normal output
+ */
 public class CASOutputPanel extends JPanel {
 	
 	private static final long serialVersionUID = 1L;
@@ -27,6 +29,9 @@ public class CASOutputPanel extends JPanel {
 	private JLabel outputArea;
 	private LaTeXPanel latexPanel; 
 
+	/**
+	 * @param app application
+	 */
 	public CASOutputPanel(AppD app) {
 		setBackground(Color.white);		
 		setLayout(new BorderLayout(5,0));
@@ -48,11 +53,21 @@ public class CASOutputPanel extends JPanel {
 		add(centerPanel, BorderLayout.CENTER);
 	}
 	
+	/**
+	 * @param c foreground color
+	 */
 	public void setForeground(geogebra.common.awt.GColor c){
 		outputArea.setForeground(geogebra.awt.GColorD.getAwtColor(c));	
 		latexPanel.setForeground(geogebra.awt.GColorD.getAwtColor(c));
 	}
 	
+	/**
+	 * @param output plain output (used when latexOutput is null or isError)
+	 * @param latexOutput LaTeX  output (used when not null and !isError)
+	 * @param cmd top level command
+	 * @param isError whether outpput is error
+	 * @param c color
+	 */
 	public void setOutput(String output, String latexOutput, String cmd, boolean isError,geogebra.common.awt.GColor c){
 		boolean useLaTeXpanel = latexOutput != null && !isError;
 		outputArea.setVisible(!useLaTeXpanel);
@@ -81,10 +96,6 @@ public class CASOutputPanel extends JPanel {
 		else {
 			outputSign.setText(cmd + ":");
 		}
-	}
-
-	public String getOutput() {
-		return outputArea.getText();
 	}
 
 	@Override

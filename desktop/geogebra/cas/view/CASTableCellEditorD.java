@@ -1,5 +1,6 @@
 package geogebra.cas.view;
 
+import geogebra.common.cas.view.CASTableCellEditor;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoCasCell;
 
@@ -15,9 +16,10 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.table.TableCellEditor;
 import javax.swing.text.JTextComponent;
 
-//public class CASTableCellEditor extends DefaultCellEditor implements
-//		TableCellEditor {
-public class CASTableCellEditor extends CASTableCell implements TableCellEditor, KeyListener, geogebra.common.cas.view.CASTableCellEditor {
+/**
+ * Cell editor; handles keystrokes 
+ */
+public class CASTableCellEditorD extends CASTableCell implements TableCellEditor, KeyListener, CASTableCellEditor {
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -30,34 +32,40 @@ public class CASTableCellEditor extends CASTableCell implements TableCellEditor,
 		
 	private ArrayList<CellEditorListener> listeners = new ArrayList<CellEditorListener>();
 
-	public CASTableCellEditor(CASViewD view) {
+	/**
+	 * @param view CAS view
+	 */
+	public CASTableCellEditorD(CASViewD view) {
 		super(view);
 
 		getInputArea().addKeyListener(this);
 	}
 
-	public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
+	public Component getTableCellEditorComponent(JTable casTable, Object value, boolean isSelected, int row, int column) {
 		if (value instanceof GeoCasCell) {						
 			editing = true;
 			editingRow = row;
 									
 			// set CASTableCell value
 			this.cellValue = (GeoCasCell) value;
-			this.table = table;
+			this.table = casTable;
 			inputOnEditingStart = cellValue.getInput(StringTemplate.defaultTemplate);
 			setValue(cellValue);				
 							
 			// update font and row height
 			setFont(view.getCASViewComponent().getFont());
-			updateTableRowHeight(table, row);				
+			updateTableRowHeight(casTable, row);				
 			
 			// Set width of editor to the width of the table column.
 			// This will allow scrolling of strings that are wider than the cell. 
-			setInputPanelWidth(table.getParent().getWidth());				
+			setInputPanelWidth(casTable.getParent().getWidth());				
 		} 
 		return this;
 	}	
 	
+	/**
+	 * @return input text
+	 */
 	public String getInputText() {	
 		return getInputArea().getText();
 	}
@@ -82,11 +90,18 @@ public class CASTableCellEditor extends CASTableCell implements TableCellEditor,
 		getInputArea().setSelectionEnd(pos);
 	}	
 	
+	/**
+	 * Replaces selection with given text
+	 * @param text text
+	 */
 	public void insertText(String text) {
 		getInputArea().replaceSelection(text);
 		//getInputArea().requestFocusInWindow();
 	}
 	
+	/**
+	 * Clears input area
+	 */
 	public void clearInputSelectionText() {
 		getInputArea().setText(null);
 	}
@@ -113,6 +128,9 @@ public class CASTableCellEditor extends CASTableCell implements TableCellEditor,
 		}
 	}
 	
+	/**
+	 * @return whether this cell is being edited
+	 */
 	public boolean isEditing() {
 		return editing; //&& hasFocus();
 	}
@@ -120,7 +138,9 @@ public class CASTableCellEditor extends CASTableCell implements TableCellEditor,
 	public Object getCellEditorValue() {		
 		return cellValue;
 	}
-
+	/**
+	 * Editing canceled
+	 */
 	protected void fireEditingCanceled() {				
 		if (editing && editingRow < table.getRowCount()) {	
 			ChangeEvent ce = new ChangeEvent(this);
@@ -132,7 +152,9 @@ public class CASTableCellEditor extends CASTableCell implements TableCellEditor,
 		
 		editing = false;
 	}
-	
+	/**
+	 * Editing stopped
+	 */
 	protected void fireEditingStopped() {		
 		if (editing && editingRow < table.getRowCount()) {	
 			ChangeEvent ce = new ChangeEvent(this);
@@ -162,6 +184,9 @@ public class CASTableCellEditor extends CASTableCell implements TableCellEditor,
 		return true;
 	}
 	
+	/**
+	 * @return index of editing row
+	 */
 	public final int getEditingRow() {
 		return editingRow;
 	}
@@ -183,7 +208,7 @@ public class CASTableCellEditor extends CASTableCell implements TableCellEditor,
 	}
 
 	public void keyReleased(KeyEvent arg0) {
-
+		//do nothing
 	}
 
 	public void keyTyped(KeyEvent e) {

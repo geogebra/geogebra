@@ -1,7 +1,3 @@
-/**
- * This panel is for the input.
- */
-
 package geogebra.cas.view;
 
 import geogebra.gui.inputfield.AutoCompleteTextFieldD;
@@ -14,7 +10,9 @@ import java.awt.Font;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.text.JTextComponent;
-
+/**
+ * This panel is for the input.
+ */
 public class CASInputPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
@@ -23,6 +21,9 @@ public class CASInputPanel extends JPanel {
 	
 	private AppD app;
 	
+	/**
+	 * @param app application
+	 */
 	public CASInputPanel(AppD app) {
 		this.app = app;
 		
@@ -38,59 +39,24 @@ public class CASInputPanel extends JPanel {
 		inputArea.showPopupSymbolButton(true);
 		inputArea.setBorder(BorderFactory.createEmptyBorder());						
 		add(inputArea, BorderLayout.CENTER);
-		
-	
-//		inputArea.addFocusListener(new FocusListener() {
-//
-//			public void focusGained(FocusEvent e) {
-////				String text = inputArea.getText();
-////				int pos = text != null ? text.length() : 0;
-////				inputArea.setCaretPosition(pos);
-////				inputArea.setSelectionStart(pos);
-////				inputArea.setSelectionEnd(pos);
-//				
-//				System.out.println("inputArea focus GAINED: " + e);
-//			}
-//
-//			public void focusLost(FocusEvent e) {
-//				//System.out.println("inputArea focus LOST: " + e);	
-//				Application.printStacktrace("inputArea focus LOST: " + e);
-//			}
-//			
-//		});
-		
-//		KeyboardFocusManager focusManager =
-//		    KeyboardFocusManager.getCurrentKeyboardFocusManager();
-//		focusManager.addPropertyChangeListener(
-//		    new PropertyChangeListener() {
-//		        public void propertyChange(PropertyChangeEvent e) {
-//		        	  System.out.println(e.getPropertyName() + ": old: " + e.getOldValue() + ", new: "+ e.getNewValue() + ", source: " + e.getSource());
-//		        	  
-//		        	  if (e.getNewValue() instanceof JButton) {
-//		        		  JButton bt = (JButton) e.getNewValue();
-//		        		  System.out.println("BUTTON: " + bt.getText() + ", " + bt.getToolTipText());
-//		        	  }
-//		        	  
-////		            String prop = e.getPropertyName();
-////		            if (("focusOwner".equals(prop))) {
-////		            	e.get
-////		                Component comp = (Component)e.getNewValue();
-////		                String name = comp.getName();
-////		                System.out.println("focus owner: " + name + ", " + comp);
-////		            }
-//		        }
-//		    }
-//		);
 	}
 
+	/**
+	 * @param inValue input text
+	 */
 	public void setInput(String inValue) {
 		inputArea.setText(inValue);
 	}
-
+	/**
+	 * @return input text
+	 */
 	public String getInput() {
 		return inputArea.getText();
 	}
 
+	/**
+	 * @return input component
+	 */
 	public JTextComponent getInputArea() {
 		return inputArea;
 	}
@@ -113,12 +79,18 @@ public class CASInputPanel extends JPanel {
 		
 	}
 	
+	/**
+	 * @param col color
+	 */
 	public void setCommentColor(Color col){
 		if(col!=null){
 			inputArea.setForeground(col);
 		}
 	}
 
+	/**
+	 * Updates autocomplete dictionary
+	 */
 	public void setLabels() {
 		inputArea.setDictionary(app.getCommandDictionaryCAS());
 	}

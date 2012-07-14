@@ -2,16 +2,18 @@ package geogebra.cas.view;
 
 import javax.swing.table.DefaultTableModel;
 
+/**
+ * CAS Table model
+ */
 public class CASTableModel extends DefaultTableModel {
 
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * Creates new CAS table model
+	 */
 	public CASTableModel() {
 		super(1, 1);
-	}
-
-	public String getRowLabel(int row) {
-		return String.valueOf(row + 1);
 	}
 
 	/*

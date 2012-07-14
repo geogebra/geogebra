@@ -14,7 +14,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 /**
- * Handles mouse and key events in row headers ofthe CAS table
+ * Handles mouse and key events in row headers of the CAS table
  *
  */
 public class RowHeaderListener extends MouseAdapter implements KeyListener, ListSelectionListener, MouseMotionListener {
@@ -54,7 +54,7 @@ public class RowHeaderListener extends MouseAdapter implements KeyListener, List
 			table.stopEditing();
 			mousePressedRow = mouseDraggedRow;
 		}
-		if(e.isControlDown())
+		if(AppD.isControlDown(e))
 			rowHeader.addSelectionInterval(mousePressedRow, mouseDraggedRow);
 		else
 			rowHeader.setSelectionInterval(mousePressedRow, mouseDraggedRow);

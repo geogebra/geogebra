@@ -14,7 +14,7 @@ public class CASTableCellController implements KeyListener {
 	
 	private CASViewD view;
 	private CASTableD table;
-	private CASTableCellEditor tableCellEditor;
+	private CASTableCellEditorD tableCellEditor;
 
 	/**
 	 * @param view CAS view

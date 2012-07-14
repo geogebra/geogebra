@@ -11,6 +11,10 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
 
+/**
+ * LaTeX panel for CAS output
+ *
+ */
 public class LaTeXPanel extends JPanel {
 	
 	private static final long serialVersionUID = 1L;
@@ -21,11 +25,17 @@ public class LaTeXPanel extends JPanel {
 	private Graphics2D g2image;
 	private Dimension equSize;
 	
+	/**
+	 * @param app application
+	 */
 	public LaTeXPanel(AppD app) {
 		this.app = app;
 		ensureImageSize(100, 100);
 	}
 	
+	/**
+	 * @param latex LaTeX text
+	 */
 	public void setLaTeX(String latex) {
 		if (latex.equals(this.latex)) return;
 		

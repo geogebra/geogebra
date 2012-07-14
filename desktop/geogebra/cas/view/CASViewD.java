@@ -49,7 +49,7 @@ public class CASViewD  extends CASView implements Gridable {
 	private ListSelectionModel listSelModel;
 
 	final private AppD app;
-	final private RowHeader rowHeader;
+	final private RowHeaderD rowHeader;
 	
 	/** stylebar */
 	CASStyleBar styleBar;
@@ -79,7 +79,7 @@ public class CASViewD  extends CASView implements Gridable {
 		// CAS input/output cells
 		createCASTable();
 		// row header
-		rowHeader = new RowHeader(consoleTable, true, listSelModel);
+		rowHeader = new RowHeaderD(consoleTable, true, listSelModel);
 		getConsoleTable().setSelectionModel(listSelModel);
 		// init the scroll panel
 		JScrollPane scrollPane = new JScrollPane(
@@ -193,13 +193,6 @@ public class CASViewD  extends CASView implements Gridable {
 		};
 	}
 
-	/**
-	 * Shows dialog for substitution tool
-	 * @param prefix prefix (keep as is)
-	 * @param evalText evaluable text (do substitution here)
-	 * @param postfix postfix (keep as is again)
-	 * @param selRow row index (starting from 0)
-	 */
 	@Override
 	public void showSubstituteDialog(String prefix, String evalText,
 			String postfix, int selRow) {
@@ -244,9 +237,6 @@ public class CASViewD  extends CASView implements Gridable {
 		getConsoleTable().getEditor().getInputArea().addKeyListener(inputListener);
 	}
 
-	/**
-	 * @return CAS table
-	 */
 	@Override
 	public CASTableD getConsoleTable() {
 		return consoleTable;
@@ -265,7 +255,7 @@ public class CASViewD  extends CASView implements Gridable {
 	 * @return row headers
 	 */
 	@Override
-	public RowHeader getRowHeader() {
+	public RowHeaderD getRowHeader() {
 		return rowHeader;
 	}
 

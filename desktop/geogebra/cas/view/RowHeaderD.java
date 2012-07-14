@@ -1,19 +1,31 @@
 package geogebra.cas.view;
 
+import geogebra.common.cas.view.RowHeader;
 import geogebra.common.main.GeoGebraColorConstants;
 
 import javax.swing.BorderFactory;
 import javax.swing.JList;
 import javax.swing.ListSelectionModel;
 
-public class RowHeader extends JList implements geogebra.common.cas.view.RowHeader {
+/**
+ * Row headers for CAS cells
+ */
+public class RowHeaderD extends JList implements RowHeader {
 
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * Width of row headers
+	 */
 	public static final int ROW_HEADER_WIDTH = 30;
 
 
-	public RowHeader(CASTableD table, boolean multipleIntervalSelection, ListSelectionModel lsModel) {
+	/**
+	 * @param table CAS table
+	 * @param multipleIntervalSelection whether multiple intervals should be possible to select
+	 * @param lsModel selection model
+	 */
+	public RowHeaderD(CASTableD table, boolean multipleIntervalSelection, ListSelectionModel lsModel) {
 		setModel(new RowHeaderListModel(table));
 		setSelectionModel(lsModel);
 		if (multipleIntervalSelection) {

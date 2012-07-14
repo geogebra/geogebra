@@ -9,16 +9,35 @@ import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
-
+/**
+ * Platform independent abstract CAS view
+ */
 public abstract class CASView implements View{
 	private GeoGebraCAS cas;
+	/** kernel */
 	protected Kernel kernel;
+	/** input handler */
 	protected CASInputHandler casInputHandler;
 	private boolean toolbarIsUpdatedByDockPanel;
+	/**
+	 * @return CAS table
+	 */
 	public abstract CASTable getConsoleTable();
-	
+	/**
+	 * @return application
+	 */
 	public abstract App getApp();
+	/**
+	 * @return row headers
+	 */
 	public abstract RowHeader getRowHeader();
+	/**
+	 * Shows dialog for substitution tool
+	 * @param prefix prefix (keep as is)
+	 * @param evalText evaluable text (do substitution here)
+	 * @param postfix postfix (keep as is again)
+	 * @param selRow row index (starting from 0)
+	 */
 	public abstract void showSubstituteDialog(String prefix, String evalText,
 			String postfix, int selRow);
 	

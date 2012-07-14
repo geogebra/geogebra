@@ -58,7 +58,7 @@ public class CASTableD extends JTable implements CASTable{
 	/** CAS view */
 	protected CASViewD view;
 
-	private CASTableCellEditor editor;
+	private CASTableCellEditorD editor;
 	private CASTableCellRenderer renderer;
 	private int currentWidth;
 	private boolean rightClick = false;
@@ -92,7 +92,7 @@ public class CASTableD extends JTable implements CASTable{
 		this.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 
 		// init editor and renderer
-		editor = new CASTableCellEditor(view);
+		editor = new CASTableCellEditorD(view);
 		renderer = new CASTableCellRenderer(view);
 		getColumnModel().getColumn(COL_CAS_CELLS).setCellEditor(editor);
 		getColumnModel().getColumn(COL_CAS_CELLS).setCellRenderer(renderer);
@@ -363,7 +363,6 @@ public class CASTableD extends JTable implements CASTable{
 	 * Stops editing of current cell
 	 */
 	public void stopEditing() {
-		App.printStacktrace("");
 		if (!isEditing())
 			return;
 		// stop editing
@@ -377,7 +376,7 @@ public class CASTableD extends JTable implements CASTable{
 	 * 
 	 * @return cell editor
 	 */
-	public CASTableCellEditor getEditor() {
+	public CASTableCellEditorD getEditor() {
 		return editor;
 	}
 

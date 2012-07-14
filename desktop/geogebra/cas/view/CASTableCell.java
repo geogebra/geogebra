@@ -15,17 +15,26 @@ import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.text.JTextComponent;
-
+/**
+ * CAS cell component
+ */
 public abstract class CASTableCell extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-
+	/** input panel */
 	protected CASInputPanel inputPanel;
+	/** output panel */
 	protected CASOutputPanel outputPanel;
-	protected MyTextField dummyField; // dummy label used to get preferred size;
+	/** dummy label used to get preferred size; */
+	protected MyTextField dummyField;
+	/** application */
 	protected AppD app;
+	/** CAS view */
 	protected CASViewD view;
 
+	/**
+	 * @param view CAS view
+	 */
 	public CASTableCell(CASViewD view) {
 		this.view = view;
 		this.app = view.getApp();
@@ -81,10 +90,16 @@ public abstract class CASTableCell extends JPanel {
 		return d;
 	}
 
+	/**
+	 * @return input panel height
+	 */
 	public int getInputPanelHeight() {
 		return inputPanel.getHeight();
 	}
 
+	/**
+	 * @return output panel height
+	 */
 	public int getOutputPanelHeight() {
 		return outputPanel.getHeight();
 	}
@@ -92,6 +107,7 @@ public abstract class CASTableCell extends JPanel {
 	/**
 	 * Sets the width of the input panel. Use width = -1 to set width to the
 	 * full input string length.
+	 * @param width desired width
 	 */
 	public void setInputPanelWidth(int width) {
 
@@ -104,6 +120,10 @@ public abstract class CASTableCell extends JPanel {
 
 	}
 
+	/**
+	 * Fill this component with input / output of given CAS cell
+	 * @param cellValue CAS cell
+	 */
 	public void setValue(GeoCasCell cellValue) {
 		// set input panel
 		String input = cellValue.getInput(StringTemplate.defaultTemplate);
@@ -143,10 +163,17 @@ public abstract class CASTableCell extends JPanel {
 		}
 	}
 
+	/**
+	 * @param c color for input
+	 */
 	public void setInputColor(Color c) {
 		inputPanel.setForeground(c);
 	}
 
+	/**
+	 * @param table CAS table
+	 * @param row row index
+	 */
 	void updateTableRowHeight(JTable table, int row) {
 		if (isVisible()) {
 			Dimension prefSize = getPreferredSize();
@@ -159,6 +186,9 @@ public abstract class CASTableCell extends JPanel {
 		}
 	}
 
+	/**
+	 * @return input text
+	 */
 	public String getInput() {
 		return inputPanel.getInput();
 	}
@@ -172,10 +202,6 @@ public abstract class CASTableCell extends JPanel {
 			inputPanel.setInput(input);
 	}
 	
-	public String getOutput() {
-		return outputPanel.getOutput();
-	}
-
 	/**
 	 * 
 	 * @return true if the InputArea has been set focused successfully, false
@@ -185,6 +211,9 @@ public abstract class CASTableCell extends JPanel {
 		return inputPanel.setInputAreaFocused();
 	}
 
+	/**
+	 * @return input component
+	 */
 	public JTextComponent getInputArea() {
 		return inputPanel.getInputArea();
 	}
@@ -202,6 +231,9 @@ public abstract class CASTableCell extends JPanel {
 			outputPanel.setFont(ft);
 	}
 
+	/**
+	 * Updates autocomplete dictionary
+	 */
 	public void setLabels() {
 		inputPanel.setLabels();
 	}
