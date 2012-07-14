@@ -129,7 +129,7 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements AutoCompl
 		    setVerticalAlignment(ALIGN_MIDDLE);
 		    
 		    String id = DOM.createUniqueId();
-		    App.debug(id);
+		    //App.debug(id);
 		    //id = id.substring(7);
 		    
 		    textField.addStyleName("TextField");
