@@ -117,21 +117,24 @@ public class Prover extends geogebra.common.util.Prover {
         App.debug(GeoGebraOGPOutputProverProtocol.OGP_OUTPUT_RES_NUMTERMS + ": " + outputObject.getOutputResult(GeoGebraOGPOutputProverProtocol.OGP_OUTPUT_RES_NUMTERMS));
         
         // Obtaining NDG conditions:
-        Vector<String> ndgList = outputObject.getNdgList();
-        for (String ndgString : ndgList) {
-        	int i = ndgString.indexOf("[");
-        	NDGCondition ndg = new NDGCondition();
-    		ndg.setCondition(ndgString.substring(0, i));
-    		String params = ndgString.substring(i+1, ndgString.length()-1);
-    		String[] paramsArray = params.split(",");
-    		GeoElement[] geos = new GeoElement[paramsArray.length];
-    		int j = 0;
-    		for (String param : paramsArray) {
-    			geos[j] = getGeoByLabel(param.trim());
-    			j++;
-    		}
-    		ndg.setGeos(geos);
-    		addNDGcondition(ndg);
+        if (isReturnExtraNDGs()) {
+            Vector<String> ndgList = outputObject.getNdgList();
+            for (String ndgString : ndgList) {
+            	int i = ndgString.indexOf("[");
+            	NDGCondition ndg = new NDGCondition();
+        		ndg.setCondition(ndgString.substring(0, i));
+        		String params = ndgString.substring(i+1, ndgString.length()-1);
+        		String[] paramsArray = params.split(",");
+        		GeoElement[] geos = new GeoElement[paramsArray.length];
+        		int j = 0;
+        		for (String param : paramsArray) {
+        			// TODO: This is not really fast, improve this somehow:
+        			geos[j] = getGeoByLabel(param.trim());
+        			j++;
+        		}
+        		ndg.setGeos(geos);
+        		addNDGcondition(ndg);
+            }
         }
         // This would be faster if we could simply get the objects back from OGP as they are.
         
