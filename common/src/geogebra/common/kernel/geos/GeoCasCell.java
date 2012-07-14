@@ -1534,6 +1534,11 @@ public class GeoCasCell extends GeoElement implements VarString {
 		}
 
 		// set Output
+		finalizeComputation(success,result,ce,doTwinGeoUpdate);
+		return success;
+	}
+
+	private void finalizeComputation(boolean success, String result, CASException ce, boolean doTwinGeoUpdate) {
 		if (success) {
 			if (prefix.length() == 0 && postfix.length() == 0) {
 				// no prefix, no postfix: just evaluation
@@ -1567,7 +1572,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 		}
 		// set back firstComputeOutput, see setInput()
 		firstComputeOutput = false;
-		return success;
+		
 	}
 
 	/**
