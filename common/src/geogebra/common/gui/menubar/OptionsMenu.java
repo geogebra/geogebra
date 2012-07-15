@@ -45,6 +45,7 @@ public abstract class OptionsMenu {
 
 				app.setUnsaved();
 			} catch (Exception e) {
+				e.printStackTrace();
 				app.showError(e.toString());
 			}
 		}
