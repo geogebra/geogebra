@@ -1,8 +1,8 @@
 package geogebra.gui.view;
 
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.gui.view.algebra.AlgebraController;
-import geogebra.gui.view.algebra.AlgebraView;
+import geogebra.gui.view.algebra.AlgebraControllerD;
+import geogebra.gui.view.algebra.AlgebraViewD;
 
 import java.awt.event.ActionListener;
 import java.util.HashSet;
@@ -19,7 +19,7 @@ import javax.swing.Timer;
  * 
  * @author Lucas Binter
  */
-public class CompressedAlgebraView extends AlgebraView implements
+public class CompressedAlgebraView extends AlgebraViewD implements
     CompressedView {
   private static final long serialVersionUID = 6383245533545749844L;
 
@@ -43,7 +43,7 @@ public class CompressedAlgebraView extends AlgebraView implements
    *          the updates per second handled down to the extended
    *          AlgebraView
    */
-  public CompressedAlgebraView(AlgebraController algCtrl, int updatesPerSecond) {
+  public CompressedAlgebraView(AlgebraControllerD algCtrl, int updatesPerSecond) {
     this(algCtrl, updatesPerSecond, updatesPerSecond);
   }
 
@@ -56,7 +56,7 @@ public class CompressedAlgebraView extends AlgebraView implements
    * @param repaintsPerSecond
    *          the maximum repaints per second rate
    */
-  public CompressedAlgebraView(AlgebraController algCtrl, int updatesPerSecond,
+  public CompressedAlgebraView(AlgebraControllerD algCtrl, int updatesPerSecond,
       int repaintsPerSecond) {
     super(algCtrl);
     ups = updatesPerSecond;

@@ -50,8 +50,8 @@ import geogebra.gui.toolbar.ToolbarContainer;
 import geogebra.gui.util.BrowserLauncher;
 import geogebra.gui.util.GeoGebraFileChooser;
 import geogebra.gui.view.CompressedAlgebraView;
-import geogebra.gui.view.algebra.AlgebraController;
-import geogebra.gui.view.algebra.AlgebraView;
+import geogebra.gui.view.algebra.AlgebraControllerD;
+import geogebra.gui.view.algebra.AlgebraViewD;
 import geogebra.gui.view.assignment.AssignmentView;
 import geogebra.gui.view.consprotocol.ConstructionProtocolNavigation;
 import geogebra.gui.view.consprotocol.ConstructionProtocolView;
@@ -124,8 +124,8 @@ public class GuiManagerD extends GuiManager {
 	protected DialogManagerD.Factory dialogManagerFactory;
 
 	private AlgebraInput algebraInput;
-	private AlgebraController algebraController;
-	private AlgebraView algebraView;
+	private AlgebraControllerD algebraController;
+	private AlgebraViewD algebraView;
 	private CASViewD casView;
 	private SpreadsheetView spreadsheetView;
 	private EuclidianViewD euclidianView2;
@@ -306,7 +306,7 @@ public class GuiManagerD extends GuiManager {
 		return casView != null;
 	}
 
-	public AlgebraView getAlgebraView() {
+	public AlgebraViewD getAlgebraView() {
 		if (algebraView == null) {
 			initAlgebraController();
 			algebraView = newAlgebraView(algebraController);
@@ -342,11 +342,11 @@ public class GuiManagerD extends GuiManager {
 	 * @param algc
 	 * @return new algebra view
 	 */
-	protected AlgebraView newAlgebraView(AlgebraController algc) {
+	protected AlgebraViewD newAlgebraView(AlgebraControllerD algc) {
 		if (USE_COMPRESSED_VIEW) {
 			return new CompressedAlgebraView(algc, CV_UPDATES_PER_SECOND);
 		}
-		return new AlgebraView(algc);
+		return new AlgebraViewD(algc);
 	}
 
 	public ConstructionProtocolView getConstructionProtocolView() {
@@ -727,7 +727,7 @@ public class GuiManagerD extends GuiManager {
 
 	private void initAlgebraController() {
 		if (algebraController == null) {
-			algebraController = new AlgebraController(app.getKernel());
+			algebraController = new AlgebraControllerD(app.getKernel());
 		}
 	}
 

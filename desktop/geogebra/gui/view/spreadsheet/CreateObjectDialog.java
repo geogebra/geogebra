@@ -8,7 +8,7 @@ import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.gui.dialog.InputDialog;
 import geogebra.gui.inputfield.MyTextField;
-import geogebra.gui.view.algebra.InputPanel.DialogType;
+import geogebra.gui.view.algebra.InputPanelD.DialogType;
 import geogebra.main.AppD;
 
 import java.awt.BorderLayout;

@@ -21,7 +21,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.geos;
 
 import geogebra.common.euclidian.EuclidianConstants;
-import geogebra.common.kernel.AbstractAnimationManager;
+import geogebra.common.kernel.AnimationManager;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Locateable;
@@ -1583,7 +1583,7 @@ final public class GeoPoint extends GeoVec3D implements VectorValue,
 		double step = intervalWidth
 				* getAnimationSpeed()
 				* getAnimationDirection()
-				/ (AbstractAnimationManager.STANDARD_ANIMATION_TIME * frameRate);
+				/ (AnimationManager.STANDARD_ANIMATION_TIME * frameRate);
 
 		// update animation value
 		if (Double.isNaN(animationValue))

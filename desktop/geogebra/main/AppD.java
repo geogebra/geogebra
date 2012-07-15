@@ -30,7 +30,7 @@ import geogebra.common.gui.view.spreadsheet.AbstractSpreadsheetTableModel;
 import geogebra.common.io.MyXMLHandler;
 import geogebra.common.io.layout.DockPanelData;
 import geogebra.common.io.layout.Perspective;
-import geogebra.common.kernel.AbstractAnimationManager;
+import geogebra.common.kernel.AnimationManager;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.Kernel;
@@ -76,12 +76,12 @@ import geogebra.gui.layout.DockBar;
 import geogebra.gui.toolbar.Toolbar;
 import geogebra.gui.toolbar.ToolbarContainer;
 import geogebra.gui.util.ImageSelection;
-import geogebra.gui.view.algebra.AlgebraView;
+import geogebra.gui.view.algebra.AlgebraViewD;
 import geogebra.gui.view.spreadsheet.SpreadsheetTableModel;
 import geogebra.gui.view.spreadsheet.SpreadsheetTraceManager;
 import geogebra.io.MyXMLio;
-import geogebra.kernel.AnimationManager;
-import geogebra.kernel.UndoManager;
+import geogebra.kernel.AnimationManagerD;
+import geogebra.kernel.UndoManagerD;
 import geogebra.kernel.commands.CmdBarCode;
 import geogebra.kernel.geos.GeoElementGraphicsAdapterDesktop;
 import geogebra.plugin.CallJavaScript;
@@ -1892,7 +1892,7 @@ public class AppD extends App implements
 	}
 
 	@Override
-	public AlgebraView getAlgebraView() {
+	public AlgebraViewD getAlgebraView() {
 		if (guiManager == null) {
 			return null;
 		}
@@ -5026,8 +5026,8 @@ public class AppD extends App implements
 
 	@Deprecated
 	@Override
-	public UndoManager getUndoManager(Construction cons) {
-		return new UndoManager(cons);
+	public UndoManagerD getUndoManager(Construction cons) {
+		return new UndoManagerD(cons);
 	}
 
 	@Override
@@ -5036,8 +5036,8 @@ public class AppD extends App implements
 	}
 
 	@Override
-	public AbstractAnimationManager newAnimationManager(Kernel kernel2) {
-		return new AnimationManager(kernel2);
+	public AnimationManager newAnimationManager(Kernel kernel2) {
+		return new AnimationManagerD(kernel2);
 	}
 
 	@Override

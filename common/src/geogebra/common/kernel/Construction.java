@@ -101,7 +101,7 @@ public class Construction {
 	// TODO: specify type once Macro is ported
 	private ArrayList<Macro> usedMacros;
 	/** UndoManager */
-	protected AbstractUndoManager undoManager;
+	protected UndoManager undoManager;
 
 	/** default elements */
 	protected ConstructionDefaults consDefaults;
@@ -2497,7 +2497,7 @@ public class Construction {
 	/**
 	 * Stores current state of construction.
 	 * 
-	 * @see AbstractUndoManager#storeUndoInfo
+	 * @see UndoManager#storeUndoInfo
 	 */
 	public void storeUndoInfo() {
 		// undo unavailable in applets
@@ -2512,7 +2512,7 @@ public class Construction {
 	/**
 	 * Restores undo info
 	 * 
-	 * @see AbstractUndoManager#restoreCurrentUndoInfo()
+	 * @see UndoManager#restoreCurrentUndoInfo()
 	 */
 	public void restoreCurrentUndoInfo() {
 		// undo unavailable in applets
@@ -2674,7 +2674,7 @@ public class Construction {
 	 * 
 	 * @return UndoManager
 	 */
-	public AbstractUndoManager getUndoManager() {
+	public UndoManager getUndoManager() {
 		return undoManager;
 	}
 

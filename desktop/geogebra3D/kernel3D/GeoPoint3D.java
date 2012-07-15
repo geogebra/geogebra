@@ -51,7 +51,7 @@ import geogebra.common.plugin.GeoClass;
 import geogebra.common.plugin.Operation;
 import geogebra.common.util.StringUtil;
 import geogebra.euclidian.EuclidianViewD;
-import geogebra.gui.view.algebra.AlgebraView;
+import geogebra.gui.view.algebra.AlgebraViewD;
 
 import java.util.ArrayList;
 import java.util.TreeSet;
@@ -669,7 +669,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND,
 				setObjColor(ConstructionDefaults.colPoint);
 			// move from Dependent to Independent in AlgebraView
 			if (app.isUsingFullGui())
-				((AlgebraView) (app.getAlgebraView()))
+				((AlgebraViewD) (app.getAlgebraView()))
 						.rename(this);
 		}
 

@@ -33,7 +33,7 @@ import javax.swing.text.JTextComponent;
 /**
  * @author Markus Hohenwarter
  */
-public class InputPanel extends JPanel implements FocusListener, VirtualKeyboardListener {
+public class InputPanelD extends JPanel implements FocusListener, VirtualKeyboardListener {
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -52,14 +52,14 @@ public class InputPanel extends JPanel implements FocusListener, VirtualKeyboard
 	//=====================================
 	//Constructors
 	
-	public InputPanel(String initText, AppD app, int columns, boolean autoComplete) {
+	public InputPanelD(String initText, AppD app, int columns, boolean autoComplete) {
 		this(initText, app, 1, columns, true, true, null, DialogType.GeoGebraEditor);
 		AutoCompleteTextFieldD atf = (AutoCompleteTextFieldD) textComponent;
 		atf.setAutoComplete(autoComplete);
 	}		
 
 
-	public InputPanel(String initText, AppD app, int rows, int columns, boolean showSymbolPopupIcon) {
+	public InputPanelD(String initText, AppD app, int rows, int columns, boolean showSymbolPopupIcon) {
 		this(initText, app, rows, columns, showSymbolPopupIcon, false, null, DialogType.GeoGebraEditor);
 		if (textComponent instanceof AutoCompleteTextFieldD) {
 			AutoCompleteTextFieldD atf = (AutoCompleteTextFieldD) textComponent;
@@ -67,13 +67,13 @@ public class InputPanel extends JPanel implements FocusListener, VirtualKeyboard
 		}
 	}
 	
-	public InputPanel(String initText, AppD app, int rows, int columns, boolean showSymbolPopupIcon, DialogType type) {
+	public InputPanelD(String initText, AppD app, int rows, int columns, boolean showSymbolPopupIcon, DialogType type) {
 		this(initText, app, rows, columns, showSymbolPopupIcon, false, null, type);
 	}
 	
 	public enum DialogType  { TextArea, DynamicText, GeoGebraEditor }
 	
-	public InputPanel(String initText, AppD app, int rows, int columns, boolean showSymbolPopupIcon,
+	public InputPanelD(String initText, AppD app, int rows, int columns, boolean showSymbolPopupIcon,
 						boolean showSymbolButtons, KeyListener keyListener, DialogType type) {
 		
 		this.app = app;

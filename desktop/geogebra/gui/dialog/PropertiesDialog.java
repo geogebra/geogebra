@@ -25,7 +25,8 @@ import geogebra.common.main.GeoElementSelectionListener;
 import geogebra.euclidianND.EuclidianViewND;
 import geogebra.gui.GeoTreeCellRenderer;
 import geogebra.gui.color.GeoGebraColorChooser;
-import geogebra.gui.view.algebra.AlgebraView;
+import geogebra.gui.view.algebra.AlgebraTree;
+import geogebra.gui.view.algebra.AlgebraViewD;
 import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
@@ -650,7 +651,7 @@ public class PropertiesDialog extends JDialog implements WindowListener,
 			if (typeNode == null)
 				return null;
 
-			int pos = AlgebraView.binarySearchGeo(typeNode, geo.getLabelSimple());
+			int pos = AlgebraViewD.binarySearchGeo(typeNode, geo.getLabelSimple());
 			if (pos == -1) {
 				return null;
 			}
@@ -716,15 +717,15 @@ public class PropertiesDialog extends JDialog implements WindowListener,
 			}
 
 			// check if already present in type node
-			int pos = AlgebraView
+			int pos = AlgebraViewD
 					.binarySearchGeo(typeNode, geo.getLabelSimple());
 			if (pos >= 0)
 				return;
 
 			// add geo to type node
 			DefaultMutableTreeNode newNode = new DefaultMutableTreeNode(geo);
-			pos = AlgebraView.getInsertPosition(typeNode, geo,
-					AlgebraView.SortMode.DEPENDENCY);
+			pos = AlgebraTree.getInsertPosition(typeNode, geo,
+					AlgebraViewD.SortMode.DEPENDENCY);
 			treeModel.insertNodeInto(newNode, typeNode, pos);
 
 			// make sure something is selected
@@ -766,8 +767,8 @@ public class PropertiesDialog extends JDialog implements WindowListener,
 			GeoElementSpreadsheet ges = kernel
 					.getGeoElementSpreadsheet();
 
-			int pos = binarySearch ? AlgebraView.binarySearchGeo(typeNode,
-					geo.getLabelSimple()) : AlgebraView.linearSearchGeo(
+			int pos = binarySearch ? AlgebraViewD.binarySearchGeo(typeNode,
+					geo.getLabelSimple()) : AlgebraViewD.linearSearchGeo(
 					typeNode, geo.getLabelSimple());
 			if (pos > -1) {
 				DefaultMutableTreeNode child = (DefaultMutableTreeNode) typeNode
@@ -794,7 +795,7 @@ public class PropertiesDialog extends JDialog implements WindowListener,
 				return null;
 
 			// find pos of geo
-			int pos = AlgebraView.binarySearchGeo(typeNode, geo.getLabel(StringTemplate.defaultTemplate));
+			int pos = AlgebraViewD.binarySearchGeo(typeNode, geo.getLabel(StringTemplate.defaultTemplate));
 			if (pos == -1)
 				return null;
 
@@ -850,7 +851,7 @@ public class PropertiesDialog extends JDialog implements WindowListener,
 
 		public void mouseMoved(MouseEvent e) {
 			Point loc = e.getPoint();
-			GeoElement geo = AlgebraView.getGeoElementForLocation(this, loc.x,
+			GeoElement geo = AlgebraViewD.getGeoElementForLocation(this, loc.x,
 					loc.y);
 			EuclidianViewND ev = app.getActiveEuclidianView();
 
@@ -875,7 +876,7 @@ public class PropertiesDialog extends JDialog implements WindowListener,
 
 			// get GeoElement at mouse location
 			TreePath tp = getPathForLocation(e.getX(), e.getY());
-			GeoElement geo = AlgebraView.getGeoElementForPath(tp);
+			GeoElement geo = AlgebraViewD.getGeoElementForPath(tp);
 
 			if (geo != null) {
 				// check if we clicked on the 16x16 show/hide icon

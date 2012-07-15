@@ -21,12 +21,12 @@ import javax.swing.JPopupMenu;
  * 
  * @author Florian Sonner
  */
-public class AlgebraContextMenu extends JPopupMenu {
+public class AlgebraContextMenuD extends JPopupMenu {
 	private static final long serialVersionUID = 1L;
 	
 	private AppD app;
 	
-	public AlgebraContextMenu(AppD app){
+	public AlgebraContextMenuD(AppD app){
 		this.app = app;
 		initItems();
 	}

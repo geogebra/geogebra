@@ -3,8 +3,8 @@ package geogebra.web.gui;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.GeoElementSelectionListener;
 import geogebra.web.gui.inputfield.AutoCompleteTextFieldW;
-import geogebra.web.gui.view.algebra.InputPanel;
-import geogebra.web.gui.view.algebra.InputPanel.DialogType;
+import geogebra.web.gui.view.algebra.InputPanelW;
+import geogebra.web.gui.view.algebra.InputPanelW.DialogType;
 import geogebra.web.main.AppW;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -22,7 +22,7 @@ public class InputDialogW extends  PopupPanel implements ClickHandler{
 	public static final int DEFAULT_COLUMNS = 30;
 	public static final int DEFAULT_ROWS = 10;
 	
-	protected InputPanel inputPanel;
+	protected InputPanelW inputPanel;
 		
 	protected Button btCancel, btOK;
 	protected String initString;
@@ -49,7 +49,7 @@ public class InputDialogW extends  PopupPanel implements ClickHandler{
 			boolean showProperties, boolean showApply, DialogType type) {
 
 		// Create components to be displayed
-		inputPanel = new InputPanel(initString, app, rows, columns,
+		inputPanel = new InputPanelW(initString, app, rows, columns,
 				showSymbolPopupIcon/*, type*/);
 
 		

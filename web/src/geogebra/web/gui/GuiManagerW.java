@@ -23,8 +23,8 @@ import geogebra.web.gui.layout.LayoutW;
 import geogebra.web.gui.menubar.GeoGebraMenubarW;
 import geogebra.web.gui.properties.PropertiesViewW;
 import geogebra.web.gui.util.GeoGebraFileChooser;
-import geogebra.web.gui.view.algebra.AlgebraController;
-import geogebra.web.gui.view.algebra.AlgebraView;
+import geogebra.web.gui.view.algebra.AlgebraControllerW;
+import geogebra.web.gui.view.algebra.AlgebraViewW;
 import geogebra.web.main.AppW;
 
 import java.util.ArrayList;
@@ -38,8 +38,8 @@ public class GuiManagerW extends GuiManager {
 
 	protected Kernel kernel;
 
-	private AlgebraController algebraController;
-	private AlgebraView algebraView;
+	private AlgebraControllerW algebraController;
+	private AlgebraViewW algebraView;
 
 	private AbsolutePanel main;
 
@@ -362,7 +362,7 @@ public class GuiManagerW extends GuiManager {
 		//algebraView.setShowAuxiliaryObjects(flag);
 	}
 
-	public AlgebraView getAlgebraView() {
+	public AlgebraViewW getAlgebraView() {
 		if (algebraView == null) {
 			initAlgebraController();
 			algebraView = newAlgebraView(algebraController);
@@ -378,7 +378,7 @@ public class GuiManagerW extends GuiManager {
 
 	private void initAlgebraController() {
 		if (algebraController == null) {
-			algebraController = new AlgebraController(app.getKernel());
+			algebraController = new AlgebraControllerW(app.getKernel());
 		}
 	}
 
@@ -387,11 +387,11 @@ public class GuiManagerW extends GuiManager {
 	 * @param algc
 	 * @return new algebra view
 	 */
-	protected AlgebraView newAlgebraView(AlgebraController algc) {
+	protected AlgebraViewW newAlgebraView(AlgebraControllerW algc) {
 		//if (USE_COMPRESSED_VIEW) {
 		//	return new CompressedAlgebraView(algc, CV_UPDATES_PER_SECOND);
 		//}
-		return new AlgebraView(algc);
+		return new AlgebraViewW(algc);
 	}
 
 	public void attachAlgebraView() {

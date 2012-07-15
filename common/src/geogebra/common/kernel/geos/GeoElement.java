@@ -25,7 +25,7 @@ import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.factories.FormatFactory;
 import geogebra.common.factories.LaTeXFactory;
-import geogebra.common.kernel.AbstractAnimationManager;
+import geogebra.common.kernel.AnimationManager;
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.ConstructionDefaults;
@@ -2223,7 +2223,7 @@ public abstract class GeoElement extends ConstructionElement implements
 
 		// tell animation manager
 		if (oldValue != animating) {
-			final AbstractAnimationManager am = kernel.getAnimatonManager();
+			final AnimationManager am = kernel.getAnimatonManager();
 			if (animating) {
 				am.addAnimatedGeo(this);
 			} else {

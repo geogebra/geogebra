@@ -31,7 +31,7 @@ import geogebra.gui.util.LatexTable;
 import geogebra.gui.util.PopupMenuButton;
 import geogebra.gui.util.SelectionTable;
 import geogebra.gui.util.TableSymbolsLaTeX;
-import geogebra.gui.view.algebra.InputPanel.DialogType;
+import geogebra.gui.view.algebra.InputPanelD.DialogType;
 import geogebra.main.AppD;
 
 import java.awt.BorderLayout;

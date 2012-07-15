@@ -11,8 +11,8 @@ import geogebra.common.gui.menubar.MenuInterface;
 import geogebra.common.gui.view.algebra.AlgebraView;
 import geogebra.common.gui.view.spreadsheet.AbstractSpreadsheetTableModel;
 import geogebra.common.gui.view.spreadsheet.SpreadsheetTraceManager;
-import geogebra.common.kernel.AbstractAnimationManager;
-import geogebra.common.kernel.AbstractUndoManager;
+import geogebra.common.kernel.AnimationManager;
+import geogebra.common.kernel.UndoManager;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Relation;
@@ -56,8 +56,8 @@ import geogebra.web.gui.menubar.LanguageCommand;
 import geogebra.web.html5.ArticleElement;
 import geogebra.web.io.ConstructionException;
 import geogebra.web.io.MyXMLio;
-import geogebra.web.kernel.AnimationManager;
-import geogebra.web.kernel.UndoManager;
+import geogebra.web.kernel.AnimationManagerW;
+import geogebra.web.kernel.UndoManagerW;
 import geogebra.web.properties.ColorsConstants;
 import geogebra.web.properties.CommandConstants;
 import geogebra.web.properties.ErrorConstants;
@@ -1334,13 +1334,13 @@ public class AppW extends App {
 	}
 
 	@Override
-	public AbstractUndoManager getUndoManager(Construction cons) {
-		return new UndoManager(cons);
+	public UndoManager getUndoManager(Construction cons) {
+		return new UndoManagerW(cons);
 	}
 
 	@Override
-	public AbstractAnimationManager newAnimationManager(Kernel kernel2) {
-		return new AnimationManager(kernel2);
+	public AnimationManager newAnimationManager(Kernel kernel2) {
+		return new AnimationManagerW(kernel2);
 	}
 
 	@Override

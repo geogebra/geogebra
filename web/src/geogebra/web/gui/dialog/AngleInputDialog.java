@@ -13,7 +13,7 @@ package geogebra.web.gui.dialog;
 
 import geogebra.common.gui.InputHandler;
 import geogebra.web.main.AppW;
-import geogebra.web.gui.view.algebra.InputPanel;
+import geogebra.web.gui.view.algebra.InputPanelW;
 
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -41,7 +41,7 @@ public class AngleInputDialog extends PopupPanel implements ClickHandler {
 
 	protected AppW app;
 	protected String initString;
-	protected InputPanel inputPanel;
+	protected InputPanelW inputPanel;
 	protected InputHandler inputHandler;
 
 	/**
@@ -64,7 +64,7 @@ public class AngleInputDialog extends PopupPanel implements ClickHandler {
 		//createGUI(title, message, autoComplete, DEFAULT_COLUMNS, 1, true, false, false, false, DialogType.GeoGebraEditor);
 
 		// Create components to be displayed
-		inputPanel = new InputPanel(initString, app, DEFAULT_COLUMNS, true);
+		inputPanel = new InputPanelW(initString, app, DEFAULT_COLUMNS, true);
 
 		VerticalPanel centerPanel = new VerticalPanel();
 		centerPanel.add(inputPanel);

@@ -26,7 +26,7 @@ public class AlgebraHelperBar extends JToolBar implements ActionListener {
 	/**
 	 * The algebra view which uses this tool bar.
 	 */
-	protected AlgebraView algebraView;
+	protected AlgebraViewD algebraView;
 
 	/**
 	 * Instance of the application.
@@ -60,7 +60,7 @@ public class AlgebraHelperBar extends JToolBar implements ActionListener {
 	 * @param algebraView
 	 * @param app
 	 */
-	public AlgebraHelperBar(AlgebraView algebraView, AppD app) {
+	public AlgebraHelperBar(AlgebraViewD algebraView, AppD app) {
 		this.algebraView = algebraView;
 		this.app = app;
 

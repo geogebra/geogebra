@@ -25,14 +25,14 @@ import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.event.dom.client.MouseUpHandler;
 
 
-public class AlgebraController extends geogebra.common.gui.view.algebra.AbstractAlgebraController
+public class AlgebraControllerW extends geogebra.common.gui.view.algebra.AlgebraController
 implements MouseOverHandler, MouseMoveHandler, MouseDownHandler, MouseUpHandler, MouseOutHandler {
 
 	//FIXME: make e.isControlDown like Application.isControlDown etc.
 	//FIXME: make something instead of the outcommented things, etc.
 	//FIXME: make event handling
 
-	public AlgebraController(Kernel kernel) {
+	public AlgebraControllerW(Kernel kernel) {
 		super(kernel);
 	}
 

@@ -12,8 +12,8 @@ import geogebra.gui.GuiManagerD;
 import geogebra.gui.dialog.InputDialog;
 import geogebra.gui.dialog.options.OptionsDialog;
 import geogebra.gui.layout.LayoutD;
-import geogebra.gui.view.algebra.AlgebraController;
-import geogebra.gui.view.algebra.AlgebraView;
+import geogebra.gui.view.algebra.AlgebraControllerD;
+import geogebra.gui.view.algebra.AlgebraViewD;
 import geogebra.main.AppD;
 import geogebra3D.Application3D;
 import geogebra3D.euclidianFor3D.EuclidianControllerFor3D;
@@ -217,7 +217,7 @@ public class GuiManager3D extends GuiManagerD {
 	//////////////////////////////
 	
 	@Override
-	protected AlgebraView newAlgebraView(AlgebraController algc){
+	protected AlgebraViewD newAlgebraView(AlgebraControllerD algc){
 		return new AlgebraView3D(algc);
 	}
 	

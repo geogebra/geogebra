@@ -1,7 +1,7 @@
 package geogebra.gui.view.spreadsheet;
 
 import geogebra.gui.dialog.InputDialog;
-import geogebra.gui.view.algebra.InputPanel.DialogType;
+import geogebra.gui.view.algebra.InputPanelD.DialogType;
 import geogebra.main.AppD;
 
 import java.awt.BorderLayout;

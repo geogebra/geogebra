@@ -60,7 +60,7 @@ import geogebra.gui.util.PopupMenuButton;
 import geogebra.gui.util.SelectionTable;
 import geogebra.gui.util.SpecialNumberFormat;
 import geogebra.gui.util.SpecialNumberFormatInterface;
-import geogebra.gui.view.algebra.InputPanel.DialogType;
+import geogebra.gui.view.algebra.InputPanelD.DialogType;
 import geogebra.gui.view.spreadsheet.SpreadsheetView;
 import geogebra.main.AppD;
 

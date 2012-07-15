@@ -16,7 +16,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
 
-public class AbstractAlgebraController {
+public class AlgebraController {
 
 	protected Kernel kernel;
 	protected App app;
@@ -27,7 +27,7 @@ public class AbstractAlgebraController {
 	//private boolean kernelChanged;
 
 	/** Creates new CommandProcessor */
-	public AbstractAlgebraController(Kernel kernel) {
+	public AlgebraController(Kernel kernel) {
 		this.kernel = kernel;
 		app = kernel.getApplication();		
 	}

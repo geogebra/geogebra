@@ -17,7 +17,7 @@ import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.gui.properties.SliderPanel;
-import geogebra.gui.view.algebra.InputPanel;
+import geogebra.gui.view.algebra.InputPanelD;
 import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
@@ -49,7 +49,7 @@ public class SliderDialog extends JDialog
 	private static final long serialVersionUID = 1L;
 	private JButton btApply, btCancel;
 	private JRadioButton rbNumber, rbAngle, rbInteger;
-	private InputPanel tfLabel;
+	private InputPanelD tfLabel;
 	private JPanel optionPane;
 	private JCheckBox cbRandom;
 	
@@ -119,7 +119,7 @@ public class SliderDialog extends JDialog
 		radioPanel.add(rbInteger);			
 		
 		// label textfield
-		tfLabel = new InputPanel(number.getDefaultLabel(), app, 1, 10, true);				
+		tfLabel = new InputPanelD(number.getDefaultLabel(), app, 1, 10, true);				
 		tfLabel.getTextComponent().addKeyListener(this);				
 		Border border =
 			BorderFactory.createCompoundBorder(

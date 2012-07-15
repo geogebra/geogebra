@@ -18,7 +18,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElement.ScriptType;
 import geogebra.common.main.App;
 import geogebra.gui.editor.GeoGebraEditorPane;
-import geogebra.gui.view.algebra.InputPanel.DialogType;
+import geogebra.gui.view.algebra.InputPanelD.DialogType;
 import geogebra.main.AppD;
 
 import java.awt.BorderLayout;

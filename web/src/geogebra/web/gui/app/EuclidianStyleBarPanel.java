@@ -1,7 +1,7 @@
 package geogebra.web.gui.app;
 
 import geogebra.common.main.App;
-import geogebra.web.gui.view.algebra.AlgebraView;
+import geogebra.web.gui.view.algebra.AlgebraViewW;
 import geogebra.web.euclidian.EuclidianStyleBarW;
 
 import com.google.gwt.core.client.GWT;

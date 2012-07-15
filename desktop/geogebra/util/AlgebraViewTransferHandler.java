@@ -2,7 +2,7 @@ package geogebra.util;
 
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.gui.view.algebra.AlgebraView;
+import geogebra.gui.view.algebra.AlgebraViewD;
 import geogebra.main.AppD;
 
 import java.awt.datatransfer.DataFlavor;
@@ -25,7 +25,7 @@ public class AlgebraViewTransferHandler extends TransferHandler implements Trans
 	private static final long serialVersionUID = 1L;
 	private AppD app;
 
-	public static DataFlavor algebraViewFlavor = new DataFlavor(AlgebraView.class, "algebraView");
+	public static DataFlavor algebraViewFlavor = new DataFlavor(AlgebraViewD.class, "algebraView");
 	private static final DataFlavor supportedFlavors[] = { algebraViewFlavor };
 
 	private ArrayList<String> geoLabelList;
@@ -55,7 +55,7 @@ public class AlgebraViewTransferHandler extends TransferHandler implements Trans
 			geoLabelList = new ArrayList<String>();
 		else
 			geoLabelList.clear();		
-		if (comp instanceof AlgebraView) {
+		if (comp instanceof AlgebraViewD) {
 			ArrayList<GeoElement> geos = app.getSelectedGeos();		
 			for(GeoElement geo : geos){
 				geoLabelList.add(geo.getLabel(StringTemplate.defaultTemplate));

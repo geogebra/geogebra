@@ -46,13 +46,13 @@ import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 
-public class AlgebraController extends AlgebraTreeController
+public class AlgebraControllerD extends AlgebraTreeController
 implements DragGestureListener, DragSourceListener {
 
 	private DragSource ds;
 	
 	/** Creates new CommandProcessor */
-	public AlgebraController(Kernel kernel) {
+	public AlgebraControllerD(Kernel kernel) {
 		super(kernel);
 	}
 	
@@ -94,13 +94,13 @@ implements DragGestureListener, DragSourceListener {
 	@Override	
 	public void setTree(AlgebraTree tree){
 		super.setTree(tree);
-		this.view = (AlgebraView) tree;
+		this.view = (AlgebraViewD) tree;
 	}
 	
 
 	protected void enableDnD(){
 		ds = new DragSource();
-		DragGestureRecognizer dgr = ds.createDefaultDragGestureRecognizer((AlgebraView)view, DnDConstants.ACTION_COPY_OR_MOVE, this);
+		DragGestureRecognizer dgr = ds.createDefaultDragGestureRecognizer((AlgebraViewD)view, DnDConstants.ACTION_COPY_OR_MOVE, this);
 	}
 
 	
@@ -178,7 +178,7 @@ implements DragGestureListener, DragSourceListener {
 	 */
 	class TransferableAlgebraView implements Transferable {
 
-		public final DataFlavor algebraViewFlavor = new DataFlavor(AlgebraView.class, "geoLabel list");
+		public final DataFlavor algebraViewFlavor = new DataFlavor(AlgebraViewD.class, "geoLabel list");
 		private final DataFlavor supportedFlavors[] = { algebraViewFlavor };
 
 		private ArrayList<String> geoLabelList;

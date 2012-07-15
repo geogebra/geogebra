@@ -22,8 +22,8 @@ import geogebra.common.gui.view.spreadsheet.AbstractSpreadsheetTableModel;
 import geogebra.common.gui.view.spreadsheet.SpreadsheetTraceManager;
 import geogebra.common.io.MyXMLio;
 import geogebra.common.io.layout.Perspective;
-import geogebra.common.kernel.AbstractAnimationManager;
-import geogebra.common.kernel.AbstractUndoManager;
+import geogebra.common.kernel.AnimationManager;
+import geogebra.common.kernel.UndoManager;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.Kernel;
@@ -2219,9 +2219,9 @@ public abstract class App {
 	 * @return undo manager
 	 */
 	
-	public abstract AbstractUndoManager getUndoManager(Construction cons);
+	public abstract UndoManager getUndoManager(Construction cons);
 
-	public abstract AbstractAnimationManager newAnimationManager(Kernel kernel2);
+	public abstract AnimationManager newAnimationManager(Kernel kernel2);
 
 	public abstract GeoElementGraphicsAdapter newGeoElementGraphicsAdapter();
 

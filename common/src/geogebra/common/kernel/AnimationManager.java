@@ -10,7 +10,7 @@ import java.util.TreeSet;
 /**
  * Updates all animated geos based on slider ticks
  */
-public abstract class AbstractAnimationManager {
+public abstract class AnimationManager {
 	/** animation time*/
 	public final static int STANDARD_ANIMATION_TIME = 10; // secs
 	/** max frames per second*/
@@ -31,7 +31,7 @@ public abstract class AbstractAnimationManager {
 	/**
 	 * @param kernel2 kernel
 	 */
-	public AbstractAnimationManager(Kernel kernel2) {
+	public AnimationManager(Kernel kernel2) {
 		this.kernel = kernel2;
 		animatedGeos = new ArrayList<GeoElement>();
 		changedGeos = new ArrayList<Animatable>();

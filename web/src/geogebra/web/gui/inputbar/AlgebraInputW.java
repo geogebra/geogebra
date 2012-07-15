@@ -12,7 +12,7 @@ import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.MyError;
 import geogebra.common.main.GWTKeycodes;
 import geogebra.web.gui.inputfield.AutoCompleteTextFieldW;
-import geogebra.web.gui.view.algebra.InputPanel;
+import geogebra.web.gui.view.algebra.InputPanelW;
 import geogebra.web.main.AppW;
 
 import com.google.gwt.event.dom.client.BlurEvent;
@@ -41,7 +41,7 @@ public class AlgebraInputW extends HorizontalPanel implements KeyUpHandler, Focu
 	
 	private AppW app;
 	private Label inputLabel;
-	private InputPanel inputPanel;
+	private InputPanelW inputPanel;
 	private AutoCompleteTextFieldW inputField;
 	private ToggleButton btnHelpToggle;
 
@@ -68,7 +68,7 @@ public class AlgebraInputW extends HorizontalPanel implements KeyUpHandler, Focu
 	private void initGUI() {
 	    clear();
 	    inputLabel = new Label();
-	    inputPanel = new InputPanel(null,app,30,true);
+	    inputPanel = new InputPanelW(null,app,30,true);
 	    
 	    inputField = inputPanel.getTextComponent();
 	    int inputWidth = Window.getClientWidth() - 120;

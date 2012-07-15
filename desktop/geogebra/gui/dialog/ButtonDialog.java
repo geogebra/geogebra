@@ -19,7 +19,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
 import geogebra.gui.editor.GeoGebraEditorPane;
 import geogebra.gui.inputfield.AutoCompleteTextFieldD;
-import geogebra.gui.view.algebra.InputPanel;
+import geogebra.gui.view.algebra.InputPanelD;
 import geogebra.gui.view.algebra.MyComboBoxListener;
 import geogebra.main.AppD;
 
@@ -66,7 +66,7 @@ public class ButtonDialog extends JDialog
 	private Point location;
 	private JButton btApply, btCancel;
 	private JRadioButton rbNumber, rbAngle;
-	private InputPanel tfLabel;
+	private InputPanelD tfLabel;
 	private JPanel optionPane;
 	
 	private AppD app;
@@ -74,7 +74,7 @@ public class ButtonDialog extends JDialog
 	private GeoElement geoResult = null;
 	private GeoButton button = null;
 	
-	InputPanel inputPanel, inputPanel2;
+	InputPanelD inputPanel, inputPanel2;
 	private int x,y;
 	/**
 	 * Creates a dialog to create a new GeoNumeric for a slider.
@@ -106,7 +106,7 @@ public class ButtonDialog extends JDialog
 		// create caption panel
 		JLabel captionLabel = new JLabel(app.getMenu("Button.Caption")+":");
 		String initString = button == null ? "" : button.getCaption(StringTemplate.defaultTemplate);
-		InputPanel ip = new InputPanel(initString, app, 1, 25, true);				
+		InputPanelD ip = new InputPanelD(initString, app, 1, 25, true);				
 		tfCaption = ip.getTextComponent();
 		if (tfCaption instanceof AutoCompleteTextFieldD) {
 			AutoCompleteTextFieldD atf = (AutoCompleteTextFieldD) tfCaption;
@@ -185,7 +185,7 @@ public class ButtonDialog extends JDialog
 		// create script panel
 		JLabel scriptLabel = new JLabel(app.getPlain("Script")+":");
 		initString = (button == null) ? "" : button.getClickScript();
-		InputPanel ip2 = new InputPanel(initString, app, 10, 40, false);
+		InputPanelD ip2 = new InputPanelD(initString, app, 10, 40, false);
 		Dimension dim = ((GeoGebraEditorPane) ip2.getTextComponent())
 				.getPreferredSizeFromRowColumn(10, 40);
 		ip2.setPreferredSize(dim);

@@ -496,7 +496,7 @@ public class Kernel {
 	// public abstract ColorAdapter getColorAdapter(int red, int green, int
 	// blue);
 
-	protected AbstractAnimationManager animationManager;
+	protected AnimationManager animationManager;
 
 	final public boolean isAnimationRunning() {
 		return animationManager != null && animationManager.isRunning();
@@ -3039,7 +3039,7 @@ public class Kernel {
 				row));
 	}
 
-	final public AbstractAnimationManager getAnimatonManager() {
+	final public AnimationManager getAnimatonManager() {
 		if (animationManager == null) {
 			animationManager = getApplication().newAnimationManager(this);
 		}

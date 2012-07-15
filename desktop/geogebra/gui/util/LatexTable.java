@@ -2,7 +2,7 @@ package geogebra.gui.util;
 
 import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.gui.dialog.TextInputDialog;
-import geogebra.gui.view.algebra.InputPanel;
+import geogebra.gui.view.algebra.InputPanelD;
 import geogebra.gui.view.spreadsheet.MyTable;
 import geogebra.main.AppD;
 
@@ -78,7 +78,7 @@ public class LatexTable extends SelectionTable implements MenuElement{
 			// if LaTeX string, adjust the string to include selected text within braces
 			if(mode == geogebra.common.gui.util.SelectionTable.MODE_LATEX){
 				
-				String selText = ((InputPanel)inputDialog.getInputPanel()).getSelectedText();		
+				String selText = ((InputPanelD)inputDialog.getInputPanel()).getSelectedText();		
 				if (selText != null) {
 					sb.deleteCharAt(sb.indexOf("{")+1);
 					sb.insert(sb.indexOf("{")+1, selText);

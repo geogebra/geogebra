@@ -26,7 +26,7 @@ import geogebra.common.main.settings.SettingListener;
 import geogebra.common.util.StringUtil;
 import geogebra.export.WorksheetExportDialog;
 import geogebra.gui.TitlePanel;
-import geogebra.gui.view.algebra.InputPanel;
+import geogebra.gui.view.algebra.InputPanelD;
 import geogebra.main.AppD;
 import geogebra.util.Util;
 
@@ -736,7 +736,7 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 
 		private static final long serialVersionUID = 1L;
 		
-		InputPanel inputPanel;
+		InputPanelD inputPanel;
 		GeoElement geo;
 		
 		@Override
@@ -755,7 +755,7 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 			
 			geo = data.getGeoElement(rowIndex);
 			String val = geo.getCaptionDescription(StringTemplate.defaultTemplate);		
-			inputPanel = new InputPanel("", app, 20,false);				
+			inputPanel = new InputPanelD("", app, 20,false);				
 			inputPanel.setText(val);
 			inputPanel.setEnabled(true);
 			inputPanel.setVisible(true);

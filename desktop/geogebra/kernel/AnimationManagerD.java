@@ -1,6 +1,6 @@
 package geogebra.kernel;
 
-import geogebra.common.kernel.AbstractAnimationManager;
+import geogebra.common.kernel.AnimationManager;
 import geogebra.common.kernel.Kernel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,7 +10,7 @@ import javax.swing.Timer;
  * Desktop version of animation manager
  *
  */
-public class AnimationManager extends AbstractAnimationManager implements
+public class AnimationManagerD extends AnimationManager implements
 		ActionListener {
 
 	
@@ -21,7 +21,7 @@ public class AnimationManager extends AbstractAnimationManager implements
 	 * Creates new animation manager
 	 * @param kernel kernel
 	 */
-	public AnimationManager(Kernel kernel) {
+	public AnimationManagerD(Kernel kernel) {
 		super(kernel);
 
 		timer = new Timer(1000 / MAX_ANIMATION_FRAME_RATE, this);

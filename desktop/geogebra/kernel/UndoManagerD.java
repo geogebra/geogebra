@@ -13,7 +13,7 @@ the Free Software Foundation.
 package geogebra.kernel;
 
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.AbstractUndoManager;
+import geogebra.common.kernel.UndoManager;
 import geogebra.common.main.App;
 import geogebra.common.util.CopyPaste;
 import geogebra.io.MyXMLio;
@@ -34,7 +34,7 @@ import java.security.PrivilegedAction;
  * 
  * @author Markus Hohenwarter
  */
-public class UndoManager extends AbstractUndoManager {
+public class UndoManagerD extends UndoManager {
 	
 	/**
 	 * Desktop version of ap stat: wrapper for file
@@ -71,7 +71,7 @@ public class UndoManager extends AbstractUndoManager {
 	 * Creates a new UndowManager for the given Construction.
 	 * @param cons construction
 	 */
-	public UndoManager(Construction cons) {
+	public UndoManagerD(Construction cons) {
 		super(cons);
 		xmlio = new MyXMLio(cons.getKernel(), cons);
 		cons.setXMLio(xmlio);

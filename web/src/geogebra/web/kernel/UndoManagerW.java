@@ -1,6 +1,6 @@
 package geogebra.web.kernel;
 
-import geogebra.common.kernel.AbstractUndoManager;
+import geogebra.common.kernel.UndoManager;
 import geogebra.common.kernel.Construction;
 import geogebra.common.main.App;
 import geogebra.common.util.CopyPaste;
@@ -8,7 +8,7 @@ import geogebra.web.io.MyXMLio;
 
 import com.google.gwt.storage.client.Storage;
 
-public class UndoManager extends AbstractUndoManager {
+public class UndoManagerW extends UndoManager {
 
 	private static final String TEMP_STORAGE_PREFIX = "GeoGebraUndoInfo";
 	private static long nextKeyNum = 1;
@@ -34,7 +34,7 @@ public class UndoManager extends AbstractUndoManager {
 
 	private MyXMLio xmlio;
 
-	public UndoManager(Construction cons) {
+	public UndoManagerW(Construction cons) {
 	    super(cons);
 		xmlio = new MyXMLio(cons.getKernel(), cons);
 		cons.setXMLio(xmlio);

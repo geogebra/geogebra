@@ -5,7 +5,7 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import geogebra.common.kernel.geos.GeoList;
-import geogebra.gui.view.algebra.AlgebraView;
+import geogebra.gui.view.algebra.AlgebraViewD;
 import geogebra.main.AppD;
 import geogebra.util.AlgebraViewTransferHandler;
 
@@ -386,7 +386,7 @@ public class SpreadsheetViewDnD implements DragGestureListener, DragSourceListen
 	 */
 	class TransferableAlgebraView implements Transferable {
 
-		public final DataFlavor algebraViewFlavor = new DataFlavor(AlgebraView.class, "geoLabel list");
+		public final DataFlavor algebraViewFlavor = new DataFlavor(AlgebraViewD.class, "geoLabel list");
 		private final DataFlavor supportedFlavors[] = { algebraViewFlavor };
 
 		private ArrayList<String> geoLabelList;

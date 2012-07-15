@@ -14,7 +14,7 @@ package geogebra.web.gui.view.algebra;
 
 import geogebra.common.awt.GFont;
 import geogebra.common.gui.SetLabels;
-import geogebra.common.gui.view.algebra.AbstractAlgebraController;
+import geogebra.common.gui.view.algebra.AlgebraController;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.LayerView;
 import geogebra.common.kernel.StringTemplate;
@@ -37,7 +37,7 @@ import com.google.gwt.user.client.ui.Widget;
  * 
  */
 
-public class AlgebraView extends Tree implements LayerView, SetLabels, geogebra.common.gui.view.algebra.AlgebraView {
+public class AlgebraViewW extends Tree implements LayerView, SetLabels, geogebra.common.gui.view.algebra.AlgebraView {
 
 	private static final long serialVersionUID = 1L;
 
@@ -101,9 +101,9 @@ public class AlgebraView extends Tree implements LayerView, SetLabels, geogebra.
 
 	//private AlgebraHelperBar helperBar;
 
-	private AbstractAlgebraController algebraController;
+	private AlgebraController algebraController;
 
-	public AbstractAlgebraController getAlgebraController() {
+	public AlgebraController getAlgebraController() {
 		return algebraController;
 	}
 
@@ -113,7 +113,7 @@ public class AlgebraView extends Tree implements LayerView, SetLabels, geogebra.
 	final private static boolean renderLaTeX = true;
 
 	/** Creates new AlgebraView */
-	public AlgebraView(AbstractAlgebraController algCtrl) {
+	public AlgebraViewW(AlgebraController algCtrl) {
 
 		super();
 

@@ -65,7 +65,7 @@ public class RadioButtonTreeItem extends HorizontalPanel
 	GeoElement geo;
 	Kernel kernel;
 	AppW app;
-	AlgebraView av;
+	AlgebraViewW av;
 	boolean previouslyChecked;
 	boolean LaTeX = false;
 	boolean thisIsEdited = false;
@@ -110,7 +110,7 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		geo = ge;
 		kernel = geo.getKernel();
 		app = (AppW)kernel.getApplication();
-		av = (AlgebraView)app.getAlgebraView();
+		av = (AlgebraViewW)app.getAlgebraView();
 
 		setHorizontalAlignment(HorizontalPanel.ALIGN_CENTER);
 		setVerticalAlignment(HorizontalPanel.ALIGN_MIDDLE);

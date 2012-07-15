@@ -12,7 +12,7 @@ the Free Software Foundation.
 package geogebra.gui.dialog;
 
 import geogebra.common.gui.InputHandler;
-import geogebra.gui.view.algebra.InputPanel.DialogType;
+import geogebra.gui.view.algebra.InputPanelD.DialogType;
 import geogebra.main.AppD;
 
 import java.awt.BorderLayout;

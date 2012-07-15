@@ -55,7 +55,7 @@ import javax.swing.tree.TreePath;
  * @author Markus
  * @version
  */
-public class AlgebraView extends AlgebraTree implements LayerView, Gridable, SetLabels, geogebra.common.gui.view.algebra.AlgebraView {
+public class AlgebraViewD extends AlgebraTree implements LayerView, Gridable, SetLabels, geogebra.common.gui.view.algebra.AlgebraView {
 
 	private static final long serialVersionUID = 1L;
 
@@ -104,14 +104,14 @@ public class AlgebraView extends AlgebraTree implements LayerView, Gridable, Set
 	private AlgebraHelperBar helperBar;
 
 
-	public AlgebraController getAlgebraController() {
-		return (AlgebraController) algebraController;
+	public AlgebraControllerD getAlgebraController() {
+		return (AlgebraControllerD) algebraController;
 	}
 
 
 
 	/** Creates new AlgebraView */
-	public AlgebraView(AlgebraController algCtrl) {
+	public AlgebraViewD(AlgebraControllerD algCtrl) {
 		
 		super(algCtrl);
 
@@ -141,7 +141,7 @@ public class AlgebraView extends AlgebraTree implements LayerView, Gridable, Set
 		
 
 		// enable drag n drop
-		((AlgebraController) algebraController).enableDnD();
+		((AlgebraControllerD) algebraController).enableDnD();
 
 		// attachView();
 		
@@ -689,7 +689,7 @@ public class AlgebraView extends AlgebraTree implements LayerView, Gridable, Set
 	private class MyDefaultTreeCellEditor extends DefaultTreeCellEditor
 	implements CellEditorListener {
 
-		public MyDefaultTreeCellEditor(AlgebraView tree,
+		public MyDefaultTreeCellEditor(AlgebraViewD tree,
 				DefaultTreeCellRenderer renderer, DefaultCellEditor editor) {
 			super(tree, renderer, editor);
 			// editor container that expands to fill the width of the tree's enclosing panel

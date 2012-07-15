@@ -9,7 +9,7 @@ import geogebra.common.kernel.geos.GeoButton;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
 import geogebra.web.gui.inputfield.AutoCompleteTextFieldW;
-import geogebra.web.gui.view.algebra.InputPanel;
+import geogebra.web.gui.view.algebra.InputPanelW;
 import geogebra.web.main.AppW;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -67,7 +67,7 @@ public class ButtonDialog extends PopupPanel implements ClickHandler{
 		// create caption panel
 		Label captionLabel = new Label(app.getMenu("Button.Caption")+":");
 		String initString = button == null ? "" : button.getCaption(StringTemplate.defaultTemplate);
-		InputPanel ip = new InputPanel(initString, app, 1, 25, true);				
+		InputPanelW ip = new InputPanelW(initString, app, 1, 25, true);				
 		tfCaption = ip.getTextComponent();
 		if (tfCaption instanceof AutoCompleteTextFieldW) {
 			AutoCompleteTextFieldW atf = (AutoCompleteTextFieldW) tfCaption;

@@ -12,7 +12,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
  * Creates an InputPanel for GeoGEbraWeb
  *
  */
-public class InputPanel extends HorizontalPanel {
+public class InputPanelW extends HorizontalPanel {
 
 	private AppW app;
 	private boolean autoComplete;
@@ -20,7 +20,7 @@ public class InputPanel extends HorizontalPanel {
 	private boolean showSymbolPopup;
 	public enum DialogType  { TextArea, DynamicText, GeoGebraEditor };
 
-	public InputPanel(String initText, AppW app, int columns, boolean autoComplete) {
+	public InputPanelW(String initText, AppW app, int columns, boolean autoComplete) {
 	   super();
 	   this.app = app;
 	   this.autoComplete = autoComplete;
@@ -32,7 +32,7 @@ public class InputPanel extends HorizontalPanel {
 	   add(textComponent);
     }
 
-	public InputPanel(String initText, AppW app, int rows, int columns, boolean showSymbolPopupIcon) {
+	public InputPanelW(String initText, AppW app, int rows, int columns, boolean showSymbolPopupIcon) {
 		this(initText, app, rows, columns, showSymbolPopupIcon, false/*, null*/, DialogType.GeoGebraEditor);
 		if (textComponent instanceof AutoCompleteTextFieldW) {
 			AutoCompleteTextFieldW atf = (AutoCompleteTextFieldW) textComponent;
@@ -40,7 +40,7 @@ public class InputPanel extends HorizontalPanel {
 		}
 	}
 	
-	public InputPanel(String initText, AppW app, int rows, int columns,
+	public InputPanelW(String initText, AppW app, int rows, int columns,
 	        boolean showSymbolPopupIcon, boolean showSymbolButtons,
 	        /*KeyListener keyListener,*/ DialogType type) {
 

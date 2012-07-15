@@ -2,7 +2,7 @@ package geogebra.web.gui.app;
 
 import geogebra.common.main.App;
 import geogebra.web.euclidian.event.HasOffsets;
-import geogebra.web.gui.view.algebra.AlgebraView;
+import geogebra.web.gui.view.algebra.AlgebraViewW;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style;
@@ -25,7 +25,7 @@ public class AlgebraPanel extends Composite implements RequiresResize {
 
 	@UiField ScrollPanel algebrap;
 	SimplePanel simplep;
-	AlgebraView aview = null;
+	AlgebraViewW aview = null;
 
 	public AlgebraPanel() {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -35,7 +35,7 @@ public class AlgebraPanel extends Composite implements RequiresResize {
 		//algebrapanel.add(aview);
 	}
 
-	public void setAlgebraView(AlgebraView av) {
+	public void setAlgebraView(AlgebraViewW av) {
 		if (av != aview) {
 			if (aview != null && simplep != null) {
 				simplep.remove(aview);
@@ -60,7 +60,7 @@ public class AlgebraPanel extends Composite implements RequiresResize {
 	public void attachApp(App app) {
 		if (application != app) {
 			application = app;
-			setAlgebraView((AlgebraView)application.getAlgebraView());
+			setAlgebraView((AlgebraViewW)application.getAlgebraView());
 		}
 	}
 }

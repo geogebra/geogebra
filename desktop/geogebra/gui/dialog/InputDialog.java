@@ -21,8 +21,8 @@ import geogebra.common.main.GeoElementSelectionListener;
 import geogebra.common.util.StringUtil;
 import geogebra.gui.inputfield.AutoCompleteTextFieldD;
 import geogebra.gui.util.HelpAction;
-import geogebra.gui.view.algebra.InputPanel;
-import geogebra.gui.view.algebra.InputPanel.DialogType;
+import geogebra.gui.view.algebra.InputPanelD;
+import geogebra.gui.view.algebra.InputPanelD.DialogType;
 import geogebra.gui.virtualkeyboard.VirtualKeyboard;
 import geogebra.main.AppD;
 
@@ -59,7 +59,7 @@ public class InputDialog extends JDialog implements ActionListener,
 	public static final int DEFAULT_ROWS = 10;
 
 	protected String inputText = null;
-	protected InputPanel inputPanel;
+	protected InputPanelD inputPanel;
 	protected JPanel optionPane, buttonsPanel, btPanel, btPanel2;
 
 	protected JLabel msgLabel;
@@ -206,7 +206,7 @@ public class InputDialog extends JDialog implements ActionListener,
 		setResizable(true);
 
 		// Create components to be displayed
-		inputPanel = new InputPanel(initString, app, rows, columns,
+		inputPanel = new InputPanelD(initString, app, rows, columns,
 				showSymbolPopupIcon, type);
 
 		sl = new GeoElementSelectionListener() {

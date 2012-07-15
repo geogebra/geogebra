@@ -8,7 +8,7 @@ import java.util.ListIterator;
 /**
  * Undo manager common to Desktop and Web
  */
-public abstract class AbstractUndoManager {
+public abstract class UndoManager {
 	
 	/** maximum capacity of undo info list: you can undo MAX_CAPACITY - 1 steps */
 	private static final int MAX_CAPACITY = 100;
@@ -35,7 +35,7 @@ public abstract class AbstractUndoManager {
 	/**
 	 * @param cons construction
 	*/
-	public AbstractUndoManager(Construction cons) {
+	public UndoManager(Construction cons) {
 		construction = cons;
 		app = cons.getApplication();
 		undoInfoList = new LinkedList<AppState>();

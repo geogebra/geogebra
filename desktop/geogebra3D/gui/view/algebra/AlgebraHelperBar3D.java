@@ -2,7 +2,7 @@ package geogebra3D.gui.view.algebra;
 
 import geogebra.common.gui.view.algebra.AlgebraView.SortMode;
 import geogebra.gui.view.algebra.AlgebraHelperBar;
-import geogebra.gui.view.algebra.AlgebraView;
+import geogebra.gui.view.algebra.AlgebraViewD;
 import geogebra.main.AppD;
 
 import java.awt.event.ActionEvent;
@@ -27,7 +27,7 @@ public class AlgebraHelperBar3D extends AlgebraHelperBar {
 	 * @param algebraView
 	 * @param app
 	 */
-	public AlgebraHelperBar3D(AlgebraView algebraView, AppD app) {
+	public AlgebraHelperBar3D(AlgebraViewD algebraView, AppD app) {
 		super(algebraView, app);
 	}
 	

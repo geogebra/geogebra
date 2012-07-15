@@ -26,7 +26,7 @@ import geogebra.main.AppD;
  * @author mathieu
  *
  */
-public class AlgebraTreeController extends geogebra.common.gui.view.algebra.AbstractAlgebraController
+public class AlgebraTreeController extends geogebra.common.gui.view.algebra.AlgebraController
 implements MouseListener, MouseMotionListener{
 
 	
@@ -219,7 +219,7 @@ implements MouseListener, MouseMotionListener{
 		if (app.selectedGeosSize() < 2) {				
 			if(geo == null) {
 				app.clearSelectedGeos();	
-				AlgebraContextMenu contextMenu = new AlgebraContextMenu((AppD)app);
+				AlgebraContextMenuD contextMenu = new AlgebraContextMenuD((AppD)app);
 				contextMenu.show(tree, e.getPoint().x, e.getPoint().y);
 			} else {
 				if (!app.containsSelectedGeo(geo)){

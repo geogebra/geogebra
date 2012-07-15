@@ -72,7 +72,7 @@ import geogebra.gui.util.GeoGebraIcon;
 import geogebra.gui.util.PopupMenuButton;
 import geogebra.gui.util.SelectionTable;
 import geogebra.gui.util.SpringUtilities;
-import geogebra.gui.view.algebra.InputPanel;
+import geogebra.gui.view.algebra.InputPanelD;
 import geogebra.main.AppD;
 
 import java.awt.BasicStroke;
@@ -5954,7 +5954,7 @@ class ShowConditionPanel extends JPanel implements ActionListener,
 		this.propPanel = propPanel;
 
 		// non auto complete input panel
-		InputPanel inputPanel = new InputPanel(null, app, 20, false);
+		InputPanelD inputPanel = new InputPanelD(null, app, 20, false);
 		tfCondition = (AutoCompleteTextFieldD) inputPanel.getTextComponent();
 
 		tfCondition.addActionListener(this);
@@ -6105,10 +6105,10 @@ class ColorFunctionPanel extends JPanel implements ActionListener,
 		this.propPanel = propPanel;
 
 		// non auto complete input panel
-		InputPanel inputPanelR = new InputPanel(null, app, 1, 20, true);
-		InputPanel inputPanelG = new InputPanel(null, app, 1, 20, true);
-		InputPanel inputPanelB = new InputPanel(null, app, 1, 20, true);
-		InputPanel inputPanelA = new InputPanel(null, app, 1, 20, true);
+		InputPanelD inputPanelR = new InputPanelD(null, app, 1, 20, true);
+		InputPanelD inputPanelG = new InputPanelD(null, app, 1, 20, true);
+		InputPanelD inputPanelB = new InputPanelD(null, app, 1, 20, true);
+		InputPanelD inputPanelA = new InputPanelD(null, app, 1, 20, true);
 		tfRed = (AutoCompleteTextFieldD) inputPanelR.getTextComponent();
 		tfGreen = (AutoCompleteTextFieldD) inputPanelG.getTextComponent();
 		tfBlue = (AutoCompleteTextFieldD) inputPanelB.getTextComponent();
@@ -6554,7 +6554,7 @@ class NamePanel extends JPanel implements ActionListener, FocusListener,
 
 	private AutoCompleteTextFieldD tfName, tfDefinition, tfCaption;
 	private JLabel nameLabel, defLabel, captionLabel;
-	private InputPanel inputPanelName, inputPanelDef, inputPanelCap;
+	private InputPanelD inputPanelName, inputPanelDef, inputPanelCap;
 	private RenameInputHandler nameInputHandler;
 	private RedefineInputHandler defInputHandler;
 	private GeoElement currentGeo;
@@ -6566,7 +6566,7 @@ class NamePanel extends JPanel implements ActionListener, FocusListener,
 		nameInputHandler = new RenameInputHandler(app, null, false);
 
 		// non auto complete input panel
-		inputPanelName = new InputPanel(null, app, 1, 10, true);
+		inputPanelName = new InputPanelD(null, app, 1, 10, true);
 		tfName = (AutoCompleteTextFieldD) inputPanelName.getTextComponent();
 		tfName.setAutoComplete(false);
 		tfName.addActionListener(this);
@@ -6578,14 +6578,14 @@ class NamePanel extends JPanel implements ActionListener, FocusListener,
 		// Michael Borcherds 2007-12-31 END
 
 		// definition field: non auto complete input panel
-		inputPanelDef = new InputPanel(null, app, 1, 20, true);
+		inputPanelDef = new InputPanelD(null, app, 1, 20, true);
 		tfDefinition = (AutoCompleteTextFieldD) inputPanelDef.getTextComponent();
 		tfDefinition.setAutoComplete(false);
 		tfDefinition.addActionListener(this);
 		tfDefinition.addFocusListener(this);
 
 		// caption field: non auto complete input panel
-		inputPanelCap = new InputPanel(null, app, 1, 20, true);
+		inputPanelCap = new InputPanelD(null, app, 1, 20, true);
 		tfCaption = (AutoCompleteTextFieldD) inputPanelCap.getTextComponent();
 		tfCaption.setAutoComplete(false);
 		tfCaption.addActionListener(this);

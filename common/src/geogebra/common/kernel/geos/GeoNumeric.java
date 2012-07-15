@@ -20,7 +20,7 @@ package geogebra.common.kernel.geos;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
-import geogebra.common.kernel.AbstractAnimationManager;
+import geogebra.common.kernel.AnimationManager;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
@@ -1090,7 +1090,7 @@ public class GeoNumeric extends GeoElement implements NumberValue,
 			double intervalWidth = getIntervalMax() - getIntervalMin();
 			double step = intervalWidth
 					* getAnimationSpeed()
-					/ (AbstractAnimationManager.STANDARD_ANIMATION_TIME * frameRate);
+					/ (AnimationManager.STANDARD_ANIMATION_TIME * frameRate);
 			// update animation value
 			if (Double.isNaN(animationValue) || animationValue < 0)
 				animationValue = 0;
@@ -1114,7 +1114,7 @@ public class GeoNumeric extends GeoElement implements NumberValue,
 		double step = intervalWidth
 				* getAnimationSpeed()
 				* getAnimationDirection()
-				/ (AbstractAnimationManager.STANDARD_ANIMATION_TIME * frameRate);
+				/ (AnimationManager.STANDARD_ANIMATION_TIME * frameRate);
 
 		// update animation value
 		if (Double.isNaN(animationValue))

@@ -6,9 +6,9 @@ import javax.swing.tree.DefaultMutableTreeNode;
 
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.gui.view.algebra.AlgebraController;
+import geogebra.gui.view.algebra.AlgebraControllerD;
 import geogebra.gui.view.algebra.AlgebraHelperBar;
-import geogebra.gui.view.algebra.AlgebraView;
+import geogebra.gui.view.algebra.AlgebraViewD;
 
 import geogebra3D.Application3D;
 
@@ -19,7 +19,7 @@ import geogebra3D.Application3D;
  * @author mathieu
  *
  */
-public class AlgebraView3D extends AlgebraView {
+public class AlgebraView3D extends AlgebraViewD {
 
 	/**
 	 * 
@@ -39,7 +39,7 @@ public class AlgebraView3D extends AlgebraView {
 	/**
 	 * @param algCtrl algebra controller
 	 */
-	public AlgebraView3D(AlgebraController algCtrl) {
+	public AlgebraView3D(AlgebraControllerD algCtrl) {
 		super(algCtrl);
 	}
 	
