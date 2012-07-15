@@ -1090,7 +1090,6 @@ public class CommandDispatcher {
 				return new CmdNextPreviousPrime(kernel,false);
 		
 			case CFactor:
-			case CommonDenominator:
 			case CSolutions:
 			case CSolve:
 			case Decimal:			
@@ -1104,17 +1103,24 @@ public class CommandDispatcher {
 			case Solutions:
 			case Solve:
 			case Substitute:
-			
+			case ToExponential:	
 			case NIntegral:
-			case NRoot:
-			case ToComplex:
-			case ToExponential:
-			case ToPolar:
 			case ToPoint:
-			case TrigExpand:
-			case TrigSimplify:
-			case TrigCombine:
+			case NRoot:
 				return new CAScmdProcessor(kernel);
+			case CommonDenominator:
+				return new CmdCommonDenominator(kernel);
+			case ToComplex:
+				return new CmdToComplexPolar(kernel,false);
+			case ToPolar:
+				return new CmdToComplexPolar(kernel,true);
+			case TrigExpand:
+				return new CmdTrigExpand(kernel);
+			case TrigSimplify:
+				return new CmdTrigSimplify(kernel);
+			case TrigCombine:
+				return new CmdTrigCombine(kernel);
+				
 			default:
 				App.debug("missing case in CommandDispatcher");
 				return null;

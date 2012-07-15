@@ -531,6 +531,9 @@ AlgoTo2D,AlgoDependentVector3D,
 	AlgoIsPrime(Commands.IsPrime), AlgoNextPrime(Commands.NextPrime),AlgoPreviousPrime(Commands.PreviousPrime), 
 	AlgoMatrixRank(Commands.MatrixRank),AlgoRandomPolynomial(Commands.RandomPolynomial),
 	AlgoLeftSide(Commands.LeftSide),AlgoRightSide(Commands.RightSide),AlgoImplicitDerivative(Commands.ImplicitDerivative), 
+	AlgoToPolar(Commands.ToPolar),AlgoToComplex(Commands.ToComplex),AlgoTrigSimplify(Commands.TrigSimplify),
+	AlgoTrigCombine(Commands.TrigCombine),AlgoTrigExpand(Commands.TrigExpand),AlgoCommonDenominator(Commands.CommonDenominator), 
+	AlgoPolynomialCD(Commands.CommonDenominator)
 	;
 	private String command;
 	private Algos(){
