@@ -72,12 +72,16 @@ public abstract class AlgoConicFociLength extends AlgoElement {
 		return conic;
 	}
 
-	GeoPoint getFocus1() {
+	public GeoPoint getFocus1() {
 		return A;
 	}
 
-	GeoPoint getFocus2() {
+	public GeoPoint getFocus2() {
 		return B;
+	}
+	
+	public NumberValue getLength() {
+		return a;
 	}
 
 	// compute ellipse with foci A, B and length of half axis a

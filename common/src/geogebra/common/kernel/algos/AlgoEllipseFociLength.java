@@ -25,7 +25,10 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.locusequ.EquationElement;
+import geogebra.common.kernel.locusequ.EquationList;
+import geogebra.common.kernel.locusequ.EquationPoint;
 import geogebra.common.kernel.locusequ.EquationScope;
+import geogebra.common.kernel.locusequ.elements.EquationEllipseFociLength;
 
 /**
  * Ellipse for given foci and first semi-axis length
@@ -65,13 +68,12 @@ public class AlgoEllipseFociLength extends AlgoConicFociLength {
 	@Override
 	public EquationElement buildEquationElementForGeo(GeoElement element,
 			EquationScope scope) {
-		return null;
+		return new EquationEllipseFociLength(element, scope);
 	}
-
+	
 	@Override
 	public boolean isLocusEquable() {
-		// TODO Consider locusequability
-		return false;
+		return true;
 	}
 
 }
