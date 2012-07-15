@@ -50,10 +50,4 @@ public class GeoPenStroke extends GeoPolyLine {
 		return ret;
 	}
 	
-	//@Override
-	public int xxgetTooltipMode() {
-		return TOOLTIP_OFF;
-	}
-
-
 }
