@@ -206,9 +206,27 @@ public class AlgoSurdText extends AlgoElement {
 		double[] constValues;
 		String[] constNames;
 		
+		/*
 		final double[] quadraticRootValues = new double[] {Math.sqrt(2.0), Math.sqrt(3.0), Math.sqrt(5.0), Math.sqrt(6.0), Math.sqrt(7.0), Math.sqrt(10.0)};
 		final String[] quadraticRootNames = new String[] {"sqrt(2)", "sqrt(3)","sqrt(5)", "sqrt(6)", "sqrt(7)", "sqrt(10)"};
 		final int totalNumOfQRadicals = quadraticRootValues.length;
+		*/
+		
+		int numOfQuadLists = 5;
+		final double[][] quadraticRootValues = new double[numOfQuadLists][];
+		final String[][] quadraticRootNames = new String[numOfQuadLists][];
+		
+		quadraticRootValues[0] = new double[] {Math.sqrt(2.0)};
+		quadraticRootNames[0] = new String[] {"sqrt(2)"};
+		quadraticRootValues[1] = new double[] {Math.sqrt(3.0)};
+		quadraticRootNames[1] = new String[] {"sqrt(3)"};
+		quadraticRootValues[2] = new double[] {Math.sqrt(5.0)};
+		quadraticRootNames[2] = new String[] {"sqrt(5)"};
+		quadraticRootValues[3] = new double[] {Math.sqrt(2.0), Math.sqrt(3.0), Math.sqrt(5.0)};
+		quadraticRootNames[3] = new String[] {"sqrt(2)", "sqrt(3)", "sqrt(5)"};
+		quadraticRootValues[4] = new double[] {Math.sqrt(2.0), Math.sqrt(3.0), Math.sqrt(5.0), Math.sqrt(6.0), Math.sqrt(7.0), Math.sqrt(10.0)};
+		quadraticRootNames[4] = new String[] {"sqrt(2)", "sqrt(3)","sqrt(5)", "sqrt(6)", "sqrt(7)", "sqrt(10)"};
+		final int totalNumOfQRadicals = quadraticRootValues[4].length;
 		
 		final double[] cubicRootValues = new double[] {Math.pow(2.0,1.0/3), Math.pow(4.0,1.0/3), Math.pow(3.0,1.0/3), Math.pow(9.0,1.0/3)};
 		final String[] cubicRootNames = new String[] {"2^(1/3)", "4^(1/3)", "3^(1/3)", "9^(1/3)"};
@@ -227,15 +245,57 @@ public class AlgoSurdText extends AlgoElement {
 
 		boolean success;
 		
-		success = fitLinearComb(num, 4, 4, quadraticRootNames, quadraticRootValues, 40, sb, tpl);
-		if (success)
-			return;
+		boolean testSpeed = true; //debug
 		
+		long t1 = System.currentTimeMillis();
+		long t2;
+		int timeCount=0;
+		
+		for (int i=0; i<numOfQuadLists-1; i++) {
+			success = fitLinearComb(num, quadraticRootNames[i].length, quadraticRootNames[i].length, quadraticRootNames[i], quadraticRootValues[i], 100, sb, tpl);
+			
+
+			if (testSpeed) {
+			t2 = System.currentTimeMillis();
+			System.out.println("test part " + timeCount + " uses " + (t2-t1) + "ms, where i = " + i);
+			timeCount++;
+			t1=t2;
+			}
+			
+			if (success)
+				return;
+		}
+		
+		
+		/*
 		success = fitLinearComb(num, 4, 4, cubicRootNames, cubicRootValues, 10, sb, tpl);
+		
+		if (testSpeed) {
+		t2 = System.currentTimeMillis();
+		System.out.println("test part " + timeCount + " uses " + (t2-t1) + "ms.");
+		timeCount++;
+		t1=t2;
+		}
+		
 		if (success)
 			return;
+			*/
+		
+		t2 = System.currentTimeMillis();
+		System.out.println("test part " + timeCount + " uses " + (t2-t1) + "ms.");
+		timeCount++;
+		t1=t2;
+		
 		
 		success = fitLinearComb(num, 4, 0, piNames, piValues, 10, sb, tpl);
+		if (testSpeed) {
+		t2 = System.currentTimeMillis();
+		System.out.println("test part " + timeCount + " uses " + (t2-t1) + "ms.");
+		timeCount++;
+		t1=t2;
+		}
+		
+		
 		if (success)
 			return;
 		
@@ -243,7 +303,7 @@ public class AlgoSurdText extends AlgoElement {
 		if (success)
 			return;
 		
-		success = fitLinearComb(num, 6, 6, quadraticRootNames, quadraticRootValues, 20, sb, tpl);
+		success = fitLinearComb(num, totalNumOfQRadicals, totalNumOfQRadicals, quadraticRootNames[4], quadraticRootValues[4], 20, sb, tpl);
 		if (success)
 			return;
 		
@@ -285,8 +345,8 @@ public class AlgoSurdText extends AlgoElement {
 		for (int i = 0; i<totalNumOfQRadicals; i++) {
 			
 			numOfRadicals = 1;
-			constValues[0] = quadraticRootValues[i];
-			constNames[0] = quadraticRootNames[i];
+			constValues[0] = quadraticRootValues[totalNumOfQRadicals-1][i];
+			constNames[0] = quadraticRootNames[totalNumOfQRadicals-1][i];
 			
 			fitter2 = new AlgebraicFit(numOfConsts, numOfRadicals, constNames, constValues, AlgebraicFittingType.QUADRATIC_RADICAL, tpl);
 			fitter2.setCoeffBound(10);
@@ -310,11 +370,11 @@ public class AlgoSurdText extends AlgoElement {
 			for (int i1 = i0+1; i1<totalNumOfQRadicals; i1++) {
 				
 				numOfRadicals = 2;
-				constValues[0] = quadraticRootValues[i0];
-				constNames[0] = quadraticRootNames[i0];
+				constValues[0] = quadraticRootValues[totalNumOfQRadicals-1][i0];
+				constNames[0] = quadraticRootNames[totalNumOfQRadicals-1][i0];
 				
-				constValues[1] = quadraticRootValues[i1];
-				constNames[1] = quadraticRootNames[i1];
+				constValues[1] = quadraticRootValues[totalNumOfQRadicals-1][i1];
+				constNames[1] = quadraticRootNames[totalNumOfQRadicals-1][i1];
 
 				fitter2 = new AlgebraicFit(numOfConsts, numOfRadicals, constNames, constValues, AlgebraicFittingType.QUADRATIC_RADICAL, tpl);
 				fitter2.setCoeffBound(10);
@@ -349,17 +409,34 @@ public class AlgoSurdText extends AlgoElement {
 			constNames[i1] = constNameSet[i1];
 		}
 	
+		long t1= System.currentTimeMillis();
+		long t2;
 		
 		AlgebraicFit fitter0 = new AlgebraicFit(numOfConsts, numOfRadicals, constNames, constValues, AlgebraicFittingType.LINEAR_COMBINATION, tpl);
 		fitter0.setCoeffBound(coeffBound);
 		fitter0.compute(y);
 		
+		t2 = System.currentTimeMillis();
+		System.out.println("time of algebraic fit compute: " + (t2-t1));
+		t1 = t2;
+		
 		ValidExpression ve0 = sbToCAS(fitter0.formalSolution);
+		
+		t2 = System.currentTimeMillis();
+		System.out.println("time of sb to ve: " + (t2-t1));
+		t1 = t2;
 		
 		if (fitter0.formalSolution.length()>0 && kernel.isEqual(ve0.evaluateNum().getDouble(),y)) {
 			sb1.append(
 			kernel.getGeoGebraCAS().evaluateGeoGebraCAS(ve0, null,tpl)
 			);
+			
+			
+
+			t2 = System.currentTimeMillis();
+			System.out.println("time of ve to CAS: " + (t2-t1));
+			t1 = t2;
+			
 			return true;
 		} else {
 			return false;
