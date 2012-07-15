@@ -345,8 +345,8 @@ public class AlgoSurdText extends AlgoElement {
 		for (int i = 0; i<totalNumOfQRadicals; i++) {
 			
 			numOfRadicals = 1;
-			constValues[0] = quadraticRootValues[totalNumOfQRadicals-1][i];
-			constNames[0] = quadraticRootNames[totalNumOfQRadicals-1][i];
+			constValues[0] = quadraticRootValues[numOfQuadLists-1][i];
+			constNames[0] = quadraticRootNames[numOfQuadLists-1][i];
 			
 			fitter2 = new AlgebraicFit(numOfConsts, numOfRadicals, constNames, constValues, AlgebraicFittingType.QUADRATIC_RADICAL, tpl);
 			fitter2.setCoeffBound(10);
@@ -370,11 +370,11 @@ public class AlgoSurdText extends AlgoElement {
 			for (int i1 = i0+1; i1<totalNumOfQRadicals; i1++) {
 				
 				numOfRadicals = 2;
-				constValues[0] = quadraticRootValues[totalNumOfQRadicals-1][i0];
-				constNames[0] = quadraticRootNames[totalNumOfQRadicals-1][i0];
+				constValues[0] = quadraticRootValues[numOfQuadLists-1][i0];
+				constNames[0] = quadraticRootNames[numOfQuadLists-1][i0];
 				
-				constValues[1] = quadraticRootValues[totalNumOfQRadicals-1][i1];
-				constNames[1] = quadraticRootNames[totalNumOfQRadicals-1][i1];
+				constValues[1] = quadraticRootValues[numOfQuadLists-1][i1];
+				constNames[1] = quadraticRootNames[numOfQuadLists-1][i1];
 
 				fitter2 = new AlgebraicFit(numOfConsts, numOfRadicals, constNames, constValues, AlgebraicFittingType.QUADRATIC_RADICAL, tpl);
 				fitter2.setCoeffBound(10);
