@@ -1106,7 +1106,6 @@ public class CommandDispatcher {
 			case ToExponential:	
 			case NIntegral:
 			case ToPoint:
-			case NRoot:
 				return new CAScmdProcessor(kernel);
 			case CommonDenominator:
 				return new CmdCommonDenominator(kernel);

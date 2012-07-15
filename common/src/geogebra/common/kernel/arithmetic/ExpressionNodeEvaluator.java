@@ -1509,6 +1509,37 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				str = new String[]{ "IllegalArgument", "sqrt", lt.toString(errorTemplate) };
 				throw new MyError(app, str);
 			}
+		case NROOT:
+			// sqrt(number)
+			if(rt.isNumberValue()){
+				double n = ((NumberValue)rt).getDouble();
+				MyDouble exp = new MyDouble(kernel,1/n);
+			
+				if (lt.isNumberValue()) {
+					MyDouble root = ((NumberValue) lt).getNumber();
+					if(Kernel.isGreater(0, root.getDouble()) && Kernel.isInteger(n) && Math.round(n)%2==1){
+						MyDouble.powDoubleSgnChange(root, exp, root);	
+					}else{
+						MyDouble.pow(root, exp, root);
+					}
+					return root;
+				} else if (lt.isPolynomialInstance()
+						&& (((Polynomial) lt).degree() == 0)) {
+					lt = ((Polynomial) lt).getConstantCoefficient();
+					return new Polynomial(kernel, new Term(
+							new ExpressionNode(kernel, lt, Operation.NROOT, exp),
+							""));
+				} else if (lt.isVectorValue()) {
+					vec = ((VectorValue) lt).getVector();
+	
+					// complex sqrt
+					GeoVec2D.complexPower(vec, exp, vec);
+					return vec;
+	
+				} 
+			}
+			str = new String[]{ "IllegalArgument", "sqrt", lt.toString(errorTemplate) };
+			throw new MyError(app, str);
 
 		case CBRT:
 			// cbrt(number)

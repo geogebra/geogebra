@@ -285,6 +285,14 @@ public class MyDouble extends ValidExpression implements NumberValue,
 		c.isAngle = a.isAngle && !b.isAngle;
 		c.set(Math.pow(a.val, b.val));
 	}
+	/** c = -pow(-a,b) 
+	 * @param a base
+	 * @param b exponent
+	 * @param c result*/
+	final public static void powDoubleSgnChange(MyDouble a, MyDouble b, MyDouble c) {
+		c.isAngle = a.isAngle && !b.isAngle;
+		c.set(-Math.pow(-a.val, b.val));
+	}
 	/**
 	 * @return cos(this)
 	 */

@@ -248,6 +248,9 @@ private void reset(){
 	put(1,"x", Operation.XCOORD);
 	put(1,"y", Operation.YCOORD);
 	
+	put(2,"nroot", Operation.NROOT);
+	put(2,"NRoot", Operation.NROOT);
+	
 	RESERVED_FUNCTION_NAMES.add(Unicode.IMAGINARY);
 	
 }
@@ -276,6 +279,8 @@ public void updateLocale(App app){
 		put(1,app.getFunction("asinh"), Operation.ASINH);
 		put(1,app.getFunction("acosh"), Operation.ACOSH);
 		put(1,app.getFunction("atanh"), Operation.ATANH);
+		
+		put(2,app.getCommand("NRoot"), Operation.NROOT);
 }
 /**
  * @param s function name

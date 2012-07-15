@@ -218,7 +218,7 @@ public enum Commands implements CommandsConstants{
    	
    	
    	CFactor(TABLE_ENGLISH),
-   	CommonDenominator(TABLE_ENGLISH),
+   	CommonDenominator(TABLE_ALGEBRA),
    	Cross(TABLE_ENGLISH),
    	CSolutions(TABLE_ENGLISH),
    	CSolve(TABLE_ENGLISH),
@@ -229,7 +229,6 @@ public enum Commands implements CommandsConstants{
    	Imaginary(TABLE_ENGLISH),
    	IntegerPart(TABLE_ENGLISH),
    	NIntegral(TABLE_ENGLISH),
-   	NRoot(TABLE_ENGLISH),
    	NSolve(TABLE_ENGLISH),
    	NSolutions(TABLE_ENGLISH),
    	Numeric(TABLE_ENGLISH),   	
@@ -239,13 +238,13 @@ public enum Commands implements CommandsConstants{
    	Solutions(TABLE_ENGLISH),
    	Solve(TABLE_ENGLISH),
    	Substitute(TABLE_ENGLISH),
-   	ToComplex(TABLE_ENGLISH),
+   	ToComplex(TABLE_GEOGEBRA),
    	ToExponential(TABLE_ENGLISH),
-   	ToPolar(TABLE_ENGLISH),
+   	ToPolar(TABLE_GEOGEBRA),
    	ToPoint(TABLE_ENGLISH),
-   	TrigExpand(TABLE_ENGLISH),
-   	TrigSimplify(TABLE_ENGLISH),
-   	TrigCombine(TABLE_ENGLISH),
+   	TrigExpand(TABLE_FUNCTION),
+   	TrigSimplify(TABLE_FUNCTION),
+   	TrigCombine(TABLE_FUNCTION),
    	;
 	
    	private int table;

@@ -3346,6 +3346,43 @@ public class ExpressionNode extends ValidExpression implements
 				break;
 			}
 			break;
+		case NROOT:
+			switch (STRING_TYPE) {
+			case MATHML:
+				mathml(sb, "<root/>", leftStr, null);
+				break;
+			case LATEX:
+				sb.append("\\sqrt[");
+				sb.append(rightStr);		
+				sb.append("]{");
+				sb.append(leftStr);
+				sb.append('}');
+				break;
+			case LIBRE_OFFICE:
+				sb.append("nroot{");
+				sb.append(rightStr);
+				sb.append("},{");
+				sb.append(leftStr);
+				sb.append('}');
+				break;
+			case MATH_PIPER:
+			case MPREDUCE:
+			case MAXIMA:
+				sb.append("(");
+				sb.append(leftStr);
+				sb.append(")^(1/(");
+				sb.append(rightStr);
+				sb.append("))");
+				break;
+			default:
+				sb.append("nroot(");
+				sb.append(leftStr);
+				sb.append(',');
+				sb.append(rightStr);
+				sb.append(')');
+			}
+			break;
+	
 		case SQRT_SHORT:
 		case SQRT:
 			switch (STRING_TYPE) {
@@ -4973,12 +5010,20 @@ public class ExpressionNode extends ValidExpression implements
 					setOperation(Operation.CBRT);
 					hit = true;
 				}
+				else if (rightLeaf.getRight().isNumberValue() &&
+						Kernel.isInteger(((NumberValue)rightLeaf.getRight()).getDouble())) {
+					App.debug(((NumberValue)rightLeaf.getRight()).getDouble());
+					setOperation(Operation.NROOT);
+					setRight(new MyDouble(kernel,((NumberValue)rightLeaf.getRight()).getDouble()));
+					hit = true;
+				}
 				if (hit) {
 					didReplacement = true;
 					if (rightLeaf.getLeft()
 							.toString(StringTemplate.defaultTemplate)
 							.equals("1")) {
-						setRight(new MyDouble(kernel, Double.NaN));
+						if(operation!=Operation.NROOT)
+							setRight(new MyDouble(kernel, Double.NaN));
 					} else { // to parse x^(c/2) to sqrt(x^c)
 						setLeft(new ExpressionNode(kernel, getLeft(),
 								Operation.POWER, rightLeaf.getLeft()));
@@ -4990,14 +5035,19 @@ public class ExpressionNode extends ValidExpression implements
 			boolean hit = false;
 			// replaces SQRT 2 by 1 DIVIDE 2, and same for CBRT
 			ExpressionNode power = null;
-			if ((getOperation() == Operation.SQRT)) {
+			if (getOperation() == Operation.SQRT) {
 				power = new ExpressionNode(kernel, new MyDouble(kernel, 1),
 						Operation.DIVIDE, new MyDouble(kernel, 2));
 				hit = true;
 			}
-			if ((getOperation() == Operation.CBRT)) {
+			else if (getOperation() == Operation.CBRT) {
 				power = new ExpressionNode(kernel, new MyDouble(kernel, 1),
 						Operation.DIVIDE, new MyDouble(kernel, 3));
+				hit = true;
+			}
+			else if (getOperation() == Operation.NROOT) {
+				power = new ExpressionNode(kernel, new MyDouble(kernel, 1),
+						Operation.DIVIDE, right);
 				hit = true;
 			}
 			if (hit) {
