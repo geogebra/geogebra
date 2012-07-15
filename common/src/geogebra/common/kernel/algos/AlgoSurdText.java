@@ -161,17 +161,17 @@ public class AlgoSurdText extends AlgoElement {
 		int[] coeffs0;
 		
 		//double[] constValue = new double[] {Math.sqrt(2.0), Math.sqrt(3.0), Math.PI, Math.E};
-		//String[] constName = new String[] {"sqrt(2)", "sqrt(3)", "pi", "exp(1)"}; //ℯ e
+		//String[] constName = new String[] {"sqrt(2)", "sqrt(3)", "pi", "exp(1)"}; // e
 		
 		int numOfConsts = 2;
 		double[] constValue = new double[] {Math.sqrt(2.0), Math.sqrt(3.0)};
-		String[] constName = new String[] {"sqrt(2)", "sqrt(3)"}; //ℯ e
+		String[] constName = new String[] {"sqrt(2)", "sqrt(3)"}; //e
 		
 		/*
 		int numOfConsts = 1;
 		double[] constValue = new double[] {Math.sqrt(2.0)};
 	
-		String[] constName = new String[] {"sqrt(2)"}; //ℯ e
+		String[] constName = new String[] {"sqrt(2)"}; // e
 		*/
 		
 		
@@ -202,30 +202,25 @@ public class AlgoSurdText extends AlgoElement {
 		//int numOfConsts0 = 4;
 		//int numOfRadicals0 = 2;
 		//double[] constValue0 = new double[] {Math.sqrt(2.0), Math.sqrt(3.0), Math.PI, Math.E };
-		//String[] constName0 = new String[] {"sqrt(2)", "sqrt(3)", "pi", "ℯ "}; //ℯ e
+		//String[] constName0 = new String[] {"sqrt(2)", "sqrt(3)", "pi", Unicode.EULER_STRING}; // e
 		double[] constValues;
 		String[] constNames;
 		
-		int totalNumOfQRadicals = 6;
-		double[] quadraticRootValues = new double[] {Math.sqrt(2.0), Math.sqrt(3.0), Math.sqrt(5.0), Math.sqrt(6.0), Math.sqrt(7.0), Math.sqrt(10.0)};
-		String[] quadraticRootNames = new String[] {"sqrt(2)", "sqrt(3)","sqrt(5)", "sqrt(6)", "sqrt(7)", "sqrt(10)"};
+		final double[] quadraticRootValues = new double[] {Math.sqrt(2.0), Math.sqrt(3.0), Math.sqrt(5.0), Math.sqrt(6.0), Math.sqrt(7.0), Math.sqrt(10.0)};
+		final String[] quadraticRootNames = new String[] {"sqrt(2)", "sqrt(3)","sqrt(5)", "sqrt(6)", "sqrt(7)", "sqrt(10)"};
+		final int totalNumOfQRadicals = quadraticRootValues.length;
 		
-		int totalNumOfCRadicals = 4;
-		double[] cubicRootValues = new double[] {Math.pow(2.0,1.0/3), Math.pow(4.0,1.0/3), Math.pow(3.0,1.0/3), Math.pow(9.0,1.0/3)};
-		String[] cubicRootNames = new String[] {"2^(1/3)", "4^(1/3)", "3^(1/3)", "9^(1/3)"};
+		final double[] cubicRootValues = new double[] {Math.pow(2.0,1.0/3), Math.pow(4.0,1.0/3), Math.pow(3.0,1.0/3), Math.pow(9.0,1.0/3)};
+		final String[] cubicRootNames = new String[] {"2^(1/3)", "4^(1/3)", "3^(1/3)", "9^(1/3)"};
 		
-		int totalNumOfPiValues = 4;
-		double[] piValues = new double[] {Math.PI, Math.PI*Math.PI, Math.sqrt(Math.PI), 1/Math.PI};
-		String[] piNames = new String[] {"pi", "pi^2", "sqrt(pi)", "1/pi"};
+		final double[] piValues = new double[] {Math.PI, Math.PI*Math.PI, Math.sqrt(Math.PI), 1/Math.PI};
+		final String[] piNames = new String[] {"pi", "pi^2", "sqrt(pi)", "1/pi"};
 		
-		int totalNumOfEValues = 4;
-		double[] eValues = new double[] {Math.E, Math.E*Math.E, Math.sqrt(Math.E), 1/Math.E};
-		String[] eNames = new String[] {"ℯ", "ℯ^2", "sqrt(ℯ)", "1/ℯ"};
+		final double[] eValues = new double[] {Math.E, Math.E*Math.E, Math.sqrt(Math.E), 1/Math.E};
+		final String[] eNames = new String[] {Unicode.EULER_STRING, Unicode.EULER_STRING+"^2", "sqrt("+Unicode.EULER_STRING+")", "1/"+Unicode.EULER_STRING};
 		
-		int totalNumOfLogValues = 6;
-		double[] logValues = new double[] {Math.log(2), Math.log(10), Math.log10(2), Math.log10(Math.E), Math.log(10)/Math.log(2), Math.log(Math.E)/Math.log(2)};
-		String[] logNames = new String[] {"log(2)/log(ℯ)", "log(10)/log(ℯ)", "log(2)/log(10)", "log(ℯ)/log(10)", "log(10)/log(2)", "log(ℯ)/log(2)"};
-		
+		final double[] logValues = new double[] {Math.log(2), Math.log(10), Math.log10(2), Math.log10(Math.E), Math.log(10)/Math.log(2), Math.log(Math.E)/Math.log(2)};
+		final String[] logNames = new String[] {"log(2)/log("+Unicode.EULER_STRING+")", "log(10)/log("+Unicode.EULER_STRING+")", "log(2)/log(10)", "log("+Unicode.EULER_STRING+")/log(10)", "log(10)/log(2)", "log("+Unicode.EULER_STRING+")/log(2)"};
 		//if there are K constants, then it requires (K+1) dimensions in the integer relation finding. For the best results,
 		// we now only keep K<=4 to have nice results.
 		//we loop over all combinations of K=1 or 2 or 3 constants, excluding the co-appearance of both e and pi.
