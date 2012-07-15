@@ -106,7 +106,7 @@ public class AlgoTDistributionDF extends AlgoElement implements AlgoDistribution
 			ExpressionValue half = new MyDouble(kernel, 0.5);
 			ExpressionNode halfV = vEn.divide(2);
 			
-			ExpressionNode beta1 = halfV.betaRegularized(half, new MyDouble(kernel, 2));
+			ExpressionNode beta1 = halfV.betaRegularized(half, new MyDouble(kernel, 1));
 			ExpressionNode beta2 = halfV.betaRegularized(half,vEn.divide(vEn.plus(xEn.square())));
 					
 			en = new ExpressionNode(kernel, half);
