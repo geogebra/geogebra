@@ -2053,7 +2053,7 @@ public class AlgoSurdText extends AlgoElement {
 
 			coeffs = mPSLQ((numOfConsts+1)*3, numList, err, coeffBound);
 		
-			if (coeffs.length == 0 || coeffs[0].length ==0 ) {
+			if (coeffs == null || coeffs[0].length ==0 ) {
 				return;
 			}
 			s = coeffs[0].length;
