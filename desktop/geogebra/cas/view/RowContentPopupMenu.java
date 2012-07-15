@@ -60,7 +60,7 @@ public class RowContentPopupMenu extends JPopupMenu implements ActionListener {
 		add(copyToLatexItem);
 		
 		JMenuItem copyToLibreOfficeItem = new JMenuItem(
-				table.getApplication().getMenu("CopyAsLibreOfficeMath"));
+				table.getApplication().getMenu("CopyAsLibreOfficeFormula"));
 		copyToLibreOfficeItem.setActionCommand("copyAsLibreOfficeMath");
 		copyToLibreOfficeItem.addActionListener(this);
 		add(copyToLibreOfficeItem);
