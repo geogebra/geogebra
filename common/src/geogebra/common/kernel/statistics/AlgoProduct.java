@@ -18,7 +18,7 @@ import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 
 /**
- * Mean of a list
+ * Product of list elements
  * @author Michael Borcherds
  * @version 2008-07-27
  */

@@ -321,6 +321,7 @@ public enum Algos {
 	AlgoTTest2(Commands.TTest2),
 	AlgoTMeanEstimate(Commands.TMeanEstimate),
 	AlgoTMean2Estimate(Commands.TMean2Estimate),
+	AlgoChiSquareTest(Commands.ChiSquareTest),
 	AlgoANOVA(Commands.ANOVA),
 	AlgoPercentile(Commands.Percentile),
 	AlgoGeometricMean(Commands.GeometricMean),

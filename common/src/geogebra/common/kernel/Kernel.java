@@ -7326,6 +7326,23 @@ public class Kernel {
 		return resultList;
 	}
 
+	/** ChiSquareTest[] with observed and expected lists */
+	final public GeoList ChiSquareTest(String label, GeoList observedList,
+			GeoList expectedList) {
+		AlgoChiSquareTest algo = new AlgoChiSquareTest(cons, label, observedList, expectedList);
+		GeoList result = algo.getResult();
+		return result;
+	}
+	
+	/** ChiSquareTest[] with observed list only */
+	final public GeoList ChiSquareTest(String label, GeoList observedList) {
+		AlgoChiSquareTest algo = new AlgoChiSquareTest(cons, label, observedList);
+		GeoList result = algo.getResult();
+		return result;
+	}
+	
+	
+	
 	/**
 	 * Sort[list] Michael Borcherds
 	 */
