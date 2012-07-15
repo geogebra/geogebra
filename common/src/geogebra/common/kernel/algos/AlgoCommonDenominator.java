@@ -40,7 +40,7 @@ public class AlgoCommonDenominator extends AlgoTwoNumFunction {
   
     @Override
 	public Algos getClassName() {
-        return Algos.AlgoDiv;
+        return Algos.AlgoCommonDenominator;
     }        
     
     // calc area of conic c 
