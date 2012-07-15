@@ -6,7 +6,7 @@ import geogebra.common.kernel.Kernel;
  * AbstractZoomer is responsible for animated zooming of Euclidian View
  *
  */
-public abstract class AbstractZoomer {
+public abstract class MyZoomer {
 	private enum ZoomerMode{ZOOM,ZOOM_RW,AXES,MOVE}
 	
 	private final EuclidianView view;
@@ -41,7 +41,7 @@ public abstract class AbstractZoomer {
 	 * Creates new zoomer
 	 * @param view view
 	 */
-	public AbstractZoomer(EuclidianView view){
+	public MyZoomer(EuclidianView view){
 		this.view = view;
 	}
 	

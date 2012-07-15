@@ -4,7 +4,7 @@ import geogebra.common.awt.GFont;
 /**
  * Handles different fonts used by application
  */
-public abstract class AbstractFontManager {
+public abstract class FontManager {
 
 	/**
 	 * Change size of all fonts

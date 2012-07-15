@@ -3,13 +3,13 @@ package geogebra.web.main;
 
 import geogebra.common.awt.GFont;
 import geogebra.common.main.App;
-import geogebra.common.main.AbstractFontManager;
+import geogebra.common.main.FontManager;
 /**
  * This class takes care of storing and creating fonts.
  * @author Zbynek (based on Desktop FontManager)
  *
  */
-public class FontManager extends AbstractFontManager{
+public class FontManagerW extends FontManager{
 	private int fontSize;
 	
 	@Override

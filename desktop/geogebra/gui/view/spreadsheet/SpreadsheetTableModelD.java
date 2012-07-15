@@ -1,6 +1,6 @@
 package geogebra.gui.view.spreadsheet;
 
-import geogebra.common.gui.view.spreadsheet.AbstractSpreadsheetTableModel;
+import geogebra.common.gui.view.spreadsheet.SpreadsheetTableModel;
 import geogebra.common.main.App;
 import geogebra.main.AppD;
 
@@ -15,7 +15,7 @@ import javax.swing.table.DefaultTableModel;
  * @author G. Sturr
  * 
  */
-public class SpreadsheetTableModel extends AbstractSpreadsheetTableModel {
+public class SpreadsheetTableModelD extends SpreadsheetTableModel {
 
 	private DefaultTableModel defaultTableModel;
 
@@ -29,7 +29,7 @@ public class SpreadsheetTableModel extends AbstractSpreadsheetTableModel {
 	 * @param columns
 	 *            number of columns
 	 */
-	public SpreadsheetTableModel(AppD app, int rows, int columns) {
+	public SpreadsheetTableModelD(AppD app, int rows, int columns) {
 		super(app, rows, columns);
 		defaultTableModel = new DefaultTableModel(rows, columns);
 		attachView();

@@ -16,7 +16,7 @@ import geogebra.common.main.App;
  * @author G. Sturr
  * 
  */
-public abstract class AbstractSpreadsheetTableModel implements View {
+public abstract class SpreadsheetTableModel implements View {
 
 	private static final long serialVersionUID = 1L;
 
@@ -34,7 +34,7 @@ public abstract class AbstractSpreadsheetTableModel implements View {
 	 * @param columns
 	 *            initial number of columns
 	 */
-	public AbstractSpreadsheetTableModel(App app, int rows,
+	public SpreadsheetTableModel(App app, int rows,
 			int columns) {
 		this.app = app;
 	}

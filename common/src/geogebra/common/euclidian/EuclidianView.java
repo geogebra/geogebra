@@ -4474,7 +4474,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 	/** instantiate new zoomer
 	 * @return zoomer
 	 */
-	protected abstract AbstractZoomer newZoomer();
+	protected abstract MyZoomer newZoomer();
 	
 
 	/**
@@ -4494,7 +4494,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 	}
 
 	
-	private AbstractZoomer zoomer;
+	private MyZoomer zoomer;
 
 	/**
 	 * Zooms towards the given axes scale ratio. Note: Only the y-axis is
@@ -4517,7 +4517,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 		axesRatioZoomer.startAnimation();
 	}
 
-	private AbstractZoomer axesRatioZoomer;
+	private MyZoomer axesRatioZoomer;
 
 	
 	/**
@@ -4596,7 +4596,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 		}
 	}
 
-	private AbstractZoomer mover;
+	private MyZoomer mover;
 	
 	/**
 	 * Sets real world coord system using min and max values for both axes in
@@ -4611,7 +4611,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 		zoomerRW.startAnimation();
 	}
 
-	private AbstractZoomer zoomerRW;
+	private MyZoomer zoomerRW;
 
 	// for use in AlgebraController
 	final public void mouseMovedOver(GeoElement geo){

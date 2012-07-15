@@ -1,6 +1,6 @@
 package geogebra.main;
 
-import geogebra.common.main.AbstractFontManager;
+import geogebra.common.main.FontManager;
 import geogebra.common.util.Language;
 import geogebra.common.util.Unicode;
 
@@ -18,7 +18,7 @@ import javax.swing.UIManager;
  * Manages fonts for different languages. Use setLanguage() and setFontSize() to
  * initialize the default fonts.
  */
-public class FontManager extends AbstractFontManager {
+public class FontManagerD extends FontManager {
 
 	private Font					boldFont, italicFont, plainFont, smallFont, serifFont, serifFontBold, javaSans,
 									javaSerif;
@@ -41,7 +41,7 @@ public class FontManager extends AbstractFontManager {
 			"Times" // Mac OS X
 															};
 
-	public FontManager() {
+	public FontManagerD() {
 		setFontSize(12);
 	}
 

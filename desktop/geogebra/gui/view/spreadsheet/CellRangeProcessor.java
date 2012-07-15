@@ -1,7 +1,7 @@
 package geogebra.gui.view.spreadsheet;
 
 import geogebra.common.awt.GPoint;
-import geogebra.common.gui.view.spreadsheet.AbstractSpreadsheetTableModel;
+import geogebra.common.gui.view.spreadsheet.SpreadsheetTableModel;
 import geogebra.common.gui.view.spreadsheet.CellRange;
 import geogebra.common.gui.view.spreadsheet.RelativeCopy;
 import geogebra.common.kernel.Construction;
@@ -44,7 +44,7 @@ public class CellRangeProcessor {
 	private MyTable table;
 	private AppD app;
 	private Construction cons;
-	private AbstractSpreadsheetTableModel tableModel;
+	private SpreadsheetTableModel tableModel;
 
 	public CellRangeProcessor(MyTable table) {
 

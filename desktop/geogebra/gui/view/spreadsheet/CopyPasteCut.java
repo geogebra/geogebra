@@ -1,6 +1,6 @@
 package geogebra.gui.view.spreadsheet;
 
-import geogebra.common.gui.view.spreadsheet.AbstractSpreadsheetTableModel;
+import geogebra.common.gui.view.spreadsheet.SpreadsheetTableModel;
 import geogebra.common.gui.view.spreadsheet.CellRange;
 import geogebra.common.gui.view.spreadsheet.RelativeCopy;
 import geogebra.common.kernel.Construction;
@@ -28,7 +28,7 @@ public class CopyPasteCut {
 	// ggb support classes
 	protected Kernel kernel;
 	protected App app;
-	private AbstractSpreadsheetTableModel tableModel;
+	private SpreadsheetTableModel tableModel;
 
 	private SpreadsheetView view;
 	private MyTable table;

@@ -73,7 +73,7 @@ implements
 	// external components
 	private AppD app;
 	private SpreadsheetView view;
-	private SpreadsheetTraceManager traceManager;
+	private SpreadsheetTraceManagerD traceManager;
 	
 	// JList to display trace geos
 	private JList traceGeoList;

@@ -10,7 +10,7 @@ import geogebra.common.awt.GPoint;
 import geogebra.common.awt.GRectangle;
 import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.euclidian.EuclidianView;
-import geogebra.common.euclidian.AbstractZoomer;
+import geogebra.common.euclidian.MyZoomer;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.gui.inputfield.AutoCompleteTextField;
@@ -573,7 +573,7 @@ public class EuclidianViewW extends EuclidianView implements SettingListener{
     }
 
 	@Override
-    protected AbstractZoomer newZoomer() {
+    protected MyZoomer newZoomer() {
 	    return new MyZoomerW(this);
     }
 

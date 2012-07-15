@@ -6,36 +6,33 @@ import geogebra.common.awt.GDimension;
 import geogebra.common.awt.GFont;
 import geogebra.common.awt.GImage;
 import geogebra.common.cas.singularws.SingularWebService;
-import geogebra.common.euclidian.EuclidianController;
-import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.DrawEquationInterface;
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.euclidian.EuclidianController;
+import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.gui.GuiManager;
 import geogebra.common.gui.dialog.DialogManager;
 import geogebra.common.gui.menubar.MenuInterface;
-import geogebra.common.gui.menubar.RadioButtonMenuBar;
 import geogebra.common.gui.view.algebra.AlgebraView;
 import geogebra.common.gui.view.properties.PropertiesView;
-import geogebra.common.gui.view.spreadsheet.AbstractSpreadsheetTableModel;
+import geogebra.common.gui.view.spreadsheet.SpreadsheetTableModel;
 import geogebra.common.gui.view.spreadsheet.SpreadsheetTraceManager;
 import geogebra.common.io.MyXMLio;
 import geogebra.common.io.layout.Perspective;
 import geogebra.common.kernel.AnimationManager;
-import geogebra.common.kernel.UndoManager;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Macro;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.UndoManager;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.ValidExpression;
-import geogebra.common.kernel.cas.CASGenericInterface;
-import geogebra.common.kernel.cas.CASParserInterface;
 import geogebra.common.kernel.cas.GeoGebraCasInterface;
 import geogebra.common.kernel.commands.CommandDispatcher;
 import geogebra.common.kernel.commands.CommandProcessor;
@@ -2283,7 +2280,7 @@ public abstract class App {
 
 	
 	
-	public abstract AbstractSpreadsheetTableModel getSpreadsheetTableModel();
+	public abstract SpreadsheetTableModel getSpreadsheetTableModel();
 	
 	public void setMode(int mode) {
 		if (mode != EuclidianConstants.MODE_SELECTION_LISTENER) {
@@ -2579,7 +2576,7 @@ public abstract class App {
 	}
 
 
-	protected AbstractFontManager getFontManager() {
+	protected FontManager getFontManager() {
 		// TODO Auto-generated method stub
 		return null;
 	}

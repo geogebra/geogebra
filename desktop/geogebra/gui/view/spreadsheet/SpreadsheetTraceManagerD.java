@@ -39,7 +39,7 @@ import java.util.TreeSet;
  * 
  */
 
-public class SpreadsheetTraceManager extends geogebra.common.gui.view.spreadsheet.SpreadsheetTraceManager {
+public class SpreadsheetTraceManagerD extends geogebra.common.gui.view.spreadsheet.SpreadsheetTraceManager {
 
 	// external components
 	private App app;
@@ -58,7 +58,7 @@ public class SpreadsheetTraceManager extends geogebra.common.gui.view.spreadshee
 	private double[] coords = new double[3];
 	private ArrayList<Double> currentTrace = new ArrayList<Double>();
 
-	public SpreadsheetTraceManager(App app) {
+	public SpreadsheetTraceManagerD(App app) {
 
 		this.app = app;
 		kernel = app.getKernel();

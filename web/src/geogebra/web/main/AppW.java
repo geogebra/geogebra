@@ -9,7 +9,7 @@ import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.gui.menubar.MenuInterface;
 import geogebra.common.gui.view.algebra.AlgebraView;
-import geogebra.common.gui.view.spreadsheet.AbstractSpreadsheetTableModel;
+import geogebra.common.gui.view.spreadsheet.SpreadsheetTableModel;
 import geogebra.common.gui.view.spreadsheet.SpreadsheetTraceManager;
 import geogebra.common.kernel.AnimationManager;
 import geogebra.common.kernel.UndoManager;
@@ -26,7 +26,7 @@ import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.common.main.AbstractFontManager;
+import geogebra.common.main.FontManager;
 import geogebra.common.main.App;
 import geogebra.common.main.GeoElementSelectionListener;
 import geogebra.common.main.MyError;
@@ -121,7 +121,7 @@ public class AppW extends App {
 	public static String geoIPCountryName;
 	public static String geoIPLanguage;
 	
-	private FontManager fontManager;
+	private FontManagerW fontManager;
 
 	private boolean[] showAxes = { true, true };
 	private boolean showGrid = false;
@@ -1479,7 +1479,7 @@ public class AppW extends App {
 	}
 
 	@Override
-	public AbstractSpreadsheetTableModel getSpreadsheetTableModel() {
+	public SpreadsheetTableModel getSpreadsheetTableModel() {
 		App.debug("getSpreadsheetTableModel: implementation needed"); // TODO Auto-generated
 		return null;
 	}
@@ -1551,7 +1551,7 @@ public class AppW extends App {
 	}
 
 	@Override
-	public AbstractFontManager getFontManager() {
+	public FontManager getFontManager() {
 		return fontManager;
 	}
 
@@ -1924,7 +1924,7 @@ public class AppW extends App {
 
 	    myXMLio = new MyXMLio(kernel, kernel.getConstruction());
 	    
-	    fontManager = new FontManager();
+	    fontManager = new FontManagerW();
 	    setFontSize(12);
 	    // setLabelDragsEnabled(false);
 	    capturingThreshold = 20;

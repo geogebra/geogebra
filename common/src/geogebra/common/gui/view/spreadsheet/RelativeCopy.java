@@ -786,7 +786,7 @@ public class RelativeCopy {
 	 * Returns the GeoElement for the cell with the given column and row values.
 	 */
 	public static GeoElement getValue(App app, int column, int row) {
-		AbstractSpreadsheetTableModel tableModel = app.getSpreadsheetTableModel();
+		SpreadsheetTableModel tableModel = app.getSpreadsheetTableModel();
 		if ((row < 0) || (row >= tableModel.getRowCount())) {
 			return null;
 		}

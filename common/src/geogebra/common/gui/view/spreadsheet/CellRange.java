@@ -47,7 +47,7 @@ public class CellRange {
 	
 	//private MyTable table;
 	App app;
-	private AbstractSpreadsheetTableModel tableModel;
+	private SpreadsheetTableModel tableModel;
 	
 	/** Create new CellRange */
 	public CellRange(App app) {

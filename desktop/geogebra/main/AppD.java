@@ -26,7 +26,7 @@ import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.gui.dialog.DialogManager;
 import geogebra.common.gui.menubar.MenuInterface;
-import geogebra.common.gui.view.spreadsheet.AbstractSpreadsheetTableModel;
+import geogebra.common.gui.view.spreadsheet.SpreadsheetTableModel;
 import geogebra.common.io.MyXMLHandler;
 import geogebra.common.io.layout.DockPanelData;
 import geogebra.common.io.layout.Perspective;
@@ -77,8 +77,8 @@ import geogebra.gui.toolbar.Toolbar;
 import geogebra.gui.toolbar.ToolbarContainer;
 import geogebra.gui.util.ImageSelection;
 import geogebra.gui.view.algebra.AlgebraViewD;
-import geogebra.gui.view.spreadsheet.SpreadsheetTableModel;
-import geogebra.gui.view.spreadsheet.SpreadsheetTraceManager;
+import geogebra.gui.view.spreadsheet.SpreadsheetTableModelD;
+import geogebra.gui.view.spreadsheet.SpreadsheetTraceManagerD;
 import geogebra.io.MyXMLio;
 import geogebra.kernel.AnimationManagerD;
 import geogebra.kernel.UndoManagerD;
@@ -300,7 +300,7 @@ public class AppD extends App implements
 
 	private JFrame frame;
 	private static AppletImplementation appletImpl;
-	private final FontManager fontManager;
+	private final FontManagerD fontManager;
 
 	protected GuiManagerD guiManager;
 	
@@ -386,7 +386,7 @@ public class AppD extends App implements
 		}
 	}
 
-	private SpreadsheetTableModel tableModel;
+	private SpreadsheetTableModelD tableModel;
 
 	private CommandLineArguments args;
 	
@@ -468,7 +468,7 @@ public class AppD extends App implements
 			preferredSize = new Dimension(800, 600);
 		}
 
-		fontManager = new FontManager();
+		fontManager = new FontManagerD();
 		initImageManager(mainComp);
 
 		// set locale
@@ -760,7 +760,7 @@ public class AppD extends App implements
 	 * @return the font manager to access fonts for different tasks
 	 */
 	@Override
-	final public FontManager getFontManager() {
+	final public FontManagerD getFontManager() {
 		return fontManager;
 	}
 
@@ -4886,7 +4886,7 @@ public class AppD extends App implements
 	// //////////////////////////////////
 
 
-	protected SpreadsheetTraceManager traceManager;
+	protected SpreadsheetTraceManagerD traceManager;
 
 	private DialogManager dialogManager;
 	
@@ -5008,9 +5008,9 @@ public class AppD extends App implements
 	}
 	
 	@Override
-	public SpreadsheetTraceManager getTraceManager() {
+	public SpreadsheetTraceManagerD getTraceManager() {
 		if (traceManager == null)
-			traceManager = new SpreadsheetTraceManager(this);
+			traceManager = new SpreadsheetTraceManagerD(this);
 		return traceManager;
 	}
 
@@ -5048,9 +5048,9 @@ public class AppD extends App implements
 
 	
 	@Override
-	public AbstractSpreadsheetTableModel getSpreadsheetTableModel() {
+	public SpreadsheetTableModel getSpreadsheetTableModel() {
 		if(tableModel == null){
-			tableModel = new SpreadsheetTableModel(this,SPREADSHEET_INI_ROWS,SPREADSHEET_INI_COLS);
+			tableModel = new SpreadsheetTableModelD(this,SPREADSHEET_INI_ROWS,SPREADSHEET_INI_COLS);
 		}
 		return tableModel;
 	}

@@ -55,7 +55,7 @@ View, ComponentListener, FocusListener, Gridable, SettingListener
 
 	// spreadsheet table and row header
 	protected MyTable table;
-	protected SpreadsheetTableModel tableModel;
+	protected SpreadsheetTableModelD tableModel;
 	private SpreadsheetRowHeader rowHeader;
 	private JTableHeader tableHeader;
 
@@ -160,7 +160,7 @@ View, ComponentListener, FocusListener, Gridable, SettingListener
 	private void buildSpreadsheet(){
 
 		// Create the spreadsheet table model and the table
-		tableModel = (SpreadsheetTableModel) app.getSpreadsheetTableModel();
+		tableModel = (SpreadsheetTableModelD) app.getSpreadsheetTableModel();
 		table = new MyTable(this, tableModel.getDefaultTableModel());
 
 		// Create row header

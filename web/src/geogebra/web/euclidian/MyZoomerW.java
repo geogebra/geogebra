@@ -1,7 +1,7 @@
 package geogebra.web.euclidian;
 
 import geogebra.common.euclidian.EuclidianView;
-import geogebra.common.euclidian.AbstractZoomer;
+import geogebra.common.euclidian.MyZoomer;
 
 import java.awt.event.ActionEvent;
 
@@ -10,7 +10,7 @@ import geogebra.web.kernel.gawt.Timer;
 
 
 
-public class MyZoomerW extends AbstractZoomer implements HasTimerAction {
+public class MyZoomerW extends MyZoomer implements HasTimerAction {
 	protected Timer timer; // for animation
 	
 		public MyZoomerW(EuclidianView view) {
