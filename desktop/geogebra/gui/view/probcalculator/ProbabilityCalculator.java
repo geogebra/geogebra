@@ -3,7 +3,6 @@ package geogebra.gui.view.probcalculator;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.Path;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.algos.AlgoBarChart;
@@ -30,7 +29,6 @@ import geogebra.common.kernel.algos.AlgoWeibullDF;
 import geogebra.common.kernel.algos.ConstructionElement;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
-import geogebra.common.kernel.arithmetic.MyBoolean;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.MyVecNode;
 import geogebra.common.kernel.arithmetic.NumberValue;
@@ -43,8 +41,6 @@ import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
-import geogebra.common.kernel.geos.GeoRay;
-import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.statistics.AlgoBinomialDist;
 import geogebra.common.kernel.statistics.AlgoHyperGeometric;
@@ -579,7 +575,7 @@ public class ProbabilityCalculator extends JPanel implements View,
 
 		GeoAxis path = (GeoAxis) kernel.lookupLabel(app.getPlain("xAxis"));
 
-		AlgoPointOnPath algoLow = new AlgoPointOnPath(cons, (Path) path, 0d, 0d);
+		AlgoPointOnPath algoLow = new AlgoPointOnPath(cons, path, 0d, 0d);
 		cons.removeFromConstructionList(algoLow);
 
 		lowPoint = (GeoPoint) algoLow.getGeoElements()[0];
@@ -592,7 +588,7 @@ public class ProbabilityCalculator extends JPanel implements View,
 
 		// create high point
 
-		AlgoPointOnPath algoHigh = new AlgoPointOnPath(cons, (Path) path, 0d,
+		AlgoPointOnPath algoHigh = new AlgoPointOnPath(cons, path, 0d,
 				0d);
 		cons.removeFromConstructionList(algoHigh);
 
@@ -641,6 +637,7 @@ public class ProbabilityCalculator extends JPanel implements View,
 			discreteGraph.setLineThickness(thicknessBarChart);
 			discreteGraph.setLayer(1);
 			discreteGraph.setFixed(true);
+			discreteGraph.setSelectionAllowed(false);
 			discreteGraph.setEuclidianVisible(true);
 			plotGeoList.add(discreteGraph);
 
@@ -677,13 +674,13 @@ public class ProbabilityCalculator extends JPanel implements View,
 					highPlusOffset, false);
 			cons.removeFromConstructionList(xHigh);
 
-			AlgoTake take = new AlgoTake(cons, (GeoList) discreteValueList,
+			AlgoTake take = new AlgoTake(cons, discreteValueList,
 					(GeoNumeric) xLow.getGeoElements()[0],
 					(GeoNumeric) xHigh.getGeoElements()[0]);
 			cons.removeFromConstructionList(take);
 			intervalValueList = (GeoList) take.getGeoElements()[0];
 
-			AlgoTake take2 = new AlgoTake(cons, (GeoList) discreteProbList,
+			AlgoTake take2 = new AlgoTake(cons, discreteProbList,
 					(GeoNumeric) xLow.getGeoElements()[0],
 					(GeoNumeric) xHigh.getGeoElements()[0]);
 			cons.removeFromConstructionList(take2);
@@ -717,6 +714,7 @@ public class ProbabilityCalculator extends JPanel implements View,
 			discreteIntervalGraph.setEuclidianVisible(true);
 			discreteIntervalGraph.setLayer(discreteGraph.getLayer() + 1);
 			discreteIntervalGraph.setFixed(true);
+			discreteIntervalGraph.setSelectionAllowed(false);
 			discreteIntervalGraph.updateCascade();
 			plotGeoList.add(discreteIntervalGraph);
 
@@ -726,6 +724,7 @@ public class ProbabilityCalculator extends JPanel implements View,
 			axis.setObjColor(app.getEuclidianView1().getAxesColor());
 			axis.setLineThickness(discreteIntervalGraph.lineThickness);
 			axis.setFixed(true);
+			axis.setSelectionAllowed(false);
 			axis.updateCascade();
 			plotGeoList.add(axis);
 
@@ -740,6 +739,7 @@ public class ProbabilityCalculator extends JPanel implements View,
 			densityCurve.setObjColor(new geogebra.awt.GColorD(COLOR_PDF));
 			densityCurve.setLineThickness(thicknessCurve);
 			densityCurve.setFixed(true);
+			densityCurve.setSelectionAllowed(false);
 			densityCurve.setEuclidianVisible(true);
 			plotGeoList.add(densityCurve);
 
@@ -769,6 +769,8 @@ public class ProbabilityCalculator extends JPanel implements View,
 				integral.setObjColor(new geogebra.awt.GColorD(COLOR_PDF_FILL));
 				integral.setAlphaValue(opacityIntegral);
 				integral.setEuclidianVisible(true);
+				// make sure doesn't interfere with dragging of point
+				integral.setSelectionAllowed(false);
 				plotGeoList.add(integral);
 			}
 
@@ -794,6 +796,7 @@ public class ProbabilityCalculator extends JPanel implements View,
 				curvePoint.setObjColor(new geogebra.awt.GColorD(COLOR_POINT));
 				curvePoint.setPointSize(4);
 				curvePoint.setLayer(f.getLayer() + 1);
+				curvePoint.setSelectionAllowed(false);
 				plotGeoList.add(curvePoint);
 
 				// create vertical line segment
@@ -812,12 +815,13 @@ public class ProbabilityCalculator extends JPanel implements View,
 						curvePoint, (GeoPoint) pointAlgo.getGeoElements()[0],
 						null);
 				cons.removeFromConstructionList(seg1);
-				xSegment = (GeoSegment) seg1.getGeoElements()[0];
+				xSegment = seg1.getGeoElements()[0];
 				xSegment.setObjColor(new geogebra.awt.GColorD(Color.blue));
 				xSegment.setLineThickness(3);
 				xSegment.setLineType(EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT);
 				xSegment.setEuclidianVisible(true);
 				xSegment.setFixed(true);
+				xSegment.setSelectionAllowed(false);
 				plotGeoList.add(xSegment);
 
 				// create horizontal ray
@@ -834,12 +838,13 @@ public class ProbabilityCalculator extends JPanel implements View,
 				AlgoRayPointVector seg2 = new AlgoRayPointVector(cons,
 						curvePoint, v);
 				cons.removeFromConstructionList(seg2);
-				ySegment = (GeoRay) seg2.getGeoElements()[0];
+				ySegment = seg2.getGeoElements()[0];
 				ySegment.setObjColor(new geogebra.awt.GColorD(Color.red));
 				ySegment.setLineThickness(3);
 				ySegment.setLineType(EuclidianStyleConstants.LINE_TYPE_FULL);
 				ySegment.setEuclidianVisible(true);
 				ySegment.setFixed(true);
+				ySegment.setSelectionAllowed(false);
 				plotGeoList.add(ySegment);
 			}
 
@@ -1681,43 +1686,43 @@ public class ProbabilityCalculator extends JPanel implements View,
 		switch (type) {
 		case NORMAL:
 			ret = new AlgoNormalDF(cons, param1, param2, new GeoBoolean(cons,
-					false));
+					isCumulative));
 			break;
 		case STUDENT:
 			ret = new AlgoTDistributionDF(cons, param1, new GeoBoolean(cons,
-					false));
+					isCumulative));
 			break;
 		case CHISQUARE:
 			ret = new AlgoChiSquaredDF(cons, param1,
-					new GeoBoolean(cons, false));
+					new GeoBoolean(cons, isCumulative));
 			break;
 		case F:
 			ret = new AlgoFDistributionDF(cons, param1, param2, new GeoBoolean(
-					cons, false));
+					cons, isCumulative));
 			break;
 		case CAUCHY:
 			ret = new AlgoCauchyDF(cons, param1, param2, new GeoBoolean(cons,
-					false));
+					isCumulative));
 			break;
 		case EXPONENTIAL:
 			ret = new AlgoExponentialDF(cons, param1, new GeoBoolean(cons,
-					false));
+					isCumulative));
 			break;
 		case GAMMA:
 			ret = new AlgoGammaDF(cons, param1, param2, new GeoBoolean(cons,
-					false));
+					isCumulative));
 			break;
 		case WEIBULL:
 			ret = new AlgoWeibullDF(cons, param1, param2, new GeoBoolean(cons,
-					false));
+					isCumulative));
 			break;
 		case LOGNORMAL:
 			ret = new AlgoLogNormalDF(cons, param1, param2, new GeoBoolean(
-					cons, false));
+					cons, isCumulative));
 			break;
 		case LOGISTIC:
 			ret = new AlgoLogisticDF(cons, param1, param2, new GeoBoolean(cons,
-					false));
+					isCumulative));
 			break;
 
 		case BINOMIAL:
@@ -1773,7 +1778,7 @@ public class ProbabilityCalculator extends JPanel implements View,
 			GeoNumeric pGeo = new GeoNumeric(cons, parameters[1]);
 
 			AlgoSequence algoSeq = new AlgoSequence(cons, k2, k2, new MyDouble(
-					kernel, 0.0), (NumberValue) nGeo, null);
+					kernel, 0.0), nGeo, null);
 			discreteValueList = (GeoList) algoSeq.getGeoElements()[0];
 
 			AlgoListElement algo = new AlgoListElement(cons, discreteValueList,
@@ -1788,7 +1793,7 @@ public class ProbabilityCalculator extends JPanel implements View,
 
 			AlgoSequence algoSeq2 = new AlgoSequence(cons,
 					algo2.getGeoElements()[0], k, new MyDouble(kernel, 1.0),
-					(NumberValue) nPlusOneGeo, null);
+					nPlusOneGeo, null);
 			cons.removeFromConstructionList(algoSeq2);
 
 			discreteProbList = (GeoList) algoSeq2.getGeoElements()[0];
@@ -1912,8 +1917,8 @@ public class ProbabilityCalculator extends JPanel implements View,
 			k = new GeoNumeric(cons);
 			k2 = new GeoNumeric(cons);
 
-			algoSeq = new AlgoSequence(cons, k, k, (NumberValue) lowGeo,
-					(NumberValue) highGeo, null);
+			algoSeq = new AlgoSequence(cons, k, k, lowGeo,
+					highGeo, null);
 			removeFromAlgorithmList(algoSeq);
 			discreteValueList = (GeoList) algoSeq.getGeoElements()[0];
 
@@ -1927,7 +1932,7 @@ public class ProbabilityCalculator extends JPanel implements View,
 
 			algoSeq2 = new AlgoSequence(cons,
 					hyperGeometric.getGeoElements()[0], k2, new MyDouble(
-							kernel, 1.0), (NumberValue) lengthGeo, null);
+							kernel, 1.0), lengthGeo, null);
 			cons.removeFromConstructionList(algoSeq2);
 			discreteProbList = (GeoList) algoSeq2.getGeoElements()[0];
 
@@ -1940,7 +1945,8 @@ public class ProbabilityCalculator extends JPanel implements View,
 		discreteProbList.setAuxiliaryObject(true);
 		discreteProbList.setLabelVisible(false);
 		discreteProbList.setFixed(true);
-
+		discreteProbList.setSelectionAllowed(false);
+		
 		return;
 	}
 
@@ -2236,14 +2242,14 @@ public class ProbabilityCalculator extends JPanel implements View,
 				expr = "Take[" + discreteProbListCopy.getLabel(tpl) + ", x("
 						+ lowPointCopy.getLabel(tpl) + ")+" + offset + ", x("
 						+ highPointCopy.getLabel(tpl) + ")+" + offset + "]";
-				GeoElement intervalProbList = (GeoList) createGeoFromString(
+				GeoElement intervalProbList = createGeoFromString(
 						expr, false);
 				newGeoList.add(intervalProbList);
 
 				expr = "Take[" + discreteValueListCopy.getLabel(tpl) + ", x("
 						+ lowPointCopy.getLabel(tpl) + ")+" + offset + ", x("
 						+ highPointCopy.getLabel(tpl) + ")+" + offset + "]";
-				GeoElement intervalValueList = (GeoList) createGeoFromString(
+				GeoElement intervalValueList = createGeoFromString(
 						expr, false);
 				newGeoList.add(intervalValueList);
 
