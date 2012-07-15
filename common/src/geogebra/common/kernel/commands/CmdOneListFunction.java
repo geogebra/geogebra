@@ -103,6 +103,13 @@ public abstract class CmdOneListFunction extends CommandProcessor {
      */
     abstract protected GeoElement doCommand(String label, GeoList list);     
     
+    /**
+     * Perform the actual command with gropuped data
+     * @param label label for output
+     * @param list input list
+     * @param list2 another list (data frequencies)
+     * @return resulting element
+     */
     protected GeoElement doCommand(String label, GeoList list, GeoList list2){
     	return null;     
     }

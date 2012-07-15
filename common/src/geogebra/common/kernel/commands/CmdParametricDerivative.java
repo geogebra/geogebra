@@ -1,15 +1,9 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.Command;
-import geogebra.common.kernel.arithmetic.FunctionVariable;
-import geogebra.common.kernel.arithmetic.NumberValue;
-import geogebra.common.kernel.geos.CasEvaluableFunction;
 import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoFunctionNVar;
-import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.MyError;
 
 /**Derivative[ <GeoFunction> ] Derivative[ <GeoFunctionNVar>, <var> ]
@@ -31,7 +25,7 @@ public class CmdParametricDerivative extends CommandProcessor {
 	final public GeoElement[] process(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 		String label = c.getLabel();
-		GeoElement[] arg, arg2;
+		GeoElement[] arg;
 
 		switch (n) {
 		case 1:

@@ -752,6 +752,7 @@ public class AlgebraProcessor {
 	 * null if something went wrong.
 	 * @param str string to process
 	 * @param showErrors true to show error messages (only stacktrace otherwise) 
+	 * @param suppressLabels true to suppress labeling
 	 * @return resulting point
 	 */
 	public GeoPointND evaluateToPoint(String str, boolean showErrors, boolean suppressLabels) {

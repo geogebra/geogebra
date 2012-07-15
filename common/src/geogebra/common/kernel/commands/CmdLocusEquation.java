@@ -5,13 +5,9 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.algos.AlgoLocus;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.Command;
-import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoInterval;
 import geogebra.common.kernel.geos.GeoLocus;
 import geogebra.common.kernel.geos.GeoPoint;
-import geogebra.common.kernel.geos.GeoSegment;
-import geogebra.common.kernel.implicit.GeoImplicitPoly;
 import geogebra.common.main.MyError;
 
 
