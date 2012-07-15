@@ -1,11 +1,8 @@
 package geogebra.common.util;
 
-import geogebra.common.util.MyMathExact.MyDecimalMatrix;
-
 import java.math.BigDecimal;
 
 import org.apache.commons.math.MathRuntimeException;
-import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.linear.AnyMatrix;
 
 
