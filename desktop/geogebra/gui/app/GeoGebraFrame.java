@@ -18,7 +18,6 @@
 package geogebra.gui.app;
 
 import geogebra.CommandLineArguments;
-import geogebra.GeoGebra;
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.awt.GColor;
 import geogebra.common.factories.UtilFactory;
@@ -27,9 +26,7 @@ import geogebra.common.main.App;
 import geogebra.common.util.HttpRequest;
 import geogebra.euclidian.EuclidianViewD;
 import geogebra.export.GraphicExportDialog;
-import geogebra.export.epsgraphics.ColorMode;
 import geogebra.gui.FileDropTargetListener;
-import geogebra.io.MyImageIO;
 import geogebra.main.AppD;
 import geogebra.main.GeoGebraPreferences;
 import geogebra.util.Util;
@@ -42,33 +39,22 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
+import java.awt.Window;
 import java.awt.dnd.DropTarget;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
-import java.awt.image.BufferedImage;
 import java.awt.print.PageFormat;
 import java.awt.print.Printable;
 import java.awt.print.PrinterException;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
-import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
-
-import org.freehep.graphics2d.VectorGraphics;
-import org.freehep.graphicsio.AbstractVectorGraphicsIO;
-import org.freehep.graphicsio.emf.EMFGraphics2D;
-import org.freehep.graphicsio.emf.EMFPlusGraphics2D;
-import org.freehep.graphicsio.pdf.PDFGraphics2D;
-import org.freehep.util.UserProperties;
 
 /**
  * GeoGebra's main window.
@@ -138,6 +124,14 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 	}
 
 	public void windowLostFocus(WindowEvent arg0) {
+		
+		// fix for Mac OS bug: close open popups manually
+		Window[] w = this.getOwnedWindows();
+		for(Window win : w){
+			if(win.getClass().getName().equals("javax.swing.Popup$HeavyWeightWindow") ){
+				win.setVisible(false);
+			}
+		}
 	}
 
 	@Override
