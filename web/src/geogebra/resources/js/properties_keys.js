@@ -1094,6 +1094,7 @@ var menuKeysVar = {
 	Copy:'',
 	CopyAsImage:'',
 	CopyAsLaTeX:'',
+	CopyAsLibreOfficeFormula:'',
 	CopyImage:'',
 	CopyToClipboard:'',
 	CopyToGraphics:'',

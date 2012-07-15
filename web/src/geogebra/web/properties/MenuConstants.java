@@ -379,6 +379,9 @@ public interface MenuConstants extends ConstantsWithLookup {
     @DefaultStringValue("Copy as LaTeX")
     String CopyAsLaTeX();
 
+    @DefaultStringValue("Copy as LibreOffice Formula")
+    String CopyAsLibreOfficeFormula();
+
     @DefaultStringValue("Copy Image")
     String CopyImage();
 

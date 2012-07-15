@@ -2263,7 +2263,7 @@ public interface CommandConstants extends ConstantsWithLookup {
     @DefaultStringValue("SurdText")
     String SurdText();
 
-    @DefaultStringValue("[ <Number> ]\n[ <Point> ]")
+    @DefaultStringValue("[ <Point> ]\n[ <Number> ]\n[ <Number>, <List> ]")
     String SurdText_Syntax();
 
     @DefaultStringValue("TDistribution")
