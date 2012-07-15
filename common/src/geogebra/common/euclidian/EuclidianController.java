@@ -7009,7 +7009,7 @@ public abstract class EuclidianController {
 		}
 	
 		// free number
-		else if (movedGeoElement.isGeoNumeric()) {
+		else if (movedGeoElement.isGeoNumeric() && movedGeoElement.getParentAlgorithm() == null) {
 			movedGeoNumeric = (GeoNumeric) movedGeoElement;
 			moveMode = MOVE_NUMERIC;
 	
