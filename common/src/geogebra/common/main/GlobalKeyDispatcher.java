@@ -737,8 +737,10 @@ public abstract class GlobalKeyDispatcher {
 							&& app.getGuiManager().noMenusOpen()) {
 						if (isShiftDown) {
 							EuclidianViewInterfaceCommon view = app.getActiveEuclidianView();
-							view.setCoordSystem(view.getXZero(), view.getYZero(),
-									view.getXscale(), view.getYscale() * 0.9);
+							if (!view.isLockedAxesRatio()) {
+								view.setCoordSystem(view.getXZero(), view.getYZero(),
+										view.getXscale(), view.getYscale() * 0.9);
+							}
 
 						} else {
 							ev.rememberOrigins();
@@ -757,8 +759,10 @@ public abstract class GlobalKeyDispatcher {
 							&& app.getGuiManager().noMenusOpen()) {
 						if (isShiftDown) {
 							EuclidianViewInterfaceCommon view = app.getActiveEuclidianView();
-							view.setCoordSystem(view.getXZero(), view.getYZero(),
-									view.getXscale(), view.getYscale() / 0.9);
+							if (!view.isLockedAxesRatio()) {
+								view.setCoordSystem(view.getXZero(), view.getYZero(),
+										view.getXscale(), view.getYscale() / 0.9);
+							}
 
 						} else {
 							ev.rememberOrigins();
@@ -776,12 +780,15 @@ public abstract class GlobalKeyDispatcher {
 							&& app.getGuiManager().noMenusOpen()) {
 						if (isShiftDown) {
 							EuclidianViewInterfaceCommon view = app.getActiveEuclidianView();
-							view.setCoordSystem(view.getXZero(), view.getYZero(), view.getXscale() * 0.9,
-									view.getYscale());
-						} else {ev.rememberOrigins();
-						ev.setCoordSystemFromMouseMove(
-								-(int) (width / 100.0 * base), 0,
-								EuclidianController.MOVE_VIEW);
+							if (!view.isLockedAxesRatio()) {
+								view.setCoordSystem(view.getXZero(), view.getYZero(), view.getXscale() * 0.9,
+										view.getYscale());
+							}
+						} else {
+							ev.rememberOrigins();
+							ev.setCoordSystemFromMouseMove(
+									-(int) (width / 100.0 * base), 0,
+									EuclidianController.MOVE_VIEW);
 						}
 						return true;
 
@@ -794,14 +801,16 @@ public abstract class GlobalKeyDispatcher {
 							&& app.getGuiManager().noMenusOpen()) {
 						if (isShiftDown) {
 							EuclidianViewInterfaceCommon view = app.getActiveEuclidianView();
-							view.setCoordSystem(view.getXZero(), view.getYZero(), view.getXscale() / 0.9,
-									view.getYscale());
+							if (!view.isLockedAxesRatio()) {
+								view.setCoordSystem(view.getXZero(), view.getYZero(), view.getXscale() / 0.9,
+										view.getYscale());
+							}
 						} else {
 							ev.rememberOrigins();
+							ev.setCoordSystemFromMouseMove(
+									(int) (width / 100.0 * base), 0,
+									EuclidianController.MOVE_VIEW);
 						}
-						ev.setCoordSystemFromMouseMove(
-								(int) (width / 100.0 * base), 0,
-								EuclidianController.MOVE_VIEW);
 					}
 					return true;
 				}
