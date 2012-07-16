@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
     xmlns:g="urn:import:com.google.gwt.user.client.ui"
-    xmlns:mgwt="urn:import:com.googlecode.mgwt.ui.client.widget" >
+    xmlns:mgwt="urn:import:com.googlecode.mgwt.ui.client.widget"
+    xmlns:web="urn:import:geogebra.web.gui.app" >
 
     <mgwt:LayoutPanel>
 
@@ -26,7 +27,7 @@
 
                 <mgwt:Button
                     text="edit"
-                    ui:field="editButton" >
+                    ui:field="button" >
                 </mgwt:Button>
             </g:FlowPanel>
         </mgwt:ScrollPanel>
