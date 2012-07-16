@@ -545,7 +545,7 @@ public class StringUtil {
 	public static boolean isNumber(String text) {
 		for (int i = 0 ; i < text.length() ; i++) {
 			char c = text.charAt(i);
-			if (!Character.isDigit(c) && c != App.unicodeDecimalPoint && c != '-') return false; 
+			if (!isDigit(c) && c != App.unicodeDecimalPoint && c != '-') return false; 
 		}
 
 		return true;
@@ -621,6 +621,19 @@ public class StringUtil {
 
 		return isLetter(c);
 	}
+	
+	public static boolean isLetterOrDigitOrUnderscore(final char character) {
+		switch (character) {
+		case '_': // allow underscore as a valid letter in an autocompletion
+					// word
+			return true;
+
+		default:
+			return isLetterOrDigit(character);
+		}
+	}
+
+
 
 	/** 
 	 * Character.isDigit() doesn't work in GWT, see

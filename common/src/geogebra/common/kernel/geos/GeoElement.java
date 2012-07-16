@@ -2984,7 +2984,7 @@ public abstract class GeoElement extends ConstructionElement implements
 				if (isFromMeta() && !((FromMeta) this).getMeta().isGeoPolygon()) {
 					int counter = 0;
 					String str;
-					final String name = app.getPlain("Name.edge");
+					final String name = app.getPlainLabel("edge"); // Name.edge
 					do {
 						counter++;
 						str = name
@@ -2995,7 +2995,7 @@ public abstract class GeoElement extends ConstructionElement implements
 				chars = lineLabels;
 			} else if (this instanceof GeoPenStroke) {
 				// needs to come before PolyLine (subclass)
-				return defaultNumberedLabel("Name.penStroke");
+				return defaultNumberedLabel("penStroke"); // Name.penStroke
 			} else if (isGeoPolyLine()) {
 				chars = lineLabels;
 			} else if (isGeoConic()) {
@@ -3005,35 +3005,35 @@ public abstract class GeoElement extends ConstructionElement implements
 			} else if (isGeoAngle()) {
 				chars = greekLowerCase;
 			} else if (isGeoText()) {
-				return defaultNumberedLabel("Name.text");
+				return defaultNumberedLabel("text"); // Name.text
 			} else if (isGeoImage()) {
-				return defaultNumberedLabel("Name.picture");
+				return defaultNumberedLabel("picture"); // Name.picture
 			} else if (isGeoLocus()) {
 				
 				if (algoParent instanceof AlgoSolveODE
 						|| algoParent instanceof AlgoIntegralODE) {
 					
-					return defaultNumberedLabel("Name.numericalIntegral");
+					return defaultNumberedLabel("numericalIntegral"); // Name.numericalIntegral
 					
 				} else if (algoParent instanceof AlgoSlopeField) {
 					
-					return defaultNumberedLabel("Name.slopefield");
+					return defaultNumberedLabel("slopefield"); // Name.slopefield
 				} else if (algoParent instanceof GraphAlgo) {
 					
-					return defaultNumberedLabel("Name.graph");
+					return defaultNumberedLabel("graph"); // Name.graph
 				}
 				
-				return defaultNumberedLabel("Name.locus");
+				return defaultNumberedLabel("locus"); // Name.locus
 			} else if (isGeoTextField()) {
-				return defaultNumberedLabel("Name.textfield");
+				return defaultNumberedLabel("textfield"); // Name.textfield
 			} else if (isGeoButton()) {
-				return defaultNumberedLabel("Name.button");
+				return defaultNumberedLabel("button"); // Name.button
 			} else if (isGeoTurtle()) {
-				return defaultNumberedLabel("Name.turtle");
+				return defaultNumberedLabel("turtle"); // Name.turtle
 			} else if (isGeoList()) {
 				final GeoList list = (GeoList) this;
-				return defaultNumberedLabel(list.isMatrix() ? "Name.matrix"
-						: "Name.list");
+				return defaultNumberedLabel(list.isMatrix() ? "matrix"
+						: "list"); // Name.matrix / Name.list
 			} else if (isInteger && isGeoNumeric()) {
 				chars = integerLabels;
 			} else {
@@ -3082,7 +3082,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		String str;
 		do {
 			counter++;
-			str = app.getPlain(plainKey)
+			str = app.getPlainLabel(plainKey)
 					+ kernel.internationalizeDigits(counter + "",StringTemplate.defaultTemplate);
 		} while (!cons.isFreeLabel(str));
 		return str;
@@ -6146,18 +6146,6 @@ public abstract class GeoElement extends ConstructionElement implements
 	private String clickScript = "";
 	private String updateScript = "";
 
-	// This method is copied from AutoCompleteTextField
-	private static boolean isLetterOrDigit(final char character) {
-		switch (character) {
-		case '_': // allow underscore as a valid letter in an autocompletion
-					// word
-			return true;
-
-		default:
-			return StringUtil.isLetterOrDigit(character);
-		}
-	}
-
 	/**
 	 * This method should split a GeoGebra script into the following format: ""
 	 * or "something"; "command"; "something"; "command"; "something"; ...
@@ -6195,7 +6183,7 @@ public abstract class GeoElement extends ConstructionElement implements
 					in_string = false;
 				}
 			} else if (just_before_bracket) {
-				if (isLetterOrDigit(st.charAt(i))) {
+				if (StringUtil.isLetterOrDigitOrUnderscore(st.charAt(i))) {
 					ret.add(0, retone.toString());
 					retone = new StringBuilder();
 					just_before_bracket = false;
@@ -6208,7 +6196,7 @@ public abstract class GeoElement extends ConstructionElement implements
 					}
 				}
 			} else if (before_bracket) {
-				if (!isLetterOrDigit(st.charAt(i))) {
+				if (!StringUtil.isLetterOrDigitOrUnderscore(st.charAt(i))) {
 					ret.add(0, retone.toString());
 					retone = new StringBuilder();
 					before_bracket = false;

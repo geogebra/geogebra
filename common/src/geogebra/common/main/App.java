@@ -506,6 +506,34 @@ public abstract class App {
 
 	public abstract String getPlain(String cmdName);
 
+	/**
+	 * 
+	 * 
+	 * only letters, numbers and _ allowed in label names
+	 * check for other characters in the properties, and remove them
+	 * @param key eg "poly" -> "Name.poly" -> poly -> poly1 as a label
+	 * @return "poly" (the suffix is added later)
+	 */
+	final public String getPlainLabel(String key) {
+
+		String ret = getPlain("Name."+key);
+
+		for (int i = ret.length() - 1 ; i >= 0 ; i--) {
+			if (!StringUtil.isLetterOrDigitOrUnderscore(ret.charAt(i))) {
+
+				App.warn("Bad character in key: "+key+"="+ret);
+
+				// remove bad character
+				ret = ret.substring(0,  i) + ret.substring(i+1);
+
+			}
+		}
+
+		return ret;
+
+	}
+
+
 	public abstract String getMenu(String cmdName);
 
 	public abstract String getError(String cmdName);
