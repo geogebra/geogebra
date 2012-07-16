@@ -435,14 +435,14 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements AutoCompl
 	  public static String getWordAtPos(String text, int pos) {
 	    // search to the left
 	    int wordStart = pos - 1;
-	    while (wordStart >= 0 && isLetterOrDigit(text.charAt(wordStart)))
+	    while (wordStart >= 0 && StringUtil.isLetterOrDigitOrUnderscore(text.charAt(wordStart)))
 	      --wordStart;
 	    wordStart++;
 
 	    // search to the right
 	    int wordEnd = pos;
 	    int length = text.length();
-	    while (wordEnd < length && isLetterOrDigit(text.charAt(wordEnd)))
+	    while (wordEnd < length && StringUtil.isLetterOrDigitOrUnderscore(text.charAt(wordEnd)))
 	      ++wordEnd;
 
 	    if (wordStart >= 0 && wordEnd <= length) {
@@ -452,16 +452,6 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements AutoCompl
 	    }
 	  }
 	
-	 private static boolean isLetterOrDigit(char character) {
-		    switch (character) {
-		      case '_': // allow underscore as a valid letter in an autocompletion word
-		        return true;
-
-		      default:
-		        return StringUtil.isLetterOrDigit(character);
-		    }
-		  }
-	 
 	 /**
 	   * shows dialog with syntax info
 	   * 
@@ -531,14 +521,14 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements AutoCompl
 	    curWordStart = caretPos - 1;
 	    while (curWordStart >= 0 &&
 	    // isLetterOrDigitOrOpenBracket so that F1 works
-	        isLetterOrDigit(text.charAt(curWordStart))) {
+	    		StringUtil.isLetterOrDigitOrUnderscore(text.charAt(curWordStart))) {
 	      --curWordStart;
 	    }
 	    curWordStart++;
 	    // search to the right
 	    int curWordEnd = caretPos;
 	    int length = text.length();
-	    while (curWordEnd < length && isLetterOrDigit(text.charAt(curWordEnd)))
+	    while (curWordEnd < length && StringUtil.isLetterOrDigitOrUnderscore(text.charAt(curWordEnd)))
 	      ++curWordEnd;
 
 	    curWord.setLength(0);
@@ -937,7 +927,7 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements AutoCompl
 
 		    	  char charPressed = Character.valueOf((char) e.getNativeKeyCode());
 
-		    		    if ((isLetterOrDigit(charPressed) || modifierKeyPressed)
+		    		    if ((StringUtil.isLetterOrDigitOrUnderscore(charPressed) || modifierKeyPressed)
 		    		        && !(ctrlC)
 		    		        && !(e.getNativeKeyCode() == GWTKeycodes.KEY_A)) {
 		    		      clearSelection();

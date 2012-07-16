@@ -16,6 +16,7 @@ import geogebra.common.main.App;
 import geogebra.common.main.MyError;
 import geogebra.common.util.AutoCompleteDictionary;
 import geogebra.common.util.Korean;
+import geogebra.common.util.StringUtil;
 import geogebra.gui.autocompletion.CommandCompletionListCellRenderer;
 import geogebra.gui.autocompletion.CompletionsPopup;
 import geogebra.gui.util.GeoGebraIcon;
@@ -447,7 +448,7 @@ public AutoCompleteTextFieldD(int columns, AppD app,
 
     char charPressed = e.getKeyChar();
 
-    if ((isLetterOrDigit(charPressed) || modifierKeyPressed)
+    if ((StringUtil.isLetterOrDigitOrUnderscore(charPressed) || modifierKeyPressed)
         && !(ctrlC && (AppD.MAC_OS || AppD.LINUX))
         && !(e.getKeyCode() == KeyEvent.VK_A && AppD.MAC_OS)) {
       clearSelection();
@@ -629,14 +630,14 @@ public AutoCompleteTextFieldD(int columns, AppD app,
     curWordStart = caretPos - 1;
     while (curWordStart >= 0 &&
     // isLetterOrDigitOrOpenBracket so that F1 works
-        isLetterOrDigit(text.charAt(curWordStart))) {
+    		StringUtil.isLetterOrDigitOrUnderscore(text.charAt(curWordStart))) {
       --curWordStart;
     }
     curWordStart++;
     // search to the right
     int curWordEnd = caretPos;
     int length = text.length();
-    while (curWordEnd < length && isLetterOrDigit(text.charAt(curWordEnd)))
+    while (curWordEnd < length && StringUtil.isLetterOrDigitOrUnderscore(text.charAt(curWordEnd)))
       ++curWordEnd;
 
     curWord.setLength(0);
@@ -652,41 +653,20 @@ public AutoCompleteTextFieldD(int columns, AppD app,
   public static String getWordAtPos(String text, int pos) {
     // search to the left
     int wordStart = pos - 1;
-    while (wordStart >= 0 && isLetterOrDigit(text.charAt(wordStart)))
+    while (wordStart >= 0 && StringUtil.isLetterOrDigitOrUnderscore(text.charAt(wordStart)))
       --wordStart;
     wordStart++;
 
     // search to the right
     int wordEnd = pos;
     int length = text.length();
-    while (wordEnd < length && isLetterOrDigit(text.charAt(wordEnd)))
+    while (wordEnd < length && StringUtil.isLetterOrDigitOrUnderscore(text.charAt(wordEnd)))
       ++wordEnd;
 
     if (wordStart >= 0 && wordEnd <= length) {
       return text.substring(wordStart, wordEnd);
     } else {
       return null;
-    }
-  }
-
-  private static boolean isLetterOrDigit(char character) {
-    switch (character) {
-      case '_': // allow underscore as a valid letter in an autocompletion word
-        return true;
-
-      default:
-        return Character.isLetterOrDigit(character);
-    }
-  }
-
-  private static boolean isLetterOrDigitOrOpenBracket(char character) {
-    switch (character) {
-      case '[':
-      case '_': // allow underscore as a valid letter in an autocompletion word
-        return true;
-
-      default:
-        return Character.isLetterOrDigit(character);
     }
   }
 
