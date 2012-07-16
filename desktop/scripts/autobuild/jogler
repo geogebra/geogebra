@@ -34,7 +34,7 @@ while [ $# -gt 0 ]; do
    exit 0
    ;;
 
-  -L)
+  -l)
    shift
    L="-l $1"
    ;;
