@@ -39,6 +39,7 @@ public class OptionsMenuW extends MenuBar implements MenuInterface, MyActionList
 		addSeparator();
 		OptionsMenu.addLabelingMenu(this);
 		addSeparator();
+		OptionsMenu.addFontSizeMenu(this);
 		//language menu
 		addLanguageMenu();
 	}
