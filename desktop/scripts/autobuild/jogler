@@ -1,37 +1,77 @@
 #!/bin/sh
 # The JOGL juggler. Creates a mixture of build directory from JOGL1 and JOGL2 builds.
-# Optional: first parameter - logfile, second parameter: test URL (they will
-# be passed to ./build-pack installer).
 
-COMPILE=1 # Set it to 0 or 1, depending on you need compilation
+MYDIR=test50
+CV=5.0
+COMPILE=0
+WWWDIR=/home/build/www-autobuild
 
 ORIGDIR=`dirname $0`
 cd $ORIGDIR
 ORIGDIR=`pwd`
 
-MYDIR=test50
-
-# 1. Start and loading configuration
+# 1/1. Start and loading configuration
 test -r autobuild.conf || {
  echo "$0: Cannot find autobuild.conf (make sure you edit autobuild.conf.dist first)"
  exit 1
  }
 test -r autobuild.conf && . ./autobuild.conf
 
-if [ "$WWWDIR" = "" ]; then
- WWWDIR=/home/build/www-autobuild
- fi
+# 1/2. Reading command line arguments
+while [ $# -gt 0 ]; do
+ case $1 in
+  -h | -help | --help)
+   echo "This script jogles GeoGebra 5 files."
+   echo
+   echo "Usage: $0 [options]"
+   echo " Where options can be (defaults in parentheses):"
+   echo "  -h, -help, --help         This help"
+   echo "  -c                        Compile first (runs build-pack-installer)"
+   echo "  -l [file]                 Logging to file (passed to build-pack-installer)"
+   echo "  -u [url]                  Target URL (passed to build-pack-installer)"
+   echo "  -t [dir]                  Target directory ($MYDIR)"
+   echo "  -w [dir]                  Target directory root folder, path to target URL ($WWWDIR)"
+   exit 0
+   ;;
+
+  -L)
+   shift
+   L="-l $1"
+   ;;
+
+  -u)
+   shift
+   TESTURL="$1"
+   TU="-tu $TESTURL"
+   ;;
+
+  -t)
+   shift
+   MYDIR="$1"
+   ;;
+
+  -w)
+   shift
+   WWWDIR="$1"
+   ;;
+
+  -c)
+   COMPILE=1
+   ;;
+
+  *)
+   echo "Unknown parameter: $1. Use \"$0 -h\" for help."
+   exit 32
+   ;;
+
+  esac
+ shift
+ done
 
 # 2. Compilation
 if [ $COMPILE = 1 ]; then
  for i in 1 2; do
   cd $ORIGDIR
-  if [ "$1" != "" ]; then
-   L="-l $1"
-   fi
-  if [ "$2" != "" ]; then
-   TU="-tu $2"
-   fi
   ./build-pack-installer -l /tmp/jogler.log $L $TU -cv 5.0 -J $i || exit $?
   cd ../..
   rm -fR build-jogl$i
@@ -84,3 +124,22 @@ for i in . debug; do
   -e s/"geogebra_3d\.jar"/geogebra_3d-jogl2.jar/g \
   $WWWDIR/$MYDIR/$i/geogebra-50-jogl2.jnlp
   done
+
+# 6. If there was no compilation (=typically deployment), there was no changing of the URL string, either.
+# So we must do it now:
+if [ "$COMPILE" = "0" ]; then
+cd $WWWDIR/$MYDIR
+TESTURLSED=`echo $TESTURL | sed s/"\/"/"\\\\\\\\\/"/g`
+find . -name '*.jnlp' | while read i do
+ cat $i | \
+  sed s/"http:\/\/www.geogebra.org\/webstart\/$CV\/unsigned"/"$TESTURLSED\/$MYDIR\/unsigned\/unpacked"/g | \
+  sed s/"http:\/\/www.geogebra.org\/webstart\/$CV\/debug"/"$TESTURLSED\/$MYDIR\/debug"/g | \
+  sed s/"http:\/\/www.geogebra.org\/webstart\/$CV\/jnlp\/"/"$TESTURLSED\/$MYDIR\/unpacked\/"/g | \
+  sed s/"http:\/\/www.geogebra.org\/webstart\/$CV\/"/"$TESTURLSED\/$MYDIR\/"/g | \
+  sed s/"<\/title>"/" ($MYVER)<\/title>"/g | \
+  grep -v "association mime-type" | \
+  grep -v packEnabled | \
+  sed s/"\$LONGVERSION"/"$MYVER"/g | \
+   > $i.work
+  mv $i.work $i || exit 6
+ done
