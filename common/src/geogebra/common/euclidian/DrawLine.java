@@ -18,6 +18,7 @@ the Free Software Foundation.
 
 package geogebra.common.euclidian;
 
+import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
@@ -603,5 +604,54 @@ public class DrawLine extends Drawable implements Previewable {
     @Override
 	final public void setGeoElement(GeoElement geo) {
         this.geo = geo;
-    } 
+    }
+    
+   @Override
+   public geogebra.common.awt.GArea getShape() {
+		GeneralPathClipped gpc = new GeneralPathClipped(view);
+		boolean invert = false;
+		if (x1 > x2) {
+			double swap = x1;
+			x1 = x2;
+			x2 = swap;
+			swap = y1;
+			y1 = y2;
+			y2 = swap;
+		}
+		gpc.moveTo(x1, y1);
+		gpc.lineTo(x2, y2);
+		// cross top and bottom
+		if (x1 > 0 && x2 <= view.getWidth()) {
+			if (y2 < y1) {
+				gpc.lineTo(0, 0);
+				gpc.lineTo(0, view.getHeight());
+			} else {
+				gpc.lineTo(0, view.getHeight());
+				gpc.lineTo(0, 0);
+			}
+		}
+		// cross top/bottom and right
+		else if (x1 > 0 && x2 > view.getWidth()) {
+			gpc.lineTo(view.getWidth(), y1);
+			invert = true;
+		}
+		// cros left and bottom/top
+		else if (x1 <= 0 && x2 <= view.getWidth()) {
+			gpc.lineTo(0, y2);
+			invert = y2 > 0;
+		}
+		// cross left and right
+		else {
+			gpc.lineTo(view.getWidth(), 0);
+			gpc.lineTo(0, 0);
+
+		}
+		gpc.closePath();
+		geogebra.common.awt.GArea gpcArea = AwtFactory.prototype.newArea(gpc);
+		if (!invert)
+			return gpcArea;
+		geogebra.common.awt.GArea complement = AwtFactory.prototype.newArea(view.getBoundingPath());
+		complement.subtract(gpcArea);
+		return complement;
+	}
 }

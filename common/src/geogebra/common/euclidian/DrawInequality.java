@@ -7,6 +7,7 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.FunctionalNVar;
 import geogebra.common.kernel.arithmetic.IneqTree;
 import geogebra.common.kernel.arithmetic.Inequality;
+import geogebra.common.kernel.arithmetic.Inequality.IneqType;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.main.App;
@@ -127,7 +128,7 @@ public class DrawInequality extends Drawable {
 
 			if (drawable == null || !matchBorder(ineq.getBorder(), drawable)) {
 				createDrawable();
-			} else if (ineq.getType() == Inequality.INEQUALITY_CONIC) {
+			} else if (ineq.getType() == IneqType.INEQUALITY_CONIC) {
 				ineq.getConicBorder().setInverseFill(ineq.isAboveBorder());
 			}
 			drawable.update();
@@ -145,23 +146,27 @@ public class DrawInequality extends Drawable {
 
 	private void createDrawable() {
 		switch (ineq.getType()) {
-		case Inequality.INEQUALITY_PARAMETRIC_Y:
+		case INEQUALITY_PARAMETRIC_Y:
 			drawable = new DrawParametricInequality(ineq, view, geo);
 			break;
-		case Inequality.INEQUALITY_PARAMETRIC_X:
+		case INEQUALITY_PARAMETRIC_X:
 			drawable = new DrawParametricInequality(ineq, view, geo);
 			break;
-		case Inequality.INEQUALITY_1VAR_X:
+		case INEQUALITY_1VAR_X:
 			drawable = new DrawInequality1Var(ineq, view, geo, false);
 			break;
-		case Inequality.INEQUALITY_1VAR_Y:
+		case INEQUALITY_1VAR_Y:
 			drawable = new DrawInequality1Var(ineq, view, geo, true);
 			break;
-		case Inequality.INEQUALITY_CONIC:
+		case INEQUALITY_CONIC:
 			drawable = new DrawConic(view, ineq.getConicBorder());
 			ineq.getConicBorder().setInverseFill(ineq.isAboveBorder());
 			break;
-		/*case Inequality.INEQUALITY_IMPLICIT:
+		case INEQUALITY_LINEAR:
+			drawable = new DrawLine(view, ineq.getLineBorder());
+			ineq.getLineBorder().setInverseFill(ineq.isAboveBorder());
+			break;	
+		/*case IneqType.INEQUALITY_IMPLICIT:
 			drawable = new DrawImplicitPoly(view, ineq.getImpBorder());
 			break; TODO put this back when implicit polynomial can be shaded*/ 
 		default:
@@ -388,7 +393,7 @@ public class DrawInequality extends Drawable {
 			border.setLineThickness(geo.lineThickness);
 			updateStrokes(border);
 			GPoint labelPos;
-			if (paramIneq.getType() == Inequality.INEQUALITY_PARAMETRIC_X) {
+			if (paramIneq.getType() == IneqType.INEQUALITY_PARAMETRIC_X) {
 				double bx = view.toRealWorldCoordY(-10);
 				double ax = view.toRealWorldCoordY(view.getHeight() + 10);				
 				double axEv = view.toScreenCoordYd(ax);				
@@ -438,7 +443,7 @@ public class DrawInequality extends Drawable {
 		}
 
 		boolean isXparametric() {
-			return paramIneq.getType() == Inequality.INEQUALITY_PARAMETRIC_X;
+			return paramIneq.getType() == IneqType.INEQUALITY_PARAMETRIC_X;
 		}
 
 	}

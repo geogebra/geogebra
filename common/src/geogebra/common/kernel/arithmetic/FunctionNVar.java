@@ -15,6 +15,7 @@ package geogebra.common.kernel.arithmetic;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.VarString;
+import geogebra.common.kernel.arithmetic.Inequality.IneqType;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoPoint;
@@ -652,13 +653,13 @@ public class FunctionNVar extends ValidExpression implements FunctionalNVar, Var
 			Inequality newIneq = new Inequality(kernel, leftTree, rightTree,
 					adjustOp(op, negate), getFunction().getFunctionVariables(),
 					functional);
-			if (newIneq.getType() != Inequality.INEQUALITY_INVALID) {
-				if (newIneq.getType() != Inequality.INEQUALITY_1VAR_X
-						&& newIneq.getType() != Inequality.INEQUALITY_1VAR_Y)
+			if (newIneq.getType() != IneqType.INEQUALITY_INVALID) {
+				if (newIneq.getType() != IneqType.INEQUALITY_1VAR_X
+						&& newIneq.getType() != IneqType.INEQUALITY_1VAR_Y)
 					newIneq.getBorder().setInverseFill(newIneq.isAboveBorder());
 				tree.setIneq(newIneq);
 			}
-			return newIneq.getType() != Inequality.INEQUALITY_INVALID;
+			return newIneq.getType() != IneqType.INEQUALITY_INVALID;
 		} else if (op.equals(Operation.AND) || op.equals(Operation.OR)
 				|| op.equals(Operation.EQUAL_BOOLEAN)
 				|| op.equals(Operation.NOT_EQUAL)) {

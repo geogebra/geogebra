@@ -1,5 +1,6 @@
 package geogebra.common.kernel.arithmetic;
 
+import geogebra.common.kernel.arithmetic.Inequality.IneqType;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.plugin.Operation;
 
@@ -85,7 +86,7 @@ public class IneqTree {
 	public boolean updateCoef() {
 		if (ineq != null) {
 			ineq.updateCoef();
-			return ineq.getType() != Inequality.INEQUALITY_INVALID;
+			return ineq.getType() != IneqType.INEQUALITY_INVALID;
 		}
 		if (left == null && right == null)
 			return false;

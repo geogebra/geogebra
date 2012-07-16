@@ -26,6 +26,7 @@ import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.FunctionalNVar;
 import geogebra.common.kernel.arithmetic.IneqTree;
 import geogebra.common.kernel.arithmetic.Inequality;
+import geogebra.common.kernel.arithmetic.Inequality.IneqType;
 import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
@@ -590,15 +591,18 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 				for(int i = 0; i<size; i++){
 					Inequality in = ineqs.get(i);
 					double px=0,py=0;
-					if(in.getType()==Inequality.INEQUALITY_PARAMETRIC_Y){
+					if(in.getType()==IneqType.INEQUALITY_PARAMETRIC_Y){
 						px = P.getX2D();
 						py = in.getFunBorder().evaluate(px);
 						py += in.isAboveBorder()? STRICT_INEQ_OFFSET : -STRICT_INEQ_OFFSET;
 					}
-					else if(in.getType()==Inequality.INEQUALITY_PARAMETRIC_X){
+					else if(in.getType()==IneqType.INEQUALITY_PARAMETRIC_X){
 						py = P.getY2D();
 						px = in.getFunBorder().evaluate(py);
 						px += in.isAboveBorder()? STRICT_INEQ_OFFSET : -STRICT_INEQ_OFFSET;
+					}
+					else if(in.getType()==IneqType.INEQUALITY_LINEAR){
+						//TODO
 					}
 					double myDist = (py-myY)*(py-myY)+(px-myX)*(px-myX);
 					if((myDist < bestDist) && isInRegion(px,py)){

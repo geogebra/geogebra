@@ -557,10 +557,15 @@ public class GeoConic extends GeoConicND implements Traceable,
 			App.debug(matrix[4] + "," + matrix[5] + ","
 					+ matrix[2]);
 		}
-		App.debug(this);
 	}
 
-	private static double evalCoeff(ExpressionValue[][] ev, int i, int j) {
+	/**
+	 * @param ev
+	 * @param i
+	 * @param j
+	 * @return
+	 */
+	public static double evalCoeff(ExpressionValue[][] ev, int i, int j) {
 		if (ev.length > i && ev[i].length > j && ev[i][j] != null) {
 			return ev[i][j].evaluateNum().getDouble();
 		}

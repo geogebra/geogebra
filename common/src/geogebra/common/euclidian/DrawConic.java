@@ -393,9 +393,9 @@ final public class DrawConic extends Drawable implements Previewable {
 				|| conic.type == GeoConicNDConstants.CONIC_INTERSECTING_LINES
 				|| conic.type == GeoConicNDConstants.CONIC_LINE) {
 
-			shape = lineToGpc(drawLines[0]);
+			shape = drawLines[0].getShape();
 			if (conic.type != GeoConicNDConstants.CONIC_LINE)
-				((geogebra.common.awt.GArea)shape).exclusiveOr(lineToGpc(drawLines[1]));
+				((geogebra.common.awt.GArea)shape).exclusiveOr(drawLines[1].getShape());
 			// FIXME: buggy when conic(RW(0),RW(0))=0
 
 			if (negativeColored()) {
@@ -425,55 +425,7 @@ final public class DrawConic extends Drawable implements Previewable {
 		return false;
 	}
 
-	private geogebra.common.awt.GArea lineToGpc(DrawLine drawLine) {
-		GeneralPathClipped gpc = new GeneralPathClipped(view);
-		boolean invert = false;
-		if (drawLine.x1 > drawLine.x2) {
-			double swap = drawLine.x1;
-			drawLine.x1 = drawLine.x2;
-			drawLine.x2 = swap;
-			swap = drawLine.y1;
-			drawLine.y1 = drawLine.y2;
-			drawLine.y2 = swap;
-		}
-		gpc.moveTo(drawLine.x1, drawLine.y1);
-		gpc.lineTo(drawLine.x2, drawLine.y2);
-		// cross top and bottom
-		if (drawLine.x1 > 0 && drawLine.x2 <= view.getWidth()) {
-			App.debug("top-bot");
-			if (drawLines[0].y2 < drawLine.y1) {
-				gpc.lineTo(0, 0);
-				gpc.lineTo(0, view.getHeight());
-			} else {
-				gpc.lineTo(0, view.getHeight());
-				gpc.lineTo(0, 0);
-			}
-		}
-		// cross top/bottom and right
-		else if (drawLine.x1 > 0 && drawLine.x2 > view.getWidth()) {
-			gpc.lineTo(view.getWidth(), drawLine.y1);
-			invert = true;
-		}
-		// cros left and bottom/top
-		else if (drawLine.x1 <= 0 && drawLine.x2 <= view.getWidth()) {
-			gpc.lineTo(0, drawLine.y2);
-			invert = drawLine.y2 > 0;
-		}
-		// cross left and right
-		else {
-			gpc.lineTo(view.getWidth(), 0);
-			gpc.lineTo(0, 0);
-
-		}
-		gpc.closePath();
-		geogebra.common.awt.GArea gpcArea = AwtFactory.prototype.newArea(gpc);
-		if (!invert)
-			return gpcArea;
-		geogebra.common.awt.GArea complement = AwtFactory.prototype.newArea(view.getBoundingPath());
-		complement.subtract(gpcArea);
-		return complement;
-
-	}
+	
 
 	final private void updateCircle() {
 		setShape(null);
