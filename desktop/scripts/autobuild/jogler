@@ -124,22 +124,3 @@ for i in . debug; do
   -e s/"geogebra_3d\.jar"/geogebra_3d-jogl2.jar/g \
   $WWWDIR/$MYDIR/$i/geogebra-50-jogl2.jnlp
   done
-
-# 6. If there was no compilation (=typically deployment), there was no changing of the URL string, either.
-# So we must do it now:
-if [ "$COMPILE" = "0" ]; then
-cd $WWWDIR/$MYDIR
-TESTURLSED=`echo $TESTURL | sed s/"\/"/"\\\\\\\\\/"/g`
-find . -name '*.jnlp' | while read i do
- cat $i | \
-  sed s/"http:\/\/www.geogebra.org\/webstart\/$CV\/unsigned"/"$TESTURLSED\/$MYDIR\/unsigned\/unpacked"/g | \
-  sed s/"http:\/\/www.geogebra.org\/webstart\/$CV\/debug"/"$TESTURLSED\/$MYDIR\/debug"/g | \
-  sed s/"http:\/\/www.geogebra.org\/webstart\/$CV\/jnlp\/"/"$TESTURLSED\/$MYDIR\/unpacked\/"/g | \
-  sed s/"http:\/\/www.geogebra.org\/webstart\/$CV\/"/"$TESTURLSED\/$MYDIR\/"/g | \
-  sed s/"<\/title>"/" ($MYVER)<\/title>"/g | \
-  grep -v "association mime-type" | \
-  grep -v packEnabled | \
-  sed s/"\$LONGVERSION"/"$MYVER"/g | \
-   > $i.work
-  mv $i.work $i || exit 6
- done

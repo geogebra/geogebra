@@ -58,20 +58,27 @@ find . -name '*.jar' -or -name '*.jar.pack.gz' -or -name version.txt -or -name g
 # 4/3. Rewriting *.html and *.jnlp files
 # (currently the version number is not written at <\/title>"):
 cd $WWWDIR/$MYDIR
-for i in *.jnlp; do # TODO: Put back "*.html" when applets are supported in deployment
+find . -name '*.jnlp' | while read i; do
  cat $i | \
-  sed s/"http:\/\/www.geogebra.org\/webstart\/5.0\/unsigned"/"http:\/\/jars.geogebra.org\/webstart\/$MYDIR\/unsigned"/g | \
-  sed s/"http:\/\/www.geogebra.org\/webstart\/5.0\/usb-gomotion"/"http:\/\/jars.geogebra.org\/webstart\/$MYDIR\/usb-gomotion.ggb"/g | \
-  sed s/"http:\/\/www.geogebra.org\/webstart\/5.0\/"/"http:\/\/jars.geogebra.org\/webstart\/$MYDIR\/"/g | \
-  sed s/"codebase=\"http:\/\/jars"/"codebase=\"http:\/\/www"/g | \
   sed s/"\$LONGVERSION"/"$MYVER"/g | \
-  sed s/"<\/title>"/"<\/title>"/g \
+  sed s/"\/jnlp\/"/"\/unpacked\/"/g \
   > $i.work
- mv $i.work $i || exit 4
- echo "$0: $i is rewritten"
+  mv $i.work $i || exit 6
  done
 
-# 4/4. Creating a jnlp file for webstart/history (implementing #692), common code with buildggb50:
+# 4/4. Copying JNLP's to debug as well:
+ for i in 1 2; do
+  cat $WWWDIR/$MYDIR/geogebra-50-jogl$i.jnlp | sed s/unpacked/debug/g |\
+   sed s/"\" href=\"geogebra-50"/"debug\/\" href=\"geogebra-50"/ \
+   > $WWWDIR/$MYDIR/debug/geogebra-50-jogl$i.jnlp
+  done
+
+# 4/5. Running jogler:
+cd $SVNDIR/geogebra/desktop/scripts/autobuild
+./jogler -l /tmp/deployggb50-`date +%Y%m%d%H%M`.log -t 5.0
+
+# 4/6. Creating a jnlp file for webstart/history (implementing #692), common code with buildggb50:
+cd $WWWDIR/$MYDIR
 MYVER_DASHED=`echo $MYVER | tr . -`
 for i in unpacked debug; do
  cat $SVNDIR/geogebra/desktop/scripts/autobuild/history-template.jnlp |\
@@ -81,28 +88,14 @@ for i in unpacked debug; do
   > $WWWDIR/history/$MYVER/$i/geogebra-$MYVER_DASHED.jnlp
  done
  
-# 4/5. Superfast webstart:
-mkdir -p $WWWDIR/$MYDIR/jnlp/unsigned
-cd $WWWDIR/$MYDIR/unpacked
-for i in *.jar; do
- cd $WWWDIR/$MYDIR/jnlp
- ln -s ../unpacked/$i
- ln -s ../packed/$i.pack.gz
- done
-cd $WWWDIR/$MYDIR/unsigned/unpacked
-for i in *.jar; do
- cd $WWWDIR/$MYDIR/jnlp/unsigned
- ln -s ../../unsigned/unpacked/$i
- ln -s ../../unsigned/packed/$i.pack.gz
- done
-
 echo "$0: JAR files copied to 5.0 and history/$MYVER"
 
 # 5. Finally, making sure that all files have group writable permissions:
 WARNINGS=`chmod -R g+rw $WWWDIR/$MYDIR $WWWDIR/history 2>&1 | wc -l | awk '{print $1}'`
 echo "$WARNINGS warnings during chmod'ing web files"
 
-### TODO: Copy the missing parts here from deployggb40 ###
+### TODO: Copy the missing parts here from deployggb4* ###
+
 
 # 9/1. rsync-www on demand:
 if [ "$WWW_REMOTEDIR" != "" ]; then
