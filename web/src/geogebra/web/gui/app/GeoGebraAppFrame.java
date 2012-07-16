@@ -139,6 +139,10 @@ public class GeoGebraAppFrame extends Composite {
 		ggwSplitLayoutPanel.attachApp(app);
 		ggwCommandLine.attachApp(app);
 		ggwMenuBar.init(app);
+		
+		//Debugging purposes
+		AppW.displaySupportedLocales();
+		AppW.displayLocaleCookie();
     }
 	
 	/**

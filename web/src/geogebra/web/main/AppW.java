@@ -800,10 +800,29 @@ public class AppW extends App {
 	public String getLanguage() {
 		return getLocaleStr().substring(0, 2);
 	}
+	
+	/**
+	 * This method is used for debugging purposes:
+	 */
+	public static void displaySupportedLocales() {
+		String[] localeNames = LocaleInfo.getAvailableLocaleNames();
+		for(int i=0; i<localeNames.length; i++) {
+			App.debug("GWT Module Supported Locale no." + i + ", Locale Name: " + localeNames[i]);
+		}
+	}
+	
+	/**
+	 * This method is used for debugging purposes:
+	 */
+	public static void displayLocaleCookie() {
+		App.debug("Locale Cookie Name: " + LocaleInfo.getLocaleCookieName() + ", Cookie Value: " + Cookies.getCookie(LocaleInfo.getLocaleCookieName()));
+	}
 
 	@Override
 	public String getLocaleStr() {
 		String localeName = LocaleInfo.getCurrentLocale().getLocaleName();
+		App.debug("Current Locale: " + localeName);
+		
 		if (localeName.toLowerCase().equals(AppW.DEFAULT_LOCALE)) {
 			return AppW.DEFAULT_LANGUAGE;
 		}

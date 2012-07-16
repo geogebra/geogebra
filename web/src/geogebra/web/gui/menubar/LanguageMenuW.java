@@ -83,7 +83,7 @@ public class LanguageMenuW extends MenuBar {
 						text = sb.toString();
 					}	
 					
-					App.debug("Supported Languages: " + l.localeGWT);										
+					App.debug("Language Menu includes language: " + l.localeGWT);										
 
 					if(ch <= 'D') {
 
