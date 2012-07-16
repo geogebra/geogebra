@@ -15,7 +15,6 @@ package geogebra.gui;
 
 import geogebra.common.euclidian.EuclidianStyleBarStatic;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
-import geogebra.common.gui.view.properties.PropertiesView.OptionType;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.AbsoluteScreenLocateable;
 import geogebra.common.kernel.geos.Animatable;
@@ -25,7 +24,6 @@ import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoSegment;
-import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.GeoUserInputElement;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.geos.Traceable;
@@ -66,12 +64,6 @@ public class ContextMenuGeoElementD extends geogebra.common.gui.ContextMenuGeoEl
 	protected final static Color bgColor = Color.white;
 	/** foreground color*/
 	protected final static Color fgColor = Color.black;
-	/** selected elements*/
-	ArrayList<GeoElement> geos;
-	/** current element */
-	GeoElement geo;
-	/** application */
-	public AppD app;
 	protected JPopupMenu wrappedPopup;
 	/**
 	 * Creates new context menu
@@ -83,19 +75,6 @@ public class ContextMenuGeoElementD extends geogebra.common.gui.ContextMenuGeoEl
 		wrappedPopup.setBackground(bgColor);
 	}
 	
-	/**
-	 * 
-	 * @param geo geo
-	 * @return description
-	 */
-	protected String getDescription(GeoElement geo){
-		String title = geo.getLongDescriptionHTML(false, true);
-		if (title.length() > 80)
-			title = geo.getNameDescriptionHTML(false, true);
-		return title;
-	}
-	
-
 	/** Creates new MyPopupMenu for GeoElement
 	 * @param app application
 	 * @param geos selected elements
@@ -154,15 +133,7 @@ public class ContextMenuGeoElementD extends geogebra.common.gui.ContextMenuGeoEl
 				private static final long serialVersionUID = 1L;
 
 				public void actionPerformed(ActionEvent e) {
-					for (int i = geos.size() - 1 ; i >= 0 ; i--) {
-						GeoElement geo1 = geos.get(i);
-						if (geo1 instanceof GeoPoint) {
-							GeoPoint point1 = (GeoPoint)geo1;
-							point1.setMode(Kernel.COORD_CARTESIAN);
-							point1.updateRepaint();
-						}
-					}
-					app.storeUndoInfo();
+					cartesianCoordsCmd();
 				}
 			};
 			addAction(action);
@@ -176,15 +147,7 @@ public class ContextMenuGeoElementD extends geogebra.common.gui.ContextMenuGeoEl
 				private static final long serialVersionUID = 1L;
 
 				public void actionPerformed(ActionEvent e) {
-					for (int i = geos.size() - 1 ; i >= 0 ; i--) {
-						GeoElement geo1 = geos.get(i);
-						if (geo1 instanceof GeoPoint) {
-							GeoPoint point1 = (GeoPoint)geo1;
-							point1.setMode(Kernel.COORD_POLAR);
-							point1.updateRepaint();
-						}
-					}
-					app.storeUndoInfo();
+					polarCoorsCmd();
 				}
 			};
 			addAction(action);
@@ -231,15 +194,7 @@ public class ContextMenuGeoElementD extends geogebra.common.gui.ContextMenuGeoEl
 				private static final long serialVersionUID = 1L;
 
 				public void actionPerformed(ActionEvent e) {
-					for (int i = geos.size() - 1 ; i >= 0 ; i--) {
-						GeoElement geo1 = geos.get(i);
-						if (geo1 instanceof GeoLine && !(geo1 instanceof GeoSegment)) {
-							GeoLine line1 = (GeoLine)geo1;
-							line1.setMode(GeoLine.EQUATION_IMPLICIT);
-							line1.updateRepaint();
-						}
-					}
-					app.storeUndoInfo();
+					equationImplicitEquationCmd();
 				}
 			};
 			addAction(action);
@@ -257,15 +212,7 @@ public class ContextMenuGeoElementD extends geogebra.common.gui.ContextMenuGeoEl
 				private static final long serialVersionUID = 1L;
 
 				public void actionPerformed(ActionEvent e) {
-					for (int i = geos.size() - 1 ; i >= 0 ; i--) {
-						GeoElement geo1 = geos.get(i);
-						if (geo1 instanceof GeoLine && !(geo1 instanceof GeoSegment)) {
-							GeoLine line1 = (GeoLine)geo1;
-							line1.setMode(GeoLine.EQUATION_EXPLICIT);
-							line1.updateRepaint();
-						}
-					}
-					app.storeUndoInfo();
+					equationExplicitEquationCmd();
 				}
 			};
 			addAction(action);
@@ -279,15 +226,7 @@ public class ContextMenuGeoElementD extends geogebra.common.gui.ContextMenuGeoEl
 				private static final long serialVersionUID = 1L;
 
 				public void actionPerformed(ActionEvent e) {
-					for (int i = geos.size() - 1 ; i >= 0 ; i--) {
-						GeoElement geo1 = geos.get(i);
-						if (geo1 instanceof GeoLine && !(geo1 instanceof GeoSegment)) {
-							GeoLine line1 = (GeoLine)geo1;
-							line1.setMode(GeoLine.PARAMETRIC);
-							line1.updateRepaint();
-						}
-					}
-					app.storeUndoInfo();
+					parametricFormCmd();
 				}
 			};
 			addAction(action);
@@ -310,15 +249,7 @@ public class ContextMenuGeoElementD extends geogebra.common.gui.ContextMenuGeoEl
 				private static final long serialVersionUID = 1L;
 
 				public void actionPerformed(ActionEvent e) {
-					for (int i = geos.size() - 1 ; i >= 0 ; i--) {
-						GeoElement geo1 = geos.get(i);
-						if (geo1 instanceof GeoVector) {
-							GeoVector vector1 = (GeoVector)geo1;
-							vector1.setMode(Kernel.COORD_CARTESIAN);
-							vector1.updateRepaint();
-						}
-					}
-					app.storeUndoInfo();
+					cartesianCoordsForVectorItemsCmd();
 				}
 			};
 			addAction(action);
@@ -332,15 +263,7 @@ public class ContextMenuGeoElementD extends geogebra.common.gui.ContextMenuGeoEl
 				private static final long serialVersionUID = 1L;
 
 				public void actionPerformed(ActionEvent e) {
-					for (int i = geos.size() - 1 ; i >= 0 ; i--) {
-						GeoElement geo1 = geos.get(i);
-						if (geo1 instanceof GeoVector) {
-							GeoVector vector1 = (GeoVector)geo1;
-							vector1.setMode(Kernel.COORD_POLAR);
-							vector1.updateRepaint();
-						}
-					}
-					app.storeUndoInfo();
+					polarCoordsForVectorItemsCmd();
 				}
 			};
 			addAction(action);
@@ -388,15 +311,7 @@ public class ContextMenuGeoElementD extends geogebra.common.gui.ContextMenuGeoEl
 				private static final long serialVersionUID = 1L;
 
 				public void actionPerformed(ActionEvent e) {
-					for (int i = geos.size() - 1 ; i >= 0 ; i--) {
-						GeoElement geo1 = geos.get(i);
-						if (geo1.getClass() == GeoConic.class) {
-							GeoConic conic1 = (GeoConic)geo1;
-							conic1.setToImplicit();
-							conic1.updateRepaint();
-						}
-					}
-					app.storeUndoInfo();
+					implicitConicEquationCmd();
 				}
 			};
 			addAction(action);
@@ -417,15 +332,7 @@ public class ContextMenuGeoElementD extends geogebra.common.gui.ContextMenuGeoEl
 					private static final long serialVersionUID = 1L;
 
 					public void actionPerformed(ActionEvent e) {
-						for (int i = geos.size() - 1 ; i >= 0 ; i--) {
-							GeoElement geo1 = geos.get(i);
-							if (geo1.getClass() == GeoConic.class) {
-								GeoConic conic1 = (GeoConic)geo1;
-								conic1.setToSpecific();
-								conic1.updateRepaint();
-							}
-						}
-						app.storeUndoInfo();
+						equationConicEqnCmd();
 					}
 				};
 				addAction(action);
@@ -444,15 +351,7 @@ public class ContextMenuGeoElementD extends geogebra.common.gui.ContextMenuGeoEl
 				private static final long serialVersionUID = 1L;
 
 				public void actionPerformed(ActionEvent e) {
-					for (int i = geos.size() - 1 ; i >= 0 ; i--) {
-						GeoElement geo1 = geos.get(i);
-						if (geo1.getClass() == GeoConic.class) {
-							GeoConic conic1 = (GeoConic)geo1;
-							conic1.setToExplicit();
-							conic1.updateRepaint();
-						}
-					}
-					app.storeUndoInfo();
+					equationExplicitConicEquationCmd();
 				}
 			};
 			addAction(action);
@@ -470,9 +369,7 @@ public class ContextMenuGeoElementD extends geogebra.common.gui.ContextMenuGeoEl
 						private static final long serialVersionUID = 1L;
 	
 						public void actionPerformed(ActionEvent e) {
-							inputElement.setExtendedForm();
-							inputElement.updateRepaint();
-							app.storeUndoInfo();
+							extendedFormCmd(inputElement);
 						}
 					};
 				}else{
@@ -481,9 +378,7 @@ public class ContextMenuGeoElementD extends geogebra.common.gui.ContextMenuGeoEl
 						private static final long serialVersionUID = 1L;
 	
 						public void actionPerformed(ActionEvent e) {
-							inputElement.setInputForm();
-							inputElement.updateRepaint();
-							app.storeUndoInfo();
+							inputFormCmd(inputElement);
 						}
 					};
 				}
@@ -501,8 +396,8 @@ public class ContextMenuGeoElementD extends geogebra.common.gui.ContextMenuGeoEl
 			//GeoText geoText = (GeoText) geo;
 			// show object
 			final JCheckBoxMenuItem cbItem = new JCheckBoxMenuItem(app.getPlain("AbsoluteScreenLocation"));
-			app.setEmptyIcon(cbItem);
-			cbItem.setIcon(app.getImageIcon("pin.png"));
+			((AppD) app).setEmptyIcon(cbItem);
+			cbItem.setIcon(((AppD) app).getImageIcon("pin.png"));
 			cbItem.setSelected(geo.isPinned());
 			cbItem.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
@@ -564,7 +459,7 @@ public class ContextMenuGeoElementD extends geogebra.common.gui.ContextMenuGeoEl
 		if (!geo.hasValueStringChangeableRegardingView())
 			return;
 
-		DockPanel panel = app.getGuiManager().getLayout().getDockManager().getFocusedEuclidianPanel();
+		DockPanel panel = ((AppD)app).getGuiManager().getLayout().getDockManager().getFocusedEuclidianPanel();
 		if (panel==null)
 			return;
 		
@@ -596,10 +491,7 @@ public class ContextMenuGeoElementD extends geogebra.common.gui.ContextMenuGeoEl
 
 			public void actionPerformed(ActionEvent e) {
 				//TODO change that to chooser
-				geo.setViewForValueString(app.getActiveEuclidianView());
-				geo.update();
-				app.getGuiManager().getAlgebraView().remove(geo);
-				app.getGuiManager().getAlgebraView().add(geo);
+				showValueStringRegardingACmd();
 				
 			}
 		};
@@ -619,17 +511,11 @@ public class ContextMenuGeoElementD extends geogebra.common.gui.ContextMenuGeoEl
 			// show object
 			if (geo.isEuclidianShowable() && geo.getShowObjectCondition() == null && (!geo.isGeoBoolean() || geo.isIndependent())) {
 				cbItem = new JCheckBoxMenuItem( app.getPlain("ShowObject"));
-				cbItem.setIcon(app.getImageIcon("mode_showhideobject_16.gif"));
+				cbItem.setIcon(((AppD) app).getImageIcon("mode_showhideobject_16.gif"));
 				cbItem.setSelected(geo.isSetEuclidianVisible());
 				cbItem.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						for (int i = geos.size() - 1 ; i >= 0 ; i--) {
-							GeoElement geo1 = geos.get(i);
-							geo1.setEuclidianVisible(!geo1.isSetEuclidianVisible());
-							geo1.updateRepaint();
-							
-						}
-						app.storeUndoInfo();
+						showObjectCmd();
 					}        	
 				});
 				addItem(cbItem);
@@ -639,16 +525,10 @@ public class ContextMenuGeoElementD extends geogebra.common.gui.ContextMenuGeoEl
 				// show label
 				cbItem = new JCheckBoxMenuItem( app.getPlain("ShowLabel"));	           
 				cbItem.setSelected(geo.isLabelVisible());
-				cbItem.setIcon(app.getImageIcon("mode_showhidelabel_16.gif"));
+				cbItem.setIcon(((AppD) app).getImageIcon("mode_showhidelabel_16.gif"));
 				cbItem.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						for (int i = geos.size() - 1 ; i >= 0 ; i--) {
-							GeoElement geo1 = geos.get(i);
-							geo1.setLabelVisible(!geo1.isLabelVisible());
-							geo1.updateRepaint();
-							
-						}
-						app.storeUndoInfo();
+						showLabelCmd();
 					}        	
 				});
 				addItem(cbItem);	        		            	            	            
@@ -657,10 +537,14 @@ public class ContextMenuGeoElementD extends geogebra.common.gui.ContextMenuGeoEl
 			//  trace
 			if (geo.isTraceable()) {            	
 				cbItem = new JCheckBoxMenuItem( app.getPlain("TraceOn"));
-				cbItem.setIcon(app.getImageIcon("trace_on.gif"));
+				cbItem.setIcon(((AppD) app).getImageIcon("trace_on.gif"));
 				cbItem.setSelected(((Traceable) geo).getTrace());
 				cbItem.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
+						traceCmd();
+					}
+
+					public void traceCmd() {
 						for (int i = geos.size() - 1 ; i >= 0 ; i--) {
 							GeoElement geo1 = geos.get(i);
 							if (geo1.isTraceable()) {
@@ -690,20 +574,12 @@ public class ContextMenuGeoElementD extends geogebra.common.gui.ContextMenuGeoEl
 				
 				if (showRecordToSpreadsheet){
 					cbItem = new JCheckBoxMenuItem(app.getMenu("RecordToSpreadsheet"));
-					cbItem.setIcon(app.getImageIcon("spreadsheettrace.gif"));
+					cbItem.setIcon(((AppD) app).getImageIcon("spreadsheettrace.gif"));
 					cbItem.setSelected(geo.getSpreadsheetTrace());
 
 					cbItem.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent e) {
-							GeoElement geoRecordToSpreadSheet;
-							if (geos.size()==1)
-								geoRecordToSpreadSheet = geo;
-							else{
-								geoRecordToSpreadSheet = app.getKernel().List(null, geos, false);
-								geoRecordToSpreadSheet.setAuxiliaryObject(true);
-							}
-								
-							app.getGuiManager().getSpreadsheetView().showTraceDialog(geoRecordToSpreadSheet, null);
+							recordToSpreadSheetCmd();
 						}
 					});
 					addItem(cbItem);
@@ -733,10 +609,14 @@ public class ContextMenuGeoElementD extends geogebra.common.gui.ContextMenuGeoEl
 			//  animation
 			if (geo.isAnimatable()) {            	
 				cbItem = new JCheckBoxMenuItem( app.getPlain("Animating"));
-				app.setEmptyIcon(cbItem);
+				((AppD) app).setEmptyIcon(cbItem);
                 cbItem.setSelected(((Animatable) geo).isAnimating() && app.getKernel().getAnimatonManager().isRunning());
 				cbItem.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
+						animationCmd();	
+					}
+
+					public void animationCmd() {
 						for (int i = geos.size() - 1 ; i >= 0 ; i--) {
 							GeoElement geo1 = geos.get(i);
 							if (geo1.isAnimatable()) {
@@ -751,7 +631,7 @@ public class ContextMenuGeoElementD extends geogebra.common.gui.ContextMenuGeoEl
 
 						// automatically start animation when animating was turned on
 						if (geo.isAnimating())
-							geo.getKernel().getAnimatonManager().startAnimation();	
+							geo.getKernel().getAnimatonManager().startAnimation();
 					}       	
 				});
 				addItem(cbItem);            	
@@ -764,20 +644,12 @@ public class ContextMenuGeoElementD extends geogebra.common.gui.ContextMenuGeoEl
 
 				// show object
 				cbItem = new JCheckBoxMenuItem( app.getPlain("AuxiliaryObject"));
-				cbItem.setIcon(app.getImageIcon("aux_folder.gif"));
+				cbItem.setIcon(((AppD) app).getImageIcon("aux_folder.gif"));
 				cbItem.setSelected(geo.isAuxiliaryObject());
 				cbItem.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						for (int i = geos.size() - 1 ; i >= 0 ; i--) {
-							GeoElement geo1 = geos.get(i);
-							if (geo1.isAlgebraShowable()) {
-								geo1.setAuxiliaryObject(!geo1.isAuxiliaryObject());
-								geo1.updateRepaint();
-							}
-							
-						}
-						app.storeUndoInfo();
-					}        	
+						showObjectAuxiliaryCmd();
+					}
 				});
 				addItem(cbItem);                      
 			}                                                           
@@ -786,24 +658,11 @@ public class ContextMenuGeoElementD extends geogebra.common.gui.ContextMenuGeoEl
 			if (geo.isFixable() && (geo.isGeoText() || geo.isGeoImage())) {   
 
 				cbItem = new JCheckBoxMenuItem( app.getPlain("FixObject"));
-				app.setEmptyIcon(cbItem);
+				((AppD) app).setEmptyIcon(cbItem);
 				cbItem.setSelected(geo.isFixed());
 				cbItem.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						for (int i = geos.size() - 1 ; i >= 0 ; i--) {
-							GeoElement geo1 = geos.get(i);
-							if (geo1.isGeoNumeric()) {
-								((GeoNumeric)geo1).setSliderFixed(!geo1.isFixed());
-								geo1.updateRepaint();
-							} else {
-								if (geo1.isFixable()) {
-									geo1.setFixed(!geo1.isFixed());
-									geo1.updateRepaint();
-								}
-							}
-							
-						}
-						app.storeUndoInfo();
+						fixObjectCmd();
 					}       	
 				});
 				addItem(cbItem);            	
@@ -814,21 +673,11 @@ public class ContextMenuGeoElementD extends geogebra.common.gui.ContextMenuGeoEl
 				if (num.isSlider()) {   
 
 					cbItem = new JCheckBoxMenuItem( app.getPlain("FixObject"));
-					app.setEmptyIcon(cbItem);
+					((AppD) app).setEmptyIcon(cbItem);
 					cbItem.setSelected(num.isSliderFixed());
 					cbItem.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent e) {
-							for (int i = geos.size() - 1 ; i >= 0 ; i--) {
-								GeoElement geo1 = geos.get(i);
-								if (geo1.isGeoNumeric()) {
-									((GeoNumeric)geo1).setSliderFixed(!num.isSliderFixed());
-									geo1.updateRepaint();
-								} else {
-									geo1.setFixed(!num.isSliderFixed());
-								}
-								
-							}
-							app.storeUndoInfo();
+							fixObjectNumericCmd(num);
 						}       	
 					});
 					addItem(cbItem);            	
@@ -883,11 +732,11 @@ public class ContextMenuGeoElementD extends geogebra.common.gui.ContextMenuGeoEl
 		if (geos.size() == 1 && app.letRename() && geo.isRenameable())  {    
 			addAction(new AbstractAction(
 					app.getPlain("Rename"),
-					app.getImageIcon("rename.png")) {
+					((AppD) app).getImageIcon("rename.png")) {
 				private static final long serialVersionUID = 1L;
 
 				public void actionPerformed(ActionEvent e) {
-					app.getDialogManager().showRenameDialog(geo, true, geo.getLabelSimple(), true);
+					renameCmd();
 				}
 			});
 		}
@@ -897,11 +746,11 @@ public class ContextMenuGeoElementD extends geogebra.common.gui.ContextMenuGeoEl
 		if (geos.size() == 1 && geo.isTextValue() && !geo.isTextCommand() && !geo.isFixed()) {
 			addAction(new AbstractAction(
 					app.getPlain("Edit"),
-					app.getImageIcon("edit.png")) {
+					((AppD) app).getImageIcon("edit.png")) {
 				private static final long serialVersionUID = 1L;
 
 				public void actionPerformed(ActionEvent e) {
-					app.getDialogManager().showTextDialog((GeoText) geo); 
+					editCmd(); 
 				}
 			});
 		}      
@@ -926,34 +775,29 @@ public class ContextMenuGeoElementD extends geogebra.common.gui.ContextMenuGeoEl
 		if (app.letDelete() && !geo.isFixed()) {  
 			addAction(new AbstractAction(
 					app.getPlain("Delete"),
-					app.getImageIcon("delete_small.gif")) {
+					((AppD) app).getImageIcon("delete_small.gif")) {
 				/**
 				 * 
 				 */
 				private static final long serialVersionUID = 1L;
 
 				public void actionPerformed(ActionEvent e) {
-					//geo.remove();
-					for (int i = geos.size() - 1 ; i >= 0 ; i--) {
-						GeoElement geo1 = geos.get(i);
-						geo1.removeOrSetUndefinedIfHasFixedDescendent();
-					}
-					app.storeUndoInfo();
+					deleteCmd();
 				}
 			});       
 		}
 
-		if (app.letShowPropertiesDialog() && geo.hasProperties()) {
+		if (((AppD) app).letShowPropertiesDialog() && geo.hasProperties()) {
 			wrappedPopup.addSeparator();
 
 			// open properties dialog      
 			addAction(new AbstractAction(
 					app.getPlain("Properties") + " ...",
-					app.getImageIcon("view-properties16.png")) {
+					((AppD) app).getImageIcon("view-properties16.png")) {
 				private static final long serialVersionUID = 1L;
 
 				public void actionPerformed(ActionEvent e) {
-					app.getDialogManager().showPropertiesDialog(OptionType.OBJECTS, geos);
+					openPropertiesDialogCmd();
 				}
 			});
 		}
@@ -984,11 +828,11 @@ public class ContextMenuGeoElementD extends geogebra.common.gui.ContextMenuGeoEl
 	 */
 	protected void setTitle(String str) {
 		JLabel title = new JLabel(str);
-		title.setFont(app.getBoldFont());                      
+		title.setFont(((AppD) app).getBoldFont());                      
 		title.setBackground(bgColor);
 		title.setForeground(fgColor);
 		
-		title.setIcon(app.getEmptyIcon());
+		title.setIcon(((AppD) app).getEmptyIcon());
 		title.setBorder(BorderFactory.createEmptyBorder(5, 0, 2, 15)); 
 		
 		// wrap title JLabel in a panel to prevent unneeded spacing
@@ -1020,5 +864,25 @@ public class ContextMenuGeoElementD extends geogebra.common.gui.ContextMenuGeoEl
 	public JPopupMenu getWrappedPopup() {
 		return this.wrappedPopup;
 	}
+
+	public void showValueStringRegardingACmd() {
+		geo.setViewForValueString(app.getActiveEuclidianView());
+		geo.update();
+		((AppD)app).getGuiManager().getAlgebraView().remove(geo);
+		((AppD)app).getGuiManager().getAlgebraView().add(geo);
+	}
+
+	public void recordToSpreadSheetCmd() {
+		GeoElement geoRecordToSpreadSheet;
+		if (geos.size()==1)
+			geoRecordToSpreadSheet = geo;
+		else{
+			geoRecordToSpreadSheet = app.getKernel().List(null, geos, false);
+			geoRecordToSpreadSheet.setAuxiliaryObject(true);
+		}
+			
+		((AppD)app).getGuiManager().getSpreadsheetView().showTraceDialog(geoRecordToSpreadSheet, null);
+	}  
+	
 
 }

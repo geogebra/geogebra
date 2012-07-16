@@ -47,7 +47,6 @@ public class ContextMenuChooseGeoD extends ContextMenuGeoElementD {
 	private TreeSet<GeoElement> metas;
 	
 	private ArrayList<GeoElement> selectedGeos;
-	private ArrayList<GeoElement> geos;
 	private geogebra.common.awt.GPoint loc;
 	
 	private JMenu selectAnotherMenu;
@@ -108,9 +107,9 @@ public class ContextMenuChooseGeoD extends ContextMenuGeoElementD {
 	
 	private void addSelectAnotherMenu(){
 		selectAnotherMenu = new JMenu(app.getMenu("SelectAnother") );
-		selectAnotherMenu.setIcon(app.getEmptyIcon());
+		selectAnotherMenu.setIcon(((AppD) app).getEmptyIcon());
 		selectAnotherMenu.setBackground(getWrappedPopup().getBackground());
-		selectAnotherMenu.setFont(app.getItalicFont());
+		selectAnotherMenu.setFont(((AppD) app).getItalicFont());
 		
 		// add the selection menu just under the title
 		getWrappedPopup().add(selectAnotherMenu,1);     

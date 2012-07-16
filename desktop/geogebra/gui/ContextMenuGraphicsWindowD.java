@@ -136,7 +136,7 @@ implements ActionListener {
     
     protected void addMiProperties(){
         JMenuItem miProperties = new JMenuItem(app.getPlain("DrawingPad") + " ...");
-        miProperties.setIcon(app.getImageIcon("view-properties16.png"));
+        miProperties.setIcon(((AppD) app).getImageIcon("view-properties16.png"));
         miProperties.setActionCommand("properties");
         miProperties.addActionListener(this);
         miProperties.setBackground(bgColor);
@@ -146,15 +146,15 @@ implements ActionListener {
     protected void addAxesAndGridCheckBoxes(){
 
         // checkboxes for axes and grid        
-        JCheckBoxMenuItem cbShowAxes = new JCheckBoxMenuItem(app.getGuiManager().getShowAxesAction());
+        JCheckBoxMenuItem cbShowAxes = new JCheckBoxMenuItem(((AppD)app).getGuiManager().getShowAxesAction());
         //cbShowAxes.setSelected(ev.getShowXaxis() && ev.getShowYaxis());
-        app.setShowAxesSelected(cbShowAxes);
+        ((AppD) app).setShowAxesSelected(cbShowAxes);
         cbShowAxes.setBackground(wrappedPopup.getBackground());
         wrappedPopup.add(cbShowAxes);
         
-        JCheckBoxMenuItem cbShowGrid = new JCheckBoxMenuItem(app.getGuiManager().getShowGridAction());
+        JCheckBoxMenuItem cbShowGrid = new JCheckBoxMenuItem(((AppD)app).getGuiManager().getShowGridAction());
         //cbShowGrid.setSelected(ev.getShowGrid());
-        app.setShowGridSelected(cbShowGrid);
+        ((AppD) app).setShowGridSelected(cbShowGrid);
         cbShowGrid.setBackground(wrappedPopup.getBackground());
         wrappedPopup.add(cbShowGrid);
     }
@@ -166,7 +166,7 @@ implements ActionListener {
             app.setStandardView();        
         }
     	else if (cmd.equals("showAllObjects")) {
-    		app.setViewShowAllObjects();
+    		((AppD) app).setViewShowAllObjects();
     	}
     	else if (cmd.equals("properties")) {
     		showOptionsDialog();
@@ -175,7 +175,7 @@ implements ActionListener {
     
     protected void showOptionsDialog(){
     	app.getGuiManager().setShowView(true, App.VIEW_PROPERTIES);
-    	app.getGuiManager().setFocusedPanel(app.getActiveEuclidianView().getViewID(), true);
+    	((AppD)app).getGuiManager().setFocusedPanel(app.getActiveEuclidianView().getViewID(), true);
     	//app.getDialogManager().showOptionsDialog(OptionsDialog.TAB_EUCLIDIAN);
 		//app.getGuiManager().showDrawingPadPropertiesDialog();
     }
@@ -266,11 +266,11 @@ implements ActionListener {
       } 
     
     private void zoom(double zoomFactor) {
-        app.zoom(px, py, zoomFactor);       
+        ((AppD) app).zoom(px, py, zoomFactor);       
     }
     
     // ratio: yaxis / xaxis
     private void zoomYaxis(double axesRatio) {
-    	app.zoomAxesRatio(axesRatio);    	
+    	((AppD) app).zoomAxesRatio(axesRatio);    	
     }      
 }
