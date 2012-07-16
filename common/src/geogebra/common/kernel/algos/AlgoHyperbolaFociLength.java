@@ -26,6 +26,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.locusequ.EquationElement;
 import geogebra.common.kernel.locusequ.EquationScope;
+import geogebra.common.kernel.locusequ.elements.EquationHyperbolaFociLength;
 
 /**
  * Hyperbola for given foci and first semi-axis length
@@ -64,12 +65,11 @@ public class AlgoHyperbolaFociLength extends AlgoConicFociLength {
 	@Override
 	public EquationElement buildEquationElementForGeo(GeoElement element,
 			EquationScope scope) {
-		return null;
+		return new EquationHyperbolaFociLength(element, scope);
 	}
 
 	@Override
 	public boolean isLocusEquable() {
-		// TODO Consider locusequability
-		return false;
+		return true;
 	}
 }
