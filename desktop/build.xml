@@ -401,14 +401,13 @@ office@geogebra.org
 			basedir="${src.dir}"
 			includes="geogebra/cas/**,
 					org/apache/log4j/**,
-					org/mathpiper/mpreduce/**,
+					org/mathpiper/mpreduce/**/*.class,
 			geogebra/kernel/cas/**,
 					default.img"
 			excludes="**/*.java,
 			geogebra/cas/maxima/**,
 			geogebra/cas/jacomax/**,
-			geogebra/cas/mathpiper/**,
-			org/mathpiper/mpreduce/Interpreter2.java" 
+			geogebra/cas/mathpiper/**"
 		/>
 	</target>
 
