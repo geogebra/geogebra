@@ -732,75 +732,80 @@ public abstract class GlobalKeyDispatcher {
 							EuclidianController.MOVE_VIEW);
 					return true;
 				case DOWN:
-					if (isShiftDown) {
-						EuclidianViewInterfaceCommon view = app.getActiveEuclidianView();
-						view.setCoordSystem(view.getXZero(), view.getYZero(),
-								view.getXscale(), view.getYscale() * 0.9);
-						return true;
-
-					} 
-
 
 					if (app.isUsingFullGui()
 							&& app.getGuiManager().noMenusOpen()) {
-						ev.rememberOrigins();
-						ev.setCoordSystemFromMouseMove(0,
-								(int) (height / 100.0 * base),
-								EuclidianController.MOVE_VIEW);
+						if (isShiftDown) {
+							EuclidianViewInterfaceCommon view = app.getActiveEuclidianView();
+							view.setCoordSystem(view.getXZero(), view.getYZero(),
+									view.getXscale(), view.getYscale() * 0.9);
+
+						} else {
+							ev.rememberOrigins();
+							ev.setCoordSystemFromMouseMove(0,
+									(int) (height / 100.0 * base),
+									EuclidianController.MOVE_VIEW);
+						}
 						return true;
 					}
+
+					break;
 
 				case UP:
-					if (isShiftDown) {
-						EuclidianViewInterfaceCommon view = app.getActiveEuclidianView();
-						view.setCoordSystem(view.getXZero(), view.getYZero(),
-								view.getXscale(), view.getYscale() / 0.9);
-						return true;
 
-					} 
 					if (app.isUsingFullGui()
 							&& app.getGuiManager().noMenusOpen()) {
-						ev.rememberOrigins();
-						ev.setCoordSystemFromMouseMove(0,
-								-(int) (height / 100.0 * base),
-								EuclidianController.MOVE_VIEW);
+						if (isShiftDown) {
+							EuclidianViewInterfaceCommon view = app.getActiveEuclidianView();
+							view.setCoordSystem(view.getXZero(), view.getYZero(),
+									view.getXscale(), view.getYscale() / 0.9);
+
+						} else {
+							ev.rememberOrigins();
+							ev.setCoordSystemFromMouseMove(0,
+									-(int) (height / 100.0 * base),
+									EuclidianController.MOVE_VIEW);
+						}
 						return true;
 					}
+					break;
 
 				case LEFT:
-					if (isShiftDown) {
-						EuclidianViewInterfaceCommon view = app.getActiveEuclidianView();
-						view.setCoordSystem(view.getXZero(), view.getYZero(), view.getXscale() * 0.9,
-								view.getYscale());
-						return true;
-					} 
 
 					if (app.isUsingFullGui()
 							&& app.getGuiManager().noMenusOpen()) {
-						ev.rememberOrigins();
+						if (isShiftDown) {
+							EuclidianViewInterfaceCommon view = app.getActiveEuclidianView();
+							view.setCoordSystem(view.getXZero(), view.getYZero(), view.getXscale() * 0.9,
+									view.getYscale());
+						} else {ev.rememberOrigins();
 						ev.setCoordSystemFromMouseMove(
 								-(int) (width / 100.0 * base), 0,
 								EuclidianController.MOVE_VIEW);
+						}
 						return true;
 
 					}
+					break;
+
 				case RIGHT:
-					if (isShiftDown) {
-						EuclidianViewInterfaceCommon view = app.getActiveEuclidianView();
-						view.setCoordSystem(view.getXZero(), view.getYZero(), view.getXscale() / 0.9,
-								view.getYscale());
-						return true;
-					} 
+
 					if (app.isUsingFullGui()
 							&& app.getGuiManager().noMenusOpen()) {
-						ev.rememberOrigins();
+						if (isShiftDown) {
+							EuclidianViewInterfaceCommon view = app.getActiveEuclidianView();
+							view.setCoordSystem(view.getXZero(), view.getYZero(), view.getXscale() / 0.9,
+									view.getYscale());
+						} else {
+							ev.rememberOrigins();
+						}
 						ev.setCoordSystemFromMouseMove(
 								(int) (width / 100.0 * base), 0,
 								EuclidianController.MOVE_VIEW);
-						return true;
 					}
+					return true;
 				}
-
+			
 			return false;
 		}
 
