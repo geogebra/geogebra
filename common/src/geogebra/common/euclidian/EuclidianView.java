@@ -1436,15 +1436,19 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 	
 	public MyButton getHitButton(geogebra.common.awt.GPoint p) {
 
-		
-
 		DrawableIterator it = allDrawableList.getIterator();
+		Drawable d = null;
+		
 		while (it.hasNext()) {
-			Drawable d = it.next();
-			if (d.hit(p.x, p.y) && d instanceof DrawButton) {				
-					return ((DrawButton)d).myButton;
-			}
+			Drawable d2 = it.next();
+			App.debug(d2.getGeoElement().getLayer());			
+			
+			if (d2.hit(p.x, p.y) && d2 instanceof DrawButton) {
+				if (d==null || d2.getGeoElement().getLayer() >= d.getGeoElement().getLayer())
+					d = d2;				
+			}		
 		}
+		if (d!=null) return ((DrawButton) d).myButton;
 		return null;
 	}
 
