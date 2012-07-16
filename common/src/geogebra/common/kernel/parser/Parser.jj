@@ -49,6 +49,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.arithmetic.*;
 import geogebra.common.kernel.arithmetic3D.MyVec3DNode;
 import geogebra.common.kernel.arithmetic3D.Vector3DValue;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunctionNVar;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -2044,7 +2045,17 @@ ExpressionNode numberFunction():
       		  ExpressionNode expr =  new ExpressionNode(kernel, new Variable(kernel,funcName), Operation.MULTIPLY_OR_FUNCTION, myList.getListElement(0));
 	      		undecided.add(expr);
 	      		return expr;       		}
-      		if (geo == null && cell==null) {
+      		boolean forceCommand = false;
+
+      		if(c.image.charAt(c.image.length()-1)=='[')      		{
+      		  try
+                  {
+                    forceCommand = Commands.valueOf(funcName)!=null;
+                  }
+                  catch(Throwable t){
+                	  t.printStackTrace();
+                  }      		}      		  
+      		if (forceCommand || (geo == null && cell==null)) {
       		  		Operation op = app.getParserFunctions().get(funcName,myList.size());
       		  		if(op!=null)
       		  			return buildOpNode(op,myList);
