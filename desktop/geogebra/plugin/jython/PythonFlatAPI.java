@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.TreeSet;
 
+import javax.swing.JFrame;
+
 import geogebra.common.awt.GColor;
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Construction;
@@ -990,7 +992,13 @@ public class PythonFlatAPI {
 		this.algProcessor = kernel.getAlgebraProcessor();
 	}
 	
-
+	/**
+	 * @return the JFrame for the api's app
+	 */
+	public JFrame getAppFrame() {
+		return app.getFrame();
+	}
+	
 	/**
 	 * Find a Geo with a given label
 	 * 

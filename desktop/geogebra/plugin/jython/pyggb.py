@@ -270,7 +270,7 @@ class Functions(object):
             if options in option_types:
                 option_type = option_types[options]
                 return JOptionPane.showConfirmDialog(
-                    self.api.app.frame,
+                    self.api.appFrame,
                     message, title, option_type, message_type
                 )
             options = options.split("/")
