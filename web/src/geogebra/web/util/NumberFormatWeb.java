@@ -34,7 +34,9 @@ public class NumberFormatWeb extends Format implements NumberFormatAdapter {
 			ret = ret.substring(0, ret.length() - 1);
 		}
 		
-		return ret;
+		// GWT uses the locale to decide . or , as decimal separator
+		// we must always have .
+		return ret.replace(',', '.');
 		
 	}
 
