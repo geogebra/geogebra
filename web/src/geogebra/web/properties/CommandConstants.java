@@ -290,7 +290,7 @@ public interface CommandConstants extends ConstantsWithLookup {
     String CommonDenominator();
 
     @DefaultStringValue("[ <Expression>, <Expression> ]")
-    String CommonDenominator_SyntaxCAS();
+    String CommonDenominator_Syntax();
 
     @DefaultStringValue("CompetitionRank")
     String CompetitionRank();
@@ -1360,12 +1360,6 @@ public interface CommandConstants extends ConstantsWithLookup {
     @DefaultStringValue("[ <Function>, <Start x-Value>, <End x-Value> ]\n[ <Function>, <Variable>, <Start Value>, <End Value> ]")
     String NIntegral_SyntaxCAS();
 
-    @DefaultStringValue("NRoot")
-    String NRoot();
-
-    @DefaultStringValue("[ <Expression>, <N> ]")
-    String NRoot_SyntaxCAS();
-
     @DefaultStringValue("NSolutions")
     String NSolutions();
 
@@ -2369,7 +2363,7 @@ public interface CommandConstants extends ConstantsWithLookup {
     String ToComplex();
 
     @DefaultStringValue("[ <Vector> ]")
-    String ToComplex_SyntaxCAS();
+    String ToComplex_Syntax();
 
     @DefaultStringValue("ToExponential")
     String ToExponential();
@@ -2387,7 +2381,7 @@ public interface CommandConstants extends ConstantsWithLookup {
     String ToPolar();
 
     @DefaultStringValue("[ <Complex Number> ]\n[ <Vector> ]")
-    String ToPolar_SyntaxCAS();
+    String ToPolar_Syntax();
 
     @DefaultStringValue("ToolImage")
     String ToolImage();
@@ -2450,10 +2444,13 @@ public interface CommandConstants extends ConstantsWithLookup {
     String TrigCombine();
 
     @DefaultStringValue("[ <Expression> ]\n[ <Expression>, <Target Function> ]")
-    String TrigCombine_SyntaxCAS();
+    String TrigCombine_Syntax();
 
     @DefaultStringValue("TrigExpand")
     String TrigExpand();
+
+    @DefaultStringValue("[ <Expression> ]\n[ <Expression>, <Target Function> ]")
+    String TrigExpand_Syntax();
 
     @DefaultStringValue("[ <Expression> ]\n[ <Expression>, <Target Function> ]\n[ <Expression>, <Target Function>, <Target Variable> ]\n[ <Expression>, <Target Function>, <Target Variable>, <Target Variable> ]")
     String TrigExpand_SyntaxCAS();
@@ -2462,7 +2459,7 @@ public interface CommandConstants extends ConstantsWithLookup {
     String TrigSimplify();
 
     @DefaultStringValue("[ <Expression> ]")
-    String TrigSimplify_SyntaxCAS();
+    String TrigSimplify_Syntax();
 
     @DefaultStringValue("Trilinear")
     String Trilinear();

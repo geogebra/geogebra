@@ -709,6 +709,9 @@ public interface PlainConstants extends ConstantsWithLookup {
     @DefaultStringValue("csch")
     String Function_csch();
 
+    @DefaultStringValue("nroot")
+    String Function_nroot();
+
     @DefaultStringValue("sec")
     String Function_sec();
 
