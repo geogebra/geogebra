@@ -1,7 +1,5 @@
 package geogebra.common.gui.menubar;
 
-import javax.swing.JRadioButtonMenuItem;
-
 import geogebra.common.factories.Factory;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.main.App;
