@@ -999,11 +999,6 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture {
 		// Application.debug("GeoList.setLineThickness "+thickness);
 	}
 
-	@Override
-	public int getLineThickness() {
-		return super.getLineThickness();
-	}
-
 	/**
 	 * @return minimum line thickness (normally 1, but 0 for polygons, integrals
 	 *         etc)
@@ -1044,11 +1039,6 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture {
 
 		// Application.debug("GeoList.setLineType");
 
-	}
-
-	@Override
-	public int getLineType() {
-		return super.getLineType();
 	}
 
 	private int pointSize = EuclidianStyleConstants.DEFAULT_POINT_SIZE;

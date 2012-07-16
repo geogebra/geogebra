@@ -31,6 +31,7 @@ import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
+import geogebra.common.kernel.kernelND.GeoElementND;
 import geogebra.common.main.App;
 import geogebra.common.plugin.EuclidianStyleConstants;
 
@@ -419,14 +420,14 @@ public abstract class Drawable extends DrawableND {
 	 * 
 	 * @param fromGeo geo whose style should be used for the update
 	 */
-	final public void updateStrokes(GeoElement fromGeo) {
+	final public void updateStrokes(GeoElementND fromGeo) {
 		strokedShape = null;
 		strokedShape2 = null;
 
-		if (lineThickness != fromGeo.lineThickness) {
-			lineThickness = fromGeo.lineThickness;
+		if (lineThickness != fromGeo.getLineThickness()) {
+			lineThickness = fromGeo.getLineThickness();
 			if (!forcedLineType)
-				lineType = fromGeo.lineType;
+				lineType = fromGeo.getLineType();
 
 			float width = lineThickness / 2.0f;
 			objStroke = EuclidianStatic.getStroke(width, lineType);
@@ -435,9 +436,9 @@ public abstract class Drawable extends DrawableND {
 			selStroke = EuclidianStatic.getStroke(width
 					+ EuclidianStyleConstants.SELECTION_ADD,
 					EuclidianStyleConstants.LINE_TYPE_FULL);
-		} else if (lineType != fromGeo.lineType) {
+		} else if (lineType != fromGeo.getLineType()) {
 			if (!forcedLineType)
-				lineType = fromGeo.lineType;
+				lineType = fromGeo.getLineType();
 
 			float width = lineThickness / 2.0f;
 			objStroke = EuclidianStatic.getStroke(width, lineType);

@@ -142,7 +142,7 @@ public class DrawLine extends Drawable implements Previewable {
         isVisible = geo.isEuclidianVisible(); 
         if (isVisible) {
 			labelVisible = geo.isLabelVisible();
-			updateStrokes(geo);
+			updateStrokes(g);
 			
 			Coords equation = g.getCartesianEquationVector(view.getMatrix());
 			if (equation==null){

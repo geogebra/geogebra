@@ -5170,10 +5170,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		return "";
 	}
 
-	/**
-	 * @return line thickness
-	 */
-	public int getLineThickness() {
+	public final int getLineThickness() {
 		return lineThickness;
 	}
 
@@ -5185,10 +5182,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		return 1;
 	}
 
-	/**
-	 * @return line type
-	 */
-	public int getLineType() {
+	public final int getLineType() {
 		return lineType;
 	}
 

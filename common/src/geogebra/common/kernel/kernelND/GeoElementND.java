@@ -155,4 +155,14 @@ public interface GeoElementND extends ExpressionValue, ToGeoElement{
 	 * Update and repaint this geo
 	 */
 	void updateRepaint();
+	
+	/**
+	 * @return line type
+	 */
+	int getLineType();
+	
+	/**
+	 * @return line thickness
+	 */
+	int getLineThickness();
 }
