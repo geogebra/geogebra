@@ -118,7 +118,7 @@ public abstract class OptionsMenu {
 				kernel.updateConstruction();
 			}
 		}, strDescription, strDescriptionAC, 0, false);
-		app.addMenuItem(menu, app.getEmptyIconFileName(), "AlgebraDescriptions", true,
+		app.addMenuItem(menu, app.getEmptyIconFileName(), app.getMenu("AlgebraDescriptions"), true,
 				menuAlgebraStyle);
 		
 		updateMenuViewDescription();	
