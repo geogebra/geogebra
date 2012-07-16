@@ -35,18 +35,18 @@ mkdir -p $WWWDIR/$MYDIR || exit 3
 chmod g+rwx $WWWDIR/$MYDIR || exit 3
 
 # 4/1. Copying static files (common code with buildggb50)
-cp -R $SVNDIR/geogebra/desktop/webstart/5.0/* $WWWDIR/$MYDIR || exit 4
-cp $SVNDIR/geogebra/desktop/geogebra/gui/images/geogebra64.png $WWWDIR/$MYDIR || exit 4
-find $WWWDIR/$MYDIR -name .svn | xargs rm -fR
-mkdir -p $WWWDIR/$MYDIR/usb
-cp $SVNDIR/geogebra/desktop/lib/vernier_ccsd* $WWWDIR/$MYDIR/usb || exit 4
+rm -fR $WWWDIR/history/$MYVER || exit 4
+mkdir -p $WWWDIR/history/$MYVER || exit 4
+chmod g+rwx $WWWDIR/history/$MYVER || exit 4
+for i in $WWWDIR/$MYDIR $WWWDIR/history/$MYVER; do
+ cp -R $SVNDIR/geogebra/desktop/webstart/5.0/* $i || exit 4
+ cp $SVNDIR/geogebra/desktop/geogebra/gui/images/geogebra64.png $i || exit 4
+ find $i -name .svn | xargs rm -fR
+ done
 echo "$0: static files copied"
 
 # 4/2. Copying/overwriting JAR files to 5.0 and history/$MYVER:
 cd $SVNDIR/geogebra/desktop/build
-rm -fR $WWWDIR/history/$MYVER || exit 4
-mkdir -p $WWWDIR/history/$MYVER || exit 4
-chmod g+rwx $WWWDIR/history/$MYVER || exit 4
 find . -name '*.jar' -or -name '*.jar.pack.gz' -or -name version.txt -or -name geogebra-map.txt -or -name preload.html -or -name '*.var' | while read filename; do
  directory=`dirname $filename`
  mkdir -p $WWWDIR/$MYDIR/$directory $WWWDIR/history/$MYVER/$directory || exit 5
@@ -57,37 +57,36 @@ find . -name '*.jar' -or -name '*.jar.pack.gz' -or -name version.txt -or -name g
 
 # 4/3. Rewriting *.html and *.jnlp files
 # (currently the version number is not written at <\/title>"):
-cd $WWWDIR/$MYDIR
-find . -name '*.jnlp' | while read i; do
- cat $i | \
-  sed s/"\$LONGVERSION"/"$MYVER"/g | \
-  sed s/"\/jnlp\/"/"\/unpacked\/"/g \
-  > $i.work
+for dir in $WWWDIR/$MYDIR $WWWDIR/history/$MYVER; do
+ cd $dir
+ find . -name '*.jnlp' | while read i; do
+  cat $i | \
+   sed s/"\$LONGVERSION"/"$MYVER"/g | \
+   sed s/"\/jnlp\/"/"\/unpacked\/"/g \
+   > $i.work
   mv $i.work $i || exit 6
- done
-
-# 4/4. Copying JNLP's to debug as well:
- for i in 1 2; do
-  cat $WWWDIR/$MYDIR/geogebra-50-jogl$i.jnlp | sed s/unpacked/debug/g |\
-   sed s/"\" href=\"geogebra-50"/"debug\/\" href=\"geogebra-50"/ \
-   > $WWWDIR/$MYDIR/debug/geogebra-50-jogl$i.jnlp
+  
+  if [ "$dir" = "$WWWDIR/history/$MYVER" ]; then
+   sed -i s/"webstart\/5.0"/"webstart\/history\/$MYVER"/g $i
+   fi
+  
   done
+
+ # 4/4. Copying JNLP's to debug as well:
+ for i in 1 2; do
+  cat $dir/geogebra-50-jogl$i.jnlp | sed s/unpacked/debug/g |\
+   sed s/"\" href=\"geogebra-50"/"debug\/\" href=\"geogebra-50"/ \
+   > $dir/debug/geogebra-50-jogl$i.jnlp
+  done
+
+ done # dir
 
 # 4/5. Running jogler:
 cd $SVNDIR/geogebra/desktop/scripts/autobuild
 ./jogler -l /tmp/deployggb50-`date +%Y%m%d%H%M`.log -t 5.0
+./jogler -l /tmp/deployggb50-`date +%Y%m%d%H%M`.log -t history/$MYVER\
+ -u "http://www.geogebra.org/webstart/5.0/history/$MYVER"
 
-# 4/6. Creating a jnlp file for webstart/history (implementing #692), common code with buildggb50:
-cd $WWWDIR/$MYDIR
-MYVER_DASHED=`echo $MYVER | tr . -`
-for i in unpacked debug; do
- cat $SVNDIR/geogebra/desktop/scripts/autobuild/history-template.jnlp |\
-  sed s/MYVER_DASHED/$MYVER_DASHED/g |\
-  sed s/MYVER/$MYVER/g |\
-  sed s/ENDDIR/$i/g \
-  > $WWWDIR/history/$MYVER/$i/geogebra-$MYVER_DASHED.jnlp
- done
- 
 echo "$0: JAR files copied to 5.0 and history/$MYVER"
 
 # 5. Finally, making sure that all files have group writable permissions:
@@ -95,7 +94,6 @@ WARNINGS=`chmod -R g+rw $WWWDIR/$MYDIR $WWWDIR/history 2>&1 | wc -l | awk '{prin
 echo "$WARNINGS warnings during chmod'ing web files"
 
 ### TODO: Copy the missing parts here from deployggb4* ###
-
 
 # 9/1. rsync-www on demand:
 if [ "$WWW_REMOTEDIR" != "" ]; then
