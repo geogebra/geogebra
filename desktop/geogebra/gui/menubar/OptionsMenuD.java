@@ -77,28 +77,8 @@ public class OptionsMenuD extends BaseMenu implements ActionListener, MyActionLi
 
 		addSeparator();
 
-		// Font size
-		submenu = new JMenu(app.getMenu("FontSize"));
-		submenu.setIcon(app.getImageIcon("font.png"));
+		OptionsMenu.addFontSizeMenu(this);
 		
-		//String[] fsfi = { "12 pt", "14 pt", "16 pt", "18 pt", "20 pt", "24 pt",
-		//		"28 pt", "32 pt" };
-		String[] fsfi = new String[MyXMLHandler.menuFontSizes.length];
-		String[] fontActionCommands = new String[MyXMLHandler.menuFontSizes.length];
-
-		// find current pos
-		int fontSize = app.getFontSize();
-		pos = 0;
-		for (int i = 0; i < MyXMLHandler.menuFontSizes.length; i++) {
-			if (fontSize == MyXMLHandler.menuFontSizes[i]) {
-				pos = i;
-			}
-			fsfi[i] = app.getPlain("Apt",MyXMLHandler.menuFontSizes[i]+"");
-			fontActionCommands[i]=MyXMLHandler.menuFontSizes[i] + " pt";
-		}
-
-		addRadioButtonMenuItems(submenu, this, fsfi, fontActionCommands, pos);
-		add(submenu);
 
 		/*
 		 * // FontName menuFontName = new JMenu(getMenu("PointCapturing"));

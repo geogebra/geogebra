@@ -1,6 +1,7 @@
 package geogebra.common.gui.menubar;
 
 import geogebra.common.factories.Factory;
+import geogebra.common.io.MyXMLHandler;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.main.App;
 
@@ -227,6 +228,29 @@ public abstract class OptionsMenu {
 
 		int pos = app.getActiveEuclidianView().getPointCapturingMode();
 		menuPointCapturing.setSelected(pos);
+	}
+	
+	public static void addFontSizeMenu(MenuInterface menu){
+		RadioButtonMenuBar submenu = Factory.prototype.newRadioButtonMenuBar(app);
+		
+		//String[] fsfi = { "12 pt", "14 pt", "16 pt", "18 pt", "20 pt", "24 pt",
+		//		"28 pt", "32 pt" };
+		String[] fsfi = new String[MyXMLHandler.menuFontSizes.length];
+		String[] fontActionCommands = new String[MyXMLHandler.menuFontSizes.length];
+
+		// find current pos
+		int fontSize = app.getFontSize();
+		int pos = 0;
+		for (int i = 0; i < MyXMLHandler.menuFontSizes.length; i++) {
+			if (fontSize == MyXMLHandler.menuFontSizes[i]) {
+				pos = i;
+			}
+			fsfi[i] = app.getPlain("Apt",MyXMLHandler.menuFontSizes[i]+"");
+			fontActionCommands[i]=MyXMLHandler.menuFontSizes[i] + " pt";
+		}
+
+		submenu.addRadioButtonMenuItems((MyActionListener)menu, fsfi, fontActionCommands, pos, true);
+		app.addMenuItem(menu, "font.png", app.getMenu("FontSize"), true, submenu);
 	}
 
 	public static void update() {
