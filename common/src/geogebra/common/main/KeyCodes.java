@@ -120,7 +120,7 @@ public enum KeyCodes {
 			//App.debug(gwtKeyCode);
 		}
 		
-		App.warn("GWT keycode not found:"+gwtKeyCode);
+		//App.warn("GWT keycode not found:"+gwtKeyCode);
 		return UNKNOWN;
 
 	}
@@ -132,7 +132,7 @@ public enum KeyCodes {
 			}
 		}
 		
-		App.warn("Java keycode not found:"+javaKeyCode);
+		//App.warn("Java keycode not found:"+javaKeyCode);
 		return UNKNOWN;
 
 	}
