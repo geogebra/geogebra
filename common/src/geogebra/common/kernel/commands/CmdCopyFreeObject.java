@@ -54,7 +54,9 @@ public class CmdCopyFreeObject extends CommandProcessor {
 					throw argErr(app, c.getName(), arg[0]); 
 				} 
 			}
-			GeoElement geo = arg[0].copy();
+			// changed to deepCopyGeo() so that it works for lists
+			// https://www.geogebra.org/forum/viewtopic.php?f=8&t=26356
+			GeoElement geo = arg[0].deepCopyGeo();
 			geo.setLabel(label);
 			GeoElement[] ret = { geo };
 			if(!arg[0].isLabelSet())
