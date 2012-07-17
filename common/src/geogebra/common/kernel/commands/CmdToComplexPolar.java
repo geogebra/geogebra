@@ -10,8 +10,18 @@ import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.main.MyError;
 
+/**
+ * ToComplex[Vector]
+ * ToComplex[List]
+ *
+ */
 public class CmdToComplexPolar extends CommandProcessor {
 	private boolean polar;
+	
+	/**
+	 * @param kernel kernel
+	 * @param polar true for ToPolar, false for ToComplex
+	 */
 	public CmdToComplexPolar(Kernel kernel,boolean polar) {
 		super(kernel);
 		this.polar = polar;

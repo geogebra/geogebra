@@ -5,6 +5,7 @@ import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoFunctionNVar;
 import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoPoly;
 import geogebra.common.kernel.geos.GeoText;
@@ -39,6 +40,8 @@ public class CmdVertex extends CommandProcessor {
 				return kernelA.Vertex(c.getLabels(), (GeoConic) arg[0]);
 			if (arg[0] instanceof GeoPoly)
 				return kernelA.Vertex(c.getLabels(), (GeoPoly) arg[0]);
+			if (arg[0] instanceof GeoFunctionNVar)
+				return kernelA.Vertex(c.getLabels(), (GeoFunctionNVar) arg[0]);
 			else if (arg[0].isNumberValue()) {
 				GeoElement[] ret = { kernelA.CornerOfDrawingPad(c.getLabel(),
 						(NumberValue) arg[0], null) };

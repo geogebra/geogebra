@@ -4403,6 +4403,15 @@ public class Kernel {
 		GeoElement[] vertex = algo.getVertex();
 		return vertex;
 	}
+	
+	/**
+	 * Vertices of inequality. returns 1+ GeoPoints
+	 */
+	final public GeoElement[] Vertex(String[] labels, GeoFunctionNVar p) {
+		AlgoVertexIneq algo = new AlgoVertexIneq(cons,labels,p);
+		GeoElement[] vertex = algo.getVertex();
+		return vertex;
+	}
 
 	/**
 	 * Vertex of polygon. returns a GeoPoint
