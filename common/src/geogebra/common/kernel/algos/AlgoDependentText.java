@@ -56,9 +56,9 @@ public class AlgoDependentText extends AlgoElement {
 
 		text = new GeoText(cons);
 		setInputOutput(); // for AlgoElement
+		
+		text.initSpreadsheetTraceableCase();
 
-		//set text traceable to spreadsheet, if possible
-		setSpreadsheetTraceableText();
 
 		// compute value of dependent number
 		compute();
@@ -179,7 +179,7 @@ public class AlgoDependentText extends AlgoElement {
 	}
 
 
-	private void setSpreadsheetTraceableText(){
+	public void setSpreadsheetTraceableText(){
 
 		/*
 		AbstractApplication.debug("\nroot: "+root+

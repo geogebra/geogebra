@@ -1061,7 +1061,14 @@ public class GeoText extends GeoElement implements Locateable,
 	}
 	
 	
-	private boolean isSpreadsheetTraceable = false;
+	private static enum SpreadsheetTraceableCase {
+		SPREADSHEET_TRACEABLE_NOT_TESTED,
+		SPREADSHEET_TRACEABLE_TRUE,
+		SPREADSHEET_TRACEABLE_FALSE
+	}
+	
+	
+	private SpreadsheetTraceableCase spreadsheetTraceableCase = SpreadsheetTraceableCase.SPREADSHEET_TRACEABLE_FALSE;
 	private ExpressionValue spreadsheetTraceableValue;
 	private ExpressionNode spreadsheetTraceableLeftTree;
 	
@@ -1073,13 +1080,39 @@ public class GeoText extends GeoElement implements Locateable,
 	public void setSpreadsheetTraceable(ExpressionNode leftTree, ExpressionValue value){
 		this.spreadsheetTraceableLeftTree = leftTree;
 		this.spreadsheetTraceableValue = value;
-		this.isSpreadsheetTraceable = true;
+	}
+	
+	/**
+	 * init case for spreadsheet traceable case
+	 */
+	public void initSpreadsheetTraceableCase(){
+		spreadsheetTraceableCase = SpreadsheetTraceableCase.SPREADSHEET_TRACEABLE_NOT_TESTED;
 	}
 	
 	@Override
 	public boolean isSpreadsheetTraceable() {
 		
-		return isSpreadsheetTraceable;
+		//App.printStacktrace("\n"+this+"\n"+spreadsheetTraceableCase);
+		
+		switch(spreadsheetTraceableCase){
+		case SPREADSHEET_TRACEABLE_TRUE:
+			return true;
+		case SPREADSHEET_TRACEABLE_FALSE:
+			return false;
+		case SPREADSHEET_TRACEABLE_NOT_TESTED:
+			AlgoElement algo = getParentAlgorithm();
+			if (algo!=null && (algo instanceof AlgoDependentText)){
+				((AlgoDependentText) algo).setSpreadsheetTraceableText();
+				if (spreadsheetTraceableLeftTree!=null){
+					spreadsheetTraceableCase = SpreadsheetTraceableCase.SPREADSHEET_TRACEABLE_TRUE;
+					return true;
+				}
+			}
+			spreadsheetTraceableCase = SpreadsheetTraceableCase.SPREADSHEET_TRACEABLE_FALSE;
+			return false;
+		default:
+			return false;
+		}
 	}
 	
 
