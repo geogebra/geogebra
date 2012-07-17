@@ -29,6 +29,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.locusequ.EquationElement;
 import geogebra.common.kernel.locusequ.EquationScope;
+import geogebra.common.main.App;
 import geogebra.common.plugin.Operation;
 
 /**
@@ -131,7 +132,19 @@ public class AlgoDependentText extends AlgoElement {
 				}
 			}
 		}
+		
+		nodeToGeoText(root, text, tpl);
 
+	}
+	
+	/**
+	 * Converts expression node to geotext
+	 * 
+	 * @param root expression
+	 * @param text text
+	 * @param tpl string template
+	 */
+	public final static void nodeToGeoText(ExpressionNode root, GeoText text, StringTemplate tpl){
 		try {
 			boolean latex = text.isLaTeX();
 			root.setHoldsLaTeXtext(latex);

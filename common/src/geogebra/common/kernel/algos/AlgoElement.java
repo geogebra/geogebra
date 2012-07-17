@@ -718,6 +718,15 @@ public abstract class AlgoElement extends ConstructionElement implements
 	}
 
 	protected boolean protectedInput = false;
+	
+	/**
+	 * sets if the "not labeled" inputs are protected from remove
+	 * @param flag flag
+	 */
+	public void setProtectedInput(boolean flag){
+		protectedInput = flag;
+	}
+	
 	/**
 	 * Tells this algorithm to react on the deletion of one of its outputs.
 	 * 

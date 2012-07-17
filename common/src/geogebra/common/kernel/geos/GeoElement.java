@@ -3113,6 +3113,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 */
 	@Override
 	public void remove() {
+		
 		// dependent object: remove parent algorithm
 		if (algoParent != null) {
 			algoParent.remove(this);
@@ -7070,8 +7071,19 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @return GeoText linked to expression
 	 */
 	protected GeoText getColumnHeadingText(ExpressionNode node){
-		AlgoDependentText algo = new AlgoDependentText(cons, node);
-		GeoText ret = algo.getGeoText();
+		
+		GeoText ret;
+		
+		if (node.getGeoElementVariables()==null){
+			//no variables in expression node : compute only once
+			ret = new GeoText(cons);
+			AlgoDependentText.nodeToGeoText(node, ret, ret.getStringTemplate());
+		}else{	
+			AlgoDependentText algo = new AlgoDependentText(cons, node);
+			algo.setProtectedInput(true);
+			ret = algo.getGeoText();
+		}
+		
 		ret.setEuclidianVisible(false);
 		return ret;
 	}
