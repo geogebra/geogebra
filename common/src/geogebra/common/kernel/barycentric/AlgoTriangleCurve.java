@@ -137,7 +137,7 @@ public class AlgoTriangleCurve extends AlgoElement implements ExpressionNodeCons
 		
 		
 		
-		double det = (-x2 + x3)*(y1 - y3) + (x1 - x3)*(y2 - y3);
+		double det = (x2 - x3)*(y1 - y3) + (x3 - x1)*(y2 - y3);
 		if(Kernel.isZero(det)){
 			poly.setUndefined();
 		}
