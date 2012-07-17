@@ -227,10 +227,11 @@ public interface GeoPointND extends GeoElementND, PointProperties{
 	 */
 	public boolean getTrace();
 	//private boolean movePointMode = MOVE_POINT_MODE_XY;
-
+	/**
+	 * @return 2 for 2D points, 3 for 3D points
+	 */
 	public int getDimension();
-
-	public double getAnimationStep();
+	
 
 	
 

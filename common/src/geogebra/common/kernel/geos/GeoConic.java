@@ -560,10 +560,10 @@ public class GeoConic extends GeoConicND implements Traceable,
 	}
 
 	/**
-	 * @param ev
-	 * @param i
-	 * @param j
-	 * @return
+	 * @param ev two-fold array of expressions	
+	 * @param i row
+	 * @param j column
+	 * @return evaluated ev[i][j] or 0 if the array does not contain [i][j]
 	 */
 	public static double evalCoeff(ExpressionValue[][] ev, int i, int j) {
 		if (ev.length > i && ev[i].length > j && ev[i][j] != null) {

@@ -29,6 +29,9 @@ import geogebra.common.plugin.Operation;
  */
 public class Inequality {
 
+	/**
+	 * Inequality type
+	 */
 	public enum IneqType {
 	/** can be used e.g. by PointIn, but cannot be drawn */
 	INEQUALITY_INVALID,
@@ -169,7 +172,7 @@ public class Inequality {
 				lineBorder.setCoords(GeoConic.evalCoeff(evs, 1, 0),GeoConic.evalCoeff(evs, 0, 1),GeoConic.evalCoeff(evs, 0, 0));
 				type = IneqType.INEQUALITY_LINEAR;
 				border = lineBorder;						
-				//TODO above border?	
+				isAboveBorder = coefY < 0;
 			}
 			else if(newBorder.degree()==2){
 				if (conicBorder == null)

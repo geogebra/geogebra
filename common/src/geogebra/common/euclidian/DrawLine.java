@@ -609,7 +609,7 @@ public class DrawLine extends Drawable implements Previewable {
    @Override
    public geogebra.common.awt.GArea getShape() {
 		GeneralPathClipped gpc = new GeneralPathClipped(view);
-		boolean invert = false;
+		boolean invert = g.isInverseFill();
 		if (x1 > x2) {
 			double swap = x1;
 			x1 = x2;
@@ -633,12 +633,12 @@ public class DrawLine extends Drawable implements Previewable {
 		// cross top/bottom and right
 		else if (x1 > 0 && x2 > view.getWidth()) {
 			gpc.lineTo(view.getWidth(), y1);
-			invert = true;
+			invert = !invert;
 		}
 		// cros left and bottom/top
 		else if (x1 <= 0 && x2 <= view.getWidth()) {
 			gpc.lineTo(0, y2);
-			invert = y2 > 0;
+			invert ^= y2 > 0;
 		}
 		// cross left and right
 		else {

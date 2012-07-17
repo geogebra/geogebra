@@ -427,6 +427,7 @@ public abstract class AlgoElement extends ConstructionElement implements
 
 	/**
 	 * Produces objects of type &lt;S>
+	 * @param <S> element type
 	 */
 	public interface elementFactory<S extends GeoElement> {
 
@@ -457,10 +458,14 @@ public abstract class AlgoElement extends ConstructionElement implements
 		return classname.getCommand();
 	}
 
-	// in setInputOutput() the member vars input and output are set
+	/**
+	 *  in setInputOutput() the member vars input and output are set
+	 */
 	abstract protected void setInputOutput();
 
-	// in compute() the output ist derived from the input
+	/**
+	 *  in compute() the output is derived from the input
+	 */
 	public abstract void compute();
 
 	/**
@@ -1238,7 +1243,6 @@ public abstract class AlgoElement extends ConstructionElement implements
 		StringBuilder sb = new StringBuilder();
 		sb.append("<expression");
 		// add label
-		String labelStr = "";
 		if (/* output != null && */getOutputLength() == 1) {
 			if (getOutput(0).isLabelSet()) {
 				sb.append(" label=\"");

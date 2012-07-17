@@ -165,4 +165,14 @@ public interface GeoElementND extends ExpressionValue, ToGeoElement{
 	 * @return line thickness
 	 */
 	int getLineThickness();
+	
+	/**
+	 * @return whether the complement should be filled
+	 */
+	boolean isInverseFill();
+	
+	/**
+	 * @return animation step as double
+	 */
+	public double getAnimationStep();
 }

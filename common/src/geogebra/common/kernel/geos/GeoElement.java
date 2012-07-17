@@ -2088,9 +2088,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		animationIncrement = v;
 	}
 
-	/**
-	 * @return animation step as double
-	 */
+	
 	public double getAnimationStep() {
 		if (animationIncrement == null) {
 			animationIncrement = new MyDouble(kernel,

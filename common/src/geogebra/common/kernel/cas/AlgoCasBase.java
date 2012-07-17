@@ -27,10 +27,18 @@ import geogebra.common.kernel.locusequ.EquationScope;
  * @author Markus Hohenwarter
  */
 public abstract class AlgoCasBase extends AlgoElement {
-	
-	protected CasEvaluableFunction f; // input
-	protected CasEvaluableFunction g; // output
+	/** Input function */
+	protected CasEvaluableFunction f;
+	/** Output function */
+	protected CasEvaluableFunction g;
 
+	/**
+	 * Creates CAS algo and sets input, output and label.
+	 * Do not use if compute() or setInputOutput() are overriden.
+	 * @param cons construction
+	 * @param label label for output
+	 * @param f input function
+	 */
 	protected AlgoCasBase(Construction cons, String label,
 			CasEvaluableFunction f) {
 		this(cons, f);
@@ -40,6 +48,11 @@ public abstract class AlgoCasBase extends AlgoElement {
 		g.toGeoElement().setLabel(label);
 	}
 
+	/**
+	 * Creates CAS algo, doesn't set any input, output or label
+	 * @param cons construction
+	 * @param f input function
+	 */
 	protected AlgoCasBase(Construction cons, CasEvaluableFunction f) {
 		super(cons);
 		this.f = f;
@@ -60,6 +73,9 @@ public abstract class AlgoCasBase extends AlgoElement {
 		setDependencies(); // done by AlgoElement
 	}
 
+	/**
+	 * @return resulting function
+	 */
 	public GeoElement getResult() {
 		return g.toGeoElement();
 	}
@@ -74,6 +90,11 @@ public abstract class AlgoCasBase extends AlgoElement {
 		applyCasCommand(StringTemplate.prefixedDefault);
 	}
 
+	/**
+	 * Build a GeoGebraCAS command, send it to CAS and use the output to
+	 * update result of this algo.
+	 * @param tpl template for serialization of the command
+	 */
 	protected abstract void applyCasCommand(StringTemplate tpl);
 
 	@Override
