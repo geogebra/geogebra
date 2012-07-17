@@ -537,7 +537,7 @@ public class AlgoIntersectConics extends AlgoIntersect  implements SymbolicParam
     	Application.debug();
     	*/  
     	
-		if (this.getA().getLabelSimple().equals("c") && getB().getLabelSimple().equals("g"))
+		if ("c".equals(getA().getLabelSimple()) && "g".equals(getB().getLabelSimple()))
 		{
 			App.debug("");
 			for (int i=0; i<2; i++) {
