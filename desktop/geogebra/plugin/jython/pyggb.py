@@ -263,7 +263,7 @@ class Functions(object):
         message_type = message_types[message_type]
         if options is None:
             return JOptionPane.showMessageDialog(
-                self.api.app.frame,
+                self.api.appFrame,
                 message, title, message_type
             )
         if isinstance(options, basestring):
@@ -276,7 +276,7 @@ class Functions(object):
             options = options.split("/")
         default = options[default]
         return JOptionPane.showOptionDialog(
-            self.api.app.frame,
+            self.api.appFrame,
             message, title, 0, message_type, None, options, default
         )
     def input(self, message, options=None,
@@ -287,7 +287,7 @@ class Functions(object):
                 options = options.split("/")
             default = options[default]
         return JOptionPane.showInputDialog(
-           self.api.app.frame,
+           self.api.appFrame,
             message, title, message_type, None, options, default or ""
         )
     def alert(self, s):
