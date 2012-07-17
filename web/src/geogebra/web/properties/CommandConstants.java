@@ -2554,7 +2554,7 @@ public interface CommandConstants extends ConstantsWithLookup {
     @DefaultStringValue("Vertex")
     String Vertex();
 
-    @DefaultStringValue("[ <Conic> ]\n[ <Polygon> ]\n[ <Polygon>, <Index> ]")
+    @DefaultStringValue("[ <Conic> ]\n[ <Inequality> ]\n[ <Polygon> ]\n[ <Polygon>, <Index> ]")
     String Vertex_Syntax();
 
     @DefaultStringValue("VerticalText")
