@@ -2746,7 +2746,7 @@ public class GuiManagerD extends GuiManager {
 	}
 
 	public boolean noMenusOpen() {
-		if (popupMenu != null && ((ContextMenuGeoElementD) popupMenu).getWrappedPopup().isVisible()) {
+		if (popupMenu != null && popupMenu.getWrappedPopup().isVisible()) {
 			// Application.debug("menus open");
 			return false;
 		}
