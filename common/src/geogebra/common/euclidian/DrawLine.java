@@ -608,6 +608,14 @@ public class DrawLine extends Drawable implements Previewable {
     
    @Override
    public geogebra.common.awt.GArea getShape() {
+	   return getShape(false);
+   }
+   
+   /**
+    * @param forConic when true, we select the part containing top right screen corner. otherwise we pick the one above the line. 
+    * @return one halfplane wrt this line
+    */
+   public geogebra.common.awt.GArea getShape(boolean forConic) {
 		GeneralPathClipped gpc = new GeneralPathClipped(view);
 		boolean invert = g.isInverseFill();
 		if (x1 > x2) {
@@ -624,16 +632,18 @@ public class DrawLine extends Drawable implements Previewable {
 		if (x1 > 0 && x2 <= view.getWidth()) {
 			if (y2 < y1) {
 				gpc.lineTo(0, 0);
-				gpc.lineTo(0, view.getHeight());
+				gpc.lineTo(0, view.getHeight());				
 			} else {
 				gpc.lineTo(0, view.getHeight());
 				gpc.lineTo(0, 0);
+				if(!forConic)
+					invert = !invert;
 			}
 		}
 		// cross top/bottom and right
 		else if (x1 > 0 && x2 > view.getWidth()) {
 			gpc.lineTo(view.getWidth(), y1);
-			invert = !invert;
+			invert ^= forConic? true : y1 > 0;
 		}
 		// cros left and bottom/top
 		else if (x1 <= 0 && x2 <= view.getWidth()) {

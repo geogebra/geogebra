@@ -602,7 +602,9 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 						px += in.isAboveBorder()? STRICT_INEQ_OFFSET : -STRICT_INEQ_OFFSET;
 					}
 					else if(in.getType()==IneqType.INEQUALITY_LINEAR){
-						//TODO
+						px = P.getX2D();
+						py = in.getLineBorder().evaluate(px);
+						py += in.isAboveBorder()? STRICT_INEQ_OFFSET : -STRICT_INEQ_OFFSET;
 					}
 					double myDist = (py-myY)*(py-myY)+(px-myX)*(px-myX);
 					if((myDist < bestDist) && isInRegion(px,py)){

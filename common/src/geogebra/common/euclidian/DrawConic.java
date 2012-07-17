@@ -393,9 +393,9 @@ final public class DrawConic extends Drawable implements Previewable {
 				|| conic.type == GeoConicNDConstants.CONIC_INTERSECTING_LINES
 				|| conic.type == GeoConicNDConstants.CONIC_LINE) {
 
-			shape = drawLines[0].getShape();
+			shape = drawLines[0].getShape(true);
 			if (conic.type != GeoConicNDConstants.CONIC_LINE)
-				((geogebra.common.awt.GArea)shape).exclusiveOr(drawLines[1].getShape());
+				((geogebra.common.awt.GArea)shape).exclusiveOr(drawLines[1].getShape(true));
 			// FIXME: buggy when conic(RW(0),RW(0))=0
 
 			if (negativeColored()) {

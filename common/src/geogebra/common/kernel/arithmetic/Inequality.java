@@ -20,7 +20,6 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint;
-import geogebra.common.main.App;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.plugin.Operation;
 
@@ -195,7 +194,7 @@ public class Inequality {
 				border = conicBorder;
 			}}*/
 		}
-		App.debug(type+":"+coefX+","+coefY);
+		//App.debug(type+":"+coefX+","+coefY);
 		if (type == IneqType.INEQUALITY_PARAMETRIC_X || type == IneqType.INEQUALITY_PARAMETRIC_Y) {
 			funBorder = new GeoFunction(kernel.getConstruction());
 			funBorder.setFunction(fun);
