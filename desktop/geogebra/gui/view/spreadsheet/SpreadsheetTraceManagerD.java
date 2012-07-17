@@ -627,6 +627,10 @@ public class SpreadsheetTraceManagerD extends geogebra.common.gui.view.spreadshe
 			cell.setTraceSettings(null);
 			cell.setAuxiliaryObject(true);
 			cell.setLabelVisible(false);
+			
+			if (cell.isGeoText())
+				cell.setEuclidianVisible(false);
+			
 			cell.updateCascade();
 
 		} catch (Exception e) {
