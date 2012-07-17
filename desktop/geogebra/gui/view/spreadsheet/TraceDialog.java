@@ -733,8 +733,8 @@ implements
 	private SpreadsheetTraceSettings getSettings(){
 		if(traceGeoList.isSelectionEmpty())
 			return null;
-		else
-			return ((GeoElement)traceGeoList.getSelectedValue()).getTraceSettings();
+		
+		return ((GeoElement)traceGeoList.getSelectedValue()).getTraceSettings();
 	}
 	
 	

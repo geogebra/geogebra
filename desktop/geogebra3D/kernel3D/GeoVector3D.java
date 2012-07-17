@@ -485,6 +485,9 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND,
 	@Override
 	public ArrayList<GeoText> getColumnHeadings() {
 		resetSpreadsheetColumnHeadings();
+		
+		if (getTraceSettings().doTraceGeoCopy)
+			return getColumnHeadingsForTraceGeoCopy();
 
 		spreadsheetColumnHeadings.add(
 				getColumnHeadingText(

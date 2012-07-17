@@ -1090,7 +1090,10 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND,
 	@Override
 	public ArrayList<GeoText> getColumnHeadings() {
 
-		resetSpreadsheetColumnHeadings();
+		resetSpreadsheetColumnHeadings();		
+
+		if (getTraceSettings().doTraceGeoCopy)
+			return getColumnHeadingsForTraceGeoCopy();
 
 		spreadsheetColumnHeadings.add(
 				getColumnHeadingText(

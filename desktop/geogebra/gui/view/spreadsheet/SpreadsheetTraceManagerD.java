@@ -765,7 +765,7 @@ public class SpreadsheetTraceManagerD extends geogebra.common.gui.view.spreadshe
 
 	/** Create header cell(s) for each trace column of a geo. */
 	private void setHeader(GeoElement geo, Construction cons) {
-		
+
 		SpreadsheetTraceSettings t = traceGeoCollection.get(geo);
 		int column, row;
 		GeoText headerText = null;

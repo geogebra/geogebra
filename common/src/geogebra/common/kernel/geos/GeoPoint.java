@@ -1955,6 +1955,9 @@ final public class GeoPoint extends GeoVec3D implements VectorValue,
 	public ArrayList<GeoText> getColumnHeadings() {
 		resetSpreadsheetColumnHeadings();
 		
+		if (getTraceSettings().doTraceGeoCopy)
+			return getColumnHeadingsForTraceGeoCopy();
+		
 		spreadsheetColumnHeadings.add(
 				getColumnHeadingText( 
 						new ExpressionNode(kernel,

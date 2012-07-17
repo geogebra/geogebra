@@ -805,6 +805,9 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 	@Override
 	public ArrayList<GeoText> getColumnHeadings() {
 		resetSpreadsheetColumnHeadings();
+		
+		if (getTraceSettings().doTraceGeoCopy)
+			return getColumnHeadingsForTraceGeoCopy();
 
 		spreadsheetColumnHeadings.add(
 				getColumnHeadingText( 

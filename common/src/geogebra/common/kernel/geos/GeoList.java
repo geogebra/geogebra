@@ -1854,6 +1854,9 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture {
 	public ArrayList<GeoText> getColumnHeadings() {
 
 		resetSpreadsheetColumnHeadings();
+	
+		if (getTraceSettings().doTraceGeoCopy)
+			return getColumnHeadingsForTraceGeoCopy();
 
 		for (int i = 0; i < geoList.size(); i++) {
 			final GeoElement geo = geoList.get(i);

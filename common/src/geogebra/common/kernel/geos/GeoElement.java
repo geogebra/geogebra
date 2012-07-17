@@ -7050,6 +7050,14 @@ public abstract class GeoElement extends ConstructionElement implements
 	 */
 	public ArrayList<GeoText> getColumnHeadings() {
 		resetSpreadsheetColumnHeadings();
+		return getColumnHeadingsForTraceGeoCopy();
+	}
+	
+	/**
+	 * 
+	 * @return column headings when "trace geo copy"
+	 */
+	protected  ArrayList<GeoText> getColumnHeadingsForTraceGeoCopy(){
 		spreadsheetColumnHeadings.add(getNameGeo());
 		return spreadsheetColumnHeadings;
 	}
