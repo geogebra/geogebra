@@ -31,6 +31,7 @@ import java.util.ArrayList;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.user.client.ui.AbsolutePanel;
+import com.google.gwt.user.client.ui.RootPanel;
 
 public class GuiManagerW extends GuiManager {
 
@@ -216,9 +217,11 @@ public class GuiManagerW extends GuiManager {
 
 
 	@Override
-	public boolean showView(int viewSpreadsheet) {
-		App.debug("unimplemented method");
-		// TODO Auto-generated method stub
+	public boolean showView(int viewId) {
+		RootPanel p = RootPanel.get("View_"+viewId);
+		if (p != null) {
+			return p.isVisible();
+		}
 		return false;
 	}
 
