@@ -1,30 +1,31 @@
 package geogebra.common.kernel.algos;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
-import geogebra.common.kernel.algos.AlgoElement.OutputHandler;
-import geogebra.common.kernel.algos.AlgoElement.elementFactory;
 import geogebra.common.kernel.arithmetic.IneqTree;
 import geogebra.common.kernel.arithmetic.Inequality;
+import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoFunctionNVar;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint;
-import geogebra.common.kernel.geos.GeoPoly;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.locusequ.EquationElement;
 import geogebra.common.kernel.locusequ.EquationScope;
 import geogebra.common.main.App;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class AlgoVertexIneq extends AlgoElement {
 	
 	private OutputHandler<GeoElement> outputPoints;
 	private GeoFunctionNVar p;
 	private List<GeoPoint> vertices;
+	private AlgoElement[][] helpers;
 	private int validVertices;
 	/**
 	 * Creates algo for Vertex[poly] (many output points)
@@ -41,6 +42,11 @@ public class AlgoVertexIneq extends AlgoElement {
 		compute();
 	}
 
+	/**
+	 * @param cons construction
+	 * @param labels labels for output
+	 * @param p inequality
+	 */
 	public AlgoVertexIneq(Construction cons, String[] labels, GeoFunctionNVar p) {
 		this(cons, p);
 		// if only one label (e.g. "A"), new labels will be A_1, A_2, ...
@@ -77,17 +83,20 @@ public class AlgoVertexIneq extends AlgoElement {
 		validVertices = 0;
 		IneqTree ineqs = p.getIneqs();
 		int size = ineqs.getSize();
+		int ai, bi;
 		for(int i = 0; i<size; i++){
 			for(int j = i+1; j<size; j++){
 				Inequality a,b;
 				if(ineqs.get(i).getType().ordinal()<ineqs.get(j).getType().ordinal()){
-					a = ineqs.get(i);
-					b = ineqs.get(j);
+					ai = i;
+					bi = j;
 				}else{
-					b = ineqs.get(i);
-					a = ineqs.get(j);
+					ai = j;
+					bi = i;
 				}
-				typeSwitch(a,b);
+				a = ineqs.get(ai);
+				b = ineqs.get(bi);
+				typeSwitch(a,b,ai,bi);
 				
 			}	
 		}
@@ -106,7 +115,7 @@ public class AlgoVertexIneq extends AlgoElement {
     	}
 	}
 	
-	private void typeSwitch(Inequality a, Inequality b) {
+	private void typeSwitch(Inequality a, Inequality b,int ai,int bi) {
 		switch(a.getType()){
 		case INEQUALITY_PARAMETRIC_X:
 			switch(b.getType()){
@@ -153,7 +162,7 @@ public class AlgoVertexIneq extends AlgoElement {
 					intLinearLinear(a,b);
 					break;
 				case INEQUALITY_CONIC:
-					intLinearConic(a,b);
+					intLinearConic(a,b,ai,bi);
 					break;
 				case INEQUALITY_1VAR_X:
 					intLinearX(a,b);
@@ -165,7 +174,7 @@ public class AlgoVertexIneq extends AlgoElement {
 		case INEQUALITY_CONIC:
 			switch(b.getType()){
 				case INEQUALITY_CONIC:
-					intConicConic(a,b);
+					intConicConic(a,b,ai,bi);
 					break;
 				case INEQUALITY_1VAR_X:
 					intConicX(a,b);
@@ -187,62 +196,85 @@ public class AlgoVertexIneq extends AlgoElement {
 		case INEQUALITY_1VAR_Y:
 			//no intersections possible
 			break;
+		default: App.debug("Missing case"+a.getType());
 		}
+		
 		
 		
 	}
 
 	private void intParamYY(Inequality a, Inequality b) {
+		App.debug(new Throwable().getStackTrace()[0].getMethodName());
 		// TODO Auto-generated method stub
 		
 	}
 
 	private void intParamYX(Inequality a, Inequality b) {
-		// TODO Auto-generated method stub
+		App.debug(new Throwable().getStackTrace()[0].getMethodName());
+		GeoPoint[] bz = b.getZeros();
+		GeoFunction af = a.getFunBorder();
+		for(GeoPoint bp:bz){
+				ensurePoint();
+				vertices.get(validVertices).setCoords(bp.getX(),af.evaluate(bp.getX()),1);
+				validVertices++;		
+		}
 		
 	}
 
 	private void intParamYConic(Inequality a, Inequality b) {
+		App.debug(new Throwable().getStackTrace()[0].getMethodName());
 		// TODO Auto-generated method stub
 		
 	}
 
 	private void intParamYLinear(Inequality a, Inequality b) {
+		App.debug(new Throwable().getStackTrace()[0].getMethodName());
 		// TODO Auto-generated method stub
 		
 	}
 
 	private void intParamYParamY(Inequality a, Inequality b) {
+		App.debug(new Throwable().getStackTrace()[0].getMethodName());
 		// TODO Auto-generated method stub
 		
 	}
 
 	private void intParamXY(Inequality a, Inequality b) {
-		// TODO Auto-generated method stub
+		GeoPoint[] bz = b.getZeros();
+		GeoFunction af = a.getFunBorder();
+		for(GeoPoint bp:bz){
+				ensurePoint();
+				vertices.get(validVertices).setCoords(af.evaluate(bp.getX()),bp.getX(),1);
+				validVertices++;		
+		}
 		
 	}
 
 	private void intParamXX(Inequality a, Inequality b) {
+		App.debug(new Throwable().getStackTrace()[0].getMethodName());
 		// TODO Auto-generated method stub
-		
 	}
 
 	private void intParamXConic(Inequality a, Inequality b) {
+		App.debug(new Throwable().getStackTrace()[0].getMethodName());
 		// TODO Auto-generated method stub
 		
 	}
 
 	private void intParamXLinear(Inequality a, Inequality b) {
+		App.debug(new Throwable().getStackTrace()[0].getMethodName());
 		// TODO Auto-generated method stub
 		
 	}
 
 	private void intParamXParamY(Inequality a, Inequality b) {
+		App.debug(new Throwable().getStackTrace()[0].getMethodName());
 		// TODO Auto-generated method stub
 		
 	}
 
 	private void intParamXParamX(Inequality a, Inequality b) {
+		App.debug(new Throwable().getStackTrace()[0].getMethodName());
 		// TODO Auto-generated method stub
 		
 	}
@@ -260,34 +292,98 @@ public class AlgoVertexIneq extends AlgoElement {
 		}
 		
 	}
-
+	private double[] co = new double[3];
 	private void intConicY(Inequality a, Inequality b) {
-		// TODO Auto-generated method stub
+		GeoPoint[] bz = b.getZeros();
+		double[] coef = a.getConicBorder().getMatrix();
+		for(GeoPoint bp:bz){
+			co[2]=coef[0];
+			co[1]=2*coef[3]*bp.getX()+2*coef[4];
+			co[0]=coef[1]*bp.getX()*bp.getX()+2*coef[5]*bp.getX()+coef[2];
+			App.debug(co[0]+","+co[1]+","+co[2]);
+			int n = kernel.getEquationSolver().solveQuadratic(co);
+			
+			for(int k =0;k<n;k++){
+				ensurePoint();
+				vertices.get(validVertices).setCoords(co[k],bp.getX(),1);
+				validVertices++;	
+			}
+		}
 		
 	}
 
 	private void intConicX(Inequality a, Inequality b) {
-		// TODO Auto-generated method stub
+		GeoPoint[] bz = b.getZeros();
+		double[] coef = a.getConicBorder().getMatrix();
+		for(GeoPoint bp:bz){
+			co[2]=coef[1];
+			co[1]=2*coef[3]*bp.getX()+2*coef[5];
+			co[0]=coef[0]*bp.getX()*bp.getX()+2*coef[4]*bp.getX()+coef[2];
+			App.debug(co[0]+","+co[1]+","+co[2]);
+			int n = kernel.getEquationSolver().solveQuadratic(co);
+			
+			for(int k =0;k<n;k++){
+				ensurePoint();
+				vertices.get(validVertices).setCoords(bp.getX(),co[k],1);
+				validVertices++;	
+			}
+		}
 		
 	}
 
-	private void intConicConic(Inequality a, Inequality b) {
-		// TODO Auto-generated method stub
+	private void intConicConic(Inequality a, Inequality b,int i,int j) {
+		initHelpers();
+		if(helpers[i][j]==null)
+			helpers[i][j] = new AlgoIntersectConics(cons,a.getConicBorder(),b.getConicBorder());
+		else
+			helpers[i][j].compute();
+		addVertices(helpers[i][j]);
 		
 	}
-
+	
 	private void intLinearY(Inequality a, Inequality b) {
-		// TODO Auto-generated method stub
+		GeoPoint[] bz = b.getZeros();
+		GeoLine af = a.getLineBorder();
+		if(Kernel.isZero(af.getX()))
+			return;
+		for(GeoPoint bp:bz){
+				ensurePoint();
+				vertices.get(validVertices).setCoords((-af.getY()*bp.getX()-af.getZ())/af.getX(),bp.getX(),1);
+				validVertices++;		
+		}
 		
 	}
 
 	private void intLinearX(Inequality a, Inequality b) {
-		// TODO Auto-generated method stub
+		GeoPoint[] bz = b.getZeros();
+		GeoLine af = a.getLineBorder();
+		if(Kernel.isZero(af.getY()))
+			return;
+		for(GeoPoint bp:bz){
+				ensurePoint();
+				vertices.get(validVertices).setCoords(bp.getX(),(-af.getX()*bp.getX()-af.getZ())/af.getY(),1);
+				validVertices++;		
+		}
 		
 	}
 
-	private void intLinearConic(Inequality a, Inequality b) {
-		// TODO Auto-generated method stub
+	private void intLinearConic(Inequality a, Inequality b,int i,int j) {
+		initHelpers();
+		if(helpers[i][j]==null)
+			helpers[i][j] = new AlgoIntersectLineConic(cons,a.getLineBorder(),b.getConicBorder());
+		else
+			helpers[i][j].compute();
+		addVertices(helpers[i][j]);
+	}
+
+	private void addVertices(AlgoElement algoElement) {
+		GeoElement[] output = algoElement.getOutput();
+		for(int k=0;k<output.length;k++){
+			if(vertices.size()<=validVertices)
+				vertices.add((GeoPoint)output[k]);
+			else vertices.set(validVertices, (GeoPoint)output[k]);
+			validVertices++;
+		}
 		
 	}
 
@@ -295,6 +391,13 @@ public class AlgoVertexIneq extends AlgoElement {
 		ensurePoint();
 		GeoVec3D.cross(a.getLineBorder(),b.getLineBorder(),vertices.get(validVertices));
 		validVertices++;
+	}
+	
+	private void initHelpers(){
+		int n = p.getIneqs().getSize();
+		if(helpers == null || helpers.length!=n){
+			helpers = new AlgoElement[n][n];
+		}
 	}
 
 	private void ensurePoint() {
