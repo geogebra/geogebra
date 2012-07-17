@@ -143,6 +143,17 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture {
 	}
 
 	@Override
+	public GeoElement deepCopyGeo() {
+		GeoList ret = new GeoList(cons);
+		
+		for (int i = 0 ; i < geoList.size() ; i++) {
+			ret.add(geoList.get(i).deepCopyGeo());
+		}
+		
+		return ret;
+	}
+
+	@Override
 	public void set(final GeoElement geo) {
 
 		if (geo.isGeoNumeric()) { // eg SetValue[list, 2]
@@ -1876,24 +1887,16 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture {
 	 * GeoPolygon
 	 */
 	@Override
-	public ArrayList<GeoNumeric> getSpreadsheetTraceList() {
-
-		if (spreadsheetTraceList == null) {
-			spreadsheetTraceList = new ArrayList<GeoNumeric>();
-		} else {
-			spreadsheetTraceList.clear();
-		}
+	public void addToSpreadsheetTraceList(ArrayList<GeoNumeric> spreadsheetTraceList) {
 
 		for (int i = 0; i < geoList.size(); i++) {
 			final GeoElement geo = geoList.get(i);
 			if (geo instanceof SpreadsheetTraceable) {
-				final ArrayList<GeoNumeric> traces = ((SpreadsheetTraceable) geo)
-						.getSpreadsheetTraceList();
-				spreadsheetTraceList.addAll(traces);
+				((SpreadsheetTraceable) geo)
+						.addToSpreadsheetTraceList(spreadsheetTraceList);
 			}
 		}
 
-		return spreadsheetTraceList;
 	}
 
 	/**

@@ -521,22 +521,13 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND,
 	}
 	
 	@Override
-	public ArrayList<GeoNumeric> getSpreadsheetTraceList() {
-		if (spreadsheetTraceList == null) {
-			spreadsheetTraceList = new ArrayList<GeoNumeric>();
-			GeoNumeric xx = new GeoNumeric(cons, v.getX());
-			spreadsheetTraceList.add(xx);
-			GeoNumeric yy = new GeoNumeric(cons, v.getY());
-			spreadsheetTraceList.add(yy);
-			GeoNumeric zz = new GeoNumeric(cons, v.getZ());
-			spreadsheetTraceList.add(zz);
-		} else {
-			spreadsheetTraceList.get(0).setValue(v.getX());
-			spreadsheetTraceList.get(1).setValue(v.getY());
-			spreadsheetTraceList.get(2).setValue(v.getZ());
-		}
-		
-		return spreadsheetTraceList;
+	public void addToSpreadsheetTraceList(ArrayList<GeoNumeric> spreadsheetTraceList) {
+		GeoNumeric xx = new GeoNumeric(cons, v.getX());
+		spreadsheetTraceList.add(xx);
+		GeoNumeric yy = new GeoNumeric(cons, v.getY());
+		spreadsheetTraceList.add(yy);
+		GeoNumeric zz = new GeoNumeric(cons, v.getZ());
+		spreadsheetTraceList.add(zz);
 	}
 
 }

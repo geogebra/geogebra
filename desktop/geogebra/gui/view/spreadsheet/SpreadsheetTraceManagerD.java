@@ -86,7 +86,9 @@ public class SpreadsheetTraceManagerD extends geogebra.common.gui.view.spreadshe
 		if (t.doTraceGeoCopy) {
 			t.traceColumn2 = t.traceColumn1;
 		} else {
-			t.traceColumn2 = t.traceColumn1 + geo.getSpreadsheetTraceList().size() - 1;
+			ArrayList<GeoNumeric> traceList = new ArrayList<GeoNumeric>();
+			geo.addToSpreadsheetTraceList(traceList);
+			t.traceColumn2 = t.traceColumn1 + traceList.size() - 1;
 		}
 
 		// Set trace rows
@@ -568,14 +570,15 @@ public class SpreadsheetTraceManagerD extends geogebra.common.gui.view.spreadshe
 		}
 
 		// trace
+		ArrayList<GeoNumeric> traceList = new ArrayList<GeoNumeric>();
 		for (int i = 0; i < geos.length; i++) {
 
 			if (geos[i] instanceof SpreadsheetTraceable) {
 				//AbstractApplication.debug("SpreadsheetTraceable");
 				SpreadsheetTraceable traceGeo = (SpreadsheetTraceable) geos[i];
 
-				ArrayList<GeoNumeric> traceList = traceGeo
-						.getSpreadsheetTraceList();
+				traceList.clear();
+				traceGeo.addToSpreadsheetTraceList(traceList);
 
 				for (int j = 0; j < traceList.size(); j++) {
 
@@ -587,7 +590,7 @@ public class SpreadsheetTraceManagerD extends geogebra.common.gui.view.spreadshe
 				}
 
 			} else {
-				App.debug("not SpreadsheetTraceable "
+				App.warn("not SpreadsheetTraceable "
 						+ geos[i].getClassName());
 
 			}
@@ -598,7 +601,7 @@ public class SpreadsheetTraceManagerD extends geogebra.common.gui.view.spreadshe
 
 	protected void setTraceCellAsGeoCopy(Construction cons, GeoElement geo,
 			int column, int row) {
-
+		
 		GeoElement cell = RelativeCopy.getValue(app, column, row);
 		// String text = "";
 		try {
@@ -611,7 +614,7 @@ public class SpreadsheetTraceManagerD extends geogebra.common.gui.view.spreadshe
 				cell.remove();
 			}
 
-			cell = geo.copyInternal(cons);
+			cell = geo.deepCopyGeo();
 			cell.setLabel(GeoElementSpreadsheet.getSpreadsheetCellName(column,
 					row));
 
@@ -754,8 +757,9 @@ public class SpreadsheetTraceManagerD extends geogebra.common.gui.view.spreadshe
 		if (geo instanceof SpreadsheetTraceable) {
 			SpreadsheetTraceable traceGeo = (SpreadsheetTraceable) geo;
 
-			ArrayList<GeoNumeric> traceList = traceGeo
-					.getSpreadsheetTraceList();
+			ArrayList<GeoNumeric> traceList = new ArrayList<GeoNumeric>();
+					
+			traceGeo.addToSpreadsheetTraceList(traceList);
 
 			for (int i = 0; i < traceList.size(); i++) {
 				currentTrace.add(traceList.get(i).getValue());

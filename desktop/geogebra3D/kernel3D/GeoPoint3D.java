@@ -1128,22 +1128,13 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND,
 	}
 	
 	@Override
-	public ArrayList<GeoNumeric> getSpreadsheetTraceList() {
-		if (spreadsheetTraceList == null) {
-			spreadsheetTraceList = new ArrayList<GeoNumeric>();
-			GeoNumeric xx = new GeoNumeric(cons, inhom.getX());
-			spreadsheetTraceList.add(xx);
-			GeoNumeric yy = new GeoNumeric(cons, inhom.getY());
-			spreadsheetTraceList.add(yy);
-			GeoNumeric zz = new GeoNumeric(cons, inhom.getZ());
-			spreadsheetTraceList.add(zz);
-		} else {
-			spreadsheetTraceList.get(0).setValue(inhom.getX());
-			spreadsheetTraceList.get(1).setValue(inhom.getY());
-			spreadsheetTraceList.get(2).setValue(inhom.getZ());
-		}
-		
-		return spreadsheetTraceList;
+	public void addToSpreadsheetTraceList(ArrayList<GeoNumeric> spreadsheetTraceList) {
+		GeoNumeric xx = new GeoNumeric(cons, inhom.getX());
+		spreadsheetTraceList.add(xx);
+		GeoNumeric yy = new GeoNumeric(cons, inhom.getY());
+		spreadsheetTraceList.add(yy);
+		GeoNumeric zz = new GeoNumeric(cons, inhom.getZ());
+		spreadsheetTraceList.add(zz);
 	}
 
 	public void matrixTransform(double a, double b, double c, double d) {

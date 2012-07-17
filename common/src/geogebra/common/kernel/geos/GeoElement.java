@@ -147,10 +147,6 @@ public abstract class GeoElement extends ConstructionElement implements
 	}
 
 	/**
-	 * List of numbers for spreadsheet trace
-	 */
-	protected ArrayList<GeoNumeric> spreadsheetTraceList = null;
-	/**
 	 * Column headings for spreadsheet trace
 	 */
 	protected ArrayList<GeoText> spreadsheetColumnHeadings = null;
@@ -583,6 +579,15 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * */
 	public abstract GeoElement copy();
 
+	/**
+	 * overridden in GeoList so that the list elements are copied too
+	 * (needed for tracing to spreadsheet)
+	 * @return
+	 */
+	public GeoElement deepCopyGeo() {
+		return copy();
+	}
+	
 	/**
 	 * This method always returns a GeoElement of the SAME CLASS as this
 	 * GeoElement. Furthermore the resulting geo is in construction cons.
@@ -7131,27 +7136,18 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * GeoPolygon
 	 * @return list of numbers for spreadsheet
 	 */
-	public ArrayList<GeoNumeric> getSpreadsheetTraceList() {
+	public void addToSpreadsheetTraceList(ArrayList<GeoNumeric> spreadsheetTraceList) {
 
 		if (isNumberValue()) {
 
-			if (spreadsheetTraceList == null) {
-				spreadsheetTraceList = new ArrayList<GeoNumeric>();
-				final GeoNumeric xx = new GeoNumeric(cons,
-						((NumberValue) this).getDouble());
-				spreadsheetTraceList.add(xx);
-			} else {
-				spreadsheetTraceList.get(0).setValue(
-						((NumberValue) this).getDouble());
-			}
+			final GeoNumeric xx = new GeoNumeric(cons,
+					((NumberValue) this).getDouble());
+			spreadsheetTraceList.add(xx);
 
 		} else {
-			App
-					.debug("error in getSpreadsheetTraceList(), not a NumberValue");
-			return null;
+			App.debug("error in getSpreadsheetTraceList(), not a NumberValue");
 		}
 
-		return spreadsheetTraceList;
 	}
 
 	@Override

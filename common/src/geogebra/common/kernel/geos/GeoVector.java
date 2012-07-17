@@ -832,19 +832,11 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 	}
 	
 	@Override
-	public ArrayList<GeoNumeric> getSpreadsheetTraceList() {
-		if (spreadsheetTraceList == null) {
-			spreadsheetTraceList = new ArrayList<GeoNumeric>();
-			GeoNumeric xx = new GeoNumeric(cons, getInhomVec().getX());
-			spreadsheetTraceList.add(xx);
-			GeoNumeric yy = new GeoNumeric(cons, getInhomVec().getY());
-			spreadsheetTraceList.add(yy);
-		} else {
-			spreadsheetTraceList.get(0).setValue(getInhomVec().getX());
-			spreadsheetTraceList.get(1).setValue(getInhomVec().getY());
-		}
-		
-		return spreadsheetTraceList;
+	public void addToSpreadsheetTraceList(ArrayList<GeoNumeric> spreadsheetTraceList) {
+		GeoNumeric xx = new GeoNumeric(cons, getInhomVec().getX());
+		spreadsheetTraceList.add(xx);
+		GeoNumeric yy = new GeoNumeric(cons, getInhomVec().getY());
+		spreadsheetTraceList.add(yy);
 	}
 	
 	public SymbolicParameters getSymbolicParameters() {

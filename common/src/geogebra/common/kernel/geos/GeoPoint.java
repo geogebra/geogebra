@@ -1980,39 +1980,17 @@ final public class GeoPoint extends GeoVec3D implements VectorValue,
 	}
 
 	@Override
-	public ArrayList<GeoNumeric> getSpreadsheetTraceList() {
-		if (spreadsheetTraceList == null) {
-			spreadsheetTraceList = new ArrayList<GeoNumeric>();
-			GeoNumeric xx = new GeoNumeric(cons, inhomX);
-			spreadsheetTraceList.add(xx);
-			if (isPolar()) {
-				GeoAngle yy = new GeoAngle(cons, inhomY);
-				spreadsheetTraceList.add(yy);
-			} else {
-				GeoNumeric yy = new GeoNumeric(cons, inhomY);
-				spreadsheetTraceList.add(yy);
-			}
-
+	public void addToSpreadsheetTraceList(ArrayList<GeoNumeric> spreadsheetTraceList) {
+		GeoNumeric xx = new GeoNumeric(cons, inhomX);
+		spreadsheetTraceList.add(xx);
+		if (isPolar()) {
+			GeoAngle yy = new GeoAngle(cons, inhomY);
+			spreadsheetTraceList.add(yy);
 		} else {
-
-			// spreadsheetTraceList exists,
-			// but if point type has changed we may need to reset traceList type
-			if (isPolar() && !spreadsheetTraceList.get(1).isGeoAngle()) {
-				spreadsheetTraceList.remove(1);
-				GeoAngle yy = new GeoAngle(cons, inhomY);
-				spreadsheetTraceList.add(yy);
-			} else if (!isPolar() && spreadsheetTraceList.get(1).isGeoAngle()) {
-				spreadsheetTraceList.remove(1);
-				GeoNumeric yy = new GeoNumeric(cons, inhomY);
-				spreadsheetTraceList.add(yy);
-			}
-
-			// now set values
-			spreadsheetTraceList.get(0).setValue(inhomX);
-			spreadsheetTraceList.get(1).setValue(inhomY);
+			GeoNumeric yy = new GeoNumeric(cons, inhomY);
+			spreadsheetTraceList.add(yy);
 		}
 
-		return spreadsheetTraceList;
 	}
 
 	public SymbolicParameters getSymbolicParameters() {

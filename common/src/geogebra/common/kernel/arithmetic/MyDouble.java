@@ -953,9 +953,9 @@ public class MyDouble extends ValidExpression implements NumberValue,
 		return 42; // any arbitrary constant will do
 	}
 
-	public ArrayList<GeoNumeric> getSpreadsheetTraceList() {
+	public void addToSpreadsheetTraceList(ArrayList<GeoNumeric> spreadsheetTraceList) {
 		// dummy implementation - never used
-		return null;
+		App.warn("shouldn't get here");
 	}
 
 	public ArrayList<GeoText> getColumnHeadings() {

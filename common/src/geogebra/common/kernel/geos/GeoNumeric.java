@@ -1338,17 +1338,11 @@ public class GeoNumeric extends GeoElement implements NumberValue,
 	}
 
 	@Override
-	public ArrayList<GeoNumeric> getSpreadsheetTraceList() {
-		if (spreadsheetTraceList == null) {
-			spreadsheetTraceList = new ArrayList<GeoNumeric>();
-			GeoNumeric xx = (GeoNumeric) this.copy(); // should handle GeoAngle
-														// too
-			spreadsheetTraceList.add(xx);
-		} else {
-			spreadsheetTraceList.get(0).setValue(getValue());
-		}
+	public void addToSpreadsheetTraceList(ArrayList<GeoNumeric> spreadsheetTraceList) {
+		GeoNumeric xx = (GeoNumeric) this.copy(); // should handle GeoAngle
+		// too
+		spreadsheetTraceList.add(xx);
 
-		return spreadsheetTraceList;
 	}
 	
 	@Override

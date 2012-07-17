@@ -1136,16 +1136,10 @@ public class GeoText extends GeoElement implements Locateable,
 
 
 	@Override
-	public ArrayList<GeoNumeric> getSpreadsheetTraceList() {
-		if (spreadsheetTraceList == null) 
-			spreadsheetTraceList = new ArrayList<GeoNumeric>();
-		else
-			spreadsheetTraceList.clear();		
-
+	public void addToSpreadsheetTraceList(ArrayList<GeoNumeric> spreadsheetTraceList) {
 		GeoNumeric numeric = new GeoNumeric(cons, spreadsheetTraceableValue.evaluateNum().getDouble());
 		spreadsheetTraceList.add(numeric);
 
-		return spreadsheetTraceList;
 	}
 	
 	/**
