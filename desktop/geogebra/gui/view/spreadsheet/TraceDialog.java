@@ -81,7 +81,7 @@ implements
 	
 	// other GUI objects
 	private JSplitPane splitPane;
-	private JTabbedPane tabbedPane;	
+	private JPanel tabbedPane;	
 	private JPanel optionsPanel, listPanel, promptPanel, buttonPanel, 
 		locationPanel, leftButtonPanel, statPanel;
 
@@ -226,10 +226,13 @@ implements
 			getContentPane().setLayout(thisLayout);
 						
 			// tabbed panel
-			tabbedPane = new JTabbedPane();	
-			tabbedPane.addTab(app.getMenu("Location"), null, buildLocationPanel());
-			tabbedPane.addTab(app.getMenu("Options"), null, buildOptionsPanel());															
+			tabbedPane = new JPanel();	
+			tabbedPane.setLayout(new BoxLayout(tabbedPane, BoxLayout.Y_AXIS));
+			tabbedPane.add(buildLocationPanel());
+			tabbedPane.add(buildOptionsPanel());															
 			tabbedPane.setBorder(BorderFactory.createEmptyBorder(5, 5, 0, 5));
+			
+			
 			
 			// split pane: trace list on left, tabbed options on left
 			splitPane = new JSplitPane();
@@ -316,7 +319,7 @@ implements
         // locationPanel 
 		locationPanel = new JPanel();
 		locationPanel.setLayout(new BoxLayout(locationPanel, BoxLayout.Y_AXIS));
-		locationPanel.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));			
+		locationPanel.setBorder(BorderFactory.createEmptyBorder(0,5,5,5));			
 		locationPanel.setMinimumSize(new Dimension(200, 30));
 		
         locationPanel.add(Box.createVerticalGlue());
@@ -415,8 +418,6 @@ implements
 	public void setLabels(){
 		
 		setTitle(app.getMenu("RecordToSpreadsheet"));
-		tabbedPane.setTitleAt(0, app.getMenu("Location"));
-		tabbedPane.setTitleAt(1, app.getMenu("Options"));
 		lblStartRow.setText(app.getMenu("StartRow") + ": ");
 		cbRowLimit.setText(app.getMenu("RowLimit") + ": ");  
 		cbShowLabel.setText(app.getPlain("ShowLabel"));  
