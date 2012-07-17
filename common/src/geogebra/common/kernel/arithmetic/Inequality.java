@@ -39,13 +39,14 @@ public class Inequality {
 	INEQUALITY_PARAMETRIC_X,
 	/** y > f(x) */
 	INEQUALITY_PARAMETRIC_Y,
-	/** f(x,y) >0, degree of f greater than 2 */
-	INEQUALITY_IMPLICIT,
+	
 	/** f(x,y) >0, f is linear */
 	INEQUALITY_LINEAR,
 	/** f(x,y) >0, f is quadratic */
 	INEQUALITY_CONIC,
-
+	/** f(x,y) >0, degree of f greater than 2 */
+	INEQUALITY_IMPLICIT,
+	
 	/** inequality with one variable */
 	INEQUALITY_1VAR_X,
 	/** inequality with one variable, called y */
