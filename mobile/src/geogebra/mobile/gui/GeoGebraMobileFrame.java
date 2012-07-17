@@ -1,29 +1,51 @@
 package geogebra.mobile.gui;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.DivElement;
-import com.google.gwt.dom.client.SpanElement;
-import com.google.gwt.uibinder.client.UiBinder;
-import com.google.gwt.uibinder.client.UiField;
+import geogebra.common.euclidian.EuclidianController;
+import geogebra.common.euclidian.EuclidianView;
+import geogebra.common.kernel.Kernel;
+import geogebra.common.main.App;
+import geogebra.common.main.settings.EuclidianSettings;
+import geogebra.common.main.settings.Settings;
+import geogebra.mobile.MobileApp;
+import geogebra.web.euclidian.EuclidianControllerW;
+import geogebra.web.euclidian.EuclidianViewW;
+import geogebra.web.gui.applet.GeoGebraFrame;
+import geogebra.web.html5.ArticleElement;
+import geogebra.web.html5.Dom;
+import geogebra.web.main.AppW;
+
+import com.google.gwt.canvas.client.Canvas;
+import com.google.gwt.dom.client.CanvasElement;
+import com.google.gwt.user.client.ui.AbsolutePanel;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.Widget;
 import com.googlecode.mgwt.ui.client.MGWT;
 import com.googlecode.mgwt.ui.client.MGWTSettings;
 import com.googlecode.mgwt.ui.client.widget.Button;
 import com.googlecode.mgwt.ui.client.widget.HeaderPanel;
 import com.googlecode.mgwt.ui.client.widget.buttonbar.ButtonBar;
 
-public class GeoGebraMobileFrame
+public class GeoGebraMobileFrame extends GeoGebraFrame
 {
-	interface MyUiBinder extends UiBinder<DivElement, GeoGebraMobileFrame>
-	{
-	}
+	// interface MyUiBinder extends UiBinder<LayoutPanel, GeoGebraMobileFrame>
+	// {
+	// }
 
-	private static MyUiBinder uiBinder = GWT.create(MyUiBinder.class);
+	// private static MyUiBinder uiBinder = GWT.create(MyUiBinder.class);
 
-	@UiField
-	SpanElement nameSpan;
+	// @UiField
+	EuclidianView euclidianView;
+	EuclidianController controller;
+	EuclidianSettings settings;
+	Kernel kernel;
+	App app;
+	ArticleElement element;
 
 	private RootPanel root;
+
+	private AbsolutePanel euclidianPanel;
+
 	private HeaderPanel headerPanel;
 	private ButtonBar toolBar;
 
@@ -33,6 +55,20 @@ public class GeoGebraMobileFrame
 
 		headerPanel = new HeaderPanel();
 		toolBar = new ButtonBar();
+
+		euclidianPanel = new AbsolutePanel();
+
+		element = ArticleElement.as(Dom.querySelector("geogebramobile"));
+
+		app = new MobileApp(element, this, true);
+		kernel = new Kernel(app);
+		controller = new EuclidianControllerW(kernel);
+		settings = new EuclidianSettings(new Settings().getEuclidian(1));
+
+		Canvas canvas = Canvas.createIfSupported();
+		euclidianPanel.add(canvas); 
+		
+		euclidianView = new EuclidianViewW(euclidianPanel, controller, new boolean[] { true, true }, true, settings);
 
 	}
 
@@ -59,5 +95,6 @@ public class GeoGebraMobileFrame
 
 		root.add(headerPanel);
 		root.add(toolBar);
+		root.add(euclidianPanel);
 	}
 }

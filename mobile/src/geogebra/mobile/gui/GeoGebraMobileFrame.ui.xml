@@ -7,30 +7,10 @@
     <mgwt:LayoutPanel>
 
         <mgwt:HeaderPanel>
-
-            <mgwt:center>
-
-                <g:HTML ui:field="center" >
-                </g:HTML>
-            </mgwt:center>
+          
         </mgwt:HeaderPanel>
-
-        <mgwt:ScrollPanel scrollingEnabledX="false" >
-
-            <g:FlowPanel>
-
-                <mgwt:RoundPanel>
-
-                    <mgwt:MTextBox ui:field="name" >
-                    </mgwt:MTextBox>
-                </mgwt:RoundPanel>
-
-                <mgwt:Button
-                    text="edit"
-                    ui:field="button" >
-                </mgwt:Button>
-            </g:FlowPanel>
-        </mgwt:ScrollPanel>
+        
+         <web:GGWGraphicsView ui:field="euclideanView" />
     </mgwt:LayoutPanel>
 
 </ui:UiBinder>
