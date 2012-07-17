@@ -58,6 +58,18 @@
     public static void main(java.lang.String[]);
 }
 
+# see #1389 (AbstractMethodError)
+# Renderer implements GLEventListener
+-keep class geogebra3D.euclidian3D.opengl.Renderer {
+    public <methods>;
+}
+
+# see #1389 (AbstractMethodError)
+# RendererTesselCallBack implements GLUtessellatorCallback
+-keep class geogebra3D.euclidian3D.opengl.RendererTesselCallBack {
+    public <methods>;
+}
+
 # Keep GeoGebra applet
 -keep class geogebra.GeoGebraApplet {
     public <methods>;
