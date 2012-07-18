@@ -58,7 +58,7 @@ import java.util.Properties;
  * @author Hans-Petter Ulven
  * @version 2010-03-07
  */
-public class GeoGebraPortablePreferences extends GeoGebraPreferences{
+public class GeoGebraPortablePreferences extends GeoGebraPreferencesD{
 	
 	/* don't need, erase, have made protected in parentclass:
 	
@@ -88,7 +88,7 @@ public class GeoGebraPortablePreferences extends GeoGebraPreferences{
 	private GeoGebraPortablePreferences(){}	
 	
 	/* Singleton getInstance()->getPref() */
-	public synchronized static GeoGebraPreferences getPref() {
+	public synchronized static GeoGebraPreferencesD getPref() {
 		if (singleton == null){
 			singleton = new GeoGebraPortablePreferences();
 			singleton.loadPreferences();
@@ -98,7 +98,7 @@ public class GeoGebraPortablePreferences extends GeoGebraPreferences{
 
 	private  void loadPreferences(){
 		try{																		//debug("path: "+GeoGebraPreferences.PROPERTY_FILEPATH);	
-			File propertyfile=new File(GeoGebraPreferences.PROPERTY_FILEPATH);
+			File propertyfile=new File(GeoGebraPreferencesD.PROPERTY_FILEPATH);
 			if(propertyfile.exists()){
 				//path=propertyfile.getCanonicalPath();			
 				BufferedInputStream fis=new BufferedInputStream(new FileInputStream(propertyfile));
@@ -117,7 +117,7 @@ public class GeoGebraPortablePreferences extends GeoGebraPreferences{
 	private void storePreferences(){
 		if(!get("read_only","false").equals("true")){
 			try {
-				BufferedOutputStream os=new BufferedOutputStream(new FileOutputStream(new File(GeoGebraPreferences.PROPERTY_FILEPATH)));
+				BufferedOutputStream os=new BufferedOutputStream(new FileOutputStream(new File(GeoGebraPreferencesD.PROPERTY_FILEPATH)));
 				properties.store(os,COMMENT);											//Application.debug("storePreferences(): ");properties.list(System.out);
 				os.close();
 			} catch (Exception e) {
@@ -367,7 +367,7 @@ public class GeoGebraPortablePreferences extends GeoGebraPreferences{
 	}// debug()
 	
 	public final static void main(String[] args){
-		GeoGebraPreferences gp=GeoGebraPortablePreferences.getPref();
+		GeoGebraPreferencesD gp=GeoGebraPortablePreferences.getPref();
 	}//main()
    
 

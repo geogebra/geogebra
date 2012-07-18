@@ -22,7 +22,7 @@ import geogebra.gui.util.FileTransferable;
 import geogebra.gui.util.ImageSelection;
 import geogebra.io.MyImageIO;
 import geogebra.main.AppD;
-import geogebra.main.GeoGebraPreferences;
+import geogebra.main.GeoGebraPreferencesD;
 import geogebra.util.DownloadManager;
 import geogebra.util.Util;
 
@@ -394,8 +394,8 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 		try {
 			// format
 			int formatID = FORMAT_PNG;
-			String format = GeoGebraPreferences.getPref().loadPreference(
-					GeoGebraPreferences.EXPORT_PIC_FORMAT, "png");
+			String format = GeoGebraPreferencesD.getPref().loadPreference(
+					GeoGebraPreferencesD.EXPORT_PIC_FORMAT, "png");
 			if (format.equals("eps")) {
 				formatID = FORMAT_EPS;
 			} else if (format.equals("svg")) {
@@ -405,8 +405,8 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 
 			// dpi
 			if (cbDPI.isEnabled()) {
-				String strDPI = GeoGebraPreferences.getPref().loadPreference(
-						GeoGebraPreferences.EXPORT_PIC_DPI, "300");
+				String strDPI = GeoGebraPreferencesD.getPref().loadPreference(
+						GeoGebraPreferencesD.EXPORT_PIC_DPI, "300");
 				for (int i = 0; i < cbDPI.getItemCount(); i++) {
 					String dpi = cbDPI.getItemAt(i).toString();
 					if (dpi.equals(strDPI)) {
@@ -430,8 +430,8 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 
 	private void savePreferences() {
 		// dpi
-		GeoGebraPreferences.getPref().savePreference(
-				GeoGebraPreferences.EXPORT_PIC_DPI,
+		GeoGebraPreferencesD.getPref().savePreference(
+				GeoGebraPreferencesD.EXPORT_PIC_DPI,
 				cbDPI.getSelectedItem().toString());
 
 		// format
@@ -446,8 +446,8 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 		default:
 			format = "png";
 		}
-		GeoGebraPreferences.getPref().savePreference(
-				GeoGebraPreferences.EXPORT_PIC_FORMAT, format);
+		GeoGebraPreferencesD.getPref().savePreference(
+				GeoGebraPreferencesD.EXPORT_PIC_FORMAT, format);
 
 		/*
 		 * // scale in cm

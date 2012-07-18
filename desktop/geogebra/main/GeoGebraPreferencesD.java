@@ -36,7 +36,7 @@ import java.util.prefs.Preferences;
  *  (Set in line 263 geogebra.gui.app.GeoGebraFrame before getPref() is called first time.)
  */
 
-public class GeoGebraPreferences {		
+public class GeoGebraPreferencesD {		
 	
 	public static final String AUTHOR = "author";
 	
@@ -126,14 +126,15 @@ public class GeoGebraPreferences {
 	protected  static	String	PROPERTY_FILEPATH	=	null;		//full path, null: no property file set
 	
 	
-	private static GeoGebraPreferences singleton;
+	private static GeoGebraPreferencesD singleton;
 	
 	/* Set in geogebra.gui.app.GeoGebraFrame before first call to getPref()*/
-	public static void setPropertyFileName(String pfname){
-		PROPERTY_FILEPATH=pfname;									App.debug("Prferences in: "+PROPERTY_FILEPATH);
+	public static void setPropertyFileName(String pfname) {
+		PROPERTY_FILEPATH = pfname;
+		App.debug("Prferences in: " + PROPERTY_FILEPATH);
 	}//setPropertyFileName(String)
 	
-	public synchronized static GeoGebraPreferences getPref() {
+	public synchronized static GeoGebraPreferencesD getPref() {
 		/* --- New code 06.03.10 - Ulven
 		 * Singleton getInstance() method
 		 * Checks if PROPERTY_FILENAME is given (by commandline)
@@ -149,7 +150,7 @@ public class GeoGebraPreferences {
 		}//if 	
 		// --- New code end
 		if (singleton == null)
-			singleton = new GeoGebraPreferences();
+			singleton = new GeoGebraPreferencesD();
 		return singleton;
 	}//getPref();
 	
@@ -174,11 +175,11 @@ public class GeoGebraPreferences {
 			systemAllows = true;
 			App.info("No system preferences");
 		}else{
-			systemAllows = Boolean.valueOf(ggbPrefsSystem.get(GeoGebraPreferences.VERSION_CHECK_ALLOW,defaultValue));
+			systemAllows = Boolean.valueOf(ggbPrefsSystem.get(GeoGebraPreferencesD.VERSION_CHECK_ALLOW,defaultValue));
 		}
 		// then check if user allows
 		if (systemAllows)
-			return Boolean.valueOf(ggbPrefs.get(GeoGebraPreferences.VERSION_CHECK_ALLOW,defaultValue));
+			return Boolean.valueOf(ggbPrefs.get(GeoGebraPreferencesD.VERSION_CHECK_ALLOW,defaultValue));
 		// else don't allow
 		return false;
 	}
@@ -188,7 +189,7 @@ public class GeoGebraPreferences {
 	 * @param value value
 	 */
 	public void saveVersionCheckAllow(String value){
-		ggbPrefs.put(GeoGebraPreferences.VERSION_CHECK_ALLOW,value);
+		ggbPrefs.put(GeoGebraPreferencesD.VERSION_CHECK_ALLOW,value);
 	}
 	
 	

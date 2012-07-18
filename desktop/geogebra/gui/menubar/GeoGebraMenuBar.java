@@ -7,7 +7,7 @@ import geogebra.export.ScalingPrintGridable;
 import geogebra.gui.layout.DockManager;
 import geogebra.gui.layout.LayoutD;
 import geogebra.main.AppD;
-import geogebra.main.GeoGebraPreferences;
+import geogebra.main.GeoGebraPreferencesD;
 
 import java.awt.BorderLayout;
 import java.awt.Font;
@@ -514,7 +514,7 @@ public class GeoGebraMenuBar extends JMenuBar {
 		app.getKernel().getLibraryJavaScript();
 
 		sb.append("\n\nPreferences:\n");
-		sb.append(GeoGebraPreferences.getPref().getXMLPreferences());
+		sb.append(GeoGebraPreferencesD.getPref().getXMLPreferences());
 		sb.append("[/code]");
 		Toolkit.getDefaultToolkit().getSystemClipboard().setContents(
 				new StringSelection(sb.toString()), null

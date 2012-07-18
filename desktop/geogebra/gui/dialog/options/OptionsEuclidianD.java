@@ -28,7 +28,7 @@ import geogebra.gui.dialog.DashListRenderer;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.gui.util.FullWidthLayout;
 import geogebra.main.AppD;
-import geogebra.main.GeoGebraPreferences;
+import geogebra.main.GeoGebraPreferencesD;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;

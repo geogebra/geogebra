@@ -4770,6 +4770,13 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 		public abstract GGraphics2D getGraphicsForPen();
 		
 		/**
+		 * @return whether stylebar of this view exists
+		 */
+		public final boolean hasStyleBar() {
+			return styleBar != null;
+		}
+
+		/**
 		 * @param mode mode number
 		 * @return whether the mode is pen, pencil or freehand
 		 */

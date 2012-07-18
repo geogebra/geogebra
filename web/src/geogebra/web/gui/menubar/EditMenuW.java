@@ -1,11 +1,6 @@
 package geogebra.web.gui.menubar;
 
-import java.awt.event.ActionEvent;
-
-import javax.swing.AbstractAction;
-
 import geogebra.common.main.App;
-import geogebra.web.gui.dialog.WebCamInputDialog;
 import geogebra.common.util.CopyPaste;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.main.AppW;

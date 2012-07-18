@@ -11,7 +11,7 @@ import geogebra.common.main.settings.SettingListener;
 import geogebra.euclidianND.EuclidianViewND;
 import geogebra.gui.dialog.InputDialog;
 import geogebra.main.AppD;
-import geogebra.main.GeoGebraPreferences;
+import geogebra.main.GeoGebraPreferencesD;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -450,7 +450,7 @@ public class LayoutD extends Layout implements SettingListener {
 			
 			layout.addPerspective(layout.createPerspective(inputString));
 			layout.getApplication().updateMenubar();
-			GeoGebraPreferences.getPref().saveXMLPreferences(app);
+			GeoGebraPreferencesD.getPref().saveXMLPreferences(app);
 			
 			return true;
 		}
@@ -545,7 +545,7 @@ public class LayoutD extends Layout implements SettingListener {
 				if(index != -1) { // -1 = no entry selected
 					listModel.remove(index);
 					layout.removePerspective(index);
-					GeoGebraPreferences.getPref().saveXMLPreferences(app);
+					GeoGebraPreferencesD.getPref().saveXMLPreferences(app);
 					
 					app.updateMenubar();
 					updateRemoveButton();

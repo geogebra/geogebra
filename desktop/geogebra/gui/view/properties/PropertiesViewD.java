@@ -26,7 +26,7 @@ import geogebra.gui.dialog.options.OptionsLayoutD;
 import geogebra.gui.dialog.options.OptionsObjectD;
 import geogebra.gui.dialog.options.OptionsSpreadsheetD;
 import geogebra.main.AppD;
-import geogebra.main.GeoGebraPreferences;
+import geogebra.main.GeoGebraPreferencesD;
 
 import java.awt.BorderLayout;
 import java.awt.Cursor;

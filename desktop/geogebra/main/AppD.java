@@ -508,12 +508,12 @@ public class AppD extends App implements
 		
 		// init default preferences if necessary
 		if (!isApplet) {
-			GeoGebraPreferences.getPref().initDefaultXML(this);
+			GeoGebraPreferencesD.getPref().initDefaultXML(this);
 		}
 
 		if (ggtloading) {
 			if (!isApplet) {
-				GeoGebraPreferences.getPref().loadXMLPreferences(this);
+				GeoGebraPreferencesD.getPref().loadXMLPreferences(this);
 			}
 		}
 
@@ -535,12 +535,12 @@ public class AppD extends App implements
 
 		if (!isApplet) {
 			// load XML preferences
-			currentPath = GeoGebraPreferences.getPref().getDefaultFilePath();
-			currentImagePath = GeoGebraPreferences.getPref()
+			currentPath = GeoGebraPreferencesD.getPref().getDefaultFilePath();
+			currentImagePath = GeoGebraPreferencesD.getPref()
 					.getDefaultImagePath();
 
 			if (!fileLoaded && !ggtloading) {
-				GeoGebraPreferences.getPref().loadXMLPreferences(this);
+				GeoGebraPreferencesD.getPref().loadXMLPreferences(this);
 			}
 		}
 		
@@ -1341,12 +1341,12 @@ public class AppD extends App implements
 		
 		if (versionCheckAllow != null) {
 			if (versionCheckAllow.equals("off")) {
-				GeoGebraPreferences.getPref().saveVersionCheckAllow("false");
+				GeoGebraPreferencesD.getPref().saveVersionCheckAllow("false");
 				versionCheckAllowed = false;
 				return;
 			}
 			if (versionCheckAllow.equals("on")) {
-				GeoGebraPreferences.getPref().saveVersionCheckAllow("true");
+				GeoGebraPreferencesD.getPref().saveVersionCheckAllow("true");
 				versionCheckAllowed = true;
 				return;
 			}
@@ -1361,7 +1361,7 @@ public class AppD extends App implements
             App.warn("Option versionCheckAllow not recognized : ".concat(versionCheckAllow));
 		}
 		
-		versionCheckAllowed = GeoGebraPreferences.getPref().loadVersionCheckAllow("true");
+		versionCheckAllowed = GeoGebraPreferencesD.getPref().loadVersionCheckAllow("true");
 		
 	}
 

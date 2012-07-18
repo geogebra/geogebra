@@ -62,5 +62,8 @@ public interface GuiResources extends ClientBundle {
 	
 	@Source("geogebra/resources/js/properties_keys.js")
 	TextResource propertiesKeysJS();
+	
+	@Source("geogebra/resources/default_preferences.xml")
+	TextResource default_preferences();
 }
 

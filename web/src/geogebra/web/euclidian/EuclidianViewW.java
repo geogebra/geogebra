@@ -617,10 +617,6 @@ public class EuclidianViewW extends EuclidianView implements SettingListener{
 		setCoordinateSpaceSize(g2p.getOffsetWidth(), g2p.getOffsetHeight());
     }
 
-	final public boolean hasStyleBar() {
-		return styleBar != null;
-	}
-
 	public String getCanvasBase64WithTypeString() {
 
 		// TODO: make this more perfect, like in Desktop

@@ -4,7 +4,7 @@ import geogebra.common.gui.SetLabels;
 import geogebra.gui.GuiManagerD;
 import geogebra.gui.util.IconTabbedPane;
 import geogebra.main.AppD;
-import geogebra.main.GeoGebraPreferences;
+import geogebra.main.GeoGebraPreferencesD;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -222,7 +222,7 @@ public class OptionsDialog extends JDialog implements WindowListener, SetLabels 
 			restoreDefaultsButton = new JButton();
 			restoreDefaultsButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					GeoGebraPreferences.getPref().clearPreferences();
+					GeoGebraPreferencesD.getPref().clearPreferences();
 
 					// reset defaults for GUI, views etc
 					// this has to be called before load XML preferences,
@@ -230,7 +230,7 @@ public class OptionsDialog extends JDialog implements WindowListener, SetLabels 
 					app.getSettings().resetSettings();
 
 					// for geoelement defaults, this will do nothing, so it is OK here
-					GeoGebraPreferences.getPref().loadXMLPreferences(app);
+					GeoGebraPreferencesD.getPref().loadXMLPreferences(app);
 
 					// reset default line thickness etc
 					app.getKernel().getConstruction().getConstructionDefaults().resetDefaults();
@@ -265,7 +265,7 @@ public class OptionsDialog extends JDialog implements WindowListener, SetLabels 
 			saveButton = new JButton();
 			saveButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					GeoGebraPreferences.getPref().saveXMLPreferences(app);
+					GeoGebraPreferencesD.getPref().saveXMLPreferences(app);
 				}
 			});
 			panel.add(saveButton);

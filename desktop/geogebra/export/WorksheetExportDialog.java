@@ -28,7 +28,7 @@ import geogebra.gui.util.IconTabbedPane;
 import geogebra.gui.view.algebra.InputPanelD;
 import geogebra.gui.view.algebra.InputPanelD.DialogType;
 import geogebra.main.AppD;
-import geogebra.main.GeoGebraPreferences;
+import geogebra.main.GeoGebraPreferencesD;
 import geogebra.util.DownloadManager;
 import geogebra.util.Util;
 
@@ -124,7 +124,7 @@ public class WorksheetExportDialog extends JDialog {
 	private GraphicSizePanel sizePanel;
 	private boolean kernelChanged = false;
 	private JTabbedPane tabbedPane;
-	private GeoGebraPreferences ggbPref;
+	private GeoGebraPreferencesD ggbPref;
 	private GuiManagerD guiManager;
 	private boolean removeLineBreaks;
 	private MyTextField titleField;
@@ -139,7 +139,7 @@ public class WorksheetExportDialog extends JDialog {
 		this.app = app;
 		kernel = app.getKernel();
 
-		ggbPref = GeoGebraPreferences.getPref();
+		ggbPref = GeoGebraPreferencesD.getPref();
 		guiManager = app.getGuiManager();
 
 		initGUI();
@@ -350,53 +350,53 @@ public class WorksheetExportDialog extends JDialog {
 		try {
 
 			cbEnableRightClick.setSelected(Boolean.valueOf(
-					ggbPref.loadPreference(GeoGebraPreferences.EXPORT_WS_RIGHT_CLICK,
+					ggbPref.loadPreference(GeoGebraPreferencesD.EXPORT_WS_RIGHT_CLICK,
 							"false")).booleanValue());
 			cbEnableLabelDrags.setSelected(Boolean.valueOf(
-					ggbPref.loadPreference(GeoGebraPreferences.EXPORT_WS_LABEL_DRAGS,
+					ggbPref.loadPreference(GeoGebraPreferencesD.EXPORT_WS_LABEL_DRAGS,
 							"false")).booleanValue());
 			cbShowResetIcon.setSelected(Boolean.valueOf(
-					ggbPref.loadPreference(GeoGebraPreferences.EXPORT_WS_RESET_ICON,
+					ggbPref.loadPreference(GeoGebraPreferencesD.EXPORT_WS_RESET_ICON,
 							"false")).booleanValue());
 			cbShowMenuBar.setSelected(Boolean.valueOf(
-					ggbPref.loadPreference(GeoGebraPreferences.EXPORT_WS_SHOW_MENUBAR,
+					ggbPref.loadPreference(GeoGebraPreferencesD.EXPORT_WS_SHOW_MENUBAR,
 							"false")).booleanValue());
 			cbSavePrint.setSelected(Boolean.valueOf(
-					ggbPref.loadPreference(GeoGebraPreferences.EXPORT_WS_SAVE_PRINT,
+					ggbPref.loadPreference(GeoGebraPreferencesD.EXPORT_WS_SAVE_PRINT,
 							"false")).booleanValue());
 			cbUseBrowserForJavaScript.setSelected(Boolean
 					.valueOf(
 							ggbPref.loadPreference(
-									GeoGebraPreferences.EXPORT_WS_USE_BROWSER_FOR_JAVASCRIPT,
+									GeoGebraPreferencesD.EXPORT_WS_USE_BROWSER_FOR_JAVASCRIPT,
 									"true")).booleanValue());
 			cbIncludeHTML5.setSelected(Boolean.valueOf(
-					ggbPref.loadPreference(GeoGebraPreferences.EXPORT_WS_INCLUDE_HTML5,
+					ggbPref.loadPreference(GeoGebraPreferencesD.EXPORT_WS_INCLUDE_HTML5,
 							"false")).booleanValue());
 			cbShowToolBar.setSelected(Boolean.valueOf(
-					ggbPref.loadPreference(GeoGebraPreferences.EXPORT_WS_SHOW_TOOLBAR,
+					ggbPref.loadPreference(GeoGebraPreferencesD.EXPORT_WS_SHOW_TOOLBAR,
 							"false")).booleanValue());
 			cbShowToolBarHelp.setSelected(Boolean.valueOf(
 					ggbPref.loadPreference(
-							GeoGebraPreferences.EXPORT_WS_SHOW_TOOLBAR_HELP, "false"))
+							GeoGebraPreferencesD.EXPORT_WS_SHOW_TOOLBAR_HELP, "false"))
 					.booleanValue());
 			cbShowToolBarHelp.setEnabled(cbShowToolBar.isSelected());
 			cbShowInputField.setSelected(Boolean.valueOf(
 					ggbPref.loadPreference(
-							GeoGebraPreferences.EXPORT_WS_SHOW_INPUT_FIELD, "false"))
+							GeoGebraPreferencesD.EXPORT_WS_SHOW_INPUT_FIELD, "false"))
 					.booleanValue());
 			cbAllowRescaling.setSelected(Boolean.valueOf(
-					ggbPref.loadPreference(GeoGebraPreferences.EXPORT_WS_ALLOW_RESCALING,
+					ggbPref.loadPreference(GeoGebraPreferencesD.EXPORT_WS_ALLOW_RESCALING,
 							"true")).booleanValue());
 			cbRemoveLinebreaks.setSelected(Boolean.valueOf(
 					ggbPref.loadPreference(
-							GeoGebraPreferences.EXPORT_WS_REMOVE_LINEBREAKS, "false"))
+							GeoGebraPreferencesD.EXPORT_WS_REMOVE_LINEBREAKS, "false"))
 					.booleanValue());
 			removeLineBreaks = cbRemoveLinebreaks.isSelected();
 			// cbOfflineArchive.setSelected( Boolean.valueOf(ggbPref.loadPreference(
 			// GeoGebraPreferences.EXPORT_WS_OFFLINE_ARCHIVE, "false")).booleanValue()
 			// );
 			cbOfflineUse.setSelected(Boolean.valueOf(
-					ggbPref.loadPreference(GeoGebraPreferences.EXPORT_WS_OFFLINE_ARCHIVE,
+					ggbPref.loadPreference(GeoGebraPreferencesD.EXPORT_WS_OFFLINE_ARCHIVE,
 							"false")).booleanValue());
 			addHeight();
 
@@ -423,34 +423,34 @@ public class WorksheetExportDialog extends JDialog {
 	}
 
 	private void savePreferences() {
-		ggbPref.savePreference(GeoGebraPreferences.EXPORT_WS_RIGHT_CLICK,
+		ggbPref.savePreference(GeoGebraPreferencesD.EXPORT_WS_RIGHT_CLICK,
 				Boolean.toString(cbEnableRightClick.isSelected()));
-		ggbPref.savePreference(GeoGebraPreferences.EXPORT_WS_LABEL_DRAGS,
+		ggbPref.savePreference(GeoGebraPreferencesD.EXPORT_WS_LABEL_DRAGS,
 				Boolean.toString(cbEnableLabelDrags.isSelected()));
-		ggbPref.savePreference(GeoGebraPreferences.EXPORT_WS_RESET_ICON,
+		ggbPref.savePreference(GeoGebraPreferencesD.EXPORT_WS_RESET_ICON,
 				Boolean.toString(cbShowResetIcon.isSelected()));
-		ggbPref.savePreference(GeoGebraPreferences.EXPORT_WS_SHOW_MENUBAR,
+		ggbPref.savePreference(GeoGebraPreferencesD.EXPORT_WS_SHOW_MENUBAR,
 				Boolean.toString(cbShowMenuBar.isSelected()));
-		ggbPref.savePreference(GeoGebraPreferences.EXPORT_WS_SHOW_TOOLBAR,
+		ggbPref.savePreference(GeoGebraPreferencesD.EXPORT_WS_SHOW_TOOLBAR,
 				Boolean.toString(cbShowToolBar.isSelected()));
-		ggbPref.savePreference(GeoGebraPreferences.EXPORT_WS_SHOW_TOOLBAR_HELP,
+		ggbPref.savePreference(GeoGebraPreferencesD.EXPORT_WS_SHOW_TOOLBAR_HELP,
 				Boolean.toString(cbShowToolBarHelp.isSelected()));
-		ggbPref.savePreference(GeoGebraPreferences.EXPORT_WS_SHOW_INPUT_FIELD,
+		ggbPref.savePreference(GeoGebraPreferencesD.EXPORT_WS_SHOW_INPUT_FIELD,
 				Boolean.toString(cbShowInputField.isSelected()));
 		// ggbPref.savePreference(GeoGebraPreferences.EXPORT_WS_OFFLINE_ARCHIVE,
 		// Boolean.toString(cbOfflineArchive.isSelected()));
-		ggbPref.savePreference(GeoGebraPreferences.EXPORT_WS_SAVE_PRINT,
+		ggbPref.savePreference(GeoGebraPreferencesD.EXPORT_WS_SAVE_PRINT,
 				Boolean.toString(cbSavePrint.isSelected()));
 		ggbPref.savePreference(
-				GeoGebraPreferences.EXPORT_WS_USE_BROWSER_FOR_JAVASCRIPT,
+				GeoGebraPreferencesD.EXPORT_WS_USE_BROWSER_FOR_JAVASCRIPT,
 				Boolean.toString(cbUseBrowserForJavaScript.isSelected()));
-		ggbPref.savePreference(GeoGebraPreferences.EXPORT_WS_INCLUDE_HTML5,
+		ggbPref.savePreference(GeoGebraPreferencesD.EXPORT_WS_INCLUDE_HTML5,
 				Boolean.toString(cbIncludeHTML5.isSelected()));
-		ggbPref.savePreference(GeoGebraPreferences.EXPORT_WS_ALLOW_RESCALING,
+		ggbPref.savePreference(GeoGebraPreferencesD.EXPORT_WS_ALLOW_RESCALING,
 				Boolean.toString(cbAllowRescaling.isSelected()));
-		ggbPref.savePreference(GeoGebraPreferences.EXPORT_WS_REMOVE_LINEBREAKS,
+		ggbPref.savePreference(GeoGebraPreferencesD.EXPORT_WS_REMOVE_LINEBREAKS,
 				Boolean.toString(cbRemoveLinebreaks.isSelected()));
-		ggbPref.savePreference(GeoGebraPreferences.EXPORT_WS_OFFLINE_ARCHIVE,
+		ggbPref.savePreference(GeoGebraPreferencesD.EXPORT_WS_OFFLINE_ARCHIVE,
 				Boolean.toString(cbOfflineUse.isSelected()));
 	}
 	

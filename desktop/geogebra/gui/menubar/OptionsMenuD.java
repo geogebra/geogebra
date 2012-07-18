@@ -11,7 +11,7 @@ import geogebra.common.util.Language;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
 import geogebra.main.AppD;
-import geogebra.main.GeoGebraPreferences;
+import geogebra.main.GeoGebraPreferencesD;
 
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -271,7 +271,7 @@ public class OptionsMenuD extends BaseMenu implements ActionListener, MyActionLi
 			public static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
-				GeoGebraPreferences.getPref().saveXMLPreferences(app);
+				GeoGebraPreferencesD.getPref().saveXMLPreferences(app);
 			}
 		};
 
@@ -282,7 +282,7 @@ public class OptionsMenuD extends BaseMenu implements ActionListener, MyActionLi
 			public static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
-				GeoGebraPreferences.getPref().clearPreferences();
+				GeoGebraPreferencesD.getPref().clearPreferences();
 
 				// reset defaults for GUI, views etc
 				// this has to be called before load XML preferences,
@@ -291,7 +291,7 @@ public class OptionsMenuD extends BaseMenu implements ActionListener, MyActionLi
 
 				// for geoelement defaults, this will do nothing, so it is
 				// OK here
-				GeoGebraPreferences.getPref().loadXMLPreferences(app);
+				GeoGebraPreferencesD.getPref().loadXMLPreferences(app);
 
 				// reset default line thickness etc
 				app.getKernel().getConstruction().getConstructionDefaults()

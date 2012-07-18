@@ -6,7 +6,9 @@ import geogebra.common.gui.menubar.OptionsMenu;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.main.App;
 import geogebra.web.gui.images.AppResources;
+import geogebra.web.main.GeoGebraPreferencesW;
 
+import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.MenuBar;
 
 /**
@@ -42,12 +44,55 @@ public class OptionsMenuW extends MenuBar implements MenuInterface, MyActionList
 		OptionsMenu.addFontSizeMenu(this);
 		//language menu
 		addLanguageMenu();
+		addSeparator();
+		addRestoreDefaultSettingsMenu();
 	}
 	
 	private void addLanguageMenu() {
 		languageMenu = new LanguageMenuW(app);
 		addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE
 		        .empty().getSafeUri().asString(), app.getMenu("Language")), true, languageMenu);
+	}
+	
+	private void addRestoreDefaultSettingsMenu(){
+		
+		addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE
+		        .empty().getSafeUri().asString(), app.getMenu("Settings.ResetDefault")),
+		        true, new Command() {
+			        public void execute() {
+			        	GeoGebraPreferencesW.getPref().clearPreferences();
+			        	
+						// reset defaults for GUI, views etc
+						// this has to be called before load XML preferences,
+						// in order to avoid overwrite
+						app.getSettings().resetSettings();
+
+						// for geoelement defaults, this will do nothing, so it is
+						// OK here
+						GeoGebraPreferencesW.getPref().loadXMLPreferences(app);
+
+						
+						// reset default line thickness etc
+						app.getKernel().getConstruction().getConstructionDefaults()
+						.resetDefaults();
+						
+						// reset defaults for geoelements; this will create brand
+						// new objects
+						// so the options defaults dialog should be reset later
+						app.getKernel().getConstruction().getConstructionDefaults()
+						.createDefaultGeoElementsFromScratch();
+
+						// reset the stylebar defaultGeo
+						if (app.getEuclidianView1().hasStyleBar())
+							app.getEuclidianView1().getStyleBar()
+							.restoreDefaultGeo();
+						if (app.hasEuclidianView2EitherShowingOrNot())
+							if (app.getEuclidianView2().hasStyleBar())
+								app.getEuclidianView2().getStyleBar()
+								.restoreDefaultGeo();						
+
+			        }
+		        });
 	}
 	
 	public void actionPerformed(String cmd){

@@ -444,14 +444,6 @@ public abstract class EuclidianViewND extends EuclidianView{
 		return styleBar;
 	}
 
-	/**
-	 * @return whether stylebar of this view exists
-	 */
-	final public boolean hasStyleBar() {
-		return styleBar != null;
-	}
-	
-	
 	// for AlgebraView
 	/***************************************************************************
 	 * ANIMATED ZOOMING

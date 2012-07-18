@@ -28,7 +28,7 @@ import geogebra.euclidian.EuclidianViewD;
 import geogebra.export.GraphicExportDialog;
 import geogebra.gui.FileDropTargetListener;
 import geogebra.main.AppD;
-import geogebra.main.GeoGebraPreferences;
+import geogebra.main.GeoGebraPreferencesD;
 import geogebra.util.Util;
 
 import java.awt.Component;
@@ -136,7 +136,7 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 
 	@Override
 	public Locale getLocale() {
-		Locale defLocale = GeoGebraPreferences.getPref().getDefaultLocale();
+		Locale defLocale = GeoGebraPreferencesD.getPref().getDefaultLocale();
 
 		if (defLocale == null) {
 			return super.getLocale();
@@ -174,7 +174,7 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 				return;
 
 			instances.remove(this);
-			GeoGebraPreferences.getPref().saveFileList();
+			GeoGebraPreferencesD.getPref().saveFileList();
 
 			if (instances.size() == 0) {
 				super.setVisible(false);
@@ -243,17 +243,17 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 		}
 
 		if (args.containsArg("resetSettings")) {
-			GeoGebraPreferences.getPref().clearPreferences();
+			GeoGebraPreferencesD.getPref().clearPreferences();
 		}
 		// Set GeoGebraPreferences mode (system properties or property file)
 		// before it is called for the first time
 		String settingsFile = args.getStringValue("settingsfile");
 		if (settingsFile.length() > 0) {
-			GeoGebraPreferences.setPropertyFileName(settingsFile);
+			GeoGebraPreferencesD.setPropertyFileName(settingsFile);
 		}
 
 		// load list of previously used files
-		GeoGebraPreferences.getPref().loadFileList();
+		GeoGebraPreferencesD.getPref().loadFileList();
 
 		// create first window and show it
 		createNewWindow(args, wnd);
@@ -486,8 +486,8 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 				return;
 			}
 			
-			String lastVersionCheck = GeoGebraPreferences.getPref()
-					.loadPreference(GeoGebraPreferences.VERSION_LAST_CHECK, "");
+			String lastVersionCheck = GeoGebraPreferencesD.getPref()
+					.loadPreference(GeoGebraPreferencesD.VERSION_LAST_CHECK, "");
 			Long nowL = new Date().getTime();
 			String nowLS = nowL.toString();
 
@@ -536,8 +536,8 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 								options[0]);
 						// store date of current check only when notification
 						// has been shown:
-						GeoGebraPreferences.getPref().savePreference(
-								GeoGebraPreferences.VERSION_LAST_CHECK, nowLS);
+						GeoGebraPreferencesD.getPref().savePreference(
+								GeoGebraPreferencesD.VERSION_LAST_CHECK, nowLS);
 						if (returnVal == 1) {
 							app.getGuiManager()
 									.showURLinBrowser(INSTALLERS_URL);

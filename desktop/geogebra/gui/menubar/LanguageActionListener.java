@@ -1,7 +1,7 @@
 package geogebra.gui.menubar;
 
 import geogebra.main.AppD;
-import geogebra.main.GeoGebraPreferences;
+import geogebra.main.GeoGebraPreferencesD;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -23,7 +23,7 @@ class LanguageActionListener implements ActionListener {
 		app.getEuclidianView1().updateBackground();
 		if(app.hasEuclidianView2EitherShowingOrNot())
 			app.getEuclidianView2().updateBackground();
-		GeoGebraPreferences.getPref().saveDefaultLocale(app.getLocale());
+		GeoGebraPreferencesD.getPref().saveDefaultLocale(app.getLocale());
 	}
 }
 

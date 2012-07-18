@@ -62,7 +62,7 @@ import geogebra.gui.view.spreadsheet.statdialog.PlotPanelEuclidianView;
 import geogebra.gui.virtualkeyboard.VirtualKeyboard;
 import geogebra.gui.virtualkeyboard.WindowsUnicodeKeyboard;
 import geogebra.main.AppD;
-import geogebra.main.GeoGebraPreferences;
+import geogebra.main.GeoGebraPreferencesD;
 import geogebra.util.Util;
 
 import java.awt.BorderLayout;
@@ -278,12 +278,12 @@ public class GuiManagerD extends GuiManager {
 	public void clearPreferences() {
 		if (((AppD)app).isSaved() || ((AppD)app).saveCurrentFile()) {
 			app.setWaitCursor();
-			GeoGebraPreferences.getPref().clearPreferences();
+			GeoGebraPreferencesD.getPref().clearPreferences();
 
 			// clear custom toolbar definition
 			strCustomToolbarDefinition = null;
 
-			GeoGebraPreferences.getPref().loadXMLPreferences((AppD)app); // this will
+			GeoGebraPreferencesD.getPref().loadXMLPreferences((AppD)app); // this will
 			// load the
 			// default
 			// settings
@@ -1553,7 +1553,7 @@ public class GuiManagerD extends GuiManager {
 						if (imageFile != null) {
 							((AppD)app).setCurrentImagePath(imageFile.getParentFile());
 							if (!app.isApplet()) {
-								GeoGebraPreferences.getPref()
+								GeoGebraPreferencesD.getPref()
 										.saveDefaultImagePath(
 												((AppD)app).getCurrentImagePath());
 							}
@@ -1620,7 +1620,7 @@ public class GuiManagerD extends GuiManager {
 				if (dataFile != null) {
 					((AppD)app).setCurrentImagePath(dataFile.getParentFile());
 					if (!app.isApplet()) {
-						GeoGebraPreferences.getPref().saveDefaultImagePath(
+						GeoGebraPreferencesD.getPref().saveDefaultImagePath(
 								((AppD)app).getCurrentImagePath());
 					}
 				}
@@ -2154,7 +2154,7 @@ public class GuiManagerD extends GuiManager {
 
 			public void actionPerformed(ActionEvent e) {
 				// get ev with focus
-				EuclidianViewND ev = getActiveEuclidianView();
+				EuclidianViewInterfaceCommon ev = getActiveEuclidianView();
 
 				boolean bothAxesShown = ev.getShowXaxis() && ev.getShowYaxis();
 

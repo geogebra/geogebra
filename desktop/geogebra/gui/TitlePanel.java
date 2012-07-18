@@ -16,7 +16,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.gui.inputfield.MyFormattedTextField;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.main.AppD;
-import geogebra.main.GeoGebraPreferences;
+import geogebra.main.GeoGebraPreferencesD;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
@@ -151,9 +151,9 @@ public class TitlePanel extends JPanel {
 		String author = cons.getAuthor();
 		if ("".equals(author)) {
 			author = 
-				GeoGebraPreferences.getPref()
+				GeoGebraPreferencesD.getPref()
 				.loadPreference(
-					GeoGebraPreferences.AUTHOR, "");
+					GeoGebraPreferencesD.AUTHOR, "");
 			cons.setAuthor(author);
 		}
 		return author;
@@ -163,8 +163,8 @@ public class TitlePanel extends JPanel {
 		boolean kernelChanged = !author.equals(cons.getAuthor());
 		if (kernelChanged) {
 			cons.setAuthor(author);
-			GeoGebraPreferences.getPref()
-				.savePreference(GeoGebraPreferences.AUTHOR,
+			GeoGebraPreferencesD.getPref()
+				.savePreference(GeoGebraPreferencesD.AUTHOR,
 					author);
 		}
 		return kernelChanged;
