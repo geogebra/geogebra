@@ -24,6 +24,7 @@ import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.main.App;
 import geogebra.gui.util.GeoGebraIcon;
 import geogebra.main.AppD;
 
@@ -212,6 +213,13 @@ implements DragGestureListener, DragSourceListener {
 		AbstractEvent event = geogebra.euclidian.event.MouseEvent.wrapEvent(e);
 		ev.clickedGeo(geo, event);
 		event.release();
+		
+		//if click created a geo, notify app to select it
+		ArrayList<GeoElement> justCreatedGeos = ev.getEuclidianController().getJustCreatedGeos();
+		App.debug(justCreatedGeos);
+		if (justCreatedGeos!=null && justCreatedGeos.size()>0)
+			app.setSelectedGeos(justCreatedGeos);
+		
 	}
 	
 	@Override
