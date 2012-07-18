@@ -298,13 +298,8 @@ public class PropertiesViewD extends geogebra.common.gui.view.properties.Propert
 				}
 			}else
 				setOptionPanel(type);
-		} else {
-			if (app.getSelectedGeos().size()==0){ //does nothing if some objects are selected
-				setOptionPanel(OptionType.EUCLIDIAN);
-				if (updateEuclidianTab)
-					euclidianPanel.setSelectedTab(selectedTab);
-			}
-		}
+		} 
+		
 	}
 	
 	/**
@@ -353,8 +348,8 @@ public class PropertiesViewD extends geogebra.common.gui.view.properties.Propert
 	
 	private void setOptionPanel(OptionType type, ArrayList<GeoElement> geos) {
 		
-		//AbstractApplication.printStacktrace("\ntype="+type+"\nisIniting="+isIniting+"\nsize="+app.getSelectedGeos().size());
-		//AbstractApplication.debug("\ntype="+type+"\nisIniting="+isIniting+"\nsize="+app.getSelectedGeos().size()+"\ngeos="+geos);
+		//App.printStacktrace("\ntype="+type+"\nisIniting="+isIniting+"\nsize="+app.getSelectedGeos().size());
+		//App.debug("\ntype="+type+"\nisIniting="+isIniting+"\nsize="+app.getSelectedGeos().size()+"\ngeos="+geos);
 
 		
 
