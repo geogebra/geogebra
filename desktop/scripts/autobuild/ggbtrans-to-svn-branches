@@ -31,9 +31,9 @@ rm -f *.properties
 
 # Explode the properties files and commit:
 $GGBTRANS_DIR/export.py 4.0 $BRANCHES_DIR/ggb40/geogebra/geogebra/properties
-$GGBTRANS_DIR/export.py 4.2 $BRANCHES_DIR/ggb40/geogebra/desktop/geogebra/properties
-cd $BRANCHES_DIR/ggb42/geogebra/geogebra/properties
-cp $BRANCHES_DIR/ggb42/geogebra/geogebra/properties/*.properties $BRANCHES_DIR/wiki/geogebra/properties
+$GGBTRANS_DIR/export.py 4.2 $BRANCHES_DIR/ggb42/geogebra/desktop/geogebra/properties
+cd $BRANCHES_DIR/ggb42/geogebra/desktop/geogebra/properties
+cp $BRANCHES_DIR/ggb42/geogebra/desktop/geogebra/properties/*.properties $BRANCHES_DIR/wiki/geogebra/properties
 
 `$SVNSYNC`
 svn commit -m "ggb42: *.properties files automatically updated from ggbtrans"
