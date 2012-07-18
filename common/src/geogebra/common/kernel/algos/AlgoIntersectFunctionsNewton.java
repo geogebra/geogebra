@@ -33,20 +33,25 @@ public class AlgoIntersectFunctionsNewton extends AlgoRootNewton {
     private GeoPoint startPoint, rootPoint;
     
     private Function diffFunction;
-                
+    
+    public AlgoIntersectFunctionsNewton(Construction cons, 
+            GeoFunction f, GeoFunction g, GeoPoint startPoint) {
+	    super(cons);
+	    this.f = f;
+	    this.g = g;
+	    this.startPoint = startPoint;
+	    
+	    diffFunction = new Function(kernel);
+	            
+	    // output
+	    rootPoint = new GeoPoint(cons);
+	    setInputOutput(); // for AlgoElement    
+	    compute();
+    }
+    
     public AlgoIntersectFunctionsNewton(Construction cons, String label, 
                 GeoFunction f, GeoFunction g, GeoPoint startPoint) {
-        super(cons);
-        this.f = f;
-        this.g = g;
-        this.startPoint = startPoint;
-        
-        diffFunction = new Function(kernel);
-                
-        // output
-        rootPoint = new GeoPoint(cons);
-        setInputOutput(); // for AlgoElement    
-        compute();
+        this(cons,f,g,startPoint);
         rootPoint.setLabel(label);
     }
     
