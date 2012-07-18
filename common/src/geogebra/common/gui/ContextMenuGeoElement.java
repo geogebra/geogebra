@@ -2,8 +2,10 @@ package geogebra.common.gui;
 
 import java.util.ArrayList;
 
+import geogebra.common.euclidian.EuclidianStyleBarStatic;
 import geogebra.common.gui.view.properties.PropertiesView.OptionType;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.geos.AbsoluteScreenLocateable;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
@@ -13,6 +15,7 @@ import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.GeoUserInputElement;
 import geogebra.common.kernel.geos.GeoVector;
+import geogebra.common.kernel.geos.Traceable;
 import geogebra.common.main.App;
 
 /**
@@ -255,6 +258,62 @@ public abstract class ContextMenuGeoElement {
 	public void inputFormCmd(final GeoUserInputElement inputElement) {
 		inputElement.setInputForm();
 		inputElement.updateRepaint();
+		app.storeUndoInfo();
+	}
+
+	public void traceCmd() {
+		for (int i = geos.size() - 1 ; i >= 0 ; i--) {
+			GeoElement geo1 = geos.get(i);
+			if (geo1.isTraceable()) {
+				((Traceable) geo1).setTrace(!((Traceable) geo1).getTrace());
+				geo1.updateRepaint();
+			}
+			
+		}
+		app.storeUndoInfo();
+	}
+
+	public void animationCmd() {
+		for (int i = geos.size() - 1 ; i >= 0 ; i--) {
+			GeoElement geo1 = geos.get(i);
+			if (geo1.isAnimatable()) {
+	    		geo1.setAnimating(!(geo1.isAnimating() && 
+	    				app.getKernel().getAnimatonManager().isRunning()));
+				geo1.updateRepaint();
+			}
+			
+		}
+		app.storeUndoInfo();
+	    app.getActiveEuclidianView().repaint();
+	
+		// automatically start animation when animating was turned on
+		if (geo.isAnimating())
+			geo.getKernel().getAnimatonManager().startAnimation();
+	}
+
+	public void pinCmd(boolean isSelected) {
+		for (int i = geos.size() - 1 ; i >= 0 ; i--) {
+			GeoElement geo1 = geos.get(i);
+			if (geo1 instanceof AbsoluteScreenLocateable && !geo1.isGeoList()) {
+				AbsoluteScreenLocateable geoText = (AbsoluteScreenLocateable)geo1;
+				boolean flag = !geoText.isAbsoluteScreenLocActive();
+				if (flag) {
+					// convert real world to screen coords
+					int x = app.getActiveEuclidianView().toScreenCoordX(geoText.getRealWorldLocX());
+					int y = app.getActiveEuclidianView().toScreenCoordY(geoText.getRealWorldLocY());
+					geoText.setAbsoluteScreenLoc(x, y);							
+				} else {
+					// convert screen coords to real world 
+					double x = app.getActiveEuclidianView().toRealWorldCoordX(geoText.getAbsoluteScreenLocX());
+					double y = app.getActiveEuclidianView().toRealWorldCoordY(geoText.getAbsoluteScreenLocY());
+					geoText.setRealWorldLoc(x, y);
+				}
+				geoText.setAbsoluteScreenLocActive(flag);            		
+				geoText.updateRepaint();
+			} else if (geo.isPinnable()) {
+				EuclidianStyleBarStatic.applyFixPosition(geos, isSelected, app.getActiveEuclidianView());
+			}
+		}
 		app.storeUndoInfo();
 	}
 

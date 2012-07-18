@@ -61,8 +61,8 @@ public class EuclidianView1 extends ResizeComposite {
 	/**
 	 * @return euclidianPanel (needed for wrap for textfields)
 	 */
-	public AbsolutePanel getEuclidianPanel() {
-		return euclidianpanel.getAbsolutePanel();
+	public EuclidianPanel getEuclidianPanel() {
+		return euclidianpanel;
 	}
 
 	public void onResize() {

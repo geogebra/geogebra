@@ -148,6 +148,8 @@ public class AlgebraViewW extends Tree implements LayerView, SetLabels, geogebra
 		initModel();
 
 		setLabels();
+		
+		getElement().setId("View_"+App.VIEW_ALGEBRA);
 
 		// tree's options
 		//setRootVisible(false);

@@ -197,7 +197,7 @@ public class GeoGebraAppFrame extends Composite {
 	 * 
 	 * EuclidianViewPanel for wrapping textfields
 	 */
-	public AbsolutePanel getEuclidianView1Panel() {
+	public EuclidianPanel getEuclidianView1Panel() {
 		return ggwSplitLayoutPanel.getGGWGraphicsView()	.getEuclidianView1Wrapper().getEuclidianPanel();
 	}
 	

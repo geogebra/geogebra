@@ -16,6 +16,7 @@ import geogebra.common.factories.AwtFactory;
 import geogebra.common.gui.inputfield.AutoCompleteTextField;
 import geogebra.common.io.MyXMLio;
 import geogebra.common.javax.swing.GBox;
+import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.main.App;
@@ -23,6 +24,7 @@ import geogebra.common.main.settings.EuclidianSettings;
 import geogebra.common.main.settings.SettingListener;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.web.awt.GBasicStrokeW;
+import geogebra.web.gui.app.EuclidianPanel;
 import geogebra.web.gui.applet.GeoGebraFrame;
 import geogebra.web.main.AppW;
 
@@ -63,11 +65,12 @@ public class EuclidianViewW extends EuclidianView implements SettingListener{
 	protected ImageElement resetImage, playImage, pauseImage, upArrowImage,
 	downArrowImage;
 
-	public EuclidianViewW(AbsolutePanel euclidianViewPanel,
+	public EuclidianViewW(EuclidianPanel euclidianViewPanel,
             EuclidianController euclidiancontroller, boolean[] showAxes,
             boolean showGrid, EuclidianSettings settings) {		
 		super(euclidiancontroller, settings);
-		Canvas canvas = (Canvas)(euclidianViewPanel.getWidget(0));
+		Canvas canvas = euclidianViewPanel.getCanvas();
+		canvas.getElement().setId("View_"+ App.VIEW_EUCLIDIAN);
 		evNo = 1;
 	    // TODO Auto-generated constructor stub
 		this.g2p = new geogebra.web.awt.GGraphics2DW(canvas);
@@ -136,7 +139,8 @@ public class EuclidianViewW extends EuclidianView implements SettingListener{
     }
 
 
-	public void paintBackground(geogebra.common.awt.GGraphics2D g2) {
+	@Override
+    public void paintBackground(geogebra.common.awt.GGraphics2D g2) {
 		((geogebra.web.awt.GGraphics2DW)g2).drawGraphics(
 				(geogebra.web.awt.GGraphics2DW)bgGraphics, 0, 0, null);
 	}
@@ -728,5 +732,14 @@ public class EuclidianViewW extends EuclidianView implements SettingListener{
 	    App.debug("doDrawPoints() unimplemented");
 	    
     }
+	
+	/*needed because set the id of canvas*/
+	@Override
+    public void setEuclidianViewNo(int evNo) {
+		if (evNo >= 2) {
+			this.evNo = evNo;
+			this.g2p.getCanvas().getElement().setId("View_"+App.VIEW_EUCLIDIAN2);
+		}
+	}
 
 }

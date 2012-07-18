@@ -8,7 +8,9 @@ import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.RequiresResize;
+import com.google.gwt.user.client.ui.Widget;
 
 public class EuclidianPanel extends Composite implements RequiresResize {
 
@@ -37,6 +39,14 @@ public class EuclidianPanel extends Composite implements RequiresResize {
 
 	public void onResize() {
 		App.debug("resized");
+    }
+
+	public void add(Widget w, int x, int y) {
+	    euclidianpanel.add(w,x,y);
+    }
+
+	public void remove(Widget w) {
+	   euclidianpanel.remove(w);
     }
 
 }

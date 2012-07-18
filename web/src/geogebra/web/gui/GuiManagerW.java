@@ -30,6 +30,8 @@ import geogebra.web.main.AppW;
 import java.util.ArrayList;
 
 import com.google.gwt.canvas.client.Canvas;
+import com.google.gwt.dom.client.Document;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.RootPanel;
 
@@ -218,9 +220,9 @@ public class GuiManagerW extends GuiManager {
 
 	@Override
 	public boolean showView(int viewId) {
-		RootPanel p = RootPanel.get("View_"+viewId);
-		if (p != null) {
-			return p.isVisible();
+		Element e = Document.get().getElementById("View_"+viewId);
+		if (e != null) {
+			return !(e.getStyle().getDisplay().equals("none") || e.getStyle().getVisibility().equals("hidden"));
 		}
 		return false;
 	}

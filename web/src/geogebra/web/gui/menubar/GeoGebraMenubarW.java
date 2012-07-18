@@ -266,5 +266,14 @@ public class GeoGebraMenubarW extends MenuBar {
 			App.debug("implementation needed - just finishing");
 			OptionsMenu.update();        
         }
+
+		public static void setMenuSelected(MenuItem m,
+                boolean visible) {
+	        if (visible) {
+	        	m.addStyleName("checked");
+	        } else {
+	        	m.removeStyleName("checked");
+	        }
+        }
 		
 }

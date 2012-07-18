@@ -47,6 +47,7 @@ import geogebra.web.euclidian.EuclidianViewW;
 import geogebra.web.gui.DialogManagerW;
 import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.SplashDialog;
+import geogebra.web.gui.app.EuclidianPanel;
 import geogebra.web.gui.app.GeoGebraAppFrame;
 import geogebra.web.gui.applet.GeoGebraFrame;
 import geogebra.web.gui.images.AppResources;
@@ -138,7 +139,7 @@ public class AppW extends App {
 	private MenuConstants menuConstants;
 	private SymbolsConstants symbolConstants;
 
-	private AbsolutePanel euclidianViewPanel;
+	private EuclidianPanel euclidianViewPanel;
 	private Canvas canvas;
 	private geogebra.common.plugin.GgbAPI ggbapi;
 	private HashMap<String, String> currentFile = null;
@@ -173,9 +174,7 @@ public class AppW extends App {
 		initCommonObjects();
 		
 		this.canvas = Canvas.createIfSupported();
-		euclidianViewPanel = new AbsolutePanel();	
-		euclidianViewPanel.add(this.canvas); // canvas must be the 1rst widget in the euclidianViewPanel
-		// because we will use euclidianViewPanel.getWidget(0) later
+		euclidianViewPanel = new EuclidianPanel();	
 		canvas.setWidth("1px");
 		canvas.setHeight("1px");
 		canvas.setCoordinateSpaceHeight(1);
@@ -1032,7 +1031,7 @@ public class AppW extends App {
 		return canvas;
 	}
 
-	public AbsolutePanel getEuclidianViewpanel() {
+	public EuclidianPanel getEuclidianViewpanel() {
 		return euclidianViewPanel;
 	}
 
