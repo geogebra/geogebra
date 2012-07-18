@@ -56,19 +56,20 @@ public class GeoGebraMobileFrame extends GeoGebraFrame
 		}
 
 		// get the article element from Mobile.html)
-		element = ArticleElement.as(Dom.querySelector("geogebramobile"));
+		element = ArticleElement.as(Dom.querySelector("geogebraweb"));
 		
 		// Initialize the AppW app
 		app = new MobileApp(element, this); 
 
 		// Get the Canvas
-		euclidianCanvas = app.getCanvas();
+		//euclidianCanvas = app.getCanvas();
 		
 		root.add(headerPanel);
 		root.add(toolBar);
 		
 		// Add the canvas to the rootPanel
 		// What do i do wrong?
-		root.add(euclidianCanvas);
+		//root.add(euclidianCanvas);
+		root.add(app.getEuclidianViewpanel());
 	}
 }
