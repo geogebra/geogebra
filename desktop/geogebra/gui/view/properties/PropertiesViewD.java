@@ -305,6 +305,7 @@ public class PropertiesViewD extends geogebra.common.gui.view.properties.Propert
 	/**
 	 * acts when mouse has been pressed in euclidian controller
 	 */
+	@Override
 	public void mousePressedForPropertiesView(){
 		objectPanel.forgetGeoAdded();
 	}
@@ -341,6 +342,7 @@ public class PropertiesViewD extends geogebra.common.gui.view.properties.Propert
 	 * 
 	 * @param type type
 	 */
+	@Override
 	public void setOptionPanel(OptionType type) {
 		setOptionPanel(type,app.getSelectedGeos());
 	}
@@ -674,25 +676,36 @@ public class PropertiesViewD extends geogebra.common.gui.view.properties.Propert
 	// SELECTION
 	// //////////////////////////////////////////////////////
 
+	@Override
 	public void updateSelection() {
 
-		updateSelection(removeAllConstants(app.getSelectedGeos()));
+		ArrayList<GeoElement> geos = app.getSelectedGeos();
+		
+		if (geos.size()==0)
+			setObjectPanel(geos);
+		else
+			updateSelection(removeAllConstants(geos));
 	}
 
 
+	@Override
 	public void updateSelection(ArrayList<GeoElement> geos) {
 
 		if (geos.size()>0){
-			if (selectedOptionType!=OptionType.OBJECTS)
-				setOptionPanel(OptionType.OBJECTS);
-
-			((OptionsObjectD) objectPanel).updateSelection(geos);
-			updateTitleBar(); 
-			styleBar.setObjectsToolTip();
+			setObjectPanel(geos);
 		}else{
 			setOptionPanelRegardingFocus(true);
 		}
 
+	}
+	
+	private void setObjectPanel(ArrayList<GeoElement> geos){
+		if (selectedOptionType!=OptionType.OBJECTS)
+			setOptionPanel(OptionType.OBJECTS);
+
+		((OptionsObjectD) objectPanel).updateSelection(geos);
+		updateTitleBar(); 
+		styleBar.setObjectsToolTip();	
 	}
 	
 	

@@ -2403,6 +2403,7 @@ public abstract class App {
 	}
 	
 	public void updateSelection() {
+
 		if (!showMenuBar || !isUsingFullGui() || isIniting()) {
 			return;
 		}
