@@ -120,7 +120,7 @@ public class AlgoVertexIneq extends AlgoElement {
 		case INEQUALITY_PARAMETRIC_X:
 			switch(b.getType()){
 				case INEQUALITY_PARAMETRIC_X:
-					intParamXParamX(a,b);
+					intParamParam(a,b,ai,bi,true);
 					break;
 				case INEQUALITY_PARAMETRIC_Y:
 					intParamXParamY(a,b);
@@ -141,7 +141,7 @@ public class AlgoVertexIneq extends AlgoElement {
 		case INEQUALITY_PARAMETRIC_Y:	
 			switch(b.getType()){
 			case INEQUALITY_PARAMETRIC_Y:
-				intParamYParamY(a,b);
+				intParamParam(a,b,ai,bi,false);
 				break;
 			case INEQUALITY_LINEAR:
 				intParamYLinear(a,b,ai,bi);
@@ -243,9 +243,19 @@ public class AlgoVertexIneq extends AlgoElement {
 		
 	}
 
-	private void intParamYParamY(Inequality a, Inequality b) {
-		App.debug(new Throwable().getStackTrace()[0].getMethodName());
-		// TODO Auto-generated method stub
+	private void intParamParam(Inequality a, Inequality b,int i,int j,boolean transpose) {
+		initHelpers();
+		
+		if(helpers[i][j]==null){
+			if(a.getFunBorder().isPolynomialFunction(false)){
+				helpers[i][j] = new AlgoIntersectPolynomials(cons,a.getFunBorder(),b.getFunBorder());
+			}
+			else{	
+				helpers[i][j] = new AlgoIntersectFunctionsNewton(cons,a.getFunBorder(),b.getFunBorder(),new GeoPoint(cons));
+			}
+		}else
+			helpers[i][j].compute();
+		addVertices(helpers[i][j],transpose);
 		
 	}
 
@@ -298,12 +308,6 @@ public class AlgoVertexIneq extends AlgoElement {
 	}
 
 	private void intParamXParamY(Inequality a, Inequality b) {
-		App.debug(new Throwable().getStackTrace()[0].getMethodName());
-		// TODO Auto-generated method stub
-		
-	}
-
-	private void intParamXParamX(Inequality a, Inequality b) {
 		App.debug(new Throwable().getStackTrace()[0].getMethodName());
 		// TODO Auto-generated method stub
 		
