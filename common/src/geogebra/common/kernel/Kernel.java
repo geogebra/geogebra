@@ -9166,7 +9166,7 @@ public class Kernel {
 	}
 
 	// intersection of polynomials
-	AlgoIntersectPolynomialLine getIntersectionAlgorithm(GeoFunction a,
+	public AlgoIntersectPolynomialLine getIntersectionAlgorithm(GeoFunction a,
 			GeoLine l) {
 		AlgoElement existingAlgo = findExistingIntersectionAlgorithm(a, l);
 		if (existingAlgo != null)
