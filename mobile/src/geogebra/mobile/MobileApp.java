@@ -7,15 +7,15 @@ import geogebra.web.main.AppW;
 public class MobileApp extends AppW
 {
 
-	public MobileApp(ArticleElement article, GeoGebraMobileFrame geoGebraMobileFrame, boolean undoActive)
+	public MobileApp(ArticleElement article, GeoGebraMobileFrame geoGebraMobileFrame)
 	{
-		super(article, geoGebraMobileFrame, undoActive);
+		super(article, geoGebraMobileFrame);
 		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public void appSplashCanNowHide()
 	{
-			// We have no splash anymore!
+		// We have no splash anymore!
 	}
 }
