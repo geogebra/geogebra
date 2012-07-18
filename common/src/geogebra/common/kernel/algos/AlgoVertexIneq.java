@@ -250,8 +250,9 @@ public class AlgoVertexIneq extends AlgoElement {
 			if(a.getFunBorder().isPolynomialFunction(false)){
 				helpers[i][j] = new AlgoIntersectPolynomials(cons,a.getFunBorder(),b.getFunBorder());
 			}
-			else{	
-				helpers[i][j] = new AlgoIntersectFunctionsNewton(cons,a.getFunBorder(),b.getFunBorder(),new GeoPoint(cons));
+			else{
+				// TODO:
+				//helpers[i][j] = new AlgoIntersectFunctionsNewton(cons,a.getFunBorder(),b.getFunBorder(),new GeoPoint(cons));
 			}
 		}else
 			helpers[i][j].compute();
