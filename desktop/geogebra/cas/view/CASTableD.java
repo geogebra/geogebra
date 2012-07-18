@@ -220,33 +220,7 @@ public class CASTableD extends JTable implements CASTable{
 				}
 				
 				
-				if (isEditing()
-						&& getEditor().getEditingRow() != getClickedRow()) {
-					if(e.isAltDown()){
-						getEditor().insertText("$" + (getClickedRow()+1));
-					}
-					// output panel click
-					else if (copyMode == COPY_PLOT) {
-						getTable().getGeoCasCell(getClickedRow()).plot();
-					} else if (isOutputPanelClicked(e.getPoint())){
-						getEditor().insertText(view.getRowOutputValue(getClickedRow()));
-					}else{
-								getSelectionModel().setSelectionInterval(getClickedRow(),
-										getClickedRow());
-								startEditingRow(getClickedRow());
-								return;
-					}
-					
-					
-					view.styleBar.updateStyleBar();
-					repaint();
-					// set clickedRow selected
-				} else {
 
-					getSelectionModel().setSelectionInterval(getClickedRow(),
-							getClickedRow());
-					startEditingRow(getClickedRow());
-				}
 			
 			}				
 			e.consume();
@@ -263,6 +237,34 @@ public class CASTableD extends JTable implements CASTable{
 					popupMenu.show(e.getComponent(), e.getX(), e.getY());
 				}
 			}
+			if (isEditing()
+					&& getEditor().getEditingRow() != getClickedRow()) {
+				if(e.isAltDown()){
+					getEditor().insertText("$" + (getClickedRow()+1));
+				}
+				// output panel click
+				else if (copyMode == COPY_PLOT) {
+					getTable().getGeoCasCell(getClickedRow()).plot();
+				} else if (isOutputPanelClicked(e.getPoint())){
+					getEditor().insertText(view.getRowOutputValue(getClickedRow()));
+				}else{
+							getSelectionModel().setSelectionInterval(getClickedRow(),
+									getClickedRow());
+							startEditingRow(getClickedRow());
+							return;
+				}
+				
+				
+				view.styleBar.updateStyleBar();
+				repaint();
+				// set clickedRow selected
+			} else {
+
+				getSelectionModel().setSelectionInterval(getClickedRow(),
+						getClickedRow());
+				startEditingRow(getClickedRow());
+			}
+			
 			e.consume();
 		}
 
