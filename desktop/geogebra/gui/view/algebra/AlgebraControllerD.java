@@ -214,9 +214,8 @@ implements DragGestureListener, DragSourceListener {
 		event.release();
 		
 		//if click created a geo, notify app to select it
-		ArrayList<GeoElement> justCreatedGeos = ev.getEuclidianController().getJustCreatedGeos();
-		if (justCreatedGeos!=null && justCreatedGeos.size()>0)
-			app.setSelectedGeos(justCreatedGeos);
+		ev.getEuclidianController().setJustCreatedGeosSelected();
+		
 		
 	}
 	

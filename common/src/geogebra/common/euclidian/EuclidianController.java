@@ -8746,18 +8746,33 @@ public abstract class EuclidianController {
 		initShowMouseCoords();
 		view.setShowAxesRatio(false);
 		
+
 		
-		if (app.isUsingFullGui() && app.getGuiManager() != null) {//prevent objects created by a script
-			if (checkBoxJustHitted) //does nothing
-				checkBoxJustHitted = false;
-			else
-				app.getGuiManager().mouseReleasedForPropertiesView(mode!=EuclidianConstants.MODE_MOVE && mode!=EuclidianConstants.MODE_MOVE_ROTATE);
+		if (!setJustCreatedGeosSelected()){ //first try to set just created geos as selected
+			//if none, do specific stuff for properties view
+			if (app.isUsingFullGui() && app.getGuiManager() != null) {//prevent objects created by a script
+				if (checkBoxJustHitted) //does nothing
+					checkBoxJustHitted = false;
+				else
+					app.getGuiManager().mouseReleasedForPropertiesView(mode!=EuclidianConstants.MODE_MOVE && mode!=EuclidianConstants.MODE_MOVE_ROTATE);
+			}
 		}
-		
 		
 		kernel.notifyRepaint();
 		
 		
+	}
+	
+	/**
+	 * set just created geos as selected (if any)
+	 * @return true if any just created geos
+	 */
+	public boolean setJustCreatedGeosSelected(){
+		if (justCreatedGeos!=null && justCreatedGeos.size()>0){
+			app.setSelectedGeos(justCreatedGeos);
+			return true;
+		}
+		return false;
 	}
 
 	protected void wrapMouseWheelMoved(AbstractEvent event) {
