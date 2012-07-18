@@ -151,7 +151,6 @@ public class AlgoIntersectConics extends AlgoIntersect  implements SymbolicParam
     	ArrayList<GeoPoint> temp;
     	
     	if (list1!=null && list2!=null) {
-    		if (list1.size() > list2.size()) {temp = list1; list1 = list2; list2=temp;}
     		for (int i = 0; i<list1.size(); i++) {
     			if (list1.get(i).getIncidenceList().contains(B))
     				preexistPoints.add(list1.get(i));
