@@ -1331,6 +1331,10 @@ public class ExpressionNode extends ValidExpression implements
 			// STANDARD case: no leaf
 			else {
 				// expression node
+				
+				// first we need to group the factors of all possible numerators
+				numerGroup();
+				
 				String leftStr = null, rightStr = null;
 				if (symbolic && left.isGeoElement()) {
 					leftStr = ((GeoElement) left).getLabel(tpl);
@@ -1359,6 +1363,52 @@ public class ExpressionNode extends ValidExpression implements
 			// do nothing
 		}
 
+		return ret;
+	}
+
+	private ExpressionNode numerGroup() {
+		
+		ExpressionNode ret = null;
+		
+		if (isLeaf()) {
+			return this; //no change
+		}
+		
+		if (operation == Operation.MULTIPLY) {
+
+			if (!right.isExpressionNode())
+				return this; //no change
+			
+			ExpressionNode r = (ExpressionNode)right;
+			
+			if (r == null || r.isLeaf())
+				return this; //no change
+		
+			if (r.operation == Operation.MULTIPLY) {
+				right = r.numerGroup(); //now right must be an ExpressionNode.
+				r = (ExpressionNode)right;
+			}
+			
+			if (r.operation == Operation.DIVIDE) {
+				
+				ExpressionNode newL, newR;
+				
+				newL = new ExpressionNode(kernel, this.left, Operation.MULTIPLY, r.left);
+				
+				this.setOperation(Operation.DIVIDE);
+				setLeft(newL);
+				setRight(r.right);
+				ret = r;
+			}	
+			
+		} else {
+			if (left!=null && left.isExpressionNode())
+				((ExpressionNode)left).numerGroup();
+			if (right!=null && right.isExpressionNode())
+				((ExpressionNode)right).numerGroup();
+			ret = this;
+		}
+			
 		return ret;
 	}
 
