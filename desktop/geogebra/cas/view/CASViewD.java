@@ -9,6 +9,7 @@ import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.gui.GuiManagerD;
 import geogebra.gui.view.Gridable;
 import geogebra.main.AppD;
+import geogebra.util.CASDragGestureListener;
 import geogebra.util.CASDropTargetListener;
 
 import java.awt.BorderLayout;
@@ -113,13 +114,13 @@ public class CASViewD  extends CASView implements Gridable {
 		// addFocusListener(this);
 		
 		
-		// Test: DnD
-		//CASTransferHandler transferHandler = new CASTransferHandler();
-		//setTransferHandler(transferHandler);
-		//this.setDragEnabled(true);
-		CASDropTargetListener dropTargetListener = new CASDropTargetListener(app, consoleTable);
-		DropTarget dropTarget = new DropTarget(consoleTable,dropTargetListener);
-		dropTarget.setDefaultActions(DnDConstants.ACTION_COPY);//not sure if i need this
+		//Create new DragGestureListener and enable Drag
+		CASDragGestureListener dragGestListener = new CASDragGestureListener(kernel , consoleTable);
+		dragGestListener.enableDnD();
+		
+		//Create new CASDropTargetListener and enable Drop
+		CASDropTargetListener dropTargetListener = new CASDropTargetListener(app, this,  consoleTable);
+		dropTargetListener.enableDnD();
 		
 		updateFonts();
 

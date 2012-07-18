@@ -9,6 +9,7 @@ import geogebra.euclidianND.EuclidianViewND;
 import geogebra.gui.view.spreadsheet.statdialog.PlotPanelEuclidianView;
 import geogebra.main.AppD;
 import geogebra.util.AlgebraViewTransferHandler;
+import geogebra.util.CASTransferHandler;
 
 import java.awt.Point;
 import java.awt.datatransfer.DataFlavor;
@@ -133,9 +134,12 @@ public class EuclidianViewTransferHandler extends TransferHandler implements
 		// 1) PlotPanel GeoElement copies
 		// 2) Images
 		// 3) Text
-		// 4) GGB files
+		// 4) CASTableCells 		
+		// 5) GGB files
 		// ------------------------------------------
 
+		
+		
 		// try to get PlotPanel GeoElement copies
 		if (t.isDataFlavorSupported(PlotPanelEuclidianView.plotPanelFlavor)) {
 	
@@ -154,12 +158,17 @@ public class EuclidianViewTransferHandler extends TransferHandler implements
 			return true;
 		}
 
+		
+		
 		// try to get an image
 		boolean imageDropped = ev.getApplication().getGuiManager()
 				.loadImage(t, false);
 		if (imageDropped)
 			return true;
 
+		
+		
+		
 		// handle all text flavors
 		if (t.isDataFlavorSupported(DataFlavor.stringFlavor)
 				|| t.isDataFlavorSupported(AlgebraViewTransferHandler.algebraViewFlavor)) {
@@ -269,6 +278,49 @@ public class EuclidianViewTransferHandler extends TransferHandler implements
 				// TODO
 			}
 		}
+		
+		//handle CAS table cells as simple latex string (not dynamic!!)
+		//ToDo: make it dynamic (after ticket 2449 is finished)
+		if(t.isDataFlavorSupported(CASTransferHandler.casLaTeXFlavor)){
+			try{
+				
+				
+				String text =  "\"" + (String) t.getTransferData(CASTransferHandler.casLaTeXFlavor) + "\"";			
+				
+				//after it is possible to refer to cas cells with "$1" we can refer dynamically 
+				
+				//String tableRef;
+				//int cellnumber = (Integer) t.getTransferData(CASTransferHandler.casTableFlavor);
+				//tableRef = "$" + (cellnumber+1);
+				
+				
+				//create a GeoText on the specific mouse position
+				GeoElement[] ret = ev.getApplication().getKernel()
+						.getAlgebraProcessor()
+						.processAlgebraCommand(text, true);
+
+				if (ret != null && ret[0].isTextValue()) {
+					GeoText geo = (GeoText) ret[0];
+					geo.setLaTeX(true, false);
+
+					// TODO: h should equal the geo height, this is just an
+					// estimate
+					double h = 2 * app.getFontSize();
+
+					geo.setRealWorldLoc(ev.toRealWorldCoordX(mousePos.x),
+							ev.toRealWorldCoordY(mousePos.y - h));
+					geo.updateRepaint();
+
+				}
+
+						
+				return true;
+				} catch (Exception e) {
+					e.printStackTrace();
+					return false;
+				}
+			}
+				
 
 		// check for ggb file drop
 		boolean ggbFileDropped = app.getGuiManager().handleGGBFileDrop(t);

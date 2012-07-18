@@ -50,7 +50,6 @@ public class AlgebraViewTransferHandler extends TransferHandler implements Trans
 
 	@Override
 	public Transferable createTransferable(JComponent comp) {
-		
 		if(geoLabelList == null)
 			geoLabelList = new ArrayList<String>();
 		else

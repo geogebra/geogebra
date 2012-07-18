@@ -1,5 +1,6 @@
 package geogebra.util;
 
+import geogebra.cas.view.CASTableD;
 import geogebra.common.main.App;
 import geogebra.gui.view.spreadsheet.statdialog.PlotPanelEuclidianView;
 
@@ -12,25 +13,12 @@ import javax.swing.TransferHandler;
 public class CASTransferHandler extends TransferHandler {  
 	
 	// supported data flavors
-	private static DataFlavor supportedFlavors[] = null;// {
+	public static final DataFlavor casTableFlavor = new DataFlavor(Integer.class, "cell reference");
+	public static final DataFlavor casLaTeXFlavor = new DataFlavor(String.class, "cell latex output");
+	private static DataFlavor supportedFlavors[] = {};// {
 	
 	private void setSupportedFlavours() {
-		if (supportedFlavors == null) {
-			//if (app.isUsingFullGui()) {
-				supportedFlavors = new DataFlavor[5];
-				supportedFlavors[0] = DataFlavor.imageFlavor;
-				supportedFlavors[1] = DataFlavor.stringFlavor;
-				supportedFlavors[2] = DataFlavor.javaFileListFlavor;
-				supportedFlavors[3] = AlgebraViewTransferHandler.algebraViewFlavor;
-				supportedFlavors[4] = PlotPanelEuclidianView.plotPanelFlavor;
-			//} else {
-			//	supportedFlavors = new DataFlavor[3];
-			//	supportedFlavors[0] = DataFlavor.imageFlavor;
-			//	supportedFlavors[1] = DataFlavor.stringFlavor;
-			//	supportedFlavors[2] = DataFlavor.javaFileListFlavor;
-			//}
-
-		}
+		
 	}
 
 	
@@ -39,8 +27,6 @@ public class CASTransferHandler extends TransferHandler {
      * We only support importing strings.
      */
     public boolean canImport(JComponent comp, DataFlavor flavor[]) {
-    	App.debug("canImport");
-
 		setSupportedFlavours();
 
 		for (int i = 0, n = flavor.length; i < n; i++) {
@@ -59,7 +45,6 @@ public class CASTransferHandler extends TransferHandler {
      * Each line is separated by a newline.
      */
     protected Transferable createTransferable(JComponent c) {
-    	App.debug("createTransferable");
         return null;
     }
     
@@ -67,7 +52,6 @@ public class CASTransferHandler extends TransferHandler {
      * We support both copy and move actions.
      */
     public int getSourceActions(JComponent c) {
-    	App.debug("getSourceActions");
         return TransferHandler.COPY_OR_MOVE;
     }
     
@@ -75,7 +59,6 @@ public class CASTransferHandler extends TransferHandler {
      * Perform the actual import.  This demo only supports drag and drop.
      */
     public boolean importData(JComponent comp, DataFlavor flavor[]) {
-    	App.debug("importData");
         return true;
     }
 
@@ -83,6 +66,5 @@ public class CASTransferHandler extends TransferHandler {
      * Remove the items moved from the list.
      */
     protected void exportDone(JComponent c, Transferable data, int action) {
-    	App.debug("exportDone");
     }
 }
