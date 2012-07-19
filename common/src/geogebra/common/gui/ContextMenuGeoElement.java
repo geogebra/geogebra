@@ -32,6 +32,7 @@ public abstract class ContextMenuGeoElement {
 	protected GeoElement geo;
 	/** application */
 	public App app;
+	protected boolean justOneGeo = false;
 
 	/**
 	 * 
@@ -46,8 +47,10 @@ public abstract class ContextMenuGeoElement {
 	}
 
 	public void cartesianCoordsCmd() {
-		for (int i = geos.size() - 1 ; i >= 0 ; i--) {
-			GeoElement geo1 = geos.get(i);
+		ArrayList<GeoElement> geos2 = checkOneGeo();
+
+		for (int i = geos2.size() - 1 ; i >= 0 ; i--) {
+			GeoElement geo1 = geos2.get(i);
 			if (geo1 instanceof GeoPoint) {
 				GeoPoint point1 = (GeoPoint)geo1;
 				point1.setMode(Kernel.COORD_CARTESIAN);
@@ -58,8 +61,10 @@ public abstract class ContextMenuGeoElement {
 	}
 
 	public void polarCoorsCmd() {
-		for (int i = geos.size() - 1 ; i >= 0 ; i--) {
-			GeoElement geo1 = geos.get(i);
+		ArrayList<GeoElement> geos2 = checkOneGeo();
+
+		for (int i = geos2.size() - 1 ; i >= 0 ; i--) {
+			GeoElement geo1 = geos2.get(i);
 			if (geo1 instanceof GeoPoint) {
 				GeoPoint point1 = (GeoPoint)geo1;
 				point1.setMode(Kernel.COORD_POLAR);
@@ -70,8 +75,10 @@ public abstract class ContextMenuGeoElement {
 	}
 
 	public void equationImplicitEquationCmd() {
-		for (int i = geos.size() - 1 ; i >= 0 ; i--) {
-			GeoElement geo1 = geos.get(i);
+		ArrayList<GeoElement> geos2 = checkOneGeo();
+
+		for (int i = geos2.size() - 1 ; i >= 0 ; i--) {
+			GeoElement geo1 = geos2.get(i);
 			if (geo1 instanceof GeoLine && !(geo1 instanceof GeoSegment)) {
 				GeoLine line1 = (GeoLine)geo1;
 				line1.setMode(GeoLine.EQUATION_IMPLICIT);
@@ -82,8 +89,10 @@ public abstract class ContextMenuGeoElement {
 	}
 
 	public void equationExplicitEquationCmd() {
-		for (int i = geos.size() - 1 ; i >= 0 ; i--) {
-			GeoElement geo1 = geos.get(i);
+		ArrayList<GeoElement> geos2 = checkOneGeo();
+
+		for (int i = geos2.size() - 1 ; i >= 0 ; i--) {
+			GeoElement geo1 = geos2.get(i);
 			if (geo1 instanceof GeoLine && !(geo1 instanceof GeoSegment)) {
 				GeoLine line1 = (GeoLine)geo1;
 				line1.setMode(GeoLine.EQUATION_EXPLICIT);
@@ -94,8 +103,10 @@ public abstract class ContextMenuGeoElement {
 	}
 
 	public void parametricFormCmd() {
-		for (int i = geos.size() - 1 ; i >= 0 ; i--) {
-			GeoElement geo1 = geos.get(i);
+		ArrayList<GeoElement> geos2 = checkOneGeo();
+
+		for (int i = geos2.size() - 1 ; i >= 0 ; i--) {
+			GeoElement geo1 = geos2.get(i);
 			if (geo1 instanceof GeoLine && !(geo1 instanceof GeoSegment)) {
 				GeoLine line1 = (GeoLine)geo1;
 				line1.setMode(GeoLine.PARAMETRIC);
@@ -106,8 +117,10 @@ public abstract class ContextMenuGeoElement {
 	}
 
 	public void cartesianCoordsForVectorItemsCmd() {
-		for (int i = geos.size() - 1 ; i >= 0 ; i--) {
-			GeoElement geo1 = geos.get(i);
+		ArrayList<GeoElement> geos2 = checkOneGeo();
+
+		for (int i = geos2.size() - 1 ; i >= 0 ; i--) {
+			GeoElement geo1 = geos2.get(i);
 			if (geo1 instanceof GeoVector) {
 				GeoVector vector1 = (GeoVector)geo1;
 				vector1.setMode(Kernel.COORD_CARTESIAN);
@@ -118,8 +131,10 @@ public abstract class ContextMenuGeoElement {
 	}
 
 	public void polarCoordsForVectorItemsCmd() {
-		for (int i = geos.size() - 1 ; i >= 0 ; i--) {
-			GeoElement geo1 = geos.get(i);
+		ArrayList<GeoElement> geos2 = checkOneGeo();
+
+		for (int i = geos2.size() - 1 ; i >= 0 ; i--) {
+			GeoElement geo1 = geos2.get(i);
 			if (geo1 instanceof GeoVector) {
 				GeoVector vector1 = (GeoVector)geo1;
 				vector1.setMode(Kernel.COORD_POLAR);
@@ -130,8 +145,10 @@ public abstract class ContextMenuGeoElement {
 	}
 
 	public void implicitConicEquationCmd() {
-		for (int i = geos.size() - 1 ; i >= 0 ; i--) {
-			GeoElement geo1 = geos.get(i);
+		ArrayList<GeoElement> geos2 = checkOneGeo();
+
+		for (int i = geos2.size() - 1 ; i >= 0 ; i--) {
+			GeoElement geo1 = geos2.get(i);
 			if (geo1.getClass() == GeoConic.class) {
 				GeoConic conic1 = (GeoConic)geo1;
 				conic1.setToImplicit();
@@ -142,8 +159,10 @@ public abstract class ContextMenuGeoElement {
 	}
 
 	public void equationConicEqnCmd() {
-		for (int i = geos.size() - 1 ; i >= 0 ; i--) {
-			GeoElement geo1 = geos.get(i);
+		ArrayList<GeoElement> geos2 = checkOneGeo();
+
+		for (int i = geos2.size() - 1 ; i >= 0 ; i--) {
+			GeoElement geo1 = geos2.get(i);
 			if (geo1.getClass() == GeoConic.class) {
 				GeoConic conic1 = (GeoConic)geo1;
 				conic1.setToSpecific();
@@ -154,8 +173,10 @@ public abstract class ContextMenuGeoElement {
 	}
 
 	public void equationExplicitConicEquationCmd() {
-		for (int i = geos.size() - 1 ; i >= 0 ; i--) {
-			GeoElement geo1 = geos.get(i);
+		ArrayList<GeoElement> geos2 = checkOneGeo();
+
+		for (int i = geos2.size() - 1 ; i >= 0 ; i--) {
+			GeoElement geo1 = geos2.get(i);
 			if (geo1.getClass() == GeoConic.class) {
 				GeoConic conic1 = (GeoConic)geo1;
 				conic1.setToExplicit();
@@ -172,12 +193,25 @@ public abstract class ContextMenuGeoElement {
 	}
 
 	public void deleteCmd() {
+		
+		ArrayList<GeoElement> geos2 = checkOneGeo();
+		
 		//geo.remove();
-		for (int i = geos.size() - 1 ; i >= 0 ; i--) {
-			GeoElement geo1 = geos.get(i);
+		for (int i = geos2.size() - 1 ; i >= 0 ; i--) {
+			GeoElement geo1 = geos2.get(i);
 			geo1.removeOrSetUndefinedIfHasFixedDescendent();
 		}
 		app.storeUndoInfo();
+	}
+
+	private ArrayList<GeoElement> checkOneGeo() {
+		if (justOneGeo) {
+			ArrayList<GeoElement> ret = new ArrayList<GeoElement>();
+			ret.add(geo);
+			return ret;
+		}
+		
+		return geos;
 	}
 
 	public void editCmd() {
@@ -189,8 +223,10 @@ public abstract class ContextMenuGeoElement {
 	}
 
 	public void fixObjectNumericCmd(final GeoNumeric num) {
-		for (int i = geos.size() - 1 ; i >= 0 ; i--) {
-			GeoElement geo1 = geos.get(i);
+		ArrayList<GeoElement> geos2 = checkOneGeo();
+
+		for (int i = geos2.size() - 1 ; i >= 0 ; i--) {
+			GeoElement geo1 = geos2.get(i);
 			if (geo1.isGeoNumeric()) {
 				((GeoNumeric)geo1).setSliderFixed(!num.isSliderFixed());
 				geo1.updateRepaint();
@@ -203,8 +239,10 @@ public abstract class ContextMenuGeoElement {
 	}
 
 	public void fixObjectCmd() {
-		for (int i = geos.size() - 1 ; i >= 0 ; i--) {
-			GeoElement geo1 = geos.get(i);
+		ArrayList<GeoElement> geos2 = checkOneGeo();
+
+		for (int i = geos2.size() - 1 ; i >= 0 ; i--) {
+			GeoElement geo1 = geos2.get(i);
 			if (geo1.isGeoNumeric()) {
 				((GeoNumeric)geo1).setSliderFixed(!geo1.isFixed());
 				geo1.updateRepaint();
@@ -220,8 +258,10 @@ public abstract class ContextMenuGeoElement {
 	}
 
 	public void showLabelCmd() {
-		for (int i = geos.size() - 1 ; i >= 0 ; i--) {
-			GeoElement geo1 = geos.get(i);
+		ArrayList<GeoElement> geos2 = checkOneGeo();
+
+		for (int i = geos2.size() - 1 ; i >= 0 ; i--) {
+			GeoElement geo1 = geos2.get(i);
 			geo1.setLabelVisible(!geo1.isLabelVisible());
 			geo1.updateRepaint();
 			
@@ -230,8 +270,10 @@ public abstract class ContextMenuGeoElement {
 	}
 
 	public void showObjectCmd() {
-		for (int i = geos.size() - 1 ; i >= 0 ; i--) {
-			GeoElement geo1 = geos.get(i);
+		ArrayList<GeoElement> geos2 = checkOneGeo();
+
+		for (int i = geos2.size() - 1 ; i >= 0 ; i--) {
+			GeoElement geo1 = geos2.get(i);
 			geo1.setEuclidianVisible(!geo1.isSetEuclidianVisible());
 			geo1.updateRepaint();
 			
@@ -240,8 +282,10 @@ public abstract class ContextMenuGeoElement {
 	}
 
 	public void showObjectAuxiliaryCmd() {
-		for (int i = geos.size() - 1 ; i >= 0 ; i--) {
-			GeoElement geo1 = geos.get(i);
+		ArrayList<GeoElement> geos2 = checkOneGeo();
+
+		for (int i = geos2.size() - 1 ; i >= 0 ; i--) {
+			GeoElement geo1 = geos2.get(i);
 			if (geo1.isAlgebraShowable()) {
 				geo1.setAuxiliaryObject(!geo1.isAuxiliaryObject());
 				geo1.updateRepaint();
@@ -252,7 +296,7 @@ public abstract class ContextMenuGeoElement {
 	}
 
 	public void openPropertiesDialogCmd() {
-		app.getDialogManager().showPropertiesDialog(OptionType.OBJECTS, geos);
+		app.getDialogManager().showPropertiesDialog(OptionType.OBJECTS, checkOneGeo());
 	}
 
 	public void inputFormCmd(final GeoUserInputElement inputElement) {
@@ -262,8 +306,10 @@ public abstract class ContextMenuGeoElement {
 	}
 
 	public void traceCmd() {
-		for (int i = geos.size() - 1 ; i >= 0 ; i--) {
-			GeoElement geo1 = geos.get(i);
+		ArrayList<GeoElement> geos2 = checkOneGeo();
+
+		for (int i = geos2.size() - 1 ; i >= 0 ; i--) {
+			GeoElement geo1 = geos2.get(i);
 			if (geo1.isTraceable()) {
 				((Traceable) geo1).setTrace(!((Traceable) geo1).getTrace());
 				geo1.updateRepaint();
@@ -274,8 +320,10 @@ public abstract class ContextMenuGeoElement {
 	}
 
 	public void animationCmd() {
-		for (int i = geos.size() - 1 ; i >= 0 ; i--) {
-			GeoElement geo1 = geos.get(i);
+		ArrayList<GeoElement> geos2 = checkOneGeo();
+
+		for (int i = geos2.size() - 1 ; i >= 0 ; i--) {
+			GeoElement geo1 = geos2.get(i);
 			if (geo1.isAnimatable()) {
 	    		geo1.setAnimating(!(geo1.isAnimating() && 
 	    				app.getKernel().getAnimatonManager().isRunning()));
@@ -292,8 +340,10 @@ public abstract class ContextMenuGeoElement {
 	}
 
 	public void pinCmd(boolean isSelected) {
-		for (int i = geos.size() - 1 ; i >= 0 ; i--) {
-			GeoElement geo1 = geos.get(i);
+		ArrayList<GeoElement> geos2 = checkOneGeo();
+
+		for (int i = geos2.size() - 1 ; i >= 0 ; i--) {
+			GeoElement geo1 = geos2.get(i);
 			if (geo1 instanceof AbsoluteScreenLocateable && !geo1.isGeoList()) {
 				AbsoluteScreenLocateable geoText = (AbsoluteScreenLocateable)geo1;
 				boolean flag = !geoText.isAbsoluteScreenLocActive();
@@ -311,7 +361,7 @@ public abstract class ContextMenuGeoElement {
 				geoText.setAbsoluteScreenLocActive(flag);            		
 				geoText.updateRepaint();
 			} else if (geo.isPinnable()) {
-				EuclidianStyleBarStatic.applyFixPosition(geos, isSelected, app.getActiveEuclidianView());
+				EuclidianStyleBarStatic.applyFixPosition(geos2, isSelected, app.getActiveEuclidianView());
 			}
 		}
 		app.storeUndoInfo();

@@ -67,9 +67,13 @@ public class ContextMenuChooseGeoD extends ContextMenuGeoElementD {
 		super(app, selectedGeos, location);
 
 		//return if just one geo, or if first geos more than one
-		if (geos.size()<2 || selectedGeos.size()>1)
+		if (geos.size()<2 || selectedGeos.size()>1) {
+			justOneGeo = false;
 			return;
-		
+		}
+
+		justOneGeo = true;
+
 		//section to choose a geo
 		//addSeparator();
 		addSelectAnotherMenu();
