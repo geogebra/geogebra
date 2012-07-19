@@ -503,7 +503,7 @@ public class GeoGebraPreferencesD {
     private String getDefaultPreferences() {
     	StringBuilder text = new StringBuilder();
       String NL = System.getProperty("line.separator");
-      Scanner scanner = new Scanner(this.getClass().getResourceAsStream("/geogebra/main/default-preferences.xml"), "UTF-8");
+      Scanner scanner = new Scanner(this.getClass().getResourceAsStream("/geogebra/common/main/xml/default-preferences.xml"), "UTF-8");
       try {
         while (scanner.hasNextLine()){
           text.append(scanner.nextLine() + NL);

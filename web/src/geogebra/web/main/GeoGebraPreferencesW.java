@@ -30,7 +30,7 @@ public class GeoGebraPreferencesW implements GeoGebraPreferences {
 
 		try {
 			new RequestBuilder(RequestBuilder.GET,
-			        "web/default_preferences.xml").sendRequest("",
+			        "web/default-preferences.xml").sendRequest("",
 			        new RequestCallback() {
 
 				        public void onResponseReceived(Request request,
