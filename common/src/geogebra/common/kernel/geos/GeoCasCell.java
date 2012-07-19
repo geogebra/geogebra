@@ -4,12 +4,14 @@ import geogebra.common.awt.GColor;
 import geogebra.common.awt.GFont;
 import geogebra.common.cas.CASException;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.VarString;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
+import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.FunctionNVar;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
@@ -21,6 +23,7 @@ import geogebra.common.kernel.arithmetic.Traversing.GeoDummyReplacer;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.main.App;
 import geogebra.common.plugin.GeoClass;
+import geogebra.common.plugin.Operation;
 import geogebra.common.util.StringUtil;
 
 import java.util.HashSet;
@@ -1567,8 +1570,20 @@ public class GeoCasCell extends GeoElement implements VarString {
 		}
 		if(outputVE!=null && (!doTwinGeoUpdate || twinGeo == null)){
 			ArbconstReplacer repl = ArbconstReplacer.getReplacer(arbconst);
-			arbconst.reset();
-			outputVE.traverse(repl);
+			arbconst.reset();	
+				
+			//Bugfix for ticket: 2468
+			//if outputVE is only a constant -> insert branch otherwise traverse did not work correct
+			if(outputVE.isExpressionNode()){
+				ExpressionNode en = (ExpressionNode) outputVE;
+				if(    en.getOperation()==Operation.ARBINT 
+					|| en.getOperation()==Operation.ARBCONST
+					|| en.getOperation()==Operation.ARBCOMPLEX){
+				   outputVE = new ExpressionNode(kernel, outputVE, Operation.NO_OPERATION, null);
+				}			
+			}		
+			
+			outputVE.traverse(repl);	
 		}
 		// set back firstComputeOutput, see setInput()
 		firstComputeOutput = false;
