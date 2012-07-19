@@ -323,7 +323,7 @@ office@geogebra.org
 			basedir="${src.dir}"		   
 			includes="**/*.class,	
 			**/*.py,
-		  			geogebra/common/main/xml/default-preferences.xml, 				
+  			**/default-preferences.xml, 				
 					  geogebra/main/*.png,
 			  edu/xtec/adapter/**,
 			  edu/xtec/adapter/impl/**,
