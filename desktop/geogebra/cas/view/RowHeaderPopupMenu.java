@@ -73,7 +73,7 @@ public class RowHeaderPopupMenu extends JPopupMenu implements ActionListener {
 		add(item7);
 		
 		//handle cell as Textcell
-		cbUseAsText = new JCheckBoxMenuItem(app.getMenu("UseAsText"));
+		cbUseAsText = new JCheckBoxMenuItem(app.getMenu("CasCellUseAsText"));
 		cbUseAsText.setActionCommand("useAsText");
 		cbUseAsText.setIcon(app.getEmptyIcon());
 		int [] selRows2 = rowHeader.getSelectedIndices();
