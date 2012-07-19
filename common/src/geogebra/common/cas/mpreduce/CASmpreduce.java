@@ -437,7 +437,7 @@ public abstract class CASmpreduce implements CASGenericInterface {
 				mpreduce1.evaluate("operator slessequal");
 				mpreduce1.evaluate(" Degree := pi/180;");
 
-				mpreduce1.evaluate("procedure myround(x);" + "floor(x+0.5);");
+				mpreduce1.evaluate("procedure myround(x);" + "begin; on numval, rounded; r:=floor(x+0.5); off numval, rounded; return r;end");
 
 				mpreduce1.evaluate("procedure harmonic(n,m); for i:=1:n sum 1/(i**m);");
 				mpreduce1.evaluate("procedure uigamma(n,m); gamma(n)-igamma(n,m);");

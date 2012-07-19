@@ -124,7 +124,7 @@ public class Ggb2MPReduce {
 				"<<if %2=1 then torder(%1,lex) else if %2=2 then torder(%1,gradlex) else if %2=3 then torder(%1,revgradlex); groebner(%0)>>");
 		p("HyperGeometric.5",
 				"<<begin scalar m,kk,ng,n; m:=(%1)$ ng:=(%0)$ n:=(%2)$ kk:=(%3)$ return if %4=true then sum(binomial(m,k)*binomial((ng-m),(n-k))/binomial(ng,n),k,0,kk) else binomial(m,kk)*binomial((ng-m),(n-kk))/binomial(ng,n) end>>");
-		p("Identity.1", "<<make\\_identity(round(%0))>>");
+		p("Identity.1", "<<make\\_identity(myround(%0))>>");
 		p("If.2", "if %0=true then %1 else '? else iffun(%0,%1)");
 		p("If.3", "if %0=true then %1 else if %0=false then %2 else ifelsefun(%0,%1,%2)");
 		p("Imaginary.1", "impart(%0)");
