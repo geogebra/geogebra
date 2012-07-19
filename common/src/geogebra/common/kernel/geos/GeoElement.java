@@ -518,7 +518,11 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @param c geo to receive the label copy
 	 */
 	public void copyLabel(final GeoElement c) {
-		label = c.label;
+		if(c != null)
+			if(c.label != null){
+				label = c.label;
+				labelSet = true;
+			}
 	}
 
 	/**
@@ -5993,6 +5997,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		}
 
 		// GeoNumeric eg a=1
+		boolean test = isLabelSet();
 		if ("".equals(ret) && isGeoNumeric() && !substituteNumbers
 				&& isLabelSet()) {
 			ret = kernel.printVariableName(label,tpl);
