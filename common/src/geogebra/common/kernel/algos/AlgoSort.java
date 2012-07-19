@@ -95,9 +95,12 @@ public class AlgoSort extends AlgoElement {
     @Override
 	protected void setInputOutput(){
         input = new GeoElement[valueList==null?1:2];
-        input[0] = inputList;
-        if(valueList!=null)
-        	input[1] = valueList;
+        if(valueList!=null) {
+        	input[0] = valueList;
+        	input[1] = inputList;
+        } else {
+            input[0] = inputList;        	
+        }
         super.setOutputLength(1);
         super.setOutput(0, outputList);
         setDependencies(); // done by AlgoElement
