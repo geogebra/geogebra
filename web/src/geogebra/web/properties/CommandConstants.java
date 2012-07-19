@@ -1231,6 +1231,12 @@ public interface CommandConstants extends ConstantsWithLookup {
     @DefaultStringValue("[ <Point Creating Locus Line>, <Point> ]\n[ <Point Creating Locus Line>, <Slider> ]\n[ <Slopefield>, <Point> ]\n[ <f(x, y)>, <Point> ]")
     String Locus_Syntax();
 
+    @DefaultStringValue("LocusEquation")
+    String LocusEquation();
+
+    @DefaultStringValue("[ <Locus> ]\n[ <Locus Point>, <Moving Point> ]")
+    String LocusEquation_Syntax();
+
     @DefaultStringValue("LogNormal")
     String LogNormal();
 

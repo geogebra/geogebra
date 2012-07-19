@@ -118,6 +118,9 @@ public interface PlainConstants extends ConstantsWithLookup {
     @DefaultStringValue("%0 lies on the perimeter of %1")
     String AliesOnThePerimeterOfB();
 
+    @DefaultStringValue("All Views")
+    String AllViews();
+
     @DefaultStringValue("Allow Offline Use")
     String AllowOfflineUse();
 
