@@ -6702,7 +6702,7 @@ class NamePanel extends JPanel implements ActionListener, FocusListener,
 		tfDefinition.setText(getDefText(geo));
 		tfDefinition.addActionListener(this);
 		
-		//AbstractApplication.debug(geo);
+		//App.printStacktrace(""+geo);
 	}
 
 	private static boolean checkGeos(Object[] geos) {
@@ -6733,13 +6733,22 @@ class NamePanel extends JPanel implements ActionListener, FocusListener,
 		} else if (source == tfDefinition) {
 			String strDefinition = tfDefinition.getText();
 			if (!strDefinition.equals(getDefText(currentGeo))) {
-				defInputHandler.processInput(strDefinition);
+				//int caretPosition = tfDefinition.getCaretPosition();
+				
+				if (defInputHandler.processInput(strDefinition)){	
+					//if succeeded, switch current geo
+					currentGeo = defInputHandler.getGeoElement();
+					app.addSelectedGeo(currentGeo);
+				}
 
 				// reset definition string if not successful
 				strDefinition = getDefText(currentGeo);
 				if (!strDefinition.equals(tfDefinition.getText())) {
-					tfDefinition.setText(strDefinition);
-					tfDefinition.requestFocus();
+					tfDefinition.setText(strDefinition);	
+					tfDefinition.requestFocusInWindow();
+				}else{
+					tfDefinition.requestFocusInWindow();
+					//tfDefinition.setCaretPosition(caretPosition);
 				}
 			}
 		} else if (source == tfCaption) {

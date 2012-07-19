@@ -23,6 +23,14 @@ public class RedefineInputHandler implements InputHandler {
 	public void setGeoElement(GeoElement geo) {
 		this.geo = geo;
 	}
+	
+	/**
+	 * 
+	 * @return current geo
+	 */
+	public GeoElement getGeoElement(){
+		return geo;
+	}
 
 	public boolean processInput(String inputValue) {			
 		if (inputValue == null)

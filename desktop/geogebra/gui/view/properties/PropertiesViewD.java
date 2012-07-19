@@ -603,7 +603,7 @@ public class PropertiesViewD extends geogebra.common.gui.view.properties.Propert
 	}
 
 	public void remove(GeoElement geo) {
-		((OptionsObjectD) objectPanel).updateIfInSelection(geo);
+		//((OptionsObjectD) objectPanel).updateIfInSelection(geo);
 		((OptionsObjectD) objectPanel).getTree().remove(geo);
 
 	}
