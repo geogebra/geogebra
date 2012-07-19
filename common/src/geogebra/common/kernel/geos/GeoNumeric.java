@@ -162,10 +162,7 @@ public class GeoNumeric extends GeoElement implements NumberValue,
 
 	@Override
 	public GeoElement copy() {
-		GeoNumeric newNum = new GeoNumeric(cons, value);
-		//Bug Fix: Ticket 2407, label has to be copied to!!!
-		newNum.copyLabel(this);
-		return newNum;
+		return new GeoNumeric(cons, value);
 	}
 
 	@Override

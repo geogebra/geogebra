@@ -518,11 +518,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @param c geo to receive the label copy
 	 */
 	public void copyLabel(final GeoElement c) {
-		if(c != null)
-			if(c.label != null){
-				label = c.label;
-				labelSet = true;
-			}
+		label = c.label;
 	}
 
 	/**
