@@ -137,7 +137,7 @@ public abstract class CASmpreduce implements CASGenericInterface {
 			}
 		}
 
-		result = sb.toString();
+		result = sb.toString().replaceAll("\\[", "(").replaceAll("\\]", ")");
 
 		// TODO: remove
 		App.debug("   result: " + result);
@@ -752,12 +752,12 @@ public abstract class CASmpreduce implements CASGenericInterface {
 						+ "  return if arglength(a)>-1 and part(a,0)='list and arglength(b)>-1 and part(b,0)='list then"
 						+ "    for i:=1:length(a) collect addition(part(a,i),part(b,i))"
 						+ "  else if arglength(a)>-1 and part(a,0)='list then"
-						+ "    if myvecp(b) then"
+						+ "    if myvecp(b) and length(a)>1 and not myvecp(part(a,1)) then"
 						+ "      listtomyvect(a)+b"
 						+ "    else"
 						+ "      map(addition(~w!!,b),a)"
 						+ "  else if arglength(b)>-1 and part(b,0)='list then"
-						+ "    if myvecp(a) then"
+						+ "    if myvecp(a)  and length(b)>1 and not myvecp(part(b,1)) then"
 						+ "      listtomyvect(b)+a"
 						+ "    else"
 						+ "      map(addition(a,~w!!),b)"
@@ -777,12 +777,12 @@ public abstract class CASmpreduce implements CASGenericInterface {
 						+ "  return if arglength(a)>-1 and part(a,0)='list and arglength(b)>-1 and part(b,0)='list then"
 						+ "    for i:=1:length(a) collect part(a,i)-part(b,i)"
 						+ "  else if arglength(a)>-1 and part(a,0)='list then"
-						+ "    if myvecp b then"
+						+ "    if myvecp b  and length(a)>1 and not myvecp(part(a,1)) then"
 						+ "      listtomyvect(a)-b"
 						+ "    else"
 						+ "      map(~w!!-b,a)"
 						+ "  else if arglength(b)>-1 and part(b,0)='list then"
-						+ "    if myvecp(a) then"
+						+ "    if myvecp(a)  and length(b)>1 and not myvecp(part(b,1)) then"
 						+ "      a-listtomyvect(b)"
 						+ "    else"
 						+ "      map(a-~w!!,b)"
