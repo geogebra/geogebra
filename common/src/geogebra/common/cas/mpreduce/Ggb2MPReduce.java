@@ -81,7 +81,7 @@ public class Ggb2MPReduce {
 		p("erf.1", "myerf(%0)");
 		p("Element.2", "part(%0,%1)");
 		p("Element.3",
-				"<<clear input!!; input!!:=(%0); if arglength(input!!)>-1 and part(input!!,0)=\\'mat then input!!(%1,%2) else for i:=(%1):(%2) collect part(input!!,i)>>");
+				"<<clear input!!; input!!:=(%0); if arglength(input!!)>-1 and part(input!!,0)=\\'mat then input!!(%1,%2) else part(part(input!!,%1),%2)>>");
 		p("Expand.1",
 				"<<clear tmp!!; off factor, pri, combinelogs$ on div, expandlogs$ tmp!!:=(%0); off factor, pri, combinelogs$ on div, expandlogs$  tmp!!>>");
 		p("ExpandComplex.1",
