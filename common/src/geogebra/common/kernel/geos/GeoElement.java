@@ -5997,7 +5997,6 @@ public abstract class GeoElement extends ConstructionElement implements
 		}
 
 		// GeoNumeric eg a=1
-		boolean test = isLabelSet();
 		if ("".equals(ret) && isGeoNumeric() && !substituteNumbers
 				&& isLabelSet()) {
 			ret = kernel.printVariableName(label,tpl);
