@@ -498,7 +498,7 @@ public abstract class CASmpreduce implements CASGenericInterface {
 				mpreduce1.evaluate("procedure zcoord(a); if myvecp(a) then zvcoord(a) else zscoord(a)");
 				mpreduce1.evaluate("operator zscoord");
 				
-				
+				mpreduce1.evaluate("procedure booltonum a; if a = true then 1 else if a = false then 0 else a;");
 				mpreduce1.evaluate("procedure mysolve(eqn, var);"
 						+ " begin scalar solutions!!, bool!!;"
 						+ "  eqn:=mkdepthone({eqn});"
@@ -681,8 +681,11 @@ public abstract class CASmpreduce implements CASGenericInterface {
 				mpreduce1.evaluate("procedure mattoscalar(m);"
 						+ " if length(m)={1,1} then trace(m) else m;");
 
-				mpreduce1.evaluate("procedure multiplication(a,b);"
-						+ "  if arglength(a)>-1 and part(a,0)='mat then"
+				mpreduce1.evaluate("procedure multiplication(a,b);" +
+						"begin"
+						+ "  a:=booltonum(a);"
+						+ "  b:=booltonum(b);"
+						+ "  return if arglength(a)>-1 and part(a,0)='mat then"
 						+ "    if arglength(b)>-1 and part(b,0)='mat then"
 						+ "      mattoscalar(a*b)"
 						+ "    else if arglength(b)>-1 and part(b,0)='list then"
@@ -719,7 +722,7 @@ public abstract class CASmpreduce implements CASGenericInterface {
 						+ "		 else if b=-infinity then"
 						+ "		   if (numberp(a) and a>0) or a=infinity then -infinity"
 						+ "		   else if (numberp(a) and a<0) or a=infinity then infinity"
-						+ "		   else '?" + "		 else" + "        a*b;");				
+						+ "		   else '?" + "		 else" + "        a*b;end");				
 				
 				mpreduce1.evaluate("procedure applyfunction(a,b);"
 						+ "if(arglength(b)<0) then a(b) else " +
@@ -735,13 +738,16 @@ public abstract class CASmpreduce implements CASGenericInterface {
 						"else a(b,p)");
 
 				mpreduce1.evaluate("operator multiplication;");
-				mpreduce1.evaluate("procedure mydivision(a,b); multiplication(a,1/b)");
+				mpreduce1.evaluate("procedure mydivision(a,b); multiplication(a,1/booltonum(b))");
 				mpreduce1.evaluate("operator mydivision;");
 				mpreduce1.evaluate("procedure mypower(a,b); if myvecp(a) then if b=2 then multiplication(a,a) else '? else a^b;");
 				mpreduce1.evaluate("operator mypower;");
 				
 				mpreduce1.evaluate("procedure addition(a,b);"
-						+ "  if arglength(a)>-1 and part(a,0)='list and arglength(b)>-1 and part(b,0)='list then"
+						+ "begin"
+						+ "  a:=booltonum(a);"
+						+ "  b:=booltonum(b);"
+						+ "  return if arglength(a)>-1 and part(a,0)='list and arglength(b)>-1 and part(b,0)='list then"
 						+ "    for i:=1:length(a) collect addition(part(a,i),part(b,i))"
 						+ "  else if arglength(a)>-1 and part(a,0)='list then"
 						+ "    if myvecp(b) then"
@@ -758,12 +764,15 @@ public abstract class CASmpreduce implements CASGenericInterface {
 						+ "  else if (a=infinity and b neq -infinity) or (b=infinity and a neq -infinity) then"
 						+ "    infinity"
 						+ "  else if (a=-infinity and b neq infinity) or (b=-infinity and a neq infinity) then"
-						+ "    -infinity" + "  else" + "    a+b;");
+						+ "    -infinity" + "  else" + "    a+b; end");
 
 				mpreduce1.evaluate("operator addition;");
-
+				
 				mpreduce1.evaluate("procedure subtraction(a,b);"
-						+ "  if arglength(a)>-1 and part(a,0)='list and arglength(b)>-1 and part(b,0)='list then"
+						+"begin"
+						+ "  a:=booltonum(a);"
+						+ "  b:=booltonum(b);"
+						+ "  return if arglength(a)>-1 and part(a,0)='list and arglength(b)>-1 and part(b,0)='list then"
 						+ "    for i:=1:length(a) collect part(a,i)-part(b,i)"
 						+ "  else if arglength(a)>-1 and part(a,0)='list then"
 						+ "    if myvecp b then"
@@ -778,7 +787,7 @@ public abstract class CASmpreduce implements CASGenericInterface {
 						+ "  else if (a=infinity and b neq infinity) or (b=-infinity and a neq -infinity) then "
 						+ "    infinity"
 						+ "  else if (a=-infinity and b neq -infinity) or (b=infinity and a neq infinity) then "
-						+ "    -infinity" + "  else" + "    a-b;");
+						+ "    -infinity" + "  else" + "    a-b;end");
 
 				mpreduce1.evaluate("operator subtraction;");
 
@@ -789,6 +798,7 @@ public abstract class CASmpreduce implements CASGenericInterface {
 				mpreduce1.evaluate("procedure myerf(x); "
 						+ "begin scalar a1!!, a2!!, a3!!, a4!!, a5!!, p!!, x!!, t!!, y!!, sign!!, result!!;"
 						+ "     on rounded;"
+						+ "  x:=booltonum(x);"
 						+ "		if numberp(x) then 1 else return !*hold(erf(x));"
 						+ "     if x=0 then return 0;"
 						+ "     a1!! :=  0.254829592; "
