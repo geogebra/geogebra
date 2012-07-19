@@ -484,7 +484,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement {
 	    
     }
 
-	private void addAction(Command action, String html, String text) {
+	protected MenuItem addAction(Command action, String html, String text) {
 		MenuItem mi;
 	    if (html != null) {
 	    	mi = new MenuItem(html, true, action);
@@ -493,9 +493,10 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement {
 	    }
 	    popupMenu.addItem(mi); 
 	    popupMenuSize++;
+	    return mi;
     }
 
-	private void setTitle(String str) {
+	protected void setTitle(String str) {
 	    MenuItem title = new MenuItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(), str),
 	    		true, new Command() {
 					
@@ -515,7 +516,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement {
 		int xr = c.getAbsoluteLeft() + x;
 		int yr = c.getAbsoluteTop() + y;
 		wrappedPopup.setPopupPosition(xr, yr);
-		//AG tmpwrappedPopup.show();
+		wrappedPopup.show();
 	}
 	
 	

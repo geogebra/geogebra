@@ -12,6 +12,7 @@ the Free Software Foundation.
 package geogebra.common.gui;
 
 import geogebra.common.awt.GPoint;
+import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.gui.dialog.DialogManager;
@@ -366,5 +367,49 @@ public abstract class GuiManager {
 		default: 
 			App.error("Error attaching VIEW: "+viewId);
 		}
+	}
+	
+	public abstract EuclidianView getActiveEuclidianView();
+
+	public void showAxesCmd() {
+		// get ev with focus
+		EuclidianViewInterfaceCommon ev = getActiveEuclidianView();
+	
+		boolean bothAxesShown = ev.getShowXaxis() && ev.getShowYaxis();
+	
+		if (app.getEuclidianView1() == ev)
+			app.getSettings().getEuclidian(1)
+					.setShowAxes(!bothAxesShown, !bothAxesShown);
+		else if (!app.hasEuclidianView2EitherShowingOrNot())
+			ev.setShowAxes(!bothAxesShown, true);
+		else if (app.getEuclidianView2() == ev)
+			app.getSettings().getEuclidian(2)
+					.setShowAxes(!bothAxesShown, !bothAxesShown);
+		else
+			ev.setShowAxes(!bothAxesShown, true);
+	
+		ev.repaint();
+		app.storeUndoInfo();
+		app.updateMenubar();
+	}
+
+	public void showGridCmd() {
+		// get ev with focus
+		EuclidianView ev = getActiveEuclidianView();
+	
+		if (app.getEuclidianView1() == ev)
+			app.getSettings().getEuclidian(1)
+					.showGrid(!ev.getShowGrid());
+		else if (!app.hasEuclidianView2EitherShowingOrNot())
+			ev.showGrid(!ev.getShowGrid());
+		else if (app.getEuclidianView2() == ev)
+			app.getSettings().getEuclidian(2)
+					.showGrid(!ev.getShowGrid());
+		else
+			ev.showGrid(!ev.getShowGrid());
+	
+		ev.repaint();
+		app.storeUndoInfo();
+		app.updateMenubar();
 	}
 }

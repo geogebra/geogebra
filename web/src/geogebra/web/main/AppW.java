@@ -95,6 +95,7 @@ import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.MenuBar;
+import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -2139,6 +2140,17 @@ public class AppW extends App {
 	    }
 	    
 	    return normalizerMinimal;
+    }
+
+	public void setShowAxesSelected(MenuItem mi) {
+	    GeoGebraMenubarW.setMenuSelected(mi, getGuiManager()
+				.getActiveEuclidianView().getShowXaxis()
+				&& (getGuiManager().getActiveEuclidianView().getShowYaxis()));
+    }
+
+	public void setShowGridSelected(MenuItem mi) {
+	    GeoGebraMenubarW.setMenuSelected(mi, getGuiManager()
+				.getActiveEuclidianView().getShowGrid());
     }
 
 }

@@ -591,7 +591,7 @@ public class GuiManagerD extends GuiManager {
 	 *         default (if the user uses this mode). This is the focused
 	 *         euclidian view or the first euclidian view at the moment.
 	 */
-	public EuclidianViewND getActiveEuclidianView() {
+	public EuclidianView getActiveEuclidianView() {
 
 		EuclidianDockPanelAbstract focusedEuclidianPanel = layout
 				.getDockManager().getFocusedEuclidianPanel();
@@ -2153,25 +2153,7 @@ public class GuiManagerD extends GuiManager {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
-				// get ev with focus
-				EuclidianViewInterfaceCommon ev = getActiveEuclidianView();
-
-				boolean bothAxesShown = ev.getShowXaxis() && ev.getShowYaxis();
-
-				if (app.getEuclidianView1() == ev)
-					app.getSettings().getEuclidian(1)
-							.setShowAxes(!bothAxesShown, !bothAxesShown);
-				else if (!app.hasEuclidianView2EitherShowingOrNot())
-					ev.setShowAxes(!bothAxesShown, true);
-				else if (app.getEuclidianView2() == ev)
-					app.getSettings().getEuclidian(2)
-							.setShowAxes(!bothAxesShown, !bothAxesShown);
-				else
-					ev.setShowAxes(!bothAxesShown, true);
-
-				ev.repaint();
-				app.storeUndoInfo();
-				app.updateMenubar();
+				showAxesCmd();
 
 			}
 		};
@@ -2181,23 +2163,7 @@ public class GuiManagerD extends GuiManager {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
-				// get ev with focus
-				EuclidianView ev = getActiveEuclidianView();
-
-				if (app.getEuclidianView1() == ev)
-					app.getSettings().getEuclidian(1)
-							.showGrid(!ev.getShowGrid());
-				else if (!app.hasEuclidianView2EitherShowingOrNot())
-					ev.showGrid(!ev.getShowGrid());
-				else if (app.getEuclidianView2() == ev)
-					app.getSettings().getEuclidian(2)
-							.showGrid(!ev.getShowGrid());
-				else
-					ev.showGrid(!ev.getShowGrid());
-
-				ev.repaint();
-				app.storeUndoInfo();
-				app.updateMenubar();
+				showGridCmd();
 
 			}
 		};

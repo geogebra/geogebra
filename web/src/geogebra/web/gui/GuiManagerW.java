@@ -1,6 +1,7 @@
 package geogebra.web.gui;
 
 import geogebra.common.awt.GPoint;
+import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.gui.GuiManager;
@@ -32,6 +33,7 @@ import java.util.ArrayList;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.RootPanel;
 
@@ -185,7 +187,14 @@ public class GuiManagerW extends GuiManager {
 		// clear highlighting and selections in views
 		app.getActiveEuclidianView().resetMode();
 		drawingPadpopupMenu = new ContextMenuGraphicsWindowW((AppW)app, p.x, p.y);
-		drawingPadpopupMenu.show(invoker, p.x, p.y);
+		getDrawingPadpopupMenu(p.x,p.y).show(invoker, p.x, p.y);
+    }
+
+	private ContextMenuGeoElementW getDrawingPadpopupMenu(int x, int y) {
+	    if (drawingPadpopupMenu == null) { 
+	    	drawingPadpopupMenu = new ContextMenuGraphicsWindowW((AppW)app, x, y);
+	    }
+		return drawingPadpopupMenu;
     }
 
 	@Override
@@ -603,5 +612,28 @@ public class GuiManagerW extends GuiManager {
     public void attachAssignmentView() {
 	    // TODO Auto-generated method stub
 	    
+    }
+
+	@Override
+    public EuclidianView getActiveEuclidianView() {
+	    return app.getEuclidianView1();
+    }
+
+	public Command getShowAxesAction() {
+	    return new Command() {
+			
+			public void execute() {
+				showAxesCmd();
+			}
+		};
+    }
+
+	public Command getShowGridAction() {
+	   return new Command() {
+		
+		public void execute() {
+			showGridCmd();
+		}
+	};
     }
 }

@@ -1931,7 +1931,7 @@ public class AppD extends App implements
 		if (getGuiManager() == null) {
 			return getEuclidianView1();
 		}
-		return getGuiManager().getActiveEuclidianView();
+		return (EuclidianViewND) getGuiManager().getActiveEuclidianView();
 	}
 
 	//TODO: maybe we want to implement this for EV2 as well
