@@ -319,6 +319,12 @@ office@geogebra.org
                         </fileset>	
 		</copy>
 		
+		<copy todir="${src.dir}/geogebra/common/main/xml" failonerror="false">
+                        <fileset dir="${src.dir}/../common/src/geogebra/common/main/xml">
+                                <include name="**/*.xml" />
+                        </fileset>
+		</copy>
+		
 		<jar jarfile="${build.dir}/geogebra_main.jar"		
 			basedir="${src.dir}"		   
 			includes="**/*.class,	
