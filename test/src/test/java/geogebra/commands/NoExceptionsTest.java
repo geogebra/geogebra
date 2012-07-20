@@ -46,6 +46,7 @@ public class NoExceptionsTest {
 		t("polynom2:x^4+4");
 		t("n1=42");
 		t("n2=4");
+		t("complex1=4+3*i");
 		t("n3=17");
 		t("n4=50");
 		t("n5=5");
@@ -747,6 +748,7 @@ public class NoExceptionsTest {
 	@Test
 	public void cmdFractionText() {
 		t("FractionText[ n1 ]");
+		t("FractionText[ Pt1 ]");
 		
 	}
 
@@ -782,6 +784,7 @@ public class NoExceptionsTest {
 	@Test
 	public void cmdFunction() {
 		t("Function[ f1, n2, n3 ]");
+		t("Function[ list1 ]");
 	}
 
 	@Test
@@ -922,8 +925,6 @@ public class NoExceptionsTest {
 		t("Integral[ f1 ]");
 		t("Integral[ f1, n2, n3 ]");
 		t("Integral[ f1, n2, n3, b1 ]");
-		t("Integral[SlopeField[x/y],(1,1)]");
-
 	}
 
 	@Test
@@ -1125,6 +1126,8 @@ public class NoExceptionsTest {
 	@Test
 	public void cmdLocus() {
 		t("Locus[ Depoint, ptonpath1 ]");
+		t("Locus[ x+y, ptonpath1 ]");
+		t("Locus[ SlopeField[ x/y ], ptonpath1 ]");
 		t("Locus[ Depointslid, slid ]");
 	}
 
@@ -1480,6 +1483,7 @@ public class NoExceptionsTest {
 	@Test
 	public void cmdRandom() {
 		t("RandomBetween[ n1, n4 ]");
+		t("RandomBetween[ n1, n4, true ]");
 	}
 
 	@Test
@@ -1549,6 +1553,8 @@ public class NoExceptionsTest {
 	@Test
 	public void cmdRigidPolygon() {
 		t("RigidPolygon[ (0,0), (1,0), (0,1) ]");
+		t("RigidPolygon[ poly1 ]");
+		t("RigidPolygon[ poly1, n1,n2 ]");
 	}
 
 	@Test
@@ -1916,6 +1922,7 @@ public class NoExceptionsTest {
 	@Test
 	public void cmdSurdText() {
 		t("SurdText[ n1 ]");
+		t("SurdText[ n1, list1 ]");
 		t("SurdText[ Pt1 ]");
 	}
 
@@ -1945,8 +1952,9 @@ public class NoExceptionsTest {
 	@Test
 	public void cmdTake() {
 		t("Take[ list1 , n1, n4 ]");
-
+		t("Take[ list1 , n4 ]");
 		t("Take[ txt , n1, n4 ]");
+		t("Take[ txt , n1 ]");
 	}
 
 	@Test
@@ -2160,6 +2168,7 @@ public class NoExceptionsTest {
 	@Test
 	public void cmdVertex() {
 		t("Vertex[ c1 ]");
+		t("Vertex[ x>y ]");
 		t("Vertex[ poly1 ]");
 		t("Vertex[ poly1, n2]");
 	}
@@ -2268,5 +2277,128 @@ public class NoExceptionsTest {
 		t("AttachCopyToView[Pt1,1]");
 		t("AttachCopyToView[Pt1,2,Pt2,Pt3,(123,0),(0,123)]");
 	}
+	
+	@Test
+	public void cmdChiSquareTest() {
+		t("ChiSquareTest[list1]");
+		t("ChiSquareTest[list1,list1]");
+	}
+
+	@Test
+	public void cmdParametricDerivative() {
+		t("ParametricDerivative[Curve[t^2,sin(t),t,-7,7]]");
+	}
+
+	@Test
+	public void cmdDivisorsSum() {
+		t("DivisorsSum[3.7]");
+	}
+
+	@Test
+	public void cmdDivisors() {
+		t("Divisors[37]");
+	}
+
+	@Test
+	public void cmdDimension() {
+		t("Dimension[(3,7)]");
+	}
+
+	@Test
+	public void cmdFractionalPart() {
+		t("FractionalPart[pi]");
+	}
+
+	@Test
+	public void cmdDivisorsList() {
+		t("DivisorsList[42]");
+	}
+
+	@Test
+	public void cmdDivision() {
+		t("Division[3,7]");
+		t("Division[x^2,x+1]");
+	}
+
+	@Test
+	public void cmdnPr() {
+		t("nPr[8,7]");
+	}
+
+	@Test
+	public void cmdIsPrime() {
+		t("IsPrime[0]");
+	}
+
+	@Test
+	public void cmdNextPrime() {
+		t("NextPrime[-1.7]");
+	}
+
+	@Test
+	public void cmdPreviousPrime() {
+		t("PreviousPrime[2.3]");
+	}
+
+	@Test
+	public void cmdMatrixRank() {
+		t("MatrixRank[{{1}}]");
+	}
+
+	@Test
+	public void cmdRandomPolynomial() {
+		t("RandomPolynomial[5,-10,10]");
+	}
+
+	@Test
+	public void cmdLeftSide() {
+		t("LeftSide[x^2=y^2]");
+	}
+
+	@Test
+	public void cmdRightSide() {
+		t("RightSide[x^2=y^2]");
+	}
+
+	@Test
+	public void cmdImplicitDerivative() {
+		t("ImplicitDerivative[x^2+y^2]");
+	}
+
+	@Test
+	public void cmdToPolar() {
+		t("ToPolar[(1,2)]");
+		t("ToPolar[complex1]");
+	}
+
+	@Test
+	public void cmdToComplex() {
+		t("ToComplex[(1,2)]");
+	}
+
+	@Test
+	public void cmdTrigSimplify() {
+		t("TrigSimplify[sin(x+y)]");
+	}
+
+	@Test
+	public void cmdTrigCombine() {
+		t("TrigCombine[sin(x+y)]");
+		t("TrigCombine[sin(x+y),sin(x)]");
+	}
+
+	@Test
+	public void cmdTrigExpand() {
+		t("TrigExpand[sin(x+y)]");
+		t("TrigExpand[sin(x+y),sin(x)]");
+	}
+
+	@Test
+	public void cmdCommonDenominator() {
+		t("CommonDenominator[1/2,1/3]");
+		t("CommonDenominator[1/(x-1),1/(x^2-1)]");
+	
+	}
+	 
 	
 }
