@@ -3,8 +3,11 @@ package geogebra.common.kernel.algos;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.arithmetic.Function;
+import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.IneqTree;
 import geogebra.common.kernel.arithmetic.Inequality;
+import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
@@ -20,6 +23,8 @@ import geogebra.common.main.App;
 import java.util.ArrayList;
 import java.util.List;
 
+
+
 public class AlgoVertexIneq extends AlgoElement {
 
 	private OutputHandler<GeoElement> outputPoints;
@@ -28,6 +33,7 @@ public class AlgoVertexIneq extends AlgoElement {
 	private AlgoElement[][] helpers;
 	private int validVertices;
 	private GeoLine helperLine;
+	private GeoFunction helperFunction;
 
 	/**
 	 * Creates algo for Vertex[poly] (many output points) Creates new unlabeled
@@ -131,7 +137,7 @@ public class AlgoVertexIneq extends AlgoElement {
 				intParamParam(a, b, ai, bi, true);
 				break;
 			case INEQUALITY_PARAMETRIC_Y:
-				intParamXParamY(a, b);
+				intParamXParamY(a, b,ai,bi);
 				break;
 			case INEQUALITY_LINEAR:
 				intParamXLinear(a, b, ai, bi);
@@ -364,10 +370,44 @@ public class AlgoVertexIneq extends AlgoElement {
 
 	}
 
-	private void intParamXParamY(Inequality a, Inequality b) {
-		App.debug(new Throwable().getStackTrace()[0].getMethodName());
-		// TODO Auto-generated method stub
+	private void intParamXParamY(Inequality a, Inequality b,int i,int j) {
+		initHelpers();
+		ExpressionNode exp = a.getFunBorder().getFunctionExpression().getCopy(kernel).wrap();
+		FunctionVariable aVar = a.getFunBorder().getFunction().getFunctionVariable();
+		exp = exp.replace(aVar, b.getFunBorder().getFunctionExpression()).wrap();
+		if(helperFunction==null)
+			helperFunction = new GeoFunction(cons);
+		helperFunction.setFunction(new Function(exp,b.getFunBorder().getFunction().getFunctionVariable()));
+		helperLine.setCoords(1,-1,0);
+		if (helpers[i][j] == null) {
 
+			if (helperFunction.isPolynomialFunction(false)) {
+				setHelper(
+						i,
+						j,
+						kernel.getIntersectionAlgorithm(helperFunction,
+								helperLine));
+			} else {
+				setHelper(
+						i,
+						j,
+						new AlgoIntersectFunctionLineNewton(cons, helperFunction, helperLine,
+								new GeoPoint(cons)));
+			}
+		} else
+			helpers[i][j].compute();
+		
+		GeoElement[] output = helpers[i][j].getOutput();
+		for (int k = 0; k < output.length; k++) {
+			GeoPoint pt = (GeoPoint) output[k];
+			double x = pt.getX() / pt.getZ();
+			pt.setCoords(x, b.getFunBorder().evaluate(x), 1);
+			if (vertices.size() <= validVertices)
+				vertices.add(pt);
+			else
+				vertices.set(validVertices, pt);
+			validVertices++;
+		}
 	}
 
 	private void intXY(Inequality a, Inequality b) {
@@ -403,7 +443,6 @@ public class AlgoVertexIneq extends AlgoElement {
 				validVertices++;
 			}
 		}
-
 	}
 
 	private void intConicX(Inequality a, Inequality b) {
