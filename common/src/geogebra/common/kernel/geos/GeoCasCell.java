@@ -471,7 +471,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 		internalizeInput();
 
 		// for efficiency: input with localized command names
-		updateLocalizedInput(StringTemplate.maxPrecision);
+		updateLocalizedInput(StringTemplate.defaultTemplate);
 
 		// make sure cmputeOutput() knows that input has changed
 		firstComputeOutput = true;
