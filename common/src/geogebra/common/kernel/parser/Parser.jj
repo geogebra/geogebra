@@ -2047,7 +2047,7 @@ ExpressionNode numberFunction():
 	      		return expr;       		}
       		boolean forceCommand = false;
 
-      		if(c.image.charAt(c.image.length()-1)=='[')      		{
+      		if((geo!=null || cell!=null) && c.image.charAt(c.image.length()-1)=='[')      		{
       		  try
                   {
                     forceCommand = Commands.valueOf(funcName)!=null;
