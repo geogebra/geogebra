@@ -194,6 +194,8 @@ public class GeoCasCell extends GeoElement implements VarString {
 		if (outputVE == null) {
 			return "";
 		}
+		if(tpl==StringTemplate.xmlTemplate)
+			App.debug(outputVE.toAssignmentString(tpl));
 		return outputVE.toAssignmentString(tpl);
 	}
 
@@ -426,7 +428,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 			// Update ASSIGNMENT of twin geo
 			// e.g. m = 8 changed in GeoGebra should set cell to m := 8
 			String assignmentStr = twinGeo
-					.toCasAssignment(StringTemplate.defaultTemplate);
+					.toCasAssignment(StringTemplate.maxPrecision);
 			if (suppressOutput)
 				assignmentStr = assignmentStr + ";";
 			if (setInput(assignmentStr)) {
@@ -469,7 +471,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 		internalizeInput();
 
 		// for efficiency: input with localized command names
-		updateLocalizedInput(StringTemplate.defaultTemplate);
+		updateLocalizedInput(StringTemplate.maxPrecision);
 
 		// make sure cmputeOutput() knows that input has changed
 		firstComputeOutput = true;
@@ -1274,7 +1276,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 		// when input is a function declaration, output also needs to become a
 		// function
 		// so we need to add f(x,y) := if it is missing
-		boolean isFunctionDeclaration = isAssignmentVariableDefined() && functionvars != null;
+		boolean isFunctionDeclaration = isAssignmentVariableDefined() && functionvars != null && !functionvars.isEmpty();
 		// note: MPReduce returns "f" for a function definition "f(x) := x^2"
 		// && !output.startsWith(assignmentVar);
 		if(nativeOutput){
@@ -1523,7 +1525,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 					if (parentAlgo != null)
 						parentAlgo.remove();
 					outputVE = new ExpressionNode(kernel,geos[0]);
-					geos[0].addCasAlgoUser();
+					//geos[0].addCasAlgoUser();
 					nativeOutput = false;
 				}
 			} catch (Throwable th2) {
