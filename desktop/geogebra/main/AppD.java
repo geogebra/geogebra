@@ -2093,24 +2093,7 @@ public class AppD extends App implements
 	// getApplicationGUImanager().startEditingAlgebraView(geo);
 	// }
 
-	public final void zoom(double px, double py, double zoomFactor) {
-		getGuiManager().getActiveEuclidianView().zoom(px, py,
-				zoomFactor, 15, true);
-	}
-
-	/**
-	 * Sets the ratio between the scales of y-axis and x-axis, i.e. ratio =
-	 * yscale / xscale;
-	 */
-	public final void zoomAxesRatio(double axesratio) {
-		getGuiManager().getActiveEuclidianView()
-				.zoomAxesRatio(axesratio, true);
-	}
-
-	public final void setViewShowAllObjects() {
-		getGuiManager().getActiveEuclidianView()
-				.setViewShowAllObjects(true);
-	}
+	
 
 	/***************************************************************************
 	 * LOCALE part

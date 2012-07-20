@@ -50,13 +50,6 @@ implements ActionListener {
 	private double px, py;
     //private JMenuItem miStandardView, miProperties; 
     
-    private static double [] zoomFactors = 
-		{4.0, 2.0, 1.5, 1.25, 1.0/1.25, 1.0/1.5, 0.5, 0.25};
-    
-    private static double [] axesRatios = 
-        {1.0/1000.0, 1.0/500.0, 1.0/200.0, 1.0/100.0, 1.0/50.0, 1.0/20.0, 1.0/10.0, 1.0/5.0, 1.0/2.0,
-    		1, 2, 5, 10, 20, 50, 100, 200, 500, 1000};
-     
     private ImageIcon iconZoom;
 
     public ContextMenuGraphicsWindowD(AppD app){
@@ -266,11 +259,11 @@ implements ActionListener {
       } 
     
     private void zoom(double zoomFactor) {
-        ((AppD) app).zoom(px, py, zoomFactor);       
+        app.zoom(px, py, zoomFactor);       
     }
     
     // ratio: yaxis / xaxis
     private void zoomYaxis(double axesRatio) {
-    	((AppD) app).zoomAxesRatio(axesRatio);    	
+    	app.zoomAxesRatio(axesRatio);    	
     }      
 }

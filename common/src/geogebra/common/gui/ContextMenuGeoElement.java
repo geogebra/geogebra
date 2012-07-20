@@ -26,6 +26,9 @@ import geogebra.common.main.App;
  */
 public abstract class ContextMenuGeoElement {
 
+	protected static double [] zoomFactors = {4.0, 2.0, 1.5, 1.25, 1.0/1.25, 1.0/1.5, 0.5, 0.25};
+	protected static double [] axesRatios = {1.0/1000.0, 1.0/500.0, 1.0/200.0, 1.0/100.0, 1.0/50.0, 1.0/20.0, 1.0/10.0, 1.0/5.0, 1.0/2.0,
+	    		1, 2, 5, 10, 20, 50, 100, 200, 500, 1000};
 	/** selected elements*/
 	protected ArrayList<GeoElement> geos;
 	/** current element */

@@ -49,6 +49,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement {
 		this.app = app;
 		wrappedPopup = new PopupPanel();
 		popupMenu = new MenuBar(true);
+		popupMenu.setAutoOpen(true);
 		wrappedPopup.add(popupMenu);
 		
 	}
