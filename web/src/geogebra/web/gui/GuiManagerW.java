@@ -186,7 +186,6 @@ public class GuiManagerW extends GuiManager {
 	private void showDrawingPadPopup(Canvas invoker, GPoint p) {
 		// clear highlighting and selections in views
 		app.getActiveEuclidianView().resetMode();
-		drawingPadpopupMenu = new ContextMenuGraphicsWindowW((AppW)app, p.x, p.y);
 		getDrawingPadpopupMenu(p.x,p.y).show(invoker, p.x, p.y);
     }
 

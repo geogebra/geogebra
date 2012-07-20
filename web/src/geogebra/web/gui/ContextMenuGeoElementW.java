@@ -4,6 +4,7 @@ package geogebra.web.gui;
 import java.util.ArrayList;
 
 import com.google.gwt.canvas.client.Canvas;
+import com.google.gwt.dom.client.Style.Visibility;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
@@ -35,8 +36,8 @@ import geogebra.web.openjdk.awt.geom.Point;
  */
 public class ContextMenuGeoElementW extends ContextMenuGeoElement {
 	
-	protected static PopupPanel wrappedPopup;
-	protected static MenuBar popupMenu;
+	protected PopupPanel wrappedPopup;
+	protected MenuBar popupMenu;
 	private int popupMenuS;
 	private int popupMenuSize = 0;
 	
@@ -46,11 +47,9 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement {
 	 */
 	ContextMenuGeoElementW(AppW app) {
 		this.app = app;
-		if (wrappedPopup == null) {
-			wrappedPopup = new PopupPanel();
-			popupMenu = new MenuBar(true);
-			wrappedPopup.add(popupMenu);
-		}
+		wrappedPopup = new PopupPanel();
+		popupMenu = new MenuBar(true);
+		wrappedPopup.add(popupMenu);
 		
 	}
 	
@@ -512,11 +511,12 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement {
     }
 	
 	public void show(Canvas c, int x, int y) {
-		wrappedPopup.hide();
 		int xr = c.getAbsoluteLeft() + x;
 		int yr = c.getAbsoluteTop() + y;
 		wrappedPopup.setPopupPosition(xr, yr);
 		wrappedPopup.show();
+		//?????
+		wrappedPopup.getElement().getStyle().setVisibility(Visibility.VISIBLE);
 	}
 	
 	
