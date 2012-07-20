@@ -23,8 +23,8 @@
 	<inherits name="com.googlecode.mgwt.MGWT" />
 
 	<inherits name="com.google.gwt.resources.Resources" />
-	
-<!-- 	<inherits name='org.vectomatic.libgwtsvg'/> -->
+
+	<!-- <inherits name='org.vectomatic.libgwtsvg'/> -->
 
 	<!-- Specify the app entry point class. -->
 
