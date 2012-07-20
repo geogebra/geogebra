@@ -7,13 +7,15 @@ and plug-in files that are subject to other licenses.
 For details please read on and see the file LICENSE.txt
 
 Libraries used by GeoGebra:
-* Reduce, http://reduce-algebra.sourceforge.net/ (BSD)
-* The Apache Commons Mathematics Library, 
+* The Apache Commons Mathematics Library,
   http://commons.apache.org/math/ (Apache Software License)
-* FreeHEP Java Libraries, http://java.freehep.org (LGPL)
 * EPS Graphics, http://epsgraphics.sf.net (GPL)
+* FreeHEP Java Libraries, http://java.freehep.org (LGPL)
+* JFugue 2.1 (LGPL), http://www.jfugue.org/jfugue-2.1.zip (LGPL)
 * JLaTeXMath, http://forge.scilab.org/index.php/p/jlatexmath/ (GPL)
 * JUNG, http://jung.sourceforge.net (BSD)
+* OpenCSV, http://opencsv.sourceforge.net/ (Apache 2.0)
+* Reduce, http://reduce-algebra.sourceforge.net/ (BSD)
 * Tango Icon Gallery, http://tango.freedesktop.org (Public Domain)
 
 For other tools used for running or building GeoGebra please see
