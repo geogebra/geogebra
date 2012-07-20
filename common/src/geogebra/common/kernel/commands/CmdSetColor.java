@@ -3,11 +3,17 @@ package geogebra.common.kernel.commands;
 import geogebra.common.awt.GColor;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.Command;
+import geogebra.common.kernel.arithmetic.Equation;
+import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
+import geogebra.common.main.App;
 import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.common.main.MyError;
+import geogebra.common.main.MyParseError;
 import geogebra.common.util.StringUtil;
 
 /**
@@ -30,8 +36,34 @@ public class CmdSetColor extends CmdScripting {
 	protected void perform(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 		
-		arg = resArgs(c);
 
+		boolean oldMacroMode = cons.isSuppressLabelsActive();
+		cons.setSuppressLabelCreation(true);
+
+		if (n == 2) {
+			// adapted from resArgs()
+			
+			ExpressionNode[] args = c.getArguments();
+			arg = new GeoElement[args.length];
+	
+			// resolve first argument
+			args[0].resolveVariables(args[0].getLeft() instanceof Equation);
+			arg[0] = resArg(args[0])[0];
+	
+			try {
+				// resolve second argument
+				args[1].resolveVariables(args[1].getLeft() instanceof Equation);
+				arg[1] = resArg(args[1])[0];
+			} catch (Error e) {
+				// if there's a problem with the second argument, just wrap in quotes in case it's a color
+				// eg SetColor[A,blue] rather than SetColor[A,"blue"]
+				arg[1] = new GeoText(cons, args[1].toString(StringTemplate.defaultTemplate));
+			}
+			cons.setSuppressLabelCreation(oldMacroMode);
+		} else {
+			arg = resArgs(c);
+		}
+		
 		switch (n) {
 		case 2:
 
