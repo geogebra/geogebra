@@ -1,0 +1,16 @@
+/** Add css rules here for your application. */
+/** Example rules used by the template application (remove for your app) */
+.toolbar {
+	position: absolute !important;
+	bottom: 0px;
+}
+
+.headerpanel {
+	position: static !important;
+}
+
+.rightbutton {
+	position: absolute !important;
+	right: 0px;
+}
+
