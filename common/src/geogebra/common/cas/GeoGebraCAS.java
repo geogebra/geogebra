@@ -357,10 +357,11 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		sbCASCommand.append(".N");
 
 		String translation = casParser.getTranslatedCASCommand(sbCASCommand
-				.toString()).replaceAll("%@", app.getKernel().getCasVariablePrefix());
+				.toString());
 
 		// check for eg Sum.N=sum(%)
 		if (translation != null) {
+			translation = translation.replaceAll("%@", app.getKernel().getCasVariablePrefix());
 			sbCASCommand.setLength(0);
 			for (int i = 0; i < translation.length(); i++) {
 				char ch = translation.charAt(i);
@@ -449,6 +450,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		// translation found:
 		// replace %0, %1, etc. in translation by command arguments
 		else {
+			translation = translation.replaceAll("%@", app.getKernel().getCasVariablePrefix());
 			for (int i = 0; i < translation.length(); i++) {
 				char ch = translation.charAt(i);
 				if (ch == '%') {

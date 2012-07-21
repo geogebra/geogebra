@@ -277,7 +277,7 @@ public class Ggb2MPReduce {
 				"<< begin scalar equations!!; equations!!:=(%0); if arglength(equations!!)>-1 and part(equations!!,0)=\\'list then equations!!:=mkdepthone(equations!!); return flattenlist(mysolve(aeval(equations!!),%1)) end >>");
 		p("SolveODE.1",
 				"<<begin scalar tmpret, tmpeqn, result!!; korder list(); tmpeqn:=sub(list(currentx!!=x!!, currenty!!=y!!),(%0))$ depend y!!,x!!; if freeof(tmpeqn,=) then tmpeqn:=df(y!!,x!!)=tmpeqn; " +
-				"tmpret:=odesolve(sub(list(%@y'=df(y!!,x!!),%@''=df(y!!,x!!,2)),tmpeqn),y!!,x!!)$" +
+				"tmpret:=odesolve(sub(list(%@y'=df(y!!,x!!),%@y''=df(y!!,x!!,2)),tmpeqn),y!!,x!!)$" +
 				" nodepend y!!,x!!;korder varorder!!; let list(x!!=>currentx!!, y!!=>currenty!!); result!!:= if length(tmpret)=1 then sub(list(x!!=currentx!!, y!!=currenty!!),first(tmpret)) else sub(list(x!!=currentx!!, y!!=currenty!!),tmpret); clearrules list(x!!=currentx!!, y!!=currenty!!); return result!! end>>");
 		p("SolveODE.3",
 				"<<begin scalar tmpret, tmpeqn; korder list(); tmpeqn:=(%0)$ depend %1,%2; if freeof(tmpeqn,=) then tmpeqn:=df(%1,%2)=tmpeqn; " +
