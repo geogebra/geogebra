@@ -448,12 +448,6 @@ public interface MenuConstants extends ConstantsWithLookup {
     @DefaultStringValue("Select cells then click the tool button")
     String CreateMatrix_Help();
 
-    @DefaultStringValue("Create Operation Table")
-    String CreateOperationTable();
-
-    @DefaultStringValue("Select a block of cells then click the tool button")
-    String CreateOperationTable_Help();
-
     @DefaultStringValue("Create PolyLine")
     String CreatePolyLine();
 
@@ -1254,12 +1248,6 @@ public interface MenuConstants extends ConstantsWithLookup {
 
     @DefaultStringValue("Name")
     String Name();
-
-    @DefaultStringValue("Name and Draw")
-    String NameAndDraw();
-
-    @DefaultStringValue("Names and draws current row")
-    String NameAndDraw_Help();
 
     @DefaultStringValue("Name & Icon")
     String NameIcon();
@@ -2358,9 +2346,6 @@ public interface MenuConstants extends ConstantsWithLookup {
 
     @DefaultStringValue("View")
     String View();
-
-    @DefaultStringValue("Views")
-    String Views();
 
     @DefaultStringValue("Visual Style")
     String VisualStyle();

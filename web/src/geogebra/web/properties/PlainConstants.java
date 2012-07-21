@@ -331,9 +331,6 @@ public interface PlainConstants extends ConstantsWithLookup {
     @DefaultStringValue("Circumference of %0")
     String CircumferenceOfA();
 
-    @DefaultStringValue("Clipboard: Blackboard")
-    String Clipboard_Blackboard();
-
     @DefaultStringValue("Clipboard: Google Gadget")
     String Clipboard_Google();
 
@@ -1242,9 +1239,6 @@ public interface PlainConstants extends ConstantsWithLookup {
 
     @DefaultStringValue("Positive Direction Only")
     String PositiveDirectionOnly();
-
-    @DefaultStringValue("Positive values follow the view")
-    String PositiveValuesFollowTheView();
 
     @DefaultStringValue("Preview Unavailable")
     String PreviewUnavailable();
