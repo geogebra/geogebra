@@ -378,6 +378,7 @@ public abstract class CASmpreduce implements CASGenericInterface {
 						+ "};");
 				mpreduce1.evaluate("operator iffun;");
 				mpreduce1.evaluate("operator ifelsefun;");
+				mpreduce1.evaluate("let {" + "abs(pi)=>pi,abs(e)=>e};");
 				mpreduce1.evaluate("let {" + "df(asin(~x),x) => 1/sqrt(1-x^2),"
 						+ "df(acosh(~x),x) => 1/(sqrt(x-1)*sqrt(x+1)),"
 						+ "df(asinh(~x),x) => 1/sqrt(1+x^2),"
