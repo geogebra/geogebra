@@ -357,7 +357,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		sbCASCommand.append(".N");
 
 		String translation = casParser.getTranslatedCASCommand(sbCASCommand
-				.toString());
+				.toString()).replaceAll("%@", app.getKernel().getCasVariablePrefix());
 
 		// check for eg Sum.N=sum(%)
 		if (translation != null) {
