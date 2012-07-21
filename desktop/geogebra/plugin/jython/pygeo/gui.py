@@ -6,7 +6,7 @@ import re, sys, traceback, codecs
 # FLAT
 #from geogebra.plugin.jython import PythonFlatAPI as API
 #api = API.getInstance()
-from apiproxy import API
+from apiproxy import API, start_new_thread
 
 from pyggb import interface
 
@@ -652,6 +652,8 @@ class InteractivePane(WindowPane, ActionListener, DocumentListener):
         self.stdout = MyStream(self.write)
         self.stderr = MyStream(self.error)
         
+        self.running_thread = None
+        
     # Methods for writing to output area
     def add(self, text):
         self.outputpane.addtext(text, "input", ensure_newline=True)
@@ -665,7 +667,10 @@ class InteractivePane(WindowPane, ActionListener, DocumentListener):
     
     # Code execution
     def runcode(self, text):
-        with StdStreams(self.stdout, self.stderr):
+        # with StdStreams(self.stdout, self.stderr):
+            if self.running_thread:
+                self.error("Code running... Ctrl-C to interrupt\n")
+                return False
             try:
                 code = interface.compile_im(text)
             except Exception:
@@ -675,13 +680,22 @@ class InteractivePane(WindowPane, ActionListener, DocumentListener):
             self.history.append(text)
             self.current_text = ""
             self.add(text + "\n")
-            try:
-                interface.run(code)
-            except Exception:
-                self.show_traceback()
-                return False
-        return True
-
+            def runner():
+                try:
+                    with StdStreams(self.stdout, self.stderr):
+                        interface.run(code)
+                except Exception:   
+                    self.show_traceback()
+                self.running_thread = None
+            self.running_thread = start_new_thread(runner)
+            return True
+    
+    def stopcode(self):
+        if self.running_thread:
+            self.running_thread._thread.stop()
+            self.error("Interrupted\n")
+            self.running_thread = None
+    
     def indent_selection(self):
         return self.input_area.indent_selection()
     def dedent_selection(self):
@@ -1024,6 +1038,10 @@ class PythonWindow(ActionListener, ChangeListener):
         shellmenu = JMenu("Interactive")
         menubar.add(shellmenu)
         
+        item = new_item("Interrupt Running code", "interrupt", KeyEvent.VK_C,
+            mod=ActionEvent.CTRL_MASK)
+        shellmenu.add(item)
+        
         item = new_item("Previous Input", "up", KeyEvent.VK_UP,
             mod=ActionEvent.ALT_MASK)
         shellmenu.add(item)
@@ -1095,7 +1113,10 @@ class PythonWindow(ActionListener, ChangeListener):
             getattr(self, "action_" + evt.actionCommand)(evt)
         except AttributeError:
             pass
-
+    
+    def action_interrupt(self, evt):
+        self.interactive_pane.stopcode()
+    
     # History actions
     def action_up(self, evt):
         self.interactive_pane.history_back()
