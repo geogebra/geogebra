@@ -280,7 +280,7 @@ public void updateLocale(App app){
 		put(1,app.getFunction("acosh"), Operation.ACOSH);
 		put(1,app.getFunction("atanh"), Operation.ATANH);
 		
-		put(2,app.getCommand("NRoot"), Operation.NROOT);
+		put(2,app.getFunction("nroot"), Operation.NROOT);
 }
 /**
  * @param s function name

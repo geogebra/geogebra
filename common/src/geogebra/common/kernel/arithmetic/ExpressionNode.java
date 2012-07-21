@@ -3415,21 +3415,22 @@ public class ExpressionNode extends ValidExpression implements
 				sb.append(leftStr);
 				sb.append('}');
 				break;
-			case MATH_PIPER:
-			case MPREDUCE:
-			case MAXIMA:
+			
+			case GEOGEBRA:
+				sb.append(app.getFunction("nroot"));
+				sb.append("(");
+				sb.append(leftStr);
+				sb.append(',');
+				sb.append(rightStr);
+				sb.append(')');
+				break;
+			default: //MAXIMA, MPREDUCE, PSTRICKS, ...
 				sb.append("(");
 				sb.append(leftStr);
 				sb.append(")^(1/(");
 				sb.append(rightStr);
 				sb.append("))");
-				break;
-			default:
-				sb.append("nroot(");
-				sb.append(leftStr);
-				sb.append(',');
-				sb.append(rightStr);
-				sb.append(')');
+				break;	
 			}
 			break;
 	
