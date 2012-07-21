@@ -65,6 +65,8 @@ public class CommandDispatcherMPReduce {
 		mydivision(Operation.DIVIDE),
 		/** power*/
 		mypower(Operation.POWER),
+		impart(Operation.YCOORD),
+		repart(Operation.XCOORD),
 		
 		sand(Operation.AND),
 		sor(Operation.OR),
@@ -136,6 +138,8 @@ public class CommandDispatcherMPReduce {
 			case ci:
 			case si:
 			case ei:
+			case impart:
+			case repart:	
 			case xscoord:
 			case yscoord:
 			case zscoord:
