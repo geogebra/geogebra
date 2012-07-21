@@ -2639,18 +2639,27 @@ public class AppD extends App implements
 
 			Enumeration<String> enume = rbcommand.getKeys();
 
+			// check localized commands first
+			// eg in French we have Intersect -> Intersection, Intersection -> Inter
 			while (enume.hasMoreElements()) {
 				String s = enume.nextElement();
 
-				// check internal commands
+				if (StringUtil.toLowerCase(rbcommand.getString(s)).equals(key)) {
+					return s;
+				}
+
+			}
+
+			enume = rbcommand.getKeys();
+			
+			// if that fails check internal commands
+			while (enume.hasMoreElements()) {
+				String s = enume.nextElement();
+
 				if (StringUtil.toLowerCase(s).equals(key)) {
 					return s;
 				}
 
-				// check localized commands
-				if (StringUtil.toLowerCase(rbcommand.getString(s)).equals(key)) {
-					return s;
-				}
 			}
 
 			return null;
@@ -2662,6 +2671,10 @@ public class AppD extends App implements
 	@Override
 	final public String getCommand(String key) {
 
+		//if (key.endsWith("yntax")) {
+		//	App.printStacktrace("");
+		//}
+		
 		if (tooltipFlag) {
 			return getCommandTooltip(key);
 		}
