@@ -626,16 +626,25 @@ public class AppW extends App {
 			Dictionary commandKeys = Dictionary.getDictionary("commandKeysVar");
 			Set<String> commandKeysSet = commandKeys.keySet();
 			Iterator<String> commandKeysIterator = commandKeysSet.iterator();
+
+			// check localized commands first
+			// eg in French we have Intersect -> Intersection, Intersection -> Inter
+			while(commandKeysIterator != null && commandKeysIterator.hasNext()) {
+				key = commandKeysIterator.next();
+
+				if (StringUtil.toLowerCase(commandConstants.getString(key)).equals(aCommand)) {
+					return key;
+				}
+
+			}
+			
+			// if that fails check internal commands
+			commandKeysIterator = commandKeysSet.iterator();
 			while(commandKeysIterator != null && commandKeysIterator.hasNext()) {
 				key = commandKeysIterator.next();
 
 				// check internal commands
 				if (key != null && StringUtil.toLowerCase(key).equals(aCommand)) {
-					return key;
-				}
-
-				// check localized commands
-				if (StringUtil.toLowerCase(commandConstants.getString(key)).equals(aCommand)) {
 					return key;
 				}
 
