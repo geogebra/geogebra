@@ -6733,7 +6733,7 @@ class NamePanel extends JPanel implements ActionListener, FocusListener,
 		} else if (source == tfDefinition) {
 			String strDefinition = tfDefinition.getText();
 			if (!strDefinition.equals(getDefText(currentGeo))) {
-				//int caretPosition = tfDefinition.getCaretPosition();
+				int caretPosition = tfDefinition.getCaretPosition();
 				
 				if (defInputHandler.processInput(strDefinition)){	
 					//if succeeded, switch current geo
@@ -6748,7 +6748,7 @@ class NamePanel extends JPanel implements ActionListener, FocusListener,
 					tfDefinition.requestFocusInWindow();
 				}else{
 					tfDefinition.requestFocusInWindow();
-					//tfDefinition.setCaretPosition(caretPosition);
+					tfDefinition.setCaretPosition(caretPosition);
 				}
 			}
 		} else if (source == tfCaption) {
