@@ -72,8 +72,8 @@ public class SpreadsheetTraceManager {
 	// =============================================
 
 	/** Add a geo to the trace collection */
-	public void addSpreadsheetTraceGeo(GeoElement geo) {
-		SpreadsheetTraceSettings t = geo.getTraceSettings();
+	public void addSpreadsheetTraceGeo(GeoElement spreadsheetTraceable) {
+		SpreadsheetTraceSettings t = spreadsheetTraceable.getTraceSettings();
 		Construction cons = app.getKernel().getConstruction();
 
 		// Set trace columns
@@ -85,7 +85,7 @@ public class SpreadsheetTraceManager {
 			t.traceColumn2 = t.traceColumn1;
 		} else {
 			ArrayList<GeoNumeric> traceList = new ArrayList<GeoNumeric>();
-			geo.addToSpreadsheetTraceList(traceList);
+			spreadsheetTraceable.addToSpreadsheetTraceList(traceList);
 			t.traceColumn2 = t.traceColumn1 + traceList.size() - 1;
 		}
 
@@ -111,14 +111,14 @@ public class SpreadsheetTraceManager {
 		t.lastTrace.clear();
 
 		// add the geo and its settings to the hash table
-		traceGeoCollection.put(geo, t);
+		traceGeoCollection.put(spreadsheetTraceable, t);
 
 		// set the tracing flag for this geo
-		geo.setSpreadsheetTrace(true);
+		spreadsheetTraceable.setSpreadsheetTrace(true);
 
 		// clear the trace columns and put the current trace into the
 		// spreadsheet
-		clearGeoTraceColumns(geo);
+		clearGeoTraceColumns(spreadsheetTraceable);
 
 		if (t.showTraceList) {
 			for (int column = t.traceColumn1; column <= t.traceColumn2; column++) {
@@ -127,7 +127,7 @@ public class SpreadsheetTraceManager {
 		}
 
 		// traceToSpreadsheet(geo);
-		setHeader(geo, cons);
+		setHeader(spreadsheetTraceable, cons);
 		app.repaintSpreadsheet();
 
 	}

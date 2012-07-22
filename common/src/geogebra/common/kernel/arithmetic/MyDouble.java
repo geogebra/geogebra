@@ -28,6 +28,7 @@ import geogebra.common.main.App;
 import geogebra.common.main.MyError;
 import geogebra.common.util.MyMath;
 import geogebra.common.util.MyMath2;
+import geogebra.common.util.SpreadsheetTraceSettings;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
 
@@ -965,6 +966,12 @@ public class MyDouble extends ValidExpression implements NumberValue,
 
 	public boolean isDefined() {
 		return !Double.isNaN(val);
+	}
+
+	public SpreadsheetTraceSettings getTraceSettings() {
+		// dummy implementation - never used
+		App.warn("shouldn't get here");
+		return null;
 	}
 
 }

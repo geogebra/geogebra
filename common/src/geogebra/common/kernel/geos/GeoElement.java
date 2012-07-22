@@ -6069,7 +6069,6 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @param traceFlag true to trace to spreadsheet
 	 */
 	public void setSpreadsheetTrace(final boolean traceFlag) {
-
 		if (traceFlag != true) {
 			traceSettings = null;
 		}

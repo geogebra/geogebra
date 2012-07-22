@@ -12,6 +12,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.geos;
 
 import geogebra.common.kernel.arithmetic.ExpressionValue;
+import geogebra.common.util.SpreadsheetTraceSettings;
 
 import java.util.ArrayList;
 
@@ -32,5 +33,6 @@ public interface SpreadsheetTraceable extends ExpressionValue {
 	 * @return list of column headings
 	 */
 	public ArrayList<GeoText> getColumnHeadings();
+	public SpreadsheetTraceSettings getTraceSettings();
 
 }

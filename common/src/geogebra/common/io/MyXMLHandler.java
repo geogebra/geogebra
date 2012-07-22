@@ -19,6 +19,7 @@ the Free Software Foundation.
 package geogebra.common.io;
 
 import geogebra.common.GeoGebraConstants;
+import geogebra.common.gui.view.spreadsheet.SpreadsheetTraceManager;
 import geogebra.common.io.layout.DockPanelData;
 import geogebra.common.io.layout.DockSplitPaneData;
 import geogebra.common.io.layout.Perspective;
@@ -54,6 +55,7 @@ import geogebra.common.kernel.geos.GeoUserInputElement;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.geos.LimitedPath;
 import geogebra.common.kernel.geos.PointProperties;
+import geogebra.common.kernel.geos.SpreadsheetTraceable;
 import geogebra.common.kernel.geos.TextProperties;
 import geogebra.common.kernel.geos.Traceable;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
@@ -615,6 +617,7 @@ public class MyXMLHandler implements DocHandler {
 			initMacro(attrs);
 		} else if ("construction".equals(eName)) {
 			mode = MODE_CONSTRUCTION;
+			spreadsheetTraceNeeded = false;
 			handleConstruction(attrs);
 		} else if ("casSession".equals(eName)) {
 			// old <casSession> is now <cascell> in <construction>
@@ -925,6 +928,8 @@ public class MyXMLHandler implements DocHandler {
 			xmax = new HashMap<EuclidianSettings, String>(),
 			ymin = new HashMap<EuclidianSettings, String>(),
 			ymax = new HashMap<EuclidianSettings, String>();
+
+	private boolean spreadsheetTraceNeeded;
 
 	private boolean handleCoordSystem(EuclidianSettings ev,
 			LinkedHashMap<String, String> attrs) {
@@ -2752,6 +2757,11 @@ public class MyXMLHandler implements DocHandler {
 				processEvSizes();
 				processAnimatingList(); // must be after min/maxList otherwise
 										// GeoElement.setAnimating doesn't work
+				
+				if (spreadsheetTraceNeeded) {
+					// don't want to initialize trace manager unless necessary
+					app.getTraceManager().loadTraceGeoCollection();
+				}
 
 				if (kernel == origKernel) {
 					mode = MODE_GEOGEBRA;
@@ -3723,11 +3733,6 @@ public class MyXMLHandler implements DocHandler {
 
 		try {
 
-			// Make sure thatSpreadsheetView is attached. If a file
-			// was saved with the spreadsheet closed, it opens without
-			// attaching the view and trace geos will not be activated.
-			// app.getGuiManager().attachSpreadsheetView();
-
 			// set geo for tracing
 			geo.setSpreadsheetTrace(parseBoolean(attrs.get("val")));
 
@@ -3745,10 +3750,15 @@ public class MyXMLHandler implements DocHandler {
 			t.showLabel = (parseBoolean(attrs.get("showLabel")));
 			t.showTraceList = (parseBoolean(attrs.get("showTraceList")));
 			t.doTraceGeoCopy = (parseBoolean(attrs.get("doTraceGeoCopy")));
+			
+			spreadsheetTraceNeeded = true;
+			
+			// app.getTraceManager().loadTraceGeoCollection(); is called when construction loaded to add geo to trace list
 
 			return true;
 
 		} catch (Exception e) {
+			e.printStackTrace();
 			return false;
 		}
 
