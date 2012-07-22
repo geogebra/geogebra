@@ -104,6 +104,8 @@ public abstract class App {
 											// running in Frame
 	private ParserFunctions pf = new ParserFunctions();
 	
+	private SpreadsheetTraceManager traceManager;
+
 	// object is hit if mouse is within this many pixels
 	// (more for points, see DrawPoint)
 	public int capturingThreshold = 3;
@@ -833,13 +835,6 @@ public abstract class App {
 		return text;
 	}
 
-
-	public abstract void traceToSpreadsheet(GeoElement o);
-
-	public abstract void resetTraceColumn(GeoElement o);
-
-	
-
 	/**
 	 * @return the blockUpdateScripts
 	 */
@@ -889,7 +884,18 @@ public abstract class App {
 
 	public abstract ScriptManagerCommon getScriptManager();
 
-	public abstract String getTraceXML(GeoElement geoElement);
+	final public String getTraceXML(GeoElement ge) {
+		return getTraceManager().getTraceXML(ge);
+	}
+	
+	public void traceToSpreadsheet(GeoElement ge) {
+		getGuiManager().traceToSpreadsheet(ge);
+	}
+
+	public void resetTraceColumn(GeoElement ge) {
+		getGuiManager().resetTraceColumn(ge);
+	}
+
 
 	
 	public void updateMaxLayerUsed(int layer) {
@@ -2258,8 +2264,12 @@ public abstract class App {
 		return isOnTheFlyPointCreationActive;
 	}
 
-	
-	public abstract SpreadsheetTraceManager getTraceManager();
+	final public SpreadsheetTraceManager getTraceManager() {
+		if (traceManager == null)
+			traceManager = new SpreadsheetTraceManager(this);
+		return traceManager;
+	}
+
 
 	public void setDefaultCursor() {
 		// TODO Auto-generated method stub

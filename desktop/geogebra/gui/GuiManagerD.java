@@ -430,45 +430,6 @@ public class GuiManagerD extends GuiManager {
 		}
 	}
 
-	// ==========================================
-	// G.Sturr 2010-5-12
-	// revised spreadsheet tracing code to work with trace manager
-	//
-
-	public void addSpreadsheetTrace(GeoElement geo) {
-		if (spreadsheetView != null)
-			app.getTraceManager().addSpreadsheetTraceGeo(geo);
-	}
-
-	public void removeSpreadsheetTrace(GeoElement geo) {
-		if (spreadsheetView != null)
-			((AppD)app).getTraceManager().removeSpreadsheetTraceGeo(geo);
-		geo.setSpreadsheetTrace(false);
-		geo.setTraceSettings(null);
-	}
-
-	/** Set a trace manager flag to auto-reset the trace column */
-	public void resetTraceColumn(GeoElement geo) {
-		if (spreadsheetView != null)
-			((AppD)app).getTraceManager().setNeedsColumnReset(geo, true);
-	}
-
-	public void startCollectingSpreadsheetTraces() {
-		if (spreadsheetView != null)
-			((AppD)app).getTraceManager()
-					.startCollectingSpreadsheetTraces();
-	}
-
-	public void stopCollectingSpreadsheetTraces() {
-		if (spreadsheetView != null)
-			((AppD)app).getTraceManager().stopCollectingSpreadsheetTraces();
-	}
-
-	public void traceToSpreadsheet(GeoElement geo) {
-		if (spreadsheetView != null)
-			((AppD)app).getTraceManager().traceToSpreadsheet(geo);
-	}
-
 	// XML
 	// =====================================================
 

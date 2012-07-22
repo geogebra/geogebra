@@ -31,8 +31,6 @@ public abstract class GuiManager {
 	protected String strCustomToolbarDefinition;
 	public App app;
 
-	public abstract void removeSpreadsheetTrace(GeoElement recordObject);
-
 	public void updateMenubar() { } // temporarily nothing
 
 	public abstract void updateMenubarSelection();
@@ -74,9 +72,6 @@ public abstract class GuiManager {
 	}
 
 	public abstract boolean isInputFieldSelectionListener();
-
-	public abstract void addSpreadsheetTrace(GeoElement tracegeo);
-
 
 	public abstract geogebra.common.javax.swing.GTextComponent getAlgebraInputTextField();
 
@@ -412,4 +407,40 @@ public abstract class GuiManager {
 		app.storeUndoInfo();
 		app.updateMenubar();
 	}
+	
+	public void addSpreadsheetTrace(GeoElement geo) {
+		//if (spreadsheetView != null)
+		app.getTraceManager().addSpreadsheetTraceGeo(geo);
+	}
+
+	public void removeSpreadsheetTrace(GeoElement geo) {
+		//if (spreadsheetView != null)
+		app.getTraceManager().removeSpreadsheetTraceGeo(geo);
+		geo.setSpreadsheetTrace(false);
+		geo.setTraceSettings(null);
+	}
+
+	/** Set a trace manager flag to auto-reset the trace column */
+	public void resetTraceColumn(GeoElement geo) {
+		//if (spreadsheetView != null)
+		app.getTraceManager().setNeedsColumnReset(geo, true);
+	}
+
+	public void startCollectingSpreadsheetTraces() {
+		//if (spreadsheetView != null)
+		app.getTraceManager()
+					.startCollectingSpreadsheetTraces();
+	}
+
+	public void stopCollectingSpreadsheetTraces() {
+		//if (spreadsheetView != null)
+		app.getTraceManager().stopCollectingSpreadsheetTraces();
+	}
+
+	public void traceToSpreadsheet(GeoElement geo) {
+		//if (spreadsheetView != null)
+		app.getTraceManager().traceToSpreadsheet(geo);
+	}
+
+
 }

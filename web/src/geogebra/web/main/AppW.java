@@ -10,12 +10,11 @@ import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.gui.menubar.MenuInterface;
 import geogebra.common.gui.view.algebra.AlgebraView;
 import geogebra.common.gui.view.spreadsheet.SpreadsheetTableModel;
-import geogebra.common.gui.view.spreadsheet.SpreadsheetTraceManager;
 import geogebra.common.kernel.AnimationManager;
-import geogebra.common.kernel.UndoManager;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Relation;
+import geogebra.common.kernel.UndoManager;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.commands.CommandProcessor;
@@ -26,8 +25,8 @@ import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.common.main.FontManager;
 import geogebra.common.main.App;
+import geogebra.common.main.FontManager;
 import geogebra.common.main.GeoElementSelectionListener;
 import geogebra.common.main.MyError;
 import geogebra.common.main.settings.Settings;
@@ -93,7 +92,6 @@ import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -916,12 +914,6 @@ public class AppW extends App {
 	}
 
 	@Override
-	public String getTraceXML(GeoElement geoElement) {
-		App.debug("getTraceXML: implementation needed really"); // TODO Auto-generated
-		return null;
-	}
-
-	@Override
 	public boolean freeMemoryIsCritical() {
 		// can't access available memory etc from JavaScript
 		return false;
@@ -1341,12 +1333,6 @@ public class AppW extends App {
 	public GFont getFontCanDisplay(String testString, boolean serif, int style,
 			int size) {
 		return fontManager.getFontCanDisplay(testString, serif, style, size);
-	}
-
-	@Override
-	public SpreadsheetTraceManager getTraceManager() {
-		App.debug("getTraceManager: implementation needed"); // TODO Auto-generated
-		return null;
 	}
 
 	@Override

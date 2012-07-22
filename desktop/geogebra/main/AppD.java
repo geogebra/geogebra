@@ -4856,7 +4856,6 @@ public class AppD extends App implements
 	// //////////////////////////////////
 
 
-	protected SpreadsheetTraceManager traceManager;
 
 	private DialogManager dialogManager;
 	
@@ -4879,21 +4878,6 @@ public class AppD extends App implements
 	@Override
 	public boolean showView(int view) {
 		return getGuiManager().showView(view);
-	}
-
-	@Override
-	public void traceToSpreadsheet(GeoElement ge) {
-		getGuiManager().traceToSpreadsheet(ge);
-	}
-
-	@Override
-	public void resetTraceColumn(GeoElement ge) {
-		getGuiManager().resetTraceColumn(ge);
-	}
-
-	@Override
-	public String getTraceXML(GeoElement ge) {
-		return getTraceManager().getTraceXML(ge);
 	}
 
 	@Override
@@ -4977,13 +4961,6 @@ public class AppD extends App implements
 		return new geogebra.awt.GFontD(getBoldFont());
 	}
 	
-	@Override
-	public SpreadsheetTraceManager getTraceManager() {
-		if (traceManager == null)
-			traceManager = new SpreadsheetTraceManager(this);
-		return traceManager;
-	}
-
 	@Override
 	public void repaintSpreadsheet() {
 		if (isUsingFullGui() && getGuiManager().hasSpreadsheetView()) {
