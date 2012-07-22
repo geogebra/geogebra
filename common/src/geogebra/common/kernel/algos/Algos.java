@@ -533,7 +533,7 @@ AlgoTo2D,AlgoDependentVector3D,
 	AlgoLeftSide(Commands.LeftSide),AlgoRightSide(Commands.RightSide),AlgoImplicitDerivative(Commands.ImplicitDerivative), 
 	AlgoToPolar(Commands.ToPolar),AlgoToComplex(Commands.ToComplex),AlgoTrigSimplify(Commands.TrigSimplify),
 	AlgoTrigCombine(Commands.TrigCombine),AlgoTrigExpand(Commands.TrigExpand),AlgoCommonDenominator(Commands.CommonDenominator), 
-	AlgoPolynomialCD(Commands.CommonDenominator)
+	AlgoPolynomialCD(Commands.CommonDenominator), AlgoToPoint(Commands.ToPoint), AlgoNIntegral(Commands.NIntegral)
 	;
 	private String command;
 	private Algos(){

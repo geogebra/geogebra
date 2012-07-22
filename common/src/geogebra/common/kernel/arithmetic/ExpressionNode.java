@@ -1391,7 +1391,7 @@ public class ExpressionNode extends ValidExpression implements
 			
 			if (r.operation == Operation.DIVIDE) {
 				
-				ExpressionNode newL, newR;
+				ExpressionNode newL;
 				
 				newL = new ExpressionNode(kernel, this.left, Operation.MULTIPLY, r.left);
 				

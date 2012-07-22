@@ -12,38 +12,38 @@ import geogebra.common.kernel.locusequ.EquationElement;
 import geogebra.common.kernel.locusequ.EquationScope;
 
 public class AlgoToComplexPolar extends AlgoElement {
-	private boolean polar;
+	private int coordStyle;
 	private GeoPoint inPoint;
 	private GeoVector inVector;
 	private GeoPoint outPoint;
 	private GeoList inList;
 	private GeoVector outVector;
-	public AlgoToComplexPolar(Construction cons, String label, GeoPoint geoPoint,boolean polar) {
+	public AlgoToComplexPolar(Construction cons, String label, GeoPoint geoPoint,int coordStyle) {
 		super(cons);
 		inPoint = geoPoint;
 		outPoint = new GeoPoint(cons);
-		init(polar,outPoint,label);
+		init(coordStyle,outPoint,label);
 	}
 	
-	public AlgoToComplexPolar(Construction cons, String label, GeoList geoList,boolean polar) {
+	public AlgoToComplexPolar(Construction cons, String label, GeoList geoList,int coordStyle) {
 		super(cons);
 		inList = geoList;
 		outPoint = new GeoPoint(cons);
-		init(polar,outPoint,label);
+		init(coordStyle,outPoint,label);
 	}
 	
-	public AlgoToComplexPolar(Construction cons, String label, GeoVector geoVector,boolean polar) {
+	public AlgoToComplexPolar(Construction cons, String label, GeoVector geoVector,int coordStyle) {
 		super(cons);
 		inVector = geoVector;
 		outVector = new GeoVector(cons);
-		init(polar,outVector,label);
+		init(coordStyle,outVector,label);
 	}
 
-	private void init(boolean polar,GeoElement out,String label){
-		this.polar = polar;
+	private void init(int coordStyle1,GeoElement out,String label){
+		this.coordStyle = coordStyle1;
 		setInputOutput();
 		compute();
-		((VectorValue)out).setMode(polar?Kernel.COORD_POLAR:Kernel.COORD_COMPLEX);
+		((VectorValue)out).setMode(coordStyle1);
 		out.setLabel(label);
 	}
 	@Override
@@ -74,7 +74,11 @@ public class AlgoToComplexPolar extends AlgoElement {
 
 	@Override
 	public Algos getClassName() {
-		return polar ? Algos.AlgoToPolar :Algos.AlgoToComplex;
+		switch(coordStyle){
+		case Kernel.COORD_COMPLEX:return Algos.AlgoToComplex;
+		case Kernel.COORD_POLAR:return Algos.AlgoToPolar;
+		default: return Algos.AlgoToPoint;
+		}
 	}
 
 	@Override

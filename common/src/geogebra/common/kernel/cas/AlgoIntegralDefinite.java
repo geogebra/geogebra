@@ -48,7 +48,7 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo implements
 	private GeoBoolean evaluate; // input
 	private GeoElement ageo, bgeo;
 	private GeoNumeric n; // output g = integral(f(x), x, a, b)
-
+	private boolean numeric;
 	// for symbolic integration
 	private GeoFunction symbIntegral;
 
@@ -61,8 +61,9 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo implements
 	private static final int MAX_GAUSS_QUAD_CALLS = 500;
 
 	public AlgoIntegralDefinite(Construction cons, String label, GeoFunction f,
-			NumberValue a, NumberValue b) {
-		this(cons, f, a, b, null);
+			NumberValue a, NumberValue b,boolean numeric) {
+		this(cons, f, a, b, null,numeric);
+		this.numeric = numeric;
 		n.setLabel(label);
 	}
 
@@ -118,7 +119,7 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo implements
 
 	@Override
 	public Algos getClassName() {
-		return Algos.AlgoIntegralDefinite;
+		return numeric ? Algos.AlgoIntegralDefinite : Algos.AlgoNIntegral;
 	}
 
 	// for AlgoElement

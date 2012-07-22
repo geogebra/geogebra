@@ -9604,9 +9604,9 @@ public class Kernel {
 	 * definite Integral of function f from x=a to x=b
 	 */
 	final public GeoNumeric Integral(String label, GeoFunction f,
-			NumberValue a, NumberValue b) {
+			NumberValue a, NumberValue b,boolean numeric) {
 		AlgoIntegralDefinite algo = new AlgoIntegralDefinite(cons, label, f, a,
-				b);
+				b,numeric);
 		GeoNumeric n = algo.getIntegral();
 		return n;
 	}

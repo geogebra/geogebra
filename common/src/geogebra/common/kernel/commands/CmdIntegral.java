@@ -23,13 +23,13 @@ public class CmdIntegral extends CommandProcessor {
 
 	/**
 	 * Create new command processor
-	 * @param between if true IntegralBetween instead of Integral is created
+	 * @param command IntegralBetween, Integral or NIntegral
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdIntegral(Kernel kernel, boolean between) {
+	public CmdIntegral(Kernel kernel, Commands command) {
 		super(kernel);
-		internalCommandName = between ? "IntegralBetween" : "Integral";
+		internalCommandName = command.name();
 	}
 
 	@Override
@@ -66,7 +66,7 @@ public class CmdIntegral extends CommandProcessor {
 					&& (ok[2] = (arg[2].isNumberValue()))) {
 				GeoElement[] ret = { kernelA.Integral(c.getLabel(),
 						((GeoFunctionable) arg[0]).getGeoFunction(),
-						(NumberValue) arg[1], (NumberValue) arg[2]) };
+						(NumberValue) arg[1], (NumberValue) arg[2],"NIntegral".equals(internalCommandName)) };
 				return ret;
 			}
 			throw argErr(app, internalCommandName, getBadArg(ok,arg));

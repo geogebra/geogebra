@@ -466,9 +466,11 @@ public class CommandDispatcher {
 			case Derivative:
 				return new CmdDerivative(kernel);
 			case Integral:
-				return new CmdIntegral(kernel, false);
+				return new CmdIntegral(kernel, Commands.Integral);
 			case IntegralBetween:
-				return new CmdIntegral(kernel, true);
+				return new CmdIntegral(kernel, Commands.IntegralBetween);
+			case NIntegral:
+				return new CmdIntegral(kernel, Commands.NIntegral);
 			case LowerSum:
 				return new CmdLowerSum(kernel);
 			case LeftSum:
@@ -1103,16 +1105,16 @@ public class CommandDispatcher {
 			case Solutions:
 			case Solve:
 			case Substitute:
-			case ToExponential:	
-			case NIntegral:
-			case ToPoint:
+			case ToExponential:		
 				return new CAScmdProcessor(kernel);
 			case CommonDenominator:
 				return new CmdCommonDenominator(kernel);
+			case ToPoint:
+				return new CmdToComplexPolar(kernel,Kernel.COORD_CARTESIAN);
 			case ToComplex:
-				return new CmdToComplexPolar(kernel,false);
+				return new CmdToComplexPolar(kernel,Kernel.COORD_COMPLEX);
 			case ToPolar:
-				return new CmdToComplexPolar(kernel,true);
+				return new CmdToComplexPolar(kernel,Kernel.COORD_POLAR);
 			case TrigExpand:
 				return new CmdTrigExpand(kernel);
 			case TrigSimplify:

@@ -16,15 +16,15 @@ import geogebra.common.main.MyError;
  *
  */
 public class CmdToComplexPolar extends CommandProcessor {
-	private boolean polar;
+	private int coordStyle;
 	
 	/**
 	 * @param kernel kernel
-	 * @param polar true for ToPolar, false for ToComplex
+	 * @param coordStyle Kernel.COORD_*
 	 */
-	public CmdToComplexPolar(Kernel kernel,boolean polar) {
+	public CmdToComplexPolar(Kernel kernel,int coordStyle) {
 		super(kernel);
-		this.polar = polar;
+		this.coordStyle = coordStyle;
 	}
 
 	@Override
@@ -35,11 +35,11 @@ public class CmdToComplexPolar extends CommandProcessor {
 		GeoElement[] arg = resArgs(c);
 		AlgoToComplexPolar algo = null;
 		if(arg[0] instanceof GeoPoint)
-			algo = new AlgoToComplexPolar(cons,c.getLabel(),(GeoPoint)arg[0],polar);
+			algo = new AlgoToComplexPolar(cons,c.getLabel(),(GeoPoint)arg[0],coordStyle);
 		if(arg[0] instanceof GeoVector)
-			algo = new AlgoToComplexPolar(cons,c.getLabel(),(GeoVector)arg[0],polar);
+			algo = new AlgoToComplexPolar(cons,c.getLabel(),(GeoVector)arg[0],coordStyle);
 		if(arg[0] instanceof GeoList)
-			algo = new AlgoToComplexPolar(cons,c.getLabel(),(GeoList)arg[0],polar);
+			algo = new AlgoToComplexPolar(cons,c.getLabel(),(GeoList)arg[0],coordStyle);
 		return new GeoElement[]{algo.getResult()};
 	}
 
