@@ -32,7 +32,7 @@ public class MyCellEditor extends DefaultCellEditor implements FocusListener {
 	protected Kernel kernel;
 	protected AppD app;
 	protected GeoElement value;
-	protected MyTable table;
+	protected MyTableD table;
 	private AutoCompleteTextFieldD textField;
 
 	protected int column;
@@ -96,7 +96,7 @@ public class MyCellEditor extends DefaultCellEditor implements FocusListener {
 	public Component getTableCellEditorComponent(JTable table0, Object value0,
 			boolean isSelected, int row0, int column0) {
 
-		table = (MyTable) table0;
+		table = (MyTableD) table0;
 
 		if (value0 instanceof String) { // clicked to type
 			value = null;

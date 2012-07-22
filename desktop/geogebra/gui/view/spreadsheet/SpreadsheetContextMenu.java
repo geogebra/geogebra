@@ -1,6 +1,7 @@
 package geogebra.gui.view.spreadsheet;
 
 import geogebra.common.gui.view.spreadsheet.CellRange;
+import geogebra.common.gui.view.spreadsheet.MyTable;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import geogebra.gui.dialog.options.OptionsDialog;
@@ -38,7 +39,7 @@ public class SpreadsheetContextMenu extends JPopupMenu {
 	final static Color fgColor = Color.black;
 
 	/** spreadsheet table */
-	protected MyTable table = null;
+	protected MyTableD table = null;
 
 	/** minimum selected row */
 	protected int row1 = -1;
@@ -76,7 +77,7 @@ public class SpreadsheetContextMenu extends JPopupMenu {
 	 * @param table
 	 * @param isShiftDown
 	 */
-	public SpreadsheetContextMenu(MyTable table, boolean isShiftDown) {
+	public SpreadsheetContextMenu(MyTableD table, boolean isShiftDown) {
 
 		this.table = table;
 		app = (AppD) table.kernel.getApplication();

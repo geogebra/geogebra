@@ -3,7 +3,7 @@ package geogebra.gui.util;
 import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.gui.dialog.TextInputDialog;
 import geogebra.gui.view.algebra.InputPanelD;
-import geogebra.gui.view.spreadsheet.MyTable;
+import geogebra.gui.view.spreadsheet.MyTableD;
 import geogebra.main.AppD;
 
 import java.awt.Component;
@@ -40,7 +40,7 @@ public class LatexTable extends SelectionTable implements MenuElement{
 		//	this.setUseColorSwatchBorder(true);
 		this.setShowGrid(true);
 		this.setGridColor(geogebra.awt.GColorD.getAwtColor(GeoGebraColorConstants.TABLE_GRID_COLOR));
-		this.setBorder(BorderFactory.createLineBorder(MyTable.TABLE_GRID_COLOR));
+		this.setBorder(BorderFactory.createLineBorder(MyTableD.TABLE_GRID_COLOR));
 		//this.setBorder(BorderFactory.createEmptyBorder());
 		this.setShowSelection(false);
 	}

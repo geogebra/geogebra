@@ -18,12 +18,12 @@ public class SpreadsheetKeyListener implements KeyListener
 	private AppD app;
 	private SpreadsheetView view;
 	private Kernel kernel;
-	private MyTable table;
+	private MyTableD table;
 	private DefaultTableModel model;	
 	private MyCellEditor editor;
 
 	
-	public SpreadsheetKeyListener(AppD app, MyTable table){
+	public SpreadsheetKeyListener(AppD app, MyTableD table){
 		
 		this.app = app;
 		this.kernel = app.getKernel();

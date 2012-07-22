@@ -4,6 +4,7 @@ import geogebra.common.awt.GPoint;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.gui.view.spreadsheet.CellRange;
+import geogebra.common.gui.view.spreadsheet.MyTable;
 import geogebra.common.gui.view.spreadsheet.RelativeCopy;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
@@ -32,7 +33,7 @@ public class SpreadsheetMouseListener implements MouseListener, MouseMotionListe
 	private AppD app;
 	private SpreadsheetView view;
 	private Kernel kernel;
-	private MyTable table;
+	private MyTableD table;
 	private DefaultTableModel model;	
 	private MyCellEditor editor;
 
@@ -45,7 +46,7 @@ public class SpreadsheetMouseListener implements MouseListener, MouseMotionListe
 	/*************************************************
 	 * Constructor
 	 */
-	public SpreadsheetMouseListener(AppD app, MyTable table){
+	public SpreadsheetMouseListener(AppD app, MyTableD table){
 
 		this.app = app;
 		this.kernel = app.getKernel();
@@ -280,7 +281,7 @@ public class SpreadsheetMouseListener implements MouseListener, MouseMotionListe
 	public void mouseReleased(MouseEvent e)	 {
 		boolean rightClick = AppD.isRightClick(e); 	        
 
-		if(table.getTableMode() == table.TABLE_MODE_AUTOFUNCTION){
+		if(table.getTableMode() == MyTable.TABLE_MODE_AUTOFUNCTION){
 			table.stopAutoFunction();
 			return;
 		}
@@ -418,8 +419,8 @@ public class SpreadsheetMouseListener implements MouseListener, MouseMotionListe
 
 	public void mouseDragged(MouseEvent e) {
 
-		if(table.getTableMode() == table.TABLE_MODE_AUTOFUNCTION
-				|| table.getTableMode() == table.TABLE_MODE_DROP){
+		if(table.getTableMode() == MyTable.TABLE_MODE_AUTOFUNCTION
+				|| table.getTableMode() == MyTable.TABLE_MODE_DROP){
 			//System.out.println("drop is dragging ");
 			return;
 		}
@@ -585,7 +586,7 @@ public class SpreadsheetMouseListener implements MouseListener, MouseMotionListe
 		if (maxPoint != null) {
 			int dotX = maxPoint.getX();
 			int dotY = maxPoint.getY();
-			int s = MyTable.DOT_SIZE + 2;
+			int s = MyTableD.DOT_SIZE + 2;
 			Rectangle dotRect = new Rectangle(dotX - s/2 ,dotY - s/2 , s, s);	
 			boolean overDot = dotRect.contains(e.getPoint());
 			if (table.isOverDot != overDot) {	

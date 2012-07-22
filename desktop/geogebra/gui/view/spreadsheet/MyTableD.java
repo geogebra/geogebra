@@ -3,6 +3,7 @@ package geogebra.gui.view.spreadsheet;
 import geogebra.common.awt.GPoint;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.gui.view.spreadsheet.CellRange;
+import geogebra.common.gui.view.spreadsheet.MyTable;
 import geogebra.common.gui.view.spreadsheet.RelativeCopy;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
@@ -47,13 +48,10 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableColumn;
 
-public class MyTable extends JTable implements FocusListener {
+public class MyTableD extends JTable implements FocusListener {
 	private static final long serialVersionUID = 1L;
 
-	public static final int TABLE_MODE_STANDARD = 0;
-	public static final int TABLE_MODE_AUTOFUNCTION = 1;
-	public static final int TABLE_MODE_DROP = 2;
-	private int tableMode = TABLE_MODE_STANDARD;
+	private int tableMode = MyTable.TABLE_MODE_STANDARD;
 
 	public static final int MAX_CELL_EDIT_STRING_LENGTH = 10;
 
@@ -80,7 +78,7 @@ public class MyTable extends JTable implements FocusListener {
 	private MyCellEditorList editorList;
 
 	protected RelativeCopy relativeCopy;
-	public CopyPasteCut copyPasteCut;
+	public CopyPasteCutD copyPasteCut;
 	protected SpreadsheetColumnController.ColumnHeaderRenderer headerRenderer;
 	protected SpreadsheetView view;
 	protected DefaultTableModel tableModel;
@@ -116,11 +114,7 @@ public class MyTable extends JTable implements FocusListener {
 	protected HashSet<Integer> selectedColumnSet = new HashSet<Integer>();
 	protected HashSet<Integer> selectedRowSet = new HashSet<Integer>();
 
-	// Selection type
-	public static final int CELL_SELECT = 0;
-	public static final int ROW_SELECT = 1;
-	public static final int COLUMN_SELECT = 2;
-	private int selectionType = CELL_SELECT;
+	private int selectionType = MyTable.CELL_SELECT;
 
 	private boolean doShowDragHandle = true;
 	private Color selectionRectangleColor = SELECTED_RECTANGLE_COLOR;
@@ -181,7 +175,7 @@ public class MyTable extends JTable implements FocusListener {
 	/*******************************************************************
 	 * Construct table
 	 */
-	public MyTable(SpreadsheetView view, DefaultTableModel tableModel) {
+	public MyTableD(SpreadsheetView view, DefaultTableModel tableModel) {
 		super(tableModel);
 
 		cellResizeHeightSet = new HashSet<GPoint>();
@@ -278,7 +272,7 @@ public class MyTable extends JTable implements FocusListener {
 
 		// relative copy
 		relativeCopy = new RelativeCopy(kernel);
-		copyPasteCut = new CopyPasteCut(app);
+		copyPasteCut = new CopyPasteCutD(app);
 
 		// - see ticket #135
 		addFocusListener(this);
@@ -476,7 +470,7 @@ public class MyTable extends JTable implements FocusListener {
 
 	@Override
 	public void selectAll() {
-		setSelectionType(CELL_SELECT);
+		setSelectionType(MyTable.CELL_SELECT);
 		this.setAutoscrolls(false);
 		// select the upper left corner cell
 		changeSelection(0, 0, false, false);
@@ -517,7 +511,7 @@ public class MyTable extends JTable implements FocusListener {
 
 			switch (selectionType) {
 
-			case CELL_SELECT:
+			case MyTable.CELL_SELECT:
 				newSelection.setCellRange(getColumnModel().getSelectionModel()
 						.getAnchorSelectionIndex(), getSelectionModel()
 						.getAnchorSelectionIndex(), getColumnModel()
@@ -525,13 +519,13 @@ public class MyTable extends JTable implements FocusListener {
 						getSelectionModel().getLeadSelectionIndex());
 				break;
 
-			case ROW_SELECT:
+			case MyTable.ROW_SELECT:
 				newSelection.setCellRange(-1, getSelectionModel()
 						.getAnchorSelectionIndex(), -1, getSelectionModel()
 						.getLeadSelectionIndex());
 				break;
 
-			case COLUMN_SELECT:
+			case MyTable.COLUMN_SELECT:
 				newSelection.setCellRange(getColumnModel().getSelectionModel()
 						.getAnchorSelectionIndex(), -1, getColumnModel()
 						.getSelectionModel().getLeadSelectionIndex(), -1);
@@ -575,12 +569,12 @@ public class MyTable extends JTable implements FocusListener {
 
 		// update sets of selected rows/columns (used for rendering in the
 		// headers)
-		if (selectionType == COLUMN_SELECT)
+		if (selectionType == MyTable.COLUMN_SELECT)
 			for (int i = newSelection.getMinColumn(); i <= newSelection
 					.getMaxColumn(); i++)
 				selectedColumnSet.add(i);
 
-		if (selectionType == ROW_SELECT)
+		if (selectionType == MyTable.ROW_SELECT)
 			for (int i = newSelection.getMinRow(); i <= newSelection
 					.getMaxRow(); i++)
 				selectedRowSet.add(i);
@@ -617,7 +611,7 @@ public class MyTable extends JTable implements FocusListener {
 		boolean changed = !list.equals(app.getSelectedGeos());
 		if (changed) {
 
-			if (getTableMode() == TABLE_MODE_AUTOFUNCTION) {
+			if (getTableMode() == MyTable.TABLE_MODE_AUTOFUNCTION) {
 				this.updateAutoFunction();
 			}
 
@@ -656,7 +650,7 @@ public class MyTable extends JTable implements FocusListener {
 	 */
 	public void setInitialCellSelection(int row, int column) {
 
-		setSelectionType(CELL_SELECT);
+		setSelectionType(MyTable.CELL_SELECT);
 
 		if (column == -1)
 			column = 0;
@@ -764,7 +758,7 @@ public class MyTable extends JTable implements FocusListener {
 
 					// cell block selection
 				} else {
-					setSelectionType(CELL_SELECT);
+					setSelectionType(MyTable.CELL_SELECT);
 					changeSelection(cr.getMinRow(), cr.getMinColumn(), false,
 							false);
 					changeSelection(cr.getMaxRow(), cr.getMaxColumn(), false,
@@ -837,24 +831,24 @@ public class MyTable extends JTable implements FocusListener {
 	public void setSelectionType(int selType) {
 
 		if (view.isColumnSelect()) {
-			selType = COLUMN_SELECT;
+			selType = MyTable.COLUMN_SELECT;
 		}
 
 		switch (selType) {
 
-		case CELL_SELECT:
+		case MyTable.CELL_SELECT:
 			setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 			setColumnSelectionAllowed(true);
 			setRowSelectionAllowed(true);
 			break;
 
-		case ROW_SELECT:
+		case MyTable.ROW_SELECT:
 			setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 			setColumnSelectionAllowed(false);
 			setRowSelectionAllowed(true);
 			break;
 
-		case COLUMN_SELECT:
+		case MyTable.COLUMN_SELECT:
 			setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 			setColumnSelectionAllowed(true);
 			setRowSelectionAllowed(false);
@@ -875,14 +869,14 @@ public class MyTable extends JTable implements FocusListener {
 	// the sole handler for selection events.
 	@Override
 	public void setRowSelectionInterval(int row0, int row1) {
-		setSelectionType(ROW_SELECT);
+		setSelectionType(MyTable.ROW_SELECT);
 		super.setRowSelectionInterval(row0, row1);
 		selectionChanged();
 	}
 
 	@Override
 	public void setColumnSelectionInterval(int col0, int col1) {
-		setSelectionType(COLUMN_SELECT);
+		setSelectionType(MyTable.COLUMN_SELECT);
 		super.setColumnSelectionInterval(col0, col1);
 		selectionChanged();
 	}
@@ -1605,13 +1599,13 @@ public class MyTable extends JTable implements FocusListener {
 	 */
 	public void setTableMode(int tableMode) {
 
-		if (tableMode == TABLE_MODE_AUTOFUNCTION) {
+		if (tableMode == MyTable.TABLE_MODE_AUTOFUNCTION) {
 
 			if (!initAutoFunction())
 				return;
 		}
 
-		else if (tableMode == TABLE_MODE_DROP) {
+		else if (tableMode == MyTable.TABLE_MODE_DROP) {
 			// nothing to do (yet)
 		}
 
@@ -1771,7 +1765,7 @@ public class MyTable extends JTable implements FocusListener {
 	 */
 	protected void stopAutoFunction() {
 
-		setTableMode(TABLE_MODE_STANDARD);
+		setTableMode(MyTable.TABLE_MODE_STANDARD);
 
 		if (createAutoFunctionCell(targetCell, selectedCellRanges.get(0))) {
 			// select the new geo
@@ -1830,7 +1824,7 @@ public class MyTable extends JTable implements FocusListener {
 	public void updateAutoFunction() {
 
 		if (targetCell == null || selectedCellRanges.get(0).isEmpty()
-				|| tableMode != TABLE_MODE_AUTOFUNCTION) {
+				|| tableMode != MyTable.TABLE_MODE_AUTOFUNCTION) {
 			app.setMoveMode();
 			return;
 		}

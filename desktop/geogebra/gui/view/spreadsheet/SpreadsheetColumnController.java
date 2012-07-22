@@ -1,6 +1,7 @@
 package geogebra.gui.view.spreadsheet;
 
 import geogebra.common.awt.GPoint;
+import geogebra.common.gui.view.spreadsheet.MyTable;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.main.App;
 import geogebra.main.AppD;
@@ -30,7 +31,7 @@ public class SpreadsheetColumnController implements KeyListener, MouseListener, 
 	private AppD app;
 	private SpreadsheetView view;
 	private Kernel kernel;
-	private MyTable table;
+	private MyTableD table;
 	private DefaultTableModel model;	
 
 
@@ -40,7 +41,7 @@ public class SpreadsheetColumnController implements KeyListener, MouseListener, 
 	private int overTraceButtonColumn = -1;
 
 
-	public SpreadsheetColumnController(AppD app, MyTable table){
+	public SpreadsheetColumnController(AppD app, MyTableD table){
 
 		this.app = app;
 		this.kernel = app.getKernel();
@@ -404,8 +405,8 @@ public class SpreadsheetColumnController implements KeyListener, MouseListener, 
 			btnTrace.setBorderPainted(false);
 
 			setOpaque(true);
-			defaultBackground = MyTable.BACKGROUND_COLOR_HEADER;
-			setBorder(BorderFactory.createMatteBorder(0, 0, 1, 1, MyTable.HEADER_GRID_COLOR));
+			defaultBackground = MyTableD.BACKGROUND_COLOR_HEADER;
+			setBorder(BorderFactory.createMatteBorder(0, 0, 1, 1, MyTableD.HEADER_GRID_COLOR));
 
 			layout = (BorderLayout) this.getLayout();
 		}
@@ -418,12 +419,12 @@ public class SpreadsheetColumnController implements KeyListener, MouseListener, 
 
 			lblHeader.setText(value.toString());
 
-			if (((MyTable)table).getSelectionType() == MyTable.ROW_SELECT) {
+			if (((MyTableD)table).getSelectionType() == MyTable.ROW_SELECT) {
 				setBackground(defaultBackground);
 			} else {
-				if (((MyTable)table).selectedColumnSet.contains(colIndex)
-						|| (colIndex >= ((MyTable)table).minSelectionColumn && colIndex <= ((MyTable)table).maxSelectionColumn) ) {
-					setBackground(MyTable.SELECTED_BACKGROUND_COLOR_HEADER);
+				if (((MyTableD)table).selectedColumnSet.contains(colIndex)
+						|| (colIndex >= ((MyTableD)table).minSelectionColumn && colIndex <= ((MyTableD)table).maxSelectionColumn) ) {
+					setBackground(MyTableD.SELECTED_BACKGROUND_COLOR_HEADER);
 				} else {
 					setBackground(defaultBackground);
 				}

@@ -229,7 +229,7 @@ public class MyCellRenderer extends DefaultTableCellRenderer {
 			if (isCustomBGColor) {
 				bgColor = bgColor.darker();
 			} else {
-				bgColor = MyTable.SELECTED_BACKGROUND_COLOR;
+				bgColor = MyTableD.SELECTED_BACKGROUND_COLOR;
 			}
 		}
 		setBackground(bgColor);

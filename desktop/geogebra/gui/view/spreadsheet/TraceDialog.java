@@ -14,6 +14,7 @@ package geogebra.gui.view.spreadsheet;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.gui.view.spreadsheet.CellRange;
+import geogebra.common.gui.view.spreadsheet.SpreadsheetTraceManager;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
@@ -47,7 +48,6 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
-import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
@@ -73,7 +73,7 @@ implements
 	// external components
 	private AppD app;
 	private SpreadsheetView view;
-	private SpreadsheetTraceManagerD traceManager;
+	private SpreadsheetTraceManager traceManager;
 	
 	// JList to display trace geos
 	private JList traceGeoList;

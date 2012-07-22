@@ -29,7 +29,7 @@ public class FormulaBar extends JToolBar implements ActionListener, FocusListene
 	private static final long serialVersionUID = 1L;
 	private AppD app;
 	private SpreadsheetView view;
-	private MyTable table;
+	private MyTableD table;
 
 	private JButton btnCancelFormula;
 	private JButton btnAcceptFormula;

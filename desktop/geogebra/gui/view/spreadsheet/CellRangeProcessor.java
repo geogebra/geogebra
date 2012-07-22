@@ -41,12 +41,12 @@ import com.google.gwt.regexp.shared.MatchResult;
  */
 public class CellRangeProcessor {
 
-	private MyTable table;
+	private MyTableD table;
 	private AppD app;
 	private Construction cons;
 	private SpreadsheetTableModel tableModel;
 
-	public CellRangeProcessor(MyTable table) {
+	public CellRangeProcessor(MyTableD table) {
 
 		this.table = table;
 		app = (AppD) table.kernel.getApplication();

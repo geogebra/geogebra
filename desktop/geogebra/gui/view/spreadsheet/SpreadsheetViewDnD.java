@@ -1,6 +1,7 @@
 package geogebra.gui.view.spreadsheet;
 
 import geogebra.common.awt.GPoint;
+import geogebra.common.gui.view.spreadsheet.MyTable;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementSpreadsheet;
@@ -36,7 +37,7 @@ public class SpreadsheetViewDnD implements DragGestureListener, DragSourceListen
 
 	private AppD app;
 	private SpreadsheetView view;
-	private MyTable table;
+	private MyTableD table;
 
 	private DragSource ds;
 	private DropTarget dt;
@@ -162,14 +163,14 @@ public class SpreadsheetViewDnD implements DragGestureListener, DragSourceListen
 	 * Listener that notifies the table to prepare for dragging 
 	 */
 	public void dragEnter(DropTargetDragEvent dte) {
-		table.setTableMode(table.TABLE_MODE_DROP);
+		table.setTableMode(MyTable.TABLE_MODE_DROP);
 	}
 
 	/**
 	 * Listener that notifies the table to stop handling drag events 
 	 */
 	public void dragExit(DropTargetEvent dte) {
-		table.setTableMode(table.TABLE_MODE_STANDARD);
+		table.setTableMode(MyTable.TABLE_MODE_STANDARD);
 	}
 
 
@@ -370,7 +371,7 @@ public class SpreadsheetViewDnD implements DragGestureListener, DragSourceListen
 	
 	private void handleDropComplete(DropTargetDropEvent dte, boolean success){
 		dte.dropComplete(success);
-		table.setTableMode(table.TABLE_MODE_STANDARD);
+		table.setTableMode(MyTable.TABLE_MODE_STANDARD);
 	}
 
 	public void dropActionChanged(DropTargetDragEvent dte) {

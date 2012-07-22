@@ -13,7 +13,7 @@ import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.plugin.GeoClass;
 import geogebra.gui.view.spreadsheet.CellRangeProcessor;
-import geogebra.gui.view.spreadsheet.MyTable;
+import geogebra.gui.view.spreadsheet.MyTableD;
 import geogebra.gui.view.spreadsheet.SpreadsheetView;
 import geogebra.main.AppD;
 
@@ -32,7 +32,7 @@ public class StatDialogController {
 	private AppD app;
 	private Kernel kernel; 
 	private Construction cons;
-	private MyTable spreadsheetTable;
+	private MyTableD spreadsheetTable;
 	private SpreadsheetView spView;
 	private StatDialog sd;	
 	private StatGeo statGeo; 

@@ -28,7 +28,7 @@ public class SpreadsheetStyleBar extends JToolBar implements ActionListener{
 	private static final long serialVersionUID = 1L;
 	private SpreadsheetView view;
 	private AppD app;
-	private MyTable table;
+	private MyTableD table;
 	private CellFormat formatHandler;
 	private ArrayList<CellRange> selectedCells;
 

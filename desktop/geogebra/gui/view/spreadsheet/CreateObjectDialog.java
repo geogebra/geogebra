@@ -56,7 +56,7 @@ public class CreateObjectDialog extends InputDialog implements
 	private CellRangeProcessor cp;
 	private ArrayList<CellRange> selectedCellRanges;
 	private int selectionType;
-	private MyTable table;
+	private MyTableD table;
 
 	public static final int TYPE_LIST = 0;
 	public static final int TYPE_MATRIX = 1;

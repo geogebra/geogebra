@@ -27,7 +27,7 @@ import javax.swing.SwingConstants;
  */
 public class CellFormat {
 
-	MyTable table;
+	MyTableD table;
 
 	// Array of format tables
 	private MyHashMap[] formatMapArray;
@@ -94,7 +94,7 @@ public class CellFormat {
 	 * 
 	 * @param table
 	 */
-	public CellFormat(MyTable table) {
+	public CellFormat(MyTableD table) {
 
 		this.table = table;
 		// Create instances of the format hash maps

@@ -1,6 +1,7 @@
 package geogebra.gui.view.spreadsheet;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.gui.view.spreadsheet.MyTable;
 import geogebra.gui.view.spreadsheet.statdialog.StatDialog;
 import geogebra.main.AppD;
 
@@ -15,7 +16,7 @@ public class SpreadsheetToolbarManager {
 
 	private AppD app;
 	private SpreadsheetView view;
-	private MyTable table;
+	private MyTableD table;
 
 	private CreateObjectDialog id;
 
@@ -32,7 +33,7 @@ public class SpreadsheetToolbarManager {
 	public void  handleModeChange(int mode){
 
 		//Application.printStacktrace("");
-		table.setTableMode(table.TABLE_MODE_STANDARD);
+		table.setTableMode(MyTable.TABLE_MODE_STANDARD);
 
 		switch (mode) {	
 
@@ -102,7 +103,7 @@ public class SpreadsheetToolbarManager {
 			
 			// Handle autofunction modes
 			
-			table.setTableMode(table.TABLE_MODE_AUTOFUNCTION);
+			table.setTableMode(MyTable.TABLE_MODE_AUTOFUNCTION);
 
 			break;
 

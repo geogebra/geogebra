@@ -54,7 +54,7 @@ View, ComponentListener, FocusListener, Gridable, SettingListener
 	private Kernel kernel;
 
 	// spreadsheet table and row header
-	protected MyTable table;
+	protected MyTableD table;
 	protected SpreadsheetTableModelD tableModel;
 	private SpreadsheetRowHeader rowHeader;
 	private JTableHeader tableHeader;
@@ -161,7 +161,7 @@ View, ComponentListener, FocusListener, Gridable, SettingListener
 
 		// Create the spreadsheet table model and the table
 		tableModel = (SpreadsheetTableModelD) app.getSpreadsheetTableModel();
-		table = new MyTable(this, tableModel.getDefaultTableModel());
+		table = new MyTableD(this, tableModel.getDefaultTableModel());
 
 		// Create row header
 		rowHeader = new SpreadsheetRowHeader(app,table);
@@ -183,7 +183,7 @@ View, ComponentListener, FocusListener, Gridable, SettingListener
 
 		// Create and set the scrollpane corners
 		Corner upperLeftCorner = new Corner(); //use FlowLayout
-		upperLeftCorner.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 1, MyTable.HEADER_GRID_COLOR));		
+		upperLeftCorner.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 1, MyTableD.HEADER_GRID_COLOR));		
 		upperLeftCorner.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
 				table.selectAll();
@@ -210,7 +210,7 @@ View, ComponentListener, FocusListener, Gridable, SettingListener
 		private static final long serialVersionUID = -4426785169061557674L;
 
 		protected void paintComponent(Graphics g) {
-			g.setColor(MyTable.BACKGROUND_COLOR_HEADER);
+			g.setColor(MyTableD.BACKGROUND_COLOR_HEADER);
 			g.fillRect(0, 0, getWidth(), getHeight());
 		}
 	}
@@ -249,7 +249,7 @@ View, ComponentListener, FocusListener, Gridable, SettingListener
 		return app;
 	}
 
-	public MyTable getTable() {
+	public MyTableD getTable() {
 		return table;
 	}
 

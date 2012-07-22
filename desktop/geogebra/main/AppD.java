@@ -27,6 +27,7 @@ import geogebra.common.factories.AwtFactory;
 import geogebra.common.gui.dialog.DialogManager;
 import geogebra.common.gui.menubar.MenuInterface;
 import geogebra.common.gui.view.spreadsheet.SpreadsheetTableModel;
+import geogebra.common.gui.view.spreadsheet.SpreadsheetTraceManager;
 import geogebra.common.io.MyXMLHandler;
 import geogebra.common.io.layout.DockPanelData;
 import geogebra.common.io.layout.Perspective;
@@ -78,7 +79,6 @@ import geogebra.gui.toolbar.ToolbarContainer;
 import geogebra.gui.util.ImageSelection;
 import geogebra.gui.view.algebra.AlgebraViewD;
 import geogebra.gui.view.spreadsheet.SpreadsheetTableModelD;
-import geogebra.gui.view.spreadsheet.SpreadsheetTraceManagerD;
 import geogebra.io.MyXMLio;
 import geogebra.kernel.AnimationManagerD;
 import geogebra.kernel.UndoManagerD;
@@ -98,7 +98,6 @@ import geogebra.util.Normalizer;
 import geogebra.util.Util;
 
 import java.awt.AWTKeyStroke;
-import java.awt.AlphaComposite;
 import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
@@ -4857,7 +4856,7 @@ public class AppD extends App implements
 	// //////////////////////////////////
 
 
-	protected SpreadsheetTraceManagerD traceManager;
+	protected SpreadsheetTraceManager traceManager;
 
 	private DialogManager dialogManager;
 	
@@ -4979,9 +4978,9 @@ public class AppD extends App implements
 	}
 	
 	@Override
-	public SpreadsheetTraceManagerD getTraceManager() {
+	public SpreadsheetTraceManager getTraceManager() {
 		if (traceManager == null)
-			traceManager = new SpreadsheetTraceManagerD(this);
+			traceManager = new SpreadsheetTraceManager(this);
 		return traceManager;
 	}
 

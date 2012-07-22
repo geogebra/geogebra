@@ -2,6 +2,7 @@ package geogebra.gui.view.spreadsheet;
 
 
 import geogebra.common.awt.GPoint;
+import geogebra.common.gui.view.spreadsheet.MyTable;
 import geogebra.common.main.App;
 import geogebra.main.AppD;
 
@@ -35,7 +36,7 @@ implements MouseListener, MouseMotionListener, KeyListener, ListSelectionListene
 	private static final long serialVersionUID = 1L;
 	private AppD app;
 	private SpreadsheetView view;
-	private MyTable table;
+	private MyTableD table;
 	private MyListModel listModel;
 
 
@@ -63,7 +64,7 @@ implements MouseListener, MouseMotionListener, KeyListener, ListSelectionListene
 	/***************************************************
 	 * Constructor
 	 */
-	public SpreadsheetRowHeader(AppD app, MyTable table){
+	public SpreadsheetRowHeader(AppD app, MyTableD table){
 
 		this.app = app;
 		this.table = table;
@@ -136,9 +137,9 @@ implements MouseListener, MouseMotionListener, KeyListener, ListSelectionListene
 		public RowHeaderRenderer(JTable table, JList rowHeader) {
 			super("", SwingConstants.CENTER);
 			setOpaque(true);
-			defaultBackground = MyTable.BACKGROUND_COLOR_HEADER;
+			defaultBackground = MyTableD.BACKGROUND_COLOR_HEADER;
 			this.rowHeader = rowHeader;
-			setBorder(BorderFactory.createMatteBorder(0, 0, 1, 1, MyTable.HEADER_GRID_COLOR));
+			setBorder(BorderFactory.createMatteBorder(0, 0, 1, 1, MyTableD.HEADER_GRID_COLOR));
 		}
 
 		public Component getListCellRendererComponent(JList list, Object value,	int index, boolean  isSelected, boolean cellHasFocus) {
@@ -152,12 +153,12 @@ implements MouseListener, MouseMotionListener, KeyListener, ListSelectionListene
 
 			setText((value == null) ? "" : value.toString());
 
-			if (table.getSelectionType() == table.COLUMN_SELECT ) {
+			if (table.getSelectionType() == MyTable.COLUMN_SELECT ) {
 				setBackground(defaultBackground);
 			} else {
 				if (table.selectedRowSet.contains(index)
 						|| (index >= minSelectionRow && index <= maxSelectionRow)) {
-					setBackground(MyTable.SELECTED_BACKGROUND_COLOR_HEADER);
+					setBackground(MyTableD.SELECTED_BACKGROUND_COLOR_HEADER);
 				} else {
 					setBackground(defaultBackground);
 				}
@@ -259,8 +260,8 @@ implements MouseListener, MouseMotionListener, KeyListener, ListSelectionListene
 			GPoint point = table.getIndexFromPixel(x, y);
 			if (point != null) {
 				//G.STURR 2010-1-29
-				if(table.getSelectionType() != table.ROW_SELECT){
-					table.setSelectionType(table.ROW_SELECT);
+				if(table.getSelectionType() != MyTable.ROW_SELECT){
+					table.setSelectionType(MyTable.ROW_SELECT);
 					requestFocusInWindow();
 				}
 				
@@ -301,8 +302,8 @@ implements MouseListener, MouseMotionListener, KeyListener, ListSelectionListene
 					|| p.getX() < table.minSelectionColumn || p.getX() > table.maxSelectionColumn){
 
 				// switch to row selection mode and select row
-				if(table.getSelectionType() != table.ROW_SELECT){
-					table.setSelectionType(table.ROW_SELECT);
+				if(table.getSelectionType() != MyTable.ROW_SELECT){
+					table.setSelectionType(MyTable.ROW_SELECT);
 				}
 
 				table.setRowSelectionInterval((int)p.getY(), (int)p.getY());
