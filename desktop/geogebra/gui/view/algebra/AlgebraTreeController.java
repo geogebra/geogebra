@@ -63,10 +63,19 @@ implements MouseListener, MouseMotionListener{
 		return false;
 	}
 
+
+	/**
+	 * 	
+	 * @param mode euclidian controller mode
+	 * @return true if the mode is a mode for selection
+	 */
+	protected boolean isSelectionModeForClick(int mode){
+		return true;
+	}
+
 	/*
 	 * MouseListener implementation for popup menus
 	 */
-
 	public void mouseClicked(java.awt.event.MouseEvent e) {	
 		// right click is consumed in mousePressed, but in GeoGebra 3D,
 		// where heavyweight popup menus are enabled this doesn't work
@@ -106,7 +115,7 @@ implements MouseListener, MouseMotionListener{
 
 		EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
 		int mode = ev.getMode();
-		if (!skipSelection && (mode == EuclidianConstants.MODE_MOVE || mode == EuclidianConstants.MODE_RECORD_TO_SPREADSHEET) ) {
+		if (!skipSelection && isSelectionModeForClick(mode)) {
 			// update selection	
 			if (geo == null){
 				if (!AppD.isControlDown(e) && !e.isShiftDown())
@@ -277,8 +286,11 @@ implements MouseListener, MouseMotionListener{
 	 */
 	protected boolean leftPressCanSelectGeo(java.awt.event.MouseEvent e, GeoElement geo){
 
-		if( !setSelectedGeo(geo)) 
-			return true;
+		if (!AppD.isControlDown(e) && !e.isShiftDown())
+		{
+			if( !setSelectedGeo(geo)) 
+				return true;
+		}
 
 		return false;
 
