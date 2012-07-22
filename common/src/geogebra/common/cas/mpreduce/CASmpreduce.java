@@ -429,6 +429,7 @@ public abstract class CASmpreduce implements CASGenericInterface {
 				mpreduce1.evaluate("operator sgreater");
 				mpreduce1.evaluate("procedure myless (a,b);if numberp(a) and numberp(b) then" +
 						"(if a<b then true else false) else sless(a,b)");
+				
 				mpreduce1.evaluate("operator sless");
 				mpreduce1.evaluate("procedure mygreaterequal (a,b); if numberp(a) and numberp(b) then" +
 						"(if a>=b then true else false) else sgreaterequal(a,b)");
@@ -797,6 +798,25 @@ public abstract class CASmpreduce implements CASGenericInterface {
 						+ "    -infinity" + "  else" + "    a-b;end");
 
 				mpreduce1.evaluate("operator subtraction;");
+				
+				mpreduce1.evaluate("procedure myequal(a,b);begin; scalar ret;" +
+						"ret:=false;" +
+						"a:=mattolistoflists(a);" +
+						"b:=mattolistoflists(b);" +
+						"if myvecp(a) and myvecp(b) then <<ret:= myand(myequal(xvcoord(a),xvcoord(b)),myequal(yvcoord(a),yvcoord(b)));" +
+						" if(dim a = 3) then ret:=myand(ret,myequal(zvcoord(a),zvcoord(b)))>>" +
+						" else if arglength(a)>-1 and arglength(b)>-1 and part(a,0)='list and part(b,0)='list" +
+						" then <<if length(a)=length(b) then ret:=equallists(a,b) else ret:=false>>" +
+						" else ret:=if subtraction(a,b)=0 then true else false;" +
+						" return ret; end;");
+				mpreduce1.evaluate("procedure equallists(a,b);begin;scalar ret,k; " +
+						"ret:=true;" +
+						"k:=1;" +
+						"while k <= length(a) and ret=true do<<" +
+						" ret:=myequal(part(a,k),part(b,k));k:=k+1>>;" +
+						" return ret; end;");
+				mpreduce1.evaluate("procedure myneq(a,b);if myequal(a,b)=true then false " +
+						"else true");
 
 				// erf in Reduce is currently broken:
 				// http://sourceforge.net/projects/reduce-algebra/forums/forum/899364/topic/4546339
