@@ -268,6 +268,9 @@ public interface PlainConstants extends ConstantsWithLookup {
     @DefaultStringValue("CAS timed out")
     String CASTimedOut();
 
+    @DefaultStringValue("Command \"%0\" is available only in the CAS view")
+    String CASViewOnly();
+
     @DefaultStringValue("Cancel")
     String Cancel();
 

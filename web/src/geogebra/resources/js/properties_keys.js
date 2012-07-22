@@ -1862,6 +1862,7 @@ var plainKeysVar = {
 	CASInitializing:'',
 	CASShowRationalExponentsAsRoots:'',
 	CASTimedOut:'',
+	CASViewOnly:'',
 	Cancel:'',
 	Caption:'',
 	CartesianCoords:'',
