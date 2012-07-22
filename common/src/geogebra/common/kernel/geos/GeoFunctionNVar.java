@@ -26,6 +26,7 @@ import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.FunctionalNVar;
 import geogebra.common.kernel.arithmetic.IneqTree;
 import geogebra.common.kernel.arithmetic.Inequality;
+import geogebra.common.kernel.arithmetic.MyList;
 import geogebra.common.kernel.arithmetic.Inequality.IneqType;
 import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import geogebra.common.kernel.arithmetic.MyDouble;
@@ -839,6 +840,15 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 		public FunctionVariable[] getFunctionVariables() {
 			return fun.getFunctionVariables();
 		}
-
+		/**
+		 * @return function variables in list
+		 */
+		public MyList getFunctionVariableList() {
+				MyList ml = new MyList(kernel);
+				for(FunctionVariable fv:fun.getFunctionVariables()){
+					ml.addListElement(fv);
+				}
+				return ml;
+		}
 
 }

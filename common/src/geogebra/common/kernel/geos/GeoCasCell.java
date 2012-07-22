@@ -16,6 +16,7 @@ import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.FunctionNVar;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
+import geogebra.common.kernel.arithmetic.MyList;
 import geogebra.common.kernel.arithmetic.Traversing.ArbconstReplacer;
 import geogebra.common.kernel.arithmetic.Traversing.CommandCollector;
 import geogebra.common.kernel.arithmetic.Traversing.CommandReplacer;
@@ -1962,6 +1963,20 @@ public class GeoCasCell extends GeoElement implements VarString {
 			return ((FunctionNVar)inputVE).getVarString(tpl);
 		}
 		return "";
+	}
+	
+	/**
+	 * @return function variables in list
+	 */
+	public MyList getFunctionVariableList() {
+		if(inputVE instanceof FunctionNVar){
+			MyList ml = new MyList(kernel);
+			for(FunctionVariable fv:((FunctionNVar)inputVE).getFunctionVariables()){
+				ml.addListElement(fv);
+			}
+			return ml;
+		}
+		return null;
 	}
 
 	private void setInputVE(ValidExpression inputVE) {

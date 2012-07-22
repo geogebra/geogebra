@@ -24,6 +24,7 @@ import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.FunctionNVar;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.Traversing.DerivativeCollector;
+import geogebra.common.kernel.arithmetic.Traversing.FunctionExpander;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.cas.CASGenericInterface;
 import geogebra.common.kernel.cas.CASParserInterface;
@@ -117,7 +118,9 @@ public class CASparser implements CASParserInterface{
 		}
 		// resolve variables of valid expression
 		ev.getKernel().setResolveUnkownVarsAsDummyGeos(true);
+		FunctionExpander fex = FunctionExpander.getCollector();
 		ev.resolveVariables(false);
+		ev.traverse(fex);
 		ev.getKernel().setResolveUnkownVarsAsDummyGeos(false);
 		
 		//TODO: remove local variables from kernel ?

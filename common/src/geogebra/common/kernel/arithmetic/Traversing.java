@@ -7,9 +7,13 @@ import java.util.TreeSet;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.VarString;
 import geogebra.common.kernel.commands.Commands;
+import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.kernel.geos.GeoDummyVariable;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoFunction;
+import geogebra.common.kernel.geos.GeoFunctionNVar;
 import geogebra.common.main.App;
 import geogebra.common.plugin.Operation;
 /**
@@ -336,5 +340,60 @@ public interface Traversing {
 			return collector;
 		}
 	}
+	/**
+	 * Collects all function variables
+	 * @author zbynek
+	 */
+	public class FunctionExpander implements Traversing {
+		
+		private ExpressionValue expand(GeoElement geo){
+			if(geo instanceof GeoFunction)
+				return new ExpressionNode(geo.getKernel(),geo,Operation.FUNCTION,((GeoFunction)geo).getFunctionVariables()[0]);
+			if(geo instanceof GeoCasCell && ((GeoCasCell)geo).getInputVE() instanceof FunctionNVar){
+				return new ExpressionNode(geo.getKernel(),geo,Operation.FUNCTION_NVAR,
+						((GeoCasCell)geo).getFunctionVariableList());
+			}
+			if(geo instanceof GeoFunctionNVar){
+					return new ExpressionNode(geo.getKernel(),geo,Operation.FUNCTION_NVAR,
+							((GeoCasCell)geo).getFunctionVariableList());
+			}
+			return geo;	
+		}
+		public ExpressionValue process(ExpressionValue ev) {
+			if(ev instanceof ExpressionNode){ 
+				ExpressionNode en = (ExpressionNode) ev;
+				if(en.getOperation()!=Operation.FUNCTION
+					&& en.getOperation()!=Operation.FUNCTION_NVAR
+					&& en.getOperation()!=Operation.DERIVATIVE){
+					GeoElement geo = null;
+					if(en.getLeft() instanceof GeoDummyVariable){
+						geo = en.getKernel().lookupLabel(((GeoDummyVariable)en.getLeft()).toString(StringTemplate.defaultTemplate));
+						en.setLeft(expand(geo));
+					}
+										
+				}
+				if(en.getRight()!=null){
+						GeoElement geo = null;
+						if(en.getRight() instanceof GeoDummyVariable){
+							geo = en.getKernel().lookupLabel(((GeoDummyVariable)en.getRight()).toString(StringTemplate.defaultTemplate));
+							en.setRight(expand(geo));
+						}
+											
+					}
+			}
+
+			return ev;
+		}
+		private static FunctionExpander collector = new FunctionExpander();
+		/**
+		 * Resets and returns the collector
+		 * @param commands set into which we want to collect the commands
+		 * @return derivative collector
+		 */
+		public static FunctionExpander getCollector(){		
+			return collector;
+		}
+	}
+
 
 }
