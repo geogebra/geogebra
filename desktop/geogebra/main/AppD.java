@@ -2671,35 +2671,10 @@ public class AppD extends App implements
 	@Override
 	final public String getCommand(String key) {
 
-		//if (key.endsWith("yntax")) {
-		//	App.printStacktrace("");
-		//}
-		
-		if (tooltipFlag) {
-			return getCommandTooltip(key);
-		}
-
 		initTranslatedCommands();
 
 		try {
 			return rbcommand.getString(key);
-		} catch (Exception e) {
-			return key;
-		}
-	}
-
-	final public String getCommandTooltip(String key) {
-
-		if (tooltipLocale == null) {
-			return getCommand(key);
-		}
-		if (rbcommandTT == null) {
-			rbcommandTT = MyResourceBundle.createBundle(RB_COMMAND,
-					tooltipLocale);
-		}
-
-		try {
-			return rbcommandTT.getString(key);
 		} catch (Exception e) {
 			return key;
 		}
