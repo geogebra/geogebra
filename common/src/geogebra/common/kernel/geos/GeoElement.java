@@ -7057,6 +7057,30 @@ public abstract class GeoElement extends ConstructionElement implements
 		return getColumnHeadingsForTraceGeoCopy();
 	}
 	
+	private StringBuilder columnHeadingsForTraceValues = new StringBuilder();
+	
+	/**
+	 * 
+	 * @return string description of values traced
+	 */
+	final public String getColumnHeadingsForTraceValues(){
+		return columnHeadingsForTraceValues.toString();
+	}
+	
+	/**
+	 * update string description of values traced
+	 */
+	final protected void updateColumnHeadingsForTraceValues(){
+		columnHeadingsForTraceValues.setLength(0);
+		boolean notFirst = false;
+		for (GeoText text : spreadsheetColumnHeadings){
+			if (notFirst)
+				columnHeadingsForTraceValues.append(", ");
+			columnHeadingsForTraceValues.append(text.getTextString());
+			notFirst = true;
+		}
+	}
+	
 	/**
 	 * 
 	 * @return column headings when "trace geo copy"

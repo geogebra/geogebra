@@ -1123,6 +1123,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND,
 										Operation.PLUS, 
 										getCloseBracket())))); // ")"
 	
+		updateColumnHeadingsForTraceValues();
 		
 		return spreadsheetColumnHeadings;
 	}

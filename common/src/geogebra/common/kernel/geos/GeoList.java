@@ -1879,6 +1879,8 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture {
 				}
 			}
 		}
+		
+		updateColumnHeadingsForTraceValues();
 
 		return spreadsheetColumnHeadings;
 	}

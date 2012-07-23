@@ -39,6 +39,7 @@ import java.awt.event.WindowListener;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.ButtonGroup;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -46,11 +47,13 @@ import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
+import javax.swing.border.EtchedBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -75,6 +78,8 @@ implements
 	private SpreadsheetView view;
 	private SpreadsheetTraceManager traceManager;
 	
+	private GeoElement geo;
+	
 	// JList to display trace geos
 	private JList traceGeoList;
 	private DefaultListModel traceGeoListModel;
@@ -87,7 +92,8 @@ implements
 
 	private JTextField firstRowField, numRowsField;
 	private JCheckBox cbResetColumns, cbRowLimit, 
-		cbShowLabel, cbTraceList, cbTraceGeoCopy;
+		cbShowLabel, cbTraceList;
+	private JRadioButton traceModeValues, traceModeCopy;
 	private JButton btRemove, btAdd, btClose, btCancel, btChangeLocation, btErase;
 	private JLabel prompt;
 	
@@ -110,7 +116,8 @@ implements
 		super(app.getFrame());
 		
 		this.app = app;
-		this.view = app.getGuiManager().getSpreadsheetView();		
+		this.view = app.getGuiManager().getSpreadsheetView();	
+		geo = selectedGeo;
 		traceManager = app.getTraceManager();
 		traceGeoList = new JList();
 				
@@ -319,7 +326,7 @@ implements
         // locationPanel 
 		locationPanel = new JPanel();
 		locationPanel.setLayout(new BoxLayout(locationPanel, BoxLayout.Y_AXIS));
-		locationPanel.setBorder(BorderFactory.createEmptyBorder(0,5,5,5));			
+		locationPanel.setBorder(BorderFactory.createEmptyBorder(0,5,0,5));			
 		locationPanel.setMinimumSize(new Dimension(200, 30));
 		
         locationPanel.add(Box.createVerticalGlue());
@@ -338,21 +345,38 @@ implements
 		  // options panel
 		optionsPanel = new JPanel();
 		optionsPanel.setLayout(new BoxLayout(optionsPanel, BoxLayout.Y_AXIS));
-		optionsPanel.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));	
+		optionsPanel.setBorder(BorderFactory.createEmptyBorder(0,5,5,5));	
 		optionsPanel.setMinimumSize(new Dimension(100, 30));
 					
         cbShowLabel = new JCheckBox(app.getPlain("ShowLabel"));  
         cbShowLabel.addActionListener(this);        
         optionsPanel.add(cbShowLabel);
+        
+        
+        // trace as... radio buttons   
+        JPanel pane = new JPanel();
+        pane.setLayout(new BoxLayout(pane, BoxLayout.Y_AXIS));
+        pane.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
+        traceModeValues = new JRadioButton(app.getPlain("TraceValues"));
+        traceModeValues.addActionListener(this);
+        traceModeCopy = new JRadioButton(app.getPlain("TraceCopy"));
+        traceModeCopy.addActionListener(this);
+        ButtonGroup group = new ButtonGroup();
+        group.add(traceModeValues);
+        group.add(traceModeCopy);
+        pane.add(traceModeValues);
+        pane.add(traceModeCopy);
+        optionsPanel.add(pane);
+               
+        
+        
+        
+        
+        
              
         cbTraceList = new JCheckBox(app.getMenu("TraceToList"));  
         cbTraceList.addActionListener(this);        
         optionsPanel.add(cbTraceList);
-        
-        cbTraceGeoCopy = new JCheckBox(app.getMenu("TraceCopy"));  
-        cbTraceGeoCopy.addActionListener(this);        
-        optionsPanel.add(cbTraceGeoCopy);
-        
      
 		cbResetColumns = new JCheckBox(app.getMenu("ColumnReset"));  
 		cbResetColumns.addActionListener(this);   
@@ -421,8 +445,9 @@ implements
 		lblStartRow.setText(app.getMenu("StartRow") + ": ");
 		cbRowLimit.setText(app.getMenu("RowLimit") + ": ");  
 		cbShowLabel.setText(app.getPlain("ShowLabel"));  
-		cbTraceList.setText(app.getMenu("TraceToList"));  
-		cbTraceGeoCopy.setText(app.getMenu("TraceCopy"));  
+		cbTraceList.setText(app.getMenu("TraceToList")); 
+		setTraceModeValuesLabel();
+		traceModeCopy.setText(app.getMenu("TraceCopy")); 
 		cbResetColumns.setText(app.getMenu("ColumnReset"));  
 		btClose.setText(app.getMenu("Close"));
 		btCancel.setText(app.getPlain("Cancel"));
@@ -432,6 +457,10 @@ implements
 		btAdd.setToolTipText(app.getMenuTooltip("AddTrace"));
 		btErase.setToolTipText(app.getMenuTooltip("ClearTrace"));
 		
+	}
+	
+	private void setTraceModeValuesLabel(){
+		traceModeValues.setText(app.getPlain("TraceValuesA",geo.getColumnHeadingsForTraceValues()));  
 	}
 	
 
@@ -511,9 +540,14 @@ implements
 				cbTraceList.setSelected(getSettings().showTraceList);
 				cbTraceList.addActionListener(this);
 				
-				cbTraceGeoCopy.removeActionListener(this);
-				cbTraceGeoCopy.setSelected(getSettings().doTraceGeoCopy);
-				cbTraceGeoCopy.addActionListener(this);
+				
+				traceModeCopy.removeActionListener(this);
+				traceModeCopy.setSelected(getSettings().doTraceGeoCopy);
+				traceModeCopy.addActionListener(this);
+								
+				traceModeValues.removeActionListener(this);
+				traceModeValues.setSelected(!getSettings().doTraceGeoCopy);
+				traceModeValues.addActionListener(this);
 				
 								
 				// update row limit textfield
@@ -529,13 +563,16 @@ implements
 				firstRowField.setCaretPosition(0);
 				firstRowField.addActionListener(this);
 				
+				// update trace values label
+				geo = (GeoElement) traceGeoList.getSelectedValue();
+				setTraceModeValuesLabel();
+				
 			}
 
 			view.repaint();
 
 			break;
 		}
-		
 		
 		
 		
@@ -591,8 +628,13 @@ implements
 			updateSelectedTraceGeo();
 		}
 		
-		else if (source == cbTraceGeoCopy) {
-			getSettings().doTraceGeoCopy = cbTraceGeoCopy.isSelected();
+		else if (source == traceModeCopy) {
+			getSettings().doTraceGeoCopy = true;
+			updateSelectedTraceGeo();
+		}
+		
+		else if (source == traceModeValues) {
+			getSettings().doTraceGeoCopy = false;
 			updateSelectedTraceGeo();
 		}
 		
@@ -688,6 +730,8 @@ implements
 	
 	/** Add a geo to the traceGeoCollection and update the dialog.  */
 	private void addTrace(GeoElement geo){
+		
+		this.geo = geo;
 		
 		// add geo to the trace collection 
 		if (traceManager.isTraceGeo(geo) == false) {		

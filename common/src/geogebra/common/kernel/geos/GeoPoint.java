@@ -1976,6 +1976,9 @@ final public class GeoPoint extends GeoVec3D implements VectorValue,
 										getNameGeo(), // Name[this]
 										Operation.PLUS, 
 										getCloseBracket())))); // ")"
+		
+		updateColumnHeadingsForTraceValues();
+		
 		return spreadsheetColumnHeadings;
 	}
 

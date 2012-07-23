@@ -828,6 +828,8 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 										Operation.PLUS, 
 										getCloseBracket())))); // ")"
 		
+		updateColumnHeadingsForTraceValues();
+		
 		return spreadsheetColumnHeadings;
 	}
 	
