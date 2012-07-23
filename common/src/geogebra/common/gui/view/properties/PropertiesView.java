@@ -11,17 +11,14 @@ the Free Software Foundation.
 */
 package geogebra.common.gui.view.properties;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
-import javax.swing.ImageIcon;
-
 import geogebra.common.gui.dialog.options.OptionsObject;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
-import geogebra.common.main.GeoElementSelectionListener;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Properties view
