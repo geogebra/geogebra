@@ -43,6 +43,12 @@ public interface ListValue extends ExpressionValue {
 	 * @return number of elements of this list
 	 */
 	public int size();
+	
+	/**
+	 * @param i list index
+	 * @return i-th element
+	 */
+	public ExpressionValue getListElement(int i);
 		
 }
 

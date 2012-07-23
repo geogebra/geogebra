@@ -614,14 +614,13 @@ public class MyList extends ValidExpression implements ListValue,
 			toLaTeXString.append("\\left(\\begin{array}{ll}");
 
 			for (int i = 0; i < size(); i++) {
-				MyList singleValue = (MyList) getListElement(i)
+				ListValue singleValue = (ListValue) getListElement(i)
 						.evaluate(StringTemplate.defaultTemplate);
-				toLaTeXString.append(singleValue.getMyListLessDeep().getListElement(0)
+				toLaTeXString.append(singleValue.getListElement(0)
 						.toLaTeXString(symbolic,tpl));
 				for (int j = 1; j < singleValue.size(); j++) {
 					toLaTeXString.append("&");
-					toLaTeXString.append(singleValue.getMyListLessDeep()
-							.getListElement(j).toLaTeXString(symbolic,tpl));
+					toLaTeXString.append(singleValue.getListElement(j).toLaTeXString(symbolic,tpl));
 				}
 				toLaTeXString.append("\\\\");
 			}
@@ -779,10 +778,9 @@ public class MyList extends ValidExpression implements ListValue,
 	
 	
 	/**
-	 * deep copy, except for geo elements
-	 * bug fix for 2407
-	 * @param kernel1
-	 * @return
+	 * Deep copy, except for geo elements
+	 * @param kernel1 kernel for result
+	 * @return deep copy, except for geo elements
 	 */
 	public ExpressionValue deepCopyExGeo(Kernel kernel1) {
 		// copy arguments
@@ -825,19 +823,6 @@ public class MyList extends ValidExpression implements ListValue,
 		if (isInTree()) {
 			// used in expression node tree: be careful
 			return (MyList) deepCopy(kernel);
-		}
-		// not used anywhere: reuse this object
-		return this;
-	}
-	
-	/**
-	 * returns a deep copy of myList, except geo elements
-	 * @return
-	 */
-	public MyList getMyListLessDeep() {
-		if (isInTree()) {
-			// used in expression node tree: be careful
-			return (MyList) deepCopyExGeo(kernel);
 		}
 		// not used anywhere: reuse this object
 		return this;

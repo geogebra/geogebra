@@ -31,6 +31,7 @@ import geogebra.common.kernel.algos.AlgoMacroInterface;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
+import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.ListValue;
 import geogebra.common.kernel.arithmetic.MyList;
 import geogebra.common.kernel.arithmetic.NumberValue;
@@ -2081,6 +2082,10 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture {
 	@Override
 	public boolean isPinnable() {
 		return !drawAsComboBox();
+	}
+
+	public ExpressionValue getListElement(int i) {
+		return get(i);
 	}
 
 
