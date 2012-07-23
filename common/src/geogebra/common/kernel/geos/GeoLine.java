@@ -36,6 +36,7 @@ import geogebra.common.kernel.algos.SymbolicParametersAlgo;
 import geogebra.common.kernel.algos.SymbolicParametersBotanaAlgo;
 import geogebra.common.kernel.algos.TangentAlgo;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.Functional;
@@ -46,6 +47,7 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.prover.Variable;
 import geogebra.common.kernel.prover.NoSymbolicParametersException;
 import geogebra.common.kernel.prover.Polynomial;
+import geogebra.common.main.App;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.plugin.Operation;
 import geogebra.common.util.MyMath;
@@ -810,6 +812,21 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	}
 
 	private StringBuilder buildValueString(StringTemplate tpl) {
+		if(tpl.hasType(StringType.MPREDUCE)){
+			StringBuilder sb = getSbBuildValueString();
+			sb.setLength(0);
+			sb.append("(");
+			sb.append(kernel.format(x,tpl));
+			sb.append(")*");
+			sb.append(kernel.printVariableName("x",tpl));
+			sb.append("+(");
+			sb.append(kernel.format(y,tpl));
+			sb.append(")*");
+			sb.append(kernel.printVariableName("y",tpl));
+			sb.append('=');
+			sb.append(kernel.format(-z,tpl));
+			return sb;
+		}
 		double[] P = new double[2];
 		double[] g = new double[3];
 		char op = '=';

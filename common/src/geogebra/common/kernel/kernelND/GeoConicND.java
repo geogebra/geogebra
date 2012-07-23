@@ -35,6 +35,7 @@ import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
@@ -1342,7 +1343,37 @@ Translateable, GeoConicNDConstants,MatrixTransformable, PointRotateable,Region
 		coeffs[1] = 2 * matrix[3]; // xy        
 		coeffs[3] = 2 * matrix[4]; // x
 		coeffs[4] = 2 * matrix[5]; // y  
-		
+		if(tpl.hasType(StringType.MPREDUCE)){
+			StringBuilder sb = sbToValueString;
+			sb.setLength(0);
+			String x = kernel.printVariableName("x",tpl);
+			String y = kernel.printVariableName("y",tpl);
+			sb.append("(");
+			sb.append(kernel.format(coeffs[0],tpl));
+			sb.append(")*");
+			sb.append(x);
+			sb.append("^2+(");
+			sb.append(kernel.format(coeffs[1],tpl));
+			sb.append(")*");
+			sb.append(x);
+			sb.append("*");
+			sb.append(y);
+			sb.append("+(");
+			sb.append(kernel.format(coeffs[2],tpl));
+			sb.append(")*");
+			sb.append(y);
+			sb.append("^2+(");
+			sb.append(kernel.format(coeffs[3],tpl));
+			sb.append(")*");
+			sb.append(x);
+			sb.append("+(");
+			sb.append(kernel.format(coeffs[4],tpl));
+			sb.append(")*");
+			sb.append(y);
+			sb.append("=");
+			sb.append(kernel.format(-coeffs[5],tpl));
+			return sb;
+		}
 						
 		
 		if (type == CONIC_LINE) {
