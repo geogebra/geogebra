@@ -617,7 +617,6 @@ public class MyXMLHandler implements DocHandler {
 			initMacro(attrs);
 		} else if ("construction".equals(eName)) {
 			mode = MODE_CONSTRUCTION;
-			spreadsheetTraceNeeded = false;
 			handleConstruction(attrs);
 		} else if ("casSession".equals(eName)) {
 			// old <casSession> is now <cascell> in <construction>
@@ -928,8 +927,6 @@ public class MyXMLHandler implements DocHandler {
 			xmax = new HashMap<EuclidianSettings, String>(),
 			ymin = new HashMap<EuclidianSettings, String>(),
 			ymax = new HashMap<EuclidianSettings, String>();
-
-	private boolean spreadsheetTraceNeeded;
 
 	private boolean handleCoordSystem(EuclidianSettings ev,
 			LinkedHashMap<String, String> attrs) {
@@ -2758,10 +2755,11 @@ public class MyXMLHandler implements DocHandler {
 				processAnimatingList(); // must be after min/maxList otherwise
 										// GeoElement.setAnimating doesn't work
 				
-				if (spreadsheetTraceNeeded) {
-					// don't want to initialize trace manager unless necessary
-					app.getTraceManager().loadTraceGeoCollection();
-				}
+				// now called from MyXMLio.doParseXML()
+				//if (spreadsheetTraceNeeded) {
+				//	// don't want to initialize trace manager unless necessary
+				//	app.getTraceManager().loadTraceGeoCollection();
+				//}
 
 				if (kernel == origKernel) {
 					mode = MODE_GEOGEBRA;
@@ -3750,8 +3748,6 @@ public class MyXMLHandler implements DocHandler {
 			t.showLabel = (parseBoolean(attrs.get("showLabel")));
 			t.showTraceList = (parseBoolean(attrs.get("showTraceList")));
 			t.doTraceGeoCopy = (parseBoolean(attrs.get("doTraceGeoCopy")));
-			
-			spreadsheetTraceNeeded = true;
 			
 			// app.getTraceManager().loadTraceGeoCollection(); is called when construction loaded to add geo to trace list
 

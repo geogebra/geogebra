@@ -287,8 +287,13 @@ public class MyXMLio extends geogebra.common.io.MyXMLio{
 		} finally {
 			kernel.setUseInternalCommandNames(oldVal2);
 			if (!isGGTFile && mayZoom) {
-				kernel.updateConstruction();
+				kernel.updateConstruction();		
 				kernel.setNotifyViewsActive(oldVal);				
+			}
+			
+			if (!isGGTFile) {
+				// needs to be done after call to updateConstruction() to avoid spurious traces
+				app.getTraceManager().loadTraceGeoCollection();
 			}
 		}
 
