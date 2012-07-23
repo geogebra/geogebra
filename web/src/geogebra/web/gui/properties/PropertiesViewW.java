@@ -278,11 +278,4 @@ public class PropertiesViewW extends
 	    // TODO Auto-generated method stub
 	    
     }
-
-	@Override
-    public boolean isObjectPanelAvailable(OptionType type) {
-	    // TODO Auto-generated method stub
-	    return false;
-    }
-
 }

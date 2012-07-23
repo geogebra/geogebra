@@ -146,6 +146,28 @@ public abstract class PropertiesView implements View{
 
 	public abstract void attachView();
 	
-	public abstract boolean isObjectPanelAvailable(OptionType type);
+	public boolean isObjectPanelAvailable(OptionType type) {
+
+		boolean isAvailable = true;
+
+		switch (type) {
+		case EUCLIDIAN:
+			isAvailable = app.getGuiManager().showView(App.VIEW_EUCLIDIAN);
+			break;
+		case EUCLIDIAN2:
+			isAvailable = app.getGuiManager().showView(App.VIEW_EUCLIDIAN2);
+			break;
+		case SPREADSHEET:
+			isAvailable = app.getGuiManager().showView(App.VIEW_SPREADSHEET);
+			break;
+		case CAS:
+			isAvailable = app.getGuiManager().showView(App.VIEW_CAS);
+			break;
+		case OBJECTS:
+			isAvailable = !(app.getSelectedGeos() == null || app.getSelectedGeos().size()==0);
+			break;
+		}
+		return isAvailable;
+	}
 	
 }

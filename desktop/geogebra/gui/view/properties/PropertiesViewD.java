@@ -788,31 +788,6 @@ public class PropertiesViewD extends geogebra.common.gui.view.properties.Propert
 	}
 
 	
-	public boolean isObjectPanelAvailable(OptionType type) {
-
-		boolean isAvailable = true;
-
-		switch (type) {
-		case EUCLIDIAN:
-			isAvailable = app.getGuiManager().showView(App.VIEW_EUCLIDIAN);
-			break;
-		case EUCLIDIAN2:
-			isAvailable = app.getGuiManager().showView(App.VIEW_EUCLIDIAN2);
-			break;
-		case SPREADSHEET:
-			isAvailable = app.getGuiManager().showView(App.VIEW_SPREADSHEET);
-			break;
-		case CAS:
-			isAvailable = app.getGuiManager().showView(App.VIEW_CAS);
-			break;
-		case OBJECTS:
-			isAvailable = !(app.getSelectedGeos() == null || app.getSelectedGeos().size()==0);
-			break;
-		}
-		return isAvailable;
-	}
-	
-	
 	public ImageIcon getTypeIcon(OptionType type) {
 		switch (type) {
 		case DEFAULTS:
