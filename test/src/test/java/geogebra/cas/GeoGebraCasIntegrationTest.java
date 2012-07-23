@@ -7,7 +7,7 @@ import static org.junit.Assert.fail;
 import geogebra.CommandLineArguments;
 import geogebra.cas.logging.CASTestLogger;
 import geogebra.common.cas.CASparser;
-import geogebra.common.cas.mpreduce.AbstractCASmpreduce;
+import geogebra.common.cas.mpreduce.CASmpreduce;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.kernel.StringTemplate;
@@ -349,25 +349,25 @@ public class GeoGebraCasIntegrationTest {
 	@Test
 	public void SimplificationOfEquations_SeveralVariables_0() {
 		StringBuilder expectedResult = new StringBuilder("");
-		if (AbstractCASmpreduce.getVarOrderingNumber("ggbtmpvara") < AbstractCASmpreduce
+		if (CASmpreduce.getVarOrderingNumber("ggbtmpvara") < CASmpreduce
 				.getVarOrderingNumber("ggbtmpvarx")) {
 			expectedResult.append("a^(2) - 14 * a * x + 49 * x^(2) = ");
 		} else {
 			expectedResult.append("49 * x^(2) - 14 * x * a  + a^(2) = ");
 		}
 
-		if (AbstractCASmpreduce.getVarOrderingNumber("ggbtmpvarb") < AbstractCASmpreduce
+		if (CASmpreduce.getVarOrderingNumber("ggbtmpvarb") < CASmpreduce
 				.getVarOrderingNumber("ggbtmpvarc")
-				&& AbstractCASmpreduce.getVarOrderingNumber("ggbtmpvarc") < AbstractCASmpreduce
+				&& CASmpreduce.getVarOrderingNumber("ggbtmpvarc") < CASmpreduce
 						.getVarOrderingNumber("ggbtmpvarx")
-				&& AbstractCASmpreduce.getVarOrderingNumber("ggbtmpvarx") < AbstractCASmpreduce
+				&& CASmpreduce.getVarOrderingNumber("ggbtmpvarx") < CASmpreduce
 						.getVarOrderingNumber("ggbtmpvary")) {
 			expectedResult.append("b + c - 56 * x * y");
-		} else if (AbstractCASmpreduce.getVarOrderingNumber("ggbtmpvarx") < AbstractCASmpreduce
+		} else if (CASmpreduce.getVarOrderingNumber("ggbtmpvarx") < CASmpreduce
 				.getVarOrderingNumber("ggbtmpvary")
-				&& AbstractCASmpreduce.getVarOrderingNumber("ggbtmpvary") < AbstractCASmpreduce
+				&& CASmpreduce.getVarOrderingNumber("ggbtmpvary") < CASmpreduce
 						.getVarOrderingNumber("ggbtmpvarb")
-				&& AbstractCASmpreduce.getVarOrderingNumber("ggbtmpvarb") < AbstractCASmpreduce
+				&& CASmpreduce.getVarOrderingNumber("ggbtmpvarb") < CASmpreduce
 						.getVarOrderingNumber("ggbtmpvarc")) {
 			expectedResult.append("-56 * x * y + b + c");
 		} else {
@@ -381,18 +381,18 @@ public class GeoGebraCasIntegrationTest {
 	public void SimplificationOfEquations_SeveralVariables_1() {
 		StringBuilder expectedResult = new StringBuilder("");
 
-		if (AbstractCASmpreduce.getVarOrderingNumber("ggbtmpvara") < AbstractCASmpreduce
+		if (CASmpreduce.getVarOrderingNumber("ggbtmpvara") < CASmpreduce
 				.getVarOrderingNumber("ggbtmpvarb")
-				&& AbstractCASmpreduce.getVarOrderingNumber("ggbtmpvarb") < AbstractCASmpreduce
+				&& CASmpreduce.getVarOrderingNumber("ggbtmpvarb") < CASmpreduce
 						.getVarOrderingNumber("ggbtmpvarc")
-				&& AbstractCASmpreduce.getVarOrderingNumber("ggbtmpvarc") < AbstractCASmpreduce
+				&& CASmpreduce.getVarOrderingNumber("ggbtmpvarc") < CASmpreduce
 						.getVarOrderingNumber("ggbtmpvarx")) {
 			expectedResult.append("(a * x^(2) + b * x + c) / a = 0");
-		} else if (AbstractCASmpreduce.getVarOrderingNumber("ggbtmpvarx") < AbstractCASmpreduce
+		} else if (CASmpreduce.getVarOrderingNumber("ggbtmpvarx") < CASmpreduce
 				.getVarOrderingNumber("ggbtmpvara")
-				&& AbstractCASmpreduce.getVarOrderingNumber("ggbtmpvara") < AbstractCASmpreduce
+				&& CASmpreduce.getVarOrderingNumber("ggbtmpvara") < CASmpreduce
 						.getVarOrderingNumber("ggbtmpvarb")
-				&& AbstractCASmpreduce.getVarOrderingNumber("ggbtmpvarb") < AbstractCASmpreduce
+				&& CASmpreduce.getVarOrderingNumber("ggbtmpvarb") < CASmpreduce
 						.getVarOrderingNumber("ggbtmpvarc")) {
 			expectedResult.append("(x^(2) * a + x * b + c) / a = 0");
 		} else {
@@ -953,14 +953,14 @@ public class GeoGebraCasIntegrationTest {
 	public void Expand_2() {
 		StringBuilder expectedResult = new StringBuilder("");
 
-		if (AbstractCASmpreduce.getVarOrderingNumber("ggbtmpvara") < AbstractCASmpreduce
+		if (CASmpreduce.getVarOrderingNumber("ggbtmpvara") < CASmpreduce
 				.getVarOrderingNumber("ggbtmpvarb")
-				&& AbstractCASmpreduce.getVarOrderingNumber("ggbtmpvarb") < AbstractCASmpreduce
+				&& CASmpreduce.getVarOrderingNumber("ggbtmpvarb") < CASmpreduce
 						.getVarOrderingNumber("ggbtmpvarx")) {
 			expectedResult.append("a * x^(2) + b * x^(2)");
-		} else if (AbstractCASmpreduce.getVarOrderingNumber("ggbtmpvarx") < AbstractCASmpreduce
+		} else if (CASmpreduce.getVarOrderingNumber("ggbtmpvarx") < CASmpreduce
 				.getVarOrderingNumber("ggbtmpvara")
-				&& AbstractCASmpreduce.getVarOrderingNumber("ggbtmpvara") < AbstractCASmpreduce
+				&& CASmpreduce.getVarOrderingNumber("ggbtmpvara") < CASmpreduce
 						.getVarOrderingNumber("ggbtmpvarb")) {
 			expectedResult.append("x^(2) * a + x^(2) * b");
 		} else {
@@ -1295,7 +1295,7 @@ public class GeoGebraCasIntegrationTest {
 
 	@Test
 	public void Integral_Indefinite_2() {
-		s("Integral[-x^3 + x^2]", "x^(3) * (-3 * x + 4) / 12 + c_INDEX");
+		s("Integral[-x^3 + x^2]", "(x^(3) * (-3 * x + 4)) / 12 + c_INDEX");
 	}
 	
 
@@ -1712,13 +1712,13 @@ public class GeoGebraCasIntegrationTest {
 	@Test
 	public void PartialFractions_0() {
 		t("PartialFractions[x^2 / (x^2 - 2x + 1)]",
-				"1 + 2 / (x - 1) + 1 / (x^(2) - 2 * x + 1)");
+				"1 + 2 / (x - 1) + 1 / (x - 1)^(2)");
 	}
 
 	@Test
 	public void PartialFractions_1() {
 		t("PartialFractions[a^2 / (a^2 - 2a + 1), a]",
-				"1 + 2 / (a - 1) + 1 / (a^(2) - 2 * a + 1)");
+				"1 + 2 / (a - 1) + 1 / (a-1)^(2)");
 	}
 
 	/* PerpendicularVector */
@@ -2286,7 +2286,8 @@ public class GeoGebraCasIntegrationTest {
 	@Test
 	public void Solve_OneVariableVC_0() {
 		t("Solve[a x^2 + b x + c, x]",
-				"{x = (sqrt(-4 * a * c + b^(2)) - b) / (2 * a), x = (-sqrt(-4 * a * c + b^(2)) - b) / (2 * a)}");
+				"{x = (sqrt(-4 * a * c + b^(2)) - b) / (2 * a), x = (-sqrt(-4 * a * c + b^(2)) - b) / (2 * a)}",
+				"{x = (-b+sqrt(-4 * a * c + b^(2))) / (2 * a), x = (-b-sqrt(-4 * a * c + b^(2))) / (2 * a)}");
 	}
 
 	@Test
@@ -2385,13 +2386,13 @@ public class GeoGebraCasIntegrationTest {
 
 	@Test
 	public void SolveODE_0() {
-		s("SolveODE[y / x]", "y = c_INDEX * x");
+		s("SolveODE[y / x]", "y = x * c_INDEX");
 	}
 	
 
 	@Test
 	public void SolveODE_1() {
-		s("SolveODE[y / x, y, x]", "y = c_INDEX * x");
+		s("SolveODE[y / x, y, x]", "y = x * c_INDEX");
 	}
 
 	/* Substitute */
@@ -2477,7 +2478,7 @@ public class GeoGebraCasIntegrationTest {
 			Throwables.propagate(t);
 		}
 		
-		t("TaylorPolynomial[x^2, 3, 1]", "6 * x - 9");
+		t("TaylorPolynomial[x^2, 3, 1]", "9 +6 * (x - 3)");
 	}
 
 	@Test
@@ -2489,19 +2490,19 @@ public class GeoGebraCasIntegrationTest {
 			Throwables.propagate(t);
 		}
 		
-		t("TaylorPolynomial[x^2, a, 1]", "2 * x * a - a^(2)");
+		t("TaylorPolynomial[x^2, a, 1]", "a^(2) + 2 * a*(x-a)");
 	}
 	
 	/* Variable specified */
 
 	@Test
 	public void TaylorPolynomial_VariableSpecified_0() {
-		t("TaylorPolynomial[x^3, x, 1, 1]", "3*x - 2");
+		t("TaylorPolynomial[x^3, x, 1, 1]", "1 + 3*(x - 1)");
 	}
 
 	@Test
 	public void TaylorPolynomial_VariableSpecified_1() {
-		t("TaylorPolynomial[x^3, x, 1, 2]", "3*x^(2) - 3*x + 1");
+		t("TaylorPolynomial[x^3, x, 1, 2]", "1 + 3*(x-1)+3*(x-1)^(2)");
 	}
 
 	@Test
@@ -2517,23 +2518,21 @@ public class GeoGebraCasIntegrationTest {
 	@Test
 	public void TaylorPolynomial_VariableSpecified_4() {
 		t("TaylorPolynomial[x^3 sin(y), x, 3, 2]",
-				"9 * x^(2) * sin(y) - 27 * x * sin(y) + 27 * sin(y)",
-				"sin(y) * (9 * x^(2) - 27 * x + 27)");
+				"27*sin(y)+27*sin(y)*(x-3)+9*sin(y)*(x-3)^(2)");
 	}
 
 	@Test
 	public void TaylorPolynomial_VariableSpecified_5() {
 		t("TaylorPolynomial[x^3 sin(y), y, 3, 1]",
-				"cos(3) * x^(3) * y + (sin(3) - 3 * cos(3)) * x^(3)",
-				"x^(3) * (y * cos(3) - 3 * cos(3) + sin(3))");
+				"x^(3) * sin(3)+x^(3)*cos(3)*(y-3)");
 	}
 
 	@Test
 	public void TaylorPolynomial_VariableSpecified_6() {
 		t("TaylorPolynomial[x^3 sin(y), y, 3, 2]",
-				"(-sin(3) * x^(3) * y^(2) + (6 * sin(3) + 2 * cos(3)) * x^(3) * y - (7 * sin(3) + 6 * cos(3)) * x^(3)) / 2",
-				"x^(3) * (-y^(2) * sin(3) + y * (2 * cos(3) + 6 * sin(3)) - 6 * cos(3) - 7 * sin(3)) / 2");
+				"x^(3) * sin(3) + x^(3) * cos(3) * (y - 3) - (x^(3) * sin(3)) / 2 * (y - 3)^(2)");
 	}
+
 
 	/* ToComplex */
 
