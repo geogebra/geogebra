@@ -3,6 +3,7 @@ package geogebra.common.kernel;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.Animatable;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.main.App;
 
 import java.util.ArrayList;
 import java.util.TreeSet;
@@ -80,6 +81,7 @@ public abstract class AnimationManager {
 	 *            the GeoElement to add
 	 */
 	final public synchronized void addAnimatedGeo(GeoElement geo) {
+		App.debug("adding geo");
 		if (geo.isAnimating() && !animatedGeos.contains(geo)) {
 			animatedGeos.add(geo);
 			// if (animatedGeos.size() == 1) removed, might have geos with

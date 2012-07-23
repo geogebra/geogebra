@@ -94,6 +94,7 @@ import geogebra.common.kernel.geos.GeoRay;
 import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.GeoTextField;
+import geogebra.common.kernel.geos.GeoTurtle;
 import geogebra.common.kernel.geos.GeoVec2D;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.geos.GeoVector;
@@ -10228,5 +10229,11 @@ public class Kernel {
 			FunctionalNVar functional) {
 		AlgoImplicitDerivative algo = new AlgoImplicitDerivative(cons,label,functional);
 		return algo.getResult();
+	}
+	
+	public GeoTurtle Turtle(String label) {
+		AlgoTurtle algo = new AlgoTurtle(cons, label);
+		GeoTurtle turtle = algo.getTurtle();
+		return turtle;
 	}
 }

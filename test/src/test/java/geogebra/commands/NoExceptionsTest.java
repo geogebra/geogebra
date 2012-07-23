@@ -2399,6 +2399,10 @@ public class NoExceptionsTest {
 		t("CommonDenominator[1/(x-1),1/(x^2-1)]");
 	
 	}
-	 
 	
+	@Test
+	public void cmdTurtle() {
+		t("Turtle[]");
+	}
+
 }

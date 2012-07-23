@@ -1121,7 +1121,8 @@ public class CommandDispatcher {
 				return new CmdTrigSimplify(kernel);
 			case TrigCombine:
 				return new CmdTrigCombine(kernel);
-				
+			case Turtle: 
+				return new CmdTurtle(kernel);
 			default:
 				App.debug("missing case in CommandDispatcher");
 				return null;
