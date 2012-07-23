@@ -23,6 +23,8 @@ public class PathMoverGeneric implements PathMover {
 	private static final int BOUNDS_INFINITE = 2;
 	private static final int BOUNDS_FIXED_INFINITE = 3;
 	private static final int BOUNDS_INFINITE_FIXED = 4;
+
+	public int MIN_STEPS_INSTANCE = MIN_STEPS;
 	/**path */
 	protected Path path;
 	/** start parameter */
@@ -74,6 +76,12 @@ public class PathMoverGeneric implements PathMover {
 	 */
 	public PathMoverGeneric() {
 		
+	}
+
+	public void init(GeoPoint p, int min_steps) {
+		MIN_STEPS_INSTANCE = min_steps;
+		PathParameter pp = p.getPathParameter();
+		init(pp.t);
 	}
 
 	public void init(GeoPoint p) {
@@ -136,7 +144,7 @@ public class PathMoverGeneric implements PathMover {
 		start_paramUP = start_param + param_extent;
 		start_paramDOWN = start_param - param_extent;
 
-		max_step_width = param_extent / MIN_STEPS;
+		max_step_width = param_extent / MIN_STEPS_INSTANCE;
 		posOrientation = true;
 		resetStartParameter();
 

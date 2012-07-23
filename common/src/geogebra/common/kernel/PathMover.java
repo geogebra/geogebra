@@ -38,7 +38,8 @@ public interface PathMover {
 	 * Note: the path parameter of p may be changed here!
 	 * @param p initial point
 	 */
-	public void init(GeoPoint p);	
+	public void init(GeoPoint p);
+	public void init(GeoPoint p, int min_steps);
 	
 	/**
 	 * Inits the path mover using a path parameter on the path

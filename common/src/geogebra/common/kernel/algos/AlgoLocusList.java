@@ -12,11 +12,10 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.algos;
 
-import geogebra.common.awt.GRectangle2D;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.MacroKernel;
 import geogebra.common.kernel.Path;
+import geogebra.common.kernel.PathMover;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
@@ -34,6 +33,8 @@ import java.util.TreeSet;
  * locus line for Q dependent on P
  */
 public class AlgoLocusList extends AlgoElement {
+
+	public static int MIN_STEPS_REALLY = 16;
 
 	ArrayList<AlgoLocus> arrLocus;
 
@@ -60,19 +61,21 @@ public class AlgoLocusList extends AlgoElement {
 		AlgoLocus actal;
 		// however...
 		try {
+			int try_steps = PathMover.MIN_STEPS / ((GeoList)path).size() + 1;
+			if (try_steps < MIN_STEPS_REALLY) {
+				try_steps = MIN_STEPS_REALLY;
+			}
 			for (int i = 0; i < ((GeoList)path).size(); i++) {
 				actel = ((GeoList)path).get(i);
 				if (actel instanceof Path) {
 					P.setPath((Path)actel);
-					actal = new AlgoLocus(cons, Q, P);
+					actal = new AlgoLocus(cons, Q, P, try_steps);
 					pathp = actal.getLocus();
 					cons.removeFromAlgorithmList(actal);
 					cons.removeFromConstructionList(actal);
 					cons.removeFromConstructionList(pathp);
 					P.setPath(path);
 					arrLocus.add(actal);
-				} else {
-					arrLocus.add(null);
 				}
 			}
 		} catch (Exception ex) {
@@ -204,8 +207,6 @@ public class AlgoLocusList extends AlgoElement {
 		GeoLocus actGeo;
 		for (int i = 0; i < arrLocus.size(); i++) {
 			actLocus = arrLocus.get(i);
-			if (actLocus == null)
-				continue;
 			actGeo = actLocus.getLocus();
 			for (int j = 0; j < actGeo.getPointLength(); j++) {
 				insertPoint(

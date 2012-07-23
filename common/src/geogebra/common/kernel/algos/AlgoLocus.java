@@ -48,6 +48,8 @@ public class AlgoLocus extends AlgoElement {
 	/** maximum time for the computation of one locus point in millis **/
 	public static int MAX_TIME_FOR_ONE_STEP = 500;
 
+	public int MIN_STEPS_INSTANCE = PathMover.MIN_STEPS;
+
 	private static int MAX_X_PIXEL_DIST = 5;
 	private static int MAX_Y_PIXEL_DIST = 5;
 
@@ -83,8 +85,10 @@ public class AlgoLocus extends AlgoElement {
 
 	// private Updater updater;
 
-	public AlgoLocus(Construction cons, GeoPoint Q, GeoPoint P) {
+	// Constructor called from AlgoLocusList
+	public AlgoLocus(Construction cons, GeoPoint Q, GeoPoint P, int min_steps) {
 		super(cons);
+		MIN_STEPS_INSTANCE = min_steps;
 		this.movingPoint = P;
 		this.locusPoint = Q;
 
@@ -108,7 +112,7 @@ public class AlgoLocus extends AlgoElement {
 	}
 
 	public AlgoLocus(Construction cons, String label, GeoPoint Q, GeoPoint P) {
-		this(cons, Q, P);
+		this(cons, Q, P, PathMover.MIN_STEPS);
 		locus.setLabel(label);
 	}
 
@@ -387,7 +391,7 @@ public class AlgoLocus extends AlgoElement {
 		macroCons.updateConstruction();
 
 		// use current position of movingPoint to start Pcopy
-		pathMover.init(Pcopy);
+		pathMover.init(Pcopy, MIN_STEPS_INSTANCE);
 
 		if (continuous) {
 			// continous constructions may need several parameter run throughs
@@ -618,7 +622,7 @@ public class AlgoLocus extends AlgoElement {
 
 		// check found defined
 		if (!foundDefined && Qcopy.isDefined() && !Qcopy.isInfinite()) {
-			pathMover.init(Pcopy);
+			pathMover.init(Pcopy, MIN_STEPS_INSTANCE);
 			PstartPos.set((GeoElement) Pcopy);
 			QstartPos.set((GeoElement) Qcopy);
 			foundDefined = true;
