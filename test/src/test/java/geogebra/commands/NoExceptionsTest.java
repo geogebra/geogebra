@@ -2401,8 +2401,25 @@ public class NoExceptionsTest {
 	}
 	
 	@Test
-	public void cmdTurtle() {
+	public void cmdNIntegral(){
+		t("NIntegral[x^2,-1,1]");
+	}
+	
+	@Test
+	public void cmdToPoint(){
+		t("ToPoint[(1,1)]");
+	}
+	
+	@Test
+	public void cmdTurtle(){
 		t("Turtle[]");
+	}
+	
+	@Test
+	public void cmdTurtleForward(){
+		t("turtle1=Turtle[]");
+		syntaxes++;
+		t("TurtleForward[turtle1]");
 	}
 
 }
