@@ -2419,7 +2419,27 @@ public class NoExceptionsTest {
 	public void cmdTurtleForward(){
 		t("turtle1=Turtle[]");
 		syntaxes++;
-		t("TurtleForward[turtle1]");
+		t("TurtleForward[turtle1, 2]");
 	}
 
+	@Test
+	public void cmdTurtleBack(){
+		t("turtle1=Turtle[]");
+		syntaxes++;
+		t("TurtleBack[turtle1, 2]");
+	}
+	
+	@Test
+	public void cmdTurtleLeft(){
+		t("turtle1=Turtle[]");
+		syntaxes++;
+		t("TurtleLeft[turtle1, 3.14]");
+	}
+	
+	@Test
+	public void cmdTurtleRight(){
+		t("turtle1=Turtle[]");
+		syntaxes++;
+		t("TurtleRight[turtle1, 3.14]");
+	}
 }

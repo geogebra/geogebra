@@ -219,7 +219,7 @@ public enum Commands implements CommandsConstants{
    	// Turtle
 	//=============================================================
 
-   	Turtle(TABLE_GEOGEBRA),
+   	Turtle(TABLE_GEOGEBRA), TurtleForward(TABLE_GEOGEBRA), TurtleBack(TABLE_GEOGEBRA), TurtleLeft(TABLE_GEOGEBRA), TurtleRight(TABLE_GEOGEBRA),
    	
    	//==
    	

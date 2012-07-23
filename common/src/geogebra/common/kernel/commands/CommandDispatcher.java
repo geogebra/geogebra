@@ -1123,6 +1123,14 @@ public class CommandDispatcher {
 				return new CmdTrigCombine(kernel);
 			case Turtle: 
 				return new CmdTurtle(kernel);
+			case TurtleForward:
+				return new CmdTurtleForward(kernel);
+			case TurtleBack:
+				return new CmdTurtleBack(kernel);
+			case TurtleLeft:
+				return new CmdTurtleLeft(kernel);
+			case TurtleRight:
+				return new CmdTurtleRight(kernel);
 			default:
 				App.debug("missing case in CommandDispatcher");
 				return null;

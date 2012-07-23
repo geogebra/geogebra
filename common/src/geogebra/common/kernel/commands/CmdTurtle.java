@@ -4,6 +4,7 @@ import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoTurtle;
 import geogebra.common.main.MyError;
 
 /**
@@ -30,7 +31,9 @@ public class CmdTurtle extends CommandProcessor {
 		if (n > 0) {
 			throw argNumErr(app, c.getName(), n);
 		}
-		GeoElement[] ret = { kernelA.Turtle(c.getLabel()) };
+		GeoTurtle turtle = kernelA.Turtle(c.getLabel());
+		turtle.setAnimating(true);
+		GeoElement[] ret = { turtle };
 		return ret;
 	}
 
