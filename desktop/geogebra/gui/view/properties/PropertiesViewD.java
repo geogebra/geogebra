@@ -26,20 +26,13 @@ import geogebra.gui.dialog.options.OptionsLayoutD;
 import geogebra.gui.dialog.options.OptionsObjectD;
 import geogebra.gui.dialog.options.OptionsSpreadsheetD;
 import geogebra.main.AppD;
-import geogebra.main.GeoGebraPreferencesD;
 
 import java.awt.BorderLayout;
 import java.awt.Cursor;
-import java.awt.FlowLayout;
-import java.awt.SystemColor;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JComponent;
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 /**
@@ -794,4 +787,53 @@ public class PropertiesViewD extends geogebra.common.gui.view.properties.Propert
 		return wrappedPanel;
 	}
 
+	
+	public boolean isObjectPanelAvailable(OptionType type) {
+
+		boolean isAvailable = true;
+
+		switch (type) {
+		case EUCLIDIAN:
+			isAvailable = app.getGuiManager().showView(App.VIEW_EUCLIDIAN);
+			break;
+		case EUCLIDIAN2:
+			isAvailable = app.getGuiManager().showView(App.VIEW_EUCLIDIAN2);
+			break;
+		case SPREADSHEET:
+			isAvailable = app.getGuiManager().showView(App.VIEW_SPREADSHEET);
+			break;
+		case CAS:
+			isAvailable = app.getGuiManager().showView(App.VIEW_CAS);
+			break;
+		case OBJECTS:
+			isAvailable = !(app.getSelectedGeos() == null || app.getSelectedGeos().size()==0);
+			break;
+		}
+		return isAvailable;
+	}
+	
+	
+	public ImageIcon getTypeIcon(OptionType type) {
+		switch (type) {
+		case DEFAULTS:
+			return ((AppD) app).getImageIcon("options-defaults224.png");
+		case SPREADSHEET:
+			return ((AppD) app).getImageIcon("view-spreadsheet24.png");
+		case EUCLIDIAN:
+			return ((AppD) app).getImageIcon("view-graphics24.png");
+		case EUCLIDIAN2:
+			return ((AppD) app).getImageIcon("view-graphics224.png");
+		case CAS:
+			return ((AppD) app).getImageIcon("view-cas24.png");
+		case ADVANCED:
+			return ((AppD) app).getImageIcon("options-advanced24.png");
+		case OBJECTS:
+			return ((AppD) app).getImageIcon("options-objects24.png");
+		case LAYOUT:
+			return ((AppD) app).getImageIcon("options-layout24.png");
+		}
+		return null;
+	}
+	
+	
 }

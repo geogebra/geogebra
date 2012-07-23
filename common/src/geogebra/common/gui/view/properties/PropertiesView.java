@@ -14,6 +14,8 @@ package geogebra.common.gui.view.properties;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import javax.swing.ImageIcon;
+
 import geogebra.common.gui.dialog.options.OptionsObject;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.View;
@@ -101,6 +103,36 @@ public abstract class PropertiesView implements View{
 		return null;
 	}
 	
+	
+	public String getTypeStringSimple(OptionType type) {
+		switch (type) {
+		case DEFAULTS:
+			return app.getPlain(app.getPlain("Defaults"));
+		case SPREADSHEET:
+			return app.getPlain(app.getPlain("Spreadsheet"));
+		case EUCLIDIAN:
+			return app.getPlain(app.getPlain("DrawingPad"));
+		case EUCLIDIAN2:
+			return app.getPlain(app.getPlain("DrawingPad2"));
+		case CAS:
+			return app.getPlain(app.getPlain("CAS"));
+		case ADVANCED:
+			return app.getPlain(app.getMenu("Advanced"));
+		case OBJECTS:
+			//return app.getMenu("Objects");
+			return objectPanel.getSelectionDescription();
+		case LAYOUT:
+			return app.getPlain(app.getMenu("Layout"));
+		}
+		return null;
+	}
+	
+	
+	
+	abstract public ImageIcon getTypeIcon(OptionType type);
+	
+	
+	
 	/**
 	 * Updates the Title Bar
 	 */
@@ -122,5 +154,7 @@ public abstract class PropertiesView implements View{
 
 
 	public abstract void attachView();
+	
+	public abstract boolean isObjectPanelAvailable(OptionType type);
 	
 }
