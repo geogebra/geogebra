@@ -15,7 +15,7 @@ import lexing
 from pylexing import PyLexer
 
 # Java imports
-from java.lang import Runnable
+from java.lang import Runnable, ThreadDeath
 
 from javax.swing import (
     JFrame, JPanel, JScrollPane, JButton,
@@ -684,17 +684,18 @@ class InteractivePane(WindowPane, ActionListener, DocumentListener):
                 try:
                     with StdStreams(self.stdout, self.stderr):
                         interface.run(code)
-                except Exception:   
+                except Exception:
                     self.show_traceback()
+                except ThreadDeath:
+                    self.error("Interrupted\n")
                 self.running_thread = None
+                
             self.running_thread = start_new_thread(runner)
             return True
     
     def stopcode(self):
         if self.running_thread:
             self.running_thread._thread.stop()
-            self.error("Interrupted\n")
-            self.running_thread = None
     
     def indent_selection(self):
         return self.input_area.indent_selection()

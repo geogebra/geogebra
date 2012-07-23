@@ -296,6 +296,14 @@ class Element:
         API.Geo.updateRepaint(self.geo)
     label_visible = property(_getlabel_visible, _setlabel_visible)
     
+    # property: label_offset
+    def _getlabel_offset(self):
+        return NotImplemented
+    def _setlabel_offset(self, val):
+        x, y = val
+        API.Geo.setLabelOffset(self.geo, x, y)
+    label_offset = property(_getlabel_offset, _setlabel_offset)
+    
     # property: background_color
     def _getbgcolor(self):
         return API.Geo.getBackgroundColor(self.geo)
@@ -341,6 +349,13 @@ class Element:
         API.Geo.setLayer(self.geo, int(value))
         self.update()
     layer = property(_getlayer, _setlayer)
+    
+    # property: animating
+    def _getanimating(self):
+        return API.Geo.getAnimating(self.geo)
+    def _setanimating(self, val):
+        API.Geo.setAnimating(self.geo, bool(val))
+    animating = property(_getanimating, _setanimating)
     
     def __geo__(self):
         return self.geo
@@ -1060,7 +1075,8 @@ class Turtle(Element):
         self._api = factory.api
         self.geo = self._api.geoTurtle()
         self.running = True
-        turtle_driver.add_turtle(self)
+        self.animating = True
+        # turtle_driver.add_turtle(self)
 
     # Turtle driving commands
 
@@ -1170,7 +1186,7 @@ class TurtleDriver(object):
             if turtle.running:
                 turtle.step(dt)
         
-turtle_driver = TurtleDriver()
+# turtle_driver = TurtleDriver()
 
 
 class Intersect(object):

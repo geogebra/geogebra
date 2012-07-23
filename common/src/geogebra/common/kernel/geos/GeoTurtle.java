@@ -18,6 +18,7 @@ import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.main.App;
 import geogebra.common.plugin.GeoClass;
 
 import java.util.ArrayList;
@@ -25,10 +26,10 @@ import java.util.ArrayList;
 /**
  * GeoElement for drawing turtle graphics.
  * 
- * @author G. Sturr
+ * @author G. Sturr, arnaud
  * 
  */
-public class GeoTurtle extends GeoElement {
+public class GeoTurtle extends GeoElement implements Animatable{
 
 	// private GeoPointND[] points;
 	private boolean defined = true;
@@ -53,7 +54,7 @@ public class GeoTurtle extends GeoElement {
 
 	private int nCompletedCommands = 0;
 	private double currentCommandProgress = 0d;
-	private double speed = 0.1;
+	private double speed = 1d;
 	
 	private boolean autoUpdate = true;
 	/**
@@ -255,10 +256,10 @@ public class GeoTurtle extends GeoElement {
 		stepTurtle(1d);
 	}
 	
-	public void stepTurtle(double nSteps) {
+	private boolean doStepTurtle(double nSteps) {
 		int totalNCommands = cmdList.size();
 		if (speed == 0d || nCompletedCommands >= totalNCommands) {
-			return;
+			return false;
 		}
 		currentCommandProgress += speed*nSteps;
 		double t;
@@ -270,7 +271,13 @@ public class GeoTurtle extends GeoElement {
 				break;
 			}
 		}
-		doUpdate();
+		return true;
+	}
+	
+	public void stepTurtle(double nSteps) {
+		if (doStepTurtle(nSteps)) {
+			doUpdate();
+		}
 	}
 	
 	// ===============================================
@@ -411,6 +418,20 @@ public class GeoTurtle extends GeoElement {
 		// TODO Auto-generated method stub
 		return false;
 	}
+	
+	/*
+	 * Animatable implementation
+	 */
+
+	@Override
+	public boolean isAnimatable() {
+		return true;
+	}
+	
+	public boolean doAnimationStep(double frameRate) {
+		return doStepTurtle(1.0/frameRate);
+	}
+	
 	
 	/*
 	 * Turtle commands
@@ -766,5 +787,5 @@ public class GeoTurtle extends GeoElement {
 			return "thickness " + thickness;
 		}
 	}
-	
+
 }

@@ -142,6 +142,7 @@ public class PythonFlatAPI {
 		}
 
 		/**
+		 * @param e 
 		 * @return numerical value of the expression
 		 */
 		public static double getNumber(NumberValue e) {
@@ -381,6 +382,34 @@ public class PythonFlatAPI {
 
 		public static void setLabelVisible(GeoElement geo, boolean v) {
 			geo.setLabelVisible(v);
+		}
+		
+		/**
+		 * Set the label offset
+		 * @param geo target GeoElement
+		 * @param xcoord x offset
+		 * @param ycoord y offset
+		 */
+		public static void setLabelOffset(GeoElement geo, int xcoord, int ycoord) {
+			geo.setLabelOffset(xcoord, ycoord);
+		}
+		
+		/**
+		 * Get the animating state of the geo
+		 * @param geo target GeoElement
+		 * @return the current animating state
+		 */
+		public static boolean getAnimating(GeoElement geo) {
+			return geo.isAnimating();
+		}
+		
+		/**
+		 * Set the animating state of the geo
+		 * @param geo target GeoElement
+		 * @param val the new animating state
+		 */
+		public static void setAnimating(GeoElement geo, boolean val) {
+			geo.setAnimating(val);
 		}
 		
 		/**
