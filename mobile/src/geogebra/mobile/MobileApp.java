@@ -12,6 +12,7 @@ public class MobileApp extends AppW
 	public MobileApp(ArticleElement article, GeoGebraMobileFrame geoGebraMobileFrame)
 	{
 		super(article, geoGebraMobileFrame);
+		//TODO Implement our own constructor without loading all stuff at once.
 
 		App.debug("MobileApp initialized!");
 	}
@@ -22,6 +23,11 @@ public class MobileApp extends AppW
 		// We have no splash anymore!
 	}
 
+	/**
+	 * Resize the EuclidianView to the size of the Frame
+	 * @param width of the Frame
+	 * @param height of the Frame
+	 */
 	public void resizeToParent(int width, int height)
 	{
 		this.getSettings().getEuclidian(1).setPreferredSize(geogebra.common.factories.AwtFactory.prototype.newDimension(width, height));
