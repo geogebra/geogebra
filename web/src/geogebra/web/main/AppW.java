@@ -1086,10 +1086,13 @@ public class AppW extends App {
 	}
 
 	public void appSplashCanNowHide() {
-		splashDialog.canNowHide();
+		if (splashDialog != null) {
+			splashDialog.canNowHide();
+			attachViews();	
+		}
 
 		// Well, it may cause freeze if we attach this too early
-		attachViews();
+		
 		
 		
 		

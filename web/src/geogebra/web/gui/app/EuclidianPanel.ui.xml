@@ -5,8 +5,8 @@
 		.absolutepanel {
 			position:relative;
 			background-color:blue;
-			width:auto;
-			height:auto;
+			width:1px;
+			height:1px;
 		}
 	</ui:style>
 	<g:AbsolutePanel ui:field="euclidianpanel" styleName="{style.absolutepanel}">
