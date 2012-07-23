@@ -26,6 +26,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -75,8 +76,8 @@ public class CASSubDialog extends JDialog implements ActionListener {
 	public CASSubDialog(CASViewD casView, String prefix, String evalText,
 			String postfix, int editRow) {
 		//do not dock the substitution dialog to the main frame: ticket 1832
-		//super(casView.getApp().getFrame());
-		super();
+		super((JFrame) casView.getApp().getGuiManager().getLayout().getDockManager().getPanel(App.VIEW_CAS).getFrame());
+		
 		setModal(false);
 
 		this.casView = casView;

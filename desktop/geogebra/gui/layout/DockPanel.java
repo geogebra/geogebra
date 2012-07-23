@@ -215,7 +215,7 @@ implements ActionListener, WindowListener, MouseListener, geogebra.common.gui.la
 	 * The window which holds this DockPanel if the DockPanel is opened in
 	 * an additional window. The window may become either a JFrame or JDialog.
 	 */
-	protected Window frame = null;
+	private Window frame = null;
 	
 	/**
 	 * The component used for this view.
@@ -1132,6 +1132,14 @@ implements ActionListener, WindowListener, MouseListener, geogebra.common.gui.la
 	public Rectangle getFrameBounds() {
 		return this.frameBounds;
 	}
+	
+	/**
+	 * @return return the Window
+	 */
+	public Window getFrame(){
+		return frame;
+	}
+	
 
 	/**
 	 * @param embeddedDef the embeddedDef to set
