@@ -119,6 +119,8 @@ public class SpreadsheetColumnController implements KeyListener, MouseListener, 
 
 					// launch trace dialog if over a trace button
 					if(point.x == this.overTraceButtonColumn){
+						int column = point.getX();
+						table.setColumnSelectionInterval(column,column);
 						view.showTraceDialog(null, table.selectedCellRanges.get(0));
 						e.consume();
 						return;
