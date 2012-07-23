@@ -90,8 +90,8 @@ public class PropertiesDockPanel extends DockPanel implements
 
 		super.createFrame();
 
-		frame.addWindowFocusListener(this);
-		frame.addWindowListener(this);
+		getFrame().addWindowFocusListener(this);
+		getFrame().addWindowListener(this);
 
 	}
 
