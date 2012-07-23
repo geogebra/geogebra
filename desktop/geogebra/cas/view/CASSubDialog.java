@@ -3,6 +3,7 @@ package geogebra.cas.view;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.main.App;
 import geogebra.gui.inputfield.MathTextField;
 import geogebra.main.AppD;
 
@@ -73,7 +74,9 @@ public class CASSubDialog extends JDialog implements ActionListener {
 	 */
 	public CASSubDialog(CASViewD casView, String prefix, String evalText,
 			String postfix, int editRow) {
-		super(casView.getApp().getFrame());
+		//do not dock the substitution dialog to the main frame: ticket 1832
+		//super(casView.getApp().getFrame());
+		super();
 		setModal(false);
 
 		this.casView = casView;
