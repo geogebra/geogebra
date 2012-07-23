@@ -2479,6 +2479,12 @@ public interface CommandConstants extends ConstantsWithLookup {
     @DefaultStringValue("[ <Polynomial> ]")
     String TurningPoint_Syntax();
 
+    @DefaultStringValue("Turtle")
+    String Turtle();
+
+    @DefaultStringValue("[]")
+    String Turtle_Syntax();
+
     @DefaultStringValue("UnicodeToLetter")
     String UnicodeToLetter();
 

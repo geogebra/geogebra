@@ -861,6 +861,8 @@ var commandKeysVar = {
 	Trilinear_Syntax:'',
 	TurningPoint:'',
 	TurningPoint_Syntax:'',
+	Turtle:'',
+	Turtle_Syntax:'',
 	UnicodeToLetter:'',
 	UnicodeToLetter_Syntax:'',
 	UnicodeToText:'',
