@@ -8644,10 +8644,11 @@ public class Kernel {
 	final public GeoLocus Locus(String label, GeoPoint Q, GeoPoint P) {
 		if (P.getPath() == null || Q.getPath() != null || !P.isParentOf(Q))
 			return null;
-		AlgoLocus algo = new AlgoLocus(cons, label, Q, P);
-		return algo.getLocus();
+		if (P.getPath() instanceof GeoList)
+			return (new AlgoLocusList(cons, label, Q, P)).getLocus();
+		return (new AlgoLocus(cons, label, Q, P)).getLocus();
 	}
-	
+
 	/**
 	 * locus equation for Q dependent on P.
 	 */

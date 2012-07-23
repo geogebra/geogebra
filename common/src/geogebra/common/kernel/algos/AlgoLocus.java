@@ -83,7 +83,7 @@ public class AlgoLocus extends AlgoElement {
 
 	// private Updater updater;
 
-	public AlgoLocus(Construction cons, String label, GeoPoint Q, GeoPoint P) {
+	public AlgoLocus(Construction cons, GeoPoint Q, GeoPoint P) {
 		super(cons);
 		this.movingPoint = P;
 		this.locusPoint = Q;
@@ -105,7 +105,10 @@ public class AlgoLocus extends AlgoElement {
 		// make sure that the movingPoint in the main construction
 		// uses the correct path parameter for it
 		path.pointChanged(P);
+	}
 
+	public AlgoLocus(Construction cons, String label, GeoPoint Q, GeoPoint P) {
+		this(cons, Q, P);
 		locus.setLabel(label);
 	}
 
