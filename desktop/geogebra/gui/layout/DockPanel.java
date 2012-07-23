@@ -215,7 +215,7 @@ implements ActionListener, WindowListener, MouseListener, geogebra.common.gui.la
 	 * The window which holds this DockPanel if the DockPanel is opened in
 	 * an additional window. The window may become either a JFrame or JDialog.
 	 */
-	private Window frame = null;
+	protected Window frame = null;
 	
 	/**
 	 * The component used for this view.
