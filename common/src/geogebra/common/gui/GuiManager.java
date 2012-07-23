@@ -120,8 +120,6 @@ public abstract class GuiManager {
 		
 	}
 
-	abstract public void doAfterRedefine(GeoElement geo);
-
 	public abstract void updateSpreadsheetColumnWidths();
 
 	public void updateConstructionProtocol() {
@@ -408,39 +406,16 @@ public abstract class GuiManager {
 		app.updateMenubar();
 	}
 	
-	public void addSpreadsheetTrace(GeoElement geo) {
-		//if (spreadsheetView != null)
-		app.getTraceManager().addSpreadsheetTraceGeo(geo);
+	public void doAfterRedefine(GeoElement geo) {
+
+		// G.Sturr 2010-6-28
+		// if a tracing geo has been redefined, then put it back into the
+		// traceGeoCollection
+		if (geo.getSpreadsheetTrace()) {
+			app.getTraceManager().addSpreadsheetTraceGeo(geo);
+		}
 	}
 
-	public void removeSpreadsheetTrace(GeoElement geo) {
-		//if (spreadsheetView != null)
-		app.getTraceManager().removeSpreadsheetTraceGeo(geo);
-		geo.setSpreadsheetTrace(false);
-		geo.setTraceSettings(null);
-	}
-
-	/** Set a trace manager flag to auto-reset the trace column */
-	public void resetTraceColumn(GeoElement geo) {
-		//if (spreadsheetView != null)
-		app.getTraceManager().setNeedsColumnReset(geo, true);
-	}
-
-	public void startCollectingSpreadsheetTraces() {
-		//if (spreadsheetView != null)
-		app.getTraceManager()
-					.startCollectingSpreadsheetTraces();
-	}
-
-	public void stopCollectingSpreadsheetTraces() {
-		//if (spreadsheetView != null)
-		app.getTraceManager().stopCollectingSpreadsheetTraces();
-	}
-
-	public void traceToSpreadsheet(GeoElement geo) {
-		//if (spreadsheetView != null)
-		app.getTraceManager().traceToSpreadsheet(geo);
-	}
 
 
 }

@@ -74,13 +74,6 @@ public class GuiManagerW extends GuiManager {
 	}
 
 	@Override
-	public void removeSpreadsheetTrace(GeoElement recordObject) {
-		// TODO Auto-generated method stub
-		App.debug("unimplemented method");
-
-	}
-
-	@Override
 	public void updateMenubarSelection() {
 		GGWMenuBar.getMenubar().updateSelection();
 
@@ -157,14 +150,6 @@ public class GuiManagerW extends GuiManager {
 		App.debug("unimplemented method");
 		return false;
 	}
-
-	@Override
-	public void addSpreadsheetTrace(GeoElement tracegeo) {
-		// TODO Auto-generated method stub
-		App.debug("unimplemented method");
-
-	}
-
 
 
 	@Override
@@ -267,13 +252,6 @@ public class GuiManagerW extends GuiManager {
 		App.debug("unimplemented method");
 		// TODO Auto-generated method stub
 		return null;
-	}
-
-	@Override
-	public void doAfterRedefine(GeoElement geo) {
-		// TODO Auto-generated method stub
-		App.debug("unimplemented method");
-
 	}
 
 	@Override

@@ -889,11 +889,11 @@ public abstract class App {
 	}
 	
 	public void traceToSpreadsheet(GeoElement ge) {
-		getGuiManager().traceToSpreadsheet(ge);
+		getTraceManager().traceToSpreadsheet(ge);
 	}
 
 	public void resetTraceColumn(GeoElement ge) {
-		getGuiManager().resetTraceColumn(ge);
+		getTraceManager().setNeedsColumnReset(ge, true);
 	}
 
 

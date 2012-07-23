@@ -561,7 +561,7 @@ public abstract class EuclidianController {
 			if (recordObject != null) {
 				if (app.getTraceManager()
 						.isTraceGeo(recordObject)) {
-					app.getGuiManager().removeSpreadsheetTrace(recordObject);
+					app.getTraceManager().removeSpreadsheetTraceGeo(recordObject);
 				}
 				recordObject.setSelected(false);
 				recordObject = null;
@@ -8102,7 +8102,7 @@ public abstract class EuclidianController {
 			if (tracegeo != null) {
 				if (recordObject == null) {
 					if (!app.getTraceManager().isTraceGeo(tracegeo)) {
-						app.getGuiManager().addSpreadsheetTrace(tracegeo);
+						app.getTraceManager().addSpreadsheetTraceGeo(tracegeo);
 					}
 					recordObject = tracegeo;
 				}
@@ -9063,7 +9063,7 @@ public abstract class EuclidianController {
 	
 			// G.Sturr 2010-5-14
 			if (recordObject != null) {
-				app.getGuiManager().removeSpreadsheetTrace(recordObject);
+				app.getTraceManager().removeSpreadsheetTraceGeo(recordObject);
 				// END G.Sturr
 			}
 	

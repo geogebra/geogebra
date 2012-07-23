@@ -4963,7 +4963,7 @@ public class AppD extends App implements
 	
 	@Override
 	public void repaintSpreadsheet() {
-		if (isUsingFullGui() && getGuiManager().hasSpreadsheetView()) {
+		if (getGuiManager() != null && getGuiManager().hasSpreadsheetView()) {
 			getGuiManager().getSpreadsheetView().repaint();
 		}
 		

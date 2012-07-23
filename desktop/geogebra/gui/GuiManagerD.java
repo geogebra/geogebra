@@ -712,16 +712,6 @@ public class GuiManagerD extends GuiManager {
 		return dialogManager;
 	}
 
-	public void doAfterRedefine(GeoElement geo) {
-
-		// G.Sturr 2010-6-28
-		// if a tracing geo has been redefined, then put it back into the
-		// traceGeoCollection
-		if (geo.getSpreadsheetTrace()) {
-			addSpreadsheetTrace(geo);
-		}
-	}
-
 	public void setLayout(LayoutD layout) {
 		this.layout = layout;
 	}
