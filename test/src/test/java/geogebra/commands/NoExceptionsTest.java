@@ -90,6 +90,7 @@ public class NoExceptionsTest {
 		t("Depointslid=(slid,slid)");
 		t("bf1: x>3");
 		t("ptxt=\"n1+n2\"");
+		t("turtle1=Turtle[]");
 	}
 	public static int syntaxes;
 	@Before
@@ -2417,29 +2418,21 @@ public class NoExceptionsTest {
 	
 	@Test
 	public void cmdTurtleForward(){
-		t("turtle1=Turtle[]");
-		syntaxes++;
 		t("TurtleForward[turtle1, 2]");
 	}
 
 	@Test
 	public void cmdTurtleBack(){
-		t("turtle1=Turtle[]");
-		syntaxes++;
 		t("TurtleBack[turtle1, 2]");
 	}
 	
 	@Test
 	public void cmdTurtleLeft(){
-		t("turtle1=Turtle[]");
-		syntaxes++;
 		t("TurtleLeft[turtle1, 3.14]");
 	}
 	
 	@Test
 	public void cmdTurtleRight(){
-		t("turtle1=Turtle[]");
-		syntaxes++;
 		t("TurtleRight[turtle1, 3.14]");
 	}
 }
