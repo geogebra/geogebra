@@ -891,10 +891,17 @@ public class AlgebraViewD extends AlgebraTree implements LayerView, Gridable, Se
 		// // m.getChildCount(root);
 		//
 		// return new int[]{getHeight()};
-		int[] heights = new int[getRowCount()];
-		for (int i = 0; i < heights.length; i++) {
-			heights[i] = getRowBounds(i).height;
+		
+		int[] heights;
+		if(getRowCount() > 0){
+			heights = new int[getRowCount()];
+			for (int i = 0; i < heights.length; i++) {
+				heights[i] = getRowBounds(i).height;
+			}
+		} else {
+			heights = new int[1];
 		}
+		
 		heights[0] += 2;
 		return heights;
 	}
