@@ -13,6 +13,10 @@ public interface AppResources extends ClientBundleWithLookup {
 //	@Source("geogebra/web/gui/images/" + iconString)
 //	ImageResource icon();
 //	
+	
+	@Source("geogebra/web/gui/images/view-properties16.png")
+	ImageResource view_properties16();
+	
 	@Source("geogebra/web/gui/images/options-layout24.png")
 	ImageResource options_layout24();
 	

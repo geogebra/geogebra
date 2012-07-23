@@ -46,6 +46,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement {
 	 * @param app application
 	 */
 	ContextMenuGeoElementW(AppW app) {
+		
 		this.app = app;
 		wrappedPopup = new PopupPanel();
 		popupMenu = new MenuBar(true);

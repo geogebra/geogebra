@@ -1,10 +1,14 @@
 package geogebra.web.gui;
 
 import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
 
+import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
+import geogebra.common.kernel.Kernel;
+import geogebra.common.main.App;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.menubar.GeoGebraMenubarW;
 import geogebra.web.main.AppW;
@@ -40,6 +44,110 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW {
         MenuItem zoomMenuItem = new MenuItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.zoom16().getSafeUri().asString(), app.getMenu("Zoom")), true, zoomMenu);
         popupMenu.addItem(zoomMenuItem);
         addZoomItems(zoomMenu);
+        
+        MenuBar yaxisMenu = new MenuBar(true);
+        MenuItem yaxisMenuItem = new MenuItem(app.getPlain("xAxis") + " : " 
+        							+ app.getPlain("yAxis"), yaxisMenu);
+        addAxesRatioItems(yaxisMenu);
+        popupMenu.addItem(yaxisMenuItem);
+        
+        MenuItem miShowAllObjectsView = new MenuItem(app.getPlain("ShowAllObjects"), new Command() {
+			
+			public void execute() {
+				setViewShowAllObject();
+			}
+
+		});
+        popupMenu.addItem(miShowAllObjectsView);
+        
+        MenuItem miStandardView = new MenuItem(app.getPlain("StandardView"), new Command() {
+			
+			public void execute() {
+				setStandardView();
+			}
+		});
+        popupMenu.addItem(miStandardView);
+        
+        if(!ev.isZoomable()){
+        	zoomMenuItem.setEnabled(false);
+        	yaxisMenuItem.setEnabled(false);
+        	miShowAllObjectsView.setEnabled(false);
+        	miStandardView.setEnabled(false);
+        }
+        
+        if(ev.isLockedAxesRatio()){
+        	yaxisMenuItem.setEnabled(false);
+        }
+        
+        addMiProperties();
+               
+    }
+	
+	private void addMiProperties() {
+	    MenuItem miProperties = new MenuItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE.view_properties16().getSafeUri().asString(), app.getPlain("DrawingPad") + " ..."), true, new Command() {
+			
+			public void execute() {
+				showOptionsDialog();
+			}
+		});
+	    popupMenu.addItem(miProperties);
+    }
+
+	protected void showOptionsDialog() {
+		app.getGuiManager().setShowView(true, App.VIEW_PROPERTIES);
+		Window.alert("Later...");
+	    
+    }
+
+	protected void setStandardView() {
+	    app.setStandardView();
+    }
+
+	protected void setViewShowAllObject() {
+        app.setViewShowAllObjects();
+    }
+
+	private void addAxesRatioItems(MenuBar menu) {
+		double scaleRatio = ((EuclidianView)app.getActiveEuclidianView()).getScaleRatio(); 
+		
+		MenuItem mi;
+		
+		boolean separatorAdded = false;
+		StringBuilder sb = new StringBuilder();
+		 for (int i=0; i < axesRatios.length; i++) {                        
+	            // build text like "1 : 2"
+	            sb.setLength(0);
+	            if (axesRatios[i] > 1.0) {                                 
+	                sb.append((int) axesRatios[i]);
+	                sb.append(" : 1");
+	                if (! separatorAdded) {
+	                    menu.addSeparator();
+	                    separatorAdded = true;
+	                }
+	                
+	            } else { // factor 
+	            	if (axesRatios[i] == 1) 
+	                	menu.addSeparator(); 
+	                sb.append("1 : "); 
+	                sb.append((int) (1.0 / axesRatios[i]));                               
+	            } 
+	            //TODO: it is terrible, should be used ONE listener for each menuItem, this kills the memory, if GWT changes this 
+	            // get it right!
+	            final int index = i;
+	            mi = new MenuItem(sb.toString(), new Command() {
+					
+					public void execute() {
+						zoomYaxis(axesRatios[index]);
+					}
+				});
+	            GeoGebraMenubarW.setMenuSelected(mi, Kernel.isEqual(axesRatios[i], scaleRatio));
+	            menu.addItem(mi);
+		 }
+	    
+    }
+
+	protected void zoomYaxis(double axesRatio) {
+		app.zoomAxesRatio(axesRatio);    	
     }
 
 	private void addZoomItems(MenuBar menu) {
@@ -63,6 +171,8 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW {
 	          sb.append(perc);
 	          sb.append('%'); 
 	          final int index = i;
+	        //TODO: it is terrible, should be used ONE listener for each menuItem, this kills the memory, if GWT changes this 
+	            // get it right!
 	          mi = new MenuItem(sb.toString(), new Command() {
 				
 				public void execute() {

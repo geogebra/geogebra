@@ -159,7 +159,7 @@ implements ActionListener {
             app.setStandardView();        
         }
     	else if (cmd.equals("showAllObjects")) {
-    		((AppD) app).setViewShowAllObjects();
+    		app.setViewShowAllObjects();
     	}
     	else if (cmd.equals("properties")) {
     		showOptionsDialog();
