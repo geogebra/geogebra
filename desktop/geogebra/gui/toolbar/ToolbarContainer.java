@@ -7,6 +7,7 @@ import geogebra.common.util.StringUtil;
 import geogebra.gui.MySmallJButton;
 import geogebra.gui.layout.DockPanel;
 import geogebra.gui.util.GeoGebraIcon;
+import geogebra.gui.view.properties.PropertiesViewD;
 import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
@@ -811,7 +812,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 				
 				String menuText = ((PropertiesView) app.getGuiManager()
 						.getPropertiesView()).getTypeStringSimple(type);
-				ImageIcon ic = ((PropertiesView) app.getGuiManager()
+				ImageIcon ic = ((PropertiesViewD) app.getGuiManager()
 						.getPropertiesView()).getTypeIcon(type);
 				JMenuItem item = new JMenuItem(menuText, ic);
 	

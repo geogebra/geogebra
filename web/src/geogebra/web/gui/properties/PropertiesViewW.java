@@ -2,6 +2,8 @@ package geogebra.web.gui.properties;
 
 import java.util.ArrayList;
 
+import javax.swing.ImageIcon;
+
 import geogebra.common.gui.view.properties.PropertiesStyleBar;
 import geogebra.common.gui.view.properties.PropertiesView.OptionType;
 import geogebra.common.kernel.geos.GeoElement;
@@ -275,6 +277,12 @@ public class PropertiesViewW extends
     public void updatePropertiesView() {
 	    // TODO Auto-generated method stub
 	    
+    }
+
+	@Override
+    public boolean isObjectPanelAvailable(OptionType type) {
+	    // TODO Auto-generated method stub
+	    return false;
     }
 
 }

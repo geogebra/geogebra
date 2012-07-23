@@ -127,12 +127,6 @@ public abstract class PropertiesView implements View{
 		return null;
 	}
 	
-	
-	
-	abstract public ImageIcon getTypeIcon(OptionType type);
-	
-	
-	
 	/**
 	 * Updates the Title Bar
 	 */
