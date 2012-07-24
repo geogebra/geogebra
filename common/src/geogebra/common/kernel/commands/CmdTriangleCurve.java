@@ -51,7 +51,7 @@ public class CmdTriangleCurve extends CommandProcessor {
 					(ok[3] = arg[3].isGeoImplicitPoly())) {
 				
 				
-				GeoElement[] ret = { kernelA.TriangleCubic(c.getLabel(),
+				GeoElement[] ret = { kernelA.Cubic(c.getLabel(),
 						(GeoPoint)arg[0], (GeoPoint)arg[1], (GeoPoint)arg[2],
 						(GeoImplicitPoly) arg[3],ta,tb,tc)} ;
 				cons.removeLocalVariable("A");

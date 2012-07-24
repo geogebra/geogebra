@@ -22,7 +22,7 @@ import geogebra.common.kernel.arithmetic.Polynomial;
 import geogebra.common.kernel.arithmetic.Variable;
 import geogebra.common.kernel.barycentric.AlgoBarycenter;
 import geogebra.common.kernel.barycentric.AlgoKimberling;
-import geogebra.common.kernel.barycentric.AlgoTriangleCubic;
+import geogebra.common.kernel.barycentric.AlgoCubic;
 import geogebra.common.kernel.barycentric.AlgoTriangleCurve;
 import geogebra.common.kernel.barycentric.AlgoTrilinear;
 import geogebra.common.kernel.cas.AlgoCasBase;
@@ -9867,14 +9867,14 @@ public class Kernel {
 		return P;
 	}
 
-	final public GeoImplicitPoly TriangleCubic(String label, GeoPoint A,
+	final public GeoImplicitPoly Cubic(String label, GeoPoint A,
 			GeoPoint B, GeoPoint C, NumberValue v) {
-		AlgoTriangleCubic algo = new AlgoTriangleCubic(cons, label, A, B, C, v);
+		AlgoCubic algo = new AlgoCubic(cons, label, A, B, C, v);
 		GeoImplicitPoly poly = algo.getResult();
 		return poly;
 	}
 
-	final public GeoElement TriangleCubic(String label, GeoPoint A,
+	final public GeoElement Cubic(String label, GeoPoint A,
 			GeoPoint B, GeoPoint C, GeoImplicitPoly v, GeoNumeric a,
 			GeoNumeric b, GeoNumeric c) {
 		AlgoTriangleCurve algo = new AlgoTriangleCurve(cons, label, A, B, C, v,

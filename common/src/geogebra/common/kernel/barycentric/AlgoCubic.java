@@ -26,7 +26,7 @@ import geogebra.common.main.MyError;
  *          
  */
 
-public class AlgoTriangleCubic extends AlgoElement {
+public class AlgoCubic extends AlgoElement {
 
 	
 	private GeoPoint A, B, C; // input
@@ -41,7 +41,7 @@ public class AlgoTriangleCubic extends AlgoElement {
 	 * @param C third point
 	 * @param e index in CTC
 	 */
-	public AlgoTriangleCubic(Construction cons, String label, GeoPoint A, GeoPoint B,
+	public AlgoCubic(Construction cons, String label, GeoPoint A, GeoPoint B,
 			GeoPoint C, NumberValue e) {
 		super(cons);
 		this.A = A;
@@ -56,7 +56,7 @@ public class AlgoTriangleCubic extends AlgoElement {
 
 	@Override
 	public Algos getClassName() {
-		return Algos.AlgoTriangleCubic;
+		return Algos.AlgoCubic;
 	}
 
 	// for AlgoElement

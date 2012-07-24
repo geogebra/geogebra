@@ -391,8 +391,8 @@ public class CommandDispatcher {
 				return new CmdBarycenter(kernel);
 			case Trilinear:
 				return new CmdTrilinear(kernel);
-			case TriangleCubic:
-				return new CmdTriangleCubic(kernel);
+			case Cubic:
+				return new CmdCubic(kernel);
 			case TriangleCurve:
 				return new CmdTriangleCurve(kernel);
 			case Vertex:

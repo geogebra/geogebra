@@ -20,7 +20,7 @@ public enum Algos {
 	AlgoAxisFirstLength(Commands.FirstAxisLength),
 	AlgoAxisSecond(Commands.SecondAxis),
 	AlgoAxisSecondLength(Commands.SecondAxisLength),
-	AlgoTriangleCubic(Commands.TriangleCubic),
+	AlgoCubic(Commands.Cubic),
 	AlgoBarycenter(Commands.Barycenter),
 	AlgoTrilinear(Commands.Trilinear),
 	AlgoCellRange(Commands.CellRange),

@@ -2428,11 +2428,11 @@ public interface CommandConstants extends ConstantsWithLookup {
     @DefaultStringValue("[ <Point>, <Point>, <Point>, <Number> ]")
     String TriangleCenter_Syntax();
 
-    @DefaultStringValue("TriangleCubic")
-    String TriangleCubic();
+    @DefaultStringValue("Cubic")
+    String Cubic();
 
     @DefaultStringValue("[ <Point>, <Point>, <Point>, <Number> ]")
-    String TriangleCubic_Syntax();
+    String Cubic_Syntax();
 
     @DefaultStringValue("TriangleCurve")
     String TriangleCurve();

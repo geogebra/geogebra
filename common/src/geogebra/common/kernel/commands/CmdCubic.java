@@ -11,7 +11,7 @@ import geogebra.common.main.MyError;
  * @author Darko
  *
  */
-public class CmdTriangleCubic extends CommandProcessor {
+public class CmdCubic extends CommandProcessor {
 
 	/**
 	 * Create new command processor
@@ -19,7 +19,7 @@ public class CmdTriangleCubic extends CommandProcessor {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdTriangleCubic(Kernel kernel) {
+	public CmdCubic(Kernel kernel) {
 		super(kernel);
 	}
 
@@ -37,7 +37,7 @@ public class CmdTriangleCubic extends CommandProcessor {
 					(ok[1] = arg[1].isGeoPoint()) &&
 					(ok[2] = arg[2].isGeoPoint()) &&
 					(ok[3] = arg[3].isNumberValue())) {
-				GeoElement[] ret = { kernelA.TriangleCubic(c.getLabel(),
+				GeoElement[] ret = { kernelA.Cubic(c.getLabel(),
 						(GeoPoint)arg[0], (GeoPoint)arg[1], (GeoPoint)arg[2],
 						(NumberValue) arg[3])} ;
 				return ret;
