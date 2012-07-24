@@ -1,10 +1,10 @@
 package geogebra.gui.menubar;
 
+import geogebra.common.gui.view.properties.PropertiesView.OptionType;
 import geogebra.common.main.settings.KeyboardSettings;
 import geogebra.gui.GuiManagerD;
 import geogebra.gui.layout.DockPanel;
 import geogebra.gui.layout.LayoutD;
-import geogebra.gui.view.consprotocol.ConstructionProtocolNavigation;
 import geogebra.gui.virtualkeyboard.VirtualKeyboard;
 import geogebra.main.AppD;
 import geogebra.plugin.kinect.KinectTest;
@@ -19,7 +19,6 @@ import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
-import javax.swing.SwingUtilities;
 
 /**
  * The "View" menu.
@@ -28,48 +27,36 @@ public class ViewMenu extends BaseMenu {
 	private static final long serialVersionUID = 1L;
 	private final LayoutD layout;
 
-	private AbstractAction showAlgebraInputAction,
-			showKeyboardAction,
-			showPythonAction,
-			showKinectAction,
-			showInputHelpToggleAction, showInputTopAction, showToolBarAction,
-			showToolBarTopAction,
-			showConsProtNavigationAction, showConsProtNavigationOpenProtAction,
-			showConsProtNavigationPlayAction, refreshAction, recomputeAllViews;
+	private AbstractAction showKeyboardAction, showPythonAction,
+			showKinectAction, refreshAction, recomputeAllViews;
 
-	private JCheckBoxMenuItem cbShowInputTop,
-			cbShowToolBar,
-			cbShowToolBarTop,
-			cbShowConsProtNavigation,
-			cbShowConsProtNavigationPlay,
-			cbShowConsProtNavigationOpenProt,
-			cbShowAlgebraInput,
-			cbShowKeyboard, cbShowPython, cbShowKinect,
-			cbShowInputHelpToggle;
+	private JCheckBoxMenuItem cbShowKeyboard, cbShowPython, cbShowKinect;
 
 	private AbstractAction[] showViews;
 	private JCheckBoxMenuItem[] cbViews;
 
-	private JMenu menuConsProtNav, menuInput, menuToolBar;
+	private AbstractAction showLayoutOptionsAction;
 
 	/**
-	 * @param app app
-	 * @param layout layout
+	 * @param app
+	 *            app
+	 * @param layout
+	 *            layout
 	 */
 	public ViewMenu(AppD app, LayoutD layout) {
 		super(app, app.getMenu("View"));
 
 		this.layout = layout;
 
-		// items are added to the menu when it's opened, see BaseMenu: addMenuListener(this);
+		// items are added to the menu when it's opened, see BaseMenu:
+		// addMenuListener(this);
 	}
-
 
 	/**
 	 * Initialize the menu items.
 	 */
 	protected void initItems() {
-		
+
 		if (!initialized) {
 			return;
 		}
@@ -89,7 +76,7 @@ public class ViewMenu extends BaseMenu {
 			}
 			add(cbShowKeyboard);
 		}
-		
+
 		// show Python and Kinect options in Eclipse & 5.0 Webstart only
 		// ie not 4.2
 		if (!AppD.isWebstart() || app.is3D()) {
@@ -127,53 +114,8 @@ public class ViewMenu extends BaseMenu {
 
 		addSeparator();
 
-		// show/hide cmdlist, algebra input
+		mi = add(showLayoutOptionsAction);
 
-		menuInput = new JMenu(app.getMenu("InputField"));
-		menuInput.setIcon(app.getEmptyIcon());
-		cbShowInputHelpToggle = new JCheckBoxMenuItem(showInputHelpToggleAction);
-		cbShowAlgebraInput = new JCheckBoxMenuItem(showAlgebraInputAction);
-		app.setEmptyIcon(cbShowAlgebraInput);
-		menuInput.add(cbShowAlgebraInput);
-		app.setEmptyIcon(cbShowInputHelpToggle);
-		menuInput.add(cbShowInputHelpToggle);
-		cbShowInputTop = new JCheckBoxMenuItem(showInputTopAction);
-		app.setEmptyIcon(cbShowInputTop);
-		menuInput.add(cbShowInputTop);
-
-		add(menuInput);
-
-		menuToolBar = new JMenu(app.getMenu("Toolbar"));
-		menuToolBar.setIcon(app.getEmptyIcon());
-		cbShowToolBar = new JCheckBoxMenuItem(showToolBarAction);
-		app.setEmptyIcon(cbShowToolBar);
-		menuToolBar.add(cbShowToolBar);
-		cbShowToolBarTop = new JCheckBoxMenuItem(showToolBarTopAction);
-		app.setEmptyIcon(cbShowToolBarTop);
-		menuToolBar.add(cbShowToolBarTop);
-
-		add(menuToolBar);
-
-		// Construction Protocol
-		cbShowConsProtNavigation = new JCheckBoxMenuItem(
-				showConsProtNavigationAction);
-		app.setEmptyIcon(cbShowConsProtNavigation);
-		cbShowConsProtNavigationPlay = new JCheckBoxMenuItem(
-				showConsProtNavigationPlayAction);
-		app.setEmptyIcon(cbShowConsProtNavigationPlay);
-		cbShowConsProtNavigationOpenProt = new JCheckBoxMenuItem(
-				showConsProtNavigationOpenProtAction);
-		app.setEmptyIcon(cbShowConsProtNavigationOpenProt);
-
-		menuConsProtNav = new JMenu(
-				app.getPlain("ConstructionProtocolNavigation"));
-		// menuConsProtNav.setIcon(app.getImageIcon("table.gif"));
-		menuConsProtNav.setIcon(app.getEmptyIcon());
-		menuConsProtNav.add(cbShowConsProtNavigation);
-		menuConsProtNav.add(cbShowConsProtNavigationPlay);
-		menuConsProtNav.add(cbShowConsProtNavigationOpenProt);
-		add(menuConsProtNav);	
-		
 		addSeparator();
 
 		mi = add(refreshAction);
@@ -191,6 +133,18 @@ public class ViewMenu extends BaseMenu {
 	 */
 	protected void initActions() {
 		initViewActions();
+
+		// display the layout options dialog
+		showLayoutOptionsAction = new AbstractAction(app.getMenu("Layout")
+				+ " ...", app.getImageIcon("view-properties16.png")) {
+			@SuppressWarnings("hiding")
+			public static final long serialVersionUID = 1L;
+
+			public void actionPerformed(ActionEvent e) {
+				app.getDialogManager().showPropertiesDialog(OptionType.LAYOUT,
+						null);
+			}
+		};
 
 		showKeyboardAction = new AbstractAction(app.getPlain("Keyboard")) {
 			private static final long serialVersionUID = 1L;
@@ -232,34 +186,29 @@ public class ViewMenu extends BaseMenu {
 
 			public void actionPerformed(ActionEvent e) {
 
-
-			    JFrame f = new JFrame(app.getMenu("KinectWindow"));
+				JFrame f = new JFrame(app.getMenu("KinectWindow"));
 				final KinectTestApplication app2 = new KinectTestApplication(f);
 
 				app2.viewer = new KinectTest(app.getKernel());
 				f.add("Center", app2.viewer);
-				f.pack(); 
-				f.setVisible(true); 
+				f.pack();
+				f.setVisible(true);
 				Thread runner = new Thread() {
 
-					@Override public void run() 
-					{ 
-						try { 
+					@Override
+					public void run() {
+						try {
 							Thread.sleep(7000);
-						} 
-						catch(InterruptedException e1) 
-						{ 
-							e1.printStackTrace(); } 
-						app2.run(); 
+						} catch (InterruptedException e1) {
+							e1.printStackTrace();
+						}
+						app2.run();
 					}
-				}; 
+				};
 				runner.start();
-
 
 			}
 		};
-
-
 
 		/*
 		 * showHandwritingAction = new
@@ -324,104 +273,6 @@ public class ViewMenu extends BaseMenu {
 		 * app.getGuiManager().getHandwriting().repaint(); } } };
 		 */
 
-		showAlgebraInputAction = new AbstractAction(app.getMenu("Show")) {
-			private static final long serialVersionUID = 1L;
-
-			public void actionPerformed(ActionEvent e) {
-				app.setShowAlgebraInput(!app.showAlgebraInput(), true);
-			}
-		};
-
-		showInputHelpToggleAction = new AbstractAction(app.getMenu("CmdList")) {
-			private static final long serialVersionUID = 1L;
-
-			public void actionPerformed(ActionEvent e) {
-				app.setShowInputHelpToggle(!app.showInputHelpToggle());
-				if (app.getGuiManager().getAlgebraInput() != null) {
-					SwingUtilities.updateComponentTreeUI(app.getGuiManager()
-							.getAlgebraInput());
-				}
-			}
-		};
-
-		showInputTopAction = new AbstractAction(app.getMenu("ShowAtTop")) {
-			private static final long serialVersionUID = 1L;
-
-			public void actionPerformed(ActionEvent e) {
-				app.setShowInputTop(!app.showInputTop(), true);
-			}
-		};
-
-		showToolBarAction = new AbstractAction(app.getMenu("Show")) {
-			private static final long serialVersionUID = 1L;
-
-			public void actionPerformed(ActionEvent e) {
-				app.setShowToolBar(!app.showToolBar());
-				app.updateToolBarLayout();
-			}
-		};
-
-		showToolBarTopAction = new AbstractAction(app.getMenu("ShowAtTop")) {
-			private static final long serialVersionUID = 1L;
-
-			public void actionPerformed(ActionEvent e) {
-				app.setShowToolBarTop(!app.showToolBarTop());
-			}
-		};
-
-		showConsProtNavigationAction = new AbstractAction(app.getPlain("Show")) {
-			private static final long serialVersionUID = 1L;
-
-			public void actionPerformed(ActionEvent e) {
-				app.setShowConstructionProtocolNavigation(!app
-						.showConsProtNavigation());
-				app.setUnsaved();
-				app.updateCenterPanel(true);
-				app.updateMenubar();
-			}
-		};
-
-		showConsProtNavigationPlayAction = new AbstractAction(
-				app.getPlain("PlayButton")) {
-			private static final long serialVersionUID = 1L;
-
-			public void actionPerformed(ActionEvent e) {
-				ConstructionProtocolNavigation cpn = (ConstructionProtocolNavigation) app
-						.getGuiManager().getConstructionProtocolNavigation();
-				cpn.setPlayButtonVisible(!cpn.isPlayButtonVisible());
-				// cpn.initGUI();
-				SwingUtilities.updateComponentTreeUI(cpn);
-				app.setUnsaved();
-			}
-		};
-
-		showConsProtNavigationOpenProtAction = new AbstractAction(
-				app.getPlain("ConstructionProtocolButton")) {
-			private static final long serialVersionUID = 1L;
-
-			public void actionPerformed(ActionEvent e) {
-				ConstructionProtocolNavigation cpn = (ConstructionProtocolNavigation) app
-						.getGuiManager().getConstructionProtocolNavigation();
-				cpn.setConsProtButtonVisible(!cpn.isConsProtButtonVisible());
-				// cpn.initGUI();
-				SwingUtilities.updateComponentTreeUI(cpn);
-				app.setUnsaved();
-			}
-		};
-		/*
-		 * constProtocolAction = new AbstractAction(app .getMenu("Show")) {
-		 * private static final long serialVersionUID = 1L;
-		 * 
-		 * public void actionPerformed(ActionEvent e) { try { Thread runner =
-		 * new Thread() { public void run() { GuiManager gm =
-		 * app.getGuiManager(); if (gm.isConstructionProtocolVisible())
-		 * gm.hideConstructionProtocol(); else gm.showConstructionProtocol();
-		 * app.updateMenubar(); } }; runner.start(); }
-		 * 
-		 * catch (java.lang.NoClassDefFoundError ee) {
-		 * app.showErrorDialog(app.getError("ExportJarMissing"));
-		 * ee.printStackTrace(); } } };
-		 */
 		refreshAction = new AbstractAction(app.getMenu("Refresh"),
 				new ImageIcon(app.getRefreshViewImage())) {
 			private static final long serialVersionUID = 1L;
@@ -460,12 +311,12 @@ public class ViewMenu extends BaseMenu {
 
 		updateViews();
 
-		cbShowAlgebraInput.setSelected(app.showAlgebraInput());
-		
+		// cbShowAlgebraInput.setSelected(app.showAlgebraInput());
+
 		if (cbShowKeyboard != null) {
 			cbShowKeyboard.setSelected(AppD.isVirtualKeyboardActive());
 		}
-		
+
 		if (cbShowPython != null) {
 			cbShowPython.setSelected(app.isPythonWindowVisible());
 		}
@@ -473,22 +324,6 @@ public class ViewMenu extends BaseMenu {
 		// cbShowHandwritingAutoAdd.setSelected(Application.isHandwritingRecognitionAutoAdd());
 		// cbShowHandwritingTimedAdd.setSelected(Application.isHandwritingRecognitionTimedAdd());
 		// cbShowHandwritingTimedRecognise.setSelected(Application.isHandwritingRecognitionTimedRecognise());
-		cbShowInputHelpToggle.setSelected(app.showInputHelpToggle());
-		cbShowInputTop.setSelected(app.showInputTop());
-		cbShowToolBar.setSelected(app.showToolBar());
-		cbShowToolBarTop.setSelected(app.showToolBarTop());
-
-		// cbShowConsProt.setSelected(app.getGuiManager().isConstructionProtocolVisible());
-		cbShowConsProtNavigation.setSelected(app.showConsProtNavigation());
-
-		cbShowConsProtNavigationPlay.setSelected(guiMananager
-				.isConsProtNavigationPlayButtonVisible());
-		cbShowConsProtNavigationOpenProt.setSelected(guiMananager
-				.isConsProtNavigationProtButtonVisible());
-
-		cbShowConsProtNavigationPlay.setEnabled(app.showConsProtNavigation());
-		cbShowConsProtNavigationOpenProt.setEnabled(app
-				.showConsProtNavigation());
 
 		// enable menus if necessary
 		// menuInput.setEnabled(app.showAlgebraInput());
@@ -587,11 +422,11 @@ public class ViewMenu extends BaseMenu {
 	}
 
 	private void updateViews() {
-		
+
 		if (!initialized) {
 			return;
 		}
-		
+
 		DockPanel[] dockPanels = layout.getDockManager().getPanels();
 		Arrays.sort(dockPanels, new DockPanel.MenuOrderComparator());
 

@@ -36,7 +36,7 @@ public class PropertiesDockPanel extends DockPanel implements
 				"Properties", // view title phrase
 				null, // toolbar string
 				true, // style bar?
-				7, // menu order
+				-1, // menu order
 				'E' // menu shortcut
 		);
 
