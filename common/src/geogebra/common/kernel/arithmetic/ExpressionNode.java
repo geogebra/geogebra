@@ -1468,7 +1468,7 @@ public class ExpressionNode extends ValidExpression implements
 		// expression node
 		String leftStr = null, rightStr = null;
 		if (left.isGeoElement()) {
-			if (tpl.getStringType().equals(StringType.OGP)) {
+			if (tpl.getStringType().equals(StringType.OGP) && operation.equals(Operation.EQUAL_BOOLEAN)) {
 				leftStr = ((GeoElement) left).getCommandDescription(tpl);
 			} else
 				leftStr = ((GeoElement) left).getLabel(tpl);
@@ -1478,7 +1478,7 @@ public class ExpressionNode extends ValidExpression implements
 
 		if (right != null) {
 			if (right.isGeoElement()) {
-				if (tpl.getStringType().equals(StringType.OGP)) {
+				if (tpl.getStringType().equals(StringType.OGP) && operation.equals(Operation.EQUAL_BOOLEAN)) {
 					rightStr = ((GeoElement) right).getCommandDescription(tpl);
 				} else
 					rightStr = ((GeoElement) right).getLabel(tpl);
