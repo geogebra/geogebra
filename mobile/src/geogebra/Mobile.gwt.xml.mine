@@ -40,9 +40,4 @@
 	<set-configuration-property name="mobile.devmode.js"
 		value="pretty" />
 
-	<!-- Activate SuperDevMode GWT only available in GWT 2.5 -->
-	<add-linker name="xsiframe" />
-	<set-configuration-property name="devModeRedirectEnabled"
-		value="true" />
-	<!-- enable source maps -->
 </module>

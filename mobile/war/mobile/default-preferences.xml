@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<geogebra format="4.0" xsi:noNamespaceSchemaLocation="http://www.geogebra.org/ggb.xsd" xmlns="" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
+<gui>
+	<window width="800" height="600" />
+	<settings ignoreDocument="false" showTitleBar="true" />
+	<labelingStyle  val="3"/>
+	<mouse reverseWheel="true"/>
+	<font  size="12"/>
+	<menuFont size="-1"/>
+	<tooltipSettings language="" timeout=""/>
+	<graphicsSettings javaLatexFonts="false"/>
+</gui>
+<euclidianView>
+	<size  width="640" height="480"/>
+	<coordSystem xZero="215.0" yZero="315.0" scale="50.0" yscale="50.0"/>
+	<evSettings axes="true" grid="false" gridIsBold="false" pointCapturing="3" rightAngleStyle="2" checkboxSize="13" gridType="0"/>
+	<bgColor r="255" g="255" b="255"/>
+	<axesColor r="0" g="0" b="0"/>
+	<gridColor r="192" g="192" b="192"/>
+	<lineStyle axes="1" grid="10"/>
+	<axis id="0" show="true" label="" unitLabel="" tickStyle="1" showNumbers="true" axisCross="0.0" positiveAxis="false"/>
+	<axis id="1" show="true" label="" unitLabel="" tickStyle="1" showNumbers="true" axisCross="0.0" positiveAxis="false"/>
+</euclidianView>
+<kernel>
+	<continuous val="false"/>
+	<decimals val="2"/>
+	<angleUnit val="degree"/>
+	<algebraStyle val="0"/>
+	<coordStyle val="0"/>
+	<localization digits="false" labels="true"/>
+	<angleFromInvTrig val="false"/>
+	<casSettings timeout="5" expRoots="true"/>
+</kernel>
+<scripting blocked="false"/>
+</geogebra>

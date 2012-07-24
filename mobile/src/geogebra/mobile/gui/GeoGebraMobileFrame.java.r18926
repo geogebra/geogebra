@@ -6,8 +6,10 @@ import geogebra.web.gui.applet.GeoGebraFrame;
 import geogebra.web.html5.ArticleElement;
 import geogebra.web.html5.Dom;
 
+import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
+import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.googlecode.mgwt.ui.client.MGWT;
@@ -65,8 +67,6 @@ public class GeoGebraMobileFrame extends GeoGebraFrame
 		root.add(headerPanel);
 		root.add(app.getEuclidianViewpanel());
 		root.add(toolBar);
-
-		app.resizeToParent(Window.getClientWidth(), Window.getClientHeight());
 
 		Window.addResizeHandler(new ResizeHandler()
 		{

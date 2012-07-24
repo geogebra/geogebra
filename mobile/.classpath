@@ -7,7 +7,12 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/web"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/common"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/gwtphonegap-1.8.1.0.jar"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/mgwt-1.1.1.jar"/>
-	<classpathentry kind="con" path="com.google.gwt.eclipse.core.GWT_CONTAINER"/>
+	<classpathentry kind="lib" path="E:/Dropbox/GeoGebra/workspace-tablet/lib-gwt-svg-0.5.6.jar"/>
+	<classpathentry kind="con" path="com.google.gwt.eclipse.core.GWT_CONTAINER/gwt-2.5.0.rc1"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/gwt-codeserver.jar"/>
+	<classpathentry kind="lib" path="E:/Dropbox/GeoGebra/workspace-tablet/mgwt-1.1.1.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/gwt-dev.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/gwt-user.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/validation-api-1.0.0.GA.jar"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>

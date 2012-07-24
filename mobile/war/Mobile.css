@@ -14,3 +14,10 @@
 	right: 0px;
 }
 
+.toolbutton5 {
+	background-image: url("http://upload.wikimedia.org/wikipedia/commons/3/35/Tux.svg") !important;
+}
+
+.toolbutton6{
+	background: url("http://upload.wikimedia.org/wikipedia/commons/3/35/Tux.svg") !important;
+}

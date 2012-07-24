@@ -36,6 +36,5 @@ public class MobileApp extends AppW
 		this.getEuclidianView1().repaintView();
 
 		((EuclidianControllerW) this.getActiveEuclidianView().getEuclidianController()).updateOffsets();
-
 	}
 }
