@@ -395,6 +395,16 @@ public class PythonFlatAPI {
 		}
 		
 		/**
+		 * Get the label offset
+		 * @param geo target GeoElement
+		 * @return the offset as an array { x-coord, y-coord }
+		 */
+		public static int[] getLabelOffset(GeoElement geo) {
+			int[] offset = { geo.labelOffsetX, geo.labelOffsetY };
+			return offset;
+		}
+		
+		/**
 		 * Get the animating state of the geo
 		 * @param geo target GeoElement
 		 * @return the current animating state

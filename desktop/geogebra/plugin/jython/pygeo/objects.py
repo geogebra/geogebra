@@ -298,7 +298,7 @@ class Element:
     
     # property: label_offset
     def _getlabel_offset(self):
-        return NotImplemented
+        return tuple(API.Geo.getLabelOffset(self.geo))
     def _setlabel_offset(self, val):
         x, y = val
         API.Geo.setLabelOffset(self.geo, x, y)
