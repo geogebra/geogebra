@@ -722,18 +722,6 @@ public class GeoGebraCasIntegrationTest {
 	
 
 
-	/* Decimal */
-
-	@Test
-	public void Decimal_0() {
-		t("Decimal[4 / 5]", "0.8");
-	}
-
-	@Test
-	public void Decimal_1() {
-		t("Decimal[2 / 3 + 1 / 15]", "0.7333333333333333");
-	}
-
 	/* Degree */
 
 

@@ -2055,8 +2055,8 @@ public class NoExceptionsTest {
 	}
 
 	@Test
-	public void cmdTriangleCubic() {
-		t("TriangleCubic[ Pt1,Pt2,Pt3,n1 ]");
+	public void cmdCubic() {
+		t("Cubic[ Pt1,Pt2,Pt3,n1 ]");
 	}
 
 	@Test
