@@ -107,7 +107,7 @@ public abstract class CASView implements View{
 			return;
 
 		String command = kernel.getModeText(mode); // e.g. "Derivative"
-
+		boolean backToEvaluate = true;
 		switch (mode) {
 		case EuclidianConstants.MODE_CAS_PLOT:
 			getConsoleTable().setCopyMode(geogebra.common.cas.view.CASTable.COPY_PLOT);
@@ -140,9 +140,11 @@ public abstract class CASView implements View{
 			processInput(command, new String[] { "%0" });
 			break;
 		default:
+			backToEvaluate = false;
 			// ignore other modes
 		}
-		getApp().setMode(EuclidianConstants.MODE_CAS_EVALUATE);
+		if(backToEvaluate)
+			getApp().setMode(EuclidianConstants.MODE_CAS_EVALUATE);
 	}
 	
 	/**
