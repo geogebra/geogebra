@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package geogebra.gui.dialog;
 
+import geogebra.common.euclidian.EuclidianStyleBarStatic;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.gui.SetLabels;
@@ -2359,26 +2360,25 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 			cbAbsScreenLoc.removeItemListener(this);
 
 			// check if properties have same values
-			AbsoluteScreenLocateable temp, geo0 = (AbsoluteScreenLocateable) geos[0];
+			boolean pinned = ((GeoElement) geos[0]).isPinned();
 			boolean equalVal = true;
 
 			for (int i = 0; i < geos.length; i++) {
-				temp = (AbsoluteScreenLocateable) geos[i];
 				// same object visible value
-				if (geo0.isAbsoluteScreenLocActive() != temp
-						.isAbsoluteScreenLocActive())
+				if (((GeoElement) geos[i]).isPinned() != pinned)
 					equalVal = false;
 			}
 
 			// set checkbox
 			if (equalVal)
-				cbAbsScreenLoc.setSelected(geo0.isAbsoluteScreenLocActive());
+				cbAbsScreenLoc.setSelected(((GeoElement) geos[0]).isPinned());
 			else
 				cbAbsScreenLoc.setSelected(false);
 
 			cbAbsScreenLoc.addItemListener(this);
 			return this;
 		}
+
 
 		private boolean checkGeos(Object[] geos) {
 			for (int i = 0; i < geos.length; i++) {
@@ -2388,8 +2388,9 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 					if (!absLoc.isAbsoluteScreenLocateable()
 							|| geo.isGeoBoolean() || geo instanceof Furniture)
 						return false;
-				} else
+				} else if (!geo.isPinnable()) {
 					return false;
+				}
 			}
 			return true;
 		}
@@ -2406,6 +2407,9 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 				boolean flag = cbAbsScreenLoc.isSelected();
 				EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
 				for (int i = 0; i < geos.length; i++) {
+					
+					if (geos[i] instanceof AbsoluteScreenLocateable) {
+					
 					geo = (AbsoluteScreenLocateable) geos[i];
 					if (flag) {
 						// convert real world to screen coords
@@ -2424,6 +2428,13 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 					}
 					geo.setAbsoluteScreenLocActive(flag);
 					geo.toGeoElement().updateRepaint();
+					}  else if (((GeoElement) geos[i]).isPinnable()) {
+						ArrayList<GeoElement> al = new ArrayList<GeoElement>();
+						al.add((GeoElement) geos[i]);
+						
+						// geo could be redefined, so need to change geos[i] to new geo
+						geos[i] = EuclidianStyleBarStatic.applyFixPosition(al, flag, app.getActiveEuclidianView());
+					}
 				}
 
 				updateSelection(geos);

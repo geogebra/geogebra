@@ -1515,7 +1515,7 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 			// add code here to toggle between pen and eraser mode;
 
 		} else if (source == btnFixPosition) {
-			needUndo = EuclidianStyleBarStatic.applyFixPosition(targetGeos, btnFixPosition.isSelected(), ev);
+			needUndo = EuclidianStyleBarStatic.applyFixPosition(targetGeos, btnFixPosition.isSelected(), ev) != null;
 		}
 	}
 

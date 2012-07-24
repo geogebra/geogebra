@@ -23,7 +23,8 @@ public class EuclidianStyleBarStatic {
 	public final static String[] bracketArray2 = { "\u00D8", "{ }", "( )", "[ ]",
 	"||", "||||" };
 
-	public static boolean applyFixPosition(ArrayList<GeoElement> geos, boolean flag, EuclidianViewInterfaceCommon ev) {
+	public static GeoElement applyFixPosition(ArrayList<GeoElement> geos, boolean flag, EuclidianViewInterfaceCommon ev) {
+		GeoElement ret = geos.get(0);
 		
 		AbsoluteScreenLocateable geoASL;
 		
@@ -57,7 +58,11 @@ public class EuclidianStyleBarStatic {
 				
 				if (!flag) {
 					
-					redefineGeo(geo, getDefinitonString(algo.getInput()[0]));
+					GeoElement geo0 = redefineGeo(geo, getDefinitonString(algo.getInput()[0]));
+					
+					if (i == 0) {
+						ret = geo0;
+					}
 
 				} else {
 					algo.setEV(ev.getEuclidianViewNo()); // 1 or 2
@@ -100,7 +105,11 @@ public class EuclidianStyleBarStatic {
 				
 						
 				// "false" here so that pinning works for eg polygons
-				redefineGeo(geo, "AttachCopyToView["+ getDefinitonString(geo) +"," + ev.getEuclidianViewNo() + "]");
+				GeoElement geo0 = redefineGeo(geo, "AttachCopyToView["+ getDefinitonString(geo) +"," + ev.getEuclidianViewNo() + "]");
+				
+				if (i == 0) {
+					ret = geo0;
+				}
 				
 				geo.setEuclidianVisible(true);
 				geo.updateRepaint();
@@ -108,12 +117,14 @@ public class EuclidianStyleBarStatic {
 			} else {
 				// can't pin
 				App.debug("not pinnable");
-				return false;
+				return null;
 			}
+			
+			//app.addSelectedGeo(geo);
 			
 		}
 		
-		return true;
+		return ret;
 	}
 	
 	private static String getDefinitonString(GeoElement geo) {
