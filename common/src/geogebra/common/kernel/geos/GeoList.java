@@ -274,7 +274,8 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture {
 			geo.setFillType(fillType);
 			geo.setHatchingAngle(hatchingAngle);
 			geo.setHatchingDistance(hatchingDistance);
-			geo.setImageFileName(getGraphicsAdapter().getImageFileName());
+			if(!geo.getGeoElementForPropertiesDialog().isGeoImage())
+				geo.setImageFileName(getGraphicsAdapter().getImageFileName());
 			geo.setAlphaValue(getAlphaValue());
 
 			geo.setLayer(getLayer());
