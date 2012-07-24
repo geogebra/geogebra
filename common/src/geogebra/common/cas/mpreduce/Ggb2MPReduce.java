@@ -57,7 +57,6 @@ public class Ggb2MPReduce {
 		p("CSolve.1",
 				"<<begin scalar input!!; input!!:=(%0); on complex$ return flattenlist(mycsolve(input!!,mymainvar(input!!))) end>>");
 		p("CSolve.2", "<<on complex$ flattenlist(mycsolve(%0,%1))>>");
-		p("Decimal.1", "<<on rounded$ (%0)>>");
 		p("Degree.1",
 				"<<begin scalar input!!, variables!!; input!!:=(%0); torder(list(),gradlex); input!!:=part(gsplit(input!!),1); variables!!:=gvars(list(input!!)); return for each variable!! in variables!! sum deg(input!!,variable!!) end>>");
 		p("Degree.2", "deg(%0,%1)");
@@ -84,8 +83,6 @@ public class Ggb2MPReduce {
 				"<<clear input!!; input!!:=(%0); if arglength(input!!)>-1 and part(input!!,0)=\\'mat then input!!(%1,%2) else part(part(input!!,%1),%2)>>");
 		p("Expand.1",
 				"<<clear tmp!!; off factor, pri, combinelogs$ on div, expandlogs$ tmp!!:=(%0); off factor, pri, combinelogs$ on div, expandlogs$  tmp!!>>");
-		p("ExpandComplex.1",
-				"<<clear tmp!!; off factor, pri, combinelogs$ on div, complex, expandlogs$ tmp!!:=(%0); off factor, pri, combinelogs$ on div, expandlogs$  tmp!!>>");
 		p("Exponential.2", "1-exp(-(%0)*(%1))");
 		p("Factor.1",
 				"<<on combineexpt; off combinelogs$ begin scalar factorlist!!, tmpexp!!; if numberp(den(%0)) then <<factorlist!!:=factorize(%0); return part(!*hold((for each x in factorlist!! collect (if arglength(x)<0 or part(x,0) neq \\'list then x else if part(x,2)=1 then part(x,1) else part(x,0):=**))),0):=*>> else <<on factor; tmpexp!!:=(%0); on factor; return tmpexp!! >> end >>");
