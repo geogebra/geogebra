@@ -1528,12 +1528,6 @@ public class AppW extends App {
 
 	}
 
-	@Override
-	public boolean isRightClickEnabled() {
-		App.debug("isRightClickEnabled: implementation needed"); // TODO Auto-generated
-		return true;
-	}
-
 	public native void callNativeJavaScript(String funcname) /*-{
 		if ($wnd[funcname]) {
 			$wnd[funcname]();

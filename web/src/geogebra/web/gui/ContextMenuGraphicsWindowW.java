@@ -90,6 +90,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW {
 				showOptionsDialog();
 			}
 		});
+	    miProperties.setEnabled(false); //TMP AG
 	    popupMenu.addItem(miProperties);
     }
 

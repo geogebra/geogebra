@@ -120,6 +120,9 @@ public abstract class App {
 	 * creating an AV (compatibility with 3.2)
 	 */
 	public boolean showAuxiliaryObjects = false;
+	
+	protected boolean rightClickEnabled = true;
+	protected boolean chooserPopupsEnabled = true;
 
 	/** flag to test whether to draw Equations full resolution */
 	public boolean exporting = false;
@@ -2557,8 +2560,6 @@ public abstract class App {
 		return initing;
 	}
 
-	public abstract boolean isRightClickEnabled();
-
 	public final boolean isShiftDragZoomEnabled() {
 		return shiftDragZoomEnabled;
 	}
@@ -3120,6 +3121,39 @@ public abstract class App {
 	public final void setViewShowAllObjects() {
 		getGuiManager().getActiveEuclidianView()
 				.setViewShowAllObjects(true);
+	}
+	
+	/**
+	 * Enables or disables right clicking in this application. This is useful
+	 * for applets.
+	 */
+	public void setRightClickEnabled(boolean flag) {
+		rightClickEnabled = flag;
+	}
+
+	/**
+	 * Enables or disables popups when multiple objects selected This is useful
+	 * for applets.
+	 */
+	public void setChooserPopupsEnabled(boolean flag) {
+		chooserPopupsEnabled = flag;
+	}
+
+	final public boolean isRightClickEnabled() {
+		return rightClickEnabled;
+	}
+
+	final public boolean areChooserPopupsEnabled() {
+		return chooserPopupsEnabled;
+	}
+
+	
+	public boolean letShowPopupMenu() {
+		return rightClickEnabled;
+	}
+
+	public boolean letShowPropertiesDialog() {
+		return rightClickEnabled;
 	}
 
 }

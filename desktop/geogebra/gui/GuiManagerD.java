@@ -1114,7 +1114,7 @@ public class GuiManagerD extends GuiManager {
 	public void showPopupMenu(ArrayList<GeoElement> geos, Component invoker,
 			geogebra.common.awt.GPoint p) {
 		
-		if (geos == null || !((AppD)app).letShowPopupMenu())
+		if (geos == null || !app.letShowPopupMenu())
 			return;
 		if (app.getKernel().isAxis(geos.get(0))) {
 			showDrawingPadPopup(invoker, p);
@@ -1142,7 +1142,7 @@ public class GuiManagerD extends GuiManager {
 			ArrayList<GeoElement> geos, EuclidianViewND view,
 			geogebra.common.awt.GPoint p) {
 		
-		if (geos == null || !((AppD)app).letShowPopupMenu())
+		if (geos == null || !app.letShowPopupMenu())
 			return;
 		
 		Component invoker = view.getJPanel();

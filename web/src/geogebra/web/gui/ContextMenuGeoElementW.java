@@ -9,6 +9,8 @@ import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.PopupPanel;
+
+import geogebra.common.awt.GPoint;
 import geogebra.common.gui.ContextMenuGeoElement;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.Animatable;
@@ -60,11 +62,17 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement {
 	 * @param geos selected elements
 	 * @param location screen position
 	 */
-	public ContextMenuGeoElementW(AppW app, ArrayList<GeoElement> geos, Point location) {
+	public ContextMenuGeoElementW(AppW app, ArrayList<GeoElement> geos, GPoint location) {
 		this(app);
-		this.geos = geos;
+		initPopup(app, geos);
+	}
+
+	public void initPopup(AppW app, ArrayList<GeoElement> geos) {
+	    this.geos = geos;
 		geo = geos.get(0);
 
+		popupMenu.clearItems();
+		
 		String title;
 
 		if (geos.size() == 1) {
@@ -96,7 +104,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement {
 		if (popupMenuSize  > 2)
 			popupMenu.addSeparator();
 		addForAllItems();
-	}
+    }
 
 	private void addForAllItems() {
 		// SHOW, HIDE
@@ -520,6 +528,10 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement {
 		//?????
 		wrappedPopup.getElement().getStyle().setVisibility(Visibility.VISIBLE);
 	}
+
+	public void reInit(ArrayList<GeoElement> geos, GPoint location) {
+	    initPopup((AppW) this.app, geos);
+    }
 	
 	
 	

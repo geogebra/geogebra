@@ -337,8 +337,7 @@ public class AppD extends App implements
 	
 	private boolean allowToolTips = true;
 
-	private boolean rightClickEnabled = true;
-	private boolean chooserPopupsEnabled = true;
+	
 	private boolean isErrorDialogsActive = true;
 	boolean isErrorDialogShowing = false;
 	private static LinkedList<File> fileList = new LinkedList<File>();
@@ -3181,39 +3180,7 @@ public class AppD extends App implements
 	
 	
 	
-	/**
-	 * Enables or disables right clicking in this application. This is useful
-	 * for applets.
-	 */
-	public void setRightClickEnabled(boolean flag) {
-		rightClickEnabled = flag;
-	}
-
-	/**
-	 * Enables or disables popups when multiple objects selected This is useful
-	 * for applets.
-	 */
-	public void setChooserPopupsEnabled(boolean flag) {
-		chooserPopupsEnabled = flag;
-	}
-
-	@Override
-	final public boolean isRightClickEnabled() {
-		return rightClickEnabled;
-	}
-
-	final public boolean areChooserPopupsEnabled() {
-		return chooserPopupsEnabled;
-	}
-
 	
-	public boolean letShowPopupMenu() {
-		return rightClickEnabled;
-	}
-
-	public boolean letShowPropertiesDialog() {
-		return rightClickEnabled;
-	}
 
 	public void updateToolBar() {
 		if (!showToolBar || isIniting()) {

@@ -8,6 +8,7 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.euclidian.EuclidianViewD;
 import geogebra.euclidianND.EuclidianViewND;
 import geogebra.gui.ContextMenuChooseGeoD;
+import geogebra.gui.ContextMenuGeoElementD;
 import geogebra.gui.GuiManagerD;
 import geogebra.gui.dialog.InputDialog;
 import geogebra.gui.dialog.options.OptionsDialog;
@@ -203,7 +204,7 @@ public class GuiManager3D extends GuiManagerD {
 		screenPos.translate(p.x, p.y);
 
 
-		ContextMenuChooseGeoD popupMenu = new ContextMenuChooseGeoD((AppD)app, view, selectedGeos, geos, screenPos, p);
+		ContextMenuGeoElementD popupMenu = new ContextMenuChooseGeoD((AppD)app, view, selectedGeos, geos, screenPos, p);
 		popupMenu.getWrappedPopup().show(invoker, p.x, p.y);
 
 

@@ -2,7 +2,10 @@ package geogebra.common.gui;
 
 import java.util.ArrayList;
 
+import geogebra.common.awt.GPoint;
 import geogebra.common.euclidian.EuclidianStyleBarStatic;
+import geogebra.common.euclidian.EuclidianView;
+import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.gui.view.properties.PropertiesView.OptionType;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.AbsoluteScreenLocateable;
@@ -369,5 +372,17 @@ public abstract class ContextMenuGeoElement {
 		}
 		app.storeUndoInfo();
 	}
+
+	public void geoActionCmd(GeoElement cmdGeo, ArrayList<GeoElement> sGeos, ArrayList<GeoElement> gs,
+			EuclidianView v, GPoint l) {
+				//AbstractApplication.debug(geo.getLabelSimple());
+				app.clearSelectedGeos(false); //repaint done next step
+				app.addSelectedGeo(cmdGeo);
+				
+				// update the geo lists and show the popup again with the new selection
+				sGeos.clear();
+				sGeos.add(cmdGeo);
+				app.getGuiManager().showPopupChooseGeo(sGeos, gs, (EuclidianViewInterfaceCommon)v, l);
+			}
 
 }

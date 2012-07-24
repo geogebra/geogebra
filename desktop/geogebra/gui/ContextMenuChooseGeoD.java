@@ -1,7 +1,6 @@
 package geogebra.gui;
 
 import geogebra.common.euclidian.EuclidianView;
-import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.kernel.geos.FromMeta;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
@@ -165,15 +164,7 @@ public class ContextMenuChooseGeoD extends ContextMenuGeoElementD {
 		}
 		
 		public void actionPerformed(ActionEvent e) {
-
-			//AbstractApplication.debug(geo.getLabelSimple());
-			app.clearSelectedGeos(false); //repaint done next step
-			app.addSelectedGeo(geo);
-			
-			// update the geo lists and show the popup again with the new selection
-			selectedGeos.clear();
-			selectedGeos.add(geo);
-			app.getGuiManager().showPopupChooseGeo(selectedGeos, geos, (EuclidianViewInterfaceCommon)view, loc);
+			geoActionCmd(this.geo,selectedGeos,geos,view, loc);
 		}
 		
 	}

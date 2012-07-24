@@ -27,6 +27,7 @@ import geogebra.web.gui.util.GeoGebraFileChooser;
 import geogebra.web.gui.view.algebra.AlgebraControllerW;
 import geogebra.web.gui.view.algebra.AlgebraViewW;
 import geogebra.web.main.AppW;
+import geogebra.web.openjdk.awt.geom.Point;
 
 import java.util.ArrayList;
 
@@ -103,21 +104,69 @@ public class GuiManagerW extends GuiManager {
 
 	@Override
 	public void showPopupMenu(ArrayList<GeoElement> selectedGeos,
-			EuclidianViewInterfaceCommon euclidianViewInterfaceCommon, GPoint mouseLoc) {
-		// TODO Auto-generated method stub
-		App.debug("unimplemented method");
+			EuclidianViewInterfaceCommon view, GPoint mouseLoc) {
+		showPopupMenu(selectedGeos, ((EuclidianViewW) view).g2p.getCanvas(), mouseLoc);
 
 	}
 	
+
+private void showPopupMenu(ArrayList<GeoElement> geos,
+            Canvas invoker, GPoint p) {
+		if (geos == null || !app.letShowPopupMenu())
+			return;
+		if (app.getKernel().isAxis(geos.get(0))) {
+			showDrawingPadPopup(invoker, p);
+		} else {
+			// clear highlighting and selections in views
+			app.getActiveEuclidianView().resetMode();
+			getPopupMenu(geos, p).show(invoker, p.x, p.y);
+		}
+    }
+
+	ContextMenuGeoElementW popupMenu;
+
+	public ContextMenuGeoElementW getPopupMenu(ArrayList<GeoElement> geos, GPoint location) {
+		if (popupMenu == null) {
+			popupMenu = new ContextMenuGeoElementW((AppW) app, geos, location);
+		} else {
+			popupMenu.reInit(geos,location);
+		}
+		return popupMenu;
+	}
 
 	@Override
 	public void showPopupChooseGeo(ArrayList<GeoElement> selectedGeos,
 			ArrayList<GeoElement> geos, EuclidianViewInterfaceCommon view,
 			geogebra.common.awt.GPoint p) {
-		// TODO Auto-generated method stub
-		App.debug("unimplemented method");
-		
+		showPopupChooseGeo(selectedGeos, geos, view, p);
 	}
+
+	private void showPopupChooseGeo(ArrayList<GeoElement> selectedGeos,
+            ArrayList<GeoElement> geos, EuclidianView view, GPoint p) {
+		if (geos == null || !app.letShowPopupMenu())
+			return;
+		
+		if (app.getKernel().isAxis(geos.get(0))) {
+			showDrawingPadPopup(view, p);
+		} else {
+			
+			Canvas invoker = ((EuclidianViewW) view).g2p.getCanvas();
+			// clear highlighting and selections in views
+			GPoint screenPos = (invoker == null) ? new GPoint(0,0) : new GPoint(invoker.getAbsoluteLeft() + p.x, invoker.getAbsoluteTop() + p.y);
+			
+			
+			app.getActiveEuclidianView().resetMode();
+			getPopupMenu(app, view, selectedGeos, geos, screenPos, p).show(invoker,p.x,p.y);
+		}
+	    
+    }
+
+	private ContextMenuGeoElementW getPopupMenu(App app, EuclidianView view,
+            ArrayList<GeoElement> selectedGeos, ArrayList<GeoElement> geos,
+            GPoint screenPos, GPoint p) {
+	    popupMenu = new ContextMenuChooseGeoW((AppW) app, view, selectedGeos, geos, screenPos, p);
+	    return popupMenu;
+    }
 
 	@Override
 	public void setFocusedPanel(AbstractEvent event, boolean updatePropertiesView) {
