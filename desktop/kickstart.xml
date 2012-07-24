@@ -215,7 +215,7 @@ instructions.
 	<target name="ogp-geogebra">
 	<mkdir dir="lib/build/ogp"/>
 	<get 
-	    src="http://dev.geogebra.org/download/lib/ogp/OpenGeoProver.jar-20120712"
+	    src="http://dev.geogebra.org/download/lib/ogp/OpenGeoProver.jar-20120725"
 	    dest="lib/OpenGeoProver.jar" usetimestamp="true"/> <!-- Please set this back to false if you revert to an older version! -->
 	</target>
 	
