@@ -71,7 +71,6 @@ import geogebra.gui.properties.UpdateablePropertiesPanel;
 import geogebra.gui.util.FullWidthLayout;
 import geogebra.gui.util.GeoGebraIcon;
 import geogebra.gui.util.PopupMenuButton;
-import geogebra.gui.util.SelectionTable;
 import geogebra.gui.util.SpringUtilities;
 import geogebra.gui.view.algebra.InputPanelD;
 import geogebra.main.AppD;
@@ -124,6 +123,7 @@ import javax.swing.JToggleButton;
 import javax.swing.ListCellRenderer;
 import javax.swing.SpringLayout;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 import javax.swing.colorchooser.AbstractColorChooserPanel;
 import javax.swing.event.ChangeEvent;
@@ -6564,6 +6564,15 @@ class NamePanel extends JPanel implements ActionListener, FocusListener,
 	private static final long serialVersionUID = 1L;
 
 	private AutoCompleteTextFieldD tfName, tfDefinition, tfCaption;
+
+
+	private boolean actionPerforming = false;
+	private boolean redefinitionFailed = false;
+	private Runnable doActionStopped = new Runnable() {
+		public void run() {
+			actionPerforming = false;
+		}
+	};
 	private JLabel nameLabel, defLabel, captionLabel;
 	private InputPanelD inputPanelName, inputPanelDef, inputPanelCap;
 	private RenameInputHandler nameInputHandler;
@@ -6708,6 +6717,10 @@ class NamePanel extends JPanel implements ActionListener, FocusListener,
 	
 	public void updateDef(GeoElement geo){
 
+		//do nothing if called by doActionPerformed
+		if (actionPerforming)
+			return;
+		
 		tfDefinition.removeActionListener(this);
 		defInputHandler.setGeoElement(geo);
 		tfDefinition.setText(getDefText(geo));
@@ -6741,27 +6754,21 @@ class NamePanel extends JPanel implements ActionListener, FocusListener,
 				tfName.setText(strName);
 				tfName.requestFocus();
 			}
+			currentGeo.updateRepaint();
 		} else if (source == tfDefinition) {
 			String strDefinition = tfDefinition.getText();
 			if (!strDefinition.equals(getDefText(currentGeo))) {
-				int caretPosition = tfDefinition.getCaretPosition();
-				
+
 				if (defInputHandler.processInput(strDefinition)){	
 					//if succeeded, switch current geo
 					currentGeo = defInputHandler.getGeoElement();
 					app.addSelectedGeo(currentGeo);
-				}
+				}else
+					redefinitionFailed = true;
 
-				// reset definition string if not successful
-				strDefinition = getDefText(currentGeo);
-				if (!strDefinition.equals(tfDefinition.getText())) {
-					tfDefinition.setText(strDefinition);	
-					tfDefinition.requestFocusInWindow();
-				}else{
-					tfDefinition.requestFocusInWindow();
-					tfDefinition.setCaretPosition(caretPosition);
-				}
+				tfDefinition.requestFocusInWindow();
 			}
+
 		} else if (source == tfCaption) {
 			String strCaption = tfCaption.getText();
 			currentGeo.setCaption(strCaption);
@@ -6771,20 +6778,43 @@ class NamePanel extends JPanel implements ActionListener, FocusListener,
 				tfCaption.setText(strCaption);
 				tfCaption.requestFocus();
 			}
+			currentGeo.updateRepaint();
 		}
-		currentGeo.updateRepaint();
+		
 
-		actionPerforming = false;
+		SwingUtilities.invokeLater(doActionStopped);
 	}
 
-	private boolean actionPerforming = false;
+	
 
 	public void focusGained(FocusEvent arg0) {
 	}
 
 	public void focusLost(FocusEvent e) {
-		if (!actionPerforming)
-			doActionPerformed(e.getSource());
+		
+		if (actionPerforming)
+			return;
+		
+		Object source = e.getSource();
+		if (source == tfDefinition) {
+			
+			if (redefinitionFailed){
+				redefinitionFailed=false;
+				return;
+			}
+			
+			String strDefinition = getDefText(currentGeo);
+			if (!strDefinition.equals(tfDefinition.getText())) {
+				tfDefinition.setText(strDefinition);	
+			}
+			SwingUtilities.invokeLater(doActionStopped);
+
+		} else { 	
+			doActionPerformed(source);
+		}
+		
+
+		
 	}
 
 	private static String getDefText(GeoElement geo) {
