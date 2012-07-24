@@ -115,11 +115,13 @@ public abstract class CASView implements View{
 		case EuclidianConstants.MODE_CAS_EVALUATE:
 		case EuclidianConstants.MODE_CAS_NUMERIC:
 		case EuclidianConstants.MODE_CAS_KEEP_INPUT:
+			// no parameters, keep mode
+			processInput(command, null);
+			return;
 		case EuclidianConstants.MODE_CAS_EXPAND:
 		case EuclidianConstants.MODE_CAS_FACTOR:
 		case EuclidianConstants.MODE_CAS_SUBSTITUTE:
 			// no parameters
-
 			processInput(command, null);
 			break;
 		case EuclidianConstants.MODE_DELETE:
@@ -140,6 +142,7 @@ public abstract class CASView implements View{
 		default:
 			// ignore other modes
 		}
+		getApp().setMode(EuclidianConstants.MODE_CAS_EVALUATE);
 	}
 	
 	/**

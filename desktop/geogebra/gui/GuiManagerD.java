@@ -1106,6 +1106,7 @@ public class GuiManagerD extends GuiManager {
 	}
 
 	ContextMenuGeoElementD popupMenu;
+	private boolean setModeFinished;
 
 	/**
 	 * Displays the popup menu for geo at the position p in the coordinate space
@@ -2434,14 +2435,17 @@ public class GuiManagerD extends GuiManager {
 
 	public void setMode(int mode) {
 
-//		hidePropertiesViewIfNotListener();
+		setModeFinished = false;
 		
 		// can't move this after otherwise Object Properties doesn't work
 		kernel.notifyModeChanged(mode);
 
+		//notifyModeChanged called another setMode => nothing to do here
+		if(setModeFinished)
+			return;
 		// select toolbar button, returns *actual* mode selected
 		int newMode = setToolbarMode(mode);
-		
+
 		if (mode != EuclidianConstants.MODE_SELECTION_LISTENER && newMode != mode) {
 			mode = newMode;
 			kernel.notifyModeChanged(mode);
@@ -2469,9 +2473,8 @@ public class GuiManagerD extends GuiManager {
 
 			// nothing more to do, so reset to move mode
 			app.setMoveMode();
-			return;
 		}
-
+		setModeFinished = true;
 	}
 
 	public int setToolbarMode(int mode) {
