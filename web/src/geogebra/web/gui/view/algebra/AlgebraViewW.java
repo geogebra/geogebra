@@ -199,6 +199,7 @@ public class AlgebraViewW extends Tree implements LayerView, SetLabels, geogebra
 			break;
 		case ORDER:
 			if (rootOrder == null) {
+				// both rootOrder and AlgebraView will have the Tree items
 				rootOrder = new TreeItem();
 			}
 			setUserObject(rootOrder, "");
@@ -210,7 +211,7 @@ public class AlgebraViewW extends Tree implements LayerView, SetLabels, geogebra
 
 			// set the root
 			clear();
-			addItem(rootOrder);
+			//addItem(rootOrder);
 			break;
 
 		case TYPE:
@@ -244,7 +245,7 @@ public class AlgebraViewW extends Tree implements LayerView, SetLabels, geogebra
 
 			// set the root
 			clear();
-			addItem(rootLayer);
+			//addItem(rootLayer);
 			break;
 		}
 		
@@ -513,6 +514,7 @@ public class AlgebraViewW extends Tree implements LayerView, SetLabels, geogebra
 	 * set labels on the tree
 	 */
 	protected void setTreeLabels() {
+		TreeItem node;
 		switch(getTreeMode()) {
 		case DEPENDENCY:
 			setUserObject(indNode, app.getPlain("FreeObjects") );
@@ -520,7 +522,6 @@ public class AlgebraViewW extends Tree implements LayerView, SetLabels, geogebra
 			setUserObject(auxiliaryNode, app.getPlain("AuxiliaryObjects") );
 			break;
 		case TYPE:
-			TreeItem node;
 			for (String key : typeNodesMap.keySet()) {
 				node = typeNodesMap.get(key);
 				setUserObject(node, app.getPlain(key) );
@@ -564,10 +565,16 @@ public class AlgebraViewW extends Tree implements LayerView, SetLabels, geogebra
 
 			if (pos == parent.getChildCount()) {
 				parent.addItem(node);
+				if (parent.equals(rootOrder))
+					addItem(node);
 			} else try {
 				parent.insertItem(pos, node);
+				if (parent.equals(rootOrder))
+					insertItem(pos, node);
 			} catch (IndexOutOfBoundsException e) {
 				parent.addItem(node);
+				if (parent.equals(rootOrder))
+					addItem(node);
 			}
 
 			setUserObject(node, geo);
@@ -628,24 +635,24 @@ public class AlgebraViewW extends Tree implements LayerView, SetLabels, geogebra
 
 			// do we have to create the parent node?
 			if (parent == null) {
-				String layerStr = layer + "";
-				parent = new TreeItem();
+				String layerStr = app.getPlain("LayerA", layer + "");
+				parent = new TreeItem(layerStr);
 
-				setUserObject(parent, layer);
+				setUserObject(parent, layerStr);
 
 				layerNodesMap.put(layer, parent);
 
 				// find insert pos
-				int pos = rootLayer.getChildCount();
+				int pos = getItemCount();
 				for (int i = 0; i < pos; i++) {
-					TreeItem child = rootLayer.getChild(i);
+					TreeItem child = getItem(i);
 					if (layerStr.compareTo(child.toString()) < 0) {
 						pos = i;
 						break;
 					}
 				}
 
-				rootLayer.insertItem(pos, parent);
+				insertItem(pos, parent);
 			}
 			break;
 		case ORDER:
@@ -800,11 +807,12 @@ public class AlgebraViewW extends Tree implements LayerView, SetLabels, geogebra
 			typeNodesMap.clear();
 			break;
 		case LAYER:
-			rootLayer.removeItems();
+			removeItems();
 			layerNodesMap.clear();
 			break;
 		case ORDER:
 			rootOrder.removeItems();
+			removeItems();
 		}
 	}
 
@@ -866,6 +874,8 @@ public class AlgebraViewW extends Tree implements LayerView, SetLabels, geogebra
 			removeFromLayer(((GeoElement) node.getUserObject()).getLayer());
 
 			break;
+		case ORDER:
+			rootOrder.removeItem(node);
 		}
 	}
 
