@@ -373,6 +373,12 @@ public interface CommandConstants extends ConstantsWithLookup {
     @DefaultStringValue("[ <Point>, <Point>, <Point>, <Point> ]")
     String CrossRatio_Syntax();
 
+    @DefaultStringValue("Cubic")
+    String Cubic();
+
+    @DefaultStringValue("[ <Point>, <Point>, <Point>, <Number> ]")
+    String Cubic_Syntax();
+
     @DefaultStringValue("Curvature")
     String Curvature();
 
@@ -487,7 +493,7 @@ public interface CommandConstants extends ConstantsWithLookup {
     @DefaultStringValue("Distance")
     String Distance();
 
-    @DefaultStringValue("[ <Point>, <Object> ]")
+    @DefaultStringValue("[ <Point>, <Object> ]\n[ <Line>, <Line> ]")
     String Distance_Syntax();
 
     @DefaultStringValue("Div")
@@ -2428,12 +2434,6 @@ public interface CommandConstants extends ConstantsWithLookup {
     @DefaultStringValue("[ <Point>, <Point>, <Point>, <Number> ]")
     String TriangleCenter_Syntax();
 
-    @DefaultStringValue("Cubic")
-    String Cubic();
-
-    @DefaultStringValue("[ <Point>, <Point>, <Point>, <Number> ]")
-    String Cubic_Syntax();
-
     @DefaultStringValue("TriangleCurve")
     String TriangleCurve();
 
@@ -2484,6 +2484,30 @@ public interface CommandConstants extends ConstantsWithLookup {
 
     @DefaultStringValue("[]")
     String Turtle_Syntax();
+
+    @DefaultStringValue("TurtleBack")
+    String TurtleBack();
+
+    @DefaultStringValue("[ <Turtle>, <Distance> ]")
+    String TurtleBack_Syntax();
+
+    @DefaultStringValue("TurtleForward")
+    String TurtleForward();
+
+    @DefaultStringValue("[ <Turtle>, <Distance> ]")
+    String TurtleForward_Syntax();
+
+    @DefaultStringValue("TurtleLeft")
+    String TurtleLeft();
+
+    @DefaultStringValue("[ <Turtle>, <Angle> ]")
+    String TurtleLeft_Syntax();
+
+    @DefaultStringValue("TurtleRight")
+    String TurtleRight();
+
+    @DefaultStringValue("[ <Turtle>, <Angle> ]")
+    String TurtleRight_Syntax();
 
     @DefaultStringValue("UnicodeToLetter")
     String UnicodeToLetter();
