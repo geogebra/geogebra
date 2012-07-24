@@ -231,7 +231,6 @@ public enum Commands implements CommandsConstants{
    	CSolve(TABLE_ENGLISH),
    	Decimal(TABLE_ENGLISH),
    	Dot(TABLE_ENGLISH),
-   	ExpandComplex(TABLE_ENGLISH),
    	Groebner(TABLE_ENGLISH),
    	Imaginary(TABLE_ENGLISH),
    	IntegerPart(TABLE_ENGLISH),

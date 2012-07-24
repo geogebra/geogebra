@@ -1094,8 +1094,7 @@ public class CommandDispatcher {
 			case CFactor:
 			case CSolutions:
 			case CSolve:
-			case Decimal:			
-			case ExpandComplex:
+			case Decimal:
 			case Groebner:
 			case NSolve:
 			case NSolutions:
