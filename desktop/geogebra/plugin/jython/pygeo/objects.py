@@ -302,6 +302,7 @@ class Element:
     def _setlabel_offset(self, val):
         x, y = val
         API.Geo.setLabelOffset(self.geo, x, y)
+        API.Geo.updateRepaint(self.geo)
     label_offset = property(_getlabel_offset, _setlabel_offset)
     
     # property: background_color

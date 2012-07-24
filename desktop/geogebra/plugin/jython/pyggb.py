@@ -29,7 +29,7 @@ class Interface(PythonScriptInterface):
         functions = Functions(api, factory)
         self.geo = objects.GeoNamespace(self.factory)
         selection = self.selection = objects.Selection(self.factory)
-        self.namespace = {
+        self.init_namespace = {
             'Color': Color,
             # Below we must assume that the GgbApi is already created.
             'ggbApplet': APIProxy(raw_api.getGgbApi()),
@@ -47,16 +47,22 @@ class Interface(PythonScriptInterface):
             'in_main_thread': in_main_thread,
             'start_new_thread': start_new_thread,
             'run_in_main_thread': run_in_main_thread,
+            'Element': objects.Element,
             '__factory__': factory,
             '__api__': api,
         }
         for obj in objects.__objects__:
-            self.namespace[obj.__name__] = getattr(factory, obj.__name__)
-        self.namespace['Intersect'] = factory.Intersect
-        self.namespace.update(objects.unary_functions(self.factory))
+            self.init_namespace[obj.__name__] = getattr(factory, obj.__name__)
+        self.init_namespace['Intersect'] = factory.Intersect
+        self.init_namespace.update(objects.unary_functions(self.factory))
+        self.reset_namespace()
         self.handling_event = False
         self.event_listeners = defaultdict(list)
 
+    def reset_namespace(self):
+        self.namespace = {}
+        self.namespace.update(self.init_namespace)
+    
     def execute(self, script):
         self.run(script)
     
@@ -72,34 +78,36 @@ class Interface(PythonScriptInterface):
     def handleEvent(self, evt_type, target):
         # if ... return and try ... finally are hacks to try to fix #1520
         # I can't run ATM so...
-        if API.Geo.getLabel(target) is not None:
+        label = API.Geo.getLabel(target)
+        if label is not None:
             for listener in self.event_listeners[evt_type]:
                 try:
                     listener(evt_type, target)
                 except Exception:
                     self.show_traceback("Error while running listener for %s" % evt_type)
-        if target not in self.factory._cache:
+        if self.handling_event:
             return
-        try:
-            if self.handling_event:
-                return
+        if target in self.factory._cache or (label and evt_type == 'add'):
             element = self.factory.get_element(target)
             try:
                 action = getattr(element, "on" + evt_type)
             except AttributeError:
+                if evt_type == 'add':
+                    del self.factory._cache[target]
                 return
-            try:
-                self.handling_event = True
-                action()
-            except Exception:
-                header = "Error while handling event '%s' on '%r'\n" % (evt_type, target)
-                self.show_traceback(header, 2)
-                raise
-            finally:
-                self.handling_event = False
+        else:
+            return
+        try:
+            self.handling_event = True
+            action()
+        except Exception:
+            header = "Error while handling event '%s' on '%r'\n" % (evt_type, target)
+            self.show_traceback(header, 2)
+            raise
         finally:
             if evt_type == 'remove':
                 del self.factory._cache[target]
+            self.handling_event = False
         
     def notifySelected(self, geo, add):
         # geo = API.Geo(geo)

@@ -1039,6 +1039,9 @@ class PythonWindow(ActionListener, ChangeListener):
         shellmenu = JMenu("Interactive")
         menubar.add(shellmenu)
         
+        item = new_item("Reset Python", "resetpython")
+        shellmenu.add(item)
+        
         item = new_item("Interrupt Running code", "interrupt", KeyEvent.VK_C,
             mod=ActionEvent.CTRL_MASK)
         shellmenu.add(item)
@@ -1115,6 +1118,8 @@ class PythonWindow(ActionListener, ChangeListener):
         except AttributeError:
             pass
     
+    def action_resetpython(self, evt):
+        interface.reset_namespace()
     def action_interrupt(self, evt):
         self.interactive_pane.stopcode()
     
