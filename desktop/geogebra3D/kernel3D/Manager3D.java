@@ -1136,4 +1136,11 @@ public class Manager3D implements Manager3DInterface {
 		return new geogebra3D.kernel3D.Geo3DVec(kernel, x, y, z);
 	}
 
+	public GeoNumeric Distance(String label, GeoLineND g, GeoLineND h) {
+		
+		AlgoDistanceLines3D algo = new AlgoDistanceLines3D(cons, label, g, h);
+		
+		return algo.getDistance();
+	}
+
 }

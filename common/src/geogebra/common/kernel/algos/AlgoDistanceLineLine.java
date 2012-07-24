@@ -36,7 +36,7 @@ import geogebra.common.kernel.locusequ.EquationScope;
 public class AlgoDistanceLineLine extends AlgoElement {
 
     private GeoLine g, h; // input
-    private GeoNumeric dist; // output       
+    protected GeoNumeric dist; // output       
 
     public AlgoDistanceLineLine(
         Construction cons,
@@ -88,7 +88,7 @@ public class AlgoDistanceLineLine extends AlgoElement {
 
     // calc length of vector v   
     @Override
-	public final void compute() {
+	public void compute() {
         dist.setValue(g.distance(h));
     }
 
@@ -110,4 +110,6 @@ public class AlgoDistanceLineLine extends AlgoElement {
 		// TODO Consider locusequability
 		return false;
 	}
+
+
 }

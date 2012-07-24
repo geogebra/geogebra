@@ -89,6 +89,8 @@ public class CommandDispatcher3D extends CommandDispatcher {
 			case PointIn:
 				return new CmdPointIn3D(kernel);
 
+			case Distance:
+				return new CmdDistance3D(kernel);
 			case Intersect:
 				return new CmdIntersect3D(kernel);
 			case Intersection:

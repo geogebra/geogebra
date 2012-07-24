@@ -49,6 +49,7 @@ public enum Algos {
 	AlgoDirectorCircle(Commands.DirectorCircle),
 	AlgoNormalPoints(Commands.NormalPoints),*/
 	AlgoDistanceLineLine(Commands.Distance),
+	AlgoDistanceLines3D(Commands.Distance),
 	AlgoDistancePointObject(Commands.Distance),
 	AlgoDistancePoints(Commands.Distance),
 	AlgoEllipseFociLength(Commands.Ellipse),

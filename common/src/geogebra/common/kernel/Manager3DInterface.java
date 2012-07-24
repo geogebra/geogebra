@@ -562,4 +562,8 @@ public interface Manager3DInterface {
 
 	public Geo3DVec newGeo3DVec(double double1, double double2, double double3);
 
+	public GeoNumeric Distance(String label, GeoLineND g, GeoLineND h);
+
+
+
 }

@@ -5646,12 +5646,12 @@ public class Kernel {
 	/**
 	 * Distance named label between line g and line h
 	 */
-	final public GeoNumeric Distance(String label, GeoLine g, GeoLine h) {
-		AlgoDistanceLineLine algo = new AlgoDistanceLineLine(cons, label, g, h);
+	public GeoNumeric Distance(String label, GeoLineND g, GeoLineND h) {
+		AlgoDistanceLineLine algo = new AlgoDistanceLineLine(cons, label, (GeoLine)g, (GeoLine)h);
 		GeoNumeric num = algo.getDistance();
 		return num;
 	}
-
+	
 	/**
 	 * Div[a, b]
 	 */

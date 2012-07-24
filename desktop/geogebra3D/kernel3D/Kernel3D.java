@@ -22,6 +22,7 @@ import geogebra.common.kernel.arithmetic.ExpressionNodeEvaluator;
 import geogebra.common.kernel.commands.AlgebraProcessor;
 import geogebra.common.kernel.commands.CommandDispatcher;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.kernelND.GeoAxisND;
@@ -367,6 +368,14 @@ public class Kernel3D extends Kernel {
 	@Override
 	public String getXMLFileFormat() {
 		return GeoGebra3D.XML_FILE_FORMAT;
+	}
+	
+	@Override
+	public GeoNumeric Distance(String label, GeoLineND g, GeoLineND h) {
+		if (((GeoElement) g).isGeoElement3D()
+				|| ((GeoElement) h).isGeoElement3D())
+			return getManager3D().Distance(label, g, h);
+		return super.Distance(label, g, h);
 	}
 
 	/**

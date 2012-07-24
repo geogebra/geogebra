@@ -381,11 +381,11 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	}
 
 	/**
-	 * Calculates the euclidian distance between this GeoLine and GeoLine g.
+	 * Calculates the distance between this GeoLine and GeoLine g.
 	 * 
 	 * @param g
 	 *            line
-	 * @return euclidean distance between lines
+	 * @return distance between lines
 	 */
 	final public double distance(GeoLine g) {
 		// parallel
@@ -1532,5 +1532,9 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 		return ((SymbolicParametersBotanaAlgo) algoParent).getBotanaPolynomials(this);
 		}
 	throw new NoSymbolicParametersException();
+	}
+
+	public double distance(GeoLineND g) {
+		return distance((GeoLine)g);
 	}
 }

@@ -102,5 +102,12 @@ public interface GeoLineND extends GeoDirectionND{
 	 * @param point point
 	 */
 	public void addPointOnLine(GeoPointND point);
+	
+	/**
+	 * returns the distance from this line to line g.
+	 * @param m line
+	 * @return distance distance between this and g
+	 */
+	public double distance(GeoLineND g);
 
 }

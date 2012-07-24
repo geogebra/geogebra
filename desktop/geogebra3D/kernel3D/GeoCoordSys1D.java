@@ -12,11 +12,13 @@ import geogebra.common.kernel.Matrix.CoordMatrixUtil;
 import geogebra.common.kernel.Matrix.CoordSys;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.Translateable;
 import geogebra.common.kernel.kernelND.GeoCoordSys;
 import geogebra.common.kernel.kernelND.GeoCoordSys1DInterface;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.util.MyMath;
 
 
 public abstract class GeoCoordSys1D extends GeoElement3D implements Path,
@@ -498,6 +500,29 @@ Translateable{
 
 		if (!pointsOnLine.contains(p))
 			pointsOnLine.add(p);
+	}
+
+	/**
+	 * Calculates the distance between this line and line g.
+	 * 
+	 * @param g
+	 *            line
+	 * @return distance between lines
+	 */
+	final public double distance(GeoLineND g) {
+		
+		double dist;
+		Coords cVector = this.getDirectionInD3().crossProduct(g.getDirectionInD3());
+		Coords diffPoints = this.getPointInD(3, 0).sub(g.getPointInD(3, 0));
+		
+		if (cVector.isZero()) { // two lines are parallel
+			Coords n = diffPoints.crossProduct(this.getDirectionInD3()).crossProduct(this.getDirectionInD3());
+			dist = Math.abs(diffPoints.dotproduct(n.normalize()));
+		} else {
+			dist = Math.abs(diffPoints.dotproduct(cVector.normalize()));
+		}
+
+		return dist;
 	}
 
     
