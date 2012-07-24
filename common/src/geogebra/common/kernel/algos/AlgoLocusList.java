@@ -36,7 +36,7 @@ public class AlgoLocusList extends AlgoElement {
 
 	public static int MIN_STEPS_REALLY = 16;
 
-	ArrayList<AlgoLocus> arrLocus;
+	ArrayList<AlgoElement> arrLocus;
 
 	private GeoPoint movingPoint, locusPoint; // input
 	private GeoLocus locus; // output
@@ -48,39 +48,38 @@ public class AlgoLocusList extends AlgoElement {
 	private boolean foundDefined;
 	private TreeSet<GeoElement> Qin;
 
+	public AlgoLocusList(Construction cons, GeoPoint Q, GeoPoint P, int try_steps) {
+
+		// just ignoring try_steps here because it would
+		// probably not be OK to split MIN_STEPS any more
+
+		super(cons);
+		this.movingPoint = P;
+		this.locusPoint = Q;
+
+		path = P.getPath();
+
+		fillLocusArray(Q, P);
+
+		locus = new GeoLocus(cons);
+		setInputOutput(); // for AlgoElement
+		cons.registerEuclidianViewCE(this);
+		compute();
+
+		// we may have created a starting point for the path now
+		// make sure that the movingPoint in the main construction
+		// uses the correct path parameter for it
+		path.pointChanged(P);
+	}
+
 	public AlgoLocusList(Construction cons, String label, GeoPoint Q, GeoPoint P) {
 		super(cons);
 		this.movingPoint = P;
 		this.locusPoint = Q;
 
-		arrLocus = new ArrayList<AlgoLocus>();
-
-		// AlgoLocusList should be called only when the path is a GeoList
 		path = P.getPath();
-		GeoElement actel, pathp;
-		AlgoLocus actal;
-		// however...
-		try {
-			int try_steps = PathMover.MIN_STEPS / ((GeoList)path).size() + 1;
-			if (try_steps < MIN_STEPS_REALLY) {
-				try_steps = MIN_STEPS_REALLY;
-			}
-			for (int i = 0; i < ((GeoList)path).size(); i++) {
-				actel = ((GeoList)path).get(i);
-				if (actel instanceof Path) {
-					P.setPath((Path)actel);
-					actal = new AlgoLocus(cons, Q, P, try_steps);
-					pathp = actal.getLocus();
-					cons.removeFromAlgorithmList(actal);
-					cons.removeFromConstructionList(actal);
-					cons.removeFromConstructionList(pathp);
-					P.setPath(path);
-					arrLocus.add(actal);
-				}
-			}
-		} catch (Exception ex) {
-			app.error(ex.getMessage());
-		}
+
+		fillLocusArray(Q, P);
 
 		locus = new GeoLocus(cons);
 		setInputOutput(); // for AlgoElement
@@ -93,6 +92,40 @@ public class AlgoLocusList extends AlgoElement {
 		path.pointChanged(P);
 
 		locus.setLabel(label);
+	}
+
+	private void fillLocusArray(GeoPoint Q, GeoPoint P) {
+		arrLocus = new ArrayList<AlgoElement>();
+		// AlgoLocusList should be called only when the path is a GeoList
+		GeoElement actel, pathp;
+		AlgoElement actal;
+		// however...
+		try {
+			int try_steps = PathMover.MIN_STEPS / ((GeoList)path).size() + 1;
+			if (try_steps < MIN_STEPS_REALLY) {
+				try_steps = MIN_STEPS_REALLY;
+			}
+			for (int i = 0; i < ((GeoList)path).size(); i++) {
+				actel = ((GeoList)path).get(i);
+				if (actel instanceof Path) {
+					P.setPath((Path)actel);
+					if (actel instanceof GeoList) {
+						actal = new AlgoLocus(cons, Q, P, try_steps);
+						pathp = ((AlgoLocus)actal).getLocus();
+					} else {
+						actal = new AlgoLocusList(cons, Q, P, try_steps);
+						pathp = ((AlgoLocusList)actal).getLocus();
+					}
+					cons.removeFromAlgorithmList(actal);
+					cons.removeFromConstructionList(actal);
+					cons.removeFromConstructionList(pathp);
+					P.setPath(path);
+					arrLocus.add(actal);
+				}
+			}
+		} catch (Exception ex) {
+			app.error(ex.getMessage());
+		}
 	}
 
 	@Override
@@ -203,11 +236,14 @@ public class AlgoLocusList extends AlgoElement {
 		locus.clearPoints();
 		foundDefined = false;
 
-		AlgoLocus actLocus;
+		AlgoElement actLocus;
 		GeoLocus actGeo;
 		for (int i = 0; i < arrLocus.size(); i++) {
 			actLocus = arrLocus.get(i);
-			actGeo = actLocus.getLocus();
+			if (actLocus instanceof AlgoLocusList)
+				actGeo = ((AlgoLocusList) actLocus).getLocus();
+			else
+				actGeo = ((AlgoLocus)actLocus).getLocus();
 			for (int j = 0; j < actGeo.getPointLength(); j++) {
 				insertPoint(
 					actGeo.getPoints().get(j).x,
