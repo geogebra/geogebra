@@ -30,6 +30,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoFunctionNVar;
 import geogebra.common.kernel.geos.GeoLine;
+import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoVec2D;
@@ -1470,8 +1471,10 @@ public class ExpressionNode extends ValidExpression implements
 		// expression node
 		String leftStr = null, rightStr = null;
 		if (left.isGeoElement()) {
-			if (tpl.getStringType().equals(StringType.OGP) && (operation.equals(Operation.EQUAL_BOOLEAN)
-					&& (left instanceof GeoSegment || left instanceof GeoPolygon))) {
+			if (tpl.getStringType().equals(StringType.OGP)
+					&& (operation.equals(Operation.EQUAL_BOOLEAN) || operation.equals(Operation.DIVIDE)
+							|| operation.equals(Operation.MULTIPLY))
+					&& (left instanceof GeoSegment || left instanceof GeoPolygon || left instanceof GeoNumeric)) {
 				leftStr = ((GeoElement) left).getCommandDescription(tpl);
 			} else
 				leftStr = ((GeoElement) left).getLabel(tpl);
@@ -1481,8 +1484,10 @@ public class ExpressionNode extends ValidExpression implements
 
 		if (right != null) {
 			if (right.isGeoElement()) {
-				if (tpl.getStringType().equals(StringType.OGP) && (operation.equals(Operation.EQUAL_BOOLEAN)
-						&& (right instanceof GeoSegment || right instanceof GeoPolygon))) {
+				if (tpl.getStringType().equals(StringType.OGP)
+						&& (operation.equals(Operation.EQUAL_BOOLEAN) || operation.equals(Operation.DIVIDE)
+								|| operation.equals(Operation.MULTIPLY))
+						&& (right instanceof GeoSegment || right instanceof GeoPolygon || right instanceof GeoNumeric)) {
 					rightStr = ((GeoElement) right).getCommandDescription(tpl);
 				} else
 					rightStr = ((GeoElement) right).getLabel(tpl);
