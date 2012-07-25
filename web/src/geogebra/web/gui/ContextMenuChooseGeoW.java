@@ -4,6 +4,7 @@ import geogebra.common.awt.GPoint;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.kernel.geos.FromMeta;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.main.App;
 import geogebra.web.main.AppW;
 import geogebra.web.openjdk.awt.geom.Point;
 
@@ -12,6 +13,10 @@ import java.util.ArrayList;
 import java.util.TreeSet;
 
 import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.Event;
+import com.google.gwt.user.client.EventListener;
+import com.google.gwt.user.client.impl.DOMImpl;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
 
@@ -82,9 +87,31 @@ public class ContextMenuChooseGeoW extends ContextMenuGeoElementW {
 			}
 		}
 	}
+	
+	private class MyMouseOverListener implements EventListener {
+		
+		private GeoElement geo;
+		
+		public MyMouseOverListener(GeoElement geo) {
+	        this.geo = geo;
+        }
+
+		public void onBrowserEvent(Event event) {
+			view.getEuclidianController().doSingleHighlighting(geo);
+			App.debug("view.getEuclidianController().doSingleHighlighting(geo) called");
+        }
+		
+	}
 
 	private void addGeo(GeoElement geo) {
-	    // TODO Auto-generated method stub
+	    GeoAction chooser = new GeoAction(geo);
+	    MenuItem mi = new MenuItem(getDescription(geo), chooser);
+	    DOM.setEventListener(mi.getElement(), new MyMouseOverListener(geo));
+	    DOM.sinkEvents(mi.getElement(), Event.ONMOUSEOVER);
+	    
+	    selectAnotherMenu.addItem(mi);
+	    metas.add(geo);
+	    
 	    
     }
 	
@@ -97,8 +124,7 @@ public class ContextMenuChooseGeoW extends ContextMenuGeoElementW {
 		}
 		
 		public void execute() {
-	        // TODO Auto-generated method stub
-	        
+			geoActionCmd(this.geo,selectedGeos,geos,view, loc);
         }
 		
 	}
