@@ -331,9 +331,9 @@ public abstract class Prover {
 	 * @return The simplified XML 
 	 */
 	// TODO: Cut even more unneeded parts to reduce unneeded traffic between OGP and GeoGebra.
-	protected static String simplifiedXML(Construction cons) {
+	protected static String simplifiedXML(Construction cons, GeoElement statement) {
 		StringBuilder sb = new StringBuilder();
-		cons.getConstructionElementsXML_OGP(sb);
+		cons.getConstructionElementsXML_OGP(sb, statement);
 		return "<construction>\n" + sb.toString() + "</construction>";
 	}
 

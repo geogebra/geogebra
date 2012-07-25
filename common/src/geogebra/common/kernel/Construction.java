@@ -6,11 +6,14 @@ import geogebra.common.io.MyXMLio;
 import geogebra.common.kernel.algos.AlgoDependentNumber;
 import geogebra.common.kernel.algos.AlgoDistancePoints;
 import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.algos.AlgoProve;
+import geogebra.common.kernel.algos.AlgoProveDetails;
 import geogebra.common.kernel.algos.AlgorithmSet;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.algos.ConstructionElement;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.NumberValue;
@@ -1081,14 +1084,25 @@ public class Construction {
 	 * Only elements/commands are preserved,
 	 * the rest is ignored. 
 	 * @param sb String builder 
+	 * @param statement The statement to prove
 	 */
-	public void getConstructionElementsXML_OGP(StringBuilder sb) {
-
+	public void getConstructionElementsXML_OGP(StringBuilder sb, GeoElement statement) {
+		AlgoElement statementAlgo = statement.getParentAlgorithm();
+		StringTemplate tpl = StringTemplate.ogpTemplate;
 		ConstructionElement ce;
 		int size = ceList.size();
 		for (int i = 0; i < size; ++i) {
 			ce = ceList.get(i);
-			ce.getXML_OGP(sb);
+			if (ce instanceof AlgoProve || ce instanceof AlgoProveDetails) {
+				// Don't put all Prove/ProveDetails commands into the XML,
+				// only the current one.
+				// Not really sure if this could be done a bit more elegant...
+				AlgoElement ceAlgo = ce.getGeoElements()[0].getParentAlgorithm().getInput()[0].getParentAlgorithm();
+				if (ceAlgo.getCommandDescription(tpl).equals(statementAlgo.getCommandDescription(tpl))) {
+					ce.getXML_OGP(sb);
+				}
+			} else
+				ce.getXML_OGP(sb);
 		}
 	}
 	

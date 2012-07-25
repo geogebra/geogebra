@@ -81,7 +81,7 @@ public class Prover extends geogebra.common.util.Prover {
 	@Override
 	protected ProofResult openGeoProver(ProverEngine pe) {
 		App.debug("OGP is about to run...");
-		String c = simplifiedXML(construction);
+		String c = simplifiedXML(construction, statement);
 		App.trace("Construction: " + c);
 		// String cd = statement.getCommandDescription(StringTemplate.ogpTemplate);
 		// App.debug("Statement in the XML should be: " + cd);
