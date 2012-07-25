@@ -62,27 +62,29 @@ CONTRIBUTORS
 
 
 TRANSLATORS
+  * Afrikaans: Rika Grobler (South Africa)
   * Albanian: Pellumb Klogjeri (Albania)
-  * Armenian: Gagik Aghekyan (Armenia)
   * Arabic: Brahim Boulakbech, Haboubi Abdessalem (Tunisia),
       Maha Ah (Egypt)
+  * Armenian: Gagik Aghekyan (Armenia)
   * Basque: Gonzalo Elcano Vizcay (Spain)
   * Bosnian: Maja Hrbat (Bosnia and Herzegovina)
-  * Bulgarian: Hristo Stoyanov (Bulgaria)
+  * Bulgarian: Hristo Stoyanov, Magdalena Petkova (Bulgaria)
   * Catalan: Jaume Bartroli, Pep Bujosa, Josep Lluis Canadilla,
       Carlos Gimenez, Antoni Goma, Jorge Sanchez,
-      Roser Sebastian (Spain)
+      Roser Sebastian, David Obrador Sala (Spain)
+  * Chinese (Simplified): Chen Xing, Tom King (China)
   * Chinese (Traditional): Fu-Kwun Hwang, Chen-Hui Lin, Pegasus Roe,
       Joe Chen (Taiwan)
-  * Chinese (Simplified): Chen Xing, Tom King (China)
   * Croatian: Sime Suljic, Ela Rac-Marinic-Kragic, Josip Klicinovic,
-      Zeljko Vrabec (Croatia)
+      Zeljko Vrabec, Ela Rac (Croatia)
   * Czech: Zuzana Bouchalova, Michaela Norulakova, Marketa Tomanova,
-      Marie Pokorna (Czech Republic)
+      Marie Pokorna, Jiri Srubar, Roman Hasek (Czech Republic)
   * Danish: Steen Grode (Denmark)
   * Dutch: Ivan De Winne, Chris Cambre, Jozef Van Remoortere,
       Roger Van Nieuwenhuyze, Pedro Tytgat, Riggy Van de Wiele,
       Beatrijs Versichel (Belgium)
+  * Filipino: Jose Abelardo Torio (Philippines)
   * English: Markus Hohenwarter, Judith Hohenwarter (Austria),
       Yves Kreis (Luxembourg), Michael Borcherds (UK)
   * Estonian: Jane Albre (Estonia)
@@ -99,7 +101,7 @@ TRANSLATORS
       Yves Kreis (Luxembourg), Birgit Lachner (Germany)
   * Greek: Nicholas Mousoulides, Constantinos Christou (Cyprus),
       Spiros Mavrogiannis, Manolis Koutlis,
-      Fergadiotis Athanasios (Greece)
+      Fergadiotis Athanasios, Alkeos Souyoul (Greece)
   * Hebrew: Guy Hed (Israel)
   * Hungarian: Zsuzsanna Papp-Varga, Andras Hrasko, Peter Csiba,
       Zoltan Major, Maria Sz. Fekete, Ildiko Kezer, Viktoria Kmecs,
@@ -107,21 +109,24 @@ TRANSLATORS
       Tamas Kalcza (Hungary)
   * Icelandic: Freyja Hreinsdottir (Iceland)
   * Indonesian: Aam Sudrajat (Indonesia)
+  * Irish: Maurice O'Reilly (Ireland)
   * Italian: Alessandra Tomasi, Simona Riva (Italy)
   * Japanese: Akihito Wachi, Kazuhiro Hasegawa (Japan)
   * Kazakh: Talgat Bainazarov (Kazakhstan)
   * Korean: Kyeong-Sik Choi (Korea)
-  * Lithuanian: Rokas Tamosiunas (Lithuania)
+  * Lithuanian: Rokas Tamosiunas, Antanas Apynis (Lithuania)
   * Macedonian: Linda Fahlberg-Stojanovska, OIKT,
       Faculty of Technical Sciences, UKLO,
       Jasmina Markoska (FYR Macedonia)
   * Malay: Daniel Leong (Malaysia)
-  * Marathi: Smita Patil (India)
+  * Marathi: Smita Patil, Aparna Lalingkar (India)
+  * Mongolian: Batnasan Davaa (Mongolia)
   * Nepali: Bhesh Raj Mainali (Nepal)
   * Norwegian: Sigbjorn Hals (Norway)
   * Persian: Saeed Aminorroaya, Ali SafarNavadeh, Azam Zabihi (Iran)
   * Polish: Ania Borkowska, Marzanna Miasko, Malgorzata Paliga
-      Ewa Piwek, Edyta Pobiega, Kasia Winkowska-Nowak (Poland)
+      Ewa Piwek, Edyta Pobiega, Kasia Winkowska-Nowak, Jerzy Mil,
+      Edyta Pobiega (Poland)
   * Portuguese (Brazil): Humberto Bortolossi, Celina A. A. P. Abar,
     Gerson Pastre de Oliveira, Lisbete Madsen Barbosa,
     Herminio Borges Neto, Alana Paula Araujo Freitas, Luciana de Lima,
@@ -131,11 +136,13 @@ TRANSLATORS
   * Serbian: Djordje Herceg, Dragoslav Herceg (Serbia)
   * Slovak: Peter Csiba, Iveta Kohanova (Slovakia)
   * Slovenian: Stanislav Senveter (Slovenia)
-  * Swedish: Jonas Enlund (Finland), Thomas Lingefjard (Sweden)
   * Spanish: Liliana Saidon (Argentina)
+  * Swedish: Jonas Enlund (Finland), Thomas Lingefjard, Jonas Hall (Sweden)
   * Tamil: Kengatharaiyer Sarveswaran, Balanithy Murugaiah
+  * Tajik: Yusuf Balkas (Tajikistan)
   * Thai: Alongkot Maiduang (Thailand) 
   * Turkish: Erol Karakirik, Mustafa Dogan, Suleyman Cengiz (Turkey)
+  * Ukrainian: Valentyna Pikalova (Ukraine)
   * Vietnamese: Nguyen Thanh Trung, Quang Nguyen,
       Nguyen Danh Nam (Vietnam)
   * Welsh: Uned Gyfieithu Translation Unit, Prifysgol Bangor University,
