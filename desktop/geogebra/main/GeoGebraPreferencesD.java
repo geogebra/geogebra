@@ -14,6 +14,7 @@ package geogebra.main;
 
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.main.App;
+import geogebra.common.main.GeoGebraPreferences;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -36,7 +37,7 @@ import java.util.prefs.Preferences;
  *  (Set in line 263 geogebra.gui.app.GeoGebraFrame before getPref() is called first time.)
  */
 
-public class GeoGebraPreferencesD {		
+public class GeoGebraPreferencesD extends GeoGebraPreferences{		
 	
 	public static final String AUTHOR = "author";
 	
@@ -112,10 +113,7 @@ public class GeoGebraPreferencesD {
 	 protected  String factoryDefaultXml; // see loadPreferences()
 	 
      
-    // special preference keys
-	protected final String XML_USER_PREFERENCES = "xml_user_preferences";
-	protected final String XML_DEFAULT_OBJECT_PREFERENCES = "xml_default_object_preferences";
-	protected final String XML_FACTORY_DEFAULT = "xml_factory_default"; 
+    protected final String XML_FACTORY_DEFAULT = "xml_factory_default"; 
 	protected final String TOOLS_FILE_GGT = "tools_file_ggt";	
 	protected final String APP_LOCALE = "app_locale";	
 	protected final String APP_CURRENT_IMAGE_PATH = "app_current_image_path";

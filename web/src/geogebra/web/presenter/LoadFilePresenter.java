@@ -1,6 +1,7 @@
 package geogebra.web.presenter;
 
 import geogebra.common.main.App;
+import geogebra.common.main.GeoGebraPreferences;
 import geogebra.web.Web;
 import geogebra.web.css.GuiResources;
 import geogebra.web.helper.FileLoadCallback;
@@ -43,8 +44,16 @@ public class LoadFilePresenter extends BasePresenter {
 			
 			Storage stockStore = null;
 			stockStore = Storage.getLocalStorageIfSupported();
-			String xml = stockStore.getItem("user_prefs_xml");
+			String xml = stockStore.getItem(GeoGebraPreferences.XML_USER_PREFERENCES);
 			if (xml != null) app.setXML(xml, false);
+			String xmlDef = stockStore.getItem(GeoGebraPreferences.XML_DEFAULT_OBJECT_PREFERENCES);
+        	//String xmlDef = ggbPrefs.get(XML_DEFAULT_OBJECT_PREFERENCES, factoryDefaultXml);
+        	//if (!xmlDef.equals(factoryDefaultXml)) {
+        		boolean eda = app.getKernel().getElementDefaultAllowed();
+        		app.getKernel().setElementDefaultAllowed(true);
+        		if (xmlDef != null) app.setXML(xmlDef, false);
+        		app.getKernel().setElementDefaultAllowed(eda);
+        	//}
 		}
 		
 		

@@ -10,7 +10,7 @@ import com.google.gwt.http.client.RequestException;
 import com.google.gwt.http.client.Response;
 import com.google.gwt.storage.client.Storage;
 
-public class GeoGebraPreferencesW implements GeoGebraPreferences {
+public class GeoGebraPreferencesW extends GeoGebraPreferences {
 
 	private static GeoGebraPreferencesW singleton;
 
@@ -57,6 +57,8 @@ public class GeoGebraPreferencesW implements GeoGebraPreferences {
 		String xml = app.getPreferencesXML();
 		Storage stockStore = null;
 		stockStore = Storage.getLocalStorageIfSupported();
-		stockStore.setItem("user_prefs_xml", xml);	    
+		stockStore.setItem(XML_USER_PREFERENCES, xml);
+       	String xmlDef = app.getKernel().getConstruction().getConstructionDefaults().getCDXML();
+       	stockStore.setItem(XML_DEFAULT_OBJECT_PREFERENCES, xmlDef);
 	}
 }
