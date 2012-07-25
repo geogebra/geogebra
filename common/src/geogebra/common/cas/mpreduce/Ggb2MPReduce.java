@@ -164,15 +164,15 @@ public class Ggb2MPReduce {
 				"<<begin scalar input!!, variable!!; input!!:=(%0); variable!!:=mymainvar(input!!); return myint(sqrt(1+df(input!!,variable!!)^2),variable!!,%1,%2) end>>");
 		p("Length.4", "int(sqrt(1+df(%0,%1)^2),%1,%2,%3)");
 		p("Limit.2",
-				"<<begin scalar input!!,limitabove!!, limitbelow!!; input!!:=(%0); return if (%1)=infinity or (%1)=-infinity then limit(input!!,mymainvar(input!!),%1) else <<limitabove!!:=limit!+(input!!,mymainvar(input!!),%1); limitbelow!!:=limit!-(input!!,mymainvar(input!!),%1); if limitabove!!=limitbelow!! then limitabove!! else \\'?>> end>>");
+				"<<begin scalar input!!,limitabove!!, limitbelow!!, result!!; input!!:=(%0); result!! := if (%1)=infinity or (%1)=-infinity then limit(input!!,<<mymainvar(input!!)>>,%1) else <<limitabove!!:=limit!+(input!!,mymainvar(input!!),%1); limitbelow!!:=limit!-(input!!,mymainvar(input!!),%1); if limitabove!!=limitbelow!! then limitabove!! else \\'?>>; return if freeof(result!!,\\'limit) then result!! else \\'? end>>");
 		p("Limit.3",
-				"<<begin scalar input!!,limitabove!!, limitbelow!!; input!!:=(%0); return if (%2)=infinity or (%2)=-infinity then limit(input!!,%1,%2) else << limitabove!!:=limit!+(input!!,%1,%2); limitbelow!!:=limit!-(input!!,%1,%2); if limitabove!!=limitbelow!! then limitabove!! else \\'?>> end>>");
+				"<<begin scalar input!!,limitabove!!, limitbelow!!, result!!; input!!:=(%0); result!! := if (%2)=infinity or (%2)=-infinity then limit(input!!,%1,%2) else << limitabove!!:=limit!+(input!!,%1,%2); limitbelow!!:=limit!-(input!!,%1,%2); if limitabove!!=limitbelow!! then limitabove!! else \\'?>>; return if freeof(result!!,\\'limit) then result!! else \\'? end>>");
 		p("LimitAbove.2",
-				"<<begin scalar input!!; input!!:=(%0); return limit!+(input!!,mymainvar(input!!),%1) end>>");
-		p("LimitAbove.3", "limit!+(%0,%1,%2)");
+				"<<begin scalar input!!, result!!; input!!:=(%0); result!!:= limit!+(input!!,mymainvar(input!!),%1); return if freeof(result!!,\\'limit!+) then result!! else \\'? end>>");
+		p("LimitAbove.3", "<<begin scalar result!!; result!! := limit!+(%0,%1,%2); return if freeof(result!!,\\'limit!+) then result!! else \\'? end >>");
 		p("LimitBelow.2",
-				"<<begin scalar input!!; input!!:=(%0); return limit!-(input!!,mymainvar(input!!),%1) end>>");
-		p("LimitBelow.3", "limit!-(%0,%1,%2)");
+				"<<begin scalar input!!, result!!; input!!:=(%0); result!! := limit!-(input!!,mymainvar(input!!),%1); return if freeof(result!!,\\'limit!-) then result!! else \\'?end>>");
+		p("LimitBelow.3", "<<begin scalar result!!; result!! :=limit!-(%0,%1,%2); return if freeof(result!!,\\'limit!-) then result!! else \\'? end >>");
 		p("Max.N", "max(%)");
 		p("MatrixRank.1", "rank(%0)");
 		p("Mean.1",
