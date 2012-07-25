@@ -3584,10 +3584,6 @@ public class AppD extends App implements
 
 	// endFKH
 
-	public String getPreferencesXML() {
-		return myXMLio.getPreferencesXML();
-	}
-
 	public byte[] getMacroFileAsByteArray() {
 		try {
 			ByteArrayOutputStream os = new ByteArrayOutputStream();

@@ -1937,7 +1937,10 @@ public abstract class App {
 		if (hasEuclidianView2()) {
 			getEuclidianView2().getXML(sb, asPreference);
 		} else if (asPreference && (getGuiManager() != null)) {
-			getEuclidianView2().getXML(sb, true);
+			//TODO: After the implementing of getEuclidianView2() on web remove the nullcheck from here 
+			//getEuclidianView2().getXML(sb, true);
+			EuclidianView ev2 = getEuclidianView2();
+			if (ev2 != null) ev2.getXML(sb,  true);
 		}
 
 		if (getGuiManager() != null) {
@@ -3154,6 +3157,10 @@ public abstract class App {
 
 	public boolean letShowPropertiesDialog() {
 		return rightClickEnabled;
+	}
+
+	public String getPreferencesXML() {
+		return myXMLio.getPreferencesXML();
 	}
 
 }

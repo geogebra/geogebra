@@ -45,6 +45,7 @@ public class OptionsMenuW extends MenuBar implements MenuInterface, MyActionList
 		//language menu
 		addLanguageMenu();
 		addSeparator();
+		addSaveSettingsMenu();
 		addRestoreDefaultSettingsMenu();
 	}
 	
@@ -91,6 +92,17 @@ public class OptionsMenuW extends MenuBar implements MenuInterface, MyActionList
 								app.getEuclidianView2().getStyleBar()
 								.restoreDefaultGeo();						
 
+			        }
+		        });
+	}
+	
+	private void addSaveSettingsMenu(){
+		
+		addItem(GeoGebraMenubarW.getMenuBarHtml(AppResources.INSTANCE
+				.document_save().getSafeUri().asString(), app.getMenu("Settings.Save")),
+		        true, new Command() {
+			        public void execute() {
+			        	GeoGebraPreferencesW.getPref().saveXMLPreferences(app);
 			        }
 		        });
 	}

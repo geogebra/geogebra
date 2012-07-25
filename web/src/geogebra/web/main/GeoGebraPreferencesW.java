@@ -8,6 +8,7 @@ import com.google.gwt.http.client.RequestBuilder;
 import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.RequestException;
 import com.google.gwt.http.client.Response;
+import com.google.gwt.storage.client.Storage;
 
 public class GeoGebraPreferencesW implements GeoGebraPreferences {
 
@@ -50,5 +51,12 @@ public class GeoGebraPreferencesW implements GeoGebraPreferences {
 		} catch (RequestException e) {
 			App.error(e.getMessage());
 		}
+	}
+	
+	public void saveXMLPreferences(App app) {
+		String xml = app.getPreferencesXML();
+		Storage stockStore = null;
+		stockStore = Storage.getLocalStorageIfSupported();
+		stockStore.setItem("user_prefs_xml", xml);	    
 	}
 }

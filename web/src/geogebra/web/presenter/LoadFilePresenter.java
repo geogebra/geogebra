@@ -12,6 +12,7 @@ import geogebra.web.main.AppW;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JsArrayInteger;
+import com.google.gwt.storage.client.Storage;
 
 public class LoadFilePresenter extends BasePresenter {
 	
@@ -39,6 +40,11 @@ public class LoadFilePresenter extends BasePresenter {
 			//we dont have content, it is an app
 			AppW.console("no base64content, possibly App loaded?");
 			app.appSplashCanNowHide();
+			
+			Storage stockStore = null;
+			stockStore = Storage.getLocalStorageIfSupported();
+			String xml = stockStore.getItem("user_prefs_xml");
+			if (xml != null) app.setXML(xml, false);
 		}
 		
 		
