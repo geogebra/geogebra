@@ -1423,6 +1423,21 @@ public class ExpressionNode extends ValidExpression implements
 	}
 
 	/**
+	 * Decide whether the current expression value must be expanded
+	 * for OpenGeoProver. This code helps both the Wu and the Area method.
+	 * @param ev left or right side of the expression
+	 * @return if expansion is required
+	 */
+	final private boolean expandForOGP(ExpressionValue ev) {
+		// The following types of operations and GeoElements are supported.
+		// See also the OGP code for the available (parsable) expressions.
+		return ((operation.equals(Operation.EQUAL_BOOLEAN) || operation.equals(Operation.DIVIDE)
+				|| operation.equals(Operation.MULTIPLY) || operation.equals(Operation.MINUS)
+				|| operation.equals(Operation.PLUS))
+		&& (ev instanceof GeoSegment || ev instanceof GeoPolygon || ev instanceof GeoNumeric));
+	}
+	
+	/**
 	 * @param prefix
 	 * @return a representation of all classes present in the tree
 	 */
@@ -1472,9 +1487,7 @@ public class ExpressionNode extends ValidExpression implements
 		String leftStr = null, rightStr = null;
 		if (left.isGeoElement()) {
 			if (tpl.getStringType().equals(StringType.OGP)
-					&& (operation.equals(Operation.EQUAL_BOOLEAN) || operation.equals(Operation.DIVIDE)
-							|| operation.equals(Operation.MULTIPLY))
-					&& (left instanceof GeoSegment || left instanceof GeoPolygon || left instanceof GeoNumeric)) {
+					&& expandForOGP(left)) {
 				leftStr = ((GeoElement) left).getCommandDescription(tpl);
 			} else
 				leftStr = ((GeoElement) left).getLabel(tpl);
@@ -1485,9 +1498,7 @@ public class ExpressionNode extends ValidExpression implements
 		if (right != null) {
 			if (right.isGeoElement()) {
 				if (tpl.getStringType().equals(StringType.OGP)
-						&& (operation.equals(Operation.EQUAL_BOOLEAN) || operation.equals(Operation.DIVIDE)
-								|| operation.equals(Operation.MULTIPLY))
-						&& (right instanceof GeoSegment || right instanceof GeoPolygon || right instanceof GeoNumeric)) {
+						&&  expandForOGP(right)) {
 					rightStr = ((GeoElement) right).getCommandDescription(tpl);
 				} else
 					rightStr = ((GeoElement) right).getLabel(tpl);
