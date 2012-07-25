@@ -171,9 +171,9 @@ public class AppW extends App {
 		this.useFullGui = ae.getDataParamGui();
 		startLogger();
 		initCommonObjects();
-		
-		this.canvas = Canvas.createIfSupported();
-		euclidianViewPanel = new EuclidianPanel();	
+
+		euclidianViewPanel = new EuclidianPanel();
+		this.canvas = euclidianViewPanel.getCanvas();
 		canvas.setWidth("1px");
 		canvas.setHeight("1px");
 		canvas.setCoordinateSpaceHeight(1);
