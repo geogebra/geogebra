@@ -37,20 +37,13 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 
 	
 
-	
-	//cube reduction
-	static public int REDUCTION_SMALL = 0;
-	static public int REDUCTION_MEDIUM = 1;
-	static public int REDUCTION_LARGE = 2;
-	
 	static private double[] REDUCTION_VALUES = {
 		(1-1./Math.sqrt(3))/2, //small
 		(1-1./Math.sqrt(2))/2, //medium
 		(1-1./1)/2	 //large
 	};
+
 	
-	private int reduction = REDUCTION_MEDIUM;
-	//private double reduction = (1-1./2.)/2;
 	
 	/**
 	 * Common constructor
@@ -79,21 +72,7 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 	public double zmax(){ return minMax[2][1]; }	
 	*/
 	
-	/**
-	 * sets the reduction of the cube
-	 * @param value reduction
-	 */
-	public void setReduction(int value){
-		reduction = value;
-	}
-	
-	/**
-	 * 
-	 * @return the reduction of the cube
-	 */
-	public int getReduction(){
-		return reduction;
-	}
+
 	
 	
 	/**
@@ -121,9 +100,10 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 		double zmax = (renderer.getBack(false))/scale+y0;
 		
 		
-		double xr = (xmax-xmin)*REDUCTION_VALUES[reduction];
-		double yr = (ymax-ymin)*REDUCTION_VALUES[reduction];
-		double zr = (zmax-zmin)*REDUCTION_VALUES[reduction];
+		double rv = REDUCTION_VALUES[((GeoClippingCube3D) getGeoElement()).getReduction()];
+		double xr = (xmax-xmin)*rv;
+		double yr = (ymax-ymin)*rv;
+		double zr = (zmax-zmin)*rv;
 		
 		
 		minMax[0][0] = xmin+xr;

@@ -85,5 +85,31 @@ public class GeoClippingCube3D extends GeoElement3D {
 		// TODO Auto-generated method stub
 		return false;
 	}
+	
+	
 
+	//cube reduction
+	static public int REDUCTION_SMALL = 0;
+	static public int REDUCTION_MEDIUM = 1;
+	static public int REDUCTION_LARGE = 2;
+	
+	
+	private int reduction = REDUCTION_LARGE;
+
+	/**
+	 * sets the reduction of the cube
+	 * @param value reduction
+	 */
+	public void setReduction(int value){
+		reduction = value;
+	}
+	
+	/**
+	 * 
+	 * @return the reduction of the cube
+	 */
+	public int getReduction(){
+		return reduction;
+	}
+	
 }

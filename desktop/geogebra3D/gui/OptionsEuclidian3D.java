@@ -1,12 +1,10 @@
 package geogebra3D.gui;
 
-import geogebra.gui.dialog.options.OptionsEuclidianD;
 import geogebra.gui.dialog.options.OptionsEuclidian2;
 import geogebra.gui.inputfield.MyTextField;
-import geogebra.main.AppD;
 import geogebra3D.Application3D;
-import geogebra3D.euclidian3D.DrawClippingCube3D;
 import geogebra3D.euclidian3D.EuclidianView3D;
+import geogebra3D.kernel3D.GeoClippingCube3D;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -18,7 +16,6 @@ import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
@@ -156,9 +153,9 @@ public class OptionsEuclidian3D extends OptionsEuclidian2 {
 		radioClippingLarge.removeActionListener(this);
 		*/
 		int flag = ((EuclidianView3D) view).getClippingReduction();
-		radioClippingSmall.setSelected(flag==DrawClippingCube3D.REDUCTION_SMALL);
-		radioClippingMedium.setSelected(flag==DrawClippingCube3D.REDUCTION_MEDIUM);
-		radioClippingLarge.setSelected(flag==DrawClippingCube3D.REDUCTION_LARGE);
+		radioClippingSmall.setSelected(flag==GeoClippingCube3D.REDUCTION_SMALL);
+		radioClippingMedium.setSelected(flag==GeoClippingCube3D.REDUCTION_MEDIUM);
+		radioClippingLarge.setSelected(flag==GeoClippingCube3D.REDUCTION_LARGE);
 		/*
 		radioClippingSmall.addActionListener(this);
 		radioClippingMedium.addActionListener(this);
@@ -432,11 +429,11 @@ public class OptionsEuclidian3D extends OptionsEuclidian2 {
 		}else if (source == cbShowClipping) {
 				((EuclidianView3D) view).setShowClippingCube(cbShowClipping.isSelected());		
 		}else if (source == radioClippingSmall) {		
-			((EuclidianView3D) view).setClippingReduction(DrawClippingCube3D.REDUCTION_SMALL);
+			((EuclidianView3D) view).setClippingReduction(GeoClippingCube3D.REDUCTION_SMALL);
 		}else if (source == radioClippingMedium) {		
-			((EuclidianView3D) view).setClippingReduction(DrawClippingCube3D.REDUCTION_MEDIUM);
+			((EuclidianView3D) view).setClippingReduction(GeoClippingCube3D.REDUCTION_MEDIUM);
 		}else if (source == radioClippingLarge) {		
-			((EuclidianView3D) view).setClippingReduction(DrawClippingCube3D.REDUCTION_LARGE);
+			((EuclidianView3D) view).setClippingReduction(GeoClippingCube3D.REDUCTION_LARGE);
 		}else if (source == tfPersp) {
 			try{
 				double val = Double.parseDouble(tfPersp.getText());

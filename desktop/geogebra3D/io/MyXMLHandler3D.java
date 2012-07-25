@@ -280,8 +280,12 @@ public class MyXMLHandler3D extends MyXMLHandler {
 			if (strShowClipping != null) {
 				boolean showClipping = parseBoolean(strShowClipping);
 				ev.setShowClippingCube(showClipping);
-			}
-			
+			}			
+			String strSizeClipping = attrs.get("size");
+			if (strSizeClipping != null) {
+				int sizeClipping = Integer.parseInt(strSizeClipping);
+				ev.setClippingReduction(sizeClipping);
+			}			
 			return true;
 		} catch (Exception e) {
 			//e.printStackTrace();

@@ -270,7 +270,7 @@ public class Kernel3D extends Kernel {
 				return new GeoPolyhedron(cons1);
 
 		case 'q': 
-			if (type.equals("quadric3d")) {
+			if (type.equals("quadric3d") || type.equals("quadric")) {
 				return new GeoQuadric3D(cons1);
 			} else if (type.equals("quadric3dpart"))
 				return new GeoQuadric3DPart(cons1);

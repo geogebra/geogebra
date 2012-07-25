@@ -383,7 +383,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 		xOyPlane = kernel3D.getXOYPlane();
 		xOyPlane.setEuclidianVisible(true);
 		xOyPlane.setGridVisible(true);
-		xOyPlane.setPlateVisible(false);
+		xOyPlane.setPlateVisible(true);
 		//xOyPlane.setFading(0);
 		xOyPlaneDrawable = (DrawPlane3D) createDrawable(xOyPlane);		
 
@@ -1352,8 +1352,8 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	}
 	
 	
-	private boolean useClippingCube = true;
-	private boolean showClippingCube = true;
+	private boolean useClippingCube = false;
+	private boolean showClippingCube = false;
 	
 	/**
 	 * 
@@ -1400,7 +1400,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	 * @param value reduction
 	 */
 	public void setClippingReduction(int value){
-		clippingCubeDrawable.setReduction(value);
+		clippingCube.setReduction(value);
 		setWaitForUpdate();
 	}
 	
@@ -1409,7 +1409,7 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	 * @return the reduction of the clipping box
 	 */
 	public int getClippingReduction(){
-		return clippingCubeDrawable.getReduction();
+		return clippingCube.getReduction();
 	}
 	
 	
@@ -2456,6 +2456,8 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 		sb.append(useClippingCube());
 		sb.append("\" show=\"");
 		sb.append(showClippingCube());
+		sb.append("\" size=\"");
+		sb.append(getClippingReduction());		
 		sb.append("\"/>\n");	
 		
 		sb.append("</euclidianView3D>\n");

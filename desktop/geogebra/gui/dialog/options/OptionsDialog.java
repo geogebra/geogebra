@@ -182,7 +182,7 @@ public class OptionsDialog extends JDialog implements WindowListener, SetLabels 
 	/**
 	 * Initialize the GUI.
 	 */
-	private void initGUI() {
+	protected void initGUI() {
 		setLayout(new BorderLayout());
 
 		// init tabs
