@@ -1279,9 +1279,10 @@ _.redraw = function() {
   scale(this.bracketjQs, min(1 + .2*(height - 1), 1.2), 1.05*height);
 };
 
-LatexCmds.lbrace = CharCmds['{'] = proto(Bracket, function(replacedFragment) {
-  Bracket.call(this, '{', '}', '\\{', '\\}', replacedFragment);
-});
+
+//proto(Bracket, function(replacedFragment) {
+//  Bracket.call(this, '{', '}', '\\{', '\\}', replacedFragment);
+//});
 LatexCmds.langle = LatexCmds.lang = proto(Bracket, function(replacedFragment) {
   Bracket.call(this,'&lang;','&rang;','\\langle ','\\rangle ',replacedFragment);
 });
@@ -1312,9 +1313,10 @@ _.placeCursor = function(cursor) {
   this.redraw();
 };
 
-LatexCmds.rbrace = CharCmds['}'] = proto(CloseBracket, function(replacedFragment) {
-  CloseBracket.call(this, '{','}','\\{','\\}',replacedFragment);
-});
+
+//proto(CloseBracket, function(replacedFragment) {
+//  CloseBracket.call(this, '{','}','\\{','\\}',replacedFragment);
+//});
 LatexCmds.rangle = LatexCmds.rang = proto(CloseBracket, function(replacedFragment) {
   CloseBracket.call(this,'&lang;','&rang;','\\langle ','\\rangle ',replacedFragment);
 });
@@ -1956,6 +1958,11 @@ function VanillaSymbol(ch, html) {
   Symbol.call(this, ch, '<span>'+(html || ch)+'</span>');
 }
 VanillaSymbol.prototype = Symbol.prototype;
+
+LatexCmds.lbrace = CharCmds['{'] =
+	bind(VanillaSymbol, '\\lbrace ', '{');
+LatexCmds.rbrace = CharCmds['}'] =
+	bind(VanillaSymbol, '\\rbrace ', '}');
 
 CharCmds[' '] = bind(VanillaSymbol, ' ', ' ');
 

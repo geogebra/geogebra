@@ -275,6 +275,9 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		// remove all \; and \,
 		eqstring = eqstring.replace("\\;","");
 		eqstring = eqstring.replace("\\,","");
+
+		eqstring = eqstring.replace("\\left\\{", "\\lbrace");
+		eqstring = eqstring.replace("\\right\\}", "\\rbrace");
 		return eqstring;
 	}
 
