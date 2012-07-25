@@ -77,7 +77,7 @@ public class StatDialogController {
 		this.kernel = app.getKernel();
 		this.cons = kernel.getConstruction();
 		this.spView = spView;
-		this.spreadsheetTable = spView.getTable();
+		this.spreadsheetTable = (MyTableD) spView.getTable();
 		this.sd = statDialog;
 		this.mode = sd.getMode();
 		this.statGeo = sd.getStatGeo();

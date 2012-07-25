@@ -3,6 +3,8 @@ package geogebra.gui.view.spreadsheet;
 
 import geogebra.common.awt.GPoint;
 import geogebra.common.gui.view.spreadsheet.CellRange;
+import geogebra.common.gui.view.spreadsheet.MyTableInterface;
+import geogebra.common.gui.view.spreadsheet.SpreadsheetViewInterface;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoElement;
@@ -44,7 +46,7 @@ import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumn;
 
 public class SpreadsheetView extends JPanel implements 
-View, ComponentListener, FocusListener, Gridable, SettingListener
+View, ComponentListener, FocusListener, Gridable, SettingListener, SpreadsheetViewInterface
 {
 
 	private static final long serialVersionUID = 1L;
@@ -249,7 +251,7 @@ View, ComponentListener, FocusListener, Gridable, SettingListener
 		return app;
 	}
 
-	public MyTableD getTable() {
+	public MyTableInterface getTable() {
 		return table;
 	}
 

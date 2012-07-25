@@ -1,6 +1,7 @@
 package geogebra.gui.view.spreadsheet;
 
 import geogebra.common.awt.GPoint;
+import geogebra.common.gui.view.spreadsheet.CellFormatInterface;
 import geogebra.common.gui.view.spreadsheet.CellRange;
 
 import java.awt.Color;
@@ -25,7 +26,7 @@ import javax.swing.SwingConstants;
  * @author George Sturr, 2010-4-4
  * 
  */
-public class CellFormat {
+public class CellFormat implements CellFormatInterface {
 
 	MyTableD table;
 

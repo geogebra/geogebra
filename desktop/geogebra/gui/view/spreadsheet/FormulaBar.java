@@ -48,7 +48,7 @@ public class FormulaBar extends JToolBar implements ActionListener, FocusListene
 
 		this.app = app;
 		this.view = view;
-		this.table = view.getTable();
+		this.table = (MyTableD) view.getTable();
 
 		this.editor = table.editor;
 

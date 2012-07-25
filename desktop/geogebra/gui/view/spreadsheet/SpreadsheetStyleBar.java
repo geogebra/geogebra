@@ -47,8 +47,8 @@ public class SpreadsheetStyleBar extends JToolBar implements ActionListener{
 
 		this.view = view;
 		this.app = view.getApplication();
-		this.table = view.getTable();
-		this.formatHandler = table.getCellFormatHandler();
+		this.table = (MyTableD) view.getTable();
+		this.formatHandler = (CellFormat) table.getCellFormatHandler();
 		this.selectedCells = table.selectedCellRanges;
 
 		// toolbar settings 

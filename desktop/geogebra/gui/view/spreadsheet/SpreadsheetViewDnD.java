@@ -68,7 +68,7 @@ public class SpreadsheetViewDnD implements DragGestureListener, DragSourceListen
 	public SpreadsheetViewDnD(AppD app, SpreadsheetView view){
 		this.app = app;
 		this.view = view;
-		this.table = view.getTable();
+		this.table = (MyTableD) view.getTable();
 
 		ds = new DragSource();
 		//DragGestureRecognizer dgr = ds.createDefaultDragGestureRecognizer(table, DnDConstants.ACTION_COPY, this);

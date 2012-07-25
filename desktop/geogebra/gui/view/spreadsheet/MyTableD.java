@@ -2,8 +2,10 @@ package geogebra.gui.view.spreadsheet;
 
 import geogebra.common.awt.GPoint;
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.gui.view.spreadsheet.CellFormatInterface;
 import geogebra.common.gui.view.spreadsheet.CellRange;
 import geogebra.common.gui.view.spreadsheet.MyTable;
+import geogebra.common.gui.view.spreadsheet.MyTableInterface;
 import geogebra.common.gui.view.spreadsheet.RelativeCopy;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
@@ -48,7 +50,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableColumn;
 
-public class MyTableD extends JTable implements FocusListener {
+public class MyTableD extends JTable implements FocusListener, MyTableInterface {
 	private static final long serialVersionUID = 1L;
 
 	private int tableMode = MyTable.TABLE_MODE_STANDARD;
@@ -224,7 +226,7 @@ public class MyTableD extends JTable implements FocusListener {
 
 		// add cell renderer & editors
 		setDefaultRenderer(Object.class,
-				new MyCellRenderer(app, view, this.getCellFormatHandler()));
+				new MyCellRenderer(app, view, (CellFormat) this.getCellFormatHandler()));
 		editor = new MyCellEditor(kernel);
 		setDefaultEditor(Object.class, editor);
 
@@ -317,7 +319,7 @@ public class MyTableD extends JTable implements FocusListener {
 	 * Returns CellFormat helper class for this table. If none exists, a new one
 	 * is created.
 	 */
-	public CellFormat getCellFormatHandler() {
+	public CellFormatInterface getCellFormatHandler() {
 		if (formatHandler == null)
 			formatHandler = new CellFormat(this);
 		return formatHandler;
