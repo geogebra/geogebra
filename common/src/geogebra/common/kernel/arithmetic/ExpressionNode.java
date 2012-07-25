@@ -1431,6 +1431,8 @@ public class ExpressionNode extends ValidExpression implements
 	final private boolean expandForOGP(ExpressionValue ev) {
 		// The following types of operations and GeoElements are supported.
 		// See also the OGP code for the available (parsable) expressions.
+		if (operation.equals(Operation.EQUAL_BOOLEAN) && ev instanceof GeoSegment)
+			return false; // don't expand "AreEqual[Segment[X,Y],Segment[Z,W]]" format expressions
 		return ((operation.equals(Operation.EQUAL_BOOLEAN) || operation.equals(Operation.DIVIDE)
 				|| operation.equals(Operation.MULTIPLY) || operation.equals(Operation.MINUS)
 				|| operation.equals(Operation.PLUS))
