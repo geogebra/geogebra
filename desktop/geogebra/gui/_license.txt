@@ -125,8 +125,7 @@ TRANSLATORS
   * Norwegian: Sigbjorn Hals (Norway)
   * Persian: Saeed Aminorroaya, Ali SafarNavadeh, Azam Zabihi (Iran)
   * Polish: Ania Borkowska, Marzanna Miasko, Malgorzata Paliga
-      Ewa Piwek, Edyta Pobiega, Kasia Winkowska-Nowak, Jerzy Mil,
-      Edyta Pobiega (Poland)
+      Ewa Piwek, Edyta Pobiega, Kasia Winkowska-Nowak, Jerzy Mil (Poland)
   * Portuguese (Brazil): Humberto Bortolossi, Celina A. A. P. Abar,
     Gerson Pastre de Oliveira, Lisbete Madsen Barbosa,
     Herminio Borges Neto, Alana Paula Araujo Freitas, Luciana de Lima,
