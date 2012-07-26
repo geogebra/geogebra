@@ -171,6 +171,15 @@ public class TableSymbols {
 		" beta(a, b, x) ",
 		" gammaRegularized(a, x) ",
 		" betaRegularized(a, b, x) ",
+		" psi(x) ",
+		" polyGamma(m, x) ",
+		" nroot(x, n) ",
+		" fractionalPart(x) ",
+		" real(x) ",
+		" imaginary(x) ",
+		" sinIntegral(x) ",
+		" cosIntegral(x) ",
+		" expIntegral(x) ",
 		" random() ",
 	};
 
