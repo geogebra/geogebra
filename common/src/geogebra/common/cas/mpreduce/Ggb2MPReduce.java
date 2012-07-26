@@ -96,7 +96,6 @@ public class Ggb2MPReduce {
 		p("First.1", "list(first(%0))");
 		p("First.2",
 				"<<begin scalar list!!; list!!:=(%0); return if length(list!!)<=(%1) then list!! else for i:=1:%1 collect part(list!!,i) end>>");
-		p("FractionalPart.1", "if (%0)>0 then %0-floor(%0) else %0-ceiling(%0)");
 
 		// These implementations follow the one in GeoGebra
 		p("FitExp.1",
@@ -106,7 +105,8 @@ public class Ggb2MPReduce {
 		p("FitPoly.2",
 				"<< clear tmpx!!, tmpy!!; on rounded, roundall, numval; begin scalar xvec!!, yvec!!, input!!; input!!:= mattolistoflists(%0); xvec!!:=map(part(~w!!,1), input!!); yvec!!:= map(part(~w!!,2), input!!); tmpx!!:=vandermonde(xvec!!); tmpx!!:=sub\\_matrix(tmpx!!,for i:=1:length(input!!) collect i, for i:=1:(%1+1) collect i); tmpy!!:=listtocolumnvector(yvec!!);tmpx!!:=(1/(tp(tmpx!!)*tmpx!!))*tp(tmpx!!); tmpy!!:=tmpx!!*tmpy!!; return for i:=1:part(length(tmpy!!),1) sum tmpy!!(i,1)*x^(i-1) end>>");
 		p("FitPow.1",
-				"<<on rounded, roundall, numval; begin scalar p1!!, p2!!, input!!, sigmax!!, sigmay!!, sigmaxy!!, sigmax2!!, length!!, denominator!!, xlist!!, ylist!!; input!!:=mattolistoflists(%0); xlist!!:=map(log,map(part(~w!!,1), input!!)); ylist!!:=map(log,map(part(~w!!,2), input!!)); length!!:=length(ylist!!); sigmax!!:=for each i in xlist!! sum i; sigmay!!:= for each i in ylist!! sum i; sigmax2!!:= for each i in xlist!! sum i^2; sigmaxy!!:=for i:=1:length!! sum part(xlist!!,i)*part(ylist!!,i);denominator!!:= length!!*sigmax2!!-sigmax!!**2; p2!!:=(length!!*sigmaxy!!-sigmax!!*sigmay!!)/denominator!!; p1!!:= exp((sigmay!!*sigmax2!!-sigmax!!*sigmaxy!!)/denominator!!); return p1!!*x^p2!! end >>");
+				"<<on rounded, roundall, numval; begin scalar p1!!, p2!!, input!!, sigmax!!, sigmay!!, sigmaxy!!, sigmax2!!, length!!, denominator!!, xlist!!, ylist!!; " +
+				"input!!:=mattolistoflists(%0); xlist!!:=map(log,map(xcoord(~w!!), input!!)); ylist!!:=map(log,map(ycoord(~w!!), input!!)); length!!:=length(ylist!!); sigmax!!:=for each i in xlist!! sum i; sigmay!!:= for each i in ylist!! sum i; sigmax2!!:= for each i in xlist!! sum i^2; sigmaxy!!:=for i:=1:length!! sum part(xlist!!,i)*part(ylist!!,i);denominator!!:= length!!*sigmax2!!-sigmax!!**2; p2!!:=(length!!*sigmaxy!!-sigmax!!*sigmay!!)/denominator!!; p1!!:= exp((sigmay!!*sigmax2!!-sigmax!!*sigmaxy!!)/denominator!!); return p1!!*x^p2!! end >>");
 		// FitSin
 		p("Gamma.3",
 				"(((%1)*(%2))^(%0))/(%0)*kummerm(%0,%0+1,-(%1)*(%2))/beta(%0)");
@@ -124,7 +124,7 @@ public class Ggb2MPReduce {
 		p("Identity.1", "<<make\\_identity(myround(%0))>>");
 		p("If.2", "if %0=true then %1 else '? else iffun(%0,%1)");
 		p("If.3", "if %0=true then %1 else if %0=false then %2 else ifelsefun(%0,%1,%2)");
-		p("Imaginary.1", "impart(%0)");
+		
 		p("ImplicitDerivative.3", "-df(%0,%1)/df(%0,%2)");
 		p("ImplicitDerivative.1", "-df(%0,currentx!!)/df(%0,currenty!!)");
 		p("Integral.1",
@@ -238,7 +238,6 @@ public class Ggb2MPReduce {
 				"<<begin scalar a, b, min!!, max!!; min!!:=myround(%2); max!!:=myround(%3); a:=for i:=0:%1-1 sum (random(max!!-min!!+1)+min!!)*(%0)^i; return a+(%0)^(%1)*if min!!<=0 and max!!>0 then <<b:=random(max!!-min!!)+min!!; if b>=0 then b+1 else b>> else random(max!!-min!!+1)+min!! end>>");
 		p("Rationalize.1", "<<off rounded; %0 >>");
 		p("Reverse.1","reverse(%0)");
-		p("Real.1", "repart(%0)");
 		p("RightSide.1",
 				"<<begin scalar input!!; input!!:=(%0); return if arglength(input!!) and part(%0,0)=\\'list then map(rhs,input!!) else rhs(input!!) end>>");
 		p("Root.1",

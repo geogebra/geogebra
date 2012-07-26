@@ -815,9 +815,13 @@ public abstract class CASmpreduce implements CASGenericInterface {
 						"while k <= length(a) and ret=true do<<" +
 						" ret:=myequal(part(a,k),part(b,k));k:=k+1>>;" +
 						" return ret; end;");
+				
 				mpreduce1.evaluate("procedure myneq(a,b);if myequal(a,b)=true then false " +
 						"else true");
 
+				mpreduce1.evaluate("procedure fractionalpart(a);if (a)>0 then a-floor(a) else a-ceiling(a)");
+				mpreduce1.evaluate("procedure myreal(a);if myvecp(a) then xvcoord(a) else repart(a)");
+				mpreduce1.evaluate("procedure imaginary(a);if myvecp(a) then yvcoord(a) else impart(a)");
 				// erf in Reduce is currently broken:
 				// http://sourceforge.net/projects/reduce-algebra/forums/forum/899364/topic/4546339
 				// this is a numeric approximation according to Abramowitz & Stegun

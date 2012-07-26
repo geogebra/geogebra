@@ -2306,11 +2306,6 @@ public class NoExceptionsTest {
 	}
 
 	@Test
-	public void cmdFractionalPart() {
-		t("FractionalPart[pi]");
-	}
-
-	@Test
 	public void cmdDivisorsList() {
 		t("DivisorsList[42]");
 	}

@@ -1139,7 +1139,7 @@ public class GeoGebraCasIntegrationTest {
 	@Test
 	public void FitPow_0() {
 		t("FitPow[{(1, 1), (3, 2), (7, 4)}]",
-				"0.9744885773742909 * x^(0.7084753128560123)");
+				"0.974488577374291 * x^(0.7084753128560123)");
 	}
 
 	// TODO Abstract, as well?

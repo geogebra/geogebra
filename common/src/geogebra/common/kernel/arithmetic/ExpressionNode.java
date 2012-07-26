@@ -3017,6 +3017,18 @@ public class ExpressionNode extends ValidExpression implements
 			trig(leftStr,sb,"<arctanh/>","\\operatorname{atanh}","ArcTanh(","ATANH(","atanh","atanh","artanh",
 					STRING_TYPE,tpl.isPrintLocalizedCommandNames(),false);
 		break;
+		case REAL:
+			trig(leftStr,sb,"<real/>","\\operatorname{real}","","","myreal","real","real",
+					STRING_TYPE,tpl.isPrintLocalizedCommandNames(),false);
+		break;
+		case IMAGINARY:
+			trig(leftStr,sb,"<imaginary/>","\\operatorname{imaginary}","","","imaginary","imaginary","imaginary",
+					STRING_TYPE,tpl.isPrintLocalizedCommandNames(),false);
+		break;
+		case FRACTIONAL_PART:
+			trig(leftStr,sb,"<todo/>","\\operatorname{fractionalPart}","","","fractionalPart","fractionalPart","fractionalPart",
+					STRING_TYPE,tpl.isPrintLocalizedCommandNames(),false);
+		break;
 		case CI:
 			switch (STRING_TYPE) {
 			case LATEX:

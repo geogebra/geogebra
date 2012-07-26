@@ -1050,14 +1050,10 @@ public class CommandDispatcher {
 				return new CmdContinuedFraction(kernel);
 			case AttachCopyToView:
 				return new CmdAttachCopyToView(kernel);
-			case Imaginary:
-				return new CmdCAStoOperation(kernel,Operation.YCOORD);
 			case Dot:
 				return new CmdCAStoOperation(kernel,Operation.MULTIPLY);
 			case Cross:
 				return new CmdCAStoOperation(kernel,Operation.VECTORPRODUCT);
-			case Real:
-				return new CmdCAStoOperation(kernel,Operation.XCOORD);
 			case IntegerPart:
 				return new CmdCAStoOperation(kernel,Operation.FLOOR);
 			case Divisors:
@@ -1068,8 +1064,6 @@ public class CommandDispatcher {
 				return new CmdDimension(kernel);
 			case DivisorsList:
 				return new CmdDivisorsList(kernel);
-			case FractionalPart:
-				return new CmdFractionalPart(kernel);
 			case ImplicitDerivative:
 				return new CmdImplicitDerivative(kernel);
 			case RandomPolynomial:

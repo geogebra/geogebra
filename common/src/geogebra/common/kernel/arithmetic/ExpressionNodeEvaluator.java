@@ -1676,7 +1676,20 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				str = new String[]{ "IllegalArgument", "round", lt.toString(errorTemplate) };
 				throw new MyError(app, str);
 			}
-
+		case FRACTIONAL_PART:
+			// ceil(number)
+			if (lt.isNumberValue()) {
+				return ((NumberValue) lt).getNumber().fractionalPart();
+			} else if (lt.isPolynomialInstance()
+					&& (((Polynomial) lt).degree() == 0)) {
+				lt = ((Polynomial) lt).getConstantCoefficient();
+				return new Polynomial(kernel, new Term(
+						new ExpressionNode(kernel, lt, operation, null),
+						""));
+			} else {
+				str = new String[]{ "IllegalArgument", "fractionalPart", lt.toString(errorTemplate) };
+				throw new MyError(app, str);
+			}
 		case FACTORIAL:
 			// factorial(number)
 			if (lt.isNumberValue()) {
@@ -1712,7 +1725,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			// note: left tree holds MyDouble object to set random number
 			// in randomize()
 			return ((NumberValue) lt).getNumber();
-
+		case REAL:			
 		case XCOORD:
 			// x(vector)
 			if (lt.isVectorValue()) {
@@ -1722,7 +1735,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 					&& (((Polynomial) lt).degree() == 0)) {
 				lt = ((Polynomial) lt).getConstantCoefficient();
 				return new Polynomial(kernel, new Term(
-						new ExpressionNode(kernel, lt, Operation.XCOORD, null),
+						new ExpressionNode(kernel, lt, operation, null),
 						""));
 			} else if (lt.isVector3DValue()) {
 				return new MyDouble(kernel,
@@ -1733,7 +1746,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				str = new String[]{ "IllegalArgument", "x(", lt.toString(errorTemplate), ")" };
 				throw new MyError(app, str);
 			}
-
+		case IMAGINARY:	
 		case YCOORD:
 			// y(vector)
 			if (lt.isVectorValue()) {
@@ -1743,7 +1756,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 					&& (((Polynomial) lt).degree() == 0)) {
 				lt = ((Polynomial) lt).getConstantCoefficient();
 				return new Polynomial(kernel, new Term(
-						new ExpressionNode(kernel, lt, Operation.YCOORD, null),
+						new ExpressionNode(kernel, lt, operation, null),
 						""));
 			} else if (lt.isVector3DValue()) {
 				return new MyDouble(kernel,

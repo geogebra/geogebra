@@ -10190,10 +10190,7 @@ public class Kernel {
 		AlgoDimension algo = new AlgoDimension(cons,label,pointOrVector);
 		return algo.getResult();
 	}	
-	public GeoNumeric FractionalPart(String label, NumberValue num) {
-		AlgoFractionalPart algo = new AlgoFractionalPart(cons,label,num);
-		return algo.getResult();
-	}
+	
 	public GeoFunctionNVar LeftRightSide(String label, GeoElement equation,boolean left) {
 		AlgoLeftRightSide algo = new AlgoLeftRightSide(cons,label,equation,left);
 		return algo.getResult();

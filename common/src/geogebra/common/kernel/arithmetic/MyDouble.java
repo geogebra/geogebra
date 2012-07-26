@@ -974,4 +974,8 @@ public class MyDouble extends ValidExpression implements NumberValue,
 		return null;
 	}
 
+	public ExpressionValue fractionalPart() {
+		return new MyDouble(kernel,val>0?val-Math.floor(val):val-Math.ceil(val));
+	}
+
 }

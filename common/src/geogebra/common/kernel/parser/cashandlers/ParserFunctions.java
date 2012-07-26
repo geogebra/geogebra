@@ -251,6 +251,16 @@ private void reset(){
 	put(2,"nroot", Operation.NROOT);
 	put(2,"NRoot", Operation.NROOT);
 	
+	put(1,"Real", Operation.REAL);
+	put(1,"real", Operation.REAL);
+	
+	put(1,"Imaginary", Operation.IMAGINARY);
+	put(1,"imaginary", Operation.IMAGINARY);
+	
+	put(1,"fractionalpart", Operation.FRACTIONAL_PART);
+	put(1,"fractionalPart", Operation.FRACTIONAL_PART);
+	put(1,"FractionalPart", Operation.FRACTIONAL_PART);
+	
 	RESERVED_FUNCTION_NAMES.add(Unicode.IMAGINARY);
 	
 }
@@ -279,6 +289,9 @@ public void updateLocale(App app){
 		put(1,app.getFunction("asinh"), Operation.ASINH);
 		put(1,app.getFunction("acosh"), Operation.ACOSH);
 		put(1,app.getFunction("atanh"), Operation.ATANH);
+		put(1,app.getFunction("real"), Operation.REAL);
+		put(1,app.getFunction("imaginary"), Operation.IMAGINARY);
+		put(1,app.getFunction("fractionalPart"), Operation.FRACTIONAL_PART);
 		
 		put(2,app.getFunction("nroot"), Operation.NROOT);
 }
