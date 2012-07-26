@@ -659,9 +659,6 @@ public class MyList extends ValidExpression implements ListValue,
 			else
 				sb.append("[");
 		} else if (tpl.hasType(StringType.MPREDUCE)) {
-			if (isMatrix())
-				sb.append("mat(");
-			else
 				sb.append("listofliststomat(list(");
 		} else
 			sb.append("{");
@@ -687,24 +684,6 @@ public class MyList extends ValidExpression implements ListValue,
 				sb.append("]");
 		} else if (tpl.hasType(StringType.MPREDUCE)) {
 			sb.append(')');
-			if (isMatrix()) {
-				int index1;
-				while ((index1 = sb.indexOf("listofliststomat(list")) != -1) {
-					sb.delete(index1, index1 + 21);
-					int level = 1;
-					int index2 = index1 + 1;
-					do {
-						if (sb.charAt(index2) == '(')
-							level++;
-						else if (sb.charAt(index2) == ')')
-							level--;
-						index2++;
-					} while (index2 < sb.length() && level > 0);
-					if (sb.charAt(index2 - 1) == ')')
-						sb.deleteCharAt(index2 - 1);
-				}
-				return sb.toString().replaceAll("listofliststomat\\(list", "");
-			}
 			sb.append(')');
 		} else
 			sb.append("}");
