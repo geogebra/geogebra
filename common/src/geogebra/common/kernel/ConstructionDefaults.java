@@ -627,7 +627,8 @@ public class ConstructionDefaults {
 				break;
 				
 			case LABEL_VISIBLE_POINTS_ONLY:
-				geo.setLabelVisible(geo.isGeoPoint());
+				// we want sliders and angles to be labeled always
+				geo.setLabelVisible(geo.isGeoPoint() || geo.isGeoNumeric());
 				break;			
 				
 			default:
