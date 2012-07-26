@@ -769,15 +769,6 @@ public interface CommandConstants extends ConstantsWithLookup {
     @DefaultStringValue("[ <Number> ]\n[ <Point> ]")
     String FractionText_Syntax();
 
-    @DefaultStringValue("FractionalPart")
-    String FractionalPart();
-
-    @DefaultStringValue("[ <Number> ]")
-    String FractionalPart_Syntax();
-
-    @DefaultStringValue("[ <Expression> ]")
-    String FractionalPart_SyntaxCAS();
-
     @DefaultStringValue("Frequency")
     String Frequency();
 
@@ -903,12 +894,6 @@ public interface CommandConstants extends ConstantsWithLookup {
 
     @DefaultStringValue("[ <Condition>, <Then> ]\n[ <Condition>, <Then>, <Else> ]")
     String If_Syntax();
-
-    @DefaultStringValue("Imaginary")
-    String Imaginary();
-
-    @DefaultStringValue("[ <Complex Number> ]")
-    String Imaginary_SyntaxCAS();
 
     @DefaultStringValue("ImplicitCurve")
     String ImplicitCurve();
@@ -1719,12 +1704,6 @@ public interface CommandConstants extends ConstantsWithLookup {
 
     @DefaultStringValue("[ <Start Point>, <Point> ]\n[ <Start Point>, <Direction Vector> ]")
     String Ray_Syntax();
-
-    @DefaultStringValue("Real")
-    String Real();
-
-    @DefaultStringValue("[ <Complex Number> ]")
-    String Real_SyntaxCAS();
 
     @DefaultStringValue("RectangleSum")
     String RectangleSum();

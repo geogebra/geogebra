@@ -712,8 +712,17 @@ public interface PlainConstants extends ConstantsWithLookup {
     @DefaultStringValue("csch")
     String Function_csch();
 
+    @DefaultStringValue("fractionalPart")
+    String Function_fractionalPart();
+
+    @DefaultStringValue("imaginary")
+    String Function_imaginary();
+
     @DefaultStringValue("nroot")
     String Function_nroot();
+
+    @DefaultStringValue("real")
+    String Function_real();
 
     @DefaultStringValue("sec")
     String Function_sec();
@@ -747,6 +756,9 @@ public interface PlainConstants extends ConstantsWithLookup {
 
     @DefaultStringValue("Generate code")
     String GeneratePstricks();
+
+    @DefaultStringValue("GeoGebra Properties")
+    String GeoGebraProperties();
 
     @DefaultStringValue("Geometric objects")
     String GeometricObjects();
