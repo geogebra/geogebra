@@ -2070,10 +2070,17 @@ public class GeoCasCell extends GeoElement implements VarString {
 					
 		this.computeOutput(true);
 		twinGeo.setLabel(null);
-		changeAssignmentVar(assignmentVar,twinGeo.getLabelSimple());
-		inputVE.setLabel(assignmentVar);
-		outputVE.setLabel(assignmentVar);
-		latex = null;		
+		if(twinGeo.getLabelSimple()!=null){
+			changeAssignmentVar(assignmentVar,twinGeo.getLabelSimple());
+			inputVE.setLabel(assignmentVar);
+			outputVE.setLabel(assignmentVar);
+			latex = null;		
+		}else{
+			//plot failed, undo assignment
+			assignmentVar = null;
+			this.firstComputeOutput = true;
+			this.computeOutput(true);
+		}
 		return true; 
 	}
 
