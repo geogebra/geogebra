@@ -233,7 +233,7 @@ public class InputBarHelpPanel extends JPanel implements TreeSelectionListener,
 
 	private void createFunctionPanel() {
 
-		functionTable = new SelectionTable(app, TableSymbols.functions, -1, 2,
+		functionTable = new SelectionTable(app, TableSymbols.getTranslatedFunctions(app), -1, 2,
 				new Dimension(20, 16), geogebra.common.gui.util.SelectionTable.MODE_TEXT);
 		functionTable.setShowGrid(true);
 		functionTable.setHorizontalAlignment(SwingConstants.LEFT);
@@ -326,7 +326,7 @@ public class InputBarHelpPanel extends JPanel implements TreeSelectionListener,
 		btnOnlineHelp.setText(app.getPlain("ShowOnlineHelp"));
 
 		helpTextPane.setText(null);
-		functionTable.populateModel(TableSymbols.functions);
+		functionTable.populateModel(TableSymbols.getTranslatedFunctions(app));
 		functionTitleNode.setUserObject(app.getMenu("MathematicalFunctions"));
 		rootAllCommands.setUserObject(app.getMenu("AllCommands"));
 		updateFonts();

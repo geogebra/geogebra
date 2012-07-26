@@ -128,9 +128,39 @@ public class TableSymbols {
 	}
 
 
+	/**
+	 * convert eg sin(x) into sen(x)
+	 * @param app app
+	 * @return translated names eg sin(x) -> sen(x)
+	 */
+	public final static String[] getTranslatedFunctions(App app) {
+		
+		StringBuilder sb = new StringBuilder();
+		
+		String[] ret = new String[functions.length];
+		for (int i = 0 ; i < functions.length ; i++) {
+			String[] strs = functions[i].split("\\(");
+			
+			String functionName = strs[0].trim();
+			String translatedFunctionName = app.getPlain("Function."+functionName);
+			if (translatedFunctionName.startsWith("Function.")) {
+				// translation not supported for this function
+				ret[i] = functions[i];
+			} else {
+				sb.setLength(0);
+				sb.append(' ');
+				sb.append(translatedFunctionName);
+				sb.append('(');
+				sb.append(strs[1]);
+				ret[i] = sb.toString();
+			}
+		}
+		
+		return ret;
+	}
 
 	// spaces either side (for multiply when inserted into the input bar)
-	public final static String [] functions = { 	
+	private final static String [] functions = { 	
 		" sqrt(x) ",
 		" cbrt(x) ",
 		" abs(x) ",
