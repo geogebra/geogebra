@@ -126,11 +126,10 @@ private void showPopupMenu(ArrayList<GeoElement> geos,
 	ContextMenuGeoElementW popupMenu;
 
 	public ContextMenuGeoElementW getPopupMenu(ArrayList<GeoElement> geos, GPoint location) {
-		if (popupMenu == null) {
-			popupMenu = new ContextMenuGeoElementW((AppW) app, geos, location);
-		} else {
-			popupMenu.reInit(geos,location);
+		if (popupMenu != null) {
+			popupMenu.getWrappedPopup().removeFromParent();
 		}
+		popupMenu = new ContextMenuGeoElementW((AppW) app, geos, location);
 		return popupMenu;
 	}
 
@@ -138,11 +137,11 @@ private void showPopupMenu(ArrayList<GeoElement> geos,
 	public void showPopupChooseGeo(ArrayList<GeoElement> selectedGeos,
 			ArrayList<GeoElement> geos, EuclidianViewInterfaceCommon view,
 			geogebra.common.awt.GPoint p) {
-		showPopupChooseGeo(selectedGeos, geos, view, p);
+		showPopupChooseGeo(selectedGeos, geos, (EuclidianViewW) view, p);
 	}
 
 	private void showPopupChooseGeo(ArrayList<GeoElement> selectedGeos,
-            ArrayList<GeoElement> geos, EuclidianView view, GPoint p) {
+            ArrayList<GeoElement> geos, EuclidianViewW view, GPoint p) {
 		if (geos == null || !app.letShowPopupMenu())
 			return;
 		
@@ -150,7 +149,7 @@ private void showPopupMenu(ArrayList<GeoElement> geos,
 			showDrawingPadPopup(view, p);
 		} else {
 			
-			Canvas invoker = ((EuclidianViewW) view).g2p.getCanvas();
+			Canvas invoker = view.g2p.getCanvas();
 			// clear highlighting and selections in views
 			GPoint screenPos = (invoker == null) ? new GPoint(0,0) : new GPoint(invoker.getAbsoluteLeft() + p.x, invoker.getAbsoluteTop() + p.y);
 			
@@ -164,6 +163,9 @@ private void showPopupMenu(ArrayList<GeoElement> geos,
 	private ContextMenuGeoElementW getPopupMenu(App app, EuclidianView view,
             ArrayList<GeoElement> selectedGeos, ArrayList<GeoElement> geos,
             GPoint screenPos, GPoint p) {
+		if (popupMenu != null) {
+			popupMenu.getWrappedPopup().removeFromParent();
+		}
 	    popupMenu = new ContextMenuChooseGeoW((AppW) app, view, selectedGeos, geos, screenPos, p);
 	    return popupMenu;
     }
@@ -223,9 +225,10 @@ private void showPopupMenu(ArrayList<GeoElement> geos,
     }
 
 	private ContextMenuGeoElementW getDrawingPadpopupMenu(int x, int y) {
-	    if (drawingPadpopupMenu == null) { 
-	    	drawingPadpopupMenu = new ContextMenuGraphicsWindowW((AppW)app, x, y);
+	    if (drawingPadpopupMenu != null) {
+	    	drawingPadpopupMenu.wrappedPopup.removeFromParent();
 	    }
+	    drawingPadpopupMenu = new ContextMenuGraphicsWindowW((AppW)app, x, y);
 		return drawingPadpopupMenu;
     }
 
@@ -358,7 +361,7 @@ private void showPopupMenu(ArrayList<GeoElement> geos,
 	public GGWToolBar getToolbarPanel() {
 		if (toolbarPanel == null) {
 			toolbarPanel = ((AppW)app).getAppFrame().getGGWToolbar();
-			toolbarPanel.init((AppW)app);
+			toolbarPanel.init(app);
 		}
 
 		return toolbarPanel;
