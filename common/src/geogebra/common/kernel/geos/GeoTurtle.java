@@ -226,9 +226,7 @@ public class GeoTurtle extends GeoElement implements Animatable{
 	}
 	
 	public void setSpeed(double s) {
-		if (s > 1d) {
-			speed = 1d;
-		} else if (s < 0d) {
+		if (s < 0d) {
 			speed = 0d;
 		} else {
 			speed = s;

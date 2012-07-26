@@ -62,8 +62,7 @@ public class AlgoTurtle extends AlgoElement {
 
 	@Override
 	public Algos getClassName() {
-		App.error("TODO: returning wrong Algo");
-		return Algos.AlgoPolyLine;
+		return Algos.AlgoTurtle;
 	}
 
 	// for AlgoElement

@@ -1463,7 +1463,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		labelOffsetX = x;
 		labelOffsetY = y;
 	}
-
+	
 	/**
 	 * @return whether object should be visible in at least one view
 	 */
