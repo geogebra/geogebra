@@ -49,6 +49,7 @@ CONTRIBUTORS
   * Johannes Renner (Austria 2011-)
   * Sergio Arbeo Rodriguez (Spain 2010-11)
   * Christian Schott (Germany 2011-)
+  * Neel Shah (India 2012-)
   * Don Sun (USA 2011)
   * Kai Chung Tam (USA 2011-)
   * Sara Arjona Tellez (Spain 2011)
