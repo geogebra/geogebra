@@ -106,9 +106,8 @@ public class GeoCasCell extends GeoElement implements VarString {
 		evalComment = "";
 		useAsText = false;
 		commentText = new GeoText(c, "");
-
+		twinGeo = null;
 		// setGeoText(commentText);
-
 	}
 
 	/**
@@ -417,6 +416,16 @@ public class GeoCasCell extends GeoElement implements VarString {
 	public boolean isSendingUpdatesToCAS() {
 		return false;
 	}
+	
+	/**
+	 * Returns if this GeoCasCell has a twinGeo or not
+	 * @return 
+	 */
+	public boolean hasTwinGeo() {
+		if(twinGeo != null)
+			return true;
+		return false;
+	}
 
 	/**
 	 * Sets the input of this row using the current casTwinGeo.
@@ -438,6 +447,8 @@ public class GeoCasCell extends GeoElement implements VarString {
 			}
 		}
 	}
+	
+	
 
 	/**
 	 * Sets the input of this row.
@@ -2002,11 +2013,41 @@ public class GeoCasCell extends GeoElement implements VarString {
 	public boolean isNative(){
 		return nativeOutput;
 	}
+	
+	/**
+	 * toggles the euclidianVisibility of the twinGeo, if there is no twinGeo
+	 * toggleTwinGeoEuclidianVisible tries to create one and set the visibility to true
+	 */
+	public void toggleTwinGeoEuclidianVisible(){
+		boolean visible;
+		if(hasTwinGeo()) {
+			visible = !twinGeo.isEuclidianVisible() & twinGeo.isEuclidianShowable();
+		} else {
+			//creates a new twinGeo, if not possible return
+			if(!plot())
+				return;
+			visible = twinGeo.isEuclidianShowable();
+		}
+		twinGeo.setEuclidianVisible(visible);
+		twinGeo.updateVisualStyle();
+		app.storeUndoInfo();
+		kernel.notifyRepaint();
+	}
+			
 
 	/**
-	 * Assigns result to a variable
+	 * Assigns result to a variable if possible
+	 * @return false if it is not possible to plot this GeoCasCell
+	 * 	       true if there is already a twinGeo, or a new twinGeo was created successfully
 	 */
-	public void plot() {
+	public boolean plot() {
+		if(inputVE == null || input.equals(""))
+			return false;
+		
+		//there is already a twinGeo, this means this cell is plotable, therefore return true
+		if(hasTwinGeo())
+			return true;
+		
 		assignmentVar = "ggbmpvarPlot";
 		this.firstComputeOutput = true;
 		this.computeOutput(true);
@@ -2014,8 +2055,8 @@ public class GeoCasCell extends GeoElement implements VarString {
 		changeAssignmentVar(assignmentVar,twinGeo.getLabelSimple());
 		inputVE.setLabel(assignmentVar);
 		outputVE.setLabel(assignmentVar);
-		latex = null;
-		
+		latex = null;		
+		return true; 
 	}
 
 }

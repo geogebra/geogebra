@@ -2,6 +2,7 @@ package geogebra.cas.view;
 
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoCasCell;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.main.AppD;
@@ -12,6 +13,8 @@ import java.awt.Dimension;
 import java.awt.Font;
 
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.text.JTextComponent;
@@ -32,6 +35,11 @@ public abstract class CASTableCell extends JPanel {
 	/** CAS view */
 	protected CASViewD view;
 
+	
+	/** show hide option (also called plot tool) for this cell content*/
+	protected JLabel showHideControl;
+	protected boolean visible;	
+	private ImageIcon iconShown, iconHidden;
 	/**
 	 * @param view CAS view
 	 */
@@ -39,13 +47,19 @@ public abstract class CASTableCell extends JPanel {
 		this.view = view;
 		this.app = view.getApp();
 
-		setLayout(new BorderLayout(5, 5));
-		setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 5));
+		setLayout(new BorderLayout());
+		//setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 5));
 		setBackground(Color.white);
 
 		inputPanel = new CASInputPanel(app);
 		dummyField = new MyTextField(app);
 
+		iconShown = app.getImageIcon("shown.gif");
+		iconHidden = app.getImageIcon("hidden.gif");
+		
+		showHideControl = new JLabel(iconHidden);
+		visible = false;
+		
 		// The inputPanel needs to have variable width so that it fits the
 		// JScrollPane
 		// viewport when in editing mode but also can grow to the size of its
@@ -72,10 +86,18 @@ public abstract class CASTableCell extends JPanel {
 		northPanel.add(inputPanel, BorderLayout.WEST);
 		dummyField.setVisible(false);
 
+		JPanel mainPanel = new JPanel(new BorderLayout(5,5));
+		mainPanel.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 5));
+		mainPanel.setBackground(Color.white);
+		
 		outputPanel = new CASOutputPanel(view.getApp());
 
-		add(northPanel, BorderLayout.NORTH);
-		add(outputPanel, BorderLayout.CENTER);
+		mainPanel.add(northPanel, BorderLayout.NORTH);
+		mainPanel.add(outputPanel, BorderLayout.CENTER);
+		
+		
+		add(showHideControl, BorderLayout.WEST);
+		add(mainPanel, BorderLayout.CENTER);
 		return;
 	}
 
@@ -103,7 +125,51 @@ public abstract class CASTableCell extends JPanel {
 	public int getOutputPanelHeight() {
 		return outputPanel.getHeight();
 	}
+	
+	/**
+	 * returns the height of the show hide button
+	 * @return control height
+	 */
+	public int getShowHideControlHeight() {
+		return showHideControl.getHeight();
+	}
+	/**
+	 * returns the width of the show hide button
+	 * @return control width
+	 */	
+	public int getShowHideControlWidth(){
+		return showHideControl.getWidth();
+	}
+	
+	/**
+	 * returns the x position of the showHideControl
+	 * @return x position
+	 */
+	public int getShowHideControlX(){
+		return showHideControl.getX();
+	}
+	
+	/**
+	 * returns the y position of the showHideControl
+	 * @return y position
+	 */
+	public int getShowHideControlY(){
+		return showHideControl.getY();
+	}
 
+	public void setEuclidianVisible(boolean v) {
+		visible = v;
+		if(v)
+			showHideControl.setIcon(iconShown);
+		else
+			showHideControl.setIcon(iconHidden);
+	}
+	
+	public boolean isSetEuclidianVisible() {
+		return visible;
+	}
+	
+	
 	/**
 	 * Sets the width of the input panel. Use width = -1 to set width to the
 	 * full input string length.
@@ -114,7 +180,7 @@ public abstract class CASTableCell extends JPanel {
 		Dimension d = dummyField.getPreferredSize();
 		// use the parameter width - 15 pixels to correct for border padding
 		if (width > 0)
-			d.width = width - 15;
+			d.width = width - getShowHideControlWidth() - 15;
 
 		inputPanel.setPreferredSize(d);
 
@@ -139,6 +205,19 @@ public abstract class CASTableCell extends JPanel {
 		outputPanel.setForeground(cellValue.getAlgebraColor());
 		dummyField.setText(inputPanel.getInput());
 
+		
+		if(cellValue.hasTwinGeo()){
+			this.setEuclidianVisible(cellValue.getTwinGeo().isSetEuclidianVisible());
+			showHideControl.setVisible(true);
+		}
+		else{
+			this.setEuclidianVisible(false);
+			showHideControl.setVisible(!input.equals(""));
+		}
+			
+			
+		
+		
 		// set output panel
 		boolean showOutput = cellValue.showOutput();
 		outputPanel.setVisible(showOutput);

@@ -4,8 +4,10 @@
 package geogebra.cas.view;
 
 import geogebra.common.cas.view.CASTable;
+import geogebra.common.cas.view.CASTableCellEditor;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoCasCell;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
 import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.gui.layout.DockManager;
@@ -212,62 +214,74 @@ public class CASTableD extends JTable implements CASTable{
 					|| panel.getViewId() != App.VIEW_CAS)
 				app.getGuiManager().getLayout().getDockManager()
 						.setFocusedPanel(App.VIEW_CAS);
-
-			if (getClickedRow() >= 0) {
-				setRightClick(AppD.isRightClick(e));
-				if (isRightClick()) {
-					return;
-				}
-				
-				
-
-			
-			}				
+		
 			e.consume();
 		}
 
 		@Override
 		public void mouseReleased(MouseEvent e) {
-			if (isRightClick() && isOutputPanelClicked(e.getPoint())) {
-				GeoCasCell clickedCell = getTable().getGeoCasCell(
-						getClickedRow());
-				if (!clickedCell.isEmpty() && !clickedCell.isError()) {
-					RowContentPopupMenu popupMenu = new RowContentPopupMenu(
-							clickedCell, getTable());
-					popupMenu.show(e.getComponent(), e.getX(), e.getY());
-				}
-			}
-			if (isEditing()
-					&& getEditor().getEditingRow() != getClickedRow()) {
-				if(e.isAltDown()){
-					getEditor().insertText("$" + (getClickedRow()+1));
-				}
-				// output panel click
-				else if (copyMode == COPY_PLOT) {
-					getTable().getGeoCasCell(getClickedRow()).plot();
-				} else if (isOutputPanelClicked(e.getPoint())){
-					getEditor().insertText(view.getRowOutputValue(getClickedRow()));
-				}else{
-							getSelectionModel().setSelectionInterval(getClickedRow(),
-									getClickedRow());
-							startEditingRow(getClickedRow());
-							return;
-				}
-				
-				
-				view.styleBar.updateStyleBar();
-				repaint();
-				// set clickedRow selected
-			} else {
-
-				getSelectionModel().setSelectionInterval(getClickedRow(),
-						getClickedRow());
-				startEditingRow(getClickedRow());
-			}
+			if (getClickedRow() >= 0) {
+				setRightClick(AppD.isRightClick(e));
+				if (isRightClick()) {
+					return;
+				}		
 			
+				app.debug(getSelectedRows().toString());
+				app.debug(e.getPoint().toString());
+				if (isRightClick() && isOutputPanelClicked(e.getPoint())) {
+					GeoCasCell clickedCell = getTable().getGeoCasCell(
+							getClickedRow());
+					if (!clickedCell.isEmpty() && !clickedCell.isError()) {
+						RowContentPopupMenu popupMenu = new RowContentPopupMenu(
+								clickedCell, getTable());
+						popupMenu.show(e.getComponent(), e.getX(), e.getY());
+					}
+				}
+				
+				/* set/unset euclidian visibility for CasCells
+				 * if there is no twinGeo which can be displayed, run the plot method
+				 * which creates a name and a twinGeo for the cell
+				 */
+				if(isShowHideControlClicked(e.getPoint())){
+					GeoCasCell clickedCell =  getTable().getGeoCasCell(getClickedRow());		
+					if(isEditing()){
+						stopEditing();
+					}
+					clickedCell.toggleTwinGeoEuclidianVisible();			
+				} else
+					if (isEditing()
+							&& getEditor().getEditingRow() != getClickedRow()) {
+						if(e.isAltDown()){
+							getEditor().insertText("$" + (getClickedRow()+1));
+						}
+						// output panel click
+						else if (copyMode == COPY_PLOT) {
+							getTable().getGeoCasCell(getClickedRow()).plot();
+						} else if (isOutputPanelClicked(e.getPoint())){
+							getEditor().insertText(view.getRowOutputValue(getClickedRow()));
+						}else{
+									getSelectionModel().setSelectionInterval(getClickedRow(),
+											getClickedRow());
+									startEditingRow(getClickedRow());
+									return;
+						}
+						
+						
+						view.styleBar.updateStyleBar();
+						repaint();
+						// set clickedRow selected
+					} else {
+		
+						getSelectionModel().setSelectionInterval(getClickedRow(),
+								getClickedRow());
+						startEditingRow(getClickedRow());
+					}
+				
+
+				
+			}	
 			e.consume();
 		}
-
 	}
 	
 	
@@ -280,7 +294,7 @@ public class CASTableD extends JTable implements CASTable{
 		public void mouseMoved(MouseEvent e) {
 			int row = rowAtPoint(e.getPoint());
 			if (row != getOpenRow() && 
-					(row != rollOverRow  || isOutputRollOver != isOutputPanelClicked(e.getPoint()))) {
+					(row != rollOverRow  || isOutputRollOver != isOutputPanelClicked(e.getPoint())) ) {
 				rollOverRow = row;
 				isOutputRollOver = isOutputPanelClicked(e.getPoint());
 				repaint();
@@ -352,8 +366,37 @@ public class CASTableD extends JTable implements CASTable{
 		int inputAreaHeight = tableCell.getInputPanelHeight();
 
 		// check if we clicked below input area
-		boolean outputClicked = p.y > rowHeightsAbove + inputAreaHeight;
+		boolean outputClicked = (p.y > rowHeightsAbove + inputAreaHeight) && (p.x > tableCell.getShowHideControlWidth());
 		return outputClicked;
+	}
+	
+	/**
+	 * Returns whether the show hide control of a cell row was clicked.
+	 * 
+	 * @param p
+	 *            clicked position in table coordinates
+	 * @return true if show hide control of a cell row was clicked
+	 */
+	boolean isShowHideControlClicked(Point p) {
+		int row = rowAtPoint(p);
+		if (row < 0)
+			return false;
+
+		// calculate sum of row heights before
+		int rowHeightsAbove = 0;
+		for (int i = 0; i < row; i++) {
+			rowHeightsAbove += getRowHeight(i);
+		}
+
+		// get height of input panel in clicked row
+		TableCellRenderer tableCellRenderer = getCellRenderer(row, 0);
+		CASTableCell tableCell = (CASTableCell) prepareRenderer(
+				tableCellRenderer, row, 0);
+		int controlHeight = tableCell.getShowHideControlHeight();
+		int controlWidth = tableCell.getShowHideControlWidth();
+		Rectangle control = new Rectangle(0, rowHeightsAbove, controlWidth, rowHeightsAbove+controlHeight);
+
+		return control.contains(p);
 	}
 
 	@Override
@@ -814,11 +857,7 @@ public class CASTableD extends JTable implements CASTable{
 				// g2.drawRect(r.x+2,r.y+2,r.width-6,r.height-6);;
 			}
 
-		}
-
-		
-		
-		
+		}	
 		
 		CASTableCell rollOverCell = null;
 
@@ -840,6 +879,10 @@ public class CASTableD extends JTable implements CASTable{
 
 				Rectangle r = getCellRect(rollOverRow, CASTable.COL_CAS_CELLS,
 						true);
+				
+				//do not highlight the showHideControl
+				r.x = r.x + rollOverCell.getShowHideControlWidth();
+				r.width = r.width - rollOverCell.getShowHideControlWidth();
 				
 				if (isOutputRollOver) {
 					r.y = r.y + offset;
