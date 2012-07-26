@@ -184,7 +184,8 @@ public class MySpecialDouble extends MyDouble {
 			case Unicode.degreeChar:
 				return "^{\\circ}";
 			case Unicode.eulerChar:
-				return Unicode.EULER_STRING; 
+				return "\\textit{e}";
+				//return Unicode.EULER_STRING; 
 			}
 			break;
 		}
