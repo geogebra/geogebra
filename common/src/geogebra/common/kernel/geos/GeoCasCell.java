@@ -2064,8 +2064,9 @@ public class GeoCasCell extends GeoElement implements VarString {
 
 				setEvalComment("Plot Solutions");
 			}
-			//Command c = new Command(kernel, "Numeric", true);
-			//c.addArgument((ExpressionNode)evalVE);
+			Command c = new Command(kernel, "PointList", true);
+			c.addArgument(evalVE.wrap());
+			evalVE = c.wrap();
 		}
 					
 		this.computeOutput(true);

@@ -751,6 +751,18 @@ public abstract class CASmpreduce implements CASGenericInterface {
 				
 				mpreduce1.evaluate("operator listtomyvect;");
 				
+				//PointList[{{x=2,y=3},{x=2,y=3,z=4}}]
+				
+				mpreduce1.evaluate("procedure pointlist(lista);"						
+						+"for each a in lista collect if(arglength(part(a,1))>-1 and part(part(a,1),0)='equal) then " +
+						"<<begin tmp!!:=map(rhs,a); return listtomyvect(tmp!!); end>> else listtomyvect(a);"
+						);
+				mpreduce1.evaluate("procedure rootlist(lista);"						
+						+"for each a in lista collect if (arglength(a)>-1 and part(a,0)='equal) then " +
+						" listtomyvect({rhs(a),0}) else listtomyvect({a,0});"
+						);
+				mpreduce1.evaluate("operator objecttomyvect;");
+				
 				mpreduce1.evaluate("procedure addition(a,b);"
 						+ "begin"
 						+ "  a:=booltonum(a);"

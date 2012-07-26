@@ -141,6 +141,10 @@ public class Ggb2MPReduce {
 				"<< begin scalar integral!!; let intrules!!; integral!!:=int(%0-(%1),%2,%3,%4); clearrules intrules!!; return if freeof(integral!!,\\'int) then integral!! else num\\_int(%0-(%1),%2,%3,%4) end >>");
 		p("Intersect.2",
 				"<<begin scalar eqn1!!, eqn2!!; eqn1!!:=(%0); eqn2!!:=(%1); return map(listtomyvect,flattenlist(for each element!! in mysolve(list(if freeof(eqn1!!,=) then eqn1!!=currenty!! else eqn1!!,if freeof(eqn2!!,=) then eqn2!!=currenty!! else eqn2!!),list(mymainvar(mymainvar(eqn1!!)+mymainvar(eqn2!!)), currenty!!)) collect map(rhs,element!!))) end>>");
+		p("PointList.1",
+				"pointlist(mattolistoflists(%0))");
+		p("RootList.1",
+				"rootlist(mattolistoflists(%0))");
 		p("Invert.1", "1/(%0)");
 		p("IntegerPart.1", "if %0>0 then floor(%0) else ceiling(%0)");
 		p("IsPrime.1", "if primep(%0) and (%0)>1 then true else false");
