@@ -145,7 +145,7 @@ public class Ggb2MPReduce {
 				"pointlist(mattolistoflists(%0))");
 		p("RootList.1",
 				"rootlist(mattolistoflists(%0))");
-		p("Invert.1", "1/(%0)");
+		p("Invert.1", "<<begin scalar a; a:=%0; return 1/a;end>>");
 		p("IntegerPart.1", "if %0>0 then floor(%0) else ceiling(%0)");
 		p("IsPrime.1", "if primep(%0) and (%0)>1 then true else false");
 		//p("Join.N","<<begin scalar list!!=list(%); if length(list!!)=1 then list!!:=part(list!!,0); return for each x!! in list!! join x!! end>>");
@@ -178,7 +178,7 @@ public class Ggb2MPReduce {
 				"<<begin scalar input!!, result!!; input!!:=(%0); result!! := limit!-(input!!,mymainvar(input!!),%1); return if freeof(result!!,\\'limit!-) then result!! else \\'?end>>");
 		p("LimitBelow.3", "<<begin scalar result!!; result!! :=limit!-(%0,%1,%2); return if freeof(result!!,\\'limit!-) then result!! else \\'? end >>");
 		p("Max.N", "max(%)");
-		p("MatrixRank.1", "rank(%0)");
+		p("MatrixRank.1", "<<begin scalar a; a:=%0; return rank(a);end>>");
 		p("Mean.1",
 				"<<begin scalar list!!; list!!:=(%0)$ return 1/length(list!!)*for i:=1:length(list!!) sum part(list!!,i) end>>");
 		p("Median.1",
