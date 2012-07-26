@@ -2050,6 +2050,24 @@ public class GeoCasCell extends GeoElement implements VarString {
 		
 		assignmentVar = "ggbmpvarPlot";
 		this.firstComputeOutput = true;
+		app.debug("***************************************************");
+		app.debug(evalVE);
+
+		//ToDo: cast output that it can be shown
+		if(evalVE.isTopLevelCommand()){
+			Command topLevel =	evalVE.getTopLevelCommand();
+			if((topLevel.getName()).equals("Solve")){				
+
+				setEvalComment("Plot Solve");
+			}
+			if((topLevel.getName()).equals("Solutions")){
+
+				setEvalComment("Plot Solutions");
+			}
+			//Command c = new Command(kernel, "Numeric", true);
+			//c.addArgument((ExpressionNode)evalVE);
+		}
+					
 		this.computeOutput(true);
 		twinGeo.setLabel(null);
 		changeAssignmentVar(assignmentVar,twinGeo.getLabelSimple());
