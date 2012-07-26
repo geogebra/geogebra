@@ -4,6 +4,7 @@ import geogebra.common.gui.view.spreadsheet.CellRange;
 import geogebra.common.gui.view.spreadsheet.MyTable;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementSpreadsheet;
+import geogebra.common.main.App;
 import geogebra.gui.dialog.options.OptionsDialog;
 import geogebra.main.AppD;
 
@@ -425,8 +426,8 @@ public class SpreadsheetContextMenu extends JPopupMenu {
 					app.getImageIcon("view-properties16.png"));
 			item.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					app.getDialogManager().showOptionsDialog(
-							OptionsDialog.TAB_SPREADSHEET);
+			    	app.getGuiManager().setShowView(true, App.VIEW_PROPERTIES);
+			    	app.getGuiManager().setFocusedPanel(App.VIEW_SPREADSHEET, true);
 				}
 			});
 			addItem(item);

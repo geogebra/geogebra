@@ -34,6 +34,7 @@ import geogebra.gui.dialog.InputDialog;
 import geogebra.gui.dialog.InputDialogOpenURL;
 import geogebra.gui.inputbar.AlgebraInput;
 import geogebra.gui.inputbar.InputBarHelpPanel;
+import geogebra.gui.layout.DockPanel;
 import geogebra.gui.layout.LayoutD;
 import geogebra.gui.layout.panels.AlgebraDockPanel;
 import geogebra.gui.layout.panels.CasDockPanel;
@@ -2763,22 +2764,22 @@ public class GuiManagerD extends GuiManager {
 	}
 	
 	public void setFocusedPanel(int viewId, boolean updatePropertiesView) {
-		setFocusedPanel((EuclidianDockPanelAbstract) getLayout().getDockManager().getPanel(viewId),updatePropertiesView);
+		setFocusedPanel(getLayout().getDockManager().getPanel(viewId),updatePropertiesView);
 
 	}
 	
-	public void setFocusedPanel(EuclidianDockPanelAbstract panel, boolean updatePropertiesView) {
+	public void setFocusedPanel(DockPanel panel, boolean updatePropertiesView) {
 		
 		if (panel != null) {
 			getLayout().getDockManager()
 					.setFocusedPanel(panel,updatePropertiesView);
 			
 
-			/*
+			
 			// notify the properties view
 			if  (updatePropertiesView)
 				updatePropertiesView();
-				*/
+				
 		}
 
 	}
