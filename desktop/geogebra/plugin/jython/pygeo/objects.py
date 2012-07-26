@@ -12,6 +12,8 @@ from apiproxy import API, in_new_thread, in_main_thread
 
 from generic import generic, specmethod, GenericMethods, GenericError, sign
 
+from logo import Logo
+
 LABEL_MODES = ["name", "name+value", "value", "caption"]
 
 Number = (int, long, float)
@@ -1077,6 +1079,7 @@ class Turtle(Element):
         self.geo = self._api.geoTurtle()
         self.running = True
         self.animating = True
+        self._logo = None
         # turtle_driver.add_turtle(self)
 
     # Turtle driving commands
@@ -1156,12 +1159,17 @@ class Turtle(Element):
 
     def step(self, dt = 0.0):
         API.Geo.stepTurtle(self.geo, float(dt))
-
+    
     # Short commands
     fd = forward
     tl = turn_left
     tr = turn_right
     
+    def logo(self, prog):
+        if self._logo is None:
+            self._logo = Logo(self)
+        self._logo.run(prog)
+
 
 class TurtleDriver(object):
     def __init__(self, frequency=20):
