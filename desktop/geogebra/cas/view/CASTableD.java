@@ -394,7 +394,12 @@ public class CASTableD extends JTable implements CASTable{
 				tableCellRenderer, row, 0);
 		int controlHeight = tableCell.getShowHideControlHeight();
 		int controlWidth = tableCell.getShowHideControlWidth();
-		Rectangle control = new Rectangle(0, rowHeightsAbove, controlWidth, rowHeightsAbove+controlHeight);
+		int controlX = tableCell.getShowHideControlX();
+		int controlY = tableCell.getShowHideControlY();
+		Rectangle control = new Rectangle(	controlX, 
+											controlY + rowHeightsAbove, 
+											controlX + controlWidth, 
+											controlY + controlHeight);
 
 		return control.contains(p);
 	}
@@ -881,8 +886,7 @@ public class CASTableD extends JTable implements CASTable{
 						true);
 				
 				//do not highlight the showHideControl
-				r.x = r.x + rollOverCell.getShowHideControlWidth();
-				r.width = r.width - rollOverCell.getShowHideControlWidth();
+				r.width = r.width - rollOverCell.getShowHideControlWidth()-10;
 				
 				if (isOutputRollOver) {
 					r.y = r.y + offset;

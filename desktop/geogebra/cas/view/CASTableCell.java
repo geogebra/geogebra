@@ -47,8 +47,8 @@ public abstract class CASTableCell extends JPanel {
 		this.view = view;
 		this.app = view.getApp();
 
-		setLayout(new BorderLayout());
-		//setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 5));
+		setLayout(new BorderLayout(5,5));
+		setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 5));
 		setBackground(Color.white);
 
 		inputPanel = new CASInputPanel(app);
@@ -87,17 +87,13 @@ public abstract class CASTableCell extends JPanel {
 		dummyField.setVisible(false);
 
 		JPanel mainPanel = new JPanel(new BorderLayout(5,5));
-		mainPanel.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 5));
-		mainPanel.setBackground(Color.white);
 		
 		outputPanel = new CASOutputPanel(view.getApp());
 
-		mainPanel.add(northPanel, BorderLayout.NORTH);
-		mainPanel.add(outputPanel, BorderLayout.CENTER);
+		add(northPanel, BorderLayout.NORTH);
+		add(outputPanel, BorderLayout.CENTER);
+		add(showHideControl, BorderLayout.EAST);
 		
-		
-		add(showHideControl, BorderLayout.WEST);
-		add(mainPanel, BorderLayout.CENTER);
 		return;
 	}
 
@@ -180,7 +176,7 @@ public abstract class CASTableCell extends JPanel {
 		Dimension d = dummyField.getPreferredSize();
 		// use the parameter width - 15 pixels to correct for border padding
 		if (width > 0)
-			d.width = width - getShowHideControlWidth() - 15;
+			d.width = width - 15;
 
 		inputPanel.setPreferredSize(d);
 
