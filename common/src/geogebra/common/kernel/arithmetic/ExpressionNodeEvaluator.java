@@ -492,6 +492,8 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			} else {
 				str = new String[]{ "IllegalAddition", lt.toString(errorTemplate), "+",
 						rt.toString(errorTemplate) };
+				App.debug(lt.getClass()+" "+rt.getClass());
+				App.debug(lt.isNumberValue() +" "+ rt.isNumberValue());
 				throw new MyError(app, str);
 			}
 

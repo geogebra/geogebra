@@ -4649,7 +4649,7 @@ public abstract class EuclidianController {
 			points[1] = (GeoPoint) selectedPoints.get(1);
 	
 			// check for centerPoint
-			GeoPoint centerPoint = (GeoPoint) chooseGeo(hits, Test.GEOPOINT2);
+			GeoPoint centerPoint = (GeoPoint) chooseGeo(hits, Test.GEOPOINT);
 	
 			if (centerPoint != null) {
 				if (selectionPreview) {
@@ -4675,7 +4675,7 @@ public abstract class EuclidianController {
 			GeoConic circle = (GeoConic) selectedConicsND.get(0);
 	
 			// check for centerPoint
-			GeoPoint centerPoint = (GeoPoint) chooseGeo(hits, Test.GEOPOINT2);
+			GeoPoint centerPoint = (GeoPoint) chooseGeo(hits, Test.GEOPOINT);
 	
 			if (centerPoint != null) {
 				if (selectionPreview) {
@@ -4700,7 +4700,7 @@ public abstract class EuclidianController {
 			GeoSegment segment = selectedSegments.get(0);
 	
 			// check for centerPoint
-			GeoPoint centerPoint = (GeoPoint) chooseGeo(hits, Test.GEOPOINT2);
+			GeoPoint centerPoint = (GeoPoint) chooseGeo(hits, Test.GEOPOINT);
 	
 			if (centerPoint != null) {
 				if (selectionPreview) {
@@ -5043,7 +5043,7 @@ public abstract class EuclidianController {
 		}
 	
 		// only one point needed: try to create it
-		if (!objectFound && (macroInput[index].equals(Test.GEOPOINT2)||macroInput[index].equals(Test.GEOPOINTND))) {
+		if (!objectFound && (macroInput[index].equals(Test.GEOPOINT)||macroInput[index].equals(Test.GEOPOINTND))) {
 			if (createNewPoint(hits, true, true, false)) {
 				// take movedGeoPoint which is the newly created point
 				selectedGeos.add(getMovedGeoPoint());
@@ -7862,7 +7862,7 @@ public abstract class EuclidianController {
 		if (rotationCenter == null) {
 			view.setHits(mouseLoc);
 			rotationCenter = (GeoPoint) chooseGeo(
-					view.getHits().getHits(Test.GEOPOINT2, tempArrayList),
+					view.getHits().getHits(Test.GEOPOINT, tempArrayList),
 					true);
 			app.addSelectedGeo(rotationCenter);
 			moveMode = MOVE_NONE;
@@ -8324,7 +8324,7 @@ public abstract class EuclidianController {
 			// remove non-Points
 			for (int i = 0; i < hits.size(); i++) {
 				GeoElement geo = hits.get(i);
-				if (!(Test.GEOPOINT2.check(geo))) {
+				if (!(Test.GEOPOINT.check(geo))) {
 					hits.remove(i);
 				}
 			}
@@ -8408,7 +8408,7 @@ public abstract class EuclidianController {
 		case EuclidianConstants.MODE_FITLINE:
 			for (int i = 0; i < hits.size(); i++) {
 				GeoElement geo = hits.get(i);
-				if (!(Test.GEOPOINT2.check(geo))) {
+				if (!(Test.GEOPOINT.check(geo))) {
 					hits.remove(i);
 				}
 			}

@@ -285,7 +285,7 @@ Test {
 	},
 
 	/** Test for GEOPOINT2 */
-	GEOPOINT2 {
+	GEOPOINT {
 		@Override
 		public boolean check(Object ob) {
 			return ob instanceof GeoPoint;
