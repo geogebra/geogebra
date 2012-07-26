@@ -188,40 +188,38 @@ public abstract class AnimationManager {
 	 */
 	protected void sliderStep(){
 		// skip animation frames while kernel is saving XML
-				if (kernel.isSaving())
-					return;
+		if (kernel.isSaving())
+			return;
 
-				long startTime = System.currentTimeMillis();
+		long startTime = System.currentTimeMillis();
 
-				// clear list of geos that need to be updated
-				changedGeos.clear();
+		// clear list of geos that need to be updated
+		changedGeos.clear();
 
-				// perform animation step for all animatedGeos
-				int size = animatedGeos.size();
-				for (int i = 0; i < size; i++) {
-					Animatable anim = (Animatable) animatedGeos.get(i);
-					boolean changed = anim.doAnimationStep(frameRate);
-					if (changed)
-						changedGeos.add(anim);
-				}
+		// perform animation step for all animatedGeos
+		int size = animatedGeos.size();
+		for (int i = 0; i < size; i++) {
+			Animatable anim = (Animatable) animatedGeos.get(i);
+			boolean changed = anim.doAnimationStep(frameRate);
+			if (changed)
+				changedGeos.add(anim);
+		}
 
-				// do we need to update anything?
-				if (changedGeos.size() > 0) {
-					// efficiently update all changed GeoElements
-					GeoElement.updateCascade(changedGeos, getTempSet(), false);
+		// do we need to update anything?
+		if (changedGeos.size() > 0) {
+			// efficiently update all changed GeoElements
+			GeoElement.updateCascade(changedGeos, getTempSet(), false);
 
-					// repaint views
-					kernel.notifyRepaint();
+			// repaint views
+			kernel.notifyRepaint();
 
-					// check frame rate
-					long compTime = System.currentTimeMillis() - startTime;
-					adaptFrameRate(compTime);
+			// check frame rate
+			long compTime = System.currentTimeMillis() - startTime;
+			adaptFrameRate(compTime);
 
-					// System.out.println("UPDATE compTime: " + compTime +
-					// ", frameRate: " + frameRate);
-				}
-
-	
+			// System.out.println("UPDATE compTime: " + compTime +
+			// ", frameRate: " + frameRate);
+		}
 	}
 	
 	/**
