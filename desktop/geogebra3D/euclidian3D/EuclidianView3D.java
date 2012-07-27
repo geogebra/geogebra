@@ -351,6 +351,9 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 		//point decorations
 		initPointDecorations();
 		
+		//tells the renderer if use clipping cube
+		updateUseClippingCube();
+		
 			
 	}
 	
@@ -1370,10 +1373,14 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	public void setUseClippingCube(boolean flag){
 
 		useClippingCube = flag;
-		renderer.setEnableClipPlanes(flag);
+		updateUseClippingCube();
+		
+	}
+	
+	private void updateUseClippingCube(){
+		renderer.setEnableClipPlanes(useClippingCube);
 		setViewChanged();
 		setWaitForUpdate();
-		
 	}
 	
 	/**
