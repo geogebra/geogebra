@@ -101,25 +101,25 @@ public abstract class PropertiesView implements View{
 	}
 	
 	
-	public String getTypeStringSimple(OptionType type) {
+	public static String getTypeStringSimple(App app, OptionType type) {
 		switch (type) {
 		case DEFAULTS:
-			return app.getPlain(app.getPlain("Defaults"));
+			return app.getPlain("Defaults");
 		case SPREADSHEET:
-			return app.getPlain(app.getPlain("Spreadsheet"));
+			return app.getPlain("Spreadsheet");
 		case EUCLIDIAN:
-			return app.getPlain(app.getPlain("DrawingPad"));
+			return app.getPlain("DrawingPad");
 		case EUCLIDIAN2:
-			return app.getPlain(app.getPlain("DrawingPad2"));
+			return app.getPlain("DrawingPad2");
 		case CAS:
-			return app.getPlain(app.getPlain("CAS"));
+			return app.getPlain("CAS");
 		case ADVANCED:
-			return app.getPlain(app.getMenu("Advanced"));
+			return app.getMenu("Advanced");
 		case OBJECTS:
 			return app.getMenu("Objects");
 			//return objectPanel.getSelectionDescription();
 		case LAYOUT:
-			return app.getPlain(app.getMenu("Layout"));
+			return app.getMenu("Layout");
 		}
 		return null;
 	}

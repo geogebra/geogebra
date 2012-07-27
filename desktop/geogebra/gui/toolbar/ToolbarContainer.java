@@ -811,11 +811,15 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 				if(type==OptionType.DEFAULTS){
 					continue;
 				}
-				String menuText = ((PropertiesView) app.getGuiManager()
-						.getPropertiesView()).getTypeStringSimple(type);
+				String menuText = PropertiesView.getTypeStringSimple(app,type);
 				ImageIcon ic = ((PropertiesViewD) app.getGuiManager()
 						.getPropertiesView()).getTypeIcon(type);
 				JMenuItem item = new JMenuItem(menuText, ic);
+				
+				// not available if no objects yet
+				if (type==OptionType.OBJECTS && app.getKernel().isEmpty()) {
+					item.setEnabled(false);
+				}
 	
 				item.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {

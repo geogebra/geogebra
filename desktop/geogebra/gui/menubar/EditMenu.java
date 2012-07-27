@@ -1,15 +1,10 @@
 package geogebra.gui.menubar;
 
 import geogebra.common.gui.view.properties.PropertiesView.OptionType;
-import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.util.CopyPaste;
-import geogebra.euclidianND.EuclidianViewND;
 import geogebra.main.AppD;
 
-import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 

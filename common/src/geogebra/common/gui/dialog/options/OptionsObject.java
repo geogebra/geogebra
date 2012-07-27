@@ -53,8 +53,10 @@ public abstract class OptionsObject {
 	 * @return description for selection
 	 */
 	public String getSelectionDescription() {
-		if (selection == null || selection.size() == 0)
-			return app.getMenu("SelectAnObject");
+		if (selection == null || selection.size() == 0) {
+			App.error("This should not get called unless at least one object is selected");
+			return app.getPlain("Properties");
+		}
 		else if (selection.size() == 1){
 			GeoElement geo = selection.get(0);
 			sb.setLength(0);
