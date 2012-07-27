@@ -868,9 +868,9 @@ public class OptionsEuclidian2 extends JPanel  implements OptionPanelD, ActionLi
 			//not parsed to number => return all
 			if(minMax == null){
 				tfMinX.setText(view.getXminObject().getLabel(StringTemplate.editTemplate));
-		 		tfMaxX.setText(view.getXmaxObject().getLabel(StringTemplate.defaultTemplate));
-		 		tfMinY.setText(view.getYminObject().getLabel(StringTemplate.defaultTemplate));
-		 		tfMaxY.setText(view.getYmaxObject().getLabel(StringTemplate.defaultTemplate));
+		 		tfMaxX.setText(view.getXmaxObject().getLabel(StringTemplate.editTemplate));
+		 		tfMinY.setText(view.getYminObject().getLabel(StringTemplate.editTemplate));
+		 		tfMaxY.setText(view.getYmaxObject().getLabel(StringTemplate.editTemplate));
 			}
 			else {
 				if(source == tfMinX){

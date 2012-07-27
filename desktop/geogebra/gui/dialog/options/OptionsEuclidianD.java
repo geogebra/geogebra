@@ -896,11 +896,11 @@ public class OptionsEuclidianD extends geogebra.common.gui.dialog.options.Option
 				tfMinX.setText(view.getXminObject().getLabel(
 						StringTemplate.editTemplate));
 				tfMaxX.setText(view.getXmaxObject().getLabel(
-						StringTemplate.defaultTemplate));
+						StringTemplate.editTemplate));
 				tfMinY.setText(view.getYminObject().getLabel(
-						StringTemplate.defaultTemplate));
+						StringTemplate.editTemplate));
 				tfMaxY.setText(view.getYmaxObject().getLabel(
-						StringTemplate.defaultTemplate));
+						StringTemplate.editTemplate));
 			} else {
 				if (source == tfMinX) {
 					if (view == app.getEuclidianView1()) {
