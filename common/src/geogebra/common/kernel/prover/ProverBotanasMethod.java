@@ -37,8 +37,10 @@ public class ProverBotanasMethod {
     	while (it.hasNext()) {
     		GeoElement geo = it.next();
     		Variable[] vars = ((SymbolicParametersBotanaAlgo) geo).getBotanaVars(geo);
-    		List<Variable> varsList = Arrays.asList(vars);
-    		botanaVarsInv.put(varsList, geo);
+    		if (vars != null) {
+    			List<Variable> varsList = Arrays.asList(vars);
+    			botanaVarsInv.put(varsList, geo);
+    		}
     	}
     }
     
