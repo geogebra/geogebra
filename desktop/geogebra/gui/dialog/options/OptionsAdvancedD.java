@@ -70,7 +70,8 @@ public class OptionsAdvancedD extends geogebra.common.gui.dialog.options.Options
 			tooltipTimeoutLabel;
 
 	/** */
-	private JComboBox<String> cbKeyboardLanguage, cbTooltipLanguage, cbTooltipTimeout,
+	@SuppressWarnings("rawtypes")
+	private JComboBox cbKeyboardLanguage, cbTooltipLanguage, cbTooltipTimeout,
 			cbGUIFont;
 
 	/**	 */
@@ -252,6 +253,7 @@ public class OptionsAdvancedD extends geogebra.common.gui.dialog.options.Options
 	/**
 	 * Initialize the tooltip panel.
 	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private void initTooltipPanel() {
 		tooltipPanel = new JPanel();
 		tooltipPanel.setLayout(new BoxLayout(tooltipPanel, BoxLayout.Y_AXIS));
@@ -259,7 +261,7 @@ public class OptionsAdvancedD extends geogebra.common.gui.dialog.options.Options
 		
 		tooltipLanguageLabel = new JLabel();
 		tooltipPanel.add(OptionsUtil.flowPanel(tooltipLanguageLabel));
-		cbTooltipLanguage = new JComboBox<String>();
+		cbTooltipLanguage = new JComboBox();
 		cbTooltipLanguage.setRenderer(new LanguageRenderer(app));
 		// listener to this combo box is added in setLabels()
 		tooltipPanel.add(OptionsUtil.flowPanel(Box.createHorizontalStrut(20),cbTooltipLanguage));
@@ -272,7 +274,7 @@ public class OptionsAdvancedD extends geogebra.common.gui.dialog.options.Options
 			tooltipTimeouts[i] = MyXMLHandler.tooltipTimeouts[i];
 		tooltipTimeouts[tooltipTimeouts.length - 1] = "-";
 
-		cbTooltipTimeout = new JComboBox<String>(tooltipTimeouts);
+		cbTooltipTimeout = new JComboBox(tooltipTimeouts);
 		
 		tooltipPanel.add(OptionsUtil.flowPanel(tooltipTimeoutLabel,cbTooltipTimeout));
 	}
