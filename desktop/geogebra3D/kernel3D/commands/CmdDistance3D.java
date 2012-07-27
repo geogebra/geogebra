@@ -22,14 +22,7 @@ import geogebra3D.kernel3D.GeoQuadric3D;
 
 
 /**
- * Intersect[ <GeoPlane3D>, <GeoConicND> ] 
- * Intersect[ <GeoLineND>, <GeoQuadric3D> ] 
- * Intersect[ <GeoConicND>, <GeoConicND> ] 
- * Intersect[ <GeoLineND>, <GeoPolygon> ] 
- * Intersect[ <GeoLineND>, <GeoCoordSys2D> ]
- * Intersect[ <GeoLineND>, <GeoLineND> ] 
- * Intersect[ <GeoLineND>, <GeoConicND>, <GeoNumeric> ] 
- * Intersect[ <GeoLineND>, <GeoQuadric3D>, <GeoNumeric> ]  
+ * Distance[ <GeoLineND>, <GeoLineND> ] 
  */
 public class CmdDistance3D extends CmdDistance {
 	

@@ -531,6 +531,18 @@ public interface Manager3DInterface {
 
 	public GeoElement IntersectPlanes(GeoCoordSys2D cs1, GeoCoordSys2D cs2);
 
+	public GeoElement ClosestPoint(String label, GeoLineND g,
+			GeoLineND h);
+	public GeoElement ClosestPoint(String label, Path p,
+			GeoPointND P);
+	public GeoElement ClosestPoint(String label, Region r,
+			GeoPointND P);
+	
+	
+	public GeoNumeric Distance(String label, GeoLineND g, GeoLineND h);
+
+
+	
 	/**
 	 * Angle named label between three points
 	 */
@@ -561,9 +573,6 @@ public interface Manager3DInterface {
 			GeoVectorND v);
 
 	public Geo3DVec newGeo3DVec(double double1, double double2, double double3);
-
-	public GeoNumeric Distance(String label, GeoLineND g, GeoLineND h);
-
 
 
 }

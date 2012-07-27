@@ -798,8 +798,10 @@ public class Manager3D implements Manager3DInterface {
 
 	}
 
-	// //////////////////////////////////////////////
-	// intersection algos
+
+	/********************************************************************
+	 * POINT ALGOS (Intersection, ClosestPoint)
+	 ********************************************************************/
 
 	/**
 	 * intersect line and conic
@@ -1091,6 +1093,26 @@ public class Manager3D implements Manager3DInterface {
 		AlgoIntersectCS2D2D algo = new AlgoIntersectCS2D2D(cons, cs1, cs2);
 		return algo.getIntersection();
 	}
+	
+	public GeoElement ClosestPoint(String label, GeoLineND g, GeoLineND h) {
+		AlgoClosestPointLines3D algo =  new AlgoClosestPointLines3D(cons, label, g, h);
+		return algo.getPoint();
+	}
+	
+	public GeoElement ClosestPoint(String label, Path p, GeoPointND P) {
+		AlgoClosestPoint3D algo =  new AlgoClosestPoint3D(cons, label, p, P);
+		return algo.getOutputPoint();
+	}
+	
+	public GeoElement ClosestPoint(String label, Region r, GeoPointND P) {
+		AlgoClosestPointToRegion3D algo =  new AlgoClosestPointToRegion3D(cons, label, r, P);
+		return algo.getOutputPoint();
+	}
+	
+
+	/********************************************************************
+	 * MEASURES (lengths, angles)
+	 ********************************************************************/
 
 	/**
 	 * Angle named label between three points
@@ -1122,6 +1144,14 @@ public class Manager3D implements Manager3DInterface {
 		return algo.getPolyhedron();
 	}
 
+	public GeoNumeric Distance(String label, GeoLineND g, GeoLineND h) {
+		
+		AlgoDistanceLines3D algo = new AlgoDistanceLines3D(cons, label, g, h);
+		
+		return algo.getDistance();
+	}
+
+	
 	/********************************************************************
 	 * TRANSFORMATIONS
 	 ********************************************************************/
@@ -1136,11 +1166,7 @@ public class Manager3D implements Manager3DInterface {
 		return new geogebra3D.kernel3D.Geo3DVec(kernel, x, y, z);
 	}
 
-	public GeoNumeric Distance(String label, GeoLineND g, GeoLineND h) {
-		
-		AlgoDistanceLines3D algo = new AlgoDistanceLines3D(cons, label, g, h);
-		
-		return algo.getDistance();
-	}
+
+
 
 }

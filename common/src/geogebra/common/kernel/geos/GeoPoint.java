@@ -152,6 +152,7 @@ final public class GeoPoint extends GeoVec3D implements VectorValue,
 	public GeoPoint(Construction c, double x, double y, double z) {
 		super(c, x, y, z); // GeoVec3D constructor
 		setAnimationType(ANIMATION_INCREASING);
+		this.setIncidenceList(null);
 	}
 	/**
 	 * Creates point on path
@@ -1741,7 +1742,10 @@ final public class GeoPoint extends GeoVec3D implements VectorValue,
 	 * @param list list of objects incident by construction
 	 */
 	public void setIncidenceList(ArrayList<GeoElement> list) {
-		incidenceList = new ArrayList<GeoElement>(list);
+		if (list==null)
+			incidenceList = new ArrayList<GeoElement>();
+		else
+			incidenceList = new ArrayList<GeoElement>(list);
 	}
 
 	/**

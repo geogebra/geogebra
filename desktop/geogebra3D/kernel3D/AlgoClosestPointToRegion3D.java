@@ -1,0 +1,113 @@
+/* 
+GeoGebra - Dynamic Mathematics for Everyone
+http://www.geogebra.org
+
+This file is part of GeoGebra.
+
+This program is free software; you can redistribute it and/or modify it 
+under the terms of the GNU General Public License as published by 
+the Free Software Foundation.
+
+*/
+
+package geogebra3D.kernel3D;
+
+import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.Path;
+import geogebra.common.kernel.Region;
+import geogebra.common.kernel.Matrix.CoordMatrix;
+import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.algos.AlgoDistanceLineLine;
+import geogebra.common.kernel.algos.Algos;
+import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoLine;
+import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.kernel.kernelND.AlgoIntersectND;
+import geogebra.common.kernel.kernelND.GeoLineND;
+import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.kernel.locusequ.EquationElement;
+import geogebra.common.kernel.locusequ.EquationScope;
+
+
+
+
+public class AlgoClosestPointToRegion3D extends AlgoElement3D {
+
+	private Region r;
+	private GeoPointND P;
+	
+	private GeoPoint3D geoPointOnRegion;
+
+    public AlgoClosestPointToRegion3D(Construction c,
+    		String label, Region r, GeoPointND P) {
+        super(c);
+        this.r = r;
+        this.P = P;
+        geoPointOnRegion = new GeoPoint3D(c);
+        geoPointOnRegion.setRegion(r);
+        setInputOutput(); // for AlgoElement
+
+        // compute length
+        compute();
+        geoPointOnRegion.setLabel(label);
+    }
+    
+
+    @Override
+	public Algos getClassName() {
+        return Algos.AlgoClosestPointToRegion3D;
+    }
+    
+    // for AlgoElement
+    @Override
+	protected void setInputOutput() {
+        input = new GeoElement[2];
+        input[0] = (GeoElement)r;
+        input[1] = (GeoElement)P;
+
+        super.setOutputLength(1);
+        super.setOutput(0, (GeoElement3D)geoPointOnRegion);
+        setDependencies(); // done by AlgoElement
+    }
+ 
+    Region getInputRegion() {
+        return r;
+    }
+    GeoPointND getInputPoint() {
+        return P;
+    }
+
+    public GeoPoint3D getOutputPoint() {
+    	return geoPointOnRegion;
+    }
+    
+    @Override
+	public void compute() {
+    	//TODO: this is just copied from 2D version, not verified!
+    	if (input[0].isDefined() && P.isDefined()) {	  
+    		geoPointOnRegion.setCoords(P);
+	        r.regionChanged(geoPointOnRegion);
+	        geoPointOnRegion.updateCoords();
+    	} else {
+    		geoPointOnRegion.setUndefined();
+    	}
+    }
+
+	@Override
+	public EquationElement buildEquationElementForGeo(GeoElement element,
+			EquationScope scope) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public boolean isLocusEquable() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+    
+}

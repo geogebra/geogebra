@@ -38,7 +38,8 @@ public class AlgoClosestPoint extends AlgoElement implements PathAlgo {
         P = new GeoPoint(cons);
         P.setPath(path);
 		setInputOutput(); // for AlgoElement	       	        
-		compute();		
+		compute();
+		addIncidence();
 	}
     
     public AlgoClosestPoint(Construction cons, String label, Path path, GeoPoint point) {
@@ -63,6 +64,16 @@ public class AlgoClosestPoint extends AlgoElement implements PathAlgo {
         setDependencies(); // done by AlgoElement
     }
 
+    /**
+     * @author Tam
+     * 
+     * for special cases of e.g. AlgoIntersectLineConic
+     */
+    private void addIncidence() {
+    	P.addIncidence((GeoElement) path);
+		
+	}
+    
     public GeoPoint getP() {
         return P;
     }
