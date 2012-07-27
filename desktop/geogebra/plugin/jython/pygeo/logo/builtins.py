@@ -510,12 +510,17 @@ def right(context, code, w):
 def setpensize(context, code, w):
     context.root.turtle.pen_thickness = w.number_value
 
-@builtin(Word)
+@builtin(Thing, alias="setpc")
 def setpencolor(context, code, w):
-    try:
-        color = getattr(Color, w.word.upper())
-    except AttributeError:
-        raise Error("I don't know the color %s" % w.word)
+    if isinstance(w, Word):
+        try:
+            color = getattr(Color, w.word.upper())
+        except AttributeError:
+            raise Error("I don't know the color %s" % w.word)
+    elif isinstance(w, List):
+        if len(w) != 3:
+            raise Error("a color list must have 3 elements (red, green, blue)")
+        color = Color(*[int(x.number_value) for x in w])
     context.root.turtle.pen_color = color
 
 @builtin(Word)
