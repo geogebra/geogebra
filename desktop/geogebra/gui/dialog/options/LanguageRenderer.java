@@ -15,6 +15,7 @@ import javax.swing.JList;
  * @author michael
  *
  */
+@SuppressWarnings("serial")
 public class LanguageRenderer  extends DefaultListCellRenderer {
 	
 	private App app;
@@ -25,8 +26,9 @@ public class LanguageRenderer  extends DefaultListCellRenderer {
 		this.app = app;
 	}
 
+	@SuppressWarnings("rawtypes")
 	@Override
-	public Component getListCellRendererComponent(JList<?> list, Object value,
+	public Component getListCellRendererComponent(JList list, Object value,
 			int index, boolean isSelected, boolean cellHasFocus) {
 		Component ret = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
 		
