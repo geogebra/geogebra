@@ -1,6 +1,7 @@
 package geogebra.gui.layout;
 
 import geogebra.common.io.layout.Perspective;
+import geogebra.euclidian.event.MouseEvent;
 import geogebra.gui.dialog.options.OptionsUtil;
 import geogebra.main.AppD;
 
@@ -8,6 +9,8 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseListener;
 
 import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
@@ -15,14 +18,17 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.SwingConstants;
 
-public class PerspectivePanel extends JPanel {
+public class PerspectivePanel extends JPopupMenu {
 
 	private AppD app;
 	private LayoutD layout;
-	private DockBar dockBar;
+	
 	
 	private JPanel btnPanel;
 	
@@ -30,29 +36,36 @@ public class PerspectivePanel extends JPanel {
 	private AbstractAction changePerspectiveAction, managePerspectivesAction,
 			savePerspectiveAction;
 
-	public PerspectivePanel(AppD app, DockBar dockBar) {
+	public PerspectivePanel(AppD app) {
 
 		this.app = app;
 		this.layout = app.getGuiManager().getLayout();
-		this.dockBar = dockBar;
 		
-		this.setLayout(new BorderLayout());
 		initActions();
 		initItems();
-		
-		this.setBorder(BorderFactory.createEmptyBorder(100, 20, 100, 20));
-		
+		registerListeners();
 	}
 
+	private void registerListeners() {
+		this.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(java.awt.event.MouseEvent e){
+				hidePopup();
+			}
+		});
+	}
 	
 	
+	protected void hidePopup() {
+		this.setVisible(false);
+	}
+
 	/**
 	 * Initialize the menu items.
 	 */
 	private void initItems()
 	{
 		//ArrayList<JButton> btnList = new ArrayList<JButton>();
-		
+		/*
 		btnPanel = new JPanel();
 		btnPanel.setLayout(new BoxLayout(btnPanel, BoxLayout.Y_AXIS));
 		
@@ -94,6 +107,54 @@ public class PerspectivePanel extends JPanel {
 		
 		this.add(btnPanel, BorderLayout.CENTER);
 		
+		*/
+		
+		add(Box.createVerticalStrut(10));
+		JLabel title = new JLabel(app.getMenu("Perspectives"));
+		title.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 0));
+		title.setFont(app.getBoldFont());
+		add(title);
+		add(Box.createVerticalStrut(10));
+		
+		Perspective[] defaultPerspectives = geogebra.common.gui.Layout.defaultPerspectives;
+
+		for (int i = 0; i < defaultPerspectives.length; ++i) {
+			JMenuItem tmpItem = new JMenuItem(changePerspectiveAction);
+			tmpItem.setText(app.getMenu("Perspective."
+					+ defaultPerspectives[i].getId()));
+			tmpItem.setIcon(app.getEmptyIcon());
+			tmpItem.setActionCommand("d" + i);
+			tmpItem.setIcon(app.getImageIcon("options-large.png"));
+			
+			Dimension d = tmpItem.getMaximumSize();
+			d.height = tmpItem.getPreferredSize().height;
+			tmpItem.setMaximumSize(d);
+			add(tmpItem);
+		}
+
+		//addSeparator();
+
+		// user perspectives
+		Perspective[] perspectives = layout.getPerspectives();
+
+		if (perspectives.length != 0) {
+			for (int i = 0; i < perspectives.length; ++i) {
+				JMenuItem tmpItem = new JMenuItem(changePerspectiveAction);
+				tmpItem.setText(perspectives[i].getId());
+				tmpItem.setIcon(app.getEmptyIcon());
+				tmpItem.setActionCommand(Integer.toString(i));
+				tmpItem.setIcon(app.getImageIcon("options-large.png"));
+				
+				Dimension d = tmpItem.getMaximumSize();
+				d.height = tmpItem.getPreferredSize().height;
+				tmpItem.setMaximumSize(d);
+				add(tmpItem);
+			}
+		}
+		
+		add(Box.createVerticalGlue());
+		
+		
 	}
 	
 	/**
@@ -133,7 +194,6 @@ public class PerspectivePanel extends JPanel {
 					layout.applyPerspective(layout.getPerspective(index));
 				}
 				
-				dockBar.toggleMinimumFullPanel();
 			}
 		};
 	}

@@ -50,7 +50,7 @@ public class DockBar extends JPanel implements SetLabels, ActionListener {
 	AppD app;
 	private LayoutD layout;
 
-	private MyPopup popup;
+	private JPopupMenu popup;
 
 	private JPanel fullPanel;
 
@@ -100,7 +100,7 @@ public class DockBar extends JPanel implements SetLabels, ActionListener {
 		gluePanel.add(Box.createVerticalGlue());
 		//gluePanel.add(viewButtonBar);
 		
-		gluePanel.add(new PerspectivePanel(app, this));
+		gluePanel.add(new PerspectivePanel(app));
 		// gluePanel.add(Box.createVerticalStrut(30));
 		getGridButtonPanel();
 		//gluePanel.add(getGridButtonPanel());
@@ -116,10 +116,9 @@ public class DockBar extends JPanel implements SetLabels, ActionListener {
 
 		getMinimumPanel();
 
-		popup = new MyPopup();
-
+		
 		setLabels();
-		updateLayout();
+		//updateLayout();
 		registerListeners();
 
 		isMinimized = false;
@@ -239,7 +238,7 @@ public class DockBar extends JPanel implements SetLabels, ActionListener {
 	 */
 	protected void updateLayout() {
 
-		if (enablePopup) {
+		if (true || enablePopup) {
 			popup.removeAll();
 			popup.add(fullPanel);
 			fullPanel.setBorder(BorderFactory.createEmptyBorder());
@@ -264,7 +263,7 @@ public class DockBar extends JPanel implements SetLabels, ActionListener {
 		isMinimized = !isMinimized;
 		removeAll();
 
-		if (isMinimized) {
+		if (true || isMinimized) {
 			add(minimumPanel, BorderLayout.CENTER);
 			lblIcon.setIcon(app.getImageIcon("dockbar-triangle-left.png"));
 		} else {
@@ -277,12 +276,14 @@ public class DockBar extends JPanel implements SetLabels, ActionListener {
 	}
 
 	protected void showPopup() {
-		if (!popup.isVisible()) {
+	//	if (!popup.isVisible()) {
+			popup = new PerspectivePanel(app);
 			popup.setPopupSize(popup.getPreferredSize().width,
 					getMinimumPanel().getHeight() - 4);
+						
 			popup.show(this, -popup.getPreferredSize().width
 					+ getMinimumPanel().getWidth(), 2);
-		}
+	//	}
 	}
 
 	protected void hidePopup() {
@@ -293,7 +294,7 @@ public class DockBar extends JPanel implements SetLabels, ActionListener {
 
 	public void openDockBar() {
 		isMinimized = false;
-		updateLayout();
+		//updateLayout();
 	}
 
 	public void update() {
@@ -366,9 +367,10 @@ public class DockBar extends JPanel implements SetLabels, ActionListener {
 		@Override
 		public void mouseClicked(MouseEvent e) {
 			if (e.getClickCount() > 0) {
+				showPopup();
 				if (!enablePopup) {
-					toggleMinimumFullPanel();
-					minimumPanel.setBackground(null);
+					//toggleMinimumFullPanel();
+					//minimumPanel.setBackground(null);
 				}
 				
 			}
@@ -417,6 +419,7 @@ public class DockBar extends JPanel implements SetLabels, ActionListener {
 		btnFileOpen.setToolTipText(app.getMenu("Load"));
 
 		updateViewButtons();
+		
 	}
 
 	/***********************************************
