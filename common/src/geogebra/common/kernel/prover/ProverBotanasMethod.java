@@ -1,10 +1,14 @@
 package geogebra.common.kernel.prover;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 
+import geogebra.common.kernel.algos.AlgoCircleThreePoints;
+import geogebra.common.kernel.algos.AlgoCircleTwoPoints;
 import geogebra.common.kernel.algos.SymbolicParametersBotanaAlgo;
 import geogebra.common.kernel.algos.SymbolicParametersBotanaAlgoAre;
 import geogebra.common.kernel.geos.GeoElement;
@@ -21,8 +25,8 @@ import geogebra.common.main.App;
  */
 public class ProverBotanasMethod {
 	
-	private static HashSet<GeoElement> getFreePoints(GeoElement statement) {
-		HashSet<GeoElement> freePoints = new HashSet<GeoElement>();
+	private static List<GeoElement> getFreePoints(GeoElement statement) {
+		List<GeoElement> freePoints = new ArrayList<GeoElement>();
 		Iterator<GeoElement> it = statement.getAllPredecessors().iterator();
 		while (it.hasNext()) {
 			GeoElement geo = it.next();
@@ -32,6 +36,21 @@ public class ProverBotanasMethod {
 		}
 		return freePoints;
 	}
+
+	private static List<GeoElement> getCircleCenters(GeoElement statement) {
+		List<GeoElement> circleCenters = new ArrayList<GeoElement>();
+		Iterator<GeoElement> it = statement.getAllPredecessors().iterator();
+		while (it.hasNext()) {
+			GeoElement geo = it.next();
+			if (geo.isGeoConic()) { // this is probably a circle
+				if (geo.getParentAlgorithm() instanceof AlgoCircleTwoPoints
+						|| geo.getParentAlgorithm() instanceof AlgoCircleThreePoints)
+					circleCenters.add(geo);
+			}
+		}
+		return circleCenters;
+	}
+
 	
 	/** 
 	 * Creates those polynomials which describe that none of 3 free points
@@ -40,7 +59,7 @@ public class ProverBotanasMethod {
 	 */
 	private static Polynomial[] create3FreePointsNeverCollinearNDG(Prover prover) {
 		// Creating the set of free points first:
-		HashSet<GeoElement> freePoints = getFreePoints(prover.getStatement());
+		List<GeoElement> freePoints = getFreePoints(prover.getStatement());
 		int setSize = freePoints.size();
 
 		// Creating NDGs:
@@ -120,11 +139,15 @@ public class ProverBotanasMethod {
 	 * @return a HashMap, containing the substitutions
 	 */
 	static HashMap<Variable,Integer> fixValues(GeoElement statement) {
-		HashSet<GeoElement> freePoints = getFreePoints(statement);
+		List<GeoElement> circleCenters = getCircleCenters(statement);
+		List<GeoElement> freePoints = getFreePoints(statement);
+		List<GeoElement> fixedPoints = new ArrayList<GeoElement>();
+		fixedPoints.addAll(circleCenters);
+		fixedPoints.addAll(freePoints);
 		
 		HashMap<Variable,Integer> ret = new HashMap<Variable, Integer>();
 		
-		Iterator<GeoElement> it = freePoints.iterator();
+		Iterator<GeoElement> it = fixedPoints.iterator();
 		int i = 0;
 		while (it.hasNext() && i<2) {
 			GeoElement geo = it.next();
