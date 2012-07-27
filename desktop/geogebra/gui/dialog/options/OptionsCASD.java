@@ -122,7 +122,7 @@ public class OptionsCASD  extends geogebra.common.gui.dialog.options.OptionsCAS 
 	/**
 	 * Apply changes
 	 */
-	public void apply() {
+	public void applyModifications() {
 	}
 
 	public JPanel getWrappedPanel() {

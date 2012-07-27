@@ -60,7 +60,8 @@ public class PropertiesViewD extends geogebra.common.gui.view.properties.Propert
 	private OptionsAdvancedD advancedPanel;
 	private OptionsLayoutD layoutPanel;
 
-	
+
+	private Object selectedOptionPanel = null;
 
 	// GUI elements
 	private JPanel mainPanel, buttonPanel;
@@ -341,6 +342,14 @@ public class PropertiesViewD extends geogebra.common.gui.view.properties.Propert
 	}
 		
 	
+	/**
+	 * apply current panel modifications
+	 */
+	public void applyModifications(){
+		if (selectedOptionPanel!=null)
+			((OptionPanelD) selectedOptionPanel).applyModifications();
+	}
+	
 	private void setOptionPanel(OptionType type, ArrayList<GeoElement> geos) {
 		
 		//App.printStacktrace("\ntype="+type+"\nisIniting="+isIniting+"\nsize="+app.getSelectedGeos().size());
@@ -351,6 +360,8 @@ public class PropertiesViewD extends geogebra.common.gui.view.properties.Propert
 		if (type == null) {
 			return;
 		}
+		
+		
 
 
 		//update selection
@@ -360,6 +371,8 @@ public class PropertiesViewD extends geogebra.common.gui.view.properties.Propert
 			styleBar.setObjectsToolTip();
 			
 		}
+		
+		applyModifications();
 
 		if (!isIniting && selectedOptionType == type) {
 			updateTitleBar();
@@ -371,9 +384,10 @@ public class PropertiesViewD extends geogebra.common.gui.view.properties.Propert
 
 		// clear the center panel and replace with selected option panel
 		mainPanel.removeAll();
-		getOptionPanel(type).setBorder(
+		selectedOptionPanel = getOptionPanel(type);
+		((OptionPanelD) selectedOptionPanel).setBorder(
 				BorderFactory.createEmptyBorder(15, 10, 10, 10));
-		mainPanel.add((JPanel) getOptionPanel(type).getWrappedPanel(), BorderLayout.CENTER);
+		mainPanel.add(getOptionPanel(type).getWrappedPanel(), BorderLayout.CENTER);
 
 				
 		// don't show the button panel in the Objects panel (it has it's own)
@@ -381,8 +395,9 @@ public class PropertiesViewD extends geogebra.common.gui.view.properties.Propert
 
 		// update GUI
 		//updateGUI();
-		getOptionPanel(type).updateGUI();
-		getOptionPanel(type).revalidate();
+
+		((OptionPanelD) selectedOptionPanel).updateGUI();
+		((OptionPanelD) selectedOptionPanel).revalidate();
 		updateStyleBar();
 		updateTitleBar(); 
 		
@@ -749,6 +764,7 @@ public class PropertiesViewD extends geogebra.common.gui.view.properties.Propert
 	// //////////////////////////////////////////////////////
 
 	public void windowPanel() {
+		applyModifications();
 		((OptionsObjectD) objectPanel).setGeoTreeVisible();
 
 		// kernel.attach(geoTree);
@@ -758,6 +774,7 @@ public class PropertiesViewD extends geogebra.common.gui.view.properties.Propert
 
 
 	public void unwindowPanel() {
+		applyModifications();
 		((OptionsObjectD) objectPanel).setGeoTreeNotVisible();
 
 		// kernel.detach(geoTree);

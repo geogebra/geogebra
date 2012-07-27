@@ -640,6 +640,8 @@ public class TextInputDialog extends InputDialog implements DocumentListener {
 	 *            GeoText element to be edited
 	 */
 	public void setGeoText(GeoText geo) {
+		
+		handlingDocumentEventOff = true;
 
 		this.editGeo = geo;
 		boolean createText = geo == null;
@@ -668,6 +670,12 @@ public class TextInputDialog extends InputDialog implements DocumentListener {
 		if (isLaTeX) {
 			cbLaTeX.doClick();
 		}
+		
+
+
+		handlingDocumentEventOff = false;
+		updatePreviewText();
+		editOccurred = false;
 
 	}
 
@@ -901,10 +909,42 @@ public class TextInputDialog extends InputDialog implements DocumentListener {
 		handleDocumentEvent();
 	}
 
+	/**
+	 * used for update to avoid several updates
+	 */
+	private boolean handlingDocumentEventOff = false;
+	
+	/**
+	 * false on init, become true when an edit occurs
+	 */
+	private boolean editOccurred = false;  
+	
+	/**
+	 * 
+	 * apply edit modifications
+	 */
+	public void applyModifications(){
+		if (editOccurred){
+			editOccurred = false;//do this first to ensure no circular call
+			inputHandler.processInput(editor.buildGeoGebraString(isLaTeX));
+			App.debug(editGeo);
+			editOccurred = false;
+		}
+	}
+	
 	public void handleDocumentEvent() {
+		
+		if (handlingDocumentEventOff)
+			return;
 
+		editOccurred = true;
+		updatePreviewText();
+	}
+	
+	private void updatePreviewText(){
 		textPreviewer.updatePreviewText(editGeo,
 				editor.buildGeoGebraString(isLaTeX), isLaTeX);
+		
 	}
 
 	@Override
@@ -1036,12 +1076,16 @@ public class TextInputDialog extends InputDialog implements DocumentListener {
 				
 				// make sure newText is using correct LaTeX setting
 				newText.setLaTeX(isLaTeX, true);
+			
 				if(newText.getParentAlgorithm()!=null)
 					newText.getParentAlgorithm().update();
 				else
 					newText.updateRepaint();
 
 				app.doAfterRedefine(newText);
+
+				//make redefined text selected
+				app.addSelectedGeo(newText);
 				return true;
 			} catch (Exception e) {
 				app.showError("ReplaceFailed");

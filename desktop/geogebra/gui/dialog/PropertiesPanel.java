@@ -301,9 +301,24 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 		// tabbed pane for properties
 		tabs = new JTabbedPane();
 		initTabs();
+		
+		tabs.addChangeListener(new ChangeListener() {
+			
+			public void stateChanged(ChangeEvent e) {
+				applyModifications();
+				
+			}
+		});
 
 		setLayout(new BorderLayout());
 		add(tabs, BorderLayout.CENTER);
+	}
+	
+	/**
+	 * apply tabs modifications (text edit panel, etc.)
+	 */
+	public void applyModifications(){
+		textEditPanel.applyModifications();
 	}
 
 	public void showSliderTab() {
@@ -3257,6 +3272,13 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 			// add(td.getPreviewPanel(), BorderLayout.NORTH);
 			add(td.getButtonPanel(), BorderLayout.SOUTH);
 
+		}
+		
+		/**
+		 * apply edit modifications
+		 */
+		public void applyModifications(){
+			td.applyModifications();
 		}
 
 		public void setLabels() {

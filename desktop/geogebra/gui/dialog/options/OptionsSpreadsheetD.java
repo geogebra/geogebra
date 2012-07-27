@@ -281,7 +281,7 @@ public class OptionsSpreadsheetD extends geogebra.common.gui.dialog.options.Opti
 	/**
 	 * Save the settings of this panel.
 	 */
-	public void apply() {
+	public void applyModifications() {
 		//TODO -- add any settings that need changing on Apply button click
 		// or after dialog close 
 	}

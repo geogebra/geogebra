@@ -341,7 +341,7 @@ public class OptionsDefaultsD extends OptionsDefaults implements OptionPanelD, T
 	/**
 	 * Save the settings of this panel.
 	 */
-	public void apply() {
+	public void applyModifications() {
 
 	}
 

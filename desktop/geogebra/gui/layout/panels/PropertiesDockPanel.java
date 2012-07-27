@@ -79,6 +79,12 @@ public class PropertiesDockPanel extends DockPanel implements
 		super.unwindowPanel();
 		getPropertiesView().unwindowPanel();
 	}
+	
+	@Override
+	protected void closePanel(boolean isPermanent) {
+		super.closePanel(isPermanent);		
+		getPropertiesView().applyModifications();
+	}
 
 	@Override
 	public ImageIcon getIcon() {
@@ -91,7 +97,6 @@ public class PropertiesDockPanel extends DockPanel implements
 		super.createFrame();
 
 		getFrame().addWindowFocusListener(this);
-		getFrame().addWindowListener(this);
 
 	}
 
@@ -138,7 +143,7 @@ public class PropertiesDockPanel extends DockPanel implements
 
 	@Override
 	public void windowClosing(WindowEvent e) {
-		// cancel();
+		getPropertiesView().applyModifications();
 		closeDialog();
 	}
 

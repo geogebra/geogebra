@@ -1372,5 +1372,10 @@ public class OptionsEuclidian2 extends JPanel  implements OptionPanelD, ActionLi
 	public JPanel getWrappedPanel() {
 		return this;
 	}
+	
+	public void applyModifications(){
+		//override this method to make the properties view apply modifications
+		//when panel changes
+	}
 
 }

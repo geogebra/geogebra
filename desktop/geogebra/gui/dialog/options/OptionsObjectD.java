@@ -373,6 +373,10 @@ public class OptionsObjectD extends geogebra.common.gui.dialog.options.OptionsOb
 		return wrappedPanel;
 	}
 	 
+	
+	public void applyModifications(){
+		propPanel.applyModifications();
+	}
 	 
 	 
 

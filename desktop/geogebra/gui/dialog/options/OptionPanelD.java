@@ -33,4 +33,10 @@ public interface OptionPanelD {
 	 */
 	public JPanel getWrappedPanel();
 	
+	/**
+	 * apply modifications.
+	 * should be called when the panel is hidden.
+	 */
+	public void applyModifications();
+	
 }

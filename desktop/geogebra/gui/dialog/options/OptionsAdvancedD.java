@@ -1014,4 +1014,9 @@ public class OptionsAdvancedD extends geogebra.common.gui.dialog.options.Options
 	public void setBorder(Border border) {
 		wrappedPanel.setBorder(border);
 	}
+	
+	public void applyModifications(){
+		//override this method to make the properties view apply modifications
+		//when panel changes
+	}
 }

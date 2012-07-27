@@ -488,5 +488,10 @@ public class OptionsLayoutD extends geogebra.common.gui.dialog.options.OptionsLa
 	public void setBorder(Border border) {
 		this.wrappedPanel.setBorder(border);
 	}
+	
+	public void applyModifications(){
+		//override this method to make the properties view apply modifications
+		//when panel changes
+	}
 
 }
