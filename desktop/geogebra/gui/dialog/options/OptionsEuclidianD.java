@@ -185,6 +185,7 @@ public class OptionsEuclidianD extends geogebra.common.gui.dialog.options.Option
 		
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	protected void createCbView() {
 		cbView = new JComboBox();
 		cbView.addItem(""); // ev

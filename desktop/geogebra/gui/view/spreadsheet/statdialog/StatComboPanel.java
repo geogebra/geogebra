@@ -325,6 +325,7 @@ StatPanelInterface{
 	/**
 	 * Creates the JComboBox that selects display type
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private void createDisplayTypeComboBox(){
 
 		if(cbDisplayType == null){

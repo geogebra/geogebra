@@ -79,6 +79,7 @@ public class MyCellRenderer extends DefaultTableCellRenderer {
 	 * @param view
 	 * @param formatHandler
 	 */
+	@SuppressWarnings("unchecked")
 	public MyCellRenderer(AppD app, SpreadsheetView view,
 			CellFormat formatHandler) {
 

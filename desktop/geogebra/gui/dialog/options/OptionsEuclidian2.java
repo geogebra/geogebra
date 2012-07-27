@@ -190,6 +190,7 @@ public class OptionsEuclidian2 extends JPanel  implements OptionPanelD, ActionLi
 	
 	private JPanel selectViewPanel;
 	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	protected void createCbView(){
 		cbView = new JComboBox();
         cbView.addItem(""); //ev
@@ -218,6 +219,7 @@ public class OptionsEuclidian2 extends JPanel  implements OptionPanelD, ActionLi
         
 	}
 		
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	protected JPanel buildBasicNorthPanel() {
 		
 		//===================================
@@ -1021,6 +1023,7 @@ public class OptionsEuclidian2 extends JPanel  implements OptionPanelD, ActionLi
 		final static protected int AXIS_X = 0;
 		final static protected int AXIS_Y = 1;
 		
+		@SuppressWarnings({ "rawtypes", "unchecked" })
 		public AxisPanel(int axis) {
 			
 			this.axis = axis;			

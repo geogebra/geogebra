@@ -108,6 +108,7 @@ public class OneVarInferencePanel extends JPanel implements ActionListener,  Foc
 	//           Create GUI 
 	//============================================================
 
+	@SuppressWarnings("rawtypes")
 	private void createGUIElements(){
 
 

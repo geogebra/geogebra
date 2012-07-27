@@ -178,6 +178,7 @@ public class OptionsAdvancedD extends geogebra.common.gui.dialog.options.Options
 	/**
 	 * Initialize the virtual keyboard panel
 	 */
+	@SuppressWarnings("rawtypes")
 	private void initVirtualKeyboardPanel() {
 		virtualKeyboardPanel = new JPanel();
 		virtualKeyboardPanel.setLayout(new BoxLayout(virtualKeyboardPanel,
@@ -217,6 +218,7 @@ public class OptionsAdvancedD extends geogebra.common.gui.dialog.options.Options
 	/**
 	 * Initialize the GUI fontsize panel
 	 */
+	@SuppressWarnings("rawtypes")
 	private void initGUIFontSizePanel() {
 		guiFontsizePanel = new JPanel();
 		guiFontsizePanel.setLayout(new BoxLayout(guiFontsizePanel,

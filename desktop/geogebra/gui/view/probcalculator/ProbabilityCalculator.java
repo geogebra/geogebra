@@ -433,6 +433,7 @@ public class ProbabilityCalculator extends JPanel implements View,
 
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private JPanel createDistributionPanel() {
 
 		setLabelArrays();

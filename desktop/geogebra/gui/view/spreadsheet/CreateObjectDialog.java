@@ -132,6 +132,7 @@ public class CreateObjectDialog extends InputDialog implements
 		addWindowFocusListener(this);
 	}
 
+	@SuppressWarnings("rawtypes")
 	private void createAdditionalGUI() {
 
 		model = new DefaultListModel();

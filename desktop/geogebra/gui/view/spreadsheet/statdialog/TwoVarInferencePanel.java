@@ -110,6 +110,7 @@ public class TwoVarInferencePanel extends JPanel implements ActionListener, Focu
 	//============================================================
 
 
+	@SuppressWarnings("rawtypes")
 	private void createGUIElements(){
 
 		// components

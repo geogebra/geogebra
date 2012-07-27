@@ -57,6 +57,7 @@ public class ScriptInputDialog extends InputDialog {
 	 * @param updateScript 
 	 * @param forceJavaScript 
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public ScriptInputDialog(AppD app,  String title, GeoButton button,
 								int cols, int rows, boolean updateScript, boolean forceJavaScript) {	
 		super(app.getFrame(), false);

@@ -60,6 +60,7 @@ public class AxisPanel extends JPanel implements ActionListener, ItemListener, F
 			 * @param view
 			 * @param axis
 			 */
+			@SuppressWarnings({ "rawtypes", "unchecked" })
 			public AxisPanel(AppD app, EuclidianViewND view, int axis) {
 				
 				this.app = app;

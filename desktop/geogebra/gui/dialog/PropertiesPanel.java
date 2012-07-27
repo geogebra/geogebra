@@ -1485,6 +1485,7 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 		private JComboBox labelModeCB;
 		private boolean showNameValueComboBox;
 
+		@SuppressWarnings("rawtypes")
 		public LabelPanel() {
 			super(new FlowLayout(FlowLayout.LEFT));
 
@@ -1502,6 +1503,7 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 			add(labelModeCB);
 		}
 
+		@SuppressWarnings("unchecked")
 		public void setLabels() {
 			showLabelCB.setText(app.getPlain("ShowLabel") + ":");
 
@@ -1761,6 +1763,7 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 		private JComboBox layerModeCB;
 		private JLabel layerLabel;
 
+		@SuppressWarnings({ "rawtypes", "unchecked" })
 		public LayerPanel() {
 			layerLabel = new JLabel();
 			layerLabel.setLabelFor(layerModeCB);
