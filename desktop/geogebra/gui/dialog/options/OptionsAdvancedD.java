@@ -961,6 +961,7 @@ public class OptionsAdvancedD extends geogebra.common.gui.dialog.options.Options
 	/**
 	 * @see #setLabelsKeyboardLanguage()
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private void setLabelsTooltipLanguages() {
 		String[] languages = new String[AppD.getSupportedLocales().size() + 1];
 		languages[0] = app.getPlain("Default");
@@ -979,7 +980,7 @@ public class OptionsAdvancedD extends geogebra.common.gui.dialog.options.Options
 
 		// take care that this doesn't fire events by accident
 		cbTooltipLanguage.removeActionListener(this);
-		cbTooltipLanguage.setModel(new DefaultComboBoxModel<String>(languages));
+		cbTooltipLanguage.setModel(new DefaultComboBoxModel(languages));
 		cbTooltipLanguage.setSelectedIndex(selectedIndex);
 		cbTooltipLanguage.addActionListener(this);
 
