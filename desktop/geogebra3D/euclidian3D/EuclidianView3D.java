@@ -1352,8 +1352,8 @@ public class EuclidianView3D extends EuclidianViewND implements Printable {
 	}
 	
 	
-	private boolean useClippingCube = false;
-	private boolean showClippingCube = false;
+	private boolean useClippingCube = true;
+	private boolean showClippingCube = true;
 	
 	/**
 	 * 
