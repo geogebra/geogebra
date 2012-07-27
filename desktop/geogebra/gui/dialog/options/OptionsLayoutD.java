@@ -391,6 +391,7 @@ public class OptionsLayoutD extends geogebra.common.gui.dialog.options.OptionsLa
 		} else if (source == ckShowToolbar || source == ckShowToolHelp) {
 			app.setShowToolBar(ckShowToolbar.isSelected(),
 					ckShowToolHelp.isSelected());
+					app.updateApplicationLayout();
 					app.updateToolBarLayout();
 					app.getGuiManager().updateToolbar();
 		} else if (source == rbToolbarNorth) {
@@ -421,6 +422,7 @@ public class OptionsLayoutD extends geogebra.common.gui.dialog.options.OptionsLa
 		}
 		
 		wrappedPanel.requestFocus();
+		updateGUI();
 
 	}
 

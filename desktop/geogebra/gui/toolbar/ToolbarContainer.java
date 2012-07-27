@@ -102,7 +102,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 	 */
 	private int activeToolbar;
 
-	private int orientation = SwingConstants.NORTH;
+	protected int orientation = SwingConstants.NORTH;
 
 	private JPanel gluePanel;
 
@@ -142,8 +142,19 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 
 		// add visible top border in main toolbar container
 		if (isMain) {
-			setBorder(BorderFactory.createCompoundBorder(BorderFactory
-					.createMatteBorder(1, 0, 0, 0, SystemColor.controlShadow),
+			Border outsideBorder = null;
+			if(orientation == SwingConstants.NORTH || orientation == SwingConstants.SOUTH){
+				outsideBorder = BorderFactory
+						.createMatteBorder(1, 0, 0, 0, SystemColor.controlShadow);
+			}else if(orientation == SwingConstants.EAST){
+				outsideBorder = BorderFactory
+						.createMatteBorder(0, 1, 0, 0, SystemColor.controlShadow);
+			}else if(orientation == SwingConstants.WEST){
+				outsideBorder = BorderFactory
+						.createMatteBorder(0, 0, 0, 1, SystemColor.controlShadow);
+			}
+
+			setBorder(BorderFactory.createCompoundBorder(outsideBorder,
 					BorderFactory.createEmptyBorder(2, 2, 1, 2)));
 		} else {
 			setBorder(BorderFactory.createEmptyBorder(2, 2, 1, 2));
@@ -162,45 +173,19 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 		gluePanel.add(Box.createVerticalGlue());
 		gluePanel.add(toolbarPanel);
 		gluePanel.add(Box.createVerticalGlue());
-		add(gluePanel, app.borderWest());
-
-		/*
-		 * JPanel undoPanel = new JPanel();
-		 * 
-		 * // UNDO Toolbar if (isMain && app.isUndoActive()) {
-		 * 
-		 * if ((orientation == SwingConstants.SOUTH || orientation ==
-		 * SwingConstants.NORTH) && app.getMaxIconSize() >= 32) {
-		 * undoPanel.setLayout(new BoxLayout(undoPanel, BoxLayout.Y_AXIS)); }
-		 * else { undoPanel.setLayout(new BoxLayout(undoPanel,
-		 * BoxLayout.X_AXIS)); } undoPanel.add(Box.createVerticalGlue());
-		 * 
-		 * // undo button MySmallJButton button = new
-		 * MySmallJButton(app.getGuiManager().getUndoAction(), 7); String text =
-		 * app.getMenu("Undo"); button.setText(null);
-		 * button.setToolTipText(text); button.setAlignmentX(RIGHT_ALIGNMENT);
-		 * undoPanel.add(button);
-		 * 
-		 * // redo button button = new
-		 * MySmallJButton(app.getGuiManager().getRedoAction(), 7); text =
-		 * app.getMenu("Redo"); button.setText(null);
-		 * button.setToolTipText(text); button.setAlignmentX(RIGHT_ALIGNMENT);
-		 * undoPanel.add(button);
-		 * 
-		 * undoPanel.add(Box.createVerticalGlue());
-		 */
-
+		
+		// add glue panel and button panel according to the orientation
 		if (orientation == SwingConstants.NORTH
 				|| orientation == SwingConstants.SOUTH) {
-
-			JPanel p = new JPanel(new BorderLayout());
-			p.add(getGridButtonPanel(), app.borderEast());
-			// p.add(undoPanel, BorderLayout.EAST);
-
-			add(p, app.borderEast());
+			add(gluePanel, app.borderWest());
+			add(getGridButtonPanel(), app.borderEast());
+		}else{
+			add(gluePanel, BorderLayout.NORTH);
+			add(getGridButtonPanel(), BorderLayout.SOUTH);
 		}
-
-		if (showHelp) {
+		
+		// show help panel 
+		if (showHelp && (orientation == SwingConstants.NORTH || orientation == SwingConstants.SOUTH) ) {
 			add(getToolbarHelpPanel(), BorderLayout.CENTER);
 			updateHelpText();
 		}
@@ -333,7 +318,17 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 
 			public void actionPerformed(ActionEvent arg0) {
 				PropertiesMenu pm = new PropertiesMenu();
-				pm.show(btnProperties, -pm.getPreferredSize().width + btnProperties.getWidth(), btnProperties.getHeight());
+				if (orientation == SwingConstants.NORTH) {
+					pm.show(btnProperties, -pm.getPreferredSize().width
+							+ btnProperties.getWidth(),
+							btnProperties.getHeight());
+				} else if (orientation == SwingConstants.WEST) {
+					pm.show(btnProperties, 0, -pm.getPreferredSize().height);
+				} else {
+					pm.show(btnProperties, -pm.getPreferredSize().width
+							+ btnProperties.getWidth(),
+							-pm.getPreferredSize().height);
+				}
 			}
 
 		});
@@ -345,12 +340,6 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 		btnHelp.setBorderPainted(false);
 		btnHelp.setContentAreaFilled(false);
 		btnHelp.setToolTipText(app.getMenuTooltip("Help"));
-
-		// TODO: better help action ?
-		// btnHelp.addActionListener(new HelpAction(app, app
-		// .getImageIcon("help.png"), app.getMenu("Help"),
-		// AbstractApplication.WIKI_MANUAL));
-
 		btnHelp.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				app.getGuiManager().openToolHelp();
@@ -386,7 +375,11 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 
 		JPanel p = new JPanel(new BorderLayout());
 		p.add(gridPanel, BorderLayout.NORTH);
-		// p.add(OptionsUtil.flowPanelCenter(0, 0, 0, btnHelp));
+		
+		// add small bottom margin when toolbar is vertical 
+		if(orientation == SwingConstants.EAST || orientation == SwingConstants.WEST){
+			p.setBorder(BorderFactory.createEmptyBorder(0, 0, 5, 0));
+		}
 
 		return p;
 	}
@@ -416,6 +409,10 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 
 	public void setOrientation(int orientation) {
 
+		//TODO: Handle toolbar orientation for undocked panels
+		if(!isMain){
+			return;
+		}
 		this.orientation = orientation;
 		int barOrientation = SwingConstants.HORIZONTAL;
 		if (orientation == SwingConstants.EAST
@@ -802,6 +799,8 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 	
 	private class PropertiesMenu extends JPopupMenu {
 
+		private static final long serialVersionUID = 1L;
+
 		public PropertiesMenu() {
 			initMenu();
 		}
@@ -809,7 +808,9 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 		private void initMenu() {
 
 			for (final OptionType type : OptionType.values()) {
-				
+				if(type==OptionType.DEFAULTS){
+					continue;
+				}
 				String menuText = ((PropertiesView) app.getGuiManager()
 						.getPropertiesView()).getTypeStringSimple(type);
 				ImageIcon ic = ((PropertiesViewD) app.getGuiManager()

@@ -933,16 +933,16 @@ public class AppD extends App implements
 				backPanel = new JPanel(new BorderLayout());
 			}			
 			if( northPanel == null){
-			northPanel = new JPanel(new BorderLayout());
+			northPanel = new JPanel(new BorderLayout(0,0));
 			}
 			if( southPanel == null){
-			southPanel = new JPanel(new BorderLayout());
+			southPanel = new JPanel(new BorderLayout(0,0));
 			}
 			if( eastPanel == null){
-			eastPanel = new JPanel(new BorderLayout());
+			eastPanel = new JPanel(new BorderLayout(0,0));
 			}
 			if( westPanel == null){
-			westPanel = new JPanel(new BorderLayout());
+			westPanel = new JPanel(new BorderLayout(0,0));
 			}
 			
 			if (dockBar == null) {
@@ -1137,7 +1137,9 @@ public class AppD extends App implements
 		
 		if (showToolBar) {
 			
-			// TODO handle xml for new toolbar position vs. old showToolBarTop 
+			// TODO handle xml for new field toolbarPosition vs. old showToolBarTop 
+			
+			
 			showToolBarTop = false;
 			if (showToolBarTop) {
 				northPanel.add(getGuiManager().getToolbarPanelContainer(),
@@ -1155,14 +1157,14 @@ public class AppD extends App implements
 				southPanel.add(toolBarContainer, BorderLayout.NORTH);
 				break;
 			case SwingConstants.EAST:
-				eastPanel.add(toolBarContainer, BorderLayout.NORTH);
-				if (helpPanel != null) {
+				eastPanel.add(toolBarContainer, BorderLayout.EAST);
+				if (showToolBarHelp && helpPanel != null) {
 					northPanel.add(helpPanel, BorderLayout.NORTH);
 				}
 				break;
 			case SwingConstants.WEST:
-				westPanel.add(toolBarContainer, BorderLayout.NORTH);
-				if (helpPanel != null) {
+				westPanel.add(toolBarContainer, BorderLayout.WEST);
+				if (showToolBarHelp && helpPanel != null) {
 					northPanel.add(helpPanel, BorderLayout.NORTH);
 				}
 				break;
