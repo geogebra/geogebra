@@ -605,69 +605,7 @@ public class CASInputHandler {
 		return success;
 	}
 
-	// /**
-	// * Processes all dependent rows starting with the given row that depend on
-	// var
-	// * or have dynamic cell references.
-	// * @param var changed variable
-	// * @param startRow
-	// * @return whether processing was successful
-	// */
-	// public boolean processDependentRows(String var, int startRow) {
-	// boolean success = true;
-	//
-	// // PROCESS DEPENDENT ROWS BELOW
-	// // we need to collect all assignment variables that are changed
-	// // due to dependencies on var, e.g.
-	// // row1 b := 5
-	// // row2 c := b + 8
-	// // row3 c + 7
-	// // when row1 is changed to b:=6, we need to process row2 because it
-	// // depends on b. This also changes c, so we need to add c to our
-	// // list of changed variables. This will ensure that also row3 is
-	// // updated.
-	// changedVars.clear();
-	// if (var != null) changedVars.add(var); // assignment variable like "b" in
-	// "b := 5"
-	//
-	// // only allow assignments to free geos when they already exist
-	// // in order to avoid redefinitions
-	// assignToFreeGeoOnly = true;
-	//
-	// // process all rows below that have one of vars as inputVariable
-	// for (int i = startRow; i < consoleTable.getRowCount(); i++) {
-	// GeoCasCell cellValue = consoleTable.getCASTableCellValue(i);
-	//
-	// // check for row references like $2
-	// boolean needsProcessing = cellValue.includesRowReferences();
-	//
-	// if (!needsProcessing) {
-	// // check if row i depends on at least one of the changedVars
-	// for (int k=0; k < changedVars.size(); k++) {
-	// if (cellValue.isInputVariable(changedVars.get(k))) {
-	// //System.out.println("row " + i + " depends on " + changedVars.get(k));
-	// needsProcessing = true;
-	// break;
-	// }
-	// }
-	// }
-	//
-	// if (needsProcessing) {
-	// // process row i
-	// success = processRow(i) && success;
-	//
-	// // add assignment variable of row i to changedVars
-	// var = cellValue.getAssignmentVariable();
-	// if (var != null) changedVars.add(var);
-	// }
-	// }
-	//
-	// // revert back to allow redefinitions
-	// assignToFreeGeoOnly = false;
-	//
-	// // successfully processed all rows
-	// return success;
-	// }
+	
 
 	/**
 	 * Returns whether it's allowed to change var in GeoGebra at the moment.

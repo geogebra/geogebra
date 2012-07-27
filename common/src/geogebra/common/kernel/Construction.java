@@ -2007,11 +2007,12 @@ public class Construction {
 	protected boolean updateConstructionOrder(GeoCasCell casCell) {
 		// collect all predecessors of casCell
 		TreeSet<GeoElement> allPred = new TreeSet<GeoElement>();
+		if(casCell.getGeoElementVariables()!=null){
 		for (GeoElement directInput : casCell.getGeoElementVariables()) {
 			allPred.addAll(directInput.getAllPredecessors());
 			allPred.add(directInput);
 		}
-
+		}
 		// Find max construction index of casCell's predecessors
 		int maxPredIndex = 0;
 		for (GeoElement pred : allPred) {

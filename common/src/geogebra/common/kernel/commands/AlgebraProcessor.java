@@ -195,7 +195,10 @@ public class AlgebraProcessor {
 				// update construction order and
 				// rebuild construction using XML
 				cons.changeCasCell(casCell);
+				casCell.computeOutput();
+				casCell.updateCascade();
 			} catch (Exception e) {
+				e.printStackTrace();
 				casCell.setError("RedefinitionFailed");
 				// app.showError(e.getMessage());
 			}
