@@ -232,15 +232,15 @@ if [ "$LOCALES" != "" ]; then
  cat $GWTXML-b |\
   $XML ed -d "/module/extend-property[@name='locale']" |\
   $XML ed -d "/module/set-property-fallback[@name='locale']" > $GWTXML
+ if [ "$LOCALES" != "NONE" ]; then
+  cat $GWTXML |\
+   $XML ed -s /module -t elem -n extend-property -v "" |\
+   $XML ed -i "/module/extend-property" -t attr -n name -v locale |\
+   $XML ed -i "/module/extend-property[@name='locale']" -t attr -n values -v "$LOCALES" > $GWTXML-b
+  mv $GWTXML-b $GWTXML  
+  fi # $LOCALES != NONE
 else
- mv $GWTXML-b $GWTXML # Using the defaults from the .gwt.xml file (default)
- fi
-if [ "$LOCALES" != "NONE" ]; then
- cat $GWTXML |\
-  $XML ed -s /module -t elem -n extend-property -v "" |\
-  $XML ed -i "/module/extend-property" -t attr -n name -v locale |\
-  $XML ed -i "/module/extend-property[@name='locale']" -t attr -n values -v "$LOCALES" > $GWTXML-b
- mv $GWTXML-b $GWTXML  
+ mv $GWTXML-b $GWTXML # Using the defaults from the .gwt.xml file (default, $LOCALES is empty)
  fi
 
 # 8. Compiling web with GWT Compiler
