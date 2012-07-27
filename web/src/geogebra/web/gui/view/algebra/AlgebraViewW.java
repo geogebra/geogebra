@@ -823,8 +823,6 @@ public class AlgebraViewW extends Tree implements LayerView, SetLabels, geogebra
 			if (getItem(i).getUserObject() instanceof GeoElement)
 				((RadioButtonTreeItem)getItem(i).getWidget()).update();
 			else
-				//ti.setWidget(new InlineLabelTreeItem(ti, ob.toString()));
-				//getItem(i).setText(getItem(i).getUserObject().toString());
 				((InlineLabelTreeItem)getItem(i).getWidget()).setText(
 					getItem(i).getUserObject().toString());
 		}
@@ -1262,7 +1260,6 @@ public class AlgebraViewW extends Tree implements LayerView, SetLabels, geogebra
 				ti.getElement().getFirstChildElement(), "display", "inline-block");
 		} else {
 			ti.setWidget(new InlineLabelTreeItem(ti, ob.toString()));
-			//ti.setText(ob.toString());
 		}
 	}
 
