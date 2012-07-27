@@ -585,8 +585,9 @@ public class DockManager implements AWTEventListener, SetLabels {
 			
 			//Application.debug("\n"+((DockComponent) opposite).toString(""));
 			//save divider locations to prevent not visible views
-			((DockComponent) opposite).saveDividerLocation();
-			
+			if (opposite != null) {
+				((DockComponent) opposite).saveDividerLocation();
+			}
 			
 			if(lastPos == 0 || lastPos == 3) {
 				newSplitPane.setLeftComponent(panel);
@@ -620,7 +621,9 @@ public class DockManager implements AWTEventListener, SetLabels {
 			//AbstractApplication.debug("\nnewSplitPaneSize = "+newSplitPaneSize+"\nsize = "+size);
 			//Application.debug("\n======\n"+((DockComponent) opposite).toString(""));
 			//re dispatch divider locations to prevent not visible views
-			((DockComponent) opposite).updateDividerLocation(newSplitPaneSize-size,newSplitPane.getOrientation());
+			if (opposite != null) {
+				((DockComponent) opposite).updateDividerLocation(newSplitPaneSize-size,newSplitPane.getOrientation());
+			}
 		}
 		
 		panel.updatePanel();
