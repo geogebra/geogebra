@@ -1714,9 +1714,6 @@ public interface MenuConstants extends ConstantsWithLookup {
     @DefaultStringValue("Select All")
     String SelectAll();
 
-    @DefaultStringValue("Select an Object")
-    String SelectAnObject();
-
     @DefaultStringValue("Select an object to trace")
     String SelectAnObjectToTrace();
 

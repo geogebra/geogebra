@@ -1533,7 +1533,6 @@ var menuKeysVar = {
 	Select_Help:'',
 	SelectACurve:'',
 	SelectAll:'',
-	SelectAnObject:'',
 	SelectAnObjectToTrace:'',
 	SelectAncestors:'',
 	SelectAnother:'',
