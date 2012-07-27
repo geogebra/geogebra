@@ -70,7 +70,8 @@ public class ProverBotanasMethod {
 					center[0] = vars[0];
 					center[1] = vars[1];
 					GeoElement centerGeo = botanaVarsInv.get(Arrays.asList(center));
-					circleCenters.add(centerGeo);
+					if (centerGeo != null) // it may be a virtual center (TODO: handle somehow)
+						circleCenters.add(centerGeo);
 				}
 			}
 		}
@@ -158,7 +159,8 @@ public class ProverBotanasMethod {
 		List<GeoElement> circleCenters = getCircleCenters(statement);
 		List<GeoElement> freePoints = getFreePoints(statement);
 		List<GeoElement> fixedPoints = new ArrayList<GeoElement>();
-		fixedPoints.addAll(circleCenters);
+		if (circleCenters != null)
+			fixedPoints.addAll(circleCenters);
 		for (GeoElement ge : freePoints) {
 			if (!circleCenters.contains(ge))
 				fixedPoints.add(ge);
