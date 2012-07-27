@@ -14,7 +14,6 @@ import geogebra.gui.util.FullWidthLayout;
 import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
@@ -30,7 +29,6 @@ import javax.swing.ButtonGroup;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
-import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
@@ -72,7 +70,7 @@ public class OptionsAdvancedD extends geogebra.common.gui.dialog.options.Options
 			tooltipTimeoutLabel;
 
 	/** */
-	private JComboBox cbKeyboardLanguage, cbTooltipLanguage, cbTooltipTimeout,
+	private JComboBox<String> cbKeyboardLanguage, cbTooltipLanguage, cbTooltipTimeout,
 			cbGUIFont;
 
 	/**	 */
@@ -261,7 +259,8 @@ public class OptionsAdvancedD extends geogebra.common.gui.dialog.options.Options
 		
 		tooltipLanguageLabel = new JLabel();
 		tooltipPanel.add(OptionsUtil.flowPanel(tooltipLanguageLabel));
-		cbTooltipLanguage = new JComboBox();
+		cbTooltipLanguage = new JComboBox<String>();
+		cbTooltipLanguage.setRenderer(new LanguageRenderer(app));
 		// listener to this combo box is added in setLabels()
 		tooltipPanel.add(OptionsUtil.flowPanel(Box.createHorizontalStrut(20),cbTooltipLanguage));
 
@@ -273,7 +272,7 @@ public class OptionsAdvancedD extends geogebra.common.gui.dialog.options.Options
 			tooltipTimeouts[i] = MyXMLHandler.tooltipTimeouts[i];
 		tooltipTimeouts[tooltipTimeouts.length - 1] = "-";
 
-		cbTooltipTimeout = new JComboBox(tooltipTimeouts);
+		cbTooltipTimeout = new JComboBox<String>(tooltipTimeouts);
 		
 		tooltipPanel.add(OptionsUtil.flowPanel(tooltipTimeoutLabel,cbTooltipTimeout));
 	}
@@ -969,14 +968,14 @@ public class OptionsAdvancedD extends geogebra.common.gui.dialog.options.Options
 					+ loc.getVariant();
 
 			languages[i + 1] = Language.getDisplayName(ggbLangCode);
-			AppD.debug(ggbLangCode+" "+languages[i + 1]);
+			//AppD.debug(ggbLangCode+" "+languages[i + 1]);
 		}
 
 		int selectedIndex = cbTooltipLanguage.getSelectedIndex();
 
 		// take care that this doesn't fire events by accident
 		cbTooltipLanguage.removeActionListener(this);
-		cbTooltipLanguage.setModel(new DefaultComboBoxModel(languages));
+		cbTooltipLanguage.setModel(new DefaultComboBoxModel<String>(languages));
 		cbTooltipLanguage.setSelectedIndex(selectedIndex);
 		cbTooltipLanguage.addActionListener(this);
 
