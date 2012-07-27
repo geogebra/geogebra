@@ -116,8 +116,8 @@ public abstract class PropertiesView implements View{
 		case ADVANCED:
 			return app.getPlain(app.getMenu("Advanced"));
 		case OBJECTS:
-			//return app.getMenu("Objects");
-			return objectPanel.getSelectionDescription();
+			return app.getMenu("Objects");
+			//return objectPanel.getSelectionDescription();
 		case LAYOUT:
 			return app.getPlain(app.getMenu("Layout"));
 		}
@@ -164,7 +164,7 @@ public abstract class PropertiesView implements View{
 			isAvailable = app.getGuiManager().showView(App.VIEW_CAS);
 			break;
 		case OBJECTS:
-			isAvailable = !(app.getSelectedGeos() == null || app.getSelectedGeos().size()==0);
+			//isAvailable = !(app.getSelectedGeos() == null || app.getSelectedGeos().size()==0);
 			break;
 		}
 		return isAvailable;
