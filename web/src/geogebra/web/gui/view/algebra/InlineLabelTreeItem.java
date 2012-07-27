@@ -55,7 +55,7 @@ public class InlineLabelTreeItem extends InlineLabel
 
 	public void onMouseOut(MouseOutEvent evt) {
 		for (int i = 0; i < par.getChildCount(); i++)
-			if (!par.getChild(i).isSelected())
+			//if (!par.getChild(i).isSelected())
 				par.getChild(i).removeStyleName("gwt-TreeItem-selected");
 	}
 }
