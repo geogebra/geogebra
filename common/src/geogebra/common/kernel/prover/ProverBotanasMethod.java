@@ -24,7 +24,24 @@ import geogebra.common.main.App;
  *
  */
 public class ProverBotanasMethod {
-	
+
+	/**
+	 * Inverse mapping of botanaVars.
+	 */
+    private static HashMap<List<Variable>,GeoElement> botanaVarsInv;
+
+    private static void updateBotanaVarsInv(GeoElement statement) {
+    	if (botanaVarsInv == null)
+    		botanaVarsInv = new HashMap<List<Variable>,GeoElement>();
+    	Iterator<GeoElement> it = statement.getAllPredecessors().iterator();
+    	while (it.hasNext()) {
+    		GeoElement geo = it.next();
+    		Variable[] vars = ((SymbolicParametersBotanaAlgo) geo).getBotanaVars(geo);
+    		List<Variable> varsList = Arrays.asList(vars);
+    		botanaVarsInv.put(varsList, geo);
+    	}
+    }
+    
 	private static List<GeoElement> getFreePoints(GeoElement statement) {
 		List<GeoElement> freePoints = new ArrayList<GeoElement>();
 		Iterator<GeoElement> it = statement.getAllPredecessors().iterator();
@@ -44,8 +61,15 @@ public class ProverBotanasMethod {
 			GeoElement geo = it.next();
 			if (geo.isGeoConic()) { // this is probably a circle
 				if (geo.getParentAlgorithm() instanceof AlgoCircleTwoPoints
-						|| geo.getParentAlgorithm() instanceof AlgoCircleThreePoints)
-					circleCenters.add(geo);
+						|| geo.getParentAlgorithm() instanceof AlgoCircleThreePoints) {
+					// Search for the center point.
+					Variable[] vars = ((SymbolicParametersBotanaAlgo) geo).getBotanaVars(geo);
+					Variable[] center = new Variable[2];
+					center[0] = vars[0];
+					center[1] = vars[1];
+					GeoElement centerGeo = botanaVarsInv.get(Arrays.asList(center));
+					circleCenters.add(centerGeo);
+				}
 			}
 		}
 		return circleCenters;
@@ -110,17 +134,6 @@ public class ProverBotanasMethod {
 								// Rabinowitsch trick for prohibiting collinearity:
 								ret[i] = p.multiply(new Polynomial(new Variable())).subtract(new Polynomial(1));
 								// FIXME: this always introduces an extra variable, shouldn't do
-								/*
-								// This is unelegant and confusing:
-								NDGCondition ndgc = new NDGCondition();
-								ndgc.condition = "AreCollinear";
-								ndgc.geos = new GeoElement[3];
-								ndgc.geos[0] = geo1;
-								ndgc.geos[1] = geo2;
-								ndgc.geos[2] = geo3;
-								Arrays.sort(ndgc.geos);
-								prover.addNDGcondition(ndgc);
-								*/
 								i++;
 							}
 						}
@@ -135,33 +148,47 @@ public class ProverBotanasMethod {
 	 * Uses a minimal heuristics to fix the first four variables to certain "easy" numbers.
 	 * The first two variables (usually the coordinates of the first point) are set to 0,
 	 * and the second two variables (usually the coordinates of the second point) are set to 0 and 1.
-	 * @param statement the input statement
+	 * @param prover the input prover
 	 * @return a HashMap, containing the substitutions
 	 */
-	static HashMap<Variable,Integer> fixValues(GeoElement statement) {
+	static HashMap<Variable,Integer> fixValues(Prover prover) {
+		GeoElement statement = prover.getStatement();
 		List<GeoElement> circleCenters = getCircleCenters(statement);
 		List<GeoElement> freePoints = getFreePoints(statement);
 		List<GeoElement> fixedPoints = new ArrayList<GeoElement>();
 		fixedPoints.addAll(circleCenters);
-		fixedPoints.addAll(freePoints);
+		for (GeoElement ge : freePoints) {
+			if (!circleCenters.contains(ge))
+				fixedPoints.add(ge);
+		}
 		
 		HashMap<Variable,Integer> ret = new HashMap<Variable, Integer>();
 		
 		Iterator<GeoElement> it = fixedPoints.iterator();
+		GeoElement[] geos = new GeoElement[2];
 		int i = 0;
 		while (it.hasNext() && i<2) {
 			GeoElement geo = it.next();
 			Variable[] fv = ((SymbolicParametersBotanaAlgo) geo).getBotanaVars(geo);
 			if (i==0) {
+				geos[i] = geo;
 				ret.put(fv[0], 0);
 				ret.put(fv[1], 0);
 				++i;
 			}
 			else {
+				geos[i] = geo;
 				ret.put(fv[0], 0);
 				ret.put(fv[1], 1);
 				++i;
 			}
+		}
+		if (i == 2) {
+			NDGCondition ndgc = new NDGCondition();
+			ndgc.setCondition("AreEqual");
+			ndgc.setGeos(geos);
+			Arrays.sort(ndgc.getGeos());
+			prover.addNDGcondition(ndgc);
 		}
 		return ret;
 	}
@@ -175,7 +202,8 @@ public class ProverBotanasMethod {
 	public static ProofResult prove(geogebra.common.util.Prover prover) {
 		// Getting the hypotheses:
 		Polynomial[] hypotheses = null;
-		Iterator<GeoElement> it = prover.getStatement().getAllPredecessors().iterator();
+		GeoElement statement = prover.getStatement();
+		Iterator<GeoElement> it = statement.getAllPredecessors().iterator();
 		while (it.hasNext()) {
 			GeoElement geo = it.next();
 			// AbstractApplication.debug(geo);
@@ -203,22 +231,23 @@ public class ProverBotanasMethod {
 				return ProofResult.UNKNOWN;
 			}
 		}
+		updateBotanaVarsInv(statement);
 		try {
 			// The sets of statement polynomials.
 			// The last equation of each set will be negated.
-			if (!(prover.getStatement().getParentAlgorithm() instanceof SymbolicParametersBotanaAlgoAre)) {
-				App.debug(prover.getStatement().getParentAlgorithm() + " unimplemented");
+			if (!(statement.getParentAlgorithm() instanceof SymbolicParametersBotanaAlgoAre)) {
+				App.debug(statement.getParentAlgorithm() + " unimplemented");
 				return ProofResult.UNKNOWN;
 			}
 				
-			Polynomial[][] statements = ((SymbolicParametersBotanaAlgoAre) prover.getStatement().getParentAlgorithm()).getBotanaPolynomials();
+			Polynomial[][] statements = ((SymbolicParametersBotanaAlgoAre) statement.getParentAlgorithm()).getBotanaPolynomials();
 			// The NDG conditions (automatically created):
 			Polynomial[] ndgConditions = null;
 			if (App.freePointsNeverCollinear)
 				ndgConditions = create3FreePointsNeverCollinearNDG(prover);
 			HashMap<Variable,Integer> substitutions = null;
 			if (App.useFixCoordinates)
-				substitutions = fixValues(prover.getStatement());
+				substitutions = fixValues(prover);
 			int nHypotheses = 0;
 			int nNdgConditions = 0;
 			int nStatements = 0;

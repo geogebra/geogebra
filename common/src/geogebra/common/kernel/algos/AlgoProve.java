@@ -13,8 +13,6 @@ the Free Software Foundation.
 package geogebra.common.kernel.algos;
 
 import java.util.Date;
-import java.util.Iterator;
-import java.util.TreeSet;
 
 import geogebra.common.factories.UtilFactory;
 import geogebra.common.kernel.Construction;
@@ -36,8 +34,7 @@ public class AlgoProve extends AlgoElement {
 
     private GeoElement root;  // input
     private GeoBoolean bool;     // output
-    private Prover.ProofResult result;
-        
+    private Prover.ProofResult result;    
     /**
      * Proves the given statement and gives a yes/no answer (boolean)
      * @param cons The construction
