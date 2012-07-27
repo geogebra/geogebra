@@ -1,4 +1,4 @@
-web
+mobile
 _*.ggb
 ggbloadworker
 mpreducejs
