@@ -624,43 +624,6 @@ ValidExpression buildMaximaExpression() :
 }
 
 /**
- * convert Solve results like {x==5, x==7} to simple list {5, 7} 
- *
-ValidExpression MathPiperSolveResult() : 
-{    
-	ExpressionValue ev;
-	MyList myList;
-} 
-{         
-    LOOKAHEAD(5)
-   (
-     // empty list
-      "{" "}"  
-      {   
-           return new MyList(kernel);               
-       }
-    )
-    |
-   ( 
-    // list with solutions like {x==5, x==7}
-    "{"
-         casLabel() <EQUAL_BOOLEAN> (ev = plusminusnode())    
-       {   
-            myList = new MyList(kernel);         
-            myList.addListElement(ev);
-        }
-       ( <COMMA> casLabel() <EQUAL_BOOLEAN> (ev = plusminusnode()) 
-       	 {
-       		myList.addListElement(ev); 
-       	 } 
-        )*
-    "}"
-    {  return myList;  } 
-    )  
-}
-*/
-
-/**
  * (<VARZ> | <LABEL> | <SPREADSHEET_LABEL>) 
  */
 Token label():
@@ -1090,31 +1053,6 @@ ExpressionNode expressionnode():
 }
 
 /**
- *  expression =  term +/- term
- */
-ExpressionNode expressionnodePlusMinus():
-{
-    ExpressionValue ret, f;
-    Token x;
-}
-{
-    ret = plusminusnode()                 
-    
-    { 
-    	ExpressionNode en;
-    	if (ret.isExpressionNode())
-    		en = (ExpressionNode) ret;
-    	else
-    		en = new ExpressionNode(kernel, ret);
-    	
-    	//en.expandEquationExpressions();
-    	if (ExternalCASParsing)
-    		en.simplifyLeafs();
-    	return en; 
-    }
-}
-
-/**
  *  expressionOrEquation =  equation | expressionnode 
  */
 ExpressionNode expressionOrEquation():
@@ -1170,7 +1108,7 @@ ExpressionValue ORterm():
 }
 
 /**
- * COMPAREterm =   plusminusnode ("==" | "<" | "<=" | ">" | ">=") plusminusnode 
+ * COMPAREterm =   setdifferencenode ("==" | "<" | "<=" | ">" | ">=") setdifferencenode 
  */
 ExpressionValue COMPAREterm():
 {
@@ -1179,10 +1117,10 @@ ExpressionValue COMPAREterm():
     Vector<ExpressionNode> andList = null; // support multiple comparisons like 3 < x < 7
 }
 {
-    left = plusminusnode()  
+    left = setdifferencenode()  
     (         
        (
-         (<EQUAL_BOOLEAN>  right = plusminusnode()
+         (<EQUAL_BOOLEAN>  right = setdifferencenode()
     	 {            
     	   if (ExternalCASParsing)
     	       result = new ExpressionNode(kernel, new Equation(kernel, left, right));
@@ -1191,67 +1129,61 @@ ExpressionValue COMPAREterm():
          }
        )   
      |   
-       (<NOT_EQUAL>  right = plusminusnode()
+       (<NOT_EQUAL>  right = setdifferencenode()
     	 {            
            result = new ExpressionNode(kernel, left, Operation.NOT_EQUAL, right);  
          }
        )   
      |   
-       (<IS_ELEMENT_OF>  right = plusminusnode()
+       (<IS_ELEMENT_OF>  right = setdifferencenode()
     	 {            
            result = new ExpressionNode(kernel, left, Operation.IS_ELEMENT_OF, right);  
          }
        )   
      |   
-       (<IS_SUBSET_OF>  right = plusminusnode()
+       (<IS_SUBSET_OF>  right = setdifferencenode()
     	 {            
            result = new ExpressionNode(kernel, left, Operation.IS_SUBSET_OF, right);  
          }
        )   
      |   
-       (<IS_SUBSET_OF_STRICT>  right = plusminusnode()
+       (<IS_SUBSET_OF_STRICT>  right = setdifferencenode()
     	 {            
            result = new ExpressionNode(kernel, left, Operation.IS_SUBSET_OF_STRICT, right);  
          }
        )   
      |   
-       (<SET_DIFFERENCE>  right = plusminusnode()
-    	 {            
-           result = new ExpressionNode(kernel, left, Operation.SET_DIFFERENCE, right);  
-         }
-       )   
-     |   
-       (<LESS>  right = plusminusnode()
+       (<LESS>  right = setdifferencenode()
     	 {            
            result = new ExpressionNode(kernel, left, Operation.LESS, right);  
          }
        ) 
      |
-       (<GREATER>  right = plusminusnode()
+       (<GREATER>  right = setdifferencenode()
     	 {            
            result = new ExpressionNode(kernel, left, Operation.GREATER, right);  
          }
        ) 
      |
-       (<LESS_EQUAL>  right = plusminusnode()
+       (<LESS_EQUAL>  right = setdifferencenode()
     	 {            
            result = new ExpressionNode(kernel, left, Operation.LESS_EQUAL, right);  
          }
        ) 
      |
-       (<GREATER_EQUAL>  right = plusminusnode()
+       (<GREATER_EQUAL>  right = setdifferencenode()
     	 {            
            result = new ExpressionNode(kernel, left, Operation.GREATER_EQUAL, right);  
          }
        ) 
       |
-   	    (<PARALLEL>  right = plusminusnode()
+   	    (<PARALLEL>  right = setdifferencenode()
     	 {            
            result = new ExpressionNode(kernel, left, Operation.PARALLEL, right);  
          }
          ) 
       |
-   	    (<PERPENDICULAR>  right = plusminusnode()
+   	    (<PERPENDICULAR>  right = setdifferencenode()
     	 {            
            result = new ExpressionNode(kernel, left, Operation.PERPENDICULAR, right);  
          }
@@ -1295,6 +1227,24 @@ ExpressionValue plusminusnode():
                 ret = new ExpressionNode(kernel, ret, Operation.PLUS, f);  
             else
                 ret = new ExpressionNode(kernel, ret, Operation.MINUS, f);  
+        }
+    )*
+    { 
+    	//ret.simplifyLeafs();
+    	return ret; 
+    }
+}
+
+ExpressionValue setdifferencenode():
+{
+    ExpressionValue ret, f;
+    Token x;
+}
+{
+    ret = plusminusnode()                 
+    (<SET_DIFFERENCE> f = plusminusnode()
+        {                       
+            ret = new ExpressionNode(kernel, ret, Operation.SET_DIFFERENCE, f);  
         }
     )*
     { 
