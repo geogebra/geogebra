@@ -2110,6 +2110,7 @@ var plainKeysVar = {
 	Month_7:'',
 	Month_8:'',
 	Month_9:'',
+	MultivariableFunction:'',
 	Name:'',
 	Name_button:'',
 	Name_graph:'',

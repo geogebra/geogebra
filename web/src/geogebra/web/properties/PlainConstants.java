@@ -1036,6 +1036,9 @@ public interface PlainConstants extends ConstantsWithLookup {
     @DefaultStringValue("September")
     String Month_9();
 
+    @DefaultStringValue("Multivariable Function")
+    String MultivariableFunction();
+
     @DefaultStringValue("Name")
     String Name();
 
