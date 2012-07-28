@@ -128,7 +128,9 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 					) && (operation != Operation.SET_DIFFERENCE // ditto
 					) && (operation != Operation.ELEMENT_OF // list1(1) to get
 															// first element
-					) && !rt.isVectorValue() // eg {1,2} + (1,2)
+					)&& (operation != Operation.IS_ELEMENT_OF // list1(1) to get
+							// first element
+							) && !rt.isVectorValue() // eg {1,2} + (1,2)
 					&& !rt.isTextValue()) // bugfix "" + {1,2} Michael Borcherds
 											// 2008-06-05
 			{

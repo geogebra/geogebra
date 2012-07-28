@@ -1670,8 +1670,7 @@ public class ExpressionNode extends ValidExpression implements
 						sb.append("\\-");
 					}
 					sb.append("\\vee");
-					break;
-				
+					break;				
 				case LIBRE_OFFICE:
 					sb.append("or");
 					break;
@@ -4698,7 +4697,8 @@ public class ExpressionNode extends ValidExpression implements
 	 */
 	private static void append(StringBuilder sb, String str,
 			ExpressionValue ev, Operation op, StringType STRING_TYPE) {
-		if (ev.isLeaf() || (opID(ev) >= op.ordinal())) {
+		if (ev.isLeaf() || (opID(ev) >= op.ordinal()) && 
+				(!chainedBooleanOp(op) || !chainedBooleanOp(ev.wrap().getOperation()))) {
 			sb.append(str);
 		} else {
 			sb.append(leftBracket(STRING_TYPE));
@@ -4706,6 +4706,23 @@ public class ExpressionNode extends ValidExpression implements
 			sb.append(rightBracket(STRING_TYPE));
 		}
 
+	}
+
+	private static boolean chainedBooleanOp(Operation op) {
+		switch(op){
+		case EQUAL_BOOLEAN:
+		case NOT_EQUAL:
+		case IS_SUBSET_OF:
+		case IS_SUBSET_OF_STRICT:
+		case LESS:
+		case LESS_EQUAL:
+		case GREATER:
+		case GREATER_EQUAL:
+		case PERPENDICULAR:
+		case PARALLEL:	
+			return true;	
+		}
+		return false;
 	}
 
 	@Override
