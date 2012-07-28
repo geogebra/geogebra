@@ -116,9 +116,8 @@ TRANSLATORS
   * Kazakh: Talgat Bainazarov (Kazakhstan)
   * Korean: Kyeong-Sik Choi (Korea)
   * Lithuanian: Rokas Tamosiunas, Antanas Apynis (Lithuania)
-  * Macedonian: Linda Fahlberg-Stojanovska, OIKT,
-      Faculty of Technical Sciences, UKLO,
-      Jasmina Markoska (FYR Macedonia)
+  * Macedonian: Linda Fahlberg-Stojanovska, Jasmina Markoska,
+      Zoran Trifunov (FYR Macedonia)
   * Malay: Daniel Leong (Malaysia)
   * Marathi: Smita Patil, Aparna Lalingkar (India)
   * Mongolian: Batnasan Davaa (Mongolia)
