@@ -1108,7 +1108,7 @@ ExpressionValue ORterm():
 }
 
 /**
- * COMPAREterm =   setdifferencenode ("==" | "<" | "<=" | ">" | ">=") setdifferencenode 
+ * COMPAREterm =   listopnode ("==" | "<" | "<=" | ">" | ">=") listopnode 
  */
 ExpressionValue COMPAREterm():
 {
@@ -1117,10 +1117,10 @@ ExpressionValue COMPAREterm():
     Vector<ExpressionNode> andList = null; // support multiple comparisons like 3 < x < 7
 }
 {
-    left = setdifferencenode()  
+    left = listopnode()  
     (         
        (
-         (<EQUAL_BOOLEAN>  right = setdifferencenode()
+         (<EQUAL_BOOLEAN>  right = listopnode()
     	 {            
     	   if (ExternalCASParsing)
     	       result = new ExpressionNode(kernel, new Equation(kernel, left, right));
@@ -1129,61 +1129,55 @@ ExpressionValue COMPAREterm():
          }
        )   
      |   
-       (<NOT_EQUAL>  right = setdifferencenode()
+       (<NOT_EQUAL>  right = listopnode()
     	 {            
            result = new ExpressionNode(kernel, left, Operation.NOT_EQUAL, right);  
          }
        )   
-     |   
-       (<IS_ELEMENT_OF>  right = setdifferencenode()
-    	 {            
-           result = new ExpressionNode(kernel, left, Operation.IS_ELEMENT_OF, right);  
-         }
-       )   
-     |   
-       (<IS_SUBSET_OF>  right = setdifferencenode()
+     |  
+       (<IS_SUBSET_OF>  right = listopnode()
     	 {            
            result = new ExpressionNode(kernel, left, Operation.IS_SUBSET_OF, right);  
          }
        )   
      |   
-       (<IS_SUBSET_OF_STRICT>  right = setdifferencenode()
+       (<IS_SUBSET_OF_STRICT>  right = listopnode()
     	 {            
            result = new ExpressionNode(kernel, left, Operation.IS_SUBSET_OF_STRICT, right);  
          }
        )   
      |   
-       (<LESS>  right = setdifferencenode()
+       (<LESS>  right = listopnode()
     	 {            
            result = new ExpressionNode(kernel, left, Operation.LESS, right);  
          }
        ) 
      |
-       (<GREATER>  right = setdifferencenode()
+       (<GREATER>  right = listopnode()
     	 {            
            result = new ExpressionNode(kernel, left, Operation.GREATER, right);  
          }
        ) 
      |
-       (<LESS_EQUAL>  right = setdifferencenode()
+       (<LESS_EQUAL>  right = listopnode()
     	 {            
            result = new ExpressionNode(kernel, left, Operation.LESS_EQUAL, right);  
          }
        ) 
      |
-       (<GREATER_EQUAL>  right = setdifferencenode()
+       (<GREATER_EQUAL>  right = listopnode()
     	 {            
            result = new ExpressionNode(kernel, left, Operation.GREATER_EQUAL, right);  
          }
        ) 
       |
-   	    (<PARALLEL>  right = setdifferencenode()
+   	    (<PARALLEL>  right = listopnode()
     	 {            
            result = new ExpressionNode(kernel, left, Operation.PARALLEL, right);  
          }
          ) 
       |
-   	    (<PERPENDICULAR>  right = setdifferencenode()
+   	    (<PERPENDICULAR>  right = listopnode()
     	 {            
            result = new ExpressionNode(kernel, left, Operation.PERPENDICULAR, right);  
          }
@@ -1247,6 +1241,24 @@ ExpressionValue setdifferencenode():
             ret = new ExpressionNode(kernel, ret, Operation.SET_DIFFERENCE, f);  
         }
     )*
+    { 
+    	//ret.simplifyLeafs();
+    	return ret; 
+    }
+}
+
+ExpressionValue listopnode():
+{
+    ExpressionValue ret, f;
+    Token x;
+}
+{
+    ret = setdifferencenode()                 
+    (<IS_ELEMENT_OF> f = setdifferencenode()
+        {                       
+            ret = new ExpressionNode(kernel, ret, Operation.IS_ELEMENT_OF, f);  
+        }
+    )?
     { 
     	//ret.simplifyLeafs();
     	return ret; 

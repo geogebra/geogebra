@@ -1925,7 +1925,13 @@ public class ExpressionNode extends ValidExpression implements
 					sb.append(strSET_DIFFERENCE);
 				}
 				sb.append(' ');
-				append(sb, rightStr, right, operation, STRING_TYPE);
+				if(right.isExpressionNode() && right.wrap().getOperation()==Operation.SET_DIFFERENCE){
+					sb.append(leftBracket(STRING_TYPE));
+					sb.append(rightStr);
+					sb.append(rightBracket(STRING_TYPE));
+				}else{
+					append(sb, rightStr, right, operation, STRING_TYPE);
+				}
 				// sb.append(rightStr);
 			}
 			break;
