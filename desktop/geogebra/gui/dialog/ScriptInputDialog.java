@@ -29,6 +29,8 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 /**
  * Input dialog for GeoText objects with additional option
@@ -36,7 +38,7 @@ import javax.swing.JPanel;
  * 
  * @author hohenwarter
  */
-public class ScriptInputDialog extends InputDialog {
+public class ScriptInputDialog extends InputDialog implements DocumentListener{
 	
 	private static final long serialVersionUID = 1L;
 
@@ -98,15 +100,20 @@ public class ScriptInputDialog extends InputDialog {
 		
 		
 		
-		centerOnScreen();		
+		centerOnScreen();	
+		
+		inputPanel.getTextComponent().getDocument().addDocumentListener(this);
 	}
 	
 	public void setGeo(GeoElement geo) {
 		
 		//AbstractApplication.printStacktrace("");
 		
+		handlingDocumentEventOff = true;
+		
 		if (global) {
 			setGlobal();
+			handlingDocumentEventOff = false;
 			return;
 		}
 		this.geo = geo;
@@ -117,16 +124,24 @@ public class ScriptInputDialog extends InputDialog {
 			//setJSMode(updateScript ? geo.updateJavaScript():geo.clickJavaScript());
 			setScriptType(updateScript ? geo.getUpdateScriptType() : geo.getClickScriptType());
 		}
+		
+		handlingDocumentEventOff = false;
 	}
 	
 	/**
 	 * edit global javascript
 	 */
 	public void setGlobal() {
+		
+		boolean currentHandlingDocumentEventOff = handlingDocumentEventOff;
+		handlingDocumentEventOff = true;
+		
 		geo = null;
 		global = true;
 
         inputPanel.setText(app.getKernel().getLibraryJavaScript());
+        
+        handlingDocumentEventOff=currentHandlingDocumentEventOff;
 	}
 	
 	
@@ -162,15 +177,19 @@ public class ScriptInputDialog extends InputDialog {
 		return btApply;
 	}
 	
+	private boolean processInput(){
+		inputText = inputPanel.getText();		
+		return inputHandler.processInput(inputText);	
+	}
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object source = e.getSource();
 		
 		try {
 			if (source == btOK || source == inputPanel.getTextComponent()) {
-				inputText = inputPanel.getText();
 				
-				boolean finished = inputHandler.processInput(inputText);	
+				boolean finished = processInput();	
 				if (isShowing()) {	
 					// text dialog window is used and open
 					setVisible(!finished);
@@ -224,8 +243,12 @@ public class ScriptInputDialog extends InputDialog {
 			break;
 			
 		}
+		
+		GeoGebraEditorPane editor = (GeoGebraEditorPane) inputPanel.getTextComponent();
+		editor.getDocument().removeDocumentListener(this);
 		languageSelector.setSelectedIndex(index);
-		((GeoGebraEditorPane) inputPanel.getTextComponent()).setEditorKit(scriptStr);		
+		editor.setEditorKit(scriptStr);
+		editor.getDocument().addDocumentListener(this);
 	}
 	
 	/**
@@ -283,6 +306,51 @@ public class ScriptInputDialog extends InputDialog {
             	}            
             	return true;
         }
+	}
+	
+	/**
+	 * apply edit modifications
+	 */
+	public void applyModifications(){
+		if (editOccurred){
+			editOccurred = false; 
+			processInput();
+		}
+	}
+
+	public void changedUpdate(DocumentEvent e) {
+		// nothing to do
+		
+	}
+
+	public void insertUpdate(DocumentEvent e) {
+		handleDocumentEvent();
+		
+	}
+
+	public void removeUpdate(DocumentEvent e) {
+		handleDocumentEvent();
+		
+	}
+	
+
+	/**
+	 * used for update to avoid several updates
+	 */
+	private boolean handlingDocumentEventOff = false;
+	
+	/**
+	 * false on init, become true when an edit occurs
+	 */
+	private boolean editOccurred = false;  
+	
+	private void handleDocumentEvent() {
+		
+		if (handlingDocumentEventOff)
+			return;
+
+		editOccurred = true;
+		
 	}
 	
 }

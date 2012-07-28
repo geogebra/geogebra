@@ -319,6 +319,7 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 	 */
 	public void applyModifications(){
 		textEditPanel.applyModifications();
+		scriptEditPanel.applyModifications();
 	}
 
 	public void showSliderTab() {
@@ -3363,7 +3364,24 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 
 			
 			add(tabbedPane, BorderLayout.CENTER);
+			
+			tabbedPane.addChangeListener(new ChangeListener() {
+				
+				public void stateChanged(ChangeEvent e) {
+					applyModifications();
+					
+				}
+			});
 
+		}
+		
+		/**
+		 * apply edit modifications
+		 */
+		public void applyModifications(){
+			clickDialog.applyModifications();
+			updateDialog.applyModifications();
+			globalDialog.applyModifications();		
 		}
 
 		public void setLabels() {
