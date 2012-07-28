@@ -304,9 +304,10 @@ public class AlgebraInput extends  JPanel implements ActionListener, KeyListener
 					
 					//set first output as selected geo in properties view
 					ArrayList<GeoElement> list = new ArrayList<GeoElement>();
-					if(geos.length>0)
+					if(geos.length>0){
 						list.add(geos[0]);
-					app.setPropertiesViewSelection(list);
+						app.setSelectedGeos(list);
+					}
 
 				}
 			} catch (Exception ee) {

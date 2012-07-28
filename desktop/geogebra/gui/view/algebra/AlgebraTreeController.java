@@ -233,7 +233,7 @@ implements MouseListener, MouseMotionListener{
 			} else {
 				if (!app.containsSelectedGeo(geo)){
 					app.clearSelectedGeos(false);	
-					app.addSelectedGeo(geo, true);
+					app.addSelectedGeo(geo, true, true);
 				}
 				ArrayList<GeoElement> temp = new ArrayList<GeoElement>();
 				temp.add(geo);

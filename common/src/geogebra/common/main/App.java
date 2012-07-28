@@ -1024,7 +1024,7 @@ public abstract class App {
 		if (geos != null) {
 			for (int i = 0; i < geos.size(); i++) {
 				GeoElement geo = geos.get(i);
-				addSelectedGeo(geo, false);
+				addSelectedGeo(geo, false, false);
 			}
 		}
 		kernel.notifyRepaint();
@@ -1078,7 +1078,7 @@ public abstract class App {
 		while (it.hasNext()) {
 			GeoElement geo = it.next();
 			if ((layer == -1) || (geo.getLayer() == layer)) {
-				addSelectedGeo(geo, false);
+				addSelectedGeo(geo, false, false);
 			}
 		}
 		kernel.notifyRepaint();
@@ -1094,7 +1094,7 @@ public abstract class App {
 			if (selectedGeos.contains(geo)) {
 				removeSelectedGeo(geo, false);
 			} else {
-				addSelectedGeo(geo, false);
+				addSelectedGeo(geo, false, false);
 			}
 		}
 		kernel.notifyRepaint();
@@ -1108,7 +1108,7 @@ public abstract class App {
 			TreeSet<GeoElement> tree = geo.getAllPredecessors();
 			Iterator<GeoElement> it2 = tree.iterator();
 			while (it2.hasNext()) {
-				addSelectedGeo(it2.next(), false);
+				addSelectedGeo(it2.next(), false, false);
 			}
 		}
 		kernel.notifyRepaint();
@@ -1148,7 +1148,7 @@ public abstract class App {
 			TreeSet<GeoElement> tree = geo.getAllChildren();
 			Iterator<GeoElement> it2 = tree.iterator();
 			while (it2.hasNext()) {
-				addSelectedGeo(it2.next(), false);
+				addSelectedGeo(it2.next(), false, false);
 			}
 		}
 		kernel.notifyRepaint();
@@ -2205,21 +2205,12 @@ public abstract class App {
 		showToolBar = toolbar;
 	}
 	
-	/**
-	 * add first geo to selected geos
-	 * @return true if a first geo exists
-	 */
-	public final boolean addFirstGeoSelected(){
-		GeoElement geo = kernel.getFirstGeo();
-		addSelectedGeo(geo);
-		return (geo!=null);
-	}
 
 	public final void addSelectedGeo(GeoElement geo) {
-		addSelectedGeo(geo, true);
+		addSelectedGeo(geo, true, true);
 	}
 
-	public final void addSelectedGeo(GeoElement geo, boolean repaint) {
+	public final void addSelectedGeo(GeoElement geo, boolean repaint, boolean updateSelection) {
 		if ((geo == null) || selectedGeos.contains(geo)) {
 			return;
 		}
@@ -2457,11 +2448,6 @@ public abstract class App {
 	}
 	
 	
-	public void setPropertiesViewSelection(ArrayList<GeoElement> geos){
-		if (propertiesView != null) {
-			propertiesView.updateSelection(geos);
-		}
-	}
 	
 	
 	

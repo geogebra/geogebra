@@ -34,7 +34,7 @@ public class CmdSelectObjects extends CmdScripting {
 			for (int i = 0; i < n; i++) {
 				if ((arg[i].isGeoElement())) {
 					GeoElement geo = arg[i];
-					app.addSelectedGeo(geo, true);
+					app.addSelectedGeo(geo, true, true);
 				}
 			}
 

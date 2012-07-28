@@ -7679,7 +7679,7 @@ public abstract class EuclidianController {
 	
 			if (mode == EuclidianConstants.MODE_MOVE_ROTATE) {
 				app.clearSelectedGeos(false);
-				app.addSelectedGeo(rotationCenter, false);
+				app.addSelectedGeo(rotationCenter, false, true);
 			}
 		}
 		lastMouseLoc = mouseLoc;
