@@ -28,6 +28,7 @@ CONTRIBUTORS
   * Philipp Birklbauer (Austria 2010-)
   * Loic Le Coq (France 2006-)
   * Arnaud Delobelle (UK 2011-)
+  * Damien Desfontaines (France 2012-)
   * Darko Drakulic (Bosnia and Herzegovina 2011-)
   * Judit Elias (Hungary 2009-)
   * Martin Ennemoser (Austria 2011-)
@@ -47,7 +48,7 @@ CONTRIBUTORS
   * Eloi Puertas (Spain 2007)
   * Christoph Reinisch (Austria 2011-)
   * Johannes Renner (Austria 2011-)
-  * Sergio Arbeo Rodriguez (Spain 2010-11)
+  * Sergio Arbeo Rodriguez (Spain 2010-)
   * Christian Schott (Germany 2011-)
   * Neel Shah (India 2012-)
   * Don Sun (USA 2011)
@@ -148,17 +149,20 @@ TRANSLATORS
       Gwyn Jones (Wales)
 
 SUPPORTING PARTNERS
+  * Google, Inc.
+    2012: Support of 7 student programmers as part of GSoC 2012
+    2011-2012: Support for developing the web platform
+    2011: Support of 7 student programmers as part of GSoC 2011
+    2010: Support of 5 student programmers as part of GSoC 2010
   * City Council Linz
     2011-2012: Support for Austrian developer group in Linz, Austria
   * Upper Austrian Government
     2010-2012: Support for Austrian developer group in Linz, Austria
   * Google Summer of Code 2011
-    2011: Support of 7 student programmers as part of GSoC 2011
   * FSF.hu Foundation, Hungary
-    2010: Support for Hungarian developer group in Szeged, Hungary
     2012: Support for Hungarian translator group, Hungary
+    2010: Support for Hungarian developer group in Szeged, Hungary
   * Google Summer of Code 2010
-    2010: Support of 5 student programmers as part of GSoC 2010
   * Austrian Ministry of Education
     2009-2010: GeoGebraCAS - symbolic algebra for Austrian Schools
   * University of Luxembourg et al.,
@@ -281,17 +285,34 @@ Note for Commercial Users (e.g. publishers or online schools)
         purposes (unless you have explicit permission from 
         office@geogebra.org).
    
----------------------------------------------------------------------
+------------------------------------------------------------------------
 Libraries used by GeoGebra:
   * The Apache Commons Mathematics Library,
     http://commons.apache.org/math/ (Apache Software License)
   * EPS Graphics, http://epsgraphics.sf.net (GPL)
   * FreeHEP Java Libraries, http://java.freehep.org (LGPL)
+  * Gluegen, http://java.net/projects/gluegen/sources/svn/show and
+    http://kenai.com/projects/gluegen/sources/gluegen-git/show (BSD)
+  * JOGL 1.1.1a, http://java.net/projects/jogl/sources/svn/show and
+    http://kenai.com/projects/jogl/sources/jogl-git/show (BSD)
+  * JOGL 2, https://github.com/sgothel/jogl (BSD),
+  * J2DXX, http://sourceforge.net/projects/d2xx/ (BSD)
   * JFugue 2.1 (LGPL), http://www.jfugue.org/jfugue-2.1.zip (LGPL)
   * JLaTeXMath, http://forge.scilab.org/index.php/p/jlatexmath/ (GPL)
   * JUNG, http://jung.sourceforge.net (BSD)
+  * Jython,
+    https://jython.svn.sourceforge.net/svnroot/jython/tags/Release_2_5_2/
+    (Python Software Foundation License Version 2)
   * OpenCSV, http://opencsv.sourceforge.net/ (Apache 2.0)
+  * OpenGeoProver, http://code.google.com/p/open-geo-prover/ (GPL3)
+  * OpenNI, https://github.com/OpenNI/OpenNI/zipball/Stable-1.5.2.23
+    (LGPL)
+  * org-concord-sensor, http://code.google.com/p/org-concord-sensor/
+    (LGPL)
   * Reduce, http://reduce-algebra.sourceforge.net/ (BSD)
   * Tango Icon Gallery, http://tango.freedesktop.org (Public Domain)
+  * zip.js, http://gildas-lormeau.github.com/zip.js/ (BSD)
+  * zxing 1.7, http://zxing.googlecode.com/files/ZXing-1.7.zip
+    (Apache 2.0)
 For other tools used for running or building GeoGebra please see
 http://dev.geogebra.org/trac/wiki/SourcesForUsedLibraries
