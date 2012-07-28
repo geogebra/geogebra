@@ -61,6 +61,13 @@ public class AlgoVector extends AlgoElement implements SymbolicParametersAlgo{
         // create new vector
         v=createNewVector();      
         //v = new GeoVector(cons);   
+        
+        // set dependencies now to make sure the vector v is 
+        // not added to the locatable list of P
+        // see #2462
+        setInputOutput();
+        
+        // set startpoint of vector
         try {     
         	if (P.isLabelSet())
         		v.setStartPoint(P);
@@ -73,10 +80,6 @@ public class AlgoVector extends AlgoElement implements SymbolicParametersAlgo{
         } catch (CircularDefinitionException e) {
         	//just formal; v is new, so can't really cause this
         }
-        
-        
-                 
-        setInputOutput();
         
         // compute vector PQ        
         compute();                          

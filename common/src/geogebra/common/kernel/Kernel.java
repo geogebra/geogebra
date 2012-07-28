@@ -3910,7 +3910,7 @@ public class Kernel {
 		GeoVector v = (GeoVector) algo.getVector();
 		v.setEuclidianVisible(true);
 		v.update();
-		notifyUpdate(v);
+		//notifyUpdate(v);
 		return v;
 	}
 
@@ -3922,7 +3922,7 @@ public class Kernel {
 		GeoVector v = algo.getVector();
 		v.setEuclidianVisible(true);
 		v.update();
-		notifyUpdate(v);
+		//notifyUpdate(v);
 		return v;
 	}
 
@@ -4281,7 +4281,7 @@ public class Kernel {
 		GeoConic circle = (GeoConic) algo.getCircle();
 		circle.setToSpecific();
 		circle.update();
-		notifyUpdate(circle);
+		//notifyUpdate(circle);
 		return circle;
 	}
 
@@ -4294,7 +4294,7 @@ public class Kernel {
 		GeoConic circle = (GeoConic) algo.getCircle();
 		circle.setToSpecific();
 		circle.update();
-		notifyUpdate(circle);
+		//notifyUpdate(circle);
 		return circle;
 	}
 
@@ -4471,7 +4471,7 @@ public class Kernel {
 		GeoConic circle = algo.getCircle();
 		circle.setToSpecific();
 		circle.update();
-		notifyUpdate(circle);
+		//notifyUpdate(circle);
 		return circle;
 	}
 
@@ -4491,7 +4491,7 @@ public class Kernel {
 		GeoConic circle = algo.getCircle();
 		circle.setToSpecific();
 		circle.update();
-		notifyUpdate(circle);
+		//notifyUpdate(circle);
 		return circle;
 	}
 
@@ -4511,7 +4511,7 @@ public class Kernel {
 		GeoConic circle = algo.getCircle();
 		circle.setToSpecific();
 		circle.update();
-		notifyUpdate(circle);
+		//notifyUpdate(circle);
 		return circle;
 	}
 
@@ -4525,7 +4525,7 @@ public class Kernel {
 		GeoConic circle = algo.getCircle();
 		circle.setToSpecific();
 		circle.update();
-		notifyUpdate(circle);
+		//notifyUpdate(circle);
 		return circle;
 	}
 
@@ -4537,7 +4537,7 @@ public class Kernel {
 		GeoConic circle = algo.getCircle();
 		circle.setToSpecific();
 		circle.update();
-		notifyUpdate(circle);
+		//notifyUpdate(circle);
 		return circle;
 	}
 
@@ -9293,7 +9293,7 @@ public class Kernel {
 		GeoLine t = algo.getTangent();
 		t.setToExplicit();
 		t.update();
-		notifyUpdate(t);
+		//notifyUpdate(t);
 		return t;
 	}
 
@@ -9306,7 +9306,7 @@ public class Kernel {
 		GeoLine t = algo.getTangent();
 		t.setToExplicit();
 		t.update();
-		notifyUpdate(t);
+		//notifyUpdate(t);
 		return t;
 	}
 
@@ -9837,7 +9837,7 @@ public class Kernel {
 		GeoLine t = algo.getTangent();
 		t.setToExplicit();
 		t.update();
-		notifyUpdate(t);
+		//notifyUpdate(t);
 		return t;
 	}
 
