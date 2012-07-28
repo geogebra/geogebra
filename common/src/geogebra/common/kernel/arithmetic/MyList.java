@@ -842,10 +842,14 @@ public class MyList extends ValidExpression implements ListValue,
 	 * @return true iff list2 is subset of list1
 	 */
 	public static boolean listContains(MyList list1, MyList list2) {
-		if (list2.size() == 0)
-			return true; // the empty set is a subset of all sets
-		if (list1.size() < list2.size())
-			return false;
+		if (list2.size() == 0) {
+			// the empty set is a subset of all sets
+			return true; 
+		}
+		
+		// removed, bug: {1, 2, 2, 2} IS_SUBSET_OF {3, 2, 1}
+		//if (list1.size() < list2.size())
+		//	return false;
 
 		for (int i = 0; i < list2.size(); i++) {
 			ExpressionValue ev2 = list2.getListElement(i).evaluate(StringTemplate.defaultTemplate);
@@ -874,13 +878,16 @@ public class MyList extends ValidExpression implements ListValue,
 	 * @param tpl template (in case there are string concatenations)
 	 * @return true iff list2 is proper subset of list1
 	 */
-	public static boolean listContainsStrict(MyList list1, MyList list2,StringTemplate tpl) {
+	public static boolean listContainsStrict(MyList list1, MyList list2, StringTemplate tpl) {
 		
-		// the empty set has no strict subsets of itself
-		if (list1.size() <= list2.size())
-			return false;
-		if (list2.size() == 0)
-			return true;
+		// removed, bug: {1, 2, 2, 2} IS_STRICT_SUBSET_OF {3, 2, 1}
+		//if (list1.size() <= list2.size())
+		//	return false;
+		
+		// the empty set is a strict subset of everything except itself
+		if (list2.size() == 0) {
+			return (list1.size() != 0);
+		}
 
 		for (int i = 0; i < list2.size(); i++) {
 			ExpressionValue ev2 = list2.getListElement(i).evaluate(tpl);
