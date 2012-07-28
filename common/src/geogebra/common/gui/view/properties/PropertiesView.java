@@ -51,7 +51,7 @@ public abstract class PropertiesView implements View{
 	protected Kernel kernel;
 	protected boolean attached;
 	protected App app;
-	protected OptionType selectedOptionType = OptionType.OBJECTS;
+	protected OptionType selectedOptionType = OptionType.EUCLIDIAN;
 	protected OptionsObject objectPanel;
 	
 	/**

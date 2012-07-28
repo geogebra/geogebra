@@ -1030,6 +1030,19 @@ public abstract class App {
 		kernel.notifyRepaint();
 		updateSelection();
 	}
+	
+	final public void setFirstGeoSelectedForPropertiesView(){
+		GeoElement geo = getKernel().getFirstGeo();
+		if (geo==null)
+			return; 
+		
+		selectedGeos.add(geo);
+		geo.setSelected(true);
+		kernel.notifyRepaint();
+		
+		updateSelection(false);
+		
+	}
 
 	/**
 	 * Michael Borcherds 2008-03-03
@@ -2419,6 +2432,10 @@ public abstract class App {
 	}
 	
 	public void updateSelection() {
+		updateSelection(true);
+	}
+
+	public void updateSelection(boolean updatePropertiesView) {
 
 		if (!showMenuBar || !isUsingFullGui() || isIniting()) {
 			return;
@@ -2434,7 +2451,7 @@ public abstract class App {
 			updateStyleBars();
 		}
 
-		if (propertiesView != null) {
+		if (updatePropertiesView && propertiesView != null) {
 			propertiesView.updateSelection();
 		}
 	}

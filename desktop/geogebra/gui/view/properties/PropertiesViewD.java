@@ -338,6 +338,12 @@ public class PropertiesViewD extends geogebra.common.gui.view.properties.Propert
 	 */
 	@Override
 	public void setOptionPanel(OptionType type) {
+		if (type==OptionType.OBJECTS){//ensure that at least one geo is selected
+			ArrayList<GeoElement> geos = app.getSelectedGeos();
+			if (geos==null || geos.size()==0)
+				app.setFirstGeoSelectedForPropertiesView();
+		}
+
 		setOptionPanel(type,app.getSelectedGeos());
 	}
 		
@@ -366,8 +372,10 @@ public class PropertiesViewD extends geogebra.common.gui.view.properties.Propert
 
 		//update selection
 		if (type==OptionType.OBJECTS){
-			if (geos!=null)
+			if (geos!=null){
 				((OptionsObjectD) objectPanel).updateSelection(geos);	
+			}
+
 			styleBar.setObjectsToolTip();
 			
 		}
@@ -711,6 +719,10 @@ public class PropertiesViewD extends geogebra.common.gui.view.properties.Propert
 		if (selectedOptionType!=OptionType.OBJECTS)
 			setOptionPanel(OptionType.OBJECTS);
 
+		if (geos.size()==0)
+			app.setFirstGeoSelectedForPropertiesView();
+
+		
 		((OptionsObjectD) objectPanel).updateSelection(geos);
 		updateTitleBar(); 
 		styleBar.setObjectsToolTip();	
