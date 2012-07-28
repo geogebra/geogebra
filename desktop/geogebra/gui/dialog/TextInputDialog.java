@@ -927,7 +927,6 @@ public class TextInputDialog extends InputDialogD implements DocumentListener {
 		if (editOccurred){
 			editOccurred = false;//do this first to ensure no circular call
 			inputHandler.processInput(editor.buildGeoGebraString(isLaTeX));
-			App.debug(editGeo);
 			editOccurred = false;
 		}
 	}
