@@ -29,8 +29,7 @@ public class CmdColumnName extends CommandProcessor {
 		switch (n) {
 		case 1:
 
-			if (arg[0].getLabelSimple() != null
-					&& GeoElementSpreadsheet.isSpreadsheetLabel(arg[0].getLabelSimple()))
+			if (GeoElementSpreadsheet.hasSpreadsheetLabel(arg[0]))
 {
 				GeoElement[] ret = { kernelA.ColumnName(c.getLabel(), arg[0]) };
 

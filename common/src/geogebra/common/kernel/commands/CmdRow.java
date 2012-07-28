@@ -27,8 +27,7 @@ public class CmdRow extends CommandProcessor {
 		case 1:
 			// Name[ <GeoElement> ]
 			arg = resArgs(c);			
-			if (arg[0].getLabelSimple() != null && 
-					GeoElementSpreadsheet.isSpreadsheetLabel(arg[0].getLabelSimple())) {
+			if (GeoElementSpreadsheet.hasSpreadsheetLabel(arg[0])) {
 				GeoElement[] ret = { kernelA.Row(c.getLabel(),
 						arg[0]) };
 				return ret;

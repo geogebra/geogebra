@@ -84,6 +84,17 @@ public class GeoElementSpreadsheet {
 	}
 
 	/**
+	 * Checks whether geo has valid cell name. We use getLabel() rather than getLabelSimple() here
+	 * because of labels like $A$1 
+	 * @param geo geo
+	 * @return true if label is valid cell name
+	 * @author Michael Borcherds
+	 */
+	public static boolean hasSpreadsheetLabel(GeoElement geo) {
+		return isSpreadsheetLabel(geo.getLabel(StringTemplate.defaultTemplate));
+	}
+
+	/**
 	 * Checks whether str is valid cell name
 	 * @param str label
 	 * @return true if label is valid cell name

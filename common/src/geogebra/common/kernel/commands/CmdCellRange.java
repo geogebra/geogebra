@@ -1,6 +1,7 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementSpreadsheet;
@@ -30,8 +31,8 @@ public class CmdCellRange extends CommandProcessor {
 		case 2:						
 			arg = resArgs(c);
 			// both geos need to have valid spreadsheet coordinates
-			if ((ok[0] = GeoElementSpreadsheet.isSpreadsheetLabel(arg[0].getLabelSimple())) &&
-				(ok[1] = GeoElementSpreadsheet.isSpreadsheetLabel(arg[1].getLabelSimple()))) 
+			if ((ok[0] = GeoElementSpreadsheet.hasSpreadsheetLabel(arg[0])) &&
+				(ok[1] = GeoElementSpreadsheet.hasSpreadsheetLabel(arg[1]))) 
 			{
 				GeoElement[] ret = { 
 						kernelA.CellRange(c.getLabel(), arg[0], arg[1]) };

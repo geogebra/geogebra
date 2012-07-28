@@ -718,7 +718,7 @@ implements
 		app.getKernel().getGeoElementSpreadsheet();
 		if (mode == MODE_ADD 
 				&& geo.isSpreadsheetTraceable()
-				&& !GeoElementSpreadsheet.isSpreadsheetLabel(geo.getLabel(StringTemplate.defaultTemplate))) {
+				&& !GeoElementSpreadsheet.hasSpreadsheetLabel(geo)) {
 			
 				addTrace(geo);
 			}

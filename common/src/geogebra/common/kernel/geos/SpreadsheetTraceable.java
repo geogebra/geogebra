@@ -26,7 +26,7 @@ import java.util.ArrayList;
 public interface SpreadsheetTraceable extends ExpressionValue {
 	
 	/**
-	 * @return list containing GeoNumeric / GeoAngle
+	 * @param al list containing GeoNumeric / GeoAngle
 	 */
 	public void addToSpreadsheetTraceList(ArrayList<GeoNumeric> al);
 	/**

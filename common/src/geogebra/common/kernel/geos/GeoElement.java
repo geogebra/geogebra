@@ -582,7 +582,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	/**
 	 * overridden in GeoList so that the list elements are copied too
 	 * (needed for tracing to spreadsheet)
-	 * @return
+	 * @return copy of this object
 	 */
 	public GeoElement deepCopyGeo() {
 		return copy();
@@ -7157,7 +7157,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	/**
 	 * default for elements implementing NumberValue interface eg GeoSegment,
 	 * GeoPolygon
-	 * @return list of numbers for spreadsheet
+	 * @param spreadsheetTraceList list of numbers for spreadsheet
 	 */
 	public void addToSpreadsheetTraceList(ArrayList<GeoNumeric> spreadsheetTraceList) {
 

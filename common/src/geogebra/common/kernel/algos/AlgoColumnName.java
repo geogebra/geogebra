@@ -19,6 +19,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import geogebra.common.kernel.geos.GeoText;
@@ -70,7 +71,7 @@ public class AlgoColumnName extends AlgoElement {
     // calc the current value of the arithmetic tree
     @Override
 	public final void compute() {    
-    	String col = GeoElementSpreadsheet.getSpreadsheetColumnName(geo.getLabelSimple());
+    	String col = GeoElementSpreadsheet.getSpreadsheetColumnName(geo.getLabel(StringTemplate.defaultTemplate));
     	
     	if (col == null) text.setUndefined();
     	else text.setTextString(col);	    	
