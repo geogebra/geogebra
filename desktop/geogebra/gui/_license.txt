@@ -78,7 +78,7 @@ TRANSLATORS
   * Chinese (Traditional): Fu-Kwun Hwang, Chen-Hui Lin, Pegasus Roe,
       Joe Chen (Taiwan)
   * Croatian: Sime Suljic, Ela Rac-Marinic-Kragic, Josip Klicinovic,
-      Zeljko Vrabec, Ela Rac (Croatia)
+      Zeljko Vrabec (Croatia)
   * Czech: Zuzana Bouchalova, Michaela Norulakova, Marketa Tomanova,
       Marie Pokorna, Jiri Srubar, Roman Hasek (Czech Republic)
   * Danish: Steen Grode (Denmark)
