@@ -11,7 +11,7 @@ import javax.swing.JCheckBox;
  * @author mathieu
  *
  */
-public class NumberChangeSignInputDialog extends InputDialog {
+public class NumberChangeSignInputDialog extends InputDialogD {
 
 	/**
 	 * 

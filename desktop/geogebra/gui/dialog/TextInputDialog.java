@@ -82,7 +82,7 @@ import javax.swing.undo.UndoManager;
  * 
  * @author hohenwarter
  */
-public class TextInputDialog extends InputDialog implements DocumentListener {
+public class TextInputDialog extends InputDialogD implements DocumentListener {
 
 	private static final long serialVersionUID = 1L;
 
@@ -162,7 +162,7 @@ public class TextInputDialog extends InputDialog implements DocumentListener {
 		// add key listener to the editor
 		editor.addKeyListener(new MyKeyListener());
 
-		this.setResizable(true);
+		wrappedDialog.setResizable(true);
 
 		isIniting = false;
 		setLabels(title);
@@ -202,7 +202,7 @@ public class TextInputDialog extends InputDialog implements DocumentListener {
 		
 		editor.getInputMap().put(KeyStroke.getKeyStroke("control Y"), "Redo");
 
-		this.pack();
+		wrappedDialog.pack();
 	}
 
 	/*
@@ -300,7 +300,7 @@ public class TextInputDialog extends InputDialog implements DocumentListener {
 		JPanel centerPanel = new JPanel(new BorderLayout());
 		centerPanel.add(sp, BorderLayout.CENTER);
 		centerPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-		getContentPane().add(centerPanel, BorderLayout.CENTER);
+		wrappedDialog.getContentPane().add(centerPanel, BorderLayout.CENTER);
 		centerOnScreen();
 
 	}
@@ -578,7 +578,7 @@ public class TextInputDialog extends InputDialog implements DocumentListener {
 		p.setFloatable(false);
 		// p.add(new JLabel("Recent: "));
 		p.add(recentSymbolTable);
-		p.setAlignmentX(LEFT_ALIGNMENT);
+		p.setAlignmentX(wrappedDialog.LEFT_ALIGNMENT);
 		p.setBorder(BorderFactory.createEmptyBorder(5, 5, 10, 5));
 		return p;
 	}
@@ -732,7 +732,7 @@ public class TextInputDialog extends InputDialog implements DocumentListener {
 				finished = inputHandler.processInput(editor
 						.buildGeoGebraString(isLaTeX));
 
-				if (isShowing()) {
+				if (wrappedDialog.isShowing()) {
 					// text dialog window is used and open
 
 					if (isTextMode)// don't clear selected geos don't set mode
@@ -748,7 +748,7 @@ public class TextInputDialog extends InputDialog implements DocumentListener {
 			}
 
 			else if (source == btCancel) {
-				if (isShowing())
+				if (wrappedDialog.isShowing())
 					setVisible(false);
 				else {
 					setGeoText(editGeo);
@@ -873,12 +873,12 @@ public class TextInputDialog extends InputDialog implements DocumentListener {
 	}
 
 	public void updateFonts() {
-		GuiManagerD.setFontRecursive(this, app.getPlainFont());
+		GuiManagerD.setFontRecursive(wrappedDialog, app.getPlainFont());
 		buildInsertGeoButton();
 		updateInsertLaTeXButtonLabels();
 		buildInsertUnicodeButton();
 		textPreviewer.updateFonts();
-		pack();
+		wrappedDialog.pack();
 	}
 
 	// =============================================================

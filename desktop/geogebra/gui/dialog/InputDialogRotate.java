@@ -138,7 +138,7 @@ public class InputDialogRotate extends AngleInputDialog implements KeyListener {
 
 	@Override
 	public void windowGainedFocus(WindowEvent arg0) {
-		if (!isModal()) {
+		if (!wrappedDialog.isModal()) {
 			app.setCurrentSelectionListener(null);
 		}
 		app.getGuiManager().setCurrentTextfield(this, true);

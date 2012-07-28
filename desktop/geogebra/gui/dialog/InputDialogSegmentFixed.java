@@ -10,7 +10,7 @@ import geogebra.main.AppD;
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowEvent;
 
-public class InputDialogSegmentFixed extends InputDialog{
+public class InputDialogSegmentFixed extends InputDialogD{
 	private static final long serialVersionUID = 1L;
 	private GeoPoint geoPoint1;
 
@@ -65,7 +65,7 @@ public class InputDialogSegmentFixed extends InputDialog{
 
 	@Override
 	public void windowGainedFocus(WindowEvent arg0) {
-		if (!isModal()) {
+		if (!wrappedDialog.isModal()) {
 			app.setCurrentSelectionListener(null);
 		}
 		app.getGuiManager().setCurrentTextfield(this, true);

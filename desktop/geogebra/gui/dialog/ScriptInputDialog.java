@@ -38,7 +38,7 @@ import javax.swing.event.DocumentListener;
  * 
  * @author hohenwarter
  */
-public class ScriptInputDialog extends InputDialog implements DocumentListener{
+public class ScriptInputDialog extends InputDialogD implements DocumentListener{
 	
 	private static final long serialVersionUID = 1L;
 
@@ -96,7 +96,7 @@ public class ScriptInputDialog extends InputDialog implements DocumentListener{
 			
 		centerPanel.add(inputPanel, BorderLayout.CENTER);		
 
-		getContentPane().add(centerPanel, BorderLayout.CENTER);
+		wrappedDialog.getContentPane().add(centerPanel, BorderLayout.CENTER);
 		
 		
 		
@@ -190,7 +190,7 @@ public class ScriptInputDialog extends InputDialog implements DocumentListener{
 			if (source == btOK || source == inputPanel.getTextComponent()) {
 				
 				boolean finished = processInput();	
-				if (isShowing()) {	
+				if (wrappedDialog.isShowing()) {	
 					// text dialog window is used and open
 					setVisible(!finished);
 				} else {		
@@ -199,7 +199,7 @@ public class ScriptInputDialog extends InputDialog implements DocumentListener{
 				}
 			} 
 			else if (source == btCancel) {
-				if (isShowing())
+				if (wrappedDialog.isShowing())
 					setVisible(false);		
 				else {
 					setGeo(getGeo());

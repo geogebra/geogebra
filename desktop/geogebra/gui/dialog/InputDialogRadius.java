@@ -16,7 +16,7 @@ import java.awt.event.WindowEvent;
  * @author mathieu
  *
  */
-public abstract class InputDialogRadius extends InputDialog{
+public abstract class InputDialogRadius extends InputDialogD{
 
 	/**
 	 * 
@@ -90,7 +90,7 @@ public abstract class InputDialogRadius extends InputDialog{
 
 	@Override
 	public void windowGainedFocus(WindowEvent arg0) {
-		if (!isModal()) {
+		if (!wrappedDialog.isModal()) {
 			app.setCurrentSelectionListener(null);
 		}
 		app.getGuiManager().setCurrentTextfield(this, true);

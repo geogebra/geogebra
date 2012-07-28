@@ -9,7 +9,7 @@ import geogebra.main.AppD;
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowEvent;
 
-public class InputDialogRegularPolygon extends InputDialog{
+public class InputDialogRegularPolygon extends InputDialogD{
 	private static final long serialVersionUID = 1L;
 	private GeoPoint geoPoint1, geoPoint2;
 
@@ -75,7 +75,7 @@ public class InputDialogRegularPolygon extends InputDialog{
 
 	@Override
 	public void windowGainedFocus(WindowEvent arg0) {
-		if (!isModal()) {
+		if (!wrappedDialog.isModal()) {
 			app.setCurrentSelectionListener(null);
 		}
 		app.getGuiManager().setCurrentTextfield(this, true);

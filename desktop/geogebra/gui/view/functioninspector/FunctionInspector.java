@@ -53,7 +53,7 @@ import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.plugin.Operation;
 import geogebra.gui.GuiManagerD;
-import geogebra.gui.dialog.InputDialog;
+import geogebra.gui.dialog.InputDialogD;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.gui.util.GeoGebraIcon;
 import geogebra.gui.util.PopupMenuButton;
@@ -102,7 +102,7 @@ import javax.swing.table.DefaultTableModel;
  * 
  */
 
-public class FunctionInspector extends InputDialog 
+public class FunctionInspector extends InputDialogD 
 implements View, MouseListener, ListSelectionListener, 
 KeyListener, ActionListener, SpecialNumberFormatInterface {
 
@@ -210,11 +210,11 @@ KeyListener, ActionListener, SpecialNumberFormatInterface {
 		createHeaderPanel();
 		createTabPanel();
 
-		getContentPane().add(headerPanel,BorderLayout.NORTH);
-		getContentPane().add(tabPanel,BorderLayout.CENTER);
+		wrappedDialog.getContentPane().add(headerPanel,BorderLayout.NORTH);
+		wrappedDialog.getContentPane().add(tabPanel,BorderLayout.CENTER);
 
 		centerOnScreen();
-		setResizable(true);
+		wrappedDialog.setResizable(true);
 
 
 		// attach this view to the kernel
@@ -229,7 +229,7 @@ KeyListener, ActionListener, SpecialNumberFormatInterface {
 
 		//addHelpButton(Application.WIKI_MANUAL);
 
-		pack();
+		wrappedDialog.pack();
 
 		isIniting = false;
 
@@ -445,7 +445,7 @@ KeyListener, ActionListener, SpecialNumberFormatInterface {
 
 	public void setLabels() {
 
-		setTitle(app.getMenu("FunctionInspector"));
+		wrappedDialog.setTitle(app.getMenu("FunctionInspector"));
 		lblStep.setText(app.getMenu("Step") + ":");		
 		lblInterval.setText(" \u2264 x \u2264 " );	// <= x <=
 
@@ -1466,21 +1466,21 @@ KeyListener, ActionListener, SpecialNumberFormatInterface {
 	}
 
 	public void updateFonts(){
-		this.setFont(app.getPlainFont());
+		wrappedDialog.setFont(app.getPlainFont());
 		tableXY.setFont(app.getPlainFont());
 		tableInterval.setFont(app.getPlainFont());
 		MyTextField dummyField = new MyTextField(app);
 		tableXY.setRowHeight(dummyField.getPreferredSize().height);
 		tableInterval.setRowHeight(dummyField.getPreferredSize().height);
 
-		GuiManagerD.setFontRecursive(this, app.getPlainFont());
+		GuiManagerD.setFontRecursive(wrappedDialog, app.getPlainFont());
 	}
 
 
 
 	@Override
 	public void windowGainedFocus(WindowEvent arg0) {
-		if (!isModal()) {
+		if (!wrappedDialog.isModal()) {
 			//if(app.getMode() == EuclidianConstants.MODE_FUNCTION_INSPECTOR)
 			//app.setSelectionListenerMode(sl);
 		}
@@ -1642,6 +1642,11 @@ KeyListener, ActionListener, SpecialNumberFormatInterface {
 
 	public int getViewID() {
 		return App.VIEW_FUNCTION_INSPECTOR;
+	}
+
+
+	public boolean hasFocus() {
+		return wrappedDialog.hasFocus();
 	}
 	
 	

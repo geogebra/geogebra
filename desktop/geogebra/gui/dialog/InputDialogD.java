@@ -44,7 +44,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.text.JTextComponent;
 
-public class InputDialog extends JDialog implements ActionListener,
+public class InputDialogD extends geogebra.common.gui.dialog.InputDialog implements ActionListener,
 		WindowFocusListener, VirtualKeyboardListener {
 
 	private static final long serialVersionUID = 1L;
@@ -70,6 +70,8 @@ public class InputDialog extends JDialog implements ActionListener,
 	protected InputHandler inputHandler;
 
 	protected JCheckBox checkBox;
+	
+	protected JDialog wrappedDialog;
 
 	/**
 	 * @param app
@@ -79,7 +81,7 @@ public class InputDialog extends JDialog implements ActionListener,
 	 * @param autoComplete
 	 * @param handler
 	 */
-	public InputDialog(AppD app, String message, String title,
+	public InputDialogD(AppD app, String message, String title,
 			String initString, boolean autoComplete, InputHandler handler) {
 		this(app, message, title, initString, autoComplete, handler, false,
 				false, null);
@@ -97,7 +99,7 @@ public class InputDialog extends JDialog implements ActionListener,
 	 * @param handler
 	 * @param geo
 	 */
-	public InputDialog(AppD app, String message, String title,
+	public InputDialogD(AppD app, String message, String title,
 			String initString, boolean autoComplete, InputHandler handler,
 			GeoElement geo) {
 		this(app, message, title, initString, autoComplete, handler, false,
@@ -116,7 +118,7 @@ public class InputDialog extends JDialog implements ActionListener,
 	 * @param selectInitText
 	 * @param geo
 	 */
-	public InputDialog(AppD app, String message, String title,
+	public InputDialogD(AppD app, String message, String title,
 			String initString, boolean autoComplete, InputHandler handler,
 			boolean modal, boolean selectInitText, GeoElement geo) {
 		this(app, message, title, initString, autoComplete, handler, modal,
@@ -136,7 +138,7 @@ public class InputDialog extends JDialog implements ActionListener,
 	 * @param checkBox
 	 * @param type
 	 */
-	public InputDialog(AppD app, String message, String title,
+	public InputDialogD(AppD app, String message, String title,
 			String initString, boolean autoComplete, InputHandler handler,
 			boolean modal, boolean selectInitText, GeoElement geo,
 			JCheckBox checkBox, DialogType type) {
@@ -169,8 +171,8 @@ public class InputDialog extends JDialog implements ActionListener,
 
 		// finalize the GUI
 		centerOnScreen();
-		this.setResizable(true);
-		this.pack();
+		wrappedDialog.setResizable(true);
+		wrappedDialog.pack();
 	}
 
 	/**
@@ -179,8 +181,8 @@ public class InputDialog extends JDialog implements ActionListener,
 	 * @param frame
 	 * @param modal
 	 */
-	protected InputDialog(JFrame frame, boolean modal) {
-		super(frame, modal);
+	protected InputDialogD(JFrame frame, boolean modal) {
+		this.wrappedDialog = new JDialog(frame, modal);
 	}
 
 	// ===================================================
@@ -203,7 +205,7 @@ public class InputDialog extends JDialog implements ActionListener,
 			boolean autoComplete, int columns, int rows,
 			boolean showSymbolPopupIcon, boolean selectInitText,
 			boolean showProperties, boolean showApply, DialogType type) {
-		setResizable(true);
+		wrappedDialog.setResizable(true);
 
 		// Create components to be displayed
 		inputPanel = new InputPanelD(initString, app, rows, columns,
@@ -263,7 +265,7 @@ public class InputDialog extends JDialog implements ActionListener,
 		optionPane.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
 		// add optionPane to the dialog
-		setContentPane(optionPane);
+		wrappedDialog.setContentPane(optionPane);
 		setLabels(title);
 	}
 
@@ -275,9 +277,9 @@ public class InputDialog extends JDialog implements ActionListener,
 	}
 
 	protected void centerOnScreen() {
-		pack();
+		wrappedDialog.pack();
 		// center on screen
-		setLocationRelativeTo(app.getMainComponent());
+		wrappedDialog.setLocationRelativeTo(app.getMainComponent());
 	}
 
 	public void showSymbolTablePopup(boolean flag) {
@@ -305,7 +307,7 @@ public class InputDialog extends JDialog implements ActionListener,
 	 */
 	public void setLabels(String title) {
 
-		setTitle(title);
+		wrappedDialog.setTitle(title);
 
 		btOK.setText(app.getPlain("OK"));
 		btCancel.setText(app.getPlain("Cancel"));
@@ -414,29 +416,28 @@ public class InputDialog extends JDialog implements ActionListener,
 	// Visibility Handlers
 	// ===================================================
 
-	@Override
 	public void setVisible(boolean flag) {
-		if (!isModal()) {
+		if (!wrappedDialog.isModal()) {
 			if (flag) { // set old mode again
-				addWindowFocusListener(this);
+				wrappedDialog.addWindowFocusListener(this);
 			} else {
-				removeWindowFocusListener(this);
+				wrappedDialog.removeWindowFocusListener(this);
 				app.setSelectionListenerMode(null);
 			}
 		}
-		super.setVisible(flag);
+		wrappedDialog.setVisible(flag);
 	}
 
 	public void setVisibleForTools(boolean flag) {
-		if (!isModal()) {
+		if (!wrappedDialog.isModal()) {
 			if (flag) { // set old mode again
-				addWindowFocusListener(this);
+				wrappedDialog.addWindowFocusListener(this);
 			} else {
-				removeWindowFocusListener(this);
+				wrappedDialog.removeWindowFocusListener(this);
 				app.setCurrentSelectionListener(null);
 			}
 		}
-		super.setVisible(flag);
+		wrappedDialog.setVisible(flag);
 	}
 
 	// ===================================================
@@ -444,7 +445,7 @@ public class InputDialog extends JDialog implements ActionListener,
 	// ===================================================
 
 	public void windowGainedFocus(WindowEvent arg0) {
-		if (!isModal()) {
+		if (!wrappedDialog.isModal()) {
 			app.setSelectionListenerMode(sl);
 		}
 		app.getGuiManager().setCurrentTextfield(this, true);
@@ -453,6 +454,10 @@ public class InputDialog extends JDialog implements ActionListener,
 	public void windowLostFocus(WindowEvent arg0) {
 		app.getGuiManager().setCurrentTextfield(null,
 				!(arg0.getOppositeWindow() instanceof VirtualKeyboard));
+	}
+	
+	public JDialog getWrappedDialog() {
+		return wrappedDialog;
 	}
 
 }

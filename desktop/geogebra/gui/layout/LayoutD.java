@@ -9,7 +9,7 @@ import geogebra.common.main.App;
 import geogebra.common.main.settings.AbstractSettings;
 import geogebra.common.main.settings.SettingListener;
 import geogebra.euclidianND.EuclidianViewND;
-import geogebra.gui.dialog.InputDialog;
+import geogebra.gui.dialog.InputDialogD;
 import geogebra.main.AppD;
 import geogebra.main.GeoGebraPreferencesD;
 
@@ -425,7 +425,7 @@ public class LayoutD extends Layout implements SettingListener {
 	 * Show the prompt which is used to save the current perspective.
 	 */
 	public void showSaveDialog() {
-		InputDialog inputDialog = new InputDialog(app, app.getPlain("PerspectiveName"), app.getMenu("SaveCurrentPerspective"), "", false, new SaveInputHandler(this));
+		InputDialogD inputDialog = new InputDialogD(app, app.getPlain("PerspectiveName"), app.getMenu("SaveCurrentPerspective"), "", false, new SaveInputHandler(this));
 		inputDialog.showSymbolTablePopup(false);
         inputDialog.setVisible(true);    
 	}

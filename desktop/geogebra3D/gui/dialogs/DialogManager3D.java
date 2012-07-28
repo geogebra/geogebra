@@ -6,7 +6,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.gui.dialog.DialogManagerD;
-import geogebra.gui.dialog.InputDialog;
+import geogebra.gui.dialog.InputDialogD;
 import geogebra.gui.dialog.options.OptionsDialog;
 import geogebra.main.AppD;
 import geogebra3D.Application3D;
@@ -47,7 +47,7 @@ public class DialogManager3D extends DialogManagerD {
 	 */
 	public void showNumberInputDialogCirclePointDirectionRadius(String title, GeoPointND geoPoint, GeoDirectionND forAxis) {
 		NumberInputHandler handler = new NumberInputHandler(app.getKernel().getAlgebraProcessor());
-		InputDialog id = new InputDialogCirclePointDirectionRadius((AppD) app, title, handler, geoPoint, forAxis, app.getKernel());
+		InputDialogD id = new InputDialogCirclePointDirectionRadius((AppD) app, title, handler, geoPoint, forAxis, app.getKernel());
 		id.setVisible(true);
 	}
 	
@@ -58,7 +58,7 @@ public class DialogManager3D extends DialogManagerD {
 	 */
 	public void showNumberInputDialogSpherePointRadius(String title, GeoPointND geoPoint) {
 		NumberInputHandler handler = new NumberInputHandler(app.getKernel().getAlgebraProcessor());
-		InputDialog id = new InputDialogSpherePointRadius((AppD) app, title, handler, geoPoint, app.getKernel());
+		InputDialogD id = new InputDialogSpherePointRadius((AppD) app, title, handler, geoPoint, app.getKernel());
 		id.setVisible(true);
 	}
 	

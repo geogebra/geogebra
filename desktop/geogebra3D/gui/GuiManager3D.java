@@ -10,7 +10,7 @@ import geogebra.euclidianND.EuclidianViewND;
 import geogebra.gui.ContextMenuChooseGeoD;
 import geogebra.gui.ContextMenuGeoElementD;
 import geogebra.gui.GuiManagerD;
-import geogebra.gui.dialog.InputDialog;
+import geogebra.gui.dialog.InputDialogD;
 import geogebra.gui.dialog.options.OptionsDialog;
 import geogebra.gui.layout.LayoutD;
 import geogebra.gui.view.algebra.AlgebraControllerD;

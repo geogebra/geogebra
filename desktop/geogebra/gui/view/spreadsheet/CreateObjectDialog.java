@@ -6,7 +6,7 @@ import geogebra.common.kernel.algos.AlgoPolyLine;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoPoint;
-import geogebra.gui.dialog.InputDialog;
+import geogebra.gui.dialog.InputDialogD;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.gui.view.algebra.InputPanelD.DialogType;
 import geogebra.main.AppD;
@@ -47,7 +47,7 @@ import javax.swing.event.ListSelectionListener;
  * @author G. Sturr
  * 
  */
-public class CreateObjectDialog extends InputDialog implements
+public class CreateObjectDialog extends InputDialogD implements
 		ListSelectionListener, FocusListener {
 
 	private static final long serialVersionUID = 1L;
@@ -125,11 +125,11 @@ public class CreateObjectDialog extends InputDialog implements
 		// optionPane.add(inputPanel, BorderLayout.CENTER);
 		typeList.setSelectedIndex(objectType);
 
-		setResizable(true);
+		wrappedDialog.setResizable(true);
 		centerOnScreen();
 		btCancel.requestFocus();
-		pack();
-		addWindowFocusListener(this);
+		wrappedDialog.pack();
+		wrappedDialog.addWindowFocusListener(this);
 	}
 
 	@SuppressWarnings("rawtypes")
@@ -196,7 +196,7 @@ public class CreateObjectDialog extends InputDialog implements
 		lblPreview.setBorder(BorderFactory.createEtchedBorder());
 		lblPreview.setHorizontalAlignment(SwingConstants.CENTER);
 		previewPanel = new JScrollPane(lblPreview);
-		previewPanel.setBackground(this.getBackground());
+		previewPanel.setBackground(this.wrappedDialog.getBackground());
 
 		JPanel op = new JPanel(new BorderLayout());
 		op.add(p, BorderLayout.WEST);
@@ -336,7 +336,7 @@ public class CreateObjectDialog extends InputDialog implements
 			titleText = app.getMenu("CreateMatrix");
 			break;
 		}
-		setTitle(titleText);
+		wrappedDialog.setTitle(titleText);
 
 	}
 
@@ -426,11 +426,11 @@ public class CreateObjectDialog extends InputDialog implements
 
 	@Override
 	public void setVisible(boolean isVisible) {
-		if (!isModal()) {
+		if (!wrappedDialog.isModal()) {
 			if (isVisible) { // set old mode again
-				addWindowFocusListener(this);
+				wrappedDialog.addWindowFocusListener(this);
 			} else {
-				removeWindowFocusListener(this);
+				wrappedDialog.removeWindowFocusListener(this);
 				app.setSelectionListenerMode(null);
 			}
 		}
@@ -617,7 +617,7 @@ public class CreateObjectDialog extends InputDialog implements
 	@Override
 	public void windowLostFocus(WindowEvent e) {
 		// close the window and set the geo when focus is lost
-		if (isVisible())
+		if (wrappedDialog.isVisible())
 			setVisible(false);
 	}
 

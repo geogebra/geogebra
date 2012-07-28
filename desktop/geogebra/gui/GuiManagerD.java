@@ -30,7 +30,7 @@ import geogebra.gui.app.GeoGebraFrame;
 import geogebra.gui.app.MyFileFilter;
 import geogebra.gui.color.GeoGebraColorChooser;
 import geogebra.gui.dialog.DialogManagerD;
-import geogebra.gui.dialog.InputDialog;
+import geogebra.gui.dialog.InputDialogD;
 import geogebra.gui.dialog.InputDialogOpenURL;
 import geogebra.gui.inputbar.AlgebraInput;
 import geogebra.gui.inputbar.InputBarHelpPanel;
@@ -1840,7 +1840,7 @@ public class GuiManagerD extends GuiManager {
 	}
 
 	public void openURL() {
-		InputDialog id = new InputDialogOpenURL((AppD)app);
+		InputDialogD id = new InputDialogOpenURL((AppD)app);
 		id.setVisible(true);
 
 	}

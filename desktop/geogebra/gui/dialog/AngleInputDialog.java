@@ -29,7 +29,7 @@ import javax.swing.JRadioButton;
  * 
  * @author hohenwarter
  */
-public class AngleInputDialog extends InputDialog {
+public class AngleInputDialog extends InputDialogD {
 	
 	private static final long serialVersionUID = 1L;
 
@@ -63,7 +63,7 @@ public class AngleInputDialog extends InputDialog {
 		JPanel centerPanel = new JPanel(new BorderLayout());
 		centerPanel.add(inputPanel, BorderLayout.CENTER);
 		centerPanel.add(rbPanel, BorderLayout.SOUTH);								
-		getContentPane().add(centerPanel, BorderLayout.CENTER);		
+		wrappedDialog.getContentPane().add(centerPanel, BorderLayout.CENTER);		
 		centerOnScreen();		
 	}	
 	

@@ -1,6 +1,6 @@
 package geogebra.gui.view.spreadsheet;
 
-import geogebra.gui.dialog.InputDialog;
+import geogebra.gui.dialog.InputDialogD;
 import geogebra.gui.view.algebra.InputPanelD.DialogType;
 import geogebra.main.AppD;
 
@@ -14,7 +14,7 @@ import java.awt.event.ActionEvent;
  *  G.Sturr 2010-2-12
  *
  */
-public class InputDialogOpenDataFolderURL extends InputDialog{
+public class InputDialogOpenDataFolderURL extends InputDialogD{
 	private static final long serialVersionUID = 1L;
 	private SpreadsheetView view;
 	
@@ -37,7 +37,7 @@ public class InputDialogOpenDataFolderURL extends InputDialog{
 	}
 
 	public void setLabels(String title) {
-		setTitle(title);
+		wrappedDialog.setTitle(title);
 		
 		btOK.setText(app.getPlain("Open"));
 	//	btApply.setText(app.getPlain("Apply"));

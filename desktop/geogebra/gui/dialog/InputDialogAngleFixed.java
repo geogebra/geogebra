@@ -102,7 +102,7 @@ public class InputDialogAngleFixed extends AngleInputDialog implements KeyListen
 
 	@Override
 	public void windowGainedFocus(WindowEvent arg0) {
-		if (!isModal()) {
+		if (!wrappedDialog.isModal()) {
 			app.setCurrentSelectionListener(null);
 		}
 		app.getGuiManager().setCurrentTextfield(this, true);

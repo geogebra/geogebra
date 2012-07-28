@@ -107,10 +107,14 @@ public class DialogManagerW extends DialogManager {
     }
 
 	@Override
-    public void showRenameDialog(GeoElement geo, boolean b, String label,
-            boolean c) {
-	    // TODO Auto-generated method stub
-	    
+    public void showRenameDialog(GeoElement geo, boolean storeUndo, String initText,
+            boolean selectInitText) {
+		if (!app.isRightClickEnabled())
+			return;
+		geo.setLabelVisible(true);
+		geo.updateRepaint();
+		
+		//continue from here
     }
 
 	@Override

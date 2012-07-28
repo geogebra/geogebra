@@ -16,7 +16,7 @@ import java.awt.event.WindowEvent;
 
 import javax.swing.JPanel;
 
-public class InputDialogDilate extends InputDialog {
+public class InputDialogDilate extends InputDialogD {
 	private static final long serialVersionUID = 1L;
 	GeoPoint[] points;
 	GeoElement[] selGeos;
@@ -36,7 +36,7 @@ public class InputDialogDilate extends InputDialog {
 		createGUI(title, app.getMenu("Dilate.Factor"), false, DEFAULT_COLUMNS, 1, true, false, false, false, DialogType.GeoGebraEditor);		
 		JPanel centerPanel = new JPanel(new BorderLayout());
 		centerPanel.add(inputPanel, BorderLayout.CENTER);								
-		getContentPane().add(centerPanel, BorderLayout.CENTER);		
+		wrappedDialog.getContentPane().add(centerPanel, BorderLayout.CENTER);		
 		centerOnScreen();
 	}
 
@@ -118,7 +118,7 @@ public class InputDialogDilate extends InputDialog {
 
 	@Override
 	public void windowGainedFocus(WindowEvent arg0) {
-		if (!isModal()) {
+		if (!wrappedDialog.isModal()) {
 			app.setCurrentSelectionListener(null);
 		}
 		app.getGuiManager().setCurrentTextfield(this, true);

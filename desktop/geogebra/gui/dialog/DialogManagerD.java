@@ -230,7 +230,7 @@ public class DialogManagerD extends geogebra.common.gui.dialog.DialogManager {
 
 		// Michael Borcherds 2008-03-25
 		// a Chinese friendly version
-		InputDialog id = new InputDialog(((AppD) app), "<html>"
+		InputDialogD id = new InputDialogD(((AppD) app), "<html>"
 				+ app.getPlain("NewNameForA", "<b>" + geo.getNameDescription()
 						+ "</b>") + // eg New name for <b>Segment a</b>
 				"</html>", app.getPlain("Rename"), initText, false, handler,
@@ -263,7 +263,7 @@ public class DialogManagerD extends geogebra.common.gui.dialog.DialogManager {
 
 		InputHandler handler = new RedefineInputHandler(((AppD) app), geo, str);
 
-		InputDialog id = new InputDialog(((AppD) app), geo.getNameDescription(),
+		InputDialogD id = new InputDialogD(((AppD) app), geo.getNameDescription(),
 				app.getPlain("Redefine"), str, true, handler, geo);
 		id.showSymbolTablePopup(true);
 		id.setVisible(true);
@@ -283,7 +283,7 @@ public class DialogManagerD extends geogebra.common.gui.dialog.DialogManager {
 		app.setDefaultCursor();
 	}
 
-	public JDialog createTextDialog(GeoText text, GeoPointND startPoint) {
+	public TextInputDialog createTextDialog(GeoText text, GeoPointND startPoint) {
 		boolean isTextMode = app.getMode() == EuclidianConstants.MODE_TEXT;
 		TextInputDialog id = new TextInputDialog(((AppD) app), app.getPlain("Text"),
 				text, startPoint, 30, 6, isTextMode);
@@ -336,7 +336,7 @@ public class DialogManagerD extends geogebra.common.gui.dialog.DialogManager {
 
 		NumberInputHandler handler = new NumberInputHandler(app.getKernel()
 				.getAlgebraProcessor());
-		InputDialog id = new InputDialog(((AppD) app), message, title, initText, false,
+		InputDialogD id = new InputDialogD(((AppD) app), message, title, initText, false,
 				handler, true, false, null);
 		id.setVisible(true);
 
@@ -372,7 +372,7 @@ public class DialogManagerD extends geogebra.common.gui.dialog.DialogManager {
 
 		NumberInputHandler handler = new NumberInputHandler(app.getKernel()
 				.getAlgebraProcessor());
-		InputDialog id = new InputDialogRegularPolygon(((AppD) app), title, handler,
+		InputDialogD id = new InputDialogRegularPolygon(((AppD) app), title, handler,
 				geoPoint1, geoPoint2, app.getKernel());
 		id.setVisible(true);
 
@@ -384,7 +384,7 @@ public class DialogManagerD extends geogebra.common.gui.dialog.DialogManager {
 
 		NumberInputHandler handler = new NumberInputHandler(app.getKernel()
 				.getAlgebraProcessor());
-		InputDialog id = new InputDialogCirclePointRadius(((AppD) app), title, handler,
+		InputDialogD id = new InputDialogCirclePointRadius(((AppD) app), title, handler,
 				(GeoPoint) geoPoint1, app.getKernel());
 		id.setVisible(true);
 
@@ -396,7 +396,7 @@ public class DialogManagerD extends geogebra.common.gui.dialog.DialogManager {
 
 		NumberInputHandler handler = new NumberInputHandler(app.getKernel()
 				.getAlgebraProcessor());
-		InputDialog id = new InputDialogRotate(((AppD) app), title, handler, polys,
+		InputDialogD id = new InputDialogRotate(((AppD) app), title, handler, polys,
 				points, selGeos, app.getKernel());
 		id.setVisible(true);
 
@@ -408,7 +408,7 @@ public class DialogManagerD extends geogebra.common.gui.dialog.DialogManager {
 
 		NumberInputHandler handler = new NumberInputHandler(app.getKernel()
 				.getAlgebraProcessor());
-		InputDialog id = new InputDialogAngleFixed(((AppD) app), title, handler,
+		InputDialogD id = new InputDialogAngleFixed(((AppD) app), title, handler,
 				segments, points, selGeos, app.getKernel());
 		id.setVisible(true);
 
@@ -420,7 +420,7 @@ public class DialogManagerD extends geogebra.common.gui.dialog.DialogManager {
 
 		NumberInputHandler handler = new NumberInputHandler(app.getKernel()
 				.getAlgebraProcessor());
-		InputDialog id = new InputDialogDilate(((AppD) app), title, handler, points,
+		InputDialogD id = new InputDialogDilate(((AppD) app), title, handler, points,
 				selGeos, app.getKernel());
 		id.setVisible(true);
 
@@ -432,7 +432,7 @@ public class DialogManagerD extends geogebra.common.gui.dialog.DialogManager {
 
 		NumberInputHandler handler = new NumberInputHandler(app.getKernel()
 				.getAlgebraProcessor());
-		InputDialog id = new InputDialogSegmentFixed(((AppD) app), title, handler,
+		InputDialogD id = new InputDialogSegmentFixed(((AppD) app), title, handler,
 				geoPoint1, app.getKernel());
 		id.setVisible(true);
 

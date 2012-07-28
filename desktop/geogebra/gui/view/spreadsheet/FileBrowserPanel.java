@@ -2,7 +2,7 @@ package geogebra.gui.view.spreadsheet;
 
 import geogebra.common.io.DocHandler;
 import geogebra.common.io.QDParser;
-import geogebra.gui.dialog.InputDialog;
+import geogebra.gui.dialog.InputDialogD;
 import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
@@ -275,7 +275,7 @@ public class FileBrowserPanel extends JPanel implements ActionListener, TreeSele
 						String initString = "http://";				
 						initString  = view.DEFAULT_URL;
 
-						InputDialog id = new InputDialogOpenDataFolderURL(app,view, initString);
+						InputDialogD id = new InputDialogOpenDataFolderURL(app,view, initString);
 						id.setVisible(true);
 
 						// setDirectory(url);

@@ -6,7 +6,7 @@ import geogebra.main.AppD;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 
-public class InputDialogOpenURL extends InputDialog{
+public class InputDialogOpenURL extends InputDialogD{
 	private static final long serialVersionUID = 1L;
 	
 	public InputDialogOpenURL(AppD app) {
@@ -31,7 +31,7 @@ public class InputDialogOpenURL extends InputDialog{
 
 	@Override
 	public void setLabels(String title) {
-		setTitle(title);
+		wrappedDialog.setTitle(title);
 		
 		btOK.setText(app.getPlain("Open"));
 		btCancel.setText(app.getPlain("Cancel"));
