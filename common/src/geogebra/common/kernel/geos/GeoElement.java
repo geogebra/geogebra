@@ -3985,7 +3985,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		}
 
 		// check for index
-		return convertIndicesToHTML(ret);
+		return convertIndicesToHTML(app.translationFix(ret));
 	}
 
 	/**
