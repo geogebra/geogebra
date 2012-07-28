@@ -54,7 +54,7 @@ public abstract class OptionsObject {
 	 */
 	public String getSelectionDescription() {
 		if (selection == null || selection.size() == 0) {
-			App.printStacktrace("This should not get called unless at least one object is selected");
+			App.error("This should not get called unless at least one object is selected");
 			return app.getPlain("Properties");
 		}
 		else if (selection.size() == 1){
