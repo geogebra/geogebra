@@ -655,8 +655,8 @@ public class InputBarHelpPanel extends JPanel implements TreeSelectionListener,
 		StyleConstants.setItalic(s, true);
 
 		SimpleAttributeSet attrs = new SimpleAttributeSet();
-		StyleConstants.setFirstLineIndent(attrs, -50);
-		StyleConstants.setLeftIndent(attrs, 50);
+		StyleConstants.setFirstLineIndent(attrs, -40);
+		StyleConstants.setLeftIndent(attrs, 40);
 		doc.setParagraphAttributes(0, doc.getLength(), attrs, false);
 
 		if (GeoGebraConstants.CAS_VIEW_ENABLED
