@@ -318,8 +318,10 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 	 * apply tabs modifications (text edit panel, etc.)
 	 */
 	public void applyModifications(){
-		textEditPanel.applyModifications();
-		scriptEditPanel.applyModifications();
+		if(textEditPanel!=null)
+			textEditPanel.applyModifications();
+		if(scriptEditPanel!=null)
+			scriptEditPanel.applyModifications();
 	}
 
 	public void showSliderTab() {
