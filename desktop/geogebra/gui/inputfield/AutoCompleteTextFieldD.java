@@ -743,13 +743,19 @@ public AutoCompleteTextFieldD(int columns, AppD app,
       String cmdInt = app.getInternalCommand(cmd);
 
       String syntaxString;
+      String suffix =  App.syntaxStr;
       if (isCASInput) {
         syntaxString = app.getCommandSyntaxCAS(cmdInt);
+        if(syntaxString.endsWith(App.syntaxCAS)){
+        	syntaxString = app.getCommandSyntax(cmdInt);
+        }
+        else{
+        	suffix = App.syntaxCAS;
+        }
       } else {
-        syntaxString = app.getCommandSyntax(cmdInt);
+    	  syntaxString = app.getCommandSyntax(cmdInt);
       }
-      if (syntaxString.endsWith(isCASInput ? AppD.syntaxCAS
-          : AppD.syntaxStr)) {
+      if (syntaxString.endsWith(suffix)) {
 
         // command not found, check for macros
         Macro macro = isCASInput ? null : app.getKernel().getMacro(cmd);
