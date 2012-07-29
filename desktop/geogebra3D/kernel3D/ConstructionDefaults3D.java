@@ -352,8 +352,6 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 			return DEFAULT_QUADRIC;
 		case QUADRIC_LIMITED:
 			return DEFAULT_QUADRIC_LIMITED;
-		case FUNCTION_NVAR:
-			return DEFAULT_FUNCTION_NVAR;
 		case SURFACECARTESIAN3D:
 			return DEFAULT_SURFACECARTESIAN3D;		
 			
