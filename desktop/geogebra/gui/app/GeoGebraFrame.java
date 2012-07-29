@@ -449,7 +449,10 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 
 			// init file chooser
 			this.app.getGuiManager().getDialogManager().initFileChooser();
-
+			
+			// open sidebar perspectives panel
+			app.getDockBar().showPopup();
+			
 			// init CAS
 			// avoid hanging animation,
 			// see http://www.geogebra.org/trac/ticket/1565
