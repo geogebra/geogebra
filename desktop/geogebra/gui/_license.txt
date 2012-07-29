@@ -112,7 +112,7 @@ TRANSLATORS
   * Icelandic: Freyja Hreinsdottir (Iceland)
   * Indonesian: Aam Sudrajat (Indonesia)
   * Irish: Maurice O'Reilly (Ireland)
-  * Italian: Alessandra Tomasi, Simona Riva (Italy)
+  * Italian: Simona Riva, Alessandra Tomasi (Italy)
   * Japanese: Akihito Wachi, Kazuhiro Hasegawa (Japan)
   * Kazakh: Talgat Bainazarov (Kazakhstan)
   * Korean: Kyeong-Sik Choi (Korea)
