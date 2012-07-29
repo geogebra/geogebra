@@ -2224,7 +2224,7 @@ public interface MenuConstants extends ConstantsWithLookup {
     @DefaultStringValue("Algebra")
     String Type_Algebra();
 
-    @DefaultStringValue("CAS Specific Commands")
+    @DefaultStringValue("CAS-Specific Syntaxes")
     String Type_CAS();
 
     @DefaultStringValue("Chart")
