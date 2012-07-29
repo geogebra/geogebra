@@ -23,6 +23,9 @@ public abstract class SpreadsheetTableModel implements View {
 	private App app;
 	private int highestUsedColumn = -1;
 	private int highestUsedRow = -1;
+	
+	/** tells that it's initing */
+	protected boolean isIniting = true;
 
 	/***************************************************
 	 * Constructor
@@ -36,6 +39,7 @@ public abstract class SpreadsheetTableModel implements View {
 	 */
 	public SpreadsheetTableModel(App app, int rows,
 			int columns) {
+		isIniting=true;
 		this.app = app;
 	}
 
@@ -166,6 +170,8 @@ public abstract class SpreadsheetTableModel implements View {
 
 	public void update(GeoElement geo) {
 		GPoint location = geo.getSpreadsheetCoords();
+
+		
 		if (location != null && location.x < Kernel.MAX_SPREADSHEET_COLUMNS
 				&& location.y < Kernel.MAX_SPREADSHEET_ROWS) {
 
@@ -190,6 +196,13 @@ public abstract class SpreadsheetTableModel implements View {
 				app.getTraceManager().addSpreadsheetTraceGeo(geo);
 			}
 		}
+
+		// trace value
+		if (!isIniting && geo.getSpreadsheetTrace()) {
+			app.getTraceManager().traceToSpreadsheet(geo);
+		}
+		
+		
 	}
 
 	public void clearView() {

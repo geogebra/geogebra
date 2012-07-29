@@ -33,6 +33,7 @@ public class SpreadsheetTableModelD extends SpreadsheetTableModel {
 		super(app, rows, columns);
 		defaultTableModel = new DefaultTableModel(rows, columns);
 		attachView();
+		isIniting=false;
 	}
 
 	/**

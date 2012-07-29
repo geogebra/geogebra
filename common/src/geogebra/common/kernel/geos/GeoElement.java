@@ -3375,12 +3375,7 @@ public abstract class GeoElement extends ConstructionElement implements
 			correspondingCasCell.setInputFromTwinGeo();
 		}
 
-		// G.Sturr 2010-6-26
-		if (getSpreadsheetTrace() && app.isUsingFullGui()) {
-			app.traceToSpreadsheet(this);
 
-		}
-		// END G.Sturr
 
 		// texts need updates
 		algebraStringsNeedUpdate();

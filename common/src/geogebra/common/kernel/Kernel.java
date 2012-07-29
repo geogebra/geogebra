@@ -3367,10 +3367,14 @@ public class Kernel {
 
 	public final void notifyUpdate(GeoElement geo) {
 		if (collectNotifyUpdateStartingGeo != null) {
-//			if (collectNotifyUpdateSet.contains(geo))
-//				System.out.println("  ALREADY COLLECTED UPDATE: " + geo);
-			collectNotifyUpdateSet.add(geo);			
-			return;
+			if (!readingCollectNotifyUpdateSet){
+				//			if (collectNotifyUpdateSet.contains(geo))
+				//				System.out.println("  ALREADY COLLECTED UPDATE: " + geo);
+				collectNotifyUpdateSet.add(geo);			
+				return;
+			}
+			
+			//App.printStacktrace("notifyUpdate " + geo);
 		}
 		
 		if (notifyViewsActive) {
@@ -3399,13 +3403,16 @@ public class Kernel {
 //		System.out.println("\nSTART collecting updates:  " + startGeo);
 	}
 	
+	private boolean readingCollectNotifyUpdateSet = false;
+	
 	/**
 	 * Stops collecting calls of notifyUpdate(). The views are notified about all updates by geos since startCollectingNotifyUpdate() was called.
 	 * @param startGeo: initiating GeoElement. Note: this must be the same geo as used in startCollectingNotifyUpdate
 	 */
 	public final void stopCollectingNotifyUpdate(GeoElement startGeo) {
 		if (collectNotifyUpdateStartingGeo != startGeo) return;
-						
+							
+		readingCollectNotifyUpdateSet = true;
 		for (GeoElement geo : collectNotifyUpdateSet) {
 //			System.out.println("   update: " + geo);
 			for (int i = 0; i < viewCnt; ++i) {
@@ -3415,6 +3422,8 @@ public class Kernel {
 		
 		collectNotifyUpdateStartingGeo = null;
 		collectNotifyUpdateSet.clear();
+		
+		readingCollectNotifyUpdateSet=false;
 				
 //		System.out.println("STOPPED collecting updates  " + startGeo);
 	}

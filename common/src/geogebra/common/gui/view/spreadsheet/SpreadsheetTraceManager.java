@@ -73,6 +73,7 @@ public class SpreadsheetTraceManager {
 
 	/** Add a geo to the trace collection */
 	public void addSpreadsheetTraceGeo(GeoElement spreadsheetTraceable) {
+		
 		SpreadsheetTraceSettings t = spreadsheetTraceable.getTraceSettings();
 		Construction cons = app.getKernel().getConstruction();
 
@@ -411,7 +412,7 @@ public class SpreadsheetTraceManager {
 	 * 
 	 */
 	public void traceToSpreadsheet(GeoElement geo) {
-
+		
 		// stop spurious numbers after undo
 		if (kernel.isViewReiniting())
 			return;
@@ -686,7 +687,7 @@ public class SpreadsheetTraceManager {
 		}
 
 		cell.setAuxiliaryObject(true);
-		cell.updateCascade();
+		//cell.updateCascade();
 	}
 
 	// ======================================
