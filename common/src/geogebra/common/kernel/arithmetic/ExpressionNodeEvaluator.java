@@ -280,7 +280,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			if (lt.isListValue() && rt.isListValue()) {
 				return new MyBoolean(kernel, MyList.listContains(
 						((ListValue) rt).getMyList(),
-						((ListValue) lt).getMyList()));
+						((ListValue) lt).getMyList(), tpl));
 			}
 			str = new String[]{ "IllegalListOperation", lt.toString(errorTemplate),
 					strIS_SUBSET_OF, rt.toString(errorTemplate) };

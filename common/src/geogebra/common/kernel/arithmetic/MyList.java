@@ -839,9 +839,10 @@ public class MyList extends ValidExpression implements ListValue,
 	/**
 	 * @param list1 haystack
 	 * @param list2 list of needles
+	 * @param tpl 
 	 * @return true iff list2 is subset of list1
 	 */
-	public static boolean listContains(MyList list1, MyList list2) {
+	public static boolean listContains(MyList list1, MyList list2, StringTemplate tpl) {
 		if (list2.size() == 0) {
 			// the empty set is a subset of all sets
 			return true; 
@@ -852,10 +853,10 @@ public class MyList extends ValidExpression implements ListValue,
 		//	return false;
 
 		for (int i = 0; i < list2.size(); i++) {
-			ExpressionValue ev2 = list2.getListElement(i).evaluate(StringTemplate.defaultTemplate);
+			ExpressionValue ev2 = list2.getListElement(i).evaluate(tpl);
 			boolean hasEqualMember = false;
 			for (int j = 0; j < list1.size(); j++) {
-				ExpressionValue ev1 = list1.getListElement(j).evaluate(StringTemplate.defaultTemplate);
+				ExpressionValue ev1 = list1.getListElement(j).evaluate(tpl);
 
 				if (ExpressionNode.isEqual(ev1, ev2)) {
 					hasEqualMember = true;
