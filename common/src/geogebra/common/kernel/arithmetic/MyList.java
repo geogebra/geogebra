@@ -839,7 +839,7 @@ public class MyList extends ValidExpression implements ListValue,
 	/**
 	 * @param list1 haystack
 	 * @param list2 list of needles
-	 * @param tpl 
+	 * @param tpl string template
 	 * @return true iff list2 is subset of list1
 	 */
 	public static boolean listContains(MyList list1, MyList list2, StringTemplate tpl) {

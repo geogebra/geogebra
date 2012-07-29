@@ -7,7 +7,6 @@ import java.util.TreeSet;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
-import geogebra.common.kernel.VarString;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.kernel.geos.GeoDummyVariable;
@@ -341,12 +340,12 @@ public interface Traversing {
 		}
 	}
 	/**
-	 * Collects all function variables
+	 * Expands f as f(x) or f(x,y) in CAS
 	 * @author zbynek
 	 */
 	public class FunctionExpander implements Traversing {
 		
-		private ExpressionValue expand(GeoElement geo){
+		private static ExpressionValue expand(GeoElement geo){
 			if(geo instanceof GeoFunction)
 				return new ExpressionNode(geo.getKernel(),geo,Operation.FUNCTION,((GeoFunction)geo).getFunctionVariables()[0]);
 			if(geo instanceof GeoCasCell && ((GeoCasCell)geo).getInputVE() instanceof FunctionNVar){
@@ -387,8 +386,7 @@ public interface Traversing {
 		private static FunctionExpander collector = new FunctionExpander();
 		/**
 		 * Resets and returns the collector
-		 * @param commands set into which we want to collect the commands
-		 * @return derivative collector
+		 * @return function expander
 		 */
 		public static FunctionExpander getCollector(){		
 			return collector;

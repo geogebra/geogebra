@@ -973,7 +973,9 @@ public class MyDouble extends ValidExpression implements NumberValue,
 		App.warn("shouldn't get here");
 		return null;
 	}
-
+	/**
+	 * @return fractional part using Wolfram's convention (fractionalPart(-0.6)=-0.6)
+	 */
 	public ExpressionValue fractionalPart() {
 		return new MyDouble(kernel,val>0?val-Math.floor(val):val-Math.ceil(val));
 	}

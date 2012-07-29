@@ -173,7 +173,7 @@ public class Inequality {
 				lineBorder.setCoords(GeoConic.evalCoeff(evs, 1, 0),GeoConic.evalCoeff(evs, 0, 1),GeoConic.evalCoeff(evs, 0, 0));
 				type = IneqType.INEQUALITY_LINEAR;
 				border = lineBorder;						
-				isAboveBorder = coefY < 0;
+				isAboveBorder = coefY < 0 || coefY==0.0 && coefX>0;
 			}
 			else if(newBorder.degree()==2){
 				if (conicBorder == null)
