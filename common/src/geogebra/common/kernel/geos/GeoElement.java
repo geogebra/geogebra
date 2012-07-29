@@ -3405,8 +3405,6 @@ public abstract class GeoElement extends ConstructionElement implements
 			final GeoGebraCasInterface cas = kernel.getGeoGebraCAS();
 			final String geoStr = toCasAssignment(StringTemplate.get(cas.getCurrentCASstringType()));
 			if (geoStr != null) {
-				// TODO: remove
-				System.out.println("sendValueToCAS: " + geoStr);
 				cas.evaluateRaw(geoStr);
 				return true;
 			}
@@ -3430,8 +3428,14 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * afterwards! synchronized for animation
 	 */
 	public void updateCascade() {
+		// start collecting notify updates as locateables can cause multiple updates, see #2462			
+		kernel.startCollectingNotifyUpdate(this);
+
 		update();
 		updateDependentObjects();
+
+		// stop collecting notify update and tell views
+		kernel.stopCollectingNotifyUpdate(this);
 	}
 
 	private void updateDependentObjects() {
@@ -3494,7 +3498,9 @@ public abstract class GeoElement extends ConstructionElement implements
 	final static public synchronized void updateCascade(
 			final ArrayList<?> geos,
 			final TreeSet<AlgoElement> tempSet1,
-			final boolean updateCascadeAll) {
+			final boolean updateCascadeAll) 
+	{		
+	
 		// only one geo: call updateCascade()
 		if (geos.size() == 1) {
 			final ConstructionElement ce = (ConstructionElement) geos.get(0);
@@ -3507,29 +3513,45 @@ public abstract class GeoElement extends ConstructionElement implements
 		// build update set of all algorithms in construction element order
 		// clear temp set
 		tempSet1.clear();
-
-		final int size = geos.size();
-		for (int i = 0; i < size; i++) {
-			final ConstructionElement ce = (ConstructionElement) geos.get(i);
-			if (ce.isGeoElement()) {
-				final GeoElement geo = (GeoElement) geos.get(i);
-				geo.update();
-
-				if ((geo.isIndependent() || geo.isPointOnPath() || updateCascadeAll)
-						&& (geo.algoUpdateSet != null)) {
-					// add all dependent algos of geo to the overall algorithm
-					// set
-					geo.algoUpdateSet.addAllToCollection(tempSet1);
+		
+		GeoElement firstGeo = null;
+		try {
+			final int size = geos.size();
+			for (int i = 0; i < size; i++) {
+				final ConstructionElement ce = (ConstructionElement) geos.get(i);
+				if (ce.isGeoElement()) {
+					final GeoElement geo = (GeoElement) geos.get(i);
+					
+					if (firstGeo == null) {
+						firstGeo = geo;
+						// start collecting notify updates as locateables can cause multiple updates, see #2462			
+						firstGeo.getKernel().startCollectingNotifyUpdate(firstGeo);										
+					}
+					
+					geo.update();								
+	
+					if ((geo.isIndependent() || geo.isPointOnPath() || updateCascadeAll)
+							&& (geo.algoUpdateSet != null)) {
+						// add all dependent algos of geo to the overall algorithm
+						// set
+						geo.algoUpdateSet.addAllToCollection(tempSet1);
+					}
 				}
 			}
+	
+			// now we have one nice algorithm set that we can update
+			if (tempSet1.size() > 0) {
+				final Iterator<AlgoElement> it = tempSet1.iterator();
+				while (it.hasNext()) {
+					final AlgoElement algo = it.next();
+					algo.update();
+				}
+			}	
 		}
-
-		// now we have one nice algorithm set that we can update
-		if (tempSet1.size() > 0) {
-			final Iterator<AlgoElement> it = tempSet1.iterator();
-			while (it.hasNext()) {
-				final AlgoElement algo = it.next();
-				algo.update();
+		finally {
+			if (firstGeo != null) {
+				// stop collecting notify updates		
+				firstGeo.getKernel().stopCollectingNotifyUpdate(firstGeo);	
 			}
 		}
 	}
@@ -3548,7 +3570,8 @@ public abstract class GeoElement extends ConstructionElement implements
 	 */
 	final static public void updateCascadeUntil(final ArrayList<?> geos,
 			final TreeSet<AlgoElement> tempSet2,
-			final AlgoElement lastAlgo) {
+			final AlgoElement lastAlgo) 
+	{
 		// only one geo: call updateCascade()
 		if (geos.size() == 1) {
 			final ConstructionElement ce = (ConstructionElement) geos.get(0);
@@ -3561,35 +3584,52 @@ public abstract class GeoElement extends ConstructionElement implements
 		// build update set of all algorithms in construction element order
 		// clear temp set
 		tempSet2.clear();
-
-		final int size = geos.size();
-		for (int i = 0; i < size; i++) {
-			final ConstructionElement ce = (ConstructionElement) geos.get(i);
-			if (ce.isGeoElement()) {
-				final GeoElement geo = (GeoElement) geos.get(i);
-				geo.update();
-
-				if ((geo.isIndependent() || geo.isPointOnPath())
-						&& (geo.algoUpdateSet != null)) {
-					// add all dependent algos of geo to the overall algorithm
-					// set
-					geo.algoUpdateSet.addAllToCollection(tempSet2);
+		
+		GeoElement firstGeo = null;
+		try {
+	
+			final int size = geos.size();
+			for (int i = 0; i < size; i++) {
+				final ConstructionElement ce = (ConstructionElement) geos.get(i);
+				if (ce.isGeoElement()) {
+					final GeoElement geo = (GeoElement) geos.get(i);
+					
+					if (firstGeo == null) {
+						firstGeo = geo;
+						// start collecting notify updates as locateables can cause multiple updates, see #2462			
+						firstGeo.getKernel().startCollectingNotifyUpdate(firstGeo);										
+					}
+					
+					geo.update();
+	
+					if ((geo.isIndependent() || geo.isPointOnPath())
+							&& (geo.algoUpdateSet != null)) {
+						// add all dependent algos of geo to the overall algorithm
+						// set
+						geo.algoUpdateSet.addAllToCollection(tempSet2);
+					}
 				}
 			}
-		}
-
-		// now we have one nice algorithm set that we can update
-		if (tempSet2.size() > 0) {
-			final Iterator<AlgoElement> it = tempSet2.iterator();
-			while (it.hasNext()) {
-				final AlgoElement algo = it.next();
-
-				algo.update();
-
-				if (algo == lastAlgo) {
-					return;
+	
+			// now we have one nice algorithm set that we can update
+			if (tempSet2.size() > 0) {
+				final Iterator<AlgoElement> it = tempSet2.iterator();
+				while (it.hasNext()) {
+					final AlgoElement algo = it.next();
+	
+					algo.update();
+	
+					if (algo == lastAlgo) {
+						return;
+					}
+	
 				}
-
+			}		
+		}
+		finally {
+			if (firstGeo != null) {
+				// stop collecting notify updates		
+				firstGeo.getKernel().stopCollectingNotifyUpdate(firstGeo);	
 			}
 		}
 	}

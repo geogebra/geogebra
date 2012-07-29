@@ -129,6 +129,7 @@ import geogebra.common.util.Unicode;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -3365,11 +3366,57 @@ public class Kernel {
 	}
 
 	public final void notifyUpdate(GeoElement geo) {
+		if (collectNotifyUpdateStartingGeo != null) {
+//			if (collectNotifyUpdateSet.contains(geo))
+//				System.out.println("  ALREADY COLLECTED UPDATE: " + geo);
+			collectNotifyUpdateSet.add(geo);			
+			return;
+		}
+		
 		if (notifyViewsActive) {
 			for (int i = 0; i < viewCnt; ++i) {
 				views[i].update(geo);
 			}
+		}	
+
+//		App.printStacktrace("notifyUpdate " + geo);
+	}
+	
+	private HashSet<GeoElement> collectNotifyUpdateSet = new HashSet<GeoElement>();
+	private GeoElement collectNotifyUpdateStartingGeo;
+	
+	/**
+	 * Starts collecting all calls of notifyUpdate(). The views will NOT be notified about updates by geos until stopCollectingNotifyUpdate() is called.
+	 * @param startGeo: initiating GeoElement. Note: use the same geo for stopCollectingNotifyUpdate
+	 */
+	public final void startCollectingNotifyUpdate(GeoElement startGeo) {
+		// make sure we only start once
+		if (collectNotifyUpdateStartingGeo != null) return;
+		
+		collectNotifyUpdateStartingGeo = startGeo;
+		collectNotifyUpdateSet.clear();		
+			
+//		System.out.println("\nSTART collecting updates:  " + startGeo);
+	}
+	
+	/**
+	 * Stops collecting calls of notifyUpdate(). The views are notified about all updates by geos since startCollectingNotifyUpdate() was called.
+	 * @param startGeo: initiating GeoElement. Note: this must be the same geo as used in startCollectingNotifyUpdate
+	 */
+	public final void stopCollectingNotifyUpdate(GeoElement startGeo) {
+		if (collectNotifyUpdateStartingGeo != startGeo) return;
+						
+		for (GeoElement geo : collectNotifyUpdateSet) {
+//			System.out.println("   update: " + geo);
+			for (int i = 0; i < viewCnt; ++i) {
+				views[i].update(geo);				
+			}
 		}
+		
+		collectNotifyUpdateStartingGeo = null;
+		collectNotifyUpdateSet.clear();
+				
+//		System.out.println("STOPPED collecting updates  " + startGeo);
 	}
 
 	public final void notifyUpdateVisualStyle(GeoElement geo) {
