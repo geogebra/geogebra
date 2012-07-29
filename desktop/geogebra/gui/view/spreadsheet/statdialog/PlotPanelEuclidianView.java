@@ -438,6 +438,10 @@ public class PlotPanelEuclidianView extends EuclidianViewD implements
 			}
 		}
 	}
+	
+	public JPopupMenu getContextMenu(){
+		return new ContextMenu();
+	}
 
 	/**
 	 * Sets the list of AbstractActions to be used in the popup context menu.
@@ -457,15 +461,16 @@ public class PlotPanelEuclidianView extends EuclidianViewD implements
 
 		if (actionList == null) {
 			actionList = new ArrayList<AbstractAction>();
-			actionList.add(drawingPadToClipboardAction);
-			actionList.add(exportGraphicAction);
+			
 			if (exportToEVAction != null) {
 				exportToEVAction.putValue(AbstractAction.NAME, getApplication()
 						.getMenu("CopyToGraphics"));
 				exportToEVAction.putValue(AbstractAction.SMALL_ICON,
-						getApplication().getImageIcon("edit-copy.png"));
+						getApplication().getEmptyIcon());
 				actionList.add(exportToEVAction);
 			}
+			actionList.add(drawingPadToClipboardAction);
+			actionList.add(exportGraphicAction);
 		}
 		return actionList;
 	}
@@ -524,7 +529,7 @@ public class PlotPanelEuclidianView extends EuclidianViewD implements
 	 */
 	AbstractAction drawingPadToClipboardAction = new AbstractAction(
 			getApplication().getMenu("CopyToClipboard"), getApplication()
-					.getImageIcon("edit-copy.png")) {
+					.getEmptyIcon()) {
 		private static final long serialVersionUID = 1L;
 
 		public void actionPerformed(ActionEvent e) {

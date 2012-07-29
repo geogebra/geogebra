@@ -293,6 +293,10 @@ public class StatisticsPanel extends JPanel implements StatPanelInterface, Actio
 	}
 
 	public void updatePanel() {
+		if(statTable == null){
+			return;
+		}
+		
 		statTable.updatePanel();
 
 		switch(selectedMode){

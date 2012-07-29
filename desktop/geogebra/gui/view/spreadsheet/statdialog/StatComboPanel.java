@@ -38,6 +38,7 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JSlider;
@@ -152,6 +153,7 @@ StatPanelInterface{
 	private JLabel lblTitleX, lblTitleY;
 	private MyTextField fldTitleX, fldTitleY;
 	private FrequencyTable frequencyTable;
+	private JToggleButton btnExport;
 	
 
 
@@ -193,14 +195,21 @@ StatPanelInterface{
 
 		// create options button
 		optionsButton = new JToggleButton();
-		optionsButton.setIcon(app.getImageIcon("document-properties.png"));
-		optionsButton.setIcon(app.getImageIcon("inputhelp_left_18x18.png"));
-		optionsButton.setSelectedIcon(app.getImageIcon("inputhelp_right_18x18.png"));
+		optionsButton.setIcon(app.getImageIcon("view-properties16.png"));
+		//optionsButton.setSelectedIcon(app.getImageIcon("inputhelp_right_18x18.png"));
 		optionsButton.setBorderPainted(false);
 		optionsButton.setFocusPainted(false);
 		optionsButton.setContentAreaFilled(false);
 		optionsButton.addActionListener(this);
 
+		// create export button
+		btnExport = new JToggleButton();
+		btnExport.setIcon(app.getImageIcon("edit-copy.png"));
+		//optionsButton.setSelectedIcon(app.getImageIcon("inputhelp_right_18x18.png"));
+		btnExport.setBorderPainted(false);
+		btnExport.setFocusPainted(false);
+		btnExport.setContentAreaFilled(false);
+		btnExport.addActionListener(this);
 
 
 		// create control panel 
@@ -225,7 +234,7 @@ StatPanelInterface{
 			controlPanel = new JPanel(new BorderLayout());
 			controlPanel.add(flowPanel(cbDisplayType),BorderLayout.WEST);
 			controlPanel.add(controlCards,BorderLayout.CENTER);
-			controlPanel.add(flowPanelRight(optionsButton),BorderLayout.EAST);
+			controlPanel.add(flowPanelRight(optionsButton, btnExport),BorderLayout.EAST);
 		}
 
 
@@ -821,6 +830,11 @@ StatPanelInterface{
 			optionsPanel.setVisible(optionsButton.isSelected());
 		}
 
+		else if(source == btnExport){
+			JPopupMenu menu = plotPanel.getContextMenu();
+			menu.show(btnExport,- menu.getPreferredSize().width +btnExport.getWidth(),  btnExport.getHeight());
+		}
+
 		else if(source == cbDisplayType){
 			if(cbDisplayType.getSelectedItem().equals(MyRenderer.SEPARATOR)){
 				cbDisplayType.setSelectedItem(plotMap.get(selectedPlot));
@@ -903,7 +917,7 @@ StatPanelInterface{
 	}
 
 	private JPanel flowPanelRight(JComponent... comp){
-		JPanel p = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+		JPanel p = new JPanel(new FlowLayout(0,0,FlowLayout.RIGHT));
 		for(int i = 0; i<comp.length; i++){
 			p.add(comp[i]);
 		}

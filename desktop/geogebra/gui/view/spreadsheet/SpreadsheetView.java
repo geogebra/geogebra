@@ -508,7 +508,7 @@ View, ComponentListener, FocusListener, Gridable, SettingListener, SpreadsheetVi
 		switch(mode){
 		case StatDialog.MODE_ONEVAR:
 			if(oneVarStatDialog == null){
-				oneVarStatDialog = new StatDialog(this, app, mode);
+				oneVarStatDialog = new StatDialog(app, mode);
 			}else{
 				oneVarStatDialog.setLeftToRight(true);
 				oneVarStatDialog.updateDialog(true);
@@ -518,7 +518,7 @@ View, ComponentListener, FocusListener, Gridable, SettingListener, SpreadsheetVi
 
 		case StatDialog.MODE_REGRESSION:
 			if(twoVarStatDialog == null){
-				twoVarStatDialog = new StatDialog(this, app, mode);
+				twoVarStatDialog = new StatDialog(app, mode);
 			}else{
 				twoVarStatDialog.updateDialog(true);
 			}
@@ -527,13 +527,12 @@ View, ComponentListener, FocusListener, Gridable, SettingListener, SpreadsheetVi
 
 		case StatDialog.MODE_MULTIVAR:
 			if(multiVarStatDialog == null){
-				multiVarStatDialog = new StatDialog(this, app, mode);
+				multiVarStatDialog = new StatDialog(app, mode);
 			}else{
 				multiVarStatDialog.updateDialog(true);
 			}
 			multiVarStatDialog.setVisible(true);	
 			break;
-
 
 		}
 

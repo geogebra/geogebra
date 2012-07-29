@@ -33,7 +33,6 @@ public class StatDialogController {
 	private Kernel kernel; 
 	private Construction cons;
 	private MyTableD spreadsheetTable;
-	private SpreadsheetView spView;
 	private StatDialog sd;	
 	private StatGeo statGeo; 
 
@@ -71,13 +70,12 @@ public class StatDialogController {
 	 * @param spView
 	 * @param statDialog
 	 */
-	public StatDialogController(AppD app, SpreadsheetView spView, StatDialog statDialog){
+	public StatDialogController(AppD app, StatDialog statDialog){
 
 		this.app = app;
 		this.kernel = app.getKernel();
 		this.cons = kernel.getConstruction();
-		this.spView = spView;
-		this.spreadsheetTable = (MyTableD) spView.getTable();
+		this.spreadsheetTable = (MyTableD) app.getGuiManager().getSpreadsheetView().getTable();
 		this.sd = statDialog;
 		this.mode = sd.getMode();
 		this.statGeo = sd.getStatGeo();
@@ -112,7 +110,9 @@ public class StatDialogController {
 				else if(mode == StatDialog.MODE_MULTIVAR){
 					success = cr.isMultiVarStatsPossible(rangeList);
 				}
-
+				else if(mode == StatDialog.MODE_GROUPDATA){
+					success = cr.isOneVarStatsPossible(rangeList);
+				}
 				if(success)
 					dataSource = rangeList.clone();	
 			}
@@ -228,6 +228,17 @@ public class StatDialogController {
 					cons.setSuppressLabelCreation(false);
 					break;
 
+					
+			case StatDialog.MODE_GROUPDATA:
+				dataSelected = (GeoList) crProcessor.createList(
+						cellRangeList, 
+						scanByColumn,
+						copyByValue, 
+						isSorted, 
+						doStoreUndo, 
+						GeoClass.NUMERIC, setLabel);
+
+				break;
 			}
 		}	
 
@@ -246,7 +257,8 @@ public class StatDialogController {
 		}
 		
 		// load dataPanel with dataArray
-		if(mode != StatDialog.MODE_MULTIVAR){
+		if(mode != StatDialog.MODE_MULTIVAR &&
+				mode != StatDialog.MODE_GROUPDATA){
 			sd.getDataPanel().loadDataTable(dataArray);
 		}
 	}
@@ -394,7 +406,9 @@ public class StatDialogController {
 		sd.comboStatPanel.updatePlot(doCreateGeo);
 		if(sd.comboStatPanel2 != null)
 			sd.comboStatPanel2.updatePlot(doCreateGeo);
-		sd.statisticsPanel.updatePanel();
+		if(sd.statisticsPanel != null){
+			sd.statisticsPanel.updatePanel();
+		}
 
 	}
 

@@ -46,7 +46,6 @@ SpecialNumberFormatInterface {
 	// ggb 
 	private AppD app;
 	private Kernel kernel; 
-	private SpreadsheetView spView;	
 	private StatGeo statGeo;
 	private StatDialogController sdc;
 
@@ -54,7 +53,8 @@ SpecialNumberFormatInterface {
 	public static final int MODE_ONEVAR = 0;
 	public static final int MODE_REGRESSION = 1;
 	public static final int MODE_MULTIVAR = 2;
-	private int mode;
+	public static final int MODE_GROUPDATA = 3;
+	private int mode = MODE_ONEVAR;
 
 
 	// flags
@@ -134,18 +134,17 @@ SpecialNumberFormatInterface {
 	/*************************************************
 	 * Construct the dialog
 	 */
-	public StatDialog(SpreadsheetView spView, AppD app, int mode){
+	public StatDialog(AppD app, int mode){
 		super(app.getFrame(),false);
 
 		isIniting = true;
 		this.app = app;
 		this.kernel = app.getKernel();
-		this.spView = spView;
 		this.mode = mode;
 
 		nf = new SpecialNumberFormat(app, this);
 
-		sdc = new StatDialogController(app, spView, this);
+		sdc = new StatDialogController(app, this);
 
 		defaultDialogDimension = new Dimension(700,500);
 
@@ -191,14 +190,20 @@ SpecialNumberFormatInterface {
 			comboStatPanel = new StatComboPanel(this, StatComboPanel.PLOT_MULTIBOXPLOT, mode, true);
 			break;		
 
+		case MODE_GROUPDATA:
+			showComboPanel2 = false;
+			comboStatPanel = new StatComboPanel(this, StatComboPanel.PLOT_HISTOGRAM, mode, true);
+			break;		
+
 		}
 
 
-		// Create StatisticPanel to displays statistics and inference results
+		// Create StatisticPanel to display statistics and inference results
 		// from the current data set
-		statisticsPanel = new StatisticsPanel(app, this);
-		statisticsPanel.setBorder(BorderFactory.createEmptyBorder(4, 2, 2, 2));
-
+		if(mode != MODE_GROUPDATA){
+			statisticsPanel = new StatisticsPanel(app, this);
+			statisticsPanel.setBorder(BorderFactory.createEmptyBorder(4, 2, 2, 2));
+		}
 		// Init the GUI and attach this view to the kernel
 
 		initGUI();
@@ -239,9 +244,7 @@ SpecialNumberFormatInterface {
 		//===========================================
 		// statData panel
 
-		if(mode == MODE_ONEVAR)
-			showStatPanel = true;
-
+		
 		if(mode != MODE_MULTIVAR){					
 			statDataPanel = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, statisticsPanel, null);
 			statDataPanel.setResizeWeight(0.5);
@@ -278,7 +281,7 @@ SpecialNumberFormatInterface {
 		rightButtonPanel.add(btnClose);
 
 		buttonPanel = new JPanel(new BorderLayout());
-		buttonPanel.add(rightButtonPanel, BorderLayout.EAST);
+		//buttonPanel.add(rightButtonPanel, BorderLayout.EAST);
 
 		JPanel plotComboPanel = new JPanel(new BorderLayout());
 		plotComboPanel.add(comboPanelSplit, BorderLayout.CENTER);
@@ -314,8 +317,9 @@ SpecialNumberFormatInterface {
 		//============================================
 		JPanel mainPanel = new JPanel(new BorderLayout());
 		mainPanel.add(displayPanel, BorderLayout.CENTER);
+		mainPanel.add(new StatDialogStyleBar(app,this), BorderLayout.NORTH);
 		mainPanel.add(buttonPanel, BorderLayout.SOUTH);
-
+		
 		getContentPane().add(mainPanel);
 		getContentPane().setPreferredSize(defaultDialogDimension);
 		setResizable(true);
@@ -409,10 +413,38 @@ SpecialNumberFormatInterface {
 
 
 
-
 	//======================================
 	//    Getters/setters
 	//======================================
+
+	
+	public boolean showComboPanel2() {
+		return showComboPanel2;
+	}
+	
+	public boolean showDataPanel() {
+		return showDataPanel;
+	}
+
+	public void setShowDataPanel(boolean isVisible) {
+		if(showDataPanel == isVisible){
+			return;
+		}
+		showDataPanel = isVisible;
+		updateStatDataPanelVisibility();
+	}
+
+	public void setShowStatistics(boolean isVisible){
+		if(showStatPanel == isVisible){
+			return;
+		}
+		showStatPanel = isVisible;
+		updateStatDataPanelVisibility();
+	}
+	
+	public boolean showStatPanel() {
+		return showStatPanel;
+	}
 
 	public String format(double x){
 
@@ -490,7 +522,7 @@ SpecialNumberFormatInterface {
 	//      Handlers for Component Visibility
 	//=================================================
 
-	private void setShowComboPanel2(boolean showComboPanel2){
+	public void setShowComboPanel2(boolean showComboPanel2){
 
 		this.showComboPanel2 = showComboPanel2;
 
@@ -572,7 +604,7 @@ SpecialNumberFormatInterface {
 	}
 
 
-	private void doPrint(){
+	public void doPrint(){
 		new geogebra.export.PrintPreview(app, this, PageFormat.LANDSCAPE).setVisible(true);
 	}
 
