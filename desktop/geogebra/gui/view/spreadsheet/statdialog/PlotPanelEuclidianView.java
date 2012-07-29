@@ -87,11 +87,11 @@ public class PlotPanelEuclidianView extends EuclidianViewD implements
 	 * specific to the parent container, it is injected in the constructor.
 	 * */
 	private AbstractAction exportToEVAction;
-		
+
 	/** DataFlavor for plotPanel drags */
-	public final static DataFlavor plotPanelFlavor = new DataFlavor(DataFlavor.javaJVMLocalObjectMimeType
-			+ ";class=javax.swing.AbstractAction", "plotPanelFlavor");
-	
+	public final static DataFlavor plotPanelFlavor = new DataFlavor(
+			DataFlavor.javaJVMLocalObjectMimeType
+					+ ";class=javax.swing.AbstractAction", "plotPanelFlavor");
 
 	/*************************************************
 	 * Construct the panel
@@ -157,8 +157,7 @@ public class PlotPanelEuclidianView extends EuclidianViewD implements
 	public int getViewID() {
 		return viewID;
 	}
-	
-	
+
 	/**
 	 * Override updateSize() so that our plots stay centered and scaled in a
 	 * resized window.
@@ -181,10 +180,9 @@ public class PlotPanelEuclidianView extends EuclidianViewD implements
 		// using the new scaling factors.
 		setRealWorldCoordSystem(xminTemp, xmaxTemp, yminTemp, ymaxTemp);
 	}
-	
 
 	// ==================================================
-	//           Plot Settings
+	// Plot Settings
 	// =================================================
 
 	/**
@@ -213,8 +211,8 @@ public class PlotPanelEuclidianView extends EuclidianViewD implements
 	public void setEVParams() {
 
 		showGrid(plotSettings.showGrid);
-		setShowAxis(EuclidianViewInterfaceCommon.AXIS_Y, plotSettings.showYAxis,
-				false);
+		setShowAxis(EuclidianViewInterfaceCommon.AXIS_Y,
+				plotSettings.showYAxis, false);
 
 		setAutomaticGridDistance(plotSettings.gridIntervalAuto);
 		if (!plotSettings.gridIntervalAuto) {
@@ -255,12 +253,12 @@ public class PlotPanelEuclidianView extends EuclidianViewD implements
 				1);
 		if (!plotSettings.xAxesIntervalAuto) {
 			setAxesNumberingDistance(plotSettings.xAxesInterval, 0);
-		}else{
+		} else {
 			plotSettings.xAxesInterval = getAxesNumberingDistances()[0];
 		}
 		if (!plotSettings.yAxesIntervalAuto) {
 			setAxesNumberingDistance(plotSettings.yAxesInterval, 1);
-		}else{
+		} else {
 			plotSettings.yAxesInterval = getAxesNumberingDistances()[1];
 		}
 
@@ -274,7 +272,7 @@ public class PlotPanelEuclidianView extends EuclidianViewD implements
 	}
 
 	// ===========================================================
-	//         Component Listener 
+	// Component Listener
 	// ===========================================================
 
 	public void componentHidden(ComponentEvent arg0) {
@@ -294,10 +292,8 @@ public class PlotPanelEuclidianView extends EuclidianViewD implements
 		// ignore
 	}
 
-	
-
 	// ==================================================
-	//             Mouse Listeners
+	// Mouse Listeners
 	// =================================================
 
 	/**
@@ -420,7 +416,7 @@ public class PlotPanelEuclidianView extends EuclidianViewD implements
 	}
 
 	// =============================================
-	//          Context Menu Popup 
+	// Context Menu Popup
 	// =============================================
 
 	/**
@@ -429,6 +425,7 @@ public class PlotPanelEuclidianView extends EuclidianViewD implements
 	 */
 	private class ContextMenu extends JPopupMenu {
 		private static final long serialVersionUID = 1L;
+
 		public ContextMenu() {
 			this.setOpaque(true);
 			setFont(getApplication().getPlainFont());
@@ -438,8 +435,8 @@ public class PlotPanelEuclidianView extends EuclidianViewD implements
 			}
 		}
 	}
-	
-	public JPopupMenu getContextMenu(){
+
+	public JPopupMenu getContextMenu() {
 		return new ContextMenu();
 	}
 
@@ -461,7 +458,7 @@ public class PlotPanelEuclidianView extends EuclidianViewD implements
 
 		if (actionList == null) {
 			actionList = new ArrayList<AbstractAction>();
-			
+
 			if (exportToEVAction != null) {
 				exportToEVAction.putValue(AbstractAction.NAME, getApplication()
 						.getMenu("CopyToGraphics"));
@@ -508,8 +505,7 @@ public class PlotPanelEuclidianView extends EuclidianViewD implements
 							d.setVisible(true);
 
 						} catch (Exception e) {
-							App
-									.debug("GraphicExportDialog not available");
+							App.debug("GraphicExportDialog not available");
 						}
 						getApplication().setDefaultCursor();
 					}
@@ -548,7 +544,7 @@ public class PlotPanelEuclidianView extends EuclidianViewD implements
 	};
 
 	// =====================================================
-	//               Drag and Drop
+	// Drag and Drop
 	// =====================================================
 
 	protected void enableDnD() {
@@ -589,8 +585,6 @@ public class PlotPanelEuclidianView extends EuclidianViewD implements
 		}
 
 	}
-
-
 
 	/**
 	 * Extension of Transferable for exporting PlotPanelEV contents
