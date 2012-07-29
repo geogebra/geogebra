@@ -102,11 +102,7 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 	/** default color for polyhedrons */
 	private static final Color colPolyhedron = geogebra.awt.GColorD.getAwtColor(colPolygon);//new Color(153, 51, 0);
 
-	// quadrics 
-	/** default alpha for quadrics*/
-	public static final float DEFAULT_QUADRIC_ALPHA = 0.75f;
-	/** default color for quadrics */
-	private static final Color colQuadric = new Color(255, 0, 0);
+	
 	/** default alpha for quadrics*/
 	public static final float DEFAULT_QUADRIC_LIMITED_ALPHA = 0.5f;
 	
@@ -282,7 +278,7 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 		// quadric
 		GeoQuadric3D quadric = new GeoQuadric3D(cons);	
 		quadric.setLocalVariableLabel("Quadric");
-		quadric.setObjColor(new geogebra.awt.GColorD(colQuadric));
+		quadric.setObjColor(colQuadric);
 		quadric.setAlphaValue(DEFAULT_QUADRIC_ALPHA);
 		defaultGeoElements.put(DEFAULT_QUADRIC, quadric);
 		
@@ -294,17 +290,12 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 		defaultGeoElements.put(DEFAULT_QUADRIC_LIMITED, limitedQuadric);
 
 		
-		// function n var
-		GeoFunctionNVar function = new GeoFunctionNVar(cons);	
-		function.setLocalVariableLabel("function");
-		function.setObjColor(new geogebra.awt.GColorD(colQuadric));
-		function.setAlphaValue(DEFAULT_QUADRIC_ALPHA);
-		defaultGeoElements.put(DEFAULT_FUNCTION_NVAR, function);
+		
 	
 		// surface
 		GeoSurfaceCartesian3D surface = new GeoSurfaceCartesian3D(cons);	
 		surface.setLocalVariableLabel("surface");
-		surface.setObjColor(new geogebra.awt.GColorD(colQuadric));
+		surface.setObjColor(colQuadric);
 		surface.setAlphaValue(DEFAULT_QUADRIC_ALPHA);
 		defaultGeoElements.put(DEFAULT_SURFACECARTESIAN3D, surface);
 	}
@@ -316,15 +307,14 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 		case POINT3D:
 			if (geo.isIndependent()) {
 				return DEFAULT_POINT3D_FREE;
-			} else {
-				GeoPoint3D p = (GeoPoint3D) geo;
-				if (p.hasPath())
-					return DEFAULT_POINT3D_ON_PATH;	
-				else if (p.hasRegion())
-					return DEFAULT_POINT3D_IN_REGION;				
-				else
-					return DEFAULT_POINT3D_DEPENDENT;
 			}
+			GeoPoint3D p = (GeoPoint3D) geo;
+			if (p.hasPath())
+				return DEFAULT_POINT3D_ON_PATH;	
+			else if (p.hasRegion())
+				return DEFAULT_POINT3D_IN_REGION;				
+			else
+				return DEFAULT_POINT3D_DEPENDENT;
 			
 		case ANGLE3D:
 			return DEFAULT_ANGLE3D;
@@ -332,18 +322,15 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 		case LINE3D: 
 			if (((GeoLine3D)geo).isIntersection())
 				return DEFAULT_LINE3D_INTERSECTION;
-			else
-				return DEFAULT_LINE3D;
+			return DEFAULT_LINE3D;
 		case SEGMENT3D: 
 			if (((GeoSegment3D)geo).isIntersection())
 				return DEFAULT_SEGMENT3D_INTERSECTION;
-			else
-				return DEFAULT_SEGMENT3D;
+			return DEFAULT_SEGMENT3D;
 		case RAY3D: 
 			if (((GeoRay3D)geo).isIntersection())
 				return DEFAULT_RAY3D_INTERSECTION;
-			else
-				return DEFAULT_RAY3D;
+			return DEFAULT_RAY3D;
 		case AXIS3D: 
 			return DEFAULT_AXIS3D;
 		case VECTOR3D: 
@@ -351,8 +338,7 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 		case CONIC3D: 
 			if (((GeoConic3D)geo).isIntersection())
 				return DEFAULT_CONIC3D_INTERSECTION;
-			else
-				return DEFAULT_CONIC3D;
+			return DEFAULT_CONIC3D;
 		case CURVECARTESIAN3D: 
 			return DEFAULT_CURVECARTESIAN3D;	
 		case PLANE3D: 

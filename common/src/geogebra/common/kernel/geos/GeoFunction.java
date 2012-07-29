@@ -315,14 +315,7 @@ public class GeoFunction extends GeoElement implements VarString,
 	 */
 	public void initFunction() {
 		fun.initFunction();
-		//if (fun.isBooleanFunction()) {
-		//	GeoElement ge = cons.getConstructionDefaults().getDefaultGeo(
-		//			ConstructionDefaults.DEFAULT_INEQUALITY_1VAR);
-		//	setVisualStyle(ge);
-		//	setAlphaValue(ge.getAlphaValue());
-		//}
-		
-		
+		//apply inequality style when suitable		
 		setConstructionDefaults();
 	}
 

@@ -30,9 +30,7 @@ import javax.swing.tree.TreePath;
  * Options with the default settings of objects.
  */
 public class OptionsDefaultsD extends OptionsDefaults implements OptionPanelD, TreeSelectionListener,
-		SetLabels {
-	/** */
-	private static final long serialVersionUID = 1L;
+		SetLabels {	
 
 	/**
 	 * An instance of the GeoGebra application.
@@ -75,7 +73,7 @@ public class OptionsDefaultsD extends OptionsDefaults implements OptionPanelD, T
 
 	private DefaultMutableTreeNode textNode, imageNode, booleanNode;
 
-	private DefaultMutableTreeNode listNode, inequalitiesNode;
+	private DefaultMutableTreeNode listNode, inequalitiesNode, functionNVarNode;
 
 	/**
 	 * The class which contains all default objects.
@@ -94,7 +92,7 @@ public class OptionsDefaultsD extends OptionsDefaults implements OptionPanelD, T
 	 * Construct an panel where the user can assign new values to the default
 	 * objects.
 	 * 
-	 * @param app
+	 * @param app application
 	 */
 	public OptionsDefaultsD(AppD app) {
 		this.app = app;
@@ -186,6 +184,7 @@ public class OptionsDefaultsD extends OptionsDefaults implements OptionPanelD, T
 		booleanNode = new DefaultMutableTreeNode();
 		listNode = new DefaultMutableTreeNode();
 		inequalitiesNode = new DefaultMutableTreeNode();
+		functionNVarNode = new DefaultMutableTreeNode();
 
 		rootNode.add(pointsNode);
 		pointsNode.add(pointsFreeNode);
@@ -200,6 +199,7 @@ public class OptionsDefaultsD extends OptionsDefaults implements OptionPanelD, T
 		rootNode.add(conicNode);
 		rootNode.add(conicSectorNode);
 		rootNode.add(functionNode);
+		rootNode.add(functionNVarNode);
 		rootNode.add(polygonNode);
 		rootNode.add(locusNode);
 		rootNode.add(textNode);
@@ -239,6 +239,7 @@ public class OptionsDefaultsD extends OptionsDefaults implements OptionPanelD, T
 		typeToNode.put(conicSectorNode,
 				ConstructionDefaults.DEFAULT_CONIC_SECTOR);
 		typeToNode.put(functionNode, ConstructionDefaults.DEFAULT_FUNCTION);
+		typeToNode.put(functionNVarNode, ConstructionDefaults.DEFAULT_FUNCTION_NVAR);
 		typeToNode.put(polygonNode, ConstructionDefaults.DEFAULT_POLYGON);
 		typeToNode.put(locusNode, ConstructionDefaults.DEFAULT_LOCUS);
 		typeToNode.put(textNode, ConstructionDefaults.DEFAULT_TEXT);
@@ -292,6 +293,7 @@ public class OptionsDefaultsD extends OptionsDefaults implements OptionPanelD, T
 		conicNode.setUserObject(app.getPlain("Conic"));
 		conicSectorNode.setUserObject(app.getPlain("Sector"));
 		functionNode.setUserObject(app.getPlain("Function"));
+		functionNVarNode.setUserObject(app.getPlain("MultivariableFunction"));
 		polygonNode.setUserObject(app.getPlain("Polygon"));
 		locusNode.setUserObject(app.getPlain("Locus"));
 		textNode.setUserObject(app.getPlain("Text"));

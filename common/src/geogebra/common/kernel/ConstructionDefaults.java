@@ -67,9 +67,9 @@ public class ConstructionDefaults {
 	/** default segment*/
 	public static final int DEFAULT_SEGMENT = 21;			
 	/** default inequality*/
-	public static final int DEFAULT_INEQUALITY = 23; 
-	/** default one variable inequality*/
+	public static final int DEFAULT_INEQUALITY = 23;
 	public static final int DEFAULT_INEQUALITY_1VAR = 24;
+	
 	/** default vector*/
 	public static final int DEFAULT_VECTOR = 30;	
 	/** default conic*/
@@ -83,7 +83,9 @@ public class ConstructionDefaults {
 	public static final int DEFAULT_ANGLE = 52;			
 	
 	/** default function*/
-	public static final int DEFAULT_FUNCTION = 60;		
+	public static final int DEFAULT_FUNCTION = 60;
+	/** default multivariable function*/
+	public static final int DEFAULT_FUNCTION_NVAR = 65;	
 	/** default polygon*/
 	public static final int DEFAULT_POLYGON = 70;
 	/** default locus*/
@@ -146,6 +148,11 @@ public class ConstructionDefaults {
 	// lists
 	private static final GColor colList = GeoGebraColorConstants.DARKGREEN; //new Color(0, 110, 0);
 
+	// quadrics 
+		/** default alpha for quadrics*/
+		public static final float DEFAULT_QUADRIC_ALPHA = 0.75f;
+		/** default color for quadrics */
+		public static final GColor colQuadric = geogebra.common.factories.AwtFactory.prototype.newColor(255, 0, 0);
 		
 	/** preview color */
 	public static final GColor colPreview = GColor.darkGray;
@@ -291,19 +298,23 @@ public class ConstructionDefaults {
 		seg.setDefaultGeoType(DEFAULT_SEGMENT);
 		defaultGeoElements.put(DEFAULT_SEGMENT, seg);
 		
-		GeoFunctionNVar inequality = new GeoFunctionNVar(cons);	
+		GeoFunctionNVar inequality = new GeoFunctionNVar(cons);
 		//inequality.setLocalVariableLabel("Inequality");
 		inequality.setObjColor(colInequality);
 		inequality.setAlphaValue(DEFAULT_INEQUALITY_ALPHA);
 		inequality.setDefaultGeoType(DEFAULT_INEQUALITY);
 		defaultGeoElements.put(DEFAULT_INEQUALITY, inequality);
 		
-		GeoFunction inequality1var = new GeoFunction(cons);	
-		//inequality.setLocalVariableLabel("Inequality");
-		inequality1var.setObjColor(colInequality);
-		inequality1var.setAlphaValue(DEFAULT_INEQUALITY_ALPHA);
-		inequality1var.setDefaultGeoType(DEFAULT_INEQUALITY_1VAR);
-		defaultGeoElements.put(DEFAULT_INEQUALITY_1VAR, inequality1var); 
+		GeoFunction inequality1 = new GeoFunction(cons);
+		inequality.setDefaultGeoType(DEFAULT_INEQUALITY_1VAR);
+		defaultGeoElements.put(DEFAULT_INEQUALITY_1VAR, inequality1);
+		
+		// function n var
+				GeoFunctionNVar functionNV = new GeoFunctionNVar(cons);	
+				functionNV.setLocalVariableLabel("function");
+				functionNV.setObjColor(colQuadric);
+				functionNV.setAlphaValue(DEFAULT_QUADRIC_ALPHA);
+				defaultGeoElements.put(DEFAULT_FUNCTION_NVAR, functionNV);
 		
 		
 		
@@ -383,6 +394,7 @@ public class ConstructionDefaults {
 		function.setLocalVariableLabel("Function");
 		function.setObjColor(colFunction);
 		function.setDefaultGeoType(DEFAULT_FUNCTION);
+		function.remove();
 		defaultGeoElements.put(DEFAULT_FUNCTION, function);
 		
 		// locus
@@ -519,7 +531,11 @@ public class ConstructionDefaults {
 			break;
 
 		case FUNCTION_NVAR:
-				type = DEFAULT_INEQUALITY;				
+			if(((GeoFunctionNVar)geo).isBooleanFunction()) {
+				type = DEFAULT_INEQUALITY; 
+			} else {
+				type = DEFAULT_FUNCTION_NVAR;
+			}
 			break;
 		case FUNCTION:
 			if(((GeoFunction)geo).isBooleanFunction()) {

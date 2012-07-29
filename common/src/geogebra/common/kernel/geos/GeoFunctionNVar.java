@@ -74,12 +74,22 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 	}
 	
 	/**
+	 * @param c construction
+	 * @param defaults true to set defaults right away
+	 */
+	public GeoFunctionNVar(Construction c,boolean defaults) {
+		super(c);
+		if(defaults)
+			setConstructionDefaults(); 
+	}
+	
+	/**
 	 * Creates new GeoFunction from Function
 	 * @param c construction
 	 * @param f function to be wrapped
 	 */
 	public GeoFunctionNVar(Construction c, FunctionNVar f) {
-		this(c);		
+		this(c,false);		
 		fun = f;
 		if(fun != null)
 			isInequality = fun.initIneqs(this.getFunctionExpression(),this);
@@ -87,6 +97,7 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 		
 		if (needsLevelOfDetail())
 			levelOfDetail = new LevelOfDetail();
+		setConstructionDefaults();
 	}
 
 	/**
@@ -107,7 +118,7 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 	
 	@Override
 	public String getTypeString() {
-		return isInequality ? "Inequality":"FunctionNVar";
+		return isInequality ? "Inequality":"MultivariableFunction";
 	}
 	
     @Override
