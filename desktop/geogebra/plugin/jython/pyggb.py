@@ -87,12 +87,13 @@ class Interface(PythonScriptInterface):
                     self.show_traceback("Error while running listener for %s" % evt_type)
         if self.handling_event:
             return
-        if target in self.factory._cache or (label and evt_type == 'add'):
+        cached = target in self.factory._cache
+        if cached or (label and evt_type == 'add'):
             element = self.factory.get_element(target)
             try:
                 action = getattr(element, "on" + evt_type)
             except AttributeError:
-                if evt_type == 'add':
+                if evt_type == 'add' and not cached:
                     del self.factory._cache[target]
                 return
         else:
@@ -131,6 +132,7 @@ class Interface(PythonScriptInterface):
 
     def setEventListener(self, geo, evt, code):
         el = self.factory.get_element(geo)
+        print "Setting event listener for", el.label
         if not code.strip():
             try:
                 delattr(el, "on" + evt)
