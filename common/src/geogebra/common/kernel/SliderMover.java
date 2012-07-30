@@ -158,7 +158,7 @@ public class SliderMover extends PathMoverGeneric{
 			}
 
 			// new_param too small
-			else if (curr_param <= min_param) {
+			else if (new_param <= min_param) {
 				// slow down by making smaller steps
 				while (new_param <= min_param && smallerStep()) {
 					new_param = curr_param + step_width;
