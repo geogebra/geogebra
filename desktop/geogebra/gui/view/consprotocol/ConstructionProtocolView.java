@@ -1872,7 +1872,7 @@ public class ConstructionProtocolView extends JPanel implements Printable, Actio
 				if ((icon_column && addIcons) || !icon_column) {
 					int col = table.getColumnModel().getColumn(nCol)
 							.getModelIndex();
-					String str = data.getPlainHTMLAt(nRow, col, thisPath);
+					String str = StringUtil.toHTMLString(data.getPlainHTMLAt(nRow, col, thisPath));
 					sb.append("<td>");
 					if (str.equals(""))
 						sb.append("&nbsp;"); // space
