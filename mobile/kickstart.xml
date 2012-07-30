@@ -23,8 +23,17 @@ your workstation.
 	<property name="mgwt.jar" value="mgwt-1.1.1.jar" />
 	<property name="gwtphonegap.jar" value="gwtphonegap-1.8.1.0.jar" />
 	<property name="lib-gwt-svg-0.5.6.jar" value="lib-gwt-svg" />
+	<property name="gwt-sdk-2.5.0-rc1" value="gwt-sdk" />
 
-	<target name="mobile-developer" depends="mgwt, gwtphonegap, lib-gwt-svg" description="For Eclipse developers: to create mobile builds">
+	<target name="mobile-developer" depends="gwt-sdk, mgwt, gwtphonegap, lib-gwt-svg" description="For Eclipse developers: to create mobile builds">
+	</target>
+
+	<target name="gwt-sdk">
+		<mkdir dir="lib" />
+		<mkdir dir="lib/download" />
+		<get src="http://google-web-toolkit.googlecode.com/files/gwt-2.5.0.rc1.zip" dest="lib/download/gwt-sdk.zip" usetimestamp="true" />
+		<unzip src="lib/download/gwt-sdk.zip" dest="lib">
+		</unzip>
 	</target>
 
 	<target name="mgwt">
