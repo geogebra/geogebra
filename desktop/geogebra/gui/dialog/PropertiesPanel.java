@@ -354,8 +354,6 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 
 		basicTabList.add(showObjectPanel);
 
-		basicTabList.add(selectionAllowed);
-
 		if (!isDefaults)
 			basicTabList.add(labelPanel);
 
@@ -371,7 +369,6 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 		if (!isDefaults)
 			basicTabList.add(bgImagePanel);
 
-		basicTabList.add(absScreenLocPanel);
 		basicTabList.add(comboBoxPanel);
 		if (!isDefaults)
 			basicTabList.add(allowReflexAnglePanel);
@@ -457,8 +454,12 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 			positionTabList.add(startPointPanel);
 			positionTabList.add(cornerPointsPanel);
 
+			positionTabList.add(absScreenLocPanel);
+
 			positionTab = new TabPanel(positionTabList);
 			tabPanelList.add(positionTab);
+			
+
 		}
 
 		// algebra tab
@@ -482,6 +483,8 @@ public class PropertiesPanel extends JPanel implements SetLabels {
 			advancedTabList.add(layerPanel); // Michael Borcherds 2008-02-26
 
 			advancedTabList.add(tooltipPanel);
+
+			advancedTabList.add(selectionAllowed);
 
 			// =================================================
 			// add location panel
