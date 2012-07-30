@@ -68,7 +68,6 @@ public class EuclidianStyleBarW extends HorizontalPanel
 	// button-specific fields
 	// TODO: create button classes so these become internal
 	AlgoTableText tableText;
-	Integer[] lineStyleArray;
 
 	Integer[] pointStyleArray;
 	HashMap<Integer, Integer> lineStyleMap;
@@ -139,10 +138,10 @@ public class EuclidianStyleBarW extends HorizontalPanel
 		for (int i = 0; i < pointStyleArray.length; i++)
 			pointStyleMap.put(pointStyleArray[i], i);
 
-		lineStyleArray = EuclidianView.getLineTypes();
+		EuclidianStyleBarStatic.lineStyleArray = EuclidianView.getLineTypes();
 		lineStyleMap = new HashMap<Integer, Integer>();
-		for (int i = 0; i < lineStyleArray.length; i++)
-			lineStyleMap.put(lineStyleArray[i], i);
+		for (int i = 0; i < EuclidianStyleBarStatic.lineStyleArray.length; i++)
+			lineStyleMap.put(EuclidianStyleBarStatic.lineStyleArray[i], i);
 
 		initGUI();
 		isIniting = false;
@@ -696,10 +695,10 @@ public class EuclidianStyleBarW extends HorizontalPanel
 
 		// create line style icon array
 		final GDimensionW lineStyleIconSize = new GDimensionW(80, iconHeight);
-		ImageData [] lineStyleIcons = new ImageData[lineStyleArray.length];
-		for (int i = 0; i < lineStyleArray.length; i++)
+		ImageData [] lineStyleIcons = new ImageData[EuclidianStyleBarStatic.lineStyleArray.length];
+		for (int i = 0; i < EuclidianStyleBarStatic.lineStyleArray.length; i++)
 			lineStyleIcons[i] = GeoGebraIcon.createLineStyleIcon(
-					lineStyleArray[i], 2, lineStyleIconSize, geogebra.common.awt.GColor.BLACK, null);
+					EuclidianStyleBarStatic.lineStyleArray[i], 2, lineStyleIconSize, geogebra.common.awt.GColor.BLACK, null);
 
 		// create button
 		btnLineStyle = new PopupMenuButton((AppW) app, lineStyleIcons, -1, 1,
@@ -755,7 +754,7 @@ public class EuclidianStyleBarW extends HorizontalPanel
 			public ImageData getButtonIcon() {
 				if (getSelectedIndex() > -1) {
 					return GeoGebraIcon.createLineStyleIcon(
-							lineStyleArray[this.getSelectedIndex()],
+							EuclidianStyleBarStatic.lineStyleArray[this.getSelectedIndex()],
 							this.getSliderValue(), lineStyleIconSize,
 							geogebra.common.awt.GColor.BLACK, null);
 				}
@@ -1461,7 +1460,9 @@ public class EuclidianStyleBarW extends HorizontalPanel
 					ec.getPen().setPenSize(btnLineStyle.getSliderValue());*/
 					App.debug("Not MODE_PEN in EuclidianStyleBar yet");
 				} else {
-					applyLineStyle(targetGeos);
+					int selectedIndex = btnLineStyle.getSelectedIndex();
+					int lineSize = btnLineStyle.getSliderValue();
+					EuclidianStyleBarStatic.applyLineStyle(targetGeos, selectedIndex, lineSize);
 				}
 
 			}
@@ -1500,22 +1501,6 @@ public class EuclidianStyleBarW extends HorizontalPanel
 	// ==============================================
 		// Apply Styles
 		// ==============================================
-
-		private void applyLineStyle(ArrayList<GeoElement> geos) {
-			int lineStyle = lineStyleArray[btnLineStyle.getSelectedIndex()];
-			int lineSize = btnLineStyle.getSliderValue();
-
-			for (int i = 0; i < geos.size(); i++) {
-				GeoElement geo = geos.get(i);
-				if (geo.getLineType() != lineStyle
-						|| geo.getLineThickness() != lineSize) {
-					geo.setLineType(lineStyle);
-					geo.setLineThickness(lineSize);
-					geo.updateRepaint();
-					needUndo = true;
-				}
-			}
-		}
 
 		private void applyPointStyle(ArrayList<GeoElement> geos) {
 			int pointStyle = pointStyleArray[btnPointStyle.getSelectedIndex()];

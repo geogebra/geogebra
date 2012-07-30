@@ -22,6 +22,7 @@ public class EuclidianStyleBarStatic {
 	"|| ||" };
 	public final static String[] bracketArray2 = { "\u00D8", "{ }", "( )", "[ ]",
 	"||", "||||" };
+	public static Integer[] lineStyleArray;
 
 	public static GeoElement applyFixPosition(ArrayList<GeoElement> geos, boolean flag, EuclidianViewInterfaceCommon ev) {
 		GeoElement ret = geos.get(0);
@@ -251,7 +252,24 @@ public class EuclidianStyleBarStatic {
 		return needUndo;
 	}
 
-
+	public static boolean applyLineStyle(ArrayList<GeoElement> geos, int lineStyleIndex, int lineSize) {
+		int lineStyle = lineStyleArray[lineStyleIndex];
+		boolean needUndo = false;
+		
+		for (int i = 0; i < geos.size(); i++) {
+			GeoElement geo = geos.get(i);
+			if (geo.getLineType() != lineStyle
+					|| geo.getLineThickness() != lineSize) {
+				geo.setLineType(lineStyle);
+				geo.setLineThickness(lineSize);
+				geo.updateRepaint();
+				needUndo = true;
+			}
+		}
+		
+		return needUndo;
+	}
+	
 	/**
 	 * process the action performed
 	 * @param actionCommand
