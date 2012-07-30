@@ -438,7 +438,6 @@ public class AppletImplementation implements AppletImplementationInterface {
 		app.setUseBrowserForJavaScript(useBrowserForJavaScript);
 		app.setShowToolBar(showToolBar, showToolBarHelp);
 		app.setRightClickEnabled(enableRightClick);
-		app.setChooserPopupsEnabled(enableChooserPopups);
 		app.setErrorDialogsActive(errorDialogsActive);
 		app.setLabelDragsEnabled(enableLabelDrags);
 		app.setShiftDragZoomEnabled(enableShiftDragZoom);

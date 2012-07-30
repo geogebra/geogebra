@@ -1,5 +1,6 @@
 package geogebra.common.main;
 
+@SuppressWarnings("javadoc")
 public class JavaKeyCodes {
 	 /* Virtual key codes. */
 
@@ -67,14 +68,23 @@ public class JavaKeyCodes {
 
     /** VK_0 thru VK_9 are the same as ASCII '0' thru '9' (0x30 - 0x39) */
     public static final int VK_0              = 0x30;
+    /** VK_0 thru VK_9 are the same as ASCII '0' thru '9' (0x30 - 0x39) */
     public static final int VK_1              = 0x31;
+    /** VK_0 thru VK_9 are the same as ASCII '0' thru '9' (0x30 - 0x39) */
     public static final int VK_2              = 0x32;
+    /** VK_0 thru VK_9 are the same as ASCII '0' thru '9' (0x30 - 0x39) */
     public static final int VK_3              = 0x33;
+    /** VK_0 thru VK_9 are the same as ASCII '0' thru '9' (0x30 - 0x39) */
     public static final int VK_4              = 0x34;
+    /** VK_0 thru VK_9 are the same as ASCII '0' thru '9' (0x30 - 0x39) */
     public static final int VK_5              = 0x35;
+    /** VK_0 thru VK_9 are the same as ASCII '0' thru '9' (0x30 - 0x39) */
     public static final int VK_6              = 0x36;
+    /** VK_0 thru VK_9 are the same as ASCII '0' thru '9' (0x30 - 0x39) */
     public static final int VK_7              = 0x37;
+    /** VK_0 thru VK_9 are the same as ASCII '0' thru '9' (0x30 - 0x39) */
     public static final int VK_8              = 0x38;
+    /** VK_0 thru VK_9 are the same as ASCII '0' thru '9' (0x30 - 0x39) */
     public static final int VK_9              = 0x39;
 
     /**

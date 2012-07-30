@@ -1,5 +1,6 @@
 package geogebra.common.main;
 
+@SuppressWarnings("javadoc")
 public interface GWTKeycodes {
 
 	/**

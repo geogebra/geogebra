@@ -65,20 +65,27 @@ import java.util.MissingResourceException;
 import java.util.Random;
 import java.util.Set;
 import java.util.TreeSet;
-@SuppressWarnings("javadoc")
+
 public abstract class App {
-	protected ScriptManagerCommon scriptManager = null;
-	public static final String LOADING_GIF = "http://www.geogebra.org/webstart/loading.gif";
-
+	/** Script manager */
+	protected ScriptManagerCommon scriptManager = null;	
+	/** True when we are running standalone app or signed applet, false for unsigned applet*/
 	protected static boolean hasFullPermissions = false;
+	/** whether current construction was saved after last changes*/
 	protected boolean isSaved = true;
-
+	/** Url for wiki article about functions*/
 	public static final String WIKI_OPERATORS = "Predefined Functions and Operators";
+	/** Url for main page of manual*/
 	public static final String WIKI_MANUAL = "Manual:Main Page";
+	/** Url for wiki article about CAS*/
 	public static final String WIKI_CAS_VIEW = "CAS_View";
+	/** Url for wiki tutorials*/
 	public static final String WIKI_TUTORIAL = "Tutorial:Main Page";
+	/** Url for wiki article about exporting to HTML*/
 	public static final String WIKI_EXPORT_WORKSHEET = "Export_Worksheet_Dialog";
+	/** Url for wiki article about advanced features (layers, cond. visibility etc.)*/
 	public static final String WIKI_ADVANCED = "Advanced Features";
+	/** Url for wiki article about functions*/
 	public static final String WIKI_TEXT_TOOL = "Insert Text Tool";
 
 	public static final int VIEW_NONE = 0;
@@ -107,35 +114,52 @@ public abstract class App {
 	
 	private SpreadsheetTraceManager traceManager;
 
-	// object is hit if mouse is within this many pixels
-	// (more for points, see DrawPoint)
+	/**
+	 *  object is hit if mouse is within this many pixels
+	 *  (more for points, see geogebra.common.euclidian.DrawPoint)
+	 */
 	public int capturingThreshold = 3;
 	
+	/**
+	 * Whether inputbar should be shown on top
+	 */
 	protected boolean showInputTop = false;
 	
+	/**
+	 * Whether input bar should be visible
+	 */
 	protected boolean showAlgebraInput = true;
+	/**
+	 * Whether input help toggle button should be visible
+	 */
 	protected boolean showInputHelpToggle = true;
 
-	/*
+	/**
+	 * Whether AV should show auxiliary objects
 	 * stored here rather than in algebra view so that it can be set without
 	 * creating an AV (compatibility with 3.2)
 	 */
 	public boolean showAuxiliaryObjects = false;
-	
+	/** whether righ click is enabled */
 	protected boolean rightClickEnabled = true;
-	protected boolean chooserPopupsEnabled = true;
 
 	/** flag to test whether to draw Equations full resolution */
 	public boolean exporting = false;
 
 	private static String CASVersionString = "";
 
-	public static void setCASVersionString(String string) {
+	/**
+	 * @param string CAS version string
+	 */
+	public static final void setCASVersionString(String string) {
 		CASVersionString = string;
 
 	}
 
-	public static String getCASVersionString() {
+	/**
+	 * @return CAS version
+	 */
+	public static final String getCASVersionString() {
 		return CASVersionString;
 
 	}
@@ -253,19 +277,39 @@ public abstract class App {
 		}
 
 	}
-	
+	/**
+	 * @return whether language of command bundle changed since we last updated
+	 *  translation table and directories
+	 */
 	protected abstract boolean isCommandChanged();
+	/**
+	 * @param b whether language of command bundle changed since we last updated 
+	 * translation table and directories
+	 */
 	protected abstract void setCommandChanged(boolean b);
+	/**
+	 * @return whether command translation bundle is null
+	 */
 	protected abstract boolean isCommandNull();
-	
+	/** CAS syntax suffix for keys in command bundle */
 	public final static String syntaxCAS = ".SyntaxCAS";
+	/** 3D syntax suffix for keys in command bundle */
 	public final static String syntax3D = ".Syntax3D";
+	/** syntax suffix for keys in command bundle */
 	public final static String syntaxStr = ".Syntax";
 	
+	/**
+	 * We need this method so that we can override it using more powerful normalizer
+	 * @return new lowercase dictionary
+	 */
 	protected LowerCaseDictionary newLowerCaseDictionary(){
 		return new LowerCaseDictionary(new NormalizerMinimal());
 	}
 	
+	/**
+	 * Fills CAS command dictionary and translation table.
+	 * Must be called before we start using CAS view. 
+	 */
 	public void fillCasCommandDict() {
 		// this method might get called during initialization, when we're not
 		// yet
@@ -309,6 +353,9 @@ public abstract class App {
 
 	}
 	
+	/**
+	 * @return command dictionary for CAS
+	 */
 	public final LowerCaseDictionary getCommandDictionaryCAS() {
 		fillCommandDict();
 		fillCasCommandDict();
@@ -318,6 +365,7 @@ public abstract class App {
 	/**
 	 * Returns an array of command dictionaries corresponding to the categorized
 	 * sub command sets created in CommandDispatcher.
+	 * @return command dictionaries corresponding to the categories
 	 */
 	public final LowerCaseDictionary[] getSubCommandDictionary() {
 
@@ -341,13 +389,24 @@ public abstract class App {
 			kernel.updateLocalAxesNames();
 		}
 	}
+	/**
+	 * @return command dictionary
+	 */
 	public final LowerCaseDictionary getCommandDictionary() {
 		fillCommandDict();
 		return commandDict;
 	}
 	
+	/**
+	 * Initialize the command bundle 
+	 * (not needed in Web)
+	 */
 	public abstract void initCommand();
 	
+	/**
+	 * Fill command dictionary and translation table.
+	 * Must be called before we start using Input Bar.
+	 */
 	protected void fillCommandDict() {
 		initCommand();
 
@@ -442,6 +501,8 @@ public abstract class App {
 	/**
 	 * translate command name to internal name. Note: the case of localname is
 	 * NOT relevant
+	 * @param localname local name
+	 * @return internal name
 	 */
 	final public String translateCommand(String localname) {
 		if (localname == null) {
@@ -467,11 +528,17 @@ public abstract class App {
 	}
 
 	
+	/**
+	 * Updates command dictionary
+	 */
 	public void updateCommandDictionary() {
 		// make sure all macro commands are in dictionary
 		fillCommandDict();
 	}
 	
+	/**
+	 * Adds macro commands to the dictionary
+	 */
 	protected void addMacroCommands() {
 		if ((commandDict == null) || (kernel == null) || !kernel.hasMacros()) {
 			return;
@@ -487,6 +554,9 @@ public abstract class App {
 	}
 	
 
+	/**
+	 * Remove macros from command dictionary
+	 */
 	public void removeMacroCommands() {
 		if ((commandDict == null) || (kernel == null) || !kernel.hasMacros()) {
 			return;
@@ -508,9 +578,19 @@ public abstract class App {
 	public abstract String getScriptingCommand(String internal);
 
 
-	public abstract String getCommand(String cmdName);
+	/**
+	 * Gets translation from "command" bundle
+	 * @param key key
+	 * @return translation of given key
+	 */
+	public abstract String getCommand(String key);
 
-	public abstract String getPlain(String cmdName);
+	/**
+	 * Gets translation from "plain" bundle
+	 * @param key key
+	 * @return translation of given key
+	 */
+	public abstract String getPlain(String key);
 
 	/**
 	 * 
@@ -857,25 +937,35 @@ public abstract class App {
 	private boolean blockUpdateScripts = false;
 
 
-
+	/**
+	 * Translates localized command name into internal
+	 * TODO check whether this differs from translateCommand somehow and either document it
+	 * or remove this method
+	 * @param s localized command name
+	 * @return internal command name
+	 */
 	public abstract String getInternalCommand(String s);
 
+	/**
+	 * Show error dialog wiith given text
+	 * @param s error message
+	 */
 	public abstract void showError(String s);
 
 
 
 	private boolean useBrowserForJavaScript = true;
 
-	/*
-	 * desktop: determines whether Rhino will be used (false) or the browser (true)
+	/**
+	 * @param useBrowserForJavaScript desktop: determines whether Rhino will be used (false) or the browser (true)
 	 * web: determines whether JS scripting allowed (true) or not (false)
 	 */
 	public void setUseBrowserForJavaScript(boolean useBrowserForJavaScript) {
 		this.useBrowserForJavaScript = useBrowserForJavaScript;
 	}
 
-	/*
-	 * desktop: determines whether Rhino will be used (false) or the browser (true)
+	/**
+	 * @return desktop: determines whether Rhino will be used (false) or the browser (true)
 	 * web: determines whether JS scripting allowed (true) or not (false)
 	 */
 	public boolean useBrowserForJavaScript() {
@@ -886,22 +976,41 @@ public abstract class App {
 		getScriptManager().initJavaScriptViewWithoutJavascript();
 	}
 
+	/**
+	 * @return script manager
+	 */
 	public abstract ScriptManagerCommon getScriptManager();
 
+	//TODO: move following methods somewhere else
+	/**
+	 * @param ge geo
+	 * @return trace-related XML elements
+	 */
 	final public String getTraceXML(GeoElement ge) {
 		return getTraceManager().getTraceXML(ge);
 	}
 	
+	/**
+	 * Start tracing geo to spreadsheet
+	 * @param ge geo
+	 * 
+	 */
 	public void traceToSpreadsheet(GeoElement ge) {
 		getTraceManager().traceToSpreadsheet(ge);
 	}
 
+	/**
+	 * Reset tracing column for given geo
+	 * @param ge geo
+	 */
 	public void resetTraceColumn(GeoElement ge) {
 		getTraceManager().setNeedsColumnReset(ge, true);
 	}
 
-
-	
+	/**
+	 * Updates the counter of used layers
+	 * @param layer layer to which last element was added
+	 */
 	public void updateMaxLayerUsed(int layer) {
 		int newLayer=layer;
 		if (layer > EuclidianStyleConstants.MAX_LAYERS) {
@@ -912,12 +1021,18 @@ public abstract class App {
 		}
 	}
 	
+	/**
+	 * @return whether this is a 3D app or not
+	 */
 	public boolean is3D() {
 		return false;
 	}
 	
-	String[] fontSizeStrings = null;
+	private	String[] fontSizeStrings = null;
 
+	/**
+	 * @return localized strings describing font sizes (very small, smaall, ...)
+	 */
 	public String[] getFontSizeStrings() {
 		if (fontSizeStrings == null) {
 			fontSizeStrings = new String[] { getPlain("ExtraSmall"),
@@ -931,6 +1046,9 @@ public abstract class App {
 	
 	/* selection handling */
 
+	/**
+	 * @return last created GeoElement
+	 */
 	final public GeoElement getLastCreatedGeoElement() {
 		return kernel.getConstruction().getLastGeoElement();
 	}
@@ -968,8 +1086,10 @@ public abstract class App {
 			return strDecimalSpaces;
 		}
 		
-		/*
+		/**
 		 * in French, zero is singular, eg 0 dcimale rather than 0 decimal places
+		 * @param lang language code
+		 * @return whether 0 is plural
 		 */
 		public boolean isZeroPlural(String lang) {
 			if (lang.startsWith("fr")) {
@@ -980,6 +1100,9 @@ public abstract class App {
 		
 		
 
+		/**
+		 * Rounding menu options (not internationalized)
+		 */
 		final public static String[] strDecimalSpacesAC = { "0 decimals",
 				"1 decimals", "2 decimals", "3 decimals", "4 decimals",
 				"5 decimals", "10 decimals", "15 decimals", "", "3 figures",
@@ -987,6 +1110,9 @@ public abstract class App {
 
 		// Rounding Menus end
 
+		/**
+		 * Deletes selected objects
+		 */
 		public void deleteSelectedObjects() {
 			if (letDelete()) {
 				Object[] geos = getSelectedGeos().toArray();
@@ -1016,9 +1142,9 @@ public abstract class App {
 
 
 	/**
-	 * geos must contain GeoElement objects only.
+	 * Clears selction and selects given geos.
 	 * 
-	 * @param geos
+	 * @param geos geos
 	 */
 	final public void setSelectedGeos(ArrayList<GeoElement> geos) {
 		clearSelectedGeos(false);
@@ -1032,6 +1158,9 @@ public abstract class App {
 		updateSelection();
 	}
 	
+	/**
+	 * Selects the first geo in the construction
+	 */
 	final public void setFirstGeoSelectedForPropertiesView(){
 		GeoElement geo = getKernel().getFirstGeo();
 		if (geo==null)
@@ -1067,9 +1196,10 @@ public abstract class App {
 		return layer;
 	}
 	
-	/*
-	 * Michael Borcherds 2008-03-03 modified to select all of a layer pass
-	 * layer==-1 to select all objects
+	/**
+	 * Selects all geos in given layer
+	 * @param layer 0 - 9 for particular layer, -1 for all layers
+	 * (Michael Borcherds, 2008-03-03)
 	 */
 	final public void selectAll(int layer) {
 		clearSelectedGeos(false);
@@ -1086,6 +1216,9 @@ public abstract class App {
 		updateSelection();
 	}
 
+	/**
+	 * Select objects that were not selected so far and vice versa.
+	 */
 	final public void invertSelection() {
 
 		Iterator<GeoElement> it = kernel.getConstruction()
@@ -1102,6 +1235,9 @@ public abstract class App {
 		updateSelection();
 	}
 
+	/**
+	 * Select all predecessors of all selected geos
+	 */
 	final public void selectAllPredecessors() {
 
 		for (int i = 0; i < selectedGeos.size(); i++) {
@@ -1116,6 +1252,9 @@ public abstract class App {
 		updateSelection();
 	}
 
+	/**
+	 * Invert visibility of all selected objects
+	 */
 	final public void showHideSelection() {
 
 		for (int i = 0; i < selectedGeos.size(); i++) {
@@ -1127,6 +1266,9 @@ public abstract class App {
 		updateSelection();
 	}
 
+	/**
+	 * Invert visibility of labels of all selected objects
+	 */
 	final public void showHideSelectionLabels() {
 
 		for (int i = 0; i < selectedGeos.size(); i++) {
@@ -1138,10 +1280,16 @@ public abstract class App {
 		updateSelection();
 	}
 
+	/**
+	 * @return whether auxiliary objects are shown in AV
+	 */
 	public boolean showAuxiliaryObjects() {
 		return showAuxiliaryObjects;
 	}
 
+	/**
+	 * Selects descendants of all visible objects
+	 */
 	final public void selectAllDescendants() {
 
 		for (int i = 0; i < selectedGeos.size(); i++) {
@@ -1156,6 +1304,10 @@ public abstract class App {
 		updateSelection();
 	}
 	
+	/**
+	 * Append XML describing the keyboard to given string builder
+	 * @param sb string builder
+	 */
 	public void getKeyboardXML(StringBuilder sb) {
 		sb.append("<keyboard width=\"");
 		sb.append(getSettings().getKeyboard().getKeyboardWidth());
@@ -1182,10 +1334,12 @@ public abstract class App {
 	 */
 	StringBuilder sbOrdinal;
 
-	/*
+	/**
 	 * given 1, return eg 1st, 1e, 1:e according to the language
 	 * 
 	 * http://en.wikipedia.org/wiki/Ordinal_indicator
+	 * @param n number
+	 * @return corresponding ordinal number
 	 */
 	public String getOrdinalNumber(int n) {
 		String lang = getLanguage();
@@ -1281,6 +1435,8 @@ public abstract class App {
 	 * given 1, return eg 1st (English only)
 	 * 
 	 * http://en.wikipedia.org/wiki/Ordinal_indicator
+	 * @param n number
+	 * @return english ordinal number
 	 */
 	public String getOrdinalNumberEn(int n) {
 		/*
@@ -1331,6 +1487,7 @@ public abstract class App {
 	 * 
 	 * Calls {@link #updateReverseLanguage(Locale)} to apply the change, but
 	 * just if the new flag differs from the current.
+	 * @param useLocalizedDigits whether localized digits should be used
 	 */
 	public void setUseLocalizedDigits(boolean useLocalizedDigits) {
 		if (this.useLocalizedDigits == useLocalizedDigits) {
@@ -1346,11 +1503,14 @@ public abstract class App {
 			euclidianView.updateBackground();
 		}
 	}
-	// for Basque and Hungarian you have to say "A point" instead of "point A"
+
 		private boolean reverseNameDescription = false;
 		private boolean isAutoCompletePossible = true;
 
-		
+		/**
+		 * For Basque and Hungarian you have to say "A point" instead of "point A"
+		 * @return whether current alnguage needs revverse order of type and name
+		 */
 		final public boolean isReverseNameDescriptionLanguage() {
 			// for Basque and Hungarian
 			return reverseNameDescription;
@@ -1456,26 +1616,42 @@ public abstract class App {
 			}
 		}
 	}
-
+	/**
+	 * @return the maximal currently used layer
+	 */
 	public int getMaxLayerUsed() {
 		return maxLayerUsed;
 	}
 
 	
+	/**
+	 * @param min real world x min
+	 * @param max real world x max
+	 * @return number of pixels in EV1 between given x coordinates
+	 */
 	public double countPixels(double min, double max) {
 		EuclidianView ev = getEuclidianView1();
 		return ev.toScreenCoordXd(max) - ev.toScreenCoordXd(min);
 	}
 
 
+	/**
+	 * @return algebra view
+	 */
 	public abstract AlgebraView getAlgebraView();
 
 	
+	/**
+	 * @return EV1
+	 */
 	public EuclidianView getEuclidianView1(){
 		notice("AbstrEuclView");
 		return euclidianView;
 	}
 	
+	/**
+	 * Resets the maximal used llayer to 0
+	 */
 	public void resetMaxLayerUsed() {
 		maxLayerUsed = 0;
 	}
@@ -1490,27 +1666,55 @@ public abstract class App {
 		}
 	}
 	
+	/**
+	 * @return whether 3D view was initialized
+	 */
 	public boolean hasEuclidianView3D() {
 		return false;
 	}
 
+	/**
+	 * @return 3D view
+	 */
 	public EuclidianViewInterfaceCommon getEuclidianView3D() {
 		return null;
 	}
 
+	/**
+	 * @return whether EV2 was initialized
+	 */
 	public abstract boolean hasEuclidianView2EitherShowingOrNot();
 
+	/**
+	 * @return whether EV2 is visible
+	 */
 	public abstract boolean isShowingEuclidianView2();
 
+	/**
+	 * @return image manager
+	 */
 	public abstract AbstractImageManager getImageManager();
 	
+	/**
+	 * @return gui manager (it's null in minimal applets)
+	 */
 	public abstract GuiManager getGuiManager();
 	
+	/**
+	 * @return dialog manager
+	 */
 	public abstract DialogManager getDialogManager();
 
+	/**
+	 * Initializes GUI manager
+	 */
 	protected abstract void initGuiManager();
 
-	// Michael Borcherds 2008-06-22
+	/**
+	 * Prints a stacktrace (used for debugging)
+	 * @author Michael Borcherds
+	 * @param message message to appear on top of the stacktrace
+	 */
 	public static void printStacktrace(String message) {
 		try {
 			throw new Exception(message);
@@ -1530,6 +1734,11 @@ public abstract class App {
 			}
 	}
 	
+	/**
+	 * Prints debugging message, level DEBUG
+	 * Special debugging format is used for expression values
+	 * @param s object to be printed
+	 */
 	public static void debug(Object s) {
 		if(s instanceof ExpressionValue){
 			debug(ValidExpression.debugString((ExpressionValue)s));
@@ -1542,54 +1751,84 @@ public abstract class App {
 		}
 	}
 
+	/**
+	 * Prints debugging message, level DEBUG
+	 * @param message message to be printed
+	 */
 	public static void debug(String message) {
 		if (logger != null) {
 			logger.log(logger.DEBUG, message);
 		}
 	}
 
+	/**
+	 * Prints debugging message, level NOTICE
+	 * @param message message to be printed
+	 */
 	public static void notice(String message) {
 		if (logger != null) {
 			logger.log(logger.NOTICE, message);
 			}
 	}
-
+	/**
+	 * Prints debugging message, level INFO
+	 * @param message message to be printed
+	 */
 	public static void info(String message) {
 		if (logger != null) {
 			logger.log(logger.INFO, message);
 			}
 	}
-
+	/**
+	 * Prints debugging message, level ERROR
+	 * @param message message to be printed
+	 */
 	public static void error(String message) {
 		if (logger != null) {
 			logger.log(logger.ERROR, message);
 			}
 	}
-
+	/**
+	 * Prints debugging message, level WARN
+	 * @param message message to be printed
+	 */
 	public static void warn(String message) {
 		if (logger != null) {
 			logger.log(logger.WARN, message);
 			}
 	}
-
+	/**
+	 * Prints debugging message, level EMERGENCY
+	 * @param message message to be printed
+	 */
 	public static void emergency(String message) {
 		if (logger != null) {
 			logger.log(logger.EMERGENCY, message);
 			}
 	}
 
+	/**
+	 * Prints debugging message, level ALERT
+	 * @param message message to be printed
+	 */
 	public static void alert(String message) {
 		if (logger != null) {
 			logger.log(logger.ALERT, message);
 			}
 	}
-
+	/**
+	 * Prints debugging message, level TRACE
+	 * @param message message to be printed
+	 */
 	public static void trace(String message) {
 		if (logger != null) {
 			logger.log(logger.TRACE, message);
 			}
 	}
-
+	/**
+	 * Prints debugging message, level CRITICAL
+	 * @param message message to be printed
+	 */
 	public static void critical(String message) {
 		if (logger != null) {
 			logger.log(logger.CRITICAL, message);
@@ -1599,14 +1838,25 @@ public abstract class App {
 	public static GeoGebraLogger logger;
 	public static SingularWebService singularWS;
 
+	/**
+	 * Whether we are running on Mac
+	 * @return whether we are running on Mac
+	 */
 	public boolean isMacOS() {
 		return false;
 	}
 
+	/**
+	 * Whether we are running on Windows
+	 * @return whether we are running on Windows
+	 */
 	public boolean isWindows() {
 		return false;
 	}
-
+	/**
+	 * Whether we are running on Windows Vista or later
+	 * @return whether we are running on Windows Vista or later
+	 */
 	public boolean isWindowsVistaOrLater() {
 		return false;
 	}
@@ -1686,17 +1936,15 @@ public abstract class App {
 	}
 
 	
-	public static boolean isMiniPropertiesActive() {
-		return miniPropertiesActive;
-	}
-
-	public static void setMiniPropertiesActive(boolean active) {
-		miniPropertiesActive = active;
-		// Application.debug("miniprops active:"+miniPropertiesActive);
-	}
-
+	/**
+	 * @return euclidian view; if not present yet, new one is created
+	 */
 	public abstract EuclidianView createEuclidianView();
 	
+	/**
+	 * Returns current mode (tool number)
+	 * @return current mode
+	 */
 	final public int getMode() {
 		return this.createEuclidianView().getMode();
 	}
@@ -1717,21 +1965,38 @@ public abstract class App {
 	}
 
 
+	/**
+	 * @param colorName localized color name
+	 * @return internal color name
+	 */
 	public abstract String reverseGetColor(String colorName);
 
-	public abstract String getColor(String string);
+	/**
+	 * Returns translation of a key in colors bundle
+	 * @param key key (color name)
+	 * @return localized color name
+	 */
+	public abstract String getColor(String key);
 
 	/**
-	 * TODO probably we should replace thismethodby something else as images are different in web  
+	 * This is needed for handling paths to images inside .ggb archive 
+	 * TODO probably we should replace this methodby something else as images are different in web  
 	 * @param fullPath path to image
-	 * @return
+	 * @return legth of MD5 hash output
 	 */
 	public int getMD5folderLength(String fullPath) {
 		return 32;
 	}
 
+	/**
+	 * @param filename filename
+	 * @return image wrapped in GBufferedImage 
+	 */
 	public abstract GBufferedImage getExternalImageAdapter(String filename);
 
+	/**
+	 * @return syntaxStr or syntax3D, depending on whether 3d is active 
+	 */
 	protected abstract String getSyntaxString();
 	
 	public String getCommandSyntax(String key) {
@@ -1753,10 +2018,17 @@ public abstract class App {
 	}
 
 
+	/**
+	 * Clears selection and repaints all views
+	 */
 	final public void clearSelectedGeos() {
 		clearSelectedGeos(true);
 	}
 
+	/**
+	 * Clear selection
+	 * @param repaint whether all views need repainting afterwards
+	 */
 	public void clearSelectedGeos(boolean repaint) {
 		int size = selectedGeos.size();
 		if (size > 0) {
@@ -1776,7 +2048,9 @@ public abstract class App {
 		
 	}
 
-
+	/**
+	 * @return whether label dragging is enableded
+	 */
 	final public boolean isLabelDragsEnabled() {
 		return labelDragsEnabled;
 	}
@@ -3066,16 +3340,16 @@ public abstract class App {
 	
 	/**
 	 * allows use of seeds to generate the same sequence for a ggb file
-	 * @param a 
-	 * @param b
+	 * @param low least possible value of result 
+	 * @param high highest possible value of result
 	 * 
 	 * @return random integer between a and b inclusive
 	 * 
 	 */
-	public int getRandomIntegerBetween(double a, double b) {
+	public int getRandomIntegerBetween(double low, double high) {
 		// make sure 4.000000001 is not rounded up to 5
-		a = Kernel.checkInteger(a);
-		b = Kernel.checkInteger(b);
+		double a = Kernel.checkInteger(low);
+		double b = Kernel.checkInteger(high);
 		
 		// Math.floor/ceil to make sure
 		// RandomBetween[3.2, 4.7] is between 3.2 and 4.7
@@ -3146,20 +3420,8 @@ public abstract class App {
 		rightClickEnabled = flag;
 	}
 
-	/**
-	 * Enables or disables popups when multiple objects selected This is useful
-	 * for applets.
-	 */
-	public void setChooserPopupsEnabled(boolean flag) {
-		chooserPopupsEnabled = flag;
-	}
-
 	final public boolean isRightClickEnabled() {
 		return rightClickEnabled;
-	}
-
-	final public boolean areChooserPopupsEnabled() {
-		return chooserPopupsEnabled;
 	}
 
 	

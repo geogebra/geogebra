@@ -1,7 +1,6 @@
 package geogebra.common.main;
 
-import geogebra.common.util.Language;
-
+@SuppressWarnings("javadoc")
 public enum KeyCodes {
 	
 	A(JavaKeyCodes.VK_A, GWTKeycodes.KEY_A),

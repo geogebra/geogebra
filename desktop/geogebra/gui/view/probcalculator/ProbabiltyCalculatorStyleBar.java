@@ -1,5 +1,6 @@
 package geogebra.gui.view.probcalculator;
 
+import geogebra.common.main.App;
 import geogebra.gui.view.spreadsheet.statdialog.PlotSettings;
 import geogebra.main.AppD;
 
@@ -8,7 +9,6 @@ import java.awt.event.ActionListener;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
-import javax.swing.JMenu;
 import javax.swing.JPopupMenu;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JToggleButton;
@@ -26,12 +26,20 @@ public class ProbabiltyCalculatorStyleBar extends JToolBar implements ActionList
 	private static final long serialVersionUID = 1L;
 	
 	private AppD app;
-	private ProbabilityCalculator probCalc;
+	/** probabililty calculator*/
+	ProbabilityCalculator probCalc;
+	/** icon height in pixels */
 	protected int iconHeight = 18;
-	private JButton btnRounding;
+	/** rounding button*/
+	JButton btnRounding;
 	private JToggleButton btnCumulative, btnLineGraph, btnGrid;
-	private JPopupMenu roundingPopup;
+	/** rounding popup menu*/
+	JPopupMenu roundingPopup;
 
+	/**
+	 * @param app application
+	 * @param probCalc probability calculator
+	 */
 	public ProbabiltyCalculatorStyleBar(AppD app, ProbabilityCalculator probCalc){
 
 		this.probCalc = probCalc;
@@ -86,6 +94,9 @@ public class ProbabiltyCalculatorStyleBar extends JToolBar implements ActionList
 		
 	}
 	
+	/**
+	 * Updates the GUI
+	 */
 	public void updateGUI(){
 		if(probCalc.getProbManager().isDiscrete(probCalc.getSelectedDist()))
 			btnLineGraph.setVisible(true);
@@ -93,6 +104,9 @@ public class ProbabiltyCalculatorStyleBar extends JToolBar implements ActionList
 			btnLineGraph.setVisible(false);
 	}
 	
+	/**
+	 * Updates localized labels
+	 */
 	public void setLabels(){
 		btnRounding.setText(app.getMenu("Rounding"));
 		btnLineGraph.setToolTipText(app.getPlain("Lines"));	
@@ -134,17 +148,18 @@ public class ProbabiltyCalculatorStyleBar extends JToolBar implements ActionList
 		int pos = -1;
 
 		if (printFigures >= 0) {
-			if (printFigures > 0 && printFigures < AppD.figuresLookup.length)
-				pos = AppD.figuresLookup[printFigures];
+			if (printFigures > 0 && printFigures < App.figuresLookup.length)
+				pos = App.figuresLookup[printFigures];
 		} else {
-			if (printDecimals > 0 && printDecimals < AppD.decimalsLookup.length)
-				pos = AppD.decimalsLookup[printDecimals];
+			if (printDecimals > 0 && printDecimals < App.decimalsLookup.length)
+				pos = App.decimalsLookup[printDecimals];
 		}
 
 		try {
 			MenuElement[] m = menu.getSubElements();
 			((JRadioButtonMenuItem)m[pos]).setSelected(true);
 		} catch (Exception e) {
+			e.printStackTrace();
 		}
 
 	}
@@ -155,44 +170,10 @@ public class ProbabiltyCalculatorStyleBar extends JToolBar implements ActionList
 		String[] strDecimalSpaces = app.getRoundingMenu();
 
 		addRadioButtonMenuItems(menu, this,
-				strDecimalSpaces, AppD.strDecimalSpacesAC, 0);
+				strDecimalSpaces, App.strDecimalSpacesAC, 0);
 
 		return menu;
 	}
-	
-	
-	/**
-	 * Create a set of radio buttons automatically.
-	 * 
-	 * @param menu
-	 * @param al
-	 * @param items
-	 * @param actionCommands
-	 * @param selectedPos
-	 */
-	private void addRadioButtonMenuItems(JMenu menu, ActionListener al,
-			String[] items, String[] actionCommands, int selectedPos) {
-		JRadioButtonMenuItem mi;
-		ButtonGroup bg = new ButtonGroup();
-		// String label;
-
-		for (int i = 0; i < items.length; i++) {
-			if (items[i] == "---") {
-				menu.addSeparator();
-			} else {
-				String text = app.getMenu(items[i]);
-				mi = new JRadioButtonMenuItem(text);
-				mi.setFont(app.getFontCanDisplayAwt(text));
-				if (i == selectedPos)
-					mi.setSelected(true);
-				mi.setActionCommand(actionCommands[i]);
-				mi.addActionListener(al);
-				bg.add(mi);
-				menu.add(mi);
-			}
-		}
-	}
-
 	
 	
 	/**
