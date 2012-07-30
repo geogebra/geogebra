@@ -119,7 +119,7 @@ TRANSLATORS
   * Lithuanian: Rokas Tamosiunas, Antanas Apynis (Lithuania)
   * Macedonian: Linda Fahlberg-Stojanovska, Jasmina Markoska,
       Zoran Trifunov (FYR Macedonia)
-  * Malay: Daniel Leong (Malaysia)
+  * Malay: Daniel Leong Chee Kin (Malaysia)
   * Marathi: Smita Patil, Aparna Lalingkar (India)
   * Mongolian: Batnasan Davaa (Mongolia)
   * Nepali: Bhesh Raj Mainali (Nepal)
