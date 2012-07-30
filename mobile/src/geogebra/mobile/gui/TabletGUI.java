@@ -2,7 +2,6 @@ package geogebra.mobile.gui;
 
 import geogebra.common.main.App;
 import geogebra.mobile.MobileApp;
-import geogebra.web.gui.applet.GeoGebraFrame;
 
 import com.google.gwt.user.client.ui.RootPanel;
 import com.googlecode.mgwt.ui.client.MGWT;
@@ -11,7 +10,7 @@ import com.googlecode.mgwt.ui.client.widget.HeaderPanel;
 import com.googlecode.mgwt.ui.client.widget.buttonbar.ButtonBar;
 import com.googlecode.mgwt.ui.client.widget.buttonbar.ButtonBarButtonBase;
 
-public class GeoGebraMobileFrame extends GeoGebraFrame
+public class TabletGUI implements GeoGebraMobileGUI
 {
 	private App app;
 
@@ -20,7 +19,7 @@ public class GeoGebraMobileFrame extends GeoGebraFrame
 	private HeaderPanel headerPanel;
 	private ButtonBar toolBar;
 
-	public GeoGebraMobileFrame()
+	public TabletGUI()
 	{
 		root = RootPanel.get();
 
@@ -54,9 +53,9 @@ public class GeoGebraMobileFrame extends GeoGebraFrame
 		app = new MobileApp();
 
 		root.add(headerPanel);
-//		TODO! Get the EuclidianView into a panel outside of App
-//		root.add(app.getEuclidianViewpanel());
-		
+		// TODO! Get the EuclidianView into a panel outside of App
+		// root.add(app.getEuclidianViewpanel());
+
 		root.add(toolBar);
 
 		App.debug("I'm here!");

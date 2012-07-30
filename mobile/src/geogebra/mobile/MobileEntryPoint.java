@@ -1,20 +1,22 @@
 package geogebra.mobile;
 
 import geogebra.common.main.App;
-import geogebra.mobile.gui.GeoGebraMobileFrame;
+import geogebra.mobile.gui.GeoGebraMobileGUI;
+
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
+import com.google.gwt.user.client.ui.Composite;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
  */
-public class Mobile implements EntryPoint
+public class MobileEntryPoint implements EntryPoint
 {
 
 	@Override
 	public void onModuleLoad()
-	{		
+	{
 
 		/*
 		 * the Common.java and the Web.java onlmoduleLoad() are called before this.
@@ -31,10 +33,7 @@ public class Mobile implements EntryPoint
 
 			public void onSuccess()
 			{
-				GeoGebraMobileFrame app = new GeoGebraMobileFrame();
-
-				app.start();
-
+				new MobileApp();
 			}
 
 			public void onFailure(Throwable reason)

@@ -32,11 +32,12 @@ import geogebra.common.plugin.jython.PythonBridge;
 import geogebra.common.sound.SoundManager;
 import geogebra.common.util.AbstractImageManager;
 import geogebra.common.util.NormalizerMinimal;
+import geogebra.mobile.gui.GeoGebraMobileGUI;
 
 public class MobileApp extends App
 {
 
-	public MobileApp()
+	public MobileApp(GeoGebraMobileGUI mobileGUI)
 	{
 		//TODO Implement our own constructor without loading all stuff at once.
 

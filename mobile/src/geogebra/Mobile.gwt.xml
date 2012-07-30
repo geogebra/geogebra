@@ -28,7 +28,7 @@
 
 	<!-- Specify the app entry point class. -->
 
-	<entry-point class="geogebra.mobile.Mobile" />
+	<entry-point class="geogebra.mobile.MobileEntryPoint" />
 
 	<!-- Compile only for Safari now -->
 
