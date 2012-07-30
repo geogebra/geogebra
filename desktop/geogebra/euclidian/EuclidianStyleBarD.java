@@ -1486,7 +1486,7 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 				} else {
 					int selectedIndex = btnLineStyle.getSelectedIndex();
 					int lineSize = btnLineStyle.getSliderValue();
-					EuclidianStyleBarStatic.applyLineStyle(targetGeos, selectedIndex, lineSize);
+					needUndo = EuclidianStyleBarStatic.applyLineStyle(targetGeos, selectedIndex, lineSize);
 				}
 
 			}
@@ -1655,7 +1655,7 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 		if (btnLineStyle.isVisible()){
 			int selectedIndex = btnLineStyle.getSelectedIndex();
 			int lineSize = btnLineStyle.getSliderValue();
-			EuclidianStyleBarStatic.applyLineStyle(geos, selectedIndex, lineSize);
+			needUndo = EuclidianStyleBarStatic.applyLineStyle(geos, selectedIndex, lineSize);
 		}
 		if (btnPointStyle.isVisible())
 			applyPointStyle(geos);

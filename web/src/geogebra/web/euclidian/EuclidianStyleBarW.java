@@ -1462,7 +1462,7 @@ public class EuclidianStyleBarW extends HorizontalPanel
 				} else {
 					int selectedIndex = btnLineStyle.getSelectedIndex();
 					int lineSize = btnLineStyle.getSliderValue();
-					EuclidianStyleBarStatic.applyLineStyle(targetGeos, selectedIndex, lineSize);
+					needUndo = EuclidianStyleBarStatic.applyLineStyle(targetGeos, selectedIndex, lineSize);
 				}
 
 			}
