@@ -14,8 +14,14 @@ package geogebra.common.kernel.arithmetic;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.kernel.geos.GeoText;
+import geogebra.common.main.App;
+import geogebra.common.util.SpreadsheetTraceSettings;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 
 /**
@@ -23,7 +29,7 @@ import java.util.HashSet;
  * @see ExpressionNode#evaluate(StringTemplate)
  * @author Markus Hohenwarter
  */
-public class MyBoolean extends ValidExpression implements BooleanValue {
+public class MyBoolean extends ValidExpression implements BooleanValue, NumberValue {
     
     private boolean value;
     private Kernel kernel;
@@ -63,7 +69,7 @@ public class MyBoolean extends ValidExpression implements BooleanValue {
     }
 
     final public boolean isNumberValue() {
-        return false;
+        return true;
     }
 
     final public boolean isVectorValue() {
@@ -138,5 +144,35 @@ public class MyBoolean extends ValidExpression implements BooleanValue {
 
 	public Kernel getKernel() {
 		return kernel;
+	}
+
+	public void addToSpreadsheetTraceList(ArrayList<GeoNumeric> al) {
+		App.warn("dummy method: shouldn't get called");
+	}
+
+	public ArrayList<GeoText> getColumnHeadings() {
+		App.warn("dummy method: shouldn't get called");
+		return null;
+	}
+
+	public SpreadsheetTraceSettings getTraceSettings() {
+		App.warn("dummy method: shouldn't get called");
+		return null;
+	}
+
+	public GeoElement toGeoElement() {
+		return new GeoBoolean(kernel.getConstruction(), value);
+	}
+
+	public MyDouble getNumber() {
+		return new MyDouble(kernel, getDouble());
+	}
+
+	public boolean isAngle() {
+		return false;
+	}
+
+	public boolean isDefined() {
+		return true;
 	}
 }
