@@ -18,7 +18,7 @@ import com.googlecode.mgwt.ui.client.widget.buttonbar.ButtonBarButtonBase;
 
 public class GeoGebraMobileFrame extends GeoGebraFrame
 {
-	private MobileApp app;
+	private App app;
 	private ArticleElement element;
 
 	private RootPanel root;
@@ -50,7 +50,7 @@ public class GeoGebraMobileFrame extends GeoGebraFrame
 		for (int i = 0; i < 10; i++)
 		{
 			b[i] = new ButtonBarButtonBase(Resources.INSTANCE.logo());
-
+			b[i].getElement().getStyle().setBackgroundImage(Resources.INSTANCE.tux().getSafeUri().asString());
 			b[i].setTitle("bla" + i);
 			b[i].addStyleName("toolbutton" + i);
 			toolBar.add(b[i]);
@@ -60,23 +60,13 @@ public class GeoGebraMobileFrame extends GeoGebraFrame
 		element = ArticleElement.as(Dom.querySelector("geogebraweb"));
 
 		// Initialize the AppW app
-		app = new MobileApp(element, this);
+		app = new MobileApp();
 
 		root.add(headerPanel);
-		root.add(app.getEuclidianViewpanel());
+//		TODO! Get the EuclidianView into a panel outside of App
+//		root.add(app.getEuclidianViewpanel());
+		
 		root.add(toolBar);
-
-		app.resizeToParent(Window.getClientWidth(), Window.getClientHeight());
-
-		Window.addResizeHandler(new ResizeHandler()
-		{
-
-			@Override
-			public void onResize(ResizeEvent event)
-			{
-				app.resizeToParent(event.getWidth(), event.getHeight());
-			}
-		});
 
 		App.debug("I'm here!");
 
