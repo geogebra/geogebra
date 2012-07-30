@@ -27,10 +27,10 @@ public class ViewMenu extends BaseMenu {
 	private static final long serialVersionUID = 1L;
 	private final LayoutD layout;
 
-	private AbstractAction showKeyboardAction, showPythonAction,
+	private AbstractAction showKeyboardAction,
 			showKinectAction, refreshAction, recomputeAllViews;
 
-	private JCheckBoxMenuItem cbShowKeyboard, cbShowPython, cbShowKinect;
+	private JCheckBoxMenuItem cbShowKeyboard, cbShowKinect;
 
 	private AbstractAction[] showViews;
 	private JCheckBoxMenuItem[] cbViews;
@@ -77,14 +77,9 @@ public class ViewMenu extends BaseMenu {
 			add(cbShowKeyboard);
 		}
 
-		// show Python and Kinect options in Eclipse & 5.0 Webstart only
+		// show Kinect option in Eclipse & 5.0 Webstart only
 		// ie not 4.2
 		if (!AppD.isWebstart() || app.is3D()) {
-			// show/hide python window
-			cbShowPython = new JCheckBoxMenuItem(showPythonAction);
-			app.setEmptyIcon(cbShowPython);
-			add(cbShowPython);
-
 			// TEST: show/hide Kinect window
 			cbShowKinect = new JCheckBoxMenuItem(showKinectAction);
 			app.setEmptyIcon(cbShowKinect);
@@ -167,16 +162,6 @@ public class ViewMenu extends BaseMenu {
 					update();
 				}
 
-			}
-		};
-
-		showPythonAction = new AbstractAction(app.getMenu("PythonWindow")) {
-
-			private static final long serialVersionUID = 1L;
-
-			public void actionPerformed(ActionEvent e) {
-				app.getPythonBridge().toggleWindow();
-				update();
 			}
 		};
 
@@ -317,9 +302,6 @@ public class ViewMenu extends BaseMenu {
 			cbShowKeyboard.setSelected(AppD.isVirtualKeyboardActive());
 		}
 
-		if (cbShowPython != null) {
-			cbShowPython.setSelected(app.isPythonWindowVisible());
-		}
 		// cbShowHandwriting.setSelected(Application.isHandwritingRecognitionActive());
 		// cbShowHandwritingAutoAdd.setSelected(Application.isHandwritingRecognitionAutoAdd());
 		// cbShowHandwritingTimedAdd.setSelected(Application.isHandwritingRecognitionTimedAdd());
