@@ -1,7 +1,7 @@
 package geogebra.web.gui.dialog;
 
+import geogebra.common.gui.view.algebra.DialogType;
 import geogebra.common.main.App;
-import geogebra.web.gui.view.algebra.InputPanelW.DialogType;
 import geogebra.web.gui.InputDialogW;
 import geogebra.web.gui.view.algebra.InputPanelW;
 import geogebra.web.main.AppW;

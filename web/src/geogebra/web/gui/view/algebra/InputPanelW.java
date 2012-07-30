@@ -1,6 +1,7 @@
 package geogebra.web.gui.view.algebra;
 
 import geogebra.common.gui.inputfield.MyTextField;
+import geogebra.common.gui.view.algebra.DialogType;
 import geogebra.web.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.web.main.AppW;
 
@@ -18,7 +19,6 @@ public class InputPanelW extends HorizontalPanel {
 	private boolean autoComplete;
 	private AutoCompleteTextFieldW textComponent;
 	private boolean showSymbolPopup;
-	public enum DialogType  { TextArea, DynamicText, GeoGebraEditor };
 
 	public InputPanelW(String initText, AppW app, int columns, boolean autoComplete) {
 	   super();

@@ -2,11 +2,11 @@ package geogebra.web.gui;
 
 import geogebra.common.gui.InputHandler;
 import geogebra.common.gui.dialog.InputDialog;
+import geogebra.common.gui.view.algebra.DialogType;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.GeoElementSelectionListener;
 import geogebra.web.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.web.gui.view.algebra.InputPanelW;
-import geogebra.web.gui.view.algebra.InputPanelW.DialogType;
 import geogebra.web.main.AppW;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -31,6 +31,12 @@ public class InputDialogW extends  InputDialog implements ClickHandler{
 	protected String initString;
 
 	protected PopupPanel wrappedPopup;
+
+	private GeoElement geo;
+
+	private Object inputHandler;
+
+	private CheckBox checkBox;
 	
 	public InputDialogW(boolean modal) {
 	    this.wrappedPopup = new PopupPanel(false, modal);
@@ -59,7 +65,15 @@ public class InputDialogW extends  InputDialog implements ClickHandler{
 			String initString, boolean autoComplete, InputHandler handler,
 			boolean modal, boolean selectInitText, GeoElement geo,
 			CheckBox checkBox, DialogType type) {
-		//continue here
+		this(modal);
+		this.app = app;
+		this.geo = geo;
+		this.inputHandler = handler;
+		this.initString = initString;
+		this.checkBox = checkBox;
+		
+		createGUI(title, message, autoComplete, DEFAULT_COLUMNS, 1, true, selectInitText, geo != null, geo != null, type);
+		
 		
 	}
 	
