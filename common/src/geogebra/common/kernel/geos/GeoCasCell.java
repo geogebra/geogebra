@@ -17,6 +17,7 @@ import geogebra.common.kernel.arithmetic.FunctionNVar;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import geogebra.common.kernel.arithmetic.MyList;
+import geogebra.common.kernel.arithmetic.MyVecNode;
 import geogebra.common.kernel.arithmetic.Traversing.ArbconstReplacer;
 import geogebra.common.kernel.arithmetic.Traversing.CommandCollector;
 import geogebra.common.kernel.arithmetic.Traversing.CommandReplacer;
@@ -2048,9 +2049,10 @@ public class GeoCasCell extends GeoElement implements VarString {
 		if(hasTwinGeo())
 			return true;
 		
-		assignmentVar = "ggbmpvarPlot";
+		//this has to be upper case that the input of (1,1) leads to a definition of a point
+		//instead of a vector
+		assignmentVar = "GgbmpvarPlot";
 		this.firstComputeOutput = true;
-
 		//wrap output of Solve and Solutions to make them plotable
 		if(evalVE.isTopLevelCommand()){
 			Command topLevel =	evalVE.getTopLevelCommand();
@@ -2060,13 +2062,15 @@ public class GeoCasCell extends GeoElement implements VarString {
 				evalVE = c.wrap();				
 			}
 		}
-		setEvalComment("Plot");			
+		setEvalComment("Plot");								
 		this.computeOutput(true);
-		twinGeo.setLabel(null);
+		twinGeo.setLabel(null);		
 		if(twinGeo.getLabelSimple()!=null){
-			changeAssignmentVar(assignmentVar,twinGeo.getLabelSimple());
+			String label = twinGeo.getLabelSimple();
+			changeAssignmentVar(assignmentVar,label);
 			inputVE.setLabel(assignmentVar);
 			outputVE.setLabel(assignmentVar);
+			this.updateTwinGeo();
 			latex = null;		
 		}else{
 			//plot failed, undo assignment
