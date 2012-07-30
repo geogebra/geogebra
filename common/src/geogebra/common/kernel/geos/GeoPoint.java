@@ -1956,11 +1956,9 @@ final public class GeoPoint extends GeoVec3D implements VectorValue,
 	// protected String[] spreadsheetColumnHeadings = null;
 
 	@Override
-	public ArrayList<GeoText> getColumnHeadings() {
+	public void updateColumnHeadingsForTraceValues(){
 		resetSpreadsheetColumnHeadings();
-		
-		if (getTraceSettings().doTraceGeoCopy)
-			return getColumnHeadingsForTraceGeoCopy();
+	
 		
 		spreadsheetColumnHeadings.add(
 				getColumnHeadingText( 
@@ -1981,9 +1979,8 @@ final public class GeoPoint extends GeoVec3D implements VectorValue,
 										Operation.PLUS, 
 										getCloseBracket())))); // ")"
 		
-		updateColumnHeadingsForTraceValues();
+		updateColumnHeadingsForTraceDialog();
 		
-		return spreadsheetColumnHeadings;
 	}
 
 	@Override

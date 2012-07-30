@@ -1088,12 +1088,9 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND,
 	}
 	
 	@Override
-	public ArrayList<GeoText> getColumnHeadings() {
+	public void updateColumnHeadingsForTraceValues(){
 
 		resetSpreadsheetColumnHeadings();		
-
-		if (getTraceSettings().doTraceGeoCopy)
-			return getColumnHeadingsForTraceGeoCopy();
 
 		spreadsheetColumnHeadings.add(
 				getColumnHeadingText(
@@ -1123,9 +1120,8 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND,
 										Operation.PLUS, 
 										getCloseBracket())))); // ")"
 	
-		updateColumnHeadingsForTraceValues();
+		updateColumnHeadingsForTraceDialog();
 		
-		return spreadsheetColumnHeadings;
 	}
 	
 	@Override

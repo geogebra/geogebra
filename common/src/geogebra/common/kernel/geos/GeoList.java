@@ -35,6 +35,7 @@ import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.ListValue;
 import geogebra.common.kernel.arithmetic.MyList;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.geos.GeoElement.TraceModesEnum;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.App;
 import geogebra.common.plugin.EuclidianStyleConstants;
@@ -1864,12 +1865,9 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture {
 	}
 
 	@Override
-	public ArrayList<GeoText> getColumnHeadings() {
+	public void updateColumnHeadingsForTraceValues(){
 
 		resetSpreadsheetColumnHeadings();
-	
-		if (getTraceSettings().doTraceGeoCopy)
-			return getColumnHeadingsForTraceGeoCopy();
 
 		for (int i = 0; i < geoList.size(); i++) {
 			final GeoElement geo = geoList.get(i);
@@ -1881,10 +1879,10 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture {
 			}
 		}
 		
-		updateColumnHeadingsForTraceValues();
+		updateColumnHeadingsForTraceDialog();
 
-		return spreadsheetColumnHeadings;
 	}
+	
 
 	/*
 	 * default for elements implementing NumberValue interface eg GeoSegment,

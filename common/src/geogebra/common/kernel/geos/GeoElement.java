@@ -25,6 +25,7 @@ import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.factories.FormatFactory;
 import geogebra.common.factories.LaTeXFactory;
+import geogebra.common.gui.view.spreadsheet.SpreadsheetViewInterface;
 import geogebra.common.kernel.AnimationManager;
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Construction;
@@ -150,6 +151,11 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * Column headings for spreadsheet trace
 	 */
 	protected ArrayList<GeoText> spreadsheetColumnHeadings = null;
+
+	/**
+	 * Column headings for spreadsheet trace (values mode)
+	 */
+	protected ArrayList<GeoText> spreadsheetColumnHeadingsForTraceValues = null;
 
 	/** min decimals or significant figures to use in editing string */
 	public static final int MIN_EDITING_PRINT_PRECISION = 5;
@@ -7087,42 +7093,86 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * for the SpreadsheetTraceable interface. Default: just return the label
 	 * @return list of comumn headings
 	 */
-	public ArrayList<GeoText> getColumnHeadings() {
-		resetSpreadsheetColumnHeadings();
-		return getColumnHeadingsForTraceGeoCopy();
+	final public ArrayList<GeoText> getColumnHeadings() {
+		
+		//update column headings for trace values (if needed)
+		updateColumnHeadingsForTraceValues();
+		
+		//if no values / only copy
+		if (getTraceSettings().doTraceGeoCopy)
+			updateColumnHeadingsForTraceGeoCopy();
+
+		return spreadsheetColumnHeadings;
 	}
 	
-	private StringBuilder columnHeadingsForTraceValues = new StringBuilder();
+	/** update column headings for trace values */
+	public void updateColumnHeadingsForTraceValues(){
+		//for NumberValue
+		updateColumnHeadingsForTraceGeoCopy();
+		updateColumnHeadingsForTraceDialog();
+	}
+	
+	private StringBuilder columnHeadingsForTraceDialog = new StringBuilder();
 	
 	/**
 	 * 
 	 * @return string description of values traced
 	 */
-	final public String getColumnHeadingsForTraceValues(){
-		return columnHeadingsForTraceValues.toString();
+	final public String getColumnHeadingsForTraceDialog(){
+		return columnHeadingsForTraceDialog.toString();
 	}
 	
+
 	/**
 	 * update string description of values traced
 	 */
-	final protected void updateColumnHeadingsForTraceValues(){
-		columnHeadingsForTraceValues.setLength(0);
+	final protected void updateColumnHeadingsForTraceDialog(){
+		
+		if (spreadsheetColumnHeadings.size()>1)
+			traceModes=TraceModesEnum.SEVERAL_VALUES;
+		else
+			traceModes=TraceModesEnum.ONE_VALUE;
+		
+		columnHeadingsForTraceDialog.setLength(0);
 		boolean notFirst = false;
 		for (GeoText text : spreadsheetColumnHeadings){
 			if (notFirst)
-				columnHeadingsForTraceValues.append(", ");
-			columnHeadingsForTraceValues.append(text.getTextString());
+				columnHeadingsForTraceDialog.append(", ");
+			columnHeadingsForTraceDialog.append(text.getTextString());
 			notFirst = true;
 		}
 	}
 	
+	/** Used by TraceDialog for "Trace as... value of/copy of */
+	static public enum TraceModesEnum {
+		/** no value for this geo, only copy*/
+		ONLY_COPY, 
+		/** one value (e.g. segment) */
+		ONE_VALUE, 
+		/** at least two values (e.g. point) */
+		SEVERAL_VALUES}
+	
+	/** possible modes for trace to spreadsheet */
+	protected TraceModesEnum traceModes = (this instanceof NumberValue) ? TraceModesEnum.ONE_VALUE : TraceModesEnum.ONLY_COPY;
+	
 	/**
 	 * 
-	 * @return column headings when "trace geo copy"
+	 * @return possible modes for trace to spreadsheet
 	 */
-	protected  ArrayList<GeoText> getColumnHeadingsForTraceGeoCopy(){
+	public TraceModesEnum getTraceModes(){
+		return traceModes;
+	}
+		
+		
+	
+	
+	/**
+	 * 
+	 * update column headings when "trace geo copy"
+	 */
+	protected  void updateColumnHeadingsForTraceGeoCopy(){
+		resetSpreadsheetColumnHeadings();
 		spreadsheetColumnHeadings.add(getNameGeo());
-		return spreadsheetColumnHeadings;
 	}
 	
 	/**

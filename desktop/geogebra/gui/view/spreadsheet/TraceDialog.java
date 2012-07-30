@@ -19,6 +19,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementSpreadsheet;
+import geogebra.common.main.App;
 import geogebra.common.main.GeoElementSelectionListener;
 import geogebra.common.util.SpreadsheetTraceSettings;
 import geogebra.gui.inputfield.MyTextField;
@@ -54,8 +55,11 @@ import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EtchedBorder;
+import javax.swing.border.TitledBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+
+import org.python.tests.OnlySubclassable;
 
 
 /**
@@ -94,6 +98,7 @@ implements
 	private JCheckBox cbResetColumns, cbRowLimit, 
 		cbShowLabel, cbTraceList;
 	private JRadioButton traceModeValues, traceModeCopy;
+	private TitledBorder traceModeTitle;
 	private JButton btRemove, btAdd, btClose, btCancel, btChangeLocation, btErase;
 	private JLabel prompt;
 	
@@ -356,10 +361,12 @@ implements
         // trace as... radio buttons   
         JPanel pane = new JPanel();
         pane.setLayout(new BoxLayout(pane, BoxLayout.Y_AXIS));
-        pane.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
-        traceModeValues = new JRadioButton(app.getPlain("TraceValues"));
+        traceModeTitle = BorderFactory.createTitledBorder(app.getPlain("TraceMode"));     
+        pane.setBorder(BorderFactory.createTitledBorder(traceModeTitle));
+        
+        traceModeValues = new JRadioButton(app.getPlain(""));
         traceModeValues.addActionListener(this);
-        traceModeCopy = new JRadioButton(app.getPlain("TraceCopy"));
+        traceModeCopy = new JRadioButton(app.getPlain(""));
         traceModeCopy.addActionListener(this);
         ButtonGroup group = new ButtonGroup();
         group.add(traceModeValues);
@@ -446,8 +453,10 @@ implements
 		cbRowLimit.setText(app.getMenu("RowLimit") + ": ");  
 		cbShowLabel.setText(app.getPlain("ShowLabel"));  
 		cbTraceList.setText(app.getMenu("TraceToList")); 
-		setTraceModeValuesLabel();
-		traceModeCopy.setText(app.getMenu("TraceCopy")); 
+		
+		traceModeTitle.setTitle(app.getPlain("TraceMode"));
+		setTraceModeLabels();
+		 		 
 		cbResetColumns.setText(app.getMenu("ColumnReset"));  
 		btClose.setText(app.getMenu("Close"));
 		btCancel.setText(app.getPlain("Cancel"));
@@ -459,8 +468,29 @@ implements
 		
 	}
 	
-	private void setTraceModeValuesLabel(){
-		traceModeValues.setText(app.getPlain("TraceValuesA",geo.getColumnHeadingsForTraceValues()));  
+	private void setTraceModeLabels(){
+
+		geo.updateColumnHeadingsForTraceValues();
+		
+		switch (geo.getTraceModes()){
+		case ONE_VALUE:
+			traceModeValues.setText(app.getPlain("ValueOfA",geo.getColumnHeadingsForTraceDialog()));  
+			//traceModeValues.setEnabled(true);
+			break;
+		case SEVERAL_VALUES:
+			traceModeValues.setText(app.getPlain("ValuesOfA",geo.getColumnHeadingsForTraceDialog()));  
+			//traceModeValues.setEnabled(true);
+			break;
+		/* TODO uncomment this (and above) if we trace copy of any geo
+		case ONLY_COPY:
+			traceModeValues.setText(app.getPlain("NoValue"));  //add to plain.properties: NoValue=No value to record
+			traceModeValues.setEnabled(false);
+			break;
+			*/
+			
+		}
+		
+		traceModeCopy.setText(app.getPlain("CopyOfA",geo.getLabelSimple()));
 	}
 	
 
@@ -565,7 +595,7 @@ implements
 				
 				// update trace values label
 				geo = (GeoElement) traceGeoList.getSelectedValue();
-				setTraceModeValuesLabel();
+				setTraceModeLabels();
 				
 			}
 

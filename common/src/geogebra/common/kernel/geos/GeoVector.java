@@ -803,11 +803,8 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 	}
 	
 	@Override
-	public ArrayList<GeoText> getColumnHeadings() {
+	public void updateColumnHeadingsForTraceValues(){
 		resetSpreadsheetColumnHeadings();
-		
-		if (getTraceSettings().doTraceGeoCopy)
-			return getColumnHeadingsForTraceGeoCopy();
 
 		spreadsheetColumnHeadings.add(
 				getColumnHeadingText( 
@@ -828,9 +825,8 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 										Operation.PLUS, 
 										getCloseBracket())))); // ")"
 		
-		updateColumnHeadingsForTraceValues();
+		updateColumnHeadingsForTraceDialog();
 		
-		return spreadsheetColumnHeadings;
 	}
 	
 	@Override

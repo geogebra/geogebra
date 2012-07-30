@@ -483,11 +483,8 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND,
 	}
 	
 	@Override
-	public ArrayList<GeoText> getColumnHeadings() {
+	public void updateColumnHeadingsForTraceValues(){
 		resetSpreadsheetColumnHeadings();
-		
-		if (getTraceSettings().doTraceGeoCopy)
-			return getColumnHeadingsForTraceGeoCopy();
 
 		spreadsheetColumnHeadings.add(
 				getColumnHeadingText(
@@ -517,9 +514,8 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND,
 										Operation.PLUS, 
 										getCloseBracket())))); // ")"
 		
-		updateColumnHeadingsForTraceValues();
-		
-		return spreadsheetColumnHeadings;
+		updateColumnHeadingsForTraceDialog();
+
 	}
 	
 	@Override
