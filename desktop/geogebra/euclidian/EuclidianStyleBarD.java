@@ -1486,7 +1486,7 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 				} else {
 					int selectedIndex = btnLineStyle.getSelectedIndex();
 					int lineSize = btnLineStyle.getSliderValue();
-					applyLineStyle(targetGeos, selectedIndex, lineSize);
+					EuclidianStyleBarStatic.applyLineStyle(targetGeos, selectedIndex, lineSize);
 				}
 
 			}
@@ -1530,24 +1530,6 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 	// ==============================================
 	// Apply Styles
 	// ==============================================
-
-	private static boolean applyLineStyle(ArrayList<GeoElement> geos, int lineStyleIndex, int lineSize) {
-		int lineStyle = EuclidianStyleBarStatic.lineStyleArray[lineStyleIndex];
-		boolean needUndo = false;
-		
-		for (int i = 0; i < geos.size(); i++) {
-			GeoElement geo = geos.get(i);
-			if (geo.getLineType() != lineStyle
-					|| geo.getLineThickness() != lineSize) {
-				geo.setLineType(lineStyle);
-				geo.setLineThickness(lineSize);
-				geo.updateRepaint();
-				needUndo = true;
-			}
-		}
-		
-		return needUndo;
-	}
 
 	private void applyPointStyle(ArrayList<GeoElement> geos) {
 		int pointStyle = pointStyleArray[btnPointStyle.getSelectedIndex()];
