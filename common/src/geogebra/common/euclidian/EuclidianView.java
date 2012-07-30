@@ -1409,7 +1409,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon {
 
 		while (it.hasNext()) {
 			Drawable d2 = it.next();
-			App.debug(d2.getGeoElement().getLayer());
 
 			if (d2.hit(p.x, p.y) && d2 instanceof DrawButton) {
 				if (d == null
