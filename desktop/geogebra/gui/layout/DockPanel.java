@@ -256,6 +256,9 @@ implements ActionListener, WindowListener, MouseListener, geogebra.common.gui.la
 	 */
 	private boolean isDialog = false;
 
+	/**
+	 * If the view needs a menu bar when undocked, its is kept here
+	 */
 	private JMenuBar menubar;
 
 	
