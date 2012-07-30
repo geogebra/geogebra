@@ -23,6 +23,7 @@ public class EuclidianStyleBarStatic {
 	public final static String[] bracketArray2 = { "\u00D8", "{ }", "( )", "[ ]",
 	"||", "||||" };
 	public static Integer[] lineStyleArray;
+	public static Integer[] pointStyleArray;
 
 	public static GeoElement applyFixPosition(ArrayList<GeoElement> geos, boolean flag, EuclidianViewInterfaceCommon ev) {
 		GeoElement ret = geos.get(0);

@@ -90,7 +90,6 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 	// TODO: create button classes so these become internal
 	AlgoTableText tableText;
 
-	Integer[] pointStyleArray;
 	HashMap<Integer, Integer> lineStyleMap;
 
 	HashMap<Integer, Integer> pointStyleMap;
@@ -122,10 +121,10 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 
 		// init button-specific fields
 		// TODO: put these in button classes
-		pointStyleArray = EuclidianView.getPointStyles();
+		EuclidianStyleBarStatic.pointStyleArray = EuclidianView.getPointStyles();
 		pointStyleMap = new HashMap<Integer, Integer>();
-		for (int i = 0; i < pointStyleArray.length; i++)
-			pointStyleMap.put(pointStyleArray[i], i);
+		for (int i = 0; i < EuclidianStyleBarStatic.pointStyleArray.length; i++)
+			pointStyleMap.put(EuclidianStyleBarStatic.pointStyleArray[i], i);
 
 		EuclidianStyleBarStatic.lineStyleArray = EuclidianView.getLineTypes();
 		lineStyleMap = new HashMap<Integer, Integer>();
@@ -712,10 +711,10 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 
 		// create line style icon array
 		final Dimension pointStyleIconSize = new Dimension(20, iconHeight);
-		ImageIcon[] pointStyleIcons = new ImageIcon[pointStyleArray.length];
-		for (int i = 0; i < pointStyleArray.length; i++)
+		ImageIcon[] pointStyleIcons = new ImageIcon[EuclidianStyleBarStatic.pointStyleArray.length];
+		for (int i = 0; i < EuclidianStyleBarStatic.pointStyleArray.length; i++)
 			pointStyleIcons[i] = GeoGebraIcon.createPointStyleIcon(
-					pointStyleArray[i], 4, pointStyleIconSize, Color.BLACK,
+					EuclidianStyleBarStatic.pointStyleArray[i], 4, pointStyleIconSize, Color.BLACK,
 					null);
 
 		// create button
@@ -765,7 +764,7 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 			public ImageIcon getButtonIcon() {
 				if (getSelectedIndex() > -1) {
 					return GeoGebraIcon.createPointStyleIcon(
-							pointStyleArray[this.getSelectedIndex()],
+							EuclidianStyleBarStatic.pointStyleArray[this.getSelectedIndex()],
 							this.getSliderValue(), pointStyleIconSize,
 							Color.BLACK, null);
 				}
@@ -1492,7 +1491,9 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 			}
 		} else if (source == btnPointStyle) {
 			if (btnPointStyle.getSelectedValue() != null) {
-				applyPointStyle(targetGeos);
+				int pointStyleSelIndex = btnPointStyle.getSelectedIndex();
+				int pointSize = btnPointStyle.getSliderValue();
+				applyPointStyle(targetGeos, pointStyleSelIndex, pointSize);
 			}
 		} else if (source == btnBold) {
 			applyFontStyle(targetGeos);
@@ -1531,9 +1532,8 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 	// Apply Styles
 	// ==============================================
 
-	private void applyPointStyle(ArrayList<GeoElement> geos) {
-		int pointStyle = pointStyleArray[btnPointStyle.getSelectedIndex()];
-		int pointSize = btnPointStyle.getSliderValue();
+	private void applyPointStyle(ArrayList<GeoElement> geos, int pointStyleSelIndex, int pointSize) {
+		int pointStyle = EuclidianStyleBarStatic.pointStyleArray[pointStyleSelIndex];
 		for (int i = 0; i < geos.size(); i++) {
 			GeoElement geo = geos.get(i);
 			if (geo instanceof PointProperties) {
@@ -1657,8 +1657,11 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 			int lineSize = btnLineStyle.getSliderValue();
 			needUndo = EuclidianStyleBarStatic.applyLineStyle(geos, selectedIndex, lineSize);
 		}
-		if (btnPointStyle.isVisible())
-			applyPointStyle(geos);
+		if (btnPointStyle.isVisible()){
+			int pointStyleSelIndex = btnPointStyle.getSelectedIndex();
+			int pointSize = btnPointStyle.getSliderValue();
+			applyPointStyle(geos, pointStyleSelIndex, pointSize);
+		}
 		if (btnBold.isVisible())
 			applyFontStyle(geos);
 		if (btnItalic.isVisible())
