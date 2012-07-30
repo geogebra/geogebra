@@ -664,4 +664,28 @@ private void showPopupMenu(ArrayList<GeoElement> geos,
 		}
 	};
     }
+
+	@Override
+    public View getDataAnalysisView() {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
+
+	@Override
+    public void attachDataAnalysisView() {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+	@Override
+    public void detachDataAnalysisView() {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+	@Override
+    public boolean hasDataAnalysisView() {
+	    // TODO Auto-generated method stub
+	    return false;
+    }
 }
