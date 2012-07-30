@@ -267,7 +267,11 @@ public class GeoCasCell extends GeoElement implements VarString {
 				}
 				else{
 					GeoElement geo = ((GeoElement)((ExpressionNode)outputVE).getLeft());
-					sb.append(this.getAssignmentVariable()+" := "+geo.toValueString(StringTemplate.latexTemplate));
+					if(isAssignmentVariableDefined()){
+						sb.append(getAssignmentVariable());
+						sb.append(" := ");
+					}
+					sb.append(geo.toValueString(StringTemplate.latexTemplate));
 				}
 				sb.append("}");
 				latex = sb.toString();
