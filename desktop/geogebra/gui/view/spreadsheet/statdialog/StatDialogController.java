@@ -196,7 +196,6 @@ public class StatDialogController {
 			switch (mode()) {
 
 			case StatDialog.MODE_ONEVAR:
-				System.out.println("one var load data");
 				dataSelected = (GeoList) crProcessor.createList(cellRangeList,
 						scanByColumn, copyByValue, isSorted, doStoreUndo,
 						GeoClass.NUMERIC, setLabel);
@@ -204,8 +203,7 @@ public class StatDialogController {
 				break;
 
 			case StatDialog.MODE_REGRESSION:
-				System.out.println("TWO var load data");
-
+				
 				// data is a cell range of points
 				if (cellRangeList.size() == 1
 						&& cellRangeList.get(0).isPointList()) {
@@ -415,9 +413,7 @@ public class StatDialogController {
 			sd.comboStatPanel2.updatePlot(doCreateGeo);
 		if (sd.statisticsPanel != null) {
 			sd.statisticsPanel.updatePanel();
-			System.out.println("updated stat panel");
-			ArrayList<CellRange> cellRangeList = (ArrayList<CellRange>) dataSource;
-			cellRangeList.get(0).debug();
+			
 		}
 
 	}
