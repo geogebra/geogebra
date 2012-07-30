@@ -50,7 +50,6 @@ public class StatDialogController {
 		return dataSelected;
 	}
 
-	private int mode;
 	private boolean leftToRight = true;
 
 	public void setLeftToRight(boolean leftToRight) {
@@ -82,9 +81,12 @@ public class StatDialogController {
 		this.spreadsheetTable = (MyTableD) app.getGuiManager()
 				.getSpreadsheetView().getTable();
 		this.sd = statDialog;
-		this.mode = sd.getMode();
 		this.statGeo = sd.getStatGeo();
 
+	}
+	
+	private int mode(){
+		return sd.getMode();
 	}
 
 	/**
@@ -98,20 +100,25 @@ public class StatDialogController {
 		CellRangeProcessor cr = spreadsheetTable.getCellRangeProcessor();
 		boolean success = true;
 
+		if(app.getSelectedGeos() ==null || app.getSelectedGeos().size()==0){
+			return false;
+		}
+		
 		try {
+			
 			GeoElement geo = app.getSelectedGeos().get(0);
 			if (geo.isGeoList()) {
 				// TODO: handle validation for a geoList source
 				dataSource = geo;
 			} else {
 				ArrayList<CellRange> rangeList = spreadsheetTable.selectedCellRanges;
-				if (mode == StatDialog.MODE_ONEVAR) {
+				if (mode() == StatDialog.MODE_ONEVAR) {
 					success = cr.isOneVarStatsPossible(rangeList);
-				} else if (mode == StatDialog.MODE_REGRESSION) {
+				} else if (mode() == StatDialog.MODE_REGRESSION) {
 					success = cr.isCreatePointListPossible(rangeList);
-				} else if (mode == StatDialog.MODE_MULTIVAR) {
+				} else if (mode() == StatDialog.MODE_MULTIVAR) {
 					success = cr.isMultiVarStatsPossible(rangeList);
-				} else if (mode == StatDialog.MODE_GROUPDATA) {
+				} else if (mode() == StatDialog.MODE_GROUPDATA) {
 					success = cr.isOneVarStatsPossible(rangeList);
 				}
 				if (success)
@@ -186,9 +193,10 @@ public class StatDialogController {
 		} else {
 
 			ArrayList<CellRange> cellRangeList = (ArrayList<CellRange>) dataSource;
-			switch (mode) {
+			switch (mode()) {
 
 			case StatDialog.MODE_ONEVAR:
+				System.out.println("one var load data");
 				dataSelected = (GeoList) crProcessor.createList(cellRangeList,
 						scanByColumn, copyByValue, isSorted, doStoreUndo,
 						GeoClass.NUMERIC, setLabel);
@@ -196,6 +204,7 @@ public class StatDialogController {
 				break;
 
 			case StatDialog.MODE_REGRESSION:
+				System.out.println("TWO var load data");
 
 				// data is a cell range of points
 				if (cellRangeList.size() == 1
@@ -245,8 +254,8 @@ public class StatDialogController {
 		}
 
 		// load dataPanel with dataArray
-		if (mode != StatDialog.MODE_MULTIVAR
-				&& mode != StatDialog.MODE_GROUPDATA) {
+		if (mode() != StatDialog.MODE_MULTIVAR
+				&& mode() != StatDialog.MODE_GROUPDATA) {
 			sd.getDataPanel().loadDataTable(dataArray);
 		}
 	}
@@ -287,7 +296,7 @@ public class StatDialogController {
 				.getCellRangeProcessor();
 		String[] title = null;
 
-		switch (mode) {
+		switch (mode()) {
 
 		case StatDialog.MODE_ONEVAR:
 
@@ -369,20 +378,30 @@ public class StatDialogController {
 	public void updateDialog(boolean doSetDataSource) {
 
 		removeStatGeos();
-		boolean hasValidDataSource = doSetDataSource ? setDataSource() : true;
+		
+		boolean hasValidDataSource = true;
+		if(doSetDataSource){
+			hasValidDataSource = setDataSource();
+		}
+		
 		if (dataSource == null)
 			return;
-
+		
 		if (hasValidDataSource) {
 			loadDataLists();
 
 			updateAllStatPanels(true);
 
-			if (mode == StatDialog.MODE_REGRESSION) {
+
+			if (mode() == StatDialog.MODE_REGRESSION) {
 				setRegressionGeo();
 				if (sd.regressionPanel != null)
 					sd.regressionPanel.updateRegressionPanel();
 			}
+			
+			sd.revalidate();
+			sd.repaint();
+			
 		} else {
 			// TODO --- handle bad data
 		}
@@ -396,6 +415,9 @@ public class StatDialogController {
 			sd.comboStatPanel2.updatePlot(doCreateGeo);
 		if (sd.statisticsPanel != null) {
 			sd.statisticsPanel.updatePanel();
+			System.out.println("updated stat panel");
+			ArrayList<CellRange> cellRangeList = (ArrayList<CellRange>) dataSource;
+			cellRangeList.get(0).debug();
 		}
 
 	}

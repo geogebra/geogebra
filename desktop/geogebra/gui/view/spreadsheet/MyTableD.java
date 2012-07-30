@@ -621,7 +621,6 @@ public class MyTableD extends JTable implements FocusListener, MyTableInterface 
 				view.getSpreadsheetStyleBar().updateStyleBar();
 
 			app.setSelectedGeos(list);
-			view.notifySpreadsheetSelectionChange();
 		}
 
 		// if the selection has changed or an empty cell has been clicked,

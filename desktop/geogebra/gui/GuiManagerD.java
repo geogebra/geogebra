@@ -39,6 +39,7 @@ import geogebra.gui.layout.LayoutD;
 import geogebra.gui.layout.panels.AlgebraDockPanel;
 import geogebra.gui.layout.panels.CasDockPanel;
 import geogebra.gui.layout.panels.ConstructionProtocolDockPanel;
+import geogebra.gui.layout.panels.DataAnalysisViewDockPanel;
 import geogebra.gui.layout.panels.Euclidian2DockPanel;
 import geogebra.gui.layout.panels.EuclidianDockPanel;
 import geogebra.gui.layout.panels.EuclidianDockPanelAbstract;
@@ -60,6 +61,7 @@ import geogebra.gui.view.probcalculator.ProbabilityCalculator;
 import geogebra.gui.view.properties.PropertiesViewD;
 import geogebra.gui.view.spreadsheet.SpreadsheetView;
 import geogebra.gui.view.spreadsheet.statdialog.PlotPanelEuclidianView;
+import geogebra.gui.view.spreadsheet.statdialog.StatDialog;
 import geogebra.gui.virtualkeyboard.VirtualKeyboard;
 import geogebra.gui.virtualkeyboard.WindowsUnicodeKeyboard;
 import geogebra.main.AppD;
@@ -143,6 +145,8 @@ public class GuiManagerD extends GuiManager {
 
 	private ProbabilityCalculator probCalculator;
 
+	private StatDialog dataView;
+	
 	public static DataFlavor urlFlavor, uriListFlavor;
 	static {
 		try {
@@ -252,6 +256,9 @@ public class GuiManagerD extends GuiManager {
 		// register Properties view
 		layout.registerPanel(new PropertiesDockPanel((AppD)app));
 
+		// register data analysis view
+		layout.registerPanel(new DataAnalysisViewDockPanel((AppD)app));
+				
 		/*
 		if (!app.isWebstart() || app.is3D()) {
 			// register Assignment view
@@ -416,6 +423,24 @@ public class GuiManagerD extends GuiManager {
 		return probCalculator;
 	}
 
+
+	@Override
+	public boolean hasDataAnalysisView() {
+		if (dataView == null)
+			return false;
+		if (!dataView.isShowing())
+			return false;
+		return true;
+	}
+
+	@Override
+	public StatDialog getDataAnalysisView() {
+		if (dataView == null)
+			dataView = new StatDialog((AppD)app,StatDialog.MODE_ONEVAR);
+		return dataView;
+	}
+
+	
 	public SpreadsheetView getSpreadsheetView() {
 		// init spreadsheet view
 		if (spreadsheetView == null) {
@@ -595,10 +620,14 @@ public class GuiManagerD extends GuiManager {
 		case App.VIEW_PROPERTIES:
 			detachPropertiesView();
 			break;
+		case App.VIEW_DATA_ANALYSIS:
+			detachDataAnalysisView();
+			break;
 		case App.VIEW_EUCLIDIAN:
 		case App.VIEW_EUCLIDIAN2:
 			App.debug("TODO: should we detach EV1/2?");
 			break;
+				
 		default: 
 			App.error("Error detaching VIEW: "+viewId);
 		}
@@ -659,6 +688,18 @@ public class GuiManagerD extends GuiManager {
 		probCalculator.detachView();
 	}
 
+	@Override
+	public void attachDataAnalysisView() {
+		getDataAnalysisView().attachView();
+	}
+
+	@Override
+	public void detachDataAnalysisView() {
+		getDataAnalysisView().detachView();
+	}
+	
+	
+	
 	@Override
 	public void attachAssignmentView() {
 		getAssignmentView();

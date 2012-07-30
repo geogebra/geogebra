@@ -58,8 +58,8 @@ import javax.swing.event.ChangeListener;
  * @author G.Sturr
  * 
  */
-public class StatComboPanel extends JPanel implements ActionListener,
-		FocusListener, StatPanelInterface {
+public class StatComboPanel extends JPanel implements ActionListener, FocusListener,
+StatPanelInterface{
 	private static final long serialVersionUID = 1L;
 	// ggb fields
 	private AppD app;
@@ -86,26 +86,32 @@ public class StatComboPanel extends JPanel implements ActionListener,
 	// currently selected plot type
 	private int selectedPlot;
 
+
 	// plot reference vars
 	protected static HashMap<Integer, String> plotMap;
 	private HashMap<String, Integer> plotMapReverse;
 
+
 	private StatPanelSettings settings;
+
 
 	// geos
 	private GeoList regressionAnalysisList;
 	private ArrayList<GeoElement> plotGeoList;
-
+	
 	private GeoElement[] boxPlotTitles;
-	private GeoElement histogram, dotPlot, frequencyPolygon, normalCurve,
-			scatterPlot, scatterPlotLine, residualPlot, nqPlot, boxPlot;
+	private GeoElement histogram, dotPlot, frequencyPolygon, normalCurve, 
+	scatterPlot, scatterPlotLine, residualPlot, nqPlot, boxPlot;
+	
 
-	// display panels
+	// display panels 	
 	private JPanel displayCardPanel;
 	private JPanel metaPlotPanel, plotPanelNorth, plotPanelSouth;
 	private PlotPanelEuclidianView plotPanel;
 
+
 	private JLabel imageContainer;
+
 
 	// control panel
 	private JPanel controlPanel;
@@ -113,14 +119,15 @@ public class StatComboPanel extends JPanel implements ActionListener,
 	private boolean hasControlPanel;
 	private JComboBox cbDisplayType;
 
+
 	// options button and sidebar panel
-	private OptionsPanel optionsPanel;
+	private OptionsPanel optionsPanel; 
 	private JToggleButton optionsButton;
 
-	// numClasses panel
+	// numClasses panel 
 	private int numClasses = 6;
 	private JPanel numClassesPanel;
-	private JSlider sliderNumClasses;
+	private JSlider sliderNumClasses; 
 
 	// manual classes panel
 	private JToolBar manualClassesPanel;
@@ -129,6 +136,8 @@ public class StatComboPanel extends JPanel implements ActionListener,
 	private AutoCompleteTextFieldD fldStart;
 	private AutoCompleteTextFieldD fldWidth;
 	private JLabel lblNumClasses;
+
+
 
 	// stemplot adjustment panel
 	private JToolBar stemAdjustPanel;
@@ -145,19 +154,22 @@ public class StatComboPanel extends JPanel implements ActionListener,
 	private MyTextField fldTitleX, fldTitleY;
 	private FrequencyTable frequencyTable;
 	private JToggleButton btnExport;
+	
 
-	/*****************************************
+
+
+
+	/***************************************** 
 	 * Constructs a ComboStatPanel
 	 */
-	public StatComboPanel(StatDialog statDialog, int defaultPlotIndex,
-			int mode, boolean hasControlPanel) {
+	public  StatComboPanel( StatDialog statDialog, int defaultPlotIndex, int mode, boolean hasControlPanel){
 
 		this.statDialog = statDialog;
 		this.app = statDialog.getApp();
 		this.mode = mode;
 		this.statGeo = statDialog.getStatGeo();
 		this.selectedPlot = defaultPlotIndex;
-		this.hasControlPanel = hasControlPanel;
+		this.hasControlPanel=hasControlPanel;
 		plotGeoList = new ArrayList<GeoElement>();
 
 		createPlotMap();
@@ -168,19 +180,23 @@ public class StatComboPanel extends JPanel implements ActionListener,
 
 	}
 
-	// ==============================================
-	// GUI
-	// ==============================================
 
-	private void createGUI() {
+
+	//==============================================
+	//              GUI
+	//==============================================
+
+
+	private void createGUI(){
 
 		// create settings
 		settings = new StatPanelSettings();
 
+
 		// create options button
 		optionsButton = new JToggleButton();
 		optionsButton.setIcon(app.getImageIcon("view-properties16.png"));
-		// optionsButton.setSelectedIcon(app.getImageIcon("inputhelp_right_18x18.png"));
+		//optionsButton.setSelectedIcon(app.getImageIcon("inputhelp_right_18x18.png"));
 		optionsButton.setBorderPainted(false);
 		optionsButton.setFocusPainted(false);
 		optionsButton.setContentAreaFilled(false);
@@ -189,14 +205,15 @@ public class StatComboPanel extends JPanel implements ActionListener,
 		// create export button
 		btnExport = new JToggleButton();
 		btnExport.setIcon(app.getImageIcon("edit-copy.png"));
-		// optionsButton.setSelectedIcon(app.getImageIcon("inputhelp_right_18x18.png"));
+		//optionsButton.setSelectedIcon(app.getImageIcon("inputhelp_right_18x18.png"));
 		btnExport.setBorderPainted(false);
 		btnExport.setFocusPainted(false);
 		btnExport.setContentAreaFilled(false);
 		btnExport.addActionListener(this);
 
-		// create control panel
-		if (hasControlPanel) {
+
+		// create control panel 
+		if(hasControlPanel){
 
 			// create sub-control panels
 			createDisplayTypeComboBox();
@@ -215,25 +232,25 @@ public class StatComboPanel extends JPanel implements ActionListener,
 
 			// control panel
 			controlPanel = new JPanel(new BorderLayout());
-			controlPanel.add(flowPanel(cbDisplayType), BorderLayout.WEST);
-			controlPanel.add(controlCards, BorderLayout.CENTER);
-			controlPanel.add(flowPanelRight(optionsButton, btnExport),
-					BorderLayout.EAST);
+			controlPanel.add(flowPanel(cbDisplayType),BorderLayout.WEST);
+			controlPanel.add(controlCards,BorderLayout.CENTER);
+			controlPanel.add(flowPanelRight(optionsButton, btnExport),BorderLayout.EAST);
 		}
 
-		plotPanel = new PlotPanelEuclidianView(app.getKernel(),
-				exportToEVAction);
+
+		
+		plotPanel = new PlotPanelEuclidianView(app.getKernel(), exportToEVAction);
+		
 
 		plotPanelNorth = new JPanel();
 		plotPanelSouth = new JPanel();
-		Color bgColor = geogebra.awt.GColorD.getAwtColor(plotPanel
-				.getBackgroundCommon());
+		Color bgColor = geogebra.awt.GColorD.getAwtColor(plotPanel.getBackgroundCommon());
 		plotPanelNorth.setBackground(bgColor);
 		plotPanelSouth.setBackground(bgColor);
 		lblTitleX = new JLabel();
 		lblTitleY = new JLabel();
-		fldTitleX = new MyTextField(app, 20);
-		fldTitleY = new MyTextField(app, 20);
+		fldTitleX = new MyTextField(app,20);
+		fldTitleY = new MyTextField(app,20);
 		fldTitleX.setEditable(false);
 		fldTitleX.setBorder(BorderFactory.createEmptyBorder());
 		fldTitleY.setEditable(false);
@@ -241,10 +258,12 @@ public class StatComboPanel extends JPanel implements ActionListener,
 		fldTitleX.setBackground(Color.white);
 		fldTitleY.setBackground(Color.white);
 
+
 		metaPlotPanel = new JPanel(new BorderLayout());
 		metaPlotPanel.add(plotPanel.getJPanel(), BorderLayout.CENTER);
 
 		createImagePanel();
+
 
 		// put display panels into a card layout
 
@@ -254,75 +273,81 @@ public class StatComboPanel extends JPanel implements ActionListener,
 		displayCardPanel.add("plotPanel", metaPlotPanel);
 		displayCardPanel.add("imagePanel", new JScrollPane(imagePanel));
 
+
 		// create options panel
-		optionsPanel = new OptionsPanel(app, statDialog, settings);
-		optionsPanel.addPropertyChangeListener("settings",
-				new PropertyChangeListener() {
-					public void propertyChange(PropertyChangeEvent evt) {
-						updatePlot(true);
-					}
-				});
+		optionsPanel= new OptionsPanel(app, statDialog, settings);
+		optionsPanel.addPropertyChangeListener("settings", new PropertyChangeListener() {
+			public void propertyChange(PropertyChangeEvent evt) {
+				updatePlot(true);
+			}
+		});
 		optionsPanel.setVisible(false);
 
-		frequencyTable = new FrequencyTable(app, statDialog);
+		frequencyTable = new FrequencyTable(app, statDialog); 
+
+
 
 		// =======================================
 		// put all the panels together
 
 		JPanel mainPanel = new JPanel(new BorderLayout());
 		mainPanel.setLayout(new BorderLayout());
-		if (hasControlPanel) {
-			mainPanel.add(controlPanel, BorderLayout.NORTH);
+		if(hasControlPanel){
+			mainPanel.add(controlPanel,BorderLayout.NORTH);
 		}
-		mainPanel.add(displayCardPanel, BorderLayout.CENTER);
-		mainPanel.add(optionsPanel, BorderLayout.EAST);
+		mainPanel.add(displayCardPanel,BorderLayout.CENTER);		
+		mainPanel.add(optionsPanel,BorderLayout.EAST);
+
 
 		this.setLayout(new BorderLayout());
 		this.add(mainPanel, BorderLayout.CENTER);
-		// this.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
+		//	this.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
 		this.setBorder(BorderFactory.createEmptyBorder());
-		controlPanel.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0,
-				SystemColor.controlShadow));
+		controlPanel.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, SystemColor.controlShadow));
 
 	}
+
 
 	/**
 	 * Sets the labels to the current language
 	 */
-	public void setLabels() {
+	public void setLabels(){
 
 		createPlotMap();
 		createDisplayTypeComboBox();
 		lblNumClasses.setText(app.getMenu("Classes") + ": ");
 		lblStart.setText(app.getMenu("Start") + ": ");
 		lblWidth.setText(app.getMenu("Width") + ": ");
-		if (mode == statDialog.MODE_REGRESSION) {
+		if(mode == statDialog.MODE_REGRESSION){
 			lblTitleX.setText(app.getMenu("Column.X") + ": ");
 			lblTitleY.setText(app.getMenu("Column.Y") + ": ");
 		}
-		lblAdjust.setText(app.getMenu("Adjustment") + ": ");
+		lblAdjust.setText(app.getMenu("Adjustment")+ ": ");
 
 		optionsPanel.setLabels();
 		optionsButton.setToolTipText(app.getMenu("Options"));
 
 	}
 
+
+
 	/**
 	 * Creates the JComboBox that selects display type
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	private void createDisplayTypeComboBox() {
+	private void createDisplayTypeComboBox(){
 
-		if (cbDisplayType == null) {
+		if(cbDisplayType == null){
 			cbDisplayType = new JComboBox();
 			cbDisplayType.setRenderer(new MyRenderer());
 
-		} else {
+
+		}else{
 			cbDisplayType.removeActionListener(this);
 			cbDisplayType.removeAllItems();
 		}
 
-		switch (mode) {
+		switch(mode){
 
 		case StatDialog.MODE_ONEVAR:
 			cbDisplayType.addItem(plotMap.get(PLOT_HISTOGRAM));
@@ -348,18 +373,20 @@ public class StatComboPanel extends JPanel implements ActionListener,
 
 	}
 
+
+
 	/**
 	 * Updates the plot panel. Adds/removes additional panels as needed for the
 	 * current selected plot.
 	 */
-	private void updatePlotPanelLayout() {
+	private void updatePlotPanelLayout(){
 
 		metaPlotPanel.removeAll();
 		plotPanelSouth.removeAll();
 		plotPanelNorth.removeAll();
 		metaPlotPanel.add(plotPanel.getJPanel(), BorderLayout.CENTER);
 
-		if (selectedPlot == this.PLOT_SCATTERPLOT) {
+		if(selectedPlot == this.PLOT_SCATTERPLOT){
 			plotPanelNorth.setLayout(new FlowLayout(FlowLayout.LEFT));
 			plotPanelSouth.setLayout(new FlowLayout(FlowLayout.CENTER));
 			plotPanelSouth.add(lblTitleX);
@@ -371,29 +398,30 @@ public class StatComboPanel extends JPanel implements ActionListener,
 			metaPlotPanel.add(plotPanelSouth, BorderLayout.SOUTH);
 		}
 
-		else if (selectedPlot == this.PLOT_HISTOGRAM) {
+		else if(selectedPlot == this.PLOT_HISTOGRAM){
 
-			// plotPanelNorth.setLayout(new FlowLayout(FlowLayout.LEFT));
-			// plotPanelNorth.add(lblTitleY);
-			// plotPanelNorth.add(fldTitleY);
-			// metaPlotPanel.add(plotPanelNorth, BorderLayout.NORTH);
+			//	plotPanelNorth.setLayout(new FlowLayout(FlowLayout.LEFT));
+			//	plotPanelNorth.add(lblTitleY);
+			//	plotPanelNorth.add(fldTitleY);
+			//	metaPlotPanel.add(plotPanelNorth, BorderLayout.NORTH);
 
-			if (settings.showFrequencyTable) {
+			if(settings.showFrequencyTable){
 				plotPanelSouth.setLayout(new BorderLayout());
 				plotPanelSouth.add(frequencyTable, BorderLayout.CENTER);
 				metaPlotPanel.add(plotPanelSouth, BorderLayout.SOUTH);
 			}
 		}
 
-		// plotPanelSouth.revalidate();
-		// plotPanelNorth.revalidate();
+		//plotPanelSouth.revalidate();
+		//plotPanelNorth.revalidate();
 
 	}
+
 
 	/**
 	 * Creates a display panel to hold an image, e.g. tabletext
 	 */
-	private void createImagePanel() {
+	private void createImagePanel(){
 
 		imagePanel = new JPanel(new BorderLayout());
 		imagePanel.setBorder(BorderFactory.createEmptyBorder());
@@ -406,25 +434,26 @@ public class StatComboPanel extends JPanel implements ActionListener,
 
 	}
 
+
 	/**
 	 * Creates a control panel for adjusting the number of histogram classes
 	 */
-	private void createNumClassesPanel() {
+	private void createNumClassesPanel(){
 
 		lblNumClasses = new JLabel();
-		final JTextField fldNumClasses = new JTextField("" + numClasses);
+		final JTextField fldNumClasses = new JTextField(""+numClasses);
 		fldNumClasses.setEditable(false);
 		fldNumClasses.setOpaque(true);
 		fldNumClasses.setColumns(2);
 		fldNumClasses.setHorizontalAlignment(SwingConstants.CENTER);
 		fldNumClasses.setBackground(Color.WHITE);
 
-		sliderNumClasses = new JSlider(SwingConstants.HORIZONTAL, 3, 20,
-				numClasses);
+		sliderNumClasses = new JSlider(SwingConstants.HORIZONTAL, 3, 20, numClasses);
 		Dimension d = sliderNumClasses.getPreferredSize();
 		d.width = 80;
 		sliderNumClasses.setPreferredSize(d);
-		sliderNumClasses.setMinimumSize(new Dimension(50, d.height));
+		sliderNumClasses.setMinimumSize(new Dimension(50,d.height));
+
 
 		sliderNumClasses.setMajorTickSpacing(1);
 		sliderNumClasses.setSnapToTicks(true);
@@ -434,7 +463,7 @@ public class StatComboPanel extends JPanel implements ActionListener,
 				numClasses = slider.getValue();
 				fldNumClasses.setText(("" + numClasses));
 				updatePlot(true);
-				// btnClose.requestFocus();
+				//btnClose.requestFocus();
 			}
 		});
 
@@ -445,10 +474,13 @@ public class StatComboPanel extends JPanel implements ActionListener,
 
 	}
 
+
+
+
 	/**
 	 * Creates a control panel to adjust the stem plot
 	 */
-	private void createStemPlotAdjustmentPanel() {
+	private void createStemPlotAdjustmentPanel(){
 
 		lblAdjust = new JLabel();
 		minus = new JButton("-1");
@@ -466,30 +498,31 @@ public class StatComboPanel extends JPanel implements ActionListener,
 
 	}
 
+
 	/**
 	 * Creates a control panel for manually setting classes
 	 */
-	private void createManualClassesPanel() {
+	private void createManualClassesPanel(){
 
 		lblStart = new JLabel();
 		lblWidth = new JLabel();
 
-		fldStart = new AutoCompleteTextFieldD(4, app);
+		fldStart = new AutoCompleteTextFieldD(4,app);
 		Dimension d = fldStart.getMaximumSize();
 		d.height = fldStart.getPreferredSize().height;
 		fldStart.setMaximumSize(d);
 		fldStart.addActionListener(this);
-		fldStart.setText("" + (int) settings.classStart);
+		fldStart.setText("" + (int)settings.classStart);
 		fldStart.addFocusListener(this);
 
-		fldWidth = new AutoCompleteTextFieldD(4, app);
+		fldWidth = new AutoCompleteTextFieldD(4,app);
 		fldWidth.setMaximumSize(d);
 		fldStart.setColumns(4);
 		fldWidth.setColumns(4);
 		fldWidth.addActionListener(this);
-		fldWidth.setText("" + (int) settings.classWidth);
+		fldWidth.setText("" + (int)settings.classWidth);
 		fldWidth.addFocusListener(this);
-
+		
 		manualClassesPanel = new JToolBar();
 		manualClassesPanel.setFloatable(false);
 		manualClassesPanel.add(lblStart);
@@ -500,37 +533,47 @@ public class StatComboPanel extends JPanel implements ActionListener,
 	}
 
 	/*
-	 * private void createTwoSampleSelectionPanel(){
-	 * 
-	 * modelTitle1 = new DefaultComboBoxModel(); modelTitle2 = new
-	 * DefaultComboBoxModel(); cbTitle1 = new JComboBox(modelTitle1); cbTitle2 =
-	 * new JComboBox(modelTitle2); lblTitle1 = new JLabel(); lblTitle2 = new
-	 * JLabel();
-	 * 
-	 * lblTitle1.setText("1: "); lblTitle2.setText("2: ");
-	 * 
-	 * modelTitle1.removeAllElements(); modelTitle2.removeAllElements();
-	 * String[] dataTitles = statDialog.getDataTitles(); if(dataTitles!= null){
-	 * for(int i=0; i < dataTitles.length; i++){
-	 * modelTitle1.addElement(dataTitles[i]);
-	 * modelTitle2.addElement(dataTitles[i]); } }
-	 * 
-	 * 
-	 * JToolBar p = new JToolBar();
-	 * 
-	 * p.add(flowPanel(lblTitle1,cbTitle1));
-	 * p.add(flowPanel(lblTitle2,cbTitle2)); twoSampleSelectionPanel =new
-	 * JPanel(new BorderLayout()); twoSampleSelectionPanel.add(p); }
+	private void createTwoSampleSelectionPanel(){
+
+		modelTitle1 = new DefaultComboBoxModel();
+		modelTitle2 = new DefaultComboBoxModel();
+		cbTitle1 = new JComboBox(modelTitle1);
+		cbTitle2 = new JComboBox(modelTitle2);
+		lblTitle1 = new JLabel();
+		lblTitle2 = new JLabel();
+
+		lblTitle1.setText("1: ");
+		lblTitle2.setText("2: ");
+
+		modelTitle1.removeAllElements();
+		modelTitle2.removeAllElements();
+		String[] dataTitles = statDialog.getDataTitles();
+		if(dataTitles!= null){
+			for(int i=0; i < dataTitles.length; i++){
+				modelTitle1.addElement(dataTitles[i]);
+				modelTitle2.addElement(dataTitles[i]);
+			}
+		}
+
+
+		JToolBar p = new JToolBar();
+
+		p.add(flowPanel(lblTitle1,cbTitle1));
+		p.add(flowPanel(lblTitle2,cbTitle2));
+		twoSampleSelectionPanel =new JPanel(new BorderLayout());
+		twoSampleSelectionPanel.add(p);
+	}
 	 */
 
+
 	/**
-	 * Creates two hash maps for JComboBox selections, 1) plotMap: Key = integer
-	 * display type, Value = JComboBox menu string 2) plotMapReverse: Key =
-	 * JComboBox menu string, Value = integer display type
+	 * Creates two hash maps for JComboBox selections, 
+	 * 1) plotMap:  Key = integer display type, Value = JComboBox menu string  
+	 * 2) plotMapReverse: Key = JComboBox menu string, Value = integer display type    
 	 */
-	private void createPlotMap() {
-		if (plotMap == null)
-			plotMap = new HashMap<Integer, String>();
+	private void createPlotMap(){
+		if(plotMap == null)
+			plotMap = new HashMap<Integer,String>();
 
 		plotMap.clear();
 		plotMap.put(PLOT_HISTOGRAM, app.getMenu("Histogram"));
@@ -546,151 +589,140 @@ public class StatComboPanel extends JPanel implements ActionListener,
 
 		// REVERSE PLOT MAP
 		plotMapReverse = new HashMap<String, Integer>();
-		for (Integer key : plotMap.keySet()) {
+		for(Integer key: plotMap.keySet()){
 			plotMapReverse.put(plotMap.get(key), key);
 		}
 
 	}
 
-	// ==============================================
-	// DISPLAY UPDATE
-	// ==============================================
 
-	public void updatePlot(boolean doCreate) {
 
-		GeoList dataListSelected = statDialog.getStatDialogController()
-				.getDataSelected();
+	//==============================================
+	//              DISPLAY UPDATE
+	//==============================================
 
-		// if(!statGeo.removeFromConstruction()){
-		// statDialog.getStatDialogController().setRegressionGeo();
-		// }
+	
+	public void updatePlot(boolean doCreate){
 
+		GeoList dataListSelected = statDialog.getStatDialogController().getDataSelected();
+		
+		
+		//if(!statGeo.removeFromConstruction()){	
+			//statDialog.getStatDialogController().setRegressionGeo();			
+		//}
+	
+		
 		GeoElement geo;
-		if (hasControlPanel)
-			((CardLayout) controlCards.getLayout()).show(controlCards,
-					"blankPanel");
+		if(hasControlPanel)
+			((CardLayout)controlCards.getLayout()).show(controlCards, "blankPanel");	
 
-		if (doCreate)
+		if(doCreate)
 			clearPlotGeoList();
 
 		optionsButton.setVisible(true);
 		updatePlotPanelLayout();
 
-		switch (selectedPlot) {
+		switch(selectedPlot){
 
-		case PLOT_HISTOGRAM:
-			if (doCreate) {
-				if (histogram != null)
+		case PLOT_HISTOGRAM:			
+			if(doCreate){
+				if(histogram != null)
 					histogram.remove();
-				histogram = statGeo.createHistogram(dataListSelected,
-						numClasses, settings, false);
+				histogram = statGeo.createHistogram(dataListSelected, numClasses, settings, false);
 				plotGeoList.add(histogram);
 
-				if (frequencyPolygon != null)
+				if(frequencyPolygon != null)
 					frequencyPolygon.remove();
-				if (settings.hasOverlayPolygon) {
-					frequencyPolygon = statGeo.createHistogram(
-							dataListSelected, numClasses, settings, true);
+				if(settings.hasOverlayPolygon){
+					frequencyPolygon = statGeo.createHistogram( dataListSelected, numClasses, settings, true);
 					plotGeoList.add(frequencyPolygon);
 				}
-				if (normalCurve != null)
+				if(normalCurve != null)
 					normalCurve.remove();
-				if (settings.hasOverlayNormal) {
-					normalCurve = statGeo
-							.createNormalCurveOverlay(dataListSelected);
+				if(settings.hasOverlayNormal){
+					normalCurve = statGeo.createNormalCurveOverlay(dataListSelected);
 					plotGeoList.add(normalCurve);
 				}
 			}
 
 			// update the frequency table
 			AlgoHistogram algo = (AlgoHistogram) histogram.getParentAlgorithm();
-			frequencyTable.setTable(algo.getLeftBorder(), algo.getYValue(),
-					settings);
+			frequencyTable.setTable(algo.getLeftBorder(), algo.getYValue(), settings);
 
 			// update settings
-			statGeo.getHistogramSettings(dataListSelected, histogram, settings);
+			statGeo.getHistogramSettings( dataListSelected, histogram, settings);
 			plotPanel.updateSettings(settings);
 
-			if (hasControlPanel)
-				if (settings.useManualClasses)
-					((CardLayout) controlCards.getLayout()).show(controlCards,
-							"manualClassesPanel");
+			if(hasControlPanel)
+				if(settings.useManualClasses)
+					((CardLayout)controlCards.getLayout()).show(controlCards, "manualClassesPanel");	
 				else
-					((CardLayout) controlCards.getLayout()).show(controlCards,
-							"numClassesPanel");
+					((CardLayout)controlCards.getLayout()).show(controlCards, "numClassesPanel");	
 
-			((CardLayout) displayCardPanel.getLayout()).show(displayCardPanel,
-					"plotPanel");
-			break;
+
+			((CardLayout)displayCardPanel.getLayout()).show(displayCardPanel, "plotPanel");
+			break;	
 
 		case PLOT_BOXPLOT:
-			if (doCreate) {
-				if (boxPlot != null)
+			if(doCreate){
+				if(boxPlot != null)
 					boxPlot.remove();
-				boxPlot = statGeo.createBoxPlot(dataListSelected);
+				boxPlot = statGeo.createBoxPlot( dataListSelected);
 				plotGeoList.add(boxPlot);
 			}
-			statGeo.getBoxPlotSettings(dataListSelected, settings);
+			statGeo.getBoxPlotSettings( dataListSelected, settings);
 			plotPanel.updateSettings(settings);
-			((CardLayout) displayCardPanel.getLayout()).show(displayCardPanel,
-					"plotPanel");
+			((CardLayout)displayCardPanel.getLayout()).show(displayCardPanel, "plotPanel");
 			break;
 
 		case PLOT_DOTPLOT:
-			if (doCreate) {
-				if (dotPlot != null)
+			if(doCreate){
+				if(dotPlot != null)
 					dotPlot.remove();
-				dotPlot = statGeo.createDotPlot(dataListSelected);
+				dotPlot = statGeo.createDotPlot( dataListSelected);
 				plotGeoList.add(dotPlot);
 			}
 
 			statGeo.updateDotPlot(dataListSelected, dotPlot, settings);
 			plotPanel.updateSettings(settings);
-			((CardLayout) displayCardPanel.getLayout()).show(displayCardPanel,
-					"plotPanel");
+			((CardLayout)displayCardPanel.getLayout()).show(displayCardPanel, "plotPanel");
 			break;
 
 		case PLOT_STEMPLOT:
-			String latex = statGeo.getStemPlotLatex(dataListSelected,
-					settings.stemAdjust);
-			imageContainer.setIcon(GeoGebraIcon.createLatexIcon(app, latex,
-					app.getPlainFont(), true, Color.BLACK, null));
+			String latex = statGeo.getStemPlotLatex( dataListSelected, settings.stemAdjust);
+			imageContainer.setIcon(GeoGebraIcon.createLatexIcon(app, latex, app.getPlainFont(), true, Color.BLACK, null));
 			optionsButton.setVisible(false);
-			if (hasControlPanel)
-				((CardLayout) controlCards.getLayout()).show(controlCards,
-						"stemAdjustPanel");
+			if(hasControlPanel)
+				((CardLayout)controlCards.getLayout()).show(controlCards, "stemAdjustPanel");
 
-			((CardLayout) displayCardPanel.getLayout()).show(displayCardPanel,
-					"imagePanel");
+			((CardLayout)displayCardPanel.getLayout()).show(displayCardPanel, "imagePanel");
 			break;
 
+
 		case PLOT_NORMALQUANTILE:
-			if (doCreate) {
-				if (nqPlot != null)
+			if(doCreate){
+				if(nqPlot != null)
 					nqPlot.remove();
-				nqPlot = statGeo.createNormalQuantilePlot(dataListSelected);
+				nqPlot = statGeo.createNormalQuantilePlot( dataListSelected);
 				plotGeoList.add(nqPlot);
 			}
 			statGeo.updateNormalQuantilePlot(dataListSelected, settings);
 			plotPanel.updateSettings(settings);
-			((CardLayout) displayCardPanel.getLayout()).show(displayCardPanel,
-					"plotPanel");
+			((CardLayout)displayCardPanel.getLayout()).show(displayCardPanel, "plotPanel");
 			break;
 
 		case PLOT_SCATTERPLOT:
-			if (doCreate) {
+			if(doCreate){
 				scatterPlot = statGeo.createScatterPlot(dataListSelected);
 				plotGeoList.add(scatterPlot);
 
-				if (statDialog.getRegressionModel() != null
-						&& !statDialog.getRegressionMode().equals(
-								Regression.NONE)) {
-					plotGeoList.add(statDialog.getRegressionModel());
+				if(statDialog.getRegressionModel()!=null 
+						&& !statDialog.getRegressionMode().equals(Regression.NONE)){
+					plotGeoList.add(statDialog.getRegressionModel());  
 				}
 
-				if (settings.showScatterplotLine) {
-					scatterPlotLine = statGeo
-							.createScatterPlotLine((GeoList) scatterPlot);
+				if(settings.showScatterplotLine){
+					scatterPlotLine = statGeo.createScatterPlotLine((GeoList) scatterPlot);
 					plotGeoList.add(scatterPlotLine);
 				}
 			}
@@ -703,113 +735,112 @@ public class StatComboPanel extends JPanel implements ActionListener,
 			statGeo.getScatterPlotSettings(dataListSelected, settings);
 			plotPanel.updateSettings(settings);
 
-			((CardLayout) displayCardPanel.getLayout()).show(displayCardPanel,
-					"plotPanel");
+			((CardLayout)displayCardPanel.getLayout()).show(displayCardPanel, "plotPanel");
 
 			break;
 
+
 		case PLOT_RESIDUAL:
-			if (doCreate) {
-				if (!statDialog.getRegressionMode().equals(Regression.NONE)) {
-					residualPlot = statGeo.createRegressionPlot(
-							dataListSelected, statDialog.getRegressionMode(),
+			if(doCreate){
+				if(!statDialog.getRegressionMode().equals(Regression.NONE)){
+					residualPlot = statGeo.createRegressionPlot(dataListSelected, statDialog.getRegressionMode(), 
 							statDialog.getRegressionOrder(), true);
 					plotGeoList.add(residualPlot);
-					statGeo.getResidualPlotSettings(dataListSelected,
-							residualPlot, settings);
+					statGeo.getResidualPlotSettings(dataListSelected, residualPlot, settings);
 					plotPanel.updateSettings(settings);
-				} else if (residualPlot != null) {
+				} 
+				else if(residualPlot != null){
 					residualPlot.remove();
 					residualPlot = null;
 				}
 			}
 
-			((CardLayout) displayCardPanel.getLayout()).show(displayCardPanel,
-					"plotPanel");
+			((CardLayout)displayCardPanel.getLayout()).show(displayCardPanel, "plotPanel");
 			break;
 
+
 		case PLOT_MULTIBOXPLOT:
-			if (doCreate) {
-				GeoElement[] boxPlots = statGeo
-						.createMultipleBoxPlot(dataListSelected);
-				for (int i = 0; i < boxPlots.length; i++)
+			if(doCreate){
+				GeoElement[] boxPlots = statGeo.createMultipleBoxPlot( dataListSelected);
+				for (int i = 0 ; i < boxPlots.length ; i++)
 					plotGeoList.add(boxPlots[i]);
 			}
 
 			statGeo.getMultipleBoxPlotSettings(dataListSelected, settings);
 			plotPanel.updateSettings(settings);
 			boxPlotTitles = statGeo.createBoxPlotTitles(statDialog, settings);
-			for (int i = 0; i < boxPlotTitles.length; i++)
+			for (int i = 0 ; i < boxPlotTitles.length ; i++)
 				plotGeoList.add(boxPlotTitles[i]);
 
-			((CardLayout) displayCardPanel.getLayout()).show(displayCardPanel,
-					"plotPanel");
+			((CardLayout)displayCardPanel.getLayout()).show(displayCardPanel, "plotPanel");
 			optionsButton.setVisible(false);
 			break;
+
 
 		default:
 
 		}
 
-		if (doCreate && statGeo.removeFromConstruction()) {
-			for (GeoElement listGeo : plotGeoList) {
-				// add the geo to our view and remove it from EV
+
+		if(doCreate && statGeo.removeFromConstruction()){
+			for(GeoElement listGeo:plotGeoList){
+				// add the geo to our view and remove it from EV		
 				listGeo.addView(plotPanel.getViewID());
 				plotPanel.add(listGeo);
 				listGeo.removeView(App.VIEW_EUCLIDIAN);
 				app.getEuclidianView1().remove(listGeo);
 			}
 		}
-
-		if (histogram != null) {
+		
+		if(histogram != null){
 			histogram.setEuclidianVisible(settings.showHistogram);
-			histogram.updateRepaint();
+		histogram.updateRepaint();
 		}
-
+		
+		
 	}
 
-	// ============================================================
-	// Event Handlers
-	// ============================================================
+
+
+
+	//============================================================
+	//     Event Handlers
+	//============================================================
+
 
 	public void actionPerformed(ActionEvent e) {
 
 		Object source = e.getSource();
 
-		if (source instanceof JTextField)
+		if(source instanceof JTextField)
 			doTextFieldActionPerformed(source);
 
-		else if (source == minus || source == plus || source == none) {
+		else if(source == minus || source == plus || source == none){
 			minus.setSelected(source == minus);
 			none.setSelected(source == none);
 			plus.setSelected(source == plus);
-			if (source == minus)
-				settings.stemAdjust = -1;
-			if (source == none)
-				settings.stemAdjust = 0;
-			if (source == plus)
-				settings.stemAdjust = 1;
+			if(source == minus) settings.stemAdjust=-1;
+			if(source == none) settings.stemAdjust=0;
+			if(source == plus) settings.stemAdjust=1;
 			updatePlot(true);
 		}
 
-		else if (source == optionsButton) {
+		else if(source == optionsButton){
 			optionsPanel.setPanel(selectedPlot);
 			optionsPanel.setVisible(optionsButton.isSelected());
 		}
 
-		else if (source == btnExport) {
+		else if(source == btnExport){
 			JPopupMenu menu = plotPanel.getContextMenu();
-			menu.show(btnExport,
-					-menu.getPreferredSize().width + btnExport.getWidth(),
-					btnExport.getHeight());
+			menu.show(btnExport,- menu.getPreferredSize().width +btnExport.getWidth(),  btnExport.getHeight());
 		}
 
-		else if (source == cbDisplayType) {
-			if (cbDisplayType.getSelectedItem().equals(MyRenderer.SEPARATOR)) {
+		else if(source == cbDisplayType){
+			if(cbDisplayType.getSelectedItem().equals(MyRenderer.SEPARATOR)){
 				cbDisplayType.setSelectedItem(plotMap.get(selectedPlot));
-			} else {
-				selectedPlot = plotMapReverse.get(cbDisplayType
-						.getSelectedItem());
+			}
+			else{
+				selectedPlot = plotMapReverse.get(cbDisplayType.getSelectedItem());
 				updatePlot(true);
 			}
 			optionsPanel.setVisible(false);
@@ -818,30 +849,31 @@ public class StatComboPanel extends JPanel implements ActionListener,
 
 	}
 
-	private void doTextFieldActionPerformed(Object source) {
+	private void doTextFieldActionPerformed(Object source){
 
-		if (source == fldStart) {
-			settings.classStart = Validation.validateDouble(fldStart,
-					settings.classStart);
-		} else if (source == fldWidth) {
-			settings.classWidth = Validation.validateDoublePositive(fldWidth,
-					settings.classWidth);
+		if(source == fldStart){
+			settings.classStart = Validation.validateDouble(fldStart, settings.classStart);
+		}
+		else if(source == fldWidth){
+			settings.classWidth = Validation.validateDoublePositive(fldWidth, settings.classWidth);			
 		}
 		updatePlot(true);
 	}
 
+
 	public void focusLost(FocusEvent e) {
 		Object source = e.getSource();
-		if (source instanceof JTextField)
+		if(source instanceof JTextField)
 			this.doTextFieldActionPerformed(source);
 	}
 
-	public void focusGained(FocusEvent e) {
-	}
+	public void focusGained(FocusEvent e) { }
 
-	public void clearPlotGeoList() {
-		for (GeoElement geo : plotGeoList) {
-			if (geo != null) {
+	
+
+	public void clearPlotGeoList(){
+		for(GeoElement geo : plotGeoList){
+			if(geo != null){
 				geo.remove();
 				geo = null;
 			}
@@ -849,15 +881,18 @@ public class StatComboPanel extends JPanel implements ActionListener,
 		plotGeoList.clear();
 	}
 
-	public void removeGeos() {
+	
+	
+	public void removeGeos(){
 		clearPlotGeoList();
 	}
 
-	public void detachView() {
-		// plotPanel.detachView();
+
+	public void detachView(){
+		//plotPanel.detachView();
 	}
 
-	public void updateFonts() {
+	public void updateFonts(){
 
 	}
 
@@ -866,47 +901,54 @@ public class StatComboPanel extends JPanel implements ActionListener,
 
 	}
 
-	// ============================================================
-	// Utilities
-	// ============================================================
 
-	private JPanel flowPanel(JComponent... comp) {
+
+	//============================================================
+	//            Utilities
+	//============================================================
+
+	private JPanel flowPanel(JComponent... comp){
 		JPanel p = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		for (int i = 0; i < comp.length; i++) {
+		for(int i = 0; i<comp.length; i++){
 			p.add(comp[i]);
 		}
-		// p.setBackground(Color.white);
+		//	p.setBackground(Color.white);
 		return p;
 	}
 
-	private JPanel flowPanelRight(JComponent... comp) {
-		JPanel p = new JPanel(new FlowLayout(0, 0, FlowLayout.RIGHT));
-		for (int i = 0; i < comp.length; i++) {
+	private JPanel flowPanelRight(JComponent... comp){
+		JPanel p = new JPanel(new FlowLayout(0,0,FlowLayout.RIGHT));
+		for(int i = 0; i<comp.length; i++){
 			p.add(comp[i]);
 		}
-		// p.setBackground(Color.white);
+		//	p.setBackground(Color.white);
 		return p;
 	}
 
-	private JPanel boxXPanel(JComponent... comp) {
+
+	private JPanel boxXPanel(JComponent... comp){
 		JPanel p = new JPanel();
-		p.setLayout(new BoxLayout(p, BoxLayout.X_AXIS));
-		for (int i = 0; i < comp.length; i++) {
+		p.setLayout(new BoxLayout(p,BoxLayout.X_AXIS));
+		for(int i = 0; i<comp.length; i++){
 			p.add(comp[i]);
 		}
-		// p.setBackground(Color.white);
+		//	p.setBackground(Color.white);
 		return p;
 	}
 
-	public void updateFonts(Font font) {
-	}
 
-	public void updatePanel() {
-	}
+	public void updateFonts(Font font) { }
 
-	// ============================================================
-	// ComboBox Renderer with SEPARATOR
-	// ============================================================
+	public void updatePanel() { }
+
+
+
+
+
+
+	//============================================================
+	//           ComboBox Renderer with SEPARATOR
+	//============================================================
 
 	private static class MyRenderer extends JLabel implements ListCellRenderer {
 		private static final long serialVersionUID = 1L;
@@ -939,40 +981,43 @@ public class StatComboPanel extends JPanel implements ActionListener,
 		}
 	}
 
+	
+	
+	
 	// **********************************************
-	// Export
+	//               Export
 	// **********************************************
-
+	
 	/**
 	 * Action to export all GeoElements that are currently displayed in this
 	 * panel to a EuclidianView. The viewID for the target EuclidianView is
 	 * stored as a property with key "euclidianViewID".
 	 * 
-	 * This action is passed as a parameter to plotPanel where it is used in the
-	 * plotPanel context menu and the EuclidianView transfer handler when the
-	 * plot panel is dragged into an EV.
+	 * This action is passed as a parameter to plotPanel where it is used in
+	 * the plotPanel context menu and the EuclidianView transfer handler
+	 * when the plot panel is dragged into an EV.
 	 */
 	AbstractAction exportToEVAction = new AbstractAction() {
 		private static final long serialVersionUID = 1L;
 
-		public void actionPerformed(ActionEvent event) {
-			Integer euclidianViewID = (Integer) this
-					.getValue("euclidianViewID");
-
+		public void actionPerformed(ActionEvent event){
+			Integer euclidianViewID = (Integer) this.getValue("euclidianViewID");
+			
 			// if null ID then use EV1 unless shift is down, then use EV2
-			if (euclidianViewID == null) {
-				euclidianViewID = app.getShiftDown() ? app.getEuclidianView2()
-						.getViewID() : app.getEuclidianView1().getViewID();
+			if(euclidianViewID == null){
+				euclidianViewID = app.getShiftDown()? app.getEuclidianView2().getViewID() : app.getEuclidianView1().getViewID();
 			}
-
+			
 			// do the export
 			exportGeosToEV(euclidianViewID);
-
+			
 			// null out the ID property
 			this.putValue("euclidianViewID", null);
 		}
 	};
 
+
+	
 	/**
 	 * Exports all GeoElements that are currently displayed in this panel to a
 	 * target EuclidianView.
@@ -980,15 +1025,15 @@ public class StatComboPanel extends JPanel implements ActionListener,
 	 * @param euclidianViewID
 	 *            viewID of the target EuclidianView
 	 */
-	public void exportGeosToEV(int euclidianViewID) {
+	public void exportGeosToEV(int euclidianViewID){
 
 		// TODO:
 		// in multivar mode create dynamic boxplots linked to separate lists
 
 		app.setWaitCursor();
-		// app.storeUndoInfo();
+		//app.storeUndoInfo();	
 		GeoElement regressionCopy = null;
-		EuclidianView targetEV = (EuclidianView) app.getView(euclidianViewID);
+		EuclidianView targetEV  = (EuclidianView) app.getView(euclidianViewID);
 
 		try {
 
@@ -1005,7 +1050,7 @@ public class StatComboPanel extends JPanel implements ActionListener,
 			// =================================================================
 			// Step 2:
 			// Prepare the geos for display in the currently active EV
-			// (set labels, make visible, etc).
+			// (set labels, make visible, etc). 
 			// =================================================================
 
 			// remove the histogram from the plot geo list if it is not showing
@@ -1024,7 +1069,7 @@ public class StatComboPanel extends JPanel implements ActionListener,
 			// copy and prepare this for the EV
 			if (statDialog.getMode() == StatDialog.MODE_REGRESSION
 					&& !statDialog.getRegressionMode().equals(Regression.NONE)) {
-
+				
 				regressionCopy = statGeo.createRegressionPlot(
 						(GeoList) scatterPlot, statDialog.getRegressionMode(),
 						statDialog.getRegressionOrder(), false);
@@ -1069,13 +1114,13 @@ public class StatComboPanel extends JPanel implements ActionListener,
 			statDialog.getStatDialogController().removeRegressionGeo();
 			statDialog.getStatDialogController().disposeDataListSelected();
 			plotGeoList.clear();
-
+		
 			// =================================================================
 			// Step 5:
 			// Reload the data and create new display geos that are not
 			// in the construction list.
 			// =================================================================
-
+		
 			statDialog.getStatDialogController().loadDataLists();
 			statGeo.setRemoveFromConstruction(true);
 			updatePlot(true);
@@ -1089,6 +1134,7 @@ public class StatComboPanel extends JPanel implements ActionListener,
 		app.storeUndoInfo();
 	}
 
+
 	/**
 	 * Prepares the specified GeoElement for visibility in a target
 	 * EuclidianView.
@@ -1097,17 +1143,17 @@ public class StatComboPanel extends JPanel implements ActionListener,
 	 * @param euclidianViewID
 	 *            viewID of the target EuclidianView
 	 */
-	private static void prepareGeoForEV(GeoElement geo, int euclidianViewID) {
+	private static void prepareGeoForEV(GeoElement geo, int euclidianViewID){
 
 		geo.setLabel(null);
 		geo.setEuclidianVisible(true);
 		geo.setAuxiliaryObject(false);
-		if (euclidianViewID == App.VIEW_EUCLIDIAN) {
+		if(euclidianViewID == App.VIEW_EUCLIDIAN){
 			geo.addView(App.VIEW_EUCLIDIAN);
 			geo.removeView(App.VIEW_EUCLIDIAN2);
 			geo.update();
 		}
-		if (euclidianViewID == App.VIEW_EUCLIDIAN2) {
+		if(euclidianViewID == App.VIEW_EUCLIDIAN2){
 			geo.addView(App.VIEW_EUCLIDIAN2);
 			geo.removeView(App.VIEW_EUCLIDIAN);
 			geo.update();
@@ -1115,4 +1161,7 @@ public class StatComboPanel extends JPanel implements ActionListener,
 
 	}
 
-}
+
+} 
+
+

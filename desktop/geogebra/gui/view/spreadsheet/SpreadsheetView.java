@@ -83,9 +83,7 @@ View, ComponentListener, FocusListener, Gridable, SettingListener, SpreadsheetVi
 	// toolbar manager
 	SpreadsheetToolbarManager toolbarManager;
 
-	private StatDialog oneVarStatDialog;
-	private StatDialog twoVarStatDialog;
-	private StatDialog multiVarStatDialog;
+	private StatDialog statDialog;
 
 
 	// file browser defaults
@@ -405,12 +403,8 @@ View, ComponentListener, FocusListener, Gridable, SettingListener, SpreadsheetVi
 
 		table.oneClickEditMap.clear();
 
-		if(oneVarStatDialog != null)
-			oneVarStatDialog.setVisible(false);
-		if(twoVarStatDialog != null)
-			twoVarStatDialog.setVisible(false);
-		if(multiVarStatDialog != null)
-			multiVarStatDialog.setVisible(false);
+		if(statDialog != null)
+			statDialog.setVisible(false);
 
 		// clear the formats and call settingsChanged 
 		settings().setCellFormat(null);
@@ -504,57 +498,13 @@ View, ComponentListener, FocusListener, Gridable, SettingListener, SpreadsheetVi
 	public void showStatDialog(int mode){
 
 		if(app.getSelectedGeos().size() == 0) return;
-
-		switch(mode){
-		case StatDialog.MODE_ONEVAR:
-			if(oneVarStatDialog == null){
-				oneVarStatDialog = new StatDialog(app, mode);
-			}else{
-				oneVarStatDialog.setLeftToRight(true);
-				oneVarStatDialog.updateDialog(true);
-			}
-			oneVarStatDialog.setVisible(true);	
-			break;
-
-		case StatDialog.MODE_REGRESSION:
-			if(twoVarStatDialog == null){
-				twoVarStatDialog = new StatDialog(app, mode);
-			}else{
-				twoVarStatDialog.updateDialog(true);
-			}
-			twoVarStatDialog.setVisible(true);	
-			break;
-
-		case StatDialog.MODE_MULTIVAR:
-			if(multiVarStatDialog == null){
-				multiVarStatDialog = new StatDialog(app, mode);
-			}else{
-				multiVarStatDialog.updateDialog(true);
-			}
-			multiVarStatDialog.setVisible(true);	
-			break;
-
-		}
-
+		
+		app.getGuiManager().getDataAnalysisView().setDataAnalysisMode(mode);
+		app.getGuiManager().setShowView(true, App.VIEW_DATA_ANALYSIS);
 	}
 
 
-	public boolean isStatDialogVisible(){
-		boolean oneVarVisible = oneVarStatDialog != null && oneVarStatDialog.isVisible();
-		boolean twoVarVisible = oneVarStatDialog != null && oneVarStatDialog.isVisible();
-		return oneVarVisible || twoVarVisible;
-	}
-
-
-	public void notifySpreadsheetSelectionChange(){
-		if(isStatDialogVisible()){
-			//oneVarStatDialog.handleSpreadsheetSelectionChange();
-		}
-
-	}
-
-
-
+	
 
 
 	//=====================================================
@@ -784,13 +734,9 @@ View, ComponentListener, FocusListener, Gridable, SettingListener, SpreadsheetVi
 	public void setLabels(){
 		if(traceDialog !=null)
 			traceDialog.setLabels();
-		if(oneVarStatDialog !=null)
-			oneVarStatDialog.setLabels();
-		if(twoVarStatDialog !=null)
-			twoVarStatDialog.setLabels();
-		if(multiVarStatDialog !=null)
-			multiVarStatDialog.setLabels();
-
+		if(statDialog !=null)
+			statDialog.setLabels();
+		
 		if (table !=null)
 			table.setLabels();
 		if(formulaBar != null){
@@ -828,12 +774,9 @@ View, ComponentListener, FocusListener, Gridable, SettingListener, SpreadsheetVi
 
 		if(fileBrowser != null)
 			fileBrowser.updateFonts();
-		if(this.oneVarStatDialog != null)
-			oneVarStatDialog.updateFonts();
-		if(this.twoVarStatDialog != null)
-			twoVarStatDialog.updateFonts();
-		if(this.multiVarStatDialog != null)
-			multiVarStatDialog.updateFonts();
+		if(statDialog != null)
+			statDialog.updateFonts();
+		
 		if(formulaBar != null)
 			formulaBar.updateFonts(font);
 	}

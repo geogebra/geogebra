@@ -96,6 +96,8 @@ public abstract class GuiManager {
 	
 	public abstract View getProbabilityCalculator();
 	
+	public abstract View getDataAnalysisView();
+	
 	public abstract View getPlotPanelView(int id);
 	
 	public abstract View getPropertiesView();
@@ -319,8 +321,15 @@ public abstract class GuiManager {
 	public abstract void attachConstructionProtocolView();
 
 	public abstract void attachProbabilityCalculatorView();
-
+	
 	public abstract void attachAssignmentView();
+	
+	public abstract void attachDataAnalysisView();
+
+	public abstract void detachDataAnalysisView();
+	
+	public abstract boolean hasDataAnalysisView();
+	
 
 	/**
 	 * Attach a view which by using the view ID.
@@ -415,6 +424,8 @@ public abstract class GuiManager {
 			app.getTraceManager().addSpreadsheetTraceGeo(geo);
 		}
 	}
+
+	
 
 
 

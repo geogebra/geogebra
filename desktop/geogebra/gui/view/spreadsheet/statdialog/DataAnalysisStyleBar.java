@@ -1,7 +1,9 @@
 package geogebra.gui.view.spreadsheet.statdialog;
 
+import geogebra.gui.util.MyToggleButton;
 import geogebra.main.AppD;
 
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -15,16 +17,16 @@ import javax.swing.SwingConstants;
  * @author gsturr
  * 
  */
-public class StatDialogStyleBar extends JToolBar implements ActionListener {
+public class DataAnalysisStyleBar extends JToolBar implements ActionListener {
 
 	private AppD app;
 	private StatDialog statDialog;
 	protected int iconHeight = 18;
 	private JButton btnRounding, btnPrint;
-	private JToggleButton btnShowStatistics, btnShowPlot2, btnShowData;
+	private MyToggleButton btnShowStatistics, btnShowPlot2, btnShowData;
 	private JPopupMenu roundingPopup;
 
-	public StatDialogStyleBar(AppD app, StatDialog statDialog) {
+	public DataAnalysisStyleBar(AppD app, StatDialog statDialog) {
 
 		this.statDialog = statDialog;
 		this.app = app;
@@ -38,6 +40,8 @@ public class StatDialogStyleBar extends JToolBar implements ActionListener {
 		this.removeAll();
 		// buildOptionsButton();
 
+		Dimension btnDim = new Dimension(20,20);
+		
 		btnPrint = new JButton(app.getImageIcon("document-print.png"));
 		btnPrint.addActionListener(this);
 		btnPrint.setFocusPainted(false);
@@ -47,37 +51,43 @@ public class StatDialogStyleBar extends JToolBar implements ActionListener {
 		btnPrint.setRolloverEnabled(true);
 		btnPrint.setRolloverIcon(app.getImageIcon("document-print.png"));
 
-		btnShowStatistics = new JToggleButton(
-				app.getImageIcon("dataview-showstatistics.png"));
+		btnShowStatistics = new MyToggleButton(
+				app.getImageIcon("dataview-showstatistics.png"), iconHeight);
 		btnShowStatistics.addActionListener(this);
 		btnShowStatistics.setFocusPainted(false);
 		btnShowStatistics.setFocusable(false);
 		btnShowStatistics.setRolloverEnabled(true);
 		btnShowStatistics.setRolloverIcon(app
 				.getImageIcon("dataview-showstatistics.png"));
-
-		btnShowData = new JToggleButton(
-				app.getImageIcon("dataview-showdata.png"));
+		//btnShowStatistics.setPreferredSize(btnDim);
+		
+		
+		btnShowData = new MyToggleButton(
+				app.getImageIcon("dataview-showdata.png"),iconHeight);
 		btnShowData.addActionListener(this);
 		btnShowData.setFocusPainted(false);
 		btnShowData.setFocusable(false);
 		btnShowData.setRolloverEnabled(true);
 		btnShowData.setRolloverIcon(app.getImageIcon("dataview-showdata.png"));
-
-		btnShowPlot2 = new JToggleButton(
-				app.getImageIcon("dataview-showplot2.png"));
+		//btnShowData.setPreferredSize(btnDim);
+		
+		btnShowPlot2 = new MyToggleButton(
+				app.getImageIcon("dataview-showplot2.png"),iconHeight);
 		btnShowPlot2.addActionListener(this);
 		btnShowPlot2.setFocusPainted(false);
 		btnShowPlot2.setFocusable(false);
 		btnShowPlot2.setRolloverEnabled(true);
 		btnShowPlot2
 				.setRolloverIcon(app.getImageIcon("dataview-showplot2.png"));
-
+		//btnShowPlot2.setPreferredSize(btnDim);
+		
 		buildRoundingButton();
 
 		// add(btnRounding);
 		add(btnShowStatistics);
+		addSeparator();
 		add(btnShowData);
+		addSeparator();
 		add(btnShowPlot2);
 		// addSeparator();
 		// add(btnPrint);

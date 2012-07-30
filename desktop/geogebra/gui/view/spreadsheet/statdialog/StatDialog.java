@@ -33,20 +33,24 @@ import java.awt.print.Printable;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 
-public class StatDialog extends JDialog implements ActionListener, View,
+public class StatDialog extends JPanel implements ActionListener, View,
 		Printable, SpecialNumberFormatInterface {
+
 	private static final long serialVersionUID = 1L;
 	// ggb
 	private AppD app;
 	private Kernel kernel;
 	private StatGeo statGeo;
 	private StatDialogController sdc;
+
+	private DataAnalysisStyleBar stylebar;
 
 	// modes
 	public static final int MODE_ONEVAR = 0;
@@ -85,7 +89,7 @@ public class StatDialog extends JDialog implements ActionListener, View,
 	/**
 	 * @author mrb
 	 * 
-	 *         Order determines order in Two Variable Regression Analysis menu 
+	 *         Order determines order in Two Variable Regression Analysis menu
 	 *         For each String, getMenu(s) must be defined
 	 */
 	public enum Regression {
@@ -134,11 +138,11 @@ public class StatDialog extends JDialog implements ActionListener, View,
 
 	/*************************************************
 	 * Construct the dialog
-	 * @param app 
-	 * @param mode 
+	 * 
+	 * @param app
+	 * @param mode
 	 */
 	public StatDialog(AppD app, int mode) {
-		super(app.getFrame(), false);
 
 		isIniting = true;
 		this.app = app;
@@ -169,6 +173,55 @@ public class StatDialog extends JDialog implements ActionListener, View,
 	/*************************************************
 	 * END StatDialog constructor
 	 */
+
+	
+	
+	
+	public void setDataAnalysisMode(int mode) {
+
+		if (app.getSelectedGeos().size() == 0)
+			return;
+
+		if(this.mode != mode){
+			this.mode = mode;
+			this.removeAll();
+			sdc.removeStatGeos();
+			dataPanel = null;
+			statisticsPanel = null;
+			comboStatPanel = null;
+			comboStatPanel2 = null;
+			
+			boolean dataOK = sdc.setDataSource();
+			if (dataOK) {
+				// load data from the data source (based on currently selected geos)
+				sdc.loadDataLists();
+			} else {
+				// TODO is dispose needed ?
+				// dispose();
+				return;
+			}
+
+			createGUI();
+			sdc.updateAllStatPanels(false);
+			this.revalidate();
+
+		}else{
+			this.mode = mode;
+			updateDialog(true);
+		}
+		
+				
+
+		// TODO is this needed?
+		setLeftToRight(true);
+	}
+
+	public JComponent getStyleBar() {
+		if (stylebar == null) {
+			stylebar = new DataAnalysisStyleBar(app, this);
+		}
+		return stylebar;
+	}
 
 	private void createGUI() {
 
@@ -219,11 +272,10 @@ public class StatDialog extends JDialog implements ActionListener, View,
 		initGUI();
 		updateFonts();
 		btnClose.requestFocus();
-		attachView();
+		//attachView();
 		isIniting = false;
 		setLabels();
 		updateGUI();
-		pack();
 
 	}
 
@@ -316,17 +368,14 @@ public class StatDialog extends JDialog implements ActionListener, View,
 		// ============================================
 		JPanel mainPanel = new JPanel(new BorderLayout());
 		mainPanel.add(displayPanel, BorderLayout.CENTER);
-		mainPanel.add(new StatDialogStyleBar(app, this), BorderLayout.NORTH);
+		// mainPanel.add(new StatDialogStyleBar(app, this), BorderLayout.NORTH);
 		mainPanel.add(buttonPanel, BorderLayout.SOUTH);
 
-		getContentPane().add(mainPanel);
-		getContentPane().setPreferredSize(defaultDialogDimension);
-		setResizable(true);
-		pack();
+		this.setLayout(new BorderLayout());
+		add(mainPanel, BorderLayout.CENTER);
 
 		setShowComboPanel2(showComboPanel2);
 		updateStatDataPanelVisibility();
-		setLocationRelativeTo(app.getFrame());
 
 	}
 
@@ -624,15 +673,15 @@ public class StatDialog extends JDialog implements ActionListener, View,
 		if (isVisible) {
 			// Application.debug("statDialog visible");
 			// spView.setColumnSelect(true);
-			this.attachView();
+			//this.attachView();
 			// if(!isIniting)
 			// updateDialog();
 
 		} else {
 			// Application.printStacktrace("statDialog not visible");
 			// spView.setColumnSelect(false);
-			sdc.removeStatGeos();
-			this.detachView();
+			
+			//this.detachView();
 		}
 	}
 
@@ -648,7 +697,7 @@ public class StatDialog extends JDialog implements ActionListener, View,
 	public void updateFonts() {
 		Font font = app.getPlainFont();
 		setFont(font);
-		setFontRecursive(this.getContentPane(), font);
+		setFontRecursive(this, font);
 
 	}
 
@@ -668,17 +717,17 @@ public class StatDialog extends JDialog implements ActionListener, View,
 
 		switch (mode) {
 		case MODE_ONEVAR:
-			setTitle(app.getMenu("OneVariableStatistics"));
+			// setTitle(app.getMenu("OneVariableStatistics"));
 			lblOneVarTitle.setText(app.getMenu("DataTitle") + ": ");
 			break;
 
 		case MODE_REGRESSION:
-			setTitle(app.getMenu("RegressionAnalysis"));
+			// setTitle(app.getMenu("RegressionAnalysis"));
 			regressionPanel.setLabels();
 			break;
 
 		case MODE_MULTIVAR:
-			setTitle(app.getMenu("MultiVariableStatistics"));
+			// setTitle(app.getMenu("MultiVariableStatistics"));
 			break;
 		}
 
@@ -689,7 +738,7 @@ public class StatDialog extends JDialog implements ActionListener, View,
 		// btnOptions.setText(app.getMenu("Options"));
 
 		// call setLabels() for all child panels
-		setLabelsRecursive(this.getContentPane());
+		setLabelsRecursive(this);
 
 	}
 
@@ -726,27 +775,35 @@ public class StatDialog extends JDialog implements ActionListener, View,
 	final public void updateVisualStyle(GeoElement geo) {
 		update(geo);
 	}
+
 	public void add(GeoElement geo) {
 		// do nothing
 	}
+
 	public void clearView() {
 		// do nothing
 	}
+
 	public void rename(GeoElement geo) {
 		// do nothing
 	}
+
 	public void repaintView() {
 		// do nothing
 	}
+
 	public void updateAuxiliaryObject(GeoElement geo) {
 		// do nothing
 	}
+
 	public void reset() {
 		// do nothing
 	}
+
 	public void setMode(int mode) {
 		// do nothing
 	}
+
 	public void attachView() {
 		// clearView();
 		// kernel.notifyAddAll(this);
@@ -759,10 +816,14 @@ public class StatDialog extends JDialog implements ActionListener, View,
 	}
 
 	public void detachView() {
-		kernel.detach(this);
+		
 		comboStatPanel.detachView();
 		if (comboStatPanel2 != null)
 			comboStatPanel2.detachView();
+		sdc.removeStatGeos();
+		
+		kernel.detach(this);
+		
 		// clearView();
 		// kernel.notifyRemoveAll(this);
 	}
@@ -854,7 +915,7 @@ public class StatDialog extends JDialog implements ActionListener, View,
 	}
 
 	public int getViewID() {
-		return App.VIEW_NONE;
+		return App.VIEW_DATA_ANALYSIS;
 	}
 
 }

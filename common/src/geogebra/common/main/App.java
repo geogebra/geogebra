@@ -89,6 +89,7 @@ public abstract class App {
 	public static final int VIEW_EUCLIDIAN2 = 16;
 	public static final int VIEW_CONSTRUCTION_PROTOCOL = 32;
 	public static final int VIEW_PROBABILITY_CALCULATOR = 64;
+	public static final int VIEW_DATA_ANALYSIS = 70;
 	public static final int VIEW_FUNCTION_INSPECTOR = 128;
 	public static final int VIEW_INSPECTOR = 256;
 	public static final int VIEW_EUCLIDIAN3D = 512;
@@ -1922,6 +1923,14 @@ public abstract class App {
 			else if (getGuiManager() == null)
 				initGuiManager();
 			return getGuiManager().getProbabilityCalculator();
+		case VIEW_DATA_ANALYSIS:
+			if (!isUsingFullGui())
+				return null;
+			else if (getGuiManager() == null)
+				initGuiManager();
+			return getGuiManager().getDataAnalysisView();
+			
+			
 			// case VIEW_FUNCTION_INSPECTOR: return (View)getGuiManager()..
 			// case VIEW_INSPECTOR: return
 			// (View)getGuiManager().getSpreadsheetView();
