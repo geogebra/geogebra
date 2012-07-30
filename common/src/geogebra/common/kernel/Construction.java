@@ -972,59 +972,68 @@ public class Construction {
 	 * Updates all objects in this construction.
 	 */
 	final public void updateConstruction() {
-		// G.Sturr 2010-5-28: turned this off so that random numbers can be
-		// traced
-		// if (!kernel.isMacroKernel() && kernel.app.hasGuiManager())
-		// kernel.app.getGuiManager().startCollectingSpreadsheetTraces();
-
-		// update all independent GeoElements
-		int size = ceList.size();
-		for (int i = 0; i < size; ++i) {
-			ConstructionElement ce = ceList.get(i);
-			if (ce.isIndependent()) {
-				ce.update();
+		// collect notifyUpdate calls using xAxis as dummy geo
+		GeoElement dummyGeo = xAxis;
+		kernel.startCollectingNotifyUpdate(dummyGeo);
+		
+		try {			
+			// G.Sturr 2010-5-28: turned this off so that random numbers can be
+			// traced
+			// if (!kernel.isMacroKernel() && kernel.app.hasGuiManager())
+			// kernel.app.getGuiManager().startCollectingSpreadsheetTraces();
+	
+			// update all independent GeoElements
+			int size = ceList.size();
+			for (int i = 0; i < size; ++i) {
+				ConstructionElement ce = ceList.get(i);
+				if (ce.isIndependent()) {
+					ce.update();
+				}
 			}
+	
+			// update all random numbers()
+			updateAllRandomGeos();
+	
+			// init and update all algorithms
+			// make sure we call algo.initNearToRelationship() fist
+			// for all algorithms because algo.update() could have
+			// the side-effect to call updateCascade() for points
+			// that have locateables (see GeoPoint.update())
+			size = algoList.size();
+	
+			// init near to relationship for all algorithms:
+			// this makes sure intersection points stay at their saved positions
+			for (int i = 0; i < size; ++i) {
+				AlgoElement algo = algoList.get(i);
+				algo.initForNearToRelationship();
+			}
+	
+			// copy array to avoid problems with the list changing during the loop
+			// eg Polygon[A,B,RandomBetween[4,5]]
+			// http://www.geogebra.org/forum/viewtopic.php?p=56618
+			ArrayList<AlgoElement> tempList = new ArrayList<AlgoElement>(algoList);
+	
+			// update all algorithms
+			for (int i = 0; i < size; ++i) {
+				AlgoElement algo = tempList.get(i);
+	
+				// reinit near to relationship to make sure points stay at their
+				// saved position
+				// keep this line, see
+				// http://code.google.com/p/geogebra/issues/detail?id=62
+				algo.initForNearToRelationship();
+	
+				// update algorithm
+				algo.update();
+			}
+	
+			// G.Sturr 2010-5-28:
+			// if (!kernel.isMacroKernel() && kernel.app.hasGuiManager())
+			// kernel.app.getGuiManager().stopCollectingSpreadsheetTraces();
 		}
-
-		// update all random numbers()
-		updateAllRandomGeos();
-
-		// init and update all algorithms
-		// make sure we call algo.initNearToRelationship() fist
-		// for all algorithms because algo.update() could have
-		// the side-effect to call updateCascade() for points
-		// that have locateables (see GeoPoint.update())
-		size = algoList.size();
-
-		// init near to relationship for all algorithms:
-		// this makes sure intersection points stay at their saved positions
-		for (int i = 0; i < size; ++i) {
-			AlgoElement algo = algoList.get(i);
-			algo.initForNearToRelationship();
+		finally {
+			kernel.stopCollectingNotifyUpdate(dummyGeo);
 		}
-
-		// copy array to avoid problems with the list changing during the loop
-		// eg Polygon[A,B,RandomBetween[4,5]]
-		// http://www.geogebra.org/forum/viewtopic.php?p=56618
-		ArrayList<AlgoElement> tempList = new ArrayList<AlgoElement>(algoList);
-
-		// update all algorithms
-		for (int i = 0; i < size; ++i) {
-			AlgoElement algo = tempList.get(i);
-
-			// reinit near to relationship to make sure points stay at their
-			// saved position
-			// keep this line, see
-			// http://code.google.com/p/geogebra/issues/detail?id=62
-			algo.initForNearToRelationship();
-
-			// update algorithm
-			algo.update();
-		}
-
-		// G.Sturr 2010-5-28:
-		// if (!kernel.isMacroKernel() && kernel.app.hasGuiManager())
-		// kernel.app.getGuiManager().stopCollectingSpreadsheetTraces();
 	}
 
 	/**
