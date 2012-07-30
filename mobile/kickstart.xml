@@ -22,8 +22,9 @@ your workstation.
 
 	<property name="mgwt.jar" value="mgwt-1.1.1.jar" />
 	<property name="gwtphonegap.jar" value="gwtphonegap-1.8.1.0.jar" />
+	<property name="lib-gwt-svg-0.5.6.jar" value="lib-gwt-svg" />
 
-	<target name="mobile-developer" depends="mgwt, gwtphonegap" description="For Eclipse developers: to create mobile builds">
+	<target name="mobile-developer" depends="mgwt, gwtphonegap, lib-gwt-svg" description="For Eclipse developers: to create mobile builds">
 	</target>
 
 	<target name="mgwt">
@@ -44,7 +45,7 @@ your workstation.
 
 	<target name="lib-gwt-svg">
 		<mkdir dir="lib" />
-		<get src="http://www.vectomatic.org/mvn/org/vectomatic/lib-gwt-svg/0.5.6/${lib-gwt-svg-0.5.6.jar}" dest="lib/${lib-gwt-svg-0.5.6.jar}" />
+		<get src="http://www.vectomatic.org/mvn/org/vectomatic/lib-gwt-svg/0.5.6/lib-gwt-svg-0.5.6.jar" dest="lib/${lib-gwt-svg-0.5.6.jar}" />
 		<copy todir="war/WEB-INF/lib">
 			<fileset dir="lib" includes="${lib-gwt-svg-0.5.6.jar}" />
 		</copy>

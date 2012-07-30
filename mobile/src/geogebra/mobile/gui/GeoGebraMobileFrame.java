@@ -3,12 +3,7 @@ package geogebra.mobile.gui;
 import geogebra.common.main.App;
 import geogebra.mobile.MobileApp;
 import geogebra.web.gui.applet.GeoGebraFrame;
-import geogebra.web.html5.ArticleElement;
-import geogebra.web.html5.Dom;
 
-import com.google.gwt.event.logical.shared.ResizeEvent;
-import com.google.gwt.event.logical.shared.ResizeHandler;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.googlecode.mgwt.ui.client.MGWT;
 import com.googlecode.mgwt.ui.client.MGWTSettings;
@@ -19,7 +14,6 @@ import com.googlecode.mgwt.ui.client.widget.buttonbar.ButtonBarButtonBase;
 public class GeoGebraMobileFrame extends GeoGebraFrame
 {
 	private App app;
-	private ArticleElement element;
 
 	private RootPanel root;
 
@@ -55,9 +49,6 @@ public class GeoGebraMobileFrame extends GeoGebraFrame
 			b[i].addStyleName("toolbutton" + i);
 			toolBar.add(b[i]);
 		}
-
-		// get the article element from Mobile.html)
-		element = ArticleElement.as(Dom.querySelector("geogebraweb"));
 
 		// Initialize the AppW app
 		app = new MobileApp();
