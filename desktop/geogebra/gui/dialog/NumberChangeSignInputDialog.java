@@ -1,7 +1,7 @@
 package geogebra.gui.dialog;
 
 import geogebra.common.gui.dialog.handler.NumberChangeSignInputHandler;
-import geogebra.gui.view.algebra.InputPanelD.DialogType;
+import geogebra.common.gui.view.algebra.DialogType;
 import geogebra.main.AppD;
 
 import javax.swing.JCheckBox;

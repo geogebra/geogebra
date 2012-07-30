@@ -3,6 +3,7 @@
 package geogebra.gui.view.algebra;
 
 import geogebra.common.gui.VirtualKeyboardListener;
+import geogebra.common.gui.view.algebra.DialogType;
 import geogebra.common.main.App;
 import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.gui.DynamicTextInputPane;
@@ -70,8 +71,6 @@ public class InputPanelD extends JPanel implements FocusListener, VirtualKeyboar
 	public InputPanelD(String initText, AppD app, int rows, int columns, boolean showSymbolPopupIcon, DialogType type) {
 		this(initText, app, rows, columns, showSymbolPopupIcon, false, null, type);
 	}
-	
-	public enum DialogType  { TextArea, DynamicText, GeoGebraEditor }
 	
 	public InputPanelD(String initText, AppD app, int rows, int columns, boolean showSymbolPopupIcon,
 						boolean showSymbolButtons, KeyListener keyListener, DialogType type) {

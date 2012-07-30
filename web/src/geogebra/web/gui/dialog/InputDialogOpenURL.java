@@ -25,7 +25,7 @@ public class InputDialogOpenURL extends InputDialogW{
 		initString = "http://";
 		
 		createGUI(app.getMenu("OpenWebpage"), app.getMenu("EnterAppletAddress"), false, DEFAULT_COLUMNS, 1, false, true, false, false, DialogType.TextArea);		
-		center();
+		wrappedPopup.center();
 		inputPanel.getTextComponent().getTextField().setFocus(true);			
 	}
 	
@@ -34,12 +34,12 @@ public class InputDialogOpenURL extends InputDialogW{
 
 		try {
 			if (source == btOK || source == inputPanel.getTextComponent()) {
-				if(processInput()) hide();
+				if(processInput()) wrappedPopup.hide();
 //			} else if (source == btApply) {
 //				processInput();
 				// app.setDefaultCursor();
 			} else if (source == btCancel) {
-				hide();
+				wrappedPopup.hide();
 			}
 		} catch (Exception ex) {
 			// do nothing on uninitializedValue		

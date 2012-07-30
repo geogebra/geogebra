@@ -12,6 +12,7 @@
 package geogebra.export;
 
 import geogebra.common.GeoGebraConstants;
+import geogebra.common.gui.view.algebra.DialogType;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.GeoElement;
@@ -26,7 +27,6 @@ import geogebra.gui.inputfield.MyTextField;
 import geogebra.gui.util.HelpAction;
 import geogebra.gui.util.IconTabbedPane;
 import geogebra.gui.view.algebra.InputPanelD;
-import geogebra.gui.view.algebra.InputPanelD.DialogType;
 import geogebra.main.AppD;
 import geogebra.main.GeoGebraPreferencesD;
 import geogebra.util.DownloadManager;

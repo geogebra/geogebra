@@ -1,6 +1,6 @@
 package geogebra.gui.dialog;
 
-import geogebra.gui.view.algebra.InputPanelD.DialogType;
+import geogebra.common.gui.view.algebra.DialogType;
 import geogebra.main.AppD;
 
 import java.awt.BorderLayout;

@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.gui.view.functioninspector;
 
 import geogebra.common.euclidian.EuclidianView;
+import geogebra.common.gui.view.algebra.DialogType;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Path;
@@ -60,7 +61,6 @@ import geogebra.gui.util.PopupMenuButton;
 import geogebra.gui.util.SelectionTable;
 import geogebra.gui.util.SpecialNumberFormat;
 import geogebra.gui.util.SpecialNumberFormatInterface;
-import geogebra.gui.view.algebra.InputPanelD.DialogType;
 import geogebra.gui.view.spreadsheet.SpreadsheetView;
 import geogebra.main.AppD;
 

@@ -1,5 +1,6 @@
 package geogebra.gui.view.spreadsheet;
 
+import geogebra.common.gui.view.algebra.DialogType;
 import geogebra.common.gui.view.spreadsheet.CellRange;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoPolyLine;
@@ -8,7 +9,6 @@ import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.gui.dialog.InputDialogD;
 import geogebra.gui.inputfield.MyTextField;
-import geogebra.gui.view.algebra.InputPanelD.DialogType;
 import geogebra.main.AppD;
 
 import java.awt.BorderLayout;

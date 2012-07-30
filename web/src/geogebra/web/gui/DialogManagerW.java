@@ -1,6 +1,7 @@
 package geogebra.web.gui;
 
 import geogebra.common.awt.GPoint;
+import geogebra.common.gui.InputHandler;
 import geogebra.common.gui.dialog.DialogManager;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Matrix.Coords;
@@ -15,6 +16,7 @@ import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.App;
 import geogebra.common.gui.dialog.handler.NumberInputHandler;
+import geogebra.common.gui.dialog.handler.RenameInputHandler;
 import geogebra.common.gui.view.properties.PropertiesView.OptionType;
 import geogebra.web.gui.dialog.ButtonDialog;
 import geogebra.web.gui.dialog.InputDialogAngleFixed;
@@ -114,7 +116,12 @@ public class DialogManagerW extends DialogManager {
 		geo.setLabelVisible(true);
 		geo.updateRepaint();
 		
-		//continue from here
+		InputHandler handler = new RenameInputHandler(app, geo, storeUndo);
+		
+		InputDialogW id = new InputDialogW((AppW) app, app.getPlain("NewNameForA") + geo.getNameDescription(),
+				app.getPlain("Rename"), initText, false, handler, false, selectInitText, null);
+		
+		id.setVisible(true);
     }
 
 	@Override

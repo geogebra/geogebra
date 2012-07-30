@@ -27,7 +27,7 @@ public class InputDialogImageURL extends InputDialogW{
 
 		btOK.setText(app.getPlain("Insert"));
 
-		center();
+		wrappedPopup.center();
 		inputPanel.getTextComponent().getTextField().setFocus(true);
 	}
 
@@ -36,17 +36,17 @@ public class InputDialogImageURL extends InputDialogW{
 
 		try {
 			if (source == btOK || source == inputPanel.getTextComponent()) {
-				if(processInput()) hide();
+				if(processInput()) wrappedPopup.hide();
 //			} else if (source == btApply) {
 //				processInput();
 				// app.setDefaultCursor();
 			} else if (source == btCancel) {
-				hide();
+				wrappedPopup.hide();
 			}
 		} catch (Exception ex) {
 			// do nothing on uninitializedValue		
 			ex.printStackTrace();
-			setVisible(false);
+			wrappedPopup.setVisible(false);
 			app.setDefaultCursor();
 		}
 		
