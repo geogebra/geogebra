@@ -1,5 +1,8 @@
 package geogebra.plugin.jython;
 
+import javax.swing.JComponent;
+import javax.swing.JMenuBar;
+
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
@@ -30,6 +33,7 @@ public class PythonBridge extends geogebra.common.plugin.jython.PythonBridge imp
 	public PythonBridge() {
 		
 	}
+	
 	/**
 	 * This constructor actually starts off the python interpreter
 	 * so it can take a while...
@@ -196,6 +200,21 @@ public class PythonBridge extends geogebra.common.plugin.jython.PythonBridge imp
 	}
 	public boolean hasFocus() {
 		return false;
+	}
+	
+	/**
+	 * @return the JComponent for the python dock panel
+	 */
+	public JComponent getComponent() {
+		return pyInterface.getComponent();
+	}
+
+	/**
+	 * @return the JMenuBar for the python window
+	 */
+	public JMenuBar getMenuBar() {
+		// TODO Auto-generated method stub
+		return pyInterface.getMenuBar();
 	}
 }
 

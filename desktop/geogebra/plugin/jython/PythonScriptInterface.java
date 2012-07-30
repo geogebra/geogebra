@@ -1,5 +1,8 @@
 package geogebra.plugin.jython;
 
+import javax.swing.JComponent;
+import javax.swing.JMenuBar;
+
 import geogebra.common.kernel.geos.GeoElement;
 
 /**
@@ -62,5 +65,15 @@ public interface PythonScriptInterface {
 	 * @return the value of the script in the editor or null
 	 */
 	public String getCurrentInitScript();
+	
+	/**
+	 * @return the component for the python dock panel
+	 */
+	public JComponent getComponent();
+
+	/**
+	 * @return the menu bar for the python window
+	 */
+	public JMenuBar getMenuBar();
 
 }

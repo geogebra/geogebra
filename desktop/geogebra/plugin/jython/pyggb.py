@@ -121,13 +121,17 @@ class Interface(PythonScriptInterface):
             # We shouldn't get here :)
             self.remove_selection_listener()
     
-    def toggleWindow(self):
+    def get_pywin(self):
         if self.pywin is None:
             from pygeo import gui
             self.pywin = gui.PythonWindow(self.api)
-        self.pywin.toggle_visibility()
+        return self.pywin
+    
+    def toggleWindow(self):
+        self.get_pywin().toggle_visibility()
     
     def isWindowVisible(self):
+        return False
         return self.pywin is not None and self.pywin.frame.visible
 
     def setEventListener(self, geo, evt, code):
@@ -211,6 +215,11 @@ class Interface(PythonScriptInterface):
     def run(self, code):
         code = self.format_source(code)
         exec code in self.namespace
+
+    def getComponent(self):
+        return self.get_pywin().getComponent()
+    def getMenuBar(self):
+        return self.get_pywin().getMenuBar()
 
 
 interface = Interface()

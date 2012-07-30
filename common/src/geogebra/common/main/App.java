@@ -107,6 +107,7 @@ public abstract class App {
 	public static final int VIEW_PROPERTIES = 4097;
 	public static final int VIEW_ASSIGNMENT = 8192;
 	public static final int VIEW_TABLE_MODEL = 9000;
+	public static final int VIEW_PYTHON = 16384;
 	private boolean showResetIcon = false;
 	public boolean runningInFrame = false; // don't want to show resetIcon if
 											// running in Frame

@@ -38,6 +38,7 @@ import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.border.Border;
@@ -254,6 +255,8 @@ implements ActionListener, WindowListener, MouseListener, geogebra.common.gui.la
 	 * or as a JFram (false). Default is false.
 	 */
 	private boolean isDialog = false;
+
+	private JMenuBar menubar;
 
 	
 	/**
@@ -572,6 +575,10 @@ implements ActionListener, WindowListener, MouseListener, geogebra.common.gui.la
 			(((JDialog) frame).getContentPane()).add(this);
 		} else {
 			(((JFrame) frame).getContentPane()).add(this);
+			menubar = loadMenuBar();
+			if (menubar != null) {
+				((JFrame) frame).setJMenuBar(menubar);
+			}
 		}
 
 		// TODO multimonitor supported?
@@ -766,6 +773,10 @@ implements ActionListener, WindowListener, MouseListener, geogebra.common.gui.la
 		}
 	}
 	
+	protected JMenuBar loadMenuBar() {
+		return null;
+	}
+
 	/**
 	 * Update the toolbar of this dock panel if it's open in its own toolbar
 	 * container. 

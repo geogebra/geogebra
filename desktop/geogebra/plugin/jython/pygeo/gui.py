@@ -927,9 +927,9 @@ class PythonWindow(ActionListener, ChangeListener):
     
     def __init__(self, api):
         self.api = api
-        self.frame = JFrame("Python Window")
+        #self.frame = JFrame("Python Window")
 
-        tabs = JTabbedPane()
+        self.tabs = tabs = JTabbedPane()
 
         self.make_menubar()
         self.update_undo_state(None)
@@ -949,15 +949,15 @@ class PythonWindow(ActionListener, ChangeListener):
         self.active_pane = self.interactive_pane
         tabs.addChangeListener(self)
         
-        self.frame.add(tabs)
-        self.frame.visible = False
-        self.component = None
+        #self.frame.add(tabs)
+        #self.frame.visible = False
+        #self.component = None
 
-        self.window_adapter = PythonWindowAdapter(self)
+        #self.window_adapter = PythonWindowAdapter(self)
         # Set up the first active pane as no change event is fired up
         # to start with - but it doesn't work!
-        self.frame.pack()
-        self.frame.size = 500, 600
+        #self.frame.pack()
+        #self.frame.size = 500, 600
         self.active_pane.activate()
 
     def update_geos(self, geos):
@@ -965,7 +965,7 @@ class PythonWindow(ActionListener, ChangeListener):
     
     def make_menubar(self):
         shortcut = Toolkit.getDefaultToolkit().menuShortcutKeyMask
-        menubar = JMenuBar()
+        self.menubar = menubar = JMenuBar()
 
         def new_item(title, cmd, key=None, mod=shortcut):
             item = JMenuItem(title, actionCommand=cmd)
@@ -1056,7 +1056,7 @@ class PythonWindow(ActionListener, ChangeListener):
         item = new_item("Clear History", "clearhistory")
         shellmenu.add(item)
         
-        self.frame.setJMenuBar(menubar)
+        # self.frame.setJMenuBar(menubar)
 
     def reset(self):
         """This is called when a new file is loaded"""
@@ -1182,3 +1182,9 @@ class PythonWindow(ActionListener, ChangeListener):
             print "Can't redo"
         else:
             self.update_undo_state(self.undo)
+    
+    def getComponent(self):
+        return self.tabs
+
+    def getMenuBar(self):
+        return self.menubar

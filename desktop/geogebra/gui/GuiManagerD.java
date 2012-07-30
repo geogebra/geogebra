@@ -45,6 +45,7 @@ import geogebra.gui.layout.panels.EuclidianDockPanel;
 import geogebra.gui.layout.panels.EuclidianDockPanelAbstract;
 import geogebra.gui.layout.panels.ProbabilityCalculatorDockPanel;
 import geogebra.gui.layout.panels.PropertiesDockPanel;
+import geogebra.gui.layout.panels.PythonDockPanel;
 import geogebra.gui.layout.panels.SpreadsheetDockPanel;
 import geogebra.gui.menubar.GeoGebraMenuBar;
 import geogebra.gui.toolbar.Toolbar;
@@ -258,7 +259,10 @@ public class GuiManagerD extends GuiManager {
 
 		// register data analysis view
 		layout.registerPanel(new DataAnalysisViewDockPanel((AppD)app));
-				
+		
+		// register python view
+		layout.registerPanel(new PythonDockPanel((AppD) app));
+		
 		/*
 		if (!app.isWebstart() || app.is3D()) {
 			// register Assignment view
