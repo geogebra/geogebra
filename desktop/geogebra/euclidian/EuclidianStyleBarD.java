@@ -1,5 +1,6 @@
 package geogebra.euclidian;
 
+import geogebra.common.awt.GColor;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianStyleBarStatic;
 import geogebra.common.euclidian.EuclidianView;
@@ -88,7 +89,7 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 	// button-specific fields
 	// TODO: create button classes so these become internal
 	AlgoTableText tableText;
-	Integer[] lineStyleArray;
+	static Integer[] lineStyleArray;
 
 	Integer[] pointStyleArray;
 	HashMap<Integer, Integer> lineStyleMap;
@@ -1484,7 +1485,9 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 							lineStyleArray[btnLineStyle.getSelectedIndex()]);
 					ec.getPen().setPenSize(btnLineStyle.getSliderValue());
 				} else {
-					applyLineStyle(targetGeos);
+					int selectedIndex = btnLineStyle.getSelectedIndex();
+					int lineSize = btnLineStyle.getSliderValue();
+					applyLineStyle(targetGeos, selectedIndex, lineSize);
 				}
 
 			}
@@ -1529,10 +1532,10 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 	// Apply Styles
 	// ==============================================
 
-	private void applyLineStyle(ArrayList<GeoElement> geos) {
-		int lineStyle = lineStyleArray[btnLineStyle.getSelectedIndex()];
-		int lineSize = btnLineStyle.getSliderValue();
-
+	private static boolean applyLineStyle(ArrayList<GeoElement> geos, int lineStyleIndex, int lineSize) {
+		int lineStyle = lineStyleArray[lineStyleIndex];
+		boolean needUndo = false;
+		
 		for (int i = 0; i < geos.size(); i++) {
 			GeoElement geo = geos.get(i);
 			if (geo.getLineType() != lineStyle
@@ -1543,6 +1546,8 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 				needUndo = true;
 			}
 		}
+		
+		return needUndo;
 	}
 
 	private void applyPointStyle(ArrayList<GeoElement> geos) {
@@ -1564,8 +1569,7 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 
 	private void applyColor(ArrayList<GeoElement> geos) {
 
-		Color color = geogebra.awt.GColorD.getAwtColor(btnColor
-				.getSelectedColor());
+		GColor color = btnColor.getSelectedColor();
 		float alpha = btnColor.getSliderValue() / 100.0f;
 
 		for (int i = 0; i < geos.size(); i++) {
@@ -1573,9 +1577,9 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 			// apply object color to all other geos except images or text
 			if (!(geo.getGeoElementForPropertiesDialog() instanceof GeoImage || geo
 					.getGeoElementForPropertiesDialog() instanceof GeoText))
-				if ((geogebra.awt.GColorD.getAwtColor(geo.getObjectColor()) != color || geo
+				if ((geo.getObjectColor() != color || geo
 						.getAlphaValue() != alpha)) {
-					geo.setObjColor(new geogebra.awt.GColorD(color));
+					geo.setObjColor(color);
 					// if we change alpha for functions, hit won't work properly
 					if (geo.isFillable())
 						geo.setAlphaValue(alpha);
@@ -1589,8 +1593,7 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 
 	private void applyBgColor(ArrayList<GeoElement> geos) {
 
-		Color color = geogebra.awt.GColorD.getAwtColor(btnBgColor
-				.getSelectedColor());
+		GColor color = btnBgColor.getSelectedColor();
 		float alpha = btnBgColor.getSliderValue() / 100.0f;
 
 		for (int i = 0; i < geos.size(); i++) {
@@ -1598,10 +1601,9 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 
 			// if text geo, then apply background color
 			if (geo instanceof TextProperties)
-				if (geogebra.awt.GColorD.getAwtColor(geo.getBackgroundColor()) != color
+				if (geo.getBackgroundColor() != color
 						|| geo.getAlphaValue() != alpha) {
-					geo.setBackgroundColor(color == null ? null
-							: new geogebra.awt.GColorD(color));
+					geo.setBackgroundColor(color == null ? null : color);
 					// TODO apply background alpha
 					// --------
 					geo.updateRepaint();
@@ -1612,13 +1614,12 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 
 	private void applyTextColor(ArrayList<GeoElement> geos) {
 
-		Color color = geogebra.awt.GColorD.getAwtColor(btnTextColor
-				.getSelectedColor());
+		GColor color = btnTextColor.getSelectedColor();
 		for (int i = 0; i < geos.size(); i++) {
 			GeoElement geo = geos.get(i);
 			if (geo.getGeoElementForPropertiesDialog() instanceof TextProperties
-					&& geogebra.awt.GColorD.getAwtColor(geo.getObjectColor()) != color) {
-				geo.setObjColor(new geogebra.awt.GColorD(color));
+					&& geo.getObjectColor() != color) {
+				geo.setObjColor(color);
 				geo.updateRepaint();
 				needUndo = true;
 			}
@@ -1670,8 +1671,11 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 			applyColor(geos);
 		if (btnBgColor.isVisible())
 			applyBgColor(geos);
-		if (btnLineStyle.isVisible())
-			applyLineStyle(geos);
+		if (btnLineStyle.isVisible()){
+			int selectedIndex = btnLineStyle.getSelectedIndex();
+			int lineSize = btnLineStyle.getSliderValue();
+			applyLineStyle(geos, selectedIndex, lineSize);
+		}
 		if (btnPointStyle.isVisible())
 			applyPointStyle(geos);
 		if (btnBold.isVisible())
