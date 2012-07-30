@@ -366,6 +366,9 @@ public abstract class GuiManager {
 		case App.VIEW_EUCLIDIAN2:
 			// handled elsewhere
 			break;
+		case App.VIEW_PYTHON:
+			// TODO: understand what to do here
+			break;
 		default: 
 			App.error("Error attaching VIEW: "+viewId);
 		}
