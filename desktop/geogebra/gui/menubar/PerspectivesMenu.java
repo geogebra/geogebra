@@ -10,7 +10,7 @@ import javax.swing.AbstractAction;
 import javax.swing.JMenuItem;
 
 /**
- * The "Help" menu.
+ * The "Perspectives" menu.
  */
 class PerspectivesMenu extends BaseMenu {
 	private static final long serialVersionUID = 1125756553396593316L;
