@@ -967,6 +967,9 @@ public class GuiManagerD extends GuiManager {
 		if (probCalculator != null)
 			probCalculator.updateFonts();
 
+		if (dataView != null)
+			dataView.updateFonts();
+		
 		dialogManager.updateFonts();
 
 		SwingUtilities.updateComponentTreeUI(((AppD)app).getMainComponent());
@@ -1032,7 +1035,8 @@ public class GuiManagerD extends GuiManager {
 		if (probCalculator != null)
 			probCalculator.setLabels();
 		
-
+		if (dataView != null)
+			dataView.setLabels();
 
 		if (propertiesView != null)
 			propertiesView.setLabels();

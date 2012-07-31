@@ -1,13 +1,19 @@
 package geogebra.gui.view.spreadsheet.statdialog;
 
+
+import geogebra.gui.inputfield.MyTextField;
 import geogebra.gui.util.MyToggleButton;
 import geogebra.main.AppD;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JToggleButton;
 import javax.swing.JToolBar;
@@ -25,6 +31,11 @@ public class DataAnalysisStyleBar extends JToolBar implements ActionListener {
 	private JButton btnRounding, btnPrint;
 	private MyToggleButton btnShowStatistics, btnShowPlot2, btnShowData;
 	private JPopupMenu roundingPopup;
+	private MyTextField fldSource;
+	private JLabel lblDataSource;
+	private MyTextField fldDataSource;
+	private MyToggleButton btnExport;
+	
 
 	public DataAnalysisStyleBar(AppD app, StatDialog statDialog) {
 
@@ -81,17 +92,32 @@ public class DataAnalysisStyleBar extends JToolBar implements ActionListener {
 				.setRolloverIcon(app.getImageIcon("dataview-showplot2.png"));
 		//btnShowPlot2.setPreferredSize(btnDim);
 		
+		
+		
+		// create export button
+		btnExport = new MyToggleButton(app.getImageIcon("edit-copy.png"), iconHeight);
+		//optionsButton.setSelectedIcon(app.getImageIcon("inputhelp_right_18x18.png"));
+		btnExport.setFocusPainted(false);
+		btnExport.setFocusable(false);
+		btnExport.addActionListener(this);
+
+		
 		buildRoundingButton();
 
+	//	MyTextField fldSource = new MyTextField(app);
+		
+	
 		// add(btnRounding);
 		add(btnShowStatistics);
-		addSeparator();
 		add(btnShowData);
-		addSeparator();
 		add(btnShowPlot2);
-		// addSeparator();
+		addSeparator();
 		// add(btnPrint);
+		add(btnExport);
 
+		addSeparator();
+		add(createDataSourcePanel());
+		
 	}
 
 	public void updateGUI() {
@@ -99,9 +125,30 @@ public class DataAnalysisStyleBar extends JToolBar implements ActionListener {
 		btnShowStatistics.setSelected(statDialog.showStatPanel());
 		btnShowData.setSelected(statDialog.showDataPanel());
 		btnShowPlot2.setSelected(statDialog.showComboPanel2());
+		fldDataSource.setText(statDialog.getStatDialogController().getSourceString());
+		fldDataSource.revalidate();
 
 	}
 
+	
+	private JPanel createDataSourcePanel() {
+
+		lblDataSource = new JLabel();
+		fldDataSource = new MyTextField(app);
+
+		JPanel dataSourcePanel = new JPanel(new BorderLayout(5, 0));
+		dataSourcePanel.add(lblDataSource, BorderLayout.WEST);
+		dataSourcePanel.add(fldDataSource, BorderLayout.CENTER);
+
+		dataSourcePanel.setBorder(BorderFactory.createEmptyBorder(1, 5, 1, 5));
+		
+		return dataSourcePanel;
+	}
+
+	
+	
+	
+	
 	/**
 	 * Builds popup button with options menu items
 	 */
@@ -131,6 +178,9 @@ public class DataAnalysisStyleBar extends JToolBar implements ActionListener {
 		btnShowData.setToolTipText(app.getMenu("ShowData"));
 		btnShowPlot2.setToolTipText(app.getMenu("ShowPlot2"));
 		btnPrint.setToolTipText(app.getMenu("Print"));
+
+		lblDataSource.setText(app.getMenu("DataTitle") + ": ");
+		
 	}
 
 	public void actionPerformed(ActionEvent e) {

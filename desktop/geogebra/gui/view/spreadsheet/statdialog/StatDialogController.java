@@ -11,6 +11,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.main.App;
 import geogebra.common.plugin.GeoClass;
 import geogebra.gui.view.spreadsheet.CellRangeProcessor;
 import geogebra.gui.view.spreadsheet.MyTableD;
@@ -121,8 +122,10 @@ public class StatDialogController {
 				} else if (mode() == StatDialog.MODE_GROUPDATA) {
 					success = cr.isOneVarStatsPossible(rangeList);
 				}
-				if (success)
+				if (success){
 					dataSource = rangeList.clone();
+					//rangeList.get(0).debug();
+				}
 			}
 
 		} catch (Exception e) {
@@ -249,12 +252,15 @@ public class StatDialogController {
 			for (int i = 0; i < dataSelected.size(); i++) {
 				dataArray.add(i, dataSelected.get(i));
 			}
-		}
 
-		// load dataPanel with dataArray
-		if (mode() != StatDialog.MODE_MULTIVAR
-				&& mode() != StatDialog.MODE_GROUPDATA) {
-			sd.getDataPanel().loadDataTable(dataArray);
+
+			// load dataPanel with dataArray
+			if (mode() != StatDialog.MODE_MULTIVAR
+					&& mode() != StatDialog.MODE_GROUPDATA) {
+				sd.getDataPanel().loadDataTable(dataArray);
+			}
+		}else{
+			App.error("null dataSelected, mode = " + mode());
 		}
 	}
 
@@ -300,11 +306,11 @@ public class StatDialogController {
 
 			title = new String[1];
 			StringTemplate tpl = StringTemplate.defaultTemplate;
+
 			if (dataSource instanceof GeoList) {
 				title[0] = ((GeoList) dataSource).getLabel(tpl);
 
 			} else {
-
 				CellRange range = ((ArrayList<CellRange>) dataSource).get(0);
 				if (range.isColumn()) {
 					GeoElement geo = RelativeCopy.getValue(app,
@@ -368,42 +374,87 @@ public class StatDialogController {
 		return title;
 	}
 
+	/**
+	 * Returns a description of the data source.
+	 * 
+	 * @return either a spreadsheet cell range name or a GeoList label
+	 */
+	public String getSourceString() {
+
+		if (dataSource == null)
+			return null;
+
+		String title = null;
+
+		if (dataSource instanceof GeoList) {
+			title = ((GeoList) dataSource)
+					.getLabel(StringTemplate.defaultTemplate);
+
+		} else {
+			title = spreadsheetTable.getCellRangeProcessor()
+					.getCellRangeString((ArrayList<CellRange>) dataSource);
+		}
+
+		return title;
+	}
+	
+	
 	public void swapXY() {
 		leftToRight = !leftToRight;
 		updateDialog(false);
 	}
 
+	
 	public void updateDialog(boolean doSetDataSource) {
 
-		removeStatGeos();
+		boolean dataOK = updateDataSource(doSetDataSource);
 		
-		boolean hasValidDataSource = true;
-		if(doSetDataSource){
-			hasValidDataSource = setDataSource();
-		}
-		
-		if (dataSource == null)
-			return;
-		
-		if (hasValidDataSource) {
+		// load the data and update the panels
+		if (dataOK && dataSelected != null) {
 			loadDataLists();
-
-			updateAllStatPanels(true);
-
-
+			
 			if (mode() == StatDialog.MODE_REGRESSION) {
-				setRegressionGeo();
-				if (sd.regressionPanel != null)
-					sd.regressionPanel.updateRegressionPanel();
+				setRegressionGeo();	
 			}
 			
-			sd.revalidate();
-			sd.repaint();
+			updateAllStatPanels(true);
 			
 		} else {
 			// TODO --- handle bad data
+			App.error("error in updateDialog");
 		}
+		
+		sd.updateGUI();
+		sd.revalidate();
+		sd.repaint();
 
+	}
+	
+	
+	public boolean updateDataSource(boolean doSetDataSource) {
+
+		boolean hasValidDataSource = true;
+		removeStatGeos();
+		
+		// set the data source to currently selected geos
+		if(doSetDataSource){
+			hasValidDataSource = setDataSource();
+		}
+		if (dataSource == null)
+			return false;
+		
+		// load the data 
+		if (hasValidDataSource) {
+			loadDataLists();
+
+		} else {
+			// TODO --- handle bad data
+			App.error("error in updateDialog");
+			
+			return false;
+		}
+		
+		return true;
 	}
 
 	public void updateAllStatPanels(boolean doCreateGeo) {
@@ -412,8 +463,7 @@ public class StatDialogController {
 		if (sd.comboStatPanel2 != null)
 			sd.comboStatPanel2.updatePlot(doCreateGeo);
 		if (sd.statisticsPanel != null) {
-			sd.statisticsPanel.updatePanel();
-			
+			sd.statisticsPanel.updatePanel();	
 		}
 
 	}
@@ -432,20 +482,20 @@ public class StatDialogController {
 
 	public void setRegressionGeo() {
 
-		if (geoRegression != null) {
-			geoRegression.remove();
-			geoRegression.doRemove();
-		}
+		removeRegressionGeo();
 
 		geoRegression = statGeo.createRegressionPlot(dataSelected,
 				sd.getRegressionMode(), sd.getRegressionOrder(), false);
 
-		updateAllStatPanels(true);
+		if (sd.regressionPanel != null)
+			sd.regressionPanel.updateRegressionPanel();
 	}
 
+	
 	public void removeRegressionGeo() {
 		if (geoRegression != null) {
 			geoRegression.remove();
+			geoRegression.doRemove();
 			geoRegression = null;
 		}
 	}

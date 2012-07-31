@@ -1209,8 +1209,14 @@ public class CellRangeProcessor {
 			}
 		}
 	}
-
+	
+	
+	
 	public String getCellRangeString(CellRange range) {
+		return getCellRangeString(range, true);
+	}
+
+	public String getCellRangeString(CellRange range, boolean onlyFirstRowColumn) {
 
 		String s = "";
 
@@ -1219,9 +1225,21 @@ public class CellRangeProcessor {
 					+ " "
 					+ GeoElementSpreadsheet.getSpreadsheetColumnName(range
 							.getMinColumn());
+			if (!onlyFirstRowColumn && !range.is1D()) {
+				s += " : "
+						+ app.getCommand("Column")
+						+ " "
+						+ GeoElementSpreadsheet.getSpreadsheetColumnName(range
+								.getMaxColumn());
+			}
 
 		} else if (range.isRow()) {
 			s = app.getCommand("Row") + " " + (range.getMinRow() + 1);
+			
+			if (!onlyFirstRowColumn && !range.is1D()) {
+				s += " : " + app.getCommand("Row") + " "
+						+ (range.getMaxRow() + 1);
+			}
 
 		} else {
 			s = GeoElementSpreadsheet.getSpreadsheetCellName(
@@ -1233,5 +1251,18 @@ public class CellRangeProcessor {
 
 		return s;
 	}
+	
+	public String getCellRangeString(ArrayList<CellRange> list){
+		StringBuilder sb = new StringBuilder();
+		for(CellRange cr: list){
+			sb.append(getCellRangeString(cr, false));
+			sb.append(", ");
+		}
+		sb.deleteCharAt(sb.lastIndexOf(", "));
+		
+		return sb.toString();
+	}
+	
+	
 
 }

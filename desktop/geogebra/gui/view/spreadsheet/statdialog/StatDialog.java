@@ -1,5 +1,6 @@
 package geogebra.gui.view.spreadsheet.statdialog;
 
+import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.View;
@@ -40,8 +41,8 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 
-public class StatDialog extends JPanel implements ActionListener, View,
-		Printable, SpecialNumberFormatInterface {
+public class StatDialog extends JPanel implements View, Printable,
+		SpecialNumberFormatInterface {
 
 	private static final long serialVersionUID = 1L;
 	// ggb
@@ -57,13 +58,13 @@ public class StatDialog extends JPanel implements ActionListener, View,
 	public static final int MODE_REGRESSION = 1;
 	public static final int MODE_MULTIVAR = 2;
 	public static final int MODE_GROUPDATA = 3;
-	private int mode = MODE_ONEVAR;
+	private int mode = -1;
 
 	// flags
 	private boolean showDataPanel = false;
 	private boolean showStatPanel = false;
 	private boolean showComboPanel2 = false;
-	protected boolean isIniting;
+	protected boolean isIniting = true;
 	protected boolean leftToRight = true;
 
 	// colors
@@ -113,15 +114,6 @@ public class StatDialog extends JPanel implements ActionListener, View,
 	private Regression regressionMode = Regression.NONE;
 	private int regressionOrder = 2;
 
-	// oneVar title panel objects
-	private JLabel lblOneVarTitle;
-	private MyTextField fldOneVarTitle;
-
-	// button panel objects
-	private JButton btnClose, btnPrint;
-	private PopupMenuButton btnOptions;
-	private StatDialogOptionsPanel dialogOptionsPanel;
-
 	// main GUI panels
 	protected DataPanel dataPanel;
 	protected StatisticsPanel statisticsPanel;
@@ -130,8 +122,6 @@ public class StatDialog extends JPanel implements ActionListener, View,
 	private JSplitPane statDataPanel, displayPanel, comboPanelSplit;
 	private JPanel buttonPanel;
 	private int defaultDividerSize;
-
-	private Dimension defaultDialogDimension;
 
 	// number format
 	private SpecialNumberFormat nf;
@@ -147,26 +137,16 @@ public class StatDialog extends JPanel implements ActionListener, View,
 		isIniting = true;
 		this.app = app;
 		this.kernel = app.getKernel();
-		this.mode = mode;
+		
 
 		nf = new SpecialNumberFormat(app, this);
 
 		sdc = new StatDialogController(app, this);
 
-		defaultDialogDimension = new Dimension(700, 500);
+		comboStatPanel = new StatComboPanel(this);
+		comboStatPanel2 = new StatComboPanel(this);
 
-		boolean dataOK = sdc.setDataSource();
-		if (dataOK) {
-			// load data from the data source (based on currently selected geos)
-			sdc.loadDataLists();
-		} else {
-			// TODO is dispose needed ?
-			// dispose();
-			return;
-		}
-
-		createGUI();
-		sdc.updateAllStatPanels(false);
+		setDataAnalysis(mode);
 
 	}
 
@@ -174,46 +154,41 @@ public class StatDialog extends JPanel implements ActionListener, View,
 	 * END StatDialog constructor
 	 */
 
-	
-	
-	
-	public void setDataAnalysisMode(int mode) {
-
+	public void setDataAnalysis(int mode) {
+		
 		if (app.getSelectedGeos().size() == 0)
 			return;
 
-		if(this.mode != mode){
+		// reinit the GUI if mode is changed
+		if (this.mode != mode) {
 			this.mode = mode;
-			this.removeAll();
-			sdc.removeStatGeos();
-			dataPanel = null;
-			statisticsPanel = null;
-			comboStatPanel = null;
-			comboStatPanel2 = null;
 			
-			boolean dataOK = sdc.setDataSource();
-			if (dataOK) {
-				// load data from the data source (based on currently selected geos)
-				sdc.loadDataLists();
-			} else {
-				// TODO is dispose needed ?
-				// dispose();
-				return;
+			dataPanel = null;
+			buildStatisticsPanel();
+			
+			if(sdc.updateDataSource(true) == true){
+				
+				initComboPanels();
+				updateLayout();
 			}
 
-			createGUI();
-			sdc.updateAllStatPanels(false);
-			this.revalidate();
-
-		}else{
+		} else {
+			// just update data source
 			this.mode = mode;
-			updateDialog(true);
+			sdc.updateDialog(true);
+			
 		}
-		
-				
 
 		// TODO is this needed?
 		setLeftToRight(true);
+
+		updateFonts();
+		setLabels();
+		updateGUI();
+
+		
+		revalidate();
+
 	}
 
 	public JComponent getStyleBar() {
@@ -225,78 +200,80 @@ public class StatDialog extends JPanel implements ActionListener, View,
 
 	private void createGUI() {
 
-		// Create two StatCombo panels with default plots.
-		// StatCombo panels display various plots and tables selected by a
-		// comboBox.
+		buildStatisticsPanel();
 
-		switch (mode) {
+	}
 
-		case MODE_ONEVAR:
-			comboStatPanel = new StatComboPanel(this,
-					StatComboPanel.PLOT_HISTOGRAM, mode, true);
-			comboStatPanel2 = new StatComboPanel(this,
-					StatComboPanel.PLOT_BOXPLOT, mode, true);
-			break;
-
-		case MODE_REGRESSION:
-			// showComboPanel2 = true;
-			comboStatPanel = new StatComboPanel(this,
-					StatComboPanel.PLOT_SCATTERPLOT, mode, true);
-			comboStatPanel2 = new StatComboPanel(this,
-					StatComboPanel.PLOT_RESIDUAL, mode, true);
-			break;
-
-		case MODE_MULTIVAR:
-			showComboPanel2 = false;
-			comboStatPanel = new StatComboPanel(this,
-					StatComboPanel.PLOT_MULTIBOXPLOT, mode, true);
-			break;
-
-		case MODE_GROUPDATA:
-			showComboPanel2 = false;
-			comboStatPanel = new StatComboPanel(this,
-					StatComboPanel.PLOT_HISTOGRAM, mode, true);
-			break;
-
+	private void buildStatisticsPanel() {
+		if (statisticsPanel != null) {
+			// TODO handle any orphaned geo children of stat panel
+			statisticsPanel = null;
 		}
-
-		// Create StatisticPanel to display statistics and inference results
-		// from the current data set
 		if (mode != MODE_GROUPDATA) {
 			statisticsPanel = new StatisticsPanel(app, this);
 			statisticsPanel.setBorder(BorderFactory.createEmptyBorder(4, 2, 2,
 					2));
 		}
-		// Init the GUI and attach this view to the kernel
+	}
 
-		initGUI();
-		updateFonts();
-		btnClose.requestFocus();
-		//attachView();
-		isIniting = false;
-		setLabels();
-		updateGUI();
+	public void initComboPanels() {
 
+		switch (mode) {
+
+		case MODE_ONEVAR:
+			comboStatPanel.reInit(StatComboPanel.PLOT_HISTOGRAM, mode);
+			comboStatPanel2.reInit(StatComboPanel.PLOT_BOXPLOT, mode);
+			break;
+
+		case MODE_REGRESSION:
+			comboStatPanel.reInit(StatComboPanel.PLOT_SCATTERPLOT, mode);
+			comboStatPanel2.reInit(StatComboPanel.PLOT_RESIDUAL, mode);
+			break;
+
+		case MODE_MULTIVAR:
+			comboStatPanel.reInit(StatComboPanel.PLOT_MULTIBOXPLOT, mode);
+			showComboPanel2 = false;
+			break;
+
+		case MODE_GROUPDATA:
+			comboStatPanel.reInit(StatComboPanel.PLOT_HISTOGRAM, mode);
+			showComboPanel2 = false;
+			break;
+
+		}
 	}
 
 	// Create DataPanel to display the current data set(s) and allow
 	// temporary editing.
-	protected DataPanel getDataPanel() {
+	protected DataPanel buildDataPanel() {
 
-		if (dataPanel == null && mode != MODE_MULTIVAR) {
+		if (dataPanel != null){
+			// TODO handle any orphaned data panel geos
+			dataPanel = null;
+		}
+		if (mode != MODE_MULTIVAR && mode != StatDialog.MODE_GROUPDATA) {
 			dataPanel = new DataPanel(app, this);
-			dataPanel.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
+			dataPanel.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));			
 		}
 
 		return dataPanel;
 
+	}
+	
+	protected DataPanel getDataPanel() {
+		if(dataPanel == null){
+			buildDataPanel();
+		}
+		return dataPanel;
 	}
 
 	// =================================================
 	// GUI
 	// =================================================
 
-	private void initGUI() {
+	private void updateLayout() {
+
+		this.removeAll();
 
 		// ===========================================
 		// statData panel
@@ -314,6 +291,16 @@ public class StatDialog extends JPanel implements ActionListener, View,
 			statDataPanel.setBorder(BorderFactory.createEmptyBorder());
 		}
 
+		// ===========================================
+		// regression panel
+
+		if (mode == MODE_REGRESSION) {
+			regressionPanel = new RegressionPanel(app, this);
+		}
+
+		// ===========================================
+		// plotComboPanel panel
+
 		// create a splitPane to hold the two plotComboPanels
 		comboPanelSplit = new JSplitPane(JSplitPane.VERTICAL_SPLIT,
 				comboStatPanel, comboStatPanel2);
@@ -324,31 +311,8 @@ public class StatDialog extends JPanel implements ActionListener, View,
 		// grab the default divider size
 		defaultDividerSize = comboPanelSplit.getDividerSize();
 
-		// ===========================================
-		// button panel
-
-		btnClose = new JButton();
-		btnClose.addActionListener(this);
-
-		createOptionsButton();
-
-		JPanel rightButtonPanel = new JPanel(new FlowLayout());
-		rightButtonPanel.add(btnOptions);
-		rightButtonPanel.add(btnClose);
-
-		buttonPanel = new JPanel(new BorderLayout());
-		// buttonPanel.add(rightButtonPanel, BorderLayout.EAST);
-
 		JPanel plotComboPanel = new JPanel(new BorderLayout());
 		plotComboPanel.add(comboPanelSplit, BorderLayout.CENTER);
-		if (mode == MODE_ONEVAR) {
-			JPanel oneVarTitlePanel = createOneVarTitlePanel();
-			buttonPanel.add(oneVarTitlePanel, BorderLayout.NORTH);
-		}
-		if (mode == MODE_REGRESSION) {
-			regressionPanel = new RegressionPanel(app, this);
-			buttonPanel.add(regressionPanel, BorderLayout.NORTH);
-		}
 
 		// display panel
 		// ============================================
@@ -368,91 +332,16 @@ public class StatDialog extends JPanel implements ActionListener, View,
 		// ============================================
 		JPanel mainPanel = new JPanel(new BorderLayout());
 		mainPanel.add(displayPanel, BorderLayout.CENTER);
-		// mainPanel.add(new StatDialogStyleBar(app, this), BorderLayout.NORTH);
-		mainPanel.add(buttonPanel, BorderLayout.SOUTH);
+
+		if (mode == MODE_REGRESSION) {
+			mainPanel.add(regressionPanel, BorderLayout.SOUTH);
+		}
 
 		this.setLayout(new BorderLayout());
 		add(mainPanel, BorderLayout.CENTER);
 
 		setShowComboPanel2(showComboPanel2);
 		updateStatDataPanelVisibility();
-
-	}
-
-	private JPanel createOneVarTitlePanel() {
-
-		lblOneVarTitle = new JLabel();
-		fldOneVarTitle = new MyTextField(app);
-
-		JPanel titlePanel = new JPanel(new BorderLayout(5, 0));
-		titlePanel.add(lblOneVarTitle, BorderLayout.WEST);
-		titlePanel.add(fldOneVarTitle, BorderLayout.CENTER);
-
-		// titlePanel.setBorder(BorderFactory.createEtchedBorder());
-		titlePanel.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 5));
-		return titlePanel;
-	}
-
-	private void createOptionsButton() {
-
-		if (btnOptions == null) {
-			btnOptions = new PopupMenuButton(app);
-			btnOptions.setKeepVisible(true);
-			btnOptions.setStandardButton(true);
-			btnOptions.setFixedIcon(GeoGebraIcon.createUpDownTriangleIcon(
-					false, true));
-			btnOptions.setDownwardPopup(false);
-		}
-
-		btnOptions.removeAllMenuItems();
-		btnOptions.setText(app.getMenu("Options"));
-
-		JCheckBoxMenuItem menuItem;
-
-		// rounding
-		btnOptions.addPopupMenuItem(nf.createMenuDecimalPlaces());
-
-		menuItem = new JCheckBoxMenuItem(app.getMenu("ShowData"));
-		menuItem.setSelected(showDataPanel);
-		menuItem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				showDataPanel = !showDataPanel;
-				updateStatDataPanelVisibility();
-			}
-		});
-		if (this.mode != MODE_MULTIVAR)
-			btnOptions.addPopupMenuItem(menuItem);
-
-		menuItem = new JCheckBoxMenuItem(app.getMenu("ShowStatistics"));
-		menuItem.setSelected(showStatPanel);
-		menuItem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				showStatPanel = !showStatPanel;
-				updateStatDataPanelVisibility();
-			}
-		});
-		menuItem.setEnabled(true);
-		if (this.mode != MODE_MULTIVAR)
-			btnOptions.addPopupMenuItem(menuItem);
-
-		menuItem = new JCheckBoxMenuItem(app.getMenu("ShowPlot2"));
-		menuItem.setSelected(showComboPanel2);
-		menuItem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				setShowComboPanel2(!showComboPanel2);
-			}
-		});
-		menuItem.setEnabled(true);
-		if (this.mode != MODE_MULTIVAR)
-			btnOptions.addPopupMenuItem(menuItem);
-
-		JMenuItem item = new JMenuItem(app.getMenu("Print") + "...");
-		item.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				doPrint();
-			}
-		});
-		btnOptions.addPopupMenuItem(item);
 
 	}
 
@@ -524,6 +413,10 @@ public class StatDialog extends JPanel implements ActionListener, View,
 		for (Regression l : Regression.values()) {
 			if (l.ordinal() == regressionMode) {
 				this.regressionMode = l;
+				
+				sdc.setRegressionGeo();
+				sdc.updateAllStatPanels(true);
+				
 				return;
 			}
 		}
@@ -648,50 +541,18 @@ public class StatDialog extends JPanel implements ActionListener, View,
 	// Event Handlers and Updates
 	// =================================================
 
-	public void actionPerformed(ActionEvent e) {
-
-		Object source = e.getSource();
-
-		if (source == btnClose) {
-			setVisible(false);
-		}
-
-		btnClose.requestFocus();
-	}
-
 	/**
 	 * Updates the dialog when the number format options have been changed
 	 */
 	public void changedNumberFormat() {
-		updateDialog(false);
+		sdc.updateDialog(false);
 	}
 
-	@Override
-	public void setVisible(boolean isVisible) {
-		super.setVisible(isVisible);
+	public void updateGUI() {
 
-		if (isVisible) {
-			// Application.debug("statDialog visible");
-			// spView.setColumnSelect(true);
-			//this.attachView();
-			// if(!isIniting)
-			// updateDialog();
-
-		} else {
-			// Application.printStacktrace("statDialog not visible");
-			// spView.setColumnSelect(false);
-			
-			//this.detachView();
+		if (stylebar != null) {
+			stylebar.updateGUI();
 		}
-	}
-
-	private void updateGUI() {
-		if (isIniting)
-			return;
-		if (mode == StatDialog.MODE_ONEVAR) {
-			fldOneVarTitle.setText(sdc.getDataTitles()[0]);
-		}
-
 	}
 
 	public void updateFonts() {
@@ -715,27 +576,19 @@ public class StatDialog extends JPanel implements ActionListener, View,
 
 	public void setLabels() {
 
-		switch (mode) {
-		case MODE_ONEVAR:
-			// setTitle(app.getMenu("OneVariableStatistics"));
-			lblOneVarTitle.setText(app.getMenu("DataTitle") + ": ");
-			break;
-
-		case MODE_REGRESSION:
-			// setTitle(app.getMenu("RegressionAnalysis"));
-			regressionPanel.setLabels();
-			break;
-
-		case MODE_MULTIVAR:
-			// setTitle(app.getMenu("MultiVariableStatistics"));
-			break;
+		if (isIniting) {
+			return;
 		}
 
-		this.createOptionsButton();
+		// setTitle(app.getMenu("OneVariableStatistics"));
 
-		btnClose.setText(app.getMenu("Close"));
-		// btnPrint.setText(app.getMenu("Print"));
-		// btnOptions.setText(app.getMenu("Options"));
+		if (mode == MODE_REGRESSION) {
+			regressionPanel.setLabels();
+		}
+
+		if (stylebar != null) {
+			stylebar.setLabels();
+		}
 
 		// call setLabels() for all child panels
 		setLabelsRecursive(this);
@@ -801,7 +654,15 @@ public class StatDialog extends JPanel implements ActionListener, View,
 	}
 
 	public void setMode(int mode) {
-		// do nothing
+/*
+		switch (mode) {
+		case EuclidianConstants.MODE_SPREADSHEET_ONEVARSTATS:
+		case EuclidianConstants.MODE_SPREADSHEET_TWOVARSTATS:
+		case EuclidianConstants.MODE_SPREADSHEET_MULTIVARSTATS:
+			this.setDataAnalysis(mode);
+			break;
+		}
+*/
 	}
 
 	public void attachView() {
@@ -816,24 +677,26 @@ public class StatDialog extends JPanel implements ActionListener, View,
 	}
 
 	public void detachView() {
-		
+
 		comboStatPanel.detachView();
 		if (comboStatPanel2 != null)
 			comboStatPanel2.detachView();
 		sdc.removeStatGeos();
-		
+
 		kernel.detach(this);
-		
+
 		// clearView();
 		// kernel.notifyRemoveAll(this);
 	}
 
-	public void updateDialog(boolean doSetDataSource) {
-		sdc.updateDialog(doSetDataSource);
-	}
+	
 
 	public String[] getDataTitles() {
 		return sdc.getDataTitles();
+	}
+
+	public void updateSelection() {
+		// updateDialog(true);
 	}
 
 	// =================================================

@@ -83,17 +83,18 @@ public class StatisticsPanel extends JPanel implements StatPanelInterface, Actio
 		// create the sub-panels	
 		createSelectionPanel();
 		createStatTable();
-		statTable.setBorder(BorderFactory.createEmptyBorder());
-		inferencePanel = new JPanel(new BorderLayout());
-		inferencePanel.add(statTable, BorderLayout.CENTER);
+		if(statTable != null){
+			statTable.setBorder(BorderFactory.createEmptyBorder());
+			inferencePanel = new JPanel(new BorderLayout());
+			inferencePanel.add(statTable, BorderLayout.CENTER);
 
-		// add sub-panels to layout
-		setLayout(new BorderLayout());
-		add(selectionPanel, BorderLayout.NORTH);
-		add(inferencePanel, BorderLayout.CENTER);
+			// add sub-panels to layout
+			setLayout(new BorderLayout());
+			add(selectionPanel, BorderLayout.NORTH);
+			add(inferencePanel, BorderLayout.CENTER);
 
-		setLabels();
-
+			setLabels();
+		}
 	}
 
 	/**

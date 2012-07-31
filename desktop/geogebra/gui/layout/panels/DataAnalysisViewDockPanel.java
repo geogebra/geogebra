@@ -1,5 +1,6 @@
 package geogebra.gui.layout.panels;
 
+import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.main.App;
 import geogebra.gui.layout.DockPanel;
 import geogebra.main.AppD;
@@ -19,7 +20,7 @@ public class DataAnalysisViewDockPanel extends DockPanel {
 	public DataAnalysisViewDockPanel(AppD app) {
 		super(App.VIEW_DATA_ANALYSIS, 	// view id
 				"DataAnalysis", 		// view title phrase
-				null, 					// toolbar string
+				getDefaultToolbar(), 	// toolbar string
 				true, 					// style bar?
 				-1, 					// menu order
 				'D' 					// menu shortcut
@@ -39,4 +40,17 @@ public class DataAnalysisViewDockPanel extends DockPanel {
 		return app.getGuiManager().getDataAnalysisView().getStyleBar();
 	}
 
+	private static String getDefaultToolbar() {
+		StringBuilder sb = new StringBuilder();
+		
+		sb.append(" || ");
+		sb.append(EuclidianConstants.MODE_SPREADSHEET_ONEVARSTATS);
+		sb.append(" || ");
+		sb.append(EuclidianConstants.MODE_SPREADSHEET_TWOVARSTATS);
+		sb.append(" || ");
+		sb.append(EuclidianConstants.MODE_SPREADSHEET_MULTIVARSTATS);
+			
+		return sb.toString();
+	}
+	
 }

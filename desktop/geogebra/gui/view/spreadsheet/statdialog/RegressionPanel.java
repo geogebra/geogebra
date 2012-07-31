@@ -316,8 +316,6 @@ public class RegressionPanel extends JPanel implements  ActionListener, StatPane
 
 		else if(source == cbRegression){			
 			statDialog.setRegressionMode(cbRegression.getSelectedIndex());
-			statDialog.getStatDialogController().setRegressionGeo();
-			updateRegressionPanel();
 		}
 
 		else if(source == cbPolyOrder){

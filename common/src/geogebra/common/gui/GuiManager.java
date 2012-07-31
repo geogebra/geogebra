@@ -356,6 +356,9 @@ public abstract class GuiManager {
 		case App.VIEW_PROBABILITY_CALCULATOR:
 			attachProbabilityCalculatorView();
 			break;
+		case App.VIEW_DATA_ANALYSIS:
+			attachDataAnalysisView();
+			break;
 		case App.VIEW_ASSIGNMENT:
 			attachAssignmentView();
 			break;
