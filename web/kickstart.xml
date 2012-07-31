@@ -92,7 +92,7 @@ your workstation.
 	<mkdir dir="lib"/>
 	<mkdir dir="lib/download"/>
 	<get
-	    src="http://dev.geogebra.org/download/lib/web/gwt-2.4.0.zip"
+	    src="http://dev.geogebra.org/download/lib/web/gwt-2.5.0.rc1.zip"
 	    dest="lib/download/gwt-sdk.zip" usetimestamp="true"/>
 	<unzip src="lib/download/gwt-sdk.zip" dest="lib">
 	</unzip>
@@ -102,13 +102,13 @@ your workstation.
 	<mkdir dir="lib"/>
 	<mkdir dir="lib/download"/>
 	<get
-	    src="http://dev.geogebra.org/download/lib/web/appengine-java-sdk-1.6.3.1.zip"
+	    src="http://dev.geogebra.org/download/lib/web/appengine-java-sdk-1.7.0.zip"
 	    dest="lib/download/gae-sdk.zip" usetimestamp="true"/>
 	<unzip src="lib/download/gae-sdk.zip" dest="lib">
 	</unzip>
 	<copy todir="war/WEB-INF/lib">
-         <fileset dir="lib/appengine-java-sdk-1.6.3.1/lib/user" includes="*.jar" />
-         <fileset dir="lib/appengine-java-sdk-1.6.3.1/lib/user/orm" includes="*.jar" />
+         <fileset dir="lib/appengine-java-sdk-1.7.0/lib/user" includes="*.jar" />
+         <fileset dir="lib/appengine-java-sdk-1.7.0/lib/user/orm" includes="*.jar" />
         </copy>
 	</target>
 
