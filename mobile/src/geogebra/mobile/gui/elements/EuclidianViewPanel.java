@@ -4,5 +4,8 @@ import com.googlecode.mgwt.ui.client.widget.LayoutPanel;
 
 public class EuclidianViewPanel extends LayoutPanel
 {
-	
+	public EuclidianViewPanel()
+	{
+		this.addStyleName("euclidianview");
+	}
 }

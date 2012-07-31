@@ -12,8 +12,6 @@
 
 	<inherits name="geogebra.Common" />
 
-	<inherits name="geogebra.Web" />
-
 	<!-- Other module inherits -->
 
 	<inherits name="com.google.gwt.http.HTTP" />

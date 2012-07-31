@@ -12,7 +12,6 @@ import com.googlecode.mgwt.ui.client.MGWTStyle;
 import com.googlecode.mgwt.ui.client.widget.HeaderPanel;
 import com.googlecode.mgwt.ui.client.widget.LayoutPanel;
 import com.googlecode.mgwt.ui.client.widget.buttonbar.ButtonBar;
-import com.googlecode.mgwt.ui.client.widget.buttonbar.ButtonBarButtonBase;
 
 public class TabletGUI implements GeoGebraMobileGUI
 {
@@ -32,7 +31,7 @@ public class TabletGUI implements GeoGebraMobileGUI
 		MGWTStyle.getTheme().getMGWTClientBundle().getMainCss().ensureInjected();
 
 		// append your own css as last thing in the head
-		MGWTStyle.injectStyleSheet("Presenter.css");
+		MGWTStyle.injectStyleSheet("TabletGUI.css");
 
 		// Initialize GUI Elements
 		rootPanel = RootPanel.get();

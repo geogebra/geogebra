@@ -15,6 +15,8 @@ public class AlgebraViewPanel extends LayoutPanel
 {
 	public AlgebraViewPanel()
 	{
+		this.addStyleName("algebraview");
+
 		TouchDelegate touchDelegate = new TouchDelegate(this);
 		touchDelegate.addSwipeStartHandler(new SwipeStartHandler()
 		{

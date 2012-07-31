@@ -10,9 +10,12 @@ interface Resources extends ClientBundle
 {
 	public static final Resources INSTANCE = GWT.create(Resources.class);
 
-	@Source("Youtube-Logo.png")
+	@Source("../mobile/resources/Youtube-Logo.png")
 	ImageResource logo();
-	
-	@Source("Tux.svg")
+
+	@Source("../mobile/resources/Tux.svg")
 	SVGResource tux();
+	
+	@Source("../common/resources/icons/svg/1_movement/move.svg")
+	SVGResource move();
 }
