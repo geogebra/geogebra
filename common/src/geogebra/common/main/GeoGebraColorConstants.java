@@ -136,6 +136,9 @@ public class GeoGebraColorConstants {
 																// Color>();
 
 	// static
+	/**
+	 * @return map of internal lowercase strings to GColors
+	 */
 	public static HashMap<String, GColor> getGeoGebraColors() {
 
 		if (geogebraColor != null)

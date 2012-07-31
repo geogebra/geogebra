@@ -1,42 +1,26 @@
 package geogebra.web.main;
 
-import geogebra.common.awt.GColor;
-import geogebra.common.euclidian.EuclidianController;
-import geogebra.common.euclidian.EuclidianView;
-import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
-import geogebra.common.kernel.ConstructionDefaults;
-import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.StringTemplate;
-import geogebra.common.kernel.geos.GeoAngle;
-import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.kernel.geos.GeoPoint;
-import geogebra.common.kernel.geos.PointProperties;
 import geogebra.common.main.App;
-import geogebra.common.main.GWTKeycodes;
 import geogebra.common.main.KeyCodes;
-import geogebra.common.plugin.EuclidianStyleConstants;
-import geogebra.common.util.CopyPaste;
-import geogebra.web.euclidian.EuclidianViewW;
-import geogebra.web.gui.applet.GeoGebraFrame;
 
-import java.awt.event.KeyEvent;
 import java.util.ArrayList;
-import java.util.Iterator;
-
-import javax.swing.JTable;
 
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
-import com.google.gwt.event.dom.client.KeyUpEvent;
-import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
-
+import com.google.gwt.event.dom.client.KeyUpEvent;
+import com.google.gwt.event.dom.client.KeyUpHandler;
+/**
+ * Handles keyboard events.
+ */
 public class GlobalKeyDispatcherW extends
         geogebra.common.main.GlobalKeyDispatcher implements KeyUpHandler, KeyDownHandler, KeyPressHandler {
 
+	/**
+	 * @param app application
+	 */
 	public GlobalKeyDispatcherW(App app) {
 		this.app = app;
     }
@@ -85,6 +69,12 @@ public class GlobalKeyDispatcherW extends
 		return false;
     }
 
+	/**
+	 * Handles key event by disassembling it into primitive types and handling it using the mothod
+	 * from common 
+	 * @param event event
+	 * @return whether event was consumed
+	 */
 	public boolean handleGeneralKeys(KeyUpEvent event) {
 		
 		return handleGeneralKeys(KeyCodes.translateGWTcode(event.getNativeKeyCode()), event.isShiftKeyDown(), event.isControlKeyDown(), event.isAltKeyDown(), false, true);
@@ -122,7 +112,7 @@ public class GlobalKeyDispatcherW extends
     }
 
 	@Override
-    protected void createNewWindow(Object object) {
+    protected void createNewWindow() {
 		App.debug("unimplemented");
     }
 

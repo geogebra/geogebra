@@ -2689,12 +2689,17 @@ public abstract class App {
 		return traceManager;
 	}
 
-
+	/**
+	 * Switch current cursor to default cursor
+	 */
 	public void setDefaultCursor() {
 		// TODO Auto-generated method stub
 		
 	}
 
+	/**
+	 * Switch current cursor to wait cursor
+	 */
 	public abstract void setWaitCursor();
 
 	public abstract AlgoElement newAlgoShortestDistance(Construction cons,

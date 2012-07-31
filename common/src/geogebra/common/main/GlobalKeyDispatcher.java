@@ -112,11 +112,16 @@ public abstract class GlobalKeyDispatcher {
 	/**
 	 * Handles general keys like ESC and function keys that don't involved
 	 * selected GeoElements.
+	 * @param key key code 
+	 * @param isShiftDown  whether shift is down
+	 * @param isControlDown whether control is down
+	 * @param isAltDown whether alt is down
+	 * @param fromSpreadsheet whether this event comes from spreadsheet
+	 * @param fromEuclidianView whether this event comes from EV
 	 * 
-	 * @param event
 	 * @return if key was consumed
 	 */
-	public boolean handleGeneralKeys(KeyCodes key, boolean isShiftDown, boolean isControlDown, boolean isAltDown, boolean fromSpreadsheet, boolean fromEuclidianView) {
+	protected boolean handleGeneralKeys(KeyCodes key, boolean isShiftDown, boolean isControlDown, boolean isAltDown, boolean fromSpreadsheet, boolean fromEuclidianView) {
 		boolean consumed = false;
 
 		// ESC and function keys
@@ -420,7 +425,7 @@ public abstract class GlobalKeyDispatcher {
 					handleCtrlShiftN(isAltDown);
 				} else {
 					app.setWaitCursor();
-					createNewWindow(null);
+					createNewWindow();
 					app.setDefaultCursor();
 				}
 				break;
@@ -528,34 +533,50 @@ public abstract class GlobalKeyDispatcher {
 		return consumed;
 	}
 
-	protected abstract void createNewWindow(Object object);
+	/**
+	 * Creates new GGB window
+	 */
+	protected abstract void createNewWindow();
 
+	/**
+	 * Opens print preview dialog
+	 * @param app2 application
+	 */
 	protected abstract void showPrintPreview(App app2);
 
-	/*
-	 * overridden in desktop
+	/**
+	 * Handles Ctrl+V; overridden in desktop
+	 * Default implementation pastes from XML and returns true
 	 */
-	protected boolean handleCtrlV() {
+	protected void handleCtrlV() {
 		app.setWaitCursor();
 		CopyPaste.pasteFromXML(app);
 		app.setDefaultCursor();
-		return true;		
 	}
 
+	/**
+	 * @param isAltDown whether alt is down
+	 * @return whether keys were consumed
+	 */
 	protected abstract boolean handleCtrlShiftN(boolean isAltDown);
 
-	/*
+	/**
 	 * overridden in desktop
+	 * Default implementation pastes from XML and returns true
 	 */
-	protected boolean handleCtrlC() {
+	protected void handleCtrlC() {
 		// Copy selected geos
 		app.setWaitCursor();
 		CopyPaste.copyToXML(app, app.getSelectedGeos());
 		app.updateMenubar();
-		app.setDefaultCursor();
-		return true;		
+		app.setDefaultCursor();	
 	}
 
+	/**
+	 * @param isControlDown whether control is down
+	 * @param isShiftDown whether shift is down
+	 * @return whether key was consumed
+	 */
 	protected boolean handleTab(boolean isControlDown, boolean isShiftDown) {
 		if (isShiftDown) {
 			app.selectLastGeo();
@@ -566,13 +587,16 @@ public abstract class GlobalKeyDispatcher {
 		return true;
 	}
 
+	/**
+	 * @return handles enter
+	 */
 	protected abstract boolean handleEnter();
 
 	/**
 	 * Changes the font size of the user interface and construction element
 	 * styles (thickness, size) for a given fontSize.
 	 * 
-	 * @param app
+	 * @param app application
 	 * @param fontSize
 	 *            12-32pt
 	 * @param blackWhiteMode
@@ -680,6 +704,12 @@ public abstract class GlobalKeyDispatcher {
 	
 	/**
 	 * Handle pressed key for selected GeoElements
+	 * @param key key code 
+	 * @param geos selected geos
+	 * @param isShiftDown  whether shift is down
+	 * @param isControlDown whether control is down
+	 * @param isAltDown whether alt is down
+	 * @param fromSpreadsheet whether this event comes from spreadsheet
 	 * 
 	 * @return if key was consumed
 	 */
@@ -1077,6 +1107,10 @@ public abstract class GlobalKeyDispatcher {
 		return false;
 	}
 
+	/**
+	 * Copies definitions of geos to input bar and wraps them in a list
+	 * @param geos list of geos
+	 */
 	protected abstract void copyDefinitionsToInputBarAsList(ArrayList<GeoElement> geos);
 
 

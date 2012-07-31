@@ -1,6 +1,5 @@
 package geogebra.main;
 
-import geogebra.common.GeoGebraConstants;
 import geogebra.common.euclidian.DrawTextField;
 import geogebra.common.gui.GuiManager;
 import geogebra.common.kernel.StringTemplate;
@@ -34,6 +33,9 @@ import javax.swing.text.JTextComponent;
  */
 public class GlobalKeyDispatcherD extends geogebra.common.main.GlobalKeyDispatcher implements KeyEventDispatcher {
 
+	/**
+	 * @param app application
+	 */
 	public GlobalKeyDispatcherD(AppD app) {
 		this.app = app;
 	}
@@ -73,7 +75,7 @@ public class GlobalKeyDispatcherD extends geogebra.common.main.GlobalKeyDispatch
 	/**
 	 * The "key pressed" event is generated when a key is pushed down.
 	 * 
-	 * @param event
+	 * @param event event
 	 * @return if key was consumed
 	 */
 	protected boolean handleKeyPressed(KeyEvent event) {
@@ -139,6 +141,12 @@ public class GlobalKeyDispatcherD extends geogebra.common.main.GlobalKeyDispatch
 		return false;
 	}
 
+	/**
+	 * Handles key event by disassembling it into primitive types and handling it using the mothod
+	 * from common
+	 * @param event event
+	 * @return whether key was consumed
+	 */
 	public boolean handleGeneralKeys(KeyEvent event) {
 
 		// use event.isAltDown rather than AppD.isControlDown(event)
@@ -163,7 +171,7 @@ public class GlobalKeyDispatcherD extends geogebra.common.main.GlobalKeyDispatch
 	 * 
 	 * @param fkey
 	 *            number
-	 * @param geo
+	 * @param geo geo
 	 */
 	@Override
 	public void handleFunctionKeyForAlgebraInput(int fkey, GeoElement geo) {
@@ -232,7 +240,7 @@ public class GlobalKeyDispatcherD extends geogebra.common.main.GlobalKeyDispatch
 	}
 
 	@Override
-	protected boolean handleCtrlC() {
+	protected void handleCtrlC() {
 		if (!(((AppD)app).getGuiManager().getSpreadsheetView()
 				.hasFocus())
 				&& !(((AlgebraInput) ((AppD)app).getGuiManager()
@@ -242,12 +250,10 @@ public class GlobalKeyDispatcherD extends geogebra.common.main.GlobalKeyDispatch
 			super.handleCtrlC();
 		}
 
-		return false;
-
 	}
 
 	@Override
-	protected boolean handleCtrlV() {
+	protected void handleCtrlV() {
 		if (!(((AppD)app).getGuiManager().getSpreadsheetView()
 				.hasFocus())
 				&& !(((AlgebraInput) ((AppD)app).getGuiManager()
@@ -255,8 +261,6 @@ public class GlobalKeyDispatcherD extends geogebra.common.main.GlobalKeyDispatch
 
 			super.handleCtrlV();
 		}
-		
-		return false;
 	}
 	
 	@Override
@@ -357,10 +361,9 @@ public class GlobalKeyDispatcherD extends geogebra.common.main.GlobalKeyDispatch
 		textComponent.setText(sb.toString());	}
 
 	@Override
-	protected void createNewWindow(Object object) {
-		app.setWaitCursor();
+	protected void createNewWindow() {
+		//no wait cursor needed here, that's taken care of before we call this
 		GeoGebraFrame.createNewWindow(null);
-		app.setDefaultCursor();
 	}
 
 	@Override
