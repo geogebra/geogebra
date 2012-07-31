@@ -31,7 +31,7 @@ your workstation.
 	<target name="gwt-sdk">
 		<mkdir dir="lib" />
 		<mkdir dir="lib/download" />
-		<get src="http://google-web-toolkit.googlecode.com/files/gwt-2.5.0.rc1.zip" dest="lib/download/gwt-sdk.zip" usetimestamp="true" />
+		<get src="http://dev.geogebra.org/download/lib/web/gwt-2.5.0.rc1.zip" dest="lib/download/gwt-sdk.zip" usetimestamp="true" />
 		<unzip src="lib/download/gwt-sdk.zip" dest="lib">
 		</unzip>
 	</target>
@@ -54,7 +54,7 @@ your workstation.
 
 	<target name="lib-gwt-svg">
 		<mkdir dir="lib" />
-		<get src="http://www.vectomatic.org/mvn/org/vectomatic/lib-gwt-svg/0.5.6/lib-gwt-svg-0.5.6.jar" dest="lib/${lib-gwt-svg-0.5.6.jar}" />
+		<get src="http://dev.geogebra.org/download/lib/web/lib-gwt-svg-0.5.6.jar" dest="lib/${lib-gwt-svg-0.5.6.jar}" />
 		<copy todir="war/WEB-INF/lib">
 			<fileset dir="lib" includes="${lib-gwt-svg-0.5.6.jar}" />
 		</copy>

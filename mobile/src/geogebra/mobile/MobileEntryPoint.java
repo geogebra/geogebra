@@ -1,28 +1,20 @@
 package geogebra.mobile;
 
 import geogebra.common.main.App;
-import geogebra.mobile.gui.GeoGebraMobileGUI;
+import geogebra.mobile.gui.TabletGUI;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
-import com.google.gwt.user.client.ui.Composite;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
  */
 public class MobileEntryPoint implements EntryPoint
 {
-
 	@Override
 	public void onModuleLoad()
 	{
-
-		/*
-		 * the Common.java and the Web.java onlmoduleLoad() are called before this.
-		 * So, any script injecting, etc is done there already concerning the <body
-		 * data-param-mobile="true"> parameter>
-		 */
 		loadMobileAsync();
 	}
 
@@ -33,7 +25,7 @@ public class MobileEntryPoint implements EntryPoint
 
 			public void onSuccess()
 			{
-				new MobileApp();
+				new MobileApp(new TabletGUI());
 			}
 
 			public void onFailure(Throwable reason)
