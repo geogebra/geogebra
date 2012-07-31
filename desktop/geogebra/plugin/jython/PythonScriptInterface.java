@@ -1,9 +1,9 @@
 package geogebra.plugin.jython;
 
+import geogebra.common.kernel.geos.GeoElement;
+
 import javax.swing.JComponent;
 import javax.swing.JMenuBar;
-
-import geogebra.common.kernel.geos.GeoElement;
 
 /**
  * @author arno

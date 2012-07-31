@@ -4,9 +4,9 @@ import geogebra.common.main.App;
 import geogebra.common.plugin.Operation;
 import geogebra.common.util.Unicode;
 
-import java.util.Map;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;

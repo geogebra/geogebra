@@ -1,16 +1,12 @@
 package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.FunctionNVar;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
-import geogebra.common.kernel.arithmetic.MyDouble;
-import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunctionNVar;
-import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.locusequ.EquationElement;
 import geogebra.common.kernel.locusequ.EquationScope;
 

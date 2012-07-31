@@ -39,7 +39,6 @@ import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic3D.Vector3DValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.geos.PointProperties;
 import geogebra.common.kernel.geos.SpreadsheetTraceable;

@@ -3,6 +3,7 @@ package geogebra.common.kernel;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.Animatable;
 import geogebra.common.kernel.geos.GeoElement;
+
 import java.util.ArrayList;
 import java.util.TreeSet;
 

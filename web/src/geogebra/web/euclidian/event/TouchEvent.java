@@ -2,7 +2,6 @@ package geogebra.web.euclidian.event;
 
 import geogebra.common.awt.GPoint;
 import geogebra.common.euclidian.event.AbstractEvent;
-import geogebra.web.euclidian.EuclidianControllerW;
 
 import java.util.LinkedList;
 

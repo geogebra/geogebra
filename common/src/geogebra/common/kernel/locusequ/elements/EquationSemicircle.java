@@ -3,14 +3,15 @@
  */
 package geogebra.common.kernel.locusequ.elements;
 
+import static geogebra.common.kernel.locusequ.arith.EquationArithHelper.diff;
+import static geogebra.common.kernel.locusequ.arith.EquationArithHelper.sqr;
+import static geogebra.common.kernel.locusequ.arith.EquationArithHelper.sum;
 import geogebra.common.kernel.algos.AlgoSemicircle;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.locusequ.EquationMidpoint;
 import geogebra.common.kernel.locusequ.EquationPoint;
 import geogebra.common.kernel.locusequ.EquationScope;
 import geogebra.common.kernel.locusequ.arith.EquationExpression;
-
-import static geogebra.common.kernel.locusequ.arith.EquationArithHelper.*;
 /**
  * @author sergio
  * EquationElement for {@link AlgoSemicircle}.

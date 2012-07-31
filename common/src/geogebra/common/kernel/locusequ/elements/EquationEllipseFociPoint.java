@@ -3,6 +3,12 @@
  */
 package geogebra.common.kernel.locusequ.elements;
 
+import static geogebra.common.kernel.locusequ.arith.EquationArithHelper.diff;
+import static geogebra.common.kernel.locusequ.arith.EquationArithHelper.dist;
+import static geogebra.common.kernel.locusequ.arith.EquationArithHelper.div;
+import static geogebra.common.kernel.locusequ.arith.EquationArithHelper.half;
+import static geogebra.common.kernel.locusequ.arith.EquationArithHelper.sqr;
+import static geogebra.common.kernel.locusequ.arith.EquationArithHelper.sum;
 import geogebra.common.kernel.algos.AlgoEllipseFociPoint;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
@@ -13,8 +19,6 @@ import geogebra.common.kernel.locusequ.EquationScope;
 import geogebra.common.kernel.locusequ.SymbolicVector;
 import geogebra.common.kernel.locusequ.arith.EquationExpression;
 import geogebra.common.kernel.locusequ.arith.EquationNumericValue;
-
-import static geogebra.common.kernel.locusequ.arith.EquationArithHelper.*;
 
 /**
  * @author sergio

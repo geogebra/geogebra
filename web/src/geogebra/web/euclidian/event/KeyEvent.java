@@ -1,10 +1,8 @@
 package geogebra.web.euclidian.event;
 
-import java.util.LinkedList;
-
-import com.google.gwt.event.dom.client.KeyPressEvent;
-
 import geogebra.common.main.App;
+
+import java.util.LinkedList;
 
 public class KeyEvent extends geogebra.common.euclidian.event.KeyEvent{
 

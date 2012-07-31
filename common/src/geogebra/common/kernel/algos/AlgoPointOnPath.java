@@ -12,10 +12,6 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.algos;
 
-import java.math.BigInteger;
-import java.util.HashMap;
-import java.util.HashSet;
-
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Path;
@@ -33,9 +29,13 @@ import geogebra.common.kernel.locusequ.EquationElement;
 import geogebra.common.kernel.locusequ.EquationScope;
 import geogebra.common.kernel.locusequ.RestrictionAlgoForLocusEquation;
 import geogebra.common.kernel.locusequ.elements.EquationPointOnPathRestriction;
-import geogebra.common.kernel.prover.Variable;
 import geogebra.common.kernel.prover.NoSymbolicParametersException;
 import geogebra.common.kernel.prover.Polynomial;
+import geogebra.common.kernel.prover.Variable;
+
+import java.math.BigInteger;
+import java.util.HashMap;
+import java.util.HashSet;
 
 
 public class AlgoPointOnPath extends AlgoElement implements PathAlgo, SymbolicParametersAlgo,

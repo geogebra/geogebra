@@ -6,8 +6,6 @@ import geogebra.common.kernel.geos.FromMeta;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
 import geogebra.web.main.AppW;
-import geogebra.web.openjdk.awt.geom.Point;
-
 
 import java.util.ArrayList;
 import java.util.TreeSet;
@@ -16,7 +14,6 @@ import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.EventListener;
-import com.google.gwt.user.client.impl.DOMImpl;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
 

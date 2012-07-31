@@ -27,6 +27,8 @@
 
 package geogebra.web.openjdk.awt.geom;
 
+import geogebra.common.awt.GGraphics2D;
+
 /**
  * The <code>BasicStroke</code> class defines a basic set of rendering
  * attributes for the outlines of graphics primitives, which are rendered with a

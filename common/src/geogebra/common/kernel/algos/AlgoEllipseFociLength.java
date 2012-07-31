@@ -25,8 +25,6 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.locusequ.EquationElement;
-import geogebra.common.kernel.locusequ.EquationList;
-import geogebra.common.kernel.locusequ.EquationPoint;
 import geogebra.common.kernel.locusequ.EquationScope;
 import geogebra.common.kernel.locusequ.elements.EquationEllipseFociLength;
 

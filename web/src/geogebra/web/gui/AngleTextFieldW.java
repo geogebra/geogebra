@@ -2,9 +2,9 @@ package geogebra.web.gui;
 
 import geogebra.web.main.AppW;
 
-import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
+import com.google.gwt.user.client.ui.TextBox;
 
 // Later this shall inherit from MyTextField instead of TextBox
 

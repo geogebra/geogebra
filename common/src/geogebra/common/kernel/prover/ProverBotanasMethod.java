@@ -1,21 +1,21 @@
 package geogebra.common.kernel.prover;
 
+import geogebra.common.kernel.algos.AlgoCircleThreePoints;
+import geogebra.common.kernel.algos.AlgoCircleTwoPoints;
+import geogebra.common.kernel.algos.SymbolicParametersBotanaAlgo;
+import geogebra.common.kernel.algos.SymbolicParametersBotanaAlgoAre;
+import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.main.App;
+import geogebra.common.util.Prover;
+import geogebra.common.util.Prover.NDGCondition;
+import geogebra.common.util.Prover.ProofResult;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-
-import geogebra.common.kernel.algos.AlgoCircleThreePoints;
-import geogebra.common.kernel.algos.AlgoCircleTwoPoints;
-import geogebra.common.kernel.algos.SymbolicParametersBotanaAlgo;
-import geogebra.common.kernel.algos.SymbolicParametersBotanaAlgoAre;
-import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.util.Prover;
-import geogebra.common.util.Prover.NDGCondition;
-import geogebra.common.util.Prover.ProofResult;
-import geogebra.common.main.App;
 
 /**
  * A prover which uses Francisco Botana's method to prove geometric theorems.

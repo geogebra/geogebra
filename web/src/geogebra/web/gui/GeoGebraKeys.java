@@ -1,18 +1,9 @@
 package geogebra.web.gui;
 
-import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
-import geogebra.common.main.App;
-import geogebra.common.main.GWTKeycodes;
-import geogebra.common.util.StringUtil;
-import geogebra.common.util.Unicode;
 import geogebra.web.main.AppW;
 
-import com.google.gwt.event.dom.client.HasKeyPressHandlers;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
-import com.google.gwt.event.dom.client.KeyEvent;
-import com.google.gwt.event.dom.client.KeyPressEvent;
-import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.user.client.ui.TextBox;

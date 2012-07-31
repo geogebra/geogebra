@@ -1,7 +1,5 @@
 package geogebra.common.util;
 
-import java.util.HashMap;
-import java.util.Iterator;
 
 public class Unicode {
 

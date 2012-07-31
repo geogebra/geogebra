@@ -1,39 +1,14 @@
 package geogebra.common.util;
 
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoElement;
-
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
-
-import java.util.Iterator;
-
-/**
- * @author Zoltan Kovacs <zoltan@geogebra.org>
- * 
- * Common abstract class for platform dependent parts of the Prover,
- * implemented by different ways in desktop and web
- */
-
-
-/*
- * Prover package for GeoGebra.
- * @author Zoltan Kovacs <zoltan@geogebra.org>
- * @author Simon Weitzhofer <simon@geogebra.org>
- * 
- * Thanks to Tomas Recio, Francisco Botana, Miguel A. Abanades,
- * Sergio Arbeo, Predrag Janicic and Ivan Petrovic for their
- * kind help. And Markus, of course. ;-)
- * 
- * Tomas' and Francisco's work has partially been supported by
- * grants MTM2008-M04699-C03-03 and MTM2011-25816-C02-02.
- * 
- */
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
-
-import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.geos.GeoElement;
 
 /**
  * Prover package for GeoGebra.

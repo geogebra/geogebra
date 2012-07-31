@@ -3,17 +3,14 @@ package geogebra.gui.layout;
 import geogebra.gui.util.GeoGebraIcon;
 import geogebra.main.AppD;
 
-import java.awt.Dimension;
 import java.awt.Insets;
 import java.awt.Point;
-import java.awt.SystemColor;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JToggleButton;
 import javax.swing.JToolTip;
 import javax.swing.ToolTipManager;

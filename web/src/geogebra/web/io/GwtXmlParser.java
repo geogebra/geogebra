@@ -3,9 +3,7 @@ package geogebra.web.io;
 
 import geogebra.common.io.DocHandler;
 
-import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.Map;
 
 import com.google.gwt.xml.client.Attr;
 import com.google.gwt.xml.client.Document;

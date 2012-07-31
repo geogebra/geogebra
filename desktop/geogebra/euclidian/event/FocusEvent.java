@@ -1,8 +1,8 @@
 package geogebra.euclidian.event;
 
-import java.util.LinkedList;
-
 import geogebra.common.main.App;
+
+import java.util.LinkedList;
 
 public class FocusEvent extends geogebra.common.euclidian.event.FocusEvent{
 

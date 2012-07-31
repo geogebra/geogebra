@@ -4,7 +4,10 @@
 package geogebra.common.kernel.locusequ.elements;
 
 
-import static geogebra.common.kernel.locusequ.arith.EquationArithHelper.*;
+import static geogebra.common.kernel.locusequ.arith.EquationArithHelper.diff;
+import static geogebra.common.kernel.locusequ.arith.EquationArithHelper.dist2;
+import static geogebra.common.kernel.locusequ.arith.EquationArithHelper.sum;
+import static geogebra.common.kernel.locusequ.arith.EquationArithHelper.times;
 import geogebra.common.kernel.algos.AlgoCircleTwoPoints;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;

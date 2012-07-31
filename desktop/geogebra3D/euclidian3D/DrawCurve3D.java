@@ -2,8 +2,8 @@ package geogebra3D.euclidian3D;
 
 import geogebra3D.euclidian3D.opengl.PlotterBrush;
 import geogebra3D.euclidian3D.opengl.Renderer;
-import geogebra3D.euclidian3D.plots.CurveTree;
 import geogebra3D.euclidian3D.plots.CurveMesh;
+import geogebra3D.euclidian3D.plots.CurveTree;
 import geogebra3D.kernel3D.GeoCurveCartesian3D;
 
 /**

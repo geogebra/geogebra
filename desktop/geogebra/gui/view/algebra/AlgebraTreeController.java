@@ -1,5 +1,13 @@
 package geogebra.gui.view.algebra;
 
+import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
+import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.geos.GeoElement;
+import geogebra.gui.GuiManagerD;
+import geogebra.main.AppD;
+
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -9,17 +17,6 @@ import java.util.Iterator;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
-
-import geogebra.common.euclidian.EuclidianConstants;
-import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
-import geogebra.common.euclidian.event.AbstractEvent;
-import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.StringTemplate;
-import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.main.App;
-import geogebra.euclidian.EuclidianViewD;
-import geogebra.gui.GuiManagerD;
-import geogebra.main.AppD;
 
 /**
  * Controller for tree of geos

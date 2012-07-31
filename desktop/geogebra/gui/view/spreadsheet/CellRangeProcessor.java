@@ -1,9 +1,9 @@
 package geogebra.gui.view.spreadsheet;
 
 import geogebra.common.awt.GPoint;
-import geogebra.common.gui.view.spreadsheet.SpreadsheetTableModel;
 import geogebra.common.gui.view.spreadsheet.CellRange;
 import geogebra.common.gui.view.spreadsheet.RelativeCopy;
+import geogebra.common.gui.view.spreadsheet.SpreadsheetTableModel;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;

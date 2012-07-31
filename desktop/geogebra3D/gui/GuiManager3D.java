@@ -1,28 +1,19 @@
 package geogebra3D.gui;
 
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
-import geogebra.common.gui.dialog.handler.NumberInputHandler;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.kernelND.GeoDirectionND;
-import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.euclidian.EuclidianViewD;
 import geogebra.euclidianND.EuclidianViewND;
 import geogebra.gui.ContextMenuChooseGeoD;
 import geogebra.gui.ContextMenuGeoElementD;
 import geogebra.gui.GuiManagerD;
-import geogebra.gui.dialog.InputDialogD;
-import geogebra.gui.dialog.options.OptionsDialog;
-import geogebra.gui.layout.LayoutD;
 import geogebra.gui.view.algebra.AlgebraControllerD;
 import geogebra.gui.view.algebra.AlgebraViewD;
 import geogebra.main.AppD;
 import geogebra3D.Application3D;
 import geogebra3D.euclidianFor3D.EuclidianControllerFor3D;
 import geogebra3D.euclidianFor3D.EuclidianViewFor3D;
-import geogebra3D.euclidianForPlane.EuclidianViewForPlane;
 import geogebra3D.gui.dialogs.DialogManager3D;
-import geogebra3D.gui.dialogs.InputDialogCirclePointDirectionRadius;
-import geogebra3D.gui.dialogs.InputDialogSpherePointRadius;
 import geogebra3D.gui.layout.panels.EuclidianDockPanel3D;
 import geogebra3D.gui.view.algebra.AlgebraView3D;
 

@@ -27,7 +27,7 @@
 
 package geogebra.web.openjdk.awt.geom;
 
-import java.util.*;
+import java.util.NoSuchElementException;
 
 /**
  * The <code>FlatteningPathIterator</code> class returns a flattened view of

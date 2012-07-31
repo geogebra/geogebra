@@ -2,9 +2,6 @@ package geogebra.web.euclidian;
 
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.MyZoomer;
-
-import java.awt.event.ActionEvent;
-
 import geogebra.web.kernel.HasTimerAction;
 import geogebra.web.kernel.gawt.Timer;
 

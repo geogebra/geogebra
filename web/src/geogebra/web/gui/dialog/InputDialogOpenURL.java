@@ -1,20 +1,10 @@
 package geogebra.web.gui.dialog;
 
-import java.awt.BorderLayout;
-
 import geogebra.common.gui.view.algebra.DialogType;
-import geogebra.common.main.App;
 import geogebra.web.gui.InputDialogW;
-import geogebra.web.gui.view.algebra.InputPanelW;
 import geogebra.web.main.AppW;
 
-import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.PopupPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class InputDialogOpenURL extends InputDialogW{
 	

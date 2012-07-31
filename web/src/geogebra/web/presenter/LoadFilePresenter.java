@@ -1,18 +1,11 @@
 package geogebra.web.presenter;
 
-import geogebra.common.main.App;
 import geogebra.common.main.GeoGebraPreferences;
-import geogebra.web.Web;
-import geogebra.web.css.GuiResources;
-import geogebra.web.helper.FileLoadCallback;
-import geogebra.web.helper.JavaScriptInjector;
 import geogebra.web.helper.MyGoogleApis;
 import geogebra.web.html5.View;
-import geogebra.web.jso.JsUint8Array;
 import geogebra.web.main.AppW;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.JsArrayInteger;
 import com.google.gwt.storage.client.Storage;
 
 public class LoadFilePresenter extends BasePresenter {

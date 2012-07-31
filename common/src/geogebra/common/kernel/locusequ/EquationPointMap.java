@@ -1,6 +1,5 @@
 package geogebra.common.kernel.locusequ;
 
-import geogebra.common.kernel.algos.AlgoIntersectLines;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.geos.GeoLocus;
 import geogebra.common.kernel.geos.GeoPoint;

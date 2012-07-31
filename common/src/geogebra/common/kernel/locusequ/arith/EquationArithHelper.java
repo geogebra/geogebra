@@ -3,10 +3,10 @@
  */
 package geogebra.common.kernel.locusequ.arith;
 
+import geogebra.common.kernel.locusequ.EquationPoint;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import geogebra.common.kernel.locusequ.EquationPoint;
 
 /**
  * @author sergio

@@ -26,8 +26,6 @@ package geogebra.web.openjdk.awt.geom;
 
 import geogebra.web.kernel.external.Crossings;
 
-import java.util.Arrays;
-
 
 /**
  * The <code>Polygon</code> class encapsulates a description of a

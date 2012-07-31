@@ -4,7 +4,6 @@ package geogebra.gui.view.algebra;
 
 import geogebra.common.gui.VirtualKeyboardListener;
 import geogebra.common.gui.view.algebra.DialogType;
-import geogebra.common.main.App;
 import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.gui.DynamicTextInputPane;
 import geogebra.gui.editor.GeoGebraEditorPane;

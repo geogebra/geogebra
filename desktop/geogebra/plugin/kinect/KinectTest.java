@@ -26,7 +26,6 @@ import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.main.AppD;
-import geogebra3D.kernel3D.GeoPoint3D;
 
 import java.awt.Color;
 import java.awt.Component;

@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import javax.swing.BorderFactory;
-import javax.swing.Box;
 import javax.swing.JToolBar;
 
 /**

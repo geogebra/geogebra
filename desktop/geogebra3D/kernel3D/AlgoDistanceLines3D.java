@@ -12,19 +12,13 @@ the Free Software Foundation.
 
 package geogebra3D.kernel3D;
 
-import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.Matrix.CoordMatrix;
 import geogebra.common.kernel.Matrix.Coords;
-import geogebra.common.kernel.algos.AlgoDistanceLineLine;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoNumeric;
-import geogebra.common.kernel.kernelND.AlgoIntersectND;
 import geogebra.common.kernel.kernelND.GeoLineND;
-import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.locusequ.EquationElement;
 import geogebra.common.kernel.locusequ.EquationScope;
 

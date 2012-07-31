@@ -1,8 +1,8 @@
 package geogebra.common.gui.view.spreadsheet;
 
-import java.util.HashMap;
-
 import geogebra.common.awt.GPoint;
+
+import java.util.HashMap;
 
 public interface CellFormatInterface {
 

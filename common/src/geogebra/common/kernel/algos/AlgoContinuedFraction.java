@@ -15,14 +15,13 @@ package geogebra.common.kernel.algos;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.locusequ.EquationElement;
 import geogebra.common.kernel.locusequ.EquationScope;
 import geogebra.common.main.App;
-import geogebra.common.util.Unicode;
 
 public class AlgoContinuedFraction extends AlgoElement {
 

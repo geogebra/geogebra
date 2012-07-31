@@ -5,7 +5,6 @@ package geogebra.common.kernel.locusequ.elements;
 
 import geogebra.common.kernel.algos.AlgoIntersectSingle;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.locusequ.EquationElement;
 import geogebra.common.kernel.locusequ.EquationList;
 import geogebra.common.kernel.locusequ.EquationPoint;
 import geogebra.common.kernel.locusequ.EquationRestriction;

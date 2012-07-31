@@ -18,7 +18,6 @@ import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.common.main.App;
 import geogebra.common.plugin.GeoClass;
 
 import java.util.ArrayList;

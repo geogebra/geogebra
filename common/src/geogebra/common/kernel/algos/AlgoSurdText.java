@@ -12,9 +12,6 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.algos;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
@@ -27,6 +24,10 @@ import geogebra.common.kernel.locusequ.EquationScope;
 import geogebra.common.util.MyMathExact.MyDecimal;
 import geogebra.common.util.MyMathExact.MyDecimalMatrix;
 import geogebra.common.util.Unicode;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+
 import org.apache.commons.math.util.MathUtils;
 
 /**

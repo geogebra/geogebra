@@ -1,10 +1,5 @@
 package geogebra.web.gui;
 
-import com.google.gwt.user.client.Command;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.MenuBar;
-import com.google.gwt.user.client.ui.MenuItem;
-
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.kernel.Kernel;
@@ -12,6 +7,11 @@ import geogebra.common.main.App;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.menubar.GeoGebraMenubarW;
 import geogebra.web.main.AppW;
+
+import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.MenuBar;
+import com.google.gwt.user.client.ui.MenuItem;
 
 public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW {
 

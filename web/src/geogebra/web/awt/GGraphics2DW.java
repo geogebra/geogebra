@@ -17,7 +17,6 @@ import geogebra.common.awt.GPaint;
 import geogebra.common.awt.GRenderableImage;
 import geogebra.common.awt.GRenderedImage;
 import geogebra.common.awt.GRenderingHints;
-import geogebra.common.factories.AwtFactory;
 import geogebra.common.main.App;
 import geogebra.web.kernel.gawt.BufferedImage;
 import geogebra.web.openjdk.awt.geom.PathIterator;
@@ -31,10 +30,8 @@ import com.google.gwt.canvas.dom.client.CanvasPattern;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.canvas.dom.client.Context2d.Repetition;
 import com.google.gwt.canvas.dom.client.ImageData;
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArrayNumber;
-import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.user.client.Element;
 
 public class GGraphics2DW extends geogebra.common.awt.GGraphics2D {

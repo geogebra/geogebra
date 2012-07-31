@@ -1,10 +1,5 @@
 package geogebra.common.kernel.arithmetic;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
-
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.commands.Commands;
@@ -15,6 +10,11 @@ import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoFunctionNVar;
 import geogebra.common.main.App;
 import geogebra.common.plugin.Operation;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 /**
  *  Traversing objects are allowed to traverse through Equation,
  *  MyList, ExpressionNode and MyVecNode(3D) structure to perform some action,

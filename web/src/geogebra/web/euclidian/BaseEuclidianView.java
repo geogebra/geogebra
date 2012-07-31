@@ -1,13 +1,6 @@
 package geogebra.web.euclidian;
 
 
-import geogebra.web.awt.GGraphics2DW;
-import geogebra.web.kernel.gawt.canvas.CssColor;
-
-import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.canvas.dom.client.Context2d;
-import com.google.gwt.canvas.dom.client.TextMetrics;
-import com.google.gwt.dom.client.ImageElement;
 
 public class BaseEuclidianView {	
 

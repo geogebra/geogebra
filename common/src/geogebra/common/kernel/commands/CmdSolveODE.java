@@ -3,11 +3,11 @@ package geogebra.common.kernel.commands;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.FunctionalNVar;
+import geogebra.common.kernel.geos.CasEvaluableFunction;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunctionable;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.common.kernel.geos.CasEvaluableFunction;
 import geogebra.common.main.MyError;
 
 /**

@@ -1,6 +1,5 @@
 package geogebra.web.awt;
 
-import com.google.gwt.dom.client.CanvasElement;
 import com.google.gwt.dom.client.ImageElement;
 
 public class GTexturePaintW implements geogebra.common.awt.GPaint {

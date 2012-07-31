@@ -12,16 +12,16 @@ the Free Software Foundation.
 
 package geogebra.gui.toolbar;
 
+import geogebra.common.awt.Component;
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.gui.layout.DockPanel;
 import geogebra.common.gui.toolbar.ToolBar;
 import geogebra.common.gui.toolbar.ToolbarItem;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Macro;
 import geogebra.common.main.App;
-import geogebra.common.gui.layout.DockPanel;
 import geogebra.main.AppD;
 
-import geogebra.common.awt.Component;
 import java.util.ArrayList;
 import java.util.Vector;
 

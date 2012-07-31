@@ -49,7 +49,6 @@ import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JSlider;
 import javax.swing.JToolBar;
 import javax.swing.border.MatteBorder;
 

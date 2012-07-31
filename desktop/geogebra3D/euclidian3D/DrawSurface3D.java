@@ -4,11 +4,9 @@ import geogebra.common.kernel.arithmetic.Functional2Var;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunctionNVar;
 import geogebra.common.kernel.kernelND.SurfaceEvaluable;
-import geogebra.main.AppD;
 import geogebra3D.euclidian3D.opengl.PlotterSurface;
 import geogebra3D.euclidian3D.opengl.Renderer;
 import geogebra3D.euclidian3D.plots.SurfaceMesh2;
-import geogebra3D.kernel3D.GeoSurfaceCartesian3D;
 
 /**
  * Class for drawing a 2-var function

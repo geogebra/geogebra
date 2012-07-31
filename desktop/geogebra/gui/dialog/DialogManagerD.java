@@ -1,7 +1,7 @@
 package geogebra.gui.dialog;
 
-import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.gui.InputHandler;
 import geogebra.common.gui.dialog.handler.NumberChangeSignInputHandler;
 import geogebra.common.gui.dialog.handler.NumberInputHandler;
@@ -40,7 +40,6 @@ import java.util.Enumeration;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;

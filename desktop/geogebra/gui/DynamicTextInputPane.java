@@ -34,7 +34,6 @@ import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultCaret;
 import javax.swing.text.DefaultStyledDocument;
-import javax.swing.text.Document;
 import javax.swing.text.Element;
 import javax.swing.text.StyleConstants;
 

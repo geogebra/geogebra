@@ -1,11 +1,8 @@
 package geogebra.web.kernel.geos;
 
 
-import com.google.gwt.dom.client.ImageElement;
-
 import geogebra.common.awt.GBufferedImage;
 import geogebra.common.main.App;
-import geogebra.web.util.ImageManager;
 
 public class GeoElementGraphicsAdapter extends
         geogebra.common.kernel.geos.GeoElementGraphicsAdapter {

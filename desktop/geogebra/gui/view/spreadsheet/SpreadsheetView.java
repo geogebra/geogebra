@@ -14,7 +14,6 @@ import geogebra.common.main.settings.SettingListener;
 import geogebra.common.main.settings.SpreadsheetSettings;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.gui.view.Gridable;
-import geogebra.gui.view.spreadsheet.statdialog.StatDialog;
 import geogebra.main.AppD;
 
 import java.awt.BorderLayout;

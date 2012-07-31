@@ -6,6 +6,7 @@ import geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import geogebra.common.main.App;
 import geogebra3D.euclidian3D.Drawable3D.drawableComparator;
 import geogebra3D.kernel3D.GeoQuadric3D;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.TreeSet;

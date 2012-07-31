@@ -8,8 +8,8 @@ import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.GetItem;
 import geogebra.common.kernel.arithmetic.MyDouble;
-import geogebra.common.kernel.arithmetic.Variable;
 import geogebra.common.kernel.arithmetic.Traversing.VariableReplacer;
+import geogebra.common.kernel.arithmetic.Variable;
 import geogebra.common.plugin.Operation;
 
 /**

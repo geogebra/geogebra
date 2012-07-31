@@ -9,13 +9,11 @@ import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.App;
-import geogebra.main.AppD;
 import geogebra3D.euclidian3D.opengl.Manager;
 import geogebra3D.euclidian3D.opengl.Renderer;
 import geogebra3D.kernel3D.GeoElement3D;
 
 import java.awt.Color;
-import java.awt.Graphics2D;
 import java.text.DecimalFormat;
 import java.util.Comparator;
 import java.util.TreeSet;

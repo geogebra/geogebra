@@ -1,9 +1,5 @@
 package geogebra.util;
 
-import geogebra.cas.view.CASTableD;
-import geogebra.common.main.App;
-import geogebra.gui.view.spreadsheet.statdialog.PlotPanelEuclidianView;
-
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 

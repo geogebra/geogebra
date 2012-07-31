@@ -12,8 +12,6 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.algos;
 
-import java.util.Date;
-
 import geogebra.common.factories.UtilFactory;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
@@ -21,10 +19,12 @@ import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.locusequ.EquationElement;
 import geogebra.common.kernel.locusequ.EquationScope;
+import geogebra.common.main.App;
 import geogebra.common.util.Prover;
 import geogebra.common.util.Prover.ProofResult;
 import geogebra.common.util.Prover.ProverEngine;
-import geogebra.common.main.App;
+
+import java.util.Date;
 
 /**
  *

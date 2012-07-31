@@ -1,7 +1,6 @@
 package geogebra.web.kernel;
 
 import geogebra.common.kernel.AnimationManager;
-
 import geogebra.common.kernel.Kernel;
 import geogebra.web.kernel.gawt.Timer;
 

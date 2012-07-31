@@ -1,20 +1,20 @@
 package geogebra.common.kernel.prover;
 
+import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.algos.SymbolicParameters;
+import geogebra.common.kernel.algos.SymbolicParametersAlgo;
+import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.main.App;
+import geogebra.common.util.Prover;
+import geogebra.common.util.Prover.NDGCondition;
+import geogebra.common.util.Prover.ProofResult;
+
 import java.math.BigInteger;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.TreeSet;
-
-import geogebra.common.kernel.StringTemplate;
-import geogebra.common.kernel.algos.SymbolicParameters;
-import geogebra.common.kernel.algos.SymbolicParametersAlgo;
-import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.util.Prover;
-import geogebra.common.util.Prover.NDGCondition;
-import geogebra.common.util.Prover.ProofResult;
-import geogebra.common.main.App;
 
 /**
  * A prover which uses Tomas Recios method to prove geometric theorems.

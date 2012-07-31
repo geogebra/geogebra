@@ -1,6 +1,5 @@
 package geogebra.web.html5;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.TagName;
 import com.google.gwt.user.client.ui.Widget;

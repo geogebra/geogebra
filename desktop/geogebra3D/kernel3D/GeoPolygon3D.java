@@ -1,6 +1,5 @@
 package geogebra3D.kernel3D;
 
-import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.PathParameter;

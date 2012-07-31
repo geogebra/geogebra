@@ -1,7 +1,6 @@
 package geogebra.common.kernel.locusequ;
 
 import geogebra.common.kernel.geos.GeoPoint;
-import geogebra.common.kernel.locusequ.EquationPoint;
 import geogebra.common.kernel.locusequ.arith.EquationExpression;
 import geogebra.common.kernel.locusequ.arith.EquationFirstCoordinateValue;
 import geogebra.common.kernel.locusequ.arith.EquationNumericValue;

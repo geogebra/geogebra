@@ -2,16 +2,11 @@ package geogebra.web.main;
 
 import java.util.Iterator;
 
-import com.google.gwt.event.dom.client.HasAllKeyHandlers;
-import com.google.gwt.event.dom.client.KeyDownHandler;
-import com.google.gwt.event.dom.client.KeyPressHandler;
-import com.google.gwt.event.dom.client.KeyUpHandler;
-import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.user.client.ui.AbsolutePanel;  //*
+import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.HasWidgets;
-import com.google.gwt.user.client.ui.HorizontalPanel;  //*
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class EuclidianViewPanel extends Composite implements HasWidgets /*, HasAllKeyHandlers*/{

@@ -26,9 +26,6 @@
  */
 package geogebra.web.openjdk.awt.geom;
 
-import geogebra.web.openjdk.awt.geom.PathIterator;
-import geogebra.web.openjdk.awt.geom.Point2D;
-import geogebra.web.openjdk.awt.geom.Rectangle2D;
 
 /**
  * The <code>Shape</code> interface provides definitions for objects

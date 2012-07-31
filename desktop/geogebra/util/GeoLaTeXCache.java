@@ -2,8 +2,6 @@ package geogebra.util;
 
 import geogebra.common.util.LaTeXCache;
 
-import java.awt.Color;
-
 import org.scilab.forge.jlatexmath.ParseException;
 import org.scilab.forge.jlatexmath.TeXConstants;
 import org.scilab.forge.jlatexmath.cache.JLaTeXMathCache;

@@ -14,9 +14,8 @@ package geogebra.euclidian;
 
 import geogebra.common.awt.GFont;
 import geogebra.common.awt.GRectangle;
-import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.euclidian.EuclidianConstants;
-import geogebra.common.euclidian.EuclidianPen;
+import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.euclidian.GetViewId;
 import geogebra.common.euclidian.event.AbstractEvent;

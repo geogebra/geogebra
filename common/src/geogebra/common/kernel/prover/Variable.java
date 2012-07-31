@@ -1,8 +1,8 @@
 package geogebra.common.kernel.prover;
 
-import java.util.HashMap;
-
 import geogebra.common.kernel.geos.GeoElement;
+
+import java.util.HashMap;
 
 /**
  * A simple class for variables.

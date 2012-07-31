@@ -14,7 +14,6 @@ package geogebra.common.kernel;
 
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.awt.GColor;
-import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoConic;

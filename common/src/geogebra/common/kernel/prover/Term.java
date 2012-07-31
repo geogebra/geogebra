@@ -2,9 +2,9 @@ package geogebra.common.kernel.prover;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.SortedMap;
 import java.util.TreeMap;
-import java.util.Iterator;
 
 /**
  * A simple class for terms which are a products of potences of variables.

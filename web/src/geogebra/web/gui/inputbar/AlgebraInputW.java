@@ -1,16 +1,13 @@
 package geogebra.web.gui.inputbar;
 
-import java.awt.TextField;
-
-import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoText;
-import geogebra.common.main.MyError;
 import geogebra.common.main.GWTKeycodes;
+import geogebra.common.main.MyError;
 import geogebra.web.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.web.gui.view.algebra.InputPanelW;
 import geogebra.web.main.AppW;
@@ -23,13 +20,10 @@ import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
-import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ToggleButton;
-import com.google.gwt.user.client.ui.Widget;
 
 /**
  * @author gabor

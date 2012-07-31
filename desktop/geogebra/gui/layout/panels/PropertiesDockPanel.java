@@ -1,17 +1,13 @@
 package geogebra.gui.layout.panels;
 
-import java.awt.Cursor;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowFocusListener;
-
-import geogebra.common.euclidian.EuclidianConstants;
-import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
-import geogebra.common.main.GeoElementSelectionListener;
 import geogebra.gui.layout.DockPanel;
 import geogebra.gui.view.properties.PropertiesStyleBarD;
 import geogebra.gui.view.properties.PropertiesViewD;
 import geogebra.main.AppD;
+
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowFocusListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;

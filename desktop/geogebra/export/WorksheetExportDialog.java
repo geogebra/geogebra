@@ -13,12 +13,11 @@ package geogebra.export;
 
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.gui.view.algebra.DialogType;
-import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
 import geogebra.common.util.StringUtil;
-import geogebra.euclidian.EuclidianViewD;
 import geogebra.euclidianND.EuclidianViewND;
 import geogebra.gui.GuiManagerD;
 import geogebra.gui.TitlePanel;

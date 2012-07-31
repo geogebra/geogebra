@@ -1,21 +1,5 @@
 package geogebra.web.gui.util;
 
-import com.google.gwt.canvas.dom.client.Context2d;
-import com.google.gwt.canvas.dom.client.ImageData;
-import com.google.gwt.event.dom.client.BlurEvent;
-import com.google.gwt.event.dom.client.BlurHandler;
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ChangeHandler;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.FocusEvent;
-import com.google.gwt.event.dom.client.FocusHandler;
-import com.google.gwt.event.dom.client.MouseOverEvent;
-import com.google.gwt.event.dom.client.MouseOverHandler;
-import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.user.client.ui.MenuBar;
-import com.google.gwt.user.client.ui.PopupPanel;
-
 import geogebra.web.awt.GColorW;
 import geogebra.web.awt.GDimensionW;
 import geogebra.web.awt.GFontW;
@@ -24,6 +8,18 @@ import geogebra.web.euclidian.EuclidianStyleBarW;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.images.AppResourcesConverter;
 import geogebra.web.main.AppW;
+
+import com.google.gwt.canvas.dom.client.Context2d;
+import com.google.gwt.canvas.dom.client.ImageData;
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ChangeHandler;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.MouseOverEvent;
+import com.google.gwt.event.dom.client.MouseOverHandler;
+import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.user.client.ui.MenuBar;
+import com.google.gwt.user.client.ui.PopupPanel;
 
 
 public class PopupMenuButton extends MyCJButton implements ChangeHandler {

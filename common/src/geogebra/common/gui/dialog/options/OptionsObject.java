@@ -1,10 +1,10 @@
 package geogebra.common.gui.dialog.options;
 
-import java.util.ArrayList;
-
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
+
+import java.util.ArrayList;
 
 public abstract class OptionsObject {
 

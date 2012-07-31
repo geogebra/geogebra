@@ -4,14 +4,11 @@ import geogebra.common.main.App;
 import geogebra.gui.layout.DockPanel;
 import geogebra.main.AppD;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.FlowLayout;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
-import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 /**

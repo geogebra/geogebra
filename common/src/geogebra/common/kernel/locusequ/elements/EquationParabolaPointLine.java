@@ -3,14 +3,16 @@
  */
 package geogebra.common.kernel.locusequ.elements;
 
+import static geogebra.common.kernel.locusequ.arith.EquationArithHelper.diff;
+import static geogebra.common.kernel.locusequ.arith.EquationArithHelper.sqr;
+import static geogebra.common.kernel.locusequ.arith.EquationArithHelper.sum;
+import static geogebra.common.kernel.locusequ.arith.EquationArithHelper.times;
 import geogebra.common.kernel.algos.AlgoParabolaPointLine;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.locusequ.EquationElement;
 import geogebra.common.kernel.locusequ.EquationPoint;
 import geogebra.common.kernel.locusequ.EquationScope;
 import geogebra.common.kernel.locusequ.arith.EquationExpression;
-
-import static geogebra.common.kernel.locusequ.arith.EquationArithHelper.*;
 /**
  * @author sergio
  * {@link EquationElement} for {@link AlgoParabolaPointLine}

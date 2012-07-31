@@ -3,11 +3,10 @@
  */
 package geogebra.common.kernel.locusequ;
 
+import static geogebra.common.kernel.locusequ.arith.EquationArithHelper.div;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.locusequ.arith.EquationExpression;
 import geogebra.common.kernel.locusequ.arith.EquationNumericValue;
-
-import static geogebra.common.kernel.locusequ.arith.EquationArithHelper.*;
 /**
  * @author sergio
  * Given an {@link EquationPoint} returns another one prepared for a vector.

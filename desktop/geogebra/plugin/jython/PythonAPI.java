@@ -1,12 +1,9 @@
 package geogebra.plugin.jython;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.TreeSet;
-
 import geogebra.common.awt.GColor;
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoDependentNumber;
@@ -21,7 +18,6 @@ import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.MyVecNode;
 import geogebra.common.kernel.arithmetic.NumberValue;
-import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.commands.AlgebraProcessor;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoBoolean;
@@ -44,11 +40,14 @@ import geogebra.common.kernel.geos.Traceable;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.common.kernel.Kernel;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.plugin.GgbAPI;
 import geogebra.common.plugin.Operation;
 import geogebra.main.AppD;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.TreeSet;
 
 /**
  * API for interaction with Python - could be used for other

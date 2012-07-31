@@ -1,7 +1,5 @@
 package geogebra.gui.dialog.options;
 
-import geogebra.common.kernel.geos.GeoElement;
-
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 

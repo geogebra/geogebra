@@ -1,12 +1,12 @@
 package geogebra.web.javax.swing;
 
-import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.Widget;
-
 import geogebra.common.awt.GColor;
 import geogebra.common.awt.GFont;
 import geogebra.common.euclidian.event.ActionListener;
 import geogebra.common.javax.swing.AbstractJComboBox;
+
+import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.Widget;
 
 public class GComboBoxW extends geogebra.common.javax.swing.AbstractJComboBox {
 

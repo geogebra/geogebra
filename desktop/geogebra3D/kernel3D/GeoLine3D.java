@@ -11,7 +11,6 @@ import geogebra.common.kernel.kernelND.GeoVectorND;
 import geogebra.common.main.App;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.util.Unicode;
-import geogebra.main.AppD;
 
 public class GeoLine3D extends GeoCoordSys1D {
 

@@ -21,7 +21,6 @@ package geogebra3D;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.ConstructionDefaults;
-
 import geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra3D.kernel3D.GeoPlane3D;
 import geogebra3D.kernel3D.Kernel3D;

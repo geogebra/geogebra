@@ -26,7 +26,6 @@
  */
 package geogebra.web.openjdk.awt.geom;
 
-import geogebra.web.openjdk.awt.geom.Dimension2D;
 
 
 

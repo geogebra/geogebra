@@ -29,9 +29,6 @@ package geogebra.web.openjdk.awt.geom;
 
 import java.util.Arrays;
 
-import geogebra.web.openjdk.awt.geom.Rectangle;
-import geogebra.web.openjdk.awt.geom.Shape;
-
 /**
  * The <code>CubicCurve2D</code> class defines a cubic parametric curve segment
  * in (x,&nbsp; y) coordinate space.

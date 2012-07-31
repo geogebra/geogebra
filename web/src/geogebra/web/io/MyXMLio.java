@@ -2,8 +2,8 @@ package geogebra.web.io;
 
 import geogebra.common.io.DocHandler;
 import geogebra.common.kernel.Construction;
-import geogebra.common.main.App;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.main.App;
 
 public class MyXMLio extends geogebra.common.io.MyXMLio {
 

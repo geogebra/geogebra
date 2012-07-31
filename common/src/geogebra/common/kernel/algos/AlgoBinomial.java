@@ -14,9 +14,6 @@ package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.arithmetic.NumberValue;
-import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.locusequ.EquationElement;
-import geogebra.common.kernel.locusequ.EquationScope;
 import geogebra.common.util.MyMath2;
 
 import java.math.BigDecimal;

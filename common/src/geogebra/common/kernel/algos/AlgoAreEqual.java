@@ -9,9 +9,9 @@ import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.locusequ.EquationElement;
 import geogebra.common.kernel.locusequ.EquationScope;
-import geogebra.common.kernel.prover.Variable;
 import geogebra.common.kernel.prover.NoSymbolicParametersException;
 import geogebra.common.kernel.prover.Polynomial;
+import geogebra.common.kernel.prover.Variable;
 import geogebra.common.main.App;
 
 import java.math.BigInteger;

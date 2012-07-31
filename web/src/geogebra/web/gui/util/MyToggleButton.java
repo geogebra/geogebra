@@ -2,18 +2,10 @@ package geogebra.web.gui.util;
 
 import geogebra.web.euclidian.EuclidianStyleBarW;
 
-import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.HasValue;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.ToggleButton;
-import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.dom.client.CanvasElement;
 import com.google.gwt.dom.client.ImageElement;
-import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.LoadEvent;
@@ -21,6 +13,12 @@ import com.google.gwt.event.dom.client.LoadHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.resources.client.ImageResource;
+import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.HasValue;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.RootPanel;
 
 public class MyToggleButton extends Composite implements ClickHandler, HasValue<Boolean> {
 

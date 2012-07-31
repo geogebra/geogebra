@@ -2,8 +2,6 @@ package geogebra.plugin;
 
 import geogebra.main.AppD;
 
-import javax.swing.JOptionPane;
-
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.IdFunctionCall;
 import org.mozilla.javascript.IdFunctionObject;

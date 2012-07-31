@@ -1,8 +1,8 @@
 package geogebra.web.euclidian;
 
-import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianStyleBarStatic;
+import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.ConstructionDefaults;

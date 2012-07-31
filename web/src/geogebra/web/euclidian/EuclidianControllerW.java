@@ -1,9 +1,6 @@
 package geogebra.web.euclidian;
 
-import java.util.LinkedList;
-
 import geogebra.common.euclidian.EuclidianView;
-import geogebra.common.euclidian.EuclidianPen;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.MyDouble;
@@ -14,6 +11,8 @@ import geogebra.web.euclidian.event.HasOffsets;
 import geogebra.web.euclidian.event.MouseEvent;
 import geogebra.web.euclidian.event.TouchEvent;
 import geogebra.web.main.AppW;
+
+import java.util.LinkedList;
 
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.dom.client.Touch;

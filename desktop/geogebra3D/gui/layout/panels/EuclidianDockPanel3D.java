@@ -1,13 +1,13 @@
 package geogebra3D.gui.layout.panels;
 
-import javax.swing.JComponent;
-
 import geogebra.common.gui.toolbar.ToolBar;
 import geogebra.common.main.App;
 import geogebra.euclidianND.EuclidianViewND;
 import geogebra.gui.layout.panels.EuclidianDockPanelAbstract;
 import geogebra.main.AppD;
 import geogebra3D.Application3D;
+
+import javax.swing.JComponent;
 
 /**
  * Dock panel for the primary euclidian view.

@@ -15,8 +15,6 @@ import geogebra.util.CASDropTargetListener;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.dnd.DnDConstants;
-import java.awt.dnd.DropTarget;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;

@@ -1,13 +1,8 @@
 package geogebra.plugin;
 
 import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.View;
-import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
 import geogebra.main.AppD;
-
-import java.util.ArrayList;
-import java.util.HashMap;
 
 //import org.concord.framework.data.stream.DataListener;
 //import org.concord.framework.data.stream.DataStreamEvent;

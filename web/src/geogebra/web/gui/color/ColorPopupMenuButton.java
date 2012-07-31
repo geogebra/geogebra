@@ -1,25 +1,17 @@
 package geogebra.web.gui.color;
 
-import java.util.HashMap;
-
-import javax.swing.ImageIcon;
-
-import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.canvas.dom.client.ImageData;
-import com.google.gwt.dom.client.CanvasElement;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.HasClickHandlers;
-import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.resources.client.ImageResource;
-
 import geogebra.common.awt.GColor;
-import geogebra.common.main.App;
 import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.web.awt.GDimensionW;
 import geogebra.web.gui.util.GeoGebraIcon;
 import geogebra.web.gui.util.PopupMenuButton;
 import geogebra.web.main.AppW;
+
+import java.util.HashMap;
+
+import com.google.gwt.canvas.dom.client.ImageData;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 
 public class ColorPopupMenuButton extends PopupMenuButton implements ClickHandler {
 	

@@ -8,8 +8,8 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.web.awt.GAlphaCompositeW;
 import geogebra.web.awt.GBufferedImageW;
-import geogebra.web.awt.GRectangleW;
 import geogebra.web.awt.GRectangle2DW;
+import geogebra.web.awt.GRectangleW;
 import geogebra.web.awt.GTexturePaintW;
 
 public class HatchingHandlerW extends geogebra.common.euclidian.HatchingHandler {

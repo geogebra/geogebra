@@ -3,6 +3,8 @@
  */
 package geogebra.common.kernel.locusequ.elements;
 
+import static geogebra.common.kernel.locusequ.arith.EquationArithHelper.dist2;
+import static geogebra.common.kernel.locusequ.arith.EquationArithHelper.sqr;
 import geogebra.common.kernel.algos.AlgoCirclePointRadius;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -12,8 +14,6 @@ import geogebra.common.kernel.locusequ.EquationPoint;
 import geogebra.common.kernel.locusequ.EquationScope;
 import geogebra.common.kernel.locusequ.arith.EquationExpression;
 import geogebra.common.kernel.locusequ.arith.EquationNumericValue;
-
-import static geogebra.common.kernel.locusequ.arith.EquationArithHelper.*;
 
 /**
  * @author sergio

@@ -1,6 +1,5 @@
 package geogebra.util;
 
-import geogebra.common.main.App;
 import geogebra.common.util.NormalizerMinimal;
 
 /**

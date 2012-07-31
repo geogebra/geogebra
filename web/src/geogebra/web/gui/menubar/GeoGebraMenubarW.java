@@ -12,8 +12,6 @@ import geogebra.web.util.JSON;
 import com.google.api.gwt.oauth2.client.AuthRequest;
 import com.google.gwt.core.client.Callback;
 import com.google.gwt.core.client.JavaScriptObject;
-import com.google.gwt.resources.client.ImageResource;
-import com.google.gwt.resources.client.ClientBundle.Source;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;

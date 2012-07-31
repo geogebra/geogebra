@@ -1,17 +1,14 @@
 package geogebra.util;
 
 
+import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.main.App;
+
 import java.util.Iterator;
 import java.util.Vector;
 
-import geogebra.common.kernel.StringTemplate;
-import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.main.App;
-import geogebra.common.util.Prover.NDGCondition;
-
 import com.ogprover.api.GeoGebraOGPInterface;
 import com.ogprover.main.OGPConfigurationSettings;
-import com.ogprover.main.OGPParameters;
 import com.ogprover.main.OpenGeoProver;
 import com.ogprover.pp.GeoGebraOGPInputProverProtocol;
 import com.ogprover.pp.GeoGebraOGPOutputProverProtocol;

@@ -1,6 +1,5 @@
 package geogebra.gui.inputfield;
 
-import geogebra.common.factories.AwtFactory;
 import geogebra.common.gui.SetLabels;
 import geogebra.common.gui.VirtualKeyboardListener;
 import geogebra.gui.util.GeoGebraIcon;

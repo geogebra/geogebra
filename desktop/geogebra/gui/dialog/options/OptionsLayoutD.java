@@ -1,53 +1,32 @@
 package geogebra.gui.dialog.options;
 
 import geogebra.common.gui.SetLabels;
-import geogebra.common.io.MyXMLHandler;
-import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.PathRegionHandling;
-import geogebra.common.main.settings.KeyboardSettings;
 import geogebra.common.main.settings.Settings;
-import geogebra.common.plugin.EuclidianStyleConstants;
-import geogebra.euclidian.EuclidianViewD;
 import geogebra.gui.dialog.options.OptionsUtil.TitlePanel;
 import geogebra.gui.util.FullWidthLayout;
 import geogebra.gui.view.consprotocol.ConstructionProtocolNavigation;
 import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
-import java.util.Locale;
 
 import javax.swing.AbstractAction;
-import javax.swing.AbstractButton;
 import javax.swing.Action;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
-import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
-import javax.swing.JSlider;
-import javax.swing.JTextField;
 import javax.swing.JToggleButton;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
-import javax.swing.ToolTipManager;
 import javax.swing.border.Border;
-import javax.swing.border.TitledBorder;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 /**
  * Layout options for the options dialog.

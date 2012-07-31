@@ -18,7 +18,6 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.NumberValue;
-import geogebra.common.main.App;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.util.Unicode;
 import geogebra.euclidian.EuclidianViewD;
@@ -28,7 +27,6 @@ import geogebra.gui.dialog.DashListRenderer;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.gui.util.FullWidthLayout;
 import geogebra.main.AppD;
-import geogebra.main.GeoGebraPreferencesD;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;

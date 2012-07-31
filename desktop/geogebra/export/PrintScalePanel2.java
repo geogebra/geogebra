@@ -1,14 +1,13 @@
 package geogebra.export;
 
+import geogebra.main.AppD;
+
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Locale;
-
-import geogebra.common.euclidian.EuclidianView;
-import geogebra.main.AppD;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;

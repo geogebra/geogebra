@@ -3,7 +3,6 @@ package geogebra.gui.dialog.options;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.FlowLayout;
-import java.awt.Font;
 import java.awt.SystemColor;
 
 import javax.swing.BorderFactory;

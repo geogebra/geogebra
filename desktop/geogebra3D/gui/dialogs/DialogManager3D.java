@@ -7,7 +7,6 @@ import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.gui.dialog.DialogManagerD;
 import geogebra.gui.dialog.InputDialogD;
-import geogebra.gui.dialog.options.OptionsDialog;
 import geogebra.main.AppD;
 import geogebra3D.Application3D;
 import geogebra3D.euclidianForPlane.EuclidianViewForPlane;

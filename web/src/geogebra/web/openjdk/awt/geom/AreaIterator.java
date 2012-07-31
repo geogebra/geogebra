@@ -1,9 +1,9 @@
 package geogebra.web.openjdk.awt.geom;
 
+import geogebra.web.kernel.external.Curve;
+
 import java.util.NoSuchElementException;
 import java.util.Vector;
-
-import geogebra.web.kernel.external.Curve;
 
 class AreaIterator implements PathIterator {
     private AffineTransform transform;

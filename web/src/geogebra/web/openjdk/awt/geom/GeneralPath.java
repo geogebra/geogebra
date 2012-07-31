@@ -27,10 +27,9 @@
 
 package geogebra.web.openjdk.awt.geom;
 
+import geogebra.web.awt.GRectangleW;
 import geogebra.web.kernel.external.Crossings;
 import geogebra.web.kernel.external.Curve;
-import geogebra.web.openjdk.awt.geom.Rectangle;
-import geogebra.web.openjdk.awt.geom.Shape;
 
 /**
  * The <code>GeneralPath</code> class represents a geometric path constructed

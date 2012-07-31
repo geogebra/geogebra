@@ -5,7 +5,6 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.euclidian.EuclidianStyleBarD;
 import geogebra.gui.util.MyToggleButton;
 import geogebra.gui.util.PopupMenuButton;
-import geogebra.gui.util.SelectionTable;
 import geogebra.main.AppD;
 import geogebra3D.Application3D;
 

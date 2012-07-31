@@ -10,7 +10,6 @@ import geogebra.web.util.JSON;
 
 import com.google.api.gwt.oauth2.client.AuthRequest;
 import com.google.gwt.core.client.JavaScriptObject;
-import com.google.gwt.dev.jjs.ast.js.JsonArray;
 import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestBuilder;
 import com.google.gwt.http.client.RequestBuilder.Method;

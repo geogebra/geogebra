@@ -1,7 +1,5 @@
 package geogebra.web.awt;
 
-import geogebra.common.awt.GComposite;
-import geogebra.common.main.App;
 
 public class GAlphaCompositeW implements geogebra.common.awt.GAlphaComposite  {
 

@@ -3,6 +3,14 @@
  */
 package geogebra.common.kernel.locusequ.elements;
 
+import static geogebra.common.kernel.locusequ.arith.EquationArithHelper.abs;
+import static geogebra.common.kernel.locusequ.arith.EquationArithHelper.diff;
+import static geogebra.common.kernel.locusequ.arith.EquationArithHelper.div;
+import static geogebra.common.kernel.locusequ.arith.EquationArithHelper.equation;
+import static geogebra.common.kernel.locusequ.arith.EquationArithHelper.pow;
+import static geogebra.common.kernel.locusequ.arith.EquationArithHelper.sqrt;
+import static geogebra.common.kernel.locusequ.arith.EquationArithHelper.sum;
+import static geogebra.common.kernel.locusequ.arith.EquationArithHelper.times;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.locusequ.EquationElement;
@@ -13,8 +21,6 @@ import geogebra.common.kernel.locusequ.SymbolicVector;
 import geogebra.common.kernel.locusequ.arith.Equation;
 import geogebra.common.kernel.locusequ.arith.EquationExpression;
 import geogebra.common.kernel.locusequ.arith.EquationNumericValue;
-
-import static geogebra.common.kernel.locusequ.arith.EquationArithHelper.*;
 /**
  * @author sergio
  * Generic base class for lines.

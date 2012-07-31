@@ -1,10 +1,10 @@
 package geogebra.web.kernel.external;
 
-import java.util.Vector;
-
 import geogebra.web.openjdk.awt.geom.PathIterator;
 import geogebra.web.openjdk.awt.geom.QuadCurve2D;
 import geogebra.web.openjdk.awt.geom.Rectangle2D;
+
+import java.util.Vector;
 
 /*
  * Copyright 1998-2006 Sun Microsystems, Inc.  All Rights Reserved.

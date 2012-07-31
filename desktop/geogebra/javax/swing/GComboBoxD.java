@@ -1,15 +1,11 @@
 package geogebra.javax.swing;
 
-import java.awt.Component;
-
 import geogebra.common.awt.GColor;
-import geogebra.common.awt.GDimension;
 import geogebra.common.awt.GFont;
-import geogebra.common.awt.GRectangle;
 import geogebra.common.euclidian.event.ActionListener;
-import geogebra.common.gui.inputfield.AutoCompleteTextField;
 import geogebra.common.javax.swing.AbstractJComboBox;
-import geogebra.common.main.App;
+
+import java.awt.Component;
 
 /**
  * Wrapper for javax.swing.Box

@@ -3,7 +3,6 @@ package geogebra.gui;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.kernel.geos.FromMeta;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.main.App;
 import geogebra.euclidianND.EuclidianViewND;
 import geogebra.main.AppD;
 

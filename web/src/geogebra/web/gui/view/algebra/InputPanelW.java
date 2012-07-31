@@ -1,6 +1,5 @@
 package geogebra.web.gui.view.algebra;
 
-import geogebra.common.gui.inputfield.MyTextField;
 import geogebra.common.gui.view.algebra.DialogType;
 import geogebra.web.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.web.main.AppW;

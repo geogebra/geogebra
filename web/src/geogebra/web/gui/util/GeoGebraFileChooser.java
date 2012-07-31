@@ -1,9 +1,6 @@
 package geogebra.web.gui.util;
 
-import sun.awt.HorizBagLayout;
 import geogebra.common.main.App;
-import geogebra.common.plugin.GgbAPI;
-import geogebra.web.gui.menubar.FileMenuW;
 import geogebra.web.helper.MyGoogleApis;
 import geogebra.web.main.AppW;
 
@@ -13,10 +10,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment.HorizontalAlignmentConstant;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
-import com.google.gwt.user.client.ui.HasVerticalAlignment.VerticalAlignmentConstant;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PopupPanel;

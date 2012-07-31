@@ -11,12 +11,10 @@ import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.Functional2Var;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.Translateable;
-import geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import geogebra.common.kernel.kernelND.GeoPlaneND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.ViewCreator;
 import geogebra.common.plugin.GeoClass;
-import geogebra.main.AppD;
 import geogebra3D.Application3D;
 import geogebra3D.euclidianForPlane.EuclidianViewForPlane;
 

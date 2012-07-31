@@ -1,12 +1,41 @@
 package geogebra.plugin.kinect;
 
-import org.OpenNI.*;
-
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.color.ColorSpace;
+import java.awt.image.BufferedImage;
+import java.awt.image.ColorModel;
+import java.awt.image.ComponentColorModel;
+import java.awt.image.DataBuffer;
+import java.awt.image.DataBufferByte;
+import java.awt.image.Raster;
+import java.awt.image.WritableRaster;
 import java.nio.ShortBuffer;
 import java.util.HashMap;
-import java.awt.*;
-import java.awt.color.ColorSpace;
-import java.awt.image.*;
+
+import org.OpenNI.CalibrationProgressEventArgs;
+import org.OpenNI.CalibrationProgressStatus;
+import org.OpenNI.Context;
+import org.OpenNI.DepthGenerator;
+import org.OpenNI.DepthMetaData;
+import org.OpenNI.GeneralException;
+import org.OpenNI.IObservable;
+import org.OpenNI.IObserver;
+import org.OpenNI.OutArg;
+import org.OpenNI.Point3D;
+import org.OpenNI.PoseDetectionCapability;
+import org.OpenNI.PoseDetectionEventArgs;
+import org.OpenNI.SceneMetaData;
+import org.OpenNI.ScriptNode;
+import org.OpenNI.SkeletonCapability;
+import org.OpenNI.SkeletonJoint;
+import org.OpenNI.SkeletonJointPosition;
+import org.OpenNI.SkeletonProfile;
+import org.OpenNI.StatusException;
+import org.OpenNI.UserEventArgs;
+import org.OpenNI.UserGenerator;
 
 public class UserTracker extends Component
 {

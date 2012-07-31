@@ -1,11 +1,11 @@
 package geogebra.gui.layout.panels;
 
-import javax.swing.JComponent;
-import javax.swing.JMenuBar;
-
 import geogebra.common.main.App;
 import geogebra.gui.layout.DockPanel;
 import geogebra.main.AppD;
+
+import javax.swing.JComponent;
+import javax.swing.JMenuBar;
 
 public class PythonDockPanel extends DockPanel {
 	

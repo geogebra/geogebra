@@ -1,7 +1,6 @@
 package geogebra3D.kernel3D;
 
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.Matrix.CoordSys;
 import geogebra.common.kernel.algos.AlgoPolygon;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoPointND;

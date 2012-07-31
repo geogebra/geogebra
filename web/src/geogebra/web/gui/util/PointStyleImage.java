@@ -1,7 +1,5 @@
 package geogebra.web.gui.util;
 
-import com.google.gwt.canvas.client.Canvas;
-
 import geogebra.common.awt.GColor;
 import geogebra.common.awt.GRenderingHints;
 import geogebra.common.plugin.EuclidianStyleConstants;
@@ -12,6 +10,8 @@ import geogebra.web.euclidian.EuclidianStaticW;
 import geogebra.web.openjdk.awt.geom.Ellipse2D;
 import geogebra.web.openjdk.awt.geom.GeneralPath;
 import geogebra.web.openjdk.awt.geom.Line2D;
+
+import com.google.gwt.canvas.client.Canvas;
 
 public class PointStyleImage {
 	

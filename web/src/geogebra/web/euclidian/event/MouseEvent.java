@@ -2,13 +2,10 @@ package geogebra.web.euclidian.event;
 
 import geogebra.common.awt.GPoint;
 import geogebra.common.euclidian.event.AbstractEvent;
-import geogebra.common.main.App;
-import geogebra.web.euclidian.EuclidianControllerW;
 
 import java.util.LinkedList;
 
 import com.google.gwt.dom.client.NativeEvent;
-import com.google.gwt.event.dom.client.MouseWheelEvent;
 
 public class MouseEvent extends AbstractEvent {
 

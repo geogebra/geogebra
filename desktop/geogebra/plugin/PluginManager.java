@@ -29,7 +29,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Hashtable;
-import java.util.Locale;
 
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;

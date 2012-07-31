@@ -3,7 +3,6 @@ package geogebra.gui.view.properties;
 import geogebra.common.gui.view.properties.PropertiesView;
 import geogebra.common.gui.view.properties.PropertiesView.OptionType;
 import geogebra.common.main.App;
-import geogebra.gui.dialog.options.OptionsUtil;
 import geogebra.gui.util.PopupMenuButton;
 import geogebra.main.AppD;
 
@@ -22,7 +21,6 @@ import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
-import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;

@@ -1,43 +1,28 @@
 package geogebra.gui.view.spreadsheet.statdialog;
 
-import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
 import geogebra.common.main.GeoGebraColorConstants;
-import geogebra.common.util.Language;
-import geogebra.gui.inputfield.MyTextField;
-import geogebra.gui.util.GeoGebraIcon;
-import geogebra.gui.util.PopupMenuButton;
 import geogebra.gui.util.SpecialNumberFormat;
 import geogebra.gui.util.SpecialNumberFormatInterface;
-import geogebra.gui.view.spreadsheet.SpreadsheetView;
 import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.print.PageFormat;
 import java.awt.print.Printable;
 
 import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JComponent;
-import javax.swing.JDialog;
-import javax.swing.JLabel;
-import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 

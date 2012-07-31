@@ -1,12 +1,5 @@
 package geogebra.web.gui.properties;
 
-import java.util.HashMap;
-
-import com.google.gwt.user.client.Command;
-import com.google.gwt.user.client.ui.MenuBar;
-import com.google.gwt.user.client.ui.MenuItem;
-import com.google.gwt.user.client.ui.PopupPanel;
-
 import geogebra.common.gui.view.properties.PropertiesView.OptionType;
 import geogebra.common.main.App;
 import geogebra.web.gui.images.AppResources;
@@ -14,6 +7,13 @@ import geogebra.web.gui.images.AppResourcesConverter;
 import geogebra.web.gui.menubar.GeoGebraMenubarW;
 import geogebra.web.gui.util.PopupMenuButton;
 import geogebra.web.main.AppW;
+
+import java.util.HashMap;
+
+import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.ui.MenuBar;
+import com.google.gwt.user.client.ui.MenuItem;
+import com.google.gwt.user.client.ui.PopupPanel;
 
 /**
  * @author gabor

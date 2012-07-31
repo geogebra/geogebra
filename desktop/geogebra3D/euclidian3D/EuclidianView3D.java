@@ -1,11 +1,10 @@
 package geogebra3D.euclidian3D;
 
 import geogebra.common.GeoGebraConstants;
-import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.euclidian.Drawable;
 import geogebra.common.euclidian.DrawableND;
 import geogebra.common.euclidian.EuclidianConstants;
-import geogebra.common.euclidian.EuclidianPen;
+import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.euclidian.Hits;
 import geogebra.common.euclidian.Previewable;
 import geogebra.common.euclidian.event.AbstractEvent;

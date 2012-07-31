@@ -5,7 +5,6 @@ import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoFunctionable;
 import geogebra.common.kernel.geos.GeoLine;
-import geogebra.common.util.Language;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.gui.util.GeoGebraIcon;
 import geogebra.gui.view.spreadsheet.statdialog.StatDialog.Regression;

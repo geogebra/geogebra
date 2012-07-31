@@ -1,10 +1,10 @@
 package geogebra.web.javax.swing;
 
-import com.google.gwt.user.client.DOM;
-
 import geogebra.common.awt.GColor;
 import geogebra.common.awt.GFont;
 import geogebra.common.main.App;
+
+import com.google.gwt.user.client.DOM;
 
 public class GLabelW extends geogebra.common.javax.swing.GLabel {
 

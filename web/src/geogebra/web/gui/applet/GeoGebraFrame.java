@@ -2,7 +2,6 @@ package geogebra.web.gui.applet;
 
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.main.App;
-import geogebra.web.gui.SplashDialog;
 import geogebra.web.html5.ArticleElement;
 import geogebra.web.html5.View;
 import geogebra.web.main.AppW;
@@ -12,7 +11,6 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import com.google.gwt.dom.client.Style;
-import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.RootPanel;

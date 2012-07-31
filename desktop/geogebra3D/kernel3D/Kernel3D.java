@@ -18,8 +18,6 @@ import geogebra.common.io.MyXMLHandler;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Manager3DInterface;
-import geogebra.common.kernel.Path;
-import geogebra.common.kernel.algos.AlgoClosestPoint;
 import geogebra.common.kernel.arithmetic.ExpressionNodeEvaluator;
 import geogebra.common.kernel.commands.AlgebraProcessor;
 import geogebra.common.kernel.commands.CommandDispatcher;

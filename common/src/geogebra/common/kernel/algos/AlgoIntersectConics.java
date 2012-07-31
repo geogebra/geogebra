@@ -34,10 +34,10 @@ import geogebra.common.kernel.locusequ.EquationElement;
 import geogebra.common.kernel.locusequ.EquationScope;
 import geogebra.common.kernel.locusequ.RestrictionAlgoForLocusEquation;
 import geogebra.common.kernel.locusequ.elements.EquationIntersectConicsRestriction;
-import geogebra.common.main.App;
 import geogebra.common.kernel.prover.NoSymbolicParametersException;
 import geogebra.common.kernel.prover.Polynomial;
 import geogebra.common.kernel.prover.Variable;
+import geogebra.common.main.App;
 
 import java.util.ArrayList;
 import java.util.Arrays;

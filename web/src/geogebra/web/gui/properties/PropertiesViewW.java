@@ -1,11 +1,5 @@
 package geogebra.web.gui.properties;
 
-import java.util.ArrayList;
-
-import javax.swing.ImageIcon;
-
-import geogebra.common.gui.view.properties.PropertiesStyleBar;
-import geogebra.common.gui.view.properties.PropertiesView.OptionType;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
 import geogebra.web.gui.dialog.options.OptionPanelW;
@@ -17,6 +11,8 @@ import geogebra.web.gui.dialog.options.OptionsLayoutW;
 import geogebra.web.gui.dialog.options.OptionsObjectW;
 import geogebra.web.gui.dialog.options.OptionsSpreadsheetW;
 import geogebra.web.main.AppW;
+
+import java.util.ArrayList;
 
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;

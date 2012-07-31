@@ -4,10 +4,7 @@
 package geogebra.common.kernel.locusequ;
 
 import geogebra.common.cas.GeoGebraCAS;
-import geogebra.common.cas.mpreduce.CASmpreduce;
-import geogebra.common.factories.CASFactory;
 import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.implicit.GeoImplicitPoly;
 import geogebra.common.kernel.locusequ.arith.Equation;
 import geogebra.common.main.App;
 

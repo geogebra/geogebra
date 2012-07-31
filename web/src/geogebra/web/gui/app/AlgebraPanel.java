@@ -5,13 +5,12 @@ import geogebra.web.euclidian.event.HasOffsets;
 import geogebra.web.gui.view.algebra.AlgebraViewW;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.Style;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.client.ui.ScrollPanel;
-import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.RequiresResize;
+import com.google.gwt.user.client.ui.ScrollPanel;
+import com.google.gwt.user.client.ui.SimplePanel;
 
 public class AlgebraPanel extends Composite implements RequiresResize {
 

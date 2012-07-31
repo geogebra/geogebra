@@ -2,19 +2,11 @@ package geogebra.web.html5;
 
 import geogebra.common.main.App;
 import geogebra.web.Web;
-import geogebra.web.css.GuiResources;
-import geogebra.web.helper.JavaScriptInjector;
-import geogebra.web.jso.JsUint8Array;
 import geogebra.web.main.AppW;
-import geogebra.web.main.GeoGebraTubeExportWeb;
-import geogebra.web.presenter.LoadFilePresenter;
 
 import java.util.HashMap;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.JsArray;
-import com.google.gwt.core.client.JsArrayInteger;
-import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.Widget;
 

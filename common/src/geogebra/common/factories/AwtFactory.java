@@ -21,10 +21,10 @@ import geogebra.common.awt.GRectangle;
 import geogebra.common.awt.GRectangle2D;
 import geogebra.common.awt.GShape;
 import geogebra.common.awt.font.GTextLayout;
+import geogebra.common.euclidian.event.ActionListener;
 import geogebra.common.euclidian.event.ActionListenerI;
 import geogebra.common.euclidian.event.FocusListener;
 import geogebra.common.euclidian.event.KeyListener;
-import geogebra.common.euclidian.event.ActionListener;
 
 public abstract class AwtFactory {
 	public static AwtFactory prototype = null;

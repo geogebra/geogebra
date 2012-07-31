@@ -1,7 +1,6 @@
 package geogebra.common.javax.swing;
 
 import geogebra.common.awt.GFont;
-import geogebra.common.kernel.geos.GeoElement;
 
 public abstract class AbstractJComboBox {
 

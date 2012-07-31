@@ -1,15 +1,6 @@
 package geogebra.web.gui;
 
 
-import java.util.ArrayList;
-
-import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.dom.client.Style.Visibility;
-import com.google.gwt.user.client.Command;
-import com.google.gwt.user.client.ui.MenuBar;
-import com.google.gwt.user.client.ui.MenuItem;
-import com.google.gwt.user.client.ui.PopupPanel;
-
 import geogebra.common.awt.GPoint;
 import geogebra.common.gui.ContextMenuGeoElement;
 import geogebra.common.kernel.Kernel;
@@ -28,7 +19,15 @@ import geogebra.common.main.App;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.menubar.GeoGebraMenubarW;
 import geogebra.web.main.AppW;
-import geogebra.web.openjdk.awt.geom.Point;
+
+import java.util.ArrayList;
+
+import com.google.gwt.canvas.client.Canvas;
+import com.google.gwt.dom.client.Style.Visibility;
+import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.ui.MenuBar;
+import com.google.gwt.user.client.ui.MenuItem;
+import com.google.gwt.user.client.ui.PopupPanel;
 
 /**
  * @author gabor

@@ -1,7 +1,5 @@
 package geogebra.common.gui;
 
-import java.util.ArrayList;
-
 import geogebra.common.awt.GPoint;
 import geogebra.common.euclidian.EuclidianStyleBarStatic;
 import geogebra.common.euclidian.EuclidianView;
@@ -20,6 +18,8 @@ import geogebra.common.kernel.geos.GeoUserInputElement;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.geos.Traceable;
 import geogebra.common.main.App;
+
+import java.util.ArrayList;
 
 /**
  * @author gabor

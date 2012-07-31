@@ -3,11 +3,8 @@ package geogebra.web.gui.app;
 import geogebra.common.main.App;
 import geogebra.web.main.AppW;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.SplitLayoutPanel;
-import com.google.gwt.user.client.ui.Widget;
 
 public class MySplitLayoutPanel extends SplitLayoutPanel {
 	

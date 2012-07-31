@@ -3,7 +3,6 @@ package geogebra.gui.layout.panels;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.main.App;
 import geogebra.gui.layout.DockPanel;
-import geogebra.gui.view.spreadsheet.SpreadsheetView;
 import geogebra.main.AppD;
 
 import javax.swing.ImageIcon;

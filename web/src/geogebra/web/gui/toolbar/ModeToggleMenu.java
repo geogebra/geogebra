@@ -2,7 +2,6 @@ package geogebra.web.gui.toolbar;
 
 import geogebra.common.awt.GColor;
 import geogebra.common.main.App;
-import geogebra.web.awt.GeneralPath;
 import geogebra.web.gui.app.GGWToolBar;
 import geogebra.web.javax.swing.GPopupMenuW;
 import geogebra.web.main.AppW;

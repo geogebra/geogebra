@@ -12,10 +12,6 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.algos;
 
-import java.math.BigInteger;
-import java.util.HashMap;
-import java.util.HashSet;
-
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
@@ -29,6 +25,10 @@ import geogebra.common.kernel.locusequ.elements.EquationLineBisectorSegment;
 import geogebra.common.kernel.prover.NoSymbolicParametersException;
 import geogebra.common.kernel.prover.Polynomial;
 import geogebra.common.kernel.prover.Variable;
+
+import java.math.BigInteger;
+import java.util.HashMap;
+import java.util.HashSet;
 
 
 public class AlgoLineBisectorSegment extends AlgoElement implements 

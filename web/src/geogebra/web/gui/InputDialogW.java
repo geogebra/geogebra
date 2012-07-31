@@ -4,14 +4,12 @@ import geogebra.common.gui.InputHandler;
 import geogebra.common.gui.dialog.InputDialog;
 import geogebra.common.gui.view.algebra.DialogType;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.main.GeoElementSelectionListener;
-import geogebra.web.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.web.gui.view.algebra.InputPanelW;
 import geogebra.web.main.AppW;
 
+import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.HorizontalPanel;

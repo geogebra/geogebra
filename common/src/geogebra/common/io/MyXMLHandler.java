@@ -19,7 +19,6 @@ the Free Software Foundation.
 package geogebra.common.io;
 
 import geogebra.common.GeoGebraConstants;
-import geogebra.common.gui.view.spreadsheet.SpreadsheetTraceManager;
 import geogebra.common.io.layout.DockPanelData;
 import geogebra.common.io.layout.DockSplitPaneData;
 import geogebra.common.io.layout.Perspective;
@@ -55,7 +54,6 @@ import geogebra.common.kernel.geos.GeoUserInputElement;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.geos.LimitedPath;
 import geogebra.common.kernel.geos.PointProperties;
-import geogebra.common.kernel.geos.SpreadsheetTraceable;
 import geogebra.common.kernel.geos.TextProperties;
 import geogebra.common.kernel.geos.Traceable;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;

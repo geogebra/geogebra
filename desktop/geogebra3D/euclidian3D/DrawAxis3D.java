@@ -3,15 +3,12 @@ package geogebra3D.euclidian3D;
 import geogebra.common.factories.FormatFactory;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
-import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
-import geogebra.common.kernel.geos.GeoAxis;
 import geogebra.common.kernel.kernelND.GeoAxisND;
 import geogebra.common.util.NumberFormatAdapter;
 import geogebra.main.AppD;
 import geogebra3D.euclidian3D.opengl.PlotterBrush;
 import geogebra3D.euclidian3D.opengl.Renderer;
 
-import java.awt.Color;
 import java.util.TreeMap;
 
 /**

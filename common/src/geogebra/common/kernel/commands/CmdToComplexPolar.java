@@ -5,9 +5,9 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.algos.AlgoToComplexPolar;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoVector;
-import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.main.MyError;
 
 /**

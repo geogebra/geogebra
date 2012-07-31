@@ -1,10 +1,8 @@
 package geogebra3D.euclidian3D.opengl;
 
-import java.awt.Color;
-
 import geogebra.common.kernel.Matrix.Coords;
 
-import javax.media.opengl.GL;
+import java.awt.Color;
 
 
 

@@ -1,16 +1,9 @@
 package geogebra.web.euclidian.event;
 
-import geogebra.common.main.App;
 import geogebra.web.gui.inputfield.AutoCompleteTextFieldW;
 
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.FocusEvent;
-import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Element;
-import com.google.gwt.user.client.ui.SuggestBox;
-import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.Widget;
-import com.google.gwt.user.client.ui.Panel;
 
 /**
  * @author judit

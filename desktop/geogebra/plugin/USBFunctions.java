@@ -1,7 +1,6 @@
 package geogebra.plugin;
 
 import geogebra.common.main.App;
-import geogebra.main.AppD;
 import geogebra.usb.USBLogger;
 
 import java.util.ArrayList;

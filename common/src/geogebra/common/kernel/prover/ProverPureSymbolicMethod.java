@@ -3,9 +3,9 @@ package geogebra.common.kernel.prover;
 import geogebra.common.kernel.algos.SymbolicParameters;
 import geogebra.common.kernel.algos.SymbolicParametersAlgo;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.main.App;
 import geogebra.common.util.Prover;
 import geogebra.common.util.Prover.ProofResult;
-import geogebra.common.main.App;
 
 /**
  * A prover which uses pure symbolic method to prove geometric theorems.

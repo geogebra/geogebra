@@ -1,28 +1,24 @@
 package geogebra.web.gui.dialog;
 
-import java.util.Iterator;
-import java.util.TreeSet;
-
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoButton;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.main.App;
 import geogebra.web.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.web.gui.view.algebra.InputPanelW;
 import geogebra.web.main.AppW;
 
+import java.util.Iterator;
+import java.util.TreeSet;
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.PopupPanel;
-import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.Widget;
 
 public class ButtonDialog extends PopupPanel implements ClickHandler{
 

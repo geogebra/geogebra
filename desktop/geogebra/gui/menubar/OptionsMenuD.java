@@ -4,11 +4,9 @@ import geogebra.common.gui.menubar.MenuInterface;
 import geogebra.common.gui.menubar.MyActionListener;
 import geogebra.common.gui.menubar.OptionsMenu;
 import geogebra.common.gui.view.properties.PropertiesView.OptionType;
-import geogebra.common.io.MyXMLHandler;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.main.App;
 import geogebra.common.util.Language;
-import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
 import geogebra.main.AppD;
 import geogebra.main.GeoGebraPreferencesD;
@@ -23,7 +21,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JMenu;
 import javax.swing.JRadioButtonMenuItem;
-import javax.swing.event.MenuListener;
 
 /**
  * The "Options" menu.

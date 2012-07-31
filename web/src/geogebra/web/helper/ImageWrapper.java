@@ -4,7 +4,6 @@ import geogebra.web.util.ImageManager;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.ImageElement;
-import com.google.gwt.user.client.ui.Image;
 
 public class ImageWrapper {
 	

@@ -4,13 +4,13 @@ import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.web.main.AppW;
 
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.FileUpload;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.FileUpload;
 
 public class ImageFileInputDialog extends PopupPanel implements ClickHandler{
 

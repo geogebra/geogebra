@@ -2,6 +2,7 @@ package geogebra.web.gui.menubar;
 
 import geogebra.common.main.App;
 import geogebra.web.gui.images.AppResources;
+
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.MenuBar;
 

@@ -3,10 +3,10 @@
  */
 package geogebra.web.kernel.external;
 
+import geogebra.web.openjdk.awt.geom.PathIterator;
+
 import java.util.Enumeration;
 import java.util.Vector;
-
-import geogebra.web.openjdk.awt.geom.PathIterator;
 
 /*
  * Copyright 1998-2003 Sun Microsystems, Inc.  All Rights Reserved.

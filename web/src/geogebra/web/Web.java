@@ -1,9 +1,6 @@
 package geogebra.web;
 
 
-import java.util.ArrayList;
-import java.util.Date;
-
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.kernel.commands.AlgebraProcessor;
 import geogebra.common.main.App;
@@ -16,25 +13,19 @@ import geogebra.web.gui.app.GeoGebraAppFrame;
 import geogebra.web.helper.JavaScriptInjector;
 import geogebra.web.html5.ArticleElement;
 import geogebra.web.html5.Dom;
-import geogebra.web.main.AppW;
-import geogebra.web.util.JSON;
+
+import java.util.ArrayList;
+import java.util.Date;
 
 import com.google.api.gwt.oauth2.client.Auth;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.dom.client.StyleInjector;
-import com.google.gwt.http.client.Request;
-import com.google.gwt.http.client.RequestBuilder;
-import com.google.gwt.http.client.RequestCallback;
-import com.google.gwt.http.client.Response;
-import com.google.gwt.http.client.URL;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.ClosingEvent;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.RootPanel;
 
 

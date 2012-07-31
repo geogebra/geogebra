@@ -1,9 +1,5 @@
 package geogebra.main;
 
-import java.util.ArrayList;
-
-import javax.swing.JOptionPane;
-
 import geogebra.common.awt.GPoint;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.gui.dialog.DialogManager;
@@ -18,6 +14,10 @@ import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.App;
+
+import java.util.ArrayList;
+
+import javax.swing.JOptionPane;
 
 public class DialogManagerMinimal extends DialogManager {
 

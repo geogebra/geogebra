@@ -1,8 +1,7 @@
 package geogebra.euclidian.event;
 
-import geogebra.common.euclidian.event.ActionEvent;
-import geogebra.common.euclidian.event.ActionListenerI;
 import geogebra.common.euclidian.event.ActionListener;
+import geogebra.common.euclidian.event.ActionListenerI;
 
 
 public class ActionListenerD extends ActionListener

@@ -1,9 +1,9 @@
 package geogebra3D.util;
 
+import geogebra.util.ImageManager;
+
 import java.awt.Component;
 import java.awt.Image;
-
-import geogebra.util.ImageManager;
 
 /**
  * Class extending ImageManager for 3D.

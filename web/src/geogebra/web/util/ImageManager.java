@@ -1,28 +1,20 @@
 package geogebra.web.util;
 
-import java.util.HashMap;
-import java.util.Map.Entry;
-
-import com.google.gwt.cell.client.ImageLoadingCell;
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.Document;
-import com.google.gwt.dom.client.ImageElement;
-import com.google.gwt.event.dom.client.LoadEvent;
-import com.google.gwt.event.dom.client.LoadHandler;
-import com.google.gwt.resources.client.ImageResource;
-import com.google.gwt.safehtml.shared.SafeUri;
-import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.RootPanel;
-
 import geogebra.common.awt.GBufferedImage;
 import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.main.App;
 import geogebra.common.util.AbstractImageManager;
-import geogebra.web.gui.applet.GeoGebraFrame;
 import geogebra.web.helper.ImageLoadCallback;
 import geogebra.web.helper.ImageWrapper;
 import geogebra.web.io.MyXMLio;
 import geogebra.web.main.AppW;
+
+import java.util.HashMap;
+import java.util.Map.Entry;
+
+import com.google.gwt.dom.client.Document;
+import com.google.gwt.dom.client.ImageElement;
+import com.google.gwt.resources.client.ImageResource;
 
 public class ImageManager extends AbstractImageManager {
 	

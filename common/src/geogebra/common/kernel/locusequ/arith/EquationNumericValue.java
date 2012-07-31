@@ -1,6 +1,5 @@
 package geogebra.common.kernel.locusequ.arith;
 
-import geogebra.common.kernel.locusequ.EquationElement;
 import geogebra.common.kernel.locusequ.EquationTranslator;
 
 /**

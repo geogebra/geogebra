@@ -25,7 +25,6 @@ import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.factories.FormatFactory;
 import geogebra.common.factories.LaTeXFactory;
-import geogebra.common.gui.view.spreadsheet.SpreadsheetViewInterface;
 import geogebra.common.kernel.AnimationManager;
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Construction;

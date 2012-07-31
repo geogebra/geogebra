@@ -1,7 +1,6 @@
 package geogebra3D.euclidian3D;
 
 import geogebra.common.kernel.StringTemplate;
-import geogebra.main.AppD;
 import geogebra3D.euclidian3D.opengl.Renderer;
 
 import java.util.Iterator;

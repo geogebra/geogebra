@@ -1,8 +1,6 @@
 package geogebra.euclidian;
 
-import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.App;
 import geogebra.euclidianND.EuclidianViewND;

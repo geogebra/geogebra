@@ -1,16 +1,12 @@
 package geogebra.web.gui.autocompletion;
 
+import geogebra.web.gui.inputfield.AutoCompleteTextFieldW;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.user.client.ui.MultiWordSuggestOracle;
-import com.google.gwt.user.client.ui.PopupPanel;
-import com.google.gwt.user.client.ui.SuggestBox;
-import com.google.gwt.user.client.ui.SuggestOracle;
 import com.google.gwt.user.client.ui.VerticalPanel;
-
-import geogebra.common.main.App;
-import geogebra.web.gui.inputfield.AutoCompleteTextFieldW;
 
 public class CompletionsPopup extends MultiWordSuggestOracle {
 

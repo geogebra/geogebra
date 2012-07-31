@@ -22,7 +22,6 @@ import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.main.App;
-import geogebra.gui.dialog.options.OptionsDialog;
 import geogebra.main.AppD;
 
 import java.awt.event.ActionEvent;
@@ -32,7 +31,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
-import javax.swing.JPopupMenu;
 
 /**
  *

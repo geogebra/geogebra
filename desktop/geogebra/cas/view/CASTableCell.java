@@ -2,7 +2,6 @@ package geogebra.cas.view;
 
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoCasCell;
-import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.main.AppD;

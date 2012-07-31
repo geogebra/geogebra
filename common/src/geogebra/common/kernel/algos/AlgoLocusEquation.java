@@ -5,11 +5,6 @@ package geogebra.common.kernel.algos;
 
 
 
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
-import java.util.TreeSet;
-
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
@@ -25,6 +20,11 @@ import geogebra.common.kernel.locusequ.EquationTranslator;
 import geogebra.common.kernel.locusequ.MPReduceTranslator;
 import geogebra.common.kernel.locusequ.arith.Equation;
 import geogebra.common.main.App;
+
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * @author sergio

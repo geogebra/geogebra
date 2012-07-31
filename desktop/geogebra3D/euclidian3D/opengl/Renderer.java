@@ -10,18 +10,15 @@ import geogebra3D.euclidian3D.Drawable3DLists;
 import geogebra3D.euclidian3D.EuclidianController3D;
 import geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra3D.euclidian3D.Hits3D;
-import geogebra3D.euclidian3D.opengl.RendererJogl.GLlocal;
 
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.image.BufferedImage;
-import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.util.ArrayList;
 
 import javax.media.opengl.GL;
-
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLEventListener;
 import javax.media.opengl.glu.GLU;

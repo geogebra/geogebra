@@ -4,20 +4,16 @@ import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoLevelOfDetail;
 import geogebra.common.kernel.kernelND.SurfaceEvaluable;
-import geogebra.main.AppD;
 import geogebra3D.euclidian3D.BucketAssigner;
 import geogebra3D.euclidian3D.Octree;
 import geogebra3D.euclidian3D.OctreeCollection;
 import geogebra3D.euclidian3D.TriList;
 import geogebra3D.euclidian3D.TriListElem;
 import geogebra3D.euclidian3D.TriangleOctree;
-import geogebra3D.kernel3D.GeoSurfaceCartesian3D;
 
 import java.nio.FloatBuffer;
 import java.util.Iterator;
 import java.util.LinkedList;
-
-import com.kenai.jffi.Function;
 
 /**
  * An element in a CurveMesh.

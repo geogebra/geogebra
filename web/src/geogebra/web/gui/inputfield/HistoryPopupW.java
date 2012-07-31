@@ -1,5 +1,7 @@
 package geogebra.web.gui.inputfield;
 
+import geogebra.common.main.GWTKeycodes;
+
 import java.util.ArrayList;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -9,9 +11,6 @@ import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
-
-import geogebra.common.main.App;
-import geogebra.common.main.GWTKeycodes;
 
 public class HistoryPopupW extends PopupPanel implements ClickHandler, KeyUpHandler {
 

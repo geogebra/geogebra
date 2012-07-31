@@ -1,7 +1,6 @@
 package geogebra3D.euclidian3D;
 
 import geogebra3D.euclidian3D.opengl.PlotterSurface;
-import geogebra3D.kernel3D.GeoQuadric3D;
 import geogebra3D.kernel3D.GeoQuadric3DPart;
 
 /**

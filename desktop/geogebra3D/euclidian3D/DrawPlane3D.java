@@ -5,14 +5,11 @@ import geogebra.common.kernel.Matrix.CoordMatrix;
 import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.CoordSys;
 import geogebra.common.kernel.Matrix.Coords;
-import geogebra.main.AppD;
 import geogebra3D.euclidian3D.opengl.PlotterBrush;
 import geogebra3D.euclidian3D.opengl.PlotterSurface;
 import geogebra3D.euclidian3D.opengl.Renderer;
 import geogebra3D.euclidian3D.opengl.Textures;
 import geogebra3D.kernel3D.GeoPlane3D;
-
-import java.awt.Color;
 
 
 

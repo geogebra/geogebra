@@ -1,7 +1,5 @@
 package geogebra.kernel.discrete.signalprocesser.voronoi;
 import geogebra.common.kernel.discrete.signalprocessor.voronoi.VPoint;
-import geogebra.common.kernel.discrete.signalprocessor.voronoi.eventqueue.VCircleEvent;
-import geogebra.common.kernel.discrete.signalprocessor.voronoi.eventqueue.VSiteEvent;
 
 import java.awt.Shape;
 import java.awt.geom.PathIterator;

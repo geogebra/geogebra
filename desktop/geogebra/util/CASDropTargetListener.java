@@ -1,7 +1,6 @@
 package geogebra.util;
 
 import geogebra.cas.view.CASTableD;
-import geogebra.common.cas.view.CASTable;
 import geogebra.common.cas.view.CASView;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Kernel;
@@ -21,7 +20,6 @@ import java.awt.dnd.DropTargetListener;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.Vector;
 
 
 public class CASDropTargetListener implements DropTargetListener {

@@ -1,8 +1,8 @@
 package geogebra.common.gui.toolbar;
 
-import java.util.Vector;
-
 import geogebra.common.euclidian.EuclidianConstants;
+
+import java.util.Vector;
 
 /**
  * @author gabor

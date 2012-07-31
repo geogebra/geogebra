@@ -5,8 +5,6 @@ package geogebra3D.euclidian3D;
 
 import geogebra.common.kernel.Matrix.CoordMatrix;
 import geogebra.common.kernel.Matrix.Coords;
-import geogebra.common.kernel.geos.GeoElement;
-import geogebra.main.AppD;
 import geogebra3D.euclidian3D.opengl.PlotterBrush;
 import geogebra3D.euclidian3D.opengl.Renderer;
 import geogebra3D.kernel3D.GeoClippingCube3D;

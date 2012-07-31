@@ -2,8 +2,10 @@ package geogebra.kernel;
 
 import geogebra.common.kernel.AnimationManager;
 import geogebra.common.kernel.Kernel;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import javax.swing.Timer;
 
 /**

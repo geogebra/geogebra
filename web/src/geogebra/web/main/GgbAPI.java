@@ -1,38 +1,23 @@
 package geogebra.web.main;
 
-import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.canvas.dom.client.Context2d;
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.JsArrayString;
-import com.google.gwt.dom.client.Document;
-import com.google.gwt.dom.client.ImageElement;
-import com.google.gwt.thirdparty.streamhtmlparser.JavascriptParser;
-import com.google.gwt.core.client.JavaScriptObject;
-
+import geogebra.common.io.MyXMLio;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Macro;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.main.App;
-import geogebra.common.plugin.JavaScriptAPI;
-import geogebra.common.io.MyXMLio;
-
 import geogebra.web.euclidian.EuclidianViewW;
-import geogebra.web.gui.applet.GeoGebraFrame;
-import geogebra.web.helper.ScriptLoadCallback;
-import geogebra.web.html5.DynamicScriptElement;
-import geogebra.web.jso.JsUint8Array;
 import geogebra.web.kernel.gawt.BufferedImage;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.TreeSet;
 import java.util.Map.Entry;
+import java.util.TreeSet;
 
-import javax.swing.SwingUtilities;
-
-import org.apache.tools.ant.taskdefs.Java;
+import com.google.gwt.canvas.client.Canvas;
+import com.google.gwt.canvas.dom.client.Context2d;
+import com.google.gwt.core.client.JavaScriptObject;
 
 public class GgbAPI  extends geogebra.common.plugin.GgbAPI {
 

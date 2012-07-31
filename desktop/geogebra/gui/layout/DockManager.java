@@ -4,7 +4,6 @@ import geogebra.common.gui.SetLabels;
 import geogebra.common.io.layout.DockPanelData;
 import geogebra.common.io.layout.DockSplitPaneData;
 import geogebra.common.io.layout.Perspective;
-import geogebra.common.main.App;
 import geogebra.euclidian.EuclidianViewJPanel;
 import geogebra.gui.layout.panels.ErrorDockPanel;
 import geogebra.gui.layout.panels.EuclidianDockPanelAbstract;

@@ -1,29 +1,18 @@
 package geogebra3D.euclidianFor3D;
 
-import geogebra.common.euclidian.Hits;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.Region;
-import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoAngle;
-import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoFunction;
-import geogebra.common.kernel.geos.GeoFunctionable;
-import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint;
-import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.kernelND.GeoConicND;
-import geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
 import geogebra.euclidian.EuclidianControllerD;
-import geogebra3D.kernel3D.AlgoIntersectCS1D2D;
-import geogebra3D.kernel3D.AlgoIntersectCS2D2D;
 import geogebra3D.kernel3D.GeoPoint3D;
-import geogebra3D.kernel3D.GeoQuadric3D;
 
 /**
  * class for Euclidian Controller used in ggb3D

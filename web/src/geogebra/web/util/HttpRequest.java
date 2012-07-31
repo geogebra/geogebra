@@ -2,7 +2,12 @@ package geogebra.web.util;
 
 import geogebra.common.main.App;
 
-import com.google.gwt.http.client.*;
+import com.google.gwt.http.client.Request;
+import com.google.gwt.http.client.RequestBuilder;
+import com.google.gwt.http.client.RequestCallback;
+import com.google.gwt.http.client.RequestException;
+import com.google.gwt.http.client.Response;
+import com.google.gwt.http.client.URL;
 
 /**
  * @author Zoltan Kovacs <zoltan@geogebra.org>

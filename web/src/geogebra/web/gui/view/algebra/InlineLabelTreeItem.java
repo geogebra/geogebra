@@ -12,8 +12,6 @@ the Free Software Foundation.
 
 package geogebra.web.gui.view.algebra;
 
-import geogebra.common.main.App;
-
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.MouseOutEvent;

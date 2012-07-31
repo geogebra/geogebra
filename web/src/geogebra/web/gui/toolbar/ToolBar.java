@@ -6,7 +6,6 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Macro;
 import geogebra.common.main.App;
 import geogebra.web.gui.app.GGWToolBar;
-import geogebra.web.gui.toolbar.ModeToggleMenu.MyJToggleButton;
 import geogebra.web.main.AppW;
 
 import java.util.ArrayList;

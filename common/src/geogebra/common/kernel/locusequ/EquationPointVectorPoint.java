@@ -3,7 +3,7 @@
  */
 package geogebra.common.kernel.locusequ;
 
-import static geogebra.common.kernel.locusequ.arith.EquationArithHelper.*;
+import static geogebra.common.kernel.locusequ.arith.EquationArithHelper.sum;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.locusequ.arith.EquationExpression;
 

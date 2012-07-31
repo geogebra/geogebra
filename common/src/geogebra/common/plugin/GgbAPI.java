@@ -25,8 +25,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.TreeSet;
 
-import javax.swing.SwingUtilities;
-
 /** 
 <h3>GgbAPI - API for PlugLets </h3>
 <pre>

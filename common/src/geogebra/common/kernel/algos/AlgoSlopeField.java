@@ -2,7 +2,6 @@ package geogebra.common.kernel.algos;
 
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.EuclidianViewCE;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.MyPoint;
 import geogebra.common.kernel.StringTemplate;

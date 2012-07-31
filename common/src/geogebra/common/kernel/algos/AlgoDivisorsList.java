@@ -1,11 +1,5 @@
 package geogebra.common.kernel.algos;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
-
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.NumberValue;
@@ -15,6 +9,12 @@ import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.locusequ.EquationElement;
 import geogebra.common.kernel.locusequ.EquationScope;
 import geogebra.common.main.App;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 public class AlgoDivisorsList extends AlgoElement {
 

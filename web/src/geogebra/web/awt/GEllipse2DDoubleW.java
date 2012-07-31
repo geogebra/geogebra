@@ -2,10 +2,8 @@ package geogebra.web.awt;
 
 import geogebra.common.awt.GAffineTransform;
 import geogebra.common.awt.GPathIterator;
-import geogebra.common.awt.GPoint2D;
 import geogebra.common.awt.GRectangle;
 import geogebra.common.awt.GRectangle2D;
-import geogebra.common.main.App;
 import geogebra.web.openjdk.awt.geom.Shape;
 
 public class GEllipse2DDoubleW implements geogebra.common.awt.GEllipse2DDouble,

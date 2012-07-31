@@ -3,7 +3,6 @@
  */
 package geogebra.common.kernel.locusequ;
 
-import geogebra.common.kernel.implicit.GeoImplicitPoly;
 import geogebra.common.kernel.locusequ.arith.EquationExpression;
 
 import java.util.Collection;

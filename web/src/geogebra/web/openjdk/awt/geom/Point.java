@@ -27,7 +27,6 @@
 
 package geogebra.web.openjdk.awt.geom;
 
-import geogebra.web.openjdk.awt.geom.Point2D;
 
 /**
  * A point representing a location in (x, y) coordinate space, specified in

@@ -1,9 +1,5 @@
 package geogebra.web.util;
 
-import com.google.gwt.i18n.client.CurrencyData;
-import com.google.gwt.i18n.client.constants.NumberConstants;
-
-import geogebra.common.main.App;
 import geogebra.common.util.NumberFormatAdapter;
 
 /**

@@ -4,12 +4,9 @@ import geogebra.common.euclidian.Previewable;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPolyLine;
-import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra3D.euclidian3D.opengl.PlotterBrush;
 import geogebra3D.euclidian3D.opengl.Renderer;
-import geogebra3D.kernel3D.GeoCoordSys1D;
-import geogebra3D.kernel3D.GeoPoint3D;
 
 import java.util.ArrayList;
 

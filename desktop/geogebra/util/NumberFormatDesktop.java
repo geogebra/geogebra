@@ -1,10 +1,10 @@
 package geogebra.util;
 
+import geogebra.common.util.NumberFormatAdapter;
+
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.Locale;
-
-import geogebra.common.util.NumberFormatAdapter;
 
 public class NumberFormatDesktop extends DecimalFormat implements NumberFormatAdapter  {
 	private static final long serialVersionUID = 1L;

@@ -4,12 +4,8 @@ import geogebra.common.main.App;
 import geogebra.common.util.Language;
 import geogebra.common.util.Unicode;
 import geogebra.web.gui.images.AppResources;
-import geogebra.web.main.AppW;
 
-import com.google.gwt.user.client.Command;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.MenuBar;
-import com.google.gwt.user.client.ui.MenuItem;
 
 public class LanguageMenuW extends MenuBar {
 	

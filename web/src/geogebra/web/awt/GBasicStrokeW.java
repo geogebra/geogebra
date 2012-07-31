@@ -19,7 +19,6 @@
  */
 package geogebra.web.awt;
 
-import geogebra.common.main.App;
 import com.google.gwt.canvas.dom.client.Context2d.LineCap;
 import com.google.gwt.canvas.dom.client.Context2d.LineJoin;
 

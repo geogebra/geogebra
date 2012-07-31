@@ -5,19 +5,17 @@ import geogebra.common.awt.GColor;
 import geogebra.common.awt.GRenderingHints;
 import geogebra.common.euclidian.EuclidianStatic;
 import geogebra.common.main.App;
-import geogebra.web.awt.GBasicStrokeW;
 import geogebra.web.awt.GDimensionW;
 import geogebra.web.awt.GFontW;
 import geogebra.web.awt.GGraphics2DW;
-import geogebra.web.factories.AwtFactoryW;
 import geogebra.web.openjdk.awt.geom.Polygon;
+
+import java.util.HashMap;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.canvas.dom.client.ImageData;
 import com.google.gwt.canvas.dom.client.TextMetrics;
-import java.util.HashMap;
-import com.google.gwt.dom.client.CanvasElement;
 import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.ui.Image;

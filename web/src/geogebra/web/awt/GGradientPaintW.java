@@ -1,9 +1,9 @@
 package geogebra.web.awt;
 
+import geogebra.common.awt.GColor;
+
 import com.google.gwt.canvas.dom.client.CanvasGradient;
 import com.google.gwt.canvas.dom.client.Context2d;
-
-import geogebra.common.awt.GColor;
 
 public class GGradientPaintW implements geogebra.common.awt.GGradientPaint {
 	private GColor color1,color2;

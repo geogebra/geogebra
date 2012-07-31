@@ -3,9 +3,6 @@ package geogebra3D.euclidian3D;
 
 
 import geogebra.common.euclidian.EuclidianConstants;
-import geogebra.common.euclidian.EuclidianView;
-import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
-import geogebra.common.euclidian.GetViewId;
 import geogebra.common.euclidian.Hits;
 import geogebra.common.euclidian.Previewable;
 import geogebra.common.euclidian.event.AbstractEvent;
@@ -26,19 +23,13 @@ import geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPlaneND;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.common.kernel.kernelND.GeoQuadricND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
-import geogebra.common.kernel.kernelND.Region3D;
-import geogebra.common.main.App;
-import geogebra.euclidian.EuclidianControllerD;
 import geogebra.main.AppD;
-import geogebra3D.euclidian3D.opengl.PlotterBrush;
 import geogebra3D.euclidianFor3D.EuclidianControllerFor3D;
 import geogebra3D.gui.GuiManager3D;
 import geogebra3D.gui.dialogs.DialogManager3D;
 import geogebra3D.kernel3D.AlgoIntersectCS1D2D;
 import geogebra3D.kernel3D.AlgoIntersectCS2D2D;
-import geogebra3D.kernel3D.AlgoIntersectSingle3D;
 import geogebra3D.kernel3D.GeoCoordSys1D;
 import geogebra3D.kernel3D.GeoPlane3D;
 import geogebra3D.kernel3D.GeoPoint3D;
@@ -48,13 +39,8 @@ import geogebra3D.kernel3D.GeoQuadric3D;
 import java.awt.Color;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
-import java.awt.event.MouseWheelListener;
 import java.util.ArrayList;
 import java.util.Iterator;
-
-import javax.swing.JPanel;
 
 /**
  * Controller for the 3D view

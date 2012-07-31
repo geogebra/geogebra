@@ -26,7 +26,6 @@
  */
 package geogebra.web.openjdk.awt.geom;
 
-import geogebra.web.openjdk.awt.geom.Rectangle2D;
 
 /**
  * A <code>Rectangle</code> specifies an area in a coordinate space that is

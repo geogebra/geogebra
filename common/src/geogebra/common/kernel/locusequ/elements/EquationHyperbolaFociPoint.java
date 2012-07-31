@@ -3,7 +3,12 @@
  */
 package geogebra.common.kernel.locusequ.elements;
 
-import geogebra.common.kernel.algos.AlgoHyperbolaFociLength;
+import static geogebra.common.kernel.locusequ.arith.EquationArithHelper.diff;
+import static geogebra.common.kernel.locusequ.arith.EquationArithHelper.dist;
+import static geogebra.common.kernel.locusequ.arith.EquationArithHelper.dist2;
+import static geogebra.common.kernel.locusequ.arith.EquationArithHelper.div;
+import static geogebra.common.kernel.locusequ.arith.EquationArithHelper.pow;
+import static geogebra.common.kernel.locusequ.arith.EquationArithHelper.times;
 import geogebra.common.kernel.algos.AlgoHyperbolaFociPoint;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.locusequ.EquationElement;
@@ -12,8 +17,6 @@ import geogebra.common.kernel.locusequ.EquationPoint;
 import geogebra.common.kernel.locusequ.EquationScope;
 import geogebra.common.kernel.locusequ.arith.EquationExpression;
 import geogebra.common.kernel.locusequ.arith.EquationNumericValue;
-
-import static geogebra.common.kernel.locusequ.arith.EquationArithHelper.*;
 
 /**
  * @author sergio

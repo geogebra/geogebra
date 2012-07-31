@@ -1,7 +1,5 @@
 package geogebra.web.euclidian;
 
-import java.util.List;
-
 import geogebra.common.awt.GColor;
 import geogebra.common.awt.GDimension;
 import geogebra.common.awt.GFont;
@@ -13,10 +11,8 @@ import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.MyZoomer;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.factories.AwtFactory;
-import geogebra.common.gui.inputfield.AutoCompleteTextField;
 import geogebra.common.io.MyXMLio;
 import geogebra.common.javax.swing.GBox;
-import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.main.App;
@@ -28,11 +24,12 @@ import geogebra.web.gui.app.EuclidianPanel;
 import geogebra.web.gui.applet.GeoGebraFrame;
 import geogebra.web.main.AppW;
 
+import java.util.List;
+
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.dom.client.Style;
-import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -51,8 +48,6 @@ import com.google.gwt.event.dom.client.TouchCancelEvent;
 import com.google.gwt.event.dom.client.TouchEndEvent;
 import com.google.gwt.event.dom.client.TouchMoveEvent;
 import com.google.gwt.event.dom.client.TouchStartEvent;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.AbsolutePanel;
 
 public class EuclidianViewW extends EuclidianView implements SettingListener{
 	

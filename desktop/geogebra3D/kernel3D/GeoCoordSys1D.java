@@ -1,7 +1,5 @@
 package geogebra3D.kernel3D;
 
-import java.util.ArrayList;
-
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Path;
@@ -12,13 +10,13 @@ import geogebra.common.kernel.Matrix.CoordMatrixUtil;
 import geogebra.common.kernel.Matrix.CoordSys;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.Translateable;
 import geogebra.common.kernel.kernelND.GeoCoordSys;
 import geogebra.common.kernel.kernelND.GeoCoordSys1DInterface;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.common.util.MyMath;
+
+import java.util.ArrayList;
 
 
 public abstract class GeoCoordSys1D extends GeoElement3D implements Path,

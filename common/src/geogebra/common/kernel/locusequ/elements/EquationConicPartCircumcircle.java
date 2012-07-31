@@ -3,15 +3,12 @@
  */
 package geogebra.common.kernel.locusequ.elements;
 
-import static geogebra.common.kernel.locusequ.arith.EquationArithHelper.equation;
-import static geogebra.common.kernel.locusequ.arith.EquationArithHelper.times;
 import geogebra.common.kernel.algos.AlgoConicPartCircumcircle;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.locusequ.EquationAuxiliarSymbolicPoint;
 import geogebra.common.kernel.locusequ.EquationList;
 import geogebra.common.kernel.locusequ.EquationPoint;
 import geogebra.common.kernel.locusequ.EquationScope;
-import geogebra.common.kernel.locusequ.arith.EquationExpression;
 
 /**
  * @author sergio

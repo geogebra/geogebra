@@ -11,12 +11,9 @@ import java.awt.event.KeyEvent;
 import java.io.File;
 
 import javax.swing.AbstractAction;
-import javax.swing.JDialog;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.KeyStroke;
-import javax.swing.event.MenuEvent;
-import javax.swing.event.MenuListener;
 
 /**
  * The "File" menu.

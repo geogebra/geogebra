@@ -6,7 +6,6 @@ import geogebra.common.main.App;
 
 import java.util.ArrayList;
 
-import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.MenuBar;

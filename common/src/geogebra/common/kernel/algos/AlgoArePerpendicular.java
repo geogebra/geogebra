@@ -6,9 +6,9 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.locusequ.EquationElement;
 import geogebra.common.kernel.locusequ.EquationScope;
-import geogebra.common.kernel.prover.Variable;
 import geogebra.common.kernel.prover.NoSymbolicParametersException;
 import geogebra.common.kernel.prover.Polynomial;
+import geogebra.common.kernel.prover.Variable;
 import geogebra.common.main.App;
 
 import java.math.BigInteger;

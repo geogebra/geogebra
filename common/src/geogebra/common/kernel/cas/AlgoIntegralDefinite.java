@@ -28,7 +28,6 @@ import geogebra.common.kernel.locusequ.EquationElement;
 import geogebra.common.kernel.locusequ.EquationScope;
 import geogebra.common.kernel.roots.RealRootAdapter;
 import geogebra.common.kernel.roots.RealRootFunction;
-import geogebra.common.main.App;
 
 import org.apache.commons.math.ConvergenceException;
 import org.apache.commons.math.FunctionEvaluationException;

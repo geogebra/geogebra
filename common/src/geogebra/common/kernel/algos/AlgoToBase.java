@@ -1,7 +1,5 @@
 package geogebra.common.kernel.algos;
 
-import java.math.BigInteger;
-
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.NumberValue;
@@ -10,6 +8,8 @@ import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.locusequ.EquationElement;
 import geogebra.common.kernel.locusequ.EquationScope;
 import geogebra.common.util.StringUtil;
+
+import java.math.BigInteger;
 /**
  * Allows conversion of numbers to different bases via ToBase[number, base]
  * @author zbynek

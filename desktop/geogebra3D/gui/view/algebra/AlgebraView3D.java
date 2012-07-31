@@ -1,16 +1,15 @@
 package geogebra3D.gui.view.algebra;
 
-import java.util.HashMap;
-
-import javax.swing.tree.DefaultMutableTreeNode;
-
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.gui.view.algebra.AlgebraControllerD;
 import geogebra.gui.view.algebra.AlgebraHelperBar;
 import geogebra.gui.view.algebra.AlgebraViewD;
-
 import geogebra3D.Application3D;
+
+import java.util.HashMap;
+
+import javax.swing.tree.DefaultMutableTreeNode;
 
 
 /**

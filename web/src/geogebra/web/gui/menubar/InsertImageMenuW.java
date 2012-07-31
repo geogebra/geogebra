@@ -1,9 +1,8 @@
 package geogebra.web.gui.menubar;
 
 import geogebra.common.main.App;
-import geogebra.web.gui.dialog.WebCamInputDialog;
 import geogebra.web.gui.dialog.ImageFileInputDialog;
-import geogebra.web.gui.dialog.InputDialogImageURL;
+import geogebra.web.gui.dialog.WebCamInputDialog;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.main.AppW;
 

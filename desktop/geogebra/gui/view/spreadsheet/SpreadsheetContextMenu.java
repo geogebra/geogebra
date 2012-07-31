@@ -5,7 +5,6 @@ import geogebra.common.gui.view.spreadsheet.MyTable;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import geogebra.common.main.App;
-import geogebra.gui.dialog.options.OptionsDialog;
 import geogebra.main.AppD;
 
 import java.awt.Color;

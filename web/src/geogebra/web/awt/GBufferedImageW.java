@@ -1,14 +1,13 @@
 package geogebra.web.awt;
 
+import geogebra.common.awt.GGraphics2D;
+import geogebra.web.main.AppW;
+
 import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.dom.client.CanvasElement;
-import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.canvas.dom.client.ImageData;
-
-import geogebra.common.awt.GGraphics2D;
-import geogebra.common.main.App;
-import geogebra.web.main.AppW;
+import com.google.gwt.dom.client.CanvasElement;
+import com.google.gwt.dom.client.ImageElement;
 
 public class GBufferedImageW implements geogebra.common.awt.GBufferedImage {
 

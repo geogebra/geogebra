@@ -1,11 +1,8 @@
 package geogebra.web.gui.util;
 
-import sun.awt.HorizBagLayout;
-
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PopupPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
 
 /**
  * @author gabor

@@ -18,8 +18,6 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.algos;
 
-import java.util.ArrayList;
-
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
@@ -32,6 +30,8 @@ import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.locusequ.EquationElement;
 import geogebra.common.kernel.locusequ.EquationScope;
 import geogebra.common.kernel.locusequ.elements.EquationConicFivePoints;
+
+import java.util.ArrayList;
 
 
 /**

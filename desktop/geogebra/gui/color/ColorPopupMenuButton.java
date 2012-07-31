@@ -14,7 +14,6 @@ package geogebra.gui.color;
 import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.gui.util.GeoGebraIcon;
 import geogebra.gui.util.PopupMenuButton;
-import geogebra.gui.util.SelectionTable;
 import geogebra.main.AppD;
 
 import java.awt.Color;

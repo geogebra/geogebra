@@ -4,7 +4,6 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoFunctionNVar;
 import geogebra.common.plugin.EuclidianStyleConstants;
 
 import java.awt.Color;

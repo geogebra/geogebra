@@ -6,8 +6,6 @@ import geogebra.common.main.App;
 import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.common.main.MyError;
 import geogebra.common.util.Language;
-import geogebra.common.util.StringUtil;
-import geogebra.common.util.Unicode;
 import geogebra.main.AppD;
 
 import java.awt.Color;

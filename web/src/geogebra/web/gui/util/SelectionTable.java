@@ -1,25 +1,20 @@
 package geogebra.web.gui.util;
 
-import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.canvas.dom.client.Context2d;
-import com.google.gwt.canvas.dom.client.ImageData;
-import com.google.gwt.dom.client.CanvasElement;
-import com.google.gwt.dom.client.ImageElement;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.resources.client.ImageResource;
-import com.google.gwt.user.cellview.client.CellTable;
-import com.google.gwt.user.client.ui.Anchor;
-import com.google.gwt.user.client.ui.FocusWidget;
-import com.google.gwt.user.client.ui.Grid;
-import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.Widget;
-
 import geogebra.common.awt.GColor;
 import geogebra.common.main.App;
 import geogebra.web.awt.GDimensionW;
 import geogebra.web.gui.images.AppResourcesConverter;
 import geogebra.web.main.AppW;
+
+import com.google.gwt.canvas.client.Canvas;
+import com.google.gwt.canvas.dom.client.Context2d;
+import com.google.gwt.canvas.dom.client.ImageData;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.resources.client.ImageResource;
+import com.google.gwt.user.client.ui.Anchor;
+import com.google.gwt.user.client.ui.Grid;
+import com.google.gwt.user.client.ui.Widget;
 
 
 

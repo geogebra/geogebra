@@ -12,8 +12,6 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.statistics;
 
-import java.util.ArrayList;
-
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.Algos;
@@ -24,6 +22,8 @@ import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.locusequ.EquationElement;
 import geogebra.common.kernel.locusequ.EquationScope;
+
+import java.util.ArrayList;
 
 /**
  * Mean, variance, sum, sum of squares, standard deviation of a list adapted

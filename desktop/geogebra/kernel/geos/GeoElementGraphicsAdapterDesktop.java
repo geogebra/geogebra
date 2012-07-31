@@ -1,10 +1,10 @@
 package geogebra.kernel.geos;
 
+import geogebra.awt.GBufferedImageD;
 import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import geogebra.common.main.App;
 import geogebra.main.AppD;
 import geogebra.util.ImageManager;
-import geogebra.awt.GBufferedImageD;
 
 import java.awt.Image;
 

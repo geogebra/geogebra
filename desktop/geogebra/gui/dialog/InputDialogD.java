@@ -41,7 +41,6 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
 import javax.swing.text.JTextComponent;
 
 public class InputDialogD extends geogebra.common.gui.dialog.InputDialog implements ActionListener,

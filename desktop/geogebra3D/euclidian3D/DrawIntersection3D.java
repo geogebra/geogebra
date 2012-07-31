@@ -1,10 +1,8 @@
 package geogebra3D.euclidian3D;
 
-import geogebra.common.kernel.Matrix.Coords;
 import geogebra3D.euclidian3D.opengl.Renderer;
 
 import java.nio.FloatBuffer;
-import java.util.Arrays;
 
 public class DrawIntersection3D extends Drawable3DCurves{
 	

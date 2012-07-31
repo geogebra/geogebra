@@ -15,12 +15,9 @@ import geogebra.common.main.App;
 import geogebra.common.plugin.GeoClass;
 import geogebra.gui.view.spreadsheet.CellRangeProcessor;
 import geogebra.gui.view.spreadsheet.MyTableD;
-import geogebra.gui.view.spreadsheet.SpreadsheetView;
 import geogebra.main.AppD;
 
 import java.util.ArrayList;
-
-import org.apache.commons.math.stat.descriptive.SummaryStatistics;
 
 /**
  * Class to control data management for StatDialog.

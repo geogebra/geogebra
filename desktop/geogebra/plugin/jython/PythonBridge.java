@@ -1,13 +1,13 @@
 package geogebra.plugin.jython;
 
-import javax.swing.JComponent;
-import javax.swing.JMenuBar;
-
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
 import geogebra.common.main.GeoElementSelectionListener;
 import geogebra.main.AppD;
+
+import javax.swing.JComponent;
+import javax.swing.JMenuBar;
 
 import org.python.util.PythonInterpreter;
 

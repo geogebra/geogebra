@@ -3,11 +3,12 @@
  */
 package geogebra.common.kernel.locusequ;
 
+import static geogebra.common.kernel.locusequ.arith.EquationArithHelper.diff;
+import static geogebra.common.kernel.locusequ.arith.EquationArithHelper.sqr;
+import static geogebra.common.kernel.locusequ.arith.EquationArithHelper.sqrt;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.locusequ.arith.EquationArithHelper;
 import geogebra.common.kernel.locusequ.arith.EquationExpression;
-
-import static geogebra.common.kernel.locusequ.arith.EquationArithHelper.*;
 
 /**
  * @author sergio

@@ -7,21 +7,11 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.Region;
 import geogebra.common.kernel.arithmetic.Command;
-import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.CmdClosestPoint;
-import geogebra.common.kernel.commands.CmdDistance;
-import geogebra.common.kernel.commands.CmdIntersect;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoPolygon;
-import geogebra.common.kernel.kernelND.GeoConicND;
-import geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import geogebra.common.kernel.kernelND.GeoLineND;
-import geogebra.common.kernel.kernelND.GeoPlaneND;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.common.kernel.kernelND.GeoQuadricND;
 import geogebra.common.main.MyError;
-import geogebra3D.kernel3D.GeoPlane3D;
-import geogebra3D.kernel3D.GeoQuadric3D;
 
 
 /**

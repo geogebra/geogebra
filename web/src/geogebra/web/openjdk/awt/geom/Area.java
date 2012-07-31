@@ -27,14 +27,12 @@
 
 package geogebra.web.openjdk.awt.geom;
 
-import java.util.Enumeration;
-import java.util.NoSuchElementException;
-import java.util.Vector;
-
-
 import geogebra.web.kernel.external.AreaOp;
 import geogebra.web.kernel.external.Crossings;
 import geogebra.web.kernel.external.Curve;
+
+import java.util.Enumeration;
+import java.util.Vector;
 
 /**
  * The <code>Area</code> class is a device-independent specification of an

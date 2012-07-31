@@ -1,12 +1,11 @@
 package geogebra3D.gui;
 
-import javax.swing.JCheckBoxMenuItem;
-
 import geogebra.gui.ContextMenuGraphicsWindowD;
 import geogebra.gui.dialog.options.OptionsDialog;
 import geogebra.main.AppD;
-
 import geogebra3D.Application3D;
+
+import javax.swing.JCheckBoxMenuItem;
 
 /** Extending ContextMenuGraphicsWindow class for 3D
  * @author matthieu

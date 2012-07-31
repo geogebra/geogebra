@@ -5,7 +5,6 @@ import geogebra.common.awt.GPathIterator;
 import geogebra.common.awt.GPoint2D;
 import geogebra.common.awt.GRectangle;
 import geogebra.common.awt.GRectangle2D;
-import geogebra.common.main.App;
 
 public class GArc2DW extends geogebra.common.awt.GArc2D implements GShapeW {
 

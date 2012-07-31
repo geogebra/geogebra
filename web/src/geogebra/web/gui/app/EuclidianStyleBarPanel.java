@@ -1,17 +1,15 @@
 package geogebra.web.gui.app;
 
 import geogebra.common.main.App;
-import geogebra.web.gui.view.algebra.AlgebraViewW;
 import geogebra.web.euclidian.EuclidianStyleBarW;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Style;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.ui.AbsolutePanel;
-import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.RequiresResize;
-import com.google.gwt.dom.client.Style;
 
 public class EuclidianStyleBarPanel extends Composite implements RequiresResize {
 

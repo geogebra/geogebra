@@ -1,11 +1,10 @@
 package geogebra.web.presenter;
 
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.user.client.ui.HasWidgets;
-
 import geogebra.common.main.App;
 import geogebra.web.html5.View;
 import geogebra.web.jso.JsUint8Array;
+
+import com.google.gwt.dom.client.Element;
 
 public abstract class BasePresenter {
 	

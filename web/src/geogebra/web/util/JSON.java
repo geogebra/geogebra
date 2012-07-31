@@ -1,10 +1,6 @@
 package geogebra.web.util;
 
-import geogebra.web.jso.JsUint8Array;
-
 import com.google.gwt.core.client.JavaScriptObject;
-import com.google.gwt.core.client.JsArrayInteger;
-import com.google.gwt.safehtml.shared.SafeHtml;
 
 public class JSON {
 

@@ -2,7 +2,6 @@ package geogebra3D.euclidian3D;
 
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoConicPart;
-import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra3D.euclidian3D.opengl.PlotterBrush;
 
 public class DrawConicPart3D extends DrawConic3D {

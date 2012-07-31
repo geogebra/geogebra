@@ -1,20 +1,18 @@
 package geogebra.gui.menubar;
 
+import geogebra.common.gui.menubar.MyActionListener;
+import geogebra.common.gui.menubar.RadioButtonMenuBar;
+import geogebra.common.main.App;
+import geogebra.main.AppD;
+
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-
 import javax.swing.ButtonGroup;
 import javax.swing.JMenu;
 import javax.swing.JRadioButtonMenuItem;
-
-import geogebra.common.gui.menubar.MenuInterface;
-import geogebra.common.gui.menubar.MyActionListener;
-import geogebra.common.gui.menubar.RadioButtonMenuBar;
-import geogebra.common.main.App;
-import geogebra.main.AppD;
 
 public class RadioButtonMenuBarD extends JMenu implements RadioButtonMenuBar{
 	

@@ -27,7 +27,6 @@ import geogebra.web.gui.util.GeoGebraFileChooser;
 import geogebra.web.gui.view.algebra.AlgebraControllerW;
 import geogebra.web.gui.view.algebra.AlgebraViewW;
 import geogebra.web.main.AppW;
-import geogebra.web.openjdk.awt.geom.Point;
 
 import java.util.ArrayList;
 

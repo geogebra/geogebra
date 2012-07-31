@@ -28,7 +28,7 @@
 package geogebra.web.openjdk.awt.geom;
 
 
-import java.util.*;
+import java.util.NoSuchElementException;
 
 /**
  * A utility class to iterate over the path segments of an arc

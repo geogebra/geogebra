@@ -1,9 +1,9 @@
 package geogebra3D.euclidian3D.plots;
 
+import geogebra3D.euclidian3D.BucketAssigner;
+
 import java.util.Iterator;
 import java.util.LinkedList;
-
-import geogebra3D.euclidian3D.BucketAssigner;
 
 /**
  * An approximate priority queue using buckets and linked lists. Insertion and

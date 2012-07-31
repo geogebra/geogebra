@@ -5,7 +5,6 @@ import geogebra3D.euclidian3D.opengl.RendererJogl.GLlocal;
 
 import java.nio.FloatBuffer;
 
-
 import javax.media.opengl.glu.GLU;
 import javax.media.opengl.glu.GLUtessellator;
 

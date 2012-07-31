@@ -2,13 +2,9 @@ package geogebra.web.gui;
 
 import geogebra.common.GeoGebraConstants;
 import geogebra.web.css.GuiResources;
-import geogebra.web.html5.ArticleElement;
 
-import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 
 public class SplashDialog extends SimplePanel {

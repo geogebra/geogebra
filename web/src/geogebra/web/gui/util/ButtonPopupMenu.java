@@ -6,7 +6,6 @@ import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.PopupPanel;
-import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class ButtonPopupMenu extends PopupPanel {

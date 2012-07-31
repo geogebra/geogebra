@@ -4,10 +4,8 @@
 package geogebra.cas.view;
 
 import geogebra.common.cas.view.CASTable;
-import geogebra.common.cas.view.CASTableCellEditor;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoCasCell;
-import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
 import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.gui.layout.DockManager;
