@@ -74,9 +74,8 @@ public class EquationElementMap {
     	
     	if(algo == null) {
     		return EquationRestriction.getEmptyRestriction();
-    	} else {
-    		return algo.buildEquationElementForGeo(key, this.scope);
     	}
+    	return algo.buildEquationElementForGeo(key, this.scope);
     }
     
     /**

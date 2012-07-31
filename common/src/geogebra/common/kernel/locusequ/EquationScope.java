@@ -71,9 +71,8 @@ public class EquationScope {
     	
     	if(algo instanceof RestrictionAlgoForLocusEquation) {
     		return ((EquationRestriction) algo.buildEquationElementForGeo(null, this)).getEquationList();
-    	} else {
-    		return EquationList.getEmptyList();
-    	}
+    	} 
+    	return EquationList.getEmptyList();
     }
     
     /**

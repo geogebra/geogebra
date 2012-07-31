@@ -191,7 +191,7 @@ public abstract class EquationGenericConic extends EquationElement {
      * @param s a point.
      * @return s_{x}^{2} + s_{y}^{2}
      */
-    private EquationExpression ssqr(final EquationPoint s) {
+    private static EquationExpression ssqr(final EquationPoint s) {
         return sum(times(s.getXExpression(), s.getXExpression()),
                    times(s.getYExpression(), s.getYExpression()));
     }

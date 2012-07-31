@@ -243,7 +243,7 @@ public class MPReduceTranslator extends EquationTranslator<StringBuilder> {
 		return MPReducePolynomialParser.parsePolynomial(result, cas);
 	}
 
-	private String getResultFromRaw(String rawResult) {
+	private static String getResultFromRaw(String rawResult) {
 		int index = rawResult.lastIndexOf("{");
 		return rawResult.substring(index+1,rawResult.length()-1).trim();
 	}

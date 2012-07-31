@@ -102,6 +102,7 @@ public class SymbolicVector extends EquationPoint implements EquationAuxiliaryEl
     /**
      * @return true iff no coordinate contain symbolic values.
      */
+    @Override
     public boolean isIndependent(){
         return !(this.getX().containsSymbolicValues() ||
                  this.getY().containsSymbolicValues() ||
