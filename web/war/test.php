@@ -20,7 +20,7 @@
 $MILESTONES="test";
 
 $DEFAULTFILE="Girl_in_Mirror.ggb";
-$CODEBASE="http://dev.geogebra.org/~build/trunk-geogebra/web/war/";
+//$CODEBASE="http://dev.geogebra.org/~build/trunk-geogebra/web/war/";
 
 $SHOWFILELIST=TRUE;
 $SHOWHIDDEN=FALSE;
@@ -43,20 +43,17 @@ $filenames=array();
 while($f=readdir($dh)) {
  $condition=TRUE;
  if ($SHOWHIDDEN)
-  $condition=($f[0]!="." && $f[0]!="_");
- if ($condition)
+  $condition=($f[0]!="_");
+ if ($f[0]!="." && $condition)
   $filenames[]=$f;
  }
-
-function pretty_filename($name) {
- return str_replace("_", " ", str_replace(".", " ", basename($name, ".ggb")));
- }
+sort($filenames);
 
 // Checking version
 $FILE=$_GET['f'];
 $TITLE=pretty_filename($FILE,".ggb");
 if ($VERSION) {
- $VERSIONNUMBER=file_get_contents($CODEBASE."/web/version.txt");
+ $VERSIONNUMBER=file_get_contents($CODEBASE."web/version.txt");
  if ($VERSIONNUMBER != "") {
   $TITLE="[$VERSIONNUMBER] $TITLE";
   }
@@ -71,7 +68,7 @@ if ($VERSION) {
 </head>
 <body>
     <script type="text/javascript" language="javascript"
-     src="<?php echo $CODEBASE ?>/web/web.nocache.js"></script>
+     src="<?php echo $CODEBASE ?>web/web.nocache.js"></script>
     <article class="geogebraweb"
     data-param-width="800"
     data-param-height="550"
@@ -97,10 +94,12 @@ echo '"'
 
 // When asked, show the filelist:
 if ($SHOWFILELIST) {
- echo "<div style=\"float:right;margin-right:2em\"><ul>";
+ echo "<div style=\"float:right;margin-right:2em;max-height:550px;\"><ul>";
  foreach ($filenames as $f) {
   
-  echo "<li><a href=\"".$_SERVER['PHP_SELF']."?f=$f".passoptions()."\">".pretty_filename($f)."</a></li>";
+  echo "<li><a href=\"".$_SERVER['PHP_SELF']."?f=$f".passoptions()."\">".
+   "<div style=\"".classify_filename($f)."\">".
+   pretty_filename($f)."</div></a></li>";
   }
  echo "</ul></div></body></html>";
  }
@@ -118,6 +117,23 @@ function passoptions() {
   "&s=".bool2int($SHOWFILELIST).
   "&h=".bool2int($SHOWHIDDEN).
   "&v=".bool2int($VERSION);
+ }
+
+function pretty_filename($name) {
+ return ltrim(basename($name, ".ggb"),"_");
+ return $name;
+ return str_replace("_", " ", str_replace(".", " ",basename($name, ".ggb")));
+ }
+
+function classify_filename($name) {
+ global $FILE;
+ if ($name[0]=="_")
+  $style="color:#808080;";
+ else
+  $style="color:#200000;";
+ if ($name==$FILE)
+  $style.="background-color:yellow;";
+ return $style;
  }
 
 ?>
