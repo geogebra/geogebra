@@ -493,7 +493,7 @@ public abstract class App {
 				continue;			
 			}
 			translateCommandTable.put(StringUtil.toLowerCase(internal), internal);
-			// Application.debug(internal);
+			// App.debug(internal);
 			String local = getCommand(internal);
 			
 			if (local != null) {
