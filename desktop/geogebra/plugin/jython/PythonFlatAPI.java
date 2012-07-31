@@ -391,7 +391,8 @@ public class PythonFlatAPI {
 		 * @param ycoord y offset
 		 */
 		public static void setLabelOffset(GeoElement geo, int xcoord, int ycoord) {
-			geo.setLabelOffset(xcoord, ycoord);
+			geo.labelOffsetX = xcoord;
+			geo.labelOffsetY = ycoord;
 		}
 		
 		/**
