@@ -51,6 +51,7 @@ import geogebra.common.kernel.arithmetic3D.MyVec3DNode;
 import geogebra.common.kernel.arithmetic3D.Vector3DValue;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import geogebra.common.kernel.geos.GeoFunctionNVar;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoVec2D;
@@ -201,25 +202,32 @@ public class Parser implements ParserInterface{
   		if(v.isExpressionNode() && ((ExpressionNode)v).getOperation()
   			==Operation.MULTIPLY_OR_FUNCTION){
     		return new ExpressionNode(kernel,((ExpressionNode)v).getLeft(),Operation.MULTIPLY,
-    			new ExpressionNode(kernel,((ExpressionNode)v).getRight(),Operation.POWER,e));  		}
+    			new ExpressionNode(kernel,((ExpressionNode)v).getRight(),Operation.POWER,e));
+  		}
   		return new ExpressionNode(kernel,v,Operation.POWER,e);
 	}
 
-	private void processUndecided(){		for(ExpressionNode en: undecided)
+	private void processUndecided(){
+		for(ExpressionNode en: undecided)
 			en.setOperation(Operation.MULTIPLY);
 		undecided.clear();	  
  	}
 
  	private ExpressionNode buildOpNode(Operation op,MyList list){
- 	  switch(list.size()) 	  {
+ 	  switch(list.size())
+ 	  {
  	    case 1:return new ExpressionNode(kernel,list.getListElement(0),op,null);
  	    case 2:return new ExpressionNode(kernel,list.getListElement(0),op,list.getListElement(1));
  	    //for beta regularized
  	    case 3:return new ExpressionNode(kernel,new MyNumberPair(kernel,list.getListElement(0),
  	    list.getListElement(1)),op,list.getListElement(2));
- 	    default:return null; 	  } 	}
+ 	    default:return null;
+ 	  }
+ 	}
 
-	private ExpressionNode polysToFunctionVariables(ExpressionNode en)	{			TreeSet<String> vars = en.getPolynomialVars();
+	private ExpressionNode polysToFunctionVariables(ExpressionNode en)
+	{
+			TreeSet<String> vars = en.getPolynomialVars();
           	switch (vars.size()) {
           		case 0: break;
           		case 1: // single var function
@@ -526,13 +534,14 @@ ValidExpression buildCASExpression() :
     ExpressionNode lhs, rhs;
     Token l = new Token();
     Token assign = null;
+    Token c= null;
+    Token c2 =null;
     Vector labels = new Vector();
 } 
 {         
-    (
         // CAS function
-        // f(a) := a^2 + 3a
-        LOOKAHEAD(2147483647)   
+       // f(a) := a^2 + 3a
+     (        LOOKAHEAD(2147483647)   
         ve = casFunction()
     |	   
        	// labeled equation, e.g. g: 3x + y = 7
@@ -542,7 +551,7 @@ ValidExpression buildCASExpression() :
         // assignment         
         // b := 27 + c, also allow x := 5, see http://www.geogebra.org/trac/ticket/946
         LOOKAHEAD(2147483647)		
-		l = casVar() (assign=  ":" | assign = <ASSIGNMENT> | assign = <DELAYED_ASSIGNMENT > ) ve = expressionnode()
+		l = casVar() (assign= ":" |assign = <ASSIGNMENT> | assign = <DELAYED_ASSIGNMENT > ) ve = expressionnode()
  	|	   
        	// equation, e.g. 3x + y = 7
        	LOOKAHEAD(2147483647)   
@@ -556,7 +565,18 @@ ValidExpression buildCASExpression() :
     ( <EOL> | <EOF> )     
     {   
     	// remember label      
-    	if (l.image != null)    	{    	               
+    	if (l.image != null)
+    	{
+    	    if(":".equals(assign.image) &&
+    	    GeoElementSpreadsheet.isSpreadsheetLabel(ve.toString(StringTemplate.defaultTemplate)))
+    	    {
+    	      ExpressionNode startCell = new ExpressionNode(kernel, new Variable(kernel, l.image));
+		ExpressionNode endCell = new ExpressionNode(kernel, new Variable(kernel, ve.toString(StringTemplate.defaultTemplate)));
+		Command cmd = new Command(kernel, "CellRange", false, !ExternalCASParsing ); // don't translate name
+		cmd.addArgument(startCell);
+		cmd.addArgument(endCell);
+		return cmd;
+    	    }           
         	ve.addLabel(l.image);
         	ve.setAssignmentType(assign.kind == DELAYED_ASSIGNMENT?AssignmentType.DELAYED:AssignmentType.DEFAULT);
        }                          
@@ -672,10 +692,12 @@ ValidExpression command():
 	    (   ( en = cmdexpression()  { c.addArgument( en ); } )?
 	        ( <COMMA> en = cmdexpression() { c.addArgument( en ); } )*
 	    (")"|"]") )
-	    { if(MPReduceParsing)	    {
+	    { if(MPReduceParsing)
+	    {
 	      ExpressionNode res = CommandDispatcherMPReduce.processCommand(cmdName,c);
 	      if(res!=null)
-	      	return res;	    }
+	      	return res;
+	    }
 	    return c; }
 	)
 }
@@ -1463,11 +1485,13 @@ ExpressionValue enfactorial():
 	    en = ensqrt() 
 	    (LOOKAHEAD(<FACTORIAL>) <FACTORIAL> 
 	     {
-	       		if(en.isExpressionNode() && ((ExpressionNode)en).getOperation()==Operation.MULTIPLY_OR_FUNCTION)	       		{
+	       		if(en.isExpressionNode() && ((ExpressionNode)en).getOperation()==Operation.MULTIPLY_OR_FUNCTION)
+	       		{
 	       		  en = new ExpressionNode(kernel, ((ExpressionNode)en).getLeft(),
 	       		  	Operation.MULTIPLY,
 	       		  	new ExpressionNode(kernel, ((ExpressionNode)en).getRight(), Operation.FACTORIAL, null)
-	       		  	);	       		}
+	       		  	);
+	       		}
 	       		else
 	            en = new ExpressionNode(kernel, en, Operation.FACTORIAL, null);                    
 	     }      
@@ -1949,7 +1973,8 @@ ExpressionNode numberFunction():
 	 	        int pos = c.image.length()-2;
 	 	        while(pos >=0 && (Unicode.isSuperscriptDigit(c.image.charAt(pos))||
 	 	        Unicode.Superscript_Minus==c.image.charAt(pos))){
-	 	          pos--;	 	        }
+	 	          pos--;
+	 	        }
 	 	        ExpressionNode ret = kernel.handleTrigPower(c.image, en, c.image.substring(0,pos+1));
 	 	        if(ret.getOperation()==Operation.MULTIPLY_OR_FUNCTION)
 	 	        	undecided.add(ret);
@@ -2010,20 +2035,25 @@ ExpressionNode numberFunction():
       		}
       		GeoElement cell = kernel.lookupCasCellLabel(label);
       		//f(t)=t(t+1)
-      		if(kernel.getConstruction().isRegistredFunctionVariable(funcName))      		{
+      		if(kernel.getConstruction().isRegistredFunctionVariable(funcName))
+      		{
       		  ExpressionNode expr =  new ExpressionNode(kernel, new Variable(kernel,funcName), Operation.MULTIPLY_OR_FUNCTION, myList.getListElement(0));
 	      		undecided.add(expr);
-	      		return expr;       		}
+	      		return expr; 
+      		}
       		boolean forceCommand = false;
 
-      		if((geo!=null || cell!=null) && c.image.charAt(c.image.length()-1)=='[')      		{
+      		if((geo!=null || cell!=null) && c.image.charAt(c.image.length()-1)=='[')
+      		{
       		  try
                   {
                     forceCommand = Commands.valueOf(funcName)!=null;
                   }
                   catch(Throwable t){
                 	  t.printStackTrace();
-                  }      		}      		  
+                  }
+      		}
+      		  
       		if (forceCommand || (geo == null && cell==null)) {
       		  		Operation op = app.getParserFunctions().get(funcName,myList.size());
       		  		if(op!=null)
@@ -2041,7 +2071,8 @@ ExpressionNode numberFunction():
 //           	 	throw new MyParseError(app, str);    
            	}
            	//make sure we don't send 0th derivative to CAS
-			if(cell!=null && order > 0)	{			  
+			if(cell!=null && order > 0)	{
+			  
            	ExpressionNode derivative =  new ExpressionNode(kernel, cell, Operation.DERIVATIVE, 
 	      																new MyDouble(kernel, order));
       			
@@ -2204,4 +2235,5 @@ ExpressionNode polarvector_special():
         }           
 }
 
-
+
+
