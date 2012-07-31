@@ -49,11 +49,6 @@ public class MouseEvent extends AbstractEvent {
 
 	@Override
 	public GPoint getPoint() {
-		// this is necessary when the window is scrolled
-		if (getOffsetX() >= 0 && getOffsetY() >= 0)
-			return new GPoint(getOffsetX(), getOffsetY());
-
-		// this is just good for non-scrolled windows
 		return new GPoint(event.getClientX() - off.getXoffset(), event.getClientY() - off.getYoffset());
 	}
 
@@ -101,21 +96,11 @@ public class MouseEvent extends AbstractEvent {
 
 	@Override
 	public int getX() {
-		// this is necessary when the window is scrolled
-		if (getOffsetX() >= 0)
-			return getOffsetX();
-
-		// this is just good when the window is not scrolled
 		return event.getClientX() - off.getXoffset();
 	}
 
 	@Override
 	public int getY() {
-		// this is necessary when the window is scrolled
-		if (getOffsetY() >= 0)
-			return getOffsetY();
-
-		// this is just good when the window is not scrolled
 		return event.getClientY() - off.getYoffset();
 	}
 

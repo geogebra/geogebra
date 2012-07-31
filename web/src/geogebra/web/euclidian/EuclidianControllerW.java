@@ -57,16 +57,22 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 	 * @return offset to get correct getX() in mouseEvents
 	 */
 	public int getXoffset(){
-		return EuclidianViewXOffset;
+		//return EuclidianViewXOffset;
+		//the former solution doesn't update on scrolling
+
+		return ((EuclidianViewW) view).getAbsoluteLeft() - Window.getScrollLeft();
 	}
-	private int EuclidianViewXOffset;
+	//private int EuclidianViewXOffset;
 	
-	private int EuclidianViewYOffset;
+	//private int EuclidianViewYOffset;
 	/**
 	 * @return offset to get correct getY() in mouseEvents
 	 */
 	public int getYoffset(){
-		return EuclidianViewYOffset;
+		//return EuclidianViewYOffset;
+		//the former solution doesn't update on scrolling
+
+		return ((EuclidianViewW) view).getAbsoluteTop() - Window.getScrollTop();
 	}
 
 	private boolean EuclidianOffsetsInited = false;
@@ -76,8 +82,8 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 	}
 	
 	public void updateOffsets(){
-		EuclidianViewXOffset = ((EuclidianViewW) view).getAbsoluteLeft() + Window.getScrollLeft();
-		EuclidianViewYOffset = ((EuclidianViewW) view).getAbsoluteTop() + Window.getScrollTop();	
+		//EuclidianViewXOffset = ((EuclidianViewW) view).getAbsoluteLeft() + Window.getScrollLeft();
+		//EuclidianViewYOffset = ((EuclidianViewW) view).getAbsoluteTop() + Window.getScrollTop();	
 	}
 	
 	public EuclidianControllerW(Kernel kernel) {
