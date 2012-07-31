@@ -32,5 +32,9 @@ public class GeoDummyVariable extends GeoNumeric {
 	public String toValueString(StringTemplate tpl) {
 		return toString(tpl);	
 	}		
+	
+	public String getVarName(){
+		return varName;
+	}
 
 }

@@ -9,6 +9,7 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.VarString;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.arithmetic.Command;
+import geogebra.common.kernel.arithmetic.Equation;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
@@ -21,6 +22,7 @@ import geogebra.common.kernel.arithmetic.MyVecNode;
 import geogebra.common.kernel.arithmetic.Traversing.ArbconstReplacer;
 import geogebra.common.kernel.arithmetic.Traversing.CommandCollector;
 import geogebra.common.kernel.arithmetic.Traversing.CommandReplacer;
+import geogebra.common.kernel.arithmetic.Traversing.FVarCollector;
 import geogebra.common.kernel.arithmetic.Traversing.GeoDummyReplacer;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.main.App;
@@ -30,6 +32,7 @@ import geogebra.common.util.StringUtil;
 
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Set;
 import java.util.TreeSet;
 
 /**
@@ -2040,6 +2043,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 	}
 			
 
+	
 	/**
 	 * Assigns result to a variable if possible
 	 * @return false if it is not possible to plot this GeoCasCell
@@ -2055,26 +2059,50 @@ public class GeoCasCell extends GeoElement implements VarString {
 		
 		//this has to be upper case that the input of (1,1) leads to a definition of a point
 		//instead of a vector
-		assignmentVar = "GgbmpvarPlot";
-		this.firstComputeOutput = true;
+		setAssignmentVar("GgbmpvarPlot");
+		
 		//wrap output of Solve and Solutions to make them plotable
+		boolean wasSolveSolutions = false;
 		if(evalVE.isTopLevelCommand()){
 			Command topLevel =	evalVE.getTopLevelCommand();
 			if((topLevel.getName()).equals("Solve") || (topLevel.getName()).equals("Solutions")){				
 				Command c = new Command(kernel, "PointList", true);
 				c.addArgument(evalVE.wrap());
-				evalVE = c.wrap();				
+				evalVE = c.wrap();	
+				wasSolveSolutions = true;
 			}
 		}
-		setEvalComment("Plot");								
-		this.computeOutput(true);
+		
+
+		//if we added a command -> recalc
+		if(wasSolveSolutions){
+			this.firstComputeOutput = true;
+			this.computeOutput(true);	
+		}
+		
+		boolean isFunctionAble;
+		if(outputVE.isExpressionNode()){
+			isFunctionAble = ! kernel.getAlgebraProcessor().isNotFunctionAble((ExpressionNode)outputVE);
+		} else { 
+			isFunctionAble = ! kernel.getAlgebraProcessor().isNotFunctionAbleEV((ExpressionValue) outputVE);
+		}	
+	
+		if(isFunctionAble){
+			if(!outputVE.isExpressionNode()){
+				outputVE = new ExpressionNode(kernel, outputVE, Operation.NO_OPERATION, null);
+			}
+			outputVE = new Function((ExpressionNode)outputVE);
+		}
+		
+		this.firstComputeOutput = true;
+		this.updateTwinGeo();
 		twinGeo.setLabel(null);		
-		if(twinGeo.getLabelSimple()!=null){
+		if(twinGeo.getLabelSimple()!=null && twinGeo.isEuclidianShowable()){
 			String label = twinGeo.getLabelSimple();
 			changeAssignmentVar(assignmentVar,label);
+			setEvalComment("Plot");	
 			inputVE.setLabel(assignmentVar);
 			outputVE.setLabel(assignmentVar);
-			this.updateTwinGeo();
 			latex = null;		
 		}else{
 			//plot failed, undo assignment
