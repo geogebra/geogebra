@@ -38,7 +38,7 @@ public class ToolBar {
 		}
 			
 		// points
-		sb.append(" || ");
+		sb.append(" | ");
 		sb.append(EuclidianConstants.MODE_POINT);
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_POINT_ON_OBJECT);
@@ -86,7 +86,7 @@ public class ToolBar {
 		sb.append(EuclidianConstants.MODE_LOCUS);
 	
 		// polygon
-		sb.append(" || ");
+		sb.append(" | ");
 		sb.append(EuclidianConstants.MODE_POLYGON);
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_REGULAR_POLYGON);
@@ -126,7 +126,7 @@ public class ToolBar {
 		sb.append(EuclidianConstants.MODE_CONIC_FIVE_POINTS);
 	
 		// measurements
-		sb.append(" || ");
+		sb.append(" | ");
 		sb.append(EuclidianConstants.MODE_ANGLE);
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_ANGLE_FIXED);
@@ -195,7 +195,7 @@ public class ToolBar {
 		
 			
 		// properties
-		sb.append(" || ");
+		sb.append(" | ");
 		sb.append(EuclidianConstants.MODE_TRANSLATEVIEW);
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_ZOOM_IN);
