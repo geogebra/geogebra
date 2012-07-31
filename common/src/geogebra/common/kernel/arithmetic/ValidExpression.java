@@ -20,11 +20,13 @@ import geogebra.common.kernel.StringTemplate;
 
 import java.util.Set;
 import java.util.Vector;
+
 /**
- * Common class for objects obtained from the parser that are not yet processed to GeoElements.
- * They may also persist in ExpressionNodes of functions
+ * Common class for objects obtained from the parser that are not yet processed
+ * to GeoElements. They may also persist in ExpressionNodes of functions
+ * 
  * @author Markus
- *
+ * 
  */
 public abstract class ValidExpression implements ExpressionValue {
 
@@ -37,7 +39,8 @@ public abstract class ValidExpression implements ExpressionValue {
 	}
 
 	/**
-	 * @param label label to be added
+	 * @param label
+	 *            label to be added
 	 */
 	public void addLabel(String label) {
 		initLabels();
@@ -50,7 +53,8 @@ public abstract class ValidExpression implements ExpressionValue {
 	}
 
 	/**
-	 * @param labellist list of labels to be added
+	 * @param labellist
+	 *            list of labels to be added
 	 */
 	public void addLabel(Vector<String> labellist) {
 		initLabels();
@@ -68,7 +72,8 @@ public abstract class ValidExpression implements ExpressionValue {
 	}
 
 	/**
-	 * @param index index
+	 * @param index
+	 *            index
 	 * @return label
 	 */
 	public String getLabel(int index) {
@@ -93,7 +98,7 @@ public abstract class ValidExpression implements ExpressionValue {
 		}
 		return ret;
 	}
-	
+
 	/**
 	 * @return label
 	 */
@@ -102,7 +107,8 @@ public abstract class ValidExpression implements ExpressionValue {
 	}
 
 	/**
-	 * @param label sets given label
+	 * @param label
+	 *            sets given label
 	 */
 	public void setLabel(String label) {
 		initLabels();
@@ -111,7 +117,8 @@ public abstract class ValidExpression implements ExpressionValue {
 	}
 
 	/**
-	 * @param str sets all labels
+	 * @param str
+	 *            sets all labels
 	 */
 	public void setLabels(String[] str) {
 		initLabels();
@@ -163,52 +170,88 @@ public abstract class ValidExpression implements ExpressionValue {
 	/**
 	 * Includes the label and assignment operator. E.g. while toString() would
 	 * return x^2, this method would return f(x) := x^2
-	 * @param tpl String template
 	 * 
+	 * @param tpl
+	 *            String template
+	 * @param delayedAssignment
+	 *            specifies if the assignment is a direct assignment (false) or
+	 *            a delayed assignment (true)
 	 * @return assignment in the form L:=R
 	 */
-	public String toAssignmentString(StringTemplate tpl) {
+	public String toAssignmentString(StringTemplate tpl,
+			boolean delayedAssignment) {
 		if (labels == null) {
 			return toString(tpl);
 		}
 
 		StringBuilder sb = new StringBuilder();
 		sb.append(getLabelForAssignment());
-		sb.append(getAssignmentOperator());
+		if (delayedAssignment) {
+			sb.append(getDelayedAssignmentOperator());
+		} else {
+			sb.append(getAssignmentOperator());
+		}
 		sb.append(toString(tpl));
 		return sb.toString();
 	}
+
 	/**
 	 * 
-	 * @param tpl string template
+	 * @param tpl
+	 *            string template
+	 * @param delayedAssignment
+	 *            specifies if the assignment is a direct assignment (false) or
+	 *            a delayed assignment (true)
 	 * @return assignment in LaTeX
 	 */
-	public final String toAssignmentLaTeXString(StringTemplate tpl) {
+	public final String toAssignmentLaTeXString(StringTemplate tpl,
+			boolean delayedAssignment) {
 		if (labels == null) {
-			return toLaTeXString(true,tpl);
+			return toLaTeXString(true, tpl);
 		}
 
 		StringBuilder sb = new StringBuilder();
 		sb.append(getLabelForAssignment());
-		sb.append(getAssignmentOperatorLaTeX());
-		sb.append(toLaTeXString(true,tpl));
+		if (delayedAssignment) {
+			sb.append(getDelayedAssignmentOperatorLaTeX());
+		} else {
+			sb.append(getAssignmentOperatorLaTeX());
+		}
+		sb.append(toLaTeXString(true, tpl));
 		return sb.toString();
 	}
+
 	/**
-	 * @return operator for assignment
+	 * @return operator for non-delayed assignment
 	 */
 	public String getAssignmentOperator() {
 		return ":=";
 	}
+
 	/**
-	 * @return operator for assignment in LaTeX form
+	 * @return operator for delayed assignment
+	 */
+	public String getDelayedAssignmentOperator() {
+		return "::=";
+	}
+
+	/**
+	 * @return operator for non-delayed assignment in LaTeX form
 	 */
 	public String getAssignmentOperatorLaTeX() {
 		return " \\, :=  \\, ";
 	}
 
 	/**
-	 * @param cmds commands
+	 * @return operator for delayed assignment in LaTeX form
+	 */
+	public String getDelayedAssignmentOperatorLaTeX() {
+		return " \\, ::= \\, ";
+	}
+
+	/**
+	 * @param cmds
+	 *            commands
 	 */
 	public final void addCommands(Set<Command> cmds) {
 		// do nothing, see Command, ExpressionNode classes
@@ -222,61 +265,67 @@ public abstract class ValidExpression implements ExpressionValue {
 	}
 
 	/**
-	 * @param keepInputUsed true if KeepInput command is part of this expression
+	 * @param keepInputUsed
+	 *            true if KeepInput command is part of this expression
 	 */
 	public void setKeepInputUsed(boolean keepInputUsed) {
 		this.keepInputUsed = keepInputUsed;
 	}
-	
-	public ExpressionValue evaluate(StringTemplate tpl){
+
+	public ExpressionValue evaluate(StringTemplate tpl) {
 		return this;
 	}
 
 	/**
 	 * Evaluates to number (if not numeric, returns undefined MyDouble)
+	 * 
 	 * @return number or undefined double
 	 */
 	public NumberValue evaluateNum() {
-		ExpressionValue ev =evaluate(StringTemplate.defaultTemplate);
-		if(ev instanceof NumberValue)
-			return (NumberValue)ev;
-		return new MyDouble(getKernel(),Double.NaN);
+		ExpressionValue ev = evaluate(StringTemplate.defaultTemplate);
+		if (ev instanceof NumberValue)
+			return (NumberValue) ev;
+		return new MyDouble(getKernel(), Double.NaN);
 	}
-	
+
 	@SuppressWarnings("deprecation")
 	@Override
 	@Deprecated
-	public final String toString(){
+	public final String toString() {
 		return toString(StringTemplate.defaultTemplate);
 	}
 
 	public abstract String toString(StringTemplate tpl);
-	
+
 	public abstract String toValueString(StringTemplate tpl);
 
-	public ExpressionValue traverse(Traversing t){
+	public ExpressionValue traverse(Traversing t) {
 		return t.process(this);
 	}
 
-	/** 
-	 * @param s expression
+	/**
+	 * @param s
+	 *            expression
 	 * @return string for debugging (revealing structure)
 	 */
 	public static String debugString(ExpressionValue s) {
-		if(s==null)
+		if (s == null)
 			return "<null>";
-		if(s instanceof ExpressionNode)
-			return "ExNode("+debugString(((ExpressionNode)s).getLeft())+","+
-			((ExpressionNode)s).getOperation()+","+debugString(((ExpressionNode)s).getRight())+")";
-		return s.getClass().getName().replaceAll("geogebra.common.kernel.arithmetic.", "")+"("+s.toString(StringTemplate.defaultTemplate)+")";
+		if (s instanceof ExpressionNode)
+			return "ExNode(" + debugString(((ExpressionNode) s).getLeft())
+					+ "," + ((ExpressionNode) s).getOperation() + ","
+					+ debugString(((ExpressionNode) s).getRight()) + ")";
+		return s.getClass().getName()
+				.replaceAll("geogebra.common.kernel.arithmetic.", "")
+				+ "(" + s.toString(StringTemplate.defaultTemplate) + ")";
 	}
 
 	public ExpressionValue unwrap() {
 		return this;
 	}
-	
-	public ExpressionNode wrap(){
-		return new ExpressionNode(getKernel(),this);
+
+	public ExpressionNode wrap() {
+		return new ExpressionNode(getKernel(), this);
 	}
 
 }
