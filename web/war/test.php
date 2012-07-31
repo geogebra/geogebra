@@ -62,7 +62,7 @@ if ($VERSION) {
 ?>
 <!DOCTYPE html>
 <html>
-<head>
+<head><?php echo style() ?>
 <title><?php echo $TITLE ?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 </head>
@@ -94,7 +94,7 @@ echo '"'
 
 // When asked, show the filelist:
 if ($SHOWFILELIST) {
- echo "<div style=\"float:right;margin-right:2em;max-height:550px;\"><ul>";
+ echo "<div style=\"float:right;height:550px;overflow:auto\"><ul>";
  foreach ($filenames as $f) {
   
   echo "<li><a href=\"".$_SERVER['PHP_SELF']."?f=$f".passoptions()."\">".
@@ -120,9 +120,7 @@ function passoptions() {
  }
 
 function pretty_filename($name) {
- return ltrim(basename($name, ".ggb"),"_");
- return $name;
- return str_replace("_", " ", str_replace(".", " ",basename($name, ".ggb")));
+ return str_replace("_", " ", ltrim(basename($name, ".ggb"),"_"));
  }
 
 function classify_filename($name) {
@@ -134,6 +132,11 @@ function classify_filename($name) {
  if ($name==$FILE)
   $style.="background-color:yellow;";
  return $style;
+ }
+
+// Add here extra styles...
+function style() {
+ //return "<style>html,body { height: 100% }</style>";
  }
 
 ?>
