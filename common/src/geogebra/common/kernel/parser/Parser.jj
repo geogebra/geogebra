@@ -255,6 +255,7 @@ TOKEN : {
 /* OPERATORS */
 TOKEN :  {   
     < ASSIGNMENT: ( ":=") >
+  | < DELAYED_ASSIGNMENT: ( "::=") >
   | < VERTICAL_BAR: "|" >
   | < NOT: ("\u00ac") > 
   | < OR:		("||" | "\u2228" ) >
@@ -524,6 +525,7 @@ ValidExpression buildCASExpression() :
     ValidExpression ve;
     ExpressionNode lhs, rhs;
     Token l = new Token();
+    Token assign = null;
     Vector labels = new Vector();
 } 
 {         
@@ -535,12 +537,12 @@ ValidExpression buildCASExpression() :
     |	   
        	// labeled equation, e.g. g: 3x + y = 7
        	LOOKAHEAD(2147483647)   
-       	l = label() ( ":" | <ASSIGNMENT>) ve = equation()  
+       	l = label() (assign= ":" | assign = <ASSIGNMENT> | assign = <DELAYED_ASSIGNMENT > ) ve = equation()  
     |
         // assignment         
         // b := 27 + c, also allow x := 5, see http://www.geogebra.org/trac/ticket/946
         LOOKAHEAD(2147483647)		
-		l = casVar() <ASSIGNMENT> ve = expressionnode()
+		l = casVar() (assign=  ":" | assign = <ASSIGNMENT> | assign = <DELAYED_ASSIGNMENT > ) ve = expressionnode()
  	|	   
        	// equation, e.g. 3x + y = 7
        	LOOKAHEAD(2147483647)   
@@ -554,8 +556,10 @@ ValidExpression buildCASExpression() :
     ( <EOL> | <EOF> )     
     {   
     	// remember label      
-    	if (l.image != null)             
-        	ve.addLabel(l.image);                          
+    	if (l.image != null)    	{    	               
+        	ve.addLabel(l.image);
+        	ve.setAssignmentType(assign.kind == DELAYED_ASSIGNMENT?AssignmentType.DELAYED:AssignmentType.DEFAULT);
+       }                          
         return ve;
     }    
 }
@@ -975,6 +979,7 @@ FunctionNVar casFunction():
     ExpressionNode rhs;
     Token funName = null;
     Token varName = null;
+    Token assign = null;
     ArrayList<String> localVars;
     Token var;
 }
@@ -994,7 +999,7 @@ FunctionNVar casFunction():
 			 (<COMMA> ( varName =  casVar() )
 			 { localVars.add(varName.image); } )* 
 			// closing ) and assignment with expressionnode
-	   		 ")" ( <ASSIGNMENT> ) rhs = expressionnode()
+	   		 ")" (assign = <ASSIGNMENT> | assign = < DELAYED_ASSIGNMENT >) rhs = expressionnode()
 	    {
 		  	String funLabel = funName.image.substring(0,funName.image.length()-1);	 
 
@@ -1011,11 +1016,13 @@ FunctionNVar casFunction():
     	      case 1: // single variable function					
 				Function fun = new Function(rhs, funVar[0]);
 				fun.setLabel(funLabel);
+				fun.setAssignmentType(assign.kind == DELAYED_ASSIGNMENT?AssignmentType.DELAYED:AssignmentType.DEFAULT);
 				return fun;
 
        		  default: // multi variable function
        			FunctionNVar funn = new FunctionNVar(rhs, funVar);
 				funn.setLabel(funLabel);
+				funn.setAssignmentType(assign.kind == DELAYED_ASSIGNMENT?AssignmentType.DELAYED:AssignmentType.DEFAULT);
 				return funn;
     	    }
 	    }   

@@ -7,6 +7,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.VarString;
 import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.arithmetic.AssignmentType;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
@@ -700,11 +701,11 @@ public class GeoCasCell extends GeoElement implements VarString {
 		boolean isFunction = ve instanceof FunctionNVar;
 
 		// do that only if the expression is an assignment
-		if (input.contains(ve.getAssignmentOperator().trim())) {
+		if (inputVE.getAssignmentType()==AssignmentType.DEFAULT) {
 			// outvar of assignment b := a + 5 is "b"
 			setAssignmentVar(ve.getLabel());
 			delayedAssignment = false;
-		} else if (input.contains(ve.getDelayedAssignmentOperator().trim())) {
+		} else if (inputVE.getAssignmentType()==AssignmentType.DELAYED) {
 			setAssignmentVar(ve.getLabel());
 			delayedAssignment = true;
 		}

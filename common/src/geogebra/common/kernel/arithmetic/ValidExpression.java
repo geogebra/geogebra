@@ -37,7 +37,16 @@ public abstract class ValidExpression implements ExpressionValue {
 	public String toRealString(StringTemplate tpl) {
 		return toString(tpl);
 	}
+	
+	private AssignmentType assignment = AssignmentType.NONE;
 
+	public void setAssignmentType(AssignmentType assignment){
+		this.assignment = assignment;
+	}
+	
+	public AssignmentType getAssignmentType(){
+		return assignment;
+	}
 	/**
 	 * @param label
 	 *            label to be added
