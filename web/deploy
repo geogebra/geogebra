@@ -15,7 +15,7 @@ UPDATEGAE=1
 UPDATEGC=0
 UPDATEZIP=0
 
-GAEDIR=lib/download/appengine-java-sdk-1.6.3.1
+GAEDIR=lib/download/appengine-java-sdk-1.7.0
 GAEEMAIL=apps@geogebra.org
 GAEAPP=geogebraweb
 DOWNLOADDIR=$HOME/download/web
