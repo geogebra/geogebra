@@ -1,5 +1,6 @@
 package geogebra.gui.view.spreadsheet.statdialog;
 
+import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.View;
@@ -24,6 +25,7 @@ import java.awt.print.Printable;
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JSplitPane;
 
 public class StatDialog extends JPanel implements View, Printable,
@@ -39,9 +41,9 @@ public class StatDialog extends JPanel implements View, Printable,
 	private DataAnalysisStyleBar stylebar;
 
 	// modes
-	public static final int MODE_ONEVAR = 0;
-	public static final int MODE_REGRESSION = 1;
-	public static final int MODE_MULTIVAR = 2;
+	public static final int MODE_ONEVAR = EuclidianConstants.MODE_SPREADSHEET_ONEVARSTATS;
+	public static final int MODE_REGRESSION = EuclidianConstants.MODE_SPREADSHEET_TWOVARSTATS;
+	public static final int MODE_MULTIVAR = EuclidianConstants.MODE_SPREADSHEET_MULTIVARSTATS;
 	public static final int MODE_GROUPDATA = 3;
 	private int mode = -1;
 
@@ -132,6 +134,7 @@ public class StatDialog extends JPanel implements View, Printable,
 		comboStatPanel2 = new StatComboPanel(this);
 
 		setDataAnalysis(mode);
+		isIniting = false;
 
 	}
 
@@ -567,7 +570,7 @@ public class StatDialog extends JPanel implements View, Printable,
 
 		// setTitle(app.getMenu("OneVariableStatistics"));
 
-		if (mode == MODE_REGRESSION) {
+		if (mode == MODE_REGRESSION && regressionPanel != null) {
 			regressionPanel.setLabels();
 		}
 
@@ -602,10 +605,9 @@ public class StatDialog extends JPanel implements View, Printable,
 	}
 
 	public void update(GeoElement geo) {
-		// Application.debug("updated geo:" + geo.toString());
+		 
 		if (!isIniting && sdc.isInDataSource(geo)) {
-			// Application.debug("this geo is in data source: " +
-			// geo.toString());
+			//App.error("updated geo:" + geo.toString());
 			sdc.updateDialog(false);
 		}
 	}
@@ -764,6 +766,10 @@ public class StatDialog extends JPanel implements View, Printable,
 
 	public int getViewID() {
 		return App.VIEW_DATA_ANALYSIS;
+	}
+
+	public JPopupMenu getExportMenu() {
+		return comboStatPanel.getExportMenu();
 	}
 
 }

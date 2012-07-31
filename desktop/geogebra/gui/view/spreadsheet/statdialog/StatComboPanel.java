@@ -19,11 +19,14 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Insets;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
@@ -115,7 +118,7 @@ public class StatComboPanel extends JPanel implements ActionListener,
 
 	// options button and sidebar panel
 	private OptionsPanel optionsPanel;
-	private JToggleButton optionsButton;
+	private JToggleButton btnOptions;
 
 	// numClasses panel
 	private int numClasses = 6;
@@ -143,6 +146,7 @@ public class StatComboPanel extends JPanel implements ActionListener,
 	private MyTextField fldTitleX, fldTitleY;
 	private FrequencyTable frequencyTable;
 	private JToggleButton btnExport;
+	private JTextField fldNumClasses;
 
 	/*****************************************
 	 * Constructs a ComboStatPanel
@@ -168,7 +172,7 @@ public class StatComboPanel extends JPanel implements ActionListener,
 		setLabels();
 		updatePlot(true);
 		optionsPanel.setVisible(false);
-		optionsButton.setSelected(false);
+		btnOptions.setSelected(false);
 
 	}
 	
@@ -183,21 +187,26 @@ public class StatComboPanel extends JPanel implements ActionListener,
 		settings = new StatPanelSettings();
 
 		// create options button
-		optionsButton = new JToggleButton();
-		optionsButton.setIcon(app.getImageIcon("view-properties16.png"));
-		// optionsButton.setSelectedIcon(app.getImageIcon("inputhelp_right_18x18.png"));
-		optionsButton.setBorderPainted(false);
-		optionsButton.setFocusPainted(false);
-		optionsButton.setContentAreaFilled(false);
-		optionsButton.addActionListener(this);
+		btnOptions = new JToggleButton();
+		//optionsButton.setIcon(app.getImageIcon("view-properties16.png"));
+		btnOptions.setIcon(app.getImageIcon("inputhelp_left_18x18.png"));
+		btnOptions.setSelectedIcon(app.getImageIcon("inputhelp_right_18x18.png"));
+		btnOptions.setBorderPainted(false);
+		btnOptions.setFocusPainted(false);
+		btnOptions.setContentAreaFilled(false);
+	//	optionsButton.setPreferredSize(new Dimension(optionsButton.getIcon().getIconWidth(),18));
+		btnOptions.setMargin(new Insets(0,0,0,0));
+		btnOptions.addActionListener(this);
 
 		// create export button
 		btnExport = new JToggleButton();
-		btnExport.setIcon(app.getImageIcon("edit-copy.png"));
+		btnExport.setIcon(app.getImageIcon("export16.png"));
 		// optionsButton.setSelectedIcon(app.getImageIcon("inputhelp_right_18x18.png"));
 		btnExport.setBorderPainted(false);
 		btnExport.setFocusPainted(false);
 		btnExport.setContentAreaFilled(false);
+	//	btnExport.setPreferredSize(new Dimension(btnExport.getIcon().getIconWidth(),18));
+		btnExport.setMargin(new Insets(0,0,0,0));
 		btnExport.addActionListener(this);
 
 		// create control panel
@@ -219,10 +228,10 @@ public class StatComboPanel extends JPanel implements ActionListener,
 			controlCards.add("blankPanel", emptyControl);
 
 			// control panel
-			controlPanel = new JPanel(new BorderLayout());
+			controlPanel = new JPanel(new BorderLayout(0,0));
 			controlPanel.add(flowPanel(cbDisplayType), BorderLayout.WEST);
 			controlPanel.add(controlCards, BorderLayout.CENTER);
-			controlPanel.add(flowPanelRight(optionsButton), BorderLayout.EAST);
+			controlPanel.add(flowPanelRight(btnOptions, btnExport), BorderLayout.EAST);
 		}
 
 		plotPanel = new PlotPanelEuclidianView(app.getKernel(),
@@ -273,18 +282,17 @@ public class StatComboPanel extends JPanel implements ActionListener,
 		// =======================================
 		// put all the panels together
 
-		JPanel mainPanel = new JPanel(new BorderLayout());
-		mainPanel.setLayout(new BorderLayout());
+		JPanel mainPanel = new JPanel(new BorderLayout(0,0));
+		
 		if (hasControlPanel) {
 			mainPanel.add(controlPanel, BorderLayout.NORTH);
 		}
 		mainPanel.add(displayCardPanel, BorderLayout.CENTER);
 		mainPanel.add(optionsPanel, BorderLayout.EAST);
 
-		this.setLayout(new BorderLayout());
+		this.setLayout(new BorderLayout(0,0));
 		this.add(mainPanel, BorderLayout.CENTER);
-		// this.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
-		this.setBorder(BorderFactory.createEmptyBorder());
+		this.setBorder(BorderFactory.createEmptyBorder(5,0,0,0));
 		controlPanel.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0,
 				SystemColor.controlShadow));
 
@@ -297,7 +305,8 @@ public class StatComboPanel extends JPanel implements ActionListener,
 
 		createPlotMap();
 		createDisplayTypeComboBox();
-		lblNumClasses.setText(app.getMenu("Classes") + ": ");
+		sliderNumClasses.setToolTipText(app.getMenu("Classes"));
+		fldNumClasses.setToolTipText(app.getMenu("Classes"));
 		lblStart.setText(app.getMenu("Start") + ": ");
 		lblWidth.setText(app.getMenu("Width") + ": ");
 		if (mode == statDialog.MODE_REGRESSION) {
@@ -307,7 +316,7 @@ public class StatComboPanel extends JPanel implements ActionListener,
 		lblAdjust.setText(app.getMenu("Adjustment") + ": ");
 
 		optionsPanel.setLabels();
-		optionsButton.setToolTipText(app.getMenu("Options"));
+		btnOptions.setToolTipText(app.getMenu("Options"));
 
 	}
 
@@ -347,6 +356,7 @@ public class StatComboPanel extends JPanel implements ActionListener,
 		}
 
 		cbDisplayType.setSelectedItem(plotMap.get(selectedPlot));
+		cbDisplayType.setFocusable(false);
 		cbDisplayType.addActionListener(this);
 		cbDisplayType.setMaximumRowCount(cbDisplayType.getItemCount());
 
@@ -416,13 +426,15 @@ public class StatComboPanel extends JPanel implements ActionListener,
 	private void createNumClassesPanel() {
 
 		lblNumClasses = new JLabel();
-		final JTextField fldNumClasses = new JTextField("" + numClasses);
+		fldNumClasses = new JTextField("" + numClasses);
 		fldNumClasses.setEditable(false);
 		fldNumClasses.setOpaque(true);
 		fldNumClasses.setColumns(2);
 		fldNumClasses.setHorizontalAlignment(SwingConstants.CENTER);
-		fldNumClasses.setBackground(Color.WHITE);
-
+		fldNumClasses.setBackground(null);
+		fldNumClasses.setBorder(BorderFactory.createEmptyBorder());
+		fldNumClasses.setVisible(false);
+		
 		sliderNumClasses = new JSlider(SwingConstants.HORIZONTAL, 3, 20,
 				numClasses);
 		Dimension d = sliderNumClasses.getPreferredSize();
@@ -438,13 +450,24 @@ public class StatComboPanel extends JPanel implements ActionListener,
 				numClasses = slider.getValue();
 				fldNumClasses.setText(("" + numClasses));
 				updatePlot(true);
-				// btnClose.requestFocus();
 			}
 		});
 
-		numClassesPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		sliderNumClasses.addMouseListener(new MouseAdapter(){
+			public void mouseEntered(MouseEvent arg0) {
+				fldNumClasses.setVisible(true);
+				fldNumClasses.revalidate();
+			}
+			public void mouseExited(MouseEvent arg0) {
+				fldNumClasses.setVisible(false);
+				fldNumClasses.revalidate();
+			}
+		});
+
+		
+		numClassesPanel = new JPanel(new FlowLayout(FlowLayout.LEFT,0,0));
 		numClassesPanel.add(sliderNumClasses);
-		numClassesPanel.add(lblNumClasses);
+		//numClassesPanel.add(lblNumClasses);
 		numClassesPanel.add(fldNumClasses);
 
 	}
@@ -534,6 +557,12 @@ public class StatComboPanel extends JPanel implements ActionListener,
 
 	}
 
+	
+	public JPopupMenu getExportMenu(){
+		return plotPanel.getContextMenu();
+	}
+	
+	
 	// ==============================================
 	// DISPLAY UPDATE
 	// ==============================================
@@ -556,7 +585,7 @@ public class StatComboPanel extends JPanel implements ActionListener,
 			clearPlotGeoList();
 		}
 
-		optionsButton.setVisible(true);
+		btnOptions.setVisible(true);
 		updatePlotPanelLayout();
 
 		switch (selectedPlot) {
@@ -638,7 +667,7 @@ public class StatComboPanel extends JPanel implements ActionListener,
 					settings.stemAdjust);
 			imageContainer.setIcon(GeoGebraIcon.createLatexIcon(app, latex,
 					app.getPlainFont(), true, Color.BLACK, null));
-			optionsButton.setVisible(false);
+			btnOptions.setVisible(false);
 			if (hasControlPanel)
 				((CardLayout) controlCards.getLayout()).show(controlCards,
 						"stemAdjustPanel");
@@ -727,7 +756,7 @@ public class StatComboPanel extends JPanel implements ActionListener,
 
 			((CardLayout) displayCardPanel.getLayout()).show(displayCardPanel,
 					"plotPanel");
-			optionsButton.setVisible(false);
+			btnOptions.setVisible(false);
 			break;
 
 		default:
@@ -775,9 +804,9 @@ public class StatComboPanel extends JPanel implements ActionListener,
 			updatePlot(true);
 		}
 
-		else if (source == optionsButton) {
+		else if (source == btnOptions) {
 			optionsPanel.setPanel(selectedPlot);
-			optionsPanel.setVisible(optionsButton.isSelected());
+			optionsPanel.setVisible(btnOptions.isSelected());
 		}
 
 		else if (source == btnExport) {
@@ -796,7 +825,7 @@ public class StatComboPanel extends JPanel implements ActionListener,
 				updatePlot(true);
 			}
 			optionsPanel.setVisible(false);
-			optionsButton.setSelected(false);
+			btnOptions.setSelected(false);
 		}
 
 	}
@@ -863,7 +892,7 @@ public class StatComboPanel extends JPanel implements ActionListener,
 	}
 
 	private JPanel flowPanelRight(JComponent... comp) {
-		JPanel p = new JPanel(new FlowLayout(0, 0, FlowLayout.RIGHT));
+		JPanel p = new JPanel(new FlowLayout(FlowLayout.RIGHT, 0,0));
 		for (int i = 0; i < comp.length; i++) {
 			p.add(comp[i]);
 		}

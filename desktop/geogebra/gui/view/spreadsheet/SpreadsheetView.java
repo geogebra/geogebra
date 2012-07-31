@@ -480,26 +480,7 @@ View, ComponentListener, FocusListener, Gridable, SettingListener, SpreadsheetVi
 			formulaBar.update();
 	}
 
-
-
-
-	//=====================================================
-	//               Stat Dialogs
-	//=====================================================
-
-
-
-	public void showStatDialog(int mode){
-
-		if(app.getSelectedGeos().size() == 0) return;
-		
-		app.getGuiManager().getDataAnalysisView().setDataAnalysis(mode);
-		app.getGuiManager().setShowView(true, App.VIEW_DATA_ANALYSIS);
-	}
-
-
 	
-
 
 	//=====================================================
 	//               Tracing

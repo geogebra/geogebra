@@ -2480,6 +2480,19 @@ public class GuiManagerD extends GuiManager {
 			// nothing more to do, so reset to move mode
 			app.setMoveMode();
 		}
+		
+		if (mode == EuclidianConstants.MODE_SPREADSHEET_ONEVARSTATS
+				|| mode == EuclidianConstants.MODE_SPREADSHEET_TWOVARSTATS
+				|| mode == EuclidianConstants.MODE_SPREADSHEET_MULTIVARSTATS) {
+
+			if (app.getGuiManager() != null) {
+				getDataAnalysisView().setDataAnalysis(mode);
+				app.getGuiManager().setShowView(true, App.VIEW_DATA_ANALYSIS);
+			}
+			// nothing more to do, so reset to move mode
+			// app.setMoveMode();
+		}
+
 		setModeFinished = true;
 	}
 

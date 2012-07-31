@@ -2,7 +2,6 @@ package geogebra.gui.view.spreadsheet;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.gui.view.spreadsheet.MyTable;
-import geogebra.gui.view.spreadsheet.statdialog.StatDialog;
 import geogebra.main.AppD;
 
 /**
@@ -37,22 +36,7 @@ public class SpreadsheetToolbarManager {
 
 		switch (mode) {	
 
-
-		case EuclidianConstants.MODE_SPREADSHEET_ONEVARSTATS:
-			if(table.getCellRangeProcessor().isOneVarStatsPossible(table.selectedCellRanges))
-				view.showStatDialog(StatDialog.MODE_ONEVAR);
-			break;
-
-		case EuclidianConstants.MODE_SPREADSHEET_TWOVARSTATS:
-			if(table.getCellRangeProcessor().isCreatePointListPossible(table.selectedCellRanges))
-				view.showStatDialog(StatDialog.MODE_REGRESSION);
-			break;
-
-		case EuclidianConstants.MODE_SPREADSHEET_MULTIVARSTATS:
-			if(table.getCellRangeProcessor().isMultiVarStatsPossible(table.selectedCellRanges))
-				view.showStatDialog(StatDialog.MODE_MULTIVAR);
-			break;
-
+		
 		case EuclidianConstants.MODE_SPREADSHEET_CREATE_LIST:
 
 			//if(!app.getSelectedGeos().isEmpty() && prevMode == mode){
