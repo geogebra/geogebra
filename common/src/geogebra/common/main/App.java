@@ -2799,7 +2799,7 @@ public abstract class App {
 	 */
 	abstract public CommandProcessor newCmdBarCode();
 
-		public final int selectedGeosSize() {
+	public final int selectedGeosSize() {
 		return selectedGeos.size();
 	}
 
