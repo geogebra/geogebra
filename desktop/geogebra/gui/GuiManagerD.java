@@ -593,52 +593,6 @@ public class GuiManagerD extends GuiManager {
 		return ((AppD)app).getEuclidianView1();
 	}
 
-	/**
-	 * Detach a view which by using the view ID.
-	 * 
-	 * @author Florian Sonner
-	 * @version 2008-10-21
-	 * 
-	 * @param viewId
-	 */
-	public void detachView(int viewId) {
-		switch (viewId) {
-		case App.VIEW_ALGEBRA:
-			detachAlgebraView();
-			break;
-		case App.VIEW_SPREADSHEET:
-			detachSpreadsheetView();
-			break;
-		case App.VIEW_CAS:
-			detachCasView();
-			break;
-		case App.VIEW_CONSTRUCTION_PROTOCOL:
-			detachConstructionProtocolView();
-			break;
-		case App.VIEW_PROBABILITY_CALCULATOR:
-			detachProbabilityCalculatorView();
-			break;
-		case App.VIEW_ASSIGNMENT:
-			detachAssignmentView();
-			break;
-		case App.VIEW_PROPERTIES:
-			detachPropertiesView();
-			break;
-		case App.VIEW_DATA_ANALYSIS:
-			detachDataAnalysisView();
-			break;
-		case App.VIEW_EUCLIDIAN:
-		case App.VIEW_EUCLIDIAN2:
-			App.debug("TODO: should we detach EV1/2?");
-			break;
-		case App.VIEW_PYTHON:
-			App.debug("TODO: how to detach Python view?");
-			break;
-		default: 
-			App.error("Error detaching VIEW: "+viewId);
-		}
-	}
-
 	@Override
 	public void attachSpreadsheetView() {
 		getSpreadsheetView();

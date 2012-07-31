@@ -687,4 +687,34 @@ private void showPopupMenu(ArrayList<GeoElement> geos,
 	    // TODO Auto-generated method stub
 	    return false;
     }
+
+	@Override
+    public void detachAssignmentView() {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+	@Override
+    public void detachProbabilityCalculatorView() {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+	@Override
+    public void detachCasView() {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+	@Override
+    public void detachConstructionProtocolView() {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+	@Override
+    public void detachSpreadsheetView() {
+	    // TODO Auto-generated method stub
+	    
+    }
 }
