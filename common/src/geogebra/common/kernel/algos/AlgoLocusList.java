@@ -110,11 +110,11 @@ public class AlgoLocusList extends AlgoElement {
 				if (actel instanceof Path) {
 					P.setPath((Path)actel);
 					if (actel instanceof GeoList) {
-						actal = new AlgoLocus(cons, Q, P, try_steps);
-						pathp = ((AlgoLocus)actal).getLocus();
-					} else {
 						actal = new AlgoLocusList(cons, Q, P, try_steps);
 						pathp = ((AlgoLocusList)actal).getLocus();
+					} else {
+						actal = new AlgoLocus(cons, Q, P, try_steps);
+						pathp = ((AlgoLocus)actal).getLocus();
 					}
 					cons.removeFromAlgorithmList(actal);
 					cons.removeFromConstructionList(actal);
