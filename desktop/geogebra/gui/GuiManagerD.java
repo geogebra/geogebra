@@ -631,7 +631,9 @@ public class GuiManagerD extends GuiManager {
 		case App.VIEW_EUCLIDIAN2:
 			App.debug("TODO: should we detach EV1/2?");
 			break;
-				
+		case App.VIEW_PYTHON:
+			App.debug("TODO: how to detach Python view?");
+			break;
 		default: 
 			App.error("Error detaching VIEW: "+viewId);
 		}

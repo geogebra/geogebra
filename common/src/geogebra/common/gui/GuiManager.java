@@ -370,7 +370,7 @@ public abstract class GuiManager {
 			// handled elsewhere
 			break;
 		case App.VIEW_PYTHON:
-			// TODO: understand what to do here
+			App.debug("TODO: how to attach Python view?");
 			break;
 		default: 
 			App.error("Error attaching VIEW: "+viewId);
