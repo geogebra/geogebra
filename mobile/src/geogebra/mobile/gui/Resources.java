@@ -1,21 +1,42 @@
+/**
+ * 
+ */
 package geogebra.mobile.gui;
 
 import org.vectomatic.dom.svg.ui.SVGResource;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ClientBundle;
+import com.google.gwt.resources.client.DataResource;
 import com.google.gwt.resources.client.ImageResource;
 
-interface Resources extends ClientBundle
+/**
+ * @author Matthias Meisinger
+ * 
+ */
+public interface Resources extends ClientBundle
 {
 	public static final Resources INSTANCE = GWT.create(Resources.class);
 
-	@Source("../mobile/resources/Youtube-Logo.png")
-	ImageResource logo();
+	// @Source("icons/intersect_two_objects.svg")
+	// SVGResource intersect_two_objects();
 
-	@Source("../mobile/resources/Tux.svg")
+	@Source("icons/material-279.ggb")
+	DataResource material279();
+
+	@Source("icons/Tux.svg")
 	SVGResource tux();
-	
-	@Source("../common/resources/icons/svg/1_movement/move.svg")
-	SVGResource move();
+
+	@Source("icons/Youtube-Logo.png")
+	ImageResource youtubeLogo();
+
+//	@Source("icons/svg/movement/move.svg")
+//	SVGResource move();
+//
+//	@Source("icons/svg/movement/record_to_spreadsheet.svg")
+//	SVGResource record_to_spreadsheet();
+//
+//	@Source("icons/svg/movement/rotate_around_point.svg")
+//	SVGResource rotate_around_point();
+
 }
