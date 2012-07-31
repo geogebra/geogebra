@@ -68,9 +68,8 @@ public class EquationDivOperator extends EquationBinaryOperator {
     protected double operation(double a, double b) {
         if(b == 0) {
             return Double.NaN;
-        } else {
-            return a/b;
         }
+        return a/b;
     }
 
 	@Override

@@ -31,7 +31,8 @@ abstract public class VEvent {
         return "EVT-"+id;
     }
 
-    public String toString() {
+    @Override
+	public String toString() {
         return "VEvent (" + getID() + ")";
     }
     

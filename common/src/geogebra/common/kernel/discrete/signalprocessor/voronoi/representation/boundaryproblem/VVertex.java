@@ -31,39 +31,37 @@ public class VVertex extends VPoint {
     public ArrayList<VHalfEdge> getConnectedVertexs() {
         if ( connectedvertexs==null || connectedvertexs.size()<=0 ) {
             return null;
-        } else {
-            return connectedvertexs;
         }
+        return connectedvertexs;
     }
     
     public double distanceTo(VVertex distance) {
         return Math.sqrt( (x-distance.x)*(x-distance.x) + (y-distance.y)*(y-distance.y) );
     }
     
-    public VHalfEdge getNextConnectedEdge(int vertexnumber) {
-        if ( connectedvertexs==null || connectedvertexs.size()<=0 ) {
-            return null;
-        } else {
-            for ( VHalfEdge edge : connectedvertexs ) {
-                if ( edge.vertexnumber==vertexnumber ) {
-                    return edge;
-                }
-            }
-            return null;
-        }
-    }
-    public VHalfEdge getNextConnectedEdge(VVertex nextvertex) {
-        if ( connectedvertexs==null || connectedvertexs.size()<=0 ) {
-            return null;
-        } else {
-            for ( VHalfEdge edge : connectedvertexs ) {
-                if ( edge.vertex==nextvertex ) {
-                    return edge;
-                }
-            }
-            return null;
-        }
-    }
+	public VHalfEdge getNextConnectedEdge(int vertexnumber) {
+		if (connectedvertexs == null || connectedvertexs.size() <= 0) {
+			return null;
+		}
+		for (VHalfEdge edge : connectedvertexs) {
+			if (edge.vertexnumber == vertexnumber) {
+				return edge;
+			}
+		}
+		return null;
+	}
+	
+	public VHalfEdge getNextConnectedEdge(VVertex nextvertex) {
+		if (connectedvertexs == null || connectedvertexs.size() <= 0) {
+			return null;
+		}
+		for (VHalfEdge edge : connectedvertexs) {
+			if (edge.vertex == nextvertex) {
+				return edge;
+			}
+		}
+		return null;
+	}
     
     public VVertex getNextConnectedVertex(int vertexnumber) {
         VHalfEdge edge = getNextConnectedEdge(vertexnumber);

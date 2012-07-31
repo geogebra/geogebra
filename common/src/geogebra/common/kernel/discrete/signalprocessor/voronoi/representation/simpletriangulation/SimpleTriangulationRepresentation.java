@@ -24,7 +24,8 @@ public class SimpleTriangulationRepresentation extends AbstractRepresentation {
     /* ***************************************************** */
     // Create Point
 
-    public VPoint createPoint(double x, double y) {
+    @Override
+	public VPoint createPoint(double x, double y) {
         return new VPoint(x, y);
     }
     

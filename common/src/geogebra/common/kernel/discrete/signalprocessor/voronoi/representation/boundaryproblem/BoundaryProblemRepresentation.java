@@ -34,7 +34,8 @@ public class BoundaryProblemRepresentation extends AbstractRepresentation {
     /* ***************************************************** */
     // Create Point
     
-    public VPoint createPoint(double x, double y) {
+    @Override
+	public VPoint createPoint(double x, double y) {
         return new VVoronoiCell(x, y);
     }
     
@@ -209,7 +210,7 @@ public class BoundaryProblemRepresentation extends AbstractRepresentation {
         }
     }
     
-    private boolean checkHasConnections( VVertex vertex , VVertex ignore ) {
+    private static boolean checkHasConnections( VVertex vertex , VVertex ignore ) {
         for ( VHalfEdge halfedge : vertex.getConnectedVertexs() ) {
             if ( halfedge.isdeleted==false && halfedge.vertex!=ignore ) {
                 return true;
@@ -218,7 +219,7 @@ public class BoundaryProblemRepresentation extends AbstractRepresentation {
         return false;
     }
     
-    private VVertex getPreviousVertex( int vertexnumber , VVertex currpoint , VVertex point ) {
+    private static VVertex getPreviousVertex( int vertexnumber , VVertex currpoint , VVertex point ) {
         VVertex prevpoint = null;
         while ( currpoint!=point ) {
             prevpoint = currpoint;

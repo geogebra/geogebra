@@ -49,6 +49,7 @@ public class EquationSqrtOperator extends EquationUnaryOperator {
         return true;
     }
 	
+	@Override
 	protected <T> T translateImpl(EquationTranslator<T> translator) {
         if(this.getOriginalExpression().containsSymbolicValuesImpl()) {
             return translator.sqrt(this.getOriginalExpression().translate(translator));

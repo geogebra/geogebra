@@ -9,7 +9,7 @@ public class SharedEdgeRemoval {
     /* ***************************************************** */
     // Comparator for removeEdgesInOrderFromOuterBoundary() method
     
-    private static final Comparator EDGELENGTH_COMPARATOR = new Comparator<VHalfEdge>() {
+    private static final Comparator<VHalfEdge> EDGELENGTH_COMPARATOR = new Comparator<VHalfEdge>() {
         public int compare(VHalfEdge e1, VHalfEdge e2) {
             if      (e1.getLength() > e2.getLength()) return -1;
             else if (e1.getLength() < e2.getLength()) return  1;
@@ -144,7 +144,9 @@ public class SharedEdgeRemoval {
         /* ************************************************* */
         // Constructor
         
-        private OrderedEdgeList(VHalfEdge outeredge) {
+		private static final long serialVersionUID = 1L;
+
+		private OrderedEdgeList(VHalfEdge outeredge) {
             super(EDGELENGTH_COMPARATOR);
             addOuterEdges(outeredge);
         }

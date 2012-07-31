@@ -97,9 +97,8 @@ public class TriangulationRepresentation extends AbstractRepresentation {
     public int calculateLengthCutoff() {
         if ( calccutoff!=null ) {
             return calccutoff.calculateCutOff(this);
-        } else {
-            return length_cutoff;
-        }
+        } 
+        return length_cutoff;
     }
     
     public int getIntegerLengthCutoff() {
@@ -108,6 +107,7 @@ public class TriangulationRepresentation extends AbstractRepresentation {
         }
         return length_cutoff;
     }
+    
     public void setIntegerLengthCutoff(int _length_cutoff) {
         if ( calccutoff!=null ) {
             throw new RuntimeException("CalcCutOff object registered - length_cutoff variable is ignored");
@@ -115,7 +115,10 @@ public class TriangulationRepresentation extends AbstractRepresentation {
         this.length_cutoff = _length_cutoff;
     }
     
-    public CalcCutOff getCalcCutOff() { return calccutoff; }
+    public CalcCutOff getCalcCutOff() { 
+    	return calccutoff; 
+    }
+    
     public void setCalcCutOff( CalcCutOff _calccutoff ) {
         this.calccutoff = _calccutoff;
         this.length_cutoff = -1;
@@ -124,36 +127,36 @@ public class TriangulationRepresentation extends AbstractRepresentation {
     public int getMaxLength() {
         if ( update_statistics ) {
             return max_length;
-        } else {
-            throw new RuntimeException("Calculation of statistics are currently disabled");
         }
+        throw new RuntimeException("Calculation of statistics are currently disabled");
     }
+    
     public int getMinLength() {
         if ( update_statistics ) {
             return min_length;
-        } else {
-            throw new RuntimeException("Calculation of statistics are currently disabled");
-        }
+        } 
+        throw new RuntimeException("Calculation of statistics are currently disabled");
     }
+    
     public int getMaxLengthOfSmallestTriangleEdge() {
         if ( update_statistics ) {
             return max_length_of_smallesttriangleedge;
-        } else {
-            throw new RuntimeException("Calculation of statistics are currently disabled");
-        }
+        } 
+        throw new RuntimeException("Calculation of statistics are currently disabled");
     }
+    
     public int getMaxLengthOfMinimumSpanningTree() {
         if ( update_statistics ) {
             return max_length_from_minimumspanningtree;
-        } else {
-            throw new RuntimeException("Calculation of statistics are currently disabled");
-        }
+        } 
+        throw new RuntimeException("Calculation of statistics are currently disabled");
     }
     
     /* ***************************************************** */
     // Create Point
     
-    public VPoint createPoint(double x, double y) {
+    @Override
+	public VPoint createPoint(double x, double y) {
         return new VVertex(x, y);
     }
     

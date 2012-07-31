@@ -45,9 +45,8 @@ public class VVertex extends VPoint {
     public ArrayList<VHalfEdge> getEdges() {
         if ( edges==null || edges.size()<=0 ) {
             return null;
-        } else {
-            return edges;
         }
+        return edges;
     }
     public boolean removeEdge(VHalfEdge edge) {
         if ( edges==null ) {
@@ -66,33 +65,32 @@ public class VVertex extends VPoint {
     /* ***************************************************** */
     // Helper methods
 
-    public VHalfEdge getEdge(VVertex connectedtovertex) {
-        if ( edges==null || edges.size()<=0 ) {
-            return null;
-        } else {
-            for ( VHalfEdge edge : edges ) {
-                if ( edge.next!=null && edge.next.vertex==connectedtovertex ) {
-                    return edge;
-                }
-            }
-            return null;
-        }
-    }
-    public VHalfEdge getEdge(int vertexnumber) {
-        if ( edges==null || edges.size()<=0 ) {
-            return null;
-        } else {
-            for ( VHalfEdge edge : edges ) {
-                // Don't actually need .next in edge.next.vertexnumber, as
-                //  edge.next.vertexnumber==edge.vertexnumber as long as the
-                //  system is in a valid state.
-                if ( edge.next!=null && edge.next.vertexnumber==vertexnumber ) {
-                    return edge;
-                }
-            }
-            return null;
-        }
-    }
+	public VHalfEdge getEdge(VVertex connectedtovertex) {
+		if (edges == null || edges.size() <= 0) {
+			return null;
+		}
+		for (VHalfEdge edge : edges) {
+			if (edge.next != null && edge.next.vertex == connectedtovertex) {
+				return edge;
+			}
+		}
+		return null;
+	}
+    
+	public VHalfEdge getEdge(int vertexnumber) {
+		if (edges == null || edges.size() <= 0) {
+			return null;
+		}
+		for (VHalfEdge edge : edges) {
+			// Don't actually need .next in edge.next.vertexnumber, as
+			// edge.next.vertexnumber==edge.vertexnumber as long as the
+			// system is in a valid state.
+			if (edge.next != null && edge.next.vertexnumber == vertexnumber) {
+				return edge;
+			}
+		}
+		return null;
+	}
     
     public boolean isConnectedTo(VVertex connectedtovertex) {
         VHalfEdge edge = getEdge(connectedtovertex);
@@ -102,39 +100,40 @@ public class VVertex extends VPoint {
     /* ***************************************************** */
     // toString() Methods
     
-    public String toString() {
-        return "VVertex (connected to " + getConnectedVertexString() + ")";
-    }
-    public String getConnectedEdgeString() {
-        if ( edges==null || edges.size()<=0 ) {
-            return null;
-        } else {
-            String str = null;
-            for ( VHalfEdge edge : edges ) {
-                if ( str==null ) {
-                    str  = "" + edge.vertexnumber;
-                } else {
-                    str += ", " + edge.vertexnumber;
-                }
-            }
-            return str;
-        }
-    }
-    public String getConnectedVertexString() {
-        if ( edges==null || edges.size()<=0 ) {
-            return null;
-        } else {
-            String str = null;
-            for ( VHalfEdge edge : edges ) {
-                if ( str==null ) {
-                    str  = "" + edge.getConnectedVertex().id;
-                } else {
-                    str += ", " + edge.getConnectedVertex().id;
-                }
-            }
-            return str;
-        }
-    }
+	@Override
+	public String toString() {
+		return "VVertex (connected to " + getConnectedVertexString() + ")";
+	}
+
+	public String getConnectedEdgeString() {
+		if (edges == null || edges.size() <= 0) {
+			return null;
+		}
+		String str = null;
+		for (VHalfEdge edge : edges) {
+			if (str == null) {
+				str = "" + edge.vertexnumber;
+			} else {
+				str += ", " + edge.vertexnumber;
+			}
+		}
+		return str;
+	}
+    
+	public String getConnectedVertexString() {
+		if (edges == null || edges.size() <= 0) {
+			return null;
+		}
+		String str = null;
+		for (VHalfEdge edge : edges) {
+			if (str == null) {
+				str = "" + edge.getConnectedVertex().id;
+			} else {
+				str += ", " + edge.getConnectedVertex().id;
+			}
+		}
+		return str;
+	}
     
     /* ***************************************************** */
 }

@@ -34,7 +34,7 @@ public class VSiteEvent extends VEvent {
     }
     
     public int getYValueOfParabola(int x) {
-        return (int) (( a * (double)x + b ) * (double)x + c);
+        return (int) (( a * x + b ) * x + c);
     }
     
     public int getYValueOfParabola(double x) {
@@ -44,19 +44,25 @@ public class VSiteEvent extends VEvent {
     /* ***************************************************** */
     // Abstract Methods
     
-    public double getX() { return point.x; }
-    public double getY() { return point.y; }
+    @Override
+	public double getX() { return point.x; }
+    
+    @Override
+	public double getY() { return point.y; }
     
     public VPoint getPoint() { return point; }
     
-    public boolean isSiteEvent() { return true; }
+    @Override
+	public boolean isSiteEvent() { return true; }
     
-    public boolean isCircleEvent() { return false; }
+    @Override
+	public boolean isCircleEvent() { return false; }
     
     /* ***************************************************** */
     // To String Method
     
-    public String toString() {
+    @Override
+	public String toString() {
         return "VSiteEvent (" + point.x + "," + point.y + ")";
     }
     

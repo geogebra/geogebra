@@ -5,7 +5,9 @@ import java.util.ArrayList;
 
 public class VCluster extends ArrayList<VPoint> {
     
-    public VPoint calculateAveragePoint() {
+	private static final long serialVersionUID = 1L;
+
+	public VPoint calculateAveragePoint() {
         VPoint average = new VPoint(0,0);
         for ( VPoint point : this ) {
             average.x += point.x;

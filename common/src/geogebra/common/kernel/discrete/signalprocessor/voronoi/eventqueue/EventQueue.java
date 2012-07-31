@@ -8,7 +8,7 @@ public class EventQueue {
     /* ********************************************************* */
     // Constants
     
-    private static final Comparator PRIORITY_COMPARATOR = new Comparator<VEvent>() {
+    private static final Comparator<VEvent> PRIORITY_COMPARATOR = new Comparator<VEvent>() {
         public int compare(VEvent p1, VEvent p2) {
             if (p1.getY() < p2.getY())      return -1;
             else if (p1.getY() > p2.getY()) return 1;
@@ -69,9 +69,8 @@ public class EventQueue {
     public VEvent getFirstEvent() {
         if ( queue.size()>0 ) {
             return queue.firstKey();
-        } else {
-            return null;
-        }
+        } 
+        return null;
     }
     
     public VEvent getAndRemoveFirstEvent() {

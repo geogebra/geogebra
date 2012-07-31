@@ -28,7 +28,8 @@ public class VoronoiCellRepresentation extends AbstractRepresentation {
     /* ***************************************************** */
     // Create Point
     
-    public VPoint createPoint(double x, double y) {
+    @Override
+	public VPoint createPoint(double x, double y) {
         return new VVoronoiCell(x, y);
     }
     

@@ -28,7 +28,8 @@ public class VHalfEdge {
         _next.prev = this;
     }
     
-    public String toString() {
+    @Override
+	public String toString() {
         return "(" + x + "," + y + ") -> " + (next==null?"n/a":"(" + next.x + "," + next.y + ")");
     }
 }
