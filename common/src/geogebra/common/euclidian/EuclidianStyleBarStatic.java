@@ -10,6 +10,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
+import geogebra.common.kernel.geos.PointProperties;
 import geogebra.common.main.App;
 import geogebra.common.main.MyError;
 
@@ -270,6 +271,25 @@ public class EuclidianStyleBarStatic {
 		
 		return needUndo;
 	}
+	
+	public static boolean applyPointStyle(ArrayList<GeoElement> geos, int pointStyleSelIndex, int pointSize) {
+		int pointStyle = EuclidianStyleBarStatic.pointStyleArray[pointStyleSelIndex];
+		boolean needUndo = false;
+		for (int i = 0; i < geos.size(); i++) {
+			GeoElement geo = geos.get(i);
+			if (geo instanceof PointProperties) {
+				if (((PointProperties) geo).getPointSize() != pointSize
+						|| (((PointProperties) geo).getPointStyle() != pointStyle)) {
+					((PointProperties) geo).setPointSize(pointSize);
+					((PointProperties) geo).setPointStyle(pointStyle);
+					geo.updateRepaint();
+					needUndo = true;
+				}
+			}
+		}
+		return needUndo;
+	}
+
 	
 	/**
 	 * process the action performed

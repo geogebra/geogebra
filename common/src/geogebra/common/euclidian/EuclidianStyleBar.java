@@ -10,12 +10,6 @@ import java.util.ArrayList;
 public interface EuclidianStyleBar {
 
 	/**
-	 * Apply selected style on given geos geos
-	 * @param selectedGeos geos
-	 */
-	void applyVisualStyle(ArrayList<GeoElement> selectedGeos);
-
-	/**
 	 * Update capture button
 	 * @param mode euclidian view mode
 	 */
