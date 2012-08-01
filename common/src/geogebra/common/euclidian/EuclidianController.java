@@ -94,8 +94,6 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
 
-import javax.swing.SwingUtilities;
-
 @SuppressWarnings("javadoc")
 public abstract class EuclidianController {
 
