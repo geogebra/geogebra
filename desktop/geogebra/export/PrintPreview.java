@@ -25,6 +25,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
@@ -39,6 +40,7 @@ import java.awt.print.Paper;
 import java.awt.print.Printable;
 import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -49,7 +51,6 @@ import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JToolBar;
 import javax.swing.border.MatteBorder;
 
 public class PrintPreview extends JDialog {
@@ -89,7 +90,6 @@ public class PrintPreview extends JDialog {
 		super(app.getFrame(), true); //modal=true: user shouldn't be able to change anything before actual print happened.
 		this.app = app;
 		initPrintPreview(target, orientation);
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
 		
 	public PrintPreview(AppD app, Gridable target, int portrait) {
@@ -107,10 +107,10 @@ public class PrintPreview extends JDialog {
 		Cursor oldCursor = app.getMainComponent().getCursor();
 		app.getMainComponent().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));			
 		getContentPane().setLayout(new BorderLayout());
-			
-		JToolBar tb = new JToolBar();
-		tb.setFloatable(false);
-		JButton bt = new JButton(app.getMenu("Print"), 
+		
+		
+		// print button
+		JButton btnPrint = new JButton(app.getMenu("Print"), 
 												app.getImageIcon("document-print.png"));
 		lst = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -136,23 +136,13 @@ public class PrintPreview extends JDialog {
 				runner.start();
 			}
 		};
-		bt.addActionListener(lst);
-		bt.setAlignmentY(0.5f);
-		bt.setMargin(new Insets(4, 6, 4, 6));
-		tb.add(bt);
-		tb.addSeparator();
-
-		bt = new JButton(app.getMenu("Close"));
-		lst = new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				setVisible(false);
-			}
-		};
-		bt.addActionListener(lst);
-		bt.setAlignmentY(0.5f);
-		bt.setMargin(new Insets(2, 6, 2, 6));
-		tb.add(bt);
-
+		btnPrint.addActionListener(lst);
+		btnPrint.setAlignmentY(0.5f);
+		//btnPrint.setMargin(new Insets(2, 2, 2, 2));
+	
+	
+		
+		// scale comboBox
 		String[] scales = { "10%", "25%", "50%", "75%", "100%", "150%", "200%" };
 		m_cbScale = new JComboBox(scales);
 		m_cbScale.setSelectedItem(m_scale + "%");
@@ -181,8 +171,7 @@ public class PrintPreview extends JDialog {
 		m_cbScale.addActionListener(lst);
 		m_cbScale.setMaximumSize(m_cbScale.getPreferredSize());
 		m_cbScale.setEditable(false); // can be set true
-		tb.addSeparator();
-		tb.add(m_cbScale);
+		
 		
 		// ORIENTATION combo box
 		String[] orients = { 	app.getMenu("Portrait"), 
@@ -213,21 +202,10 @@ public class PrintPreview extends JDialog {
 		m_cbOrientation.addActionListener(lst);
 		m_cbOrientation.setMaximumSize(m_cbOrientation.getPreferredSize());
 		m_cbOrientation.setEditable(false);
-		tb.addSeparator();
-		tb.add(m_cbOrientation);
-
-		// VIEW combo box
-
-		String[] views = {
-				app.getPlain("AlgebraWindow"),
-				app.getPlain("CAS"),
-				app.getPlain("Spreadsheet"),
-				app.getPlain("DrawingPad"),
-				app.getPlain("DrawingPad2"),		
-				app.getPlain("ConstructionProtocol"),
-				app.getPlain("AllViews")};
 		
-		m_cbView = new JComboBox(views);
+		
+		// VIEW combo box
+		m_cbView = new JComboBox(getAvailableViews());
 		
 		DockPanel focusedPanel = app.getGuiManager().getLayout().getDockManager().getFocusedPanel();		
 		if (focusedPanel == null)
@@ -257,6 +235,8 @@ public class PrintPreview extends JDialog {
 							m_target = app.getGuiManager().getEuclidianView2();
 						} else if (selItem.equals(app.getPlain("ConstructionProtocol"))){
 							m_target = app.getGuiManager().getConstructionProtocolView();
+						} else if (selItem.equals(app.getPlain("DataAnalysis"))){
+							m_target = app.getGuiManager().getDataAnalysisView();
 						} else if (selItem.equals(app.getPlain("AllViews"))){
 							m_target = (Printable) app.getMainComponent();
 						}	
@@ -286,9 +266,23 @@ public class PrintPreview extends JDialog {
 		m_cbView.addActionListener(lst_view);
 		m_cbView.setMaximumSize(m_cbView.getPreferredSize());
 		m_cbView.setEditable(false);
-		tb.addSeparator();
-		tb.add(m_cbView);
 		
+		//BUTTON PANEL
+		JPanel westPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		westPanel.add(btnPrint);
+		westPanel.add(Box.createHorizontalStrut(30));
+		westPanel.add(m_cbView);
+		westPanel.add(Box.createHorizontalStrut(30));
+		westPanel.add(m_cbScale);
+		westPanel.add(m_cbOrientation);
+		
+		
+		JPanel buttonPanel = new JPanel(new BorderLayout(2,2));
+		buttonPanel.setBorder(BorderFactory.createEmptyBorder(2,5,2,5));
+		buttonPanel.add(westPanel, BorderLayout.WEST);
+		
+		
+		// title
 		TitlePanel titlePanel = new TitlePanel(app);
 		lst = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -331,7 +325,7 @@ public class PrintPreview extends JDialog {
 		centerPanel.add(ps, BorderLayout.CENTER);
 				
 		// toolbar north
-		getContentPane().add(tb, BorderLayout.NORTH); 
+		getContentPane().add(buttonPanel, BorderLayout.NORTH); 
 		// title and preview center
 		getContentPane().add(centerPanel, BorderLayout.CENTER);
 		//setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -340,9 +334,44 @@ public class PrintPreview extends JDialog {
 		initPages();	
 		centerOnScreen();			   	      
 	   						
-		setVisible(true);		
 		app.getMainComponent().setCursor(oldCursor);
 	}
+	
+	
+	private String[] getAvailableViews() {
+		ArrayList<String> list = new ArrayList<String>();
+
+		if (app.getGuiManager().showView(App.VIEW_ALGEBRA)) {
+			list.add(app.getPlain("AlgebraWindow"));
+		}
+		if (app.getGuiManager().showView(App.VIEW_CAS)) {
+			list.add(app.getPlain("CAS"));
+		}
+		if (app.getGuiManager().showView(App.VIEW_SPREADSHEET)) {
+			list.add(app.getPlain("Spreadsheet"));
+		}
+		if (app.getGuiManager().showView(App.VIEW_EUCLIDIAN)) {
+			list.add(app.getPlain("DrawingPad"));
+		}
+		if (app.getGuiManager().showView(App.VIEW_EUCLIDIAN2)) {
+			list.add(app.getPlain("DrawingPad2"));
+		}
+		if (app.getGuiManager().showView(App.VIEW_CONSTRUCTION_PROTOCOL)) {
+			list.add(app.getPlain("ConstructionProtocol"));
+		}
+		if (app.getGuiManager().showView(App.VIEW_DATA_ANALYSIS)) {
+			list.add(app.getPlain("DataAnalysis"));
+		}
+
+		list.add(app.getPlain("AllViews"));
+
+		String[] s = new String[list.size()];
+		list.toArray(s);
+
+		return s;
+	}
+	
+
 	
 	public JPanel createPanelForScaling2() {
 		// scale panel to set scale of x-axis in cm
