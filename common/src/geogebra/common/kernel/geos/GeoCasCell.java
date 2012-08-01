@@ -11,6 +11,7 @@ import geogebra.common.kernel.arithmetic.AssignmentType;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
+import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.FunctionNVar;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
@@ -2054,7 +2055,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 		boolean visible;
 		if (hasTwinGeo()) {
 			visible = !twinGeo.isEuclidianVisible()
-					& twinGeo.isEuclidianShowable();
+					&& twinGeo.isEuclidianShowable();
 		} else {
 			// creates a new twinGeo, if not possible return
 			if (!plot())
@@ -2114,6 +2115,10 @@ public class GeoCasCell extends GeoElement implements VarString {
 			isFunctionAble = !kernel.getAlgebraProcessor().isNotFunctionAbleEV(
 					outputVE);
 		}
+		//if output is just one number -> do not make a function, make a constant
+		if(outputVE.isLeaf())
+			if((((ExpressionNode)outputVE).getLeft()).isNumberValue())
+				isFunctionAble = false;
 
 		if (isFunctionAble) {
 			if (!outputVE.isExpressionNode()) {

@@ -57,6 +57,7 @@ public abstract class CASTableCell extends JPanel {
 		iconHidden = app.getImageIcon("hidden.gif");
 		
 		showHideControl = new JLabel(iconHidden);
+		showHideControl.setVisible(false);
 		visible = false;
 		
 		// The inputPanel needs to have variable width so that it fits the
@@ -201,21 +202,20 @@ public abstract class CASTableCell extends JPanel {
 		dummyField.setText(inputPanel.getInput());
 
 		
-		if(cellValue.hasTwinGeo()){
-			this.setEuclidianVisible(cellValue.getTwinGeo().isSetEuclidianVisible());
-			showHideControl.setVisible(true);
-		}
-		else{
-			this.setEuclidianVisible(false);
-			showHideControl.setVisible(!input.equals(""));
-		}
-			
-			
-		
 		
 		// set output panel
 		boolean showOutput = cellValue.showOutput();
 		outputPanel.setVisible(showOutput);
+		
+		if(cellValue.hasTwinGeo()){
+			this.setEuclidianVisible(cellValue.getTwinGeo().isSetEuclidianVisible() && cellValue.getTwinGeo().isEuclidianShowable());
+			showHideControl.setVisible(true && showOutput);
+		}
+		else{
+			this.setEuclidianVisible(false);
+			showHideControl.setVisible(!input.equals(""));
+		}		
+		
 		if (showOutput) {
 			// show eval command (e.g. "Substitute") in output cell
 			String evalCmd = cellValue.getEvalCommand();
