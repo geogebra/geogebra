@@ -1269,7 +1269,16 @@ final public class GeoPoint extends GeoVec3D implements VectorValue,
 	@Override
 	public void update() {
 		super.update();
-
+		/*
+		App.debug("");
+		System.out.print("point: " + this.getLabel(StringTemplate.defaultTemplate) + " = " + this.toString(StringTemplate.defaultTemplate) + "\n" + "il: ");
+		if (this.incidenceList!=null) {
+		for (int i=0; i<this.incidenceList.size(); i++) {
+			System.out.print(incidenceList.get(i).getLabel(StringTemplate.defaultTemplate) + " = " + incidenceList.get(i).toString(StringTemplate.defaultTemplate) + " ");
+		}}
+		System.out.println();
+		*/
+		
 		// update all registered locatables (they have this point as start
 		// point)
 		if (locateableList != null) {
