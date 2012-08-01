@@ -231,6 +231,7 @@ public final class EuclidianConstants {
 	public static final int MODE_FREEHAND_SHAPE = 73;
 	
 	/** Pencil */
+	@Deprecated
 	public static final int MODE_PENCIL = 74;
 	
 	/** Point on Object */
