@@ -3,7 +3,7 @@ package geogebra.mobile.gui;
 import geogebra.mobile.gui.elements.AlgebraViewPanel;
 import geogebra.mobile.gui.elements.EuclidianViewPanel;
 import geogebra.mobile.gui.elements.TabletHeaderPanel;
-import geogebra.mobile.gui.elements.TabletToolBar;
+import geogebra.mobile.gui.elements.ToolBar;
 
 import com.google.gwt.user.client.ui.RootPanel;
 import com.googlecode.mgwt.ui.client.MGWT;
@@ -11,7 +11,7 @@ import com.googlecode.mgwt.ui.client.MGWTSettings;
 import com.googlecode.mgwt.ui.client.MGWTStyle;
 import com.googlecode.mgwt.ui.client.widget.HeaderPanel;
 import com.googlecode.mgwt.ui.client.widget.LayoutPanel;
-import com.googlecode.mgwt.ui.client.widget.buttonbar.ButtonBar;
+
 
 public class TabletGUI implements GeoGebraMobileGUI
 {
@@ -20,7 +20,7 @@ public class TabletGUI implements GeoGebraMobileGUI
 	private LayoutPanel euclidianViewPanel;
 	private HeaderPanel headerPanel;
 	private LayoutPanel algebraViewPanel;
-	private ButtonBar toolBar;
+	private ToolBar toolBar;
 
 	public TabletGUI()
 	{
@@ -36,7 +36,7 @@ public class TabletGUI implements GeoGebraMobileGUI
 		// Initialize GUI Elements
 		rootPanel = RootPanel.get();
 		headerPanel = new HeaderPanel();
-		toolBar = new TabletToolBar();
+		toolBar = new ToolBar();
 
 		layout();
 	}
@@ -52,6 +52,7 @@ public class TabletGUI implements GeoGebraMobileGUI
 		euclidianViewPanel.add(headerPanel);
 		euclidianViewPanel.add(algebraViewPanel);
 
+		toolBar.makeTabletToolBar();
 		euclidianViewPanel.add(toolBar);
 		rootPanel.add(euclidianViewPanel);
 	}
