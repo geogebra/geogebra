@@ -693,64 +693,62 @@ public class StatDialog extends JPanel implements View, Printable,
 	public int print(Graphics g, PageFormat pageFormat, int pageIndex) {
 		if (pageIndex > 0)
 			return (NO_SUCH_PAGE);
-		else {
-			Graphics2D g2d = (Graphics2D) g;
-			g2d.translate(pageFormat.getImageableX(),
-					pageFormat.getImageableY());
+		
+		Graphics2D g2d = (Graphics2D) g;
+		g2d.translate(pageFormat.getImageableX(),
+				pageFormat.getImageableY());
 
-			// construction title
-			int y = 0;
-			Construction cons = kernel.getConstruction();
-			String title = cons.getTitle();
-			if (!title.equals("")) {
-				Font titleFont = app.getBoldFont().deriveFont(Font.BOLD,
-						app.getBoldFont().getSize() + 2);
-				g2d.setFont(titleFont);
-				g2d.setColor(Color.black);
-				// Font fn = g2d.getFont();
-				FontMetrics fm = g2d.getFontMetrics();
-				y += fm.getAscent();
-				g2d.drawString(title, 0, y);
-			}
-
-			// construction author and date
-			String author = cons.getAuthor();
-			String date = cons.getDate();
-			String line = null;
-			if (!author.equals("")) {
-				line = author;
-			}
-			if (!date.equals("")) {
-				if (line == null)
-					line = date;
-				else
-					line = line + " - " + date;
-			}
-
-			if (line != null) {
-				g2d.setFont(app.getPlainFont());
-				g2d.setColor(Color.black);
-				// Font fn = g2d.getFont();
-				FontMetrics fm = g2d.getFontMetrics();
-				y += fm.getHeight();
-				g2d.drawString(line, 0, y);
-			}
-			if (y > 0) {
-				g2d.translate(0, y + 20); // space between title and drawing
-			}
-
-			// scale the dialog so that it fits on one page.
-			double xScale = pageFormat.getImageableWidth() / this.getWidth();
-			double yScale = (pageFormat.getImageableHeight() - (y + 20))
-					/ this.getHeight();
-			double scale = Math.min(xScale, yScale);
-
-			buttonPanel.setVisible(false);
-			this.paint(g2d, scale);
-			buttonPanel.setVisible(true);
-
-			return (PAGE_EXISTS);
+		// construction title
+		int y = 0;
+		Construction cons = kernel.getConstruction();
+		String title = cons.getTitle();
+		if (!title.equals("")) {
+			Font titleFont = app.getBoldFont().deriveFont(Font.BOLD,
+					app.getBoldFont().getSize() + 2);
+			g2d.setFont(titleFont);
+			g2d.setColor(Color.black);
+			// Font fn = g2d.getFont();
+			FontMetrics fm = g2d.getFontMetrics();
+			y += fm.getAscent();
+			g2d.drawString(title, 0, y);
 		}
+
+		// construction author and date
+		String author = cons.getAuthor();
+		String date = cons.getDate();
+		String line = null;
+		if (!author.equals("")) {
+			line = author;
+		}
+		if (!date.equals("")) {
+			if (line == null)
+				line = date;
+			else
+				line = line + " - " + date;
+		}
+
+		if (line != null) {
+			g2d.setFont(app.getPlainFont());
+			g2d.setColor(Color.black);
+			// Font fn = g2d.getFont();
+			FontMetrics fm = g2d.getFontMetrics();
+			y += fm.getHeight();
+			g2d.drawString(line, 0, y);
+		}
+		if (y > 0) {
+			g2d.translate(0, y + 20); // space between title and drawing
+		}
+
+		// scale the dialog so that it fits on one page.
+		double xScale = pageFormat.getImageableWidth() / this.getWidth();
+		double yScale = (pageFormat.getImageableHeight() - (y + 20))
+				/ this.getHeight();
+		double scale = Math.min(xScale, yScale);
+
+		this.paint(g2d, scale);
+	
+
+		return (PAGE_EXISTS);
 	}
 
 	/**
