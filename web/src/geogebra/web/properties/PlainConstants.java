@@ -397,6 +397,9 @@ public interface PlainConstants extends ConstantsWithLookup {
     @DefaultStringValue("Coordinates")
     String Coordinates();
 
+    @DefaultStringValue("Copy of %0")
+    String CopyOfA();
+
     @DefaultStringValue("Copy to Clipboard")
     String CopyToClipboard();
 
@@ -1558,6 +1561,9 @@ public interface PlainConstants extends ConstantsWithLookup {
     @DefaultStringValue("Tooltips")
     String Tooltips();
 
+    @DefaultStringValue("Trace:")
+    String TraceMode();
+
     @DefaultStringValue("Trace Off")
     String TraceOff();
 
@@ -1617,6 +1623,12 @@ public interface PlainConstants extends ConstantsWithLookup {
 
     @DefaultStringValue("Value")
     String Value();
+
+    @DefaultStringValue("Value of %0")
+    String ValueOfA();
+
+    @DefaultStringValue("Values of %0")
+    String ValuesOfA();
 
     @DefaultStringValue("Vector")
     String Vector();
