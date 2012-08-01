@@ -42,6 +42,7 @@ import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.kernel.geos.GeoTextField;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.parser.cashandlers.ParserFunctions;
 import geogebra.common.main.settings.Settings;
@@ -2966,7 +2967,13 @@ public abstract class App {
 				if (!it.hasNext()) {
 					it = tree.iterator();
 				}
-				addSelectedGeo(it.next());
+				GeoElement next = it.next();
+				addSelectedGeo(next);
+
+				// make sure Input Boxes lose focus on <TAB>
+				if (!(next instanceof GeoTextField)) {
+					getActiveEuclidianView().requestFocus();
+				}
 				break;
 			}
 		}
@@ -3002,6 +3009,12 @@ public abstract class App {
 			if (selGeo == geo) {
 				removeSelectedGeo(selGeo);
 				addSelectedGeo(lastGeo);
+
+				// make sure Input Boxes lose focus on <SHIFT><TAB>
+				if (!(lastGeo instanceof GeoTextField)) {
+					getActiveEuclidianView().requestFocus();
+				}
+
 				break;
 			}
 			lastGeo = geo;

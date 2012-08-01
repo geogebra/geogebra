@@ -449,7 +449,7 @@ public final class DrawTextField extends Drawable implements RemoveNeeded {
 	 */
 	public void setFocus(final String str) {
 		textField.requestFocus();
-		if (str != null) {
+		if (str != null && !str.equals("\t")) {
 //			SwingUtilities.invokeLater(new Runnable() {
 //				public void run() {
 //					textField.setText(str);

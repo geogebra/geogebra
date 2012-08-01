@@ -11,6 +11,7 @@ import geogebra.common.kernel.Macro;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.commands.MyException;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoTextField;
 import geogebra.common.main.App;
 import geogebra.common.main.MyError;
 import geogebra.common.util.AutoCompleteDictionary;
@@ -249,6 +250,8 @@ public AutoCompleteTextFieldD(int columns, AppD app,
 
   boolean ctrlC = false;
 
+private GeoTextField geoUsedForInputBox;
+
   @Override
   public void keyPressed(KeyEvent e) {
     int keyCode = e.getKeyCode();
@@ -356,10 +359,12 @@ public AutoCompleteTextFieldD(int columns, AppD app,
         break;
 
       case KeyEvent.VK_TAB:
-        if (moveToNextArgument(true)) {
-          e.consume();
-        }
-        break;
+    	  if (usedForInputBox()) {
+    		  app.getGlobalKeyDispatcher().handleGeneralKeys(e);
+    	  } else if (moveToNextArgument(true)) {
+    		  e.consume();
+    	  }
+    	  break;
 
       case KeyEvent.VK_F1:
     	String helpURL = isCASInput ?  App.WIKI_CAS_VIEW:App.WIKI_MANUAL;
@@ -999,5 +1004,23 @@ public AutoCompleteTextFieldD(int columns, AppD app,
 	});
 	
   }
+
+  public void setUsedForInputBox(GeoTextField geo) {
+	  geoUsedForInputBox = geo;
+  } 
+
+  public boolean usedForInputBox() {
+	  return geoUsedForInputBox != null;
+  }
+
+  public void requestFocus() {
+	  super.requestFocus();
+	  if (geoUsedForInputBox != null && !geoUsedForInputBox.isSelected()) {
+		  app.clearSelectedGeos();
+		  app.addSelectedGeo(geoUsedForInputBox);
+	  }
+  }
+
+
   
 }

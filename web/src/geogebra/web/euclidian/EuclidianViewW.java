@@ -733,4 +733,9 @@ public class EuclidianViewW extends EuclidianView implements SettingListener{
 		}
 	}
 
+
+	public void requestFocus() {
+	    App.debug("unimplemented");
+    }
+
 }

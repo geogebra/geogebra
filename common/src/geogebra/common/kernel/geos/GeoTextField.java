@@ -285,6 +285,9 @@ public class GeoTextField extends GeoButton {
 			textField.showPopupSymbolButton(true);
 			textField.setAutoComplete(false);
 			textField.enableColoring(false);		
+					// we want to handle TAB ourselves
+					textField.setFocusTraversalKeysEnabled(false);
+					textField.setUsedForInputBox(this);
 			
 		}
 		
@@ -297,11 +300,23 @@ public class GeoTextField extends GeoButton {
 			textField2.showPopupSymbolButton(true);
 			textField2.setAutoComplete(false);
 			textField2.enableColoring(false);		
+					// we want to handle TAB ourselves
+					textField.setFocusTraversalKeysEnabled(false);
+					textField.setUsedForInputBox(this);
 			
 		}
 		
 		return textField2;
 		
 	}
+	
+	public void setSelected(boolean flag) {
+		super.setSelected(flag);
+
+		if (flag && !textField.hasFocus()) {
+			textField.requestFocus();
+		}
+	}
+
 
 }

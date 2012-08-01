@@ -13,6 +13,7 @@ import geogebra.common.javax.swing.GLabel;
 import geogebra.common.kernel.Macro;
 import geogebra.common.kernel.commands.MyException;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoTextField;
 import geogebra.common.main.App;
 import geogebra.common.main.GWTKeycodes;
 import geogebra.common.main.MyError;
@@ -368,10 +369,6 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements AutoCompl
 	public void setEditable(boolean b) {
 	    App.debug("implementation needed"); //TODO Auto-generated
 	    
-    }
-
-	public void requestFocus() {
-		textField.setFocus(true);
     }
 
 	public void setLabel(GLabel label) {
@@ -962,6 +959,7 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements AutoCompl
 	
 	private boolean isSuggestionJustHappened = false;
 	private boolean isSuggestionClickJustHappened = false;
+	private GeoTextField geoUsedForInputBox;
 	
 	/**
 	 * @return that suggestion is just happened (click or enter,
@@ -1137,5 +1135,29 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements AutoCompl
 			}
 	  }
 
+	  public void setUsedForInputBox(GeoTextField geo) {
+		  geoUsedForInputBox = geo;
+	  } 
+
+	  public boolean usedForInputBox() {
+		  return geoUsedForInputBox != null;
+	  }
+
+	  public void requestFocus() {
+		  textField.setFocus(true);
+		  if (geoUsedForInputBox != null && !geoUsedForInputBox.isSelected()) {
+			  app.clearSelectedGeos();
+			  app.addSelectedGeo(geoUsedForInputBox);
+		  }
+	  }
+
+	public void setFocusTraversalKeysEnabled(boolean b) {
+	    // Dummy method   
+    }
+
+	public boolean hasFocus() {
+	    App.debug("Unimplemented");
+	    return false;
+    }
 
 }

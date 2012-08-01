@@ -736,5 +736,7 @@ public interface EuclidianViewInterfaceCommon extends EuclidianViewInterfaceSlim
 	 */
 	public void setStandardView(boolean storeUndo);
 
+	public void requestFocus();
+
 
 }

@@ -2,6 +2,7 @@ package geogebra.main;
 
 import geogebra.common.euclidian.DrawTextField;
 import geogebra.common.gui.GuiManager;
+import geogebra.common.gui.inputfield.AutoCompleteTextField;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoTextField;
@@ -15,6 +16,7 @@ import geogebra.gui.layout.LayoutD;
 import geogebra.gui.menubar.GeoGebraMenuBar;
 import geogebra.util.Util;
 
+import java.awt.Component;
 import java.awt.KeyEventDispatcher;
 import java.awt.event.KeyEvent;
 import java.io.File;
@@ -228,13 +230,20 @@ public class GlobalKeyDispatcherD extends geogebra.common.main.GlobalKeyDispatch
 
 			return true;
 
-		} else if (app.getActiveEuclidianView().hasFocus()
-				|| ((AppD)app).getGuiManager().getAlgebraView().hasFocus()) {
-			
-			super.handleTab(isControlDown, isShiftDown);
+		} 
+							boolean useTab = app.getActiveEuclidianView().hasFocus()|| ((AppD)app).getGuiManager().getAlgebraView().hasFocus();
+							
+							// make sure TAB works in Input Boxes but also in Spreadsheet, Input Bar
+							Component owner = ((AppD) app).getFrame().getFocusOwner();
+							if (owner instanceof AutoCompleteTextField && ((AutoCompleteTextField)owner).usedForInputBox()) useTab = true;
+							
+							if (useTab) {
+								super.handleTab(isControlDown, isShiftDown);
+								return true;
+							}
 
-			return true;
-		}
+
+		
 
 		return false;
 	}

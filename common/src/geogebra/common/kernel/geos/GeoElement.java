@@ -5489,7 +5489,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	/**
 	 * @param flag true to make this selected
 	 */
-	final public void setSelected(final boolean flag) {
+	public void setSelected(final boolean flag) {
 		selected = flag;
 	}
 	/**
