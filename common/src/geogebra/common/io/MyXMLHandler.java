@@ -134,6 +134,12 @@ public class MyXMLHandler implements DocHandler {
 	/** See JSplitPane.VERTICAL_SPLIT */
 	private static final int JSplitPane_VERTICAL_SPLIT = 0;
 
+	/** we used minimal text size of 4px until 4.0 for texts,
+	 * because the font size setting was additive. Not needed
+	 * with current multiplicative approach, just for opening old files.
+	 */
+	private static final double MIN_TEXT_SIZE = 4;
+
 	private int mode;
 	private int constMode; // submode for <construction>
 	private int casMode; // submode for <cascell>
@@ -3884,7 +3890,9 @@ public class MyXMLHandler implements DocHandler {
 			String size = attrs.get("sizeM"); 
 			
 			if (size == null) {
-				text.setFontSizeMultiplier((double)Integer.parseInt(oldSize) / ((double)app.getFontSize()) + 1.0); 
+				double appSize =app.getFontSize();
+				double oldSizeInt = Integer.parseInt(oldSize);
+				text.setFontSizeMultiplier(Math.max(appSize+oldSizeInt, MIN_TEXT_SIZE) / appSize); 
 			} else {
 				text.setFontSizeMultiplier(StringUtil.parseDouble(size));
 			}
