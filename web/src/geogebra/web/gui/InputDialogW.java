@@ -3,6 +3,7 @@ package geogebra.web.gui;
 import geogebra.common.gui.InputHandler;
 import geogebra.common.gui.dialog.InputDialog;
 import geogebra.common.gui.view.algebra.DialogType;
+import geogebra.common.gui.view.properties.PropertiesView.OptionType;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.web.gui.view.algebra.InputPanelW;
 import geogebra.web.main.AppW;
@@ -15,6 +16,7 @@ import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 public class InputDialogW extends  InputDialog implements ClickHandler{
 	
@@ -25,17 +27,13 @@ public class InputDialogW extends  InputDialog implements ClickHandler{
 	
 	protected InputPanelW inputPanel;
 		
-	protected Button btCancel, btOK;
-	protected String initString;
-
+	protected Button btApply, btProperties, btCancel, btOK, btHelp;
 	protected PopupPanel wrappedPopup;
 
 	private GeoElement geo;
 
-	private Object inputHandler;
-
 	private CheckBox checkBox;
-	
+
 	public InputDialogW(boolean modal) {
 	    this.wrappedPopup = new PopupPanel(false, modal);
     }
@@ -72,10 +70,16 @@ public class InputDialogW extends  InputDialog implements ClickHandler{
 		
 		createGUI(title, message, autoComplete, DEFAULT_COLUMNS, 1, true, selectInitText, geo != null, geo != null, type);
 		
+		centerOnScreen();
+		
 		
 	}
 	
 	
+
+	private void centerOnScreen() {
+	    wrappedPopup.center();
+    }
 
 	/**
 	 * @param title
@@ -100,7 +104,8 @@ public class InputDialogW extends  InputDialog implements ClickHandler{
 
 		
 		// create buttons
-//		btProperties = new JButton();
+		btProperties = new Button(app.getPlain("OpenProperties"));
+		btProperties.addClickHandler(this);
 //		btProperties.setActionCommand("OpenProperties");
 //		btProperties.addActionListener(this);
 		btOK = new Button(app.getPlain("OK"));
@@ -109,7 +114,8 @@ public class InputDialogW extends  InputDialog implements ClickHandler{
 		btCancel = new Button(app.getPlain("Cancel"));
 		btCancel.getElement().getStyle().setMargin(3, Style.Unit.PX);
 		btCancel.addClickHandler(this);
-//		btApply = new JButton();
+		btApply = new Button(app.getPlain("Apply"));
+		btApply.addClickHandler(this);
 //		btApply.setActionCommand("Apply");
 //		btApply.addActionListener(this);
 
@@ -117,6 +123,13 @@ public class InputDialogW extends  InputDialog implements ClickHandler{
 		HorizontalPanel btPanel = new HorizontalPanel();
 		btPanel.add(btOK);
 		btPanel.add(btCancel);
+		//just tmp.
+		if (showApply) {
+			btPanel.add(btApply);
+		}
+		if (showProperties) {
+			btPanel.add(btProperties);
+		}
 
 
 		// =====================================================================
@@ -133,8 +146,19 @@ public class InputDialogW extends  InputDialog implements ClickHandler{
 	}
 	
 	public void onClick(ClickEvent event) {
-	    // do nothing - overriden method
-	    
+	    Widget source = (Widget) event.getSource();
+	    if (source == btOK) {
+	    	inputText = inputPanel.getText();
+	    	setVisible(!processInputHandler());
+	    } else if (source == btApply) {
+	    	inputText = inputPanel.getText();
+	    	processInputHandler();
+	    } else if (source == btProperties && geo != null) {
+	    	setVisible(false);
+	    	tempArrayList.clear();
+	    	tempArrayList.add(geo);
+	    	app.getDialogManager().showPropertiesDialog(OptionType.OBJECTS, tempArrayList);
+	    }
     }
 	
 	public void setVisible(boolean visible) {

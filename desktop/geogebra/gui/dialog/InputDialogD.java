@@ -32,7 +32,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
-import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -57,16 +56,11 @@ public class InputDialogD extends geogebra.common.gui.dialog.InputDialog impleme
 	public static final int DEFAULT_COLUMNS = 30;
 	public static final int DEFAULT_ROWS = 10;
 
-	protected String inputText = null;
 	protected InputPanelD inputPanel;
 	protected JPanel optionPane, buttonsPanel, btPanel, btPanel2;
 
 	protected JLabel msgLabel;
 	protected JButton btApply, btCancel, btProperties, btOK, btHelp;
-
-	protected String initString;
-
-	protected InputHandler inputHandler;
 
 	protected JCheckBox checkBox;
 	
@@ -375,8 +369,6 @@ public class InputDialogD extends geogebra.common.gui.dialog.InputDialog impleme
 	// Event Handlers
 	// ===================================================
 
-	protected ArrayList<GeoElement> tempArrayList = new ArrayList<GeoElement>();
-
 	/**
 	 * Handles button clicks for dialog.
 	 */
@@ -407,9 +399,7 @@ public class InputDialogD extends geogebra.common.gui.dialog.InputDialog impleme
 		// setVisible(!finished);
 	}
 
-	protected boolean processInputHandler() {
-		return inputHandler.processInput(inputText);
-	}
+	
 
 	// ===================================================
 	// Visibility Handlers
