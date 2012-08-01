@@ -14,6 +14,7 @@ LEAD DEVELOPER
 DEVELOPERS
   * Gabor Ancsin (Hungary 2009-)
   * Mathieu Blossier (France 2008-)
+  * Arnaud Delobelle (UK 2011-)
   * Calixte Denizet (France 2010-)
   * Arpad Fekete (Hungary 2010-)
   * Zbynek Konecny (Czech Republic 2010-)
@@ -27,7 +28,6 @@ CONTRIBUTORS
   * Lucas Binter (Austria 2011-)
   * Philipp Birklbauer (Austria 2010-)
   * Loic Le Coq (France 2006-)
-  * Arnaud Delobelle (UK 2011-)
   * Damien Desfontaines (France 2012-)
   * Darko Drakulic (Bosnia and Herzegovina 2011-)
   * Judit Elias (Hungary 2009-)
