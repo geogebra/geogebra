@@ -14,7 +14,7 @@
    inkscape:version="0.48.2 r9819"
    width="32"
    height="32"
-   sodipodi:docname="mode_area_32.gif">
+   sodipodi:docname="area.svg">
   <metadata
      id="metadata2999">
     <rdf:RDF>
@@ -38,35 +38,47 @@
      guidetolerance="10"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:window-width="1090"
-     inkscape:window-height="798"
+     inkscape:window-width="1680"
+     inkscape:window-height="988"
      id="namedview2995"
      showgrid="false"
-     inkscape:zoom="12.857955"
-     inkscape:cx="13.39945"
-     inkscape:cy="17.864939"
-     inkscape:window-x="1453"
-     inkscape:window-y="74"
-     inkscape:window-maximized="0"
+     inkscape:zoom="18.183894"
+     inkscape:cx="14.900145"
+     inkscape:cy="20.30109"
+     inkscape:window-x="1358"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
      inkscape:current-layer="svg2993" />
   <g
      id="g3779">
-    <text
-       transform="scale(0.90936323,1.0996706)"
-       sodipodi:linespacing="125%"
-       id="text3003"
-       y="10.923751"
-       x="3.8293412"
-       style="font-size:11.06083679px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:FreeUniversal;-inkscape-font-specification:FreeUniversal"
-       xml:space="preserve"><tspan
-         y="10.923751"
-         x="3.8293412"
-         id="tspan3005"
-         sodipodi:role="line">cm²</tspan></text>
     <path
        inkscape:connector-curvature="0"
-       id="path3007"
-       d="m 11.510384,29.044631 c 1.011047,0.155546 17.110029,-3.577551 17.110029,-3.577551 l 0,-14.543526 -8.16615,8.788334 -9.254971,-2.333186 z"
-       style="fill:#aeaeae;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;fill-opacity:1" />
+       id="path3001"
+       d="m 11.438694,29.250314 c 0.219975,0 17.323022,-3.84956 17.323022,-3.84956 l -0.109988,-14.353361 -8.194064,8.634014 -9.403926,-2.36473 z"
+       style="fill:#aeaeae;fill-opacity:1;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <text
+       transform="scale(0.91447665,1.0935216)"
+       sodipodi:linespacing="125%"
+       id="text3771"
+       y="11.028095"
+       x="3.664681"
+       style="font-size:11.21322441px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:FreeUniversal;-inkscape-font-specification:FreeUniversal"
+       xml:space="preserve"><tspan
+         y="11.028095"
+         x="3.664681"
+         id="tspan3773"
+         sodipodi:role="line">cm</tspan></text>
+    <text
+       transform="scale(1.0135067,0.98667329)"
+       sodipodi:linespacing="125%"
+       id="text3775"
+       y="7.8245478"
+       x="17.437378"
+       style="font-size:6.51527548px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:FreeUniversal;-inkscape-font-specification:FreeUniversal"
+       xml:space="preserve"><tspan
+         y="7.8245478"
+         x="17.437378"
+         id="tspan3777"
+         sodipodi:role="line">2</tspan></text>
   </g>
 </svg>
