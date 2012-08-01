@@ -2086,7 +2086,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 		// this has to be upper case that the input of (1,1) leads to a
 		// definition of a point
 		// instead of a vector
-		setAssignmentVar("GgbmpvarPlot");
+		assignmentVar="GgbmpvarPlot";
 
 		// wrap output of Solve and Solutions to make them plotable
 		boolean wasSolveSolutions = false;
@@ -2100,13 +2100,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 				wasSolveSolutions = true;
 			}
 		}
-
-		// if we added a command -> recalc
-		if (wasSolveSolutions) {
-			this.firstComputeOutput = true;
-			this.computeOutput(true);
-		}
-
+	
 		boolean isFunctionAble;
 		if (outputVE.isExpressionNode()) {
 			isFunctionAble = !kernel.getAlgebraProcessor().isNotFunctionAble(
@@ -2117,8 +2111,10 @@ public class GeoCasCell extends GeoElement implements VarString {
 		}
 		//if output is just one number -> do not make a function, make a constant
 		if(outputVE.isLeaf())
-			if((((ExpressionNode)outputVE).getLeft()).isNumberValue())
-				isFunctionAble = false;
+			if((((ExpressionNode)outputVE).getLeft()).isConstant()){
+				isFunctionAble = false;				
+			}
+
 
 		if (isFunctionAble) {
 			if (!outputVE.isExpressionNode()) {
@@ -2126,10 +2122,14 @@ public class GeoCasCell extends GeoElement implements VarString {
 						Operation.NO_OPERATION, null);
 			}
 			outputVE = new Function((ExpressionNode) outputVE);
+			this.firstComputeOutput = true;
+			this.updateTwinGeo();			
+		}
+		else{
+			this.firstComputeOutput = true;
+			this.computeOutput(true);			
 		}
 
-		this.firstComputeOutput = true;
-		this.updateTwinGeo();
 		twinGeo.setLabel(null);
 		if (twinGeo.getLabelSimple() != null && twinGeo.isEuclidianShowable()) {
 			String label = twinGeo.getLabelSimple();
