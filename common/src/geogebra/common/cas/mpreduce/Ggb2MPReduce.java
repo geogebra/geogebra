@@ -91,7 +91,7 @@ public class Ggb2MPReduce {
 		p("Factors.1",
 				"<<on combineexpt; off combinelogs$ off complex, rounded; for each x in factorize(%0) collect if arglength(x)<0 or part(x,0) neq \\'list then x:=list(x,1) else x >>");
 		p("FDistribution.3",
-				"betaRegularized((%0)/2,(%1)/2,(%0)*(%2)/((%0)*(%2)+%1))");
+				"ibeta((%0)/2,(%1)/2,(%0)*(%2)/((%0)*(%2)+%1))");
 		p("Flatten.1", "mkdepthone(%0)");
 		p("First.1", "list(first(%0))");
 		p("First.2",

@@ -2745,4 +2745,9 @@ public class GeoGebraCasIntegrationTest {
 	public void Ticket_Ticket1899() {
 		t("Solve[2^x = 8]", "{x = 3}", "{x = log(8) / log(2)}");
 	}
+	@Test
+	public void FDistribution_0() {
+		t("Fdistribution[5,7,3]","betaRegularized(5/2,7/2,15/22)"); 
+		t("Numeric[Fdistribution[5,7,3]]","0.90775343897945");
+	}
 }

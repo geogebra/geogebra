@@ -3903,7 +3903,7 @@ public class ExpressionNode extends ValidExpression implements
 				break;
 
 			case MPREDUCE:
-				sb.append("beta3(");
+				sb.append("ibeta(");
 				break;
 
 			default:
