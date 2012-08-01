@@ -8,7 +8,7 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by 
 the Free Software Foundation.
 
-*/
+ */
 
 package geogebra.export;
 
@@ -54,32 +54,35 @@ import javax.swing.JScrollPane;
 import javax.swing.border.MatteBorder;
 
 public class PrintPreview extends JDialog {
-	
+
 	private static final long serialVersionUID = 1L;
-	
+
 	protected int m_wPage;
 	protected int m_hPage;
 	protected int m_orientation;
 	protected int m_scale;
 	protected Printable m_target;
 	protected JComboBox m_cbScale, m_cbOrientation, m_cbView;
-	//protected JCheckBox cbEVscalePanel;
+	// protected JCheckBox cbEVscalePanel;
 	protected JScrollPane ps;
 	protected PreviewContainer m_preview;
 	protected AppD app;
-	protected JPanel tempPanel, panelForTitleAndScaling; //used for title and scaling of graphics view's print preview
+	protected JPanel tempPanel, panelForTitleAndScaling; // used for title and
+															// scaling of
+															// graphics view's
+															// print preview
 	protected ActionListener lst;
-	
+
 	protected boolean kernelChanged = false;
-	
+
 	static Graphics tempGraphics;
 	static {
 		BufferedImage img = new BufferedImage(5, 5, BufferedImage.TYPE_INT_RGB);
-		tempGraphics = img.getGraphics(); 
-	}		
-	
-	public PrintPreview(AppD app,Gridable target){
-		this(app,target,PageFormat.PORTRAIT);
+		tempGraphics = img.getGraphics();
+	}
+
+	public PrintPreview(AppD app, Gridable target) {
+		this(app, target, PageFormat.PORTRAIT);
 	}
 
 	public PrintPreview(AppD app, Printable target) {
@@ -87,45 +90,48 @@ public class PrintPreview extends JDialog {
 	}
 
 	public PrintPreview(AppD app, Printable target, int orientation) {
-		super(app.getFrame(), true); //modal=true: user shouldn't be able to change anything before actual print happened.
+		super(app.getFrame(), true); // modal=true: user shouldn't be able to
+										// change anything before actual print
+										// happened.
 		this.app = app;
 		initPrintPreview(target, orientation);
 	}
-		
+
 	public PrintPreview(AppD app, Gridable target, int portrait) {
-		this(app,new PrintGridable(target),portrait);
+		this(app, new PrintGridable(target), portrait);
 	}
 
 	private void initPrintPreview(Printable target, int orientation) {
 		m_target = target;
 		m_orientation = orientation;
-		m_scale = 75; // init scale to 75%		
-		
+		m_scale = 75; // init scale to 75%
+
 		loadPreferences();
-		
+
 		setTitle(app.getMenu("PrintPreview"));
 		Cursor oldCursor = app.getMainComponent().getCursor();
-		app.getMainComponent().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));			
+		app.getMainComponent().setCursor(
+				Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 		getContentPane().setLayout(new BorderLayout());
-		
-		
+
 		// print button
-		JButton btnPrint = new JButton(app.getMenu("Print"), 
-												app.getImageIcon("document-print.png"));
+		JButton btnPrint = new JButton(app.getMenu("Print"),
+				app.getImageIcon("document-print.png"));
 		lst = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Thread runner = new Thread() {
-					public void run() {				
+					public void run() {
 						try {
 							PrinterJob prnJob = PrinterJob.getPrinterJob();
-							prnJob.setPageable(m_preview);							
-		
+							prnJob.setPageable(m_preview);
+
 							if (!prnJob.printDialog())
 								return;
-							setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+							setCursor(Cursor
+									.getPredefinedCursor(Cursor.WAIT_CURSOR));
 							prnJob.print();
-							setCursor(
-								Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+							setCursor(Cursor
+									.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 							setVisible(false);
 						} catch (PrinterException ex) {
 							ex.printStackTrace();
@@ -138,10 +144,8 @@ public class PrintPreview extends JDialog {
 		};
 		btnPrint.addActionListener(lst);
 		btnPrint.setAlignmentY(0.5f);
-		//btnPrint.setMargin(new Insets(2, 2, 2, 2));
-	
-	
-		
+		// btnPrint.setMargin(new Insets(2, 2, 2, 2));
+
 		// scale comboBox
 		String[] scales = { "10%", "25%", "50%", "75%", "100%", "150%", "200%" };
 		m_cbScale = new JComboBox(scales);
@@ -150,7 +154,8 @@ public class PrintPreview extends JDialog {
 			public void actionPerformed(ActionEvent e) {
 				Thread runner = new Thread() {
 					public void run() {
-						setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+						setCursor(Cursor
+								.getPredefinedCursor(Cursor.WAIT_CURSOR));
 						String str = m_cbScale.getSelectedItem().toString();
 						if (str.endsWith("%"))
 							str = str.substring(0, str.length() - 1);
@@ -171,103 +176,111 @@ public class PrintPreview extends JDialog {
 		m_cbScale.addActionListener(lst);
 		m_cbScale.setMaximumSize(m_cbScale.getPreferredSize());
 		m_cbScale.setEditable(false); // can be set true
-		
-		
+
 		// ORIENTATION combo box
-		String[] orients = { 	app.getMenu("Portrait"), 
-										app.getMenu("Landscape") };
+		String[] orients = { app.getMenu("Portrait"), app.getMenu("Landscape") };
 		m_cbOrientation = new JComboBox(orients);
-		m_cbOrientation.setSelectedIndex( 
-			(m_orientation == PageFormat.PORTRAIT) ? 0 : 1);	
-			
+		m_cbOrientation
+				.setSelectedIndex((m_orientation == PageFormat.PORTRAIT) ? 0
+						: 1);
+
 		lst = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Thread runner = new Thread() {
 					public void run() {
-						setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-						int orientation = (m_cbOrientation.getSelectedIndex() == 0) ? 
-								PageFormat.PORTRAIT : PageFormat.LANDSCAPE;								
-													
+						setCursor(Cursor
+								.getPredefinedCursor(Cursor.WAIT_CURSOR));
+						int orientation = (m_cbOrientation.getSelectedIndex() == 0) ? PageFormat.PORTRAIT
+								: PageFormat.LANDSCAPE;
+
 						setOrientation(orientation);
-						
-						PrintPreview prev = PrintPreview.this; 
+
+						PrintPreview prev = PrintPreview.this;
 						int width = prev.getPreferredSize().width;
-						if (width > prev.getWidth()) setSize(width, prev.getHeight());																										
-						setCursor(Cursor.getDefaultCursor());				
+						if (width > prev.getWidth())
+							setSize(width, prev.getHeight());
+						setCursor(Cursor.getDefaultCursor());
 					}
 				};
 				runner.start();
 			}
-		};					
+		};
 		m_cbOrientation.addActionListener(lst);
 		m_cbOrientation.setMaximumSize(m_cbOrientation.getPreferredSize());
 		m_cbOrientation.setEditable(false);
-		
-		
+
 		// VIEW combo box
 		m_cbView = new JComboBox(getAvailableViews());
-		
-		DockPanel focusedPanel = app.getGuiManager().getLayout().getDockManager().getFocusedPanel();		
+
+		DockPanel focusedPanel = app.getGuiManager().getLayout()
+				.getDockManager().getFocusedPanel();
 		if (focusedPanel == null)
 			m_cbView.setSelectedItem(app.getPlain("AllViews"));
-		else 
+		else
 			m_cbView.setSelectedItem(app.getPlain(focusedPanel.getViewTitle()));
-		
+
 		ActionListener lst_view = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Thread runner = new Thread() {
 					public void run() {
-						setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+						setCursor(Cursor
+								.getPredefinedCursor(Cursor.WAIT_CURSOR));
 						m_preview.removeAll();
-						
+
 						String selItem = m_cbView.getSelectedItem().toString();
-						
-						//change view
-						if(selItem.equals(app.getPlain("AlgebraWindow"))){
-							m_target = new PrintGridable(app.getGuiManager().getAlgebraView());
-						} else if (selItem.equals(app.getPlain("CAS"))){
-							m_target = new ScalingPrintGridable(app.getGuiManager().getCasView());
-						} else if (selItem.equals(app.getPlain("Spreadsheet"))){
-							m_target = new PrintGridable(app.getGuiManager().getSpreadsheetView());
-						} else if (selItem.equals(app.getPlain("DrawingPad"))){
+
+						// change view
+						if (selItem.equals(app.getPlain("AlgebraWindow"))) {
+							m_target = new PrintGridable(app.getGuiManager()
+									.getAlgebraView());
+						} else if (selItem.equals(app.getPlain("CAS"))) {
+							m_target = new ScalingPrintGridable(app
+									.getGuiManager().getCasView());
+						} else if (selItem.equals(app.getPlain("Spreadsheet"))) {
+							m_target = new PrintGridable(app.getGuiManager()
+									.getSpreadsheetView());
+						} else if (selItem.equals(app.getPlain("DrawingPad"))) {
 							m_target = app.getEuclidianView1();
-						} else if (selItem.equals(app.getPlain("DrawingPad2"))){
+						} else if (selItem.equals(app.getPlain("DrawingPad2"))) {
 							m_target = app.getGuiManager().getEuclidianView2();
-						} else if (selItem.equals(app.getPlain("ConstructionProtocol"))){
-							m_target = app.getGuiManager().getConstructionProtocolView();
-						} else if (selItem.equals(app.getPlain("DataAnalysis"))){
-							m_target = app.getGuiManager().getDataAnalysisView();
-						} else if (selItem.equals(app.getPlain("AllViews"))){
+						} else if (selItem.equals(app
+								.getPlain("ConstructionProtocol"))) {
+							m_target = app.getGuiManager()
+									.getConstructionProtocolView();
+						} else if (selItem.equals(app.getPlain("DataAnalysis"))) {
+							m_target = app.getGuiManager()
+									.getDataAnalysisView();
+						} else if (selItem.equals(app.getPlain("AllViews"))) {
 							m_target = (Printable) app.getMainComponent();
-						}	
-						
-						//show the appropriate scale panel
+						}
+
+						// show the appropriate scale panel
 						tempPanel.removeAll();
-						if ((selItem == app.getPlain("DrawingPad")) || (selItem == app.getPlain("DrawingPad2"))){
+						if ((selItem == app.getPlain("DrawingPad"))
+								|| (selItem == app.getPlain("DrawingPad2"))) {
 							tempPanel.add(createPanelForScaling());
 						}
 						if ((selItem == app.getPlain("CAS")))
-								tempPanel.add(createPanelForScaling2());
+							tempPanel.add(createPanelForScaling2());
 						panelForTitleAndScaling.revalidate();
-						
+
 						initPages();
-						
+
 						m_preview.doLayout();
-						m_preview.getParent().getParent().validate(); 
-						
+						m_preview.getParent().getParent().validate();
+
 						setCursor(Cursor.getDefaultCursor());
-						
-						
+
 					}
 				};
 				runner.start();
 			}
-		};					
+		};
 		m_cbView.addActionListener(lst_view);
 		m_cbView.setMaximumSize(m_cbView.getPreferredSize());
 		m_cbView.setEditable(false);
-		
-		//BUTTON PANEL
+
+		// BUTTON PANEL
 		JPanel westPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		westPanel.add(btnPrint);
 		westPanel.add(Box.createHorizontalStrut(30));
@@ -275,13 +288,11 @@ public class PrintPreview extends JDialog {
 		westPanel.add(Box.createHorizontalStrut(30));
 		westPanel.add(m_cbScale);
 		westPanel.add(m_cbOrientation);
-		
-		
-		JPanel buttonPanel = new JPanel(new BorderLayout(2,2));
-		buttonPanel.setBorder(BorderFactory.createEmptyBorder(2,5,2,5));
+
+		JPanel buttonPanel = new JPanel(new BorderLayout(2, 2));
+		buttonPanel.setBorder(BorderFactory.createEmptyBorder(2, 5, 2, 5));
 		buttonPanel.add(westPanel, BorderLayout.WEST);
-		
-		
+
 		// title
 		TitlePanel titlePanel = new TitlePanel(app);
 		lst = new ActionListener() {
@@ -289,55 +300,55 @@ public class PrintPreview extends JDialog {
 				kernelChanged = true;
 				Thread runner = new Thread() {
 					public void run() {
-						setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));					
-						updatePages();													
-						setCursor(Cursor.getDefaultCursor());				
+						setCursor(Cursor
+								.getPredefinedCursor(Cursor.WAIT_CURSOR));
+						updatePages();
+						setCursor(Cursor.getDefaultCursor());
 					}
 				};
 				runner.start();
 			}
 		};
 		titlePanel.addActionListener(lst);
-			
-		m_preview = new PreviewContainer();		
+
+		m_preview = new PreviewContainer();
 		ps = new JScrollPane(m_preview);
 		JPanel centerPanel = new JPanel(new BorderLayout());
 		panelForTitleAndScaling = new JPanel(new BorderLayout());
-		
+
 		// show scale panel for euclidian view
 		EuclidianView ev = app.getEuclidianView1();
 		EuclidianView ev2 = app.getEuclidianView2();
-		//CASView cas = app.getca
+		// CASView cas = app.getca
 		app.clearSelectedGeos();
-		
-		tempPanel = new JPanel(new GridLayout(0,1));
+
+		tempPanel = new JPanel(new GridLayout(0, 1));
 		if (m_target == ev || m_target == ev2) {
 			tempPanel.add(createPanelForScaling());
 		}
 		// HACK: m_target gives no information about the current view
-		else if(m_target instanceof ScalingPrintGridable)
+		else if (m_target instanceof ScalingPrintGridable)
 			tempPanel.add(createPanelForScaling2());
 		panelForTitleAndScaling.add(tempPanel, BorderLayout.SOUTH);
 		panelForTitleAndScaling.add(titlePanel, BorderLayout.CENTER);
 		centerPanel.add(panelForTitleAndScaling, BorderLayout.NORTH);
-		
+
 		// preview in center
 		centerPanel.add(ps, BorderLayout.CENTER);
-				
+
 		// toolbar north
-		getContentPane().add(buttonPanel, BorderLayout.NORTH); 
+		getContentPane().add(buttonPanel, BorderLayout.NORTH);
 		// title and preview center
 		getContentPane().add(centerPanel, BorderLayout.CENTER);
-		//setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		
+		// setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+
 		// init the preview
-		initPages();	
-		centerOnScreen();			   	      
-	   						
+		initPages();
+		centerOnScreen();
+
 		app.getMainComponent().setCursor(oldCursor);
 	}
-	
-	
+
 	private String[] getAvailableViews() {
 		ArrayList<String> list = new ArrayList<String>();
 
@@ -370,22 +381,21 @@ public class PrintPreview extends JDialog {
 
 		return s;
 	}
-	
 
-	
 	public JPanel createPanelForScaling2() {
 		// scale panel to set scale of x-axis in cm
-		PrintScalePanel2 scalePanel = new PrintScalePanel2(app, (ScalingPrintGridable) m_target);													
-				
+		PrintScalePanel2 scalePanel = new PrintScalePanel2(app,
+				(ScalingPrintGridable) m_target);
+
 		JPanel retPanel = new JPanel();
 		retPanel.setLayout(new BoxLayout(retPanel, BoxLayout.X_AXIS));
-		retPanel.setBorder(BorderFactory.createEtchedBorder());		
-		retPanel.add(Box.createHorizontalStrut(10));			
+		retPanel.setBorder(BorderFactory.createEtchedBorder());
+		retPanel.add(Box.createHorizontalStrut(10));
 		retPanel.add(scalePanel);
 		return retPanel;
 	}
-	
-	public JPanel createPanelForScaling(){
+
+	public JPanel createPanelForScaling() {
 		// checkbox to turn on/off printing of scale string
 		final JCheckBox cbEVscalePanel = new JCheckBox();
 		cbEVscalePanel.setSelected(app.isPrintScaleString());
@@ -393,196 +403,201 @@ public class PrintPreview extends JDialog {
 		cbEVscalePanel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				app.setPrintScaleString(cbEVscalePanel.isSelected());
-			}				
+			}
 		});
-					
+
 		// scale panel to set scale of x-axis in cm
-		PrintScalePanel scalePanel = new PrintScalePanel(app, (EuclidianView) m_target);				
-		scalePanel.addActionListener(lst);									
-		
+		PrintScalePanel scalePanel = new PrintScalePanel(app,
+				(EuclidianView) m_target);
+		scalePanel.addActionListener(lst);
+
 		JPanel retPanel = new JPanel();
 		retPanel.setLayout(new BoxLayout(retPanel, BoxLayout.X_AXIS));
-		retPanel.setBorder(BorderFactory.createEtchedBorder());		
+		retPanel.setBorder(BorderFactory.createEtchedBorder());
 		retPanel.add(Box.createHorizontalStrut(10));
-		retPanel.add(cbEVscalePanel);			
-		retPanel.add(scalePanel);		
-		
+		retPanel.add(cbEVscalePanel);
+		retPanel.add(scalePanel);
+
 		return retPanel;
 	}
-	
+
 	private void loadPreferences() {
 		try {
-			// orientation			
-			String strOrientation = GeoGebraPreferencesD.getPref().
-				loadPreference(GeoGebraPreferencesD.PRINT_ORIENTATION, "landscape");
-			m_orientation = strOrientation.equals("portrait") ? PageFormat.PORTRAIT : PageFormat.LANDSCAPE;						
-	    						
-			
+			// orientation
+			String strOrientation = GeoGebraPreferencesD.getPref()
+					.loadPreference(GeoGebraPreferencesD.PRINT_ORIENTATION,
+							"landscape");
+			m_orientation = strOrientation.equals("portrait") ? PageFormat.PORTRAIT
+					: PageFormat.LANDSCAPE;
+
 			// show printing scale in cm
-			app.setPrintScaleString( Boolean.valueOf(
-					GeoGebraPreferencesD.getPref().
-						loadPreference(GeoGebraPreferencesD.PRINT_SHOW_SCALE, "false")).booleanValue() );	    							
+			app.setPrintScaleString(Boolean.valueOf(
+					GeoGebraPreferencesD.getPref().loadPreference(
+							GeoGebraPreferencesD.PRINT_SHOW_SCALE, "false"))
+					.booleanValue());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-    }
-    
-    private void savePreferences() {    		    	
-    	// orientation
-    	String strOrientation;
-    	switch (m_orientation) {
-    		case PageFormat.LANDSCAPE: strOrientation = "landscape"; break;    		
-    		default: strOrientation = "portrait";
-    	}    	
-    	
-    	GeoGebraPreferencesD pref =  GeoGebraPreferencesD.getPref();
-    	pref.savePreference(GeoGebraPreferencesD.PRINT_ORIENTATION, strOrientation);
-    	
-    	// show printing scale in cm
-    	pref.savePreference(GeoGebraPreferencesD.PRINT_SHOW_SCALE, Boolean.toString(app.isPrintScaleString()));  
-    }
-	
-	
+	}
+
+	private void savePreferences() {
+		// orientation
+		String strOrientation;
+		switch (m_orientation) {
+		case PageFormat.LANDSCAPE:
+			strOrientation = "landscape";
+			break;
+		default:
+			strOrientation = "portrait";
+		}
+
+		GeoGebraPreferencesD pref = GeoGebraPreferencesD.getPref();
+		pref.savePreference(GeoGebraPreferencesD.PRINT_ORIENTATION,
+				strOrientation);
+
+		// show printing scale in cm
+		pref.savePreference(GeoGebraPreferencesD.PRINT_SHOW_SCALE,
+				Boolean.toString(app.isPrintScaleString()));
+	}
+
 	public void setVisible(boolean flag) {
 		if (flag) {
-			// note: preferences loaded in initPreview			
-			super.setVisible(true);			
+			// note: preferences loaded in initPreview
+			super.setVisible(true);
 		} else {
 			// store undo info
 			if (kernelChanged) {
-				app.storeUndoInfo();				
+				app.storeUndoInfo();
 			}
-			
+
 			// save preferences
 			savePreferences();
 			super.setVisible(false);
-		}				
+		}
 	}
-	
+
 	private void centerOnScreen() {
-		//	center on screen
+		// center on screen
 		pack();
 		Dimension size = getPreferredSize();
-		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();  	
+		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 		int w = Math.min(size.width, dim.width);
-		int h = Math.min(size.height, (int)(dim.height*0.9));
-		setLocation((dim.width - w) / 2, (dim.height - h) / 2);                
-		setSize(w, h);	
+		int h = Math.min(size.height, (int) (dim.height * 0.9));
+		setLocation((dim.width - w) / 2, (dim.height - h) / 2);
+		setSize(w, h);
 	}
-	
+
 	/**
-	 *  Sets the orientation of preview and applies current scale.
+	 * Sets the orientation of preview and applies current scale.
 	 */
-	private void initPages() {	
+	private void initPages() {
 		PageFormat pageFormat = getDefaultPageFormat();
 		pageFormat.setOrientation(m_orientation);
-	
-		if (pageFormat.getWidth() == 0 ||  pageFormat.getHeight() == 0) {
+
+		if (pageFormat.getWidth() == 0 || pageFormat.getHeight() == 0) {
 			App.debug("Unable to determine default page size");
 			return;
 		}
-		
-		int pageIndex = 0;			
+
+		int pageIndex = 0;
 		while (true) {
 			if (pageExists(pageIndex)) {
-				PagePreview pp = new PagePreview(m_target, pageFormat, pageIndex);
+				PagePreview pp = new PagePreview(m_target, pageFormat,
+						pageIndex);
 				pp.setScale(m_scale);
 				m_preview.add(pp);
-			} 
-			else break;			
+			} else
+				break;
 			pageIndex++;
-		}								
+		}
 	}
-	
+
 	private static PageFormat getDefaultPageFormat() {
-		PrinterJob prnJob = PrinterJob.getPrinterJob();	
+		PrinterJob prnJob = PrinterJob.getPrinterJob();
 		PageFormat pageFormat = prnJob.defaultPage();
-		
-		Paper paper = pageFormat.getPaper();				
+
+		Paper paper = pageFormat.getPaper();
 		double width = paper.getWidth();
-		double height = paper.getHeight();			
-		if (width > 0 &&  height > 0) {
-			//	set margins				
-			paper.setImageableArea(
-					AppD.PAGE_MARGIN_X, 
-					AppD.PAGE_MARGIN_Y,
-					width  - 2 * AppD.PAGE_MARGIN_X, 
-					height - 2 * AppD.PAGE_MARGIN_Y);
+		double height = paper.getHeight();
+		if (width > 0 && height > 0) {
+			// set margins
+			paper.setImageableArea(AppD.PAGE_MARGIN_X, AppD.PAGE_MARGIN_Y,
+					width - 2 * AppD.PAGE_MARGIN_X, height - 2
+							* AppD.PAGE_MARGIN_Y);
 			pageFormat.setPaper(paper);
 		}
-				
+
 		return pageFormat;
 	}
-	
+
 	// update Pages, add or remove last page if necessary
-	private void updatePages() {	
+	private void updatePages() {
 		// update existing pages
 		Component[] comps = m_preview.getComponents();
 		for (int k = 0; k < comps.length; k++) {
 			if (!(comps[k] instanceof PagePreview))
 				continue;
 			PagePreview pp = (PagePreview) comps[k];
-			pp.update();			 			
+			pp.update();
 		}
-		
+
 		// add or remove last page if necessary
 		// last page gone?
-		if (!pageExists(comps.length-1)) {
-			m_preview.remove(comps.length-1);
+		if (!pageExists(comps.length - 1)) {
+			m_preview.remove(comps.length - 1);
 			m_preview.doLayout();
-			m_preview.getParent().getParent().validate(); 
+			m_preview.getParent().getParent().validate();
 		}
 		// new page?
-		else if (pageExists(comps.length)) {			
+		else if (pageExists(comps.length)) {
 			PageFormat pageFormat = getDefaultPageFormat();
 			pageFormat.setOrientation(m_orientation);
 			if (pageFormat.getHeight() == 0 || pageFormat.getWidth() == 0) {
 				App.debug("Unable to determine default page size");
 				return;
-			}		
+			}
 			PagePreview pp = new PagePreview(m_target, pageFormat, comps.length);
 			pp.setScale(m_scale);
 			m_preview.add(pp);
 			m_preview.doLayout();
-			m_preview.getParent().getParent().validate(); 
-		}	
+			m_preview.getParent().getParent().validate();
+		}
 	}
-	
+
 	public boolean pageExists(int pageIndex) {
-		try {							
+		try {
 			PageFormat pageFormat = getDefaultPageFormat();
 			pageFormat.setOrientation(m_orientation);
-			return (m_target.print(tempGraphics, pageFormat, pageIndex) ==
-										Printable.PAGE_EXISTS);
+			return (m_target.print(tempGraphics, pageFormat, pageIndex) == Printable.PAGE_EXISTS);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
-		}			
+		}
 	}
-	
+
 	private void setOrientation(int orientation) {
-		m_orientation = orientation;	
-	
+		m_orientation = orientation;
+
 		m_preview.removeAll();
 		initPages();
-		
+
 		PageFormat pageFormat = getDefaultPageFormat();
 		pageFormat.setOrientation(m_orientation);
-	
+
 		Component[] comps = m_preview.getComponents();
 		for (int k = 0; k < comps.length; k++) {
 			if (!(comps[k] instanceof PagePreview))
 				continue;
 			PagePreview pp = (PagePreview) comps[k];
-			pp.setPageFormat(pageFormat);			
+			pp.setPageFormat(pageFormat);
 		}
 		m_preview.doLayout();
 		m_preview.getParent().getParent().validate();
 	}
-	
+
 	private void setScale(int scale) {
 		m_scale = scale;
-	
+
 		Component[] comps = m_preview.getComponents();
 		for (int k = 0; k < comps.length; k++) {
 			if (!(comps[k] instanceof PagePreview))
@@ -591,12 +606,12 @@ public class PrintPreview extends JDialog {
 			pp.setScale(scale);
 		}
 		m_preview.doLayout();
-		m_preview.getParent().getParent().validate();	
+		m_preview.getParent().getParent().validate();
 	}
 
 	class PreviewContainer extends JPanel implements Pageable {
 		private static final long serialVersionUID = 1L;
-		
+
 		protected int H_GAP = 16;
 		protected int V_GAP = 10;
 
@@ -618,9 +633,8 @@ public class PrintPreview extends JDialog {
 			int ww = nCol * (w + H_GAP) + H_GAP;
 			int hh = nRow * (h + V_GAP) + V_GAP;
 			Insets ins = getInsets();
-			return new Dimension(
-				ww + ins.left + ins.right,
-				hh + ins.top + ins.bottom);
+			return new Dimension(ww + ins.left + ins.right, hh + ins.top
+					+ ins.bottom);
 		}
 
 		public Dimension getMaximumSize() {
@@ -663,32 +677,32 @@ public class PrintPreview extends JDialog {
 				x = ins.left + H_GAP;
 			}
 		}
-		
-		
+
 		/* ****************
-		 * Pageable interface		 
-		 * ****************/
-		 
-		public int getNumberOfPages() {			
+		 * Pageable interface ***************
+		 */
+
+		public int getNumberOfPages() {
 			return getComponentCount();
 		}
 
-		public PageFormat getPageFormat(int pageIndex) 
-		throws IndexOutOfBoundsException {			 			
+		public PageFormat getPageFormat(int pageIndex)
+				throws IndexOutOfBoundsException {
 			try {
-				return ((PagePreview)getComponent(pageIndex)).getPageFormat();
+				return ((PagePreview) getComponent(pageIndex)).getPageFormat();
 			} catch (Exception e) {
 				throw new IndexOutOfBoundsException();
-			}			
+			}
 		}
 
-		public Printable getPrintable(int pageIndex) throws IndexOutOfBoundsException {
+		public Printable getPrintable(int pageIndex)
+				throws IndexOutOfBoundsException {
 			return m_target;
 		}
-	}	
+	}
 
 	class PagePreview extends JPanel {
-		
+
 		private static final long serialVersionUID = 1L;
 
 		protected int m_w;
@@ -701,24 +715,24 @@ public class PrintPreview extends JDialog {
 
 		public PagePreview(Printable target, PageFormat format, int pageIndex) {
 			this.target = target;
-			this.format = format;						
+			this.format = format;
 			this.pageIndex = pageIndex;
-		
+
 			m_w = (int) format.getWidth();
-			m_h = (int) format.getHeight();					
-								
+			m_h = (int) format.getHeight();
+
 			setBackground(Color.white);
 			setBorder(new MatteBorder(1, 1, 2, 2, Color.black));
-//			update();
+			// update();
 		}
-		
+
 		public void setPageFormat(PageFormat format) {
-			this.format = format;	
+			this.format = format;
 			m_w = (int) (format.getWidth() * scale);
 			m_h = (int) (format.getHeight() * scale);
 			update();
 		}
-		
+
 		public PageFormat getPageFormat() {
 			return format;
 		}
@@ -726,18 +740,17 @@ public class PrintPreview extends JDialog {
 		public void setScale(int scale) {
 			double newScale = scale / 100.0;
 			if (newScale != this.scale) {
-				this.scale = newScale;	
+				this.scale = newScale;
 				m_w = (int) (format.getWidth() * this.scale);
 				m_h = (int) (format.getHeight() * this.scale);
 				update();
-			}				
+			}
 		}
 
 		public Dimension getPreferredSize() {
 			Insets ins = getInsets();
-			return new Dimension(
-				m_w + ins.left + ins.right,
-				m_h + ins.top + ins.bottom);
+			return new Dimension(m_w + ins.left + ins.right, m_h + ins.top
+					+ ins.bottom);
 		}
 
 		public Dimension getMaximumSize() {
@@ -752,22 +765,24 @@ public class PrintPreview extends JDialog {
 			img = new BufferedImage(m_w, m_h, BufferedImage.TYPE_INT_RGB);
 			Graphics2D g2 = img.createGraphics();
 			g2.setColor(getBackground());
-			g2.fillRect(0, 0, m_w, m_h);				
-			if (scale != 1.0) g2.scale(scale, scale);		
+			g2.fillRect(0, 0, m_w, m_h);
+			if (scale != 1.0)
+				g2.scale(scale, scale);
 			try {
 				target.print(g2, format, pageIndex);
-			} catch (Exception e) {}									
+			} catch (Exception e) {
+			}
 		}
-		
+
 		public void update() {
 			try {
 				updateBufferedImage();
 			} catch (Exception e) {
 				e.printStackTrace();
-			} catch (OutOfMemoryError e){
+			} catch (OutOfMemoryError e) {
 				e.printStackTrace();
 			}
-			repaint();			
+			repaint();
 		}
 
 		public void paint(Graphics g) {
@@ -775,7 +790,6 @@ public class PrintPreview extends JDialog {
 			g.fillRect(0, 0, getWidth(), getHeight());
 			g.drawImage(img, 0, 0, this);
 			paintBorder(g);
-		}		
+		}
 	}
 }
-
