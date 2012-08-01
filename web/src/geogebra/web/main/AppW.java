@@ -2145,4 +2145,9 @@ public class AppW extends App {
 				.getActiveEuclidianView().getShowGrid());
     }
 
+	@Override
+    public void runScripts(GeoElement geo1, String string) {
+	    geo1.runScripts(string);
+    }
+
 }

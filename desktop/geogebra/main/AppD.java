@@ -72,6 +72,7 @@ import geogebra.factories.UtilFactoryD;
 import geogebra.gui.GuiManagerD;
 import geogebra.gui.app.GeoGebraFrame;
 import geogebra.gui.inputbar.AlgebraInput;
+import geogebra.gui.inputfield.MyTextField;
 import geogebra.gui.layout.DockBar;
 import geogebra.gui.toolbar.Toolbar;
 import geogebra.gui.toolbar.ToolbarContainer;
@@ -5263,6 +5264,15 @@ public class AppD extends App implements
 	@Override
 	public NormalizerMinimal getNormalizer() {
 		return Normalizer.getInstance();
+	}
+	
+	@Override
+	public void runScripts(final GeoElement geo1, final String string) {
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				geo1.runScripts(string);
+			}
+		});
 	}
 	
 }

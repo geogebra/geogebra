@@ -94,6 +94,8 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
 
+import javax.swing.SwingUtilities;
+
 @SuppressWarnings("javadoc")
 public abstract class EuclidianController {
 
@@ -6174,7 +6176,11 @@ public abstract class EuclidianController {
 							GeoElement geo1 = chooseGeo(hits, true);
 							// ggb3D : geo1 may be null if it's axes or xOy plane
 							if (geo1 != null) {
-								geo1.runScripts(null);
+								
+								// make sure that Input Boxes lose focus (and so update) before running scripts
+								view.requestFocusInWindow();
+								
+								app.runScripts(geo1, (String)null);
 							}
 						}
 					}
@@ -8439,6 +8445,10 @@ public abstract class EuclidianController {
 		if(pressedButton!=null){
 			pressedButton.setDraggedOrContext(pressedButton.getDraggedOrContext()
 					|| event.isMetaDown() || event.isPopupTrigger());
+			
+			// make sure that Input Boxes lose focus (and so update) before running scripts
+			view.requestFocusInWindow();
+			
 			pressedButton.setPressed(false);	
 			pressedButton=null;
 		}

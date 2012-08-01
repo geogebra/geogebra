@@ -251,7 +251,11 @@ public class MyButton {
 		}
 		// releasing
 		else if (!draggedOrContext) {
-			geoButton.runScripts(null);
+			
+			// make sure that Input Boxes lose focus (and so update) before running scripts
+			geoButton.getKernel().getApplication().getActiveEuclidianView().requestFocusInWindow();
+
+			geoButton.getKernel().getApplication().runScripts(geoButton, null);
 		}
 
 		pressed = b;

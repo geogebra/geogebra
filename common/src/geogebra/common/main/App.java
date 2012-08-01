@@ -3601,4 +3601,6 @@ public abstract class App {
 		return myXMLio.getPreferencesXML();
 	}
 
+	public abstract void runScripts(GeoElement geo1, String string);
+
 }
