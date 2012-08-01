@@ -1,5 +1,6 @@
 package geogebra.web.euclidian;
 
+import geogebra.common.awt.GColor;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianStyleBarStatic;
 import geogebra.common.euclidian.EuclidianView;
@@ -69,7 +70,6 @@ public class EuclidianStyleBarW extends HorizontalPanel
 	// TODO: create button classes so these become internal
 	AlgoTableText tableText;
 
-	Integer[] pointStyleArray;
 	HashMap<Integer, Integer> lineStyleMap;
 
 	HashMap<Integer, Integer> pointStyleMap;
@@ -133,10 +133,10 @@ public class EuclidianStyleBarW extends HorizontalPanel
 
 		// init button-specific fields
 		// TODO: put these in button classes
-		pointStyleArray = EuclidianView.getPointStyles();
+		EuclidianStyleBarStatic.pointStyleArray = EuclidianView.getPointStyles();
 		pointStyleMap = new HashMap<Integer, Integer>();
-		for (int i = 0; i < pointStyleArray.length; i++)
-			pointStyleMap.put(pointStyleArray[i], i);
+		for (int i = 0; i < EuclidianStyleBarStatic.pointStyleArray.length; i++)
+			pointStyleMap.put(EuclidianStyleBarStatic.pointStyleArray[i], i);
 
 		EuclidianStyleBarStatic.lineStyleArray = EuclidianView.getLineTypes();
 		lineStyleMap = new HashMap<Integer, Integer>();
@@ -776,10 +776,10 @@ public class EuclidianStyleBarW extends HorizontalPanel
 
 		// create line style icon array
 		final GDimensionW pointStyleIconSize = new GDimensionW(20, iconHeight);
-		ImageData[] pointStyleIcons = new ImageData[pointStyleArray.length];
-		for (int i = 0; i < pointStyleArray.length; i++)
+		ImageData[] pointStyleIcons = new ImageData[EuclidianStyleBarStatic.pointStyleArray.length];
+		for (int i = 0; i < EuclidianStyleBarStatic.pointStyleArray.length; i++)
 			pointStyleIcons[i] = GeoGebraIcon.createPointStyleIcon(
-					pointStyleArray[i], 4, pointStyleIconSize, geogebra.common.awt.GColor.BLACK,
+					EuclidianStyleBarStatic.pointStyleArray[i], 4, pointStyleIconSize, geogebra.common.awt.GColor.BLACK,
 					null);
 
 		// create button
@@ -828,7 +828,7 @@ public class EuclidianStyleBarW extends HorizontalPanel
 			public ImageData getButtonIcon() {
 				if (getSelectedIndex() > -1) {
 					return GeoGebraIcon.createPointStyleIcon(
-							pointStyleArray[this.getSelectedIndex()],
+							EuclidianStyleBarStatic.pointStyleArray[this.getSelectedIndex()],
 							this.getSliderValue(), pointStyleIconSize,
 							geogebra.common.awt.GColor.BLACK, null);
 				}
@@ -1435,19 +1435,24 @@ public class EuclidianStyleBarW extends HorizontalPanel
 								.getSelectedColor()));
 				// btnLineStyle.setFgColor((Color)btnColor.getSelectedValue());*/
 			} else {
-				applyColor(targetGeos);
+				GColor color = btnColor.getSelectedColor();
+				float alpha = btnColor.getSliderValue() / 100.0f;
+				needUndo = EuclidianStyleBarStatic.applyColor(targetGeos, color, alpha, app);
 				// btnLineStyle.setFgColor((Color)btnColor.getSelectedValue());
 				// btnPointStyle.setFgColor((Color)btnColor.getSelectedValue());
 			}
 		} else if (source == btnBgColor) {
 			if (btnBgColor.getSelectedIndex() >= 0) {
-				applyBgColor(targetGeos);
+				GColor color = btnBgColor.getSelectedColor();
+				float alpha = btnBgColor.getSliderValue() / 100.0f;
+				needUndo = EuclidianStyleBarStatic.applyBgColor(targetGeos, color, alpha);
 			}
 		}
 
 		else if (source == btnTextColor) {
 			if (btnTextColor.getSelectedIndex() >= 0) {
-				applyTextColor(targetGeos);
+				GColor color = btnTextColor.getSelectedColor();
+				needUndo = EuclidianStyleBarStatic.applyTextColor(targetGeos, color);
 				// btnTextColor.setFgColor((Color)btnTextColor.getSelectedValue());
 				// btnItalic.setForeground((Color)btnTextColor.getSelectedValue());
 				// btnBold.setForeground((Color)btnTextColor.getSelectedValue());
@@ -1468,7 +1473,9 @@ public class EuclidianStyleBarW extends HorizontalPanel
 			}
 		} else if (source == btnPointStyle) {
 			if (btnPointStyle.getSelectedValue() != null) {
-				applyPointStyle(targetGeos);
+				int pointStyleSelIndex = btnPointStyle.getSelectedIndex();
+				int pointSize = btnPointStyle.getSliderValue();
+				needUndo = EuclidianStyleBarStatic.applyPointStyle(targetGeos, pointStyleSelIndex, pointSize);
 			}
 		} else if (source == btnBold) {
 			applyFontStyle(targetGeos);
@@ -1502,83 +1509,6 @@ public class EuclidianStyleBarW extends HorizontalPanel
 		// Apply Styles
 		// ==============================================
 
-		private void applyPointStyle(ArrayList<GeoElement> geos) {
-			int pointStyle = pointStyleArray[btnPointStyle.getSelectedIndex()];
-			int pointSize = btnPointStyle.getSliderValue();
-			for (int i = 0; i < geos.size(); i++) {
-				GeoElement geo = geos.get(i);
-				if (geo instanceof PointProperties) {
-					if (((PointProperties) geo).getPointSize() != pointSize
-							|| (((PointProperties) geo).getPointStyle() != pointStyle)) {
-						((PointProperties) geo).setPointSize(pointSize);
-						((PointProperties) geo).setPointStyle(pointStyle);
-						geo.updateRepaint();
-						needUndo = true;
-					}
-				}
-			}
-		}
-
-		private void applyColor(ArrayList<GeoElement> geos) {
-
-			GColorW color = (GColorW) btnColor
-					.getSelectedColor();
-			float alpha = btnColor.getSliderValue() / 100.0f;
-
-			for (int i = 0; i < geos.size(); i++) {
-				GeoElement geo = geos.get(i);
-				// apply object color to all other geos except images or text
-				if (!(geo.getGeoElementForPropertiesDialog() instanceof GeoImage || geo
-						.getGeoElementForPropertiesDialog() instanceof GeoText))
-					if (geo.getObjectColor() != color || geo
-							.getAlphaValue() != alpha) {
-						geo.setObjColor(new geogebra.web.awt.GColorW(color));
-						// if we change alpha for functions, hit won't work properly
-						if (geo.isFillable())
-							geo.setAlphaValue(alpha);
-						geo.updateVisualStyle();
-						needUndo = true;
-					}
-			}
-
-			app.getKernel().notifyRepaint();
-		}
-
-		private void applyBgColor(ArrayList<GeoElement> geos) {
-
-			GColorW color = (GColorW) btnBgColor
-					.getSelectedColor();
-			float alpha = btnBgColor.getSliderValue() / 100.0f;
-
-			for (int i = 0; i < geos.size(); i++) {
-				GeoElement geo = geos.get(i);
-
-				// if text geo, then apply background color
-				if (geo instanceof TextProperties)
-					if (geo.getBackgroundColor() != color
-							|| geo.getAlphaValue() != alpha) {
-						geo.setBackgroundColor(color == null ? null : new geogebra.web.awt.GColorW(color));
-						// TODO apply background alpha
-						// --------
-						geo.updateRepaint();
-						needUndo = true;
-					}
-			}
-		}
-
-		private void applyTextColor(ArrayList<GeoElement> geos) {
-
-			GColorW color = (GColorW) btnTextColor.getSelectedColor();
-			for (int i = 0; i < geos.size(); i++) {
-				GeoElement geo = geos.get(i);
-				if (geo.getGeoElementForPropertiesDialog() instanceof TextProperties
-						&& geo.getObjectColor() != color) {
-					geo.setObjColor(new geogebra.web.awt.GColorW(color));
-					geo.updateRepaint();
-					needUndo = true;
-				}
-			}
-		}
 
 		private void applyFontStyle(ArrayList<GeoElement> geos) {
 

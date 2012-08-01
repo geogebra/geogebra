@@ -277,7 +277,7 @@ public class EuclidianStyleBarStatic {
 	}
 	
 	public static boolean applyPointStyle(ArrayList<GeoElement> geos, int pointStyleSelIndex, int pointSize) {
-		int pointStyle = EuclidianStyleBarStatic.pointStyleArray[pointStyleSelIndex];
+		int pointStyle = pointStyleArray[pointStyleSelIndex];
 		boolean needUndo = false;
 		for (int i = 0; i < geos.size(); i++) {
 			GeoElement geo = geos.get(i);
