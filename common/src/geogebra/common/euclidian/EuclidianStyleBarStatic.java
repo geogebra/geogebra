@@ -1,5 +1,6 @@
 package geogebra.common.euclidian;
 
+import geogebra.common.awt.GColor;
 import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
@@ -7,10 +8,13 @@ import geogebra.common.kernel.algos.AlgoAttachCopyToView;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.AbsoluteScreenLocateable;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
+import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.PointProperties;
+import geogebra.common.kernel.geos.TextProperties;
 import geogebra.common.main.App;
 import geogebra.common.main.MyError;
 
@@ -289,6 +293,63 @@ public class EuclidianStyleBarStatic {
 		}
 		return needUndo;
 	}
+	
+	public static boolean applyColor(ArrayList<GeoElement> geos, GColor color, float alpha, App app) {
+		boolean needUndo = false;
+		for (int i = 0; i < geos.size(); i++) {
+			GeoElement geo = geos.get(i);
+			// apply object color to all other geos except images or text
+			if (!(geo.getGeoElementForPropertiesDialog() instanceof GeoImage || geo
+					.getGeoElementForPropertiesDialog() instanceof GeoText))
+				if ((geo.getObjectColor() != color || geo
+						.getAlphaValue() != alpha)) {
+					geo.setObjColor(color);
+					// if we change alpha for functions, hit won't work properly
+					if (geo.isFillable())
+						geo.setAlphaValue(alpha);
+					geo.updateVisualStyle();
+					needUndo = true;
+				}
+		}
+
+		app.getKernel().notifyRepaint();
+		return needUndo;
+	}
+
+	public static boolean applyBgColor(ArrayList<GeoElement> geos, GColor color, float alpha) {
+		boolean needUndo = false;
+		
+		for (int i = 0; i < geos.size(); i++) {
+			GeoElement geo = geos.get(i);
+
+			// if text geo, then apply background color
+			if (geo instanceof TextProperties)
+				if (geo.getBackgroundColor() != color
+						|| geo.getAlphaValue() != alpha) {
+					geo.setBackgroundColor(color == null ? null : color);
+					// TODO apply background alpha
+					// --------
+					geo.updateRepaint();
+					needUndo = true;
+				}
+		}
+		return needUndo;
+	}
+
+	public static boolean applyTextColor(ArrayList<GeoElement> geos, GColor color) {
+		boolean needUndo = false;
+		for (int i = 0; i < geos.size(); i++) {
+			GeoElement geo = geos.get(i);
+			if (geo.getGeoElementForPropertiesDialog() instanceof TextProperties
+					&& geo.getObjectColor() != color) {
+				geo.setObjColor(color);
+				geo.updateRepaint();
+				needUndo = true;
+			}
+		}
+		return needUndo;
+	}
+
 
 	
 	/**

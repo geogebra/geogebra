@@ -1460,7 +1460,7 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 			} else {
 				GColor color = btnColor.getSelectedColor();
 				float alpha = btnColor.getSliderValue() / 100.0f;
-				needUndo = applyColor(targetGeos, color, alpha, app);
+				needUndo = EuclidianStyleBarStatic.applyColor(targetGeos, color, alpha, app);
 				// btnLineStyle.setFgColor((Color)btnColor.getSelectedValue());
 				// btnPointStyle.setFgColor((Color)btnColor.getSelectedValue());
 			}
@@ -1470,14 +1470,14 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 			if (btnBgColor.getSelectedIndex() >= 0) {
 				GColor color = btnBgColor.getSelectedColor();
 				float alpha = btnBgColor.getSliderValue() / 100.0f;
-				needUndo = applyBgColor(targetGeos, color, alpha);
+				needUndo = EuclidianStyleBarStatic.applyBgColor(targetGeos, color, alpha);
 			}
 		}
 
 		else if (source == btnTextColor) {
 			if (btnTextColor.getSelectedIndex() >= 0) {
 				GColor color = btnTextColor.getSelectedColor();
-				needUndo = applyTextColor(targetGeos, color);
+				needUndo = EuclidianStyleBarStatic.applyTextColor(targetGeos, color);
 				// btnTextColor.setFgColor((Color)btnTextColor.getSelectedValue());
 				// btnItalic.setForeground((Color)btnTextColor.getSelectedValue());
 				// btnBold.setForeground((Color)btnTextColor.getSelectedValue());
@@ -1538,61 +1538,6 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 	// Apply Styles
 	// ==============================================
 
-	public static boolean applyColor(ArrayList<GeoElement> geos, GColor color, float alpha, App app) {
-		boolean needUndo = false;
-		for (int i = 0; i < geos.size(); i++) {
-			GeoElement geo = geos.get(i);
-			// apply object color to all other geos except images or text
-			if (!(geo.getGeoElementForPropertiesDialog() instanceof GeoImage || geo
-					.getGeoElementForPropertiesDialog() instanceof GeoText))
-				if ((geo.getObjectColor() != color || geo
-						.getAlphaValue() != alpha)) {
-					geo.setObjColor(color);
-					// if we change alpha for functions, hit won't work properly
-					if (geo.isFillable())
-						geo.setAlphaValue(alpha);
-					geo.updateVisualStyle();
-					needUndo = true;
-				}
-		}
-
-		app.getKernel().notifyRepaint();
-		return needUndo;
-	}
-
-	public static boolean applyBgColor(ArrayList<GeoElement> geos, GColor color, float alpha) {
-		boolean needUndo = false;
-		
-		for (int i = 0; i < geos.size(); i++) {
-			GeoElement geo = geos.get(i);
-
-			// if text geo, then apply background color
-			if (geo instanceof TextProperties)
-				if (geo.getBackgroundColor() != color
-						|| geo.getAlphaValue() != alpha) {
-					geo.setBackgroundColor(color == null ? null : color);
-					// TODO apply background alpha
-					// --------
-					geo.updateRepaint();
-					needUndo = true;
-				}
-		}
-		return needUndo;
-	}
-
-	public static boolean applyTextColor(ArrayList<GeoElement> geos, GColor color) {
-		boolean needUndo = false;
-		for (int i = 0; i < geos.size(); i++) {
-			GeoElement geo = geos.get(i);
-			if (geo.getGeoElementForPropertiesDialog() instanceof TextProperties
-					&& geo.getObjectColor() != color) {
-				geo.setObjColor(color);
-				geo.updateRepaint();
-				needUndo = true;
-			}
-		}
-		return needUndo;
-	}
 
 	private void applyFontStyle(ArrayList<GeoElement> geos) {
 
