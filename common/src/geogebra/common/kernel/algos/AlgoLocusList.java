@@ -59,8 +59,6 @@ public class AlgoLocusList extends AlgoElement {
 
 		path = P.getPath();
 
-		fillLocusArray(Q, P);
-
 		locus = new GeoLocus(cons);
 		setInputOutput(); // for AlgoElement
 		cons.registerEuclidianViewCE(this);
@@ -79,8 +77,6 @@ public class AlgoLocusList extends AlgoElement {
 
 		path = P.getPath();
 
-		fillLocusArray(Q, P);
-
 		locus = new GeoLocus(cons);
 		setInputOutput(); // for AlgoElement
 		cons.registerEuclidianViewCE(this);
@@ -95,19 +91,37 @@ public class AlgoLocusList extends AlgoElement {
 	}
 
 	private void fillLocusArray(GeoPoint Q, GeoPoint P) {
-		arrLocus = new ArrayList<AlgoElement>();
+
+		if (arrLocus == null)
+			arrLocus = new ArrayList<AlgoElement>();
+
 		// AlgoLocusList should be called only when the path is a GeoList
 		GeoElement actel, pathp;
 		AlgoElement actal;
+		Path oldel;
 		// however...
 		try {
 			int try_steps = PathMover.MIN_STEPS / ((GeoList)path).size() + 1;
 			if (try_steps < MIN_STEPS_REALLY) {
 				try_steps = MIN_STEPS_REALLY;
 			}
+			int arrLocusSize = arrLocus.size();
+			for (int i = arrLocusSize - 1; i >= ((GeoList)path).size(); i--) {
+				arrLocus.remove(i);
+			}
+			arrLocusSize = arrLocus.size();
 			for (int i = 0; i < ((GeoList)path).size(); i++) {
 				actel = ((GeoList)path).get(i);
 				if (actel instanceof Path) {
+					if (i < arrLocusSize) {
+						if (arrLocus.get(i) instanceof AlgoLocusList) {
+							oldel = ((AlgoLocusList)arrLocus.get(i)).getMovingPoint().getPath();
+						} else {
+							oldel = ((AlgoLocus)arrLocus.get(i)).getMovingPoint().getPath();
+						}
+						if (oldel == actel)
+							continue;
+					}
 					P.setPath((Path)actel);
 					if (actel instanceof GeoList) {
 						actal = new AlgoLocusList(cons, Q, P, try_steps);
@@ -120,7 +134,15 @@ public class AlgoLocusList extends AlgoElement {
 					cons.removeFromConstructionList(actal);
 					cons.removeFromConstructionList(pathp);
 					P.setPath(path);
-					arrLocus.add(actal);
+					if (i < arrLocusSize)
+						arrLocus.set(i, actal);
+					else
+						arrLocus.add(actal);
+				} else {
+					if (i < arrLocusSize)
+						arrLocus.set(i, null);
+					else
+						arrLocus.add(null);
 				}
 			}
 		} catch (Exception ex) {
@@ -233,6 +255,9 @@ public class AlgoLocusList extends AlgoElement {
 			return;
 		}
 
+		// it is necessary to call this here to make arrLocus up-to-date
+		fillLocusArray(locusPoint, movingPoint);
+
 		locus.clearPoints();
 		foundDefined = false;
 
@@ -242,8 +267,10 @@ public class AlgoLocusList extends AlgoElement {
 			actLocus = arrLocus.get(i);
 			if (actLocus instanceof AlgoLocusList)
 				actGeo = ((AlgoLocusList) actLocus).getLocus();
-			else
+			else if (actLocus instanceof AlgoLocus)
 				actGeo = ((AlgoLocus)actLocus).getLocus();
+			else
+				continue;
 			for (int j = 0; j < actGeo.getPointLength(); j++) {
 				insertPoint(
 					actGeo.getPoints().get(j).x,
