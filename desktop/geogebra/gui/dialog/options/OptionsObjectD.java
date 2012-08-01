@@ -42,7 +42,6 @@ import javax.swing.border.Border;
 public class OptionsObjectD extends geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelD, SetLabels {
 
 	private static final long serialVersionUID = 1L;
-	private JButton defaultsButton;
 	private PropertiesPanel propPanel;
 	private GeoGebraColorChooser colChooser;
 	
@@ -88,27 +87,10 @@ public class OptionsObjectD extends geogebra.common.gui.dialog.options.OptionsOb
 		listScroller.setBackground(Color.white);
 
 
-		// apply defaults button
-		defaultsButton = new JButton();
-		defaultsButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				applyDefaults();
-			}
-		});
 
 
 
-		// build button panel with some buttons on the left
-		// and some on the right
-		JPanel buttonPanel = new JPanel(new BorderLayout());
-		JPanel leftButtonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		JPanel rightButtonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-		buttonPanel.add(rightButtonPanel, BorderLayout.EAST);
-		buttonPanel.add(leftButtonPanel, BorderLayout.WEST);
-
-		// left buttons
-		leftButtonPanel.add(defaultsButton);
-		
+	
 
 
 
@@ -138,7 +120,6 @@ public class OptionsObjectD extends geogebra.common.gui.dialog.options.OptionsOb
 		wrappedPanel.setLayout(new BorderLayout());
 		//this.add(propPanel, BorderLayout.CENTER);
 		wrappedPanel.add(splitPane, BorderLayout.CENTER);
-		wrappedPanel.add(buttonPanel, BorderLayout.SOUTH);
 		
 
 		if (wasShowing) {
@@ -170,8 +151,6 @@ public class OptionsObjectD extends geogebra.common.gui.dialog.options.OptionsOb
 	 */
 	public void setLabels() {
 		
-		defaultsButton.setText(app.getMenu("ApplyDefaults"));
-		
 		propPanel.setLabels();
 		
 	}
@@ -179,22 +158,6 @@ public class OptionsObjectD extends geogebra.common.gui.dialog.options.OptionsOb
 	
 
 
-	/**
-	 * Reset the visual style of the selected elements.
-	 * 
-	 * TODO Does not work with lists (F.S.)
-	 */
-	private void applyDefaults() {
-
-		ConstructionDefaults defaults = kernel.getConstruction()
-				.getConstructionDefaults();
-		
-		for (GeoElement geo : app.getSelectedGeos()){
-			defaults.setDefaultVisualStyles(geo, true);
-			geo.updateRepaint();
-		}
-
-	}
 	
 	
 	
