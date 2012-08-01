@@ -112,12 +112,14 @@ public class AlgoLocusList extends AlgoElement {
 			arrLocusSize = arrLocus.size();
 			for (int i = 0; i < ((GeoList)path).size(); i++) {
 				actel = ((GeoList)path).get(i);
-				if (actel instanceof Path) {
+				if (actel != null && actel instanceof Path) {
 					if (i < arrLocusSize) {
 						if (arrLocus.get(i) instanceof AlgoLocusList) {
 							oldel = ((AlgoLocusList)arrLocus.get(i)).getMovingPoint().getPath();
-						} else {
+						} else if (arrLocus.get(i) instanceof AlgoLocus) {
 							oldel = ((AlgoLocus)arrLocus.get(i)).getMovingPoint().getPath();
+						} else {
+							oldel = null;
 						}
 						if (oldel == actel)
 							continue;
