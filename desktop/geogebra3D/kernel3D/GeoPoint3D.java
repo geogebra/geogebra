@@ -43,6 +43,7 @@ import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.geos.PointProperties;
 import geogebra.common.kernel.geos.SpreadsheetTraceable;
 import geogebra.common.kernel.geos.Translateable;
+import geogebra.common.kernel.geos.GeoElement.TraceModesEnum;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.Region3D;
 import geogebra.common.plugin.EuclidianStyleConstants;
@@ -1119,9 +1120,32 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND,
 										Operation.PLUS, 
 										getCloseBracket())))); // ")"
 	
-		updateColumnHeadingsForTraceDialog();
 		
 	}
+	
+
+	@Override
+	public TraceModesEnum getTraceModes(){
+		return TraceModesEnum.SEVERAL_VALUES;
+	}
+	
+
+	@Override
+	public String getTraceDialogAsValues(){
+		String name = getLabelTextOrHTML(false);
+	
+		StringBuilder sb1 = new StringBuilder();
+		sb1.append("x(");
+		sb1.append(name);
+		sb1.append("), y(");
+		sb1.append(name);
+		sb1.append("), z(");
+		sb1.append(name);
+		sb1.append(")");
+				
+		return sb1.toString();
+	}
+
 	
 	@Override
 	public void addToSpreadsheetTraceList(ArrayList<GeoNumeric> spreadsheetTraceList) {

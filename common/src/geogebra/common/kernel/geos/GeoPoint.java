@@ -49,6 +49,7 @@ import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.MyVecNode;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.VectorValue;
+import geogebra.common.kernel.geos.GeoElement.TraceModesEnum;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -1988,8 +1989,28 @@ final public class GeoPoint extends GeoVec3D implements VectorValue,
 										Operation.PLUS, 
 										getCloseBracket())))); // ")"
 		
-		updateColumnHeadingsForTraceDialog();
 		
+	}
+	
+
+	@Override
+	public TraceModesEnum getTraceModes(){
+		return TraceModesEnum.SEVERAL_VALUES;
+	}
+	
+	
+	@Override
+	public String getTraceDialogAsValues(){
+		String name = getLabelTextOrHTML(false);
+	
+		StringBuilder sb = new StringBuilder();
+		sb.append("x(");
+		sb.append(name);
+		sb.append("), y(");
+		sb.append(name);
+		sb.append(")");
+				
+		return sb.toString();
 	}
 
 	@Override

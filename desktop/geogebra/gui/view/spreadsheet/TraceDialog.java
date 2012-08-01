@@ -463,29 +463,32 @@ implements
 		
 	}
 	
+	StringBuilder sb = new StringBuilder();
+	
 	private void setTraceModeLabels(){
 
-		geo.updateColumnHeadingsForTraceValues();
-		
+		sb.setLength(0);
+		sb.append("<html>");
 		switch (geo.getTraceModes()){
 		case ONE_VALUE:
-			traceModeValues.setText(app.getPlain("ValueOfA",geo.getColumnHeadingsForTraceDialog()));  
-			//traceModeValues.setEnabled(true);
+			sb.append(app.getPlain("ValueOfA",geo.getTraceDialogAsValues()));  
 			break;
 		case SEVERAL_VALUES:
-			traceModeValues.setText(app.getPlain("ValuesOfA",geo.getColumnHeadingsForTraceDialog()));  
-			//traceModeValues.setEnabled(true);
+			sb.append(app.getPlain("ValuesOfA",geo.getTraceDialogAsValues()));  
 			break;
-		/* TODO uncomment this (and above) if we trace copy of any geo
-		case ONLY_COPY:
-			traceModeValues.setText(app.getPlain("NoValue"));  //add to plain.properties: NoValue=No value to record
-			traceModeValues.setEnabled(false);
-			break;
-			*/
 			
 		}
 		
-		traceModeCopy.setText(app.getPlain("CopyOfA",geo.getLabelSimple()));
+		sb.append("</html>");
+		traceModeValues.setText(sb.toString());
+		
+		
+		
+		sb.setLength(0);
+		sb.append("<html>");
+		sb.append(app.getPlain("CopyOfA",geo.getLabelTextOrHTML(false)));
+		sb.append("</html>");
+		traceModeCopy.setText(sb.toString());
 	}
 	
 

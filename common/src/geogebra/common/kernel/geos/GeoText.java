@@ -1126,7 +1126,6 @@ public class GeoText extends GeoElement implements Locateable,
 		text.setLaTeX(this.isLaTeX, false);
 		spreadsheetColumnHeadings.add(text);
 		
-		updateColumnHeadingsForTraceDialog();
 	}
 
 

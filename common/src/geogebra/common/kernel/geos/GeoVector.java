@@ -36,6 +36,7 @@ import geogebra.common.kernel.algos.SymbolicParametersBotanaAlgo;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.VectorValue;
+import geogebra.common.kernel.geos.GeoElement.TraceModesEnum;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
 import geogebra.common.kernel.prover.NoSymbolicParametersException;
@@ -825,9 +826,31 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 										Operation.PLUS, 
 										getCloseBracket())))); // ")"
 		
-		updateColumnHeadingsForTraceDialog();
 		
 	}
+	
+
+
+	@Override
+	public TraceModesEnum getTraceModes(){
+		return TraceModesEnum.SEVERAL_VALUES;
+	}
+	
+	@Override
+	public String getTraceDialogAsValues(){
+		String name = getLabelTextOrHTML(false);
+	
+		StringBuilder sb = new StringBuilder();
+		sb.append("x(");
+		sb.append(name);
+		sb.append("), y(");
+		sb.append(name);
+		sb.append(")");
+				
+		return sb.toString();
+	}
+
+		
 	
 	@Override
 	public void addToSpreadsheetTraceList(ArrayList<GeoNumeric> spreadsheetTraceList) {

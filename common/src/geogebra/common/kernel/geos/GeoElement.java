@@ -151,10 +151,6 @@ public abstract class GeoElement extends ConstructionElement implements
 	 */
 	protected ArrayList<GeoText> spreadsheetColumnHeadings = null;
 
-	/**
-	 * Column headings for spreadsheet trace (values mode)
-	 */
-	protected ArrayList<GeoText> spreadsheetColumnHeadingsForTraceValues = null;
 
 	/** min decimals or significant figures to use in editing string */
 	public static final int MIN_EDITING_PRINT_PRECISION = 5;
@@ -4295,14 +4291,23 @@ public abstract class GeoElement extends ConstructionElement implements
 
 		return strAlgebraDescriptionHTML;
 	}
-
+	
 	/**
 	 * @return type and label of a GeoElement (for tooltips and error messages)
 	 */
 	final public String getLabelTextOrHTML() {
+
+		return getLabelTextOrHTML(true);
+	}
+
+	/**
+	 * @param addHTMLTag says if html tags have to be added
+	 * @return type and label of a GeoElement (for tooltips and error messages)
+	 */
+	final public String getLabelTextOrHTML(boolean addHTMLTag) {
 		if (strLabelTextOrHTMLUpdate) {
 			if (hasIndexLabel()) {
-				strLabelTextOrHTML = indicesToHTML(getLabel(StringTemplate.defaultTemplate), true);
+				strLabelTextOrHTML = indicesToHTML(getLabel(StringTemplate.defaultTemplate), addHTMLTag);
 			} else {
 				strLabelTextOrHTML = getLabel(StringTemplate.defaultTemplate);
 			}
@@ -4310,6 +4315,8 @@ public abstract class GeoElement extends ConstructionElement implements
 
 		return strLabelTextOrHTML;
 	}
+	
+	
 
 	/**
 	 * Returns algebraic representation (e.g. coordinates, equation) of this
@@ -7084,22 +7091,22 @@ public abstract class GeoElement extends ConstructionElement implements
 		if (spreadsheetColumnHeadings == null) {
 			spreadsheetColumnHeadings = new ArrayList<GeoText>();
 		}
-		else
+		else{
 			spreadsheetColumnHeadings.clear();
+		}
 	}
 	
 	/**
 	 * for the SpreadsheetTraceable interface. Default: just return the label
-	 * @return list of comumn headings
+	 * @return list of column headings
 	 */
 	final public ArrayList<GeoText> getColumnHeadings() {
 		
-		//update column headings for trace values (if needed)
-		updateColumnHeadingsForTraceValues();
-		
 		//if no values / only copy
-		if (getTraceSettings().doTraceGeoCopy)
+		if (getTraceSettings().doTraceGeoCopy) //update column headings for trace copy
 			updateColumnHeadingsForTraceGeoCopy();
+		else //update column headings for trace values
+			updateColumnHeadingsForTraceValues();
 
 		return spreadsheetColumnHeadings;
 	}
@@ -7108,23 +7115,20 @@ public abstract class GeoElement extends ConstructionElement implements
 	public void updateColumnHeadingsForTraceValues(){
 		//for NumberValue
 		updateColumnHeadingsForTraceGeoCopy();
-		updateColumnHeadingsForTraceDialog();
 	}
-	
-	private StringBuilder columnHeadingsForTraceDialog = new StringBuilder();
 	
 	/**
 	 * 
 	 * @return string description of values traced
 	 */
-	final public String getColumnHeadingsForTraceDialog(){
-		return columnHeadingsForTraceDialog.toString();
+	public String getTraceDialogAsValues(){
+		return getLabelTextOrHTML(false);//columnHeadingsForTraceDialog.toString();
 	}
 	
 
-	/**
+	/*
 	 * update string description of values traced
-	 */
+	 *
 	final protected void updateColumnHeadingsForTraceDialog(){
 		
 		if (spreadsheetColumnHeadings.size()>1)
@@ -7141,6 +7145,7 @@ public abstract class GeoElement extends ConstructionElement implements
 			notFirst = true;
 		}
 	}
+	*/
 	
 	/** Used by TraceDialog for "Trace as... value of/copy of */
 	static public enum TraceModesEnum {
@@ -7151,15 +7156,13 @@ public abstract class GeoElement extends ConstructionElement implements
 		/** at least two values (e.g. point) */
 		SEVERAL_VALUES}
 	
-	/** possible modes for trace to spreadsheet */
-	protected TraceModesEnum traceModes = (this instanceof NumberValue) ? TraceModesEnum.ONE_VALUE : TraceModesEnum.ONLY_COPY;
 	
 	/**
 	 * 
 	 * @return possible modes for trace to spreadsheet
 	 */
 	public TraceModesEnum getTraceModes(){
-		return traceModes;
+		return TraceModesEnum.ONE_VALUE;
 	}
 		
 		

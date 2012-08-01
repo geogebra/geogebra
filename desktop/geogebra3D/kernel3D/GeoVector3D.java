@@ -13,6 +13,7 @@ import geogebra.common.kernel.arithmetic3D.Vector3DValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.SpreadsheetTraceable;
+import geogebra.common.kernel.geos.GeoElement.TraceModesEnum;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
 import geogebra.common.plugin.GeoClass;
@@ -513,9 +514,31 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND,
 										Operation.PLUS, 
 										getCloseBracket())))); // ")"
 		
-		updateColumnHeadingsForTraceDialog();
 
 	}
+	
+
+	@Override
+	public TraceModesEnum getTraceModes(){
+		return TraceModesEnum.SEVERAL_VALUES;
+	}
+	
+	@Override
+	public String getTraceDialogAsValues(){
+		String name = getLabelTextOrHTML(false);
+	
+		StringBuilder sb1 = new StringBuilder();
+		sb1.append("x(");
+		sb1.append(name);
+		sb1.append("), y(");
+		sb1.append(name);
+		sb1.append("), z(");
+		sb1.append(name);
+		sb1.append(")");
+				
+		return sb1.toString();
+	}
+
 	
 	@Override
 	public void addToSpreadsheetTraceList(ArrayList<GeoNumeric> spreadsheetTraceList) {
