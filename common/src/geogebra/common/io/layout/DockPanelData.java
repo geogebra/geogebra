@@ -16,6 +16,7 @@ public class DockPanelData {
 	private boolean openInFrame;
 	private boolean showStyleBar;
 	private GRectangle frameBounds;
+	// see DockManager.show() for an explanation of this, eg "1,1,1"
 	private String embeddedDef;
 	private String toolbarString;
 	private int embeddedSize;
