@@ -1290,7 +1290,7 @@ public abstract class App {
 		while (it.hasNext()) {
 			GeoElement geo = it.next();
 			if (selectedGeos.contains(geo)) {
-				removeSelectedGeo(geo, false);
+				removeSelectedGeo(geo, false, false);
 			} else {
 				addSelectedGeo(geo, false, false);
 			}
@@ -2631,7 +2631,9 @@ public abstract class App {
 		if (repaint) {
 			kernel.notifyRepaint();
 		}
-		updateSelection();
+		
+		if (updateSelection)
+			updateSelection();
 	
 	}
 
@@ -2905,10 +2907,10 @@ public abstract class App {
 	}
 
 	final public void removeSelectedGeo(GeoElement geo) {
-		removeSelectedGeo(geo, true);
+		removeSelectedGeo(geo, true, true);
 	}
 
-	final public void removeSelectedGeo(GeoElement geo, boolean repaint) {
+	final public void removeSelectedGeo(GeoElement geo, boolean repaint, boolean updateSelection) {
 		if (geo == null) {
 			return;
 		}
@@ -2916,7 +2918,8 @@ public abstract class App {
 		if(selectedGeos.remove(geo)){ 
 			//update only if selectedGeos contained geo
 			geo.setSelected(false);
-			updateSelection();
+			if (updateSelection)
+				updateSelection();
 			if (repaint) {
 				kernel.notifyRepaint();
 			}

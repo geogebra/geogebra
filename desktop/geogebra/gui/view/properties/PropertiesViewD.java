@@ -278,7 +278,7 @@ public class PropertiesViewD extends geogebra.common.gui.view.properties.Propert
 		if (viewMap.get(focusedViewId) != null) {
 			OptionType type = viewMap.get(focusedViewId);
 			if (type==OptionType.EUCLIDIAN || type==OptionType.EUCLIDIAN2){
-				if (app.getActiveEuclidianView().getEuclidianController().hitCheckBoxOrTextfield()){
+				if (app.getActiveEuclidianView().getEuclidianController().checkBoxOrTextfieldOrButtonJustHitted()){
 					//hit check box or text field : does nothing
 					//setOptionPanel(OptionType.OBJECTS);
 				}else{

@@ -3042,8 +3042,13 @@ public abstract class EuclidianController {
 		textfieldHasFocus = hasFocus;
 	}
 	
-	public boolean hitCheckBoxOrTextfield(){
-		return checkBoxJustHitted || textfieldHasFocus;
+	/**
+	 * 
+	 * @return true if a checkbox/textfield/button just has been hitted,
+	 * to avoid properties view to show graphics properties
+	 */
+	public boolean checkBoxOrTextfieldOrButtonJustHitted(){
+		return checkBoxOrButtonJustHitted || textfieldHasFocus;
 	}
 	
 	protected abstract void initToolTipManager();
@@ -6159,15 +6164,17 @@ public abstract class EuclidianController {
 					if (!hits.isEmpty()) {
 						GeoElement hit = hits.get(0);
 						if ((hit != null) && hit.isGeoButton() && !(hit.isGeoTextField())) {
-							app.removeSelectedGeo(hit);
+							checkBoxOrButtonJustHitted = true;
+							app.removeSelectedGeo(hit, true, false); // make sure doesn't get selected
+							app.updateSelection(false);
 						}
 						else if ((hit != null) && hit.isGeoBoolean()) {
 							GeoBoolean bool = (GeoBoolean) (hits.get(0));
 							if (!isCheckboxFixed(bool)) { // otherwise changed on mouse
 															// down
 								hitCheckBox(bool);
-								app.removeSelectedGeo(bool); // make sure doesn't get
-																// selected
+								app.removeSelectedGeo(bool, true, false); // make sure doesn't get selected
+								app.updateSelection(false);
 								bool.updateCascade();
 							}
 						} else if (hit != null) {
@@ -6188,13 +6195,13 @@ public abstract class EuclidianController {
 			}
 	
 	
-	private boolean checkBoxJustHitted = false;
+	private boolean checkBoxOrButtonJustHitted = false;
 
 	private boolean penDragged;
 	
 	protected void hitCheckBox(GeoBoolean bool){
 		bool.setValue(!bool.getBoolean());
-		checkBoxJustHitted = true;
+		checkBoxOrButtonJustHitted = true;
 	}
 	
 
@@ -7491,7 +7498,8 @@ public abstract class EuclidianController {
 			
 			if (!selGeos.contains(geo)) {
 				app.clearSelectedGeos(false); //repaint done next step
-				app.addSelectedGeo(geo);
+				app.addSelectedGeo(geo,true,false);
+				app.updateSelection(false);
 				// app.geoElementSelected(geo, false); // copy definiton to
 				// input bar
 			}
@@ -8759,8 +8767,8 @@ public abstract class EuclidianController {
 		if (!setJustCreatedGeosSelected()){ //first try to set just created geos as selected
 			//if none, do specific stuff for properties view
 			if (app.isUsingFullGui() && app.getGuiManager() != null) {//prevent objects created by a script
-				if (checkBoxJustHitted) //does nothing
-					checkBoxJustHitted = false;
+				if (checkBoxOrButtonJustHitted) //does nothing
+					checkBoxOrButtonJustHitted = false;
 				else
 					app.getGuiManager().mouseReleasedForPropertiesView(mode!=EuclidianConstants.MODE_MOVE && mode!=EuclidianConstants.MODE_MOVE_ROTATE);
 			}
