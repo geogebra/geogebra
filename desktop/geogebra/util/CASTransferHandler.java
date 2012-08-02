@@ -10,7 +10,7 @@ public class CASTransferHandler extends TransferHandler {
 	
 	// supported data flavors
 	public static final DataFlavor casTableFlavor = new DataFlavor(Integer.class, "cell reference");
-	public static final DataFlavor casLaTeXFlavor = new DataFlavor(String.class, "cell latex output");
+	
 	private static DataFlavor supportedFlavors[] = {};// {
 	
 	private void setSupportedFlavours() {

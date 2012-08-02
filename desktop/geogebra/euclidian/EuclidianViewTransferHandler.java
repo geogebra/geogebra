@@ -81,7 +81,7 @@ public class EuclidianViewTransferHandler extends TransferHandler implements
 	/****************************************
 	 * Constructor
 	 * 
-	 * @param ev
+	 * @param ev euclidian view
 	 */
 	public EuclidianViewTransferHandler(EuclidianViewND ev) {
 		this.ev = ev;
@@ -167,135 +167,32 @@ public class EuclidianViewTransferHandler extends TransferHandler implements
 		
 		
 		
-		// handle all text flavors
-		if (t.isDataFlavorSupported(DataFlavor.stringFlavor)
-				|| t.isDataFlavorSupported(AlgebraViewTransferHandler.algebraViewFlavor)) {
-			try {
-
-				String text = null; // expression to be converted into GeoText
-				boolean isLaTeX = false;
-
-				// get text from AlgebraView flavor
-				if (t.isDataFlavorSupported(AlgebraViewTransferHandler.algebraViewFlavor)) {
-
-					isLaTeX = true;
-
-					// get list of selected geo labels
-					ArrayList<String> list = (ArrayList<String>) t
-							.getTransferData(AlgebraViewTransferHandler.algebraViewFlavor);
-
-					// exit if empty list
-					if (list.size() == 0)
-						return false;
-
-					// single geo
-					if (list.size() == 1) {
-						text = "FormulaText[" + list.get(0) + ", true, true]";
-					}
-
-					// multiple geos, wrap in TableText
-					else {
-						text = "TableText[";
-						for (int i = 0; i < list.size(); i++) {
-
-							text += "{FormulaText[" + list.get(i)
-									+ ", true, true]}";
-							if (i < list.size() - 1) {
-								text += ",";
-							}
-						}
-						text += "]";
-					}
-				}
-
-				// get text from String flavor
-				else {
-					try {
-						// first try to read text line-by-line
-						Reader r = textReaderFlavor.getReaderForText(t);
-						if (r != null) {
-							StringBuilder sb = new StringBuilder();
-							String line = null;
-							BufferedReader br = new BufferedReader(r);
-							line = br.readLine();
-							while (line != null) {
-								sb.append(line + "\n");
-								line = br.readLine();
-							}
-							br.close();
-							text = sb.toString();
-						}
-					} catch (Exception e) {
-						App
-								.debug("Caught exception decoding text transfer:"
-										+ e.getMessage());
-					}
-
-					// if the reader didn't work, try to get whatever string is
-					// available
-					if (text == null)
-						text = (String) t
-								.getTransferData(DataFlavor.stringFlavor);
-
-					// exit if no text found
-					if (text == null)
-						return false;
-
-					// TODO --- validate the text? e.g. no quotes for a GeoText
-
-					// wrap text in quotes
-					text = "\"" + text + "\"";
-				}
-
-				// ---------------------------------
-				// create GeoText
-
-				GeoElement[] ret = ev.getApplication().getKernel()
-						.getAlgebraProcessor()
-						.processAlgebraCommand(text, true);
-
-				if (ret != null && ret[0].isTextValue()) {
-					GeoText geo = (GeoText) ret[0];
-					geo.setLaTeX(isLaTeX, false);
-
-					// TODO: h should equal the geo height, this is just an
-					// estimate
-					double h = 2 * app.getFontSize();
-
-					geo.setRealWorldLoc(ev.toRealWorldCoordX(mousePos.x),
-							ev.toRealWorldCoordY(mousePos.y - h));
-					geo.updateRepaint();
-
-				}
-
-				return true;
-
-			} catch (UnsupportedFlavorException ignored) {
-				// TODO
-			} catch (IOException ignored) {
-				// TODO
-			}
-		}
+		
 		
 		//handle CAS table cells as simple latex string (not dynamic!!)
 		//ToDo: make it dynamic (after ticket 2449 is finished)
-		if(t.isDataFlavorSupported(CASTransferHandler.casLaTeXFlavor)){
+		DataFlavor[] df =t.getTransferDataFlavors();
+		for(DataFlavor d:df){
+			App.debug(d);
+		}
+		if(t.isDataFlavorSupported(CASTransferHandler.casTableFlavor)){
 			try{
 				
 				
-				String text =  "\"" + (String) t.getTransferData(CASTransferHandler.casLaTeXFlavor) + "\"";			
 				
 				//after it is possible to refer to cas cells with "$1" we can refer dynamically 
 				
 				//String tableRef;
-				//int cellnumber = (Integer) t.getTransferData(CASTransferHandler.casTableFlavor);
+				StringBuilder sb = new StringBuilder("FormulaText[$");
+				sb.append(1+(Integer)t.getTransferData(CASTransferHandler.casTableFlavor));
+				sb.append("]");
 				//tableRef = "$" + (cellnumber+1);
 				
 				
 				//create a GeoText on the specific mouse position
 				GeoElement[] ret = ev.getApplication().getKernel()
 						.getAlgebraProcessor()
-						.processAlgebraCommand(text, true);
+						.processAlgebraCommandNoExceptionHandling(sb.toString(), true,false,false);
 
 				if (ret != null && ret[0].isTextValue()) {
 					GeoText geo = (GeoText) ret[0];
@@ -325,6 +222,115 @@ public class EuclidianViewTransferHandler extends TransferHandler implements
 		if (ggbFileDropped)
 			return true;
 
+		// handle all text flavors
+				if (t.isDataFlavorSupported(DataFlavor.stringFlavor)
+						|| t.isDataFlavorSupported(AlgebraViewTransferHandler.algebraViewFlavor)) {
+					try {
+
+						String text = null; // expression to be converted into GeoText
+						boolean isLaTeX = false;
+
+						// get text from AlgebraView flavor
+						if (t.isDataFlavorSupported(AlgebraViewTransferHandler.algebraViewFlavor)) {
+
+							isLaTeX = true;
+
+							// get list of selected geo labels
+							ArrayList<String> list = (ArrayList<String>) t
+									.getTransferData(AlgebraViewTransferHandler.algebraViewFlavor);
+
+							// exit if empty list
+							if (list.size() == 0)
+								return false;
+
+							// single geo
+							if (list.size() == 1) {
+								text = "FormulaText[" + list.get(0) + ", true, true]";
+							}
+
+							// multiple geos, wrap in TableText
+							else {
+								text = "TableText[";
+								for (int i = 0; i < list.size(); i++) {
+
+									text += "{FormulaText[" + list.get(i)
+											+ ", true, true]}";
+									if (i < list.size() - 1) {
+										text += ",";
+									}
+								}
+								text += "]";
+							}
+						}
+
+						// get text from String flavor
+						else {
+							try {
+								// first try to read text line-by-line
+								Reader r = textReaderFlavor.getReaderForText(t);
+								if (r != null) {
+									StringBuilder sb = new StringBuilder();
+									String line = null;
+									BufferedReader br = new BufferedReader(r);
+									line = br.readLine();
+									while (line != null) {
+										sb.append(line + "\n");
+										line = br.readLine();
+									}
+									br.close();
+									text = sb.toString();
+								}
+							} catch (Exception e) {
+								App
+										.debug("Caught exception decoding text transfer:"
+												+ e.getMessage());
+							}
+
+							// if the reader didn't work, try to get whatever string is
+							// available
+							if (text == null)
+								text = (String) t
+										.getTransferData(DataFlavor.stringFlavor);
+
+							// exit if no text found
+							if (text == null)
+								return false;
+
+							// TODO --- validate the text? e.g. no quotes for a GeoText
+
+							// wrap text in quotes
+							text = "\"" + text + "\"";
+						}
+
+						// ---------------------------------
+						// create GeoText
+
+						GeoElement[] ret = ev.getApplication().getKernel()
+								.getAlgebraProcessor()
+								.processAlgebraCommand(text, true);
+
+						if (ret != null && ret[0].isTextValue()) {
+							GeoText geo = (GeoText) ret[0];
+							geo.setLaTeX(isLaTeX, false);
+
+							// TODO: h should equal the geo height, this is just an
+							// estimate
+							double h = 2 * app.getFontSize();
+
+							geo.setRealWorldLoc(ev.toRealWorldCoordX(mousePos.x),
+									ev.toRealWorldCoordY(mousePos.y - h));
+							geo.updateRepaint();
+
+						}
+
+						return true;
+
+					} catch (UnsupportedFlavorException ignored) {
+						// TODO
+					} catch (IOException ignored) {
+						// TODO
+					}
+				}
 		return false;
 	}
 

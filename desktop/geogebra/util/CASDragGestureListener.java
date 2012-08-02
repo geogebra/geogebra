@@ -101,7 +101,7 @@ public class CASDragGestureListener implements DragGestureListener, DragSourceLi
 
 		private final DataFlavor supportedFlavors[] = { AlgebraViewTransferHandler.algebraViewFlavor, 
 														CASTransferHandler.casTableFlavor, 
-														CASTransferHandler.casLaTeXFlavor };
+														};
 
 		private ArrayList<String> geoLabelList;
 		private int tableRef;
@@ -125,9 +125,7 @@ public class CASDragGestureListener implements DragGestureListener, DragSourceLi
 			if (flavor.equals(AlgebraViewTransferHandler.algebraViewFlavor) && isAssignment)
 				return true;
 			if(flavor.equals(CASTransferHandler.casTableFlavor))
-				return true;
-			if(flavor.equals(CASTransferHandler.casLaTeXFlavor))
-				return true;			
+				return true;	
 
 			return false;
 		}
@@ -137,8 +135,6 @@ public class CASDragGestureListener implements DragGestureListener, DragSourceLi
 				return geoLabelList;			
 			if (flavor.equals(CASTransferHandler.casTableFlavor))
 				return tableRef;
-			if (flavor.equals(CASTransferHandler.casLaTeXFlavor))
-				return latexText;			
 			throw new UnsupportedFlavorException(flavor);
 		}
 		
