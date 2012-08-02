@@ -55,7 +55,7 @@ public class AlgebraViewPanel extends LayoutPanel
 				}
 				else if (event.getDirection() == DIRECTION.RIGHT_TO_LEFT)
 				{
-					AlgebraViewPanel.this.setWidth("20px");
+					AlgebraViewPanel.this.setWidth("5%");
 				}
 
 			}
