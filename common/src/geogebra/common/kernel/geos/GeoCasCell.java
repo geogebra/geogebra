@@ -7,6 +7,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.VarString;
 import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.arithmetic.AssignmentType;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
@@ -192,8 +193,9 @@ public class GeoCasCell extends GeoElement implements VarString {
 		if (outputVE == null) {
 			return "";
 		}
-		if (tpl == StringTemplate.xmlTemplate)
+		if (tpl == StringTemplate.xmlTemplate) {
 			App.debug(outputVE.toAssignmentString(tpl));
+		}
 		return outputVE.toAssignmentString(tpl);
 	}
 
@@ -994,7 +996,8 @@ public class GeoCasCell extends GeoElement implements VarString {
 		return inGeos;
 	}
 
-	private TreeSet<GeoElement> updateInputGeoElements(final TreeSet<String> inputVars) {
+	private TreeSet<GeoElement> updateInputGeoElements(
+			final TreeSet<String> inputVars) {
 		if (inputVars == null || inputVars.isEmpty())
 			return null;
 
@@ -1339,6 +1342,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 			outputVE = parseGeoGebraCASInputAndResolveDummyVars(res);
 			CommandReplacer cr = CommandReplacer.getReplacer(app);
 			outputVE.traverse(cr);
+			outputVE.setAssignmentType(inputVE.getAssignmentType());
 		}
 		if (isFunctionDeclaration) {
 			// replace GeoDummyVariable objects in outputVE by the function
@@ -1347,8 +1351,9 @@ public class GeoCasCell extends GeoElement implements VarString {
 			// replace GeoDummyVariable objects in outputVE by GeoElements from
 			// kernel
 			resolveGeoElementReferences(outputVE);
-		} else if (isAssignmentVariableDefined())
+		} else if (isAssignmentVariableDefined()) {
 			outputVE.setLabel(assignmentVar);
+		}
 	}
 
 	/**
@@ -1382,12 +1387,14 @@ public class GeoCasCell extends GeoElement implements VarString {
 			outputVE = new Function((ExpressionNode) outputVE,
 					((Function) inputVE).getFunctionVariable());
 			outputVE.setLabels(labels);
+			outputVE.setAssignmentType(inputVE.getAssignmentType());
 		} else if ((inputVE instanceof FunctionNVar)
 				&& (outputVE instanceof ExpressionNode)) {
 			String[] labels = outputVE.getLabels();
 			outputVE = new FunctionNVar((ExpressionNode) outputVE,
 					((FunctionNVar) inputVE).getFunctionVariables());
 			outputVE.setLabels(labels);
+			outputVE.setAssignmentType(inputVE.getAssignmentType());
 		}
 
 		// check that assignment variable is not a reserved name in GeoGebra
@@ -1572,9 +1579,11 @@ public class GeoCasCell extends GeoElement implements VarString {
 							.toValueString(StringTemplate.numericDefault);
 					AlgoElement parentAlgo = geos[0].getParentAlgorithm();
 					// cons.removeFromConstructionList(parentAlgo);
-					if (parentAlgo != null)
+					if (parentAlgo != null) {
 						parentAlgo.remove();
+					}
 					outputVE = new ExpressionNode(kernel, geos[0]);
+					outputVE.setAssignmentType(inputVE.getAssignmentType());
 					// geos[0].addCasAlgoUser();
 					nativeOutput = false;
 				}
@@ -2090,13 +2099,15 @@ public class GeoCasCell extends GeoElement implements VarString {
 	 *         is already a twinGeo, or a new twinGeo was created successfully
 	 */
 	public boolean plot() {
-		if (inputVE == null || input.equals(""))
+		if (inputVE == null || input.equals("")) {
 			return false;
+		}
 
 		// there is already a twinGeo, this means this cell is plotable,
 		// therefore return true
-		if (hasTwinGeo())
+		if (hasTwinGeo()) {
 			return true;
+		}
 
 		// this has to be upper case that the input of (1,1) leads to a
 		// definition of a point
@@ -2128,10 +2139,11 @@ public class GeoCasCell extends GeoElement implements VarString {
 		}
 		// if output is just one number -> do not make a function, make a
 		// constant
-		if (outputVE.isLeaf())
+		if (outputVE.isLeaf()) {
 			if ((((ExpressionNode) outputVE).getLeft()).isConstant()) {
 				isFunctionAble = false;
 			}
+		}
 
 		if (isFunctionAble) {
 			if (!outputVE.isExpressionNode()) {
@@ -2139,6 +2151,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 						Operation.NO_OPERATION, null);
 			}
 			outputVE = new Function((ExpressionNode) outputVE);
+			outputVE.setAssignmentType(inputVE.getAssignmentType());
 			this.firstComputeOutput = true;
 			this.updateTwinGeo();
 		} else {
@@ -2157,6 +2170,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 		} else {
 			// plot failed, undo assignment
 			assignmentVar = null;
+			outputVE.setAssignmentType(AssignmentType.NONE);
 			this.firstComputeOutput = true;
 			this.computeOutput(true);
 		}
