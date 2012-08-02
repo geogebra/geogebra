@@ -29,6 +29,7 @@ import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
@@ -94,7 +95,7 @@ implements
 	private JCheckBox cbResetColumns, cbRowLimit, 
 		cbShowLabel, cbTraceList;
 	private JRadioButton traceModeValues, traceModeCopy;
-	private TitledBorder traceModeTitle;
+	private TitledBorder traceModeTitle, locationTitle, optionsTitle;
 	private JButton btRemove, btAdd, btClose, btCancel, btChangeLocation, btErase;
 	private JLabel prompt;
 	
@@ -237,17 +238,19 @@ implements
 			tabbedPane = new JPanel();	
 			tabbedPane.setLayout(new BoxLayout(tabbedPane, BoxLayout.Y_AXIS));
 			tabbedPane.add(buildLocationPanel());
-			tabbedPane.add(buildOptionsPanel());															
+			tabbedPane.add(buildTraceModePanel());
+			tabbedPane.add(buildOptionsPanel());
+		
 			tabbedPane.setBorder(BorderFactory.createEmptyBorder(5, 5, 0, 5));
-			
 			
 			
 			// split pane: trace list on left, tabbed options on left
 			splitPane = new JSplitPane();
 			splitPane.setLeftComponent(buildListPanel());
 			splitPane.setRightComponent(tabbedPane);
-						
-
+			splitPane.setDividerSize(0);
+			
+							
 			
 			// put it all together
 			getContentPane().add(splitPane,BorderLayout.CENTER);
@@ -271,7 +274,8 @@ implements
 		
 		// init the trace options panel
 		listPanel = new JPanel();
-		listPanel.setLayout(new BorderLayout());		
+		listPanel.setLayout(new BorderLayout());
+		listPanel.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 1, SystemColor.controlShadow));
 		
 		traceGeoListModel = new DefaultListModel();
 		traceGeoList = new JList(traceGeoListModel);
@@ -325,58 +329,58 @@ implements
 
 
         // locationPanel 
-		locationPanel = new JPanel();
-		locationPanel.setLayout(new BoxLayout(locationPanel, BoxLayout.Y_AXIS));
-		locationPanel.setBorder(BorderFactory.createEmptyBorder(0,5,0,5));			
+		JPanel locationPanel = new JPanel();
+		locationPanel.setLayout(new BoxLayout(locationPanel, BoxLayout.Y_AXIS));	
 		locationPanel.setMinimumSize(new Dimension(200, 30));
 		
-        locationPanel.add(Box.createVerticalGlue());
-        locationPanel.add(startRowPanel);
-        locationPanel.add(rowLimitPanel);
-        locationPanel.add(Box.createVerticalGlue());
-        
+		locationTitle = BorderFactory.createTitledBorder(app.getPlain("Location"));     
+		locationPanel.setBorder(BorderFactory.createTitledBorder(locationTitle));
+		
+		locationPanel.add(startRowPanel);
+		locationPanel.add(rowLimitPanel);
+		
         return locationPanel;
 	}
 	
 	
-	
+	private JPanel buildTraceModePanel() {
+		
+		// trace as... radio buttons
+		JPanel pane = new JPanel();
+		pane.setLayout(new BoxLayout(pane, BoxLayout.Y_AXIS));
+		traceModeTitle = BorderFactory.createTitledBorder(app
+				.getPlain("TraceMode"));
+		pane.setBorder(BorderFactory.createTitledBorder(traceModeTitle));
+
+		traceModeValues = new JRadioButton(app.getPlain(""));
+		traceModeValues.addActionListener(this);
+		traceModeCopy = new JRadioButton(app.getPlain(""));
+		traceModeCopy.addActionListener(this);
+		ButtonGroup group = new ButtonGroup();
+		group.add(traceModeValues);
+		group.add(traceModeCopy);
+		pane.add(traceModeValues);
+		pane.add(traceModeCopy);
+
+		return pane;
+
+	}
 	
 	private JPanel buildOptionsPanel() {
 		
 		  // options panel
 		optionsPanel = new JPanel();
 		optionsPanel.setLayout(new BoxLayout(optionsPanel, BoxLayout.Y_AXIS));
-		optionsPanel.setBorder(BorderFactory.createEmptyBorder(0,5,5,5));	
-		optionsPanel.setMinimumSize(new Dimension(100, 30));
+		//optionsPanel.setBorder(BorderFactory.createEmptyBorder(0,5,5,5));	
+		
+		
+		optionsTitle = BorderFactory.createTitledBorder(app.getPlain("Options"));     
+		optionsPanel.setBorder(BorderFactory.createTitledBorder(optionsTitle));
 					
         cbShowLabel = new JCheckBox(app.getPlain("ShowLabel"));  
         cbShowLabel.addActionListener(this);        
         optionsPanel.add(cbShowLabel);
-        
-        
-        // trace as... radio buttons   
-        JPanel pane = new JPanel();
-        pane.setLayout(new BoxLayout(pane, BoxLayout.Y_AXIS));
-        traceModeTitle = BorderFactory.createTitledBorder(app.getPlain("TraceMode"));     
-        pane.setBorder(BorderFactory.createTitledBorder(traceModeTitle));
-        
-        traceModeValues = new JRadioButton(app.getPlain(""));
-        traceModeValues.addActionListener(this);
-        traceModeCopy = new JRadioButton(app.getPlain(""));
-        traceModeCopy.addActionListener(this);
-        ButtonGroup group = new ButtonGroup();
-        group.add(traceModeValues);
-        group.add(traceModeCopy);
-        pane.add(traceModeValues);
-        pane.add(traceModeCopy);
-        optionsPanel.add(pane);
-               
-        
-        
-        
-        
-        
-             
+                    
         cbTraceList = new JCheckBox(app.getMenu("TraceToList"));  
         cbTraceList.addActionListener(this);        
         optionsPanel.add(cbTraceList);
@@ -384,6 +388,8 @@ implements
 		cbResetColumns = new JCheckBox(app.getMenu("ColumnReset"));  
 		cbResetColumns.addActionListener(this);   
 		optionsPanel.add(cbResetColumns);
+		
+		optionsPanel.setMinimumSize(optionsPanel.getPreferredSize());
     
         return optionsPanel;
 	}
@@ -394,21 +400,19 @@ implements
 		// init button panel
 		buttonPanel = new JPanel(new BorderLayout());
 		
-		btRemove = new JButton("\u2718");
+		//btRemove = new JButton("\u2718");
+		btRemove = new JButton(app.getImageIcon("delete_small.gif"));
 		btRemove.addActionListener(this);
-		
-		
 		btAdd = new JButton("\u271A");
-		//btAdd = new JButton(app.getPlain("Add"));
 		btAdd.addActionListener(this);
-		
-		btErase = new JButton(app.getImageIcon("delete_small.gif"));
+		btErase = new JButton(app.getImageIcon("edit-clear.png"));
 		btErase.addActionListener(this);
-		btErase.setPreferredSize(btRemove.getPreferredSize());
+
 		
-		leftButtonPanel = new JPanel();
+	
+		leftButtonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		leftButtonPanel.add(btRemove);
-		leftButtonPanel.add(btAdd);
+		//leftButtonPanel.add(btAdd);
 		leftButtonPanel.add(Box.createRigidArea(new Dimension(10,0)));
 		leftButtonPanel.add(btErase);
 		
@@ -431,7 +435,7 @@ implements
 		promptPanel.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
 		//promptPanel.setVisible(false);
 		
-		buttonPanel.add(closeCancelPanel, BorderLayout.EAST);
+		//buttonPanel.add(closeCancelPanel, BorderLayout.EAST);
 		//buttonPanel.add(promptPanel, BorderLayout.CENTER);	
 		buttonPanel.add(leftButtonPanel, BorderLayout.WEST);
 		buttonPanel.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));	
@@ -445,6 +449,8 @@ implements
 	public void setLabels(){
 		
 		setTitle(app.getMenu("RecordToSpreadsheet"));
+		
+		
 		lblStartRow.setText(app.getMenu("StartRow") + ": ");
 		cbRowLimit.setText(app.getMenu("RowLimit") + ": ");  
 		cbShowLabel.setText(app.getPlain("ShowLabel"));  
@@ -458,9 +464,12 @@ implements
 		btCancel.setText(app.getPlain("Cancel"));
 		prompt.setText(app.getMenu("SelectAnObjectToTrace"));
 		
-		btRemove.setToolTipText(app.getMenuTooltip("RemoveTrace"));
+		btRemove.setText(app.getPlain("Remove"));
 		btAdd.setToolTipText(app.getMenuTooltip("AddTrace"));
-		btErase.setToolTipText(app.getMenuTooltip("ClearTrace"));
+		btErase.setText(app.getMenuTooltip("ClearTrace"));
+		
+		locationTitle.setTitle(app.getMenu("Location"));       
+		optionsTitle.setTitle(app.getMenu("Options"));  
 		
 	}
 	
