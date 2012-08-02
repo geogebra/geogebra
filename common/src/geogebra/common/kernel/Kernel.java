@@ -9793,9 +9793,6 @@ public class Kernel {
 	 */
 	final public GeoPoint[] TurningPoint(String[] labels, GeoFunction f) {
 		// check if this is a polynomial at the moment
-		if (!f.isPolynomialFunction(true))
-			return null;
-
 		AlgoTurningPointPolynomial algo = new AlgoTurningPointPolynomial(cons,
 				labels, f);
 		GeoPoint[] g = algo.getRootPoints();
