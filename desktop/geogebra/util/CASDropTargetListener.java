@@ -118,7 +118,7 @@ public class CASDropTargetListener implements DropTargetListener {
 
 				
 				
-				String subCmd = "Substitute[" + cell.getEvalText() + ", " + substitution  + "]";	
+				String subCmd = "Substitute[" + cell.getInputVE().toString(StringTemplate.defaultTemplate) + ", " + substitution  + "]";	
 				cell.setProcessingInformation(cell.getPrefix(), subCmd, cell.getPostfix());				
 				cell.setEvalCommand("Substitute");
 				cell.setEvalComment(substitution);	
