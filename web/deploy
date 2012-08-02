@@ -61,7 +61,7 @@ echo "* GAE SDK directory is set to $GAEDIR"
 # 5/1. Updating GeoGebraWeb-latest.zip (for GeoGebraWeb offline documents in the desktop application)
 if [ $UPDATEZIP = 1 ]; then
 echo "Updating GeoGebraWeb-latest.zip"
-mkdir -p $DOWNLOADIR
+mkdir -p $DOWNLOADDIR
 cp GeoGebraWeb-$VERSION.zip $DOWNLOADDIR
 cd $DOWNLOADDDIR
 rm GeoGebraWeb-latest.zip
