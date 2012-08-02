@@ -257,7 +257,8 @@ public class PropertiesViewD extends geogebra.common.gui.view.properties.Propert
 	private void updatePropertiesView(ArrayList<GeoElement> geos) {
 	
 		if (geos.size() > 0) {
-			setOptionPanel(OptionType.OBJECTS,geos);
+			if (selectedOptionType!=OptionType.DEFAULTS) //check if user wants to apply defaults
+				setOptionPanel(OptionType.OBJECTS,geos);
 		} else {
 			
 			setOptionPanelRegardingFocus(true);
@@ -708,7 +709,8 @@ public class PropertiesViewD extends geogebra.common.gui.view.properties.Propert
 	public void updateSelection(ArrayList<GeoElement> geos) {
 
 		if (geos.size()>0){
-			setObjectPanel(geos);
+			if (selectedOptionType!=OptionType.DEFAULTS) //check if user wants to apply defaults
+				setObjectPanel(geos);
 		}else{
 			setOptionPanelRegardingFocus(true);
 		}
