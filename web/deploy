@@ -70,6 +70,7 @@ fi
 
 # 5/2. Updating war/web to www.geogebra.org/web/4.2/web
 if [ $UPDATEWEB = 1 ]; then
+cd $WORKDIR
 echo "Updating war/web to www.geogebra.org/web/4.2/web"
 rsync -avPO --rsh="ssh -p $WWW_SERVER_PORT -i $WWW_SERVER_KEY" war/web $WWW_SERVER_LOGIN:$GGBWEBDIR 2>&1 | grep -v failed | grep -v "were not transferred"
 fi
