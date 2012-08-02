@@ -6,6 +6,7 @@
 	<classpathentry excluding="java/|geogebra/common/kernel/parser/|geogebra/common/kernel/|geogebra/common/|geogebra/" kind="src" path="src/geogebra/jre"/>
 	<classpathentry excluding="org/" kind="src" path="src/geogebra/webapache"/>
 	<classpathentry kind="src" path="src/geogebra/jung"/>
+	<classpathentry kind="src" path="resources"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="com.google.gwt.eclipse.core.GWT_CONTAINER"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
