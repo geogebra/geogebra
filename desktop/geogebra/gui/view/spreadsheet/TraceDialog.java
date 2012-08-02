@@ -17,6 +17,7 @@ import geogebra.common.gui.view.spreadsheet.CellRange;
 import geogebra.common.gui.view.spreadsheet.SpreadsheetTraceManager;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoElement.TraceModesEnum;
 import geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import geogebra.common.main.GeoElementSelectionListener;
 import geogebra.common.util.SpreadsheetTraceSettings;
@@ -466,11 +467,14 @@ implements
 	StringBuilder sb = new StringBuilder();
 	
 	private void setTraceModeLabels(){
+		
+		TraceModesEnum traceModes = geo.getTraceModes();
 
 		sb.setLength(0);
 		sb.append("<html>");
-		switch (geo.getTraceModes()){
-		case ONE_VALUE:
+		switch (traceModes){
+		case ONE_VALUE_OR_COPY:
+		case ONE_VALUE_ONLY:
 			sb.append(app.getPlain("ValueOfA",geo.getTraceDialogAsValues()));  
 			break;
 		case SEVERAL_VALUES:
@@ -489,6 +493,12 @@ implements
 		sb.append(app.getPlain("CopyOfA",geo.getLabelTextOrHTML(false)));
 		sb.append("</html>");
 		traceModeCopy.setText(sb.toString());
+		
+		if (traceModes == TraceModesEnum.ONE_VALUE_ONLY){
+			traceModeCopy.setEnabled(false);
+		}else
+			traceModeCopy.setEnabled(true);
+		
 	}
 	
 

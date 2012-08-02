@@ -26,6 +26,7 @@ import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.MyStringBuffer;
 import geogebra.common.kernel.arithmetic.TextValue;
+import geogebra.common.kernel.geos.GeoElement.TraceModesEnum;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.App;
 import geogebra.common.plugin.EuclidianStyleConstants;
@@ -1134,6 +1135,12 @@ public class GeoText extends GeoElement implements Locateable,
 		GeoNumeric numeric = new GeoNumeric(cons, spreadsheetTraceableValue.evaluateNum().getDouble());
 		spreadsheetTraceList.add(numeric);
 
+	}
+	
+
+	@Override
+	public TraceModesEnum getTraceModes(){
+		return TraceModesEnum.ONE_VALUE_OR_COPY;
 	}
 	
 	/**

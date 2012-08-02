@@ -1886,7 +1886,7 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture {
 	@Override
 	public TraceModesEnum getTraceModes(){
 		if (geoList.size()==1)
-			return TraceModesEnum.ONE_VALUE;
+			return TraceModesEnum.ONE_VALUE_OR_COPY;
 		return TraceModesEnum.SEVERAL_VALUES;
 	}
 

@@ -7126,33 +7126,15 @@ public abstract class GeoElement extends ConstructionElement implements
 	}
 	
 
-	/*
-	 * update string description of values traced
-	 *
-	final protected void updateColumnHeadingsForTraceDialog(){
-		
-		if (spreadsheetColumnHeadings.size()>1)
-			traceModes=TraceModesEnum.SEVERAL_VALUES;
-		else
-			traceModes=TraceModesEnum.ONE_VALUE;
-		
-		columnHeadingsForTraceDialog.setLength(0);
-		boolean notFirst = false;
-		for (GeoText text : spreadsheetColumnHeadings){
-			if (notFirst)
-				columnHeadingsForTraceDialog.append(", ");
-			columnHeadingsForTraceDialog.append(text.getTextString());
-			notFirst = true;
-		}
-	}
-	*/
 	
 	/** Used by TraceDialog for "Trace as... value of/copy of */
 	static public enum TraceModesEnum {
 		/** no value for this geo, only copy*/
 		ONLY_COPY, 
-		/** one value (e.g. segment) */
-		ONE_VALUE, 
+		/** one value / copy (e.g. text) */
+		ONE_VALUE_OR_COPY, 
+		/** one value / no copy (e.g. segment) */
+		ONE_VALUE_ONLY, 
 		/** at least two values (e.g. point) */
 		SEVERAL_VALUES}
 	
@@ -7162,7 +7144,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @return possible modes for trace to spreadsheet
 	 */
 	public TraceModesEnum getTraceModes(){
-		return TraceModesEnum.ONE_VALUE;
+		return TraceModesEnum.ONE_VALUE_ONLY;//default for NumberValue
 	}
 		
 		
