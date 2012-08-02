@@ -360,9 +360,11 @@ TOKEN : {
 TOKEN : { 
  	// labels for cells in the spreadsheet
  	<SPREADSHEET_LABEL: ("$")?(["A"-"Z"]|["a"-"z"])+("$")?(["0"-"9"])+ > // e.g. B12
- | 
+  
  	// standard case: labels for GeoElements and command names
-   < LABEL:  
+| < CAS_LABEL:  
+    (    <LETTER> | "#") ( <LETTER> | <DIGIT> | "'" | "#" )* (<INDEX>)? (<LETTER> | <DIGIT> | "#")*>
+|   < LABEL:  
     <LETTER> ( <LETTER> | <DIGIT> | "'" )* (<INDEX>)? (<LETTER> | <DIGIT>)*>
  // |  < #INDEX:  "_" (  <CHAR>  | ("{" (<CHAR>)+ "}") )  >  
  |  < #INDEX:  "_" (  <CHAR>  | ("{" (~["}"])+ "}" ) )  >  
@@ -546,7 +548,7 @@ ValidExpression buildCASExpression() :
     |	   
        	// labeled equation, e.g. g: 3x + y = 7
        	LOOKAHEAD(2147483647)   
-       	l = label() (assign= ":" | assign = <ASSIGNMENT> | assign = <DELAYED_ASSIGNMENT > ) ve = equation()  
+       	l = casLabel() (assign= ":" | assign = <ASSIGNMENT> | assign = <DELAYED_ASSIGNMENT > ) ve = equation()  
     |
         // assignment         
         // b := 27 + c, also allow x := 5, see http://www.geogebra.org/trac/ticket/946
@@ -659,6 +661,15 @@ Token label():
         {  return t;   }
 }
 
+Token casLabel():
+{     
+    Token t;
+}
+{         	  
+       ( t = <VARZ> | t = <CAS_LABEL> )
+        {  return t;   }
+}
+
 /**
  * (<VARX> | <VARY> | <VARZ> | <LABEL> | <SPREADSHEET_LABEL>) 
  */
@@ -667,7 +678,7 @@ Token casVar():
   Token t;
 }
 {
-	(t = <VARX> | t = <VARY> | t = <VARZ> | t = <LABEL> | t = <SPREADSHEET_LABEL>)
+	(t = <VARX> | t = <VARY> | t = <VARZ> | t = <CAS_LABEL>)
 	{
 	  return t;
 	}
