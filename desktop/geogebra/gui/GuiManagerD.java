@@ -2486,7 +2486,7 @@ public class GuiManagerD extends GuiManager {
 				|| mode == EuclidianConstants.MODE_SPREADSHEET_MULTIVARSTATS) {
 
 			if (app.getGuiManager() != null) {
-				getDataAnalysisView().setDataAnalysis(mode);
+				getDataAnalysisView().setDataAnalysisView(mode);
 				app.getGuiManager().setShowView(true, App.VIEW_DATA_ANALYSIS);
 			}
 			// nothing more to do, so reset to move mode

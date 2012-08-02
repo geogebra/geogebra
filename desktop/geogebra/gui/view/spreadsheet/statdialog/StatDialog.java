@@ -124,7 +124,6 @@ public class StatDialog extends JPanel implements View, Printable,
 		isIniting = true;
 		this.app = app;
 		this.kernel = app.getKernel();
-		
 
 		nf = new SpecialNumberFormat(app, this);
 
@@ -133,7 +132,7 @@ public class StatDialog extends JPanel implements View, Printable,
 		comboStatPanel = new StatComboPanel(this);
 		comboStatPanel2 = new StatComboPanel(this);
 
-		setDataAnalysis(mode);
+		setDataAnalysisView(mode);
 		isIniting = false;
 
 	}
@@ -142,29 +141,24 @@ public class StatDialog extends JPanel implements View, Printable,
 	 * END StatDialog constructor
 	 */
 
-	public void setDataAnalysis(int mode) {
-		
+	public void setDataAnalysisView(int mode) {
+
 		if (app.getSelectedGeos().size() == 0)
 			return;
 
 		// reinit the GUI if mode is changed
 		if (this.mode != mode) {
-			this.mode = mode;
 			
+			this.mode = mode;
 			dataPanel = null;
 			buildStatisticsPanel();
-			
-			if(sdc.updateDataSource(true) == true){
-				
-				initComboPanels();
-				updateLayout();
-			}
+			sdc.updateDataSource(true);
+			setComboPanels();
+			updateLayout();
 
 		} else {
 			// just update data source
-			this.mode = mode;
-			sdc.updateDialog(true);
-			
+			sdc.updateDataAnalysisView(true);
 		}
 
 		// TODO is this needed?
@@ -174,7 +168,6 @@ public class StatDialog extends JPanel implements View, Printable,
 		setLabels();
 		updateGUI();
 
-		
 		revalidate();
 
 	}
@@ -204,52 +197,54 @@ public class StatDialog extends JPanel implements View, Printable,
 		}
 	}
 
-	public void initComboPanels() {
+	public void setComboPanels() {
 
 		switch (mode) {
 
 		case MODE_ONEVAR:
-			comboStatPanel.reInit(StatComboPanel.PLOT_HISTOGRAM, mode);
-			comboStatPanel2.reInit(StatComboPanel.PLOT_BOXPLOT, mode);
+			comboStatPanel.setPanel(StatComboPanel.PLOT_HISTOGRAM, mode);
+			comboStatPanel2.setPanel(StatComboPanel.PLOT_BOXPLOT, mode);
 			break;
 
 		case MODE_REGRESSION:
-			comboStatPanel.reInit(StatComboPanel.PLOT_SCATTERPLOT, mode);
-			comboStatPanel2.reInit(StatComboPanel.PLOT_RESIDUAL, mode);
+			comboStatPanel.setPanel(StatComboPanel.PLOT_SCATTERPLOT, mode);
+			comboStatPanel2.setPanel(StatComboPanel.PLOT_RESIDUAL, mode);
 			break;
 
 		case MODE_MULTIVAR:
-			comboStatPanel.reInit(StatComboPanel.PLOT_MULTIBOXPLOT, mode);
+			comboStatPanel.setPanel(StatComboPanel.PLOT_MULTIBOXPLOT, mode);
 			showComboPanel2 = false;
 			break;
 
 		case MODE_GROUPDATA:
-			comboStatPanel.reInit(StatComboPanel.PLOT_HISTOGRAM, mode);
+			comboStatPanel.setPanel(StatComboPanel.PLOT_HISTOGRAM, mode);
 			showComboPanel2 = false;
 			break;
 
 		}
 	}
+
+	
 
 	// Create DataPanel to display the current data set(s) and allow
 	// temporary editing.
 	protected DataPanel buildDataPanel() {
 
-		if (dataPanel != null){
+		if (dataPanel != null) {
 			// TODO handle any orphaned data panel geos
 			dataPanel = null;
 		}
 		if (mode != MODE_MULTIVAR && mode != StatDialog.MODE_GROUPDATA) {
 			dataPanel = new DataPanel(app, this);
-			dataPanel.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));			
+			dataPanel.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
 		}
 
 		return dataPanel;
 
 	}
-	
+
 	protected DataPanel getDataPanel() {
-		if(dataPanel == null){
+		if (dataPanel == null) {
 			buildDataPanel();
 		}
 		return dataPanel;
@@ -401,10 +396,10 @@ public class StatDialog extends JPanel implements View, Printable,
 		for (Regression l : Regression.values()) {
 			if (l.ordinal() == regressionMode) {
 				this.regressionMode = l;
-				
+
 				sdc.setRegressionGeo();
 				sdc.updateAllStatPanels(true);
-				
+
 				return;
 			}
 		}
@@ -533,7 +528,7 @@ public class StatDialog extends JPanel implements View, Printable,
 	 * Updates the dialog when the number format options have been changed
 	 */
 	public void changedNumberFormat() {
-		sdc.updateDialog(false);
+		sdc.updateDataAnalysisView(false);
 	}
 
 	public void updateGUI() {
@@ -605,10 +600,10 @@ public class StatDialog extends JPanel implements View, Printable,
 	}
 
 	public void update(GeoElement geo) {
-		 
+
 		if (!isIniting && sdc.isInDataSource(geo)) {
-			//App.error("updated geo:" + geo.toString());
-			sdc.updateDialog(false);
+			// App.error("updated geo:" + geo.toString());
+			sdc.updateDataAnalysisView(false);
 		}
 	}
 
@@ -641,15 +636,7 @@ public class StatDialog extends JPanel implements View, Printable,
 	}
 
 	public void setMode(int mode) {
-/*
-		switch (mode) {
-		case EuclidianConstants.MODE_SPREADSHEET_ONEVARSTATS:
-		case EuclidianConstants.MODE_SPREADSHEET_TWOVARSTATS:
-		case EuclidianConstants.MODE_SPREADSHEET_MULTIVARSTATS:
-			this.setDataAnalysis(mode);
-			break;
-		}
-*/
+		// do nothing
 	}
 
 	public void attachView() {
@@ -676,8 +663,6 @@ public class StatDialog extends JPanel implements View, Printable,
 		// kernel.notifyRemoveAll(this);
 	}
 
-	
-
 	public String[] getDataTitles() {
 		return sdc.getDataTitles();
 	}
@@ -693,10 +678,9 @@ public class StatDialog extends JPanel implements View, Printable,
 	public int print(Graphics g, PageFormat pageFormat, int pageIndex) {
 		if (pageIndex > 0)
 			return (NO_SUCH_PAGE);
-		
+
 		Graphics2D g2d = (Graphics2D) g;
-		g2d.translate(pageFormat.getImageableX(),
-				pageFormat.getImageableY());
+		g2d.translate(pageFormat.getImageableX(), pageFormat.getImageableY());
 
 		// construction title
 		int y = 0;
@@ -746,7 +730,6 @@ public class StatDialog extends JPanel implements View, Printable,
 		double scale = Math.min(xScale, yScale);
 
 		this.paint(g2d, scale);
-	
 
 		return (PAGE_EXISTS);
 	}

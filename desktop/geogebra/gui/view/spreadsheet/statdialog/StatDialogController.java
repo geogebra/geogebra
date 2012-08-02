@@ -49,12 +49,23 @@ public class StatDialogController {
 	}
 
 	private boolean leftToRight = true;
+	private boolean isValidData;
+	
+	
+	public boolean isValidData() {
+		return isValidData;
+	}
+
+	public void setValidData(boolean isValidData) {
+		this.isValidData = isValidData;
+	}
 
 	public void setLeftToRight(boolean leftToRight) {
 		this.leftToRight = leftToRight;
 	}
 
 	private GeoElement geoRegression;
+	
 
 	public GeoElement getRegressionModel() {
 		return geoRegression;
@@ -82,55 +93,70 @@ public class StatDialogController {
 		this.statGeo = sd.getStatGeo();
 
 	}
-	
-	private int mode(){
+
+	private int mode() {
 		return sd.getMode();
 	}
 
 	/**
-	 * Sets the data source. Returns false if data is invalid. Data may come
-	 * from either a selected GeoList or the currently selected spreadsheet cell
-	 * range.
+	 * Sets the field dataSource to the currently selected GeoElements if they
+	 * form a valid data source. If valid, then dataSource is either a GeoList
+	 * or a spreadsheet cell range. If invalid, dataSource = null.
+	 * 
+	 * The boolean field isValidData is also set as a flag for valid/invalid
+	 * data.
 	 */
-	protected boolean setDataSource() {
+	protected void setDataSource() {
 
 		dataSource = null;
+		isValidData = true;
 		CellRangeProcessor cr = spreadsheetTable.getCellRangeProcessor();
-		boolean success = true;
 
-		if(app.getSelectedGeos() ==null || app.getSelectedGeos().size()==0){
-			return false;
+		if (app.getSelectedGeos() == null || app.getSelectedGeos().size() == 0) {
+			isValidData = false;
+			return;
 		}
-		
+
 		try {
-			
+
 			GeoElement geo = app.getSelectedGeos().get(0);
 			if (geo.isGeoList()) {
 				// TODO: handle validation for a geoList source
 				dataSource = geo;
 			} else {
 				ArrayList<CellRange> rangeList = spreadsheetTable.selectedCellRanges;
-				if (mode() == StatDialog.MODE_ONEVAR) {
-					success = cr.isOneVarStatsPossible(rangeList);
-				} else if (mode() == StatDialog.MODE_REGRESSION) {
-					success = cr.isCreatePointListPossible(rangeList);
-				} else if (mode() == StatDialog.MODE_MULTIVAR) {
-					success = cr.isMultiVarStatsPossible(rangeList);
-				} else if (mode() == StatDialog.MODE_GROUPDATA) {
-					success = cr.isOneVarStatsPossible(rangeList);
-				}
-				if (success){
+				isValidData = isSpreadsheetDataOK(rangeList);
+				if (isValidData) {
 					dataSource = rangeList.clone();
-					//rangeList.get(0).debug();
+					// rangeList.get(0).debug();
 				}
 			}
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			success = false;
+			isValidData = false;
 		}
 
-		return success;
+		return;
+	}
+
+	protected boolean isSpreadsheetDataOK(ArrayList<CellRange> rangeList) {
+
+		CellRangeProcessor cr = spreadsheetTable.getCellRangeProcessor();
+
+		switch (mode()) {
+		case StatDialog.MODE_ONEVAR:
+			return cr.isOneVarStatsPossible(rangeList);
+
+		case StatDialog.MODE_REGRESSION:
+			return cr.isCreatePointListPossible(rangeList);
+
+		case StatDialog.MODE_MULTIVAR:
+			return cr.isMultiVarStatsPossible(rangeList);
+		default:
+			App.error("data analysis test for spreadsheet data failed");
+			return false;
+		}
 	}
 
 	/**
@@ -145,7 +171,7 @@ public class StatDialogController {
 		if (dataSource instanceof GeoList) {
 			return geo.equals(dataSource);
 		}
-		
+
 		GPoint location = geo.getSpreadsheetCoords();
 		boolean isCell = (location != null
 				&& location.x < Kernel.MAX_SPREADSHEET_COLUMNS && location.y < Kernel.MAX_SPREADSHEET_ROWS);
@@ -189,7 +215,7 @@ public class StatDialogController {
 
 		// TODO: handle dataSource of type geoList
 		if (dataSource instanceof GeoList) {
-				// TODO
+			// TODO
 		} else {
 
 			ArrayList<CellRange> cellRangeList = (ArrayList<CellRange>) dataSource;
@@ -203,7 +229,7 @@ public class StatDialogController {
 				break;
 
 			case StatDialog.MODE_REGRESSION:
-				
+
 				// data is a cell range of points
 				if (cellRangeList.size() == 1
 						&& cellRangeList.get(0).isPointList()) {
@@ -250,13 +276,12 @@ public class StatDialogController {
 				dataArray.add(i, dataSelected.get(i));
 			}
 
-
 			// load dataPanel with dataArray
 			if (mode() != StatDialog.MODE_MULTIVAR
 					&& mode() != StatDialog.MODE_GROUPDATA) {
 				sd.getDataPanel().loadDataTable(dataArray);
 			}
-		}else{
+		} else {
 			App.error("null dataSelected, mode = " + mode());
 		}
 	}
@@ -394,64 +419,56 @@ public class StatDialogController {
 
 		return title;
 	}
-	
-	
+
 	public void swapXY() {
 		leftToRight = !leftToRight;
-		updateDialog(false);
+		updateDataAnalysisView(false);
 	}
 
-	
-	public void updateDialog(boolean doSetDataSource) {
+	/**
+	 * Updates the view to reflect the current values of the GeoElements in the
+	 * data source, or values from a new data source.
+	 * 
+	 * @param doSetDataSource
+	 *            true = set the data source to a new collection of GeoElements
+	 */
+	public void updateDataAnalysisView(boolean doSetDataSource) {
 
-		boolean dataOK = updateDataSource(doSetDataSource);
-		
-		// load the data and update the panels
-		if (dataOK && dataSelected != null) {
-			loadDataLists();
-			
+		updateDataSource(doSetDataSource);
+
+		if (isValidData) {
 			if (mode() == StatDialog.MODE_REGRESSION) {
-				setRegressionGeo();	
+				setRegressionGeo();
 			}
-			
-			updateAllStatPanels(true);
-			
+
 		} else {
 			// TODO --- handle bad data
 			App.error("error in updateDialog");
 		}
-		
+
+		updateAllStatPanels(true);
 		sd.updateGUI();
 		sd.revalidate();
 		sd.repaint();
 
 	}
-	
-	
-	public boolean updateDataSource(boolean doSetDataSource) {
 
-		boolean hasValidDataSource = true;
+	public void updateDataSource(boolean doSetDataSource) {
+
 		removeStatGeos();
-		
-		// set the data source to currently selected geos
-		if(doSetDataSource){
-			hasValidDataSource = setDataSource();
-		}
-		if (dataSource == null)
-			return false;
-		
-		// load the data 
-		if (hasValidDataSource) {
-			loadDataLists();
 
+		if (doSetDataSource) {
+			setDataSource();
+		}
+	
+		if (isValidData) {	
+			loadDataLists();
 		} else {
 			// TODO --- handle bad data
-			App.error("error in updateDialog");
-			
-			return false;
+			App.error("error in updateDataSource");
 		}
-		
-		return true;
+
+		return;
 	}
 
 	public void updateAllStatPanels(boolean doCreateGeo) {
@@ -460,7 +477,7 @@ public class StatDialogController {
 		if (sd.comboStatPanel2 != null)
 			sd.comboStatPanel2.updatePlot(doCreateGeo);
 		if (sd.statisticsPanel != null) {
-			sd.statisticsPanel.updatePanel();	
+			sd.statisticsPanel.updatePanel();
 		}
 
 	}
@@ -472,7 +489,7 @@ public class StatDialogController {
 			// System.out.println("stat dialog removed: " + geo.toString());
 			// removeStatGeos();
 			dataSource = null;
-			updateDialog(false);
+			updateDataAnalysisView(false);
 		}
 
 	}
@@ -488,7 +505,6 @@ public class StatDialogController {
 			sd.regressionPanel.updateRegressionPanel();
 	}
 
-	
 	public void removeRegressionGeo() {
 		if (geoRegression != null) {
 			geoRegression.remove();
@@ -521,8 +537,6 @@ public class StatDialogController {
 			sd.comboStatPanel2.removeGeos();
 		}
 	}
-
-
 
 	public double[] getValueArray(GeoList dataList) {
 		ArrayList<Double> list = new ArrayList<Double>();

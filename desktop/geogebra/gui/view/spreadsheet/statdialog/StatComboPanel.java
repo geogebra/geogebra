@@ -163,12 +163,20 @@ public class StatComboPanel extends JPanel implements ActionListener,
 	
 	}
 
-	
-	public void reInit(int plotIndex, int mode) {
+	/**
+	 * Sets the plot to be displayed and the GUI corresponding to the given data
+	 * analysis mode
+	 * 
+	 * @param plotIndex
+	 *            the plot to be displayed
+	 * @param mode
+	 *            the data analysis mode
+	 */
+	public void setPanel(int plotIndex, int mode) {
 
 		this.mode = mode;
 		this.selectedPlot = plotIndex;
-	
+
 		setLabels();
 		updatePlot(true);
 		optionsPanel.setVisible(false);
@@ -176,7 +184,7 @@ public class StatComboPanel extends JPanel implements ActionListener,
 
 	}
 	
-	
+
 	// ==============================================
 	// GUI
 	// ==============================================
@@ -188,14 +196,16 @@ public class StatComboPanel extends JPanel implements ActionListener,
 
 		// create options button
 		btnOptions = new JToggleButton();
-		//optionsButton.setIcon(app.getImageIcon("view-properties16.png"));
+		// optionsButton.setIcon(app.getImageIcon("view-properties16.png"));
 		btnOptions.setIcon(app.getImageIcon("inputhelp_left_18x18.png"));
-		btnOptions.setSelectedIcon(app.getImageIcon("inputhelp_right_18x18.png"));
+		btnOptions.setSelectedIcon(app
+				.getImageIcon("inputhelp_right_18x18.png"));
 		btnOptions.setBorderPainted(false);
 		btnOptions.setFocusPainted(false);
 		btnOptions.setContentAreaFilled(false);
-	//	optionsButton.setPreferredSize(new Dimension(optionsButton.getIcon().getIconWidth(),18));
-		btnOptions.setMargin(new Insets(0,0,0,0));
+		// optionsButton.setPreferredSize(new
+		// Dimension(optionsButton.getIcon().getIconWidth(),18));
+		btnOptions.setMargin(new Insets(0, 0, 0, 0));
 		btnOptions.addActionListener(this);
 
 		// create export button
@@ -205,8 +215,9 @@ public class StatComboPanel extends JPanel implements ActionListener,
 		btnExport.setBorderPainted(false);
 		btnExport.setFocusPainted(false);
 		btnExport.setContentAreaFilled(false);
-	//	btnExport.setPreferredSize(new Dimension(btnExport.getIcon().getIconWidth(),18));
-		btnExport.setMargin(new Insets(0,0,0,0));
+		// btnExport.setPreferredSize(new
+		// Dimension(btnExport.getIcon().getIconWidth(),18));
+		btnExport.setMargin(new Insets(0, 0, 0, 0));
 		btnExport.addActionListener(this);
 
 		// create control panel
@@ -228,10 +239,11 @@ public class StatComboPanel extends JPanel implements ActionListener,
 			controlCards.add("blankPanel", emptyControl);
 
 			// control panel
-			controlPanel = new JPanel(new BorderLayout(0,0));
+			controlPanel = new JPanel(new BorderLayout(0, 0));
 			controlPanel.add(flowPanel(cbDisplayType), BorderLayout.WEST);
 			controlPanel.add(controlCards, BorderLayout.CENTER);
-			controlPanel.add(flowPanelRight(btnOptions, btnExport), BorderLayout.EAST);
+			controlPanel.add(flowPanelRight(btnOptions, btnExport),
+					BorderLayout.EAST);
 		}
 
 		plotPanel = new PlotPanelEuclidianView(app.getKernel(),
@@ -282,17 +294,17 @@ public class StatComboPanel extends JPanel implements ActionListener,
 		// =======================================
 		// put all the panels together
 
-		JPanel mainPanel = new JPanel(new BorderLayout(0,0));
-		
+		JPanel mainPanel = new JPanel(new BorderLayout(0, 0));
+
 		if (hasControlPanel) {
 			mainPanel.add(controlPanel, BorderLayout.NORTH);
 		}
 		mainPanel.add(displayCardPanel, BorderLayout.CENTER);
 		mainPanel.add(optionsPanel, BorderLayout.EAST);
 
-		this.setLayout(new BorderLayout(0,0));
+		this.setLayout(new BorderLayout(0, 0));
 		this.add(mainPanel, BorderLayout.CENTER);
-		this.setBorder(BorderFactory.createEmptyBorder(5,0,0,0));
+		this.setBorder(BorderFactory.createEmptyBorder(5, 0, 0, 0));
 		controlPanel.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0,
 				SystemColor.controlShadow));
 
@@ -434,7 +446,7 @@ public class StatComboPanel extends JPanel implements ActionListener,
 		fldNumClasses.setBackground(null);
 		fldNumClasses.setBorder(BorderFactory.createEmptyBorder());
 		fldNumClasses.setVisible(false);
-		
+
 		sliderNumClasses = new JSlider(SwingConstants.HORIZONTAL, 3, 20,
 				numClasses);
 		Dimension d = sliderNumClasses.getPreferredSize();
@@ -453,21 +465,21 @@ public class StatComboPanel extends JPanel implements ActionListener,
 			}
 		});
 
-		sliderNumClasses.addMouseListener(new MouseAdapter(){
+		sliderNumClasses.addMouseListener(new MouseAdapter() {
 			public void mouseEntered(MouseEvent arg0) {
 				fldNumClasses.setVisible(true);
 				fldNumClasses.revalidate();
 			}
+
 			public void mouseExited(MouseEvent arg0) {
 				fldNumClasses.setVisible(false);
 				fldNumClasses.revalidate();
 			}
 		});
 
-		
-		numClassesPanel = new JPanel(new FlowLayout(FlowLayout.LEFT,0,0));
+		numClassesPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
 		numClassesPanel.add(sliderNumClasses);
-		//numClassesPanel.add(lblNumClasses);
+		// numClassesPanel.add(lblNumClasses);
 		numClassesPanel.add(fldNumClasses);
 
 	}
@@ -526,8 +538,6 @@ public class StatComboPanel extends JPanel implements ActionListener,
 
 	}
 
-	
-
 	/**
 	 * Creates two hash maps for JComboBox selections, 1) plotMap: Key = integer
 	 * display type, Value = JComboBox menu string 2) plotMapReverse: Key =
@@ -557,12 +567,10 @@ public class StatComboPanel extends JPanel implements ActionListener,
 
 	}
 
-	
-	public JPopupMenu getExportMenu(){
+	public JPopupMenu getExportMenu() {
 		return plotPanel.getContextMenu();
 	}
-	
-	
+
 	// ==============================================
 	// DISPLAY UPDATE
 	// ==============================================
@@ -572,15 +580,12 @@ public class StatComboPanel extends JPanel implements ActionListener,
 		GeoList dataListSelected = statDialog.getStatDialogController()
 				.getDataSelected();
 
-		// if(!statGeo.removeFromConstruction()){
-		// statDialog.getStatDialogController().setRegressionGeo();
-		// }
-
 		GeoElement geo;
+
 		if (hasControlPanel)
 			((CardLayout) controlCards.getLayout()).show(controlCards,
 					"blankPanel");
-
+		
 		if (doCreate) {
 			clearPlotGeoList();
 		}
@@ -588,6 +593,14 @@ public class StatComboPanel extends JPanel implements ActionListener,
 		btnOptions.setVisible(true);
 		updatePlotPanelLayout();
 
+		// if invalid data, show blank plot and exit
+		if(!statDialog.getStatDialogController().isValidData()){
+			imageContainer.setIcon(null);
+			((CardLayout) displayCardPanel.getLayout()).show(displayCardPanel,
+					"imagePanel");
+			return;
+		}
+		
 		switch (selectedPlot) {
 
 		case PLOT_HISTOGRAM:
@@ -763,6 +776,7 @@ public class StatComboPanel extends JPanel implements ActionListener,
 
 		}
 
+		
 		if (doCreate && statGeo.removeFromConstruction()) {
 			for (GeoElement listGeo : plotGeoList) {
 				// add the geo to our view and remove it from EV
@@ -892,7 +906,7 @@ public class StatComboPanel extends JPanel implements ActionListener,
 	}
 
 	private JPanel flowPanelRight(JComponent... comp) {
-		JPanel p = new JPanel(new FlowLayout(FlowLayout.RIGHT, 0,0));
+		JPanel p = new JPanel(new FlowLayout(FlowLayout.RIGHT, 0, 0));
 		for (int i = 0; i < comp.length; i++) {
 			p.add(comp[i]);
 		}
