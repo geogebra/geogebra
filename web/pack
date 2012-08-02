@@ -44,7 +44,7 @@ mv indexhtml index.html
 mv READMEtxt README.txt
 rm -fR ggbloadworker WEB-INF
 find -name .svn -or -name svnignore.txt | xargs rm -fR
-rm -fR web/web.devmode.js web/statictexts/defaultbase64.img css/font
+rm -fR web/web.devmode.js web/statictexts css/font
 find -name '*.cache.svg' -or -name '*.cache.ttf' -or -name '*.cache.woff' \
  -or -name '*.cache.eot' -or -name '*.cache.otf' | xargs rm
 
