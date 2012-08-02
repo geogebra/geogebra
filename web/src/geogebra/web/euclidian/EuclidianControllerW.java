@@ -194,7 +194,14 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 
 	public void onMouseOut(MouseOutEvent event) {
 		//hide dialogs if they are open
-		if (GuiManagerW.currentPopup != null) {
+		int x = event.getClientX();
+		int y = event.getClientY();
+		int ex = ((EuclidianViewW)view).getAbsoluteLeft();
+		int ey = ((EuclidianViewW)view).getAbsoluteTop();
+		int eWidth = ((EuclidianViewW)view).getWidth();
+		int eHeight = ((EuclidianViewW)view).getHeight();
+		if (GuiManagerW.currentPopup != null && ((x < ex || x > ex + eWidth) ||
+				(y < ey ||y > ey + eHeight))) {
 			GuiManagerW.currentPopup.removeFromDOM();
 			GuiManagerW.currentPopup = null;
 		}
