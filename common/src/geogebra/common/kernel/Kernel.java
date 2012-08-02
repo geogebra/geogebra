@@ -416,6 +416,11 @@ public class Kernel {
 		return new MyXMLHandler(kernel, cons1);
 	}
 
+	/**
+	 * @Deprecated Please get the app elsewhere! App will be separated from the Kernel in the future,
+	 * instead a class with settings for the Kernel will be introduced. - Matthias
+	 * @return chaos
+	 */
 	final public App getApplication() {
 		return app;
 	}
