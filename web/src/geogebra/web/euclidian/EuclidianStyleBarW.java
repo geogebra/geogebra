@@ -122,7 +122,7 @@ public class EuclidianStyleBarW extends HorizontalPanel
 		cons = app.getKernel().getConstruction();
 
 		// init handling of default geos
-		createDefaultMap();
+		defaultGeoMap = EuclidianStyleBarStatic.createDefaultMap();
 		defaultGeos = new ArrayList<GeoElement>();
 
 		// toolbar display settings
@@ -307,132 +307,6 @@ public class EuclidianStyleBarW extends HorizontalPanel
 		//btnPenDelete.setVisible((mode == EuclidianConstants.MODE_PEN));
 		addButtons();
     }
-
-	private void createDefaultMap() {
-		defaultGeoMap = new HashMap<Integer, Integer>();
-		defaultGeoMap.put(EuclidianConstants.MODE_POINT,
-				ConstructionDefaults.DEFAULT_POINT_FREE);
-		defaultGeoMap.put(EuclidianConstants.MODE_COMPLEX_NUMBER,
-				ConstructionDefaults.DEFAULT_POINT_FREE);
-		defaultGeoMap.put(EuclidianConstants.MODE_POINT_ON_OBJECT,
-				ConstructionDefaults.DEFAULT_POINT_DEPENDENT);
-		defaultGeoMap.put(EuclidianConstants.MODE_INTERSECT,
-				ConstructionDefaults.DEFAULT_POINT_DEPENDENT);
-		defaultGeoMap.put(EuclidianConstants.MODE_MIDPOINT,
-				ConstructionDefaults.DEFAULT_POINT_DEPENDENT);
-
-		defaultGeoMap.put(EuclidianConstants.MODE_JOIN,
-				ConstructionDefaults.DEFAULT_LINE);
-		defaultGeoMap.put(EuclidianConstants.MODE_SEGMENT,
-				ConstructionDefaults.DEFAULT_SEGMENT);
-		defaultGeoMap.put(EuclidianConstants.MODE_SEGMENT_FIXED,
-				ConstructionDefaults.DEFAULT_SEGMENT);
-		defaultGeoMap.put(EuclidianConstants.MODE_RAY,
-				ConstructionDefaults.DEFAULT_LINE);
-		defaultGeoMap.put(EuclidianConstants.MODE_VECTOR,
-				ConstructionDefaults.DEFAULT_VECTOR);
-		defaultGeoMap.put(EuclidianConstants.MODE_VECTOR_FROM_POINT,
-				ConstructionDefaults.DEFAULT_VECTOR);
-
-		defaultGeoMap.put(EuclidianConstants.MODE_ORTHOGONAL,
-				ConstructionDefaults.DEFAULT_LINE);
-		defaultGeoMap.put(EuclidianConstants.MODE_PARALLEL,
-				ConstructionDefaults.DEFAULT_LINE);
-		defaultGeoMap.put(EuclidianConstants.MODE_LINE_BISECTOR,
-				ConstructionDefaults.DEFAULT_LINE);
-		defaultGeoMap.put(EuclidianConstants.MODE_ANGULAR_BISECTOR,
-				ConstructionDefaults.DEFAULT_LINE);
-		defaultGeoMap.put(EuclidianConstants.MODE_TANGENTS,
-				ConstructionDefaults.DEFAULT_LINE);
-		defaultGeoMap.put(EuclidianConstants.MODE_POLAR_DIAMETER,
-				ConstructionDefaults.DEFAULT_LINE);
-		defaultGeoMap.put(EuclidianConstants.MODE_FITLINE,
-				ConstructionDefaults.DEFAULT_LINE);
-		defaultGeoMap.put(EuclidianConstants.MODE_CREATE_LIST,
-				ConstructionDefaults.DEFAULT_LIST);
-		defaultGeoMap.put(EuclidianConstants.MODE_LOCUS,
-				ConstructionDefaults.DEFAULT_LOCUS);
-
-		defaultGeoMap.put(EuclidianConstants.MODE_POLYGON,
-				ConstructionDefaults.DEFAULT_POLYGON);
-		defaultGeoMap.put(EuclidianConstants.MODE_REGULAR_POLYGON,
-				ConstructionDefaults.DEFAULT_POLYGON);
-		defaultGeoMap.put(EuclidianConstants.MODE_RIGID_POLYGON,
-				ConstructionDefaults.DEFAULT_POLYGON);
-		defaultGeoMap.put(EuclidianConstants.MODE_VECTOR_POLYGON,
-				ConstructionDefaults.DEFAULT_POLYGON);
-		defaultGeoMap.put(EuclidianConstants.MODE_POLYLINE,
-				ConstructionDefaults.DEFAULT_POLYGON);
-
-		defaultGeoMap.put(EuclidianConstants.MODE_CIRCLE_TWO_POINTS,
-				ConstructionDefaults.DEFAULT_CONIC);
-		defaultGeoMap.put(EuclidianConstants.MODE_CIRCLE_POINT_RADIUS,
-				ConstructionDefaults.DEFAULT_CONIC);
-		defaultGeoMap.put(EuclidianConstants.MODE_COMPASSES,
-				ConstructionDefaults.DEFAULT_CONIC);
-		defaultGeoMap.put(EuclidianConstants.MODE_CIRCLE_THREE_POINTS,
-				ConstructionDefaults.DEFAULT_CONIC);
-		defaultGeoMap.put(EuclidianConstants.MODE_SEMICIRCLE,
-				ConstructionDefaults.DEFAULT_CONIC);
-		defaultGeoMap.put(EuclidianConstants.MODE_CIRCLE_ARC_THREE_POINTS,
-				ConstructionDefaults.DEFAULT_CONIC);
-		defaultGeoMap.put(
-				EuclidianConstants.MODE_CIRCUMCIRCLE_ARC_THREE_POINTS,
-				ConstructionDefaults.DEFAULT_CONIC);
-		defaultGeoMap.put(EuclidianConstants.MODE_CIRCLE_SECTOR_THREE_POINTS,
-				ConstructionDefaults.DEFAULT_CONIC_SECTOR);
-		defaultGeoMap.put(
-				EuclidianConstants.MODE_CIRCUMCIRCLE_SECTOR_THREE_POINTS,
-				ConstructionDefaults.DEFAULT_CONIC_SECTOR);
-
-		defaultGeoMap.put(EuclidianConstants.MODE_ELLIPSE_THREE_POINTS,
-				ConstructionDefaults.DEFAULT_CONIC);
-		defaultGeoMap.put(EuclidianConstants.MODE_HYPERBOLA_THREE_POINTS,
-				ConstructionDefaults.DEFAULT_CONIC);
-		defaultGeoMap.put(EuclidianConstants.MODE_PARABOLA,
-				ConstructionDefaults.DEFAULT_CONIC);
-		defaultGeoMap.put(EuclidianConstants.MODE_CONIC_FIVE_POINTS,
-				ConstructionDefaults.DEFAULT_CONIC);
-
-		defaultGeoMap.put(EuclidianConstants.MODE_ANGLE,
-				ConstructionDefaults.DEFAULT_ANGLE);
-		defaultGeoMap.put(EuclidianConstants.MODE_ANGLE_FIXED,
-				ConstructionDefaults.DEFAULT_ANGLE);
-
-		defaultGeoMap.put(EuclidianConstants.MODE_DISTANCE,
-				ConstructionDefaults.DEFAULT_TEXT);
-		defaultGeoMap.put(EuclidianConstants.MODE_AREA,
-				ConstructionDefaults.DEFAULT_TEXT);
-		defaultGeoMap.put(EuclidianConstants.MODE_SLOPE,
-				ConstructionDefaults.DEFAULT_POLYGON);
-
-		defaultGeoMap.put(EuclidianConstants.MODE_MIRROR_AT_LINE,
-				ConstructionDefaults.DEFAULT_NONE);
-		defaultGeoMap.put(EuclidianConstants.MODE_MIRROR_AT_POINT,
-				ConstructionDefaults.DEFAULT_NONE);
-		defaultGeoMap.put(EuclidianConstants.MODE_MIRROR_AT_CIRCLE,
-				ConstructionDefaults.DEFAULT_NONE);
-		defaultGeoMap.put(EuclidianConstants.MODE_ROTATE_BY_ANGLE,
-				ConstructionDefaults.DEFAULT_NONE);
-		defaultGeoMap.put(EuclidianConstants.MODE_TRANSLATE_BY_VECTOR,
-				ConstructionDefaults.DEFAULT_NONE);
-		defaultGeoMap.put(EuclidianConstants.MODE_DILATE_FROM_POINT,
-				ConstructionDefaults.DEFAULT_NONE);
-
-		defaultGeoMap.put(EuclidianConstants.MODE_TEXT,
-				ConstructionDefaults.DEFAULT_TEXT);
-		defaultGeoMap.put(EuclidianConstants.MODE_SLIDER,
-				ConstructionDefaults.DEFAULT_NUMBER);
-		defaultGeoMap.put(EuclidianConstants.MODE_IMAGE,
-				ConstructionDefaults.DEFAULT_IMAGE);
-
-		defaultGeoMap.put(EuclidianConstants.MODE_SHOW_HIDE_CHECKBOX,
-				ConstructionDefaults.DEFAULT_BOOLEAN);
-		defaultGeoMap.put(EuclidianConstants.MODE_BUTTON_ACTION,
-				ConstructionDefaults.DEFAULT_NONE);
-		defaultGeoMap.put(EuclidianConstants.MODE_TEXTFIELD_ACTION,
-				ConstructionDefaults.DEFAULT_NONE);
-	}
 
 	// =====================================================
 	// Init GUI
