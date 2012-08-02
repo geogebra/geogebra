@@ -17,6 +17,7 @@ the Free Software Foundation.
 package geogebra.common.kernel.arithmetic;
 
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.main.App;
 
 import java.util.Set;
 import java.util.Vector;
@@ -228,7 +229,7 @@ public abstract class ValidExpression implements ExpressionValue {
 
 		StringBuilder sb = new StringBuilder();
 		sb.append(getLabelForAssignment());
-		
+		App.debug(assignmentType);
 		switch (assignmentType) {
 		case DEFAULT:
 			sb.append(getAssignmentOperatorLaTeX());
@@ -320,7 +321,7 @@ public abstract class ValidExpression implements ExpressionValue {
 
 	public abstract String toValueString(StringTemplate tpl);
 
-	public final ExpressionValue traverse(final Traversing t) {
+	public ExpressionValue traverse(final Traversing t) {
 		return t.process(this);
 	}
 
