@@ -521,12 +521,12 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements Att
     }
 	
 	public void show(Canvas c, int x, int y) {
-		int xr = c.getAbsoluteLeft() + x;
+		/*tmp int xr = c.getAbsoluteLeft() + x;
 		int yr = c.getAbsoluteTop() + y;
 		wrappedPopup.setPopupPosition(xr, yr);
 		wrappedPopup.show();
 		//?????
-		wrappedPopup.getElement().getStyle().setVisibility(Visibility.VISIBLE);
+		wrappedPopup.getElement().getStyle().setVisibility(Visibility.VISIBLE);*/
 	}
 
 	public void reInit(ArrayList<GeoElement> geos, GPoint location) {
