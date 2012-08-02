@@ -15,10 +15,14 @@ import geogebra.common.kernel.AnimationManager;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.UndoManager;
+import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.commands.CommandProcessor;
+import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
+import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.App;
 import geogebra.common.main.GlobalKeyDispatcher;
 import geogebra.common.main.MyError;
@@ -619,4 +623,11 @@ public class MobileApp extends App
 		throw new UnsupportedOperationException();
 
 	}
+
+	@Override
+  public AlgoElement newAlgoShortestDistance(Construction cons, String label, GeoList list, GeoPointND start, GeoPointND end, GeoBoolean weighted)
+  {
+	  // TODO Auto-generated method stub
+	  return null;
+  }
 }
