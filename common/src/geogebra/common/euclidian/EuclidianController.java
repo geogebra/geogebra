@@ -6163,29 +6163,31 @@ public abstract class EuclidianController {
 					// hits = view.getTopHits(mouseLoc);
 					if (!hits.isEmpty()) {
 						GeoElement hit = hits.get(0);
-						if ((hit != null) && hit.isGeoButton() && !(hit.isGeoTextField())) {
-							checkBoxOrButtonJustHitted = true;
-							app.removeSelectedGeo(hit, true, false); // make sure doesn't get selected
-							app.updateSelection(false);
-						}
-						else if ((hit != null) && hit.isGeoBoolean()) {
-							GeoBoolean bool = (GeoBoolean) (hits.get(0));
-							if (!isCheckboxFixed(bool)) { // otherwise changed on mouse
-															// down
-								hitCheckBox(bool);
-								app.removeSelectedGeo(bool, true, false); // make sure doesn't get selected
+						if (hit!=null){
+							if (hit.isGeoButton() && !(hit.isGeoTextField())) {
+								checkBoxOrButtonJustHitted = true;
+								app.removeSelectedGeo(hit, true, false); // make sure doesn't get selected
 								app.updateSelection(false);
-								bool.updateCascade();
 							}
-						} else if (hit != null) {
-							GeoElement geo1 = chooseGeo(hits, true);
-							// ggb3D : geo1 may be null if it's axes or xOy plane
-							if (geo1 != null) {
-								
-								// make sure that Input Boxes lose focus (and so update) before running scripts
-								view.requestFocusInWindow();
-								
-								app.runScripts(geo1, (String)null);
+							else if (hit.isGeoBoolean()) {
+								GeoBoolean bool = (GeoBoolean) (hits.get(0));
+								if (!isCheckboxFixed(bool)) { // otherwise changed on mouse
+									// down
+									hitCheckBox(bool);
+									app.removeSelectedGeo(bool, true, false); // make sure doesn't get selected
+									app.updateSelection(false);
+									bool.updateCascade();
+								}
+							} else {
+								GeoElement geo1 = chooseGeo(hits, true);
+								// ggb3D : geo1 may be null if it's axes or xOy plane
+								if (geo1 != null) {
+
+									// make sure that Input Boxes lose focus (and so update) before running scripts
+									view.requestFocusInWindow();
+
+									app.runScripts(geo1, (String)null);
+								}
 							}
 						}
 					}
