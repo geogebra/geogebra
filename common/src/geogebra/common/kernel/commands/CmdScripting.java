@@ -39,7 +39,7 @@ public abstract class CmdScripting extends CommandProcessor {
 	public void performAndClean(Command c){
 		perform(c);
 		for(int i=0;arg!=null && i<arg.length;i++)
-			if(arg[i]!=null && !arg[i].isLabelSet())
+			if(arg[i]!=null && !arg[i].isLabelSet() && !arg[i].isGeoCasCell())
 				arg[i].remove();
 	}
 	@Override
