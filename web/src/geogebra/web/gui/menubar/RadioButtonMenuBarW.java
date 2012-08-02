@@ -39,6 +39,7 @@ public class RadioButtonMenuBarW extends MenuBar implements RadioButtonMenuBar {
 	private MenuItem addItem(String text, Command com, boolean selected) {
 		RadioButton radioButton = new RadioButton(menubarID, text, true);		
 		radioButton.setValue(selected);
+		radioButton.addStyleName("RadioButtonMenuItem");
 		return super.addItem(radioButton.toString(), true, com);
 	}
 	

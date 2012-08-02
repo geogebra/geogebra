@@ -1517,4 +1517,8 @@ body[dir=rtl] .undoPanel {
 	text-decoration: underline;
 }
 
+.RadioButtonMenuItem {
+	font-size: 80%;
+}
+
 
