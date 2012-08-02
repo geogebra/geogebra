@@ -350,7 +350,44 @@ public class EuclidianStyleBarStatic {
 		return needUndo;
 	}
 
+	/**
+	 * @param geos
+	 * @param fontStyle Value of fontStyle is 1 if btnBold pressed, 2 if btnItalic pressed, 0 otherwise
+	 * @return
+	 */
+	public static boolean applyFontStyle(ArrayList<GeoElement> geos, int fontStyle) {
+		boolean needUndo = false;
+		
+		for (int i = 0; i < geos.size(); i++) {
+			GeoElement geo = geos.get(i);
+			if (geo instanceof TextProperties
+					&& ((TextProperties) geo).getFontStyle() != fontStyle) {
+				((TextProperties) geo).setFontStyle(fontStyle);
+				geo.updateRepaint();
+				needUndo = true;
+			}
+		}
+		return needUndo;
+	}
 
+	public static boolean applyTextSize(ArrayList<GeoElement> geos, int textSizeIndex) {
+		boolean needUndo = false;
+		
+		double fontSize = GeoText.getRelativeFontSize(textSizeIndex); // transform indices to the range -4, .. ,
+										// 4
+
+		for (int i = 0; i < geos.size(); i++) {
+			GeoElement geo = geos.get(i);
+			if (geo instanceof TextProperties
+					&& ((TextProperties) geo).getFontSizeMultiplier() != fontSize) {
+				((TextProperties) geo).setFontSizeMultiplier(fontSize);
+				geo.updateRepaint();
+				needUndo = true;
+			}
+		}
+		
+		return needUndo;
+	}
 	
 	/**
 	 * process the action performed
@@ -393,7 +430,6 @@ public class EuclidianStyleBarStatic {
 		}
 
 		else if (actionCommand.equals("pointCapture")) {
-			//int mode = btnPointCapture.getSelectedIndex();
 			int mode = ev.getStyleBar().getPointCaptureSelectedIndex();
 			
 			if (mode == 3 || mode == 0)

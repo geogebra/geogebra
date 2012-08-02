@@ -154,23 +154,6 @@ public class EuclidianStyleBarW extends HorizontalPanel
 		return mode;
 	}
 
-	public void applyVisualStyle(ArrayList<GeoElement> geos) {
-
-		if (geos == null || geos.size() < 1)
-			return;
-		needUndo = false;
-
-		if (btnBold.isVisible())
-			applyFontStyle(geos);
-		if (btnItalic.isVisible())
-			applyFontStyle(geos);
-
-		if (needUndo) {
-			app.storeUndoInfo();
-			needUndo = false;
-		}
-	}
-
 	public void updateButtonPointCapture(int mode) {
 		if (mode == 3 || mode == 0)
 			mode = 3 - mode; // swap 0 and 3
@@ -1392,42 +1375,7 @@ public class EuclidianStyleBarW extends HorizontalPanel
 						getActionCommand((Widget) source), targetGeos, ev)))
 			return;
 
-		
-		if (source.equals(btnShowAxes)) {
-			if (app.getEuclidianView1() == ev)
-				app.getSettings().getEuclidian(1)
-						.setShowAxes(!ev.getShowXaxis(), !ev.getShowXaxis());
-			else if (!app.hasEuclidianView2EitherShowingOrNot())
-				ev.setShowAxes(!ev.getShowXaxis(), true);
-			else if (app.getEuclidianView2() == ev)
-				app.getSettings().getEuclidian(2)
-						.setShowAxes(!ev.getShowXaxis(), !ev.getShowXaxis());
-			else
-				ev.setShowAxes(!ev.getShowXaxis(), true);
-			ev.repaint();
-		} else if (source.equals(btnShowGrid)) {
-			if (app.getEuclidianView1() == ev)
-				app.getSettings().getEuclidian(1).showGrid(!ev.getShowGrid());
-			else if (!app.hasEuclidianView2EitherShowingOrNot())
-				ev.showGrid(!ev.getShowGrid());
-			else if (app.getEuclidianView2() == ev)
-				app.getSettings().getEuclidian(2).showGrid(!ev.getShowGrid());
-			else
-				ev.showGrid(!ev.getShowGrid());
-			ev.repaint();
-		} else if (source == btnPointCapture) {
-			int pointCapturingMode = btnPointCapture.getSelectedIndex();
-			if (pointCapturingMode == 3 || pointCapturingMode == 0)
-				pointCapturingMode = 3 - pointCapturingMode; // swap 0 and 3
-			ev.setPointCapturing(pointCapturingMode);
-			
-			// update other EV stylebars since this is a global property 
-			app.updateStyleBars();
-		} else if (source == btnBold) {
-			applyFontStyle(targetGeos);
-		} else if (source == btnItalic) {
-			applyFontStyle(targetGeos);
-		} else if (source == btnColor) {
+		if (source == btnColor) {
 			if (mode == EuclidianConstants.MODE_PEN) {
 				App.debug("Not MODE_PEN in EuclidianStyleBar yet");
 				/*ec.getPen().setPenColor(
@@ -1478,11 +1426,11 @@ public class EuclidianStyleBarW extends HorizontalPanel
 				needUndo = EuclidianStyleBarStatic.applyPointStyle(targetGeos, pointStyleSelIndex, pointSize);
 			}
 		} else if (source == btnBold) {
-			applyFontStyle(targetGeos);
+			needUndo = EuclidianStyleBarStatic.applyFontStyle(targetGeos, 1);
 		} else if (source == btnItalic) {
-			applyFontStyle(targetGeos);
+			needUndo = EuclidianStyleBarStatic.applyFontStyle(targetGeos, 2);
 		} else if (source == btnTextSize) {
-			applyTextSize(targetGeos);
+			needUndo = EuclidianStyleBarStatic.applyTextSize(targetGeos, btnTextSize.getSelectedIndex());
 		} else if (source == btnHideShowLabel) {
 			applyHideShowLabel(targetGeos);
 			updateStyleBar();
@@ -1509,41 +1457,6 @@ public class EuclidianStyleBarW extends HorizontalPanel
 		// Apply Styles
 		// ==============================================
 
-
-		private void applyFontStyle(ArrayList<GeoElement> geos) {
-
-			int fontStyle = 0;
-			if (btnBold.isSelected())
-				fontStyle += 1;
-			if (btnItalic.isSelected())
-				fontStyle += 2;
-			for (int i = 0; i < geos.size(); i++) {
-				GeoElement geo = geos.get(i);
-				if (geo instanceof TextProperties
-						&& ((TextProperties) geo).getFontStyle() != fontStyle) {
-					((TextProperties) geo).setFontStyle(fontStyle);
-					geo.updateRepaint();
-					needUndo = true;
-				}
-			}
-		}
-
-		private void applyTextSize(ArrayList<GeoElement> geos) {
-
-			double fontSize = GeoText.getRelativeFontSize(btnTextSize
-					.getSelectedIndex()); // transform indices to the range -4, .. ,
-											// 4
-
-			for (int i = 0; i < geos.size(); i++) {
-				GeoElement geo = geos.get(i);
-				if (geo instanceof TextProperties
-						&& ((TextProperties) geo).getFontSizeMultiplier() != fontSize) {
-					((TextProperties) geo).setFontSizeMultiplier(fontSize);
-					geo.updateRepaint();
-					needUndo = true;
-				}
-			}
-		}
 
 		private void applyHideShowLabel(ArrayList<GeoElement> geos) {
 			boolean visible = btnHideShowLabel.isSelected();

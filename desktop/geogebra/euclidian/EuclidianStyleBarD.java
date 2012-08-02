@@ -1502,11 +1502,11 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 				needUndo = EuclidianStyleBarStatic.applyPointStyle(targetGeos, pointStyleSelIndex, pointSize);
 			}
 		} else if (source == btnBold) {
-			applyFontStyle(targetGeos);
+			needUndo = EuclidianStyleBarStatic.applyFontStyle(targetGeos, 1);
 		} else if (source == btnItalic) {
-			applyFontStyle(targetGeos);
+			needUndo = EuclidianStyleBarStatic.applyFontStyle(targetGeos, 2);
 		} else if (source == btnTextSize) {
-			applyTextSize(targetGeos);
+			needUndo = EuclidianStyleBarStatic.applyTextSize(targetGeos, btnTextSize.getSelectedIndex());
 		} else if (source == btnLabelStyle) {
 			needUndo = EuclidianStyleBarStatic.applyCaptionStyle(targetGeos, mode, btnLabelStyle.getSelectedIndex());
 		}
@@ -1539,40 +1539,6 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 	// ==============================================
 
 
-	private void applyFontStyle(ArrayList<GeoElement> geos) {
-
-		int fontStyle = 0;
-		if (btnBold.isSelected())
-			fontStyle += 1;
-		if (btnItalic.isSelected())
-			fontStyle += 2;
-		for (int i = 0; i < geos.size(); i++) {
-			GeoElement geo = geos.get(i);
-			if (geo instanceof TextProperties
-					&& ((TextProperties) geo).getFontStyle() != fontStyle) {
-				((TextProperties) geo).setFontStyle(fontStyle);
-				geo.updateRepaint();
-				needUndo = true;
-			}
-		}
-	}
-
-	private void applyTextSize(ArrayList<GeoElement> geos) {
-
-		double fontSize = GeoText.getRelativeFontSize(btnTextSize
-				.getSelectedIndex()); // transform indices to the range -4, .. ,
-										// 4
-
-		for (int i = 0; i < geos.size(); i++) {
-			GeoElement geo = geos.get(i);
-			if (geo instanceof TextProperties
-					&& ((TextProperties) geo).getFontSizeMultiplier() != fontSize) {
-				((TextProperties) geo).setFontSizeMultiplier(fontSize);
-				geo.updateRepaint();
-				needUndo = true;
-			}
-		}
-	}
 
 	/**
 	 * Set labels with localized strings.
