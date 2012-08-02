@@ -7499,7 +7499,10 @@ public abstract class EuclidianController {
 			if (!selGeos.contains(geo)) {
 				app.clearSelectedGeos(false); //repaint done next step
 				app.addSelectedGeo(geo,true,false);
-				app.updateSelection(false);
+				if (geo.isGeoBoolean() || geo.isGeoBoolean()) //no properties update to avoid flickering
+					app.updateSelection(false);
+				else
+					app.updateSelection(true);
 				// app.geoElementSelected(geo, false); // copy definiton to
 				// input bar
 			}
