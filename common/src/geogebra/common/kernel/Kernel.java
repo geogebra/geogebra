@@ -62,6 +62,7 @@ import geogebra.common.kernel.discrete.AlgoConvexHull;
 import geogebra.common.kernel.discrete.AlgoDelauneyTriangulation;
 import geogebra.common.kernel.discrete.AlgoHull;
 import geogebra.common.kernel.discrete.AlgoMinimumSpanningTree;
+import geogebra.common.kernel.discrete.AlgoShortestDistance;
 import geogebra.common.kernel.discrete.AlgoTravelingSalesman;
 import geogebra.common.kernel.discrete.AlgoVoronoi;
 import geogebra.common.kernel.geos.CasEvaluableFunction;
@@ -9979,8 +9980,8 @@ public class Kernel {
 
 	final public GeoLocus ShortestDistance(String label, GeoList list,
 			GeoPointND start, GeoPointND end, GeoBoolean weighted) {
-		return (GeoLocus) app.newAlgoShortestDistance(cons, label, list, start,
-				end, weighted).getOutput(0);
+		return  new AlgoShortestDistance(cons, label, list, start,
+				end, weighted).getResult();
 	}
 
 	/***********************************

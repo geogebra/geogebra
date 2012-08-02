@@ -2704,13 +2704,6 @@ public abstract class App {
 	 */
 	public abstract void setWaitCursor();
 
-	public AlgoElement newAlgoShortestDistance(Construction cons,
-			String label, GeoList list, GeoPointND start, GeoPointND end,
-			GeoBoolean weighted)
-	{
-		return new AlgoShortestDistance(cons, label, list, start, end, weighted);
-	}
-
 	public abstract void updateStyleBars();
 
 	/**
