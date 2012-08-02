@@ -1827,6 +1827,7 @@ var plainKeysVar = {
 	AnimationStep:'',
 	ApplicationName:'',
 	Apply:'',
+	ApplyToSelectedObjects:'',
 	Apt:'',
 	Arc:'',
 	ArcLengthOfA:'',

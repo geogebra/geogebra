@@ -307,7 +307,7 @@ public interface MenuConstants extends ConstantsWithLookup {
     @DefaultStringValue("Column Order")
     String ColumnOrder();
 
-    @DefaultStringValue("Column Reset")
+    @DefaultStringValue("New column on drag")
     String ColumnReset();
 
     @DefaultStringValue("Columns")

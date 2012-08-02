@@ -187,6 +187,9 @@ public interface PlainConstants extends ConstantsWithLookup {
     @DefaultStringValue("Apply")
     String Apply();
 
+    @DefaultStringValue("Apply to selected objects")
+    String ApplyToSelectedObjects();
+
     @DefaultStringValue("%0 pt")
     String Apt();
 
