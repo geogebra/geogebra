@@ -56,4 +56,18 @@ public class TabletGUI implements GeoGebraMobileGUI
 		euclidianViewPanel.add(toolBar);
 		rootPanel.add(euclidianViewPanel);
 	}
+
+	@Override
+  public EuclidianViewPanel getEuclidianViewPanel()
+  {
+	  // TODO Auto-generated method stub
+	  return null;
+  }
+
+	@Override
+  public AlgebraViewPanel getAlgebraViewPanel()
+  {
+	  // TODO Auto-generated method stub
+	  return null;
+  }
 }
