@@ -3,6 +3,7 @@ package geogebra.gui.dialog.options;
 import geogebra.common.gui.SetLabels;
 import geogebra.common.gui.dialog.options.OptionsDefaults;
 import geogebra.common.kernel.ConstructionDefaults;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.gui.GuiManagerD;
 import geogebra.gui.color.GeoGebraColorChooser;
 import geogebra.gui.dialog.PropertiesPanel;
@@ -11,9 +12,12 @@ import geogebra.main.AppD;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.SystemColor;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Hashtable;
 
 import javax.swing.BorderFactory;
+import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
@@ -74,6 +78,8 @@ public class OptionsDefaultsD extends OptionsDefaults implements OptionPanelD, T
 	private DefaultMutableTreeNode textNode, imageNode, booleanNode;
 
 	private DefaultMutableTreeNode listNode, inequalitiesNode, functionNVarNode;
+	
+	private JButton defaultsButton;
 
 	/**
 	 * The class which contains all default objects.
@@ -138,6 +144,14 @@ public class OptionsDefaultsD extends OptionsDefaults implements OptionPanelD, T
 		propPanel.updateSelection(new Object[] { defaults
 				.getDefaultGeo(ConstructionDefaults.DEFAULT_POINT_FREE) });
 
+		// apply defaults button
+		defaultsButton = new JButton();
+		defaultsButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				applyDefaults();
+			}
+		});
+
 		// set the labels of the components
 		setLabels();
 
@@ -155,6 +169,7 @@ public class OptionsDefaultsD extends OptionsDefaults implements OptionPanelD, T
 		// add components
 		wrappedPanel.add(treeScroller, BorderLayout.WEST);
 		wrappedPanel.add(propPanel, BorderLayout.CENTER);
+		wrappedPanel.add(defaultsButton, BorderLayout.SOUTH);
 	}
 
 	/**
@@ -304,8 +319,10 @@ public class OptionsDefaultsD extends OptionsDefaults implements OptionPanelD, T
 		listNode.setUserObject(app.getPlain("List"));
 		inequalitiesNode.setUserObject(app.getPlain("Inequality"));
 
+		defaultsButton.setText(app.getPlain("ApplyToSelectedObjects"));
+		
 		GuiManagerD.setLabelsRecursive(propPanel);
-		// propPanel.setLabels();
+		//propPanel.setLabels();
 	}
 
 	/**
@@ -358,5 +375,19 @@ public class OptionsDefaultsD extends OptionsDefaults implements OptionPanelD, T
 
 	public void setBorder(Border border) {
 		wrappedPanel.setBorder(border);
+	}
+	
+	/**
+	 * Reset the visual style of the selected elements.
+	 * 
+	 * TODO Does not work with lists (F.S.)
+	 */
+	private void applyDefaults() {
+		
+		for (GeoElement geo : app.getSelectedGeos()){
+			defaults.setDefaultVisualStyles(geo, true);
+			geo.updateRepaint();
+		}
+
 	}
 }
