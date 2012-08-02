@@ -2955,10 +2955,6 @@ public class Kernel {
 
 		case EuclidianConstants.MODE_CAS_NUMERICAL_SOLVE:
 			return "NSolve";
-		case EuclidianConstants.MODE_CAS_PLOT:
-			return "CASPlot";	
-			
-
 		case EuclidianConstants.MODE_CAS_DERIVATIVE:
 			return "Derivative";
 

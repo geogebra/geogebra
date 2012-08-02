@@ -1928,10 +1928,10 @@ public class GeoCasCell extends GeoElement implements VarString {
 		}
 
 		twinGeo = newTwinGeo;
-
-		if (twinGeo != null) {
-			twinGeo.setCorrespondingCasCell(this);
+		if (twinGeo == null) {
+			return;
 		}
+		twinGeo.setCorrespondingCasCell(this);
 		if (dependsOnDummy(twinGeo)) {
 			twinGeo.setUndefined();
 			twinGeo.setAlgebraVisible(false);

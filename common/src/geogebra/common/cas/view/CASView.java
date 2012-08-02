@@ -109,15 +109,13 @@ public abstract class CASView implements View{
 		String command = kernel.getModeText(mode); // e.g. "Derivative"
 		boolean backToEvaluate = true;
 		switch (mode) {
-		case EuclidianConstants.MODE_CAS_PLOT:
-			getConsoleTable().setCopyMode(geogebra.common.cas.view.CASTable.COPY_PLOT);
-			break;
 		case EuclidianConstants.MODE_CAS_EVALUATE:
 		case EuclidianConstants.MODE_CAS_NUMERIC:
 		case EuclidianConstants.MODE_CAS_KEEP_INPUT:
 			// no parameters, keep mode
+			backToEvaluate = false;
 			processInput(command, null);
-			return;
+			break;
 		case EuclidianConstants.MODE_CAS_EXPAND:
 		case EuclidianConstants.MODE_CAS_FACTOR:
 		case EuclidianConstants.MODE_CAS_SUBSTITUTE:
@@ -282,6 +280,7 @@ public abstract class CASView implements View{
 	 */
 	public boolean deleteCasCells(int[] selRows) {
 		boolean undoNeeded = false;
+		App.debug(selRows.length);
 		//reverse order makes sure we don't move cells that are waiting for deletion
 		for (int i=selRows.length-1; i >= 0; i--) {
 			GeoCasCell casCell = getConsoleTable().getGeoCasCell(selRows[i]);

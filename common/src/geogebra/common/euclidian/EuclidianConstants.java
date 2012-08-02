@@ -302,9 +302,6 @@ public final class EuclidianConstants {
 	public static final int MODE_CAS_INTEGRAL = 1009;
 	/** Solve Numerically */
 	public static final int MODE_CAS_NUMERICAL_SOLVE = 1010;
-
-	/** Plot CAS cell */
-	public static final int MODE_CAS_PLOT = 1011;
 	// SpreadsheetView modes
 	/** Create List */
 	public static final int MODE_SPREADSHEET_CREATE_LIST = 2001;

@@ -47,10 +47,7 @@ import javax.swing.table.TableCellRenderer;
 public class CASTableD extends JTable implements CASTable{
 
 	private static final long serialVersionUID = 1L;
-	/** copy mode */
-	protected int copyMode = COPY_DEFAULT;
-	
-	
+		
 	private CASTableModel tableModel;
 	private Kernel kernel;
 	/** application */
@@ -253,9 +250,7 @@ public class CASTableD extends JTable implements CASTable{
 							getEditor().insertText("$" + (getClickedRow()+1));
 						}
 						// output panel click
-						else if (copyMode == COPY_PLOT) {
-							getTable().getGeoCasCell(getClickedRow()).plot();
-						} else if (isOutputPanelClicked(e.getPoint())){
+						else if (isOutputPanelClicked(e.getPoint())){
 							getEditor().insertText(view.getRowOutputValue(getClickedRow()));
 						}else{
 									getSelectionModel().setSelectionInterval(getClickedRow(),
@@ -297,7 +292,9 @@ public class CASTableD extends JTable implements CASTable{
 				isOutputRollOver = isOutputPanelClicked(e.getPoint());
 				repaint();
 			}
-			highlight = e.isAltDown() || isOutputRollOver || copyMode==COPY_PLOT;
+			highlight = e.isAltDown() || 
+					(isOutputRollOver && getGeoCasCell(row).getLaTeXOutput()!=null &&
+					getGeoCasCell(row).getLaTeXOutput().length()>0);
 				
 		}
 		
@@ -810,18 +807,6 @@ public class CASTableD extends JTable implements CASTable{
 	
 	
 	/**
-	 * @return current copy mode
-	 */
-	public int getCopyMode() {
-		return copyMode;
-	}
-
-	public void setCopyMode(int copyMode) {
-			this.copyMode = copyMode;
-	}
-
-	
-	/**
 	 * @return currently open row
 	 */
 	public int getOpenRow(){
@@ -896,7 +881,7 @@ public class CASTableD extends JTable implements CASTable{
 		
 					g2.setColor(new Color(0, 0, 200, 40));
 					g2.fillRect(r.x+2,r.y+2,r.width-6,r.height-6);
-					g2.setColor(copyMode == COPY_DEFAULT? Color.GRAY:Color.BLUE);
+					g2.setColor(Color.GRAY);
 				g2.setStroke(dashed);
 				g2.drawRect(r.x + 1, r.y + 1, r.width - 4, r.height - 4);
 			}

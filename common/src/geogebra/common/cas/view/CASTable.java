@@ -7,10 +7,6 @@ public interface CASTable {
 	/** column of the table containing CAS cells */
 	public final static int COL_CAS_CELLS = 0;
 
-	public final static int COPY_DEFAULT = 0;
-	
-	public final static int COPY_PLOT = 3;
-
 	int getRowCount();
 
 	int getRowHeight(int i);
@@ -42,7 +38,4 @@ public interface CASTable {
 	void deleteRow(int rowNumber);
 
 	void setRow(int rowNumber, GeoCasCell casCell);
-
-	void setCopyMode(int i);
-
 }
