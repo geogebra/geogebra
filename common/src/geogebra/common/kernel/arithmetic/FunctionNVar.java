@@ -212,7 +212,7 @@ public class FunctionNVar extends ValidExpression implements FunctionalNVar, Var
 		return fVars.length;
 	}
 
-	public String getVarString(StringTemplate tpl) {
+	public String getVarString(final StringTemplate tpl) {
 		StringBuilder sb = new StringBuilder();
 		return appendVarString(sb, tpl).toString();
 	}
@@ -223,7 +223,7 @@ public class FunctionNVar extends ValidExpression implements FunctionalNVar, Var
 	 * @param tpl string template
 	 * @return sb
 	 */
-	public StringBuilder appendVarString(StringBuilder sb, StringTemplate tpl) {
+	public StringBuilder appendVarString(StringBuilder sb, final StringTemplate tpl) {
 		for (int i = 0; i < fVars.length - 1; i++) {
 			sb.append(fVars[i].toString(tpl));
 			sb.append(", ");

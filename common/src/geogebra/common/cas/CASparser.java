@@ -75,7 +75,7 @@ public class CASparser implements CASParserInterface{
 	 * Parses the given expression and resolves variables as GeoDummy objects.
 	 * The result is returned as a ValidExpression.
 	 */
-	public ValidExpression parseGeoGebraCASInputAndResolveDummyVars(String inValue) {
+	public ValidExpression parseGeoGebraCASInputAndResolveDummyVars(final String inValue) {
 		if (inValue == null || inValue.length() == 0)
 			return null;
 		

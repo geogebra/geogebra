@@ -320,7 +320,7 @@ public abstract class ValidExpression implements ExpressionValue {
 
 	public abstract String toValueString(StringTemplate tpl);
 
-	public ExpressionValue traverse(Traversing t) {
+	public final ExpressionValue traverse(final Traversing t) {
 		return t.process(this);
 	}
 

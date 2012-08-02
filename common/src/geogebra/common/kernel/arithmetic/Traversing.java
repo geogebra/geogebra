@@ -27,7 +27,7 @@ public interface Traversing {
 	 * @param ev value to process
 	 * @return processed value
 	 */
-	public ExpressionValue process(ExpressionValue ev);
+	public ExpressionValue process(final ExpressionValue ev);
 	/**
 	 * Replaces one object by another
 	 */

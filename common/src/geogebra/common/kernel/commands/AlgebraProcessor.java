@@ -1101,7 +1101,7 @@ public class AlgebraProcessor {
 	 * @throws MyError if syntax error occurs
 	 * @throws CircularDefinitionException if circular definition occurs
 	 */
-	public GeoElement[] doProcessValidExpression(ValidExpression ve)
+	public GeoElement[] doProcessValidExpression(final ValidExpression ve)
 			throws MyError, CircularDefinitionException {
 		GeoElement[] ret = null;
 

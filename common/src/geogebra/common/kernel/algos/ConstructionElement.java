@@ -45,7 +45,7 @@ public abstract class ConstructionElement implements
 	 * Creates new construction element
 	 * @param c construction
 	 */
-	public ConstructionElement(Construction c) {
+	public ConstructionElement(final Construction c) {
 		ceID = ceIDcounter++;
 		setConstruction(c);
 	}
@@ -53,7 +53,7 @@ public abstract class ConstructionElement implements
 	/**
 	 * @param c new construction
 	 */
-	public void setConstruction(Construction c) {
+	public void setConstruction(final Construction c) {
 		cons = c;
 		kernel = c.getKernel();
 		app = c.getApplication();

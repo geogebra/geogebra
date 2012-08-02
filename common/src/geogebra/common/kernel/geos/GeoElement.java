@@ -7022,7 +7022,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @param latex2 text
 	 * @return true if the text uses LaTeX syntax
 	 */
-	public static boolean isLaTeXneeded(String latex2) {
+	public static boolean isLaTeXneeded(final String latex2) {
 		
 		String latex = latex2;
 		// Unicode is fine to render these:

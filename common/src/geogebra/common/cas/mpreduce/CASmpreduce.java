@@ -323,11 +323,11 @@ public abstract class CASmpreduce implements CASGenericInterface {
 	}
 
 	/**
-	 * Sets the number of signficiant figures (digits) that should be used as
+	 * Sets the number of significant figures (digits) that should be used as
 	 * print precision for the output of Numeric[] commands.
 	 * 
 	 * @param significantNumbers
-	 *            new number of sig digits
+	 *            new number of significant digits
 	 */
 	public void setSignificantFiguresForNumeric(int significantNumbers) {
 		if (this.significantNumbers == significantNumbers)

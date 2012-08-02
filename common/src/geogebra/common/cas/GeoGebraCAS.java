@@ -521,8 +521,8 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	 * @param localizedInput
 	 *            includes localized command names
 	 */
-	public boolean isStructurallyEqual(ValidExpression inputVE,
-			String localizedInput) {
+	public boolean isStructurallyEqual(final ValidExpression inputVE,
+			final String localizedInput) {
 		try {
 			// current input
 			String input1normalized = casParser.toString(inputVE,
