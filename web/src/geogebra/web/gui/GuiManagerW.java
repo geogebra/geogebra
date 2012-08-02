@@ -26,6 +26,7 @@ import geogebra.web.gui.properties.PropertiesViewW;
 import geogebra.web.gui.util.GeoGebraFileChooser;
 import geogebra.web.gui.view.algebra.AlgebraControllerW;
 import geogebra.web.gui.view.algebra.AlgebraViewW;
+import geogebra.web.html5.AttachedToDOM;
 import geogebra.web.main.AppW;
 
 import java.util.ArrayList;
@@ -37,6 +38,11 @@ import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 
 public class GuiManagerW extends GuiManager {
+	
+	/**
+	 * container for the Popup that only one exist for a given type
+	 */
+	public static AttachedToDOM currentPopup;
 
 	private DialogManagerW dialogManager;
 
@@ -122,14 +128,9 @@ private void showPopupMenu(ArrayList<GeoElement> geos,
 		}
     }
 
-	ContextMenuGeoElementW popupMenu;
-
 	public ContextMenuGeoElementW getPopupMenu(ArrayList<GeoElement> geos, GPoint location) {
-		if (popupMenu != null) {
-			popupMenu.getWrappedPopup().removeFromParent();
-		}
-		popupMenu = new ContextMenuGeoElementW((AppW) app, geos, location);
-		return popupMenu;
+		currentPopup = new ContextMenuGeoElementW((AppW) app, geos, location);
+		return (ContextMenuGeoElementW) currentPopup;
 	}
 
 	@Override
@@ -162,11 +163,8 @@ private void showPopupMenu(ArrayList<GeoElement> geos,
 	private ContextMenuGeoElementW getPopupMenu(App app, EuclidianView view,
             ArrayList<GeoElement> selectedGeos, ArrayList<GeoElement> geos,
             GPoint screenPos, GPoint p) {
-		if (popupMenu != null) {
-			popupMenu.getWrappedPopup().removeFromParent();
-		}
-	    popupMenu = new ContextMenuChooseGeoW((AppW) app, view, selectedGeos, geos, screenPos, p);
-	    return popupMenu;
+	    currentPopup = new ContextMenuChooseGeoW((AppW) app, view, selectedGeos, geos, screenPos, p);
+	    return (ContextMenuGeoElementW) currentPopup;
     }
 
 	@Override
@@ -214,8 +212,7 @@ private void showPopupMenu(ArrayList<GeoElement> geos,
 			GPoint mouseLoc) {
 		showDrawingPadPopup(((EuclidianViewW)view).g2p.getCanvas(), mouseLoc);
 	}
-
-	ContextMenuGraphicsWindowW drawingPadpopupMenu;
+;
 	
 	private void showDrawingPadPopup(Canvas invoker, GPoint p) {
 		// clear highlighting and selections in views
@@ -224,11 +221,8 @@ private void showPopupMenu(ArrayList<GeoElement> geos,
     }
 
 	private ContextMenuGeoElementW getDrawingPadpopupMenu(int x, int y) {
-	    if (drawingPadpopupMenu != null) {
-	    	drawingPadpopupMenu.wrappedPopup.removeFromParent();
-	    }
-	    drawingPadpopupMenu = new ContextMenuGraphicsWindowW((AppW)app, x, y);
-		return drawingPadpopupMenu;
+	    currentPopup = new ContextMenuGraphicsWindowW((AppW)app, x, y);
+		return (ContextMenuGeoElementW) currentPopup;
     }
 
 	@Override
@@ -246,10 +240,8 @@ private void showPopupMenu(ArrayList<GeoElement> geos,
 	}
 
 	@Override
-	public void setShowView(boolean b, int viewSpreadsheet) {
-		// TODO Auto-generated method stub
-		App.debug("unimplemented method");
-
+	public void setShowView(boolean flag, int viewId) {
+		setShowView( flag, viewId, true);
 	}
 	
 	@Override

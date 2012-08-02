@@ -10,6 +10,8 @@ import geogebra.common.main.App;
 import geogebra.web.euclidian.event.HasOffsets;
 import geogebra.web.euclidian.event.MouseEvent;
 import geogebra.web.euclidian.event.TouchEvent;
+import geogebra.web.gui.DialogManagerW;
+import geogebra.web.gui.GuiManagerW;
 import geogebra.web.main.AppW;
 
 import java.util.LinkedList;
@@ -191,6 +193,12 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 	}
 
 	public void onMouseOut(MouseOutEvent event) {
+		//hide dialogs if they are open
+		if (GuiManagerW.currentPopup != null) {
+			GuiManagerW.currentPopup.removeFromDOM();
+			GuiManagerW.currentPopup = null;
+		}
+		
 		AbstractEvent e = geogebra.web.euclidian.event.MouseEvent.wrapEvent(event.getNativeEvent(),this);
 		wrapMouseExited(e);
 		e.release();
@@ -209,7 +217,13 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 
 	public void onMouseUp(MouseUpEvent event) {
 		DRAGMODE_MUST_BE_SELECTED = false;
-		event.preventDefault();		 
+		event.preventDefault();	
+		
+		//hide dialogs if they are open
+		if (GuiManagerW.currentPopup != null) {
+			GuiManagerW.currentPopup.removeFromDOM();
+			GuiManagerW.currentPopup = null;
+		}
 
 		AbstractEvent e = geogebra.web.euclidian.event.MouseEvent.wrapEvent(event.getNativeEvent(),this);
 		wrapMouseReleased(e);

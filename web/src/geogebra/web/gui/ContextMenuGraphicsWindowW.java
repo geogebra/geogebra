@@ -96,8 +96,6 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW {
 
 	protected void showOptionsDialog() {
 		app.getGuiManager().setShowView(true, App.VIEW_PROPERTIES);
-		Window.alert("Later...");
-	    
     }
 
 	protected void setStandardView() {

@@ -18,6 +18,7 @@ import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.main.App;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.menubar.GeoGebraMenubarW;
+import geogebra.web.html5.AttachedToDOM;
 import geogebra.web.main.AppW;
 
 import java.util.ArrayList;
@@ -35,7 +36,7 @@ import com.google.gwt.user.client.ui.PopupPanel;
  * ContextMenuGeoElement for Web
  *
  */
-public class ContextMenuGeoElementW extends ContextMenuGeoElement {
+public class ContextMenuGeoElementW extends ContextMenuGeoElement implements AttachedToDOM {
 	
 	protected PopupPanel wrappedPopup;
 	protected MenuBar popupMenu;
@@ -530,6 +531,10 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement {
 
 	public void reInit(ArrayList<GeoElement> geos, GPoint location) {
 	    initPopup((AppW) this.app, geos);
+    }
+
+	public void removeFromDOM() {
+	    getWrappedPopup().removeFromParent();
     }
 	
 	
