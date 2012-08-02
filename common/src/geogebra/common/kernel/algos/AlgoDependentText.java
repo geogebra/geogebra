@@ -29,6 +29,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.locusequ.EquationElement;
 import geogebra.common.kernel.locusequ.EquationScope;
+import geogebra.common.main.App;
 import geogebra.common.plugin.Operation;
 
 /**
@@ -255,7 +256,7 @@ public class AlgoDependentText extends AlgoElement {
 
 		ExpressionValue ret = null;
 		// Application.debug("copy ExpressionValue input: " + ev);
-		if (opIsPlus && numToTrace == null && ev.isNumberValue()) {
+		if (numToTrace == null && ev.isNumberValue()) {
 			//************
 			// replace first encountered NumberValue, eg x(A) with empty string
 			// and make note 
@@ -273,6 +274,21 @@ public class AlgoDependentText extends AlgoElement {
 		else if (ev.isPolynomialInstance() || ev.isConstant()
 				|| (ev instanceof Command)) {
 			ret = ev.deepCopy(kernel);
+		} else if (ev.isGeoElement()) {
+			// eg FormulaText[x(A)]
+			GeoElement geo = (GeoElement) ev;
+			AlgoElement algo = geo.getParentAlgorithm();
+			if (algo != null) {
+				GeoElement geo2 = algo.getInput()[0];
+				if (geo2.isNumberValue()) {
+					numToTrace = geo2;
+					ret = new MyStringBuffer(kernel, " ... ");
+				} else {
+					ret = ev;
+				}
+			}else {
+				ret = ev;
+			}
 		} else {
 			ret = ev;
 		}
