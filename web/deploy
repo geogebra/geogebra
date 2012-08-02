@@ -15,7 +15,7 @@ UPDATEGAE=1
 UPDATEGC=0
 UPDATEZIP=0
 
-GAEDIR=lib/download/appengine-java-sdk-1.7.0
+GAEDIR=lib/appengine-java-sdk-1.7.0
 GAEEMAIL=apps@geogebra.org
 GAEAPP=geogebraweb
 DOWNLOADDIR=$HOME/download/web
@@ -63,7 +63,7 @@ if [ $UPDATEZIP = 1 ]; then
 echo "Updating GeoGebraWeb-latest.zip"
 mkdir -p $DOWNLOADIR
 cp GeoGebraWeb-$VERSION.zip $DOWNLOADDIR
-cd $DOWNLOADDIR
+cd $DOWNLOADDDIR
 rm GeoGebraWeb-latest.zip
 ln -s GeoGebraWeb-$VERSION.zip GeoGebraWeb-latest.zip
 fi
