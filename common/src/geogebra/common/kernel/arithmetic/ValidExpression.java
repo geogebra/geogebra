@@ -33,20 +33,27 @@ public abstract class ValidExpression implements ExpressionValue {
 	private Vector<String> labels;
 	private boolean inTree; // used by ExpressionNode
 	private boolean keepInputUsed; // flag used by GeoGebraCAS
+	private AssignmentType assignmentType = AssignmentType.NONE;
 
 	public String toRealString(StringTemplate tpl) {
 		return toString(tpl);
 	}
-	
-	private AssignmentType assignment = AssignmentType.NONE;
 
-	public void setAssignmentType(AssignmentType assignment){
-		this.assignment = assignment;
+	/**
+	 * @param assignmentType
+	 *            the {@link AssignmentType} to set
+	 */
+	public void setAssignmentType(AssignmentType assignmentType) {
+		this.assignmentType = assignmentType;
 	}
-	
-	public AssignmentType getAssignmentType(){
-		return assignment;
+
+	/**
+	 * @return the current {@link AssignmentType}
+	 */
+	public AssignmentType getAssignmentType() {
+		return assignmentType;
 	}
+
 	/**
 	 * @param label
 	 *            label to be added
@@ -182,24 +189,25 @@ public abstract class ValidExpression implements ExpressionValue {
 	 * 
 	 * @param tpl
 	 *            String template
-	 * @param delayedAssignment
-	 *            specifies if the assignment is a direct assignment (false) or
-	 *            a delayed assignment (true)
 	 * @return assignment in the form L:=R
 	 */
-	public String toAssignmentString(StringTemplate tpl,
-			boolean delayedAssignment) {
+	public String toAssignmentString(StringTemplate tpl) {
 		if (labels == null) {
 			return toString(tpl);
 		}
 
 		StringBuilder sb = new StringBuilder();
 		sb.append(getLabelForAssignment());
-		if (delayedAssignment) {
-			sb.append(getDelayedAssignmentOperator());
-		} else {
+
+		switch (assignmentType) {
+		case DEFAULT:
 			sb.append(getAssignmentOperator());
+			break;
+		case DELAYED:
+			sb.append(getDelayedAssignmentOperator());
+			break;
 		}
+
 		sb.append(toString(tpl));
 		return sb.toString();
 	}
@@ -213,19 +221,23 @@ public abstract class ValidExpression implements ExpressionValue {
 	 *            a delayed assignment (true)
 	 * @return assignment in LaTeX
 	 */
-	public final String toAssignmentLaTeXString(StringTemplate tpl,
-			boolean delayedAssignment) {
+	public final String toAssignmentLaTeXString(StringTemplate tpl) {
 		if (labels == null) {
 			return toLaTeXString(true, tpl);
 		}
 
 		StringBuilder sb = new StringBuilder();
 		sb.append(getLabelForAssignment());
-		if (delayedAssignment) {
-			sb.append(getDelayedAssignmentOperatorLaTeX());
-		} else {
+		
+		switch (assignmentType) {
+		case DEFAULT:
 			sb.append(getAssignmentOperatorLaTeX());
+			break;
+		case DELAYED:
+			sb.append(getDelayedAssignmentOperatorLaTeX());
+			break;
 		}
+		
 		sb.append(toLaTeXString(true, tpl));
 		return sb.toString();
 	}

@@ -7,11 +7,9 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.VarString;
 import geogebra.common.kernel.algos.AlgoElement;
-import geogebra.common.kernel.arithmetic.AssignmentType;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
-import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.FunctionNVar;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
@@ -72,7 +70,6 @@ public class GeoCasCell extends GeoElement implements VarString {
 	// internal command names used in the input expression
 	private HashSet<Command> commands;
 	private String assignmentVar;
-	private boolean delayedAssignment;
 	private boolean includesRowReferences;
 	private boolean includesNumericCommand;
 	private boolean useGeoGebraFallback;
@@ -196,8 +193,8 @@ public class GeoCasCell extends GeoElement implements VarString {
 			return "";
 		}
 		if (tpl == StringTemplate.xmlTemplate)
-			App.debug(outputVE.toAssignmentString(tpl, delayedAssignment));
-		return outputVE.toAssignmentString(tpl, delayedAssignment);
+			App.debug(outputVE.toAssignmentString(tpl));
+		return outputVE.toAssignmentString(tpl);
 	}
 
 	/**
@@ -263,20 +260,22 @@ public class GeoCasCell extends GeoElement implements VarString {
 				// create LaTeX string
 				if (nativeOutput || !(outputVE instanceof ExpressionNode)) {
 					sb.append(outputVE
-							.toAssignmentLaTeXString(
-									includesNumericCommand() ? StringTemplate.numericLatex
-											: StringTemplate.latexTemplate,
-									delayedAssignment));
+							.toAssignmentLaTeXString(includesNumericCommand() ? StringTemplate.numericLatex
+									: StringTemplate.latexTemplate));
 				} else {
 					GeoElement geo = ((GeoElement) ((ExpressionNode) outputVE)
 							.getLeft());
 					if (isAssignmentVariableDefined()) {
 						sb.append(getAssignmentVariable());
-						if (delayedAssignment) {
+
+						switch (outputVE.getAssignmentType()) {
+						case DEFAULT:
+							sb.append(outputVE.getAssignmentOperator().trim());
+							break;
+						case DELAYED:
 							sb.append(outputVE.getDelayedAssignmentOperator()
 									.trim());
-						} else {
-							sb.append(outputVE.getAssignmentOperator().trim());
+							break;
 						}
 					}
 					sb.append(geo.toValueString(StringTemplate.latexTemplate));
@@ -547,8 +546,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 		// inputVE will print the correct label, e.g. $4 for
 		// the row reference
 
-		input = inputVE.toAssignmentString(StringTemplate.noLocalDefault,
-				delayedAssignment);
+		input = inputVE.toAssignmentString(StringTemplate.noLocalDefault);
 
 		// TODO this always translates input.
 		updateLocalizedInput(StringTemplate.defaultTemplate);
@@ -708,11 +706,9 @@ public class GeoCasCell extends GeoElement implements VarString {
 		case DEFAULT:
 			// outvar of assignment b := a + 5 is "b"
 			setAssignmentVar(ve.getLabel());
-			delayedAssignment = false;
 			break;
 		case DELAYED:
 			setAssignmentVar(ve.getLabel());
-			delayedAssignment = true;
 			break;
 		}
 
@@ -1321,11 +1317,16 @@ public class GeoCasCell extends GeoElement implements VarString {
 			if (isFunctionDeclaration) {
 				StringBuilder sb = new StringBuilder();
 				sb.append(inputVE.getLabelForAssignment());
-				if (delayedAssignment) {
-					sb.append(inputVE.getDelayedAssignmentOperator());
-				} else {
+
+				switch (inputVE.getAssignmentType()) {
+				case DEFAULT:
 					sb.append(inputVE.getAssignmentOperator());
+					break;
+				case DELAYED:
+					sb.append(inputVE.getDelayedAssignmentOperator());
+					break;
 				}
+
 				sb.append(output);
 				res = sb.toString();
 			}
