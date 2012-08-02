@@ -6,7 +6,6 @@ public class TabletHeaderPanel extends HeaderPanel
 {
 	public TabletHeaderPanel()
 	{
-		this.setTitle("Title");
 		this.setCenter("Title");
 	}
 }
