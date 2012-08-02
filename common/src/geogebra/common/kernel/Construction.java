@@ -1882,12 +1882,21 @@ public class Construction {
 					labelWithout$.append(ch);
 				}
 			}
-
 			// allow automatic creation of elements
 			geo = lookupLabel(labelWithout$.toString(), allowAutoCreate);
 			if (geo != null) {
 				// geo found for name that includes $ signs
 				return checkConstructionStep(geo);
+			}
+			int cell = 0;
+			try{
+				cell = Integer.parseInt(labelWithout$.toString());
+				}
+			catch(Exception e){
+				e.printStackTrace();
+			}
+			if(cell>0){
+				return this.getCasCell(cell-1);
 			}
 		}
 

@@ -20,6 +20,7 @@ package geogebra.common.kernel.arithmetic;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.kernel.geos.GeoDummyVariable;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyParseError;
@@ -147,7 +148,7 @@ public class Variable extends ValidExpression {
 		}
 		
 		// spreadsheet dollar sign reference
-		if (name.indexOf('$') > -1) {
+		if (name.indexOf('$') > -1 && !(geo instanceof GeoCasCell)) {
 			// row and/or column dollar sign present?
 			boolean col$ = name.indexOf('$') == 0;
 			boolean row$ = name.length() > 2 && name.indexOf('$', 1) > -1;
