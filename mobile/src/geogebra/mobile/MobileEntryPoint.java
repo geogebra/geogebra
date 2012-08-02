@@ -1,6 +1,5 @@
 package geogebra.mobile;
 
-import geogebra.common.main.App;
 import geogebra.mobile.gui.TabletGUI;
 
 import com.google.gwt.core.client.EntryPoint;
@@ -30,7 +29,8 @@ public class MobileEntryPoint implements EntryPoint
 
 			public void onFailure(Throwable reason)
 			{
-				App.debug(reason);
+//				App.debug(reason);
+				reason.printStackTrace(); 
 			}
 		});
 	}
