@@ -701,14 +701,19 @@ public class GeoCasCell extends GeoElement implements VarString {
 		// check for function
 		boolean isFunction = ve instanceof FunctionNVar;
 
+		switch (inputVE.getAssignmentType()) {
+		case NONE:
+			break;
 		// do that only if the expression is an assignment
-		if (inputVE.getAssignmentType()==AssignmentType.DEFAULT) {
+		case DEFAULT:
 			// outvar of assignment b := a + 5 is "b"
 			setAssignmentVar(ve.getLabel());
 			delayedAssignment = false;
-		} else if (inputVE.getAssignmentType()==AssignmentType.DELAYED) {
+			break;
+		case DELAYED:
 			setAssignmentVar(ve.getLabel());
 			delayedAssignment = true;
+			break;
 		}
 
 		// get input vars:
@@ -2086,7 +2091,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 		// this has to be upper case that the input of (1,1) leads to a
 		// definition of a point
 		// instead of a vector
-		assignmentVar="GgbmpvarPlot";
+		assignmentVar = "GgbmpvarPlot";
 
 		// wrap output of Solve and Solutions to make them plotable
 		boolean wasSolveSolutions = false;
@@ -2100,7 +2105,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 				wasSolveSolutions = true;
 			}
 		}
-	
+
 		boolean isFunctionAble;
 		if (outputVE.isExpressionNode()) {
 			isFunctionAble = !kernel.getAlgebraProcessor().isNotFunctionAble(
@@ -2109,12 +2114,12 @@ public class GeoCasCell extends GeoElement implements VarString {
 			isFunctionAble = !kernel.getAlgebraProcessor().isNotFunctionAbleEV(
 					outputVE);
 		}
-		//if output is just one number -> do not make a function, make a constant
-		if(outputVE.isLeaf())
-			if((((ExpressionNode)outputVE).getLeft()).isConstant()){
-				isFunctionAble = false;				
+		// if output is just one number -> do not make a function, make a
+		// constant
+		if (outputVE.isLeaf())
+			if ((((ExpressionNode) outputVE).getLeft()).isConstant()) {
+				isFunctionAble = false;
 			}
-
 
 		if (isFunctionAble) {
 			if (!outputVE.isExpressionNode()) {
@@ -2123,11 +2128,10 @@ public class GeoCasCell extends GeoElement implements VarString {
 			}
 			outputVE = new Function((ExpressionNode) outputVE);
 			this.firstComputeOutput = true;
-			this.updateTwinGeo();			
-		}
-		else{
+			this.updateTwinGeo();
+		} else {
 			this.firstComputeOutput = true;
-			this.computeOutput(true);			
+			this.computeOutput(true);
 		}
 
 		twinGeo.setLabel(null);
