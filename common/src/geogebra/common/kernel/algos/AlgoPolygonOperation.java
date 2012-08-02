@@ -238,6 +238,7 @@ public abstract class AlgoPolygonOperation extends AlgoElement {
 			int type = it.currentSegment(coords);
 			it.next();
 			double[] oldCoords = Cloner.clone(coords);
+			double[] initCoords = Cloner.clone(coords);
 			double epsilon = 1E-10;
 
 			while (!it.isDone()) {
@@ -258,6 +259,14 @@ public abstract class AlgoPolygonOperation extends AlgoElement {
 				it.next();
 
 			}
+			
+			//fixes #1951: sometimes the initial coordinates are not added into xcoord, ycoord.
+			if (Math.abs(oldCoords[0] - initCoords[0]) > epsilon
+					|| Math.abs(oldCoords[1]- initCoords[1]) > epsilon) {
+				xcoord.add(initCoords[0]);
+				ycoord.add(initCoords[1]);
+			}
+			
 		}
 
 		
