@@ -26,6 +26,7 @@ public interface PathMover {
 	public static final double STEP_INCREASE_FACTOR = 2;
 	/** minimal step width*/
 	public static final double MIN_STEP_WIDTH = 1E-8;
+	public static final double NEG_MIN_STEP_WIDTH = -1E-8;
 	/** normalized parameter is defined on open interval,
 	 * to avoid the borders, we use this offset*/
 	public static final double OPEN_BORDER_OFFSET = 1E-5;	

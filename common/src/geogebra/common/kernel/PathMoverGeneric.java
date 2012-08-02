@@ -307,7 +307,20 @@ public class PathMoverGeneric implements PathMover {
 	private boolean changeStep(double new_step) {
 		double abs_new_step = Math.abs(new_step);
 
-		if (abs_new_step > max_step_width) {
+		if (new_step < MIN_STEP_WIDTH && new_step > NEG_MIN_STEP_WIDTH) {
+			if (new_step >= 0) {
+				if (step_width == MIN_STEP_WIDTH) {
+					return false;
+				}
+				step_width = MIN_STEP_WIDTH;
+				return true;
+			}
+			if (step_width == NEG_MIN_STEP_WIDTH) {
+				return false;
+			}
+			step_width = NEG_MIN_STEP_WIDTH;
+			return true;
+		} else if (abs_new_step > max_step_width) {
 			if (new_step >= 0) {
 				if (step_width == max_step_width) {
 					return false;
@@ -319,19 +332,6 @@ public class PathMoverGeneric implements PathMover {
 				return false;
 			}
 			step_width = -max_step_width;
-			return true;
-		} else if (abs_new_step < MIN_STEP_WIDTH) {
-			if (new_step >= 0) {
-				if (step_width == MIN_STEP_WIDTH) {
-					return false;
-				}
-				step_width = MIN_STEP_WIDTH;
-				return true;
-			}
-			if (step_width == -MIN_STEP_WIDTH) {
-				return false;
-			}
-			step_width = -MIN_STEP_WIDTH;
 			return true;
 		} else {
 			step_width = new_step;
