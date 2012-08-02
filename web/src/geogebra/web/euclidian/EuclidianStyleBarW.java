@@ -290,7 +290,7 @@ public class EuclidianStyleBarW extends HorizontalPanel
 		// update the buttons
 		// note: this must always be done, even when activeGeoList is empty
 		// -----------------------------------------------------
-		updateTableText(activeGeoList.toArray());
+		tableText = EuclidianStyleBarStatic.updateTableText(activeGeoList.toArray(), mode);
 		for (int i = 0; i < popupBtnList.length; i++) {
 			if (popupBtnList[i] != null) {
 				popupBtnList[i].update(activeGeoList.toArray());
@@ -307,29 +307,6 @@ public class EuclidianStyleBarW extends HorizontalPanel
 		//btnPenDelete.setVisible((mode == EuclidianConstants.MODE_PEN));
 		addButtons();
     }
-
-	private void updateTableText(Object[] geos) {
-
-		tableText = null;
-		if (geos == null || geos.length == 0
-				|| EuclidianView.isPenMode(mode))
-			return;
-
-		boolean geosOK = true;
-		AlgoElement algo;
-
-		for (int i = 0; i < geos.length; i++) {
-			algo = ((GeoElement) geos[i]).getParentAlgorithm();
-			if (algo == null || !(algo instanceof AlgoTableText)) {
-				geosOK = false;
-			}
-		}
-
-		if (geosOK && geos[0] != null) {
-			algo = ((GeoElement) geos[0]).getParentAlgorithm();
-			tableText = (AlgoTableText) algo;
-		}
-	}
 
 	private void createDefaultMap() {
 		defaultGeoMap = new HashMap<Integer, Integer>();

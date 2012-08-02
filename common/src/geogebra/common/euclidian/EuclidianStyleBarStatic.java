@@ -6,6 +6,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoAttachCopyToView;
 import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.algos.AlgoTableText;
 import geogebra.common.kernel.geos.AbsoluteScreenLocateable;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoImage;
@@ -446,6 +447,29 @@ public class EuclidianStyleBarStatic {
 		return true;
 	}
 		
-	
+	public static AlgoTableText updateTableText(Object[] geos, int mode) {
+
+		AlgoTableText tableText = null;
+		if (geos == null || geos.length == 0
+				|| EuclidianView.isPenMode(mode))
+			return tableText;
+
+		boolean geosOK = true;
+		AlgoElement algo;
+
+		for (int i = 0; i < geos.length; i++) {
+			algo = ((GeoElement) geos[i]).getParentAlgorithm();
+			if (algo == null || !(algo instanceof AlgoTableText)) {
+				geosOK = false;
+			}
+		}
+
+		if (geosOK && geos[0] != null) {
+			algo = ((GeoElement) geos[0]).getParentAlgorithm();
+			tableText = (AlgoTableText) algo;
+		}
+		
+		return tableText;
+	}
 	
 }
