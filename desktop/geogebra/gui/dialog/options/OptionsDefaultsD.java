@@ -321,8 +321,7 @@ public class OptionsDefaultsD extends OptionsDefaults implements OptionPanelD, T
 
 		defaultsButton.setText(app.getPlain("ApplyToSelectedObjects"));
 		
-		GuiManagerD.setLabelsRecursive(propPanel);
-		//propPanel.setLabels();
+		propPanel.setLabels();
 	}
 
 	/**
