@@ -20,11 +20,10 @@ public class ToolBar extends ButtonBar
 
 	public void makeTabletToolBar()
 	{
-		this.add(new ToolButton(ToolBarCommand.Angle));
-		this.add(new ToolButton(ToolBarCommand.Hyperbola));
-		this.add(new ToolButton(ToolBarCommand.Area));
-		this.add(new ToolButton(ToolBarCommand.DeleteObject));
-		this.add(new ToolButton(ToolBarCommand.CheckBoxToShowHideObjects));
-		this.add(new ToolButton(ToolBarCommand.Slope));
+		//TODO add correct buttons for the toolbar
+		for(ToolBarCommand t : ToolBarCommand.values())
+		{
+			this.add(new ToolButton(t));
+		}
 	}
 }
