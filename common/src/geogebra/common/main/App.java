@@ -38,6 +38,7 @@ import geogebra.common.kernel.commands.CommandDispatcher;
 import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.commands.CommandsConstants;
+import geogebra.common.kernel.discrete.AlgoShortestDistance;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
@@ -2703,9 +2704,12 @@ public abstract class App {
 	 */
 	public abstract void setWaitCursor();
 
-	public abstract AlgoElement newAlgoShortestDistance(Construction cons,
+	public AlgoElement newAlgoShortestDistance(Construction cons,
 			String label, GeoList list, GeoPointND start, GeoPointND end,
-			GeoBoolean weighted);
+			GeoBoolean weighted)
+	{
+		return new AlgoShortestDistance(cons, label, list, start, end, weighted);
+	}
 
 	public abstract void updateStyleBars();
 

@@ -1366,13 +1366,6 @@ public class AppW extends App {
 	}
 
 	@Override
-	public AlgoElement newAlgoShortestDistance(Construction cons, String label,
-			GeoList list, GeoPointND start, GeoPointND end, GeoBoolean weighted) {
-		return new geogebra.common.kernel.discrete.AlgoShortestDistance(cons, label, list, start, end, weighted);
-		
-	}
-
-	@Override
 	public void updateStyleBars() {
 
 		if (!isUsingFullGui() || isIniting()) {

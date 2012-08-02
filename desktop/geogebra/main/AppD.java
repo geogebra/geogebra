@@ -4965,13 +4965,6 @@ public class AppD extends App implements
 	}
 
 	@Override
-	public AlgoElement newAlgoShortestDistance(Construction cons, String label,
-			GeoList list, GeoPointND start, GeoPointND end, GeoBoolean weighted) {
-		return new geogebra.common.kernel.discrete.AlgoShortestDistance(cons, label, list, start, end, weighted);	
-	}
-
-	
-	@Override
 	public SpreadsheetTableModel getSpreadsheetTableModel() {
 		if(tableModel == null){
 			tableModel = new SpreadsheetTableModelD(this,SPREADSHEET_INI_ROWS,SPREADSHEET_INI_COLS);
