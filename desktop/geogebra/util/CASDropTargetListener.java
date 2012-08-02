@@ -80,7 +80,9 @@ public class CASDropTargetListener implements DropTargetListener {
 				
 				GeoCasCell cell =  table.getGeoCasCell(row);
 				GeoCasCell source =  table.getGeoCasCell(cellnumber);
-				
+				if(cell.getInputVE()==null || source.getInputVE()==null){
+					return;
+				}
 				//get output of the source cell, this should be changed for dynamic reference
 				String substitution = view.resolveCASrowReferences(tableRef, row);
 				
