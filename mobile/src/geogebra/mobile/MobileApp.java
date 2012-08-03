@@ -39,9 +39,10 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
 
 /**
- * @deprecated Dummy App for the Kernel, will be removed as soon as App is separated from the Kernel
+ * @deprecated Dummy App for the Kernel, will be removed as soon as App is
+ *             separated from the Kernel
  * @author Matthias Meisinger
- *
+ * 
  */
 public class MobileApp extends App
 {
@@ -56,13 +57,13 @@ public class MobileApp extends App
 
 			public void onSuccess()
 			{
-				kernel = new Kernel(MobileApp.this);
+				// kernel = new Kernel(MobileApp.this);
 
 				settings = new Settings();
 
-				initEuclidianViews();
+				// initEuclidianViews();
 
-				setUndoActive(true);
+				// setUndoActive(true);
 
 				initing = false;
 			}
@@ -75,559 +76,585 @@ public class MobileApp extends App
 	}
 
 	@Override
-	public void addMenuItem(MenuInterface parentMenu, String filename, String name, boolean asHtml, MenuInterface subMenu)
+	protected boolean isCommandChanged()
 	{
-		throw new UnsupportedOperationException();
+
+		return false;
 	}
 
 	@Override
-	public void callAppletJavaScript(String string, Object[] args)
+	protected void setCommandChanged(boolean b)
 	{
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public void clearConstruction()
-	{
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public void copyGraphicsViewToClipboard()
-	{
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public EuclidianView createEuclidianView()
-	{
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public void evalJavaScript(App app, String script, String arg)
-	{
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public void evalPythonScript(App app, String string, String arg)
-	{
-		throw new UnsupportedOperationException();
 
 	}
 
 	@Override
-	public void exitAll()
+	protected boolean isCommandNull()
 	{
-		throw new UnsupportedOperationException();
 
-	}
-
-	@Override
-	public void exportToLMS(boolean b)
-	{
-		throw new UnsupportedOperationException();
-
-	}
-
-	@Override
-	public void fileNew()
-	{
-		throw new UnsupportedOperationException();
-
-	}
-
-	@Override
-	public long freeMemory()
-	{
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public boolean freeMemoryIsCritical()
-	{
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public EuclidianViewInterfaceCommon getActiveEuclidianView()
-	{
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public AlgebraView getAlgebraView()
-	{
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public String getColor(String string)
-	{
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public String getCommand(String cmdName)
-	{
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public String getCountryFromGeoIP() throws Exception
-	{
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public DialogManager getDialogManager()
-	{
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public DrawEquationInterface getDrawEquation()
-	{
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public String getError(String cmdName)
-	{
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public GBufferedImage getExternalImageAdapter(String filename)
-	{
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public StringType getFormulaRenderingType()
-	{
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public GgbAPI getGgbApi()
-	{
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public GlobalKeyDispatcher getGlobalKeyDispatcher()
-	{
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public GuiManager getGuiManager()
-	{
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public double getHeight()
-	{
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public AbstractImageManager getImageManager()
-	{
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public String getInternalCommand(String s)
-	{
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public String getLanguage()
-	{
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public String getLocaleStr()
-	{
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public String getMenu(String cmdName)
-	{
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public NormalizerMinimal getNormalizer()
-	{
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public String getPlain(String cmdName)
-	{
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public GFont getPlainFontCommon()
-	{
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public String getPlainTooltip(String string)
-	{
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public PythonBridge getPythonBridge()
-	{
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public String getScriptingCommand(String internal)
-	{
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public ScriptManagerCommon getScriptManager()
-	{
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public SoundManager getSoundManager()
-	{
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public SpreadsheetTableModel getSpreadsheetTableModel()
-	{
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public String getSymbol(int key)
-	{
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public String getSymbolTooltip(int key)
-	{
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	protected String getSyntaxString()
-	{
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public String getTooltipLanguageString()
-	{
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public UndoManager getUndoManager(Construction cons)
-	{
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public String getUniqueId()
-	{
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public double getWidth()
-	{
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	protected void getWindowLayoutXML(StringBuilder sb, boolean asPreference)
-	{
-		throw new UnsupportedOperationException();
-
-	}
-
-	@Override
-	public boolean hasEuclidianView2EitherShowingOrNot()
-	{
-		throw new UnsupportedOperationException();
+		return false;
 	}
 
 	@Override
 	public void initCommand()
 	{
-		throw new UnsupportedOperationException();
-
-	}
-
-	@Override
-	protected void initGuiManager()
-	{
-		throw new UnsupportedOperationException();
 
 	}
 
 	@Override
 	public void initScriptingBundle()
 	{
-		throw new UnsupportedOperationException();
+
+	}
+
+	@Override
+	public String getScriptingCommand(String internal)
+	{
+
+		return null;
+	}
+
+	@Override
+	public String getCommand(String key)
+	{
+
+		return null;
+	}
+
+	@Override
+	public String getPlain(String key)
+	{
+
+		return null;
+	}
+
+	@Override
+	public String getMenu(String key)
+	{
+
+		return null;
+	}
+
+	@Override
+	public String getError(String key)
+	{
+
+		return null;
+	}
+
+	@Override
+	public String getSymbol(int key)
+	{
+
+		return null;
+	}
+
+	@Override
+	public String getSymbolTooltip(int key)
+	{
+
+		return null;
+	}
+
+	@Override
+	public void setTooltipFlag()
+	{
 
 	}
 
 	@Override
 	public boolean isApplet()
 	{
-		throw new UnsupportedOperationException();
+
+		return false;
 	}
 
 	@Override
-	protected boolean isCommandChanged()
+	public void storeUndoInfo()
 	{
-		throw new UnsupportedOperationException();
-	}
 
-	@Override
-	protected boolean isCommandNull()
-	{
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public boolean isHTML5Applet()
-	{
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public boolean isShowingEuclidianView2()
-	{
-		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public boolean isUsingFullGui()
 	{
-		throw new UnsupportedOperationException();
+
+		return false;
 	}
 
 	@Override
-	public boolean loadXML(String xml) throws Exception
+	public boolean showView(int view)
 	{
-		throw new UnsupportedOperationException();
+
+		return false;
 	}
 
 	@Override
-	public AnimationManager newAnimationManager(Kernel kernel2)
+	public String getLanguage()
 	{
-		throw new UnsupportedOperationException();
+
+		return null;
 	}
 
 	@Override
-	public CommandProcessor newCmdBarCode()
+	public String getInternalCommand(String s)
 	{
-		throw new UnsupportedOperationException();
-	}
 
-	@Override
-	protected EuclidianController newEuclidianController(Kernel kernel1)
-	{
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	protected EuclidianView newEuclidianView(boolean[] showAxes1, boolean showGrid1)
-	{
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public GeoElementGraphicsAdapter newGeoElementGraphicsAdapter()
-	{
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public void reset()
-	{
-		throw new UnsupportedOperationException();
-
-	}
-
-	@Override
-	public void resetUniqueId()
-	{
-		throw new UnsupportedOperationException();
-
-	}
-
-	@Override
-	public String reverseGetColor(String colorName)
-	{
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public void runScripts(GeoElement geo1, String string)
-	{
-		throw new UnsupportedOperationException();
-
-	}
-
-	@Override
-	protected void setCommandChanged(boolean b)
-	{
-		throw new UnsupportedOperationException();
-
-	}
-
-	@Override
-	public void setShowConstructionProtocolNavigation(boolean show, boolean playButton, double playDelay, boolean showProtButton)
-	{
-		throw new UnsupportedOperationException();
-
-	}
-
-	@Override
-	public void setTooltipFlag()
-	{
-		throw new UnsupportedOperationException();
-
-	}
-
-	@Override
-	public void setUniqueId(String uniqueId)
-	{
-		throw new UnsupportedOperationException();
-
-	}
-
-	@Override
-	public void setWaitCursor()
-	{
-		throw new UnsupportedOperationException();
-
-	}
-
-	@Override
-	public void setXML(String string, boolean b)
-	{
-		throw new UnsupportedOperationException();
-
-	}
-
-	@Override
-	public boolean showAlgebraInput()
-	{
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public void showError(MyError e)
-	{
-		throw new UnsupportedOperationException();
-
+		return null;
 	}
 
 	@Override
 	public void showError(String s)
 	{
-		throw new UnsupportedOperationException();
+
+	}
+
+	@Override
+	public ScriptManagerCommon getScriptManager()
+	{
+
+		return null;
+	}
+
+	@Override
+	public boolean freeMemoryIsCritical()
+	{
+
+		return false;
+	}
+
+	@Override
+	public long freeMemory()
+	{
+
+		return 0;
+	}
+
+	@Override
+	public AlgebraView getAlgebraView()
+	{
+
+		return null;
+	}
+
+	@Override
+	public EuclidianViewInterfaceCommon getActiveEuclidianView()
+	{
+
+		return null;
+	}
+
+	@Override
+	public boolean hasEuclidianView2EitherShowingOrNot()
+	{
+
+		return false;
+	}
+
+	@Override
+	public boolean isShowingEuclidianView2()
+	{
+
+		return false;
+	}
+
+	@Override
+	public AbstractImageManager getImageManager()
+	{
+
+		return null;
+	}
+
+	@Override
+	public GuiManager getGuiManager()
+	{
+
+		return null;
+	}
+
+	@Override
+	public DialogManager getDialogManager()
+	{
+
+		return null;
+	}
+
+	@Override
+	protected void initGuiManager()
+	{
+
+	}
+
+	@Override
+	public void evalJavaScript(App app, String script, String arg)
+	{
+
+	}
+
+	@Override
+	public EuclidianView createEuclidianView()
+	{
+
+		return null;
+	}
+
+	@Override
+	public String reverseGetColor(String colorName)
+	{
+
+		return null;
+	}
+
+	@Override
+	public String getColor(String key)
+	{
+
+		return null;
+	}
+
+	@Override
+	public GBufferedImage getExternalImageAdapter(String filename)
+	{
+
+		return null;
+	}
+
+	@Override
+	protected String getSyntaxString()
+	{
+
+		return null;
+	}
+
+	@Override
+	public void showRelation(GeoElement geoElement, GeoElement geoElement2)
+	{
+
+	}
+
+	@Override
+	public void showError(MyError e)
+	{
 
 	}
 
 	@Override
 	public void showError(String string, String str)
 	{
-		throw new UnsupportedOperationException();
 
 	}
 
 	@Override
-	public void showRelation(GeoElement geoElement, GeoElement geoElement2)
+	public String getUniqueId()
 	{
-		throw new UnsupportedOperationException();
+
+		return null;
+	}
+
+	@Override
+	public void setUniqueId(String uniqueId)
+	{
 
 	}
 
 	@Override
-	public void showURLinBrowser(String string)
+	public void resetUniqueId()
 	{
-		throw new UnsupportedOperationException();
 
 	}
 
 	@Override
-	public boolean showView(int view)
+	public DrawEquationInterface getDrawEquation()
 	{
-		throw new UnsupportedOperationException();
+
+		return null;
 	}
 
 	@Override
-	public void storeUndoInfo()
+	public void setShowConstructionProtocolNavigation(boolean show, boolean playButton, double playDelay, boolean showProtButton)
 	{
-		throw new UnsupportedOperationException();
-
-	}
-
-	@Override
-	public void updateApplicationLayout()
-	{
-		throw new UnsupportedOperationException();
 
 	}
 
 	@Override
-	public void updateMenubar()
+	public double getWidth()
 	{
-		throw new UnsupportedOperationException();
+
+		return 0;
+	}
+
+	@Override
+	public double getHeight()
+	{
+
+		return 0;
+	}
+
+	@Override
+	public GFont getPlainFontCommon()
+	{
+
+		return null;
+	}
+
+	@Override
+	protected EuclidianView newEuclidianView(boolean[] showAxes1, boolean showGrid1)
+	{
+
+		return null;
+	}
+
+	@Override
+	protected EuclidianController newEuclidianController(Kernel kernel1)
+	{
+
+		return null;
+	}
+
+	@Override
+	public UndoManager getUndoManager(Construction cons)
+	{
+
+		return null;
+	}
+
+	@Override
+	public AnimationManager newAnimationManager(Kernel kernel2)
+	{
+
+		return null;
+	}
+
+	@Override
+	public GeoElementGraphicsAdapter newGeoElementGraphicsAdapter()
+	{
+
+		return null;
+	}
+
+	@Override
+	public void setWaitCursor()
+	{
 
 	}
 
 	@Override
 	public void updateStyleBars()
 	{
-		throw new UnsupportedOperationException();
+
+	}
+
+	@Override
+	public SpreadsheetTableModel getSpreadsheetTableModel()
+	{
+
+		return null;
+	}
+
+	@Override
+	public void setXML(String string, boolean b)
+	{
+
+	}
+
+	@Override
+	public GgbAPI getGgbApi()
+	{
+
+		return null;
+	}
+
+	@Override
+	public SoundManager getSoundManager()
+	{
+
+		return null;
+	}
+
+	@Override
+	public CommandProcessor newCmdBarCode()
+	{
+
+		return null;
+	}
+
+	@Override
+	public boolean showAlgebraInput()
+	{
+
+		return false;
+	}
+
+	@Override
+	public GlobalKeyDispatcher getGlobalKeyDispatcher()
+	{
+
+		return null;
+	}
+
+	@Override
+	public void evalPythonScript(App app, String string, String arg)
+	{
+
+	}
+
+	@Override
+	public void callAppletJavaScript(String string, Object[] args)
+	{
+
+	}
+
+	@Override
+	public void updateMenubar()
+	{
 
 	}
 
 	@Override
 	public void updateUI()
 	{
-		throw new UnsupportedOperationException();
+
+	}
+
+	@Override
+	public String getTooltipLanguageString()
+	{
+
+		return null;
+	}
+
+	@Override
+	protected void getWindowLayoutXML(StringBuilder sb, boolean asPreference)
+	{
+
+	}
+
+	@Override
+	public void reset()
+	{
+
+	}
+
+	@Override
+	public PythonBridge getPythonBridge()
+	{
+
+		return null;
+	}
+
+	@Override
+	public String getPlainTooltip(String string)
+	{
+
+		return null;
+	}
+
+	@Override
+	public boolean isHTML5Applet()
+	{
+
+		return false;
+	}
+
+	@Override
+	public StringType getFormulaRenderingType()
+	{
+
+		return null;
+	}
+
+	@Override
+	public String getLocaleStr()
+	{
+
+		return null;
+	}
+
+	@Override
+	public void showURLinBrowser(String string)
+	{
 
 	}
 
 	@Override
 	public void uploadToGeoGebraTube()
 	{
-		throw new UnsupportedOperationException();
 
 	}
 
 	@Override
-  public AlgoElement newAlgoShortestDistance(Construction cons, String label, GeoList list, GeoPointND start, GeoPointND end, GeoBoolean weighted)
-  {
-	  // TODO Auto-generated method stub
-	  return null;
-  }
+	public void updateApplicationLayout()
+	{
+
+	}
+
+	@Override
+	public void clearConstruction()
+	{
+
+	}
+
+	@Override
+	public void fileNew()
+	{
+
+	}
+
+	@Override
+	public String getCountryFromGeoIP() throws Exception
+	{
+
+		return null;
+	}
+
+	@Override
+	public boolean loadXML(String xml) throws Exception
+	{
+
+		return false;
+	}
+
+	@Override
+	public void exportToLMS(boolean b)
+	{
+
+	}
+
+	@Override
+	public void copyGraphicsViewToClipboard()
+	{
+
+	}
+
+	@Override
+	public void exitAll()
+	{
+
+	}
+
+	@Override
+	public void addMenuItem(MenuInterface parentMenu, String filename, String name, boolean asHtml, MenuInterface subMenu)
+	{
+
+	}
+
+	@Override
+	public NormalizerMinimal getNormalizer()
+	{
+
+		return null;
+	}
+
+	@Override
+	public void runScripts(GeoElement geo1, String string)
+	{
+
+	}
+
+	@Override
+	public AlgoElement newAlgoShortestDistance(Construction cons, String label, GeoList list, GeoPointND start, GeoPointND end, GeoBoolean weighted)
+	{
+		return null;
+	}
+
 }
