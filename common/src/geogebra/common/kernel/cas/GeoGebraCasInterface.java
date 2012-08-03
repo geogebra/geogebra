@@ -1,5 +1,6 @@
 package geogebra.common.kernel.cas;
 
+import geogebra.common.cas.CASException;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
@@ -33,9 +34,9 @@ public interface GeoGebraCasInterface {
 
 	public String[] getPolynomialCoeffs(String exp, String variable);
 
-	public String evaluateGeoGebraCAS(String exp,MyArbitraryConstant cons);
+	public String evaluateGeoGebraCAS(String exp,MyArbitraryConstant cons) throws CASException;
 	
-	public String evaluateGeoGebraCAS(ValidExpression exp,MyArbitraryConstant cons,StringTemplate tpl);
+	public String evaluateGeoGebraCAS(ValidExpression exp,MyArbitraryConstant cons,StringTemplate tpl) throws CASException;
 
 	public void unbindVariable(String addCASVariablePrefix);
 
