@@ -91,7 +91,7 @@ public class CASDropTargetListener implements DropTargetListener {
 					return;
 				//check if in the variables in the source cell appears also in the destination
 				//if not, do not substitute!
-				HashSet<GeoElement> varsDest = cell.getInputVE().getVariables();
+				/* HashSet<GeoElement> varsDest = cell.getInputVE().getVariables();
 				HashSet<GeoElement> varsSource = source.getInputVE().getVariables();
 				boolean match = false;
 				if (varsDest != null && varsSource != null) {
@@ -114,15 +114,21 @@ public class CASDropTargetListener implements DropTargetListener {
 					return;
 				}
 				if(!match)  //no match => nothing to substitute
-					return;
+					return; */
 
 				
+				//view.ensureOneEmptyRow();
+				GeoCasCell newcell = new GeoCasCell(cell.getConstruction());
+				cell.getConstruction().addToConstructionList(newcell, false);
+				view.getConsoleTable().insertRow(newcell,false);
 				
-				String subCmd = "Substitute[" + cell.getInputVE().toString(StringTemplate.defaultTemplate) + ", " + substitution  + "]";	
-				cell.setProcessingInformation(cell.getPrefix(), subCmd, cell.getPostfix());				
-				cell.setEvalCommand("Substitute");
-				cell.setEvalComment(substitution);	
-				view.processRowThenEdit(row, true);	
+				String subCmd = "Substitute[$" + (cell.getRowNumber()+1) + ", Flatten[{" + tableRef  + "}]]";	
+				newcell.setInput(cell.getInput(StringTemplate.defaultTemplate));
+				newcell.setProcessingInformation(cell.getPrefix(), subCmd, cell.getPostfix());				
+				newcell.setEvalCommand("Substitute");
+				
+				newcell.setEvalComment(substitution);
+				view.processRowThenEdit(newcell.getRowNumber(), true);	
 				
 							
 				//ToDo: dynamic!!!
