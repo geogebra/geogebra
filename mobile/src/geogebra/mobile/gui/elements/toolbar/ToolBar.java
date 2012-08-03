@@ -44,16 +44,18 @@ public class ToolBar extends ButtonBar implements ToolBarInterface
 
 	}
 
-	public void setOptions(OptionsBarBackground optionsBackground)
+	@Override
+  public void setOptions(OptionsBarBackground optionsBackground)
 	{
 		this.optionsBackground = optionsBackground;
 	}
 
-	public void closeOptions()
+	@Override
+  public void closeOptions()
 	{
-		if (optionsBackground != null)
+		if (this.optionsBackground != null)
 		{
-			RootPanel.get().remove(optionsBackground);
+			RootPanel.get().remove(this.optionsBackground);
 		}
 	}
 

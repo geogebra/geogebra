@@ -55,11 +55,11 @@ public enum ToolBarMenu
 	}
 
 	public ToolBarCommand getCommand(){
-		return command; 
+		return this.command; 
 	}
 	
 	public ToolBarCommand[] getEntries(){
-		return entry; 
+		return this.entry; 
 	}
 	
 }

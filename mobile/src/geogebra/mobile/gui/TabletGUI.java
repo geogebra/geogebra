@@ -36,32 +36,32 @@ public class TabletGUI implements GeoGebraMobileGUI
 		MGWTStyle.injectStyleSheet("TabletGUI.css");
 
 		// Initialize GUI Elements
-		rootPanel = RootPanel.get();
-		headerPanel = new TabletHeaderPanel();
-		leftHeader = new TabletHeaderPanelLeft(); 
-		rightHeader = new TabletHeaderPanelRight(); 
-		toolBar = new ToolBar();
+		this.rootPanel = RootPanel.get();
+		this.headerPanel = new TabletHeaderPanel();
+		this.leftHeader = new TabletHeaderPanelLeft(); 
+		this.rightHeader = new TabletHeaderPanelRight(); 
+		this.toolBar = new ToolBar();
 
 		layout();
 	}
 
 	public void layout()
 	{
-		rootPanel = RootPanel.get();
+		this.rootPanel = RootPanel.get();
 
-		headerPanel = new TabletHeaderPanel();
-		euclidianViewPanel = new EuclidianViewPanel();
-		algebraViewPanel = new AlgebraViewPanel();
+		this.headerPanel = new TabletHeaderPanel();
+		this.euclidianViewPanel = new EuclidianViewPanel();
+		this.algebraViewPanel = new AlgebraViewPanel();
 
-		euclidianViewPanel.add(headerPanel);
-		euclidianViewPanel.add(rightHeader);
-		euclidianViewPanel.add(leftHeader);
+		this.euclidianViewPanel.add(this.headerPanel);
+		this.euclidianViewPanel.add(this.rightHeader);
+		this.euclidianViewPanel.add(this.leftHeader);
 		
-		euclidianViewPanel.add(algebraViewPanel);
+		this.euclidianViewPanel.add(this.algebraViewPanel);
 
-		toolBar.makeTabletToolBar();
-		euclidianViewPanel.add(toolBar);
-		rootPanel.add(euclidianViewPanel);
+		this.toolBar.makeTabletToolBar();
+		this.euclidianViewPanel.add(this.toolBar);
+		this.rootPanel.add(this.euclidianViewPanel);
 	}
 
 	@Override

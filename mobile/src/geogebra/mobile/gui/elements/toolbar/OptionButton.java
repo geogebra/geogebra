@@ -26,9 +26,9 @@ public class OptionButton extends ToolButton
 		});
 	}
 
-	private void getClicked()
+	void getClicked()
 	{
-		ancestor.optionClicked(super.getCmd());
+		this.ancestor.optionClicked(super.getCmd());
 	}
 
 }

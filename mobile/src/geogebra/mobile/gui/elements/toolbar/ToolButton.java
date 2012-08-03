@@ -1,11 +1,9 @@
 package geogebra.mobile.gui.elements.toolbar;
 
 import geogebra.mobile.utils.ToolBarCommand;
+import geogebra.mobile.utils.TouchAdapter;
 
-import com.googlecode.mgwt.dom.client.event.touch.TouchCancelEvent;
 import com.googlecode.mgwt.dom.client.event.touch.TouchEndEvent;
-import com.googlecode.mgwt.dom.client.event.touch.TouchHandler;
-import com.googlecode.mgwt.dom.client.event.touch.TouchMoveEvent;
 import com.googlecode.mgwt.dom.client.event.touch.TouchStartEvent;
 import com.googlecode.mgwt.ui.client.widget.buttonbar.ButtonBarButtonBase;
 
@@ -40,7 +38,7 @@ public class ToolButton extends ButtonBarButtonBase
 		// }
 		// });
 
-		this.addTouchHandler(new TouchHandler()
+		this.addTouchHandler(new TouchAdapter()
 		{
 			@Override
 			public void onTouchStart(TouchStartEvent event)
@@ -49,19 +47,9 @@ public class ToolButton extends ButtonBarButtonBase
 			}
 
 			@Override
-			public void onTouchMove(TouchMoveEvent event)
-			{
-			}
-
-			@Override
 			public void onTouchEnd(TouchEndEvent event)
 			{
 				clickEnd();
-			}
-
-			@Override
-			public void onTouchCanceled(TouchCancelEvent event)
-			{
 			}
 		});
 
@@ -69,7 +57,7 @@ public class ToolButton extends ButtonBarButtonBase
 
 	public ToolBarCommand getCmd()
 	{
-		return cmd;
+		return this.cmd;
 	}
 
 	public void setCmd(ToolBarCommand cmd)
@@ -78,12 +66,12 @@ public class ToolButton extends ButtonBarButtonBase
 		super.getElement().getStyle().setBackgroundImage(cmd.getIconUrlAsString());
 	}
 
-	private void clickStart()
+	void clickStart()
 	{
 		this.addStyleName("button-active");
 	}
 
-	private void clickEnd()
+	void clickEnd()
 	{
 		this.removeStyleName("button-active");
 	}

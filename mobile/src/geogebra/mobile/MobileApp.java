@@ -15,14 +15,10 @@ import geogebra.common.kernel.AnimationManager;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.UndoManager;
-import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.commands.CommandProcessor;
-import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
-import geogebra.common.kernel.geos.GeoList;
-import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.App;
 import geogebra.common.main.GlobalKeyDispatcher;
 import geogebra.common.main.MyError;
@@ -35,44 +31,34 @@ import geogebra.common.util.AbstractImageManager;
 import geogebra.common.util.NormalizerMinimal;
 import geogebra.mobile.gui.GeoGebraMobileGUI;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.RunAsyncCallback;
-
 /**
  * @deprecated Dummy App for the Kernel, will be removed as soon as App is
  *             separated from the Kernel
  * @author Matthias Meisinger
  * 
  */
+@Deprecated
 public class MobileApp extends App
 {
+	private GeoGebraMobileGUI mobileGUI;
 
 	public MobileApp(GeoGebraMobileGUI mobileGUI)
 	{
-		initing = true;
+		super.initing = true;
 
-		// try to async loading of kernel, maybe we got quicker...
-		GWT.runAsync(new RunAsyncCallback()
-		{
+		this.mobileGUI = mobileGUI;
+		this.settings = new Settings();
+	}
 
-			public void onSuccess()
-			{
-				// kernel = new Kernel(MobileApp.this);
+	public void start()
+	{
+		// kernel = new Kernel(MobileApp.this);
 
-				settings = new Settings();
+		// initEuclidianViews();
 
-				// initEuclidianViews();
+		// setUndoActive(true);
 
-				// setUndoActive(true);
-
-				initing = false;
-			}
-
-			public void onFailure(Throwable reason)
-			{
-				App.debug("onFailure " + reason);
-			}
-		});
+		super.initing = false;
 	}
 
 	@Override
@@ -649,12 +635,6 @@ public class MobileApp extends App
 	public void runScripts(GeoElement geo1, String string)
 	{
 
-	}
-
-	@Override
-	public AlgoElement newAlgoShortestDistance(Construction cons, String label, GeoList list, GeoPointND start, GeoPointND end, GeoBoolean weighted)
-	{
-		return null;
 	}
 
 }

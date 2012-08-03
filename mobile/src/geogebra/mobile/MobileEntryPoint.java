@@ -11,10 +11,14 @@ import com.google.gwt.core.client.RunAsyncCallback;
  */
 public class MobileEntryPoint implements EntryPoint
 {
+	MobileApp app;
+	
 	@Override
 	public void onModuleLoad()
 	{
+		this.app = new MobileApp(new TabletGUI());
 		loadMobileAsync();
+		
 	}
 
 	private void loadMobileAsync()
@@ -22,12 +26,14 @@ public class MobileEntryPoint implements EntryPoint
 		GWT.runAsync(new RunAsyncCallback()
 		{
 
-			public void onSuccess()
+			@Override
+      public void onSuccess()
 			{
-				new MobileApp(new TabletGUI());
+				MobileEntryPoint.this.app.start();
 			}
 
-			public void onFailure(Throwable reason)
+			@Override
+      public void onFailure(Throwable reason)
 			{
 //				App.debug(reason);
 				reason.printStackTrace(); 
