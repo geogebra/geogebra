@@ -80,7 +80,6 @@ public class CASDragGestureListener implements DragGestureListener, DragSourceLi
 		ImageIcon ic  = GeoGebraIcon.createLatexIcon((AppD)app, latex, ((AppD)app).getPlainFont(), false, Color.DARK_GRAY, null);
 
 		TransferableCAS transferable = new TransferableCAS(geoLabelList, cellnumber);
-		transferable.setLaTeXText(cell.toLaTeXString(true, StringTemplate.latexTemplate));
 		transferable.setIsAssignment(cell.isAssignmentVariableDefined());
 			
 		
@@ -103,15 +102,17 @@ public class CASDragGestureListener implements DragGestureListener, DragSourceLi
 														CASTransferHandler.casTableFlavor, 
 														};
 
-		private ArrayList<String> geoLabelList;
+		private ArrayList<String> geoLabels;
 		private int tableRef;
-		private String latexText;
 		private boolean isAssignment;
 
+		/**
+		 * @param geoLabelList list of labels
+		 * @param tableRef table reference 
+		 */
 		public TransferableCAS(ArrayList<String> geoLabelList, int tableRef) {
-			this.geoLabelList = geoLabelList;
+			this.geoLabels = geoLabelList;
 			this.tableRef = tableRef;
-			latexText = "";
 			isAssignment = false;
 		}
 		
@@ -132,18 +133,16 @@ public class CASDragGestureListener implements DragGestureListener, DragSourceLi
 
 		public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException {
 			if (flavor.equals(AlgebraViewTransferHandler.algebraViewFlavor))
-				return geoLabelList;			
+				return geoLabels;			
 			if (flavor.equals(CASTransferHandler.casTableFlavor))
 				return tableRef;
 			throw new UnsupportedFlavorException(flavor);
 		}
 		
-		public void setLaTeXText(String text){
-			latexText = text;
-		}
-		public String getLaTeXText(){
-			return latexText;
-		}
+	
+		/**
+		 * @param ass whether the cell contains assignment
+		 */
 		public void setIsAssignment(boolean ass){
 			isAssignment = ass;
 		}
@@ -155,9 +154,19 @@ public class CASDragGestureListener implements DragGestureListener, DragSourceLi
 	// Drag and Drop 
 	//=====================================================
 	
-	public void dragDropEnd(DragSourceDropEvent e) {}
-	public void dragEnter(DragSourceDragEvent e) {}
-	public void dragExit(DragSourceEvent e) {}
-	public void dragOver(DragSourceDragEvent e) {}
-	public void dropActionChanged(DragSourceDragEvent e) {}
+	public void dragDropEnd(DragSourceDropEvent e) {
+		//do nothing
+	}
+	public void dragEnter(DragSourceDragEvent e) {
+		//do nothing
+	}
+	public void dragExit(DragSourceEvent e) {
+		//do nothing
+	}
+	public void dragOver(DragSourceDragEvent e) {
+		//do nothing
+	}
+	public void dropActionChanged(DragSourceDragEvent e) {
+		//do nothing
+	}
 }
