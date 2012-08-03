@@ -6,13 +6,13 @@ import java.util.HashSet;
 import java.util.Iterator;
 
 import geogebra.common.kernel.algos.SymbolicParameters;
-import geogebra.common.kernel.prover.AbstractReciosProver;
+import geogebra.common.kernel.prover.AbstractProverReciosMethod;
 import geogebra.common.kernel.prover.NoSymbolicParametersException;
 import geogebra.common.kernel.prover.Variable;
-import geogebra.common.main.AbstractApplication;
+import geogebra.common.main.App;
 import geogebra.common.util.Prover.ProofResult;
 
-public class ProverReciosMethod extends AbstractReciosProver {
+public class ProverReciosMethod extends AbstractProverReciosMethod {
 
 	@Override
     protected final ProofResult computeNd(HashSet<Variable> freeVariables,
@@ -82,9 +82,9 @@ public class ProverReciosMethod extends AbstractReciosProver {
 
 	} while (indicesChanged);
 	
-	AbstractApplication.debug(nrOfTests + " tests performed.");
-	AbstractApplication.debug("n: " + n);
-	AbstractApplication.debug("deg: " + deg);
+	App.debug(nrOfTests + " tests performed.");
+	App.debug("n: " + n);
+	App.debug("deg: " + deg);
 	
 
 	return ProofResult.TRUE;
