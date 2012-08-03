@@ -596,8 +596,7 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture {
 		applyVisualStyle(geo);
 		if (!geo.isLabelSet()) {
 			geo.setViewFlags(getViewSet());
-		}
-
+		}		
 		rebuildComboBoxes();
 
 
@@ -612,7 +611,7 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture {
 	 */
 	public final void remove(final GeoElement geo) {
 		geoList.remove(geo);
-
+		
 		rebuildComboBoxes();
 	}
 
@@ -2050,6 +2049,8 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture {
 	}
 
 	private void rebuildComboBoxes() {
+		if(comboBox==null)
+			return;
 		comboBox = buildComboBox();
 		comboBox2 = buildComboBox();
 
