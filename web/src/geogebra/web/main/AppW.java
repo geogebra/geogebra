@@ -53,6 +53,7 @@ import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.inputbar.AlgebraInputW;
 import geogebra.web.gui.menubar.GeoGebraMenubarW;
 import geogebra.web.gui.menubar.LanguageCommand;
+import geogebra.web.gui.view.algebra.AlgebraViewW;
 import geogebra.web.html5.ArticleElement;
 import geogebra.web.io.ConstructionException;
 import geogebra.web.io.MyXMLio;
@@ -1714,7 +1715,18 @@ public class AppW extends App {
 		}
 	}
 
-	
+	/**
+	 * Clear selection
+	 * @param repaint whether all views need repainting afterwards
+	 */
+	@Override
+	public void clearSelectedGeos(boolean repaint) {
+		//if (getUseFullGui()) ?
+		if (useFullAppGui)
+			((AlgebraViewW)getAlgebraView()).clearSelection();
+		super.clearSelectedGeos(repaint);
+	}
+
 	@Override
 	public GeoElementSelectionListener getCurrentSelectionListener() {
 		// TODO Auto-generated method stub

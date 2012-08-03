@@ -328,6 +328,12 @@ public class AlgebraViewW extends Tree implements LayerView, SetLabels, geogebra
 	//@Override
 	public void clearSelection() {
 		super.setSelectedItem(null);
+		for (int i = 0; i < getItemCount(); i++) {
+			if (!(getItem(i).getUserObject() instanceof GeoElement))
+				for (int j = 0; j < getItem(i).getChildCount(); j++) {
+					getItem(i).getChild(j).setSelected(false);
+				}
+		}
 		selectedGeoElement = null;
 	}
 
@@ -818,13 +824,24 @@ public class AlgebraViewW extends Tree implements LayerView, SetLabels, geogebra
 
 	public void repaintView() {
 
+		Object geo;
 		// suppose that the add operations have been already done elsewhere
 		for (int i = 0; i < getItemCount(); i++) {
-			if (getItem(i).getUserObject() instanceof GeoElement)
+			geo = getItem(i).getUserObject();
+			if (geo instanceof GeoElement) {
 				((RadioButtonTreeItem)getItem(i).getWidget()).update();
-			else
+				getItem(i).setSelected(
+					((GeoElement)geo).doHighlighting());
+			} else {
 				((InlineLabelTreeItem)getItem(i).getWidget()).setText(
 					getItem(i).getUserObject().toString());
+				for (int j = 0; j < getItem(i).getChildCount(); j++) {
+					geo = getItem(i).getChild(j).getUserObject();
+					if (geo instanceof GeoElement)
+						getItem(i).getChild(j).setSelected(
+							((GeoElement)geo).doHighlighting());
+				}
+			}
 		}
 	}
 
@@ -1259,7 +1276,7 @@ public class AlgebraViewW extends Tree implements LayerView, SetLabels, geogebra
 				(com.google.gwt.user.client.Element)
 				ti.getElement().getFirstChildElement(), "display", "inline-block");
 		} else {
-			ti.setWidget(new InlineLabelTreeItem(ti, ob.toString()));
+			ti.setWidget(new InlineLabelTreeItem(app, ti, ob.toString()));
 		}
 	}
 

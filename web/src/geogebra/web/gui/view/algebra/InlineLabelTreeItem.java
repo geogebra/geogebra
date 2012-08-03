@@ -12,6 +12,13 @@ the Free Software Foundation.
 
 package geogebra.web.gui.view.algebra;
 
+import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.geos.GeoElement;
+import geogebra.web.main.AppW;
+
+import java.util.Iterator;
+import java.util.ArrayList;
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.MouseOutEvent;
@@ -31,9 +38,11 @@ public class InlineLabelTreeItem extends InlineLabel
 	implements ClickHandler, MouseOverHandler, MouseOutHandler {
 
 	TreeItem par;
+	AppW application;
 
-	public InlineLabelTreeItem(TreeItem parent, String strlab) {
+	public InlineLabelTreeItem(AppW app, TreeItem parent, String strlab) {
 		super(strlab);
+		this.application = app;
 		par = parent;
 		addClickHandler(this);
 		addMouseOverHandler(this);
@@ -41,19 +50,35 @@ public class InlineLabelTreeItem extends InlineLabel
 	}
 
 	public void onClick(ClickEvent evt) {
-		for (int i = 0; i < par.getChildCount(); i++)
-			par.getChild(i).setSelected(true);
+		Object uo;
+		ArrayList<GeoElement> groupedGeos = new ArrayList<GeoElement>();
+		for (int i = 0; i < par.getChildCount(); i++) {
+			//par.getChild(i).setSelected(true);
+			uo = par.getChild(i).getUserObject();
+			if (uo instanceof GeoElement)
+				groupedGeos.add((GeoElement)uo);
+		}
 		par.setSelected(false);
+
+		//if (!AppD.isControlDown(e) && !e.isShiftDown())
+		if (!evt.isControlKeyDown() && !evt.isShiftKeyDown())
+			application.clearSelectedGeos();
+
+		if (groupedGeos!=null)
+			application.addSelectedGeos(groupedGeos, true);
 	}
 
 	public void onMouseOver(MouseOverEvent evt) {
 		for (int i = 0; i < par.getChildCount(); i++)
-			par.getChild(i).addStyleName("gwt-TreeItem-selected");
+			if (par.getChild(i).getUserObject() instanceof GeoElement)
+				//((GeoElement)par.getChild(i).getUserObject()).setHighlighted(true);
+				par.getChild(i).getWidget().addStyleName("gwt-TreeItem-selected");
 	}
 
 	public void onMouseOut(MouseOutEvent evt) {
 		for (int i = 0; i < par.getChildCount(); i++)
-			//if (!par.getChild(i).isSelected())
-				par.getChild(i).removeStyleName("gwt-TreeItem-selected");
+			if (par.getChild(i).getUserObject() instanceof GeoElement)
+				//((GeoElement)par.getChild(i).getUserObject()).setHighlighted(false);
+				par.getChild(i).getWidget().removeStyleName("gwt-TreeItem-selected");
 	}
 }
