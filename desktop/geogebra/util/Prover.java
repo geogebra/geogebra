@@ -3,6 +3,7 @@ package geogebra.util;
 
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
+import geogebra.kernel.prover.ProverReciosMethod;
 
 import java.util.Iterator;
 import java.util.Vector;
@@ -20,6 +21,9 @@ import com.ogprover.utilities.logger.ILogger;
  */
 public class Prover extends geogebra.common.util.Prover {
 
+	static {
+				reciosProver = new ProverReciosMethod();
+			}
 	/**
 	 * Starts computation of the proof, based on the defined
 	 * subsystem.

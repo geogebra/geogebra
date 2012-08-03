@@ -48,7 +48,6 @@ public class AlgoPointOnPath extends AlgoElement implements PathAlgo, SymbolicPa
 	private Polynomial[] botanaPolynomials;
 	private Variable variable;
 	private Variable[] botanaVars;
-	private BigInteger[] exactCoordinates;
 
     public AlgoPointOnPath(
         Construction cons,
@@ -212,7 +211,7 @@ public class AlgoPointOnPath extends AlgoElement implements PathAlgo, SymbolicPa
 			throw new NoSymbolicParametersException();
 		}
 		if (input[0] instanceof GeoLine && variable != null){
-			exactCoordinates=new BigInteger[3];
+			BigInteger[] exactCoordinates=new BigInteger[3];
 			BigInteger[] line=((SymbolicParametersAlgo) input[0]).getExactCoordinates(values);
 			exactCoordinates[0]=line[2].multiply(values.get(variable));
 			exactCoordinates[1]=line[2].multiply(BigInteger.ONE.subtract(values.get(variable)));

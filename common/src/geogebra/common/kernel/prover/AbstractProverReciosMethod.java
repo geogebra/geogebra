@@ -22,17 +22,18 @@ import java.util.TreeSet;
  * @author Simon Weitzhofer
  *
  */
-public class ProverReciosMethod {
+public abstract class AbstractProverReciosMethod {
 	
 	
 	private static GeoElement[] fixedPoints;
+	
 	
 	/**
 	 * The prover which tries to prove the statement with the help of Tomas Recios method.
 	 * @param prover the prover input object 
 	 * @return The result of the prove.
 	 */
-	public static ProofResult prove(Prover prover){
+	public ProofResult prove(Prover prover){
 
 		SymbolicParameters s;
 
@@ -215,82 +216,20 @@ public class ProverReciosMethod {
 		return ProofResult.TRUE;
 	}
 	
-	private static ProofResult computeNd(final HashSet<Variable> freeVariables,
+	/**
+	 * More complicated calculations are done by multiple threads
+	 * in desktop
+	 * 
+	 * @param freeVariables The free variables ruling the construction
+	 * @param values The values for the fixed variables (If e.g. one point gets fixed coordinates (0,0) and another (0,1)
+	 * @param deg The bound for the degree of the statement
+	 * @param s The Symbolic parameters class that is used to test the statement for a fixed point 
+	 * @return the result of the proof
+	 */
+	
+	protected abstract ProofResult computeNd(final HashSet<Variable> freeVariables,
 			final HashMap<Variable, BigInteger> values, final int deg,
-			final SymbolicParameters s) {
-		int n = freeVariables.size();
-		Variable[] variables = new Variable[n];
-		Iterator<Variable> it = freeVariables.iterator();
-		for (int i = 0; i < n; i++) {
-			variables[i] = it.next();
-		}
-
-		int[] indices = new int[n];
-		for (int i = 0; i < n; i++) {
-			indices[i] = n - i;
-		}
-
-		boolean indicesChanged;
-		int nrOfTests = 0, changedIndex=n-1;
-		BigInteger[][] cache=new BigInteger[n][n];
-
-		do {
-
-			for (int i = 0; i < n; i++) {
-				BigInteger result;
-
-				if (changedIndex == n - 1) {
-					result = BigInteger.ONE;
-				} else {
-					result = cache[i][changedIndex + 1];
-				}
-
-				for (int j = changedIndex; j >= 0; j--) {
-					result = result.multiply((BigInteger.valueOf(n)
-							.multiply(BigInteger.valueOf(indices[j])))
-							.subtract(BigInteger.valueOf(i)));
-					cache[i][j] = result;
-				}
-				values.put(variables[i], result);
-			}
-			
-			nrOfTests++;
-
-			try {
-				BigInteger[] exactCoordinates = s.getExactCoordinates(values);
-				for (BigInteger result : exactCoordinates) {
-					if (!result.equals(BigInteger.ZERO)) {
-						return ProofResult.FALSE;
-					}
-				}
-			} catch (NoSymbolicParametersException e) {
-				return ProofResult.UNKNOWN;
-			}
-
-			indicesChanged = false;
-
-			for (int i = 0; i < n; i++) {
-				if (indices[i] < (deg - i + n)) {
-					indices[i]++;
-					for (int j = 0; j < i; j++) {
-						indices[j] = indices[i] + i - j;
-					}
-					changedIndex=i;
-					indicesChanged = true;
-					break;
-				}
-			}
-
-		} while (indicesChanged);
-		
-		App.debug(nrOfTests + " tests performed.");
-		App.debug("n: " + n);
-		App.debug("deg: " + deg);
-		
-
-		return ProofResult.TRUE;
-
-	}
+			final SymbolicParameters s);
 
 	/**
 	 * Returns the elements which are fixed by Recio's method prover

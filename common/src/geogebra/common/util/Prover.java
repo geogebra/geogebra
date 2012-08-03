@@ -3,6 +3,7 @@ package geogebra.common.util;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.prover.AbstractProverReciosMethod;
 import geogebra.common.main.App;
 
 import java.util.ArrayList;
@@ -74,6 +75,8 @@ public abstract class Prover {
 	 */
 	protected GeoElement statement;
 	
+	protected static AbstractProverReciosMethod reciosProver;
+		 
 	/**
 	 * Gives the current statement to prove
 	 * @return the statement (usually a GeoBoolean)
@@ -254,7 +257,7 @@ public abstract class Prover {
 			result = geogebra.common.kernel.prover.ProverBotanasMethod.prove(this);
 			return;
 		} else if (currentEngine == ProverEngine.RECIOS_PROVER) {
-			result = geogebra.common.kernel.prover.ProverReciosMethod.prove(this);
+			result = reciosProver.prove(this);
 			return;
 		} else if (currentEngine == ProverEngine.PURE_SYMBOLIC_PROVER) {
 			result = geogebra.common.kernel.prover.ProverPureSymbolicMethod.prove(this);

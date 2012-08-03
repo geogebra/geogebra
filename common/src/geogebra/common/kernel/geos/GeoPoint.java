@@ -55,7 +55,7 @@ import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.prover.NoSymbolicParametersException;
 import geogebra.common.kernel.prover.Polynomial;
-import geogebra.common.kernel.prover.ProverReciosMethod;
+import geogebra.common.kernel.prover.AbstractProverReciosMethod;
 import geogebra.common.kernel.prover.Variable;
 import geogebra.common.main.App;
 import geogebra.common.plugin.EuclidianStyleConstants;
@@ -2058,7 +2058,7 @@ final public class GeoPoint extends GeoVec3D implements VectorValue,
 	
 	public int[] getDegrees() throws NoSymbolicParametersException{
 		if (algoParent == null) {
-			GeoElement[] fixedElements = ProverReciosMethod.getFixedPoints();
+			GeoElement[] fixedElements = AbstractProverReciosMethod.getFixedPoints();
 			if (fixedElements != null){
 				boolean isContained = false;
 				for (GeoElement ge:fixedElements){
@@ -2081,19 +2081,22 @@ final public class GeoPoint extends GeoVec3D implements VectorValue,
 		throw new NoSymbolicParametersException();
 	}
 
-	public BigInteger[] getExactCoordinates(final HashMap<Variable,BigInteger> values) throws NoSymbolicParametersException {
+	public BigInteger[] getExactCoordinates(
+			final HashMap<Variable, BigInteger> values)
+			throws NoSymbolicParametersException {
 		if (algoParent == null) {
-		BigInteger[] result=new BigInteger[3];
-		result[0]=values.get(variableCoordinate1);
-		result[1]=values.get(variableCoordinate2);
-		result[2]=BigInteger.ONE;
-		if (result[0]==null || result[1]==null){
-			throw new NoSymbolicParametersException();
+			BigInteger[] result = new BigInteger[3];
+			result[0] = values.get(variableCoordinate1);
+			result[1] = values.get(variableCoordinate2);
+			result[2] = BigInteger.ONE;
+			if (result[0] == null || result[1] == null) {
+				throw new NoSymbolicParametersException();
+			}
+			return result;
 		}
-		return result;
-		}
-		if (algoParent instanceof SymbolicParametersAlgo){
-			return ((SymbolicParametersAlgo)algoParent).getExactCoordinates(values);
+		if (algoParent instanceof SymbolicParametersAlgo) {
+			return ((SymbolicParametersAlgo) algoParent)
+					.getExactCoordinates(values);
 		}
 		throw new NoSymbolicParametersException();
 	}

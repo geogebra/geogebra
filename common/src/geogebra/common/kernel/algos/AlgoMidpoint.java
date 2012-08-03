@@ -129,8 +129,8 @@ public class AlgoMidpoint extends AlgoMidpointND implements SymbolicParametersAl
 	public BigInteger[] getExactCoordinates(
 			HashMap<Variable, BigInteger> values)
 			throws NoSymbolicParametersException {
-		GeoPoint P=(GeoPoint) getP();
-		GeoPoint Q=(GeoPoint) getQ();
+		GeoPoint P=getP();
+		GeoPoint Q=getQ();
 		if (P != null && Q != null) {
 			BigInteger[] pP = P.getExactCoordinates(values);
 			BigInteger[] pQ = Q.getExactCoordinates(values);
