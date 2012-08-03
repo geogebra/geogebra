@@ -90,6 +90,10 @@ public class AlgoSolveODECas extends AlgoElement {
 		sb.setLength(0);
 		sb.append("SolveODE(");
 		sb.append(f.toString(StringTemplate.prefixedDefault)); // function expression
+		if(pt!=null){
+			sb.append(",");
+			sb.append(pt.toValueString(StringTemplate.prefixedDefault));
+		}
 		sb.append(")");
 		String casString = sb.toString();
 		if(!casString.equals(oldCASstring)){
@@ -108,40 +112,6 @@ public class AlgoSolveODECas extends AlgoElement {
 			return;
 		}
 		c1.setAlgebraVisible(false);
-		//we have dependent function
-		if(g instanceof GeoFunction && helper!=null){
-			GeoPoint ptt = (GeoPoint)pt;
-			c1.setValue(0);
-			double val0 = ((GeoFunction)g).evaluate(ptt.getX()/ptt.getZ());
-			c1.setValue(1);
-			double val1 = ((GeoFunction)g).evaluate(ptt.getX()/ptt.getZ());
-			double d= (ptt.getY()/ptt.getZ()-val0)/(val1-val0);
-			c1.setValue(d);
-			double val = ((GeoFunction)g).evaluate(ptt.getX()/ptt.getZ());
-			if(!Kernel.isEqual(ptt.getY()/ptt.getZ(), val)){
-				g.setUndefined();
-			}else
-				helper.update();
-		}
-		//we have dependent conic or line
-		else if(helper instanceof EvaluateAtPoint){
-			GeoPoint ptt = (GeoPoint)pt;
-			EvaluateAtPoint dep = (EvaluateAtPoint)helper;
-			c1.setValue(0);
-			double val0 = dep.evaluate(ptt);
-			c1.setValue(1);
-			double val1 = dep.evaluate(ptt);
-			double d= (0-val0)/(val1-val0);
-			c1.setValue(d);
-			double val = dep.evaluate(ptt);
-			if(!Kernel.isZero(val)){
-				g.setUndefined();
-			}else
-				helper.update();
-		}else{
-			App.debug("Unhandled case "+g.getClass());
-		}
-		
 	}
 
 	private void updateG(String casString) {
