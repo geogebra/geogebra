@@ -3,6 +3,7 @@ package geogebra.gui.view.spreadsheet.statdialog;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
@@ -53,6 +54,8 @@ public class StatDialog extends JPanel implements View, Printable,
 	private boolean showComboPanel2 = false;
 	protected boolean isIniting = true;
 	protected boolean leftToRight = true;
+	private boolean doSpecialNumberFormat = false;
+
 
 	// colors
 	public static final Color TABLE_GRID_COLOR = geogebra.awt.GColorD
@@ -360,9 +363,21 @@ public class StatDialog extends JPanel implements View, Printable,
 		return showStatPanel;
 	}
 
+	/**
+	 * Converts double to formatted String
+	 *  
+	 * @param x	number to be converted 
+	 * @return	formatted  number string 
+	 */
 	public String format(double x) {
 
-		return nf.format(x);
+		// apply local numeric format
+		if(doSpecialNumberFormat){
+			return nf.format(x);
+		}
+		
+		// apply GeoGebra numeric format
+		return app.getKernel().format(x,StringTemplate.numericDefault);
 	}
 
 	public int getPrintDecimals() {
@@ -429,6 +444,14 @@ public class StatDialog extends JPanel implements View, Printable,
 		return mode;
 	}
 
+	public boolean doSpecialNumberFormat() {
+		return doSpecialNumberFormat;
+	}
+
+	public void setDoSpecialNumberFormat(boolean doSpecialNumberFormat) {
+		this.doSpecialNumberFormat = doSpecialNumberFormat;
+	}
+	
 	// =================================================
 	// Handlers for Component Visibility
 	// =================================================
