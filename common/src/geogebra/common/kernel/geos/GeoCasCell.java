@@ -886,11 +886,19 @@ public class GeoCasCell extends GeoElement implements VarString {
 
 		// make sure we are using an unused label
 		if (var == null || cons.isFreeLabel(var)) {
-			// check for invalid assignment variables containing # or $ (used
-			// for references)
-			if (var.contains(ROW_REFERENCE_STATIC + "")
-					|| var.contains(ROW_REFERENCE_DYNAMIC + "")) {
-				setError("CAS.VariableContainsReferenceSymbol");
+			// check for invalid assignment variables like $, $1, $2, ... which
+			// are dynamic references
+			if (var.charAt(0) == ROW_REFERENCE_DYNAMIC) {
+				boolean validVar = false;
+				for (int i = 1; i < var.length(); i++) {
+					if (!Character.isDigit(var.charAt(i))) {
+						validVar = true;
+						break;
+					}
+				}
+				if (!validVar) {
+					setError("CAS.VariableContainsDynamicReferenceSymbol");
+				}
 			}
 
 			assignmentVar = var;
