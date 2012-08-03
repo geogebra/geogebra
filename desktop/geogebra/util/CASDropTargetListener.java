@@ -18,10 +18,12 @@ import java.awt.dnd.DropTargetDropEvent;
 import java.awt.dnd.DropTargetEvent;
 import java.awt.dnd.DropTargetListener;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
 
-
+/**
+ * Handles drop events of CAS window
+ * @author Dominik Kreil
+ *
+ */
 public class CASDropTargetListener implements DropTargetListener {
 	
 	private CASTableD table; 
