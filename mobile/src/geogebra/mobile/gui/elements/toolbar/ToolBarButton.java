@@ -40,16 +40,9 @@ public class ToolBarButton extends ToolButton implements ToolBarButtonInterface
 			public void onTap(TapEvent event)
 			{
 				showOptions();
+				getActive(); 
 			}
 		});
-	}
-
-	void showOptions()
-	{
-		this.parent.closeOptions();
-		OptionsBarBackground options = new OptionsBarBackground(this.menuEntries, this);
-		this.parent.setOptions(options);
-		RootPanel.get().add(options);
 	}
 
 	@Override
@@ -58,5 +51,17 @@ public class ToolBarButton extends ToolButton implements ToolBarButtonInterface
 		this.parent.closeOptions();
 		super.setCmd(cmd); 
 	}
+	
+	public void showOptions()
+	{
+		this.parent.closeOptions();
+		OptionsBarBackground options = new OptionsBarBackground(this.menuEntries, this);
+		this.parent.setOptions(options);
+		RootPanel.get().add(options);
+	}
 
+	public void getActive(){
+		this.parent.setActive(this); 
+	}
+	
 }

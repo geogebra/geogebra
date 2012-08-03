@@ -1,5 +1,6 @@
 package geogebra.mobile.gui.elements.toolbar;
 
+import geogebra.mobile.utils.ToolBarCommand;
 import geogebra.mobile.utils.ToolBarMenu;
 
 import com.google.gwt.user.client.ui.RootPanel;
@@ -15,7 +16,9 @@ public class ToolBar extends ButtonBar implements ToolBarInterface
 {
 
 	private OptionsBarBackground optionsBackground;
-
+	private	ToolBarButton[] b; 
+	private ToolBarCommand activeCmd; 
+	
 	public ToolBar()
 	{
 		this.addStyleName("toolbar");
@@ -23,25 +26,23 @@ public class ToolBar extends ButtonBar implements ToolBarInterface
 
 	public void makeTabletToolBar()
 	{
+		this.b = new ToolBarButton[10];
 
-		ToolBarButton[] b = new ToolBarButton[10];
+		this.b[0] = new ToolBarButton(ToolBarMenu.Point, this);
+		this.b[1] = new ToolBarButton(ToolBarMenu.Line, this);
+		this.b[2] = new ToolBarButton(ToolBarMenu.SpecialLine, this);
+		this.b[3] = new ToolBarButton(ToolBarMenu.Polygon, this);
+		this.b[4] = new ToolBarButton(ToolBarMenu.CircleAndArc, this);
+		this.b[5] = new ToolBarButton(ToolBarMenu.ConicSection, this);
+		this.b[6] = new ToolBarButton(ToolBarMenu.Mesurement, this);
+		this.b[7] = new ToolBarButton(ToolBarMenu.Transformation, this);
+		this.b[8] = new ToolBarButton(ToolBarMenu.SpecialObject, this);
+		this.b[9] = new ToolBarButton(ToolBarMenu.ActionObject, this);
 
-		b[0] = new ToolBarButton(ToolBarMenu.Point, this);
-		b[1] = new ToolBarButton(ToolBarMenu.Line, this);
-		b[2] = new ToolBarButton(ToolBarMenu.SpecialLine, this);
-		b[3] = new ToolBarButton(ToolBarMenu.Polygon, this);
-		b[4] = new ToolBarButton(ToolBarMenu.CircleAndArc, this);
-		b[5] = new ToolBarButton(ToolBarMenu.ConicSection, this);
-		b[6] = new ToolBarButton(ToolBarMenu.Mesurement, this);
-		b[7] = new ToolBarButton(ToolBarMenu.Transformation, this);
-		b[8] = new ToolBarButton(ToolBarMenu.SpecialObject, this);
-		b[9] = new ToolBarButton(ToolBarMenu.ActionObject, this);
-
-		for (int i = 0; i < b.length; i++)
+		for (int i = 0; i < this.b.length; i++)
 		{
-			this.add(b[i]);
+			this.add(this.b[i]);
 		}
-
 	}
 
 	@Override
@@ -59,4 +60,19 @@ public class ToolBar extends ButtonBar implements ToolBarInterface
 		}
 	}
 
+	@Override
+  public void setActive(ToolBarButton toolBarButton)
+  {
+	  for(ToolBarButton tbb : this.b){
+	  	tbb.removeStyleName("button-active"); 
+	  }
+	  
+	  toolBarButton.addStyleName("button-active"); 
+	  
+	  this.activeCmd = toolBarButton.getCmd(); 
+  }
+
+	public ToolBarCommand getCommand(){
+		return this.activeCmd; 
+	}
 }
