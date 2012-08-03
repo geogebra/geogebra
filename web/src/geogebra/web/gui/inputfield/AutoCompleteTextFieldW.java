@@ -1103,12 +1103,12 @@ public class AutoCompleteTextFieldW extends HorizontalPanel implements AutoCompl
 				return false;
 			}
 			String command = completions.get(index);
-			String text = getText();
-			StringBuilder sb = new StringBuilder();
-			sb.append(text.substring(0, curWordStart));
-			sb.append(command);
-			sb.append(text.substring(curWordStart + curWord.length()));
-			setText(sb.toString());
+			//String text = getText();
+			//StringBuilder sb = new StringBuilder();
+			//sb.append(text.substring(0, curWordStart));
+			//sb.append(command);
+			//sb.append(text.substring(curWordStart + curWord.length()));
+			//setText(sb.toString());
 			int bracketIndex = command.indexOf('[');// + 1;
 			
 			setCaretPosition(curWordStart + bracketIndex);
