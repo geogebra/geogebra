@@ -69,7 +69,7 @@ public abstract class CASmpreduce implements CASGenericInterface {
 	 */
 	public abstract String evaluateMPReduce(String exp);
 
-	final public String evaluateRaw(String input) throws Throwable {
+	final public String evaluateRaw(final String input) throws Throwable {
 		String exp = input;
 		// we need to escape any upper case letters and non-ascii codepoints
 		// with '!'
@@ -149,7 +149,7 @@ public abstract class CASmpreduce implements CASGenericInterface {
 	}
 
 	final public synchronized String evaluateGeoGebraCAS(
-			ValidExpression inputExpression, MyArbitraryConstant arbconst,
+			final ValidExpression inputExpression, MyArbitraryConstant arbconst,
 			StringTemplate tpl) throws CASException {
 		ValidExpression casInput = inputExpression;
 		// KeepInput[] command should set flag keepinput!!:=1
@@ -242,8 +242,8 @@ public abstract class CASmpreduce implements CASGenericInterface {
 		return toGeoGebraString(result, arbconst, tpl);
 	}
 
-	public String translateFunctionDeclaration(String label, String parameters,
-			String body) {
+	public String translateFunctionDeclaration(final String label,
+			final String parameters, final String body) {
 		StringBuilder sb = new StringBuilder();
 		sb.append(" procedure ");
 		sb.append(label);
@@ -290,7 +290,7 @@ public abstract class CASmpreduce implements CASGenericInterface {
 		return casParser.toGeoGebraString(ve, tpl);
 	}
 
-	public void unbindVariable(String var) {
+	public void unbindVariable(final String var) {
 		try {
 			StringBuilder sb = new StringBuilder();
 			sb.append("clear(");
@@ -329,7 +329,7 @@ public abstract class CASmpreduce implements CASGenericInterface {
 	 * @param significantNumbers
 	 *            new number of significant digits
 	 */
-	public void setSignificantFiguresForNumeric(int significantNumbers) {
+	public void setSignificantFiguresForNumeric(final int significantNumbers) {
 		if (this.significantNumbers == significantNumbers)
 			return;
 		this.significantNumbers = significantNumbers;
@@ -1147,7 +1147,7 @@ public abstract class CASmpreduce implements CASGenericInterface {
 		timeoutMillis = s.getTimeoutMilliseconds();
 	}
 
-	public String translateAssignment(String label, String body) {
+	public String translateAssignment(final String label, final String body) {
 		// default implementation works for MPReduce and MathPiper
 		return label + " := " + body;
 	}

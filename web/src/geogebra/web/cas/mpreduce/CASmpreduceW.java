@@ -154,7 +154,7 @@ public class CASmpreduceW extends CASmpreduce implements geogebra.common.cas.Eva
 
 
 	@Override
-	public void unbindVariable(String var) {
+	public void unbindVariable(final String var) {
 		try {
 			StringBuilder sb = new StringBuilder();
 			sb.append("clear(");

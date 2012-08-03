@@ -63,7 +63,7 @@ public class CASparser implements CASParserInterface{
 	 * Parses the given expression and returns it as a ValidExpression.
 	 * @throws CASException something goes wrong
 	 */
-	public ValidExpression parseGeoGebraCASInput(String exp) throws CASException {
+	public ValidExpression parseGeoGebraCASInput(final String exp) throws CASException {
 		try {
 			return parser.parseGeoGebraCAS(exp);
 		} catch (ParseException e) {
@@ -425,7 +425,7 @@ public class CASparser implements CASParserInterface{
 	 * @return The command in CAS format, where parameter n is written as %n.
 	 * 
 	 */
-	public String getTranslatedCASCommand(String command) {
+	public String getTranslatedCASCommand(final String command) {
 		return getTranslationRessourceBundle().get(command);
 	}
 

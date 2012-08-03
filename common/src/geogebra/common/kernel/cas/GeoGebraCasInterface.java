@@ -13,45 +13,47 @@ import geogebra.common.main.App.CasType;
 import java.util.ArrayList;
 import java.util.Set;
 
-
 public interface GeoGebraCasInterface {
 
 	public StringType getCurrentCASstringType();
 
 	public String evaluateRaw(String geoStr) throws Throwable;
 
-    public CASGenericInterface getCurrentCAS();
+	public CASGenericInterface getCurrentCAS();
 
-	public String evaluateGeoGebraCAS(ValidExpression evalVE,MyArbitraryConstant tpl);
+	public String evaluateGeoGebraCAS(ValidExpression evalVE,
+			MyArbitraryConstant tpl);
 
 	public CASParserInterface getCASparser();
 
 	public boolean isStructurallyEqual(ValidExpression inputVE, String newInput);
-	
-	public void setCurrentCAS(CasType c);		
 
-	public boolean isCommandAvailable(Command cmd);
+	public void setCurrentCAS(final CasType c);
 
-	public String[] getPolynomialCoeffs(String exp, String variable);
+	public boolean isCommandAvailable(final Command cmd);
 
-	public String evaluateGeoGebraCAS(String exp,MyArbitraryConstant cons) throws CASException;
-	
-	public String evaluateGeoGebraCAS(ValidExpression exp,MyArbitraryConstant cons,StringTemplate tpl) throws CASException;
+	public String[] getPolynomialCoeffs(final String exp, final String variable);
 
-	public void unbindVariable(String addCASVariablePrefix);
+	public String evaluateGeoGebraCAS(String exp, MyArbitraryConstant cons)
+			throws CASException;
 
-	public void setSignificantFiguresForNumeric(int figures);
+	public String evaluateGeoGebraCAS(ValidExpression exp,
+			MyArbitraryConstant cons, StringTemplate tpl) throws CASException;
 
-	public String getCASCommand(String name, ArrayList<ExpressionNode> args,
-			boolean symbolic,StringTemplate tpl);
+	public void unbindVariable(final String addCASVariablePrefix);
+
+	public void setSignificantFiguresForNumeric(final int figures);
+
+	public String getCASCommand(final String name,
+			final ArrayList<ExpressionNode> args, final boolean symbolic,
+			StringTemplate tpl);
 
 	public CasType getCurrentCASType();
 
-	public void evaluateGeoGebraCASAsync(AsynchronousCommand c);
-	
-	String toAssignment(GeoElement geoElement,StringTemplate tpl);
+	public void evaluateGeoGebraCASAsync(final AsynchronousCommand c);
+
+	String toAssignment(final GeoElement geoElement, final StringTemplate tpl);
 
 	public Set<String> getAvailableCommandNames();
-	
-	
+
 }

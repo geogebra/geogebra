@@ -6,7 +6,7 @@ import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.main.settings.SettingListener;
 
-public interface CASGenericInterface extends SettingListener{
+public interface CASGenericInterface extends SettingListener {
 
 	/**
 	 * Translates a variable/constant assignment like "x := 3" into the format
@@ -19,9 +19,8 @@ public interface CASGenericInterface extends SettingListener{
 	 *            the value that will be assigned to the label, e.g. "3"
 	 * @return String in CAS format.
 	 */
-	String translateAssignment(String label, String body);
-	
-	
+	String translateAssignment(final String label, final String body);
+
 	public void initCAS();
 
 	/**
@@ -30,15 +29,18 @@ public interface CASGenericInterface extends SettingListener{
 	 * 
 	 * @param casInput
 	 *            in GeoGebraCAS syntax
-	 * @param arbconst arbitrary constant handler
-	 * @param tpl string template
+	 * @param arbconst
+	 *            arbitrary constant handler
+	 * @param tpl
+	 *            string template
 	 * @return evaluation result
-	 * @throws CASException if evaluation fails
+	 * @throws CASException
+	 *             if evaluation fails
 	 */
 	public abstract String evaluateGeoGebraCAS(ValidExpression casInput,
-			MyArbitraryConstant arbconst,StringTemplate tpl)
+			MyArbitraryConstant arbconst, StringTemplate tpl)
 			throws CASException;
-	
+
 	/**
 	 * Evaluates an expression in the syntax of the currently active CAS
 	 * (MathPiper or Maxima).
@@ -46,29 +48,32 @@ public interface CASGenericInterface extends SettingListener{
 	 * @param exp
 	 *            The expression to be evaluated.
 	 * @return result string (null possible)
-	 * @throws Throwable if evaluation fails
+	 * @throws Throwable
+	 *             if evaluation fails
 	 */
-	public abstract String evaluateRaw(String exp) throws Throwable;
-	
+	public abstract String evaluateRaw(final String exp) throws Throwable;
+
 	/**
 	 * Unbinds (deletes) variable.
 	 * 
 	 * @param var
 	 *            the name of the variable.
 	 */
-	public abstract void unbindVariable(String var);
+	public abstract void unbindVariable(final String var);
 
 	/**
 	 * Resets the cas and unbinds all variable and function definitions.
 	 */
 	public abstract void reset();
-	
+
 	/**
 	 * Call CAS asynchronously
-	 * @param c command that should receive the result
+	 * 
+	 * @param c
+	 *            command that should receive the result
 	 */
-	public void evaluateGeoGebraCASAsync(AsynchronousCommand c);
-	
+	public void evaluateGeoGebraCASAsync(final AsynchronousCommand c);
+
 	/**
 	 * Translates a function definition/function assignment like
 	 * "f(x, y) = 3*x^2 + y" into the format expected by the CAS.
@@ -84,14 +89,15 @@ public interface CASGenericInterface extends SettingListener{
 	 *            the body of the function.
 	 * @return String in CAS format.
 	 */
-	public abstract String translateFunctionDeclaration(String label,
-			String parameters, String body);
+	public abstract String translateFunctionDeclaration(final String label,
+			final String parameters, final String body);
 
 	/**
 	 * Sets the number of signficiant figures (digits) that should be used as
 	 * print precision for the output of Numeric[] commands.
 	 * 
-	 * @param significantNumbers number of significant digits (-1 to use default)
+	 * @param significantNumbers
+	 *            number of significant digits (-1 to use default)
 	 */
-	public abstract void setSignificantFiguresForNumeric(int significantNumbers);
+	public abstract void setSignificantFiguresForNumeric(final int significantNumbers);
 }

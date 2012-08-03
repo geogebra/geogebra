@@ -2024,7 +2024,7 @@ public class Kernel {
 	 * @param tpl string template
 	 * @return prefixed label
 	 */
-	public String printVariableName(String label, StringTemplate tpl) {
+	public String printVariableName(final String label, final StringTemplate tpl) {
 		if (tpl.isUseTempVariablePrefix()) {
 			return addTempVariablePrefix(label);
 		}
@@ -2041,7 +2041,7 @@ public class Kernel {
 	 * @param label raw label without prefixes
 	 * @return label depending on given string type
 	 */
-	final public String printVariableName(StringType printForm, String label) {
+	final public String printVariableName(final StringType printForm, final String label) {
 		switch (printForm) {
 		case MPREDUCE:
 		case MAXIMA:
@@ -2067,7 +2067,7 @@ public class Kernel {
 	/**
 	 * Returns ExpressionNodeConstants.TMP_VARIABLE_PREFIX + label.
 	 */
-	private static String addTempVariablePrefix(String label) {
+	private static String addTempVariablePrefix(final String label) {
 		StringBuilder sb = new StringBuilder();
 		// TMP_VARIABLE_PREFIX + label
 		sb.append(TMP_VARIABLE_PREFIX);
@@ -2079,7 +2079,7 @@ public class Kernel {
 	 * @return ExpressionNodeConstants.GGBCAS_VARIABLE_PREFIX + kernelID +
 	 *         label.
 	 */
-	private String addCASVariablePrefix(String label) {
+	private String addCASVariablePrefix(final String label) {
 		if (label.startsWith(TMP_VARIABLE_PREFIX)) {
 			return label;
 		}
@@ -2094,7 +2094,7 @@ public class Kernel {
 	 * @param str string, possibly containing CAS prefix several times
 	 * @return string without CAS prefixes
 	 */
-	final public String removeCASVariablePrefix(String str) {
+	final public String removeCASVariablePrefix(final String str) {
 		return removeCASVariablePrefix(str, "");
 	}
 
@@ -2102,7 +2102,7 @@ public class Kernel {
 	 * @return String where CAS variable prefixes are removed again, e.g.
 	 *         "ggbcasvar1a" is turned into "a" and
 	 */
-	final public String removeCASVariablePrefix(String str, String replace) {
+	final public String removeCASVariablePrefix(final String str, final String replace) {
 		// e.g. "ggbtmpvar1a" is changed to "a"
 		// need a space when called from GeoGebraCAS.evaluateGeoGebraCAS()
 		// so that eg Derivative[1/(-x+E2)] works (want 2 E2 not 2E2) #1595,

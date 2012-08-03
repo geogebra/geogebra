@@ -27,8 +27,8 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * This class provides an interface for GeoGebra to use an underlying computer algebra
- * system like MPReduce, Maxima or MathPiper.
+ * This class provides an interface for GeoGebra to use an underlying computer
+ * algebra system like MPReduce, Maxima or MathPiper.
  * 
  * @author Markus Hohenwarter
  */
@@ -42,11 +42,14 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 
 	/**
 	 * Creates new CAS interface
-	 * @param kernel kernel
+	 * 
+	 * @param kernel
+	 *            kernel
 	 */
 	public GeoGebraCAS(Kernel kernel) {
 		app = kernel.getApplication();
-		casParser = new CASparser(kernel.getParser(),kernel.getApplication().getParserFunctions());
+		casParser = new CASparser(kernel.getParser(), kernel.getApplication()
+				.getParserFunctions());
 
 		// DO NOT init underlying CAS here to avoid hanging animation,
 		// see http://www.geogebra.org/trac/ticket/1565
@@ -63,9 +66,10 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 			initCurrentCAS();
 			app.setDefaultCursor();
 		}
-		
+
 		return cas;
 	}
+
 	/**
 	 * Initializes underlying CAS
 	 */
@@ -94,7 +98,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	 * @param CAS
 	 *            use CAS_MATHPIPER or CAS_MAXIMA
 	 */
-	public synchronized void setCurrentCAS(CasType CAS) {
+	public synchronized void setCurrentCAS(final CasType CAS) {
 		try {
 			switch (CAS) {
 			/*
@@ -132,9 +136,10 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	 * Sets the number of signficiant figures (digits) that should be used as
 	 * print precision for the output of Numeric[] commands.
 	 * 
-	 * @param significantNumbers significant figures
+	 * @param significantNumbers
+	 *            significant figures
 	 */
-	public void setSignificantFiguresForNumeric(int significantNumbers) {
+	public void setSignificantFiguresForNumeric(final int significantNumbers) {
 		getCurrentCAS().setSignificantFiguresForNumeric(significantNumbers);
 	}
 
@@ -152,8 +157,9 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 
 	private synchronized CASmpreduce getMPReduce() {
 		if (casMPReduce == null)
-			casMPReduce = geogebra.common.factories.CASFactory.prototype.newMPReduce(casParser,
-					new CasParserToolsImpl('e'),app.getKernel());
+			casMPReduce = geogebra.common.factories.CASFactory.prototype
+					.newMPReduce(casParser, new CasParserToolsImpl('e'),
+							app.getKernel());
 		return casMPReduce;
 	}
 
@@ -167,9 +173,10 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	/**
 	 * Unbinds (deletes) variable.
 	 * 
-	 * @param var variable to be unbound
+	 * @param var
+	 *            variable to be unbound
 	 */
-	public void unbindVariable(String var) {
+	public void unbindVariable(final String var) {
 		getCurrentCAS().unbindVariable(var);
 	}
 
@@ -180,19 +187,22 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	 * @param casInput
 	 *            Input in GeoGebraCAS syntax
 	 * @return evaluation result
-	 * @throws CASException if there is a timeout or the expression cannot be evaluated
+	 * @throws CASException
+	 *             if there is a timeout or the expression cannot be evaluated
 	 */
-	public String evaluateGeoGebraCAS(ValidExpression casInput,MyArbitraryConstant arbconst,StringTemplate tpl)
+	public String evaluateGeoGebraCAS(ValidExpression casInput,
+			MyArbitraryConstant arbconst, StringTemplate tpl)
 			throws CASException {
 
 		String result = null;
 		CASException exception = null;
 		try {
-			result = getCurrentCAS().evaluateGeoGebraCAS(casInput,arbconst,tpl);
+			result = getCurrentCAS().evaluateGeoGebraCAS(casInput, arbconst,
+					tpl);
 		} catch (CASException ce) {
 			exception = ce;
 		} finally {
-			//do nothing
+			// do nothing
 		}
 
 		// check if keep input command was successful
@@ -222,17 +232,20 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	/**
 	 * Evaluates an expression in GeoGebraCAS syntax.
 	 * 
-	 * @param exp expression to be evaluated
+	 * @param exp
+	 *            expression to be evaluated
 	 * @return result string in GeoGebra syntax (null possible)
-	 * @throws CASException if there is a timeout or the expression cannot be evaluated
+	 * @throws CASException
+	 *             if there is a timeout or the expression cannot be evaluated
 	 */
-	final public String evaluateGeoGebraCAS(String exp,MyArbitraryConstant arbconst) throws CASException {
+	final public String evaluateGeoGebraCAS(String exp,
+			MyArbitraryConstant arbconst) throws CASException {
 		try {
 			ValidExpression inVE = casParser.parseGeoGebraCASInput(exp);
-			String ret = evaluateGeoGebraCAS(inVE,arbconst);
-			if(ret == null)
-				throw new CASException(
-						new Exception(app.getError("CAS.GeneralErrorMessage")));
+			String ret = evaluateGeoGebraCAS(inVE, arbconst);
+			if (ret == null)
+				throw new CASException(new Exception(
+						app.getError("CAS.GeneralErrorMessage")));
 			return ret;
 		} catch (Throwable t) {
 			t.printStackTrace();
@@ -244,13 +257,12 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	 * Evaluates an expression in the syntax of the currently active CAS
 	 * 
 	 * @return result string (null possible)
-	 * @throws Throwable if there is a timeout or the expression cannot be evaluated
+	 * @throws Throwable
+	 *             if there is a timeout or the expression cannot be evaluated
 	 */
 	final public String evaluateRaw(String exp) throws Throwable {
 		return getCurrentCAS().evaluateRaw(exp);
 	}
-
-	
 
 	/**
 	 * Evaluates an expression given in MPReduce syntax.
@@ -258,7 +270,8 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	 * @return result string (null possible)
 	 * @param exp
 	 *            the expression
-	 * @throws CASException if there is a timeout or the expression cannot be evaluated
+	 * @throws CASException
+	 *             if there is a timeout or the expression cannot be evaluated
 	 * */
 	final public String evaluateMPReduce(String exp) throws CASException {
 		return getMPReduce().evaluateMPReduce(exp);
@@ -277,7 +290,8 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	 * 
 	 * example: getPolynomialCoeffs("3*a*x^2 + b"); returns ["b", "0", "3*a"]
 	 */
-	final public String[] getPolynomialCoeffs(String polyExpr, String variable) {
+	final public String[] getPolynomialCoeffs(final String polyExpr,
+			final String variable) {
 		getPolynomialCoeffsSB.setLength(0);
 		getPolynomialCoeffsSB.append(polyExpr);
 		getPolynomialCoeffsSB.append(',');
@@ -317,22 +331,23 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 					result);
 			return result;
 		} catch (Throwable e) {
-			App.debug("GeoGebraCAS.getPolynomialCoeffs(): "
-					+ e.getMessage());
+			App.debug("GeoGebraCAS.getPolynomialCoeffs(): " + e.getMessage());
 			// e.printStackTrace();
 		}
 
 		return null;
 	}
 
-	final private static String toString(ExpressionValue ev, boolean symbolic,StringTemplate tpl) {
-		if(ev.isExpressionNode() && ev.isLeaf()){
-			ExpressionValue lft = ((ExpressionNode)ev).getLeft();
-			if(lft instanceof GeoFunction || lft instanceof GeoFunctionNVar)
-				return ((GeoElement)lft).getAssignmentLHS(tpl);
-			if(lft instanceof GeoCasCell){
-				if(((GeoCasCell)lft).getVarString(tpl).length()>0)
-					return ((GeoElement)lft).getLabel(tpl)+"("+((GeoCasCell)lft).getVarString(tpl)+")";
+	final private static String toString(final ExpressionValue ev,
+			final boolean symbolic, StringTemplate tpl) {
+		if (ev.isExpressionNode() && ev.isLeaf()) {
+			ExpressionValue lft = ((ExpressionNode) ev).getLeft();
+			if (lft instanceof GeoFunction || lft instanceof GeoFunctionNVar)
+				return ((GeoElement) lft).getAssignmentLHS(tpl);
+			if (lft instanceof GeoCasCell) {
+				if (((GeoCasCell) lft).getVarString(tpl).length() > 0)
+					return ((GeoElement) lft).getLabel(tpl) + "("
+							+ ((GeoCasCell) lft).getVarString(tpl) + ")";
 			}
 		}
 		if (symbolic) {
@@ -347,8 +362,9 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	 * returns "ExpandBrackets( 3*(a+b) )" when MathPiper is the currently used
 	 * CAS.
 	 */
-	final synchronized public String getCASCommand(String name,
-			ArrayList<ExpressionNode> args, boolean symbolic,StringTemplate tpl) {
+	final synchronized public String getCASCommand(final String name,
+			final ArrayList<ExpressionNode> args, boolean symbolic,
+			StringTemplate tpl) {
 		StringBuilder sbCASCommand = new StringBuilder(80);
 
 		// build command key as name + ".N"
@@ -361,14 +377,15 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 
 		// check for eg Sum.N=sum(%)
 		if (translation != null) {
-			translation = translation.replaceAll("%@", app.getKernel().getCasVariablePrefix());
+			translation = translation.replaceAll("%@", app.getKernel()
+					.getCasVariablePrefix());
 			sbCASCommand.setLength(0);
 			for (int i = 0; i < translation.length(); i++) {
 				char ch = translation.charAt(i);
 				if (ch == '%') {
 					if (args.size() == 1) { // might be a list as the argument
 						ExpressionValue ev = args.get(0);
-						String str = toString(ev, symbolic,tpl);
+						String str = toString(ev, symbolic, tpl);
 						if (ev.isListValue()) {
 							// is a list, remove { and }
 							// resp. list( ... ) in mpreduce
@@ -385,7 +402,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 					} else {
 						for (int j = 0; j < args.size(); j++) {
 							ExpressionValue ev = args.get(j);
-							sbCASCommand.append(toString(ev, symbolic,tpl));
+							sbCASCommand.append(toString(ev, symbolic, tpl));
 							sbCASCommand.append(',');
 						}
 						// remove last comma
@@ -407,7 +424,8 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		sbCASCommand.append(args.size());
 
 		// get translation ggb -> MathPiper/Maxima
-		translation = casParser.getTranslatedCASCommand(sbCASCommand.toString());
+		translation = casParser
+				.getTranslatedCASCommand(sbCASCommand.toString());
 		sbCASCommand.setLength(0);
 
 		// no translation found:
@@ -421,12 +439,11 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 			if (name.length() == 1) {
 				char ch = name.charAt(0);
 				if (ch == 'x' || ch == 'y' || ch == 'z') {
-					if(args.get(0).isListValue()){
+					if (args.get(0).isListValue()) {
 						sbCASCommand.append("applyfunction(");
 						sbCASCommand.append(ch);
 						sbCASCommand.append("coord,");
-					}
-					else{
+					} else {
 						sbCASCommand.append(ch);
 						sbCASCommand.append("coord(");
 					}
@@ -435,13 +452,14 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 			}
 
 			// standard case: add ggbcasvar prefix to name for CAS
-			if (!handled){
-				sbCASCommand.append(app.getKernel().printVariableName(name,tpl));
+			if (!handled) {
+				sbCASCommand.append(app.getKernel()
+						.printVariableName(name, tpl));
 				sbCASCommand.append('(');
 			}
 			for (int i = 0; i < args.size(); i++) {
 				ExpressionValue ev = args.get(i);
-				sbCASCommand.append(toString(ev, symbolic,tpl));
+				sbCASCommand.append(toString(ev, symbolic, tpl));
 				sbCASCommand.append(',');
 			}
 			sbCASCommand.setCharAt(sbCASCommand.length() - 1, ')');
@@ -450,7 +468,8 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		// translation found:
 		// replace %0, %1, etc. in translation by command arguments
 		else {
-			translation = translation.replaceAll("%@", app.getKernel().getCasVariablePrefix());
+			translation = translation.replaceAll("%@", app.getKernel()
+					.getCasVariablePrefix());
 			for (int i = 0; i < translation.length(); i++) {
 				char ch = translation.charAt(i);
 				if (ch == '%') {
@@ -460,7 +479,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 					if (pos >= 0 && pos < args.size()) {
 						// success: insert argument(pos)
 						ExpressionValue ev = args.get(pos);
-						sbCASCommand.append(toString(ev,symbolic,tpl));
+						sbCASCommand.append(toString(ev, symbolic, tpl));
 					} else {
 						// failed
 						sbCASCommand.append(ch);
@@ -475,8 +494,6 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		return sbCASCommand.toString();
 	}
 
-
-	
 	/**
 	 * Returns whether the given command is available in the underlying CAS.
 	 * 
@@ -484,7 +501,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	 *            command with name and number of arguments
 	 * @return whether command is available
 	 */
-	final public boolean isCommandAvailable(Command cmd) {
+	final public boolean isCommandAvailable(final Command cmd) {
 		StringBuilder sbCASCommand = new StringBuilder();
 		sbCASCommand.append(cmd.getName());
 		sbCASCommand.append(".");
@@ -500,13 +517,16 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		}
 		return false;
 	}
-	
-	public final String toAssignment(GeoElement ge,StringTemplate tpl) {
-		String body = ge.getCASString(tpl,false);
+
+	public final String toAssignment(final GeoElement ge,
+			final StringTemplate tpl) {
+		String body = ge.getCASString(tpl, false);
 		String casLabel = ge.getLabel(tpl);
 		if (ge instanceof FunctionalNVar) {
-			String params = ((FunctionalNVar) ge).getFunction().getVarString(tpl);
-			return getCurrentCAS().translateFunctionDeclaration(casLabel, params, body);
+			String params = ((FunctionalNVar) ge).getFunction().getVarString(
+					tpl);
+			return getCurrentCAS().translateFunctionDeclaration(casLabel,
+					params, body);
 		}
 		return getCurrentCAS().translateAssignment(casLabel, body);
 	}
@@ -547,13 +567,14 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		return currentCAS;
 	}
 
-	public void evaluateGeoGebraCASAsync(AsynchronousCommand c) {
+	public void evaluateGeoGebraCASAsync(final AsynchronousCommand c) {
 		getCurrentCAS().evaluateGeoGebraCASAsync(c);
 	}
 
 	public String evaluateGeoGebraCAS(ValidExpression evalVE,
 			MyArbitraryConstant arbconst) {
-		return evaluateGeoGebraCAS(evalVE,arbconst,StringTemplate.numericDefault);
+		return evaluateGeoGebraCAS(evalVE, arbconst,
+				StringTemplate.numericDefault);
 	}
 
 	/**
@@ -564,12 +585,12 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	 */
 	public Set<String> getAvailableCommandNames() {
 		Set<String> cmdSet = new HashSet<String>();
-		for (String signature: casParser.getTranslationRessourceBundle().keySet()) {
+		for (String signature : casParser.getTranslationRessourceBundle()
+				.keySet()) {
 			String cmd = signature.substring(0, signature.indexOf('.'));
 			cmdSet.add(cmd);
 		}
 		return cmdSet;
-	}	
-
+	}
 
 }

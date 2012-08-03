@@ -1,5 +1,6 @@
 package geogebra.common.kernel.cas;
 
+import geogebra.common.cas.CASException;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 
@@ -10,7 +11,7 @@ public interface CASParserInterface {
 
 	ValidExpression parseGeoGebraCASInputAndResolveDummyVars(String inValue);
 
-	ValidExpression parseGeoGebraCASInput(String result);
+	ValidExpression parseGeoGebraCASInput(final String result) throws CASException;
 
 	/**
 	 * Replace variables with dummy objects
@@ -18,6 +19,6 @@ public interface CASParserInterface {
 	 */
 	void resolveVariablesForCAS(ExpressionValue outputVe);
 
-	String getTranslatedCASCommand(String string);
+	String getTranslatedCASCommand(final String string);
 
 }
