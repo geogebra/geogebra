@@ -17,6 +17,7 @@ import geogebra.common.gui.dialog.DialogManager;
 import geogebra.common.gui.menubar.MenuInterface;
 import geogebra.common.gui.view.algebra.AlgebraView;
 import geogebra.common.gui.view.properties.PropertiesView;
+import geogebra.common.gui.view.properties.PropertiesView.OptionType;
 import geogebra.common.gui.view.spreadsheet.SpreadsheetTableModel;
 import geogebra.common.gui.view.spreadsheet.SpreadsheetTraceManager;
 import geogebra.common.io.MyXMLio;
@@ -1205,22 +1206,32 @@ public abstract class App {
 		}
 
 
-	/**
-	 * Clears selction and selects given geos.
-	 * 
-	 * @param geos geos
-	 */
-	final public void setSelectedGeos(ArrayList<GeoElement> geos) {
-		clearSelectedGeos(false);
-		if (geos != null) {
-			for (int i = 0; i < geos.size(); i++) {
-				GeoElement geo = geos.get(i);
-				addSelectedGeo(geo, false, false);
-			}
+		/**
+		 * Clears selction and selects given geos.
+		 * 
+		 * @param geos geos
+		 */
+		final public void setSelectedGeos(ArrayList<GeoElement> geos) {
+			setSelectedGeos(geos, true);
 		}
-		kernel.notifyRepaint();
-		updateSelection();
-	}
+		/**
+		 * Clears selction and selects given geos.
+		 * 
+		 * @param geos geos
+		 * @param updateSelection says if selection has to be updated
+		 */
+		final public void setSelectedGeos(ArrayList<GeoElement> geos, boolean updateSelection) {
+			clearSelectedGeos(false);
+			if (geos != null) {
+				for (int i = 0; i < geos.size(); i++) {
+					GeoElement geo = geos.get(i);
+					addSelectedGeo(geo, false, false);
+				}
+			}
+			kernel.notifyRepaint();
+			if (updateSelection)
+				updateSelection();
+		}
 	
 	/**
 	 * Selects the first geo in the construction
@@ -2892,6 +2903,11 @@ public abstract class App {
 		if (updatePropertiesView && propertiesView != null) {
 			propertiesView.updateSelection();
 		}
+	}
+	
+	public void setPropertiesViewPanel(OptionType type){
+		if (propertiesView != null)
+			propertiesView.setOptionPanel(type);
 	}
 	
 	

@@ -2,6 +2,7 @@ package geogebra.gui.view.spreadsheet;
 
 import geogebra.common.awt.GPoint;
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.gui.view.properties.PropertiesView.OptionType;
 import geogebra.common.gui.view.spreadsheet.CellFormatInterface;
 import geogebra.common.gui.view.spreadsheet.CellRange;
 import geogebra.common.gui.view.spreadsheet.MyTable;
@@ -12,6 +13,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoText;
+import geogebra.common.main.App;
 import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.common.main.settings.SpreadsheetSettings;
 import geogebra.gui.virtualkeyboard.VirtualKeyboard;
@@ -620,7 +622,14 @@ public class MyTableD extends JTable implements FocusListener, MyTableInterface 
 			if (view.isVisibleStyleBar())
 				view.getSpreadsheetStyleBar().updateStyleBar();
 
-			app.setSelectedGeos(list);
+			app.setSelectedGeos(list,false);			
+			if (list.size()>0){
+				app.updateSelection(true);
+			}else{
+				//don't update properties view for objects, but for spreadsheet
+				app.updateSelection(false);
+				app.setPropertiesViewPanel(OptionType.SPREADSHEET);
+			}
 		}
 
 		// if the selection has changed or an empty cell has been clicked,
