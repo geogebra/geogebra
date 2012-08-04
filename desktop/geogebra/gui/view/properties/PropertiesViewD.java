@@ -257,7 +257,7 @@ public class PropertiesViewD extends geogebra.common.gui.view.properties.Propert
 	private void updatePropertiesView(ArrayList<GeoElement> geos) {
 	
 		if (geos.size() > 0) {
-			if (!stayInDefaults()) //check if user wants to apply defaults
+			if (!stayInCurrentPanel()) 
 				setOptionPanel(OptionType.OBJECTS,geos);
 		} else {
 			
@@ -268,7 +268,7 @@ public class PropertiesViewD extends geogebra.common.gui.view.properties.Propert
 	
 	final private void setOptionPanelRegardingFocus(boolean updateEuclidianTab){
 		
-		if (stayInDefaults()) //no switch if in default panel
+		if (stayInCurrentPanel()) 
 			return;
 		
 		int focusedViewId = ((AppD) app).getGuiManager().getLayout()
@@ -713,7 +713,7 @@ public class PropertiesViewD extends geogebra.common.gui.view.properties.Propert
 	public void updateSelection(ArrayList<GeoElement> geos) {
 
 		if (geos.size()>0){
-			if (!stayInDefaults()) //check if user wants to apply defaults
+			if (!stayInCurrentPanel()) 
 				setObjectPanel(geos);
 		}else{
 			setOptionPanelRegardingFocus(true);
@@ -721,11 +721,16 @@ public class PropertiesViewD extends geogebra.common.gui.view.properties.Propert
 
 	}
 	
-	/** say if it has to stay in defaults panel */
-	private boolean stayInDefaults(){
-		return selectedOptionType==OptionType.DEFAULTS;
+	/** say if it has to stay in current panel.
+	 *  Should disable any try to change panel, unless from stylebar buttons.
+	 */
+	private boolean stayInCurrentPanel(){
+		return selectedOptionType==OptionType.DEFAULTS 
+				|| selectedOptionType==OptionType.ADVANCED
+				|| selectedOptionType==OptionType.LAYOUT
+				;
 	}
-	
+
 	private void setObjectPanel(ArrayList<GeoElement> geos){
 		if (selectedOptionType!=OptionType.OBJECTS)
 			setOptionPanel(OptionType.OBJECTS);
