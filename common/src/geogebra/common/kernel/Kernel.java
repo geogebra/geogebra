@@ -3511,24 +3511,53 @@ public class Kernel {
 			cons.initUndoInfo();
 		}
 	}
+	
+	/** selected geos names just before undo/redo */
+	private ArrayList<String> selectedGeosNames = new ArrayList<String>();
+	
+	/**
+	 * store selected geos names
+	 */
+	private void storeSelectedGeosNames(){
+		selectedGeosNames.clear();
+		for(GeoElement geo: getApplication().getSelectedGeos())
+			selectedGeosNames.add(geo.getLabelSimple());
+	}
+	
+	/**
+	 * set geos selected from their names
+	 */
+	private void recallSelectedGeosNames(){
+		ArrayList<GeoElement> list = new ArrayList<GeoElement>();
+		for (String name: selectedGeosNames){
+			GeoElement geo = lookupLabel(name);
+			if (geo!=null)
+				list.add(geo);
+		}
+		getApplication().setSelectedGeos(list);
+	}
 
 	public void redo() {
 		if (undoActive) {
+			storeSelectedGeosNames();
 			notifyReset();
 			clearJustCreatedGeosInViews();
 			cons.redo();
 			notifyReset();
+			recallSelectedGeosNames();
 		}
 	}
 
 	public void undo() {
 		if (undoActive) {
+			storeSelectedGeosNames();
 			notifyReset();
 			clearJustCreatedGeosInViews();
 			getApplication().getActiveEuclidianView().getEuclidianController()
 					.clearSelections();
 			cons.undo();
 			notifyReset();
+			recallSelectedGeosNames();
 
 			// repaint needed for last undo in second EuclidianView (bugfix)
 			if (!undoPossible()) {
