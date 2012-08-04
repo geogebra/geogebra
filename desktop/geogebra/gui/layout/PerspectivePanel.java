@@ -115,20 +115,27 @@ public class PerspectivePanel extends JPopupMenu {
 					+ defaultPerspectives[i].getId()));
 			tmpItem.setIcon(app.getEmptyIcon());
 			tmpItem.setActionCommand("d" + i);
-			tmpItem.setIcon(app.getImageIcon("options-large.png"));
+			if(defaultPerspectives[i].getIconString() !=null){
+				tmpItem.setIcon(app.getImageIcon(defaultPerspectives[i].getIconString()));
+			}else{
+				tmpItem.setIcon(app.getImageIcon("options-large.png"));
+			}
 			
 			Dimension d = tmpItem.getMaximumSize();
 			d.height = tmpItem.getPreferredSize().height;
 			tmpItem.setMaximumSize(d);
+			
+			tmpItem.setBorder(BorderFactory.createEmptyBorder(2, 0, 2, 0));
 			add(tmpItem);
 		}
 
-		//addSeparator();
+		
 
 		// user perspectives
 		Perspective[] perspectives = layout.getPerspectives();
 
 		if (perspectives.length != 0) {
+			//addSeparator();
 			for (int i = 0; i < perspectives.length; ++i) {
 				JMenuItem tmpItem = new JMenuItem(changePerspectiveAction);
 				tmpItem.setText(perspectives[i].getId());
@@ -139,6 +146,8 @@ public class PerspectivePanel extends JPopupMenu {
 				Dimension d = tmpItem.getMaximumSize();
 				d.height = tmpItem.getPreferredSize().height;
 				tmpItem.setMaximumSize(d);
+				
+				tmpItem.setBorder(BorderFactory.createEmptyBorder(2, 0, 2, 0));
 				add(tmpItem);
 			}
 		}

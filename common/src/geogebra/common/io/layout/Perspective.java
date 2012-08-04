@@ -1,5 +1,6 @@
 package geogebra.common.io.layout;
 
+
 import geogebra.common.util.StringUtil;
 
 /**
@@ -72,6 +73,8 @@ public class Perspective {
 	 */
 	private boolean showInputPanelOnTop;
 	
+	private String iconString = null;
+	
 	/**
 	 * Create a perspective by using all information provided below.
 	 * 
@@ -86,7 +89,11 @@ public class Perspective {
 	 * @param showInputPanelCommands true to show input help
 	 * @param showInputPanelOnTop true to show input bar on top
 	 */
-	public Perspective(String id, DockSplitPaneData[] splitPaneInfo, DockPanelData[] dockPanelInfo, String toolbarDefinition, boolean showToolBar, boolean showGrid, boolean showAxes, boolean showInputPanel, boolean showInputPanelCommands, boolean showInputPanelOnTop) {
+	public Perspective(String id, DockSplitPaneData[] splitPaneInfo,
+			DockPanelData[] dockPanelInfo, String toolbarDefinition,
+			boolean showToolBar, boolean showGrid, boolean showAxes,
+			boolean showInputPanel, boolean showInputPanelCommands,
+			boolean showInputPanelOnTop) {
 		this.id = id;
 		this.splitPaneData = splitPaneInfo;
 		this.setDockPanelData(dockPanelInfo);
@@ -311,4 +318,16 @@ public class Perspective {
 	public boolean isUnitAxesRatio() {
 		return unitAxesRatio;
 	}
+	
+	public String getIconString() {
+		return iconString;
+	}
+
+	public void setIconString(String iconString) {
+		this.iconString = iconString;
+	}
+
+
+	
+	
 }
