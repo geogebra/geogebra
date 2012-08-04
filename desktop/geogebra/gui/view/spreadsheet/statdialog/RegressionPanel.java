@@ -5,6 +5,7 @@ import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoFunctionable;
 import geogebra.common.kernel.geos.GeoLine;
+import geogebra.gui.dialog.options.OptionsUtil;
 import geogebra.gui.inputfield.MyTextField;
 import geogebra.gui.util.GeoGebraIcon;
 import geogebra.gui.view.spreadsheet.statdialog.StatDialog.Regression;
@@ -14,15 +15,12 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -30,6 +28,11 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
+/**
+ * Panel to select and display the DataAnalysisView regression model. 
+ * 
+ * @author G. Sturr
+ */
 public class RegressionPanel extends JPanel implements ActionListener,
 		StatPanelInterface {
 	private static final long serialVersionUID = 1L;
@@ -39,19 +42,25 @@ public class RegressionPanel extends JPanel implements ActionListener,
 
 	// regression panel objects
 	private JLabel lblRegEquation, lblEqn;
-	
-	@SuppressWarnings("rawtypes")
+
 	private JComboBox cbRegression, cbPolyOrder;
-	private JButton btnSwapXY;
 	private JLabel lblEvaluate;
 	private MyTextField fldInputX;
 	private JLabel lblOutputY;
 
 	private String[] regressionLabels;
-	private MyTextField fldOutputY;
+	private JLabel fldOutputY;
 	private boolean isIniting = true;
 	private JPanel predictionPanel;
 
+	/**
+	 * Construct a regression panel
+	 * 
+	 * @param app
+	 *            application
+	 * @param statDialog
+	 *            invoking instance of DataAnalysisView
+	 */
 	public RegressionPanel(AppD app, StatDialog statDialog) {
 
 		this.app = app;
@@ -66,7 +75,6 @@ public class RegressionPanel extends JPanel implements ActionListener,
 
 	private JPanel regressionPanel;
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private JPanel createRegressionPanel() {
 
 		// components
@@ -82,48 +90,39 @@ public class RegressionPanel extends JPanel implements ActionListener,
 		cbRegression.addActionListener(this);
 		cbRegression.setFocusable(false);
 
-
 		lblRegEquation = new JLabel();
 		lblEqn = new JLabel();
 
-		btnSwapXY = new JButton();
-		btnSwapXY.setSelected(false);
-		btnSwapXY.setMaximumSize(btnSwapXY.getPreferredSize());
-		btnSwapXY.addActionListener(this);
-		btnSwapXY.setFocusable(false);
+		// regression combo panel
+		JPanel cbPanel = new JPanel();
+		cbPanel.setLayout(new BoxLayout(cbPanel, BoxLayout.Y_AXIS));
+		cbPanel.add(OptionsUtil.flowPanel(cbRegression));
+		cbPanel.add(OptionsUtil.flowPanel(cbPolyOrder));
 
-		// panels
-		JPanel cbPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		cbPanel.add(cbRegression);
-		cbPanel.add(cbPolyOrder);
-
-		JPanel eqnPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-		eqnPanel.add(lblRegEquation);
-
-		JPanel swapPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		swapPanel.add(btnSwapXY);
-
-		JPanel modelPanel = new JPanel(new BorderLayout());
-		modelPanel.add(cbPanel, BorderLayout.WEST);
-		modelPanel.add(eqnPanel, BorderLayout.CENTER);
-		JScrollPane scroller = new JScrollPane(modelPanel);
+		// regression label panel
+		JPanel eqnPanel = new JPanel(new BorderLayout());
+		eqnPanel.add(lblRegEquation, BorderLayout.CENTER);
+		JScrollPane scroller = new JScrollPane(eqnPanel);
 		scroller.setBorder(BorderFactory.createEmptyBorder());
 
+		// prediction panel
 		createPredictionPanel();
-		JPanel southPanel = new JPanel(new BorderLayout());
-		southPanel.add(predictionPanel, BorderLayout.CENTER);
-		southPanel.add(swapPanel, BorderLayout.WEST);
 
-		regressionPanel = new JPanel(new BorderLayout());
-		regressionPanel.add(scroller, BorderLayout.CENTER);
-		regressionPanel.add(southPanel, BorderLayout.SOUTH);
+		// model panel: equation + prediction
+		JPanel modelPanel = new JPanel();
+		modelPanel.setLayout(new BoxLayout(modelPanel, BoxLayout.Y_AXIS));
+		modelPanel.add(scroller);
+		modelPanel.add(predictionPanel);
+
+		// put it all together
+		regressionPanel = new JPanel(new BorderLayout(30, 0));
+		regressionPanel.add(modelPanel, BorderLayout.CENTER);
+		regressionPanel.add(cbPanel, BorderLayout.WEST);
 		regressionPanel.setBorder(BorderFactory.createTitledBorder(app
 				.getMenu("RegressionModel")));
 
 		JPanel mainPanel = new JPanel(new BorderLayout());
-
 		mainPanel.add(regressionPanel, BorderLayout.CENTER);
-		mainPanel.setBorder(BorderFactory.createEtchedBorder());
 
 		return mainPanel;
 	}
@@ -133,29 +132,32 @@ public class RegressionPanel extends JPanel implements ActionListener,
 	 */
 	private void createPredictionPanel() {
 
-		predictionPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+		JPanel p = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		lblEvaluate = new JLabel();
 		fldInputX = new MyTextField(app);
 		fldInputX.addActionListener(this);
 
 		fldInputX.setColumns(6);
 		lblOutputY = new JLabel();
-		fldOutputY = new MyTextField(app);
+		fldOutputY = new JLabel();
 
-		fldOutputY.setColumns(6);
-		fldOutputY.setEditable(false);
+		p.add(lblEvaluate);
+		p.add(new JLabel("x = "));
+		p.add(fldInputX);
+		p.add(new JLabel("y = "));
+		p.add(lblOutputY);
+		p.add(fldOutputY);
 
-		predictionPanel.add(lblEvaluate);
-		predictionPanel.add(new JLabel("x = "));
-		predictionPanel.add(fldInputX);
-		predictionPanel.add(new JLabel("y = "));
-		predictionPanel.add(lblOutputY);
-		predictionPanel.add(fldOutputY);
+		predictionPanel = new JPanel(new BorderLayout());
+		predictionPanel.add(p, BorderLayout.WEST);
 
 	}
 
+	/**
+	 * Updates the regression equation label and the prediction panel
+	 */
 	public void updateRegressionPanel() {
-		
+
 		if (statDialog.getStatDialogController().isValidData()) {
 			setRegressionEquationLabel();
 			doTextFieldActionPerformed(fldInputX);
@@ -164,6 +166,14 @@ public class RegressionPanel extends JPanel implements ActionListener,
 		}
 		updateGUI();
 
+	}
+
+	/**
+	 * Clears the X and Y fields of the prediction panel
+	 */
+	public void clearPredictionPanel() {
+		fldInputX.setText("");
+		fldOutputY.setText("");
 	}
 
 	private void setRegressionLabels() {
@@ -200,12 +210,6 @@ public class RegressionPanel extends JPanel implements ActionListener,
 				.getMenu("RegressionModel"));
 		lblEqn.setText(app.getMenu("Equation") + ":");
 
-		String swapString = app.getMenu("Column.X") + " \u21C6 "
-				+ app.getMenu("Column.Y");
-		// btnSwapXY.setIcon(GeoGebraIcon.createLatexIcon(app, swapString,
-		// app.getPlainFont(), false, Color.BLACK, null));
-		btnSwapXY.setFont(app.getPlainFont());
-		btnSwapXY.setText(swapString);
 		lblEvaluate.setText(app.getMenu("Evaluate") + ": ");
 
 	}
@@ -235,7 +239,7 @@ public class RegressionPanel extends JPanel implements ActionListener,
 			} else {
 				highPrecision = StringTemplate.numericDefault;
 			}
-			
+
 			// no regression
 			if (statDialog.getRegressionMode().equals(Regression.NONE)
 					|| statDialog.getRegressionModel() == null) {
@@ -266,7 +270,7 @@ public class RegressionPanel extends JPanel implements ActionListener,
 
 		// create an icon with the LaTeX string
 		ImageIcon icon = GeoGebraIcon.createLatexIcon(app, eqn, this.getFont(),
-				false, Color.black, null);
+				false, Color.RED, null);
 
 		// set the label icon with our equation string
 		lblRegEquation.setIcon(icon);
@@ -278,13 +282,13 @@ public class RegressionPanel extends JPanel implements ActionListener,
 	/**
 	 * Set the regression equation label to an empty string
 	 */
-	public void setRegressionEquationLabelEmpty() {
+	private void setRegressionEquationLabelEmpty() {
 		lblRegEquation.setIcon(null);
 		lblRegEquation.revalidate();
 
 		updateGUI();
 	}
-	
+
 	private void updateGUI() {
 
 		cbPolyOrder.setVisible(statDialog.getRegressionMode().equals(
@@ -315,13 +319,6 @@ public class RegressionPanel extends JPanel implements ActionListener,
 			setRegressionEquationLabel();
 		}
 
-		else if (source == btnSwapXY) {
-			statDialog.getStatDialogController().swapXY();
-			// clear the prediction panel
-			fldInputX.setText("");
-			fldOutputY.setText("");
-		}
-
 	}
 
 	private void doTextFieldActionPerformed(JTextField source) {
@@ -338,19 +335,10 @@ public class RegressionPanel extends JPanel implements ActionListener,
 				nv = app.getKernel().getAlgebraProcessor()
 						.evaluateToNumeric(inputText, true);
 				double value = nv.getDouble();
-
-				// String str = "\"\" + " +
-				// statDialog.getRegressionModel().getLabel() + "(" + value +
-				// ")";
-				// GeoText text =
-				// app.getKernel().getAlgebraProcessor().evaluateToText(str,
-				// false);
-
 				double output = ((GeoFunctionable) statDialog
 						.getRegressionModel()).getGeoFunction().evaluate(value);
 
-				fldOutputY.setText(app.getKernel().format(output,
-						StringTemplate.defaultTemplate));
+				fldOutputY.setText(statDialog.format(output));
 
 			} catch (NumberFormatException e) {
 				e.printStackTrace();

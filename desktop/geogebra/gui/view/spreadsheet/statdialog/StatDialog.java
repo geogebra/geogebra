@@ -53,7 +53,9 @@ public class StatDialog extends JPanel implements View, Printable,
 	private boolean showStatPanel = false;
 	private boolean showComboPanel2 = false;
 	protected boolean isIniting = true;
-	protected boolean leftToRight = true;
+	private boolean leftToRight = true;
+	
+
 	private boolean doSpecialNumberFormat = false;
 
 
@@ -436,6 +438,10 @@ public class StatDialog extends JPanel implements View, Printable,
 		return app;
 	}
 
+	public boolean isLeftToRight() {
+		return leftToRight;
+	}
+	
 	public void setLeftToRight(boolean leftToRight) {
 		sdc.setLeftToRight(leftToRight);
 	}

@@ -17,7 +17,7 @@ import javax.swing.JToolBar;
 import javax.swing.SwingConstants;
 
 /**
- * @author gsturr
+ * @author G. Sturr
  * 
  */
 public class DataAnalysisStyleBar extends JToolBar implements ActionListener {
@@ -32,6 +32,7 @@ public class DataAnalysisStyleBar extends JToolBar implements ActionListener {
 	private JLabel lblDataSource;
 	private MyTextField fldDataSource;
 	private MyToggleButton btnExport;
+	private JButton btnSwapXY;
 
 	public DataAnalysisStyleBar(AppD app, StatDialog statDialog) {
 
@@ -78,12 +79,20 @@ public class DataAnalysisStyleBar extends JToolBar implements ActionListener {
 		btnExport.setFocusable(false);
 		btnExport.addActionListener(this);
 
+		btnSwapXY = new JButton();
+		btnSwapXY.setSelected(false);
+		btnSwapXY.setMaximumSize(btnSwapXY.getPreferredSize());
+		btnSwapXY.addActionListener(this);
+		btnSwapXY.setFocusable(false);
+		
+		
 		buildRoundingButton();
 
 		// add(btnRounding);
 		add(btnShowStatistics);
 		add(btnShowData);
 		add(btnShowPlot2);
+		add(btnSwapXY);
 		add(createDataSourcePanel());
 
 	}
@@ -96,7 +105,9 @@ public class DataAnalysisStyleBar extends JToolBar implements ActionListener {
 		fldDataSource.setText(statDialog.getStatDialogController()
 				.getSourceString());
 		fldDataSource.revalidate();
-
+		
+		btnSwapXY.setVisible(statDialog.getMode() == StatDialog.MODE_REGRESSION);
+		btnSwapXY.setSelected(!statDialog.isLeftToRight());
 	}
 
 	private JPanel createDataSourcePanel() {
@@ -144,6 +155,11 @@ public class DataAnalysisStyleBar extends JToolBar implements ActionListener {
 		btnPrint.setToolTipText(app.getMenu("Print"));
 
 		lblDataSource.setText("   " + app.getMenu("Data") + ": ");
+		
+		String swapString = app.getMenu("Column.X") + " \u21C6 "
+				+ app.getMenu("Column.Y");
+		btnSwapXY.setFont(app.getPlainFont());
+		btnSwapXY.setText(swapString);
 
 	}
 
@@ -153,25 +169,30 @@ public class DataAnalysisStyleBar extends JToolBar implements ActionListener {
 			statDialog.setShowStatistics(btnShowStatistics.isSelected());
 			updateGUI();
 		}
-		if (source == btnShowData) {
+		else if (source == btnShowData) {
 			statDialog.setShowDataPanel(btnShowData.isSelected());
 			updateGUI();
 		}
 
-		if (source == btnShowPlot2) {
+		else if (source == btnShowPlot2) {
 			statDialog.setShowComboPanel2(btnShowPlot2.isSelected());
 			updateGUI();
 		}
 
-		if (source == btnExport) {
+		else if (source == btnSwapXY) {
+			statDialog.getStatDialogController().swapXY();
+		}
+		
+		else if (source == btnExport) {
 			JPopupMenu menu = statDialog.getExportMenu();
 			menu.show(btnExport, 0, btnExport.getHeight());
 			btnExport.setSelected(false);
 		}
 
-		if (source == btnPrint) {
+		else if (source == btnPrint) {
 			statDialog.doPrint();
 		}
+		
 
 	}
 

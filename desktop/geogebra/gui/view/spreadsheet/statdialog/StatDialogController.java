@@ -423,6 +423,7 @@ public class StatDialogController {
 	public void swapXY() {
 		leftToRight = !leftToRight;
 		updateDataAnalysisView(false);
+		sd.regressionPanel.clearPredictionPanel();
 	}
 
 	/**
