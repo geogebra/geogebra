@@ -291,8 +291,11 @@ public class AlgoPolygon extends AlgoElement {
         if (sb == null) sb = new StringBuilder();
         else sb.setLength(0);
   
-        sb.append(app.getPlain("Polygon"));
-        sb.append(' ');
+        final boolean reverseOrder = app.isReverseNameDescriptionLanguage();
+        if (!reverseOrder) {
+        	sb.append(app.getPlain("Polygon"));
+        	sb.append(' ');
+        }
         
         //G.Sturr: get label from geoList  (2010-3-15)
 		if (geoList != null) {
@@ -309,7 +312,14 @@ public class AlgoPolygon extends AlgoElement {
 			sb.append(points[last].getLabel(tpl));
 		}        
 
-        if (polyhedron!=null){
+        if (reverseOrder) {
+        	sb.append(' ');
+        	sb.append(app.getPlain("Polygon").toLowerCase());
+        }
+
+		// FIXME: for reverseOrder==true languages
+        // this may (must?) be put as first
+		if (polyhedron!=null){
             sb.append(' ');
             sb.append(app.getPlain("of"));
             sb.append(' ');
