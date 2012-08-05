@@ -234,7 +234,9 @@ public class SpreadsheetColumnController implements KeyListener, MouseListener, 
 		int y = e.getY();
 		GPoint point = table.getIndexFromPixel(x, y);
 		if (point != null) {
-			int column = (int)point.getX();
+			int column = point.getX();
+			if (column0==-1)
+				column0=column;
 			table.setColumnSelectionInterval(column0, column);
 			//	repaint();
 		}
