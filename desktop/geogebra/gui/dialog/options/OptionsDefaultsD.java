@@ -34,8 +34,8 @@ import javax.swing.tree.TreePath;
 /**
  * Options with the default settings of objects.
  */
-public class OptionsDefaultsD extends OptionsDefaults implements OptionPanelD, TreeSelectionListener,
-		SetLabels {	
+public class OptionsDefaultsD extends OptionsDefaults implements OptionPanelD,
+		TreeSelectionListener, SetLabels {
 
 	/**
 	 * An instance of the GeoGebra application.
@@ -78,8 +78,9 @@ public class OptionsDefaultsD extends OptionsDefaults implements OptionPanelD, T
 
 	private DefaultMutableTreeNode textNode, imageNode, booleanNode;
 
-	private DefaultMutableTreeNode listNode, inequalitiesNode, functionNVarNode;
-	
+	private DefaultMutableTreeNode listNode, inequalitiesNode,
+			functionNVarNode;
+
 	private JButton defaultsButton;
 
 	/**
@@ -99,7 +100,8 @@ public class OptionsDefaultsD extends OptionsDefaults implements OptionPanelD, T
 	 * Construct an panel where the user can assign new values to the default
 	 * objects.
 	 * 
-	 * @param app application
+	 * @param app
+	 *            application
 	 */
 	public OptionsDefaultsD(AppD app) {
 		this.app = app;
@@ -157,10 +159,9 @@ public class OptionsDefaultsD extends OptionsDefaults implements OptionPanelD, T
 		setLabels();
 
 		// define panel properties
-		//setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+		// setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		wrappedPanel.setLayout(new BorderLayout());
-		
-	
+
 		// tree scroll pane
 		tree.setBorder(BorderFactory.createEmptyBorder(2, 6, 2, 2));
 		JScrollPane treeScroller = new JScrollPane(tree);
@@ -170,12 +171,14 @@ public class OptionsDefaultsD extends OptionsDefaults implements OptionPanelD, T
 				SystemColor.controlShadow));
 
 		// split pane
-		JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,treeScroller, propPanel);
+		JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
+				treeScroller, propPanel);
 		splitPane.setBorder(BorderFactory.createEmptyBorder());
-		
+
 		// add components
 		wrappedPanel.add(splitPane, BorderLayout.CENTER);
-		wrappedPanel.add(OptionsUtil.flowPanel(0, 0, 20, defaultsButton), BorderLayout.SOUTH);
+		wrappedPanel.add(OptionsUtil.flowPanel(0, 0, 20, defaultsButton),
+				BorderLayout.SOUTH);
 	}
 
 	/**
@@ -260,7 +263,8 @@ public class OptionsDefaultsD extends OptionsDefaults implements OptionPanelD, T
 		typeToNode.put(conicSectorNode,
 				ConstructionDefaults.DEFAULT_CONIC_SECTOR);
 		typeToNode.put(functionNode, ConstructionDefaults.DEFAULT_FUNCTION);
-		typeToNode.put(functionNVarNode, ConstructionDefaults.DEFAULT_FUNCTION_NVAR);
+		typeToNode.put(functionNVarNode,
+				ConstructionDefaults.DEFAULT_FUNCTION_NVAR);
 		typeToNode.put(polygonNode, ConstructionDefaults.DEFAULT_POLYGON);
 		typeToNode.put(locusNode, ConstructionDefaults.DEFAULT_LOCUS);
 		typeToNode.put(textNode, ConstructionDefaults.DEFAULT_TEXT);
@@ -269,7 +273,8 @@ public class OptionsDefaultsD extends OptionsDefaults implements OptionPanelD, T
 		typeToNode.put(angleNode, ConstructionDefaults.DEFAULT_ANGLE);
 		typeToNode.put(booleanNode, ConstructionDefaults.DEFAULT_BOOLEAN);
 		typeToNode.put(listNode, ConstructionDefaults.DEFAULT_LIST);
-		typeToNode.put(inequalitiesNode, ConstructionDefaults.DEFAULT_INEQUALITY);
+		typeToNode.put(inequalitiesNode,
+				ConstructionDefaults.DEFAULT_INEQUALITY);
 
 	}
 
@@ -279,14 +284,16 @@ public class OptionsDefaultsD extends OptionsDefaults implements OptionPanelD, T
 	public void restoreDefaults() {
 		createDefaultMap();
 
-		// update panel selection ... this should trigger the valueChanged method
+		// update panel selection ... this should trigger the valueChanged
+		// method
 		TreePath path = tree.getSelectionPath();
 		tree.setSelectionPath(null);
 		tree.setSelectionPath(path);
 
 		// but if not, make sure that it is called certainly
-		//defaults = app.getKernel().getConstruction().getConstructionDefaults();
-		//valueChanged(null);
+		// defaults =
+		// app.getKernel().getConstruction().getConstructionDefaults();
+		// valueChanged(null);
 	}
 
 	/**
@@ -326,7 +333,7 @@ public class OptionsDefaultsD extends OptionsDefaults implements OptionPanelD, T
 		inequalitiesNode.setUserObject(app.getPlain("Inequality"));
 
 		defaultsButton.setText(app.getPlain("ApplyToSelectedObjects"));
-		
+
 		propPanel.setLabels();
 	}
 
@@ -375,21 +382,21 @@ public class OptionsDefaultsD extends OptionsDefaults implements OptionPanelD, T
 
 	public void revalidate() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void setBorder(Border border) {
 		wrappedPanel.setBorder(border);
 	}
-	
+
 	/**
 	 * Reset the visual style of the selected elements.
 	 * 
 	 * TODO Does not work with lists (F.S.)
 	 */
 	private void applyDefaults() {
-		
-		for (GeoElement geo : app.getSelectedGeos()){
+
+		for (GeoElement geo : app.getSelectedGeos()) {
 			defaults.setDefaultVisualStyles(geo, true);
 			geo.updateRepaint();
 		}

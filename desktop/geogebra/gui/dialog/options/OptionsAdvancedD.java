@@ -43,8 +43,9 @@ import javax.swing.event.ChangeListener;
 /**
  * Advanced options for the options dialog.
  */
-public class OptionsAdvancedD extends geogebra.common.gui.dialog.options.OptionsAdvanced implements OptionPanelD, ActionListener,
-		ChangeListener, FocusListener, SetLabels {
+public class OptionsAdvancedD extends
+		geogebra.common.gui.dialog.options.OptionsAdvanced implements
+		OptionPanelD, ActionListener, ChangeListener, FocusListener, SetLabels {
 	/** */
 	private static final long serialVersionUID = 1L;
 
@@ -84,16 +85,15 @@ public class OptionsAdvancedD extends geogebra.common.gui.dialog.options.Options
 	private JRadioButton angleUnitRadioDegree, angleUnitRadioRadian,
 			continuityRadioOn, continuityRadioOff,
 			usePathAndRegionParametersRadioOn,
-			usePathAndRegionParametersRadioOff,
-			checkboxSizeRadioRegular, checkboxSizeRadioLarge, rightAngleRadio1,
-			rightAngleRadio2, rightAngleRadio3, rightAngleRadio4,
-			coordinatesRadio1, coordinatesRadio2, coordinatesRadio3;
+			usePathAndRegionParametersRadioOff, checkboxSizeRadioRegular,
+			checkboxSizeRadioLarge, rightAngleRadio1, rightAngleRadio2,
+			rightAngleRadio3, rightAngleRadio4, coordinatesRadio1,
+			coordinatesRadio2, coordinatesRadio3;
 
 	/** */
 	private ButtonGroup angleUnitButtonGroup, continuityButtonGroup,
-			usePathAndRegionParametersButtonGroup,
-			checkboxSizeButtonGroup, rightAngleButtonGroup,
-			coordinatesButtonGroup;
+			usePathAndRegionParametersButtonGroup, checkboxSizeButtonGroup,
+			rightAngleButtonGroup, coordinatesButtonGroup;
 
 	/** */
 	private JTextField tfKeyboardWidth, tfKeyboardHeight;
@@ -149,30 +149,27 @@ public class OptionsAdvancedD extends geogebra.common.gui.dialog.options.Options
 
 		JPanel panel = new JPanel();
 		panel.setLayout(new FullWidthLayout());
-		
-		
+
 		panel.add(angleUnitPanel);
 		panel.add(rightAnglePanel);
-		panel.add(coordinatesPanel);		
+		panel.add(coordinatesPanel);
 		panel.add(continuityPanel);
 		panel.add(usePathAndRegionParametersPanel);
-		
+
 		panel.add(virtualKeyboardPanel);
 		panel.add(checkboxSizePanel);
-		panel.add(guiFontsizePanel);	
+		panel.add(guiFontsizePanel);
 		panel.add(tooltipPanel);
 		panel.add(languagePanel);
 		panel.add(perspectivesPanel);
-		
-		
+
 		panel.add(miscPanel);
 		panel.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
 		JScrollPane scrollPane = new JScrollPane(panel);
 		scrollPane.getVerticalScrollBar().setUnitIncrement(20);
-		//scrollPane.setBorder(BorderFactory.createEmptyBorder());
+		// scrollPane.setBorder(BorderFactory.createEmptyBorder());
 
 		wrappedPanel.add(scrollPane, BorderLayout.CENTER);
-		
 
 		setLabels();
 	}
@@ -186,13 +183,12 @@ public class OptionsAdvancedD extends geogebra.common.gui.dialog.options.Options
 		virtualKeyboardPanel.setLayout(new BoxLayout(virtualKeyboardPanel,
 				BoxLayout.Y_AXIS));
 
-		
-		
 		keyboardLanguageLabel = new JLabel();
 		virtualKeyboardPanel.add(OptionsUtil.flowPanel(keyboardLanguageLabel));
 		cbKeyboardLanguage = new JComboBox();
 		// listener to this combo box is added in setLabels()
-		virtualKeyboardPanel.add(OptionsUtil.flowPanel(Box.createHorizontalStrut(20),cbKeyboardLanguage));
+		virtualKeyboardPanel.add(OptionsUtil.flowPanel(
+				Box.createHorizontalStrut(20), cbKeyboardLanguage));
 
 		widthLabel = new JLabel();
 		tfKeyboardWidth = new JTextField(3);
@@ -201,20 +197,22 @@ public class OptionsAdvancedD extends geogebra.common.gui.dialog.options.Options
 		tfKeyboardHeight = new JTextField(3);
 		tfKeyboardHeight.addFocusListener(this);
 
-		virtualKeyboardPanel.add(OptionsUtil.flowPanel(widthLabel, tfKeyboardWidth,
-				new JLabel("px"), Box.createHorizontalStrut(10), heightLabel,
-				tfKeyboardHeight, new JLabel("px")));
-		
+		virtualKeyboardPanel.add(OptionsUtil.flowPanel(widthLabel,
+				tfKeyboardWidth, new JLabel("px"),
+				Box.createHorizontalStrut(10), heightLabel, tfKeyboardHeight,
+				new JLabel("px")));
+
 		cbKeyboardShowAutomatic = new JCheckBox();
-		
+
 		opacityLabel = new JLabel();
 		slOpacity = new JSlider(25, 100);
 		slOpacity.setPreferredSize(new Dimension(100, (int) slOpacity
 				.getPreferredSize().getHeight()));
 		// listener added in updateGUI()
 		opacityLabel.setLabelFor(slOpacity);
-		virtualKeyboardPanel.add(OptionsUtil.flowPanel(cbKeyboardShowAutomatic, opacityLabel,slOpacity));
-		
+		virtualKeyboardPanel.add(OptionsUtil.flowPanel(cbKeyboardShowAutomatic,
+				opacityLabel, slOpacity));
+
 	}
 
 	/**
@@ -226,7 +224,7 @@ public class OptionsAdvancedD extends geogebra.common.gui.dialog.options.Options
 		guiFontsizePanel.setLayout(new BoxLayout(guiFontsizePanel,
 				BoxLayout.Y_AXIS));
 
-		JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT,0,0));
+		JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
 
 		guiFontSizeLabel = new JLabel();
 		panel.add(guiFontSizeLabel);
@@ -261,17 +259,17 @@ public class OptionsAdvancedD extends geogebra.common.gui.dialog.options.Options
 	private void initTooltipPanel() {
 		tooltipPanel = new JPanel();
 		tooltipPanel.setLayout(new BoxLayout(tooltipPanel, BoxLayout.Y_AXIS));
-		
-		
+
 		tooltipLanguageLabel = new JLabel();
 		tooltipPanel.add(OptionsUtil.flowPanel(tooltipLanguageLabel));
 		cbTooltipLanguage = new JComboBox();
 		cbTooltipLanguage.setRenderer(new LanguageRenderer(app));
 		// listener to this combo box is added in setLabels()
-		tooltipPanel.add(OptionsUtil.flowPanel(Box.createHorizontalStrut(20),cbTooltipLanguage));
+		tooltipPanel.add(OptionsUtil.flowPanel(Box.createHorizontalStrut(20),
+				cbTooltipLanguage));
 
 		tooltipTimeoutLabel = new JLabel();
-		
+
 		// get tooltipTimeouts from MyXMLHandler
 		tooltipTimeouts = new String[MyXMLHandler.tooltipTimeouts.length];
 		for (int i = 0; i < MyXMLHandler.tooltipTimeouts.length - 1; i++)
@@ -279,8 +277,9 @@ public class OptionsAdvancedD extends geogebra.common.gui.dialog.options.Options
 		tooltipTimeouts[tooltipTimeouts.length - 1] = "-";
 
 		cbTooltipTimeout = new JComboBox(tooltipTimeouts);
-		
-		tooltipPanel.add(OptionsUtil.flowPanel(tooltipTimeoutLabel,cbTooltipTimeout));
+
+		tooltipPanel.add(OptionsUtil.flowPanel(tooltipTimeoutLabel,
+				cbTooltipTimeout));
 	}
 
 	/**
@@ -291,12 +290,12 @@ public class OptionsAdvancedD extends geogebra.common.gui.dialog.options.Options
 
 		cbShowTitleBar = new JCheckBox();
 		cbShowTitleBar.addActionListener(this);
-		//perspectivesPanel.add(cbShowTitleBar);
+		// perspectivesPanel.add(cbShowTitleBar);
 
 		cbAllowStyleBar = new JCheckBox();
 		cbAllowStyleBar.addActionListener(this);
-		//perspectivesPanel.add(cbAllowStyleBar);
-		
+		// perspectivesPanel.add(cbAllowStyleBar);
+
 		cbIgnoreDocumentLayout = new JCheckBox();
 		cbIgnoreDocumentLayout.addActionListener(this);
 		perspectivesPanel.add(OptionsUtil.flowPanel(cbIgnoreDocumentLayout));
@@ -492,15 +491,14 @@ public class OptionsAdvancedD extends geogebra.common.gui.dialog.options.Options
 		continuityRadioOn.setSelected(app.getKernel().isContinuous());
 		continuityRadioOff.setSelected(!app.getKernel().isContinuous());
 
-		usePathAndRegionParametersRadioOn.setSelected(app.getKernel()
-				.usePathAndRegionParameters == PathRegionHandling.ON);
-		usePathAndRegionParametersRadioOff.setSelected(app.getKernel()
-				.usePathAndRegionParameters == PathRegionHandling.OFF);
+		usePathAndRegionParametersRadioOn
+				.setSelected(app.getKernel().usePathAndRegionParameters == PathRegionHandling.ON);
+		usePathAndRegionParametersRadioOff
+				.setSelected(app.getKernel().usePathAndRegionParameters == PathRegionHandling.OFF);
 		checkboxSizeRadioRegular.setSelected(app.getEuclidianView1()
 				.getBooleanSize() == 13);
 		checkboxSizeRadioLarge.setSelected(app.getEuclidianView1()
 				.getBooleanSize() == 26);
-
 
 		rightAngleRadio1.setSelected(app.getEuclidianView1()
 				.getRightAngleStyle() == 0);
@@ -555,9 +553,10 @@ public class OptionsAdvancedD extends geogebra.common.gui.dialog.options.Options
 
 	// needed updating things on the reset defaults button
 	public void updateAfterReset() {
-		cbReturnAngleInverseTrig.setSelected(app.getKernel().getInverseTrigReturnsAngle());
+		cbReturnAngleInverseTrig.setSelected(app.getKernel()
+				.getInverseTrigReturnsAngle());
 		cbUseJavaFonts.setSelected(app.useJavaFontsForLaTeX());
-		cbReverseMouseWheel.setSelected(app.isMouseWheelReversed());		
+		cbReverseMouseWheel.setSelected(app.isMouseWheelReversed());
 
 		int selectedIndex = 0;
 		String loc = settings.getKeyboard().getKeyboardLocale();
@@ -691,11 +690,13 @@ public class OptionsAdvancedD extends geogebra.common.gui.dialog.options.Options
 			app.getKernel().updateConstruction();
 			app.setUnsaved();
 		} else if (source == usePathAndRegionParametersRadioOn) {
-			app.getKernel().setUsePathAndRegionParameters(PathRegionHandling.ON);
+			app.getKernel()
+					.setUsePathAndRegionParameters(PathRegionHandling.ON);
 			// app.getKernel().updateConstruction();
 			app.setUnsaved();
 		} else if (source == usePathAndRegionParametersRadioOff) {
-			app.getKernel().setUsePathAndRegionParameters(PathRegionHandling.OFF);
+			app.getKernel().setUsePathAndRegionParameters(
+					PathRegionHandling.OFF);
 			// app.getKernel().updateConstruction();
 			app.setUnsaved();
 		} else if (source == coordinatesRadio1) {
@@ -727,8 +728,8 @@ public class OptionsAdvancedD extends geogebra.common.gui.dialog.options.Options
 		} else if (source == tfKeyboardWidth || source == tfKeyboardHeight) {
 			changeWidthOrHeight(source);
 		} else {
-			handleEVOption(source,app.getEuclidianView1());
-			if(app.hasEuclidianView2EitherShowingOrNot()){
+			handleEVOption(source, app.getEuclidianView1());
+			if (app.hasEuclidianView2EitherShowingOrNot()) {
 				handleEVOption(source, app.getEuclidianView2());
 			}
 		}
@@ -740,17 +741,13 @@ public class OptionsAdvancedD extends geogebra.common.gui.dialog.options.Options
 		} else if (source == checkboxSizeRadioLarge) {
 			view.setBooleanSize(26);
 		} else if (source == rightAngleRadio1) {
-			view.setRightAngleStyle(
-					EuclidianStyleConstants.RIGHT_ANGLE_STYLE_NONE);
+			view.setRightAngleStyle(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_NONE);
 		} else if (source == rightAngleRadio2) {
-			view.setRightAngleStyle(
-					EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE);
+			view.setRightAngleStyle(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE);
 		} else if (source == rightAngleRadio3) {
-			view.setRightAngleStyle(
-					EuclidianStyleConstants.RIGHT_ANGLE_STYLE_DOT);
+			view.setRightAngleStyle(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_DOT);
 		} else if (source == rightAngleRadio4) {
-			view.setRightAngleStyle(
-					EuclidianStyleConstants.RIGHT_ANGLE_STYLE_L);
+			view.setRightAngleStyle(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_L);
 		}
 	}
 
@@ -802,8 +799,6 @@ public class OptionsAdvancedD extends geogebra.common.gui.dialog.options.Options
 
 	}
 
-	
-	
 	/**
 	 * Update the language of the user interface.
 	 */
@@ -821,13 +816,13 @@ public class OptionsAdvancedD extends geogebra.common.gui.dialog.options.Options
 				.getMenu("FontSize")));
 		guiFontSizeLabel.setText(app.getMenu("GUIFontSize") + ":");
 
-		tooltipPanel.setBorder(OptionsUtil.titleBorder(app
-				.getPlain("Tooltips")));
+		tooltipPanel
+				.setBorder(OptionsUtil.titleBorder(app.getPlain("Tooltips")));
 		tooltipLanguageLabel.setText(app.getPlain("TooltipLanguage") + ":");
 		tooltipTimeoutLabel.setText(app.getPlain("TooltipTimeout") + ":");
 
-		languagePanel.setBorder(OptionsUtil.titleBorder(app
-				.getMenu("Language")));
+		languagePanel
+				.setBorder(OptionsUtil.titleBorder(app.getMenu("Language")));
 		cbUseLocalDigits.setText(app.getPlain("LocalizedDigits"));
 		cbUseLocalLabels.setText(app.getPlain("LocalizedLabels"));
 
@@ -841,7 +836,8 @@ public class OptionsAdvancedD extends geogebra.common.gui.dialog.options.Options
 		continuityRadioOn.setText(app.getMenu("on"));
 		continuityRadioOff.setText(app.getMenu("off"));
 
-		usePathAndRegionParametersPanel.setBorder(OptionsUtil.titleBorder(app.getMenu("UsePathAndRegionParameters")));
+		usePathAndRegionParametersPanel.setBorder(OptionsUtil.titleBorder(app
+				.getMenu("UsePathAndRegionParameters")));
 		usePathAndRegionParametersRadioOn.setText(app.getMenu("on"));
 		usePathAndRegionParametersRadioOff.setText(app.getMenu("off"));
 
@@ -975,7 +971,7 @@ public class OptionsAdvancedD extends geogebra.common.gui.dialog.options.Options
 					+ loc.getVariant();
 
 			languages[i + 1] = Language.getDisplayName(ggbLangCode);
-			//AppD.debug(ggbLangCode+" "+languages[i + 1]);
+			// AppD.debug(ggbLangCode+" "+languages[i + 1]);
 		}
 
 		int selectedIndex = cbTooltipLanguage.getSelectedIndex();
@@ -1010,15 +1006,15 @@ public class OptionsAdvancedD extends geogebra.common.gui.dialog.options.Options
 
 	public void revalidate() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void setBorder(Border border) {
 		wrappedPanel.setBorder(border);
 	}
-	
-	public void applyModifications(){
-		//override this method to make the properties view apply modifications
-		//when panel changes
+
+	public void applyModifications() {
+		// override this method to make the properties view apply modifications
+		// when panel changes
 	}
 }

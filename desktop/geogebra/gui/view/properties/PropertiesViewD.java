@@ -36,7 +36,6 @@ import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
 
 /**
  * View for properties
@@ -44,16 +43,15 @@ import javax.swing.SwingUtilities;
  * @author mathieu
  * @version
  */
-public class PropertiesViewD extends geogebra.common.gui.view.properties.PropertiesView {
+public class PropertiesViewD extends
+		geogebra.common.gui.view.properties.PropertiesView {
 
 	private static final long serialVersionUID = 1L;
 
-	//private GeoTree geoTree;
+	// private GeoTree geoTree;
 
 	private PropertiesStyleBarD styleBar;
 	private JPanel wrappedPanel;
-	
-	
 
 	// option panels
 	private OptionsDefaultsD defaultsPanel;
@@ -63,17 +61,17 @@ public class PropertiesViewD extends geogebra.common.gui.view.properties.Propert
 	private OptionsAdvancedD advancedPanel;
 	private OptionsLayoutD layoutPanel;
 
-
 	private Object selectedOptionPanel = null;
 
 	// GUI elements
 	private JPanel mainPanel, buttonPanel;
-	//private JButton restoreDefaultsButton, saveButton;
+	// private JButton restoreDefaultsButton, saveButton;
 
 	private boolean isIniting = true;
 
 	/**************************************************
 	 * Constructor
+	 * 
 	 * @param app
 	 */
 	public PropertiesViewD(AppD app) {
@@ -82,13 +80,13 @@ public class PropertiesViewD extends geogebra.common.gui.view.properties.Propert
 		this.wrappedPanel = new JPanel();
 		this.app = app;
 		app.setPropertiesView(this);
-		
-		//init object properties
+
+		// init object properties
 		App.debug("init object properties");
 		app.setWaitCursor();
 		getOptionPanel(OptionType.OBJECTS);
 		App.debug("end (init object properties)");
-		
+
 		kernel = app.getKernel();
 		// this.geoTree=geoTree;
 
@@ -96,10 +94,10 @@ public class PropertiesViewD extends geogebra.common.gui.view.properties.Propert
 		setOptionPanel(selectedOptionType);
 		isIniting = false;
 		styleBar.getBtnOption().requestFocus();
-		
 
 		setLabels();
-		app.setDefaultCursor();//remove this if init object properties is faster
+		app.setDefaultCursor();// remove this if init object properties is
+								// faster
 	}
 
 	// ============================================
@@ -111,104 +109,86 @@ public class PropertiesViewD extends geogebra.common.gui.view.properties.Propert
 
 		wrappedPanel.setLayout(new BorderLayout());
 		getStyleBar();
-		
 
 		mainPanel = new JPanel(new BorderLayout());
 		wrappedPanel.add(mainPanel, BorderLayout.CENTER);
 		wrappedPanel.add(Box.createVerticalGlue(), BorderLayout.SOUTH);
 
-		//createButtonPanel();
-		//add(buttonPanel, BorderLayout.SOUTH);
-		
+		// createButtonPanel();
+		// add(buttonPanel, BorderLayout.SOUTH);
+
 	}
 
-	
 	/*
 	 * Creates the button panel for all option panels except the Object Panel
-	 *
-	private void createButtonPanel() {
-	
-		// panel with buttons at the bottom
-		buttonPanel = new JPanel(new BorderLayout());
-
-		buttonPanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory
-				.createMatteBorder(1, 0, 0, 0, SystemColor.controlLtHighlight),
-				BorderFactory.createEmptyBorder(5, 0, 5, 0)));
-
-		// buttonPanel.setBackground(Color.white);
-
-		// (restore defaults on the left side)
-		JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		// panel.setBackground(Color.white);
-
-		if (!app.isApplet()) {
-			restoreDefaultsButton = new JButton();
-			restoreDefaultsButton.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					GeoGebraPreferences.getPref().clearPreferences();
-
-					// reset defaults for GUI, views etc
-					// this has to be called before load XML preferences,
-					// in order to avoid overwrite
-					app.getSettings().resetSettings();
-
-					// for geoelement defaults, this will do nothing, so it is
-					// OK here
-					GeoGebraPreferences.getPref().loadXMLPreferences(app);
-
-					// reset default line thickness etc
-					app.getKernel().getConstruction().getConstructionDefaults()
-							.resetDefaults();
-
-					// reset defaults for geoelements; this will create brand
-					// new objects
-					// so the options defaults dialog should be reset later
-					app.getKernel().getConstruction().getConstructionDefaults()
-							.createDefaultGeoElementsFromScratch();
-
-					// reset the stylebar defaultGeo
-					if (app.getEuclidianView1().hasStyleBar())
-						app.getEuclidianView1().getStyleBar()
-								.restoreDefaultGeo();
-					if (app.hasEuclidianView2EitherShowingOrNot())
-						if (app.getEuclidianView2().hasStyleBar())
-							app.getEuclidianView2().getStyleBar()
-									.restoreDefaultGeo();
-
-					// restore dialog panels to display these defaults
-					restoreDefaults();
-
-				}
-			});
-
-			panel.add(restoreDefaultsButton);
-		}
-
-		buttonPanel.add(panel, BorderLayout.WEST);
-
-		
-		// (save and close on the right side)
-		panel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-		// panel.setBackground(Color.white);
-
-		
-		if (!app.isApplet()) {
-			saveButton = new JButton();
-			saveButton.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					GeoGebraPreferences.getPref().saveXMLPreferences(app);
-				}
-			});
-			panel.add(saveButton);
-		}
-		
-
-		buttonPanel.add(panel, BorderLayout.EAST);
-		
-	
-	}
-	
-	*/
+	 * 
+	 * private void createButtonPanel() {
+	 * 
+	 * // panel with buttons at the bottom buttonPanel = new JPanel(new
+	 * BorderLayout());
+	 * 
+	 * buttonPanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory
+	 * .createMatteBorder(1, 0, 0, 0, SystemColor.controlLtHighlight),
+	 * BorderFactory.createEmptyBorder(5, 0, 5, 0)));
+	 * 
+	 * // buttonPanel.setBackground(Color.white);
+	 * 
+	 * // (restore defaults on the left side) JPanel panel = new JPanel(new
+	 * FlowLayout(FlowLayout.LEFT)); // panel.setBackground(Color.white);
+	 * 
+	 * if (!app.isApplet()) { restoreDefaultsButton = new JButton();
+	 * restoreDefaultsButton.addActionListener(new ActionListener() { public
+	 * void actionPerformed(ActionEvent e) {
+	 * GeoGebraPreferences.getPref().clearPreferences();
+	 * 
+	 * // reset defaults for GUI, views etc // this has to be called before load
+	 * XML preferences, // in order to avoid overwrite
+	 * app.getSettings().resetSettings();
+	 * 
+	 * // for geoelement defaults, this will do nothing, so it is // OK here
+	 * GeoGebraPreferences.getPref().loadXMLPreferences(app);
+	 * 
+	 * // reset default line thickness etc
+	 * app.getKernel().getConstruction().getConstructionDefaults()
+	 * .resetDefaults();
+	 * 
+	 * // reset defaults for geoelements; this will create brand // new objects
+	 * // so the options defaults dialog should be reset later
+	 * app.getKernel().getConstruction().getConstructionDefaults()
+	 * .createDefaultGeoElementsFromScratch();
+	 * 
+	 * // reset the stylebar defaultGeo if
+	 * (app.getEuclidianView1().hasStyleBar())
+	 * app.getEuclidianView1().getStyleBar() .restoreDefaultGeo(); if
+	 * (app.hasEuclidianView2EitherShowingOrNot()) if
+	 * (app.getEuclidianView2().hasStyleBar())
+	 * app.getEuclidianView2().getStyleBar() .restoreDefaultGeo();
+	 * 
+	 * // restore dialog panels to display these defaults restoreDefaults();
+	 * 
+	 * } });
+	 * 
+	 * panel.add(restoreDefaultsButton); }
+	 * 
+	 * buttonPanel.add(panel, BorderLayout.WEST);
+	 * 
+	 * 
+	 * // (save and close on the right side) panel = new JPanel(new
+	 * FlowLayout(FlowLayout.RIGHT)); // panel.setBackground(Color.white);
+	 * 
+	 * 
+	 * if (!app.isApplet()) { saveButton = new JButton();
+	 * saveButton.addActionListener(new ActionListener() { public void
+	 * actionPerformed(ActionEvent e) {
+	 * GeoGebraPreferences.getPref().saveXMLPreferences(app); } });
+	 * panel.add(saveButton); }
+	 * 
+	 * 
+	 * buttonPanel.add(panel, BorderLayout.EAST);
+	 * 
+	 * 
+	 * }
+	 */
 
 	/**
 	 * Restores default settings in option dialogs
@@ -226,7 +206,6 @@ public class PropertiesViewD extends geogebra.common.gui.view.properties.Propert
 		updateGUI();
 	}
 
-	
 	// ============================================
 	// Updates
 	// ============================================
@@ -234,8 +213,7 @@ public class PropertiesViewD extends geogebra.common.gui.view.properties.Propert
 	/**
 	 * Updates properties view panel. If any geos are selected then the Objects
 	 * panel will be shown. If not, then an option pane for the current focused
-	 * view is shown. 
-	 * Called when a view gets the focus.
+	 * view is shown. Called when a view gets the focus.
 	 */
 	@Override
 	public void updatePropertiesView() {
@@ -243,54 +221,55 @@ public class PropertiesViewD extends geogebra.common.gui.view.properties.Propert
 		setOptionPanelRegardingFocus(false);
 	}
 
-	
-	
 	/**
 	 * Updates properties view panel. If geos are not empty then the Objects
 	 * panel will be shown. If not, then an option pane for the current focused
-	 * view is shown. 
-	 * @param geosList geos list
+	 * view is shown.
+	 * 
+	 * @param geosList
+	 *            geos list
 	 */
-	private void updatePropertiesViewCheckConstants(ArrayList<GeoElement> geosList) {
-		
-		//remove constant geos
+	private void updatePropertiesViewCheckConstants(
+			ArrayList<GeoElement> geosList) {
+
+		// remove constant geos
 		ArrayList<GeoElement> geos = removeAllConstants(geosList);
-		
+
 		updatePropertiesView(geos);
 	}
-		
+
 	private void updatePropertiesView(ArrayList<GeoElement> geos) {
-	
+
 		if (geos.size() > 0) {
-			if (!stayInCurrentPanel()) 
-				setOptionPanel(OptionType.OBJECTS,geos);
+			if (!stayInCurrentPanel())
+				setOptionPanel(OptionType.OBJECTS, geos);
 		} else {
-			
+
 			setOptionPanelRegardingFocus(true);
 
 		}
 	}
-	
-	final private void setOptionPanelRegardingFocus(boolean updateEuclidianTab){
-		
-		if (stayInCurrentPanel()) 
+
+	final private void setOptionPanelRegardingFocus(boolean updateEuclidianTab) {
+
+		if (stayInCurrentPanel())
 			return;
-		
+
 		int focusedViewId = ((AppD) app).getGuiManager().getLayout()
 				.getDockManager().getFocusedViewId();
 
-
 		if (viewMap.get(focusedViewId) != null) {
 			OptionType type = viewMap.get(focusedViewId);
-			if (type==OptionType.EUCLIDIAN || type==OptionType.EUCLIDIAN2){
-				if (app.getActiveEuclidianView().getEuclidianController().checkBoxOrTextfieldOrButtonJustHitted()){
-					//hit check box or text field : does nothing
-					//setOptionPanel(OptionType.OBJECTS);
-				}else{
-					//ev clicked
+			if (type == OptionType.EUCLIDIAN || type == OptionType.EUCLIDIAN2) {
+				if (app.getActiveEuclidianView().getEuclidianController()
+						.checkBoxOrTextfieldOrButtonJustHitted()) {
+					// hit check box or text field : does nothing
+					// setOptionPanel(OptionType.OBJECTS);
+				} else {
+					// ev clicked
 					setOptionPanel(type);
-					if (updateEuclidianTab){			
-						switch(type){
+					if (updateEuclidianTab) {
+						switch (type) {
 						case EUCLIDIAN:
 							euclidianPanel.setSelectedTab(selectedTab);
 							break;
@@ -300,124 +279,120 @@ public class PropertiesViewD extends geogebra.common.gui.view.properties.Propert
 						}
 					}
 				}
-			}else
+			} else
 				setOptionPanel(type);
-		} 
-		
+		}
+
 	}
-	
+
 	/**
 	 * acts when mouse has been pressed in euclidian controller
 	 */
 	@Override
-	public void mousePressedForPropertiesView(){
+	public void mousePressedForPropertiesView() {
 		objectPanel.forgetGeoAdded();
 	}
-	
+
 	/**
 	 * acts when mouse has been released in euclidian controller
-	 * @param creatorMode says if euclidian view is in creator mode (ie not move mode)
+	 * 
+	 * @param creatorMode
+	 *            says if euclidian view is in creator mode (ie not move mode)
 	 */
-	public void mouseReleasedForPropertiesView(boolean creatorMode){
+	public void mouseReleasedForPropertiesView(boolean creatorMode) {
 
 		GeoElement geo = objectPanel.consumeGeoAdded();
-		
-		
-		//AbstractApplication.debug("\ngeo="+geo+"\nsel0="+app.getSelectedGeos().get(0));
-		if (app.getSelectedGeos().size()>0) //selected geo is the most important
+
+		// AbstractApplication.debug("\ngeo="+geo+"\nsel0="+app.getSelectedGeos().get(0));
+		if (app.getSelectedGeos().size() > 0) // selected geo is the most
+												// important
 			updatePropertiesViewCheckConstants(app.getSelectedGeos());
-		else if (geo!=null){ //last created geo
-			if (creatorMode){ //if euclidian view is e.g. in move mode, then geo was created by a script, so just show object properties
+		else if (geo != null) { // last created geo
+			if (creatorMode) { // if euclidian view is e.g. in move mode, then
+								// geo was created by a script, so just show
+								// object properties
 				ArrayList<GeoElement> geos = new ArrayList<GeoElement>();
 				geos.add(geo);
-				setOptionPanel(OptionType.OBJECTS,geos);
-			}else{
-				setOptionPanel(OptionType.OBJECTS,null);
+				setOptionPanel(OptionType.OBJECTS, geos);
+			} else {
+				setOptionPanel(OptionType.OBJECTS, null);
 			}
-		}else{ //focus
+		} else { // focus
 			updateSelectedTab(Construction.Constants.NOT);
 			setOptionPanelRegardingFocus(true);
-			//updatePropertiesView();
+			// updatePropertiesView();
 		}
 	}
 
 	/**
 	 * Sets and shows the option panel for the given option type
 	 * 
-	 * @param type type
+	 * @param type
+	 *            type
 	 */
 	@Override
 	public void setOptionPanel(OptionType type) {
-		if (type==OptionType.OBJECTS){//ensure that at least one geo is selected
+		if (type == OptionType.OBJECTS) {// ensure that at least one geo is
+											// selected
 			ArrayList<GeoElement> geos = app.getSelectedGeos();
-			if (geos==null || geos.size()==0)
+			if (geos == null || geos.size() == 0)
 				app.setFirstGeoSelectedForPropertiesView();
 		}
 
-		setOptionPanel(type,app.getSelectedGeos());
+		setOptionPanel(type, app.getSelectedGeos());
 	}
-		
-	
+
 	/**
 	 * apply current panel modifications
 	 */
-	public void applyModifications(){
-		if (selectedOptionPanel!=null)
+	public void applyModifications() {
+		if (selectedOptionPanel != null)
 			((OptionPanelD) selectedOptionPanel).applyModifications();
 	}
-	
-	private void setOptionPanel(OptionType type, ArrayList<GeoElement> geos) {
-		
-		//App.printStacktrace("\ntype="+type+"\nisIniting="+isIniting+"\nsize="+app.getSelectedGeos().size());
-		//App.debug("\ntype="+type+"\nisIniting="+isIniting+"\nsize="+app.getSelectedGeos().size()+"\ngeos="+geos);
 
-		
+	private void setOptionPanel(OptionType type, ArrayList<GeoElement> geos) {
+
+		// App.printStacktrace("\ntype="+type+"\nisIniting="+isIniting+"\nsize="+app.getSelectedGeos().size());
+		// App.debug("\ntype="+type+"\nisIniting="+isIniting+"\nsize="+app.getSelectedGeos().size()+"\ngeos="+geos);
 
 		if (type == null) {
 			return;
 		}
-		
-		
 
-
-		//update selection
-		if (type==OptionType.OBJECTS){
-			if (geos!=null){
-				((OptionsObjectD) objectPanel).updateSelection(geos);	
+		// update selection
+		if (type == OptionType.OBJECTS) {
+			if (geos != null) {
+				((OptionsObjectD) objectPanel).updateSelection(geos);
 			}
 
 			styleBar.setObjectsToolTip();
-			
+
 		}
-		
+
 		applyModifications();
 
 		if (!isIniting && selectedOptionType == type) {
 			updateTitleBar();
 			return;
 		}
-			
-				
+
 		selectedOptionType = type;
 
-		// clear the center panel and replace with selected option panel 
-		
+		// clear the center panel and replace with selected option panel
+
 		mainPanel.removeAll();
 		selectedOptionPanel = getOptionPanel(type);
-		
-		
-		
+
 		mainPanel.add(getOptionPanel(type).getWrappedPanel(),
 				BorderLayout.CENTER);
-				
-		mainPanel.setBorder(BorderFactory
-				.createEmptyBorder(5, 5, 5, 5));
+
+		mainPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
 		((OptionPanelD) selectedOptionPanel).updateGUI();
 		((OptionPanelD) selectedOptionPanel).revalidate();
 		updateStyleBar();
-		updateTitleBar(); 
-		
+		updateTitleBar();
+
 		wrappedPanel.revalidate();
 		wrappedPanel.repaint();
 	}
@@ -446,7 +421,8 @@ public class PropertiesViewD extends geogebra.common.gui.view.properties.Propert
 			layoutPanel.updateGUI();
 		}
 		if (objectPanel != null) {
-			((OptionsObjectD) objectPanel).setVisible(selectedOptionType == OptionType.OBJECTS);
+			((OptionsObjectD) objectPanel)
+					.setVisible(selectedOptionType == OptionType.OBJECTS);
 		}
 
 		setLabels();
@@ -461,8 +437,8 @@ public class PropertiesViewD extends geogebra.common.gui.view.properties.Propert
 	 * @return
 	 */
 	public OptionPanelD getOptionPanel(OptionType type) {
-		
-		//AbstractApplication.printStacktrace("type :"+type);
+
+		// AbstractApplication.printStacktrace("type :"+type);
 
 		switch (type) {
 		case DEFAULTS:
@@ -482,25 +458,25 @@ public class PropertiesViewD extends geogebra.common.gui.view.properties.Propert
 				euclidianPanel = new OptionsEuclidianD((AppD) app,
 						((AppD) app).getActiveEuclidianView());
 				euclidianPanel.setLabels();
-				euclidianPanel.setView(((AppD)app).getEuclidianView1());
+				euclidianPanel.setView(((AppD) app).getEuclidianView1());
 			}
-			
+
 			return euclidianPanel;
 
 		case EUCLIDIAN2:
 			if (euclidianPanel2 == null) {
 				euclidianPanel2 = new OptionsEuclidianD((AppD) app,
-						((AppD)app).getEuclidianView2());
+						((AppD) app).getEuclidianView2());
 				euclidianPanel2.setLabels();
-				euclidianPanel2.setView(((AppD)app).getEuclidianView2());
+				euclidianPanel2.setView(((AppD) app).getEuclidianView2());
 			}
-			
+
 			return euclidianPanel2;
 
 		case SPREADSHEET:
 			if (spreadsheetPanel == null) {
-				spreadsheetPanel = new OptionsSpreadsheetD((AppD)app, ((AppD)app)
-						.getGuiManager().getSpreadsheetView());
+				spreadsheetPanel = new OptionsSpreadsheetD((AppD) app,
+						((AppD) app).getGuiManager().getSpreadsheetView());
 			}
 			return spreadsheetPanel;
 
@@ -519,7 +495,9 @@ public class PropertiesViewD extends geogebra.common.gui.view.properties.Propert
 		case OBJECTS:
 			if (objectPanel == null) {
 				objectPanel = new OptionsObjectD((AppD) app);
-				((OptionsObjectD) objectPanel).setMinimumSize(((OptionsObjectD) objectPanel).getPreferredSize());
+				((OptionsObjectD) objectPanel)
+						.setMinimumSize(((OptionsObjectD) objectPanel)
+								.getPreferredSize());
 			}
 			return (OptionPanelD) objectPanel;
 		}
@@ -550,34 +528,40 @@ public class PropertiesViewD extends geogebra.common.gui.view.properties.Propert
 	 */
 	public void setLabels() {
 
+		if (defaultsPanel != null)
+			defaultsPanel.setLabels();
+		if (euclidianPanel != null)
+			euclidianPanel.setLabels();
+		if (euclidianPanel2 != null)
+			euclidianPanel2.setLabels();
+		if (spreadsheetPanel != null)
+			spreadsheetPanel.setLabels();
+		if (casPanel != null)
+			casPanel.setLabels();
+		if (advancedPanel != null)
+			advancedPanel.setLabels();
+		if (objectPanel != null)
+			((SetLabels) objectPanel).setLabels();
+		if (layoutPanel != null)
+			layoutPanel.setLabels();
 
-		if (defaultsPanel!=null) defaultsPanel.setLabels();
-		if (euclidianPanel!=null) euclidianPanel.setLabels();
-		if (euclidianPanel2!=null) euclidianPanel2.setLabels();
-		if (spreadsheetPanel!=null) spreadsheetPanel.setLabels();
-		if (casPanel!=null) casPanel.setLabels();
-		if (advancedPanel!=null) advancedPanel.setLabels();
-		if (objectPanel!=null) ((SetLabels) objectPanel).setLabels();
-		if (layoutPanel!=null) layoutPanel.setLabels();
-		
 		updateStyleBar();
 		styleBar.setLabels();
 		updateTitleBar();
-		
 
 	}
-	
-	private void updateStyleBar(){
+
+	private void updateStyleBar() {
 
 		if (styleBar != null) {
 			styleBar.updateGUI();
 		}
 	}
-	
 
 	@Override
-	protected void updateTitleBar(){
-		((AppD)app).getGuiManager().getLayout().getDockManager().getPanel(App.VIEW_PROPERTIES).updateTitleBar();
+	protected void updateTitleBar() {
+		((AppD) app).getGuiManager().getLayout().getDockManager()
+				.getPanel(App.VIEW_PROPERTIES).updateTitleBar();
 	}
 
 	public void closeIfNotCurrentListener() {
@@ -590,20 +574,20 @@ public class PropertiesViewD extends geogebra.common.gui.view.properties.Propert
 	// //////////////////////////////////////////////////////
 	// VIEW INTERFACE
 	// //////////////////////////////////////////////////////
-	
+
 	@Override
 	public void attachView() {
-		if (attached){
+		if (attached) {
 			App.debug("already attached");
 			return;
 		}
-		
+
 		clearView();
 		kernel.notifyAddAll(this);
 		kernel.attach(this);
 		attached = true;
 	}
-	
+
 	@Override
 	public void detachView() {
 		kernel.detach(this);
@@ -618,7 +602,7 @@ public class PropertiesViewD extends geogebra.common.gui.view.properties.Propert
 	}
 
 	public void remove(GeoElement geo) {
-		//((OptionsObjectD) objectPanel).updateIfInSelection(geo);
+		// ((OptionsObjectD) objectPanel).updateIfInSelection(geo);
 		((OptionsObjectD) objectPanel).getTree().remove(geo);
 
 	}
@@ -652,18 +636,18 @@ public class PropertiesViewD extends geogebra.common.gui.view.properties.Propert
 		((OptionsObjectD) objectPanel).getTree().updateAuxiliaryObject(geo);
 
 	}
-	
 
 	public void repaintView() {
-			
-		if (objectPanel!=null){		
-			if (app.getSelectedGeos()!=null && app.getSelectedGeos().size()==1)
-				((OptionsObjectD) objectPanel).updateOneGeoDefinition(app.getSelectedGeos().get(0));
-			
+
+		if (objectPanel != null) {
+			if (app.getSelectedGeos() != null
+					&& app.getSelectedGeos().size() == 1)
+				((OptionsObjectD) objectPanel).updateOneGeoDefinition(app
+						.getSelectedGeos().get(0));
+
 			((OptionsObjectD) objectPanel).getTree().repaint();
 		}
-		
-		
+
 	}
 
 	public void reset() {
@@ -673,7 +657,6 @@ public class PropertiesViewD extends geogebra.common.gui.view.properties.Propert
 
 	public void clearView() {
 		((OptionsObjectD) objectPanel).getTree().clearView();
-		
 
 	}
 
@@ -685,7 +668,6 @@ public class PropertiesViewD extends geogebra.common.gui.view.properties.Propert
 	public int getViewID() {
 		return App.VIEW_PROPERTIES;
 	}
-	
 
 	// //////////////////////////////////////////////////////
 	// SELECTION
@@ -695,54 +677,51 @@ public class PropertiesViewD extends geogebra.common.gui.view.properties.Propert
 	public void updateSelection() {
 
 		ArrayList<GeoElement> geos = app.getSelectedGeos();
-		
-		if (geos.size()==0)
+
+		if (geos.size() == 0)
 			setObjectPanel(geos);
 		else
 			updateSelection(removeAllConstants(geos));
 	}
 
-
 	@Override
 	public void updateSelection(ArrayList<GeoElement> geos) {
 
-		if (geos.size()>0){
-			if (!stayInCurrentPanel()) 
+		if (geos.size() > 0) {
+			if (!stayInCurrentPanel())
 				setObjectPanel(geos);
-		}else{
+		} else {
 			setOptionPanelRegardingFocus(true);
 		}
 
 	}
-	
-	/** say if it has to stay in current panel.
-	 *  Should disable any try to change panel, unless from stylebar buttons.
+
+	/**
+	 * say if it has to stay in current panel. Should disable any try to change
+	 * panel, unless from stylebar buttons.
 	 */
-	private boolean stayInCurrentPanel(){
-		return selectedOptionType==OptionType.DEFAULTS 
-				|| selectedOptionType==OptionType.ADVANCED
-				|| selectedOptionType==OptionType.LAYOUT
-				;
+	private boolean stayInCurrentPanel() {
+		return selectedOptionType == OptionType.DEFAULTS
+				|| selectedOptionType == OptionType.ADVANCED
+				|| selectedOptionType == OptionType.LAYOUT;
 	}
 
-	private void setObjectPanel(ArrayList<GeoElement> geos){
-		if (selectedOptionType!=OptionType.OBJECTS)
+	private void setObjectPanel(ArrayList<GeoElement> geos) {
+		if (selectedOptionType != OptionType.OBJECTS)
 			setOptionPanel(OptionType.OBJECTS);
 
-		if (geos.size()==0)
+		if (geos.size() == 0)
 			app.setFirstGeoSelectedForPropertiesView();
 
-		
 		((OptionsObjectD) objectPanel).updateSelection(geos);
-		updateTitleBar(); 
-		styleBar.setObjectsToolTip();	
+		updateTitleBar();
+		styleBar.setObjectsToolTip();
 	}
-	
-	
+
 	private int selectedTab = 0;
-	
-	private void updateSelectedTab(Construction.Constants constant){
-		switch (constant){
+
+	private void updateSelectedTab(Construction.Constants constant) {
+		switch (constant) {
 		case X_AXIS:
 			selectedTab = 1;
 			break;
@@ -755,31 +734,30 @@ public class PropertiesViewD extends geogebra.common.gui.view.properties.Propert
 		}
 	}
 
-	private ArrayList<GeoElement> removeAllConstants(ArrayList<GeoElement> geosList){
-		
+	private ArrayList<GeoElement> removeAllConstants(
+			ArrayList<GeoElement> geosList) {
+
 		Construction.Constants firstRemovedConstant = Construction.Constants.NOT;
-		
-		
-		//check if there is constants, remove it and remember what type
+
+		// check if there is constants, remove it and remember what type
 		ArrayList<GeoElement> geos = new ArrayList<GeoElement>();
 		geos.addAll(geosList);
-		for (int i = geos.size() - 1 ; i >= 0 ; i-- ) {
+		for (int i = geos.size() - 1; i >= 0; i--) {
 			GeoElement geo = geos.get(i);
-			Construction.Constants constant = kernel.getConstruction().isConstantElement(geo);
-			if (constant!=Construction.Constants.NOT){
+			Construction.Constants constant = kernel.getConstruction()
+					.isConstantElement(geo);
+			if (constant != Construction.Constants.NOT) {
 				geos.remove(i);
-				if (firstRemovedConstant==Construction.Constants.NOT)
-					firstRemovedConstant=constant;
+				if (firstRemovedConstant == Construction.Constants.NOT)
+					firstRemovedConstant = constant;
 			}
 		}
-		
+
 		updateSelectedTab(firstRemovedConstant);
-		
+
 		return geos;
 
 	}
-
-
 
 	// //////////////////////////////////////////////////////
 	// FOR DOCK/UNDOCK PANEL
@@ -794,7 +772,6 @@ public class PropertiesViewD extends geogebra.common.gui.view.properties.Propert
 		// app.setSelectionListenerMode(this);
 	}
 
-
 	public void unwindowPanel() {
 		applyModifications();
 		((OptionsObjectD) objectPanel).setGeoTreeNotVisible();
@@ -804,7 +781,6 @@ public class PropertiesViewD extends geogebra.common.gui.view.properties.Propert
 		// app.setSelectionListenerMode(null);
 	}
 
-
 	public void closeDialog() {
 		wrappedPanel.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 		app.storeUndoInfo();
@@ -812,7 +788,6 @@ public class PropertiesViewD extends geogebra.common.gui.view.properties.Propert
 		app.getGuiManager().setShowView(false, getViewID());
 	}
 
-	
 	public void showSliderTab() {
 		((OptionsObjectD) objectPanel).showSliderTab();
 	}
@@ -826,7 +801,6 @@ public class PropertiesViewD extends geogebra.common.gui.view.properties.Propert
 		return wrappedPanel;
 	}
 
-	
 	public ImageIcon getTypeIcon(OptionType type) {
 		switch (type) {
 		case DEFAULTS:
@@ -850,14 +824,14 @@ public class PropertiesViewD extends geogebra.common.gui.view.properties.Propert
 	}
 
 	public void updateFonts() {
-		
-		if(isIniting){
+
+		if (isIniting) {
 			return;
 		}
-		
+
 		Font font = ((AppD) app).getPlainFont();
 		mainPanel.setFont(font);
-		
+
 	}
-	
+
 }

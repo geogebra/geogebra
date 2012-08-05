@@ -31,8 +31,9 @@ import javax.swing.border.Border;
 /**
  * Layout options for the options dialog.
  */
-public class OptionsLayoutD extends geogebra.common.gui.dialog.options.OptionsLayout implements OptionPanelD, ActionListener,
-		FocusListener, SetLabels {
+public class OptionsLayoutD extends
+		geogebra.common.gui.dialog.options.OptionsLayout implements
+		OptionPanelD, ActionListener, FocusListener, SetLabels {
 	/** */
 	private static final long serialVersionUID = 1L;
 
@@ -102,10 +103,10 @@ public class OptionsLayoutD extends geogebra.common.gui.dialog.options.OptionsLa
 		panel.add(menuBarPanel);
 
 		panel.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
-		
+
 		JScrollPane scrollPane = new JScrollPane(panel);
 		scrollPane.getVerticalScrollBar().setUnitIncrement(20);
-		//scrollPane.setBorder(BorderFactory.createEmptyBorder());
+		// scrollPane.setBorder(BorderFactory.createEmptyBorder());
 
 		wrappedPanel.add(scrollPane, BorderLayout.CENTER);
 
@@ -217,10 +218,10 @@ public class OptionsLayoutD extends geogebra.common.gui.dialog.options.OptionsLa
 
 		ckShowToolHelp = new JCheckBox();
 		ckShowToolHelp.addActionListener(this);
-		
-		//TODO need to create a method to set a flag for this in the gui manager 
+
+		// TODO need to create a method to set a flag for this in the gui
+		// manager
 		ckShowToolHelp.setSelected(true);
-		
 
 		int tab = 20;
 
@@ -372,9 +373,9 @@ public class OptionsLayoutD extends geogebra.common.gui.dialog.options.OptionsLa
 		} else if (source == ckShowToolbar || source == ckShowToolHelp) {
 			app.setShowToolBar(ckShowToolbar.isSelected(),
 					ckShowToolHelp.isSelected());
-					app.updateApplicationLayout();
-					app.updateToolBarLayout();
-					app.getGuiManager().updateToolbar();
+			app.updateApplicationLayout();
+			app.updateToolBarLayout();
+			app.getGuiManager().updateToolbar();
 		} else if (source == rbToolbarNorth) {
 			app.setToolbarPosition(SwingConstants.NORTH, true);
 		} else if (source == rbToolbarSouth) {
@@ -401,7 +402,7 @@ public class OptionsLayoutD extends geogebra.common.gui.dialog.options.OptionsLa
 			app.setShowMenuBar(ckShowMenuBar.isSelected());
 			app.getGuiManager().updateMenuBarLayout();
 		}
-		
+
 		wrappedPanel.requestFocus();
 		updateGUI();
 
@@ -463,16 +464,16 @@ public class OptionsLayoutD extends geogebra.common.gui.dialog.options.OptionsLa
 
 	public void revalidate() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void setBorder(Border border) {
 		this.wrappedPanel.setBorder(border);
 	}
-	
-	public void applyModifications(){
-		//override this method to make the properties view apply modifications
-		//when panel changes
+
+	public void applyModifications() {
+		// override this method to make the properties view apply modifications
+		// when panel changes
 	}
 
 }

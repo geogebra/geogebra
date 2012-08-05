@@ -23,30 +23,33 @@ public abstract class OptionsObject {
 	public App app;
 
 	/**
-	  * update geo just added
-	  * @param geo geo
-	  */
+	 * update geo just added
+	 * 
+	 * @param geo
+	 *            geo
+	 */
 	public void add(GeoElement geo) {
-		 //AbstractApplication.debug("\ngeo = "+geo);
-		 geoAdded = geo;
-	 }
+		// AbstractApplication.debug("\ngeo = "+geo);
+		geoAdded = geo;
+	}
 
 	/**
-	  * forget last added geo
-	  */
+	 * forget last added geo
+	 */
 	public void forgetGeoAdded() {
-		 geoAdded = null;
-	 }
+		geoAdded = null;
+	}
 
 	/**
-	  * consume last added geo
-	  * @return last added geo
-	  */
+	 * consume last added geo
+	 * 
+	 * @return last added geo
+	 */
 	public GeoElement consumeGeoAdded() {
-		 GeoElement ret = geoAdded;
-		 forgetGeoAdded();
-		 return ret;
-	 }
+		GeoElement ret = geoAdded;
+		forgetGeoAdded();
+		return ret;
+	}
 
 	/**
 	 * 
@@ -56,16 +59,16 @@ public abstract class OptionsObject {
 		if (selection == null || selection.size() == 0) {
 			App.error("This should not get called unless at least one object is selected");
 			return app.getPlain("Properties");
-		}
-		else if (selection.size() == 1){
+		} else if (selection.size() == 1) {
 			GeoElement geo = selection.get(0);
 			sb.setLength(0);
 			sb.append("<html>");
-			sb.append(app.getPlain("PropertiesOfA",geo.getNameDescriptionHTML(false, false)));
+			sb.append(app.getPlain("PropertiesOfA",
+					geo.getNameDescriptionHTML(false, false)));
 			sb.append("</html>");
 			return sb.toString();
 		} else {
-			return app.getPlain("PropertiesOfA",app.getPlain("Selection"));
+			return app.getPlain("PropertiesOfA", app.getPlain("Selection"));
 		}
 	}
 

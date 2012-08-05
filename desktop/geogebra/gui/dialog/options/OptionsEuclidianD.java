@@ -60,8 +60,9 @@ import javax.swing.border.Border;
  * revised by G.Sturr 2010-8-15
  * 
  */
-public class OptionsEuclidianD extends geogebra.common.gui.dialog.options.OptionsEuclidian implements OptionPanelD, ActionListener,
-		FocusListener, ItemListener, SetLabels {
+public class OptionsEuclidianD extends
+		geogebra.common.gui.dialog.options.OptionsEuclidian implements
+		OptionPanelD, ActionListener, FocusListener, ItemListener, SetLabels {
 
 	private static final long serialVersionUID = 1L;
 
@@ -82,7 +83,8 @@ public class OptionsEuclidianD extends geogebra.common.gui.dialog.options.Option
 	private JButton btBackgroundColor, btAxesColor, btGridColor;
 	private JCheckBox cbShowAxes, cbShowGrid, cbBoldGrid, cbGridManualTick,
 			cbShowMouseCoords;
-	protected JComboBox cbAxesStyle, cbGridType, cbGridStyle, cbGridTickAngle, cbTooltips;
+	protected JComboBox cbAxesStyle, cbGridType, cbGridStyle, cbGridTickAngle,
+			cbTooltips;
 
 	private JTextField tfAxesRatioX, tfAxesRatioY;
 
@@ -101,9 +103,8 @@ public class OptionsEuclidianD extends geogebra.common.gui.dialog.options.Option
 	private JToggleButton cbLockRatio;
 
 	private JPanel wrappedPanel;
-	
-	
-	//private JButton restoreDefaultsButton;
+
+	// private JButton restoreDefaultsButton;
 
 	/***********************************************
 	 * Creates a new dialog for the properties of the Euclidian view.
@@ -148,7 +149,6 @@ public class OptionsEuclidianD extends geogebra.common.gui.dialog.options.Option
 		// create panels for the axes
 		initAxisPanels();
 
-
 		// create tabbed pane for basic, axes, and grid options
 		tabbedPane = new JTabbedPane();
 		addTabs();
@@ -157,36 +157,28 @@ public class OptionsEuclidianD extends geogebra.common.gui.dialog.options.Option
 		wrappedPanel.removeAll();
 		wrappedPanel.setLayout(new BorderLayout());
 		wrappedPanel.add(tabbedPane, BorderLayout.CENTER);
-		
+
 		/*
-		//restore default button	
-		if (!app.isApplet()) {
-			JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-			
-			restoreDefaultsButton = new JButton();
-			restoreDefaultsButton.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-				
-					AbstractApplication.error("not implemented yet");
+		 * //restore default button if (!app.isApplet()) { JPanel panel = new
+		 * JPanel(new FlowLayout(FlowLayout.LEFT));
+		 * 
+		 * restoreDefaultsButton = new JButton();
+		 * restoreDefaultsButton.addActionListener(new ActionListener() { public
+		 * void actionPerformed(ActionEvent e) {
+		 * 
+		 * AbstractApplication.error("not implemented yet");
+		 * 
+		 * } });
+		 * 
+		 * panel.add(restoreDefaultsButton); add(panel, BorderLayout.SOUTH); }
+		 */
 
-				}
-			});
-
-			panel.add(restoreDefaultsButton);
-			add(panel, BorderLayout.SOUTH);
-		}
-		*/
-		
 	}
-
-	
-	
-
 
 	protected void addTabs() {
 		tabbedPane.addTab("", new JScrollPane(buildBasicPanel()));
-		tabbedPane.addTab("",  new JScrollPane(xAxisPanel));
-		tabbedPane.addTab("",  new JScrollPane(yAxisPanel));
+		tabbedPane.addTab("", new JScrollPane(xAxisPanel));
+		tabbedPane.addTab("", new JScrollPane(yAxisPanel));
 		tabbedPane.addTab("", new JScrollPane(buildGridPanel()));
 	}
 
@@ -234,12 +226,14 @@ public class OptionsEuclidianD extends geogebra.common.gui.dialog.options.Option
 		dimPanel = new JPanel();
 		dimPanel.setLayout(new BoxLayout(dimPanel, BoxLayout.Y_AXIS));
 
-		dimPanel.add(OptionsUtil.flowPanel(dimLabel[0], tfMinX, dimLabel[1], tfMaxX));
-		dimPanel.add(OptionsUtil.flowPanel(dimLabel[2], tfMinY, dimLabel[3], tfMaxY));
+		dimPanel.add(OptionsUtil.flowPanel(dimLabel[0], tfMinX, dimLabel[1],
+				tfMaxX));
+		dimPanel.add(OptionsUtil.flowPanel(dimLabel[2], tfMinY, dimLabel[3],
+				tfMaxY));
 
 		dimPanel.add(OptionsUtil.flowPanel(axesRatioLabel));
-		dimPanel.add(OptionsUtil.flowPanel(Box.createHorizontalStrut(20), tfAxesRatioX,
-				new JLabel(" : "), tfAxesRatioY,cbLockRatio));
+		dimPanel.add(OptionsUtil.flowPanel(Box.createHorizontalStrut(20),
+				tfAxesRatioX, new JLabel(" : "), tfAxesRatioY, cbLockRatio));
 	}
 
 	private void initAxesOptionsPanel() {
@@ -293,7 +287,8 @@ public class OptionsEuclidianD extends geogebra.common.gui.dialog.options.Option
 
 		miscPanel = new JPanel();
 		miscPanel.setLayout(new BoxLayout(miscPanel, BoxLayout.Y_AXIS));
-		miscPanel.add(OptionsUtil.flowPanel(backgroundColor, btBackgroundColor));
+		miscPanel
+				.add(OptionsUtil.flowPanel(backgroundColor, btBackgroundColor));
 		miscPanel.add(OptionsUtil.flowPanel(tooltips, cbTooltips));
 		miscPanel.add(OptionsUtil.flowPanel(cbShowMouseCoords));
 
@@ -318,10 +313,8 @@ public class OptionsEuclidianD extends geogebra.common.gui.dialog.options.Option
 
 		// grid type combo box
 		String[] gridTypeLabel = new String[3];
-		gridTypeLabel[EuclidianView.GRID_CARTESIAN] = app
-				.getMenu("Cartesian");
-		gridTypeLabel[EuclidianView.GRID_ISOMETRIC] = app
-				.getMenu("Isometric");
+		gridTypeLabel[EuclidianView.GRID_CARTESIAN] = app.getMenu("Cartesian");
+		gridTypeLabel[EuclidianView.GRID_ISOMETRIC] = app.getMenu("Isometric");
 		gridTypeLabel[EuclidianView.GRID_POLAR] = app.getMenu("Polar");
 		cbGridType = new JComboBox(gridTypeLabel);
 		cbGridType.addActionListener(this);
@@ -360,8 +353,8 @@ public class OptionsEuclidianD extends geogebra.common.gui.dialog.options.Option
 		typePanel.setLayout(new BoxLayout(typePanel, BoxLayout.Y_AXIS));
 		typePanel.add(OptionsUtil.flowPanel(cbGridType));
 		typePanel.add(OptionsUtil.flowPanel(cbGridManualTick));
-		typePanel.add(OptionsUtil.flowPanel(Box.createHorizontalStrut(20), gridLabel1,
-				ncbGridTickX, gridLabel2, ncbGridTickY, gridLabel3,
+		typePanel.add(OptionsUtil.flowPanel(Box.createHorizontalStrut(20),
+				gridLabel1, ncbGridTickX, gridLabel2, ncbGridTickY, gridLabel3,
 				cbGridTickAngle));
 
 	}
@@ -388,7 +381,8 @@ public class OptionsEuclidianD extends geogebra.common.gui.dialog.options.Option
 		stylePanel.setLayout(new BoxLayout(stylePanel, BoxLayout.Y_AXIS));
 
 		stylePanel.add(OptionsUtil.flowPanel(cbGridStyle));
-		stylePanel.add(OptionsUtil.flowPanel(lblColor, btGridColor, cbBoldGrid));
+		stylePanel
+				.add(OptionsUtil.flowPanel(lblColor, btGridColor, cbBoldGrid));
 
 	}
 
@@ -436,8 +430,6 @@ public class OptionsEuclidianD extends geogebra.common.gui.dialog.options.Option
 
 	}
 
-	
-
 	public void updateGUI() {
 
 		btBackgroundColor.setForeground(geogebra.awt.GColorD.getAwtColor(view
@@ -475,7 +467,6 @@ public class OptionsEuclidianD extends geogebra.common.gui.dialog.options.Option
 		cbShowMouseCoords.removeActionListener(this);
 		cbShowMouseCoords.setSelected(view.getAllowShowMouseCoords());
 		cbShowMouseCoords.addActionListener(this);
-
 
 		tfAxesRatioX.setEnabled(view.isZoomable() && !view.isLockedAxesRatio());
 		tfAxesRatioY.setEnabled(view.isZoomable() && !view.isLockedAxesRatio());
@@ -574,7 +565,8 @@ public class OptionsEuclidianD extends geogebra.common.gui.dialog.options.Option
 		cbGridType.addActionListener(this);
 
 		cbGridManualTick.setText(app.getPlain("TickDistance") + ":");
-		stylePanel.setBorder(OptionsUtil.titleBorder(app.getPlain("LineStyle")));
+		stylePanel
+				.setBorder(OptionsUtil.titleBorder(app.getPlain("LineStyle")));
 
 		// color
 		lblColor.setText(app.getPlain("Color") + ":");
@@ -597,16 +589,15 @@ public class OptionsEuclidianD extends geogebra.common.gui.dialog.options.Option
 		setLabelsForCbView();
 
 		cbShowMouseCoords.setText(app.getMenu("ShowMouseCoordinates"));
-		
-		//axis
+
+		// axis
 		xAxisPanel.setLabels();
 		yAxisPanel.setLabels();
-		
-		
+
 		/*
-		if (!app.isApplet()) 
-			restoreDefaultsButton.setText(app.getMenu("ApplyDefaults"));
-			*/
+		 * if (!app.isApplet())
+		 * restoreDefaultsButton.setText(app.getMenu("ApplyDefaults"));
+		 */
 	}
 
 	protected void setTabLabels() {
@@ -638,8 +629,10 @@ public class OptionsEuclidianD extends geogebra.common.gui.dialog.options.Option
 		cbTooltips.addActionListener(this);
 
 		dimPanel.setBorder(OptionsUtil.titleBorder(app.getPlain("Dimensions")));
-		axesOptionsPanel.setBorder(OptionsUtil.titleBorder(app.getMenu("Axes")));
-		miscPanel.setBorder(OptionsUtil.titleBorder(app.getPlain("Miscellaneous")));
+		axesOptionsPanel
+				.setBorder(OptionsUtil.titleBorder(app.getMenu("Axes")));
+		miscPanel.setBorder(OptionsUtil.titleBorder(app
+				.getPlain("Miscellaneous")));
 
 		cbShowAxes.setText(app.getPlain("ShowAxes"));
 	}
@@ -834,14 +827,16 @@ public class OptionsEuclidianD extends geogebra.common.gui.dialog.options.Option
 				view.setCoordSystem(view.getXZero(), view.getYZero(),
 						view.getXscale(), view.getXscale() * xval / yval);
 			}
-		} else if(source == cbLockRatio){
-			if(cbLockRatio.isSelected()){
-				view.setLockedAxesRatio(parseDouble(tfAxesRatioX.getText())/parseDouble(tfAxesRatioY.getText()));
-			}
-			else
+		} else if (source == cbLockRatio) {
+			if (cbLockRatio.isSelected()) {
+				view.setLockedAxesRatio(parseDouble(tfAxesRatioX.getText())
+						/ parseDouble(tfAxesRatioY.getText()));
+			} else
 				view.setLockedAxesRatio(null);
-			tfAxesRatioX.setEnabled(view.isZoomable() && !view.isLockedAxesRatio() );
-			tfAxesRatioY.setEnabled(view.isZoomable() && !view.isLockedAxesRatio() );
+			tfAxesRatioX.setEnabled(view.isZoomable()
+					&& !view.isLockedAxesRatio());
+			tfAxesRatioY.setEnabled(view.isZoomable()
+					&& !view.isLockedAxesRatio());
 
 		} else if (source == tfMinX || source == tfMaxX || source == tfMaxY
 				|| source == tfMinY) {
@@ -986,10 +981,12 @@ public class OptionsEuclidianD extends geogebra.common.gui.dialog.options.Option
 
 	/**
 	 * set which tab is visible
-	 * @param constant xAxis, yAxis, ...
+	 * 
+	 * @param constant
+	 *            xAxis, yAxis, ...
 	 */
-	public void setSelectedTab(Construction.Constants constant){
-		switch (constant){
+	public void setSelectedTab(Construction.Constants constant) {
+		switch (constant) {
 		case X_AXIS:
 			tabbedPane.setSelectedIndex(1);
 			break;
@@ -1001,20 +998,22 @@ public class OptionsEuclidianD extends geogebra.common.gui.dialog.options.Option
 			break;
 		}
 	}
-	
+
 	/**
 	 * 
 	 * @return selected tab
 	 */
-	public int getSelectedTab(){
+	public int getSelectedTab() {
 		return tabbedPane.getSelectedIndex();
 	}
-	
+
 	/**
 	 * select the correct tab
-	 * @param index index
+	 * 
+	 * @param index
+	 *            index
 	 */
-	public void setSelectedTab(int index){
+	public void setSelectedTab(int index) {
 		tabbedPane.setSelectedIndex(index);
 	}
 
@@ -1024,16 +1023,16 @@ public class OptionsEuclidianD extends geogebra.common.gui.dialog.options.Option
 
 	public void revalidate() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void setBorder(Border border) {
 		wrappedPanel.setBorder(border);
 	}
-	
-	public void applyModifications(){
-		//override this method to make the properties view apply modifications
-		//when panel changes
+
+	public void applyModifications() {
+		// override this method to make the properties view apply modifications
+		// when panel changes
 	}
 
 }

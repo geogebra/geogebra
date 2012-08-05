@@ -827,7 +827,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 				});
 				add(item);
 				item.setVisible(((PropertiesView) app.getGuiManager()
-						.getPropertiesView()).isObjectPanelAvailable(type));
+						.getPropertiesView()).isOptionPanelAvailable(type));
 			}
 
 		}

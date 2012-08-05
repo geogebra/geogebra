@@ -39,12 +39,14 @@ import javax.swing.border.Border;
 /**
  * @author Markus Hohenwarter
  */
-public class OptionsObjectD extends geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelD, SetLabels {
+public class OptionsObjectD extends
+		geogebra.common.gui.dialog.options.OptionsObject implements
+		OptionPanelD, SetLabels {
 
 	private static final long serialVersionUID = 1L;
 	private PropertiesPanel propPanel;
 	private GeoGebraColorChooser colChooser;
-	
+
 	private AlgebraTree tree;
 
 	private JSplitPane splitPane;
@@ -58,12 +60,9 @@ public class OptionsObjectD extends geogebra.common.gui.dialog.options.OptionsOb
 	 *            parent frame
 	 */
 	public OptionsObjectD(AppD app) {
-		
+
 		this.app = app;
 		kernel = app.getKernel();
-		
-		
-
 
 		// build GUI
 		initGUI();
@@ -79,20 +78,12 @@ public class OptionsObjectD extends geogebra.common.gui.dialog.options.OptionsOb
 		if (wasShowing) {
 			setVisible(false);
 		}
-		
+
 		// LIST PANEL
 		tree = new AlgebraTree(new AlgebraTreeController(kernel));
 		listScroller = new JScrollPane(tree);
 		listScroller.setMinimumSize(new Dimension(MIN_LIST_WIDTH, 200));
 		listScroller.setBackground(Color.white);
-
-
-
-
-
-	
-
-
 
 		// PROPERTIES PANEL
 		if (colChooser == null) {
@@ -110,7 +101,6 @@ public class OptionsObjectD extends geogebra.common.gui.dialog.options.OptionsOb
 
 		// put it all together
 		wrappedPanel.removeAll();
-		
 
 		splitPane = new JSplitPane();
 		splitPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
@@ -118,9 +108,8 @@ public class OptionsObjectD extends geogebra.common.gui.dialog.options.OptionsOb
 		splitPane.setRightComponent(propPanel);
 
 		wrappedPanel.setLayout(new BorderLayout());
-		//this.add(propPanel, BorderLayout.CENTER);
+		// this.add(propPanel, BorderLayout.CENTER);
 		wrappedPanel.add(splitPane, BorderLayout.CENTER);
-		
 
 		if (wasShowing) {
 			setVisible(true);
@@ -129,8 +118,6 @@ public class OptionsObjectD extends geogebra.common.gui.dialog.options.OptionsOb
 		setLabels();
 
 	}
-
-
 
 	public PropertiesPanel getPropertiesPanel() {
 		return propPanel;
@@ -150,17 +137,10 @@ public class OptionsObjectD extends geogebra.common.gui.dialog.options.OptionsOb
 	 * TODO Create "Apply Defaults" phrase (F.S.)
 	 */
 	public void setLabels() {
-		
+
 		propPanel.setLabels();
-		
+
 	}
-
-	
-
-
-	
-	
-	
 
 	/**
 	 * shows this dialog and select GeoElement geo at screen position location
@@ -170,13 +150,12 @@ public class OptionsObjectD extends geogebra.common.gui.dialog.options.OptionsOb
 
 		setViewActive(true);
 
-
 		if (!wrappedPanel.isShowing()) {
 			// pack and center on first showing
 			if (firstTime) {
 				// TODO ---- is this needed?
-				//pack();
-				//setLocationRelativeTo(app.getMainComponent());
+				// pack();
+				// setLocationRelativeTo(app.getMainComponent());
 				firstTime = false;
 			}
 
@@ -213,11 +192,6 @@ public class OptionsObjectD extends geogebra.common.gui.dialog.options.OptionsOb
 
 	private boolean viewActive = false;
 
-
-
-
-
-	
 	private int dividerLocation = MIN_LIST_WIDTH;
 
 	/**
@@ -228,100 +202,109 @@ public class OptionsObjectD extends geogebra.common.gui.dialog.options.OptionsOb
 		splitPane.setDividerLocation(dividerLocation);
 		listScroller.setVisible(true);
 		splitPane.repaint();
-		
+
 	}
 
 	/**
 	 * hide the geo list
 	 */
 	public void setGeoTreeNotVisible() {
-		
+
 		listScroller.setVisible(false);
-		dividerLocation=splitPane.getDividerLocation();
+		dividerLocation = splitPane.getDividerLocation();
 		splitPane.setDividerSize(0);
 		splitPane.repaint();
-		
+
 	}
-	
+
 	/*
 	 * update selection regarding Application
-	 *
-	public void updateSelection() {
-		updateSelection(app.getSelectedGeos());
-	}
-	*/
-	
+	 * 
+	 * public void updateSelection() { updateSelection(app.getSelectedGeos()); }
+	 */
+
 	/**
 	 * update selection for properties panel
-	 * @param geos geos
+	 * 
+	 * @param geos
+	 *            geos
 	 */
 	public void updateSelection(ArrayList<GeoElement> geos) {
-		
+
 		selection = geos;
 		propPanel.updateSelection(geos.toArray());
 	}
-	
+
 	public void updateOneGeoDefinition(GeoElement geo) {
-		
-		//propPanel.updateOneGeoDefinition(geo);
+
+		// propPanel.updateOneGeoDefinition(geo);
 	}
-	
 
 	/**
 	 * @return the tree
 	 */
-	public AlgebraTree getTree(){
+	public AlgebraTree getTree() {
 		return tree;
 	}
 
 	public void updateGUI() {
 		setLabels();
-		
+
 	}
-	
-	
-	
+
 	/**
 	 * update geo if in selection
-	 * @param geo geo
+	 * 
+	 * @param geo
+	 *            geo
 	 */
-	 public void updateIfInSelection(GeoElement geo){
-		//AbstractApplication.printStacktrace("\ngeo = "+geo+"\nselected = "+geo.isSelected()+"\nhighlighted = "+geo.doHighlighting());
-		//AbstractApplication.debug("\ngeo = "+geo+"\nselection contains = "+(selection!=null && selection.contains(geo)));
-		if (selection!=null && selection.size()==1 && selection.contains(geo))
-			//propPanel.updateSelection(selection.toArray()); //TODO update only first tab, set flag to others
+	public void updateIfInSelection(GeoElement geo) {
+		// AbstractApplication.printStacktrace("\ngeo = "+geo+"\nselected = "+geo.isSelected()+"\nhighlighted = "+geo.doHighlighting());
+		// AbstractApplication.debug("\ngeo = "+geo+"\nselection contains = "+(selection!=null
+		// && selection.contains(geo)));
+		if (selection != null && selection.size() == 1
+				&& selection.contains(geo))
+			// propPanel.updateSelection(selection.toArray()); //TODO update
+			// only first tab, set flag to others
 			propPanel.updateOneGeoDefinition(geo);
-	 }
-	 
-	 /**
-	  * rename geo
-	  * @param geo
-	  */
-	 public void rename(GeoElement geo){
-		 propPanel.updateSelection(new GeoElement[] {geo});
-	 }
+	}
 
-	 /**
-	  * update visual style of geo 
-	  * @param geo geo
-	  */
-	 public void updateVisualStyle(GeoElement geo){
-		 //AbstractApplication.printStacktrace("\ngeo = "+geo+"\nselected = "+geo.isSelected()+"\nhighlighted = "+geo.doHighlighting());
-		 //AbstractApplication.debug("\ngeo = "+geo+"\nselection contains = "+(selection!=null && selection.contains(geo)));
-		 if (selection!=null && selection.contains(geo))
-			 propPanel.updateSelection(selection.toArray()); //TODO update only first tab, set flag to others
-		 //propPanel.updateCurrentTab(selection.toArray()); //TODO update only first tab, set flag to others
+	/**
+	 * rename geo
+	 * 
+	 * @param geo
+	 */
+	public void rename(GeoElement geo) {
+		propPanel.updateSelection(new GeoElement[] { geo });
+	}
 
-	 }
+	/**
+	 * update visual style of geo
+	 * 
+	 * @param geo
+	 *            geo
+	 */
+	public void updateVisualStyle(GeoElement geo) {
+		// AbstractApplication.printStacktrace("\ngeo = "+geo+"\nselected = "+geo.isSelected()+"\nhighlighted = "+geo.doHighlighting());
+		// AbstractApplication.debug("\ngeo = "+geo+"\nselection contains = "+(selection!=null
+		// && selection.contains(geo)));
+		if (selection != null && selection.contains(geo))
+			propPanel.updateSelection(selection.toArray()); // TODO update only
+															// first tab, set
+															// flag to others
+		// propPanel.updateCurrentTab(selection.toArray()); //TODO update only
+		// first tab, set flag to others
 
-	 public void revalidate() {
+	}
+
+	public void revalidate() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void setBorder(Border border) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public Dimension getPreferredSize() {
@@ -335,12 +318,9 @@ public class OptionsObjectD extends geogebra.common.gui.dialog.options.OptionsOb
 	public JPanel getWrappedPanel() {
 		return wrappedPanel;
 	}
-	 
-	
-	public void applyModifications(){
+
+	public void applyModifications() {
 		propPanel.applyModifications();
 	}
-	 
-	 
 
 } // PropertiesDialog
