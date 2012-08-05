@@ -150,13 +150,15 @@ public class OptionsAdvancedD extends geogebra.common.gui.dialog.options.Options
 		JPanel panel = new JPanel();
 		panel.setLayout(new FullWidthLayout());
 		
-		panel.add(virtualKeyboardPanel);
+		
 		panel.add(angleUnitPanel);
+		panel.add(rightAnglePanel);
+		panel.add(coordinatesPanel);		
 		panel.add(continuityPanel);
 		panel.add(usePathAndRegionParametersPanel);
+		
+		panel.add(virtualKeyboardPanel);
 		panel.add(checkboxSizePanel);
-		panel.add(rightAnglePanel);
-		panel.add(coordinatesPanel);
 		panel.add(guiFontsizePanel);	
 		panel.add(tooltipPanel);
 		panel.add(languagePanel);
@@ -164,10 +166,10 @@ public class OptionsAdvancedD extends geogebra.common.gui.dialog.options.Options
 		
 		
 		panel.add(miscPanel);
-
+		panel.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
 		JScrollPane scrollPane = new JScrollPane(panel);
 		scrollPane.getVerticalScrollBar().setUnitIncrement(20);
-		scrollPane.setBorder(BorderFactory.createEmptyBorder());
+		//scrollPane.setBorder(BorderFactory.createEmptyBorder());
 
 		wrappedPanel.add(scrollPane, BorderLayout.CENTER);
 		

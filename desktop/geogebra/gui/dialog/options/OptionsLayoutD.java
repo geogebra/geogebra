@@ -101,9 +101,11 @@ public class OptionsLayoutD extends geogebra.common.gui.dialog.options.OptionsLa
 		panel.add(consProtocolPanel);
 		panel.add(menuBarPanel);
 
+		panel.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
+		
 		JScrollPane scrollPane = new JScrollPane(panel);
 		scrollPane.getVerticalScrollBar().setUnitIncrement(20);
-		scrollPane.setBorder(BorderFactory.createEmptyBorder());
+		//scrollPane.setBorder(BorderFactory.createEmptyBorder());
 
 		wrappedPanel.add(scrollPane, BorderLayout.CENTER);
 

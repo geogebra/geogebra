@@ -88,14 +88,14 @@ public class OptionsSpreadsheetD extends geogebra.common.gui.dialog.options.Opti
 		
 		wrappedPanel.removeAll();	
 		wrappedPanel.setLayout(new BorderLayout());
-		wrappedPanel.add(new JScrollPane(buildLayoutOptionsPanel()));
+		
 		
 		tabbedPane = new JTabbedPane();
 		
 		tabbedPane.addTab(app.getMenu("Layout"),null, new JScrollPane(buildLayoutOptionsPanel()));
 		if(AppD.hasFullPermissions())
 			tabbedPane.addTab(app.getMenu("Browser"),null, new JScrollPane(buildBrowserOptionsPanel()));
-		wrappedPanel.add(tabbedPane);
+		wrappedPanel.add(tabbedPane, BorderLayout.CENTER);
 	}	
 	
 	private JPanel buildLayoutOptionsPanel() {

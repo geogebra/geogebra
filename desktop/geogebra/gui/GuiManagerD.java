@@ -926,6 +926,9 @@ public class GuiManagerD extends GuiManager {
 		if (dataView != null)
 			dataView.updateFonts();
 		
+		if (propertiesView != null)
+			propertiesView.updateFonts();
+		
 		dialogManager.updateFonts();
 
 		SwingUtilities.updateComponentTreeUI(((AppD)app).getMainComponent());

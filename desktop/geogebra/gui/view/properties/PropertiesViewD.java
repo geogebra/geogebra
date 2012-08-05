@@ -29,11 +29,14 @@ import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
 import java.awt.Cursor;
+import java.awt.Font;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
+import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 /**
  * View for properties
@@ -49,7 +52,7 @@ public class PropertiesViewD extends geogebra.common.gui.view.properties.Propert
 
 	private PropertiesStyleBarD styleBar;
 	private JPanel wrappedPanel;
-
+	
 	
 
 	// option panels
@@ -75,6 +78,7 @@ public class PropertiesViewD extends geogebra.common.gui.view.properties.Propert
 	 */
 	public PropertiesViewD(AppD app) {
 
+		isIniting = true;
 		this.wrappedPanel = new JPanel();
 		this.app = app;
 		app.setPropertiesView(this);
@@ -107,10 +111,11 @@ public class PropertiesViewD extends geogebra.common.gui.view.properties.Propert
 
 		wrappedPanel.setLayout(new BorderLayout());
 		getStyleBar();
-		//add(getStyleBar(), BorderLayout.NORTH);
+		
 
 		mainPanel = new JPanel(new BorderLayout());
 		wrappedPanel.add(mainPanel, BorderLayout.CENTER);
+		wrappedPanel.add(Box.createVerticalGlue(), BorderLayout.SOUTH);
 
 		//createButtonPanel();
 		//add(buttonPanel, BorderLayout.SOUTH);
@@ -395,19 +400,18 @@ public class PropertiesViewD extends geogebra.common.gui.view.properties.Propert
 				
 		selectedOptionType = type;
 
-		// clear the center panel and replace with selected option panel
+		// clear the center panel and replace with selected option panel 
+		
 		mainPanel.removeAll();
 		selectedOptionPanel = getOptionPanel(type);
-		((OptionPanelD) selectedOptionPanel).setBorder(
-				BorderFactory.createEmptyBorder(15, 10, 10, 10));
-		mainPanel.add(getOptionPanel(type).getWrappedPanel(), BorderLayout.CENTER);
-
+		
+		
+		
+		mainPanel.add(getOptionPanel(type).getWrappedPanel(),
+				BorderLayout.CENTER);
 				
-		// don't show the button panel in the Objects panel (it has it's own)
-		//buttonPanel.setVisible(type != OptionType.OBJECTS);
-
-		// update GUI
-		//updateGUI();
+		mainPanel.setBorder(BorderFactory
+				.createEmptyBorder(5, 5, 5, 5));
 
 		((OptionPanelD) selectedOptionPanel).updateGUI();
 		((OptionPanelD) selectedOptionPanel).revalidate();
@@ -479,7 +483,6 @@ public class PropertiesViewD extends geogebra.common.gui.view.properties.Propert
 						((AppD) app).getActiveEuclidianView());
 				euclidianPanel.setLabels();
 				euclidianPanel.setView(((AppD)app).getEuclidianView1());
-				euclidianPanel.showCbView(false);
 			}
 			
 			return euclidianPanel;
@@ -490,7 +493,6 @@ public class PropertiesViewD extends geogebra.common.gui.view.properties.Propert
 						((AppD)app).getEuclidianView2());
 				euclidianPanel2.setLabels();
 				euclidianPanel2.setView(((AppD)app).getEuclidianView2());
-				euclidianPanel2.showCbView(false);
 			}
 			
 			return euclidianPanel2;
@@ -548,14 +550,6 @@ public class PropertiesViewD extends geogebra.common.gui.view.properties.Propert
 	 */
 	public void setLabels() {
 
-		/*
-		if (!app.isApplet()) {
-			saveButton.setText(app.getMenu("Settings.Save"));
-			restoreDefaultsButton.setText(app.getMenu("Settings.ResetDefault"));
-		}
-		*/
-
-		//GuiManager.setLabelsRecursive(this);
 
 		if (defaultsPanel!=null) defaultsPanel.setLabels();
 		if (euclidianPanel!=null) euclidianPanel.setLabels();
@@ -854,6 +848,16 @@ public class PropertiesViewD extends geogebra.common.gui.view.properties.Propert
 		}
 		return null;
 	}
-	
+
+	public void updateFonts() {
+		
+		if(isIniting){
+			return;
+		}
+		
+		Font font = ((AppD) app).getPlainFont();
+		mainPanel.setFont(font);
+		
+	}
 	
 }

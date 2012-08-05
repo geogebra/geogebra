@@ -82,8 +82,7 @@ public class OptionsEuclidianD extends geogebra.common.gui.dialog.options.Option
 	private JButton btBackgroundColor, btAxesColor, btGridColor;
 	private JCheckBox cbShowAxes, cbShowGrid, cbBoldGrid, cbGridManualTick,
 			cbShowMouseCoords;
-	protected JComboBox cbAxesStyle, cbGridType, cbGridStyle, cbGridTickAngle,
-			cbView, cbTooltips;
+	protected JComboBox cbAxesStyle, cbGridType, cbGridStyle, cbGridTickAngle, cbTooltips;
 
 	private JTextField tfAxesRatioX, tfAxesRatioY;
 
@@ -149,8 +148,6 @@ public class OptionsEuclidianD extends geogebra.common.gui.dialog.options.Option
 		// create panels for the axes
 		initAxisPanels();
 
-		// create panel with comboBox to switch between Euclidian views
-		createCbView();
 
 		// create tabbed pane for basic, axes, and grid options
 		tabbedPane = new JTabbedPane();
@@ -159,7 +156,6 @@ public class OptionsEuclidianD extends geogebra.common.gui.dialog.options.Option
 		// put it all together
 		wrappedPanel.removeAll();
 		wrappedPanel.setLayout(new BorderLayout());
-		addCbView();
 		wrappedPanel.add(tabbedPane, BorderLayout.CENTER);
 		
 		/*
@@ -183,32 +179,14 @@ public class OptionsEuclidianD extends geogebra.common.gui.dialog.options.Option
 		
 	}
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	protected void createCbView() {
-		cbView = new JComboBox();
-		cbView.addItem(""); // ev
-		cbView.addItem(""); // ev2
-		cbView = new JComboBox();
-
-		cbView.addActionListener(this);
-
-		selectViewPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		selectViewPanel.add(cbView);
-	}
-
-	protected void addCbView() {
-		wrappedPanel.add(selectViewPanel, BorderLayout.NORTH);
-	}
 	
-	public void showCbView(boolean isVisible){
-		cbView.setVisible(isVisible);
-		updateGUI();
-	}
+	
+
 
 	protected void addTabs() {
 		tabbedPane.addTab("", new JScrollPane(buildBasicPanel()));
-		tabbedPane.addTab("", xAxisPanel);
-		tabbedPane.addTab("", yAxisPanel);
+		tabbedPane.addTab("",  new JScrollPane(xAxisPanel));
+		tabbedPane.addTab("",  new JScrollPane(yAxisPanel));
 		tabbedPane.addTab("", new JScrollPane(buildGridPanel()));
 	}
 
@@ -458,18 +436,7 @@ public class OptionsEuclidianD extends geogebra.common.gui.dialog.options.Option
 
 	}
 
-	protected void setCbViewSelectedIndex() {
-		if (view == app.getEuclidianView1())
-			cbView.setSelectedIndex(0);
-		else
-			cbView.setSelectedIndex(1);
-	}
-
-	protected void updateGUIforCbView() {
-		cbView.removeActionListener(this);
-		setCbViewSelectedIndex();
-		cbView.addActionListener(this);
-	}
+	
 
 	public void updateGUI() {
 
@@ -509,7 +476,6 @@ public class OptionsEuclidianD extends geogebra.common.gui.dialog.options.Option
 		cbShowMouseCoords.setSelected(view.getAllowShowMouseCoords());
 		cbShowMouseCoords.addActionListener(this);
 
-		updateGUIforCbView();
 
 		tfAxesRatioX.setEnabled(view.isZoomable() && !view.isLockedAxesRatio());
 		tfAxesRatioY.setEnabled(view.isZoomable() && !view.isLockedAxesRatio());
@@ -651,11 +617,6 @@ public class OptionsEuclidianD extends geogebra.common.gui.dialog.options.Option
 	}
 
 	protected void setLabelsForCbView() {
-		cbView.removeActionListener(this);
-		cbView.removeAllItems();
-		cbView.addItem(app.getPlain("DrawingPad"));
-		cbView.addItem(app.getPlain("DrawingPad2"));
-		cbView.removeActionListener(this);
 
 		backgroundColor.setText(app.getPlain("BackgroundColor") + ":");
 		cbShowMouseCoords.setText(app.getMenu("ShowMouseCoordinates"));
@@ -881,9 +842,6 @@ public class OptionsEuclidianD extends geogebra.common.gui.dialog.options.Option
 				view.setLockedAxesRatio(null);
 			tfAxesRatioX.setEnabled(view.isZoomable() && !view.isLockedAxesRatio() );
 			tfAxesRatioY.setEnabled(view.isZoomable() && !view.isLockedAxesRatio() );
-		} else if (source == cbView) {
-
-			setViewFromIndex(cbView.getSelectedIndex());
 
 		} else if (source == tfMinX || source == tfMaxX || source == tfMaxY
 				|| source == tfMinY) {

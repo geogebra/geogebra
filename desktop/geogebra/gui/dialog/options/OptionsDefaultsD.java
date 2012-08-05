@@ -20,6 +20,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
 import javax.swing.JTree;
 import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
@@ -156,20 +157,25 @@ public class OptionsDefaultsD extends OptionsDefaults implements OptionPanelD, T
 		setLabels();
 
 		// define panel properties
-		setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+		//setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		wrappedPanel.setLayout(new BorderLayout());
-
+		
+	
 		// tree scroll pane
+		tree.setBorder(BorderFactory.createEmptyBorder(2, 6, 2, 2));
 		JScrollPane treeScroller = new JScrollPane(tree);
 		treeScroller.setMinimumSize(new Dimension(120, 200));
 		treeScroller.setBackground(tree.getBackground());
 		treeScroller.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1,
-				SystemColor.controlDkShadow));
+				SystemColor.controlShadow));
 
+		// split pane
+		JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,treeScroller, propPanel);
+		splitPane.setBorder(BorderFactory.createEmptyBorder());
+		
 		// add components
-		wrappedPanel.add(treeScroller, BorderLayout.WEST);
-		wrappedPanel.add(propPanel, BorderLayout.CENTER);
-		wrappedPanel.add(defaultsButton, BorderLayout.SOUTH);
+		wrappedPanel.add(splitPane, BorderLayout.CENTER);
+		wrappedPanel.add(OptionsUtil.flowPanel(0, 0, 20, defaultsButton), BorderLayout.SOUTH);
 	}
 
 	/**
