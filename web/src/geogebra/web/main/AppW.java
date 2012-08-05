@@ -840,12 +840,13 @@ public class AppW extends App {
 	public void setLanguage(String language) {
 		// TODO Auto-generated method stub
 		App.debug("setLanguage: implementation needed");
-
+		updateReverseLanguage(getLanguage());
 	}
 
 	public void setLanguage(String language, String country) {
 		// TODO Auto-generated method stub
 		App.debug("setLanguage: implementation needed");
+		updateReverseLanguage(getLanguage());
 	}
 
 	@Override
