@@ -5956,7 +5956,7 @@ class ShowConditionPanel extends JPanel implements ActionListener,
 		this.propPanel = propPanel;
 
 		// non auto complete input panel
-		InputPanelD inputPanel = new InputPanelD(null, app, 20, false);
+		InputPanelD inputPanel = new InputPanelD(null, app, -1 , false);
 		tfCondition = (AutoCompleteTextFieldD) inputPanel.getTextComponent();
 
 		tfCondition.addActionListener(this);
@@ -6107,10 +6107,10 @@ class ColorFunctionPanel extends JPanel implements ActionListener,
 		this.propPanel = propPanel;
 
 		// non auto complete input panel
-		InputPanelD inputPanelR = new InputPanelD(null, app, 1, 20, true);
-		InputPanelD inputPanelG = new InputPanelD(null, app, 1, 20, true);
-		InputPanelD inputPanelB = new InputPanelD(null, app, 1, 20, true);
-		InputPanelD inputPanelA = new InputPanelD(null, app, 1, 20, true);
+		InputPanelD inputPanelR = new InputPanelD(null, app, 1, -1, true);
+		InputPanelD inputPanelG = new InputPanelD(null, app, 1, -1, true);
+		InputPanelD inputPanelB = new InputPanelD(null, app, 1, -1, true);
+		InputPanelD inputPanelA = new InputPanelD(null, app, 1, -1, true);
 		tfRed = (AutoCompleteTextFieldD) inputPanelR.getTextComponent();
 		tfGreen = (AutoCompleteTextFieldD) inputPanelG.getTextComponent();
 		tfBlue = (AutoCompleteTextFieldD) inputPanelB.getTextComponent();
@@ -6577,7 +6577,7 @@ class NamePanel extends JPanel implements ActionListener, FocusListener,
 		nameInputHandler = new RenameInputHandler(app, null, false);
 
 		// non auto complete input panel
-		inputPanelName = new InputPanelD(null, app, 1, 10, true);
+		inputPanelName = new InputPanelD(null, app, 1, -1, true);
 		tfName = (AutoCompleteTextFieldD) inputPanelName.getTextComponent();
 		tfName.setAutoComplete(false);
 		tfName.addActionListener(this);
@@ -6589,14 +6589,14 @@ class NamePanel extends JPanel implements ActionListener, FocusListener,
 		// Michael Borcherds 2007-12-31 END
 
 		// definition field: non auto complete input panel
-		inputPanelDef = new InputPanelD(null, app, 1, 20, true);
+		inputPanelDef = new InputPanelD(null, app, 1, -1, true);
 		tfDefinition = (AutoCompleteTextFieldD) inputPanelDef.getTextComponent();
 		tfDefinition.setAutoComplete(false);
 		tfDefinition.addActionListener(this);
 		tfDefinition.addFocusListener(this);
 
 		// caption field: non auto complete input panel
-		inputPanelCap = new InputPanelD(null, app, 1, 20, true);
+		inputPanelCap = new InputPanelD(null, app, 1, -1, true);
 		tfCaption = (AutoCompleteTextFieldD) inputPanelCap.getTextComponent();
 		tfCaption.setAutoComplete(false);
 		tfCaption.addActionListener(this);
