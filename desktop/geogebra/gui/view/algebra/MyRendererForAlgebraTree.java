@@ -50,6 +50,8 @@ public class MyRendererForAlgebraTree extends DefaultTreeCellRenderer {
 
 		latexIcon = new ImageIcon();
 		this.view = view;
+		
+		this.setIconTextGap(8);
 	}
 	
 
