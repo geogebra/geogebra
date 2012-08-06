@@ -910,7 +910,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 				}
 
 				if (!validVar) {
-					setError("CAS.VariableIsDynamicReferenceSymbol");
+					setError("CAS.VariableIsDynamicReference");
 				}
 			}
 
