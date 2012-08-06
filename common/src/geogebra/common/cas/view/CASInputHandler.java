@@ -5,6 +5,8 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.parser.ParseException;
+import geogebra.common.kernel.parser.Parser;
 import geogebra.common.main.App;
 import geogebra.common.util.StringUtil;
 
@@ -13,7 +15,7 @@ import java.util.ArrayList;
 public class CASInputHandler {
 
 	private CASView casView;
-	private Kernel kernel;
+	private static Kernel kernel;
 	private CASTable consoleTable;
 
 	private boolean assignToFreeGeoOnly = false;
@@ -78,7 +80,8 @@ public class CASInputHandler {
 				GeoCasCell cellValue = consoleTable.getGeoCasCell(consoleTable
 						.getSelectedRow());
 				if (cellValue.getInputVE() != null)
-					selRowInput = cellValue.toString(StringTemplate.numericDefault);
+					selRowInput = cellValue
+							.toString(StringTemplate.numericDefault);
 			}
 			if (selRowInput.length() == 0)
 				return;
@@ -257,19 +260,18 @@ public class CASInputHandler {
 		// process given row and below, then start editing
 		processRowThenEdit(selRow, true);
 	}
-	
+
 	public void deleteCurrentRow() {
 		int[] selected = consoleTable.getSelectedRows();
-		for(int current:selected){
-		GeoCasCell cell = consoleTable.getGeoCasCell(current);
-		if(cell!=null){
-			cell.remove();
-			consoleTable.getApplication().storeUndoInfo();
+		for (int current : selected) {
+			GeoCasCell cell = consoleTable.getGeoCasCell(current);
+			if (cell != null) {
+				cell.remove();
+				consoleTable.getApplication().storeUndoInfo();
+			}
 		}
-	}
 
 	}
-
 
 	/**
 	 * Determines the selected rows and tries to solve (solve is the only
@@ -382,7 +384,8 @@ public class CASInputHandler {
 			} else {
 				cellText = selCellValue.getInputVE().toString(tpl);
 				cellText = resolveCASrowReferences(cellText,
-						selectedIndices[i], GeoCasCell.ROW_REFERENCE_STATIC, false);
+						selectedIndices[i], GeoCasCell.ROW_REFERENCE_STATIC,
+						false);
 				if (!inTheSelectedRow)
 					references[counter] = "$" + (selectedIndices[i] + 1);
 				if (!cellText.startsWith("{")) {
@@ -605,8 +608,6 @@ public class CASInputHandler {
 		return success;
 	}
 
-	
-
 	/**
 	 * Returns whether it's allowed to change var in GeoGebra at the moment.
 	 * This is important to avoid unnecessary redefinitions.
@@ -626,7 +627,6 @@ public class CASInputHandler {
 		return true;
 	}
 
-	
 	/**
 	 * Replaces references to other rows (e.g. #, #3, $3, ##, #3#, $$, $3$) in
 	 * the input string by the values from those rows. Warning: dynamic
@@ -641,8 +641,9 @@ public class CASInputHandler {
 	 * @param noParentheses
 	 *            if true no parentheses will be added in every case<br/>
 	 *            if false parentheses will be added around replaced references
-	 *            except the replacement is just a positive number or the whole
-	 *            term (given by parameter str) was nothing but the reference
+	 *            except the replacement is just a positive number, a variable
+	 *            or the whole term (given by parameter str) was nothing but the
+	 *            reference
 	 * @return the string with resolved references.
 	 * @author Johannes Renner
 	 * @throws CASException
@@ -691,7 +692,7 @@ public class CASInputHandler {
 					// needed if the reference is the first term in the
 					// expression, because in this case addParantheses isn't
 					// true yet
-					if(c != ')'){
+					if (c != ')') {
 						addParentheses = true;
 						newNoParentheses = false;
 					}
@@ -772,6 +773,19 @@ public class CASInputHandler {
 		// number
 		if (isPositiveNumber(reference)) {
 			parantheses = false;
+		}
+		// or if the given reference is just one variable
+		else {
+			try {
+				String parsed = kernel.getParser().parseLabel(reference);
+				// since parseLabel parses only the first label we need to check
+				// if the parsed String is the full reference
+				if (parsed.equals(reference)) {
+					parantheses = false;
+				}
+			} catch (ParseException e) {
+				// do nothing because the reference isn't a label
+			}
 		}
 
 		if (parantheses && !noParentheses) {
