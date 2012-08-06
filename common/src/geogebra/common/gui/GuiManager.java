@@ -187,7 +187,7 @@ public abstract class GuiManager {
 	 * also can have ?mobile=true ?mobile=false on end
 	 */
 	public boolean loadURL(String urlString, boolean suppressErrorMsg) {
-		urlString = urlString.trim();
+		String processedUrlString = urlString.trim();
 	
 		boolean success = false;
 		boolean isMacroFile = false;
@@ -195,32 +195,32 @@ public abstract class GuiManager {
 	
 		try {
 			// check first for ggb/ggt file
-			if ((urlString.endsWith(".ggb") || urlString.endsWith(".ggt"))
-					&& (urlString.indexOf("?") == -1)) { // This isn't a ggb file,
+			if ((processedUrlString.endsWith(".ggb") || processedUrlString.endsWith(".ggt"))
+					&& (processedUrlString.indexOf("?") == -1)) { // This isn't a ggb file,
 														// however ends with ".ggb":
 														// http://www.geogebra.org/web/test42/?f=_circles5.ggb
-				loadURL_GGB(urlString);
+				loadURL_GGB(processedUrlString);
 				
 	
 				// special case: urlString is from GeoGebraTube
 				// eg http://www.geogebratube.org/student/105 changed to
 				// http://www.geogebratube.org/files/material-105.ggb	
-			} else if (urlString.indexOf(ggbTube) > -1
-					|| urlString.indexOf(ggbTubeShort) > -1) {
+			} else if (processedUrlString.indexOf(ggbTube) > -1
+					|| processedUrlString.indexOf(ggbTubeShort) > -1) {
 	
 				// remove eg http:// if it's there
-				if (urlString.indexOf("://") > -1) {
-					urlString = urlString.substring(
-							urlString.indexOf("://") + 3, urlString.length());
+				if (processedUrlString.indexOf("://") > -1) {
+					processedUrlString = processedUrlString.substring(
+							processedUrlString.indexOf("://") + 3, processedUrlString.length());
 				}
 				// remove hostname
-				urlString = urlString.substring(urlString.indexOf('/'),
-						urlString.length());
+				processedUrlString = processedUrlString.substring(processedUrlString.indexOf('/'),
+						processedUrlString.length());
 	
 				// remove ?mobile=true or ?mobile=false on end
-				if (urlString.endsWith("?mobile=true") || urlString.endsWith("?mobile=false") ) {
-					int i = urlString.lastIndexOf('?');
-					urlString = urlString.substring(0, i);
+				if (processedUrlString.endsWith("?mobile=true") || processedUrlString.endsWith("?mobile=false") ) {
+					int i = processedUrlString.lastIndexOf('?');
+					processedUrlString = processedUrlString.substring(0, i);
 				}
 	
 				String id;
@@ -228,15 +228,15 @@ public abstract class GuiManager {
 				// determine the start position of ID in the URL
 				int start = -1;
 	
-				if (urlString.startsWith(material)) {
+				if (processedUrlString.startsWith(material)) {
 					start = material.length();
 				} else {
-					start = urlString.lastIndexOf("/m") + 2;
+					start = processedUrlString.lastIndexOf("/m") + 2;
 				}
 	
 				// no valid URL?
 				if (start == -1) {
-					App.debug("problem parsing: " + urlString);
+					App.debug("problem parsing: " + processedUrlString);
 					return false;
 				}
 	
@@ -244,43 +244,43 @@ public abstract class GuiManager {
 				// end of the string
 				int end = -1;
 				if (start > -1) {
-					end = urlString.indexOf('/', start);
+					end = processedUrlString.indexOf('/', start);
 				}
 	
 				if (end == -1) {
-					end = urlString.length();
+					end = processedUrlString.length();
 				}
 	
 				// fetch ID
-				id = urlString.substring(start, end);
+				id = processedUrlString.substring(start, end);
 	
-				urlString = "http://www.geogebratube.org/files/material-" + id
+				processedUrlString = "http://www.geogebratube.org/files/material-" + id
 						+ ".ggb";
 	
-				App.debug(urlString);
-				success = loadURL_GGB(urlString);
+				App.debug(processedUrlString);
+				success = loadURL_GGB(processedUrlString);
 	
 				// special case: urlString is actually a base64 encoded ggb file
-			} else if (urlString.startsWith("UEs")) {
-				success = loadURL_base64(urlString);
+			} else if (processedUrlString.startsWith("UEs")) {
+				success = loadURL_base64(processedUrlString);
 	
 				// special case: urlString is actually a GeoGebra XML file
-			} else if (urlString.startsWith("<?xml ")
-					&& urlString.endsWith("</geogebra>")) {
-				success = app.loadXML(urlString);
+			} else if (processedUrlString.startsWith("<?xml ")
+					&& processedUrlString.endsWith("</geogebra>")) {
+				success = app.loadXML(processedUrlString);
 	
 				// 'standard' case: url with GeoGebra applet (Java or HTML5)
 			} else {
 				// try to load from GeoGebra applet
-				success = loadFromApplet(urlString);
-				isMacroFile = urlString.contains(".ggt");
+				success = loadFromApplet(processedUrlString);
+				isMacroFile = processedUrlString.contains(".ggt");
 			}
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
 	
 		if (!success && !suppressErrorMsg) {
-			app.showError(app.getError("LoadFileFailed") + "\n" + urlString);
+			app.showError(app.getError("LoadFileFailed") + "\n" + processedUrlString);
 		}
 	
 		updateGUIafterLoadFile(success, isMacroFile);
