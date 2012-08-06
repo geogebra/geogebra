@@ -1,0 +1,657 @@
+package geogebra.mobile.gui;
+
+import org.vectomatic.dom.svg.ui.SVGResource;
+import org.vectomatic.dom.svg.ui.SVGResource.Validated;
+
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.resources.client.ClientBundleWithLookup;
+
+public interface CommonResourcesIconTest extends ClientBundleWithLookup
+{
+	public static CommonResourcesIconTest INSTANCE = GWT.create(CommonResourcesIconTest.class);
+
+	@Source("icons/svg/general/geogebra-logo.svg")
+	@Validated(validated = false)
+	SVGResource geogebraLogo();
+
+	@Source("icons/svg/menu/edit/delete.svg")
+	@Validated(validated = false)
+	SVGResource delete();
+
+	@Source("icons/svg/menu/edit/object_properties.svg")
+	@Validated(validated = false)
+	SVGResource object_properties();
+
+	@Source("icons/svg/menu/edit/properties_advanced.svg")
+	@Validated(validated = false)
+	SVGResource properties_advanced();
+
+	@Source("icons/svg/menu/edit/properties_defaults.svg")
+	@Validated(validated = false)
+	SVGResource properties_defaults();
+
+	@Source("icons/svg/menu/edit/properties_graphics.svg")
+	@Validated(validated = false)
+	SVGResource properties_graphics();
+
+	@Source("icons/svg/menu/edit/properties_layout.svg")
+	@Validated(validated = false)
+	SVGResource properties_layout();
+
+	@Source("icons/svg/menu/edit/properties_object.svg")
+	@Validated(validated = false)
+	SVGResource properties_object();
+
+	@Source("icons/svg/menu/edit/redo.svg")
+	@Validated(validated = false)
+	SVGResource redo();
+
+	@Source("icons/svg/menu/edit/undo.svg")
+	@Validated(validated = false)
+	SVGResource undo();
+
+	@Source("icons/svg/menu/file/close.svg")
+	@Validated(validated = false)
+	SVGResource close();
+
+	@Source("icons/svg/menu/file/export_dynamix_worksheet_as_webpage.svg")
+	@Validated(validated = false)
+	SVGResource export_dynamix_worksheet_as_webpage();
+
+	@Source("icons/svg/menu/file/export_graphics_view_as_picture.svg")
+	@Validated(validated = false)
+	SVGResource export_graphics_view_as_picture();
+
+	@Source("icons/svg/menu/file/export_graphics_view_to_clipboard.svg")
+	@Validated(validated = false)
+	SVGResource export_graphics_view_to_clipboard();
+
+	@Source("icons/svg/menu/file/open_webpage.svg")
+	@Validated(validated = false)
+	SVGResource open_webpage();
+
+	@Source("icons/svg/menu/file/open.svg")
+	@Validated(validated = false)
+	SVGResource open();
+
+	@Source("icons/svg/menu/file/print_preview.svg")
+	@Validated(validated = false)
+	SVGResource print_preview();
+
+	@Source("icons/svg/menu/file/save.svg")
+	@Validated(validated = false)
+	SVGResource save();
+
+	@Source("icons/svg/menu/file/share.svg")
+	@Validated(validated = false)
+	SVGResource share();
+
+	@Source("icons/svg/menu/help/about_license.svg")
+	@Validated(validated = false)
+	SVGResource about_license();
+
+	@Source("icons/svg/menu/help/geogebra_tube.svg")
+	@Validated(validated = false)
+	SVGResource geogebra_tube();
+
+	@Source("icons/svg/menu/help/help.svg")
+	@Validated(validated = false)
+	SVGResource help();
+
+	@Source("icons/svg/menu/options/advanced.svg")
+	@Validated(validated = false)
+	SVGResource advanced();
+
+	@Source("icons/svg/menu/options/font_size.svg")
+	@Validated(validated = false)
+	SVGResource font_size();
+
+	@Source("icons/svg/menu/options/labelling.svg")
+	@Validated(validated = false)
+	SVGResource labelling();
+
+	@Source("icons/svg/menu/options/point_capturing.svg")
+	@Validated(validated = false)
+	SVGResource point_capturing();
+
+	@Source("icons/svg/menu/options/save_settings.svg")
+	@Validated(validated = false)
+	SVGResource save_settings();
+
+	@Source("icons/svg/menu/tools/create_new_tool.svg")
+	@Validated(validated = false)
+	SVGResource create_new_tool();
+
+	@Source("icons/svg/menu/tools/manage_tools.svg")
+	@Validated(validated = false)
+	SVGResource manage_tools();
+
+	@Source("icons/svg/menu/view/Algebra.svg")
+	@Validated(validated = false)
+	SVGResource algebra();
+
+	@Source("icons/svg/menu/view/CAS.svg")
+	@Validated(validated = false)
+	SVGResource cAS();
+
+	@Source("icons/svg/menu/view/construction_protocol.svg")
+	@Validated(validated = false)
+	SVGResource construction_protocol();
+
+	@Source("icons/svg/menu/view/graphics.svg")
+	@Validated(validated = false)
+	SVGResource graphics();
+
+	@Source("icons/svg/menu/view/graphics2.svg")
+	@Validated(validated = false)
+	SVGResource graphics2();
+
+	@Source("icons/svg/menu/view/keyboard.svg")
+	@Validated(validated = false)
+	SVGResource keyboard();
+
+	@Source("icons/svg/menu/view/layout.svg")
+	@Validated(validated = false)
+	SVGResource layout();
+
+	@Source("icons/svg/menu/view/refresh_view.svg")
+	@Validated(validated = false)
+	SVGResource refresh_view();
+
+	@Source("icons/svg/menu/view/spreadsheet.svg")
+	@Validated(validated = false)
+	SVGResource spreadsheet();
+
+	@Source("icons/svg/menu/window/new_window.svg")
+	@Validated(validated = false)
+	SVGResource new_window();
+
+	@Source("icons/svg/stylingbar/algebraview/auxiliary_objects.svg")
+	@Validated(validated = false)
+	SVGResource auxiliary_objects();
+
+	@Source("icons/svg/stylingbar/algebraview/sort_objects_by.svg")
+	@Validated(validated = false)
+	SVGResource sort_objects_by();
+
+	@Source("icons/svg/stylingbar/graphicsview/absolute_position_on_screen.svg")
+	@Validated(validated = false)
+	SVGResource absolute_position_on_screen();
+
+	@Source("icons/svg/stylingbar/graphicsview/set_point_capture_style.svg")
+	@Validated(validated = false)
+	SVGResource set_point_capture_style();
+
+	@Source("icons/svg/stylingbar/graphicsview/show_or_hide_the_axes.svg")
+	@Validated(validated = false)
+	SVGResource show_or_hide_the_axes();
+
+	@Source("icons/svg/stylingbar/graphicsview/show_or_hide_the_grid.svg")
+	@Validated(validated = false)
+	SVGResource show_or_hide_the_grid();
+
+	@Source("icons/svg/stylingbar/spreadsheetview/align_center.svg")
+	@Validated(validated = false)
+	SVGResource align_center();
+
+	@Source("icons/svg/stylingbar/spreadsheetview/align_left.svg")
+	@Validated(validated = false)
+	SVGResource align_left();
+
+	@Source("icons/svg/stylingbar/spreadsheetview/align_right.svg")
+	@Validated(validated = false)
+	SVGResource align_right();
+
+	@Source("icons/svg/stylingbar/spreadsheetview/set_border_all.svg")
+	@Validated(validated = false)
+	SVGResource set_border_all();
+
+	@Source("icons/svg/stylingbar/spreadsheetview/set_border_buttom.svg")
+	@Validated(validated = false)
+	SVGResource set_border_buttom();
+
+	@Source("icons/svg/stylingbar/spreadsheetview/set_border_frame.svg")
+	@Validated(validated = false)
+	SVGResource set_border_frame();
+
+	@Source("icons/svg/stylingbar/spreadsheetview/set_border_inside.svg")
+	@Validated(validated = false)
+	SVGResource set_border_inside();
+
+	@Source("icons/svg/stylingbar/spreadsheetview/set_border_left.svg")
+	@Validated(validated = false)
+	SVGResource set_border_left();
+
+	@Source("icons/svg/stylingbar/spreadsheetview/set_border_none.svg")
+	@Validated(validated = false)
+	SVGResource set_border_none();
+
+	@Source("icons/svg/stylingbar/spreadsheetview/set_border_right.svg")
+	@Validated(validated = false)
+	SVGResource set_border_right();
+
+	@Source("icons/svg/stylingbar/spreadsheetview/set_border_top.svg")
+	@Validated(validated = false)
+	SVGResource set_border_top();
+
+	@Source("icons/svg/stylingbar/spreadsheetview/show_input_bar.svg")
+	@Validated(validated = false)
+	SVGResource show_input_bar();
+
+	@Source("icons/svg/tools/actionobject/checkbox_to_show_hide_objects.svg")
+	@Validated(validated = false)
+	SVGResource checkbox_to_show_hide_objects();
+
+	@Source("icons/svg/tools/actionobject/insert_button.svg")
+	@Validated(validated = false)
+	SVGResource insert_button();
+
+	@Source("icons/svg/tools/actionobject/insert_input_box.svg")
+	@Validated(validated = false)
+	SVGResource insert_input_box();
+
+	@Source("icons/svg/tools/actionobject/slider.svg")
+	@Validated(validated = false)
+	SVGResource slider();
+
+	@Source("icons/svg/tools/cas/derivative.svg")
+	@Validated(validated = false)
+	SVGResource derivative();
+
+	@Source("icons/svg/tools/cas/evaluate.svg")
+	@Validated(validated = false)
+	SVGResource evaluate();
+
+	@Source("icons/svg/tools/cas/expand.svg")
+	@Validated(validated = false)
+	SVGResource expand();
+
+	@Source("icons/svg/tools/cas/factor.svg")
+	@Validated(validated = false)
+	SVGResource factor();
+
+	@Source("icons/svg/tools/cas/integral.svg")
+	@Validated(validated = false)
+	SVGResource integral();
+
+	@Source("icons/svg/tools/cas/keep_input.svg")
+	@Validated(validated = false)
+	SVGResource keep_input();
+
+	@Source("icons/svg/tools/cas/numeric.svg")
+	@Validated(validated = false)
+	SVGResource numeric();
+
+	@Source("icons/svg/tools/cas/solve_numerically.svg")
+	@Validated(validated = false)
+	SVGResource solve_numerically();
+
+	@Source("icons/svg/tools/cas/solve.svg")
+	@Validated(validated = false)
+	SVGResource solve();
+
+	@Source("icons/svg/tools/cas/substitute.svg")
+	@Validated(validated = false)
+	SVGResource substitute();
+
+	@Source("icons/svg/tools/circleandarc/circle_through_three_points.svg")
+	@Validated(validated = false)
+	SVGResource circle_through_three_points();
+
+	@Source("icons/svg/tools/circleandarc/circle_with_center_and_radius.svg")
+	@Validated(validated = false)
+	SVGResource circle_with_center_and_radius();
+
+	@Source("icons/svg/tools/circleandarc/circle_with_center_through_point.svg")
+	@Validated(validated = false)
+	SVGResource circle_with_center_through_point();
+
+	@Source("icons/svg/tools/circleandarc/circular_arc_with_center_between_two_points.svg")
+	@Validated(validated = false)
+	SVGResource circular_arc_with_center_between_two_points();
+
+	@Source("icons/svg/tools/circleandarc/circular_sector_with_center_between_two_points.svg")
+	@Validated(validated = false)
+	SVGResource circular_sector_with_center_between_two_points();
+
+	@Source("icons/svg/tools/circleandarc/circumcircular_arc_through_three_points.svg")
+	@Validated(validated = false)
+	SVGResource circumcircular_arc_through_three_points();
+
+	@Source("icons/svg/tools/circleandarc/circumcircular_sector_through_three_points.svg")
+	@Validated(validated = false)
+	SVGResource circumcircular_sector_through_three_points();
+
+	@Source("icons/svg/tools/circleandarc/compasses.svg")
+	@Validated(validated = false)
+	SVGResource compasses();
+
+	@Source("icons/svg/tools/circleandarc/semicircle.svg")
+	@Validated(validated = false)
+	SVGResource semicircle();
+
+	@Source("icons/svg/tools/conicsection/conic_through_5_points.svg")
+	@Validated(validated = false)
+	SVGResource conic_through_5_points();
+
+	@Source("icons/svg/tools/conicsection/ellipse.svg")
+	@Validated(validated = false)
+	SVGResource ellipse();
+
+	@Source("icons/svg/tools/conicsection/hyperbola.svg")
+	@Validated(validated = false)
+	SVGResource hyperbola();
+
+	@Source("icons/svg/tools/conicsection/parabola.svg")
+	@Validated(validated = false)
+	SVGResource parabola();
+
+	@Source("icons/svg/tools/generaltools/copy_visual_style.svg")
+	@Validated(validated = false)
+	SVGResource copy_visual_style();
+
+	@Source("icons/svg/tools/generaltools/delete_object.svg")
+	@Validated(validated = false)
+	SVGResource delete_object();
+
+	@Source("icons/svg/tools/generaltools/move_graphics_view.svg")
+	@Validated(validated = false)
+	SVGResource move_graphics_view();
+
+	@Source("icons/svg/tools/generaltools/show_hide_label.svg")
+	@Validated(validated = false)
+	SVGResource show_hide_label();
+
+	@Source("icons/svg/tools/generaltools/show_hide_object.svg")
+	@Validated(validated = false)
+	SVGResource show_hide_object();
+
+	@Source("icons/svg/tools/generaltools/zoom_in.svg")
+	@Validated(validated = false)
+	SVGResource zoom_in();
+
+	@Source("icons/svg/tools/generaltools/zoom_out.svg")
+	@Validated(validated = false)
+	SVGResource zoom_out();
+
+	@Source("icons/svg/tools/line/line_through_two_points.svg")
+	@Validated(validated = false)
+	SVGResource line_through_two_points();
+
+	@Source("icons/svg/tools/line/polyline_between_points.svg")
+	@Validated(validated = false)
+	SVGResource polyline_between_points();
+
+	@Source("icons/svg/tools/line/ray_through_two_points.svg")
+	@Validated(validated = false)
+	SVGResource ray_through_two_points();
+
+	@Source("icons/svg/tools/line/segment_between_two_points.svg")
+	@Validated(validated = false)
+	SVGResource segment_between_two_points();
+
+	@Source("icons/svg/tools/line/segment_with_given_length_from_point.svg")
+	@Validated(validated = false)
+	SVGResource segment_with_given_length_from_point();
+
+	@Source("icons/svg/tools/line/vector_between_two_points.svg")
+	@Validated(validated = false)
+	SVGResource vector_between_two_points();
+
+	@Source("icons/svg/tools/line/vector_from_point.svg")
+	@Validated(validated = false)
+	SVGResource vector_from_point();
+
+	@Source("icons/svg/tools/measurement/angle_with_given_size.svg")
+	@Validated(validated = false)
+	SVGResource angle_with_given_size();
+
+	@Source("icons/svg/tools/measurement/angle.svg")
+	@Validated(validated = false)
+	SVGResource angle();
+
+	@Source("icons/svg/tools/measurement/area.svg")
+	@Validated(validated = false)
+	SVGResource area();
+
+	@Source("icons/svg/tools/measurement/distance_or_length.svg")
+	@Validated(validated = false)
+	SVGResource distance_or_length();
+
+	@Source("icons/svg/tools/measurement/slope.svg")
+	@Validated(validated = false)
+	SVGResource slope();
+
+	@Source("icons/svg/tools/movement/move.svg")
+	@Validated(validated = false)
+	SVGResource move();
+
+	@Source("icons/svg/tools/movement/record_to_spreadsheet.svg")
+	@Validated(validated = false)
+	SVGResource record_to_spreadsheet();
+
+	@Source("icons/svg/tools/movement/rotate_around_point.svg")
+	@Validated(validated = false)
+	SVGResource rotate_around_point();
+
+	@Source("icons/svg/tools/point/attach_detach_point.svg")
+	@Validated(validated = false)
+	SVGResource attach_detach_point();
+
+	@Source("icons/svg/tools/point/complex_number.svg")
+	@Validated(validated = false)
+	SVGResource complex_number();
+
+	@Source("icons/svg/tools/point/intersect_two_objects.svg")
+	@Validated(validated = false)
+	SVGResource intersect_two_objects();
+
+	@Source("icons/svg/tools/point/midpoint_or_center.svg")
+	@Validated(validated = false)
+	SVGResource midpoint_or_center();
+
+	@Source("icons/svg/tools/point/new_point.svg")
+	@Validated(validated = false)
+	SVGResource new_point();
+
+	@Source("icons/svg/tools/point/point_on_object.svg")
+	@Validated(validated = false)
+	SVGResource point_on_object();
+
+	@Source("icons/svg/tools/polygon/polygon.svg")
+	@Validated(validated = false)
+	SVGResource polygon();
+
+	@Source("icons/svg/tools/polygon/regular_polygon.svg")
+	@Validated(validated = false)
+	SVGResource regular_polygon();
+
+	@Source("icons/svg/tools/polygon/rigid_polygon.svg")
+	@Validated(validated = false)
+	SVGResource rigid_polygon();
+
+	@Source("icons/svg/tools/polygon/vector_polygon.svg")
+	@Validated(validated = false)
+	SVGResource vector_polygon();
+
+	@Source("icons/svg/tools/specialline/angle_bisector.svg")
+	@Validated(validated = false)
+	SVGResource angle_bisector();
+
+	@Source("icons/svg/tools/specialline/best_fit_line.svg")
+	@Validated(validated = false)
+	SVGResource best_fit_line();
+
+	@Source("icons/svg/tools/specialline/locus.svg")
+	@Validated(validated = false)
+	SVGResource locus();
+
+	@Source("icons/svg/tools/specialline/parallel_line.svg")
+	@Validated(validated = false)
+	SVGResource parallel_line();
+
+	@Source("icons/svg/tools/specialline/perpendicular_bisector.svg")
+	@Validated(validated = false)
+	SVGResource perpendicular_bisector();
+
+	@Source("icons/svg/tools/specialline/perpendicular_line.svg")
+	@Validated(validated = false)
+	SVGResource perpendicular_line();
+
+	@Source("icons/svg/tools/specialline/polar_or_diameter_line.svg")
+	@Validated(validated = false)
+	SVGResource polar_or_diameter_line();
+
+	@Source("icons/svg/tools/specialline/tangents.svg")
+	@Validated(validated = false)
+	SVGResource tangents();
+
+	@Source("icons/svg/tools/specialobject/freehand_shape.svg")
+	@Validated(validated = false)
+	SVGResource freehand_shape();
+
+	@Source("icons/svg/tools/specialobject/function_inspector.svg")
+	@Validated(validated = false)
+	SVGResource function_inspector();
+
+	@Source("icons/svg/tools/specialobject/insert_image.svg")
+	@Validated(validated = false)
+	SVGResource insert_image();
+
+	@Source("icons/svg/tools/specialobject/insert_text.svg")
+	@Validated(validated = false)
+	SVGResource insert_text();
+
+	@Source("icons/svg/tools/specialobject/pen.svg")
+	@Validated(validated = false)
+	SVGResource pen();
+
+	@Source("icons/svg/tools/specialobject/relation_between_two_objects.svg")
+	@Validated(validated = false)
+	SVGResource relation_between_two_objects();
+
+	@Source("icons/svg/tools/spreadsheet/count.svg")
+	@Validated(validated = false)
+	SVGResource count();
+
+	@Source("icons/svg/tools/spreadsheet/create_list_of_points.svg")
+	@Validated(validated = false)
+	SVGResource create_list_of_points();
+
+	@Source("icons/svg/tools/spreadsheet/create_list.svg")
+	@Validated(validated = false)
+	SVGResource create_list();
+
+	@Source("icons/svg/tools/spreadsheet/create_matrix.svg")
+	@Validated(validated = false)
+	SVGResource create_matrix();
+
+	@Source("icons/svg/tools/spreadsheet/create_polyline.svg")
+	@Validated(validated = false)
+	SVGResource create_polyline();
+
+	@Source("icons/svg/tools/spreadsheet/create_table.svg")
+	@Validated(validated = false)
+	SVGResource create_table();
+
+	@Source("icons/svg/tools/spreadsheet/maximum.svg")
+	@Validated(validated = false)
+	SVGResource maximum();
+
+	@Source("icons/svg/tools/spreadsheet/mean.svg")
+	@Validated(validated = false)
+	SVGResource mean();
+
+	@Source("icons/svg/tools/spreadsheet/minimum.svg")
+	@Validated(validated = false)
+	SVGResource minimum();
+
+	@Source("icons/svg/tools/spreadsheet/multiple_variable_analysis.svg")
+	@Validated(validated = false)
+	SVGResource multiple_variable_analysis();
+
+	@Source("icons/svg/tools/spreadsheet/one_variable_analysis.svg")
+	@Validated(validated = false)
+	SVGResource one_variable_analysis();
+
+	@Source("icons/svg/tools/spreadsheet/probability_calculator.svg")
+	@Validated(validated = false)
+	SVGResource probability_calculator();
+
+	@Source("icons/svg/tools/spreadsheet/sum.svg")
+	@Validated(validated = false)
+	SVGResource sum();
+
+	@Source("icons/svg/tools/spreadsheet/two_variable_regression_analysis.svg")
+	@Validated(validated = false)
+	SVGResource two_variable_regression_analysis();
+
+	@Source("icons/svg/tools/transformation/dilate_object_from_point_by_factor.svg")
+	@Validated(validated = false)
+	SVGResource dilate_object_from_point_by_factor();
+
+	@Source("icons/svg/tools/transformation/reflect_object_about_circle.svg")
+	@Validated(validated = false)
+	SVGResource reflect_object_about_circle();
+
+	@Source("icons/svg/tools/transformation/reflect_object_about_line.svg")
+	@Validated(validated = false)
+	SVGResource reflect_object_about_line();
+
+	@Source("icons/svg/tools/transformation/reflect_object_about_point.svg")
+	@Validated(validated = false)
+	SVGResource reflect_object_about_point();
+
+	@Source("icons/svg/tools/transformation/rotate_object_about_point_by_angle.svg")
+	@Validated(validated = false)
+	SVGResource rotate_object_about_point_by_angle();
+
+	@Source("icons/svg/tools/transformation/translate_object_by_vector.svg")
+	@Validated(validated = false)
+	SVGResource translate_object_by_vector();
+
+	@Source("icons/svg/unsorted/cas-keyboard.svg")
+	@Validated(validated = false)
+	SVGResource casKeyboard();
+
+	@Source("icons/svg/unsorted/cas.svg")
+	@Validated(validated = false)
+	SVGResource cas();
+
+	@Source("icons/svg/unsorted/cascopy-dynamic.svg")
+	@Validated(validated = false)
+	SVGResource cascopyDynamic();
+
+	@Source("icons/svg/unsorted/cascopy-static.svg")
+	@Validated(validated = false)
+	SVGResource cascopyStatic();
+
+	@Source("icons/svg/unsorted/corner1.svg")
+	@Validated(validated = false)
+	SVGResource corner1();
+
+	@Source("icons/svg/unsorted/corner2.svg")
+	@Validated(validated = false)
+	SVGResource corner2();
+
+	@Source("icons/svg/unsorted/corner4.svg")
+	@Validated(validated = false)
+	SVGResource corner4();
+
+	@Source("icons/svg/unsorted/view-maximize.svg")
+	@Validated(validated = false)
+	SVGResource viewMaximize();
+
+	@Source("icons/svg/unsorted/view-unmaximize.svg")
+	@Validated(validated = false)
+	SVGResource viewUnmaximize();
+
+	@Source("icons/svg/unsorted/xy_segments.svg")
+	@Validated(validated = false)
+	SVGResource xy_segments();
+
+	@Source("icons/svg/unsorted/xy_table.svg")
+	@Validated(validated = false)
+	SVGResource xy_table();
+
+}

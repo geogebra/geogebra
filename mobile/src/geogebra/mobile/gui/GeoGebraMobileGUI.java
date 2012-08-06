@@ -5,7 +5,7 @@ import geogebra.mobile.gui.elements.EuclidianViewPanel;
 
 public interface GeoGebraMobileGUI
 {
-	
 	public EuclidianViewPanel getEuclidianViewPanel();
+
 	public AlgebraViewPanel getAlgebraViewPanel();
 }

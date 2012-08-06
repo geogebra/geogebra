@@ -1,5 +1,7 @@
 package geogebra.mobile.gui.elements.toolbar;
 
+import org.vectomatic.dom.svg.ui.SVGResource;
+
 import geogebra.mobile.utils.ToolBarCommand;
 
 import com.googlecode.mgwt.ui.client.widget.buttonbar.ButtonBarButtonBase;
@@ -35,6 +37,13 @@ public class ToolButton extends ButtonBarButtonBase
 		// }
 		// });
 
+	}
+
+	public ToolButton(SVGResource icon)
+	{
+		super(null);
+		this.addStyleName("toolbutton");
+		super.getElement().getStyle().setBackgroundImage("url(" + icon.getSafeUri().asString() + ")");
 	}
 
 	public ToolBarCommand getCmd()
