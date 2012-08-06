@@ -4,9 +4,8 @@ import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.Stack;
-import java.util.concurrent.locks.Condition;
-import java.util.concurrent.locks.ReentrantLock;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import geogebra.common.kernel.algos.SymbolicParameters;
 import geogebra.common.kernel.prover.AbstractProverReciosMethod;
@@ -42,42 +41,22 @@ public class ProverReciosMethod extends AbstractProverReciosMethod {
 	}
 
 	private PointTester[] pointTesters;
-	private final Stack<BigInteger[]> coordinatesStack = new Stack<BigInteger[]>();
-	private int verifiedPoints;
+	/**
+	 * The queue which contains the coordinates of the points to test
+	 */
+	final LinkedBlockingQueue<BigInteger[]> coordinatesQueue = new LinkedBlockingQueue<BigInteger[]>();
+	private AtomicInteger verifiedPoints;
 	private boolean stop;
 	private boolean errorOccured;
 	private Thread[] threads;
 	
-	/**
-	 * The lock containing the condition that the stack which contains the
-	 * coordinates of the points to test is not empty.
-	 */
-	ReentrantLock stackLock = new ReentrantLock();
-	
-	/**
-	 * The condition that the stack which contains the coordinates of the points
-	 * to test is not empty.
-	 */
-	Condition stackNotEmpty = stackLock.newCondition();
-
+	//stops all working threads
 	private void interruptThreads() {
 		for (Thread t : threads) {
 			t.interrupt();
 		}
 	}
 
-	/**
-	 * Returns the next set of coordinates for the free Variables
-	 * 
-	 * @return the next set of coordinates. If there is no next set, the method
-	 *         returns null
-	 */
-	protected synchronized BigInteger[] getNextCoordinates() {
-		if (coordinatesStack.isEmpty()) {
-			return null;
-		}
-		return coordinatesStack.pop();
-	}
 
 	/**
 	 * Takes the result back from the threads.
@@ -85,24 +64,17 @@ public class ProverReciosMethod extends AbstractProverReciosMethod {
 	 * @param result
 	 *            the result of the test point.
 	 */
-	protected synchronized void writeResult(TestPointResult result) {
+	protected void writeResult(TestPointResult result) {
 		switch (result) {
 		case PASSED:
-			verifiedPoints++;
+			verifiedPoints.incrementAndGet();
 			break;
 		case ERROR:
 			errorOccured = true;
 		case FALSE:
 			stop = true;
-			coordinatesStack.clear();
+			coordinatesQueue.clear();
 		}
-	}
-
-	private synchronized void addCoordinate(final BigInteger[] coordinates) {
-		coordinatesStack.push(coordinates);
-		stackLock.lock();
-		stackNotEmpty.signal();
-		stackLock.unlock();
 	}
 
 	private boolean getErrorOccured() {
@@ -120,8 +92,8 @@ public class ProverReciosMethod extends AbstractProverReciosMethod {
 			variables[i] = it.next();
 		}
 
-		coordinatesStack.clear();
-		verifiedPoints = 0;
+		coordinatesQueue.clear();
+		verifiedPoints=new AtomicInteger(0);
 		stop = false;
 		errorOccured = false;
 
@@ -174,7 +146,11 @@ public class ProverReciosMethod extends AbstractProverReciosMethod {
 
 			nrOfTests++;
 
-			addCoordinate(coordinates);
+			try {
+				coordinatesQueue.put(coordinates);
+			} catch (InterruptedException e) {
+				return ProofResult.UNKNOWN;
+			}
 
 			// the following is the loop header
 			// the created indices sequence is:
@@ -216,13 +192,13 @@ public class ProverReciosMethod extends AbstractProverReciosMethod {
 
 		// if the tests are not finished by the threads
 		// we help the threads testing the points.
-		while (!stop && verifiedPoints < nrOfTests) {
+		while (!stop && verifiedPoints.get() < nrOfTests) {
 			if (Thread.interrupted()) {
 				interruptThreads();
 				return ProofResult.UNKNOWN;
 			}
 
-			coordinates = getNextCoordinates();
+			coordinates = coordinatesQueue.poll();
 			if (coordinates == null) {
 				continue;
 			}
@@ -293,18 +269,13 @@ public class ProverReciosMethod extends AbstractProverReciosMethod {
 			boolean wrong;
 			nrOfTests = 0;
 			while (!Thread.interrupted()) {
-				coordinates = prover.getNextCoordinates();
-				while (coordinates == null) {
-					stackLock.lock();
+
 					try {
-						stackNotEmpty.await();
+						coordinates = prover.coordinatesQueue.take();
 					} catch (InterruptedException e) {
-						stackLock.unlock();
 						return;
 					}
-					stackLock.unlock();
-					coordinates = prover.getNextCoordinates();
-				}
+
 				for (int i = 0; i < coordinates.length; i++) {
 					this.values.put(variables[i], coordinates[i]);
 				}
@@ -320,9 +291,7 @@ public class ProverReciosMethod extends AbstractProverReciosMethod {
 						}
 					}
 				} catch (NoSymbolicParametersException e) {
-					e.printStackTrace();
 					prover.writeResult(TestPointResult.ERROR);
-
 					continue;
 				}
 				if (wrong) {
