@@ -87,15 +87,23 @@ import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.dom.client.CanvasElement;
 import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.http.client.UrlBuilder;
 import com.google.gwt.i18n.client.Dictionary;
 import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.DialogBox;
+import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
+import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class AppW extends App {
@@ -906,8 +914,28 @@ public class AppW extends App {
 	}
 
 	public void showErrorDialog(final String msg) {
-		// TODO: implement it better for GeoGebraWebGUI
-		Window.alert(msg);
+		final PopupPanel dialog = new PopupPanel(true);
+		//dialog.setText(getPlain("ApplicationName") + " - " + getMenu("Info"));
+		dialog.center();
+		
+		Button ok = new Button("OK");
+		ok.addClickHandler(new ClickHandler() {
+
+			public void onClick(ClickEvent event) {
+				dialog.hide();
+			}
+
+		});
+		
+		VerticalPanel panel = new VerticalPanel();
+		String[] lines = msg.split("\n");
+		for(String item : lines ){
+			panel.add(new Label(item));
+		}
+		panel.add(ok);
+		
+		dialog.setWidget(panel);
+		dialog.show();
 	}
 
 	@Override
@@ -1292,9 +1320,19 @@ public class AppW extends App {
 
 	@Override
 	public void showError(MyError e) {
-		Window.alert(e.getLocalizedMessage());
-		App.debug("showError: implementation needed with Show Online Help option "+e.toString()); 
+//		Window.alert(e.getLocalizedMessage());
+//		App.debug("showError: implementation needed with Show Online Help option "+e.toString());
 
+		String command = e.getcommandName();
+		
+		//TODO
+		App.debug("TODO later: make sure splash screen not showing");
+		
+//		if (command == null) {
+			showErrorDialog(e.getLocalizedMessage());
+//			return;			
+//		}
+		
 	}
 
 	@Override
