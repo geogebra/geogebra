@@ -184,9 +184,7 @@ public class AlgoSlopeField extends AlgoElement {
 			double xStep = (xmax - xmin) / nD;
 			double yStep = (ymax - ymin) / nD;
 
-			double step1 = Math.max(xStep, yStep);
-
-
+			
 
 			double length = (lengthRatio == null ? 0.5 : lengthRatio.getDouble());
 			
@@ -194,14 +192,15 @@ public class AlgoSlopeField extends AlgoElement {
 				length = 0.5;
 			}
 			
-			length *= step1 / 2;
+			double xLength = xStep * length * 0.5;
+			double yLength = yStep * length * 0.5;
 			
 			boolean funcOfJustY = func instanceof GeoFunction && ((GeoFunction)func).isFunctionOfY();
 
 			//AbstractApplication.debug(xStep+" "+yStep+" "+step);
 
-			for (double xx = xmin ; xx < xmax + step1 / 2 ; xx += step1) {
-				for (double yy = ymin ; yy < ymax + step1 / 2 ; yy += step1) {
+			for (double xx = xmin ; xx < xmax + xStep / 2 ; xx += xStep) {
+				for (double yy = ymin ; yy < ymax + yStep / 2 ; yy += yStep) {
 
 					double [] input1 = {xx, yy};
 					//double gradient = func.evaluate(input1);
@@ -220,14 +219,14 @@ public class AlgoSlopeField extends AlgoElement {
 								al.add(new MyPoint(xx, yy, true));
 							} else {
 								// vertical line
-								al.add(new MyPoint(xx, yy - length, false));
-								al.add(new MyPoint(xx, yy + length, true));							
+								al.add(new MyPoint(xx, yy - yLength, false));
+								al.add(new MyPoint(xx, yy + yLength, true));							
 							}
 						} else {
 
 							// standard case
 							double gradient = numD / denD;
-							drawLine(gradient, length, xx, yy);
+							drawLine(gradient, xLength,yLength, xx, yy);
 						}
 					} else {
 						// non-quotient function like x y
@@ -240,7 +239,7 @@ public class AlgoSlopeField extends AlgoElement {
 							// standard case
 							gradient = func.evaluate(input1);
 						}
-						drawLine(gradient, length, xx, yy);
+						drawLine(gradient, xLength,yLength, xx, yy);
 
 					}
 
@@ -255,10 +254,10 @@ public class AlgoSlopeField extends AlgoElement {
 
 	}
 	
-	private void drawLine(double gradient, double length, double xx, double yy) {
+	private void drawLine(double gradient, double xLength, double yLength, double xx, double yy) {
 		double theta = Math.atan(gradient);
-		double dx = length * Math.cos(theta);
-		double dy = length * Math.sin(theta);
+		double dx = xLength * Math.cos(theta);
+		double dy = yLength * Math.sin(theta);
 		al.add(new MyPoint(xx - dx, yy - dy, false));
 		al.add(new MyPoint(xx + dx, yy + dy, true));
 
