@@ -1,6 +1,7 @@
 package geogebra.web.util;
 
 import geogebra.common.main.App;
+import geogebra.web.kernel.prover.ProverReciosMethod;
 
 /**
  * @author Zoltan Kovacs <zoltan@geogebra.org>
@@ -8,6 +9,10 @@ import geogebra.common.main.App;
  */
 public class Prover extends geogebra.common.util.Prover {
 
+	static {
+		reciosProver = new ProverReciosMethod();
+	}
+	
 	@Override
     public void compute() {
 		decideStatement();
