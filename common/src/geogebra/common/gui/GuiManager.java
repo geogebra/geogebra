@@ -272,7 +272,7 @@ public abstract class GuiManager {
 				// 'standard' case: url with GeoGebra applet (Java or HTML5)
 			} else {
 				// try to load from GeoGebra applet
-				loadFromApplet(urlString);
+				success = loadFromApplet(urlString);
 				isMacroFile = urlString.contains(".ggt");
 			}
 		} catch (Exception ex) {
