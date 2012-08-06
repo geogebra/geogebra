@@ -267,7 +267,7 @@ public class PropertiesViewD extends
 					// setOptionPanel(OptionType.OBJECTS);
 				} else {
 					// ev clicked
-					setOptionPanel(type);
+					setOptionPanelWithoutCheck(type);
 					if (updateEuclidianTab) {
 						switch (type) {
 						case EUCLIDIAN:
@@ -332,14 +332,16 @@ public class PropertiesViewD extends
 	 */
 	@Override
 	public void setOptionPanel(OptionType type) {
+		
+		ArrayList<GeoElement> geos = removeAllConstants(app.getSelectedGeos());
+		
 		if (type == OptionType.OBJECTS) {// ensure that at least one geo is
-											// selected
-			ArrayList<GeoElement> geos = app.getSelectedGeos();
-			if (geos == null || geos.size() == 0)
-				app.setFirstGeoSelectedForPropertiesView();
+											// selected		
+			if (geos.size() == 0)
+				geos.add(app.setFirstGeoSelectedForPropertiesView());
 		}
 
-		setOptionPanel(type, app.getSelectedGeos());
+		setOptionPanel(type, geos);
 	}
 
 	/**
@@ -352,7 +354,7 @@ public class PropertiesViewD extends
 
 	private void setOptionPanel(OptionType type, ArrayList<GeoElement> geos) {
 
-		// App.printStacktrace("\ntype="+type+"\nisIniting="+isIniting+"\nsize="+app.getSelectedGeos().size());
+		//App.printStacktrace("\ntype="+type+"\nisIniting="+isIniting+"\nsize="+app.getSelectedGeos().size());
 		// App.debug("\ntype="+type+"\nisIniting="+isIniting+"\nsize="+app.getSelectedGeos().size()+"\ngeos="+geos);
 
 		if (type == null) {
@@ -368,6 +370,11 @@ public class PropertiesViewD extends
 			styleBar.setObjectsToolTip();
 
 		}
+		
+		setOptionPanelWithoutCheck(type);
+	}
+	
+	private void setOptionPanelWithoutCheck(OptionType type) {
 
 		applyModifications();
 
@@ -737,23 +744,26 @@ public class PropertiesViewD extends
 	private ArrayList<GeoElement> removeAllConstants(
 			ArrayList<GeoElement> geosList) {
 
-		Construction.Constants firstRemovedConstant = Construction.Constants.NOT;
+		Construction.Constants firstConstant = Construction.Constants.NOT;
 
 		// check if there is constants, remove it and remember what type
 		ArrayList<GeoElement> geos = new ArrayList<GeoElement>();
-		geos.addAll(geosList);
-		for (int i = geos.size() - 1; i >= 0; i--) {
-			GeoElement geo = geos.get(i);
+
+		for (GeoElement geo: geosList) {
 			Construction.Constants constant = kernel.getConstruction()
 					.isConstantElement(geo);
-			if (constant != Construction.Constants.NOT) {
-				geos.remove(i);
-				if (firstRemovedConstant == Construction.Constants.NOT)
-					firstRemovedConstant = constant;
+			if (constant == Construction.Constants.NOT) {
+				//add if not constant
+				geos.add(geo);
+			}else{
+				//remember type
+				if (firstConstant == Construction.Constants.NOT)
+					firstConstant = constant;
 			}
 		}
 
-		updateSelectedTab(firstRemovedConstant);
+		if (firstConstant != Construction.Constants.NOT)
+			updateSelectedTab(firstConstant);
 
 		return geos;
 

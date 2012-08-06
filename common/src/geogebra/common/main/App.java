@@ -1234,18 +1234,23 @@ public abstract class App {
 		}
 	
 	/**
-	 * Selects the first geo in the construction
+	 * Selects the first geo in the construction.
+	 * Previous selected geos are unselected (used e.g. for xAxis).
+	 * @return first geo or null
 	 */
-	final public void setFirstGeoSelectedForPropertiesView(){
+	final public GeoElement setFirstGeoSelectedForPropertiesView(){
 		GeoElement geo = getKernel().getFirstGeo();
 		if (geo==null)
-			return; 
+			return null; 
 		
+		clearSelectedGeos(false);
 		selectedGeos.add(geo);
 		geo.setSelected(true);
 		kernel.notifyRepaint();
 		
 		updateSelection(false);
+		
+		return geo;
 		
 	}
 
