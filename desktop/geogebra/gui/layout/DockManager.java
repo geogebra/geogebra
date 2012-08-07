@@ -4,6 +4,7 @@ import geogebra.common.gui.SetLabels;
 import geogebra.common.io.layout.DockPanelData;
 import geogebra.common.io.layout.DockSplitPaneData;
 import geogebra.common.io.layout.Perspective;
+import geogebra.common.main.App;
 import geogebra.euclidian.EuclidianViewJPanel;
 import geogebra.gui.layout.panels.ErrorDockPanel;
 import geogebra.gui.layout.panels.EuclidianDockPanelAbstract;
@@ -662,6 +663,29 @@ public class DockManager implements AWTEventListener, SetLabels {
 	 */
 	public void hide(DockPanel panel) {
 		hide(panel, true);
+	}
+
+	/**
+	 * close the dock panel
+	 * @param viewId id of the dock panel
+	 * @param isPermanent says if the close is permanent
+	 */
+	public void closePanel(int viewId, boolean isPermanent){
+		closePanel(getPanel(viewId), isPermanent);
+	}
+
+	/**
+	 * close the dock panel
+	 * @param panel dock panel
+	 * @param isPermanent says if the close is permanent
+	 */
+	public void closePanel(DockPanel panel, boolean isPermanent){
+		hide(panel, isPermanent);
+		getLayout().getApplication().updateMenubar();
+		
+		if(getFocusedPanel() == panel) {
+			setFocusedPanel(null);
+		}
 	}
 	
 	/**

@@ -42,6 +42,8 @@ public class PropertiesStyleBarD extends geogebra.common.gui.view.properties.Pro
 	private JPanel wrappedPanel;
 	
 	private HashMap<OptionType,AbstractButton> buttonMap;
+	
+	private AbstractButton objectButton;
 
 	public PropertiesStyleBarD(PropertiesView propertiesView, AppD app) {
 		this.propertiesView = propertiesView;
@@ -99,6 +101,11 @@ public class PropertiesStyleBarD extends geogebra.common.gui.view.properties.Pro
 				toolbar.addSeparator();
 			}
 		}
+		objectButton = buttonMap.get(OptionType.OBJECTS);
+		
+		//disable object button if no object
+		if (app.getKernel().isEmpty())
+			setObjectButtonEnable(false);
 		
 		this.wrappedPanel.setLayout(new BorderLayout());
 		this.wrappedPanel.add(toolbar, BorderLayout.NORTH);
@@ -190,9 +197,17 @@ public class PropertiesStyleBarD extends geogebra.common.gui.view.properties.Pro
 	 */
 	public void setObjectsToolTip() {
 		
-		buttonMap.get(OptionType.OBJECTS).setToolTipText(propertiesView.getTypeString(OptionType.OBJECTS));
+		objectButton.setToolTipText(propertiesView.getTypeString(OptionType.OBJECTS));
 		
-
+	
+	}
+	
+	/**
+	 * sets if object button is enabled
+	 * @param flag flag
+	 */
+	public void setObjectButtonEnable(boolean flag){
+		objectButton.setEnabled(flag);
 	}
 
 	

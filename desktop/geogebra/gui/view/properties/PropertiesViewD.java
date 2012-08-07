@@ -25,6 +25,8 @@ import geogebra.gui.dialog.options.OptionsEuclidianD;
 import geogebra.gui.dialog.options.OptionsLayoutD;
 import geogebra.gui.dialog.options.OptionsObjectD;
 import geogebra.gui.dialog.options.OptionsSpreadsheetD;
+import geogebra.gui.layout.LayoutD;
+import geogebra.gui.layout.panels.PropertiesDockPanel;
 import geogebra.main.AppD;
 
 import java.awt.BorderLayout;
@@ -99,6 +101,8 @@ public class PropertiesViewD extends
 		app.setDefaultCursor();// remove this if init object properties is
 								// faster
 	}
+	
+
 
 	// ============================================
 	// GUI
@@ -337,8 +341,17 @@ public class PropertiesViewD extends
 		
 		if (type == OptionType.OBJECTS) {// ensure that at least one geo is
 											// selected		
-			if (geos.size() == 0)
-				geos.add(app.setFirstGeoSelectedForPropertiesView());
+			if (geos.size() == 0){
+				GeoElement geo = app.setFirstGeoSelectedForPropertiesView();
+				if (geo==null){ 
+					//does nothing: stay in same panel
+					return;
+				}
+
+				//add this first geo
+				geos.add(geo);
+
+			}
 		}
 
 		setOptionPanel(type, geos);
@@ -588,7 +601,7 @@ public class PropertiesViewD extends
 			App.debug("already attached");
 			return;
 		}
-
+		
 		clearView();
 		kernel.notifyAddAll(this);
 		kernel.attach(this);
@@ -605,12 +618,15 @@ public class PropertiesViewD extends
 	public void add(GeoElement geo) {
 		objectPanel.add(geo);
 		((OptionsObjectD) objectPanel).getTree().add(geo);
+		styleBar.setObjectButtonEnable(true);
 
 	}
 
 	public void remove(GeoElement geo) {
 		// ((OptionsObjectD) objectPanel).updateIfInSelection(geo);
 		((OptionsObjectD) objectPanel).getTree().remove(geo);
+		if (app.getKernel().isEmpty())
+			styleBar.setObjectButtonEnable(false);
 
 	}
 
@@ -647,9 +663,9 @@ public class PropertiesViewD extends
 	public void repaintView() {
 
 		if (objectPanel != null) {
-			if (app.getSelectedGeos() != null
-					&& app.getSelectedGeos().size() == 1)
-				((OptionsObjectD) objectPanel).updateOneGeoDefinition(app
+			ArrayList<GeoElement> geos = app.getSelectedGeos();
+			if (geos.size()==1)
+				((OptionsObjectD) objectPanel).updateIfInSelection(app
 						.getSelectedGeos().get(0));
 
 			((OptionsObjectD) objectPanel).getTree().repaint();
@@ -714,12 +730,21 @@ public class PropertiesViewD extends
 	}
 
 	private void setObjectPanel(ArrayList<GeoElement> geos) {
-		if (selectedOptionType != OptionType.OBJECTS)
-			setOptionPanel(OptionType.OBJECTS);
-
-		if (geos.size() == 0)
+		
+		if (geos.size() == 0){
 			app.setFirstGeoSelectedForPropertiesView();
 
+		GeoElement geo = app.setFirstGeoSelectedForPropertiesView();
+		if (geo==null){ 
+			//if no first geo, close properties view if object panel visible
+			if (selectedOptionType==OptionType.OBJECTS)
+				((LayoutD) app.getGuiManager().getLayout()).getDockManager().closePanel(getViewID(), false);
+			
+		}else if (selectedOptionType != OptionType.OBJECTS)
+			setOptionPanel(OptionType.OBJECTS);
+		}
+		
+		//always update selection for object panel
 		((OptionsObjectD) objectPanel).updateSelection(geos);
 		updateTitleBar();
 		styleBar.setObjectsToolTip();

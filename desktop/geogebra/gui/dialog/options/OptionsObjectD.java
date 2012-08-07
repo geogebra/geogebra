@@ -13,8 +13,8 @@ the Free Software Foundation.
 package geogebra.gui.dialog.options;
 
 import geogebra.common.gui.SetLabels;
-import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.main.App;
 import geogebra.gui.color.GeoGebraColorChooser;
 import geogebra.gui.dialog.PropertiesPanel;
 import geogebra.gui.view.algebra.AlgebraTree;
@@ -24,13 +24,9 @@ import geogebra.main.AppD;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
-import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
@@ -235,10 +231,6 @@ public class OptionsObjectD extends
 		propPanel.updateSelection(geos.toArray());
 	}
 
-	public void updateOneGeoDefinition(GeoElement geo) {
-
-		// propPanel.updateOneGeoDefinition(geo);
-	}
 
 	/**
 	 * @return the tree

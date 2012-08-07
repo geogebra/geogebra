@@ -889,12 +889,7 @@ implements ActionListener, WindowListener, MouseListener, geogebra.common.gui.la
 	 * @param isPermanent 	 
 	 */
 	protected void closePanel(boolean isPermanent) {
-		dockManager.hide(this, isPermanent);
-		dockManager.getLayout().getApplication().updateMenubar();
-		
-		if(dockManager.getFocusedPanel() == this) {
-			dockManager.setFocusedPanel(null);
-		}
+		dockManager.closePanel(this, isPermanent);
 	}
 	
 	/**
