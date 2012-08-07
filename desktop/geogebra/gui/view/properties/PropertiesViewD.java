@@ -265,26 +265,31 @@ public class PropertiesViewD extends
 		if (viewMap.get(focusedViewId) != null) {
 			OptionType type = viewMap.get(focusedViewId);
 			if (type == OptionType.EUCLIDIAN || type == OptionType.EUCLIDIAN2) {
+				
 				if (app.getActiveEuclidianView().getEuclidianController()
 						.checkBoxOrTextfieldOrButtonJustHitted()) {
 					// hit check box or text field : does nothing
-					// setOptionPanel(OptionType.OBJECTS);
-				} else {
-					// ev clicked
-					setOptionPanelWithoutCheck(type);
-					if (updateEuclidianTab) {
-						switch (type) {
-						case EUCLIDIAN:
-							euclidianPanel.setSelectedTab(selectedTab);
-							break;
-						case EUCLIDIAN2:
-							euclidianPanel2.setSelectedTab(selectedTab);
-							break;
-						}
+					return;
+				} 
+				
+				// ev clicked
+				setOptionPanelWithoutCheck(type);
+				if (updateEuclidianTab) {
+					switch (type) {
+					case EUCLIDIAN:
+						euclidianPanel.setSelectedTab(selectedTab);
+						break;
+					case EUCLIDIAN2:
+						euclidianPanel2.setSelectedTab(selectedTab);
+						break;
 					}
 				}
+
 			} else
 				setOptionPanel(type);
+			
+			//here necessary no object is selected
+			updateObjectPanelSelection(app.getSelectedGeos());
 		}
 
 	}
@@ -388,6 +393,8 @@ public class PropertiesViewD extends
 	}
 	
 	private void setOptionPanelWithoutCheck(OptionType type) {
+
+		//App.printStacktrace("\ntype="+type);
 
 		applyModifications();
 
@@ -745,6 +752,12 @@ public class PropertiesViewD extends
 		}
 		
 		//always update selection for object panel
+		updateObjectPanelSelection(geos);
+		updateTitleBar();
+		styleBar.setObjectsToolTip();
+	}
+	
+	private void updateObjectPanelSelection(ArrayList<GeoElement> geos){
 		((OptionsObjectD) objectPanel).updateSelection(geos);
 		updateTitleBar();
 		styleBar.setObjectsToolTip();
