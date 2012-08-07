@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package geogebra.gui.view.properties;
 
+import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.gui.SetLabels;
 import geogebra.common.gui.view.properties.PropertiesStyleBar;
 import geogebra.common.kernel.Construction;
@@ -25,6 +26,8 @@ import geogebra.gui.dialog.options.OptionsEuclidianD;
 import geogebra.gui.dialog.options.OptionsLayoutD;
 import geogebra.gui.dialog.options.OptionsObjectD;
 import geogebra.gui.dialog.options.OptionsSpreadsheetD;
+import geogebra.gui.layout.DockManager;
+import geogebra.gui.layout.DockPanel;
 import geogebra.gui.layout.LayoutD;
 import geogebra.gui.layout.panels.PropertiesDockPanel;
 import geogebra.main.AppD;
@@ -689,10 +692,26 @@ public class PropertiesViewD extends
 		((OptionsObjectD) objectPanel).getTree().clearView();
 
 	}
+	
+	private int mode = EuclidianConstants.MODE_MOVE;
 
 	public void setMode(int mode) {
-		// TODO Auto-generated method stub
-
+		
+		//on init, mode=-1
+		if (mode<0)
+			return;
+		
+		if (mode==this.mode)
+			return;
+		
+		//close undocked properties view when setting mode
+		DockManager manager = ((LayoutD) app.getGuiManager().getLayout()).getDockManager();
+		DockPanel panel = manager.getPanel(getViewID());
+		if (panel.isInFrame())
+			manager.closePanel(panel, false);
+		
+		this.mode=mode;
+		
 	}
 
 	public int getViewID() {
@@ -735,6 +754,7 @@ public class PropertiesViewD extends
 				|| selectedOptionType == OptionType.ADVANCED
 				|| selectedOptionType == OptionType.LAYOUT;
 	}
+
 
 	private void setObjectPanel(ArrayList<GeoElement> geos) {
 		
