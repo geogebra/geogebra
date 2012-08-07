@@ -200,6 +200,7 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 			for (GeoElement geo : ((AppD) ev.getApplication())
 					.getSelectedGeos()) {
 				if (isVisibleInThisView(geo) && geo.isEuclidianVisible() 
+						//check if geo is a constant for Construction (xAxis, yAxis, ...)
 						&& (ev.getApplication().getKernel().getConstruction().isConstantElement(geo)==Construction.Constants.NOT)) {
 					hasGeosInThisView = true;
 					break;
