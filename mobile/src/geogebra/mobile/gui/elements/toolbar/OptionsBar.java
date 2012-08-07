@@ -19,7 +19,7 @@ public class OptionsBar extends ButtonBar
 	 * @param ancestor
 	 *          : the button responsible for the submenu
 	 */
-	OptionsBar(ToolBarCommand[] entries, ToolBarButtonInterface ancestor)
+	OptionsBar(ToolBarCommand[] entries, OptionsClickedListener ancestor)
 	{
 		OptionButton[] options = new OptionButton[entries.length];
 

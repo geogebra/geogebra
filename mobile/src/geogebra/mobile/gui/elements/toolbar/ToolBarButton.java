@@ -14,7 +14,7 @@ import com.googlecode.mgwt.dom.client.event.tap.TapHandler;
  * @author Thomas Krismayer
  * 
  */
-public class ToolBarButton extends ToolButton implements ToolBarButtonInterface
+public class ToolBarButton extends ToolButton implements OptionsClickedListener
 {
 
 	ToolBarCommand[] menuEntries;

@@ -8,9 +8,9 @@ import com.googlecode.mgwt.dom.client.event.tap.TapHandler;
 public class OptionButton extends ToolButton
 {
 
-	ToolBarButtonInterface ancestor;
+	OptionsClickedListener ancestor;
 
-	public OptionButton(ToolBarCommand cmd, ToolBarButtonInterface ancestor)
+	public OptionButton(ToolBarCommand cmd, OptionsClickedListener ancestor)
 	{
 		super(cmd);
 
