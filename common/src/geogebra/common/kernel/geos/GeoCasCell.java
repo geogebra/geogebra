@@ -2137,8 +2137,6 @@ public class GeoCasCell extends GeoElement implements VarString {
 
 		// wrap output of Solve and Solutions to make them plotable
 
-		// TODO remove "wasSolveSolutions" since it isn't used?
-		boolean wasSolveSolutions = false;
 		if (evalVE.isTopLevelCommand()) {
 			Command topLevel = evalVE.getTopLevelCommand();
 			if ((topLevel.getName()).equals("Solve")
@@ -2146,7 +2144,6 @@ public class GeoCasCell extends GeoElement implements VarString {
 				Command c = new Command(kernel, "PointList", true);
 				c.addArgument(evalVE.wrap());
 				evalVE = c.wrap();
-				wasSolveSolutions = true;
 			}
 		}
 
@@ -2184,7 +2181,9 @@ public class GeoCasCell extends GeoElement implements VarString {
 		if (twinGeo.getLabelSimple() != null && twinGeo.isEuclidianShowable()) {
 			String twinGeoLabelSimple = twinGeo.getLabelSimple();
 			changeAssignmentVar(assignmentVar, twinGeoLabelSimple);
-			setEvalComment("Plot");
+			setEvalComment(app.getMenu("CASPlot"));
+			outputVE.setAssignmentType(AssignmentType.DEFAULT);
+			inputVE.setAssignmentType(AssignmentType.DEFAULT);
 			inputVE.setLabel(assignmentVar);
 			outputVE.setLabel(assignmentVar);
 			latex = null;
@@ -2192,6 +2191,7 @@ public class GeoCasCell extends GeoElement implements VarString {
 			// plot failed, undo assignment
 			assignmentVar = null;
 			outputVE.setAssignmentType(AssignmentType.NONE);
+			inputVE.setAssignmentType(AssignmentType.NONE);
 			this.firstComputeOutput = true;
 			this.computeOutput(true);
 		}
