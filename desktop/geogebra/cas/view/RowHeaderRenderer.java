@@ -2,14 +2,14 @@ package geogebra.cas.view;
 
 import geogebra.common.cas.view.CASTable;
 import geogebra.common.main.GeoGebraColorConstants;
-import geogebra.main.AppD;
 
-import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 
 import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
@@ -27,16 +27,25 @@ public class RowHeaderRenderer extends JPanel implements ListCellRenderer {
 	/** show hide option (also called plot tool) for this cell content*/
 	protected JLabel showHideControl;
 
+	protected GridBagConstraints c;
+	
 	/**
 	 * Creates new renderer
 	 * @param casTable CAS table
 	 */
 	public RowHeaderRenderer(CASTableD casTable) {
-		super(new BorderLayout(5,2));
+		super(new GridBagLayout());
+		c = new GridBagConstraints();
+			
 		numLabel = new JLabel("", SwingConstants.CENTER);		
 		this.casTable = casTable;
 		//setBorder(BorderFactory.createEmptyBorder(5, 5, 10, 5));
-		add(numLabel);
+		add(numLabel,c);
+		
+		// set constraint to place the marble 8 pixels below numLabel 
+		c.insets = new Insets(8,0,0,0);
+		c.gridy = 1;
+		
 		setOpaque(true);
 		setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, geogebra.awt.GColorD.getAwtColor(GeoGebraColorConstants.TABLE_GRID_COLOR)));
 	}
@@ -49,7 +58,7 @@ public class RowHeaderRenderer extends JPanel implements ListCellRenderer {
 				remove(showHideControl);
 			showHideControl = ((CASTableCellRenderer)casTable.getCellRenderer(Integer.parseInt(value.toString()), CASTable.COL_CAS_CELLS)).getMarble();
 			if(showHideControl!=null)
-				add(showHideControl,BorderLayout.SOUTH);
+				add(showHideControl,c);
 		}
 		if (isSelected) {
 			setBackground(geogebra.awt.GColorD.getAwtColor(GeoGebraColorConstants.TABLE_SELECTED_BACKGROUND_COLOR_HEADER));
