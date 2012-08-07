@@ -433,7 +433,7 @@ public abstract class CASmpreduce implements CASGenericInterface {
 						+ "   else if x=0 and y>0 then <<if numeric!!=0 then off rounded, roundall, numval; pi/2>>"
 						+ "   else if x=0 and y<0 then <<if numeric!!=0 then off rounded, roundall, numval; -pi/2>>"
 						+ "   else if x=0 and y=0 then <<if numeric!!=0 then off rounded, roundall, numval; 0>>"
-						+ "   else '?" + " else" + "   '? end;");
+						+ "   else '?" + " else" + "   atan(y/x) end;");
 
 		mpreduce1.evaluate("procedure mycoeff(p,x);"
 				+ " begin scalar coefflist, bool!!;"
@@ -494,7 +494,7 @@ public abstract class CASmpreduce implements CASGenericInterface {
 		mpreduce1
 				.evaluate("procedure polartocomplex(r,phi); r*(cos(phi)+i*sin(phi));");
 		mpreduce1
-				.evaluate("procedure polartopoint!\u00a7(r,phi); list(r*cos(phi),r*sin(phi));");
+				.evaluate("procedure polartopoint!\u00a7(r,phi); myvect(r*cos(phi),r*sin(phi));");
 		mpreduce1
 				.evaluate("procedure complexexponential(r,phi); r*(cos(phi)+i*sin(phi));");
 		mpreduce1.evaluate("procedure conjugate(x); conj(x);");
