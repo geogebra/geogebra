@@ -15,16 +15,12 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Relation;
 import geogebra.common.kernel.UndoManager;
-import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.commands.CommandProcessor;
-import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import geogebra.common.kernel.geos.GeoImage;
-import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoPoint;
-import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.App;
 import geogebra.common.main.FontManager;
 import geogebra.common.main.GeoElementSelectionListener;
@@ -96,8 +92,6 @@ import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.DialogBox;
-import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.MenuBar;
@@ -159,6 +153,9 @@ public class AppW extends App {
 	private GeoGebraAppFrame appFrame;
 	
 	private String ORIGINAL_BODY_CLASSNAME = "";
+	
+	private HashMap<String, String> englishCommands = null;
+	
 	// convenience method
 	public AppW(ArticleElement ae, GeoGebraFrame gf) {
 		this(ae, gf, true);
@@ -2224,7 +2221,24 @@ public class AppW extends App {
     }
 
 	public String getEnglishCommand(String pageName) {
+		
+		if (englishCommands == null){
+			englishCommands = new HashMap<String, String>();
+			String properties = PropertiesResource.INSTANCE.commandProperties().getText();			
+			String[] lines = properties.split("[\n\r]");
+			for (String item : lines) {
+				item = item.trim();
+				String key = item.substring(0, item.indexOf("=")).trim();
+				String value = item.substring(item.indexOf("=")+1).trim();
+				englishCommands.put(key, value);			
+			}
+		}
+
+		//Window.alert(pageName);
+		String ret = englishCommands.get(pageName);
+		if (ret != null) return ret;
 		return pageName;
+				
     }
 
 }
