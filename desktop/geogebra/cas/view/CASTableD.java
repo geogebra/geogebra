@@ -221,8 +221,6 @@ public class CASTableD extends JTable implements CASTable{
 					return;
 				}		
 			
-				app.debug(getSelectedRows().toString());
-				app.debug(e.getPoint().toString());
 				if (isRightClick() && isOutputPanelClicked(e.getPoint())) {
 					GeoCasCell clickedCell = getTable().getGeoCasCell(
 							getClickedRow());
@@ -358,40 +356,6 @@ public class CASTableD extends JTable implements CASTable{
 		return outputClicked;
 	}
 	
-	/**
-	 * Returns whether the show hide control of a cell row was clicked.
-	 * 
-	 * @param p
-	 *            clicked position in table coordinates
-	 * @return true if show hide control of a cell row was clicked
-	 */
-	/*boolean isShowHideControlClicked(Point p) {
-		int row = rowAtPoint(p);
-		if (row < 0)
-			return false;
-
-		// calculate sum of row heights before
-		int rowHeightsAbove = 0;
-		for (int i = 0; i < row; i++) {
-			rowHeightsAbove += getRowHeight(i);
-		}
-
-		// get height of input panel in clicked row
-		TableCellRenderer tableCellRenderer = getCellRenderer(row, 0);
-		CASTableCell tableCell = (CASTableCell) prepareRenderer(
-				tableCellRenderer, row, 0);
-		int controlHeight = tableCell.getShowHideControlHeight();
-		int controlWidth = tableCell.getShowHideControlWidth();
-		int controlX = tableCell.getShowHideControlX();
-		int controlY = tableCell.getShowHideControlY();
-		Rectangle control = new Rectangle(	controlX, 
-											controlY + rowHeightsAbove, 
-											controlX + controlWidth, 
-											controlY + controlHeight);
-
-		return control.contains(p);
-	}*/
-
 	@Override
 	public boolean isEditing() {
 		return editor != null && editor.isEditing();

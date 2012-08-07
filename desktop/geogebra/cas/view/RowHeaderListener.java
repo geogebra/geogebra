@@ -1,7 +1,6 @@
 package geogebra.cas.view;
 
 import geogebra.common.kernel.geos.GeoCasCell;
-import geogebra.common.main.App;
 import geogebra.main.AppD;
 
 import java.awt.event.KeyEvent;

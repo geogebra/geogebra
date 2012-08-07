@@ -1,6 +1,5 @@
 package geogebra.cas.view;
 
-import geogebra.common.cas.view.CASTable;
 import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.main.AppD;
@@ -30,6 +29,7 @@ public class RowHeaderRenderer extends JPanel implements ListCellRenderer {
 	/** show hide option (also called plot tool) for this cell content*/
 	protected JLabel showHideControl;
 	private ImageIcon iconShown, iconHidden;
+	/** constraints */
 	protected GridBagConstraints c;
 	
 	/**
