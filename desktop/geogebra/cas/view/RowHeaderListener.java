@@ -1,6 +1,7 @@
 package geogebra.cas.view;
 
 import geogebra.common.kernel.geos.GeoCasCell;
+import geogebra.common.main.App;
 import geogebra.main.AppD;
 
 import java.awt.event.KeyEvent;
@@ -10,6 +11,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 
 import javax.swing.JList;
+import javax.swing.JPanel;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -64,32 +66,30 @@ public class RowHeaderListener extends MouseAdapter implements KeyListener, List
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		e.consume();
-		mousePressedRow = -1;
+		
 
-		// int mouseReleasedRow = rowHeader.locationToIndex(e.getPoint());
-
-		// update selection if:
-		// mouseReleasedRow is not selected yet
-		// or
-		// we did a left click without drag
-		// if (!rowHeader.isSelectedIndex(mouseReleasedRow) || !rightClick &&
-		// !dragged) {
-		// rowHeader.setSelectedIndex(mouseReleasedRow);
-		// }
-
-		// handle right click
+		// handle marble click
 		int releasedRow = table.rowAtPoint(e.getPoint());
-		int totalHeight = 0;
-		for(int i=0;i<=releasedRow;i++)
-			totalHeight += table.getRowHeight(i);
-		if(e.getPoint().y > totalHeight - 22){
-			GeoCasCell clickedCell =  table.getGeoCasCell(table.rowAtPoint(e.getPoint()));		
-			if(table.isEditing()){
-				table.stopEditing();
-			}
-			clickedCell.toggleTwinGeoEuclidianVisible();	
-		}
+		if(releasedRow == mousePressedRow){
+			int totalHeight = 0;
+			for(int i=0;i<releasedRow;i++)
+				totalHeight += table.getRowHeight(i);
+			
+			int marbleTop = ((JPanel)rowHeader.getCellRenderer().getListCellRendererComponent(rowHeader, (releasedRow+1)+"", releasedRow, false, false)).
+					getComponent(1).getY();
+			if(e.getY()>marbleTop+totalHeight-4 && e.getY()<marbleTop+totalHeight+16){
 				
+				GeoCasCell clickedCell =  table.getGeoCasCell(table.rowAtPoint(e.getPoint()));		
+				if(table.isEditing()){
+					table.stopEditing();
+				}
+				clickedCell.toggleTwinGeoEuclidianVisible();	
+			}
+		}
+		
+		mousePressedRow = -1;
+		// handle right click
+		
 
 		if (rightClick && rowHeader.getSelectedIndices().length>0) {
 			RowHeaderPopupMenu popupMenu = new RowHeaderPopupMenu(rowHeader,

@@ -35,10 +35,6 @@ public abstract class CASTableCell extends JPanel {
 	protected CASViewD view;
 
 	
-	/** show hide option (also called plot tool) for this cell content*/
-	protected JLabel showHideControl;
-	protected boolean visible;	
-	private ImageIcon iconShown, iconHidden;
 	/**
 	 * @param view CAS view
 	 */
@@ -52,13 +48,6 @@ public abstract class CASTableCell extends JPanel {
 
 		inputPanel = new CASInputPanel(app);
 		dummyField = new MyTextField(app);
-
-		iconShown = app.getImageIcon("shown.gif");
-		iconHidden = app.getImageIcon("hidden.gif");
-		
-		showHideControl = new JLabel(iconHidden);
-		showHideControl.setVisible(false);
-		visible = false;
 		
 		// The inputPanel needs to have variable width so that it fits the
 		// JScrollPane
@@ -85,8 +74,6 @@ public abstract class CASTableCell extends JPanel {
 		northPanel.add(dummyField, BorderLayout.CENTER);
 		northPanel.add(inputPanel, BorderLayout.WEST);
 		dummyField.setVisible(false);
-
-		JPanel mainPanel = new JPanel(new BorderLayout(5,5));
 		
 		outputPanel = new CASOutputPanel(view.getApp());
 
@@ -121,19 +108,6 @@ public abstract class CASTableCell extends JPanel {
 	public int getOutputPanelHeight() {
 		return outputPanel.getHeight();
 	}
-	
-	public void setEuclidianVisible(boolean v) {
-		visible = v;
-		if(v)
-			showHideControl.setIcon(iconShown);
-		else
-			showHideControl.setIcon(iconHidden);
-	}
-	
-	public boolean isSetEuclidianVisible() {
-		return visible;
-	}
-	
 	
 	/**
 	 * Sets the width of the input panel. Use width = -1 to set width to the
@@ -175,15 +149,6 @@ public abstract class CASTableCell extends JPanel {
 		// set output panel
 		boolean showOutput = cellValue.showOutput();
 		outputPanel.setVisible(showOutput);
-		
-		if(cellValue.hasTwinGeo()){
-			this.setEuclidianVisible(cellValue.getTwinGeo().isSetEuclidianVisible() && cellValue.getTwinGeo().isEuclidianShowable());
-			showHideControl.setVisible(true && showOutput);
-		}
-		else{
-			this.setEuclidianVisible(false);
-			showHideControl.setVisible(!input.equals(""));
-		}		
 		
 		if (showOutput) {
 			// show eval command (e.g. "Substitute") in output cell
@@ -285,9 +250,5 @@ public abstract class CASTableCell extends JPanel {
 	 */
 	public void setLabels() {
 		inputPanel.setLabels();
-	}
-
-	public JLabel getMarble(){
-		return showHideControl;
 	}
 }
