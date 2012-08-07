@@ -2547,7 +2547,7 @@ public class GeoGebraCasIntegrationTest {
 
 	@Test
 	public void ToPolar_0() {
-		t("ToPolar[{1, sqrt(3)}]", "(2; π / 3)");
+		t("ToPolar[(1, sqrt(3))]", "(2; π / 3)");
 	}
 
 	@Test

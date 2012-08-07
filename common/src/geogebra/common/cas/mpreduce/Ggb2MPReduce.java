@@ -312,7 +312,21 @@ public class Ggb2MPReduce {
 		p("ToExponential.1",
 				"<< begin scalar real!!, imag!!, input!!, mag!!, phi!!; input!!:=(%0); if arglength(input!!)>-1 and part(input!!,0)=\\'list then <<real!!:= part(input!!,1); imag!!:=part(input!!,2)>> else <<real!!:= repart(input!!); imag!!:=impart(input!!)>>;mag!!:=sqrt(real!!^2+imag!!^2); phi!!:=myatan2(imag!!,real!!); return if mag!!=0 then 0 else if phi!!=0 then mag!! else if mag!!=1 then part(list(i*phi!!),0):=exp else part(list(mag!!,part(list(i*phi!!),0):=exp),0):=* end>>");
 		p("ToPolar.1",
-				"<< begin scalar input!!; input!!:=(%0); return if arglength(input!!)>-1 and part(input!!,0)=\\'list then if length(input!!)=2 then part(list(sqrt(part(input!!,1)^2+part(input!!,2)^2),myatan2(part(input!!,2),part(input!!,1))),0):=polartopoint!\u00a7 else \\'? else part(list(sqrt(repart(input!!)^2+impart(input!!)^2),myatan2(impart(input!!),repart(input!!))),0):=polartopoint!\u00a7 end >>");
+				"<< begin scalar input!!, r!!, phi!!;" +
+				" input!!:=(%0);" +
+				" if myvecp(input!!) then <<" +
+				//the input was a point
+				"   r!! := sqrt(aeval(xvcoord(input!!))^2+aeval(yvcoord(input!!))^2);" +
+				"   phi!! := myatan2(yvcoord(input!!),xvcoord(input!!))" +
+				" >> else <<" +
+				//the input was an imaginary number
+				"  r!! := sqrt(repart(input!!)^2+impart(input!!)^2);" +
+				"  phi!!:= myatan2(impart(input!!),repart(input!!))" +
+				" >>;" +
+				" return if phi!!=\\'? then" +
+				"   \\'?" +
+				" else" +
+				"   part(list(r!!,phi!!),0):=polartopoint!\u00a7 end >>");
 		p("ToPoint.1",
 				"<< begin scalar input!!; input!!:=(%0); return if arglength(input!!)>-1 and part(input!!,0)=\\'list then listtomyvect input!! else myvect(repart(input!!),impart(input!!)) end >>");
 		p("Transpose.1", "tp(<<listofliststomat(%0)>>)");
