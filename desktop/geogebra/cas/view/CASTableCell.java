@@ -92,7 +92,7 @@ public abstract class CASTableCell extends JPanel {
 
 		add(northPanel, BorderLayout.NORTH);
 		add(outputPanel, BorderLayout.CENTER);
-		add(showHideControl, BorderLayout.EAST);
+		//add(showHideControl, BorderLayout.EAST);
 		
 		return;
 	}
@@ -122,37 +122,6 @@ public abstract class CASTableCell extends JPanel {
 		return outputPanel.getHeight();
 	}
 	
-	/**
-	 * returns the height of the show hide button
-	 * @return control height
-	 */
-	public int getShowHideControlHeight() {
-		return showHideControl.getHeight();
-	}
-	/**
-	 * returns the width of the show hide button
-	 * @return control width
-	 */	
-	public int getShowHideControlWidth(){
-		return showHideControl.getWidth();
-	}
-	
-	/**
-	 * returns the x position of the showHideControl
-	 * @return x position
-	 */
-	public int getShowHideControlX(){
-		return showHideControl.getX();
-	}
-	
-	/**
-	 * returns the y position of the showHideControl
-	 * @return y position
-	 */
-	public int getShowHideControlY(){
-		return showHideControl.getY();
-	}
-
 	public void setEuclidianVisible(boolean v) {
 		visible = v;
 		if(v)
@@ -318,4 +287,7 @@ public abstract class CASTableCell extends JPanel {
 		inputPanel.setLabels();
 	}
 
+	public JLabel getMarble(){
+		return showHideControl;
+	}
 }

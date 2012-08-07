@@ -237,14 +237,7 @@ public class CASTableD extends JTable implements CASTable{
 				 * if there is no twinGeo which can be displayed, run the plot method
 				 * which creates a name and a twinGeo for the cell
 				 */
-				if(isShowHideControlClicked(e.getPoint())){
-					GeoCasCell clickedCell =  getTable().getGeoCasCell(getClickedRow());		
-					if(isEditing()){
-						stopEditing();
-					}
-					clickedCell.toggleTwinGeoEuclidianVisible();			
-				} else
-					if (isEditing()
+				if (isEditing()
 							&& getEditor().getEditingRow() != getClickedRow()) {
 						if(e.isAltDown()){
 							getEditor().insertText("$" + (getClickedRow()+1));
@@ -361,7 +354,7 @@ public class CASTableD extends JTable implements CASTable{
 		int inputAreaHeight = tableCell.getInputPanelHeight();
 
 		// check if we clicked below input area
-		boolean outputClicked = (p.y > rowHeightsAbove + inputAreaHeight) && (p.x > tableCell.getShowHideControlWidth());
+		boolean outputClicked = p.y > rowHeightsAbove + inputAreaHeight;
 		return outputClicked;
 	}
 	
@@ -372,7 +365,7 @@ public class CASTableD extends JTable implements CASTable{
 	 *            clicked position in table coordinates
 	 * @return true if show hide control of a cell row was clicked
 	 */
-	boolean isShowHideControlClicked(Point p) {
+	/*boolean isShowHideControlClicked(Point p) {
 		int row = rowAtPoint(p);
 		if (row < 0)
 			return false;
@@ -397,7 +390,7 @@ public class CASTableD extends JTable implements CASTable{
 											controlY + controlHeight);
 
 		return control.contains(p);
-	}
+	}*/
 
 	@Override
 	public boolean isEditing() {
@@ -869,7 +862,7 @@ public class CASTableD extends JTable implements CASTable{
 						true);
 				
 				//do not highlight the showHideControl
-				r.width = r.width - rollOverCell.getShowHideControlWidth()-10;
+				r.width = r.width -10;
 				
 				if (isOutputRollOver) {
 					r.y = r.y + offset;

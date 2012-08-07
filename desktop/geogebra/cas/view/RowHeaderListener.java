@@ -1,5 +1,6 @@
 package geogebra.cas.view;
 
+import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.main.AppD;
 
 import java.awt.event.KeyEvent;
@@ -77,6 +78,19 @@ public class RowHeaderListener extends MouseAdapter implements KeyListener, List
 		// }
 
 		// handle right click
+		int releasedRow = table.rowAtPoint(e.getPoint());
+		int totalHeight = 0;
+		for(int i=0;i<=releasedRow;i++)
+			totalHeight += table.getRowHeight(i);
+		if(e.getPoint().y > totalHeight - 22){
+			GeoCasCell clickedCell =  table.getGeoCasCell(table.rowAtPoint(e.getPoint()));		
+			if(table.isEditing()){
+				table.stopEditing();
+			}
+			clickedCell.toggleTwinGeoEuclidianVisible();	
+		}
+				
+
 		if (rightClick && rowHeader.getSelectedIndices().length>0) {
 			RowHeaderPopupMenu popupMenu = new RowHeaderPopupMenu(rowHeader,
 					table);
